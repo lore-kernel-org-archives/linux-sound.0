@@ -1,88 +1,76 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D9C6145354;
-	Mon, 10 Jun 2024 17:22:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64185558A5;
+	Mon, 10 Jun 2024 21:58:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718040133; cv=none; b=jZfgsZnC72EGYTK9TSXY/C+xCdpdZoksJ0Zg7EQ1wfJVzLgcc47pmEdb333R20XD225T/cSn6X+xfNJ1dyoAVEMUqc5nrXU2C4WQjzJNLjn174H9RNxVFVj0OxmQ23WKA5nrcFFSJD7s8oxT8O0H0SzxolzjdO9r7XD4pXw2Y1Q=
+	t=1718056739; cv=none; b=ehrws0CovnecZDIgV4TDuN3uVzno2HpJ2+WYKre0wUVKaWs1UtZfgBzdCCYMHlEU87q+3HU7fFGz/NydlnfQF40BleBFTXtfdEEaMBR+QV6xuXnrubds4EUuvdQ2GutCNJdiIb4UdQO9PAMEa41hO0uzL+VdN7mSGv29CXhHEwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718040133; c=relaxed/simple;
-	bh=57ceoUh1lnuArA+V9KSwn1wYEhKAqL2QRV8U4HJi8FM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=nXoSx+gnfPnmOrjlxbiR8rDSqrTTz2zgqecnUVTse9sZvvdnnhjV6eu7XAn8L+fTyGJJQvnEo4rybpa/gj+mEGxccWgdo+HwM1xkIm2K9LU/z11y6hIENNMbCI4sp4gVgOFGiu/g5cwK83YqgPIQuQgpcarPXHGpi0YX5w4i2DY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dLEdkmqf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718056739; c=relaxed/simple;
+	bh=3+G51pF9+5TTxrYCW+LOYlmhyGNeooEaJCa+EPjFDwQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r1iKhBbdk40MvLK7TY2VidhZtH8gGA8FhlwmJcc4vdtSM+OTlbqB1nnPvYNscDcdRyzGlwzdM0MvlZCICdu8h6ShOqdArPAkohBxWzjzwRX3cSG4j/ITcR+BuhLRY6DMowDLcW4J/U+01BSuvbRtKFYusvifCkV3zJvlPpr7K0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lF/qV0tg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dLEdkmqf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27896C4AF1C;
-	Mon, 10 Jun 2024 17:22:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lF/qV0tg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8ECEDC2BBFC;
+	Mon, 10 Jun 2024 21:58:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718040133;
-	bh=57ceoUh1lnuArA+V9KSwn1wYEhKAqL2QRV8U4HJi8FM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=dLEdkmqf/RWesXBOgyql3gws/IZVT49DJ12PYVp9REDf4n03PLZ1wWjMxXslZQlJ7
-	 XVI/bI4jp5AjHhOBFZJdMm1QeZDMhm2cB1L2rKiH5B3gk5CYEjBWEJMUMxrhYNc/WQ
-	 hM1hz0CcWMedcWGxl4jW2fO6OptdFzcESXjtKeoMWQ4lVQezArLd6O/fhOXirQRLi0
-	 naFWWEpan586FAZyULfsGRfR28hP6kvD8eKmAjZb0WH2tOpsj6mKcbMG3zqYzkwiIo
-	 tYVs76MKzoX0n48+vzGg7TotImwqtNCrUEWzFtay5E+2zfxNvCoK6nguamPBq/ar8E
-	 a5c3K3lujvzSg==
-From: Mark Brown <broonie@kernel.org>
-To: Mighty <bavishimithil@gmail.com>
-Cc: peter.ujfalusi@gmail.com, Liam Girdwood <lgirdwood@gmail.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Lopez Cruz <misael.lopez@ti.com>, 
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20240608095305.2887-1-bavishimithil@gmail.com>
-References: <20240608095305.2887-1-bavishimithil@gmail.com>
-Subject: Re: [PATCH v7] ASoC: dt-bindings: omap-mcpdm: Convert to DT schema
-Message-Id: <171804012926.149444.13267117462085027164.b4-ty@kernel.org>
-Date: Mon, 10 Jun 2024 18:22:09 +0100
+	s=k20201202; t=1718056738;
+	bh=3+G51pF9+5TTxrYCW+LOYlmhyGNeooEaJCa+EPjFDwQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lF/qV0tg9QnCE5AFbg5IKgjBp4KPr+9Jg4wZHRRzb7/c9uiIECEpNNcnvFAh597Jn
+	 dZNo/NdYPFm+1F6FmUqfUb3facW9x8fwkt+fMV10i7tj4zyBpyBF7PUNA+yxp7g48y
+	 pvw5aVY1MmQU4NMgTf/ztN3Ue0iVMlyarM6Wa+bHgA6ttraJByB3kKb5L/kDc51dnr
+	 qdOcBNPQXhMEDX18e6+wBk9OSTBL3Tb2bxedWfK/wQBbluYnX7wCusr2eHoo0qCTE2
+	 M2LHNGXG6wJFwEfRQ/V7TOWrRGpdLa+qK8xawDaj3ZfvjlZ+911arOMjlxNYwoa7Nj
+	 djIm7Pwz2IwFA==
+Date: Mon, 10 Jun 2024 15:58:57 -0600
+From: Rob Herring <robh@kernel.org>
+To: Animesh Agarwal <animeshagarwal28@gmail.com>
+Cc: Daniel Baluta <daniel.baluta@nxp.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] ASoC: dt-bindings: linux,spdif: Convert
+ spdif-reciever.txt to dtschema
+Message-ID: <20240610215857.GA3135318-robh@kernel.org>
+References: <20240606041212.78428-1-animeshagarwal28@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev-4c370
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240606041212.78428-1-animeshagarwal28@gmail.com>
 
-On Sat, 08 Jun 2024 15:23:02 +0530, Mighty wrote:
-> Convert the OMAP4+ McPDM bindings from txt to yaml (dtschema).
-> Drop ti,hwmods property as it is not needed since the sysc conversion.
-> Add dma, dma-names, reg-names properties to match the DTS so as to not
-> break the already existing ABI.
-> Also update example node to match the existing node in the DTS.
+On Thu, Jun 06, 2024 at 09:42:00AM +0530, Animesh Agarwal wrote:
+> Convert the dummy SPDIF receiver bindings to DT schema.
+
+Really the subject should be something like "Merge linux,spdif-dir into 
+linux,spdif-dit". Then the commit message should say why (they are the 
+same other than compatible. "sound-name-prefix" wasn't documented for 
+linux,spdif-dir, but is in use already.)
+
 > 
+> Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
+> Cc: Daniel Baluta <daniel.baluta@nxp.com>
 > 
-> [...]
+> ---
+> Changes	in v2:
+> - Add linux,spdif-dir compatible in existing linux,spdif-dit.yaml
+> instead of creating new yaml file specifically for dummy SPDIF receiver.
+> - Change file name to support both transmitter and receiver bindings.
+> ---
+>  .../sound/{linux,spdif-dit.yaml => linux,spdif.yaml}   |  8 +++++---
+>  .../devicetree/bindings/sound/spdif-receiver.txt       | 10 ----------
+>  2 files changed, 5 insertions(+), 13 deletions(-)
+>  rename Documentation/devicetree/bindings/sound/{linux,spdif-dit.yaml => linux,spdif.yaml} (75%)
+>  delete mode 100644 Documentation/devicetree/bindings/sound/spdif-receiver.txt
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] ASoC: dt-bindings: omap-mcpdm: Convert to DT schema
-      commit: b97e40905580c4585faa491189214e74101ca2ad
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
