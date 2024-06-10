@@ -1,215 +1,203 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF91311CA1
-	for <linux-sound@vger.kernel.org>; Mon, 10 Jun 2024 07:05:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FCEF57CA2
+	for <linux-sound@vger.kernel.org>; Mon, 10 Jun 2024 08:08:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718003123; cv=none; b=No65h896OF0rK7L4QgdtSmgo8nSp1I4CcaR8iTyjLVv+n9YxYCx4S+1brHIJsRSJzsKwR4YcZXLWV4LtRdGNWVaHFg2TfJ2KO47eHSRjif+9gez4SkrarvXEGc1nwC+XlrBQTyrOzFbE0j6wNYNAUCLIcDCZ6kRDlDP26r/ETw4=
+	t=1718006916; cv=none; b=Kxx7R0PCAf62okMoOirDu4cabTjEsCL9Sm0etRSwgIAsnRKyCQlVhm1HoMsW3UzcZ1Y5sg5sYlJX7l80MhFdKf11sIroMgA/KUjmT/dQTuWgcm9MY8CvEmgm1/13gxxg+3eEj7AQN3u48uLwli/ooOGE5GTO5/KmzY3elbriSrg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718003123; c=relaxed/simple;
-	bh=/AvsbsUJd/zTGNO42rFXKAiiuS8ZEWlCyClzMR+cMBU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AIk2JWlJCZmErfnWBH1Puvl9ok8ElBMQsPvUyTlMkYSwJFjGsR/cAESbLcaCbPysSvIpDatIaEzZVKXuXka6XqczyKoSlQ1+KpilRvaFqlUfnQTcF6QJFf4LV57P7PHQss0AWvOdaewXUZX5i1LiJuRq+gEffvjvVUWWafvzX80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CdRZ5nnK; arc=none smtp.client-ip=209.85.218.53
+	s=arc-20240116; t=1718006916; c=relaxed/simple;
+	bh=/L5y1Dv6ivY3eszYnYmdXRYc401x9YYY2yBAmmyUG/k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EaGth07ll3ApfQ4HpT6msNSgOl/DB85hRqVswCu7Iu5KwP/5+8wEjkBpiFTdNJeAgiKIX3YvP+PXMW8M+QYw+knzgzWGWw5l6TRYcXkxKkSRJKN7/tp38meZmqck9MOEB169uPZHhoRcyHZgM126wHVCThDz3eS5Q3t+mP1RKI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FY2k3Mn1; arc=none smtp.client-ip=209.85.208.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CdRZ5nnK"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a6f1da33826so72074066b.0
-        for <linux-sound@vger.kernel.org>; Mon, 10 Jun 2024 00:05:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FY2k3Mn1"
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2ebe40673e8so9088741fa.3
+        for <linux-sound@vger.kernel.org>; Mon, 10 Jun 2024 01:08:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718003120; x=1718607920; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cPZSLa5VJ9ZJ5ThCXQZcFW6Ti5Z+EHbBJU7SLERjk6Q=;
-        b=CdRZ5nnK12/P3OrRhY2mW8r9y79KJ8tDxDEsbc+1YCHKhg6Mpk/48GN5tnd1dXIBz3
-         f+7bw+eRHk6TCMGV3BY91p+720Bo/sQF9LXS+Prg4ejkS/34nIDygXbYywF5yqoIuptA
-         NmVbIa9yaCctoUQW8tllBDO27ljO0DLtADcfWxRzf7zRWfU1mTkEIukoMXMACzLKGt2W
-         zlqAM2HUeJETWMMJQGdSn2ah/RlsEoWz6dgPbqaoTOZyCBvV+Tx22dOMv+iDfMnO4Kr4
-         PeB5olWdW3SM8Z4QTgOlMZKdCbceeuiSmJ6EVrEByjfkYQ6mXGbcaKJOlZGpB79Jqr3Y
-         pohw==
+        d=linaro.org; s=google; t=1718006913; x=1718611713; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/L5y1Dv6ivY3eszYnYmdXRYc401x9YYY2yBAmmyUG/k=;
+        b=FY2k3Mn1PYXcT34Eo96oKLUsknRz0hgtVbv3X+DhxGiYz+kbwRScKV5erdDVYUAAcd
+         jw6OuZPpP2NNPqOZ2xbFrAnjX+R/moWth1xQbyLTQwP/AO2viR5QhBlPBUqVIiumNaWh
+         q9FNp9oq5otLzICQCloUWcrekkzWRFWluxtU4sFdlbDWDluPzyuTugazeXoFyCiJBRP3
+         HApxSZljkEXVYOKB9+xNb5fXk5aZomQQNqaUlFf2wJEZ4UBULeRnjXc636gbucf+QV1v
+         lD2YagRXZavPnguwNF+EgxZqcY5VeCnUF1kmP29ABaYpXiQO+TVb9XtCe6irhsUQsFWo
+         cHEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718003120; x=1718607920;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cPZSLa5VJ9ZJ5ThCXQZcFW6Ti5Z+EHbBJU7SLERjk6Q=;
-        b=qTu4cAKFI9GSOJu4w709b9s6M+I3C4k3vzbFuOO7jLmWJfW1XCy+R811CP1ZPQms5w
-         tEwpY0FXHe30KhpappD5EjVMPGMzpQquf6poLgU1QFQceTScXNBEBNbeGtVrVpkPpxE7
-         4+a72hXB6LudKNmojF7hc2/iW6yeg+ENwCar5IE4qokGLkEXcPBWDurApiw/Y5mnKvrW
-         9oSt3vHY00J33sFVkKD4Mj2lbMXNnZJwFVZvgk7l2waokyFfv7uCkmed7maesSkG5eU4
-         qEvKHGcl0xrCNVSsHSnsovzsbqdz6dVk7P32rzKGBiWmI4wtsSXuSjT9pHG0JNGVCaCF
-         uQrA==
-X-Forwarded-Encrypted: i=1; AJvYcCVf2nKlnoH2qd8on+M4BH8dW5QIcq4rcWHc828iKZ5VbsBdkf3dC6lNleQNVC8Kr7j/m9UtyPxGgJzW/Io5dGzK5FBBQZM9EtGbdmQ=
-X-Gm-Message-State: AOJu0YwT0lKOMflUoa1bwcAUqZ+rCc+r26SLxj0+CsrT3axLNhWPRZWH
-	Znqt5EJAF6fpw87TSWxWgwTK+6UD1HINhLRz6/8xyguBAzOumOlRp5d1P8BQGTo=
-X-Google-Smtp-Source: AGHT+IEgv3JegFvQ+6vLGmNwNKNTfnIzW5enFDnscw96CRYsquxgRG1RrvcEtuTnAeCT9o3J9KN8iQ==
-X-Received: by 2002:a17:906:4ecd:b0:a6f:7cb:6e76 with SMTP id a640c23a62f3a-a6f07cb723emr358812166b.51.1718003120208;
-        Mon, 10 Jun 2024 00:05:20 -0700 (PDT)
-Received: from [192.168.1.195] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-a6f2d4138ccsm7698766b.220.2024.06.10.00.05.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Jun 2024 00:05:19 -0700 (PDT)
-Message-ID: <ba911ebd-aef5-46af-ace1-84d13bee6876@linaro.org>
-Date: Mon, 10 Jun 2024 08:05:18 +0100
+        d=1e100.net; s=20230601; t=1718006913; x=1718611713;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/L5y1Dv6ivY3eszYnYmdXRYc401x9YYY2yBAmmyUG/k=;
+        b=oykk0R6tmcl3VYoQvXR8iQH37b8HAPNFKf5dnwj/7TPJ2VJYHq7KeZvc6aVi26aEdW
+         tq+V5DzEsfoj4VFJ3TKjBjbPE+DI7bPg8J8Glw74dCJXyUUq5XRmq16OUU6qm9yaDURm
+         U9Ec/I+idCsWYLBj7o1vveikYbuZkC/uW66nLrfkQEGEejs88+vaqBHaiIY2u8uQ7ukG
+         etu54+ko39aZRzb6aVg2c45EpH6ru44zjqlKhGssmnnP/aFrPIAlVjwz7mp7wgh1Q1U5
+         l7uFrio4sqFJRGGVolwhFOzc/dm61CPSnmTGXWXdCG5aSjpcz/2V3d9drH+jWghM/YZB
+         cCNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXACziwCPFbId5JX8oWGjakYz6H/nyDAsFHQP4xMJ6ZeALmA3/URQcs0IlYrEnN2NUTdAsxTnY6NoKrfumUI5bpgRTwa3x3B5wKlfo=
+X-Gm-Message-State: AOJu0YyPxxVOpuwqWpdugHBxA3yi65cJ4MEy6YHNq4mSAEaovFO6YS8w
+	rB3h0RGcc4P0R4yUfBRCJ6t+CtCHFdks65jmeinpjUQG58oJ/91tRD+YmsoBzvx5sQNYhC7eOmZ
+	tCIu7pxgbcmqKwxIhNozGOexmHIrbuJM9Hcoq1e0qPUxXI2pD
+X-Google-Smtp-Source: AGHT+IEoIIaopVbMhKiBzu+ZFeFG117iZrYhuaSy1PLsnicMvCE0nAaF1iUL9hhnUeVtUHqe9i20V059/u6XmSWe6yI=
+X-Received: by 2002:a05:6512:234d:b0:52b:be9b:cafe with SMTP id
+ 2adb3069b0e04-52bbe9bcbadmr5940256e87.21.1718006892189; Mon, 10 Jun 2024
+ 01:08:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND v5 6/7] ASoC: codecs: wcd937x: add capture dapm widgets
-To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>,
- Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, quic_rohkumar@quicinc.com,
- quic_pkumpatl@quicinc.com, Konrad Dybcio <konrad.dybcio@linaro.org>
-References: <20240527111956.444425-1-quic_mohs@quicinc.com>
- <20240527111956.444425-7-quic_mohs@quicinc.com>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <20240527111956.444425-7-quic_mohs@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240603211538.289765-1-andriy.shevchenko@linux.intel.com> <87tti9cfry.fsf@intel.com>
+In-Reply-To: <87tti9cfry.fsf@intel.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 10 Jun 2024 10:08:00 +0200
+Message-ID: <CACRpkdZFPG_YLici-BmYfk9HZ36f4WavCN3JNotkk8cPgCODCg@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] treewide: Align match_string() with sysfs_match_string()
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Corey Minyard <minyard@acm.org>, 
+	Allen Pais <apais@linux.microsoft.com>, 
+	Sebastian Reichel <sebastian.reichel@collabora.com>, Perry Yuan <perry.yuan@amd.com>, 
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	Nuno Sa <nuno.sa@analog.com>, Guenter Roeck <linux@roeck-us.net>, 
+	Randy Dunlap <rdunlap@infradead.org>, Andi Shyti <andi.shyti@kernel.org>, 
+	Heiner Kallweit <hkallweit1@gmail.com>, Lee Jones <lee@kernel.org>, 
+	Samuel Holland <samuel@sholland.org>, Elad Nachman <enachman@marvell.com>, 
+	Arseniy Krasnov <AVKrasnov@sberdevices.ru>, Johannes Berg <johannes.berg@intel.com>, 
+	Gregory Greenman <gregory.greenman@intel.com>, Benjamin Berg <benjamin.berg@intel.com>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Robert Richter <rrichter@amd.com>, Vinod Koul <vkoul@kernel.org>, 
+	Chunfeng Yun <chunfeng.yun@mediatek.com>, Hans de Goede <hdegoede@redhat.com>, 
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Nikita Kravets <teackot@gmail.com>, Jiri Slaby <jirislaby@kernel.org>, 
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
+	Stanley Chang <stanley_chang@realtek.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Abdel Alkuor <abdelalkuor@geotab.com>, 
+	Kent Overstreet <kent.overstreet@linux.dev>, Eric Biggers <ebiggers@google.com>, 
+	Kees Cook <keescook@chromium.org>, Ingo Molnar <mingo@kernel.org>, 
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>, Daniel Bristot de Oliveira <bristot@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Hugh Dickins <hughd@google.com>, 
+	Abel Wu <wuyun.abel@bytedance.com>, John Johansen <john.johansen@canonical.com>, 
+	Mimi Zohar <zohar@linux.ibm.com>, Stefan Berger <stefanb@linux.ibm.com>, 
+	Roberto Sassu <roberto.sassu@huawei.com>, Eric Snowberg <eric.snowberg@oracle.com>, 
+	Takashi Iwai <tiwai@suse.de>, Takashi Sakamoto <o-takashi@sakamocchi.jp>, 
+	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, Mark Brown <broonie@kernel.org>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, linuxppc-dev@lists.ozlabs.org, 
+	linux-kernel@vger.kernel.org, keyrings@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-ide@vger.kernel.org, openipmi-developer@lists.sourceforge.net, 
+	linux-clk@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org, qat-linux@intel.com, 
+	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+	intel-xe@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+	linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org, 
+	linux-leds@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-omap@vger.kernel.org, linux-mmc@vger.kernel.org, 
+	linux-mtd@lists.infradead.org, netdev@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, linux-pci@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org, 
+	linux-gpio@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-usb@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org, linux-bcachefs@vger.kernel.org, 
+	linux-hardening@vger.kernel.org, cgroups@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, alsa-devel@alsa-project.org, 
+	linux-sound@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
+	"Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, David Howells <dhowells@redhat.com>, 
+	"David S. Miller" <davem@davemloft.net>, "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
+	Sergey Shtylyov <s.shtylyov@omp.ru>, Damien Le Moal <dlemoal@kernel.org>, 
+	Niklas Cassel <cassel@kernel.org>, Daniel Scally <djrscally@gmail.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Heiko Stuebner <heiko@sntech.de>, 
+	Peter De Schrijver <pdeschrijver@nvidia.com>, Prashant Gaikwad <pgaikwad@nvidia.com>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Huang Rui <ray.huang@amd.com>, "Gautham R. Shenoy" <gautham.shenoy@amd.com>, 
+	Mario Limonciello <mario.limonciello@amd.com>, Viresh Kumar <viresh.kumar@linaro.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+	Tvrtko Ursulin <tursulin@ursulin.net>, Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, 
+	Danilo Krummrich <dakr@redhat.com>, Jean Delvare <jdelvare@suse.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Pavel Machek <pavel@ucw.cz>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Tony Lindgren <tony@atomide.com>, Adrian Hunter <adrian.hunter@intel.com>, Hu Ziji <huziji@marvell.com>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Miquel Raynal <miquel.raynal@bootlin.com>, 
+	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
+	Potnuri Bharat Teja <bharat@chelsio.com>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Miri Korenblit <miriam.rachel.korenblit@intel.com>, Kalle Valo <kvalo@kernel.org>, 
+	Mahesh J Salgaonkar <mahesh@linux.ibm.com>, "Oliver O'Halloran" <oohall@gmail.com>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, JC Kuo <jckuo@nvidia.com>, 
+	Andrew Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Sebastian Reichel <sre@kernel.org>, 
+	Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, 
+	Lukasz Luba <lukasz.luba@arm.com>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
+	Helge Deller <deller@gmx.de>, Brian Foster <bfoster@redhat.com>, 
+	Zhihao Cheng <chengzhihao1@huawei.com>, Tejun Heo <tj@kernel.org>, 
+	Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Daniel Bristot de Oliveira <bristot@redhat.com>, Valentin Schneider <vschneid@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jason Baron <jbaron@akamai.com>, Jim Cromie <jim.cromie@gmail.com>, 
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+	Clemens Ladisch <clemens@ladisch.de>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Linus Torvalds <torvalds@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Jun 4, 2024 at 9:46=E2=80=AFAM Jani Nikula <jani.nikula@linux.intel=
+.com> wrote:
 
+[Maybe slightly off-topic, ranty]
 
-On 27/05/2024 12:19, Mohammad Rafi Shaik wrote:
-> +static int __wcd937x_codec_enable_micbias(struct snd_soc_dapm_widget *w,
-> +					  int event)
-> +{
-> +	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
-> +	int micb_num;
-> +
-> +	if (strnstr(w->name, "MIC BIAS1", sizeof("MIC BIAS1")))
-> +		micb_num = MIC_BIAS_1;
-> +	else if (strnstr(w->name, "MIC BIAS2", sizeof("MIC BIAS2")))
-> +		micb_num = MIC_BIAS_2;
-> +	else if (strnstr(w->name, "MIC BIAS3", sizeof("MIC BIAS3")))
-> +		micb_num = MIC_BIAS_3;
-> +	else
-> +		return -EINVAL;
-> +
-See last comment..
+> Why do we think it's a good idea to increase and normalize the use of
+> double-underscore function names across the kernel, like
+> __match_string() in this case? It should mean "reserved for the
+> implementation, not to be called directly".
+>
+> If it's to be used directly, it should be named accordingly, right?
 
-> +	switch (event) {
-> +	case SND_SOC_DAPM_PRE_PMU:
-> +		wcd937x_micbias_control(component, micb_num,
-> +					MICB_ENABLE, true);
-> +		break;
-> +	case SND_SOC_DAPM_POST_PMU:
-> +		usleep_range(1000, 1100);
-> +		break;
-> +	case SND_SOC_DAPM_POST_PMD:
-> +		wcd937x_micbias_control(component, micb_num,
-> +					MICB_DISABLE, true);
-> +		break;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int wcd937x_codec_enable_micbias(struct snd_soc_dapm_widget *w,
-> +					struct snd_kcontrol *kcontrol,
-> +					int event)
-> +{
-> +	return __wcd937x_codec_enable_micbias(w, event);
-> +}
-> +
-> +static int __wcd937x_codec_enable_micbias_pullup(struct snd_soc_dapm_widget *w,
-> +						 int event)
-> +{
-> +	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
-> +	int micb_num;
-> +
-> +	if (strnstr(w->name, "VA MIC BIAS1", sizeof("VA MIC BIAS1")))
-> +		micb_num = MIC_BIAS_1;
-> +	else if (strnstr(w->name, "VA MIC BIAS2", sizeof("VA MIC BIAS2")))
-> +		micb_num = MIC_BIAS_2;
-> +	else if (strnstr(w->name, "VA MIC BIAS3", sizeof("VA MIC BIAS3")))
-> +		micb_num = MIC_BIAS_3;
-> +	else
-> +		return -EINVAL;
-> +
-same..
-> +	switch (event) {
-> +	case SND_SOC_DAPM_PRE_PMU:
-> +		wcd937x_micbias_control(component, micb_num, MICB_PULLUP_ENABLE, true);
-> +		break;
-> +	case SND_SOC_DAPM_POST_PMU:
-> +		usleep_range(1000, 1100);
-> +		break;
-> +	case SND_SOC_DAPM_POST_PMD:
-> +		wcd937x_micbias_control(component, micb_num, MICB_PULLUP_DISABLE, true);
-> +		break;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
+It's a huge mess. "__" prefix is just so ambiguous I think it just
+shouldn't be used or prolifierated, and it usually breaks Rusty Russells
+API rules times over.
 
-...
+Consider __set_bit() from <linux/bitops.h>, used all over the place,
+in contrast with set_bit() for example, what does "__" represent in
+this context that makes __set_bit() different from set_bit()?
 
->   static const struct snd_soc_dapm_widget wcd937x_dapm_widgets[] = {
-...> +	/* MIC_BIAS widgets */
-> +	SND_SOC_DAPM_SUPPLY("MIC BIAS1", SND_SOC_NOPM, 0, 0,
-Please use shift here like
-         SND_SOC_DAPM_SUPPLY("MIC BIAS1", SND_SOC_NOPM, MIC_BIAS_1, 0,
-         SND_SOC_DAPM_SUPPLY("MIC BIAS2", SND_SOC_NOPM, MIC_BIAS_2, 0,
+It means "non-atomic"...
 
-to avoid doing a string compares on wideget name.
+How does a random contributor know this?
 
---srini
+Yeah, you guess it. By the token of "everybody knows that".
+(Grep, google, repeat for the number of contributors to the kernel.)
 
-> +			    wcd937x_codec_enable_micbias,
-> +			    SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU |
-> +			    SND_SOC_DAPM_POST_PMD),
-> +	SND_SOC_DAPM_SUPPLY("MIC BIAS2", SND_SOC_NOPM, 0, 0,
-> +			    wcd937x_codec_enable_micbias,
-> +			    SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU |
-> +			    SND_SOC_DAPM_POST_PMD),
-> +	SND_SOC_DAPM_SUPPLY("MIC BIAS3", SND_SOC_NOPM, 0, 0,
-> +			    wcd937x_codec_enable_micbias,
-> +			    SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU |
-> +			    SND_SOC_DAPM_POST_PMD),
-> +
->   	SND_SOC_DAPM_SUPPLY("VDD_BUCK", SND_SOC_NOPM, 0, 0,
->   			    wcd937x_codec_enable_vdd_buck,
->   			    SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMD),
-> @@ -2007,11 +2312,101 @@ static const struct snd_soc_dapm_widget wcd937x_dapm_widgets[] = {
->   	SND_SOC_DAPM_MIXER("HPHR_RDAC", SND_SOC_NOPM, 0, 0,
->   			   hphr_rdac_switch, ARRAY_SIZE(hphr_rdac_switch)),
->   
-> +	/* TX output widgets */
-> +	SND_SOC_DAPM_OUTPUT("ADC1_OUTPUT"),
-> +	SND_SOC_DAPM_OUTPUT("ADC2_OUTPUT"),
-> +	SND_SOC_DAPM_OUTPUT("ADC3_OUTPUT"),
-> +	SND_SOC_DAPM_OUTPUT("WCD_TX_OUTPUT"),
-> +
->   	/* RX output widgets */
->   	SND_SOC_DAPM_OUTPUT("EAR"),
->   	SND_SOC_DAPM_OUTPUT("AUX"),
->   	SND_SOC_DAPM_OUTPUT("HPHL"),
->   	SND_SOC_DAPM_OUTPUT("HPHR"),
-> +
-> +	/* MIC_BIAS pull up widgets */
-> +	SND_SOC_DAPM_SUPPLY("VA MIC BIAS1", SND_SOC_NOPM, 0, 0,
-> +			    wcd937x_codec_enable_micbias_pullup,
-> +			    SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU |
-> +			    SND_SOC_DAPM_POST_PMD),
-> +	SND_SOC_DAPM_SUPPLY("VA MIC BIAS2", SND_SOC_NOPM, 0, 0,
-> +			    wcd937x_codec_enable_micbias_pullup,
-> +			    SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU |
-> +			    SND_SOC_DAPM_POST_PMD),
-> +	SND_SOC_DAPM_SUPPLY("VA MIC BIAS3", SND_SOC_NOPM, 0, 0,
-> +			    wcd937x_codec_enable_micbias_pullup,
-> +			    SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU |
-> +			    SND_SOC_DAPM_POST_PMD),
+I was considering to send a script to Torvalds to just change all
+this to set_bit_nonatomic() (etc) but was hesitating because that
+makes the name unambiguous but long. I think I stayed off it
+because changing stuff like that all over the place creates churn
+and churn is bad.
+
+Yours,
+Linus Walleij
