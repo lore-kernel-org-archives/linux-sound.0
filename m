@@ -1,174 +1,86 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10E3517994D;
-	Tue, 11 Jun 2024 12:44:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8A11E86F;
+	Tue, 11 Jun 2024 12:48:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718109863; cv=none; b=hGn3rBDx1I4id2MpIX8uSTKV4q6+QGj+wynvsSe4zII/yUixKbm3xV4BrSVqI3vEgWBWXvCjBDeQm333eW6UaSrKQ06AoR/TT85VSWXp5B44sIQot8yeU7yVdxHX+3j2AZW/sZX3dWf7kTFrE3EjCIbX2UL3GyqldSfPjjLBP2g=
+	t=1718110106; cv=none; b=Rxq3iZ6RvlFTWSoKypntHycuo/Ximk1nM0piP/FUPjXtIh54OZ5v3PpA0En/rad056H9jtjjay0h7k/k1HHDrZUKrMN582uEeGvDZPXDIAHYsER3tNeqda+t5nezI4aGi4M5BkiLMUgWvZ/SaqGxoTxHJ+rY55Ra2tRb/Olgssc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718109863; c=relaxed/simple;
-	bh=wvAyPUBns/uNl9S66bSDSvxN3bhNbvQLJE39DQGbjLI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kG1b7O6rUVxPaKIE6lyAZP03FNYPRSMrvnwe4MTy1PM3f5EIQSjcBeFjUQfvVo21Lu+woaXHnIKViJCDBCMqWA5cIttNux+j321L8xnES2XycAMrWlyFZ7PK7Z/kxQR8TcOQ7kxVHqtcRcryfBIenansexIBHUJSqaL1V0K+UhU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ATlhLdVb; arc=none smtp.client-ip=209.85.215.169
+	s=arc-20240116; t=1718110106; c=relaxed/simple;
+	bh=B+F4jYtueaaFeYozuVyzY6N2Tp2CTNJFcO1Ip0Jlv6Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cnhpypMpBSK+f/a6IVs90Vaq0HgJTQBbeCGc4ispTpHY6iZQ489WmmHUArddaQHh1fom2+S09RsTeEGaDRlWC4xmrdNEuB1HPbxXBD9N+6kjwi69b2EEAI6NBV0c6JJl85UkbFuGxfkkGTwNUZVfP9+GiGhZ1eNhlIS/21/cwwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eYwP88UM; arc=none smtp.client-ip=209.85.208.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ATlhLdVb"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-6e3ff7c4cc8so2920571a12.3;
-        Tue, 11 Jun 2024 05:44:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eYwP88UM"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-57c83100c5fso1238765a12.3;
+        Tue, 11 Jun 2024 05:48:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718109861; x=1718714661; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AVwIlcHjQo8eh6OrUJ43oxF3efWtPUA/bK44QL6w+l8=;
-        b=ATlhLdVbV024YS0KFj1k5uUqAx5cYTIIzEhumjeWvgx2U7KqaHuSTgIqA5KXik71Bf
-         MH3V/WzRnN81ZArlvusjX/H9vCqnMdibCiBSyn1shcHHZtcUIR4Liap81uUYVSpxDvr2
-         +q11TFO/5AIyh5fycVfBPzPf8VZWCnkrZp99FtusEFfo5lSVkXF0Mjd8tbsUmthRpbow
-         CIws7g/N5I8L548NYtQkJ7gc6eXAmdNhpuRSt2xjkYbb53ypz8AOPi61oYv/MSkhLK6B
-         xlpOkASgVcgNJgb7xS+XOsgdI1BCKWeVvM1+6XtB+WxRH8LvY1NKFqqJgx8l1Q1YHzD8
-         pt6Q==
+        d=gmail.com; s=20230601; t=1718110103; x=1718714903; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=a/Oo7XjX+5E7PNpg5M8THdexoQgRehQoIPwH+7NOY6E=;
+        b=eYwP88UM7W2dmme+g95CUTfjKMTaMaAIYMaj/3JvoF2zDydjCXFxxhp4X1mXgSsrQH
+         rjW9+Gz+LbFGpJgJOeNbtKmOdsLldx5azUgNIzm2tVNPNzBkF150nbzekjdPma13vq/m
+         cca9p2XacKRngWaG2QXiKSZD9KCgriN23NU60vUQyAyv1L7l6QVtQYsV0U6pg4cVEPIE
+         YsTtcUVy5v3JFCA4i2zT6w2Fm/bh/ofRgnl55TLMy2ZCd5D8gap51ttpN7f3uyB5gDoO
+         NcXjwFOsjU7phxPnYDQxx4EsEKO69mchzTwlJu+GwvsmrXzz5YADkBpEedZby4nqYxTA
+         HcmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718109861; x=1718714661;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AVwIlcHjQo8eh6OrUJ43oxF3efWtPUA/bK44QL6w+l8=;
-        b=KPZY4IWqBrn/anLtqosb3w/yR3rp0V2WD0DbOJDgWhpMro5fXwKWHd/La2ZpwLXpdE
-         Au+MQAobK922XJmO7ykeyQuiSeJWELRe7ZyW+Thvnt7GGuFrqt68famEQqibzjKKdTk0
-         HCISi3SMK/L6bJn9oUnu2G4bk97rbpIMk/xA4DFh2wixSQc7T3696JiJ8Tg3wOU6iKFZ
-         HJqmc6Bl9exq1vvn7jXJCPBDMyXwDoOwnN/8gNWleGg0Rdl2E4QVP1wH/l1S+6aQavBz
-         U4KiRLLMqxdgswKeE1qI8V4yq/cSxIpoMG/YGcG93F+N3QRUmwnplJ40mkSuZ/hfgqsn
-         acbA==
-X-Forwarded-Encrypted: i=1; AJvYcCWMVEmIbs5lKyED+RUCJo1UwFyu7q0GCeNDO3DjXdTgCkFCzkxJeBbD/z+BOdTZsGKTjrfGmU2QAciBnydkkM8i9wUWt58Qdz106eQ/OmfW1j/4D6xprmctNhGooCOMc4XRexXpmjkGrwXcpH5FUq7iLO3v4dP71FMHmoxXMBlfQK9KvND8
-X-Gm-Message-State: AOJu0YzHcBae5pviPJVwoOnET2xXe4gV/T58uf+/6zIIA0D7scItlUIo
-	vGMRwILl0E5rhuhZ1XVejBt32PWk1TNJf6/ZezguOnrWJG1SQgdeKKwapI6g
-X-Google-Smtp-Source: AGHT+IGxYFQHUxLPouK/1ioV0eCRyouOGRoF0w2WN75pt0GtljsQjw6+Rf0APD0pqim83/wxnkvyUw==
-X-Received: by 2002:a05:6a20:72a3:b0:1b7:82b4:a380 with SMTP id adf61e73a8af0-1b782b4a72amr5655759637.29.1718109861271;
-        Tue, 11 Jun 2024 05:44:21 -0700 (PDT)
-Received: from fedora.one.one.one.one ([2405:201:6013:c0b2:ea4b:30e0:4e3a:ab56])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-6eac1dea8b2sm3950627a12.63.2024.06.11.05.44.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jun 2024 05:44:20 -0700 (PDT)
-From: Animesh Agarwal <animeshagarwal28@gmail.com>
-To: 
-Cc: animeshagarwal28@gmail.com,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	patches@opensource.cirrus.com,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] dt-bindings: wlf,wm8782: Convert to dtschema
-Date: Tue, 11 Jun 2024 18:14:00 +0530
-Message-ID: <20240611124405.63427-1-animeshagarwal28@gmail.com>
-X-Mailer: git-send-email 2.45.1
+        d=1e100.net; s=20230601; t=1718110103; x=1718714903;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=a/Oo7XjX+5E7PNpg5M8THdexoQgRehQoIPwH+7NOY6E=;
+        b=iWZB7KcPgccV86QKJUYHGBE+fB/0XZ97lJP6Z+ppwpNgStD/W9DdhiU24qEDoSnS7G
+         N+QYz/kxSw/2Bduq7VdLb1aLlLKydAQGdcnBUbs4N5NOrMwse+3b5xxjUxorKOcE3Y83
+         Mov2aSSij7Xf2deO6PNG6gTOjrS2X9io6QM6cKllKmM9sJYHEV+3p/FiKXMj7gPLFQfa
+         +0Mhsd9UJbRickMHz/hzOcWLNioQlqbn3g7iDlkhoHECxH6H3ZxoCSa/z/khuztGgqmk
+         lO02gpTFvB62qPLYD4Ml/zVd6f/SCeFSTlB4UDF+BGSkfnojdPFML1dPHL1bgEIymmIw
+         G+cA==
+X-Forwarded-Encrypted: i=1; AJvYcCUOqYvOEigr7opsn3UTICAsdv7mj/tbJ3zgsA3rJXDDMzWoN5yHrP7I+t9qG3qv8jt0AtNqzo2HNke3LIxnkCpnVXU79ce4ItJAm9Mv6DWD0vurLlQzMSlux5nQEcSE0LMe1x72FJ7yHH9V7yN8Vz5ydgqogCZan6wL9q5//W46ZayvI8icGd9dqls=
+X-Gm-Message-State: AOJu0YyfkAVw/w0WwinpN8y45qMfju747fEsgNo1ZZYiTqW+MMpWKZxJ
+	QtUuHGRQ4tMEYaD+o0toK3ispf1iz+mgFBlbmGsTGeznbAtex01SwrauwEZF
+X-Google-Smtp-Source: AGHT+IFp/1CR06HJRye+2fqk8C5zPASOQlbfXCIrIAIwmwTUWtI0C1ufR5WmUqLrkAfxRNHE9HGb6Q==
+X-Received: by 2002:a50:9509:0:b0:57a:339f:1b2d with SMTP id 4fb4d7f45d1cf-57c5086e237mr8319342a12.5.1718110102611;
+        Tue, 11 Jun 2024 05:48:22 -0700 (PDT)
+Received: from [192.168.61.55] ([37.30.4.115])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57c71b6dcaesm5635493a12.78.2024.06.11.05.48.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Jun 2024 05:48:22 -0700 (PDT)
+Message-ID: <771bf8d4-5423-4972-ba27-615148a54c77@gmail.com>
+Date: Tue, 11 Jun 2024 14:48:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: samsung: midas_wm1811: Fix error code in probe()
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+References: <01590109-cf27-404b-88ff-b42bb73ca1c6@moroto.mountain>
+Content-Language: en-US
+From: Artur Weber <aweber.kernel@gmail.com>
+In-Reply-To: <01590109-cf27-404b-88ff-b42bb73ca1c6@moroto.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Convert the WM8782 audio codec bindings to DT schema.
+On 8.06.2024 16:24, Dan Carpenter wrote:
+> This accidentally returns success instead of -EINVAL.
+> 
+> Fixes: c91d0c2e198d ("ASoC: samsung: midas_wm1811: Add GPIO-based headset jack detection")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
-Cc: Daniel Baluta <daniel.baluta@nxp.com>
----
- .../devicetree/bindings/sound/wlf,wm8782.yaml | 47 +++++++++++++++++++
- .../devicetree/bindings/sound/wm8782.txt      | 24 ----------
- 2 files changed, 47 insertions(+), 24 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/sound/wlf,wm8782.yaml
- delete mode 100644 Documentation/devicetree/bindings/sound/wm8782.txt
+Good catch, thanks!
 
-diff --git a/Documentation/devicetree/bindings/sound/wlf,wm8782.yaml b/Documentation/devicetree/bindings/sound/wlf,wm8782.yaml
-new file mode 100644
-index 000000000000..d0bbdc9f9ced
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/wlf,wm8782.yaml
-@@ -0,0 +1,47 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/wlf,wm8782.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Wolfson Microelectromics WM8782 audio CODEC
-+
-+maintainers:
-+  - patches@opensource.cirrus.com
-+
-+allOf:
-+  - $ref: dai-common.yaml#
-+
-+properties:
-+  compatible:
-+    const: wlf,wm8782
-+
-+  Vdda-supply:
-+    description: Regulator for the analog power supply (2.7V - 5.5V)
-+
-+  Vdd-supply:
-+    description: Regulator for the digital power supply (2.7V - 3.6V)
-+
-+  wlf,fsampen:
-+    description: FSAMPEN pin value, 0 for low, 1 for high, 2 for disconnected.
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [0, 1, 2]
-+
-+  "#sound-dai-cells":
-+    const: 0
-+
-+required:
-+  - compatible
-+  - Vdda-supply
-+  - Vdd-supply
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    wm8782: codec {
-+        compatible = "wlf,wm8782";
-+        Vdda-supply = <&vdda_supply>;
-+        Vdd-supply = <&vdd_supply>;
-+        wlf,fsampen = <2>;
-+    };
-diff --git a/Documentation/devicetree/bindings/sound/wm8782.txt b/Documentation/devicetree/bindings/sound/wm8782.txt
-deleted file mode 100644
-index 1a28f3280972..000000000000
---- a/Documentation/devicetree/bindings/sound/wm8782.txt
-+++ /dev/null
-@@ -1,24 +0,0 @@
--WM8782 stereo ADC
--
--This device does not have any control interface or reset pins.
--
--Required properties:
--
-- - compatible  : "wlf,wm8782"
-- - Vdda-supply : phandle to a regulator for the analog power supply (2.7V - 5.5V)
-- - Vdd-supply  : phandle to a regulator for the digital power supply (2.7V - 3.6V)
--
--Optional properties:
--
-- - wlf,fsampen:
--   FSAMPEN pin value, 0 for low, 1 for high, 2 for disconnected.
--   Defaults to 0 if left unspecified.
--
--Example:
--
--wm8782: stereo-adc {
--	compatible = "wlf,wm8782";
--	Vdda-supply = <&vdda_supply>;
--	Vdd-supply = <&vdd_supply>;
--	wlf,fsampen = <2>; /* 192KHz */
--};
--- 
-2.45.1
-
+Acked-by: Artur Weber <aweber.kernel@gmail.com>
