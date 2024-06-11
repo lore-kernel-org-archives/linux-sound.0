@@ -1,146 +1,103 @@
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 901A717C7A9;
-	Tue, 11 Jun 2024 12:37:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 573BE4CDE0;
+	Tue, 11 Jun 2024 12:38:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718109423; cv=none; b=rpgfeJdA57jvVcCvtQDggR1rVytg8DAVtX/1LHV0RohfXcPD1NvdgucxZo/1cFgG5eEU++qW8ggvW87NsKRD+277ps+9U9/BQ2omrN2uAKTbJMsUE9BViQQUSapEqm/3t7UEMJEkzje1rCLD25EW+GYqyEs185qbqjMoKTD7m4I=
+	t=1718109494; cv=none; b=KZM5Zl1F3oQPBIizTXLuA5bWoZ7PMaTH5YrN6s6eGRshmY6lUtSjFF9aag67qLMyk/esXqI4XNuKow4GR+0tq86RbFd5aWrQK0wxLLfdNjO46lcjHvCWNP9f0WW1MEVpp+fdmsGY21tWgMhAMGXfpSR0p9eAYMtomOnhuQwPOkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718109423; c=relaxed/simple;
-	bh=8jD5Mvn4JnvcGDrCagOrGGZetRPfvF4h/uJysM7SORY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=dHpgaiYEj/PuZOwN1hYCyrn7KMA6f5coXWkfEzmPEAtwXinUmLM61Y4fexq9fnP5Mq9e4o5GsMk62jQgi2JKcmJwqvXn8wppMGkGayspnEHC3M+1fOxmGElCHEPilm6mJIAQcL3YPqpXepSgjyUi1A1mzYzoRDiGyU81TNIAy3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=UOVolnY7; arc=none smtp.client-ip=198.47.19.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1718109494; c=relaxed/simple;
+	bh=kj5qaVbqaQZcuY/DAi1KbmqH4orxFs4setQOSPqpduw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GkuSvKBRM0PxyVyozMJI391NKayOWUQToRFafi5gNnFegjkGwTMPuxIMgUBsSSmQ0iStiEs6JPcbCeiT1j4RkbLMltZCbRfS6nmQqMbP5l4Ch9qaSEEmseLXaO9P/ygUSuCL8UaRgTtc9IrY9D1ZG7PWtsQW8IMnUCZ2tP4K5e8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=CgsuC1JE; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="UOVolnY7"
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 45BCaa6a088100;
-	Tue, 11 Jun 2024 07:36:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1718109396;
-	bh=Xi+lXeC9oOPY560HM6ndHndJe00tZZ8g5JUpqfg8mMc=;
-	h=From:Date:Subject:References:In-Reply-To:To:CC;
-	b=UOVolnY7O4t53trTs4QTtefjTo6wP3vqPGib4PgyPlWj8IeWuogyvRFXv90TmBdxt
-	 CbJhXk6Qm63Sy+GCb2d5tsxn+/oNZGO5Xl3UABgBR5imCpyvLfI8PBYrdwqu2WVzgw
-	 k8CQRQN4lRnO6Kd2QdU6HbmfL2DKT6v7nSe5ItCA=
-Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 45BCaamY116897
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 11 Jun 2024 07:36:36 -0500
-Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 11
- Jun 2024 07:36:36 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 11 Jun 2024 07:36:35 -0500
-Received: from localhost (jluthra.dhcp.ti.com [172.24.227.116])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 45BCaZcw105946;
-	Tue, 11 Jun 2024 07:36:35 -0500
-From: Jai Luthra <j-luthra@ti.com>
-Date: Tue, 11 Jun 2024 18:02:56 +0530
-Subject: [PATCH v3 2/2] ASoC: ti: davinci-mcasp: Set min period size using
- FIFO config
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="CgsuC1JE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1718109491;
+	bh=kj5qaVbqaQZcuY/DAi1KbmqH4orxFs4setQOSPqpduw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=CgsuC1JErhyECA3tzoGI0mBBnijkB/u/D7XKU3ntgykQVAZiOzecN2VpOqbnLs/Fz
+	 Ao5uBmpzwfBH2KoRca+AYtHxsG3iBuukpbHqChzqZc01QTZV6FvEty7rwQujKUMrRt
+	 a8PhUuf7EkaqVl9/En2ck6ePLXd/VphRyG2cYrRThlBnUlsyuNv6KGin+k91A1/OI8
+	 Qemx6TjnsCUTWMpiMMwqANCZSYiR/LXrsj/jRxzZJL13pGekvL+CQK0ZXZZBgI0QZD
+	 V355vc7Gcb3N3B8urMSe5AYyVZc9IDSocaWFXLkbjJuHu83HmBFUCOZLSb7ZkK+T3u
+	 gIwuvLGRaOZvQ==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 7418F3780EC6;
+	Tue, 11 Jun 2024 12:38:10 +0000 (UTC)
+Message-ID: <d7d32ef3-8b2e-476c-a15e-7f829ea0d60a@collabora.com>
+Date: Tue, 11 Jun 2024 14:38:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] ASoC: support machine driver with TAS2781
+To: Mark Brown <broonie@kernel.org>,
+ Rui Zhou <zhourui@huaqin.corp-partner.google.com>
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+ matthias.bgg@gmail.com, trevor.wu@mediatek.com, allen-kh.cheng@mediatek.com,
+ kuninori.morimoto.gx@renesas.com, maso.huang@mediatek.com,
+ linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
+References: <20240611022227.2508354-1-zhourui@huaqin.corp-partner.google.com>
+ <Zmgsfafmfedd9_MV@finisterre.sirena.org.uk>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <Zmgsfafmfedd9_MV@finisterre.sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-ID: <20240611-asoc_next-v3-2-fcfd84b12164@ti.com>
-References: <20240611-asoc_next-v3-0-fcfd84b12164@ti.com>
-In-Reply-To: <20240611-asoc_next-v3-0-fcfd84b12164@ti.com>
-To: Lars-Peter Clausen <lars@metafoo.de>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
-        Mark
- Brown <broonie@kernel.org>,
-        Peter Ujfalusi <peter.ujfalusi@gmail.com>
-CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>, Devarsh Thakkar <devarsht@ti.com>,
-        Vignesh
- Raghavendra <vigneshr@ti.com>,
-        Jayesh Choudhary <j-choudhary@ti.com>, Jai
- Luthra <j-luthra@ti.com>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2013; i=j-luthra@ti.com;
- h=from:subject:message-id; bh=8jD5Mvn4JnvcGDrCagOrGGZetRPfvF4h/uJysM7SORY=;
- b=owEBbQKS/ZANAwAIAUPekfkkmnFFAcsmYgBmaETOYhZakNd8NUjZCV3kKA2TKaPzDcRwgvD8M
- qVxONW06W+JAjMEAAEIAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCZmhEzgAKCRBD3pH5JJpx
- RSG8D/9sFwAIG62LqXVjYS9r25876+BBOXvMsmJ49kxUk+X5EKAsXm97vxjtGIlIP+88MUuc7CT
- tPKRTE+PH4RSEfGbtL7SsmRg40kUTtXMzu2aUSKF3TE1MbHYqfWX4HnxArhiHv7EL175L84kU+F
- xkHcHo5VBOA+xAvWXA/jxQdY4tLUeLDJJbe5h4d+tjr1jx04melwPcwMgt8kjOSa79xPr23VhJV
- 2E6lUKdotTaonOA0ZLWuNx5vFcSehwG5zj/9lbGLzo+o5texet91cetc856dpwV5iZ7JLVIUvh8
- qVLOpNRL4kwt4zP4Ym7Sx5Or2Pg3P+DGbQ7z6tiZwR1mqWIKvIutfpeRaOByaduLu8n0jB5+/n3
- JsYMUoEH2WHlhWS6nNDu3zb7RpWoyUSP+bz1796Jyxr0j8Szf/7Lwl/2W9OnGNURwP1xmadY+TI
- IrrR20e3oM+SmgPICEV1o1P9GcodfaHr+ALuhWagi41WbQv5AxjkrXepNkpviZNnPm6S8D86j0E
- 0R8ymjNggQcg6pI56GTUtqPPCI1BYTVMQOgQyP2GjV/hSTXbsbaCIwsk0HXqOr6kPRklmo/GPvp
- LcsbmBe0cRjRBBvQ1IuJWpXp9tfCEiI0nk0iPdIkz2mvr9qbLQ3MooLbJETU9TUTAAwn1xFdAzq
- ZgXHztXo8cnQtcA==
-X-Developer-Key: i=j-luthra@ti.com; a=openpgp;
- fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-The minimum period size was enforced to 64 as older devices integrating
-McASP with EDMA used an internal FIFO of 64 samples.
+Il 11/06/24 12:52, Mark Brown ha scritto:
+> On Tue, Jun 11, 2024 at 10:22:27AM +0800, Rui Zhou wrote:
+>> Support amp TAS2781 for mt8188 platform
+>>
+>> Signed-off-by: Rui Zhou <zhourui@huaqin.corp-partner.google.com>
+>> ---
+>>   sound/soc/mediatek/Kconfig | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/sound/soc/mediatek/Kconfig b/sound/soc/mediatek/Kconfig
+>> index 5a8476e1ecca..07f67f96c889 100644
+>> --- a/sound/soc/mediatek/Kconfig
+>> +++ b/sound/soc/mediatek/Kconfig
+>> @@ -233,6 +233,7 @@ config SND_SOC_MT8188_MT6359
+>>   	select SND_SOC_HDMI_CODEC
+>>   	select SND_SOC_DMIC
+>>   	select SND_SOC_MAX98390
+>> +	select SND_SOC_TAS2781_I2C
+>>   	select SND_SOC_NAU8315
+>>   	select SND_SOC_NAU8825
+> 
+> Ideally this would be sorted to avoid spurious merge conficts.  Also do
+> we really have dependencies here or should these just be being enabled
+> by users - these drivers are all pretty generic now?
 
-With UDMA based platforms this internal McASP FIFO is optional, as the
-DMA engine internally does some buffering which is already accounted for
-when registering the platform. So we should read the actual FIFO
-configuration (txnumevt/rxnumevt) instead of hardcoding frames.min to
-64.
+The only dependency is on the MT6359 PMIC's audio related IPs and nothing else.
 
-Acked-by: Peter Ujfalusi <peter.ujfalusi@gmail.com>
-Signed-off-by: Jai Luthra <j-luthra@ti.com>
----
- sound/soc/ti/davinci-mcasp.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+I'd even remove the other select statements for the other codecs, honestly,
+as there's no reason why MT8188 wouldn't support a codec or the other, and
+there is no reason why that SoC needs exactly those codecs, apart from some
+board (Chromebooks) having one, or the other.
 
-diff --git a/sound/soc/ti/davinci-mcasp.c b/sound/soc/ti/davinci-mcasp.c
-index 1e760c315521..2b1ed91a736c 100644
---- a/sound/soc/ti/davinci-mcasp.c
-+++ b/sound/soc/ti/davinci-mcasp.c
-@@ -1472,10 +1472,11 @@ static int davinci_mcasp_hw_rule_min_periodsize(
- {
- 	struct snd_interval *period_size = hw_param_interval(params,
- 						SNDRV_PCM_HW_PARAM_PERIOD_SIZE);
-+	u8 numevt = *((u8 *)rule->private);
- 	struct snd_interval frames;
- 
- 	snd_interval_any(&frames);
--	frames.min = 64;
-+	frames.min = numevt;
- 	frames.integer = 1;
- 
- 	return snd_interval_refine(period_size, &frames);
-@@ -1490,6 +1491,7 @@ static int davinci_mcasp_startup(struct snd_pcm_substream *substream,
- 	u32 max_channels = 0;
- 	int i, dir, ret;
- 	int tdm_slots = mcasp->tdm_slots;
-+	u8 *numevt;
- 
- 	/* Do not allow more then one stream per direction */
- 	if (mcasp->substreams[substream->stream])
-@@ -1589,9 +1591,12 @@ static int davinci_mcasp_startup(struct snd_pcm_substream *substream,
- 			return ret;
- 	}
- 
-+	numevt = (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) ?
-+			 &mcasp->txnumevt :
-+			 &mcasp->rxnumevt;
- 	snd_pcm_hw_rule_add(substream->runtime, 0,
- 			    SNDRV_PCM_HW_PARAM_PERIOD_SIZE,
--			    davinci_mcasp_hw_rule_min_periodsize, NULL,
-+			    davinci_mcasp_hw_rule_min_periodsize, numevt,
- 			    SNDRV_PCM_HW_PARAM_PERIOD_SIZE, -1);
- 
- 	return 0;
+Instead of adding a select statement on MT8188_MT6359, adding the TAS2781_I2C
+driver as a module in defconfig is a better idea..... at least, IMO.
 
--- 
-2.43.0
+>  Not that this
+> change in itself makes a huge difference to the existing state.
 
+I agree it doesn't make any huge difference, but I also don't see why users
+can't simply enable (y/m) that in the kernel configuration :-)
+
+Cheers,
+Angelo
