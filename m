@@ -1,92 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17D791CFB2;
-	Tue, 11 Jun 2024 16:18:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C49AA4D131;
+	Tue, 11 Jun 2024 17:11:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718122707; cv=none; b=NdJ1DHcDyheXpwUtyIoQhVfMNlO0ltOsQfxs/K9nRZ2M5DYpTunbPXJeDhukBlBDGu2NWQWGo0YukI1Cs3GTzRe0EkJZ5duRxt+CFi62UP7uB3QK18ctmpIesSKoe8knrG16QQHvxXPpGciOLp/rLTy1bS+tlt+pDZz+PdVHp38=
+	t=1718125863; cv=none; b=Bi8QiaX8b6deXYDRwq6+igQumdEeJUrVGvFxF7/TChoxnfM2vWg54fXHMKAoGKaSkxerJb+dnZlBi59LcTTGH7OzaUI+ewH7za3h3YIAO82s6WWIbhR03+VV2SROpRSiP6Q/QKCUh1CZCBXpr90UWug7HGEKXP+7bqZZvWtVATs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718122707; c=relaxed/simple;
-	bh=BXCo5tYRXnp4nFR9iSjOtaso98PV85SmlYISucj3UX4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W+wLV5ACLh/DPbPR1CpssyZQsHY7se+Z/nXaawAlqyC4keNKfUgD2buGRIqSecQ7uDTUA2AwjJLOUS8k3e7Je5z+upvTfrAYLZESPMl5QuxG6hd+hGL8gqBtMmfQjeKVKjIgJ+U0BhxFsv4rK93PXnZr/hn62GFuPDHQJ5hyMJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ohSHEeJv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718125863; c=relaxed/simple;
+	bh=bJBl+PlfjanSE1Eg6G1C2wEirLeTb7Y9hb7ms4wt5Sk=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uWXGuIw4kET0Hjyq92AWWmuhH1J4dEFh/Z3X1Tw9SQogbyfm278Gn2KnnJmChjFc5L6ZcRkw8iQ0mUQEC7KQES1vNiER+qsxNtIGpaBm4nYIUqbz+PUX3kzMAE7X+RYL2WhNE6Z08O1NQzonp+egqfKkj1jMqPH82AxJA1AWsMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=fYjpVsu3; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ohSHEeJv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19E1EC32789;
-	Tue, 11 Jun 2024 16:18:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718122705;
-	bh=BXCo5tYRXnp4nFR9iSjOtaso98PV85SmlYISucj3UX4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ohSHEeJvbrchG5opz8XOjoL5wWczUKYg/j0J10BezKCKdWUHh+2BGYj+2R2VF18Mi
-	 XxjPWUSuAVLzYTuQ4L1Id7Wk/3W+3mvM8csSpYEc2KuP9ce/ryb2HxUA1lkkXJbnAk
-	 ycthwzrpLuDUuTuRkh4XlaBNI7nC+cxs+PpO8vDpg/C5wHFcqKDsn8W16QnZi0tH5Z
-	 DIW824tseUEYQgmEu7R2mIUAN258cQpMsEFlGEu5cwIdxRTn3rfzKktZUsav89+1o0
-	 AvPQP/2fbiglHKN++jvchzmV0lV14dKFjLkz9KQ4wYWeH0PdcZS9myKs7/inZQrZC/
-	 7oaaF+7qiwjyw==
-Date: Tue, 11 Jun 2024 17:18:23 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, quic_rohkumar@quicinc.com,
-	quic_pkumpatl@quicinc.com
-Subject: Re: [PATCH v5 0/7] ASoC: codecs: wcd937x: add wcd937x audio codec
- support
-Message-ID: <Zmh4z2F6Q0Z5tWnz@finisterre.sirena.org.uk>
-References: <20240524035535.3119208-1-quic_mohs@quicinc.com>
- <171810116692.177725.17513047102055843084.b4-ty@kernel.org>
- <9a14cb7b-8d6a-14b3-1d3a-b61086e4d4a9@quicinc.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="fYjpVsu3"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45B4c4ag010402;
+	Tue, 11 Jun 2024 12:10:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=BIhOXmsqkEoOXO78P5
+	ESWns7BwfqoAGaVVQe7oaV3Gs=; b=fYjpVsu33NhFd/aKifFg+mfk/OadJZMqHn
+	8QrckYPYp9zNGG/mOMSwDnXlR14bxHBw8pj9DJwOu1v9SIy3cwAqcJwzE6bBX5dE
+	/1jE/4plaPbR4AN5nFtld9iiTTjLlwzi35jH24448VquZr514jusiNo7lFNQ4QFR
+	6D2/2vRImyPtKCiwy0M0YGEkGRLOHxoGXbRiAQMTAhTeOwxOPv0LD83vaqAS4Ddj
+	6DzyMhwLrKKDXHPZCTjKLoUYnSnGXAgS4B4rM5KScyrgaP+sCELHouz+QKzgizz9
+	Ar3/RKnDaahH8HI+bjmgwxVKeH8K2ziUnoTMblrW7wggXzRXjo6Q==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3ymkqhu5ss-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 11 Jun 2024 12:10:43 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 11 Jun
+ 2024 18:10:42 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Tue, 11 Jun 2024 18:10:42 +0100
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id E56F5820244;
+	Tue, 11 Jun 2024 17:10:41 +0000 (UTC)
+Date: Tue, 11 Jun 2024 17:10:40 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Mark Brown <broonie@kernel.org>
+CC: Richard Fitzgerald <rf@opensource.cirrus.com>,
+        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
+        <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>
+Subject: Re: [PATCH] ASoC: cs35l56: Disconnect ASP1 TX sources when ASP1 DAI
+ is hooked up
+Message-ID: <ZmiFEAw/IkkLWx2O@opensource.cirrus.com>
+References: <20240611145746.1454663-1-rf@opensource.cirrus.com>
+ <Zmh3VmRfGEU6pGps@finisterre.sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="9kuz/Ng8fSpME3+T"
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <9a14cb7b-8d6a-14b3-1d3a-b61086e4d4a9@quicinc.com>
-X-Cookie: Your love life will be... interesting.
+In-Reply-To: <Zmh3VmRfGEU6pGps@finisterre.sirena.org.uk>
+X-Proofpoint-GUID: _J5zIlRbkHY3ImhYwjrPmJug-zBav0AV
+X-Proofpoint-ORIG-GUID: _J5zIlRbkHY3ImhYwjrPmJug-zBav0AV
+X-Proofpoint-Spam-Reason: safe
 
+On Tue, Jun 11, 2024 at 05:12:06PM +0100, Mark Brown wrote:
+> On Tue, Jun 11, 2024 at 03:57:46PM +0100, Richard Fitzgerald wrote:
+> > If the ASP1 DAI is hooked up by the machine driver the ASP TX mixer
+> > sources should be initialized to disconnected.
+> > 
+> > The silicon default is for the mixer source registers to default to
+> > a collection of monitoring sources. The problem with this is that it
+> > causes the DAPM graph to initialize with the capture path connected
+> > to a valid source widget, even though nothing setup a path. When the
+> > ASP DAI is connected as a codec-to-codec link this will cause the other
+> > codec to power-up even though nothing is using it.
+> > 
+> > Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+> > Fixes: dfd2ffb37399 ("ASoC: cs35l56: Prevent overwriting firmware ASP config")
+> 
+> This doesn't seem particularly different to any other unhelpful chip
+> default, I'm not sure why it'd be so urgent that we'd hard code a
+> default?  There were some other devices with things like bypass routes
+> set up.  The capture path getting spuriously triggered feels like
+> something that should just be sorted in general (TBH I thought that
+> worked OK but it's been quite some time since I looked properly).
 
---9kuz/Ng8fSpME3+T
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mostly the problem here is it causes a bunch of errors in the
+kernel log. The cs42l43 can only be clocked from the soundwire,
+and the rate of that is only passed to the cs42l43 when audio plays.
+When the ALSA control restore runs, you end up with a temporary route
+(cs42l43 VMON -> cs35l56 ASP -> cs42l43 ASP -> cs42l43 Speaker). But
+as there is no audio at that point there are no settings for the
+PLL. I don't think it causes any lasting issues, but it does cause a
+bunch of fat warnings in the log which people then complain about.
+Plus also having things not routed by default is just nicer,
+especially when the defaults are things that are an actual source
+so likely to cause things to power up inadvertantly.
 
-On Tue, Jun 11, 2024 at 05:43:19PM +0530, Mohammad Rafi Shaik wrote:
-> On 6/11/2024 3:49 PM, Mark Brown wrote:
-
-> > If any updates are required or you are submitting further changes they
-> > should be sent as incremental updates against current git, existing
-> > patches will not be replaced.
-
-> if possible please revert v5 and pick new v6 patch set.
-
-As mentioned above please send incremental fixes for any issues, there's
-already other changes on top of these.
-
---9kuz/Ng8fSpME3+T
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZoeM4ACgkQJNaLcl1U
-h9Cnawf/fREWTBnC0LJb0pWn2slZjuzkeDdemDwGEzINKR+3GWRSgkj7g8EfveZZ
-uhpb4kMAETtZZFdqNipbdCdCn0rykBEAg1htIkvk8aCKlDiMKw18vomFlGCHuMyL
-OJU3W0Bdj7gK/9It4OcoR5niYSCX8Qga0y+lanU+7yBgVX/tBlJCWduiQamUwig7
-tzbtQB+/w+rIFk8hOTD7YDN2L3meLPqHqLxZxAf2VGFwti3ZazGFdDcQTPwFEGgL
-uIPG39uCwDr3g1tmX0mcNgg2mOBnWNLreXER2BxaduXePl3qacANXkFpwD3BxNvn
-sC6Abb/j+iurQFMG0e5eZVdgLBc3Pg==
-=qvv7
------END PGP SIGNATURE-----
-
---9kuz/Ng8fSpME3+T--
+Thanks,
+Charles
