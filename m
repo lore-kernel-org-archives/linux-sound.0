@@ -1,103 +1,150 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 573BE4CDE0;
-	Tue, 11 Jun 2024 12:38:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED01F42A93;
+	Tue, 11 Jun 2024 12:39:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718109494; cv=none; b=KZM5Zl1F3oQPBIizTXLuA5bWoZ7PMaTH5YrN6s6eGRshmY6lUtSjFF9aag67qLMyk/esXqI4XNuKow4GR+0tq86RbFd5aWrQK0wxLLfdNjO46lcjHvCWNP9f0WW1MEVpp+fdmsGY21tWgMhAMGXfpSR0p9eAYMtomOnhuQwPOkA=
+	t=1718109564; cv=none; b=RpwgN31NMo7OFWH7OkAsGc+Ll7yeaKIPZr4kTLE3xln0wCPlXww5LBLsRKNX8MpMrOL2rYWG0JxE9YkiYshg4TDyx3qfFBXP1tc4gFpmSxEOvEH4fJhRrx0Ph1Jz7LxgJNUWHOtDPcoEEYZnM+KdFFslIoqeP87Owp0+0810LWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718109494; c=relaxed/simple;
-	bh=kj5qaVbqaQZcuY/DAi1KbmqH4orxFs4setQOSPqpduw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GkuSvKBRM0PxyVyozMJI391NKayOWUQToRFafi5gNnFegjkGwTMPuxIMgUBsSSmQ0iStiEs6JPcbCeiT1j4RkbLMltZCbRfS6nmQqMbP5l4Ch9qaSEEmseLXaO9P/ygUSuCL8UaRgTtc9IrY9D1ZG7PWtsQW8IMnUCZ2tP4K5e8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=CgsuC1JE; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1718109564; c=relaxed/simple;
+	bh=EWpDnw3mVmMAdpRA6hNV+AS/efhTYYfOTWpFiFCjCDQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=arQ6Z9+hihK/6iNfYgE6v62iZBTAXSJOtImeDq1Ba7w/THbtP6b9yZYRZzQKr4YZVbOwbldeyf/wAt1U4dJOIQz25+3rsqBCxQ+dpsICpdqBxEXNVLRpy/cfOFK/S/UbSkkwPY9/879XWnGpdoxYq0TatMTGaohndb4jWHvL+G8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Drcvk4H4; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="CgsuC1JE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1718109491;
-	bh=kj5qaVbqaQZcuY/DAi1KbmqH4orxFs4setQOSPqpduw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=CgsuC1JErhyECA3tzoGI0mBBnijkB/u/D7XKU3ntgykQVAZiOzecN2VpOqbnLs/Fz
-	 Ao5uBmpzwfBH2KoRca+AYtHxsG3iBuukpbHqChzqZc01QTZV6FvEty7rwQujKUMrRt
-	 a8PhUuf7EkaqVl9/En2ck6ePLXd/VphRyG2cYrRThlBnUlsyuNv6KGin+k91A1/OI8
-	 Qemx6TjnsCUTWMpiMMwqANCZSYiR/LXrsj/jRxzZJL13pGekvL+CQK0ZXZZBgI0QZD
-	 V355vc7Gcb3N3B8urMSe5AYyVZc9IDSocaWFXLkbjJuHu83HmBFUCOZLSb7ZkK+T3u
-	 gIwuvLGRaOZvQ==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 7418F3780EC6;
-	Tue, 11 Jun 2024 12:38:10 +0000 (UTC)
-Message-ID: <d7d32ef3-8b2e-476c-a15e-7f829ea0d60a@collabora.com>
-Date: Tue, 11 Jun 2024 14:38:09 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Drcvk4H4"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-7023b6d810bso4406504b3a.3;
+        Tue, 11 Jun 2024 05:39:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718109562; x=1718714362; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BS4fj5LiJWdmh+dFL70oOYb84KSkjmkL6BSWpG6VKA0=;
+        b=Drcvk4H4/gL2FURrjQELVR3IIznCtwC4nU42I5M0U3U+ARG8n1Pdsqw9OdSr4ZplMt
+         duXUauLZYSJC1Z9YlaUp4pXm1nIF1ClDusICDdyhBONGHAhHf6qZHTXMdRfHXZoQIRHK
+         IsSa6ngNAATMukL5OPPNfnvbmlIZayfCCsVzyxtF5q6kjw2jScVkglAgLd/bwqrikUcB
+         rK7TuLHcSMMR8KpGVoSuvsahtdr5aCXz3qIfQ1jRKMHtzmyhU7WEnOI+PbCG+CRQ9bTq
+         rSWbo/bLv7D1VJLMGe9N2j+oSkfmP/8HRt41LTy61EpC2YZsoftkBoRk4OS2TvCVevh4
+         g8kQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718109562; x=1718714362;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BS4fj5LiJWdmh+dFL70oOYb84KSkjmkL6BSWpG6VKA0=;
+        b=NKy/80Mx0Aup5yo78GWETwHyylATRa5QU9ltHjuxTUV8W7xqIViMLzYePaTZ+kUkjH
+         NhKkf7PQvfhjgmYnB2Clg/U3gAqgVb87I4RMiL6hUgAjPfaMEIs8z1COvYEv2nTWu6Aw
+         I94g/gSWLDUpR9457/Drx1mMpF551prfdOwanDp3NzZxUC3vYn7PWKozyAWSVccfP3TR
+         FnYONuES+J4S0EAxLueQ8xezqZDDez6mOpgMSen+WpyFWyViMSGwGP3xpCtxwGiB1tt6
+         S46ETCH8mUvD0CF71Fh60UfwYeBxiSyw3gRWwFVgCo79fizDPcNlP9P5qb0ENtrI2JRf
+         UeTA==
+X-Forwarded-Encrypted: i=1; AJvYcCVpKX+7annq681EgAch/cp3anpfbkerN/UnIS95b6XDh0nptVWXZ1iUFzceaPNHyDeychYKubHo100QXyGhSHMmexAKl8uVTGjdZ2ZsJiQPEr6A7PYvgXYFy11ruDcabePIQfMpHtqhBrZu6/dHxrf7VYQ5fKGVwE02IZeetvPS0QefBu3K
+X-Gm-Message-State: AOJu0YwxXZNT6xf8Mfm3TBF4T9IXOYPJ3fqZBhGBoG/e6KXgQCy3bhau
+	WzJVfQDGBeLm0A9IcsCCvRoKWfDk6xClbV0+wotsz0dQhHFBEE5htIef8UCE
+X-Google-Smtp-Source: AGHT+IH7FlG2vOSy74vekCW1g4uTsKn76X+lcFrJIIyOQRFzaEvTxFQ8pkeL6COY7fY1HpfvXZVFoA==
+X-Received: by 2002:a05:6a20:e605:b0:1b4:5605:dde5 with SMTP id adf61e73a8af0-1b45605e16fmr12833149637.52.1718109562163;
+        Tue, 11 Jun 2024 05:39:22 -0700 (PDT)
+Received: from fedora.one.one.one.one ([2405:201:6013:c0b2:ea4b:30e0:4e3a:ab56])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c3304f6b84sm1460214a91.14.2024.06.11.05.39.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jun 2024 05:39:21 -0700 (PDT)
+From: Animesh Agarwal <animeshagarwal28@gmail.com>
+To: 
+Cc: animeshagarwal28@gmail.com,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] ASoC: dt-bindings: linux,spdif: Merge linux,spdif-dir into linux,spdif-dit
+Date: Tue, 11 Jun 2024 18:08:54 +0530
+Message-ID: <20240611123858.58881-1-animeshagarwal28@gmail.com>
+X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] ASoC: support machine driver with TAS2781
-To: Mark Brown <broonie@kernel.org>,
- Rui Zhou <zhourui@huaqin.corp-partner.google.com>
-Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
- matthias.bgg@gmail.com, trevor.wu@mediatek.com, allen-kh.cheng@mediatek.com,
- kuninori.morimoto.gx@renesas.com, maso.huang@mediatek.com,
- linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
-References: <20240611022227.2508354-1-zhourui@huaqin.corp-partner.google.com>
- <Zmgsfafmfedd9_MV@finisterre.sirena.org.uk>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <Zmgsfafmfedd9_MV@finisterre.sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Il 11/06/24 12:52, Mark Brown ha scritto:
-> On Tue, Jun 11, 2024 at 10:22:27AM +0800, Rui Zhou wrote:
->> Support amp TAS2781 for mt8188 platform
->>
->> Signed-off-by: Rui Zhou <zhourui@huaqin.corp-partner.google.com>
->> ---
->>   sound/soc/mediatek/Kconfig | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/sound/soc/mediatek/Kconfig b/sound/soc/mediatek/Kconfig
->> index 5a8476e1ecca..07f67f96c889 100644
->> --- a/sound/soc/mediatek/Kconfig
->> +++ b/sound/soc/mediatek/Kconfig
->> @@ -233,6 +233,7 @@ config SND_SOC_MT8188_MT6359
->>   	select SND_SOC_HDMI_CODEC
->>   	select SND_SOC_DMIC
->>   	select SND_SOC_MAX98390
->> +	select SND_SOC_TAS2781_I2C
->>   	select SND_SOC_NAU8315
->>   	select SND_SOC_NAU8825
-> 
-> Ideally this would be sorted to avoid spurious merge conficts.  Also do
-> we really have dependencies here or should these just be being enabled
-> by users - these drivers are all pretty generic now?
+They are the same bindings other than compatible. "sound-name-prefix"
+wasn't documented for linux,spdif-dir, but is in use already.
 
-The only dependency is on the MT6359 PMIC's audio related IPs and nothing else.
+Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
+Cc: Daniel Baluta <daniel.baluta@nxp.com>
 
-I'd even remove the other select statements for the other codecs, honestly,
-as there's no reason why MT8188 wouldn't support a codec or the other, and
-there is no reason why that SoC needs exactly those codecs, apart from some
-board (Chromebooks) having one, or the other.
+---
+Changes in v3:
+- Changed the subject and the commit message.
 
-Instead of adding a select statement on MT8188_MT6359, adding the TAS2781_I2C
-driver as a module in defconfig is a better idea..... at least, IMO.
+Changes	in v2:
+- Add linux,spdif-dir compatible in existing linux,spdif-dit.yaml
+instead of creating new yaml file specifically for dummy SPDIF receiver.
+- Change file name to support both transmitter and receiver bindings.
+---
+ .../sound/{linux,spdif-dit.yaml => linux,spdif.yaml}   |  8 +++++---
+ .../devicetree/bindings/sound/spdif-receiver.txt       | 10 ----------
+ 2 files changed, 5 insertions(+), 13 deletions(-)
+ rename Documentation/devicetree/bindings/sound/{linux,spdif-dit.yaml => linux,spdif.yaml} (75%)
+ delete mode 100644 Documentation/devicetree/bindings/sound/spdif-receiver.txt
 
->  Not that this
-> change in itself makes a huge difference to the existing state.
+diff --git a/Documentation/devicetree/bindings/sound/linux,spdif-dit.yaml b/Documentation/devicetree/bindings/sound/linux,spdif.yaml
+similarity index 75%
+rename from Documentation/devicetree/bindings/sound/linux,spdif-dit.yaml
+rename to Documentation/devicetree/bindings/sound/linux,spdif.yaml
+index fe5f0756af2f..0f4893e11ec4 100644
+--- a/Documentation/devicetree/bindings/sound/linux,spdif-dit.yaml
++++ b/Documentation/devicetree/bindings/sound/linux,spdif.yaml
+@@ -1,10 +1,10 @@
+ # SPDX-License-Identifier: GPL-2.0
+ %YAML 1.2
+ ---
+-$id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
++$id: http://devicetree.org/schemas/sound/linux,spdif.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+-title: Dummy SPDIF Transmitter
++title: Dummy SPDIF Transmitter/Receiver
+ 
+ maintainers:
+   - Mark Brown <broonie@kernel.org>
+@@ -14,7 +14,9 @@ allOf:
+ 
+ properties:
+   compatible:
+-    const: linux,spdif-dit
++    enum:
++      - linux,spdif-dit
++      - linux,spdif-dir
+ 
+   "#sound-dai-cells":
+     const: 0
+diff --git a/Documentation/devicetree/bindings/sound/spdif-receiver.txt b/Documentation/devicetree/bindings/sound/spdif-receiver.txt
+deleted file mode 100644
+index 80f807bf8a1d..000000000000
+--- a/Documentation/devicetree/bindings/sound/spdif-receiver.txt
++++ /dev/null
+@@ -1,10 +0,0 @@
+-Device-Tree bindings for dummy spdif receiver
+-
+-Required properties:
+-	- compatible: should be "linux,spdif-dir".
+-
+-Example node:
+-
+-	codec: spdif-receiver {
+-		compatible = "linux,spdif-dir";
+-	};
+-- 
+2.45.1
 
-I agree it doesn't make any huge difference, but I also don't see why users
-can't simply enable (y/m) that in the kernel configuration :-)
-
-Cheers,
-Angelo
