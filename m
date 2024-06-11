@@ -1,240 +1,308 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACCA88488;
-	Tue, 11 Jun 2024 04:40:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0A74172795
+	for <linux-sound@vger.kernel.org>; Tue, 11 Jun 2024 07:30:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718080825; cv=none; b=CtnrSXQM9bgyOrEA6613K5FbFdur8BMV6AjCDap1w639tvaNVQv9tjL2vw31gzy8+2rL0T7sHBJJiUJb9aMDwAReudXkZJsQTR07MEGgSi3zt5NmnFixROAbXxjS3oEOylSQFHLRB+gI6O0/hQ91a8N9eCQvMoW+7h/2MlBoWcs=
+	t=1718091009; cv=none; b=Eglwt7te11aW8gGYjcrYgfb7RnEKO4EOEaNELO5aPyYw265z0XBcwupiCiqP2Wj/rbs7GZ1Nb+u8xZlbTJBqyofBRk7Vl69rdyX1bAbSctfwO3gOKYhdFQWvS6YgUO+00zKLCnMQfR93qWznT8vxP9aEzG8zeGwZlUy7jJZyfHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718080825; c=relaxed/simple;
-	bh=tdXTvR04YG95vGC2ed5np4cY7vgENhLoagNUvO9j+Qg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=mZdRU2J84C62xSfO0PPiIsN1Ma08BkXjGPBPhoSEbZvtJHexN7IObxmb2ljWf+MuQ8+L95fhnrJb42SoOJtedIxvqnSywW4R/Ivsf9w8GtwN+FD6bkj9taajXgynSIhxG9Pdx1Umy/BaMOPHPzpc9SFbh1YoRWN6x5ZJy5JMzXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=GQ10t7eF; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1718091009; c=relaxed/simple;
+	bh=+yd8str5xHWobCDvL4wg3IC0NY2M/8dT9npvAkWw9YA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=mzMfctRrKtH//WUxHzyrj9Umko/O/mo5/qoPzHUdBbArtbiifAJ18+dBpD+MNRMBFl1xMAzMOq79T5VIOMdT1fipQ0VrC67wwsFrx3TEHMaKkAAxSTVULmN4fJGotBSDOvKXE97HK4UX4UhP3+Q4pO0ofqtMYEKMMMCBX1mBnf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GpqzNFtN; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="GQ10t7eF"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45B3AsR9001377;
-	Tue, 11 Jun 2024 04:40:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	R46nk5Y8f5YTvCdl64rWRkPICciSGOAHSIkHk+Ko2+w=; b=GQ10t7eFboebjCCY
-	95eg3icGoCg+jlFS6YFrmkgBVzuL43kPhpokmGkI1R0a7S32JNntLmvedCbqJGd0
-	hWH5KLsigHU/z6yLVo2XU60m8btu5dNr8+IUlm73tr5l2tZ2lovlwehKqIlAWn8t
-	6rmR18NmtwhCD0t0LDUZaZYpc2WqITRRokDiFYFZNCZPA9MvfUYEFV4ZWsLTF+nO
-	r9ERzXF7OvWUnB7pbbz1RS4SCC1etngJ1a9xjpa1njCGPq4rG8Dd4IeBoRH02HAi
-	czkrV6mVkch4C30crp4usqaUzXh+FIUbOBZN/zBkuc57zoL55lhumTPUI7A+Lmi6
-	2KWYhQ==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yme8rwsxs-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 11 Jun 2024 04:40:06 +0000 (GMT)
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45B4e58O005393
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 11 Jun 2024 04:40:06 GMT
-Received: from [10.216.24.176] (10.80.80.8) by nasanex01c.na.qualcomm.com
- (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 10 Jun
- 2024 21:39:54 -0700
-Message-ID: <33772eab-74c6-c5c3-fa25-3a643a2f9c57@quicinc.com>
-Date: Tue, 11 Jun 2024 10:09:52 +0530
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GpqzNFtN"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4217926991fso27727475e9.3
+        for <linux-sound@vger.kernel.org>; Tue, 11 Jun 2024 00:30:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718091006; x=1718695806; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Tp0zErf8dbeYDTLzEuLWwqeIB+WJf5u0UHDSZkndrro=;
+        b=GpqzNFtNXegIV5rbf6BAFaKLDqZZUbD9RPXw1CGKOm8BulFyGFGtE2gPl9Yn78vysf
+         BI/dA0mLWjE4Nio6rWeb0SdRuyxZwcxXXPQBPwCX6MUssAyBdx4PCOsi+ttSvAhF+06N
+         VAoqnx9SPSDWwY2sNwAHgQgrzSOYHE0/QlDICqPQA04LRpmDMnHkw5UJJzIZO+XTnOVS
+         ZaViYfhqcIVaC8jOF0xYXCSSEKF6d4LSpBgX0R16jMVf/E6Ewee39OQE06Op+2QTWkAS
+         KamHGKyAxayjlAx0L+35/0HsXMkR1FRxF+B8AOLfrwwJwk1B9uMlTQGw/igmDt+//r/K
+         79lQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718091006; x=1718695806;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Tp0zErf8dbeYDTLzEuLWwqeIB+WJf5u0UHDSZkndrro=;
+        b=acy5JpMMnjalNeXn/bCPHk9WuwwMEp1Ra6eFO9rud5ai/HRLA4QwJhnEeywCPujS2C
+         ohaYdj78NNKy+A8oBobvTKlImvsqAnvvW8RXR5OKkUyORfYIxW3MRDDz9UDhnuv0Fddl
+         hi8u9jNSrzTh77fUSHXBG0kWRhVmT5Tz+FS26Db+op3U8Quu0rkDYmBNGbe36Iy09oBQ
+         NFiVkWfEFD5e4jKe76+3fZfC4yGxgctYoq3yvQQRJdIVbtH7jbVxjcKH8Co6Ky0kyQN8
+         47Mq7vgNlJ33SPqFarx2T01wh4tbJ54IgBoBCwzERlj6L0jdcK0cOB/DeaurpW32n8mm
+         7gLw==
+X-Gm-Message-State: AOJu0Yyhn30QUuJ4uf+Tra1HZDmIM9dkWIvkDK0kon7QLIERmC0VmwEH
+	h+cnLC/FjkpvH1Phw7XPw+bS9PCw61y2JvgqELtDAAcT/0nzlqjJvvgX9zYDODw=
+X-Google-Smtp-Source: AGHT+IEzv2F+C93WwbuWLKhepxW6xKhRpwiKHPkrfPo9FyWzxTuYVt4NQR25zFR9Jxxiur1u8S1RmQ==
+X-Received: by 2002:a05:600c:4fc1:b0:422:aca:f87a with SMTP id 5b1f17b1804b1-4220acafa7cmr28331685e9.7.1718091006141;
+        Tue, 11 Jun 2024 00:30:06 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42158110dfesm202926135e9.19.2024.06.11.00.30.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jun 2024 00:30:05 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Date: Tue, 11 Jun 2024 09:30:04 +0200
+Subject: [PATCH v2] ASoC: dt-bindings: convert tas571x.txt to dt-schema
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [RESEND v5 6/7] ASoC: codecs: wcd937x: add capture dapm widgets
-Content-Language: en-US
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Banajit Goswami
-	<bgoswami@quicinc.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
-	<broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski
-	<krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela
-	<perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>
-CC: <alsa-devel@alsa-project.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <quic_rohkumar@quicinc.com>,
-        <quic_pkumpatl@quicinc.com>, Konrad Dybcio <konrad.dybcio@linaro.org>
-References: <20240527111956.444425-1-quic_mohs@quicinc.com>
- <20240527111956.444425-7-quic_mohs@quicinc.com>
- <ba911ebd-aef5-46af-ace1-84d13bee6876@linaro.org>
-From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-In-Reply-To: <ba911ebd-aef5-46af-ace1-84d13bee6876@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: KrdaIhs0KhVaQSe_Yq6TEnDlFBkT1WmU
-X-Proofpoint-GUID: KrdaIhs0KhVaQSe_Yq6TEnDlFBkT1WmU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-10_08,2024-06-10_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 adultscore=0
- suspectscore=0 bulkscore=0 phishscore=0 spamscore=0 lowpriorityscore=0
- priorityscore=1501 mlxlogscore=775 impostorscore=0 mlxscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406110033
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240611-topic-amlogic-upstream-bindings-convert-tas57xx-v2-1-38269edc1d95@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAPv8Z2YC/52OOw6DMBBEr4JcZyNs8RGpco+IwobFrAQ2WjsWE
+ eLucThCqtGbYt4cIiATBvEoDsGYKJB3GdStEMOsnUWgMbNQparKpmwh+o0G0Ovibc73FiKjXsG
+ QG8nZAIN3CTlC1KFu9x1qPUmsmwobLUVe3Rgn2i/jq888U4ieP9eBJH/t/64kQQKaLKw62Rkjn
+ ws5zf7u2Yr+PM8vsvyEpe8AAAA=
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6076;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=+yd8str5xHWobCDvL4wg3IC0NY2M/8dT9npvAkWw9YA=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBmZ/z8NS0RJHmlRuqyCvb8KS59O1iiLP6u1KVWDjJL
+ kOl2W7GJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZmf8/AAKCRB33NvayMhJ0X5sEA
+ COoNSxY4T0Bx2F9DH9iFn2K1myPn2mF4Mfeqn5n2zUVUczfMZfu/dHQHL53y8dwv4STpYVENbaxbnY
+ DDWHY2dbJJ6dR05MAAFLlu/VVbkpRtBEROYzJr7gHcSxfq8DSN8HO5SU+oJLTSYpYvOEdokU0pWbG+
+ HzdMy/J9F99cijYPypuT6Woy0nBCH9HdNRaHpdG9zV6hbcmMm5XpDVrNvEjnaD4fgLLOrqDjsRS2qt
+ KcZhfX6xTXOH+ukuhGNvqvLSg4jKPszo5OzB/x17kmiFrzP+seBYmMvugVcb4McW1rXKByB6pM36S/
+ /loc58mo695+V0ZYXEbMIBu6naSauXgi3slSWAPxJTgNe3Ro9LDwWqeMZF0QiPpkNFxNCoCuzel+SM
+ VFXXrN+GFcQd1+s+jLH0/kDHrAt6r+9IIm1mTxGNF7I/ghs4CMBe/lI6OfA6yPX7UbPb0ZEmGy+6cR
+ Ix1rOhm3crqO+jiGbEoxCidr4EfQmCu+MFqhX0Mgm7sfJccsWAaNl3GXjjfo0XP1iXKvxJUVQ0+DMI
+ /ce4NN92B7TXeGXOHXojJRZui2G980A6xrm5IxDrc+CES1adS0uvFlRRp8ziBxF3SFJ/JA/O81F4xu
+ SZNTIV2R/quHXxQZ/ZJaPgztWFA9L9r1puc5Aubjd/ZsRy8k6ubZs+VD5o0A==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 
-On 6/10/2024 12:35 PM, Srinivas Kandagatla wrote:
-> 
-> 
-> On 27/05/2024 12:19, Mohammad Rafi Shaik wrote:
->> +static int __wcd937x_codec_enable_micbias(struct snd_soc_dapm_widget *w,
->> +                      int event)
->> +{
->> +    struct snd_soc_component *component = 
->> snd_soc_dapm_to_component(w->dapm);
->> +    int micb_num;
->> +
->> +    if (strnstr(w->name, "MIC BIAS1", sizeof("MIC BIAS1")))
->> +        micb_num = MIC_BIAS_1;
->> +    else if (strnstr(w->name, "MIC BIAS2", sizeof("MIC BIAS2")))
->> +        micb_num = MIC_BIAS_2;
->> +    else if (strnstr(w->name, "MIC BIAS3", sizeof("MIC BIAS3")))
->> +        micb_num = MIC_BIAS_3;
->> +    else
->> +        return -EINVAL;
->> +
-> See last comment..
-> 
->> +    switch (event) {
->> +    case SND_SOC_DAPM_PRE_PMU:
->> +        wcd937x_micbias_control(component, micb_num,
->> +                    MICB_ENABLE, true);
->> +        break;
->> +    case SND_SOC_DAPM_POST_PMU:
->> +        usleep_range(1000, 1100);
->> +        break;
->> +    case SND_SOC_DAPM_POST_PMD:
->> +        wcd937x_micbias_control(component, micb_num,
->> +                    MICB_DISABLE, true);
->> +        break;
->> +    }
->> +
->> +    return 0;
->> +}
->> +
->> +static int wcd937x_codec_enable_micbias(struct snd_soc_dapm_widget *w,
->> +                    struct snd_kcontrol *kcontrol,
->> +                    int event)
->> +{
->> +    return __wcd937x_codec_enable_micbias(w, event);
->> +}
->> +
->> +static int __wcd937x_codec_enable_micbias_pullup(struct 
->> snd_soc_dapm_widget *w,
->> +                         int event)
->> +{
->> +    struct snd_soc_component *component = 
->> snd_soc_dapm_to_component(w->dapm);
->> +    int micb_num;
->> +
->> +    if (strnstr(w->name, "VA MIC BIAS1", sizeof("VA MIC BIAS1")))
->> +        micb_num = MIC_BIAS_1;
->> +    else if (strnstr(w->name, "VA MIC BIAS2", sizeof("VA MIC BIAS2")))
->> +        micb_num = MIC_BIAS_2;
->> +    else if (strnstr(w->name, "VA MIC BIAS3", sizeof("VA MIC BIAS3")))
->> +        micb_num = MIC_BIAS_3;
->> +    else
->> +        return -EINVAL;
->> +
-> same..
->> +    switch (event) {
->> +    case SND_SOC_DAPM_PRE_PMU:
->> +        wcd937x_micbias_control(component, micb_num, 
->> MICB_PULLUP_ENABLE, true);
->> +        break;
->> +    case SND_SOC_DAPM_POST_PMU:
->> +        usleep_range(1000, 1100);
->> +        break;
->> +    case SND_SOC_DAPM_POST_PMD:
->> +        wcd937x_micbias_control(component, micb_num, 
->> MICB_PULLUP_DISABLE, true);
->> +        break;
->> +    }
->> +
->> +    return 0;
->> +}
->> +
-> 
-> ...
-> 
->>   static const struct snd_soc_dapm_widget wcd937x_dapm_widgets[] = {
-> ...> +    /* MIC_BIAS widgets */
->> +    SND_SOC_DAPM_SUPPLY("MIC BIAS1", SND_SOC_NOPM, 0, 0,
-> Please use shift here like
->          SND_SOC_DAPM_SUPPLY("MIC BIAS1", SND_SOC_NOPM, MIC_BIAS_1, 0,
->          SND_SOC_DAPM_SUPPLY("MIC BIAS2", SND_SOC_NOPM, MIC_BIAS_2, 0,
-> 
-> to avoid doing a string compares on wideget name.
-> 
-> --srini
-> 
+Convert the text bindings for the Texas Instruments
+TAS5711/TAS5717/TAS5719/TAS5721 stereo power amplifiers to
+dt-schema.
 
-ACK
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+Changes in v2:
+- Add missing port
+- Remove label, include and add blank line
+- Link to v1: https://lore.kernel.org/r/20240607-topic-amlogic-upstream-bindings-convert-tas57xx-v1-1-ebf1e4919bb1@linaro.org
+---
+ .../devicetree/bindings/sound/tas571x.txt          |  49 --------
+ .../devicetree/bindings/sound/ti,tas57xx.yaml      | 133 +++++++++++++++++++++
+ 2 files changed, 133 insertions(+), 49 deletions(-)
 
-Will remove the string compares on widget name and will use the shift here.
+diff --git a/Documentation/devicetree/bindings/sound/tas571x.txt b/Documentation/devicetree/bindings/sound/tas571x.txt
+deleted file mode 100644
+index 1addc75989d5..000000000000
+--- a/Documentation/devicetree/bindings/sound/tas571x.txt
++++ /dev/null
+@@ -1,49 +0,0 @@
+-Texas Instruments TAS5711/TAS5717/TAS5719/TAS5721 stereo power amplifiers
+-
+-The codec is controlled through an I2C interface.  It also has two other
+-signals that can be wired up to GPIOs: reset (strongly recommended), and
+-powerdown (optional).
+-
+-Required properties:
+-
+-- compatible: should be one of the following:
+-  - "ti,tas5707"
+-  - "ti,tas5711",
+-  - "ti,tas5717",
+-  - "ti,tas5719",
+-  - "ti,tas5721"
+-  - "ti,tas5733"
+-- reg: The I2C address of the device
+-- #sound-dai-cells: must be equal to 0
+-
+-Optional properties:
+-
+-- reset-gpios: GPIO specifier for the TAS571x's active low reset line
+-- pdn-gpios: GPIO specifier for the TAS571x's active low powerdown line
+-- clocks: clock phandle for the MCLK input
+-- clock-names: should be "mclk"
+-- AVDD-supply: regulator phandle for the AVDD supply (all chips)
+-- DVDD-supply: regulator phandle for the DVDD supply (all chips)
+-- HPVDD-supply: regulator phandle for the HPVDD supply (5717/5719)
+-- PVDD_AB-supply: regulator phandle for the PVDD_AB supply (5717/5719)
+-- PVDD_CD-supply: regulator phandle for the PVDD_CD supply (5717/5719)
+-- PVDD_A-supply: regulator phandle for the PVDD_A supply (5711)
+-- PVDD_B-supply: regulator phandle for the PVDD_B supply (5711)
+-- PVDD_C-supply: regulator phandle for the PVDD_C supply (5711)
+-- PVDD_D-supply: regulator phandle for the PVDD_D supply (5711)
+-- DRVDD-supply: regulator phandle for the DRVDD supply (5721)
+-- PVDD-supply: regulator phandle for the PVDD supply (5721)
+-
+-Example:
+-
+-	tas5717: audio-codec@2a {
+-		compatible = "ti,tas5717";
+-		reg = <0x2a>;
+-		#sound-dai-cells = <0>;
+-
+-		reset-gpios = <&gpio5 1 GPIO_ACTIVE_LOW>;
+-		pdn-gpios = <&gpio5 2 GPIO_ACTIVE_LOW>;
+-
+-		clocks = <&clk_core CLK_I2S>;
+-		clock-names = "mclk";
+-	};
+diff --git a/Documentation/devicetree/bindings/sound/ti,tas57xx.yaml b/Documentation/devicetree/bindings/sound/ti,tas57xx.yaml
+new file mode 100644
+index 000000000000..2f917238db95
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/ti,tas57xx.yaml
+@@ -0,0 +1,133 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/ti,tas57xx.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Texas Instruments TAS5711/TAS5717/TAS5719/TAS5721 stereo power amplifiers
++
++maintainers:
++  - Neil Armstrong <neil.armstrong@linaro.org>
++
++properties:
++  compatible:
++    enum:
++      - ti,tas5707
++      - ti,tas5711
++      - ti,tas5717
++      - ti,tas5719
++      - ti,tas5721
++      - ti,tas5733
++
++  reg:
++    maxItems: 1
++
++  reset-gpios:
++    maxItems: 1
++    description: GPIO for the active low reset line
++
++  pdn-gpios:
++    maxItems: 1
++    description: GPIO for the active low powerdown line
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    const: mclk
++
++  AVDD-supply: true
++  DVDD-supply: true
++  HPVDD-supply: true
++  PVDD_AB-supply: true
++  PVDD_CD-supply: true
++  PVDD_A-supply: true
++  PVDD_B-supply: true
++  PVDD_C-supply: true
++  PVDD_D-supply: true
++  DRVDD-supply: true
++  PVDD-supply: true
++
++  '#sound-dai-cells':
++    const: 0
++
++  port:
++    $ref: audio-graph-port.yaml#
++    unevaluatedProperties: false
++
++required:
++  - compatible
++  - reg
++  - '#sound-dai-cells'
++
++allOf:
++  - $ref: dai-common.yaml#
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - ti,tas5717
++              - ti,tas5719
++    then:
++      properties:
++        PVDD_A-supply: false
++        PVDD_B-supply: false
++        PVDD_C-supply: false
++        PVDD_D-supply: false
++        DRVDD-supply: false
++        PVDD-supply: false
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - ti,tas5711
++    then:
++      properties:
++        HPVDD-supply: false
++        PVDD_AB-supply: false
++        PVDD_CD-supply: false
++        DRVDD-supply: false
++        PVDD-supply: false
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - ti,tas5721
++    then:
++      properties:
++        HPVDD-supply: false
++        PVDD_AB-supply: false
++        PVDD_CD-supply: false
++        PVDD_A-supply: false
++        PVDD_B-supply: false
++        PVDD_C-supply: false
++        PVDD_D-supply: false
++
++unevaluatedProperties: false
++
++examples:
++  - |
++   i2c {
++     #address-cells = <1>;
++     #size-cells = <0>;
++
++     codec@2a {
++       compatible = "ti,tas5717";
++       reg = <0x2a>;
++       #sound-dai-cells = <0>;
++       reset-gpios = <&gpio1 15 0>;
++       pdn-gpios = <&gpio1 15 0>;
++       AVDD-supply = <&avdd_supply>;
++       DVDD-supply = <&dvdd_supply>;
++       HPVDD-supply = <&hpvdd_supply>;
++       PVDD_AB-supply = <&pvdd_ab_supply>;
++       PVDD_CD-supply = <&pvdd_cd_supply>;
++     };
++   };
++
++...
 
-Thanks & Regards,
-Rafi.
+---
+base-commit: c3f38fa61af77b49866b006939479069cd451173
+change-id: 20240607-topic-amlogic-upstream-bindings-convert-tas57xx-5af1e564e6a1
 
->> +                wcd937x_codec_enable_micbias,
->> +                SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU |
->> +                SND_SOC_DAPM_POST_PMD),
->> +    SND_SOC_DAPM_SUPPLY("MIC BIAS2", SND_SOC_NOPM, 0, 0,
->> +                wcd937x_codec_enable_micbias,
->> +                SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU |
->> +                SND_SOC_DAPM_POST_PMD),
->> +    SND_SOC_DAPM_SUPPLY("MIC BIAS3", SND_SOC_NOPM, 0, 0,
->> +                wcd937x_codec_enable_micbias,
->> +                SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU |
->> +                SND_SOC_DAPM_POST_PMD),
->> +
->>       SND_SOC_DAPM_SUPPLY("VDD_BUCK", SND_SOC_NOPM, 0, 0,
->>                   wcd937x_codec_enable_vdd_buck,
->>                   SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMD),
->> @@ -2007,11 +2312,101 @@ static const struct snd_soc_dapm_widget 
->> wcd937x_dapm_widgets[] = {
->>       SND_SOC_DAPM_MIXER("HPHR_RDAC", SND_SOC_NOPM, 0, 0,
->>                  hphr_rdac_switch, ARRAY_SIZE(hphr_rdac_switch)),
->> +    /* TX output widgets */
->> +    SND_SOC_DAPM_OUTPUT("ADC1_OUTPUT"),
->> +    SND_SOC_DAPM_OUTPUT("ADC2_OUTPUT"),
->> +    SND_SOC_DAPM_OUTPUT("ADC3_OUTPUT"),
->> +    SND_SOC_DAPM_OUTPUT("WCD_TX_OUTPUT"),
->> +
->>       /* RX output widgets */
->>       SND_SOC_DAPM_OUTPUT("EAR"),
->>       SND_SOC_DAPM_OUTPUT("AUX"),
->>       SND_SOC_DAPM_OUTPUT("HPHL"),
->>       SND_SOC_DAPM_OUTPUT("HPHR"),
->> +
->> +    /* MIC_BIAS pull up widgets */
->> +    SND_SOC_DAPM_SUPPLY("VA MIC BIAS1", SND_SOC_NOPM, 0, 0,
->> +                wcd937x_codec_enable_micbias_pullup,
->> +                SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU |
->> +                SND_SOC_DAPM_POST_PMD),
->> +    SND_SOC_DAPM_SUPPLY("VA MIC BIAS2", SND_SOC_NOPM, 0, 0,
->> +                wcd937x_codec_enable_micbias_pullup,
->> +                SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU |
->> +                SND_SOC_DAPM_POST_PMD),
->> +    SND_SOC_DAPM_SUPPLY("VA MIC BIAS3", SND_SOC_NOPM, 0, 0,
->> +                wcd937x_codec_enable_micbias_pullup,
->> +                SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU |
->> +                SND_SOC_DAPM_POST_PMD),
+Best regards,
+-- 
+Neil Armstrong <neil.armstrong@linaro.org>
 
