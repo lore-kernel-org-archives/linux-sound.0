@@ -1,131 +1,112 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6C5417332F
-	for <linux-sound@vger.kernel.org>; Tue, 11 Jun 2024 08:02:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DCE317624A
+	for <linux-sound@vger.kernel.org>; Tue, 11 Jun 2024 09:19:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718092971; cv=none; b=KxatojgfMqe5Qrafq4RXNLmuB3dBpWwe0UtzJza2JwbPVwkwYLQ1hyYLAFaB3conOEZUKeEy2WaGs3VBxzsylYnpQTJjbf3IcHHMBjfIv5MFf+rIiF30QOyCq6srQdQKS3FdkQT85Wa6TVOPaK/4HafIveFQuvPaxOPHf/XMIDU=
+	t=1718097563; cv=none; b=m7BFxOoiO4dtaP3avdBUbDnL3VYqAo+O7yB9lzWXl/DKUMROu7WWEdg2+rYM/XtG5DDRq2cnL+466NnqlvFGyt35Zzs1DAMWe9M2k0KobmQRhLswBc9hkW6E29SGK20wDWqV1vcV0BVo2Qtb6SyixpQ+sbJs9eYea+4lENkyAlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718092971; c=relaxed/simple;
-	bh=lWc2nHEexhFavmycz68aTW7hPDVLvdwoBeRsopX57cM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WDmdViMcOjxvu4x4KqPX9z9TAAyFoF+7KJ0VBzNiMnHDVK8MpNFeMBT1GEBnxRAlJgaYfFf/6Obo129yUsLgAX0eHLqHLnuwLrsmtjBIgvHKx4LvaQ8bQEZV1NvHq9FwdEfo50d1+Ul0ndPZ0bOV4RPPcp86o+LyxDw9UEhzSXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=TZ8fVTbd; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1718097563; c=relaxed/simple;
+	bh=kXlUklN20Q8eUu9WxiS+OZ+JObXF15mPXqfLY0fCwxk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=oslKObf/ZS6anHSsLQ4ullLLC7wcEsDGkZX2uahp0PtTGefEuiXM0gcnNpxhTSy0LvUO2vHp/vil2i20nnQkSklasldeIboGpgobyBN5A92fDOAjqGALhAfsJHOOfOmULRDCDNUsmRTVniq4cStDYPhGmRKdu2H1MTwJHiDpx/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=da8muCxR; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="TZ8fVTbd"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a6efae34c83so341086966b.0
-        for <linux-sound@vger.kernel.org>; Tue, 11 Jun 2024 01:02:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="da8muCxR"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-35f06861ae6so3209809f8f.2
+        for <linux-sound@vger.kernel.org>; Tue, 11 Jun 2024 02:19:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1718092968; x=1718697768; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=or+4NmGXTUe0vxNapTWhccRz5KiVpXdBi26BBe10Eio=;
-        b=TZ8fVTbdG9WpjzND1NELyj7dDXFLvRL9Srx8fWNBdpr+sBINneieSGhP1Vp4SilxOH
-         RBIYdWw+1DxXjcAlXkXcGoWjR5yyyUQTPYcKv/rbvnS6sGYGGeR6wf8NPgwDFMY4h9/s
-         8E9MhG+yvC4zqcdlKQ0bfdxZUd/MVmkHQnDJs=
+        d=linaro.org; s=google; t=1718097560; x=1718702360; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vi/zJoTaekHU+/osjmDHmN4bmVrKAfe+svHOjhmObm8=;
+        b=da8muCxRGTWyRD+kyFxo+SiZ1pLavOh6/trQn6tB8Jmy7uXAzKKJg72c3mrlYtL/IX
+         nZUaDaJXLux5xyz5Eqj4QugPPfxuj6++pMdohDSU6DibwA02bZmxZxGXwVN/9/fW70qh
+         bjEZYq3Jzb9gDGW+WuHbrf6ee12fODPaTXT9bfMnE68S8mBatGhkbXBiZx0pZZuPWqHE
+         BhK6nKDtjiNR+UrmmbrFq//G0LfqnaOWa8k5XLzy6MvSjsD0zw/6q6Ms6tsgZID2/xy4
+         LzA21ahh3BuFcOCLkWKQku+fa/L8eTCH6Tu6V4nZeIHF4VWErjeyEBgWOHMoCKWlOy9p
+         QXFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718092968; x=1718697768;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=or+4NmGXTUe0vxNapTWhccRz5KiVpXdBi26BBe10Eio=;
-        b=wqS3jFiqmLBozWPTB6xxUHpfTdavTofe2HifjRNIG+hSr/uNyBfByVEWPH+aCUs93B
-         S6g3zfCPu0e93NYBfzzvQ0Ti4IhfqfICWzo2xIQosHwTF4mhAKmPX/T6QhGz1MUJPg8C
-         7r5fAGTqsNni+ck5X241hnLCqM/FU4Fc6pTSp3oPMzylTkFJLFXtGTMAQvqdlC+yoCc9
-         ORq5rY1bQX4rJYaAYq6goGzpT9KwHQU9dRLdPNXvYt2Pi88QcIqGZYZuIiHlDeQ45YvO
-         8JftqNIYsiuxMlIKHSTpvmz0gKogRPiTd3NPYS6/M8womjmV5mwCTTmlrMwsN1h7qi/A
-         A6sw==
-X-Forwarded-Encrypted: i=1; AJvYcCUpO9GYYUdFm5r0BW1zjJDLuwCul1349mQbYBgN9/gq4lIGLJbzCo4SwuaCM4/sOggaTSIz6FsrwlOLnTJlyn5qmbFE2ckUyec3nSo=
-X-Gm-Message-State: AOJu0YziPBLq7eChHg2lvSiO67a9MUefq8Xunrky0sWeAj1elKc8M5Ds
-	GtITJweHhHbGyVWx5IB68Enj7PrjyCuZD8PQEMa2TGBgXd6p0ORjXs1cY/aWgaB6TLzIOr5XEbM
-	=
-X-Google-Smtp-Source: AGHT+IFcAqkQZ02JkLj8uFrHdAtFfJ+zoxYqaChGfT3xghksh6HFPxqvHOVa+IT08lvmwWnM69MrFg==
-X-Received: by 2002:a17:906:31cb:b0:a6e:f3d7:4112 with SMTP id a640c23a62f3a-a6ef3f5df57mr565197966b.64.1718092966174;
-        Tue, 11 Jun 2024 01:02:46 -0700 (PDT)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com. [209.85.218.44])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57c69d06729sm5991854a12.56.2024.06.11.01.02.45
-        for <linux-sound@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jun 2024 01:02:45 -0700 (PDT)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a6efae34c83so341081566b.0
-        for <linux-sound@vger.kernel.org>; Tue, 11 Jun 2024 01:02:45 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVzyHwsIcf7+seJUcFbH3/GOz1AASV1KuB5Vz4HvCtHepVBKwM+u8vGnIgImJyxsX2NRoWcO/XHJrQyahQJrjp1arQ5gvzRQnYvS8s=
-X-Received: by 2002:a17:906:39ca:b0:a6f:309d:ec23 with SMTP id
- a640c23a62f3a-a6f309df3f9mr177781666b.72.1718092965211; Tue, 11 Jun 2024
- 01:02:45 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1718097560; x=1718702360;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vi/zJoTaekHU+/osjmDHmN4bmVrKAfe+svHOjhmObm8=;
+        b=WBZY/SDoicOdhbQCknxwznomdlTrlQdHpXn/REcJXm+j2O6HXgdqkJDMNBDEzqbOdE
+         Q9Z0Z5B2xoHV7wzcXNi7mZXoF5ilwUZsw3OOhwoH1LUEN3ObTXZg1Fys0KgxgBTfUFsF
+         WhDkc7I6JQGtIDq1CfNrv/eyHT2fX4kowRGxebsks8+GmY1ETqnMYoxrk7wNiGNMqrJs
+         pqIXZZ3IeNfVtPPgJJgBcc28yag1hw92pd3yyjccMz2XlhTUwfgcxDDA/VVThnAr8piA
+         Yc2LpDql8HoR/uiuQxXhLsAxGY4Q03vISUrnPQEpQZC9hPSbAMlbtkfU8krBQTAsMMrz
+         7fHw==
+X-Gm-Message-State: AOJu0YyppuMniwWbk/8wZEzRi2crBKaydDs1Bk0DD7g65ZMPmJw6itVB
+	7jUs+kCgJQYpgAakqtDK4jVwhgO2W0Ob+EC1PJS/N1bADVS1YmyQlkl5il02q+E=
+X-Google-Smtp-Source: AGHT+IHQSTbevIphGHCvbrOMQjG9ACIHi9SFdQoe+sA54Qnbx7zzX31Uv88M+9SOlhZj8f5WihFAeQ==
+X-Received: by 2002:a05:6000:a84:b0:35f:1f3c:b62a with SMTP id ffacd0b85a97d-35f1f3cb667mr4223027f8f.58.1718097559838;
+        Tue, 11 Jun 2024 02:19:19 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35ef5fc3197sm13334619f8f.101.2024.06.11.02.19.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jun 2024 02:19:19 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH 0/2] ASoC: dt-bindings: convert everest,es7134.txt &
+ everest,es7241.txt to dt-schema
+Date: Tue, 11 Jun 2024 11:19:16 +0200
+Message-Id: <20240611-topic-amlogic-upstream-bindings-convert-everest-v1-0-a7f9b4c9005c@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240531-da7219-v1-1-ac3343f3ae6a@chromium.org> <171762153256.557520.12011428649748199502.b4-ty@kernel.org>
-In-Reply-To: <171762153256.557520.12011428649748199502.b4-ty@kernel.org>
-From: Hsin-Te Yuan <yuanhsinte@chromium.org>
-Date: Tue, 11 Jun 2024 16:02:08 +0800
-X-Gmail-Original-Message-ID: <CAHc4DNJ3q=a8Wts_q12=R34eMbMq+d4PSEFe7YR+DDs=C_Og9g@mail.gmail.com>
-Message-ID: <CAHc4DNJ3q=a8Wts_q12=R34eMbMq+d4PSEFe7YR+DDs=C_Og9g@mail.gmail.com>
-Subject: Re: [PATCH RFT] ASoC: mediatek: mt8183-da7219-max98357: Fix kcontrol
- name collision
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Alper Nebi Yasak <alpernebiyasak@gmail.com>, Hsin-Te Yuan <yuanhsinte@chromium.org>, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJQWaGYC/x2NQQrDIBBFrxJm3QENJotepXRh448daFQcGwIhd
+ 6908z5v899JiipQug8nVeyiklMXextoefsUwRK602hGZ2ZrueUiC/vtk2Pfb9FW4Td+SQqSovK
+ S047aGJ3Qxi5MfjYWDutE/bVUrHL8i4/ndf0AD/EKGYEAAAA=
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=899;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=kXlUklN20Q8eUu9WxiS+OZ+JObXF15mPXqfLY0fCwxk=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBmaBaVzg33iyMvF9EviNJegXkWD7JUrsT/u5Nycm9r
+ lTpqliiJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZmgWlQAKCRB33NvayMhJ0bbID/
+ 9NPSONOA42tIRng3nhZEKZPYGZ8Qdz8lXwd1AC7mmo3ri603pUmJ+vq/+KE668TrM9Y8jImbnm/PGn
+ aMZcM9eNlQI1Vm/Z8YjSCkWFeOFeUbX0JdVINQd5WUgupYUxz/pVLv+WMcnyeVYZ7FSB+BZQo7flYc
+ f6bsAllTCUjBC3xOXFVtK1ijFRoq++pjh4ciYD/Vb5cM66KzIp3un/m0fObrHQayHcVf0ug4XN5qJn
+ +9GzGKBa+hgt6In3FUBcJWJ2J8STIq85V4XoAPsL3c3DqqQk/od8ZW/DBm3DJGYa7g2P2Rs1IYnBsZ
+ RXpZLprDhFKqrQA8qSaB2Zh9j5G/smvqUsSSuQBBBw3/R5/X+wTYmBzjQaSgUmfLYPqdl5mh6jh3Dj
+ AJG7OtQFEMUYgAKanvCgxiYnB6gQMWwCoqUxJFUtnKBQI0VNQLmKrT2b4vhpGRC2WpcJWA/IG7VKAL
+ 2TholFfMyEsWhYMpyBt8TMbDmJZmF4B/D5sa6VyjtLUBtTTDgb9RlHzP9wvIsbu5CBmF49WEJJC1oq
+ 79nqfxMgFIP7Uag9MjCxvZgtiYx3h1ChiG+1pXNC9lyGocC50gsYw7oFUeOBPDYdKnAb2diTSbn6HH
+ w/XroLHBnNbtys+MUGLselm2HoUsQRdSbQTOO/9SXj/QmkovkZ6E4IiGzpRA==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 
-On Thu, Jun 6, 2024 at 5:05=E2=80=AFAM Mark Brown <broonie@kernel.org> wrot=
-e:
->
-> On Fri, 31 May 2024 08:37:54 +0000, Hsin-Te Yuan wrote:
-> > Since "Headphone Switch" kcontrol name has already been used by da7219,
-> > rename the control name from "Headphone" to "Headphones" to prevent the
-> > colision. Also, this change makes kcontrol name align with the one in
-> > mt8186-mt6366-da7219-max98357.c.
-> >
-> >
->
-> Applied to
->
->    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-=
-next
->
-> Thanks!
->
-> [1/1] ASoC: mediatek: mt8183-da7219-max98357: Fix kcontrol name collision
->       commit: 97d8613679eb53bd0c07d0fbd3d8471e46ba46c1
->
-> All being well this means that it will be integrated into the linux-next
-> tree (usually sometime in the next 24 hours) and sent to Linus during
-> the next merge window (or sooner if it is a bug fix), however if
-> problems are discovered then the patch may be dropped or reverted.
->
-> You may get further e-mails resulting from automated or manual testing
-> and review of the tree, please engage with people reporting problems and
-> send followup patches addressing any issues that are reported if needed.
->
-> If any updates are required or you are submitting further changes they
-> should be sent as incremental updates against current git, existing
-> patches will not be replaced.
->
-> Please add any relevant lists and maintainers to the CCs when replying
-> to this mail.
->
-> Thanks,
-> Mark
->
+Convert the text bindings of the Everest ES7241/ES7134/7144/7154 2 channels
+I2S analog to digital converter to dt-schema.
 
-Hi Mark,
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+Neil Armstrong (2):
+      ASoC: dt-bindings: convert everest,es7241.txt to dt-schema
+      ASoC: dt-bindings: convert everest,es7134.txt to dt-schema
 
-I accidentally added a Change-Id field in the commit message. Can you
-help remove it before sending it to Linus?
+ .../devicetree/bindings/sound/everest,es7134.txt   | 15 -----
+ .../devicetree/bindings/sound/everest,es71x4.yaml  | 62 ++++++++++++++++++++
+ .../devicetree/bindings/sound/everest,es7241.txt   | 28 ---------
+ .../devicetree/bindings/sound/everest,es7241.yaml  | 66 ++++++++++++++++++++++
+ 4 files changed, 128 insertions(+), 43 deletions(-)
+---
+base-commit: c3f38fa61af77b49866b006939479069cd451173
+change-id: 20240611-topic-amlogic-upstream-bindings-convert-everest-4d5a601e4ef5
 
-Thanks,
-Hsin-Te
+Best regards,
+-- 
+Neil Armstrong <neil.armstrong@linaro.org>
+
