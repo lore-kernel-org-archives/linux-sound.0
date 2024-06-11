@@ -1,47 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A4014502C;
-	Tue, 11 Jun 2024 10:19:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 180A9178371
+	for <linux-sound@vger.kernel.org>; Tue, 11 Jun 2024 10:19:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718101170; cv=none; b=WArshJrJjaFg2+JD8rhVIgcqon0dRYe0DzUmbRofciZbOjxga/YJaFg4BNhP8P5M/fGkYYUqTPgLxUohFW/3o3XqCvx3dAa2dBlOZfvqvGQ2uZeuPoz1HvGrSGaJQR2TI0I3xkI4Mi8AV2tNyREO9cLblEhz5wm+4h0JchdGnf4=
+	t=1718101172; cv=none; b=KUC5Pf+qMiDrGdQlxisTtJSlYI3gXOirlQpLneZpEDEg4jdBN5uvPdIFriiLKOC5Uy31tdDt0w56Th6NmU+8y2xLoZxRBD3R92IiB2SltyRymF2oSq8Bja913FnsS53jNNaf1TH7LgrTaWdImmQiEtzTrzxKs3ZgxCo/CsYOF/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718101170; c=relaxed/simple;
-	bh=w/yxPxCvkaDeWtKKMpFlZEVsnhxa4e1/eJvbybjHLrE=;
+	s=arc-20240116; t=1718101172; c=relaxed/simple;
+	bh=ObekRkrSe+EOUnd7QDGCxutmXFSACDEnV0vZ5NWpVeI=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=eg+c+ZTnQLmvsARi5GAQCsCTla28LqeJY+pubMxYfbSXX6CxUBF3csljMiCC6J3O2mzy4KSFNleOYz0LCpJ7bw73IeVp8KPKh4/hf7lQHU6iNWkr/5falGGycZ/ztm0ZvSZkPFpGKgWJVxerBvsycMgG3TYh2kc1oWZ5vITIQ9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BqBHRojf; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=WiL1fM8XJJVxrI/T5t1jGqXjfsLfqX2GaZU3xv7sOba+Wayp9hG0FM2IO8gm7QlMgWPhsr1vl+UtoNKQ/aRZOYcjrzhD2iS/GLXE77Ybb1kJ2j1/LaYsZddV8xyVxOn1TB1ZkIw1v/97TqZHNrFfoP0caAdxdGD0JlHf9OtUMhk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dLykSCqG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BqBHRojf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBB9BC2BD10;
-	Tue, 11 Jun 2024 10:19:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dLykSCqG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B92FC4AF49;
+	Tue, 11 Jun 2024 10:19:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718101170;
-	bh=w/yxPxCvkaDeWtKKMpFlZEVsnhxa4e1/eJvbybjHLrE=;
+	s=k20201202; t=1718101172;
+	bh=ObekRkrSe+EOUnd7QDGCxutmXFSACDEnV0vZ5NWpVeI=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=BqBHRojfxWBJxHMMY8/swGUpBo8czC2/+DcqD1cxVFPHLamyhEjgOs3lWpEcDw6hT
-	 467sC4Tcdemtc9jX9HV8WTGIUxxcouz72HxLi7DpaMP1Q+TgodAGTLT/FH7nEPyRx9
-	 n3jC0XkBo5PyfatcDJIsI76TwUiROfk3tG8pa1FrhgTz9yTGSGTySDqc4PdDD4y5Bu
-	 qPUgNsBktIyQdkxLB25GWOAwTANPZ35+RMmM1OD0rXJblWnMc0wC05eYWc1LYsQOvv
-	 jp/xvRw6WKMLAcFAGK3p4+vMm8mnrcTfOoFxRNUFOGyULalKIC8jxg0ol+JH5R33RY
-	 to4VzzHl7zCfw==
+	b=dLykSCqGe3xH86nN9q+DmRwCYXkBbeYMSYAXpxblzRQi2rMOm9WqSqEpQm30HR3a6
+	 iYFCVtn24t6yMkkTji0QPmi3aox9b7cTeTEPn8kVqKrcZOTg7BD14/nV63AF+RhBRX
+	 +1c63asOGFAx9dnXj6xk3U+cOUYUzJ/yXfz5ZtuHlwATAdvak/ZqFXJ17mTWiWFebg
+	 C7krFPmUAd77WPwTqCdRDsEAQYX6SbkVKcTFzgnAjcueI0ClQGYHpW4zP/fZZkRlLy
+	 GkcmQl3X+aUrvRjn+PGqfV6652N/uSCNm/LnT6gjuSUcsr0frd2WPsxEVmqccbX7vl
+	 GOtHzHWtXjDNw==
 From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-Cc: alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org, 
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, quic_rohkumar@quicinc.com, 
- quic_pkumpatl@quicinc.com
-In-Reply-To: <20240524035535.3119208-1-quic_mohs@quicinc.com>
-References: <20240524035535.3119208-1-quic_mohs@quicinc.com>
-Subject: Re: [PATCH v5 0/7] ASoC: codecs: wcd937x: add wcd937x audio codec
- support
-Message-Id: <171810116692.177725.17513047102055843084.b4-ty@kernel.org>
-Date: Tue, 11 Jun 2024 11:19:26 +0100
+To: linux-sound@vger.kernel.org, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: alsa-devel@alsa-project.org, tiwai@suse.de, rafael@kernel.org, 
+ vkoul@kernel.org, andriy.shevchenko@linux.intel.com
+In-Reply-To: <20240528192936.16180-1-pierre-louis.bossart@linux.intel.com>
+References: <20240528192936.16180-1-pierre-louis.bossart@linux.intel.com>
+Subject: Re: [PATCH 0/3] ACPI/ALSA/soundwire: add
+ acpi_get_local_u64_address() helper
+Message-Id: <171810117047.177725.11786144644878657909.b4-ty@kernel.org>
+Date: Tue, 11 Jun 2024 11:19:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,13 +47,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14-dev-4c370
 
-On Fri, 24 May 2024 09:25:28 +0530, Mohammad Rafi Shaik wrote:
-> This patchset adds support for Qualcomm WCD9370/WCD9375 codec.
+On Tue, 28 May 2024 14:29:32 -0500, Pierre-Louis Bossart wrote:
+> The acpi_get_local_address() helper assumes a 32-bit ADR is used. If
+> we want to use this helper for SoundWire/SDCA ASoC codecs, we need an
+> extension where the native 64-bits are used. This patchset suggests a
+> new helper, acpi_get_local_address() may be renamed if desired in a
+> folow-up patch.
 > 
-> Qualcomm WCD9370/WCD9375 Codec is a standalone Hi-Fi audio codec IC
-> connected over SoundWire. This device has two SoundWire devices, RX and
-> TX respectively supporting 3 x ADCs, ClassH, Ear, Aux PA, 2xHPH,
-> 6 DMICs and MBHC.
+> The path of least resistance would be to merge this patchset in the
+> ASoC tree, since I have additional changes for ASoC/SDCA (SoundWire
+> Device Class) that depend on the new helper.
 > 
 > [...]
 
@@ -68,20 +66,12 @@ Applied to
 
 Thanks!
 
-[1/7] ASoC: dt-bindings: document wcd937x Audio Codec
-      commit: 27173bb0b64461acf4e00f1bae3b15d8d2348c14
-[2/7] ASoC: codecs: wcd937x-sdw: add SoundWire driver
-      commit: c99a515ff15380ec5f8827049914145ba908e8da
-[3/7] ASoC: codecs: wcd937x: add wcd937x codec driver
-      commit: 9be3ec196da41b20b624ae4ed0303df58548644e
-[4/7] ASoC: codecs: wcd937x: add basic controls
-      commit: 82be8c62a38c6a44e64ecb29d7a9b5cb35c6cad4
-[5/7] ASoC: codecs: wcd937x: add playback dapm widgets
-      commit: 57fe69db7a015e828ec69d819707c5b8eac6d052
-[6/7] ASoC: codecs: wcd937x: add capture dapm widgets
-      commit: 8ee78493be89c42d016f941a9b00c203ec08daab
-[7/7] ASoC: codecs: wcd937x: add audio routing and Kconfig
-      commit: 313e978df7fc38b9e949ac5933d0d9d56d5e8a9c
+[1/3] ACPI: utils: introduce acpi_get_local_u64_address()
+      commit: 0b7e448119428e1dcb854abb5855f66966fb82dc
+[2/3] soundwire: slave: simplify code with acpi_get_local_u64_address()
+      commit: b6212f9bf489daf9716aed0e8c4dc6a807ce839f
+[3/3] ALSA: hda: intel-sdw-acpi: use acpi_get_local_u64_address()
+      commit: 9b7dc68eeba04d20f4a1733e791bc71355423612
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
