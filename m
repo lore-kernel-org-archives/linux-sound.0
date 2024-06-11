@@ -1,93 +1,96 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C48842C694;
-	Tue, 11 Jun 2024 16:12:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 144A411720
+	for <linux-sound@vger.kernel.org>; Tue, 11 Jun 2024 16:12:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718122328; cv=none; b=gykI1K6KyyKITriz/IR8zHgdinL37W2ITPrvuOV8zZGFOyIlkQRZ5rlfPmRjUH9j7fAvIFKkgYEBYkdHzZV8FqBHZ0MvQhaLCNWrwzsI+TI+mMamqCXHe6eFBiiXY+fkFs8pvqvZbZcascXgridXIUKlWCpUSCueSFz7yS1NxnU=
+	t=1718122367; cv=none; b=MSR2YvhDSUcQTQvueIWfelrLrZlOy/Zd+CWdcos40KOKajx798WkFEyikIKjiwtrjkBFGLjvViQ0TmWZlt67WhEZiHLgXrrcRkkw7Vq2LrRz+j1Z//IQg8PZkkliX4sYaNjh07DcwWQKXA4PSsk14QIVOXnyE7bABnZ1AO9WvtQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718122328; c=relaxed/simple;
-	bh=aJeW2N3kwCz5oB5MHCriHIh05QZu77JtFLwwq8ApGUo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LRlnjtcofHAMfFxolxXV1waiUuCTpgWKV9mwYtVNsIwJOEeWuzT3fYAFuzGw/3Pm1BVoOC84bFDfuCLMR/wa+9cy+Bv7gFENOTG7fY2bNkUc7chxmF5Q+gyQYK6lp+/BrFeV6gNkWe2/kf63DisVddxrRp/w7Kt8RZr7bBMg6Vc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UVK+Wppn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718122367; c=relaxed/simple;
+	bh=lVBMd7pm9KnAnJVO5KwX7pdV0VQZjI/8zsuxqHZxuZI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=eygd6XCaXSDU4q+nzwQNsU0y4mY+iM6eTT2yklxLfXoF4ErZrRhNAaQYn/5a7SjEjoWkPs/hYaZA6XKSy4xavat9Z4LcxUDM/hu9NN0TYLhFv4BmrIex2hU/nVIyMLL2wIuDGcPFIm0dJGtEIi5TN5vduuIFhrrEZewVLTEwflo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c9GqljWc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UVK+Wppn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E30FCC2BD10;
-	Tue, 11 Jun 2024 16:12:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c9GqljWc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C61AC2BD10;
+	Tue, 11 Jun 2024 16:12:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718122328;
-	bh=aJeW2N3kwCz5oB5MHCriHIh05QZu77JtFLwwq8ApGUo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UVK+Wppnos2Eafl97QCMr2wdlm/2KelWydzXxwnCLqUxDoPSLbKXLE271XLZjkrte
-	 5djNSV+lx9sZkprvFxfdo5CL4kbyEdw9lmWaT1MKEziFI+8thhCPBu70hZ9ycDCuN1
-	 xL73+msP+cFrzPDaCvgvLVkCRnHAwlFX49GItoKAFqRqTEcq+zhT/n3nPzFVoDg6to
-	 Lg0/sByxIkG7WYQ3rdUHWohXZkumAp0iLs1bRF4EoDz61s6oNt/E36UswwbaNXZj0k
-	 /R0hYfTkrNewOYYdmhF2R4atxDfHFQ9IyJsxH7QWTOzosghxwRZgMyaR9doznST0Lo
-	 fi3kguYpwwPIA==
-Date: Tue, 11 Jun 2024 17:12:06 +0100
+	s=k20201202; t=1718122366;
+	bh=lVBMd7pm9KnAnJVO5KwX7pdV0VQZjI/8zsuxqHZxuZI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=c9GqljWcvRQt3/EKlJttpU1QC1HOVjeOWs6uRGNz23eqhtMpvApL3cKvpnh1z4J2A
+	 8A7quZLUGinBRsPmjn/XBH8XuBMjWQp/oyhgXFwztx/hn+sK0B/M/7qqrQXchpkm3+
+	 PJ/YknSmL6mv1/z2T03VkMNKHWP0ESjYYPBoAGve501O22U0HiJvCTN0VYUKKL3/+G
+	 Lzb7V8npJrQMAbmRLv2oIN2UMmVP29QHLS/svL4E88wQyWH9LhqMvr2bNRUH8Prs5i
+	 QnVu43UYPJ31ItOgKjRv1SOOv75MHwVE+23vlqpfSHlHOgZ+XpBTvmLFBTOmanZyQ2
+	 Qlb5UrbXwKXqQ==
 From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ASoC: cs35l56: Disconnect ASP1 TX sources when ASP1 DAI
- is hooked up
-Message-ID: <Zmh3VmRfGEU6pGps@finisterre.sirena.org.uk>
-References: <20240611145746.1454663-1-rf@opensource.cirrus.com>
+To: =?utf-8?q?Amadeusz_S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>, 
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ Jason Montleon <jmontleo@redhat.com>
+In-Reply-To: <20240603102818.36165-1-amadeuszx.slawinski@linux.intel.com>
+References: <20240603102818.36165-1-amadeuszx.slawinski@linux.intel.com>
+Subject: Re: [PATCH 0/4] ASoC: topology: Fix route memory corruption
+Message-Id: <171812236450.201359.3019210915105428447.b4-ty@kernel.org>
+Date: Tue, 11 Jun 2024 17:12:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="4hy4b+bAfizSELLR"
-Content-Disposition: inline
-In-Reply-To: <20240611145746.1454663-1-rf@opensource.cirrus.com>
-X-Cookie: Your love life will be... interesting.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.14-dev-4c370
 
+On Mon, 03 Jun 2024 12:28:14 +0200, Amadeusz Sławiński wrote:
+> Originally reported here:
+> https://github.com/thesofproject/avs-topology-xml/issues/22#issuecomment-2127892605
+> There is various level of failure there, first of all when topology
+> loads routes, it points directly into FW file, but it may be freed after
+> topology load. After fixing the above, when avs driver parses topology
+> it should allocate its own memory, as target strings can be shorter than
+> needed. Also clean up soc_tplg_dapm_graph_elems_load() a bit.
+> 
+> [...]
 
---4hy4b+bAfizSELLR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to
 
-On Tue, Jun 11, 2024 at 03:57:46PM +0100, Richard Fitzgerald wrote:
-> If the ASP1 DAI is hooked up by the machine driver the ASP TX mixer
-> sources should be initialized to disconnected.
->=20
-> The silicon default is for the mixer source registers to default to
-> a collection of monitoring sources. The problem with this is that it
-> causes the DAPM graph to initialize with the capture path connected
-> to a valid source widget, even though nothing setup a path. When the
-> ASP DAI is connected as a codec-to-codec link this will cause the other
-> codec to power-up even though nothing is using it.
->=20
-> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-> Fixes: dfd2ffb37399 ("ASoC: cs35l56: Prevent overwriting firmware ASP con=
-fig")
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-This doesn't seem particularly different to any other unhelpful chip
-default, I'm not sure why it'd be so urgent that we'd hard code a
-default?  There were some other devices with things like bypass routes
-set up.  The capture path getting spuriously triggered feels like
-something that should just be sorted in general (TBH I thought that
-worked OK but it's been quite some time since I looked properly).
+Thanks!
 
---4hy4b+bAfizSELLR
-Content-Type: application/pgp-signature; name="signature.asc"
+[1/4] ASoC: topology: Fix references to freed memory
+      commit: 97ab304ecd95c0b1703ff8c8c3956dc6e2afe8e1
+[2/4] ASoC: Intel: avs: Fix route override
+      commit: fd660b1bd015e5aa9a558ee04088f2431010548d
+[3/4] ASoC: topology: Do not assign fields that are already set
+      commit: daf0b99d4720c9f05bdb81c73b2efdb43fa9def3
+[4/4] ASoC: topology: Clean up route loading
+      commit: e0e7bc2cbee93778c4ad7d9a792d425ffb5af6f7
 
------BEGIN PGP SIGNATURE-----
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZod1UACgkQJNaLcl1U
-h9CBAQf+OhZdPDxTYMLChOAhYTNb0+Q25t451LvA/upiJjwv4Wz/TNIntO6kFK2c
-8ntuUtQlz/SSqBwrYDTbQbPT8f37cKiXEN/VggO6LIFbLvoaNsuxMUVrs557l+u9
-Kh2NltpGwT0tsIF1Se0uTxaHCRbW25jW73sGjjUVnkdesGGGA03uejObLNxMoSxb
-GBBdSy5PbML9buuiqz7HeP8e8wyi+/Qg/M+oD0loP+3AJShbYgp3/92f1gDQpPJk
-9GWYAz8FdIsCyLY5GwOrcViV6l6DX/mFbH2+sF386uz/XsT7psQurHhTG4oKPSlB
-ioBDd73aX0JCg0csiL83a9YcA36IXQ==
-=6QSb
------END PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---4hy4b+bAfizSELLR--
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
