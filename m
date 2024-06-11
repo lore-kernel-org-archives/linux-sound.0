@@ -1,71 +1,71 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED01F42A93;
-	Tue, 11 Jun 2024 12:39:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10E3517994D;
+	Tue, 11 Jun 2024 12:44:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718109564; cv=none; b=RpwgN31NMo7OFWH7OkAsGc+Ll7yeaKIPZr4kTLE3xln0wCPlXww5LBLsRKNX8MpMrOL2rYWG0JxE9YkiYshg4TDyx3qfFBXP1tc4gFpmSxEOvEH4fJhRrx0Ph1Jz7LxgJNUWHOtDPcoEEYZnM+KdFFslIoqeP87Owp0+0810LWk=
+	t=1718109863; cv=none; b=hGn3rBDx1I4id2MpIX8uSTKV4q6+QGj+wynvsSe4zII/yUixKbm3xV4BrSVqI3vEgWBWXvCjBDeQm333eW6UaSrKQ06AoR/TT85VSWXp5B44sIQot8yeU7yVdxHX+3j2AZW/sZX3dWf7kTFrE3EjCIbX2UL3GyqldSfPjjLBP2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718109564; c=relaxed/simple;
-	bh=EWpDnw3mVmMAdpRA6hNV+AS/efhTYYfOTWpFiFCjCDQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=arQ6Z9+hihK/6iNfYgE6v62iZBTAXSJOtImeDq1Ba7w/THbtP6b9yZYRZzQKr4YZVbOwbldeyf/wAt1U4dJOIQz25+3rsqBCxQ+dpsICpdqBxEXNVLRpy/cfOFK/S/UbSkkwPY9/879XWnGpdoxYq0TatMTGaohndb4jWHvL+G8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Drcvk4H4; arc=none smtp.client-ip=209.85.210.180
+	s=arc-20240116; t=1718109863; c=relaxed/simple;
+	bh=wvAyPUBns/uNl9S66bSDSvxN3bhNbvQLJE39DQGbjLI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kG1b7O6rUVxPaKIE6lyAZP03FNYPRSMrvnwe4MTy1PM3f5EIQSjcBeFjUQfvVo21Lu+woaXHnIKViJCDBCMqWA5cIttNux+j321L8xnES2XycAMrWlyFZ7PK7Z/kxQR8TcOQ7kxVHqtcRcryfBIenansexIBHUJSqaL1V0K+UhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ATlhLdVb; arc=none smtp.client-ip=209.85.215.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Drcvk4H4"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-7023b6d810bso4406504b3a.3;
-        Tue, 11 Jun 2024 05:39:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ATlhLdVb"
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-6e3ff7c4cc8so2920571a12.3;
+        Tue, 11 Jun 2024 05:44:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718109562; x=1718714362; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1718109861; x=1718714661; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BS4fj5LiJWdmh+dFL70oOYb84KSkjmkL6BSWpG6VKA0=;
-        b=Drcvk4H4/gL2FURrjQELVR3IIznCtwC4nU42I5M0U3U+ARG8n1Pdsqw9OdSr4ZplMt
-         duXUauLZYSJC1Z9YlaUp4pXm1nIF1ClDusICDdyhBONGHAhHf6qZHTXMdRfHXZoQIRHK
-         IsSa6ngNAATMukL5OPPNfnvbmlIZayfCCsVzyxtF5q6kjw2jScVkglAgLd/bwqrikUcB
-         rK7TuLHcSMMR8KpGVoSuvsahtdr5aCXz3qIfQ1jRKMHtzmyhU7WEnOI+PbCG+CRQ9bTq
-         rSWbo/bLv7D1VJLMGe9N2j+oSkfmP/8HRt41LTy61EpC2YZsoftkBoRk4OS2TvCVevh4
-         g8kQ==
+        bh=AVwIlcHjQo8eh6OrUJ43oxF3efWtPUA/bK44QL6w+l8=;
+        b=ATlhLdVbV024YS0KFj1k5uUqAx5cYTIIzEhumjeWvgx2U7KqaHuSTgIqA5KXik71Bf
+         MH3V/WzRnN81ZArlvusjX/H9vCqnMdibCiBSyn1shcHHZtcUIR4Liap81uUYVSpxDvr2
+         +q11TFO/5AIyh5fycVfBPzPf8VZWCnkrZp99FtusEFfo5lSVkXF0Mjd8tbsUmthRpbow
+         CIws7g/N5I8L548NYtQkJ7gc6eXAmdNhpuRSt2xjkYbb53ypz8AOPi61oYv/MSkhLK6B
+         xlpOkASgVcgNJgb7xS+XOsgdI1BCKWeVvM1+6XtB+WxRH8LvY1NKFqqJgx8l1Q1YHzD8
+         pt6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718109562; x=1718714362;
+        d=1e100.net; s=20230601; t=1718109861; x=1718714661;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BS4fj5LiJWdmh+dFL70oOYb84KSkjmkL6BSWpG6VKA0=;
-        b=NKy/80Mx0Aup5yo78GWETwHyylATRa5QU9ltHjuxTUV8W7xqIViMLzYePaTZ+kUkjH
-         NhKkf7PQvfhjgmYnB2Clg/U3gAqgVb87I4RMiL6hUgAjPfaMEIs8z1COvYEv2nTWu6Aw
-         I94g/gSWLDUpR9457/Drx1mMpF551prfdOwanDp3NzZxUC3vYn7PWKozyAWSVccfP3TR
-         FnYONuES+J4S0EAxLueQ8xezqZDDez6mOpgMSen+WpyFWyViMSGwGP3xpCtxwGiB1tt6
-         S46ETCH8mUvD0CF71Fh60UfwYeBxiSyw3gRWwFVgCo79fizDPcNlP9P5qb0ENtrI2JRf
-         UeTA==
-X-Forwarded-Encrypted: i=1; AJvYcCVpKX+7annq681EgAch/cp3anpfbkerN/UnIS95b6XDh0nptVWXZ1iUFzceaPNHyDeychYKubHo100QXyGhSHMmexAKl8uVTGjdZ2ZsJiQPEr6A7PYvgXYFy11ruDcabePIQfMpHtqhBrZu6/dHxrf7VYQ5fKGVwE02IZeetvPS0QefBu3K
-X-Gm-Message-State: AOJu0YwxXZNT6xf8Mfm3TBF4T9IXOYPJ3fqZBhGBoG/e6KXgQCy3bhau
-	WzJVfQDGBeLm0A9IcsCCvRoKWfDk6xClbV0+wotsz0dQhHFBEE5htIef8UCE
-X-Google-Smtp-Source: AGHT+IH7FlG2vOSy74vekCW1g4uTsKn76X+lcFrJIIyOQRFzaEvTxFQ8pkeL6COY7fY1HpfvXZVFoA==
-X-Received: by 2002:a05:6a20:e605:b0:1b4:5605:dde5 with SMTP id adf61e73a8af0-1b45605e16fmr12833149637.52.1718109562163;
-        Tue, 11 Jun 2024 05:39:22 -0700 (PDT)
+        bh=AVwIlcHjQo8eh6OrUJ43oxF3efWtPUA/bK44QL6w+l8=;
+        b=KPZY4IWqBrn/anLtqosb3w/yR3rp0V2WD0DbOJDgWhpMro5fXwKWHd/La2ZpwLXpdE
+         Au+MQAobK922XJmO7ykeyQuiSeJWELRe7ZyW+Thvnt7GGuFrqt68famEQqibzjKKdTk0
+         HCISi3SMK/L6bJn9oUnu2G4bk97rbpIMk/xA4DFh2wixSQc7T3696JiJ8Tg3wOU6iKFZ
+         HJqmc6Bl9exq1vvn7jXJCPBDMyXwDoOwnN/8gNWleGg0Rdl2E4QVP1wH/l1S+6aQavBz
+         U4KiRLLMqxdgswKeE1qI8V4yq/cSxIpoMG/YGcG93F+N3QRUmwnplJ40mkSuZ/hfgqsn
+         acbA==
+X-Forwarded-Encrypted: i=1; AJvYcCWMVEmIbs5lKyED+RUCJo1UwFyu7q0GCeNDO3DjXdTgCkFCzkxJeBbD/z+BOdTZsGKTjrfGmU2QAciBnydkkM8i9wUWt58Qdz106eQ/OmfW1j/4D6xprmctNhGooCOMc4XRexXpmjkGrwXcpH5FUq7iLO3v4dP71FMHmoxXMBlfQK9KvND8
+X-Gm-Message-State: AOJu0YzHcBae5pviPJVwoOnET2xXe4gV/T58uf+/6zIIA0D7scItlUIo
+	vGMRwILl0E5rhuhZ1XVejBt32PWk1TNJf6/ZezguOnrWJG1SQgdeKKwapI6g
+X-Google-Smtp-Source: AGHT+IGxYFQHUxLPouK/1ioV0eCRyouOGRoF0w2WN75pt0GtljsQjw6+Rf0APD0pqim83/wxnkvyUw==
+X-Received: by 2002:a05:6a20:72a3:b0:1b7:82b4:a380 with SMTP id adf61e73a8af0-1b782b4a72amr5655759637.29.1718109861271;
+        Tue, 11 Jun 2024 05:44:21 -0700 (PDT)
 Received: from fedora.one.one.one.one ([2405:201:6013:c0b2:ea4b:30e0:4e3a:ab56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c3304f6b84sm1460214a91.14.2024.06.11.05.39.17
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-6eac1dea8b2sm3950627a12.63.2024.06.11.05.44.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jun 2024 05:39:21 -0700 (PDT)
+        Tue, 11 Jun 2024 05:44:20 -0700 (PDT)
 From: Animesh Agarwal <animeshagarwal28@gmail.com>
 To: 
 Cc: animeshagarwal28@gmail.com,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Rob Herring <robh@kernel.org>,
 	Daniel Baluta <daniel.baluta@nxp.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
+	patches@opensource.cirrus.com,
 	linux-sound@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3] ASoC: dt-bindings: linux,spdif: Merge linux,spdif-dir into linux,spdif-dit
-Date: Tue, 11 Jun 2024 18:08:54 +0530
-Message-ID: <20240611123858.58881-1-animeshagarwal28@gmail.com>
+Subject: [PATCH] dt-bindings: wlf,wm8782: Convert to dtschema
+Date: Tue, 11 Jun 2024 18:14:00 +0530
+Message-ID: <20240611124405.63427-1-animeshagarwal28@gmail.com>
 X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -75,76 +75,100 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-They are the same bindings other than compatible. "sound-name-prefix"
-wasn't documented for linux,spdif-dir, but is in use already.
+Convert the WM8782 audio codec bindings to DT schema.
 
-Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
 Cc: Daniel Baluta <daniel.baluta@nxp.com>
-
 ---
-Changes in v3:
-- Changed the subject and the commit message.
+ .../devicetree/bindings/sound/wlf,wm8782.yaml | 47 +++++++++++++++++++
+ .../devicetree/bindings/sound/wm8782.txt      | 24 ----------
+ 2 files changed, 47 insertions(+), 24 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/wlf,wm8782.yaml
+ delete mode 100644 Documentation/devicetree/bindings/sound/wm8782.txt
 
-Changes	in v2:
-- Add linux,spdif-dir compatible in existing linux,spdif-dit.yaml
-instead of creating new yaml file specifically for dummy SPDIF receiver.
-- Change file name to support both transmitter and receiver bindings.
----
- .../sound/{linux,spdif-dit.yaml => linux,spdif.yaml}   |  8 +++++---
- .../devicetree/bindings/sound/spdif-receiver.txt       | 10 ----------
- 2 files changed, 5 insertions(+), 13 deletions(-)
- rename Documentation/devicetree/bindings/sound/{linux,spdif-dit.yaml => linux,spdif.yaml} (75%)
- delete mode 100644 Documentation/devicetree/bindings/sound/spdif-receiver.txt
-
-diff --git a/Documentation/devicetree/bindings/sound/linux,spdif-dit.yaml b/Documentation/devicetree/bindings/sound/linux,spdif.yaml
-similarity index 75%
-rename from Documentation/devicetree/bindings/sound/linux,spdif-dit.yaml
-rename to Documentation/devicetree/bindings/sound/linux,spdif.yaml
-index fe5f0756af2f..0f4893e11ec4 100644
---- a/Documentation/devicetree/bindings/sound/linux,spdif-dit.yaml
-+++ b/Documentation/devicetree/bindings/sound/linux,spdif.yaml
-@@ -1,10 +1,10 @@
- # SPDX-License-Identifier: GPL-2.0
- %YAML 1.2
- ---
--$id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
-+$id: http://devicetree.org/schemas/sound/linux,spdif.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
--title: Dummy SPDIF Transmitter
-+title: Dummy SPDIF Transmitter/Receiver
- 
- maintainers:
-   - Mark Brown <broonie@kernel.org>
-@@ -14,7 +14,9 @@ allOf:
- 
- properties:
-   compatible:
--    const: linux,spdif-dit
-+    enum:
-+      - linux,spdif-dit
-+      - linux,spdif-dir
- 
-   "#sound-dai-cells":
-     const: 0
-diff --git a/Documentation/devicetree/bindings/sound/spdif-receiver.txt b/Documentation/devicetree/bindings/sound/spdif-receiver.txt
+diff --git a/Documentation/devicetree/bindings/sound/wlf,wm8782.yaml b/Documentation/devicetree/bindings/sound/wlf,wm8782.yaml
+new file mode 100644
+index 000000000000..d0bbdc9f9ced
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/wlf,wm8782.yaml
+@@ -0,0 +1,47 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/wlf,wm8782.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Wolfson Microelectromics WM8782 audio CODEC
++
++maintainers:
++  - patches@opensource.cirrus.com
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    const: wlf,wm8782
++
++  Vdda-supply:
++    description: Regulator for the analog power supply (2.7V - 5.5V)
++
++  Vdd-supply:
++    description: Regulator for the digital power supply (2.7V - 3.6V)
++
++  wlf,fsampen:
++    description: FSAMPEN pin value, 0 for low, 1 for high, 2 for disconnected.
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum: [0, 1, 2]
++
++  "#sound-dai-cells":
++    const: 0
++
++required:
++  - compatible
++  - Vdda-supply
++  - Vdd-supply
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    wm8782: codec {
++        compatible = "wlf,wm8782";
++        Vdda-supply = <&vdda_supply>;
++        Vdd-supply = <&vdd_supply>;
++        wlf,fsampen = <2>;
++    };
+diff --git a/Documentation/devicetree/bindings/sound/wm8782.txt b/Documentation/devicetree/bindings/sound/wm8782.txt
 deleted file mode 100644
-index 80f807bf8a1d..000000000000
---- a/Documentation/devicetree/bindings/sound/spdif-receiver.txt
+index 1a28f3280972..000000000000
+--- a/Documentation/devicetree/bindings/sound/wm8782.txt
 +++ /dev/null
-@@ -1,10 +0,0 @@
--Device-Tree bindings for dummy spdif receiver
+@@ -1,24 +0,0 @@
+-WM8782 stereo ADC
+-
+-This device does not have any control interface or reset pins.
 -
 -Required properties:
--	- compatible: should be "linux,spdif-dir".
 -
--Example node:
+- - compatible  : "wlf,wm8782"
+- - Vdda-supply : phandle to a regulator for the analog power supply (2.7V - 5.5V)
+- - Vdd-supply  : phandle to a regulator for the digital power supply (2.7V - 3.6V)
 -
--	codec: spdif-receiver {
--		compatible = "linux,spdif-dir";
--	};
+-Optional properties:
+-
+- - wlf,fsampen:
+-   FSAMPEN pin value, 0 for low, 1 for high, 2 for disconnected.
+-   Defaults to 0 if left unspecified.
+-
+-Example:
+-
+-wm8782: stereo-adc {
+-	compatible = "wlf,wm8782";
+-	Vdda-supply = <&vdda_supply>;
+-	Vdd-supply = <&vdd_supply>;
+-	wlf,fsampen = <2>; /* 192KHz */
+-};
 -- 
 2.45.1
 
