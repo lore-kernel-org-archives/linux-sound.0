@@ -1,117 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0DF05684;
-	Tue, 11 Jun 2024 10:45:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E006B54750;
+	Tue, 11 Jun 2024 10:52:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718102730; cv=none; b=Qt3jocxpK5N8o3hFX2uGSWsIyQGHHDSjkOJa3GVe1cNtmwXJDzwUrCyqlvhjs71RJsULRTOyJtyyWjz35vQNYghFtwmMst/LNuqC9e/axv7/ls4fKg09uV5GdyBsfhWr3I7Z4xGl3+lOAGP3+7s4pqr3KbE+olfzu3bixGZyEx8=
+	t=1718103169; cv=none; b=FPw7kRw2LW3dpOsb+ywFCyj5sY2GKuRLXpC78Z+rqrR/nw+7xrMn7S/OLLjS2X8MPoHU2cThibdLx5UF3o5FdAXkw1f4r0vsei1aZMDHsPfZoRYu64psHaC9HI1sMaMZd9YPeSCNFe3eTcNYKgF47hLyUYNZV7CLm0DKVhd4bOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718102730; c=relaxed/simple;
-	bh=kDY1/eqRNFAnNwO/Y7Pd+N1Dge6LbOM+YMJu9kfyMH8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gvqHvaRL001fAU1ytPtXHWrlGsI6EqMrKB/LC/Xjoz+YlJ92N6HAL+6PIwx9m+suojoZmEVjnqdEbiSt3VtnFtM0C2pnGk5aPZGCBrWFWVCIRb7l0XwCyMZwZ3LHCHYuRWMkSYcpsPFtE+5OwQUZQvH98cuk5DCr/QDbpgXv+cY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VrZptkwX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718103169; c=relaxed/simple;
+	bh=SPGCvg8oBcYG36Y3k+TqNNr972Be3vD+h4h2HMX0I+U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lsGVU02lv5kflv6bgAb8dSnHEo2jbQHqhFCQOZNX386bntRmzje0tK+/uIAZ4fCEs16r8KikXof8y6fuELpcMQLODMh9mdkqlPJ6jYqfrheJG9pCP8enpGP3LPbQYclw/K6PHfmQZK8Hp7g8KyEQQqlI0sCxguydSdW2Xt89UPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P1Mmx+6L; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VrZptkwX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10249C4AF1C;
-	Tue, 11 Jun 2024 10:45:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P1Mmx+6L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E91A1C32786;
+	Tue, 11 Jun 2024 10:52:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718102730;
-	bh=kDY1/eqRNFAnNwO/Y7Pd+N1Dge6LbOM+YMJu9kfyMH8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=VrZptkwXb9BteP4t/EMOYZ3PRn6Aromry5TzPuV6zidd4P2XoqUMOgVcpkS/fDCSy
-	 MUwvuVq/bDximpEHFUkDBox9h/oLjj9VHHkgBb/7vgh9r8kMDN95u6tAZdtcQg+BZc
-	 +ejiUIpOarfBriLWxWsHvkv9KfuwL+G9yyIZ0/nRjUiR3IqzGJYEmigdveQKXvNBUb
-	 CUkJkDnY5oJI/PT+Tkk5jyN1TfnDQ9/x2OQYAz5J3uAwIJK9FJ5pd04+bAw+ctswVZ
-	 kxd9DbDKsyx58gaFgglEbDVNharAKlNbUmh7TZ4cw/c/6cKyn9RbmZgqDSbIlWUNsl
-	 zujj6QGC/NrZA==
-Message-ID: <51eeec03-47da-44b5-a21e-f280d0c4b47c@kernel.org>
-Date: Tue, 11 Jun 2024 12:45:22 +0200
+	s=k20201202; t=1718103168;
+	bh=SPGCvg8oBcYG36Y3k+TqNNr972Be3vD+h4h2HMX0I+U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=P1Mmx+6LI3tk0HEjNzIWO+vEfjmp/DZPYSQcOZI7tx2yZfoJqmZ6wKRkgd38O6e7r
+	 HEttIG0vIBXdIGA/fDvEjgeLkpx3Klp9wvgq19w3wUXleABJZ8xXWL+DAFuzdSB3id
+	 453SozEM6s9m+dQHHq9YObW62o1hid0EXxkU8Dg/gf23lVTP9tZqolYBRjS4TcmgWZ
+	 FgUxYvko7qKsDm1pXWL+msrl447F7WTfnv4nTd/PLZ/uPHNO8Y/1s+3TBKEv01xRBb
+	 MtWvPK/elrOqJ7grP5KlooTl6loyozwUciL5FqfYyRmj8sGtNcGGSTWbQ6wVUlHFSm
+	 Kt5jpwCXl+Xkw==
+Date: Tue, 11 Jun 2024 11:52:45 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Rui Zhou <zhourui@huaqin.corp-partner.google.com>
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+	trevor.wu@mediatek.com, allen-kh.cheng@mediatek.com,
+	kuninori.morimoto.gx@renesas.com, maso.huang@mediatek.com,
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v1] ASoC:  support machine driver with TAS2781
+Message-ID: <Zmgsfafmfedd9_MV@finisterre.sirena.org.uk>
+References: <20240611022227.2508354-1-zhourui@huaqin.corp-partner.google.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Patch v2 2/2] ASoC: dt-bindings: lpc32xx: Add lpc32xx i2s DT
- binding
-To: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vladimir Zapolskiy <vz@mleia.com>,
- Russell King <linux@armlinux.org.uk>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Arnd Bergmann <arnd@arndb.de>,
- Chancel Liu <chancel.liu@nxp.com>, Michael Ellerman <mpe@ellerman.id.au>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org
-References: <[PATCH] ASoC: fsl: Add i2s and pcm drivers for LPC32xx CPUs>
- <20240611094810.27475-1-piotr.wojtaszczyk@timesys.com>
- <20240611094810.27475-2-piotr.wojtaszczyk@timesys.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240611094810.27475-2-piotr.wojtaszczyk@timesys.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="K85sZsmQcdfrCDzv"
+Content-Disposition: inline
+In-Reply-To: <20240611022227.2508354-1-zhourui@huaqin.corp-partner.google.com>
+X-Cookie: Your love life will be... interesting.
 
-On 11/06/2024 11:47, Piotr Wojtaszczyk wrote:
-> Add nxp,lpc3220-i2s DT binding documentation.
-> 
-> Signed-off-by: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
+
+--K85sZsmQcdfrCDzv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Jun 11, 2024 at 10:22:27AM +0800, Rui Zhou wrote:
+> Support amp TAS2781 for mt8188 platform
+>=20
+> Signed-off-by: Rui Zhou <zhourui@huaqin.corp-partner.google.com>
 > ---
-> Changes for v2:
-> - Added maintainers field
-> - Dropped clock-names
-> - Dropped unused unneded interrupts field
+>  sound/soc/mediatek/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/sound/soc/mediatek/Kconfig b/sound/soc/mediatek/Kconfig
+> index 5a8476e1ecca..07f67f96c889 100644
+> --- a/sound/soc/mediatek/Kconfig
+> +++ b/sound/soc/mediatek/Kconfig
+> @@ -233,6 +233,7 @@ config SND_SOC_MT8188_MT6359
+>  	select SND_SOC_HDMI_CODEC
+>  	select SND_SOC_DMIC
+>  	select SND_SOC_MAX98390
+> +	select SND_SOC_TAS2781_I2C
+>  	select SND_SOC_NAU8315
+>  	select SND_SOC_NAU8825
 
-Does the device has interrupts or not? This should justify decision, not
-current usage by drivers.
+Ideally this would be sorted to avoid spurious merge conficts.  Also do
+we really have dependencies here or should these just be being enabled
+by users - these drivers are all pretty generic now?  Not that this
+change in itself makes a huge difference to the existing state.
 
-Best regards,
-Krzysztof
+--K85sZsmQcdfrCDzv
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZoLHwACgkQJNaLcl1U
+h9AAVgf/TWEQisVxEaf1frM1/D3qcobxJ6efWsgIv3IU+Pg4hw/ZG/TRDwKrGkj3
+htAD+n9XXY85OzGfILsjRExZ+WDaULAYnvBoJpml5QqvJPQJ3hdFVeAP+oyZ3uwa
+ueaNc253irzMPAtO6FUe4KrJSLXGWTWfiliOS3p6ntj8HuuLO0IaXw2r/9Qedf2l
+HLVobEfd4G0nC68K75qt0El0Dl+8vJMKa4NHL75A1Zdj0WHBNC5pbCB1q1SNIKWB
+xpWuo7HPpof5ewkH4wE/ej3Ug25R0yw6UbMUSl2GVkAqY4n7nF2GKoO7O3uZ+yvG
+HGdLYOln52AYmZDRc1mkwDvKazuvwA==
+=rSC4
+-----END PGP SIGNATURE-----
+
+--K85sZsmQcdfrCDzv--
