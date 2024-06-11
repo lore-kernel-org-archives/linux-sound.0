@@ -1,186 +1,132 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A9CE17BB02;
-	Tue, 11 Jun 2024 12:23:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD7F176223;
+	Tue, 11 Jun 2024 12:36:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718108592; cv=none; b=l+TL3A3LX3Y9s0WRAX3aRqFzsNraM0GArD0OuuCOlfTzMh+WCebydFEpZQc2JY71kCC6T5kIUzv5356o+iL1n2u9XPwvawCoSpzUD4ifcUUpEp8Vr2cG5kVRwHWqjnu8jNmGltylaYTsOo60W7Ex/O9qla9oJBbULWat+F74g/I=
+	t=1718109365; cv=none; b=MCACbJ3ggnuE6MQKRdJpYuUz9WB39V8R2zR4V2avAPN5FWLqIm2T2SXHjzYDhgkR9lxATGBJHsCUWfphmbLDdCK0vE2ii2P6PuxyjNlW6RqH2gWw6AyymDpMtN2wgpbfQ+23ziDEV1NrdRgLiWa3v17yDRz6DuSPPvUtCNcQRig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718108592; c=relaxed/simple;
-	bh=jz2lKdoLAmywAiVh90VRZ7zihAdGB/Mjfd4CdnLtpFY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YYswy10EjUz4ve4CDKDpjSmxA51BLsXYJ7RDg42JefzMKCf9CAueAT0KO4EF3b2b2N/erDpfyeRWW6qCJloV6gZWWw4YSr5H4jSZyucDOV1wlzZpc2J0SLB4Mblm5aTCVUiLTSIHuqm2/v4ljVtDAXpCn5fL0/QTmaaX1EG8Bes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RWS+OsQX; arc=none smtp.client-ip=209.85.215.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1718109365; c=relaxed/simple;
+	bh=KOWpJtHBV4XE8VhY7yrO/kJc+8536QocG6HEWhHlh4g=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GH0hR7doyeTp9svSjlBuro8gmXkfclmE0qmPj4QUZE1JWaEY3ZiNi3PUb4aSl1wDbJ2Pb5LHRVavUDcUkLRJHVgF7sVHxRQvcQh+wQ8HFhY5ZjeCvsTZp1dKDWEN6WZsSKg/uJ0QxwJfb6KgSATnzwcBnOmDJ2bcse+z24pm3kM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=Nhcx8DHA; arc=none smtp.client-ip=198.47.23.248
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RWS+OsQX"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-6eab07ae82bso832175a12.3;
-        Tue, 11 Jun 2024 05:23:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718108591; x=1718713391; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=EOZTRxupDtWwJHuRilUyPeK4CR8nu2TIfIZfSy2nBSs=;
-        b=RWS+OsQXPHRjxLaZcO02Tm2x6kKRuHMMkZoYvkK9wId+9LNd8YJZg097EPKKjZ29MC
-         +rzngZ5xx+OmeZzQ7FNyCV1buUfyl+Yc9c3erKtczCSoBuE08WmgsNXGVkSQ24MBM2AR
-         2k3WOCVCc6q0DqZvC8csl0S4bKKDuXdsMNdCvyqgHty1hpEFwSXAm/Uaf1Y9btIpgh+g
-         E9YPi/PFLcblK6D38zP5it2LGJMO+b+ijc2g9+h9IPz2KwjnS2aDMo4XY2tqW3IYOT8/
-         EOUgfZ5k2z9z5XTiyPP+e7zkd34S0nwvGy4/a57cg7xjSAAVtji7Wk0JRF0jfTKBuJ8R
-         U6HQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718108591; x=1718713391;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EOZTRxupDtWwJHuRilUyPeK4CR8nu2TIfIZfSy2nBSs=;
-        b=TrI4ulhWp1UBOozYNHXWYcchhh2ElRTKOn23HnNkjtfp1o/OxlwFHlxr+Ul81NsZif
-         1pZF/EzD8NkvM5zGZde7rXKoRU/glD167Gwz2wFwFl8bvtISb3Eil+0QP6Uo1pP4VHZo
-         5Df4Z0cJmbl830G6cmSEmkFeCml/hAT5QULw2l+io9dfZqnoJgaHFlUhz3T+eOJkQGbi
-         z+5HuEaERIiRBuRblu+hpZvUWQW0UXkBiUAq/mcdY+vwVlPIQvYXifcG4dfO4TP6eWYx
-         wmxqJBhvahNlgI2Xt1SJesQ/0LHMLdETSIXinOZl5AkVmcRGuxipB62R1bCqKfylc8Ng
-         QaZg==
-X-Forwarded-Encrypted: i=1; AJvYcCU+0KSpaboV58Aa25knhy/URr/uMXwAgYV9RKsiI5qpDfar2oqgb53zkVpNtmREj+4ta7qeFytLNtxiX602Fmmvku5VougbPFwiqh4q9RCy2pKjG4g0hThwNnzgcm0r1aKAjFrRhINhIQf4ftCVDorbGPBil8++VCNC+P7UpnK/QKscSdUX
-X-Gm-Message-State: AOJu0YxkmuhwpgpoD8nL9VOyOY+oV1y1epBlsGDwsbf4iW1Y/m+E3L9Q
-	bND5YFhlnKd4PiV79Gk0hDyqRGKcbBmWe+7KzbRchHUHU8EZorbA
-X-Google-Smtp-Source: AGHT+IEhPFNtb9nmKI5y+NJ+LmMngE9cDpDPrayFaEAYgV3CtqI2Gk9PBOTf6M5x55DhupPbOR5C0w==
-X-Received: by 2002:a05:6a21:1a2:b0:1b5:2fbb:2d84 with SMTP id adf61e73a8af0-1b52fbb307amr9428335637.28.1718108590480;
-        Tue, 11 Jun 2024 05:23:10 -0700 (PDT)
-Received: from fedora.one.one.one.one ([2405:201:6013:c0b2:ea4b:30e0:4e3a:ab56])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-6f88c51aec4sm328663a12.86.2024.06.11.05.23.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jun 2024 05:23:10 -0700 (PDT)
-From: Animesh Agarwal <animeshagarwal28@gmail.com>
-To: 
-Cc: animeshagarwal28@gmail.com,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	patches@opensource.cirrus.com,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: dt-bindings: wlf,wm8804: Convert to dtschema
-Date: Tue, 11 Jun 2024 17:52:51 +0530
-Message-ID: <20240611122258.47406-1-animeshagarwal28@gmail.com>
-X-Mailer: git-send-email 2.45.1
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Nhcx8DHA"
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 45BCZWRd047923;
+	Tue, 11 Jun 2024 07:35:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1718109332;
+	bh=KOWpJtHBV4XE8VhY7yrO/kJc+8536QocG6HEWhHlh4g=;
+	h=Date:From:To:CC:Subject:References:In-Reply-To;
+	b=Nhcx8DHA/kSRjceH/kbOpERTMx87jQRTzlsoYjbgvjz43SrXNNW7tR4t4/Hqg797q
+	 VCqL4tvR7/jF9LSr4Vma2FpVhXWhxrFIvfYoifJWz8mVRLcl6nDraflpVRXs9+aBwU
+	 Kh1o2mfDAMVuzIuHQ4Zj5iGtNz5MqvehV0L4n3lI=
+Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
+	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 45BCZWuJ116422
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 11 Jun 2024 07:35:32 -0500
+Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 11
+ Jun 2024 07:35:31 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 11 Jun 2024 07:35:31 -0500
+Received: from localhost (jluthra.dhcp.ti.com [172.24.227.116])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 45BCZV1O121832;
+	Tue, 11 Jun 2024 07:35:31 -0500
+Date: Tue, 11 Jun 2024 18:05:30 +0530
+From: Jai Luthra <j-luthra@ti.com>
+To: Mark Brown <broonie@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>
+CC: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Liam
+ Girdwood <lgirdwood@gmail.com>,
+        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>, Devarsh Thakkar <devarsht@ti.com>,
+        Vignesh
+ Raghavendra <vigneshr@ti.com>,
+        Jayesh Choudhary <j-choudhary@ti.com>
+Subject: Re: Re: [PATCH v2 1/2] ALSA: dmaengine: Synchronize dma channel in
+ prepare()
+Message-ID: <e55jugzdtzgiqvvmvtgyp3rovthvl3ky2o4quuxvswt3w5nshr@stuqxwmbpnpo>
+References: <20240610-asoc_next-v2-0-b52aaf5d67c4@ti.com>
+ <20240610-asoc_next-v2-1-b52aaf5d67c4@ti.com>
+ <3557bd0f-86b4-4dce-90dd-59303f4f1154@metafoo.de>
+ <ZmgpUFy5-_5n_zyd@finisterre.sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="a2pm5t3dxnjeog5a"
+Content-Disposition: inline
+In-Reply-To: <ZmgpUFy5-_5n_zyd@finisterre.sirena.org.uk>
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-Convert the WM8804 audio codec bindings to DT schema.
+--a2pm5t3dxnjeog5a
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
-Cc: Daniel Baluta <daniel.baluta@nxp.com>
----
- .../devicetree/bindings/sound/wlf,wm8804.yaml | 58 +++++++++++++++++++
- .../devicetree/bindings/sound/wm8804.txt      | 25 --------
- 2 files changed, 58 insertions(+), 25 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/sound/wlf,wm8804.yaml
- delete mode 100644 Documentation/devicetree/bindings/sound/wm8804.txt
+Hi Lars, Mark,
 
-diff --git a/Documentation/devicetree/bindings/sound/wlf,wm8804.yaml b/Documentation/devicetree/bindings/sound/wlf,wm8804.yaml
-new file mode 100644
-index 000000000000..3c060179f06e
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/wlf,wm8804.yaml
-@@ -0,0 +1,58 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/wlf,wm8804.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: WM8804 audio codec
-+
-+description: |
-+  This device supports both I2C and SPI (configured with pin strapping on the
-+  board).
-+
-+maintainers:
-+  - patches@opensource.cirrus.com
-+
-+properties:
-+  compatible:
-+    const: wlf,wm8804
-+
-+  reg:
-+    description:
-+      The I2C address of the device for I2C, the chip select number for SPI.
-+    maxItems: 1
-+
-+  "#sound-dai-cells":
-+    const: 0
-+
-+  PVDD-supply:
-+    description: PLL core supply
-+
-+  DVDD-supply:
-+    description: Digital core supply
-+
-+  wlf,reset-gpio:
-+    description: A GPIO specifier for the GPIO controlling the reset pin.
-+    maxItems: 1
-+
-+required:
-+  - reg
-+  - compatible
-+  - PVDD-supply
-+  - DVDD-supply
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        codec@1a {
-+            compatible = "wlf,wm8804";
-+            reg = <0x1a>;
-+            PVDD-supply = <&pvdd_reg>;
-+            DVDD-supply = <&dvdd_reg>;
-+        };
-+    };
-diff --git a/Documentation/devicetree/bindings/sound/wm8804.txt b/Documentation/devicetree/bindings/sound/wm8804.txt
-deleted file mode 100644
-index 2c1641c17a91..000000000000
---- a/Documentation/devicetree/bindings/sound/wm8804.txt
-+++ /dev/null
-@@ -1,25 +0,0 @@
--WM8804 audio CODEC
--
--This device supports both I2C and SPI (configured with pin strapping
--on the board).
--
--Required properties:
--
--  - compatible : "wlf,wm8804"
--
--  - reg : the I2C address of the device for I2C, the chip select
--          number for SPI.
--
--  - PVDD-supply, DVDD-supply : Power supplies for the device, as covered
--    in Documentation/devicetree/bindings/regulator/regulator.txt
--
--Optional properties:
--
--  - wlf,reset-gpio: A GPIO specifier for the GPIO controlling the reset pin
--
--Example:
--
--wm8804: codec@1a {
--	compatible = "wlf,wm8804";
--	reg = <0x1a>;
--};
--- 
-2.45.1
+On Jun 11, 2024 at 11:39:12 +0100, Mark Brown wrote:
+> On Mon, Jun 10, 2024 at 05:45:52PM -0700, Lars-Peter Clausen wrote:
+> > On 6/10/24 03:56, Jai Luthra wrote:
+>=20
+> > > Sometimes the stream may be stopped due to XRUN events, in which case
+> > > the userspace can call snd_pcm_drop() and snd_pcm_prepare() to stop a=
+nd
+> > > start the stream again.
+>=20
+> > > In these cases, we must wait for the DMA channel to synchronize before
+> > > marking the stream as prepared for playback, as the DMA channel gets
+> > > stopped by snd_pcm_drop() without any synchronization.
+>=20
+> > We should really implement the sync_stop() PCM callback and let the ALSA
+> > core let care of the sync.
+>=20
+> Good point, that's a better idea.
 
+Thanks for the suggestion, sending a v3 with the change.
+
+Peter,
+I've kept your R-by intact as it is a minor change.
+
+
+--=20
+Thanks,
+Jai
+
+GPG Fingerprint: 4DE0 D818 E5D5 75E8 D45A AFC5 43DE 91F9 249A 7145
+
+--a2pm5t3dxnjeog5a
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEETeDYGOXVdejUWq/FQ96R+SSacUUFAmZoRI8ACgkQQ96R+SSa
+cUWdgg/8CE3gIScDM3oCtEbZLGwD4OSB1rjOChUtnO5P0OPRFipfhafhKyDsKtcZ
+JlU9aFk+lazrHXLzQNrR2Uz9ljyhm1fc3FH+OCi04cTlRlu6Eees02ZwbQaSGV1g
+kDQumGpedl0oh5+dc5eTypM3CzJpmTIumJYruaGqQzj0f9P2gyOMuvrlVorwQef7
+Q3aWIZOJrj+F0hAchTFUN+1jW9IGnQJLnr1kPTurHP8wntJGjMV8bE00Jji5iZCE
+/zxtqWpMB/tG8Utl41W6dV3UJ7esQFhtX+xyihclFEVfvHli+k6HNtIG4aPAf82K
+LNzhGRLDAeUq7EmPk7x3GHVkRhJ2A4RbLBSfYhhHOEfO7B+WPnZqCCj9WjL1UUwJ
+of3PUoqDV6jHX0kkzb+2Oe0p4YtcIUhlwBWlFXJd4Pe8tGd6ISc2IznTGCViun0P
+YHVH5hWEBf4iuax1gvCiaRCE/VUJIQNs6gMTNlwq/6HiP9yJQm4C8v7rgPFZz8a4
+QzfaCwpopSB1husKft8lmrLb8brM1ca4iHTuqJToZuQ4dEsOI7GvNodhuVY1XVGE
+YJrze66Vn1qZMJHj1zJ3P8bbqWX5I4VuhcOKUv7BoPLMotefjCPUrLQ/F+xcwW3Q
+TbFHBLZBaR3lYNgBq/b0D6LebzUzhCwqBQNAwlosRMs7KmgpZi0=
+=iOPb
+-----END PGP SIGNATURE-----
+
+--a2pm5t3dxnjeog5a--
