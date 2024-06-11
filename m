@@ -1,45 +1,65 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5797D17B42E;
-	Tue, 11 Jun 2024 13:19:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D6617C7C6;
+	Tue, 11 Jun 2024 13:22:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718111955; cv=none; b=oRfig9fmqF6e+FNrhklXEWQ4L1cF43/GMT4VAzOUuBREWW8bcsTtrm9cxF72lLOGXZBhzoEgMDOKa4wjASaJ6wZB3GInX0ghQf1WN0hLaMo1GZovZoB4yCKJsXeMGvIPPonixI4ApmMTcK/bdQ73pSqzREFkU+y8BNeruOw8QY8=
+	t=1718112161; cv=none; b=QeSr/gDBzHCYQyshOw4fDD/DYxLm7RobRq1x6cr49v/QZ1fJRyQ87TmaMo2Mqvd7eL1QEqwXq4ba4zKbvamwR/PgF0TQlbDYdCs04bR8lXeEbpWqCi21Jvcg4802Fv4pdcGc1HdPvXl0rUZBw1gNQ/ava5+ktWIxc503dk0FLNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718111955; c=relaxed/simple;
-	bh=J8yhVuHGe30lXX6K160M1LciDauZy7HN1wD2X9gUkcA=;
+	s=arc-20240116; t=1718112161; c=relaxed/simple;
+	bh=jA9dvE7L9ZJmw9za/ZknPNMPAQ+nyOtSi6kn/GimkXY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AkQkLRfh89U9RQ6NC/SFiTTVljqdKzW1YxRGynnn4zDiTyjf3brWtUGAKmK2BXiqqGJzfxa7dHh+mMModPJD20sefne03erYh2ek+w+adNV2cjN+i6tJqunLvav9e+d7Kks8PCpKivsSSlvI0GtqjaUS9aEGRS0yeZz7Z8q1o0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iF2ogBzd; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=g54z85g8RnxBY7o7Q2k1GWuk9F9q8BAMt2KKz/k99+luPOiKo/w7Ik97a3x3kLy9+af16mLnzWr4ChnBbjf+pxft1+uE6Chxux0kV8YGh6F0HwwSz0YEdvjZ2j/hPZZAXLJ/CEHPV0+dgX1yPtuTir1gayAEgwH3z4PH273vg7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OJvxpd51; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iF2ogBzd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D914C2BD10;
-	Tue, 11 Jun 2024 13:19:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OJvxpd51"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46807C2BD10;
+	Tue, 11 Jun 2024 13:22:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718111954;
-	bh=J8yhVuHGe30lXX6K160M1LciDauZy7HN1wD2X9gUkcA=;
+	s=k20201202; t=1718112160;
+	bh=jA9dvE7L9ZJmw9za/ZknPNMPAQ+nyOtSi6kn/GimkXY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iF2ogBzdTXnby9LDZhbj6ywrmVv5y4/40fTX7bT04jojCnB5hwI7vy1ibGcJ8/r88
-	 XYFw9P19hjgZoO+QtbYGCraSsJ4jQz8NSmVFD/UtW7QW3rV2RqX3mpo++bIky+LrpX
-	 jM3Ot4XwUy41z1nP+5IWc3fQBT7vvV1as9FrnOujEXlHY2H1e9c24le/Og2N7/pZMZ
-	 PXSIFplW3DEFzQsPk4R2zwpsm1+X/HlmNr94C9FRqMnjVTqn9U1LnE0faOxcOxTLeY
-	 a71HjU9vUmwHQXTj9+/oQjdmNzNod8sbirixKktKFZfUFJIIGXh2sqKN9GxzYWDNAP
-	 9fDFRuXW1K0sg==
-Date: Tue, 11 Jun 2024 14:19:11 +0100
+	b=OJvxpd51vL1fgaAMZi+67oKms4QBWh1elR9Hk7cG6nG9e9gXGeFrMfWIIAEael+i3
+	 lAkE99VPxEfh5CyATJUju6DP+t3VIiBAQTucjgQ0ijMajJBcxew3jixbWnwkA4lB3w
+	 ugE0bmKSv4ByzTWhXiqCIEtwrFfOxt+cNpxRnb5kV3Pnz4F4fIUqKNgxjQoYWWx4Qh
+	 8zpY0odtnULrAV/ck1rMQnSKWXf63qG4qt6DqqFfTrBr+8cSR+V1A2y62QjUtMw5og
+	 nm+chU1m0V08cd11shPoWB/8gBRuAnigd/2INuHL6WAuyjUDRqmNsS6XCFFfwI6dMG
+	 6+fylC4MotZmw==
+Date: Tue, 11 Jun 2024 14:22:37 +0100
 From: Mark Brown <broonie@kernel.org>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Rui Zhou <zhourui@huaqin.corp-partner.google.com>, lgirdwood@gmail.com,
-	perex@perex.cz, tiwai@suse.com, matthias.bgg@gmail.com,
-	trevor.wu@mediatek.com, allen-kh.cheng@mediatek.com,
-	kuninori.morimoto.gx@renesas.com, maso.huang@mediatek.com,
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v1] ASoC: support machine driver with TAS2781
-Message-ID: <ZmhOz7BB8eJ38QVE@finisterre.sirena.org.uk>
-References: <20240611022227.2508354-1-zhourui@huaqin.corp-partner.google.com>
- <Zmgsfafmfedd9_MV@finisterre.sirena.org.uk>
- <d7d32ef3-8b2e-476c-a15e-7f829ea0d60a@collabora.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, Dave Ertman <david.m.ertman@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Michael Chan <michael.chan@broadcom.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jesse Brandeburg <jesse.brandeburg@intel.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Leon Romanovsky <leon@kernel.org>, Tariq Toukan <tariqt@nvidia.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	linux-media@vger.kernel.org, netdev@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
+	sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 1/6] auxbus: make to_auxiliary_drv accept and return a
+ constant pointer
+Message-ID: <ZmhPnQqYFXWP4heL@finisterre.sirena.org.uk>
+References: <20240611130103.3262749-7-gregkh@linuxfoundation.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,74 +67,36 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="L8C5DHVHxE1pZFLB"
+	protocol="application/pgp-signature"; boundary="Xh2Kj1DQz4GcFSrR"
 Content-Disposition: inline
-In-Reply-To: <d7d32ef3-8b2e-476c-a15e-7f829ea0d60a@collabora.com>
+In-Reply-To: <20240611130103.3262749-7-gregkh@linuxfoundation.org>
 X-Cookie: Your love life will be... interesting.
 
 
---L8C5DHVHxE1pZFLB
+--Xh2Kj1DQz4GcFSrR
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Tue, Jun 11, 2024 at 02:38:09PM +0200, AngeloGioacchino Del Regno wrote:
-> Il 11/06/24 12:52, Mark Brown ha scritto:
-> > On Tue, Jun 11, 2024 at 10:22:27AM +0800, Rui Zhou wrote:
-> > > Support amp TAS2781 for mt8188 platform
+On Tue, Jun 11, 2024 at 03:01:04PM +0200, Greg Kroah-Hartman wrote:
+> In the quest to make struct device constant, start by making
+> to_auziliary_drv() return a constant pointer so that drivers that call
+> this can be fixed up before the driver core changes.
 
-> > > +++ b/sound/soc/mediatek/Kconfig
-> > > @@ -233,6 +233,7 @@ config SND_SOC_MT8188_MT6359
-> > >   	select SND_SOC_HDMI_CODEC
-> > >   	select SND_SOC_DMIC
-> > >   	select SND_SOC_MAX98390
-> > > +	select SND_SOC_TAS2781_I2C
-> > >   	select SND_SOC_NAU8315
-> > >   	select SND_SOC_NAU8825
+Acked-by: Mark Brown <broonie@kernel.org>
 
-> > Ideally this would be sorted to avoid spurious merge conficts.  Also do
-> > we really have dependencies here or should these just be being enabled
-> > by users - these drivers are all pretty generic now?
-
-> The only dependency is on the MT6359 PMIC's audio related IPs and nothing else.
-
-> I'd even remove the other select statements for the other codecs, honestly,
-> as there's no reason why MT8188 wouldn't support a codec or the other, and
-> there is no reason why that SoC needs exactly those codecs, apart from some
-> board (Chromebooks) having one, or the other.
-
-Right, that's what I meant - the drivers are now so generic that they
-probably shouldn't be selecting everything they could possibly work
-with.
-
-> Instead of adding a select statement on MT8188_MT6359, adding the TAS2781_I2C
-> driver as a module in defconfig is a better idea..... at least, IMO.
-
-Yes.
-
-> >  Not that this
-> > change in itself makes a huge difference to the existing state.
-
-> I agree it doesn't make any huge difference, but I also don't see why users
-> can't simply enable (y/m) that in the kernel configuration :-)
-
-I think this is a result of the drivers originally being very specific
-to a particular setup and gradually getting made more generic, if the
-driver can only be used on a specific machine then the selects make
-sense but that's no longer the case for these drivers I think.
-
---L8C5DHVHxE1pZFLB
+--Xh2Kj1DQz4GcFSrR
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZoTs4ACgkQJNaLcl1U
-h9C5qQf9G5KuVznYWJOIxmrBhe90rR14xzXQ8iuN/dpwJrplNgIKiv/scP1621jG
-KMls3d3XffNozTDEjmE38BVH8H8kpa0pS2A88fKLp9Gv+4lvXMQXrw/XO/oKxkIZ
-b5sX+1YNLdebMbKyDzw16JmUenEkZHgSNpxc68bfmxFptlhtqo+0V3ZPkpGlsTCr
-i8uIMveI3ySIyxh+nRJHll9qfgqA5YvoHEadaflAnaRhQ6eI9beW9VtbBX3+P02n
-IYysSSakV433928mgTzoGvXGTgyJkc9ZV/uF7E5RRntPdqzU+/dEVlvt2wipweI2
-LyNOUbLuMhdQXn/GFYSUfFaJBROFdw==
-=JJl5
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZoT5wACgkQJNaLcl1U
+h9BOJwf/aeKGbgsNQMBhINPc1+PAR8b5cph+EiF+ikcvcatJwJlRp44vA9jbRubp
+RmTlt5cENNxdSPxZ4L1agVt+lbemBcTfLZFQLj+KvZjLhC2oeXhkcbjY3eLmIsVw
+yQjm6MBnwdVo/8KD/jHCX4VMeCIcqtyTSjXqy3Q7kWlquqICAer7jB2riTxPOsUA
+AZ8DvqF1TQees1OHELAdmRRkcSOufQXeZRHCfeiDTpAFFnOazvtPmeAPcQpA5c8v
+JITj6HWMZxHRs9efcbyOOTVYnUcE3cZY3lUuqKJqzEfI08F75CJiZvb1hS/fRrPU
+6Nig9Tiir3XUu0ajZMrfXBdbm+3HOg==
+=XJxc
 -----END PGP SIGNATURE-----
 
---L8C5DHVHxE1pZFLB--
+--Xh2Kj1DQz4GcFSrR--
