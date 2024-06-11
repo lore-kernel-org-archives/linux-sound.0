@@ -1,157 +1,133 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE6F481B4;
-	Tue, 11 Jun 2024 12:13:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A6D140BE3;
+	Tue, 11 Jun 2024 12:16:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718108024; cv=none; b=MDL7olqFPuUK5wMdUPzWsooLUnZdNeVJsM9cstcKqWCI95ZCJgcaqhTOfmjaXmOGOxwsAJN4d8NjL5DM/KO0VX6DBntv18WhL2V9arpDwXxbZvXqiHIDPcFwXQwga2XklmNrnujngvcHAmnbIc4TFCG4ol/3HY77CuuaKA6p/Hg=
+	t=1718108185; cv=none; b=F94DLcQNWXisQt2giNv6ktqNTKxaeKiHe3U4P4aT88otOJRINbYpAYZxYFlS5fDW1G3+8ZNJErh1e4I7foEl0LHbjJUnzc/ViQt58izj1cYly8RJbCfYDNF0Rnn7GZ3Dz+6ilKMUrQV3MuE+Wgo5vmXR5rS/FdzvtPaRkOdzCkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718108024; c=relaxed/simple;
-	bh=Jv18zFh8XQWgM9b7LINvHYAD1Eh4fxPjv6vjA9pRihg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=RWAEfAW/QiVdCfM8vargQ+HGnf4xN2f1MyCvU+TikmsKpcy76PEkaWlB6/w5CzhERTEMCH5sjup4pEmfOGzAidxMWTVhIb8gIh0AUT1bJ6hDHITV8WlErn2flM5dmpKL9bPXfVGoIbhdxLCVOaoYuEddQENMMlVygvzrCrpthdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=eBJlOGPn; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1718108185; c=relaxed/simple;
+	bh=5b71ZBPr1TDpwCIeu665mxKoJgWHyJPgN+lDoMuCdEQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m2P96vRJZ01K8nl33I6ZNwg6yjnN8UsbkEqt9L1TVJGzxmr+Nq4+RZ+euoJD4dUCcHBQ8xPK7QpgjMC32bTi3bULXjNYiebw40E5lf2GmBgoAANyoWCCou6RuFuUlMaJcAOEBt0YFopkYzdRtkUb4nFjgH0fx12SVlK2ENQHAX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nG6Li9wb; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="eBJlOGPn"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45B9gDTW018553;
-	Tue, 11 Jun 2024 12:13:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	x82hK8NhnLBb+QSZuUivDPcUai/65dDyEZPXvkHYaXI=; b=eBJlOGPn5olPi8aN
-	PRLlYwaMyEsxtgX4i/BtRqLUdlg3aAuKCa9OBg3UO6oJhXn/ebaMNr7c7HSnQUsx
-	2fps7fQK1R+ELquu9SbhF0HG/VAWNzV+S+7s5boTQza1m2P8Okwq20UcrBHAvEmm
-	ucLCfsJlOTS9mj9guEJ2XaoPbMjugjbUZLBhYjdDvpIsD1vUBRig0a55ReBNjBvN
-	fR2bxqWkczgS/ixhBOplJv1MBW0142D4ojSlBNn1sFxJIC5CyoZUEbnAS1Phx6Sc
-	UCHOTA2kbhYNH3aG05/xKyskOPXYGaxVr3QP5m0EGrf7bIBjwrfGP7PZCXX4qRal
-	mFVUjA==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ypm6b8bwx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 11 Jun 2024 12:13:28 +0000 (GMT)
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA02.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45BCDREZ014102
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 11 Jun 2024 12:13:27 GMT
-Received: from [10.216.24.176] (10.80.80.8) by nasanex01c.na.qualcomm.com
- (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 11 Jun
- 2024 05:13:22 -0700
-Message-ID: <9a14cb7b-8d6a-14b3-1d3a-b61086e4d4a9@quicinc.com>
-Date: Tue, 11 Jun 2024 17:43:19 +0530
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nG6Li9wb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718108183; x=1749644183;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5b71ZBPr1TDpwCIeu665mxKoJgWHyJPgN+lDoMuCdEQ=;
+  b=nG6Li9wbBSk0Bwfkr2n+tNNBq20b9JSseEvsZEa0gE7Z5pQ+4ovaJnnR
+   uQL0CsFyrRauhygjJWCcdOqtsG+JJPwYeMqAe6DwA1cuJ3LtR+djlLvcm
+   5C1fUzKDcZYg3OgaNwRvffGvTlrKY+HqYfmP23tWww9UnaYrsNbVunWbs
+   UNLyb16Ze1oBfsobyWxKFcGQef8OBYg+Nz+O4Kp6foyLeIJHrtqjJUk6f
+   PFnrLr/lRqUlAqo40jLO797huAprBDfCXdFxisB4HnrY9DokdMbRru6p6
+   NZ31sumE0y1V5MgY0NmUvetepy8Icoj0A6JyxXo6FbHlg8cNr1AzSyRSd
+   A==;
+X-CSE-ConnectionGUID: S3LuHc1BRw61ZSLeHYp42A==
+X-CSE-MsgGUID: Y/5FvykWR4qCuWJwc+P8IA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="32297230"
+X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; 
+   d="scan'208";a="32297230"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 05:16:22 -0700
+X-CSE-ConnectionGUID: lbBnx0IQSpu+4NO7yCW7dw==
+X-CSE-MsgGUID: XWVxDBsdS9S6W/BCtBEzbg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; 
+   d="scan'208";a="39879681"
+Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 11 Jun 2024 05:16:19 -0700
+Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sH0QD-0000Ow-1B;
+	Tue, 11 Jun 2024 12:16:17 +0000
+Date: Tue, 11 Jun 2024 20:16:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] ASoC: dt-bindings: convert tas571x.txt to dt-schema
+Message-ID: <202406112047.aKSKbmw4-lkp@intel.com>
+References: <20240607-topic-amlogic-upstream-bindings-convert-tas57xx-v1-1-ebf1e4919bb1@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v5 0/7] ASoC: codecs: wcd937x: add wcd937x audio codec
- support
-Content-Language: en-US
-To: Mark Brown <broonie@kernel.org>,
-        Srinivas Kandagatla
-	<srinivas.kandagatla@linaro.org>,
-        Banajit Goswami <bgoswami@quicinc.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-        "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>,
-        "Jaroslav Kysela" <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>
-CC: <alsa-devel@alsa-project.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <quic_rohkumar@quicinc.com>,
-        <quic_pkumpatl@quicinc.com>
-References: <20240524035535.3119208-1-quic_mohs@quicinc.com>
- <171810116692.177725.17513047102055843084.b4-ty@kernel.org>
-From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-In-Reply-To: <171810116692.177725.17513047102055843084.b4-ty@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: ycAQg5a7LKzw2oSSesGUY8tCsYXkrZJV
-X-Proofpoint-GUID: ycAQg5a7LKzw2oSSesGUY8tCsYXkrZJV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-11_07,2024-06-11_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 suspectscore=0
- mlxlogscore=963 impostorscore=0 spamscore=0 priorityscore=1501
- lowpriorityscore=0 adultscore=0 bulkscore=0 phishscore=0 mlxscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406110091
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240607-topic-amlogic-upstream-bindings-convert-tas57xx-v1-1-ebf1e4919bb1@linaro.org>
 
-On 6/11/2024 3:49 PM, Mark Brown wrote:
-> On Fri, 24 May 2024 09:25:28 +0530, Mohammad Rafi Shaik wrote:
->> This patchset adds support for Qualcomm WCD9370/WCD9375 codec.
->>
->> Qualcomm WCD9370/WCD9375 Codec is a standalone Hi-Fi audio codec IC
->> connected over SoundWire. This device has two SoundWire devices, RX and
->> TX respectively supporting 3 x ADCs, ClassH, Ear, Aux PA, 2xHPH,
->> 6 DMICs and MBHC.
->>
->> [...]
-> 
-> Applied to
-> 
->     https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-> 
-> Thanks!
-> 
-> [1/7] ASoC: dt-bindings: document wcd937x Audio Codec
->        commit: 27173bb0b64461acf4e00f1bae3b15d8d2348c14
-> [2/7] ASoC: codecs: wcd937x-sdw: add SoundWire driver
->        commit: c99a515ff15380ec5f8827049914145ba908e8da
-> [3/7] ASoC: codecs: wcd937x: add wcd937x codec driver
->        commit: 9be3ec196da41b20b624ae4ed0303df58548644e
-> [4/7] ASoC: codecs: wcd937x: add basic controls
->        commit: 82be8c62a38c6a44e64ecb29d7a9b5cb35c6cad4
-> [5/7] ASoC: codecs: wcd937x: add playback dapm widgets
->        commit: 57fe69db7a015e828ec69d819707c5b8eac6d052
-> [6/7] ASoC: codecs: wcd937x: add capture dapm widgets
->        commit: 8ee78493be89c42d016f941a9b00c203ec08daab
-> [7/7] ASoC: codecs: wcd937x: add audio routing and Kconfig
->        commit: 313e978df7fc38b9e949ac5933d0d9d56d5e8a9c
-> 
-> All being well this means that it will be integrated into the linux-next
-> tree (usually sometime in the next 24 hours) and sent to Linus during
-> the next merge window (or sooner if it is a bug fix), however if
-> problems are discovered then the patch may be dropped or reverted.
-> 
-> You may get further e-mails resulting from automated or manual testing
-> and review of the tree, please engage with people reporting problems and
-> send followup patches addressing any issues that are reported if needed.
-> 
-> If any updates are required or you are submitting further changes they
-> should be sent as incremental updates against current git, existing
-> patches will not be replaced.
-> 
-> Please add any relevant lists and maintainers to the CCs when replying
-> to this mail.
-> 
-> Thanks,
-> Mark
+Hi Neil,
 
+kernel test robot noticed the following build warnings:
 
-Hi Mark,
+[auto build test WARNING on c3f38fa61af77b49866b006939479069cd451173]
 
-The new v6 patch set is posted with review comments addressed.
+url:    https://github.com/intel-lab-lkp/linux/commits/Neil-Armstrong/ASoC-dt-bindings-convert-tas571x-txt-to-dt-schema/20240607-175726
+base:   c3f38fa61af77b49866b006939479069cd451173
+patch link:    https://lore.kernel.org/r/20240607-topic-amlogic-upstream-bindings-convert-tas57xx-v1-1-ebf1e4919bb1%40linaro.org
+patch subject: [PATCH] ASoC: dt-bindings: convert tas571x.txt to dt-schema
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20240611/202406112047.aKSKbmw4-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240611/202406112047.aKSKbmw4-lkp@intel.com/reproduce)
 
-The v5 is old patch set.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406112047.aKSKbmw4-lkp@intel.com/
 
-if possible please revert v5 and pick new v6 patch set.
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:263.22-266.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@3: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:268.22-273.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@4: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:275.24-278.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@5: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:280.22-283.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@6: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:285.22-288.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@7: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:290.29-293.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@8: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:305.11-309.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:311.11-315.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dts:71.10-75.5: Warning (unit_address_vs_reg): /spdif-out/port@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dts:82.10-86.5: Warning (unit_address_vs_reg): /comp-spdif-out/port@0: node has a unit name, but no reg or ranges property
+>> arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: audio-codec@1d: Unevaluated properties are not allowed ('port' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas57xx.yaml#
+   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: /soc@0/smpctrl@59801000: failed to match any schema with compatible: ['socionext,uniphier-smpctrl']
+   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
+   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: comp-spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
+--
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:396.22-399.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@3: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:401.22-406.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@4: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:408.24-411.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@5: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:413.22-416.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@6: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:418.22-421.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@7: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:423.29-426.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@8: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:438.11-442.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:444.11-448.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dts:71.10-75.5: Warning (unit_address_vs_reg): /spdif-out/port@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dts:82.10-86.5: Warning (unit_address_vs_reg): /comp-spdif-out/port@0: node has a unit name, but no reg or ranges property
+>> arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: audio-codec@1b: Unevaluated properties are not allowed ('port' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas57xx.yaml#
+   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: /soc@0/smpctrl@59801000: failed to match any schema with compatible: ['socionext,uniphier-smpctrl']
+   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: /soc@0/usb@65a00000: failed to match any schema with compatible: ['socionext,uniphier-dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
+   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: comp-spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
 
-Thanks & Regards,
-Rafi
-
-
-> 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
