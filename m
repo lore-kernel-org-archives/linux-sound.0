@@ -1,94 +1,196 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 180A9178371
-	for <linux-sound@vger.kernel.org>; Tue, 11 Jun 2024 10:19:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9520217625F;
+	Tue, 11 Jun 2024 10:36:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718101172; cv=none; b=KUC5Pf+qMiDrGdQlxisTtJSlYI3gXOirlQpLneZpEDEg4jdBN5uvPdIFriiLKOC5Uy31tdDt0w56Th6NmU+8y2xLoZxRBD3R92IiB2SltyRymF2oSq8Bja913FnsS53jNNaf1TH7LgrTaWdImmQiEtzTrzxKs3ZgxCo/CsYOF/8=
+	t=1718102194; cv=none; b=qL29jm8PYE+DaV6+N2svo3DX5MngJeQy3+EDYX5vJA5MAEpPMyuab5P32FE4zT5a2u/vxJZZmqgdTI63/7Y4jio+6B9tdu9AsteBNxRbobevUwyuNk1ealGmVtrad+u6hhfjJCqrAIKC2HEUwaByjyrafPk1KJumo1it7QT8mGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718101172; c=relaxed/simple;
-	bh=ObekRkrSe+EOUnd7QDGCxutmXFSACDEnV0vZ5NWpVeI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=WiL1fM8XJJVxrI/T5t1jGqXjfsLfqX2GaZU3xv7sOba+Wayp9hG0FM2IO8gm7QlMgWPhsr1vl+UtoNKQ/aRZOYcjrzhD2iS/GLXE77Ybb1kJ2j1/LaYsZddV8xyVxOn1TB1ZkIw1v/97TqZHNrFfoP0caAdxdGD0JlHf9OtUMhk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dLykSCqG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718102194; c=relaxed/simple;
+	bh=GRiJHJeBxHjjSrVuUZQEjtAnkrsyVP3YUixQ0bIDogY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=egSkc74t/cHzKV2foaGBE7sdeU73j6WaYKm6JZXcwRBnOqR+red11vkVtaLsYutbYTRvoZrGjL2ZpPE09NKZBw+QciWwz/ZUWYUvOdQ6XEiNlH92Rtyz85LgGoX+kuvs/xvkDDZZCE7RGXI+6OJKw8s7jeMR1DybqE1eEPK+Jws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gqnSTrD7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dLykSCqG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B92FC4AF49;
-	Tue, 11 Jun 2024 10:19:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gqnSTrD7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 985F7C2BD10;
+	Tue, 11 Jun 2024 10:36:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718101172;
-	bh=ObekRkrSe+EOUnd7QDGCxutmXFSACDEnV0vZ5NWpVeI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=dLykSCqGe3xH86nN9q+DmRwCYXkBbeYMSYAXpxblzRQi2rMOm9WqSqEpQm30HR3a6
-	 iYFCVtn24t6yMkkTji0QPmi3aox9b7cTeTEPn8kVqKrcZOTg7BD14/nV63AF+RhBRX
-	 +1c63asOGFAx9dnXj6xk3U+cOUYUzJ/yXfz5ZtuHlwATAdvak/ZqFXJ17mTWiWFebg
-	 C7krFPmUAd77WPwTqCdRDsEAQYX6SbkVKcTFzgnAjcueI0ClQGYHpW4zP/fZZkRlLy
-	 GkcmQl3X+aUrvRjn+PGqfV6652N/uSCNm/LnT6gjuSUcsr0frd2WPsxEVmqccbX7vl
-	 GOtHzHWtXjDNw==
+	s=k20201202; t=1718102194;
+	bh=GRiJHJeBxHjjSrVuUZQEjtAnkrsyVP3YUixQ0bIDogY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gqnSTrD70/+vXgJD/5znDSFJoVnc7K8K6uckcQ3lWeVRuhL/70lTfzEN+6ZMRR5lU
+	 QpQDparoIxqKCPK+ccn2ON/mf/aml+H+R07RM2rKDM74OfVrDpDvb32r1jk0nCddBM
+	 bEfy3OIM2u+OlkNS0DYGtBXRG4SSa3ywLYgv06ekYWDSRayaANzBun4myW4uzyDWYw
+	 4Mx+j0Y5GL1WQv//PFcyjnu7Mzd7jbs82fy0aK74PKm+R1B6eB+DKMasNzMylER/jO
+	 KnUJJ0KBuxv00TT2P5DjcpJSoOIepMikp0zRLYUGJ4KdtBh5MMNf+FY8B/l+0rbXFa
+	 E1M3eM9xJvUEw==
+Date: Tue, 11 Jun 2024 11:36:31 +0100
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: alsa-devel@alsa-project.org, tiwai@suse.de, rafael@kernel.org, 
- vkoul@kernel.org, andriy.shevchenko@linux.intel.com
-In-Reply-To: <20240528192936.16180-1-pierre-louis.bossart@linux.intel.com>
-References: <20240528192936.16180-1-pierre-louis.bossart@linux.intel.com>
-Subject: Re: [PATCH 0/3] ACPI/ALSA/soundwire: add
- acpi_get_local_u64_address() helper
-Message-Id: <171810117047.177725.11786144644878657909.b4-ty@kernel.org>
-Date: Tue, 11 Jun 2024 11:19:30 +0100
+To: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Chancel Liu <chancel.liu@nxp.com>, Arnd Bergmann <arnd@arndb.de>,
+	Michael Ellerman <mpe@ellerman.id.au>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
+	linuxppc-dev@lists.ozlabs.org
+Subject: Re: [Patch v2 1/2] ASoC: fsl: Add i2s and pcm drivers for LPC32xx
+ CPUs
+Message-ID: <Zmgor8accyAiUkUO@finisterre.sirena.org.uk>
+References: <[PATCH]ASoC:fsl:Addi2sandpcmdriversforLPC32xxCPUs>
+ <20240611094810.27475-1-piotr.wojtaszczyk@timesys.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev-4c370
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="WW949k97zQLQvi69"
+Content-Disposition: inline
+In-Reply-To: <20240611094810.27475-1-piotr.wojtaszczyk@timesys.com>
+X-Cookie: Your love life will be... interesting.
 
-On Tue, 28 May 2024 14:29:32 -0500, Pierre-Louis Bossart wrote:
-> The acpi_get_local_address() helper assumes a 32-bit ADR is used. If
-> we want to use this helper for SoundWire/SDCA ASoC codecs, we need an
-> extension where the native 64-bits are used. This patchset suggests a
-> new helper, acpi_get_local_address() may be renamed if desired in a
-> folow-up patch.
-> 
-> The path of least resistance would be to merge this patchset in the
-> ASoC tree, since I have additional changes for ASoC/SDCA (SoundWire
-> Device Class) that depend on the new helper.
-> 
-> [...]
 
-Applied to
+--WW949k97zQLQvi69
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Tue, Jun 11, 2024 at 11:47:51AM +0200, Piotr Wojtaszczyk wrote:
 
-Thanks!
+>  arch/arm/boot/dts/nxp/lpc/lpc32xx.dtsi |   4 +
+>  arch/arm/mach-lpc32xx/phy3250.c        |  60 ++++
 
-[1/3] ACPI: utils: introduce acpi_get_local_u64_address()
-      commit: 0b7e448119428e1dcb854abb5855f66966fb82dc
-[2/3] soundwire: slave: simplify code with acpi_get_local_u64_address()
-      commit: b6212f9bf489daf9716aed0e8c4dc6a807ce839f
-[3/3] ALSA: hda: intel-sdw-acpi: use acpi_get_local_u64_address()
-      commit: 9b7dc68eeba04d20f4a1733e791bc71355423612
+These architecture changes are separate and should at least be separate
+commits, copied to the architecture maintainers.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+> +FREESCALE SOC LPC32XX SOUND DRIVERS
+> +M:	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
+> +L:	alsa-devel@alsa-project.org (moderated for non-subscribers)
+> +L:	linuxppc-dev@lists.ozlabs.org
+> +S:	Orphan
+> +F:	sound/soc/fsl/lpc3xxx-*
+> +
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+It seems a bit odd to add yourself as a maintainer while also marking
+the driver as orphan?
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+> +config SND_SOC_FSL_LPC3XXX
+> +	tristate "SoC Audio for NXP LPC32XX CPUs"
+> +	depends on ARCH_LPC32XX && SND_SOC
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+On a quick scan I can't see any architecture dependency for build,
+please add an || COMPILE_TEST for improved coverage.  As for all the
+other things enabled in this Kconfig file there is no need to explicitly
+depend on SND_SOC.
 
-Thanks,
-Mark
+> @@ -42,6 +43,7 @@ obj-$(CONFIG_SND_SOC_FSL_XCVR) +=3D snd-soc-fsl-xcvr.o
+>  obj-$(CONFIG_SND_SOC_FSL_AUD2HTX) +=3D snd-soc-fsl-aud2htx.o
+>  obj-$(CONFIG_SND_SOC_FSL_RPMSG) +=3D snd-soc-fsl-rpmsg.o
+>  obj-$(CONFIG_SND_SOC_POWERPC_QMC_AUDIO) +=3D snd-soc-fsl-qmc-audio.o
+> +obj-$(CONFIG_SND_SOC_FSL_LPC3XXX) +=3D snd-soc-fsl-lpc3xxx.o
+> =20
+Please try to keep these files sorted alphabetically (it's not 100% at
+the minute but no need to make it worse).
 
+> --- /dev/null
+> +++ b/sound/soc/fsl/lpc3xxx-i2s.c
+> @@ -0,0 +1,383 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Author: Kevin Wells <kevin.wells@nxp.com>
+> + *
+
+Please make the entire comment a C++ one so things look more
+intentional.
+
+> +static u32 absd32(u32 v1, u32 v2)
+> +{
+> +	if (v1 > v2)
+> +		return v1 - v2;
+> +	return v2 - v1;
+> +}
+
+Just use abs()?
+
+> +static int lpc3xxx_i2s_set_dai_fmt(struct snd_soc_dai *cpu_dai, unsigned=
+ int fmt)
+> +{
+> +	struct lpc3xxx_i2s_info *i2s_info_p =3D snd_soc_dai_get_drvdata(cpu_dai=
+);
+> +	struct device *dev =3D i2s_info_p->dev;
+> +
+> +	if ((fmt & SND_SOC_DAIFMT_FORMAT_MASK) !=3D SND_SOC_DAIFMT_I2S) {
+> +		dev_warn(dev, "unsupported bus format %d\n", fmt);
+> +		return -EINVAL;
+> +	}
+> +	return 0;
+> +}
+
+If we're validating for I2S we should probably validate for clock
+provider too.  Or just remove the function, it's not really needed?
+
+> +	i2s_info_p->clk =3D devm_clk_get(dev, "i2s_clk");
+> +	if (IS_ERR(i2s_info_p->clk))
+> +		return dev_err_probe(dev, PTR_ERR(i2s_info_p->clk), "Can't get clock\n=
+");
+> +
+> +	i2s_info_p->clkrate =3D clk_get_rate(i2s_info_p->clk);
+> +	if (i2s_info_p->clkrate =3D=3D 0)
+> +		return dev_err_probe(dev, -EINVAL, "Invalid returned clock rate\n");
+
+Nothing ever enables this clock.
+
+> +static int lpc32xx_i2s_remove(struct platform_device *pdev)
+> +{
+> +	return 0;
+> +}
+
+Remove empty functions, if they can legitimately be empty the framework
+will support them being absent.
+
+> +#define _SBF(f, v) ((v) << (f))
+
+FIELD_PREP()
+
+> +#define _BIT(n) _SBF(n, 1)
+
+BIT().
+
+> +/* I2S controller register offsets */
+> +#define I2S_DAO		0x00
+> +#define I2S_DAI		0x04
+> +#define I2S_TX_FIFO	0x08
+> +#define I2S_RX_FIFO	0x0C
+> +#define I2S_STAT	0x10
+> +#define I2S_DMA0	0x14
+> +#define I2S_DMA1	0x18
+> +#define I2S_IRQ		0x1C
+> +#define I2S_TX_RATE	0x20
+> +#define I2S_RX_RATE	0x24
+
+Add a prefix to all these I2S_ names in case of collisions.
+
+--WW949k97zQLQvi69
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZoKKsACgkQJNaLcl1U
+h9DNgQf/bVmcCufP8jvhRnYGwhJ74PYfe8uGNqVDcvOPBqyxwbAHEcBkY4os9h6R
+GoQMz21Qh+ZtEks0KjHFDl3Lnd51Kac5YBeyl5s/WRciIBOxe+jSqmW0GpRYZwZ+
+YEMXUIyS6zA8Tik8onJLOtFrl4wLHXafkWOOPulK5v8+mZXYqPypwKq87c43IkrI
+MviOLdW4TB0CVCKvk590+1YPY+ZBBAELM6eO/D9du/AyvN+BkUnZLO/VOwQ4enRQ
+r2xnb2uSXMbDtKZKr4PbNw+9NbNaw9axfSzHbwXCu1Z0y+eOEKS1Vu2613VY9Al0
+VKMHNg0tTYcWMk0XTzihz60mgPSf0A==
+=srbB
+-----END PGP SIGNATURE-----
+
+--WW949k97zQLQvi69--
