@@ -1,133 +1,186 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A6D140BE3;
-	Tue, 11 Jun 2024 12:16:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A9CE17BB02;
+	Tue, 11 Jun 2024 12:23:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718108185; cv=none; b=F94DLcQNWXisQt2giNv6ktqNTKxaeKiHe3U4P4aT88otOJRINbYpAYZxYFlS5fDW1G3+8ZNJErh1e4I7foEl0LHbjJUnzc/ViQt58izj1cYly8RJbCfYDNF0Rnn7GZ3Dz+6ilKMUrQV3MuE+Wgo5vmXR5rS/FdzvtPaRkOdzCkE=
+	t=1718108592; cv=none; b=l+TL3A3LX3Y9s0WRAX3aRqFzsNraM0GArD0OuuCOlfTzMh+WCebydFEpZQc2JY71kCC6T5kIUzv5356o+iL1n2u9XPwvawCoSpzUD4ifcUUpEp8Vr2cG5kVRwHWqjnu8jNmGltylaYTsOo60W7Ex/O9qla9oJBbULWat+F74g/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718108185; c=relaxed/simple;
-	bh=5b71ZBPr1TDpwCIeu665mxKoJgWHyJPgN+lDoMuCdEQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m2P96vRJZ01K8nl33I6ZNwg6yjnN8UsbkEqt9L1TVJGzxmr+Nq4+RZ+euoJD4dUCcHBQ8xPK7QpgjMC32bTi3bULXjNYiebw40E5lf2GmBgoAANyoWCCou6RuFuUlMaJcAOEBt0YFopkYzdRtkUb4nFjgH0fx12SVlK2ENQHAX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nG6Li9wb; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1718108592; c=relaxed/simple;
+	bh=jz2lKdoLAmywAiVh90VRZ7zihAdGB/Mjfd4CdnLtpFY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YYswy10EjUz4ve4CDKDpjSmxA51BLsXYJ7RDg42JefzMKCf9CAueAT0KO4EF3b2b2N/erDpfyeRWW6qCJloV6gZWWw4YSr5H4jSZyucDOV1wlzZpc2J0SLB4Mblm5aTCVUiLTSIHuqm2/v4ljVtDAXpCn5fL0/QTmaaX1EG8Bes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RWS+OsQX; arc=none smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nG6Li9wb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718108183; x=1749644183;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5b71ZBPr1TDpwCIeu665mxKoJgWHyJPgN+lDoMuCdEQ=;
-  b=nG6Li9wbBSk0Bwfkr2n+tNNBq20b9JSseEvsZEa0gE7Z5pQ+4ovaJnnR
-   uQL0CsFyrRauhygjJWCcdOqtsG+JJPwYeMqAe6DwA1cuJ3LtR+djlLvcm
-   5C1fUzKDcZYg3OgaNwRvffGvTlrKY+HqYfmP23tWww9UnaYrsNbVunWbs
-   UNLyb16Ze1oBfsobyWxKFcGQef8OBYg+Nz+O4Kp6foyLeIJHrtqjJUk6f
-   PFnrLr/lRqUlAqo40jLO797huAprBDfCXdFxisB4HnrY9DokdMbRru6p6
-   NZ31sumE0y1V5MgY0NmUvetepy8Icoj0A6JyxXo6FbHlg8cNr1AzSyRSd
-   A==;
-X-CSE-ConnectionGUID: S3LuHc1BRw61ZSLeHYp42A==
-X-CSE-MsgGUID: Y/5FvykWR4qCuWJwc+P8IA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="32297230"
-X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; 
-   d="scan'208";a="32297230"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 05:16:22 -0700
-X-CSE-ConnectionGUID: lbBnx0IQSpu+4NO7yCW7dw==
-X-CSE-MsgGUID: XWVxDBsdS9S6W/BCtBEzbg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; 
-   d="scan'208";a="39879681"
-Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 11 Jun 2024 05:16:19 -0700
-Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sH0QD-0000Ow-1B;
-	Tue, 11 Jun 2024 12:16:17 +0000
-Date: Tue, 11 Jun 2024 20:16:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RWS+OsQX"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-6eab07ae82bso832175a12.3;
+        Tue, 11 Jun 2024 05:23:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718108591; x=1718713391; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EOZTRxupDtWwJHuRilUyPeK4CR8nu2TIfIZfSy2nBSs=;
+        b=RWS+OsQXPHRjxLaZcO02Tm2x6kKRuHMMkZoYvkK9wId+9LNd8YJZg097EPKKjZ29MC
+         +rzngZ5xx+OmeZzQ7FNyCV1buUfyl+Yc9c3erKtczCSoBuE08WmgsNXGVkSQ24MBM2AR
+         2k3WOCVCc6q0DqZvC8csl0S4bKKDuXdsMNdCvyqgHty1hpEFwSXAm/Uaf1Y9btIpgh+g
+         E9YPi/PFLcblK6D38zP5it2LGJMO+b+ijc2g9+h9IPz2KwjnS2aDMo4XY2tqW3IYOT8/
+         EOUgfZ5k2z9z5XTiyPP+e7zkd34S0nwvGy4/a57cg7xjSAAVtji7Wk0JRF0jfTKBuJ8R
+         U6HQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718108591; x=1718713391;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EOZTRxupDtWwJHuRilUyPeK4CR8nu2TIfIZfSy2nBSs=;
+        b=TrI4ulhWp1UBOozYNHXWYcchhh2ElRTKOn23HnNkjtfp1o/OxlwFHlxr+Ul81NsZif
+         1pZF/EzD8NkvM5zGZde7rXKoRU/glD167Gwz2wFwFl8bvtISb3Eil+0QP6Uo1pP4VHZo
+         5Df4Z0cJmbl830G6cmSEmkFeCml/hAT5QULw2l+io9dfZqnoJgaHFlUhz3T+eOJkQGbi
+         z+5HuEaERIiRBuRblu+hpZvUWQW0UXkBiUAq/mcdY+vwVlPIQvYXifcG4dfO4TP6eWYx
+         wmxqJBhvahNlgI2Xt1SJesQ/0LHMLdETSIXinOZl5AkVmcRGuxipB62R1bCqKfylc8Ng
+         QaZg==
+X-Forwarded-Encrypted: i=1; AJvYcCU+0KSpaboV58Aa25knhy/URr/uMXwAgYV9RKsiI5qpDfar2oqgb53zkVpNtmREj+4ta7qeFytLNtxiX602Fmmvku5VougbPFwiqh4q9RCy2pKjG4g0hThwNnzgcm0r1aKAjFrRhINhIQf4ftCVDorbGPBil8++VCNC+P7UpnK/QKscSdUX
+X-Gm-Message-State: AOJu0YxkmuhwpgpoD8nL9VOyOY+oV1y1epBlsGDwsbf4iW1Y/m+E3L9Q
+	bND5YFhlnKd4PiV79Gk0hDyqRGKcbBmWe+7KzbRchHUHU8EZorbA
+X-Google-Smtp-Source: AGHT+IEhPFNtb9nmKI5y+NJ+LmMngE9cDpDPrayFaEAYgV3CtqI2Gk9PBOTf6M5x55DhupPbOR5C0w==
+X-Received: by 2002:a05:6a21:1a2:b0:1b5:2fbb:2d84 with SMTP id adf61e73a8af0-1b52fbb307amr9428335637.28.1718108590480;
+        Tue, 11 Jun 2024 05:23:10 -0700 (PDT)
+Received: from fedora.one.one.one.one ([2405:201:6013:c0b2:ea4b:30e0:4e3a:ab56])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-6f88c51aec4sm328663a12.86.2024.06.11.05.23.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jun 2024 05:23:10 -0700 (PDT)
+From: Animesh Agarwal <animeshagarwal28@gmail.com>
+To: 
+Cc: animeshagarwal28@gmail.com,
+	Daniel Baluta <daniel.baluta@nxp.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] ASoC: dt-bindings: convert tas571x.txt to dt-schema
-Message-ID: <202406112047.aKSKbmw4-lkp@intel.com>
-References: <20240607-topic-amlogic-upstream-bindings-convert-tas57xx-v1-1-ebf1e4919bb1@linaro.org>
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: dt-bindings: wlf,wm8804: Convert to dtschema
+Date: Tue, 11 Jun 2024 17:52:51 +0530
+Message-ID: <20240611122258.47406-1-animeshagarwal28@gmail.com>
+X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240607-topic-amlogic-upstream-bindings-convert-tas57xx-v1-1-ebf1e4919bb1@linaro.org>
+Content-Transfer-Encoding: 8bit
 
-Hi Neil,
+Convert the WM8804 audio codec bindings to DT schema.
 
-kernel test robot noticed the following build warnings:
+Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
+Cc: Daniel Baluta <daniel.baluta@nxp.com>
+---
+ .../devicetree/bindings/sound/wlf,wm8804.yaml | 58 +++++++++++++++++++
+ .../devicetree/bindings/sound/wm8804.txt      | 25 --------
+ 2 files changed, 58 insertions(+), 25 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/wlf,wm8804.yaml
+ delete mode 100644 Documentation/devicetree/bindings/sound/wm8804.txt
 
-[auto build test WARNING on c3f38fa61af77b49866b006939479069cd451173]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Neil-Armstrong/ASoC-dt-bindings-convert-tas571x-txt-to-dt-schema/20240607-175726
-base:   c3f38fa61af77b49866b006939479069cd451173
-patch link:    https://lore.kernel.org/r/20240607-topic-amlogic-upstream-bindings-convert-tas57xx-v1-1-ebf1e4919bb1%40linaro.org
-patch subject: [PATCH] ASoC: dt-bindings: convert tas571x.txt to dt-schema
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20240611/202406112047.aKSKbmw4-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
-dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240611/202406112047.aKSKbmw4-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406112047.aKSKbmw4-lkp@intel.com/
-
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:263.22-266.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@3: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:268.22-273.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@4: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:275.24-278.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@5: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:280.22-283.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@6: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:285.22-288.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@7: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:290.29-293.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@8: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:305.11-309.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:311.11-315.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dts:71.10-75.5: Warning (unit_address_vs_reg): /spdif-out/port@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dts:82.10-86.5: Warning (unit_address_vs_reg): /comp-spdif-out/port@0: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: audio-codec@1d: Unevaluated properties are not allowed ('port' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas57xx.yaml#
-   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: /soc@0/smpctrl@59801000: failed to match any schema with compatible: ['socionext,uniphier-smpctrl']
-   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
-   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: comp-spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
---
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:396.22-399.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@3: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:401.22-406.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@4: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:408.24-411.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@5: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:413.22-416.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@6: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:418.22-421.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@7: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:423.29-426.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@8: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:438.11-442.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:444.11-448.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dts:71.10-75.5: Warning (unit_address_vs_reg): /spdif-out/port@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dts:82.10-86.5: Warning (unit_address_vs_reg): /comp-spdif-out/port@0: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: audio-codec@1b: Unevaluated properties are not allowed ('port' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas57xx.yaml#
-   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: /soc@0/smpctrl@59801000: failed to match any schema with compatible: ['socionext,uniphier-smpctrl']
-   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: /soc@0/usb@65a00000: failed to match any schema with compatible: ['socionext,uniphier-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
-   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: comp-spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
-
+diff --git a/Documentation/devicetree/bindings/sound/wlf,wm8804.yaml b/Documentation/devicetree/bindings/sound/wlf,wm8804.yaml
+new file mode 100644
+index 000000000000..3c060179f06e
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/wlf,wm8804.yaml
+@@ -0,0 +1,58 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/wlf,wm8804.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: WM8804 audio codec
++
++description: |
++  This device supports both I2C and SPI (configured with pin strapping on the
++  board).
++
++maintainers:
++  - patches@opensource.cirrus.com
++
++properties:
++  compatible:
++    const: wlf,wm8804
++
++  reg:
++    description:
++      The I2C address of the device for I2C, the chip select number for SPI.
++    maxItems: 1
++
++  "#sound-dai-cells":
++    const: 0
++
++  PVDD-supply:
++    description: PLL core supply
++
++  DVDD-supply:
++    description: Digital core supply
++
++  wlf,reset-gpio:
++    description: A GPIO specifier for the GPIO controlling the reset pin.
++    maxItems: 1
++
++required:
++  - reg
++  - compatible
++  - PVDD-supply
++  - DVDD-supply
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        codec@1a {
++            compatible = "wlf,wm8804";
++            reg = <0x1a>;
++            PVDD-supply = <&pvdd_reg>;
++            DVDD-supply = <&dvdd_reg>;
++        };
++    };
+diff --git a/Documentation/devicetree/bindings/sound/wm8804.txt b/Documentation/devicetree/bindings/sound/wm8804.txt
+deleted file mode 100644
+index 2c1641c17a91..000000000000
+--- a/Documentation/devicetree/bindings/sound/wm8804.txt
++++ /dev/null
+@@ -1,25 +0,0 @@
+-WM8804 audio CODEC
+-
+-This device supports both I2C and SPI (configured with pin strapping
+-on the board).
+-
+-Required properties:
+-
+-  - compatible : "wlf,wm8804"
+-
+-  - reg : the I2C address of the device for I2C, the chip select
+-          number for SPI.
+-
+-  - PVDD-supply, DVDD-supply : Power supplies for the device, as covered
+-    in Documentation/devicetree/bindings/regulator/regulator.txt
+-
+-Optional properties:
+-
+-  - wlf,reset-gpio: A GPIO specifier for the GPIO controlling the reset pin
+-
+-Example:
+-
+-wm8804: codec@1a {
+-	compatible = "wlf,wm8804";
+-	reg = <0x1a>;
+-};
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.45.1
+
