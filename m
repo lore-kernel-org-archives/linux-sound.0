@@ -1,85 +1,92 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A294511720;
-	Tue, 11 Jun 2024 16:12:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17D791CFB2;
+	Tue, 11 Jun 2024 16:18:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718122370; cv=none; b=ii31TFzbyWjgMTdtwURBNJKQIg7XFpqS6HRoTP8DosREQCKKxNDT0xQWeHZTc45ntR4vsqcH5XlrkNhh3/ZrTA6XWU4tdQe5vOQinbRfsiSSfea21nlkjUH4A3Ih4mi/LVuhUobC1v2TG1U9NMoRMbr39WZdxl8uUHHVkM6IYDc=
+	t=1718122707; cv=none; b=NdJ1DHcDyheXpwUtyIoQhVfMNlO0ltOsQfxs/K9nRZ2M5DYpTunbPXJeDhukBlBDGu2NWQWGo0YukI1Cs3GTzRe0EkJZ5duRxt+CFi62UP7uB3QK18ctmpIesSKoe8knrG16QQHvxXPpGciOLp/rLTy1bS+tlt+pDZz+PdVHp38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718122370; c=relaxed/simple;
-	bh=/2cQVTuJO9C88TSfeHS2I4PccXrdEUkcAQ3hBE1u/0I=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=cl6UAIuGVODn9kRI9KjNAX8pFqXSENyWTg6dogpBZVtnR7413kyX/La+/ZPUcKc+bn98B09HhrarqbgUQnzjUs87nARsvCNmBWKtMJ8JS9/WRFf+AfVeCw+QFZB7PxCOHn9yDr67+6twGlcshB8xLRqotS58BDnGlo5w1pyIxQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dl9FMEwg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718122707; c=relaxed/simple;
+	bh=BXCo5tYRXnp4nFR9iSjOtaso98PV85SmlYISucj3UX4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W+wLV5ACLh/DPbPR1CpssyZQsHY7se+Z/nXaawAlqyC4keNKfUgD2buGRIqSecQ7uDTUA2AwjJLOUS8k3e7Je5z+upvTfrAYLZESPMl5QuxG6hd+hGL8gqBtMmfQjeKVKjIgJ+U0BhxFsv4rK93PXnZr/hn62GFuPDHQJ5hyMJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ohSHEeJv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dl9FMEwg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 616BEC2BD10;
-	Tue, 11 Jun 2024 16:12:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ohSHEeJv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19E1EC32789;
+	Tue, 11 Jun 2024 16:18:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718122370;
-	bh=/2cQVTuJO9C88TSfeHS2I4PccXrdEUkcAQ3hBE1u/0I=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=dl9FMEwg4HfQ3gszUr4kZTQ5Ou1hMo1t00S9dOq/3lsejxDOOfJVhZAIEFz5G5Tgc
-	 NiyL/JKm1HBYfuWdGXZHwRsLCFUD5AS37sLZ3FATgpiicNutxV57b90DNpiUQ6XGVx
-	 ldiM05vhdrGsVYAPjq/dgPldRrIqgWCEIS6Wz5zOD6v4n1awzHcnVqDJR0y+VPmC4L
-	 h75ksb/+bDmehXNvRcnBmF5PlfhAeENMOobcb87TJqQf2tS2X/IAY1t2fUQP67WtgU
-	 nkHntEJsdbqE7MUK5pB0CsaQR3dQbWRy8jN7Q6nLwQAHeDB0dGNmwxP0F9J7EpLG/s
-	 b3e0LzpziPSig==
+	s=k20201202; t=1718122705;
+	bh=BXCo5tYRXnp4nFR9iSjOtaso98PV85SmlYISucj3UX4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ohSHEeJvbrchG5opz8XOjoL5wWczUKYg/j0J10BezKCKdWUHh+2BGYj+2R2VF18Mi
+	 XxjPWUSuAVLzYTuQ4L1Id7Wk/3W+3mvM8csSpYEc2KuP9ce/ryb2HxUA1lkkXJbnAk
+	 ycthwzrpLuDUuTuRkh4XlaBNI7nC+cxs+PpO8vDpg/C5wHFcqKDsn8W16QnZi0tH5Z
+	 DIW824tseUEYQgmEu7R2mIUAN258cQpMsEFlGEu5cwIdxRTn3rfzKktZUsav89+1o0
+	 AvPQP/2fbiglHKN++jvchzmV0lV14dKFjLkz9KQ4wYWeH0PdcZS9myKs7/inZQrZC/
+	 7oaaF+7qiwjyw==
+Date: Tue, 11 Jun 2024 17:18:23 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Animesh Agarwal <animeshagarwal28@gmail.com>
-Cc: Daniel Baluta <daniel.baluta@nxp.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20240607055725.38057-1-animeshagarwal28@gmail.com>
-References: <20240607055725.38057-1-animeshagarwal28@gmail.com>
-Subject: Re: [PATCH] ASoC: dt-bindings: ak4554: Convert to dtschema
-Message-Id: <171812236787.201359.12608772770752770380.b4-ty@kernel.org>
-Date: Tue, 11 Jun 2024 17:12:47 +0100
+To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, quic_rohkumar@quicinc.com,
+	quic_pkumpatl@quicinc.com
+Subject: Re: [PATCH v5 0/7] ASoC: codecs: wcd937x: add wcd937x audio codec
+ support
+Message-ID: <Zmh4z2F6Q0Z5tWnz@finisterre.sirena.org.uk>
+References: <20240524035535.3119208-1-quic_mohs@quicinc.com>
+ <171810116692.177725.17513047102055843084.b4-ty@kernel.org>
+ <9a14cb7b-8d6a-14b3-1d3a-b61086e4d4a9@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev-4c370
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="9kuz/Ng8fSpME3+T"
+Content-Disposition: inline
+In-Reply-To: <9a14cb7b-8d6a-14b3-1d3a-b61086e4d4a9@quicinc.com>
+X-Cookie: Your love life will be... interesting.
 
-On Fri, 07 Jun 2024 11:27:20 +0530, Animesh Agarwal wrote:
-> Convert the AK4554 sound codec bindings to DT schema.
-> 
-> 
 
-Applied to
+--9kuz/Ng8fSpME3+T
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Tue, Jun 11, 2024 at 05:43:19PM +0530, Mohammad Rafi Shaik wrote:
+> On 6/11/2024 3:49 PM, Mark Brown wrote:
 
-Thanks!
+> > If any updates are required or you are submitting further changes they
+> > should be sent as incremental updates against current git, existing
+> > patches will not be replaced.
 
-[1/1] ASoC: dt-bindings: ak4554: Convert to dtschema
-      commit: 0ac3f1a4c2a345c48d22e8eb5b5aeb9304cb11db
+> if possible please revert v5 and pick new v6 patch set.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+As mentioned above please send incremental fixes for any issues, there's
+already other changes on top of these.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+--9kuz/Ng8fSpME3+T
+Content-Type: application/pgp-signature; name="signature.asc"
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+-----BEGIN PGP SIGNATURE-----
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZoeM4ACgkQJNaLcl1U
+h9Cnawf/fREWTBnC0LJb0pWn2slZjuzkeDdemDwGEzINKR+3GWRSgkj7g8EfveZZ
+uhpb4kMAETtZZFdqNipbdCdCn0rykBEAg1htIkvk8aCKlDiMKw18vomFlGCHuMyL
+OJU3W0Bdj7gK/9It4OcoR5niYSCX8Qga0y+lanU+7yBgVX/tBlJCWduiQamUwig7
+tzbtQB+/w+rIFk8hOTD7YDN2L3meLPqHqLxZxAf2VGFwti3ZazGFdDcQTPwFEGgL
+uIPG39uCwDr3g1tmX0mcNgg2mOBnWNLreXER2BxaduXePl3qacANXkFpwD3BxNvn
+sC6Abb/j+iurQFMG0e5eZVdgLBc3Pg==
+=qvv7
+-----END PGP SIGNATURE-----
 
-Thanks,
-Mark
-
+--9kuz/Ng8fSpME3+T--
