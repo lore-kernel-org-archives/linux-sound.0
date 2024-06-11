@@ -1,97 +1,93 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9D4A12E48;
-	Tue, 11 Jun 2024 14:58:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C48842C694;
+	Tue, 11 Jun 2024 16:12:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718117889; cv=none; b=ujwGIR/9MNsLYWoHEeYmSrRPDTsIcbvVfJ5MjDQN0TddceGMuLezY5vqCbaubcReTUJn06M6CBKsvf7v0FcZrAxGmeN6WzSgJB97+QlK4L7neMtOxHbQai0EroCqd4dvAVXBU7zTeUS7zn8duTQT5Oa2vI/swF9Wxu8vBDjeNLY=
+	t=1718122328; cv=none; b=gykI1K6KyyKITriz/IR8zHgdinL37W2ITPrvuOV8zZGFOyIlkQRZ5rlfPmRjUH9j7fAvIFKkgYEBYkdHzZV8FqBHZ0MvQhaLCNWrwzsI+TI+mMamqCXHe6eFBiiXY+fkFs8pvqvZbZcascXgridXIUKlWCpUSCueSFz7yS1NxnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718117889; c=relaxed/simple;
-	bh=ZJ8VbXXP3AnC9ZNMxMjSv7o2Xkso7k3k+k/EYi1Nzb8=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hxa0KRClaD3cuo+bpCXrJyuHS276btnoMwGp7q4FFCYhqEIACbDOzo3o1+Z3GISN2KOZfW0nQEOeE92xYQK/a9VExToslxGuYD3DzUCz6IkhtVAB1PjziVtS/X/ZIBIj6Nev780W6KsA8OkjyUpnxC57MVSkEiV/7inyPQxyoVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=giY8PTxh; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1718122328; c=relaxed/simple;
+	bh=aJeW2N3kwCz5oB5MHCriHIh05QZu77JtFLwwq8ApGUo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LRlnjtcofHAMfFxolxXV1waiUuCTpgWKV9mwYtVNsIwJOEeWuzT3fYAFuzGw/3Pm1BVoOC84bFDfuCLMR/wa+9cy+Bv7gFENOTG7fY2bNkUc7chxmF5Q+gyQYK6lp+/BrFeV6gNkWe2/kf63DisVddxrRp/w7Kt8RZr7bBMg6Vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UVK+Wppn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="giY8PTxh"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45B4nj4Q024536;
-	Tue, 11 Jun 2024 09:58:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=oYYo0l6rNzLFOjdE
-	5P7hh94k5PnFvUYyGvEk2R4YEGk=; b=giY8PTxhW5cDjDTp3G41gB1EAx3SaAUp
-	1z0cb4eOk+V1z6xdt7FSpxluVBmcp3SQWqRPFlC8kYp8Oae+Mn4tcM+B0yBzz9AU
-	50mMXvEQ3mEPA3uJaoK53OyN5XKuSHQSUAhhMqq8LbRurBkVk0Urfq6RD3T4QMMF
-	TxlkmeUJMLwrvqo9M6ssDUoMxaCH6mrLV2HRiNnlkxPLBDRrxi1lV4Q+sMVcKjfb
-	7H7JfANQFYmom/BPirkLv6O/ESQxQ+eFuqnJpvzGG2kr0p9Nlyeo5btkm3yXNwbf
-	xAZSIVv7REiWIk5MJgJp+NuwjS2x9XdQqhOPDHloIyf6uSiy6E6qMw==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3ymkqhtyr5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 11 Jun 2024 09:58:00 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 11 Jun
- 2024 15:57:46 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Tue, 11 Jun 2024 15:57:46 +0100
-Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 0FF41820244;
-	Tue, 11 Jun 2024 14:57:46 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: <broonie@kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>
-Subject: [PATCH] ASoC: cs35l56: Disconnect ASP1 TX sources when ASP1 DAI is hooked up
-Date: Tue, 11 Jun 2024 15:57:46 +0100
-Message-ID: <20240611145746.1454663-1-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UVK+Wppn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E30FCC2BD10;
+	Tue, 11 Jun 2024 16:12:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718122328;
+	bh=aJeW2N3kwCz5oB5MHCriHIh05QZu77JtFLwwq8ApGUo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UVK+Wppnos2Eafl97QCMr2wdlm/2KelWydzXxwnCLqUxDoPSLbKXLE271XLZjkrte
+	 5djNSV+lx9sZkprvFxfdo5CL4kbyEdw9lmWaT1MKEziFI+8thhCPBu70hZ9ycDCuN1
+	 xL73+msP+cFrzPDaCvgvLVkCRnHAwlFX49GItoKAFqRqTEcq+zhT/n3nPzFVoDg6to
+	 Lg0/sByxIkG7WYQ3rdUHWohXZkumAp0iLs1bRF4EoDz61s6oNt/E36UswwbaNXZj0k
+	 /R0hYfTkrNewOYYdmhF2R4atxDfHFQ9IyJsxH7QWTOzosghxwRZgMyaR9doznST0Lo
+	 fi3kguYpwwPIA==
+Date: Tue, 11 Jun 2024 17:12:06 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ASoC: cs35l56: Disconnect ASP1 TX sources when ASP1 DAI
+ is hooked up
+Message-ID: <Zmh3VmRfGEU6pGps@finisterre.sirena.org.uk>
+References: <20240611145746.1454663-1-rf@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: TnZIrOfp0w8piWcQDKrmvTq4zw0Qm3Pv
-X-Proofpoint-ORIG-GUID: TnZIrOfp0w8piWcQDKrmvTq4zw0Qm3Pv
-X-Proofpoint-Spam-Reason: safe
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="4hy4b+bAfizSELLR"
+Content-Disposition: inline
+In-Reply-To: <20240611145746.1454663-1-rf@opensource.cirrus.com>
+X-Cookie: Your love life will be... interesting.
 
-If the ASP1 DAI is hooked up by the machine driver the ASP TX mixer
-sources should be initialized to disconnected.
 
-The silicon default is for the mixer source registers to default to
-a collection of monitoring sources. The problem with this is that it
-causes the DAPM graph to initialize with the capture path connected
-to a valid source widget, even though nothing setup a path. When the
-ASP DAI is connected as a codec-to-codec link this will cause the other
-codec to power-up even though nothing is using it.
+--4hy4b+bAfizSELLR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-Fixes: dfd2ffb37399 ("ASoC: cs35l56: Prevent overwriting firmware ASP config")
----
- sound/soc/codecs/cs35l56-shared.c | 4 ++++
- 1 file changed, 4 insertions(+)
+On Tue, Jun 11, 2024 at 03:57:46PM +0100, Richard Fitzgerald wrote:
+> If the ASP1 DAI is hooked up by the machine driver the ASP TX mixer
+> sources should be initialized to disconnected.
+>=20
+> The silicon default is for the mixer source registers to default to
+> a collection of monitoring sources. The problem with this is that it
+> causes the DAPM graph to initialize with the capture path connected
+> to a valid source widget, even though nothing setup a path. When the
+> ASP DAI is connected as a codec-to-codec link this will cause the other
+> codec to power-up even though nothing is using it.
+>=20
+> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+> Fixes: dfd2ffb37399 ("ASoC: cs35l56: Prevent overwriting firmware ASP con=
+fig")
 
-diff --git a/sound/soc/codecs/cs35l56-shared.c b/sound/soc/codecs/cs35l56-shared.c
-index 8af89a263594..30497152e02a 100644
---- a/sound/soc/codecs/cs35l56-shared.c
-+++ b/sound/soc/codecs/cs35l56-shared.c
-@@ -215,6 +215,10 @@ static const struct reg_sequence cs35l56_asp1_defaults[] = {
- 	REG_SEQ0(CS35L56_ASP1_FRAME_CONTROL5,	0x00020100),
- 	REG_SEQ0(CS35L56_ASP1_DATA_CONTROL1,	0x00000018),
- 	REG_SEQ0(CS35L56_ASP1_DATA_CONTROL5,	0x00000018),
-+	REG_SEQ0(CS35L56_ASP1TX1_INPUT,		0x00000000),
-+	REG_SEQ0(CS35L56_ASP1TX2_INPUT,		0x00000000),
-+	REG_SEQ0(CS35L56_ASP1TX3_INPUT,		0x00000000),
-+	REG_SEQ0(CS35L56_ASP1TX4_INPUT,		0x00000000),
- };
- 
- /*
--- 
-2.39.2
+This doesn't seem particularly different to any other unhelpful chip
+default, I'm not sure why it'd be so urgent that we'd hard code a
+default?  There were some other devices with things like bypass routes
+set up.  The capture path getting spuriously triggered feels like
+something that should just be sorted in general (TBH I thought that
+worked OK but it's been quite some time since I looked properly).
 
+--4hy4b+bAfizSELLR
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZod1UACgkQJNaLcl1U
+h9CBAQf+OhZdPDxTYMLChOAhYTNb0+Q25t451LvA/upiJjwv4Wz/TNIntO6kFK2c
+8ntuUtQlz/SSqBwrYDTbQbPT8f37cKiXEN/VggO6LIFbLvoaNsuxMUVrs557l+u9
+Kh2NltpGwT0tsIF1Se0uTxaHCRbW25jW73sGjjUVnkdesGGGA03uejObLNxMoSxb
+GBBdSy5PbML9buuiqz7HeP8e8wyi+/Qg/M+oD0loP+3AJShbYgp3/92f1gDQpPJk
+9GWYAz8FdIsCyLY5GwOrcViV6l6DX/mFbH2+sF386uz/XsT7psQurHhTG4oKPSlB
+ioBDd73aX0JCg0csiL83a9YcA36IXQ==
+=6QSb
+-----END PGP SIGNATURE-----
+
+--4hy4b+bAfizSELLR--
