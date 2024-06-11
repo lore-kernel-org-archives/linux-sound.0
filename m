@@ -1,193 +1,857 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E79A176244
-	for <linux-sound@vger.kernel.org>; Tue, 11 Jun 2024 09:19:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B557679C8
+	for <linux-sound@vger.kernel.org>; Tue, 11 Jun 2024 09:48:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718097565; cv=none; b=jrNWFLt/h8Zdvny6lceuuxtBzWzS73eW10o7AdJaWcs5S8KobPOZiQowWI5StYnJrhx1fGj4humDegq5bEit/7F/i8Rtpvfx+uVJkJO/m2xWp07zlusPnACjFj2OifXeGU6PJjVmARayyQih7ATN+1iT2fQKATFW4R2BPuVBCng=
+	t=1718099303; cv=none; b=DgTACaEVj3xGomTFecIHYN9vog9V/kHaxnn+qnGCq4QmztQ2q26Bp3FgWk62OYWjHnSNxcLOy5u2B6d1nJiyXeh1NFw5ohY1eqYYNJYjlODCggzmzMS9XfGD4fVF37C3JeKhBrz+LSN/TWWFfoFflE+IDkWkHK+w2i4SYWZsmkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718097565; c=relaxed/simple;
-	bh=6B5VXoDqcNMNwdbpxPt6nXvAMv6Q8BRs62X/u+Uc5OQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=m2JxL474sixFox2WXb5pTbwc+hBwBXLi4nKJbxEfRaqx0lcwgh5zDVpi7EiLD+gClhwHkzya0thpSwxKkfkPP/qazPtB9EMtmYxvL8cGp0k4jUvH/YdiMAVCRnDBm91fo0Ayz9vRCLL1fSYDkBDtW/CH3Jll3a1YqjCbUvrq8QI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wIzeR+07; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1718099303; c=relaxed/simple;
+	bh=RwfwA4nQ3Pp1lPH3Nf3/Dv3k+PY0XsmlowkXHIqMdXw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=tUhXai3hW6AD91UXu/B85O44j3wJaJF0+Lb2ZJ0nk+U4r4jXkRgTYh3Xemy4WkCZ492LMTkzUeyyWcqnO6OzNQkFudgF+LY2o/e12TViP5lQ4fD6DVI9Y+TEQrPIsEvRenqcS8/5uEmF6aexU6YQxE+DQIhKdfExCAbzTmrBVD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timesys.com; spf=pass smtp.mailfrom=timesys.com; dkim=pass (2048-bit key) header.d=timesys-com.20230601.gappssmtp.com header.i=@timesys-com.20230601.gappssmtp.com header.b=RycvNjHw; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timesys.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=timesys.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wIzeR+07"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-35f2c0b7701so355589f8f.0
-        for <linux-sound@vger.kernel.org>; Tue, 11 Jun 2024 02:19:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=timesys-com.20230601.gappssmtp.com header.i=@timesys-com.20230601.gappssmtp.com header.b="RycvNjHw"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-57c6994e2f1so2044681a12.0
+        for <linux-sound@vger.kernel.org>; Tue, 11 Jun 2024 02:48:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718097562; x=1718702362; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WHLR3wprrg4d+O2k9pr8l2u9LNSAqJ7RZc7brVLMtTU=;
-        b=wIzeR+07ZsfW+6GKWfWD0cRYqHgbDCEWkCsc906DFcOai/EwalMrLRM2KRCDFa5QsS
-         A48v8EWxOLGWoa5w7un7OcWbkICJzc6NemjNi7b0XS7ZfUpLdWbvchfZyGlfoxWdbm0a
-         ZxLfSjSbE8npnbCwsrY3AqJN4J6G+epvpbV4n7Nqv7N0Y6FIyw0puL+uh/y2nuuJudM8
-         QF9VZE/I4JnTVZ+hwMa5A+gWHLU6r6oyjOnVWUNl+XTiNKrFjR1FuHz17lakR1opKxXB
-         ETRJY2YmLju09sxA89MoyS0c6vtdIqe+nQtGxTKAQQDsAUtpmTcZn2EMNhxxuAh2MRTR
-         a/iw==
+        d=timesys-com.20230601.gappssmtp.com; s=20230601; t=1718099299; x=1718704099; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nJ3mCd5wUk2lO1qNcgaAa/3qo1bLq1N6uMEPGllGy1k=;
+        b=RycvNjHwGv/U3mQABzMjfTh+GbTgvnb2XsYRDy7LuxYW/q91w8hBayoEpH/5WpP+pw
+         R6Ou3sGojhQe5uGfwYLrfUvIK5+iDeRqAoOdBX2fF1RHbdSf7/XgNoGRLw8X6Fvdhf3f
+         oC65cHn+R7SQNDqTMTnf0cR957Nbsm97EztekEO4QkSxhstpzWnMSWZasBBLgNPK708V
+         pINLRygynlF0YF9VfKfDsX7yrUxqmhxYfa9lfbSEPtroYJuOQUizlYTdAiNupYcSQZT2
+         HnCuu8h/haTTzYeNSuj4OPdcdjmxnHlPBvDEgB9tItwP+JvnnlDypgApX8CPyQUuFRzD
+         v/iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718097562; x=1718702362;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1718099299; x=1718704099;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WHLR3wprrg4d+O2k9pr8l2u9LNSAqJ7RZc7brVLMtTU=;
-        b=W+SgmcoB2B4jtAkn8f7JH6ZZFfF5y3giY+gvz/m9Nyym+v69PDrloD9hUVhmzIJcvZ
-         vKvRHsd8mspPw9ep3RbPa+n9M+pZ/NTkyfEdT3Iw1Ravlge4t0mj1bUVXNRUYdm83h4T
-         zCpUvNsJVp/e2ghP74t8Nfl/RACO0u3cW+/3YrLD/a6x82s51qi+apNZBAodJFuOssg3
-         ySCPmZz4c6EMDMEWeXAjyypagafOhG9bqXpuZFXyeIQoGKNXMTtRm622iXp8omjfbAzc
-         5fuaTAxrEgVSwpYU7JVGKsI8vtFppLzF563ud6/PQGxJpCRqmCYZ5YxitTOUwCNgLV6i
-         wA9Q==
-X-Gm-Message-State: AOJu0YyKbroijvpaf6iB6fhiXn2JIRGECUURL9nnNZApdhqUazWlvrTI
-	VjecGSCAINph9h86dbDQFTWkkHucdO7f8ZBAXASA0f7WIHd+KFXtUAsyvdn5S8E=
-X-Google-Smtp-Source: AGHT+IEunPkynvd8TXepCE7Os2rVKM6V8FP5MywvkIt0CL1m14IwHfKi6ppWTLLtdJlftxnpEkYQkw==
-X-Received: by 2002:adf:e8c9:0:b0:35f:d6f:aa91 with SMTP id ffacd0b85a97d-35f2b27c17fmr1923286f8f.9.1718097561518;
-        Tue, 11 Jun 2024 02:19:21 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35ef5fc3197sm13334619f8f.101.2024.06.11.02.19.20
+        bh=nJ3mCd5wUk2lO1qNcgaAa/3qo1bLq1N6uMEPGllGy1k=;
+        b=trtZX4cL4TfAwi6xYxIiWM7LeB3z/Rq36xUkxLAvAx0UO9kUDQFESQ0ctPHWGqgqwg
+         y+W38hFWtzSUxqVQgN4wm4qysYqnMoYrq5PCEYoM2Ke7+a3QI5RwkJSem0XmvK8YBxJq
+         5LSn6jwChOi1Cs6YBEn3Y9ALGl3eaYROIKcjw7Wv0j58m57MeqtrcKsYBygjNqpvHptx
+         oA10UpL8tnq0TIqJaR25vCBgaad2UPiqS0RM6AzUk7Ltuu9J2ScWsZECxgxknL+xdRT/
+         xtM3AAwlN/yakRMR5528KXhRo9EUGT4IuAy/DV3OYxQH9+T2QrHU+Je/go2XrUdR7lJv
+         8wog==
+X-Forwarded-Encrypted: i=1; AJvYcCXGDk+sFGzZfMyRaqu1P087UdhakvZFxTx1XzHkYaF8+yGmD7xYjV/HtCd0ElA9mtvFdHz5bPXVKh+UBM+iAU4XXLzUxP/6EbYSAdc=
+X-Gm-Message-State: AOJu0YxS+qJ0eR9+DVUlnobvfYQZSMoC4XceMsE2FxpDn8ad1rM1ThaB
+	jsTM9u5Kbwjkv07Z5y78iCenbz89luvcw/mCro8yMvUG3WaM24lecRMxTUt8oCY=
+X-Google-Smtp-Source: AGHT+IHooVt6LmTwFuGFxgJ/o3hiFrcgWT+jirZ0llFY9ql41kTlwce57rsBvFXCKjUVifeKCsz5yQ==
+X-Received: by 2002:a50:a685:0:b0:57a:1aa8:b4ae with SMTP id 4fb4d7f45d1cf-57c50864ad3mr9989734a12.3.1718099298910;
+        Tue, 11 Jun 2024 02:48:18 -0700 (PDT)
+Received: from localhost.localdomain ([91.216.213.152])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57aae2340f6sm9059647a12.90.2024.06.11.02.48.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jun 2024 02:19:21 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Tue, 11 Jun 2024 11:19:18 +0200
-Subject: [PATCH 2/2] ASoC: dt-bindings: convert everest,es7134.txt to
- dt-schema
+        Tue, 11 Jun 2024 02:48:18 -0700 (PDT)
+From: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
+To: 
+Cc: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Chancel Liu <chancel.liu@nxp.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	alsa-devel@alsa-project.org,
+	linuxppc-dev@lists.ozlabs.org
+Subject: [Patch v2 1/2] ASoC: fsl: Add i2s and pcm drivers for LPC32xx CPUs
+Date: Tue, 11 Jun 2024 11:47:51 +0200
+Message-Id: <20240611094810.27475-1-piotr.wojtaszczyk@timesys.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <[PATCH] ASoC: fsl: Add i2s and pcm drivers for LPC32xx CPUs>
+References: <[PATCH] ASoC: fsl: Add i2s and pcm drivers for LPC32xx CPUs>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240611-topic-amlogic-upstream-bindings-convert-everest-v1-2-a7f9b4c9005c@linaro.org>
-References: <20240611-topic-amlogic-upstream-bindings-convert-everest-v1-0-a7f9b4c9005c@linaro.org>
-In-Reply-To: <20240611-topic-amlogic-upstream-bindings-convert-everest-v1-0-a7f9b4c9005c@linaro.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2622;
- i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=6B5VXoDqcNMNwdbpxPt6nXvAMv6Q8BRs62X/u+Uc5OQ=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBmaBaWwhX619LQoOLeVTyiZaRwUDTxyCkZikXb/hU6
- hBCqUaCJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZmgWlgAKCRB33NvayMhJ0ZBcD/
- sGywN22u/Nb1IrmmpOxZXTN8RVc529AcNEKbQsQXuihh7MwtxcMbQ2jryUtyVYiqO+mYWumlHmJyLu
- 3sC3w8ST1ivLItowcihvxJKkf2Eb0StOnzWWKKmmf22+46+Z8gxYySe1EhAI7mZ8xH9LLlD50MKtSL
- i+wxQh6qCtc2fzxgj3Q0M//tCTaGpOoXwygFqOdfqwpAHSS6+onsDeMxftKSVYDaWTJGyWGIrWz7+S
- QTzik16XBKZpUy/Lw1yUPvC5mS3pFUzehkRmFcxhGi0aZkZ6z+B1AA+/Pf8FTqjclPLp5fMxsiZ/rp
- gGtpczcK9UsUSHCXRl5Wil11nOsu3mKkfuRtFTysfeP8FOJsLg1Ro5t9JIY8N9Gw8ugyTJaFiqrXXm
- g5gvY3hAMFSwLZWXW1uIjBvU/+oAHvDhnHsmQpfZ7bVmmiF6IoEZQ3KjS4fq/f1BCiGsUcsixJGLmy
- 5pk/JcaKgelZMXH4Kj3XWav1HQW0XrmmBlxZK5C1lqfyuiv9Y/Qi0HcSWD142RxDtJZfQg0ZfBqa5K
- 9+1tFSiUUSLa/U19CywVDF4V5IEMqBB82kXzN7iHi/hr+YyWPW0Mymy7bkwtwljccImRdOrsoizTMF
- 5tDUaM17K/31TLjhW/H4BK84FH7uf/D/PoVPxE33t9QTqugKDLUTmgLgWdjg==
-X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
- fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
+Content-Transfer-Encoding: 8bit
 
-Convert the text bindings of the Everest ES7134/7144/7154 2 channels
-I2S analog to digital converter to dt-schema.
+This driver was ported from an old version in linux 2.6.27 and adjusted
+for the new ASoC framework and DMA API.
 
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+Signed-off-by: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
 ---
- .../devicetree/bindings/sound/everest,es7134.txt   | 15 ------
- .../devicetree/bindings/sound/everest,es71x4.yaml  | 62 ++++++++++++++++++++++
- 2 files changed, 62 insertions(+), 15 deletions(-)
+Changes for v2:
+- Coding Style cleanup
+- Use dev_err_probe() for error handling in probe function
+- Removed unneded err_clk_disable label
+- Removed empty function
+- Droped of_match_ptr in lpc32xx_i2s_match DT match table
+- ASoC struct adjustmes for the latest 6.10-rc3 kernel
 
-diff --git a/Documentation/devicetree/bindings/sound/everest,es7134.txt b/Documentation/devicetree/bindings/sound/everest,es7134.txt
-deleted file mode 100644
-index 091666069bde..000000000000
---- a/Documentation/devicetree/bindings/sound/everest,es7134.txt
-+++ /dev/null
-@@ -1,15 +0,0 @@
--ES7134 i2s DA converter
--
--Required properties:
--- compatible : "everest,es7134" or
--               "everest,es7144" or
--	       "everest,es7154"
--- VDD-supply : regulator phandle for the VDD supply
--- PVDD-supply: regulator phandle for the PVDD supply for the es7154
--
--Example:
--
--i2s_codec: external-codec {
--	compatible = "everest,es7134";
--	VDD-supply = <&vcc_5v>;
--};
-diff --git a/Documentation/devicetree/bindings/sound/everest,es71x4.yaml b/Documentation/devicetree/bindings/sound/everest,es71x4.yaml
+ MAINTAINERS                            |   7 +
+ arch/arm/boot/dts/nxp/lpc/lpc32xx.dtsi |   4 +
+ arch/arm/mach-lpc32xx/phy3250.c        |  60 ++++
+ sound/soc/fsl/Kconfig                  |   7 +
+ sound/soc/fsl/Makefile                 |   2 +
+ sound/soc/fsl/lpc3xxx-i2s.c            | 383 +++++++++++++++++++++++++
+ sound/soc/fsl/lpc3xxx-i2s.h            |  94 ++++++
+ sound/soc/fsl/lpc3xxx-pcm.c            |  75 +++++
+ 8 files changed, 632 insertions(+)
+ create mode 100644 sound/soc/fsl/lpc3xxx-i2s.c
+ create mode 100644 sound/soc/fsl/lpc3xxx-i2s.h
+ create mode 100644 sound/soc/fsl/lpc3xxx-pcm.c
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index aacccb376c28..7616f61d6327 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8909,6 +8909,13 @@ S:	Maintained
+ F:	sound/soc/fsl/fsl*
+ F:	sound/soc/fsl/imx*
+ 
++FREESCALE SOC LPC32XX SOUND DRIVERS
++M:	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
++L:	alsa-devel@alsa-project.org (moderated for non-subscribers)
++L:	linuxppc-dev@lists.ozlabs.org
++S:	Orphan
++F:	sound/soc/fsl/lpc3xxx-*
++
+ FREESCALE SOC SOUND QMC DRIVER
+ M:	Herve Codina <herve.codina@bootlin.com>
+ L:	alsa-devel@alsa-project.org (moderated for non-subscribers)
+diff --git a/arch/arm/boot/dts/nxp/lpc/lpc32xx.dtsi b/arch/arm/boot/dts/nxp/lpc/lpc32xx.dtsi
+index 974410918f35..3fa12e3a0093 100644
+--- a/arch/arm/boot/dts/nxp/lpc/lpc32xx.dtsi
++++ b/arch/arm/boot/dts/nxp/lpc/lpc32xx.dtsi
+@@ -221,6 +221,8 @@ spi2: spi@20090000 {
+ 			i2s0: i2s@20094000 {
+ 				compatible = "nxp,lpc3220-i2s";
+ 				reg = <0x20094000 0x1000>;
++				clocks = <&clk LPC32XX_CLK_I2S0>;
++				clock-names = "i2s_clk";
+ 				status = "disabled";
+ 			};
+ 
+@@ -237,6 +239,8 @@ sd: sd@20098000 {
+ 			i2s1: i2s@2009c000 {
+ 				compatible = "nxp,lpc3220-i2s";
+ 				reg = <0x2009c000 0x1000>;
++				clocks = <&clk LPC32XX_CLK_I2S1>;
++				clock-names = "i2s_clk";
+ 				status = "disabled";
+ 			};
+ 
+diff --git a/arch/arm/mach-lpc32xx/phy3250.c b/arch/arm/mach-lpc32xx/phy3250.c
+index 66701bf43248..b866b9a75558 100644
+--- a/arch/arm/mach-lpc32xx/phy3250.c
++++ b/arch/arm/mach-lpc32xx/phy3250.c
+@@ -9,6 +9,7 @@
+  */
+ 
+ #include <linux/amba/pl08x.h>
++#include <linux/amba/pl022.h>
+ #include <linux/mtd/lpc32xx_mlc.h>
+ #include <linux/mtd/lpc32xx_slc.h>
+ #include <linux/of_platform.h>
+@@ -29,6 +30,46 @@ static struct pl08x_channel_data pl08x_slave_channels[] = {
+ 		.max_signal = 12,
+ 		.periph_buses = PL08X_AHB1,
+ 	},
++	{
++		.bus_id = "i2s-tx",
++		.min_signal = 13,
++		.max_signal = 13,
++		.periph_buses = PL08X_AHB1,
++	},
++	{
++		.bus_id = "i2s-rx",
++		.min_signal = 0,
++		.max_signal = 0,
++		.periph_buses = PL08X_AHB1,
++	},
++	{
++		.bus_id = "ssp0-tx",
++		.min_signal = 15,
++		.max_signal = 15,
++		.muxval = 1,
++		.periph_buses = PL08X_AHB1,
++	},
++	{
++		.bus_id = "ssp0-rx",
++		.min_signal = 14,
++		.max_signal = 14,
++		.muxval = 1,
++		.periph_buses = PL08X_AHB1,
++	},
++	{
++		.bus_id = "ssp1-tx",
++		.min_signal = 11,
++		.max_signal = 11,
++		.muxval = 1,
++		.periph_buses = PL08X_AHB1,
++	},
++	{
++		.bus_id = "ssp1-rx",
++		.min_signal = 3,
++		.max_signal = 3,
++		.muxval = 1,
++		.periph_buses = PL08X_AHB1,
++	},
+ };
+ 
+ static int pl08x_get_signal(const struct pl08x_channel_data *cd)
+@@ -60,12 +101,31 @@ static struct lpc32xx_mlc_platform_data lpc32xx_mlc_data = {
+ 	.dma_filter = pl08x_filter_id,
+ };
+ 
++static struct pl022_ssp_controller lpc32xx_ssp_data[] = {
++	{
++		.bus_id = 0,
++		.enable_dma = 0,
++		.dma_filter = pl08x_filter_id,
++		.dma_tx_param = "ssp0-tx",
++		.dma_rx_param = "ssp0-rx",
++	},
++	{
++		.bus_id = 1,
++		.enable_dma = 0,
++		.dma_filter = pl08x_filter_id,
++		.dma_tx_param = "ssp1-tx",
++		.dma_rx_param = "ssp1-rx",
++	}
++};
++
+ static const struct of_dev_auxdata lpc32xx_auxdata_lookup[] __initconst = {
+ 	OF_DEV_AUXDATA("arm,pl080", 0x31000000, "pl08xdmac", &pl08x_pd),
+ 	OF_DEV_AUXDATA("nxp,lpc3220-slc", 0x20020000, "20020000.flash",
+ 		       &lpc32xx_slc_data),
+ 	OF_DEV_AUXDATA("nxp,lpc3220-mlc", 0x200a8000, "200a8000.flash",
+ 		       &lpc32xx_mlc_data),
++	OF_DEV_AUXDATA("arm,pl022", 0x20084000, NULL, &lpc32xx_ssp_data[0]),
++	OF_DEV_AUXDATA("arm,pl022", 0x2008c000, NULL, &lpc32xx_ssp_data[1]),
+ 	{ }
+ };
+ 
+diff --git a/sound/soc/fsl/Kconfig b/sound/soc/fsl/Kconfig
+index 270726c134b3..0f100df96f63 100644
+--- a/sound/soc/fsl/Kconfig
++++ b/sound/soc/fsl/Kconfig
+@@ -130,6 +130,13 @@ config SND_SOC_FSL_RPMSG
+ 	  This option is only useful for out-of-tree drivers since
+ 	  in-tree drivers select it automatically.
+ 
++config SND_SOC_FSL_LPC3XXX
++	tristate "SoC Audio for NXP LPC32XX CPUs"
++	depends on ARCH_LPC32XX && SND_SOC
++	select SND_SOC_GENERIC_DMAENGINE_PCM
++	help
++	  Say Y or M if you want to add support for the LPC3XXX I2S interface.
++
+ config SND_SOC_IMX_PCM_DMA
+ 	tristate
+ 	select SND_SOC_GENERIC_DMAENGINE_PCM
+diff --git a/sound/soc/fsl/Makefile b/sound/soc/fsl/Makefile
+index 2fe78eed3a48..6d9636919340 100644
+--- a/sound/soc/fsl/Makefile
++++ b/sound/soc/fsl/Makefile
+@@ -25,6 +25,7 @@ snd-soc-fsl-xcvr-y := fsl_xcvr.o
+ snd-soc-fsl-aud2htx-y := fsl_aud2htx.o
+ snd-soc-fsl-rpmsg-y := fsl_rpmsg.o
+ snd-soc-fsl-qmc-audio-y := fsl_qmc_audio.o
++snd-soc-fsl-lpc3xxx-y := lpc3xxx-pcm.o lpc3xxx-i2s.o
+ 
+ obj-$(CONFIG_SND_SOC_FSL_AUDMIX) += snd-soc-fsl-audmix.o
+ obj-$(CONFIG_SND_SOC_FSL_ASOC_CARD) += snd-soc-fsl-asoc-card.o
+@@ -42,6 +43,7 @@ obj-$(CONFIG_SND_SOC_FSL_XCVR) += snd-soc-fsl-xcvr.o
+ obj-$(CONFIG_SND_SOC_FSL_AUD2HTX) += snd-soc-fsl-aud2htx.o
+ obj-$(CONFIG_SND_SOC_FSL_RPMSG) += snd-soc-fsl-rpmsg.o
+ obj-$(CONFIG_SND_SOC_POWERPC_QMC_AUDIO) += snd-soc-fsl-qmc-audio.o
++obj-$(CONFIG_SND_SOC_FSL_LPC3XXX) += snd-soc-fsl-lpc3xxx.o
+ 
+ # MPC5200 Platform Support
+ obj-$(CONFIG_SND_MPC52xx_DMA) += mpc5200_dma.o
+diff --git a/sound/soc/fsl/lpc3xxx-i2s.c b/sound/soc/fsl/lpc3xxx-i2s.c
 new file mode 100644
-index 000000000000..149dc6a6015d
+index 000000000000..ea5df520ca28
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/everest,es71x4.yaml
-@@ -0,0 +1,62 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/everest,es71x4.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/sound/soc/fsl/lpc3xxx-i2s.c
+@@ -0,0 +1,383 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Author: Kevin Wells <kevin.wells@nxp.com>
++ *
++ * Copyright (C) 2008 NXP Semiconductors
++ * Copyright 2023 Timesys Corporation <piotr.wojtaszczyk@timesys.com>
++ */
 +
-+title: Everest ES7134/7144/7154 2 channels I2S analog to digital converter
++#include <linux/init.h>
++#include <linux/module.h>
++#include <linux/interrupt.h>
++#include <linux/device.h>
++#include <linux/delay.h>
++#include <linux/clk.h>
++#include <linux/io.h>
 +
-+maintainers:
-+  - Neil Armstrong <neil.armstrong@linaro.org>
++#include <sound/core.h>
++#include <sound/pcm.h>
++#include <sound/pcm_params.h>
++#include <sound/dmaengine_pcm.h>
++#include <sound/initval.h>
++#include <sound/soc.h>
 +
-+properties:
-+  compatible:
-+    enum:
-+      - everest,es7134
-+      - everest,es7144
-+      - everest,es7154
++#include "lpc3xxx-i2s.h"
 +
-+  VDD-supply: true
-+  PVDD-supply: true
++#define I2S_PLAYBACK_FLAG 0x1
++#define I2S_CAPTURE_FLAG 0x2
 +
-+  '#sound-dai-cells':
-+    const: 0
++#define LPC3XXX_I2S_RATES ( \
++	SNDRV_PCM_RATE_16000 | SNDRV_PCM_RATE_22050 | \
++	SNDRV_PCM_RATE_32000 | SNDRV_PCM_RATE_44100 | \
++	SNDRV_PCM_RATE_48000 | SNDRV_PCM_RATE_96000)
 +
-+required:
-+  - compatible
-+  - VDD-supply
++#define LPC3XXX_I2S_FORMATS ( \
++	SNDRV_PCM_FMTBIT_S8 | \
++	SNDRV_PCM_FMTBIT_S16_LE | \
++	SNDRV_PCM_FMTBIT_S32_LE)
 +
-+allOf:
-+  - $ref: dai-common.yaml#
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - everest,es7134
-+              - everest,es7144
-+    then:
-+      properties:
-+        PVDD-supply: false
++static u32 absd32(u32 v1, u32 v2)
++{
++	if (v1 > v2)
++		return v1 - v2;
++	return v2 - v1;
++}
 +
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - everest,es7154
-+    then:
-+      required:
-+        - PVDD-supply
++static void __lpc3xxx_find_clkdiv(u32 *clkx, u32 *clky, int freq, int xbytes, u32 clkrate)
++{
++	u32 i2srate;
++	u32 idxx, idyy;
++	u32 savedbitclkrate, diff, trate, baseclk;
 +
-+unevaluatedProperties: false
++	/* Adjust rate for sample size (bits) and 2 channels and offset for
++	 * divider in clock output
++	 */
++	i2srate = (freq / 100) * 2 * (8 * xbytes);
++	i2srate = i2srate << 1;
++	clkrate = clkrate / 100;
++	baseclk = clkrate;
++	*clkx = 1;
++	*clky = 1;
 +
-+examples:
-+  - |
-+   codec-0 {
-+       compatible = "everest,es7134";
-+       #sound-dai-cells = <0>;
-+       VDD-supply = <&vdd_supply>;
-+   };
++	/* Find the best divider */
++	*clkx = *clky = 0;
++	savedbitclkrate = 0;
++	diff = ~0;
++	for (idxx = 1; idxx < 0xFF; idxx++) {
++		for (idyy = 1; idyy < 0xFF; idyy++) {
++			trate = (baseclk * idxx) / idyy;
++			if (absd32(trate, i2srate) < diff) {
++				diff = absd32(trate, i2srate);
++				savedbitclkrate = trate;
++				*clkx = idxx;
++				*clky = idyy;
++			}
++		}
++	}
++}
 +
-+...
-
++static int lpc3xxx_i2s_startup(struct snd_pcm_substream *substream, struct snd_soc_dai *cpu_dai)
++{
++	struct lpc3xxx_i2s_info *i2s_info_p = snd_soc_dai_get_drvdata(cpu_dai);
++	struct device *dev = i2s_info_p->dev;
++	u32 flag;
++	int ret = 0;
++
++	mutex_lock(&i2s_info_p->lock);
++
++	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
++		flag = I2S_PLAYBACK_FLAG;
++	else
++		flag = I2S_CAPTURE_FLAG;
++
++	if (flag & i2s_info_p->streams_in_use) {
++		dev_warn(dev, "I2S channel is busy\n");
++		ret = -EBUSY;
++		goto lpc32xx_unlock;
++	}
++
++	if (i2s_info_p->streams_in_use == 0) {
++		ret = clk_prepare_enable(i2s_info_p->clk);
++		if (ret) {
++			dev_err(dev, "Can't enable clock, err=%d\n", ret);
++			goto lpc32xx_unlock;
++		}
++	}
++
++	i2s_info_p->streams_in_use |= flag;
++
++lpc32xx_unlock:
++	mutex_unlock(&i2s_info_p->lock);
++	return ret;
++}
++
++static void lpc3xxx_i2s_shutdown(struct snd_pcm_substream *substream, struct snd_soc_dai *cpu_dai)
++{
++	struct lpc3xxx_i2s_info *i2s_info_p = snd_soc_dai_get_drvdata(cpu_dai);
++	struct regmap *regs = i2s_info_p->regs;
++	const u32 stop_bits = (I2S_RESET | I2S_STOP);
++	u32 flag;
++
++	mutex_lock(&i2s_info_p->lock);
++
++	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
++		flag = I2S_PLAYBACK_FLAG;
++		regmap_write(regs, I2S_TX_RATE, 0);
++		regmap_update_bits(regs, I2S_DAO, stop_bits, stop_bits);
++	} else {
++		flag = I2S_CAPTURE_FLAG;
++		regmap_write(regs, I2S_RX_RATE, 0);
++		regmap_update_bits(regs, I2S_DAI, stop_bits, stop_bits);
++	}
++	i2s_info_p->streams_in_use &= ~flag;
++
++	if (i2s_info_p->streams_in_use == 0)
++		clk_disable_unprepare(i2s_info_p->clk);
++
++	mutex_unlock(&i2s_info_p->lock);
++}
++
++static int lpc3xxx_i2s_set_dai_sysclk(struct snd_soc_dai *cpu_dai,
++				      int clk_id, unsigned int freq, int dir)
++{
++	struct lpc3xxx_i2s_info *i2s_info_p = snd_soc_dai_get_drvdata(cpu_dai);
++
++	/* Will use in HW params later */
++	i2s_info_p->freq = freq;
++
++	return 0;
++}
++
++static int lpc3xxx_i2s_set_dai_fmt(struct snd_soc_dai *cpu_dai, unsigned int fmt)
++{
++	struct lpc3xxx_i2s_info *i2s_info_p = snd_soc_dai_get_drvdata(cpu_dai);
++	struct device *dev = i2s_info_p->dev;
++
++	if ((fmt & SND_SOC_DAIFMT_FORMAT_MASK) != SND_SOC_DAIFMT_I2S) {
++		dev_warn(dev, "unsupported bus format %d\n", fmt);
++		return -EINVAL;
++	}
++	return 0;
++}
++
++static int lpc3xxx_i2s_hw_params(struct snd_pcm_substream *substream,
++				 struct snd_pcm_hw_params *params,
++				 struct snd_soc_dai *cpu_dai)
++{
++	struct lpc3xxx_i2s_info *i2s_info_p = snd_soc_dai_get_drvdata(cpu_dai);
++	struct device *dev = i2s_info_p->dev;
++	struct regmap *regs = i2s_info_p->regs;
++	int xfersize;
++	u32 tmp, clkx, clky;
++
++	tmp = I2S_RESET | I2S_STOP;
++	switch (params_format(params)) {
++	case SNDRV_PCM_FORMAT_S8:
++		tmp |= I2S_WW8 | I2S_WS_HP(I2S_WW8_HP);
++		xfersize = 1;
++		break;
++
++	case SNDRV_PCM_FORMAT_S16_LE:
++		tmp |= I2S_WW16 | I2S_WS_HP(I2S_WW16_HP);
++		xfersize = 2;
++		break;
++
++	case SNDRV_PCM_FORMAT_S32_LE:
++		tmp |= I2S_WW32 | I2S_WS_HP(I2S_WW32_HP);
++		xfersize = 4;
++		break;
++
++	default:
++		dev_warn(dev, "Unsupported audio data format %d\n", params_format(params));
++		return -EINVAL;
++	}
++
++	if (params_channels(params) == 1)
++		tmp |= I2S_MONO;
++
++	__lpc3xxx_find_clkdiv(&clkx, &clky, i2s_info_p->freq, xfersize, i2s_info_p->clkrate);
++
++	dev_dbg(dev, "Stream                : %s\n",
++		substream->stream == SNDRV_PCM_STREAM_PLAYBACK ? "playback" : "capture");
++	dev_dbg(dev, "Desired clock rate    : %d\n", i2s_info_p->freq);
++	dev_dbg(dev, "Base clock rate       : %d\n", i2s_info_p->clkrate);
++	dev_dbg(dev, "Transfer size (bytes) : %d\n", xfersize);
++	dev_dbg(dev, "Clock divider (x)     : %d\n", clkx);
++	dev_dbg(dev, "Clock divider (y)     : %d\n", clky);
++	dev_dbg(dev, "Channels              : %d\n", params_channels(params));
++	dev_dbg(dev, "Data format           : %s\n", "I2S");
++
++	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
++		regmap_write(regs, I2S_DMA1, I2S_DMA1_TX_EN | I2S_DMA0_TX_DEPTH(4));
++		regmap_write(regs, I2S_TX_RATE, (clkx << 8) | clky);
++		regmap_write(regs, I2S_DAO, tmp);
++	} else {
++		regmap_write(regs, I2S_DMA0, I2S_DMA0_RX_EN | I2S_DMA1_RX_DEPTH(4));
++		regmap_write(regs, I2S_RX_RATE, (clkx << 8) | clky);
++		regmap_write(regs, I2S_DAI, tmp);
++	}
++
++	return 0;
++}
++
++static int lpc3xxx_i2s_trigger(struct snd_pcm_substream *substream, int cmd,
++			       struct snd_soc_dai *cpu_dai)
++{
++	struct lpc3xxx_i2s_info *i2s_info_p = snd_soc_dai_get_drvdata(cpu_dai);
++	struct regmap *regs = i2s_info_p->regs;
++	int ret = 0;
++
++	switch (cmd) {
++	case SNDRV_PCM_TRIGGER_STOP:
++	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
++	case SNDRV_PCM_TRIGGER_SUSPEND:
++		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
++			regmap_update_bits(regs, I2S_DAO, I2S_STOP, I2S_STOP);
++		else
++			regmap_update_bits(regs, I2S_DAI, I2S_STOP, I2S_STOP);
++		break;
++
++	case SNDRV_PCM_TRIGGER_START:
++	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
++	case SNDRV_PCM_TRIGGER_RESUME:
++		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
++			regmap_update_bits(regs, I2S_DAO, (I2S_RESET | I2S_STOP), 0);
++		else
++			regmap_update_bits(regs, I2S_DAI, (I2S_RESET | I2S_STOP), 0);
++		break;
++	default:
++		ret = -EINVAL;
++	}
++
++	return ret;
++}
++
++static int lpc3xxx_i2s_dai_probe(struct snd_soc_dai *dai)
++{
++	struct lpc3xxx_i2s_info *i2s_info_p = snd_soc_dai_get_drvdata(dai);
++
++	snd_soc_dai_init_dma_data(dai, &i2s_info_p->playback_dma_config,
++				  &i2s_info_p->capture_dma_config);
++	return 0;
++}
++
++const struct snd_soc_dai_ops lpc3xxx_i2s_dai_ops = {
++	.probe	= lpc3xxx_i2s_dai_probe,
++	.startup = lpc3xxx_i2s_startup,
++	.shutdown = lpc3xxx_i2s_shutdown,
++	.trigger = lpc3xxx_i2s_trigger,
++	.hw_params = lpc3xxx_i2s_hw_params,
++	.set_sysclk = lpc3xxx_i2s_set_dai_sysclk,
++	.set_fmt = lpc3xxx_i2s_set_dai_fmt,
++};
++
++struct snd_soc_dai_driver lpc3xxx_i2s_dai_driver = {
++	.playback = {
++		.channels_min = 1,
++		.channels_max = 2,
++		.rates = LPC3XXX_I2S_RATES,
++		.formats = LPC3XXX_I2S_FORMATS,
++		},
++	.capture = {
++		.channels_min = 1,
++		.channels_max = 2,
++		.rates = LPC3XXX_I2S_RATES,
++		.formats = LPC3XXX_I2S_FORMATS,
++		},
++	.ops = &lpc3xxx_i2s_dai_ops,
++	.symmetric_rate = 1,
++	.symmetric_channels = 1,
++	.symmetric_sample_bits = 1,
++};
++
++static const struct snd_soc_component_driver lpc32xx_i2s_component = {
++	.name = "lpc32xx-i2s",
++	.legacy_dai_naming = 1,
++};
++
++static const struct regmap_config lpc32xx_i2s_regconfig = {
++	.reg_bits = 32,
++	.reg_stride = 4,
++	.val_bits = 32,
++	.max_register = I2S_RX_RATE,
++};
++
++static int lpc32xx_i2s_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct lpc3xxx_i2s_info *i2s_info_p;
++	struct resource *res;
++	void __iomem *iomem;
++	int ret;
++
++	i2s_info_p = devm_kzalloc(dev, sizeof(*i2s_info_p), GFP_KERNEL);
++	if (!i2s_info_p)
++		return -ENOMEM;
++
++	platform_set_drvdata(pdev, i2s_info_p);
++	i2s_info_p->dev = dev;
++
++	iomem = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
++	if (IS_ERR(iomem))
++		return dev_err_probe(dev, PTR_ERR(iomem), "Can't map registers\n");
++
++	i2s_info_p->regs = devm_regmap_init_mmio(dev, iomem, &lpc32xx_i2s_regconfig);
++	if (IS_ERR(i2s_info_p->regs))
++		return dev_err_probe(dev, PTR_ERR(i2s_info_p->regs),
++				     "failed to init register map: %d\n", ret);
++
++	i2s_info_p->clk = devm_clk_get(dev, "i2s_clk");
++	if (IS_ERR(i2s_info_p->clk))
++		return dev_err_probe(dev, PTR_ERR(i2s_info_p->clk), "Can't get clock\n");
++
++	i2s_info_p->clkrate = clk_get_rate(i2s_info_p->clk);
++	if (i2s_info_p->clkrate == 0)
++		return dev_err_probe(dev, -EINVAL, "Invalid returned clock rate\n");
++
++	mutex_init(&i2s_info_p->lock);
++
++	ret = devm_snd_soc_register_component(dev, &lpc32xx_i2s_component,
++					      &lpc3xxx_i2s_dai_driver, 1);
++	if (ret)
++		return dev_err_probe(dev, ret, "Can't register cpu_dai component\n");
++
++	i2s_info_p->playback_dma_config.addr = (dma_addr_t)(res->start + I2S_TX_FIFO);
++	i2s_info_p->playback_dma_config.maxburst = 4;
++	i2s_info_p->playback_dma_config.filter_data = "i2s-tx";
++	i2s_info_p->capture_dma_config.addr = (dma_addr_t)(res->start + I2S_RX_FIFO);
++	i2s_info_p->capture_dma_config.maxburst = 4;
++	i2s_info_p->capture_dma_config.filter_data = "i2s-rx";
++
++	ret = lpc3xxx_pcm_register(pdev);
++	if (ret)
++		return dev_err_probe(dev, ret, "Can't register pcm component\n");
++
++	return 0;
++}
++
++static int lpc32xx_i2s_remove(struct platform_device *pdev)
++{
++	return 0;
++}
++
++static const struct of_device_id lpc32xx_i2s_match[] = {
++	{ .compatible = "nxp,lpc3220-i2s" },
++	{},
++};
++MODULE_DEVICE_TABLE(of, lpc32xx_i2s_match);
++
++static struct platform_driver lpc32xx_i2s_driver = {
++	.probe = lpc32xx_i2s_probe,
++	.remove = lpc32xx_i2s_remove,
++	.driver		= {
++		.name	= "lpc3xxx-i2s",
++		.of_match_table = lpc32xx_i2s_match,
++	},
++};
++
++module_platform_driver(lpc32xx_i2s_driver);
++
++MODULE_AUTHOR("Kevin Wells <kevin.wells@nxp.com>");
++MODULE_AUTHOR("Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>");
++MODULE_DESCRIPTION("ASoC LPC3XXX I2S interface");
++MODULE_LICENSE("GPL");
+diff --git a/sound/soc/fsl/lpc3xxx-i2s.h b/sound/soc/fsl/lpc3xxx-i2s.h
+new file mode 100644
+index 000000000000..2796e8782de9
+--- /dev/null
++++ b/sound/soc/fsl/lpc3xxx-i2s.h
+@@ -0,0 +1,94 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * Author: Kevin Wells <kevin.wells@nxp.com>
++ *
++ * Copyright (C) 2008 NXP Semiconductors
++ * Copyright 2023 Timesys Corporation <piotr.wojtaszczyk@timesys.com>
++ */
++
++#ifndef __SOUND_SOC_LPC3XXX_I2S_H
++#define __SOUND_SOC_LPC3XXX_I2S_H
++
++#include <linux/types.h>
++#include <linux/regmap.h>
++
++struct lpc3xxx_i2s_info {
++	struct device *dev;
++	struct clk *clk;
++	struct mutex lock; /* To serialize user-space access */
++	struct regmap *regs;
++	u32 streams_in_use;
++	u32 clkrate;
++	int freq;
++	struct snd_dmaengine_dai_dma_data playback_dma_config;
++	struct snd_dmaengine_dai_dma_data capture_dma_config;
++};
++
++int lpc3xxx_pcm_register(struct platform_device *pdev);
++
++#define _SBF(f, v) ((v) << (f))
++#define _BIT(n) _SBF(n, 1)
++
++/* I2S controller register offsets */
++#define I2S_DAO		0x00
++#define I2S_DAI		0x04
++#define I2S_TX_FIFO	0x08
++#define I2S_RX_FIFO	0x0C
++#define I2S_STAT	0x10
++#define I2S_DMA0	0x14
++#define I2S_DMA1	0x18
++#define I2S_IRQ		0x1C
++#define I2S_TX_RATE	0x20
++#define I2S_RX_RATE	0x24
++
++/* i2s_daO i2s_dai register definitions */
++#define I2S_WW8      _SBF(0, 0) /* Word width is 8bit*/
++#define I2S_WW16     _SBF(0, 1) /* Word width is 16bit*/
++#define I2S_WW32     _SBF(0, 3) /* Word width is 32bit*/
++#define I2S_MONO     _BIT(2)   /* Mono */
++#define I2S_STOP     _BIT(3)   /* Stop, diables the access to FIFO, mutes the channel */
++#define I2S_RESET    _BIT(4)   /* Reset the channel */
++#define I2S_WS_SEL   _BIT(5)   /* Channel Master(0) or slave(1) mode select*/
++#define I2S_WS_HP(s) _SBF(6, s) /* Word select half period - 1 */
++
++#define I2S_MUTE     _BIT(15)  /* Mute the channel, Transmit channel only */
++
++#define I2S_WW32_HP  0x1f /* Word select half period for 32bit word width */
++#define I2S_WW16_HP  0x0f /* Word select half period for 16bit word width */
++#define I2S_WW8_HP   0x7  /* Word select half period for 8bit word width */
++
++#define WSMASK_HP	  0X7FC /* Mask for WS half period bits */
++
++/* i2s_tx_fifo register definitions */
++#define I2S_FIFO_TX_WRITE(d)              (d)
++
++/* i2s_rx_fifo register definitions */
++#define I2S_FIFO_RX_WRITE(d)              (d)
++
++/* i2s_stat register definitions */
++#define I2S_IRQ_STAT     _BIT(0)
++#define I2S_DMA0_REQ     _BIT(1)
++#define I2S_DMA1_REQ     _BIT(2)
++
++#define I2S_RX_STATE_MASK	0x0000ff00
++#define I2S_TX_STATE_MASK	0x00ff0000
++
++/* i2s_dma0 Configuration register definitions */
++#define I2S_DMA0_RX_EN     _BIT(0)       /* Enable RX DMA1*/
++#define I2S_DMA0_TX_EN     _BIT(1)       /* Enable TX DMA1*/
++#define I2S_DMA0_RX_DEPTH(s)  _SBF(8, s)  /* Set the level for DMA1 RX Request */
++#define I2S_DMA0_TX_DEPTH(s)  _SBF(16, s) /* Set the level for DMA1 TX Request */
++
++/* i2s_dma1 Configuration register definitions */
++#define I2S_DMA1_RX_EN     _BIT(0)       /* Enable RX DMA1*/
++#define I2S_DMA1_TX_EN     _BIT(1)       /* Enable TX DMA1*/
++#define I2S_DMA1_RX_DEPTH(s)  _SBF(8, s) /* Set the level for DMA1 RX Request */
++#define I2S_DMA1_TX_DEPTH(s)  _SBF(16, s) /* Set the level for DMA1 TX Request */
++
++/* i2s_irq register definitions */
++#define I2S_RX_IRQ_EN     _BIT(0)       /* Enable RX IRQ*/
++#define I2S_TX_IRQ_EN     _BIT(1)       /* Enable TX IRQ*/
++#define I2S_IRQ_RX_DEPTH(s)  _SBF(8, s)  /* valid values ar 0 to 7 */
++#define I2S_IRQ_TX_DEPTH(s)  _SBF(16, s) /* valid values ar 0 to 7 */
++
++#endif
+diff --git a/sound/soc/fsl/lpc3xxx-pcm.c b/sound/soc/fsl/lpc3xxx-pcm.c
+new file mode 100644
+index 000000000000..3ccf1473cd76
+--- /dev/null
++++ b/sound/soc/fsl/lpc3xxx-pcm.c
+@@ -0,0 +1,75 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Author: Kevin Wells <kevin.wells@nxp.com>
++ *
++ * Copyright (C) 2008 NXP Semiconductors
++ * Copyright 2023 Timesys Corporation <piotr.wojtaszczyk@timesys.com>
++ */
++
++#include <linux/module.h>
++#include <linux/init.h>
++#include <linux/platform_device.h>
++#include <linux/slab.h>
++#include <linux/dma-mapping.h>
++#include <linux/amba/pl08x.h>
++
++#include <sound/core.h>
++#include <sound/pcm.h>
++#include <sound/pcm_params.h>
++#include <sound/dmaengine_pcm.h>
++#include <sound/soc.h>
++
++#include "lpc3xxx-i2s.h"
++
++#define STUB_FORMATS	(SNDRV_PCM_FMTBIT_S8 | \
++			SNDRV_PCM_FMTBIT_U8 | \
++			SNDRV_PCM_FMTBIT_S16_LE | \
++			SNDRV_PCM_FMTBIT_U16_LE | \
++			SNDRV_PCM_FMTBIT_S24_LE | \
++			SNDRV_PCM_FMTBIT_U24_LE | \
++			SNDRV_PCM_FMTBIT_S32_LE | \
++			SNDRV_PCM_FMTBIT_U32_LE | \
++			SNDRV_PCM_FMTBIT_IEC958_SUBFRAME_LE)
++
++static const struct snd_pcm_hardware lpc3xxx_pcm_hardware = {
++	.info = (SNDRV_PCM_INFO_MMAP |
++		 SNDRV_PCM_INFO_MMAP_VALID |
++		 SNDRV_PCM_INFO_INTERLEAVED |
++		 SNDRV_PCM_INFO_BLOCK_TRANSFER |
++		 SNDRV_PCM_INFO_PAUSE |
++		 SNDRV_PCM_INFO_RESUME),
++	.formats = STUB_FORMATS,
++	.period_bytes_min = 128,
++	.period_bytes_max = 2048,
++	.periods_min = 2,
++	.periods_max = 1024,
++	.buffer_bytes_max = 128 * 1024
++};
++
++static const struct snd_dmaengine_pcm_config lpc3xxx_dmaengine_pcm_config = {
++	.pcm_hardware = &lpc3xxx_pcm_hardware,
++	.prepare_slave_config = snd_dmaengine_pcm_prepare_slave_config,
++	.compat_filter_fn = pl08x_filter_id,
++	.prealloc_buffer_size = 128 * 1024,
++};
++
++const struct snd_soc_component_driver lpc3xxx_soc_platform_driver = {
++	.name = "lpc32xx-pcm",
++};
++
++int lpc3xxx_pcm_register(struct platform_device *pdev)
++{
++	int ret;
++	int flags;
++
++	flags = SND_DMAENGINE_PCM_FLAG_NO_DT | SND_DMAENGINE_PCM_FLAG_COMPAT;
++	ret = devm_snd_dmaengine_pcm_register(&pdev->dev, &lpc3xxx_dmaengine_pcm_config, flags);
++	if (ret) {
++		dev_err(&pdev->dev, "failed to register dmaengine: %d\n", ret);
++		return ret;
++	}
++
++	return devm_snd_soc_register_component(&pdev->dev, &lpc3xxx_soc_platform_driver,
++					       NULL, 0);
++}
++EXPORT_SYMBOL(lpc3xxx_pcm_register);
 -- 
-2.34.1
+2.25.1
 
