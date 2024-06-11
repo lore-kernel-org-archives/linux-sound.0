@@ -1,147 +1,112 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4876217C9F9;
-	Tue, 11 Jun 2024 13:26:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F2B717BB35;
+	Tue, 11 Jun 2024 13:44:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718112364; cv=none; b=QVHjidh6Embrw5ftKtZDJ7M+02JvGaYmu1kDPMlb/BMTlwvl/ofykRYMrIK8kI73r7UoxvS3RJennaaEoRtMCY4Nj5rRzbYaUhHymvJRf+U68iUT6kP+uvRj631ETRfn7XOPzHkqU7ggQKVJqNtxReGE3H9bQ2NsJni8rTAZJAc=
+	t=1718113460; cv=none; b=jlpXlcMrlTQehkBw6c8Bod+XItxDw+JoZM+NPWC0AH8dje9V1KqG8pnJyd8ZPH3f3YxkpysgT9bCHIXtGAipoc1c9PGkA0h/lNIDlf/AlQrY5rVU3Lka4/ZY27qEfy2keEF+cBBimUkBJq2GIcqFQ2UHeHh36/sIbDHOg6JQgR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718112364; c=relaxed/simple;
-	bh=xsUIs1Kt5mpQP6+VuDxqZD5NRvHeR1YK4OYtm7Chvk0=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Cr+X9QKjDZkjWHoDUY6BpdG1VGE4lEg51hTI384I68G3tKW/UZGqOr8KF2ogZKyAksVItRci95gYLbl1OQmbc0HXdZ6JUAgdntDVBJVwSXABfL1Lw+BCl9T0PmqvlNQ83cr9wzcSJWGCBcqcsD3J2jIH7ypCYp25rp5CHV48tME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=lybl2cGR; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1718113460; c=relaxed/simple;
+	bh=EQYSCqQXeZZSe0ClprwCP48eVWRMSRk0A6GlSCKcSkc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h+qAGPof3TKHJk/JUwWl1VTCeOLdppCDpLMoTEKX35TJ2ZjOCea1PPhX6Wan5wVZzgfmnhQEF6jbXY1Tl/s9jYLP3PNqmQuUO/hg52vt3blULdxB6nlQvHKIkTt/K8vMtgitWtwCd3Pm6sL/P1fdIHVvufKuEYnYbeId6W6JnLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gFUo5a5V; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="lybl2cGR"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45B4c4Kv010402;
-	Tue, 11 Jun 2024 08:25:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=T4zM91sFnNYIgYO3
-	pQDLwJ7ZrWumJOlcKaLpF6K+kHA=; b=lybl2cGR4J0+/ktWFPOcUvBGZynyg4jv
-	qhetaj5NuYGCqzX4DxNKB5zPnJwkve5hwwQ1U+Fg3OPD0egfrlzRehz5NxgQEzh9
-	M/HQf9Ec2OBt+1zC/wzAs3Vpqkh3lpJSwOjKYT4VCqjLvEgHa3aUQTX/cQ8YU2ja
-	SRs/w6dvmUlPpQXkWYew1/oUooAW17LCr8L0YhgF+omPRVmXyz5wIIQw6RKCgeeX
-	UqgYLiAN2jg30PnM7zRvF5Zf3sw2vU9bQi0PEv8zWx6hVkAVqXIoH68v2MIR45nO
-	2cOo2wsx1ExG9MVTuoyYrGyEJ+Y4Sun3T7Ox0Ju97+UlqVV1I8B5Tg==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3ymkqhtuvb-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 11 Jun 2024 08:25:59 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 11 Jun
- 2024 14:25:56 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Tue, 11 Jun 2024 14:25:56 +0100
-Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id B4FB6820244;
-	Tue, 11 Jun 2024 13:25:56 +0000 (UTC)
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: <broonie@kernel.org>
-CC: <lgirdwood@gmail.com>, <linux-sound@vger.kernel.org>,
-        <linux-spi@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <patches@opensource.cirrus.com>
-Subject: [PATCH 1/3] spi: cs42l43: Refactor accessing the SDCA extension properties
-Date: Tue, 11 Jun 2024 14:25:54 +0100
-Message-ID: <20240611132556.1557075-1-ckeepax@opensource.cirrus.com>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gFUo5a5V"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718113459; x=1749649459;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EQYSCqQXeZZSe0ClprwCP48eVWRMSRk0A6GlSCKcSkc=;
+  b=gFUo5a5V1GnX2XydgU5zF7EYC/KWkEQqcrVQid5phQOMglvU7IXa9vV9
+   udhVO/d6pGtMN6wkq+2qMu5mnyXBjF8np/hVcPWC2A43EZ4o78GuMrwXG
+   fQaclTvySDKjfYNL4CQ9+caTVUMiw2BWDijIoVhLnELhkdXmdr4b3hVTb
+   Cm77W4gso9l1jULWdT1nnRe3/Gpgz0Zv3VhoJnDzxENz7Ao+MELfuemUI
+   8HvIEJ6P/o4s/edanLLbwngG4+9U5oIdfIJyBPeGFWZxnLMjmt8NuRDjO
+   64YwA2srN9hY0IroYs75zz2VRSIeuFo/p2Eai7s9Kmf68D+7wVCvoAXzi
+   A==;
+X-CSE-ConnectionGUID: UAOWDUvCTvGumurKBIdWWg==
+X-CSE-MsgGUID: Fcg0EAiuQKGcv9F+EzxMmQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="14622283"
+X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; 
+   d="scan'208";a="14622283"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 06:44:18 -0700
+X-CSE-ConnectionGUID: Q0NPPKiNQ7ane9wZalYhdQ==
+X-CSE-MsgGUID: U69eDlhwT8qu912gTuRt5A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; 
+   d="scan'208";a="39373309"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 06:44:11 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id CFDB711F855;
+	Tue, 11 Jun 2024 16:44:07 +0300 (EEST)
+Date: Tue, 11 Jun 2024 13:44:07 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, Dave Ertman <david.m.ertman@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Michael Chan <michael.chan@broadcom.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jesse Brandeburg <jesse.brandeburg@intel.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Leon Romanovsky <leon@kernel.org>, Tariq Toukan <tariqt@nvidia.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	linux-media@vger.kernel.org, netdev@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
+	sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 1/6] auxbus: make to_auxiliary_drv accept and return a
+ constant pointer
+Message-ID: <ZmhUp-UclZkvQLqE@kekkonen.localdomain>
+References: <20240611130103.3262749-7-gregkh@linuxfoundation.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: RlxZDK-G1HOQKD9cYSixedcmOG006PmH
-X-Proofpoint-ORIG-GUID: RlxZDK-G1HOQKD9cYSixedcmOG006PmH
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240611130103.3262749-7-gregkh@linuxfoundation.org>
 
-Refactor accessing the SDCA extension properties to make it easier to
-access multiple properties to assist with future features. Return the
-node itself and allow the caller to read the actual properties.
+Hi Greg,
 
-Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
----
- drivers/spi/spi-cs42l43.c | 25 +++++++++----------------
- 1 file changed, 9 insertions(+), 16 deletions(-)
+On Tue, Jun 11, 2024 at 03:01:04PM +0200, Greg Kroah-Hartman wrote:
+> In the quest to make struct device constant, start by making
+> to_auziliary_drv() return a constant pointer so that drivers that call
 
-diff --git a/drivers/spi/spi-cs42l43.c b/drivers/spi/spi-cs42l43.c
-index 8b618ef0f711..0a4475ae931b 100644
---- a/drivers/spi/spi-cs42l43.c
-+++ b/drivers/spi/spi-cs42l43.c
-@@ -246,11 +246,10 @@ static size_t cs42l43_spi_max_length(struct spi_device *spi)
- 	return CS42L43_SPI_MAX_LENGTH;
- }
- 
--static bool cs42l43_has_sidecar(struct fwnode_handle *fwnode)
-+static struct fwnode_handle *cs42l43_find_xu_node(struct fwnode_handle *fwnode)
- {
- 	static const u32 func_smart_amp = 0x1;
- 	struct fwnode_handle *child_fwnode, *ext_fwnode;
--	unsigned int val;
- 	u32 function;
- 	int ret;
- 
-@@ -266,21 +265,12 @@ static bool cs42l43_has_sidecar(struct fwnode_handle *fwnode)
- 		if (!ext_fwnode)
- 			continue;
- 
--		ret = fwnode_property_read_u32(ext_fwnode,
--					       "01fa-sidecar-instances",
--					       &val);
--
--		fwnode_handle_put(ext_fwnode);
--
--		if (ret)
--			continue;
--
- 		fwnode_handle_put(child_fwnode);
- 
--		return !!val;
-+		return ext_fwnode;
- 	}
- 
--	return false;
-+	return NULL;
- }
- 
- static void cs42l43_release_of_node(void *data)
-@@ -298,7 +288,8 @@ static int cs42l43_spi_probe(struct platform_device *pdev)
- 	struct cs42l43 *cs42l43 = dev_get_drvdata(pdev->dev.parent);
- 	struct cs42l43_spi *priv;
- 	struct fwnode_handle *fwnode = dev_fwnode(cs42l43->dev);
--	bool has_sidecar = cs42l43_has_sidecar(fwnode);
-+	struct fwnode_handle *xu_fwnode __free(fwnode_handle) = cs42l43_find_xu_node(fwnode);
-+	int nsidecars = 0;
- 	int ret;
- 
- 	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-@@ -350,7 +341,9 @@ static int cs42l43_spi_probe(struct platform_device *pdev)
- 			return ret;
- 	}
- 
--	if (has_sidecar) {
-+	fwnode_property_read_u32(xu_fwnode, "01fa-sidecar-instances", &nsidecars);
-+
-+	if (nsidecars) {
- 		ret = software_node_register(&cs42l43_gpiochip_swnode);
- 		if (ret)
- 			return dev_err_probe(priv->dev, ret,
-@@ -373,7 +366,7 @@ static int cs42l43_spi_probe(struct platform_device *pdev)
- 		return dev_err_probe(priv->dev, ret,
- 				     "Failed to register SPI controller\n");
- 
--	if (has_sidecar) {
-+	if (nsidecars) {
- 		if (!spi_new_device(priv->ctlr, &ampl_info))
- 			return dev_err_probe(priv->dev, -ENODEV,
- 					     "Failed to create left amp slave\n");
+s/z/s/
+
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com> # drivers/media/pci/intel/ipu6
+
+> this can be fixed up before the driver core changes.
+> 
+> As the return type previously was not constant, also fix up all callers
+> that were assuming that the pointer was not going to be a constant one
+> in order to not break the build.
+
 -- 
-2.39.2
+Kind regards,
 
+Sakari Ailus
