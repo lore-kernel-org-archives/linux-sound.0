@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D411667E1;
-	Wed, 12 Jun 2024 06:49:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65D6913CAAD;
+	Wed, 12 Jun 2024 06:49:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718174948; cv=none; b=LMW+7jS/EhqP9/8oCHRz8u4gQRkGRKbeZtyiEU3VfGNkwwBpSuucAYyAqtoNAFFL68H8ailKrCgrrYrhP6ix0PsJEMRhVWsneY/635p5eLkB+PXdBCU+P/3yfK2a599CT3Ac0gw97C/mMoX5GQLEG2U8BbqvDO58wGGXpcnAbcg=
+	t=1718174982; cv=none; b=IxqfaD4SvvG6RYmECGsq5EA3LuFUZw/sD93BmLMKJgXCw6ua9nZG4EUoTSw7sq5RjDFgrEDDzgjd+3qGIw9NH8T9EVYkH7UM0ByUHI43qF4h+l7NLKvajMBNKve7n3zb7oSZciv/+SEKe7HUR5hRRcPcckjE/GtAHl+74dwaUJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718174948; c=relaxed/simple;
-	bh=3v7o25DeiUqqhC7XTOjvu3yyIzYFItffr6hbnN4xY0o=;
+	s=arc-20240116; t=1718174982; c=relaxed/simple;
+	bh=NVrikH9BtN7h5xiiPL7iHYVis0212ZCqdMOj6NRDoco=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EWACCwfvVjgkFcOfEwqQIYC7TSJEbxXZ6TADYhOPbjU8irhSlVYOS8BHoEZyD2Vsi4oD36mQfUjVdJpPafrLoFS6w6rGGVuJuT+rGTZENkXcM1FW33U8b8gSc7CJBQAI2PiZdhrGw0IBJ327y3EBoOmB1HNcX3V16CDyh8PyAe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b82DGUwJ; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=FDilKu2ZPZqJySzQuL+sz8I3phCYNjOL4VniO5eMZkubRuqHelmnt1ElknxLi7KDtn8aqf56ELHWYyNNeLM9woonDikCmgwdAPmXg+qhi1VcxsODCe/p0FaMi+xOLZDIu6ZWEwVpmX3XXeImhUSxMl1lj3n/qkHzmCBdApRffsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GUuPpavc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b82DGUwJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46381C32786;
-	Wed, 12 Jun 2024 06:49:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GUuPpavc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 910D0C3277B;
+	Wed, 12 Jun 2024 06:49:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718174947;
-	bh=3v7o25DeiUqqhC7XTOjvu3yyIzYFItffr6hbnN4xY0o=;
+	s=k20201202; t=1718174981;
+	bh=NVrikH9BtN7h5xiiPL7iHYVis0212ZCqdMOj6NRDoco=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=b82DGUwJq6ks1QqEbPHuiZtrU5py53atxmPeBiRgiEQ+AUFhtETBl8RI/deM5ZYEU
-	 z3IfMb2brUY9y2aKpoiBSYu680Gv1j+U49XwGsq3JfObYZHAdOZGolfcOpAfrdUCts
-	 d9jBp7msaBSSjPnBJQ0I4VLo6rsSOS3aVhDK+brJyHL55k2EF5lpPNWTqWcQxE1phg
-	 ywvVI0EQPpRhgW0rbXuE7V/ehj/2AnODR7kdHe+ug6pwpl9E+otbqbWkZ4QIb0SJ1G
-	 NYuVxuHuXgufqEiaMWs608Fv/8Hio3EExQd6y6wBsT8mk9TGr29od4St2qcUw2emZn
-	 yTZHQguU0yDNA==
-Message-ID: <3c02302b-84e8-4064-b3cf-d8f28c7ff9ac@kernel.org>
-Date: Wed, 12 Jun 2024 08:49:01 +0200
+	b=GUuPpavcyZt2zRhjReBN46EvwWei8TStGgbS5GwKjvaOutokeOdRqJsY1hk2EicGH
+	 2w/nfm0LV15W9UGs9ncNp0/UtjHvTKj3f7LmqOj/t36yKopRDHr4jpV1+wcpzO0V/r
+	 5PDHTd+2HoVF6C6SJwB6twS1L04TEoJWIveK3c6y6gH7TiasDtu3GbmnQ/T63Nvv+0
+	 JYCVXwIJDIFQzOxCx2/TZJ4tQqxyyt8G6VFV3K2nT7/0GsXxDiysRqrruVRh3mEcPO
+	 HJ9f8nShVVxqWGN4eEwOQRQGAUXeIS3JNs6JkIROIBmip/OuXWnWm5NvSQxLOM/9QG
+	 FQ8PW0UhUqEqA==
+Message-ID: <3b78520e-61d9-411b-82fe-84e8245d084f@kernel.org>
+Date: Wed, 12 Jun 2024 08:49:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,7 +35,7 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] ASoC: dt-bindings: convert everest,es7241.txt to
+Subject: Re: [PATCH 2/2] ASoC: dt-bindings: convert everest,es7134.txt to
  dt-schema
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
@@ -44,7 +44,7 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
 Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20240611-topic-amlogic-upstream-bindings-convert-everest-v1-0-a7f9b4c9005c@linaro.org>
- <20240611-topic-amlogic-upstream-bindings-convert-everest-v1-1-a7f9b4c9005c@linaro.org>
+ <20240611-topic-amlogic-upstream-bindings-convert-everest-v1-2-a7f9b4c9005c@linaro.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -90,38 +90,15 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240611-topic-amlogic-upstream-bindings-convert-everest-v1-1-a7f9b4c9005c@linaro.org>
+In-Reply-To: <20240611-topic-amlogic-upstream-bindings-convert-everest-v1-2-a7f9b4c9005c@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 11/06/2024 11:19, Neil Armstrong wrote:
-> +required:
-> +  - compatible
-> +  - VDDP-supply
-> +  - VDDA-supply
-> +  - VDDD-supply
-> +
-> +allOf:
-> +  - $ref: dai-common.yaml#
-> +
-
-If there is going to be new version:
-
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +   codec-0 {
-
-codec {
-
-> +       compatible = "everest,es7241";
-> +       #sound-dai-cells = <0>;
-> +       reset-gpios = <&gpio1 15 0>;
-
-and use define for the GPIO flag (need also to include header).
-
-No need to resend just for this:
+> Convert the text bindings of the Everest ES7134/7144/7154 2 channels
+> I2S analog to digital converter to dt-schema.
+> 
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
