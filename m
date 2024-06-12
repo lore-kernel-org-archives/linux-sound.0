@@ -1,111 +1,117 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36E16A93B;
-	Wed, 12 Jun 2024 10:42:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACA8116E882;
+	Wed, 12 Jun 2024 11:59:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718188945; cv=none; b=NA/PmLABz2BpKUCpyaZP8iHn8N3Pa+Z4Whh5tbmnerzA4EDuclVWhw6vAzLlSG2rur5+iZrt5IoYQgluejZ3fmA+UeSqed0Wy9xtsNimqQ1QqsIiPWhWDK2tv9G+0yo4f17hITWdaOIp4lfwtbLvt7CKjpWpHpVa3GXDPvhhhsA=
+	t=1718193588; cv=none; b=qV96ylVLL/2CoyDpbSPXnfoxfox9KC3Wr2aeRjBMctSYCQ5q4tF2SOG9oFqnB9CzSeqXpfcT3oh6zLTyRlJUTtmzLUz7o5ARJdNuF9tFLmPXNshxhnFY4yujXa4zZkLw2Zxcn5smt6uARInQNJv8nxuA/bI5tAk+ORwl6lXMrik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718188945; c=relaxed/simple;
-	bh=ysAXpRLhIcT/GOAm7v/+Clr4iJrJuvUTzEBkH6BAlaE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=oFn17Mywj853wPmpJ90VU7f1aGzeF1jbnLHkCQboElMNFa2f+7qEGpT1ya4wHq+el0NRkrLqAu99h1xE5qVUCOW1qvji9qa5zt2K/ARM+9OvDSBawKf9vJj2hBZx0N8wWr33e/q8gHdcZI2CqL2Qf5ZrpwWRrcsqN4xNbG6eFv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=FDP387qa; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1718193588; c=relaxed/simple;
+	bh=g+KF8NdttgCTb5bfAiBABlmcgbDcCXSiriG2NAgXuKE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=s1Lb1ILVeAZ7yJSliouYr88GMZwGlfBpXC83nhixGEwH8r5wgQpzYq6lhie8Q/1JRMrRA3rv1vODksReJyT80WDagK87dio4ivnsKCwe1P4nnX/4RPg/cceMSC9OQFm6bJPDJP87avLnrnGYHWzNundvT3rXVKNJ2+i+Sf8IeHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ixEJTeCt; arc=none smtp.client-ip=209.85.160.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="FDP387qa"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45C30uPm015315;
-	Wed, 12 Jun 2024 05:42:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=GB7rgou2Iel3eL2Pod465DGSIZnJ8g2kdqSbhokKaDo=; b=
-	FDP387qawdvdjsY/G6Px6OYneGHTYH3KsLCn1IlrgtmL1dl/co5vN79AI/prskd7
-	JB8UrhAbzj0aRJY6G/vfZg8fhp5xS0MJvhF89Qiaed5XEFXz5UHo+Kj1jZoGt8z0
-	vdc+/H/z55mIuDnRnS+szx6/G2NlO0rGKbcfVb3nhIY1BftE7B5AOKP/ZIiURhPs
-	DquddngIVGznY4waLw/vyuN9LzWMIgaG8WfrfniVA+uB5l9L62O/hPzQWYO+7pi5
-	/X7m6cfzXrQxjx+BE0WRvRjX8VFT/wPUvw/WtJfA+hR2u/ErHMYrVRGVTXAKTNib
-	ya9yYJMuB6qWoFGDpJ4qng==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3ymkqhuvrt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 12 Jun 2024 05:42:17 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 12 Jun
- 2024 11:42:15 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Wed, 12 Jun 2024 11:42:15 +0100
-Received: from [198.90.208.18] (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 941D2820248;
-	Wed, 12 Jun 2024 10:42:15 +0000 (UTC)
-Message-ID: <92f2d6c6-2d63-42eb-ae91-59a14831145a@opensource.cirrus.com>
-Date: Wed, 12 Jun 2024 11:42:15 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ixEJTeCt"
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-24c9f6338a4so3372769fac.1;
+        Wed, 12 Jun 2024 04:59:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718193586; x=1718798386; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3rw4oq0Ohf7tU3ClnNhFQL/oCvaY2J0yWIQIMUVmHN0=;
+        b=ixEJTeCtTOVvkp2gDvfhUuvxB28UEj5iDD9i2SxMoY9ahlAvLOlSgHhbeCGQ7s4mYf
+         fIqugPjmMJkwgTHyuETClCprJTe67oDXavgWPJefQof/19hnhlKo5K1n2ToOzNFHlvqK
+         pyyORjwhCeG2ERQbcl45Ov4Z5HnZWViI7d+9NrwnyYqyxFAUFXWs2uzZdse9m5WqaiBm
+         K+/iajScuggrufPcJwToda6gBh0KSg41TNNCqNbkhPLZ3bqZdVOx9jNgMYJlpQO8IF38
+         bRBH2q2F0YaJxqdQ64O8rffTPyUWmFad+NDFTGokWt3KoKt9tCGicviKdOOVrh8mPLER
+         LnIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718193586; x=1718798386;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3rw4oq0Ohf7tU3ClnNhFQL/oCvaY2J0yWIQIMUVmHN0=;
+        b=AnGkD9ehjWx0Tr/P02DMerokqkBr3rL9LOfsWgSCHi6nkuW9RPbqF7636shk+ir288
+         9lCCaGIe1Lwatct0rJXdlkywFqL/euIln9JutfYtmrdh3wnoGcFmdLJudI2d3CcvOxNA
+         qfnGNreXTo9xZKDF0/+m/imog1hYJD7dU+dZOkdh0UiniNgQoZWSELk0cmVD2AMoJkJk
+         HZCdho7YB86UWU01Kn6d/9Sw1tjR2ZT7h+BQ2MTITUMpIfkCVEfIETXlZUC+zawZPoBZ
+         h4cy3aAbX2Dcl+fOEJbawFINTfe7D4wNo7RohPLf0Xb41jhUeqNvDSoLbyGPyk/4/IuN
+         RI/g==
+X-Forwarded-Encrypted: i=1; AJvYcCU9/fCMkHcjkwcLuXx23IEW34TjC05Qb2oVMKD0AyXslt9cqTzPzKVWio3z4PkwAfof0ObcL+GQYYNegPYCJSh2Dx3xZFrexajkRjcfBvfJuaOj3M+k1oypCBAiHV6n6xPFQe94gAW7hDoii5DzOL4oR42pRERX4yZtoMjayCGzt33j/PxX
+X-Gm-Message-State: AOJu0YzaGmVIOVDMyYNmdpJxK9LEXh00fTfWHKIC6J2VVr+Fk3aybSPn
+	4z8xWYvJYUT5Pdfmq0+7mRMbiWKEL0BC/rUQjoYzzzL+tpFffZbBfLHJR/plS9gNwshoCV5bNkM
+	+bS41boFCYSsD4IVjBM4ueJztI3Q=
+X-Google-Smtp-Source: AGHT+IFFf4hE4u3P0SMg8Z9wDg4GkGs4lvBLHNeR6wq+yEuT+bu0jRI3VhYDYsU3aM/1SnRiCtH56OVzz4nlSeUuYMo=
+X-Received: by 2002:a05:6870:c0d1:b0:24f:c892:d02b with SMTP id
+ 586e51a60fabf-255147aa8a0mr1721343fac.0.1718193585675; Wed, 12 Jun 2024
+ 04:59:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: cs35l56: Disconnect ASP1 TX sources when ASP1 DAI
- is hooked up
-To: Mark Brown <broonie@kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>
-References: <20240611145746.1454663-1-rf@opensource.cirrus.com>
- <Zmh3VmRfGEU6pGps@finisterre.sirena.org.uk>
- <36219997-397b-4a26-96ee-7527fb6eb024@opensource.cirrus.com>
- <Zml2FfjbO4Vgk0jy@finisterre.sirena.org.uk>
-Content-Language: en-GB
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-In-Reply-To: <Zml2FfjbO4Vgk0jy@finisterre.sirena.org.uk>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: G7tYJZmFjGeC2vFlZ_S6TRIyENKswo-P
-X-Proofpoint-ORIG-GUID: G7tYJZmFjGeC2vFlZ_S6TRIyENKswo-P
-X-Proofpoint-Spam-Reason: safe
+References: <20240611124405.63427-1-animeshagarwal28@gmail.com> <20240611200048.GA2966276-robh@kernel.org>
+In-Reply-To: <20240611200048.GA2966276-robh@kernel.org>
+From: Animesh Agarwal <animeshagarwal28@gmail.com>
+Date: Wed, 12 Jun 2024 17:29:34 +0530
+Message-ID: <CAE3Oz81AP-5RGK0Xef72XT3x4Je1tu223BMwk7-mzKrJWKqTbA@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: wlf,wm8782: Convert to dtschema
+To: Rob Herring <robh@kernel.org>
+Cc: Daniel Baluta <daniel.baluta@nxp.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, patches@opensource.cirrus.com, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 12/06/2024 11:19, Mark Brown wrote:
-> On Wed, Jun 12, 2024 at 10:19:06AM +0100, Richard Fitzgerald wrote:
->> On 11/06/2024 17:12, Mark Brown wrote:
-> 
->>> This doesn't seem particularly different to any other unhelpful chip
->>> default, I'm not sure why it'd be so urgent that we'd hard code a
-> 
->> I'm not sure I understand the objection here. Are you objecting to the
->> patch itself, or that I marked it as a Fixes?
-> 
-> Both I guess, but mainly the patch itself - we generally have an
-> extremely high bar for setting defaults different to the chip defaults
-> to avoid issues with differing use cases.
+On Wed, Jun 12, 2024 at 1:30=E2=80=AFAM Rob Herring <robh@kernel.org> wrote=
+:
+>
+> On Tue, Jun 11, 2024 at 06:14:00PM +0530, Animesh Agarwal wrote:
+> > Convert the WM8782 audio codec bindings to DT schema.
+>
+> Missing "ASoC" on the subject. Mark may not see it.
+>
+> > Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
+> > Cc: Daniel Baluta <daniel.baluta@nxp.com>
+> > ---
+> >  .../devicetree/bindings/sound/wlf,wm8782.yaml | 47 +++++++++++++++++++
+> >  .../devicetree/bindings/sound/wm8782.txt      | 24 ----------
+> >  2 files changed, 47 insertions(+), 24 deletions(-)
+> >  create mode 100644 Documentation/devicetree/bindings/sound/wlf,wm8782.=
+yaml
+> >  delete mode 100644 Documentation/devicetree/bindings/sound/wm8782.txt
+>
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+>
+>
+> This is yet another binding with no in tree DTS user. That's fine, but
+> not what I would prioritize converting. There are several ways I would
+> prioritize what to work on.
 
-But that's somewhat part of the problem. There's no such thing as a chip
-default for the cs35l56 because for Windows reasons the firmware patches
-up all the registers on boot to setup a hardcoded use-case configuration
-so that the Windows SDCA drivers can be generic and don't need knowledge
-of chip-specific registers. The firmware is customized per end-product,
-so the initial register state can vary.
+I'll resend this patch adding "ASOC" in the subject, thanks for the
+advice I'll not prioritize bindings that do not have their DTS in the
+tree.
 
-The driver currently attempts to sync-up the mixer registers with what
-the firmware set them to, which means that the initial starting state
-of the ALSA controls can vary between products using the cs35l56, and
-in theory even between revisions of the firmware if there was a need
-to change the routing setup for Windows. We don't really need to do
-that on Linux - it has a use-case manager and ALSA controls for this
-stuff, and the code to do all the syncing-up adds a lot of driver
-complexity. We want to remove that complexity, and instead patch the
-registers back to silicon defaults - obliterate the Windows use-case
-setup and use standard Linux mechanisms to setup what is required.
+> - There's a list maintained in CI of number of occurrences of
+> undocumented (by schema) compatibles[1]. Start at the top (most
+> occurrences).
+> - Pick a platform (or family of platform) and get the warnings down to
+> 0 or close. There's a grouping of warnings and undocumented
+> compatibles by platform family at the same link. Pick something that's
+> widely used like RPi or RK3399.
+> - Prioritize newer platforms over older (arm64 rather than
+> arm32(though there's still new arm32 stuff)).
+> - Fix warnings treewide from common schemas (i.e. from dtschema).
+> That's not conversions, but related.
 
-However, the mixer settings were already causing a bunch of log
-warnings. So I decided to split this fix off so it's not dependent on a
-big code revert.
+Thanks for the tips. I'll work accordingly.
 
-I can send a V2 of this patch with this long explanation of the
-background. I didn't put it all in V1 because it never occurred to me
-that defaulting the mixer sources would be controversial.
+Animesh
