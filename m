@@ -1,117 +1,96 @@
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACA8116E882;
-	Wed, 12 Jun 2024 11:59:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2FB8168C3A
+	for <linux-sound@vger.kernel.org>; Wed, 12 Jun 2024 12:11:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718193588; cv=none; b=qV96ylVLL/2CoyDpbSPXnfoxfox9KC3Wr2aeRjBMctSYCQ5q4tF2SOG9oFqnB9CzSeqXpfcT3oh6zLTyRlJUTtmzLUz7o5ARJdNuF9tFLmPXNshxhnFY4yujXa4zZkLw2Zxcn5smt6uARInQNJv8nxuA/bI5tAk+ORwl6lXMrik=
+	t=1718194298; cv=none; b=ro9r6cxOtxZlpNOFrwVURliOT/8F7xSk3C9nl5izGn6jQx00orSYv+OMtpTa+NV+cjo28Tf/tOwZfWr25TfIO3qc2eIJwNuhvihSJ1R/gNpQ8BP1ATKGSMNYyawY1CQOe1JyRDJEUYWM+dB4eiKbHT2V8vS2ll9yDkXfEdGZ1mI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718193588; c=relaxed/simple;
-	bh=g+KF8NdttgCTb5bfAiBABlmcgbDcCXSiriG2NAgXuKE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=s1Lb1ILVeAZ7yJSliouYr88GMZwGlfBpXC83nhixGEwH8r5wgQpzYq6lhie8Q/1JRMrRA3rv1vODksReJyT80WDagK87dio4ivnsKCwe1P4nnX/4RPg/cceMSC9OQFm6bJPDJP87avLnrnGYHWzNundvT3rXVKNJ2+i+Sf8IeHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ixEJTeCt; arc=none smtp.client-ip=209.85.160.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1718194298; c=relaxed/simple;
+	bh=HKF+cmvbrRUa/EuLNzsDOqJsAzDGm4oECwC2QorLzGo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UBJQ3dBXuyJN3KjWLK7QqJNbwx2najIH7/ew+PDvJmB5d3WdsFHyBG35dkvQHsotV5OgNLuv8F565I5qIuxdo8L7cTt/gdmDHNcutImKhTMMy2CkXufYM581fJ7SObcwbNwGEwbTVkXaOgL77gWIo1wkimHloOZ/6GAy0DLyySk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jjBtgv/6; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ixEJTeCt"
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-24c9f6338a4so3372769fac.1;
-        Wed, 12 Jun 2024 04:59:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718193586; x=1718798386; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3rw4oq0Ohf7tU3ClnNhFQL/oCvaY2J0yWIQIMUVmHN0=;
-        b=ixEJTeCtTOVvkp2gDvfhUuvxB28UEj5iDD9i2SxMoY9ahlAvLOlSgHhbeCGQ7s4mYf
-         fIqugPjmMJkwgTHyuETClCprJTe67oDXavgWPJefQof/19hnhlKo5K1n2ToOzNFHlvqK
-         pyyORjwhCeG2ERQbcl45Ov4Z5HnZWViI7d+9NrwnyYqyxFAUFXWs2uzZdse9m5WqaiBm
-         K+/iajScuggrufPcJwToda6gBh0KSg41TNNCqNbkhPLZ3bqZdVOx9jNgMYJlpQO8IF38
-         bRBH2q2F0YaJxqdQ64O8rffTPyUWmFad+NDFTGokWt3KoKt9tCGicviKdOOVrh8mPLER
-         LnIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718193586; x=1718798386;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3rw4oq0Ohf7tU3ClnNhFQL/oCvaY2J0yWIQIMUVmHN0=;
-        b=AnGkD9ehjWx0Tr/P02DMerokqkBr3rL9LOfsWgSCHi6nkuW9RPbqF7636shk+ir288
-         9lCCaGIe1Lwatct0rJXdlkywFqL/euIln9JutfYtmrdh3wnoGcFmdLJudI2d3CcvOxNA
-         qfnGNreXTo9xZKDF0/+m/imog1hYJD7dU+dZOkdh0UiniNgQoZWSELk0cmVD2AMoJkJk
-         HZCdho7YB86UWU01Kn6d/9Sw1tjR2ZT7h+BQ2MTITUMpIfkCVEfIETXlZUC+zawZPoBZ
-         h4cy3aAbX2Dcl+fOEJbawFINTfe7D4wNo7RohPLf0Xb41jhUeqNvDSoLbyGPyk/4/IuN
-         RI/g==
-X-Forwarded-Encrypted: i=1; AJvYcCU9/fCMkHcjkwcLuXx23IEW34TjC05Qb2oVMKD0AyXslt9cqTzPzKVWio3z4PkwAfof0ObcL+GQYYNegPYCJSh2Dx3xZFrexajkRjcfBvfJuaOj3M+k1oypCBAiHV6n6xPFQe94gAW7hDoii5DzOL4oR42pRERX4yZtoMjayCGzt33j/PxX
-X-Gm-Message-State: AOJu0YzaGmVIOVDMyYNmdpJxK9LEXh00fTfWHKIC6J2VVr+Fk3aybSPn
-	4z8xWYvJYUT5Pdfmq0+7mRMbiWKEL0BC/rUQjoYzzzL+tpFffZbBfLHJR/plS9gNwshoCV5bNkM
-	+bS41boFCYSsD4IVjBM4ueJztI3Q=
-X-Google-Smtp-Source: AGHT+IFFf4hE4u3P0SMg8Z9wDg4GkGs4lvBLHNeR6wq+yEuT+bu0jRI3VhYDYsU3aM/1SnRiCtH56OVzz4nlSeUuYMo=
-X-Received: by 2002:a05:6870:c0d1:b0:24f:c892:d02b with SMTP id
- 586e51a60fabf-255147aa8a0mr1721343fac.0.1718193585675; Wed, 12 Jun 2024
- 04:59:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jjBtgv/6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718194297; x=1749730297;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=HKF+cmvbrRUa/EuLNzsDOqJsAzDGm4oECwC2QorLzGo=;
+  b=jjBtgv/6SmWwEcLMk/XHgxhsuIqK4G5+w/DJSBEsmh3UdKVO86YPm1Rj
+   +TRNqcH1BM1wLyiFFGRANk6aUNDZh72TZ6al35pvzpXyTjZLSRXy5veFY
+   w1E6delDh6cfx7NlFOmfinnXnHbccsDgGoCJtOLfT9fm8NiCZnfqEqF3z
+   +8D/DrLMd6H4409g+meRkwuR0iIIwRMvcdR4UH0GJpaqNCIUfYOb76ty9
+   OZAR/QH94YbKuoZRuPMm5b3PxiuTGkrFIs2RzbrQF/j9eX7o0EsF7NyhO
+   xshmihNmZw81sKWSjK99mVxTQU5dITJi0nT6QQoi7pofzeZwhvmND/yGF
+   A==;
+X-CSE-ConnectionGUID: 094IUTs1T+yzXkhpRQGeLw==
+X-CSE-MsgGUID: hbdDOa+6TuCUvOSY+fCO/Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11100"; a="40360115"
+X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; 
+   d="scan'208";a="40360115"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 05:11:36 -0700
+X-CSE-ConnectionGUID: DGh1h6abR7Kikp6O3bICcw==
+X-CSE-MsgGUID: MVvztAuDTD+KxN3voTPlWg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; 
+   d="scan'208";a="44336927"
+Received: from fpallare-mobl3.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.245.211])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 05:11:34 -0700
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com
+Subject: [PATCH] ASoC: SOF: sof-audio: Skip unprepare for in-use widgets on error rollback
+Date: Wed, 12 Jun 2024 15:12:03 +0300
+Message-ID: <20240612121203.15468-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240611124405.63427-1-animeshagarwal28@gmail.com> <20240611200048.GA2966276-robh@kernel.org>
-In-Reply-To: <20240611200048.GA2966276-robh@kernel.org>
-From: Animesh Agarwal <animeshagarwal28@gmail.com>
-Date: Wed, 12 Jun 2024 17:29:34 +0530
-Message-ID: <CAE3Oz81AP-5RGK0Xef72XT3x4Je1tu223BMwk7-mzKrJWKqTbA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: wlf,wm8782: Convert to dtschema
-To: Rob Herring <robh@kernel.org>
-Cc: Daniel Baluta <daniel.baluta@nxp.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, patches@opensource.cirrus.com, 
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jun 12, 2024 at 1:30=E2=80=AFAM Rob Herring <robh@kernel.org> wrote=
-:
->
-> On Tue, Jun 11, 2024 at 06:14:00PM +0530, Animesh Agarwal wrote:
-> > Convert the WM8782 audio codec bindings to DT schema.
->
-> Missing "ASoC" on the subject. Mark may not see it.
->
-> > Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
-> > Cc: Daniel Baluta <daniel.baluta@nxp.com>
-> > ---
-> >  .../devicetree/bindings/sound/wlf,wm8782.yaml | 47 +++++++++++++++++++
-> >  .../devicetree/bindings/sound/wm8782.txt      | 24 ----------
-> >  2 files changed, 47 insertions(+), 24 deletions(-)
-> >  create mode 100644 Documentation/devicetree/bindings/sound/wlf,wm8782.=
-yaml
-> >  delete mode 100644 Documentation/devicetree/bindings/sound/wm8782.txt
->
-> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
->
->
-> This is yet another binding with no in tree DTS user. That's fine, but
-> not what I would prioritize converting. There are several ways I would
-> prioritize what to work on.
+If the ipc_prepare() callback fails for a module instance, on error rewind
+we must skip the ipc_unprepare() call for ones that has positive use count.
 
-I'll resend this patch adding "ASOC" in the subject, thanks for the
-advice I'll not prioritize bindings that do not have their DTS in the
-tree.
+The positive use count means that the module instance is in active use, it
+cannot be unprepared.
 
-> - There's a list maintained in CI of number of occurrences of
-> undocumented (by schema) compatibles[1]. Start at the top (most
-> occurrences).
-> - Pick a platform (or family of platform) and get the warnings down to
-> 0 or close. There's a grouping of warnings and undocumented
-> compatibles by platform family at the same link. Pick something that's
-> widely used like RPi or RK3399.
-> - Prioritize newer platforms over older (arm64 rather than
-> arm32(though there's still new arm32 stuff)).
-> - Fix warnings treewide from common schemas (i.e. from dtschema).
-> That's not conversions, but related.
+The issue affects capture direction paths with branches (single dai with
+multiple PCMs), the affected widgets are in the shared part of the paths.
 
-Thanks for the tips. I'll work accordingly.
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+---
+ sound/soc/sof/sof-audio.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Animesh
+diff --git a/sound/soc/sof/sof-audio.c b/sound/soc/sof/sof-audio.c
+index 881eec38c2e2..9a52781bf8d8 100644
+--- a/sound/soc/sof/sof-audio.c
++++ b/sound/soc/sof/sof-audio.c
+@@ -485,7 +485,7 @@ sof_prepare_widgets_in_path(struct snd_sof_dev *sdev, struct snd_soc_dapm_widget
+ 			if (ret < 0) {
+ 				/* unprepare the source widget */
+ 				if (widget_ops[widget->id].ipc_unprepare &&
+-				    swidget && swidget->prepared) {
++				    swidget && swidget->prepared && swidget->use_count == 0) {
+ 					widget_ops[widget->id].ipc_unprepare(swidget);
+ 					swidget->prepared = false;
+ 				}
+-- 
+2.45.2
+
