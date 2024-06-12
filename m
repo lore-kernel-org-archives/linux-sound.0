@@ -1,99 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8729181312;
-	Wed, 12 Jun 2024 15:55:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85BA820315
+	for <linux-sound@vger.kernel.org>; Wed, 12 Jun 2024 16:15:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718207758; cv=none; b=TqXTeEeTAyXVbweCTjoWfBrrGZJUwDrCPyIDjVgVE3FZ26jyM9Z3RPxx6/LeAjEp3TsP95CT+n6UP0CUMsRsB8M3+YQyKDh1oR2OoF1wnWNVpe8KaS7+09BcaDD6vEo2GpIVOIzC3TiLZ1xqA9gNc9zEuyE5KGmvuf/A4EuNMZA=
+	t=1718208945; cv=none; b=pw9SP0yIJHQYAoktEQit630jUMB2M/CG6XY0CQW56KBtR26nTdrpg3oKX9ylE7EqRYBX5SxsCFGvfZGPBsv3RFJqbAQzicj4L8doMB1BrHsGkIGRoY2S552VrlPFgZkPto29IPAZfOjLfLBO+1TOsna7t4JGkP2Nt/Z6ZNNk2i0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718207758; c=relaxed/simple;
-	bh=OGohKvk0MjWf9+Q8+mvrBX+1BAlKKRyUXLbfH75xyb4=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=aVOTTwsJpcctQuUjdTM8dhm19LLOc1Dt6AuwIhKCXrejUHcYcJPE5H4DC9Fzyw6QCAdYqEK0nP0ui81Knrinl0W7LiaUbPTrmLHR1XPSyo1uTsFW2/6YtmNxiP9jkihUCMxy7nnZMPsyNeMQ5f1h0fnSNwiH7kbWlovFqnKdm34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kYWVzenO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718208945; c=relaxed/simple;
+	bh=S8W7K+CbTCWOVMiwjDUJ4bB3I7rUO/YpjtJH+mZNADs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=PJuCo7d7i3STS400r+4DMHM1ZJ8gNaEp232DOQr6IzBRR03K1QnXUEs8yYcq/9UIbO73fep096ZNmJkwU3BZeTiUJAcDM+lQ3wkk//h9jxhwF+sENYP8LWnuuvfjGCo22g9yKOGgcclfB25/qywbY5ZrwevfbLkfnm+kE0PqVwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wiCYv2x2; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kYWVzenO"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7AEC7C4DDE4;
-	Wed, 12 Jun 2024 15:55:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718207757;
-	bh=OGohKvk0MjWf9+Q8+mvrBX+1BAlKKRyUXLbfH75xyb4=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=kYWVzenO6v46dav7m+6VeeBQvWtkfZ2ijSROLzZNF2xhVox8NT4g6D7nEQ7Yr1CvD
-	 QbMqbzoNwKvtHxN4oOUSJGsdzFSOiqxLCA02gKqMCQ7TCsZzzusBONx5M/RWdCVpV3
-	 EiLccKqgRHfAnZUsG10WiKCsIr5ffuOoIqg1qhcsU6IhDG8FGsX5pkowWNVMy10FlC
-	 cn2EJB/8N7UtSBq02dCqRuSQs3PZ1MDiLAg7XtxdpzyjShLg11I47hWenlonizyvmL
-	 MeVPPNyid+I2VhiIZBpPj5WbK56sRWz78MH6UY8PKtaaCMSFrdgOOixPo+5vEX+bSG
-	 8/iqEXeUVgsUQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 61107C43618;
-	Wed, 12 Jun 2024 15:55:57 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wiCYv2x2"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a6ef8e62935so6961266b.3
+        for <linux-sound@vger.kernel.org>; Wed, 12 Jun 2024 09:15:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718208942; x=1718813742; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uoI+mpU13JCyzG8g8jngPvrXKHq/j3BN7+6DsbOktX8=;
+        b=wiCYv2x2bxwA09pUtBbj01RoXXKpk4C5nrQFrdgpyyLtnflAzbSClP29vuGa09jS2I
+         z4NTkmOaMODPZ+yhBCBeHEKk6a0/YJ6Fe5MO9PoltnsB1lpPYP3gwsqoMwcigS+c1zSA
+         7YIli4aAcpqzkNEPzEaEf2Z0cBzRFH7xWDkJbt4wmA5cHlaapj8c2mcKyDtZtmZH6Ffw
+         VGyhgWK3jMkBqwm8zp2RHDw761P4pCV0iLCyc+FR0R36EfgrLGzf0PPW1yMU9hzYzYTh
+         rKA+GYk6qjOWK01AtLQ20na+aUY9iPvOIRubJIPsLwDPoB990XSBaYa/H0ZkNrR4WN5W
+         ffHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718208942; x=1718813742;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uoI+mpU13JCyzG8g8jngPvrXKHq/j3BN7+6DsbOktX8=;
+        b=FFOaQ8/9jlR44q827kLmD2qFBkgcDLp+VhmDlhlVpR1j1ZW4y76/ohFm4fEfi+e5Hy
+         VU1hv7oNV+YpZgeY1hZ7bsHikElz5KCu7PAozOfbS/0Rx+9aCpmGQOVG4TGopqgU1gSH
+         Oo7HRcckH8bFyPkrEmTYYdeRuTuJHik/Fa9++hq8jDPNhkNOnuueMJlldj2k9rH7M9Bx
+         01x+43pCkp41GWLsLe9X8b6KN0fbkjNiLdjtNYsv3+RWIT/cHkjKgmT6ILddpbYzZkNJ
+         wInQjsEfinXz1ZX2onqGI3pNVV7GlXejHkYPmKgPsdm/j6ez3Gmj22CA9D2M4IhJwQio
+         SJrg==
+X-Forwarded-Encrypted: i=1; AJvYcCXxS+j7vbCDVpDYtO3gVJ3rNIeNlsh94EFNR2HH5DIyTTa499U5RdYTA35eb17uCT/s4c7XihdfuqPqnwwvEjb8Xbg9wMCu1VBLUtU=
+X-Gm-Message-State: AOJu0Yz2x82L0XfbZELSAvW5P1BdiskNM51XnJ0CZXuvy7VM38/KUVZy
+	TXziX5yI33SmRVmibvmbEcsB1m+AoEtqW9xmFlxE9kZjxvtHZs0+UXPulFGBNHOL3M5mNPAHnO/
+	2
+X-Google-Smtp-Source: AGHT+IG86zbnTALGEKGr5DGUHm7Yun4FREYBEDclFkXp1ilvu4L3gPQ5D8xASxCJCIUVoRly0RH4MA==
+X-Received: by 2002:a17:906:b18:b0:a6f:529b:9f26 with SMTP id a640c23a62f3a-a6f529bb0d5mr682366b.5.1718208941896;
+        Wed, 12 Jun 2024 09:15:41 -0700 (PDT)
+Received: from [127.0.1.1] ([178.197.219.137])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6efd6cfb74sm624815866b.20.2024.06.12.09.15.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Jun 2024 09:15:41 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 00/23] ASoC: codecs: wcd family: cleanups
+Date: Wed, 12 Jun 2024 18:15:13 +0200
+Message-Id: <20240612-asoc-wcd9xxx-wide-cleanups-v1-0-0d15885b2a06@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [f2fs-dev] [PATCH] tracing/treewide: Remove second parameter of
- __assign_str()
-From: patchwork-bot+f2fs@kernel.org
-Message-Id: 
- <171820775738.32393.13116890369510221266.git-patchwork-notify@kernel.org>
-Date: Wed, 12 Jun 2024 15:55:57 +0000
-References: <20240516133454.681ba6a0@rorschach.local.home>
-In-Reply-To: <20240516133454.681ba6a0@rorschach.local.home>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-hyperv@vger.kernel.org, kvm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, ath10k@lists.infradead.org,
- Julia.Lawall@inria.fr, linux-s390@vger.kernel.org, dev@openvswitch.org,
- linux-cifs@vger.kernel.org, linux-bcachefs@vger.kernel.org,
- linux-rdma@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- io-uring@vger.kernel.org, torvalds@linux-foundation.org,
- iommu@lists.linux.dev, ath11k@lists.infradead.org,
- linux-media@vger.kernel.org, linux-wpan@vger.kernel.org,
- linux-pm@vger.kernel.org, selinux@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-erofs@lists.ozlabs.org, virtualization@lists.linux.dev,
- linux-sound@vger.kernel.org, linux-block@vger.kernel.org,
- ocfs2-devel@lists.linux.dev, mathieu.desnoyers@efficios.com,
- linux-cxl@vger.kernel.org, linux-tegra@vger.kernel.org,
- intel-xe@lists.freedesktop.org, linux-edac@vger.kernel.org,
- linux-hwmon@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com,
- linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org,
- linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
- linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
- ath12k@lists.infradead.org, tipc-discussion@lists.sourceforge.net,
- mhiramat@kernel.org, netdev@vger.kernel.org, bpf@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-nfs@vger.kernel.org,
- linux-btrfs@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJHJaWYC/x3MQQqEMAwAwK9Izga0iuB+ZfEQ06gBqdKgFsS/W
+ zzOZW4wiSoGv+KGKKeabiGjLgvghcIsqD4bXOXaqqsdkm2MF/s+pYSXekFehcKxG1JDNPXcete
+ MkIM9yqTpy//D87wOgz1qbAAAAA==
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>
+Cc: alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2583;
+ i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
+ bh=S8W7K+CbTCWOVMiwjDUJ4bB3I7rUO/YpjtJH+mZNADs=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmacmUy4ZhwcsNN5ef9fwEeimbTsFh1cX36leb0
+ edlF44HmoeJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZmnJlAAKCRDBN2bmhouD
+ 18KgD/sF5nD4+A9CLX+ovRafBVJ2AwWU/TBGB8tRnijFMArMGx6iW3XEp+04nhYitHj5rzrOwaZ
+ 4c9h44wtD7SNq3eMEJjU6+lWwIRzxBEWen9f1Y3/4NBCjElKCiPIumYQXNX3r0tbap6toreRriL
+ DA3TGRPGGg5CwJdBVGeX+o5TE4B59tio2pAKtUnNnfrLtx359JwUEiU0z2anrXQkn7cQmkzM437
+ hm2VSnMKPqqK1e2vWg0wEGthtbCtxOp0MEMYQwjf2SOqpE31n0/Un2aho0ZH8kzVFcO0Fz4S2Vh
+ N7NEf9FNGBPBbYaFFw1HM+qQemv8eMtEf2OzArThkHX7buCjICSl4voR6TPT1O1g7lt+93Ovhxx
+ Fu+5CU/eIR8gRxCOWQcWgm0d7lWi3IpfvwAVRiYkNE82sl7ldsspPaFbYlUd+VcRWt07anJnpJP
+ 9C0VK+L1/0rA1QBcE3vlozHXlYuCGdPVq1iLVdcrK8pUzOC0QwfoCxFsPQG4G85ZzFahe5teDCV
+ tjianYWqGQRt9sHIFfVD0vhYOjeI5LGkK3wRDlbtC6xkPk/qfh2XmWRCUc5ZM5HwpdG8ohxYC+H
+ q0lthtbajyArVWYaDFYcOeXR+9Ze/zg6Q+9Et8I9EkgGo1n12RA/luDSceOLb7z5nl4qI2aElhL
+ BO8JGWefrTvVLxA==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
+ fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-Hello:
+Hi,
 
-This patch was applied to jaegeuk/f2fs.git (dev)
-by Steven Rostedt (Google) <rostedt@goodmis.org>:
+Set of simple cleanups from similar issues in all Qualcomm WCD93xx
+codecs.
 
-On Thu, 16 May 2024 13:34:54 -0400 you wrote:
-> From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
-> 
-> [
->    This is a treewide change. I will likely re-create this patch again in
->    the second week of the merge window of v6.10 and submit it then. Hoping
->    to keep the conflicts that it will cause to a minimum.
-> ]
-> 
-> [...]
+The first patch "ASoC: codecs: wcd-mbhc: Constify passed MBHC reg
+fields" is a requirement for few others, but except this they are
+independent.
 
-Here is the summary with links:
-  - [f2fs-dev] tracing/treewide: Remove second parameter of __assign_str()
-    https://git.kernel.org/jaegeuk/f2fs/c/2c92ca849fcc
+Best regards,
+Krzysztof
 
-You are awesome, thank you!
+---
+Krzysztof Kozlowski (23):
+      ASoC: codecs: wcd-mbhc: Constify passed MBHC reg fields
+      ASoC: codecs: wcd9335: Drop unused state container fields
+      ASoC: codecs: wcd9335: Constify static data
+      ASoC: codecs: wcd9335: Handle nicer probe deferral and simplify with dev_err_probe()
+      ASoC: codecs: wcd9335: Drop unneeded error message
+      ASoC: codecs: wcd9335: Drop unused dmic rate handling
+      ASoC: codecs: wcd934x: Drop unused interp path enum
+      ASoC: codecs: wcd934x: Constify static data
+      ASoC: codecs: wcd934x: Drop unused mic bias voltage fields
+      ASoC: codecs: wcd934x: Handle nicer probe deferral and simplify with dev_err_probe()
+      ASoC: codecs: wcd937x: Constify static data
+      ASoC: codecs: wcd937x: Constify wcd937x_sdw_ch_info
+      ASoC: codecs: wcd937x: Drop unused enums, defines and types
+      ASoC: codecs: wcd937x: Drop unused state container fields
+      ASoC: codecs: wcd937x: Drop unused chipid member
+      ASoC: codecs: wcd938x: Constify static data
+      ASoC: codecs: wcd938x: Constify wcd938x_sdw_ch_info
+      ASoC: codecs: wcd938x: Drop unused RX/TX direction enum
+      ASoC: codecs: wcd938x: Drop unused num_ports field
+      ASoC: codecs: wcd939x: Constify static data
+      ASoC: codecs: wcd939x: Constify wcd939x_sdw_ch_info
+      ASoC: codecs: wcd939x: Drop unused RX/TX direction enum
+      ASoC: codecs: wcd939x: Drop unused num_ports field
+
+ sound/soc/codecs/wcd-mbhc-v2.c |  4 +-
+ sound/soc/codecs/wcd-mbhc-v2.h |  4 +-
+ sound/soc/codecs/wcd9335.c     | 98 ++++++++----------------------------------
+ sound/soc/codecs/wcd934x.c     | 42 ++++++------------
+ sound/soc/codecs/wcd937x-sdw.c |  4 +-
+ sound/soc/codecs/wcd937x.c     | 25 +++++------
+ sound/soc/codecs/wcd937x.h     | 31 +------------
+ sound/soc/codecs/wcd938x-sdw.c |  4 +-
+ sound/soc/codecs/wcd938x.c     |  6 +--
+ sound/soc/codecs/wcd938x.h     |  7 +--
+ sound/soc/codecs/wcd939x-sdw.c |  4 +-
+ sound/soc/codecs/wcd939x.c     |  8 ++--
+ sound/soc/codecs/wcd939x.h     |  8 +---
+ 13 files changed, 60 insertions(+), 185 deletions(-)
+---
+base-commit: f453294266a3f90f72b91c30b76ca67c5dbf6019
+change-id: 20240612-asoc-wcd9xxx-wide-cleanups-a3aaf9c4d23b
+
+Best regards,
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
