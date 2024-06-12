@@ -1,181 +1,124 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4DA25CB8;
-	Wed, 12 Jun 2024 12:15:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97D7D208C3;
+	Wed, 12 Jun 2024 12:25:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718194543; cv=none; b=FGXD8POGDjahpu3GCYDODye+AZ5+w8hzaG2ADMKJegU0J8ckqUriIuTU00adkweHDznMJlWHD48MDjUGCTCjR9mT5XZCD/mT6PUxvHakm9PEYZ8LTUCiP0uboJ1bl/Ioo7XNlFH3HI9UXTuNGS+vIZE7w25m3DiueOw6nXkjbME=
+	t=1718195124; cv=none; b=JI37Wy8KctsCh6NtL+Jw4y8Qv+p7BDbkK4atbokPkRM9KZGDws+T0VEOK+WyaxtOimvJRhdfSJMRZyOQdr+Ttxvo7j1Zl4k4LthuOb+ZBa9w5/HVLkWHHx7f+/zS3A+6PYar9ZKcp+hcOJ6uzHklnkEGPV1E3+YZaYHjA45Db28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718194543; c=relaxed/simple;
-	bh=aREFeHhRGadkM71j2silmcFik/atuRpn25ZF2V68cm8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=m4NB915T6/IiXlU8S6r9Q/E4P9sq/cRoqguhAo/aUDAsFZ2+xoqupU080+qJBuk6pRRvqrp4rqx0FxG/JQk4sL5n48LHczVohnxKVPgvtb34NG5Ppm1zP3ToIQtUSo2HoEsoRUUTtdCejH5XrSyHv05F3uO7I/iUgCsqGksjIFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jQn7FmAU; arc=none smtp.client-ip=209.85.214.172
+	s=arc-20240116; t=1718195124; c=relaxed/simple;
+	bh=Wrzhzu7bIdEAEmG7BQsLuO7wEyAX0cCb7hQvsk2N+G0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iaaDEGr9g1R25XxyjFuNvfdgylj5DOnoRhKAtu+pWcNQYnJTs7f3pMoHXCRqlnzkKUiqEvfsIkwndbedEyCnW7ChHOO9NVv03Wcxa1Ve41VjfldYeDQUHgR5P66xXwXuPITiPB2CYAAs8udrMyi4fDIncLfqVuge1mx9KyyO6Is=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mtrf2Ssy; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jQn7FmAU"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1f6fabe9da3so33102345ad.0;
-        Wed, 12 Jun 2024 05:15:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mtrf2Ssy"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7041ed475acso3831297b3a.2;
+        Wed, 12 Jun 2024 05:25:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718194541; x=1718799341; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vuzEzGYE5Vn8QxEth1OgjuHeZDFf8sibXRRMgQoc9co=;
-        b=jQn7FmAU2WgpOlpNOOecmWhvvT6yFwdqOSzTGCx9njeovqlRBp2gCJCpAdz9oiOjIe
-         TH+6LhOQZI1u52Ce9QS5jBTwxwAWbMrwyQ9U5EClUCNaLob+sU1JEq6Y5vB2t5N3hu28
-         UzSAnD4yuxrmV/trxVlk7KO0QYfIzq2d1OnX8HhC1N7YMU1Pqq8X7exsoJspgqCjHZ4i
-         hjKaYFMSHKswRhiymgU5QBiA73iOmqs1Qfs4CycaRyios33wO1FnjaeiNQVe7oDtnTI+
-         RjzcMaZ+64HGiDocILcehQBTas0zQHB6KrKByfD8q1Zv8dWQ4gKP3scN0iextptYXXC6
-         etGA==
+        d=gmail.com; s=20230601; t=1718195123; x=1718799923; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jC+Unx6/L3Ahsjr160FqlUlQIcBGGCTwQ+U7pYUCZQ0=;
+        b=mtrf2Ssy5+xJS8eAuqn0r6Qpu9caoLMkvtUQgqv8iaan+cCnTHe9yW72t3+RoivsoY
+         osxa1qrqQJmd5Z6vl09xbtkgLO18dV9pb6JPFOUWb9nAo1CwjlHiLdBYWdrxmTeRYctD
+         Zpzq1LPD4rIch96M/KeFySietP0YcRez2sIjHb6Qj2NbYbfGqpPBvRhVTPpN1hSQgQ4N
+         nm17TZRSy8kpbabl1bTYnp7RxXORGzUztKOijLbLwRVxeMxb3rUu1OrEaT9I7Ot/3yS5
+         st/I4lwu1X/I59wndSqh3ntFguu/57OOwkaxR/is4/h0RxPIcBlceZu4T7RA6YY0BJRX
+         1JtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718194541; x=1718799341;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vuzEzGYE5Vn8QxEth1OgjuHeZDFf8sibXRRMgQoc9co=;
-        b=mh6maVWdpJD0ohW5WJdM+Wc1zLAI9lepJorG4ILmqS2RGmuTeFlmYLyC7gY94BngSL
-         umgVcdqVax5PEK62wvCj7iYmtWMeWkfgF9ttGd1QkA9CKnNC5jfkYsNi06X1G1ao2Xxp
-         4Fecj6vFRCdkh/i1sGi6p4f1uiHxpOiu0ruIz6vyUEQWOm5h+ZJrFv36zNjwS4jFPFUv
-         x3KB3KoqCVNFyDx2h04d0rGb3Zk8egk4SoAFGSJEL5MWck02v7vOEo3rytsLpkcQYpsT
-         2q7qKqDuJtcMGVdVumtI2TXwPWsDFnSx7rzeMa6kvbACfjW/jYAo2bMvg1jaRwCDBsw4
-         zuVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWWhWYWDPyqOWjd71pqdfPMU/xzwwcxX5eEAXmPUqWANhGzZfzmjN4DJ6ZBHa8rFw9ZK6ZM+NPBSTyq13h52B0Tr5t6Ma0QvC+2BTgimfks7LF0l6iEMdDkfInnYkxZhKAteVwg4EdMRFO/BD/tMvCXeCzOuyrbmHl8pifqPiOzS2h5NmSP
-X-Gm-Message-State: AOJu0YzsNG5Fipr0NTOJ1RPmcSNhH9fZYmcy5yQiScobsubzwRjK9RZ9
-	lxHdGMaphNmxD1fAYCzkSN9UySLXuzLFjMFvQ6XzURj6vYdckjdI
-X-Google-Smtp-Source: AGHT+IFT/P6FYWtTRJkNs6wLGGCcWkJumILXOfirg+uDIrQZlS7ojKpDd8hwE95oENWAgmgVc92ffw==
-X-Received: by 2002:a17:902:ea12:b0:1f6:502d:ca88 with SMTP id d9443c01a7336-1f83b715d75mr19286615ad.49.1718194540868;
-        Wed, 12 Jun 2024 05:15:40 -0700 (PDT)
-Received: from fedora.one.one.one.one ([2405:201:6013:c0b2:ea4b:30e0:4e3a:ab56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f84619fcfasm5280725ad.282.2024.06.12.05.15.28
+        d=1e100.net; s=20230601; t=1718195123; x=1718799923;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jC+Unx6/L3Ahsjr160FqlUlQIcBGGCTwQ+U7pYUCZQ0=;
+        b=WX17RLb+3T691ALkA5HVbZPOg0cbMMOZcgMKw+a4G5zPlxip+/fOjTjH8Iad271aMF
+         j/NURa7ByAsdY4m9l+isE0PXOi9zId0Com6GKMiTiBOMXaWezhLH5JW1wOWeXww6y/uj
+         tPWrWGsVOiXez8SY9M3C8JzvLcyUNaGoMqVlBBcz48weS7m3fmkiswy8CdkyO2KE5t57
+         o+kOHsnIIMyE/AaclHc+D79+xhpV9ivusUSgyr0NOeq7kBjJgUQ/Lm+JI9jIZEjmVzVD
+         hWn48dUjWiONRl4ehufAXmIvFvqiltR23O/Q6zaTvbFdGrpveVcgBxZ7/yCsatFQOgqC
+         5Ltg==
+X-Forwarded-Encrypted: i=1; AJvYcCVKRgrOLCIpDYHgtXNCJygTPjgLvADYDayexPOpXpizd973jlaSuWj2ePZ9QUzWTPrGGhNlBCC4zWYwicrTUwr68z4IGXPxGhNQ0ETxwVqKer2XjvglHO0xakM4s/0Ki1X0O4bVHVP2oNxLIMaXs07hmFp6Ien4WqCtxcMmbQy+yxF6CiMCawiyH3arj3Rd1QzvZWBtEk1LikoMesNxP4skFzf2qApShj9zDBHIEMZEiNEBFzUuHubi858yLg==
+X-Gm-Message-State: AOJu0YxtUD0F9c3Ds6OkuHDgKua7Bu8Wr0bLN7inY502Q7YKjlivrSd+
+	f7Fu3HI0xTrwWP+r3Xt/UerBci9eUNMFQ5iXJFH5Tf2DhR1XPvrn
+X-Google-Smtp-Source: AGHT+IErt7uVvEdoTI+9BxF9U3hhKUgJvir/IBG5VhQMRaKn/1u60z5z026VLtNbbSWbrgj1SHg2Bg==
+X-Received: by 2002:a05:6a21:32a4:b0:1b8:54f8:385d with SMTP id adf61e73a8af0-1b8a9c688e8mr1858023637.47.1718195122807;
+        Wed, 12 Jun 2024 05:25:22 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6bd7e3e71sm121898095ad.219.2024.06.12.05.25.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jun 2024 05:15:40 -0700 (PDT)
-From: Animesh Agarwal <animeshagarwal28@gmail.com>
-To: 
-Cc: animeshagarwal28@gmail.com,
-	Rob Herring <robh@kernel.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	patches@opensource.cirrus.com,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] dt-bindings: ASoC: wlf,wm8782: Convert to dtschema
-Date: Wed, 12 Jun 2024 17:44:59 +0530
-Message-ID: <20240612121503.38769-1-animeshagarwal28@gmail.com>
-X-Mailer: git-send-email 2.45.2
+        Wed, 12 Jun 2024 05:25:22 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 5B4DE182522A0; Wed, 12 Jun 2024 19:25:19 +0700 (WIB)
+Date: Wed, 12 Jun 2024 19:25:19 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+	mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+	corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com,
+	krzk+dt@kernel.org, Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com,
+	tiwai@suse.com, robh@kernel.org, gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [PATCH v23 32/32] ASoC: doc: Add documentation for SOC USB
+Message-ID: <ZmmTr48zLCxRVlYf@archie.me>
+References: <20240610235808.22173-1-quic_wcheng@quicinc.com>
+ <20240610235808.22173-33-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="P13nW3ExZUkt8gyc"
+Content-Disposition: inline
+In-Reply-To: <20240610235808.22173-33-quic_wcheng@quicinc.com>
 
-Convert the WM8782 audio codec bindings to DT schema.
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
-Cc: Daniel Baluta <daniel.baluta@nxp.com>
+--P13nW3ExZUkt8gyc
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
----
-Changes in v2:
-- Added missing "ASoC" string in the subject.
----
- .../devicetree/bindings/sound/wlf,wm8782.yaml | 47 +++++++++++++++++++
- .../devicetree/bindings/sound/wm8782.txt      | 24 ----------
- 2 files changed, 47 insertions(+), 24 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/sound/wlf,wm8782.yaml
- delete mode 100644 Documentation/devicetree/bindings/sound/wm8782.txt
+On Mon, Jun 10, 2024 at 04:58:08PM -0700, Wesley Cheng wrote:
+> +Overview
+> +=3D=3D=3D=3D=3D=3D=3D=3D
+> +In order to leverage the existing USB sound device support in ALSA, the
+> +introduction of the ASoC USB APIs, allow for the entities to communicate
+> +with one another.
+"... ASoC USB APIs are introduced to allow for ..."
 
-diff --git a/Documentation/devicetree/bindings/sound/wlf,wm8782.yaml b/Documentation/devicetree/bindings/sound/wlf,wm8782.yaml
-new file mode 100644
-index 000000000000..d0bbdc9f9ced
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/wlf,wm8782.yaml
-@@ -0,0 +1,47 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/wlf,wm8782.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Wolfson Microelectromics WM8782 audio CODEC
-+
-+maintainers:
-+  - patches@opensource.cirrus.com
-+
-+allOf:
-+  - $ref: dai-common.yaml#
-+
-+properties:
-+  compatible:
-+    const: wlf,wm8782
-+
-+  Vdda-supply:
-+    description: Regulator for the analog power supply (2.7V - 5.5V)
-+
-+  Vdd-supply:
-+    description: Regulator for the digital power supply (2.7V - 3.6V)
-+
-+  wlf,fsampen:
-+    description: FSAMPEN pin value, 0 for low, 1 for high, 2 for disconnected.
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [0, 1, 2]
-+
-+  "#sound-dai-cells":
-+    const: 0
-+
-+required:
-+  - compatible
-+  - Vdda-supply
-+  - Vdd-supply
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    wm8782: codec {
-+        compatible = "wlf,wm8782";
-+        Vdda-supply = <&vdda_supply>;
-+        Vdd-supply = <&vdd_supply>;
-+        wlf,fsampen = <2>;
-+    };
-diff --git a/Documentation/devicetree/bindings/sound/wm8782.txt b/Documentation/devicetree/bindings/sound/wm8782.txt
-deleted file mode 100644
-index 1a28f3280972..000000000000
---- a/Documentation/devicetree/bindings/sound/wm8782.txt
-+++ /dev/null
-@@ -1,24 +0,0 @@
--WM8782 stereo ADC
--
--This device does not have any control interface or reset pins.
--
--Required properties:
--
-- - compatible  : "wlf,wm8782"
-- - Vdda-supply : phandle to a regulator for the analog power supply (2.7V - 5.5V)
-- - Vdd-supply  : phandle to a regulator for the digital power supply (2.7V - 3.6V)
--
--Optional properties:
--
-- - wlf,fsampen:
--   FSAMPEN pin value, 0 for low, 1 for high, 2 for disconnected.
--   Defaults to 0 if left unspecified.
--
--Example:
--
--wm8782: stereo-adc {
--	compatible = "wlf,wm8782";
--	Vdda-supply = <&vdda_supply>;
--	Vdd-supply = <&vdd_supply>;
--	wlf,fsampen = <2>; /* 192KHz */
--};
--- 
-2.45.2
+> +USB Audio Device Connection Flow
+> +--------------------------------
+> +USB devices can be hotplugged into the USB root hub at any point in time.
+> +The BE DAI link should be aware of the current state of the physical USB
+> +port, i.e. if there are any USB devices with audio interface(s) connecte=
+d.
+> +The following callback can be used to notify the BE DAI link of any chan=
+ge:
+> +
+> +	**connection_status_cb()**
+"... connection_status_cb() can be used to ..."
 
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--P13nW3ExZUkt8gyc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZmmTqwAKCRD2uYlJVVFO
+owd6AQCEY5WzdrzzRuY11wLRsArm4PXhVeYX76BrwKtOEaytPAEA0vFiTnhwd+vZ
+Dthl3BItVCKR0K2COEv+kWuRoxJD1As=
+=YNu/
+-----END PGP SIGNATURE-----
+
+--P13nW3ExZUkt8gyc--
