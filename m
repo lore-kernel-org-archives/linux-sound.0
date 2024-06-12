@@ -1,55 +1,55 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0E8938382
-	for <linux-sound@vger.kernel.org>; Wed, 12 Jun 2024 08:03:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6F2538382
+	for <linux-sound@vger.kernel.org>; Wed, 12 Jun 2024 08:06:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718179385; cv=none; b=Sr/Z39Uta4bPshSqhda/6jAZSJMhvPYp02Dxx93WzLbYxwVyzPqxs09Dqa/rSgOrhfCxh2FaYkD3V/t5HfU4aGjTAycuCW+csnf5ipRMyZukh1ad/al9y5Qsv3cSbzRtNd+6iv9NrC2UuAVckYeZ2qve1/zVltp79OZVbaf73mY=
+	t=1718179585; cv=none; b=fJ6JV01CzQ/+yo1hQBMcj/U1H0wQ5v7MLa8NREz82PN9o2vGX7fr+S7kUFPaBVc+vlKMFUT9xvbPMp5Z1cSNoR2n77ScuU7pDFKE1RGu01ir9YYMA9SilaSaj/V4ddjoTvBPbeE/ukfpR+E6JyG4DsTEFX6Ank2cxyf/qaAuEMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718179385; c=relaxed/simple;
-	bh=oZhvy6kkbKYCk5v6xkrBCIcY4DF51uW5QFIx01DmAzk=;
+	s=arc-20240116; t=1718179585; c=relaxed/simple;
+	bh=jU0s9gEKbGXmqfGEflzcwnbnMDxLuaH6EgnphUim8yM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AOiSPXmI6u9sepOV6wooLMIfqDBs4PyEZQydlb4ZCQOfu/wkjuDib8E9a77ZDGamN5ypqPRtwGWB8r/tAGk6SiZCx56T90kxdOh6hwPITw370Zg9meTYvnh4yBVwwa0kGlBOzv1decKegNMdJjbXC05GBumirxqRwkvry4zaRLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timesys.com; spf=pass smtp.mailfrom=timesys.com; dkim=pass (2048-bit key) header.d=timesys-com.20230601.gappssmtp.com header.i=@timesys-com.20230601.gappssmtp.com header.b=3Y4DHdeQ; arc=none smtp.client-ip=209.85.219.42
+	 To:Cc:Content-Type; b=gXXlq0I/Psx5t4VejWwZUzztTu912FoRK/G4JtzvA9HZkP1/SJQj8zcTnvVem9NKAVctHnrd1nJu7nZ8cxsdp6eAczzuLh8JxUUZxcusk3GvN86vI2F98V5fz7NuIqEB5uOeSIsW4OQAl2aOwnYNLxy44rlECrbYfAdgvz0kIaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timesys.com; spf=pass smtp.mailfrom=timesys.com; dkim=pass (2048-bit key) header.d=timesys-com.20230601.gappssmtp.com header.i=@timesys-com.20230601.gappssmtp.com header.b=aE7ueDgd; arc=none smtp.client-ip=209.85.219.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timesys.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=timesys.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=timesys-com.20230601.gappssmtp.com header.i=@timesys-com.20230601.gappssmtp.com header.b="3Y4DHdeQ"
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6b0682d1b12so25534006d6.0
-        for <linux-sound@vger.kernel.org>; Wed, 12 Jun 2024 01:03:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=timesys-com.20230601.gappssmtp.com header.i=@timesys-com.20230601.gappssmtp.com header.b="aE7ueDgd"
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6ae259b1c87so5933276d6.1
+        for <linux-sound@vger.kernel.org>; Wed, 12 Jun 2024 01:06:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=timesys-com.20230601.gappssmtp.com; s=20230601; t=1718179383; x=1718784183; darn=vger.kernel.org;
+        d=timesys-com.20230601.gappssmtp.com; s=20230601; t=1718179583; x=1718784383; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oZhvy6kkbKYCk5v6xkrBCIcY4DF51uW5QFIx01DmAzk=;
-        b=3Y4DHdeQXtPkZ5hp70y6YIwp1yaSi3QMjJKn1BSGUxTdLUy5r7hty7Ih5ewK+K/rHy
-         /Q8+gO03CrVScBzLNsz+wc919MfFLZbbReyRQKr6oXZE4m+TlG/o9yGaTlGoEVRlEGkd
-         tdtaQf/tJEHK2qAhqgxulimP8CUWRTwIwUCDo+MwpkGcd8rkNR4rWkk8iFIIEKBFKd7V
-         R9WsR9GFvg/lMnDa3t/WrQoPZZytJ/Eaufuu3WHxCUO5TqrJkf/tvESNQZR0ibVZuXlV
-         BoNZ75jCj0yIbFL2SD1e73NE1szeH/TSDEomNI/pCt8+LPMNRJvm60jvkUB5Y+0NsQcC
-         5FLA==
+        bh=jU0s9gEKbGXmqfGEflzcwnbnMDxLuaH6EgnphUim8yM=;
+        b=aE7ueDgd63j9DsQ5S/8r1j9nf7EPyMqv69K4YvVtXd3L8udGkjMgXHWmWsqqsOSDsu
+         J8n7gJ2UhmLTtTNemmPgSxgFUVwoaywIiUURZcRICeU95rtW1u/ogVF5WAN36ttMw/I6
+         6tGu7S6+BuD8PZUgnno+WvYrgq4mFtkD6tKsHMIOyb2sahAPZ8wfI8yQzRvg7YwKg7c8
+         I90al8oevBCLHoemos/kzMkAkIgnk/1WOVcOEMxTeP62zEGVRSYm8JWm/UsHc4J/r8KN
+         COPAputChhverY4EMy4hTG9Z+QkMGLcXJPP2TJxFXjyzPh/T5SXyaSN/4rYeo5fUdPxd
+         LEkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718179383; x=1718784183;
+        d=1e100.net; s=20230601; t=1718179583; x=1718784383;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oZhvy6kkbKYCk5v6xkrBCIcY4DF51uW5QFIx01DmAzk=;
-        b=si840QpADJ9VzudQcmZDTKNqiDj5sZfi0OWZOAdms88vPw1+s3VE9Yqq4xcsekdewX
-         vDEQjlPjyW0FH0RXFhSCgFSBsXxNU2N3xasy3dIri9s1GPQi8IwCByuSTIiRs/yAmxXp
-         mXZCpzvYpChc9SCH/iECT2x2KVf5d6Y8ctrQaHtd6SPZoJKaxBELI0vyNfIujCm8iSAi
-         jjm13V/5Tx5MuhxtNOc3+TWvTk23TIDsoHVWz+v8HvtgXzCQJy9xwVg1EkPnGUxbDUbB
-         leUU7/Kf2Sc5gfXMTYBJ6gkAhrgoVpRpdJaQAIuUMNghxehpCsWdMHBlcV4Q9QfUt8Am
-         Qpow==
-X-Forwarded-Encrypted: i=1; AJvYcCWfKGFAw0ZnvsStp79M5LCxAPmPG08ZAxZ5f5VtPIaepOTvlX31pqHz4ELm6gS3ah9GcQYP8s6lRdPJmVM/HK4Z2CWETvvQsds2JLo=
-X-Gm-Message-State: AOJu0YwVldIMq3MgtMBnx6UuJcRKKlV96bY4P+NM77ByTM5s2GBXhshy
-	+PeZNKmE6Gw9hgibZ50NpzoS+olqLtolBmYSDyDi/HZHYc3sd3M8/VlzmvqTjC0wfoeI2EFRVmh
-	FKCp31Rz++WeoGt+NDovquXCPoCrvICjvtGActQ==
-X-Google-Smtp-Source: AGHT+IFBoGLGnRCfXUTT6MkmXv5tkb/vW4wlOs2DaIN1mKJ7KPlKywflPDae5tbSNQuiVC2G0raN2IzC+x3zhZJMYtQ=
-X-Received: by 2002:a05:6214:4606:b0:6b0:77fb:8f16 with SMTP id
- 6a1803df08f44-6b191778bdbmr10576316d6.21.1718179382867; Wed, 12 Jun 2024
- 01:03:02 -0700 (PDT)
+        bh=jU0s9gEKbGXmqfGEflzcwnbnMDxLuaH6EgnphUim8yM=;
+        b=LERgZNJh2/co/1DuokwgSqYiJyk0FsKN3mzQeNeRJxSAM4P6sByO3LaA/yCg2UE/Ma
+         1rXgs4BWwXG22VY26iVSICrgpbBUMJu3IABVFYsvDK0SfzvyOs9H8SD/rIDULaHCKlgH
+         +6iry+Hpv6+CuczAwITvmBvhDd+uZB4cz/uI2bYH4h6Ak8EkCZWulAmtRWXf4uL8+Vd2
+         ovQoQNBvSDjbhxmBMJr9hGlfgCYxfhWllwnhSlm0r55dQUypoTG4lGoCSmjvQq2wW3YP
+         mEgJTpCu2QUjsCCHR6uuYGOysDIxwDoQz9YduDmoO8/W8fbi8FYjn8sCfk+jQHB9rcAk
+         BjBw==
+X-Forwarded-Encrypted: i=1; AJvYcCW9aDOBiu5koqqpGza2ShqLO2/FY5nOqcLqjVWltE11dSdsMm34IrzwiEBByPNbaiw8hYNFeecnJr4NzEz1r+GJRYWGcRTeZr3H6SY=
+X-Gm-Message-State: AOJu0YyGqddm2YrBZz76Jv6cGOIR2tn0SG6gxMxEmZnZLttuLY3TY7/B
+	z/AIBLqyEbG5F0UoM3zZ8tkR/PrXIxliLG9bbHo6b8V/PzjCHirRFyzEnbTmaogN/2QHPxF+dAN
+	eTSgYlsuuBWdVlT3H4WGwMqFFrWMoyo9sepHnEw==
+X-Google-Smtp-Source: AGHT+IG1/F1xQpU9EkBs57YWAqg59A4uhPeAz2DU+7fqEukJUGW0HybNnc7pOII0nGwuizPlb618ysTlXm0ZvIeJ3Yo=
+X-Received: by 2002:ad4:5d4d:0:b0:6ad:752d:1530 with SMTP id
+ 6a1803df08f44-6b08a0780damr78312956d6.27.1718179582619; Wed, 12 Jun 2024
+ 01:06:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -57,11 +57,11 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20240611094810.27475-1-piotr.wojtaszczyk@timesys.com>
- <20240611094810.27475-2-piotr.wojtaszczyk@timesys.com> <1ea92ff0-7e2d-4a9f-bef4-d50fc93b86e6@kernel.org>
-In-Reply-To: <1ea92ff0-7e2d-4a9f-bef4-d50fc93b86e6@kernel.org>
+ <20240611094810.27475-2-piotr.wojtaszczyk@timesys.com> <51eeec03-47da-44b5-a21e-f280d0c4b47c@kernel.org>
+In-Reply-To: <51eeec03-47da-44b5-a21e-f280d0c4b47c@kernel.org>
 From: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
-Date: Wed, 12 Jun 2024 10:02:51 +0200
-Message-ID: <CAG+cZ07jpi0dobjf8JYt263qqy1tYWAvzsV9cgKaAW05mBoCeQ@mail.gmail.com>
+Date: Wed, 12 Jun 2024 10:06:11 +0200
+Message-ID: <CAG+cZ06EN4Uw7Cy+kwsiPzu16Kp7tsF19Oit6oN6GUcSe464JQ@mail.gmail.com>
 Subject: Re: [Patch v2 2/2] ASoC: dt-bindings: lpc32xx: Add lpc32xx i2s DT binding
 To: Krzysztof Kozlowski <krzk@kernel.org>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -75,10 +75,19 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 11, 2024 at 12:18=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.o=
+On Tue, Jun 11, 2024 at 12:45=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.o=
 rg> wrote:
-> I do not see my comment about DAI being addressed.
-Were you asking if it's a DAI? yes it is.
+> > Changes for v2:
+> > - Added maintainers field
+> > - Dropped clock-names
+> > - Dropped unused unneded interrupts field
+>
+> Does the device has interrupts or not? This should justify decision, not
+> current usage by drivers.
+Yes the device has interrupts but feeding data FIFOs is handled by DMA
+(amba-pl08x.c).
+Should I declare interrupts despite they are not used in the compatible dri=
+ver?
 
 --=20
 Piotr Wojtaszczyk
