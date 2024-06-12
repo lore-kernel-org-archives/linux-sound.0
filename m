@@ -1,57 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2FB8168C3A
-	for <linux-sound@vger.kernel.org>; Wed, 12 Jun 2024 12:11:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4DA25CB8;
+	Wed, 12 Jun 2024 12:15:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718194298; cv=none; b=ro9r6cxOtxZlpNOFrwVURliOT/8F7xSk3C9nl5izGn6jQx00orSYv+OMtpTa+NV+cjo28Tf/tOwZfWr25TfIO3qc2eIJwNuhvihSJ1R/gNpQ8BP1ATKGSMNYyawY1CQOe1JyRDJEUYWM+dB4eiKbHT2V8vS2ll9yDkXfEdGZ1mI=
+	t=1718194543; cv=none; b=FGXD8POGDjahpu3GCYDODye+AZ5+w8hzaG2ADMKJegU0J8ckqUriIuTU00adkweHDznMJlWHD48MDjUGCTCjR9mT5XZCD/mT6PUxvHakm9PEYZ8LTUCiP0uboJ1bl/Ioo7XNlFH3HI9UXTuNGS+vIZE7w25m3DiueOw6nXkjbME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718194298; c=relaxed/simple;
-	bh=HKF+cmvbrRUa/EuLNzsDOqJsAzDGm4oECwC2QorLzGo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UBJQ3dBXuyJN3KjWLK7QqJNbwx2najIH7/ew+PDvJmB5d3WdsFHyBG35dkvQHsotV5OgNLuv8F565I5qIuxdo8L7cTt/gdmDHNcutImKhTMMy2CkXufYM581fJ7SObcwbNwGEwbTVkXaOgL77gWIo1wkimHloOZ/6GAy0DLyySk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jjBtgv/6; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1718194543; c=relaxed/simple;
+	bh=aREFeHhRGadkM71j2silmcFik/atuRpn25ZF2V68cm8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=m4NB915T6/IiXlU8S6r9Q/E4P9sq/cRoqguhAo/aUDAsFZ2+xoqupU080+qJBuk6pRRvqrp4rqx0FxG/JQk4sL5n48LHczVohnxKVPgvtb34NG5Ppm1zP3ToIQtUSo2HoEsoRUUTtdCejH5XrSyHv05F3uO7I/iUgCsqGksjIFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jQn7FmAU; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jjBtgv/6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718194297; x=1749730297;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=HKF+cmvbrRUa/EuLNzsDOqJsAzDGm4oECwC2QorLzGo=;
-  b=jjBtgv/6SmWwEcLMk/XHgxhsuIqK4G5+w/DJSBEsmh3UdKVO86YPm1Rj
-   +TRNqcH1BM1wLyiFFGRANk6aUNDZh72TZ6al35pvzpXyTjZLSRXy5veFY
-   w1E6delDh6cfx7NlFOmfinnXnHbccsDgGoCJtOLfT9fm8NiCZnfqEqF3z
-   +8D/DrLMd6H4409g+meRkwuR0iIIwRMvcdR4UH0GJpaqNCIUfYOb76ty9
-   OZAR/QH94YbKuoZRuPMm5b3PxiuTGkrFIs2RzbrQF/j9eX7o0EsF7NyhO
-   xshmihNmZw81sKWSjK99mVxTQU5dITJi0nT6QQoi7pofzeZwhvmND/yGF
-   A==;
-X-CSE-ConnectionGUID: 094IUTs1T+yzXkhpRQGeLw==
-X-CSE-MsgGUID: hbdDOa+6TuCUvOSY+fCO/Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11100"; a="40360115"
-X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; 
-   d="scan'208";a="40360115"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 05:11:36 -0700
-X-CSE-ConnectionGUID: DGh1h6abR7Kikp6O3bICcw==
-X-CSE-MsgGUID: MVvztAuDTD+KxN3voTPlWg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; 
-   d="scan'208";a="44336927"
-Received: from fpallare-mobl3.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.245.211])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 05:11:34 -0700
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com
-Subject: [PATCH] ASoC: SOF: sof-audio: Skip unprepare for in-use widgets on error rollback
-Date: Wed, 12 Jun 2024 15:12:03 +0300
-Message-ID: <20240612121203.15468-1-peter.ujfalusi@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jQn7FmAU"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1f6fabe9da3so33102345ad.0;
+        Wed, 12 Jun 2024 05:15:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718194541; x=1718799341; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vuzEzGYE5Vn8QxEth1OgjuHeZDFf8sibXRRMgQoc9co=;
+        b=jQn7FmAU2WgpOlpNOOecmWhvvT6yFwdqOSzTGCx9njeovqlRBp2gCJCpAdz9oiOjIe
+         TH+6LhOQZI1u52Ce9QS5jBTwxwAWbMrwyQ9U5EClUCNaLob+sU1JEq6Y5vB2t5N3hu28
+         UzSAnD4yuxrmV/trxVlk7KO0QYfIzq2d1OnX8HhC1N7YMU1Pqq8X7exsoJspgqCjHZ4i
+         hjKaYFMSHKswRhiymgU5QBiA73iOmqs1Qfs4CycaRyios33wO1FnjaeiNQVe7oDtnTI+
+         RjzcMaZ+64HGiDocILcehQBTas0zQHB6KrKByfD8q1Zv8dWQ4gKP3scN0iextptYXXC6
+         etGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718194541; x=1718799341;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vuzEzGYE5Vn8QxEth1OgjuHeZDFf8sibXRRMgQoc9co=;
+        b=mh6maVWdpJD0ohW5WJdM+Wc1zLAI9lepJorG4ILmqS2RGmuTeFlmYLyC7gY94BngSL
+         umgVcdqVax5PEK62wvCj7iYmtWMeWkfgF9ttGd1QkA9CKnNC5jfkYsNi06X1G1ao2Xxp
+         4Fecj6vFRCdkh/i1sGi6p4f1uiHxpOiu0ruIz6vyUEQWOm5h+ZJrFv36zNjwS4jFPFUv
+         x3KB3KoqCVNFyDx2h04d0rGb3Zk8egk4SoAFGSJEL5MWck02v7vOEo3rytsLpkcQYpsT
+         2q7qKqDuJtcMGVdVumtI2TXwPWsDFnSx7rzeMa6kvbACfjW/jYAo2bMvg1jaRwCDBsw4
+         zuVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWWhWYWDPyqOWjd71pqdfPMU/xzwwcxX5eEAXmPUqWANhGzZfzmjN4DJ6ZBHa8rFw9ZK6ZM+NPBSTyq13h52B0Tr5t6Ma0QvC+2BTgimfks7LF0l6iEMdDkfInnYkxZhKAteVwg4EdMRFO/BD/tMvCXeCzOuyrbmHl8pifqPiOzS2h5NmSP
+X-Gm-Message-State: AOJu0YzsNG5Fipr0NTOJ1RPmcSNhH9fZYmcy5yQiScobsubzwRjK9RZ9
+	lxHdGMaphNmxD1fAYCzkSN9UySLXuzLFjMFvQ6XzURj6vYdckjdI
+X-Google-Smtp-Source: AGHT+IFT/P6FYWtTRJkNs6wLGGCcWkJumILXOfirg+uDIrQZlS7ojKpDd8hwE95oENWAgmgVc92ffw==
+X-Received: by 2002:a17:902:ea12:b0:1f6:502d:ca88 with SMTP id d9443c01a7336-1f83b715d75mr19286615ad.49.1718194540868;
+        Wed, 12 Jun 2024 05:15:40 -0700 (PDT)
+Received: from fedora.one.one.one.one ([2405:201:6013:c0b2:ea4b:30e0:4e3a:ab56])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f84619fcfasm5280725ad.282.2024.06.12.05.15.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Jun 2024 05:15:40 -0700 (PDT)
+From: Animesh Agarwal <animeshagarwal28@gmail.com>
+To: 
+Cc: animeshagarwal28@gmail.com,
+	Rob Herring <robh@kernel.org>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] dt-bindings: ASoC: wlf,wm8782: Convert to dtschema
+Date: Wed, 12 Jun 2024 17:44:59 +0530
+Message-ID: <20240612121503.38769-1-animeshagarwal28@gmail.com>
 X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -61,36 +76,106 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If the ipc_prepare() callback fails for a module instance, on error rewind
-we must skip the ipc_unprepare() call for ones that has positive use count.
+Convert the WM8782 audio codec bindings to DT schema.
 
-The positive use count means that the module instance is in active use, it
-cannot be unprepared.
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
+Cc: Daniel Baluta <daniel.baluta@nxp.com>
 
-The issue affects capture direction paths with branches (single dai with
-multiple PCMs), the affected widgets are in the shared part of the paths.
-
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 ---
- sound/soc/sof/sof-audio.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes in v2:
+- Added missing "ASoC" string in the subject.
+---
+ .../devicetree/bindings/sound/wlf,wm8782.yaml | 47 +++++++++++++++++++
+ .../devicetree/bindings/sound/wm8782.txt      | 24 ----------
+ 2 files changed, 47 insertions(+), 24 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/wlf,wm8782.yaml
+ delete mode 100644 Documentation/devicetree/bindings/sound/wm8782.txt
 
-diff --git a/sound/soc/sof/sof-audio.c b/sound/soc/sof/sof-audio.c
-index 881eec38c2e2..9a52781bf8d8 100644
---- a/sound/soc/sof/sof-audio.c
-+++ b/sound/soc/sof/sof-audio.c
-@@ -485,7 +485,7 @@ sof_prepare_widgets_in_path(struct snd_sof_dev *sdev, struct snd_soc_dapm_widget
- 			if (ret < 0) {
- 				/* unprepare the source widget */
- 				if (widget_ops[widget->id].ipc_unprepare &&
--				    swidget && swidget->prepared) {
-+				    swidget && swidget->prepared && swidget->use_count == 0) {
- 					widget_ops[widget->id].ipc_unprepare(swidget);
- 					swidget->prepared = false;
- 				}
+diff --git a/Documentation/devicetree/bindings/sound/wlf,wm8782.yaml b/Documentation/devicetree/bindings/sound/wlf,wm8782.yaml
+new file mode 100644
+index 000000000000..d0bbdc9f9ced
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/wlf,wm8782.yaml
+@@ -0,0 +1,47 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/wlf,wm8782.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Wolfson Microelectromics WM8782 audio CODEC
++
++maintainers:
++  - patches@opensource.cirrus.com
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    const: wlf,wm8782
++
++  Vdda-supply:
++    description: Regulator for the analog power supply (2.7V - 5.5V)
++
++  Vdd-supply:
++    description: Regulator for the digital power supply (2.7V - 3.6V)
++
++  wlf,fsampen:
++    description: FSAMPEN pin value, 0 for low, 1 for high, 2 for disconnected.
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum: [0, 1, 2]
++
++  "#sound-dai-cells":
++    const: 0
++
++required:
++  - compatible
++  - Vdda-supply
++  - Vdd-supply
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    wm8782: codec {
++        compatible = "wlf,wm8782";
++        Vdda-supply = <&vdda_supply>;
++        Vdd-supply = <&vdd_supply>;
++        wlf,fsampen = <2>;
++    };
+diff --git a/Documentation/devicetree/bindings/sound/wm8782.txt b/Documentation/devicetree/bindings/sound/wm8782.txt
+deleted file mode 100644
+index 1a28f3280972..000000000000
+--- a/Documentation/devicetree/bindings/sound/wm8782.txt
++++ /dev/null
+@@ -1,24 +0,0 @@
+-WM8782 stereo ADC
+-
+-This device does not have any control interface or reset pins.
+-
+-Required properties:
+-
+- - compatible  : "wlf,wm8782"
+- - Vdda-supply : phandle to a regulator for the analog power supply (2.7V - 5.5V)
+- - Vdd-supply  : phandle to a regulator for the digital power supply (2.7V - 3.6V)
+-
+-Optional properties:
+-
+- - wlf,fsampen:
+-   FSAMPEN pin value, 0 for low, 1 for high, 2 for disconnected.
+-   Defaults to 0 if left unspecified.
+-
+-Example:
+-
+-wm8782: stereo-adc {
+-	compatible = "wlf,wm8782";
+-	Vdda-supply = <&vdda_supply>;
+-	Vdd-supply = <&vdd_supply>;
+-	wlf,fsampen = <2>; /* 192KHz */
+-};
 -- 
 2.45.2
 
