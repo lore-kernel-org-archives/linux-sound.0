@@ -1,91 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FECB84FDF;
-	Wed, 12 Jun 2024 20:21:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB7645464A;
+	Wed, 12 Jun 2024 20:29:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718223668; cv=none; b=btFpjmuXANvgSXU6zVIQDeDzbDtRe5zkkwaTfYdqKoeEpfcgUJWr+KDhF5UI8WdRWZLV+WqNda15RA4OisSMhxo5E+HnSMY2+GPBPUXK2NjPUMNKRSELI36b3a9KSRLky0FawAG3hE2tkPnAcYxHsC749mZXzF0mplcHYXzUsTs=
+	t=1718224177; cv=none; b=ZnLllBOTdmQCPFHrFa6ydZfBIlQTmOmVXI3h4c6hCgzE0GMf2nMG4EKIIppCa+uuRg9WY+COiGyStfRWSy9eefIqgD6NNCho02hstuIxDDUOo2P4cYJhPapUO7H4Qr8FWuSkUHYPCvtRbSD5SJ7rXohTYeHV2pU7Tf+lzgMgOKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718223668; c=relaxed/simple;
-	bh=MWggHuDmnRYrL6/F/g0nQyheyownkHUkefYD5cQ+7EU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=VgMhOQu7oN0e42e9sa46rebveOUpUB4jy61/xciBFpaZxrK7N1m2T2+YM+HhoiGDLQnNyN9bvSBCf4P0/UgPGAA+Nd9ufNBTEAhDWfL83AEwqt2xUoAcC4JtjHOwtrNV3h9WHwBnYBUUoxgepNlY5yyASIcU/PQ1k1mDODcfpps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dDy8K6tz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718224177; c=relaxed/simple;
+	bh=gCWYIm7bTku77ZC6+dqoln8xvBDLmYRwniWsE89dzJU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hgdt6y64gNNAleNVNePUl/asMc/w9+toPHhEkI+NDDqhFoGKbNGbD6d4qI3Hk4KIooFnaHl+oA0W6gJdf+dtwbMyKcKBXZoZN24+F57OWY0iHzZOMLdNIIbJRvRpMrDJiD7xoYGktFyx0Ip11+12iZEBOKjsSq/h504RiRcqAdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cNaxhTTK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dDy8K6tz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E05D1C32786;
-	Wed, 12 Jun 2024 20:21:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cNaxhTTK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F786C116B1;
+	Wed, 12 Jun 2024 20:29:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718223667;
-	bh=MWggHuDmnRYrL6/F/g0nQyheyownkHUkefYD5cQ+7EU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=dDy8K6tzIR2SW38mTPuGne/59hM0GYaWIWx++6nRhpxUcQvdYeOWmQYITGsROmCbg
-	 RLRNSy3f/W0Lu6Q0pVB2ldComQ7iqf96XMvmFczK5evPGziHapzFZYmuZg2qsEjTRe
-	 o2K9jJghL3hxrS1byOebezsWYFePPNmeBJQ5Xl6fSraFKhhPMTws7MZisx0OUlX+jb
-	 W0trPF8GArt0iYZMhiaku6yqk7EeBd2psHvmBc6kOY6cC/1iqmAq3nm315WywKoEOV
-	 E8mi/5300RFGzcGtDKG9F6yvfNVFTi+20ZvHXN48GjV5sj51QLh/fzDd8LWeP+gRcu
-	 y6IZsnXUPVYZQ==
+	s=k20201202; t=1718224177;
+	bh=gCWYIm7bTku77ZC6+dqoln8xvBDLmYRwniWsE89dzJU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cNaxhTTKl+SspOwSlEHNQvVoS0JL8tO0YYyYJuwXVEoSo8ReWdiq+NtN7oJ8NAveT
+	 z0/gkj8P9jZjc+NQSKy8ETCvdUOJbEb1CQjPVn29Os88FsauX1BN/xY/zRqQ+pmLQK
+	 iE3iPhD34t4/evmgNP5NrPWC+5PVrgCYZbTk7WzwYeKZy9NH1jSTTREwOzKiW3hBXa
+	 I3veBK3rMM5ogi/b080kLseDv5V4stIgIgjWTFOcVc0XdAN8UYQQ1MyxOPigU9M0V6
+	 NanknOc+8I6p+XApjml3BsC7b94+BFBP/v0RwJbE/iE0/5CX//jUiSU6WvbUB8kCor
+	 6/zwW1RYJZIvg==
+Date: Wed, 12 Jun 2024 21:29:34 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Lars-Peter Clausen <lars@metafoo.de>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Peter Ujfalusi <peter.ujfalusi@gmail.com>, Jai Luthra <j-luthra@ti.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- alsa-devel@alsa-project.org, Devarsh Thakkar <devarsht@ti.com>, 
- Vignesh Raghavendra <vigneshr@ti.com>, 
- Jayesh Choudhary <j-choudhary@ti.com>
-In-Reply-To: <20240611-asoc_next-v3-0-fcfd84b12164@ti.com>
-References: <20240611-asoc_next-v3-0-fcfd84b12164@ti.com>
-Subject: Re: [PATCH v3 0/2] Fixes for McASP and dmaengine_pcm
-Message-Id: <171822366586.240528.375456084176371266.b4-ty@kernel.org>
-Date: Wed, 12 Jun 2024 21:21:05 +0100
+To: Jiaxin Yu <jiaxin.yu@mediatek.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	angelogioacchino.delregno@collabora.com
+Subject: Re: [PATCH] ASoC: mediatek: mt6358: Add "Dmic Mode Switch" kcontrol
+ for switch DMIC mode.
+Message-ID: <ZmoFLizJO-J0N-m2@finisterre.sirena.org.uk>
+References: <20240612094155.23354-1-jiaxin.yu@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev-4c370
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="XNKysN0M+FLP/L8C"
+Content-Disposition: inline
+In-Reply-To: <20240612094155.23354-1-jiaxin.yu@mediatek.com>
+X-Cookie: Your love life will be... interesting.
 
-On Tue, 11 Jun 2024 18:02:54 +0530, Jai Luthra wrote:
-> This series fixes two patches:
-> 
-> 1. Fix the dmaengine API usage by calling dmaengine_synchronize() after
->    dmaengine_terminate_async() when xrun events occur in application
-> 2. Use the McASP AFIFO property from DT to refine the period size,
->    instead of hardcoding minimum to 64 samples
-> 
-> [...]
 
-Applied to
+--XNKysN0M+FLP/L8C
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Wed, Jun 12, 2024 at 05:41:55PM +0800, Jiaxin Yu wrote:
 
-Thanks!
+> +static int mt6358_dmic_mode_set(struct snd_kcontrol *kcontrol,
+> +				struct snd_ctl_elem_value *ucontrol)
+> +{
+> +	struct snd_soc_component *c = snd_soc_kcontrol_component(kcontrol);
+> +	struct mt6358_priv *priv = snd_soc_component_get_drvdata(c);
+> +	int enabled = ucontrol->value.integer.value[0];
+> +
+> +	if (priv->dmic_one_wire_mode != enabled) {
+> +		priv->dmic_one_wire_mode = enabled;
 
-[1/2] ALSA: dmaengine: Synchronize dma channel after drop()
-      commit: e8343410ddf08fc36a9b9cc7c51a4e53a262d4c6
-[2/2] ASoC: ti: davinci-mcasp: Set min period size using FIFO config
-      commit: c5dcf8ab10606e76c1d8a0ec77f27d84a392e874
+This will allow any value to be written rather than just 0 or 1,
+mixer-test should report that this is a bug - there should either be
+validation or clamping of the value so it stays as either 0 or 1.  Both
+options are valid.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+--XNKysN0M+FLP/L8C
+Content-Type: application/pgp-signature; name="signature.asc"
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+-----BEGIN PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZqBS4ACgkQJNaLcl1U
+h9COmQf/a8xD+qrXvkFvABKq8FFX5YPeNHTkBlKnyk5PLvhdn856OJ7nHQoq3reW
+8qMriRZkD3z1FVN9qzUpt0hygDXVV6alDJ522jwYJVcr6kxuMpVlp9xwfX+H5nCR
+7slQUKmP7cyMS3LYJJZfGtG/a5oseajX6pRXl2q/BSui8usaEyYVzrfVd2I0F78G
+tQvPmJ/tQUX85DSWXCJmSUJJe6rQE0tH/Ly0hDfuIZuWS25XzFhkWnp3iDS7uKsK
+mCPiLFkvMRngfRApM8T2iPQiMBKFt5AkgzHWcBsHRalB1OlAQmZXchn4d5EKL5/j
+QrkFiepQBmCiKQ1rGMLc/CDy4GpjhQ==
+=0AqR
+-----END PGP SIGNATURE-----
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--XNKysN0M+FLP/L8C--
