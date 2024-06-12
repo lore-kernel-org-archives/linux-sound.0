@@ -1,136 +1,84 @@
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C4042052;
-	Wed, 12 Jun 2024 09:42:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1BA1A34;
+	Wed, 12 Jun 2024 09:56:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718185337; cv=none; b=O8yICvUg3BxaxM5zsKWUv9/YTEna1G23tdgldHDdeOFdxjA9mSxMsXYUQYEKAc4w7+OJZ8Z8zrSMe+d4zJwLsfpQxA5iU/BIh4C42UBhh+lbBHsQJcWsgslPWh4F6gYPTgELTHbneG4+AB+a5d/4mXCTf29S48snD3+XKUj8gAk=
+	t=1718186197; cv=none; b=qYTp8+PL2Ii0NIc576pw8L+M6ZSdztmdjA52JFYHMjRiN/XfkDzrCLkW2oaUUVPL5+KGehs0MjBeuN0c6Lfx0oMAO5o+/0w3o2IT2oRB01Ubi8xqNg20chtNPr+DX0BkFAaZu6lO6Iu7HwGQAg+iDxkqtAGrhiOn4u/tKsIjIFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718185337; c=relaxed/simple;
-	bh=4GOJEx8lRbFHjPsnV+Ngy5dtVAH6+Y7YlJIgsFptwAc=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=t0HWPxzmg6HhhjOjUk7o6QHl9ya2E9lYhghJ9AfjPI5RLn0Ke/3HkQedwjPXkDh9nuDgWT3shr0C0GpaYSA/zrPS9lkc/idLTYSUmr88JQ2z3GBHd+LNCLj4WzNoR5ZwubU/qr2tgf4RXEj+iQhx3izZXyktFDXRmPK5AobnyRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=Lm6MbmcC; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+	s=arc-20240116; t=1718186197; c=relaxed/simple;
+	bh=GmQfuVpYVMoxw//+VZkcA4DLbCRQkx3EyZHDcLI2H3s=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eobqVWCp6vQDupBtFuOp/41US6oXypgM+24tp8U3OQj17X7hxo0BbTnSZwYzeElTSH4yITmAbeGlYuumCsI5hmueqljryaqduAl2pE28X8hs23xUhnHEkiySCxYPBktp/yXAO0IKThz7tK9hEXFFE5knoFsU6wEk81S54B0JZLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=H/PbhyXA; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="Lm6MbmcC"
-X-UUID: 07297f0a28a011efa54bbfbb386b949c-20240612
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=lFva8B6gp3ExQoZEXAzokC/lEp9q82UBvksUzqGmJOc=;
-	b=Lm6MbmcCsEsp7KzwpZ4FRwQCmCDrqRkNvluMBnpb3lUKbmXm9BBBlKeDCJS8fpMiU8m368YXEgjJ0+vmaM6JennViJEep1KwVgOeVbLsBwrH6ckeSb73mgn4FS+IUvn+llD7CUHFnI5B38NT1M+XC0Rk1vkTT5WpmVdzMYjVduo=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.39,REQID:96a417ae-64d7-4a42-a744-cca4f6d66ad7,IP:0,U
-	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-5
-X-CID-META: VersionHash:393d96e,CLOUDID:94957c44-4544-4d06-b2b2-d7e12813c598,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
-	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 07297f0a28a011efa54bbfbb386b949c-20240612
-Received: from mtkmbs09n1.mediatek.inc [(172.21.101.35)] by mailgw01.mediatek.com
-	(envelope-from <jiaxin.yu@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 140183744; Wed, 12 Jun 2024 17:42:05 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Wed, 12 Jun 2024 17:42:03 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Wed, 12 Jun 2024 17:42:03 +0800
-From: Jiaxin Yu <jiaxin.yu@mediatek.com>
-To: <broonie@kernel.org>
-CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
-	<angelogioacchino.delregno@collabora.com>, Jiaxin Yu <jiaxin.yu@mediatek.com>
-Subject: [PATCH] ASoC: mediatek: mt6358: Add "Dmic Mode Switch" kcontrol for switch DMIC mode.
-Date: Wed, 12 Jun 2024 17:41:55 +0800
-Message-ID: <20240612094155.23354-1-jiaxin.yu@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="H/PbhyXA"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45C30uOU015315;
+	Wed, 12 Jun 2024 04:56:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=m1LLXHsEtF5yDASxKC
+	g2mH1kucWQQIwecALYO2Nn7dQ=; b=H/PbhyXABZPsI0qZBjTf79pbGc80MKPxQR
+	2zU5mJeUrWK90a3SSbFzMA1C/rsaWDtljR2b5cv31y4KM+aalvij0uFWsBn1O/3i
+	ATH0/xUj/2Qa5+6jD0J2TEOoJWBWRPbBLQpIYbjqOFgySNdtJ4sRc6XhNDtl314a
+	MExkKgiLoiOYf3JzMqdvOYx4jPUdmtGRhs2JK6LqheR1fOcwvz7+cuNoy+hLZPuY
+	Hmj3U0j+9I6Ehd+g41yhl0hoPLgQ0rkfu6Klv+G3F17mshjp7RwRqrPhlsrwvAxa
+	e3MbKf34c8thkHio3ZJ4rJuDmZA7o/xyfh8nBiDFR9X/gLnd9hYQ==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3ymkqhuunx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 12 Jun 2024 04:56:29 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 12 Jun
+ 2024 10:56:27 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Wed, 12 Jun 2024 10:56:27 +0100
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 8F080820248;
+	Wed, 12 Jun 2024 09:56:27 +0000 (UTC)
+Date: Wed, 12 Jun 2024 10:56:26 +0100
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Animesh Agarwal <animeshagarwal28@gmail.com>
+CC: Daniel Baluta <daniel.baluta@nxp.com>,
+        Liam Girdwood
+	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>, <patches@opensource.cirrus.com>,
+        <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ASoC: dt-bindings: wlf,wm8804: Convert to dtschema
+Message-ID: <ZmlwyjHXjAwFvy01@opensource.cirrus.com>
+References: <20240611122258.47406-1-animeshagarwal28@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240611122258.47406-1-animeshagarwal28@gmail.com>
+X-Proofpoint-GUID: 3tPNXNwug9zjDl2wtWSXcMk_QYW-sygG
+X-Proofpoint-ORIG-GUID: 3tPNXNwug9zjDl2wtWSXcMk_QYW-sygG
+X-Proofpoint-Spam-Reason: safe
 
-There are two hardware connection methods for DMICs on the MT6358. In cases
-where more than two DMICs are used, we need to time-multiplex these DMICs.
-Therefore, we need to dynamically switch the modes of these DMICs based on
-the actual usage scenarios.
+On Tue, Jun 11, 2024 at 05:52:51PM +0530, Animesh Agarwal wrote:
+> Convert the WM8804 audio codec bindings to DT schema.
+> 
+> Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
+> Cc: Daniel Baluta <daniel.baluta@nxp.com>
+> ---
 
-            ---- DMIC1
-AU_VIN0 ---
-            ---- DMIC2
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-AU_VIN2 --- ----DMIC3
-
-When we want to use DMIC1/2, configure it to one-wire mode. When we want to
-use DMIC1/3, configure it to two-wire mode.
-
-Signed-off-by: Jiaxin Yu <jiaxin.yu@mediatek.com>
----
- sound/soc/codecs/mt6358.c | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
-
-diff --git a/sound/soc/codecs/mt6358.c b/sound/soc/codecs/mt6358.c
-index 0284e29c11d3..3623e2a38423 100644
---- a/sound/soc/codecs/mt6358.c
-+++ b/sound/soc/codecs/mt6358.c
-@@ -577,6 +577,36 @@ static int mt6358_put_wov(struct snd_kcontrol *kcontrol,
- 	return 0;
- }
- 
-+static int mt6358_dmic_mode_get(struct snd_kcontrol *kcontrol,
-+				struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_soc_component *c = snd_soc_kcontrol_component(kcontrol);
-+	struct mt6358_priv *priv = snd_soc_component_get_drvdata(c);
-+
-+	ucontrol->value.integer.value[0] = priv->dmic_one_wire_mode;
-+	dev_dbg(priv->dev, "%s() dmic_mode = %d", __func__, priv->dmic_one_wire_mode);
-+
-+	return 0;
-+}
-+
-+static int mt6358_dmic_mode_set(struct snd_kcontrol *kcontrol,
-+				struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_soc_component *c = snd_soc_kcontrol_component(kcontrol);
-+	struct mt6358_priv *priv = snd_soc_component_get_drvdata(c);
-+	int enabled = ucontrol->value.integer.value[0];
-+
-+	if (priv->dmic_one_wire_mode != enabled) {
-+		priv->dmic_one_wire_mode = enabled;
-+		dev_dbg(priv->dev, "%s() dmic_mode = %d", __func__, priv->dmic_one_wire_mode);
-+
-+		return 1;
-+	}
-+	dev_dbg(priv->dev, "%s() dmic_mode = %d", __func__, priv->dmic_one_wire_mode);
-+
-+	return 0;
-+}
-+
- static const DECLARE_TLV_DB_SCALE(playback_tlv, -1000, 100, 0);
- static const DECLARE_TLV_DB_SCALE(pga_tlv, 0, 600, 0);
- 
-@@ -599,6 +629,9 @@ static const struct snd_kcontrol_new mt6358_snd_controls[] = {
- 
- 	SOC_SINGLE_BOOL_EXT("Wake-on-Voice Phase2 Switch", 0,
- 			    mt6358_get_wov, mt6358_put_wov),
-+
-+	SOC_SINGLE_BOOL_EXT("Dmic Mode Switch", 0,
-+			    mt6358_dmic_mode_get, mt6358_dmic_mode_set),
- };
- 
- /* MUX */
--- 
-2.25.1
-
+Thanks,
+Charles
