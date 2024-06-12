@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65D6913CAAD;
-	Wed, 12 Jun 2024 06:49:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABF45823CC;
+	Wed, 12 Jun 2024 06:52:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718174982; cv=none; b=IxqfaD4SvvG6RYmECGsq5EA3LuFUZw/sD93BmLMKJgXCw6ua9nZG4EUoTSw7sq5RjDFgrEDDzgjd+3qGIw9NH8T9EVYkH7UM0ByUHI43qF4h+l7NLKvajMBNKve7n3zb7oSZciv/+SEKe7HUR5hRRcPcckjE/GtAHl+74dwaUJk=
+	t=1718175170; cv=none; b=LW+amf21nWWWVmIFT1Xfu3qm5GF5jNk8+/JfSJ755fTIMIjy6RyKSd5tisGhAzlMHSNb7Pk7F4QRpxfupHHMujsnLMcRcrGKONPwpUOwCsq4+xiLOFiVoFsVPLddeTyoKqJuiuysY8QrDW2m+yfWTzMkiJQdJG0SyIkvLAn+UlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718174982; c=relaxed/simple;
-	bh=NVrikH9BtN7h5xiiPL7iHYVis0212ZCqdMOj6NRDoco=;
+	s=arc-20240116; t=1718175170; c=relaxed/simple;
+	bh=ZBaK8KcwjFZrPf0CgzNgYqAYAklg2sSBOnMC/WB3lvI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FDilKu2ZPZqJySzQuL+sz8I3phCYNjOL4VniO5eMZkubRuqHelmnt1ElknxLi7KDtn8aqf56ELHWYyNNeLM9woonDikCmgwdAPmXg+qhi1VcxsODCe/p0FaMi+xOLZDIu6ZWEwVpmX3XXeImhUSxMl1lj3n/qkHzmCBdApRffsA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GUuPpavc; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=OPAteOS05E5aRJNrV2FyqXoujFo9j4slJF5xYajShpYAxrkebgMevaaRbVdqC6Q0xhX+AWlGLMqkYqdhbMD0tjlMcBwean+gV9F7XfWPgkS9JTsr/DG+6rEpegubv5b7hCYHVx1zRuqKiEzoC6l42sM9IEjtsJb8ZJLRZ9i+uHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DuCt/JzF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GUuPpavc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 910D0C3277B;
-	Wed, 12 Jun 2024 06:49:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DuCt/JzF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFA47C3277B;
+	Wed, 12 Jun 2024 06:52:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718174981;
-	bh=NVrikH9BtN7h5xiiPL7iHYVis0212ZCqdMOj6NRDoco=;
+	s=k20201202; t=1718175170;
+	bh=ZBaK8KcwjFZrPf0CgzNgYqAYAklg2sSBOnMC/WB3lvI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=GUuPpavcyZt2zRhjReBN46EvwWei8TStGgbS5GwKjvaOutokeOdRqJsY1hk2EicGH
-	 2w/nfm0LV15W9UGs9ncNp0/UtjHvTKj3f7LmqOj/t36yKopRDHr4jpV1+wcpzO0V/r
-	 5PDHTd+2HoVF6C6SJwB6twS1L04TEoJWIveK3c6y6gH7TiasDtu3GbmnQ/T63Nvv+0
-	 JYCVXwIJDIFQzOxCx2/TZJ4tQqxyyt8G6VFV3K2nT7/0GsXxDiysRqrruVRh3mEcPO
-	 HJ9f8nShVVxqWGN4eEwOQRQGAUXeIS3JNs6JkIROIBmip/OuXWnWm5NvSQxLOM/9QG
-	 FQ8PW0UhUqEqA==
-Message-ID: <3b78520e-61d9-411b-82fe-84e8245d084f@kernel.org>
-Date: Wed, 12 Jun 2024 08:49:36 +0200
+	b=DuCt/JzFUb7n6s7s8lq88yx29e3Z+DUYeWcN2vvz8G0fm2TVK1fXb2eX/CMkBCSNv
+	 j+VA/o20LmxCvNDYCjy9huexxlm5Avb2KRXyXJ0nAVN+yIhE0gOZU0/7SC23qnNMrm
+	 CJda4HrCAmZ3HJjoBRaZDIF9CnkiNr0AGUOa+6MuKryQ2j6odM2i8dPXhPnR+N2Z93
+	 saJi1dEACEHXDA3kh09tMOqO2gAOd7k6UXIHfkdiZ37G9iwYo43dHCB0mhBnQJOsAO
+	 NFo4BpS+lrTEg7NqVXwbqzfocmUjftbcKeW3I8V3oQfLn8p/gOKiWCbhH1My8u20yB
+	 7YUrx0oFVQUJA==
+Message-ID: <e2ff6c2e-0c63-45f6-9aaf-727be93197b1@kernel.org>
+Date: Wed, 12 Jun 2024 08:52:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,16 +35,19 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] ASoC: dt-bindings: convert everest,es7134.txt to
- dt-schema
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240611-topic-amlogic-upstream-bindings-convert-everest-v1-0-a7f9b4c9005c@linaro.org>
- <20240611-topic-amlogic-upstream-bindings-convert-everest-v1-2-a7f9b4c9005c@linaro.org>
+Subject: Re: [PATCH v3 1/2] ASoC: dt-bindings: tlv320adc3xxx: Add
+ MICBIAS-as-GPO properties
+To: Ricard Wanderlof <ricard.wanderlof@axis.com>,
+ Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+ Baojun Xu <baojun.xu@ti.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Ricard Wanderlof <ricardw@axis.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, kernel@axis.com
+References: <20240607-tlv320adc3xxx-micbias-gpo-v3-0-59dbec8b98f4@axis.com>
+ <20240607-tlv320adc3xxx-micbias-gpo-v3-1-59dbec8b98f4@axis.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -90,17 +93,39 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240611-topic-amlogic-upstream-bindings-convert-everest-v1-2-a7f9b4c9005c@linaro.org>
+In-Reply-To: <20240607-tlv320adc3xxx-micbias-gpo-v3-1-59dbec8b98f4@axis.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/06/2024 11:19, Neil Armstrong wrote:
-> Convert the text bindings of the Everest ES7134/7144/7154 2 channels
-> I2S analog to digital converter to dt-schema.
+On 07/06/2024 17:22, Ricard Wanderlof wrote:
+> Add properties for configuring the MICBIAS pins as general purpose
+> outputs, with some limitations: The voltage on the pin when activated
+> may be set using another property to 2.0 V, 2.5 V or AVDD.
+> When deactivated the pin will float.
 > 
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> Signed-off-by: Ricard Wanderlof <ricard.wanderlof@axis.com>
+> ---
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+
+---
+
+<form letter>
+This is an automated instruction, just in case, because many review tags
+are being ignored. If you know the process, you can skip it (please do
+not feel offended by me posting it here - no bad intentions intended).
+If you do not know the process, here is a short explanation:
+
+Please add Acked-by/Reviewed-by/Tested-by tags when posting new
+versions, under or above your Signed-off-by tag. Tag is "received", when
+provided in a message replied to you on the mailing list. Tools like b4
+can help here. However, there's no need to repost patches *only* to add
+the tags. The upstream maintainer will do that for tags received on the
+version they apply.
+
+https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
+</form letter>
 
 Best regards,
 Krzysztof
