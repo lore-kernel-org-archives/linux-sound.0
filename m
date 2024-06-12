@@ -1,59 +1,61 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F89D1822C7
-	for <linux-sound@vger.kernel.org>; Wed, 12 Jun 2024 16:57:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A10181B9F
+	for <linux-sound@vger.kernel.org>; Wed, 12 Jun 2024 16:57:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718211462; cv=none; b=dfMgMPZ2XOzj/ACT8ZJmnWMxK/JjhR6HsZVoS1bCW7DTZO53zHh34iqiTWeM4DctszjwJpsgKYSeO5zR20wYLUP+8BbhlNDAXFz8A+Hm5rE62oKIHMZvyEcGApesKgq3pyrTlys7BVeyosZDweC4c/X/z1CRbe9d6lQ3nIbeOCE=
+	t=1718211465; cv=none; b=BTeEodJ0kgPXXyeA7O9bG3apSZNRpsShelxiD4qwaPBq7a3474J/epOP3rAc4amJ2xZv0SQabAzJ/veDqnN9rqKfOjEqBxObqZy7Rfsm6dI91ctAh0bCNafAztFAKOxk820bO6U1+ZGEUJ7dhIoXVfolMwx9l/Zi29qiHqdSG+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718211462; c=relaxed/simple;
-	bh=wN0d/8ELr/wL1/Cpgz+AM71Z3Ev6/U/uMM5xUQsA7zg=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=nVo2de/ddGURRMiuRnrdCzA6hDW2c9Rl5EMJZ/iJdt8iZF5o2dHfkkCHuGLPwuWWafIv9WsuR7u4mKXVxG17osQw/9pq/PIJfa6qY49Ka4G5cZNcZ1qeYVOt0P/6Idxh5LORX3PIpEx8sfhmS0XY5OJvpER/A5tuclr1a7ynkgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kp1Z86ah; arc=none smtp.client-ip=209.85.208.47
+	s=arc-20240116; t=1718211465; c=relaxed/simple;
+	bh=QS7ScGSvChG6xp5GTpKBp7tDBC6NTj2IN1ffDCw9zis=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=o25bPdiheMX3HQ+PcW17sDSw8HB5rHsZuUpmpKSLtu5cjcrN5ZUUZxbeEV41/fA/45NsDsDTh9TRjszqkWBY6aIJzQRe/CFzF7eDoJ0+rABQ9zygo+NXxDOmG6axisSq0Zo3fIt2VIntI4WzqqqCleUYCD7xkMz45IrVkgTN/SE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=w66GMBTi; arc=none smtp.client-ip=209.85.208.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kp1Z86ah"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-57a1fe63947so3596204a12.1
-        for <linux-sound@vger.kernel.org>; Wed, 12 Jun 2024 09:57:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="w66GMBTi"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-57a44c2ce80so3323309a12.0
+        for <linux-sound@vger.kernel.org>; Wed, 12 Jun 2024 09:57:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718211459; x=1718816259; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=++OGzFVcBm4uEhH5yU1JqM6E2MpRXisSlLqZSmtECO8=;
-        b=kp1Z86ah6ErKtLpl6aWPqF201ry4AQeS8gtA7FAEMX0GX4jlaDQJdT9fpMu6Wdk1lI
-         1chBo/KPM1//lBi+rcSSH/fFp+jd9KH8rGMlPNciZBuhHqJO7564qHWa2b6qU0y+Ocmz
-         KLe2UfPr+/IcezEySdtfXPECohYJpGxcXmMKesH2TsOCTbuOWGw8KbBndsHQMcobjl/u
-         iM6CqPE/nk2IR4OcvrU4uACOyU1lT+orR9TEqXHBPs6B+iNfGa4GJDAmBGJFDdaEJ3wG
-         Wg0vZu+xuLzJYnVR3188Dex6nv6O9SR0aWszYWqXw0Ld2WrLWEkUjMNPFTWrSE4vrEpd
-         N2xA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718211459; x=1718816259;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=linaro.org; s=google; t=1718211461; x=1718816261; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=++OGzFVcBm4uEhH5yU1JqM6E2MpRXisSlLqZSmtECO8=;
-        b=HYghf9c2wPlh+bG2NEMhxc2YLVSpIv3hY8vhB8/Jo+SwKp/4rm75OroSSRtvpYVcjZ
-         GWFp2C79lMTDQre7hCQvp1BsGDiqkj2okGhFBV+1AgOoaaIVC+mN1kmVY/r9kTACfA3Z
-         kvTwspGzY4j6zEY+by44Gs6lShySyALLcqxEgnduGBB2pFZTNRpGepyYdTxR+ESiyT/G
-         Xx62J2PgGMb+1BGlt0L+QqEBpjFHP8lB5KpBm4edg1djhr15ls0u24AWR8z7GTODuARW
-         eDCeV1kZJcipiNPb2BqEnBblpBqcwFJnzjhnwOwvNp2up2vIy27N3FJ3eBRmBUm+A8A6
-         Sbdg==
-X-Forwarded-Encrypted: i=1; AJvYcCWRhOKyKAbWwIC1dpoFoc338F0cUFrhVZHGotihEj/NWSaUCK0x80rqkQHar39f30VNG2PtNeGo2edBbhv4E6p++RWX69O7ptkOUgY=
-X-Gm-Message-State: AOJu0Yzm474Vk45+LsCd7dsUe0qNVkWZh2moy0sSroZ7Es1YxosXPx6c
-	l2VUmkEJZtd9bp/uqKU41qyaoZuXXmnMreqCTvV62FcLVhMx9elUWOUzQy8/v4k=
-X-Google-Smtp-Source: AGHT+IF836A5i+me8GLcRRQJaRgp0OVmTJirfPxSvaoJYHrk64DZsC+Tv1+4VFubuAyRndBPcsBGRg==
-X-Received: by 2002:a50:d6dc:0:b0:57c:748e:8c57 with SMTP id 4fb4d7f45d1cf-57caaae5c4fmr1629719a12.37.1718211459331;
-        Wed, 12 Jun 2024 09:57:39 -0700 (PDT)
+        bh=R2VscKvagWv42zk0rH8fHiJS5R2BnPnKyuPT4PU71oU=;
+        b=w66GMBTiIYuIDfgPKTHcum3wACTdPXqf3w2VjA3iLAJ4eirOHseKYynyMxNHgfoYl5
+         eXXyZykW6sq0FQQlUJL4FuGYa9bu8lVaIp6KMSQvrVy7Ngiqn6uKg1vWvzLcTv8pvnNP
+         Rhr27Vu027ke89qQ0VzByWDx7s9syTsqyEIkFDbVR1+0vZ0NHu83n8/LIR7N6RgLgW7A
+         h3aeagMKP6T1M0bpjlAVwK0bhJHuqQJEciV0h55VE0uTBRVJckcppRTWHzXU0u1+7g/y
+         7f/CdSLTpbx1KUAaJDIKTV8dhdHECvFeqeLfKkKv39qgQoxKCAXoAUBgisQWctLnYzyY
+         pvEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718211461; x=1718816261;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=R2VscKvagWv42zk0rH8fHiJS5R2BnPnKyuPT4PU71oU=;
+        b=reeOHtWEaqjud/9iAmGzupxxs/RDsEhwt1Q9gbzLuXzBg2ynRjb6zxnJbzqGy4WjYK
+         nRx/aPT7DBRIkZ7D2jm6kqH9mZJ9ParljcTJxW8RCN67eLKKnjm1R5GGlx43eETwFwbu
+         6IVSG9EGrvnCPCZN+1tkCjf2eGN4TezdFq0FSL4e0JRgGD5ESoZypUQgkmZSKERWLRpr
+         XIn9UrTTIMW4GTsucm+5hA5GBu3sIWsvgD7ncDcl1ak34vxtQOikLr8PYmVac8qcOkty
+         iIKSORo+Q/w+NIT3O4pjB7cFlNPo9uYJzQMi4OoWLK/zPzsyPBx9Uc+BJ/3qx5CY9rGj
+         tIfw==
+X-Forwarded-Encrypted: i=1; AJvYcCVb6/I2DUe17s5PySlel721Oqc34Dph29yH2l52UWbVG98jncuyTS8Vy60HPly3IpmefkPxC4aq/GmrdzJOmHbLf965C7gBrgPMjCs=
+X-Gm-Message-State: AOJu0YxZN+uDmm7wAFlL4iohC/s1d8ECTr7Zwr+WRKrxtS2trqLoneRN
+	jLC8SNGCfNpCJk7Q8c/FXdYO+wwdev+qDh0iM3kDyRFM/nFVelxQK3Ko26+jSys=
+X-Google-Smtp-Source: AGHT+IGM4yc/dCEC8LphBApl+osZjzqVFWThQMW4KCh/iLJQ2LnUNw777Wua/PKH1brzgkwN6ZTctQ==
+X-Received: by 2002:a50:9308:0:b0:57c:947c:f9cf with SMTP id 4fb4d7f45d1cf-57ca975348cmr1464177a12.11.1718211460623;
+        Wed, 12 Jun 2024 09:57:40 -0700 (PDT)
 Received: from [192.168.1.195] ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57ca8caed84sm1564048a12.43.2024.06.12.09.57.38
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57ca8caed84sm1564048a12.43.2024.06.12.09.57.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jun 2024 09:57:38 -0700 (PDT)
+        Wed, 12 Jun 2024 09:57:39 -0700 (PDT)
 From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Subject: [PATCH v3 0/3] ASoC: codecs: lpass: add support for v2.5 rx macro
-Date: Wed, 12 Jun 2024 17:57:20 +0100
-Message-Id: <20240612-lpass-codec-v25-v1-0-9f40611a1370@linaro.org>
+Date: Wed, 12 Jun 2024 17:57:21 +0100
+Subject: [PATCH v3 1/3] ASoC: codecs: lpass-macro: add helpers to get codec
+ version
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -62,9 +64,9 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAHDTaWYC/x2N0QrCMAwAf2Xk2UBbZ0F/RXxI28wFtBuJFGHs3
- +18PI7jNjBWYYPbsIFyE5OldvCnAfJM9ckopTMEF0YXfcDXSmaYl8IZW7jgyNfoKJUY/QS9SmS
- MSanm+ejeZB/WQ6zKk3z/qzu0Mzz2/QfybOppfgAAAA==
+Message-Id: <20240612-lpass-codec-v25-v1-1-9f40611a1370@linaro.org>
+References: <20240612-lpass-codec-v25-v1-0-9f40611a1370@linaro.org>
+In-Reply-To: <20240612-lpass-codec-v25-v1-0-9f40611a1370@linaro.org>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
  Banajit Goswami <bgoswami@quicinc.com>
@@ -73,57 +75,180 @@ Cc: neil.armstrong@linaro.org, linux-arm-msm@vger.kernel.org,
  linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, 
  Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1382;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5501;
  i=srinivas.kandagatla@linaro.org; h=from:subject:message-id;
- bh=wN0d/8ELr/wL1/Cpgz+AM71Z3Ev6/U/uMM5xUQsA7zg=;
- b=owEBbQGS/pANAwAKAXqh/VnHNFU3AcsmYgBmadOCosZkrFenGj0f4v6e63uCrImo/xB0NSFBy
- 7MarRKB6YSJATMEAAEKAB0WIQQi509axvzi9vce3Y16of1ZxzRVNwUCZmnTggAKCRB6of1ZxzRV
- N2ELB/425bmlrp+cAozeGyMGB7MzypQjhkcZfef10UJpMmk9KWUX9JXme1UsbIhEZQtPEd5lpkr
- UgTyqxnVH/ustTMcPyWH/HbBx6/5SLHpT0d39gxe4yuurbggrKwl0y2XRfeMsRqgpzOribmyl8g
- ZLRm+T/zMe944k4Hu5RtAZMW0G0EmodGZExlt69yl56iG2Zz/TMI2Ty3GuFEhRgrAw6ZZWXizPA
- 0oCOUfIfkMewz5nl7HgV2oHhtGF/2XSUSWNMvwKcUOki8PepLl8T6OV52XgJo6N7GgHUAJQXu1J
- 3Bx5zJDJlTeYe6bsPgbt8MB3irCMst43fiF6gAKgaxJcvpDV
+ bh=QS7ScGSvChG6xp5GTpKBp7tDBC6NTj2IN1ffDCw9zis=;
+ b=owEBbQGS/pANAwAKAXqh/VnHNFU3AcsmYgBmadOCpFW8pCZXDP3+balgrD4sCE41Hm01FCb6R
+ YVwEt0s1/eJATMEAAEKAB0WIQQi509axvzi9vce3Y16of1ZxzRVNwUCZmnTggAKCRB6of1ZxzRV
+ N6i9CACT/QlUOPB5omYnZ6qstzzmu6b25APVOmiYf+JCWDUIxwQ1FQlxpvwCljpgqCEyDZNZ9KY
+ cd65GUmNVF6q/5hnX8IDu6J+OIXEEwIOQ1QQPS7hGPPd+mrEQeKrm9GD0EajMrkpyfRz3DeE+0s
+ tgTdnOejrCM7VbgN3RqvnHnMVBlS/4kvZw/Id+z0X2rB86Jzg0JjRDNM1SGhsR+1GkRh17bUAlQ
+ vuZUh8tn+pKbLWKWKJpV5V5y6QHgb+MtDkstVcpgvPyA2gnuKzFhie1sBgmxQrMkTEm85uw3Ecu
+ VEVFPhyMAxkiPgLAXlhY/eGVIyDHeyCiuNpBhSvkIKPqvWYL
 X-Developer-Key: i=srinivas.kandagatla@linaro.org; a=openpgp;
  fpr=ED6472765AB36EC43B3EF97AD77E3FC0562560D6
 
-This patchset adds support to reading codec version and also adds
-support for v2.5 codec version in rx macro. 
+LPASS Digital codec have changes in register layout across multiple
+versions. Add a proper way read the codec version allowint all the lpass
+macro drivers (tx, rx, wsa, va) to configure the registers correctly.
 
-LPASS 2.5 and up versions have changes in some of the rx blocks which
-are required to get headset functional correctly.
+LPASS VA macro has the required registers to read the codec version.
+Read the the version and make it available to other lpass codec macros
+using the common helper functions.
 
-Tested this on SM8450, X13s and x1e80100 crd.
+Existing method of using LPASS IP version is not accurate as the same
+the codec versioning is totally independent of LPASS IP block versions.
 
-This changes also fixes issue with sm8450, sm8550, sm8660 and x1e80100.
-
-@Neil Armstrong  can you pl test it on sm8650
-
-@Krzysztof Kozlowski can you pl test it on sm8550
-
-Thanks,
-Srini
-
-Changes since v2:
-	- added some locking around version variable.
-	- split 2.5 changes to a new patch.
+These helper functions should be able to provide a convient way to get
+the codec version, and will help scale the drivers in right direction.
 
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 ---
-Srinivas Kandagatla (3):
-      ASoC: codecs: lpass-macro: add helpers to get codec version
-      ASoC: codec: lpass-rx-macro: prepare driver to accomdate new codec versions
-      ASoC: codec: lpass-rx-macro: add support for 2.5 codec version
+ sound/soc/codecs/lpass-macro-common.c | 23 +++++++++++++++++++++++
+ sound/soc/codecs/lpass-macro-common.h | 35 +++++++++++++++++++++++++++++++++++
+ sound/soc/codecs/lpass-va-macro.c     | 29 +++++++++++++++++++++++++++++
+ 3 files changed, 87 insertions(+)
 
- sound/soc/codecs/lpass-macro-common.c |  23 ++
- sound/soc/codecs/lpass-macro-common.h |  35 +++
- sound/soc/codecs/lpass-rx-macro.c     | 555 ++++++++++++++++++++++++----------
- sound/soc/codecs/lpass-va-macro.c     |  29 ++
- 4 files changed, 490 insertions(+), 152 deletions(-)
----
-base-commit: 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
-change-id: 20240612-lpass-codec-v25-4e960abd661f
+diff --git a/sound/soc/codecs/lpass-macro-common.c b/sound/soc/codecs/lpass-macro-common.c
+index da1b422250b8..8b038a99a8f9 100644
+--- a/sound/soc/codecs/lpass-macro-common.c
++++ b/sound/soc/codecs/lpass-macro-common.c
+@@ -11,6 +11,9 @@
+ 
+ #include "lpass-macro-common.h"
+ 
++static DEFINE_MUTEX(lpass_codec_mutex);
++static int lpass_codec_version;
++
+ struct lpass_macro *lpass_macro_pds_init(struct device *dev)
+ {
+ 	struct lpass_macro *l_pds;
+@@ -66,5 +69,25 @@ void lpass_macro_pds_exit(struct lpass_macro *pds)
+ }
+ EXPORT_SYMBOL_GPL(lpass_macro_pds_exit);
+ 
++void lpass_macro_set_codec_version(int version)
++{
++	mutex_lock(&lpass_codec_mutex);
++	lpass_codec_version = version;
++	mutex_unlock(&lpass_codec_mutex);
++}
++EXPORT_SYMBOL_GPL(lpass_macro_set_codec_version);
++
++int lpass_macro_get_codec_version(void)
++{
++	int ver;
++
++	mutex_lock(&lpass_codec_mutex);
++	ver = lpass_codec_version;
++	mutex_unlock(&lpass_codec_mutex);
++
++	return ver;
++}
++EXPORT_SYMBOL_GPL(lpass_macro_get_codec_version);
++
+ MODULE_DESCRIPTION("Common macro driver");
+ MODULE_LICENSE("GPL");
+diff --git a/sound/soc/codecs/lpass-macro-common.h b/sound/soc/codecs/lpass-macro-common.h
+index d98718b3dc4b..f6f1bfe8eb77 100644
+--- a/sound/soc/codecs/lpass-macro-common.h
++++ b/sound/soc/codecs/lpass-macro-common.h
+@@ -18,6 +18,18 @@ enum lpass_version {
+ 	LPASS_VER_11_0_0,
+ };
+ 
++enum lpass_codec_version {
++	LPASS_CODEC_VERSION_1_0 = 1,
++	LPASS_CODEC_VERSION_1_1,
++	LPASS_CODEC_VERSION_1_2,
++	LPASS_CODEC_VERSION_2_0,
++	LPASS_CODEC_VERSION_2_1,
++	LPASS_CODEC_VERSION_2_5,
++	LPASS_CODEC_VERSION_2_6,
++	LPASS_CODEC_VERSION_2_7,
++	LPASS_CODEC_VERSION_2_8,
++};
++
+ struct lpass_macro {
+ 	struct device *macro_pd;
+ 	struct device *dcodec_pd;
+@@ -25,5 +37,28 @@ struct lpass_macro {
+ 
+ struct lpass_macro *lpass_macro_pds_init(struct device *dev);
+ void lpass_macro_pds_exit(struct lpass_macro *pds);
++void lpass_macro_set_codec_version(int version);
++int lpass_macro_get_codec_version(void);
++
++static inline const char *lpass_macro_get_codec_version_string(int version)
++{
++	switch (version) {
++	case LPASS_CODEC_VERSION_2_0:
++		return "v2.0";
++	case LPASS_CODEC_VERSION_2_1:
++		return "v2.1";
++	case LPASS_CODEC_VERSION_2_5:
++		return "v2.5";
++	case LPASS_CODEC_VERSION_2_6:
++		return "v2.6";
++	case LPASS_CODEC_VERSION_2_7:
++		return "v2.7";
++	case LPASS_CODEC_VERSION_2_8:
++		return "v2.8";
++	default:
++		break;
++	}
++	return "NA";
++}
+ 
+ #endif /* __LPASS_MACRO_COMMON_H__ */
+diff --git a/sound/soc/codecs/lpass-va-macro.c b/sound/soc/codecs/lpass-va-macro.c
+index 6eceeff10bf6..0ae9e6377e3a 100644
+--- a/sound/soc/codecs/lpass-va-macro.c
++++ b/sound/soc/codecs/lpass-va-macro.c
+@@ -1461,6 +1461,33 @@ static int va_macro_validate_dmic_sample_rate(u32 dmic_sample_rate,
+ 	return dmic_sample_rate;
+ }
+ 
++static void va_macro_set_lpass_codec_version(struct va_macro *va)
++{
++	int core_id_0 = 0, core_id_1 = 0, core_id_2 = 0, version;
++
++	regmap_read(va->regmap, CDC_VA_TOP_CSR_CORE_ID_0, &core_id_0);
++	regmap_read(va->regmap, CDC_VA_TOP_CSR_CORE_ID_1, &core_id_1);
++	regmap_read(va->regmap, CDC_VA_TOP_CSR_CORE_ID_2, &core_id_2);
++
++	if ((core_id_0 == 0x01) && (core_id_1 == 0x0F))
++		version = LPASS_CODEC_VERSION_2_0;
++	if ((core_id_0 == 0x02) && (core_id_1 == 0x0E))
++		version = LPASS_CODEC_VERSION_2_1;
++	if ((core_id_0 == 0x02) && (core_id_1 == 0x0F) && (core_id_2 == 0x50 || core_id_2 == 0x51))
++		version = LPASS_CODEC_VERSION_2_5;
++	if ((core_id_0 == 0x02) && (core_id_1 == 0x0F) && (core_id_2 == 0x60 || core_id_2 == 0x61))
++		version = LPASS_CODEC_VERSION_2_6;
++	if ((core_id_0 == 0x02) && (core_id_1 == 0x0F) && (core_id_2 == 0x70 || core_id_2 == 0x71))
++		version = LPASS_CODEC_VERSION_2_7;
++	if ((core_id_0 == 0x02) && (core_id_1 == 0x0F) && (core_id_2 == 0x80 || core_id_2 == 0x81))
++		version = LPASS_CODEC_VERSION_2_8;
++
++	lpass_macro_set_codec_version(version);
++
++	dev_info(va->dev, "LPASS Codec Version %s\n",
++			lpass_macro_get_codec_version_string(version));
++}
++
+ static int va_macro_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+@@ -1554,6 +1581,8 @@ static int va_macro_probe(struct platform_device *pdev)
+ 			goto err_npl;
+ 	}
+ 
++	va_macro_set_lpass_codec_version(va);
++
+ 	if (va->has_swr_master) {
+ 		/* Set default CLK div to 1 */
+ 		regmap_update_bits(va->regmap, CDC_VA_TOP_CSR_SWR_MIC_CTL0,
 
-Best regards,
 -- 
-Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+2.25.1
 
