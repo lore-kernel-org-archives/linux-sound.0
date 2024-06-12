@@ -1,88 +1,91 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D61182AF;
-	Wed, 12 Jun 2024 20:18:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E762C84A54;
+	Wed, 12 Jun 2024 20:21:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718223513; cv=none; b=T308emVT8Wmt8Amv9DIPWhy4qGdNXdYThGHCcNc/31oCxK+jzxJ6Us0MZp12Wm+GSMLqxAlHqDAC2XDnUrlXKeUM4D7WJCGrWwaR1a9Sv9G8ThzI28RTVTjdpp/e1N0DYlcfkzLRKsTmEnjjD0d8h5z9SYG2v4GQ1xvrodxYw5o=
+	t=1718223667; cv=none; b=dLetWIzUFrp92Yqx9knJlG+eb1JJ4pFYJl/wRhjsxzQfkoqAgiKSjL+bTMYRKuHS3h2ppJFCgjyQ3stZa6wo5kYW32PkzR72gLL7x0WZU1/Gp3gCG5cBAjrxT0wQ+BIbdoIObi0E91zIieo9+N7AJfR4nHtCFavdkC4IZi1e4Hw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718223513; c=relaxed/simple;
-	bh=njGhKPnNqXDaLAWemur/lSMydRb9BaPJzA7YroBJXy8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ET5GdY+euNsEkLn28WVQBT6TYW027tphr9mZQJFEjL8BCtx4R8uwSfTMFdO6WNPz0bXL7WHCt23kIt2vWRp1jXsLOUAG4+rfQbUngsKHvlWmUMcUNm9o1Vn7irKxFa/fpmeZGl5X9oQMIii2MZGYqX7OaVmAJDIIH0rqa5eoeC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iV+zO8I/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718223667; c=relaxed/simple;
+	bh=VF8TXFGMOrc2cxAUxWDWimJvw5tB56D41Lk1keK3LeY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=hiJugSX0ZIqBjAuIkHMhh14dd9bfKzy+NmF2ul//XqbQ1GhXXdzN0RjKDZ9fIZExpcHH/ONcTVPSoz0JwmUE2kBo1J6iZHDBVcPWDftf9FYyUIwRG11dY0S1K9w+gt0Oxc5KWnLkdDZrFjVBYGSIKe4VsPp6VCZZjIcuRJ1ZN7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=URn75nSC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iV+zO8I/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2478C116B1;
-	Wed, 12 Jun 2024 20:18:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="URn75nSC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBD16C116B1;
+	Wed, 12 Jun 2024 20:21:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718223513;
-	bh=njGhKPnNqXDaLAWemur/lSMydRb9BaPJzA7YroBJXy8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iV+zO8I/CZs5wVgnGn3iLOpGco8Aw44kDAKoN8T8ukmZ+WjHSHIR2Iimg8WXrxe6v
-	 GR/8Aytc0zwIbIfe4fxBz1lqBShMyACZbrcOGkLPqwVJwO14IbQBK8ucBiJDjU2rDZ
-	 qu7a6P9Hbfzh0fNxgM7K7uVBSPYTXqV9LGvQkW2Nn4G1jKEAWyARIupKdrUD13k6SZ
-	 7PXkHf0cB14H/DBklsZFDV367YpLBg+mxCidFtEVmopFamOeGGQNDPAEl/X1QHILi6
-	 I2JB3ev4uy/z39IubhRxgPs5uad69IDt8nZR8xkVx9dEdrIHktuNdpfcaHK9OhOwJv
-	 ovMzTgm4UjlUw==
-Date: Wed, 12 Jun 2024 21:18:31 +0100
+	s=k20201202; t=1718223664;
+	bh=VF8TXFGMOrc2cxAUxWDWimJvw5tB56D41Lk1keK3LeY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=URn75nSC/5cJcxRzqWCubCrsZPUXg+sQT5quwWqRXU9XoCocneYRWaQXa+HrxUI/9
+	 4/VyuQaMxztk7v9bKgw/f5E56QBqxmXd2th+W/m8cyde09j+WHqe3pAN4RHI5rbXlJ
+	 hJ82/sz4V1lNPDYlW4si+Se31a3cOF6t6neKxAvx5evZPi2TpmjZqUnNGJxlCT9jLn
+	 JmfHI3DkUFoZ1IwU1q6sLEdzw7RkOrFXh7GMLrCWOTSseA/rPq5+HgeAj6XLcYtnpg
+	 PX3E/Mg/wmWwfoxawleZuSrJC9vbAn9HWM8jAolAiQtap2RUqylNTu/7UH7ILLv8ZM
+	 N5DumOTsT3cZw==
 From: Mark Brown <broonie@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Banajit Goswami <bgoswami@quicinc.com>, neil.armstrong@linaro.org,
-	linux-arm-msm@vger.kernel.org, krzysztof.kozlowski@linaro.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Subject: Re: [PATCH v3 1/3] ASoC: codecs: lpass-macro: add helpers to get
- codec version
-Message-ID: <ZmoCl16mACdJU5Qt@finisterre.sirena.org.uk>
-References: <20240612-lpass-codec-v25-v1-0-9f40611a1370@linaro.org>
- <20240612-lpass-codec-v25-v1-1-9f40611a1370@linaro.org>
- <jowqhnspiai4ydp7m7mn3p654kufg4ufbm2iexjg5dqbcxqatu@jfex2rnes5vu>
+To: Lars-Peter Clausen <lars@metafoo.de>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Peter Ujfalusi <peter.ujfalusi@gmail.com>, Jai Luthra <j-luthra@ti.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ alsa-devel@alsa-project.org, Devarsh Thakkar <devarsht@ti.com>, 
+ Vignesh Raghavendra <vigneshr@ti.com>, 
+ Jayesh Choudhary <j-choudhary@ti.com>
+In-Reply-To: <20240610-asoc_next-v2-0-b52aaf5d67c4@ti.com>
+References: <20240610-asoc_next-v2-0-b52aaf5d67c4@ti.com>
+Subject: Re: [PATCH v2 0/2] Fixes for McASP and dmaengine_pcm
+Message-Id: <171822366136.240528.8303514508385610793.b4-ty@kernel.org>
+Date: Wed, 12 Jun 2024 21:21:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Xapvb1KMCPCdZk/7"
-Content-Disposition: inline
-In-Reply-To: <jowqhnspiai4ydp7m7mn3p654kufg4ufbm2iexjg5dqbcxqatu@jfex2rnes5vu>
-X-Cookie: Your love life will be... interesting.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev-4c370
 
+On Mon, 10 Jun 2024 16:25:59 +0530, Jai Luthra wrote:
+> This series fixes two patches:
+> 
+> 1. Fix the dmaengine API usage by calling dmaengine_synchronize() after
+>    dmaengine_terminate_async() when xrun events occur in application
+> 2. Use the McASP AFIFO property from DT to refine the period size,
+>    instead of hardcoding minimum to 64 samples
+> 
+> [...]
 
---Xapvb1KMCPCdZk/7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Wed, Jun 12, 2024 at 09:15:21PM +0300, Dmitry Baryshkov wrote:
-> On Wed, Jun 12, 2024 at 05:57:21PM +0100, Srinivas Kandagatla wrote:
-> > LPASS Digital codec have changes in register layout across multiple
-> > versions. Add a proper way read the codec version allowint all the lpass
-> > macro drivers (tx, rx, wsa, va) to configure the registers correctly.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Please delete unneeded context from mails when replying.  Doing this
-makes it much easier to find your reply in the message, helping ensure
-it won't be missed by people scrolling through the irrelevant quoted
-material.
+Thanks!
 
---Xapvb1KMCPCdZk/7
-Content-Type: application/pgp-signature; name="signature.asc"
+[1/2] ALSA: dmaengine: Synchronize dma channel in prepare()
+      (no commit info)
+[2/2] ASoC: ti: davinci-mcasp: Set min period size using FIFO config
+      commit: c5dcf8ab10606e76c1d8a0ec77f27d84a392e874
 
------BEGIN PGP SIGNATURE-----
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZqApQACgkQJNaLcl1U
-h9CpnAf/Sl3IB3d6N7vAnrXggB6qM/9ur6uBFSna4TVicmPaBDqdKWmW70JbgFiQ
-UXqpmmTwqtSi5kYlBBJlCzvWO2hftIyp2uLokrWDU34hjb7QuKnBGRTK7ULPabd1
-ZtzQ9NlPXFeV1bWI2UfJz/x1glSSUzEeQOodpH0JdBKkUf7GFNgfCGEiXJ32qm55
-FNRQkSrg4ZjVZIx0uvkuERG+kOVobl5qxZTrL+7qnR+KBf45avv4x4ygdLtTtt/C
-q84Ij7bm+7qtzH+c9YSIIhE3B48iV2caBc7sGLh8va671JUsRdVNaL8x/VglZvEr
-QZ7FtzG4tzNzIe93tzJBOvk+RffeMA==
-=d1jY
------END PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---Xapvb1KMCPCdZk/7--
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
