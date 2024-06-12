@@ -1,89 +1,173 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B225417F4F8;
-	Wed, 12 Jun 2024 14:57:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1802B17E908;
+	Wed, 12 Jun 2024 14:59:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718204256; cv=none; b=Hnoi4PEUMijmodxEstz0HwyAGS7CwfXLtmhe+1kJsLQbcT6KVQCb0vd2LW3RnGbasdJMCMSQ5hEhwZVlh7s3zFjEn+4FxK980vAu8kQRO3o2qJlXYXQuS1MPp856cv6HdL3KU2LLEYyCxz889KQnoTUsHKg+vE14RivZJ6On6jk=
+	t=1718204373; cv=none; b=niP0VtLIeN6n/Xg8JJ3Czfz+KBHNhAjNzW5JPyAw69YbIt2txzalaMY4I7JHCdk+9RcDr7rSRXEDIxsZvdBrD+ZltyX410keAQeG777fUzjPgbqah+6qLfsJmkD5OWn5HHJVdu9e2Y1TN3mGtFHQNXlsY1JUCDpDpFpFffkPNzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718204256; c=relaxed/simple;
-	bh=Syu7BB0zsaZPs6cikFGcro90qjIg1ejbMOeCL8FHf6M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QNZ1lDzhATd/QXDJdscvJtZHnUIgsTR7OtBlTZUVbWWB1Z6yFpPGrunHD8wHwVFLD+tYzuuhiBa4nKhBMwSvTaPzekddKjMHaGGiFY7fTkHb8ib2DF5ETDtFafyz+B/zwqdLqH5gJtC6AtpG/DHo33I8EGHSqHbZB2aXMLjpVIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bFep9gm7; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1718204373; c=relaxed/simple;
+	bh=I/RhYDzf/30awGk8qX49GxRawz1i67PHYIeoDU9q/pA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WZvkG+VNLMbrE3dgHOeAw1dpxyVNE0INH/sE0pkjKsQGCdQ0WUVAX9/UdDBB2PJw6v1w9iKtxu0G6iQ4UddMd/I/lQGGtuluKbXcpc9qPw4kpE6SPX5Oz3yDNpLJU4ZXIwLUAqqzsL8JWgteogY/40wTF2nxbqEKEy1ppnSeYC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GPp7RNFy; arc=none smtp.client-ip=209.85.222.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bFep9gm7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718204256; x=1749740256;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=Syu7BB0zsaZPs6cikFGcro90qjIg1ejbMOeCL8FHf6M=;
-  b=bFep9gm7mBvmAb1WcwDrRaC+GjrQ+DWgW7AJwfqAkTBp1BZFyM2X1RHz
-   1tiFiGbmvHI1j07/18WoKxgq3qrv83iBSrvOj/B2nU7T/SI9ozLZz1Sa+
-   V2/GBcLVhXAfyr2OMLdxS0TQm9xfTjvDUeS3g70hqcAjjx9TuhcXNOdnU
-   HdAH6Zzds9+9gy2xqwjxUrT5wSJapQvsf1YCIP2c6T4PI06Ct3q6Ti4uk
-   8ZmFYZ7A2yM1sD588OtVmDCmtDXDsDxPawOnOOzyGW/B1TYA4ptIU7lYh
-   /S9qlgeQbRVklRBMAnjzEBH7BcmMkqSK8Mt0IH1i9yCLWrRyuYyZz3GDn
-   g==;
-X-CSE-ConnectionGUID: dZRmq3roSlKuvms0CF8hTg==
-X-CSE-MsgGUID: j2W+0gGzSm28z8nldDEwrw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="18798689"
-X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; 
-   d="scan'208";a="18798689"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 07:57:34 -0700
-X-CSE-ConnectionGUID: ZXmtThsIQQ6tImepGZ/AOw==
-X-CSE-MsgGUID: /g+wx0HGThGiYikLxyvHkA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; 
-   d="scan'208";a="39927202"
-Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.53]) ([10.94.0.53])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 07:57:29 -0700
-Message-ID: <d5c6fff6-68ab-4248-814b-41b77d7105c8@linux.intel.com>
-Date: Wed, 12 Jun 2024 16:57:26 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GPp7RNFy"
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-797fb0b4832so23031185a.0;
+        Wed, 12 Jun 2024 07:59:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718204371; x=1718809171; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=r7pnIh8CCgoUZgqnSf6nIhLg5VDGVcPLcOm4WGfQJrQ=;
+        b=GPp7RNFyEbd8m7R5ORIO795gPgpicOY6JIdsIsI8NTqrNlqCLdBsfhNigoUc9H7tUs
+         gWCcL/fxng21y+kd9LDeihea+UhyWDjp+SuKaShIxnGVMh9nlLRoBiAEoKHeYizmwq5V
+         UqdOw7o2+fdGcuJoj4+xX4NLfaVbJOsS9nzYQthbxSHH+WcaEvgrQkH1TdyxOyc2zRcl
+         wDcalQ0CqARJVU9a+cKkN3ObNzQ0+bShzda9upU+0ESSgSX1kk6nPNVnASVPKXZFzqc/
+         04g0u+EUF2PE5FXL02Suf68a37ss6tIZes6T0/sjJK/0NNrOuz0OZnMcqdlNvZNSeMHG
+         26wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718204371; x=1718809171;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=r7pnIh8CCgoUZgqnSf6nIhLg5VDGVcPLcOm4WGfQJrQ=;
+        b=rkwhDnZKiez6pvamnu2/a+r/ylw17RHB3A4fBrG2kM2+BJuOuOhCSfQ9BVVIKNDzhK
+         Vcjm4LcfNv2znahtylsHuN9dL5pqXML0AFQxrotJMIBV1zFozcBlBAjoNb9hQA2NglDd
+         KXhffHMnTrDd37U+hyJg7mkYMssUnqlh/exX2XQHC+MTwozuaCRSFdNDLy/Fuu2NTo0f
+         CxT1NmtwrPj9UtVUEYmiGh+9S3vOi9VEO9eIBgkgOHVOzwHAGyP59VE90modZua8r9re
+         ILC5AWIyoJs64ukiTZWYBG5ZssUPnJ0YXC+feBxtVD/mUL/aXg+RVlq8td7OEQIYa5y+
+         Td6g==
+X-Forwarded-Encrypted: i=1; AJvYcCVdWTue07FjcJYZQeRZvCqGoZraxALoTvdworm9ioErxOJjKxlfA+3CV3UX4f5v4Dgod14z7vHYGfAutGCtPKzJJGjS+N9NBJbjAGEa5Db/JaJbJaCM+j5yhX6W275pbHbR682Q/e5E4qkhvVdRrY79DhepbfV99gKHLrIAZbKQYQif9sVw
+X-Gm-Message-State: AOJu0YwqKd3g6FoXOGXeUjEr8HDCRHWzd6wmWSR0Z5+xmIyAHFaCOInu
+	NQxZ8laUDUpr/Tu48mN181zmG/s59WmkiaOiPUJNvJYsmI8gatGk
+X-Google-Smtp-Source: AGHT+IEzBD02R0RYQC2Qs1ckK+wDy9Iol4jNBX/wfyFXYm5GbCm+JL+8uf/UJjk2wOPVhPpisc5hjA==
+X-Received: by 2002:a05:620a:258a:b0:795:5a93:5b86 with SMTP id af79cd13be357-797f600740bmr217734585a.15.1718204370889;
+        Wed, 12 Jun 2024 07:59:30 -0700 (PDT)
+Received: from sheun-Legion-5-15IAH7H.phub.net.cable.rogers.com ([2607:fea8:bad7:5400:f2b7:e8f6:98dd:a423])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7955ad3b9b5sm366409385a.85.2024.06.12.07.59.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Jun 2024 07:59:30 -0700 (PDT)
+From: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
+To: robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>,
+	skhan@linuxfoundation.org,
+	javier.carrasco.cruz@gmail.com,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] dt-bindings: sound: Convert max98088 to dtschema
+Date: Wed, 12 Jun 2024 10:59:01 -0400
+Message-ID: <20240612145903.497758-1-abdulrasaqolawani@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v23 17/32] ALSA: usb-audio: Do not allow USB offload path
- if PCM device is in use
-Content-Language: en-US
-To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
- Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, tiwai@suse.com,
- robh@kernel.org, gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
- alsa-devel@alsa-project.org
-References: <20240610235808.22173-1-quic_wcheng@quicinc.com>
- <20240610235808.22173-18-quic_wcheng@quicinc.com>
-From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <20240610235808.22173-18-quic_wcheng@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 6/11/2024 1:57 AM, Wesley Cheng wrote:
-> Add proper checks and updates to the USB substream once receiving a USB QMI
-> stream enable request.  If the substream is already in use from the non
-> offload path, reject the stream enable request.  In addition, update the
-> USB substream opened parameter when enabling the offload path, so the
-> non offload path can be blocked.
-> 
-> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
-> ---
->   sound/usb/qcom/qc_audio_offload.c | 15 ++++++++++++++-
->   1 file changed, 14 insertions(+), 1 deletion(-)
+Convert the max98088 audio codec txt bindings to DT schema.
 
-Patch title is missing qcom part and it clearly touches QCOM code.
-ALSA: usb-audio: qcom:
+Signed-off-by: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
+---
+Validated with dtschema and tested against samsung/exynos5800-peach-pi.dts.
+
+ .../bindings/sound/maxim,max98088.txt         | 23 ---------
+ .../bindings/sound/maxim,max98088.yaml        | 47 +++++++++++++++++++
+ 2 files changed, 47 insertions(+), 23 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/maxim,max98088.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/maxim,max98088.yaml
+
+diff --git a/Documentation/devicetree/bindings/sound/maxim,max98088.txt b/Documentation/devicetree/bindings/sound/maxim,max98088.txt
+deleted file mode 100644
+index da764d913319..000000000000
+--- a/Documentation/devicetree/bindings/sound/maxim,max98088.txt
++++ /dev/null
+@@ -1,23 +0,0 @@
+-MAX98088 audio CODEC
+-
+-This device supports I2C only.
+-
+-Required properties:
+-
+-- compatible: "maxim,max98088" or "maxim,max98089".
+-- reg: The I2C address of the device.
+-
+-Optional properties:
+-
+-- clocks: the clock provider of MCLK, see ../clock/clock-bindings.txt section
+-  "consumer" for more information.
+-- clock-names: must be set to "mclk"
+-
+-Example:
+-
+-max98089: codec@10 {
+-	compatible = "maxim,max98089";
+-	reg = <0x10>;
+-	clocks = <&clks IMX6QDL_CLK_CKO2>;
+-	clock-names = "mclk";
+-};
+diff --git a/Documentation/devicetree/bindings/sound/maxim,max98088.yaml b/Documentation/devicetree/bindings/sound/maxim,max98088.yaml
+new file mode 100644
+index 000000000000..8800075f7f97
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/maxim,max98088.yaml
+@@ -0,0 +1,47 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/maxim,max98088.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: MAX98088 audio CODEC
++
++maintainers:
++  - Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
++
++properties:
++  compatible:
++    enum:
++      - maxim,max98088
++      - maxim,max98091
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: master clock
++
++  clock-names:
++    items:
++      - const: mclk
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        audio-codec@10 {
++            compatible = "maxim,max98089";
++            reg = <0x10>;
++            clocks = <&clks 0>;
++            clock-names = "mclk";
++        };
++    };
+-- 
+2.43.0
 
