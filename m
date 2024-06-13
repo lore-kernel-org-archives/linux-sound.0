@@ -1,188 +1,164 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FF63748E;
-	Thu, 13 Jun 2024 03:26:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3601F12EBD6
+	for <linux-sound@vger.kernel.org>; Thu, 13 Jun 2024 05:58:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718249212; cv=none; b=jVjX04mipgnyUw3Yg2MbBt1TdXpbTuqKPgzNmMqhNHv3n2uEzmED1ILsqR5VKncvVJf+6xdcc9Vuh+J9Dz4VUpdrs8GJ6zo4vUOcEikUjdtDvPIpYnH7eU3VvWYSpnyzqOksLNKjU0Yb2D3dvHk6fwhO1LvLE5Juo5Cia7J8ifQ=
+	t=1718258302; cv=none; b=bAZ6HJEE6kA5pkbzpyGlKnaEVAcKXUSPqaYNfU6WdXYUXq7jKL1lb3PY17kBiv3JcD/1myTJmECVXua6u9Vc/VcFak86pWWU11X9KSYyvk948I13BC+v6PkUnBT28FZeIiC5+Wpr8bWHtH6OwP7tYk9mC2++cktSMcT31qqIgxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718249212; c=relaxed/simple;
-	bh=Ci/6KzgUEyT4IcUqdvbSzPDG4P3cJd9nDSTz7u6vAGE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=PupFgIUND4qBO6vUbTtCgFrPA1irue5maS2xVwQ6bNH+INONdULNDkwYcPIQIWi6bji5G0FzeXNWi2kxru141d9N2g+GsM83848o9/rKA7NEuKd06F9FzUuGTta6S8Upk2vh5czLffcoC1yK59hQGbC89k1eaZI/eB3hpe4rJvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Lkq7CXMW; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1718258302; c=relaxed/simple;
+	bh=jA+p+c2oxMuJwrkeiL5Elamxl7w5DxZPj3FunEj/30I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BXL2gXvYcflv8Q+5DeTzeCkXqsZcwda9sh6efsAZRmvGkF0QZvWo0K31j1ZkuqiH+FIxcvsuRIWaWFdO+Wg6aeOk70xpjay4i4ZUTUlf++mCTvEJY4JR/DDbMhrxpX6QZbtsFcgyda66eXMTwjTHR16QVVfSEEbgAXYb5PO3bUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UazqrjMd; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Lkq7CXMW"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45D22sCA004228;
-	Thu, 13 Jun 2024 03:26:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=yc5eWxdqnW699o6z6p1XlX
-	XM745raYjvb+nBTtzQq0o=; b=Lkq7CXMWltg0UF1UrfbUH4GooD3eEsJOuQoMov
-	z3CfGyrrFecsJ++ymIg5odPn5VimB9gYW/yGq5VjYNUadJG3IEV/tS77cOehBJRe
-	brqF1QJ5c+nFM/d5BOWHPsaL/vSGcHRabI2bv5VfbvSg/UbZjJ/aBZcFVEESY9xf
-	Brer1DjD4la05yylGSu67ssafeh1B2dQX2SvP1yFLlJNLZVMV8xNc7Q3yFjmbiP0
-	J3F2rckDzeR4VZf5PW3E3VfSnQjCPYpHCj6ZKyTsz6NPUTtcvci4eekTpv2yr1Wz
-	yybJz643lCZxtyp9HKU4h0e1qim59Ykp3DLjWMo480QG7IJA==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yqqn304bh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 13 Jun 2024 03:26:29 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45D3QSFF019533
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 13 Jun 2024 03:26:28 GMT
-Received: from [169.254.0.1] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 12 Jun
- 2024 20:26:27 -0700
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
-Date: Wed, 12 Jun 2024 20:26:26 -0700
-Subject: [PATCH] ASoC: amd: add missing MODULE_DESCRIPTION() macros
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UazqrjMd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718258301; x=1749794301;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=jA+p+c2oxMuJwrkeiL5Elamxl7w5DxZPj3FunEj/30I=;
+  b=UazqrjMdhzGeboNamrpaSUvJ1NwNmhZ9Vecp91aimATK8OktbA83gWwB
+   qgUA5pIC9Dn7804x9bhn1/zv1b9geinAd+yWncNOwJy9SP6Ldu3AqljcJ
+   kpgMzl7n6VE7SPgDFok9wAmMAsfb1h2EveH444rkCTSSrSCZbHuf7PkPQ
+   t70+mZnh95PuShISLU6Eo4JZvh3wOLbGWBeYdcxG5SN4BOJQ37VTcwuH6
+   ppoXIhqElSG9uWATejx80auCmTe59mzh8qNe2yHTYseFWasY5OsufP8u8
+   vlLePEd5hTZFHHSZYKj07DQXbsYI2SnUii2JarBPtHQgZVht8M0RfghA4
+   g==;
+X-CSE-ConnectionGUID: cGyKe3IfTZ6aeKjnsgcHig==
+X-CSE-MsgGUID: xNjwdtTCRkC28URm9VZqTA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="15209747"
+X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
+   d="scan'208";a="15209747"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 22:58:21 -0700
+X-CSE-ConnectionGUID: Zcd9rqi0SdK20b0RSg7x4w==
+X-CSE-MsgGUID: nYuz97NVQGavObsJQDCE8w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
+   d="scan'208";a="77480061"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO [10.245.246.108]) ([10.245.246.108])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 22:58:18 -0700
+Message-ID: <507e9f6a-7113-4781-8a6d-27e4b87dbe24@linux.intel.com>
+Date: Thu, 13 Jun 2024 07:58:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20240612-md-sound-soc-amd-v1-1-ad1de0409c11@quicinc.com>
-X-B4-Tracking: v=1; b=H4sIAOJmamYC/x3MQQqDQAyF4atI1g3MTEWhVyldjDNpDdRYkloE8
- e7Gbh58i/dvYKRMBrdmA6UfG8/iiJcGypjlRcjVDSmkNnQx4VTR5kXOLZhdte9i7AMFukbw20f
- pyes/eX+4h2yEg2Yp4xl6sywrTtm+pLDvB8p14q2BAAAA
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kernel-janitors@vger.kernel.org>,
-        Jeff Johnson <quic_jjohnson@quicinc.com>
-X-Mailer: b4 0.13.0
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: jUJ8Od1hB6UnDkUhtqAF6F901r_euKbk
-X-Proofpoint-ORIG-GUID: jUJ8Od1hB6UnDkUhtqAF6F901r_euKbk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-12_12,2024-06-12_02,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
- mlxlogscore=999 impostorscore=0 bulkscore=0 adultscore=0 phishscore=0
- priorityscore=1501 clxscore=1015 spamscore=0 malwarescore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406130021
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] ASoC: topology: Fix references to freed memory
+To: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>, Mark Brown <broonie@kernel.org>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ Jason Montleon <jmontleo@redhat.com>
+References: <20240603102818.36165-1-amadeuszx.slawinski@linux.intel.com>
+ <20240603102818.36165-2-amadeuszx.slawinski@linux.intel.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <20240603102818.36165-2-amadeuszx.slawinski@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-With ARCH=x86, make allmodconfig && make W=1 C=1 reports:
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/amd/renoir/snd-acp3x-rn.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/amd/yc/snd-soc-acp6x-mach.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/amd/acp/snd-acp-i2s.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/amd/acp/snd-acp-pdm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/amd/acp/snd-acp-legacy-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/amd/acp/snd-acp-pci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/amd/ps/snd-soc-ps-mach.o
 
-Add the missing invocations of the MODULE_DESCRIPTION() macro.
 
-Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
----
-Corrections to these descriptions are welcomed. I'm not an expert in
-this code so in most cases I've taken these descriptions directly from
-code comments, Kconfig descriptions, or git logs.  History has shown
-that in some cases these are originally wrong due to cut-n-paste
-errors, and in other cases the drivers have evolved such that the
-original information is no longer accurate.
----
- sound/soc/amd/acp/acp-i2s.c           | 1 +
- sound/soc/amd/acp/acp-legacy-common.c | 1 +
- sound/soc/amd/acp/acp-pci.c           | 1 +
- sound/soc/amd/acp/acp-pdm.c           | 1 +
- sound/soc/amd/ps/ps-mach.c            | 1 +
- sound/soc/amd/renoir/acp3x-rn.c       | 1 +
- sound/soc/amd/yc/acp6x-mach.c         | 1 +
- 7 files changed, 7 insertions(+)
+On 6/3/24 12:28, Amadeusz Sławiński wrote:
+> Most users after parsing a topology file, release memory used by it, so
+> having pointer references directly into topology file contents is wrong.
+> Use devm_kmemdup(), to allocate memory as needed.
+> 
+> Reported-by: Jason Montleon <jmontleo@redhat.com>
+> Link: https://github.com/thesofproject/avs-topology-xml/issues/22#issuecomment-2127892605
+> Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
+> Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+> ---
 
-diff --git a/sound/soc/amd/acp/acp-i2s.c b/sound/soc/amd/acp/acp-i2s.c
-index 60cbc881be6e..0bc8617e922a 100644
---- a/sound/soc/amd/acp/acp-i2s.c
-+++ b/sound/soc/amd/acp/acp-i2s.c
-@@ -616,5 +616,6 @@ const struct snd_soc_dai_ops asoc_acp_cpu_dai_ops = {
- };
- EXPORT_SYMBOL_NS_GPL(asoc_acp_cpu_dai_ops, SND_SOC_ACP_COMMON);
- 
-+MODULE_DESCRIPTION("AMD ACP Audio I2S controller");
- MODULE_LICENSE("Dual BSD/GPL");
- MODULE_ALIAS(DRV_NAME);
-diff --git a/sound/soc/amd/acp/acp-legacy-common.c b/sound/soc/amd/acp/acp-legacy-common.c
-index 3be7c6d55a6f..4422cec81e3c 100644
---- a/sound/soc/amd/acp/acp-legacy-common.c
-+++ b/sound/soc/amd/acp/acp-legacy-common.c
-@@ -475,4 +475,5 @@ void check_acp_config(struct pci_dev *pci, struct acp_chip_info *chip)
- }
- EXPORT_SYMBOL_NS_GPL(check_acp_config, SND_SOC_ACP_COMMON);
- 
-+MODULE_DESCRIPTION("AMD ACP legacy common features");
- MODULE_LICENSE("Dual BSD/GPL");
-diff --git a/sound/soc/amd/acp/acp-pci.c b/sound/soc/amd/acp/acp-pci.c
-index ad320b29e87d..565623afd42e 100644
---- a/sound/soc/amd/acp/acp-pci.c
-+++ b/sound/soc/amd/acp/acp-pci.c
-@@ -247,6 +247,7 @@ static struct pci_driver snd_amd_acp_pci_driver = {
- };
- module_pci_driver(snd_amd_acp_pci_driver);
- 
-+MODULE_DESCRIPTION("AMD ACP common PCI support");
- MODULE_LICENSE("Dual BSD/GPL");
- MODULE_IMPORT_NS(SND_SOC_ACP_COMMON);
- MODULE_ALIAS(DRV_NAME);
-diff --git a/sound/soc/amd/acp/acp-pdm.c b/sound/soc/amd/acp/acp-pdm.c
-index f754bf79b5e3..bb79269c2fc1 100644
---- a/sound/soc/amd/acp/acp-pdm.c
-+++ b/sound/soc/amd/acp/acp-pdm.c
-@@ -178,5 +178,6 @@ const struct snd_soc_dai_ops acp_dmic_dai_ops = {
- };
- EXPORT_SYMBOL_NS_GPL(acp_dmic_dai_ops, SND_SOC_ACP_COMMON);
- 
-+MODULE_DESCRIPTION("AMD ACP Audio PDM controller");
- MODULE_LICENSE("Dual BSD/GPL");
- MODULE_ALIAS(DRV_NAME);
-diff --git a/sound/soc/amd/ps/ps-mach.c b/sound/soc/amd/ps/ps-mach.c
-index e675b8f569eb..ff8ad036b077 100644
---- a/sound/soc/amd/ps/ps-mach.c
-+++ b/sound/soc/amd/ps/ps-mach.c
-@@ -75,5 +75,6 @@ static struct platform_driver acp63_mach_driver = {
- module_platform_driver(acp63_mach_driver);
- 
- MODULE_AUTHOR("Syed.SabaKareem@amd.com");
-+MODULE_DESCRIPTION("AMD Pink Sardine support for DMIC");
- MODULE_LICENSE("GPL v2");
- MODULE_ALIAS("platform:" DRV_NAME);
-diff --git a/sound/soc/amd/renoir/acp3x-rn.c b/sound/soc/amd/renoir/acp3x-rn.c
-index 5d979a7b77fb..3249f74a0197 100644
---- a/sound/soc/amd/renoir/acp3x-rn.c
-+++ b/sound/soc/amd/renoir/acp3x-rn.c
-@@ -72,5 +72,6 @@ static struct platform_driver acp_mach_driver = {
- module_platform_driver(acp_mach_driver);
- 
- MODULE_AUTHOR("Vijendar.Mukunda@amd.com");
-+MODULE_DESCRIPTION("AMD Renoir support for DMIC");
- MODULE_LICENSE("GPL v2");
- MODULE_ALIAS("platform:" DRV_NAME);
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 1760b5d42460..4b32517c1b7c 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -504,5 +504,6 @@ static struct platform_driver acp6x_mach_driver = {
- module_platform_driver(acp6x_mach_driver);
- 
- MODULE_AUTHOR("Vijendar.Mukunda@amd.com");
-+MODULE_DESCRIPTION("AMD Yellow Carp support for DMIC");
- MODULE_LICENSE("GPL v2");
- MODULE_ALIAS("platform:" DRV_NAME);
+This patch breaks the Intel SOF CI in spectacular ways, with the widgets
+names completely garbled with noise such as
 
----
-base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
-change-id: 20240612-md-sound-soc-amd-d761170e0e31
+host-copier.5.playbackpid.socket
+host-copier.5.playbackrt@linux.intel.com>
+dai-copier.HDA.iDisp3.playbackrun_t:s0
+host-copier.31.playback\xff`\x86\xba\x034\x89\xff\xff@N\x83\xb83\x89\xff\xff\x10\x84\xe9\x8b\xff\xff\xff\xffS\x81ی\xff\xff\xff\xff\x0f
+
+https://github.com/thesofproject/linux/pull/5057#issuecomment-2164470192
+
+I am going to revert this patchset in the SOF tree.
+
+>  sound/soc/soc-topology.c | 27 ++++++++++++++++++++++-----
+>  1 file changed, 22 insertions(+), 5 deletions(-)
+> 
+> diff --git a/sound/soc/soc-topology.c b/sound/soc/soc-topology.c
+> index 90ca37e008b32..75d9395a18ed4 100644
+> --- a/sound/soc/soc-topology.c
+> +++ b/sound/soc/soc-topology.c
+> @@ -1060,15 +1060,32 @@ static int soc_tplg_dapm_graph_elems_load(struct soc_tplg *tplg,
+>  			break;
+>  		}
+>  
+> -		route->source = elem->source;
+> -		route->sink = elem->sink;
+> +		route->source = devm_kmemdup(tplg->dev, elem->source,
+> +					     min(strlen(elem->source),
+> +						 SNDRV_CTL_ELEM_ID_NAME_MAXLEN),
+> +					     GFP_KERNEL);
+> +		route->sink = devm_kmemdup(tplg->dev, elem->sink,
+> +					   min(strlen(elem->sink), SNDRV_CTL_ELEM_ID_NAME_MAXLEN),
+> +					   GFP_KERNEL);
+> +		if (!route->source || !route->sink) {
+> +			ret = -ENOMEM;
+> +			break;
+> +		}
+>  
+>  		/* set to NULL atm for tplg users */
+>  		route->connected = NULL;
+> -		if (strnlen(elem->control, SNDRV_CTL_ELEM_ID_NAME_MAXLEN) == 0)
+> +		if (strnlen(elem->control, SNDRV_CTL_ELEM_ID_NAME_MAXLEN) == 0) {
+>  			route->control = NULL;
+> -		else
+> -			route->control = elem->control;
+> +		} else {
+> +			route->control = devm_kmemdup(tplg->dev, elem->control,
+> +						      min(strlen(elem->control),
+> +							  SNDRV_CTL_ELEM_ID_NAME_MAXLEN),
+> +						      GFP_KERNEL);
+> +			if (!route->control) {
+> +				ret = -ENOMEM;
+> +				break;
+> +			}
+> +		}
+>  
+>  		/* add route dobj to dobj_list */
+>  		route->dobj.type = SND_SOC_DOBJ_GRAPH;
+
+97ab304ecd95c0b1703ff8c8c3956dc6e2afe8e1 is the first bad commit
+commit 97ab304ecd95c0b1703ff8c8c3956dc6e2afe8e1
+Author: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+Date:   Mon Jun 3 12:28:15 2024 +0200
+
+    ASoC: topology: Fix references to freed memory
+
+    Most users after parsing a topology file, release memory used by it, so
+    having pointer references directly into topology file contents is wrong.
+    Use devm_kmemdup(), to allocate memory as needed.
+
+    Reported-by: Jason Montleon <jmontleo@redhat.com>
+    Link:
+https://github.com/thesofproject/avs-topology-xml/issues/22#issuecomment-2127892605
+    Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
+    Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+    Link:
+https://lore.kernel.org/r/20240603102818.36165-2-amadeuszx.slawinski@linux.intel.com
+    Signed-off-by: Mark Brown <broonie@kernel.org>
+
+ sound/soc/soc-topology.c | 27 ++++++++++++++++++++++-----
+ 1 file changed, 22 insertions(+), 5 deletions(-)
 
