@@ -1,76 +1,61 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from msa.smtpout.orange.fr (out-66.smtpout.orange.fr [193.252.22.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 404A9144D2C;
-	Fri, 14 Jun 2024 03:39:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED97914884C;
+	Fri, 14 Jun 2024 07:18:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.22.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718336364; cv=none; b=sypTUbocbto/BdKhb/73kGHV9R4ggcWMcUTqheJz4s6PlgCxw/EcUB9ZXvp3vP0WJnARnAGUEyTExJ63Z6bfNmC97fDTa1ZsKQFzbkxS1g+butJzcW9LJQTljISqexRN2gjm9fl4xBHeAXtLs37Rccn7rBhM9VmhjwwxNTsIs70=
+	t=1718349530; cv=none; b=DnH96pCmAYAxHxzhyQArK41VrywZrGHP+BazGpuBD0cpI1VOF+yi9re1gvNrC0zGbtG8jsI3gcz/bYA7oWya4WCXfabPhcz5jXLWfTR6/9+Qedms6wothiDJ+bHkHY//Rt6gFMjQlyPbzORHl7CA4rzQ6m+27ThJYvfaEhA1PZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718336364; c=relaxed/simple;
-	bh=GNAEDvNKlW8bZj7JdRG8bxyTRhbaj1s3OfFXcZK3Lqo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UVpsfjTKEQTHv+Oe9KmJ7Y6wTF5OSz6RI7LkfCqBtGb0fTfnqMJacX860Bur1zhhQEcjwL5Kbyz/SJHTNU3KsO1arqy4GNwDEQwRipratIg8jQLWRcrSSS9YBHn/yGFTxY8Q0mKNs/P8SE7EyBFrEVPpNgpEl2pmMVlqvOviWeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gmv7WXQt; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1718349530; c=relaxed/simple;
+	bh=6du1KfglJLoWLvTGWtPHrIfbGlhezcXOWIFkFAthN5w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=D6iFw8799MnIu0/8aWqWWlyN38C19wyc8p4AyOfrwlyiQ8IzTk5OyXoB78p3PZ5jGh2/VOZPxEvZfG/d0Je1s9dwpzWofCW9MoHRHqclhdnYdgTlEXS1NUmtYVchY6Y54/6zhPmOqYaUUMSxRyxLRxK6esRKGS2NjbOw7vLqd/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=g/xzsFh2; arc=none smtp.client-ip=193.252.22.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gmv7WXQt"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1f480624d0dso14289635ad.1;
-        Thu, 13 Jun 2024 20:39:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718336362; x=1718941162; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0wj31yPYy6tRRBSt9nJyH+0doinj9fP9C2Og2zh8SH8=;
-        b=Gmv7WXQt/NWWBcLvhx6EhVefH+Py8rHcKcX54imwfRJYE3PCtzQFuunj3I6/P9aJOj
-         Hnr83K426Cyd2Hkv5YqAtzN4j6ZCok3nj1u+dqke5kgmb1kqDxmTgtI2f52TOB7tk8xq
-         hBZdkYEpy7BqFBge8W7ThgC4xgn2+4gUWgd0/PPptYNMFsntMyOOOa9BQL6lVzBksZXC
-         cynEWGI9sqyGL/t++9gLnV4lrnrh8i05BUKMV4sMNK9ZmhkZu3TgTwLubmGxnhw3yj01
-         QiK/kZ2vnBRmjR1Wk3+LGz263iq06KR3f+0I5v9rl90IC+Dpcnxhf/dW9K2QTArKlJaf
-         kHZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718336362; x=1718941162;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0wj31yPYy6tRRBSt9nJyH+0doinj9fP9C2Og2zh8SH8=;
-        b=O6JZGBOSr4WhtDPrQ+jne8YHJBLyYjQLyezOHxcM+F/hdpFNWf95ZZB8sVTofZalXK
-         ri3gYCoVt0k0FgS3g6Shkwk2DeJaghJA9xbJdOjCA3CcSnSWr8s0wMQ1jQ/gucLI5YPp
-         afxlVIANS8f7/c8e7fy/lA8ikev+DkU/bw9Wn/EYltRldVbeyPEADGFZPxyWX4vvGeRX
-         ybcSQISGvPhT+RwIkICK8Ebn6XKEBuIwCZamb0gr98zRh+aUd5OTwiO/9JZuvrd8al9O
-         9qCBAmmA1dmSHRlDi1PADaDXNhaI0R1DO8FGfUk3OGw/7WVwrd/9rwW4kAFMCRC2q2IT
-         eU+w==
-X-Forwarded-Encrypted: i=1; AJvYcCV1EdHSuQFOi/9yztBRRgR4GNeHHhgjdNarBDZ7SJi4y+6wngqXP5ZKLVv7/PykdHpoqMhd+XnGQdWFB13BafkW0aVwGW1x9yGzo97nQGpqVtwghq7OA0lfy8R+jJkibJZyR/3jGxRUZ0vlcatpsqGkd9/6y8ym5NaATsHagLcNAqEnTyz2
-X-Gm-Message-State: AOJu0YwO5Cw778uRw96pEAKdr2+NOfH8QOzrzCNqACMzt0wvI7C2WbCX
-	TZAvkZeiXXID/KfqxJ3R32RJcv1AgEDQjYDzLQ9nFpemC2QAtoy2
-X-Google-Smtp-Source: AGHT+IGEvO9MbSiy6fnAEbwKDUg7/14/AfofLJlLjTYA/ri1ZNObseGveHaMKbvtAX0iB9gF0pM02w==
-X-Received: by 2002:a17:903:1250:b0:1f6:9181:47ac with SMTP id d9443c01a7336-1f8625c0427mr22643805ad.1.1718336362331;
-        Thu, 13 Jun 2024 20:39:22 -0700 (PDT)
-Received: from fedora.one.one.one.one ([2405:201:6013:c0b2:ea4b:30e0:4e3a:ab56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855f002b0sm21824085ad.192.2024.06.13.20.39.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jun 2024 20:39:22 -0700 (PDT)
-From: Animesh Agarwal <animeshagarwal28@gmail.com>
-To: 
-Cc: Animesh Agarwal <animeshagarwal28@gmail.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="g/xzsFh2"
+Received: from fedora.home ([86.243.222.230])
+	by smtp.orange.fr with ESMTPA
+	id HrXUsAUflNbytHrXUsgDhP; Thu, 13 Jun 2024 22:59:24 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1718312364;
+	bh=vkHkCaWtDIfpH8ijSazjk6Jfhs+hqJsnwjns3+SaeCg=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=g/xzsFh2MkamRdsQKDv53s+bAw6tPvjMHfmSFNRtrNOApkoOHKjv8Wc8/TdKeyfHC
+	 ipqv5H/DVpYWUGNABFHxxry+9ml49vL45+z9DUtryf5awGJe4IKtn91XOCKo/UcemF
+	 LWS2tvL39XMnecXlmQK76b+veHt/RUwr0gTF5p+XivJpqZkj0eHJgUnQ/9fSDXHckf
+	 uThafhO/uCu9jHd4W8CVwelQm+aXU/6hIARUdCqqg7nfteQd2ljfqKlUEW0D1JELkH
+	 X9SbpLIpyg4rCTrU/jJSvugjpRUz1PYc7WmD47W0TZjy0vTSrA+Bk0IZ7D6tVYxwxl
+	 kzn6hRUxIzbzg==
+X-ME-Helo: fedora.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Thu, 13 Jun 2024 22:59:24 +0200
+X-ME-IP: 86.243.222.230
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
 	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Animesh Agarwal <animeshagarwal28@nxp.com>
-Subject: [PATCH 2/2] ASoC: dt-bindings: realtek,rt5631: Convert to dtschema
-Date: Fri, 14 Jun 2024 09:08:07 +0530
-Message-ID: <20240614033812.51312-3-animeshagarwal28@gmail.com>
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	sound-open-firmware@alsa-project.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH] ASoC: SOF: mediatek: Constify struct mtk_adsp_ipc_ops
+Date: Thu, 13 Jun 2024 22:59:09 +0200
+Message-ID: <a45d6b2b5ec040ea0fc78fca662c2dca3f13a49f.1718312321.git.christophe.jaillet@wanadoo.fr>
 X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240614033812.51312-1-animeshagarwal28@gmail.com>
-References: <20240614033812.51312-1-animeshagarwal28@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -79,140 +64,71 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert the ALC5631/RT5631 audio CODEC bindings to DT Schema.
+'struct mtk_adsp_ipc_ops' is not modified in these drivers.
 
-Signed-off-by: Animesh Agarwal <animeshagarwal28@nxp.com>
-Cc: Daniel Baluta <daniel.baluta@nxp.com>
+Constifying this structure moves some data to a read-only section, so
+increase overall security.
+
+In order to do it, "struct mtk_adsp_ipc" also needs to be adjusted to this
+new const qualifier.
+
+On a x86_64, with allmodconfig:
+Before:
+======
+   text	   data	    bss	    dec	    hex	filename
+  15533	   2383	      0	  17916	   45fc	sound/soc/sof/mediatek/mt8195/mt8195.o
+
+After:
+=====
+   text	   data	    bss	    dec	    hex	filename
+  15557	   2367	      0	  17924	   4604	sound/soc/sof/mediatek/mt8195/mt8195.o
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
- .../bindings/sound/realtek,rt5631.yaml        | 63 +++++++++++++++++++
- .../devicetree/bindings/sound/rt5631.txt      | 48 --------------
- 2 files changed, 63 insertions(+), 48 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/sound/realtek,rt5631.yaml
- delete mode 100644 Documentation/devicetree/bindings/sound/rt5631.txt
+ include/linux/firmware/mediatek/mtk-adsp-ipc.h | 2 +-
+ sound/soc/sof/mediatek/mt8186/mt8186.c         | 2 +-
+ sound/soc/sof/mediatek/mt8195/mt8195.c         | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/sound/realtek,rt5631.yaml b/Documentation/devicetree/bindings/sound/realtek,rt5631.yaml
-new file mode 100644
-index 000000000000..05b83d907b38
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/realtek,rt5631.yaml
-@@ -0,0 +1,63 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/realtek,rt5631.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: ALC5631/RT5631 audio CODEC
-+
-+description: |
-+  This device supports I2C only.
-+
-+  Pins on the device (for linking into audio routes):
-+      * SPK_OUT_R_P
-+      * SPK_OUT_R_N
-+      * SPK_OUT_L_P
-+      * SPK_OUT_L_N
-+      * HP_OUT_L
-+      * HP_OUT_R
-+      * AUX_OUT2_LP
-+      * AUX_OUT2_RN
-+      * AUX_OUT1_LP
-+      * AUX_OUT1_RN
-+      * AUX_IN_L_JD
-+      * AUX_IN_R_JD
-+      * MONO_IN_P
-+      * MONO_IN_N
-+      * MIC1_P
-+      * MIC1_N
-+      * MIC2_P
-+      * MIC2_N
-+      * MONO_OUT_P
-+      * MONO_OUT_N
-+      * MICBIAS1
-+      * MICBIAS2
-+
-+maintainers:
-+  - Animesh Agarwal <animeshagarwal28@gmail.com>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - realtek,alc5631
-+      - realtek,rt5631
-+
-+  reg:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        codec@1a {
-+            compatible = "realtek,alc5631";
-+            reg = <0x1a>;
-+        };
-+    };
-diff --git a/Documentation/devicetree/bindings/sound/rt5631.txt b/Documentation/devicetree/bindings/sound/rt5631.txt
-deleted file mode 100644
-index 56bc85232c49..000000000000
---- a/Documentation/devicetree/bindings/sound/rt5631.txt
-+++ /dev/null
-@@ -1,48 +0,0 @@
--ALC5631/RT5631 audio CODEC
--
--This device supports I2C only.
--
--Required properties:
--
--  - compatible : "realtek,alc5631" or "realtek,rt5631"
--
--  - reg : the I2C address of the device.
--
--Pins on the device (for linking into audio routes):
--
--  * SPK_OUT_R_P
--  * SPK_OUT_R_N
--  * SPK_OUT_L_P
--  * SPK_OUT_L_N
--  * HP_OUT_L
--  * HP_OUT_R
--  * AUX_OUT2_LP
--  * AUX_OUT2_RN
--  * AUX_OUT1_LP
--  * AUX_OUT1_RN
--  * AUX_IN_L_JD
--  * AUX_IN_R_JD
--  * MONO_IN_P
--  * MONO_IN_N
--  * MIC1_P
--  * MIC1_N
--  * MIC2_P
--  * MIC2_N
--  * MONO_OUT_P
--  * MONO_OUT_N
--  * MICBIAS1
--  * MICBIAS2
--
--Example:
--
--alc5631: audio-codec@1a {
--	compatible = "realtek,alc5631";
--	reg = <0x1a>;
--};
--
--or
--
--rt5631: audio-codec@1a {
--	compatible = "realtek,rt5631";
--	reg = <0x1a>;
--};
+diff --git a/include/linux/firmware/mediatek/mtk-adsp-ipc.h b/include/linux/firmware/mediatek/mtk-adsp-ipc.h
+index 5b1d16fa3f56..6e86799a7dc4 100644
+--- a/include/linux/firmware/mediatek/mtk-adsp-ipc.h
++++ b/include/linux/firmware/mediatek/mtk-adsp-ipc.h
+@@ -40,7 +40,7 @@ struct mtk_adsp_chan {
+ struct mtk_adsp_ipc {
+ 	struct mtk_adsp_chan chans[MTK_ADSP_MBOX_NUM];
+ 	struct device *dev;
+-	struct mtk_adsp_ipc_ops *ops;
++	const struct mtk_adsp_ipc_ops *ops;
+ 	void *private_data;
+ };
+ 
+diff --git a/sound/soc/sof/mediatek/mt8186/mt8186.c b/sound/soc/sof/mediatek/mt8186/mt8186.c
+index bea1b9d9ca28..74522400207e 100644
+--- a/sound/soc/sof/mediatek/mt8186/mt8186.c
++++ b/sound/soc/sof/mediatek/mt8186/mt8186.c
+@@ -82,7 +82,7 @@ static void mt8186_dsp_handle_request(struct mtk_adsp_ipc *ipc)
+ 	}
+ }
+ 
+-static struct mtk_adsp_ipc_ops dsp_ops = {
++static const struct mtk_adsp_ipc_ops dsp_ops = {
+ 	.handle_reply		= mt8186_dsp_handle_reply,
+ 	.handle_request		= mt8186_dsp_handle_request,
+ };
+diff --git a/sound/soc/sof/mediatek/mt8195/mt8195.c b/sound/soc/sof/mediatek/mt8195/mt8195.c
+index 31dc98d1b1d8..24ae1d4959be 100644
+--- a/sound/soc/sof/mediatek/mt8195/mt8195.c
++++ b/sound/soc/sof/mediatek/mt8195/mt8195.c
+@@ -82,7 +82,7 @@ static void mt8195_dsp_handle_request(struct mtk_adsp_ipc *ipc)
+ 	}
+ }
+ 
+-static struct mtk_adsp_ipc_ops dsp_ops = {
++static const struct mtk_adsp_ipc_ops dsp_ops = {
+ 	.handle_reply		= mt8195_dsp_handle_reply,
+ 	.handle_request		= mt8195_dsp_handle_request,
+ };
 -- 
 2.45.2
 
