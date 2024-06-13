@@ -1,139 +1,189 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D49A81448E8
-	for <linux-sound@vger.kernel.org>; Thu, 13 Jun 2024 12:11:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB2E61465B1
+	for <linux-sound@vger.kernel.org>; Thu, 13 Jun 2024 12:13:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718280696; cv=none; b=dTeKOrmmTwmzABFyEyvAb+exTxlDpaJ5o2knB+A55LUTxo0KywdPbG3i2TJKOac2lUNvN1/r/RSUfwkEZT+y1qpg3VwMaTWt25qnFpewYOrN1MZIlr7D18lE74fsAQEb+bkr/Yljgpl/6Jq2IeDfa4WdeVDBMiT0vqXllbzwP0Y=
+	t=1718280800; cv=none; b=CqSC9hc+oxLwWmacF2J2w9FkisFJjOUjN4vAF1bNkCARFECANExcpz7EyUTP2OZTXFn2Gm2hZFvHdz9LjCUjCHicjVfoaLXxTuQasg65Mvu1V3dW76IJtO/gzYa3uREH3o7Whv340XEO2hgL64lo4UjOGAonYW2Y9/q2Xne3NK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718280696; c=relaxed/simple;
-	bh=qFSEXZxE2LXGmX1pUbTlcOCDIAslRx8bXrnaSmrzxv8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Gdt1i/6ZMg8de1YJdeeh/nvvnV+tOmvhxgcPcuTH1CoU/WznLs8jEKC2RpsjKofj+KIYlBmQpVs9X2KFcv6dHKWY1oaGcj4ghDSKUSvxq+eqi0J9v409xl1C1vp+O9kxv1qmBC+osbR8yEd6lNj+b8N3GSn7JNRsAZaHR2IrGsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zamdUheq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Ftvk4OQV; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cmqmAnWH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Jv7niD/H; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1718280800; c=relaxed/simple;
+	bh=1yK9eI1MQbvCCxjWD8QAM9mmf5vjMBn5EqEjdIFsiv8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=QOFxvv2+iPMWYHVATIiV139bF0H+mlca5B5sEbgtEd7eRnBXzm/5OJRdlgkZcI/sE1Tc/MTOa63M/IMQiTHrPEYJOvlYwGXwJUxtpcfYfQ7K2vpEMSSj1oEtdRgLzAQj+RYL2xnmMNHkC0DtDASjYXF6YExEVWpDc/wwejs8bYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=D1csXwly; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zamdUheq";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ftvk4OQV";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cmqmAnWH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Jv7niD/H"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DE3265D2FC;
-	Thu, 13 Jun 2024 12:11:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718280693; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zlrTtloILTWCtRNcwrDEbosWHR5SPiSqExyEr3Yzz5M=;
-	b=zamdUheq/z4rdSgIKSM7UVWTcP64nS5twwehgevRdBuBlUI6ZBc6RN7lww16ahJwswVxVh
-	KWwHavNKJ2+5MG4PvXMniWCp0GMUvAjtK2Rn/iJWCje8J5NC2ZzFVukaYRfdSarge9MdYR
-	jSpmd6Kuka2UfIVjGzyngM+bDHX+Gho=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718280693;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zlrTtloILTWCtRNcwrDEbosWHR5SPiSqExyEr3Yzz5M=;
-	b=Ftvk4OQVBMK/k66PEQi8Sl/mJ0LnqsKhgJJQKZpXuGRkGeYaab6ibBxy86g/scc6A4+8qJ
-	8qaQTCN86/PDiNCg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=cmqmAnWH;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="Jv7niD/H"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718280692; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zlrTtloILTWCtRNcwrDEbosWHR5SPiSqExyEr3Yzz5M=;
-	b=cmqmAnWHji98gIefFMvX5KKVj0t2QAnJAgOi8URZonR1jjepaKsfH9/Hk6FtBkrCSd/ib2
-	FiJhhtH6N3PEze9fMr4v1d6X5j3UsrG4NBwig1D1/jgd1fWnO+SDTSX8qUjWmUFrRWPeLl
-	femfpEml6Dqc5afB7Z1fkWeRGVqrReU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718280692;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zlrTtloILTWCtRNcwrDEbosWHR5SPiSqExyEr3Yzz5M=;
-	b=Jv7niD/HJnuzTSSQTlh8fiedRtwi1qclB9vokdba/1TPwpLXiBNjKdZJemnCBYli/Gh8f4
-	Xv9VJ/564dXHqoDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A8A6113A7F;
-	Thu, 13 Jun 2024 12:11:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gkfWJ/ThambWIgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 13 Jun 2024 12:11:32 +0000
-Date: Thu, 13 Jun 2024 14:11:56 +0200
-Message-ID: <87ed91nisz.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com,
-	cezary.rojewski@intel.com,
-	broonie@kernel.org
-Subject: Re: [PATCH] ALSA/hda: intel-dsp-config: Document AVS as dsp_driver option
-In-Reply-To: <20240607060021.11503-1-peter.ujfalusi@linux.intel.com>
-References: <20240607060021.11503-1-peter.ujfalusi@linux.intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="D1csXwly"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a6ef8e62935so129262366b.3
+        for <linux-sound@vger.kernel.org>; Thu, 13 Jun 2024 05:13:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718280797; x=1718885597; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pXbNy8kHfEp0b79ontwosVP2eSf4cO0jv7KHuOVa8LI=;
+        b=D1csXwly7pP8tkXQOw4mcFUV3gYh5cbUb62Dl1TlKMrD7LBgKbcDcoWEDHk7Wsg2I5
+         Syco5/IFU3uTCwVZh0pIGwjjpXZn0kTNf5q2Sm/8aIiPVV3h6b/0rRPsxCdVZKWL3zE5
+         KAoiNuJjRtoYqkiXrzyxohOKqkUW9jyQzpcUn8Ni2jX3v3g7g6ySZdFWXswsMgE87RK5
+         a36egJh7mvmE4UHsXLbVYIa/0QhI0Vf0YCve8AQKiCydGJAxIQRg30ItmkdDI2tKdQ8b
+         dRLKZ/S8u2LVno6S+kFzMqIQJlcGpW85zqvW4jpleGF0OTd7LqtQPGT+j1s0HWsppuWe
+         jhSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718280797; x=1718885597;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pXbNy8kHfEp0b79ontwosVP2eSf4cO0jv7KHuOVa8LI=;
+        b=HeMuf9l1/K+BRzdlVfH0i+Qg6CK89v5VgXusGEBPYKbcQy03BDMCDKub+sP0IjS4mT
+         SZJPO2pFtrYXzZc+QXtLvDHEv5D0hEbv1DnotZt61iYwPjKqdLCtmUkGR+ANMeSQAcnF
+         SV2+8N6uAwAwZH4LDfHlEWeBP7dDPP3UekAdPLFom46OY3MQ8BGlIoLRSZuAoBdS6SH8
+         yXTaAYrx5h2zWhx+d87YgGm0TNNCkZ9QEnNMSc8wymXTRERRk0K9Z8qr7bN+cfLvugWo
+         /jnZbOPRV6RnCrJjnv/VP3PZmvL7dgOWvXUv1TsWqgxZ5U0b/EerECDR0gokelcR+Qmz
+         Luxg==
+X-Forwarded-Encrypted: i=1; AJvYcCVmIOlBndQ/mPVGfrVu0hf9dX+5a+GlYRxV797+hfqBmmI2ruLLzdeyyMpZp9+T9VdO+rJwJX9eNXsMhbheJqif0XfLpEF6tvmbarI=
+X-Gm-Message-State: AOJu0YzdkEjOKwCum2AKhwQnJgn5HVyK0A4WLBqG2AUT7nbwoFf6T4Bx
+	2eqMKg2qjjxvExxSgIEgIpidlXCps1XQTZhG1OrPIcrkCK+VRe4sLWTniUeEZH4=
+X-Google-Smtp-Source: AGHT+IFabj44+6/AUOqc3ytd5ytWDpFi1xvXmXHvZaxmZgT9uxNGhLzwBao1fjRJml9g9YwbWcn8Ew==
+X-Received: by 2002:a17:906:fe0b:b0:a6f:4f26:fe80 with SMTP id a640c23a62f3a-a6f4f270012mr298512566b.41.1718280797113;
+        Thu, 13 Jun 2024 05:13:17 -0700 (PDT)
+Received: from [192.168.1.195] ([5.133.47.210])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6f56f985dfsm65535166b.192.2024.06.13.05.13.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Jun 2024 05:13:16 -0700 (PDT)
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Date: Thu, 13 Jun 2024 13:13:05 +0100
+Subject: [PATCH] ASoC: q6apm-lpass-dai: close graph on prepare errors
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-5.49 / 50.00];
-	BAYES_HAM(-2.98)[99.93%];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,intel.com:email,suse.de:dkim];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: DE3265D2FC
-X-Spam-Flag: NO
-X-Spam-Score: -5.49
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240613-q6apm-fixes-v1-1-d88953675ab3@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAFDiamYC/x3LQQ6DMAxE0asgr2uJBJrSXgWxMKkBL0ipjRAS4
+ u4NXf4ZvQOMVdjgVRygvInJJ+VwtwLiRGlklHdu8KWvy+Aq/AZaZhxkZ8NAz9jUzd0/XAVZ9GS
+ MvVKK02VmspX1Ohblv8hr253nD2nhM3d2AAAA
+To: Banajit Goswami <bgoswami@quicinc.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: dmitry.baryshkov@linaro.org, alsa-devel@alsa-project.org, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3465;
+ i=srinivas.kandagatla@linaro.org; h=from:subject:message-id;
+ bh=1yK9eI1MQbvCCxjWD8QAM9mmf5vjMBn5EqEjdIFsiv8=;
+ b=owEBbQGS/pANAwAKAXqh/VnHNFU3AcsmYgBmauJbajWD5SFP302Qlyf+2BL5UONgysacwGM99
+ PIDRaDoYVyJATMEAAEKAB0WIQQi509axvzi9vce3Y16of1ZxzRVNwUCZmriWwAKCRB6of1ZxzRV
+ N9MBB/0ZfAaWAL/u+zAa+VrxVkvWJ9/5N7h4ERWABTmonxDvhxOdcMDe1kqqMax9yr1KI5YZzJ0
+ p9Vl1Q5YVVATNzkCPaKZpOlHVJ5Zo40dNt+9gtiegZaM4NHj9uCiAtdRxdCyvSBkUCnLJnFRraP
+ yylqeBw8Yv2FPVHzHtfhx4yMj9pzLtcTp7AN1Hn3DHzF4xxe+omC1syBWtAAcr8MaxAehTLxscp
+ 5XwuHxd5Z+PcbxWHhTOw/0WmMrt7/Zqxzr1O2zzHbzdXTsczNUoWpgBSCpgWISQu2pEhthogUmz
+ oGJRMEWpuh3RxZsuf51owwT6sOkHgrDgvKZ7CQvGYLZSUXLV
+X-Developer-Key: i=srinivas.kandagatla@linaro.org; a=openpgp;
+ fpr=ED6472765AB36EC43B3EF97AD77E3FC0562560D6
 
-On Fri, 07 Jun 2024 08:00:21 +0200,
-Peter Ujfalusi wrote:
-> 
-> dsp_driver=4 will force the AVS driver stack to be used, it is better to
-> docuement this.
-> 
-> Fixes: 1affc44ea5dd ("ASoC: Intel: avs: PCI driver implementation")
-> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+There is an issue around with error handling and graph management with
+the exising code, none of the error paths close the graph, which result in
+leaving the loaded graph in dsp, however the driver thinks otherwise.
 
-Thanks, applied.
+This can have a nasty side effect specially when we try to load the same
+graph to dsp, dsp returns error which leaves the board with no sound and
+requires restart.
 
+Fix this by properly closing the graph when we hit errors between
+open and close.
 
-Takashi
+Fixes: 30ad723b93ad ("ASoC: qdsp6: audioreach: add q6apm lpass dai support")
+Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+---
+ sound/soc/qcom/qdsp6/q6apm-lpass-dais.c | 32 ++++++++++++++++++++------------
+ 1 file changed, 20 insertions(+), 12 deletions(-)
+
+diff --git a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
+index 68a38f63a2db..66b911b49e3f 100644
+--- a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
++++ b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
+@@ -141,14 +141,17 @@ static void q6apm_lpass_dai_shutdown(struct snd_pcm_substream *substream, struct
+ 	struct q6apm_lpass_dai_data *dai_data = dev_get_drvdata(dai->dev);
+ 	int rc;
+ 
+-	if (!dai_data->is_port_started[dai->id])
+-		return;
+-	rc = q6apm_graph_stop(dai_data->graph[dai->id]);
+-	if (rc < 0)
+-		dev_err(dai->dev, "fail to close APM port (%d)\n", rc);
++	if (dai_data->is_port_started[dai->id]) {
++		rc = q6apm_graph_stop(dai_data->graph[dai->id]);
++		dai_data->is_port_started[dai->id] = false;
++		if (rc < 0)
++			dev_err(dai->dev, "fail to close APM port (%d)\n", rc);
++	}
+ 
+-	q6apm_graph_close(dai_data->graph[dai->id]);
+-	dai_data->is_port_started[dai->id] = false;
++	if (dai_data->graph[dai->id]) {
++		q6apm_graph_close(dai_data->graph[dai->id]);
++		dai_data->graph[dai->id] = NULL;
++	}
+ }
+ 
+ static int q6apm_lpass_dai_prepare(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
+@@ -163,8 +166,10 @@ static int q6apm_lpass_dai_prepare(struct snd_pcm_substream *substream, struct s
+ 		q6apm_graph_stop(dai_data->graph[dai->id]);
+ 		dai_data->is_port_started[dai->id] = false;
+ 
+-		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
++		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
+ 			q6apm_graph_close(dai_data->graph[dai->id]);
++			dai_data->graph[dai->id] = NULL;
++		}
+ 	}
+ 
+ 	/**
+@@ -183,26 +188,29 @@ static int q6apm_lpass_dai_prepare(struct snd_pcm_substream *substream, struct s
+ 
+ 	cfg->direction = substream->stream;
+ 	rc = q6apm_graph_media_format_pcm(dai_data->graph[dai->id], cfg);
+-
+ 	if (rc) {
+ 		dev_err(dai->dev, "Failed to set media format %d\n", rc);
+-		return rc;
++		goto err;
+ 	}
+ 
+ 	rc = q6apm_graph_prepare(dai_data->graph[dai->id]);
+ 	if (rc) {
+ 		dev_err(dai->dev, "Failed to prepare Graph %d\n", rc);
+-		return rc;
++		goto err;
+ 	}
+ 
+ 	rc = q6apm_graph_start(dai_data->graph[dai->id]);
+ 	if (rc < 0) {
+ 		dev_err(dai->dev, "fail to start APM port %x\n", dai->id);
+-		return rc;
++		goto err;
+ 	}
+ 	dai_data->is_port_started[dai->id] = true;
+ 
+ 	return 0;
++err:
++	q6apm_graph_close(dai_data->graph[dai->id]);
++	dai_data->graph[dai->id] = NULL;
++	return rc;
+ }
+ 
+ static int q6apm_lpass_dai_startup(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
+
+---
+base-commit: 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
+change-id: 20240613-q6apm-fixes-6a9c84852713
+
+Best regards,
+-- 
+Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+
