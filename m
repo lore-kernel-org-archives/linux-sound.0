@@ -1,88 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4517F13DDB8
-	for <linux-sound@vger.kernel.org>; Thu, 13 Jun 2024 08:42:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B08413FD82;
+	Thu, 13 Jun 2024 08:47:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718268150; cv=none; b=PBnIpDC2aDUqWn+kRJz4/sNllOkpeTj+p1YMyKuN26t6EjmnIT84ujHPt7FEoDXCFSRfecnyUuON238U/pMDzSBeUtm/TODTomtZrqW3L1IHv1g3SDTy9raypsWDOjJcRJ3zbb+0euYUWVcyoiVtg90stMQZO1F9eQCj2DZKWsE=
+	t=1718268421; cv=none; b=oFwUbIJuLqxYM7C7O70PIOOhCBlc6IXGUaDbNscsjGdEsScmE8i6vdnkNmMvvcMwt+hmeyF8URjqaq8AWWE6AGrpRIntgoxuLPdAysDsuq2zMNK46p/s4VAPuYc6iaQxWPG2TEfPyZqtP9HjCppK3VVD5D8a5J+yTeg4v9r2LVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718268150; c=relaxed/simple;
-	bh=/A7abzR0nfC1k2xVmSlYs8rLUypEYaJctAfBqRQ+7kU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=TAPaW4PxXtjvQzYF6PUIBlCpXCbj12uNYugV5aQu1N4GJyG+MccmWmbN58FjaeNP218w1JrxQyb0JlqBCe+ZqlHgo6SXD3dhGrN4H3Ka1Ijttu9nRCHaEDuGKLcTluVEmh5Xn9fgsrW1VvVYOTZici3oz0v0xmBTPbmLeTBEaNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aDrONJhI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718268421; c=relaxed/simple;
+	bh=1MIGK6FDq9dwWEqTUEUAAu8rtn11B0ER/xsJgA5onv4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YbgOpKdqR6FaORjterfg7Ruy94z0sXzMj8htITdzqDiAWGY9il/Yat2bDYZCYeHkcxXEATNh5Dvfy2p5AdCTQTIl3VGOT7CZR63aYSNZwAEa5pqRgIoJZk6AWxGSCcWltASFrS5mM7qdqMeKFStIjTdwjw0OgKx6sCr8DOF8gh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UoBfTe+n; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aDrONJhI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03A19C3277B;
-	Thu, 13 Jun 2024 08:42:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718268149;
-	bh=/A7abzR0nfC1k2xVmSlYs8rLUypEYaJctAfBqRQ+7kU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=aDrONJhIOR/8BYPHN4Q8CmFrpwLdVieQpxiZeGElrTDYb9Xgwmanj4LE6UDtb8LgV
-	 7ZL8RFsZLS9Ay8vqdMbAoRe5yL8IySPpCWk/ovLoxNDYMr2G/OgF90FYCQCtOq6XfT
-	 LQgqb35w4UL8EbgqyMW4QMuKHk8p1L+v9iUX0a96uDJ47pzm5TIM3TNTPikW+8rG/G
-	 Y4l6MRjwC2ex/0rv9uz99cM0/PBJK6tpeOliYNEarHBQ453flp4vAZRN35bCycToQI
-	 HyALr698h8aRL3xiTYdoVZYja4fuTLLDA8pJJBxAVCoJd/iBKJEWCH8EANqiW6uvmF
-	 I57MKOPxpf8Vg==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.intel.com, 
- kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com
-In-Reply-To: <20240612121203.15468-1-peter.ujfalusi@linux.intel.com>
-References: <20240612121203.15468-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH] ASoC: SOF: sof-audio: Skip unprepare for in-use
- widgets on error rollback
-Message-Id: <171826814960.249517.11714936800006262287.b4-ty@kernel.org>
-Date: Thu, 13 Jun 2024 09:42:29 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UoBfTe+n"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a6f0dc80ab9so114278966b.2;
+        Thu, 13 Jun 2024 01:47:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718268418; x=1718873218; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3yfZl5Uy3j61nQCZXcBqw5F4yIksen6ORXxHgk45Kks=;
+        b=UoBfTe+nvOqjQk9STh/9BxTfVK0JHDd1ZlBbxQdoP9LH5IML7Run+FO4ApdPS/DjlB
+         puCFFyk0kBPWVSBIDU3MzH8UW45SkCo7PPAHvD/IVKIUc8EyUHVAJveSzoC1HmTNfeeP
+         2J6j0tKAZeA9Ac1kxQoGomYNADKd/ZypTAEIwu+k6xw7K+RZoDhRaBNG9/zazqBAehjT
+         czYYhSg3XVLcRhFkqLzCQRerrYlcap1qBm2bPs7r9i2KMZLUjlTWXqyCSksqM1dcM4O2
+         CYeLSfA+cm9nUi7K6s3bXepvjYmJ5rAeVORZeMJaowqyij/MFla1DDfLD5luPpzpcNIH
+         Sp4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718268418; x=1718873218;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3yfZl5Uy3j61nQCZXcBqw5F4yIksen6ORXxHgk45Kks=;
+        b=j5rVbcIyEtbcE8/Nyw+bHSPoynTbBTMi3AAM1kTLULe8UbHIgzD3iHenk9u/ROdCDP
+         MaU7bCtdbVbiQJgCPVWk4HRAGkH90r0hDKWQeKEXUIHYZVAhbkyuMm0WGWUnH3dULmN5
+         S4J5+2fAXRoM+XP13hlzWSpXZF5pATbmFr17TLL0N4BhMbkqH/nexLUUYCsDVu/4Hh95
+         U7GWrRQvirHFZYlxEMYa80a+zXOBIcJbiPSb3WSjlN/JTZjq5ysJ38NcPGcrdZrkEW59
+         afTv9ZkWSUPZWSi4wl89KRRBrPGhA+5RLmkM9VNV8nnDi8OAO9Sak+AZF1b0jx6xwq2n
+         t3dw==
+X-Forwarded-Encrypted: i=1; AJvYcCXSASeI5zkP1kE9YBt7jmlrJm+gDB5IFR6Dd6sKcFPMj+PhkPrnM1xxfTj5nqH94yk17zY1B+RFnDA6k6y4xT/luxj6EJMJPmdJ11Ls
+X-Gm-Message-State: AOJu0YxYvi828Xaa5Ecj1HGTc3fPF+WTcAUKFG5N3OM7QjTClGdIstDU
+	4EDL5NtBlWWIenWZPwTbZ+fdBOnvK9yzcutxtNkXcJNXM13cX0YO
+X-Google-Smtp-Source: AGHT+IFFnDlUw8Gs7yxy7aQo5cv3Iq0GRUgnrryfIlPQEHgftSMK4Nb6O7IJupuZKxYnClaAwts6ow==
+X-Received: by 2002:a17:907:72c5:b0:a69:13a2:4f6e with SMTP id a640c23a62f3a-a6f47d61fe0mr323396166b.74.1718268418356;
+        Thu, 13 Jun 2024 01:46:58 -0700 (PDT)
+Received: from andrejs-nb.. (31-10-206-125.static.upc.ch. [31.10.206.125])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6f56dd2daasm48364266b.97.2024.06.13.01.46.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Jun 2024 01:46:57 -0700 (PDT)
+From: Andrejs Cainikovs <andrejs.cainikovs@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Andrejs Cainikovs <andrejs.cainikovs@toradex.com>
+Subject: [PATCH v2 0/3] ASoC: nau8822: add MCLK support
+Date: Thu, 13 Jun 2024 10:46:49 +0200
+Message-Id: <20240613084652.13113-1-andrejs.cainikovs@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev-4c370
+Content-Transfer-Encoding: 8bit
 
-On Wed, 12 Jun 2024 15:12:03 +0300, Peter Ujfalusi wrote:
-> If the ipc_prepare() callback fails for a module instance, on error rewind
-> we must skip the ipc_unprepare() call for ones that has positive use count.
-> 
-> The positive use count means that the module instance is in active use, it
-> cannot be unprepared.
-> 
-> The issue affects capture direction paths with branches (single dai with
-> multiple PCMs), the affected widgets are in the shared part of the paths.
-> 
-> [...]
+From: Andrejs Cainikovs <andrejs.cainikovs@toradex.com>
 
-Applied to
+This change adds local MCLK handling, which would cover a case when a
+reference audio clock is present in a system, but is not allowed to be
+changed, see [1].
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+[1]: https://lore.kernel.org/all/ZfBdxrzX3EnPuGOn@ediswmail9.ad.cirrus.com/
 
-Thanks!
+v1:
+  - https://lore.kernel.org/all/20240409121719.337709-1-andrejs.cainikovs@gmail.com/
 
-[1/1] ASoC: SOF: sof-audio: Skip unprepare for in-use widgets on error rollback
-      commit: 6f2a43e3d14f6e31a3b041a1043195d02c54d615
+v2:
+  - Fixes the issue of unbalanced clock enable and disable which resulted
+    in a negative clock reference count. This triggered "already disabled"
+    warning when the system was suspended.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Andrejs Cainikovs (3):
+  ASoC: nau8822: move nau8822_set_dai_sysclk()
+  ASoC: nau8822: set NAU8822_REFIMP_80K only once
+  ASoC: nau8822: add MCLK support
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+ sound/soc/codecs/nau8822.c | 76 +++++++++++++++++++++++++++++---------
+ sound/soc/codecs/nau8822.h |  1 +
+ 2 files changed, 60 insertions(+), 17 deletions(-)
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+-- 
+2.34.1
 
