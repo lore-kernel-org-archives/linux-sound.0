@@ -1,191 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BB2A136E0F
-	for <linux-sound@vger.kernel.org>; Thu, 13 Jun 2024 06:29:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B3412C7E3;
+	Thu, 13 Jun 2024 06:37:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718260174; cv=none; b=Sis++FU2ki1TJ3V1hZ2j8HhBCfVANdTcElDf/vhCoquDxau4kQiMTP+tovt65+nV/ILtcpucAm0zYNOwhtEyYqDfO6kQDnEtONZtzvO7w5jLhUISGpSgwa3cSXs6C5jhRYJqgw2d/3GSS8D5tQqME1Jvhv9EhztyHygPuEpwDVc=
+	t=1718260666; cv=none; b=j431q3TSea+Q/VBOYdlhLwLiV9e3oDEEFdWVa5FbE8nCZE60Tnt8BP6poXbf3LwSS/6AM8/E6VbxHEDZ7cMBcX3AirGOS/sWDwJKQLAk6I88pgyx7MMbEOleGaNu9+QOu7mg/mH4rcpwHptxeGUSn1PLZLoksw6j8EYgddXA1J0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718260174; c=relaxed/simple;
-	bh=mEaeeil3cCE8Lyqx9jY6Tj4nxbwiA0TLyAoqgrnn/SE=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=QR7TnZLIDb+rJsxIs/GNrScIbTlOOGzT5cjfPbc5D1mEhUFZ3Op8M7O3cpEi8R7qigJ17k2ar+VgWdhgqhR2UZBR/36IbFE18+bxcdAlJ4K0RLhoHhOcBqTspPxdluR5JBf7vxH23Vg90UgxgUhM6fGKGflJmetqqv7xQQ8wEU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a+S5959a; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1718260666; c=relaxed/simple;
+	bh=ONxqZUwSB91wyQpYjEvWjtZBUsrSB8OmWi61DcHx7HM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nY0OZYygChmlXkaoofOE2qY52XTHfsCyS2TyMstQrxl6R4XsWpcBywABg0C5JlkZ52mweL695MnFNiiAgHgbsbm68r2d5ZoyANfMfwwzCPNsW14+UnfCzuP6pMe9EcKJgnrmoOabX5kCM/vsbkd5vKe0IhcUDa4w6eBxLqmnDa4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=irhoQ9gv; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a+S5959a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="irhoQ9gv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718260173; x=1749796173;
-  h=message-id:date:mime-version:subject:from:to:cc:
-   references:in-reply-to:content-transfer-encoding;
-  bh=mEaeeil3cCE8Lyqx9jY6Tj4nxbwiA0TLyAoqgrnn/SE=;
-  b=a+S5959aa88wDa+R4EavxCGXwOS4wnATpBUF44qUX3tLOtOYL4CIA7nq
-   EEmw3/hdnxHO0E9br96UUIXaYE0kpV5B2oNhXoggT/IE6JEPeqLdkivd/
-   hojxRgafn/6cRRm4sTsRmqUDj/8hOUPdGmUvJTt7m5LTn6aOt2F39IVP9
-   vmJHJ9E4nQu9NqaiczHbY5vz09BCdF1Pyivs2YaoQzgzP+Tyb6uwVP9A7
-   6uAw85/nMeeYAn9dJ1P4Z3Vl7XZH2xiuJrsqJtMFRZSP/Wg/lXesz6Uro
-   m4FG1mXEbPHMFwLrIHOUvPNnmqyzGPQI81HgPwL3y8SnLHoVxVfaa5YiD
-   A==;
-X-CSE-ConnectionGUID: Ts1+UgCbRTmYMCw035VT+w==
-X-CSE-MsgGUID: h6O9NckRSBeSpA+nlCqvQg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="18914607"
+  t=1718260665; x=1749796665;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ONxqZUwSB91wyQpYjEvWjtZBUsrSB8OmWi61DcHx7HM=;
+  b=irhoQ9gvI6EwbxujdQqNCrB83Md4LPhPG1LuSeyEHbHYCXRRzKS/FI0L
+   tc3oyTi8YugYDsAiybSXblj6CVFhXMCEDFoEEpacShY9EniHriKhyKsKL
+   sg1ri6bA4+A/HKOrdkPJ44drqYnZpUosWd6S4h5wCbIX0ygo1CcdwiAKi
+   3Z2pNp6wd+uGxlMlIIxyeN8Ko9BgkwtZ58guFaNDdLoOL5tK08A5jco2A
+   lZGa9wVggzKLuaGaTJ2HnJqzBILv8rmAtwA3Z4LrbXLfe8XMLCEorSjvl
+   Du6g53e+xjIKG9isBXHzv/LvA5EBv94irNhYo+IOrNdBaBjRGDvprgoCu
+   Q==;
+X-CSE-ConnectionGUID: FlgUGFWDTv642z9ahqXEuQ==
+X-CSE-MsgGUID: I9gFUk6RQcamB4ILl8Dr9g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="25736594"
 X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
-   d="scan'208";a="18914607"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 23:29:32 -0700
-X-CSE-ConnectionGUID: 8XNtO4wdSq+lFDth2sIfkg==
-X-CSE-MsgGUID: mk/pL3n6Q36i22nlukWr4A==
+   d="scan'208";a="25736594"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 23:37:45 -0700
+X-CSE-ConnectionGUID: M4T4MqXfQKOVirQ5sYmTSg==
+X-CSE-MsgGUID: Ql1aBbx/RrOwqmStiHjiSQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
-   d="scan'208";a="44420900"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.244.34]) ([10.245.244.34])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 23:29:30 -0700
-Message-ID: <38d7b3e2-33cb-4a81-bad8-73c22679f49f@linux.intel.com>
-Date: Thu, 13 Jun 2024 09:29:59 +0300
+   d="scan'208";a="39960898"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO pbossart-mobl6.intel.com) ([10.245.246.108])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 23:37:42 -0700
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+To: linux-sound@vger.kernel.org
+Cc: alsa-devel@alsa-project.org,
+	tiwai@suse.de,
+	broonie@kernel.org,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	linux-pci@vger.kernel.org,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH v2 0/5] ASoC/SOF/PCI/Intel: add PantherLake support
+Date: Thu, 13 Jun 2024 08:37:27 +0200
+Message-ID: <20240613063732.241157-1-pierre-louis.bossart@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] ASoC: topology: Fix references to freed memory
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>, Mark Brown <broonie@kernel.org>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
- Jason Montleon <jmontleo@redhat.com>
-References: <20240603102818.36165-1-amadeuszx.slawinski@linux.intel.com>
- <20240603102818.36165-2-amadeuszx.slawinski@linux.intel.com>
- <507e9f6a-7113-4781-8a6d-27e4b87dbe24@linux.intel.com>
- <5bdae438-a976-44c0-b6d3-1aab5167a68e@linux.intel.com>
-Content-Language: en-US
-In-Reply-To: <5bdae438-a976-44c0-b6d3-1aab5167a68e@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+Add initial support for the PantherLake platform, and initial ACPI
+configurations.
+
+This patchset depends on the first patch of "[PATCH 0/3] ALSA/PCI: add
+PantherLake audio support"
+
+v2: changed order of patches to fix git bisect error reported by Intel
+kbuild bot
+https://lore.kernel.org/oe-kbuild-all/202406131144.L6gW0I47-lkp@intel.com/
 
 
-On 13/06/2024 09:27, Péter Ujfalusi wrote:
-> 
-> 
-> On 13/06/2024 08:58, Pierre-Louis Bossart wrote:
->>
->>
->> On 6/3/24 12:28, Amadeusz Sławiński wrote:
->>> Most users after parsing a topology file, release memory used by it, so
->>> having pointer references directly into topology file contents is wrong.
->>> Use devm_kmemdup(), to allocate memory as needed.
->>>
->>> Reported-by: Jason Montleon <jmontleo@redhat.com>
->>> Link: https://github.com/thesofproject/avs-topology-xml/issues/22#issuecomment-2127892605
->>> Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
->>> Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
->>> ---
->>
->> This patch breaks the Intel SOF CI in spectacular ways, with the widgets
->> names completely garbled with noise such as
->>
->> host-copier.5.playbackpid.socket
->> host-copier.5.playbackrt@linux.intel.com>
->> dai-copier.HDA.iDisp3.playbackrun_t:s0
->> host-copier.31.playback\xff`\x86\xba\x034\x89\xff\xff@N\x83\xb83\x89\xff\xff\x10\x84\xe9\x8b\xff\xff\xff\xffS\x81ی\xff\xff\xff\xff\x0f
->>
->> https://github.com/thesofproject/linux/pull/5057#issuecomment-2164470192
->>
->> I am going to revert this patchset in the SOF tree.
->>
->>>  sound/soc/soc-topology.c | 27 ++++++++++++++++++++++-----
->>>  1 file changed, 22 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/sound/soc/soc-topology.c b/sound/soc/soc-topology.c
->>> index 90ca37e008b32..75d9395a18ed4 100644
->>> --- a/sound/soc/soc-topology.c
->>> +++ b/sound/soc/soc-topology.c
->>> @@ -1060,15 +1060,32 @@ static int soc_tplg_dapm_graph_elems_load(struct soc_tplg *tplg,
->>>  			break;
->>>  		}
->>>  
->>> -		route->source = elem->source;
->>> -		route->sink = elem->sink;
->>> +		route->source = devm_kmemdup(tplg->dev, elem->source,
->>> +					     min(strlen(elem->source),
->>> +						 SNDRV_CTL_ELEM_ID_NAME_MAXLEN),
->>> +					     GFP_KERNEL);
->>> +		route->sink = devm_kmemdup(tplg->dev, elem->sink,
->>> +					   min(strlen(elem->sink), SNDRV_CTL_ELEM_ID_NAME_MAXLEN),
-> 
-> Initially I did not see why this breaks, but then:
-> 
-> The strlen() function calculates the length of the string pointed to by
-> s, excluding the terminating null byte ('\0').
-> 
-> Likely the fix is as simple as:
-> min(strlen(elem->sink) + 1, SNDRV_CTL_ELEM_ID_NAME_MAXLEN)
+Bard Liao (2):
+  ASoC: Intel: soc-acpi-intel-ptl-match: add rt711-sdca table
+  ASoC: Intel: soc-acpi-intel-ptl-match: Add rt722 support
 
-or better yet:
-route->sink = devm_kasprintf(tplg->dev, GFP_KERNEL, "%s", elem->sink);
+Fred Oh (1):
+  ASoC: SOF: Intel: add PTL specific power control register
 
-> 
->>> +					   GFP_KERNEL);
->>> +		if (!route->source || !route->sink) {
->>> +			ret = -ENOMEM;
->>> +			break;
->>> +		}
->>>  
->>>  		/* set to NULL atm for tplg users */
->>>  		route->connected = NULL;
->>> -		if (strnlen(elem->control, SNDRV_CTL_ELEM_ID_NAME_MAXLEN) == 0)
->>> +		if (strnlen(elem->control, SNDRV_CTL_ELEM_ID_NAME_MAXLEN) == 0) {
->>>  			route->control = NULL;
->>> -		else
->>> -			route->control = elem->control;
->>> +		} else {
->>> +			route->control = devm_kmemdup(tplg->dev, elem->control,
->>> +						      min(strlen(elem->control),
->>> +							  SNDRV_CTL_ELEM_ID_NAME_MAXLEN),
->>> +						      GFP_KERNEL);
->>> +			if (!route->control) {
->>> +				ret = -ENOMEM;
->>> +				break;
->>> +			}
->>> +		}
->>>  
->>>  		/* add route dobj to dobj_list */
->>>  		route->dobj.type = SND_SOC_DOBJ_GRAPH;
->>
->> 97ab304ecd95c0b1703ff8c8c3956dc6e2afe8e1 is the first bad commit
->> commit 97ab304ecd95c0b1703ff8c8c3956dc6e2afe8e1
->> Author: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
->> Date:   Mon Jun 3 12:28:15 2024 +0200
->>
->>     ASoC: topology: Fix references to freed memory
->>
->>     Most users after parsing a topology file, release memory used by it, so
->>     having pointer references directly into topology file contents is wrong.
->>     Use devm_kmemdup(), to allocate memory as needed.
->>
->>     Reported-by: Jason Montleon <jmontleo@redhat.com>
->>     Link:
->> https://github.com/thesofproject/avs-topology-xml/issues/22#issuecomment-2127892605
->>     Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
->>     Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
->>     Link:
->> https://lore.kernel.org/r/20240603102818.36165-2-amadeuszx.slawinski@linux.intel.com
->>     Signed-off-by: Mark Brown <broonie@kernel.org>
->>
->>  sound/soc/soc-topology.c | 27 ++++++++++++++++++++++-----
->>  1 file changed, 22 insertions(+), 5 deletions(-)
->>
->>
-> 
+Pierre-Louis Bossart (2):
+  ASoC: Intel: soc-acpi: add PTL match tables
+  ASoC: SOF: Intel: add initial support for PTL
+
+ include/sound/soc-acpi-intel-match.h          |   2 +
+ sound/soc/intel/common/Makefile               |   1 +
+ .../intel/common/soc-acpi-intel-ptl-match.c   | 121 ++++++++++++++++++
+ sound/soc/sof/intel/Kconfig                   |  17 +++
+ sound/soc/sof/intel/Makefile                  |   2 +
+ sound/soc/sof/intel/hda-dsp.c                 |   1 +
+ sound/soc/sof/intel/hda.h                     |   1 +
+ sound/soc/sof/intel/lnl.c                     |  27 ++++
+ sound/soc/sof/intel/mtl.c                     |  16 ++-
+ sound/soc/sof/intel/mtl.h                     |   2 +
+ sound/soc/sof/intel/pci-ptl.c                 |  77 +++++++++++
+ sound/soc/sof/intel/shim.h                    |   1 +
+ 12 files changed, 266 insertions(+), 2 deletions(-)
+ create mode 100644 sound/soc/intel/common/soc-acpi-intel-ptl-match.c
+ create mode 100644 sound/soc/sof/intel/pci-ptl.c
 
 -- 
-Péter
+2.43.0
+
