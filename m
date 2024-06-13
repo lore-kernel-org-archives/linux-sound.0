@@ -1,93 +1,86 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25AEA13C9DE;
-	Thu, 13 Jun 2024 11:20:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2CE81474BF;
+	Thu, 13 Jun 2024 12:01:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718277620; cv=none; b=Kwa55iAOm5Yg6qh+mkZeCLflxIMv4eY4UYPBHtagUcw9TB0kGAegd4Fmi7eMPdIZgsGgrztUxdYftBoNwp2ZoxWa7sQrrZIpFmdtQtfZbvnu/S3CJgffXebSgjPlV3mntKwo6kUdtKht2fRDHbQdUqvLurM7OTYj6ztSY2Fo3A8=
+	t=1718280084; cv=none; b=PyBmgqTnpoTym01SJxYgOQ7MnWM42ZNSZa4gH8R5XyrOIq9CKTUSuCXyVrWag6tjdi52eTnbrQGVT2iTlvknpKxnywi5036lq414Mp0jcd3qHFRUoDvuoVKGJlxWGl+sNAyNiPovrq4xlQwilJxN/xAgaRjWfvjcFHm8qyL1NrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718277620; c=relaxed/simple;
-	bh=WyIdasgc4uiJGg5laTQoeL5mSzMxOocQZuY9gYG05Z4=;
+	s=arc-20240116; t=1718280084; c=relaxed/simple;
+	bh=jXKgcxjhp7dP+6RZKb9D/HR5C/E9UziMumLh/FAU1Uc=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Yp9ET4/RATL5SJFskwcD1Af/m/37GmWP/kloJ/wpyaauneONSIsxSfEI1prOV8AS4L/Ip9YLxygYod+6BKvePdLN9YyY4hq4FyDvZyJFutIIUmbOnygRlHL3q5z3FpRslNwN+bUlBS+rqkzMtz2x81ldr6ZWGrnRs4rtYAe2gkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uyt8bPUx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bSqdLiXB; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uyt8bPUx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bSqdLiXB; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=CgaDvVzDKLk3NkJv9BNm7E9VKSlb7MWb+QsFTjAyFOBR4c5wRn1oUbE0GohCs9mtmz3N3dy2rqNfxmZfp4YCG24wTmD5bS0/SKDYAQy2MR9vJ4ROuzJFNmkIPaYAFoXdMu6tdX6Wi8yr6SgeBPdWy2p14BPKWkd2wNElFuaFqiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xrGNiGgD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UL51kaxd; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xrGNiGgD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UL51kaxd; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uyt8bPUx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bSqdLiXB";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uyt8bPUx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bSqdLiXB"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xrGNiGgD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UL51kaxd";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xrGNiGgD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UL51kaxd"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1E52A35317;
-	Thu, 13 Jun 2024 11:20:17 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id BFD345D2D3;
+	Thu, 13 Jun 2024 12:01:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718277617; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1718280080; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kf3+0R9NdX4IckkSTlV1RU1cwXOmSIch1pBOXHTjlL4=;
-	b=uyt8bPUx6PTKtJYBmVEgSx5A41nN4XBM125/CnFAsPAk13PmIlaYCMa/kYu3SLfElOnFOG
-	H5adLQb/ucP9NVuIqT27htG1mYy88/BImzwblAnsrs3MmKti3xmhWA1dCGxiIjyMiMOZ08
-	Evmi4Bh4lNojlCP4jdOXAOfGGRVYaO4=
+	bh=Ix0hgv8npV79bxIJwCvm11zIiXgCMm13N5u0/ILQj4o=;
+	b=xrGNiGgDy8HRWNxciUEDQXKJnQCZ80pNeS7f/JveyaFqulrGiw98Qqemnt/UsyYW+teF7e
+	26G2ra/8fhyqn5KABujsb9JCSxH3uVpX6znpcN1Y9e9mJWrXfbusIy7KGFUXcBp5VQczPp
+	PIVBrDVsUwtIebiNzdB90m87+CRX9E4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718277617;
+	s=susede2_ed25519; t=1718280080;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kf3+0R9NdX4IckkSTlV1RU1cwXOmSIch1pBOXHTjlL4=;
-	b=bSqdLiXBbxE52Lc3+L/7+k0NvRtaC0JkvQnQy1ipUq30yniaQngrqHVOQ9SH2aypHDrNZ4
-	Nuh2QyBqsRIfTTAg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=uyt8bPUx;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bSqdLiXB
+	bh=Ix0hgv8npV79bxIJwCvm11zIiXgCMm13N5u0/ILQj4o=;
+	b=UL51kaxdwxNHIILLIGhOIcVcyKPH6EMobRY/mG88l5j2NLV2tQgqJUNo+yrCOWd+MiIfD4
+	VFx5ItzdsGvD1jAQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xrGNiGgD;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=UL51kaxd
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718277617; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1718280080; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kf3+0R9NdX4IckkSTlV1RU1cwXOmSIch1pBOXHTjlL4=;
-	b=uyt8bPUx6PTKtJYBmVEgSx5A41nN4XBM125/CnFAsPAk13PmIlaYCMa/kYu3SLfElOnFOG
-	H5adLQb/ucP9NVuIqT27htG1mYy88/BImzwblAnsrs3MmKti3xmhWA1dCGxiIjyMiMOZ08
-	Evmi4Bh4lNojlCP4jdOXAOfGGRVYaO4=
+	bh=Ix0hgv8npV79bxIJwCvm11zIiXgCMm13N5u0/ILQj4o=;
+	b=xrGNiGgDy8HRWNxciUEDQXKJnQCZ80pNeS7f/JveyaFqulrGiw98Qqemnt/UsyYW+teF7e
+	26G2ra/8fhyqn5KABujsb9JCSxH3uVpX6znpcN1Y9e9mJWrXfbusIy7KGFUXcBp5VQczPp
+	PIVBrDVsUwtIebiNzdB90m87+CRX9E4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718277617;
+	s=susede2_ed25519; t=1718280080;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kf3+0R9NdX4IckkSTlV1RU1cwXOmSIch1pBOXHTjlL4=;
-	b=bSqdLiXBbxE52Lc3+L/7+k0NvRtaC0JkvQnQy1ipUq30yniaQngrqHVOQ9SH2aypHDrNZ4
-	Nuh2QyBqsRIfTTAg==
+	bh=Ix0hgv8npV79bxIJwCvm11zIiXgCMm13N5u0/ILQj4o=;
+	b=UL51kaxdwxNHIILLIGhOIcVcyKPH6EMobRY/mG88l5j2NLV2tQgqJUNo+yrCOWd+MiIfD4
+	VFx5ItzdsGvD1jAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C040A13A87;
-	Thu, 13 Jun 2024 11:20:16 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8CE5313A87;
+	Thu, 13 Jun 2024 12:01:20 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id CjeGLfDVama2EgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 13 Jun 2024 11:20:16 +0000
-Date: Thu, 13 Jun 2024 13:20:40 +0200
-Message-ID: <87msnpnl6f.wl-tiwai@suse.de>
+	id zPcrIZDfambFHwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 13 Jun 2024 12:01:20 +0000
+Date: Thu, 13 Jun 2024 14:01:44 +0200
+Message-ID: <87ikydnj9z.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	sbinding@opensource.cirrus.com,
-	kailang@realtek.com,
-	luke@ljones.dev,
-	shenghao-ding@ti.com,
-	simont@opensource.cirrus.com,
-	foss@athaariq.my.id,
-	rf@opensource.cirrus.com,
+To: bo liu <bo.liu@senarytech.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Limit mic boost on N14AP7
-In-Reply-To: <20240605153923.2837-1-edson.drosdeck@gmail.com>
-References: <20240605153923.2837-1-edson.drosdeck@gmail.com>
+Subject: Re: [PATCH V2] ALSA: hda/senarytech: add senarytech codec support
+In-Reply-To: <20240606015703.37118-1-bo.liu@senarytech.com>
+References: <20240606015703.37118-1-bo.liu@senarytech.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -96,48 +89,113 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 1E52A35317
-X-Spam-Score: -2.00
+X-Rspamd-Queue-Id: BFD345D2D3
+X-Spam-Score: -5.51
 X-Spam-Level: 
 X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.00 / 50.00];
-	BAYES_HAM(-2.99)[99.93%];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-5.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	TAGGED_RCPT(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim];
+	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
 	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_TRACE(0.00)[suse.de:+]
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
 X-Rspamd-Action: no action
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-On Wed, 05 Jun 2024 17:39:23 +0200,
-Edson Juliano Drosdeck wrote:
+On Thu, 06 Jun 2024 03:57:03 +0200,
+bo liu wrote:
 > 
-> The internal mic boost on the N14AP7 is too high. Fix this by applying the
-> ALC269_FIXUP_LIMIT_INT_MIC_BOOST fixup to the machine to limit the gain.
+> Add initial Senarytech codec support for SN6186. Note that this hda
+> patch relies on the configuration default registers to be set correctly
+> (normally by BIOS/firmware) in order for it to set up pin widgets
+> properly.
 > 
-> Signed-off-by: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
+> Signed-off-by: bo liu <bo.liu@senarytech.com>
 
-Thanks, applied now.
+The code looks almost fine, just a few nitpicking:
 
+> --- a/sound/pci/hda/Makefile
+> +++ b/sound/pci/hda/Makefile
+> @@ -24,6 +24,7 @@ snd-hda-codec-cs8409-y :=	patch_cs8409.o patch_cs8409-tables.o
+>  snd-hda-codec-ca0110-y :=	patch_ca0110.o
+>  snd-hda-codec-ca0132-y :=	patch_ca0132.o
+>  snd-hda-codec-conexant-y :=	patch_conexant.o
+> +snd-hda-codec-senarytech-objs :=patch_senarytech.o
+
+Use *-y instead of *-objs.  The other entries have been corrected
+recently.
+
+> +/* parse EAPDs */
+> +static void senary_auto_parse_eapd(struct hda_codec *codec)
+> +{
+> +	struct senary_spec *spec = codec->spec;
+> +	hda_nid_t nid;
+> +
+> +	for_each_hda_codec_node(nid, codec) {
+> +		if (get_wcaps_type(get_wcaps(codec, nid)) != AC_WID_PIN)
+> +			continue;
+> +		if (!(snd_hda_query_pin_caps(codec, nid) & AC_PINCAP_EAPD))
+> +			continue;
+> +		spec->eapds[spec->num_eapds++] = nid;
+> +		if (spec->num_eapds >= ARRAY_SIZE(spec->eapds))
+> +			break;
+> +	}
+> +
+> +	/* NOTE: below is a wild guess; if we have more than two EAPDs,
+> +	 * it's a new chip, where EAPDs are supposed to be associated to
+> +	 * pins, and we can control EAPD per pin.
+> +	 * OTOH, if only one or two EAPDs are found, it's an old chip,
+> +	 * thus it might control over all pins.
+> +	 */
+> +	if (spec->num_eapds > 2)
+> +		spec->dynamic_eapd = 1;
+
+Do you still need to verify this?  This is copied from Conexant
+driver, and they needed this workaround due to different handling per
+chip model.  Unless needed, better to drop (or assuming always true)
+this condition for simplicity.
+
+> +#ifdef CONFIG_PM
+> +static int senary_auto_suspend(struct hda_codec *codec)
+> +{
+> +	senary_auto_shutdown(codec);
+> +	return 0;
+> +}
+> +#endif
+
+The latest code dropped the dependency on CONFIG_PM.  Remove ifdef.
+
+> +static const struct hda_codec_ops senary_auto_patch_ops = {
+> +	.build_controls = snd_hda_gen_build_controls,
+> +	.build_pcms = snd_hda_gen_build_pcms,
+> +	.init = senary_auto_init,
+> +	.free = senary_auto_free,
+> +	.unsol_event = snd_hda_jack_unsol_event,
+> +#ifdef CONFIG_PM
+> +	.suspend = senary_auto_suspend,
+> +	.check_power_status = snd_hda_gen_check_power_status,
+> +#endif
+
+Ditto.
+
+
+thanks,
 
 Takashi
