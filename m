@@ -1,271 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0A8612C53D;
-	Thu, 13 Jun 2024 07:46:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4517F13DDB8
+	for <linux-sound@vger.kernel.org>; Thu, 13 Jun 2024 08:42:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718264772; cv=none; b=FZbnxcOw5mbKytMb2c4ydEwn+nM9obc5U20WUHQGWnBdmVFZK0+jcTdW4cfEzLOyC7iCQbnKSW16LFuK7GyXML23UV2KM3z5famEseSsOOE8wVWH9TiaiHpbhzVHuzbyUDpa5tCzqHEc2IY3JbfNW5TWeFMH9oaWn3aH9hIpyh4=
+	t=1718268150; cv=none; b=PBnIpDC2aDUqWn+kRJz4/sNllOkpeTj+p1YMyKuN26t6EjmnIT84ujHPt7FEoDXCFSRfecnyUuON238U/pMDzSBeUtm/TODTomtZrqW3L1IHv1g3SDTy9raypsWDOjJcRJ3zbb+0euYUWVcyoiVtg90stMQZO1F9eQCj2DZKWsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718264772; c=relaxed/simple;
-	bh=SWhtuMvx4uGhi/2J1+eQKjWpE4vQF+jCSZC4acIXW4M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CgFbWilGJY76HqJ1Xs4XQsad5B16RHWsJJqwx3kF4IhEFoElqCAPGRTW/6zCqqy7qdzzYcuAcWze1kLo87rBQGH8ZZPw0E5MjTlZBlbpo7w4JWYflcE5Yw2cz4fnZKTAmQ9gd6WMBFd4xSmdti9OCOUVbCMGPdCVuEK64tMhJrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ksBQEiMU; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1718268150; c=relaxed/simple;
+	bh=/A7abzR0nfC1k2xVmSlYs8rLUypEYaJctAfBqRQ+7kU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=TAPaW4PxXtjvQzYF6PUIBlCpXCbj12uNYugV5aQu1N4GJyG+MccmWmbN58FjaeNP218w1JrxQyb0JlqBCe+ZqlHgo6SXD3dhGrN4H3Ka1Ijttu9nRCHaEDuGKLcTluVEmh5Xn9fgsrW1VvVYOTZici3oz0v0xmBTPbmLeTBEaNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aDrONJhI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ksBQEiMU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718264771; x=1749800771;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=SWhtuMvx4uGhi/2J1+eQKjWpE4vQF+jCSZC4acIXW4M=;
-  b=ksBQEiMU6ObEeJUh1KTfgWEMaecgtqhaXA2V7S2Hl+cixsk8uITos3nL
-   gQ71+0rVpfu6OOSpclJrWToX9lq6Seo7PGIQ7KqFF8IqhRhJIh/j98EyH
-   lJw9LNlW9DDFpFZUjfxqctzHMEN3bOPTqP5PqrZbu5VtiAh67/+L4fyyr
-   rxD00PGw17hRHjmNJkD6I6iWORqfbCdGAF2IQ+2LJ1oyeXb61AXFv3x+b
-   KTgESQGtBumiPoUaHBghz0C9glyMnIt2h/vbZty90256HyNzbPzCbMgZg
-   J7OK533FtBJfunvKJGh+xMFoEp6JNXssw3TehTq0rVx8EDN1qguPAsF9a
-   Q==;
-X-CSE-ConnectionGUID: ej8fp6anS6S6gypilpwu/g==
-X-CSE-MsgGUID: VPTleWmCTLiW+S8pkVZewA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="32555152"
-X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
-   d="scan'208";a="32555152"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 00:46:10 -0700
-X-CSE-ConnectionGUID: G7+f6gn+QjydAvijR9Jdfg==
-X-CSE-MsgGUID: I60iyNO4Qg2NYql1SQsh2g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
-   d="scan'208";a="71264693"
-Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.8.107]) ([10.94.8.107])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 00:46:04 -0700
-Message-ID: <ca1e1063-e1bd-4e03-a7cd-91985e9954e9@linux.intel.com>
-Date: Thu, 13 Jun 2024 09:46:02 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aDrONJhI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03A19C3277B;
+	Thu, 13 Jun 2024 08:42:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718268149;
+	bh=/A7abzR0nfC1k2xVmSlYs8rLUypEYaJctAfBqRQ+7kU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=aDrONJhIOR/8BYPHN4Q8CmFrpwLdVieQpxiZeGElrTDYb9Xgwmanj4LE6UDtb8LgV
+	 7ZL8RFsZLS9Ay8vqdMbAoRe5yL8IySPpCWk/ovLoxNDYMr2G/OgF90FYCQCtOq6XfT
+	 LQgqb35w4UL8EbgqyMW4QMuKHk8p1L+v9iUX0a96uDJ47pzm5TIM3TNTPikW+8rG/G
+	 Y4l6MRjwC2ex/0rv9uz99cM0/PBJK6tpeOliYNEarHBQ453flp4vAZRN35bCycToQI
+	 HyALr698h8aRL3xiTYdoVZYja4fuTLLDA8pJJBxAVCoJd/iBKJEWCH8EANqiW6uvmF
+	 I57MKOPxpf8Vg==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.intel.com, 
+ kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com
+In-Reply-To: <20240612121203.15468-1-peter.ujfalusi@linux.intel.com>
+References: <20240612121203.15468-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH] ASoC: SOF: sof-audio: Skip unprepare for in-use
+ widgets on error rollback
+Message-Id: <171826814960.249517.11714936800006262287.b4-ty@kernel.org>
+Date: Thu, 13 Jun 2024 09:42:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v23 32/32] ASoC: doc: Add documentation for SOC USB
-Content-Language: en-US
-To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
- Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, tiwai@suse.com,
- robh@kernel.org, gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
- alsa-devel@alsa-project.org
-References: <20240610235808.22173-1-quic_wcheng@quicinc.com>
- <20240610235808.22173-33-quic_wcheng@quicinc.com>
- <5be51e1f-70c9-4bbc-96fa-1e50e441bd35@linux.intel.com>
- <408d9e8e-0f40-7e66-54be-2f8d2c0783a3@quicinc.com>
-From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <408d9e8e-0f40-7e66-54be-2f8d2c0783a3@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev-4c370
 
-On 6/12/2024 9:28 PM, Wesley Cheng wrote:
-> Hi Amadeusz,
+On Wed, 12 Jun 2024 15:12:03 +0300, Peter Ujfalusi wrote:
+> If the ipc_prepare() callback fails for a module instance, on error rewind
+> we must skip the ipc_unprepare() call for ones that has positive use count.
 > 
-> On 6/12/2024 7:47 AM, Amadeusz Sławiński wrote:
->> On 6/11/2024 1:58 AM, Wesley Cheng wrote:
->>
->> (...)
->>
->>> +In the case where the USB offload driver is unbounded, while USB SND is
->>
->> unbounded -> unbound
->>
->> (...)
->>
->>> +SOC USB and USB Sound Kcontrols
->>> +===============================
->>> +Details
->>> +-------
->>> +SOC USB and USB sound expose a set of SND kcontrols for applications 
->>> to select
->>> +and fetch the current offloading status for the ASoC platform sound 
->>> card. Kcontrols
->>> +are split between two layers:
->>> +
->>> +    - USB sound - Notifies the sound card number for the ASoC 
->>> platform sound
->>> +      card that it is registered to for supporting audio offload.
->>> +
->>> +    - SOC USB - Maintains the current status of the offload path, 
->>> and device
->>> +      (USB sound card and PCM device) information.  This would be 
->>> the main
->>> +      card that applications can read to determine offloading 
->>> capabilities.
->>> +
->>> +Implementation
->>> +--------------
->>> +
->>> +**Example:**
->>> +
->>> +  **Sound Cards**:
->>> +
->>> +    ::
->>> +
->>> +      0 [SM8250MTPWCD938]: sm8250 - SM8250-MTP-WCD9380-WSA8810-VA-D
->>> +                     SM8250-MTP-WCD9380-WSA8810-VA-DMIC
->>> +      1 [C320M          ]: USB-Audio - Plantronics C320-M
->>> +                     Plantronics Plantronics C320-M at 
->>> usb-xhci-hcd.1.auto-1, full speed
->>> +
->>> +
->>> +  **Platform Sound Card** - card#0:
->>> +
->>> +    ::
->>> +
->>> +      USB Offload Playback Route Card Select  1 (range -1->32)
->>> +      USB Offload Playback Route PCM Select   0 (range -1->255)
->>> +      USB Offload Playback Route Card Status  -1 (range -1->32)
->>> +      USB Offload Playback Route PCM Status   -1 (range -1->255)
->>> +
->>> +
->>> +  **USB Sound Card** - card#1:
->>> +
->>> +    ::
->>> +
->>> +      USB Offload Playback Capable Card         0 (range -1->32)
->>> +
->>> +
->>> +The platform sound card(card#0) kcontrols are created as part of 
->>> adding the SOC
->>> +USB device using **snd_soc_usb_add_port()**.  The following 
->>> kcontrols are defined
->>> +as:
->>> +
->>> +  - ``USB Offload Playback Route Card Status`` **(R)**: USB sound 
->>> card device index
->>> +    that defines which USB SND resources are currently offloaded.  
->>> If -1 is seen, it
->>> +    signifies that offload is not active.
->>> +  - ``USB Offload Playback Route PCM Status`` **(R)**: USB PCM 
->>> device index
->>> +    that defines which USB SND resources are currently offloaded.  
->>> If -1 is seen, it
->>> +    signifies that offload is not active.
->>> +  - ``USB Offload Playback Route Card Select`` **(R/W)**: USB sound 
->>> card index which
->>> +    selects the USB device to initiate offloading on.  If no value 
->>> is written to the
->>> +    kcontrol, then the last USB device discovered card index will be 
->>> chosen.
->>
->> I see only one kcontrol, what if hardware is capable of offloading on 
->> more cards, is it possible to do offloading on more than one device?
->>
->>> +  - ``USB Offload Playback Route PCM Select`` **(R/W)**: USB PCM 
->>> index which selects
->>> +    the USB device to initiate offloading on.  If no value is 
->>> written to the
->>> +    kcontrol, then the last USB device discovered PCM zero index 
->>> will be chosen.
->>> +
->>> +The USB sound card(card#1) kcontrols are created as USB audio 
->>> devices are plugged
->>> +into the physical USB port and enumerated.  The kcontrols are 
->>> defined as:
->>> +
->>> +  - ``USB Offload Playback Capable Card`` **(R)**: Provides the 
->>> sound card
->>> +    number/index that supports USB offloading.  Further/follow up 
->>> queries about
->>> +    the current offload state can be handled by reading the offload 
->>> status
->>> +    kcontrol exposed by the platform card.
->>> +
->>
->>
->> Why do we need to some magic between cards? I feel like whole kcontrol 
->> thing is overengineered a bit - I'm not sure I understand the need to 
->> do linking between cards. It would feel a lot simpler if USB card 
->> exposed one "USB Offload" kcontrol on USB card if USB controller 
->> supports offloading and allowed to set it to true/false to allow user 
->> to choose if they want to do offloading on device.
->>
->> (...)
+> The positive use count means that the module instance is in active use, it
+> cannot be unprepared.
 > 
-> Based on feedback from Pierre, what I understood is that for some 
-> applications, there won't be an order on which sound card is 
-> queried/opened first.
+> The issue affects capture direction paths with branches (single dai with
+> multiple PCMs), the affected widgets are in the shared part of the paths.
 > 
+> [...]
 
-Yes if you have multiple cards, they are probed in random order.
+Applied to
 
-> So the end use case example given was if an application opened the USB 
-> sound card first, it can see if there is an offload path available.  If 
-> there is then it can enable the offload path on the corresponding card 
-> if desired.
-> 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-This still doesn't explain why you need to link cards using controls. 
-What would not work with simple "Enable Offload" with true/false values 
-on USB card that works while you do have above routing controls?
+Thanks!
 
->>> +Mixer Examples
->>> +--------------
->>> +
->>> +    ::
->>> +
->>> +      tinymix -D 0 set 'USB Offload Playback Route Card Select' 2
->>> +      tinymix -D 0 set 'USB Offload Playback Route PCM Select' 0
->>> +
->>> +
->>> +    ::
->>> +
->>> +      tinymix -D 0 get 'USB Offload Playback Route Card Select'
->>> +      --> 2 (range -1->32)
->>> +      tinymix -D 0 get 'USB Offload Playback Route PCM Select'
->>> +      --> 0 (range -1->255)
->>> +
->>> +    ::
->>> +
->>> +      tinymix -D 0 get 'USB Offload Playback Route Card Status'
->>> +      --> 2 (range -1->32)   [OFFLD active]
->>> +      --> -1 (range -1->32) [OFFLD idle]
->>> +      tinymix -D 0 get 'USB Offload Playback Route PCM Status'
->>> +      --> 0 (range -1->255)   [OFFLD active]
->>> +      --> -1 (range -1->255) [OFFLD idle]
->>> +
->>> +    ::
->>> +
->>> +      tinymix -D 1 get 'USB Offload Playback Capable Card'
->>> +      --> 0 (range -1->32)
->>>
->>
->> Yes, looking at examples again, I'm still not sure I understand. There 
->> are two cards and you do linking between them, this feels broken by 
->> design. From my point of view USB Offload should be property of USB 
->> card and not involve any other card in a system.
->>
-> 
-> Main benefit to having two cards (keeping one for USB SND and another 
-> for the ASoC platform sound card) is that current applications won't 
-> break.  The behavior is the same, in that if something opens the USB 
-> sound card, it will go through the same non-offloaded path.  During 
-> initial reviews, I think this was a big point where folks wanted the USB 
-> PCM path to still be an option.
-> 
+[1/1] ASoC: SOF: sof-audio: Skip unprepare for in-use widgets on error rollback
+      commit: 6f2a43e3d14f6e31a3b041a1043195d02c54d615
 
-I'm not against having two cards, in fact I hope that USB card looks and 
-behaves the same as before this patch set, with only difference being 
-controls for enabling offload.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-> If applications want to add the offload capabilities to its environment, 
-> they can enable it as an additional feature.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-That sounds fine to me.
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
