@@ -1,54 +1,54 @@
 Received: from fhigh4-smtp.messagingengine.com (fhigh4-smtp.messagingengine.com [103.168.172.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B30BC17FD
-	for <linux-sound@vger.kernel.org>; Thu, 13 Jun 2024 12:56:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC3792AF15
+	for <linux-sound@vger.kernel.org>; Thu, 13 Jun 2024 13:00:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718283416; cv=none; b=ngOa7UJ8aaPfR9++MC9wRTRFmfsGHwdaNjdp6pbGV4vyGyVOiE+pN12TM2Zy0wusLHtyXCmWFICpCsKnoWCYxpzdZvv+/4zpyZojl1b5xqwqf3rX7rZoYIxRUYJ6tb2F9DVq6QVzsamyaqDjIx/idqhYzkE1sLyA4m36mPiYcoY=
+	t=1718283655; cv=none; b=A5DMzAlPtmAOmNrKCAQXTd22M1vtVfEdj1fto2+RSty4wNjdFC7TaiVo5Lia6HOjJIc80CqBYu3/y6TBRulsMdNmVmhtz5rLu6f8HDrHtqSbV2wOz98ja0Xn5gccIQsqcsJf0S2F9Kdf06g15jVzExydaS0mtcXx32hDEhdjMuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718283416; c=relaxed/simple;
-	bh=X7eweAgUaax9yKFmkJGOjjGoDPrL0AESZavmXf8aeGQ=;
+	s=arc-20240116; t=1718283655; c=relaxed/simple;
+	bh=JnVNdx3sIXtB5sOvmMnqmKW7+ijuIomz5RGn4coQ/d4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JoeQG6vEfG1FxMMa4/6mC1TopfJnwoieuQJmdmEO/ZFzwrqnV/ci6NJqDtNZBv6zfJ3orfHe0wJiVjfC7l7VuNqyLhC0m7t+cvD2Xv5uv/7Jg2D3oKgLhDZ42+7KANQPEezO8r5+9EiIGaYuYnJCz3ipH7guK0/CxE61+srxiFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=djntqgpP; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=JryE67/N; arc=none smtp.client-ip=103.168.172.155
+	 Content-Type:Content-Disposition:In-Reply-To; b=N2HUDurGSSJB4k28LgSekDgwozRWV0s1bc3RDyWw4MzMlAOb9mxLz9fVSolwZsKUlykcwrh7RyzbPQK3cVe1byuY8JLUzry4SMZn0w/2cFYUZtMe0vcdZG1GaXmF1Im/QL4MPIeLToLiapAdV0d8DMUpl3m0qJRsPNFaNr5JFaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=ghh+nRkL; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=m4/eWAd0; arc=none smtp.client-ip=103.168.172.155
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="djntqgpP";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="JryE67/N"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id A986711401B6;
-	Thu, 13 Jun 2024 08:56:53 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Thu, 13 Jun 2024 08:56:53 -0400
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="ghh+nRkL";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="m4/eWAd0"
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id BF0E611401F1;
+	Thu, 13 Jun 2024 09:00:52 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Thu, 13 Jun 2024 09:00:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
 	 h=cc:cc:content-type:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1718283413; x=
-	1718369813; bh=/D0RyttmaJD4GGIuLh2UUaQhR0/a/V4lC8CF4U3LxJY=; b=d
-	jntqgpPsxJMJJrciJDQomC75vMhfaSpvBkcDcSySlFI+CRupc3aIvRXXR/07Ay24
-	9EMi8/GHIjIR889tOUoB7egOutvp70lAlZGrkdVxfBdMUdxG0hmUgCf6JwrtDkab
-	8jRGb+94KBX1IHHLoOiCdGKUG/XTH56L1o3oyZeap1M46uVJG+Kw2iH0m9aML6Ky
-	UVf4tCjOERhpbQjSRXah/6QPnYBZWDWVh3N+esZwq8BnM8fXGprjqayYOlmconmK
-	tEu+axEVbPYDqKfh1d1kdRWhFOgvf4rH+LQl6u0wiqiP9Fc/tDtRAuE2VWR7hfTK
-	BcQ6Jqb5tsaIrbH5hciaA==
+	:reply-to:subject:subject:to:to; s=fm1; t=1718283652; x=
+	1718370052; bh=3mC4PN9pQork/ZKLcpYEtKUu9JBdJdfQbEnmLGfla/0=; b=g
+	hh+nRkLySu1uEQXrpxqMVUtWXGRM5AbMpL0gJZnDLsM2XNgC6pVCWUGeU3d/4ec+
+	owrhguDSadtEoeFT+1guvj4xxZha4sBruYgt5IWoXl25ZxJtHJzz4ioL7UUvkzIi
+	pozQ/e/8PWZ/vqdEIahmAmcX/T1gQUfYM2GhbRUXcwJN7ZgZulbfFzdP4TLjUfkI
+	dMZjEPmb0U6k90T7ObjLoWtETeOM9zjFxE0BNTzNSKMK4JPEI612Xt9FswzMSMul
+	r6SW+Jp29gPKxM6DHJnNgojDnk/VJV/IG+JsPp0RbVUl9WW6t3WskptyJwUSNHxW
+	7Mk8NdEopCJw4dE4K9iQg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1718283413; x=1718369813; bh=/D0RyttmaJD4GGIuLh2UUaQhR0/a
-	/V4lC8CF4U3LxJY=; b=JryE67/N1keQwC5ygASSg4eQ4IYrrUepIvdZD0qmQpJ3
-	pksNI96zUqFoqg3+oIcIPLylD8faSHQOR30Kux8xW8B2lcsLOMb5FTAbfAX6X1Jj
-	FNNpOpIYX/LScEy5g5etnXXHBIgBzdyPM8zGtdOQHaEoRSzOJMBssHDwiahrdZFl
-	1p8aCIO3muh+LNQ94E8evjxPiIKp/FT/xON59mzdTrT9v1z5mJPt4XqpOK0PG/cZ
-	tS4dZ/uxU0pHG9u6jrvHV9kMaZWm+6NrIltO4jEiXDUpBQIylKbucpQVI/Ou3lgY
-	YgNpAf2m3pDeD6C1Y5bFxxwRgAOh/ZXM1Jrt1XlyEg==
-X-ME-Sender: <xms:lexqZhq4Kk0Ztu9WmK3kPc-cDOQ7BgGJL7nuvhO3Hte01yUVxcMZFg>
-    <xme:lexqZjrbhcjK_Wc2DsiW-hURJtqj6isZTydBYr3QPOX8oKMfTEX-D1NKqFK8hqeaq
-    ebyNrRXGNMzs1CIgfI>
-X-ME-Received: <xmr:lexqZuPLzABVgQocvo4ffkDisvfSmIxSdEoxf0AkjbEIn1rv70gLwLQhKsZhikahtYYfMS5MFpc8biXReK5ziBq4Zm32IhBlk8I>
+	fm1; t=1718283652; x=1718370052; bh=3mC4PN9pQork/ZKLcpYEtKUu9JBd
+	JdfQbEnmLGfla/0=; b=m4/eWAd020IJrvvbv5l59MijCrR2j2c/0tvA6mXA4X/A
+	N7Sqikws32gkSmY/+mnlirUg05PrFrQi0xxjRxK48nq3hlvEadhtA985YZtmoLWE
+	8mvkGpqabaOdv8fjoER+7WxWgOzuyBMOkREEeD1cO5L8jGtZsU17JqDbjBRC/Yac
+	aZbmYkxNQ6LgHaOyuQds/XoeU0fa+MXrD6USdHqkwiPjMrAgDMaveCDsgkjCQBDk
+	mZPQl1XbZpO63FBwavKCSwjSp7B7nLYBQ57PIOyIq+FzDi1ylvlfyXPa5/0L/djP
+	3Bel7KBg9lc+t3I/McDYZ0nUfq/fmcDrSowQNWEhuw==
+X-ME-Sender: <xms:hO1qZklSb32W-ZiKxt88lnitamVdJRDKveNRELpFLv78Kq0pAwEjoQ>
+    <xme:hO1qZj27ld0fwzQTg9WTTwp8maJDOcymBycjgKoMXzk2wA_fXc4ULoA26HaVCr1fD
+    -dY4CclhRROC8Opyg0>
+X-ME-Received: <xmr:hO1qZirflVi3C7q_B726sH-phcP77GaesipUpXkxq0gp-GB2t-qtBYznoiE8ASNm6cKTCPZTuZOsVYY-CPequx_SkYhksjoqYhs>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfedujedgheeiucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -57,24 +57,23 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfedujedgheeiucetufdoteggod
     hjpheqnecuggftrfgrthhtvghrnhephefhhfettefgkedvieeuffevveeufedtlefhjeei
     ieetvdelfedtgfefuedukeeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
     hmrghilhhfrhhomhepohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhirdhjph
-X-ME-Proxy: <xmx:lexqZs4tiGrOaphyerLVZ-hIcoy-Oi58MggMl6Tv81_CCtDQsPgziw>
-    <xmx:lexqZg5ZTs-Fd9lI_R05nnEeNfGEMiP8bXmA0YdT-33v3PultY4jAw>
-    <xmx:lexqZkgbLWaYtqvI_3i3mLlYY7hI5Dz8xALvVaOIbaaUq0xINl51DA>
-    <xmx:lexqZi7ftBC7S5DKoznSWIn7-Hry7N8OZXuKMNc7HL96MRh5mVkhHg>
-    <xmx:lexqZr3lhabKKG3AK7zBV-eet6gWbvWkmvWvnn76omQsEHGnOwSbxeoj>
+X-ME-Proxy: <xmx:hO1qZgkt68lTE2BbOsIKTtTBEQfcO32TlgyoOZQqoKBQLKrDWqD_og>
+    <xmx:hO1qZi0HKNIDkSW8m_KkwQDZ8s0vgcutN8yULZ7MKBqIFW0YYDmjhQ>
+    <xmx:hO1qZnsY4JW5Wq0Pd-cnOG7a1082nkahYz7hYyekYUeoNq59qO4DrA>
+    <xmx:hO1qZuV_atRZbn_ycS8hk7ArfyOCTHs8iPcOpR5z0LdftsfCufk9Ag>
+    <xmx:hO1qZnzyhlWlYd6Rt2RLSnIJjIk98tjQZMgIEqE4Rhuj7OZzwRcq0bFN>
 Feedback-ID: ie8e14432:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 13 Jun 2024 08:56:51 -0400 (EDT)
-Date: Thu, 13 Jun 2024 21:56:49 +0900
+ 13 Jun 2024 09:00:51 -0400 (EDT)
+Date: Thu, 13 Jun 2024 22:00:48 +0900
 From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
 To: Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org, Takashi Iwai <tiwai@suse.de>,
-	Takashi Sakamoto <takaswie@kernel.org>
-Subject: Re: [PATCH v4 1/2] ALSA: pcm: reinvent the stream synchronization ID
- API
-Message-ID: <20240613125649.GA421852@workstation.local>
+Cc: linux-sound@vger.kernel.org, Takashi Iwai <tiwai@suse.de>
+Subject: Re: [PATCH v4 2/2] ALSA: pcm: optimize and clarify stream
+ sychronization ID API
+Message-ID: <20240613130048.GB421852@workstation.local>
 References: <20240507133551.607171-1-perex@perex.cz>
- <20240507133551.607171-2-perex@perex.cz>
+ <20240507133551.607171-3-perex@perex.cz>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -83,141 +82,25 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240507133551.607171-2-perex@perex.cz>
+In-Reply-To: <20240507133551.607171-3-perex@perex.cz>
 
-Hi,
+On Tue, May 07, 2024 at 03:30:51PM +0200, Jaroslav Kysela wrote:
+> Optimize the memory usage in struct snd_pcm_runtime - use boolean
+> value for the standard sync ID scheme.
+> 
+> Introduce snd_pcm_set_sync_per_card function to build synchronization
+> IDs.
+> 
+> Signed-off-by: Jaroslav Kysela <perex@perex.cz>
+> ---
+>  include/sound/pcm.h      | 16 +++++++++++--
+>  sound/core/pcm_lib.c     | 51 ++++++++++++++++++++++++----------------
+>  sound/pci/emu10k1/p16v.c | 16 +++++++++----
+>  3 files changed, 57 insertions(+), 26 deletions(-)
 
-On Tue, May 07, 2024 at 03:30:50PM +0200, Jaroslav Kysela wrote:
-> diff --git a/include/uapi/sound/asound.h b/include/uapi/sound/asound.h
-> index 628d46a0da92..c458172b32d5 100644
-> --- a/include/uapi/sound/asound.h
-> +++ b/include/uapi/sound/asound.h
-> @@ -142,7 +142,7 @@ struct snd_hwdep_dsp_image {
->   *                                                                           *
->   *****************************************************************************/
->  
-> -#define SNDRV_PCM_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 17)
-> +#define SNDRV_PCM_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 18)
->  
->  typedef unsigned long snd_pcm_uframes_t;
->  typedef signed long snd_pcm_sframes_t;
-> @@ -330,12 +330,6 @@ enum {
->  #endif
->  };
->  
-> -union snd_pcm_sync_id {
-> -	unsigned char id[16];
-> -	unsigned short id16[8];
-> -	unsigned int id32[4];
-> -};
-
-It can bring FTBFS for any userspace application which uses the
-structure. If getting rid of such public structure, we should have the
-term to deprecate it for a while.
-
-> diff --git a/sound/core/pcm_lib.c b/sound/core/pcm_lib.c
-> index 6f73b3c2c205..57ed4ffc891a 100644
-> --- a/sound/core/pcm_lib.c
-> +++ b/sound/core/pcm_lib.c
-> @@ -5,6 +5,7 @@
->   *                   Abramo Bagnara <abramo@alsa-project.org>
->   */
->  
-> +#include <asm/unaligned.h>
->  #include <linux/slab.h>
->  #include <linux/sched/signal.h>
->  #include <linux/time.h>
-> @@ -525,10 +526,8 @@ void snd_pcm_set_sync(struct snd_pcm_substream *substream)
->  {
->  	struct snd_pcm_runtime *runtime = substream->runtime;
->  	
-> -	runtime->sync.id32[0] = substream->pcm->card->number;
-> -	runtime->sync.id32[1] = -1;
-> -	runtime->sync.id32[2] = -1;
-> -	runtime->sync.id32[3] = -1;
-> +	*(__u32 *)runtime->sync = cpu_to_le32(substream->pcm->card->number);
-> +	memset(runtime->sync + 4, 0xff, sizeof(runtime->sync) - 4);
->  }
->  EXPORT_SYMBOL(snd_pcm_set_sync);
->  
-> @@ -1810,6 +1809,24 @@ static int snd_pcm_lib_ioctl_fifo_size(struct snd_pcm_substream *substream,
->  	return 0;
->  }
->  
-> +/**
-> + * is sync id (clock id) empty?
-> + */
-> +static inline bool pcm_sync_empty(const unsigned char *sync)
-> +{
-> +	return get_unaligned((__u64 *)(sync + 0)) == 0 && get_unaligned((__u64 *)(sync + 8)) == 0;
-> +}
-
-This kind of usage of C inline qualifier is not useless, since the modern
-compilers can optimize it into the local code.
-
-> +static int snd_pcm_lib_ioctl_sync_id(struct snd_pcm_substream *substream,
-> +				     void *arg)
-> +{
-> +	struct snd_pcm_hw_params *params = arg;
-> +
-> +	if (pcm_sync_empty(params->sync))
-> +		memcpy(params->sync, substream->runtime->sync, sizeof(params->sync));
-> +	return 0;
-> +}
-
-Furthermore, it does not work as expected in the case that any of driver sets
-zeros to char[16] intentionally for its own purpose at PCM .open callback.
-
-I think it is a kind of 'Separation of mechanism and policy' argument,
-and a kind of designs which should be avoided.
-
->  /**
->   * snd_pcm_lib_ioctl - a generic PCM ioctl callback
->   * @substream: the pcm substream instance
-> @@ -1831,6 +1848,8 @@ int snd_pcm_lib_ioctl(struct snd_pcm_substream *substream,
->  		return snd_pcm_lib_ioctl_channel_info(substream, arg);
->  	case SNDRV_PCM_IOCTL1_FIFO_SIZE:
->  		return snd_pcm_lib_ioctl_fifo_size(substream, arg);
-> +	case SNDRV_PCM_IOCTL1_SYNC_ID:
-> +		return snd_pcm_lib_ioctl_sync_id(substream, arg);
->  	}
->  	return -ENXIO;
->  }
-> diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-> index 0b76e76823d2..63fcb08ee93d 100644
-> --- a/sound/core/pcm_native.c
-> +++ b/sound/core/pcm_native.c
-> @@ -533,6 +533,12 @@ static int fixup_unreferenced_params(struct snd_pcm_substream *substream,
->  					  SNDRV_PCM_INFO_MMAP_VALID);
->  	}
->  
-> +	err = snd_pcm_ops_ioctl(substream,
-> +				SNDRV_PCM_IOCTL1_SYNC_ID,
-> +				params);
-> +	if (err < 0)
-> +		return err;
-> +
->  	return 0;
->  }
->  
-> diff --git a/sound/pci/emu10k1/p16v.c b/sound/pci/emu10k1/p16v.c
-> index e7f097cae574..773725dbdfbd 100644
-> --- a/sound/pci/emu10k1/p16v.c
-> +++ b/sound/pci/emu10k1/p16v.c
-> @@ -174,10 +174,9 @@ static int snd_p16v_pcm_open_playback_channel(struct snd_pcm_substream *substrea
->  	if (err < 0)
->                  return err;
->  
-> -	runtime->sync.id32[0] = substream->pcm->card->number;
-> -	runtime->sync.id32[1] = 'P';
-> -	runtime->sync.id32[2] = 16;
-> -	runtime->sync.id32[3] = 'V';
-> +	*(__u32 *)runtime->sync = cpu_to_le32(substream->pcm->card->number);
-> +	memset(runtime->sync + 4, 0, sizeof(runtime->sync) - 4);
-> +	strncpy(runtime->sync + 4, "P16V", 4);
-
-I'm sorry if I overlooked your reply to my point, however the above is
-not equivalent.
+Ah... OK. The most of changes in the previous patch is dismissed. I
+think it better to respin the patchset if it would be merged after
+passing adequate reviewing process.
 
 
 Regards
