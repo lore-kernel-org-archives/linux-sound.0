@@ -1,118 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E902613D617
-	for <linux-sound@vger.kernel.org>; Thu, 13 Jun 2024 11:10:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D8713D28D;
+	Thu, 13 Jun 2024 11:19:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718277038; cv=none; b=T3awvXG6EDenYA8ckDsRvPdiQ9w7Wj0GoYS39M8vKLoGu7zLP/Hm5075jpbnELbn7GMOcE/ZRhRhUmJTwwqbHgLDNTtrwqaifGm+Qbn87dv7ghJxluFXo8O3uIyRIlT/kTePuoPVfyWn6FmZgyZIdbhk4NPYBPomLIgDCN1JK98=
+	t=1718277562; cv=none; b=HweefK8TdIMI/eTicnxoxQaNqstLifDoW7weLoC20TeBt5LFeWqiXimedaQjhI3OAC1iHYEV9CD+ozIHlbu+nMs8E2hF4h1BLnhi2D0eM2oncltG7n9VdB0rzuJaWNK6vtTz/NCu/s0dHa9QeH9cJF5eNhfoC0qmA2tfjE2WN1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718277038; c=relaxed/simple;
-	bh=7uq/Fw+OV5n0LPS9W3NvyyAT4Rlpf4BZ9H0W/4B5Evg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fpFg/TesJcRAiTAKh2tHgnYRcu3sXXNhkKUuckPhrDRMOIKIEirHOnk1KfAKdZHeXPFQRp4/1mQ/LBZxvsayJSLZ1u2j2lBZU3fwp0cUo6ULDM/ZPpg/LfWveVKg0z6tP/XekuU05M9wzxM85gCG1UqnFGj67+wedVIEcBJqF4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=grAffJG7; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1718277562; c=relaxed/simple;
+	bh=FSIeRAlLZMWHT261y1qfIVJfXLwpq4Sk47twc/pjht4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qHFQUn+wZtQE+FHm6zGV1SY6KV35rXVLXKaKAiGsmyymGR7vS7s7pC0kjP9XH547nMBOvGrpDndqKX7OtNrmB/gUT2McZ7A3K7Qawhen4PdLDHYpETP8XpMZuXbn8kLEDBuNp1m6O4kR+2syjjPuY7WIiRzerNpofBmROMb58t0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ebkH5Vgh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9f6JfGyf; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ebkH5Vgh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9f6JfGyf; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="grAffJG7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718277037; x=1749813037;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=7uq/Fw+OV5n0LPS9W3NvyyAT4Rlpf4BZ9H0W/4B5Evg=;
-  b=grAffJG7+XyBpB9+refGoqc2b2Aah6fGkcvm4obAdHzjre7ZNqBHx94s
-   wLRKXiAGQFTWSnyuuf5YC25XcoX1K/6LApEJUDNnXuduhgljXW3ikzmG7
-   Ix4fhBg1WsA7FID1WUIi1JzI5mtrNwOQAOigJC+KW/kfxPHkgwgM0qU4S
-   xiXivgL0Dpez+3Sz6BvS6dVipn0oBo3akss4KR+aoPYUc/b4mPJFc9KDP
-   uxL1+PnXy1XuXD9koOV29e13skitkGaltRPUpyP61uvE1mPFZ/UJA6c6Z
-   VKdnm9dyi0uU3iiGbAc8rjiZfvc3fB1fOF6i5ha+jErsvHbp1zLaiL7/g
-   g==;
-X-CSE-ConnectionGUID: BQkZZ2a1SGSf46YQpOzM+Q==
-X-CSE-MsgGUID: 6FwfjqZIRMS3LRdtDeY6Bg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="25766215"
-X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
-   d="scan'208";a="25766215"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 04:10:36 -0700
-X-CSE-ConnectionGUID: ErkRo2aIQ/OhwWGzmTLeQg==
-X-CSE-MsgGUID: UhJkB7AASbi4PeMY5deyPg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
-   d="scan'208";a="40746649"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.244.34]) ([10.245.244.34])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 04:10:35 -0700
-Message-ID: <0fdbae0e-e540-4c35-a555-5b2607526115@linux.intel.com>
-Date: Thu, 13 Jun 2024 14:11:02 +0300
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ebkH5Vgh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9f6JfGyf";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ebkH5Vgh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9f6JfGyf"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 44F145D239;
+	Thu, 13 Jun 2024 11:19:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1718277558; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2sq5NScImGREjqWBwAlqWPpEhG6A5ciFsXTqLEKEWsc=;
+	b=ebkH5Vgh+Sa0HLVFLk7dHP/Z8hjZ7EXotfc5xYhju1AYSuREtoAGmUytIk832QOrlbOz4G
+	Sz7WijD5YOa8sRvEuJgoqKspXuJLGxU85ZoBpmH2B/oKJgjCK/ulQMgkuloI8qAsYWJZfA
+	MSrWeBN2Aeny8FXlBS/3LigKiJhdU/c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1718277558;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2sq5NScImGREjqWBwAlqWPpEhG6A5ciFsXTqLEKEWsc=;
+	b=9f6JfGyfoI8XeemxAZGpE7c3II8iiAtnasyUPlATkZN+ZA/qhOuICik7zCA6K3p5HKsCoA
+	2TZJ5KAJBA4R2ODw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1718277558; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2sq5NScImGREjqWBwAlqWPpEhG6A5ciFsXTqLEKEWsc=;
+	b=ebkH5Vgh+Sa0HLVFLk7dHP/Z8hjZ7EXotfc5xYhju1AYSuREtoAGmUytIk832QOrlbOz4G
+	Sz7WijD5YOa8sRvEuJgoqKspXuJLGxU85ZoBpmH2B/oKJgjCK/ulQMgkuloI8qAsYWJZfA
+	MSrWeBN2Aeny8FXlBS/3LigKiJhdU/c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1718277558;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2sq5NScImGREjqWBwAlqWPpEhG6A5ciFsXTqLEKEWsc=;
+	b=9f6JfGyfoI8XeemxAZGpE7c3II8iiAtnasyUPlATkZN+ZA/qhOuICik7zCA6K3p5HKsCoA
+	2TZJ5KAJBA4R2ODw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DE42013A87;
+	Thu, 13 Jun 2024 11:19:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id DM7LNLXVamZaEgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 13 Jun 2024 11:19:17 +0000
+Date: Thu, 13 Jun 2024 13:19:41 +0200
+Message-ID: <87o785nl82.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Andy Chi <andy.chi@canonical.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Stefan Binding <sbinding@opensource.cirrus.com>,
+	Kailang Yang <kailang@realtek.com>,
+	"Luke D. Jones" <luke@ljones.dev>,
+	Shenghao Ding <shenghao-ding@ti.com>,
+	Simon Trimmer <simont@opensource.cirrus.com>,
+	Athaariq Ardhiansyah <foss@athaariq.my.id>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: fix mute/micmute LEDs don't work for ProBook 445/465 G11.
+In-Reply-To: <20240605092243.41963-1-andy.chi@canonical.com>
+References: <20240605092243.41963-1-andy.chi@canonical.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: topology: Fix route memory corruption
-To: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>, Mark Brown <broonie@kernel.org>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>, Takashi Iwai
- <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-References: <20240613090126.841189-1-amadeuszx.slawinski@linux.intel.com>
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-Content-Language: en-US
-In-Reply-To: <20240613090126.841189-1-amadeuszx.slawinski@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.21 / 50.00];
+	BAYES_HAM(-2.91)[99.60%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -3.21
+X-Spam-Level: 
 
-
-
-On 13/06/2024 12:01, Amadeusz Sławiński wrote:
-> It was reported that recent fix for memory corruption during topology
-> load, causes corruption in other cases. Instead of being overeager with
-> checking topology, assume that it is properly formatted and just
-> duplicate strings.
-
-Reviewed-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-
-> Reported-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-> Closes: https://lore.kernel.org/linux-sound/171812236450.201359.3019210915105428447.b4-ty@kernel.org/T/#m8c4bd5abf453960fde6f826c4b7f84881da63e9d
-> Suggested-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-> Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
-> ---
->  sound/soc/soc-topology.c | 12 +++---------
->  1 file changed, 3 insertions(+), 9 deletions(-)
+On Wed, 05 Jun 2024 11:22:41 +0200,
+Andy Chi wrote:
 > 
-> diff --git a/sound/soc/soc-topology.c b/sound/soc/soc-topology.c
-> index 0225bc5fc425a..4b166294602fa 100644
-> --- a/sound/soc/soc-topology.c
-> +++ b/sound/soc/soc-topology.c
-> @@ -1052,21 +1052,15 @@ static int soc_tplg_dapm_graph_elems_load(struct soc_tplg *tplg,
->  			break;
->  		}
->  
-> -		route->source = devm_kmemdup(tplg->dev, elem->source,
-> -					     min(strlen(elem->source), maxlen),
-> -					     GFP_KERNEL);
-> -		route->sink = devm_kmemdup(tplg->dev, elem->sink,
-> -					   min(strlen(elem->sink), maxlen),
-> -					   GFP_KERNEL);
-> +		route->source = devm_kstrdup(tplg->dev, elem->source, GFP_KERNEL);
-> +		route->sink = devm_kstrdup(tplg->dev, elem->sink, GFP_KERNEL);
->  		if (!route->source || !route->sink) {
->  			ret = -ENOMEM;
->  			break;
->  		}
->  
->  		if (strnlen(elem->control, maxlen) != 0) {
-> -			route->control = devm_kmemdup(tplg->dev, elem->control,
-> -						      min(strlen(elem->control), maxlen),
-> -						      GFP_KERNEL);
-> +			route->control = devm_kstrdup(tplg->dev, elem->control, GFP_KERNEL);
->  			if (!route->control) {
->  				ret = -ENOMEM;
->  				break;
+> HP ProBook 445/465 G11 needs ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF quirk to
+> make mic-mute/audio-mute working.
+> 
+> Signed-off-by: Andy Chi <andy.chi@canonical.com>
 
--- 
-Péter
+Sorry for the late reply, as I've been off in the last weeks.
+Now applied.
+
+
+thanks,
+
+Takashi
