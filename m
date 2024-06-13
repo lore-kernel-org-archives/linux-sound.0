@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE03237C;
-	Thu, 13 Jun 2024 06:11:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA283137902;
+	Thu, 13 Jun 2024 06:11:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718259068; cv=none; b=VxLI+P7VCcxt2ON2OelyhB3qYYgwKP1MC/pZmeOCAQjcUUUVTW7JlOoDzxOhMMX0O/id/ZgBY00+IzoHaIlPvGO2nTGqSjBkvMJNlf3v31BDj0+8KvyW4+9noicWS0P6IfJM+InvvhXoQyPYGCGmAv2+0Iw/6s68Vo1rUD6dylM=
+	t=1718259101; cv=none; b=GYwnw2QeaSFPtHLuNPFuWOfMYagpB7EOPR/YL/jzA00huOsWtrkVyxzhZMzgkJEBCBjn11bXpKaJBJVl/IzrXqfV3l72yEOpVWDwmXt+IAyoXH4JBecOywD6TrE/5+2D3IVW7wB/LdV7C4YqebFVJUp3x8EB1S2aZbnTvU77Nk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718259068; c=relaxed/simple;
-	bh=JbmWVngXwcaJEHJKElEnPeeTu8Gv+Zs1/2yu+j/TneE=;
+	s=arc-20240116; t=1718259101; c=relaxed/simple;
+	bh=j4ClvL6FaMVD56wFlQzFJBIAUXrLe45mPNT8LnZVQ70=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NZ5XQW3dFKVSaXqn1gJWPX4reLvaugsm3WDLVXuXqPFFUC8eoWstdrRu/H3uboXSpyeVVa2SLZr3NuoEgpO8mZUssjgZs3dFXpL4A0oPBbrALax8s57aTcI5GsnGOyPx4AL4IxWy2JXPOx0OcvQ1Shdqo940QIHTp9WA9adM8No=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iGEc7dtJ; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=OSFHtBXh9RHgYOnn48INL1cHfwVKOD/HKLFI5qETmbiwTlqaYb0sSaM5SEJKpn36fqJV8WN/yeLulWGcUjIOVcO+WGv4AC5BIXiUQVQY0HU/rJ7rniJmEBl8jYVcoDlQGK97Ffvm3MmhYEhnswlsh90vD49Zm+pUWyxcNN6co5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LprQBLnD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iGEc7dtJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EA25C2BBFC;
-	Thu, 13 Jun 2024 06:11:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LprQBLnD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B71BC32789;
+	Thu, 13 Jun 2024 06:11:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718259067;
-	bh=JbmWVngXwcaJEHJKElEnPeeTu8Gv+Zs1/2yu+j/TneE=;
+	s=k20201202; t=1718259100;
+	bh=j4ClvL6FaMVD56wFlQzFJBIAUXrLe45mPNT8LnZVQ70=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=iGEc7dtJIh6HXvyl39LmgZqjGsWuXvaUI1Avje37b9ogUwB2WNyEVWdc2D5/1DI3N
-	 7BR9xBcDQex0HzFbvyegeFSPltG6NOV+TkWHzPUHBtTh7i2Gk1uNcZLSc1XCSjZx8K
-	 8i9TcpEzKbVZ5HgCakQJBf45ZCk5MByJH8Afq4sXDOvGNe35nGZ0wQB0777K8ySU/d
-	 0vx2bkEK7NjRYLu/rl6g0dIHD7qwMrakrYbOJj30GKHKqSL4gZzcLdTgWtWTQJCK5o
-	 FPYVKzQV2grAKg101Hpz1wYRyzFkTYp6lOiORNnz2iVQB9GtGWTdavS0jJJViZa01H
-	 RWRPS+r15jSbA==
-Message-ID: <038eaf17-7806-4be4-b98d-e936afa1001f@kernel.org>
-Date: Thu, 13 Jun 2024 08:11:00 +0200
+	b=LprQBLnDa3HwEkf6Vg45HSmbPrPotcRy4SUBXgn6lUdAXDiAKnM7Cdk3LPW7DamGA
+	 DOBFkRf6RqgeDXSumYJsc+mmcrYHSmbnaoIgwqtKQ1hsuV1SqtY7r1GdEx7ZBfcJyY
+	 M8sp3JtcePmkDAGajRInvY3poRHNWzUCWwusMShxesIBd0zSbxbe/yzPBkXaTYwugE
+	 MwPNYFz1E/Ftr/tmfCGiEEnzupZP2eOSZhRhd6hBgmBuU0TCP2+Z9EwyioQCW2G2ho
+	 uUVQVnfNUfFb6zUpEAf2t1jPfXWrwrFDj3z+cE7WXGRYV/imiCkxcqGuZJvl6UfpEr
+	 EJxgAEV6hZU5A==
+Message-ID: <4df3b4c2-df61-4cdc-8aab-d2c57080b8c0@kernel.org>
+Date: Thu, 13 Jun 2024 08:11:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,8 +49,8 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org
 References: <20240611094810.27475-1-piotr.wojtaszczyk@timesys.com>
  <20240611094810.27475-2-piotr.wojtaszczyk@timesys.com>
- <51eeec03-47da-44b5-a21e-f280d0c4b47c@kernel.org>
- <CAG+cZ06EN4Uw7Cy+kwsiPzu16Kp7tsF19Oit6oN6GUcSe464JQ@mail.gmail.com>
+ <1ea92ff0-7e2d-4a9f-bef4-d50fc93b86e6@kernel.org>
+ <CAG+cZ07jpi0dobjf8JYt263qqy1tYWAvzsV9cgKaAW05mBoCeQ@mail.gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -96,24 +96,18 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <CAG+cZ06EN4Uw7Cy+kwsiPzu16Kp7tsF19Oit6oN6GUcSe464JQ@mail.gmail.com>
+In-Reply-To: <CAG+cZ07jpi0dobjf8JYt263qqy1tYWAvzsV9cgKaAW05mBoCeQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 12/06/2024 10:06, Piotr Wojtaszczyk wrote:
-> On Tue, Jun 11, 2024 at 12:45 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>> Changes for v2:
->>> - Added maintainers field
->>> - Dropped clock-names
->>> - Dropped unused unneded interrupts field
->>
->> Does the device has interrupts or not? This should justify decision, not
->> current usage by drivers.
-> Yes the device has interrupts but feeding data FIFOs is handled by DMA
-> (amba-pl08x.c).
-> Should I declare interrupts despite they are not used in the compatible driver?
+On 12/06/2024 10:02, Piotr Wojtaszczyk wrote:
+> On Tue, Jun 11, 2024 at 12:18 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>> I do not see my comment about DAI being addressed.
+> Were you asking if it's a DAI? yes it is.
+> 
 
-Yes.
+Then you miss $ref to dai-common and defining sound-dai-cells like in
+other bindings.
 
 Best regards,
 Krzysztof
