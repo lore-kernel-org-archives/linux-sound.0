@@ -1,59 +1,50 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62FC8142E7E
-	for <linux-sound@vger.kernel.org>; Thu, 13 Jun 2024 11:04:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E902613D617
+	for <linux-sound@vger.kernel.org>; Thu, 13 Jun 2024 11:10:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718276694; cv=none; b=lUeu3zKxC5sh+KBYXeEmQvXocQY2oxqFDAAqo5tDoUbx4Es2NSS0LpdKU5X2MbLUKXFawLTQ+rGId0kXiGwSnDKhWe5m0DopZpisUkdoF7fbTx6BpreDJeBx9uANcX1s1dSjJWHbY/CR9gLe6/F6Gr6+TTTzmzfyPO3mIYnMgSQ=
+	t=1718277038; cv=none; b=T3awvXG6EDenYA8ckDsRvPdiQ9w7Wj0GoYS39M8vKLoGu7zLP/Hm5075jpbnELbn7GMOcE/ZRhRhUmJTwwqbHgLDNTtrwqaifGm+Qbn87dv7ghJxluFXo8O3uIyRIlT/kTePuoPVfyWn6FmZgyZIdbhk4NPYBPomLIgDCN1JK98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718276694; c=relaxed/simple;
-	bh=tAcSgvKXqfnSUFX2CtxDigGjnUYTBy78IoinGdlH2fw=;
+	s=arc-20240116; t=1718277038; c=relaxed/simple;
+	bh=7uq/Fw+OV5n0LPS9W3NvyyAT4Rlpf4BZ9H0W/4B5Evg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gk5ywmqPD6vvkv1yV9PxcN9tqh8zyTxyGIxwjTFQet3NRz9sj5GZg7zu6/qWrruU8iP1KSgVySC/08VNiBvj511kIl/94CyKTnELOj1PJMRwKdm+5CsPk6c8PpiIGvNBk99wdqxalyTgdser6fsckoemLenIoKhwjSjt/7pdfWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=w4xBmUY1; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 In-Reply-To:Content-Type; b=fpFg/TesJcRAiTAKh2tHgnYRcu3sXXNhkKUuckPhrDRMOIKIEirHOnk1KfAKdZHeXPFQRp4/1mQ/LBZxvsayJSLZ1u2j2lBZU3fwp0cUo6ULDM/ZPpg/LfWveVKg0z6tP/XekuU05M9wzxM85gCG1UqnFGj67+wedVIEcBJqF4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=grAffJG7; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="w4xBmUY1"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5751bcb3139so843254a12.1
-        for <linux-sound@vger.kernel.org>; Thu, 13 Jun 2024 04:04:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718276690; x=1718881490; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=r05GSGoeixdTdrkrNQk/uUV5myauBem2SPDkvyRDYgc=;
-        b=w4xBmUY1ZJlIjBu16PzN8sZaXgkMZqijgAdXFvQWwFJBZ2towBcf+TEUgIUNrLAD4U
-         1cvWhBKoj8wd7QY3XyPGjA+HmL2OUzXk2np8ayObVlZw8UKfOptdXsVmnIVxmi+kOOhv
-         KEAPweB709bz/I/N6lVo8b6fiwDS+Xi+HYL3fqwXRTOPtjmJlndtIm+UoyFSjUzdRoAS
-         HPs3nVNcc4hFM3K8qv9r62e5AqK35r7HquKA20Tqh8Ey97mRsMmgdvsyHWkRUly3AbRA
-         WvMCd61dPGvXp6IttJsP2Tn+NMa5TKqSE5W6rJPVXBlo5VQmtMzd7sCZGfpwvHjxjIvi
-         PWeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718276690; x=1718881490;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=r05GSGoeixdTdrkrNQk/uUV5myauBem2SPDkvyRDYgc=;
-        b=Guz672D3NrjWA4XPQCCGBCvM1yhvwkidwwQ/Akobs4PlmHD1Bs2lxZ4uC/5OjCz0U7
-         C0ldpB9a7LE5uD5e129KbzBsBfP8I4i1Jc7iWdudrX6wvz78bEbBVE732eDTcK7va9uX
-         lF7JwR5RozAnHyRpOksB8JnP0cvlx6WqpvhBm1yH6nzMsFGklY4Hjp0pc8JfYUbmJAnB
-         JFvDGAh1cnnKrUSLLdY4w0AS68vmKAuLEMNbU4lqxm7JRneaX7fKL987DLq98j0qK22t
-         qcqpnzaynx6VqeaaQa9khSstM1bIhvNmR78u8/CMnRfY17LwDVDolDyAF85Kf2LHo7Qb
-         NQHg==
-X-Forwarded-Encrypted: i=1; AJvYcCVCLU8YHslLknDiEFDVdZvHTIgnrwBiTZTvbBkh1MoXzbRcd3DpK9hfoAvFkb9qZnlWiBbL3fCG32zvPkz/33SX2seQ8Nb7njYYKRM=
-X-Gm-Message-State: AOJu0YzeCWpuQsHqxxh3VgbeSXAhkOj2rSzfpr5DOZR5COFpohrBGSfG
-	fUzpRbSN7VW0m1dsvWW8OiQLE9yapF6g7lbI+aVrLFg/lcM2NkYPNfe6mtSFalQ=
-X-Google-Smtp-Source: AGHT+IFZMCZjqTdFJ+VphErIaK9g4laFVqVLl8sNw4G7xzHX0fkq7AQsk5RVkxZ0AbcMTIBCZQzPyg==
-X-Received: by 2002:a50:d7d9:0:b0:57c:5f22:f9c1 with SMTP id 4fb4d7f45d1cf-57ca976a4e8mr3004561a12.21.1718276689646;
-        Thu, 13 Jun 2024 04:04:49 -0700 (PDT)
-Received: from [192.168.1.195] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id 4fb4d7f45d1cf-57cb72da37csm768974a12.27.2024.06.13.04.04.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Jun 2024 04:04:49 -0700 (PDT)
-Message-ID: <93b2de4e-dc2d-4781-9c1b-d6ad6d888eb2@linaro.org>
-Date: Thu, 13 Jun 2024 12:04:48 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="grAffJG7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718277037; x=1749813037;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=7uq/Fw+OV5n0LPS9W3NvyyAT4Rlpf4BZ9H0W/4B5Evg=;
+  b=grAffJG7+XyBpB9+refGoqc2b2Aah6fGkcvm4obAdHzjre7ZNqBHx94s
+   wLRKXiAGQFTWSnyuuf5YC25XcoX1K/6LApEJUDNnXuduhgljXW3ikzmG7
+   Ix4fhBg1WsA7FID1WUIi1JzI5mtrNwOQAOigJC+KW/kfxPHkgwgM0qU4S
+   xiXivgL0Dpez+3Sz6BvS6dVipn0oBo3akss4KR+aoPYUc/b4mPJFc9KDP
+   uxL1+PnXy1XuXD9koOV29e13skitkGaltRPUpyP61uvE1mPFZ/UJA6c6Z
+   VKdnm9dyi0uU3iiGbAc8rjiZfvc3fB1fOF6i5ha+jErsvHbp1zLaiL7/g
+   g==;
+X-CSE-ConnectionGUID: BQkZZ2a1SGSf46YQpOzM+Q==
+X-CSE-MsgGUID: 6FwfjqZIRMS3LRdtDeY6Bg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="25766215"
+X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
+   d="scan'208";a="25766215"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 04:10:36 -0700
+X-CSE-ConnectionGUID: ErkRo2aIQ/OhwWGzmTLeQg==
+X-CSE-MsgGUID: UhJkB7AASbi4PeMY5deyPg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
+   d="scan'208";a="40746649"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.244.34]) ([10.245.244.34])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 04:10:35 -0700
+Message-ID: <0fdbae0e-e540-4c35-a555-5b2607526115@linux.intel.com>
+Date: Thu, 13 Jun 2024 14:11:02 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,50 +52,67 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/3] ASoC: codec: lpass-rx-macro: add support for 2.5
- codec version
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Banajit Goswami <bgoswami@quicinc.com>
-Cc: neil.armstrong@linaro.org, linux-arm-msm@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- alsa-devel@alsa-project.org
-References: <20240612-lpass-codec-v25-v4-0-f63d3676dbc4@linaro.org>
- <20240612-lpass-codec-v25-v4-3-f63d3676dbc4@linaro.org>
- <a6793126-ba1c-4679-a2c2-eabad4f5a506@linaro.org>
+Subject: Re: [PATCH] ASoC: topology: Fix route memory corruption
+To: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>, Mark Brown <broonie@kernel.org>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>, Takashi Iwai
+ <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+References: <20240613090126.841189-1-amadeuszx.slawinski@linux.intel.com>
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
 Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <a6793126-ba1c-4679-a2c2-eabad4f5a506@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20240613090126.841189-1-amadeuszx.slawinski@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
 
-On 13/06/2024 12:00, Krzysztof Kozlowski wrote:
-> On 13/06/2024 12:49, Srinivas Kandagatla wrote:
->> LPASS Codec v2.5 has significant changes in the rx register strides.
->> Due to this headset playback on SM8550, SM8650, x1e80100 and all SoCs
->> after SM8450 have only Left working.
->>
->> This patch adjusts the registers to accomdate 2.5 changes. With this
->> fixed now L and R are functional on Headset playback.
-> 
-> I was just about to respond, are you sure this is suitable for sm8450? I
-> looked now at registers and sm8450 (which should have codec v2.5) has
-> old style register layout.
-> 
-from 2.5 the layout has changed, I have verified it on SM8450, with and 
-without this patch, This fixes the issue one speaker issue.
+On 13/06/2024 12:01, Amadeusz Sławiński wrote:
+> It was reported that recent fix for memory corruption during topology
+> load, causes corruption in other cases. Instead of being overeager with
+> checking topology, assume that it is properly formatted and just
+> duplicate strings.
 
+Reviewed-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 
---srini
+> Reported-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+> Closes: https://lore.kernel.org/linux-sound/171812236450.201359.3019210915105428447.b4-ty@kernel.org/T/#m8c4bd5abf453960fde6f826c4b7f84881da63e9d
+> Suggested-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+> Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+> ---
+>  sound/soc/soc-topology.c | 12 +++---------
+>  1 file changed, 3 insertions(+), 9 deletions(-)
 > 
->>
->> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
->> Tested-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> I tested earlier version of patchset on SM8550 and X1E80100.
-> Best regards,
-> Krzysztof
-> 
+> diff --git a/sound/soc/soc-topology.c b/sound/soc/soc-topology.c
+> index 0225bc5fc425a..4b166294602fa 100644
+> --- a/sound/soc/soc-topology.c
+> +++ b/sound/soc/soc-topology.c
+> @@ -1052,21 +1052,15 @@ static int soc_tplg_dapm_graph_elems_load(struct soc_tplg *tplg,
+>  			break;
+>  		}
+>  
+> -		route->source = devm_kmemdup(tplg->dev, elem->source,
+> -					     min(strlen(elem->source), maxlen),
+> -					     GFP_KERNEL);
+> -		route->sink = devm_kmemdup(tplg->dev, elem->sink,
+> -					   min(strlen(elem->sink), maxlen),
+> -					   GFP_KERNEL);
+> +		route->source = devm_kstrdup(tplg->dev, elem->source, GFP_KERNEL);
+> +		route->sink = devm_kstrdup(tplg->dev, elem->sink, GFP_KERNEL);
+>  		if (!route->source || !route->sink) {
+>  			ret = -ENOMEM;
+>  			break;
+>  		}
+>  
+>  		if (strnlen(elem->control, maxlen) != 0) {
+> -			route->control = devm_kmemdup(tplg->dev, elem->control,
+> -						      min(strlen(elem->control), maxlen),
+> -						      GFP_KERNEL);
+> +			route->control = devm_kstrdup(tplg->dev, elem->control, GFP_KERNEL);
+>  			if (!route->control) {
+>  				ret = -ENOMEM;
+>  				break;
+
+-- 
+Péter
