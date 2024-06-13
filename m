@@ -1,103 +1,127 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2994D145B03;
-	Thu, 13 Jun 2024 13:38:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C200ECC
+	for <linux-sound@vger.kernel.org>; Thu, 13 Jun 2024 14:13:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718285895; cv=none; b=LgC6uA77DdMDYEeI9c9bGScjB6Z/Rt+pewxeh/XEtM97k2cZTRcVAaWcnN/5O3hc5MIXsv62tpMXE+5juo3AINdpuhsutl9F/xcaPQNKat3Y78YgqMm2PcNpGMq4jDAl1prO/U24zgBaDccvS17RoJqN0YA1Xl67YVR7be02WAs=
+	t=1718288040; cv=none; b=IBc1SHZ4aYKIjmKJeaZLIaoKd3SqkAszWVClCorpT+Mn0GNSi2JLfKXqeqrF3MqRqlgN6mET5EsCiHxO8WqMHC8tO1dCIwDA1HZDmkVylJi8Z56Lgi3bbX4mgjbd6aiIitj2MMr4/RNZVRvtO5HaGyQkWE01SOWzCWx7q5aY4Bo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718285895; c=relaxed/simple;
-	bh=Rsa9LIJVLCfEEDfRcJqmUcTi+WPu7QmEWLsbETwevYo=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Kc8DU5uC1oNY+JV3euTR2o2d+cvpCiWRJuFcnSVmoOZLj1SjePBwJMbADNOQyNvS0OBlwgz5TeGBG2GpR/dUywcWR5GddbOCa+2qes0tst6v9QI4xYtPSFbj8btNE6nnn8RTUJTSXf4rpCV0D/R35mauAnr07yfof8oM+kvVcjg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=nbeDsZIQ; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1718288040; c=relaxed/simple;
+	bh=CInWd528BXasi1+5+au2tfhCmdaxQ8gKYmLl+MQTNa4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cP2/XZYukM9yOSIB0SE3UflHBfIPydvUWHP+U+9084eJ72YnQk/QxjM43PW5DPBZh3rq+ZmMxoWfIBVhs0QNxg8xozkO6zwgRcX8Z2G5gdcbXNJKzsnz2kPQJUh3rqrrVzWGCNY/ntpTOyC5Xe1pdYayZEaZ0gPkFo/Dk4UnR6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WmOPfrfe; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="nbeDsZIQ"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45D4iWlr013712;
-	Thu, 13 Jun 2024 08:38:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=S5+j64neUDQ+dJuwRMUcq1jrgKa4cIarmoNF4x/Fz/I=; b=
-	nbeDsZIQddeRfaSxJnGNOMQlWBLcT4pfNOpyMaYtgwmEiMgnvwne4fLeeAb88rTT
-	Dm+kr2BqXufz8MASwbYDF4m3AHgN34Vq2gt4wISw0VvmJyckS7J/MP0hgTyfo7BS
-	Dvy27/prA0ApZB1wqlpVUQ9DXFAjK+BxXwFRZpJ+wmfH/HOQ/GIqmGSJ1+jKk9CU
-	hDiDfEiLNyZ/WO6Cn1D5qtbHJdUOo6wJJzbRUvFwYvDqsqmLXuLCRSer11I7M4Vi
-	kXRKjRbK8A36KDR/77YIhauP5QSRB9CLIFemY4ZTEM7pJpcbS1/2y2wt5ilpOiKP
-	UN5ICaN3m2O5os433k864g==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3yqskgreva-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 13 Jun 2024 08:38:05 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 13 Jun
- 2024 14:37:55 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Thu, 13 Jun 2024 14:37:55 +0100
-Received: from EDIN6ZZ2FY3.ad.cirrus.com (EDIN6ZZ2FY3.ad.cirrus.com [198.61.65.41])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id E4790820248;
-	Thu, 13 Jun 2024 13:37:54 +0000 (UTC)
-From: Simon Trimmer <simont@opensource.cirrus.com>
-To: <tiwai@suse.com>
-CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        <soyer@irl.hu>, <shenghao-ding@ti.com>, <kevin-lu@ti.com>,
-        <baojun.xu@ti.com>, Simon Trimmer <simont@opensource.cirrus.com>
-Subject: [PATCH 2/3] ALSA: hda: cs35l41: Component should be unbound before deconstruction
-Date: Thu, 13 Jun 2024 14:37:12 +0100
-Message-ID: <20240613133713.75550-3-simont@opensource.cirrus.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240613133713.75550-1-simont@opensource.cirrus.com>
-References: <20240613133713.75550-1-simont@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WmOPfrfe"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718288038; x=1749824038;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=CInWd528BXasi1+5+au2tfhCmdaxQ8gKYmLl+MQTNa4=;
+  b=WmOPfrfeN71YWDImLv/E294DFUiwR6E12cn5CLnBGZZ4CKSh5VbdLrEI
+   VeYuS7/R2ds6GgMj+ziZ5cRqIzCRiQQ2gplJ7EVzhGb6ZU8ce0RFIXPxa
+   BQyKdUrqoCWwm/Bm2qmqbJ0rrUq4jy06QTMgamKbEEit+yZM4fSqY/Qax
+   rRpF1/fPMz5/LDiriN2aMymidzeH1y3QYOMRjIRKOzXUz5QXMPuPTJtJp
+   wwQG1wXsxkm9qbH4a8Dxy7NnPlSkn8uItt2LeHk1AQBBXVM744nVTaJss
+   UZLlS0YYQTverWzFhxcjHIXbIdHVTjGZYn7Z1tv7ChqnyOzaf3WKzPmoW
+   w==;
+X-CSE-ConnectionGUID: PoMrssSXQAOgNG1358q/Yg==
+X-CSE-MsgGUID: Nyqc8bN3TTKi+Hn/RJrs3Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="40520780"
+X-IronPort-AV: E=Sophos;i="6.08,235,1712646000"; 
+   d="scan'208";a="40520780"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 07:13:57 -0700
+X-CSE-ConnectionGUID: 92SZQ1hBREqie1YlJOFJ5g==
+X-CSE-MsgGUID: z7XC62rQQo2U4+p4lRhGpg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,235,1712646000"; 
+   d="scan'208";a="40859658"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO [10.245.246.108]) ([10.245.246.108])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 07:13:54 -0700
+Message-ID: <27668c46-5a44-4e14-8219-5fba6a5c4610@linux.intel.com>
+Date: Thu, 13 Jun 2024 16:13:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: topology: Fix route memory corruption
+To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
+ =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>, Mark Brown <broonie@kernel.org>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>, Takashi Iwai
+ <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+References: <20240613090126.841189-1-amadeuszx.slawinski@linux.intel.com>
+ <0fdbae0e-e540-4c35-a555-5b2607526115@linux.intel.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <0fdbae0e-e540-4c35-a555-5b2607526115@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: ZUQfwjpz7gjGbeVXX6N9VTg_IYKDCY5r
-X-Proofpoint-ORIG-GUID: ZUQfwjpz7gjGbeVXX6N9VTg_IYKDCY5r
-X-Proofpoint-Spam-Reason: safe
 
-The interface associated with the hda_component should be deactivated
-before the driver is deconstructed during removal.
 
-Fixes: 7b2f3eb492da ("ALSA: hda: cs35l41: Add support for CS35L41 in HDA systems")
-Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
----
- sound/pci/hda/cs35l41_hda.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/sound/pci/hda/cs35l41_hda.c b/sound/pci/hda/cs35l41_hda.c
-index d54d4d60b03e..031703f010be 100644
---- a/sound/pci/hda/cs35l41_hda.c
-+++ b/sound/pci/hda/cs35l41_hda.c
-@@ -2019,6 +2019,8 @@ void cs35l41_hda_remove(struct device *dev)
- {
- 	struct cs35l41_hda *cs35l41 = dev_get_drvdata(dev);
- 
-+	component_del(cs35l41->dev, &cs35l41_hda_comp_ops);
-+
- 	pm_runtime_get_sync(cs35l41->dev);
- 	pm_runtime_dont_use_autosuspend(cs35l41->dev);
- 	pm_runtime_disable(cs35l41->dev);
-@@ -2026,8 +2028,6 @@ void cs35l41_hda_remove(struct device *dev)
- 	if (cs35l41->halo_initialized)
- 		cs35l41_remove_dsp(cs35l41);
- 
--	component_del(cs35l41->dev, &cs35l41_hda_comp_ops);
--
- 	acpi_dev_put(cs35l41->dacpi);
- 
- 	pm_runtime_put_noidle(cs35l41->dev);
--- 
-2.34.1
+On 6/13/24 13:11, Péter Ujfalusi wrote:
+> 
+> 
+> On 13/06/2024 12:01, Amadeusz Sławiński wrote:
+>> It was reported that recent fix for memory corruption during topology
+>> load, causes corruption in other cases. Instead of being overeager with
+>> checking topology, assume that it is properly formatted and just
+>> duplicate strings.
+> 
+> Reviewed-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 
+Test results look much better indeed with
+https://github.com/thesofproject/linux/pull/5057
+
+
+Tested-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+
+> 
+>> Reported-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+>> Closes: https://lore.kernel.org/linux-sound/171812236450.201359.3019210915105428447.b4-ty@kernel.org/T/#m8c4bd5abf453960fde6f826c4b7f84881da63e9d
+>> Suggested-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+>> Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+>> ---
+>>  sound/soc/soc-topology.c | 12 +++---------
+>>  1 file changed, 3 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/sound/soc/soc-topology.c b/sound/soc/soc-topology.c
+>> index 0225bc5fc425a..4b166294602fa 100644
+>> --- a/sound/soc/soc-topology.c
+>> +++ b/sound/soc/soc-topology.c
+>> @@ -1052,21 +1052,15 @@ static int soc_tplg_dapm_graph_elems_load(struct soc_tplg *tplg,
+>>  			break;
+>>  		}
+>>  
+>> -		route->source = devm_kmemdup(tplg->dev, elem->source,
+>> -					     min(strlen(elem->source), maxlen),
+>> -					     GFP_KERNEL);
+>> -		route->sink = devm_kmemdup(tplg->dev, elem->sink,
+>> -					   min(strlen(elem->sink), maxlen),
+>> -					   GFP_KERNEL);
+>> +		route->source = devm_kstrdup(tplg->dev, elem->source, GFP_KERNEL);
+>> +		route->sink = devm_kstrdup(tplg->dev, elem->sink, GFP_KERNEL);
+>>  		if (!route->source || !route->sink) {
+>>  			ret = -ENOMEM;
+>>  			break;
+>>  		}
+>>  
+>>  		if (strnlen(elem->control, maxlen) != 0) {
+>> -			route->control = devm_kmemdup(tplg->dev, elem->control,
+>> -						      min(strlen(elem->control), maxlen),
+>> -						      GFP_KERNEL);
+>> +			route->control = devm_kstrdup(tplg->dev, elem->control, GFP_KERNEL);
+>>  			if (!route->control) {
+>>  				ret = -ENOMEM;
+>>  				break;
+> 
