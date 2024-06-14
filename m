@@ -1,154 +1,146 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E735193099
-	for <linux-sound@vger.kernel.org>; Fri, 14 Jun 2024 10:39:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8253378C90;
+	Fri, 14 Jun 2024 11:32:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718361587; cv=none; b=GI3GTg8ugCPSr5a4L1sIKPgMdvqraEX72sAlGFQTW89fRh3Bd0fZCGK/SKLuKessqbNdXdBBYGZTJ1iHOc2csRByLudPX2ThcMu88jwtgxQd2Wy3+VQwWcdWyLxavROn/DjztlNGOdjJzGHWsNoAro+jVRqerj3hFR6nhXcp+i8=
+	t=1718364770; cv=none; b=H3hqs2vynxyi13c3RYPywesp4stv6iNBazTWm/ciAoCrWxT/cfPKwIYWLm+smmEgCrlLE1JQrKYtebRLW/lio2iB9PCBn/CSdyYSGS078iWwCQ8+rNvaOb3mW8zzTMn7xcbxxOtmYNZyJC9lCdg1bpIFAXZBLaaPv+ygwfWa/QA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718361587; c=relaxed/simple;
-	bh=z+21OcPJAjV6D/4J7/6zO4ml+szueCiKIz5ZtXCez20=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LCJoVPpj8iQGSfsqzWuNtJildQd/RDTfQddet8rNO8/V9dpz6LH6XKZp8ymk27bmwi1/RP3uCxrE75FxEj7obztHbwAPzHGTLUvgtS5H/1gWgd+oaGrlo8n66zxu4hpcqmjdnCf7DOb5cLmtePOVNd9cwfjryC5fgGo8T4B2wbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Hb77qV0O; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1718364770; c=relaxed/simple;
+	bh=NBtEaNmbsTJCymlIquc1Dvbcv407nCNkYKp41aRNGvE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RAsXx3TVuluRlItJ7o2A/VI2yFX+Jxv5JmaCpsU5kjIof1q/fGRiUgMZ1WygvlG67RXjZSGBXvODu6ddxQEWClOccOKv7knA8hqxWHy86/nJt/KXvkMetU7HGR7bcyxRcG2vdSRp6uREsIdmgvWCDg+lXO9+WQ/qD7UMQFyVR/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rxtRXEBE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mJ4LRxTQ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rxtRXEBE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mJ4LRxTQ; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Hb77qV0O"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a6f1da33826so304733666b.0
-        for <linux-sound@vger.kernel.org>; Fri, 14 Jun 2024 03:39:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718361584; x=1718966384; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=v046Ynuau3r+2icIo4svtRx0/kg7YGr+WrTgAD4SYDM=;
-        b=Hb77qV0OjJTp9rNwhKYPZPND9iZYFvdmJViEyZq7uKNsNQHBFHVKSotrnblHEEjipX
-         XO4ZhqA4O9N8mRhTTyUL+XYlU9PcWhxHZqJuZJwJsxGIEDT/G2uRaL8klCwbxK+I3IDE
-         OWKPxY2WiKZXN8xzxg1UlGn2JnyEmRP6LqrBris/NIvI7/iolqjQBg6M5suCk2wjtDr2
-         iUCM4uFLC+HtI6itrjJE353nFXHLcjxwUwq7IxOYkG2QYA5BTPrZct2CgQJk61z1OjDu
-         KrQkjaqrk8qovoVujhEukd7f3ajJWlCw79rNjpL+oxqFtINTQNKWZcgKGyakrbysmNv0
-         8TVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718361584; x=1718966384;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=v046Ynuau3r+2icIo4svtRx0/kg7YGr+WrTgAD4SYDM=;
-        b=VCvFumgRLQifpl6BPZ4hfhPaJlUGAjwDPn7ohOkwlokla+zNq6aZ9kQPwjFA01uXK1
-         X1Qy8B4SKlLjf7qi/fmbiph9fFEje2LosfJSF6J4rJRkC4GHu0BzRCyBBimcdxQBKfL9
-         0QSzxLi7Lz/qUP0PtQm431NA765yMyfGqLrzAGF5ITaZCgr9QCtZbQ36UfCZ7ghM3tQl
-         oFg/IY2/Ph/V/QoMng3uR9NVJcJxYcbcyCLo3ohAQ2t2eH1iWic/pjd/akJGzXAC+pxu
-         l4yQCvA6a0iLMHpLcES6Bra2tTw7vP3roaZJdB689j/NBnOOikUk3SDIHWhAxdUE5O25
-         GnCg==
-X-Forwarded-Encrypted: i=1; AJvYcCXgxYbGU5UZEkbV85DHxuFtCLqC36FcvZcUjRIVcaqKf9CL1+vWvb0rn0KGskpobLMW9pCC1W8rgtrrfiQ8JB6pt0LuMzyqvNdmuqQ=
-X-Gm-Message-State: AOJu0YwIf4WTSyJe0EznTkZVJzm06Sovitvin/Nuq/H+RJIP+LHEfr26
-	2xJe+gncEIDP/Pexie7vVjooaeHpHLdzXil21kX1roe17/emnYMrm0Drf7KQqu8=
-X-Google-Smtp-Source: AGHT+IEx+k+d6jmLnxxySTuX+K3zHE/R51D+3f9To16Y8uYNB0SKgQpBH0n6JwaZnMUULpDr3sMbZA==
-X-Received: by 2002:a17:906:3c56:b0:a6f:12:8c48 with SMTP id a640c23a62f3a-a6f60d5f66bmr174412966b.39.1718361584558;
-        Fri, 14 Jun 2024 03:39:44 -0700 (PDT)
-Received: from [192.168.0.18] ([78.10.206.163])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6f56ecdd2asm175134166b.141.2024.06.14.03.39.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Jun 2024 03:39:44 -0700 (PDT)
-Message-ID: <7b9c8a44-d0cd-4689-986c-f16d1239c91b@linaro.org>
-Date: Fri, 14 Jun 2024 12:39:42 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rxtRXEBE";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mJ4LRxTQ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rxtRXEBE";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mJ4LRxTQ"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 727E6203F9;
+	Fri, 14 Jun 2024 11:32:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1718364766; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OHfqrYa/9tev/K9EyZaq0Uq+1EvUZ06X32SKQIlbZpo=;
+	b=rxtRXEBE3JaPBn7JCQhg+74yRHKSETDEvAyNqHn5DDe36tqdLbQOh1j534eX9oDWCwZh1q
+	pICdipMedjigW0tl6FVonbClP+v9LAhQmRtwQtKs1CXjBfOlzWcPL9QuTvatOEchizcVCc
+	3cYjgL3In8wjtJ4YW3CmG3xhbdfreUg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1718364766;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OHfqrYa/9tev/K9EyZaq0Uq+1EvUZ06X32SKQIlbZpo=;
+	b=mJ4LRxTQDsKEUyNntf2LbX8m5+oT+UYOHiOgxMZrbz2VVsTzi4jf596/moeR+fVZasDFF7
+	kRYOvDD0oB4MrsBA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1718364766; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OHfqrYa/9tev/K9EyZaq0Uq+1EvUZ06X32SKQIlbZpo=;
+	b=rxtRXEBE3JaPBn7JCQhg+74yRHKSETDEvAyNqHn5DDe36tqdLbQOh1j534eX9oDWCwZh1q
+	pICdipMedjigW0tl6FVonbClP+v9LAhQmRtwQtKs1CXjBfOlzWcPL9QuTvatOEchizcVCc
+	3cYjgL3In8wjtJ4YW3CmG3xhbdfreUg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1718364766;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OHfqrYa/9tev/K9EyZaq0Uq+1EvUZ06X32SKQIlbZpo=;
+	b=mJ4LRxTQDsKEUyNntf2LbX8m5+oT+UYOHiOgxMZrbz2VVsTzi4jf596/moeR+fVZasDFF7
+	kRYOvDD0oB4MrsBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3B7A713AAF;
+	Fri, 14 Jun 2024 11:32:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id PIIbDV4qbGYfGgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 14 Jun 2024 11:32:46 +0000
+Date: Fri, 14 Jun 2024 13:33:10 +0200
+Message-ID: <87h6dv92tl.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Paul Menzel <pmenzel@molgen.mpg.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: testing/selftests/alsa/mixer-test: 10 failures on Dell XPS 13 9360
+In-Reply-To: <c9707ade-bd43-419b-8959-0b45d572facd@sirena.org.uk>
+References: <1d44be36-9bb9-4d82-8953-5ae2a4f09405@molgen.mpg.de>
+	<87cyp280yw.wl-tiwai@suse.de>
+	<21f73368-5db6-49a1-b8b7-9b06e698327a@sirena.org.uk>
+	<878qzp97qh.wl-tiwai@suse.de>
+	<c9707ade-bd43-419b-8959-0b45d572facd@sirena.org.uk>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/3] ASoC: codec: lpass-rx-macro: add support for 2.5
- codec version
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Banajit Goswami <bgoswami@quicinc.com>
-Cc: neil.armstrong@linaro.org, linux-arm-msm@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- alsa-devel@alsa-project.org
-References: <20240612-lpass-codec-v25-v4-0-f63d3676dbc4@linaro.org>
- <20240612-lpass-codec-v25-v4-3-f63d3676dbc4@linaro.org>
- <a6793126-ba1c-4679-a2c2-eabad4f5a506@linaro.org>
- <93b2de4e-dc2d-4781-9c1b-d6ad6d888eb2@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <93b2de4e-dc2d-4781-9c1b-d6ad6d888eb2@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 
-On 13/06/2024 13:04, Srinivas Kandagatla wrote:
+On Mon, 03 Jun 2024 13:38:18 +0200,
+Mark Brown wrote:
 > 
+> On Fri, May 31, 2024 at 08:06:14PM +0200, Takashi Iwai wrote:
+> > Mark Brown wrote:
+> > > On Fri, May 31, 2024 at 05:17:43PM +0200, Takashi Iwai wrote:
+> > > > On Fri, 31 May 2024 07:50:33 +0200,
 > 
-> On 13/06/2024 12:00, Krzysztof Kozlowski wrote:
->> On 13/06/2024 12:49, Srinivas Kandagatla wrote:
->>> LPASS Codec v2.5 has significant changes in the rx register strides.
->>> Due to this headset playback on SM8550, SM8650, x1e80100 and all SoCs
->>> after SM8450 have only Left working.
->>>
->>> This patch adjusts the registers to accomdate 2.5 changes. With this
->>> fixed now L and R are functional on Headset playback.
->>
->> I was just about to respond, are you sure this is suitable for sm8450? I
->> looked now at registers and sm8450 (which should have codec v2.5) has
->> old style register layout.
->>
-> from 2.5 the layout has changed, I have verified it on SM8450, with and 
-> without this patch, This fixes the issue one speaker issue.
+> > > I would say these are all bugs, they show the driver not correcting the
+> > > value and allowing users to read back out of range values that were
+> > > written.  Even if the driver is accepting out of range values I'd expect
+> > > it to transform them somehow when storing, the program will accept a
+> > > mismatched read when testing this case but it will complain if the read
+> > > value is not valid according to the control's info.
+> 
+> > Ideally, yeah.  But it's a whack-a-mole game, and my gut feeling is
+> > that it'd be better to enable the input validation globally, something
+> > like below.
+> 
+> Yeah, I mean I tend to think the whole accepting invalid values thing is
+> questionable to start off with so I do think that's a good idea.  That
+> said we probably should still be fixing the drivers as well.
 
-I tested it now on SM8450 and indeed it fixes missing channel playback
-via headphones.
+OK, I'm going to submit a patch set for addressing those.
 
-Tested-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Best regards,
-Krzysztof
-
+Takashi
