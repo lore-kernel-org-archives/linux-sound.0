@@ -1,181 +1,180 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F40A364A1;
-	Fri, 14 Jun 2024 16:07:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED54516C878
+	for <linux-sound@vger.kernel.org>; Fri, 14 Jun 2024 16:24:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718381271; cv=none; b=tCsR75IqauYzPWgnQrSHKeoWysrCVvRi/wqR5+1r5HK18cR2X2Ux51Vk5PDqUv4Gyrd9n+fcAd1GGzGc8AVN0e2Wq0T0rcU7vE6W4Ptv0LbirpuZrNBkd7YuevXjEEdCewD4gnfeCEWnRbhaKizi+Dj0Kek/a4RhN8DptCZJy4Q=
+	t=1718382251; cv=none; b=gi6VpgUGYbWjlCh+0MoUsvKtqFeDZlH0zyLsExwSdM87Q90jarwtn/no7qv/KO0jozkQaN6k5eugjDmBlUSCFdJfoStK8ADhUZl3UCjC1nE0js/TjhRaVlG0ydOcg164DeVUNfkwGwBBexnBbbyZnL+Wpjtzrk9A7Lt1aX6x5s0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718381271; c=relaxed/simple;
-	bh=EPYGks1oF4t1pSzt13AslbpA6lQSp9ejBHZE12oAvU0=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pH3zSM6WflE01fjD6pOsLeN37xqSv7jJcWXNpeq67RhZyqz19UXTwbC+3tZQ9MjXT6p//K5w4Vci+iuVsjRW5NvzNGIZhD2Ocvp55CKvoJcwpx47FjyrnKpwrVOmV00gACXZwUWQm8R3h/69AnhS3dqCG0I/sKddMJL/s3ynXpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IAEcq3M+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JLwND+Vv; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IAEcq3M+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JLwND+Vv; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1718382251; c=relaxed/simple;
+	bh=sS9FsJVE243d0WeteqT/1ZGnFSB10RXVtcZOuky7qhI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=gtCiOWm7fh8uKOiDocH8SfHSumtSYWpA8N1UHh1mFAsSalUr3pCva3r43xKcu1ui3ImXwtCd3HrIaLlw8VQ2DpG1xW2vr0xZid3Tql41fQ9qYxpj4OLCaAf/mxxNLW5dvMk/5teObctmwneUhRd1chhn/ic97TIqccXWtKGTKss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FxVrvtT5; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IAEcq3M+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JLwND+Vv";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IAEcq3M+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JLwND+Vv"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7904F20673;
-	Fri, 14 Jun 2024 16:07:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718381267; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cNW8Q786tZlIdq1RZ+Zry9tmb4Cs7d83PtQBlDpyMq4=;
-	b=IAEcq3M+2pKSPIxb2+cg5OVMz8KR12IbhjZ5pswfaKv15dYWeBXgLtW+IWkG7yBRzmwdPO
-	yVA3Avv4NsygKST2ok09vNMqSpoTXBZNUoZeProWaZwttNnDF2Ba78ytThterQztQqFzmJ
-	nrgONppKQS8eTaARBXHtJbEu16pWVhQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718381267;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cNW8Q786tZlIdq1RZ+Zry9tmb4Cs7d83PtQBlDpyMq4=;
-	b=JLwND+VvMjPRexnQGCzfooAmPS10/01jz7Y7wgpvV9kTMYEa0Vk6EDcpgA9Vqf7eBd0zl7
-	Tc0oV/LFJk8sFsBQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=IAEcq3M+;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=JLwND+Vv
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718381267; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cNW8Q786tZlIdq1RZ+Zry9tmb4Cs7d83PtQBlDpyMq4=;
-	b=IAEcq3M+2pKSPIxb2+cg5OVMz8KR12IbhjZ5pswfaKv15dYWeBXgLtW+IWkG7yBRzmwdPO
-	yVA3Avv4NsygKST2ok09vNMqSpoTXBZNUoZeProWaZwttNnDF2Ba78ytThterQztQqFzmJ
-	nrgONppKQS8eTaARBXHtJbEu16pWVhQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718381267;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cNW8Q786tZlIdq1RZ+Zry9tmb4Cs7d83PtQBlDpyMq4=;
-	b=JLwND+VvMjPRexnQGCzfooAmPS10/01jz7Y7wgpvV9kTMYEa0Vk6EDcpgA9Vqf7eBd0zl7
-	Tc0oV/LFJk8sFsBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 48A0913AAF;
-	Fri, 14 Jun 2024 16:07:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id OfBzENNqbGYhbQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 14 Jun 2024 16:07:47 +0000
-Date: Fri, 14 Jun 2024 18:08:12 +0200
-Message-ID: <878qz77bir.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
-	Paul Menzel <pmenzel@molgen.mpg.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 4/6] kselftest/alsa: mixer-test: Skip write verification for volatile controls
-In-Reply-To: <ZmxoaWvgZk7tJq-7@finisterre.sirena.org.uk>
-References: <20240614153717.30143-1-tiwai@suse.de>
-	<20240614153717.30143-5-tiwai@suse.de>
-	<ZmxoaWvgZk7tJq-7@finisterre.sirena.org.uk>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FxVrvtT5"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-35fdf7aa8a1so1682726f8f.2
+        for <linux-sound@vger.kernel.org>; Fri, 14 Jun 2024 09:24:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718382248; x=1718987048; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=put13URUC593SztdFC6LSEgjQ2u1ih6bSw5FHdIqhSg=;
+        b=FxVrvtT5/24MA6CfBmF2RWozEMF9B88N3Hd+6dH84C5TzB6r5LX5sBr7Z8UujiooLl
+         kNZk6yqNZ7j1OtxtpXv8u+usrI0BYtMXL8eC3tmcO0Qsoktp4Xhfs1CYXo6sHAxs4hiu
+         4vreQdvG2ln9G5ZUKTaIHb7NkqVrhqC3wJNzl2TzXc3kVGafKZFO9/TgOomf8eWFn6jF
+         k82pVlqG7RGPt6F05m+XiNAJuqvRKqIL1NBzyQMPV3a+NQzZ/FlieDNTKY57XiBmWJX9
+         vKg6PnQb//JHoQ/8nV+txFBPzYdE9RGKrK9wz9J2NrNdq+aILDSuUnA9ga+tLWJNVnP5
+         k5Xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718382248; x=1718987048;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=put13URUC593SztdFC6LSEgjQ2u1ih6bSw5FHdIqhSg=;
+        b=PdFjuFCrKPk8JzluuatQXLJ/z5LZ+mbmdUo8hnx4Gni80jaKFlo8wjy+ZDmpFJgqcL
+         JKZsi5agepwYOT2XMN0Jp5MoCkUeLhXhjOB92XEAY8wCwzl6Z355sVnk6HDltYioZECf
+         9HHl2Z0IloqzPXJCrDsNPqve/yGPs6TovEeWj4U16IksxYjpUOPgRj/zXmtmFDNxVehI
+         tdLMHZtFnsMEF0/Ac9Jd2beZRdPWet3NQSU91UYE9LRvab2J1STA8+PEW7GXzKigUQ7S
+         HXCgOoOOeW+lr4p+algB16xg/Xe130NBKDl+F30PhIqYS5tHBMoAZ25IATwurKOaQ8/k
+         wvJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVq2LmKHQZzancexbXF3qxx+5vW7ncsColmmVajQlboplRH2g9DQJbnUlbDcAd3iCbuEqcrFAhFCGskRFRMNdf4mLAtgXK9X7bxBnM=
+X-Gm-Message-State: AOJu0Yx3i4klctR7f2uyHGRbOD7etoqv5HsN5Mn7OWK58ln8kk3RnMRN
+	RNI/0o7ab10URTXZ2bBqIJbwoW+/6ve2jg84blgCmG1h5isupe86mZ7xwLa9AY0=
+X-Google-Smtp-Source: AGHT+IGMFRVbIiEZo+RBebjVEl7ueTmXDg735LDtznnpXDovGqgeT6L/jaYzgZuAW+s/dO7labznUg==
+X-Received: by 2002:a5d:5187:0:b0:35f:1f23:691d with SMTP id ffacd0b85a97d-3607a780dfcmr2520291f8f.61.1718382247778;
+        Fri, 14 Jun 2024 09:24:07 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36074e0e5adsm4931165f8f.0.2024.06.14.09.24.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Jun 2024 09:24:07 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH RFC 0/3] ASoC: dt-bindings: amlogic-sound-cards: document
+ clocks and clock-names
+Date: Fri, 14 Jun 2024 18:24:00 +0200
+Message-Id: <20240614-topic-amlogic-upstream-bindings-fixes-audio-snd-card-v1-0-9f57d9e01834@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 7904F20673
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKBubGYC/x2MQQrCQAwAv1JyNtAuSw9eBR/gVTysSVwDdrds2
+ iKU/t3gaRgYZgeTpmJw7nZosqlpLS7DqQN6p5IFld0h9CH24xBxqbMSpulTs3OdbWmSJnxqYS3
+ Z8KVfMUwra0UrjJQaY6AxBiJ2Cvh6bvLv/HyH2/UCj+P4AfjpwlOLAAAA
+To: Jerome Brunet <jbrunet@baylibre.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Kevin Hilman <khilman@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+ Neil Armstrong <neil.armstrong@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5357;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=sS9FsJVE243d0WeteqT/1ZGnFSB10RXVtcZOuky7qhI=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBmbG6lSLFDzo9pAh0PJ4DgWo/c5jJ2/VmjIS/DLHYZ
+ 5xoXzd+JAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZmxupQAKCRB33NvayMhJ0XUiD/
+ sFiFA1YgFp0/JZkEYOqbL3rvO5Ws8p5jo26BTDPI3abVKhJ8E2pvYLkHQ7pEsDdSqIZsbRkxYVODd8
+ j1k/Nllu1Nil/h53HBA5l7BIAr0GOOy6huIrFZrIFCUI5YMBupf7eenYc1swD1F9ljt/aixxyFFZo+
+ iU5iaG6wcY9PEUMC/RATkdnue29TYMTkOwiSAYOOQHhE1wZm2zfGUTlO+MIgXPxsiRbbVIE3M/mF0v
+ hcziJDFbG18tEUFoSFbsjY5VUu1pXNp6HwZabdqohCjagdm3jZrRyJX0r2rpeMXhLvGhEIeqliNa/l
+ 6L9Sn+pRXJ2qONmsd6eo1L//s1F3CC72bpG82oWIpDa1CKYOoQp1nfaAvGesI7czBcTrY2rVxe9tNB
+ fLNEhLsbochDN3GrJ5JEBaw8h22vvDzpBp37nXxSD6EMSBh6zQwdFwfmFpvbpxQN9l1z/M8LV3eumf
+ kEW99rNM0vUFhVMkeM78RRYjU3xxu5f2nYpBi4paPihxzGxQ2jHqq9f65MyXvJtIf6UClcilYVNXFZ
+ 5tSP/QSpE9b0syvfZSvfbxS3l2BinUfU0Hq4Dv0IVRoj0O/AJwoimDg45qIIDlnhmR8/Ky9Buyi4Zm
+ 8JjtT+8HFX0VpoHmIoFx5H0v+UMi7MZxNRY/WCaMfsiojsmLWD5jcWLR5pLg==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 
-On Fri, 14 Jun 2024 17:57:37 +0200,
-Mark Brown wrote:
-> 
-> On Fri, Jun 14, 2024 at 05:37:13PM +0200, Takashi Iwai wrote:
-> 
-> > @@ -616,6 +616,10 @@ static int write_and_verify(struct ctl_data *ctl,
-> >  	if (!snd_ctl_elem_info_is_readable(ctl->info))
-> >  		return err;
-> >  
-> > +	/* Skip the verification for volatile controls, too */
-> > +	if (snd_ctl_elem_info_is_volatile(ctl->info))
-> > +		return err;
-> > +
-> 
-> I think we should do the checks in test_ctl_get_value() still - a read
-> and then ctl_value_is_valid() on whatever we read.  It doesn't need to
-> match the value we wrote but it should still be valid for the control.
+Following an off-list discution with Jerome about fixing the following
+DTBs check errors:
+    sound: Unevaluated properties are not allowed ('assigned-clock-parents', 'assigned-clock-rates', 'assigned-clocks' were unexpected)
+        from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-sound-card.yaml#
+    sound: Unevaluated properties are not allowed ('assigned-clock-parents', 'assigned-clock-rates', 'assigned-clocks' were unexpected)
+        from schema $id: http://devicetree.org/schemas/sound/amlogic,gx-sound-card.yaml#
+    sound: 'anyOf' conditional failed, one must be fixed:
+        'clocks' is a required property
+        '#clock-cells' is a required property
+        from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
 
-So something like below?
+It has been agreed documenting the clock and clock-names in the sound card
+is a better solution than moveing them to a random clock controller
+or consumer node which is not related to the actual meaning of those
+root frequencies.
 
+The patchset adds the clocks and clocks-names to the bindings and
+finally adds the properties to the DT files.
 
-Takashi
-
--- 8< --
-From: Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH v3] kselftest/alsa: mixer-test: Allow value mismatch for volatile controls
-
-The control elements with volatile flag don't guarantee that the
-written values are actually saved for the next reads, hence we can't
-verify the written values reliably.  Return as success for volatile
-controls even if the value verification after writes fails, in order
-to avoid false-positive.
-
-Reported-by: Paul Menzel <pmenzel@molgen.mpg.de>
-Closes: https://lore.kernel.org/r/1d44be36-9bb9-4d82-8953-5ae2a4f09405@molgen.mpg.de
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- tools/testing/selftests/alsa/mixer-test.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Neil Armstrong (3):
+      ASoC: dt-bindings: amlogic,axg-sound-card: document clocks and clock-names
+      ASoC: dt-bindings: amlogic,gx-sound-card: document clocks and clock-names
+      arm64: dts: amlogic: add clock and clock-names to sound cards
 
-diff --git a/tools/testing/selftests/alsa/mixer-test.c b/tools/testing/selftests/alsa/mixer-test.c
-index 1c04e5f638a0..62b77737f0de 100644
---- a/tools/testing/selftests/alsa/mixer-test.c
-+++ b/tools/testing/selftests/alsa/mixer-test.c
-@@ -668,6 +668,10 @@ static int write_and_verify(struct ctl_data *ctl,
- 		ksft_print_msg("%s read and written values differ\n",
- 			       ctl->name);
- 
-+	/* Allow difference for volatile controls */
-+	if (snd_ctl_elem_info_is_volatile(ctl->info))
-+		return 0;
-+
- 	return -1;
- }
- 
+ .../devicetree/bindings/sound/amlogic,axg-sound-card.yaml    | 12 ++++++++++++
+ .../devicetree/bindings/sound/amlogic,gx-sound-card.yaml     | 12 ++++++++++++
+ arch/arm64/boot/dts/amlogic/meson-axg-s400.dts               |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-g12a-fbx8am.dts            |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-g12a-radxa-zero.dts        |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-g12a-sei510.dts            |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-g12a-u200.dts              |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-g12a-x96-max.dts           |  4 ++++
+ .../arm64/boot/dts/amlogic/meson-g12b-bananapi-cm4-cm4io.dts |  4 ++++
+ .../boot/dts/amlogic/meson-g12b-bananapi-cm4-mnt-reform2.dts |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-g12b-bananapi.dtsi         |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-g12b-gsking-x.dts          |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-g12b-gtking-pro.dts        |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-g12b-gtking.dts            |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-g12b-odroid-go-ultra.dts   |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-g12b-odroid-n2.dtsi        |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-g12b-odroid-n2l.dts        |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-g12b-radxa-zero2.dts       |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-g12b-ugoos-am6.dts         |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-gx-libretech-pc.dtsi       |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-gx-p23x-q20x.dtsi          |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-gxbb-kii-pro.dts           |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-gxbb-nanopi-k2.dts         |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-gxbb-nexbox-a95x.dts       |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-gxbb-odroidc2.dts          |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-gxbb-p200.dts              |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-gxbb-p201.dts              |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95.dtsi         |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-gxbb-wetek-hub.dts         |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-gxbb-wetek-play2.dts       |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-gxl-s805x-libretech-ac.dts |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-gxl-s805x-p241.dts         |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-gxl-s905x-khadas-vim.dts   |  4 ++++
+ .../boot/dts/amlogic/meson-gxl-s905x-libretech-cc-v2.dts     |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-gxl-s905x-libretech-cc.dts |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-gxl-s905x-p212.dts         |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-gxm-khadas-vim2.dts        |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-gxm-nexbox-a1.dts          |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-gxm-rbox-pro.dts           |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-khadas-vim3.dtsi           |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-libretech-cottonwood.dtsi  |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-sm1-a95xf3-air-gbit.dts    |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-sm1-a95xf3-air.dts         |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-sm1-bananapi-m2-pro.dts    |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-sm1-bananapi-m5.dts        |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-sm1-h96-max.dts            |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-sm1-odroid.dtsi            |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-sm1-sei610.dts             |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-sm1-x96-air-gbit.dts       |  4 ++++
+ arch/arm64/boot/dts/amlogic/meson-sm1-x96-air.dts            |  4 ++++
+ 50 files changed, 216 insertions(+)
+---
+base-commit: 2ceb903a0c515872bb0ca0156bc4e568651f1eb4
+change-id: 20240614-topic-amlogic-upstream-bindings-fixes-audio-snd-card-2c642ccd2c6e
+
+Best regards,
 -- 
-2.43.0
+Neil Armstrong <neil.armstrong@linaro.org>
 
