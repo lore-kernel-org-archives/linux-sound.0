@@ -1,104 +1,163 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55218192B8F;
-	Fri, 14 Jun 2024 16:51:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A53EE19DF58
+	for <linux-sound@vger.kernel.org>; Fri, 14 Jun 2024 17:05:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718383907; cv=none; b=B4LmFz6WdbxatcA/Ktt/IJnr2HgnCfNNg8QoIRlMeZ/Vsu+axXdAKdzTr987OhetzIJ5i1daGXfm2MgltPeKA0nai7sDyco8vgi+HcjRTAOBolKC2ouyQd+zObQ/3/3NGTtIl+lYpWfYPuOc7KGB301gXUMgfsbbFA9ZS9X4XrY=
+	t=1718384751; cv=none; b=kLopyyJXzaMxEtUYSRMuJnJM/ZvKY8ZtO6KwsirEMpmFnKqE9Ii02MK2rgVUQkEvNay3bZ/vTpVy67OZGI8PV2HSvogooOE4EuWC0Cw6tY1UBwqmvUSkpfPp6Iei+x/PALfCj2jWB2Mk/9kII5zHGl3iR5PrSm7kK6SNiBlp/Qw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718383907; c=relaxed/simple;
-	bh=fPlz7/O4CHKldDLCxbpg3ui9wtblMgB3TXnLBn0vSI8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l801Rwft44lIalZOt+gT1av2H9JI48NGgFErXYueja3KlP4kvw2w9SYERe/YoNxBLWufC9H2uiM/bBG77fQISLS5tcbVVWnbhLZ4alU31B9GGKkNfN4RUO+pP+FYuN+KzEg7jq56JnySgT1gUDqeKlzwyhGgVkR3A1uwaeculw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CpFq6UCC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718384751; c=relaxed/simple;
+	bh=8KzlyxUtiQH9n4+dt2WeZEnMMpuBU8HGGEn+yCT/YA4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=oW9nkG53YAm14E2altgtTFofOQ42h9pwysr+AdZag4v/XmzwBdkbEcMixfbilcA5T3B72G7zj2T0bl5ZXQTHfdtHzyKTTdpQvSc1iTzQno4lmUblJuTC3eAi/k5n1CZ9L5L8dFUEjc8neDXeNT27LL/XrwK+N1dS1JP5NBE518E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=PH8QfGvY; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CpFq6UCC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29068C2BD10;
-	Fri, 14 Jun 2024 16:51:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718383907;
-	bh=fPlz7/O4CHKldDLCxbpg3ui9wtblMgB3TXnLBn0vSI8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CpFq6UCC7cqq4TL2Q4voaO/eWCDtFrzYqrhpIB1METf7ygd32ZxG5reEb08aI2/2l
-	 EOxJV0ZJspzfFvIBXYmPTqrYT27w3rTiKkm+0qK4iCpyuG7O8YAUweHKhCa8wqWvjd
-	 cjod0053tLA2spwX/oQuoY0BJCQ8ikbCbbKxI3lw3enf1LhXAA6RU9YT5281LMbTRV
-	 BM47sjqNEhDV2l7quJAsEP4p/QiQyrdWTMeDPgyTL6Vqsm+ScmxescTGkW2jxGxXvb
-	 /Uf4o81uIhzqasU0dnRZVZ0nFTzxCL9yCWfUrzi+KZa3C2Rw0AIU1tMb3tNPV6KEG3
-	 lW5zitAlFmhCw==
-Date: Fri, 14 Jun 2024 17:51:43 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Chancel Liu <chancel.liu@nxp.com>, Arnd Bergmann <arnd@arndb.de>,
-	Michael Ellerman <mpe@ellerman.id.au>, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
-	linuxppc-dev@lists.ozlabs.org
-Subject: Re: [Patch v2 1/2] ASoC: fsl: Add i2s and pcm drivers for LPC32xx
- CPUs
-Message-ID: <Zmx1H5MyjWvoRdwz@finisterre.sirena.org.uk>
-References: <20240611094810.27475-1-piotr.wojtaszczyk@timesys.com>
- <Zmgor8accyAiUkUO@finisterre.sirena.org.uk>
- <CAG+cZ06B+AexqvwZtNP5FX50AmghAFLa=1ebxmKLvMoyVJ529w@mail.gmail.com>
- <Zmxy-xA3YDU06Eht@finisterre.sirena.org.uk>
- <CAG+cZ05KomezPn0bAuZWrfO=rbyLdCU8_Xx11oEihUaD97gF8w@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="PH8QfGvY"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-35f1c490c13so2678560f8f.3
+        for <linux-sound@vger.kernel.org>; Fri, 14 Jun 2024 10:05:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1718384746; x=1718989546; darn=vger.kernel.org;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZU9Tq2gv3Xr+OOG2Lgc2duprsrRaO/sCpRyvLtLfjWU=;
+        b=PH8QfGvYVcHP0ipWc2zOj9zaQFRNiX+g8mHrYoassBdoubZeSv6dgBOHaQz8ddYOtY
+         jEVnJczC0QcfQNwmo3HZ0q4ZMzdPxygv+guwzzuyX1WRnVSFQsQzWK4Nqp6KOHJ40J2Y
+         qYmP+gjNRIyL+6O1LO0md/duFWNyS7yQKX+SrhU5otMP3kPwbHSW8289Sz6ct8c/nTde
+         Q2LK0zvcOUJ7DmE7LDLxqTF4g7DQ61aAQ/HnAhyAsVxGAY3XVbL/yzGqEvJw9lZecFX9
+         O0slPWX98fhCLIvlXPPzyRa3NsGlPN5TSXD59wHMM04zMV6+FnjLUhWLJ4DK4/572cLO
+         jRrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718384746; x=1718989546;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZU9Tq2gv3Xr+OOG2Lgc2duprsrRaO/sCpRyvLtLfjWU=;
+        b=ZzacQ0LUdP+Qv2TbhgYC9EdmlJgGofB0EHA9ajAYGGU3iLnXBoRZp5DM2Mzp+Cxyur
+         Gh1YNNgFDX+gceIy6QeJFL3YgDK7ciTm4NBmJzmYKak9ZeBbnzdK+HqINiIPPoceGzyC
+         Dbsni5ImyKKMm05TOPCPCbo4FHha3GnwiLCmj0P5vLoWzmWdntLU8WBWN4mUrrGdRtLE
+         CWtkTJcvzkbVcGNQ5G7rjzKtVfxtitrHUShGuvbqKwaD+IyUexaAFblMU6RsmYYzj04W
+         DM2GJQxg/JaHUXoFFLYAzpJVEEptLKUxNY4VB1A6Pb/jD8G3v6HJ/fMg49gloK2sSr2R
+         U+Kg==
+X-Forwarded-Encrypted: i=1; AJvYcCWJxfjlcDTj/O+UtoviocXLP1gh9PkRJVM21D8koH6tqgAauOdpMarewxSEdWXCulyS2+uhzjNyUNX87s05iucJavr4D9rgULa+/+U=
+X-Gm-Message-State: AOJu0Yxk0pthPA7PqJEMCb14myMSLpQuYJE9bAxyHPCGtethVfNcIm/O
+	o31+tOeIJfunVQVgE6TM+Q6QOBHcbXT0T+adHKU7upwByaBZI/Oh5IqgeVkThxY=
+X-Google-Smtp-Source: AGHT+IEiODVYEmrk+Rx+CKhFGkqkyheheemcrZvIKgkrbQLv/Jnn/OxMF175J3qFIGVvLOazoNSL1w==
+X-Received: by 2002:adf:e2d1:0:b0:360:7c17:5936 with SMTP id ffacd0b85a97d-3607c175a00mr2323310f8f.58.1718384745808;
+        Fri, 14 Jun 2024 10:05:45 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:5374:7bd2:13de:845])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-360750f0d71sm4896045f8f.86.2024.06.14.10.05.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Jun 2024 10:05:45 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,  Mark Brown <broonie@kernel.org>,
+  Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>,
+  Conor Dooley <conor+dt@kernel.org>,  Kevin Hilman <khilman@baylibre.com>,
+  Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+  alsa-devel@alsa-project.org,  linux-sound@vger.kernel.org,
+  devicetree@vger.kernel.org,  linux-kernel@vger.kernel.org,
+  linux-arm-kernel@lists.infradead.org,  linux-amlogic@lists.infradead.org
+Subject: Re: [PATCH RFC 1/3] ASoC: dt-bindings: amlogic,axg-sound-card:
+ document clocks and clock-names
+In-Reply-To: <20240614-topic-amlogic-upstream-bindings-fixes-audio-snd-card-v1-1-9f57d9e01834@linaro.org>
+	(Neil Armstrong's message of "Fri, 14 Jun 2024 18:24:01 +0200")
+References: <20240614-topic-amlogic-upstream-bindings-fixes-audio-snd-card-v1-0-9f57d9e01834@linaro.org>
+	<20240614-topic-amlogic-upstream-bindings-fixes-audio-snd-card-v1-1-9f57d9e01834@linaro.org>
+Date: Fri, 14 Jun 2024 19:05:44 +0200
+Message-ID: <1j7cerihef.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7aeyEfJwNjSnCeXl"
-Content-Disposition: inline
-In-Reply-To: <CAG+cZ05KomezPn0bAuZWrfO=rbyLdCU8_Xx11oEihUaD97gF8w@mail.gmail.com>
-X-Cookie: Your love life will be... interesting.
+Content-Type: text/plain
 
+On Fri 14 Jun 2024 at 18:24, Neil Armstrong <neil.armstrong@linaro.org> wrote:
 
---7aeyEfJwNjSnCeXl
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> The sound card design is based on 3 reference PLL frequencies that
+> are the root of all clock rates calculations.
+>
+> Today, those 3 frequencies are specified in DT via assigned-clocks,
+> because they correspond to the basic audio use-case.
+>
+> It makes no sense to setup clock rates for a sound card without
+> referencing the clocks for the sound card, mainly because at
+> some point more complex audio use cases will be supported
+> and those root rates would need to change.
+>
+> To solve this situation, let's legitimize the presence of assigned-clocks
+> in the sound card by documenting those clocks, as it describes a true
+> dependency of the sound card and paths the way of more complex
+> audio uses-cases involving those root frequencies.
+>
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
+>  .../devicetree/bindings/sound/amlogic,axg-sound-card.yaml    | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/sound/amlogic,axg-sound-card.yaml b/Documentation/devicetree/bindings/sound/amlogic,axg-sound-card.yaml
+> index 5db718e4d0e7..676ff2731b86 100644
+> --- a/Documentation/devicetree/bindings/sound/amlogic,axg-sound-card.yaml
+> +++ b/Documentation/devicetree/bindings/sound/amlogic,axg-sound-card.yaml
+> @@ -26,6 +26,18 @@ properties:
+>        A list off component DAPM widget. Each entry is a pair of strings,
+>        the first being the widget type, the second being the widget name
+>  
+> +  clocks:
+> +    maxItems: 3
+> +    description:
+> +      Base PLL clocks of audio susbsytem, used to configure base clock
+> +      frequencies for different audio use-cases.
+> +
+> +  clock-names:
+> +    items:
+> +      - const: mpll0
+> +      - const: mpll1
+> +      - const: mpll2
+> +
 
-On Fri, Jun 14, 2024 at 06:46:46PM +0200, Piotr Wojtaszczyk wrote:
-> On Fri, Jun 14, 2024 at 6:42=E2=80=AFPM Mark Brown <broonie@kernel.org> w=
-rote:
-> > On Fri, Jun 14, 2024 at 06:24:50PM +0200, Piotr Wojtaszczyk wrote:
+Thanks a lot for this series. This is going in the right direction
+but requiring 3 clocks or naming them (whatever the name) is not
+appropriate.
 
-> > > Ok. Later I will add a sound card driver to phytec3250 board which us=
-es
-> > > arch/arm/configs/lpc32xx_defconfig config file so that the COMPILE_TE=
-ST
-> > > won't be needed.
+The purpose is for the sound card to get the necessary base rates it
+needs for its operation.
 
-> > Why would a defconfig affect the Kconfig?
+So far it has always been 3 clocks because of the 3 usual family rates
+and enough PLLs are available. But this is not required. There could be
+none (very unlikely but possible if fixed clocks are or with slave setups),
+one (probable on a1 from what I can tell), or even more than 3, if one
+needs supports for unusual rates.
 
-> I guess when lpc32xx_defconfig enables the SND_SOC_FSL_LPC3XXX then the
-> COMPILE_TEST won't be needed or does it?
+Also the PLLs are not necessarily the mplls, HiFi PLL is used on some
+device. It could even be the GP0 or external slave clocks which is why
+putting a limit the number of clocks would be arbitrary.
 
-The whole point of COMPILE_TEST is to allow the driver to be covered
-when people aren't building for whatever specific platform would
-actually use it.
+I think the following would better describe the HW:
 
---7aeyEfJwNjSnCeXl
-Content-Type: application/pgp-signature; name="signature.asc"
+clocks: true
+assigned-clocks: true
+assigned-clock-parents: true
+assigned-clock-rates: true
 
------BEGIN PGP SIGNATURE-----
+Maybe just 'clocks: true' is enough since the presence of would allow
+'assigned-clocks'
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZsdR4ACgkQJNaLcl1U
-h9CNrQf/QOGnPQlIqhyNGJmHt+OTyAKxvU02FdwW1IOOW6yQBj4UO9d4k7nblhEn
-F7Vtbh6YUxU664IKdVLn2n6JwvOzBu2sPuLmm0JQgsZnlOB23KNWgw7yoZdgPL9m
-tKbUe6KCBHoMU/LJe+m2nm9qhAlTXlL4Uf1xgJQ3TK9c2neuko0efOtWy97OE8Oc
-PxHGfc5fFxAjEtnOQq47Nj0/fKCzXF3HLOseOx+KibzpUMgVZJTdVilroWPHOGXa
-u9aMHOWsdypZIO6rRaAjhslOpENc0zW4+v4gaWtRD8mmsiKzvQuZTB6zo/vMTTfA
-GUx5oQKpFeCMxaFkBGj6dCVLbitmgQ==
-=r/9i
------END PGP SIGNATURE-----
+For sure, clock-names is not useful, for axg of gx compatible card at least.
+All inputs are equal to the card, so index are enough if the card needed
+to change rates are runtime (but it is very unlikely to happen, the
+whole axg or gx system are meant to operate with fixed PLLs so it would
+not be compatible)
 
---7aeyEfJwNjSnCeXl--
+>  patternProperties:
+>    "^dai-link-[0-9]+$":
+>      type: object
+
+PS: I just noticed that my reply to your previous series was private.
+    It was not meant to be. Sorry about that.
+
+-- 
+Jerome
