@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 382CE262BE;
-	Fri, 14 Jun 2024 08:18:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9363718C33D;
+	Fri, 14 Jun 2024 08:31:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718353081; cv=none; b=O+POa6tZwN88q6C3QFvTwH+VQoESxT5Li6joLiY7xM7UazljOa3hBUdPIE78DvBO3nxQTdrGh8OtpVHYvHWZHSNSInA5wvkMMiu0k50qfmK4ZYcNMYn1esoiQDDby1xJtjrWJba+EP9DbGvu3ksRzd5ol0vlPDkHPmGsFumzQis=
+	t=1718353907; cv=none; b=BmQ76fQRErURN7kvqA+qsZRmV4o2mNn/ZFEBAgleNMl0lbNPBJ5gH/jBgokq1YInpohWgwXMIbbLwrT9sDKX/z/7QS4BGSNT/+XiIuESz5CU7wzeolyXfDE4ukV+kr102e8w3GuwOPAt+WxBs1n3ahi7ha3sYYWaXec/EYdiTJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718353081; c=relaxed/simple;
-	bh=oR3nLm00cQqVEbz0K9DBGl5nEP2Gl8WYI4/N2XsUD7A=;
+	s=arc-20240116; t=1718353907; c=relaxed/simple;
+	bh=awS25sZymywdiVrnMEBt9m5sf9YMdANdzWaR5ZOpKO8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Bjs89rUmsPO5q3CHX4OMP+G1hZd9Z4lT0zKuINMXUYNGeLoD6YHv49JYiL/izeeIiJt0bdfVPK2CMyS8cZxt1tBo3Plexwj3MuGa3Ckp0Bvjw9m73zNdNSp8HUhb5h2gLdLTONx4pxrmdWpF7E7gP+LrnF5M57l6wq2JCq7JOsA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iqc52D2K; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=lA+93vVkyAGQoZXL4EerRAz3Zj3z8PjC1zZQAhHvMhQ79VBlhM3KeHg19TOJ/Jc/FOaUJA2E+BDG10KRfMbzH8U9zHlIGJCk9rPeZtO1eVfMbgx/x+6+T6I+SeXpgOtAiZ/WZGv54kmReDsnlIG8eREvvY+nzoi5gvc3bhyIhAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jYWxYDGA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iqc52D2K"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19B2DC2BD10;
-	Fri, 14 Jun 2024 08:17:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jYWxYDGA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EA69C2BD10;
+	Fri, 14 Jun 2024 08:31:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718353080;
-	bh=oR3nLm00cQqVEbz0K9DBGl5nEP2Gl8WYI4/N2XsUD7A=;
+	s=k20201202; t=1718353907;
+	bh=awS25sZymywdiVrnMEBt9m5sf9YMdANdzWaR5ZOpKO8=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=iqc52D2KqeBHtq19bRLtj2Tff06P2Mj0I0qsPUXJBVTTOODQ3peOdx3wTcTmsPm1s
-	 zJJvUVSN9S3Q8LFfNSH3yOV4tYcSrmxJvUovLrv7sHqLDPKvA3R+1CIQ5bwrUaTNvM
-	 UdRSCeKV1kAItjIUVETwT15OCus0vbACxFhTrnBdQfSnCLTMTQ3gPjNrh6Zh8VJFyw
-	 RKoDGUh7VL3vEiVxyzsZbf6MjRSti9VzFK35cDQ0eBkRi3U7F8rZH4SKcnoI+OAmB7
-	 4toZuJ2nzE8sKvwhgwg4dH5a2q9OrDZwV9nfNIx4zq1CXFwkTLAZo5CkUUUiM/cjBM
-	 FWymR3Wex+1cg==
-Message-ID: <f7d1aa9e-c023-4c54-acfb-566d3b4b6fe9@kernel.org>
-Date: Fri, 14 Jun 2024 10:17:56 +0200
+	b=jYWxYDGATDXy0g8u0Q+hVY3m/byoVMjAlqgh/fR02w5RMIbzpLPQjNYtNFy6CNaMo
+	 7oEdCFqqhACRwjc1+qFyHWmyM66RWtmkQ6V9YXMskMoY4E+N3K2D/t2VUIopISzKKD
+	 97EDzRN1/ap3DqvOIe3dSJt0viaZ5vyvIna/waPQ7RzaEb2HrRLm0EnqJAZbyjIKMI
+	 MlA0Kl80HtWgKEcdXX8RImR95fhpe2K+/EvEuYEldaOuWNF8K7H0H7ct/TeGi1aawK
+	 P6RZe5oy0I8aoC6L+lJWCNDQQ2NK/h6w0Py3oEvdhJ1R7vN9ZJ+upZkUiXTYElGh0R
+	 fO+bQbpxDsZ2g==
+Message-ID: <59487896-1ce0-4422-bafb-a0f6f9ef065c@kernel.org>
+Date: Fri, 14 Jun 2024 10:31:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,15 +35,16 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] ASoC: cs530x: Support for cs530x ADCs
-To: Paul Handrigan <paulha@opensource.cirrus.com>
-Cc: broonie@kernel.org, lgirdwood@gmail.com, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, devicetree@vger.kernel.org
-References: <20240607202708.335752-1-paulha@opensource.cirrus.com>
- <20240607202708.335752-3-paulha@opensource.cirrus.com>
- <9876e617-68d1-4e1c-ba9e-2c235a57b0a9@kernel.org>
- <ZmsyhKiuRI1Dg8l4@ediswmail9.ad.cirrus.com>
+Subject: Re: [PATCH 1/2] ASoC: dt-bindings: realtek,rt5514: Convert to
+ dtschema
+To: Animesh Agarwal <animeshagarwal28@gmail.com>
+Cc: Daniel Baluta <daniel.baluta@nxp.com>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240614033812.51312-1-animeshagarwal28@gmail.com>
+ <20240614033812.51312-2-animeshagarwal28@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -89,27 +90,45 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <ZmsyhKiuRI1Dg8l4@ediswmail9.ad.cirrus.com>
+In-Reply-To: <20240614033812.51312-2-animeshagarwal28@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 13/06/2024 19:55, Paul Handrigan wrote:
-> On Mon, Jun 10, 2024 at 10:46:26AM +0200, Krzysztof Kozlowski wrote:
-> 
->>> +
->>> +	if (cs530x->reset_gpio) {
->>> +		usleep_range(2000, 2100);
->>> +		gpiod_set_value_cansleep(cs530x->reset_gpio, 1);
->>
->> 1 is to keep device in reset? This looks like you are using logical
->> values inverted.
-> Thanks.  The reset pin is active low. I will also change the dt binding
-> example to reflect that.
+On 14/06/2024 05:38, Animesh Agarwal wrote:
+> +maintainers:
+> +  - Animesh Agarwal <animeshagarwal28@gmail.com>
 
-The value here is logical from driver point of view, not wire level, so
-you use wrong code.
+Missing ref to spi peri props.
 
-If you tested it with real and correct DTS, you would see it does not work.
+> +
+> +properties:
+> +  compatible:
+> +    const: realtek,rt5514
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: Master clock to the CODEC
+> +
+> +  clock-names:
+> +    items:
+> +      - const: mclk
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +    description: The interrupt number to the cpu.
+> +
+> +  realtek,dmic-init-delay-ms:
+> +    description: Set the DMIC initial delay (ms) to wait it ready for I2C.
+
+wakeup-source and maybe other properties. I don't think you tested DTS.
+
+
+unevaluatedProperties: false.
+
+
 
 Best regards,
 Krzysztof
