@@ -1,114 +1,87 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD7315ECC8;
-	Fri, 14 Jun 2024 15:44:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB6E4107B6;
+	Fri, 14 Jun 2024 15:57:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718379863; cv=none; b=brlNZRoN0vKQ4x6enS7he3Z29T2R/mO6Fr54vPSx2Mzq3zlq9FMTghJ7FdVkIt3QtKpsOZlSPV4j12Ktq9AQb3Pt+8fltBXviIKaUtYuswOJnL9Se/xcGfivMPUzNFsOJP7D448O8siKg2e7g1InFwSu7nEDST9BCtawC4NwTII=
+	t=1718380661; cv=none; b=aAD/W/V+BmG6/kFZFSjAR61xE96Dg8oivZSCgkUMVqL/nRHLzJQeDqxYdAGTGb+7OqtFzTy4oFWh4o7A9CBFL2VzJMG7ums9e6IE8MoV67lL3bewKEcjlgk0VIjU/2KkT/YfXIYY+fRrvYMJlqDkJikF4b/hAWO3b3+EQmz+zmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718379863; c=relaxed/simple;
-	bh=/784mX3FdpfJspi5T8/rDU8CVG+q24/rpo7TZ1n7zm8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WggHG5F1UfSt2Q3dwjFES/BrHQYHYVSQ57QWRXasLEfdMyQz2CZupQ25zSWN7fqlRVluQtB490NXwT4KycdOSF9+hqw9P3d0bm74LGIJj0kX7dOi6HY/HYD0FZYQIiGNk8DgKVzgaNPiptlhHmNvpyNOUtm/2ZpixJHNDYT2Pic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=o0jd3Zjq; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	s=arc-20240116; t=1718380661; c=relaxed/simple;
+	bh=9YJYmb9k4JoqDgBM8JJj+jJ2jfNrAsNN6SQIUgFMFpM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B+OmeqmzEGSnKf5ASCGs7XnQE6FC5bjgl3rea55jqPW+t5nmnbzQtfQZsY07u/mA4lWtnMcTD7uO6+gTm03fBlag4WIEo8HUYoa6uw8R9VTqd/D2g7Ah/QbnhS0m0yvMhBGjQfVATs4tMnTbmhym5LsP3qIMYQJLyF/i54FNVQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E6ZRRHbe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="o0jd3Zjq"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 9926F6829;
-	Fri, 14 Jun 2024 17:44:18 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 9926F6829
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1718379858; bh=Hl0NX60AKMldIJ+PeuUEQTYMlolG8hhKWeSTZBDpzbg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=o0jd3Zjqw7K+duJ/6BPQqQ8zIPOT1C7guzgA41qJG+BEBv+USX47Hy1H8U2KgPZPM
-	 W85SRdvrbnwlZV/72sEKJdDbBMtSsbLJznPIgGrdI3w42kAHz4FQGbrqlwO/YFiYf6
-	 HrWPELi+yATzbxg0TfFX3OwDlRupu5eJNx031Ksg=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Fri, 14 Jun 2024 17:44:13 +0200 (CEST)
-Message-ID: <289165bd-af13-4fbf-b1f4-f9539b4d0eec@perex.cz>
-Date: Fri, 14 Jun 2024 17:44:13 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E6ZRRHbe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1726DC2BD10;
+	Fri, 14 Jun 2024 15:57:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718380660;
+	bh=9YJYmb9k4JoqDgBM8JJj+jJ2jfNrAsNN6SQIUgFMFpM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=E6ZRRHbeqLglw1oXpRGVTkqYOe/I0EoClygByyBeEbRraSicNgDTZaTPpRRY8RIw6
+	 zbUQg3aCBTceX3/zQo6L0isFC0czwxF6cjkwA56Q7/++0lSR3LSnFVd98Z7hCTarxt
+	 GdYQBdBkb/OYuKEYOZu++Ub2a6ZDsOf5DVGMFtomHl57lBTH16jsON/lg9WjiDiQrN
+	 9Ok3cJJqF1Kut4ZOC7ZEywMU2JWdMUPC7pwRYFnMYCY6M+9HODRG4ocYJu3V+AhsQ+
+	 ue2ZHwA/ITeo+/ZXwHpV//y9Lz5A5IXKn8SBzzcLfOvT72zbZDCIjmYmIG/hxp+bnm
+	 5ZRFb5/PJHJeQ==
+Date: Fri, 14 Jun 2024 16:57:37 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org, Paul Menzel <pmenzel@molgen.mpg.de>,
+	Jaroslav Kysela <perex@perex.cz>, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v2 4/6] kselftest/alsa: mixer-test: Skip write
+ verification for volatile controls
+Message-ID: <ZmxoaWvgZk7tJq-7@finisterre.sirena.org.uk>
+References: <20240614153717.30143-1-tiwai@suse.de>
+ <20240614153717.30143-5-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/6] ALSA: hda: Add input value sanity checks to HDMI
- channel map controls
-To: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org
-Cc: Paul Menzel <pmenzel@molgen.mpg.de>, Mark Brown <broonie@kernel.org>,
- linux-kselftest@vger.kernel.org
-References: <20240614153717.30143-1-tiwai@suse.de>
- <20240614153717.30143-7-tiwai@suse.de>
-Content-Language: en-US
-From: Jaroslav Kysela <perex@perex.cz>
-Autocrypt: addr=perex@perex.cz; keydata=
- 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
-In-Reply-To: <20240614153717.30143-7-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Nr+j0G+JQmyq4+xh"
+Content-Disposition: inline
+In-Reply-To: <20240614153717.30143-5-tiwai@suse.de>
+X-Cookie: Your love life will be... interesting.
 
-On 14. 06. 24 17:37, Takashi Iwai wrote:
-> Add a simple sanity check to HD-audio HDMI Channel Map controls.
-> Although the value might not be accepted for the actual connection, we
-> can filter out some bogus values beforehand, and that should be enough
-> for making kselftest happier.
-> 
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
 
-Reviewed-by: Jaroslav Kysela <perex@perex.cz>
+--Nr+j0G+JQmyq4+xh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+On Fri, Jun 14, 2024 at 05:37:13PM +0200, Takashi Iwai wrote:
 
+> @@ -616,6 +616,10 @@ static int write_and_verify(struct ctl_data *ctl,
+>  	if (!snd_ctl_elem_info_is_readable(ctl->info))
+>  		return err;
+> =20
+> +	/* Skip the verification for volatile controls, too */
+> +	if (snd_ctl_elem_info_is_volatile(ctl->info))
+> +		return err;
+> +
+
+I think we should do the checks in test_ctl_get_value() still - a read
+and then ctl_value_is_valid() on whatever we read.  It doesn't need to
+match the value we wrote but it should still be valid for the control.
+
+--Nr+j0G+JQmyq4+xh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZsaHAACgkQJNaLcl1U
+h9BKzwf/R2dp2R60nNffDBdIguuAggJLN2JnTKeCLy/B5SED/FfsdkFE8LuoM5Vg
+Fbf2yiskFuPzWbBSGrsb17ArZ7mquTaHF9N5YBzVy7w9uGb+4sybFszK7rDCbVsv
+VtkHc+EtGS0CyrcNxWp3R5Kz79fV0gk8M3BZQjlvwHBlmk+f6rSEcnFLYdl//1gl
+ARO3fvahYCPuz/9ek1C1RZvRPlx/FIprPWxhjmFwaqXwEirKtWa+TLfBIYvi4tQ/
+aNruC5X8B6YDZomEmROi2+zb1EZHOw8GmiOQ1pNKs0IlCXNNFsOK2DKaTA4b4JJk
+eCZH5OQpWxlw+3ZsFHSDIJEw4zeV8A==
+=WmBJ
+-----END PGP SIGNATURE-----
+
+--Nr+j0G+JQmyq4+xh--
