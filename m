@@ -1,91 +1,90 @@
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC45E19D8A2
-	for <linux-sound@vger.kernel.org>; Fri, 14 Jun 2024 20:50:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1ABB19D8AF;
+	Fri, 14 Jun 2024 23:43:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718398234; cv=none; b=JaCJ7svqr56E5zAM5ONBVOpGhawMMVmiqd0Dty51oBtFR7lU6v0SfH3LgcUfZE74og7yhacFB4LdhS+CcUeToITlRuc7EK2mOPn/jb0V7VO5lwUNWu16M7uESkbiL4k8qwJPXwJq3SMH/WdOKMiSzLHOrFMvYAHQCQF2Ic7Sd7Y=
+	t=1718408622; cv=none; b=mo8S7ap/UBaI8DOLfPxubyCSGosbP0dgil7uGYUkQMurfKXf54Q5Ei50QJm9+21gMPwiHtGbqcXqXCTOouoFgLIZcz9sHPtK3hNn4zUVRt3u2gnPrS93Zp06k0OYCAu+Y0w8QWASL6si658uJJMqXmsK02yBnPoFM9ECtzFg7F4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718398234; c=relaxed/simple;
-	bh=4mHkXC7tayAdGFZwKDm8tNtJdBx2HxLJ94hMgIeTss4=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=Dx/LpBd/pidMJN2YHJwcggG40SO/kbAkQl4wWr+/AW0gKXNVEbA9nCwoln/RM7n39OKfyFLt8U+WX+oaRLcLhtqi6TGhtUhC5yObowPM/MYa/kIAccZl3JW5vzPw65YrQUsYoB10YoITh1miIRr6L+2kjSIL8aPb5c3LdsVP4E4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NDOB450D; arc=none smtp.client-ip=209.85.161.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1718408622; c=relaxed/simple;
+	bh=NUdjis44A+P8r9hqKdMvkCt7Jj4IXY5URCzPLgFWQaY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=f2lljSdeC/1JpFqDQGnbQG4uHFGh5U3Z0MxvWXPqMnOlvxosZC5ftNhiNByWb2kbswh8hASe2VYZYU84evUxBXdEQVvcDMIhoRbRXG9+0kpx1KxrSGuLikmFqUuObOuSEUikHNrvNcyXMeNLlMswi+ra1VO8T82EQmxZ97/n9cM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ib6YR8D2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NDOB450D"
-Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-5b2ed25b337so1247547eaf.0
-        for <linux-sound@vger.kernel.org>; Fri, 14 Jun 2024 13:50:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718398231; x=1719003031; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=BsDvXYMdTodTTo5uSpaM+JpBiHfvPb+uVS5Kvl4zJZA=;
-        b=NDOB450DIe23eTyVDSQx0pqkNdYqKLJtQIH9YOHDERdH5esGgCk9/zbuLYvwaxhZo8
-         1p1naF8EU7+szgc9CnGfsFAjQCLXS00Q6t5vx2GB21q8PmjSVF0g7RLpe7ZasSHwTAk1
-         Tcr9XVqwYFU8rHnBhZvji/qnWT+nLygZK6DNkGLWkqRtOrbjebqRnnBzJ65yBlrIGtLs
-         QIPRF58ph287HKFP/RFybdz4h10Z34LBtLH8EOHzQYauLZn5yC2yztH8cJ+IxPhDMFF5
-         JIJWL41Rf3f3B3hmX1/BxLDLIkEH07QUz7UveAcloh8z6URQnvETgxDwoemiUmJA0KPM
-         fDVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718398231; x=1719003031;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BsDvXYMdTodTTo5uSpaM+JpBiHfvPb+uVS5Kvl4zJZA=;
-        b=K4yyhR3hxpK7sit7KlVtpRHelzrFjaQzAWbFkcrn7fV5DsddHIBTCkrnXJY9n1GoLo
-         wqDtA61FVntVLELUBQVIGJPcp3b7cfukTUBtyi4DIFts289L9atm6q0XdRmwMZLx/lMx
-         1Hc7Vnh4Dphz4aXg6r1xP4JL0KsiQ5G3zRi19IVaLXgxTPOQ+41ARJOKuNFMSUb8WDBV
-         dRkXhTyykTOrxT/1T8jg03Kr4bap5FgXbqSzKwHot5zVO0jj7SJGb3FkWSGbVtcYbLjv
-         BROk4AWcmp2kYVCNYfOeq28u+CNxPL5qE1Net+a7SDJbYVH4l1z1EW8+NR2dPZ0EEBBw
-         niQQ==
-X-Gm-Message-State: AOJu0YyjWdMRaUNUg4Dl5J4UI9x/OT1c+QJSzFHsqOGbFwHNp3CqnJY5
-	Hyjn3aqqjZR8wTH46kLEvpgPEy37ogqMAVSQQwfC95x1U5rnwV0NRVlRfzL+RThpzxubFS3HuLu
-	3F1QV2cBNC/Fw8dTuXyQZoBJNzTxNuED4Rj0=
-X-Google-Smtp-Source: AGHT+IH13CP+OIiOFiiJH+3PKngi8hejyBJcN90cyx/smKFveEAXBLl0OajJFTuCj4ml/hKad7NVQnoG5F+AuNNm+lE=
-X-Received: by 2002:a05:6820:1693:b0:5ba:ffcb:c759 with SMTP id
- 006d021491bc7-5bdadc3026bmr4350759eaf.4.1718398230834; Fri, 14 Jun 2024
- 13:50:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ib6YR8D2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C877C3277B;
+	Fri, 14 Jun 2024 23:43:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718408621;
+	bh=NUdjis44A+P8r9hqKdMvkCt7Jj4IXY5URCzPLgFWQaY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=ib6YR8D2txQiOT/1hRIvvDZQ4hkUJFGvlV3KKqIQaHAvtz8nm0BrTvpSBeGizAi+m
+	 WIdeZ1Y7IwOGA6iCN2xDI5OnhqGe3SJ6atAfU0Lepvf41WEqDQG4U0kQgXYuScpMj+
+	 yd2nF7kjKdcWsokxaijDY/9/TBvqYh5W7lvqPma6Bd4U2iyrUZqFv3+2kjvm+HfK2L
+	 D+AXpycj2Xr+o5He2j5HIdeOVlkSWtNj72S4T3Pfk/Htd+/XP/lCzmNMw2SO2RZXgW
+	 oXECI3/UbArOGz0Ynr6XLoO74xYoXgPUfQXlOq35h751xqvrYWh8EFQNKE8oNMu/Y4
+	 lMJG+hB5LdvuA==
+From: Mark Brown <broonie@kernel.org>
+To: Banajit Goswami <bgoswami@quicinc.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc: dmitry.baryshkov@linaro.org, alsa-devel@alsa-project.org, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20240613-q6apm-fixes-v1-1-d88953675ab3@linaro.org>
+References: <20240613-q6apm-fixes-v1-1-d88953675ab3@linaro.org>
+Subject: Re: [PATCH] ASoC: q6apm-lpass-dai: close graph on prepare errors
+Message-Id: <171840862015.307440.8711592846059609297.b4-ty@kernel.org>
+Date: Sat, 15 Jun 2024 00:43:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: benjamin maddocks <bm16ton@gmail.com>
-Date: Fri, 14 Jun 2024 16:50:17 -0400
-Message-ID: <CAMzLsRSVz2s1YXL54XXihohYEqknG6EeAPTGzXbU2R3-G7MkpQ@mail.gmail.com>
-Subject: Sound issue on 6.10-rc3 snd_hda_intel snd_hda_codec_realtek
-To: linux-sound@vger.kernel.org
-Cc: oder_chiou@realtek.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev-0bd45
 
-Hello kind sirs,
-     I truly apologize if this is not the correct way to relay the
-following the information, please forgive me if so, trying to be
-helpful, not a problem.
-I have a gpd win 4 with a ALC245;
-Vendor ID:     0x10ec0245
-Subsystem ID:     0x1fdb0004
-Revision ID:     0x00100001
+On Thu, 13 Jun 2024 13:13:05 +0100, Srinivas Kandagatla wrote:
+> There is an issue around with error handling and graph management with
+> the exising code, none of the error paths close the graph, which result in
+> leaving the loaded graph in dsp, however the driver thinks otherwise.
+> 
+> This can have a nasty side effect specially when we try to load the same
+> graph to dsp, dsp returns error which leaves the board with no sound and
+> requires restart.
+> 
+> [...]
 
-It works perfect on 6.9.4, but on 6.10.0-rc3 it loads with all the
-same info in logs as 6.9.x but now sound. The only way to get sound to
-work is to enter then leave suspend. Its enough to use pm_test with
-platform setting to get it working. Simply putting the device into/out
-of suspend is not enough. Things I have tried
-In case of order of operations issue I did the following silly things.
-Compiled kernel with acpi/power stuff builtin sound stuff as modules.
-The opposite with sound builtin, acpi/power as modules.
-Also tried blacklisting the sound drivers until fully loaded.
-None of these worked. So I copied the entire sound stack from 6.9 to
-6.10 and the issue stayed the same. This is where Im confused who to
-contact because it seems a non sound issue in the sense of code but a
-sound issue in the sense of how it manifests. As I stated earlier the
-logs are all the same between working and not working except
-/var/lib/alsa/asound.state is missing the control.# sections.
+Applied to
 
-And Ill end this with saying open source programmers are my hero's,
-and seldom hear from anyone about the work unless something goes
-wrong. So id just like to say thank you for contributions and hope
-many more will say the same.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: q6apm-lpass-dai: close graph on prepare errors
+      commit: be1fae62cf253a5b67526cee9fbc07689b97c125
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
