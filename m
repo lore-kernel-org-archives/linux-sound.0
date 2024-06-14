@@ -1,86 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 024A7D51C
-	for <linux-sound@vger.kernel.org>; Fri, 14 Jun 2024 14:16:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAEC19441;
+	Fri, 14 Jun 2024 14:25:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718374589; cv=none; b=PDXgnN4WHDYqGWKCQJT+kiRJjdKlZ2MzozhbvkpjFtKg1KUQBRXmRx3n9sEWxtDWV2fNP/7sIkAZiRXqhGJ3yXbmZuKQX5yp1nc0NYWa/KlDNbED3OX23pj/u0nncfTaGTBR+HBUQwPChmUSKacatNob2PsQN57vSnKNgELK5Ds=
+	t=1718375138; cv=none; b=m2C8NKForAqJ1nXg7/vtoEvWkB0IVtzNPfrgXL/RHcD5xjixYDh3ku9tosS9ZpKQskFpDOdnJuZHUi24t6g+MlKxryceOBmovcgAkV6pUdt+0TPTNaht4jHL4wYY7o3UffujzHpxwC3YEGZy6EqUt+y/wzVv7l+/NIaj2y4dgD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718374589; c=relaxed/simple;
-	bh=EX6cdofRw4dUHQuRQKyswAwkF9oaLKdLL0bEeYpkN0c=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=evooM5Vrs6VrgnWK9bvdoccz7JNrbf2kYQMPFLG5OucRD7GlVaI6DeyHaGiUCrkPYK6M8MdMj7Lo5mRG4QfdlBgLgCbpl2FYhlGLmuPGDnOpk7PElNWteXULYezLxg1rIGj2ZK8G4BUkX0Aj2gL7fM3Y5vRHAThW3wIk8Rqn/O4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rNDaWNoN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718375138; c=relaxed/simple;
+	bh=UNau3l7mBrgun1nLwDDBYj3AuSPwWTObX5XUI5aQVmE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z6ztEMGftuxm8WWF7rGEbyhej6N4UKNH2pkamVwauLs46XMxBcKDGFcrS95dPvowI6vC3sxdOh/uDEh4LvcxfnG34uBubaA+dCfAZfBST/s73bDsO8al2YeZ4RzyOAsvKj9Dj/YokmGOV6r5FYMdJyHkJ/9AIkhHYiSknfrS1Jc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oEWpT6qu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rNDaWNoN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADBF4C3277B;
-	Fri, 14 Jun 2024 14:16:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oEWpT6qu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CA18C4AF1D;
+	Fri, 14 Jun 2024 14:25:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718374588;
-	bh=EX6cdofRw4dUHQuRQKyswAwkF9oaLKdLL0bEeYpkN0c=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=rNDaWNoNl/zru7fTjvTOIiOuAI2sWjyLC0jLShFLrCcVASyQYJffYY2aPSfo3uiL7
-	 5IHl7sCy9XYPFPUfM5rKtpeAxNxAtcFMHH12uiaVxD/LGr/Ec7n+AnSujLyERoSibX
-	 y281v4Ujdvlr22DRxTxVZlWouq8mV2ALSfB4b4QhjGgYZSBBeMZsiMfE62e+m2uXen
-	 h/IKPANnC43gsAkqXyxhHnX32dPeuw10O+/E5+MSOp1vt9BzXDep5JvVTOPS8cCZsS
-	 SoPjh5AHJio5+Sex1dxcADnn1SiegUd7+/WrQErP71e7wmL6AqqueZ8yc0Mt/XyTDP
-	 zEYZs9IigIw6g==
+	s=k20201202; t=1718375137;
+	bh=UNau3l7mBrgun1nLwDDBYj3AuSPwWTObX5XUI5aQVmE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oEWpT6quYdkYdNf0bCDl0adFF8Nl9VD8A1KU5N4sKbQl99/jV3vjJ4iZbeeVhTi8x
+	 yzXpfdm1HFceeY6hG6TJa7lnOcxs5OlxyUzeL9Jbky21Gdv4Q7H9yKYKFLXUglt7XM
+	 kFh+xJF0/+w/r3R2OWMEPk+8nHVQodfw4uOWqrVtZgxItoaGwwyIzc2NgKLtPL3SGA
+	 xBnDwIxgk9P1oBLb8oEbWsI2z2q5UmQfFJVEhQHVtUhqk/zg8wLv19FGhxXnApJKrk
+	 7Z18IJQp/M9Yn7ahO13yxghoNjK0SAjWSdpNZpN3zRixG+3yaiU0gCAHCV5s2MGKXR
+	 m7i/EmWovu3kg==
+Date: Fri, 14 Jun 2024 15:25:30 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
- =?utf-8?q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>, 
- =?utf-8?q?Amadeusz_S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>, 
- Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>, 
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-In-Reply-To: <20240613090126.841189-1-amadeuszx.slawinski@linux.intel.com>
-References: <20240613090126.841189-1-amadeuszx.slawinski@linux.intel.com>
-Subject: Re: [PATCH] ASoC: topology: Fix route memory corruption
-Message-Id: <171837458634.276136.882653794696177346.b4-ty@kernel.org>
-Date: Fri, 14 Jun 2024 15:16:26 +0100
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org, Paul Menzel <pmenzel@molgen.mpg.de>,
+	Jaroslav Kysela <perex@perex.cz>, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 3/5] ALSA: control: Apply sanity check of input values
+ for user elements
+Message-ID: <ZmxS2vSL6LCd0q2A@finisterre.sirena.org.uk>
+References: <20240614124728.27901-1-tiwai@suse.de>
+ <20240614124728.27901-4-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.14-dev-0bd45
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="A+cBSQidSaCypIJT"
+Content-Disposition: inline
+In-Reply-To: <20240614124728.27901-4-tiwai@suse.de>
+X-Cookie: Your love life will be... interesting.
 
-On Thu, 13 Jun 2024 11:01:26 +0200, Amadeusz Sławiński wrote:
-> It was reported that recent fix for memory corruption during topology
-> load, causes corruption in other cases. Instead of being overeager with
-> checking topology, assume that it is properly formatted and just
-> duplicate strings.
-> 
-> 
 
-Applied to
+--A+cBSQidSaCypIJT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Fri, Jun 14, 2024 at 02:47:25PM +0200, Takashi Iwai wrote:
+> Although we have already a mechanism for sanity checks of input values
+> for control writes, it's not applied unless the kconfig
+> CONFIG_SND_CTL_INPUT_VALIDATION is set due to the performance reason.
+> Nevertheless, it still makes sense to apply the check for user
+> elements despite of its cost, as that's the only way to filter out the
+> invalid values; the user controls are handled solely in ALSA core
+> code, and there is no corresponding driver, after all.
+>=20
+> This patch enables the input value validation for user control
+> elements no matter whether CONFIG_SND_CTL_INPUT_VALIDATION is set or
+> not.  The kselftest will be happier with this change, as the incorrect
+> values will be bailed out now with errors.
 
-Thanks!
+Reviewed-by: Mark Brown <broonie@kernel.org>
 
-[1/1] ASoC: topology: Fix route memory corruption
-      commit: 0298f51652be47b79780833e0b63194e1231fa34
+--A+cBSQidSaCypIJT
+Content-Type: application/pgp-signature; name="signature.asc"
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+-----BEGIN PGP SIGNATURE-----
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZsUtkACgkQJNaLcl1U
+h9BGuwf/YIGJxVh2z/E7yzRRZz0g2+yDYfRBGRHLPKfwTFvz4w1xzz0f689gGR8y
+BwqxDyxQTQdJB3U55OaEMvU2gIzK5TjBAJhIHQ8BwjajoLRLha+I91wpfgS5Pxjd
+L6K48WF0lcze8Q+zOlUjnszZzQJEgSxMwdnGAcGq26flJTf03p7gdazkIcwQ4fJ9
+NP8zlvt2cfZIW34XgWNigDQGJGdG+gOjBZgvyIuiafmbWqgf7cAWUA2o5F6T0IXt
+scA2qofkITQ8Q3erD3k5L2A0/m1sQKIxrPvR6Hj2I6SjOUjEOSi0c22pA+bHKZav
+gpssst7DhbTpx3tRdtaCjW52d8/HZg==
+=m6qT
+-----END PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--A+cBSQidSaCypIJT--
