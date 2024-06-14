@@ -1,144 +1,168 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48DA51854;
-	Fri, 14 Jun 2024 18:20:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD421A2547;
+	Fri, 14 Jun 2024 18:36:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718389220; cv=none; b=KJg0pSwR+BqBDBkuYwD7BHNkieDmO7vf41FlfmXFTjvGXsRA0PFhYy01zQRAAdIo0AY9dL+ps4GcQWkQGZmsRFQjM/kpDd3GAMggPuJZrV09/WGDngKyyyYsEqSfviC73HZEGktUukSg/tvD8hjNGqaq1GXYGyQguOtregC31FI=
+	t=1718390217; cv=none; b=Y76ynjXOPcKWXqDch65bGevYm6rr4PNXl6Ml+f784jEGwvVJwCgKqFBHqso/E/wFNVy44qeSjODNdHj3ws7STMV+Wtp00+AtyakKc+CI0dw0NaE8AzMwJba6elmw4kUHXVQwBzt4DZk+gSB53JKA+5A+zu61bf5vk3EfhtXv140=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718389220; c=relaxed/simple;
-	bh=loCV41uufcUxVbIBke73AHmqNwkG7/6xmqlzylzRWQI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MyvWJYeOuodwSvw1OdJUzVxcaznTLQ1OluUTUsmQuHSQXPrzTWLeTVkDn1VF31mae8vEA2rtb/jag4Tju/jbpd3VIZNnAkt+HvsmfFdP6znXzX1RjNj72JEzaWb5jwy1YhYFvUXoP+774GH0NW1z1lrZoepuDmceOBqNB0yf7IM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KEW7y6MH; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1718390217; c=relaxed/simple;
+	bh=+gUmHx/ZY7x3Xe0H6FUO+/M1RfSsjc2lrOfgaD81jd8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tQDG6siXestmRB7dIh6KkcwV5y/LZMLD0u3pcT7NM35QTZNGDDyodZtrVEhnoA8qPqaC9SSyyN84guzsQfe6kFEcVMA3qdfA1chuU9rlLRd8EOTd8IuXysfPvtVqfPZy1krby9/2rsmGlExmEXFO5yuyNlfSIARl6S9ignK7UeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=YJD974pd; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KEW7y6MH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718389219; x=1749925219;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=loCV41uufcUxVbIBke73AHmqNwkG7/6xmqlzylzRWQI=;
-  b=KEW7y6MHvboZ4e7wDyesUi+EqHtMXb/z8KeA/g/r0O04caj/AEj5p6VD
-   UOlAuQg58nD+U4KORikOc1ZgKs/gccGd9C7En/c1LOVWTMoYqNe/EdT50
-   MXHgNBJfhv7xfdKHoZlwITvLwtBe4LFpbubkE+g41Cdbe3S66nNr1Kzvv
-   vs4qfkmRBjBK60LXLUFwgBKqoS/vzNa7vRyl0cdWCmmC7V8X97gZhBQ1P
-   3Q8DXgFG+sr0iTJ+4u80+44k2PAojoeftrosyzSMFG7fUmkqiUmwGXXgR
-   s4L5IfF78gu/KyxYHfBK9OnWv7HZR1KNhbwiUWgZ8oIHIjttCUACjf6tV
-   Q==;
-X-CSE-ConnectionGUID: /mGVgu4mSH+JURRMm1hYHg==
-X-CSE-MsgGUID: jsPITykcQA+fvcNi5mUwQg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="32833274"
-X-IronPort-AV: E=Sophos;i="6.08,238,1712646000"; 
-   d="scan'208";a="32833274"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2024 11:20:18 -0700
-X-CSE-ConnectionGUID: NgrLhIalQlyBtIDbxfhV8Q==
-X-CSE-MsgGUID: 3GUQ2JlbS8Wb5b0qMHyZFg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,238,1712646000"; 
-   d="scan'208";a="41253636"
-Received: from lkp-server01.sh.intel.com (HELO 9e3ee4e9e062) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 14 Jun 2024 11:20:14 -0700
-Received: from kbuild by 9e3ee4e9e062 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sIBX2-0001dD-2B;
-	Fri, 14 Jun 2024 18:20:12 +0000
-Date: Sat, 15 Jun 2024 02:20:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Animesh Agarwal <animeshagarwal28@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Animesh Agarwal <animeshagarwal28@gmail.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] ASoC: dt-bindings: realtek,rt5514: Convert to
- dtschema
-Message-ID: <202406150259.fFugFRJx-lkp@intel.com>
-References: <20240614033812.51312-2-animeshagarwal28@gmail.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="YJD974pd"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45EBpu0o011763;
+	Fri, 14 Jun 2024 13:36:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=YLbCV4xTCqcP76ij
+	RvYtVoVP3uBmGuHUKxj5VPQAscg=; b=YJD974pdqhY7MdRrrCUeA4hnosGL+6hA
+	MJbcwQmBaj7L1ivjppR/tWRyNfmv82vQvhFsjziMY7AAqpIspnMMMGyy7iuVrlW7
+	sEvaoeT/MMjGf3Ko3p1OMPKx90sMsGnYWRmWQn6YE2Gh7v0cc/o1CSjxUDUxAaQz
+	V76/VEH13fspFqTztwx9RrL3Tay0104SUBQTrYe+XxcNyQy97usLU/tGMgupnPli
+	9MST1UyQOazJlF/amSzD5XIQige70tkYb352grZN9/j7iPVnlyUUZDy9dMWwWjvv
+	RXT9+Yi1iWv9A2YPuxwNdoV/suYIgZyHdT4vocjpgmPo3brJxnTPbg==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3yqb8ejvqj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 14 Jun 2024 13:36:38 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 14 Jun
+ 2024 19:36:36 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Fri, 14 Jun 2024 19:36:36 +0100
+Received: from paulha.crystal.cirrus.com (paulha.ad.cirrus.com [141.131.145.123])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 223B4820248;
+	Fri, 14 Jun 2024 18:36:35 +0000 (UTC)
+From: Paul Handrigan <paulha@opensource.cirrus.com>
+To: <broonie@kernel.org>, <lgirdwood@gmail.com>, <linux-sound@vger.kernel.org>,
+        <patches@opensource.cirrus.com>, <robh@kernel.org>,
+        <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+        <devicetree@vger.kernel.org>
+CC: Paul Handrigan <paulha@opensource.cirrus.com>
+Subject: [PATCH v2 1/2] ASoC: dt-bindings: cirrus,cs530x: Add initial DT binding
+Date: Fri, 14 Jun 2024 13:36:31 -0500
+Message-ID: <20240614183632.861575-1-paulha@opensource.cirrus.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240614033812.51312-2-animeshagarwal28@gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: Y6fjkybM0V7-ayRv6xUhqZ69Plc4UU3p
+X-Proofpoint-GUID: Y6fjkybM0V7-ayRv6xUhqZ69Plc4UU3p
+X-Proofpoint-Spam-Reason: safe
 
-Hi Animesh,
+Add the YAML DT bindings for the cs530x high performance
+audio ADCs.
 
-kernel test robot noticed the following build warnings:
+Signed-off-by: Paul Handrigan <paulha@opensource.cirrus.com>
+---
+ .../bindings/sound/cirrus,cs530x.yaml         | 85 +++++++++++++++++++
+ 1 file changed, 85 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/cirrus,cs530x.yaml
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on linus/master v6.10-rc3 next-20240613]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Animesh-Agarwal/ASoC-dt-bindings-realtek-rt5514-Convert-to-dtschema/20240614-114128
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20240614033812.51312-2-animeshagarwal28%40gmail.com
-patch subject: [PATCH 1/2] ASoC: dt-bindings: realtek,rt5514: Convert to dtschema
-config: arm64-randconfig-051-20240614 (https://download.01.org/0day-ci/archive/20240615/202406150259.fFugFRJx-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406150259.fFugFRJx-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406150259.fFugFRJx-lkp@intel.com/
-
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: pcie@0,0: wifi@0,0:interrupts:0:0: 8 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: pcie@0,0: wifi@0,0:interrupts:0: [8, 8] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: usb@fe800000: 'extcon' does not match any of the regexes: '^usb@', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: usb@fe900000: 'extcon' does not match any of the regexes: '^usb@', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
->> arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: spi2@0: 'spi-max-frequency', 'wakeup-source' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5514.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: da7219@1a: da7219_aad:dlg,jack-det-rate:0: '32ms_64ms' is not one of ['32_64', '64_128', '128_256', '256_512']
-   	from schema $id: http://devicetree.org/schemas/sound/dialog,da7219.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: /ppvar-bigcpu: failed to match any schema with compatible: ['vctrl-regulator']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: /ppvar-litcpu: failed to match any schema with compatible: ['vctrl-regulator']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: /ppvar-gpu: failed to match any schema with compatible: ['vctrl-regulator']
---
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: pcie@0,0: wifi@0,0:interrupts:0:0: 8 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: pcie@0,0: wifi@0,0:interrupts:0: [8, 8] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: usb@fe800000: 'extcon' does not match any of the regexes: '^usb@', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: usb@fe900000: 'extcon' does not match any of the regexes: '^usb@', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
->> arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: spi2@0: 'spi-max-frequency', 'wakeup-source' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5514.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: da7219@1a: da7219_aad:dlg,jack-det-rate:0: '32ms_64ms' is not one of ['32_64', '64_128', '128_256', '256_512']
-   	from schema $id: http://devicetree.org/schemas/sound/dialog,da7219.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: /syscon@ff770000/phy@f780: failed to match any schema with compatible: ['rockchip,rk3399-emmc-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: /ppvar-bigcpu: failed to match any schema with compatible: ['vctrl-regulator']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: /ppvar-litcpu: failed to match any schema with compatible: ['vctrl-regulator']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: /ppvar-gpu: failed to match any schema with compatible: ['vctrl-regulator']
-
+diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs530x.yaml b/Documentation/devicetree/bindings/sound/cirrus,cs530x.yaml
+new file mode 100644
+index 000000000000..aeecc8e95854
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/cirrus,cs530x.yaml
+@@ -0,0 +1,85 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/cirrus,cs530x.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Cirrus Logic cs530x family of audio ADCs
++
++maintainers:
++  - Paul Handrigan <paulha@opensource.cirrus.com>
++  - patches@opensource.cirrus.com
++
++description:
++  The CS530X devices are a family of high performance audio ADCs.
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    enum:
++      - cirrus,cs5302
++      - cirrus,cs5304
++      - cirrus,cs5308
++
++  reg:
++    maxItems: 1
++
++  '#sound-dai-cells':
++    const: 1
++
++  reset-gpios:
++    maxItems: 1
++
++  vdd-a-supply:
++    description: Analog power supply
++
++  vdd-io-supply:
++    description: Digital IO power supply
++
++  cirrus,in-hiz-pin12:
++    description:
++      Sets input channels one and two to high impedance.
++    type: boolean
++
++  cirrus,in-hiz-pin34:
++    description:
++      Sets input channels three and four to high impedance.
++    type: boolean
++
++  cirrus,in-hiz-pin56:
++    description:
++      Sets input channels five and six to high impedance.
++    type: boolean
++
++  cirrus,in-hiz-pin78:
++    description:
++      Sets input channels seven and eight to high impedance.
++    type: boolean
++
++required:
++  - compatible
++  - reg
++  - "#sound-dai-cells"
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        cs5304: cs5304@48 {
++            compatible = "cirrus,cs5304";
++            reg = <0x48>;
++            #sound-dai-cells = <1>;
++            reset-gpios = <&gpio 110 GPIO_ACTIVE_LOW>;
++            vdd-a-supply = <&vreg>;
++            vdd-io-supply = <&vreg>;
++            cirrus,in-hiz-pin34;
++        };
++    };
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
