@@ -1,96 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6599A13BAC8;
-	Fri, 14 Jun 2024 09:32:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E735193099
+	for <linux-sound@vger.kernel.org>; Fri, 14 Jun 2024 10:39:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718357522; cv=none; b=WwEL3o9QnuIo1qYFrZOpzPCmmQTMy7JDuyhQ1SmotVUjAq/o6ymf5boInQtyRd9fEKV3Fxd/AtsltGf2MawRcsZYkJHGg7ptq8MZpQsSaRy2mbEgxXKFXWYCvkwanW0EehKQ2q1BQG3m+K3fLWkTvdZaKtPnENi6b05hVxgnm20=
+	t=1718361587; cv=none; b=GI3GTg8ugCPSr5a4L1sIKPgMdvqraEX72sAlGFQTW89fRh3Bd0fZCGK/SKLuKessqbNdXdBBYGZTJ1iHOc2csRByLudPX2ThcMu88jwtgxQd2Wy3+VQwWcdWyLxavROn/DjztlNGOdjJzGHWsNoAro+jVRqerj3hFR6nhXcp+i8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718357522; c=relaxed/simple;
-	bh=vq/hKXj8k3TXQ6CBXyolStxtljiu0fDBYD/cq4bFmRs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hXhwJlQVPgFdyEx6IqYI98b4OlJaO0IZXRiAG6BdP/5PoPA2blE5AXqsx4SeqwXB5ts0qr/+JGoMx9IttbKfnfjbaFh1nL7iAXDg/nx5lBwF6e2FlgagLMgBwpr8rSnRJwsrk0C/LqMxJwlb6paWk7uTtroHHzs0bP0pWH61PMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dowkx4Wl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718361587; c=relaxed/simple;
+	bh=z+21OcPJAjV6D/4J7/6zO4ml+szueCiKIz5ZtXCez20=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LCJoVPpj8iQGSfsqzWuNtJildQd/RDTfQddet8rNO8/V9dpz6LH6XKZp8ymk27bmwi1/RP3uCxrE75FxEj7obztHbwAPzHGTLUvgtS5H/1gWgd+oaGrlo8n66zxu4hpcqmjdnCf7DOb5cLmtePOVNd9cwfjryC5fgGo8T4B2wbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Hb77qV0O; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dowkx4Wl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75168C2BD10;
-	Fri, 14 Jun 2024 09:32:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718357522;
-	bh=vq/hKXj8k3TXQ6CBXyolStxtljiu0fDBYD/cq4bFmRs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dowkx4Wli/K0fxQuXPa9Ov4p8jq4KCLXebXQhTLM5C+aiOubAYAqt6VKGvEfTd+is
-	 u1H5cT2n6PNIyOSwsRfQdqH8u3Ft3fyV9zHmquoyyb8BUFk+PERVN+tIV4ajqw8vsW
-	 7RY/uftugQcGLKrN6adOWRZRq7HYsGiNvsG/NHATdB9mbrBWreXhWtLEtiVV/8DM6O
-	 /vkRXKIZ9h/aVv+Tf83y0fRDuc/X49dFn9IxjzSMYU720OV2uuxRpCpBG/1DNhh+th
-	 z0C+Kh+7fItagFuiZgbzOIl7R01Bac1D8IAu15pqxJKVOASbc5i9MjozYRBusaqX82
-	 AGLEieEUdavxA==
-Date: Fri, 14 Jun 2024 10:31:58 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Alexandre Mergnat <amergnat@baylibre.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Nicolas Belin <nbelin@baylibre.com>
-Subject: Re: [PATCH RESEND v5 00/16] Add audio support for the MediaTek Genio
- 350-evk board
-Message-ID: <ZmwODkYov79VHznK@finisterre.sirena.org.uk>
-References: <20240226-audio-i350-v5-0-54827318b453@baylibre.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Hb77qV0O"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a6f1da33826so304733666b.0
+        for <linux-sound@vger.kernel.org>; Fri, 14 Jun 2024 03:39:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718361584; x=1718966384; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=v046Ynuau3r+2icIo4svtRx0/kg7YGr+WrTgAD4SYDM=;
+        b=Hb77qV0OjJTp9rNwhKYPZPND9iZYFvdmJViEyZq7uKNsNQHBFHVKSotrnblHEEjipX
+         XO4ZhqA4O9N8mRhTTyUL+XYlU9PcWhxHZqJuZJwJsxGIEDT/G2uRaL8klCwbxK+I3IDE
+         OWKPxY2WiKZXN8xzxg1UlGn2JnyEmRP6LqrBris/NIvI7/iolqjQBg6M5suCk2wjtDr2
+         iUCM4uFLC+HtI6itrjJE353nFXHLcjxwUwq7IxOYkG2QYA5BTPrZct2CgQJk61z1OjDu
+         KrQkjaqrk8qovoVujhEukd7f3ajJWlCw79rNjpL+oxqFtINTQNKWZcgKGyakrbysmNv0
+         8TVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718361584; x=1718966384;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=v046Ynuau3r+2icIo4svtRx0/kg7YGr+WrTgAD4SYDM=;
+        b=VCvFumgRLQifpl6BPZ4hfhPaJlUGAjwDPn7ohOkwlokla+zNq6aZ9kQPwjFA01uXK1
+         X1Qy8B4SKlLjf7qi/fmbiph9fFEje2LosfJSF6J4rJRkC4GHu0BzRCyBBimcdxQBKfL9
+         0QSzxLi7Lz/qUP0PtQm431NA765yMyfGqLrzAGF5ITaZCgr9QCtZbQ36UfCZ7ghM3tQl
+         oFg/IY2/Ph/V/QoMng3uR9NVJcJxYcbcyCLo3ohAQ2t2eH1iWic/pjd/akJGzXAC+pxu
+         l4yQCvA6a0iLMHpLcES6Bra2tTw7vP3roaZJdB689j/NBnOOikUk3SDIHWhAxdUE5O25
+         GnCg==
+X-Forwarded-Encrypted: i=1; AJvYcCXgxYbGU5UZEkbV85DHxuFtCLqC36FcvZcUjRIVcaqKf9CL1+vWvb0rn0KGskpobLMW9pCC1W8rgtrrfiQ8JB6pt0LuMzyqvNdmuqQ=
+X-Gm-Message-State: AOJu0YwIf4WTSyJe0EznTkZVJzm06Sovitvin/Nuq/H+RJIP+LHEfr26
+	2xJe+gncEIDP/Pexie7vVjooaeHpHLdzXil21kX1roe17/emnYMrm0Drf7KQqu8=
+X-Google-Smtp-Source: AGHT+IEx+k+d6jmLnxxySTuX+K3zHE/R51D+3f9To16Y8uYNB0SKgQpBH0n6JwaZnMUULpDr3sMbZA==
+X-Received: by 2002:a17:906:3c56:b0:a6f:12:8c48 with SMTP id a640c23a62f3a-a6f60d5f66bmr174412966b.39.1718361584558;
+        Fri, 14 Jun 2024 03:39:44 -0700 (PDT)
+Received: from [192.168.0.18] ([78.10.206.163])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6f56ecdd2asm175134166b.141.2024.06.14.03.39.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Jun 2024 03:39:44 -0700 (PDT)
+Message-ID: <7b9c8a44-d0cd-4689-986c-f16d1239c91b@linaro.org>
+Date: Fri, 14 Jun 2024 12:39:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="SeMD/ZPP93d62FnM"
-Content-Disposition: inline
-In-Reply-To: <20240226-audio-i350-v5-0-54827318b453@baylibre.com>
-X-Cookie: Your love life will be... interesting.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 3/3] ASoC: codec: lpass-rx-macro: add support for 2.5
+ codec version
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Banajit Goswami <bgoswami@quicinc.com>
+Cc: neil.armstrong@linaro.org, linux-arm-msm@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ alsa-devel@alsa-project.org
+References: <20240612-lpass-codec-v25-v4-0-f63d3676dbc4@linaro.org>
+ <20240612-lpass-codec-v25-v4-3-f63d3676dbc4@linaro.org>
+ <a6793126-ba1c-4679-a2c2-eabad4f5a506@linaro.org>
+ <93b2de4e-dc2d-4781-9c1b-d6ad6d888eb2@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <93b2de4e-dc2d-4781-9c1b-d6ad6d888eb2@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 13/06/2024 13:04, Srinivas Kandagatla wrote:
+> 
+> 
+> On 13/06/2024 12:00, Krzysztof Kozlowski wrote:
+>> On 13/06/2024 12:49, Srinivas Kandagatla wrote:
+>>> LPASS Codec v2.5 has significant changes in the rx register strides.
+>>> Due to this headset playback on SM8550, SM8650, x1e80100 and all SoCs
+>>> after SM8450 have only Left working.
+>>>
+>>> This patch adjusts the registers to accomdate 2.5 changes. With this
+>>> fixed now L and R are functional on Headset playback.
+>>
+>> I was just about to respond, are you sure this is suitable for sm8450? I
+>> looked now at registers and sm8450 (which should have codec v2.5) has
+>> old style register layout.
+>>
+> from 2.5 the layout has changed, I have verified it on SM8450, with and 
+> without this patch, This fixes the issue one speaker issue.
 
---SeMD/ZPP93d62FnM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+I tested it now on SM8450 and indeed it fixes missing channel playback
+via headphones.
 
-On Fri, Jun 14, 2024 at 09:27:43AM +0200, Alexandre Mergnat wrote:
-> This serie aim to add the following audio support for the Genio 350-evk:
-> - Playback
->   - 2ch Headset Jack (Earphone)
->   - 1ch Line-out Jack (Speaker)
->   - 8ch HDMI Tx
+Tested-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-I seem to remember you had review comments that needed addressing from
-AngeloGioacchino, why resend without addressing those?
+Best regards,
+Krzysztof
 
---SeMD/ZPP93d62FnM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZsDg4ACgkQJNaLcl1U
-h9AoDwf9Gw5El3fz0zRFzNFxxe/7UfRa8HACWErrPscsXGk4tslBOE3UwCx3bw4Q
-6VnbJ45siXspBD7/Zjhjhi9lvAZlz6ucKm2glWijqZHLg9xmSBrRyEDb2G98FWlI
-SMczNAxg5QXwBUnID0bua6y5ZOldZEAGl53t5KuXWRe0/Znwns2+gUpSt3MAoDp8
-rPfYqUv2whvlBzGYmg6XlbTskN/c/+qpODFdThrx57aGRjxRoVc82kAmN814Gbc/
-nqKrNhIYzQDYBwKB1cuDXatDavgYFA5FugzeuZ80Va5/ZiuMX7JLgMHeVGQJZrQq
-Jbv+xbpMJ+ow5S6rLO0D2CcOA91DsA==
-=TqJQ
------END PGP SIGNATURE-----
-
---SeMD/ZPP93d62FnM--
