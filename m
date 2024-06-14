@@ -1,91 +1,85 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F70195F1D;
-	Fri, 14 Jun 2024 12:52:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD81195F1D;
+	Fri, 14 Jun 2024 12:55:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718369525; cv=none; b=J7SwfKtWPAcLt/f4POoo+CpYBvDR9aUnfqk5cnuSPH2Mt1sQJoP3UxSIC7AT1yEDXTU9wB3N52Rbb7lyltWM3J8aJEFGi9WpKlmFzRhB3rb8xA50+BEnANV0fquVkwelwGwJfov/aBVBM1BZddlBBuR9NNSBEpPC2bEnMTJ4q7Q=
+	t=1718369709; cv=none; b=ZxemJ/aKCTByUL5nFydKhT8xZCiUgnPjBjSr3Fsxcwf2yDZfCu21+sr0/LIKZDEeRjHFDzfs4BVMHL8PzIrvxmkFHpJcNP/3bZhhp1WO7Tzbl0E3w00S1tjnczo7+TESbNTBVvZ0ve9ZHKMcO6ifaCnX+vuu0/+8gOvjEvjSLS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718369525; c=relaxed/simple;
-	bh=axe9h9XJQnqzIl4Osu4Tu67uLt+HRXkbhNrY/mdVmSw=;
+	s=arc-20240116; t=1718369709; c=relaxed/simple;
+	bh=iVaGy8W6T9mHWV09FW/jEM2EB0wqInQIFp26nT7SuGo=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HrOmQfvG7r2FgZSUDOnKdGHXdwz7KhG33TXb2UCNK9UOZhzpC0cKcok31fBwYA33cfLjHUBC8RpvcPlHCpkRzaLWCHD5PLqF1wg+aY+5QiX7UdS49zFZ33sc9cKDEgmFJ3fYxoRON2fm0vsFOiMbeo+ul2SLIDTkr+bpM54CGv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Eg9Ci+UC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dhzwJL1j; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Eg9Ci+UC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dhzwJL1j; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=CPbtrNCAOHfMADN+JmdHnrwDI20Hg8QQp2qjPRwiFML8r/Kj1xLeBl0l2P++Z6WOFWnnrSWRNq6TJdmd+8BNxlxjgU1TFpsBaPhlCAo2/6w3R03kjJ6PaaBQBX5r4xIkl177N449MppOYcdZeJzwr1IhsFcXMfhcrRFQNmqm66Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=viyCHidv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZP/JNik0; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=viyCHidv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZP/JNik0; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Eg9Ci+UC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dhzwJL1j";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Eg9Ci+UC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dhzwJL1j"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="viyCHidv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZP/JNik0";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="viyCHidv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZP/JNik0"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9CC6C33806;
-	Fri, 14 Jun 2024 12:52:02 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 555323380B;
+	Fri, 14 Jun 2024 12:55:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718369522; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1718369706; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2xVdax+HP6ifRzg30XsgcfzY2o3oHkgLBqIBm6pxQzk=;
-	b=Eg9Ci+UCo2I+U623jvU2SedRezKEdehdDlWHSxLcuzHplJLi8UlzQRzaZGQvJD+4wkBqyD
-	Mjqw4mte9LZVAig4fmK+LTYWhlNaczhcPS60N7+DtOELDRPVCNQOZ/c3mcUn/M7A+iiEol
-	IBFJtRQ0gvoxY7H+F7zQMVOkh0UKvtk=
+	bh=TGUDi25w4Wy8PrwQH04bIY6SwVHvmlcnTQSHgTX6SZs=;
+	b=viyCHidvKG8WizadpgE3JPFzoDPLNhysHZH2521vxDq/M6Kv/+L6rJSK+aCZ5me3yXcqgC
+	58Aj3vdwGaHATf4MP0GQWfncwLqpb9pa1rJZfYzhB7KFAz/qCmvSAwgmskP2r6IRAf36iz
+	LkKbk+LGHShUSPRFAK24Zc+XNucLwjw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718369522;
+	s=susede2_ed25519; t=1718369706;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2xVdax+HP6ifRzg30XsgcfzY2o3oHkgLBqIBm6pxQzk=;
-	b=dhzwJL1jNgsH5HVeOzbLP22qCvW4XMnsRFJtmujDMTRHi1Arr+wcT+EDFL42v5FPdDF4Vj
-	8CTDAIlrsR9dG1CQ==
+	bh=TGUDi25w4Wy8PrwQH04bIY6SwVHvmlcnTQSHgTX6SZs=;
+	b=ZP/JNik0MIRN4mwSRactvzFqH1VMb4RsixqM/peSVFDY8O1Ot73WHlY81+47EH8oPrit5P
+	JKXRR0F2LrjAlaCg==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Eg9Ci+UC;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=dhzwJL1j
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718369522; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1718369706; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2xVdax+HP6ifRzg30XsgcfzY2o3oHkgLBqIBm6pxQzk=;
-	b=Eg9Ci+UCo2I+U623jvU2SedRezKEdehdDlWHSxLcuzHplJLi8UlzQRzaZGQvJD+4wkBqyD
-	Mjqw4mte9LZVAig4fmK+LTYWhlNaczhcPS60N7+DtOELDRPVCNQOZ/c3mcUn/M7A+iiEol
-	IBFJtRQ0gvoxY7H+F7zQMVOkh0UKvtk=
+	bh=TGUDi25w4Wy8PrwQH04bIY6SwVHvmlcnTQSHgTX6SZs=;
+	b=viyCHidvKG8WizadpgE3JPFzoDPLNhysHZH2521vxDq/M6Kv/+L6rJSK+aCZ5me3yXcqgC
+	58Aj3vdwGaHATf4MP0GQWfncwLqpb9pa1rJZfYzhB7KFAz/qCmvSAwgmskP2r6IRAf36iz
+	LkKbk+LGHShUSPRFAK24Zc+XNucLwjw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718369522;
+	s=susede2_ed25519; t=1718369706;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2xVdax+HP6ifRzg30XsgcfzY2o3oHkgLBqIBm6pxQzk=;
-	b=dhzwJL1jNgsH5HVeOzbLP22qCvW4XMnsRFJtmujDMTRHi1Arr+wcT+EDFL42v5FPdDF4Vj
-	8CTDAIlrsR9dG1CQ==
+	bh=TGUDi25w4Wy8PrwQH04bIY6SwVHvmlcnTQSHgTX6SZs=;
+	b=ZP/JNik0MIRN4mwSRactvzFqH1VMb4RsixqM/peSVFDY8O1Ot73WHlY81+47EH8oPrit5P
+	JKXRR0F2LrjAlaCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5CC2C13AB1;
-	Fri, 14 Jun 2024 12:52:02 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2CA6D13AB1;
+	Fri, 14 Jun 2024 12:55:06 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Rs5vFfI8bGaqMQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 14 Jun 2024 12:52:02 +0000
-Date: Fri, 14 Jun 2024 14:52:27 +0200
-Message-ID: <878qz78z5g.wl-tiwai@suse.de>
+	id 5FdPCao9bGaRMgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 14 Jun 2024 12:55:06 +0000
+Date: Fri, 14 Jun 2024 14:55:31 +0200
+Message-ID: <875xub8z0c.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Simon Trimmer <simont@opensource.cirrus.com>
-Cc: <tiwai@suse.com>,
-	<linux-sound@vger.kernel.org>,
-	<alsa-devel@alsa-project.org>,
-	<linux-kernel@vger.kernel.org>,
-	<patches@opensource.cirrus.com>,
-	<soyer@irl.hu>,
-	<shenghao-ding@ti.com>,
-	<kevin-lu@ti.com>,
-	<baojun.xu@ti.com>
-Subject: Re: [PATCH 0/3] ALSA: hda: Component should be unbound before deconstruction
-In-Reply-To: <20240613133713.75550-1-simont@opensource.cirrus.com>
-References: <20240613133713.75550-1-simont@opensource.cirrus.com>
+To: bo liu <bo.liu@senarytech.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V3] ALSA: hda/senarytech: add senarytech codec support
+In-Reply-To: <20240614031630.61581-1-bo.liu@senarytech.com>
+References: <20240614031630.61581-1-bo.liu@senarytech.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -94,55 +88,51 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.98%];
 	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	TO_DN_SOME(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_TLS_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 9CC6C33806
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_FIVE(0.00)[5]
 X-Spam-Flag: NO
-X-Spam-Score: -3.51
+X-Spam-Score: -3.30
 X-Spam-Level: 
 
-On Thu, 13 Jun 2024 15:37:10 +0200,
-Simon Trimmer wrote:
+On Fri, 14 Jun 2024 05:16:30 +0200,
+bo liu wrote:
 > 
-> Small chain of fixes to correct hda drivers using the hda component
-> infrastructure so that they unregister their component before proceeding
-> to deconstruct the driver.
-> 
-> These three patches been separated from the chain "[PATCH v2 0/7] ALSA:
-> hda: Improvements to hda_component"
-> 
-> Simon Trimmer (3):
->   ALSA: hda: cs35l56: Component should be unbound before deconstruction
->   ALSA: hda: cs35l41: Component should be unbound before deconstruction
->   ALSA: hda: tas2781: Component should be unbound before deconstruction
+> +static void senary_auto_parse_eapd(struct hda_codec *codec)
+> +{
+> +	struct senary_spec *spec = codec->spec;
+> +	hda_nid_t nid;
+> +
+> +	for_each_hda_codec_node(nid, codec) {
+> +		if (get_wcaps_type(get_wcaps(codec, nid)) != AC_WID_PIN)
+> +			continue;
+> +		if (!(snd_hda_query_pin_caps(codec, nid) & AC_PINCAP_EAPD))
+> +			continue;
+> +		spec->eapds[spec->num_eapds++] = nid;
+> +		if (spec->num_eapds >= ARRAY_SIZE(spec->eapds))
+> +			break;
+> +	}
+> +
+> +	/* chips always have more than two EAPDs, we can control EAPD per pin. */
+> +	spec->dynamic_eapd = 1;
 
-Applied to for-linus branch now.
+So it's a fixed value, and we can drop this flag and the
+conditionals.  Let's clean up the code.
 
 
 thanks,
