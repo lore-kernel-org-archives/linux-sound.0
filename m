@@ -1,153 +1,145 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout1-smtp.messagingengine.com (fout1-smtp.messagingengine.com [103.168.172.144])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0A5A199B8
-	for <linux-sound@vger.kernel.org>; Sat, 15 Jun 2024 07:43:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D843E171B0;
+	Sat, 15 Jun 2024 08:02:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718437402; cv=none; b=DyaGipDSLCmI++rZoSwgyM6pkAo+HVVwxj1nSSirFpeqbifEyJj0H/u96zQ6q9xxckDgWutCbpOClrxQUGNlEW/xrxgzpGWMIuWB5uj7Xqfs9ySxeksuAf4Nfg6ydVa7nGlu1Y21vKlnf457wKrLnqvSyW/4L/QeZ5PTC+cM7X0=
+	t=1718438564; cv=none; b=QIUkzbHTdDsYCDmi7WikGDkSni5Q8wbbdnq9Btx0sKC7NtciLyiM+yoGgsTyHJt8tpKuKKOb89UT9WYQq93VNZZICFjl7St6M857tXw7i00RtMuY34tXcmbkPyOySmofkAJ+TCsgCAZW7fk306qj8XvSEVmh/ITzVM7ri41unuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718437402; c=relaxed/simple;
-	bh=2nC/vkOx5AwY/zV0ayqRmN9AczbUJdv38Og2NmSfbr0=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BgDTjxpAJ4nzrUTFdqNoDViX3lbPl5LRPueotOvdBs4Xzt1G8L5rQpG9xOSspPsT30d7uVo/Z6HlrlGGXiSgtKw5bmA6LT1jN68Siw67ojPt5A/BbBBzFcgsaJeTR5oA2RkDt6efqY2A0gazaiifUq+nt5VwIb4zihHrhZ43r+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NvrFEAUF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SA6fGxWs; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NvrFEAUF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SA6fGxWs; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1718438564; c=relaxed/simple;
+	bh=QvARnw7AZhKjjQZEHPIbrdOAmJBynmSEuT5URqajrxU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CDqE2lkiD30d6jySHLCH/vyjUVqhH34HLt99179zrFm2aVJaT23lYpeuNlpVSXbzAuegWyfZfudK3G0l1rqEVhTllQPVjiAfc/pABfnDAxEDSrT+JkhTzFf/d7zouA3PZbf3cOY8Eiab++daW/1Xv+Rnq9M1U4AucKO8Rhk2+cA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=XtIhAW0w; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=F7wLuAaJ; arc=none smtp.client-ip=103.168.172.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NvrFEAUF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SA6fGxWs";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NvrFEAUF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SA6fGxWs"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B4707340F3;
-	Sat, 15 Jun 2024 07:43:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718437391; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CZosYvTQa9hWYIf677DJrslLo5GG+xrYM6BYtGilAqc=;
-	b=NvrFEAUFSDW23i1xIktmHkMUurur3tVs6Vfy+5eqvRDVLTFd6908uxrP5gXQKkvcmEhsNi
-	AacxFLSvw6lZmKqgdIcOYAOUGEy0Qf5Dcsq7WrztUaYrWDX10b4JsCQXn5VFGpkIIqVlNg
-	+fGKg+fy6QH6ij3LbsgKyX2QDF8h6t8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718437391;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CZosYvTQa9hWYIf677DJrslLo5GG+xrYM6BYtGilAqc=;
-	b=SA6fGxWssfKEx1saFNymsHQuxS5dhgrsQqkNUKgtXlqRsh+ASDEkstsdXv9TR/XwL/5qfB
-	2Of14jYATkbNPGAA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718437391; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CZosYvTQa9hWYIf677DJrslLo5GG+xrYM6BYtGilAqc=;
-	b=NvrFEAUFSDW23i1xIktmHkMUurur3tVs6Vfy+5eqvRDVLTFd6908uxrP5gXQKkvcmEhsNi
-	AacxFLSvw6lZmKqgdIcOYAOUGEy0Qf5Dcsq7WrztUaYrWDX10b4JsCQXn5VFGpkIIqVlNg
-	+fGKg+fy6QH6ij3LbsgKyX2QDF8h6t8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718437391;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CZosYvTQa9hWYIf677DJrslLo5GG+xrYM6BYtGilAqc=;
-	b=SA6fGxWssfKEx1saFNymsHQuxS5dhgrsQqkNUKgtXlqRsh+ASDEkstsdXv9TR/XwL/5qfB
-	2Of14jYATkbNPGAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 90CF713AAF;
-	Sat, 15 Jun 2024 07:43:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id jZ6VIQ9GbWYtUAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 15 Jun 2024 07:43:11 +0000
-Date: Sat, 15 Jun 2024 09:43:35 +0200
-Message-ID: <87y176647s.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: benjamin maddocks <bm16ton@gmail.com>
-Cc: linux-sound@vger.kernel.org,
-	oder_chiou@realtek.com
-Subject: Re: Sound issue on 6.10-rc3 snd_hda_intel snd_hda_codec_realtek
-In-Reply-To: <CAMzLsRSVz2s1YXL54XXihohYEqknG6EeAPTGzXbU2R3-G7MkpQ@mail.gmail.com>
-References: <CAMzLsRSVz2s1YXL54XXihohYEqknG6EeAPTGzXbU2R3-G7MkpQ@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="XtIhAW0w";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="F7wLuAaJ"
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailfout.nyi.internal (Postfix) with ESMTP id C700213803BE;
+	Sat, 15 Jun 2024 04:02:40 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Sat, 15 Jun 2024 04:02:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm1; t=1718438560; x=
+	1718524960; bh=D02etgLXt8LNRqfGRrozVpFaw8dGLSbYbhownIAXV0U=; b=X
+	tIhAW0wLIoj+mTEQQrSbfwqNN0mJjJEEOH3VzM87ZPM/t/8TOGLGgDAdGbkntWS0
+	OA4Am0u+u6KlKSUM1Ep0Np3So3Akwrco946q4+k7kUigsQO0DVdJH/vIfGez/bPK
+	MsF+naIQBbNh87zT5ugQJhb1HCoFRISWUH65dxOr1BHocoPDuBH0ab7mmKgJiK0O
+	0ivAUmQnI09kgV2Z9NEbOaYh2Yf6u+fLCODn49M5UFy2bezx5Oep8bq6h/6uyy3i
+	9pLf9jhXEF/iPEo70clhq5tff9ljC/kb0MLYsF8pVPWCRe02RdZmlg4K9DRDA6Tx
+	KtsvzAeL0B6dMaxWhJ7mQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1718438560; x=1718524960; bh=D02etgLXt8LNRqfGRrozVpFaw8dG
+	LSbYbhownIAXV0U=; b=F7wLuAaJPR/pKuyWJM+phWXmRI4VqNnkqlHCh/g9QKN1
+	Hmn6fPqs+AZf/r9KJZFlRQgXkZ17yIWltGlwf57202kb9qxhinHF1/c4g090TqKQ
+	j/vpbulA2AT0+X+b2dGE97l+EalSJQrdWEZp/QyqtdvzL6exb8lmh/DHstNbixp5
+	ddgejDp6pN4r4YTs5+sqIh0GudPYMS4Q953z37lAqVSaqN/7FVBcv3N3AocBZakw
+	WyrOjeZrMcFWnYQ/8b5j4xyLG/AlIbvTJhO6ws+8yxrnMLTsshgnvdPxiV1KvK81
+	2FblP7PVqMG5Ppk4erkcyf2u8woISFJSZcAiqkwUFA==
+X-ME-Sender: <xms:oEptZrGXyIcRnSj-CwuzSuOrLAfVaFDjSgSHcDwl7VuU4lH4wE3yfA>
+    <xme:oEptZoW406XXBMLK_c0l5ucAaYgxrNAHf3N_oSTkmn-o9I4eUc9X_3hlnF_8TMzNE
+    GvkD0sNDzPacJEsWZg>
+X-ME-Received: <xmr:oEptZtJm6Towjaw4u14wmf96xz2jvqiJ_4TMMtGhaR12O-FHiJORmwgQmAvwoN5rJnWQDP0AK-gaJ3apqgpABj63KBWLwEs8tsM3>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfedvtddguddvhecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefvrghk
+    rghshhhiucfurghkrghmohhtohcuoehoqdhtrghkrghshhhisehsrghkrghmohgttghhih
+    drjhhpqeenucggtffrrghtthgvrhhnpeehhffhteetgfekvdeiueffveevueeftdelhfej
+    ieeitedvleeftdfgfeeuudekueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpehoqdhtrghkrghshhhisehsrghkrghmohgttghhihdrjhhp
+X-ME-Proxy: <xmx:oEptZpHfPPLAxm7D6fp5kwyMbHmsSACoOTCIGtmaU6kEltaRxTrivQ>
+    <xmx:oEptZhU7t-gW96_uJ-sPZpbEssa3b4oyMgmi3KlgNNJa421JfoimWg>
+    <xmx:oEptZkOiW-Nvb9jQF8uj9R1184K6VySOnqvHdqL9Usk4oLQ-iCE6-g>
+    <xmx:oEptZg3aLURdUVVcVYlfV1Y3ZgTQ8i942hQWQFTnBn7Gy_f7EdaT5Q>
+    <xmx:oEptZjJLv9LkoLzFCbrmTm5XIvi2SIsmX81yc5bpPs6KHb-GzR3vLoTb>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 15 Jun 2024 04:02:38 -0400 (EDT)
+Date: Sat, 15 Jun 2024 17:02:35 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org, Paul Menzel <pmenzel@molgen.mpg.de>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v2 3/6] ALSA: control: Apply sanity check of input values
+ for user elements
+Message-ID: <20240615080235.GA508000@workstation.local>
+References: <20240614153717.30143-1-tiwai@suse.de>
+ <20240614153717.30143-4-tiwai@suse.de>
+ <20240615051329.GA494527@workstation.local>
+ <871q4y7jgt.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_THREE(0.00)[3]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <871q4y7jgt.wl-tiwai@suse.de>
 
-On Fri, 14 Jun 2024 22:50:17 +0200,
-benjamin maddocks wrote:
+On Sat, Jun 15, 2024 at 09:28:50AM +0200, Takashi Iwai wrote:
+> > In the commit coment, I can see "that's the only way to filter out the
+> > invalid values", however it not so good idea, since the ALSA control core
+> > function loses transparency against control elements somehow.
 > 
-> Hello kind sirs,
->      I truly apologize if this is not the correct way to relay the
-> following the information, please forgive me if so, trying to be
-> helpful, not a problem.
-> I have a gpd win 4 with a ALC245;
-> Vendor ID:     0x10ec0245
-> Subsystem ID:     0x1fdb0004
-> Revision ID:     0x00100001
+> Transparency?  The sanity check of input values is done in each driver
+> side, hence some overhead is more or less always present, depending on
+> the implementation.
+>
+> > Furthermore, I can see "there is no corresponding driver", however it is
+> > suspicious somehow. It would be smart to charge the validation
+> > implementation for user-defined control element set if forcing it.
 > 
-> It works perfect on 6.9.4, but on 6.10.0-rc3 it loads with all the
-> same info in logs as 6.9.x but now sound. The only way to get sound to
-> work is to enter then leave suspend. Its enough to use pm_test with
-> platform setting to get it working. Simply putting the device into/out
-> of suspend is not enough. Things I have tried
-> In case of order of operations issue I did the following silly things.
-> Compiled kernel with acpi/power stuff builtin sound stuff as modules.
-> The opposite with sound builtin, acpi/power as modules.
-> Also tried blacklisting the sound drivers until fully loaded.
-> None of these worked. So I copied the entire sound stack from 6.9 to
-> 6.10 and the issue stayed the same. This is where Im confused who to
-> contact because it seems a non sound issue in the sense of code but a
-> sound issue in the sense of how it manifests. As I stated earlier the
-> logs are all the same between working and not working except
-> /var/lib/alsa/asound.state is missing the control.# sections.
-> 
-> And Ill end this with saying open source programmers are my hero's,
-> and seldom hear from anyone about the work unless something goes
-> wrong. So id just like to say thank you for contributions and hope
-> many more will say the same.
+> The context there implies that, in the case of user elements, all
+> handled in sound/core/control.c, and there is no other dedicated
+> driver code handling the control put for those controls, hence
+> sound/core/control.c is the only place where we can address the
+> issue.
 
-Could you try to get alsa-info.sh output for both 6.9.x and 6.10-rc
-kernels for comparison?  Run the script with --no-upload option and
-attach the outputs.
+If you can force the validation to _all_ of the existing drivers by any
+kind of mechanism, it would be. Actually, not. We can have such driver
+which handles the write request without such validation, and control core
+allows it. The kernel configuration is to ease the detection of such
+drivers (and applications) in application runtime. Therefore the
+transparency would be lost by the patch.
+
+Assuming that two control element exist in a sound card, which has the
+same information and TLV response, except for the flag of
+SNDRV_CTL_ELEM_ACCESS_USER. For the same value data, one operation with
+SNDRV_CTL_IOCTL_ELEM_WRITE is successful, and another operation with
+SNDRV_CTL_ELEM_ACCESS_USER is failed. When encountering this issue,
+the programmer of the application suspect the bug pertaining to the latter
+control, then the programmer find the latter has
+SNDRV_CTL_ELEM_ACCESS_USER. Then the programmer would judge that 'I got
+it, it is a bug of user-defined control element set' even if the program
+includes the bug for min/max/step computation and the underlying sound
+driver includes the bug not to validate value data.
+
+The patch loses transparency in the above step. Without the patch, both
+operations finish with the equivalent result.
 
 
-thanks,
+Nevertheless, I think the validation is itself preferable. In my opinion,
+the validation before/after the call of 'snd_kcontrol_put_t' would result
+in the different argument. The 'validate-before-call' is the argument of
+control core function, while 'validate-after-call is the argument of
+implementation of user-defined element set. The patch should belong to the
+latter to extend current implementation of user-defined element set.
+Thus I suggest to put the validation into the put callback function,
+regardless of the optimization to which you address.
 
-Takashi
+
+Regards
+
+Takashi Sakamoto
