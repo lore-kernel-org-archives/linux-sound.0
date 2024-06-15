@@ -1,406 +1,144 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A15E95812F
-	for <linux-sound@vger.kernel.org>; Sat, 15 Jun 2024 17:53:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF52171CD
+	for <linux-sound@vger.kernel.org>; Sat, 15 Jun 2024 19:47:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718474023; cv=none; b=TanZXNzOQZsAldBw9IkUcBwAfrSy2aroxxRNcln+7A9+H3IqHQ+SkQig0YEUwHHsQnNlhCLySXYe9B89NuAYRUgbnPUCJQ7/1wZt9MbD5jGgqZYiFeIWufHuiTsoASuxwuPbB7/r9Pt3gYb3pg11B8h2Ye/rnM49gL1qUkBiqcc=
+	t=1718480879; cv=none; b=IpQCs9roWtVqMSh51XO5vW2k/ol3f6f9skFcDenWK9CI12w2Taw+zVSZUafzoQyZwOh5hLULHkFXwfUIiCB/nmYWYKWzM0q2x9Q/JaggK0F3JI7+Ij0T8YhIIEqug923RV9Gja/SEaUEmmIDogeGv+jeg1uURBNSr4sb6I+6O2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718474023; c=relaxed/simple;
-	bh=pg+NRAC0FNupuz6uv3BfUWUNO6rGMBpHZpbeR8Kzwy0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=LR556dhCtRpKUcYRBEL74AOIu4DAoId8jsA3Si1RlqCiJrhH8mUL697kSnd/62qoceai/lvZsBL/p4V72JWOpW6+cfdF73VWzxr4IcFcQnxNDgzGnKjTaXo2PwQVckeZ86xOumFOL9zBtFv1zN7N1YvXRCsJL+t8RQ+gyIY++Sc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wQMA219A; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1718480879; c=relaxed/simple;
+	bh=42b2noIdCB+qURk9Vdw2P3b3BL/qJaLKtsNpvw9FdNs=;
+	h=Message-ID:Date:MIME-Version:From:To:Cc:Subject:Content-Type; b=sEtkX4AGeA5Ppvz1rR+ygy6+0mf8FistwKLqC/L5tlJSBoVRxIkVJYzyL1mL7MTIQErQ4gbcQrO5NCUNl4uSpk1OPtCrPu1ABlcqodaBqJYjRizcHf7vlLMEFD0aDG9Pttlka3GKDLp2VBPKhCw6YcYqSXusiIR70Ns7XHzB/eQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mrum3Kc7; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wQMA219A"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-52c32d934c2so3526921e87.2
-        for <linux-sound@vger.kernel.org>; Sat, 15 Jun 2024 10:53:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mrum3Kc7"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a6f176c5c10so382882666b.2
+        for <linux-sound@vger.kernel.org>; Sat, 15 Jun 2024 12:47:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718474018; x=1719078818; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BNoqJV99DpCpKEKBVdbTZULLg3yGlQIJ3RlKgG+D6Ow=;
-        b=wQMA219Ahl9yo+aAneW1SLw3btVQ85Y8goHPPtEYf2oWfguObeaQBvzYfCtinHkeW6
-         Huty4sc3cAsrmNV8jHgbZM1Ytm/EP5XI868OMA50ONdgTSjqSejgTW7gqJ1TCe6ddfnU
-         lljtjqi1tl+3O+PsYomXODYc+iG/D4sAlr9PgoiFT917Uy1D2fIX8IFQwTfWV0rh31Ra
-         CiiFCls0hAb3pSnC6zLosA6nbVeblmChnACOWpbJpC/UEM2TxE221GAkt73c+0YzhX17
-         v82dqPJL2e/EBBGhNdSOALUpxxVpyHXSAigypM6HplKaYp+47pFge1oV3FAvw63I0RPu
-         Rgag==
+        d=gmail.com; s=20230601; t=1718480876; x=1719085676; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:cc:to:content-language:from
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dolEz+fDUwzcwVHGdH7SLJCbD1WzCsbBL7fWgh1egjY=;
+        b=mrum3Kc7OzSx6oIlKrjcMMI33TMhwWOT9ch64r75nvO6kSQXqhpmZBejwBaQpgToko
+         jqCs+KBjOnKB/ntYdTdDbxeFGQGtF3TlYJeZzUbDIHtXoPUgrJC3uQjG+kJURrD/ID8k
+         eyivc2VYfCy5jyT95AvIluTdGpJWzAxXajwcDbYItXKCOVDRoVeOjOCRhBr/ZH/Lee4K
+         zvii3fnG0CgNNH2JOVoLTtgqYmnMkdh8Xiyfir6FJO8mDS/jiewS3lgMohJTYRYLkYcF
+         ecIKpiFoiDxbI/lShdPzpEkdvEmooQv38k2C2cKd0x25FljieBp/Qwth0I6L05yBCFFf
+         xFFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718474018; x=1719078818;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BNoqJV99DpCpKEKBVdbTZULLg3yGlQIJ3RlKgG+D6Ow=;
-        b=LpH+aHYOey2J5/PHVE0Ic57Hxdak1BDvbZ+qjfw9q0UExiAd/Al2/8kHDhplW2c9z/
-         GmrcXuoE8l9GWVKJdYOzapy8wZ3OOcUKkhyxrfe2KfinED4AS/5+Z1w9HoRRJNaMI6mV
-         z7C1ayjaWEwqwLvnonmUUHBvFxFfjWQuxc3qCVL01nEMAAoJLFa34iNuRcHMGk76d2sS
-         Vu2KMYE5AwfexyvAQlQwJ42hdqmfs05d8OPlkNhy82P8uu2BAu3tQJv7W+y9yWEYBGsl
-         F2ll+R7dM16vLEdMjet0O+8rfUCVtpTUkdbriKfEn++B1KKxQCN2LUajndLy7gNmyVm6
-         D5Kw==
-X-Forwarded-Encrypted: i=1; AJvYcCUKJGDd67ry9Y1G1I1+xvsEv7v2hCjLci65fyDIKXQkQ8TuLu98dE6ISPLH+A6+xVl2NpYov+KsGlV0XfmxckOmPJdG8odX2GFWOgY=
-X-Gm-Message-State: AOJu0YwMtmfXYoNi5ELiZisHUuTXg+czgcNWcWOGXBGWXE8zMAzTtJug
-	0Y57XwFjsLzU7U4Y0Z72lh6KHzo+8evq24zMNeZN4W59rI2K8zaC80WvZDG24gJH4KWHcb3zQNc
-	qlHw=
-X-Google-Smtp-Source: AGHT+IGMV2nV7xKWzH/4jIfi24E5+YGvRngTLXuMdzhfRlPyiUnBTAiPzEX2D9ECyNJt1xnPR/7s5Q==
-X-Received: by 2002:ac2:53a7:0:b0:52c:84b0:bd21 with SMTP id 2adb3069b0e04-52ca6e653femr3874949e87.16.1718474017740;
-        Sat, 15 Jun 2024 10:53:37 -0700 (PDT)
-Received: from umbar.lan ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52ca287affcsm799209e87.232.2024.06.15.10.53.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Jun 2024 10:53:37 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 15 Jun 2024 20:53:34 +0300
-Subject: [PATCH RFC 5/5] drm/bridge: lt9611: switch to using the DRM HDMI
- codec framework
+        d=1e100.net; s=20230601; t=1718480876; x=1719085676;
+        h=content-transfer-encoding:subject:cc:to:content-language:from
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=dolEz+fDUwzcwVHGdH7SLJCbD1WzCsbBL7fWgh1egjY=;
+        b=Gv9ozdXE8wtQrS6KfYsf+alqF3jZj2DH5t0xZ7kEvBOaPMAjiFGhnw4zfODRLGUV8N
+         LISWVMTIjHWJpLAsC2KJr3pGncpRNiIaRiNIJbtbIgXRb52AlEw3aZooOKMzAdLOAM/1
+         lMxNBaFn/ya139ZihjFaxEqyGrgQyqp0Bbp8pdsLJIJoxCKI4JwGochmLVk3Z30eE4OH
+         Pl81IXQydFfNuIVmvi/olYw/Kwilsab+L5hoa+0wQsuPCipudAkmAZ5PlVke63KIFCqM
+         Eb/IrhbpN1BZT6jeUVPGx3FWN9KnphVsyvHIpCn85xm74/hFFGYFepxy6NojaNVqAYlA
+         meWQ==
+X-Gm-Message-State: AOJu0Yw6RdLu2spOuqKWYcxfFDC+MuHQSrwgpXi3uWWgo8+3dypd6xGl
+	kuLS7yANlzNBU3qPvczai91M8K7aKsktFXg1VuwbIUOVV5RCbvL/F3L6ToCh5CA=
+X-Google-Smtp-Source: AGHT+IGxE07kEgAKREizSQfSZYMeYC6HreHI2lZtxlP3EmdDje/L5M+GuIMHc7sbQVu2vb8Jo990Ug==
+X-Received: by 2002:a17:906:d104:b0:a6f:51d5:ef0d with SMTP id a640c23a62f3a-a6f60dc7ffcmr402850566b.60.1718480875590;
+        Sat, 15 Jun 2024 12:47:55 -0700 (PDT)
+Received: from ?IPV6:2a02:a312:c7bd:9500::4f84? ([2a02:a312:c7bd:9500::4f84])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6f56f42bc6sm330707266b.167.2024.06.15.12.47.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 15 Jun 2024 12:47:55 -0700 (PDT)
+Message-ID: <c4a9dc00-880f-4d46-88db-c49b85de177f@gmail.com>
+Date: Sat, 15 Jun 2024 21:47:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+From: =?UTF-8?B?R2VyZ2VseSBNw6lzesOhcm9z?= <meszaros.gergely97@gmail.com>
+Content-Language: en-US
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org
+Subject: [PATCH v2] ALSA: hda/realtek: Add quirk for Lenovo Yoga Pro 7 14ARP8
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240615-drm-bridge-hdmi-connector-v1-5-d59fc7865ab2@linaro.org>
-References: <20240615-drm-bridge-hdmi-connector-v1-0-d59fc7865ab2@linaro.org>
-In-Reply-To: <20240615-drm-bridge-hdmi-connector-v1-0-d59fc7865ab2@linaro.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9303;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=pg+NRAC0FNupuz6uv3BfUWUNO6rGMBpHZpbeR8Kzwy0=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmbdUdiPOrd2HtCz9fm5aEflYaOE/wUAWKLvFrG
- 2NyaQ0z1OWJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZm3VHQAKCRCLPIo+Aiko
- 1RkRCACS1kFdCiPQG5o+eQXNCAkRvuZZavw4HRwK4olL+TOkKtgLKWSlo/rhMujreuc3g3c/O/f
- vBcgurnu5awKebMRausxudvE9PfQpVjiw03oPbe0kyiLzFfJdsDU9POGTpghbjxbPHjZFtuRAqO
- 8T9ZuX3fGExcwdHWSUK35XWJwIaflRa9Ufgfr/d7cEEYYq/OhU1oZNjqW2Y8aQ2pLI4Vqn/Dt61
- Re3KfBJm+lgUY24J4oJA+SQUSh5n5SjVBS8Ydfs5nPae63MY/hjZ105SOmEk2BBcWOJBwxqsR5h
- 781wwoauK61FcgzAwJk35MePBiQbYuk+2uSBxqbqE0CCBsUJ
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 
-Make the Lontium LT9611 DSI-to-HDMI bridge driver use the DRM HDMI Codec
-framework. This enables programming of Audio InfoFrames using the HDMI
-Connector interface and also enables support for the missing features,
-including the ELD retrieval and better hotplug support.
+ From fbcfdec1bc4789f5fb5436c80fb7c085bd060dc0 Mon Sep 17 00:00:00 2001
+From: Gergely Meszaros <meszaros.gergely97@gmail.com>
+Date: Sat, 15 Jun 2024 21:29:39 +0200
+Subject: [PATCH v2] ALSA: hda/realtek: Add quirk for Lenovo Yoga Pro 7 14ARP8
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Similarly to other Lenovo laptops these also have a dual speaker
+setup with a shared amplifier.
+The model also seems to have a conflicting PCI SSID with the codec SSID for
+the Legion Y9000X 2022 IAH7. Only tested on the Yoga Pro 7, as I don't have
+access to the other laptop.
+
+Signed-off-by: Gergely Meszaros <meszaros.gergely97@gmail.com>
 ---
- drivers/gpu/drm/bridge/lontium-lt9611.c | 207 ++++++++++++++++----------------
- 1 file changed, 104 insertions(+), 103 deletions(-)
+V1 -> V2: Use existing ALC285_FIXUP_SPEAKER2_TO_DAC1 instead of ALC287_FIXUP_YOGA_PRO_7_14ARP8_BOTH_SPK_TO_DAC2.
+           Include legion IAH7 in fixup and function name.
 
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
-index 4fa0dfc5539a..02953468cb76 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9611.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
-@@ -45,7 +45,6 @@ struct lt9611 {
- 	struct device_node *dsi1_node;
- 	struct mipi_dsi_device *dsi0;
- 	struct mipi_dsi_device *dsi1;
--	struct platform_device *audio_pdev;
- 
- 	bool ac_mode;
- 
-@@ -688,15 +687,22 @@ lt9611_bridge_atomic_enable(struct drm_bridge *bridge,
- 
- 	/* Enable HDMI output */
- 	regmap_write(lt9611->regmap, 0x8130, 0xea);
-+
-+	drm_connector_hdmi_codec_plugged_notify(connector, true);
- }
- 
- static void
- lt9611_bridge_atomic_disable(struct drm_bridge *bridge,
- 			     struct drm_bridge_state *old_bridge_state)
- {
-+	struct drm_atomic_state *state = old_bridge_state->base.state;
-+	struct drm_connector *connector;
- 	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
- 	int ret;
- 
-+	connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
-+	drm_connector_hdmi_codec_plugged_notify(connector, false);
-+
- 	/* Disable HDMI output */
- 	ret = regmap_write(lt9611->regmap, 0x8130, 0x6a);
- 	if (ret) {
-@@ -866,6 +872,10 @@ static int lt9611_hdmi_clear_infoframe(struct drm_bridge *bridge,
- 	unsigned int mask;
- 
- 	switch (type) {
-+	case HDMI_INFOFRAME_TYPE_AUDIO:
-+		mask = LT9611_INFOFRAME_AUDIO;
-+		break;
-+
- 	case HDMI_INFOFRAME_TYPE_AVI:
- 		mask = LT9611_INFOFRAME_AVI;
- 		break;
-@@ -899,6 +909,11 @@ static int lt9611_hdmi_write_infoframe(struct drm_bridge *bridge,
- 	int i;
- 
- 	switch (type) {
-+	case HDMI_INFOFRAME_TYPE_AUDIO:
-+		mask = LT9611_INFOFRAME_AUDIO;
-+		addr = 0x84b2;
-+		break;
-+
- 	case HDMI_INFOFRAME_TYPE_AVI:
- 		mask = LT9611_INFOFRAME_AVI;
- 		addr = 0x8440;
-@@ -942,6 +957,79 @@ lt9611_hdmi_tmds_char_rate_valid(const struct drm_bridge *bridge,
- 	return MODE_OK;
- }
- 
-+static int lt9611_hdmi_codec_prepare(struct device *dev,
-+				     struct drm_connector *connector,
-+				     struct drm_bridge *bridge,
-+				     struct hdmi_codec_daifmt *fmt,
-+				     struct hdmi_codec_params *hparms)
+  sound/pci/hda/patch_realtek.c | 22 +++++++++++++++++++++-
+  1 file changed, 21 insertions(+), 1 deletion(-)
+
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 79736c8782a3..78ab48c16b88 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -7520,6 +7520,7 @@ enum {
+  	ALC285_FIXUP_ASUS_GU605_SPI_SPEAKER2_TO_DAC1,
+  	ALC287_FIXUP_LENOVO_THKPAD_WH_ALC1318,
+  	ALC256_FIXUP_CHROME_BOOK,
++	ALC287_FIXUP_LENOVO_14ARP8_LEGION_IAH7,
+  };
+  
+  /* A special fixup for Lenovo C940 and Yoga Duet 7;
+@@ -7559,6 +7560,21 @@ static void alc287_fixup_lenovo_14irp8_duetitl(struct hda_codec *codec,
+  	__snd_hda_apply_fixup(codec, id, action, 0);
+  }
+  
++/* Similar to above the Lenovo Yoga Pro 7 14ARP8 PCI SSID matches the codec SSID of the
++   Legion Y9000X 2022 IAH7.*/
++static void alc287_fixup_lenovo_14arp8_legion_iah7(struct hda_codec *codec,
++					   const struct hda_fixup *fix,
++					   int action)
 +{
-+	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
++	int id;
 +
-+	if (hparms->sample_rate == 48000)
-+		regmap_write(lt9611->regmap, 0x840f, 0x2b);
-+	else if (hparms->sample_rate == 96000)
-+		regmap_write(lt9611->regmap, 0x840f, 0xab);
++	if (codec->core.subsystem_id == 0x17aa386e)
++		id = ALC287_FIXUP_CS35L41_I2C_2; /* Legion Y9000X 2022 IAH7 */
 +	else
-+		return -EINVAL;
-+
-+	regmap_write(lt9611->regmap, 0x8435, 0x00);
-+	regmap_write(lt9611->regmap, 0x8436, 0x18);
-+	regmap_write(lt9611->regmap, 0x8437, 0x00);
-+
-+	return drm_atomic_helper_connector_hdmi_update_audio_infoframe(connector,
-+								       &hparms->cea);
++		id = ALC285_FIXUP_SPEAKER2_TO_DAC1; /* Yoga Pro 7 14ARP8 */
++	__snd_hda_apply_fixup(codec, id, action, 0);
 +}
 +
-+static int lt9611_hdmi_codec_audio_startup(struct device *dev,
-+					   struct drm_connector *connector,
-+					   struct drm_bridge *bridge)
-+{
-+	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
-+
-+	regmap_write(lt9611->regmap, 0x82d6, 0x8c);
-+	regmap_write(lt9611->regmap, 0x82d7, 0x04);
-+
-+	regmap_write(lt9611->regmap, 0x8406, 0x08);
-+	regmap_write(lt9611->regmap, 0x8407, 0x10);
-+
-+	regmap_write(lt9611->regmap, 0x8434, 0xd5);
-+
-+	return 0;
-+}
-+
-+static void lt9611_hdmi_codec_audio_shutdown(struct device *dev,
-+					     struct drm_connector *connector,
-+					     struct drm_bridge *bridge)
-+{
-+	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
-+
-+	drm_atomic_helper_connector_hdmi_disable_audio_infoframe(connector);
-+
-+	regmap_write(lt9611->regmap, 0x8406, 0x00);
-+	regmap_write(lt9611->regmap, 0x8407, 0x00);
-+}
-+
-+static int lt9611_hdmi_codec_get_dai_id(struct drm_connector *connector,
-+					struct drm_bridge *bridge,
-+					struct device_node *endpoint)
-+{
-+	struct of_endpoint of_ep;
-+	int ret;
-+
-+	ret = of_graph_parse_endpoint(endpoint, &of_ep);
-+	if (ret < 0)
-+		return ret;
-+
-+	/*
-+	 * HDMI sound should be located as reg = <2>
-+	 * Then, it is sound port 0
-+	 */
-+	if (of_ep.port == 2)
-+		return 0;
-+
-+	return -EINVAL;
-+}
-+
- static const struct drm_bridge_funcs lt9611_bridge_funcs = {
- 	.attach = lt9611_bridge_attach,
- 	.mode_valid = lt9611_bridge_mode_valid,
-@@ -962,6 +1050,11 @@ static const struct drm_bridge_funcs lt9611_bridge_funcs = {
- 	.hdmi_tmds_char_rate_valid = lt9611_hdmi_tmds_char_rate_valid,
- 	.hdmi_write_infoframe = lt9611_hdmi_write_infoframe,
- 	.hdmi_clear_infoframe = lt9611_hdmi_clear_infoframe,
-+
-+	.hdmi_codec_audio_startup = lt9611_hdmi_codec_audio_startup,
-+	.hdmi_codec_prepare = lt9611_hdmi_codec_prepare,
-+	.hdmi_codec_audio_shutdown = lt9611_hdmi_codec_audio_shutdown,
-+	.hdmi_codec_get_dai_id = lt9611_hdmi_codec_get_dai_id,
- };
- 
- static int lt9611_parse_dt(struct device *dev,
-@@ -1015,102 +1108,6 @@ static int lt9611_read_device_rev(struct lt9611 *lt9611)
- 	return ret;
- }
- 
--static int lt9611_hdmi_hw_params(struct device *dev, void *data,
--				 struct hdmi_codec_daifmt *fmt,
--				 struct hdmi_codec_params *hparms)
--{
--	struct lt9611 *lt9611 = data;
--
--	if (hparms->sample_rate == 48000)
--		regmap_write(lt9611->regmap, 0x840f, 0x2b);
--	else if (hparms->sample_rate == 96000)
--		regmap_write(lt9611->regmap, 0x840f, 0xab);
--	else
--		return -EINVAL;
--
--	regmap_write(lt9611->regmap, 0x8435, 0x00);
--	regmap_write(lt9611->regmap, 0x8436, 0x18);
--	regmap_write(lt9611->regmap, 0x8437, 0x00);
--
--	return 0;
--}
--
--static int lt9611_audio_startup(struct device *dev, void *data)
--{
--	struct lt9611 *lt9611 = data;
--
--	regmap_write(lt9611->regmap, 0x82d6, 0x8c);
--	regmap_write(lt9611->regmap, 0x82d7, 0x04);
--
--	regmap_write(lt9611->regmap, 0x8406, 0x08);
--	regmap_write(lt9611->regmap, 0x8407, 0x10);
--
--	regmap_write(lt9611->regmap, 0x8434, 0xd5);
--
--	return 0;
--}
--
--static void lt9611_audio_shutdown(struct device *dev, void *data)
--{
--	struct lt9611 *lt9611 = data;
--
--	regmap_write(lt9611->regmap, 0x8406, 0x00);
--	regmap_write(lt9611->regmap, 0x8407, 0x00);
--}
--
--static int lt9611_hdmi_i2s_get_dai_id(struct snd_soc_component *component,
--				      struct device_node *endpoint,
--				      void *data)
--{
--	struct of_endpoint of_ep;
--	int ret;
--
--	ret = of_graph_parse_endpoint(endpoint, &of_ep);
--	if (ret < 0)
--		return ret;
--
--	/*
--	 * HDMI sound should be located as reg = <2>
--	 * Then, it is sound port 0
--	 */
--	if (of_ep.port == 2)
--		return 0;
--
--	return -EINVAL;
--}
--
--static const struct hdmi_codec_ops lt9611_codec_ops = {
--	.hw_params	= lt9611_hdmi_hw_params,
--	.audio_shutdown = lt9611_audio_shutdown,
--	.audio_startup	= lt9611_audio_startup,
--	.get_dai_id	= lt9611_hdmi_i2s_get_dai_id,
--};
--
--static struct hdmi_codec_pdata codec_data = {
--	.ops = &lt9611_codec_ops,
--	.max_i2s_channels = 8,
--	.i2s = 1,
--};
--
--static int lt9611_audio_init(struct device *dev, struct lt9611 *lt9611)
--{
--	codec_data.data = lt9611;
--	lt9611->audio_pdev =
--		platform_device_register_data(dev, HDMI_CODEC_DRV_NAME,
--					      PLATFORM_DEVID_AUTO,
--					      &codec_data, sizeof(codec_data));
--
--	return PTR_ERR_OR_ZERO(lt9611->audio_pdev);
--}
--
--static void lt9611_audio_exit(struct lt9611 *lt9611)
--{
--	if (lt9611->audio_pdev) {
--		platform_device_unregister(lt9611->audio_pdev);
--		lt9611->audio_pdev = NULL;
--	}
--}
--
- static int lt9611_probe(struct i2c_client *client)
- {
- 	struct lt9611 *lt9611;
-@@ -1174,14 +1171,20 @@ static int lt9611_probe(struct i2c_client *client)
- 
- 	i2c_set_clientdata(client, lt9611);
- 
-+	/* Disable Audio InfoFrame, enabled by default */
-+	regmap_update_bits(lt9611->regmap, 0x843d, LT9611_INFOFRAME_AUDIO, 0);
-+
- 	lt9611->bridge.funcs = &lt9611_bridge_funcs;
- 	lt9611->bridge.of_node = client->dev.of_node;
- 	lt9611->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID |
- 			     DRM_BRIDGE_OP_HPD | DRM_BRIDGE_OP_MODES |
--			     DRM_BRIDGE_OP_HDMI;
-+			     DRM_BRIDGE_OP_HDMI | DRM_BRIDGE_OP_HDMI_CODEC;
- 	lt9611->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
- 	lt9611->bridge.vendor = "Lontium";
- 	lt9611->bridge.product = "LT9611";
-+	lt9611->bridge.parent = dev;
-+	lt9611->bridge.max_i2s_channels = 8;
-+	lt9611->bridge.hdmi_codec_i2s = 1;
- 
- 	drm_bridge_add(&lt9611->bridge);
- 
-@@ -1203,10 +1206,6 @@ static int lt9611_probe(struct i2c_client *client)
- 
- 	lt9611_enable_hpd_interrupts(lt9611);
- 
--	ret = lt9611_audio_init(dev, lt9611);
--	if (ret)
--		goto err_remove_bridge;
--
- 	return 0;
- 
- err_remove_bridge:
-@@ -1227,7 +1226,9 @@ static void lt9611_remove(struct i2c_client *client)
- 	struct lt9611 *lt9611 = i2c_get_clientdata(client);
- 
- 	disable_irq(client->irq);
--	lt9611_audio_exit(lt9611);
-+	if (lt9611->bridge.dev)
-+		drmm_connector_hdmi_codec_free(lt9611->bridge.dev,
-+					       lt9611->bridge.hdmi_codec);
- 	drm_bridge_remove(&lt9611->bridge);
- 
- 	regulator_bulk_disable(ARRAY_SIZE(lt9611->supplies), lt9611->supplies);
-
+  /* Another hilarious PCI SSID conflict with Lenovo Legion Pro 7 16ARX8H (with
+   * TAS2781 codec) and Legion 7i 16IAX7 (with CS35L41 codec);
+   * we apply a corresponding fixup depending on the codec SSID instead
+@@ -9658,6 +9674,10 @@ static const struct hda_fixup alc269_fixups[] = {
+  		.chained = true,
+  		.chain_id = ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK,
+  	},
++	[ALC287_FIXUP_LENOVO_14ARP8_LEGION_IAH7] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc287_fixup_lenovo_14arp8_legion_iah7,
++	},
+  	[ALC287_FIXUP_YOGA9_14IMH9_BASS_SPK_PIN] = {
+  		.type = HDA_FIXUP_FUNC,
+  		.v.func = alc287_fixup_yoga9_14iap7_bass_spk_pin,
+@@ -10520,7 +10540,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+  	SND_PCI_QUIRK(0x17aa, 0x3865, "Lenovo 13X", ALC287_FIXUP_CS35L41_I2C_2),
+  	SND_PCI_QUIRK(0x17aa, 0x3866, "Lenovo 13X", ALC287_FIXUP_CS35L41_I2C_2),
+  	SND_PCI_QUIRK(0x17aa, 0x3869, "Lenovo Yoga7 14IAL7", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
+-	SND_PCI_QUIRK(0x17aa, 0x386e, "Legion Y9000X 2022 IAH7", ALC287_FIXUP_CS35L41_I2C_2),
++	SND_PCI_QUIRK(0x17aa, 0x386e, "Legion Y9000X 2022 IAH7 / Yoga Pro 7 14ARP8",  ALC287_FIXUP_LENOVO_14ARP8_LEGION_IAH7),
+  	SND_PCI_QUIRK(0x17aa, 0x386f, "Legion Pro 7/7i", ALC287_FIXUP_LENOVO_LEGION_7),
+  	SND_PCI_QUIRK(0x17aa, 0x3870, "Lenovo Yoga 7 14ARB7", ALC287_FIXUP_YOGA7_14ARB7_I2C),
+  	SND_PCI_QUIRK(0x17aa, 0x3877, "Lenovo Legion 7 Slim 16ARHA7", ALC287_FIXUP_CS35L41_I2C_2),
 -- 
-2.39.2
-
+2.45.2
