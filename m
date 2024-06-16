@@ -1,98 +1,134 @@
-Received: from smtp.smtpout.orange.fr (smtp-30.smtpout.orange.fr [80.12.242.30])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDCD03D6B;
-	Sun, 16 Jun 2024 07:23:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42F3F2941B;
+	Sun, 16 Jun 2024 07:32:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718522598; cv=none; b=Z3zxnei4xZyoOgVSFBuCIVEy3mqrhldSAEeORJbwnUq3mptMU7o2YGv+/6q6EVw69pEfzK7iPB31zRysUpqAUsHs+xwiyUIfGbDLP8D6k1/+NZcZbFp1ozYzEk4bqz8z3PPzDBCdm3UG2aSBfsCsT2atmtlum/R7FOtpU+VGx9Q=
+	t=1718523124; cv=none; b=ojxMu/vnQL1mzHA50ivmAgegsIMptAi9KgPKxrdYPJksb3HSOATGzbz1+HzVtU3IK3reMm5OCTd4QVZLJR2KYJviQslRXaJxa9sXnWUNHi0oqMzsEXgoctsVc+UUUmJDEz394H8FZ6FjpXw2eWJ4hOYaumH0zjLuq8B/AUJt/YU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718522598; c=relaxed/simple;
-	bh=+OZys9MJKjQjiTKcvx4NEmnpvqcjrD585Do8GvjtISA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=G1Vj2PaxaI+aEfKw0fTaa3+CRSPrB7nvYr50eGvFcQQkJ8HTbcduHD07q7oYmuQ37gLbZuHGVlvdLW8OVFpXNpE0hs3spkwWRK6ROD2baGiS6qxgBc2xDvZ18svfNpK9z5frBNDOdrd+C7KPa1IPqv9BXSxgmp8DyebevQI87dw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=RZExeNms; arc=none smtp.client-ip=80.12.242.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	s=arc-20240116; t=1718523124; c=relaxed/simple;
+	bh=jW6ZH3b0hQagO4XnjOskiZetbS/zqijEdXjO4cycVR4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UhaL0vOZx190F6qd9wWPEva6sa9106hxWk1sSAnlpmOgFtSP8d7pHyzAUMkXQ69fncjj9RDm6XOTgOqM0vNS+xtQVkMiy6RWjRz5i/0iOrxurd4rnUC0QzfDv1VaX9JNqCqMjcKP1Lq3K1JtFOKvKyfeY1PFhsYnL3JfWM3iTTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SxEG0O/S; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QEXDPlNR; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SxEG0O/S; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QEXDPlNR; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="RZExeNms"
-Received: from [192.168.1.37] ([86.243.222.230])
-	by smtp.orange.fr with ESMTPA
-	id Ik5as8CMcevLqIk5bsMq50; Sun, 16 Jun 2024 09:14:20 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1718522060;
-	bh=YP7PkSksy9wMazSXjGajDue5tMT2K7r8fSa1XkSOCMw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=RZExeNmsKlRnZQBILU4YjwXErTuEql+SaccL2uFBjA6xwDM4IK1gZWon0XfW41Rqm
-	 u5MS1+gNoKQaor66VozQF1NM+QzzgBYrfVf64wPAlE46LIdXavKTwO2yd6BRghSbMV
-	 eOa/MT3OuABzxJ4Sv0OxMrda82F8Sl2RQFQMe0HO8TtZMCo0azizFdYtlYG0Au1tc6
-	 2hIpD3IL6C3lhz5ZqV9hPwUHK8B0tIk470L/qO6oLW703+W09Zwce5vl5sALEf76uE
-	 2qKjo4YMTV1HmnLgyTc8EylS+rQG2AEtQrfQeaT1JZvs9QQ+dMjV2ZzFqqEXuC8+S/
-	 0O4zOexyhTUqA==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 16 Jun 2024 09:14:20 +0200
-X-ME-IP: 86.243.222.230
-Message-ID: <de75c710-044a-45ff-9477-cf4d57f55ab1@wanadoo.fr>
-Date: Sun, 16 Jun 2024 09:14:10 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SxEG0O/S";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QEXDPlNR";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SxEG0O/S";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QEXDPlNR"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 63B2735066;
+	Sun, 16 Jun 2024 07:32:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1718523120; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+5UlOdMzu7VkWukPE9vEuu2E0mkGNjfYXyW/FkFubVs=;
+	b=SxEG0O/S3Wlvi/j831KzY3EP/jJvB0fY1PNOr09hcKyvQifr/UIWB6Myz0iXhQFGhw01Fg
+	f9l//pG4ZCU0hN2TiRQaW61i99+KlXFx0ZLutZ3OVDUHqStvJjrF9UtO4YVH4HTDaXKMAF
+	+XeIH3eTldngNUq4d4NOIG8lRzwswVI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1718523120;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+5UlOdMzu7VkWukPE9vEuu2E0mkGNjfYXyW/FkFubVs=;
+	b=QEXDPlNRIPnHdyY8AYNRPsNGM1eNn/NjI3OC0vMgSHz28qzuPVComzHIz5v81Msk2+/eAl
+	dnoXLMH/kfueSICw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1718523120; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+5UlOdMzu7VkWukPE9vEuu2E0mkGNjfYXyW/FkFubVs=;
+	b=SxEG0O/S3Wlvi/j831KzY3EP/jJvB0fY1PNOr09hcKyvQifr/UIWB6Myz0iXhQFGhw01Fg
+	f9l//pG4ZCU0hN2TiRQaW61i99+KlXFx0ZLutZ3OVDUHqStvJjrF9UtO4YVH4HTDaXKMAF
+	+XeIH3eTldngNUq4d4NOIG8lRzwswVI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1718523120;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+5UlOdMzu7VkWukPE9vEuu2E0mkGNjfYXyW/FkFubVs=;
+	b=QEXDPlNRIPnHdyY8AYNRPsNGM1eNn/NjI3OC0vMgSHz28qzuPVComzHIz5v81Msk2+/eAl
+	dnoXLMH/kfueSICw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2E5F213AB9;
+	Sun, 16 Jun 2024 07:32:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id MdMYCvCUbmabCgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 16 Jun 2024 07:32:00 +0000
+Date: Sun, 16 Jun 2024 09:32:24 +0200
+Message-ID: <87bk415omv.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Shuah Khan <shuah@kernel.org>,
+	linux-sound@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kselftest/alsa: Fix validation of writes to volatile controls
+In-Reply-To: <20240614-alsa-selftest-volatile-v1-1-3874f02964b1@kernel.org>
+References: <20240614-alsa-selftest-volatile-v1-1-3874f02964b1@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: fsl: imx-pcm-fiq: add missing MODULE_DESCRIPTION()
- macro
-To: Jeff Johnson <quic_jjohnson@quicinc.com>,
- Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
- Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org,
- linux-sound@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-References: <20240615-md-arm-sound-soc-fsl-v1-1-8ed731c2f073@quicinc.com>
-Content-Language: en-MW
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20240615-md-arm-sound-soc-fsl-v1-1-8ed731c2f073@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 
-Le 16/06/2024 à 08:42, Jeff Johnson a écrit :
-> With ARCH=arm, make allmodconfig && make W=1 C=1 reports:
-> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-fiq.o
+On Fri, 14 Jun 2024 18:40:37 +0200,
+Mark Brown wrote:
 > 
-> Add the missing invocation of the MODULE_DESCRIPTION() macro.
+> When validating writes to controls we check that whatever value we wrote
+> actually appears in the control.  For volatile controls we cannot assume
+> that this will be the case, the value may be changed at any time
+> including between our write and read.  Handle this by moving the check
+> for volatile controls that we currently do for events to a separate
+> block and just verifying that whatever value we read is valid for the
+> control.
 > 
-> Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
-> ---
->   sound/soc/fsl/imx-pcm-fiq.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/sound/soc/fsl/imx-pcm-fiq.c b/sound/soc/fsl/imx-pcm-fiq.c
-> index 0d124002678e..5ea6dd4c89a1 100644
-> --- a/sound/soc/fsl/imx-pcm-fiq.c
-> +++ b/sound/soc/fsl/imx-pcm-fiq.c
-> @@ -319,4 +319,5 @@ void imx_pcm_fiq_exit(struct platform_device *pdev)
->   }
->   EXPORT_SYMBOL_GPL(imx_pcm_fiq_exit);
->   
-> +MODULE_DESCRIPTION("Freescle i.MX PCM FIQ handler");
+> Signed-off-by: Mark Brown <broonie@kernel.org>
 
-Freescale? (missing 'a')
+I'll pick this in v3 patch set.
 
-CJ
 
->   MODULE_LICENSE("GPL");
-> 
-> ---
-> base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
-> change-id: 20240615-md-arm-sound-soc-fsl-c598fb353e69
-> 
-> 
-> 
+thanks,
 
+Takashi
