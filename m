@@ -1,70 +1,62 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBB7116D32D;
-	Sun, 16 Jun 2024 07:50:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15FDC61FF0
+	for <linux-sound@vger.kernel.org>; Sun, 16 Jun 2024 08:53:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718524228; cv=none; b=PBp6ikPsCP2f9Ehw2Injnr+JNWMGapkeZtvtGAOud4/nPTmGLvX1NIUTRMI0eW0BabN/dx7qsIyfwymfKT8vtjy3JUDKOKbMHy2BJDecTmCBqwxsGaHG0loUOiw4k7vAiQFOYZEtZ4nFY1rUyL1FGshHW/nU66Sf7njYLZN8cGc=
+	t=1718527990; cv=none; b=rlX3fouE37raR2x8EB8tDPfM6iAuQZ92D3K9O7aXxK6RMJEXe0DCYiV36kECaBbiuWLvgUik89ewdUR+WR11tKchzEsuXkJbWqflTyhvszrRqtpW9YW5EwXvN6SXiW32C9BhXGc4H0GHaUJVf/KYmKLd5SN9X1funCiDpO7LwRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718524228; c=relaxed/simple;
-	bh=FKs+l7vr8yUwexuIpXPZinbV1Mp7+jimwLSLCeURhIU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MKH5csCtU3KWBaDy7htzhWPPcQEchcQwTXhdeVMRyKTPYIAimhbI+X2H4+lqHgsyXAVnAWaCE9zyXQfW0QM8eAmZXN955cZFKhi4BpxZdKkXP5qhxoOLfK1Jhg9LmwgKgYp9ZMPdHZfVyRO5oKW/NLwq5uRBQhe5pUsk1Ju0tEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BUglQNkd; arc=none smtp.client-ip=209.85.216.47
+	s=arc-20240116; t=1718527990; c=relaxed/simple;
+	bh=7diifNYf+KW6aDSwiDqBnsWXRQS2wQfJ53heDZFRqcE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=q9oKaB/mbzGtFNDpcVFf1P/XE/nNM0PYtLQR0IZG/vR0xZtwdJXzzyQ8arJuTeUsHbu3xLJToCD/25vtD1GRotnSDgsD0G/uSHvy0xgxb4xKsOFFhQsx2WajWEX9Ol3a9Fq12mjA7lA1fp4qZQFOK/Kqq2Io9BUXKZu1W/OerMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GNHHRmZg; arc=none smtp.client-ip=209.85.167.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BUglQNkd"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2c2eb5b1917so3015973a91.2;
-        Sun, 16 Jun 2024 00:50:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GNHHRmZg"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-52b7e693b8aso3981211e87.1
+        for <linux-sound@vger.kernel.org>; Sun, 16 Jun 2024 01:53:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718524226; x=1719129026; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1718527987; x=1719132787; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SHcPhxF8HQUomrEgimOjlC4Pkp/Hf/7nELFDRzTQavQ=;
-        b=BUglQNkdM0nNKLoBjfir5ZuhKrK87+z8kVLg1rLJf1d692RqOOU6mUQnkE4JQhGmHG
-         tEdG8w4hqJOy/+t41DVz/QOD8owCRHHwF7MbGE/mfHnHV2f6UYAe5B4JLR63bQBF4dYl
-         1jZcspXP+Zo+UkIwMOYsljRzBH9IHhbf41hvukb/Tp5whqpOcUbm4yxWKHtz880v9XHE
-         eFw/KH+8DgcUHyNwEZNm3Qu80+rGhAKhsEslt3sGitvYTxQ0LT5ICKcNps7lOd63fUAm
-         mYSEMzLTcf4lCaHHHPS3Z4UMAtU0phAIINjzMsiP4bjkjpM92zzd+vku9gzZKfG4r3Dp
-         TIdg==
+        bh=wq3w/tLNAWkt1g+/aHgnJUxU1edQyiaJclqKFvj2QmY=;
+        b=GNHHRmZgAhtTfutnN7+SAYZ6YZTR1PA86D+FXDuLGB9zI9NE7Gsg3jh1wfaK+pHbeO
+         KVOW03XRppm2NQMGSn+honY1nmhSH/wroHtz81/8a8vw1BvXYVeiHIkd2KoqKvoO3/kR
+         On3ZMWqWUBanwsD6xM36cXx1x0rHQC6E/ijFGWgCO1hfczTvCZC2ErSpTPDN5AtBWGXb
+         wfGd3lMWMkqP32AV0c/33wXfZT/e8k65Tcda1cVI82HMF1B0bpxhvTO7RmML91PbwZ/3
+         LnsESjecBdGboIgQ1pJXTmU8waAVGayy6yowAbHAs0K4I4dV6F8xf9I5Og11PuOzjuyV
+         oBBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718524226; x=1719129026;
+        d=1e100.net; s=20230601; t=1718527987; x=1719132787;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=SHcPhxF8HQUomrEgimOjlC4Pkp/Hf/7nELFDRzTQavQ=;
-        b=dSpd3FeRd82yHW6MEESOnLSUkO+TmlPcHGG64q0VC8kr/CgPkzekluE/N+JsDhXRUn
-         j2FRj3F0ctjbWe12v0OA3ybYGKOxr21DY89w4u0hJDwk08hXPp1prNfiQ42oWa0b29YK
-         Tj150oDUB6vdqvqMKZIKN2vGEbjYT8nMobuQmZFXp79Ar8fcVFA8ycSKWCR2FlP3grC3
-         ezzcOVGcZxIAhTDosRPraR0fCCDwGsFx/B6paLNnUXuzS2TmonPw675sr5yXha5KR4hy
-         VviqaRK+sd2Y3RXqVhiJKT+yA+WSfKmGqs3CGwGmnR5HfVBjaTZGETCi27JmXoBUXeW7
-         7Baw==
-X-Forwarded-Encrypted: i=1; AJvYcCVPIpVNAxYGqoS10l+SGg9iWBcQSwwoiLywwi7/o5njjQyGpTnEFr4fvRlf8jp35DuNZbvWnumlo5agywe6pio6hduRLeQ2plXudgTdO6/sGqafxlXgklwfCT8u79FjBeKDdhZN7E9AW8lzrPgJCEgBEjWxQ72YR+ZdgZCWpk0mNdhYvr8v
-X-Gm-Message-State: AOJu0YzSSgkn2Q/qiceNIqV3j78VaOVmTpHPMaXJkG6wsl6DmutkIFAI
-	KIwTgWTGO8bz/aQrpy3Koo4vnnUIi790vKZJfXq9kkpEJfCT0dzr
-X-Google-Smtp-Source: AGHT+IEK/RZGQ2b9Y0wWYp4TV1f+E9MTFHnHo/ShqcI0xIy1SDy1oupuP0F4TF4G+1kVikHZwmD8lg==
-X-Received: by 2002:a17:903:2302:b0:1f6:f0ff:47a7 with SMTP id d9443c01a7336-1f8629ff1eemr115315475ad.63.1718524225839;
-        Sun, 16 Jun 2024 00:50:25 -0700 (PDT)
-Received: from fedora.one.one.one.one ([2405:201:6013:c0b2:ea4b:30e0:4e3a:ab56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855f18724sm59798865ad.234.2024.06.16.00.50.22
+        bh=wq3w/tLNAWkt1g+/aHgnJUxU1edQyiaJclqKFvj2QmY=;
+        b=RceD/cZ4v1MfBdLTtUspE0XA3BvPTxqKrpChXZ4cmwmecPiL+tUSB1/pwqbYo6j0Xw
+         ZUvokLX5vu6lSwuhP/BJqj45dERphVmspbVqLSTptfO06mGA6qQFDF9NCXCxs0zYx44L
+         ze9DeOV4ihiinmV+v1nZ6QKfu6aqWpPzvCrI8h70BISPuq0wBRML5R3l5H/hhW95gk4N
+         jDOZX7v7M9gFoGk1rz4SzUZmw9Fm+x+XsA6EJV60RjjhKCX0DlI+C5mC57Y261n+4YKL
+         o/QQ3CJBUgxZYlzJatUc9oHCpFxsekdiolaicrDoPuG/SX8zNhXmKCvA5yW/iMhyXnEp
+         ikpw==
+X-Gm-Message-State: AOJu0YxiXS0TNw9LNmxwY8er4IhZ1BX3lJapQd655NqOCPU+pkBxe7pa
+	SDSPbKWPMUGfXmuQt69oj4TaixxqlnmOlIH4IKr2K86WwRYge4eo
+X-Google-Smtp-Source: AGHT+IGdMuYHFwQK3eAWDwoUa643Z+HjrBZahHz4Z5smSbVQGMCBrNH+CRVDevInakQyXGAG7PZ4hQ==
+X-Received: by 2002:a19:8c12:0:b0:52c:8906:4415 with SMTP id 2adb3069b0e04-52ca020e576mr2581298e87.1.1718527986840;
+        Sun, 16 Jun 2024 01:53:06 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:a312:c7bd:9500::4f84])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ec05bf422dsm10390251fa.21.2024.06.16.01.53.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Jun 2024 00:50:25 -0700 (PDT)
-From: Animesh Agarwal <animeshagarwal28@gmail.com>
-To: 
-Cc: animeshagarwal28@gmail.com,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] ASoC: dt-bindings: realtek,rt5631: Convert to dtschema
-Date: Sun, 16 Jun 2024 13:19:30 +0530
-Message-ID: <20240616074936.151267-1-animeshagarwal28@gmail.com>
+        Sun, 16 Jun 2024 01:53:06 -0700 (PDT)
+From: Gergely Meszaros <meszaros.gergely97@gmail.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Gergo Koteles <soyer@irl.hu>
+Cc: linux-sound@vger.kernel.org
+Subject: [PATCH v2 RESEND] ALSA: hda/realtek: Add quirk for Lenovo Yoga Pro 7 14ARP8
+Date: Sun, 16 Jun 2024 10:52:33 +0200
+Message-ID: <20240616085233.16922-1-meszaros.gergely97@gmail.com>
 X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -74,149 +66,76 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert the ALC5631/RT5631 audio CODEC bindings to DT Schema.
+Similarly to other Lenovo laptops these also have a dual speaker
+setup with a shared amplifier.
+The model also seems to have a conflicting PCI SSID with the codec SSID for
+the Legion Y9000X 2022 IAH7. Only tested on the Yoga Pro 7, as I don't have
+access to the other laptop.
 
-Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
-Cc: Daniel Baluta <daniel.baluta@nxp.com>
-
+Signed-off-by: Gergely Meszaros <meszaros.gergely97@gmail.com>
 ---
-Changes in v2:
- - Moved maintainers list above description.
- - Added missing port property.
----
- .../bindings/sound/realtek,rt5631.yaml        | 67 +++++++++++++++++++
- .../devicetree/bindings/sound/rt5631.txt      | 48 -------------
- 2 files changed, 67 insertions(+), 48 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/sound/realtek,rt5631.yaml
- delete mode 100644 Documentation/devicetree/bindings/sound/rt5631.txt
+V1 -> V2: Use existing ALC285_FIXUP_SPEAKER2_TO_DAC1 instead of ALC287_FIXUP_YOGA_PRO_7_14ARP8_BOTH_SPK_TO_DAC2.
+          Include legion IAH7 in fixup and function name.
 
-diff --git a/Documentation/devicetree/bindings/sound/realtek,rt5631.yaml b/Documentation/devicetree/bindings/sound/realtek,rt5631.yaml
-new file mode 100644
-index 000000000000..747a731c44c9
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/realtek,rt5631.yaml
-@@ -0,0 +1,67 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/realtek,rt5631.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+Resend with git-send-email, to not mangle line-breaks.
+
+ sound/pci/hda/patch_realtek.c | 22 +++++++++++++++++++++-
+ 1 file changed, 21 insertions(+), 1 deletion(-)
+
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 79736c8782a3..78ab48c16b88 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -7520,6 +7520,7 @@ enum {
+ 	ALC285_FIXUP_ASUS_GU605_SPI_SPEAKER2_TO_DAC1,
+ 	ALC287_FIXUP_LENOVO_THKPAD_WH_ALC1318,
+ 	ALC256_FIXUP_CHROME_BOOK,
++	ALC287_FIXUP_LENOVO_14ARP8_LEGION_IAH7,
+ };
+ 
+ /* A special fixup for Lenovo C940 and Yoga Duet 7;
+@@ -7559,6 +7560,21 @@ static void alc287_fixup_lenovo_14irp8_duetitl(struct hda_codec *codec,
+ 	__snd_hda_apply_fixup(codec, id, action, 0);
+ }
+ 
++/* Similar to above the Lenovo Yoga Pro 7 14ARP8 PCI SSID matches the codec SSID of the
++   Legion Y9000X 2022 IAH7.*/
++static void alc287_fixup_lenovo_14arp8_legion_iah7(struct hda_codec *codec,
++					   const struct hda_fixup *fix,
++					   int action)
++{
++	int id;
 +
-+title: ALC5631/RT5631 audio CODEC
++	if (codec->core.subsystem_id == 0x17aa386e)
++		id = ALC287_FIXUP_CS35L41_I2C_2; /* Legion Y9000X 2022 IAH7 */
++	else
++		id = ALC285_FIXUP_SPEAKER2_TO_DAC1; /* Yoga Pro 7 14ARP8 */
++	__snd_hda_apply_fixup(codec, id, action, 0);
++}
 +
-+maintainers:
-+  - Animesh Agarwal <animeshagarwal28@gmail.com>
-+
-+description: |
-+  This device supports I2C only.
-+
-+  Pins on the device (for linking into audio routes):
-+      * SPK_OUT_R_P
-+      * SPK_OUT_R_N
-+      * SPK_OUT_L_P
-+      * SPK_OUT_L_N
-+      * HP_OUT_L
-+      * HP_OUT_R
-+      * AUX_OUT2_LP
-+      * AUX_OUT2_RN
-+      * AUX_OUT1_LP
-+      * AUX_OUT1_RN
-+      * AUX_IN_L_JD
-+      * AUX_IN_R_JD
-+      * MONO_IN_P
-+      * MONO_IN_N
-+      * MIC1_P
-+      * MIC1_N
-+      * MIC2_P
-+      * MIC2_N
-+      * MONO_OUT_P
-+      * MONO_OUT_N
-+      * MICBIAS1
-+      * MICBIAS2
-+
-+properties:
-+  compatible:
-+    enum:
-+      - realtek,alc5631
-+      - realtek,rt5631
-+
-+  reg:
-+    maxItems: 1
-+
-+  port:
-+    $ref: audio-graph-port.yaml#
-+    unevaluatedProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        codec@1a {
-+            compatible = "realtek,alc5631";
-+            reg = <0x1a>;
-+        };
-+    };
-diff --git a/Documentation/devicetree/bindings/sound/rt5631.txt b/Documentation/devicetree/bindings/sound/rt5631.txt
-deleted file mode 100644
-index 56bc85232c49..000000000000
---- a/Documentation/devicetree/bindings/sound/rt5631.txt
-+++ /dev/null
-@@ -1,48 +0,0 @@
--ALC5631/RT5631 audio CODEC
--
--This device supports I2C only.
--
--Required properties:
--
--  - compatible : "realtek,alc5631" or "realtek,rt5631"
--
--  - reg : the I2C address of the device.
--
--Pins on the device (for linking into audio routes):
--
--  * SPK_OUT_R_P
--  * SPK_OUT_R_N
--  * SPK_OUT_L_P
--  * SPK_OUT_L_N
--  * HP_OUT_L
--  * HP_OUT_R
--  * AUX_OUT2_LP
--  * AUX_OUT2_RN
--  * AUX_OUT1_LP
--  * AUX_OUT1_RN
--  * AUX_IN_L_JD
--  * AUX_IN_R_JD
--  * MONO_IN_P
--  * MONO_IN_N
--  * MIC1_P
--  * MIC1_N
--  * MIC2_P
--  * MIC2_N
--  * MONO_OUT_P
--  * MONO_OUT_N
--  * MICBIAS1
--  * MICBIAS2
--
--Example:
--
--alc5631: audio-codec@1a {
--	compatible = "realtek,alc5631";
--	reg = <0x1a>;
--};
--
--or
--
--rt5631: audio-codec@1a {
--	compatible = "realtek,rt5631";
--	reg = <0x1a>;
--};
+ /* Another hilarious PCI SSID conflict with Lenovo Legion Pro 7 16ARX8H (with
+  * TAS2781 codec) and Legion 7i 16IAX7 (with CS35L41 codec);
+  * we apply a corresponding fixup depending on the codec SSID instead
+@@ -9658,6 +9674,10 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.chained = true,
+ 		.chain_id = ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK,
+ 	},
++	[ALC287_FIXUP_LENOVO_14ARP8_LEGION_IAH7] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc287_fixup_lenovo_14arp8_legion_iah7,
++	},
+ 	[ALC287_FIXUP_YOGA9_14IMH9_BASS_SPK_PIN] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc287_fixup_yoga9_14iap7_bass_spk_pin,
+@@ -10520,7 +10540,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x3865, "Lenovo 13X", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x17aa, 0x3866, "Lenovo 13X", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x17aa, 0x3869, "Lenovo Yoga7 14IAL7", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
+-	SND_PCI_QUIRK(0x17aa, 0x386e, "Legion Y9000X 2022 IAH7", ALC287_FIXUP_CS35L41_I2C_2),
++	SND_PCI_QUIRK(0x17aa, 0x386e, "Legion Y9000X 2022 IAH7 / Yoga Pro 7 14ARP8",  ALC287_FIXUP_LENOVO_14ARP8_LEGION_IAH7),
+ 	SND_PCI_QUIRK(0x17aa, 0x386f, "Legion Pro 7/7i", ALC287_FIXUP_LENOVO_LEGION_7),
+ 	SND_PCI_QUIRK(0x17aa, 0x3870, "Lenovo Yoga 7 14ARB7", ALC287_FIXUP_YOGA7_14ARB7_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x3877, "Lenovo Legion 7 Slim 16ARHA7", ALC287_FIXUP_CS35L41_I2C_2),
 -- 
 2.45.2
 
