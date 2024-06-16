@@ -1,131 +1,64 @@
-Received: from mout.web.de (mout.web.de [212.227.15.3])
+Received: from irl.hu (irl.hu [95.85.9.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5641D3AC16;
-	Sun, 16 Jun 2024 17:26:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19D7D1847;
+	Sun, 16 Jun 2024 18:08:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718558809; cv=none; b=n8LpZeAHEstOKuJQltCgISEe0RBEVta40B0F3qqgHao75+GNdHoQ8FMij0l3ED558qKVkz/+TV/XqD/6YDrVzwu3Hc+wvuta0vdy9Ui05tETfZdq0kzlasp6wRyK6NZ7CJdTKVdqzi8idtKNLMJEYs1g3Yt/zJr4KxQYS8yH1Ko=
+	t=1718561289; cv=none; b=UIzE53NRpomyDA22J3/QVaINgY1vE4sU5YSgF1Puo3Cn7qnoFPUlpL6zUHJZs82yz3rtopGgz26864AAprxWyimtwfDDEqCOJV4FtNSg7pFOPl0RWGnioZixcFcIniz3smCRyUmj84bwF+YVgq56chcwOAOctTrujw/PI1GDD0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718558809; c=relaxed/simple;
-	bh=Xm/0Py7i6a9IMqxBVqF8drxyHQMhWCpJiWp2iMkPlSI=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=fTJrCkb8qooV4jyS7nWpwm/uxjlDGgNUb+5xwVIC+GPXfrPNGijYRoSMUUIudU/JF9hFDt8URM7uvmVElStyaux6gB0bwnoXzUYid72ZgjuA68e208sZjEHkdwfE5SXyyo3GU+pR01L/DC8KXuQjaYEyveFjhDOxUhWOavSqteM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=DiAAoDov; arc=none smtp.client-ip=212.227.15.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="DiAAoDov"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1718558791; x=1719163591; i=markus.elfring@web.de;
-	bh=9nBqF5ESlkCFxxxtSfxxafJZFyJpQbDfqjP2Yj1FlIk=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=DiAAoDov0evEhITeHjo7u35qPLueFX6HSYuYpyisk4X5eKpIHooR7dBk95psSnjB
-	 AQdd0Y0o4dBP5/f7V43DJxJSnHNmUH5tDhZvxrR4V2DnXDnz8iec+DZ9PH5Sn2S6/
-	 isRjwpx/TkslV7whq9ZP/B2dwQtKAFOU4c/OrcikDIqhnjfflqywSI53aYT5ZesZT
-	 ndBVylcwSHNra2fOJ3b7DWC/VN0ONRplVeI3G3PM6Ks1U/ubC4ROK+RBO8fbR2xh0
-	 l0ruJxWrNTTxZ6PGXgmO95oRbHXwSBcDIE5yFFGWOqxdD0Kn05e1A5R7W4qpRFU1X
-	 MZOCO7WIm6G7yePL2g==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1M6pUQ-1sJTkO3WVq-00Ef4G; Sun, 16
- Jun 2024 19:26:30 +0200
-Message-ID: <2660e72f-e2a2-48d1-8571-b738d9739917@web.de>
-Date: Sun, 16 Jun 2024 19:26:29 +0200
+	s=arc-20240116; t=1718561289; c=relaxed/simple;
+	bh=zQpt/KOTN1mT5M1C2lwXEYoYFxmtE7HL1hRnOr8ZtNQ=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=iU7pgeLNRO2fvIV5KEGO/dy2np6kGGN2/UazNjTQ0pBxgvkNTR0kV33fTA3n0UWsLrYdm58Eoh1Wh10WZOZyhZfQ59xAmKa6YcV9ZQwwD3WsIVxLGEHzKLN7vg5uY6LzgKSg5WIwJi6npLV68tZAFN5g9CQO7Oq90wTMvrx2d88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
+Received: from fedori.lan (c3e47615.dsl.pool.telekom.hu [::ffff:195.228.118.21])
+  (AUTH: CRAM-MD5 soyer@irl.hu, )
+  by irl.hu with ESMTPSA
+  id 0000000000070EF5.00000000666F29FF.0023D54E; Sun, 16 Jun 2024 20:07:58 +0200
+Message-ID: <2c9ba341bc95d4b9010bf5f8794c0d14b1c57dc9.camel@irl.hu>
+Subject: Re: [PATCH v2] ALSA: hda/realtek: Enable headset mic on IdeaPad
+ 330-17IKB 81DM
+From: Gergo Koteles <soyer@irl.hu>
+To: Ajrat Makhmutov <rautyrauty@gmail.com>,
+  alsa-devel@alsa-project.org
+Cc: perex@perex.cz, tiwai@suse.com, kailang@realtek.com,
+  sbinding@opensource.cirrus.com, luke@ljones.dev,
+  shenghao-ding@ti.com, simont@opensource.cirrus.com,
+  foss@athaariq.my.id, rf@opensource.cirrus.com, wzhd@ustc.edu,
+  linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Sun, 16 Jun 2024 20:07:57 +0200
+In-Reply-To: <20240615125457.167844-1-rauty@altlinux.org>
+References: <20240615125457.167844-1-rauty@altlinux.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.2 (3.52.2-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Konrad Dybcio <konrad.dybcio@linaro.org>,
- Mohammad Rafi Shaik <quic_mohs@quicinc.com>,
- Prasad Kumpatla <quic_pkumpatl@quicinc.com>, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Banajit Goswami <bgoswami@quicinc.com>,
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Takashi Iwai <tiwai@suse.com>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Rohit kumar <quic_rohkumar@quicinc.com>,
- Christophe Jaillet <christophe.jaillet@wanadoo.fr>
-References: <20240611074557.604250-4-quic_mohs@quicinc.com>
-Subject: Re: [PATCH v6 3/7] ASoC: codecs: wcd937x: add wcd937x codec driver
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240611074557.604250-4-quic_mohs@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:c4qMevEEZoDUqoRZeATp8WmsNJbisvOlM4oORsHrrjrrsyD8K+Z
- nNih8QUYdTTgvUeNfktoQpIH4cAzbc3XB/e+ap8BXKwMBd8CT1AWDHCvs8pbYDpsfDsEmrj
- Y+tzfzcuVENc2x6GJZKi1BpOWh/TUa8Ocii93k1JzP3E8pBxPmHgismL4NvcBDZJcyCgd9d
- kEgzsm+XKdqqsYb7ndUfw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:NhWsXH4dfU8=;YdKgy7veYd3vy2o4WUWvR6kCH9a
- IahlDipBDK+K6LYLz6A/eX6whnMhGi7fHhxH1fkkNL4BNBPVi25uGj3OOkoyKWxk7bDRp8y9M
- 6PHyxB3iYqN/HqHyKIn5IYaTkMgM5sEP7nc6VvINgSZ/NoLvrls8Fz9LLcUrPZIEkq21YhN2g
- FIYL2JmpoWzB/IgWsTiBFLMzWknPFCsaeacBXhPp7uQwfSIh6f0YRPR96vcMC7vCbQTM9M8tH
- xjUGcSMZxARJ8ePFWN1wIKAbG8D2cn2P/6c9pGIcUTKxuE53RJDe4fT/+iJPRGswLUSYNlqjh
- o9KrXhWRaUX2Fscbuut+AxArU84irUCsOoIv4rElYWrTV620gUegA+McSJ0FRfqbDI7NAQpWj
- 3RoJ+T7KMaFQdyBLy9SjeXb/a7zWdMCqGmzJwdWI422XoTV91/Ksinb5JS0jQuqNST4bAqAU1
- rHdTveJ3KV/OAhhFTv+2aYsbD7BO5mGVFO75nSd1cCYnhccju5ZzvoOMFDVRyg3hZ+N+zgDsm
- /cOjSCIlfyFS7gKuMZfh2QRt9ZyVb1sx34iNwNRCPGaHWv9b5FtCAjqj0vbQGy9z0stcqzQ3T
- oqbHwqNVXFVQDyMmXk8JYas7bYPFnwxU1ox6BbBbGvcP6jNz1gF+39aKq6gDJE1LXe5NUAVO4
- 7ru0uZ2RZF/OClscS2u++V+JhgSdkQj2hhpNiIjaZ+1H7dyMgDjqO4ewWXcfmsC5ujfEo0zZv
- a6NMbsSTyE6sbrWUmpol+FrIXjIBaiQR4tQ1i7Hjyxt31B+FdwgkM7CdUA32nc8d5hKfb3d8c
- ky9pOQn9kg0Y3xzFs4EqrN6JJQKC7TDx9UJgLxI9/2lkU=
 
-=E2=80=A6
-> +++ b/sound/soc/codecs/wcd937x.c
-> @@ -0,0 +1,1677 @@
-=E2=80=A6
-> +static bool wcd937x_mbhc_get_moisture_status(struct snd_soc_component *=
-component)
-> +{
-> +	struct wcd937x_priv *wcd937x =3D snd_soc_component_get_drvdata(compone=
-nt);
-> +	bool ret =3D false;
-> +
-> +	if (wcd937x->mbhc_cfg.moist_rref =3D=3D R_OFF) {
-> +		snd_soc_component_write_field(component, WCD937X_MBHC_NEW_CTL_2,
-> +					      WCD937X_M_RTH_CTL_MASK, R_OFF);
-> +		goto done;
-> +	}
+Hi Ajrat,
 
-I suggest to use the following statement.
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/coding-style.rst?h=3Dv6.10-rc3#n532
+On Sat, 2024-06-15 at 15:54 +0300, Ajrat Makhmutov wrote:
+> Headset microphone do not work out of the box with this laptop. This
+> quirk fixes it. Zihao Wang specified the wrong subsystem id in his patch.
 
-+		return false;
+The 17aa:3820 is the Duet 7 ITL6's PCI SSID, so I don't think it's a
+mistake. It is just a PCI SSID - codec SSID collision.
+
+Here is an ITL6 probe:
+https://linux-hardware.org/?probe=3Dd3d4d3dea3
+
+There are some similar collisions with Lenovo laptops.
+Please see commit 0ac32a396e4f41e88df76ce2282423188a2d2ed0 for an
+example how to handle one.
+
+Best regards,
+Gergo
 
 
-
-=E2=80=A6
-> +	/* Read moisture comparator status */
-> +	ret =3D ((snd_soc_component_read(component, WCD937X_MBHC_NEW_FSM_STATU=
-S)
-> +				       & 0x20) ? 0 : 1);
-> +done:
-> +	return ret;
-> +}
-=E2=80=A6
-
-How do you think about to use the following statement instead?
-
-+	return (snd_soc_component_read(component, WCD937X_MBHC_NEW_FSM_STATUS) &=
- 0x20) ? false : true;
-
-
-May the local variable =E2=80=9Cret=E2=80=9D and the label =E2=80=9Cdone=
-=E2=80=9D be omitted
-in this function implementation finally?
-
-Regards,
-Markus
