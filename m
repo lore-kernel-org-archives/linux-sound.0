@@ -1,67 +1,87 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from fout5-smtp.messagingengine.com (fout5-smtp.messagingengine.com [103.168.172.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D781847;
-	Sun, 16 Jun 2024 00:41:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95BE3946F;
+	Sun, 16 Jun 2024 03:39:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718498469; cv=none; b=Tgz8kRdFWtVW3UJ6huDeh4oDK8aOmSXo4dq9NLxh8P5Kdbim5XhQuM0pxjIWk200TMHStwCLGbgjHAxcbKXwBukXu+70/su97lqGO4ON7QzQYD3R4dD4Avj4bsDX8AP+q65ddiJq0eYyFjDdJxa2flY3k5PqOSz6nDrKF/jcNMc=
+	t=1718509179; cv=none; b=fuoIZ7p8ZfPbiUiYBiMf9Be9varuqhK3GdHR/r8n/TIb202AR9my5O2K8jhNUHHrLeDlAU1u7xb47zYaElNqy5f1b/QTlcfH71oDKKxRNiwv3AzT9vApuv4dGYU39QWEqXzGFAZy2RC9tkf1Hc1Qc2tkAM+OOUbREMhRQLVYoIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718498469; c=relaxed/simple;
-	bh=80XxlEDYtt1XhtOCHEj2fkh3ftEPNrBzkDjxXzMkpG8=;
+	s=arc-20240116; t=1718509179; c=relaxed/simple;
+	bh=7D4dshEE0owSMVmON8T+vWUatwFJHMpZ3QKpk7xnXTo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XBJHJGXv8+t54eIdraI98MQg8WgZCZc8gXD1EaIWbuKui4VhmXcGsk5gaofjX2F20+oZVJ2iORWoGrMK9HzQYMyJNU7mFvKsvWBtx+Z7CVP080fIBgyD5sWjFAGIOBcWxa8lNQDut9gz54Z9pieaZzsRHfe9cdcEJDHbTr/vmLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IY1gDDpp; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=lvrsGAXiAIJg4NqB07Vq8idEp8jr+dOzMYfCmDFeShF8k13eWC/mHgOoN7mrZOJV1nY5E0DMrc/0R4JCI8fkGDtBiWuA+7ov5kftY7rPZiuh/Gjqjo76NUgwo5u8y44fCsROgUH1IvLfnpt46P1uUkswbJ+6n2JBDIHGbVhxE9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=CDcrwCau; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=jTpjkbCK; arc=none smtp.client-ip=103.168.172.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IY1gDDpp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718498468; x=1750034468;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=80XxlEDYtt1XhtOCHEj2fkh3ftEPNrBzkDjxXzMkpG8=;
-  b=IY1gDDppdTugANPAWyvCUivGinSkaK5jK0dFh9HsIkftcJM4kIY2Pz0B
-   ZgX9eNsidGM/aVDZ/uHudEwep514fSaK+aCB435vHx5g1oHbMijsg9iHF
-   jiVb7oWvLRClk6GMd/QwZ5qMumTw50RAYCLXQ57KzZmPGdDzOpBGa6JxA
-   F5r/VPyQAE7yWAH387T9YVAoVTqKI1pYIQGndOW9GRJOmVtF1u+KjsMAr
-   BGfk2sgcrTmOEh88mhybV94mJGWh6Lp7K8EDdNBlaywiqYJOL14gt4Xw6
-   XokRVkdkb6AjkypbugtyxB6WtZF1ua0DRPdON3AI9Sv2lqoa95Htkr/yM
-   A==;
-X-CSE-ConnectionGUID: t2bSyMEYROC80n+xVsRe/w==
-X-CSE-MsgGUID: kbeTk6rmQQqHa/iZnsMgsg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="12092979"
-X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; 
-   d="scan'208";a="12092979"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 17:41:08 -0700
-X-CSE-ConnectionGUID: EyIdXvsbQVeCVwFOr2lbTA==
-X-CSE-MsgGUID: YghvtLYNQEGr1d1qUBqQAg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; 
-   d="scan'208";a="40954586"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 15 Jun 2024 17:41:05 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sIdx8-0000fI-2x;
-	Sun, 16 Jun 2024 00:41:02 +0000
-Date: Sun, 16 Jun 2024 08:40:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Animesh Agarwal <animeshagarwal28@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Animesh Agarwal <animeshagarwal28@gmail.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] ASoC: dt-bindings: realtek,rt5631: Convert to
- dtschema
-Message-ID: <202406160820.L8HvSS8W-lkp@intel.com>
-References: <20240614033812.51312-3-animeshagarwal28@gmail.com>
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="CDcrwCau";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="jTpjkbCK"
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 8A7A413800E5;
+	Sat, 15 Jun 2024 23:39:36 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute7.internal (MEProxy); Sat, 15 Jun 2024 23:39:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm1; t=1718509176; x=
+	1718595576; bh=rDnFR1LEPJ1H9/yPWYumA2WahuuPUTtitar8t78RgZM=; b=C
+	DcrwCauzZEFTxCIbJE9f6jM/GM6MIrtfpzg24EirmirMCywhf8bhakKdlTYppVZf
+	V9/1pmCSI/EH1fFkAWpFDVvhTuFcBo0boihRUb/VQwudLQAmWZpR4XFk3TJVllG4
+	/f6c2rfxUWVXzY1QKnmT7WOBLJTtzWtfASEARL2IGgSpq1dczjyDk31crz6AyFFP
+	6m4B0DEzmA1LiJ7iwgbSBAaHQLRdm1fSWhkAeWB/PJexROFzptm5v4mq8n+Buh1K
+	qFzCWtmr0JFI+BOCFp4T/pcsqV3pwm7oA6z+zaRE7pZqtF45LwTMi92o/0eVtOdW
+	AY5bf9EtUI0Q99cif5/wA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1718509176; x=1718595576; bh=rDnFR1LEPJ1H9/yPWYumA2WahuuP
+	UTtitar8t78RgZM=; b=jTpjkbCKAwlV6n4Ay9vWkjVFwgHxG/tf5+LOc//QMFkn
+	1NPvUoxLM2WIz/OpOYbsRjPnUucNMaXtOJ6r0mpWFsT3uxqYk3XrT924Kx8acB/6
+	n2RA0GLHG1SXITO4/w4e2rZbwIAu5jSPe4HMMFtfcKQShPl8TEOH1N0qAelIeUIF
+	2oz+06LwLal/iwwBdifSfkcMbqNUzfvi+jO1BdC+NsNd/ZAJQnL5WFsv4PWMRj54
+	mjxPIWmjyS9dUCiflXEg44MAOApIJvgMJnviwNNZzyysyJFuQhDE9nl4owtr60sP
+	eS5Gi85HHYRuBMv0fKwQjpNYOxUgyYirLbNOmdO+Og==
+X-ME-Sender: <xms:dl5uZrIQrljN5rZd7PqIlECNh2UtMag11PFuxRUnWmGx-Tq1Tx2fDg>
+    <xme:dl5uZvIjKy3w4PRP1VBfM06GEEfraCJAt-EcoCQ3FBAZbLU_trdBsTuL1ep8xo8ZN
+    ZL4P3YylqVbrUXr_Ug>
+X-ME-Received: <xmr:dl5uZjsSIvQDmIo8lh48bVV2b0K6Jz2FjzRgozl_hQY_nSrvx8FhBE47Bm_lYpT-sx_KdSVLTz4vJaGDy-f3wTZjhsm8Wmjz4g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfedvvddgjeehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepvfgrkhgr
+    shhhihcuufgrkhgrmhhothhouceoohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhird
+    hjpheqnecuggftrfgrthhtvghrnhepveeilefhudekffehkeffudduvedvfeduleelfeeg
+    ieeljeehjeeuvdeghfetvedvnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlh
+    hushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehoqdhtrghkrghs
+    hhhisehsrghkrghmohgttghhihdrjhhp
+X-ME-Proxy: <xmx:d15uZkYxKsxpXEVeD3nNivhkvW1BzMwcMERHse7dudF_IpWGK_KgHA>
+    <xmx:d15uZiajBzOp60Wkq4TRFIh8lXDbhYL2jdZNcWXWquez6ja_tri_Dg>
+    <xmx:d15uZoA3w3J72yk9-ek1pZCtSlOnj7Uezyl2LWzX8IwEYaSGEhcAfQ>
+    <xmx:d15uZgYzmd39XKpK_tyTmsxI69dEL8Blj9-OMS5ahRnHYRdamoBfoA>
+    <xmx:eF5uZnMGadwDzmxsfppUno9TvMVNFeBvzfXeUTxlT7pnWNzm_hgI-qf_>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 15 Jun 2024 23:39:33 -0400 (EDT)
+Date: Sun, 16 Jun 2024 12:39:31 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org, Paul Menzel <pmenzel@molgen.mpg.de>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v2 3/6] ALSA: control: Apply sanity check of input values
+ for user elements
+Message-ID: <20240616033931.GA518788@workstation.local>
+References: <20240614153717.30143-1-tiwai@suse.de>
+ <20240614153717.30143-4-tiwai@suse.de>
+ <20240615051329.GA494527@workstation.local>
+ <871q4y7jgt.wl-tiwai@suse.de>
+ <20240615080235.GA508000@workstation.local>
+ <87tthu6225.wl-tiwai@suse.de>
+ <87le365tei.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -70,50 +90,39 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240614033812.51312-3-animeshagarwal28@gmail.com>
+In-Reply-To: <87le365tei.wl-tiwai@suse.de>
 
-Hi Animesh,
+On Sat, Jun 15, 2024 at 01:37:09PM +0200, Takashi Iwai wrote:
+> From: Takashi Iwai <tiwai@suse.de>
+> Subject: [PATCH v3] ALSA: control: Apply sanity check of input values for user elements
+> 
+> Although we have already a mechanism for sanity checks of input values
+> for control writes, it's not applied unless the kconfig
+> CONFIG_SND_CTL_INPUT_VALIDATION is set due to the performance reason.
+> Nevertheless, it still makes sense to apply the same check for user
+> elements despite of its cost, as that's the only way to filter out the
+> invalid values; the user controls are handled solely in ALSA core
+> code, and there is no corresponding driver, after all.
+> 
+> This patch adds the same input value validation for user control
+> elements at its put callback.  The kselftest will be happier with this
+> change, as the incorrect values will be bailed out now with errors.
+> 
+> For other normal controls, the check is applied still only when
+> CONFIG_SND_CTL_INPUT_VALIDATION is set.
+> 
+> Reported-by: Paul Menzel <pmenzel@molgen.mpg.de>
+> Closes: https://lore.kernel.org/r/1d44be36-9bb9-4d82-8953-5ae2a4f09405@molgen.mpg.de
+> Reviewed-by: Jaroslav Kysela <perex@perex.cz>
+> Reviewed-by: Mark Brown <broonie@kernel.org>
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> ---
+>  sound/core/control.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 
-kernel test robot noticed the following build warnings:
+Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on linus/master v6.10-rc3 next-20240613]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Animesh-Agarwal/ASoC-dt-bindings-realtek-rt5514-Convert-to-dtschema/20240614-114128
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20240614033812.51312-3-animeshagarwal28%40gmail.com
-patch subject: [PATCH 2/2] ASoC: dt-bindings: realtek,rt5631: Convert to dtschema
-config: arm-randconfig-051-20240614 (https://download.01.org/0day-ci/archive/20240616/202406160820.L8HvSS8W-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240616/202406160820.L8HvSS8W-lkp@intel.com/reproduce)
+Thanks
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406160820.L8HvSS8W-lkp@intel.com/
-
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dtb: mmc@d4280000: Unevaluated properties are not allowed ('clock-frequency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
-   arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dtb: mmc@d4280800: Unevaluated properties are not allowed ('clock-frequency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
-   arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dtb: mmc@d4281000: Unevaluated properties are not allowed ('clock-frequency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
-   arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dtb: dma-controller@d42a0800: Unevaluated properties are not allowed ('iram' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/dma/marvell,mmp-dma.yaml#
-   arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dtb: /soc/axi@d4200000/ap-sp@d4290000: failed to match any schema with compatible: ['olpc,ap-sp']
-   arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dtb: /soc/apb@d4000000: failed to match any schema with compatible: ['mrvl,apb-bus', 'simple-bus']
->> arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dtb: audio-codec@1a: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5631.yaml#
-   arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dtb: /soc/apb@d4000000/i2c@d4034000/accelerometer@1d: failed to match any schema with compatible: ['st,lis331dlh', 'st,lis3lv02d']
-   arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dtb: gpio-keys: 'lid', 'tablet_mode' do not match any of the regexes: '^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|switch))$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/input/gpio-keys.yaml#
-   arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dtb: /i2c/camera@21: failed to match any schema with compatible: ['ovti,ov7670']
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Takashi Sakamoto
