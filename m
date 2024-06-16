@@ -1,94 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AED0CA6B;
-	Sat, 15 Jun 2024 20:16:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D781847;
+	Sun, 16 Jun 2024 00:41:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718482614; cv=none; b=s7Cw/RReZk/M0cWV1NrIglOG9p1M1etaKc3A1ZoM4CJaGRms63YYAeu0GXiOZIrL3sEcWgJbASsdNkC0MNCRfJoYeZ0Qawb8bRAj6znwsFlXfrnFwhyGaM0iT7RZqFGYpVMbs5J7XxRq7TJ8rqfY2fsMnitAc0ULKVK+1M8jbEg=
+	t=1718498469; cv=none; b=Tgz8kRdFWtVW3UJ6huDeh4oDK8aOmSXo4dq9NLxh8P5Kdbim5XhQuM0pxjIWk200TMHStwCLGbgjHAxcbKXwBukXu+70/su97lqGO4ON7QzQYD3R4dD4Avj4bsDX8AP+q65ddiJq0eYyFjDdJxa2flY3k5PqOSz6nDrKF/jcNMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718482614; c=relaxed/simple;
-	bh=pCrt5S/DSr4PuaTph6fAbVYP8xLs36/o9IobvSvkmWg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=sDdxLNlL6x8a5Qp+Ble6hyXK2CmogsJjTwdr4jyy02FddArHUw28oyhKB2cPS9JZQWj4Hu+b5BJhM6nO9IuvNMk5abmjjVYXqL0Ef9P6QBqLrgHuSpcMwGt/1G/3BD2QAaNC+PLkx0N6pahru4mXLHTWo2/U0qIJL2WjpsrdM4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SyxHC6nz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718498469; c=relaxed/simple;
+	bh=80XxlEDYtt1XhtOCHEj2fkh3ftEPNrBzkDjxXzMkpG8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XBJHJGXv8+t54eIdraI98MQg8WgZCZc8gXD1EaIWbuKui4VhmXcGsk5gaofjX2F20+oZVJ2iORWoGrMK9HzQYMyJNU7mFvKsvWBtx+Z7CVP080fIBgyD5sWjFAGIOBcWxa8lNQDut9gz54Z9pieaZzsRHfe9cdcEJDHbTr/vmLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IY1gDDpp; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SyxHC6nz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AA92C116B1;
-	Sat, 15 Jun 2024 20:16:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718482614;
-	bh=pCrt5S/DSr4PuaTph6fAbVYP8xLs36/o9IobvSvkmWg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=SyxHC6nzwAqquEmlQKWKNXLyElDe5jUKPt6chW4nG+46PVMrYoDApoC/kKCDFSnJI
-	 fAkn4CBnx5IfRrLOlijGAHhIoru3V+uevAY+7eNz2JS6eu10cbHXldk7ZxVTLAu/Q7
-	 TLI2F4j/TZRlJhJoSARBcW1pSo7hyCPHELLfZTOkrn0T7SKL0iGA7LFUF61udFjjk4
-	 YIZPNdeLjcgxU6k03a2omJCUTTd0i7+Aki9f5Wtz2y6SWuDPQyMfLWPHXo13Li8zr8
-	 mAqS8DoD4tBM+uuQ1Gy8VsXExlDoLKtJJ80z+cGsn1ygLDngoMOCZ11CFvde4qgtce
-	 kcjAJpeABYrUQ==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Banajit Goswami <bgoswami@quicinc.com>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: neil.armstrong@linaro.org, linux-arm-msm@vger.kernel.org, 
- krzysztof.kozlowski@linaro.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org
-In-Reply-To: <20240612-lpass-codec-v25-v4-0-f63d3676dbc4@linaro.org>
-References: <20240612-lpass-codec-v25-v4-0-f63d3676dbc4@linaro.org>
-Subject: Re: [PATCH v4 0/3] ASoC: codecs: lpass: add support for v2.5 rx
- macro
-Message-Id: <171848261202.320905.12613370824204863532.b4-ty@kernel.org>
-Date: Sat, 15 Jun 2024 21:16:52 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IY1gDDpp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718498468; x=1750034468;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=80XxlEDYtt1XhtOCHEj2fkh3ftEPNrBzkDjxXzMkpG8=;
+  b=IY1gDDppdTugANPAWyvCUivGinSkaK5jK0dFh9HsIkftcJM4kIY2Pz0B
+   ZgX9eNsidGM/aVDZ/uHudEwep514fSaK+aCB435vHx5g1oHbMijsg9iHF
+   jiVb7oWvLRClk6GMd/QwZ5qMumTw50RAYCLXQ57KzZmPGdDzOpBGa6JxA
+   F5r/VPyQAE7yWAH387T9YVAoVTqKI1pYIQGndOW9GRJOmVtF1u+KjsMAr
+   BGfk2sgcrTmOEh88mhybV94mJGWh6Lp7K8EDdNBlaywiqYJOL14gt4Xw6
+   XokRVkdkb6AjkypbugtyxB6WtZF1ua0DRPdON3AI9Sv2lqoa95Htkr/yM
+   A==;
+X-CSE-ConnectionGUID: t2bSyMEYROC80n+xVsRe/w==
+X-CSE-MsgGUID: kbeTk6rmQQqHa/iZnsMgsg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="12092979"
+X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; 
+   d="scan'208";a="12092979"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 17:41:08 -0700
+X-CSE-ConnectionGUID: EyIdXvsbQVeCVwFOr2lbTA==
+X-CSE-MsgGUID: YghvtLYNQEGr1d1qUBqQAg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,241,1712646000"; 
+   d="scan'208";a="40954586"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 15 Jun 2024 17:41:05 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sIdx8-0000fI-2x;
+	Sun, 16 Jun 2024 00:41:02 +0000
+Date: Sun, 16 Jun 2024 08:40:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Animesh Agarwal <animeshagarwal28@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Animesh Agarwal <animeshagarwal28@gmail.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] ASoC: dt-bindings: realtek,rt5631: Convert to
+ dtschema
+Message-ID: <202406160820.L8HvSS8W-lkp@intel.com>
+References: <20240614033812.51312-3-animeshagarwal28@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev-0bd45
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240614033812.51312-3-animeshagarwal28@gmail.com>
 
-On Thu, 13 Jun 2024 11:49:30 +0100, Srinivas Kandagatla wrote:
-> This patchset adds support to reading codec version and also adds
-> support for v2.5 codec version in rx macro.
-> 
-> LPASS 2.5 and up versions have changes in some of the rx blocks which
-> are required to get headset functional correctly.
-> 
-> Tested this on SM8450, X13s and x1e80100 crd.
-> 
-> [...]
+Hi Animesh,
 
-Applied to
+kernel test robot noticed the following build warnings:
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on linus/master v6.10-rc3 next-20240613]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thanks!
+url:    https://github.com/intel-lab-lkp/linux/commits/Animesh-Agarwal/ASoC-dt-bindings-realtek-rt5514-Convert-to-dtschema/20240614-114128
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20240614033812.51312-3-animeshagarwal28%40gmail.com
+patch subject: [PATCH 2/2] ASoC: dt-bindings: realtek,rt5631: Convert to dtschema
+config: arm-randconfig-051-20240614 (https://download.01.org/0day-ci/archive/20240616/202406160820.L8HvSS8W-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240616/202406160820.L8HvSS8W-lkp@intel.com/reproduce)
 
-[1/3] ASoC: codecs: lpass-macro: add helpers to get codec version
-      commit: 378918d5918116b95300dd7f03913a1d0841f223
-[2/3] ASoC: codec: lpass-rx-macro: prepare driver to accomdate new codec versions
-      commit: dbacef05898d65f586fb9b90ba367e6bf898d68d
-[3/3] ASoC: codec: lpass-rx-macro: add support for 2.5 codec version
-      commit: 432e5074f805d0f976c7430af376a0dd07f1c6d7
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406160820.L8HvSS8W-lkp@intel.com/
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dtb: mmc@d4280000: Unevaluated properties are not allowed ('clock-frequency' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+   arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dtb: mmc@d4280800: Unevaluated properties are not allowed ('clock-frequency' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+   arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dtb: mmc@d4281000: Unevaluated properties are not allowed ('clock-frequency' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+   arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dtb: dma-controller@d42a0800: Unevaluated properties are not allowed ('iram' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/dma/marvell,mmp-dma.yaml#
+   arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dtb: /soc/axi@d4200000/ap-sp@d4290000: failed to match any schema with compatible: ['olpc,ap-sp']
+   arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dtb: /soc/apb@d4000000: failed to match any schema with compatible: ['mrvl,apb-bus', 'simple-bus']
+>> arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dtb: audio-codec@1a: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5631.yaml#
+   arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dtb: /soc/apb@d4000000/i2c@d4034000/accelerometer@1d: failed to match any schema with compatible: ['st,lis331dlh', 'st,lis3lv02d']
+   arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dtb: gpio-keys: 'lid', 'tablet_mode' do not match any of the regexes: '^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|switch))$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/input/gpio-keys.yaml#
+   arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dtb: /i2c/camera@21: failed to match any schema with compatible: ['ovti,ov7670']
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
