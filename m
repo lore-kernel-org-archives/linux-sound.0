@@ -1,149 +1,108 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1822119066A
-	for <linux-sound@vger.kernel.org>; Sun, 16 Jun 2024 12:04:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B13479DC;
+	Sun, 16 Jun 2024 13:58:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718539490; cv=none; b=TianN5mYKjIFtTZCZ+2/rNENptjN9feGLkT1JP/P0ABvmmVjwOHW0oaz7NK/VOFNxCxegZhT/xd/tBeW7cvGgM/qLY4Ha7JNQbvR8udFaVIrn0Lp3lny7cLpMOo56dTsSKsTFqMEpOzHVptz+5ZArMZLFBGbFq614doCenraM90=
+	t=1718546322; cv=none; b=nVvnEQV0SFFxjpJEO8ELucwfRyHar9kt/Q5ThCWgItYZIT4t1YZaPGaMkDFkrxLDre15a++MgHa5qO8MyxqEDx03EHLjDfef+EyybRrRv6LIBC2hmFPhMijZ0kJtdoiJKuP0mdqspL3qylHRxmJONaWPZBl9iRnHwYsgnDNXpbQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718539490; c=relaxed/simple;
-	bh=brVuMLtaDl3FnmcY6A8XtouW5SuXS09eNdXuo3HHiYw=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TTsulmI3a0hw5zqIoEqmP+8h94S4J1kfJCWCIMXaK4WMxABcR2anY6PxJ3vFfl7+yJ8b/3/fEj5NqqvpYeBmxSURc+UNbv6iIinhVkpBoe9LAGft+2ck/CVwNNNy0FvrGCkE0CRfWB9XE3xzKMqQANOeGh4dmOIaAvUFo3I1Zlo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=G4+mIgix; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lY+myNvg; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=G4+mIgix; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lY+myNvg; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1718546322; c=relaxed/simple;
+	bh=bzDMSi+KPj5dWKgND4vnJtkmUJkrU//LHJVmtaQDBjk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HFubdNDtlD2jYbT+1xizqkgr9JIs7q7w01CyiltViHm7+pFsL2j/aEFbwcBj0QKZJZMe/cCeA5X+LsGk2uTcdhhuLOF4o1UtTP4vHgg17bXlojGDimAQCrTnmZHrgngQx6pEmtF9NvupWqsi5RCoh7r57sMev7BxKkGVEmGLU4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r6rVutT2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="G4+mIgix";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lY+myNvg";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="G4+mIgix";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lY+myNvg"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 094D5353B4;
-	Sun, 16 Jun 2024 12:04:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718539486; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XyqF7jdaz/yB+twFEBxfLYZqkHufkhPrXH9cWco4nUc=;
-	b=G4+mIgixagMPlZeOfzuuBYQnSO1DOq7hqHekvmKYgz8WFkE4x5iM2kKgeMm3++gauBCwXA
-	8c6LBLFzQnHoSZ7zJB/X6B+e9S1izvG0pFCetE0itVw+m4eeP+4Ixla4O4NYwJZcyG6WJv
-	e1AtYRg6FJwvaR3s1Kmh5aWoVe0XcIM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718539486;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XyqF7jdaz/yB+twFEBxfLYZqkHufkhPrXH9cWco4nUc=;
-	b=lY+myNvgGuWA/YBP5KPbhUgoCiMq2C2oWP9fDaSPmzvSIGX+/jGEj/nLCH1bH/8fknTTaq
-	/AEhig0DHxup+bBQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=G4+mIgix;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=lY+myNvg
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718539486; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XyqF7jdaz/yB+twFEBxfLYZqkHufkhPrXH9cWco4nUc=;
-	b=G4+mIgixagMPlZeOfzuuBYQnSO1DOq7hqHekvmKYgz8WFkE4x5iM2kKgeMm3++gauBCwXA
-	8c6LBLFzQnHoSZ7zJB/X6B+e9S1izvG0pFCetE0itVw+m4eeP+4Ixla4O4NYwJZcyG6WJv
-	e1AtYRg6FJwvaR3s1Kmh5aWoVe0XcIM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718539486;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XyqF7jdaz/yB+twFEBxfLYZqkHufkhPrXH9cWco4nUc=;
-	b=lY+myNvgGuWA/YBP5KPbhUgoCiMq2C2oWP9fDaSPmzvSIGX+/jGEj/nLCH1bH/8fknTTaq
-	/AEhig0DHxup+bBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CDDA613AB9;
-	Sun, 16 Jun 2024 12:04:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id DbFzMN3UbmbPRQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 16 Jun 2024 12:04:45 +0000
-Date: Sun, 16 Jun 2024 14:05:11 +0200
-Message-ID: <8734pd5c08.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Gergely Meszaros <meszaros.gergely97@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Gergo Koteles <soyer@irl.hu>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 RESEND] ALSA: hda/realtek: Add quirk for Lenovo Yoga Pro 7 14ARP8
-In-Reply-To: <20240616085233.16922-1-meszaros.gergely97@gmail.com>
-References: <20240616085233.16922-1-meszaros.gergely97@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r6rVutT2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A9F9C2BBFC;
+	Sun, 16 Jun 2024 13:58:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718546321;
+	bh=bzDMSi+KPj5dWKgND4vnJtkmUJkrU//LHJVmtaQDBjk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=r6rVutT2jxf99d+BT+VgV7RSStW/iRoePcDm5AT1Ezw2HvdFMxs84Bsq8Dz+LXnxY
+	 41w1oFgsNleBuzc0xaObNjMmN3GB7/nckTtSWPajQCEU78Fah5AzuuJuKDZGuuBXzt
+	 folCy6ZAfSoPUXMuR01Shq5SKp/Zg7e4Fd/SmCLvUeR/yLKtffbeF6H7CHywEG1Ytf
+	 rtWRB9h6nlOD8HJ2TjDkxiFRNneRY+xCCpzIjct3cQhfdVt1MOgJIq2kxHotOjXCBV
+	 RPoMA3AkIRllq2PxCvK/rFGX4WddNLXb1BvxAKKx1wyoN+/QDipWAnbgqgmyYePHvC
+	 ShvwisVmV5IrQ==
+Message-ID: <699ab73b-8fc5-4d31-a261-5b6f99609464@kernel.org>
+Date: Sun, 16 Jun 2024 15:58:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-1.91 / 50.00];
-	BAYES_HAM(-2.90)[99.57%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	URIBL_BLOCKED(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 094D5353B4
-X-Spam-Flag: NO
-X-Spam-Score: -1.91
-X-Spam-Level: 
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] ASoC: dt-bindings: realtek,rt5631: Convert to
+ dtschema
+To: Animesh Agarwal <animeshagarwal28@gmail.com>
+Cc: Daniel Baluta <daniel.baluta@nxp.com>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240616074936.151267-1-animeshagarwal28@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240616074936.151267-1-animeshagarwal28@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, 16 Jun 2024 10:52:33 +0200,
-Gergely Meszaros wrote:
+On 16/06/2024 09:49, Animesh Agarwal wrote:
+> Convert the ALC5631/RT5631 audio CODEC bindings to DT Schema.
 > 
-> Similarly to other Lenovo laptops these also have a dual speaker
-> setup with a shared amplifier.
-> The model also seems to have a conflicting PCI SSID with the codec SSID for
-> the Legion Y9000X 2022 IAH7. Only tested on the Yoga Pro 7, as I don't have
-> access to the other laptop.
+> Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
+> Cc: Daniel Baluta <daniel.baluta@nxp.com>
 > 
-> Signed-off-by: Gergely Meszaros <meszaros.gergely97@gmail.com>
-> ---
-> V1 -> V2: Use existing ALC285_FIXUP_SPEAKER2_TO_DAC1 instead of ALC287_FIXUP_YOGA_PRO_7_14ARP8_BOTH_SPK_TO_DAC2.
->           Include legion IAH7 in fixup and function name.
-> 
-> Resend with git-send-email, to not mangle line-breaks.
-
-Thanks, applied now.
 
 
-Takashi
+Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+
+Best regards,
+Krzysztof
+
