@@ -1,139 +1,307 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31BD1553BA
-	for <linux-sound@vger.kernel.org>; Mon, 17 Jun 2024 16:30:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE49157A41;
+	Mon, 17 Jun 2024 17:02:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718641814; cv=none; b=dmUQwjlY1ixYuIPvrnxdPt6/hrLl+7LJBnM3QvT6DVfh45yMZCBF4mdrAWdnLgRJrRRq6dqfmoViw/AmZy51YltLlP7elJydgyjedJJG1S4Mtka5z0Sc5DhWeyR8CKjyotkWF2k8ry2O/NG6ATTYN2JWWUcAh+5F1rC8nqSbGfg=
+	t=1718643777; cv=none; b=MIUPFBdQ7fE+1JQfB1MALtEqax0iQxe7jfbOvuS4rECPbLRQVDQvQQFDRDdPwUfDVI1cuH+s5v5wGJp55adQ1D84IofN/s+c8tTHxEkbQ9ZfYKW+iYExSgCmIJWgs1mdVTpo0p0JDiBUSOxWSRRm54q3Pj3Xscei1w0tMbriTIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718641814; c=relaxed/simple;
-	bh=c4CGIueJgo3FyF0lUSOsJIiD5YkmHOWg5+dfrNt3KDo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aLcdBk6UNDofFREJHMW/9s/zV9oPRgdA7NOJZKLrQp2oAgmU5n6m/+m94mQmdcSay/67Y1PsB6DDk5I7AQsN+xicPYSFb1Vb0mKCidMDNxMBm6cNBHtexIIVIcPAQKU3oXlS05TDYztf7elyc8WUDp4QMrixQSkpqRbTXk2rk4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timesys.com; spf=pass smtp.mailfrom=timesys.com; dkim=pass (2048-bit key) header.d=timesys-com.20230601.gappssmtp.com header.i=@timesys-com.20230601.gappssmtp.com header.b=N7NxbYhr; arc=none smtp.client-ip=209.85.210.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timesys.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=timesys.com
+	s=arc-20240116; t=1718643777; c=relaxed/simple;
+	bh=3JGhG02vtoZ1ijfk8c3Nd/z5OHJyc03LsZJnbgNIDQ8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=C80hqxQcak+e+tT3+i9ruIQB4IaMJO0n25qF5fdPRdE2Shavz9UI4j80idBIj6H/Gv8h2j1bDR7Yv26JInfRlPZrtkt8oq2ppV6+8G+pDP2XnO/nBz1wzzArhQHlmxubR6yZBXGz/jfjbehByfFZfmr3/JIyjiLuakCEK3qldlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ZQMnO/q2; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=timesys-com.20230601.gappssmtp.com header.i=@timesys-com.20230601.gappssmtp.com header.b="N7NxbYhr"
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-6f9b4d69f53so2512270a34.0
-        for <linux-sound@vger.kernel.org>; Mon, 17 Jun 2024 09:30:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=timesys-com.20230601.gappssmtp.com; s=20230601; t=1718641812; x=1719246612; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c4CGIueJgo3FyF0lUSOsJIiD5YkmHOWg5+dfrNt3KDo=;
-        b=N7NxbYhrov6FonSL8kq5eMGaoZxAxl6xARpHiRBgYaQtIOoguDLis8pHRwk0SQ1qHg
-         qn/JR+Cct81n0cXXCc7RipLG4koJiBlrymDDhqfSuoc13VTyODG8nPGiI27plS3KARfm
-         xpNLcIjXx2fzS2HGJqxJzIolNjy9a9vFbcgktwe8I5KMCTZ2Pu5LcAw0oY00DRVwxIZk
-         SuqyGl1ravsuHilfk3hGPaIDC66/ZcA960oIFwKp5gevAFUieCyiHBSx9b485N742IaX
-         8RzqMrj54TciTjBty9G53+bq2EH3Tw7+bzIDs6nJCCwUR/iV6PWqm3EZyCmPOuEcnaDb
-         ArvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718641812; x=1719246612;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=c4CGIueJgo3FyF0lUSOsJIiD5YkmHOWg5+dfrNt3KDo=;
-        b=Vn4L78b8ba1zrhE6XaHo1v+UIxR4KQFzpxILB2k0rNcPZgw52dkZhDwtE4gQGyA3CD
-         hmGzMf3cH1jyVGXm2PUCF9x+vC174lMGvSLJTN9bFzjznbpSyuMn3jNVOYURysHa0LD3
-         EicLyIp2pDPRiz71hOXa3u9wnXHDB8f37zHdai7TCYi7J2T5KpluxFZ5KqlCbmWvBsop
-         LeB9C6n8Q7ZQlvT14zuu67dSw4fI7Yj6W7M27ANdW+iEuxHAzn+EylZ3nwkXY3lYINRx
-         NIyjcEe3516+3sdupmhPIreorUlFLhSkjB0nv38+jnu5LJMTkma1x6vwcXHjuIE+OV0J
-         vn0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXn41/nc41fLNjH3w6Rb+jOid6Smtbzmd56sEW2SAhmCG48msjbVoy2WSY/M9RC5k+0bJyxDrpQMVWe5nbaO1KZv5vOTlr8Z/jmxXo=
-X-Gm-Message-State: AOJu0Yz6lpzyU9VMLXoIoN05nEcP4N9P5aHmV6yqzAp+MhSJT0I/mJiv
-	+FKDQYMwM+GZWIZZji66T+PlHeB16/L6Y2gWYx8qbzgDHxIyds7n6mtOnCQV2Xy8P2Wuwvl4JrU
-	u6epJ8tCkurTunyUNGBUh3Pox2SRhB+iqbC3GNg==
-X-Google-Smtp-Source: AGHT+IHjzvlrr838N1DpEkEeLzzIsELYsb2zHrhaAqxCRJTNhyRbdCIQiZBSmvhFuWqlSzeRBTrPNi1jOBSJAcQmjjA=
-X-Received: by 2002:a9d:62ca:0:b0:6fd:5445:c6cc with SMTP id
- 46e09a7af769-6fd5445c914mr6508564a34.23.1718641811875; Mon, 17 Jun 2024
- 09:30:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ZQMnO/q2"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45HE3k1v030595;
+	Mon, 17 Jun 2024 17:02:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	GAb0X9XKILevg0s3K1b3t7RQbb42+rkRZsD2p+B37jg=; b=ZQMnO/q2rII2ut1J
+	sjiucoFbxhEcoBC0oYgZ3OpSJyrdGi+yi2zyKbBWeS0bKhUWe8Mtgc2YxZcfnncl
+	POodabHi8Z/cmIyCGtGFe1TWG2v1YJWQ6HSMTX/Y+C99qsM1ylNl2MX4KhS5bPxr
+	5x7PN0ZFDgquFKgeW2skSgI5WEWGoyu+HW3kxmv7BKPChIeS5jNGSuBh2XBzNSCs
+	ta2hNKHfJeFGjKhXAT3SdIYGGH73uwqeo6BNu1CRwmdA0fB5ILD1yalVwdqDFlTV
+	zWiEY8yjwlPsB9CIZtgFw6235R22FBQj+RZ1hijkFGqD7/YDnTltdlyhHATLIMyD
+	0kEzdA==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ytfut1ej8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 17 Jun 2024 17:02:29 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45HH2SH9008951
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 17 Jun 2024 17:02:28 GMT
+Received: from [10.110.93.116] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 17 Jun
+ 2024 10:02:27 -0700
+Message-ID: <096d59a0-5e18-092c-c9ae-d98130226f06@quicinc.com>
+Date: Mon, 17 Jun 2024 10:02:26 -0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240611094810.27475-1-piotr.wojtaszczyk@timesys.com>
- <20240614163500.386747-1-piotr.wojtaszczyk@timesys.com> <20240614163500.386747-2-piotr.wojtaszczyk@timesys.com>
- <83cbf43e-c927-449f-8b7e-5c8d3ee8cece@kernel.org> <CAG+cZ06EeXUDiLsDXkz+6EHqJwpvv2MWwfpvB8AYw0=ZhUkTfQ@mail.gmail.com>
- <83a45f7c-d90b-44d3-b57e-9dad21045e27@kernel.org> <CAG+cZ06kzikieaD_JCBybwWk8XKZQjJxa34Cg4QHxrxpT+j0eA@mail.gmail.com>
- <2fe7ba36-05b9-42c7-8726-ea891cfc7afc@kernel.org>
-In-Reply-To: <2fe7ba36-05b9-42c7-8726-ea891cfc7afc@kernel.org>
-From: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
-Date: Mon, 17 Jun 2024 18:30:00 +0200
-Message-ID: <CAG+cZ06XNV=ZZ8Ag00kaz1xWitXDN-yezUoc7M9JwQ5MUu7hTA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/4] ASoC: dt-bindings: lpc32xx: Add lpc32xx i2s DT binding
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Vladimir Zapolskiy <vz@mleia.com>, Russell King <linux@armlinux.org.uk>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, "J.M.B. Downing" <jonathan.downing@nautel.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Chancel Liu <chancel.liu@nxp.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org, 
-	linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v23 32/32] ASoC: doc: Add documentation for SOC USB
+Content-Language: en-US
+To: =?UTF-8?Q?Amadeusz_S=c5=82awi=c5=84ski?=
+	<amadeuszx.slawinski@linux.intel.com>,
+        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <broonie@kernel.org>, <lgirdwood@gmail.com>, <krzk+dt@kernel.org>,
+        <Thinh.Nguyen@synopsys.com>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
+        <robh@kernel.org>, <gregkh@linuxfoundation.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>
+References: <20240610235808.22173-1-quic_wcheng@quicinc.com>
+ <20240610235808.22173-33-quic_wcheng@quicinc.com>
+ <5be51e1f-70c9-4bbc-96fa-1e50e441bd35@linux.intel.com>
+ <408d9e8e-0f40-7e66-54be-2f8d2c0783a3@quicinc.com>
+ <ca1e1063-e1bd-4e03-a7cd-91985e9954e9@linux.intel.com>
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <ca1e1063-e1bd-4e03-a7cd-91985e9954e9@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 6iEKt_voJesWSGLnIJI_1RjB-WcfLNX5
+X-Proofpoint-GUID: 6iEKt_voJesWSGLnIJI_1RjB-WcfLNX5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-17_14,2024-06-17_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=999
+ suspectscore=0 priorityscore=1501 impostorscore=0 phishscore=0 mlxscore=0
+ adultscore=0 clxscore=1015 spamscore=0 lowpriorityscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2405170001
+ definitions=main-2406170131
 
-On Mon, Jun 17, 2024 at 5:48=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.or=
-g> wrote:
->
-> On 17/06/2024 16:04, Piotr Wojtaszczyk wrote:
-> >>
-> >>> It's used by snd_soc_dai_init_dma_data() in [PATCH v3 4/4] to give th=
-e
-> >>> dmaengine a
-> >>> hint which dma config to use. The LPC32xx doesn't have yet a dmamux d=
-river like
-> >>
-> >> and if I change driver platform data to foo and bar, does the DTS work=
-? No.
-> >
-> > They shouldn't change the same way as expected dma-names shouldn't chan=
-ge.
-> > Lots of drivers expect the dma-names to be "rx", "tx"
-> >
-> >>
-> >>> lpc18xx-dmamux.c therefore it still uses platform data entries for
-> >>> pl08x dma channels
-> >>> and 'SND_DMAENGINE_PCM_FLAG_NO_DT | SND_DMAENGINE_PCM_FLAG_COMPAT'
-> >>> flags in the devm_snd_dmaengine_pcm_register().
-> >>> Typically instead of this platform data you would use regular 'dma'
-> >>> and 'dma-names' if it had
-> >>> proper dmamux driver like lpc18xx-dmamux.c
-> >>
-> >> Exactly. Use these.
-> >
-> > Then I need to write a lpc32xx dma mux driver, device tree binding for
-> > it and adjust the
-> > LPC32xx I2S driver for it. Is this a hard requirement to accept this
-> > patch set for the
-> > legacy LPC32xx SoC?
->
-> I do not see at all analogy with dma-names. dma-names are used ONLY by
-> the consumer to pick up proper property "dmas" from DT. They are not
-> passed to DMA code. They are not used to configure DMA provider at all.
->
-> You parse string from DT and pass it further as DMA filtering code. This
-> is abuse of hardware description for programming your driver and their
-> dependencies.
->
-> Why you cannot hard-code them?
->
-> Sorry, to be clear: NAK
+Hi Amadeusz,
 
-That's fine, clear answers are always good.
-I considered to hardcode this as it was in the first version of the patch s=
-et
-but LPC32XX has two I2S interfaces which use different DMA signals
-and mux settings and I really didn't want to pick the virtual DMA channel
-name based on hardcoded I2S node name therefore I thought having a DT
-property to select proper dma channel is a better solution.
+On 6/13/2024 12:46 AM, Amadeusz Sławiński wrote:
+> On 6/12/2024 9:28 PM, Wesley Cheng wrote:
+>> Hi Amadeusz,
+>>
+>> On 6/12/2024 7:47 AM, Amadeusz Sławiński wrote:
+>>> On 6/11/2024 1:58 AM, Wesley Cheng wrote:
+>>>
+>>> (...)
+>>>
+>>>> +In the case where the USB offload driver is unbounded, while USB 
+>>>> SND is
+>>>
+>>> unbounded -> unbound
+>>>
+>>> (...)
+>>>
+>>>> +SOC USB and USB Sound Kcontrols
+>>>> +===============================
+>>>> +Details
+>>>> +-------
+>>>> +SOC USB and USB sound expose a set of SND kcontrols for 
+>>>> applications to select
+>>>> +and fetch the current offloading status for the ASoC platform sound 
+>>>> card. Kcontrols
+>>>> +are split between two layers:
+>>>> +
+>>>> +    - USB sound - Notifies the sound card number for the ASoC 
+>>>> platform sound
+>>>> +      card that it is registered to for supporting audio offload.
+>>>> +
+>>>> +    - SOC USB - Maintains the current status of the offload path, 
+>>>> and device
+>>>> +      (USB sound card and PCM device) information.  This would be 
+>>>> the main
+>>>> +      card that applications can read to determine offloading 
+>>>> capabilities.
+>>>> +
+>>>> +Implementation
+>>>> +--------------
+>>>> +
+>>>> +**Example:**
+>>>> +
+>>>> +  **Sound Cards**:
+>>>> +
+>>>> +    ::
+>>>> +
+>>>> +      0 [SM8250MTPWCD938]: sm8250 - SM8250-MTP-WCD9380-WSA8810-VA-D
+>>>> +                     SM8250-MTP-WCD9380-WSA8810-VA-DMIC
+>>>> +      1 [C320M          ]: USB-Audio - Plantronics C320-M
+>>>> +                     Plantronics Plantronics C320-M at 
+>>>> usb-xhci-hcd.1.auto-1, full speed
+>>>> +
+>>>> +
+>>>> +  **Platform Sound Card** - card#0:
+>>>> +
+>>>> +    ::
+>>>> +
+>>>> +      USB Offload Playback Route Card Select  1 (range -1->32)
+>>>> +      USB Offload Playback Route PCM Select   0 (range -1->255)
+>>>> +      USB Offload Playback Route Card Status  -1 (range -1->32)
+>>>> +      USB Offload Playback Route PCM Status   -1 (range -1->255)
+>>>> +
+>>>> +
+>>>> +  **USB Sound Card** - card#1:
+>>>> +
+>>>> +    ::
+>>>> +
+>>>> +      USB Offload Playback Capable Card         0 (range -1->32)
+>>>> +
+>>>> +
+>>>> +The platform sound card(card#0) kcontrols are created as part of 
+>>>> adding the SOC
+>>>> +USB device using **snd_soc_usb_add_port()**.  The following 
+>>>> kcontrols are defined
+>>>> +as:
+>>>> +
+>>>> +  - ``USB Offload Playback Route Card Status`` **(R)**: USB sound 
+>>>> card device index
+>>>> +    that defines which USB SND resources are currently offloaded. 
+>>>> If -1 is seen, it
+>>>> +    signifies that offload is not active.
+>>>> +  - ``USB Offload Playback Route PCM Status`` **(R)**: USB PCM 
+>>>> device index
+>>>> +    that defines which USB SND resources are currently offloaded. 
+>>>> If -1 is seen, it
+>>>> +    signifies that offload is not active.
+>>>> +  - ``USB Offload Playback Route Card Select`` **(R/W)**: USB sound 
+>>>> card index which
+>>>> +    selects the USB device to initiate offloading on.  If no value 
+>>>> is written to the
+>>>> +    kcontrol, then the last USB device discovered card index will 
+>>>> be chosen.
+>>>
+>>> I see only one kcontrol, what if hardware is capable of offloading on 
+>>> more cards, is it possible to do offloading on more than one device?
+>>>
+>>>> +  - ``USB Offload Playback Route PCM Select`` **(R/W)**: USB PCM 
+>>>> index which selects
+>>>> +    the USB device to initiate offloading on.  If no value is 
+>>>> written to the
+>>>> +    kcontrol, then the last USB device discovered PCM zero index 
+>>>> will be chosen.
+>>>> +
+>>>> +The USB sound card(card#1) kcontrols are created as USB audio 
+>>>> devices are plugged
+>>>> +into the physical USB port and enumerated.  The kcontrols are 
+>>>> defined as:
+>>>> +
+>>>> +  - ``USB Offload Playback Capable Card`` **(R)**: Provides the 
+>>>> sound card
+>>>> +    number/index that supports USB offloading.  Further/follow up 
+>>>> queries about
+>>>> +    the current offload state can be handled by reading the offload 
+>>>> status
+>>>> +    kcontrol exposed by the platform card.
+>>>> +
+>>>
+>>>
+>>> Why do we need to some magic between cards? I feel like whole 
+>>> kcontrol thing is overengineered a bit - I'm not sure I understand 
+>>> the need to do linking between cards. It would feel a lot simpler if 
+>>> USB card exposed one "USB Offload" kcontrol on USB card if USB 
+>>> controller supports offloading and allowed to set it to true/false to 
+>>> allow user to choose if they want to do offloading on device.
+>>>
+>>> (...)
+>>
+>> Based on feedback from Pierre, what I understood is that for some 
+>> applications, there won't be an order on which sound card is 
+>> queried/opened first.
+>>
+> 
+> Yes if you have multiple cards, they are probed in random order.
+> 
+>> So the end use case example given was if an application opened the USB 
+>> sound card first, it can see if there is an offload path available.  
+>> If there is then it can enable the offload path on the corresponding 
+>> card if desired.
+>>
+> 
+> This still doesn't explain why you need to link cards using controls. 
+> What would not work with simple "Enable Offload" with true/false values 
+> on USB card that works while you do have above routing controls?
+> 
 
---=20
-Piotr Wojtaszczyk
-Timesys
+Sorry for the late response.
+
+I think either way, even with the "Enable Offload" kcontrol in USB SND, 
+we'd need a way to link these cards, because if you have multiple USB 
+audio devices connected, and say... your offload mechanism only supports 
+one stream.  Then I assume we'd still need to way to determine if that 
+stream can be enabled for that USB SND device or not.
+
+Since the USB SND isn't really the entity maintaining the offload path, 
+I went with the decision to add that route selection to the ASoC 
+platform card. It would have access to all the parameters supported by 
+the audio DSP.
+
+Thanks
+Wesley Cheng
+
+>>>> +Mixer Examples
+>>>> +--------------
+>>>> +
+>>>> +    ::
+>>>> +
+>>>> +      tinymix -D 0 set 'USB Offload Playback Route Card Select' 2
+>>>> +      tinymix -D 0 set 'USB Offload Playback Route PCM Select' 0
+>>>> +
+>>>> +
+>>>> +    ::
+>>>> +
+>>>> +      tinymix -D 0 get 'USB Offload Playback Route Card Select'
+>>>> +      --> 2 (range -1->32)
+>>>> +      tinymix -D 0 get 'USB Offload Playback Route PCM Select'
+>>>> +      --> 0 (range -1->255)
+>>>> +
+>>>> +    ::
+>>>> +
+>>>> +      tinymix -D 0 get 'USB Offload Playback Route Card Status'
+>>>> +      --> 2 (range -1->32)   [OFFLD active]
+>>>> +      --> -1 (range -1->32) [OFFLD idle]
+>>>> +      tinymix -D 0 get 'USB Offload Playback Route PCM Status'
+>>>> +      --> 0 (range -1->255)   [OFFLD active]
+>>>> +      --> -1 (range -1->255) [OFFLD idle]
+>>>> +
+>>>> +    ::
+>>>> +
+>>>> +      tinymix -D 1 get 'USB Offload Playback Capable Card'
+>>>> +      --> 0 (range -1->32)
+>>>>
+>>>
+>>> Yes, looking at examples again, I'm still not sure I understand. 
+>>> There are two cards and you do linking between them, this feels 
+>>> broken by design. From my point of view USB Offload should be 
+>>> property of USB card and not involve any other card in a system.
+>>>
+>>
+>> Main benefit to having two cards (keeping one for USB SND and another 
+>> for the ASoC platform sound card) is that current applications won't 
+>> break.  The behavior is the same, in that if something opens the USB 
+>> sound card, it will go through the same non-offloaded path.  During 
+>> initial reviews, I think this was a big point where folks wanted the 
+>> USB PCM path to still be an option.
+>>
+> 
+> I'm not against having two cards, in fact I hope that USB card looks and 
+> behaves the same as before this patch set, with only difference being 
+> controls for enabling offload.
+> 
+>> If applications want to add the offload capabilities to its 
+>> environment, they can enable it as an additional feature.
+> 
+> That sounds fine to me.
+> 
