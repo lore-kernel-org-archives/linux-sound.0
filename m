@@ -1,86 +1,95 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 803B5194AFF;
-	Mon, 17 Jun 2024 11:24:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C919194AE1;
+	Mon, 17 Jun 2024 11:55:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718623487; cv=none; b=NeZmvRmES199oqPh3d6wcHjOP1i7krw7XvxNWuPz7vjxvhBzy9yBITzdZtZ1yJ7CVRtTBmlu6i+2dWKAV7nUjnf3YL/l/4jxJ+OD3bWYnZEmU8QqcUZyAzOezBKYWWtP7h8U2gFyqlprj8QFmeUzJlSkkZ1G/sc5jgtUD2SgxqE=
+	t=1718625308; cv=none; b=lAGvO+Gh9ZvGWrpM+7bTnm+3puRVlh7jS5CF9gjt/UuXxdubwTZLgS/BTWa1C+c/RZ7APPG1LSVcDk0mfcHq60ymAp6WC8zIQb9sD9AkQwhM+kMdjXk0ZeJAwFLgoqL7p+q40bSqi3n3DGeslvLgPfbFQJLO4mgPCwPQwRWe4vs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718623487; c=relaxed/simple;
-	bh=BiAFqDWMtUBYYL7WNeERH/7QvGS6RZjA1rc5xTNrENo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=R2reVpGVn/f7hYd9ehLwnrNQnXjuEsfJe5Qw+T95C+IAep6FJXsDwb0QoR3R7wEoTPBKBVvskPBZySmZOqL+LHlOsycHXTFpMvetbMbkbIoNyFGcW2IBRjkEtaGXkgometf0QtKYMGtdHEh25KXXHI63v6i5nKL1kYG0nF6kR1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Uw3wi0Rn; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1718625308; c=relaxed/simple;
+	bh=jUYkLcHNVMGAKmmAya+2zPkcEa9Bqe1QYQq6BZcZcHY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pNOG++tFL2j01S2QfIADUW2miQBMG3M4t/BO31HBzBh3ea82M/vYNHdUJDbELYfHSaL/SWjr0pWwrQlUTD4bjBkBkI7HsmLoz7rsH5gaOx8D98S/OVEjNlKrL+Ll7DNQltVGbzha/CfPTXc3muMXIKwNgIFP+beyBRFvb8t/Y/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r61JJ5HR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Uw3wi0Rn"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 476B41BF20D;
-	Mon, 17 Jun 2024 11:24:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1718623478;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+oaI/YIoihSCT/XzoUgtEbkFRWQb1Z6Coz8KZYx9wWA=;
-	b=Uw3wi0Rn2iuwOBAUNNl7q565rusBIKloO/isU7hf7GlumFPLVfvF9Ad5RJmMjReXQE+Qk8
-	xtbVKBZ0CDs3NYUGZ3etKgYSMc3ZAsrVX4nFNIobduo5VTXG9DCNGC3HMatpeeuz+gFlZw
-	+bhnzYtw5mqQhC0En3/ETef1yiF72bnwpL2v9AV+0V4pfbx53cWWRUyvxiInKLsULFbpLs
-	56GQCMYp6In95Kb5S9X41mvcJkjW835YlYuOf9W/lr5ic7OkQCOF64K6FLDdWiX+wDop8w
-	1YdPZOIGnPJcT4Sv/mtVz8sBKFI0d5mKwzmppAeDlfnd+Sr7dyoztMLqEVU6Ig==
-Date: Mon, 17 Jun 2024 13:24:36 +0200
-From: Herve Codina <herve.codina@bootlin.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Support
- Opensource <support.opensource@diasemi.com>, Shenghao Ding
- <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu
- <baojun.xu@ti.com>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org
-Subject: Re: [PATCH 2/2] ASoC: Constify DAI ops auto_selectable_formats
-Message-ID: <20240617132436.640e5310@bootlin.com>
-In-Reply-To: <20240617092152.244981-2-krzysztof.kozlowski@linaro.org>
-References: <20240617092152.244981-1-krzysztof.kozlowski@linaro.org>
-	<20240617092152.244981-2-krzysztof.kozlowski@linaro.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r61JJ5HR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99B76C2BD10;
+	Mon, 17 Jun 2024 11:55:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718625307;
+	bh=jUYkLcHNVMGAKmmAya+2zPkcEa9Bqe1QYQq6BZcZcHY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=r61JJ5HRwAWeK+V5dXT3Trn5Ly+Ls5Xb2ENHZz6MPzH+S6jxyaoH1ZkkSeePRuVA5
+	 62dkADdkS+wL+exFW3KOPtePLeuFMDarSUcdHg0Bh4Q3feTFJfMT9UZvNuiMQDUkjL
+	 Qg1qKTXBKUY/+vBEq6JNrqkianvWPn6D1L7ekEWbN9vRQW6cGu8PmNuGAPPZG4wa7B
+	 E71jkxkXIpefUJhncHzRGZW2E0eJfi9SvIjxf/WRtFS/RbDEloIJKrVOZJU6bAcTS/
+	 k4ikJSYxgo119Nr6vIHuPELJkgyTENDfUBy39P1LE4fhb9yrSkWaQW8oVZaD3tZEXu
+	 F6+sX7+nS8bsg==
+Date: Mon, 17 Jun 2024 12:54:57 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Mohammad Rafi Shaik <quic_mohs@quicinc.com>,
+	Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Takashi Iwai <tiwai@suse.com>, LKML <linux-kernel@vger.kernel.org>,
+	Rohit kumar <quic_rohkumar@quicinc.com>
+Subject: Re: [PATCH v6 3/7] ASoC: codecs: wcd937x: add wcd937x codec driver
+Message-ID: <a6d17f27-51f4-47a5-8798-37bcdf3b103d@sirena.org.uk>
+References: <20240611074557.604250-4-quic_mohs@quicinc.com>
+ <6e1dd5d1-8c5d-44f5-99e8-f42cfbdeee04@web.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: herve.codina@bootlin.com
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="8N8IFlNCqkTciz3E"
+Content-Disposition: inline
+In-Reply-To: <6e1dd5d1-8c5d-44f5-99e8-f42cfbdeee04@web.de>
+X-Cookie: Life is the urge to ecstasy.
 
-Hi Krzysztof,
 
-On Mon, 17 Jun 2024 11:21:52 +0200
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+--8N8IFlNCqkTciz3E
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> The static arrays passed as 'auto_selectable_formats' are not modified
-> by the drivers nor by the core code, so make it const for code safety.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  sound/soc/codecs/ak4613.c          | 2 +-
->  sound/soc/codecs/da7213.c          | 2 +-
->  sound/soc/codecs/hdmi-codec.c      | 2 +-
->  sound/soc/codecs/idt821034.c       | 2 +-
->  sound/soc/codecs/pcm3168a.c        | 2 +-
->  sound/soc/codecs/peb2466.c         | 2 +-
->  sound/soc/generic/test-component.c | 2 +-
->  sound/soc/sh/fsi.c                 | 2 +-
->  sound/soc/sh/rcar/core.c           | 2 +-
->  sound/soc/soc-utils.c              | 2 +-
->  10 files changed, 10 insertions(+), 10 deletions(-)
-> 
+On Sun, Jun 16, 2024 at 06:38:58PM +0200, Markus Elfring wrote:
+> > This patch adds basic SoundWire codec driver to support for
+> > WCD9370/WCD9375 TX and RX devices.
+> =E2=80=A6
+>=20
+> Please improve such a change description with an imperative wording.
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/D=
+ocumentation/process/submitting-patches.rst?h=3Dv6.10-rc3#n94
 
-I think you miss sound/soc/codecs/framer-codec.c
+Feel free to ignore Markus, he has a long history of sending
+unhelpful review comments and continues to ignore repeated requests
+to stop.
 
-Best regards,
-Hervé
+--8N8IFlNCqkTciz3E
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZwJBAACgkQJNaLcl1U
+h9BPYAf/Te6gQtKt94WX0v+W7HqLZ1BnLN1dLZG0bLUDwYe4sJh/EFbwzvyHXx9b
+KO0bBawxSl2HfrCGJ9JyfXGAuJJNkrSWhEqprY0JyUQgsLb0xuanc0eK2USUhb3V
+WtK56o6Yt449MKzhg7GDg1yYCIiMBU6pJKJbE+eN8TEP0zw6M/9gVHsdVxBzHUXr
+dzKJvbaNFklSSh0EuZGEWgSRR+U7oDB7D8PkDlVj6V0IROnqcl+aW4KcdH91xgxx
+rPKiSkei4Kk394a8b+x2iVUfDHDjPg9pMT6aKfWQj0ejf1Vq9aSIf4QDGCq/z7M7
+ZCgh0SEis37Y3kTSnUZqAaxngSlzog==
+=8S2L
+-----END PGP SIGNATURE-----
+
+--8N8IFlNCqkTciz3E--
