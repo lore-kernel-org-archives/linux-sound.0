@@ -1,153 +1,89 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B93A61C2AF;
-	Mon, 17 Jun 2024 12:00:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56A6E17FAA2;
+	Mon, 17 Jun 2024 12:07:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718625616; cv=none; b=rsDbxP8ErtIZOduTVl3znil4raj6ASFkxAfSWKEgOHJK/nB4e6I2QVc4awSX1MzqhzA/1ozGyNN7yw3XLhmb+myUcOP2woJ1k2qOJc1Z5Kx7NBE/KsKvMHnOoF69PGz0SKsOpMaxihfBMauybygNZxqEUukT8hPGfUPfhRE+hKk=
+	t=1718626068; cv=none; b=BoUnPfn+LGl5/QGTEPw81h9i1xmVju8Ms2a02dYlmFaydAHDj38auRGQWPwE9galxbBuj3lQCT/26PB3iL7+s+DVkhRMprCC2rhOTWSSxRtDXcLmNT80wnn8ECzQ8UAfqpGRBG8lVlCkVTs752TgdASxgAWrDFXDeydSTGYojMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718625616; c=relaxed/simple;
-	bh=LhQnlW331mh5qq6eTi31GkDvdypq3w2H94BZqhZHbZE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Qs+bDb7IfbYBujp+T8QeMaMsyRaq0SoDnvOGk5CTs6pCu4qxd4hF2+MEx2g1VGPBfBQQvpu14ei/k3Mmc0fNFxNWElsfzeGEsZDdc584KRV+eC7IqbhFDljUj7zQzm4rsZPJ7l4JaJ8a+VWtELcwN6FJT7hHTDXPPRPEeneMtOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=klGPBevZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SafsiLJh; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=klGPBevZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SafsiLJh; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1718626068; c=relaxed/simple;
+	bh=lLf4l6RsdqXzGuno7XkQH16nzoJvIKQHVIIM8S2lni0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c+iNWeoeTUA/rEjJKzs1GWK7TMrqMDM+cFGBmiIXpa1H0oF1SeQ9JtLpHe2ibmh+yA8LWnyIBvoGKaSW8BcEJVK5N3tZxEmYX6dHmz9+r32u/wtCb5RNKeP2GCFpaW1PY2n3yKFQZQgpDDZiC8B67npzqb2UhlzYY2ktxcYqsz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oUPASJIm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="klGPBevZ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SafsiLJh";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="klGPBevZ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SafsiLJh"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A3D9460008;
-	Mon, 17 Jun 2024 12:00:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718625612; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UgOV33l01jKCuWyhutocUQqIX3MFKi+pED6h55yk5ZI=;
-	b=klGPBevZI/m/BSwBSRTkqFkJEP5/ei1Cw5dsymo5fU3QkixNkWBC0xZHVUA+hFB6nLK0+H
-	xjOIaT//P+0shzA3bi1npnHM6A4+y6bySqQ+Zf7h8wdXMTJNHjbVVKUHulTJj/+spKn+6U
-	G8GfIhulHLQ2arrNTye5QeT8MgX6kX4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718625612;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UgOV33l01jKCuWyhutocUQqIX3MFKi+pED6h55yk5ZI=;
-	b=SafsiLJh8T1F9o4FNEndY5h8WMlcdHQsBWRiuUpnv0ke8SUXIit3Vcr3GKK7awafLKqFbu
-	ZgzsZNISRmD5d/Bw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=klGPBevZ;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=SafsiLJh
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718625612; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UgOV33l01jKCuWyhutocUQqIX3MFKi+pED6h55yk5ZI=;
-	b=klGPBevZI/m/BSwBSRTkqFkJEP5/ei1Cw5dsymo5fU3QkixNkWBC0xZHVUA+hFB6nLK0+H
-	xjOIaT//P+0shzA3bi1npnHM6A4+y6bySqQ+Zf7h8wdXMTJNHjbVVKUHulTJj/+spKn+6U
-	G8GfIhulHLQ2arrNTye5QeT8MgX6kX4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718625612;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UgOV33l01jKCuWyhutocUQqIX3MFKi+pED6h55yk5ZI=;
-	b=SafsiLJh8T1F9o4FNEndY5h8WMlcdHQsBWRiuUpnv0ke8SUXIit3Vcr3GKK7awafLKqFbu
-	ZgzsZNISRmD5d/Bw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7CB28139AB;
-	Mon, 17 Jun 2024 12:00:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sm0RHUwlcGYeJwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 17 Jun 2024 12:00:12 +0000
-Date: Mon, 17 Jun 2024 14:00:38 +0200
-Message-ID: <87jzin93tl.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: bo liu <bo.liu@senarytech.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V4] ALSA: hda/senarytech: add senarytech codec support
-In-Reply-To: <20240617014634.63994-1-bo.liu@senarytech.com>
-References: <20240617014634.63994-1-bo.liu@senarytech.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oUPASJIm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49683C2BD10;
+	Mon, 17 Jun 2024 12:07:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718626067;
+	bh=lLf4l6RsdqXzGuno7XkQH16nzoJvIKQHVIIM8S2lni0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oUPASJIm+bV/3LFwysjCkUOcpMLIYbDiZ1PD4hYFkmBiXBoBkA4pY9t79A8lWV39S
+	 2qzpeq0ChuXqAOb02aApgiGRL25ykRONP+EUNZIEbEf1JrBLPXpx2RitWtp0iFC+Cl
+	 ktyOmX93LLc/ser+JfArp97qVcvyPu3ZURfWBQ1v8HtjtruLjTtyLjizI+5o3XPVH/
+	 IvfnH3lWgeXcvPqsFWRfy1yXaAM7ra8Sl/7hqXzPTvQRj8A+pgZ245HKUyfJixFvyH
+	 uK7FhMFEhFb67bSQU3tDyPQk6k3Z6BKIdQ65yAJb98zLRs9K/wEJPSFoM91ldCrJe7
+	 AirYH7yy/G1BQ==
+Date: Mon, 17 Jun 2024 13:07:39 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH RFC 2/5] ASoC: hdmi-codec: pass data to get_dai_id too
+Message-ID: <723df0d7-fd52-4b14-bc59-254d94369721@sirena.org.uk>
+References: <20240615-drm-bridge-hdmi-connector-v1-0-d59fc7865ab2@linaro.org>
+ <20240615-drm-bridge-hdmi-connector-v1-2-d59fc7865ab2@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-7
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: A3D9460008
-X-Spam-Score: -3.39
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.39 / 50.00];
-	BAYES_HAM(-2.88)[99.47%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-
-On Mon, 17 Jun 2024 03:46:34 +0200,
-bo liu wrote:
-> 
-> Add initial Senarytech codec support for SN6186. Note that this hda
-> patch relies on the configuration default registers to be set correctly
-> (normally by BIOS/firmware) in order for it to set up pin widgets
-> properly.
-> 
-> Signed-off-by: bo liu <bo.liu@senarytech.com>
-
-This resulted in a build error when CONFIG_WERROR=y:
-
-sound/pci/hda/patch_senarytech.c: In function ¡senary_auto_init¢:
-sound/pci/hda/patch_senarytech.c:134:29: error: unused variable ¡spec¢ [-Werror=unused-variable]
-  134 |         struct senary_spec *spec = codec->spec;
-      |                             ^~~~
-cc1: all warnings being treated as errors
-
-It's senary_auto_init().  Could you fix and resubmit?
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="XtVbdI0Tw2PNjcEk"
+Content-Disposition: inline
+In-Reply-To: <20240615-drm-bridge-hdmi-connector-v1-2-d59fc7865ab2@linaro.org>
+X-Cookie: Life is the urge to ecstasy.
 
 
-thanks,
+--XtVbdI0Tw2PNjcEk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Takashi
+On Sat, Jun 15, 2024 at 08:53:31PM +0300, Dmitry Baryshkov wrote:
+> The upcoming DRM connector HDMI codec implementation is going to use
+> codec-specific data in the .get_dai_id to get drm_connector. Pass data
+> to the callback, as it is done with other hdmi_codec_ops callbacks.
+
+Acked-by: Mark Brown <broonie@kernel.org>
+
+--XtVbdI0Tw2PNjcEk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZwJwsACgkQJNaLcl1U
+h9Ddiwf7B9RIPxE1KgzuGsGiFXQOUSUjl3Yznz5/+WBr2xZJpAlBHYswQFGUEikT
+Gu6kk6LDHX6vF9wV+Z1Uq1U/LRSjYfPa+zl2+R+4A9vvyUxooQSTDpTu4KNcBDX7
+D3TpXv9axeb9RPmfH0fw6FX4ABxz3Tpwz2fQGFzLAh6PaVA9O9CNNWgkDKvE61Ke
+4EWvmr6GB1erLa97l68vEGCjTTejAs97ZXFxZYGPdmK/FqjeyR2dEPUYfgzQmgi3
+W1uA0uI3jqFGv74skoytSEOR3i1eToyvYzidUkhO6Gz7nIBLBlbw/i/j5tV0UeoB
+HW4EKT4EkpO2IGygQWnl0C0tH4PJpw==
+=gM/U
+-----END PGP SIGNATURE-----
+
+--XtVbdI0Tw2PNjcEk--
