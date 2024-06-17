@@ -1,139 +1,97 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC5B75025E;
-	Mon, 17 Jun 2024 10:59:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80BC0193097;
+	Mon, 17 Jun 2024 11:18:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718621942; cv=none; b=PhyG4e9Chl10awX8ElTvOukSpto5d+MZqRORWtKBIcwnUIuxBPld6lmHRExnhwcwI+frz8ogbbMC2lVQXjtlQIT1BbPBB2rcVnXrTXhRNFpfkvOFbzQqeEZJSCaJPY+wMEGwAz3CjEuMIdtaH4c1fYHi2S0E8QiM22tavY1ilIg=
+	t=1718623108; cv=none; b=QDTkSYiONx4LwqxLyN0DlPYkAuH0q3E+h5Ke8RuBhlukuLluNqYRg0VXiHVKZHLZd+w977Qu5kI6uU19MMAxFTt+rx9CQyBoCleh3ATUAwrsErMpY4dmnSZcKU6yHfQoAmE0/lplxKACPIcDoJhD34KwQ5R5nmd2AM9O41P75lQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718621942; c=relaxed/simple;
-	bh=8wB8dLUWtRHRl79UEIYwwpGcoRPP7LZqthPrT0xkjS0=;
+	s=arc-20240116; t=1718623108; c=relaxed/simple;
+	bh=EnUOtqRW29t4LY2qt3y9GCg8lgyd3zktbbs8wjcm+f4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tmSL8pHWP7tXChYqmQ4L9lut8TUNjQJA7qNleqICbF9gXTry/4g98x9EgrAmdRwXRZtVzNyNXgOGXh0UQuT/OLhcjz347ixgqKgfOrvQnmOPwB/Y7m7OMGrDufCbMgqHuk4O0JofMDXafhWZXcNpRtDTRtYgywjH/U1HmAJjI4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G3ddtES0; arc=none smtp.client-ip=209.85.218.54
+	 To:Cc:Content-Type; b=ZdNK2lOuE1iIsH9zRlt8q6VOteVtbFbZVXDFuLE9H3h6DvlkC7r51Nuqo0TGiVMlyq5+7TewOwp1uIIwMjIob7zHrJyIL8BHH8FKGlFXTDfnv4Ji3q+wdHaGedBJ9z5NV0aprpVMTyEGbMycURqTrB5CRntLbrBN0lxYwERvvvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nf9Rg0NA; arc=none smtp.client-ip=209.85.218.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G3ddtES0"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a6efae34c83so526291566b.0;
-        Mon, 17 Jun 2024 03:59:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nf9Rg0NA"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a6f177b78dcso541607466b.1;
+        Mon, 17 Jun 2024 04:18:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718621939; x=1719226739; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1718623105; x=1719227905; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8wB8dLUWtRHRl79UEIYwwpGcoRPP7LZqthPrT0xkjS0=;
-        b=G3ddtES05KBngq6UHWH+bLeDVjHVfJjrer71x1oClPjFqQBWo5q9UMK1VfJW6kJjJq
-         F4PZsQestdbLeUKH8unSqie5VDD7EagbCBXSZaSHuKvJxjTFA/00cMjlFbvezuyidolY
-         8IJb1AK6waFkrjIHxm7K2jDf6tFJR0iyUq90OZ/4DYyR6qbWKG66yZWTuedKtIqlm8W5
-         z4+SG4bxj3pYqXnzunZrkvLOprES3JCkbQ5t/523EXHIeWZN+QHdYZwKrt/L9C8QlQPV
-         PqKllIoFKQiOiLgDsIpjcCywPn+fn1M61OU6KA6imYIqeZ1vynt+cI/1YCXgPb1rWNm9
-         QYdg==
+        bh=EnUOtqRW29t4LY2qt3y9GCg8lgyd3zktbbs8wjcm+f4=;
+        b=nf9Rg0NAcIMLK7zS+/M+ra5s15qijzIcoeLPIHaPxqU7m7QjxBFHl/eiOnWpJmqeO9
+         bxEaL15dbfveZp0C9ak8NUpWkgKlCyMFTNnA66alcGQ73u5RVEGsF1iUplFslC06/9Db
+         DqeFhMDGE1bYGoAC45wL+hbmuenlUl4ji68eiQDw8JwsU/cV1NsULDwPb/MdlmBLKD6U
+         3RJqsc3S2kSx/pG4Y7FScN/2HENz2WzDQDbZe9DfgG0rUC+TV6ySoS+lMPl0REgPHh/o
+         VoDaeW3yotXokiAkRzTYfFeJcDpcO2a9AUFgxFlIfRs+3PbFFHe6t1BwgrXkgPuH8rMw
+         G1Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718621939; x=1719226739;
+        d=1e100.net; s=20230601; t=1718623105; x=1719227905;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8wB8dLUWtRHRl79UEIYwwpGcoRPP7LZqthPrT0xkjS0=;
-        b=Cem9PGTanUq25o7phJ/RZGVY6Fpz35uWfNYKsGpdnXX0rElhFVmgGP6Rrbje9nyAtx
-         NE54dUSFZtoOAJa5sj9dDnNckeTkqQ8/kk6MQUeNvSPggSXKCRYVClQaZ7hk458B2v2b
-         GLOcjRAvV+53S8o1kDhSdBCs3m+FS23qVsf0umL7PczsUqqdK/Agg899XxTdVZr5un84
-         AoH5wT4ZNz6tOzfnptMPeISwSWBiphVQohjan6l0x7LDYKpIIZn0VvDYDCkHD6FuyRMe
-         YlfXnzfqlGgFUZZNP7aY4G/UvmOpnx4P6z0MqxjjyVcqS71crNSmCMU/7Z5RJTK8EMf9
-         cx1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXAoM7IbF4e2rcIclY5h762jyQSucTNkLrD1Euq0cJADoK/mEztSfuiQ78x0JeizEcchdTzju5NKh3G9SaF+VGrSV/rK7krkENH2e7qRK5DavQ4pVAevFe8x0Mn3jB7Hg2kiq43LmavSpsdjDh07LxqqNde3hqzi1dr3zeXkuBeZeH/2BZ9+0lRqvc3tQOzfU94er3VowrZ75uV8sr9HiYAOHJ4qDqQzyEtvEFaTb7DqC5WzsZv4IUfnuQHOdORpeTNxsKSynsSyEOyMg5Moxi9xMaXkXKDCw1r3C3S/gcbSQyBCU6J02FbV4/bRkDFvCOBPyOpM1xXnRbB03w5+O7BauI+6ZATcO6orxmdmRNVG5Q/7wrcDhuSFxlAdtv3w1Zr23MPqM2kCzjanP/BNourXGHl23JmDSvhdAIh4f208KUpeEosZ3LvPokFg9xO9A23MYBYQMtCvey1Hx/dqcAEiGbId9RB2JWBvaVgwzSkjgwOV8mJcwE8U+NwTETTrg9F7ilwpITU22TB4or+sYQJ17CnWqGdcw==
-X-Gm-Message-State: AOJu0YwDIXeuRJwaLI4H401MKf5j+cAUX/r4xUQja9OxSvnLuZ9M+2WY
-	dtJO0KPQnet/MhpGT+GXwov5CXnBDWDEF09Fcua+E1aLv53pVi3/mLPFrs35TGOr+BtRwrdybUu
-	xjNN4gi2Cdat2K5oceKxYGXHsoi0=
-X-Google-Smtp-Source: AGHT+IFLQNwGHlc2x1pJKtfDQbxygWK6Gf7QAcGKtHzYeiun/g/cbs2h4qNhFprWOgm/WKjClpcVLvXhnCvHBWIHCLQ=
-X-Received: by 2002:a17:906:f8c6:b0:a6f:d1d:b523 with SMTP id
- a640c23a62f3a-a6f60d430e6mr561654166b.36.1718621938822; Mon, 17 Jun 2024
- 03:58:58 -0700 (PDT)
+        bh=EnUOtqRW29t4LY2qt3y9GCg8lgyd3zktbbs8wjcm+f4=;
+        b=VIF7PqcIIScpPC51XEGNQva9shv0RZzUPdEyL3LT2tHcDLAkmI2kzA1AzjLSn0hH9G
+         l+x+FHW7V1qfo8gVgQe9AN5S0856X9ju7ZUtZJ6PtdXR7ZNV20eu5V5afyJ4kXJnUYzu
+         cdqmuvXDlcRhiGCTeTmXM7lgXMWcOI16ktnHwsthO+1RW91eznzhHnwqKmOJKexm2s7g
+         5164ixkHpGs+4i08iPnevE57P4QCdvDARkd4M+2oGrPZDLoizRj+ZYDXPjPeOUkgdJ6I
+         YToq43qTSEVFUdAuL0E42vUNtkP5dCTw74fMpiYlANW8msxw2UtrbKjYniS7mXlBBjVi
+         tRlA==
+X-Forwarded-Encrypted: i=1; AJvYcCUHQHaInl9CnE1I4wrlOmNAgMT5fN2c9L5n+vnG/539dEjPSqaj21XiIU043mIslDpGnk97iagc9ouoWWk+u73ifWrL1YvXioJdKOOxpUEja0mCY2LNw54KeSsI30numVOzDs0ja8z9r7hLL3r/mq2c+hWXPZOnueMZSP0bijcwAtibMZQ8
+X-Gm-Message-State: AOJu0YzjFcV8hwFUpuv/MBpqPccGdj5dbmZIVwi9HMxmigYs4Vgdjglq
+	Ih1baybUPz2nkKAOGWsP1ZlXVhsihc9frF5p3RaCZZ5HwbnU+hMqZde8QFrH5fIOoSJg0eUWItx
+	so8kbSV0nc2Vlb6pHToCwfvahxRw=
+X-Google-Smtp-Source: AGHT+IF2kQT/PUg0w255bAgZSNWec9bhJXjEfsoEAMf+GB6lxhyXYDWaLu7E+tMPDQE3orQFLrRyjLwpODfZOCuk8L8=
+X-Received: by 2002:a17:907:c283:b0:a6f:709e:523e with SMTP id
+ a640c23a62f3a-a6f709e53dcmr472493666b.50.1718623104554; Mon, 17 Jun 2024
+ 04:18:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240617-ep93xx-v10-0-662e640ed811@maquefel.me>
-In-Reply-To: <20240617-ep93xx-v10-0-662e640ed811@maquefel.me>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 17 Jun 2024 12:58:22 +0200
-Message-ID: <CAHp75VfSC9gAD9ipeWRPdQOxUp4FXqYYei-cJTs38nbz0cHpkg@mail.gmail.com>
-Subject: Re: [PATCH v10 00/38] ep93xx device tree conversion
-To: nikita.shubin@maquefel.me
-Cc: Arnd Bergmann <arnd@arndb.de>, Hartley Sweeten <hsweeten@visionengravers.com>, 
-	Alexander Sverdlin <alexander.sverdlin@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	Lukasz Majewski <lukma@denx.de>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Sebastian Reichel <sre@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Vinod Koul <vkoul@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
-	Guenter Roeck <linux@roeck-us.net>, Thierry Reding <thierry.reding@gmail.com>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	Mark Brown <broonie@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
-	Vignesh Raghavendra <vigneshr@ti.com>, Damien Le Moal <dlemoal@kernel.org>, 
-	Sergey Shtylyov <s.shtylyov@omp.ru>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Ralf Baechle <ralf@linux-mips.org>, "Wu, Aaron" <Aaron.Wu@analog.com>, Lee Jones <lee@kernel.org>, 
-	Olof Johansson <olof@lixom.net>, Niklas Cassel <cassel@kernel.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-pm@vger.kernel.org, 
-	devicetree@vger.kernel.org, dmaengine@vger.kernel.org, 
-	linux-watchdog@vger.kernel.org, linux-pwm@vger.kernel.org, 
-	linux-spi@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-mtd@lists.infradead.org, linux-ide@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-sound@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Andrew Lunn <andrew@lunn.ch>
+References: <20240614033812.51312-1-animeshagarwal28@gmail.com> <b214c9db-fd82-4d5f-9cc2-96857da1bef5@kernel.org>
+In-Reply-To: <b214c9db-fd82-4d5f-9cc2-96857da1bef5@kernel.org>
+From: Daniel Baluta <daniel.baluta@gmail.com>
+Date: Mon, 17 Jun 2024 14:18:12 +0300
+Message-ID: <CAEnQRZBPv+OAmNBHe8fWziw8zJKFkH8vd-oe_G-e3OVSX_sTRQ@mail.gmail.com>
+Subject: Re: [PATCH 0/2] ASoC: dt-bindings: Convert realtek CODEC bindings to
+ DT schema
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Animesh Agarwal <animeshagarwal28@gmail.com>, Daniel Baluta <daniel.baluta@nxp.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 17, 2024 at 11:38=E2=80=AFAM Nikita Shubin via B4 Relay
-<devnull+nikita.shubin.maquefel.me@kernel.org> wrote:
+On Fri, Jun 14, 2024 at 11:32=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.o=
+rg> wrote:
 >
-> The goal is to recieve ACKs for all patches in series to merge it via Arn=
-d branch.
-
-'receive'
-
-> Unfortunately, CLK subsystem suddenly went silent on clk portion of serie=
-s V2 reroll,
-> tried to ping them for about a month but no luck.
+> On 14/06/2024 05:38, Animesh Agarwal wrote:
+> > Hey all,
+> > This patch series converts two of the thirteen realtek audio codec
+> > bindings which are still in txt format to DT schema. I have chosen
+> > these bindings as they have in tree DTS files.
 >
-> Link: https://lore.kernel.org/r/20240408-ep93xx-clk-v2-1-adcd68c13753@maq=
-uefel.me
+> ... and the point of DTS is?
 >
-> Some changes since last version (v9) - see "Changes in v10", mostly
-> cosmetic.
-
-...
-
-> Patches should be formated with '--histogram'
-
-'formatted'
-
-...
-
-> Changes in v10:
+> To validate the DTS against bindings and see if they match.
 >
-> Reordered SoB tags to make sure they appear before Rb and Acked tags.
+> You received such feedback already.
 
-This is not required. The importance is only the order of SoBs
-themselves. If they are interleaved with other tags, it's fine.
+Hi Krzysztof,
 
-...
+I'm afraid I don't understand your comment here.
 
+Animesh is saying that we are now looking only on bindings that are
+actually used in the dts files.
 
-Hopefully to see this series being eventually applied soon.
-Arnd? (Do we have all necessary subsystem maintainers' tags, btw?)
-
-
---=20
-With Best Regards,
-Andy Shevchenko
+We are no longer converting .txt files which have bindings not used in
+dts files.
