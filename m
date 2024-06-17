@@ -1,120 +1,103 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.17.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53157195971;
-	Mon, 17 Jun 2024 12:29:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28A7F8836;
+	Mon, 17 Jun 2024 12:32:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718627351; cv=none; b=FGwRrcfJmNq9+xTxlVZ+NTJVnXhS5TDvJj9njoThokSxRIcbAYr66gq+JgcOFKmxfQu0qp5lgl89/KiuWfQivMp7UBoY1xL587zHCjDFBOfe78/URWO6RkwjvaLZbPqtXsggIG0F1BQyWDJPfbjZuM35e02qwYTV0+GSBw45Yo8=
+	t=1718627564; cv=none; b=TXDQ0QniKIh2WQtAHUSI/pMZA5IWYFnBgqeGrTJPCbU8mipPaURvgwFb5YLFVdXsMm9lZcihuorcHImG4sAsAcUlkJkfhkr4zyKjzltRsapcO3qH2nbYBSMqbw6fWsw59By7OjumquRlmlnS7hEZRUZpmyDoGOXbUTuUsS1F5QQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718627351; c=relaxed/simple;
-	bh=kTwLRzuHZ4rQxBNiRcGhOk8o7CrdHie54ZwZ+nRp6Ns=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=j/hYl2LLDDUujhWrg/CJcChZRBcdZdvVOQN4LWdA3qTZEbfmOZE4s4lKVXVOlmyEhWjBdsMfbKAjbmFSuNCVx2ZyXkHcQYo+fmXXc7vnbZQzpJFpzLqwW+Pu0HIGGDBdnqG3metvw/s/rHcTMyRW+2qc/FwA6PTuEXBtf58jdZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pp9R5ij3; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1718627564; c=relaxed/simple;
+	bh=SZu+21b3EOadKSJGfSaiut50TflCHmgMEiyIEWkOcys=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Y+sUb1lHRuZAosv/ZU6PEN6eWAv7ApU+kc52+LgpAcKp6lqkFp2ghHRFFqE83XqcB2mF1OAmrCxsXHa/tDlsAvbiQOS9ogpIuMKGMx0sOmwH1Ev80CLWfBp5BJqyNcmv6lkvsjvdqXqw6/AFbTPv8ZJ1POMZMk20iLK45IoGKGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=C897/DBW; arc=none smtp.client-ip=212.227.17.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pp9R5ij3"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7042a8ad9f5so3477182b3a.0;
-        Mon, 17 Jun 2024 05:29:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718627350; x=1719232150; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GcWOvKjaH9VWKVfBKzGMg6R3MCBCRcDLPHcl7oHFM04=;
-        b=Pp9R5ij3Qw/vIi5+geKCaHoR1SmK7DBfchaZ1h2Nnxof31MxvXhRuMmVyarg2tk4FY
-         6pIUntvd7QG9vAiHDJ0DOI6cbeJ02vVCZCbOiA0jMZVoWnOGRipm6VLbElYNSOiW3Lnl
-         IRe28oB7dkTnk/HaZei/x3AacXmXe3PnQX1nLw4PaB3OopiHFmZxCRy/D//BG09qYF4w
-         q96XneuCuQ2sSB3hXyXHvwo7ymc/DajquRgvt4c9JDzRseCwJAuBuGOXe2//Qtqmo5ne
-         KniQ/oQ0ivuSnA2v6CfxWxX3T3RoYfTq9tzjFyaF5ObzJFPBgi8Vz6TB6X7AMaxS8G9L
-         JZSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718627350; x=1719232150;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GcWOvKjaH9VWKVfBKzGMg6R3MCBCRcDLPHcl7oHFM04=;
-        b=D5EJFZoNyjtR8VwxRP/R+e+acaLdIFyyfHffFKjpMiYrrsc6JOMlF7fqwIfJ0ppxqB
-         7x6mYDsQEwBvdfLqcoRJbkHSmhGGwucFnj758qkXQgG4wZCShbAmIcTmofJEp1GqYA/0
-         D6j+Hzdqhqr1c5drPT2lYnsTZXdVZn1w92GVU3M665igwMwCsTUvaQNx2o0BRVz7e9N2
-         6oeCSIB14OlKzulQWYBJKzc3liFw5T/67oG5r8SiKNWl1TSyGtlO0CBgQUVVZNJLiCaX
-         T+8MjwJK7bN31sVsnJCDNHhrfBXjjoC2rempe4ULLyP74ofXCC8GO5uKWycZNmTW331u
-         pLaw==
-X-Forwarded-Encrypted: i=1; AJvYcCVK7a0BYPDeBdOykgfF5MzLS9rGVF2DcixBu5W/DyOxcKw9OfEnX0xK0JZ3b+Aanb+okqXdYftsEZYx/u57ydw0sjP/h4i6yuRsMVEqo4r0UoBDseyyqx4sNsJ5kCbnl1IS3fuI2maRGg==
-X-Gm-Message-State: AOJu0Yy5nUqYgkE9gaAHMpMgp4cBspY+S3hr1aiIGFoNyKmu6h8t8lIe
-	zBp6Q4FtdNcI+wxL9IVRr5X/M/aQDx3OAbHCXWKF+EYSiAP7+amC
-X-Google-Smtp-Source: AGHT+IHs34JMMxUSWDdC9PVQ+jTFt1dLMIoOHcoE7HAc4QSMWJG3bWQkzm3dwwcsmhdR6Vmh2T9e0g==
-X-Received: by 2002:a05:6a20:a123:b0:1b6:5b3a:9a4c with SMTP id adf61e73a8af0-1bae7d81c8bmr15214725637.2.1718627349711;
-        Mon, 17 Jun 2024 05:29:09 -0700 (PDT)
-Received: from localhost ([103.139.191.219])
-        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-705ccb3bf1csm7210162b3a.137.2024.06.17.05.29.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Jun 2024 05:29:09 -0700 (PDT)
-From: Kartik Agarwala <agarwala.kartik@gmail.com>
-Date: Mon, 17 Jun 2024 17:58:26 +0530
-Subject: [PATCH v2 3/3] dt-bindings: mfd: mt6397: Add reference for
- mediatek,mt6358-sound
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="C897/DBW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1718627543; x=1719232343; i=markus.elfring@web.de;
+	bh=SZu+21b3EOadKSJGfSaiut50TflCHmgMEiyIEWkOcys=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=C897/DBWZf1CbuvUCm5dAxJ9NPEVeHtsXU29NX/+eMumtMjGnJJ7Wp6HuVzQAq40
+	 Wiu81HXcYrjpcDpccoFpEGHJfR4KiuA4KVwsewC63ogy8KloBcVm6AlTUamov/EFr
+	 HvSdrAygEjibnlT0lfrw0jZrB2CmENTj60JUcgyMXygW7FtdDNf7x+4flTJ4RbXFs
+	 6xscsA4pT03Z67Nr4J6uwyH0IJg3UOlriA6LUJZUHgVhH9rxP64u13EmOBLcjyWKe
+	 SVGCe2MP9s6CkNwmfI+4EJGP2SX2vLQShjoWgW+8LKgjLExaJXvAeTX3pt3oJo8Ct
+	 oKPBPKH6i7yScmVjXA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MZB07-1roiM21AYL-00OQmw; Mon, 17
+ Jun 2024 14:32:23 +0200
+Message-ID: <919c9f61-f884-4aae-9dca-9e0d863c34a8@web.de>
+Date: Mon, 17 Jun 2024 14:32:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240617-mt6358-v2-3-5d9f0e99941e@gmail.com>
-References: <20240617-mt6358-v2-0-5d9f0e99941e@gmail.com>
-In-Reply-To: <20240617-mt6358-v2-0-5d9f0e99941e@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Lee Jones <lee@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, 
- Kartik Agarwala <agarwala.kartik@gmail.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=664;
- i=agarwala.kartik@gmail.com; h=from:subject:message-id;
- bh=kTwLRzuHZ4rQxBNiRcGhOk8o7CrdHie54ZwZ+nRp6Ns=;
- b=owEBbQKS/ZANAwAKAXiEk+OPlULqAcsmYgBmcCvzz6KRHv41QQjOaa6CrJR8ssn/l0qpihn7K
- 50tAMYY05GJAjMEAAEKAB0WIQSJkbnrkCGnamD0k/R4hJPjj5VC6gUCZnAr8wAKCRB4hJPjj5VC
- 6liwEACPYyQ52WObSkBjIepDcdHpTXzMZUkawClG3gPNK3TJ/JcAR0YECJfhtzxVM+3n6y7QEi7
- EmxJr/o8H1VnbI9Y/zDuDo+6kGRz1noZiy9x5Vm82vs4KunuVsbgz52y+7SosdFW0LsSD8CF45n
- D/AgUy1kVAtZFS/PpXQOKbMr9VZ+prOJ4mmduw28LgiHc9vQtrwJceotJ5nBskqEQOSACNpVzhE
- 52Z3QrcM7GP7iUwvici8hBZ6GAEfHzRI2+iSlvayO6d6BbX3r9FHDtlfYjVWVMLEVBJTiYpTpNQ
- twQNE8aFAm9YdhqbiIcYVohbScUAL667JjiaLpP13gqyztm9lrYGN8C0PWnIJzfgbqE/zgCVDPM
- c2ibDYHvEElRBDklvQ670w97PWHAOagoIAdVGYP4E712mQfs8awIcBQ9xjzaQGaEj7RHTDdzDPT
- ERD6zUbVbuS5LraNSliGBn3JuUY5FrqCYJ0Or/lz1xA9hBicUQvwEFoBs4nBVfL9B9plPC+1X44
- MnNvv9prYA4/w0+ED+DUQRn78OG6t8Ns824nvFbjOOzdeak6okc/98my9k0e9LrXs20KZw6tYQN
- By7ClnMVTqO4p5Tx9NqMwAZHiWU+b0Oi8BZAfeyUVoqk7wJev5BH6gpRqKCbyy1UV2zRawt4MNm
- 30e/T8iXMJKO+uA==
-X-Developer-Key: i=agarwala.kartik@gmail.com; a=openpgp;
- fpr=8991B9EB9021A76A60F493F4788493E38F9542EA
+User-Agent: Mozilla Thunderbird
+Subject: Re: [v6 3/7] ASoC: codecs: wcd937x: add wcd937x codec driver
+To: Mark Brown <broonie@kernel.org>, alsa-devel@alsa-project.org,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org
+Cc: Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Mohammad Rafi Shaik <quic_mohs@quicinc.com>,
+ Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
+ Banajit Goswami <bgoswami@quicinc.com>, Conor Dooley <conor+dt@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Takashi Iwai <tiwai@suse.com>, LKML <linux-kernel@vger.kernel.org>,
+ Rohit kumar <quic_rohkumar@quicinc.com>
+References: <20240611074557.604250-4-quic_mohs@quicinc.com>
+ <6e1dd5d1-8c5d-44f5-99e8-f42cfbdeee04@web.de>
+ <a6d17f27-51f4-47a5-8798-37bcdf3b103d@sirena.org.uk>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <a6d17f27-51f4-47a5-8798-37bcdf3b103d@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:oDEJkjUPAIlsV7AVUDwOgL/buRmui/li+1rQnY3ZUutBcaSilQa
+ 2PfoBEenwXHssLsnbrpNbLdar/Mh6Eyngc73oReWAS965iNWMFL8SBi3iVl0l87RkJz+kS6
+ ctOUUlfrXcboE7cb8AVxQj4+PTqAN+UwCfe/7LIgsXEgWjBWtAnqpC2ostWXFjToXgEjSJM
+ 5v4DO/wWq0aITpIRWIBcw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:4GwFPzN+sU0=;S6bpsAzm4afugR5kRmJsyhi4MIJ
+ n1RZ4mG0AsibYjNbATV4nsOoT25bKJS5170HqLLv0LLZBk10lDjvgU8LJJAFZdCeFtDUxyY7t
+ wtM/XUhgAz4G8YX5A4doawtftrHLxkuB0gbw9mCP90sK/2IamTq/E48T0E/jkP4YZtv1qLrrA
+ yEdDTCIkPEe0AEjm2l0grxbF8SqMKIquUD+8UevdHBk8HW/0cztWcYD0WK98UzddwivzXdrP3
+ XCiUoxIHZU7FsLFIDG1a9aE1IdN+25v/pNO7HRPMU4hhq/F9OW5GIzKdGFknqYshV0wgoHROL
+ 77G6uHZTMyexC5BoE1cL50Wd4ni7Ty/Ok6rWUbvgoA8LiKSQslhu7Za7evqNlpcfT35jgqORX
+ olGEsb9DdFat/UNzy79AWCjtMWI9cxh6/8YMrnoFW5BpKPmhn57MVTOEIOi8d/fJp3jvVv27r
+ TnBM8cS/XMrAKX9D3EGIPZNoa8s6vL3zBTrs4IppxxsesONmlO55aZiNGYzyuHK+Q1UJMValC
+ 3jRpGJoNxmhf8ia54hZhs2/MkO+rK3Ebq4ZbRbmySIP8WDvTGVCQz5/uPRnZmimrbMydkT7rW
+ AoUe2wRX5VF77w6Z6rYVpZ8KeARR6vUJBLA64HdakIaLOrZQOnwFRDPkO8IWSl3sVHGpTco5m
+ y+JeUuyv1toUR/CWEH+XAakZ6mBkB2DIVbIgu+AxHtaT3kSJXo9xEtzAjxoOaQSxjMppzkXVn
+ 46KSqGnSxiRBZflddVv9HIXTPgPtu6DEU2BNsAVfiQ9h1umsmJ3ApumRj3jX0Zv/ew4+ncYzB
+ C0auqCReTkzFbFksOdhFdZBg0qyVOJlhXRwdFvWfuGFEU=
 
-Add reference for mediatek,mt6358-sound
----
- Documentation/devicetree/bindings/mfd/mt6397.txt | 1 +
- 1 file changed, 1 insertion(+)
+>>> This patch adds basic SoundWire codec driver to support for
+>>> WCD9370/WCD9375 TX and RX devices.
+>> =E2=80=A6
+>>
+>> Please improve such a change description with an imperative wording.
+>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
+/Documentation/process/submitting-patches.rst?h=3Dv6.10-rc3#n94
+>
+> Feel free to ignore Markus, he has a long history of sending
+> unhelpful review comments and continues to ignore repeated requests
+> to stop.
 
-diff --git a/Documentation/devicetree/bindings/mfd/mt6397.txt b/Documentation/devicetree/bindings/mfd/mt6397.txt
-index 10540aa7a..cf7fcc402 100644
---- a/Documentation/devicetree/bindings/mfd/mt6397.txt
-+++ b/Documentation/devicetree/bindings/mfd/mt6397.txt
-@@ -48,6 +48,7 @@ Optional subnodes:
- - codec
- 	Required properties:
- 		- compatible: "mediatek,mt6397-codec" or "mediatek,mt6358-sound"
-+	see ../sound/mediatek,mt6358.yaml
- - clk
- 	Required properties:
- 		- compatible: "mediatek,mt6397-clk"
+Does such feedback indicate that you find advice from the referenced infor=
+mation source
+also questionable anyhow?
 
--- 
-2.34.1
-
+Regards,
+Markus
