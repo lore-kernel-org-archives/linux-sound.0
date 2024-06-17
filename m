@@ -1,118 +1,163 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2063.outbound.protection.outlook.com [40.107.243.63])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA9EA31;
-	Mon, 17 Jun 2024 03:53:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718596385; cv=none; b=GgWzkgl+9jThjiBX6cMoYzgu2HBcL68WZx1cFGDeTCRKIn8Ww7cR3H9TGN/k/vQQ4pxJo04RrgQytZv0+zbzEtj+G9WdoVzRSDqgzv1NuFVH3NP4WweXoAZionkZ0XEkrqtNTcAVqJmh/XBgPnCNRp1MfKVxsIARgbpma4WDyt0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718596385; c=relaxed/simple;
-	bh=+DEENcXMKXyiWZXETIGEWVoFCDj5PxY9bRACXwxWcyM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=C6mN+hYDZDx5ZPTh3NM4XiCXTuOqAq/0YKvdnqy9k7irt9VuxIz2CPDmiqLKIlN11mxC0OM6b9/ughLm4mi0igBi3mj9Ef5SipF6ldlosOE5rClOtp+v6PGiDXNGJFrGoyGML5+5jqX5A5o+r97iCpopmh2+ZI2jbRuswjfmkeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=hrPsjxyh; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0787181D1F;
+	Mon, 17 Jun 2024 07:28:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.63
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1718609334; cv=fail; b=sHwYdyLeaDBX+OYi0E8IallsU0M0B7d0HiKTWf9A43FZAxJK0nQ29X8wtb/v9Z/e7byzx1YrhVzOyJk2X15sk2DRjhUeqw2cFdrAmQeX7/HDvGJ2mSHyvygfeNccrCpYqm5bU9G84QheOVu3GKEn+ofajCbPd4S7X9HZd3xmrrU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1718609334; c=relaxed/simple;
+	bh=zstUqW0O9iyGwmgmUj/fo5AIT5C2CiL9XT1ogom/D5g=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=W+rGfTQlsRgVsPg2O6tsHJGqPXBVbsmlWoeMVQ8cgzc8E9q4AJHd49r7kDEwSDZmUcF6yBh52oz+V4Bw5cNty9XbJe1l7zU1OPU/DllpAGVzvJ+5ERHamLoNxl3iM3e9LRc1SADSsL9lHQFDfZNYerh5mQtEprmaZuQVZ7Wqq/c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=vyCyQtyd; arc=fail smtp.client-ip=40.107.243.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="hrPsjxyh"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45GNjv9C027906;
-	Mon, 17 Jun 2024 03:52:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=HG6oEJg2/GeNLGbGBK0m7n
-	b1SCOW0UJLipys6dM2UyA=; b=hrPsjxyhiDCBvrhyEC4QxJW2LhyKwED6zAzhgI
-	4uh/NJOT5O4PBqOxPc1FMyguRyMV2YmGJXVZm0CCzDH9xZwqbTaDtW+nQRV8PRNn
-	Vc8jCY23r0y/SmNc5Szi6qFKRV2hCUepS3+5ihFo1vj+yumRVavfhMXRIjBEMv6t
-	y+5o7+k7y5+qKc9tIR3tp2mONwfmxqoGS9bEXMoRkEPe9JG8j9IfCtKvcpIdC52X
-	CnXNYdiQUX//aheimnBIqPWHQrqNfATr2WphW5aWx7wo7GtInXJaTn79kkneUfqc
-	AoC2HdOkgJoWd5WvElVfncE4o2lU+feEXiuWxLqoV0RPD9rQ==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ys3b72mkv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 17 Jun 2024 03:52:29 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45H3qS17022208
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 17 Jun 2024 03:52:28 GMT
-Received: from [169.254.0.1] (10.49.16.6) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sun, 16 Jun
- 2024 20:52:27 -0700
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
-Date: Sun, 16 Jun 2024 20:52:26 -0700
-Subject: [PATCH v2] ASoC: fsl: imx-pcm-fiq: add missing
- MODULE_DESCRIPTION() macro
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="vyCyQtyd"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XrilXAXz0s7Ej++EGw1K/6BVnyy99RT7wKipBsGe2V0tvxMGW29dcyUIuJumA8y9Fb3GvVGURCYy1DY3d4Pr+L3cy7G4YsY0CYRC9PKyFmlz6TkOzTLxfIuXZSQFTsev+0nQ2EU/BBH2I9Af/7JZYBpsFdWQtGt4WkIgcIhmglLaDyzWrLE8vWyJ8puiij/MngAuu/2lP/K5Q2bjt2+6au1g7U5DpbJJYN1/iosesnUQ3Cas5te7d4GS8MQDNf8gJw+ccvhApq+pdy5JiOp/HM/y8keU5CmdpHW4DrC+miTDlC+NQF7My6Y+xW6l1upofc/iml0kDoBQyCT6ytI6aQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/XZg0p/QGUq5x7BRVUEh9zpe9JOJie1jgoF6ipXy9YU=;
+ b=TAdFuzU8Df8LfvNwQbrr+j3XM3RSFq5Zjfxh3+BrzXKzlvt5urfFPHxgdT6LXkBhrXHBi40OpxR1Nrjz3oy7RZsGizZ+YrByecqwk3OLkAurFhRDADxy42n4idlGMYds+Isdri1NXcMxQXOj0Pt03/RJxSnx2rWozA+8krMO13/Ag64J1GygV7l42oUW1Yc4RZByGMF9eHr1mSzcqerVDbHy33pCCm7mlNKNcdgMxpYc97kcDzfbAKRy/avJ3044PYJjW5Z+Ngbg4fCEz3KS6PolqSoJWI9XKZhS0g10cW6i5PVmj5xFj85EaoYuOf/5uRhVslam0td3f6gBW0qwEQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/XZg0p/QGUq5x7BRVUEh9zpe9JOJie1jgoF6ipXy9YU=;
+ b=vyCyQtydebcK48pl+T+j0WhLskGiGPd5i1WtuT8BjkC+nYPZIF/09UW6VtM3u9NGKmjvOdyNRO71tOwStiSB6r24vF8k3iaW74xTjDiORJGL57+Rr6QImsyoro3EKFcTQMdY4oAG2qtgCKb8QEbMddK0PD4SLhiA3oed8rs0vEw=
+Received: from BYAPR06CA0072.namprd06.prod.outlook.com (2603:10b6:a03:14b::49)
+ by CH3PR12MB9453.namprd12.prod.outlook.com (2603:10b6:610:1c9::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.30; Mon, 17 Jun
+ 2024 07:28:50 +0000
+Received: from SJ1PEPF00001CE0.namprd05.prod.outlook.com
+ (2603:10b6:a03:14b:cafe::98) by BYAPR06CA0072.outlook.office365.com
+ (2603:10b6:a03:14b::49) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.30 via Frontend
+ Transport; Mon, 17 Jun 2024 07:28:49 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ SJ1PEPF00001CE0.mail.protection.outlook.com (10.167.242.8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7677.15 via Frontend Transport; Mon, 17 Jun 2024 07:28:49 +0000
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 17 Jun
+ 2024 02:28:48 -0500
+Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39
+ via Frontend Transport; Mon, 17 Jun 2024 02:28:45 -0500
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <broonie@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <venkataprasad.potturu@amd.com>,
+	<Basavaraj.Hiregoudar@amd.com>, <Sunil-kumar.Dommati@amd.com>, "Vijendar
+ Mukunda" <Vijendar.Mukunda@amd.com>, Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, "Syed Saba
+ Kareem" <Syed.SabaKareem@amd.com>, "open list:SOUND - SOC LAYER / DYNAMIC
+ AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, open list
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH 1/8] ASoC: amd: acp: add a null check for chip_pdev structure
+Date: Mon, 17 Jun 2024 12:58:34 +0530
+Message-ID: <20240617072844.871468-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20240616-md-arm-sound-soc-fsl-v2-1-228772e81a54@quicinc.com>
-X-B4-Tracking: v=1; b=H4sIAPmyb2YC/4WOSw6DIBRFt2IY9zUC9ddR99E4QHjUlyi0oMbGu
- PeiG+jkJie5v41FDISR3bONBVwokncJxCVjulfuhUAmMRO5uOUlL2A0oMII0c/OJNVg4wC6aGr
- byUJi2bAUfQe0tJ61zzZxpyJCF5TT/VE2kJtXGFWcMBz2nuLkw/c8sfAj9Gdv4cChRlNJroXNK
- /n4zKTJ6av2I2v3ff8BxWTWQdkAAAA=
-To: Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Nicolin Chen <nicoleotsuka@gmail.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Shawn Guo
-	<shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        "Pengutronix
- Kernel Team" <kernel@pengutronix.de>
-CC: <alsa-devel@alsa-project.org>, <linuxppc-dev@lists.ozlabs.org>,
-        <linux-sound@vger.kernel.org>, <imx@lists.linux.dev>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <kernel-janitors@vger.kernel.org>,
-        Jeff Johnson <quic_jjohnson@quicinc.com>
-X-Mailer: b4 0.14.0
-X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 7_hVxNreZFW5jF6KCta9oeKbC7ELmJx9
-X-Proofpoint-ORIG-GUID: 7_hVxNreZFW5jF6KCta9oeKbC7ELmJx9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-17_02,2024-06-14_03,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 malwarescore=0
- bulkscore=0 spamscore=0 mlxscore=0 priorityscore=1501 clxscore=1015
- mlxlogscore=999 adultscore=0 lowpriorityscore=0 phishscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406170028
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+Received-SPF: None (SATLEXMB04.amd.com: Vijendar.Mukunda@amd.com does not
+ designate permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CE0:EE_|CH3PR12MB9453:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5e953331-0078-4f72-7c24-08dc8e9f21be
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230037|36860700010|376011|1800799021|82310400023;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?w3EVr2N9d4O72QbAoqm/Jd8cI4KDeOxR8tCHXAYMLSBI105efVdT+L2RhlOU?=
+ =?us-ascii?Q?bMHEGUxof62aR6d9vg2L7qYopcU2WaZisGpTyjXUdXbPRjY6i851YSi3xh+6?=
+ =?us-ascii?Q?bfbzmDQzWTa0h18rujXtv2raDS5eIiIs9KjlyUXsvAjPGt5kA6QO9172kfpx?=
+ =?us-ascii?Q?YtX4FCS1dRvg5eEB30+Tt6g8SsumBCgW653ki4S3+SkyjW6U7sRQm4OEPWtt?=
+ =?us-ascii?Q?H8KjEdtx2s/p3l00AfHI/QrQNYzRYktOGxhHH5kR0NQOZp/wWA6ltwzlWaVX?=
+ =?us-ascii?Q?d4H51w26lf7cI94Z7AfJLeKBiadZ9nnnFfv5FOSf5j+P8V6w85cw5D93oZpo?=
+ =?us-ascii?Q?FUl4mZwPet+bBbLwzctCTKpbYce89v/31KL+zSSeZI6D3UdRWcmD8jx8KboI?=
+ =?us-ascii?Q?4Oc7bsuJadvtw1lmCN7Ry8F0tzU1g1OAqhC5Jw9/F0nqAtTQ5jZQbMQCgebO?=
+ =?us-ascii?Q?UPzTEmgh4WQiYWv1ehuwU/TkiR4MGkuX1B3IjXGdfNoGVkyMfiD064EmZWRa?=
+ =?us-ascii?Q?o39eKdEUIszy6ecXvJjKsUBpFt4aztPsui3PX/2W5Msnbff4m5fTDUx0ZhnR?=
+ =?us-ascii?Q?ujcjPwKxpNnFU3UJcVlfMde8m1qc77NEWB6lfFxNcwJ78penzjmhH4T+pRQE?=
+ =?us-ascii?Q?+wJjq1FruYk/W251futbjHVXPbgprrPxldDHuuRk3bftA4/u06N6Vz6FOhKB?=
+ =?us-ascii?Q?gSiPA/oWwdilsyIWPU3+/87wHoMtLzNSoZIR+e3+SrzNBLhUYbMPCSMaGYkh?=
+ =?us-ascii?Q?x+TuHHZs5QMpHfJRPFiyOveeyt5oxwhLZwYoUkdN+6kgCQI6iT8qH06+Mt+B?=
+ =?us-ascii?Q?B0mQtOvlQEBEVUHy94YzxY49atn8UiwNCNgsfFSvRKybvAuWIQgzQ3d5bnnb?=
+ =?us-ascii?Q?70v3MTgGjpTiPRwx5+4EL6udikN9GOU8kEppZtJo8/GANhoBfWIccB3LnTCN?=
+ =?us-ascii?Q?FhPMIV6/HrhXjsjaUdQoGPBxdz+R9D5TDNFtJikggXztPnxGKlu8/WdXJA2c?=
+ =?us-ascii?Q?Hc2KCSJ2qCnqzU9inPbD1kp/kt2+vAEnhdIVTaExdtxLyPcq8phAbOswm8iB?=
+ =?us-ascii?Q?b5qrAZheuXHF1PvGFJLdZf4C7vpBXOefe4uEbBZOgsb6sOI5o0+0TYj0/T4i?=
+ =?us-ascii?Q?VmH9zxV8YDALlRk/O1RFsAXA8UPWBD4e8p3Q67PVSyC/Dw7uiofRtUW07fQQ?=
+ =?us-ascii?Q?afZNn6LzteQDxoRcjbqvFTSy9VdZxSjhDuc6gEwx/uz23m7K+Pjp0Rq257Jc?=
+ =?us-ascii?Q?9+fVcbKS9t7CulNNc20AYmru7Edltm8m6qQqj5IToVB3pxPQacRYlCRyZkC8?=
+ =?us-ascii?Q?41Zkk64+5ZAY5rQhYnEPlO2iDgVJMnyViBJ0QjLtZhWeRqejxC956YncZFHU?=
+ =?us-ascii?Q?aXHYmJ0YnOez6xi4lcV5bRTZwtSs2SL3vh7Hcuxz0YQypEs4qA=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230037)(36860700010)(376011)(1800799021)(82310400023);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2024 07:28:49.5437
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5e953331-0078-4f72-7c24-08dc8e9f21be
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF00001CE0.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9453
 
-With ARCH=arm, make allmodconfig && make W=1 C=1 reports:
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-fiq.o
+When acp platform device creation is skipped, chip->chip_pdev value will
+remain NULL. Add NULL check for chip->chip_pdev structure in
+snd_acp_resume() function to avoid null pointer dereference.
 
-Add the missing invocation of the MODULE_DESCRIPTION() macro.
-
-Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
+Fixes: 088a40980efb ("ASoC: amd: acp: add pm ops support for acp pci driver")
+Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 ---
-Changes in v2:
-- Fixed spelling of Freescale
-- Link to v1: https://lore.kernel.org/r/20240615-md-arm-sound-soc-fsl-v1-1-8ed731c2f073@quicinc.com
----
- sound/soc/fsl/imx-pcm-fiq.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/soc/amd/acp/acp-pci.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/sound/soc/fsl/imx-pcm-fiq.c b/sound/soc/fsl/imx-pcm-fiq.c
-index 0d124002678e..3391430e4253 100644
---- a/sound/soc/fsl/imx-pcm-fiq.c
-+++ b/sound/soc/fsl/imx-pcm-fiq.c
-@@ -319,4 +319,5 @@ void imx_pcm_fiq_exit(struct platform_device *pdev)
+diff --git a/sound/soc/amd/acp/acp-pci.c b/sound/soc/amd/acp/acp-pci.c
+index ad320b29e87d..aa3e72d13451 100644
+--- a/sound/soc/amd/acp/acp-pci.c
++++ b/sound/soc/amd/acp/acp-pci.c
+@@ -199,10 +199,12 @@ static int __maybe_unused snd_acp_resume(struct device *dev)
+ 	ret = acp_init(chip);
+ 	if (ret)
+ 		dev_err(dev, "ACP init failed\n");
+-	child = chip->chip_pdev->dev;
+-	adata = dev_get_drvdata(&child);
+-	if (adata)
+-		acp_enable_interrupts(adata);
++	if (chip->chip_pdev) {
++		child = chip->chip_pdev->dev;
++		adata = dev_get_drvdata(&child);
++		if (adata)
++			acp_enable_interrupts(adata);
++	}
+ 	return ret;
  }
- EXPORT_SYMBOL_GPL(imx_pcm_fiq_exit);
  
-+MODULE_DESCRIPTION("Freescale i.MX PCM FIQ handler");
- MODULE_LICENSE("GPL");
-
----
-base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
-change-id: 20240615-md-arm-sound-soc-fsl-c598fb353e69
+-- 
+2.34.1
 
