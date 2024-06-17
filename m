@@ -1,84 +1,84 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C24CF190682
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ECD819049F
 	for <linux-sound@vger.kernel.org>; Mon, 17 Jun 2024 10:05:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718618708; cv=none; b=AgHW/wcQuE4wJPpMezg0SMXsrXKAnP+X9UebvuV9TX7xKw6HFZjX6grt8ijVf/cK5Hj0G5PZ8Pac9jMdoRIenZFl7vShZzePBt0UNQVbdM3cDcjnMwXKcTUjf5j3f6zj9jegI6CdBEEzMrxJ0NN5KQ0+m5QRnqsb2FWhnkg3xtU=
+	t=1718618708; cv=none; b=IuVv3kkTAt/6e1nfJ5+8J41jZjy2BJtgKzVNKH4/zcRLsW8eAnaZ4RNkZ1qyjZDV0HtubyROINparPkrgnxUThBy9vuv+fvQ+vbzqxuW58PoFuY957Om+MAXLFJNYocs/5DmN2Ad6AGpWnvnsBdyePNroqq1blK2DNGjkdizrz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1718618708; c=relaxed/simple;
-	bh=0MHpYgIx6ad588In1TCr3DXy3wEgZxTNVNMQ3FIL7WA=;
+	bh=WZwp6Iowaw6PLVc6bsNtIMJM5dbIJbvXWNRADEIQlhw=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Xb27efZLSdtvfStSMTzDc+kDyRYFpsWDBZeF2ZzIUlHj8CEoXSjS+vKum8HVuhctL0JMuy12AX9zQbZctL14nbkHKgyWcHob+Gh/Be6qA6oA04w1eKYwRzJHxtpBw4xCPgwEjEJl772y0eEQ9T1bwoqkl1rbECyr22X+10IUwOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MPAp1O7R; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=V+HSCnY2; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MPAp1O7R; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=V+HSCnY2; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=uRF3r5BvAYp8hwVLcfnMm0SHBwv1XLPhmZtLK/wdpKu3Od+4ZOOaSjnm8mzIDm9yONiHPE7cat9OdF4WKDWD6jX9PB348ua2CFqMK4a05IKB8I0iHGm0ero1CwnH+PYLa9JG1yjBnYTtR0LkviaJ8PwTRBdV2tnzJgqZehQXff4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XDQ1Ez1r; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hCnBEUIh; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XDQ1Ez1r; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hCnBEUIh; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MPAp1O7R";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="V+HSCnY2";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MPAp1O7R";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="V+HSCnY2"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XDQ1Ez1r";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hCnBEUIh";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XDQ1Ez1r";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hCnBEUIh"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0BF4637FCF;
-	Mon, 17 Jun 2024 10:05:05 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E58C75FE6F;
+	Mon, 17 Jun 2024 10:05:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718618705; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1718618704; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cBh0gYve4T3U5Br9133HFh4LoR0k6JYig8NSngfVLTg=;
-	b=MPAp1O7RsJ2rCJf14jbmzDOi5U++1ypEcB95N+fmR/QVECn+SPCgEgs8PFiKhvJNyrvb0B
-	y6S7SSwukWF7y+IawKYvDQmydGDYHnui8afE3nJWX9ZLIHwlQVizqZWqbStUZX87TJW6cD
-	8P7RC6W2iM9Sg6E8tOgzKYJA60U+Tws=
+	bh=LHEnHuFrQDtoCsqFLFky4hGVPl2ZIqIHDfamXgmqWuE=;
+	b=XDQ1Ez1rFeh/fYEL6B6+AClJR55Y2qvZZtXEgbTa/Vj6czz31gVpC7lt4OVHr0Vj2ueVul
+	6qqrHLyHBVVsX9tgDqca7e3Q3lhhvqJImqCnl2DBNsNFt+MkZX4tDi/eoWHof4fD9otjPt
+	dAJc9eQH1H7ksuIiOeGMkQI1IxkSotw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718618705;
+	s=susede2_ed25519; t=1718618704;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cBh0gYve4T3U5Br9133HFh4LoR0k6JYig8NSngfVLTg=;
-	b=V+HSCnY24xv8Mvv/uMObqZ8Ea/SF9C6ZjbAbAcBbADDQOXR4q/lg5yNCn9iRmTT6YEHB4m
-	rrpus6aZ8GBxgoAw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=MPAp1O7R;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=V+HSCnY2
+	bh=LHEnHuFrQDtoCsqFLFky4hGVPl2ZIqIHDfamXgmqWuE=;
+	b=hCnBEUIhYBKwHtKphGKy9xlykhFVEtroThpbmrmiwWzp4qOvS/z8a9g3LgwsdeoMIFgtMs
+	Kc5x70K/IYWFsRDw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=XDQ1Ez1r;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=hCnBEUIh
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718618705; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1718618704; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cBh0gYve4T3U5Br9133HFh4LoR0k6JYig8NSngfVLTg=;
-	b=MPAp1O7RsJ2rCJf14jbmzDOi5U++1ypEcB95N+fmR/QVECn+SPCgEgs8PFiKhvJNyrvb0B
-	y6S7SSwukWF7y+IawKYvDQmydGDYHnui8afE3nJWX9ZLIHwlQVizqZWqbStUZX87TJW6cD
-	8P7RC6W2iM9Sg6E8tOgzKYJA60U+Tws=
+	bh=LHEnHuFrQDtoCsqFLFky4hGVPl2ZIqIHDfamXgmqWuE=;
+	b=XDQ1Ez1rFeh/fYEL6B6+AClJR55Y2qvZZtXEgbTa/Vj6czz31gVpC7lt4OVHr0Vj2ueVul
+	6qqrHLyHBVVsX9tgDqca7e3Q3lhhvqJImqCnl2DBNsNFt+MkZX4tDi/eoWHof4fD9otjPt
+	dAJc9eQH1H7ksuIiOeGMkQI1IxkSotw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718618705;
+	s=susede2_ed25519; t=1718618704;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cBh0gYve4T3U5Br9133HFh4LoR0k6JYig8NSngfVLTg=;
-	b=V+HSCnY24xv8Mvv/uMObqZ8Ea/SF9C6ZjbAbAcBbADDQOXR4q/lg5yNCn9iRmTT6YEHB4m
-	rrpus6aZ8GBxgoAw==
+	bh=LHEnHuFrQDtoCsqFLFky4hGVPl2ZIqIHDfamXgmqWuE=;
+	b=hCnBEUIhYBKwHtKphGKy9xlykhFVEtroThpbmrmiwWzp4qOvS/z8a9g3LgwsdeoMIFgtMs
+	Kc5x70K/IYWFsRDw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E603C139AB;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BDFE213AAF;
 	Mon, 17 Jun 2024 10:05:04 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id cAjxNlAKcGYfAgAAD6G6ig
+	id EKcqLVAKcGYfAgAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Mon, 17 Jun 2024 10:05:04 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 5/5] ALSA: spi: Drop NULL check for snd_ctl_remove()
-Date: Mon, 17 Jun 2024 12:05:27 +0200
-Message-ID: <20240617100529.6667-6-tiwai@suse.de>
+Subject: [PATCH 4/5] ALSA: hda: Drop NULL check for snd_ctl_remove()
+Date: Mon, 17 Jun 2024 12:05:26 +0200
+Message-ID: <20240617100529.6667-5-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240617100529.6667-1-tiwai@suse.de>
 References: <20240617100529.6667-1-tiwai@suse.de>
@@ -89,8 +89,12 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: E58C75FE6F
+X-Spam-Score: -3.01
+X-Spam-Level: 
+X-Spam-Flag: NO
 X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
+	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
@@ -99,54 +103,73 @@ X-Spamd-Result: default: False [-3.01 / 50.00];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_NONE(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_NONE(0.00)[];
 	ARC_NA(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	RCPT_COUNT_ONE(0.00)[1];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	RCVD_TLS_ALL(0.00)[];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	MIME_TRACE(0.00)[0:+];
+	URIBL_BLOCKED(0.00)[suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[suse.de:+]
 X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 0BF4637FCF
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
 Since snd_ctl_remove() accepts the NULL kcontrol argument now, we can
 drop the check in the caller side.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/spi/at73c213.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ sound/pci/hda/hda_cs_dsp_ctl.c  |  2 +-
+ sound/pci/hda/tas2781_hda_i2c.c | 13 ++++---------
+ 2 files changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/sound/spi/at73c213.c b/sound/spi/at73c213.c
-index 5648d744aa79..8f6929ced2c8 100644
---- a/sound/spi/at73c213.c
-+++ b/sound/spi/at73c213.c
-@@ -726,12 +726,8 @@ static int snd_at73c213_mixer(struct snd_at73c213 *chip)
- 	return 0;
+diff --git a/sound/pci/hda/hda_cs_dsp_ctl.c b/sound/pci/hda/hda_cs_dsp_ctl.c
+index e6e876998e71..deb74c247082 100644
+--- a/sound/pci/hda/hda_cs_dsp_ctl.c
++++ b/sound/pci/hda/hda_cs_dsp_ctl.c
+@@ -207,7 +207,7 @@ void hda_cs_dsp_control_remove(struct cs_dsp_coeff_ctl *cs_ctl)
+ 	struct hda_cs_dsp_coeff_ctl *ctl = cs_ctl->priv;
  
- cleanup:
--	for (idx = 1; idx < ARRAY_SIZE(snd_at73c213_controls) + 1; idx++) {
--		struct snd_kcontrol *kctl;
--		kctl = snd_ctl_find_numid(card, idx);
--		if (kctl)
--			snd_ctl_remove(card, kctl);
--	}
-+	for (idx = 1; idx < ARRAY_SIZE(snd_at73c213_controls) + 1; idx++)
-+		snd_ctl_remove(card, snd_ctl_find_numid(card, idx));
- 	return errval;
+ 	/* ctl and kctl may already have been removed by ALSA private_free */
+-	if (ctl && ctl->kctl)
++	if (ctl)
+ 		snd_ctl_remove(ctl->card, ctl->kctl);
+ }
+ EXPORT_SYMBOL_NS_GPL(hda_cs_dsp_control_remove, SND_HDA_CS_DSP_CONTROLS);
+diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_i2c.c
+index 75f7674c66ee..c878967cb66a 100644
+--- a/sound/pci/hda/tas2781_hda_i2c.c
++++ b/sound/pci/hda/tas2781_hda_i2c.c
+@@ -597,18 +597,13 @@ static void tas2781_hda_remove_controls(struct tas2781_hda *tas_hda)
+ {
+ 	struct hda_codec *codec = tas_hda->priv->codec;
+ 
+-	if (tas_hda->dsp_prog_ctl)
+-		snd_ctl_remove(codec->card, tas_hda->dsp_prog_ctl);
+-
+-	if (tas_hda->dsp_conf_ctl)
+-		snd_ctl_remove(codec->card, tas_hda->dsp_conf_ctl);
++	snd_ctl_remove(codec->card, tas_hda->dsp_prog_ctl);
++	snd_ctl_remove(codec->card, tas_hda->dsp_conf_ctl);
+ 
+ 	for (int i = ARRAY_SIZE(tas_hda->snd_ctls) - 1; i >= 0; i--)
+-		if (tas_hda->snd_ctls[i])
+-			snd_ctl_remove(codec->card, tas_hda->snd_ctls[i]);
++		snd_ctl_remove(codec->card, tas_hda->snd_ctls[i]);
+ 
+-	if (tas_hda->prof_ctl)
+-		snd_ctl_remove(codec->card, tas_hda->prof_ctl);
++	snd_ctl_remove(codec->card, tas_hda->prof_ctl);
  }
  
+ static void tasdev_fw_ready(const struct firmware *fmw, void *context)
 -- 
 2.43.0
 
