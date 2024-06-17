@@ -1,126 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F198194AD4;
-	Mon, 17 Jun 2024 12:09:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE4B17FAA2;
+	Mon, 17 Jun 2024 12:13:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718626146; cv=none; b=f0SK8ymarUFuwyYzZBlXmrSybivlvF3C6eTMlLo7xr4RYHUpxd9t64Hj6M7aIWofOExcOzcq7/nWMrlumOm1LgEIhPBtt8pPMy2w/5Mdo+1tEgf4MBhDwgISCn6VXIJgqlKfYNpbZuwDcWX0CQQEYT9bO6ZbsbfyO5PC9sIh/RU=
+	t=1718626411; cv=none; b=eNQu2zWQWOnzeNzmlz2lF7Mlam5gppr891CVuDxLV9GYvOqh80WEg16cMRetgHGIQlf/leEM7gaJOeE5FT2DLAesdQNZN6eUH08U55f0Z9yKQCWci+00iwCMGrddDK/+PMf9a/+RdNkl5VqYYVH8wE6/2XlpIRrfG6a2TBGonCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718626146; c=relaxed/simple;
-	bh=LfluWw7DYm39LFePXaV2AcWOiTCAf18yVmNfxU7hQis=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZsZpka8h7ts41802E9K6MKWA64NWu6+oFf4DJuVEtnvbIVvkJohKG5dkBxMGFtbHD2o5HY0v7zgpWUJfnoBIPZ9vmF6Rm0F8vWmh0boypnl1nqBux+QdJjTeJeh8f7RqTnGQsopiBVsDUQRP0cGRWJQu2uRM7hhrjEi+FXmz658=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nKGYSbZr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718626411; c=relaxed/simple;
+	bh=XH5e5HqUseo3rEqUrboz5YJVYkGyWVbzJc5fvzkMpYc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=WxqoCbJbHhOSvwMDZwyAuHg7UNXZvaobwxreES5hvnMt5xjxiWdRNJZMh3fD/KbhdN2QWrTNtaS+QrP4et1/gNp8al3W78qoUwrgJbTqfpYt6Ymp7I+IT+pUa7i5NUIYK4+ELsglIUvLBODAs5QlYd+fgFbF7HaCiF4TVeibMRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CD5cQbKj; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nKGYSbZr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E301EC2BD10;
-	Mon, 17 Jun 2024 12:09:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718626146;
-	bh=LfluWw7DYm39LFePXaV2AcWOiTCAf18yVmNfxU7hQis=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=nKGYSbZrGsaEEzMIHLPTw1SZSXyYotHDxWq5ZEXrPZIv5FmY0aWKvEiZglgAEuTgK
-	 4IFYYi3x8nYoi6TP577n5kjOp8Td9QjKCGYCqA+9J9R+C/6dXKtIw631WZkgue69Zb
-	 ZmwBSoyLGsqnU68sLKG0G/sclshVWaEu12r8E82q7BFdixcojIZbEFL9wk4Nqvqz/N
-	 56I4l2mgIUp/DvvBhl5pJWzL7/Su+dl1df9gvtYJ6Or5Nt+ne0wECCN3A4XhgqmJYr
-	 E2RyTIvBmoAW0QTNpuRf1tVpi+zBX+p7BBHRZQW1KG9sdu8WRu6DsYLEUY9H6rulK/
-	 vQHi7NTQfRgCQ==
-Message-ID: <316c0751-17dd-4fc8-b424-bc8e875aaf83@kernel.org>
-Date: Mon, 17 Jun 2024 14:09:00 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CD5cQbKj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718626410; x=1750162410;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=XH5e5HqUseo3rEqUrboz5YJVYkGyWVbzJc5fvzkMpYc=;
+  b=CD5cQbKjukWxs5au397MTj06ox+Gw9uONe62KUKseByEgzoXnCtKUd0I
+   V14ram5ivAQz9dDUpVCV3zsiXKUNSaUa0pvzgltzfjOwbMAtQkFjtIMn/
+   IY8oSZK6lyjQcG4yz7ElxFGDaYZrhOYja74nb+FknTg5+UFK7zgqsBbi8
+   c+PMG43xXGLubpMnHaQrAKT4aYRlSX7fb0RxINAYreFcouFnYcQShSGrp
+   zRHKzO8IweU5tmSmNAmOPhBStnExGl2hKufFNaBOFv4UNWSZqOV6cGU9T
+   ZLYqDcgCnMRJEbozbpfiot7dABOMHabR+bPK2yCk9FKVN9VzE3tefzSyU
+   Q==;
+X-CSE-ConnectionGUID: Z26jb1XPQJu22H7uH0agKA==
+X-CSE-MsgGUID: 6yODV/T2SlaToN0eWB6dRQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11105"; a="15218365"
+X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
+   d="scan'208";a="15218365"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 05:13:29 -0700
+X-CSE-ConnectionGUID: 0zJqMPAJRy2gqwDYQd+YYw==
+X-CSE-MsgGUID: 8JpWJEIISW6VF0hXVPl8Ww==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
+   d="scan'208";a="45545674"
+Received: from bvivekan-mobl2.gar.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.118.149])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 05:13:27 -0700
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: linux-sound@vger.kernel.org,
+	vkoul@kernel.org
+Cc: vinod.koul@linaro.org,
+	linux-kernel@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	bard.liao@intel.com
+Subject: [PATCH] soundwire: Intel: clarify Copyright information
+Date: Mon, 17 Jun 2024 20:13:18 +0800
+Message-Id: <20240617121318.14037-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] ASoC: dt-bindings: Convert realtek CODEC bindings to
- DT schema
-To: Daniel Baluta <daniel.baluta@gmail.com>
-Cc: Animesh Agarwal <animeshagarwal28@gmail.com>,
- Daniel Baluta <daniel.baluta@nxp.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240614033812.51312-1-animeshagarwal28@gmail.com>
- <b214c9db-fd82-4d5f-9cc2-96857da1bef5@kernel.org>
- <CAEnQRZBPv+OAmNBHe8fWziw8zJKFkH8vd-oe_G-e3OVSX_sTRQ@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
- QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
- gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
- /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
- iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
- VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
- 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
- xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
- eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
- AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
- MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
- Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
- ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
- vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
- oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
- lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
- t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
- uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
- 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
- 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <CAEnQRZBPv+OAmNBHe8fWziw8zJKFkH8vd-oe_G-e3OVSX_sTRQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 17/06/2024 13:18, Daniel Baluta wrote:
-> On Fri, Jun 14, 2024 at 11:32 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>
->> On 14/06/2024 05:38, Animesh Agarwal wrote:
->>> Hey all,
->>> This patch series converts two of the thirteen realtek audio codec
->>> bindings which are still in txt format to DT schema. I have chosen
->>> these bindings as they have in tree DTS files.
->>
->> ... and the point of DTS is?
->>
->> To validate the DTS against bindings and see if they match.
->>
->> You received such feedback already.
-> 
-> Hi Krzysztof,
-> 
-> I'm afraid I don't understand your comment here.
-> 
-> Animesh is saying that we are now looking only on bindings that are
-> actually used in the dts files.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 
-Yes and then one should compare the DTS with the binding, because old
-bindings are often incomplete.
+For some reason a number of files included the "All rights reserved"
+statement. Good old copy-paste made sure this mistake proliferated.
 
-Best regards,
-Krzysztof
+Remove the "All rights reserved" in all Intel-copyright to align with
+internal guidance.
+
+Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
+Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+---
+ drivers/soundwire/intel_ace2x.c         | 2 +-
+ drivers/soundwire/intel_ace2x_debugfs.c | 2 +-
+ drivers/soundwire/intel_bus_common.c    | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/soundwire/intel_ace2x.c b/drivers/soundwire/intel_ace2x.c
+index 0dadf46faca6..4f78b7f99e44 100644
+--- a/drivers/soundwire/intel_ace2x.c
++++ b/drivers/soundwire/intel_ace2x.c
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
+-// Copyright(c) 2023 Intel Corporation. All rights reserved.
++// Copyright(c) 2023 Intel Corporation
+ 
+ /*
+  * Soundwire Intel ops for LunarLake
+diff --git a/drivers/soundwire/intel_ace2x_debugfs.c b/drivers/soundwire/intel_ace2x_debugfs.c
+index 3d24661ffd37..206a8d511ebd 100644
+--- a/drivers/soundwire/intel_ace2x_debugfs.c
++++ b/drivers/soundwire/intel_ace2x_debugfs.c
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+-// Copyright(c) 2023 Intel Corporation. All rights reserved.
++// Copyright(c) 2023 Intel Corporation
+ 
+ #include <linux/acpi.h>
+ #include <linux/debugfs.h>
+diff --git a/drivers/soundwire/intel_bus_common.c b/drivers/soundwire/intel_bus_common.c
+index e5ac3cc7cb79..df944e11b9ca 100644
+--- a/drivers/soundwire/intel_bus_common.c
++++ b/drivers/soundwire/intel_bus_common.c
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
+-// Copyright(c) 2015-2023 Intel Corporation. All rights reserved.
++// Copyright(c) 2015-2023 Intel Corporation
+ 
+ #include <linux/acpi.h>
+ #include <linux/soundwire/sdw_registers.h>
+-- 
+2.40.1
 
