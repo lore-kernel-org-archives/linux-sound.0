@@ -1,237 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72A73194C9F;
-	Mon, 17 Jun 2024 09:38:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0151218C326
+	for <linux-sound@vger.kernel.org>; Mon, 17 Jun 2024 10:05:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718617106; cv=none; b=ThylovY5m6TNm7tzLNG/1EVUPRO6YotDkyl//3VYyhQgpy6Ibn0UN/1FkpHuEBRsn25iXn7WUhnXFFHNyxOUEq3LezwB5kHHJN3Q6gzj3J7g9m66sypmnPfEEQlJyZU7Wx0ehk39+WMJcBXzD8mbP2p55KWbkpkPgOp897c6Kk4=
+	t=1718618707; cv=none; b=btCxijwPEy2uuhsT/c9ALaiPyHFuJQMXbletTW//Fi5NCqnBbJOfGJP0mC+AkqUcN4V7ocK1MOr1dChyM7oiW5S8Sd2q7uAcmvwqFqXkkLhLzRiEe7IHKNfFj0sZ8K5Hn9smXnCJoilWMwS3v0dqAdpLR7lPtVPGjKnQFfbGNoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718617106; c=relaxed/simple;
-	bh=Dw4qelO4Yw8qqwoja13UuuyY2TUVvElISzCYI/EHfLI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=dbXqR6NO6Xn1ITFQJ7Ooc2ACn+xLKZx/O2XB9sx6iaGrQDnvuva7VhaMK+wH4p4VxIG4MKGTzfmTZBXj0RwET+rujIErqzicGo0VCmlwm4JMp2wspeTnLhJxERAcrphj35+zMIYQ19jk+3ot8xSq6wP+abYVufRs7dwqzWvNDkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M1hArJ2/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718618707; c=relaxed/simple;
+	bh=fBTvW4BaP0eLHdkTE+5rX7v09I1EqRfKBJO50wM4Vcs=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=ZFa82O120yLtiafKteZ1WHU22ceH70KDZXsYb3PxNS8SjvFw41irGXeMRUEtoGUjcS00Ku9hb08P3+UCR2y7851QOA4q1ca3+pgoqF5mPG+e7lDeKS6fUBYIF0a+/U1eQdEaB+oIKBzUWX4hp86HreJ9bZb6AAfDEIVreX2zRFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=x6uxCr9C; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=t+ECcmXI; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=x6uxCr9C; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=t+ECcmXI; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M1hArJ2/"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 14258C4DDF3;
-	Mon, 17 Jun 2024 09:38:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718617106;
-	bh=Dw4qelO4Yw8qqwoja13UuuyY2TUVvElISzCYI/EHfLI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=M1hArJ2/eLvUWJ002wIxf0/AVjfSdjwa57kVXRYO+pPm8bDdhcfJM4FqEkXWH4sXv
-	 JQOjTA9jBoYSsJDyQFgNqo444vglQ7RH7KLDUnUp3iEnorxzE8MyalKDUdoGcmnux2
-	 Ym/ph2vHOf1imDKt1PPuHWKXyIGINMBF0OpK4Sb+RwvheDXAhyrt92pHHV5jjjAVp0
-	 +8IGXCASw6J5v48+UvfXxxYfvOPQdOaLQO7EETTPHZqNGu4nrujIA2i3NNH/vqz3Gb
-	 wPuBIyd4Egh4NgVyeIlvVh1bnzE6zSKhRWCKi17FRKrHt86hT7gulItDL7uXoLrKpq
-	 nbSBSTJQZMBoQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A48FC2BB85;
-	Mon, 17 Jun 2024 09:38:26 +0000 (UTC)
-From: Nikita Shubin via B4 Relay <devnull+nikita.shubin.maquefel.me@kernel.org>
-Date: Mon, 17 Jun 2024 12:37:11 +0300
-Subject: [PATCH v10 37/38] ASoC: cirrus: edb93xx: Delete driver
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="x6uxCr9C";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="t+ECcmXI";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="x6uxCr9C";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="t+ECcmXI"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 501E05FE6B;
+	Mon, 17 Jun 2024 10:05:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1718618704; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=HL/Is8+kluxt61kTfA6TSnvOpFwK4JMRRIpCq8WEswA=;
+	b=x6uxCr9CFTdDYKFpFTzqfpK4zCfCq/SaYTYvHdbcwCUlCldysgf6waPW0V7zzxXcpYrBYW
+	uSgMe5771suV+8g002Ru5Y9lb4qiwHA3qxxYDp7WRAkq1if6S+ubsb4qdyC0Pf74OceuuD
+	pmOB/USW9NvsXGkmQ3vJ7jZGSzmJ43o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1718618704;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=HL/Is8+kluxt61kTfA6TSnvOpFwK4JMRRIpCq8WEswA=;
+	b=t+ECcmXIm7IBh+MBFFeG14WQa58bf4YOwAoGgQqVhBY0CRmVBmCVOBAtsI5RpW6M5HMl9g
+	fnBgmh9Gtlr3umBA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=x6uxCr9C;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=t+ECcmXI
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1718618704; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=HL/Is8+kluxt61kTfA6TSnvOpFwK4JMRRIpCq8WEswA=;
+	b=x6uxCr9CFTdDYKFpFTzqfpK4zCfCq/SaYTYvHdbcwCUlCldysgf6waPW0V7zzxXcpYrBYW
+	uSgMe5771suV+8g002Ru5Y9lb4qiwHA3qxxYDp7WRAkq1if6S+ubsb4qdyC0Pf74OceuuD
+	pmOB/USW9NvsXGkmQ3vJ7jZGSzmJ43o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1718618704;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=HL/Is8+kluxt61kTfA6TSnvOpFwK4JMRRIpCq8WEswA=;
+	b=t+ECcmXIm7IBh+MBFFeG14WQa58bf4YOwAoGgQqVhBY0CRmVBmCVOBAtsI5RpW6M5HMl9g
+	fnBgmh9Gtlr3umBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 36767139AB;
+	Mon, 17 Jun 2024 10:05:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 1REHDFAKcGYfAgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 17 Jun 2024 10:05:04 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH 0/5] ALSA: Allow NULL passed to snd_ctl_remove()
+Date: Mon, 17 Jun 2024 12:05:22 +0200
+Message-ID: <20240617100529.6667-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240617-ep93xx-v10-37-662e640ed811@maquefel.me>
-References: <20240617-ep93xx-v10-0-662e640ed811@maquefel.me>
-In-Reply-To: <20240617-ep93xx-v10-0-662e640ed811@maquefel.me>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Alexander Sverdlin <alexander.sverdlin@gmail.com>, 
- Nikita Shubin <nikita.shubin@maquefel.me>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Takashi Iwai <tiwai@suse.de>, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>
-X-Mailer: b4 0.13-dev-e3e53
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1718617100; l=4982;
- i=nikita.shubin@maquefel.me; s=20230718; h=from:subject:message-id;
- bh=ZGsaIwYTR1JNVHlGFBAmmmELz25300Pi752QNOzmkk0=;
- b=vXVu7l7YtLrXGjAK1Ti2HSi+g2hmImnnvY9WSH/FZvZsVDsGUDqWxD8NwJSw6Aw/5IW5rmez51YI
- wgxe3rVAAVE72D8C498mxmXWgTsm7jXVL167pDVSUal8GUKyft1l
-X-Developer-Key: i=nikita.shubin@maquefel.me; a=ed25519;
- pk=vqf5YIUJ7BJv3EJFaNNxWZgGuMgDH6rwufTLflwU9ac=
-X-Endpoint-Received: by B4 Relay for nikita.shubin@maquefel.me/20230718
- with auth_id=65
-X-Original-From: Nikita Shubin <nikita.shubin@maquefel.me>
-Reply-To: nikita.shubin@maquefel.me
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 501E05FE6B
+X-Spam-Score: -3.01
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_NONE(0.00)[];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+This is a small series of cleanup patches for the call patterns with
+snd_ctl_remove() and NULL kcontrol.
+Now snd_ctl_remove() accepts the NULL argument just like free() or
+kfree(), so that the callers can be cleaned up without NULL checks.
 
-Can be replaced with "simple-audio-card" for the rates up to 50kHz, refer
-to commit "ARM: dts: ep93xx: Add EDB9302 DT".
+No functional changes should be introduced by this patch set.
 
-Signed-off-by: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-Signed-off-by: Nikita Shubin <nikita.shubin@maquefel.me>
-Acked-by: Mark Brown <broonie@kernel.org>
----
- sound/soc/cirrus/Kconfig   |   9 ----
- sound/soc/cirrus/Makefile  |   4 --
- sound/soc/cirrus/edb93xx.c | 116 ---------------------------------------------
- 3 files changed, 129 deletions(-)
 
-diff --git a/sound/soc/cirrus/Kconfig b/sound/soc/cirrus/Kconfig
-index 38a83c4dcc2d..97def4e53fbc 100644
---- a/sound/soc/cirrus/Kconfig
-+++ b/sound/soc/cirrus/Kconfig
-@@ -31,12 +31,3 @@ config SND_EP93XX_SOC_I2S_WATCHDOG
- 
- endif # if SND_EP93XX_SOC_I2S
- 
--config SND_EP93XX_SOC_EDB93XX
--	tristate "SoC Audio support for Cirrus Logic EDB93xx boards"
--	depends on SND_EP93XX_SOC && (MACH_EDB9301 || MACH_EDB9302 || MACH_EDB9302A || MACH_EDB9307A || MACH_EDB9315A)
--	select SND_EP93XX_SOC_I2S
--	select SND_SOC_CS4271_I2C if I2C
--	select SND_SOC_CS4271_SPI if SPI_MASTER
--	help
--	  Say Y or M here if you want to add support for I2S audio on the
--	  Cirrus Logic EDB93xx boards.
-diff --git a/sound/soc/cirrus/Makefile b/sound/soc/cirrus/Makefile
-index ad606b293715..61d8cf64e859 100644
---- a/sound/soc/cirrus/Makefile
-+++ b/sound/soc/cirrus/Makefile
-@@ -6,7 +6,3 @@ snd-soc-ep93xx-i2s-y	 			:= ep93xx-i2s.o
- obj-$(CONFIG_SND_EP93XX_SOC)			+= snd-soc-ep93xx.o
- obj-$(CONFIG_SND_EP93XX_SOC_I2S)		+= snd-soc-ep93xx-i2s.o
- 
--# EP93XX Machine Support
--snd-soc-edb93xx-y				:= edb93xx.o
--
--obj-$(CONFIG_SND_EP93XX_SOC_EDB93XX)		+= snd-soc-edb93xx.o
-diff --git a/sound/soc/cirrus/edb93xx.c b/sound/soc/cirrus/edb93xx.c
-deleted file mode 100644
-index 8bb67d7d2b4b..000000000000
---- a/sound/soc/cirrus/edb93xx.c
-+++ /dev/null
-@@ -1,116 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-or-later
--/*
-- * SoC audio for EDB93xx
-- *
-- * Copyright (c) 2010 Alexander Sverdlin <subaparts@yandex.ru>
-- *
-- * This driver support CS4271 codec being master or slave, working
-- * in control port mode, connected either via SPI or I2C.
-- * The data format accepted is I2S or left-justified.
-- * DAPM support not implemented.
-- */
--
--#include <linux/platform_device.h>
--#include <linux/module.h>
--#include <linux/soc/cirrus/ep93xx.h>
--#include <sound/core.h>
--#include <sound/pcm.h>
--#include <sound/soc.h>
--#include <asm/mach-types.h>
--
--static int edb93xx_hw_params(struct snd_pcm_substream *substream,
--			     struct snd_pcm_hw_params *params)
--{
--	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
--	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
--	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
--	int err;
--	unsigned int mclk_rate;
--	unsigned int rate = params_rate(params);
--
--	/*
--	 * According to CS4271 datasheet we use MCLK/LRCK=256 for
--	 * rates below 50kHz and 128 for higher sample rates
--	 */
--	if (rate < 50000)
--		mclk_rate = rate * 64 * 4;
--	else
--		mclk_rate = rate * 64 * 2;
--
--	err = snd_soc_dai_set_sysclk(codec_dai, 0, mclk_rate,
--				     SND_SOC_CLOCK_IN);
--	if (err)
--		return err;
--
--	return snd_soc_dai_set_sysclk(cpu_dai, 0, mclk_rate,
--				      SND_SOC_CLOCK_OUT);
--}
--
--static const struct snd_soc_ops edb93xx_ops = {
--	.hw_params	= edb93xx_hw_params,
--};
--
--SND_SOC_DAILINK_DEFS(hifi,
--	DAILINK_COMP_ARRAY(COMP_CPU("ep93xx-i2s")),
--	DAILINK_COMP_ARRAY(COMP_CODEC("spi0.0", "cs4271-hifi")),
--	DAILINK_COMP_ARRAY(COMP_PLATFORM("ep93xx-i2s")));
--
--static struct snd_soc_dai_link edb93xx_dai = {
--	.name		= "CS4271",
--	.stream_name	= "CS4271 HiFi",
--	.dai_fmt	= SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF |
--			  SND_SOC_DAIFMT_CBC_CFC,
--	.ops		= &edb93xx_ops,
--	SND_SOC_DAILINK_REG(hifi),
--};
--
--static struct snd_soc_card snd_soc_edb93xx = {
--	.name		= "EDB93XX",
--	.owner		= THIS_MODULE,
--	.dai_link	= &edb93xx_dai,
--	.num_links	= 1,
--};
--
--static int edb93xx_probe(struct platform_device *pdev)
--{
--	struct snd_soc_card *card = &snd_soc_edb93xx;
--	int ret;
--
--	ret = ep93xx_i2s_acquire();
--	if (ret)
--		return ret;
--
--	card->dev = &pdev->dev;
--
--	ret = snd_soc_register_card(card);
--	if (ret) {
--		dev_err(&pdev->dev, "snd_soc_register_card() failed: %d\n",
--			ret);
--		ep93xx_i2s_release();
--	}
--
--	return ret;
--}
--
--static void edb93xx_remove(struct platform_device *pdev)
--{
--	struct snd_soc_card *card = platform_get_drvdata(pdev);
--
--	snd_soc_unregister_card(card);
--	ep93xx_i2s_release();
--}
--
--static struct platform_driver edb93xx_driver = {
--	.driver		= {
--		.name	= "edb93xx-audio",
--	},
--	.probe		= edb93xx_probe,
--	.remove_new	= edb93xx_remove,
--};
--
--module_platform_driver(edb93xx_driver);
--
--MODULE_AUTHOR("Alexander Sverdlin <subaparts@yandex.ru>");
--MODULE_DESCRIPTION("ALSA SoC EDB93xx");
--MODULE_LICENSE("GPL");
--MODULE_ALIAS("platform:edb93xx-audio");
+Takashi
+
+===
+
+Takashi Iwai (5):
+  ALSA: control: Allow NULL passed to snd_ctl_remove()
+  ALSA: sb: Drop NULL check for snd_ctl_remove()
+  ALSA: emu10k1:  Drop NULL check for snd_ctl_remove()
+  ALSA: hda: Drop NULL check for snd_ctl_remove()
+  ALSA: spi: Drop NULL check for snd_ctl_remove()
+
+ sound/core/control.c            |  3 +++
+ sound/isa/sb/emu8000.c          |  6 ++----
+ sound/isa/sb/sb16_csp.c         | 12 ++++--------
+ sound/pci/emu10k1/emufx.c       |  5 +----
+ sound/pci/hda/hda_cs_dsp_ctl.c  |  2 +-
+ sound/pci/hda/tas2781_hda_i2c.c | 13 ++++---------
+ sound/spi/at73c213.c            |  8 ++------
+ 7 files changed, 17 insertions(+), 32 deletions(-)
 
 -- 
-2.43.2
-
+2.43.0
 
