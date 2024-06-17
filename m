@@ -1,175 +1,139 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ECD819049F
-	for <linux-sound@vger.kernel.org>; Mon, 17 Jun 2024 10:05:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC5B75025E;
+	Mon, 17 Jun 2024 10:59:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718618708; cv=none; b=IuVv3kkTAt/6e1nfJ5+8J41jZjy2BJtgKzVNKH4/zcRLsW8eAnaZ4RNkZ1qyjZDV0HtubyROINparPkrgnxUThBy9vuv+fvQ+vbzqxuW58PoFuY957Om+MAXLFJNYocs/5DmN2Ad6AGpWnvnsBdyePNroqq1blK2DNGjkdizrz8=
+	t=1718621942; cv=none; b=PhyG4e9Chl10awX8ElTvOukSpto5d+MZqRORWtKBIcwnUIuxBPld6lmHRExnhwcwI+frz8ogbbMC2lVQXjtlQIT1BbPBB2rcVnXrTXhRNFpfkvOFbzQqeEZJSCaJPY+wMEGwAz3CjEuMIdtaH4c1fYHi2S0E8QiM22tavY1ilIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718618708; c=relaxed/simple;
-	bh=WZwp6Iowaw6PLVc6bsNtIMJM5dbIJbvXWNRADEIQlhw=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uRF3r5BvAYp8hwVLcfnMm0SHBwv1XLPhmZtLK/wdpKu3Od+4ZOOaSjnm8mzIDm9yONiHPE7cat9OdF4WKDWD6jX9PB348ua2CFqMK4a05IKB8I0iHGm0ero1CwnH+PYLa9JG1yjBnYTtR0LkviaJ8PwTRBdV2tnzJgqZehQXff4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XDQ1Ez1r; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hCnBEUIh; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XDQ1Ez1r; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hCnBEUIh; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1718621942; c=relaxed/simple;
+	bh=8wB8dLUWtRHRl79UEIYwwpGcoRPP7LZqthPrT0xkjS0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tmSL8pHWP7tXChYqmQ4L9lut8TUNjQJA7qNleqICbF9gXTry/4g98x9EgrAmdRwXRZtVzNyNXgOGXh0UQuT/OLhcjz347ixgqKgfOrvQnmOPwB/Y7m7OMGrDufCbMgqHuk4O0JofMDXafhWZXcNpRtDTRtYgywjH/U1HmAJjI4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G3ddtES0; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XDQ1Ez1r";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hCnBEUIh";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XDQ1Ez1r";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hCnBEUIh"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E58C75FE6F;
-	Mon, 17 Jun 2024 10:05:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718618704; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LHEnHuFrQDtoCsqFLFky4hGVPl2ZIqIHDfamXgmqWuE=;
-	b=XDQ1Ez1rFeh/fYEL6B6+AClJR55Y2qvZZtXEgbTa/Vj6czz31gVpC7lt4OVHr0Vj2ueVul
-	6qqrHLyHBVVsX9tgDqca7e3Q3lhhvqJImqCnl2DBNsNFt+MkZX4tDi/eoWHof4fD9otjPt
-	dAJc9eQH1H7ksuIiOeGMkQI1IxkSotw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718618704;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LHEnHuFrQDtoCsqFLFky4hGVPl2ZIqIHDfamXgmqWuE=;
-	b=hCnBEUIhYBKwHtKphGKy9xlykhFVEtroThpbmrmiwWzp4qOvS/z8a9g3LgwsdeoMIFgtMs
-	Kc5x70K/IYWFsRDw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=XDQ1Ez1r;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=hCnBEUIh
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718618704; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LHEnHuFrQDtoCsqFLFky4hGVPl2ZIqIHDfamXgmqWuE=;
-	b=XDQ1Ez1rFeh/fYEL6B6+AClJR55Y2qvZZtXEgbTa/Vj6czz31gVpC7lt4OVHr0Vj2ueVul
-	6qqrHLyHBVVsX9tgDqca7e3Q3lhhvqJImqCnl2DBNsNFt+MkZX4tDi/eoWHof4fD9otjPt
-	dAJc9eQH1H7ksuIiOeGMkQI1IxkSotw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718618704;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LHEnHuFrQDtoCsqFLFky4hGVPl2ZIqIHDfamXgmqWuE=;
-	b=hCnBEUIhYBKwHtKphGKy9xlykhFVEtroThpbmrmiwWzp4qOvS/z8a9g3LgwsdeoMIFgtMs
-	Kc5x70K/IYWFsRDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BDFE213AAF;
-	Mon, 17 Jun 2024 10:05:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id EKcqLVAKcGYfAgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 17 Jun 2024 10:05:04 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH 4/5] ALSA: hda: Drop NULL check for snd_ctl_remove()
-Date: Mon, 17 Jun 2024 12:05:26 +0200
-Message-ID: <20240617100529.6667-5-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240617100529.6667-1-tiwai@suse.de>
-References: <20240617100529.6667-1-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G3ddtES0"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a6efae34c83so526291566b.0;
+        Mon, 17 Jun 2024 03:59:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718621939; x=1719226739; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8wB8dLUWtRHRl79UEIYwwpGcoRPP7LZqthPrT0xkjS0=;
+        b=G3ddtES05KBngq6UHWH+bLeDVjHVfJjrer71x1oClPjFqQBWo5q9UMK1VfJW6kJjJq
+         F4PZsQestdbLeUKH8unSqie5VDD7EagbCBXSZaSHuKvJxjTFA/00cMjlFbvezuyidolY
+         8IJb1AK6waFkrjIHxm7K2jDf6tFJR0iyUq90OZ/4DYyR6qbWKG66yZWTuedKtIqlm8W5
+         z4+SG4bxj3pYqXnzunZrkvLOprES3JCkbQ5t/523EXHIeWZN+QHdYZwKrt/L9C8QlQPV
+         PqKllIoFKQiOiLgDsIpjcCywPn+fn1M61OU6KA6imYIqeZ1vynt+cI/1YCXgPb1rWNm9
+         QYdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718621939; x=1719226739;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8wB8dLUWtRHRl79UEIYwwpGcoRPP7LZqthPrT0xkjS0=;
+        b=Cem9PGTanUq25o7phJ/RZGVY6Fpz35uWfNYKsGpdnXX0rElhFVmgGP6Rrbje9nyAtx
+         NE54dUSFZtoOAJa5sj9dDnNckeTkqQ8/kk6MQUeNvSPggSXKCRYVClQaZ7hk458B2v2b
+         GLOcjRAvV+53S8o1kDhSdBCs3m+FS23qVsf0umL7PczsUqqdK/Agg899XxTdVZr5un84
+         AoH5wT4ZNz6tOzfnptMPeISwSWBiphVQohjan6l0x7LDYKpIIZn0VvDYDCkHD6FuyRMe
+         YlfXnzfqlGgFUZZNP7aY4G/UvmOpnx4P6z0MqxjjyVcqS71crNSmCMU/7Z5RJTK8EMf9
+         cx1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXAoM7IbF4e2rcIclY5h762jyQSucTNkLrD1Euq0cJADoK/mEztSfuiQ78x0JeizEcchdTzju5NKh3G9SaF+VGrSV/rK7krkENH2e7qRK5DavQ4pVAevFe8x0Mn3jB7Hg2kiq43LmavSpsdjDh07LxqqNde3hqzi1dr3zeXkuBeZeH/2BZ9+0lRqvc3tQOzfU94er3VowrZ75uV8sr9HiYAOHJ4qDqQzyEtvEFaTb7DqC5WzsZv4IUfnuQHOdORpeTNxsKSynsSyEOyMg5Moxi9xMaXkXKDCw1r3C3S/gcbSQyBCU6J02FbV4/bRkDFvCOBPyOpM1xXnRbB03w5+O7BauI+6ZATcO6orxmdmRNVG5Q/7wrcDhuSFxlAdtv3w1Zr23MPqM2kCzjanP/BNourXGHl23JmDSvhdAIh4f208KUpeEosZ3LvPokFg9xO9A23MYBYQMtCvey1Hx/dqcAEiGbId9RB2JWBvaVgwzSkjgwOV8mJcwE8U+NwTETTrg9F7ilwpITU22TB4or+sYQJ17CnWqGdcw==
+X-Gm-Message-State: AOJu0YwDIXeuRJwaLI4H401MKf5j+cAUX/r4xUQja9OxSvnLuZ9M+2WY
+	dtJO0KPQnet/MhpGT+GXwov5CXnBDWDEF09Fcua+E1aLv53pVi3/mLPFrs35TGOr+BtRwrdybUu
+	xjNN4gi2Cdat2K5oceKxYGXHsoi0=
+X-Google-Smtp-Source: AGHT+IFLQNwGHlc2x1pJKtfDQbxygWK6Gf7QAcGKtHzYeiun/g/cbs2h4qNhFprWOgm/WKjClpcVLvXhnCvHBWIHCLQ=
+X-Received: by 2002:a17:906:f8c6:b0:a6f:d1d:b523 with SMTP id
+ a640c23a62f3a-a6f60d430e6mr561654166b.36.1718621938822; Mon, 17 Jun 2024
+ 03:58:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: E58C75FE6F
-X-Spam-Score: -3.01
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_NONE(0.00)[];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	URIBL_BLOCKED(0.00)[suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+References: <20240617-ep93xx-v10-0-662e640ed811@maquefel.me>
+In-Reply-To: <20240617-ep93xx-v10-0-662e640ed811@maquefel.me>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 17 Jun 2024 12:58:22 +0200
+Message-ID: <CAHp75VfSC9gAD9ipeWRPdQOxUp4FXqYYei-cJTs38nbz0cHpkg@mail.gmail.com>
+Subject: Re: [PATCH v10 00/38] ep93xx device tree conversion
+To: nikita.shubin@maquefel.me
+Cc: Arnd Bergmann <arnd@arndb.de>, Hartley Sweeten <hsweeten@visionengravers.com>, 
+	Alexander Sverdlin <alexander.sverdlin@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+	Lukasz Majewski <lukma@denx.de>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Sebastian Reichel <sre@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Vinod Koul <vkoul@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
+	Guenter Roeck <linux@roeck-us.net>, Thierry Reding <thierry.reding@gmail.com>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	Mark Brown <broonie@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
+	Vignesh Raghavendra <vigneshr@ti.com>, Damien Le Moal <dlemoal@kernel.org>, 
+	Sergey Shtylyov <s.shtylyov@omp.ru>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Ralf Baechle <ralf@linux-mips.org>, "Wu, Aaron" <Aaron.Wu@analog.com>, Lee Jones <lee@kernel.org>, 
+	Olof Johansson <olof@lixom.net>, Niklas Cassel <cassel@kernel.org>, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-pm@vger.kernel.org, 
+	devicetree@vger.kernel.org, dmaengine@vger.kernel.org, 
+	linux-watchdog@vger.kernel.org, linux-pwm@vger.kernel.org, 
+	linux-spi@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-mtd@lists.infradead.org, linux-ide@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-sound@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Andrew Lunn <andrew@lunn.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Since snd_ctl_remove() accepts the NULL kcontrol argument now, we can
-drop the check in the caller side.
+On Mon, Jun 17, 2024 at 11:38=E2=80=AFAM Nikita Shubin via B4 Relay
+<devnull+nikita.shubin.maquefel.me@kernel.org> wrote:
+>
+> The goal is to recieve ACKs for all patches in series to merge it via Arn=
+d branch.
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/pci/hda/hda_cs_dsp_ctl.c  |  2 +-
- sound/pci/hda/tas2781_hda_i2c.c | 13 ++++---------
- 2 files changed, 5 insertions(+), 10 deletions(-)
+'receive'
 
-diff --git a/sound/pci/hda/hda_cs_dsp_ctl.c b/sound/pci/hda/hda_cs_dsp_ctl.c
-index e6e876998e71..deb74c247082 100644
---- a/sound/pci/hda/hda_cs_dsp_ctl.c
-+++ b/sound/pci/hda/hda_cs_dsp_ctl.c
-@@ -207,7 +207,7 @@ void hda_cs_dsp_control_remove(struct cs_dsp_coeff_ctl *cs_ctl)
- 	struct hda_cs_dsp_coeff_ctl *ctl = cs_ctl->priv;
- 
- 	/* ctl and kctl may already have been removed by ALSA private_free */
--	if (ctl && ctl->kctl)
-+	if (ctl)
- 		snd_ctl_remove(ctl->card, ctl->kctl);
- }
- EXPORT_SYMBOL_NS_GPL(hda_cs_dsp_control_remove, SND_HDA_CS_DSP_CONTROLS);
-diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_i2c.c
-index 75f7674c66ee..c878967cb66a 100644
---- a/sound/pci/hda/tas2781_hda_i2c.c
-+++ b/sound/pci/hda/tas2781_hda_i2c.c
-@@ -597,18 +597,13 @@ static void tas2781_hda_remove_controls(struct tas2781_hda *tas_hda)
- {
- 	struct hda_codec *codec = tas_hda->priv->codec;
- 
--	if (tas_hda->dsp_prog_ctl)
--		snd_ctl_remove(codec->card, tas_hda->dsp_prog_ctl);
--
--	if (tas_hda->dsp_conf_ctl)
--		snd_ctl_remove(codec->card, tas_hda->dsp_conf_ctl);
-+	snd_ctl_remove(codec->card, tas_hda->dsp_prog_ctl);
-+	snd_ctl_remove(codec->card, tas_hda->dsp_conf_ctl);
- 
- 	for (int i = ARRAY_SIZE(tas_hda->snd_ctls) - 1; i >= 0; i--)
--		if (tas_hda->snd_ctls[i])
--			snd_ctl_remove(codec->card, tas_hda->snd_ctls[i]);
-+		snd_ctl_remove(codec->card, tas_hda->snd_ctls[i]);
- 
--	if (tas_hda->prof_ctl)
--		snd_ctl_remove(codec->card, tas_hda->prof_ctl);
-+	snd_ctl_remove(codec->card, tas_hda->prof_ctl);
- }
- 
- static void tasdev_fw_ready(const struct firmware *fmw, void *context)
--- 
-2.43.0
+> Unfortunately, CLK subsystem suddenly went silent on clk portion of serie=
+s V2 reroll,
+> tried to ping them for about a month but no luck.
+>
+> Link: https://lore.kernel.org/r/20240408-ep93xx-clk-v2-1-adcd68c13753@maq=
+uefel.me
+>
+> Some changes since last version (v9) - see "Changes in v10", mostly
+> cosmetic.
 
+...
+
+> Patches should be formated with '--histogram'
+
+'formatted'
+
+...
+
+> Changes in v10:
+>
+> Reordered SoB tags to make sure they appear before Rb and Acked tags.
+
+This is not required. The importance is only the order of SoBs
+themselves. If they are interleaved with other tags, it's fine.
+
+...
+
+
+Hopefully to see this series being eventually applied soon.
+Arnd? (Do we have all necessary subsystem maintainers' tags, btw?)
+
+
+--=20
+With Best Regards,
+Andy Shevchenko
