@@ -1,100 +1,166 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A9C153582;
-	Mon, 17 Jun 2024 15:11:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A06613C81B;
+	Mon, 17 Jun 2024 15:43:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718637109; cv=none; b=jQ1ZLVZbFohvRkgp0K1BfBgPbeuVX5Ftc5lSkF5Uah3qSaCo43+cSYerkncSzfUSYqgBavvM9nc3VikcsT+yk0C7xp95qaegAsocnqA4IdNvGtBpDqIJy1x1T8LCkfSjvSIKsV5xS/7ThlyHp7Q5cY9VOvUS03t7C9TrOgcIxOo=
+	t=1718639003; cv=none; b=aSWEY5D7QehlBOn9k9nqfzn/UATEMvAgMCNWB5BQCygqu7w6RY5iAi6tkcb6/Q6Vng3TaDUMTKIsiLOaoVPFvQaPqAvm7HnNAIBmiGhqEfraOvWTF2QkeM9a4J66wlouTjx1ZLua7tpVBvWXz0cSmzwHNYJupeQKVgxFQbjRekM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718637109; c=relaxed/simple;
-	bh=c2l65HkG5wWoE4gvFa3Xd9MQQwsOzngmzKfqDFLx+BU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QmM8o/5GPZHBUa3Z/T05GPkH2XWF40uBP/ws7yxjv8gZT4wSmXkLXD8Uz5qJJJHwOYvBr9K1XwiEUCDjsPnkIyKM42Hkp99EU1Vgfcb4PTOjsHJs/mgrlVszjhGv9CZqA//bB3KSeCwUHS4ZZ1u245K7vMPTszzcrq7HkNZzuS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ApXnwqAB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718639003; c=relaxed/simple;
+	bh=tyHcTilPJBf1ZtldFADW7DKJj5yP1ToJmKxXcIXtfGI=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=B+gzDsbp69c8Vo1Tk2TIBqmxnAXVUlEO0d+BBgGz0G2q4TBxK0wtGPNq8i2wIGb8LOEITlI9oBy8dna+gwMt8b9TQYUQIUkOQKL/M6e9VkpSQLYAv1322xfJ26c1TvYsi+HI56TtknFq10ts1oZHYIWRVRvNH5mMDiTNBWG6jYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=c1wQm9Zg; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ApXnwqAB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82B13C2BD10;
-	Mon, 17 Jun 2024 15:11:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718637109;
-	bh=c2l65HkG5wWoE4gvFa3Xd9MQQwsOzngmzKfqDFLx+BU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ApXnwqABH87245LT9xnbQPQulb1S2YrlrNw7q/uLmCi2Dzp7mAGeCUmerFoG3pEGB
-	 3foWtSFA1S1QOLSndaMhXqEgiKtxK1q5cCa9xuurOvQ5pzvA2TAv4YU2bBECg182Zm
-	 gr9pP7KEe5LKKE8QUboNs0oI94DDUuDt0FSBYiqVHw6N6zWw4FKvANg6pKTxtCmzwS
-	 Ths7xKFjeSv6ZK8zUBs/Lz1bRfLad9yM+OXtjDsDDe2+sksYfImWbHjBxXFkO2Nj61
-	 6zF/7j/XYkPAxnoDOU/10YoSqEEbDG3VriZq6hM30T9tdTaBhQrNuYq+gZv8y/oVSk
-	 XkCohegN1aLww==
-Date: Mon, 17 Jun 2024 16:11:42 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 0/6] ASoC: Few constifications (mostly arguments)
-Message-ID: <c170d555-068a-4927-b997-df74cc88386f@sirena.org.uk>
-References: <20240617-n-asoc-const-auto-selectable-formats-v1-0-8004f346ee38@linaro.org>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="c1wQm9Zg"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45HFYCxr023861;
+	Mon, 17 Jun 2024 10:43:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=+0kLEE8LRxxWUa9qJB+cByKX7sWs5TP2HYGpu4CAWoU=; b=
+	c1wQm9Zg6EjxE9qqAvFNsIgn5Km+kTZXGXdbxMFEFQdCbG0vlqUDrAHmcFGGAXxb
+	PvvHojW9v5myiud4UXgdMUoqvjunzxlIlYbY0NR1JIuW9Vl3ECpxwuHjjiD0nOGj
+	v0c5w9aZzgkdkexVYYFwaPPW1znUKDV1ud5Sd9mw1wjSdFHBnoycl+p7x2YHkCQG
+	e0eyWS1Rkea3uEQendG+JXrJw9YTqIDYYOmT9jg8uMcEgjZ7SiZ628xCMykPGOnL
+	xxBxI7/Ltl5GBVYqvPdCr+/pcAbibQNEcYKO4fGRSfK7RnpNzDhJ44Pz9Ek8NEQv
+	xRf8xIfC5jN7xhmIcJ0v2g==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3ys7cjt0f9-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 17 Jun 2024 10:43:12 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 17 Jun
+ 2024 16:42:56 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Mon, 17 Jun 2024 16:42:56 +0100
+Received: from EDIN6ZZ2FY3.ad.cirrus.com (EDIN6ZZ2FY3.ad.cirrus.com [198.61.65.31])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 76BCF820248;
+	Mon, 17 Jun 2024 15:42:56 +0000 (UTC)
+From: Simon Trimmer <simont@opensource.cirrus.com>
+To: <tiwai@suse.com>
+CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
+        <soyer@irl.hu>, <shenghao-ding@ti.com>, <kevin-lu@ti.com>,
+        <baojun.xu@ti.com>, Simon Trimmer <simont@opensource.cirrus.com>
+Subject: [PATCH 4/4] ALSA: hda: hda_component: Protect shared data with a mutex
+Date: Mon, 17 Jun 2024 16:41:05 +0100
+Message-ID: <20240617154105.108635-5-simont@opensource.cirrus.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240617154105.108635-1-simont@opensource.cirrus.com>
+References: <20240617154105.108635-1-simont@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="1J3/j5gC6/pQaKDG"
-Content-Disposition: inline
-In-Reply-To: <20240617-n-asoc-const-auto-selectable-formats-v1-0-8004f346ee38@linaro.org>
-X-Cookie: Life is the urge to ecstasy.
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: K9_oMiZr5njMk6d17qAkcmiyUtnTHuVe
+X-Proofpoint-ORIG-GUID: K9_oMiZr5njMk6d17qAkcmiyUtnTHuVe
+X-Proofpoint-Spam-Reason: safe
 
+The hda_component contains information shared from the amp drivers to
+the codec that can be altered (for example as the driver unloads). Guard
+the update and use of these to prevent use of stale data.
 
---1J3/j5gC6/pQaKDG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
+---
+ sound/pci/hda/hda_component.c | 13 ++++++++++++-
+ sound/pci/hda/hda_component.h |  4 ++++
+ 2 files changed, 16 insertions(+), 1 deletion(-)
 
-On Mon, Jun 17, 2024 at 03:03:18PM +0200, Krzysztof Kozlowski wrote:
-> Make few pointers in ASoC functions as pointers to const, so the code is
-> clearer to read, a bit safer and allows further constifications (e.g.
-> placing some data as rodata).
->=20
-> Best regards,
-> Krzysztof
->=20
-> ---
-> Krzysztof Kozlowski (6):
->       ASoC: Constify of_phandle_args in snd_soc_dai_driver
->       ASoC: Constify of_phandle_args in snd_soc_dai_link_component
->       ASoC: Constify passed data to core function
->       ASoC: Constify DAI passed to get_channel_map
->       ASoC: Constify return of snd_soc_dai_get_pcm_stream()
->       ALSA: Cleanup trailing white-spaces
+diff --git a/sound/pci/hda/hda_component.c b/sound/pci/hda/hda_component.c
+index 1a9950b76866..7b19cb38b4e0 100644
+--- a/sound/pci/hda/hda_component.c
++++ b/sound/pci/hda/hda_component.c
+@@ -21,11 +21,13 @@ void hda_component_acpi_device_notify(struct hda_component_parent *parent,
+ 	struct hda_component *comp;
+ 	int i;
+ 
++	mutex_lock(&parent->mutex);
+ 	for (i = 0; i < ARRAY_SIZE(parent->comps); i++) {
+ 		comp = hda_component_from_index(parent, i);
+ 		if (comp->dev && comp->acpi_notify)
+ 			comp->acpi_notify(acpi_device_handle(comp->adev), event, comp->dev);
+ 	}
++	mutex_unlock(&parent->mutex);
+ }
+ EXPORT_SYMBOL_NS_GPL(hda_component_acpi_device_notify, SND_HDA_SCODEC_COMPONENT);
+ 
+@@ -87,6 +89,7 @@ void hda_component_manager_playback_hook(struct hda_component_parent *parent, in
+ 	struct hda_component *comp;
+ 	int i;
+ 
++	mutex_lock(&parent->mutex);
+ 	for (i = 0; i < ARRAY_SIZE(parent->comps); i++) {
+ 		comp = hda_component_from_index(parent, i);
+ 		if (comp->dev && comp->pre_playback_hook)
+@@ -102,6 +105,7 @@ void hda_component_manager_playback_hook(struct hda_component_parent *parent, in
+ 		if (comp->dev && comp->post_playback_hook)
+ 			comp->post_playback_hook(comp->dev, action);
+ 	}
++	mutex_unlock(&parent->mutex);
+ }
+ EXPORT_SYMBOL_NS_GPL(hda_component_manager_playback_hook, SND_HDA_SCODEC_COMPONENT);
+ 
+@@ -134,11 +138,18 @@ static int hda_comp_match_dev_name(struct device *dev, void *data)
+ int hda_component_manager_bind(struct hda_codec *cdc,
+ 			       struct hda_component_parent *parent)
+ {
++	int ret;
++
+ 	/* Init shared and component specific data */
+ 	memset(parent, 0, sizeof(*parent));
++	mutex_init(&parent->mutex);
+ 	parent->codec = cdc;
+ 
+-	return component_bind_all(hda_codec_dev(cdc), parent);
++	mutex_lock(&parent->mutex);
++	ret = component_bind_all(hda_codec_dev(cdc), parent);
++	mutex_unlock(&parent->mutex);
++
++	return ret;
+ }
+ EXPORT_SYMBOL_NS_GPL(hda_component_manager_bind, SND_HDA_SCODEC_COMPONENT);
+ 
+diff --git a/sound/pci/hda/hda_component.h b/sound/pci/hda/hda_component.h
+index dd4dabeae9ee..9f786608144c 100644
+--- a/sound/pci/hda/hda_component.h
++++ b/sound/pci/hda/hda_component.h
+@@ -11,6 +11,7 @@
+ 
+ #include <linux/acpi.h>
+ #include <linux/component.h>
++#include <linux/mutex.h>
+ #include <sound/hda_codec.h>
+ 
+ #define HDA_MAX_COMPONENTS	4
+@@ -28,6 +29,7 @@ struct hda_component {
+ };
+ 
+ struct hda_component_parent {
++	struct mutex mutex;
+ 	struct hda_codec *codec;
+ 	struct hda_component comps[HDA_MAX_COMPONENTS];
+ };
+@@ -93,7 +95,9 @@ static inline struct hda_component *hda_component_from_index(struct hda_componen
+ static inline void hda_component_manager_unbind(struct hda_codec *cdc,
+ 						struct hda_component_parent *parent)
+ {
++	mutex_lock(&parent->mutex);
+ 	component_unbind_all(hda_codec_dev(cdc), parent);
++	mutex_unlock(&parent->mutex);
+ }
+ 
+ #endif /* ifndef __HDA_COMPONENT_H__ */
+-- 
+2.34.1
 
-Why is this random ALSA patch which seems off topic for the rest of the
-series mixed in here?
-
---1J3/j5gC6/pQaKDG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZwUi0ACgkQJNaLcl1U
-h9BMQAf/bJSvIQSVTUNlyDYtm4cJXPIGSd0VJpZ6L3QlT+3fER4Uvg30WJxer5l4
-ezqeVpZ1pszgFgRbXW2fnP3gZTj1rHGdJNn4A7A8fPZQ6wSmpIwmXA3I+Bq1SNha
-00ei+bcuvA22oRcvewGoITM9Z3fKQj84xGuyD5yTW0xQM6T06b/d+C+HuRMwxBNI
-Vg5TL6LTAW+Xr4mQOQYAzWXVwrZ9sDL/4P4M+BVUJZp3N8SjMclxtF9uL5NZaaKp
-LoViWMYrRW6WV13dnalrsdHNZ7dcH39OG0wITHq/Ci3vJgHXtskc+xHYexXecqPW
-XKWaaMZjFh5IPXIZWLkmGN7UY75I9Q==
-=NmAB
------END PGP SIGNATURE-----
-
---1J3/j5gC6/pQaKDG--
