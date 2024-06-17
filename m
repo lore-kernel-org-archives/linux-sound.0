@@ -1,95 +1,82 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A021D953A;
-	Mon, 17 Jun 2024 13:54:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E75B65E20;
+	Mon, 17 Jun 2024 14:04:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718632443; cv=none; b=m58wcb92mOegPlE6AxX59J161vaOsgTs/9AzyP+MLTx+qON6So6DzVbzHLdl/FeBnODlP5YW162wVlWU/tVT8eHEvzvUeEIPFob3+NUhcP0+jQ46zUoSfnwYSllIV1KQCvglO7aW4Y4WPzjSHDDTno86mcBWg6IKzZ4vCHrB4zs=
+	t=1718633059; cv=none; b=HmzmFZCeF8AlmP8VjqVlgPEJjQoACxumD0UjDbV+hVxFRfREVBKTgpR/DTrXNLJe+HaFaaNsLwfHcfmq9KuTEjcqhD5MvI2uPoqnFEH8jyXDYgS/ya/Wgp43nQ0H7DvsKpuiM26YeDrZurG+i8SkUsFFU/BdLILU9hPO1HWEQM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718632443; c=relaxed/simple;
-	bh=OkXAeXiSMR9q2KgPDAvjGfQHai3NsT8ZxFVGcUPxbHs=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=I9HK3/nbUxl/rFjfvFsvdWVlt6MET0pfB6Qsc8snBdOCd7lwqx3zQM+auwy/l7bIrtP+tibvni4lE7Y+vCxzbLYCtmWgAucev2jYNYLYXpaxFSKfCUeUlMpE2jHbnx39risZtuLbJG6pSJahFFOtbm+yDTtc97kBO4QI8575UrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=qjyMtkAk; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1718633059; c=relaxed/simple;
+	bh=ylXG9T1s/w0I5grxUZNmPMRkeKEwCLIrufq/Y8Gs9Rs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O13y4IQSfLlomO1Th/2fAa/JdIfro0XncUBDlhR0G5g2ZOag4fYeFBw86fQhWbGP1t2l1ykA8GAhSI6ObtzZgeQVv3mvGl6VcaGSA1FObusmaAQdPLAKcRLqVEHwdlSORe8Llw0XXI2hfBgZ0/Ln2bEqRGegWGtY2XFtUSZKaSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jnyChMSR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="qjyMtkAk"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45H5aOHK023213;
-	Mon, 17 Jun 2024 08:53:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=Q9ihO4w628bMz136
-	f8/Vddts0+N5M5iKJ+D+B8in+1I=; b=qjyMtkAkuZEpFWv+s2lo5BBU7LjJrDBS
-	ZKCDuUIePqhmbCHI+MojCru3UxTgJFNUI7pcsKAbm17eZOshWtZmk+a0u3VyxDhO
-	6ydHByiRmV3reb/rq20JHKYRfyFZwifOiTSSrKFTmxRBaE89IxnfR8JGeKTDH4UG
-	kAgV2OTeG9OwjAzm2kAXsQHkpcDyXoaOOJZ+/7tK5Ki1JfGdf0Vsydp3u2+YHZYm
-	+/G7sYeNKKrABIR0IxHWsWujQS6573NcLJxl63ZrvEnHOXtiUsG992vdhbXChKmT
-	hGauT7JSvWi3dIcZuCKFef7IvbD9dodXcOKHLCM6R3ZUMC/n2ipc5A==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3ys8by1rbd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 17 Jun 2024 08:53:43 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 17 Jun
- 2024 14:53:40 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Mon, 17 Jun 2024 14:53:40 +0100
-Received: from EDIN6ZZ2FY3.ad.cirrus.com (EDIN6ZZ2FY3.ad.cirrus.com [198.61.65.31])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 735C5820248;
-	Mon, 17 Jun 2024 13:53:40 +0000 (UTC)
-From: Simon Trimmer <simont@opensource.cirrus.com>
-To: <broonie@kernel.org>
-CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        "Simon
- Trimmer" <simont@opensource.cirrus.com>
-Subject: [PATCH] ASoC: cs35l56: Accept values greater than 0 as IRQ numbers
-Date: Mon, 17 Jun 2024 14:53:38 +0100
-Message-ID: <20240617135338.82006-1-simont@opensource.cirrus.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jnyChMSR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98D87C4AF48;
+	Mon, 17 Jun 2024 14:04:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718633058;
+	bh=ylXG9T1s/w0I5grxUZNmPMRkeKEwCLIrufq/Y8Gs9Rs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jnyChMSRTqGap+axtGx0PgnMUJhL7fWGOxxHrJ4eJKqbcBLlx54P5lhpajSLCck4P
+	 aZdNwRs/gxYk1IDsmac/8hY25kHePZbOyU1NqopWpfnSozuFDkqvWf7S9PR7ib+LeM
+	 KsmVlsaE6AgJ5uX8hVo9MIZsIXKHVZdCfGHlkxooXhz7I7Cu9sGaBW/XjL7Tlsv/YU
+	 gQmUqNr1mmIELheHdZdntV+zfcm39HXm5UA+PkNW5NBhF56PvBCLqwwIi3jYCePOy9
+	 Hq1Ns9KULEC44zeg6HagnjdiNfKNfdFL+wqaPqk23iyZso234UQzduTAyRk3Kjbdsk
+	 vHjM8xjflSMGg==
+Date: Mon, 17 Jun 2024 15:04:14 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Simon Trimmer <simont@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org,
+	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+Subject: Re: [PATCH] ASoC: cs35l56: Accept values greater than 0 as IRQ
+ numbers
+Message-ID: <917507e5-dc6c-4e18-a7e1-554625de604e@sirena.org.uk>
+References: <20240617135338.82006-1-simont@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: Rn7sdFrjrK0EIUNROXcVN37vn7ZbU_iw
-X-Proofpoint-GUID: Rn7sdFrjrK0EIUNROXcVN37vn7ZbU_iw
-X-Proofpoint-Spam-Reason: safe
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="WSEc7iFNh20inuIX"
+Content-Disposition: inline
+In-Reply-To: <20240617135338.82006-1-simont@opensource.cirrus.com>
+X-Cookie: Life is the urge to ecstasy.
 
-IRQ lookup functions such as those in ACPI can return error values when
-an IRQ is not defined. The i2c core driver converts the error codes to a
-value of 0 and the SPI bus driver passes them unaltered to client device
-drivers.
 
-The cs35l56 driver should only accept positive non-zero values as IRQ
-numbers.
+--WSEc7iFNh20inuIX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
-Fixes: 8a731fd37f8b ("ASoC: cs35l56: Move utility functions to shared file")
----
- sound/soc/codecs/cs35l56-shared.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, Jun 17, 2024 at 02:53:38PM +0100, Simon Trimmer wrote:
+> IRQ lookup functions such as those in ACPI can return error values when
+> an IRQ is not defined. The i2c core driver converts the error codes to a
+> value of 0 and the SPI bus driver passes them unaltered to client device
+> drivers.
+>=20
+> The cs35l56 driver should only accept positive non-zero values as IRQ
+> numbers.
 
-diff --git a/sound/soc/codecs/cs35l56-shared.c b/sound/soc/codecs/cs35l56-shared.c
-index 27869e14e9c8..880228f89baf 100644
---- a/sound/soc/codecs/cs35l56-shared.c
-+++ b/sound/soc/codecs/cs35l56-shared.c
-@@ -397,7 +397,7 @@ int cs35l56_irq_request(struct cs35l56_base *cs35l56_base, int irq)
- {
- 	int ret;
- 
--	if (!irq)
-+	if (irq < 1)
- 		return 0;
- 
- 	ret = devm_request_threaded_irq(cs35l56_base->dev, irq, NULL, cs35l56_irq,
--- 
-2.34.1
+Have all architectures removed 0 as a valid IRQ?
 
+--WSEc7iFNh20inuIX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZwQl0ACgkQJNaLcl1U
+h9D9tQf/bEbw7y+SIWUsoPAb3wxezENJBQyjbCgq/zNceaWTonGZdtAALJsb6VAK
+TkCrdKHl9fQIH+/wHHEPmB6t48a1K0W/GrdXL7kFPFEhMFXjyKsLCuhk2th2Rn0z
+HNqYYofKazzQd/XbVXZKJ4/PFUHZatGoWxd3ChcDxJB1X5bvwmAIk3xjsX5mbKJA
+cb+sneKM3cnbgeuTgWHMJrQ6PIdFwH03IGU5k76TnMJ+2Gd2vP9OGzBXpjUvx34i
+gk6BtjC5T8hq8DFa8arA0OMKIqDhaluGAGKQvZIjWTYN2bR4qX7PYXxeWJCYfZ6Q
+3EvIfRl7rpOx0FVkhQhxeCcEI59v1Q==
+=9X7s
+-----END PGP SIGNATURE-----
+
+--WSEc7iFNh20inuIX--
