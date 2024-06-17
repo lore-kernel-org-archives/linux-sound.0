@@ -1,251 +1,149 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FADC198A0D
-	for <linux-sound@vger.kernel.org>; Mon, 17 Jun 2024 12:57:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D43418FC6F
+	for <linux-sound@vger.kernel.org>; Mon, 17 Jun 2024 13:03:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718629065; cv=none; b=ShwbkyM7VJ9SH6xI4w4fFeEa30qXa3tfc3fNeUDcsv6pk15MVQuC3qlPobhvjtULCVFt96NT1cMrByeYSXv0QXsVzrLhAbxS7yiPAETaMo5cMaTrGV31QW4jO8qlf92sWPQwOI/M1FzkogCQqOO0tpw3YLKBh5TFgVlxojpSzxg=
+	t=1718629417; cv=none; b=K+4beIGM+sbEWBj8l4Uc6POTEysVhGXvJXStVPwuQvo68SxdYCTxF7GsrU91ndDbqfxWgh9kudw/8kMRuKHNSRtPLsxpjBbVM8YLmlxirD0MUNeEkFyPeMFa8d9L1IAMLGB4hhSEPsAmSEqZ2eXubSPqT1ic2YDKdAZdLQ2YLIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718629065; c=relaxed/simple;
-	bh=Unpy0fcgAVV1amIXBoFEhjYt8fI7Z2Vt34a/d1IuTRw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TVS4oa1ZRI90AMVlTC3cy7rTfa5E/e11Lck5nzSYxX3hW3UfS3lBQcSVMjvbOZfD2bCaUKvpas7lrnoIUL8vfxZpVQUrKcfdjAM6dHTrQyFJBmFsCbuXRjQNKw/UGDl6XoDi3LUXVIDekx+kmKHsDvSH5nMNp8LCTt2ZnnjIeZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Z40PyfSa; arc=none smtp.client-ip=209.85.208.44
+	s=arc-20240116; t=1718629417; c=relaxed/simple;
+	bh=YWvpQ0ab4Dp6gKq8jwDSX4NydsgeD85hsgBWMfw0Wak=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=fFU0h6LPvzYePQYicnJsPgdRvhyLc4/gV/d943vdQWaLaUtPzdaFnSsZwXaG5fFRutYpzR8gJs6IuD1cbPRfS0ECX46xtmyNywEEE/kJ7vNFBx3WQh3p038jQCPNS9UOBX52ejjjHljQOkvgwGtbJsuNBZ7BP537WJm+b3NdsC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AzE+SCyt; arc=none smtp.client-ip=209.85.208.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Z40PyfSa"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-57c83100c5fso4737037a12.3
-        for <linux-sound@vger.kernel.org>; Mon, 17 Jun 2024 05:57:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AzE+SCyt"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-57c6994e2f1so2410493a12.0
+        for <linux-sound@vger.kernel.org>; Mon, 17 Jun 2024 06:03:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718629060; x=1719233860; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bQpH5thE80wSRqo8VNuFTjz9gxUBUOzFe51cHAyNWJQ=;
-        b=Z40PyfSazakNhtYd9E8zuSJ2krof6H2qHApU1d9qnhRWfdQ5SNqWpkuGkDLS13qkoQ
-         RkATk5rq7uaw4gQKvl5wdiDf+vlMTQBcjotzgaFFjfBtMSlVucY6eLJ4dOKfCEehAMXi
-         xfYeUJ4iAuqoUwe2T58sCxYf7/AQQkg1XRUj0vK+4brLgGyccndA/q2Szwf7wyzzcfSy
-         R+CxZYiYp1Fy6G9VaBMhDOceJNb7gl5e1RfGyBRMvrenDxday/Frua52rcSdVjpG4dfW
-         G5FzKm2yOlrbVn+V7uT5XaaTAna7jVILHaSPVNT8uhl9gmgXbyx6T/sHWrFruHtKJhFD
-         woCA==
+        d=linaro.org; s=google; t=1718629414; x=1719234214; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=K0h98bfk6InRRrhm6wwIHnjZdloO4BC8T6hc9Gmbf7c=;
+        b=AzE+SCytGUOjt/YFp8MrG2VCasMypd9BFoZYkOCW/Ql95Z5emayfBWmx5nwZUxc13L
+         9Hw3I9YLfC1PaVVkhm9uH0dblqzlW9OpJaHQAb1H69nk5ka7eWmJVr3wIohHXh/7aWz5
+         ItkY0ljkngwrWhdQeeWdypO9icEavIKAh4jjIifvO3NAwAJDyr/wkM+axEQeEwXuhaWn
+         55ebNukKSzFTMAKM8iu8cj9CYt5JdxOrQlWkqoPLWQCPU6b9Xe43k00Vw+hvEBFX1Nxs
+         /PaD8E09M6jAHgFSHbf7VVyOEOsB1KdO2r8NOTsLvcEDKREnL68ArAZ6zexXX9OehnFk
+         WxZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718629060; x=1719233860;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bQpH5thE80wSRqo8VNuFTjz9gxUBUOzFe51cHAyNWJQ=;
-        b=EcQzJtZL2xcBu5hkeXp+nAZCTaUQ3Y18fYJFQ0hi3XQXAULEItL27buotg9ygiRkFv
-         zX0j8PqALsU1+6WoIWGWeLKV/e6UZKv8w+u4h1YSajrSC7SWZFryNGjnGLqUtrRXHIkL
-         BFx9se82E5hUNqlcNrwvKFOWdaNRkZbaYqSKII4iZnhtsTyPa4Rkwfvlo24+LdL1K2G7
-         mGfA7JFZxHLv4jKVPNQaDDME48lMjJNxy3hIxu69vnaJgHbVcoD3rvEYDW+9PzxA6wMJ
-         dDuTxKEX4bLrNEZ+ZkZuOh6ZyCtxxqc/Krw9GmIoNFHIky+/xSPwqs5gl0rjlrMPRryr
-         s6ww==
-X-Forwarded-Encrypted: i=1; AJvYcCU0AYrlLbGQRNBixcfGz7Bts2kQhqkbiZ1NZDp69uQKYbtQBbTwoZ3cYwnjwHEZAdKjFgfpr/AuR2j+ToA8UvhiacqVyESkMPGrM4A=
-X-Gm-Message-State: AOJu0YzFr3vOHLBE1OmDrglYeklzD1ZMF2naxDfa0EpyGe6n+j8DFyeb
-	7hsvliknVCRRMafpAMY59oI6RrgDDh6Hhw348HWIMWuAv5er2Uh3JEyfFdfUe3c=
-X-Google-Smtp-Source: AGHT+IFIpkGDjeitChcxtvy5960jSacHi9eMQgBmL6cQ9MHVVM+dDQzXFL20jMKx9ZwVFpmrLy7w6A==
-X-Received: by 2002:a50:d541:0:b0:57c:563b:cc40 with SMTP id 4fb4d7f45d1cf-57cbd69017cmr5698477a12.25.1718629060139;
-        Mon, 17 Jun 2024 05:57:40 -0700 (PDT)
-Received: from krzk-bin.. ([78.10.207.147])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57cb7439070sm6428860a12.85.2024.06.17.05.57.38
+        d=1e100.net; s=20230601; t=1718629414; x=1719234214;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=K0h98bfk6InRRrhm6wwIHnjZdloO4BC8T6hc9Gmbf7c=;
+        b=rEBnMsCAFrlDnpr42yoqNZ208R6kYAd+BiVT811LMk16SxwuxhQUEkZ4GbMX8CjJQe
+         shLVgts9mqBpWwiTltW94KW2Pp7JmYX6SQ49GlCE+0yQeHyL+8yhBcPMEBkO7jB3Vo+F
+         PyxsoFyTj1cmI/DqXaC8oUNqPik8xoBIgDUDV6ICxoEMXHprO7fBrGDxAiA11q0yOiMm
+         c2/++VPdqCK/tZKOsv5fyu3syi/MvTvOYD5KelWtq9yVkMu8BJ9oCM5WYT9sCZhhYSba
+         IyN5RQ2IpIyM6j9RLPwInGdgD+6Xx8Y52/0a7ezAsnmQw9pyBBnUZQW04dykWBlRvLvU
+         HMIw==
+X-Gm-Message-State: AOJu0YxaN/VqOTeyfPqE48OHepeXdAkIWMmqab2Nh708D/JlQPArJG++
+	BFyEK2edFg7TjTp+d+UV+PUd4nWeKSQyxH6hagtOAojk8Bqa35YWNXgSIWdFHEAT9VMb6jMnx58
+	5
+X-Google-Smtp-Source: AGHT+IExtTHGNouiNFqgjEiT+LPP433XAeDYx1y6ZS3ofgzCUaUo3A3zQURDTqIS8cL0nLldaqPNSQ==
+X-Received: by 2002:a50:c056:0:b0:57c:6338:328a with SMTP id 4fb4d7f45d1cf-57cbd6c7589mr9110762a12.30.1718629413597;
+        Mon, 17 Jun 2024 06:03:33 -0700 (PDT)
+Received: from [127.0.1.1] ([78.10.207.147])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57cb72daa67sm6404349a12.38.2024.06.17.06.03.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Jun 2024 05:57:39 -0700 (PDT)
+        Mon, 17 Jun 2024 06:03:33 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v2 2/2] ASoC: Constify DAI ops auto_selectable_formats
-Date: Mon, 17 Jun 2024 14:57:35 +0200
-Message-ID: <20240617125735.582963-2-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240617125735.582963-1-krzysztof.kozlowski@linaro.org>
-References: <20240617125735.582963-1-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 0/6] ASoC: Few constifications (mostly arguments)
+Date: Mon, 17 Jun 2024 15:03:18 +0200
+Message-Id: <20240617-n-asoc-const-auto-selectable-formats-v1-0-8004f346ee38@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABc0cGYC/x2N0QrCMAwAf2Xk2UA7q4K/Ij7EmGpgNtJ0Qxj7d
+ 8vu7V7uVnCpKg7XYYUqi7pa6RIPA/CbyktQn91hDGMK53jBguTGyFa8Ic3N0GUSbvSYBLPVDzX
+ HeMzMp9BJCXrqWyXrb9/c7tv2BxQCUup2AAAA
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Banajit Goswami <bgoswami@quicinc.com>, 
+ Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2065;
+ i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
+ bh=YWvpQ0ab4Dp6gKq8jwDSX4NydsgeD85hsgBWMfw0Wak=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmcDQZw8CQ6TtEuwrDOfeyUso35j7jNCqTLG3G5
+ N7+xDUTMyiJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZnA0GQAKCRDBN2bmhouD
+ 1zYrD/wM2IO5gZH/cQKpnk2qBqusJLmMij0sMKKL+5bcwpi23FojEa+GuWh2EMwPnjTj4utyPdh
+ 7JyboAxvTe3MZGlgXPUZr//nic+0BYW3WSW2dSWyS3VNGxTMjA8C3VMl7miscFV5+tjWrIKG/a+
+ NDQzoAU9ilfXFt3ZWvOxUetiq5VTtYUFRMhLtYdOUzI2HyVSTAMvOAOzplMXLw0Kn1NM4zjOyY8
+ 33Tr3e8c11tHUS8Awv97pIb8lfTuQTgT8C9oR4zvRRQUXvP34ADYrAbV7Ydf8+J5nebLRFoJD43
+ SNXtRXhICMRfQTXFZPoKoVE0tGA+8uNNhGVmwL9cfpMI4MIo6lE1MS5Q7v+33zdAdEo8jzCfRD9
+ mpcj8evTj7sZkVbmZ6HMHj7wZgwAdto+7I9K4W5Be0yisk2WSDiUrpo88c/gEEqNr+zJ7WgRakk
+ zfD7QmCqNEGROVVso0LlINeb+qEiIWUAKol8e0JDrt75EycYs59LTFfFmdI4Ax2s1zl4m1yx/8m
+ Cfk2cLZ+24AvyedFrIbf6y+NFPbCXrV14Pjc044trBQlKBO64vdetO0eFcHTD7sTiDFgjHlRqvv
+ 9XzFHZRmmhR/46sCgsTx9t0k7DsM7QpepXg1Y/w/+eQELXsW6XWyG3D386IXRB5d5ber3QVrd9C
+ NNtbwNuw38cNWKQ==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
+ fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-The static arrays passed as 'auto_selectable_formats' are not modified
-by the drivers nor by the core code, so make it const for code safety.
+Make few pointers in ASoC functions as pointers to const, so the code is
+clearer to read, a bit safer and allows further constifications (e.g.
+placing some data as rodata).
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Best regards,
+Krzysztof
 
 ---
+Krzysztof Kozlowski (6):
+      ASoC: Constify of_phandle_args in snd_soc_dai_driver
+      ASoC: Constify of_phandle_args in snd_soc_dai_link_component
+      ASoC: Constify passed data to core function
+      ASoC: Constify DAI passed to get_channel_map
+      ASoC: Constify return of snd_soc_dai_get_pcm_stream()
+      ALSA: Cleanup trailing white-spaces
 
-Changes in v2:
-1. Add missing change to sound/soc/codecs/framer-codec.c (Herve)
+ include/sound/soc-dai.h            | 26 +++++++------
+ include/sound/soc.h                | 19 +++++-----
+ sound/core/control_compat.c        |  2 +-
+ sound/core/device.c                |  4 +-
+ sound/core/hwdep.c                 | 10 ++---
+ sound/core/init.c                  |  3 +-
+ sound/core/memalloc.c              |  2 +-
+ sound/core/memory.c                |  2 +-
+ sound/core/pcm.c                   | 22 +++++------
+ sound/core/pcm_compat.c            |  2 +-
+ sound/core/pcm_lib.c               | 41 ++++++++++----------
+ sound/core/pcm_misc.c              |  2 +-
+ sound/core/pcm_native.c            | 76 +++++++++++++++++++-------------------
+ sound/core/seq_device.c            |  2 +-
+ sound/soc/codecs/lpass-rx-macro.c  |  2 +-
+ sound/soc/codecs/lpass-tx-macro.c  |  2 +-
+ sound/soc/codecs/lpass-va-macro.c  |  2 +-
+ sound/soc/codecs/lpass-wsa-macro.c |  2 +-
+ sound/soc/codecs/wcd9335.c         |  2 +-
+ sound/soc/codecs/wcd934x.c         |  2 +-
+ sound/soc/intel/avs/pcm.c          |  4 +-
+ sound/soc/soc-core.c               |  4 +-
+ sound/soc/soc-dai.c                | 14 +++----
+ sound/soc/soc-pcm.c                | 26 ++++++-------
+ sound/soc/soc-utils.c              |  8 ++--
+ 25 files changed, 141 insertions(+), 140 deletions(-)
 ---
- sound/soc/codecs/ak4613.c          | 2 +-
- sound/soc/codecs/da7213.c          | 2 +-
- sound/soc/codecs/framer-codec.c    | 2 +-
- sound/soc/codecs/hdmi-codec.c      | 2 +-
- sound/soc/codecs/idt821034.c       | 2 +-
- sound/soc/codecs/pcm3168a.c        | 2 +-
- sound/soc/codecs/peb2466.c         | 2 +-
- sound/soc/generic/test-component.c | 2 +-
- sound/soc/sh/fsi.c                 | 2 +-
- sound/soc/sh/rcar/core.c           | 2 +-
- sound/soc/soc-utils.c              | 2 +-
- 11 files changed, 11 insertions(+), 11 deletions(-)
+base-commit: cf32e2eb8404572eaacd219dde4e703fad349299
+change-id: 20240617-n-asoc-const-auto-selectable-formats-13fcc5000044
 
-diff --git a/sound/soc/codecs/ak4613.c b/sound/soc/codecs/ak4613.c
-index 73fb35560e51..551738abd1a5 100644
---- a/sound/soc/codecs/ak4613.c
-+++ b/sound/soc/codecs/ak4613.c
-@@ -753,7 +753,7 @@ static int ak4613_dai_trigger(struct snd_pcm_substream *substream, int cmd,
-  *	SND_SOC_DAIFMT_CBC_CFC
-  *	SND_SOC_DAIFMT_CBP_CFP
-  */
--static u64 ak4613_dai_formats =
-+static const u64 ak4613_dai_formats =
- 	SND_SOC_POSSIBLE_DAIFMT_I2S	|
- 	SND_SOC_POSSIBLE_DAIFMT_LEFT_J;
- 
-diff --git a/sound/soc/codecs/da7213.c b/sound/soc/codecs/da7213.c
-index a2b328f3b39f..f3ef6fb55304 100644
---- a/sound/soc/codecs/da7213.c
-+++ b/sound/soc/codecs/da7213.c
-@@ -1720,7 +1720,7 @@ static int da7213_set_component_pll(struct snd_soc_component *component,
-  *	SND_SOC_DAIFMT_CBC_CFC
-  *	SND_SOC_DAIFMT_CBP_CFP
-  */
--static u64 da7213_dai_formats =
-+static const u64 da7213_dai_formats =
- 	SND_SOC_POSSIBLE_DAIFMT_I2S	|
- 	SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
- 	SND_SOC_POSSIBLE_DAIFMT_RIGHT_J	|
-diff --git a/sound/soc/codecs/framer-codec.c b/sound/soc/codecs/framer-codec.c
-index e5fcde9ee308..6f57a3aeecc8 100644
---- a/sound/soc/codecs/framer-codec.c
-+++ b/sound/soc/codecs/framer-codec.c
-@@ -238,7 +238,7 @@ static int framer_dai_startup(struct snd_pcm_substream *substream,
- 	return 0;
- }
- 
--static u64 framer_dai_formats[] = {
-+static const u64 framer_dai_formats[] = {
- 	SND_SOC_POSSIBLE_DAIFMT_DSP_B,
- };
- 
-diff --git a/sound/soc/codecs/hdmi-codec.c b/sound/soc/codecs/hdmi-codec.c
-index d3abb7ce2153..74caae52e127 100644
---- a/sound/soc/codecs/hdmi-codec.c
-+++ b/sound/soc/codecs/hdmi-codec.c
-@@ -715,7 +715,7 @@ static int hdmi_codec_mute(struct snd_soc_dai *dai, int mute, int direction)
-  * For example,
-  *	${LINUX}/drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c
-  */
--static u64 hdmi_codec_formats =
-+static const u64 hdmi_codec_formats =
- 	SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
- 	SND_SOC_POSSIBLE_DAIFMT_NB_IF	|
- 	SND_SOC_POSSIBLE_DAIFMT_IB_NF	|
-diff --git a/sound/soc/codecs/idt821034.c b/sound/soc/codecs/idt821034.c
-index 2cc7b9166e69..cb7a68c799f8 100644
---- a/sound/soc/codecs/idt821034.c
-+++ b/sound/soc/codecs/idt821034.c
-@@ -860,7 +860,7 @@ static int idt821034_dai_startup(struct snd_pcm_substream *substream,
- 	return 0;
- }
- 
--static u64 idt821034_dai_formats[] = {
-+static const u64 idt821034_dai_formats[] = {
- 	SND_SOC_POSSIBLE_DAIFMT_DSP_A	|
- 	SND_SOC_POSSIBLE_DAIFMT_DSP_B,
- };
-diff --git a/sound/soc/codecs/pcm3168a.c b/sound/soc/codecs/pcm3168a.c
-index 3c0e0fdbfc5c..fac0617ab95b 100644
---- a/sound/soc/codecs/pcm3168a.c
-+++ b/sound/soc/codecs/pcm3168a.c
-@@ -562,7 +562,7 @@ static int pcm3168a_hw_params(struct snd_pcm_substream *substream,
- 	return 0;
- }
- 
--static u64 pcm3168a_dai_formats[] = {
-+static const u64 pcm3168a_dai_formats[] = {
- 	/*
- 	 * Select below from Sound Card, not here
- 	 *	SND_SOC_DAIFMT_CBC_CFC
-diff --git a/sound/soc/codecs/peb2466.c b/sound/soc/codecs/peb2466.c
-index 5dec69be0acb..76ee7e3f4d9b 100644
---- a/sound/soc/codecs/peb2466.c
-+++ b/sound/soc/codecs/peb2466.c
-@@ -814,7 +814,7 @@ static int peb2466_dai_startup(struct snd_pcm_substream *substream,
- 					  &peb2466_sample_bits_constr);
- }
- 
--static u64 peb2466_dai_formats[] = {
-+static const u64 peb2466_dai_formats[] = {
- 	SND_SOC_POSSIBLE_DAIFMT_DSP_A	|
- 	SND_SOC_POSSIBLE_DAIFMT_DSP_B,
- };
-diff --git a/sound/soc/generic/test-component.c b/sound/soc/generic/test-component.c
-index e4967540a2e1..e9e5e235a8a6 100644
---- a/sound/soc/generic/test-component.c
-+++ b/sound/soc/generic/test-component.c
-@@ -189,7 +189,7 @@ static int test_dai_bespoke_trigger(struct snd_pcm_substream *substream,
- 	return 0;
- }
- 
--static u64 test_dai_formats =
-+static const u64 test_dai_formats =
- 	/*
- 	 * Select below from Sound Card, not auto
- 	 *	SND_SOC_POSSIBLE_DAIFMT_BP_FP
-diff --git a/sound/soc/sh/fsi.c b/sound/soc/sh/fsi.c
-index 84601ba43b7d..087e379aa3bc 100644
---- a/sound/soc/sh/fsi.c
-+++ b/sound/soc/sh/fsi.c
-@@ -1713,7 +1713,7 @@ static int fsi_dai_hw_params(struct snd_pcm_substream *substream,
-  *	SND_SOC_DAIFMT_CBC_CFC
-  *	SND_SOC_DAIFMT_CBP_CFP
-  */
--static u64 fsi_dai_formats =
-+static const u64 fsi_dai_formats =
- 	SND_SOC_POSSIBLE_DAIFMT_I2S	|
- 	SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
- 	SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
-diff --git a/sound/soc/sh/rcar/core.c b/sound/soc/sh/rcar/core.c
-index 6bc7027ed4db..63b3c8bf0fde 100644
---- a/sound/soc/sh/rcar/core.c
-+++ b/sound/soc/sh/rcar/core.c
-@@ -1061,7 +1061,7 @@ static int rsnd_soc_dai_prepare(struct snd_pcm_substream *substream,
- 	return rsnd_dai_call(prepare, io, priv);
- }
- 
--static u64 rsnd_soc_dai_formats[] = {
-+static const u64 rsnd_soc_dai_formats[] = {
- 	/*
- 	 * 1st Priority
- 	 *
-diff --git a/sound/soc/soc-utils.c b/sound/soc/soc-utils.c
-index d05e712c9518..20135a8359bf 100644
---- a/sound/soc/soc-utils.c
-+++ b/sound/soc/soc-utils.c
-@@ -163,7 +163,7 @@ static const struct snd_soc_component_driver dummy_codec = {
-  *	SND_SOC_POSSIBLE_DAIFMT_CBC_CFP
-  *	SND_SOC_POSSIBLE_DAIFMT_CBC_CFC
-  */
--static u64 dummy_dai_formats =
-+static const u64 dummy_dai_formats =
- 	SND_SOC_POSSIBLE_DAIFMT_I2S	|
- 	SND_SOC_POSSIBLE_DAIFMT_RIGHT_J	|
- 	SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
+Best regards,
 -- 
-2.43.0
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
