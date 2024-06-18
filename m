@@ -1,131 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C926F4EB;
-	Tue, 18 Jun 2024 07:31:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1781C47A5D;
+	Tue, 18 Jun 2024 07:40:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718695865; cv=none; b=byifz8BAqePowpmjT/IFN8r9p6vYHX8sbxdbXOHd8meOE2Lk28mA6lKs2jy4jLiZM5LfY9E4rV8UEW3QPk8A9Au1zNvxcnSR1XkI+KvNR3hva/ZJyXew3BzGYRBVYnhCPNVW8ISvhycl92hEEj2rP5ObeZ2NSj72BFZymip2JqI=
+	t=1718696437; cv=none; b=U6FyAknh4m+1eGpLh0nC6rnZQexhWHg3Gn7/RC0uEF+0G30JRrgziHItndXl2PTx9594rK2P+m9GnmrMCkbk5K2c8JkgrRrCnG19VygtZEfAKLc7TPQLMUDD9HorJ6f53pwLBTbELeGwMLmZ+Xc5qO5pZoa3J8enidsu3mDG0zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718695865; c=relaxed/simple;
-	bh=A4KaJLUkFLBPzaobrNvTVqqaFSfOtX8gEubMGY+5R1k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=Dw6oDuNq2JNcRmCyml465mUFaGfeEYIn8S+YzPHnTnJ1CEWp5WMM9za/DFeedo5YWzJVmYUViSNqFfnl/1Bkd0Ed0RUmcAmLBZn6XKxnnESaP5Xs5xfGqKyK6pngsaZsZqoXg8WE2lt8LMCC9PyVmba1A2hc8ALTjGiUdDKxyWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nS5BBQVw; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nS5BBQVw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82D1EC3277B;
-	Tue, 18 Jun 2024 07:31:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718695864;
-	bh=A4KaJLUkFLBPzaobrNvTVqqaFSfOtX8gEubMGY+5R1k=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=nS5BBQVwQ68/SzhSHbZAq33PaR8jAJKCOFJhDmifCTIZGNvctcsK+CE1FyapdhNN2
-	 dVj4/CS3r+vnVcAbzWCQt2JRtWTGL55Qh+Bu+kvw5MhhYxiZWgdsJwsWaqKGQxMZF+
-	 VGtNd4dvgyqZMwEuHUcKPaXh7xeKFU4yHyu0UDeXoVxDwD5Bf9WUG5JZJVGwu7C3jV
-	 qr2YjHSAqxQVi331U0Z0KMUKGZ9VPxYqUY3HUCamGgBV3x3WYpg5b2DeadagN2Jqwj
-	 YbVOk8TGlKjQKfepSD4LO/Y5k0cp1frcOGREXI8ZvYvmBrFk6LUA6m4YU+3F4anwrx
-	 DfNIBAhGOGqVg==
-Message-ID: <0c59482e-ce40-450c-af6b-91d19f647775@kernel.org>
-Date: Tue, 18 Jun 2024 09:30:59 +0200
+	s=arc-20240116; t=1718696437; c=relaxed/simple;
+	bh=yj43muI9Zx5DTjKKVxrlSMZFj+rvK9otEprK9qxy+is=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tcSkXqlMPMQS/c07w0KC2U1LVSi9S+b3GaM1ycxPOQVMUtYngbMxgkmmBRcn1yGM0psicXzdKRq/fmShZGefu8DJ64Rs+Y09qrvJ9/CVSzJVX34jK+zMhD69one8G1ESpeXfAMcNPt9y9yMEohUwFtjT/7/jGTlGTJQHwXy3zH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-dfe81d54db9so4870248276.2;
+        Tue, 18 Jun 2024 00:40:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718696434; x=1719301234;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1+xcRo0rtv0+KrEU5Kv7T95pjKSl0TJAoMf3IC0KPCA=;
+        b=l+fy7Wp+RBz3XkXxD0jp9vu3p8twYEtGtwOyrYISQnwwuTZMzyhiK7OEgcRuhpNt1E
+         67+q9gOgb1g8bcOSnuNF+zQBU/Z+LIk2Hq548CIaDcqYTq15UUs26xc6RTmG79spiXOd
+         5PKTj/ZpPUumKVq3nhPHJYcCDvTVGb1RZqpXri9OLSaGIF/9HBFBavKwxUPwz2781nZW
+         AJxVqVqE2US/6WoS97arS7UGUpgI1MuZhlFOO/6OfYzPlOz0aR8nsZxuSMC3NM1XMLk/
+         z723BTK9NKuN1JnnmHGtshG2NP/qzO5qwhS+MRxxMscYtK8HjEuZ7FTLjFcJ8DkTYmGp
+         kAFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVQAO3Lf/Pto2KTBi3dbr2X0z/tdYu0nsvfcbgKfxuHgAu3XMye3MIrWDKK7VDauD8t9mGru34M6d+M0/5SksqM21/S1blD6kok+KsPAseuRlisCXQgoVw2o4Az0EjiMvC36magBbe0LkM6jLntqUEoRt5mSBhAhlCJY3Tu76Ejdisgr83R/ugtIeI=
+X-Gm-Message-State: AOJu0Yxo8tu0ESWAIl0Y+pbwkTeZy0i+0Vl9ATIpoYSzw5Si+bRNnhRa
+	LETw2pZlrGYWV6q/ribP22NGsegjT94gwVJo7nbRmnzFCY5xKm2Uutyw5UAo
+X-Google-Smtp-Source: AGHT+IFE/eiJfk7YtJdLf8aJw3afMZg7pGrKWus/v4oMRqxTbo+xPXMcmiHIG+il54ABAhA4QIrP3Q==
+X-Received: by 2002:a25:24c:0:b0:e02:b7a9:48fd with SMTP id 3f1490d57ef6-e02b7a94d26mr144464276.29.1718696433939;
+        Tue, 18 Jun 2024 00:40:33 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-dff046690f2sm2202434276.7.2024.06.18.00.40.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Jun 2024 00:40:33 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-dfe43dca3bfso5695511276.0;
+        Tue, 18 Jun 2024 00:40:33 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCX1/vBvIwbbPTqAqy6qGnPfZMsBeWRJgXO23kQAnMqVD9svqS3RyO9OaFtLUVFCQ11uXpF/+mG8DCKoWaNAPMrefHIZ3FtNr7GaeRLBpCVlY876epIAUA23Ba2D0zV6VTME8Wq51i0TyThny2aor5K2aRLTRXg7hF5W4C34uI5oP8RZmgrKFEkKQ+M=
+X-Received: by 2002:a25:688e:0:b0:dff:137:b5cb with SMTP id
+ 3f1490d57ef6-dff153aba11mr10722840276.23.1718696433486; Tue, 18 Jun 2024
+ 00:40:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] ASoC: dt-bindings: cirrus,cs530x: Add initial DT
- binding
-To: Paul Handrigan <paulha@opensource.cirrus.com>, broonie@kernel.org,
- lgirdwood@gmail.com, linux-sound@vger.kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
- patches@opensource.cirrus.com
-References: <20240617190102.1010597-1-paulha@opensource.cirrus.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240617190102.1010597-1-paulha@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240617-md-m68k-sound-oss-dmasound-v1-1-5c19306be930@quicinc.com>
+In-Reply-To: <20240617-md-m68k-sound-oss-dmasound-v1-1-5c19306be930@quicinc.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 18 Jun 2024 09:40:21 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWqMqakMH+rVoCc2LTpGj-+v+rF0XmEeQwTHrT73Ay5Rg@mail.gmail.com>
+Message-ID: <CAMuHMdWqMqakMH+rVoCc2LTpGj-+v+rF0XmEeQwTHrT73Ay5Rg@mail.gmail.com>
+Subject: Re: [PATCH] sound/oss/dmasound: add missing MODULE_DESCRIPTION() macro
+To: Jeff Johnson <quic_jjohnson@quicinc.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 17/06/2024 21:01, Paul Handrigan wrote:
-> Add the YAML DT bindings for the cs530x high performance
-> audio ADCs.
-> 
-> Signed-off-by: Paul Handrigan <paulha@opensource.cirrus.com>
-> ---
+On Tue, Jun 18, 2024 at 3:37=E2=80=AFAM Jeff Johnson <quic_jjohnson@quicinc=
+.com> wrote:
+> With ARCH=3Dm68k, make allmodconfig && make W=3D1 C=3D1 reports:
+> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/oss/dmasound/dmas=
+ound_core.o
+>
+> Add the missing invocation of the MODULE_DESCRIPTION() macro.
+>
+> Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
 
-Where is the changelog? It's v3 but what happened here? No explanation
-here, no cover letter.
+Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-If you are going to send any new version, provide detailed changelog
-(see Submitting patches).
+Gr{oetje,eeting}s,
 
+                        Geert
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-
----
-
-<form letter>
-This is an automated instruction, just in case, because many review tags
-are being ignored. If you know the process, you can skip it (please do
-not feel offended by me posting it here - no bad intentions intended).
-If you do not know the process, here is a short explanation:
-
-Please add Acked-by/Reviewed-by/Tested-by tags when posting new
-versions, under or above your Signed-off-by tag. Tag is "received", when
-provided in a message replied to you on the mailing list. Tools like b4
-can help here. However, there's no need to repost patches *only* to add
-the tags. The upstream maintainer will do that for tags received on the
-version they apply.
-
-https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
-</form letter>
-
-Best regards,
-Krzysztof
-
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
