@@ -1,164 +1,186 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6595B156997
-	for <linux-sound@vger.kernel.org>; Tue, 18 Jun 2024 10:53:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F92417A926;
+	Tue, 18 Jun 2024 10:53:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718707992; cv=none; b=fTMNjLvpp/t4gFZBX0CGHPvqXsMo/IpAKBByUfHTDsrqJiCFB9twhCArjmBOEuvRq2CrmersoklSswYCxe853mncLDWaXb5935RkYRzfjdHDDBijjd+06bQVvQp5Ycuupzjr6SEUGCsTSyidJ3vYOTfNd4jtGkdXcOPvzHgpqbI=
+	t=1718708019; cv=none; b=K8ucNthweuyOc8bFjRKWHEaYQPcrirY2m5c4BvMFxX8Exq9IWMcVPi2fZYdp60H7jyhUil6bjl6j8Gl/NwMFzqp8G//+F5BPLgiPD80LaBSsM3EyS6vCBj42UI21MQG6Kh8AdnT1HNo48AvOPoi9lQ0wMWxWbbDCLuNjOxz/jBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718707992; c=relaxed/simple;
-	bh=1g+vO9Sh59HbqB2lOI1V9EKWvcMPtcE9sb2hKzBIIUs=;
-	h=Date:Message-ID:From:To:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lydGGBzhH8cINH9uPQdxXydbACO0zBN6us034kNKF1O//SXuRndaMDCwU832PJp9ZgtYOA2u82qMDwkIC/aCvR5/++9QXMK/FKI76I3Wbjsbw5svfIBqCAAKJEUDDrVZ6jaiE6oc6ghuXrPJhRwyOMeFsC6d9+kuFKIwmQ2gI9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dOopEu6s; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=C0fR5rS+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dOopEu6s; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=C0fR5rS+; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1718708019; c=relaxed/simple;
+	bh=TKqnk7jdCrlyYi8lHm4Cy6BpCu+PEPISCKnloXabxsI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=h+TL5vKaaY+6R2BGvBrnK/xA/i94vcqG+srhb/5uf5Jrr/3L54Qw75R2IuwLOK4/tj1gGbApZckqb86BF4Q2hdt9zSp9rHzshPKtFVevxD9CVpldBkLEMoNBVDwsrM07uDN4tz3fT/zshcXhvqt0cCiC930Q0BbYOi6g1Vdnjds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=T3sDvnow; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dOopEu6s";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="C0fR5rS+";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dOopEu6s";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="C0fR5rS+"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="T3sDvnow"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1718708009;
+	bh=TKqnk7jdCrlyYi8lHm4Cy6BpCu+PEPISCKnloXabxsI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=T3sDvnowOuc5j5SAyXkZYuRQqtjLCzeuWXDNu7JM6UfW/5aAEUGEmcGCnl/+1Dzu2
+	 e1NcDsb5dMNpo7tCs1zonM0kgbCKK4EnshAYLhBUeitHge+f0tRWbyvgY8lPhNsIgW
+	 eUqe69fgQOrCQghppGrnFYBrq94GUIa62Hhvz2oi+ihsNPD71DLErz1xNYodqdAtk2
+	 68RbHixeRono48IWOIuho6U1ECDo2zkPXTY65E8vBeIyhtCm4it8idgS7WKM5skXUl
+	 nRq7etEn7hdrTlwoL17snOv7f7nSkZJiCFtUDXNCgqxUg3sV3Rvp4c+TLOvr634fSR
+	 beUrZULdrfjtQ==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 835971F397
-	for <linux-sound@vger.kernel.org>; Tue, 18 Jun 2024 10:53:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718707987; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gszMmr9nBpwoDFje8NSsTDJXUCARpGqW/N3jnVIEbro=;
-	b=dOopEu6sz2na/iTxIN/iEnd/qviWe5zFM6nPd9ki/o+vP8EWBK283+kEpf5RZcRpl/EHL7
-	VQQVgrKQOVMDJD8HbZXz/xduzyXuCg1VXAT7WYNLQ9/naIcMDuR/6tz9UkkG/EHMNH6X9/
-	Di1UxBwfCrRes7wn8Bk5ZkbqvPCX9LA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718707987;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gszMmr9nBpwoDFje8NSsTDJXUCARpGqW/N3jnVIEbro=;
-	b=C0fR5rS+x2gRPqJnrPbHemuPT8egMTl7TYiv3WI2L0Le1EjLpsk4R0REPI8VDQJ+O4fE/C
-	U20opH23xmoQ66AQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=dOopEu6s;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=C0fR5rS+
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718707987; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gszMmr9nBpwoDFje8NSsTDJXUCARpGqW/N3jnVIEbro=;
-	b=dOopEu6sz2na/iTxIN/iEnd/qviWe5zFM6nPd9ki/o+vP8EWBK283+kEpf5RZcRpl/EHL7
-	VQQVgrKQOVMDJD8HbZXz/xduzyXuCg1VXAT7WYNLQ9/naIcMDuR/6tz9UkkG/EHMNH6X9/
-	Di1UxBwfCrRes7wn8Bk5ZkbqvPCX9LA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718707987;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gszMmr9nBpwoDFje8NSsTDJXUCARpGqW/N3jnVIEbro=;
-	b=C0fR5rS+x2gRPqJnrPbHemuPT8egMTl7TYiv3WI2L0Le1EjLpsk4R0REPI8VDQJ+O4fE/C
-	U20opH23xmoQ66AQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6CCF51369F
-	for <linux-sound@vger.kernel.org>; Tue, 18 Jun 2024 10:53:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +GP+GRNncWbCMwAAD6G6ig
-	(envelope-from <tiwai@suse.de>)
-	for <linux-sound@vger.kernel.org>; Tue, 18 Jun 2024 10:53:07 +0000
-Date: Tue, 18 Jun 2024 12:53:33 +0200
-Message-ID: <87cyoe7c9e.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: Re: [PATCH 3/5] ALSA: emu10k1:  Drop NULL check for snd_ctl_remove()
-In-Reply-To: <20240617100529.6667-4-tiwai@suse.de>
-References: <20240617100529.6667-1-tiwai@suse.de>
-	<20240617100529.6667-4-tiwai@suse.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id BC8443781183;
+	Tue, 18 Jun 2024 10:53:28 +0000 (UTC)
+Message-ID: <51b7bb8d-801b-4c2f-8650-40162bf08e13@collabora.com>
+Date: Tue, 18 Jun 2024 12:53:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 835971F397
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[linux-sound@vger.kernel.org];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] ASoC: dt-bindings: mt6358: Convert to dtschema
+To: Kartik Agarwala <agarwala.kartik@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Lee Jones <lee@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org
+References: <20240617-mt6358-v2-0-5d9f0e99941e@gmail.com>
+ <20240617-mt6358-v2-1-5d9f0e99941e@gmail.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20240617-mt6358-v2-1-5d9f0e99941e@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, 17 Jun 2024 12:05:25 +0200,
-Takashi Iwai wrote:
-> 
-> Since snd_ctl_remove() accepts the NULL kcontrol argument now, we can
-> drop the check in the caller side.
-> 
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
-
-Grrr, this is utterly broken.  Scratch this one.
-Sorry for the noise.
-
-
-Takashi
-
+Il 17/06/24 14:28, Kartik Agarwala ha scritto:
+> Convert from txt to dtschema
 > ---
->  sound/pci/emu10k1/emufx.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
+>   .../devicetree/bindings/sound/mediatek,mt6358.yaml | 51 ++++++++++++++++++++++
+>   Documentation/devicetree/bindings/sound/mt6358.txt | 26 -----------
+>   2 files changed, 51 insertions(+), 26 deletions(-)
 > 
-> diff --git a/sound/pci/emu10k1/emufx.c b/sound/pci/emu10k1/emufx.c
-> index 03efc317e05f..34f385b5cd46 100644
-> --- a/sound/pci/emu10k1/emufx.c
-> +++ b/sound/pci/emu10k1/emufx.c
-> @@ -959,7 +959,6 @@ static int snd_emu10k1_del_controls(struct snd_emu10k1 *emu,
->  {
->  	unsigned int i;
->  	struct emu10k1_ctl_elem_id id;
-> -	struct snd_emu10k1_fx8010_ctl *ctl;
->  	struct snd_card *card = emu->card;
->  	int err;
->  	
-> @@ -968,9 +967,7 @@ static int snd_emu10k1_del_controls(struct snd_emu10k1 *emu,
->  				       in_kernel);
->  		if (err < 0)
->  			return err;
-> -		ctl = snd_emu10k1_look_for_ctl(emu, &id);
-> -		if (ctl)
-> -			snd_ctl_remove(card, ctl->kcontrol);
-> +		snd_ctl_remove(card, snd_emu10k1_look_for_ctl(emu, &id));
->  	}
->  	return 0;
->  }
-> -- 
-> 2.43.0
+> diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt6358.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt6358.yaml
+> new file mode 100644
+> index 000000000..336d2d969
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/mediatek,mt6358.yaml
+> @@ -0,0 +1,51 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/mediatek,mt6358.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Mediatek MT6358 Audio Codec
+
+title: MediaTek MT6358/MT6366 Audio Codec
+
+> +
+> +maintainers:
+> +  - Kartik Agarwala <agarwala.kartik@gmail.com>
+
+   - Jiaxin Yu <jiaxin.yu@mediatek.com>
+
+
+> +
+> +description:
+> +  The communication between MT6358 and SoC is through Mediatek PMIC wrapper.
+> +  For more detail, please visit Mediatek PMIC wrapper documentation.
+> +  Must be a child node of PMIC wrapper.
+> +
+
+   The communication between MT6358 or MT6366 and SoC happens through
+   the MediaTek PMIC Wrapper.
+   For more detail, please visit MediaTek PMIC wrapper documentation:
+   Documentation/devicetree/bindings/soc/mediatek/mediatek,pwrap.yaml
+   Must be a child node of a PMIC.
+
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - const: mediatek,mt6358-sound
+> +      - const: mediatek,mt6366-sound
+
+This should be an enum.
+
+> +      - items:
+> +          - const: mediatek,mt6366-sound
+> +          - const: mediatek,mt6358-sound
+> +
+> +  Avdd-supply:
+> +    description: power source of AVDD
+> +
+> +  mediatek,dmic-mode:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      Indicates how many data pins are used to transmit two channels of PDM
+> +      signal. 0 means two wires, 1 means one wire. Default value is 0.
+> +    default: 0
+> +    enum:
+
+enum: [ 0, 1 ]
+
+> +      - 0
+> +      - 1
+> +
+
+Regards,
+Angelo
+
+> +required:
+> +  - compatible
+> +  - Avdd-supply
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    audio-codec {
+> +        compatible = "mediatek,mt6366-sound";
+> +        Avdd-supply = <&mt6358_vaud28_reg>;
+> +        mediatek,dmic-mode = <0>;
+> +    };
+> diff --git a/Documentation/devicetree/bindings/sound/mt6358.txt b/Documentation/devicetree/bindings/sound/mt6358.txt
+> deleted file mode 100644
+> index fbe9e55c6..000000000
+> --- a/Documentation/devicetree/bindings/sound/mt6358.txt
+> +++ /dev/null
+> @@ -1,26 +0,0 @@
+> -Mediatek MT6358 Audio Codec
+> -
+> -The communication between MT6358 and SoC is through Mediatek PMIC wrapper.
+> -For more detail, please visit Mediatek PMIC wrapper documentation.
+> -
+> -Must be a child node of PMIC wrapper.
+> -
+> -Required properties:
+> -
+> -- compatible - "string" - One of:
+> -    "mediatek,mt6358-sound"
+> -    "mediatek,mt6366-sound"
+> -- Avdd-supply : power source of AVDD
+> -
+> -Optional properties:
+> -- mediatek,dmic-mode : Indicates how many data pins are used to transmit two
+> -	channels of PDM signal. 0 means two wires, 1 means one wire. Default
+> -	value is 0.
+> -
+> -Example:
+> -
+> -mt6358_snd {
+> -	compatible = "mediatek,mt6358-sound";
+> -	Avdd-supply = <&mt6358_vaud28_reg>;
+> -	mediatek,dmic-mode = <0>;
+> -};
 > 
+
+
+
