@@ -1,45 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED7EA374C2;
-	Tue, 18 Jun 2024 16:00:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DFA1482EE;
+	Tue, 18 Jun 2024 16:06:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718726427; cv=none; b=CvPNEMYjpy23lN7PLIzcpdrEhpJznMgipvf0PBQ65cenKkYQFXc0laix1W30EtThTBqFp4v6E96tzRPMJ4EtYwz9cm8yiUs85qtXrsDpEfPa8MmTdInB2cH9Zo485LXlpTIANjbansv8Hr63HlvUZqfEvOphFSfkUVC1vqDZpV4=
+	t=1718726781; cv=none; b=fLCAFscWJlYqsC8dF/AMvWRJdNKaqj9rngdcwgEMy3Ps0CeX8nSXnUM7EfcKHU6ZXD9p8Q2CK+0Z83QYSe0wBsVvk6Xha9xuZwNK4Xi72IAM/CpWOIi5E9PHJQJ+M9lo8yGQAlBhivcSvOe1W7zgQuBqgVmkrJkF+enzI1wfLsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718726427; c=relaxed/simple;
-	bh=gGAzyIFzGGDKK8SXh3zCzIQoM2rl5XEz/31HIoG9EVk=;
+	s=arc-20240116; t=1718726781; c=relaxed/simple;
+	bh=oBKM1LJV8ZYOYaVKPrKUh71IYJ/uxB2+DXWKBB+yrPs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jo4w6BUQo77wXGFTGqmCUz1lzbjd2kApyxVCv5rW6RLHsp6xjSKLrjTErszCTh+YyifAoFOf4fnV3MzCbIxQqOFLEJfwDSrjzhBnIUgJpVeIQkdA6PjSJuUy8T5QToFwg/yF+bEAvNI06F0pivX0c4VKSnF8sFQiqGZopvAPDlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NKfKnfHY; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=qm1mP6adzMAI1olLAR/1AcEhHMJdrLtyFtSv3YQoLYoeMsmxNmXf+lDPcikzNEY8qrz1iOslbM6LQ4AF/FvllLV5CbddcbhUtC/rtpd2UuD95pNe7h5R6fuL34WWbXHgC5CjxyoHzAu/rFsql+yNapJoTLFP1cIKTNlAbKZ77wU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KPBMHbIJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NKfKnfHY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BDB8C4AF1C;
-	Tue, 18 Jun 2024 16:00:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KPBMHbIJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B28E7C4AF48;
+	Tue, 18 Jun 2024 16:06:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718726426;
-	bh=gGAzyIFzGGDKK8SXh3zCzIQoM2rl5XEz/31HIoG9EVk=;
+	s=k20201202; t=1718726780;
+	bh=oBKM1LJV8ZYOYaVKPrKUh71IYJ/uxB2+DXWKBB+yrPs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NKfKnfHYIzr74jn4RAxwFojT5SFTDksL1/d/wNaroGzQogdN5LNVWqUaO2ZMNe7+t
-	 m5UmF0zimg/97dCATCe8BBFIeprEEx+3DVeJD2O9PDC2tr/VIBLiLNsQozt1dEOEdx
-	 uwbhpoRI6AnGYEWNWPRntOJ+9rgxsw51fIYX2FmvEAO4eSKitxdJ6BYv/WzCb8K3Pa
-	 zhORkJirpA98Lt84Pqa2evcuJT8Ut87XK5SOSIgFpXh9fvSLcDKU4lgKQ9sjzLsXcc
-	 S/2ZB+Izd3SCxLCj/oDdSE0yj8iaisaUB1RWJuyeNE3O4m5z8EAzQp0lyqwni3fKi0
-	 VspO/rkQ6ap2Q==
-Date: Tue, 18 Jun 2024 17:00:07 +0100
+	b=KPBMHbIJKlIzCXe6FipDG2ksaDBDxuvTLCc4B7sGcOGKGXkfR5W3mbfYl7ah8kCxl
+	 J5cMLc4bv6PZ2BCduZ8oWgVA8T8TwsmsVNF7mXNitpCvbTXVQiSJk5WEjf+N1WfA3R
+	 /Ot/SdhFVB41aZlTWN32YK9ePV1I8vEF7U9mb4xcKuzTjtbOOFt/UAWXlgA1/Aq3sK
+	 2FMDF2eFIOxal4W7CbThARjqevUhpReVfUtMJKVelJUDb+ewEHvUKNeNNXvOmfmyxr
+	 2f6oymofmFld3CeeR8cpEQ2Q0z23hOtp0L0udCugyNGWd7+rtN2brfXUe18MUtOoHs
+	 iGQ6EukfBfP5Q==
+Date: Tue, 18 Jun 2024 17:06:15 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: Simon Trimmer <simont@opensource.cirrus.com>,
-	linux-sound@vger.kernel.org, alsa-devel@alsa-project.org,
-	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-Subject: Re: [PATCH] ASoC: cs35l56: Accept values greater than 0 as IRQ
- numbers
-Message-ID: <a2946d8a-1ead-4514-b1a4-9c04e37cd8a8@sirena.org.uk>
-References: <20240617135338.82006-1-simont@opensource.cirrus.com>
- <917507e5-dc6c-4e18-a7e1-554625de604e@sirena.org.uk>
- <3451fcf6-ff33-4f72-83d1-945b026b925b@opensource.cirrus.com>
- <007b01dac0c5$7807ac30$68170490$@opensource.cirrus.com>
- <f04958f0-b9e9-4f80-8a83-af9740fa83a0@opensource.cirrus.com>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH 2/3] spi: cs42l43: Add speaker id support to the bridge
+ configuration
+Message-ID: <3bcb0b44-8885-40f9-938d-07b44116f3bf@sirena.org.uk>
+References: <20240611132556.1557075-1-ckeepax@opensource.cirrus.com>
+ <20240611132556.1557075-2-ckeepax@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,36 +44,39 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Atk4irYPm/lHjafU"
+	protocol="application/pgp-signature"; boundary="5UoClPS6UrjhK232"
 Content-Disposition: inline
-In-Reply-To: <f04958f0-b9e9-4f80-8a83-af9740fa83a0@opensource.cirrus.com>
-X-Cookie: If you can read this, you're too close.
+In-Reply-To: <20240611132556.1557075-2-ckeepax@opensource.cirrus.com>
+X-Cookie: Printed on recycled paper.
 
 
---Atk4irYPm/lHjafU
+--5UoClPS6UrjhK232
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 17, 2024 at 03:54:04PM +0100, Richard Fitzgerald wrote:
+On Tue, Jun 11, 2024 at 02:25:55PM +0100, Charles Keepax wrote:
+> From: Simon Trimmer <simont@opensource.cirrus.com>
+>=20
+> OEMs can connect a number of types of speakers to the sidecar cs35l56
+> amplifiers and a different speaker requires a different firmware
+> configuration.
 
-> So 0 is invalid. Question is: is it also valid to pass -ve errors, or is
-> 0 the _only_ invalid value?
+This doesn't apply against current code, please check and resend.
 
-Negative values should be fine.
-
---Atk4irYPm/lHjafU
+--5UoClPS6UrjhK232
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZxrwcACgkQJNaLcl1U
-h9CZCwf+MWegKStTJHnfpzHkwKbAeRVIQymvXLtQy3ewdm0Ii4UsrIG1892Nxa2g
-2GD3D6wk6vtRahK9Ek6WTjg81a/B2v6CMwFeUWmb0CV6n1KXyicgFVyKtw4jJcL6
-M/G0D6Z6KKfRsKcot4JstoeMaepv8pZ+znOn0vmDPRQrTk3gwDkPPyTTkbiVtYbc
-PwJg4VtHZfyUgPzEhRSXz1LYp0npuxf17FBjAZFley2VwqmM6BLrYFrypqtXopM6
-GS/InTSR7BsUYmcAfWc7WXdCy9BT+ibj5D8BY9/FRhHDv5nvyxrGavUEIv1SzIFc
-dfx0dIe2RZMGDt4XBHsrpu2sr+Hu5w==
-=a8if
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZxsHcACgkQJNaLcl1U
+h9Dr0Af/VJ34RJgI9pWc2293sec60rEFIMRvjAcIeSFJYY4WLxiCEoF/nLxdNipj
+jXG2fanbfi0Ldca9aMeEvt3k0SVm9X6IpoCDkg3uN0hYUu/boRmFgmBlkzvxGRMF
+T80WP9r6qDCNev5vY1qpWvuCJ6bn5ywvyKyo51KMvHjU1q+bIs8dMKOGjrdwIV1D
+o3voy2gjUNlFug6fI67EQips9OObvcwc7YhzQM+gepHJayuxwam9K2PmLuwflOJW
+Elu6u4Qm3JvXCCpljWII0CDHv5LoawwiInhDEzi91OF2pQF1Rp/zbrMHXb8K6ZD/
+lN1ywGeOuiX/BaQ//Q3xT8WSsq/1Fg==
+=9CfF
 -----END PGP SIGNATURE-----
 
---Atk4irYPm/lHjafU--
+--5UoClPS6UrjhK232--
