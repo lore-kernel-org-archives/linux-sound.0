@@ -1,90 +1,90 @@
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1781C47A5D;
-	Tue, 18 Jun 2024 07:40:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28A638627D
+	for <linux-sound@vger.kernel.org>; Tue, 18 Jun 2024 07:45:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718696437; cv=none; b=U6FyAknh4m+1eGpLh0nC6rnZQexhWHg3Gn7/RC0uEF+0G30JRrgziHItndXl2PTx9594rK2P+m9GnmrMCkbk5K2c8JkgrRrCnG19VygtZEfAKLc7TPQLMUDD9HorJ6f53pwLBTbELeGwMLmZ+Xc5qO5pZoa3J8enidsu3mDG0zk=
+	t=1718696731; cv=none; b=Zc9VCjOvZ6q2SDFL4glD5T52X0rNcPk40C0079EqP//BLiXHWknvmZE0xldt6jIZ5qK9OHN9R8JRBTxjTEUXyEnG440ySwytcySyjJ55ILaSFyq5JknKW+mN/mrsuAmRKRCYW9uWJ6Qx2+AfaObgMhj8YUVJ71BfcguCe3xqHBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718696437; c=relaxed/simple;
-	bh=yj43muI9Zx5DTjKKVxrlSMZFj+rvK9otEprK9qxy+is=;
+	s=arc-20240116; t=1718696731; c=relaxed/simple;
+	bh=6y9EBQd9spPSlym6ahMvT//O8fjaB25I4zeYnyNC18E=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tcSkXqlMPMQS/c07w0KC2U1LVSi9S+b3GaM1ycxPOQVMUtYngbMxgkmmBRcn1yGM0psicXzdKRq/fmShZGefu8DJ64Rs+Y09qrvJ9/CVSzJVX34jK+zMhD69one8G1ESpeXfAMcNPt9y9yMEohUwFtjT/7/jGTlGTJQHwXy3zH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-dfe81d54db9so4870248276.2;
-        Tue, 18 Jun 2024 00:40:35 -0700 (PDT)
+	 To:Cc:Content-Type; b=M8safV12OO9DueVsQjgF3a2Y4EGmyCDKAYzEDjRSQAxH8rXbtvkTxhsk6YRABz2i14PS1kWCGNCuumuIU/tMZRE//iLM3u/L9Cn7EedaNC5voyv1hSCH++QjjDI8ODGv9pekMChB3nkX66tkpx/FWMPgj3HUYADIViSxh/c774U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timesys.com; spf=pass smtp.mailfrom=timesys.com; dkim=pass (2048-bit key) header.d=timesys-com.20230601.gappssmtp.com header.i=@timesys-com.20230601.gappssmtp.com header.b=hWXSjWUx; arc=none smtp.client-ip=209.85.219.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timesys.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=timesys.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=timesys-com.20230601.gappssmtp.com header.i=@timesys-com.20230601.gappssmtp.com header.b="hWXSjWUx"
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6b4fc2b5277so672986d6.0
+        for <linux-sound@vger.kernel.org>; Tue, 18 Jun 2024 00:45:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=timesys-com.20230601.gappssmtp.com; s=20230601; t=1718696728; x=1719301528; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6y9EBQd9spPSlym6ahMvT//O8fjaB25I4zeYnyNC18E=;
+        b=hWXSjWUxp/+QywILHkarQljr0/9b7wjzNcg6UpG5ard/0oACWbBB1y2iFzMJ2Xhu39
+         QG50Pqvvb09TbN6Nl/A1dYdNO5NNiRkMhdJx5ZMqj8p9T8dq9RJNW7+RtzK84x6po3Fw
+         r2F0jO4LDbxmgV3EVcCWOYLuiICpcvsLHFkDZBNW0EJP4MVYJX0quuZuTngvq9ABVx1D
+         dwvtPZGu1uwV9ss/lX7iITypdqcG6DowwkSZiWzjKtRMcIMutRBOcFbgJibBRw4T6sUl
+         SkLbloFLJYarBdukj4sOl/uGRPcLBdK8Cm3dm/wxtiYI4+7XoMiCv0VWWYes6Y4pEzOt
+         vSzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718696434; x=1719301234;
+        d=1e100.net; s=20230601; t=1718696728; x=1719301528;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1+xcRo0rtv0+KrEU5Kv7T95pjKSl0TJAoMf3IC0KPCA=;
-        b=l+fy7Wp+RBz3XkXxD0jp9vu3p8twYEtGtwOyrYISQnwwuTZMzyhiK7OEgcRuhpNt1E
-         67+q9gOgb1g8bcOSnuNF+zQBU/Z+LIk2Hq548CIaDcqYTq15UUs26xc6RTmG79spiXOd
-         5PKTj/ZpPUumKVq3nhPHJYcCDvTVGb1RZqpXri9OLSaGIF/9HBFBavKwxUPwz2781nZW
-         AJxVqVqE2US/6WoS97arS7UGUpgI1MuZhlFOO/6OfYzPlOz0aR8nsZxuSMC3NM1XMLk/
-         z723BTK9NKuN1JnnmHGtshG2NP/qzO5qwhS+MRxxMscYtK8HjEuZ7FTLjFcJ8DkTYmGp
-         kAFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVQAO3Lf/Pto2KTBi3dbr2X0z/tdYu0nsvfcbgKfxuHgAu3XMye3MIrWDKK7VDauD8t9mGru34M6d+M0/5SksqM21/S1blD6kok+KsPAseuRlisCXQgoVw2o4Az0EjiMvC36magBbe0LkM6jLntqUEoRt5mSBhAhlCJY3Tu76Ejdisgr83R/ugtIeI=
-X-Gm-Message-State: AOJu0Yxo8tu0ESWAIl0Y+pbwkTeZy0i+0Vl9ATIpoYSzw5Si+bRNnhRa
-	LETw2pZlrGYWV6q/ribP22NGsegjT94gwVJo7nbRmnzFCY5xKm2Uutyw5UAo
-X-Google-Smtp-Source: AGHT+IFE/eiJfk7YtJdLf8aJw3afMZg7pGrKWus/v4oMRqxTbo+xPXMcmiHIG+il54ABAhA4QIrP3Q==
-X-Received: by 2002:a25:24c:0:b0:e02:b7a9:48fd with SMTP id 3f1490d57ef6-e02b7a94d26mr144464276.29.1718696433939;
-        Tue, 18 Jun 2024 00:40:33 -0700 (PDT)
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-dff046690f2sm2202434276.7.2024.06.18.00.40.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Jun 2024 00:40:33 -0700 (PDT)
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-dfe43dca3bfso5695511276.0;
-        Tue, 18 Jun 2024 00:40:33 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCX1/vBvIwbbPTqAqy6qGnPfZMsBeWRJgXO23kQAnMqVD9svqS3RyO9OaFtLUVFCQ11uXpF/+mG8DCKoWaNAPMrefHIZ3FtNr7GaeRLBpCVlY876epIAUA23Ba2D0zV6VTME8Wq51i0TyThny2aor5K2aRLTRXg7hF5W4C34uI5oP8RZmgrKFEkKQ+M=
-X-Received: by 2002:a25:688e:0:b0:dff:137:b5cb with SMTP id
- 3f1490d57ef6-dff153aba11mr10722840276.23.1718696433486; Tue, 18 Jun 2024
- 00:40:33 -0700 (PDT)
+        bh=6y9EBQd9spPSlym6ahMvT//O8fjaB25I4zeYnyNC18E=;
+        b=sCguoDC5m6sitYYX6kJpc9tQgMZ15W+6cBy1HQu6fdCJAjn7+2JNsr2KmysNzEAWPr
+         qobCQb6++0etFxucBrr0gQK4aC7Zj2PYVoyZusYhHVcI2hvSmGzt6ToSzz1UsenNMXA/
+         Byj9Tec0B9xKQuOVtsalCfYkpPDsLz5GxDu7aNOUAMzyEvpbyILrEavAQw9VGKuYFwnd
+         DDZIcV8tjbsIcxlMwhL//dlXnlFrHJlSu4X1tHjw8ZblBrgZcuEh+4qjOu9fcRxNqb6c
+         sMZWtx4wIiD+I3yX+gZZ4rWEjqvzn7YEjn+I1wzSovwVv5fwkmoUyvNPCQqohptcz5Uo
+         WNtQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWq9XIe+olRnDonkHeASABnEBv/hWw65k2fmciDu1Vfx/TF+T494bY3XzvS9ZBO1TS2NwfxoRBkmSgZ6h4u7LdQt4vgfD25RfQD0Oc=
+X-Gm-Message-State: AOJu0YwYPcBxRiwVrzbmIlL3wmO0Kz038PNJtRW3L1NY1Zp7cZQLPB7Y
+	n6kyeOTbQ0Rc+A8xDUrRJ/76YNqqF1DkqomwK2SH95GeBZYMcuXVu8pS6ezYgJcJU5O+AJT38Ja
+	1I6CYiKABTjaohbGBdkymmsk4BQ/LUmeNwfLnsfKTir3Q4ewmqCc=
+X-Google-Smtp-Source: AGHT+IH7+3WcSHlqSCn8E776/vDX4KlNni6h709sa81SFyuFMo7TNQZN/dD9TK/cBC9XEnkBmumnQonT9vtIqu2MJcM=
+X-Received: by 2002:a0c:c58d:0:b0:6b1:e371:99cb with SMTP id
+ 6a1803df08f44-6b2afd7792dmr117082556d6.3.1718696728034; Tue, 18 Jun 2024
+ 00:45:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240617-md-m68k-sound-oss-dmasound-v1-1-5c19306be930@quicinc.com>
-In-Reply-To: <20240617-md-m68k-sound-oss-dmasound-v1-1-5c19306be930@quicinc.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 18 Jun 2024 09:40:21 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWqMqakMH+rVoCc2LTpGj-+v+rF0XmEeQwTHrT73Ay5Rg@mail.gmail.com>
-Message-ID: <CAMuHMdWqMqakMH+rVoCc2LTpGj-+v+rF0XmEeQwTHrT73Ay5Rg@mail.gmail.com>
-Subject: Re: [PATCH] sound/oss/dmasound: add missing MODULE_DESCRIPTION() macro
-To: Jeff Johnson <quic_jjohnson@quicinc.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+References: <20240614163500.386747-5-piotr.wojtaszczyk@timesys.com> <3fb7f6db-6822-413e-9aa3-953a5e3cd566@web.de>
+In-Reply-To: <3fb7f6db-6822-413e-9aa3-953a5e3cd566@web.de>
+From: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
+Date: Tue, 18 Jun 2024 09:45:16 +0200
+Message-ID: <CAG+cZ05LW5WZJqzs1yXZ3zV972iA-mE2HBtdGZPf+B0bAyWO_A@mail.gmail.com>
+Subject: Re: [PATCH v3 4/4] ASoC: fsl: Add i2s and pcm drivers for LPC32xx CPUs
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linuxppc-dev@lists.ozlabs.org, LKML <linux-kernel@vger.kernel.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Chancel Liu <chancel.liu@nxp.com>, Conor Dooley <conor+dt@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Jonathan Downing <jonathan.downing@nautel.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>, Rob Herring <robh@kernel.org>, 
+	Russell King <linux@armlinux.org.uk>, Takashi Iwai <tiwai@suse.com>, 
+	Vladimir Zapolskiy <vz@mleia.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 18, 2024 at 3:37=E2=80=AFAM Jeff Johnson <quic_jjohnson@quicinc=
-.com> wrote:
-> With ARCH=3Dm68k, make allmodconfig && make W=3D1 C=3D1 reports:
-> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/oss/dmasound/dmas=
-ound_core.o
->
-> Add the missing invocation of the MODULE_DESCRIPTION() macro.
->
-> Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
+On Mon, Jun 17, 2024 at 9:30=E2=80=AFPM Markus Elfring <Markus.Elfring@web.=
+de> wrote:
+> Would you become interested to apply a statement like =E2=80=9Cguard(mute=
+x)(&i2s_info_p->lock);=E2=80=9D?
+> https://elixir.bootlin.com/linux/v6.10-rc4/source/include/linux/mutex.h#L=
+196
 
-Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
+I take it. Thanks.
 
-Gr{oetje,eeting}s,
-
-                        Geert
 
 --=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Piotr Wojtaszczyk
+Timesys
