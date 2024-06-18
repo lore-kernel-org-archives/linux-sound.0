@@ -1,113 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8D9315A857;
-	Tue, 18 Jun 2024 13:20:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C72213CFBD
+	for <linux-sound@vger.kernel.org>; Tue, 18 Jun 2024 13:49:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718716813; cv=none; b=V+goFblHFWzZncsaRqNQrTsPLzfLrEAMjOIhZss7MX2fNKh74a6Lh5YE+p9PxZueCusxpnJHWFqsX/dRpzIpdhBjFmTryJIWT7Grh6P0sDOn9QzvC8dCOzjuKbnB4B2LfK+/BVbCl05azrvGuEzhDmhP6IRWzXAOyfpcGEcF4iM=
+	t=1718718560; cv=none; b=tx4tF9Fc7m1YSDGEqowRlCar1HCiaM0mnfdf4m8zlw1PJqslY3TXLeFNZdWIZ7WXp5jIbjTFQk+9FjpJ9yQV7M/v5IgHlf3SiwGPdxgNjqxMXjO0w2493AbWMjXHdwv+hbkSvk8QGp65JlPgM0iBdaHc2TMpcBdZ/GGzFoFbM1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718716813; c=relaxed/simple;
-	bh=iGI7rBJgHu8DUEHU/uaWXIvRgpjCEyXg+PI+OEEUOBI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Djfd+eVvt/HCGTbycfN8wis4xAq3YZnbNqIvWdO6+eCcbEKimaprnNyYF6rUSpBr3f2HPVzg50pO84/M0crvtZtJmh3MwLwtNcIO1slrNZExa2o4g289VeDPVMABJvxeX9HZaxOVuLKt67fTqoylTrdHcsNh0XdFUDvH+yaKy9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YaQRLVof; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718718560; c=relaxed/simple;
+	bh=0rziP/IoVXP3TfzQU7TMnmqKwrX7EBGqSRuKglqc2j8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ZqlcdK9KQGZoe8vCY/Vpzxtaat6LVYrNylPOXL0iGxpXJjLGSI/ie0hJTBHGmJuv9qH5betufVuK2GcM9ewRoUeLZUewR0fRQQFIXq6iRV3BRLlZY0tRa9Yyy1jgxEC9cgJUeMjWxbykXI+MCcOyk00pZ0to9Sv2CQZ4LRRBgX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SedD39yC; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YaQRLVof"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE65BC3277B;
-	Tue, 18 Jun 2024 13:20:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718716812;
-	bh=iGI7rBJgHu8DUEHU/uaWXIvRgpjCEyXg+PI+OEEUOBI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YaQRLVof/ZQnet0TvACOwyCCYrbmTv719c70lp/aFvnFh7gwRByME3Xc6l+v8DKet
-	 R3FPcyFypjIlzmjAMiCp4xMKSIQuosdI+lUd4MeNDgX1df9cc3OLCpvKYnq8gt22m8
-	 m/8wTmCEEQpu/7DPd+RUqxqKxB7jd5MWU8357PDDNJ9rkv99r/c3Pctz5eLjBG6pUh
-	 qBSVkge7YkpreHJ3Ew21CKyXhSMdg5d6xrcv1d/aNrAQX6kOjUZ0+ZjdnVG7wtJr20
-	 z4ttEKpGo2IOBn9N795cHmVNPRbEyhfi5jcXpd7OFNUYT5TZEfxVAhhidqPAXcOL60
-	 Fbn++5te5qWGA==
-Date: Tue, 18 Jun 2024 14:20:01 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: =?utf-8?B?IkFtYWRldXN6IFPFgmF3acWEc2tpIg==?= <amadeuszx.slawinski@linux.intel.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Alper Nebi Yasak <alpernebiyasak@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Brent Lu <brent.lu@intel.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Jerome Brunet <jbrunet@baylibre.com>, Jiawei Wang <me@jwang.link>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maso Huang <maso.huang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Takashi Iwai <tiwai@suse.com>, Vinod Koul <vkoul@kernel.org>,
-	Xiubo Li <Xiubo.Lee@gmail.com>, alsa-devel@alsa-project.org,
-	imx@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v5 0/4] ASoC: grace time for DPCM cleanup
-Message-ID: <6bf6adc9-9620-4ace-97c9-7de0cedd7d07@sirena.org.uk>
-References: <87bk4oqerx.wl-kuninori.morimoto.gx@renesas.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SedD39yC"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-57a1fe6392eso7331673a12.0
+        for <linux-sound@vger.kernel.org>; Tue, 18 Jun 2024 06:49:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718718557; x=1719323357; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BuVWP4GVK7L2zp39JVZyz0tyrIh2tPWyuf/GeYuNsvk=;
+        b=SedD39yCp4/30+t68X5wAHZV6a5lI5K6ZYLk39vACUZNuCzRYb2p0E1PGdRO8Aq7XU
+         lretK/jF87sR9nHPUF13P9NuHDtgCC3FmngrigZCJLjuxwLWjkGIGQdAB41ow7KyMQ4M
+         dzF9kYExv5Upaq3RDJskBSDtq5xvtkrA0/zk6SxQn99jLPthmh1yxas7lRBy59MUEE5f
+         xllJe0L81DVARq+v1hYBTXUm66tL0u851ddP2SMRMepoIn6dTmUvhp8BJmXNld11XM2b
+         dj7ct2q8jee+tm/VLSoQZOW+7bAiljTnKaap+ZQodiTQRvGtHON9AupXgwosLFk/X3X1
+         biSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718718557; x=1719323357;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BuVWP4GVK7L2zp39JVZyz0tyrIh2tPWyuf/GeYuNsvk=;
+        b=ML6ZUc+vB4mBMwQjsY1wSw7guIkDWvnqYimAKRH2fMcc5JlM6WoomJ8JcewRhAPcwJ
+         /Ecrqevfh+UKD5VaBBIhQ+jTcV/qu6hlLKN4KhVZ6CSJPelA0ZtiGmu9xbqdkKXTYaHf
+         mH/dEpRoVl+uklE7Mn7zoyKEPBv4W1k1GS4Ep8QdpUdX8Ewr+XPEvTUyAV8SkiLsRTac
+         9rh7Ln+oOeycqcjruRubFRm7nHpVmpmc5CLMCNZRj1CSBRPPB/hSXCJoAMaUx8c0P16x
+         fwKTJh5t8OqWzMkD/m2RwSUiprKjE8G1oq+Llh5/BuFlcK5ri+1BgrC7Wy5k0IGFkSp8
+         XIbg==
+X-Forwarded-Encrypted: i=1; AJvYcCWaupHsEcFAy18I2P5htpKPl/GyBPSpXWAQ9dYwrU995GFKG59L6logK1Yu6CN0v2NLkOoI2lyfgX4mJrQ/AYaa1owTehTyK+YQwmo=
+X-Gm-Message-State: AOJu0YzhBGQ6ohtHDZtJcOxXO08PPWFUeMBd53/826LBItxt3LFUVpFk
+	SbCT7xyZoB5tkDmedl8anKtO8SPDAg18jIRGJW+ukaRZHXyHNBHYjG9HSPUvqYY=
+X-Google-Smtp-Source: AGHT+IHtLz8KllMMtdCRU487RnyWpaHO2FxTL+sG63GWh7A5oH2EYJFnivoVxsZYulKG+Tu4+suuqA==
+X-Received: by 2002:a50:9518:0:b0:57d:32d:cacd with SMTP id 4fb4d7f45d1cf-57d032dcc18mr773381a12.29.1718718557369;
+        Tue, 18 Jun 2024 06:49:17 -0700 (PDT)
+Received: from [192.168.1.195] ([5.133.47.210])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57cbdfe1428sm6678397a12.27.2024.06.18.06.49.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Jun 2024 06:49:16 -0700 (PDT)
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Subject: [PATCH 0/2] ASoC: codecs: lpass-wsa: fix vi capture setup
+Date: Tue, 18 Jun 2024 14:48:59 +0100
+Message-Id: <20240618-lpass-wsa-vi-v1-0-416a6f162c81@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="e5HrHBf54JKzRBsN"
-Content-Disposition: inline
-In-Reply-To: <87bk4oqerx.wl-kuninori.morimoto.gx@renesas.com>
-X-Cookie: If you can read this, you're too close.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEuQcWYC/x2N0QqDMAwAf0XyvIBtt274K8OHVOMMbFUS0YH47
+ 6t7PI7jdjBWYYOm2kF5FZMpF3CXCrqR8otR+sLga3+to3vgeyYz3IxwFUwxhPtt8K6PAUqSyBi
+ TUu7GM/qQLaynmJUH+f4/z/Y4fr9rHRN3AAAA
+To: Banajit Goswami <bgoswami@quicinc.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Manikantan R <quic_manrav@quicinc.com>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=617;
+ i=srinivas.kandagatla@linaro.org; h=from:subject:message-id;
+ bh=0rziP/IoVXP3TfzQU7TMnmqKwrX7EBGqSRuKglqc2j8=;
+ b=owEBbQGS/pANAwAKAXqh/VnHNFU3AcsmYgBmcZBchruVRYLTqV2qgDLV2m1brX+2D6w8mliGx
+ nMEC4qHyT6JATMEAAEKAB0WIQQi509axvzi9vce3Y16of1ZxzRVNwUCZnGQXAAKCRB6of1ZxzRV
+ NzZmB/0b1yOCj8uIGXSEGCFq9LTGF1SrtMQlN/XPPJMs3FCcUZsCVEaN73ZWsKI6sfct1WEIoOv
+ HUkjDjBNHrYya09svQYDlJb31l6BOeRAvRd8a1sVqljMaULMQqYWvJopLkB9tS+EUbUErQ0ombC
+ XjeM7CZoFGWK88W6r0RdK9M0iA5oSe8nhkABDjfsB4TFr+39znDjipnR7D/wJJmGbrGygNXzWgM
+ 24IoWC83QY3fhTzOaiNWL2wM4/HMQdtSR8EXKTQwqC5CTYNPPD9wjksR5hn9g3bgJI1Xj+mOsQm
+ q0i8dbpSEfEdBDjRAgUthelIv93ynf5RvPmOwHuWEk8x3wo3
+X-Developer-Key: i=srinivas.kandagatla@linaro.org; a=openpgp;
+ fpr=ED6472765AB36EC43B3EF97AD77E3FC0562560D6
 
+This two patches fixes issues with VI capture rate and path setup.
 
---e5HrHBf54JKzRBsN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+---
+Srinivas Kandagatla (2):
+      ASoC: codecs:lpass-wsa-macro: Fix vi feedback rate
+      ASoC: codecs:lpass-wsa-macro: Fix logic of enabling vi channels
 
-On Thu, May 30, 2024 at 01:17:39AM +0000, Kuninori Morimoto wrote:
+ sound/soc/codecs/lpass-wsa-macro.c | 111 +++++++++++++++++++++++++++++--------
+ 1 file changed, 88 insertions(+), 23 deletions(-)
+---
+base-commit: 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
+change-id: 20240618-lpass-wsa-vi-b63375f21d63
 
-> As we discussed in [1], we don't need to use dpcm_playback/capture flag,
-> so we remove it. But we have been using it for 10 years, some driver might
-> get damage. The most likely case is that the device/driver can use both
-> playback/capture, but have only one flag, and not using xxx_only flag.
-> [1/3] patch indicates warning in such case.
+Best regards,
+-- 
+Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 
-This doesn't apply against current code, please check and resend (it's
-simple-card and audio-graph-card2 that conflict).
-
---e5HrHBf54JKzRBsN
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZxiYEACgkQJNaLcl1U
-h9CT2Af/TIz3sGLRzIL23jSsjCN+Qsm7udl7I62HN0gip2VR9e0+otYDtGfJcXWp
-zrVbznJTkkSt4SsAxfiucjtkhY+1m4IKnMmpSWwlgLqiDJiuFad2qVfWOsY6d+NY
-3DNOj2KtwsvBhMpTTvsoX9H1r0iRcU9saFz0Os14iDcjbf2UAOO31vFaAqz8SMlN
-05CFIk/QPU7k9iZN6iqrFkXlTya/VOJzGKPEqGq7pQ37+h4n2d6vLv2zCd/6l4at
-fCMT2H+VgTGLQOcfA2ifL+q6KRlSm2A0ZIJk98lI2yNWUwEGdSK+Teea1J55K3MC
-3ka6NLcUh4KixXZZgooMqJRn2KtHsA==
-=Jc6T
------END PGP SIGNATURE-----
-
---e5HrHBf54JKzRBsN--
