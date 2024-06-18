@@ -1,127 +1,122 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7647820C5BE;
-	Tue, 18 Jun 2024 09:59:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C322613C913;
+	Tue, 18 Jun 2024 10:22:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718704761; cv=none; b=ClTEtHMM9g5Vaj3TTPeipmwSMc+aKe8yUoKKWDYtRLvWRQYNZU67YirVV3hg/VoejBHd+jKgPOsVu1B1LsqDMj965kXT6qsgrvd/An4kk+IKwEznGzqsCav0yWgrW39QFa58Hkc3O0vCht784coRDPl5QKtpObD6KMpjyYC+CdA=
+	t=1718706172; cv=none; b=XKjtYWUhzASdzDZUIcl38+cOg+1rmMG1ho74vANp8I20J78Pz/SGySO0KlRIyRaGHdbpCkG/0EVnwWJHafTBI/1MYPwavNtC5kGmCFDriCK03m4pZmC0ZysWWG3Xm5ZgElhDT+AFZBPvHok0gQbwPEexc6WyZF3nq0PFWO4Z/eQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718704761; c=relaxed/simple;
-	bh=L3qeKQQRK6Iprq9subFYFaensWSCe60F3QVCEp9Kunk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Kq2g/piKA1dNhv591tK/LhPYxzRkSQ8kJDbeCDvUQlA6lbCVscZdTbN9cY7rP3k96dWV9RHfOxGKz+Ds8dowjwvMzfFGC0P8Cump8drV4QaENaJVWQT15kAfETpgKvUGlqyY/SeYPTiA3/bchCDHY+JSKxzt82mvPfHzSGtlZxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IlYU1xWQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WjnYU5Lx; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IlYU1xWQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WjnYU5Lx; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1718706172; c=relaxed/simple;
+	bh=r6pJTIEmvLC1nd8y75hngavgg8Hy2QqhAckp8Oh9DaE=;
+	h=Message-ID:Date:MIME-Version:From:To:Cc:Subject:Content-Type; b=fzE+4I48gOStlZmM1jMDWAAcw2pockEhFKGHEi1kOoaz1refB+qXyyiQ/xd+kwYAVohgiehDIvh9iIseVIB0Zd6pwqaJbdJd0W+84cjchFR50/VhUnKQlPWIse5Skn6SsrpspbcJGL4x5oED92tKyfSU5a5szybOnOBe5o7Wz7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=VKk2LFjR; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IlYU1xWQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WjnYU5Lx";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IlYU1xWQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WjnYU5Lx"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A3D4F219C0;
-	Tue, 18 Jun 2024 09:59:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718704755; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NUFX9xaFe7q6ArFtxXLJLomzd++uGohwBj3p9L5MCOs=;
-	b=IlYU1xWQ000RPsC/f35+4KSMztTsMoOpCmJk1kCjsSEOrgJpDTljZZAL+egVQuSNh1nlNn
-	zyoP162320n5/4kGuK84CACAaI2dCLH+k/lZ1bKDI/yQN9TH9z5+soLb/FsqCv2cebMUqa
-	ihMtgosWUjg1godMbvafMlE7BpAPg2Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718704755;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NUFX9xaFe7q6ArFtxXLJLomzd++uGohwBj3p9L5MCOs=;
-	b=WjnYU5LxXd0O3ybigaDFe1ibPT9BPt0mG3G0UUhwDs/UxyU/9zg6cqvQkXKrN6lPqQszZ4
-	oRPj1FAcAJiuKLBg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718704755; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NUFX9xaFe7q6ArFtxXLJLomzd++uGohwBj3p9L5MCOs=;
-	b=IlYU1xWQ000RPsC/f35+4KSMztTsMoOpCmJk1kCjsSEOrgJpDTljZZAL+egVQuSNh1nlNn
-	zyoP162320n5/4kGuK84CACAaI2dCLH+k/lZ1bKDI/yQN9TH9z5+soLb/FsqCv2cebMUqa
-	ihMtgosWUjg1godMbvafMlE7BpAPg2Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718704755;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NUFX9xaFe7q6ArFtxXLJLomzd++uGohwBj3p9L5MCOs=;
-	b=WjnYU5LxXd0O3ybigaDFe1ibPT9BPt0mG3G0UUhwDs/UxyU/9zg6cqvQkXKrN6lPqQszZ4
-	oRPj1FAcAJiuKLBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8D89A13AA0;
-	Tue, 18 Jun 2024 09:59:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id AiHtIXNacWaHIgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 18 Jun 2024 09:59:15 +0000
-Date: Tue, 18 Jun 2024 11:59:41 +0200
-Message-ID: <87h6dq7er6.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: bo liu <bo.liu@senarytech.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V5] ALSA: hda/senarytech: add senarytech codec support
-In-Reply-To: <20240618010121.67335-1-bo.liu@senarytech.com>
-References: <20240618010121.67335-1-bo.liu@senarytech.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="VKk2LFjR"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:Subject
+	:Cc:To:From:MIME-Version:Date:Message-ID:From:Sender:Reply-To:Subject:Date:
+	Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=gedkI59GOhsqqQN0ahgyfWFQH2lfghvEsw3T4E/Gb0E=; t=1718706170; x=1719138170;
+	 b=VKk2LFjRpyIy9V9Z8K++Kwo+Y8MTSAPppK0nIuA941ize+9V+cTYT1+p0XJ4tLLlfSRDeU/0LM
+	r6YG7A5KMq+lKsgtLXCQWM4nN8i7n41wUpsT+NjyjNMNpb99cU0V/frqXrtXvvb86QLJeHSNfcx+W
+	Jhg2+NfZPjXQF66bKuU2gjvK0MGTuDx3t/B5babESVZtZjJnFyS5M5A6Q8aituU+C4bTMnDb4vMqo
+	T+0S/AU58KSpXIfMpoNOKYlo7dJBZB1RidTHSPRjQFzW3DrXm7RKb1wgYW+E/Vr+gQHm2/HONGXN3
+	6z3rUwBY9rfWuPjv4EcDDV2Cj4eVVTgLbC2tg==;
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1sJVzB-0006jm-SG; Tue, 18 Jun 2024 12:22:46 +0200
+Message-ID: <ca2d3d47-0ac0-48a5-910b-e481f2a9870a@leemhuis.info>
+Date: Tue, 18 Jun 2024 12:22:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+Content-Language: en-US, de-DE
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: Todd Brandt <todd.e.brandt@intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Linux Sound System <linux-sound@vger.kernel.org>,
+ Linux kernel regressions list <regressions@lists.linux.dev>,
+ LKML <linux-kernel@vger.kernel.org>, sound-open-firmware@alsa-project.org
+Subject: [Regression] Lenovo Thinkpad X1 Carbon Gen 10 first S2idle fails,
+ S0ix fails in all further suspends
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1718706170;f81fa682;
+X-HE-SMSGID: 1sJVzB-0006jm-SG
 
-On Tue, 18 Jun 2024 03:01:21 +0200,
-bo liu wrote:
+Hi, Thorsten here, the Linux kernel's regression tracker.
+
+Pierre-Louis Bossart, I noticed a report about a regression in
+bugzilla.kernel.org that appears to be caused by the following change of
+yours: d5263dbbd8af02 ("ASoC: SOF: Intel: don't ignore IOC interrupts
+for non-audio transfers") [v6.10-rc1]
+
+As many (most?) kernel developers don't keep an eye on the bug tracker,
+I decided to write this mail. To quote from
+https://bugzilla.kernel.org/show_bug.cgi?id=218961 :
+
+> We have a Lenovo Thinkpad X1 Carbon Gen 10 in our lab and ever since
+> 6.10.0-rc1 it has failed its first S2idle suspend, and has stopped
+> getting S0iX on subsequent successful S2idle suspends. The issue in the
+> first suspend fail is here in the audio driver (dmesg section shown):
 > 
-> Add initial Senarytech codec support for SN6186. Note that this hda
-> patch relies on the configuration default registers to be set correctly
-> (normally by BIOS/firmware) in order for it to set up pin widgets
-> properly.
+> sof-audio-pci-intel-tgl 0000:00:1f.3: Code loader DMA did not complete
+> sof-audio-pci-intel-tgl 0000:00:1f.3: ------------[ DSP dump start ]------------
+> sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware download failed
+> sof-audio-pci-intel-tgl 0000:00:1f.3: fw_state: SOF_FW_BOOT_READY_OK (6)
+> sof-audio-pci-intel-tgl 0000:00:1f.3: 0x00000005: module: ROM, state: FW_ENTERED, running
+> sof-audio-pci-intel-tgl 0000:00:1f.3: extended rom status:  0x5 0x0 0x4000 0x0 0x0 0x0 0x2560521 0x0
+> sof-audio-pci-intel-tgl 0000:00:1f.3: ------------[ DSP dump end ]------------
+> sof-audio-pci-intel-tgl 0000:00:1f.3: Failed to start DSP
+> sof-audio-pci-intel-tgl 0000:00:1f.3: error: failed to boot DSP firmware after resume -110
+> sof-audio-pci-intel-tgl 0000:00:1f.3: error: hda_dsp_core_reset_enter: timeout on HDA_DSP_REG_ADSPCS read
+> sof-audio-pci-intel-tgl 0000:00:1f.3: error: dsp core reset failed: core_mask 1
+> sof-audio-pci-intel-tgl 0000:00:1f.3: failed to power down DSP during suspend
+> sof-audio-pci-intel-tgl 0000:00:1f.3: error: suspending dsp
+> sof-audio-pci-intel-tgl 0000:00:1f.3: error: failed to power down DSP during suspend -110
+> sof-audio-pci-intel-tgl 0000:00:1f.3: PM: pci_pm_suspend(): snd_sof_suspend [snd_sof] returns -110
+> sof-audio-pci-intel-tgl 0000:00:1f.3: PM: dpm_run_callback(): pci_pm_suspend returns -110
+> sof-audio-pci-intel-tgl 0000:00:1f.3: PM: failed to suspend async: error -110
 > 
-> Signed-off-by: bo liu <bo.liu@senarytech.com>
+> This is the commit:
+> 
+> commit d5263dbbd8af026159b16a08a94bedfe51b5f67b
+> Author: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+> Date:   Thu Apr 4 13:54:47 2024 -0500
+> 
+>     ASoC: SOF: Intel: don't ignore IOC interrupts for non-audio transfers
+> 
+> Reverting the commit thusly fixes things in everything up to 6.10.0-rc3.
+> 
+> %> git diff 6cbf086143cf9674c7f029e1cf435c65a537066a d5263dbbd8af026159b16a08a94bedfe51b5f67b > ../revert.patch
+> %> cat ../revert.patch | patch -1 -R
+> 
+> I've attached the sleepgraph timeline of the fail. The dmesg log is
+> accesible by clicking the "dmesg" button in the upper right hand corner.
+> They "log" button shows all the system details.
 
-Applied to for-next branch now.  Thanks.
+See the ticket for more details.
 
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
 
-Takashi
+P.S.: let me use this mail to also add the report to the list of tracked
+regressions to ensure it's doesn't fall through the cracks:
+
+#regzbot introduced: d5263dbbd8af02
+#regzbot title: ASoC: SOF: Intel:
+#regzbot from: Todd Brandt
+#regzbot duplicate: https://bugzilla.kernel.org/show_bug.cgi?id=218961
+#regzbot ignore-activity
