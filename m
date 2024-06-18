@@ -1,92 +1,99 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C696D14C5A3;
-	Tue, 18 Jun 2024 16:45:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3BC414F13E;
+	Tue, 18 Jun 2024 18:08:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718729109; cv=none; b=gf3md/1g2YhxM7Am7/N/QLtgQhMKt1qT0BeBcIDgOASlMe+cfqiNCsivKQyh/WnA619ECYedJDcPLC7UhHPU6EsC6ilhko3eUcFuE165L4WkzT59rSlPco3+ZYqaesCiEjn5ml7aCCzMa68JpIdx/0C/N/FMvi56D1/yKpJgaPI=
+	t=1718734093; cv=none; b=iYbKpTCcC2w2ScW0+6eTksiJPEejCpZ7e92Q3QbId8gxn6P+h5wzTvWzM/VM/KktTWxWSNTVUq/CovRIfyeSvs4RE8uohcLljQ/H/5fmr9/HWxxsWT8zWAPxIG/e/IFSKB2ehPsMQDHZNZsxSngeMt4GR3hGgALwH14YZldXkew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718729109; c=relaxed/simple;
-	bh=0Kx0EQ3cQ47Egstu5KMjBtikDuLK960QIiwAMaXxIXQ=;
-	h=From:To:CC:References:In-Reply-To:Subject:Date:Message-ID:
-	 MIME-Version:Content-Type; b=CUIgoSeN/RbfNlt1zQ130WSYY7apMyFde8Bc893uwyKwaGmJN7bZDlQX4i9kWsmE9R7pXBmy+qiPNW9Uoj70aPjkjnLFhndxeWVvj/RFO5mW0biJSFwiFn7tozu+Oc8tRM6LsmbvTUbDorlWgxnhb19Zwp13S1WTce9w7bBg/Aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=TZMgdO29; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1718734093; c=relaxed/simple;
+	bh=DIWXHzFM9LsRVNoscUsRZE3SjmaDFUBGMVeyHHcwIVM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IH5sKXsTjNvKFXtLoLG6zUMgN303xXA6y50ihBncmnhASDC326x2lXWDXQVIH1lfKv527tVlPTg7phMv/YweAsEk82b7yEvewrPPIMN5Eioc9xTFr5IalH57E2bFOLHbxB1ZUNmqiFntMnFR+wrex7JKvh9SPhvVaU88CFEgpzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=reM0BcBU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="TZMgdO29"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45I5c7kM027173;
-	Tue, 18 Jun 2024 11:44:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=0Kx0EQ3cQ47Egstu5KMjBtikDuLK960QIiwAMaXxIXQ=; b=
-	TZMgdO29TlKp72WLpzK1L9V0dNnjpOomy/WdkG3AykhEaTy2wxXpmQxP/NPldyxy
-	svvJkVag9Ln4NIub00L7VL0TTaHsMYtTCQOduD+A8cnMMc6B2FHcNIXx7u5+vYmy
-	jS198qB4BdE7qae7eBqjfQSsWJDS/bWXA7cGS/SqiWD9Lu9gEzJumqZz9EJTsVMV
-	YMAPi4MmjI1SlfuLG7/msH0xO9dCEELboxd1SRqW1RcoEf7j1Y4Kr8M0R734IQnq
-	TbX7lA0otQp7zo6nvEEljwrrFHio7pVwCfWSbASo8bN0eglSXDTbYYcN9d2AzJUH
-	i8PpI+7Ogv0+0MIgerIr6g==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3ys7cjufb1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 18 Jun 2024 11:44:52 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 18 Jun
- 2024 17:44:51 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Tue, 18 Jun 2024 17:44:51 +0100
-Received: from EDIN6ZZ2FY3 (EDIN6ZZ2FY3.ad.cirrus.com [198.61.65.31])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id CB91D820248;
-	Tue, 18 Jun 2024 16:44:50 +0000 (UTC)
-From: Simon Trimmer <simont@opensource.cirrus.com>
-To: 'Mark Brown' <broonie@kernel.org>,
-        'Charles Keepax'
-	<ckeepax@opensource.cirrus.com>
-CC: <lgirdwood@gmail.com>, <linux-sound@vger.kernel.org>,
-        <linux-spi@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <patches@opensource.cirrus.com>
-References: <20240611132556.1557075-1-ckeepax@opensource.cirrus.com> <20240611132556.1557075-2-ckeepax@opensource.cirrus.com> <3bcb0b44-8885-40f9-938d-07b44116f3bf@sirena.org.uk>
-In-Reply-To: <3bcb0b44-8885-40f9-938d-07b44116f3bf@sirena.org.uk>
-Subject: RE: [PATCH 2/3] spi: cs42l43: Add speaker id support to the bridge configuration
-Date: Tue, 18 Jun 2024 17:44:50 +0100
-Message-ID: <00dd01dac19e$d6a6cc60$83f46520$@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="reM0BcBU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF7DEC3277B;
+	Tue, 18 Jun 2024 18:08:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718734092;
+	bh=DIWXHzFM9LsRVNoscUsRZE3SjmaDFUBGMVeyHHcwIVM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=reM0BcBULhL6vYCBFsQHRbgWG5t1mnQuBX+OxOLkwHYD+348b48Pop5sdU56arf7R
+	 5ZUKPyMW2OeJ4YWwFCVqziOF8Dvt/0qf4QJ9BGGLpPdXhhPwtO2QwbnqLDNLCBkb3C
+	 d3ye1WHVxcV5T2Khjv6w5GVrPKRK4R6bsu38ajXcO2fyb0PJrcFC+8/5tQlNph6Mqp
+	 Ts/78Nny3XKmqU8zGR6pWzZri2i2DfZ0j45IsZzgIdBJTAw88ywiABpYlyIGycAFhG
+	 2iVl2TLzmtH5vNbKEQfW8UqChqsI4M8sPv9NNrjj58eo5AMnzITc48yooNFNJsiC9n
+	 LlRU+twT52wOA==
+Date: Tue, 18 Jun 2024 11:08:08 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Nikita Shubin <nikita.shubin@maquefel.me>
+Cc: Nikita Shubin via B4 Relay 
+ <devnull+nikita.shubin.maquefel.me@kernel.org>, Arnd Bergmann
+ <arnd@arndb.de>, Hartley Sweeten <hsweeten@visionengravers.com>, Alexander
+ Sverdlin <alexander.sverdlin@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, Lukasz Majewski <lukma@denx.de>, Linus Walleij
+ <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Andy
+ Shevchenko <andy@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Sebastian Reichel <sre@kernel.org>, Rob
+ Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Guenter Roeck <linux@roeck-us.net>, Thierry Reding
+ <thierry.reding@gmail.com>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
+ <u.kleine-koenig@pengutronix.de>, Mark Brown <broonie@kernel.org>, "David
+ S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
+ Abeni <pabeni@redhat.com>, Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Damien Le Moal <dlemoal@kernel.org>, Sergey Shtylyov <s.shtylyov@omp.ru>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Liam Girdwood
+ <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+ <tiwai@suse.com>, Ralf Baechle <ralf@linux-mips.org>, "Wu, Aaron"
+ <Aaron.Wu@analog.com>, Lee Jones <lee@kernel.org>, Olof Johansson
+ <olof@lixom.net>, Niklas Cassel <cassel@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-watchdog@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-spi@vger.kernel.org,
+ netdev@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-ide@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-sound@vger.kernel.org, Bartosz Golaszewski
+ <bartosz.golaszewski@linaro.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Andy Shevchenko
+ <andy.shevchenko@gmail.com>, Andrew Lunn <andrew@lunn.ch>
+Subject: Re: [PATCH v10 00/38] ep93xx device tree conversion
+Message-ID: <20240618110808.7829d214@kernel.org>
+In-Reply-To: <eb3e6c0b883f408fed68e725a23b54854701ce9e.camel@maquefel.me>
+References: <20240617-ep93xx-v10-0-662e640ed811@maquefel.me>
+	<20240618073339.499a7fd2@kernel.org>
+	<eb3e6c0b883f408fed68e725a23b54854701ce9e.camel@maquefel.me>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Microsoft Outlook 16.0
-Content-Language: en-gb
-Thread-Index: AQEWl5wsLc1/leMvWEC0YoAstNYIZAJvriGDAZjXGrSzNcj8AA==
-X-Proofpoint-GUID: Cbt0IDAhyB9d-n5AMCIfrtIFbjnd2vSa
-X-Proofpoint-ORIG-GUID: Cbt0IDAhyB9d-n5AMCIfrtIFbjnd2vSa
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jun 18, 2024 at 5:06=E2=80=AFPM Mark Brown wrote:
-> On Tue, Jun 11, 2024 at 02:25:55PM +0100, Charles Keepax wrote:
-> > From: Simon Trimmer <simont@opensource.cirrus.com>
-> >
-> > OEMs can connect a number of types of speakers to the sidecar =
-cs35l56
-> > amplifiers and a different speaker requires a different firmware
-> > configuration.
->=20
-> This doesn't apply against current code, please check and resend.
+On Tue, 18 Jun 2024 19:33:49 +0300 Nikita Shubin wrote:
+> On Tue, 2024-06-18 at 07:33 -0700, Jakub Kicinski wrote:
+> > On Mon, 17 Jun 2024 12:36:34 +0300 Nikita Shubin via B4 Relay wrote:  
+> > > The goal is to recieve ACKs for all patches in series to merge it
+> > > via Arnd branch.  
+> > 
+> > Why? The usual process is for every subsystem to accept the relevant
+> > patches, and then they converge during the merge window.  
+> 
+> It was decided from the very beginning of these series, mostly because
+> it's a full conversion of platform code to DT and it seemed not
+> convenient to maintain compatibility with both platform and DT.
+> 
+> Generally i think it's too late to ask such a question, when just a few
+> patches left.
 
-I'll catchup with Charles about this tomorrow (hopefully) - the snag =
-seems to be that an ancestor has been taken for integration via the =
-linux-spi tree
-
-https://lore.kernel.org/all/171778072618.80456.1164637774989487170.b4-ty@=
-kernel.org/
-
--Simon
-
+Put the relevant information in the cover letter. Justification why you
+can't follow normal merging rules is very relevant.
