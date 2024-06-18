@@ -1,90 +1,135 @@
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28A638627D
-	for <linux-sound@vger.kernel.org>; Tue, 18 Jun 2024 07:45:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8370615746F
+	for <linux-sound@vger.kernel.org>; Tue, 18 Jun 2024 09:34:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718696731; cv=none; b=Zc9VCjOvZ6q2SDFL4glD5T52X0rNcPk40C0079EqP//BLiXHWknvmZE0xldt6jIZ5qK9OHN9R8JRBTxjTEUXyEnG440ySwytcySyjJ55ILaSFyq5JknKW+mN/mrsuAmRKRCYW9uWJ6Qx2+AfaObgMhj8YUVJ71BfcguCe3xqHBY=
+	t=1718703279; cv=none; b=AVYPq1MokkkhK1VuW/q044PjRzSOllOVwENP2bpSEwQ8ccqkKwhjfnVr/bh3FaIPRSR0C4rKKjaLX4h+LVptyWg4gIB5t88N0eORDYzg7iWVUFidrzw1VN5CrUeQzkCnuB01V9BpKHnNgYqzF0WgjGIDHMZHc9s/GP53hB/1Fzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718696731; c=relaxed/simple;
-	bh=6y9EBQd9spPSlym6ahMvT//O8fjaB25I4zeYnyNC18E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=M8safV12OO9DueVsQjgF3a2Y4EGmyCDKAYzEDjRSQAxH8rXbtvkTxhsk6YRABz2i14PS1kWCGNCuumuIU/tMZRE//iLM3u/L9Cn7EedaNC5voyv1hSCH++QjjDI8ODGv9pekMChB3nkX66tkpx/FWMPgj3HUYADIViSxh/c774U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timesys.com; spf=pass smtp.mailfrom=timesys.com; dkim=pass (2048-bit key) header.d=timesys-com.20230601.gappssmtp.com header.i=@timesys-com.20230601.gappssmtp.com header.b=hWXSjWUx; arc=none smtp.client-ip=209.85.219.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timesys.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=timesys.com
+	s=arc-20240116; t=1718703279; c=relaxed/simple;
+	bh=OwBXLxTgIxhAvEWHZw59Np1NM6d7ZgJiEzitI93blL8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sv9MRhiBnCGjRyAT2CQ3WCXB0jouxgMNjlWt9T4Q5iLtc4M+RVYPHbDRnC3WdM2hhR3JWunQrbv3A9AOmSBFEU98EQh3J7CgRlbx26NEsmLU2sxPp4ngVR0+15FWz0IAlXEkgJGiUinDyLlhSWCxVYP4bZfYGoAIpyj55VwiGr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kF+aDvLh; arc=none smtp.client-ip=209.85.208.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=timesys-com.20230601.gappssmtp.com header.i=@timesys-com.20230601.gappssmtp.com header.b="hWXSjWUx"
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6b4fc2b5277so672986d6.0
-        for <linux-sound@vger.kernel.org>; Tue, 18 Jun 2024 00:45:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kF+aDvLh"
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2ebdfe26217so49211041fa.2
+        for <linux-sound@vger.kernel.org>; Tue, 18 Jun 2024 02:34:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=timesys-com.20230601.gappssmtp.com; s=20230601; t=1718696728; x=1719301528; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6y9EBQd9spPSlym6ahMvT//O8fjaB25I4zeYnyNC18E=;
-        b=hWXSjWUxp/+QywILHkarQljr0/9b7wjzNcg6UpG5ard/0oACWbBB1y2iFzMJ2Xhu39
-         QG50Pqvvb09TbN6Nl/A1dYdNO5NNiRkMhdJx5ZMqj8p9T8dq9RJNW7+RtzK84x6po3Fw
-         r2F0jO4LDbxmgV3EVcCWOYLuiICpcvsLHFkDZBNW0EJP4MVYJX0quuZuTngvq9ABVx1D
-         dwvtPZGu1uwV9ss/lX7iITypdqcG6DowwkSZiWzjKtRMcIMutRBOcFbgJibBRw4T6sUl
-         SkLbloFLJYarBdukj4sOl/uGRPcLBdK8Cm3dm/wxtiYI4+7XoMiCv0VWWYes6Y4pEzOt
-         vSzQ==
+        d=linaro.org; s=google; t=1718703276; x=1719308076; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3OtPQx/Pu4izNrX/Re5hWMRulfkvuWWXAK3KKNMzu7g=;
+        b=kF+aDvLhde4JkYi3rCKkxUD4K8OiLz/i6+/l8oD0Z7ZQJQI1MqN0ohZYJyL7VP4YSy
+         EeNbjb3Cr3RYPiLV4EZ+pir/WeF3vdWFtD/6DbDmBQwXJ+z544pgmDU5gKp3pGAuPkFu
+         R9uVoohSAv938mkWrpQodb4jLifYmmuE5F9icAg+Lig9Z1w9jRNoVGAMUHQtWrQSCW08
+         gTvI8TGdv2ug/uQMUPWfjeOwFOiwIBhPkMhJA25loyOi8vnUh4Y7ApJ/+a0Pw3/hpsHf
+         i+nYj37B0OZkRo6Wx6QQ7amjWAPyM5eJX7TkqMDgK0aHzCOIu5URjYmzmYcjM8aJypvD
+         uMNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718696728; x=1719301528;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6y9EBQd9spPSlym6ahMvT//O8fjaB25I4zeYnyNC18E=;
-        b=sCguoDC5m6sitYYX6kJpc9tQgMZ15W+6cBy1HQu6fdCJAjn7+2JNsr2KmysNzEAWPr
-         qobCQb6++0etFxucBrr0gQK4aC7Zj2PYVoyZusYhHVcI2hvSmGzt6ToSzz1UsenNMXA/
-         Byj9Tec0B9xKQuOVtsalCfYkpPDsLz5GxDu7aNOUAMzyEvpbyILrEavAQw9VGKuYFwnd
-         DDZIcV8tjbsIcxlMwhL//dlXnlFrHJlSu4X1tHjw8ZblBrgZcuEh+4qjOu9fcRxNqb6c
-         sMZWtx4wIiD+I3yX+gZZ4rWEjqvzn7YEjn+I1wzSovwVv5fwkmoUyvNPCQqohptcz5Uo
-         WNtQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWq9XIe+olRnDonkHeASABnEBv/hWw65k2fmciDu1Vfx/TF+T494bY3XzvS9ZBO1TS2NwfxoRBkmSgZ6h4u7LdQt4vgfD25RfQD0Oc=
-X-Gm-Message-State: AOJu0YwYPcBxRiwVrzbmIlL3wmO0Kz038PNJtRW3L1NY1Zp7cZQLPB7Y
-	n6kyeOTbQ0Rc+A8xDUrRJ/76YNqqF1DkqomwK2SH95GeBZYMcuXVu8pS6ezYgJcJU5O+AJT38Ja
-	1I6CYiKABTjaohbGBdkymmsk4BQ/LUmeNwfLnsfKTir3Q4ewmqCc=
-X-Google-Smtp-Source: AGHT+IH7+3WcSHlqSCn8E776/vDX4KlNni6h709sa81SFyuFMo7TNQZN/dD9TK/cBC9XEnkBmumnQonT9vtIqu2MJcM=
-X-Received: by 2002:a0c:c58d:0:b0:6b1:e371:99cb with SMTP id
- 6a1803df08f44-6b2afd7792dmr117082556d6.3.1718696728034; Tue, 18 Jun 2024
- 00:45:28 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1718703276; x=1719308076;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3OtPQx/Pu4izNrX/Re5hWMRulfkvuWWXAK3KKNMzu7g=;
+        b=iBzwF6UgSEvX9RRKjCaqYQBq0gaY8keSOoZg9nJ3mAJLxISz9Bjk6b5Q51AMNHL0I8
+         lJJnMcMCxLxyJVBz61FI9hwkA0Ue5ZkKlsb8g6Yi/gASwZjAhotbOLvOF6aBALnYW0KU
+         g/gojX8cYvw3s5xK1ZeZ/wLf8nbLf4RaZmth5ICkV5glUlQTiVDU5wwi3Z8K2zKFOr0r
+         FqP7Qb8PB8A0wKbq0Yw4zEgsRGDbAkgbbM2N7A3pTxZCry3xgJAt6fTiCLSqfI6OZ/D3
+         Lgre1FQlT6IBgM+UJ+qq+I8Q0h5NXxZx/IlZRFoUOwfwjfc/s9tbUh4Et51+j/A4LGmC
+         +9uw==
+X-Forwarded-Encrypted: i=1; AJvYcCXSPVwGMNaEioxCoqNGrTQMFyt6L6PKKHWNfxcsXNFzaBleK0Fv4wESh5ePX4i7MfpQpWpYAZ3/uX8ILznF1YamuEwkzj9cTLSJvpg=
+X-Gm-Message-State: AOJu0Yyf2dx1usyYGxjxT6e3z+qxNRyAkZHRcj1amsoY02MI8jF1qnVB
+	mAcbt/jvYP5Pc8fJbRUZiDrdeYJEtHc92KZYGyCUbBG/2uPny1qmKJji63FTX6g=
+X-Google-Smtp-Source: AGHT+IGV3fdRHGz8W6Ml8JMRCptiBjlFKzjIcCxhI6Uj5qvvYAKo3j/iWUDBncEItZIdRBsrs9DQOg==
+X-Received: by 2002:a2e:8609:0:b0:2eb:fb9c:5a85 with SMTP id 38308e7fff4ca-2ec0e47b5c6mr68554821fa.23.1718703275629;
+        Tue, 18 Jun 2024 02:34:35 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ec05c78422sm16495521fa.95.2024.06.18.02.34.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Jun 2024 02:34:35 -0700 (PDT)
+Date: Tue, 18 Jun 2024 12:34:33 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH RFC 5/5] drm/bridge: lt9611: switch to using the DRM HDMI
+ codec framework
+Message-ID: <fal5jtesucasboygxde2uiamq6fhycwuhor6g4uqi54jx3sis7@gw5im7xxss6n>
+References: <20240615-drm-bridge-hdmi-connector-v1-0-d59fc7865ab2@linaro.org>
+ <20240615-drm-bridge-hdmi-connector-v1-5-d59fc7865ab2@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240614163500.386747-5-piotr.wojtaszczyk@timesys.com> <3fb7f6db-6822-413e-9aa3-953a5e3cd566@web.de>
-In-Reply-To: <3fb7f6db-6822-413e-9aa3-953a5e3cd566@web.de>
-From: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
-Date: Tue, 18 Jun 2024 09:45:16 +0200
-Message-ID: <CAG+cZ05LW5WZJqzs1yXZ3zV972iA-mE2HBtdGZPf+B0bAyWO_A@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] ASoC: fsl: Add i2s and pcm drivers for LPC32xx CPUs
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linuxppc-dev@lists.ozlabs.org, LKML <linux-kernel@vger.kernel.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Chancel Liu <chancel.liu@nxp.com>, Conor Dooley <conor+dt@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Jonathan Downing <jonathan.downing@nautel.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>, Rob Herring <robh@kernel.org>, 
-	Russell King <linux@armlinux.org.uk>, Takashi Iwai <tiwai@suse.com>, 
-	Vladimir Zapolskiy <vz@mleia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240615-drm-bridge-hdmi-connector-v1-5-d59fc7865ab2@linaro.org>
 
-On Mon, Jun 17, 2024 at 9:30=E2=80=AFPM Markus Elfring <Markus.Elfring@web.=
-de> wrote:
-> Would you become interested to apply a statement like =E2=80=9Cguard(mute=
-x)(&i2s_info_p->lock);=E2=80=9D?
-> https://elixir.bootlin.com/linux/v6.10-rc4/source/include/linux/mutex.h#L=
-196
+On Sat, Jun 15, 2024 at 08:53:34PM GMT, Dmitry Baryshkov wrote:
+> Make the Lontium LT9611 DSI-to-HDMI bridge driver use the DRM HDMI Codec
+> framework. This enables programming of Audio InfoFrames using the HDMI
+> Connector interface and also enables support for the missing features,
+> including the ELD retrieval and better hotplug support.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  drivers/gpu/drm/bridge/lontium-lt9611.c | 207 ++++++++++++++++----------------
+>  1 file changed, 104 insertions(+), 103 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
+> index 4fa0dfc5539a..02953468cb76 100644
+> --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
+> +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
+> @@ -45,7 +45,6 @@ struct lt9611 {
+>  	struct device_node *dsi1_node;
+>  	struct mipi_dsi_device *dsi0;
+>  	struct mipi_dsi_device *dsi1;
+> -	struct platform_device *audio_pdev;
+>  
+>  	bool ac_mode;
+>  
+> @@ -688,15 +687,22 @@ lt9611_bridge_atomic_enable(struct drm_bridge *bridge,
+>  
+>  	/* Enable HDMI output */
+>  	regmap_write(lt9611->regmap, 0x8130, 0xea);
+> +
+> +	drm_connector_hdmi_codec_plugged_notify(connector, true);
+>  }
+>  
+>  static void
+>  lt9611_bridge_atomic_disable(struct drm_bridge *bridge,
+>  			     struct drm_bridge_state *old_bridge_state)
+>  {
+> +	struct drm_atomic_state *state = old_bridge_state->base.state;
+> +	struct drm_connector *connector;
+>  	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
+>  	int ret;
+>  
+> +	connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
 
-I take it. Thanks.
+Of course this should have been
+drm_atomic_get_old_connector_for_encoder(), otherwise it crashes because
+connector is NULL.
 
+> +	drm_connector_hdmi_codec_plugged_notify(connector, false);
+> +
+>  	/* Disable HDMI output */
+>  	ret = regmap_write(lt9611->regmap, 0x8130, 0x6a);
+>  	if (ret) {
 
---=20
-Piotr Wojtaszczyk
-Timesys
+-- 
+With best wishes
+Dmitry
