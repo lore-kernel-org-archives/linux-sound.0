@@ -1,82 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DFA1482EE;
-	Tue, 18 Jun 2024 16:06:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCF424D8A2;
+	Tue, 18 Jun 2024 16:06:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718726781; cv=none; b=fLCAFscWJlYqsC8dF/AMvWRJdNKaqj9rngdcwgEMy3Ps0CeX8nSXnUM7EfcKHU6ZXD9p8Q2CK+0Z83QYSe0wBsVvk6Xha9xuZwNK4Xi72IAM/CpWOIi5E9PHJQJ+M9lo8yGQAlBhivcSvOe1W7zgQuBqgVmkrJkF+enzI1wfLsk=
+	t=1718726801; cv=none; b=hREip/vOhNM6RPNuNxNTa2Y28SZdyy1HUHpuwKtrU6gGO5FH2Elgw9p8qdFEO1ZBaT17mpeNd/aw3LzGB3IKu74ltJkTFQE9VMJjJnar9/DkwkPUGM4VD32mpWFYkSq9zN0f623KdA0FYpyWSn46giLGk/d/1gPQtyT1eqZOmLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718726781; c=relaxed/simple;
-	bh=oBKM1LJV8ZYOYaVKPrKUh71IYJ/uxB2+DXWKBB+yrPs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qm1mP6adzMAI1olLAR/1AcEhHMJdrLtyFtSv3YQoLYoeMsmxNmXf+lDPcikzNEY8qrz1iOslbM6LQ4AF/FvllLV5CbddcbhUtC/rtpd2UuD95pNe7h5R6fuL34WWbXHgC5CjxyoHzAu/rFsql+yNapJoTLFP1cIKTNlAbKZ77wU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KPBMHbIJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718726801; c=relaxed/simple;
+	bh=ej9CJG6O1s5bXy2f7PT1FQmimnDOu7MWnSDO5jqF7lE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=I3hFitPaOvyVJURNBZX1ZrV4/nINNnxTS+vqM12nBFKDsmR5wGwM2BOvr9205XR7nEZBqM7xStUaZGnh2ke+LaqL20HBoaJSogf+7r4uJTyRVz015LoB5xFvgljkV7PpEjDWWNquLG2CU9RAiQTnMEyFMU/v2o4SKQgkO9KOSjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=jW7tpBvd; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KPBMHbIJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B28E7C4AF48;
-	Tue, 18 Jun 2024 16:06:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718726780;
-	bh=oBKM1LJV8ZYOYaVKPrKUh71IYJ/uxB2+DXWKBB+yrPs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KPBMHbIJKlIzCXe6FipDG2ksaDBDxuvTLCc4B7sGcOGKGXkfR5W3mbfYl7ah8kCxl
-	 J5cMLc4bv6PZ2BCduZ8oWgVA8T8TwsmsVNF7mXNitpCvbTXVQiSJk5WEjf+N1WfA3R
-	 /Ot/SdhFVB41aZlTWN32YK9ePV1I8vEF7U9mb4xcKuzTjtbOOFt/UAWXlgA1/Aq3sK
-	 2FMDF2eFIOxal4W7CbThARjqevUhpReVfUtMJKVelJUDb+ewEHvUKNeNNXvOmfmyxr
-	 2f6oymofmFld3CeeR8cpEQ2Q0z23hOtp0L0udCugyNGWd7+rtN2brfXUe18MUtOoHs
-	 iGQ6EukfBfP5Q==
-Date: Tue, 18 Jun 2024 17:06:15 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org,
-	linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH 2/3] spi: cs42l43: Add speaker id support to the bridge
- configuration
-Message-ID: <3bcb0b44-8885-40f9-938d-07b44116f3bf@sirena.org.uk>
-References: <20240611132556.1557075-1-ckeepax@opensource.cirrus.com>
- <20240611132556.1557075-2-ckeepax@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="jW7tpBvd"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45I9ShoU030546;
+	Tue, 18 Jun 2024 11:06:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=+thUlenwK1uXI7DaaZQZ4MsBnxIoisz/NpS8YS1va7s=; b=
+	jW7tpBvd0murd5sYfF3vv/xToTNAZI/H9+gIGy37Ii3z3CSYj1ktjZT2x67v6No7
+	gQF8psTJ0+seTgF9wSz/VAXE15qfn/aipkENDMxjVaoMRY+2RBH8NDtBJNEteWG6
+	5pUr4vl1Q8DACI0sRbPZtWIr0M1RvSNy5WGz2eJK4GvWhR9XaKFIaw7+8dzvtdE8
+	4PyYx8k96ThjY+6qi23gJZrTMe0yhWmK4f7BveJ17yNly76lA43uvY3k50F47ars
+	cK5okCJl3wftfdy8LLt4QECRE1jlogRHmXBiWbQr8UmOUXlk3UAxrDDPg/vUREek
+	Y8mvplwrCufwKICsOR3N6g==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3ys8by3nmg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 18 Jun 2024 11:06:19 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 18 Jun
+ 2024 17:06:01 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Tue, 18 Jun 2024 17:06:01 +0100
+Received: from [198.90.208.18] (ediswws06.ad.cirrus.com [198.90.208.18])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id B0EBB820248;
+	Tue, 18 Jun 2024 16:06:01 +0000 (UTC)
+Message-ID: <7032b425-c2e3-4258-92f9-8035b354ea8b@opensource.cirrus.com>
+Date: Tue, 18 Jun 2024 17:06:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5UoClPS6UrjhK232"
-Content-Disposition: inline
-In-Reply-To: <20240611132556.1557075-2-ckeepax@opensource.cirrus.com>
-X-Cookie: Printed on recycled paper.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: cs35l56: Accept values greater than 0 as IRQ
+ numbers
+To: Mark Brown <broonie@kernel.org>
+CC: Simon Trimmer <simont@opensource.cirrus.com>,
+        <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>
+References: <20240617135338.82006-1-simont@opensource.cirrus.com>
+ <917507e5-dc6c-4e18-a7e1-554625de604e@sirena.org.uk>
+ <3451fcf6-ff33-4f72-83d1-945b026b925b@opensource.cirrus.com>
+ <007b01dac0c5$7807ac30$68170490$@opensource.cirrus.com>
+ <f04958f0-b9e9-4f80-8a83-af9740fa83a0@opensource.cirrus.com>
+ <a2946d8a-1ead-4514-b1a4-9c04e37cd8a8@sirena.org.uk>
+Content-Language: en-GB
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <a2946d8a-1ead-4514-b1a4-9c04e37cd8a8@sirena.org.uk>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: FXReiKs950989sBZlAs2sjIeNIKvS5xH
+X-Proofpoint-GUID: FXReiKs950989sBZlAs2sjIeNIKvS5xH
+X-Proofpoint-Spam-Reason: safe
 
-
---5UoClPS6UrjhK232
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Jun 11, 2024 at 02:25:55PM +0100, Charles Keepax wrote:
-> From: Simon Trimmer <simont@opensource.cirrus.com>
->=20
-> OEMs can connect a number of types of speakers to the sidecar cs35l56
-> amplifiers and a different speaker requires a different firmware
-> configuration.
-
-This doesn't apply against current code, please check and resend.
-
---5UoClPS6UrjhK232
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZxsHcACgkQJNaLcl1U
-h9Dr0Af/VJ34RJgI9pWc2293sec60rEFIMRvjAcIeSFJYY4WLxiCEoF/nLxdNipj
-jXG2fanbfi0Ldca9aMeEvt3k0SVm9X6IpoCDkg3uN0hYUu/boRmFgmBlkzvxGRMF
-T80WP9r6qDCNev5vY1qpWvuCJ6bn5ywvyKyo51KMvHjU1q+bIs8dMKOGjrdwIV1D
-o3voy2gjUNlFug6fI67EQips9OObvcwc7YhzQM+gepHJayuxwam9K2PmLuwflOJW
-Elu6u4Qm3JvXCCpljWII0CDHv5LoawwiInhDEzi91OF2pQF1Rp/zbrMHXb8K6ZD/
-lN1ywGeOuiX/BaQ//Q3xT8WSsq/1Fg==
-=9CfF
------END PGP SIGNATURE-----
-
---5UoClPS6UrjhK232--
+On 18/06/2024 17:00, Mark Brown wrote:
+> On Mon, Jun 17, 2024 at 03:54:04PM +0100, Richard Fitzgerald wrote:
+> 
+>> So 0 is invalid. Question is: is it also valid to pass -ve errors, or is
+>> 0 the _only_ invalid value?
+> 
+> Negative values should be fine.
+In that case this patch is necessary so we reject negative values
+as not an IRQ. Otherwise we'll try to request a non-existant IRQ and
+fail with an error.
