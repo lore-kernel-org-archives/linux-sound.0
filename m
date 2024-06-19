@@ -1,149 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6E6B288DB;
-	Wed, 19 Jun 2024 06:28:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7818774049;
+	Wed, 19 Jun 2024 07:05:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718778497; cv=none; b=MKzjz4OXbNo7SGXPKdRmW92xl4pJT50O+nPZRfbpw+dB1oyB65YerTCoiV06oZqzqr7E3i7SEY0v1TLBjorSp6oy3ayjEiHgYR0Qq/A41KF45aEJuYHqw+uBJYWX9dt6QPg9UffYrqQaXqeMKMWumjgWn3qkVVoq6zZ38KwexP4=
+	t=1718780728; cv=none; b=DbBkrsKhUGIzxwHvafEpeQiB9STVT7YrPFI1rXrHUkuccR8QaGty8UdL+OeLEme8sw1DFRwUNMUBbsxoMRS302eu3HASVDBguNxGVZCp3JS0Am/O0sUpsMr9MmpBU7vc9sSqTDudnOLRNN8WG29fddDSxVsSMQP0owyDAuGVGDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718778497; c=relaxed/simple;
-	bh=5wpLH3UULQ70QIdi562QH80gx5EXjoJrYinxKDWNba8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BJ6LkIBLY6Ba3Sp1n/Zim0LTjxNidJqAu8KgEk8favJJsYCEMR88zrqnXPbwdkmDH8jqkrOm4oUhvpDMCOXzV1aYWC2fbgA/b7qU7to/QqUAeh0IArRwRWTowBSzHWQYjGBHHH45iGWqrrZlZ7WqRqj0mvVcxbTXnzn+nOUBXhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y/hllxRS; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1718780728; c=relaxed/simple;
+	bh=1etGkshU1O7/KCVNXu5R9J/vCH7r2G2zAHvGse6TYp4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=G0CVhSDjmSxqvD5S81K6comoTOxhoVWmXn9jp3oIdyMqs1S6jw4u/2KecWn2DZ8/ykWHLGV26YPpTupvbj3ecEaeLRoKWDYshUSmorF5pKrf+r31aviVmUlmrp/h10AD2XG6mxrs+ZQ13jaD0qriT77+UYvkE7N6WPFIUnTHBjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nej6BCG1; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y/hllxRS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718778495; x=1750314495;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=5wpLH3UULQ70QIdi562QH80gx5EXjoJrYinxKDWNba8=;
-  b=Y/hllxRSQY42LIuFKL6XnA722DWrfZ0qAYCoUOpCC4s1aLAV4TH/JXOg
-   RtR19aY0s+4KoL837pzlBS6Zy/aTuwksWDEe3DtDuDmCZcVvhhGgvFoBM
-   8vzeBNjBLR7m7YykMm/kxB1vJsweBDirtZZikiN8QhwOtMyWt0gK81xa7
-   tkKgwphVlbSD7AmCG2ALhPyzjXjsV1K7hG5E5BrnDuabFoVvNI8UkJsX4
-   VyV7nl7h3ia/8v4hfeyEWqVsBdzOtK7CID1vCKUtsv10HzNFG6TMYvhz6
-   IHmlJYEGv5rjG1+p0puUO4L9td+uOZktjMXp1bLc+vH9bfnKGAOg5cCSG
-   w==;
-X-CSE-ConnectionGUID: tIT9HADEQDqtztsQeIB2ww==
-X-CSE-MsgGUID: NKaGGI4XSr23OOwRd/sa8A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="15838801"
-X-IronPort-AV: E=Sophos;i="6.08,249,1712646000"; 
-   d="scan'208";a="15838801"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 23:28:15 -0700
-X-CSE-ConnectionGUID: LfkoHihfTbOK1J2M4irh6w==
-X-CSE-MsgGUID: uYKUTPcRT4OHh5pfJW+Z6w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,249,1712646000"; 
-   d="scan'208";a="41644749"
-Received: from lfiedoro-mobl.ger.corp.intel.com (HELO [10.245.246.239]) ([10.245.246.239])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 23:28:13 -0700
-Message-ID: <e49db7a2-b77e-4065-9400-84d3386fb169@linux.intel.com>
-Date: Wed, 19 Jun 2024 08:28:10 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nej6BCG1"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-70435f4c330so5219981b3a.1;
+        Wed, 19 Jun 2024 00:05:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718780727; x=1719385527; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sB8HfoLbcg+hW+2TwdjXWA6kGA91H5GmLxeUo6C+9MA=;
+        b=nej6BCG18+DyaodiCUonKRDGdQh0NocIsZF+tkQL0tBnAEU2GoD4mndMyzGXz+ijFq
+         wm0cb22Sf8xecVPSxl/b/WIc/6rUj6BdOHkm1QRv1Tg0VkHvmnV2qIfhZylEKJ8nYpdm
+         sPIvK7wMyTYCDoYYQJM+lcGll4mIYC/t5aizvVQvRSo+PtwwxL8ETZkFKw72iDyqe8hd
+         y0KtfiH+E9Brj1GeWwMuepIF9Tv+dYN0TUWfMtgq4nSANDK7n4lQ2lApyk8tREh5zf9V
+         3p4Zpev2VOHy7rVGwEYfLU1twV7KpC4UZ+bOxbu7h1ARO9DzsrejuW6fxuP9BX2OGebL
+         f8DQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718780727; x=1719385527;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sB8HfoLbcg+hW+2TwdjXWA6kGA91H5GmLxeUo6C+9MA=;
+        b=rGqY09V3nQ6G7hUZ1K2X1Epx9yHNXgNp2X/AiJvcREKICLUSdt4L0h6UPLdy61TJ1M
+         /eOwttikv5YZomR6NW6RZv9GB9I0UchlFr+3lGCf+btllJSTTyPD8efPPUD99uWxiA8Y
+         HvEAtlJArSMWN97waQeeYsSGQbt3pyfohqXyL7RN9FlSIE/FlEwaFy5JqpTq0aghCih8
+         1hlqpSWgIGCVDFE/RUEy3lM8zBBYhOTb/VIrI7IXluAH4P4YQ6FoT7BgNdq+Mkxo7w/C
+         dgf6StCMSuSEDNJhFQvSxG5bym/+G9Ha7E6Cqap+25kHQXsJaT/UjDhAy6LFRl85edMp
+         c8CA==
+X-Forwarded-Encrypted: i=1; AJvYcCVR5Dl5rrP72jcVryLqSIRAiXerTuXfD0FXAeQNKeLMhhPfkL1yVCAvE0TSFXN5DzCLUdRW1/N42MHsu9B2Es4vTiwL4/KLxlsq0/eQ9UhyO+mDpXrP1fA+zbG0stmavRfSLymK8lZH1U0n7dZE/n6tGfZetD7i3pGK6QCeXKzruw8SLlCH
+X-Gm-Message-State: AOJu0YzKwMz7ps2mzrgXinvsfYlNM57VxygvgtKHOk5n5nOnV6jzAJpn
+	Qel+zGvyx1iCFsUpO76HUj3dw0JDjRkHusmYHjqabJsxS7enLuTzkANYwHsdlXd6Hg==
+X-Google-Smtp-Source: AGHT+IHPoyvXMcrxRtNi1sPgAPxtmm48b61E6rVWQ/0JpqZauJQXcaJ6a7BA93wBYNoVxjAiWQ2Olw==
+X-Received: by 2002:a05:6a20:f02:b0:1b7:bdb3:7bc9 with SMTP id adf61e73a8af0-1bcbb59caeamr1548782637.30.1718780726551;
+        Wed, 19 Jun 2024 00:05:26 -0700 (PDT)
+Received: from fedora.one.one.one.one ([2405:201:6013:c0b2:ea4b:30e0:4e3a:ab56])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-705cc987738sm10036177b3a.89.2024.06.19.00.04.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Jun 2024 00:05:26 -0700 (PDT)
+From: Animesh Agarwal <animeshagarwal28@gmail.com>
+To: 
+Cc: animeshagarwal28@gmail.com,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: dt-bindings: rename wm8750.yaml to wlf,wm8750.yaml
+Date: Wed, 19 Jun 2024 12:33:54 +0530
+Message-ID: <20240619070356.80759-1-animeshagarwal28@gmail.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Regression] Lenovo Thinkpad X1 Carbon Gen 10 first S2idle fails,
- S0ix fails in all further suspends
-To: Thorsten Leemhuis <regressions@leemhuis.info>
-Cc: Todd Brandt <todd.e.brandt@intel.com>,
- Linux Sound System <linux-sound@vger.kernel.org>,
- Linux kernel regressions list <regressions@lists.linux.dev>,
- LKML <linux-kernel@vger.kernel.org>, sound-open-firmware@alsa-project.org
-References: <ca2d3d47-0ac0-48a5-910b-e481f2a9870a@leemhuis.info>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <ca2d3d47-0ac0-48a5-910b-e481f2a9870a@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Add vendor prefix to wlf,wm8750 dt-schema.
 
+Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
+Cc: Daniel Baluta <daniel.baluta@nxp.com>
+---
+ .../devicetree/bindings/sound/{wm8750.yaml => wlf,wm8750.yaml}  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename Documentation/devicetree/bindings/sound/{wm8750.yaml => wlf,wm8750.yaml} (92%)
 
-On 6/18/24 12:22, Thorsten Leemhuis wrote:
-> Hi, Thorsten here, the Linux kernel's regression tracker.
-> 
-> Pierre-Louis Bossart, I noticed a report about a regression in
-> bugzilla.kernel.org that appears to be caused by the following change of
-> yours: d5263dbbd8af02 ("ASoC: SOF: Intel: don't ignore IOC interrupts
-> for non-audio transfers") [v6.10-rc1]
-> 
-> As many (most?) kernel developers don't keep an eye on the bug tracker,
-> I decided to write this mail. To quote from
-> https://bugzilla.kernel.org/show_bug.cgi?id=218961 :
+diff --git a/Documentation/devicetree/bindings/sound/wm8750.yaml b/Documentation/devicetree/bindings/sound/wlf,wm8750.yaml
+similarity index 92%
+rename from Documentation/devicetree/bindings/sound/wm8750.yaml
+rename to Documentation/devicetree/bindings/sound/wlf,wm8750.yaml
+index 24246ac7bbdf..96859e38315b 100644
+--- a/Documentation/devicetree/bindings/sound/wm8750.yaml
++++ b/Documentation/devicetree/bindings/sound/wlf,wm8750.yaml
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+ %YAML 1.2
+ ---
+-$id: http://devicetree.org/schemas/sound/wm8750.yaml#
++$id: http://devicetree.org/schemas/sound/wlf,wm8750.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: WM8750 and WM8987 audio CODECs
+-- 
+2.45.2
 
-
-Thanks for the heads-up.
-SOF driver bugs are tracked on https://github.com/thesofproject/linux, I
-filed an issue https://github.com/thesofproject/linux/issues/5072 with
-the information copied.
-
-
->> We have a Lenovo Thinkpad X1 Carbon Gen 10 in our lab and ever since
->> 6.10.0-rc1 it has failed its first S2idle suspend, and has stopped
->> getting S0iX on subsequent successful S2idle suspends. The issue in the
->> first suspend fail is here in the audio driver (dmesg section shown):
->>
->> sof-audio-pci-intel-tgl 0000:00:1f.3: Code loader DMA did not complete
-
-The only thing the commit below added is a 500ms timeout, but the log
-below shows the DSP boot failed already?
-
->> sof-audio-pci-intel-tgl 0000:00:1f.3: ------------[ DSP dump start ]------------
->> sof-audio-pci-intel-tgl 0000:00:1f.3: Firmware download failed
->> sof-audio-pci-intel-tgl 0000:00:1f.3: fw_state: SOF_FW_BOOT_READY_OK (6)
->> sof-audio-pci-intel-tgl 0000:00:1f.3: 0x00000005: module: ROM, state: FW_ENTERED, running
->> sof-audio-pci-intel-tgl 0000:00:1f.3: extended rom status:  0x5 0x0 0x4000 0x0 0x0 0x0 0x2560521 0x0
->> sof-audio-pci-intel-tgl 0000:00:1f.3: ------------[ DSP dump end ]------------
->> sof-audio-pci-intel-tgl 0000:00:1f.3: Failed to start DSP
->> sof-audio-pci-intel-tgl 0000:00:1f.3: error: failed to boot DSP firmware after resume -110
->> sof-audio-pci-intel-tgl 0000:00:1f.3: error: hda_dsp_core_reset_enter: timeout on HDA_DSP_REG_ADSPCS read
->> sof-audio-pci-intel-tgl 0000:00:1f.3: error: dsp core reset failed: core_mask 1
->> sof-audio-pci-intel-tgl 0000:00:1f.3: failed to power down DSP during suspend
->> sof-audio-pci-intel-tgl 0000:00:1f.3: error: suspending dsp
->> sof-audio-pci-intel-tgl 0000:00:1f.3: error: failed to power down DSP during suspend -110
->> sof-audio-pci-intel-tgl 0000:00:1f.3: PM: pci_pm_suspend(): snd_sof_suspend [snd_sof] returns -110
->> sof-audio-pci-intel-tgl 0000:00:1f.3: PM: dpm_run_callback(): pci_pm_suspend returns -110
->> sof-audio-pci-intel-tgl 0000:00:1f.3: PM: failed to suspend async: error -110
->>
->> This is the commit:
->>
->> commit d5263dbbd8af026159b16a08a94bedfe51b5f67b
->> Author: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
->> Date:   Thu Apr 4 13:54:47 2024 -0500
->>
->>     ASoC: SOF: Intel: don't ignore IOC interrupts for non-audio transfers
->>
->> Reverting the commit thusly fixes things in everything up to 6.10.0-rc3.
->>
->> %> git diff 6cbf086143cf9674c7f029e1cf435c65a537066a d5263dbbd8af026159b16a08a94bedfe51b5f67b > ../revert.patch
->> %> cat ../revert.patch | patch -1 -R
->>
->> I've attached the sleepgraph timeline of the fail. The dmesg log is
->> accesible by clicking the "dmesg" button in the upper right hand corner.
->> They "log" button shows all the system details.
-> 
-> See the ticket for more details.
-> 
-> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
-> --
-> Everything you wanna know about Linux kernel regression tracking:
-> https://linux-regtracking.leemhuis.info/about/#tldr
-> If I did something stupid, please tell me, as explained on that page.
-> 
-> P.S.: let me use this mail to also add the report to the list of tracked
-> regressions to ensure it's doesn't fall through the cracks:
-> 
-> #regzbot introduced: d5263dbbd8af02
-> #regzbot title: ASoC: SOF: Intel:
-> #regzbot from: Todd Brandt
-> #regzbot duplicate: https://bugzilla.kernel.org/show_bug.cgi?id=218961
-> #regzbot ignore-activity
