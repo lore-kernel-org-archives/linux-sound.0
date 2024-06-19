@@ -1,89 +1,116 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3987E13211E;
-	Wed, 19 Jun 2024 10:59:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B51D9612EB;
+	Wed, 19 Jun 2024 11:01:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718794779; cv=none; b=QQOi5eLLmY+T0agM+BtZHMBj7sNVlgHdZjYUGeS1mLiJXy6W+S7rmX4eoCvFntiZIYEvjhGGIC+PhYY9pcpJJZIq4V/7msPOWg8/U0JXEuRBOsml0E+Qh6fMBe3HaaxLqe6kQPIs+2n+vep7JI41k7TXJkE/JnBxo+ufCPY6Da8=
+	t=1718794875; cv=none; b=S8WzGa7ZnAWn4+PaLTWPctzcOOZb+NRKnrsfJfAbjckTWzqNdU3RuQ70nCNLBh42qLTcoTti/fafYl30aptXmnQGbyLJeqT4SkQhniLJVV6AAbdc+TDTKP2bAV654xYwQBNAbFMlwf7p1POfuoxGEGi/RRTnsrx18FBtJOoyfOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718794779; c=relaxed/simple;
-	bh=BExqSwzjA+fciZYpFKo7ougXR8LWzOaXC2TldKO7j2g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TVqcs0jlV3AZCVUEl3GeocTuDJy4lkLZrNNqGOJJvDWb7E8yeB6oMvY3mK1vUYRmJh6V2xDxUzH/c26pjhv/Mw6Xl7lEF+NSqEzTe0AEuBLt+PYKEKysSieYGUAMPJofCNp8pCRB90eH6UF2qi8VlK02ZQW4b6qDCC0N9kbgmmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dv0q9/h2; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1718794875; c=relaxed/simple;
+	bh=wV3LwNiIkukhZS1LfFIfEtDSB8xpDVKZ9+NbICekbT0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Oo9UnIP/YjzrjZdyzF0C8gZ5FgD1VLi4bF4PGD8C+650FLbRgS0pnrfQV/3zF4tySbJ80gqi1AsSU2cJE496Pb2/4+08dtlY60AjQu0iQXL+PNKaLtXz0fVvFDTA3LriXiIDKjGxIH9bgkpyz/g6GbGdDDR0v4/pbolrIhJokXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fwb3x8y0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dv0q9/h2"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-52cc148159dso2360318e87.0;
-        Wed, 19 Jun 2024 03:59:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718794776; x=1719399576; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NqNPLNV/phq08wqrDpKBw62bWYUWvlN1FEBdphcgyZ8=;
-        b=dv0q9/h24tqKsPri65ftAz3uMoluz6ddy0EA3qNT/o5YJqR3C0ZzALE+6CMSMxzmQV
-         UhK7l4XX62IixoqNGL4T5c6142zQEF6/qhfOyGrwn6wpjtO/tYaGr1ulzsVCR+s5q3bw
-         +2rIBmk+wDj3WLbRg2WGacgkpm4qkC9wPXQOkn5Dm21WRSCI5fkKo5or34FlvU+/2k0z
-         2bC80V3lsO7W+RVsw0qvHwDnhtSIsKUtt48+KZ4hjWHyqWtmoRtZBD3uys+2hgUAltNP
-         NouuE3MHA30hd64KX0bclsFpoV+T4KKqISQ5LGDFQ5yfgxpwlAmSBJyMPoktS3ldA9lB
-         wIpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718794776; x=1719399576;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NqNPLNV/phq08wqrDpKBw62bWYUWvlN1FEBdphcgyZ8=;
-        b=c/QdBs8F18+R2gbu4NeG3biU5SRnDw501vX0DK9Zxlq5sfvnVAaNSzUfmerVKy7Bdi
-         4BoNVThpJz79GDTEBc16THb+LhI+DmD03pcyaoQUSlc45X7kLAuBWyHHS+m7J358Ol2Q
-         An3P3YO0tBx5Nz/UVEwwktcJt5cGY414m3/XF9tdGVOgZ4WqYFgIGrFpBNcJ+sgS1Df1
-         8sncdQPQ7iez6Flw8l8PFKwQFiwwV8KV12PbU1IrjbmXHoxcEL3mG99hrw2UAlzBKLKN
-         g55H6JXIxA26iFLndJphaoICdDxBX/k5mybD2uz7iAwSrJYusNZhkUV3fOiTJZlK89Z6
-         sf8g==
-X-Gm-Message-State: AOJu0YydS42h4uFxh78+5eySLMvq/oCusx9o+ialsuoZFAkzxcaaMhkH
-	mkmm+P5DSaqj3IqPg+0o0wAo1E2Rs5Js6AYKueCf8TDk72u6/GR3crmFSnDPE3w=
-X-Google-Smtp-Source: AGHT+IERLNBeQ1AbPpPP7jOYcwoL68WBRtNt2+f3lA9xTCWJjg2eu2p5zzI0ylJsHcIgAgW4DZNlyw==
-X-Received: by 2002:a05:6512:6c2:b0:52c:8df9:2e6f with SMTP id 2adb3069b0e04-52ccaa881femr2046835e87.42.1718794776032;
-        Wed, 19 Jun 2024 03:59:36 -0700 (PDT)
-Received: from fedora.. (cpdnat87.usal.es. [212.128.135.87])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422f6320bd8sm224010455e9.32.2024.06.19.03.59.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jun 2024 03:59:35 -0700 (PDT)
-From: =?UTF-8?q?Pablo=20Ca=C3=B1o?= <pablocpascual@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: stable@vger.kernel.org,
-	tiwai@suse.de,
-	=?UTF-8?q?Pablo=20Ca=C3=B1o?= <pablocpascual@gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Add quirk for Lenovo Yoga Pro 7 14AHP9
-Date: Wed, 19 Jun 2024 12:59:32 +0200
-Message-ID: <20240619105932.29124-1-pablocpascual@gmail.com>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fwb3x8y0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C301C2BBFC;
+	Wed, 19 Jun 2024 11:01:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718794875;
+	bh=wV3LwNiIkukhZS1LfFIfEtDSB8xpDVKZ9+NbICekbT0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Fwb3x8y0vt3PQhoI6ECI5rtqj/iau8k765t71XQQ87w34sDFSmKorGgLwfmis087j
+	 RCCIL75jZQkMh04MdWBTKIW74y3GDKiFn3J24ffzUGWVds+InqpviRvGnnwRIbUJ0D
+	 1dZJKdrq3Rzg1DgVvsOMBZu9+RA7KqnqksmxPteHYpLgykLrp1q8YO/Aa+5aUHxWDh
+	 q2tCFNEsvdBYXn9lp7A5Gft6zJ+VN0Fa7wrESKoDz0BJXX4Hc/cPaq4nvgq7dgI+I1
+	 10fucWe4lo8FDsF0hKxCcQgRQt8bfi7/P8U/RcjzSSy7y17TDkHOymPFI2JRmjyI1A
+	 xsn4kIWtg+CtQ==
+Date: Wed, 19 Jun 2024 12:01:03 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: =?utf-8?B?IkFtYWRldXN6IFPFgmF3acWEc2tpIg==?= <amadeuszx.slawinski@linux.intel.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Alper Nebi Yasak <alpernebiyasak@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Brent Lu <brent.lu@intel.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Jerome Brunet <jbrunet@baylibre.com>, Jiawei Wang <me@jwang.link>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Maso Huang <maso.huang@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Takashi Iwai <tiwai@suse.com>, Vinod Koul <vkoul@kernel.org>,
+	Xiubo Li <Xiubo.Lee@gmail.com>, alsa-devel@alsa-project.org,
+	imx@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v5 0/4] ASoC: grace time for DPCM cleanup
+Message-ID: <71a31778-5709-4342-b813-75899ed4e90f@sirena.org.uk>
+References: <87bk4oqerx.wl-kuninori.morimoto.gx@renesas.com>
+ <6bf6adc9-9620-4ace-97c9-7de0cedd7d07@sirena.org.uk>
+ <877celwmvh.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="d4Pd4HMwg9L5DQDu"
+Content-Disposition: inline
+In-Reply-To: <877celwmvh.wl-kuninori.morimoto.gx@renesas.com>
+X-Cookie: Don't I know you?
 
-Lenovo Yoga Pro 7 14AHP9 (PCI SSID 17aa:3891) seems requiring a similar workaround like Yoga 9 model and Yoga 7 Pro 14APH8 for the bass speaker.
 
----
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
+--d4Pd4HMwg9L5DQDu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index aa76d1c88589..f9223fedf8e9 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10525,6 +10525,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x17aa, 0x387e, "Yoga S780-16 pro Quad YC", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x3881, "YB9 dual power mode2 YC", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x3882, "Lenovo Yoga Pro 7 14APH8", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
-+	SND_PCI_QUIRK(0x17aa, 0x3891, "Lenovo Yoga Pro 7 14AHP9", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
- 	SND_PCI_QUIRK(0x17aa, 0x3884, "Y780 YG DUAL", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x3886, "Y780 VECO DUAL", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x38a7, "Y780P AMD YG dual", ALC287_FIXUP_TAS2781_I2C),
--- 
-2.45.2
+On Wed, Jun 19, 2024 at 04:57:22AM +0000, Kuninori Morimoto wrote:
 
+> > This doesn't apply against current code, please check and resend (it's
+> > simple-card and audio-graph-card2 that conflict).
+
+> Ah, I guess you used "v5 original" patch-set.
+> "v5 resend" patch-set or today's "v6" patch-set should be OK.
+
+Oh, if you mark something as a resend then it sounds like it should be
+exactly the same as it was before, if you've rebased you should increase
+the version number.
+
+--d4Pd4HMwg9L5DQDu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZyum4ACgkQJNaLcl1U
+h9CY0gf9HLsXbwCJULJAm9FlV4eh/DYA7VbD8zXkipHVgvH0XIpxP3UGX+Bsl79r
+Zoieqsq8m08fTI7MNaw0TIsb77di3O/LpWoxTfi56fDpBPmWPsS70cv0NO7eL5lb
+AJHsWzfAdtzyRT8gUTJoUIimYvB8kwxuEpMhN6VRgIpTYZulN2JiBTfD+XypCdjY
+ZCqFYh2GAISbrciQD5SVh0cLI9jkkF2OudyeY4rq8IIPGE8tggGuqDqjpUa79DNB
+vyhxa0rCnlfjshMjFHgPfjHVytb7MuzSueN25L5iQvty/q/hzLX7C3dH9d3zRJWm
+VFd4p0vPpH3kOL7x1+pzcUmVveO/mQ==
+=OSUR
+-----END PGP SIGNATURE-----
+
+--d4Pd4HMwg9L5DQDu--
