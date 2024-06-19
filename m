@@ -1,93 +1,81 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0E1B136657;
-	Wed, 19 Jun 2024 11:11:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0FF44D8B2;
+	Wed, 19 Jun 2024 11:48:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718795472; cv=none; b=lNUE8R0VXdKrflrhcDW2mbA7O3onHUNsRs68aE0eORQKMxjYLEA+U7AmFNX2VnaK6QqM7A1IgiS6AZD9+4DCY5Gh7VLYBcYX0h3dVzOkh9uW+XIt49llyrFFkzMgNWMf/1M5BfsKQpQFirTqSHXCtS+7oJ3lpOyeZsCnBc118kU=
+	t=1718797720; cv=none; b=M0mfhKAKFStbZg+O//Uulobp1v1oUQkKOiEgmjRHBjYaeN7EIJbdPsjguacrtDaHn3C8ZuzQJxNpnnbEc3iLSJ7H1FxdH/sAxpKj4xQuBFBs9SfmRTYVmHBz3ZDau7GGrFetKcMe0ylccbkiaTA0Bi7YAo/omRSai//GRpgff24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718795472; c=relaxed/simple;
-	bh=qu/6XJuVrIq1Rby1Rnvig3vrO5OB9OEs0ydj0+XBU1c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QEmvYiHDBbidkPPrjZY+3Z5t+fa8eLqxvPSqZQOGsaEhzPMb4j0hvm3+Bn1B5yHYKH9jfjRV7QMbEmlZz0ZYcYVDwwA0ucRtCdGlgIS2Lw+wzIbZSaxQfASc5hEbFnBx4zIn6u+hN0oIEvAQEl62AsYmj4HABlbuXPIdIMQE/Ww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K9CkMy+U; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1718797720; c=relaxed/simple;
+	bh=w5cAoAASm64T8m5tiTn2cbQG1dthfwLRAJsS/gRwIq0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H0TCMKO60bKPgKpSx2UTDNMgO0OaFVslzD6PYngTmxL/oKDBdAY4otxO7n+1QLsPN1zNNxeluuqQnWTUr1R6GhcN8krrTSg/T5LUqrvw8EqpPU3yUbqgIWi+c7x/di8WxrfYU1crd0EJ+c+LmaCBMI9Ukn35oHsYziSYxwpnpNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XNBe9kqa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K9CkMy+U"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-35f275c7286so5758627f8f.2;
-        Wed, 19 Jun 2024 04:11:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718795469; x=1719400269; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rUi8PJoQrIhJDe0DZMXJyq4ZXY0L5Yc5X576T+WDdbw=;
-        b=K9CkMy+ULGx0PuJT4+gVa8upsI+yVRdLC4QTbmV18ietAnlvmAakvWoUdnPpL4/TQv
-         9SE/xM8fmJ7DlvtybyD0LOHno87/0pOZDUM0EDi9m1jHABbYyfpk4QdPi3zZcmWwURec
-         jPqvwBoh/G1fYhiN3yZUx6eudHta5inMKKUSYaloKW6Rbvy1Fo8Dm9DUDt/g4xSgzIeu
-         S99aP6DOWFdVEHihClgYckSjlk0Dat2ym0H4e7/U0+29rvPvW8gn8Ed9OotpvqfBRfvk
-         zb9JV7GJIMRvjphKNFlBMlpzTv1RNEb0bhuBcF/vR43WpQ+ShZ5QI3ueBXfDeR6iOCvP
-         LUCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718795469; x=1719400269;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rUi8PJoQrIhJDe0DZMXJyq4ZXY0L5Yc5X576T+WDdbw=;
-        b=NJSUa1qIE8R0+ntUECXKF30prYZRIsoz9St4HWeA6b1oLaOjlGSKbuBoM9aJSlcs2f
-         LjeDHoMkB/ElW2p8hxupDxQuoMHaTWKXwY4+LIx8zxtvIYzglYZAT9jeAS/T+8YglbHz
-         cdMc6TMac7WJNUjYFKFuofk39j88wctGmxcccqMpIZeVY/qR3b+LA4xospkzUkKEPtue
-         iJSZcWXlM8sND2dtiaSAXm2epNeT3ucjet3OhsUe1kmTuxWNCRoHEWdI0CMUOVQ9ldyQ
-         NEqPROOKAK7qTaaEaAQJ2NJw90YiC8hU92nryw48ros8+r7ohKq1JifgQ9LHtU07t60+
-         o1Yg==
-X-Gm-Message-State: AOJu0YxOwO0ysFnURqYByRAobcJwIaEA60o4pshV+uIVBRpcP0/UL2qK
-	8r63uPcaxGy59GN8I2yArj4CvBwCvVyYnwZBXrK8pjsGms8sd4E6/u1NoNyYu3U=
-X-Google-Smtp-Source: AGHT+IGuVipVwnEXUszWur3qCZRffHrEigsB1Ut5ZhbSDF0a7CCuGyPhAOgI3NUc+o7EJt8m6Eh73g==
-X-Received: by 2002:a5d:4563:0:b0:362:590c:84cf with SMTP id ffacd0b85a97d-363177a3caemr1649024f8f.24.1718795468837;
-        Wed, 19 Jun 2024 04:11:08 -0700 (PDT)
-Received: from fedora.. (cpdnat87.usal.es. [212.128.135.87])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3607509c707sm16962838f8f.36.2024.06.19.04.11.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jun 2024 04:11:08 -0700 (PDT)
-From: =?UTF-8?q?Pablo=20Ca=C3=B1o?= <pablocpascual@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: stable@vger.kernel.org,
-	tiwai@suse.de,
-	=?UTF-8?q?Pablo=20Ca=C3=B1o?= <pablocpascual@gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Add quirk for Lenovo Yoga Pro 7 14AHP9
-Date: Wed, 19 Jun 2024 13:11:05 +0200
-Message-ID: <20240619111105.34300-1-pablocpascual@gmail.com>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XNBe9kqa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B867C2BBFC;
+	Wed, 19 Jun 2024 11:48:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718797719;
+	bh=w5cAoAASm64T8m5tiTn2cbQG1dthfwLRAJsS/gRwIq0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XNBe9kqaZNNPx71tIPgLgXf/cuAJXpwV+qaC7uKM/aRgcTBYeBVvyZ5I6BHBpUIcN
+	 H61cQcb8bYYpVHIGUcL24i8Jw5lO1CbV4huegFSRDfakfH3AYswsQwJyhZujvZdtwn
+	 Rnvm+L67r9hNDlE+/wV7b/1ijIJLXMX0aTa6Y3fXO/B3gzCZXaDxMhNm01JwP8lfVJ
+	 kNSsmJPcmK6PFAJUxP8ZQ8mZTK/2GXpMEVLfWX8ePAmNn4Rim0L6GUbt4/tw+TG6Y9
+	 9ZJU6zHN130/bKYvDVOzzNFUBgoY+iiK3ydS/Xte0a+R0zWNB8fPWgh242UNeOI4Aq
+	 PFEtr0VhHWjKA==
+Date: Wed, 19 Jun 2024 12:48:35 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: Simon Trimmer <simont@opensource.cirrus.com>,
+	linux-sound@vger.kernel.org, alsa-devel@alsa-project.org,
+	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+Subject: Re: [PATCH] ASoC: cs35l56: Accept values greater than 0 as IRQ
+ numbers
+Message-ID: <3abde78c-aae9-445a-b8a0-a09e4079006b@sirena.org.uk>
+References: <20240617135338.82006-1-simont@opensource.cirrus.com>
+ <fe9dd613-8909-4c7d-a7d7-9094b75fe8fb@opensource.cirrus.com>
+ <941d2b8a-18b5-43ad-9aec-6785f841dfaa@sirena.org.uk>
+ <97da8398-599e-45cb-abb2-97cc66567628@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="VR6AEZOBN5xY1cCZ"
+Content-Disposition: inline
+In-Reply-To: <97da8398-599e-45cb-abb2-97cc66567628@opensource.cirrus.com>
+X-Cookie: Don't I know you?
 
-Lenovo Yoga Pro 7 14AHP9 (PCI SSID 17aa:3891) seems requiring a similar workaround like Yoga 9 model and Yoga 7 Pro 14APH8 for the bass speaker.
 
-Cc: <stable@vger.kernel.org>
-Link: https://lore.kernel.org/all/20231207182035.30248-1-tiwai@suse.de/
-Signed-off-by: Pablo Caño <pablocpascual@gmail.com>
----
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
+--VR6AEZOBN5xY1cCZ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index aa76d1c88589..f9223fedf8e9 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10525,6 +10525,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x17aa, 0x387e, "Yoga S780-16 pro Quad YC", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x3881, "YB9 dual power mode2 YC", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x3882, "Lenovo Yoga Pro 7 14APH8", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
-+	SND_PCI_QUIRK(0x17aa, 0x3891, "Lenovo Yoga Pro 7 14AHP9", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
- 	SND_PCI_QUIRK(0x17aa, 0x3884, "Y780 YG DUAL", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x3886, "Y780 VECO DUAL", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x38a7, "Y780P AMD YG dual", ALC287_FIXUP_TAS2781_I2C),
--- 
-2.45.2
+On Wed, Jun 19, 2024 at 11:24:06AM +0100, Richard Fitzgerald wrote:
 
+> Ah, ok. Sorry, I assumed you were objecting not just overloaded.
+
+There's a latency between me deciding to apply a patch and the patch
+actually ending up in my tree - I test everything which takes time.
+
+--VR6AEZOBN5xY1cCZ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZyxZIACgkQJNaLcl1U
+h9DGqAf+Jz/okBoNBuqi6pOSDONLdBYzCM2CCX1nO3m7rt43q1WNnDyHMJ/E5sEK
+Gf7KEey66EwZOp7ozj0bDUhViwBT9NTuSPgXLcf3FjdBhdn0pxXkjz3IOLQl+rcL
+2E/+9WCOfy4WxUq+5Q7EhGeGvF4Iu3e5OfSYN/jbMCb6O8+2frVt4zlpbU4ZTOCO
+tDZIctNPH125ATIdP9E1fSFSyLnOuBda8hGwpyCAUjUluwFbTvI8z6u/PLbLUXzq
+I81HRGieVpedOzVtVT8vWb6ZkmB1d9HkQT0xtWJkV3AFfdpddjd0Mhm3QWf3SPqx
+qroTq2Ew+Mq1/EPA8ouW87vzE09LlQ==
+=DIGY
+-----END PGP SIGNATURE-----
+
+--VR6AEZOBN5xY1cCZ--
