@@ -1,79 +1,86 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F4777F2C;
-	Wed, 19 Jun 2024 15:01:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56AE778C91;
+	Wed, 19 Jun 2024 15:06:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718809279; cv=none; b=DukKPA+LaAL0WvrbXBgqmkIMAb7w8yscqSMCp6AlZCxdowYsO1nqQ0N/12Rvp/pzmPpNITLFEklsya1QYJy7Mguw/4GuaZd7gki/XdZkN9Yc43FLPO0dUD+djM1M3T7rOyzTbZ+ho1l+x8Cglkb8t3HNLxXqJrdVnqkBVSZJmCg=
+	t=1718809602; cv=none; b=i70X8RUW/MQ+3+Hd750y8y2oa8wooAPoIjCMtI2OuspJJpsIU+ieYnYtZAhb2QfUlOxEELX39MajY7CAC982uOcDMNUDisD4RNh7s2z34ldgzzldOznLAPouVTcoaQ8D0wHQehQIvK1D5NHHNEVe7/t33M38fU4F24kLF0KLla4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718809279; c=relaxed/simple;
-	bh=SmW8jSoigqN6cXoH7/DH+OEqxD9eVzAWpC7UQd+YfOw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eRg6jn2xelRB/zlKdYh+cSgXxwu+eF/gsyAt7BExBhHktm9F+vmTVvssnxJWI8InVn3mbLE2zy1p3Um+AsrIcM1en35bvSDaNIq+TOpYNJijfMrg/79c2swftG6yBx82yVVlkL9LwANTvfb5x79+aJB7uLuh56hVL6SqGSGPDCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=dAXHebve; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1718809602; c=relaxed/simple;
+	bh=t6RqYDc9zHOqi3suBjLShR9za2xsd+P52ElnvkNMnNA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZIdoF+wOwaQFsgImuAl0Dxbgg6qe+7isKv6ubZHj7BnzgfzwNrtNa7rmjFqCedXkOpTt12GfXSu/RGqG/jqIl9pNzhJJH5tHlsfvDHyur3RU7XZVKIHAd37fm04C7/JN7U3pRNl0DIemU6cKL3Eyn6y4A3O+XiThnqrebdmITLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=khNXe69m; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="dAXHebve"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1718809277;
-	bh=SmW8jSoigqN6cXoH7/DH+OEqxD9eVzAWpC7UQd+YfOw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=dAXHebveT8Z0LIwwrZndAskYgi/KtH9bd+ORG3mdL1fEJCpMndK4S/UwvEFgrUVYA
-	 sbWfxMS9jtr9gPUy9ZCz8bBypgNp5+H4wB1mrWyAq5Ra7A5WeDMUBbn07SVUsxoeL0
-	 OuDkCK6wv8xelfg8wY2ehNC2OMQmBk6mlrM4P+uV0xzm+1dFYbFSjGAAl5htKAuTwt
-	 z6f+QHvb+dw5z43BEaW7C9YTl3cNrqQst+kTNHrz8zuB8Q/qhKFUu6loz6sIg+JaFU
-	 +ygZomYwr34YzE3gyG3odXSObZqVqQQXJuVZdXuhjN54/q2HM/lbD+CBDBsdtjdBNB
-	 /antbN/BpvPmw==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5526E37821D3;
-	Wed, 19 Jun 2024 15:01:15 +0000 (UTC)
-Message-ID: <27eefef0-4485-4db4-9336-2f01b9187362@collabora.com>
-Date: Wed, 19 Jun 2024 17:01:14 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="khNXe69m"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87E22C2BBFC;
+	Wed, 19 Jun 2024 15:06:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718809601;
+	bh=t6RqYDc9zHOqi3suBjLShR9za2xsd+P52ElnvkNMnNA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=khNXe69msU/1f4gJPQxwg7veWijNkvSzAGBJjeoYKc5VdJWwGLc7AJaKotbqedCyc
+	 iJckGaj+CUMmhrIJZVZmWLc4FY6Opl83Tzreg9vJZyCdLETg1ZKvdwUTAY/DK9xXL5
+	 IKNiIgWoQh0XSFZTWwf3YyL/vId3H41NIZ2pNAWHpJ2VCUMgXrhjSUxD98aY8ddh/H
+	 HUVYKhUzVsjznbSwdYdR36Zp4gnbHLxrtUANbQcQhQQMRBe5dThPWsOW9Q7GfJLkAl
+	 b6TzGFllyz3P2JW13k6rgxQE69HGXNb5c3liTmctJIwi1rNh5FDItxysX1bX+oF57p
+	 2EBqJBwDOUhRQ==
+Date: Wed, 19 Jun 2024 16:06:36 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Igor Artemiev <Igor.A.Artemiev@mcst.ru>
+Cc: Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	lvc-project@linuxtesting.org
+Subject: Re: [lvc-project] [PATCH] ASoC: simple-card-utils: Fix error
+ handling in simple_util_init_jack()
+Message-ID: <cdeb8451-8a72-473f-812e-6c21a96cecb9@sirena.org.uk>
+References: <20240619142432.573338-1-Igor.A.Artemiev@mcst.ru>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 12/16] ASoC: codecs: add MT6357 support
-To: amergnat@baylibre.com, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Lee Jones <lee@kernel.org>,
- Flora Fu <flora.fu@mediatek.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Nicolas Belin <nbelin@baylibre.com>
-References: <20240226-audio-i350-v6-0-f754ec1a7634@baylibre.com>
- <20240226-audio-i350-v6-12-f754ec1a7634@baylibre.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20240226-audio-i350-v6-12-f754ec1a7634@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-Il 19/06/24 16:46, amergnat@baylibre.com ha scritto:
-> From: Nicolas Belin <nbelin@baylibre.com>
-> 
-> Add the support of MT6357 PMIC audio codec.
-> 
-> Signed-off-by: Nicolas Belin <nbelin@baylibre.com>
-> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
-
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ngyz7Xu2vyiOf4Qc"
+Content-Disposition: inline
+In-Reply-To: <20240619142432.573338-1-Igor.A.Artemiev@mcst.ru>
+X-Cookie: Don't I know you?
 
 
+--ngyz7Xu2vyiOf4Qc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Wed, Jun 19, 2024 at 05:24:32PM +0300, Igor Artemiev wrote:
+
+> Currently, if snd_soc_card_jack_new_pins() or snd_soc_jack_add_gpios()
+> fails, the function continues execution without handling the error.
+> This can lead to unexpected behavior and potential crashes.
+
+This just looks like some static checker thing, I'm just seeing a bald
+assertation about issues and crashes with no analysis about what those
+might be.  TBH I'd expect this to make things worse not better.
+
+--ngyz7Xu2vyiOf4Qc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZy8/sACgkQJNaLcl1U
+h9BYcgf+OnjKQt79MdSbG/lH7BYTolBSIy5tsmp0AuL540BEGkdL8bvLOmsOtVHf
+btjHv7kQRhkt6JbSpQvAbDvInPU8oBNWlRBfr7S3WXkRgzn8bidhw/XjPjOHq/fl
+dQOgbjpnPRjd3xVgzec1xxsLz+u4y3mnwS0qIr/nPwUGm/tLOP+Q1JK5DlYwaBbj
+gD9DdFdTywY/dsfqPgjkm54CoYCG7SVhMNWISWUTvfoNg5laoP2DSKJVLXZ8g3fR
+kI6AYLfCti3msZh2un5yONgyaPWzg/k9zxULKwiN5k/alW7dW6Lp9Dh2ifpA4anA
+eU3BauCXjomvQ4gvQMBI0edBhoA76w==
+=RspS
+-----END PGP SIGNATURE-----
+
+--ngyz7Xu2vyiOf4Qc--
