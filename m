@@ -1,81 +1,86 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0FF44D8B2;
-	Wed, 19 Jun 2024 11:48:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A93B1FC1F;
+	Wed, 19 Jun 2024 12:50:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718797720; cv=none; b=M0mfhKAKFStbZg+O//Uulobp1v1oUQkKOiEgmjRHBjYaeN7EIJbdPsjguacrtDaHn3C8ZuzQJxNpnnbEc3iLSJ7H1FxdH/sAxpKj4xQuBFBs9SfmRTYVmHBz3ZDau7GGrFetKcMe0ylccbkiaTA0Bi7YAo/omRSai//GRpgff24=
+	t=1718801448; cv=none; b=eP/Zh2Q9cbwU68py45inGRrw4lzXM2TXivEE2NgVrhHfsQTvMdIf0QbShxUvwIIrvdksYrzBTweMcfDKQlkPZmKq7EsWoKqktCpQ1d9yfMjKu39h3ih/bGoV9IgO+vHWt3fPjHMG0w9xPg8W4KRQiPpx1wZePscq7eXG5hGv0ek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718797720; c=relaxed/simple;
-	bh=w5cAoAASm64T8m5tiTn2cbQG1dthfwLRAJsS/gRwIq0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H0TCMKO60bKPgKpSx2UTDNMgO0OaFVslzD6PYngTmxL/oKDBdAY4otxO7n+1QLsPN1zNNxeluuqQnWTUr1R6GhcN8krrTSg/T5LUqrvw8EqpPU3yUbqgIWi+c7x/di8WxrfYU1crd0EJ+c+LmaCBMI9Ukn35oHsYziSYxwpnpNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XNBe9kqa; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718801448; c=relaxed/simple;
+	bh=MKPk/xGcsJ3mkq4leddfFyEcbWWZuDqiYmtRl4qAla0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=bHNNG4g7KqpA2ioqd5cRftbOROUva2QEui5j5hjFeuYcCf2RwH5Qb9NcW4mPLLvG3tqML3J6/uSgJrlaH2i08k2YuGp22u4XA18wHwO3HcTWvedjSV6uhLfQjckFZFdkQgxkC0ZJbWxAxfLGJIOgzpCBSZfV8pW0Dvc4pfis9CE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FCjG6aYr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XNBe9kqa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B867C2BBFC;
-	Wed, 19 Jun 2024 11:48:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FCjG6aYr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AAEBC32786;
+	Wed, 19 Jun 2024 12:50:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718797719;
-	bh=w5cAoAASm64T8m5tiTn2cbQG1dthfwLRAJsS/gRwIq0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XNBe9kqaZNNPx71tIPgLgXf/cuAJXpwV+qaC7uKM/aRgcTBYeBVvyZ5I6BHBpUIcN
-	 H61cQcb8bYYpVHIGUcL24i8Jw5lO1CbV4huegFSRDfakfH3AYswsQwJyhZujvZdtwn
-	 Rnvm+L67r9hNDlE+/wV7b/1ijIJLXMX0aTa6Y3fXO/B3gzCZXaDxMhNm01JwP8lfVJ
-	 kNSsmJPcmK6PFAJUxP8ZQ8mZTK/2GXpMEVLfWX8ePAmNn4Rim0L6GUbt4/tw+TG6Y9
-	 9ZJU6zHN130/bKYvDVOzzNFUBgoY+iiK3ydS/Xte0a+R0zWNB8fPWgh242UNeOI4Aq
-	 PFEtr0VhHWjKA==
-Date: Wed, 19 Jun 2024 12:48:35 +0100
+	s=k20201202; t=1718801448;
+	bh=MKPk/xGcsJ3mkq4leddfFyEcbWWZuDqiYmtRl4qAla0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=FCjG6aYrVO1Gzy26UZkn4XkbRaHhGbrSdq0QKhnT7G0X1k/tJOH7nSLWFZcYcjjds
+	 PCBM/ZgxUmclO83HXWNZ32CdKscjV/0JrhuJpxNs5nx8qNGV0s7GhUjLSasmm6UZjJ
+	 7J7O57r2dsXWxy1BQPQX4W4Kum3TwPSapqNDl5qDmkOv0zFmw0JOGTCWBEE32VX4EU
+	 kIixfIL2N+oHUKwqLl7V7OFYXLxgjqZdNbScnMq22vwc9x9Z+Vyih/Fadvx+wZBy9r
+	 RzPbBzKEqOv1oZiRny3D80vDhxs1B48KSNAox59JK8eQS/jOYUGAbdoUGk4FloVHez
+	 mMzv2N2ULqxvA==
 From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: Simon Trimmer <simont@opensource.cirrus.com>,
-	linux-sound@vger.kernel.org, alsa-devel@alsa-project.org,
-	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-Subject: Re: [PATCH] ASoC: cs35l56: Accept values greater than 0 as IRQ
- numbers
-Message-ID: <3abde78c-aae9-445a-b8a0-a09e4079006b@sirena.org.uk>
-References: <20240617135338.82006-1-simont@opensource.cirrus.com>
- <fe9dd613-8909-4c7d-a7d7-9094b75fe8fb@opensource.cirrus.com>
- <941d2b8a-18b5-43ad-9aec-6785f841dfaa@sirena.org.uk>
- <97da8398-599e-45cb-abb2-97cc66567628@opensource.cirrus.com>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org, 
+ linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20240611132556.1557075-1-ckeepax@opensource.cirrus.com>
+References: <20240611132556.1557075-1-ckeepax@opensource.cirrus.com>
+Subject: Re: (subset) [PATCH 1/3] spi: cs42l43: Refactor accessing the SDCA
+ extension properties
+Message-Id: <171880144676.113265.5971230343895935810.b4-ty@kernel.org>
+Date: Wed, 19 Jun 2024 13:50:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="VR6AEZOBN5xY1cCZ"
-Content-Disposition: inline
-In-Reply-To: <97da8398-599e-45cb-abb2-97cc66567628@opensource.cirrus.com>
-X-Cookie: Don't I know you?
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev-d4707
 
+On Tue, 11 Jun 2024 14:25:54 +0100, Charles Keepax wrote:
+> Refactor accessing the SDCA extension properties to make it easier to
+> access multiple properties to assist with future features. Return the
+> node itself and allow the caller to read the actual properties.
+> 
+> 
 
---VR6AEZOBN5xY1cCZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Wed, Jun 19, 2024 at 11:24:06AM +0100, Richard Fitzgerald wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
-> Ah, ok. Sorry, I assumed you were objecting not just overloaded.
+Thanks!
 
-There's a latency between me deciding to apply a patch and the patch
-actually ending up in my tree - I test everything which takes time.
+[1/3] spi: cs42l43: Refactor accessing the SDCA extension properties
+      commit: 6914ee9cd1b0c91bd2fb4dbe204947c3c31259e1
+[2/3] spi: cs42l43: Add speaker id support to the bridge configuration
+      (no commit info)
 
---VR6AEZOBN5xY1cCZ
-Content-Type: application/pgp-signature; name="signature.asc"
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
------BEGIN PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZyxZIACgkQJNaLcl1U
-h9DGqAf+Jz/okBoNBuqi6pOSDONLdBYzCM2CCX1nO3m7rt43q1WNnDyHMJ/E5sEK
-Gf7KEey66EwZOp7ozj0bDUhViwBT9NTuSPgXLcf3FjdBhdn0pxXkjz3IOLQl+rcL
-2E/+9WCOfy4WxUq+5Q7EhGeGvF4Iu3e5OfSYN/jbMCb6O8+2frVt4zlpbU4ZTOCO
-tDZIctNPH125ATIdP9E1fSFSyLnOuBda8hGwpyCAUjUluwFbTvI8z6u/PLbLUXzq
-I81HRGieVpedOzVtVT8vWb6ZkmB1d9HkQT0xtWJkV3AFfdpddjd0Mhm3QWf3SPqx
-qroTq2Ew+Mq1/EPA8ouW87vzE09LlQ==
-=DIGY
------END PGP SIGNATURE-----
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
---VR6AEZOBN5xY1cCZ--
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
