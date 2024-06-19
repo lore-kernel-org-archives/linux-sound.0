@@ -1,61 +1,60 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB1D814F123
-	for <linux-sound@vger.kernel.org>; Wed, 19 Jun 2024 13:42:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A4A314EC79
+	for <linux-sound@vger.kernel.org>; Wed, 19 Jun 2024 13:42:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718804532; cv=none; b=ENh2EEKXOpLeVX6sULnOpu388i8mdbgEZa9lIXwcw9i4rqz7cASh5A9ht/37heCA0EiqPR7fY7kKpoKvAi5gyhi1l5jdh8V5mOF2aLexEZNgY4xqLBSFc056vbZzp4x85jzwS75CdtWkr52JQblyrGgD09++CAsQTMF96H+zU6w=
+	t=1718804533; cv=none; b=kd75LxyBbtQBUCjvjWf8iItLWKf116CI1PqzL55KSsnAROpBTSutwjeDox6qpcxzCWY9eyF7ox4uoLHH+wWugWHbxxrYjJ249pnD61z7pcWhUGSs1bWWdCN9PPNuM6KlZOPoc3BKCwUhrMKE3Uj4Bke3R4CZY7G7IR4jHqpGWSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718804532; c=relaxed/simple;
-	bh=1VPOAv9zIMTroZQ93L+boCVkV3gJxtdAxqRuReJhhc8=;
+	s=arc-20240116; t=1718804533; c=relaxed/simple;
+	bh=k9yry0x1tI/DYruAhQA7fXL7Cnn7I6rwM4/ndUzrwrY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=JoIXaIIpNEGODFKGz1PdtIkLB+sGPffFlPJ5O2DoutNRpYlQsRq0LYht0adclYxa+s2AaHVOKxaxnnx4q7bwu489cMKtcXdul1R3HfH3iHKEVpmGTr4eJ8S6l0PC/kHU21+dr61dnmSawO/VSmi9C/YC9mRtQVWF1GiEmBY5QTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qMrFammY; arc=none smtp.client-ip=209.85.128.47
+	 In-Reply-To:To:Cc; b=AtWQg5SJg/ebGqO/tdWHPRLEO+lB7vgjb4RorrmQneLqrOp5D5SXKjO/dwychyWImebZU5zMFCaeRJGe7tl2F0VyswaxeYLzmlaRR/lfitbSctXmr5N7PLNp0x7MB9Bo+/QbEFgqQnbTz++0iCAypGQcafEmy9w8OkLtqa2aFVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DGnLshL5; arc=none smtp.client-ip=209.85.167.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qMrFammY"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-42189d3c7efso67911325e9.2
-        for <linux-sound@vger.kernel.org>; Wed, 19 Jun 2024 06:42:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DGnLshL5"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-52cccd44570so656998e87.2
+        for <linux-sound@vger.kernel.org>; Wed, 19 Jun 2024 06:42:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718804529; x=1719409329; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1718804527; x=1719409327; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=SiIR6yuP6t7uT4C98Yo9Rnz9eEA9tvoFuOc6X7r5ikc=;
-        b=qMrFammYCLZKETbqFJs1xyrMeHOoW8Mxfj66Lc18hbIOqBhGwnHl7ScHfwFx+Qt3x5
-         7bjQc3e2Puh+fPdS9rum5gPmp32JvT4obMQccvIJJlA3m8pRKZo2HErocako1+6WcYJv
-         EuvoxULEBOp0WIZXYNSoJKCewWITX8ACnchW/8G05Q2huzfEqdS7GqvsntfN/sEFgT88
-         4OR7JCC2F+KFOdaUnM9z6yO892owlL+vLMVUR9t49GmbgStbZ0rI9ifVftMUOUdIao57
-         4jmDMp+zWJV/qhFs5zF057TasQEc7Th48sWb7ayTtk+8pBUnL7HO8BwvgOs+Q7FbN/Ul
-         gEYQ==
+        bh=yqG7W4vsUEFDpItqcWYue/XYKARV+F1uUdRAmQJH5WU=;
+        b=DGnLshL5+Q2GI2QWHukQp+8MA2v1e2GmzyLahqteSWwPEhm4hZB62sEvhU50A7qmDU
+         MVT3PcwWaRTkYMGIIwzNKXCNB8csw3TPYIyDjXjLlpKG/gfbT6kgi8hel88N4eG1twh0
+         QXzL9L5iNm03pz7QzpLkz1qz0Nl/BuxZi6UXBgG5Pf+0EF6tQFQvl+EGwMnmiq0qC7BV
+         nNZj7mLNCem84eS14K9JQNTz+DQVj5Ve59TiSNzcE7O/GKyuxx9ikLENQBnbT9qLywZk
+         x95QE1c9mf7PETgo6uG0wlLnGxoeD8UzeO3wEW2BZjPubnyksuFsiuzOh4b/JnZ0/wun
+         gcuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718804529; x=1719409329;
+        d=1e100.net; s=20230601; t=1718804527; x=1719409327;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SiIR6yuP6t7uT4C98Yo9Rnz9eEA9tvoFuOc6X7r5ikc=;
-        b=ATbIAUOQ4O1S+Jo+GtvWZuneCpsqMjMc3YYlsMWZ3+gaqMbl1ZzBf8MviGIFkEDnhP
-         +ZkjY8lnYGTX0K0aiJQ6FI9BF9BU7Tr9mwNarjYqan7cgSUL8LUW1CG2Hq4bZwDLe/LY
-         Dd1weGOqFZUwDj94jr2iG40lolr15XRjQPsLNJhKninO35DmaYq45PMwqEasVgKKr2TB
-         IAEdTJLYR2W5D4YmyQcE+ajf1m9lnYkguIi01QSvAhNTR/+zkU07M5zNwMDExY5vgfQ2
-         D70TMNWUggpgCZarLCMRbhSXMocJxQt3tTP7F65pTvc7DATkNEYaWq3UsKKXrvmD2Ufa
-         oD7A==
-X-Forwarded-Encrypted: i=1; AJvYcCXqmx9e0SC9lt9M064m7MBZZlq3lA34HK/XyhYu5IeGmp2puduVyezqoT2QulbO65U2540UijA9k6zI3oFCKtdhAWzQ+ePclTPYjm0=
-X-Gm-Message-State: AOJu0Ywrrn8IFkcU+JkV4B4iQUXdKAodCJ4sdyhzNCOqom97UG4Dtdf+
-	lyyJTxW+vevWxCiwi6j2KQZWYbRPeEVMGQcg56eGK9F9QBS+oD0AQu4tie/39oI=
-X-Google-Smtp-Source: AGHT+IEL2E7zktc8nOKJ1ufdgUxYq1LYBMRCdRJ9bS094cQBVvW4nNn3JAwSh7Ya50DMm7FCHGvi4g==
-X-Received: by 2002:a05:600c:3b12:b0:422:1705:7549 with SMTP id 5b1f17b1804b1-42475296a6emr20195615e9.25.1718804529047;
-        Wed, 19 Jun 2024 06:42:09 -0700 (PDT)
+        bh=yqG7W4vsUEFDpItqcWYue/XYKARV+F1uUdRAmQJH5WU=;
+        b=qMlHNXLJZglrYAx4BZC+G4u4sG/xh05WcuVjuuXM7NAwk/mesY352WuzlairKNISnU
+         9X3EpkVGBG8SjuMAZMB+pIdm0p4KWQeKbeWGc/NskjxwsfW/40rQtwrA+z4e4zEaLvgo
+         BFNcaPpxhvYfidZ+X2xQ4hNw7JguFZ2s+1tIysHiLim0vK0ISOMqAMa9rg9eequtgOCq
+         FTQ4U9qrP4j4zz8qBP/AkXNoUpaYAwtjU5/Iv9+XJ/Qel03uLaX8G1/5lA7WOS7IU9DK
+         mCMRBsOku7XGKcuhoTmk01e7aB5FfNl2+wAi63Ebefd+dMaX0pq2mjeKLzoo2MCAgWgX
+         F3IQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWrwMFalqOCUsAlL0lZvL4hmyBPvEUQLAh8x6+lbEJ0tpLRUAoGRvWtzJREokzlbM5b9xb7UAfW6YwkAqIAlyttGniYr466A5jBas8=
+X-Gm-Message-State: AOJu0YzFpNYu5DvsUpDG4Vt8oQMRel88E0tnbduhheuWFtQBl5nPeid9
+	cdZu9JlvoV6k4PzRrGci/Fhm38Y9dDg05G7ruJ26PNJCuJ1yZXe0mdilK4YgwGs=
+X-Google-Smtp-Source: AGHT+IG0QObZ8D+w+vfiFfGk4A3wWZ/+yy902ax8lcbmkRjM6EjVLp3sZqUq/XmJ+Tbwt9b/SL9u1A==
+X-Received: by 2002:a05:6512:33c9:b0:52c:8a4e:f4bf with SMTP id 2adb3069b0e04-52ccaa98d21mr1608954e87.51.1718804525621;
+        Wed, 19 Jun 2024 06:42:05 -0700 (PDT)
 Received: from [192.168.1.195] ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4229c60f758sm251639505e9.20.2024.06.19.06.42.07
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4229c60f758sm251639505e9.20.2024.06.19.06.42.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jun 2024 06:42:08 -0700 (PDT)
+        Wed, 19 Jun 2024 06:42:04 -0700 (PDT)
 From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Date: Wed, 19 Jun 2024 14:42:01 +0100
-Subject: [PATCH v2 2/2] ASoC: codecs:lpass-wsa-macro: Fix logic of enabling
- vi channels
+Date: Wed, 19 Jun 2024 14:42:00 +0100
+Subject: [PATCH v2 1/2] ASoC: codecs:lpass-wsa-macro: Fix vi feedback rate
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -64,7 +63,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240619-lpass-wsa-vi-v2-2-7aff3f97a490@linaro.org>
+Message-Id: <20240619-lpass-wsa-vi-v2-1-7aff3f97a490@linaro.org>
 References: <20240619-lpass-wsa-vi-v2-0-7aff3f97a490@linaro.org>
 In-Reply-To: <20240619-lpass-wsa-vi-v2-0-7aff3f97a490@linaro.org>
 To: Banajit Goswami <bgoswami@quicinc.com>, 
@@ -73,148 +72,77 @@ To: Banajit Goswami <bgoswami@quicinc.com>,
  Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 Cc: alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org, 
  linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Manikantan R <quic_manrav@quicinc.com>
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5620;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3882;
  i=srinivas.kandagatla@linaro.org; h=from:subject:message-id;
- bh=1VPOAv9zIMTroZQ93L+boCVkV3gJxtdAxqRuReJhhc8=;
- b=owEBbQGS/pANAwAKAXqh/VnHNFU3AcsmYgBmcuArtwkiZyer7O533GpVjO78RzqhHI+cZ4KyM
- O4X8fGEpcWJATMEAAEKAB0WIQQi509axvzi9vce3Y16of1ZxzRVNwUCZnLgKwAKCRB6of1ZxzRV
- N+0RB/9+gYZdbGdZ/b70cgrn8pao6ixGcNfohMLGf+YPXIRJ7OJe6zJ4bDbEq/obMmyyviDLYJh
- AVpasiryGepcIEYZpSthUBBCiMrPERkwfXKQ6yJaGgWcM+u6GHSCgRfzrEo/bi02gTCAZ9Q38Yy
- g50u29dJFNtBiyiBSQ8aSpqMBySkqK/3i9uV54xKXBSmi7fQbqOZMKXNojFxuAmIOMJicZJivSW
- lHeOrCAa7q3AWS8WsGg1xDYs1WbZpkxIiWMDz4qcydSTkvWTm93VI8WHL98hR4gEfOkDDcst8jm
- om6ZSE7QL1LARqYchT0Yyv7AyWw97er8zJ/yh/2sz3/Xw/Q7
+ bh=k9yry0x1tI/DYruAhQA7fXL7Cnn7I6rwM4/ndUzrwrY=;
+ b=owEBbQGS/pANAwAKAXqh/VnHNFU3AcsmYgBmcuArTnuTeqCt7QYNfZuRWG2mF/M+R4MypmoAM
+ Jb+3llU/MWJATMEAAEKAB0WIQQi509axvzi9vce3Y16of1ZxzRVNwUCZnLgKwAKCRB6of1ZxzRV
+ N5N9B/42MjFdIVdRluns1Wk5nB11XhbXa0yUC0tzwsZmpRIeqgWVGY7O4ucCA+OXMrek8yaLA2W
+ H2F6fALzPvxVkgbEAZRfLo1Rb2GYd/RIGk0ZS5aPNxGtcUlPy4D72oqeZEkQJF7due68f0xIUi5
+ ZYlxXPwqWERVLh4LtWmIh5RyabRk+z87b/HgmDSilGhsNGuUvaAoMpbY6VowJfALSLoxvLsObdC
+ cUETwLGzZrYn8wge5SoRTl8iefYWfFVNVvp5kK1JCbdrVube6FfYtGFibfUhpbnXgCcq4CrVIsY
+ 1U94s56FIaaMfgKAA3yzcfeXX1EH5iFnF6WiYjQ21wUkXL6a
 X-Developer-Key: i=srinivas.kandagatla@linaro.org; a=openpgp;
  fpr=ED6472765AB36EC43B3EF97AD77E3FC0562560D6
 
-Existing code only configures one of WSA_MACRO_TX0 or WSA_MACRO_TX1
-paths eventhough we enable both of them. Fix this bug by adding proper
-checks and rearranging some of the common code to able to allow setting
-both TX0 and TX1 paths
+Currently the VI feedback rate is set to fixed 8K, fix this by getting
+the correct rate from params_rate.
 
 Fixes: 2c4066e5d428 ("ASoC: codecs: lpass-wsa-macro: add dapm widgets and route")
-Co-developed-by: Manikantan R <quic_manrav@quicinc.com>
-Signed-off-by: Manikantan R <quic_manrav@quicinc.com>
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 ---
- sound/soc/codecs/lpass-wsa-macro.c | 112 ++++++++++++++++++++++---------------
- 1 file changed, 68 insertions(+), 44 deletions(-)
+ sound/soc/codecs/lpass-wsa-macro.c | 39 +++++++++++++++++++++++++++++++++++---
+ 1 file changed, 36 insertions(+), 3 deletions(-)
 
 diff --git a/sound/soc/codecs/lpass-wsa-macro.c b/sound/soc/codecs/lpass-wsa-macro.c
-index ec9f0b5d6778..e02c4f6f6061 100644
+index 6ce309980cd1..ec9f0b5d6778 100644
 --- a/sound/soc/codecs/lpass-wsa-macro.c
 +++ b/sound/soc/codecs/lpass-wsa-macro.c
-@@ -1163,46 +1163,11 @@ static int wsa_macro_mclk_event(struct snd_soc_dapm_widget *w,
- 	return 0;
- }
- 
--static int wsa_macro_enable_vi_feedback(struct snd_soc_dapm_widget *w,
--					struct snd_kcontrol *kcontrol,
--					int event)
--{
--	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
--	struct wsa_macro *wsa = snd_soc_component_get_drvdata(component);
--	u32 tx_reg0, tx_reg1;
--	u32 rate_val;
- 
--	switch (wsa->pcm_rate_vi) {
--	case 8000:
--		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_8K;
--		break;
--	case 16000:
--		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_16K;
--		break;
--	case 24000:
--		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_24K;
--		break;
--	case 32000:
--		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_32K;
--		break;
--	case 48000:
--		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_48K;
--		break;
--	default:
--		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_8K;
--		break;
--	}
--
--	if (test_bit(WSA_MACRO_TX0, &wsa->active_ch_mask[WSA_MACRO_AIF_VI])) {
--		tx_reg0 = CDC_WSA_TX0_SPKR_PROT_PATH_CTL;
--		tx_reg1 = CDC_WSA_TX1_SPKR_PROT_PATH_CTL;
--	} else if (test_bit(WSA_MACRO_TX1, &wsa->active_ch_mask[WSA_MACRO_AIF_VI])) {
--		tx_reg0 = CDC_WSA_TX2_SPKR_PROT_PATH_CTL;
--		tx_reg1 = CDC_WSA_TX3_SPKR_PROT_PATH_CTL;
--	}
--
--	switch (event) {
--	case SND_SOC_DAPM_POST_PMU:
-+static void wsa_macro_enable_disable_vi_sense(struct snd_soc_component *component, bool enable,
-+						u32 tx_reg0, u32 tx_reg1, u32 val)
-+{
-+	if (enable) {
- 		/* Enable V&I sensing */
- 		snd_soc_component_update_bits(component, tx_reg0,
- 					      CDC_WSA_TX_SPKR_PROT_RESET_MASK,
-@@ -1212,10 +1177,10 @@ static int wsa_macro_enable_vi_feedback(struct snd_soc_dapm_widget *w,
- 					      CDC_WSA_TX_SPKR_PROT_RESET);
- 		snd_soc_component_update_bits(component, tx_reg0,
- 					      CDC_WSA_TX_SPKR_PROT_PCM_RATE_MASK,
--					      rate_val);
-+					      val);
- 		snd_soc_component_update_bits(component, tx_reg1,
- 					      CDC_WSA_TX_SPKR_PROT_PCM_RATE_MASK,
--					      rate_val);
-+					      val);
- 		snd_soc_component_update_bits(component, tx_reg0,
- 					      CDC_WSA_TX_SPKR_PROT_CLK_EN_MASK,
- 					      CDC_WSA_TX_SPKR_PROT_CLK_ENABLE);
-@@ -1228,9 +1193,7 @@ static int wsa_macro_enable_vi_feedback(struct snd_soc_dapm_widget *w,
- 		snd_soc_component_update_bits(component, tx_reg1,
- 					      CDC_WSA_TX_SPKR_PROT_RESET_MASK,
- 					      CDC_WSA_TX_SPKR_PROT_NO_RESET);
--		break;
--	case SND_SOC_DAPM_POST_PMD:
--		/* Disable V&I sensing */
-+	} else {
- 		snd_soc_component_update_bits(component, tx_reg0,
- 					      CDC_WSA_TX_SPKR_PROT_RESET_MASK,
- 					      CDC_WSA_TX_SPKR_PROT_RESET);
-@@ -1243,6 +1206,67 @@ static int wsa_macro_enable_vi_feedback(struct snd_soc_dapm_widget *w,
- 		snd_soc_component_update_bits(component, tx_reg1,
- 					      CDC_WSA_TX_SPKR_PROT_CLK_EN_MASK,
- 					      CDC_WSA_TX_SPKR_PROT_CLK_DISABLE);
-+	}
-+}
-+
-+static void wsa_macro_enable_disable_vi_feedback(struct snd_soc_component *component,
-+						 bool enable, u32 rate)
-+{
+@@ -66,6 +66,10 @@
+ #define CDC_WSA_TX_SPKR_PROT_CLK_DISABLE	0
+ #define CDC_WSA_TX_SPKR_PROT_PCM_RATE_MASK	GENMASK(3, 0)
+ #define CDC_WSA_TX_SPKR_PROT_PCM_RATE_8K	0
++#define CDC_WSA_TX_SPKR_PROT_PCM_RATE_16K	1
++#define CDC_WSA_TX_SPKR_PROT_PCM_RATE_24K	2
++#define CDC_WSA_TX_SPKR_PROT_PCM_RATE_32K	3
++#define CDC_WSA_TX_SPKR_PROT_PCM_RATE_48K	4
+ #define CDC_WSA_TX0_SPKR_PROT_PATH_CFG0		(0x0248)
+ #define CDC_WSA_TX1_SPKR_PROT_PATH_CTL		(0x0264)
+ #define CDC_WSA_TX1_SPKR_PROT_PATH_CFG0		(0x0268)
+@@ -347,6 +351,7 @@ struct wsa_macro {
+ 	int ear_spkr_gain;
+ 	int spkr_gain_offset;
+ 	int spkr_mode;
++	u32 pcm_rate_vi;
+ 	int is_softclip_on[WSA_MACRO_SOFTCLIP_MAX];
+ 	int softclip_clk_users[WSA_MACRO_SOFTCLIP_MAX];
+ 	struct regmap *regmap;
+@@ -974,6 +979,7 @@ static int wsa_macro_hw_params(struct snd_pcm_substream *substream,
+ 			       struct snd_soc_dai *dai)
+ {
+ 	struct snd_soc_component *component = dai->component;
 +	struct wsa_macro *wsa = snd_soc_component_get_drvdata(component);
-+	u32 tx_reg0, tx_reg1;
+ 	int ret;
+ 
+ 	switch (substream->stream) {
+@@ -985,6 +991,11 @@ static int wsa_macro_hw_params(struct snd_pcm_substream *substream,
+ 				__func__, params_rate(params));
+ 			return ret;
+ 		}
++		break;
++	case SNDRV_PCM_STREAM_CAPTURE:
++		if (dai->id == WSA_MACRO_AIF_VI)
++			wsa->pcm_rate_vi = params_rate(params);
 +
-+	if (test_bit(WSA_MACRO_TX0, &wsa->active_ch_mask[WSA_MACRO_AIF_VI])) {
-+		tx_reg0 = CDC_WSA_TX0_SPKR_PROT_PATH_CTL;
-+		tx_reg1 = CDC_WSA_TX1_SPKR_PROT_PATH_CTL;
-+		wsa_macro_enable_disable_vi_sense(component, enable, tx_reg0, tx_reg1, rate);
-+	}
-+
-+	if (test_bit(WSA_MACRO_TX1, &wsa->active_ch_mask[WSA_MACRO_AIF_VI])) {
-+		tx_reg0 = CDC_WSA_TX2_SPKR_PROT_PATH_CTL;
-+		tx_reg1 = CDC_WSA_TX3_SPKR_PROT_PATH_CTL;
-+		wsa_macro_enable_disable_vi_sense(component, enable, tx_reg0, tx_reg1, rate);
-+
-+	}
-+
-+}
-+
-+static int wsa_macro_enable_vi_feedback(struct snd_soc_dapm_widget *w,
-+					struct snd_kcontrol *kcontrol,
-+					int event)
-+{
-+	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
-+	struct wsa_macro *wsa = snd_soc_component_get_drvdata(component);
+ 		break;
+ 	default:
+ 		break;
+@@ -1159,6 +1170,28 @@ static int wsa_macro_enable_vi_feedback(struct snd_soc_dapm_widget *w,
+ 	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
+ 	struct wsa_macro *wsa = snd_soc_component_get_drvdata(component);
+ 	u32 tx_reg0, tx_reg1;
 +	u32 rate_val;
 +
 +	switch (wsa->pcm_rate_vi) {
@@ -237,18 +165,31 @@ index ec9f0b5d6778..e02c4f6f6061 100644
 +		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_8K;
 +		break;
 +	}
-+
-+	switch (event) {
-+	case SND_SOC_DAPM_POST_PMU:
-+		/* Enable V&I sensing */
-+		wsa_macro_enable_disable_vi_feedback(component, true, rate_val);
-+		break;
-+	case SND_SOC_DAPM_POST_PMD:
-+		/* Disable V&I sensing */
-+		wsa_macro_enable_disable_vi_feedback(component, false, rate_val);
- 		break;
- 	}
  
+ 	if (test_bit(WSA_MACRO_TX0, &wsa->active_ch_mask[WSA_MACRO_AIF_VI])) {
+ 		tx_reg0 = CDC_WSA_TX0_SPKR_PROT_PATH_CTL;
+@@ -1170,7 +1203,7 @@ static int wsa_macro_enable_vi_feedback(struct snd_soc_dapm_widget *w,
+ 
+ 	switch (event) {
+ 	case SND_SOC_DAPM_POST_PMU:
+-			/* Enable V&I sensing */
++		/* Enable V&I sensing */
+ 		snd_soc_component_update_bits(component, tx_reg0,
+ 					      CDC_WSA_TX_SPKR_PROT_RESET_MASK,
+ 					      CDC_WSA_TX_SPKR_PROT_RESET);
+@@ -1179,10 +1212,10 @@ static int wsa_macro_enable_vi_feedback(struct snd_soc_dapm_widget *w,
+ 					      CDC_WSA_TX_SPKR_PROT_RESET);
+ 		snd_soc_component_update_bits(component, tx_reg0,
+ 					      CDC_WSA_TX_SPKR_PROT_PCM_RATE_MASK,
+-					      CDC_WSA_TX_SPKR_PROT_PCM_RATE_8K);
++					      rate_val);
+ 		snd_soc_component_update_bits(component, tx_reg1,
+ 					      CDC_WSA_TX_SPKR_PROT_PCM_RATE_MASK,
+-					      CDC_WSA_TX_SPKR_PROT_PCM_RATE_8K);
++					      rate_val);
+ 		snd_soc_component_update_bits(component, tx_reg0,
+ 					      CDC_WSA_TX_SPKR_PROT_CLK_EN_MASK,
+ 					      CDC_WSA_TX_SPKR_PROT_CLK_ENABLE);
 
 -- 
 2.25.1
