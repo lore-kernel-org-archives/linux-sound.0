@@ -1,105 +1,80 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C79B225569;
-	Wed, 19 Jun 2024 14:56:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 665B147A48;
+	Wed, 19 Jun 2024 14:58:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718808988; cv=none; b=Cy17fpB5Y95WpCeOXCIic9hETa8gH7x95cW7UNnWf603P31nd3gKGVqbaLa1TWCPlTVDXl8L4iN6wPiXBuywcHbX7Nk8J7ZoL2B6xDCNtINVkk0gQS62e/WZ6mlh6NDYL0a2Jjo1v7ZNimMQD/giKtfVaa30xuPRQSexZIjyYCI=
+	t=1718809134; cv=none; b=T1YNuPuhteVcuGQnPIF4ntJBVTKenJnKakBSDq/L6Lzh51ZroV2T3TSFHOZVNv271RDGJwny+Dymt+pi15QEANkVZckk6h0Zv8g+/sYN/JCh+PBw9lhw36+CQPXFbWkeUkldOAIskJFsLIfEgAxdOEjtlV9k/ON5tzoIaVIMzKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718808988; c=relaxed/simple;
-	bh=y/UdKFKcgLnAIRi0wBJ3ETmdbPUHMwGLr7VarrPAZ5I=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rtILishGmLeyZcZSWAw01yaGiqQYb4cXnhGDXQzVWEnJBlYeZ3b2k4d60ztR0h7NiU38o0Pn3qMdimZ9D3QitYzB6J8IqjyyUZL6J0x4mm9g3B7ZzNGTIdpJCmSb8zHxvLFAeXH7/tECXKRcRek6tYrMuKAj9et7Ps0HAJjdxxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=YevCTLL6; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1718809134; c=relaxed/simple;
+	bh=TfdiLpPcowkpG7DfwRLC6PoeUh74hUy4Rn14jmcYeD4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fMsLp/3Rn+KDfz+G1jou1k/FVJM5/+C340Ly62c62e0oc9qk4sGRo5if18NXgQpSBQ+rgzmElIhHcIafGauh5vLMokSPQjnebMA9fkMmwrGo92a8zlCuHpIrOyVhWy0NJIPLOI/KRrEJSHJbLUCBpCQ0qacM1FGKlz8jHxhVbHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=VVycH7iB; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="YevCTLL6"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 20EE21BF20F;
-	Wed, 19 Jun 2024 14:56:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1718808983;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=U4r2NhB2aVVss31PwXJ4X94RcPSjCC+jeEtPQDmEoOo=;
-	b=YevCTLL6/e6zQUGcdIUyodbofzSVTQzJKfiUYLDgqO6jJj2XXNxL4uXWfmFw3Bv2P9Ftsp
-	6kNhYCeaI3iDdEWEmXBFxw38/213Br61ySK5M80hcR09JWxuA6Q9JKcxQbb0tNIbeyIzTQ
-	G2JT+m90V9SA2e/21+koiBaS8oJB1omYYfXfYTccDnlzEU/qPBR0SptCpOpEs2I7JPX2LU
-	ednKoigNF0aDr0HQvvIW8cGmZ6CV9xLQtjSa8Bh2cXrWHJ8wAfEVa1x4Q5py/AEcUKJjTn
-	ffFTvP4JQF76j6niwxQ2/FOIAnLduavSsxAVV4NCeJAuv3IwbTEEK5JAJoqq7w==
-Date: Wed, 19 Jun 2024 16:56:21 +0200
-From: Herve Codina <herve.codina@bootlin.com>
-To: Igor Artemiev <Igor.A.Artemiev@mcst.ru>
-Cc: Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark
- Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Kuninori
- Morimoto <kuninori.morimoto.gx@renesas.com>, Linus Walleij
- <linus.walleij@linaro.org>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
- <u.kleine-koenig@pengutronix.de>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
-Subject: Re: [lvc-project] [PATCH] ASoC: simple-card-utils: Fix error
- handling in simple_util_init_jack()
-Message-ID: <20240619165621.47f2b3b2@bootlin.com>
-In-Reply-To: <20240619142432.573338-1-Igor.A.Artemiev@mcst.ru>
-References: <20240619142432.573338-1-Igor.A.Artemiev@mcst.ru>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="VVycH7iB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1718809130;
+	bh=TfdiLpPcowkpG7DfwRLC6PoeUh74hUy4Rn14jmcYeD4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=VVycH7iBwGokAILwg9+iopYPqEXQKuCGJvJoSkoHgUW7+lIoU9RM6a2zr/SsELUFu
+	 gsZT8E/9r0/EgiVsJFZwKnAarWJEe1N5+FuQUadCLPer78gkgJXsZaQiSw/qrvotnO
+	 tCzLAq5aKnBjm+5t3yhoeU4t4hLWQnSNFDLsjgMygeXyIzxYSTp9EPoNQB6VixQVsw
+	 pOQY2V/O7YvYRcFGDZ4d/A4mbNR1CV+QzMT1Udj2372oG/n5Roe/V+X5GeJ6YJ0k7T
+	 lcyjOHxqfJ348CWOoIZjRSY+tX0ucwkXgkYixxdDugxHp7mWmKurzjLPgqYgVXdtl+
+	 n8Y2jskOZlBfA==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id BD4C93780B79;
+	Wed, 19 Jun 2024 14:58:48 +0000 (UTC)
+Message-ID: <32a9d7aa-4f84-41c5-ba07-50a8d4883e76@collabora.com>
+Date: Wed, 19 Jun 2024 16:58:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: herve.codina@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 16/16] arm64: dts: mediatek: add audio support for
+ mt8365-evk
+To: Alexandre Mergnat <amergnat@baylibre.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Lee Jones <lee@kernel.org>,
+ Flora Fu <flora.fu@mediatek.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20240226-audio-i350-v6-0-f754ec1a7634@baylibre.com>
+ <20240226-audio-i350-v6-16-f754ec1a7634@baylibre.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20240226-audio-i350-v6-16-f754ec1a7634@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Igor,
-
-On Wed, 19 Jun 2024 17:24:32 +0300
-Igor Artemiev <Igor.A.Artemiev@mcst.ru> wrote:
-
-> Currently, if snd_soc_card_jack_new_pins() or snd_soc_jack_add_gpios()
-> fails, the function continues execution without handling the error.
-> This can lead to unexpected behavior and potential crashes.
+Il 19/06/24 16:46, Alexandre Mergnat ha scritto:
+> Add the sound node which is linked to the MT8365 SoC AFE and
+> the MT6357 audio codec.
 > 
-> This patch fixes the problem by checking the return value 
-> of these functions.
+> Update the file header.
 > 
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
-> 
-> Signed-off-by: Igor Artemiev <Igor.A.Artemiev@mcst.ru>
-> ---
->  sound/soc/generic/simple-card-utils.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/sound/soc/generic/simple-card-utils.c b/sound/soc/generic/simple-card-utils.c
-> index 81077d16d22f..5da0c13858ad 100644
-> --- a/sound/soc/generic/simple-card-utils.c
-> +++ b/sound/soc/generic/simple-card-utils.c
-> @@ -784,10 +784,14 @@ int simple_util_init_jack(struct snd_soc_card *card,
->  		sjack->gpio.desc	= desc;
->  		sjack->gpio.debounce_time = 150;
->  
-> -		snd_soc_card_jack_new_pins(card, pin_name, mask, &sjack->jack,
-> +		error = snd_soc_card_jack_new_pins(card, pin_name, mask, &sjack->jack,
->  					   &sjack->pin, 1);
-> +		if (error)
-> +			return error;
->  
-> -		snd_soc_jack_add_gpios(&sjack->jack, 1, &sjack->gpio);
-> +		error = snd_soc_jack_add_gpios(&sjack->jack, 1, &sjack->gpio);
-> +		if (error)
-> +			return error;
->  	}
->  
->  	return 0;
+> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 
-Looks correct for me.
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Reviewed-by: Herve Codina <herve.codina@bootlin.com>
 
-Best regards,
-Hervé
