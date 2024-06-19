@@ -1,120 +1,94 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 604EF33CC2;
-	Wed, 19 Jun 2024 11:03:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDFC580BFF;
+	Wed, 19 Jun 2024 11:05:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718795005; cv=none; b=T5Hi5qXBxgMhGMvJ8J4h9LUZPLhvIBjHAordV344kVDq4Qcxgw3Mx24Ng6uNmA9b7meI0Kna1D+7EdIYDWwHhWB6QyhrGN9eMPAVrMIjfVvNruQ/Q3K+pwY9L4h9/H9Q04bbpY5xGmQRpPUBaiXVlZDuH9lFvK1HQ9b+RqnDpxM=
+	t=1718795120; cv=none; b=BrfXEyzC1cVcwYuv/9sGSlFUPc1h5c6drUR2mKeQPbsqENvQnUaRNNxXa9jYJ8/aIQ3nXOloS746PIHSCpq1HUaYX63K4MKjeFTo9fHV2ODSPC9u6MG/fTwfVKBAVlaGNN5/hWpzK/oFGOW0keH4ejBNyQRuou+r33OOM5cmRSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718795005; c=relaxed/simple;
-	bh=2Xrb73U1zba3Fgu5svgTN4Vx0aQufpvOLdecJqqxgoo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=DRocbFjt282Ok55Uqlfs7NlDGM5gjLGi7weGcXqLJO0vb/2L0bRXMpPsJS4OjgDOq/D/xqna9neTUBs+fTYOOil5nlPtlHXsb7WQJ09o29DTrLwZBDyyExfrJyQGxeDrvzcAEEiEpP8H+UUkW+j4R49gNVWN2eAhV8zcp/Jt6mE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=CkpJ/kIy; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1718795120; c=relaxed/simple;
+	bh=l7ToMDCtV3ZqsLxvf9mUdcHH4ylWiymL+hAWVPLUklo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OM+YjGlSpX1hpbT2015DlK8bw6EFOYs1GJKVfW/4ErbjHN96qVTsu7v82KTHQpBA2iQYHFYka33MPWrmPxxwngm33vD4AKWFkLVeUebEhygor9QDA3T6q8l8+O03sU/1Xf8cVpTyhhx4ZkJjZvRQvIwk8QrVa0ZAG9CipaAieRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=SRxN1qgg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="CkpJ/kIy"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45J94w7b001114;
-	Wed, 19 Jun 2024 11:02:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	dhYWVPbQ12M8wEmqpPGMe0i1Au4oSfVFExiSS27fBB8=; b=CkpJ/kIyRviCGgGj
-	BQokUJv+k4IG0hONHQzxUgjHl4yXyITp7wWIBYYLo62Bf6Jzw7LLUCrn4oY6Nex8
-	afDCvqxlUljgM+ala97FVX2bGzFhAfXOnkD55EozXmjF6GT/0upgXBBp2q2O0VCl
-	dTOPGayr4E5fI4xq/3qCP9BxA9aJFZEYa1HOTrplIUZxSpTXna0kgf3/H8+Wi8SN
-	N4PLWBQ3zAqV7qMIU3RtxbU7FtUj25d6r6yzTAnnAGqHiynNAr+8zguTIBqmLfJM
-	TgENdvLIzuBpM7N/Vyask6BktcqAv6VDlWQiEUSPiNaQM7Pv/nikELJUSCZlVv5W
-	VYaSKg==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yuja29ex3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 19 Jun 2024 11:02:53 +0000 (GMT)
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45JB2qvd014918
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 19 Jun 2024 11:02:52 GMT
-Received: from [10.216.22.230] (10.80.80.8) by nasanex01c.na.qualcomm.com
- (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 19 Jun
- 2024 04:02:47 -0700
-Message-ID: <288156b9-2f72-6929-3422-c3aecb9c2c07@quicinc.com>
-Date: Wed, 19 Jun 2024 16:32:44 +0530
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="SRxN1qgg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0518FC4AF4D;
+	Wed, 19 Jun 2024 11:05:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1718795119;
+	bh=l7ToMDCtV3ZqsLxvf9mUdcHH4ylWiymL+hAWVPLUklo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SRxN1qggvNdHJjrVNRbB6tHSpvfyFhwMO35kDmVwnp0mw1Z+TngxsVMSLFYJM762j
+	 jo7eWx7eRXaC2W8yo/ql9KSvzh1nBXYvNqonYHKlmLUt22kI7jX10hS2EYbBmjVrWQ
+	 5TgpoWMkMBoVwDtpEVP16P/cQZPd9hOeR3d4iMrA=
+Date: Wed, 19 Jun 2024 13:05:16 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Pablo =?iso-8859-1?Q?Ca=F1o?= <pablocpascual@gmail.com>
+Cc: linux-sound@vger.kernel.org, stable@vger.kernel.org, tiwai@suse.de
+Subject: Re: [PATCH] ALSA: hda/realtek: Add quirk for Lenovo Yoga Pro 7 14AHP9
+Message-ID: <2024061903-agile-satisfy-d722@gregkh>
+References: <20240619105932.29124-1-pablocpascual@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v6 3/7] ASoC: codecs: wcd937x: add wcd937x codec driver
-Content-Language: en-US
-To: Mark Brown <broonie@kernel.org>,
-        Christophe JAILLET
-	<christophe.jaillet@wanadoo.fr>
-CC: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Banajit Goswami
-	<bgoswami@quicinc.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai
-	<tiwai@suse.com>, <alsa-devel@alsa-project.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <quic_rohkumar@quicinc.com>, <quic_pkumpatl@quicinc.com>,
-        Konrad Dybcio
-	<konrad.dybcio@linaro.org>
-References: <20240611074557.604250-1-quic_mohs@quicinc.com>
- <20240611074557.604250-4-quic_mohs@quicinc.com>
- <2b92c0f9-2595-4b73-8015-1abb825a61a1@wanadoo.fr>
- <f741630e-f9e8-45e1-b3e2-4866f0baeac2@sirena.org.uk>
-From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-In-Reply-To: <f741630e-f9e8-45e1-b3e2-4866f0baeac2@sirena.org.uk>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: MD7A4DgbhCLTSgvMXTzyLOwO2RuJvSqQ
-X-Proofpoint-ORIG-GUID: MD7A4DgbhCLTSgvMXTzyLOwO2RuJvSqQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-19_02,2024-06-19_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- mlxlogscore=999 suspectscore=0 clxscore=1011 impostorscore=0
- malwarescore=0 mlxscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0
- phishscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406190082
+In-Reply-To: <20240619105932.29124-1-pablocpascual@gmail.com>
 
-On 6/17/2024 5:25 PM, Mark Brown wrote:
-> On Sun, Jun 16, 2024 at 04:54:58PM +0200, Christophe JAILLET wrote:
->> Le 11/06/2024 à 09:45, Mohammad Rafi Shaik a écrit :
+On Wed, Jun 19, 2024 at 12:59:32PM +0200, Pablo Ca�o wrote:
+> Lenovo Yoga Pro 7 14AHP9 (PCI SSID 17aa:3891) seems requiring a similar workaround like Yoga 9 model and Yoga 7 Pro 14APH8 for the bass speaker.
 > 
->>> +static void wcd937x_soc_codec_remove(struct snd_soc_component *component)
->>> +{
->>> +	struct wcd937x_priv *wcd937x = snd_soc_component_get_drvdata(component);
->>> +
->>> +	wcd937x_mbhc_deinit(component);
->>> +	free_irq(wcd937x->aux_pdm_wd_int, wcd937x);
->>> +	free_irq(wcd937x->hphl_pdm_wd_int, wcd937x);
->>> +	free_irq(wcd937x->hphr_pdm_wd_int, wcd937x);
+> ---
+>  sound/pci/hda/patch_realtek.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
->> These irq have been requested wth devm_request_threaded_irq(), so either
->> this free_irq should be removed, or devm_free_irq() should be used if the
->> order is important.
+> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+> index aa76d1c88589..f9223fedf8e9 100644
+> --- a/sound/pci/hda/patch_realtek.c
+> +++ b/sound/pci/hda/patch_realtek.c
+> @@ -10525,6 +10525,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+>  	SND_PCI_QUIRK(0x17aa, 0x387e, "Yoga S780-16 pro Quad YC", ALC287_FIXUP_TAS2781_I2C),
+>  	SND_PCI_QUIRK(0x17aa, 0x3881, "YB9 dual power mode2 YC", ALC287_FIXUP_TAS2781_I2C),
+>  	SND_PCI_QUIRK(0x17aa, 0x3882, "Lenovo Yoga Pro 7 14APH8", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
+> +	SND_PCI_QUIRK(0x17aa, 0x3891, "Lenovo Yoga Pro 7 14AHP9", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
+>  	SND_PCI_QUIRK(0x17aa, 0x3884, "Y780 YG DUAL", ALC287_FIXUP_TAS2781_I2C),
+>  	SND_PCI_QUIRK(0x17aa, 0x3886, "Y780 VECO DUAL", ALC287_FIXUP_TAS2781_I2C),
+>  	SND_PCI_QUIRK(0x17aa, 0x38a7, "Y780P AMD YG dual", ALC287_FIXUP_TAS2781_I2C),
+> -- 
+> 2.45.2
 > 
-> Yes, this should be fixed.
+> 
 
-okay, will check and provide the fix.
+Hi,
 
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-Thanks & Regards,
-Rafi.
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- Your patch does not have a Signed-off-by: line.  Please read the
+  kernel file, Documentation/process/submitting-patches.rst and resend
+  it after adding that line.  Note, the line needs to be in the body of
+  the email, before the patch, not at the bottom of the patch or in the
+  email signature.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
