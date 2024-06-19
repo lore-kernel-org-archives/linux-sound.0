@@ -1,87 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from tretyak2.mcst.ru (tretyak2.mcst.ru [212.5.119.215])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 033CB13DDAF;
-	Wed, 19 Jun 2024 13:50:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45DC01CD18;
+	Wed, 19 Jun 2024 14:33:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.5.119.215
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718805027; cv=none; b=EMV7JdKmqViqQ6YIEXy8Lovu8vT7meDWLV89n55HYm70wq9QGS3//njRfvI+bkKlQE0E8ui4pXKczT0LHxjD1wbXjOzK1x4Ib9iV3Wyr0xrWf2pVQd5yIQzUmwaP7TJTPCvLcGB7wt4LQEXAMPS75efSiBsvQ1jQ/6VDuvknzbU=
+	t=1718807626; cv=none; b=hLOarTnQ5G7wAdQ/pULTrmM3BEUn198UtKKg/esYjMIvt/kkxiuUHExCL0V4Ks8osOF82meuVIZZjC2Ka529I578vtSBQhnjbdSus1I/mN7FUzokGDPB+U9Xs6L9rVQGfT0Q8qHas8cPcLmYHwp9bJE6D4DfNovzKN8zigk+IgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718805027; c=relaxed/simple;
-	bh=FLX3Mf3ll9AxE0VU3xuCklsvwIGMSeYDjjyugAHjTLI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=FE/ckw8Zjy503MHRfrx4B43Xv7nq7CtMcshfsQSbKpPMFs8qOOiZn12VoEbF+pAxdODAOdNy6804NOQLMIaerl3AdNWHPukUnjgZYRYR5ti0M+CJjDRyCenGTUZbtSol4940hKOuMn9fOggLVGu2r9fDFXjjZ37vzKtASr9ebsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l+VzVMSC; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l+VzVMSC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CDE0C32786;
-	Wed, 19 Jun 2024 13:50:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718805025;
-	bh=FLX3Mf3ll9AxE0VU3xuCklsvwIGMSeYDjjyugAHjTLI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=l+VzVMSCl7/ZPMBh5V7ZjUqpl8t3IhbMQd870iLe6SxvU7t/vRUCa5NijV7MBm+yB
-	 xmaGL66vaurpcbXV9o++1HNAeJS547CyrQs/t7oho2es3fSrT/43BuJOeaajkaR4cg
-	 fHB8TyiCzvSUFkmN8StdTDCl3N41Dny8+htNiDfTYs0sC0QaflaygMs7465cox6eCa
-	 1hvfyCXD2tu/xRJDEqTS8qcnCETi3DqwrwDE63NnbtzUlwQnJDoUe92+lYdikJfR4a
-	 Mh5QHr+w3JBE8PIvOOnu/a+Zl2615exsQis+5uWjiXJnucAfGLOCRtFF3RbPNXfBEh
-	 VHV9qZ8lU3ipg==
-From: Mark Brown <broonie@kernel.org>
-To: Simon Trimmer <simont@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, 
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-In-Reply-To: <20240617135338.82006-1-simont@opensource.cirrus.com>
-References: <20240617135338.82006-1-simont@opensource.cirrus.com>
-Subject: Re: [PATCH] ASoC: cs35l56: Accept values greater than 0 as IRQ
- numbers
-Message-Id: <171880502423.147445.2048207564281092382.b4-ty@kernel.org>
-Date: Wed, 19 Jun 2024 14:50:24 +0100
+	s=arc-20240116; t=1718807626; c=relaxed/simple;
+	bh=FHoeYOO0rqWuQjykbGw6nHEWsET0aT9gakqCiFstsKs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EnMY8NJTXYUjvWQ2GISWOhmlBc/81li16hdwF+7WPtaEG5+H7Nl0+hcUk8m5i536y4iP/fWGioC1ZNCoVnoLePZ9luUPNB7koF7OuEIXDX6CeeHMwBV7gEfcMW9e9/X8uUbzL4VdHGAs26VqBNQ4aa1ie6ATKNiQAlG2W0GuNZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mcst.ru; spf=pass smtp.mailfrom=mcst.ru; arc=none smtp.client-ip=212.5.119.215
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mcst.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mcst.ru
+Received: from tretyak2.mcst.ru (localhost [127.0.0.1])
+	by tretyak2.mcst.ru (Postfix) with ESMTP id BC7B6102395;
+	Wed, 19 Jun 2024 17:29:30 +0300 (MSK)
+Received: from frog.lab.sun.mcst.ru (frog.lab.sun.mcst.ru [176.16.4.50])
+	by tretyak2.mcst.ru (Postfix) with ESMTP id B605010237A;
+	Wed, 19 Jun 2024 17:28:35 +0300 (MSK)
+Received: from artemiev-i.lab.sun.mcst.ru (avior-1 [192.168.63.223])
+	by frog.lab.sun.mcst.ru (8.13.4/8.12.11) with ESMTP id 45JESYbd005890;
+	Wed, 19 Jun 2024 17:28:34 +0300
+From: Igor Artemiev <Igor.A.Artemiev@mcst.ru>
+To: Takashi Iwai <tiwai@suse.com>
+Cc: Igor Artemiev <Igor.A.Artemiev@mcst.ru>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Herve Codina <herve.codina@bootlin.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lvc-project@linuxtesting.org
+Subject: [lvc-project] [PATCH] ASoC: simple-card-utils: Fix error handling in simple_util_init_jack()
+Date: Wed, 19 Jun 2024 17:24:32 +0300
+Message-Id: <20240619142432.573338-1-Igor.A.Artemiev@mcst.ru>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev-d4707
+Content-Transfer-Encoding: 8bit
+X-Anti-Virus: Kaspersky Anti-Virus for Linux Mail Server 5.6.39/RELEASE,
+	 bases: 20111107 #2745587, check: 20240619 notchecked
+X-AV-Checked: ClamAV using ClamSMTP
 
-On Mon, 17 Jun 2024 14:53:38 +0100, Simon Trimmer wrote:
-> IRQ lookup functions such as those in ACPI can return error values when
-> an IRQ is not defined. The i2c core driver converts the error codes to a
-> value of 0 and the SPI bus driver passes them unaltered to client device
-> drivers.
-> 
-> The cs35l56 driver should only accept positive non-zero values as IRQ
-> numbers.
-> 
-> [...]
+Currently, if snd_soc_card_jack_new_pins() or snd_soc_jack_add_gpios()
+fails, the function continues execution without handling the error.
+This can lead to unexpected behavior and potential crashes.
 
-Applied to
+This patch fixes the problem by checking the return value 
+of these functions.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-Thanks!
+Signed-off-by: Igor Artemiev <Igor.A.Artemiev@mcst.ru>
+---
+ sound/soc/generic/simple-card-utils.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-[1/1] ASoC: cs35l56: Accept values greater than 0 as IRQ numbers
-      commit: 3ec1428d7b7c519d757a013cef908d7e33dee882
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/soc/generic/simple-card-utils.c b/sound/soc/generic/simple-card-utils.c
+index 81077d16d22f..5da0c13858ad 100644
+--- a/sound/soc/generic/simple-card-utils.c
++++ b/sound/soc/generic/simple-card-utils.c
+@@ -784,10 +784,14 @@ int simple_util_init_jack(struct snd_soc_card *card,
+ 		sjack->gpio.desc	= desc;
+ 		sjack->gpio.debounce_time = 150;
+ 
+-		snd_soc_card_jack_new_pins(card, pin_name, mask, &sjack->jack,
++		error = snd_soc_card_jack_new_pins(card, pin_name, mask, &sjack->jack,
+ 					   &sjack->pin, 1);
++		if (error)
++			return error;
+ 
+-		snd_soc_jack_add_gpios(&sjack->jack, 1, &sjack->gpio);
++		error = snd_soc_jack_add_gpios(&sjack->jack, 1, &sjack->gpio);
++		if (error)
++			return error;
+ 	}
+ 
+ 	return 0;
+-- 
+2.39.2
 
