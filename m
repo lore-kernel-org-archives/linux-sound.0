@@ -1,215 +1,79 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD8A7EF10;
-	Wed, 19 Jun 2024 10:04:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4961D80026;
+	Wed, 19 Jun 2024 10:22:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718791446; cv=none; b=d4X/d7Aqdr5Phz5ln1I0YaywuvBmJt00uWEBRiY+olExANE0K0w8UTCLxPx0Q93du1JsDv8Rdm7X4E2Iih8q7WP25nRdGz+LPv6ifD0Je0tYvien+xSONy3wIwjqGsQu0zareEcPIyYsgMA3/Pa2l5pBWoRP4lmggPusJYwgSoo=
+	t=1718792559; cv=none; b=Lmpvjf/Q7NfTAGYdYE37Sle1VmM7OycYhs5rbQcZ2aqCTkhO0jqNYnclUGgCkLbW8p/Ghran+wjgTr0pxRsXkX6uJi90wMpHw2ReXSvAPUpe9GCTAKFEiTKa+WVhgo5ZJSuTFj9tgkuuwVdmBylAYVdWm/HEBhku/WXj3vlpsOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718791446; c=relaxed/simple;
-	bh=1jy39YZMTY/xo2Xcx2D3ihcV+xB/O1q/kuNvRc7QFu8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PthwazUsWw5tD1guel1fxVgF50gvrd7qDBjjwv2qIOdpXLrYRPoMO9YM5rNPeHrpCcSCqIc5H+9YcZ9yPRCQJ3Y3g0ockbE8yoKiyVjDJ4FXjSAn0+GLvDIA+ZPKkgMCgqlJ/cDeQx7QdH2wtzrm4r5GYvZgYPe6HKIEveU+4Ag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=xqFCQkCs; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1718792559; c=relaxed/simple;
+	bh=GkT3s/gwdbG/kwTeTbglwxWahQeec8onFjax4/+NU7E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Km1TfSnrT1SmJGEEXSm87eVcgJ3MECyKtUt0AK2AYF+LbQuRKqMQeJ2eVNEUr7IyTInz5BP9MPqEhcQdrCkdvQ7vzhuH44rpgGEVR0BRUCKUi1eOZDpYRK53+xVioiW1YJgrB+iTl5+POQerExAAQoY5HAPT4TvWmo59fiJ78Tg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hMOv/kFF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="xqFCQkCs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1718791443;
-	bh=1jy39YZMTY/xo2Xcx2D3ihcV+xB/O1q/kuNvRc7QFu8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=xqFCQkCsIpMrEzpcF0IxEbzd6OHXGJq3FH9PM/lyvWAa2BStAnwwHgQmXIb641aDk
-	 zU3es9+UcmQOVru0Sf7mM5JNtcr94qWID1O6UKMzlU4ijhqUJWzwuE5IbuNhxH1tF7
-	 8reazt1X/m+XtFs2r1lRuDRhjDtlvdq7dTY0w2Pj6iWe1COkKqsyk1tephTMv+gdyW
-	 OpPLfR4oEiDeUOQQHDVxukgwpZyMTqS37b72UZZq0OodI/FSfazpuE1+JNIeTYIQS1
-	 5+CeO5IL0kChUJoNPf5yfGmyzab3CBwBKA5O5lrc40UTg8G0U66jjDLUbqxP+pugx/
-	 RzkEwjiazlkow==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id E95213782163;
-	Wed, 19 Jun 2024 10:04:01 +0000 (UTC)
-Message-ID: <d09deba3-1687-4062-b8ad-7610a18a270e@collabora.com>
-Date: Wed, 19 Jun 2024 12:04:01 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hMOv/kFF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D621EC2BBFC;
+	Wed, 19 Jun 2024 10:22:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718792558;
+	bh=GkT3s/gwdbG/kwTeTbglwxWahQeec8onFjax4/+NU7E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hMOv/kFFX2Q5ThN/f7Cqi6FE3x/0Vt8xHN5dia7vFy0Zrht/2WjOKhTBmOwKT0+D9
+	 Gy+xPpcNwGuUTiTnGiuOeoDbDgtOtOtKB1GtlYUMJeb7ed8kDmVDpQT8w/dJ5O5ak+
+	 ZY/71wx9o49QUaYc7Lwv0E/OifW5Af1iTktjDYlt76pxqNNra047N+55tdnJoOJ9MY
+	 P8t+WeKZPH7138dvPKW3xoyEgWE67X573cOWFDO4IWUKgoc1aylVpkvqJgjoyy1ztB
+	 mfiZc95DnW+9gmaDKl5qoIm8IvxMvyGDEm82NNU8x4uxdyOMhyo5lloaWT7ksYCAIJ
+	 xEISIpD4atpRg==
+Date: Wed, 19 Jun 2024 11:22:32 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: Simon Trimmer <simont@opensource.cirrus.com>,
+	linux-sound@vger.kernel.org, alsa-devel@alsa-project.org,
+	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+Subject: Re: [PATCH] ASoC: cs35l56: Accept values greater than 0 as IRQ
+ numbers
+Message-ID: <941d2b8a-18b5-43ad-9aec-6785f841dfaa@sirena.org.uk>
+References: <20240617135338.82006-1-simont@opensource.cirrus.com>
+ <fe9dd613-8909-4c7d-a7d7-9094b75fe8fb@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v5 16/16] arm64: dts: mediatek: add audio support
- for mt8365-evk
-To: Alexandre Mergnat <amergnat@baylibre.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Lee Jones <lee@kernel.org>,
- Flora Fu <flora.fu@mediatek.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20240226-audio-i350-v5-0-54827318b453@baylibre.com>
- <20240226-audio-i350-v5-16-54827318b453@baylibre.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20240226-audio-i350-v5-16-54827318b453@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="n72fWc0xzJrExxCe"
+Content-Disposition: inline
+In-Reply-To: <fe9dd613-8909-4c7d-a7d7-9094b75fe8fb@opensource.cirrus.com>
+X-Cookie: Don't I know you?
 
-Il 14/06/24 09:27, Alexandre Mergnat ha scritto:
-> Add the sound node which is linked to the MT8365 SoC AFE and
-> the MT6357 audio codec.
-> 
-> Update the file header.
-> 
-> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
-> ---
->   arch/arm64/boot/dts/mediatek/mt8365-evk.dts | 89 +++++++++++++++++++++++++++++
->   1 file changed, 89 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/mediatek/mt8365-evk.dts b/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
-> index 50cbaefa1a99..1d5457f9a4c2 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
-> +++ b/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
-> @@ -4,6 +4,7 @@
->    * Authors:
->    * Fabien Parent <fparent@baylibre.com>
->    * Bernhard Rosenkränzer <bero@baylibre.com>
-> + * Alexandre Mergnat <amergnat@baylibre.com>
->    */
->   
->   /dts-v1/;
-> @@ -86,6 +87,28 @@ optee_reserved: optee@43200000 {
->   			reg = <0 0x43200000 0 0x00c00000>;
->   		};
->   	};
-> +
-> +	sound: sound {
-> +		compatible = "mediatek,mt8365-mt6357";
-> +		pinctrl-names = "default",
-> +				"dmic",
-> +				"miso_off",
-> +				"miso_on",
-> +				"mosi_off",
-> +				"mosi_on";
-> +		pinctrl-0 = <&aud_default_pins>;
-> +		pinctrl-1 = <&aud_dmic_pins>;
-> +		pinctrl-2 = <&aud_miso_off_pins>;
-> +		pinctrl-3 = <&aud_miso_on_pins>;
-> +		pinctrl-4 = <&aud_mosi_off_pins>;
-> +		pinctrl-5 = <&aud_mosi_on_pins>;
-> +		mediatek,platform = <&afe>;
-> +	};
-> +};
-> +
-> +&afe {
-> +	mediatek,dmic-mode = <1>;
-> +	status = "okay";
->   };
->   
->   &cpu0 {
-> @@ -178,9 +201,75 @@ &mt6357_pmic {
->   	interrupts-extended = <&pio 145 IRQ_TYPE_LEVEL_HIGH>;
->   	interrupt-controller;
->   	#interrupt-cells = <2>;
-> +	vaud28-supply = <&mt6357_vaud28_reg>;
-> +	audio-codec {
-> +		mediatek,micbias0-microvolt = <1900000>;
-> +		mediatek,micbias1-microvolt = <1700000>;
-> +	};
->   };
->   
->   &pio {
-> +	aud_default_pins: audiodefault-pins {
-> +		pins {
 
-clk-dat-pins
+--n72fWc0xzJrExxCe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> +			pinmux = <MT8365_PIN_72_CMDAT4__FUNC_I2S3_BCK>,
-> +				 <MT8365_PIN_73_CMDAT5__FUNC_I2S3_LRCK>,
-> +				 <MT8365_PIN_74_CMDAT6__FUNC_I2S3_MCK>,
-> +				 <MT8365_PIN_75_CMDAT7__FUNC_I2S3_DO>;
-> +		};
-> +	};
-> +
-> +	aud_dmic_pins: audiodmic-pins {
-> +		pins {
+On Wed, Jun 19, 2024 at 10:44:47AM +0100, Richard Fitzgerald wrote:
 
-clk-dat-pins
+> Mark, I don't understand what your objection is.
+> What is it you want us to do to get this bugfix accepted?
 
-> +			pinmux = <MT8365_PIN_117_DMIC0_CLK__FUNC_DMIC0_CLK>,
-> +				 <MT8365_PIN_118_DMIC0_DAT0__FUNC_DMIC0_DAT0>,
-> +				 <MT8365_PIN_119_DMIC0_DAT1__FUNC_DMIC0_DAT1>;
-> +		};
-> +	};
-> +
-> +	aud_miso_off_pins: misooff-pins {
-> +		pins {
+Have patience.
 
-clk-dat-pins
+--n72fWc0xzJrExxCe
+Content-Type: application/pgp-signature; name="signature.asc"
 
-and same for all the others.
+-----BEGIN PGP SIGNATURE-----
 
-> +			pinmux = <MT8365_PIN_53_AUD_CLK_MISO__FUNC_GPIO53>,
-> +				 <MT8365_PIN_54_AUD_SYNC_MISO__FUNC_GPIO54>,
-> +				 <MT8365_PIN_55_AUD_DAT_MISO0__FUNC_GPIO55>,
-> +				 <MT8365_PIN_56_AUD_DAT_MISO1__FUNC_GPIO56>;
-> +			input-enable;
-> +			bias-pull-down;
-> +			drive-strength = <MTK_DRIVE_2mA>;
-drive-strength = <2>;
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZysWcACgkQJNaLcl1U
+h9Dqegf/am6/c0XEVSlqtQ/cQZymlNPQfDPmGNchcXeO/m+u17TuexuuRaXkGuHP
+loJ1uNc0Z0Ehe2CLdHuLBF4CjFK7nXtRwMA4hUM1/2minfPuLBHvnxYRQS1BoJFP
+VWcZhXxC9kIAUzmf77IoC02URSyoUkXzKlbL+lSOYIh9oszSM8jzuGe4NLf0Fk3o
+M63wFoJqKtl54qCwRIt08sxSfXRr93JFBphubMZrxVXK+Euh8CFLw2xl5C7UqbEf
+PAExxT6h0whHm8ou1FhPEFvkZum05X5OUN8uKN/ZqpUclswC8Y1uRHuufT/P7Vfn
+PTdF1Dwk9xIuHPLxCMqsFS6PXxaooA==
+=VmCz
+-----END PGP SIGNATURE-----
 
-> +		};
-> +	};
-> +
-> +	aud_miso_on_pins: misoon-pins {
-> +		pins {
-> +			pinmux = <MT8365_PIN_53_AUD_CLK_MISO__FUNC_AUD_CLK_MISO>,
-> +				 <MT8365_PIN_54_AUD_SYNC_MISO__FUNC_AUD_SYNC_MISO>,
-> +				 <MT8365_PIN_55_AUD_DAT_MISO0__FUNC_AUD_DAT_MISO0>,
-> +				 <MT8365_PIN_56_AUD_DAT_MISO1__FUNC_AUD_DAT_MISO1>;
-> +			drive-strength = <MTK_DRIVE_6mA>;
-
-= <6>;
-
-> +		};
-> +	};
-> +
-> +	aud_mosi_off_pins: mosioff-pins {
-> +		pins {
-> +			pinmux = <MT8365_PIN_49_AUD_CLK_MOSI__FUNC_GPIO49>,
-> +				 <MT8365_PIN_50_AUD_SYNC_MOSI__FUNC_GPIO50>,
-> +				 <MT8365_PIN_51_AUD_DAT_MOSI0__FUNC_GPIO51>,
-> +				 <MT8365_PIN_52_AUD_DAT_MOSI1__FUNC_GPIO52>;
-> +			input-enable;
-> +			bias-pull-down;
-> +			drive-strength = <MTK_DRIVE_2mA>;
-
-= <2>;
-
-> +		};
-> +	};
-> +
-> +	aud_mosi_on_pins: mosion-pins {
-> +		pins {
-> +			pinmux = <MT8365_PIN_49_AUD_CLK_MOSI__FUNC_AUD_CLK_MOSI>,
-> +				 <MT8365_PIN_50_AUD_SYNC_MOSI__FUNC_AUD_SYNC_MOSI>,
-> +				 <MT8365_PIN_51_AUD_DAT_MOSI0__FUNC_AUD_DAT_MOSI0>,
-> +				 <MT8365_PIN_52_AUD_DAT_MOSI1__FUNC_AUD_DAT_MOSI1>;
-> +			drive-strength = <MTK_DRIVE_6mA>;
-
-= <6>;
-
-Cheers,
-Angelo
+--n72fWc0xzJrExxCe--
