@@ -1,94 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDFC580BFF;
-	Wed, 19 Jun 2024 11:05:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0E1B136657;
+	Wed, 19 Jun 2024 11:11:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718795120; cv=none; b=BrfXEyzC1cVcwYuv/9sGSlFUPc1h5c6drUR2mKeQPbsqENvQnUaRNNxXa9jYJ8/aIQ3nXOloS746PIHSCpq1HUaYX63K4MKjeFTo9fHV2ODSPC9u6MG/fTwfVKBAVlaGNN5/hWpzK/oFGOW0keH4ejBNyQRuou+r33OOM5cmRSg=
+	t=1718795472; cv=none; b=lNUE8R0VXdKrflrhcDW2mbA7O3onHUNsRs68aE0eORQKMxjYLEA+U7AmFNX2VnaK6QqM7A1IgiS6AZD9+4DCY5Gh7VLYBcYX0h3dVzOkh9uW+XIt49llyrFFkzMgNWMf/1M5BfsKQpQFirTqSHXCtS+7oJ3lpOyeZsCnBc118kU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718795120; c=relaxed/simple;
-	bh=l7ToMDCtV3ZqsLxvf9mUdcHH4ylWiymL+hAWVPLUklo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OM+YjGlSpX1hpbT2015DlK8bw6EFOYs1GJKVfW/4ErbjHN96qVTsu7v82KTHQpBA2iQYHFYka33MPWrmPxxwngm33vD4AKWFkLVeUebEhygor9QDA3T6q8l8+O03sU/1Xf8cVpTyhhx4ZkJjZvRQvIwk8QrVa0ZAG9CipaAieRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=SRxN1qgg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718795472; c=relaxed/simple;
+	bh=qu/6XJuVrIq1Rby1Rnvig3vrO5OB9OEs0ydj0+XBU1c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QEmvYiHDBbidkPPrjZY+3Z5t+fa8eLqxvPSqZQOGsaEhzPMb4j0hvm3+Bn1B5yHYKH9jfjRV7QMbEmlZz0ZYcYVDwwA0ucRtCdGlgIS2Lw+wzIbZSaxQfASc5hEbFnBx4zIn6u+hN0oIEvAQEl62AsYmj4HABlbuXPIdIMQE/Ww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K9CkMy+U; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="SRxN1qgg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0518FC4AF4D;
-	Wed, 19 Jun 2024 11:05:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1718795119;
-	bh=l7ToMDCtV3ZqsLxvf9mUdcHH4ylWiymL+hAWVPLUklo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SRxN1qggvNdHJjrVNRbB6tHSpvfyFhwMO35kDmVwnp0mw1Z+TngxsVMSLFYJM762j
-	 jo7eWx7eRXaC2W8yo/ql9KSvzh1nBXYvNqonYHKlmLUt22kI7jX10hS2EYbBmjVrWQ
-	 5TgpoWMkMBoVwDtpEVP16P/cQZPd9hOeR3d4iMrA=
-Date: Wed, 19 Jun 2024 13:05:16 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Pablo =?iso-8859-1?Q?Ca=F1o?= <pablocpascual@gmail.com>
-Cc: linux-sound@vger.kernel.org, stable@vger.kernel.org, tiwai@suse.de
-Subject: Re: [PATCH] ALSA: hda/realtek: Add quirk for Lenovo Yoga Pro 7 14AHP9
-Message-ID: <2024061903-agile-satisfy-d722@gregkh>
-References: <20240619105932.29124-1-pablocpascual@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K9CkMy+U"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-35f275c7286so5758627f8f.2;
+        Wed, 19 Jun 2024 04:11:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718795469; x=1719400269; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rUi8PJoQrIhJDe0DZMXJyq4ZXY0L5Yc5X576T+WDdbw=;
+        b=K9CkMy+ULGx0PuJT4+gVa8upsI+yVRdLC4QTbmV18ietAnlvmAakvWoUdnPpL4/TQv
+         9SE/xM8fmJ7DlvtybyD0LOHno87/0pOZDUM0EDi9m1jHABbYyfpk4QdPi3zZcmWwURec
+         jPqvwBoh/G1fYhiN3yZUx6eudHta5inMKKUSYaloKW6Rbvy1Fo8Dm9DUDt/g4xSgzIeu
+         S99aP6DOWFdVEHihClgYckSjlk0Dat2ym0H4e7/U0+29rvPvW8gn8Ed9OotpvqfBRfvk
+         zb9JV7GJIMRvjphKNFlBMlpzTv1RNEb0bhuBcF/vR43WpQ+ShZ5QI3ueBXfDeR6iOCvP
+         LUCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718795469; x=1719400269;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rUi8PJoQrIhJDe0DZMXJyq4ZXY0L5Yc5X576T+WDdbw=;
+        b=NJSUa1qIE8R0+ntUECXKF30prYZRIsoz9St4HWeA6b1oLaOjlGSKbuBoM9aJSlcs2f
+         LjeDHoMkB/ElW2p8hxupDxQuoMHaTWKXwY4+LIx8zxtvIYzglYZAT9jeAS/T+8YglbHz
+         cdMc6TMac7WJNUjYFKFuofk39j88wctGmxcccqMpIZeVY/qR3b+LA4xospkzUkKEPtue
+         iJSZcWXlM8sND2dtiaSAXm2epNeT3ucjet3OhsUe1kmTuxWNCRoHEWdI0CMUOVQ9ldyQ
+         NEqPROOKAK7qTaaEaAQJ2NJw90YiC8hU92nryw48ros8+r7ohKq1JifgQ9LHtU07t60+
+         o1Yg==
+X-Gm-Message-State: AOJu0YxOwO0ysFnURqYByRAobcJwIaEA60o4pshV+uIVBRpcP0/UL2qK
+	8r63uPcaxGy59GN8I2yArj4CvBwCvVyYnwZBXrK8pjsGms8sd4E6/u1NoNyYu3U=
+X-Google-Smtp-Source: AGHT+IGuVipVwnEXUszWur3qCZRffHrEigsB1Ut5ZhbSDF0a7CCuGyPhAOgI3NUc+o7EJt8m6Eh73g==
+X-Received: by 2002:a5d:4563:0:b0:362:590c:84cf with SMTP id ffacd0b85a97d-363177a3caemr1649024f8f.24.1718795468837;
+        Wed, 19 Jun 2024 04:11:08 -0700 (PDT)
+Received: from fedora.. (cpdnat87.usal.es. [212.128.135.87])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3607509c707sm16962838f8f.36.2024.06.19.04.11.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Jun 2024 04:11:08 -0700 (PDT)
+From: =?UTF-8?q?Pablo=20Ca=C3=B1o?= <pablocpascual@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: stable@vger.kernel.org,
+	tiwai@suse.de,
+	=?UTF-8?q?Pablo=20Ca=C3=B1o?= <pablocpascual@gmail.com>
+Subject: [PATCH] ALSA: hda/realtek: Add quirk for Lenovo Yoga Pro 7 14AHP9
+Date: Wed, 19 Jun 2024 13:11:05 +0200
+Message-ID: <20240619111105.34300-1-pablocpascual@gmail.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240619105932.29124-1-pablocpascual@gmail.com>
 
-On Wed, Jun 19, 2024 at 12:59:32PM +0200, Pablo CaÒo wrote:
-> Lenovo Yoga Pro 7 14AHP9 (PCI SSID 17aa:3891) seems requiring a similar workaround like Yoga 9 model and Yoga 7 Pro 14APH8 for the bass speaker.
-> 
-> ---
->  sound/pci/hda/patch_realtek.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-> index aa76d1c88589..f9223fedf8e9 100644
-> --- a/sound/pci/hda/patch_realtek.c
-> +++ b/sound/pci/hda/patch_realtek.c
-> @@ -10525,6 +10525,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
->  	SND_PCI_QUIRK(0x17aa, 0x387e, "Yoga S780-16 pro Quad YC", ALC287_FIXUP_TAS2781_I2C),
->  	SND_PCI_QUIRK(0x17aa, 0x3881, "YB9 dual power mode2 YC", ALC287_FIXUP_TAS2781_I2C),
->  	SND_PCI_QUIRK(0x17aa, 0x3882, "Lenovo Yoga Pro 7 14APH8", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
-> +	SND_PCI_QUIRK(0x17aa, 0x3891, "Lenovo Yoga Pro 7 14AHP9", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
->  	SND_PCI_QUIRK(0x17aa, 0x3884, "Y780 YG DUAL", ALC287_FIXUP_TAS2781_I2C),
->  	SND_PCI_QUIRK(0x17aa, 0x3886, "Y780 VECO DUAL", ALC287_FIXUP_TAS2781_I2C),
->  	SND_PCI_QUIRK(0x17aa, 0x38a7, "Y780P AMD YG dual", ALC287_FIXUP_TAS2781_I2C),
-> -- 
-> 2.45.2
-> 
-> 
+Lenovo Yoga Pro 7 14AHP9 (PCI SSID 17aa:3891) seems requiring a similar workaround like Yoga 9 model and Yoga 7 Pro 14APH8 for the bass speaker.
 
-Hi,
+Cc: <stable@vger.kernel.org>
+Link: https://lore.kernel.org/all/20231207182035.30248-1-tiwai@suse.de/
+Signed-off-by: Pablo Ca√±o <pablocpascual@gmail.com>
+---
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index aa76d1c88589..f9223fedf8e9 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10525,6 +10525,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x387e, "Yoga S780-16 pro Quad YC", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x3881, "YB9 dual power mode2 YC", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x3882, "Lenovo Yoga Pro 7 14APH8", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
++	SND_PCI_QUIRK(0x17aa, 0x3891, "Lenovo Yoga Pro 7 14AHP9", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
+ 	SND_PCI_QUIRK(0x17aa, 0x3884, "Y780 YG DUAL", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x3886, "Y780 VECO DUAL", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x38a7, "Y780P AMD YG dual", ALC287_FIXUP_TAS2781_I2C),
+-- 
+2.45.2
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch does not have a Signed-off-by: line.  Please read the
-  kernel file, Documentation/process/submitting-patches.rst and resend
-  it after adding that line.  Note, the line needs to be in the body of
-  the email, before the patch, not at the bottom of the patch or in the
-  email signature.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
