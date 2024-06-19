@@ -1,83 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-29.smtpout.orange.fr [80.12.242.29])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BD1045977
-	for <linux-sound@vger.kernel.org>; Wed, 19 Jun 2024 17:31:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A019015A875;
+	Wed, 19 Jun 2024 20:45:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.29
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718818318; cv=none; b=OmcaSbMxyH9XwhUXZlmDRpoFToKgRGvlbbDuHL3yV8A5kNvWr+xwLWPDvJJ5p8hWKjjZrwAJiB2ggTol86t49zYJ1IfkPDUdGl/tzZxhQoryxTe7lXCw51C4iha0YReHetzULZNfdHqUh7Ai2qePTEYK+mdY95Y+ygjK9M9nOGI=
+	t=1718829944; cv=none; b=YymmAfXa6mMF9N+/ResEmJqx+Suds6mzyuVzpxzxgjpn2Rscm/lUGjhesdHlkPIaI1K1BQFtp9IQ4bubDSt9H4AFD7FesfSbm4/Wymh6yY+8biLl1r0GumvFsKHdng8wXgbWI4GGGDfzJBQWnPB9Pl8oJdzpWDFKb3ctrv9kGqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718818318; c=relaxed/simple;
-	bh=QIlcfav2ha1umyk0ZBufDe96vCl77uB0dt7vX00D6xI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=WsPLSpgCOC34fQoBrtWOMX5O2mdgOeWKIUNOTnQ9mnuvlnA4nYRi/b0t1Ak5tyP5EaGXDVMcEckSTPf40hiY6kiYs21GtG5clMDCWYpJjVGBOfBQ3hWb/Iqxda7tVPbRjFXO4r2XM+h1tkJHLCxf8lG7dXH8kafDSNGMANbb8Ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oxRZ58h6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718829944; c=relaxed/simple;
+	bh=pS8lzvJ4CpcgfQaJff8VtAHN+nKsoV7ysP4T1j49V98=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KVKMKN73nKoY074w6Z81ydWVs1NNcJAwDidcBV0I3SVlvfuCC31e3Vr5F+O+CmccaiHk3BBIrIE15BGLZETMxUaPtI6sRslIC9J/pDbtdpWS8NqfFuIs2Vjg0zmgMy2TLVCDUqQ9XZJ+iRjzMrSCdIiiFbthnvW5RTP5Ykk3A0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=k/LdAn48; arc=none smtp.client-ip=80.12.242.29
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oxRZ58h6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EB72C2BBFC;
-	Wed, 19 Jun 2024 17:31:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718818317;
-	bh=QIlcfav2ha1umyk0ZBufDe96vCl77uB0dt7vX00D6xI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=oxRZ58h6NU17QOwXBzvXF60oXsDK5OcsYGzBsECjSZ+b/F6ItszdQeyLK2Ll5g6Y4
-	 /Ay8FuH9F2JExARR85Hy7rTk0h+mjpnZg1VBni2fScsOrntUzSBbni/HyBIHlbuuVV
-	 ALpvEomOhSSIwK3xur6muX5zCMQaY6KVG1LyIAQk6AJkoNu9cn+jII38Dk9+EmkwCz
-	 XYH8RFRX9/1XvMjIk6OKDFwnri7tykWnpAIEV+MpBrVIj/LNS7HwJXJGFGR+lbjPvy
-	 OL+9aZmZCLnl6qac3HmuIXe5nK+Fl9NKlLoudw935Kces+UVxdpp5ZO3GqZKLMtg8J
-	 1quVu4m67sqcw==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, shumingf@realtek.com
-Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com, 
- oder_chiou@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com, 
- pierre-louis.bossart@intel.com, bard.liao@intel.com, Deep.Harsora@Dell.com
-In-Reply-To: <20240612075740.1678082-1-shumingf@realtek.com>
-References: <20240612075740.1678082-1-shumingf@realtek.com>
-Subject: Re: [PATCH] ASoC: Intel: soc-acpi: mtl: fix speaker no sound on
- Dell SKU 0C64
-Message-Id: <171881831508.221331.13576411057158316144.b4-ty@kernel.org>
-Date: Wed, 19 Jun 2024 18:31:55 +0100
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="k/LdAn48"
+Received: from [192.168.1.37] ([86.243.222.230])
+	by smtp.orange.fr with ESMTPA
+	id K2BMsLovPJk5EK2BMsLlKP; Wed, 19 Jun 2024 22:45:34 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1718829934;
+	bh=BI0l24CYzwU9Qjet60SgYpejzTHPgIlrhe+10WvNaFk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=k/LdAn48yWPg8B7gd4Cxhb1A7xM1ogt+/vJr9adNiZzIhxMLmNNnIfMZj4x5U8NY9
+	 Xx3AijbEKUXvpXbt/pO94zr54rcpzJbMffEDBKMkHdrlvd08gzw0zTxiMjuOpgP1AC
+	 rOrucKgnfER/GYheAN9nuUHjGpTddoHgkjC5VDq5ClmneN5YVpsneJzIer5LowCajM
+	 UZhKy/yaBDj+m058Ruqc1snQc2k7uTPDGiNCzvqHlEDr++PrHANAmkLXXqShLr0KDn
+	 ZWVOMu2iGceZlwq/rWcwjNornvarIBKBpwzsf81JSuePZcKt43v//hceCZDmLI3X9V
+	 qqCEEyPbkp9Ug==
+X-ME-Helo: [192.168.1.37]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Wed, 19 Jun 2024 22:45:34 +0200
+X-ME-IP: 86.243.222.230
+Message-ID: <09ea3565-9a0d-45ea-b12c-de79d3fb5efb@wanadoo.fr>
+Date: Wed, 19 Jun 2024 22:45:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev-d4707
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 3/7] ASoC: codecs: wcd937x: add wcd937x codec driver
+To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>,
+ Mark Brown <broonie@kernel.org>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
+ linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ quic_rohkumar@quicinc.com, quic_pkumpatl@quicinc.com,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+References: <20240611074557.604250-1-quic_mohs@quicinc.com>
+ <20240611074557.604250-4-quic_mohs@quicinc.com>
+ <2b92c0f9-2595-4b73-8015-1abb825a61a1@wanadoo.fr>
+ <f741630e-f9e8-45e1-b3e2-4866f0baeac2@sirena.org.uk>
+ <288156b9-2f72-6929-3422-c3aecb9c2c07@quicinc.com>
+Content-Language: en-MW
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <288156b9-2f72-6929-3422-c3aecb9c2c07@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, 12 Jun 2024 15:57:40 +0800, shumingf@realtek.com wrote:
-> Dell SKU 0C64 has a single rt1318 amplifier.
-> The prefix name of control still needs to be set rt1318-1 corresponding to UCM config.
+Le 19/06/2024 à 13:02, Mohammad Rafi Shaik a écrit :
+> On 6/17/2024 5:25 PM, Mark Brown wrote:
+>> On Sun, Jun 16, 2024 at 04:54:58PM +0200, Christophe JAILLET wrote:
+>>> Le 11/06/2024 à 09:45, Mohammad Rafi Shaik a écrit :
+>>
+>>>> +static void wcd937x_soc_codec_remove(struct snd_soc_component 
+>>>> *component)
+>>>> +{
+>>>> +    struct wcd937x_priv *wcd937x = 
+>>>> snd_soc_component_get_drvdata(component);
+>>>> +
+>>>> +    wcd937x_mbhc_deinit(component);
+>>>> +    free_irq(wcd937x->aux_pdm_wd_int, wcd937x);
+>>>> +    free_irq(wcd937x->hphl_pdm_wd_int, wcd937x);
+>>>> +    free_irq(wcd937x->hphr_pdm_wd_int, wcd937x);
+>>
+>>> These irq have been requested wth devm_request_threaded_irq(), so either
+>>> this free_irq should be removed, or devm_free_irq() should be used if 
+>>> the
+>>> order is important.
+>>
+>> Yes, this should be fixed.
+> 
+> okay, will check and provide the fix.
+> 
+> 
+> Thanks & Regards,
+> Rafi.
 > 
 > 
 
-Applied to
+Hi,
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+just to make things explicit, in case you missed it: I sent 2 comments 
+in 2 different mails.
 
-Thanks!
+   - the one above: 
+https://lore.kernel.org/all/2b92c0f9-2595-4b73-8015-1abb825a61a1@wanadoo.fr/
 
-[1/1] ASoC: Intel: soc-acpi: mtl: fix speaker no sound on Dell SKU 0C64
-      commit: 60ff540a1d476c2d48b96f7bc8ac8581b820e878
+   - and another one: 
+https://lore.kernel.org/all/834d31cc-f4bc-4db7-a25b-f9869e550eb6@wanadoo.fr/
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+If you give it a look, could you please also check the 2nd one?
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+CJ
