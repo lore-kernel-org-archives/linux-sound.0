@@ -1,80 +1,89 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 878AC77F0B;
-	Wed, 19 Jun 2024 10:24:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3987E13211E;
+	Wed, 19 Jun 2024 10:59:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718792657; cv=none; b=bvfbBCDJmcxXj5ykG7u45m4+Bdx2BMoO6KM3YMVpU9cTTSt1UZxGWCu87u/qTzyU5dtvqlDM3CorxoEdFOskxr2Tk6sc+J+Q2pZfEHH1WoSSXCESRojsoy09h6piQOrbBSRBoXNlguYO0Qu9ex6yhVvuyXbtYH5bEylGNc4vN+U=
+	t=1718794779; cv=none; b=QQOi5eLLmY+T0agM+BtZHMBj7sNVlgHdZjYUGeS1mLiJXy6W+S7rmX4eoCvFntiZIYEvjhGGIC+PhYY9pcpJJZIq4V/7msPOWg8/U0JXEuRBOsml0E+Qh6fMBe3HaaxLqe6kQPIs+2n+vep7JI41k7TXJkE/JnBxo+ufCPY6Da8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718792657; c=relaxed/simple;
-	bh=oRd71k4awj/6s9BRMEV7w3ZoQI9623aTuz0KN1OcpdA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=DMUEGgx+Z3CblTwNhaL86F0pmkMNllusNbJgojN8SdUlhRtCadqFc8AcudS2sS+koPSuxH3hoD32SL3mn11sFOESKwUOKANwyjwj/+ldlrrfwjeEROXiwzJIXc81ADwJUsiQE4aAR8tz7ucehxLZQhYnlEpohDSOrXv5RJKUhEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=VMNoveSj; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1718794779; c=relaxed/simple;
+	bh=BExqSwzjA+fciZYpFKo7ougXR8LWzOaXC2TldKO7j2g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TVqcs0jlV3AZCVUEl3GeocTuDJy4lkLZrNNqGOJJvDWb7E8yeB6oMvY3mK1vUYRmJh6V2xDxUzH/c26pjhv/Mw6Xl7lEF+NSqEzTe0AEuBLt+PYKEKysSieYGUAMPJofCNp8pCRB90eH6UF2qi8VlK02ZQW4b6qDCC0N9kbgmmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dv0q9/h2; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="VMNoveSj"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45J6sYgY029887;
-	Wed, 19 Jun 2024 05:24:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=RPk4rBMEEC3dEWsw4E893T9mznv8r6hBMz9IHmL9niE=; b=
-	VMNoveSjmRpH0g0U3QBmQU/2CxVO8AUB3GSvSihrz5ou8Mlv7/2xOSSACm9Zc1XL
-	fSEgfbWQnTOGa8Jp+kk31uYliOtnpxmvHjgNew0B0GyI/buoDkA2aVhSxkfGoLNe
-	04k5ZFqe/6FZsBbOrQxKW+Q9FCVyDVEgUguSnX/UzWK4KtmYnOo3Qq7p+4CZBlLe
-	ROzAHis1RxP6sXSZ9LYwUxH5AfBh8AjvORChy7GSvsHYyFsTVMxIJAp6opCNntLB
-	t6he/b1BAWqmOinZz1aTdQl5d1e56VpSMV9PuTfw1DoMLnwAPnEmZj3JfZ8yme6a
-	dZ0enXU8AHkh6iZF/7No4g==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3yuj8m0g1n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 19 Jun 2024 05:24:09 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 19 Jun
- 2024 11:24:07 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Wed, 19 Jun 2024 11:24:07 +0100
-Received: from [198.90.208.18] (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 01DCD820248;
-	Wed, 19 Jun 2024 10:24:07 +0000 (UTC)
-Message-ID: <97da8398-599e-45cb-abb2-97cc66567628@opensource.cirrus.com>
-Date: Wed, 19 Jun 2024 11:24:06 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dv0q9/h2"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-52cc148159dso2360318e87.0;
+        Wed, 19 Jun 2024 03:59:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718794776; x=1719399576; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NqNPLNV/phq08wqrDpKBw62bWYUWvlN1FEBdphcgyZ8=;
+        b=dv0q9/h24tqKsPri65ftAz3uMoluz6ddy0EA3qNT/o5YJqR3C0ZzALE+6CMSMxzmQV
+         UhK7l4XX62IixoqNGL4T5c6142zQEF6/qhfOyGrwn6wpjtO/tYaGr1ulzsVCR+s5q3bw
+         +2rIBmk+wDj3WLbRg2WGacgkpm4qkC9wPXQOkn5Dm21WRSCI5fkKo5or34FlvU+/2k0z
+         2bC80V3lsO7W+RVsw0qvHwDnhtSIsKUtt48+KZ4hjWHyqWtmoRtZBD3uys+2hgUAltNP
+         NouuE3MHA30hd64KX0bclsFpoV+T4KKqISQ5LGDFQ5yfgxpwlAmSBJyMPoktS3ldA9lB
+         wIpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718794776; x=1719399576;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NqNPLNV/phq08wqrDpKBw62bWYUWvlN1FEBdphcgyZ8=;
+        b=c/QdBs8F18+R2gbu4NeG3biU5SRnDw501vX0DK9Zxlq5sfvnVAaNSzUfmerVKy7Bdi
+         4BoNVThpJz79GDTEBc16THb+LhI+DmD03pcyaoQUSlc45X7kLAuBWyHHS+m7J358Ol2Q
+         An3P3YO0tBx5Nz/UVEwwktcJt5cGY414m3/XF9tdGVOgZ4WqYFgIGrFpBNcJ+sgS1Df1
+         8sncdQPQ7iez6Flw8l8PFKwQFiwwV8KV12PbU1IrjbmXHoxcEL3mG99hrw2UAlzBKLKN
+         g55H6JXIxA26iFLndJphaoICdDxBX/k5mybD2uz7iAwSrJYusNZhkUV3fOiTJZlK89Z6
+         sf8g==
+X-Gm-Message-State: AOJu0YydS42h4uFxh78+5eySLMvq/oCusx9o+ialsuoZFAkzxcaaMhkH
+	mkmm+P5DSaqj3IqPg+0o0wAo1E2Rs5Js6AYKueCf8TDk72u6/GR3crmFSnDPE3w=
+X-Google-Smtp-Source: AGHT+IERLNBeQ1AbPpPP7jOYcwoL68WBRtNt2+f3lA9xTCWJjg2eu2p5zzI0ylJsHcIgAgW4DZNlyw==
+X-Received: by 2002:a05:6512:6c2:b0:52c:8df9:2e6f with SMTP id 2adb3069b0e04-52ccaa881femr2046835e87.42.1718794776032;
+        Wed, 19 Jun 2024 03:59:36 -0700 (PDT)
+Received: from fedora.. (cpdnat87.usal.es. [212.128.135.87])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422f6320bd8sm224010455e9.32.2024.06.19.03.59.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Jun 2024 03:59:35 -0700 (PDT)
+From: =?UTF-8?q?Pablo=20Ca=C3=B1o?= <pablocpascual@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: stable@vger.kernel.org,
+	tiwai@suse.de,
+	=?UTF-8?q?Pablo=20Ca=C3=B1o?= <pablocpascual@gmail.com>
+Subject: [PATCH] ALSA: hda/realtek: Add quirk for Lenovo Yoga Pro 7 14AHP9
+Date: Wed, 19 Jun 2024 12:59:32 +0200
+Message-ID: <20240619105932.29124-1-pablocpascual@gmail.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: cs35l56: Accept values greater than 0 as IRQ
- numbers
-To: Mark Brown <broonie@kernel.org>
-CC: Simon Trimmer <simont@opensource.cirrus.com>,
-        <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>
-References: <20240617135338.82006-1-simont@opensource.cirrus.com>
- <fe9dd613-8909-4c7d-a7d7-9094b75fe8fb@opensource.cirrus.com>
- <941d2b8a-18b5-43ad-9aec-6785f841dfaa@sirena.org.uk>
-Content-Language: en-GB
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-In-Reply-To: <941d2b8a-18b5-43ad-9aec-6785f841dfaa@sirena.org.uk>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: YpzMdpZlHV6yBMraLsbqwHkcovA7cKyq
-X-Proofpoint-ORIG-GUID: YpzMdpZlHV6yBMraLsbqwHkcovA7cKyq
-X-Proofpoint-Spam-Reason: safe
+Content-Transfer-Encoding: 8bit
 
-On 19/06/2024 11:22, Mark Brown wrote:
-> On Wed, Jun 19, 2024 at 10:44:47AM +0100, Richard Fitzgerald wrote:
-> 
->> Mark, I don't understand what your objection is.
->> What is it you want us to do to get this bugfix accepted?
-> 
-> Have patience.
-Ah, ok. Sorry, I assumed you were objecting not just overloaded.
+Lenovo Yoga Pro 7 14AHP9 (PCI SSID 17aa:3891) seems requiring a similar workaround like Yoga 9 model and Yoga 7 Pro 14APH8 for the bass speaker.
+
+---
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index aa76d1c88589..f9223fedf8e9 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10525,6 +10525,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x387e, "Yoga S780-16 pro Quad YC", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x3881, "YB9 dual power mode2 YC", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x3882, "Lenovo Yoga Pro 7 14APH8", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
++	SND_PCI_QUIRK(0x17aa, 0x3891, "Lenovo Yoga Pro 7 14AHP9", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
+ 	SND_PCI_QUIRK(0x17aa, 0x3884, "Y780 YG DUAL", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x3886, "Y780 VECO DUAL", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x38a7, "Y780P AMD YG dual", ALC287_FIXUP_TAS2781_I2C),
+-- 
+2.45.2
+
