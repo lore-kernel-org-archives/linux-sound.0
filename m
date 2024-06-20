@@ -1,135 +1,68 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23A551B4C54;
-	Thu, 20 Jun 2024 20:20:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF89E2E859
+	for <linux-sound@vger.kernel.org>; Thu, 20 Jun 2024 20:26:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718914826; cv=none; b=KXhjOUACSRHOo0SLIXvIvwXm6XBTu8GdZV55R8xl+me1nEnAJI6ztMaEPQMiIbVZcMZVldSLpwoDOtegmhZeNKf+QH+8oXaY1gCkIaFpScrE+yRUFpJhnEZvABbPZtNh1dtwNJ2AWWxzuvo4AZ5kRz48SNRHfRbl5YBPHyLNsiw=
+	t=1718915209; cv=none; b=SqNhZ6IuLhXPct0jiDgKucIPavhjnwdCPGrWikaVRa0+PQ/BhlOiha0tOzIZpLQ9/9XldAX1ZjzztcXNruwfmQiqDKYEZT8PBXMPE+QLVLLjIoS5vjPc31yOGl/Tanqws2rGbbE1lbhfhMaWcF2xhHdwfOUd/QJQrlZnj4p6Aj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718914826; c=relaxed/simple;
-	bh=rBq7IdJM+K+0+xUcWM1SpeYU9dZrL3Z/PWGHq/TQFvc=;
+	s=arc-20240116; t=1718915209; c=relaxed/simple;
+	bh=sFCHX618nzTm6sLAYJPe7BYHyHyu7xj0KoZYjZgfiFw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=snMsX1jgiY3iUyj9+41db7jBSGodN5ZMkPVlSoJJM0/Zdt05o4z/EVS3djpLxBe2qaoOPRdP3CvFz0XzKkCE2XNS5heJCfnTcODSmzMImpGvT7KDA6Gbtouq+Dh8rNt1sB2Hs9Gg04Zz20m3PtC5HWGNRKZOm+1Npqv6ty7buwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HBMuCvVm; arc=none smtp.client-ip=209.85.215.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=nef/GJzFlHXRVm09zfUInLy6qKFJnxZghFFx3LO5YsnSfLSyYRiKl86e32HLpccDiHHBqMqaDVw3UwuOMlTDj7fhakFMnJOUrEznaXzxXQNNB4P/wyB8G6YtKW54NWc6mmsOjZuH0Ve4JsB5w3Ca4dChERqLH1UOJShJbFl36dU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MjzbVqr9; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HBMuCvVm"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-6bfd4b88608so1011082a12.1;
-        Thu, 20 Jun 2024 13:20:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MjzbVqr9"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-52c7fbad011so1600987e87.0
+        for <linux-sound@vger.kernel.org>; Thu, 20 Jun 2024 13:26:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718914823; x=1719519623; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1718915206; x=1719520006; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xyF3zFimLRvnxw2fNLWvvt4TaZ4/tRThw/CSNxiuI4k=;
-        b=HBMuCvVmdb4Sc/t5rLWkeQINLK/S2PhdlyS9BiF/RITKFgL139MVpyJ4p46Vw0LLfl
-         WwUWKzSnRhmr7ELk1WAvvN2+7sYVpWV7RFKU3ZgTVY37Ktg/G7e0I+hsEe/8lbXgnevh
-         HK7YsZGQkUdsfQyOzNKW+GiqIjpWfhkVwwSNWv2pwLIzUVSqzoXsrZ5G2xMFHhrmY67e
-         Mjb/Doq0dWWph1BGEKHrxKfOgwuLoGtgRgjomPkxBB7gOhfk726CcCyr6shZYV0ZBlEs
-         4K4GGGtVeTm3ozCUNWYLaw5TkeRFmt0QWDB375xRvIiS6M34Qmve5LgWMgnii27ymsUm
-         G2Jg==
+        bh=G8kmsXX8+t7q4fze1b5xWV2DOaP1fCecJ7UVyeVkxV4=;
+        b=MjzbVqr9J1d8ylUDIZvykMfEAXk6/9Omn9iWjzl4XE6Gk5YLSh9/sqpK6OvdZNHGrz
+         BdYQ1B12ke295UytS1hagJNaccA6IQjtW50LxXG4iBjxaLZR4eGtKvex8nVHYBrTUEg1
+         xhPnh0X8LhZCSg0gQ8Om8981WsNYHgYpmAtXd/KnBWYDlE5xBXf2uYU1OKDn60CoHnHR
+         kbZ8hm4orlJjQH6qCIaw7AqG4L4dSedaqL8Nc13vyfX6bZgWYm3pK+FzVlt38nZsxCj1
+         9Ey/a7C1/aY4BvQdQiB0F3U2gdYVfhKZp4wyjs6+/FK5bceYmXYhLo5g2nIhxlsbNcOg
+         myAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718914823; x=1719519623;
+        d=1e100.net; s=20230601; t=1718915206; x=1719520006;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xyF3zFimLRvnxw2fNLWvvt4TaZ4/tRThw/CSNxiuI4k=;
-        b=IZN/h+Y+JwDlXLfCuuejad1DNQiH6Yf7rWw6y8ELQjs9cmos9rUHZKQ8YZuNLFnvgm
-         A2wh0u7ZnHI/wxhRoKokw+KsoDjBAarKg1mLd/AocaC1RLOdE9yMJAWis6xMSzCIBE6S
-         LqJ8n/t+bWh7O2p5tTIhMRnbXpUWoPfhsjt5LkMO5mQ5KV76EtEIphwbd2xh8fv/HgJ8
-         TcFXUObAyqfwZZZSnm23pMmHmIWyYo1a6jtV635CCIEPT2fIvj+WZdJzzBISTNOZyRQV
-         FZsJBSH4yX1gnQ8lQs4q7fCFbdN8kH1b64+ldvdqLEMnUyqqEc3fkY8fuh/MS7B3TCCo
-         HtnA==
-X-Forwarded-Encrypted: i=1; AJvYcCXb3mc+CIjr5uFZ4jTT/Tjtwe/pUoriQmYfDVS0Jdn9qYyKLFy0Ng/N/cdiQ11KIcFNENQnkdc8EX8lDt9s/5qAPiSQhV/WB3Tn9lKnEJhO8yOeUl0m9ga1W86/wCTEdUz6akS6Iry5wSRyIVVN7R5APGqIwcQZl7/RFLTgpAhxeRSGiS9ya1aDfp8rJko/4p60kPCHh4LXdECJGdcTPwBqtPxuzZGzc2qGD54ZqTzdxj4ooGHmZT2cTeyb7p750Gp9MsPrJ7g1S6WrQCV5mUrTnYHrjlCpaaNz3G+lU5AwRb0whwLlshRJim+So8j2RgUenhKTq1gU/FeXUJQkl88wCGvVByeCPCynbKv9arA4oCiC1BB15Nec8dJrLQQQ//gGRVF+aIa00YP1WyNlS1zN6oX8WNWAhHkr37RejNnJIuW/o4Td5x+weTUtwphu3ZZYfSOCfnIpQWWPpO9o5uKoKgvxPACZgRhCaVMkdwnf179j1yMzpjKagsf8cYYpPHRvRr6Fc10sZCwsN2AYn4tw6upgLF09s3z05imWw9p0GrX+Ak25mLScP7lK+2PbMm9uPHQ6fr0gDWiJwjY+1xnzycu8d6OaavcbOy9QBrvwj2vnSdkZyzvy+M6U9FI4aJGOv4mXbBxXi1TDikNabyopHFYJHZzfoXn4yt8RDOLSqesHxsLdUqD/wwnEOW6tuuABE2vOTRneo2NyKPa/ASJxAKSsguNJC0yiIS2a6hLSU4Y52b+9fvlMILkucGXT1GfHX+6brA==
-X-Gm-Message-State: AOJu0Yw/tXaU1CSmszMcZ0JWNyyRBNC/eG91ZODIVeeavqpzNxhwc3Cg
-	aYZZj7q4pNMKhvV5LOzCch14TrrcvcpEcBOKl881sCYyQbBiGfDe
-X-Google-Smtp-Source: AGHT+IHgTaUdNjnFlceuqDZQb86IcFDSmpZVDJyq9iZqJozpl3uONt9e5qvEXl/03kBUwqlpGmD+xQ==
-X-Received: by 2002:a17:90b:3ec6:b0:2c7:e420:a0ec with SMTP id 98e67ed59e1d1-2c7e420a3f5mr3603638a91.0.1718914823251;
-        Thu, 20 Jun 2024 13:20:23 -0700 (PDT)
-Received: from localhost ([216.228.127.128])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c819dcc704sm81988a91.47.2024.06.20.13.20.21
+        bh=G8kmsXX8+t7q4fze1b5xWV2DOaP1fCecJ7UVyeVkxV4=;
+        b=I1ydYTxnkmoTDcf1MAC0Q1h1iy616qKeKdRtssGIkAS5j96bOS32eYCwrF3u3oEDJO
+         eICOYrotCd5ZK+rDkzEJ5gDh+bb6R7HksiAPlTKX5myyRrrecNOFRRx2Td/cQklBxyx1
+         lSKRMaUlirx0gPQicOsD6ZDhZiAKi1S7/QEiiIwv0snufZXtunNwQcCNFyWdBv7KJztY
+         fsvaSaP/+uCVMsy8lKcDyjl5M5uAZILmNhfiDluCGrSaoy4dRNnmjbGRvujPENnupRM0
+         ccIPnBQZX68uSSFEn6BkFgSfuuip+aEzcTB9HOPfY7arUUgQY5bPYQ/cOcKsIedqJ5DP
+         KnQA==
+X-Forwarded-Encrypted: i=1; AJvYcCWbJbSB1pPiZkbtkZ5jF786+ClhpvUiPXhLyecEswrKKNLKHlsr2DQC9ykJOKCrLyF6C2kq4u9v9WoGzwacIQTxYfnt4+8KKGtwM8I=
+X-Gm-Message-State: AOJu0Yz2P4UiEjLcbzqc+RMo5JZ1azk5AoWXH7AfVYsISVYxVg57ahQQ
+	M4FM+BtUxd7nKSKg8uWTzsB7/FkYKXkvV7luYRvGOvtVWXLni+igjKwqtuIwrb8=
+X-Google-Smtp-Source: AGHT+IHzDL4LA0M5hK+v+OwKwF0rXAEquerAfuzkP8LWy81w8k3FKZLYPQ1yOmy3eJQg3LBJXI1g6g==
+X-Received: by 2002:a05:6512:318e:b0:52c:cc40:a732 with SMTP id 2adb3069b0e04-52ccc40a864mr4612649e87.43.1718915205915;
+        Thu, 20 Jun 2024 13:26:45 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52ca282edc1sm2142712e87.115.2024.06.20.13.26.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jun 2024 13:20:22 -0700 (PDT)
-Date: Thu, 20 Jun 2024 13:20:20 -0700
-From: Yury Norov <yury.norov@gmail.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	"James E.J. Bottomley" <jejb@linux.ibm.com>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	"Md. Haris Iqbal" <haris.iqbal@ionos.com>,
-	Akinobu Mita <akinobu.mita@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Borislav Petkov <bp@alien8.de>, Chaitanya Kulkarni <kch@nvidia.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Disseldorp <ddiss@suse.de>,
-	Edward Cree <ecree.xilinx@gmail.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Fenghua Yu <fenghua.yu@intel.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Gregory Greenman <gregory.greenman@intel.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Hugh Dickins <hughd@google.com>, Ingo Molnar <mingo@redhat.com>,
-	Jakub Kicinski <kuba@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-	Jiri Pirko <jiri@resnulli.us>, Jiri Slaby <jirislaby@kernel.org>,
-	Kalle Valo <kvalo@kernel.org>, Karsten Graul <kgraul@linux.ibm.com>,
-	Karsten Keil <isdn@linux-pingi.de>,
-	Kees Cook <keescook@chromium.org>,
-	Leon Romanovsky <leon@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Martin Habets <habetsm.xilinx@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Michal Simek <monstr@monstr.eu>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Oliver Neukum <oneukum@suse.com>, Paolo Abeni <pabeni@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ping-Ke Shih <pkshih@realtek.com>, Rich Felker <dalias@libc.org>,
-	Rob Herring <robh@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Shuai Xue <xueshuai@linux.alibaba.com>,
-	Stanislaw Gruszka <stf_xl@wp.pl>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Wenjia Zhang <wenjia@linux.ibm.com>, Will Deacon <will@kernel.org>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	GR-QLogic-Storage-Upstream@marvell.com, alsa-devel@alsa-project.org,
-	ath10k@lists.infradead.org, dmaengine@vger.kernel.org,
-	iommu@lists.linux.dev, kvm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-	linux-hyperv@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-	linux-media@vger.kernel.org, linux-mips@vger.kernel.org,
-	linux-net-drivers@amd.com, linux-pci@vger.kernel.org,
-	linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-serial@vger.kernel.org,
-	linux-sh@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, mpi3mr-linuxdrv.pdl@broadcom.com,
-	netdev@vger.kernel.org, sparclinux@vger.kernel.org, x86@kernel.org,
-	Alexey Klimov <alexey.klimov@linaro.org>,
-	Bart Van Assche <bvanassche@acm.org>, Jan Kara <jack@suse.cz>,
-	Matthew Wilcox <willy@infradead.org>,
-	Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Shtylyov <s.shtylyov@omp.ru>
-Subject: Re: [PATCH v4 00/40] lib/find: add atomic find_bit() primitives
-Message-ID: <ZnSPBFW5wL0D0b86@yury-ThinkPad>
-References: <20240620175703.605111-1-yury.norov@gmail.com>
- <CAHk-=wiUTXC452qbypG3jW6XCZGfc8d-iehSavxn5JkQ=sv0zA@mail.gmail.com>
- <ZnR1tQN01kN97G_F@yury-ThinkPad>
- <CAHk-=wjv-DkukaKb7f04WezyPjRERp=xfxv34j5fA8cDQ_JudA@mail.gmail.com>
+        Thu, 20 Jun 2024 13:26:45 -0700 (PDT)
+Date: Thu, 20 Jun 2024 23:26:44 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc: Banajit Goswami <bgoswami@quicinc.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] ASoC: codecs:lpass-wsa-macro: Fix vi feedback rate
+Message-ID: <45iy6ksg25iqfnfezzsutmh7ihgbdy5wukul5bek2rmzm7jbbl@65rk4o6ednor>
+References: <20240619-lpass-wsa-vi-v2-0-7aff3f97a490@linaro.org>
+ <20240619-lpass-wsa-vi-v2-1-7aff3f97a490@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -138,58 +71,121 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wjv-DkukaKb7f04WezyPjRERp=xfxv34j5fA8cDQ_JudA@mail.gmail.com>
+In-Reply-To: <20240619-lpass-wsa-vi-v2-1-7aff3f97a490@linaro.org>
 
-On Thu, Jun 20, 2024 at 12:26:18PM -0700, Linus Torvalds wrote:
-> On Thu, 20 Jun 2024 at 11:32, Yury Norov <yury.norov@gmail.com> wrote:
-> >
-> > Is that in master already? I didn't get any email, and I can't find
-> > anything related in the master branch.
+On Wed, Jun 19, 2024 at 02:42:00PM GMT, Srinivas Kandagatla wrote:
+> Currently the VI feedback rate is set to fixed 8K, fix this by getting
+> the correct rate from params_rate.
+
+What kind of issues are observed without this patch? What is the actual
+issue that is getting fixed?
+
 > 
-> It's 5d272dd1b343 ("cpumask: limit FORCE_NR_CPUS to just the UP case").
-
-FORCE_NR_CPUS helped to generate a better code for me back then. I'll
-check again against the current kernel.
-
-The 5d272dd1b343 is wrong. Limiting FORCE_NR_CPUS to UP case makes no
-sense because in UP case nr_cpu_ids is already a compile-time macro:
-
-#if (NR_CPUS == 1) || defined(CONFIG_FORCE_NR_CPUS)
-#define nr_cpu_ids ((unsigned int)NR_CPUS)
-#else
-extern unsigned int nr_cpu_ids;
-#endif
-
-I use FORCE_NR_CPUS for my Rpi. (used, until I burnt it)
-
-> > > New rule: before you send some optimization, you need to have NUMBERS.
-> >
-> > I tried to underline that it's not a performance optimization at my
-> > best.
+> Fixes: 2c4066e5d428 ("ASoC: codecs: lpass-wsa-macro: add dapm widgets and route")
+> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> ---
+>  sound/soc/codecs/lpass-wsa-macro.c | 39 +++++++++++++++++++++++++++++++++++---
+>  1 file changed, 36 insertions(+), 3 deletions(-)
 > 
-> If it's not about performance, then it damn well shouldn't be 90%
-> inline functions in a header file.
+> diff --git a/sound/soc/codecs/lpass-wsa-macro.c b/sound/soc/codecs/lpass-wsa-macro.c
+> index 6ce309980cd1..ec9f0b5d6778 100644
+> --- a/sound/soc/codecs/lpass-wsa-macro.c
+> +++ b/sound/soc/codecs/lpass-wsa-macro.c
+> @@ -66,6 +66,10 @@
+>  #define CDC_WSA_TX_SPKR_PROT_CLK_DISABLE	0
+>  #define CDC_WSA_TX_SPKR_PROT_PCM_RATE_MASK	GENMASK(3, 0)
+>  #define CDC_WSA_TX_SPKR_PROT_PCM_RATE_8K	0
+> +#define CDC_WSA_TX_SPKR_PROT_PCM_RATE_16K	1
+> +#define CDC_WSA_TX_SPKR_PROT_PCM_RATE_24K	2
+> +#define CDC_WSA_TX_SPKR_PROT_PCM_RATE_32K	3
+> +#define CDC_WSA_TX_SPKR_PROT_PCM_RATE_48K	4
+>  #define CDC_WSA_TX0_SPKR_PROT_PATH_CFG0		(0x0248)
+>  #define CDC_WSA_TX1_SPKR_PROT_PATH_CTL		(0x0264)
+>  #define CDC_WSA_TX1_SPKR_PROT_PATH_CFG0		(0x0268)
+> @@ -347,6 +351,7 @@ struct wsa_macro {
+>  	int ear_spkr_gain;
+>  	int spkr_gain_offset;
+>  	int spkr_mode;
+> +	u32 pcm_rate_vi;
+>  	int is_softclip_on[WSA_MACRO_SOFTCLIP_MAX];
+>  	int softclip_clk_users[WSA_MACRO_SOFTCLIP_MAX];
+>  	struct regmap *regmap;
+> @@ -974,6 +979,7 @@ static int wsa_macro_hw_params(struct snd_pcm_substream *substream,
+>  			       struct snd_soc_dai *dai)
+>  {
+>  	struct snd_soc_component *component = dai->component;
+> +	struct wsa_macro *wsa = snd_soc_component_get_drvdata(component);
+>  	int ret;
+>  
+>  	switch (substream->stream) {
+> @@ -985,6 +991,11 @@ static int wsa_macro_hw_params(struct snd_pcm_substream *substream,
+>  				__func__, params_rate(params));
+>  			return ret;
+>  		}
+> +		break;
+> +	case SNDRV_PCM_STREAM_CAPTURE:
+> +		if (dai->id == WSA_MACRO_AIF_VI)
+> +			wsa->pcm_rate_vi = params_rate(params);
+> +
+>  		break;
+>  	default:
+>  		break;
+> @@ -1159,6 +1170,28 @@ static int wsa_macro_enable_vi_feedback(struct snd_soc_dapm_widget *w,
+>  	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
+>  	struct wsa_macro *wsa = snd_soc_component_get_drvdata(component);
+>  	u32 tx_reg0, tx_reg1;
+> +	u32 rate_val;
+> +
+> +	switch (wsa->pcm_rate_vi) {
+> +	case 8000:
+> +		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_8K;
+> +		break;
+> +	case 16000:
+> +		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_16K;
+> +		break;
+> +	case 24000:
+> +		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_24K;
+> +		break;
+> +	case 32000:
+> +		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_32K;
+> +		break;
+> +	case 48000:
+> +		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_48K;
+> +		break;
+> +	default:
+> +		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_8K;
+> +		break;
+> +	}
+>  
+>  	if (test_bit(WSA_MACRO_TX0, &wsa->active_ch_mask[WSA_MACRO_AIF_VI])) {
+>  		tx_reg0 = CDC_WSA_TX0_SPKR_PROT_PATH_CTL;
+> @@ -1170,7 +1203,7 @@ static int wsa_macro_enable_vi_feedback(struct snd_soc_dapm_widget *w,
+>  
+>  	switch (event) {
+>  	case SND_SOC_DAPM_POST_PMU:
+> -			/* Enable V&I sensing */
+> +		/* Enable V&I sensing */
+>  		snd_soc_component_update_bits(component, tx_reg0,
+>  					      CDC_WSA_TX_SPKR_PROT_RESET_MASK,
+>  					      CDC_WSA_TX_SPKR_PROT_RESET);
+> @@ -1179,10 +1212,10 @@ static int wsa_macro_enable_vi_feedback(struct snd_soc_dapm_widget *w,
+>  					      CDC_WSA_TX_SPKR_PROT_RESET);
+>  		snd_soc_component_update_bits(component, tx_reg0,
+>  					      CDC_WSA_TX_SPKR_PROT_PCM_RATE_MASK,
+> -					      CDC_WSA_TX_SPKR_PROT_PCM_RATE_8K);
+> +					      rate_val);
+>  		snd_soc_component_update_bits(component, tx_reg1,
+>  					      CDC_WSA_TX_SPKR_PROT_PCM_RATE_MASK,
+> -					      CDC_WSA_TX_SPKR_PROT_PCM_RATE_8K);
+> +					      rate_val);
+>  		snd_soc_component_update_bits(component, tx_reg0,
+>  					      CDC_WSA_TX_SPKR_PROT_CLK_EN_MASK,
+>  					      CDC_WSA_TX_SPKR_PROT_CLK_ENABLE);
 > 
-> If it's a helper function, it needs to be a real function elsewhere. Not this:
+> -- 
+> 2.25.1
 > 
->  include/linux/find_atomic.h                  | 324 +++++++++++++++++++
-> 
-> because either performance really matters, in which case you need to
-> show profiles, or performance doesn't matter, in which case it damn
-> well shouldn't have special cases for small bitsets that double the
-> size of the code.
 
-This small_const_nbits() thing is a compile-time optimization for a
-single-word bitmap with a compile-time length.
-
-If the bitmap is longer, or nbits is not known at compile time, the
-inline part goes away entirely at compile time.
-
-In the other case, outline part goes away. So those converting from
-find_bit() + test_and_set_bit() will see no new outline function
-calls.
-
-This inline + outline implementation is traditional for bitmaps, and
-for some people it's important. For example, Sean Christopherson
-explicitly asked to add a notice that converting to the new API will
-still generate inline code. See patch #13.
+-- 
+With best wishes
+Dmitry
