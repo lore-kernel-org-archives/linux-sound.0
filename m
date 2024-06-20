@@ -1,86 +1,168 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED53B2744C;
-	Thu, 20 Jun 2024 07:05:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 013741803A;
+	Thu, 20 Jun 2024 07:56:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718867139; cv=none; b=jPaBdej4yEDANhLimHyFKOQPUjCmPnjaallUR2DkwMHDNeldQH435Vs3eahDZm9n4zBuZ2r1GTpmlIDanxzdPFoY+0Ev2sODP7NWQXFkEBNQcNgyvJZA54HnVpp33X1zVFRM5/EHocEAiYvaJdHa9GOMvsX77xQMfe0LW40yMXE=
+	t=1718870198; cv=none; b=lmQWoWWvrxTXU5qmKYqNySBzdulEi448xaz6oA24UFCRQcjbQ8aNCa5n0wpkfHjppMIRSG+m5t8EiDnsjhEFJ9HdPdYf5eDX3grNnSIZtNXOlRCq4fWSABgra4zgOp8N1dxQk8WjDd9srMtbwOKo9N9rytjbO89d2pq/GVFTowo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718867139; c=relaxed/simple;
-	bh=dJEzkSyweazjJTKUEf1BqydnD1RQQNyHb5AgSblIfdE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tXNwAGpmGf1cAkQQihRmrQ6JnWMUqfMG5hoErUsuvcw1mu1woqB0VyX4H8JLSaM95CTr6Eu7i2oeyvLb4POE43LuifN/OxpsUuIXB8OCKkVfcE5yJiJVs+cncJrLT/j0inMSZjwQHhwS7pKuVp6BM/fwzoOkrmY5dcYVU2j/160=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lL1XS2yR; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1718870198; c=relaxed/simple;
+	bh=2f1Od9j0kNZ9C125auahTDD/lvFjwmRaaRilrw7OwEQ=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UDwH9wsPeKbr9i6Ikb6B3Hkczu8uPYL93peHTwD7hM6gHpFGf/ux2IvRlMOd0kwbzWlWENoER71l7eRhyyZVJXwyKdk0Hnn3YsSzvHdKKIi5EYKgzMZPUwu6yESyOuDmP43R3H+xnjSHzgEL0hxmbWtaNHEnokgfedN2zfY0DvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dZslguGu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FbcfHPT3; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dZslguGu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FbcfHPT3; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lL1XS2yR"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-57cd26347d3so443750a12.1;
-        Thu, 20 Jun 2024 00:05:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718867136; x=1719471936; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dJEzkSyweazjJTKUEf1BqydnD1RQQNyHb5AgSblIfdE=;
-        b=lL1XS2yRgYec3ETwU0E0LKUN4qbACHvYO/9GCX7ceEBTnsTHRWCPRgPdkEYT6tTGBG
-         Sbr77YFCAoa0IGXCdMD8yHvh8xJK2OwoQ/9RyKFwCly6XTHG5fKObS0yk4nVTzQ1JYLv
-         bqZEie9SPn/jAcbYnH+zCkpLlkwcMwcFBM875OlSDSC47hrwrk12jbW3gJTgp52626qp
-         fPyuyN8LLdsyIecshnNoQy9EIhw1unb18WUvWsh00OJzq5iQ1GRfJ0Jv8Dt8xnPptBp3
-         5AhWqpLnhomJXFwAXtxqq7tKfk0IU399wy3iKSSILWhxJiqjO9zwaqaIsktYg5MgE2H5
-         o8LA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718867136; x=1719471936;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dJEzkSyweazjJTKUEf1BqydnD1RQQNyHb5AgSblIfdE=;
-        b=FvvDFkYsD2Hl+AleSoQc6goSk6dUAA8reO39/8MshsDSeJgUMj/907KOgASJ3xVeKM
-         PPbGuKSTiXsnwJCTYnpB4X/fBxRrasOtZ9i+Ok/pkGJ2v42O9k6qy7LyLNLw2F7/4bun
-         94Ej12LIGnlZ2EWa7M58YuEHhn63aO6kRw3uo9K0uzUMaC4p2DE+4giHf8V2mtDRBjaJ
-         G0B98pkGKRosYblotH6GFBDT/Na1hBSO68ACad1D35xxj9Epj6lma6xrPVE3s9iMZl57
-         yJcbDzDVayl822155aO8Vm7v6yHvTX1yXF/GBXmeiSA5nGjG9lJkK9Mmb+wnMdSCPlDP
-         S57Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVlNI9YpajZa01k2quHtgQe+05Fq3awuMA8s8pRxKAzYDHZSCVnQXuRTE4o/boj2KyuXSPVGro5+fsWntHvb4L8UPCq+NlQ9iEAhWRIjL8l9LUmN3rAHF12WwoXqWp2hrhr7WFXV+0u
-X-Gm-Message-State: AOJu0YycuTqC+IVvGXf71MJ9oT24+Phmt12ltfjsiMeZ8G+PGlhzao8k
-	63mORZRstcXBZTpMDQtLrVHs/X9FaZRoUTAaW0PkRgxwvzcD20iIcH/uz4M2LJ9OSJ5K3VEya9c
-	u7w9nB6C8PHBCgAktwIhwdbVnPjGy7oPKpkE=
-X-Google-Smtp-Source: AGHT+IH9Zi075xLIea9HUNdZOY2FI+hFSTobEwSf38cByPkAEGv6hOZRLG60t8CtapdTRB2mmitpm6FhzBhArR1rZmc=
-X-Received: by 2002:a17:906:81cf:b0:a6f:7826:41ea with SMTP id
- a640c23a62f3a-a6fab646fa0mr230471066b.39.1718867135834; Thu, 20 Jun 2024
- 00:05:35 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dZslguGu";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FbcfHPT3";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dZslguGu";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FbcfHPT3"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 11F5D1F7DF;
+	Thu, 20 Jun 2024 07:56:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1718870195; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BiPM555ZzJD1oXU+hzRkT4qSznj4dFJ5BmzsuFrO3Kc=;
+	b=dZslguGuIC0PnEDmP/h3r9mHMqQxpC0J+6i+uqdL2ef3EQzRb+0FRTiVuudmVB/iZ/CanX
+	mWg8I9wddNCJNpRoYD8coKj2lPrYwugByUybmIK0OnX9K8AAUrNJ4OFY2xT4joRhv4PC/0
+	D9JmHWCPj/HrK2FvTM1IWD2CqqHUzsk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1718870195;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BiPM555ZzJD1oXU+hzRkT4qSznj4dFJ5BmzsuFrO3Kc=;
+	b=FbcfHPT3eu99VM/TclJn0m8xWux1UcazMB9ZAqpJrN8v33Vw0AHH9da4E4anPe3E86gylb
+	cQ8iiJhmSHfVZ7Bw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1718870195; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BiPM555ZzJD1oXU+hzRkT4qSznj4dFJ5BmzsuFrO3Kc=;
+	b=dZslguGuIC0PnEDmP/h3r9mHMqQxpC0J+6i+uqdL2ef3EQzRb+0FRTiVuudmVB/iZ/CanX
+	mWg8I9wddNCJNpRoYD8coKj2lPrYwugByUybmIK0OnX9K8AAUrNJ4OFY2xT4joRhv4PC/0
+	D9JmHWCPj/HrK2FvTM1IWD2CqqHUzsk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1718870195;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BiPM555ZzJD1oXU+hzRkT4qSznj4dFJ5BmzsuFrO3Kc=;
+	b=FbcfHPT3eu99VM/TclJn0m8xWux1UcazMB9ZAqpJrN8v33Vw0AHH9da4E4anPe3E86gylb
+	cQ8iiJhmSHfVZ7Bw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C2EFF13AC1;
+	Thu, 20 Jun 2024 07:56:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id QAdILrLgc2blVgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 20 Jun 2024 07:56:34 +0000
+Date: Thu, 20 Jun 2024 09:57:00 +0200
+Message-ID: <87frt82gj7.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: lars@metafoo.de,
+	perex@perex.cz,
+	tiwai@suse.com,
+	broonie@kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	shengjiu.wang@gmail.com
+Subject: Re: [RESEND PATCH] ALSA: dmaengine_pcm: terminate dmaengine before synchronize
+In-Reply-To: <1718851218-27803-1-git-send-email-shengjiu.wang@nxp.com>
+References: <1718851218-27803-1-git-send-email-shengjiu.wang@nxp.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <87wmmkpi6w.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87wmmkpi6w.wl-kuninori.morimoto.gx@renesas.com>
-From: Daniel Baluta <daniel.baluta@gmail.com>
-Date: Thu, 20 Jun 2024 10:05:23 +0300
-Message-ID: <CAEnQRZCKR6G4-fP7YVsjLvpKNHBQGNYa4TwxS0U0hdheFjxxBw@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: dt-bindings: add missing vender prefix on filename
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Andrew Davis <afd@ti.com>, Baojun Xu <baojun.xu@ti.com>, Conor Dooley <conor+dt@kernel.org>, 
-	Daniel Beer <daniel.beer@igorinstitute.com>, Fabio Estevam <festevam@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Kevin Lu <kevin-lu@ti.com>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Shenghao Ding <shenghao-ding@ti.com>, Shi Fu <shifu0704@thundersoft.com>, 
-	Takashi Iwai <tiwai@suse.com>, Vincent Knecht <vincent.knecht@mailoo.org>, alsa-devel@alsa-project.org, 
-	devicetree@vger.kernel.org, linux-sound@vger.kernel.org, 
-	patches@opensource.cirrus.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -1.80
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TAGGED_RCPT(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[metafoo.de,perex.cz,suse.com,kernel.org,vger.kernel.org,alsa-project.org,gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[]
 
-On Thu, Jun 20, 2024 at 3:32=E2=80=AFAM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
->
-> Many Sound yaml files doesn't have vender prefix on filename.
-> Add missing vender prefix for these files.
->
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+On Thu, 20 Jun 2024 04:40:18 +0200,
+Shengjiu Wang wrote:
+> 
+> When dmaengine supports pause function, in suspend state,
+> dmaengine_pause() is called instead of dmaengine_terminate_async(),
+> 
+> In end of playback stream, the runtime->state will go to
+> SNDRV_PCM_STATE_DRAINING, if system suspend & resume happen
+> at this time, application will not resume playback stream, the
+> stream will be closed directly, the dmaengine_terminate_async()
+> will not be called before the dmaengine_synchronize(), which
+> violates the call sequence for dmaengine_synchronize().
 
-Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
+Hmm, I can't follow this state change.
+Do you mean that:
+- snd_pcm_drain() is performed for a playback stream
+- while draining operation, the system goes to suspend
+- the system resumes (but the application doesn't call resume yet)
+- The stream is closed (without calling resume)
+??
+
+If so, it's rather an inconsistent PCM state in the core side, and can
+be fixed by a simple call like below:
+
+-- 8< --
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -2700,6 +2700,7 @@ void snd_pcm_release_substream(struct snd_pcm_substream *substream)
+ 	if (substream->ref_count > 0)
+ 		return;
+ 
++	snd_pcm_resume(substream);
+ 	snd_pcm_drop(substream);
+ 	if (substream->hw_opened) {
+ 		if (substream->runtime->state != SNDRV_PCM_STATE_OPEN)
+-- 8< --
+
+This will be no-op for the PCM device without SNDRV_PCM_INFO_RESUME.
+
+But, this may need more rework, too; admittedly it imposes the
+unnecessary resume of the stream although it shall be stopped and
+closed immediately after that.  We may have some optimization in
+addition.
+
+
+thanks,
+
+Takashi
