@@ -1,35 +1,35 @@
 Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEB0719D094;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 639BA3A1AC;
 	Thu, 20 Jun 2024 08:43:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718873000; cv=none; b=OZjv6S9kHqJovAxVO1WhJ72UmcUIfDwiYeoQ2vA5kkfKcpGfTj58uVd4IN1Mo3c+4VKeMJAP/3LhmL32aiJC5HBxsUzLPFeOXWT8N4tkC3/fhleXJ6V1ylNUM1FqXeSBe3X4E2V6fCqBRuXzgjPPtfi6WjIRKq/Iz+80P1AUtdA=
+	t=1718873000; cv=none; b=jb9I+wFUlhNbImVhWMCEuVNESTPcOMILaRVNu8ef3zTM77ZVSozH+PLLm5vC4QuneaymIb3PTptwQc2ScXEtGnPxv/ozmF5oNAoo/11jbQhZyJJFx+5W14zuSWDb8sQtRSOXKMi0pTjHDpUzLY6Vwy2toP83kKYEgofTXaxn5sE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1718873000; c=relaxed/simple;
-	bh=g06udzdr3FQ3GGjFDr6DB3X29brZkwlgc30sknmNjdM=;
+	bh=JyxXab3gh+wCGMjIW6vDCbjLfD//HftTPx3aJXGP3m8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TjxllRPr/oHxOnzCKonWwsbzs+ecJJ4YuZGen8v0l1wgEBHLTC/K1GdVjOuJoyx9y/MRpTdTOjf57t+N2umWNq6fIAYQAU+Edfb3B0xZVhhayNam/6ZJQjHGB8T+BPRoi+Peu5/8e23qaJbjX72XN3tjwkvKKRXgjg2HnglfKCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=a97esiVn; arc=none smtp.client-ip=217.70.183.200
+	 MIME-Version; b=XDdmlY2bNqncXVhZaNHAalBtx9LKikJNo06YaIGjqur0EX8kViZHABNK7r1591wjoBJ3hV+dTZfm2nqyMTLrEZdIcBlEQEHTHQJeEp1Xz+fcF+ItYE1Jl0/Qa86/ay1xb5F0IM14au6afl7usTL2KS8Qh8WevOGTaYboCiBajag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Y7/+Kz/c; arc=none smtp.client-ip=217.70.183.200
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="a97esiVn"
-Received: by mail.gandi.net (Postfix) with ESMTPA id E8D0920005;
-	Thu, 20 Jun 2024 08:43:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Y7/+Kz/c"
+Received: by mail.gandi.net (Postfix) with ESMTPA id 808192000D;
+	Thu, 20 Jun 2024 08:43:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1718872996;
+	t=1718872991;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/jcw3B7br9mMf7ih+RGvbztJQGfoFsNFtd4Dmae4m5o=;
-	b=a97esiVnJn41eMUraY8MB3Zy2tdFjuOc1bB72Im5wsV7wGp00opmdS75RCaZBrcqwnIYBo
-	CbExXz+Zmlrrhg8vhuMJGJYFSIAMM4jOP7IJc9opSTfpOo3ouxRuigsFbZICp/rV/iTbc7
-	XDLhPEN9H05uYDZD+5fR1JYISMPCUHD7PBTGx3ATXXuQ7q5rWkdA4jDUMaEswD+IdlEXXN
-	IYPMadbr9RX4TDh3vxDWzpAQ1WAPAJMycwZMrIXr/DP5WlYDVVKduYe9asrAadK3KzJMX3
-	7RIwBS3G86/V3qG1f0VDh4g1lwgkkZ3Yk9vsbgzuFpaO9Vb8e9wjeVvG+Sc00w==
+	bh=O2OniZ6NTuy93VyAe8/Sk6MsW0dFYWJCYUEKa4O7/i0=;
+	b=Y7/+Kz/c2jd/6tPcvE4E6ugSwG+0jYbXBS0aNFaULtDeHyZliwze4pTKKBYpKGOFnk4PGV
+	V+eXJJgSOFwRhBinungwT/q9hAcrnHhSX3Wd3XjRnb/lEJX0MkYC2BeyAMahoDqNzoK4ZF
+	/GjZ74Lw/mJ0XF5OrPMkaaort1alUt01luU3ORpix/o6+6fwJ1UEw8AtFm7KHawEhQUoBY
+	9z2gXIW11ZJIRDy+aWdga+Jazrjwm+9BFM1/CTKr8U+OQkIP/1+63VOZQ/F2VlkQ17wfog
+	CyeVK92Ty+SSqwldY65xQ0qcGjYBHYWT+II2yqH7dmbT7iIIW3zKknFlcGMf3w==
 From: Herve Codina <herve.codina@bootlin.com>
 To: Herve Codina <herve.codina@bootlin.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -51,10 +51,11 @@ Cc: alsa-devel@alsa-project.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH 05/10] ASoC: fsl: fsl_qmc_audio: Introduce qmc_audio_pcm_{read,write}_submit()
-Date: Thu, 20 Jun 2024 10:42:52 +0200
-Message-ID: <20240620084300.397853-6-herve.codina@bootlin.com>
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	stable@vger.kernel.org
+Subject: [PATCH 01/10] ASoC: fsl: fsl_qmc_audio: Check devm_kasprintf() returned value
+Date: Thu, 20 Jun 2024 10:42:48 +0200
+Message-ID: <20240620084300.397853-2-herve.codina@bootlin.com>
 X-Mailer: git-send-email 2.45.0
 In-Reply-To: <20240620084300.397853-1-herve.codina@bootlin.com>
 References: <20240620084300.397853-1-herve.codina@bootlin.com>
@@ -67,183 +68,31 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-GND-Sasl: herve.codina@bootlin.com
 
-Submitting data to QMC channels is done in several places: transfer
-completions and DAI start. The operation done is simple and consist in
-one function call.
+devm_kasprintf() can return a NULL pointer on failure but this returned
+value is not checked.
 
-With the future introduction of support for non-interleaved mode,
-submitting data will be more complex.
+Fix this lack and check the returned value.
 
-To avoid copy/paste of code in several places, introduce
-qmc_audio_pcm_{read,write}_submit() whose goal is to handle this
-data submission.
-
+Fixes: 075c7125b11c ("ASoC: fsl: Add support for QMC audio")
+Cc: stable@vger.kernel.org
 Signed-off-by: Herve Codina <herve.codina@bootlin.com>
 ---
- sound/soc/fsl/fsl_qmc_audio.c | 93 +++++++++++++++++------------------
- 1 file changed, 45 insertions(+), 48 deletions(-)
+ sound/soc/fsl/fsl_qmc_audio.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/sound/soc/fsl/fsl_qmc_audio.c b/sound/soc/fsl/fsl_qmc_audio.c
-index b07770257bad..36145f1ddbf1 100644
+index bfaaa451735b..dd90ef16fa97 100644
 --- a/sound/soc/fsl/fsl_qmc_audio.c
 +++ b/sound/soc/fsl/fsl_qmc_audio.c
-@@ -90,11 +90,29 @@ static int qmc_audio_pcm_hw_params(struct snd_soc_component *component,
- 	return 0;
- }
+@@ -604,6 +604,8 @@ static int qmc_audio_dai_parse(struct qmc_audio *qmc_audio, struct device_node *
  
-+static void qmc_audio_pcm_write_complete(void *context);
-+
-+static int qmc_audio_pcm_write_submit(struct qmc_dai_prtd *prtd)
-+{
-+	int ret;
-+
-+	ret = qmc_chan_write_submit(prtd->qmc_dai->chan.qmc_chan,
-+				    prtd->ch_dma_addr_current, prtd->ch_dma_size,
-+				    qmc_audio_pcm_write_complete,
-+				    &prtd->qmc_dai->chan);
-+	if (ret) {
-+		dev_err(prtd->qmc_dai->dev, "write_submit failed %d\n",
-+			ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
- static void qmc_audio_pcm_write_complete(void *context)
- {
- 	struct qmc_dai_chan *chan = context;
- 	struct qmc_dai_prtd *prtd;
--	int ret;
+ 	qmc_dai->name = devm_kasprintf(qmc_audio->dev, GFP_KERNEL, "%s.%d",
+ 				       np->parent->name, qmc_dai->id);
++	if (!qmc_dai->name)
++		return -ENOMEM;
  
- 	prtd = chan->prtd_tx;
- 
-@@ -106,23 +124,33 @@ static void qmc_audio_pcm_write_complete(void *context)
- 	if (prtd->ch_dma_addr_current >= prtd->ch_dma_addr_end)
- 		prtd->ch_dma_addr_current = prtd->ch_dma_addr_start;
- 
--	ret = qmc_chan_write_submit(prtd->qmc_dai->chan.qmc_chan,
--				    prtd->ch_dma_addr_current, prtd->ch_dma_size,
--				    qmc_audio_pcm_write_complete,
--				    &prtd->qmc_dai->chan);
-+	qmc_audio_pcm_write_submit(prtd);
-+
-+	snd_pcm_period_elapsed(prtd->substream);
-+}
-+
-+static void qmc_audio_pcm_read_complete(void *context, size_t length, unsigned int flags);
-+
-+static int qmc_audio_pcm_read_submit(struct qmc_dai_prtd *prtd)
-+{
-+	int ret;
-+
-+	ret = qmc_chan_read_submit(prtd->qmc_dai->chan.qmc_chan,
-+				   prtd->ch_dma_addr_current, prtd->ch_dma_size,
-+				   qmc_audio_pcm_read_complete,
-+				   &prtd->qmc_dai->chan);
- 	if (ret) {
--		dev_err(prtd->qmc_dai->dev, "write_submit failed %d\n",
-+		dev_err(prtd->qmc_dai->dev, "read_submit failed %d\n",
- 			ret);
- 	}
- 
--	snd_pcm_period_elapsed(prtd->substream);
-+	return 0;
- }
- 
- static void qmc_audio_pcm_read_complete(void *context, size_t length, unsigned int flags)
- {
- 	struct qmc_dai_chan *chan = context;
- 	struct qmc_dai_prtd *prtd;
--	int ret;
- 
- 	prtd = chan->prtd_rx;
- 
-@@ -139,14 +167,7 @@ static void qmc_audio_pcm_read_complete(void *context, size_t length, unsigned i
- 	if (prtd->ch_dma_addr_current >= prtd->ch_dma_addr_end)
- 		prtd->ch_dma_addr_current = prtd->ch_dma_addr_start;
- 
--	ret = qmc_chan_read_submit(prtd->qmc_dai->chan.qmc_chan,
--				   prtd->ch_dma_addr_current, prtd->ch_dma_size,
--				   qmc_audio_pcm_read_complete,
--				   &prtd->qmc_dai->chan);
--	if (ret) {
--		dev_err(prtd->qmc_dai->dev, "read_submit failed %d\n",
--			ret);
--	}
-+	qmc_audio_pcm_read_submit(prtd);
- 
- 	snd_pcm_period_elapsed(prtd->substream);
- }
-@@ -168,15 +189,9 @@ static int qmc_audio_pcm_trigger(struct snd_soc_component *component,
- 			prtd->qmc_dai->chan.prtd_tx = prtd;
- 
- 			/* Submit first chunk ... */
--			ret = qmc_chan_write_submit(prtd->qmc_dai->chan.qmc_chan,
--						    prtd->ch_dma_addr_current, prtd->ch_dma_size,
--						    qmc_audio_pcm_write_complete,
--						    &prtd->qmc_dai->chan);
--			if (ret) {
--				dev_err(component->dev, "write_submit failed %d\n",
--					ret);
-+			ret = qmc_audio_pcm_write_submit(prtd);
-+			if (ret)
- 				return ret;
--			}
- 
- 			/* ... prepare next one ... */
- 			prtd->ch_dma_addr_current += prtd->ch_dma_size;
-@@ -184,28 +199,16 @@ static int qmc_audio_pcm_trigger(struct snd_soc_component *component,
- 				prtd->ch_dma_addr_current = prtd->ch_dma_addr_start;
- 
- 			/* ... and send it */
--			ret = qmc_chan_write_submit(prtd->qmc_dai->chan.qmc_chan,
--						    prtd->ch_dma_addr_current, prtd->ch_dma_size,
--						    qmc_audio_pcm_write_complete,
--						    &prtd->qmc_dai->chan);
--			if (ret) {
--				dev_err(component->dev, "write_submit failed %d\n",
--					ret);
-+			ret = qmc_audio_pcm_write_submit(prtd);
-+			if (ret)
- 				return ret;
--			}
- 		} else {
- 			prtd->qmc_dai->chan.prtd_rx = prtd;
- 
- 			/* Submit first chunk ... */
--			ret = qmc_chan_read_submit(prtd->qmc_dai->chan.qmc_chan,
--						   prtd->ch_dma_addr_current, prtd->ch_dma_size,
--						   qmc_audio_pcm_read_complete,
--						   &prtd->qmc_dai->chan);
--			if (ret) {
--				dev_err(component->dev, "read_submit failed %d\n",
--					ret);
-+			ret = qmc_audio_pcm_read_submit(prtd);
-+			if (ret)
- 				return ret;
--			}
- 
- 			/* ... prepare next one ... */
- 			prtd->ch_dma_addr_current += prtd->ch_dma_size;
-@@ -213,15 +216,9 @@ static int qmc_audio_pcm_trigger(struct snd_soc_component *component,
- 				prtd->ch_dma_addr_current = prtd->ch_dma_addr_start;
- 
- 			/* ... and send it */
--			ret = qmc_chan_read_submit(prtd->qmc_dai->chan.qmc_chan,
--						   prtd->ch_dma_addr_current, prtd->ch_dma_size,
--						   qmc_audio_pcm_read_complete,
--						   &prtd->qmc_dai->chan);
--			if (ret) {
--				dev_err(component->dev, "write_submit failed %d\n",
--					ret);
-+			ret = qmc_audio_pcm_read_submit(prtd);
-+			if (ret)
- 				return ret;
--			}
- 		}
- 		break;
- 
+ 	qmc_dai->qmc_chan = devm_qmc_chan_get_byphandle(qmc_audio->dev, np,
+ 							"fsl,qmc-chan");
 -- 
 2.45.0
 
