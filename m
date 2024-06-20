@@ -1,99 +1,140 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B5891BA87B
-	for <linux-sound@vger.kernel.org>; Thu, 20 Jun 2024 20:28:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFEA155882
+	for <linux-sound@vger.kernel.org>; Thu, 20 Jun 2024 20:38:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718915313; cv=none; b=OcaFYFExwqx0INjmgiXoYVsDXCUYVE2EJ3div7+IygQuDP2uu/3B4DTM81GSLOm922TsOaaM7KNDmA8UD4tkteq2HXU9AtYV0J/OMpEseF8Tsaj8thyEgo4r9j+YeuiJKPD/jJeMysmegPW44EdnIq3urVNzsXZY2E3Uah9q7KQ=
+	t=1718915936; cv=none; b=iY+8VLGBKOXwkcB6HQ+ksyXGNAj2G1QOe834W7H/c5MN0kHpS7ImzMd36lWZgbhV9dNMcIZHMvZ+VcSAInY0bUJuzDOPtUoKNulJ839MveoZ8k8zom8I3Zv3yn1sl3PzOjOZL9cuFCZRJq7f6cnyzcpC98N7J6NI3ZqgVT9l1PY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718915313; c=relaxed/simple;
-	bh=UkmDyFQy591dYaa7VHDPHpXjKce1/rqccMMiHX2MPEg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AKMy9YiIIrPxdwkJ50lWcOVCotAGHXOK0jyW6ahuTTAf9rkbGdaEVun3B81OAqrY85iYtyRYGNA3DSqdRJoLDABcz3rn/bBDbl31IsT68y1I+Eht8v4iGgdUPWW8MxJqJILi7BDsrRNWFM9ArWXILNoaNAqTEUuKZvQs1eRBUtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ijHXEocE; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1718915936; c=relaxed/simple;
+	bh=xe0CLiytQL+w07wMVqUc1rJS0v+e/Ti6ErqFWmVCp7I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=R6H5ju6C9jITZWHqfUlbqhYCYncEx4XyV6j4nXP0kRklCR3WIf3CbRXnEHFfezpyl2KITFAiBV8djPe3BB6YN1fewqFMvB/8uGEC3ZqINoJDHVAs37tC1SkYFrbRqMOM64pfwdQbOtPRYk8lDDI+I0+PjPayJvxOY9qQc8fJ4fo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=ANDeaIQr; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ijHXEocE"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-52cc148159dso1411737e87.0
-        for <linux-sound@vger.kernel.org>; Thu, 20 Jun 2024 13:28:31 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="ANDeaIQr"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a6f7b785a01so138210466b.1
+        for <linux-sound@vger.kernel.org>; Thu, 20 Jun 2024 13:38:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718915310; x=1719520110; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1Qq7ONicKjWObOBmDaLHMa6+38qMtcLZP9rDKDaS5bI=;
-        b=ijHXEocEDueD+99MDKnD7Es5/8KoYQ3ld9dm0qcDFRjxmtWY5XSWqOwKfDhzebYRMS
-         gVmn8DMUzcjk7D+hlShDkK/B+CVp/oQdNgbJZyi6B96Hbc4t/MEDsdlVk3ezk0JWJsrs
-         dvKXbFFtV3RYhFmwRmQRFphYOFPfBnyA0IOUkJAUiMnLdwM8aVJUyReAH2BabkwhH0pd
-         UUIFh3IsyQmvHIpncpzrJkxrJJ6E+5KlUELXtwwLgLBixulrA2318obARBe4R0xT4teB
-         qgyY0NtA2Pt8vH6q8VTVpHrAJ4QNzFOKxDdAzLC/wb5IdSF8AxRoEdfJZOMBN2icNi9v
-         Mp1w==
+        d=linux-foundation.org; s=google; t=1718915933; x=1719520733; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=w6VZWpwlG7GhpGptpxtkhZuBw3s+vrw3bJ0KsbwAf6c=;
+        b=ANDeaIQrpk6tpbmsNym3xuWxlTYkyRWOCHmMmeVtWy0jXyGvgWxq+xI8HhSYkZi3BG
+         qcxah80BYuSjyLVeWydva6g7/etSSyQH5eYfhqEiogflhdNnZjBqQjFWapkJaZ8CTHX/
+         f0+u+SGg8amIbeEkbBiz8qFSkEFKP++F1qGHY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718915310; x=1719520110;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1Qq7ONicKjWObOBmDaLHMa6+38qMtcLZP9rDKDaS5bI=;
-        b=FNogDaYgs+kDiOSs92vqX5PN2LUDIO+Quf35fJEAdqjQZ/hge1RG91KwNvABK6bcWe
-         OugYusnsO+jrKt+KBZRHs636ASCIB70tu6HnNiRxk7LzSJTRra4oHfAuhGNLmDZzbhoM
-         9JnIMZX5wv8gKF3DE6lvowQm6u9C0IdreYSKlJBQCELK7b0eyhm5DJ73f+F+0JDAZn8b
-         dxQOK6LOJ8up+JpUn8JIKQc+SGCHVIiTwv9Imy+2Hi3a0HMHBgK/riewz/N3WKgTjwb0
-         xGQ2FLiiICHJpdOYK+nqN5LUr4baqPu9lOtbaisckKuklX3uSvvnUv81Vs0vj6OUbkDR
-         FE+A==
-X-Forwarded-Encrypted: i=1; AJvYcCXuVHGiveyaUSpVwlfnd18umJ7SO+e2uVyWr8bU137pYjp4RtZKRtietvVlc1tjyeLxqYE/RO2UXOqrvSZ6jJZ5imh5nrjhts5pUX8=
-X-Gm-Message-State: AOJu0YyuXENlt0CPxc9C4gIz2zWuKBz8pnV+jG6+cDb5Lm39jcCA1pJs
-	cX11DmtsEbaexa1lZ2WRjaQLrpLjFTP+1ZIm/3NQUpHx8LHet3oqTZjSXaa27AE=
-X-Google-Smtp-Source: AGHT+IH//vghqAcxQJwYgnR3Ce2y3NWrMIiABGLcHezgJ21sFgCt2msKsgQEX+zkT9WfeQcTRVsKdw==
-X-Received: by 2002:a05:6512:3f0d:b0:52b:8365:3630 with SMTP id 2adb3069b0e04-52ccaa885a1mr4638439e87.51.1718915310420;
-        Thu, 20 Jun 2024 13:28:30 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52ca88a96bdsm1867368e87.306.2024.06.20.13.28.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jun 2024 13:28:30 -0700 (PDT)
-Date: Thu, 20 Jun 2024 23:28:28 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: Banajit Goswami <bgoswami@quicinc.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Manikantan R <quic_manrav@quicinc.com>
-Subject: Re: [PATCH v2 2/2] ASoC: codecs:lpass-wsa-macro: Fix logic of
- enabling vi channels
-Message-ID: <hz5eqta4ttzsnwttqzqrec4vcwvyleoow7thoiym3g3wjsfqk4@tx23nktde3gh>
-References: <20240619-lpass-wsa-vi-v2-0-7aff3f97a490@linaro.org>
- <20240619-lpass-wsa-vi-v2-2-7aff3f97a490@linaro.org>
+        d=1e100.net; s=20230601; t=1718915933; x=1719520733;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=w6VZWpwlG7GhpGptpxtkhZuBw3s+vrw3bJ0KsbwAf6c=;
+        b=Yd6z9mZ8H+jL9aSRwqZw+qUcecFtpIm/8ShZUe5NbY0w6UutUw0EmaosKJJNJbDFLF
+         WIZocCsLkuZmmIWMGoxIvhUug+ca3CTM47PwQNSWKD/tXdVcGHtQvqfmCRBu+40/dHfs
+         +DS8m5mk+Q2nQ+WLNtNhxYaXsA+r0IW3Q2H26a8XtBlxwyYP+XS/P0+U36a236tu03Hx
+         YH7sAdu0A1sCzaLGIGJqQlvdQdmtrD8CwAshW7dT5nt+NSBszOYb+TwZzo7pjSu4ZaFs
+         E/xtHcNf0/WaBjkDoTLKvEAJ2oWQ/qlSe8XRJr60hfDi1goPdMwHNGmqyLjb+E+WkUUn
+         4RXg==
+X-Forwarded-Encrypted: i=1; AJvYcCUQYYTLeHJXTANiPLVxX4Q4CfE0PT6PCTEhRjt3c10kTA/aDDwLs3TOkg0fSdw/Tu1gNto/aM/g9R+AmpAYxSq5dXkbqOi1ES5nZiE=
+X-Gm-Message-State: AOJu0YyZhE4nL4Svc/mTVrNXJjpnubY1me3zlFx4mR+JR3xc/QsyvcbI
+	dUugQfBhosL/5aUugnHzx4Xnuqo3iXY9EvCfY6VgOcbEp1ARdFNjkq+41veiiDnmghuha4DR2Dq
+	vp4hrshD1
+X-Google-Smtp-Source: AGHT+IEGYwwyLa0g9hRVp110y8yo6B5dnFWnpPT2UlUcM7RdGj7qvP5Tam6X6o/jccN5UwMJMs3Mjg==
+X-Received: by 2002:a17:907:6d08:b0:a6f:5b98:bfa5 with SMTP id a640c23a62f3a-a6fab7724f2mr411660466b.52.1718915932889;
+        Thu, 20 Jun 2024 13:38:52 -0700 (PDT)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com. [209.85.221.46])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6fcf54912csm7748966b.114.2024.06.20.13.38.52
+        for <linux-sound@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Jun 2024 13:38:52 -0700 (PDT)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-361785bfa71so1133865f8f.2
+        for <linux-sound@vger.kernel.org>; Thu, 20 Jun 2024 13:38:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXWOrLv8JIIrS7nzE/TAXMm2Wpj2TYbU6yMovgRW6Tnm7TnVMKQsPw0o7jhiyQA9Bp6dldiz4s0VCQPDK2BxAUftbgvghE8UtnZe5Y=
+X-Received: by 2002:a17:906:1348:b0:a6e:2a67:7899 with SMTP id
+ a640c23a62f3a-a6fab63aaabmr312193466b.35.1718915542284; Thu, 20 Jun 2024
+ 13:32:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240619-lpass-wsa-vi-v2-2-7aff3f97a490@linaro.org>
+References: <20240620175703.605111-1-yury.norov@gmail.com> <CAHk-=wiUTXC452qbypG3jW6XCZGfc8d-iehSavxn5JkQ=sv0zA@mail.gmail.com>
+ <ZnR1tQN01kN97G_F@yury-ThinkPad> <CAHk-=wjv-DkukaKb7f04WezyPjRERp=xfxv34j5fA8cDQ_JudA@mail.gmail.com>
+ <ZnSPBFW5wL0D0b86@yury-ThinkPad>
+In-Reply-To: <ZnSPBFW5wL0D0b86@yury-ThinkPad>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 20 Jun 2024 13:32:05 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wi2R7-jyoOw27Svf1PmfDFQgBWVAH3DP5CXO+JF-BeFZA@mail.gmail.com>
+Message-ID: <CAHk-=wi2R7-jyoOw27Svf1PmfDFQgBWVAH3DP5CXO+JF-BeFZA@mail.gmail.com>
+Subject: Re: [PATCH v4 00/40] lib/find: add atomic find_bit() primitives
+To: Yury Norov <yury.norov@gmail.com>
+Cc: linux-kernel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, 
+	"H. Peter Anvin" <hpa@zytor.com>, "James E.J. Bottomley" <jejb@linux.ibm.com>, 
+	"K. Y. Srinivasan" <kys@microsoft.com>, "Md. Haris Iqbal" <haris.iqbal@ionos.com>, 
+	Akinobu Mita <akinobu.mita@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Borislav Petkov <bp@alien8.de>, Chaitanya Kulkarni <kch@nvidia.com>, 
+	Christian Brauner <brauner@kernel.org>, Damien Le Moal <damien.lemoal@opensource.wdc.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, David Disseldorp <ddiss@suse.de>, 
+	Edward Cree <ecree.xilinx@gmail.com>, Eric Dumazet <edumazet@google.com>, 
+	Fenghua Yu <fenghua.yu@intel.com>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Gregory Greenman <gregory.greenman@intel.com>, 
+	Hans Verkuil <hverkuil@xs4all.nl>, Hans de Goede <hdegoede@redhat.com>, 
+	Hugh Dickins <hughd@google.com>, Ingo Molnar <mingo@redhat.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>, 
+	Jiri Pirko <jiri@resnulli.us>, Jiri Slaby <jirislaby@kernel.org>, Kalle Valo <kvalo@kernel.org>, 
+	Karsten Graul <kgraul@linux.ibm.com>, Karsten Keil <isdn@linux-pingi.de>, 
+	Kees Cook <keescook@chromium.org>, Leon Romanovsky <leon@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Martin Habets <habetsm.xilinx@gmail.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>, Michal Simek <monstr@monstr.eu>, 
+	Nicholas Piggin <npiggin@gmail.com>, Oliver Neukum <oneukum@suse.com>, Paolo Abeni <pabeni@redhat.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Ping-Ke Shih <pkshih@realtek.com>, Rich Felker <dalias@libc.org>, Rob Herring <robh@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Sean Christopherson <seanjc@google.com>, 
+	Shuai Xue <xueshuai@linux.alibaba.com>, Stanislaw Gruszka <stf_xl@wp.pl>, 
+	Steven Rostedt <rostedt@goodmis.org>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	Thomas Gleixner <tglx@linutronix.de>, Valentin Schneider <vschneid@redhat.com>, 
+	Vitaly Kuznetsov <vkuznets@redhat.com>, Wenjia Zhang <wenjia@linux.ibm.com>, 
+	Will Deacon <will@kernel.org>, Yoshinori Sato <ysato@users.sourceforge.jp>, 
+	GR-QLogic-Storage-Upstream@marvell.com, alsa-devel@alsa-project.org, 
+	ath10k@lists.infradead.org, dmaengine@vger.kernel.org, iommu@lists.linux.dev, 
+	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-block@vger.kernel.org, 
+	linux-bluetooth@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+	linux-m68k@lists.linux-m68k.org, linux-media@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-net-drivers@amd.com, 
+	linux-pci@vger.kernel.org, linux-rdma@vger.kernel.org, 
+	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-sh@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	mpi3mr-linuxdrv.pdl@broadcom.com, netdev@vger.kernel.org, 
+	sparclinux@vger.kernel.org, x86@kernel.org, 
+	Alexey Klimov <alexey.klimov@linaro.org>, Bart Van Assche <bvanassche@acm.org>, Jan Kara <jack@suse.cz>, 
+	Matthew Wilcox <willy@infradead.org>, Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Shtylyov <s.shtylyov@omp.ru>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jun 19, 2024 at 02:42:01PM GMT, Srinivas Kandagatla wrote:
-> Existing code only configures one of WSA_MACRO_TX0 or WSA_MACRO_TX1
-> paths eventhough we enable both of them. Fix this bug by adding proper
-> checks and rearranging some of the common code to able to allow setting
-> both TX0 and TX1 paths
+On Thu, 20 Jun 2024 at 13:20, Yury Norov <yury.norov@gmail.com> wrote:
+>
+> FORCE_NR_CPUS helped to generate a better code for me back then. I'll
+> check again against the current kernel.
 
-Same question. What is the observed issue? Corrupted audio? Cracking?
-Under/overruns?
+Of _course_ it generates better code.
 
-> 
-> Fixes: 2c4066e5d428 ("ASoC: codecs: lpass-wsa-macro: add dapm widgets and route")
-> Co-developed-by: Manikantan R <quic_manrav@quicinc.com>
-> Signed-off-by: Manikantan R <quic_manrav@quicinc.com>
-> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> ---
->  sound/soc/codecs/lpass-wsa-macro.c | 112 ++++++++++++++++++++++---------------
->  1 file changed, 68 insertions(+), 44 deletions(-)
-> 
+But when "better code" is a source of bugs, and isn't actually useful
+in general, it's not better, is it.
 
--- 
-With best wishes
-Dmitry
+> The 5d272dd1b343 is wrong. Limiting FORCE_NR_CPUS to UP case makes no
+> sense because in UP case nr_cpu_ids is already a compile-time macro:
+
+Yury, I'm very aware. That was obviously intentional. the whole point
+of the commit is to just disable the the whole thing as useless and
+problematic.
+
+I could have just ripped it out entirely. I ended up doing a one-liner instead.
+
+                Linus
