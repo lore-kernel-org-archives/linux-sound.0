@@ -1,213 +1,115 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBE4B1A4F2A
-	for <linux-sound@vger.kernel.org>; Thu, 20 Jun 2024 09:40:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C46E91EA91;
+	Thu, 20 Jun 2024 10:27:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718876406; cv=none; b=HF51S4Amz8uP9470IR4oBH1Y4fOUsDqCDgpazVRHUqiy7vKiY1/NQxcZaY+l45EOMUEfk9Z7k6pafxEJ7D3A9vgDaGhFiaob5w26F1WvQUCSNmqdj4kXk1NUvW++SIEiV1Wy6enQvji/fu3kOCTeHURlUGlNOb2F/dMkI3S9oYU=
+	t=1718879225; cv=none; b=DDBiHH+zySmjaJmmzRiHOQPdFlZIIVs+UDR2BD9RgugdMzbQNP61u7lW+bNQ5xoj1YT1qdMl+jRwdIwE0P6KLhxENEI+8bp2FkpU+EZ+rBesFfM5QXEn8nRZq4kaM9LABx7JquEQKwYE6V2k0hzLG+drfr7WTaT/YkPzf9G1BaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718876406; c=relaxed/simple;
-	bh=GJvGByFweMn6ANCK82VI0BF3EUijh1V8GrpcePPL6ME=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=aePuiVNSJO2dEIrDp5V74sGOiiBMkbKaGNSn4Ta2/9r2auRjBoeYUbRmXfPgNe9JPs14ZQROKodMSBVDfwQJJWiZipcOGyXLdz8mWoop1Qnd9TL0b+amKmUsg5cV1QvMPIkQtgvhYbJv2jpSDeOyJ0rVj4BsIBguVhMa1GSsoBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=J/2s1gle; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1718879225; c=relaxed/simple;
+	bh=MDwHYzc+sSlTWkT2rzpeIoOGVSVCib30Bhl9mdbk5R8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aq3kXGDZ+vcebHvM3UwgaAEqShx7+bNFkg+llrQzuOm3QP674x7szlu31iNcz7+ydmGWcNU1wyApaznv8uXazjKhf024+7Rya4cq2UplcD+8eFhTKkWFg5N6VC8patm3bQcJbzwOuc5rXeQJfprg1HFeITI7IAK2pnwzkcWoFVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=JwAxtL4D; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="J/2s1gle"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-52c32d934c2so665642e87.2
-        for <linux-sound@vger.kernel.org>; Thu, 20 Jun 2024 02:40:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718876403; x=1719481203; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7HJwxsRCYoMZOjaOIFvY1FIfBvzDW/kPGWODQDPht3Y=;
-        b=J/2s1gle2xGMQaSIG0ytIB4Zkhn6Xq2ZoOd8pVC5vI6adx8tJhgp/ioU7dn9/3OzdN
-         9ATphxXHByrCIR55Eqq9u31y9Ywax7+eoz60GUEJNgFUrtHgOTs4PkQ2x6ZMNMhozv/9
-         gtsaweYIy7L6EPlhd4XicsabDS+YxPZNe29yieGHTnM5+qblGoqAYBc6+DlVYAHcKPzj
-         8WoywBS9EcQp9VRlcBRPdeS2h9Lof4D3zLU+N4axg4Kaaf9goFxcMvXRivl21q6/EiD+
-         puyu+O1FNMds+LtA/JjLRYz5rqSI3b1P1is0lcGINV1LFfK+TO86HlRFI0PGPBKtqeDM
-         2E9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718876403; x=1719481203;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7HJwxsRCYoMZOjaOIFvY1FIfBvzDW/kPGWODQDPht3Y=;
-        b=OO8dBpHzVA7BLZUVXe1aXvp82zlPbjv9691TynlVEpZyIRB7MGdp5Hv9zA7oeZhGI4
-         Sk+NMf3lDTZy8MFZgPh+EQjNXs193baNvb9gk5ci76bMNh1QtMQzy7OcjNtR4HYPcf6h
-         4wyl9m6o+YVck3+8vCFzWZSnxi9ofn0U4ZnH1mR1D0xX+e4iyE1g/fI9iBvTn7en+iig
-         tOGRcpu6EYTza3Thn/6I/robB0DfujBuhj4l2t1fbUxFHBwMWZVzJ61ZIIpmHovW26J7
-         bdiAqY36RQmw9wpgggWFVRGQSuVCGD6yfNKwPK1wyyVwWjXOg72kCEKvk/JnxxoTTn1A
-         zY1w==
-X-Gm-Message-State: AOJu0Yyj2QU9JOfBQj2j4764VLbvl0DJVmQmPLwon6JmfPvLagqynvwB
-	Vw6bF0C/QUg45HaAxs7fgpq3xcevNQ+QBxRmTIiq4UkEXsuSnR7COMPbV4l8TYM=
-X-Google-Smtp-Source: AGHT+IFRa4i+z0934yR1VEwkd1C7tDAhQ4obmhaD0SnJXv3mZ2tMQyMMzQyUVPUKDqtEki3srh0UVA==
-X-Received: by 2002:ac2:4e06:0:b0:52c:80fa:2967 with SMTP id 2adb3069b0e04-52ccaa2d61amr3397971e87.12.1718876400350;
-        Thu, 20 Jun 2024 02:40:00 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4247d211ae0sm19366095e9.41.2024.06.20.02.39.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jun 2024 02:40:00 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Thu, 20 Jun 2024 11:39:57 +0200
-Subject: [PATCH v2 1/2] ASoC: dt-bindings: convert everest,es7241.txt to
- dt-schema
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="JwAxtL4D"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1718879222;
+	bh=MDwHYzc+sSlTWkT2rzpeIoOGVSVCib30Bhl9mdbk5R8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=JwAxtL4DZSYlvz9FRg+aflJ3XNf4s0cUBbBLbl1vMvOi0PX7/oRVnmVgG04dTst+E
+	 FpGMpsy7H9OYgMd3+3DfpO5u3h/w85co3skjyHsZxK7ZemlqghEP8rN/tbbgB8vyPH
+	 R/efrvkdAfnfg9CmcAiRCiHbxUB1Z4LIQ7n6sTau/ft2nPRqUA8yBFIDvPrCxi7Vbc
+	 dI5R07TQaPgUeB4RIc8jgqEeBR74u3+zyis3bHbcPZhsfxKB07WEj+RCKyltbYitaH
+	 OLqZed51xGYPGWFKBxiSRv/7o3GKa1vNbIfeALHcny6t6dYyYuFSE+aRhyIAZmhxfF
+	 gNmyxsmQAHEEQ==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id AAA473780698;
+	Thu, 20 Jun 2024 10:27:01 +0000 (UTC)
+Message-ID: <35047932-65d0-44ae-98e1-b4c771be0e6b@collabora.com>
+Date: Thu, 20 Jun 2024 12:27:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: mediatek: mt8195: Re-add codec entry for
+ ETDM1_OUT_BE dai link
+To: Chen-Yu Tsai <wenst@chromium.org>, Mark Brown <broonie@kernel.org>
+Cc: Trevor Wu <trevor.wu@mediatek.com>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
+References: <20240620092526.2353537-1-wenst@chromium.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20240620092526.2353537-1-wenst@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240620-topic-amlogic-upstream-bindings-convert-everest-v2-1-660985615522@linaro.org>
-References: <20240620-topic-amlogic-upstream-bindings-convert-everest-v2-0-660985615522@linaro.org>
-In-Reply-To: <20240620-topic-amlogic-upstream-bindings-convert-everest-v2-0-660985615522@linaro.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3535;
- i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=GJvGByFweMn6ANCK82VI0BF3EUijh1V8GrpcePPL6ME=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBmc/jtK0uLIKlE8w4RMi8aGN6Fo/cWKnqaDz0D/x2v
- JT1u4MeJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZnP47QAKCRB33NvayMhJ0WMjD/
- 49r3HCPEUsq0i6d9q2LUtmIy/+E6B6Y7VaDi54wNk9ppe6zcWnuBeyFih+VrZ8fBOFPbj2kL+3ZJgD
- 0nqGc/nym91NekCs+o1caDDzeY9gUbhlcNh0mtpwuh9dTzhvv+v1ba+tLLaSNztymAtfKg+HcaoWir
- uZ2n2lQWt7I+AOL1yQvzjNJyYvUH/xWtP7W31B4EXeuOEzzu6jATCbLpLT06HjduNt8KamDuOb1k69
- n6pOn5MOEVoucK1iLoyI/QIOo7Bshy1fst80iCXOyYJkOaC+a23POT/YNcImIRz4M7Zy5oFqQdAf2F
- BGK0FgScawkDk5Dk/WFpA1J0PgHvVcWYKPGmoDc/hXQJx0Plh0xQCtyuZpKPijl/7G8iDr2rpdhWgG
- P1DQxnR65D0ohSSNUsDzDBsS3uBOh+p278P+uhSfM5EV2O6WE0egLL3xkmqQROGrVK01/uF3GXD8Q0
- hAr53wZgVngofCV1FppPpgn6m+EVLg5Du469s7MFi7qu5eDH4c1/eN3+Ut/UwRNbHOJ0NvPlSKJoVF
- 0RNzssJR1XPaXlQNB/piEebdZkjU5MtnDm+pWaoU/eezUHKUzt8RB80KDzohH0zt/4Rv2xcdtkhi09
- OysW8DWg402QLmEN2FcYhRXU7b1IO+s8ndBl9tuAviFn7tP2b/zS2gIF8IbA==
-X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
- fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 
-Convert the text biddings for the Everest ES7241 2 channels I2S analog
-to digital converter to dt-schema.
+Il 20/06/24 11:25, Chen-Yu Tsai ha scritto:
+> This partially reverts commit e70b8dd26711704b1ff1f1b4eb3d048ba69e29da.
+> 
+> Said commit removes the codec entry for the ETDM1_OUT_BE dai link for
+> some reason. This does not have the intended effect, as the remaining
+> DAILINK_COMP_ARRAY(COMP_EMPTY()) platform entry becomes the codec
+> entry, and the platform entry is completely gone.
+> 
+> This causes in a KASAN out-of-bounds warning in mtk_soundcard_common_probe()
+> in sound/soc/mediatek/common/mtk-soundcard-driver.c:
+> 
+> 	for_each_card_prelinks(card, i, dai_link) {
+> 		if (adsp_node && !strncmp(dai_link->name, "AFE_SOF", strlen("AFE_SOF")))
+> 			dai_link->platforms->of_node = adsp_node;
+> 		else if (!dai_link->platforms->name && !dai_link->platforms->of_node)
+> 			dai_link->platforms->of_node = platform_node;
+> 	}
+> 
+> where the code expects the platforms array to have space for at least one entry.
+> 
+> Re-add the entry so that dai_link->platforms has space.
+> 
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
----
- .../devicetree/bindings/sound/everest,es7241.txt   | 28 ---------
- .../devicetree/bindings/sound/everest,es7241.yaml  | 67 ++++++++++++++++++++++
- 2 files changed, 67 insertions(+), 28 deletions(-)
+Ok, but wait a minute... the commit that you're pointing at in the Fixes tag is
+a commit that fixes a problem identified in commit
 
-diff --git a/Documentation/devicetree/bindings/sound/everest,es7241.txt b/Documentation/devicetree/bindings/sound/everest,es7241.txt
-deleted file mode 100644
-index 28f82cf4959f..000000000000
---- a/Documentation/devicetree/bindings/sound/everest,es7241.txt
-+++ /dev/null
-@@ -1,28 +0,0 @@
--ES7241 i2s AD converter
--
--Required properties:
--- compatible : "everest,es7241"
--- VDDP-supply: regulator phandle for the VDDA supply
--- VDDA-supply: regulator phandle for the VDDP supply
--- VDDD-supply: regulator phandle for the VDDD supply
--
--Optional properties:
--- reset-gpios: gpio connected to the reset pin
--- m0-gpios   : gpio connected to the m0 pin
--- m1-gpios   : gpio connected to the m1 pin
--- everest,sdout-pull-down:
--   Format used by the serial interface is controlled by pulling
--   the sdout. If the sdout is pulled down, leftj format is used.
--   If this property is not provided, sdout is assumed to pulled
--   up and i2s format is used
--
--Example:
--
--linein: audio-codec@2 {
--	#sound-dai-cells = <0>;
--	compatible = "everest,es7241";
--	VDDA-supply = <&vcc_3v3>;
--	VDDP-supply = <&vcc_3v3>;
--	VDDD-supply = <&vcc_3v3>;
--	reset-gpios = <&gpio GPIOH_42>;
--};
-diff --git a/Documentation/devicetree/bindings/sound/everest,es7241.yaml b/Documentation/devicetree/bindings/sound/everest,es7241.yaml
-new file mode 100644
-index 000000000000..f179af758730
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/everest,es7241.yaml
-@@ -0,0 +1,67 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/everest,es7241.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Everest ES7241 2 channels I2S analog to digital converter
-+
-+maintainers:
-+  - Neil Armstrong <neil.armstrong@linaro.org>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - everest,es7241
-+
-+  reset-gpios:
-+    maxItems: 1
-+    description: GPIO connected to the reset pin
-+
-+  m0-gpios:
-+    maxItems: 1
-+    description: GPIO connected to the m0 pin
-+
-+  m1-gpios:
-+    maxItems: 1
-+    description: GPIO connected to the m0 pin
-+
-+  everest,sdout-pull-down:
-+    type: boolean
-+    description:
-+      Format used by the serial interface is controlled by pulling
-+      the sdout. If the sdout is pulled down, leftj format is used.
-+      If this property is not provided, sdout is assumed to pulled
-+      up and i2s format is used
-+
-+  VDDP-supply: true
-+  VDDA-supply: true
-+  VDDD-supply: true
-+
-+  '#sound-dai-cells':
-+    const: 0
-+
-+required:
-+  - compatible
-+  - VDDP-supply
-+  - VDDA-supply
-+  - VDDD-supply
-+
-+allOf:
-+  - $ref: dai-common.yaml#
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+   #include <dt-bindings/gpio/gpio.h>
-+   codec {
-+       compatible = "everest,es7241";
-+       #sound-dai-cells = <0>;
-+       reset-gpios = <&gpio1 15 GPIO_ACTIVE_HIGH>;
-+       VDDP-supply = <&vddp_supply>;
-+       VDDA-supply = <&vdda_supply>;
-+       VDDD-supply = <&vddd_supply>;
-+   };
-+
-+...
+13f58267cda3 ("ASoC: soc.h: don't create dummy Component via COMP_DUMMY()")
 
--- 
-2.34.1
+to keep it short, after that one, without removing the COMP_DUMMY(), the audio
+was broken in .. some way, I don't currently remember specifically what was
+happening, but I had no sound at all.
+
+If the problem is not showing up anymore, backporting this commit to the kernels
+kernels affected by the issue that I solved... will break sound!
+
+So... well.. that's the "some reason".... :-)
+
+Cheers,
+Angelo
+
+> Fixes: e70b8dd26711 ("ASoC: mediatek: mt8195: Remove afe-dai component and rework codec link")
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> ---
+>   sound/soc/mediatek/mt8195/mt8195-mt6359.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/sound/soc/mediatek/mt8195/mt8195-mt6359.c b/sound/soc/mediatek/mt8195/mt8195-mt6359.c
+> index ca8751190520..2832ef78eaed 100644
+> --- a/sound/soc/mediatek/mt8195/mt8195-mt6359.c
+> +++ b/sound/soc/mediatek/mt8195/mt8195-mt6359.c
+> @@ -827,6 +827,7 @@ SND_SOC_DAILINK_DEFS(ETDM2_IN_BE,
+>   
+>   SND_SOC_DAILINK_DEFS(ETDM1_OUT_BE,
+>   		     DAILINK_COMP_ARRAY(COMP_CPU("ETDM1_OUT")),
+> +		     DAILINK_COMP_ARRAY(COMP_EMPTY()),
+>   		     DAILINK_COMP_ARRAY(COMP_EMPTY()));
+>   
+>   SND_SOC_DAILINK_DEFS(ETDM2_OUT_BE,
 
