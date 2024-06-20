@@ -1,83 +1,98 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABB0D1CE09E;
-	Thu, 20 Jun 2024 17:58:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B271CEA1A
+	for <linux-sound@vger.kernel.org>; Thu, 20 Jun 2024 17:58:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718906316; cv=none; b=OpISsrcwPPhvW8PNlBvF/qQWwTFFKj5IF1XLeXZKwkcKF41KY0cChcTEbbf7cZAF4orbMTIi6HeVoLVxGpa/IZVKXU468mRqiQOCt0shoSZwBE8PF9XcqvUEuOsMt/qt/8QINybDTbJMoWnOZD1sWY2gxm0+uKPD32zvq/Gm2sE=
+	t=1718906325; cv=none; b=tWH1StVmfh4C3QoWelnAwIsHIuxhkTsq/mNX+5npyKqiq7r3XWwG13OJAzpqNqD6RxxVfkkLA00HLSl++HXwpZraWYx34fP58ImjyB9QTEFbiWoRu3F0FeEcuvRzaviyt2Y1n7XYHF3CG9nYV7q8SfiOLea/sqvwnnTXAAtjcKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718906316; c=relaxed/simple;
-	bh=RuFo+rj7IH+rMOczKL4ih3dsBtps5oyKpsIg/YRyQz0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bd5g8LIHnIEtqxyYpMcSZ9oOu0jgan7gZzVANzuvtN5phuc7lmkh6YyAzCgANUfOikZBx2jvYDyObG86LPF+f6Zcnuj2/WA4xIIX38kuo45n51D9TQPCCpKRLh9YH2G2AtdSbEeYOTo6P2cFdk88PMHs4THq9WnEKdSIxgz/WuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bUnQp5nq; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1718906325; c=relaxed/simple;
+	bh=4DQrIUMsTm81JssGC9KBdVsofE3jqG6GAjcZIQrb7tc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=WBYuv5sl3SjSPksa27B0kPqG4Vq8aDTzM1mvFAbBfF4SI1QYudS7cK53dlFpTprwjF+sWGHtyovJkzFXhj1JqUa1/fObXzg5kJxxMAS5jB+AU/zk56mRsGz1vjEfZ0F6J4vzVG/czfhzWv0oi1kIMiaPYZj/jMMQplY9AovIr80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timesys.com; spf=pass smtp.mailfrom=timesys.com; dkim=pass (2048-bit key) header.d=timesys-com.20230601.gappssmtp.com header.i=@timesys-com.20230601.gappssmtp.com header.b=KoztGGCH; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timesys.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=timesys.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bUnQp5nq"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7062bf6d9a1so953086b3a.1;
-        Thu, 20 Jun 2024 10:58:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=timesys-com.20230601.gappssmtp.com header.i=@timesys-com.20230601.gappssmtp.com header.b="KoztGGCH"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a6ef64b092cso136120766b.1
+        for <linux-sound@vger.kernel.org>; Thu, 20 Jun 2024 10:58:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718906314; x=1719511114; darn=vger.kernel.org;
+        d=timesys-com.20230601.gappssmtp.com; s=20230601; t=1718906322; x=1719511122; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FW85PghmUwc3BgHXRaYJ+DzXpmwYGv3Aew2YdRltNsw=;
-        b=bUnQp5nqJIWUAOvQEkxHkXrxZC1VmKvFsJT5jnzaDAuwKWqNVV7zXc4xyZgPovG15R
-         5dKtdAHRMW6XU1BZPAIZoDvDDKgwoA6mebkKystDnPygppmxvMqr5WhQl51mjc+sNEs0
-         htJ2eRoIOq8hYdY3lu921s5D+VByM1Gwkxs9IYOqyGZhVQ8fOWVFgVmt0bp5k+r44+fT
-         w2XGl/S0owQoSfCnTRbOUok/o0AIeoHF0iHsJ7He4150hKky6SmOh0ZoHL7uwN/vgbkh
-         JPQTmf3dWak9WkMTOqFBF35oSKdrdFJP75TIWzRyb1/z2WVhiZ4aZWZ19hYJppGLs2z+
-         JtcQ==
+        bh=POfTgIlDMKnuctYd9TdkfbMoA75Hg7wnTz1QoAWu+kM=;
+        b=KoztGGCHFSS8tzWS8xmLpfOXPobgYuXHsk14gimU/XxPPsWFerDe+/fHc/ryuL5+Lf
+         CMHIstaNBcpyRoU3FSZtyzIpN7e9gIUlV3kiHy1uygZoKkJb/RGaitvfroIdVkWZHWyb
+         mTZzTYFFRbGAVWvjJzukVaJdGrH93/Mf1UVfEsriON1wIW2QxYFbPMHJ8ZaB32Fil8Yg
+         8w1zRudXZuVgKvvuKiXg1S9WjbJt3MfsjzIn2jT45gj42n26vJYBQa4ThFT/hzwWfLi0
+         toOUSnbYs/mnfLLZOg7+KHKSDao3Lx1BGOdBQRu0Kb4pbtNoan0qt/jBVnPVeFGsRJdW
+         sAAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718906314; x=1719511114;
+        d=1e100.net; s=20230601; t=1718906322; x=1719511122;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FW85PghmUwc3BgHXRaYJ+DzXpmwYGv3Aew2YdRltNsw=;
-        b=AyBnD3IIozEEDeTCiaFSVcfGGo39IkO8qc6paxkNYCPTorkoaY4ePT1iWT84TUrSef
-         b/KbSPxM/IYb//UosSdBcujoRCeEeTlZgBvdUiMFTF0O6rJpfYoNQzBcxEbBIicTx84W
-         bhLo1xEuaL+OepF067/2H7j5bc8G71mQszdZhZKv3HoGAVmD2ICo3/P/Z1uqxWIbyUuo
-         YQq455jj3wk8cmlw5aVjz1pIdTZPP0c8VK87jDyKyiymQTQKOMAEuKwEHi+qXDmcLJoQ
-         5oIMsSsakKO1rgLAuB0Ajq0M0si2/h3FOdhjJVfeHfjlSMMbH/9cdF8qQIsfB2lyH9vH
-         FsYg==
-X-Forwarded-Encrypted: i=1; AJvYcCVcnxvPMCr7GrSD8awRZNLT3Z5EG4Q5ZVkJnj9zDi/6DMJp6nvH49nwmXAXv36I29deNxTYCQ3h7PyQ6aB5q2LvQMZUbJ/qAXqBBuk=
-X-Gm-Message-State: AOJu0YzFYtdbm4HwoiQM1eoXRdnjI3Vhw7ZngY/1S/oqKCT01Giox8Ep
-	ffV78eoBwTAefmtWMZ1WI6W34k6o++NEUMiwJb0q88QSwQm7AfVwayoTaUzWeiM=
-X-Google-Smtp-Source: AGHT+IEoH3Qng23SGIOniQLh/mfoKH0d8yH2qow3ztjr66B8CysNLSQkypEK4r+/80Kz1cmwQvxiZw==
-X-Received: by 2002:a05:6a20:7291:b0:1b5:cf26:ecfd with SMTP id adf61e73a8af0-1bcbb426fb3mr7450803637.24.1718906314118;
-        Thu, 20 Jun 2024 10:58:34 -0700 (PDT)
-Received: from localhost ([216.228.127.128])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-6fee2d34cc2sm11211938a12.64.2024.06.20.10.58.33
+        bh=POfTgIlDMKnuctYd9TdkfbMoA75Hg7wnTz1QoAWu+kM=;
+        b=d8bXTRJMCNpOCM3ZCquVA9jPJE4OguVvLOtCq6iCiYTovZF4leLeHNreP8KfnVzSse
+         TkM3NjeadfKcUgiqeKm8pvS8DnXrKTB7JLrHeF5ouxwF6JEzA0TwE4tOufo8KaDmadpp
+         qgOTUEajXK/ttfHnjbLtaM+QgEcuPMMg/S6K3Ft9XLB5C/lUZ3zIWnxL2t8EwjEovjSe
+         OIk3pw8ATKjukrfjgAZRvSUSolY2QdV5s/EEfPh4hI//F7SXDd5yD0OTOlpJe/HR0Tum
+         o/pZg9hdSWroj53uZqx0VZzCKf5w7YJQZi96cg+My0AveCwSUJsZBeRwAKQtCTuNOngF
+         egSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWseb0wpt0A06capNx42kVpk2SHXHkeoRpwqRLuA1+PANwDnQWhrOJB37ZuUfsi/CrdlPo91VAOqSlsJTitYskYIStr7s+eDtAxfdA=
+X-Gm-Message-State: AOJu0YzizVSfc6t1XzsKJY/LRmG8t38+zxI1XQBd7seyjAMTbhoMN82i
+	5F9rAjIgzZRc4fr/MSwDk3dnKWc808UsomfNt7FxSKXCUF/Ht6xZQI8ETHFgrGU=
+X-Google-Smtp-Source: AGHT+IHTrvjRefjDyJtTKiBTdA/7eaPFIlKAqed0dBKu9bDkvkontU8BQ0nzLod+LvZtaEx3jpBdyA==
+X-Received: by 2002:a17:907:8b8b:b0:a6f:ad2f:ac5d with SMTP id a640c23a62f3a-a6fad2fad21mr380433766b.6.1718906321968;
+        Thu, 20 Jun 2024 10:58:41 -0700 (PDT)
+Received: from localhost.localdomain ([91.216.213.152])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6f56f42e80sm781370766b.186.2024.06.20.10.58.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jun 2024 10:58:33 -0700 (PDT)
-From: Yury Norov <yury.norov@gmail.com>
-To: linux-kernel@vger.kernel.org,
+        Thu, 20 Jun 2024 10:58:41 -0700 (PDT)
+From: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
+To: Vinod Koul <vkoul@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	"J.M.B. Downing" <jonathan.downing@nautel.com>,
+	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	Daniel Mack <zonque@gmail.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Yury Norov <yury.norov@gmail.com>,
-	Kees Cook <keescook@chromium.org>,
+	Yangtao Li <frank.li@vivo.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Li Zetao <lizetao1@huawei.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Chancel Liu <chancel.liu@nxp.com>,
+	dmaengine@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	alsa-devel@alsa-project.org,
+	linuxppc-dev@lists.ozlabs.org,
 	linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Cc: Alexey Klimov <alexey.klimov@linaro.org>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Jan Kara <jack@suse.cz>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Shtylyov <s.shtylyov@omp.ru>,
-	Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH v4 30/40] ALSA: use atomic find_bit() functions where applicable
-Date: Thu, 20 Jun 2024 10:56:53 -0700
-Message-ID: <20240620175703.605111-31-yury.norov@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240620175703.605111-1-yury.norov@gmail.com>
-References: <20240620175703.605111-1-yury.norov@gmail.com>
+	linux-clk@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	linux-mtd@lists.infradead.org
+Cc: Markus Elfring <Markus.Elfring@web.de>
+Subject: [Patch v4 03/10] ASoC: dt-bindings: lpc32xx: Add lpc32xx i2s DT binding
+Date: Thu, 20 Jun 2024 19:56:34 +0200
+Message-Id: <20240620175657.358273-4-piotr.wojtaszczyk@timesys.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240620175657.358273-1-piotr.wojtaszczyk@timesys.com>
+References: <20240620175657.358273-1-piotr.wojtaszczyk@timesys.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -86,85 +101,131 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-ALSA code tests each bit in bitmaps in a for-loop. Switch it to
-using dedicated atomic find_bit() API.
+Add nxp,lpc3220-i2s DT binding documentation.
 
-Signed-off-by: Yury Norov <yury.norov@gmail.com>
-Acked-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
 ---
- sound/pci/hda/hda_codec.c |  8 ++++----
- sound/usb/caiaq/audio.c   | 14 ++++++--------
- 2 files changed, 10 insertions(+), 12 deletions(-)
+Changes for v4:
+- Custom dma-vc-names property with standard dmas and dma-names
+- Added to MAINTAINERS
 
-diff --git a/sound/pci/hda/hda_codec.c b/sound/pci/hda/hda_codec.c
-index 325e8f0b99a8..7201afa82990 100644
---- a/sound/pci/hda/hda_codec.c
-+++ b/sound/pci/hda/hda_codec.c
-@@ -7,6 +7,7 @@
- 
- #include <linux/init.h>
- #include <linux/delay.h>
-+#include <linux/find_atomic.h>
- #include <linux/slab.h>
- #include <linux/mutex.h>
- #include <linux/module.h>
-@@ -3263,10 +3264,9 @@ static int get_empty_pcm_device(struct hda_bus *bus, unsigned int type)
- 
- #ifdef CONFIG_SND_DYNAMIC_MINORS
- 	/* non-fixed slots starting from 10 */
--	for (i = 10; i < 32; i++) {
--		if (!test_and_set_bit(i, bus->pcm_dev_bits))
--			return i;
--	}
-+	i = find_and_set_next_bit(bus->pcm_dev_bits, 32, 10);
-+	if (i < 32)
-+		return i;
- #endif
- 
- 	dev_warn(bus->card->dev, "Too many %s devices\n",
-diff --git a/sound/usb/caiaq/audio.c b/sound/usb/caiaq/audio.c
-index 4981753652a7..93ecd5cfcb7d 100644
---- a/sound/usb/caiaq/audio.c
-+++ b/sound/usb/caiaq/audio.c
-@@ -4,6 +4,7 @@
- */
- 
- #include <linux/device.h>
-+#include <linux/find_atomic.h>
- #include <linux/spinlock.h>
- #include <linux/slab.h>
- #include <linux/init.h>
-@@ -610,7 +611,7 @@ static void read_completed(struct urb *urb)
- 	struct snd_usb_caiaq_cb_info *info = urb->context;
- 	struct snd_usb_caiaqdev *cdev;
- 	struct device *dev;
--	struct urb *out = NULL;
-+	struct urb *out;
- 	int i, frame, len, send_it = 0, outframe = 0;
- 	unsigned long flags;
- 	size_t offset = 0;
-@@ -625,17 +626,14 @@ static void read_completed(struct urb *urb)
- 		return;
- 
- 	/* find an unused output urb that is unused */
--	for (i = 0; i < N_URBS; i++)
--		if (test_and_set_bit(i, &cdev->outurb_active_mask) == 0) {
--			out = cdev->data_urbs_out[i];
--			break;
--		}
--
--	if (!out) {
-+	i = find_and_set_bit(&cdev->outurb_active_mask, N_URBS);
-+	if (i >= N_URBS) {
- 		dev_err(dev, "Unable to find an output urb to use\n");
- 		goto requeue;
- 	}
- 
-+	out = cdev->data_urbs_out[i];
+Changes for v3:
+- Added '$ref: dai-common.yaml#' and '#sound-dai-cells'
+- Dropped all clock-names, references
+- Dropped status property from the example
+- Added interrupts property
+- 'make dt_binding_check' pass
+
+Changes for v2:
+- Added maintainers field
+- Dropped clock-names
+- Dropped unused unneded interrupts field
+
+ .../bindings/sound/nxp,lpc3220-i2s.yaml       | 73 +++++++++++++++++++
+ MAINTAINERS                                   | 10 +++
+ 2 files changed, 83 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/nxp,lpc3220-i2s.yaml
+
+diff --git a/Documentation/devicetree/bindings/sound/nxp,lpc3220-i2s.yaml b/Documentation/devicetree/bindings/sound/nxp,lpc3220-i2s.yaml
+new file mode 100644
+index 000000000000..40a0877a8aba
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/nxp,lpc3220-i2s.yaml
+@@ -0,0 +1,73 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/nxp,lpc3220-i2s.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- 	/* read the recently received packet and send back one which has
- 	 * the same layout */
- 	for (frame = 0; frame < FRAMES_PER_URB; frame++) {
++title: NXP LPC32XX I2S Controller
++
++description:
++  The I2S controller in LPC32XX SoCs, ASoC DAI.
++
++maintainers:
++  - J.M.B. Downing <jonathan.downing@nautel.com>
++  - Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    enum:
++      - nxp,lpc3220-i2s
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: input clock of the peripheral.
++
++  dmas:
++    items:
++      - description: RX DMA Channel
++      - description: TX DMA Channel
++
++  dma-names:
++    items:
++      - const: rx
++      - const: tx
++
++  "#sound-dai-cells":
++    const: 0
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - dmas
++  - dma-names
++  - '#sound-dai-cells'
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/lpc32xx-clock.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2s@20094000 {
++      compatible = "nxp,lpc3220-i2s";
++      reg = <0x20094000 0x1000>;
++      interrupts = <22 IRQ_TYPE_LEVEL_HIGH>;
++      clocks = <&clk LPC32XX_CLK_I2S0>;
++      dmas = <&dma 0 1>, <&dma 13 1>;
++      dma-names = "rx", "tx";
++      #sound-dai-cells = <0>;
++    };
++
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f7adf9f66dfa..fadf1baafd89 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8918,6 +8918,16 @@ S:	Maintained
+ F:	sound/soc/fsl/fsl*
+ F:	sound/soc/fsl/imx*
+ 
++FREESCALE SOC LPC32XX SOUND DRIVERS
++M:	J.M.B. Downing <jonathan.downing@nautel.com>
++M:	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
++R:	Vladimir Zapolskiy <vz@mleia.com>
++L:	alsa-devel@alsa-project.org (moderated for non-subscribers)
++L:	linuxppc-dev@lists.ozlabs.org
++S:	Maintained
++F:	Documentation/devicetree/bindings/sound/nxp,lpc3220-i2s.yaml
++N:	lpc32xx
++
+ FREESCALE SOC SOUND QMC DRIVER
+ M:	Herve Codina <herve.codina@bootlin.com>
+ L:	alsa-devel@alsa-project.org (moderated for non-subscribers)
 -- 
-2.43.0
+2.25.1
 
