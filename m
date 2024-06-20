@@ -1,185 +1,247 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E82A31E49E;
-	Thu, 20 Jun 2024 13:18:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD4E51ACE94;
+	Thu, 20 Jun 2024 13:26:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=208.88.110.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718889490; cv=none; b=WKAKqadCCrpjOo/VTa+/8qnEt7TvxEOiBXVNHa7tOhJcmXrQRCeFT0/pJ245hGWTyV1caM4XGCAQDfRD0q5W88iCW+N1bbJsQ0ONUgF86FE+WWAfBGjP4bB1KC+3mHd+HAZ9YMwZFOmKOP41qMHwOYu+jXiQshjQONhIaSQARnM=
+	t=1718889984; cv=none; b=aegdqvDxh6PGQrjZyiuipaXdhxWUsep9nPAX1IyM1L6E9kc/YJ/Ib64lD3G4+d5IIEE+9ahSu1fVMjZBEEkjEJqnOJ9BUNN4jHcmrbHWTl4MsHqrwuYILEgycct8cngqJ35drqu0q3aJpSGYCU3ceVd3AR6+pmlnpYqOpkXfz9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718889490; c=relaxed/simple;
-	bh=0VoUrdir8gdv7EgPqFTfzmhTTsZMwRBiZVMv9XQRydQ=;
-	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=eKwXk9DpIMvc+pzvnMGS+6pXLY0LLSBYC5gwBXA2SSIBW5bjxVTz+CeQ2DkwUox33DujSVVZ6LonkA4wkyomTtJ7a75remkobnqHb151bkbKrakRH6WsPKus69HU2j3A01gpddzHo1Nd5G+6Ec0JAB4J1hkh0GnfuqxrMpjOGGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dHkZmwvI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4DdG9AM3; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QY3b5NXc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7U27d2ZZ; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1718889984; c=relaxed/simple;
+	bh=skBpDlqyjwQaFn99kQpKQNX/zKajEVFtRHZv8Un2Y2o=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=JsiWafaeoVTdRf89UJcTt0TZFIQbGQwrAzaYY7ZxraGZsR9vS2HXKjBuzsIgrAJGgoEnw22BhSRfJxvOqiJSHgEb4jZalNXUiqPXZGD1Hu5QJH8HPljcA20ALZZEmL8zk7zY1jEL2YUAxtXoLk2Z0Ml6JCrDDIo1YU/UnPrzmEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=savoirfairelinux.com; spf=pass smtp.mailfrom=savoirfairelinux.com; dkim=pass (2048-bit key) header.d=savoirfairelinux.com header.i=@savoirfairelinux.com header.b=Qk/sR5k4; arc=none smtp.client-ip=208.88.110.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=savoirfairelinux.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=savoirfairelinux.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dHkZmwvI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4DdG9AM3";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QY3b5NXc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7U27d2ZZ"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C919C21A82;
-	Thu, 20 Jun 2024 13:18:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718889487; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=UBueZNwNCBqucrpmUNNm9cwxIcT/Z5gLqiEY6hNCWao=;
-	b=dHkZmwvIbf37AcxNwLtt4VRwgq/mSzEuCWsCxbSjc+BCKrfmAfzAeX0hJKetx2BY/1VWzO
-	/lheimhIu1lomCv3xOCYYSS8TH16V9eL5A82V4HmMK2qv/5EswESic/vi4tHTZHajR0e0l
-	yE/mfGhq3S20EyVFWI4kQHCCwqQjvQ8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718889487;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=UBueZNwNCBqucrpmUNNm9cwxIcT/Z5gLqiEY6hNCWao=;
-	b=4DdG9AM3o/gnAMIosKtufCzjURXeMDB96+dyEmBisvdtxae8sqC1QNTPiItZ3v5PsG9+nX
-	/CxMjqWYkD9XS6Bg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=QY3b5NXc;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=7U27d2ZZ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718889485; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=UBueZNwNCBqucrpmUNNm9cwxIcT/Z5gLqiEY6hNCWao=;
-	b=QY3b5NXcdCSIktudFN6YnhoLChIsFYODhAMnAdCW+BQBCfDUVmLFQPoIJ/pEfnnzMUeNSw
-	/+rYZ3h9CM/1GCeiNbU8wcqBbBK2hapFHxOPIXonnbpxSqp1y++AKyBsouLphoYhsRhTPk
-	b0zLfKFSKeTt8H7DONJ2MMggFpRmeVg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718889485;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=UBueZNwNCBqucrpmUNNm9cwxIcT/Z5gLqiEY6hNCWao=;
-	b=7U27d2ZZ0M4aB3nfQkVvEqZ3I8/cbQrWxUdwRPhufUrLsp7pwieVVmww2fTC9XBv2FFdCq
-	P1332A5Wb1LawiDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AA6581369F;
-	Thu, 20 Jun 2024 13:18:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id U55XKA0sdGYmRwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 20 Jun 2024 13:18:05 +0000
-Date: Thu, 20 Jun 2024 15:18:31 +0200
-Message-ID: <87jzij21nc.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 6.10-rc5
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=savoirfairelinux.com header.i=@savoirfairelinux.com header.b="Qk/sR5k4"
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 6C2D39C3240;
+	Thu, 20 Jun 2024 09:26:13 -0400 (EDT)
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
+ with ESMTP id tWZLTMGpjfJE; Thu, 20 Jun 2024 09:26:11 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 7B16E9C5625;
+	Thu, 20 Jun 2024 09:26:11 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 7B16E9C5625
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
+	t=1718889971; bh=j97G0da8OsHXoIQTZAx0D9lInyeaXOz7op8GRSt10VM=;
+	h=From:To:Date:Message-Id:MIME-Version;
+	b=Qk/sR5k4Lp2oSnWyvu7y0zssZpxpu+oiUtS4Cc+5D3G102f8GQvstlSr10k1LmuNV
+	 HjcTrshIvmyuktL2qf6dSyB7jo/vjeC3JeDnegVr9DvQnbvNzmF5pVfmDFIkd989CQ
+	 tUfa1NUfk4GSqwyRaBqdD4Br9LTB/wh+UDX/m2GWyjrAWXXnn1we63pLw1llMtIpvl
+	 9a7t5g42je8MJlY2iLWg1wgri6ejfevNwqhVRtKQg6KHHt4Esw2UXrwLQG+BnlKyKE
+	 I7wCu0nYSdMP6s1yw0GuM6skRsqAKdVg9hM6A6wmhd0n2B78rvWvqTSeJsdddzhqMg
+	 ekrx6qFa3mNpA==
+X-Virus-Scanned: amavis at mail.savoirfairelinux.com
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
+ with ESMTP id 84fPbdbD_-bf; Thu, 20 Jun 2024 09:26:11 -0400 (EDT)
+Received: from gerard.rennes.sfl (lmontsouris-657-1-69-118.w80-15.abo.wanadoo.fr [80.15.101.118])
+	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 76F0D9C54A8;
+	Thu, 20 Jun 2024 09:26:08 -0400 (EDT)
+From: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	linuxppc-dev@lists.ozlabs.org,
+	Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>,
+	Philip-Dylan <philip-dylan.gleonec@savoirfairelinux.com>
+Subject: [PATCHv5 0/9] ASoC: fsl-asoc-card: add S/PDIF controller
+Date: Thu, 20 Jun 2024 15:25:02 +0200
+Message-Id: <20240620132511.4291-1-elinor.montmasson@savoirfairelinux.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: C919C21A82
-X-Spam-Score: -5.51
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-5.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim];
-	TO_DN_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset=quoted-printable
+Content-Transfer-Encoding: quoted-printable
 
-Linus,
+Hello,
 
-please pull sound fixes for v6.10-rc5 from:
+This is the v5 of the series of patches aiming to make the machine
+driver `fsl-asoc-card` compatible with S/PDIF controllers on imx boards.
+The main goal is to allow the use of S/PDIF controllers with ASRC
+modules.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.10-rc5
+The `imx-spdif` machine driver already has specific support for S/PDIF
+controllers but doesn't support using an ASRC with it. However, the
+`fsl-asoc-card` machine driver has the necessary code to create a sound
+card which can use an ASRC module.
+It is then possible to extend the support for S/PDIF audio cards by
+merging the `imx-spdif` driver into `fsl-asoc-card`.
 
-The topmost commit is 9b1effff19cdf2230d3ecb07ff4038a0da32e9cc
+The first patch fixes a NULL pointer dereference in `fsl-asoc-card`
+which occurs when the function "fsl_asoc_card_audmux_init()" prints
+error logs.
 
-----------------------------------------------------------------
+The next three patches adapt the `fsl-asoc-card` driver to support
+multiple codec use cases.
+The driver can get 2 codec phandles from the device tree, and
+codec-related variables are doubled.
+`for_each_codecs` macros are also used when possible to ease adding
+other multi-codec use cases in the future.
+This makes possible to use the two S/PDIF dummy codec drivers
+`spdif_receiver` and `spdif_transmitter` instead of `snd-soc-dummy`,
+which was used in `imx-spdif`.
 
-sound fixes for 6.10-rc5
+The fifth patch merges the S/PDIF support from `imx-spdif` to
+`fsl-asoc-card`.
+`fsl-asoc-card` offers the same functionalities as `imx-spdif` did, but
+this merge also extends the S/PDIF support with the possibility of using
+an ASRC.
+Compatible "fsl,imx-audio-spdif" is kept, but some DT properties have to
+be updated in device trees to match those of `fsl-asoc-card`:
+* "spdif-controller" is now "audio-cpu" in `fsl-asoc-card`.
+* "spdif-in" and "spdif-out" are now replaced by the "audio-codec"
+  property of `fsl-asoc-card`. S/PDIF specific dummy codecs should be
+  used with `fsl-asoc-card`, and therefore declared in device trees.
 
-Lots of small HD-audio quirks and fixes (mostly Realtek codec and
-Cirrus stuff).  Also a small MIDI 2.0 fix and a fix for missing
-module description are included.
+The last four patches update the device tree bindings of
+`fsl-asoc-card`, remove the now obsolete binding of `imx-spdif`, and
+update all device trees using the `fsl,imx-audio-spdif` compatible.
 
-----------------------------------------------------------------
+This series of patches was successfully built for arm64 and x86 on top
+of the latest=C2=A0"for-next" branch of the ASoC git tree on the 19th of Ju=
+ne
+2024.
+These modifications have also been tested on an i.MX8MN evaluation board
+with a linux kernel RT v6.1.26-rt8.
 
-Ajrat Makhmutov (1):
-      ALSA: hda/realtek: Enable headset mic on IdeaPad 330-17IKB 81DM
+If you have any questions or remarks about these commits, don't hesitate
+to reply to this message.
 
-Andy Chi (1):
-      ALSA: hda/realtek: fix mute/micmute LEDs don't work for ProBook 445/465 G11.
+Best regards,
+Elinor Montmasson
 
-Dustin L. Howett (1):
-      ALSA: hda/realtek: Remove Framework Laptop 16 from quirks
+Changelog:
+v4 -> v5:
+* Focus the contribution to bringing S/PDIF / ASRC support.
+* Instead of creating a new compatible for the S/PDIF `fsl-asoc-card`
+  support, merge the driver `imx-spdif` into `fsl-asoc-card`, and keep
+  the compatible. It preserves the base S/PDIF audio card support but
+  also extends it with the possibility to use an ASRC.
+  It also reduces code and driver duplication.
+* Following driver merge, adapt device trees using "fsl,imx-audio-spdif"
+  compatible.=20
+* Use more `for_each_codecs` macros in `fsl-asoc-card` when adding
+  multi-codec support.
+* Remove patches about new device-tree bindings that were not relevant
+  for an S/PDIF specific support.
+* Improve DT schema changes.
+* Move `priv->pdev` assignment earlier in "fsl_asoc_card_probe()" to fix
+  a NULL pointer dereference in "fsl_asoc_card_audmux_init()".
+* v4 patch series at :
+https://lore.kernel.org/all/20240515135411.343333-1-elinor.montmasson@savoi=
+rfairelinux.com/
 
-Edson Juliano Drosdeck (1):
-      ALSA: hda/realtek: Limit mic boost on N14AP7
+v3 -> v4:
+* Use the standard TDM bidings, as defined in "tdm-slot.txt", for the
+  new optional DT bindings setting the TDM slots number and width.
+* Use the clock DT bindings to optionally specify the CPU DAI system
+  clock frequency, instead of a dedicated new binding.
+* Rename the new DT binding "cpu-sysclk-dir-out" to
+  "cpu-system-clock-direction-out" to better follow the style of the
+  simple-card driver.
+* Merge TX an RX bindings for CPU DAI system-clock, to better follow the
+  style of the simple-card driver, and also as there was no use case in
+  fsl-asoc-card where TX and RX settings had to be different.
+* Add the documentation for the new bindings in the new DT schema
+  bindings documentation. Also add an example with the generic codec.
+* v3 patch series at :
+https://lore.kernel.org/alsa-devel/20231218124058.2047167-1-elinor.montmass=
+on@savoirfairelinux.com/
 
-Gergely Meszaros (1):
-      ALSA: hda/realtek: Add quirk for Lenovo Yoga Pro 7 14ARP8
+v2 -> v3:
+* When the bitmaster or framemaster are retrieved from the device tree,
+  the driver will now compare them with the two codecs possibly given in
+  device tree, and not just the first codec.
+* Improve driver modifications to use multiple codecs for better
+  integration of future multi-codec use cases:
+    * Use `for_each_codec` macros when possible.
+    * `fsl_asoc_card_priv` struct now has 2 `codec_priv` as the driver
+      can currently retrieve 2 codec phandles from the device tree.
+* Fix subject of patch 10/10 to follow the style of the subsystem
+* v2 patch series at:
+https://lore.kernel.org/alsa-devel/20231027144734.3654829-1-elinor.montmass=
+on@savoirfairelinux.com/
 
-Jeff Johnson (1):
-      sound/oss/dmasound: add missing MODULE_DESCRIPTION() macro
+v1 -> v2:
+* Replace use of the dummy codec by the pair of codecs spdif_receiver /
+  spdif_transmitter.
+* Adapt how dai links codecs are used to take into account the
+  possibility for multiple codecs per link.
+* Change compatible name.
+* Adapt driver to be able to register two codecs given in the device
+  tree.
+* v1 patch series at:
+https://lore.kernel.org/alsa-devel/20230901144550.520072-1-elinor.montmasso=
+n@savoirfairelinux.com/
 
-Kailang Yang (1):
-      ALSA: hda/realtek: Add more codec ID to no shutup pins list
+Elinor Montmasson (9):
+  ASoC: fsl-asoc-card: set priv->pdev before using it
+  ASoC: fsl-asoc-card: add support for dai links with multiple codecs
+  ASoC: fsl-asoc-card: add second dai link component for codecs
+  ASoC: fsl-asoc-card: add compatibility to use 2 codecs in dai-links
+  ASoC: fsl-asoc-card: merge spdif support from imx-spdif.c
+  ASoC: dt-bindings: fsl-asoc-card: add compatible string for spdif
+  ASoC: dt-bindings: imx-audio-spdif: remove binding
+  arm64: dts: imx8m: update spdif sound card node properties
+  ARM: dts: imx6: update spdif sound card node properties
 
-Peter Ujfalusi (1):
-      ALSA/hda: intel-dsp-config: Document AVS as dsp_driver option
+ .../bindings/sound/fsl,imx-audio-spdif.yaml   |  66 ----
+ .../bindings/sound/fsl-asoc-card.yaml         |  30 +-
+ arch/arm/boot/dts/nxp/imx/imx6q-cm-fx6.dts    |  15 +-
+ arch/arm/boot/dts/nxp/imx/imx6q-prti6q.dts    |  15 +-
+ arch/arm/boot/dts/nxp/imx/imx6q-tbs2910.dts   |   9 +-
+ arch/arm/boot/dts/nxp/imx/imx6qdl-apalis.dtsi |  15 +-
+ .../arm/boot/dts/nxp/imx/imx6qdl-apf6dev.dtsi |   9 +-
+ .../arm/boot/dts/nxp/imx/imx6qdl-colibri.dtsi |  15 +-
+ .../arm/boot/dts/nxp/imx/imx6qdl-cubox-i.dtsi |   9 +-
+ .../dts/nxp/imx/imx6qdl-hummingboard.dtsi     |   9 +-
+ .../boot/dts/nxp/imx/imx6qdl-sabreauto.dtsi   |   9 +-
+ .../boot/dts/nxp/imx/imx6qdl-wandboard.dtsi   |   9 +-
+ .../arm/boot/dts/nxp/imx/imx6sx-sabreauto.dts |   9 +-
+ arch/arm/boot/dts/nxp/imx/imx6sx-sdb.dtsi     |   9 +-
+ arch/arm/configs/imx_v6_v7_defconfig          |   1 -
+ arch/arm64/boot/dts/freescale/imx8mm-evk.dtsi |  15 +-
+ arch/arm64/boot/dts/freescale/imx8mn-evk.dtsi |  15 +-
+ arch/arm64/boot/dts/freescale/imx8mq-evk.dts  |  24 +-
+ arch/arm64/configs/defconfig                  |   1 -
+ sound/soc/fsl/Kconfig                         |  10 +-
+ sound/soc/fsl/Makefile                        |   2 -
+ sound/soc/fsl/fsl-asoc-card.c                 | 361 ++++++++++++------
+ sound/soc/fsl/imx-spdif.c                     | 103 -----
+ 23 files changed, 408 insertions(+), 352 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/fsl,imx-audio-s=
+pdif.yaml
+ delete mode 100644 sound/soc/fsl/imx-spdif.c
 
-Simon Trimmer (6):
-      ALSA: hda: cs35l56: Fix lifecycle of codec pointer
-      ALSA: hda: cs35l41: Possible null pointer dereference in cs35l41_hda_unbind()
-      ALSA: hda: cs35l56: Component should be unbound before deconstruction
-      ALSA: hda: cs35l41: Component should be unbound before deconstruction
-      ALSA: hda: tas2781: Component should be unbound before deconstruction
-      ALSA: hda: cs35l56: Select SERIAL_MULTI_INSTANTIATE
-
-Stefan Binding (4):
-      ALSA: hda: cs35l41: Support Lenovo Thinkbook 16P Gen 5
-      ALSA: hda: cs35l41: Support Lenovo Thinkbook 13x Gen 4
-      ALSA: hda/realtek: Support Lenovo Thinkbook 16P Gen 5
-      ALSA: hda/realtek: Support Lenovo Thinkbook 13x Gen 4
-
-Takashi Iwai (1):
-      ALSA: seq: ump: Fix missing System Reset message handling
-
----
- sound/core/seq/seq_ump_convert.c     |  2 ++
- sound/hda/intel-dsp-config.c         |  2 +-
- sound/oss/dmasound/dmasound_core.c   |  1 +
- sound/pci/hda/Kconfig                |  2 ++
- sound/pci/hda/cs35l41_hda.c          |  6 +++---
- sound/pci/hda/cs35l41_hda_property.c |  8 ++++++++
- sound/pci/hda/cs35l56_hda.c          |  9 +++++++--
- sound/pci/hda/patch_realtek.c        | 38 +++++++++++++++++++++++++++++++++---
- sound/pci/hda/tas2781_hda_i2c.c      |  4 ++--
- 9 files changed, 61 insertions(+), 11 deletions(-)
+--=20
+2.34.1
 
