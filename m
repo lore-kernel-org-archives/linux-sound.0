@@ -1,104 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B183944393;
-	Thu, 20 Jun 2024 19:47:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629FA156256;
+	Thu, 20 Jun 2024 19:50:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718912838; cv=none; b=iVvTVUBZE8XzjtsfL36ULLFd6QQ08v2TZwDVMeWxyeTceI/RfrUh51wGCyqk30v8mxjjHA5IaLbTKZ4NeH3ln3OOzag/NbjQElDAdQyRKJIvtOuBCAReY233Ifvw9nmAe7cYFQ+jWTTx0FI7JV2wupVpK5VdQgEkLP9f+4udjBA=
+	t=1718913008; cv=none; b=nu5/C2MDJdsfjY9Og906PUHI5bRIqZPFd4+eOr/Hwm7BYbIkVm5gjg5HaJW00JBbMEJBuGa2yMnWgemHe2qu0MLt43MOdkijkdbmKoh5bXsAouSZVckbfrlaOzkky+rouHrZP7W3GlssCXjAkLvfhjj40bj4RMRgBbulh0V/+PM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718912838; c=relaxed/simple;
-	bh=D+e2m26VHYUG/Lo1gKaeNxI1GFfU9WexaAsiXpn5YYI=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=SMVtjwTdeDVBwAgGEzn1/anIMAd43GUoHKd8YnkdrydWw4yl+FgeaCkeuNmHUApbuKZWJLmX/K/r/9V7Jcze5mHEsvw7RQmbYWRNckcuNA0OLo8eR6Ytimg6LvjJpn58oVHKuki9xPWZk6bqklx55hqzHm4CTpBkweGRTV6WJ24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=snFugIF/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718913008; c=relaxed/simple;
+	bh=cqaHQJ/bDLwzr7N3x3FQyJiJw1p7zFcv38LHOowa4tQ=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=uxkyDBXtrapmunUgxFc7ot3aObn9FNFC4w7uqtUUH2zbdGB3H7+YFsX4Nsokb6q+/12RIPCftuGpoNugVgnvwcfrTd+jWX2Tm+bEiCGhooPAN0xkr8rezWNeXYh5+2Lvylng1RglLW+TBTlSX6zz9W4Q2IxkTYjT7HeJMx62N7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uG/7peWs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="snFugIF/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BD0CC2BD10;
-	Thu, 20 Jun 2024 19:47:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uG/7peWs"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 381F1C4AF09;
+	Thu, 20 Jun 2024 19:50:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718912838;
-	bh=D+e2m26VHYUG/Lo1gKaeNxI1GFfU9WexaAsiXpn5YYI=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=snFugIF/AqgJy+pEn7auwBHqcgy7Pe3AUcf+drxFEmAqZGIg4UnWBdqoK6m6CwAsz
-	 EkiwhgZjP3d7GOm7e8ou0XhSc1T7L3lMeaa/T1AEIXbfpSX2iywkxq4avE0e0+m91t
-	 dLOvf7FI8ULn1u+pmBL4hCtE4SXPle6UjAxOchsCgdgfWHkHmUV9bzREB8NNPkOJPP
-	 5LWC2Wixht1KdskG7sSDxZfktWP8GWsK507Mj2+LEuf+K4sBHxeRyzFxXz2SDbZ0t9
-	 K6+mi92KIySVFO89b+DEvfdkNsCh+2E7uNs9B8beQA9nGHp8USIGgcbWKanPLsl5s8
-	 j+fvNo+PZMXHQ==
-Date: Thu, 20 Jun 2024 13:47:17 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20201202; t=1718913008;
+	bh=cqaHQJ/bDLwzr7N3x3FQyJiJw1p7zFcv38LHOowa4tQ=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=uG/7peWsk6S8xx48NOuyzMIfNKioRCcH+X9SLL+cQe96hLMPJsnUsCmXitJqW5kib
+	 csNXqO71rTif4SXi2ydGDHi456+dQUOrDVwUl+4Rb3HCt4jGViPIf5EYs72BkGuyFu
+	 G98jY2YEOnroFXIUql951AZL4Q3GRoRWxoBTiNTMKwkyBQgdwRZEp/vsjfVEzRjV3B
+	 0v/2KHY2/2hLVwzUh7GK4bYLT9Lvxyt/cc8vu4Znioxjh2aRxlOSYy7YYxFhX1DixK
+	 ZFDXMIjid+i6voZ+2CfSPxsHPS6mv+45iQDYVnb1MmlKCJ+YHNTu3s+hC877PRS4DV
+	 WrPqyMSd233Fg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 27AB7CF3B9A;
+	Thu, 20 Jun 2024 19:50:08 +0000 (UTC)
+Subject: Re: [GIT PULL] sound fixes for 6.10-rc5
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <87jzij21nc.wl-tiwai@suse.de>
+References: <87jzij21nc.wl-tiwai@suse.de>
+X-PR-Tracked-List-Id: <linux-sound.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87jzij21nc.wl-tiwai@suse.de>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.10-rc5
+X-PR-Tracked-Commit-Id: 9b1effff19cdf2230d3ecb07ff4038a0da32e9cc
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 042742a1ff1f37ca88c303a9e61afc8c56b23657
+Message-Id: <171891300814.2247.12326381694846789482.pr-tracker-bot@kernel.org>
+Date: Thu, 20 Jun 2024 19:50:08 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
-Cc: Andi Shyti <andi.shyti@kernel.org>, Vladimir Zapolskiy <vz@mleia.com>, 
- Miquel Raynal <miquel.raynal@bootlin.com>, linux-sound@vger.kernel.org, 
- Stephen Boyd <sboyd@kernel.org>, linuxppc-dev@lists.ozlabs.org, 
- Arnd Bergmann <arnd@arndb.de>, Jaroslav Kysela <perex@perex.cz>, 
- dmaengine@vger.kernel.org, Chancel Liu <chancel.liu@nxp.com>, 
- Michael Ellerman <mpe@ellerman.id.au>, Richard Weinberger <richard@nod.at>, 
- Michael Turquette <mturquette@baylibre.com>, Takashi Iwai <tiwai@suse.com>, 
- Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>, 
- linux-kernel@vger.kernel.org, Markus Elfring <Markus.Elfring@web.de>, 
- linux-arm-kernel@lists.infradead.org, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-clk@vger.kernel.org, 
- Yangtao Li <frank.li@vivo.com>, 
- "J.M.B. Downing" <jonathan.downing@nautel.com>, 
- linux-mtd@lists.infradead.org, Liam Girdwood <lgirdwood@gmail.com>, 
- devicetree@vger.kernel.org, Li Zetao <lizetao1@huawei.com>, 
- linux-i2c@vger.kernel.org, Russell King <linux@armlinux.org.uk>, 
- alsa-devel@alsa-project.org, Vinod Koul <vkoul@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-In-Reply-To: <20240620175657.358273-3-piotr.wojtaszczyk@timesys.com>
-References: <20240620175657.358273-1-piotr.wojtaszczyk@timesys.com>
- <20240620175657.358273-3-piotr.wojtaszczyk@timesys.com>
-Message-Id: <171891283706.3289677.3213379285370562671.robh@kernel.org>
-Subject: Re: [Patch v4 02/10] dt-bindings: dma: Add lpc32xx DMA mux binding
 
+The pull request you sent on Thu, 20 Jun 2024 15:18:31 +0200:
 
-On Thu, 20 Jun 2024 19:56:33 +0200, Piotr Wojtaszczyk wrote:
-> LPC32XX SoCs use pl080 dma controller which have few request signals
-> multiplexed between peripherals. This binding describes how devices can
-> use the multiplexed request signals.
-> 
-> Signed-off-by: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
-> ---
-> Changes for v4:
-> - This patch is new in v4
-> 
->  .../bindings/dma/nxp,lpc3220-dmamux.yaml      | 56 +++++++++++++++++++
->  MAINTAINERS                                   |  9 +++
->  2 files changed, 65 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/dma/nxp,lpc3220-dmamux.yaml
-> 
+> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.10-rc5
 
-My bot found errors running 'make dt_binding_check' on your patch:
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/042742a1ff1f37ca88c303a9e61afc8c56b23657
 
-yamllint warnings/errors:
+Thank you!
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/dma/nxp,lpc3220-dmamux.example.dtb: /example-0/syscon@40004000: failed to match any schema with compatible: ['nxp,lpc3220-creg', 'syscon', 'simple-mfd']
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240620175657.358273-3-piotr.wojtaszczyk@timesys.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
