@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B52F742A9E;
-	Thu, 20 Jun 2024 07:00:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC04F1946F;
+	Thu, 20 Jun 2024 07:01:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718866802; cv=none; b=PXMLpYhaNOu4u1YNnR/MqUxLWRU+MFPgIY1EqfsM+K/i4qhS+10rWA1wGOx0d1Ig5FBQV8IOt3rqJyw22DYdrdnpgQtFyq5pa+kIEC71sphKXDiUHws00nCOnogd5iM+H8EayQI1QKbwc1pYXa3+478IIzAbqwbTOXchzL/6h3k=
+	t=1718866866; cv=none; b=IxjSpkz60GatjZZqO/7nYKqe/Iptl2ro0HJ2cpClGYvCz11hu0B44ImgPiaGisJse/iVjRRLi6CHh7x5aPEMMRCbC9PQ7slZIOA7w1BSjd/bOkRkZZCwb+mw3fSj3/HydhbJBRqgj3THUTBDaTKeprueQC23SaM7QNayPG7TaSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718866802; c=relaxed/simple;
-	bh=HE4eE/VkmVosNstmbIn+tAKV5jq6AjV1v5VEHF2LNhA=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=klyPIFE4AyPYvwB3h+n9NVFPjcVPTqoq/hgbHTzAxZ1h91lvAVyiC7qUHSID8ANs6qitr3V1enmLh/9kQUf2kL7VMev0jBAOP1LRDFT6Wwpzt05xyDE9cDcvI+hkJWHcaN4zvN8Y+YCqueNVA7A3rj/CdYf3y8JfWyzFV1q7+p4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OzjLhRjk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718866866; c=relaxed/simple;
+	bh=ArMZUZTzqM9vkT4dgfxTpgAfn+DNat7a6cauftDSfcg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BJieMwI6xk8Nj1r1Y4NEE4CsrGE4pSezTfvLVG203ruAYN+tvC6U/tPixAMqvri8P4xPhsDm8t9d+dMnqnaxmjkClgzENRamU0Rhk7lLbfM9jSw9yeOUf30ZMG39EbljPqTbCugwuuVv3cBgIUpZF6pWrJuei4O38/R8VWEQ2xU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qQOjxifb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OzjLhRjk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F288BC4AF07;
-	Thu, 20 Jun 2024 06:59:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qQOjxifb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B20F2C2BD10;
+	Thu, 20 Jun 2024 07:00:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718866802;
-	bh=HE4eE/VkmVosNstmbIn+tAKV5jq6AjV1v5VEHF2LNhA=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=OzjLhRjkfXRowjEimEfl4Bs4xD4O5oRN1sr3jvxUABYEK7A6LDSCh0J5IUzLp4Tm+
-	 VBfqJouUTnY7P8pEpU+hOYp9aU9ZMYzAkAGu7YfI6Yt4os9Dg56fHTG73rqbis1UPu
-	 x8eQNc740AzJCwhnrOYZvpgpIJbpUZHSM2SxMMMXDvpq6VV/2Tma28wNKkASVxLt3c
-	 RNaCwGUz7Trs4GiLREhM8JTy5Z6F1B4sD7KJKPz362TGEp955/qlRlfntD9N13Q9XR
-	 xCvJyzbmR3fzf4ISDwRPZ8yVUcDtTzy59hijVvXzG8CdG+XnVTT+X+E4UItZcZXJuy
-	 Z3QGxOo8JT27A==
-Message-ID: <4a1c65e3-4508-4c7e-ae91-0ff0ef7a6c74@kernel.org>
-Date: Thu, 20 Jun 2024 08:59:54 +0200
+	s=k20201202; t=1718866865;
+	bh=ArMZUZTzqM9vkT4dgfxTpgAfn+DNat7a6cauftDSfcg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=qQOjxifbjj/u+M1+2R/hK6xxP78TQbQeKJSRLF61tjvmf9jVPKPLCnQ+SFdzpWhsA
+	 s1ky4XgrVhhRBY41CmGAFem63zsy2fAySItXfbnpAI1euc2cOjaKf9SpL8aauaygSl
+	 7EAaDn4Eg1VayxyoAAW0QZfPZEHCM8zYM3kvyWrM2ifF8Twko2xy800iGRcr0vtT4d
+	 zoOxvaVOSbB0eDVgAyWz43Q+3yKzxKLtOVsJMHqFOBOn125GSq9ONB6wAlTf8OJStf
+	 Dzmn6n4jG/diYy5znz3vSG93tGtKbD2YuxTOoTB3o6MXWSrpAxEljbcxuCIxTRrVX4
+	 gAbmWIEMXRWpw==
+Message-ID: <fc05397e-44d4-423b-8a2a-436a49be3597@kernel.org>
+Date: Thu, 20 Jun 2024 09:00:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,20 +35,21 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: dt-bindings: rename wm8750.yaml to wlf,wm8750.yaml
+Subject: Re: [PATCH] ASoC: dt-bindings: add missing vender prefix on filename
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Andrew Davis <afd@ti.com>, Baojun Xu <baojun.xu@ti.com>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Daniel Beer <daniel.beer@igorinstitute.com>,
+ Fabio Estevam <festevam@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Kevin Lu <kevin-lu@ti.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Shenghao Ding <shenghao-ding@ti.com>,
+ Shi Fu <shifu0704@thundersoft.com>, Takashi Iwai <tiwai@suse.com>,
+ Vincent Knecht <vincent.knecht@mailoo.org>
+Cc: alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com
+References: <87wmmkpi6w.wl-kuninori.morimoto.gx@renesas.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Daniel Baluta <daniel.baluta@gmail.com>
-Cc: Animesh Agarwal <animeshagarwal28@gmail.com>,
- Daniel Baluta <daniel.baluta@nxp.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, patches@opensource.cirrus.com,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240619070356.80759-1-animeshagarwal28@gmail.com>
- <f3ce758b-fa9e-4eff-984e-ace10553d683@kernel.org>
- <CAEnQRZBvc6TR4Nnvp41oTKAU+EBdtuC0GnuDAGwO2MHDA8bV=Q@mail.gmail.com>
- <ebebb17c-0247-4328-8129-24f15ef6f5c4@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -93,34 +94,19 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <ebebb17c-0247-4328-8129-24f15ef6f5c4@kernel.org>
+In-Reply-To: <87wmmkpi6w.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 20/06/2024 08:37, Krzysztof Kozlowski wrote:
-> On 20/06/2024 08:08, Daniel Baluta wrote:
->> On Wed, Jun 19, 2024 at 10:29 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>>
->>> On 19/06/2024 09:03, Animesh Agarwal wrote:
->>>> Add vendor prefix to wlf,wm8750 dt-schema.
->>>>
->>>> Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
->>>> Cc: Daniel Baluta <daniel.baluta@nxp.com>
->>>> ---
->>>>  .../devicetree/bindings/sound/{wm8750.yaml => wlf,wm8750.yaml}  | 2 +-
->>>
->>> Same as in other cases (why they started now?): why only one file not
->>> all of them? Anyway, that's not necessary.
->>
->> There is only one yaml file from wolfson which doesnt have the wlf, prefix.
->> For consistency we think that we should rename the file :).
+On 20/06/2024 02:32, Kuninori Morimoto wrote:
+> Many Sound yaml files doesn't have vender prefix on filename.
+> Add missing vender prefix for these files.
 > 
-> And several other files have the same issue. That's just churn. No, let
-> me be clear. Rule is for all files, not for wlf or asahi only. If you
-> want that consistency, then fix *all* files, not selected one schema.
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-I see now Kuninori went by my previous suggestion, so this patch is not
-needed/obsolete.
+Thanks.
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
