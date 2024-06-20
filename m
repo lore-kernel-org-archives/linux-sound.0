@@ -1,93 +1,108 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B941158DCE;
-	Thu, 20 Jun 2024 15:25:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 953511AF697;
+	Thu, 20 Jun 2024 15:28:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718897140; cv=none; b=acbX283HJLFmRs+CRrL8mfyc7k9fzzwxgi56ixZi8iAw4V58xETLSSjfga28Zhmb1uf777+wP172xH+v6q2pmY3VP5hkkpPSfE/hqLMT8Jvgmgjgy0TvhPowA8lNuWC6Xk4OL4utGIexFRjkfo3CdMuF0p8Nu29794XoPMX/tDQ=
+	t=1718897324; cv=none; b=Y3Dbr9/UDuPoLd/Oaxd/yqLp8kQp3lm6jzUNUBPnBVkIdnCDpkfu3zRCng+W3oKj27jnT/uqvjtcFJG0BJTop045UmEEtwIbfEkb/0VDyflkdnydaIYpSciDkEWzvRB0epOV3agb8qAFpRwA+0+Y677VTrr35+hAdwUO7hjbLTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718897140; c=relaxed/simple;
-	bh=Omkw9PUFAa3DJmD9kiIg0+FPwDDigiDERtUefWCNfKA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PUoKlNOoiucUafzg2tUmrMf8jhjHFJJnhtGL9feQSZgjE0fJuQFtfhCQaGdr0gY7OIDOZMMFuG66xQsw/PvNxe3s+rdoyEggRk5krxcJBkv3X/2kuGH5BNcif4VTaoG8/6Qt7nhfgejFTsV9tE4WswRUPf4Qpddaz34s4HibMpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mx+g7kUi; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1718897324; c=relaxed/simple;
+	bh=nDAkqaWXsNM2fSpQ6Sk3c99kTwc0eErLCi2L7aZH3cY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=pPwAJBukyYY3xC5RjG5DEmLxmPwWcJo0SjSPBfxsgxxae9rYVODRc+ADSrcET1PwDL7eDFCKVAjm9TmUg0+h39DlYMza3Y7W0s5QiHR3WV9xXF3OrfCxAsdTTYsAW5UZGzhEWd/6onMgaiZWU4EuDjA5ecxkZcxuSJIgvwiIrds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UL+DJwMn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mx+g7kUi"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-42189d3c7efso12203655e9.2;
-        Thu, 20 Jun 2024 08:25:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718897137; x=1719501937; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9GuKNVKLzlb+c1xdPmsBO3fyrK8Dhu6mLRwJVnlWLTM=;
-        b=Mx+g7kUifp3jTCUYnzQYXzbcLo1MGyNSaoGuT5OPsU5l71mBAOnxlC08yTxoOo414+
-         S1npMuzDZMSDVRdF+LK/1VZMCTPtT6rE4rfPASg3cKyNKoAhKDcT8IoCSjLqLaJGb8k8
-         nGracmgdj7QXZ+c4DrlQb4bBmEK8fkfcptT/o3oPdQYERPbYuw3g2OkfieLIKbNCUsgC
-         +tEY97LDVndasbV7EKZognx5Yl+fDczIrWtZk4XDX8q+aeGjl3OAsmscP3mqePlE7b5z
-         sImzhQfQu13qnL445e9056VVfg8w0xGgifWGCeY7trnUdY9Bwv3YYGeBYPa90YDPfikc
-         eD8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718897137; x=1719501937;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9GuKNVKLzlb+c1xdPmsBO3fyrK8Dhu6mLRwJVnlWLTM=;
-        b=HO8fifFshRfIxwCMrU0mK6C71CHGXlZKCOtEBNtHakoIzFwPeY4cblCyweuJ91yEjq
-         wIZ5YgLytZ1FrE21oKwW9v6k5C6n69rvkGPLIH2ZvC/LQCQ7fxIWrMKXn9iAM2arAxt/
-         pHs2vKNmgfvmFRMO6dTd7svyUk3CB6fCOAxUOJXNHcFGlhZ7tHLRugyuCcaOUq3hjqUg
-         b1qSKjKIkcaLalkkJ85Y1k6CxpCBVqgsJ6SXmiAqlvFuR714+iImdxlTq8aG8cNHdipi
-         +DW+DdMT5qMG+9G2rr4Gs47o842FNa6Xs1l0mN0U3T30y5ZN/hpn3C3YVVBCpxiI83vd
-         SfUQ==
-X-Gm-Message-State: AOJu0Yy5TNgnhNdMu22ypXcoTXG7YrxnGkB3O63kXLfuRz5jraQ/z6D/
-	83y5S9UV1o5sCrioWWjdGfpltJzJoWeWug4iWQYCzuHRUJsEMuCDcpaqdq2Sgm8=
-X-Google-Smtp-Source: AGHT+IGSRLmcyvLb05Bu/DXUa0CiIfJVjBKSS+WH500UBTxEe0pPFmyaQREFiXYlnNnZDjQUHY2UCQ==
-X-Received: by 2002:a05:600c:2252:b0:424:798a:f803 with SMTP id 5b1f17b1804b1-424798afeb9mr48607625e9.30.1718897136487;
-        Thu, 20 Jun 2024 08:25:36 -0700 (PDT)
-Received: from MiWiFi-R3600-srv.. ([46.6.12.162])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-364b8cc540bsm2030821f8f.18.2024.06.20.08.25.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jun 2024 08:25:36 -0700 (PDT)
-From: =?UTF-8?q?Pablo=20Ca=C3=B1o?= <pablocpascual@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: stable@vger.kernel.org,
-	tiwai@suse.de,
-	=?UTF-8?q?Pablo=20Ca=C3=B1o?= <pablocpascual@gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Add quirk for Lenovo Yoga Pro 7 14AHP9
-Date: Thu, 20 Jun 2024 17:25:33 +0200
-Message-ID: <20240620152533.76712-1-pablocpascual@gmail.com>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UL+DJwMn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B96A9C2BD10;
+	Thu, 20 Jun 2024 15:28:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718897324;
+	bh=nDAkqaWXsNM2fSpQ6Sk3c99kTwc0eErLCi2L7aZH3cY=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=UL+DJwMn6seKzq7lQ1HRKpkecO16PGYe6o0wuavImSeRTwtDJohxSS7Xu/sxYH5Gf
+	 clIOGnNTCLH84DFvftBDOXkpUx4lLgQg5XtyTLFgiJ6VaXlh2bEiRNWBAeSvK9vlRC
+	 6G9ZUdhh86BKAGzXCoRZh0+EgFXmryW+xbjCndxoxsAnds7jJpe+JwutNhtdz8sm+P
+	 e6rm6Qd4xpyCBahSBpITD9RZUHTNAX12AKEsRFwrPQgP2kX8zh7b1ETdhSAEO4h2dh
+	 kNfXPMc0aqDdO4/7JlH2Woi9lgXjvQ8DEs+uR+7iuQe3rWDexmfWAfa/3mHxsRZwGU
+	 n5/gC+tM3DARQ==
+Message-ID: <cd1479c2-c5b4-4064-8d80-a2d706af0db2@kernel.org>
+Date: Thu, 20 Jun 2024 17:28:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/2] ASoC: dt-bindings: cirrus,cs530x: Add initial DT
+ binding
+To: Paul Handrigan <paulha@opensource.cirrus.com>, broonie@kernel.org,
+ lgirdwood@gmail.com, linux-sound@vger.kernel.org,
+ patches@opensource.cirrus.com, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, devicetree@vger.kernel.org
+References: <20240620142856.1609250-1-paulha@opensource.cirrus.com>
+ <20240620142856.1609250-2-paulha@opensource.cirrus.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
+ QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
+ gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
+ /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
+ iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
+ VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
+ 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
+ xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
+ eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
+ AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
+ MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
+ Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
+ ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
+ vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
+ oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
+ lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
+ t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
+ uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
+ 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
+ 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
+In-Reply-To: <20240620142856.1609250-2-paulha@opensource.cirrus.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Lenovo Yoga Pro 7 14AHP9 (PCI SSID 17aa:3891) seems requiring a similar workaround like Yoga 9 model and Yoga 7 Pro 14APH8 for the bass speaker.
+On 20/06/2024 16:28, Paul Handrigan wrote:
+> Add the YAML DT bindings for the cs530x high performance
+> audio ADCs.
+> 
+> Signed-off-by: Paul Handrigan <paulha@opensource.cirrus.com>
 
-Cc: <stable@vger.kernel.org>
-Link: https://lore.kernel.org/all/20231207182035.30248-1-tiwai@suse.de/
-Signed-off-by: Pablo Caño <pablocpascual@gmail.com>
----
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
+What changed here? Changelog is limited to v5, but what happened in v4
+that you invalidated my tag?
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index aa76d1c88589..7663e715890d 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10527,6 +10527,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x17aa, 0x3882, "Lenovo Yoga Pro 7 14APH8", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
- 	SND_PCI_QUIRK(0x17aa, 0x3884, "Y780 YG DUAL", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x3886, "Y780 VECO DUAL", ALC287_FIXUP_TAS2781_I2C),
-+	SND_PCI_QUIRK(0x17aa, 0x3891, "Lenovo Yoga Pro 7 14AHP9", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
- 	SND_PCI_QUIRK(0x17aa, 0x38a7, "Y780P AMD YG dual", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x38a8, "Y780P AMD VECO dual", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x38a9, "Thinkbook 16P", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
--- 
-2.45.2
+For exactly this case I wrote you a guide. Did you read it?
+
+Best regards,
+Krzysztof
 
