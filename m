@@ -1,90 +1,146 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2FD28399;
-	Fri, 21 Jun 2024 12:15:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF6E9153BDE;
+	Fri, 21 Jun 2024 12:44:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718972153; cv=none; b=ZHRxR2wpWTvju5LcHNJ+3m5ESJqa0bmCuWklEJZoSLzj2k9hTiw3RilP/zKBIgiWqJ7sXkL4gHA/AC5TctojNwBJHzpxKug/lH5N2Y/RPAAjsZGDi5dlky3onXAcZunxYtFP74lez/Hk3HnExP49Sr0cUWFIRrpyJZJ8XtlXeas=
+	t=1718973868; cv=none; b=HGE4yV57TRa5A0nqbwGW1UGLHOU7BKT7D+21gCxy8Ich5fZBFemElOMthPC8RQS4CJDENChITHitYrgQwD7598gU2TqzRF8vD9EgsXv+kUiU/5z7XvUYxoRt2KvN1gM5kE41wjhpjDjh5RrySiyzc8wp9nJHP9A5jvG1ZEayS3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718972153; c=relaxed/simple;
-	bh=rE8ntxNIM5vaTaumZmp3qsqdX3oe1BdkEBjRraySjMw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=GQroqBZrENnJYHPbVOLWmLtf+UYxJrcMihkd5OZ+WvGgmya4+KC/0GZ5nbfXlNE3IY7I7bWbyMmK/BrDIKH92gZ06K0Otz8lt3d2//xdjPTALe2vmB2tKJrEoIJetMkBvU7RL0GghYmsW5AOFyhJBWujl/pYdjghUASUJq8e7DE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y3FRhXl8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718973868; c=relaxed/simple;
+	bh=bwqf13fJbLJEoJ55Fq8cVIZa/qvXiPcZ4TMFf7szj6I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tLoBqn7nQer6GBZtv/ToPhtgjp+lufnucD+ZM1M231VjoWy+Lxp5vtFuBicCJEND6rZSwjPCw0kLeTKznFk2cKb6DiXaMXxn0ooZ6wUiNR0kRBtG7WHsCSLfUO49XBRESlbaqpTzxx9GYYFAaoGU4Hf8b8BiEVQc5J/E7CLJ39c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l8IKh8rP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y3FRhXl8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46864C2BBFC;
-	Fri, 21 Jun 2024 12:15:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l8IKh8rP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4569EC2BBFC;
+	Fri, 21 Jun 2024 12:44:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718972152;
-	bh=rE8ntxNIM5vaTaumZmp3qsqdX3oe1BdkEBjRraySjMw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Y3FRhXl8cs1YgSR5JVrW/YQdZKcFQQl0NXj8PkGQEOJi6s2eALFoiOOF2lNYis6mF
-	 +us6FwSsxNyXwncLAPRmxTN5EE51/GIQ1OVmDLQAz/pNSaLCye16mSylO+xYNhJnrk
-	 9aI8e4T5bm+9wgROQnktthu326NyAZSezjo12l6eNTVp4qdesDqnDo1d3CgaLxEXMG
-	 yCbsm//WFIH2RVbX/e15v2tHA6Ko8n3CN5G7Gp0Sb/CycpFeYFEkJRHPeM7OFaUzYJ
-	 RLo0t4bfryHFYpcDjq91Ad4MEhY1ZCPtfUXfPYJm+mOD1ZX+gdoB74/BHGkBvNl+lJ
-	 PC/cmal4zBy7g==
+	s=k20201202; t=1718973868;
+	bh=bwqf13fJbLJEoJ55Fq8cVIZa/qvXiPcZ4TMFf7szj6I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=l8IKh8rPJ6LhZPucaRVWP/8fVx7Xxn6rv2vU7HIlfwyi9Q96L78zxrZ3zhmjtudB0
+	 J3tju9CVfyLjhlAOJWMauyHtWsdLjK3txtaalshO/dngDUizd1XzDP6LMIUbZBXavB
+	 +8KE0WLENQ6jEdfgeJYwijdzrlgFvpOTR2HFnkBrAc0rdcKAXPoTkZLV4bV/cTusbH
+	 OBtLDjkQPYR3wotR+Wn7W5zr040SNYXGr1ZQRN8QKzEvEtgTV8xggmtD7my/kpv1qT
+	 wLn6blkh/cY091zWPbqahLn59Luh3YNHrKn/lEiz3fKB1cxWABQ/Sb62GAvK/7RrdJ
+	 tIK9yeZk6HlDg==
+Date: Fri, 21 Jun 2024 13:44:20 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Andrew Davis <afd@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Daniel Beer <daniel.beer@igorinstitute.com>, 
- Fabio Estevam <festevam@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Kevin Lu <kevin-lu@ti.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Shenghao Ding <shenghao-ding@ti.com>, Shi Fu <shifu0704@thundersoft.com>, 
- Takashi Iwai <tiwai@suse.com>, Vincent Knecht <vincent.knecht@mailoo.org>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: alsa-devel@alsa-project.org, devicetree@vger.kernel.org, 
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com
-In-Reply-To: <87wmmkpi6w.wl-kuninori.morimoto.gx@renesas.com>
-References: <87wmmkpi6w.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH] ASoC: dt-bindings: add missing vender prefix on
- filename
-Message-Id: <171897214898.79912.13208484267678405419.b4-ty@kernel.org>
-Date: Fri, 21 Jun 2024 13:15:48 +0100
+To: amergnat@baylibre.com
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	Nicolas Belin <nbelin@baylibre.com>
+Subject: Re: [PATCH v6 12/16] ASoC: codecs: add MT6357 support
+Message-ID: <1ca27c79-a83a-42a7-9e9b-766da0064c73@sirena.org.uk>
+References: <20240226-audio-i350-v6-0-f754ec1a7634@baylibre.com>
+ <20240226-audio-i350-v6-12-f754ec1a7634@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev-d4707
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Y31DJCgxhlUXFcNQ"
+Content-Disposition: inline
+In-Reply-To: <20240226-audio-i350-v6-12-f754ec1a7634@baylibre.com>
+X-Cookie: Androphobia:
 
-On Thu, 20 Jun 2024 00:32:39 +0000, Kuninori Morimoto wrote:
-> Many Sound yaml files doesn't have vender prefix on filename.
-> Add missing vender prefix for these files.
-> 
-> 
 
-Applied to
+--Y31DJCgxhlUXFcNQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Wed, Jun 19, 2024 at 04:46:48PM +0200, amergnat@baylibre.com wrote:
 
-Thanks!
+> +	/* gain default values*/
+> +	regmap_update_bits(priv->regmap, MT6357_AUDENC_ANA_CON0, MT6357_AUDPREAMPLGAIN_MASK,
+> +			   UL_GAIN_0DB << MT6357_AUDPREAMPLGAIN_SFT);
+> +	regmap_update_bits(priv->regmap, MT6357_AUDENC_ANA_CON1, MT6357_AUDPREAMPRGAIN_MASK,
+> +			   UL_GAIN_0DB << MT6357_AUDPREAMPRGAIN_SFT);
+> +
+> +	regmap_update_bits(priv->regmap, MT6357_ZCD_CON1,
+> +			   MT6357_AUD_LOL_GAIN_MASK |
+> +			   MT6357_AUD_LOR_GAIN_MASK,
+> +			   DL_GAIN_0DB << MT6357_AUD_LOL_GAIN_SFT |
+> +			   DL_GAIN_0DB << MT6357_AUD_LOR_GAIN_SFT);
+> +
+> +	regmap_update_bits(priv->regmap, MT6357_ZCD_CON2,
+> +			   MT6357_AUD_HPL_GAIN_MASK |
+> +			   MT6357_AUD_HPR_GAIN_MASK,
+> +			   DL_GAIN_0DB << MT6357_AUD_HPL_GAIN_SFT |
+> +			   DL_GAIN_0DB << MT6357_AUD_HPR_GAIN_SFT);
+> +
+> +	regmap_update_bits(priv->regmap, MT6357_ZCD_CON3,
+> +			   MT6357_AUD_HS_GAIN_MASK, DL_GAIN_0DB);
 
-[1/1] ASoC: dt-bindings: add missing vender prefix on filename
-      commit: ae8fc2948b48f001514d4b73167fcef3b398a5fb
+We generally leave everything at chip defaults, why is this different?
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+> +static int mt6357_codec_probe(struct snd_soc_component *codec)
+> +{
+> +	struct mt6357_priv *priv = snd_soc_component_get_drvdata(codec);
+> +
+> +	mt6357_codec_init(priv);
+> +	return 0;
+> +}
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+Why not just inline mt6357_codec_init() into the one user?
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+> +static unsigned int mt6357_read(struct snd_soc_component *codec, unsigned int reg)
+> +{
+> +	struct mt6357_priv *priv = snd_soc_component_get_drvdata(codec);
+> +	unsigned int val;
+> +
+> +	regmap_read(priv->regmap, reg, &val);
+> +	return val;
+> +}
+> +
+> +static int mt6357_write(struct snd_soc_component *codec, unsigned int reg, unsigned int value)
+> +{
+> +	struct mt6357_priv *priv = snd_soc_component_get_drvdata(codec);
+> +
+> +	return regmap_update_bits(priv->regmap, reg, 0xffff, value);
+> +}
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+Why open code these, the core has standard adaptors for regmap?
 
-Thanks,
-Mark
+> +static const u32 micbias_values[MT6357_MICBIAS_ARRAY_SIZE] = {
+> +	1700000, 1800000, 1900000, 2000000,
+> +	2100000, 2500000, 2600000, 2700000
+> +};
 
+Just use ARRAY_SIZE() for the size then the number can't be out of sync.
+
+
+--Y31DJCgxhlUXFcNQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZ1daMACgkQJNaLcl1U
+h9DFewf+M/CBa2qN5RnVF8Zc5QWTvxC4SKpFwRma8NGXYRkdIuRXOhTpxRG85BYY
+w0ndJAb81OyrS1X3S8EpFu0cTQdBB7po6aGY3/n1tnY0JIkQ820QI+XDGlduderG
+aPJ1LFil592z/y4CEYhDWzOsFWLLyJKyRI490d6BuyRNdljzSLS1QmJ2HrpnPI/S
+D63ThavR4gijP3ePCZ6Bajond76rmR5CDUo3/LtUBAliMvLcIpwdKqcEjjdpMm7G
+BuKS/CUvpRgJ5D+hyi9xFWRSBajwhFVLHJ1R/jtOLU/DQiYH/x78dMej8JApEp6X
+Gohk7DuuhbfZflRiEj17qKTMYvMWvA==
+=P5mN
+-----END PGP SIGNATURE-----
+
+--Y31DJCgxhlUXFcNQ--
