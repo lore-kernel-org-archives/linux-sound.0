@@ -1,163 +1,100 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.15.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2264812C470
-	for <linux-sound@vger.kernel.org>; Fri, 21 Jun 2024 04:36:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11B7FBF3;
+	Fri, 21 Jun 2024 05:37:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718944590; cv=none; b=tMWW0I8hwEluT3gZ9SYbURLsFe5VnkllIa8cK8X6K9zY8teotz5Ju1Q5Q1HueblzgWS+fjee8aLB/0nu+fQU+vxJ87B4i1iM/7xmgw82xya8BbsJTqKMiEnDsYS+KmsU82uFizvykJPhXQ84aolbAP9RPfWLJOMQ5vqitNfhSoM=
+	t=1718948277; cv=none; b=hqkZRm28JqzMj5YurTcJ0wnmKpOxZyyUK8eA1mvnJVB3Y+Sk/abw6BDevapIEmckszq548IoHMg+DHLJcaGusRG7vQVrd8Iv6jxFWJIeRCcMPhExr+7hGOaP27VvpWFxjhV5Lk2SLuVhwhjKThvauA0XE4RB3Aj8b8cwnZ6eZ+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718944590; c=relaxed/simple;
-	bh=VqERxm63JwnNlY+A19AAgs+glp5ehyrfPGP8LDyD2e0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Tk2NQOwLDZHQPxuSr9CtadhuQgO4pjHyBEdETsR2zb8qpxDqYYy8I7KNVCLEcRlSFUenYPNvar4o5pDVYQnGvjqqDX9BTNtH0oIX2Ofnn2DqisxSn+QO6+NGsOvPXx6eUUwScC26v0wlOEtNeF+F3WwAggG8GT1gRA50Wv7o07w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=PqnTEpHf; arc=none smtp.client-ip=209.85.208.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1718948277; c=relaxed/simple;
+	bh=LLFy4E3fQZogzsjSkuuitSHmxQQmS4uiYTMS6JzbgpU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
+	 In-Reply-To:Content-Type; b=cDPFlUOMxWT/0QB+gKAx2/kPMB8paYPfZ4jofzwtBmjyuqp+ZmGdsREERe6SwsK6/Ltxg0nTauF3R6J+UPggg5QZwC7gjHGIC9NLRLwXmdAZvhO/HYf+0pFCbxx9U96CgzPWAAacMBk6lhJYGT7OMAsXRrFSQqXY8GVUqxlP4R0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=OxGxApPm; arc=none smtp.client-ip=212.227.15.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PqnTEpHf"
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2ec3f875e68so18567311fa.0
-        for <linux-sound@vger.kernel.org>; Thu, 20 Jun 2024 21:36:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1718944587; x=1719549387; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zw9eqla+4WEFJzC5MXcYyWJHlS7ohQWFgUNHhet/5Oc=;
-        b=PqnTEpHf5vsb2s+EeSebw3mACHRdiYynm0u+spLGj55Or5nPIQv3Rj4yYljJbD624K
-         ga60DZ1r+IXO3PEPxBQGG5zARMhyUqtIH+xppiTKjdK9qt4/ZtZhES9+60mod5vj1UhL
-         /Uh6wYi6klK8wmODC3QIKa1rb7OCF04gOG508=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718944587; x=1719549387;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zw9eqla+4WEFJzC5MXcYyWJHlS7ohQWFgUNHhet/5Oc=;
-        b=aMwiae8iUqO9y8MFRDK2uJkAm0nKX47q23JkyFKpLtVBBLVerQROsVJZ3XwJRr+2ku
-         jltaDy0hexJ58LNRt4CsMW+42jkJBD96kNiDYYwAR1hDzRzpC+0enVR3b+QDniAgDfrY
-         NYJ+kfEbR5YvTQVugVrfXRh04KOWq052sUqxUd7YQplNvbu6GLQq2QzbW2QZ4zqdAAmL
-         SlXa4pm+HyakXA5ztbVRwmfG1lsGka5DwQ9kq+etkoIBBFbTNRRA0kPmLeRZVHx5vYVT
-         FlnE0+9eLHWFSbixkOl7Dr6upqKtUFQ31srk1sOnrVccrriVWY68+bQGQQRUYIAJyVWr
-         Fxcw==
-X-Forwarded-Encrypted: i=1; AJvYcCUNLro02dHV3VFXoYKuHC2HPGhZKV5i5RAaWTNxkSNY/PexG/9xr6mgFKpgyQGu4FzjKRxwkTjNwMF3zsNCJ1R32jtjt8uko+sNCz0=
-X-Gm-Message-State: AOJu0YwdwvPjYzM0/ExkBujGW0LsGAGhuxEiwrHEYbc9Qdk0WboBeFcA
-	7pN2ph5i9KUJOAUp5oHl/BOqS4693feXhlYb24mne4JxlgHB6ptFYltjxc7I1C0eCmfYvfuroC8
-	Q4168ZZlOnb6ejfFSAZXmp/j2JzjPZbk8dKEr
-X-Google-Smtp-Source: AGHT+IEPOx56mth/eoNVspclyTmtuDsKA4qruGwwFkV/Tvs4Ji2AC3El4RzP+9qwO2WHKD7XvJjJ5XQecwMBpwY/q40=
-X-Received: by 2002:a05:6512:2087:b0:529:b632:ae4e with SMTP id
- 2adb3069b0e04-52ccaa2a9b5mr3937318e87.2.1718944587158; Thu, 20 Jun 2024
- 21:36:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="OxGxApPm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1718948207; x=1719553007; i=markus.elfring@web.de;
+	bh=1SQIJLyP8KM0t0hXj5dAJLCq9lDBaf/TIWUVsJ97Ung=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:
+	 References:Cc:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=OxGxApPm3qrh/Uq5UHSKdmuHA/EdQNdVJma2RSdg+S1AafTTsW8sFpAYf2MgTKfv
+	 fZqivsvv+R5zbqNTRfhhkPPlGppoe5bmTcmMuGHMKC0k/OAykV552sZwl8awTQDsB
+	 AGzeQ4RW7xxaGjveQJX3GD9ERf6C+RV4Ym6AX+TKIf52lZS7atgVBQbv1mV4RtSRH
+	 KkLEhiS7KHYlRbJUQEAALxh1GO9FOVOYR0xJfPw94pP+vbFbjZ76u0PXn2nVtSrHY
+	 6zTbgoX3wK0YvcjZsvq6EeqaZsHZhLuAlAjT+yQReM8MI5A86H1yxI1+ANljXev5R
+	 k8YcZrvMI2bYGwTXBg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1N0Zs0-1sWp6x1rro-018Giw; Fri, 21
+ Jun 2024 07:36:47 +0200
+Message-ID: <a39f024c-7ab0-41f2-839d-ee2f62ddd6e9@web.de>
+Date: Fri, 21 Jun 2024 07:36:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240620092526.2353537-1-wenst@chromium.org> <35047932-65d0-44ae-98e1-b4c771be0e6b@collabora.com>
- <CAGXv+5EGqGB=Bb-YxY1eCPg216FyVHT7Xs_Zoe2EBMKuRmZMow@mail.gmail.com>
-In-Reply-To: <CAGXv+5EGqGB=Bb-YxY1eCPg216FyVHT7Xs_Zoe2EBMKuRmZMow@mail.gmail.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Fri, 21 Jun 2024 12:36:16 +0800
-Message-ID: <CAGXv+5E5io6NMvdkr7gX1rrVBk5OX+pocT4qgyArJ3aE+jGXUA@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: mediatek: mt8195: Re-add codec entry for
- ETDM1_OUT_BE dai link
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Mark Brown <broonie@kernel.org>, Trevor Wu <trevor.wu@mediatek.com>, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Patch v4 04/10] ARM: dts: lpc32xx: Add missing dma and i2s
+ properties
+To: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
+ Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, "J.M.B. Downing" <jonathan.downing@nautel.com>,
+ Vladimir Zapolskiy <vz@mleia.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Arnd Bergmann <arnd@arndb.de>, Yangtao Li <frank.li@vivo.com>,
+ Li Zetao <lizetao1@huawei.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ Chancel Liu <chancel.liu@nxp.com>, dmaengine@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org,
+ linux-sound@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux-mtd@lists.infradead.org
+References: <20240620175657.358273-1-piotr.wojtaszczyk@timesys.com>
+ <20240620175657.358273-5-piotr.wojtaszczyk@timesys.com>
+Content-Language: en-GB
+Cc: LKML <linux-kernel@vger.kernel.org>
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240620175657.358273-5-piotr.wojtaszczyk@timesys.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:Q7NNgNryQC4SvaqLSK46kUdFDA/ZWIIeO+B+DYHgCi0VqphfXz0
+ LxOkeihG+Vrnw4q7094DPBzn7YDv2hUbpmVAdrJiShrqQhvj/8VJB5CO1x9U8dSN1exLjhS
+ laSizbk3rhAQA4KMMEgqhwVU706cLgRCb467YcJy47Twkvz6B9MtZOubwGfQ9bMn5k+qiZq
+ UXTnwNamwsXRAU6cK3a+Q==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:sxFXbRmwiow=;ItU3h73LSNWoHkiePPzF614YhOu
+ vuWij/Wyd7G8C5bGFuxA34oRBoufqeSTJ1sO9oRDCQE17yA7yy+qUu1NsP3rGmwp607imLjET
+ tlxMODkKmLWwjZN6WYB6OA00j+fL4/qe6kTDDGUFCsG3taFS+ziaS/XOF31nR0iYxmcGadXTF
+ 6WbDUOyp+fcYOvOUMdt9RtSb2KDjSlAT7V/u2dyxjIY7X2vNdA2A3LesS4hrWtUQ/j9jjsvCn
+ 9beVtwcM8ulERcSMjuM741ha+Tw/qMRQ7gvbaw8+RqndqAdbkDOMNKreIXpENNCPmnCrs2u7d
+ uu7d4ceOXvKIb0nfzXvE8ZxudF5gVftjMcbGm9p5v/g2bWH7hYwtq5BZvz2s5DSK5Ta2ADRIX
+ Zj2gqGUTQD6PH2NOVY/JvDoxrqN45EWShbKqn6+ZNV5ks/kb+tYB/7ZiQ0Pa0HXSr9tf+A+so
+ 2m0HXc6DpDDbA5nZafQpxxhgKpzPfPkjIo0773z24llMY/3IgrJYUbesX+Q5vBXyKqmi9y2M0
+ LK96kUrboZ04zfJ43TiSAduhHGvUqMa0Jd2kkqNGi3fbr9ha1sNkt9rYqZm5yiKLdvXbfM2No
+ 5QPLKvW7DEDeT5xgYTZuSUEhGr0NvKoFBDWXfNP1E1JvGayANL1ZwqCpCoC1SFc5KVhOkyEO2
+ 22iZ/kQ+CA2ClHf081/2WBHIHecK0qpypwt0wXVmjFbC/kbygWKAOart5LMzLQ+2A7RERaKAl
+ 2v4BF7zzWd40QCWglLMTkaLvdwDoghAUBkoMXKoI+FWfJV1ZYWSEIJdBn8GPUvZFcmMAMgaTm
+ TmADuSAnsOy9ft+lNhrWayN5+XfvhQrVkx6wjoHCE4kfM=
 
-On Fri, Jun 21, 2024 at 12:28=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.org> =
-wrote:
->
-> On Thu, Jun 20, 2024 at 6:27=E2=80=AFPM AngeloGioacchino Del Regno
-> <angelogioacchino.delregno@collabora.com> wrote:
-> >
-> > Il 20/06/24 11:25, Chen-Yu Tsai ha scritto:
-> > > This partially reverts commit e70b8dd26711704b1ff1f1b4eb3d048ba69e29d=
-a.
-> > >
-> > > Said commit removes the codec entry for the ETDM1_OUT_BE dai link for
-> > > some reason. This does not have the intended effect, as the remaining
-> > > DAILINK_COMP_ARRAY(COMP_EMPTY()) platform entry becomes the codec
-> > > entry, and the platform entry is completely gone.
-> > >
-> > > This causes in a KASAN out-of-bounds warning in mtk_soundcard_common_=
-probe()
-> > > in sound/soc/mediatek/common/mtk-soundcard-driver.c:
-> > >
-> > >       for_each_card_prelinks(card, i, dai_link) {
-> > >               if (adsp_node && !strncmp(dai_link->name, "AFE_SOF", st=
-rlen("AFE_SOF")))
-> > >                       dai_link->platforms->of_node =3D adsp_node;
-> > >               else if (!dai_link->platforms->name && !dai_link->platf=
-orms->of_node)
-> > >                       dai_link->platforms->of_node =3D platform_node;
-> > >       }
-> > >
-> > > where the code expects the platforms array to have space for at least=
- one entry.
-> > >
-> > > Re-add the entry so that dai_link->platforms has space.
-> > >
-> >
-> > Ok, but wait a minute... the commit that you're pointing at in the Fixe=
-s tag is
-> > a commit that fixes a problem identified in commit
-> >
-> > 13f58267cda3 ("ASoC: soc.h: don't create dummy Component via COMP_DUMMY=
-()")
-> >
-> > to keep it short, after that one, without removing the COMP_DUMMY(), th=
-e audio
-> > was broken in .. some way, I don't currently remember specifically what=
- was
-> > happening, but I had no sound at all.
+> Adds properties declared in the new DT bindings:
 
-In a way, by removing COMP_DUMMY() completely, you effectively replaced it
-with COMP_EMPTY() (from the platform entry), while the platform entry
-effectively became COMP_DUMMY() (which is equal to a completely empty
-entry).
+  Add?                                How do you think about to replace such an abbreviation?
 
-> Right. But this adds back "COMP_EMPTY()", not COMP_DUMMY().
->
-> I guess I shouldn't say this is a partial revert.
->
-> After painstakingly messing with the mixer controls, I tested all three
-> audio paths (speaker, headphone, DP) and they all work correctly.
->
-> I'll send a v2 updating the commit message.
->
-> ChenYu
->
-> > If the problem is not showing up anymore, backporting this commit to th=
-e kernels
-> > kernels affected by the issue that I solved... will break sound!
-> >
-> > So... well.. that's the "some reason".... :-)
-> >
-> > Cheers,
-> > Angelo
-> >
-> > > Fixes: e70b8dd26711 ("ASoC: mediatek: mt8195: Remove afe-dai componen=
-t and rework codec link")
-> > > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> > > ---
-> > >   sound/soc/mediatek/mt8195/mt8195-mt6359.c | 1 +
-> > >   1 file changed, 1 insertion(+)
-> > >
-> > > diff --git a/sound/soc/mediatek/mt8195/mt8195-mt6359.c b/sound/soc/me=
-diatek/mt8195/mt8195-mt6359.c
-> > > index ca8751190520..2832ef78eaed 100644
-> > > --- a/sound/soc/mediatek/mt8195/mt8195-mt6359.c
-> > > +++ b/sound/soc/mediatek/mt8195/mt8195-mt6359.c
-> > > @@ -827,6 +827,7 @@ SND_SOC_DAILINK_DEFS(ETDM2_IN_BE,
-> > >
-> > >   SND_SOC_DAILINK_DEFS(ETDM1_OUT_BE,
-> > >                    DAILINK_COMP_ARRAY(COMP_CPU("ETDM1_OUT")),
-> > > +                  DAILINK_COMP_ARRAY(COMP_EMPTY()),
-> > >                    DAILINK_COMP_ARRAY(COMP_EMPTY()));
-> > >
-> > >   SND_SOC_DAILINK_DEFS(ETDM2_OUT_BE,
-> >
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst?h=v6.10-rc4#n94
+
+Regards,
+Markus
