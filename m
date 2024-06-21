@@ -1,125 +1,63 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D6A0171E75
-	for <linux-sound@vger.kernel.org>; Fri, 21 Jun 2024 16:52:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D8158820;
+	Fri, 21 Jun 2024 18:31:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718988761; cv=none; b=LBFSkH52GkyWzqR7oQ6gjZS33qjOMd2R2j8rlJZxc66Smd6+cSj0pOzO/t/DkDzjxTKdob2NvzY981V8/F2Va89ltugXz+J+l7X3QEPElu8WrDO14OV4n07E5kGz64AXpWYA3z11UIpiQcIU9ZzTUz0ZhVtPl40xNNVDl4XdXec=
+	t=1718994690; cv=none; b=ueRg2Lb1UTmxRRokCv2JzFPGUdB5XIXtTRVLblUsJzKgtAetbcY80r1jItD4z0xFsqb56T/Vb40Crfdt8RKRAu3YC8pAnXpEXhtQWaCV4j1m4P2MeLxOcejfWvp6J6CM58QfpA6VWaTjyzmATsAXSr4VFrYrobm9jfqDGZ/IY3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718988761; c=relaxed/simple;
-	bh=ZIRgPYC6dFPN1HI4L78Beprln58od2LAclVGaxgkkGg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RprqZyDblf93AFCuz3B30KWJmDhTh2U2DYH+LBIqisB4LCASdqrZ49D61SG4+7jd0eJLAR3g2Orh054OQQTfTIjLvPMkGa4Z7L3XXTRrvAH3emNFupScjUtTrtznLJyzTsALxVAOZymxdtueffXTZxGaZzeQE6rTPPLdtNem8fU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=tghlK0nk; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	s=arc-20240116; t=1718994690; c=relaxed/simple;
+	bh=ky3tFOhbgiOtLllNttLIcZDpNEAB5ofHWfWJjScDROE=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=I8yftfqvY1pByY9G4tg1tffpSkYkHZaDlK2emVOIzT7RntSqHtqjK/7P4xbrswz86nYiaeomyGstV5pW3enZsh5cZWQf7VwpNEnUwj9hg+T836LaE85qNLboRx1ZV0u2rrLSJygdwlFwLu8VL/TK/My5HjpaNYigTsngarUbaQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ukfczxJy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="tghlK0nk"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 6C2546E93;
-	Fri, 21 Jun 2024 18:52:35 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 6C2546E93
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1718988755; bh=K5JjNa4y7EG6h30WX+4MjG55ER626icj+N/QwaVr9qI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=tghlK0nk3MhQ8gkhHlNwi950Ohr0H8+DZZ3Zs3PmRtY1sHgd8LYc3GJt3r0DPmsLn
-	 cY1RR2RiuhDbkbFgJ6mb740ztq7bglQHNbLRUdrH8rX0HP5L9nqQOzeTcBWjHtKbGT
-	 nzkytmDIdf7DIZk0MpMBnyQ8DDuk9QmPhDUcDAZU=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Fri, 21 Jun 2024 18:52:27 +0200 (CEST)
-Message-ID: <e493854b-74b6-4e8d-b5b3-78de8e8b9619@perex.cz>
-Date: Fri, 21 Jun 2024 18:52:26 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ukfczxJy"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D11F5C2BBFC;
+	Fri, 21 Jun 2024 18:31:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718994689;
+	bh=ky3tFOhbgiOtLllNttLIcZDpNEAB5ofHWfWJjScDROE=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=ukfczxJy3Nws3RVTwJWdMMd6HvRGnuehcB/PamENyhGqkaNuWfWFmb9EIKWYLBwVU
+	 JGybd4Ri5JyUv996h48OgQ0ied5O2FQP4esU6Yrnp1JG2nKx7fjvEMOG4lTHzCz8Mz
+	 RbqUXfuBCeF4xOj1sh/AEXxRSRA4CCt2UvhINCZoPlKgkeZFja8NhebZFYiiS7CnB3
+	 zNiZw4AsnqsiVtZt+b3MnNX187wZaeDPemreMSCJxwHykuRzwF+eqJt0nxp+NPnwpn
+	 7oZr88OlRn6tihzB1qcU7gB/FHsYkPoU1kNznxz1mfNnAfs1XohjwR9dUhq/OwgMpF
+	 0Y8ssgzeTH8Ug==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C4BBDC4332D;
+	Fri, 21 Jun 2024 18:31:29 +0000 (UTC)
+Subject: Re: [GIT PULL] sound fixes for 6.10-rc5 #2
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <87sex6xs37.wl-tiwai@suse.de>
+References: <87sex6xs37.wl-tiwai@suse.de>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87sex6xs37.wl-tiwai@suse.de>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.10-rc5-2
+X-PR-Tracked-Commit-Id: 17563b4a19d1844bdbccc7a82d2f31c28ca9cfae
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 4545981f33be5f04ee8dd43397ea29c37337dd03
+Message-Id: <171899468979.30407.17176503047223416985.pr-tracker-bot@kernel.org>
+Date: Fri, 21 Jun 2024 18:31:29 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2] ALSA: compress_offload: introduce passthrough
- operation mode
-To: Shengjiu Wang <shengjiu.wang@gmail.com>
-Cc: linux-sound@vger.kernel.org, Takashi Iwai <tiwai@suse.de>,
- Mark Brown <broonie@kernel.org>, Nicolas Dufresne <nicolas@ndufresne.ca>,
- =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Vinod Koul <vkoul@kernel.org>
-References: <20240527122216.244443-1-perex@perex.cz>
- <CAA+D8ANqr+kck7myOsC_9PryCSYJuOK3F5EjXqm3mKEgp7bd5A@mail.gmail.com>
- <CAA+D8AO5Tw=DGU1=5pOcJDOVFW3gx0Tsq7KqLUO-LXOmfh0RjQ@mail.gmail.com>
- <c7152a8b-443e-457b-bd14-528cc28c0e65@perex.cz>
- <CAA+D8AMjXnGTF2s6fNa+xgohQ1hyc1xGJON1SzPR5iuO0JgDyg@mail.gmail.com>
-From: Jaroslav Kysela <perex@perex.cz>
-Content-Language: en-US
-Autocrypt: addr=perex@perex.cz; keydata=
- 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
-In-Reply-To: <CAA+D8AMjXnGTF2s6fNa+xgohQ1hyc1xGJON1SzPR5iuO0JgDyg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 21. 06. 24 4:00, Shengjiu Wang wrote:
+The pull request you sent on Fri, 21 Jun 2024 16:56:12 +0200:
 
->> I expected that the driver will increase this reference counter in the
->> task_create callback. But yes, it will be probably better to do in
->> snd_compr_task_new() when file descriptors are used.
->>
->> I will send v3 soon. Thank you for your comments.
-> 
-> Thanks,  So when can we get the v3?
+> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.10-rc5-2
 
-V3 is out. Thanks for the ping.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/4545981f33be5f04ee8dd43397ea29c37337dd03
 
-			Jaroslav
+Thank you!
 
 -- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
