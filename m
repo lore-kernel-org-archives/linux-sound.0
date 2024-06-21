@@ -1,115 +1,148 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8112915B967
-	for <linux-sound@vger.kernel.org>; Fri, 21 Jun 2024 12:44:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16F3383A2;
+	Fri, 21 Jun 2024 14:55:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718973875; cv=none; b=gtejYwxYT2ldao/uDuPSiq569FYwc1JNTnNoLSGwJP5cewGL0SU8ueFSHCTQ8j/ZfENBGFEkNMy2OoTQvi2CtvEqDtlIlXr957bGak9K2Cbqx6VZqScKrogWyLwc6WKwgGvHalwImpOoMOjclfxukTtjyCNtwOTwBEV8TqjkROk=
+	t=1718981752; cv=none; b=iQoz81hTYswNEzp8EXnoAOaWLY/hf+6KotLtOS82uWpBhvKu99BAauvx4LKLxI3j8LClZ34TQALxybIYR3KGo2AOoCm+QY2oe+5+1uSIIzCh5TXwDtGJPwzUt0MFhrdJbOhGu392KQoElq1JsdD3znSoPZ6zR2nM3FWC81DR+q0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718973875; c=relaxed/simple;
-	bh=5l08J6QwTAydc1Q035PbR16J+Enp8p+H6+DUEul73Uc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fY4dXmRzp9wSBM/6MZbtWwr7Mv/VifLoMzaXmQ9rYanJ8MV0NGgZDXfAJCHY1p/wWAgQeOQW9tpmy44WeaXnsOHYm7kF0yMhQRrQiVSumbWGV5HWNJ1h8VE+f5/6dw8RjY9hpE6HR1w9hrRgMQmqQWlSMZp4mXRxLJVLu9H/qR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timesys.com; spf=pass smtp.mailfrom=timesys.com; dkim=pass (2048-bit key) header.d=timesys-com.20230601.gappssmtp.com header.i=@timesys-com.20230601.gappssmtp.com header.b=2/nYqkgF; arc=none smtp.client-ip=209.85.210.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timesys.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=timesys.com
+	s=arc-20240116; t=1718981752; c=relaxed/simple;
+	bh=FgVdijDU0BtB3Yp38vf7dWgs4zrbtpChVLwuhV1ycjc=;
+	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=gbri9QMjOfJJizwCxR59D34n6ic747zNpUwpb2jNqm8Cy3j1XGdqumP7jBTlbX9fehtm6rrPUtzRmUfMIKSIEBkgrjcqfluIhQ4vYZQsKU7RKhyEkon2ILQDCNAf5HeHx4mTWsDuDVdyzPXR8o2cMSS569LNNwlvlyzyKmke+04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EukmjfWC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BfmrTB14; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NwDdPl7p; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3tRrfoPY; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=timesys-com.20230601.gappssmtp.com header.i=@timesys-com.20230601.gappssmtp.com header.b="2/nYqkgF"
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-6f980c89db8so1000904a34.1
-        for <linux-sound@vger.kernel.org>; Fri, 21 Jun 2024 05:44:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=timesys-com.20230601.gappssmtp.com; s=20230601; t=1718973872; x=1719578672; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5l08J6QwTAydc1Q035PbR16J+Enp8p+H6+DUEul73Uc=;
-        b=2/nYqkgFh4BQX24EVE1GiO4QA5l4varwH8FB9cvXPIIdwe98n1tSYgA3wlx+UjAcOP
-         bXpOE8hgn+VVvYi0oDw6H3kW3c0/5CL3YPGx9bB/TNvpuJltFR/DCgtrMP6XwIYlLeTk
-         dEnuhX8skNCXatglG3kR9wUX9qiG44IgnVNqbRltj5gIwRA8oCI6xneka5XjZPqt+Gab
-         IeynXAaaRfMRChGOIBEZut1Vy0i/cil5+t9ahnzdhC5liwDkonxFkJWQ3K0JBPe/z+jp
-         PsFfPxPFqQOJw4N+gXp7LEulfX8/7V15sHvkKI63OAK+3cUOHDwM+Y2zOO44WDT/8TOH
-         AHpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718973872; x=1719578672;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5l08J6QwTAydc1Q035PbR16J+Enp8p+H6+DUEul73Uc=;
-        b=ewpqGAldOhw1KLDfq4XhOIpm2fggnDYDwYPNyThJGEOp4Y6P4URAU0OSchceoSl9kJ
-         2/os4WYjCQqLh6Mgh0FNt+dyWbnHsDVfauQs8bxXTxNuD/YtHb7E9woTvyRIz1VWZCVE
-         OfRCbzd6hQoJ4t0f2sGx8JEVkwb16VC4tjqFIq6ERe+JGwmynep/HF1vuQn72ROTlbyq
-         GUEsTKt9P6enhVCXwUOYYZCKA/3YzkDxvsXv0yWaqKSKJLBpX5xdvtJx5bQA9hMVjtRn
-         rEbC0hBPWnhRMhPWlkhPdQXYtp6ZrMVCEgLhAz5dnX6uaBtjsK1yYsRbOovaaDWkLvBI
-         mwhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXIQl78PheHsme4F6Zu7xbANuxeH6HEyiuW/S/Z/wedh/7m4eEidpx0Z8hpC876Ui2ziM6hC0z+ZVyeO0oQ6CIncta/eCkqtRvqvtE=
-X-Gm-Message-State: AOJu0YyDXVToYZ7hymht66OlbKU3G6BcAWf3Z5EhT+GHGGBPuxQL6LdU
-	ZoWYvRdcjj3Sy16EYqPWe5WTyfecSdu+Iy0XKUeM088p3utYMDHN2oQXG0cgMID4TkoXKDsKPA1
-	QTrvz+IRr+YyVOWTg8XCTQ4mV7wI9n7yfFBniPg==
-X-Google-Smtp-Source: AGHT+IEOZNlyLp+OxVrBD22Lk7qV9DoUmsFRWzsrduGbMG3NGbu8paAH4Nzg2EEG9ozpibJTiN4vqzTSJCMR3pLWBf8=
-X-Received: by 2002:a9d:76cd:0:b0:6f9:e6a5:dad2 with SMTP id
- 46e09a7af769-70074dc525emr9327837a34.17.1718973872714; Fri, 21 Jun 2024
- 05:44:32 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EukmjfWC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BfmrTB14";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NwDdPl7p";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3tRrfoPY"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A9B8D1FB80;
+	Fri, 21 Jun 2024 14:55:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1718981749; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=9cBWSUlwLGO8g801If0Hzc9joacR0slodg2mwVbceUs=;
+	b=EukmjfWCJRqqs4u7B9Va97XA/bQbz+gfPCCTKpa/Ypwa+DI+f6Ylp0QYH1GMyrGhyv4Cw/
+	slKfGQvujOXRiP3lu81q/CuyJgn42eQW1leZQZTAZZ7qTtJOChFkb9JG2CIMcuLHGHeNdZ
+	WRMybSLPNYyx426W87gECOIv4wOrzTU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1718981749;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=9cBWSUlwLGO8g801If0Hzc9joacR0slodg2mwVbceUs=;
+	b=BfmrTB14dDy/T9ELlBYdyW3sLQqaL2cAwoUe3zgB0nlMXMHeWucQoVfJuiA52MPb0XiwSv
+	WeBn8b1huXE62cDg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=NwDdPl7p;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=3tRrfoPY
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1718981746; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=9cBWSUlwLGO8g801If0Hzc9joacR0slodg2mwVbceUs=;
+	b=NwDdPl7pFUNSmB67fbK1upmIR/7JKB8qE7qPg5i/UVhQD33hCmEkgeuY0kYyhbRVTc6Mfp
+	5QaqaBwflMkW1/H6zX9sdHjci095coHnnC/fnmveA4phQxvwbEbmVpfdiu01XxVmYxPE1D
+	rGHMrglPOE8a0qGJ1lCbgpp57lYoi44=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1718981746;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=9cBWSUlwLGO8g801If0Hzc9joacR0slodg2mwVbceUs=;
+	b=3tRrfoPYaiEhrz4PL9JM6Yzae5eugDRi/HyekJhUrl/NNVzX4jK1rOa2WTG2LBWIe6GGKq
+	OBDySSIwAXFPIcAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8B8A713ABD;
+	Fri, 21 Jun 2024 14:55:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id B2/cIHKUdWZjMgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 21 Jun 2024 14:55:46 +0000
+Date: Fri, 21 Jun 2024 16:56:12 +0200
+Message-ID: <87sex6xs37.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux
+ Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes for 6.10-rc5 #2
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240620175657.358273-1-piotr.wojtaszczyk@timesys.com>
- <20240620175657.358273-9-piotr.wojtaszczyk@timesys.com> <20240621103019.783271f4@xps-13>
-In-Reply-To: <20240621103019.783271f4@xps-13>
-From: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
-Date: Fri, 21 Jun 2024 14:44:21 +0200
-Message-ID: <CAG+cZ06GSxPsTzRLXSk23qWXMkp-qxYq7Z9av5-2cPHSJmVAHg@mail.gmail.com>
-Subject: Re: [Patch v4 08/10] mtd: rawnand: lpx32xx: Request DMA channels
- using DT entries
-To: Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	"J.M.B. Downing" <jonathan.downing@nautel.com>, Vladimir Zapolskiy <vz@mleia.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Russell King <linux@armlinux.org.uk>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
-	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Arnd Bergmann <arnd@arndb.de>, Yangtao Li <frank.li@vivo.com>, 
-	Li Zetao <lizetao1@huawei.com>, Chancel Liu <chancel.liu@nxp.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, dmaengine@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-sound@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	Markus Elfring <Markus.Elfring@web.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: A9B8D1FB80
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_ALL(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	TO_DN_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-On Fri, Jun 21, 2024 at 10:30=E2=80=AFAM Miquel Raynal
-<miquel.raynal@bootlin.com> wrote:
->
-> Hi Piotr,
->
-> piotr.wojtaszczyk@timesys.com wrote on Thu, 20 Jun 2024 19:56:39 +0200:
->
-> > Move away from pl08x platform data towards device tree.
-> >
-> > Signed-off-by: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
->
-> I don't see any change regarding the NAND controller node in the device
-> tree, is there any dependency with other patches from the same patchset
-> or may I apply this directly to nand/next?
->
-> Thanks,
-> Miqu=C3=A8l
+Linus,
 
-Yes, this patch depends on "[v4,04/10] ARM: dts: lpc32xx: Add missing
-dma and i2s properties"
-which will be splitted into two or more separate patches per request
-in the comments.
-I'd like to keep driver changes and corresponding changes in DTS in
-the same patch
-but I've made a separate patch for DTS per request from v2 of the patch set=
-.
+please pull additional sound fixes for v6.10-rc5 from:
 
---
-Piotr Wojtaszczyk
-Timesys
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.10-rc5-2
+
+The topmost commit is 17563b4a19d1844bdbccc7a82d2f31c28ca9cfae
+
+----------------------------------------------------------------
+
+sound fixes for 6.10-rc5 #2
+
+A follow-up fix of the previous PR for a random build issue,
+as well as another trivial HD-audio quirk.
+
+----------------------------------------------------------------
+
+Pablo Caño (1):
+      ALSA: hda/realtek: Add quirk for Lenovo Yoga Pro 7 14AHP9
+
+Takashi Iwai (1):
+      ALSA: hda: Use imply for suggesting CONFIG_SERIAL_MULTI_INSTANTIATE
+
+---
+ sound/pci/hda/Kconfig         | 4 ++--
+ sound/pci/hda/patch_realtek.c | 1 +
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
