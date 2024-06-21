@@ -1,84 +1,105 @@
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA9AA126F02;
-	Fri, 21 Jun 2024 08:30:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8481218E20;
+	Fri, 21 Jun 2024 08:35:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718958631; cv=none; b=fIPnXNq6zAqOPij3c05scsq+Zs7cp5LbS+9QQ47bb9AtP/pYy6CO1k6Q4S8VJXy2ALj/z822RHJcLWhYxfYgy4eMnLcZyu/L0kxLEAqGbgDNExStAXxlzTfaaAA8/C1kuSpIiVJCGBMtI8NjjT7y656K5T3z7xLErJDbRpLqsmM=
+	t=1718958939; cv=none; b=u2KM90WSWwRHFoPHByyB6S7z/vpNE+l9sxtZDSiQSs/EppS9Ab/kAxVjdqGXGYF9GloVRmoYIqzc4N6eQikWwh3JTWuNjOrpzHVIF/qKqltaNy5uRsFgv/6LRDcoHMC6SJxASkcEuICBE1PLCNuodn9jkbVEuMWs1X66VrpRz1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718958631; c=relaxed/simple;
-	bh=vSTWYIkS8dZPp1gyV6GgsipcJv/f0Yiu+CBMvpyDKyU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Mf/WnRPdGRosG/aoe8vzdKDkYGXBaCXVkLWq8pB120YT9bCD/REodQFzL5alEMF1W+MT+V3caBIGq40Y3Sn0tGKuP2o05+zL3NZ5jLXxIU3lJ2DhATgsoPqtMWii4qndXRC7lQtKyMu6ijqKfUO6fGqsCI0YiuWORfyN5EzrDyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=EljBfq25; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1718958939; c=relaxed/simple;
+	bh=YLBSukhcfbAfabPDZHRw1bCjlUJ36aIXiF01yEIM0pw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HsTIN7TCY9Cc7emjuWiwEUwFcnEneb3lcKRtY3LAkVtJFjaDPmryINgxPORTuQ9FvihNF8XDlrPyTvCJBhJO2xVVeUxTjkqjt5oRKAPVo8V4OjAbFfmzC4oOVAeBKQrnaxLlDswgNrsszq/YumlOSnLoFf6Po8gL1DY80XVWSKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RTpDm6RI; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="EljBfq25"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 5A3F020003;
-	Fri, 21 Jun 2024 08:30:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1718958625;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vSTWYIkS8dZPp1gyV6GgsipcJv/f0Yiu+CBMvpyDKyU=;
-	b=EljBfq25UCP0bJHtLSMj6/zCXY9oAvfd8m3m3+oKaAfE3R3qGzQiLP70Dtf5/E0BjVhlr2
-	3kYdj9Zcv07uvUjSc4PGieGFVRuZUnscRqClY9e/dC3+32DNYqrg906mhGNAV5dsydSZgJ
-	j7J764uUg9PaG/QdPDX592lZI7xKQ5B2ClV75xzBfXbuB3zLdIpVqHskurQKcAnpdiWewl
-	tpt0EvOPrnXwY7VIkoAA1L3G8YNvuSl+O84XjndxPwFS4GJ7mxjNtxLKG6RvpNnEUyw/Ym
-	ukwKPd7JhZmPkutWlro7UbvnVkRYcyRd+4x/8l1ml1W5kY1Tk29IDHTpcFDWyA==
-Date: Fri, 21 Jun 2024 10:30:19 +0200
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, "J.M.B.
- Downing" <jonathan.downing@nautel.com>, Vladimir Zapolskiy <vz@mleia.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Russell King <linux@armlinux.org.uk>, Michael Turquette
- <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Andi Shyti
- <andi.shyti@kernel.org>, Richard Weinberger <richard@nod.at>, Vignesh
- Raghavendra <vigneshr@ti.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
- Iwai <tiwai@suse.com>, Arnd Bergmann <arnd@arndb.de>, Yangtao Li
- <frank.li@vivo.com>, Li Zetao <lizetao1@huawei.com>, Chancel Liu
- <chancel.liu@nxp.com>, Michael Ellerman <mpe@ellerman.id.au>,
- dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org,
- linux-sound@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-i2c@vger.kernel.org, linux-mtd@lists.infradead.org, Markus Elfring
- <Markus.Elfring@web.de>
-Subject: Re: [Patch v4 08/10] mtd: rawnand: lpx32xx: Request DMA channels
- using DT entries
-Message-ID: <20240621103019.783271f4@xps-13>
-In-Reply-To: <20240620175657.358273-9-piotr.wojtaszczyk@timesys.com>
-References: <20240620175657.358273-1-piotr.wojtaszczyk@timesys.com>
-	<20240620175657.358273-9-piotr.wojtaszczyk@timesys.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RTpDm6RI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718958938; x=1750494938;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=YLBSukhcfbAfabPDZHRw1bCjlUJ36aIXiF01yEIM0pw=;
+  b=RTpDm6RI5EO2eHPtOoQShcUY4yuIp9ek1ckm06Dr6NZ6Qb6T4RJe90SP
+   mWfpD6L+sF8Azys+XmdqJhfgLiUeFGjQkyyu9A5HpbtP7U4O9+n8VSfpT
+   UAScG1JbyHJ88u4EzNhwahALc8gYPQNRVys1SVFPOni5jPYNtGwA8tQNe
+   9/4pp+Wj8LIc1cVGUfZ+09qdKricYrnnExHy+vyrr2uEbtlolkCTzqmiy
+   cl6/Ut7WWbjWT5FQo4QDgur8KzgS8oApvZGC4i0MSx3kd1jf1Q6gBsO0P
+   X/yaesrlGKqKVSwdniE6LYRDEHghziumB+Gs1WKGVf74TWJBEiwMrWbvf
+   g==;
+X-CSE-ConnectionGUID: U6u2V0s6SUuACwT3COtvcA==
+X-CSE-MsgGUID: tEPAbQEJRWuEbdNchZ1UdQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11109"; a="19864960"
+X-IronPort-AV: E=Sophos;i="6.08,254,1712646000"; 
+   d="scan'208";a="19864960"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2024 01:35:37 -0700
+X-CSE-ConnectionGUID: Dmwuj3wQTl2M99wX+YLFVQ==
+X-CSE-MsgGUID: zXuWW/W/QCaCd/dFJhqKpw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,254,1712646000"; 
+   d="scan'208";a="73738528"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO [10.245.246.142]) ([10.245.246.142])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2024 01:35:33 -0700
+Message-ID: <3d9ef693-75e9-4be0-b1c0-488d3e2d41c5@linux.intel.com>
+Date: Fri, 21 Jun 2024 10:35:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: hda: intel-dsp-config: Fix Azulle Access 4 quirk
+ detection
+To: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>, Allen Ballway <ballway@chromium.org>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Brady Norander <bradynorander@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org,
+ Mark Hasemeyer <markhas@chromium.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Cezary Rojewski <cezary.rojewski@intel.com>
+References: <20240430212838.1.I77b0636d5df17c275042fd66cfa028de8ad43532@changeid>
+ <83e218f9-29f5-4f35-bd0c-b298e3bb9e8c@linux.intel.com>
+ <CAEs41JC-vJaMHj6fzmNO=-bu5oURRA-u565sN2=yzBeVtKb=4g@mail.gmail.com>
+ <b2375610-4044-49e6-86e9-5c172abb2ffa@linux.intel.com>
+ <CAEs41JAPPr3xRR42H6vKic5rVrtV-on4HyT5wNCXxbJtwijnCA@mail.gmail.com>
+ <3d44c749-6c81-4c11-9409-b01815fe1a91@linux.intel.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <3d44c749-6c81-4c11-9409-b01815fe1a91@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
+Content-Transfer-Encoding: 8bit
 
-Hi Piotr,
 
-piotr.wojtaszczyk@timesys.com wrote on Thu, 20 Jun 2024 19:56:39 +0200:
 
-> Move away from pl08x platform data towards device tree.
->=20
-> Signed-off-by: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
+On 6/21/24 08:15, Amadeusz Sławiński wrote:
+> On 6/20/2024 9:27 PM, Allen Ballway wrote:
+>> I filed a bug and after sharing the requested information it looks
+>> like this device won't work on SOF without vendor support. Given this,
+>> would the original patch returning this device to using HDAudio be
+>> reasonable, or is there an preferred alternative to force this device
+>> into using HDAudio?
+>>
+> 
+> And can you share link to the issue on mailing list, so someone reading
+> this thread in the future doesn't have to guess where it is? ;)
 
-I don't see any change regarding the NAND controller node in the device
-tree, is there any dependency with other patches from the same patchset
-or may I apply this directly to nand/next?
+https://github.com/thesofproject/linux/issues/4981
 
-Thanks,
-Miqu=C3=A8l
+I don't know what to do with this configuration.
+We added a quirk to force SOF to be used for ES8336 devices. It worked
+for some, but not for others. Now we have quite a few ES8336-based
+platforms that are broken with zero support from the vendor, with
+obscure I2C/GPIO/clk issues.
+Are we going to tag each one of them and say 'not supported, use HDMI only'?
+That's pushing a bit the notion of quirk...It would generate an endless
+stream of patches. The alternative is to do nothing and ask that those
+platforms revert to HDMI audio only with a kernel parameter. That latter
+alternative has my vote.
+
