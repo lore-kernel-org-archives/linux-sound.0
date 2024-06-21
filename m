@@ -1,75 +1,104 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F02E14038F;
-	Thu, 20 Jun 2024 22:57:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E193207;
+	Fri, 21 Jun 2024 00:06:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718924246; cv=none; b=OxWchpwePCg35fajydn43YMO9yixNRShy05BJEQ3oCqXRkRxdDmUHHIbzYw1xIzMSdvffG1wTNaClTMl0/Mz71neDdeMJig776CRSLCEi81VO/m78jXyDzye8kBr14+enmQzleuph8BKL5yoCMVtrbLxzFC2UXBvKAZJ+MXeoD0=
+	t=1718928375; cv=none; b=jhR3qorLf1OfkHjOfwdvySmUj42pp2+ab+GvF7IXfRFIPgXwP6lLDPgoFJ4kiqjBAvqaDluwD3V6lBXlTg5+1NP4qHzzapuV/JXl+La5AwC7FA0M7q0Y4jVtlIK3QDufLyCRyoA/Rxm7c8S61BVf6ZfIyteJmp6h03nTWGtHYSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718924246; c=relaxed/simple;
-	bh=oL0lOl8UlorqgDe4N96CXSn6qERkQqsRkdEwKmnMLpE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QKu5iQj6kL/IL1Mz0GIOKb5V6GmVe2dC92sJUEW/ri1DhZaDK+6MCO98aQrZGlIilq4qsVg+pmy6L/RJUiE6Ipe0y2fJjhcGv18IDeBrqsyVm/cWkRWvo6tRCSTpOiVyWTsp8XXGVLPmutFCMDnrVcqwnfKm5CrQ1CQXJMYlzOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WOyKtyGi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718928375; c=relaxed/simple;
+	bh=VNSCHiO08SIk0htqWDW6NDFuvYyhidq/ovhyfUV5Kwg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Cou3aXMVkXhHGYGF+zvRkCV3R0pqhbEX9BTHjLYUA4xVAeMxd0scQxRzbzftBfbP4K28nfuKQESgoCf/8JMJTtXpQ0MlSvkQSM76fi1tHmdRRMBOWz1rL7aZdwRnkEeYWWbmeibDGEykCS5QD2iE01LOjff1d5hiPHrgUVaTq0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HneLpggF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WOyKtyGi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B798C2BD10;
-	Thu, 20 Jun 2024 22:57:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HneLpggF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E3A7C2BD10;
+	Fri, 21 Jun 2024 00:06:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718924245;
-	bh=oL0lOl8UlorqgDe4N96CXSn6qERkQqsRkdEwKmnMLpE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WOyKtyGiw4R35+cQwJzIRKbOUcM5jG2Lw029k3dBxiy3q5r1r0iBa1pT8T3JHsfuv
-	 a7nj6hsTr7uKLww9GJRlRMomasDZ05PZYMJBeTXxYcIOU7n8AaG41zowyTmRcz+1wt
-	 h5ykO0hla58PvGtVSXoUdDz2mhTPszr6H5PEnIWIVWYCq6kSsGez5GkzxSillNnGZB
-	 Anok5gtr5T61ZSZgYrb/Adj+xTWapsNgVeXSM82qZ28UuoeU2sSaNWl8H7KhrlwUn3
-	 +5tlGup1Pd1RWHTQ8tCYqmf/N5c93MmUKsDabdSqJXdEbBZ4q9mx1LBv9YPJtJKrZl
-	 up3TkdcO9Qx4Q==
-Date: Fri, 21 Jun 2024 00:57:21 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	"J.M.B. Downing" <jonathan.downing@nautel.com>, Vladimir Zapolskiy <vz@mleia.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Russell King <linux@armlinux.org.uk>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Yangtao Li <frank.li@vivo.com>, Li Zetao <lizetao1@huawei.com>, 
-	Chancel Liu <chancel.liu@nxp.com>, Michael Ellerman <mpe@ellerman.id.au>, dmaengine@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-sound@vger.kernel.org, linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	linux-mtd@lists.infradead.org, Markus Elfring <Markus.Elfring@web.de>
-Subject: Re: [Patch v4 10/10] i2x: pnx: Use threaded irq to fix warning from
- del_timer_sync()
-Message-ID: <jgqhlnysuwajlfxjwetas53jzdk6nnmewead2xzyt3xngwpcvl@xbooed6cwlq4>
-References: <20240620175657.358273-1-piotr.wojtaszczyk@timesys.com>
- <20240620175657.358273-11-piotr.wojtaszczyk@timesys.com>
+	s=k20201202; t=1718928375;
+	bh=VNSCHiO08SIk0htqWDW6NDFuvYyhidq/ovhyfUV5Kwg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=HneLpggF5aKAge/YLzIW5cLkwl1JRmjRPAHCL9AVCFqQnPr25XKP9Z/YFuOrHFRQM
+	 Z8WthZPFSd05AbkIJE7UTae1fx3IHUq3s75yr3U83zQfEU7QtJmzJG4jZ8kmRpLC7g
+	 GnaeNLH2rHkUxgRcg5o5IBMpWKQ/TttntERYGpR3LDYgcAM/3dsaPM6l7wBTgQGhA/
+	 neiEPwmWUsUSVCSmbh9khUQsFK/ciT5j9FvzPL9Bf9Mf7fJu9oYg+fsrARZuPkG5Mc
+	 9+IhU4KVKb2ttRGmnF0TsxJugRTTvceAmV7z+zF4iyxnLV1CDS4yio89WNd6nDyYyV
+	 k6sIw0QXHXRaA==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
+ Nicolin Chen <nicoleotsuka@gmail.com>, 
+ Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, 
+ linuxppc-dev@lists.ozlabs.org, 
+ Philip-Dylan <philip-dylan.gleonec@savoirfairelinux.com>
+In-Reply-To: <20240620132511.4291-1-elinor.montmasson@savoirfairelinux.com>
+References: <20240620132511.4291-1-elinor.montmasson@savoirfairelinux.com>
+Subject: Re: (subset) [PATCHv5 0/9] ASoC: fsl-asoc-card: add S/PDIF
+ controller
+Message-Id: <171892836830.273016.4379202325839599426.b4-ty@kernel.org>
+Date: Fri, 21 Jun 2024 01:06:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240620175657.358273-11-piotr.wojtaszczyk@timesys.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev-d4707
 
-Hi Piotr,
-
-On Thu, Jun 20, 2024 at 07:56:41PM GMT, Piotr Wojtaszczyk wrote:
-> When del_timer_sync() is called in an interrupt context it throws a warning
-> because of potential deadlock. Threaded irq handler fixes the potential
-> problem.
+On Thu, 20 Jun 2024 15:25:02 +0200, Elinor Montmasson wrote:
+> This is the v5 of the series of patches aiming to make the machine
+> driver `fsl-asoc-card` compatible with S/PDIF controllers on imx boards.
+> The main goal is to allow the use of S/PDIF controllers with ASRC
+> modules.
 > 
-> Signed-off-by: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
+> The `imx-spdif` machine driver already has specific support for S/PDIF
+> controllers but doesn't support using an ASRC with it. However, the
+> `fsl-asoc-card` machine driver has the necessary code to create a sound
+> card which can use an ASRC module.
+> It is then possible to extend the support for S/PDIF audio cards by
+> merging the `imx-spdif` driver into `fsl-asoc-card`.
+> 
+> [...]
 
-did you run into a lockdep splat?
+Applied to
 
-Anything against using del_timer(), instead? Have you tried?
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/9] ASoC: fsl-asoc-card: set priv->pdev before using it
+      commit: 90f3feb24172185f1832636264943e8b5e289245
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
 Thanks,
-Andi
+Mark
+
