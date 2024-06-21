@@ -1,70 +1,50 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B920E84A4C;
-	Fri, 21 Jun 2024 15:40:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E747156227
+	for <linux-sound@vger.kernel.org>; Fri, 21 Jun 2024 16:49:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718984450; cv=none; b=rIELrpzL6P3Q3tD7+/ZomZesy76ToaiF2WknYtW9abdjDV+WqCfLC7rvsvRQ3dmaxippFGnR7xMg3COT9KdEEMp2E6X/F5nKKnsFiGL7WJJ6CSCltWc1IQYgkwnFXRlScZLL0AXvAvkQ3QWE4BvQBXwXDdw8k5heDRaEGnnV8aw=
+	t=1718988585; cv=none; b=XrZXn4vHoJKoCkLAj9gTqUKGjfB9ICj9bPKp816JOLn6Jfc7iSdbdsx98X3VIuFzxqsSRM8Y8zvZWWmiiJvMkyp6zwZUTOzxyFTsxJpsxd3kMwabElwtVYibDiwhBobMFtnczOPuWQkRiM3haApHwG8UFqbG6U3/SKx+t+RRVzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718984450; c=relaxed/simple;
-	bh=J9beTWQ6nBQMACRt3dW6ixHUj30KwKhEXz5zO1lRtlE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cX6El45p3i6Sb0UiYzenGHEBjrQ3/RXL0AePD5u3fk1zeesrXI5VWcENKSKyXzjnQ93Xym6HvaAF55jRTNcUIL6wuwV7MrKUjGA7QBk/pKA8uxpGJqNPZaar224zUckhomie7XvpRLnSM+x6oAcg0JMuSIAVtVDQlXsVlCbIB0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gsRhugAq; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1718988585; c=relaxed/simple;
+	bh=ENN7N8dW1TyHoxWbTiQdNdSVwXUVmTQbpv9Ry1lRMg0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=g17mt144hXa0lbTkNWjRx3xhOPbfVtf1U1HIIG6JlqTCO3uAnemRHJ6zPcNI47LUSEDWIwISzd8eYYn9yJQ4q+TPi54mw4d3YPwM27F4ihabVNWBBHDqDike1OUaXHLzuzarJAxwRIcUHspF1zduRXLxWuljoMDZeaNrtmiaBLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=BgedPjPg; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gsRhugAq"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7042a8ad9f5so1916419b3a.0;
-        Fri, 21 Jun 2024 08:40:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718984448; x=1719589248; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9lNEeiRMZyfbNEcygdR2xAKFEd5icF+LSS0bm07Oqsk=;
-        b=gsRhugAqxoG9lvlKyazDDzrsHNU04jy9nsqlKvhPyMIlqf3iIEiAOd2FOalYpHjDIf
-         bgd6AgF5zr0654KPzrvoGUqI0FBvH1hZTAFwGAoP2GikEps7eCXd6qE48n/s37bcAAnp
-         SOn30qeGBugBpOeQ3dZ735lUCxTkLPsSUM3xW8R2fRnxoslMbvsa9eLZ42ecVTH4OMkg
-         0rV0IrUmWV4/TAklMhKGipNeJYk0ARcVsetJHVBsdyH06SFaqaI0RmUbiD3xFA+85+Hn
-         5EAe8Ng/9z7YkDFzX8yiCEe78nVkkYz9tKTVUD524TY3duQFJcqCrvDH0vRVXYPUg6U7
-         ww3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718984448; x=1719589248;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9lNEeiRMZyfbNEcygdR2xAKFEd5icF+LSS0bm07Oqsk=;
-        b=aHT7LFBirRjjTQR2AdG4tGZk8qZGFc0JpHe++ud1Qjk8FY7B8JrrqdM1yPTRcOJl03
-         Je0WtbJxpFEbL8SS9MbiWcFd2oZhOrFHAR/vKxhNqm34W8DyPn7LTYS1GV2OjZ9fyAZr
-         B+NC+GxiPkwhl5Lpx/jDMj8GmJsO/YmOz6xUXS/NWvd8fNwz2jXE8U4bSOfCvIrGhFC8
-         tm15EFtR5WIo8Hn84lgkTLA4a10/DH76ThTNqxNrnqT9qbrfg0L5xNewt/WhErNjOVXE
-         geV3qwndhwufoZ6huG0+LXAzZRvZt7ekiU4QjCHjH+swiXFMG9JNwv3s827j7xBB8fII
-         sbxg==
-X-Forwarded-Encrypted: i=1; AJvYcCX1I+9l3KVNah0qA7249cS0TlemQ9rvmt0p2VgIs6mfQlWYFm4Kmx4Xn/P9v7y5pK0/rxoG2nY4RbIWO+9r4H8pUSTLXVEPCuyxXxh6SgH0ygvdl+I37m8nFmxfJL5n3qZmVSmCRZsc+2l79qXqr15LxSkI+iDFUoMQNYbuZ8atT0il66Zi
-X-Gm-Message-State: AOJu0Yxm7P8vZmPT+u/B6uow+4DazfIeVdLokTXUa+xeFGsg06iddKZW
-	VbYLcKnNQQSOCnxou/BqfCIjz+KYhkfPKXw3FC5PQ0Nt0uDDtJ11
-X-Google-Smtp-Source: AGHT+IGRTpgRoS9Ooc2BHJ4NPBqzyh8zsWzwUoEzcYv0F/1FXItq5OIJQG5dLJb24ilLB+6dDw0BTA==
-X-Received: by 2002:a05:6a20:3252:b0:1b5:88f5:5823 with SMTP id adf61e73a8af0-1bce65cabe9mr186358637.27.1718984447745;
-        Fri, 21 Jun 2024 08:40:47 -0700 (PDT)
-Received: from fedora.one.one.one.one ([2405:201:6013:c0b2:ea4b:30e0:4e3a:ab56])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-716baf4acd1sm1271070a12.75.2024.06.21.08.40.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Jun 2024 08:40:47 -0700 (PDT)
-From: Animesh Agarwal <animeshagarwal28@gmail.com>
-To: 
-Cc: animeshagarwal28@gmail.com,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="BgedPjPg"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id BF9676E90;
+	Fri, 21 Jun 2024 18:49:30 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz BF9676E90
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1718988570; bh=0mE0xEFB5HvQsqYe+kd16iloWM6j9MYsvU6+dk2Xccg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=BgedPjPgF7XKHHIen1CVRBjn/i9p+JKuwfnhEGFdG5JzxnBesdCTYTd4Tut/CCMBM
+	 byvQqh6aZFbL42CP8cinbDbHW26xqGJZAIIoEjH1RBpxBIWQccSZngqfAWoLk20ndR
+	 On5EY8lHRZIS7307C89fgnkkBF8ogjyZlJIUYoEI=
+Received: from p1gen4.perex-int.cz (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Fri, 21 Jun 2024 18:49:21 +0200 (CEST)
+From: Jaroslav Kysela <perex@perex.cz>
+To:  <linux-sound@vger.kernel.org>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Jaroslav Kysela <perex@perex.cz>,
 	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: dt-bindings: realtek,rt5645: Convert to dtschema
-Date: Fri, 21 Jun 2024 21:10:27 +0530
-Message-ID: <20240621154034.489037-1-animeshagarwal28@gmail.com>
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Nicolas Dufresne <nicolas@ndufresne.ca>,
+	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Vinod Koul <vkoul@kernel.org>
+Subject: [PATCH v3] ALSA: compress_offload: introduce passthrough operation mode
+Date: Fri, 21 Jun 2024 18:49:15 +0200
+Message-ID: <20240621164915.410946-1-perex@perex.cz>
 X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -72,242 +52,809 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Convert the RT5650/RT5645 audio CODEC bindings to DT schema.
+There is a requirement to expose the audio hardware that accelerates various
+tasks for user space such as sample rate converters, compressed
+stream decoders, etc.
 
-Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
-Cc: Daniel Baluta <daniel.baluta@nxp.com>
+This is description for the API extension for the compress ALSA API which
+is able to handle "tasks" that are not bound to real-time operations
+and allows for the serialization of operations.
+
+For details, refer to "compress-passthrough.rst" document.
+
+Note: This code is RFC (not tested, just to clearify the API requirements).
+My goal is to add a test (loopback) driver and add a support to tinycompress
+library in the next step.
+
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Shengjiu Wang <shengjiu.wang@gmail.com>
+Cc: Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: Vinod Koul <vkoul@kernel.org>
+Signed-off-by: Jaroslav Kysela <perex@perex.cz>
+
 ---
- .../bindings/sound/realtek,rt5645.yaml        | 129 ++++++++++++++++++
- .../devicetree/bindings/sound/rt5645.txt      |  82 -----------
- 2 files changed, 129 insertions(+), 82 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/sound/realtek,rt5645.yaml
- delete mode 100644 Documentation/devicetree/bindings/sound/rt5645.txt
+v2..v3:
+  - fix missing runtime->tasks initialization (thanks Shengjiu Wang)
+  - fix missing seqno initialization in task_new (thanks Shengjiu Wang)
+  - fix reference counting for allocated dma buffers (thanks Shengjiu Wang)
+  - use origin_seqno to reuse the already allocated buffers for new task
 
-diff --git a/Documentation/devicetree/bindings/sound/realtek,rt5645.yaml b/Documentation/devicetree/bindings/sound/realtek,rt5645.yaml
+v1..v2:
+  - fix some documentation typos (thanks Amadeusz Sławiński)
+  - fix memdup_user() error handling (thanks Takashi)
+  - use one state variable instead multiple (thanks Takashi)
+  - handle task limit (set to 64 - mentioned in documentation, NIY)
+  - fix file release (free all tasks)
+---
+ .../sound/designs/compress-passthrough.rst    | 125 +++++++
+ include/sound/compress_driver.h               |  32 ++
+ include/uapi/sound/compress_offload.h         |  51 ++-
+ sound/core/Kconfig                            |   4 +
+ sound/core/compress_offload.c                 | 338 +++++++++++++++++-
+ 5 files changed, 541 insertions(+), 9 deletions(-)
+ create mode 100644 Documentation/sound/designs/compress-passthrough.rst
+
+diff --git a/Documentation/sound/designs/compress-passthrough.rst b/Documentation/sound/designs/compress-passthrough.rst
 new file mode 100644
-index 000000000000..d2d97d2bca2e
+index 000000000000..975462500c33
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/realtek,rt5645.yaml
-@@ -0,0 +1,129 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/realtek,rt5645.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/Documentation/sound/designs/compress-passthrough.rst
+@@ -0,0 +1,125 @@
++=================================
++ALSA Co-processor Passthrough API
++=================================
 +
-+title: RT5650/RT5645 audio CODEC
++Jaroslav Kysela <perex@perex.cz>
 +
-+maintainers:
-+  - Animesh Agarwal <animeshagarwal28@gmail.com>
 +
-+description: |
-+  This device supports I2C only.
++Overview
++========
 +
-+  Pins on the device (for linking into audio routes) for RT5645/RT5650:
-+    * DMIC L1
-+    * DMIC R1
-+    * DMIC L2
-+    * DMIC R2
-+    * IN1P
-+    * IN1N
-+    * IN2P
-+    * IN2N
-+    * Haptic Generator
-+    * HPOL
-+    * HPOR
-+    * LOUTL
-+    * LOUTR
-+    * PDM1L
-+    * PDM1R
-+    * SPOL
-+    * SPOR
++There is a requirement to expose the audio hardware that accelerates various
++tasks for user space such as sample rate converters, compressed
++stream decoders, etc.
 +
-+allOf:
-+  - $ref: dai-common.yaml#
++This is description for the API extension for the compress ALSA API which
++is able to handle "tasks" that are not bound to real-time operations
++and allows for the serialization of operations.
 +
-+properties:
-+  compatible:
-+    enum:
-+      - realtek,rt5645
-+      - realtek,rt5650
++Requirements
++============
 +
-+  reg:
-+    maxItems: 1
++The main requirements are:
 +
-+  interrupts:
-+    maxItems: 1
-+    description: The CODEC's interrupt output.
++- serialization of multiple tasks for user space to allow multiple
++  operations without user space intervention
 +
-+  avdd-supply:
-+    description: Power supply for AVDD, providing 1.8V.
++- separate buffers (input + output) for each operation
 +
-+  cpvdd-supply:
-+    description: Power supply for CPVDD, providing 3.5V.
++- expose buffers using mmap to user space
 +
-+  hp-detect-gpios:
-+    description: 
-+      A GPIO spec for the external headphone detect pin. If jd-mode = 0, we
-+      will get the JD status by getting the value of hp-detect-gpios.
++- signal user space when the task is finished (standard poll mechanism)
 +
-+  cbj-sleeve-gpios:
-+    description:
-+      A GPIO spec to control the external combo jack circuit to tie the
-+      sleeve/ring2 contacts to the ground or floating. It could avoid some
-+      electric noise from the active speaker jacks.
++Design
++======
 +
-+  realtek,in2-differential:
-+    description:
-+      Indicate MIC2 input are differential, rather than single-ended.
-+    type: boolean
++A new direction SND_COMPRESS_PASSTHROUGH is introduced to identify
++the passthrough API.
 +
-+  realtek,dmic1-data-pin:
-+    description: Specify which pin to be used as DMIC1 data pin.
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum:
-+      - 0 # dmic1 is not used
-+      - 1 # using IN2P pin as dmic1 data pin
-+      - 2 # using GPIO6 pin as dmic1 data pin
-+      - 3 # using GPIO10 pin as dmic1 data pin
-+      - 4 # using GPIO12 pin as dmic1 data pin
++The API extension shares device enumeration and parameters handling from
++the main compressed API. All other realtime streaming ioctls are deactivated
++and a new set of task related ioctls are introduced. The standard
++read/write/mmap I/O operations are not supported in the passthrough device.
 +
-+  realtek,dmic2-data-pin:
-+    description: Specify which pin to be used as DMIC2 data pin.
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum:
-+      - 0 # dmic2 is not used
-+      - 1 # using IN2N pin as dmic2 data pin
-+      - 2 # using GPIO5 pin as dmic2 data pin
-+      - 3 # using GPIO11 pin as dmic2 data pin
++Device ("stream") state handling is reduced to OPEN/SETUP. All other
++states are not available for the passthrough mode.
 +
-+  realtek,jd-mode:
-+    description: The JD mode of rt5645/rt5650.
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum:
-+      - 0 # rt5645/rt5650 JD function is not used
-+      - 1 # Mode-0 (VDD=3.3V), two port jack detection
-+      - 2 # Mode-1 (VDD=3.3V), one port jack detection
-+      - 3 # Mode-2 (VDD=1.8V), one port jack detection
++Data I/O mechanism is using standard dma-buf interface with all advantages
++like mmap, standard I/O, buffer sharing etc. One buffer is used for the
++input data and second (separate) buffer is used for the output data. Each task
++have separate I/O buffers.
 +
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - avdd-supply
-+  - cpvdd-supply
++For the buffering parameters, the fragments means a limit of allocated tasks
++for given device. The fragment_size limits the input buffer size for the given
++device. The output buffer size is determined by the driver (may be different
++from the input buffer size).
 +
-+unevaluatedProperties: false
++State Machine
++=============
 +
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
++The passthrough audio stream state machine is described below :
 +
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
++                                       +----------+
++                                       |          |
++                                       |   OPEN   |
++                                       |          |
++                                       +----------+
++                                             |
++                                             |
++                                             | compr_set_params()
++                                             |
++                                             v
++         all passthrough task ops      +----------+
++  +------------------------------------|          |
++  |                                    |   SETUP  |
++  |                                    |
++  |                                    +----------+
++  |                                          |
++  +------------------------------------------+
 +
-+        codec@1a {
-+            compatible = "realtek,rt5650";
-+            reg = <0x1a>;
-+            hp-detect-gpios = <&gpio 19 0>;
-+            cbj-sleeve-gpios = <&gpio 20 0>;
-+            interrupt-parent = <&gpio>;
-+            interrupts = <7 IRQ_TYPE_EDGE_FALLING>;
-+            avdd-supply = <&avdd_reg>;
-+            cpvdd-supply = <&cpvdd_supply>;
-+            realtek,jd-mode = <3>;
-+        };
-+    };
-diff --git a/Documentation/devicetree/bindings/sound/rt5645.txt b/Documentation/devicetree/bindings/sound/rt5645.txt
-deleted file mode 100644
-index c1fa379f5f3e..000000000000
---- a/Documentation/devicetree/bindings/sound/rt5645.txt
-+++ /dev/null
-@@ -1,82 +0,0 @@
--RT5650/RT5645 audio CODEC
--
--This device supports I2C only.
--
--Required properties:
--
--- compatible : One of "realtek,rt5645" or "realtek,rt5650".
--
--- reg : The I2C address of the device.
--
--- interrupts : The CODEC's interrupt output.
--
--- avdd-supply: Power supply for AVDD, providing 1.8V.
--
--- cpvdd-supply: Power supply for CPVDD, providing 3.5V.
--
--Optional properties:
--
--- hp-detect-gpios:
--  a GPIO spec for the external headphone detect pin. If jd-mode = 0,
--  we will get the JD status by getting the value of hp-detect-gpios.
--
--- cbj-sleeve-gpios:
--  a GPIO spec to control the external combo jack circuit to tie the sleeve/ring2
--  contacts to the ground or floating. It could avoid some electric noise from the
--  active speaker jacks.
--
--- realtek,in2-differential
--  Boolean. Indicate MIC2 input are differential, rather than single-ended.
--
--- realtek,dmic1-data-pin
--  0: dmic1 is not used
--  1: using IN2P pin as dmic1 data pin
--  2: using GPIO6 pin as dmic1 data pin
--  3: using GPIO10 pin as dmic1 data pin
--  4: using GPIO12 pin as dmic1 data pin
--
--- realtek,dmic2-data-pin
--  0: dmic2 is not used
--  1: using IN2N pin as dmic2 data pin
--  2: using GPIO5 pin as dmic2 data pin
--  3: using GPIO11 pin as dmic2 data pin
--
---- realtek,jd-mode : The JD mode of rt5645/rt5650
--   0 : rt5645/rt5650 JD function is not used
--   1 : Mode-0 (VDD=3.3V), two port jack detection
--   2 : Mode-1 (VDD=3.3V), one port jack detection
--   3 : Mode-2 (VDD=1.8V), one port jack detection
--
--Pins on the device (for linking into audio routes) for RT5645/RT5650:
--
--  * DMIC L1
--  * DMIC R1
--  * DMIC L2
--  * DMIC R2
--  * IN1P
--  * IN1N
--  * IN2P
--  * IN2N
--  * Haptic Generator
--  * HPOL
--  * HPOR
--  * LOUTL
--  * LOUTR
--  * PDM1L
--  * PDM1R
--  * SPOL
--  * SPOR
--
--Example:
--
--codec: rt5650@1a {
--	compatible = "realtek,rt5650";
--	reg = <0x1a>;
--	hp-detect-gpios = <&gpio 19 0>;
--	cbj-sleeve-gpios = <&gpio 20 0>;
--	interrupt-parent = <&gpio>;
--	interrupts = <7 IRQ_TYPE_EDGE_FALLING>;
--	realtek,dmic-en = "true";
--	realtek,en-jd-func = "true";
--	realtek,jd-mode = <3>;
--};
++
++Passthrough operations (ioctls)
++===============================
++
++CREATE
++------
++Creates a set of input/output buffers. The input buffer size is
++fragment_size. Allocates unique seqno.
++
++The hardware drivers allocate internal 'struct dma_buf' for both input and
++output buffers (using 'dma_buf_export()' function). The anonymous
++file descriptors for those buffers are passed to user space.
++
++FREE
++----
++Free a set of input/output buffers. If a task is active, the stop
++operation is executed before. If seqno is zero, operation is executed for all
++tasks.
++
++START
++-----
++Starts (queues) a task. There are two cases of the task start - right after
++the task is created. In this case, origin_seqno must be zero.
++The second case is for reusing of already finished task. The origin_seqno
++must identify the task to be reused. In both cases, a new seqno value
++is allocated and returned to user space.
++
++The prerequisite is that application filled input dma buffer with
++new source data and set input_size to pass the real data size to the driver.
++
++The order of data processing is preserved (first started job must be
++finished at first).
++
++STOP
++----
++Stop (dequeues) a task. If seqno is zero, operation is executed for all
++tasks.
++
++STATUS
++------
++Obtain the task status (active, finished). Also, the driver will set
++the real output data size (valid area in the output buffer).
++
++Credits
++=======
++- ...
+diff --git a/include/sound/compress_driver.h b/include/sound/compress_driver.h
+index bcf872c17dd3..2884b1e7955d 100644
+--- a/include/sound/compress_driver.h
++++ b/include/sound/compress_driver.h
+@@ -19,6 +19,22 @@
+ 
+ struct snd_compr_ops;
+ 
++/**
++ * struct snd_compr_task_runtime: task runtime description
++ *
++ */
++struct snd_compr_task_runtime {
++	struct list_head list;
++	struct dma_buf *input;
++	struct dma_buf *output;
++	u64 seqno;
++	u64 input_size;
++	u64 output_size;
++	u8 state;
++	void *private_value;
++};
++
++
+ /**
+  * struct snd_compr_runtime: runtime stream description
+  * @state: stream state
+@@ -54,6 +70,11 @@ struct snd_compr_runtime {
+ 	dma_addr_t dma_addr;
+ 	size_t dma_bytes;
+ 	struct snd_dma_buffer *dma_buffer_p;
++
++	u32 active_tasks;
++	u32 total_tasks;
++	u64 task_seqno;
++	struct list_head tasks;
+ };
+ 
+ /**
+@@ -132,6 +153,12 @@ struct snd_compr_ops {
+ 			struct snd_compr_caps *caps);
+ 	int (*get_codec_caps) (struct snd_compr_stream *stream,
+ 			struct snd_compr_codec_caps *codec);
++#if IS_ENABLED(CONFIG_SND_COMPRESS_PASSTHROUGH)
++	int (*task_create) (struct snd_compr_stream *stream, struct snd_compr_task_runtime *task);
++	int (*task_start) (struct snd_compr_stream *stream, struct snd_compr_task_runtime *task);
++	int (*task_stop) (struct snd_compr_stream *stream, struct snd_compr_task_runtime *task);
++	int (*task_free) (struct snd_compr_stream *stream, struct snd_compr_task_runtime *task);
++#endif
+ };
+ 
+ /**
+@@ -242,4 +269,9 @@ int snd_compr_free_pages(struct snd_compr_stream *stream);
+ int snd_compr_stop_error(struct snd_compr_stream *stream,
+ 			 snd_pcm_state_t state);
+ 
++#if IS_ENABLED(CONFIG_SND_COMPRESS_PASSTHROUGH)
++void snd_compr_task_finished(struct snd_compr_stream *stream,
++			     struct snd_compr_task_runtime *task);
++#endif
++
+ #endif
+diff --git a/include/uapi/sound/compress_offload.h b/include/uapi/sound/compress_offload.h
+index d185957f3fe0..5fed1979522b 100644
+--- a/include/uapi/sound/compress_offload.h
++++ b/include/uapi/sound/compress_offload.h
+@@ -1,4 +1,4 @@
+-/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++	/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+ /*
+  *  compress_offload.h - compress offload header definations
+  *
+@@ -14,7 +14,7 @@
+ #include <sound/compress_params.h>
+ 
+ 
+-#define SNDRV_COMPRESS_VERSION SNDRV_PROTOCOL_VERSION(0, 2, 0)
++#define SNDRV_COMPRESS_VERSION SNDRV_PROTOCOL_VERSION(0, 3, 0)
+ /**
+  * struct snd_compressed_buffer - compressed buffer
+  * @fragment_size: size of buffer fragment in bytes
+@@ -68,7 +68,8 @@ struct snd_compr_avail {
+ 
+ enum snd_compr_direction {
+ 	SND_COMPRESS_PLAYBACK = 0,
+-	SND_COMPRESS_CAPTURE
++	SND_COMPRESS_CAPTURE,
++	SND_COMPRESS_PASSTHROUGH
+ };
+ 
+ /**
+@@ -127,6 +128,42 @@ struct snd_compr_metadata {
+ 	 __u32 value[8];
+ } __attribute__((packed, aligned(4)));
+ 
++/**
++ * struct snd_compr_task - task primitive for non-realtime operation
++ * @seqno: sequence number (task identifier)
++ * @origin_seqno: previous sequence number (task identifier) - for reuse
++ * @input_fd: data input file descriptor (dma-buf)
++ * @output_fd: data output file descriptor (dma-buf)
++ * @input_size: filled data in bytes (from caller, must not exceed fragment size)
++ */
++struct snd_compr_task {
++	__u64 seqno;
++	__u64 origin_seqno;
++	int input_fd;
++	int output_fd;
++	__u64 input_size;
++	__u8 reserved[16];
++} __attribute__((packed, aligned(4)));
++
++enum snd_compr_state {
++	SND_COMPRESS_TASK_STATE_IDLE = 0,
++	SND_COMPRESS_TASK_STATE_ACTIVE,
++	SND_COMPRESS_TASK_STATE_FINISHED
++};
++
++/**
++ * struct snd_compr_task_status - task status
++ * @seqno: sequence number (task identifier)
++ * @output_size: filled data in bytes (from driver)
++ * @state: actual task state (SND_COMPRESS_TASK_STATE_*)
++ */
++struct snd_compr_task_status {
++	__u64 seqno;
++	__u64 output_size;
++	__u8 state;
++	__u8 reserved[15];
++} __attribute__((packed, aligned(4)));
++
+ /*
+  * compress path ioctl definitions
+  * SNDRV_COMPRESS_GET_CAPS: Query capability of DSP
+@@ -164,6 +201,14 @@ struct snd_compr_metadata {
+ #define SNDRV_COMPRESS_DRAIN		_IO('C', 0x34)
+ #define SNDRV_COMPRESS_NEXT_TRACK	_IO('C', 0x35)
+ #define SNDRV_COMPRESS_PARTIAL_DRAIN	_IO('C', 0x36)
++
++
++#define SNDRV_COMPRESS_TASK_CREATE	_IOWR('C', 0x60, struct snd_compr_task)
++#define SNDRV_COMPRESS_TASK_FREE	_IOW('C', 0x61, __u64)
++#define SNDRV_COMPRESS_TASK_START	_IOWR('C', 0x62, struct snd_compr_task)
++#define SNDRV_COMPRESS_TASK_STOP	_IOW('C', 0x63, __u64)
++#define SNDRV_COMPRESS_TASK_STATUS	_IOWR('C', 0x68, struct snd_compr_task_status)
++
+ /*
+  * TODO
+  * 1. add mmap support
+diff --git a/sound/core/Kconfig b/sound/core/Kconfig
+index 8077f481d84f..3541fe6d477f 100644
+--- a/sound/core/Kconfig
++++ b/sound/core/Kconfig
+@@ -59,6 +59,10 @@ config SND_CORE_TEST
+ config SND_COMPRESS_OFFLOAD
+ 	tristate
+ 
++config SND_COMPRESS_PASSTHROUGH
++	select DMA_BUF
++	tristate
++
+ config SND_JACK
+ 	bool
+ 
+diff --git a/sound/core/compress_offload.c b/sound/core/compress_offload.c
+index f0008fa2d839..190d754ec994 100644
+--- a/sound/core/compress_offload.c
++++ b/sound/core/compress_offload.c
+@@ -24,6 +24,7 @@
+ #include <linux/types.h>
+ #include <linux/uio.h>
+ #include <linux/uaccess.h>
++#include <linux/dma-buf.h>
+ #include <linux/module.h>
+ #include <linux/compat.h>
+ #include <sound/core.h>
+@@ -54,6 +55,12 @@ struct snd_compr_file {
+ 
+ static void error_delayed_work(struct work_struct *work);
+ 
++#if IS_ENABLED(CONFIG_SND_COMPRESS_PASSTHROUGH)
++static void snd_compr_task_free_all(struct snd_compr_stream *stream);
++#else
++static inline void snd_compr_task_free_all(struct snd_compr_stream *stream) { }
++#endif
++
+ /*
+  * a note on stream states used:
+  * we use following states in the compressed core
+@@ -85,6 +92,8 @@ static int snd_compr_open(struct inode *inode, struct file *f)
+ 		dirn = SND_COMPRESS_PLAYBACK;
+ 	else if ((f->f_flags & O_ACCMODE) == O_RDONLY)
+ 		dirn = SND_COMPRESS_CAPTURE;
++	else if ((f->f_flags & O_ACCMODE) == O_RDWR)
++		dirn = SND_COMPRESS_PASSTHROUGH;
+ 	else
+ 		return -EINVAL;
+ 
+@@ -112,6 +121,7 @@ static int snd_compr_open(struct inode *inode, struct file *f)
+ 	}
+ 
+ 	INIT_DELAYED_WORK(&data->stream.error_work, error_delayed_work);
++	INIT_LIST_HEAD(&runtime->tasks);
+ 
+ 	data->stream.ops = compr->ops;
+ 	data->stream.direction = dirn;
+@@ -154,6 +164,8 @@ static int snd_compr_free(struct inode *inode, struct file *f)
+ 		break;
+ 	}
+ 
++	snd_compr_task_free_all(&data->stream);
++
+ 	data->stream.ops->free(&data->stream);
+ 	if (!data->stream.runtime->dma_buffer_p)
+ 		kfree(data->stream.runtime->buffer);
+@@ -226,6 +238,9 @@ snd_compr_ioctl_avail(struct snd_compr_stream *stream, unsigned long arg)
+ 	struct snd_compr_avail ioctl_avail;
+ 	size_t avail;
+ 
++	if (stream->direction == SND_COMPRESS_PASSTHROUGH)
++		return -EBADFD;
++
+ 	avail = snd_compr_calc_avail(stream, &ioctl_avail);
+ 	ioctl_avail.avail = avail;
+ 
+@@ -287,6 +302,8 @@ static ssize_t snd_compr_write(struct file *f, const char __user *buf,
+ 		return -EFAULT;
+ 
+ 	stream = &data->stream;
++	if (stream->direction == SND_COMPRESS_PASSTHROUGH)
++		return -EBADFD;
+ 	guard(mutex)(&stream->device->lock);
+ 	/* write is allowed when stream is running or has been steup */
+ 	switch (stream->runtime->state) {
+@@ -336,6 +353,8 @@ static ssize_t snd_compr_read(struct file *f, char __user *buf,
+ 		return -EFAULT;
+ 
+ 	stream = &data->stream;
++	if (stream->direction == SND_COMPRESS_PASSTHROUGH)
++		return -EBADFD;
+ 	guard(mutex)(&stream->device->lock);
+ 
+ 	/* read is allowed when stream is running, paused, draining and setup
+@@ -385,6 +404,8 @@ static __poll_t snd_compr_poll(struct file *f, poll_table *wait)
+ {
+ 	struct snd_compr_file *data = f->private_data;
+ 	struct snd_compr_stream *stream;
++	struct snd_compr_runtime *runtime;
++	struct snd_compr_task_runtime *task;
+ 	size_t avail;
+ 	__poll_t retval = 0;
+ 
+@@ -392,6 +413,7 @@ static __poll_t snd_compr_poll(struct file *f, poll_table *wait)
+ 		return EPOLLERR;
+ 
+ 	stream = &data->stream;
++	runtime = stream->runtime;
+ 
+ 	guard(mutex)(&stream->device->lock);
+ 
+@@ -405,6 +427,18 @@ static __poll_t snd_compr_poll(struct file *f, poll_table *wait)
+ 
+ 	poll_wait(f, &stream->runtime->sleep, wait);
+ 
++	if (stream->direction == SND_COMPRESS_PASSTHROUGH) {
++		if (runtime->fragments > runtime->active_tasks)
++			retval |= EPOLLOUT | EPOLLWRNORM;
++		task = list_first_entry_or_null(&runtime->tasks,
++						struct snd_compr_task_runtime,
++						list);
++		if (task && task->state == SND_COMPRESS_TASK_STATE_FINISHED)
++			retval |= EPOLLIN | EPOLLRDNORM;
++		return retval;
++	}
++
++
+ 	avail = snd_compr_get_avail(stream);
+ 	pr_debug("avail is %ld\n", (unsigned long)avail);
+ 	/* check if we have at least one fragment to fill */
+@@ -521,6 +555,9 @@ static int snd_compr_allocate_buffer(struct snd_compr_stream *stream,
+ 	unsigned int buffer_size;
+ 	void *buffer = NULL;
+ 
++	if (stream->direction == SND_COMPRESS_PASSTHROUGH)
++		goto params;
++
+ 	buffer_size = params->buffer.fragment_size * params->buffer.fragments;
+ 	if (stream->ops->copy) {
+ 		buffer = NULL;
+@@ -543,18 +580,30 @@ static int snd_compr_allocate_buffer(struct snd_compr_stream *stream,
+ 		if (!buffer)
+ 			return -ENOMEM;
+ 	}
+-	stream->runtime->fragment_size = params->buffer.fragment_size;
+-	stream->runtime->fragments = params->buffer.fragments;
++
+ 	stream->runtime->buffer = buffer;
+ 	stream->runtime->buffer_size = buffer_size;
++params:
++	stream->runtime->fragment_size = params->buffer.fragment_size;
++	stream->runtime->fragments = params->buffer.fragments;
+ 	return 0;
+ }
+ 
+-static int snd_compress_check_input(struct snd_compr_params *params)
++static int
++snd_compress_check_input(struct snd_compr_stream *stream, struct snd_compr_params *params)
+ {
++	u32 max_fragments;
++
+ 	/* first let's check the buffer parameter's */
+-	if (params->buffer.fragment_size == 0 ||
+-	    params->buffer.fragments > U32_MAX / params->buffer.fragment_size ||
++	if (params->buffer.fragment_size == 0)
++		return -EINVAL;
++
++	if (stream->direction == SND_COMPRESS_PASSTHROUGH)
++		max_fragments = 64;			/* safe value */
++	else
++		max_fragments = U32_MAX / params->buffer.fragment_size;
++
++	if (params->buffer.fragments > max_fragments ||
+ 	    params->buffer.fragments == 0)
+ 		return -EINVAL;
+ 
+@@ -583,7 +632,7 @@ snd_compr_set_params(struct snd_compr_stream *stream, unsigned long arg)
+ 		if (IS_ERR(params))
+ 			return PTR_ERR(no_free_ptr(params));
+ 
+-		retval = snd_compress_check_input(params);
++		retval = snd_compress_check_input(stream, params);
+ 		if (retval)
+ 			return retval;
+ 
+@@ -939,6 +988,262 @@ static int snd_compr_partial_drain(struct snd_compr_stream *stream)
+ 	return snd_compress_wait_for_drain(stream);
+ }
+ 
++#if IS_ENABLED(CONFIG_SND_COMPRESS_PASSTHROUGH)
++
++static struct snd_compr_task_runtime *
++		snd_compr_find_task(struct snd_compr_stream *stream, __u64 seqno)
++{
++	struct snd_compr_task_runtime *task;
++
++	list_for_each_entry(task, &stream->runtime->tasks, list) {
++		if (task->seqno == seqno)
++			return task;
++	}
++	return NULL;
++}
++
++static void snd_compr_task_free(struct snd_compr_task_runtime *task)
++{
++	if (task->output)
++		dma_buf_put(task->output);
++	if (task->input)
++		dma_buf_put(task->input);
++	kfree(task);
++}
++
++static u64 snd_compr_seqno_next(struct snd_compr_stream *stream)
++{
++	u64 seqno = ++stream->runtime->task_seqno;
++	if (seqno == 0)
++		seqno = ++stream->runtime->task_seqno;
++	return seqno;
++}
++
++static int snd_compr_task_new(struct snd_compr_stream *stream, struct snd_compr_task *utask)
++{
++	struct snd_compr_task_runtime *task;
++	int retval;
++
++	if (stream->runtime->total_tasks >= stream->runtime->fragments)
++		return -EBUSY;
++	if (utask->origin_seqno != 0 || utask->input_size != 0)
++		return -EINVAL;
++	task = kzalloc(sizeof(*task), GFP_KERNEL);
++	if (task == NULL)
++		return -ENOMEM;
++	task->seqno = utask->seqno = snd_compr_seqno_next(stream);
++	task->input_size = utask->input_size;
++	retval = stream->ops->task_create(stream, task);
++	if (retval < 0)
++		goto cleanup;
++	utask->input_fd = dma_buf_fd(task->input, O_WRONLY|O_CLOEXEC);
++	if (utask->input_fd < 0) {
++		retval = utask->input_fd;
++		goto cleanup;
++	}
++	utask->output_fd = dma_buf_fd(task->output, O_RDONLY|O_CLOEXEC);
++	if (utask->output_fd < 0) {
++		retval = utask->output_fd;
++		goto cleanup;
++	}
++	/* keep dmabuf reference until freed with task free ioctl */
++	dma_buf_get(utask->input_fd);
++	dma_buf_get(utask->output_fd);
++	list_add_tail(&task->list, &stream->runtime->tasks);
++	stream->runtime->total_tasks++;
++	return 0;
++cleanup:
++	snd_compr_task_free(task);
++	return retval;
++}
++
++static int snd_compr_task_create(struct snd_compr_stream *stream, unsigned long arg)
++{
++	struct snd_compr_task *task __free(kfree) = NULL;
++	int retval;
++
++	if (stream->runtime->state != SNDRV_PCM_STATE_SETUP)
++		return -EPERM;
++	task = memdup_user((void __user *)arg, sizeof(*task));
++	if (IS_ERR(task))
++		return PTR_ERR(no_free_ptr(task));
++	retval = snd_compr_task_new(stream, task);
++	if (retval >= 0)
++		if (copy_to_user((void __user *)arg, task, sizeof(*task)))
++			retval = -EFAULT;
++	return retval;
++}
++
++static int snd_compr_task_start_prepare(struct snd_compr_task_runtime *task,
++					struct snd_compr_task *utask)
++{
++	if (task == NULL)
++		return -EINVAL;
++	if (task->state >= SND_COMPRESS_TASK_STATE_FINISHED)
++		return -EBUSY;
++	if (utask->input_size > task->input->size)
++		return -EINVAL;
++	task->input_size = utask->input_size;
++	task->state = SND_COMPRESS_TASK_STATE_IDLE;
++	return 0;
++}
++
++static int snd_compr_task_start(struct snd_compr_stream *stream, struct snd_compr_task *utask)
++{
++	struct snd_compr_task_runtime *task;
++	int retval;
++
++	if (utask->origin_seqno > 0) {
++		task = snd_compr_find_task(stream, utask->origin_seqno);
++		retval = snd_compr_task_start_prepare(task, utask);
++		if (retval < 0)
++			return retval;
++		task->seqno = utask->seqno = snd_compr_seqno_next(stream);
++		utask->origin_seqno = 0;
++		list_move_tail(&task->list, &stream->runtime->tasks);
++	} else {
++		task = snd_compr_find_task(stream, utask->seqno);
++		if (task && task->state != SND_COMPRESS_TASK_STATE_IDLE)
++			return -EBUSY;
++		retval = snd_compr_task_start_prepare(task, utask);
++		if (retval < 0)
++			return retval;
++	}
++	retval = stream->ops->task_start(stream, task);
++	if (retval >= 0) {
++		task->state = SND_COMPRESS_TASK_STATE_ACTIVE;
++		stream->runtime->active_tasks++;
++	}
++	return retval;
++}
++
++static int snd_compr_task_start_ioctl(struct snd_compr_stream *stream, unsigned long arg)
++{
++	struct snd_compr_task *task __free(kfree) = NULL;
++	int retval;
++
++	if (stream->runtime->state != SNDRV_PCM_STATE_SETUP)
++		return -EPERM;
++	task = memdup_user((void __user *)arg, sizeof(*task));
++	if (IS_ERR(task))
++		return PTR_ERR(no_free_ptr(task));
++	retval = snd_compr_task_start(stream, task);
++	if (retval >= 0)
++		if (copy_to_user((void __user *)arg, task, sizeof(*task)))
++			retval = -EFAULT;
++	return retval;
++}
++
++static void snd_compr_task_stop_one(struct snd_compr_stream *stream,
++					struct snd_compr_task_runtime *task)
++{
++	if (task->state != SND_COMPRESS_TASK_STATE_ACTIVE)
++		return;
++	stream->ops->task_stop(stream, task);
++	if (!snd_BUG_ON(stream->runtime->active_tasks == 0))
++		stream->runtime->active_tasks--;
++	list_move_tail(&task->list, &stream->runtime->tasks);
++	task->state = SND_COMPRESS_TASK_STATE_IDLE;
++}
++
++static void snd_compr_task_free_one(struct snd_compr_stream *stream,
++					struct snd_compr_task_runtime *task)
++{
++	snd_compr_task_stop_one(stream, task);
++	stream->ops->task_free(stream, task);
++	list_del(&task->list);
++	snd_compr_task_free(task);
++	stream->runtime->total_tasks--;
++}
++
++static void snd_compr_task_free_all(struct snd_compr_stream *stream)
++{
++	struct snd_compr_task_runtime *task;
++
++	list_for_each_entry(task, &stream->runtime->tasks, list)
++		snd_compr_task_free_one(stream, task);
++}
++
++typedef void (*snd_compr_seq_func_t)(struct snd_compr_stream *stream,
++					struct snd_compr_task_runtime *task);
++
++static int snd_compr_task_seq(struct snd_compr_stream *stream, unsigned long arg,
++					snd_compr_seq_func_t fcn)
++{
++	struct snd_compr_task_runtime *task;
++	__u64 seqno;
++	int retval;
++
++	if (stream->runtime->state != SNDRV_PCM_STATE_SETUP)
++		return -EPERM;
++	retval = get_user(seqno, (__u64 __user *)arg);
++	if (retval < 0)
++		return retval;
++	retval = 0;
++	if (seqno == 0) {
++		list_for_each_entry(task, &stream->runtime->tasks, list)
++			fcn(stream, task);
++	} else {
++		task = snd_compr_find_task(stream, seqno);
++		if (task == NULL) {
++			retval = -EINVAL;
++		} else {
++			fcn(stream, task);
++		}
++	}
++	return retval;
++}
++
++static int snd_compr_task_status(struct snd_compr_stream *stream,
++					struct snd_compr_task_status *status)
++{
++	struct snd_compr_task_runtime *task;
++
++	task = snd_compr_find_task(stream, status->seqno);
++	if (task == NULL)
++		return -EINVAL;
++	status->output_size = task->output_size;
++	status->state = task->state;
++	return 0;
++}
++
++static int snd_compr_task_status_ioctl(struct snd_compr_stream *stream, unsigned long arg)
++{
++	struct snd_compr_task_status *status __free(kfree) = NULL;
++	int retval;
++
++	if (stream->runtime->state != SNDRV_PCM_STATE_SETUP)
++		return -EPERM;
++	status = memdup_user((void __user *)arg, sizeof(*status));
++	if (IS_ERR(status))
++		return PTR_ERR(no_free_ptr(status));
++	retval = snd_compr_task_status(stream, status);
++	if (retval >= 0)
++		if (copy_to_user((void __user *)arg, status, sizeof(*status)))
++			retval = -EFAULT;
++	return retval;
++}
++
++/**
++ * snd_compr_task_finished: Notify that the task was finished
++ * @stream: pointer to stream
++ * @task: runtime task structure
++ *
++ * Set the finished task state and notify waiters.
++ */
++void snd_compr_task_finished(struct snd_compr_stream *stream,
++			    struct snd_compr_task_runtime *task)
++{
++	guard(mutex)(&stream->device->lock);
++	if (!snd_BUG_ON(stream->runtime->active_tasks == 0))
++		stream->runtime->active_tasks--;
++	task->state = SND_COMPRESS_TASK_STATE_FINISHED;
++	wake_up(&stream->runtime->sleep);
++}
++EXPORT_SYMBOL(snd_compr_task_finished);
++
++#endif /* CONFIG_COMPRESS_PASSTHROUGH */
++
+ static long snd_compr_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
+ {
+ 	struct snd_compr_file *data = f->private_data;
+@@ -968,6 +1273,27 @@ static long snd_compr_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
+ 		return snd_compr_set_metadata(stream, arg);
+ 	case _IOC_NR(SNDRV_COMPRESS_GET_METADATA):
+ 		return snd_compr_get_metadata(stream, arg);
++	}
++
++	if (stream->direction == SND_COMPRESS_PASSTHROUGH) {
++#if IS_ENABLED(CONFIG_SND_COMPRESS_PASSTHROUGH)
++		switch (_IOC_NR(cmd)) {
++		case _IOC_NR(SNDRV_COMPRESS_TASK_CREATE):
++			return snd_compr_task_create(stream, arg);
++		case _IOC_NR(SNDRV_COMPRESS_TASK_FREE):
++			return snd_compr_task_seq(stream, arg, snd_compr_task_free_one);
++		case _IOC_NR(SNDRV_COMPRESS_TASK_START):
++			return snd_compr_task_start_ioctl(stream, arg);
++		case _IOC_NR(SNDRV_COMPRESS_TASK_STOP):
++			return snd_compr_task_seq(stream, arg, snd_compr_task_stop_one);
++		case _IOC_NR(SNDRV_COMPRESS_TASK_STATUS):
++			return snd_compr_task_status_ioctl(stream, arg);
++		}
++#endif
++		return -ENOTTY;
++	}
++
++	switch (_IOC_NR(cmd)) {
+ 	case _IOC_NR(SNDRV_COMPRESS_TSTAMP):
+ 		return snd_compr_tstamp(stream, arg);
+ 	case _IOC_NR(SNDRV_COMPRESS_AVAIL):
 -- 
 2.45.2
 
