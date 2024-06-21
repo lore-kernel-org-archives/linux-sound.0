@@ -1,112 +1,90 @@
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27809174ECF
-	for <linux-sound@vger.kernel.org>; Fri, 21 Jun 2024 12:08:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2FD28399;
+	Fri, 21 Jun 2024 12:15:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718971697; cv=none; b=AmpsR52DCyzhAmo0Bf16AzExk4UjZmtSo6XHgLduf+t33a5uxSX8PzDvF9MWtXToERFoPkP+GHUF1yZ2/emOgl2c9c0IOBttMZ5MYvOOpwUOmBS9s9xECKJX2dqO/RHxUwhsNHySzm0OLhCXyYQsurkfJp0UDTb46ThdnoeZQsM=
+	t=1718972153; cv=none; b=ZHRxR2wpWTvju5LcHNJ+3m5ESJqa0bmCuWklEJZoSLzj2k9hTiw3RilP/zKBIgiWqJ7sXkL4gHA/AC5TctojNwBJHzpxKug/lH5N2Y/RPAAjsZGDi5dlky3onXAcZunxYtFP74lez/Hk3HnExP49Sr0cUWFIRrpyJZJ8XtlXeas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718971697; c=relaxed/simple;
-	bh=5CsIqk65T8h28pv7LSZHK/r+thMfNFgpmh7VKRl0UWQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QSm61UehE6/0phloIX5YeyhJc4pflZzwnx9OzGex5BM4/JMI4YDvXtysyHPtX2yTBgmUYSC3721B+IVmKvv0xUz38zPe34bCSrwolVy1FinugG34hPcv1+tMTliQAjta2/ksJJkOXDvige6G1tYx8ZIVNWaq2+hB/2YkMN+sigY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timesys.com; spf=pass smtp.mailfrom=timesys.com; dkim=pass (2048-bit key) header.d=timesys-com.20230601.gappssmtp.com header.i=@timesys-com.20230601.gappssmtp.com header.b=bwNl9B2b; arc=none smtp.client-ip=209.85.222.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timesys.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=timesys.com
+	s=arc-20240116; t=1718972153; c=relaxed/simple;
+	bh=rE8ntxNIM5vaTaumZmp3qsqdX3oe1BdkEBjRraySjMw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=GQroqBZrENnJYHPbVOLWmLtf+UYxJrcMihkd5OZ+WvGgmya4+KC/0GZ5nbfXlNE3IY7I7bWbyMmK/BrDIKH92gZ06K0Otz8lt3d2//xdjPTALe2vmB2tKJrEoIJetMkBvU7RL0GghYmsW5AOFyhJBWujl/pYdjghUASUJq8e7DE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y3FRhXl8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=timesys-com.20230601.gappssmtp.com header.i=@timesys-com.20230601.gappssmtp.com header.b="bwNl9B2b"
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-7960454db4fso123516985a.2
-        for <linux-sound@vger.kernel.org>; Fri, 21 Jun 2024 05:08:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=timesys-com.20230601.gappssmtp.com; s=20230601; t=1718971694; x=1719576494; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5CsIqk65T8h28pv7LSZHK/r+thMfNFgpmh7VKRl0UWQ=;
-        b=bwNl9B2b5uBkts+d4e1DdRjRmxBlNK3fTwlrYckofd8DFZRyHpP+wuYJNoiJFzIY0N
-         6J2XMZlIWqrBJdPaUYzL7AaytwBd2cv+HOibYo5pDM/cXmrBDsHNLJJg2+DNxDbfTG01
-         PGNcSY0E5srlf0xby1j0hw0vKWRgAxMKkG1uK9hQshCVklS2nrHA+8JMmi+OcLH9ExEM
-         76uZVM00QNMp5apgZUS8HFiWsw1t/COUYq6QZDqgb2TK+SDiYiCU5xgaajdsU4GHyF4a
-         TgfV1+fSkkp2MooWuTU1LdWf577gqcZAi+/zsQBwMkDc00qjp1XBC1jfhw4NHZJs/Mg0
-         fn5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718971694; x=1719576494;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5CsIqk65T8h28pv7LSZHK/r+thMfNFgpmh7VKRl0UWQ=;
-        b=XlqTUQU+yBaF9BHedEtTxcLBAgzQv6ThsL1Ers0jqTYoGrwrnG8wQzWZPmYLSg+Rc+
-         N6+xvoc4V54XliQjcJXMH00lGNZ1I3vZz4dDnnKMVumtqpZzN5p+Q8CyOzWlZCDeafF2
-         ccbNPi67poWEu7OH5OwlW0UfD8grFdPi4Z0cl4dIQoRF8+AOloiI356JWepADz8xjQWo
-         xyPpwkXA3fwZtH2yBZhNtV4r3CZKBfMPccNTEMXPds4ESAWxkXsUxsBUoL5c+A7kSLV5
-         HV7zCnFnKxB29V0A4eZdfrIbWyvJFSMwEme2KaoJsurQRIkgz18Uj9CjLfwN7DtAeIfI
-         uU3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCX+dIbLV2MGj6zgwZr7ytSur8ya42JsqlXp4MLOOQgmSgYews7lr/HhDFkLxGVTxQKk9Hbw9W+qwQSa319kE7BXbCnx+lAiQyQC6XE=
-X-Gm-Message-State: AOJu0YxbCQIonkuvmbQ7S6XTcR+s6wVbfDzXOxAofw92SZoC5Jcxl4Ni
-	JLwOCnNmsXZo8X9gXh7Q7zuN5IAdgLx3ujls2K5VpVKIaos8NtYRe5do2koY6LUrRUP7LkOqwB0
-	pc4k3SS/qBPNaVFKjWBbse4vnpXpdv8GqjjyE3Q==
-X-Google-Smtp-Source: AGHT+IH9SeiO8vfdoOxDABbDkc1VlJaHvluIQfS8YUVwP2eXorBPvqf3BAKJdJfTNAn0CNJ3/z1faNaXrP6fson02ac=
-X-Received: by 2002:ad4:4245:0:b0:6b0:6629:bdf9 with SMTP id
- 6a1803df08f44-6b501e2c710mr72849356d6.21.1718971694039; Fri, 21 Jun 2024
- 05:08:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y3FRhXl8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46864C2BBFC;
+	Fri, 21 Jun 2024 12:15:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718972152;
+	bh=rE8ntxNIM5vaTaumZmp3qsqdX3oe1BdkEBjRraySjMw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Y3FRhXl8cs1YgSR5JVrW/YQdZKcFQQl0NXj8PkGQEOJi6s2eALFoiOOF2lNYis6mF
+	 +us6FwSsxNyXwncLAPRmxTN5EE51/GIQ1OVmDLQAz/pNSaLCye16mSylO+xYNhJnrk
+	 9aI8e4T5bm+9wgROQnktthu326NyAZSezjo12l6eNTVp4qdesDqnDo1d3CgaLxEXMG
+	 yCbsm//WFIH2RVbX/e15v2tHA6Ko8n3CN5G7Gp0Sb/CycpFeYFEkJRHPeM7OFaUzYJ
+	 RLo0t4bfryHFYpcDjq91Ad4MEhY1ZCPtfUXfPYJm+mOD1ZX+gdoB74/BHGkBvNl+lJ
+	 PC/cmal4zBy7g==
+From: Mark Brown <broonie@kernel.org>
+To: Andrew Davis <afd@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Daniel Beer <daniel.beer@igorinstitute.com>, 
+ Fabio Estevam <festevam@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Kevin Lu <kevin-lu@ti.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Shenghao Ding <shenghao-ding@ti.com>, Shi Fu <shifu0704@thundersoft.com>, 
+ Takashi Iwai <tiwai@suse.com>, Vincent Knecht <vincent.knecht@mailoo.org>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: alsa-devel@alsa-project.org, devicetree@vger.kernel.org, 
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com
+In-Reply-To: <87wmmkpi6w.wl-kuninori.morimoto.gx@renesas.com>
+References: <87wmmkpi6w.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH] ASoC: dt-bindings: add missing vender prefix on
+ filename
+Message-Id: <171897214898.79912.13208484267678405419.b4-ty@kernel.org>
+Date: Fri, 21 Jun 2024 13:15:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240620175657.358273-1-piotr.wojtaszczyk@timesys.com>
- <20240620175657.358273-11-piotr.wojtaszczyk@timesys.com> <jgqhlnysuwajlfxjwetas53jzdk6nnmewead2xzyt3xngwpcvl@xbooed6cwlq4>
-In-Reply-To: <jgqhlnysuwajlfxjwetas53jzdk6nnmewead2xzyt3xngwpcvl@xbooed6cwlq4>
-From: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
-Date: Fri, 21 Jun 2024 14:08:03 +0200
-Message-ID: <CAG+cZ04suU53wR5f0PhudgNmkxTRtwEXTS1cWH1o9_rTNM94Cg@mail.gmail.com>
-Subject: Re: [Patch v4 10/10] i2x: pnx: Use threaded irq to fix warning from del_timer_sync()
-To: Andi Shyti <andi.shyti@kernel.org>
-Cc: Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	"J.M.B. Downing" <jonathan.downing@nautel.com>, Vladimir Zapolskiy <vz@mleia.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Russell King <linux@armlinux.org.uk>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Arnd Bergmann <arnd@arndb.de>, Yangtao Li <frank.li@vivo.com>, 
-	Li Zetao <lizetao1@huawei.com>, Chancel Liu <chancel.liu@nxp.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, dmaengine@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-sound@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	Markus Elfring <Markus.Elfring@web.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev-d4707
 
-Hi Andi,
+On Thu, 20 Jun 2024 00:32:39 +0000, Kuninori Morimoto wrote:
+> Many Sound yaml files doesn't have vender prefix on filename.
+> Add missing vender prefix for these files.
+> 
+> 
 
-On Fri, Jun 21, 2024 at 12:57=E2=80=AFAM Andi Shyti <andi.shyti@kernel.org>=
- wrote:
-> On Thu, Jun 20, 2024 at 07:56:41PM GMT, Piotr Wojtaszczyk wrote:
-> > When del_timer_sync() is called in an interrupt context it throws a war=
-ning
-> > because of potential deadlock. Threaded irq handler fixes the potential
-> > problem.
-> >
-> > Signed-off-by: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
->
-> did you run into a lockdep splat?
->
-> Anything against using del_timer(), instead? Have you tried?
+Applied to
 
-I didn't get a lockdep splat but console was flooded with warnings from
-https://github.com/torvalds/linux/blob/v6.10-rc4/kernel/time/timer.c#L1655
-In the linux kernel v5.15 I didn't see these warnings.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-I'm not a maintainer of the driver and I didn't do any research on
-what kind of impact
-would have using del_timer() instad. Maybe Vladimir Zapolskiy will know tha=
-t.
+Thanks!
 
---=20
-Piotr Wojtaszczyk
-Timesys
+[1/1] ASoC: dt-bindings: add missing vender prefix on filename
+      commit: ae8fc2948b48f001514d4b73167fcef3b398a5fb
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
