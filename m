@@ -1,223 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F22F527453;
-	Sun, 23 Jun 2024 07:10:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5C59376E5;
+	Sun, 23 Jun 2024 08:02:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719126645; cv=none; b=ASNMaDsN+Hq+1jrztPXmb7uVu+QvsfX1nm74ZiTccE/uLls4WafF09TpbUBG2n8UJA/Yjx+yV6WXkozJj5pq8Ot8quFaZVIU1qMWXUBJ/NjanJVR+gGwHzc0SRDVt2JddIRCOzhgpsHVJQE5FRxaFOoIZFRRNwur73y588RHiuk=
+	t=1719129760; cv=none; b=T7nykhTUrmz2IPDIPNqCleGhZ8lKkRxZ5gstMUb0QvOVRZWc4ufIEfc05H57NcI+JxFJEdfFCuOu0Kogy6O/9x/Uo/+dRAXROLtF62j1VmPxo8bBUPItB3DxMX8nwUiWk0g/dEzBo3MKVcOPoJSw7IDhYNYcRqDszb6sB+qrFZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719126645; c=relaxed/simple;
-	bh=FtNfR56Pj5/tidnoeH44U3Y6/IK9Voc/EmcuJYq/Wqw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LkGHeYSYOqXvyl3dFw2BK2cp7DrI/MFxJ32wTmkotQXmq1te17XUQuoCBXg1b6hGfy/TuvNVdy3KtPv+PNBzy+LMPMSGDtn8Z5kGY0jqQHCe0K1r3j0p3+LscEMOoTfsI2O9M01dX/4MxFqqolq7j45AeXCC0pNDYghohckyhDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MHAUN/o9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719129760; c=relaxed/simple;
+	bh=NVpdgJtLxbGz8AcVmJ/q9hKRXHgl1H30VLE8Z20v8pM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AhI2vgqMkqKs6rWFT0y0lV3MMVsOlzT1lBheNCjDR/8PnYhT0huGkaHJnXrntEYPPXEMB5IBXOuB5daOtCHirsCswxX9YgLwEFIlb66BMtYI8hhtpkhZ6dwoQJYhtWgJhdEgzt7ycICsFPiALvS7INXrHzPblZibIULYdsltQ0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dlOLiKBq; arc=none smtp.client-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MHAUN/o9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2374C2BD10;
-	Sun, 23 Jun 2024 07:10:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719126644;
-	bh=FtNfR56Pj5/tidnoeH44U3Y6/IK9Voc/EmcuJYq/Wqw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=MHAUN/o91AHZW8P7vB3L+C/Hp1SONJqV3yVPwrFsSCWS2VduF1SwJ6VPURLh6b9/K
-	 YeVmMenYWXkdFw70vCRzZqusmh+cgZqXEQBNVmaUHwt4pOE1wrNy0Uy4Etog4Y87+5
-	 gazxEiKiyXbS51O5i3TYanM2VnZeM7PKqAZrfNyK2QkgFhA+jraI0MsZ2FhCrOf70K
-	 BWo+IkazDWLzRfupEMyvte4WzY7LsFue4BdjCHVYfXoF01OT58K3mz7G7C+gZU5D+7
-	 qRHgocI9gh8ptra+hXbT1HMKcV/22VVNP4wMJzJc6UiSHHdf7PsGC3gLRp/nWfWUvL
-	 C1wlpDPz1y0kQ==
-Message-ID: <647b4d99-1c1e-41fa-929d-ffd6cda6584d@kernel.org>
-Date: Sun, 23 Jun 2024 09:10:38 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dlOLiKBq"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-44051a92f37so26195381cf.1;
+        Sun, 23 Jun 2024 01:02:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719129757; x=1719734557; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YWDMd9l69iqb+D6Wxa/JBkQ4IN4XRV16aDq5fyQM2YQ=;
+        b=dlOLiKBqEYcLnCiJ2KXOPKwScefo5NXx+bTNbfIcAhJIxPdJhQR1cw99+z5DFN8p8m
+         AYwUmyW64b0RqOAqekDVW9LGbEqim4aHECmYvzYE+EcemBSfWTX0eslWv8HoLI6IADm2
+         Gtob6Dpz2CaHL0HxzrGUCp2/yXelPhyxNeWqGFgjfIi6hvFfPJxUCQ8rQ+fbPgvToAtU
+         /EPJ2ERxpEHLCkjb1xVR982xy9M1YtcCc77abt9V+uEPO0EsuX8SkrfFta/xjFlb3qQG
+         PWKvCwL+hPKmyCGfJYD8hqKD6iLpZXs0PJ9erHIPHjEFc8IwX9kWE+EbTmzdyiLgkffK
+         Pi0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719129757; x=1719734557;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YWDMd9l69iqb+D6Wxa/JBkQ4IN4XRV16aDq5fyQM2YQ=;
+        b=YWHmWyuixTfmWch/VOmggCnSUhT4QhyNQ0GEzqDRc5BzvfZOvHOiHedC23A7NZW/Ua
+         d2bx5E55HMbuGmdfKYd0Vt6+9vk4Lkhngu5kWvXzTLqxFKgXpRKiGBQrj+g2lchaNyli
+         5kIxJN4OGgc7UNDXQwopq1XrIst3+yAEnUkLKpU9KFypbt70u1T2Gwx8mwh5jp7bYP3c
+         YdXk67fqrXev3WFPrnp2QzaMFbmNfzO1I7Bn5ykESUtGNc0qnmi6fSSO/6QMTNfu+24e
+         1WrlF1D1Rvpg5hzRhPjdHUs+8jgntimAGIIxeYuV/TAJYQ5Ozq58urra/is3DoveGKfP
+         tUtQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXEl54/p+7+OMewHV6CIleo4Um1YT8WKdShSzq6Qq23OXVm3tGDGq940fS7XYOG/NPi8MiL5CfrLdai/fxJ+5Y90dSvzEnmrYAsIPAml2PJjdnlPOPkMPDj/JSEuFMr16vRdKxyCqYzqBP88i5dxov5gHwEckL9OI2grFNU9OkwhD/hAiU=
+X-Gm-Message-State: AOJu0YyWAeYXttYQcO6M1VCpFx25iqXIocpWEb0QOEWyiDN7ZUKTw4dn
+	hOqbX7S5LyjetRhDG92WOdWuKZ8rHf8CnWxGw1Hupv0NmJNaMOAz
+X-Google-Smtp-Source: AGHT+IHBI7Grs+1Q9dbj3jZDgpTfx3BFj1bl8BFrxloybqWXunmQzCnqD0F4ohhZtl7BQ/fRlssmKA==
+X-Received: by 2002:a05:622a:50:b0:444:d2df:e9d1 with SMTP id d75a77b69052e-444d2dff42cmr44750361cf.17.1719129757281;
+        Sun, 23 Jun 2024 01:02:37 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:c8b4:4b16:721a:ce0f])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-444c2c96b03sm29268061cf.93.2024.06.23.01.02.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Jun 2024 01:02:37 -0700 (PDT)
+Date: Sun, 23 Jun 2024 01:02:33 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Jeff LaBundy <jeff@labundy.com>
+Cc: James Ogletree <jogletre@opensource.cirrus.com>, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	lee@kernel.org, broonie@kernel.org, patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH RESEND v11 4/5] Input: cs40l50 - Add support for the
+ CS40L50 haptic driver
+Message-ID: <ZnfWmR48MfcQKpTS@google.com>
+References: <20240620161745.2312359-1-jogletre@opensource.cirrus.com>
+ <20240620161745.2312359-5-jogletre@opensource.cirrus.com>
+ <ZndqwfN4G+RkCNrn@nixie71>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: dt-bindings: realtek,rt5659: Convert to dtschema
-To: Animesh Agarwal <animeshagarwal28@gmail.com>
-Cc: Daniel Baluta <daniel.baluta@nxp.com>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240622153752.94644-1-animeshagarwal28@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240622153752.94644-1-animeshagarwal28@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZndqwfN4G+RkCNrn@nixie71>
 
-On 22/06/2024 17:37, Animesh Agarwal wrote:
-> Convert the RT5659/RT5658 audio CODEC bindings to DT schema.
+On Sat, Jun 22, 2024 at 07:22:25PM -0500, Jeff LaBundy wrote:
+> Hi James,
 > 
-> Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
-> Cc: Daniel Baluta <daniel.baluta@nxp.com>
+> On Thu, Jun 20, 2024 at 04:17:44PM +0000, James Ogletree wrote:
+> > Introduce support for Cirrus Logic Device CS40L50: a
+> > haptic driver with waveform memory, integrated DSP,
+> > and closed-loop algorithms.
+> > 
+> > The input driver provides the interface for control of
+> > haptic effects through the device.
+> > 
+> > Signed-off-by: James Ogletree <jogletre@opensource.cirrus.com>
+> 
+> Reviewed-by: Jeff LaBundy <jeff@labundy.com>
 
+OK, let's merge it.
 
-> +
-> +allOf:
-> +  - $ref: dai-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - realtek,rt5659
-> +      - realtek,rt5658
-> +
-> +  reg:
-> +    maxItems: 1
-> +    description: The I2C address of the device.
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-Drop description, redundant.
+IMO it still needs improvements so that the repeated effect can be
+stopped/erased without waiting for it to finish playing, but that
+can be improved later.
 
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +    description: The CODEC's interrupt output.
+I assume it is going through MFD tree?
 
-Drop description, redundant.
+Thanks.
 
-> +
-> +  clocks:
-> +    maxItems: 1
-> +    description: phandle and clock specifier for codec MCLK.
-
-Drop description, redundant.
-
-> +
-> +  clock-names:
-> +    const: mclk
-> +
-> +  realtek,dmic1-data-pin:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum:
-> +      - 0 # dmic1 is not used
-> +      - 1 # using IN2N pin as dmic1 data pin
-> +      - 2 # using GPIO5 pin as dmic1 data pin
-> +      - 3 # using GPIO9 pin as dmic1 data pin
-> +      - 4 # using GPIO11 pin as dmic1 data pin
-> +    description: Specify which pin to be used as DMIC1 data pin.
-> +
-> +  realtek,dmic2-data-pin:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum:
-> +      - 0 # dmic1 is not used
-> +      - 1 # using IN2P pin as dmic1 data pin
-> +      - 2 # using GPIO6 pin as dmic1 data pin
-> +      - 3 # using GPIO10 pin as dmic1 data pin
-> +      - 4 # using GPIO12 pin as dmic1 data pin
-> +    description: Specify which pin to be used as DMIC2 data pin.
-
-default:
-
-> +
-> +  realtek,jd-src:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum:
-> +      - 0 # No JD is used
-> +      - 1 # using JD3 as JD source
-> +      - 2 # JD source for Intel HDA header
-> +    description: Specify which JD source be used.
-
-default:
-
-> +
-> +  realtek,ldo1-en-gpios:
-> +    maxItems: 1
-> +    description: The GPIO that controls the CODEC's LDO1_EN pin.
-
-It's enough:
-CODEC's LDO1_EN pin
-
-
-> +
-> +  realtek,reset-gpios:
-> +    maxItems: 1
-> +    description: The GPIO that controls the CODEC's RESET pin.
-> +
-> +  sound-name-prefix: true
-
-Drop
-
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +  port:
-> +    $ref: audio-graph-port.yaml#
-> +    unevaluatedProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        codec@1b {
-> +            compatible = "realtek,rt5659";
-> +            reg = <0x1b>;
-> +            interrupt-parent = <&gpio>;
-> +            interrupts = <3 IRQ_TYPE_LEVEL_HIGH>;
-> +            realtek,ldo1-en-gpios =
-> +                <&gpio 3 GPIO_ACTIVE_HIGH>;
-
-This can be one line.
-
-Best regards,
-Krzysztof
-
+-- 
+Dmitry
