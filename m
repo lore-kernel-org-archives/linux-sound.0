@@ -1,115 +1,104 @@
-Received: from out.smtpout.orange.fr (out-11.smtpout.orange.fr [193.252.22.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E47BCF9F0;
-	Sun, 23 Jun 2024 15:50:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.22.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59D253C38;
+	Sun, 23 Jun 2024 17:21:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719157828; cv=none; b=TKsnAHxYh2nXo+CCbM8Nit9FXGH93Dc1VK1KskfwP2Su8XoQaoOP5JgoKJPFq5hyl+TJy8SxdoVKgvz7BH1zFOdszSJ5/Kay8iVXxxSJjILriVL1cNkraeO5uEO7v9JD7A26K+rfQfNQv1H6Mdfho493reK2G9Z3PcwPJIPfa/Q=
+	t=1719163305; cv=none; b=DI5gll7Y7F9btiAsYG2dTWiHdg7XDECJ1sPXr2ZZL8h1ZJMougPiD6MbKmioL8Z/YmNhLxz7G6N0mwNv/Lph5rHk4guqFTmvdFyKzfGNtZEFSBx2NgGz/Mf/I3AZLwcq85o9acgkFq2XMbvASPSXnVbx/9hfKVZTcXLmT9YwGqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719157828; c=relaxed/simple;
-	bh=VTtHoMRrh/CknLnrTiA6cISWe0B7QIazQmbA5Bs4n5g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KzHjULzbzwBKM33nQCSa6m/YjLH6F6ptkUj/0r9bVNkQH1Ox4NQ6E6PMSfh/G7GIkJ95+pCBt9Z++8/Al8Tg04494wEE7eSRLXCPwwesFTatecy5jopJYfUhx09BmGWZAPHg6+iViTXNw51EnZgu0EWCDfHSZ3rWnHx6ZhxPpcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=QCd1Vmfi; arc=none smtp.client-ip=193.252.22.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	s=arc-20240116; t=1719163305; c=relaxed/simple;
+	bh=lCnpI6MGZ7tqlfHmo6/4lQWWdf2FV5VM4Utg4pbRtes=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=R9BB7UdOzwdIe1jsOA4g/PM7IRMKrYY1C0hnOrzz4/xmwFCOrMZMnQnzygpF2pr4v2q1A6Gnix55qK3eXkl2SKcYXTOIccm1ql9D6arDqJsKHmFzXqTbs9CQTsm5cSlWKQKdtiO/Q5WlJ0s8qxi5NI3gH5Py5gKiTeiigro8Spg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Oq29rr7T; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="QCd1Vmfi"
-Received: from fedora.home ([86.243.222.230])
-	by smtp.orange.fr with ESMTPA
-	id LOvzs9RlN2GQtLOvzsbDUH; Sun, 23 Jun 2024 17:15:19 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1719155719;
-	bh=6xc2xyXmsrpTItWg6IptTdpN90W19e46SCweNrwd4z4=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=QCd1Vmfi7/8s3qsK8bcJq1V3dXy73L7NZiNWiMW2h/YlojSzlRfWprMCDw3ibhUk2
-	 W6vX3VEQsVlKfW1edVOsjY6V/EhNgQNszuWZH/BS9yyRwaR5+yQ93jQIHmSm/+j79y
-	 YOoAdA2eMSBy5sq7mRbob3AguiMoy95CsrbLvgDwD7u4z4DKAAaxq2diqhomNZoN+H
-	 eQ8JcyJ128zs2PY923RLqCPMgGbdeBEKLbcGAyV8G5PIc4fQuPgO7zgICNwhoFv+jv
-	 6muz8tudmTkaRTOLabI5bXCM2DXdgFRef7pHsEL4PUEvn7CllwapiA6mL99TA6Z+dZ
-	 N798nWjA/7hPw==
-X-ME-Helo: fedora.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 23 Jun 2024 17:15:19 +0200
-X-ME-IP: 86.243.222.230
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Cezary Rojewski <cezary.rojewski@intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org
-Subject: [PATCH] ASoC: Intel: sst: Constify struct intel_sst_ops
-Date: Sun, 23 Jun 2024 17:15:11 +0200
-Message-ID: <098acdf266b2f4a922d6a624e9032ec24a09093c.1719155688.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Oq29rr7T"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D0B4C2BD10;
+	Sun, 23 Jun 2024 17:21:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719163304;
+	bh=lCnpI6MGZ7tqlfHmo6/4lQWWdf2FV5VM4Utg4pbRtes=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Oq29rr7TfplWGhY9I1T+8UTDsjBlfbhLmKJ7zUn3d0nl0sFWwQ9rm1i32rXS88P50
+	 pDH5bAODX1/zGOYQrfMwGHNqB4PMZWM1iUciFte8Lr1rYB9Nr9AwcyzWHDtzg8o3aF
+	 oD5CSz1kOWjWXCA/kODq3SNggZYLkHpEafY3EnU+QoxsJmp2n8LV+kMzPwefc7KULw
+	 WCX8+Mh2E0AnpmTMkrHtY8e07kUvbjrWtbpviTfXD4hCjFQbKBIIPHqWYT6Fj4z3ZA
+	 KUGjfSv4qOiHVchYVQJH+LSPo9t9AaSPetUaj2qZLA4HgABFyYx8qbR6yTBsvPDXcW
+	 HZAixc2ES1KLg==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Banajit Goswami <bgoswami@quicinc.com>, 
+ Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org
+In-Reply-To: <20240617-n-asoc-const-auto-selectable-formats-v1-0-8004f346ee38@linaro.org>
+References: <20240617-n-asoc-const-auto-selectable-formats-v1-0-8004f346ee38@linaro.org>
+Subject: Re: (subset) [PATCH 0/6] ASoC: Few constifications (mostly
+ arguments)
+Message-Id: <171916330129.350242.13312693360705760410.b4-ty@kernel.org>
+Date: Sun, 23 Jun 2024 18:21:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev-d4707
 
-'struct intel_sst_ops' is not modified in this driver.
+On Mon, 17 Jun 2024 15:03:18 +0200, Krzysztof Kozlowski wrote:
+> Make few pointers in ASoC functions as pointers to const, so the code is
+> clearer to read, a bit safer and allows further constifications (e.g.
+> placing some data as rodata).
+> 
+> Best regards,
+> Krzysztof
+> 
+> [...]
 
-Constifying this structure moves some data to a read-only section, so
-increase overall security.
+Applied to
 
-On a x86_64, with allmodconfig:
-Before:
-======
-   text	   data	    bss	    dec	    hex	filename
-  12250	   1000	    112	  13362	   3432	sound/soc/intel/atom/sst/sst.o
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-After:
-=====
-   text	   data	    bss	    dec	    hex	filename
-  12378	    888	    112	  13378	   3442	sound/soc/intel/atom/sst/sst.o
+Thanks!
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-Compile tested-only
----
- sound/soc/intel/atom/sst/sst.c | 2 +-
- sound/soc/intel/atom/sst/sst.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+[1/6] ASoC: Constify of_phandle_args in snd_soc_dai_driver
+      commit: 2fbafecb0f05818e25f6c926c6f9ad9ef597429c
+[2/6] ASoC: Constify of_phandle_args in snd_soc_dai_link_component
+      commit: 020b37d06f97de289940805bc821190d5858eda0
+[3/6] ASoC: Constify passed data to core function
+      commit: f3ac3da7e4d0957b3402fb31a4ca480e739e086f
+[4/6] ASoC: Constify DAI passed to get_channel_map
+      commit: 785d64c4941221044940ab199e6625af17296470
+[5/6] ASoC: Constify return of snd_soc_dai_get_pcm_stream()
+      commit: de267e7a6ea8e6fa29af2287adfc9fc9d87e6dc9
 
-diff --git a/sound/soc/intel/atom/sst/sst.c b/sound/soc/intel/atom/sst/sst.c
-index e0357d257c6c..ff03fde12151 100644
---- a/sound/soc/intel/atom/sst/sst.c
-+++ b/sound/soc/intel/atom/sst/sst.c
-@@ -158,7 +158,7 @@ static int sst_save_dsp_context_v2(struct intel_sst_drv *sst)
- }
- 
- 
--static struct intel_sst_ops mrfld_ops = {
-+static const struct intel_sst_ops mrfld_ops = {
- 	.interrupt = intel_sst_interrupt_mrfld,
- 	.irq_thread = intel_sst_irq_thread_mrfld,
- 	.clear_interrupt = intel_sst_clear_intr_mrfld,
-diff --git a/sound/soc/intel/atom/sst/sst.h b/sound/soc/intel/atom/sst/sst.h
-index 126903e126e4..e0db7434543c 100644
---- a/sound/soc/intel/atom/sst/sst.h
-+++ b/sound/soc/intel/atom/sst/sst.h
-@@ -391,7 +391,7 @@ struct intel_sst_drv {
- 	unsigned int		csr_value;
- 	void			*fw_in_mem;
- 	struct sst_sg_list	fw_sg_list, library_list;
--	struct intel_sst_ops	*ops;
-+	const struct intel_sst_ops	*ops;
- 	struct sst_info		info;
- 	struct pm_qos_request	*qos;
- 	unsigned int		use_dma;
--- 
-2.45.2
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
