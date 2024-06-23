@@ -1,106 +1,95 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5C59376E5;
-	Sun, 23 Jun 2024 08:02:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782DE376E5;
+	Sun, 23 Jun 2024 10:50:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719129760; cv=none; b=T7nykhTUrmz2IPDIPNqCleGhZ8lKkRxZ5gstMUb0QvOVRZWc4ufIEfc05H57NcI+JxFJEdfFCuOu0Kogy6O/9x/Uo/+dRAXROLtF62j1VmPxo8bBUPItB3DxMX8nwUiWk0g/dEzBo3MKVcOPoJSw7IDhYNYcRqDszb6sB+qrFZM=
+	t=1719139839; cv=none; b=aJdHTeRwvWhop/zzs87hEf3oZk9cswaUq9sgGhaP30thxjLNVZ3ZWh+hhP2O+WL304je7K0YCoegttjDjLFUSIk+y1hbT7BFP8yWQm1UU2gfQl1KeblyD/ldNxeXUwGEBz+URshALgqZznvqxeOCo20yhlhhbczwaF/JQrk4w3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719129760; c=relaxed/simple;
-	bh=NVpdgJtLxbGz8AcVmJ/q9hKRXHgl1H30VLE8Z20v8pM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AhI2vgqMkqKs6rWFT0y0lV3MMVsOlzT1lBheNCjDR/8PnYhT0huGkaHJnXrntEYPPXEMB5IBXOuB5daOtCHirsCswxX9YgLwEFIlb66BMtYI8hhtpkhZ6dwoQJYhtWgJhdEgzt7ycICsFPiALvS7INXrHzPblZibIULYdsltQ0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dlOLiKBq; arc=none smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1719139839; c=relaxed/simple;
+	bh=cmfbVSffDKX/hTp/1Fgv4j7OaTjSdDNqkQqngAJn0RM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=IqmpxD9CvdBnm6TiIlA+L3yNo7mdUXrytMIwCWebYF5cWDHq73fhddA47ZBqe4DjszqxRiSt0CHOeaV7Myu05D3ubLUVizykz/06HRfTperyFAFvQrVbdarBgHzcb2iUktOCQy4hvBoyJ55oPLaYdnryzKZ0BS2aYmU5hZfQyrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BeUGK35/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dlOLiKBq"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-44051a92f37so26195381cf.1;
-        Sun, 23 Jun 2024 01:02:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719129757; x=1719734557; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YWDMd9l69iqb+D6Wxa/JBkQ4IN4XRV16aDq5fyQM2YQ=;
-        b=dlOLiKBqEYcLnCiJ2KXOPKwScefo5NXx+bTNbfIcAhJIxPdJhQR1cw99+z5DFN8p8m
-         AYwUmyW64b0RqOAqekDVW9LGbEqim4aHECmYvzYE+EcemBSfWTX0eslWv8HoLI6IADm2
-         Gtob6Dpz2CaHL0HxzrGUCp2/yXelPhyxNeWqGFgjfIi6hvFfPJxUCQ8rQ+fbPgvToAtU
-         /EPJ2ERxpEHLCkjb1xVR982xy9M1YtcCc77abt9V+uEPO0EsuX8SkrfFta/xjFlb3qQG
-         PWKvCwL+hPKmyCGfJYD8hqKD6iLpZXs0PJ9erHIPHjEFc8IwX9kWE+EbTmzdyiLgkffK
-         Pi0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719129757; x=1719734557;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YWDMd9l69iqb+D6Wxa/JBkQ4IN4XRV16aDq5fyQM2YQ=;
-        b=YWHmWyuixTfmWch/VOmggCnSUhT4QhyNQ0GEzqDRc5BzvfZOvHOiHedC23A7NZW/Ua
-         d2bx5E55HMbuGmdfKYd0Vt6+9vk4Lkhngu5kWvXzTLqxFKgXpRKiGBQrj+g2lchaNyli
-         5kIxJN4OGgc7UNDXQwopq1XrIst3+yAEnUkLKpU9KFypbt70u1T2Gwx8mwh5jp7bYP3c
-         YdXk67fqrXev3WFPrnp2QzaMFbmNfzO1I7Bn5ykESUtGNc0qnmi6fSSO/6QMTNfu+24e
-         1WrlF1D1Rvpg5hzRhPjdHUs+8jgntimAGIIxeYuV/TAJYQ5Ozq58urra/is3DoveGKfP
-         tUtQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXEl54/p+7+OMewHV6CIleo4Um1YT8WKdShSzq6Qq23OXVm3tGDGq940fS7XYOG/NPi8MiL5CfrLdai/fxJ+5Y90dSvzEnmrYAsIPAml2PJjdnlPOPkMPDj/JSEuFMr16vRdKxyCqYzqBP88i5dxov5gHwEckL9OI2grFNU9OkwhD/hAiU=
-X-Gm-Message-State: AOJu0YyWAeYXttYQcO6M1VCpFx25iqXIocpWEb0QOEWyiDN7ZUKTw4dn
-	hOqbX7S5LyjetRhDG92WOdWuKZ8rHf8CnWxGw1Hupv0NmJNaMOAz
-X-Google-Smtp-Source: AGHT+IHBI7Grs+1Q9dbj3jZDgpTfx3BFj1bl8BFrxloybqWXunmQzCnqD0F4ohhZtl7BQ/fRlssmKA==
-X-Received: by 2002:a05:622a:50:b0:444:d2df:e9d1 with SMTP id d75a77b69052e-444d2dff42cmr44750361cf.17.1719129757281;
-        Sun, 23 Jun 2024 01:02:37 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:c8b4:4b16:721a:ce0f])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-444c2c96b03sm29268061cf.93.2024.06.23.01.02.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Jun 2024 01:02:37 -0700 (PDT)
-Date: Sun, 23 Jun 2024 01:02:33 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Jeff LaBundy <jeff@labundy.com>
-Cc: James Ogletree <jogletre@opensource.cirrus.com>, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	lee@kernel.org, broonie@kernel.org, patches@opensource.cirrus.com,
-	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH RESEND v11 4/5] Input: cs40l50 - Add support for the
- CS40L50 haptic driver
-Message-ID: <ZnfWmR48MfcQKpTS@google.com>
-References: <20240620161745.2312359-1-jogletre@opensource.cirrus.com>
- <20240620161745.2312359-5-jogletre@opensource.cirrus.com>
- <ZndqwfN4G+RkCNrn@nixie71>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BeUGK35/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8EFFC2BD10;
+	Sun, 23 Jun 2024 10:50:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719139839;
+	bh=cmfbVSffDKX/hTp/1Fgv4j7OaTjSdDNqkQqngAJn0RM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=BeUGK35/mq1InBYDivPHdjdIHQJ2Yy3LR7a6J5B2nrkovYtypxUctWXrFJZmPhuBc
+	 8M9ZDLRCBQhcDLKpgH3b1hYZC2JCM9oq3czHWwwCITj7HoVTGcIseqzlajC3gQxlkL
+	 wupIZDK9XcEvGBWO9R5F30XAeVUplnCeiiLNktluFqlPXSmBG3soPmqDIcLk6MZK20
+	 /rRdpg2lRaoM2dJJUGdqjSK2Cz0XoLyOIu1kjj9lp766y3DBVGv0X/M0ioeNNXQa6A
+	 XVR6zEPioxba2ddc3QFyBb3JuFpbhjElHGMIZH6H3WkkEJiZQiosbdmmIsRCJDrdBI
+	 omo7y+tbuoUrg==
+From: Mark Brown <broonie@kernel.org>
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Cc: alsa-devel@alsa-project.org, venkataprasad.potturu@amd.com, 
+ Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Syed Saba Kareem <Syed.SabaKareem@amd.com>, 
+ "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, 
+ open list <linux-kernel@vger.kernel.org>
+In-Reply-To: <20240617072844.871468-1-Vijendar.Mukunda@amd.com>
+References: <20240617072844.871468-1-Vijendar.Mukunda@amd.com>
+Subject: Re: (subset) [PATCH 1/8] ASoC: amd: acp: add a null check for
+ chip_pdev structure
+Message-Id: <171913983658.13532.277643449449161401.b4-ty@kernel.org>
+Date: Sun, 23 Jun 2024 11:50:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZndqwfN4G+RkCNrn@nixie71>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev-d4707
 
-On Sat, Jun 22, 2024 at 07:22:25PM -0500, Jeff LaBundy wrote:
-> Hi James,
+On Mon, 17 Jun 2024 12:58:34 +0530, Vijendar Mukunda wrote:
+> When acp platform device creation is skipped, chip->chip_pdev value will
+> remain NULL. Add NULL check for chip->chip_pdev structure in
+> snd_acp_resume() function to avoid null pointer dereference.
 > 
-> On Thu, Jun 20, 2024 at 04:17:44PM +0000, James Ogletree wrote:
-> > Introduce support for Cirrus Logic Device CS40L50: a
-> > haptic driver with waveform memory, integrated DSP,
-> > and closed-loop algorithms.
-> > 
-> > The input driver provides the interface for control of
-> > haptic effects through the device.
-> > 
-> > Signed-off-by: James Ogletree <jogletre@opensource.cirrus.com>
 > 
-> Reviewed-by: Jeff LaBundy <jeff@labundy.com>
 
-OK, let's merge it.
+Applied to
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-IMO it still needs improvements so that the repeated effect can be
-stopped/erased without waiting for it to finish playing, but that
-can be improved later.
+Thanks!
 
-I assume it is going through MFD tree?
+[4/8] ASoC: amd: acp: remove acp_i2s_probe function
+      commit: 75a08ec8c3a6aef914235c409a99046a3d29d1d4
+[5/8] ASoC: amd: acp: remove unused variables from acp_resource structure
+      commit: 50f1670145392398f4f2ffe9abe4599c86d11ec2
+[6/8] ASoC: amd: acp: modify conditional check for programming i2s mclk
+      commit: 5b162f60e7e051624e187e45b0fdc481c3573f17
+[7/8] ASoC: amd: acp: move i2s clock generation sequence
+      commit: d85695b01cbb2455a2f70528bb9e53f2463a39cf
+[8/8] ASoC: amd: acp: add pcm constraints for buffer size and period size
+      commit: 8978e1f7bc26655e0373c4a6b31e17fcdd497329
 
-Thanks.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
--- 
-Dmitry
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
