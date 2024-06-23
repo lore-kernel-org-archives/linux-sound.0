@@ -1,123 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C90C46B5;
-	Sun, 23 Jun 2024 11:10:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A35C12BF1B
+	for <linux-sound@vger.kernel.org>; Sun, 23 Jun 2024 11:25:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719141058; cv=none; b=OTww2Ovha8EINoT/XevhRwUAW5Lx9cQNSr3d8j15vHt8napEy9hQknbH7uivEFlxKfJ5P1M6e8EdbPlpa8tt67/79uYUHfwPGKDPkc+/QfkhI3pr4ygVSwZnGI+wW7gqK2l0WgP1j1Noi/vIa8pvnbW5d5ES665LJGliOlducxA=
+	t=1719141924; cv=none; b=kO146w9IrioKKDWaF7W/DL7Ei/0lMzmexUCYxqOz6k0cMK3EO8NDNN4f5AFFSemAe11TfYRbNPpwg3IhqrQUSV0qvoKuRdcyNeIVA5hBEmeKWVUdjo2WNHkgSJE77OzuJdt3NWEiwIkxmzKsp6fGq359XIJGAMLvOLK03Ljgrzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719141058; c=relaxed/simple;
-	bh=5OKeTdayfOzgq6z3/8he9g3R7WgcX3TAzqL0zI/7dhY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ijmQ5gOX19kb+VLY1AAqc6pNzxKxzdia9A3MZWyHFZ6y8SkrUi0j36LnpDx8qXJ+WEkhJCRO11HnnNIy4nhkTEr/CncYR+GZthzGyaqvSvsjlC1UNGySBe5ZYed49yHxTiswbLj2Aaq6+R5riDdGl3nDotgx7rCoJDad9OkEthM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uxYfrQ6a; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719141924; c=relaxed/simple;
+	bh=ZMWAmWV8up4drOf25zi9IV7KlcBYT0d1DWHHyMITiA4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HJulpW1kUPqUafeQuunuxNwY1Pn8SVwIJ29lFHBuDrHlLaGehgsaKnbCORqk5CaVVZCIQnzKDL1iXzY4oW1WjiyVOtr6iFlnZothOQwcUEi5Rvmm7M64R85QEk784eupduqfUj373dOMHd8IHxuK/1OBYh30rDVKly072nv6tIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VWSM+c+7; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uxYfrQ6a"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DACE0C2BD10;
-	Sun, 23 Jun 2024 11:10:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719141058;
-	bh=5OKeTdayfOzgq6z3/8he9g3R7WgcX3TAzqL0zI/7dhY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=uxYfrQ6a9pNvtge508wbaoSbZyXmO2/l/THnxvtE4NjpjtIa8JFS6YcHHrHtezCy+
-	 aRPno+PRHWybpKtKquXxVSoOzPcsU1hlx31iE8vhlWklVNF5zAYihAbDpBr66yPCD0
-	 Bq19OVeAD6Pfmf6y9BN3SnFeAlsOMyiiyYAQTR91ks83a/0sKJYut5wPn3pAvDuPuK
-	 H5Bv3LUWJCF4KJwlTxNTRfaXOagncsBq/tqQksy/G8NWQli+oFMpjAwiR+SFCldz9i
-	 2duCjRvJuVriq4zXAsxfahxIwoU10vpIS/wuE8nKSJPJzGjew6GcrUrC7HeHb8dTJw
-	 cz8lZb3uPOv2Q==
-Message-ID: <2c32e077-48ef-4d08-99ce-9072a339740c@kernel.org>
-Date: Sun, 23 Jun 2024 13:10:48 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VWSM+c+7"
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2ebe40673e8so35930161fa.3
+        for <linux-sound@vger.kernel.org>; Sun, 23 Jun 2024 04:25:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719141921; x=1719746721; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TM5wqefDlS7gFCtGhpUpD2P4DkDyCARFRLweAG3MHho=;
+        b=VWSM+c+79ktFyQJjfI46gGCikDrWQLTjLQMOTKKJc06g0gKXLRXKR3QmmpxatoxgwC
+         8uWJmGilG6ld07lj02OU+Ud1tUgJ8YyG8kzMhA/bFJFrsVTDiYRg+V9E3mGanXk+Q3Hj
+         9+HZ7H4imjwOlbMlLBLQEgrbYYLI+HpqIlXKjLEXEHf499QN5fSWsur2wOBpZYENNz/q
+         hqem1cJ/tK11ttbV44INfZxAOU6GbkCn0PDuY/Hf01Bgb0fYe5nz5MyhQug5TlE6iOci
+         n05rpfhooixKV9m8c2lam8bbcj73NqG7WGE9mAhLUUV0Ek2gTKf9fkR9p/mELDtPNKlG
+         ZZ/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719141921; x=1719746721;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TM5wqefDlS7gFCtGhpUpD2P4DkDyCARFRLweAG3MHho=;
+        b=oGJyvnO7Ns/D66zh9g3yhrPcIUBtqRkTJxVNte/5/PFCYGpkuGVuffaBZ3iDXMd8i2
+         GClm+yb2kGUgnaJ1iPEWLf/aVaoLtScpPRFiccJvfzQaKvVGowgTN3l+vQ8f8igUgbhT
+         tL0XXk5sdVSWSGEccNQN8O6DbqHi+tHjzLgCoIy+vwahBs33ZUxQpMg0Z5jMKWNhmuyF
+         OI/qKXAhkasfnKCl2YRiSZmeQThEh9iT3mvZgyZAEeibLnGypAWK1BJHTFJboo7NsAEH
+         8vwVUUlW50mlK6mKElP3i2VEeuHRjO0Bmr5m1iqqmpg+n1RjWr74U1vFy8aDSzVgwGev
+         R4YQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWin7S/FnmsrO7LDiRgi9EQQuTuqjmN6kwz+fWse9wfah862KqVpraCK9phKZc0QUyHiuxE4hX525e4WKBbTnqhfpS8dunJ1giww0E=
+X-Gm-Message-State: AOJu0YycJlf4ItnIxiXCmsUVqcP1WW2GhmgtAGIpKKDGS3GJTVx/epU8
+	ILLmyGDHnGrW4oZ27T7es4jYcmp/fkUw9OjEwc6foSiyO3EFjpid
+X-Google-Smtp-Source: AGHT+IG12+0wswWogqtqNoDxrAzdXKWaB2v/PRI/po8Zntcl0VAu3GgZkZjX5aOtRXsOOMVmk+O/fQ==
+X-Received: by 2002:a05:651c:2109:b0:2ec:5f85:61ca with SMTP id 38308e7fff4ca-2ec5f8562a1mr4914141fa.20.1719141920988;
+        Sun, 23 Jun 2024 04:25:20 -0700 (PDT)
+Received: from hplaptop15gw0030ur.localdomain ([176.59.196.14])
+        by smtp.googlemail.com with ESMTPSA id 38308e7fff4ca-2ec5357b6e3sm4885031fa.45.2024.06.23.04.25.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Jun 2024 04:25:20 -0700 (PDT)
+From: Aivaz Latypov <reichaivaz@gmail.com>
+X-Google-Original-From: Aivaz Latypov <pngdrift@mail.ru>
+To: tiwai@suse.com
+Cc: Aivaz Latypov <pngdrift@mail.ru>,
+	kailang@realtek.com,
+	linux-sound@vger.kernel.org,
+	Aivaz Latypov <reichaivaz@gmail.com>
+Subject: [PATCH] ALSA: hda/relatek: Enable Mute LED on HP Laptop 15-gw0xxx
+Date: Sun, 23 Jun 2024 16:25:02 +0500
+Message-ID: <20240623112510.81915-1-pngdrift@mail.ru>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv5 8/9] arm64: dts: imx8m: update spdif sound card node
- properties
-To: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- Russell King <linux@armlinux.org.uk>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
- Nicolin Chen <nicoleotsuka@gmail.com>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
- linuxppc-dev@lists.ozlabs.org,
- Philip-Dylan <philip-dylan.gleonec@savoirfairelinux.com>
-References: <20240620132511.4291-1-elinor.montmasson@savoirfairelinux.com>
- <20240620132511.4291-9-elinor.montmasson@savoirfairelinux.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240620132511.4291-9-elinor.montmasson@savoirfairelinux.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 20/06/2024 15:25, Elinor Montmasson wrote:
-> Following merge of imx-spdif driver into fsl-asoc-card:
-> * update properties to match those used by fsl-asoc-card.
-> * S/PDIF in/out dummy codecs must now be declared explicitly, add and
->   use them.
-> 
-> These modifications were tested only on an imx8mn-evk board.
+This HP Laptop uses ALC236 codec with COEF 0x07 controlling
+the mute LED. Enable existing quirk for this device.
 
-So new DTS will not work on old kernel... Can you at least explain why
-this is needed and what benefits this make? You change hardware
-description, so whatever you merged in drivers is not really relevant, I
-would say.
+Signed-off-by: Aivaz Latypov <reichaivaz@gmail.com>
+---
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-
-Best regards,
-Krzysztof
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index f4454abadc8d..51225c5770ea 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10067,6 +10067,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8786, "HP OMEN 15", ALC285_FIXUP_HP_MUTE_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8787, "HP OMEN 15", ALC285_FIXUP_HP_MUTE_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8788, "HP OMEN 15", ALC285_FIXUP_HP_MUTE_LED),
++	SND_PCI_QUIRK(0x10ec, 0x0236, "HP Laptop 15-gw0xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+ 	SND_PCI_QUIRK(0x103c, 0x87b7, "HP Laptop 14-fq0xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+ 	SND_PCI_QUIRK(0x103c, 0x87c8, "HP", ALC287_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x87e5, "HP ProBook 440 G8 Notebook PC", ALC236_FIXUP_HP_GPIO_LED),
+-- 
+2.45.2
 
