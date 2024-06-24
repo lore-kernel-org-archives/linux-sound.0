@@ -1,98 +1,223 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ADC919D8B4;
-	Mon, 24 Jun 2024 18:11:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0875019FA92
+	for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 18:27:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719252700; cv=none; b=c+BMjOhrV/uJ2T8zh3SFcjxBu8oGRDgpMlV4KaQjTQ8Rhn/FCz7V0Y9n1efZhF1EwiUv5eUbzEmCWR8nhcRmyCcBnNclaekQFT4w6zjs+SVrypFu5+u6CgFG3O6QM0pWOqGq23j6Bqnldihs/pbJLYAZ332pUOhuLnN9nihurDQ=
+	t=1719253648; cv=none; b=S4+DWrUJB2HrYCZis139jyx6V2IXxMW7uDqTPwm+h8jVdeg6HRK1G3VwK/zYMmUruWFeMgKwyovrKNX4yX42oq08l+AhzNQK/e3mo8VNC2TkKmqRJptKdxFwKjA6bjdrrOCziRyHJI1QF4dT0VbdkB37/58/GdrhHJS02SmKnlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719252700; c=relaxed/simple;
-	bh=LMQM4ggkNAmyZtbcQnIjN/xx2r5UXt3+sfPf7Izs3Bo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lli7QBN4a3k3HzB+KobMFzRIQV17GN7HrL2SSTsmsqGZFxIM6cLZaKZXrsFpWX3BLN8KrVzO0meFocjkfv+qgmnZI+CNP/keNHGR9T0daOvLPxKu8F1TAPFRYo/eAI8qMab+DaFZk0iyqAfMAixJIzOmvcUgDI0XZs5Ogb2V4aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SqMPig+f; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719253648; c=relaxed/simple;
+	bh=Ejr03O19TrJEODq2u2VVLMyqy5sulXiBL1Qu4ni/tL0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=S8te8EIxwmZ7WFpZUBy1fCXv57GrqnQIcBBtuA6ClWDIZRjFGOZIVCIXsfAmnjx5YJB1RcIKcEcndrXgggI7FiVfF/8cPX2DCiA6pmIwlBcDqOh7sV5y6dQbIUtdBqt/j3saIwnbR3Ik5llRReXLNHx5OMbqzBItzsdOzzsMaGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=fAt3mm6u; arc=none smtp.client-ip=209.85.219.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SqMPig+f"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9F66C2BBFC;
-	Mon, 24 Jun 2024 18:11:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719252699;
-	bh=LMQM4ggkNAmyZtbcQnIjN/xx2r5UXt3+sfPf7Izs3Bo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SqMPig+fKRfPD9amnFFJ2z6A6QAgchFEO6lAZm+DiRbuMGOC5Q5BkfamFOirb5YF1
-	 xCqVt1UJ5vPOpIGj4IyP32fpsTF0zsnPpqc9aGs71cmWLO4BAgZspTZ/LnHNNiuv60
-	 5cJOKWnohBicmHM2R/p92xtjmlo1naNYnVCwkDFuR77FYc/wNGrxJCaB716g7eR4Q2
-	 wOLzEMIVUebf3q0Hq+Be+QKFb0Clk1Be9pCgEXh3I++kEAQ5oObamVdI6WO/8Iy068
-	 d2j5J0y5rWXaNy4tNoRnIUKLHaPVBD60O7EGHJ0AmhP7Y4q1AgZmns4TogD2Ek316a
-	 RFZRk146j1YsA==
-Date: Mon, 24 Jun 2024 19:11:35 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, tiwai@suse.de,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>, stable@vger.kernel.org
-Subject: Re: [PATCH 2/3] ASoC: SOF: ipc4-topology: Use correct queue_id for
- requesting input pin format
-Message-ID: <61a68a33-7c65-4b0f-af3b-a258bb1544a5@sirena.org.uk>
-References: <20240624121519.91703-1-pierre-louis.bossart@linux.intel.com>
- <20240624121519.91703-3-pierre-louis.bossart@linux.intel.com>
- <ec992bf9-667c-48a4-81ed-3a1232123987@sirena.org.uk>
- <7372501f-0393-4ba5-9e05-71d59dc1449b@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="fAt3mm6u"
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-dfef5980a69so4445056276.3
+        for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 11:27:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1719253646; x=1719858446; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=TS7GRJVBSbiXIfOc3555Cy+7DvtDs4tYIL95YiKGyb0=;
+        b=fAt3mm6u6LRRr7irUANItSY2WFZjbAxJ0pn9bIVLpQqOI85JzU1LYqXUWb7uJIVztm
+         wfF8QDXBHAcvfWjtvACYUP4y2wtN9Lh4pfwOSii+vYffQ2N/oRcSdPkbgdIa4fDh9HxA
+         KKYACOaDDdTzkfXXQoTmWRdHC02vz+K5pWV3Lu9joaRArhWHffJuiuIqgb0Ys2+kLO7G
+         oZ8M1ywIEvfeVOsk3yD526xb0vGung1FHK2+BAcb+Vxoywi3MpZmSr1B3E7P/x9aE6fx
+         gsmv/wlb3oZMRQSwrOpMKpjTGFPp9JvEyQ/cVAYoQFrkbohgXavgfs5PB1XXWCSkGBqb
+         kO5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719253646; x=1719858446;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TS7GRJVBSbiXIfOc3555Cy+7DvtDs4tYIL95YiKGyb0=;
+        b=bh3nUerhcV5aQrq46SCYQZdwYXg7vuurwCQHl4OljNQQ+JilQb1KRq5b/FqHrjP7xh
+         14fqOCtQafm0tiR1bI3HBKhjjYhXTxo3k11alB0mXU7xFgAOZnzfxSmwOUROypzknbG7
+         uLRsAfyUpbgHJHerQBgSL8s6g0ZhnXaaLJ+6HYDzOFQU6JZY3KaT7DhwHNvpACxQPyxo
+         a+qHeyeVfR9XBfZ1G2zoGtO2JcZQ+hO338tNVW8CU55Bg1KJpbZIvgfhPV4ntJjU8tGi
+         WiKhY12xQt5BRy+drygphKQeGboayen2o9St/s2szELN4lT4DcMUxXTHdiHm30vyXvsn
+         aLcg==
+X-Forwarded-Encrypted: i=1; AJvYcCUanXM96Lvptr7duOu0WL+x3yHvIXgJQQ+uEm6A4r1vgoj0uYsuE/t/AxmEsXaggfhy18fjnLSghFRRFo2ga4KJfuVWpSMDdtNCR7E=
+X-Gm-Message-State: AOJu0Yxw3DYvQAgC0kZxny/QtAuSlyW6DUashEB/BpZNbqtTbC6mZfaI
+	FUIRgAQVpBAfg8DCz0KB8KsYSWdB7xrjrIOeVeDDXg/3zLCn+kAE9FiEY3D57+Bci/7+vkvHMJM
+	7AP/7NtXkOL1DMHMdh7WRDHKHuHf+WCcBJCCFHQ==
+X-Google-Smtp-Source: AGHT+IHNIsxL7IdqCLVSyINZgDjQkCRHKPTAM+t9FlDhG+E0Ru/sJKPmgt69/U4c0BD886Tzeyv8OL4cFF7/wYneLNI=
+X-Received: by 2002:a25:8442:0:b0:dfe:199d:798f with SMTP id
+ 3f1490d57ef6-e0300f40230mr5287028276.19.1719253645903; Mon, 24 Jun 2024
+ 11:27:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="e4ptfVfnpd/tRlJd"
-Content-Disposition: inline
-In-Reply-To: <7372501f-0393-4ba5-9e05-71d59dc1449b@linux.intel.com>
-X-Cookie: Allow 6 to 8 weeks for delivery.
+References: <20240524182702.1317935-1-dave.stevenson@raspberrypi.com>
+ <20240524182702.1317935-10-dave.stevenson@raspberrypi.com> <ZmCqxhv2jF3bT8dH@lizhi-Precision-Tower-5810>
+In-Reply-To: <ZmCqxhv2jF3bT8dH@lizhi-Precision-Tower-5810>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Mon, 24 Jun 2024 19:27:10 +0100
+Message-ID: <CAPY8ntBZaS_hrDnrrEUohsc+V27fFho3Je+bJRDYFKcQ5vfPgQ@mail.gmail.com>
+Subject: Re: [PATCH 09/18] dmaengine: bcm2835: Add function to handle DMA mapping
+To: Frank Li <Frank.li@nxp.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, Vinod Koul <vkoul@kernel.org>, 
+	Maxime Ripard <mripard@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Mark Brown <broonie@kernel.org>, 
+	Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Robin Murphy <robin.murphy@arm.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Vladimir Murzin <vladimir.murzin@arm.com>, Phil Elwell <phil@raspberrypi.com>, 
+	Stefan Wahren <wahrenst@gmx.net>, Serge Semin <Sergey.Semin@baikalelectronics.ru>, 
+	devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-mmc@vger.kernel.org, linux-spi@vger.kernel.org, iommu@lists.linux.dev, 
+	linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+On Wed, 5 Jun 2024 at 19:13, Frank Li <Frank.li@nxp.com> wrote:
+>
+> On Fri, May 24, 2024 at 07:26:53PM +0100, Dave Stevenson wrote:
+> > The code handling DMA mapping is currently incorrect and
+> > needs a sequence of fixups.
+>
+> Can you descript what incorrect here?
 
---e4ptfVfnpd/tRlJd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Clients are passing in DMA addresses, not CPU physical addresses. I'll
+update the commit message.
 
-On Mon, Jun 24, 2024 at 05:26:32PM +0200, Pierre-Louis Bossart wrote:
-> On 6/24/24 14:36, Mark Brown wrote:
-> > On Mon, Jun 24, 2024 at 02:15:18PM +0200, Pierre-Louis Bossart wrote:
-> >> Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-> >> Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-> >> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-> >> Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-> >> Cc: <stable@vger.kernel.org> # v6.8+
+> > Move the mapping out into a separate function and structure
+> > to allow for those fixes to be applied more cleanly.
+> >
+> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > ---
+> >  drivers/dma/bcm2835-dma.c | 46 ++++++++++++++++++++++++++++++++-------
+> >  1 file changed, 38 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/drivers/dma/bcm2835-dma.c b/drivers/dma/bcm2835-dma.c
+> > index aefaa1f01d7f..ef1d95bae84e 100644
+> > --- a/drivers/dma/bcm2835-dma.c
+> > +++ b/drivers/dma/bcm2835-dma.c
+> > @@ -65,6 +65,10 @@ struct bcm2835_cb_entry {
+> >       dma_addr_t paddr;
+> >  };
+> >
+> > +struct bcm2835_dma_chan_map {
+> > +     dma_addr_t addr;
+> > +};
+> > +
+> >  struct bcm2835_chan {
+> >       struct virt_dma_chan vc;
+> >
+> > @@ -74,6 +78,7 @@ struct bcm2835_chan {
+> >       int ch;
+> >       struct bcm2835_desc *desc;
+> >       struct dma_pool *cb_pool;
+> > +     struct bcm2835_dma_chan_map map;
+>
+> I suppose map should in bcm2835_desc.  if put in chan, how about client
+> driver create two desc by bcm2835_dma_prep_slave_sg()?
+>
+> prep_slave_sg()
+> submit()
+> prep_savle_sg()
+> submit()
+> issue_pending()
 
-> > Please put fixes at the start of serieses, or send them separately -
-> > it makes things much easier to handle if they're separate.  This ensures
-> > that the fixes don't end up with spurious dependencies on non-fix
-> > changes.
+I'm basing this on rcar-dmac.c which has a similar mode of operation.
 
-> Agree, I wasn't sure if this was really linux-stable material, this
-> patch fixes problems on to-be-released topologies but it doesn't have
-> any effect on existing user setups. At the same time, it certainly fixes
-> a conceptual bug. Not sure if the tag is needed for those cases?
+For devices such as HDMI audio, I2S, SPI, etc, the peripheral's
+address is constant. Mapping and unmapping adds an overhead. Retaining
+the mapping in the chan structure allows the mapping to be cached
+whilst the address remains the same, and is released whenever the
+address changes.
 
-Given the enthusiasm with which stable backports things it's probably
-fine, I suspect the device quirks might end up getting pulled back.
+If the map is in bcm2835_desc then as the desc is freed after every
+transfer you'd have to unmap.
 
---e4ptfVfnpd/tRlJd
-Content-Type: application/pgp-signature; name="signature.asc"
+  Dave
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZ5ttYACgkQJNaLcl1U
-h9DAEwf/ZuByiNrlInuQ8Dol95wy3z5F8WHBuuyD6/CxhHerYx8ICHQRC4/0kZnI
-vmE0gKsMi/idFkGE1ZTpBzCMGyrZeAFF2S8J6qDXMg1V1t8q+aZSg69sXUVHdaT3
-mnGgJtfeiF7ctTl2GNUB1NOzLpkFaoU19jDBPCJXgUN6sGhzEDNkrqNvrsBFAhBQ
-hhtQ2ynn6o/l5rg6kX+fovYG1J1CRr8GeczeJAfcjcALJlwI8ZgJNLf9Wa75q+uJ
-TqabyUqoQO9L86BW7TBMJCvun6hMiL9i5JUbF5KcZN9ndAJ0tnHGGhhWp91a0iho
-5J0J8jCaXa1bGl+1h1ZzMgRxEvkdtg==
-=x3+9
------END PGP SIGNATURE-----
-
---e4ptfVfnpd/tRlJd--
+> Frank
+>
+> >
+> >       void __iomem *chan_base;
+> >       int irq_number;
+> > @@ -268,6 +273,19 @@ static inline bool need_dst_incr(enum dma_transfer_direction direction)
+> >       }
+> >
+> >       return false;
+> > +};
+> > +
+> > +static int bcm2835_dma_map_slave_addr(struct dma_chan *chan,
+> > +                                   phys_addr_t dev_addr,
+> > +                                   size_t dev_size,
+> > +                                   enum dma_data_direction dev_dir)
+> > +{
+> > +     struct bcm2835_chan *c = to_bcm2835_dma_chan(chan);
+> > +     struct bcm2835_dma_chan_map *map = &c->map;
+> > +
+> > +     map->addr = dev_addr;
+> > +
+> > +     return 0;
+> >  }
+> >
+> >  static void bcm2835_dma_free_cb_chain(struct bcm2835_desc *desc)
+> > @@ -734,13 +752,19 @@ static struct dma_async_tx_descriptor *bcm2835_dma_prep_slave_sg(
+> >       }
+> >
+> >       if (direction == DMA_DEV_TO_MEM) {
+> > -             if (c->cfg.src_addr_width != DMA_SLAVE_BUSWIDTH_4_BYTES)
+> > +             if (bcm2835_dma_map_slave_addr(chan, c->cfg.src_addr,
+> > +                                            c->cfg.src_addr_width,
+> > +                                            DMA_TO_DEVICE))
+> >                       return NULL;
+> > -             src = c->cfg.src_addr;
+> > +
+> > +             src = c->map.addr;
+> >       } else {
+> > -             if (c->cfg.dst_addr_width != DMA_SLAVE_BUSWIDTH_4_BYTES)
+> > +             if (bcm2835_dma_map_slave_addr(chan, c->cfg.dst_addr,
+> > +                                            c->cfg.dst_addr_width,
+> > +                                            DMA_FROM_DEVICE))
+> >                       return NULL;
+> > -             dst = c->cfg.dst_addr;
+> > +
+> > +             dst = c->map.addr;
+> >       }
+> >
+> >       /* count frames in sg list */
+> > @@ -795,14 +819,20 @@ static struct dma_async_tx_descriptor *bcm2835_dma_prep_dma_cyclic(
+> >                             __func__, buf_len, period_len);
+> >
+> >       if (direction == DMA_DEV_TO_MEM) {
+> > -             if (c->cfg.src_addr_width != DMA_SLAVE_BUSWIDTH_4_BYTES)
+> > +             if (bcm2835_dma_map_slave_addr(chan, c->cfg.src_addr,
+> > +                                            c->cfg.src_addr_width,
+> > +                                            DMA_TO_DEVICE))
+> >                       return NULL;
+> > -             src = c->cfg.src_addr;
+> > +
+> > +             src = c->map.addr;
+> >               dst = buf_addr;
+> >       } else {
+> > -             if (c->cfg.dst_addr_width != DMA_SLAVE_BUSWIDTH_4_BYTES)
+> > +             if (bcm2835_dma_map_slave_addr(chan, c->cfg.dst_addr,
+> > +                                            c->cfg.dst_addr_width,
+> > +                                            DMA_FROM_DEVICE))
+> >                       return NULL;
+> > -             dst = c->cfg.dst_addr;
+> > +
+> > +             dst = c->map.addr;
+> >               src = buf_addr;
+> >       }
+> >
+> > --
+> > 2.34.1
+> >
