@@ -1,75 +1,117 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 142BB34CDD;
-	Mon, 24 Jun 2024 08:25:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B394461FF9;
+	Mon, 24 Jun 2024 08:51:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=208.88.110.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719217542; cv=none; b=dJO6HvXn6vVs9XWWuBwVnhsvSLeohXvDGqd5rZsC1JDTrmrB2Srl+7rpth4MGCYKtqpsfWQ+MHYuXxWSAKLbMNgUsTbIzC0paRLbdrb7WoRuYfXtfsrXBMjMBdONykPSSPHQSVsrAR0JO6F+Hn6JDf2gop+KgcpRfxUt4AmbWdw=
+	t=1719219112; cv=none; b=TKrEzxLAVb8mLAkvG7OAXPPDbDXv1tR+wxtwkvTupA57OHRSvnjQ1IrUiLB8HqMxnquHSe7hkoaRTtgp2pKJeXbEHlomfUMtgOI7SqBn3Y4w+1k1n1EBacs5uh5QnQ4vxkQr8G0qdxxHgci4AoIoHjhLKofEsJ5OMUQwFdr3jcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719217542; c=relaxed/simple;
-	bh=GyOe0Bk1Qy0x3Zlayl0mhf95b8D33vUNBo/LqZn8X8U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cL/xiVbfxkyR/sLgfwFk0rLLA+pdTf6RCdLURWmLwij9bL4a4UXVKmEjFUteTFLsHhiKCo7CQJVjn+h8wZ0jAKBrCxYKn7FMAuX9qhuKSQaGnL5K9rRep/T+V8MO8rMHRGThg5faJLIIGyc8WuH3PoCxbKwUv7PtX6SJUYYv2VY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W1lcaqnV; arc=none smtp.client-ip=209.85.215.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1719219112; c=relaxed/simple;
+	bh=uQyn0xy29YFUanE0wG8ZI/is3ZrZ9f3UQZpwTIzoISM=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=X13xuAWxmxe/NoR+SnAzJ7cb1A88ztomGEZQQDceKR2krYwDTlnjSZZfMM19UHh/tn4nn5L7+8cmqg+CGQXonm2jnwx17E3gbau5GUZ1mrg1JuhDaCIIRfIUYUnTjJNj9WDGvs+3jIE1x6m/ksJBBvyKAVpKwdr6PE1UWrIaADE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=savoirfairelinux.com; spf=pass smtp.mailfrom=savoirfairelinux.com; dkim=pass (2048-bit key) header.d=savoirfairelinux.com header.i=@savoirfairelinux.com header.b=ZF75jHtR; arc=none smtp.client-ip=208.88.110.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=savoirfairelinux.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=savoirfairelinux.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W1lcaqnV"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-7180308e90bso1560070a12.1;
-        Mon, 24 Jun 2024 01:25:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=savoirfairelinux.com header.i=@savoirfairelinux.com header.b="ZF75jHtR"
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id B13679C5B22;
+	Mon, 24 Jun 2024 04:51:48 -0400 (EDT)
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
+ with ESMTP id Yay1jmjOC1gx; Mon, 24 Jun 2024 04:51:48 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 124E39C5B37;
+	Mon, 24 Jun 2024 04:51:48 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 124E39C5B37
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719217540; x=1719822340; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=GyOe0Bk1Qy0x3Zlayl0mhf95b8D33vUNBo/LqZn8X8U=;
-        b=W1lcaqnVGyu82uRW6tbZlPEcR/YiZKRo6yUu+zPunVYRqh9SVC/mL3Kw61qv95Cqa5
-         KaQHBTEWTQpI/L26jOiCUxaLDsBgCUBe60ETuVeyZCxAAW/WkX7bn5fkYR5KukII8M4a
-         VmExvLLy27u3MJAl87rw/mFvgzboF7ptw0g8GI7mJj2S4HoBAOKirGHoTWWdNgbyaZ+Y
-         4a+XojSn0udnuG+WRgYVrrot2RinT+NzAIRTUIYVMl1kIzC5ydwME7D+9xdlVgint9CJ
-         JiThgdaKyOzQt4Ifg/K/AOe762DALusaMXbMwYXHpGr8G/mqCH+8eWcS5gBYQp4XeCCs
-         CADw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719217540; x=1719822340;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GyOe0Bk1Qy0x3Zlayl0mhf95b8D33vUNBo/LqZn8X8U=;
-        b=dnDgTFeU6kxNBauau2fHixRUIvXjMaASapnvbgW/niG5LWUwtxrUW8trAuCGN4u6Go
-         0P+le/BxME4ibx+fw46mCx5g2kkN6OuoqQmvIPaUX2WlKnZExTM+QrA8AA1gELEEpGxH
-         a4fxsDwbXnxbzRzMJg9o7YycU0aplpKXKnjIqXOh48VsQTqYXU7+5JRgSNjz6qR4GS2u
-         5Y3ihHHLQJESuy2nhN4YksR9J6PW0v60SAM6ToI1swJsjCiE0YleuLpMpnu//yaBN4q+
-         ejTXuXpIHW35+U92yrcLHXhr5W/JnBotRWReunIFedJPYSomvpgM7w5sAv8KYd/Rt9og
-         +idw==
-X-Forwarded-Encrypted: i=1; AJvYcCXGXfcYRGXH3K3KkHGzUyH7BKA9kr4unfVSpqjZ4pUfQ0+SLS6wc1w+RNTAz5fKbNwjyG2CW8gK3XMWcfBxh50NOQjsby69L1/dRG55e0G2KWaXuOxsDByrdkMXIPT+s+r1/+JZBH+0qUM=
-X-Gm-Message-State: AOJu0YwbymTG44VFTnQ87RzpbuexqcXBtnUuXnmqh3R0v6VvnoEA/zxc
-	kz/osgk+yG0q0oROz8s8BIU+xjf2tgHPG1uKrD83ir3hlVPbLP+yLP7DOirbMQTYZPoUl3VouAk
-	G/fVJm+UUmpT7i9r5ekptMFtdHwU=
-X-Google-Smtp-Source: AGHT+IH3LtoObSSGd0RS8q2XD+O5g3y4osc0/P7Bukg9/CjaM2KmYXfvOjyoBTJLOJuktChRLOrA3O/E8uVnomjgyns=
-X-Received: by 2002:a17:90b:4c89:b0:2c5:249d:67be with SMTP id
- 98e67ed59e1d1-2c86126b700mr2556400a91.22.1719217540209; Mon, 24 Jun 2024
- 01:25:40 -0700 (PDT)
+	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
+	t=1719219108; bh=+ewUDykI/UOo/DB+dq3CVz3C8NuvvWDy733CasIbz4A=;
+	h=Date:From:To:Message-ID:MIME-Version;
+	b=ZF75jHtRyN/E+RU5Ga21+MkO2BXXJSV6H2W+pCjcTgNujcFmOIXVqY7JjqZ9vwvFO
+	 M6t28Bvegah97B/e3A6ci9Tuz9FC4Fz45HTdnASJQ/UYgSECWsk9QNtKhyKmXi67QN
+	 ZGHHMYMKF84OOipXbCu5stuV+2k9KLWMFKXFrRTaat2k1Py1ktCbIZ+pyBdx5RFFCf
+	 r4q/lCcpIdaPfshIVVcj+KE4UhRPzv3wjWC9dxMMu4bhDseYxbJ3EdkjIpRg4jMJMI
+	 m+W7Cp2+7l7erRK0wqedzzhmDLFHVkqSE+wtSjyWoEQzpPzEufpPSXy1x8m4ZTGK6b
+	 B8k0VV056KtmA==
+X-Virus-Scanned: amavis at mail.savoirfairelinux.com
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
+ with ESMTP id m5StIy1xy9No; Mon, 24 Jun 2024 04:51:47 -0400 (EDT)
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [192.168.48.237])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id CA5529C5B22;
+	Mon, 24 Jun 2024 04:51:47 -0400 (EDT)
+Date: Mon, 24 Jun 2024 04:51:47 -0400 (EDT)
+From: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, 
+	Russell King <linux@armlinux.org.uk>, 
+	Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, 
+	shengjiu wang <shengjiu.wang@gmail.com>, 
+	Xiubo Lee <Xiubo.Lee@gmail.com>, 
+	Nicolin Chen <nicoleotsuka@gmail.com>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	linux-sound <linux-sound@vger.kernel.org>, 
+	devicetree <devicetree@vger.kernel.org>, imx <imx@lists.linux.dev>, 
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
+	linux-kernel <linux-kernel@vger.kernel.org>, 
+	alsa-devel <alsa-devel@alsa-project.org>, 
+	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, 
+	Philip-Dylan Gleonec <philip-dylan.gleonec@savoirfairelinux.com>
+Message-ID: <1566099232.1714447.1719219107779.JavaMail.zimbra@savoirfairelinux.com>
+In-Reply-To: <17a0efe3-72fa-4d13-b3b0-90e6640308f3@kernel.org>
+References: <20240620132511.4291-1-elinor.montmasson@savoirfairelinux.com> <20240620132511.4291-8-elinor.montmasson@savoirfairelinux.com> <17a0efe3-72fa-4d13-b3b0-90e6640308f3@kernel.org>
+Subject: Re: [PATCHv5 7/9] ASoC: dt-bindings: imx-audio-spdif: remove
+ binding
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240615125457.167844-1-rauty@altlinux.org> <2c9ba341bc95d4b9010bf5f8794c0d14b1c57dc9.camel@irl.hu>
- <CAGpJQTHoBAixmxta2WuZfjHjiK9GXF=hkfPyV7PBD5rt9Z_0WA@mail.gmail.com>
-In-Reply-To: <CAGpJQTHoBAixmxta2WuZfjHjiK9GXF=hkfPyV7PBD5rt9Z_0WA@mail.gmail.com>
-From: Rauty <rautyrauty@gmail.com>
-Date: Mon, 24 Jun 2024 11:25:03 +0300
-Message-ID: <CAGpJQTGqxEkfp003QLsp-syUgzDFCmHSmNaoOaem0ZMVf7_=bg@mail.gmail.com>
-Subject: Re: [PATCH v2] ALSA: hda/realtek: Enable headset mic on IdeaPad
- 330-17IKB 81DM
-To: Gergo Koteles <soyer@irl.hu>, alsa-devel@alsa-project.org, tiwai@suse.com
-Cc: perex@perex.cz, kailang@realtek.com, sbinding@opensource.cirrus.com, 
-	luke@ljones.dev, shenghao-ding@ti.com, simont@opensource.cirrus.com, 
-	foss@athaariq.my.id, rf@opensource.cirrus.com, wzhd@ustc.edu, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Mailer: Zimbra 8.8.15_GA_4581 (ZimbraWebClient - GC112 (Linux)/8.8.15_GA_4581)
+Thread-Topic: ASoC: dt-bindings: imx-audio-spdif: remove binding
+Thread-Index: SJweIeCS/c+5zCPba7GA4ZNFgX6eoA==
 
-I haven't changed the patch yet, but it's already in the stable-queue:
-https://git.kernel.org/pub/scm/linux/kernel/git/stable/stable-queue.git/tree/queue-5.10/alsa-hda-realtek-enable-headset-mic-on-ideapad-330-1.patch
-Do you still need changes from me?
+From: "Krzysztof Kozlowski" <krzk@kernel.org>
+Sent: Sunday, 23 June, 2024 13:09:33
+> On 20/06/2024 15:25, Elinor Montmasson wrote:
+>> imx-audio-spdif was merged into the fsl-asoc-card driver, and therefore
+>> removed.
+> 
+> So what happens with all existing users (e.g. DTS)? They become
+> invalid/not supported?
+
+
+Next commits, 8/9 and 9/9, update all DTS files that currently use
+the "fsl,imx-audio-spdif" compatible.
+From the users point of view, currently configured spdif audio cards
+will behave just the same.
+
+
+> After quick look, I do not see backwards compatibility in the driver and
+> above commit msg tells me nothing about ABI break.
+
+
+For the next version I will state in this commit message the upcoming modifications to DTS
+and compatibility, why it will be done, and that support for existing DTS is not dropped.
+
+Previous `imx-spdif` driver used the dummy codec instead of
+using declared spdif codecs. It was discussed in previous version of this contribution
+that using the dummy codec isn't good practice. So one to one backward compatibility
+isn't really possible.
+
+
+Best regards,
+Elinor Montmasson
