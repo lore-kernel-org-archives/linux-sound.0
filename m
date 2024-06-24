@@ -1,48 +1,45 @@
 Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 706C413D60E
-	for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 13:11:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20BE913D60A
+	for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 13:11:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719234711; cv=none; b=Twkuozz93M2DJ1VvSnxBjtaQGvk0eSIta/IYErqWaIj1Imy0kF4sZWz/VGHYQLe7UbmgB8L79gtNUcUlu8D39t0etYJ/xusS4N3exVAkhXp0/VXAQ/lpN1amJG6xxe9d7s0tuBx1zIdLWpArhy05Iaywq4BP0J1G1vI1g/73SWc=
+	t=1719234712; cv=none; b=Ba5KRV+kZFL6zSdQyb1Z2RPH4WC7dhH9/ingV+qlW9A+mf6wMa2IpLBeFIKXvAtscrvMYfxeOXlf/iX0i0M9+057qEgAQjvedv+S/mj/3QdyqWjs0OW8bsFsDoFkYMNeTQgBIalDfp5XXJOpU/Ufvorr7A7U7xgvHxDSC5P7Rb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719234711; c=relaxed/simple;
-	bh=OkbtoPa91aEDS3Owt/clFS+CDvxM1YlIr63BX0a97TM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Rt0N+fOVBlblyehHX3NCkDGWx23y4VmB4YlOlvRlh5qnrqCRwAvK2Z4FXu442m90Lkl4xrbRd34pkpJ1gifFkD6MjjJc8KkjnJBjC30Vo6kP262sZI6zpf4wCU6xWVTGIuzGlFmrAw7bHlof2kzs3FVc3/QYvOj8cv1hQX+6Wlo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=nb/lqPA4; arc=none smtp.client-ip=77.48.224.245
+	s=arc-20240116; t=1719234712; c=relaxed/simple;
+	bh=+H4mYzHvNXNz1gJcyw0vP6ydIesWV+EgjRzLRz2d40U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KgrXRg7GqM/dned3EBdQR75DsN+7WittqjsLWn9Ua2GzSaUldLIsJwaQ/xg1nNCjsABrGrdy/+JCiFKQ0ytsWlgcES0FT1s8RxQBWUyO0HSZnK1hg8t3SEFqLW2T+L+sT31oAJDBBsrj8uB5AAXLNzblzhaR7rBFufCMmfwTzno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=zUYsBlgh; arc=none smtp.client-ip=77.48.224.245
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="nb/lqPA4"
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="zUYsBlgh"
 Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 8EF926E9C;
-	Mon, 24 Jun 2024 15:11:43 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 8EF926E9C
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 2B1A32AAF;
+	Mon, 24 Jun 2024 15:11:35 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 2B1A32AAF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1719234703; bh=nbvvhNNWPgd2LAhGLTT4EDdWNKlw3Vq53o906fmnQSI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=nb/lqPA4MvCCBBz7Klg0b6aykltEt+7mveJnJodECDqVpsp0okcBObFLF/lj7OgFq
-	 aKTBYrgxPuk4ujpW/jvd1GVqWfqCABIpaGrx/pyhkA6Ioqe5P6SklmShqjxLuDNjeg
-	 vF6pzEJmsOLpKrxeLIHaBJ9B5r7kg8+VhZfw107g=
+	t=1719234695; bh=E9KyfMduDUhoUzYEpbqKXuBBKS8feiQ2jn13Tg8/F6U=;
+	h=From:To:Cc:Subject:Date:From;
+	b=zUYsBlghRH1z7Ghfm2vnslMIEtqhrcYZCPEx1DHB/0dj8kgGApOPtjo5RMaITj3QQ
+	 F5a8AOYvRkle2dl8i9hjGIabnJ9Y2sEzWC9TiaKF7+BukNyJd8k6wlLP5VR96ZwxpZ
+	 oj743BE8Go2N36SUNueQ1tclHljY0ucY3RbVyr+I=
 Received: from p1gen4.perex-int.cz (unknown [192.168.100.98])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: perex)
 	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Mon, 24 Jun 2024 15:11:40 +0200 (CEST)
+	Mon, 24 Jun 2024 15:11:32 +0200 (CEST)
 From: Jaroslav Kysela <perex@perex.cz>
 To:  <linux-sound@vger.kernel.org>
 Cc: Takashi Iwai <tiwai@suse.de>,
 	Jaroslav Kysela <perex@perex.cz>
-Subject: [PATCH v5 2/2] ALSA: pcm: optimize and clarify stream sychronization ID API
-Date: Mon, 24 Jun 2024 15:07:49 +0200
-Message-ID: <20240624131127.498605-3-perex@perex.cz>
+Subject: [PATCH v5 0/2] ALSA: pcm: reinvent the stream synchronization ID API
+Date: Mon, 24 Jun 2024 15:07:47 +0200
+Message-ID: <20240624131127.498605-1-perex@perex.cz>
 X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240624131127.498605-1-perex@perex.cz>
-References: <20240624131127.498605-1-perex@perex.cz>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,172 +48,57 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Optimize the memory usage in struct snd_pcm_runtime - use boolean
-value for the standard sync ID scheme.
+Until the commit e11f0f90a626 ("ALSA: pcm: remove SNDRV_PCM_IOCTL1_INFO
+internal command"), there was a possibility to pass information
+about the synchronized streams to the user space. The mentioned
+commit removed blindly the appropriate code with an irrelevant comment.
 
-Introduce snd_pcm_set_sync_per_card function to build synchronization
-IDs.
+The revert may be appropriate, but since this API was lost for several
+years without any complains, it's time to improve it. The hardware
+parameters may change the used stream clock source (e.g. USB hardware)
+so move this synchronization ID to hw_params as read-only field.
+    
+It seems that pipewire can benefit from this API (disable adaptive
+resampling for perfectly synchronized PCM streams) now.
+    
+Note that the contents of ID is not supposed to be used for direct
+comparison with a specific byte sequence. The "empty" case is when
+all bytes are zero (driver does not offer this information)
+and all other cases must be only used for equal comparison among
+PCM streams (including different sound cards) if they are using
+identical hardware clock.
 
-Signed-off-by: Jaroslav Kysela <perex@perex.cz>
----
- include/sound/pcm.h      | 16 +++++++++++--
- sound/core/pcm_lib.c     | 51 ++++++++++++++++++++++++----------------
- sound/pci/emu10k1/p16v.c | 16 +++++++++----
- 3 files changed, 57 insertions(+), 26 deletions(-)
+v4->v5:
+  - extend commit message (clarification for ID use) for first patch
+  - mark union snd_pcm_sync_id as deprecated
+  - do not use get_unaligned() - reviewers are confused and the code
+    is removed in the second path (optimization)
 
-diff --git a/include/sound/pcm.h b/include/sound/pcm.h
-index dbce137d8806..d3de660d1476 100644
---- a/include/sound/pcm.h
-+++ b/include/sound/pcm.h
-@@ -402,7 +402,7 @@ struct snd_pcm_runtime {
- 	snd_pcm_uframes_t silence_start; /* starting pointer to silence area */
- 	snd_pcm_uframes_t silence_filled; /* already filled part of silence area */
- 
--	unsigned char sync[16];		/* hardware synchronization ID */
-+	bool sync_flag;			/* hardware synchronization - standard per card ID */
- 
- 	/* -- mmap -- */
- 	struct snd_pcm_mmap_status *status;
-@@ -1156,7 +1156,19 @@ int snd_pcm_format_set_silence(snd_pcm_format_t format, void *buf, unsigned int
- 
- void snd_pcm_set_ops(struct snd_pcm * pcm, int direction,
- 		     const struct snd_pcm_ops *ops);
--void snd_pcm_set_sync(struct snd_pcm_substream *substream);
-+void snd_pcm_set_sync_per_card(struct snd_pcm_substream *substream, struct snd_pcm_hw_params *params,
-+			       const unsigned char *id, unsigned int len);
-+/**
-+ * snd_pcm_set_sync - set the PCM sync id
-+ * snd_pcm_set_sync_per_card - set the PCM sync id with card number
-+ * @substream: the pcm substream
-+ *
-+ * Use the default PCM sync identifier for the specific card.
-+ */
-+static inline void snd_pcm_set_sync(struct snd_pcm_substream *substream)
-+{
-+	substream->runtime->sync_flag = true;
-+}
- int snd_pcm_lib_ioctl(struct snd_pcm_substream *substream,
- 		      unsigned int cmd, void *arg);                      
- void snd_pcm_period_elapsed_under_stream_lock(struct snd_pcm_substream *substream);
-diff --git a/sound/core/pcm_lib.c b/sound/core/pcm_lib.c
-index a6d59ee9eb52..8d1a24a2c43d 100644
---- a/sound/core/pcm_lib.c
-+++ b/sound/core/pcm_lib.c
-@@ -516,19 +516,37 @@ void snd_pcm_set_ops(struct snd_pcm *pcm, int direction,
- EXPORT_SYMBOL(snd_pcm_set_ops);
- 
- /**
-- * snd_pcm_set_sync - set the PCM sync id
-+ * snd_pcm_set_sync_per_card - set the PCM sync id with card number
-  * @substream: the pcm substream
-+ * @params: modified hardware parameters
-+ * @id: identifier (max 12 bytes)
-+ * @len: identifier length (max 12 bytes)
-  *
-- * Sets the PCM sync identifier for the card.
-+ * Sets the PCM sync identifier for the card with zero padding.
-+ *
-+ * User space or any user should use this 16-byte identifier for a comparison only
-+ * to check if two IDs are similar or different. Special case is the identifier
-+ * containing only zeros. Interpretation for this combination is - empty (not set).
-+ * The contents of the identifier should not be interpreted in any other way.
-+ *
-+ * The synchronization ID must be unique per clock source (usually one sound card,
-+ * but multiple soundcard may use one PCM word clock source which means that they
-+ * are fully synchronized).
-+ *
-+ * This routine composes this ID using card number in first four bytes and
-+ * 12-byte additional ID. When other ID composition is used (e.g. for multiple
-+ * sound cards), make sure that the composition does not clash with this
-+ * composition scheme.
-  */
--void snd_pcm_set_sync(struct snd_pcm_substream *substream)
-+void snd_pcm_set_sync_per_card(struct snd_pcm_substream *substream,
-+			       struct snd_pcm_hw_params *params,
-+			       const unsigned char *id, unsigned int len)
- {
--	struct snd_pcm_runtime *runtime = substream->runtime;
--	
--	*(__u32 *)runtime->sync = cpu_to_le32(substream->pcm->card->number);
--	memset(runtime->sync + 4, 0xff, sizeof(runtime->sync) - 4);
-+	*(__u32 *)params->sync = cpu_to_le32(substream->pcm->card->number);
-+	len = max(12, len);
-+	strncpy(params->sync + 4, id, len);
-+	memset(params->sync + 4 + len, 0, 12 - len);
- }
--EXPORT_SYMBOL(snd_pcm_set_sync);
- 
- /*
-  *  Standard ioctl routine
-@@ -1808,22 +1826,15 @@ static int snd_pcm_lib_ioctl_fifo_size(struct snd_pcm_substream *substream,
- 	return 0;
- }
- 
--/**
-- * is sync id (clock id) empty?
-- */
--static inline bool pcm_sync_empty(const unsigned char *sync)
--{
--	return sync[0] == 0 && sync[1] == 0 && sync[2] == 0 && sync[3] == 0 &&
--	       sync[4] == 0 && sync[5] == 0 && sync[6] == 0 && sync[7] == 0;
--}
--
- static int snd_pcm_lib_ioctl_sync_id(struct snd_pcm_substream *substream,
- 				     void *arg)
- {
--	struct snd_pcm_hw_params *params = arg;
-+	static const unsigned char id[12] = { 0xff, 0xff, 0xff, 0xff,
-+					      0xff, 0xff, 0xff, 0xff,
-+					      0xff, 0xff, 0xff, 0xff };
- 
--	if (pcm_sync_empty(params->sync))
--		memcpy(params->sync, substream->runtime->sync, sizeof(params->sync));
-+	if (substream->runtime->sync_flag)
-+		snd_pcm_set_sync_per_card(substream, arg, id, sizeof(id));
- 	return 0;
- }
- 
-diff --git a/sound/pci/emu10k1/p16v.c b/sound/pci/emu10k1/p16v.c
-index 773725dbdfbd..a9a75891f1da 100644
---- a/sound/pci/emu10k1/p16v.c
-+++ b/sound/pci/emu10k1/p16v.c
-@@ -174,10 +174,6 @@ static int snd_p16v_pcm_open_playback_channel(struct snd_pcm_substream *substrea
- 	if (err < 0)
-                 return err;
- 
--	*(__u32 *)runtime->sync = cpu_to_le32(substream->pcm->card->number);
--	memset(runtime->sync + 4, 0, sizeof(runtime->sync) - 4);
--	strncpy(runtime->sync + 4, "P16V", 4);
--
- 	return 0;
- }
- 
-@@ -225,6 +221,17 @@ static int snd_p16v_pcm_open_capture(struct snd_pcm_substream *substream)
- 	return snd_p16v_pcm_open_capture_channel(substream, 0);
- }
- 
-+static int snd_p16v_pcm_ioctl_playback(struct snd_pcm_substream *substream,
-+				       unsigned int cmd, void *arg)
-+{
-+	if (cmd == SNDRV_PCM_IOCTL1_SYNC_ID) {
-+		static const unsigned char id[4] = { 'P', '1', '6', 'V' };
-+		snd_pcm_set_sync_per_card(substream, arg, id, 4);
-+		return 0;
-+	}
-+	return snd_pcm_lib_ioctl(substream, cmd, arg);
-+}
-+
- /* prepare playback callback */
- static int snd_p16v_pcm_prepare_playback(struct snd_pcm_substream *substream)
- {
-@@ -530,6 +537,7 @@ snd_p16v_pcm_pointer_capture(struct snd_pcm_substream *substream)
- static const struct snd_pcm_ops snd_p16v_playback_front_ops = {
- 	.open =        snd_p16v_pcm_open_playback_front,
- 	.close =       snd_p16v_pcm_close_playback,
-+	.ioctl =       snd_p16v_pcm_ioctl_playback,
- 	.prepare =     snd_p16v_pcm_prepare_playback,
- 	.trigger =     snd_p16v_pcm_trigger_playback,
- 	.pointer =     snd_p16v_pcm_pointer_playback,
+v3->v4:
+  - more code shuffle as suggested by Takashi
+  - remove unused snd_pcm_empty function in the second patch
+  - put back snd_pcm_set_sync documentation
+
+v2->v3:
+  - fix pcm_sync_empty() function (wrong comparison) [thanks Takashi Sakamoto]
+  - more documentation for snd_pcm_set_sync_per_card (ID composition)
+
+v1->v2:
+  - remove union usage per Takashi's request
+  - reduce memory usage
+  - use standard ID generation scheme
+
+Jaroslav Kysela (2):
+  ALSA: pcm: reinvent the stream synchronization ID API
+  ALSA: pcm: optimize and clarify stream sychronization ID API
+
+ include/sound/pcm.h         | 17 +++++++++++--
+ include/uapi/sound/asound.h |  9 ++++---
+ sound/core/pcm_lib.c        | 50 +++++++++++++++++++++++++++++--------
+ sound/core/pcm_native.c     |  6 +++++
+ sound/pci/emu10k1/p16v.c    | 17 +++++++++----
+ 5 files changed, 78 insertions(+), 21 deletions(-)
+
 -- 
 2.45.2
 
