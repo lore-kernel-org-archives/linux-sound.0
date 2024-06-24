@@ -1,107 +1,75 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9142C4436E;
-	Mon, 24 Jun 2024 07:39:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 142BB34CDD;
+	Mon, 24 Jun 2024 08:25:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719214767; cv=none; b=avheLYdd26tsOerySkA4jZ1A8YDiutX1F5pClqZEFEmSo173WITO6YayXjXVHbJSa+TCqF6m1D+3Zonl/he/0u8Jx5J4JHZR3Dsem01OfFPkFjNXCVVc66b/gIHmer0sgZmops81HlfN0SgMXdPVg6XLsfoYuuB0w8E/UI/NywQ=
+	t=1719217542; cv=none; b=dJO6HvXn6vVs9XWWuBwVnhsvSLeohXvDGqd5rZsC1JDTrmrB2Srl+7rpth4MGCYKtqpsfWQ+MHYuXxWSAKLbMNgUsTbIzC0paRLbdrb7WoRuYfXtfsrXBMjMBdONykPSSPHQSVsrAR0JO6F+Hn6JDf2gop+KgcpRfxUt4AmbWdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719214767; c=relaxed/simple;
-	bh=V+/MuvOB5oRpHrUXIua2jOm8NVL5toa1d2l3vx43fvc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=n1k312EUmTS8FDb+ao7wFf0wpecC5VlhnTSEUptUdA3+PBIh1pW+IvEwizcy3HE5sCgbdj3hP0CQHv9HhfxEtotywNHbZAdaB52CTRpzOotw1Mqr0ZyGjtgD3dBIPmtJEQSgRqdSbqTtfqnTB5AIMYSst7CvyXBz75ziQEMx5Iw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=kppcXub/; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1719217542; c=relaxed/simple;
+	bh=GyOe0Bk1Qy0x3Zlayl0mhf95b8D33vUNBo/LqZn8X8U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cL/xiVbfxkyR/sLgfwFk0rLLA+pdTf6RCdLURWmLwij9bL4a4UXVKmEjFUteTFLsHhiKCo7CQJVjn+h8wZ0jAKBrCxYKn7FMAuX9qhuKSQaGnL5K9rRep/T+V8MO8rMHRGThg5faJLIIGyc8WuH3PoCxbKwUv7PtX6SJUYYv2VY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W1lcaqnV; arc=none smtp.client-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="kppcXub/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1719214758;
-	bh=V+/MuvOB5oRpHrUXIua2jOm8NVL5toa1d2l3vx43fvc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=kppcXub/wGYVKDXZW9lsyJvZlE+MHw94Ab2zNNosm0jdkPczLSeXIa1mX4CnB0TH3
-	 Yb4E0vqO3PjC9VKzOt94QYra2asAz1mEXL6qdPrzeUV6k0kfkfIAGNjjidmDutXjkx
-	 jsSsLzOtK/Ei0/dHmSjjlfMHlGaNxutpfeWUPXqGmg70DzoOe7p/L/gO5rcfofNGCh
-	 UzEFxUwjQIZ9Xr2d5UaBFjQ0XqYnx37U/cIJpHRFV5DMamkEVIJW4boJpkbktShAqi
-	 j78oPgSc40mkbwC6rOjvnJXUWGPueXDg5W3arSGPIQptFoOFBh/14pPeR9ZJ4u2DAC
-	 PqUdQOigkcQHA==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 950BA378216B;
-	Mon, 24 Jun 2024 07:39:17 +0000 (UTC)
-Message-ID: <aefe76a3-5712-4e34-8990-0463a5036324@collabora.com>
-Date: Mon, 24 Jun 2024 09:39:16 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W1lcaqnV"
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-7180308e90bso1560070a12.1;
+        Mon, 24 Jun 2024 01:25:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719217540; x=1719822340; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GyOe0Bk1Qy0x3Zlayl0mhf95b8D33vUNBo/LqZn8X8U=;
+        b=W1lcaqnVGyu82uRW6tbZlPEcR/YiZKRo6yUu+zPunVYRqh9SVC/mL3Kw61qv95Cqa5
+         KaQHBTEWTQpI/L26jOiCUxaLDsBgCUBe60ETuVeyZCxAAW/WkX7bn5fkYR5KukII8M4a
+         VmExvLLy27u3MJAl87rw/mFvgzboF7ptw0g8GI7mJj2S4HoBAOKirGHoTWWdNgbyaZ+Y
+         4a+XojSn0udnuG+WRgYVrrot2RinT+NzAIRTUIYVMl1kIzC5ydwME7D+9xdlVgint9CJ
+         JiThgdaKyOzQt4Ifg/K/AOe762DALusaMXbMwYXHpGr8G/mqCH+8eWcS5gBYQp4XeCCs
+         CADw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719217540; x=1719822340;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GyOe0Bk1Qy0x3Zlayl0mhf95b8D33vUNBo/LqZn8X8U=;
+        b=dnDgTFeU6kxNBauau2fHixRUIvXjMaASapnvbgW/niG5LWUwtxrUW8trAuCGN4u6Go
+         0P+le/BxME4ibx+fw46mCx5g2kkN6OuoqQmvIPaUX2WlKnZExTM+QrA8AA1gELEEpGxH
+         a4fxsDwbXnxbzRzMJg9o7YycU0aplpKXKnjIqXOh48VsQTqYXU7+5JRgSNjz6qR4GS2u
+         5Y3ihHHLQJESuy2nhN4YksR9J6PW0v60SAM6ToI1swJsjCiE0YleuLpMpnu//yaBN4q+
+         ejTXuXpIHW35+U92yrcLHXhr5W/JnBotRWReunIFedJPYSomvpgM7w5sAv8KYd/Rt9og
+         +idw==
+X-Forwarded-Encrypted: i=1; AJvYcCXGXfcYRGXH3K3KkHGzUyH7BKA9kr4unfVSpqjZ4pUfQ0+SLS6wc1w+RNTAz5fKbNwjyG2CW8gK3XMWcfBxh50NOQjsby69L1/dRG55e0G2KWaXuOxsDByrdkMXIPT+s+r1/+JZBH+0qUM=
+X-Gm-Message-State: AOJu0YwbymTG44VFTnQ87RzpbuexqcXBtnUuXnmqh3R0v6VvnoEA/zxc
+	kz/osgk+yG0q0oROz8s8BIU+xjf2tgHPG1uKrD83ir3hlVPbLP+yLP7DOirbMQTYZPoUl3VouAk
+	G/fVJm+UUmpT7i9r5ekptMFtdHwU=
+X-Google-Smtp-Source: AGHT+IH3LtoObSSGd0RS8q2XD+O5g3y4osc0/P7Bukg9/CjaM2KmYXfvOjyoBTJLOJuktChRLOrA3O/E8uVnomjgyns=
+X-Received: by 2002:a17:90b:4c89:b0:2c5:249d:67be with SMTP id
+ 98e67ed59e1d1-2c86126b700mr2556400a91.22.1719217540209; Mon, 24 Jun 2024
+ 01:25:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ASoC: mediatek: mt8195: Add platform entry for
- ETDM1_OUT_BE dai link
-To: Chen-Yu Tsai <wenst@chromium.org>, Mark Brown <broonie@kernel.org>
-Cc: Trevor Wu <trevor.wu@mediatek.com>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
-References: <20240624061257.3115467-1-wenst@chromium.org>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20240624061257.3115467-1-wenst@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240615125457.167844-1-rauty@altlinux.org> <2c9ba341bc95d4b9010bf5f8794c0d14b1c57dc9.camel@irl.hu>
+ <CAGpJQTHoBAixmxta2WuZfjHjiK9GXF=hkfPyV7PBD5rt9Z_0WA@mail.gmail.com>
+In-Reply-To: <CAGpJQTHoBAixmxta2WuZfjHjiK9GXF=hkfPyV7PBD5rt9Z_0WA@mail.gmail.com>
+From: Rauty <rautyrauty@gmail.com>
+Date: Mon, 24 Jun 2024 11:25:03 +0300
+Message-ID: <CAGpJQTGqxEkfp003QLsp-syUgzDFCmHSmNaoOaem0ZMVf7_=bg@mail.gmail.com>
+Subject: Re: [PATCH v2] ALSA: hda/realtek: Enable headset mic on IdeaPad
+ 330-17IKB 81DM
+To: Gergo Koteles <soyer@irl.hu>, alsa-devel@alsa-project.org, tiwai@suse.com
+Cc: perex@perex.cz, kailang@realtek.com, sbinding@opensource.cirrus.com, 
+	luke@ljones.dev, shenghao-ding@ti.com, simont@opensource.cirrus.com, 
+	foss@athaariq.my.id, rf@opensource.cirrus.com, wzhd@ustc.edu, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Il 24/06/24 08:12, Chen-Yu Tsai ha scritto:
-> Commit e70b8dd26711 ("ASoC: mediatek: mt8195: Remove afe-dai component
-> and rework codec link") removed the codec entry for the ETDM1_OUT_BE
-> dai link entirely instead of replacing it with COMP_EMPTY(). This worked
-> by accident as the remaining COMP_EMPTY() platform entry became the codec
-> entry, and the platform entry became completely empty, effectively the
-> same as COMP_DUMMY() since snd_soc_fill_dummy_dai() doesn't do anything
-> for platform entries.
-> 
-> This causes a KASAN out-of-bounds warning in mtk_soundcard_common_probe()
-> in sound/soc/mediatek/common/mtk-soundcard-driver.c:
-> 
-> 	for_each_card_prelinks(card, i, dai_link) {
-> 		if (adsp_node && !strncmp(dai_link->name, "AFE_SOF", strlen("AFE_SOF")))
-> 			dai_link->platforms->of_node = adsp_node;
-> 		else if (!dai_link->platforms->name && !dai_link->platforms->of_node)
-> 			dai_link->platforms->of_node = platform_node;
-> 	}
-> 
-> where the code expects the platforms array to have space for at least one entry.
-> 
-> Add an COMP_EMPTY() entry so that dai_link->platforms has space.
-> 
-> Fixes: e70b8dd26711 ("ASoC: mediatek: mt8195: Remove afe-dai component and rework codec link")
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
-> 
-> ---
-> Changes since v1:
-> - Reword commit message with more details on how the original commit
->    got things wrong, and what this commit adds and fixes
-> ---
->   sound/soc/mediatek/mt8195/mt8195-mt6359.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/sound/soc/mediatek/mt8195/mt8195-mt6359.c b/sound/soc/mediatek/mt8195/mt8195-mt6359.c
-> index ca8751190520..2832ef78eaed 100644
-> --- a/sound/soc/mediatek/mt8195/mt8195-mt6359.c
-> +++ b/sound/soc/mediatek/mt8195/mt8195-mt6359.c
-> @@ -827,6 +827,7 @@ SND_SOC_DAILINK_DEFS(ETDM2_IN_BE,
->   
->   SND_SOC_DAILINK_DEFS(ETDM1_OUT_BE,
->   		     DAILINK_COMP_ARRAY(COMP_CPU("ETDM1_OUT")),
-> +		     DAILINK_COMP_ARRAY(COMP_EMPTY()),
->   		     DAILINK_COMP_ARRAY(COMP_EMPTY()));
->   
->   SND_SOC_DAILINK_DEFS(ETDM2_OUT_BE,
-
-
+I haven't changed the patch yet, but it's already in the stable-queue:
+https://git.kernel.org/pub/scm/linux/kernel/git/stable/stable-queue.git/tree/queue-5.10/alsa-hda-realtek-enable-headset-mic-on-ideapad-330-1.patch
+Do you still need changes from me?
