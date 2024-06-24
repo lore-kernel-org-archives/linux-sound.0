@@ -1,116 +1,87 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 795FC1E4AE
-	for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 12:35:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B61A13C67C;
+	Mon, 24 Jun 2024 12:36:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719232510; cv=none; b=bWprbxrcC7Y+QMwHa13eU/Qp81wNjToCDtoNdw/aeMoPlRBdCThiox+29eXgZu++rmjHOxN5/KZz1t+DQJAOY3eljWbMrevAIGGrupiNqSB9COvqC4gpZqBOmnJFDkSzQDKjx1OubpJkvdOVw4VlTHzAKJzHhNFZTewBdnCzPwE=
+	t=1719232591; cv=none; b=K1gG8aXtVlR9k0Zg4Rejhm0Y6hCsLIX1sIOVK4PGiXk9+XCrpvG3mS9YbzIIKCHlOAqhJN4eI8i30t3Mcs7XO4Z0KuJzMaGt6ZBZus+GKv6m0lBkbXfv9NJ8RBZ8XzJWbx944MHjc9JYZ5hus1RU8lxjplHGd+op7iG47D14vvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719232510; c=relaxed/simple;
-	bh=rZnyITRnxDG6Nk4huYfxna9K9Qbnrk3RLW9XoXc0NcI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=n+Hmr7YeW4XRhDq2ajwHpESs+1tNiUtWasDw4dPInJjJPoM3OiPMN3B5NVZIQZSYeETEL8bGdC9ZQX5qAV9OPQTAWvhxzQ8Loa1XJoqueMaZgiAUebTjIZmaqyMROzBLKtTZPoEiuisJ8cYWsiev5Ge5lsHPN5/8G06Lg1YrkHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uYB8oiyg; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1719232591; c=relaxed/simple;
+	bh=VhurbZFA7Gb2R3cH1kKEN0MzJ83p+dO1GdwBiN0/gWo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HBgTmdlKPnjKk0qBAonNcEthnaJEgy4evt4NBwKW0QDhIjU8KccUSnS12IUUPlLr4NqWb60l1Ky0f01qQoZyfghigNO0VbiG5i+arN+2b1JZ2onAe5xSOufFG7ckmAeEUuGsDq6C5KsnvRA6rYYXr1dWzVZFITgENwJ7BYRbS4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V4gMb4kg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uYB8oiyg"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-42198492353so35590405e9.1
-        for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 05:35:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1719232507; x=1719837307; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gQUUsxjRwH4QDpNTDMmqo2rmvQGvXKLqsN4S6BTa2C4=;
-        b=uYB8oiygQnO6SDSYbpaS8Yr1r8y1wyiwceb5d2HvXDLW7ZSBiKBgmtvwhwCCVSKIYH
-         +mhY40eAVt10mW67GzzKn+tWA5+l1sPiqGD7hVH4XbvIWk/pMsusiECYKgug9Pqv+0FS
-         FZ37dxqtgQXh/JnKhlzKsw4xgYkXY5/2jSq8pf5k9G23LqLtRnFDe/Kbkg9Wk6tB9orJ
-         JjCKVdfLNe8pvhRAWBO/2BduldC8dVv6FeQTc/o0UKIosyUXKL8nPg84BA+Jz+X3HDmZ
-         0HzU5SHXRXzwPy1Pwol9VxiE3j1TpsD2idWU3cksGM82g4bWI9SORlfPJLWi80gXO2HU
-         W/fA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719232507; x=1719837307;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gQUUsxjRwH4QDpNTDMmqo2rmvQGvXKLqsN4S6BTa2C4=;
-        b=tDWG7P8zVLj2xsRI8p/c/hg84u7Kk8v7A191MDH3CbKn5+bu+nHeutB7uFChop9JSN
-         jXM+akdM9e8vZ4LPOL5nGhySGzKg0Wmddn83QgTmt3tsbSNrqdE2k7Hgi5WQTs1VPP3+
-         QcIZdgNi0+K/grdy9RU7fDVvceSi3awXcz8qdNQLJYhd5Z2ldReThfSuKHutgvxffdIP
-         0/2NU50+UH+HPr5NMlyUcExbjwcMkRh2wn9c+A4OOuo8YG62L9KunAQ+hfDBNV14obny
-         D5xeBx3d7p2t/Ii5ayh4ncjWK5zAQ8ta33SreTyrmtWqlvxO7oq9aFCNHgaaIgk8dChl
-         Mb7A==
-X-Forwarded-Encrypted: i=1; AJvYcCUzHhWCSZThcVsgWAJQqMDjuOa54l5Q8r5XoQ16Euhbpw1NztwqnxohQoJrn9SIuIhMh9Nlo879enti+q54iHbr+tO7RaqH8u+gTxk=
-X-Gm-Message-State: AOJu0YwBrYEM58rEVyIPSdWYjD8ucH1JAPQa8gliCxAhMO79H8pS7ORT
-	Zc5YQvuG1TqW/90oApsY4ErKlo0ZfGKDYQA0bI9kqaOwa9RAUJFI1Pmj6Ch9FJ+8kg8ktzW0l84
-	sTxo=
-X-Google-Smtp-Source: AGHT+IF7U0TSjuU2VtHCgQSadIQvNwhYOOe7AZZqFDBcNxrvKuelGClpZLjx79kGC+fjpLQNkiUjVQ==
-X-Received: by 2002:a7b:cc89:0:b0:421:7f4d:525f with SMTP id 5b1f17b1804b1-4248cc35da7mr30272805e9.24.1719232506864;
-        Mon, 24 Jun 2024 05:35:06 -0700 (PDT)
-Received: from [192.168.1.195] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4248179d506sm131135415e9.6.2024.06.24.05.35.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Jun 2024 05:35:06 -0700 (PDT)
-Message-ID: <fe75671f-c292-44b7-9024-15e0825c55c2@linaro.org>
-Date: Mon, 24 Jun 2024 13:35:05 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V4gMb4kg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDFB6C32781;
+	Mon, 24 Jun 2024 12:36:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719232590;
+	bh=VhurbZFA7Gb2R3cH1kKEN0MzJ83p+dO1GdwBiN0/gWo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=V4gMb4kgV4cGzMttn8KHyuP8htrKOo4XQD2tUbLsqByayHguV46787kuw4Mi9jjyc
+	 D3lxr1Q66qpkY8irbGfqo/hybxWFN12QIlUoNkPWkrjTu/NtsL9s6r1UR6bkokuHcI
+	 daHlrICrdsCzeQYZO+Qp6AsrFWqsxkzcXbvV2cNZT0Uccn9O9ZowrH8PJ4m7kfBEZt
+	 25xqGr/cYHY/QaS3Zbp49IAP+V+D4Kiy8P4wTsafs/WatZI0PbK6U80FYI1afzLQKU
+	 STziVuCXOvwQ1PTW9IDIDjH95A6hJG4lHIGuOQ4XqfWJjmj/GV8ZSlIwbwVQw3uVml
+	 NbWGQl8ngvWWQ==
+Date: Mon, 24 Jun 2024 13:36:25 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, tiwai@suse.de,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>, stable@vger.kernel.org
+Subject: Re: [PATCH 2/3] ASoC: SOF: ipc4-topology: Use correct queue_id for
+ requesting input pin format
+Message-ID: <ec992bf9-667c-48a4-81ed-3a1232123987@sirena.org.uk>
+References: <20240624121519.91703-1-pierre-louis.bossart@linux.intel.com>
+ <20240624121519.91703-3-pierre-louis.bossart@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] ASoC: codecs:lpass-wsa-macro: Fix logic of
- enabling vi channels
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Banajit Goswami <bgoswami@quicinc.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- Manikantan R <quic_manrav@quicinc.com>
-References: <20240619-lpass-wsa-vi-v2-0-7aff3f97a490@linaro.org>
- <20240619-lpass-wsa-vi-v2-2-7aff3f97a490@linaro.org>
- <hz5eqta4ttzsnwttqzqrec4vcwvyleoow7thoiym3g3wjsfqk4@tx23nktde3gh>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <hz5eqta4ttzsnwttqzqrec4vcwvyleoow7thoiym3g3wjsfqk4@tx23nktde3gh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="5pBrGhTLrwRGNC0f"
+Content-Disposition: inline
+In-Reply-To: <20240624121519.91703-3-pierre-louis.bossart@linux.intel.com>
+X-Cookie: Allow 6 to 8 weeks for delivery.
 
 
+--5pBrGhTLrwRGNC0f
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 20/06/2024 21:28, Dmitry Baryshkov wrote:
-> On Wed, Jun 19, 2024 at 02:42:01PM GMT, Srinivas Kandagatla wrote:
->> Existing code only configures one of WSA_MACRO_TX0 or WSA_MACRO_TX1
->> paths eventhough we enable both of them. Fix this bug by adding proper
->> checks and rearranging some of the common code to able to allow setting
->> both TX0 and TX1 paths
-> 
-> Same question. What is the observed issue? Corrupted audio? Cracking?
-> Under/overruns?
+On Mon, Jun 24, 2024 at 02:15:18PM +0200, Pierre-Louis Bossart wrote:
+> Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+> Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+> Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+> Cc: <stable@vger.kernel.org> # v6.8+
+> ---
 
-two Issues with existing code which are addressed by these two patches.
+Please put fixes at the start of serieses, or send them separately -
+it makes things much easier to handle if they're separate.  This ensures
+that the fixes don't end up with spurious dependencies on non-fix
+changes.
 
--> only one channels gets enabled on VI feedback path instead of 2 
-channels. resulting in 1 channel recording instead of 2.
--> rate is not set correctly for the VI record path.
+--5pBrGhTLrwRGNC0f
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
---srini
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZ5aEkACgkQJNaLcl1U
+h9CWEwf/Wtk/DTzMdgsjQzFf2YB0zOwvpw0DSBQgZpLSkWnOvPb0k6o/wsMhK07l
+AtUfI6rSUzBTQ6fBhRDyLvYMGGDeyDZXcP8zQUUbk83zws7Mq9dSbBZR2JB8r9UK
+D39PW7vG4mz7U8xWeiZUQcvpkDFb0gPCjXCd0DcZrRmBl1KPFwRYjQ6nogAZ0nVy
+xvwwQEpmnp9yLMriXcBz53npaaiHj8CnGkwbp8i7tDn1ZOte/JM9LNYeJCI34ZIN
+iQyezU3Wo4CRdFvPw1kqY0N6wRcgi1f8hrnYz5A2oQoekmEpIR7Xoo9mFFpJvWNg
+H25FDFbhmMOLCH6c0FhZ5+phfpsj4A==
+=zJlx
+-----END PGP SIGNATURE-----
 
-
-> 
->>
->> Fixes: 2c4066e5d428 ("ASoC: codecs: lpass-wsa-macro: add dapm widgets and route")
->> Co-developed-by: Manikantan R <quic_manrav@quicinc.com>
->> Signed-off-by: Manikantan R <quic_manrav@quicinc.com>
->> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
->> ---
->>   sound/soc/codecs/lpass-wsa-macro.c | 112 ++++++++++++++++++++++---------------
->>   1 file changed, 68 insertions(+), 44 deletions(-)
->>
-> 
+--5pBrGhTLrwRGNC0f--
