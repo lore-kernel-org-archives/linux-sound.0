@@ -1,138 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7ECE20330
-	for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 14:10:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAE4013A894
+	for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 14:16:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719238239; cv=none; b=nATVnmTMmvK/cjm3B/TLT70LJ6nx4ksrxqd/xl6azoWYumZzCPkUsa2jrZFKJ8bsqJVzclrA+YrmAAmda7oRrkz3k2sVJu0fgoZGLwDet0I/Qe8NZE+MtQ2VdL7Q7pkoNlAb5iKysHf6Mmq11fDJOTCYVRlqJ2YmRuv84a0yq/c=
+	t=1719238613; cv=none; b=QEOVLMu4lWy3B6tSPMt2y4DKsc2iU5IwcUkQLv+Z5HzAaO2vu9FLE4Cq78O5q8TBgQNc9/JvNR3mEiCiaMSQgpM6qm/Z+ucBiIWFqDiqPDf2rjJDy9jyvn1KRA/durkTkf0r/lgITZA0PwagoCFi8Fj+c+XMxIvf4b/bOvDVGv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719238239; c=relaxed/simple;
-	bh=cF/XznwjPOiL89gPAquHKsWuo2x3HviT6PTUL/s2uds=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ujbXrUvIN73gidKJBTUeU6YN3r+O5S1VSMAaheNpWVH3hP2oW1YUG5agOIaqX4c7XSEF+AI5ucUms+hGlO7FclbS1OKZxrbRjmOiOVI+W2jILgxRM9C5jBKSe71ZvZx9IntTW9F5fFc3O/cIaZj/bHevk7qqjWzewpVzfhW/2+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dS1jcZdw; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1719238613; c=relaxed/simple;
+	bh=k9lkwM6IFRElCbFjGK9Pex0iGrH9xan0e3hMlmb8mAA=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=JHnQLFkIy4v3W5wxPd1KhhG8x5dYlXoepDmdzvNR3d8Qk/WR9n0m5JPOLaClKqslXSxeoS2a74fCK6Dx0Moxr3xigMFgBfpeRMCMB+BrPjr94lLpEMR4h1AX8fy+OhgrWfK6R0lEVsqWRGWv0MzRrXEkbxDggt32mSCICZsMeiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eVHOXV68; arc=none smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dS1jcZdw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719238237; x=1750774237;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=cF/XznwjPOiL89gPAquHKsWuo2x3HviT6PTUL/s2uds=;
-  b=dS1jcZdwZ5SRuNvbtiLJHlaa+0NKxk0TRyJnzCwhYVVWMYJN5Qk9753u
-   sQ3ifpez3zL4688YOmGQqSYHVmZOGxx4wOj+4ttPq5dN4GJ5EAgMyYu1J
-   SV414EIZ5FsuPVW+4vuIo7x8gVIFF9usgVXWb2ZL+yaaqkwnx1z1nenxe
-   9o4YJjkBOObTa5thJrOOk3Kc/ogcDz/TlojpkRcOp49Gy4vaUT73MI3pp
-   sSp3nlNcnlMwC6nb1+FeZMrlbvKbigGvUYAP4vB9KZTdQHF1QrhaozbNf
-   vpGNWP793gk7BMk6tdJrCsNFbRRKRDaMy4v72ZS9VVWOQg4cDlA3VUOao
-   A==;
-X-CSE-ConnectionGUID: 0OZ1ajPSRsi+bvgF7n7QcQ==
-X-CSE-MsgGUID: 795gIPLfQhSmnjeDF0hSgg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11112"; a="12213967"
-X-IronPort-AV: E=Sophos;i="6.08,262,1712646000"; 
-   d="scan'208";a="12213967"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2024 07:10:37 -0700
-X-CSE-ConnectionGUID: WNu5dSkERi2+8QjtE/UJVA==
-X-CSE-MsgGUID: r+Q+hFQvR3WZywN56RcUJQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,262,1712646000"; 
-   d="scan'208";a="43183089"
-Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.53]) ([10.94.0.53])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2024 07:10:36 -0700
-Message-ID: <2c8378b3-5745-4694-b06c-4fc376ceadbd@linux.intel.com>
-Date: Mon, 24 Jun 2024 16:10:36 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eVHOXV68"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2c7dd54d3d2so3497320a91.2
+        for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 07:16:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719238611; x=1719843411; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=T9Rf6JRA+mYUBwhLf0oT4ls64Rhx3F0SXz/aJ/b0SCE=;
+        b=eVHOXV68zFFUsgoWH5ZLKBOC62cHpCV8vtGk22O6lvA99d8CQGjX3U/C86M0qFkfRh
+         Xc8NRieezc3wJE5nZyQCkqUTUYf96+MYsp1IncRW0KuQFyywv7Isz+y4gSQuD0tnbzmf
+         zlhfB5yXGPD3NtwsHOimb3Ovbnn8q1m6MjGxu7TTKzgZeNn4UM3kU/NZSB+OR7jG0Zt1
+         SvnIQuyeTp4pAsEJhi7SR6gnh8n1pXCXH9NdX00cR0satkcuKjwziId/B4nS0Ie24a8L
+         2R1Dn/VSZkfQGgm3qkbgVHU1rn+zJLMFt7Hvw83Pe6ahm+wOs5FC3pfuAMKpufWgxYGN
+         c2fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719238611; x=1719843411;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=T9Rf6JRA+mYUBwhLf0oT4ls64Rhx3F0SXz/aJ/b0SCE=;
+        b=r7bkxh+OZthPEc/qu+GbFZHDtFCsWMqpNCeouMiU7kD42BbXFPeij3gGJe8lfMcj+L
+         8Cl/Nhx8j48xa6MYvGSqRkDVHc3wPcyvi/5F4X+f9wm+HB8CBfWPEG2rcJ3oq4gLRdzp
+         jng7cWUIy56H/VoLrnjWnx5EnpOe2TYjztE2lsNS2FbcV1u2Qkp1bk7EIbygvy0jljiM
+         fXzMyTnMnotRX7kp5ki5zGJtS2BLkHF8zZQ8IgLzA8oUuv8vyqlUJWZ5gVMh4Vg8JgSn
+         67MkHHToFKUKn8uGE7NKM4TtPS6jq73edoAtHjQOP00a17wlPgk5IUx/1LO4AcLuYFSx
+         xv3Q==
+X-Gm-Message-State: AOJu0YwGMOKrtFDHtYXKnyIvREb+rdOtYAjD6EReEuU1I92MzFsgvvhz
+	ng6rNhx0bDrc5Ilzu6gy1DOi3/O9ubYr64+uX+Cb+FXTRG7andeR/0MhxmXvv1f+E3Iht6wa0+O
+	W/DQXeFTevOHXWI7wHGuNUnwrbbM=
+X-Google-Smtp-Source: AGHT+IFGYdX/wRft5eXFnX5F1OlpD8iy0nS66Q6Gww3FbLL4ML44jOH/s/oPhicpZ/2+tzj5xaEyzouMMz3it2za1q8=
+X-Received: by 2002:a17:90a:2dcf:b0:2c4:d00a:15cb with SMTP id
+ 98e67ed59e1d1-2c86126724cmr4130079a91.21.1719238610967; Mon, 24 Jun 2024
+ 07:16:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/2] ALSA: pcm: optimize and clarify stream
- sychronization ID API
-Content-Language: en-US
-To: Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org
-Cc: Takashi Iwai <tiwai@suse.de>
-References: <20240624131127.498605-1-perex@perex.cz>
- <20240624131127.498605-3-perex@perex.cz>
-From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <20240624131127.498605-3-perex@perex.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Aivaz <reichaivaz@gmail.com>
+Date: Mon, 24 Jun 2024 14:16:36 +0500
+Message-ID: <CAGRy+7BMH-4Kwp5mqCiDcjjQKJ2Q7gMwF=ZJO02hj+DyV1gkFA@mail.gmail.com>
+Subject: [PATCH v2] ALSA: hda/relatek: Enable Mute LED on HP Laptop 15-gw0xxx
+To: tiwai@suse.com
+Cc: linux-sound@vger.kernel.org, kailang@realtek.com, 
+	Aivaz Latypov <pngdrift@mail.ru>
+Content-Type: text/plain; charset="UTF-8"
 
-On 6/24/2024 3:07 PM, Jaroslav Kysela wrote:
-> Optimize the memory usage in struct snd_pcm_runtime - use boolean
-> value for the standard sync ID scheme.
-> 
-> Introduce snd_pcm_set_sync_per_card function to build synchronization
-> IDs.
-> 
-> Signed-off-by: Jaroslav Kysela <perex@perex.cz>
-> ---
+This HP Laptop uses ALC236 codec with COEF 0x07
+controlling the mute LED. Enable existing quirk for this device.
 
-(...)
+Signed-off-by: Aivaz Latypov <reichaivaz@gmail.com>
+---
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
->   void snd_pcm_set_ops(struct snd_pcm * pcm, int direction,
->   		     const struct snd_pcm_ops *ops);
-> -void snd_pcm_set_sync(struct snd_pcm_substream *substream);
-> +void snd_pcm_set_sync_per_card(struct snd_pcm_substream *substream, struct snd_pcm_hw_params *params,
-> +			       const unsigned char *id, unsigned int len);
-> +/**
-> + * snd_pcm_set_sync - set the PCM sync id
-> + * snd_pcm_set_sync_per_card - set the PCM sync id with card number
-
-Above doc line seems like mistake in this place? This function is 
-documented below ;)
-
-> + * @substream: the pcm substream
-> + *
-> + * Use the default PCM sync identifier for the specific card.
-> + */
-> +static inline void snd_pcm_set_sync(struct snd_pcm_substream *substream)
-> +{
-> +	substream->runtime->sync_flag = true;
-> +}
->   int snd_pcm_lib_ioctl(struct snd_pcm_substream *substream,
->   		      unsigned int cmd, void *arg);
->   void snd_pcm_period_elapsed_under_stream_lock(struct snd_pcm_substream *substream);
-> diff --git a/sound/core/pcm_lib.c b/sound/core/pcm_lib.c
-> index a6d59ee9eb52..8d1a24a2c43d 100644
-> --- a/sound/core/pcm_lib.c
-> +++ b/sound/core/pcm_lib.c
-> @@ -516,19 +516,37 @@ void snd_pcm_set_ops(struct snd_pcm *pcm, int direction,
->   EXPORT_SYMBOL(snd_pcm_set_ops);
->   
->   /**
-> - * snd_pcm_set_sync - set the PCM sync id
-> + * snd_pcm_set_sync_per_card - set the PCM sync id with card number
-
-Here ^
-
->    * @substream: the pcm substream
-> + * @params: modified hardware parameters
-> + * @id: identifier (max 12 bytes)
-> + * @len: identifier length (max 12 bytes)
->    *
-> - * Sets the PCM sync identifier for the card.
-> + * Sets the PCM sync identifier for the card with zero padding.
-> + *
-> + * User space or any user should use this 16-byte identifier for a comparison only
-> + * to check if two IDs are similar or different. Special case is the identifier
-> + * containing only zeros. Interpretation for this combination is - empty (not set).
-> + * The contents of the identifier should not be interpreted in any other way.
-> + *
-> + * The synchronization ID must be unique per clock source (usually one sound card,
-> + * but multiple soundcard may use one PCM word clock source which means that they
-> + * are fully synchronized).
-> + *
-> + * This routine composes this ID using card number in first four bytes and
-> + * 12-byte additional ID. When other ID composition is used (e.g. for multiple
-> + * sound cards), make sure that the composition does not clash with this
-> + * composition scheme.
->    */
-
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index f4454abadc8d..51225c5770ea 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10067,6 +10067,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+  SND_PCI_QUIRK(0x103c, 0x8786, "HP OMEN 15", ALC285_FIXUP_HP_MUTE_LED),
+  SND_PCI_QUIRK(0x103c, 0x8787, "HP OMEN 15", ALC285_FIXUP_HP_MUTE_LED),
+  SND_PCI_QUIRK(0x103c, 0x8788, "HP OMEN 15", ALC285_FIXUP_HP_MUTE_LED),
++ SND_PCI_QUIRK(0x103c, 0x87d3, "HP Laptop 15-gw0xxx",
+ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+  SND_PCI_QUIRK(0x103c, 0x87b7, "HP Laptop 14-fq0xxx",
+ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+  SND_PCI_QUIRK(0x103c, 0x87c8, "HP", ALC287_FIXUP_HP_GPIO_LED),
+  SND_PCI_QUIRK(0x103c, 0x87e5, "HP ProBook 440 G8 Notebook PC",
+ALC236_FIXUP_HP_GPIO_LED),
+--
+2.45.2
