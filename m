@@ -1,187 +1,189 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51CCD13A876
-	for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 13:17:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA29B13A876
+	for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 13:17:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719235061; cv=none; b=PLd4qERltHPlRkiuKF3ODWDgIjysW0VtWbWTetE/x3rAEknS8qAzZI3uqkG9pX9e+TS3Q8dciEphMabMCEZV1Utqo++XLlQSgaSq1OXW9AFyh9zlLhN+SuMhqBwRdhvOYG2tk5nRluSAzRyw1PG3Z/ATeLa5/Vh20hjVKr9qe58=
+	t=1719235064; cv=none; b=WoBVDn6ZNfhia1t2AQFtOVFhm1bVVBbUE3thC54mD5fSu7nermrU+ny/XFgTr8JWjor8WXlzy3vkPMO6Pc+4Po8fZu7OEl8dA6tY4sID5/K/suh5j6xNB3yZZhGHE7PYbGBUlJdkAt1UVaEOi9dS8UhJTqNhV1JrjXgKLcLkoMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719235061; c=relaxed/simple;
-	bh=zBAbVg7eY5v3w1YQ9z/X5gWtjjykDycleuAsmUw5MbQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nSUibP4cRTSs1s1SV/OaBVxuhOPeMpAmhjvDG31ZmzMkMuQH7/9mXhWSop1N1Q53GaKswtxEhL8UIyoSeI7WLeIvErOpYnaoHPwZq1r0/hdMA/SMzgbwrARjRgl7HpZZ3uo4rojMl6Iujd/WIuY8Je7nE5hf7ZPqxnMAuFgVWQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=lLN0SCFo; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1719235064; c=relaxed/simple;
+	bh=o1k8J6bRqex/wn1e2BUYnHtlM/rCQS8f4GMhztB/NOw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EUEBP1LkTbEjbJ2G54QLcmXZkXhrfVZfLc54zlINaKX0kVMrzA2US554seV13A4FSoE1Zb8JIHCVvmgR9ECDXGzHqGU+eh3gvnOLwfJH5ovFAwfXE96Dd5/KPSLnILyS2nBstp8jOOQ+Epx86P1eMHsqqdkqRDnFWVe5dqVCxyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=ukiECfQn; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="lLN0SCFo"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-42172ab4b60so35902925e9.0
-        for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 06:17:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1719235056; x=1719839856; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=uf6/MqxTn+2Qt/l7h8bfPK5FWFTkO7Ox6K1eiKN7/3o=;
-        b=lLN0SCForyoIPbm51ql/tXs4jnUNcPTYwmnvdbHQTqAjNfdVrTQ3RHs+bi90DFheEa
-         FdCHk/IqVNGCfWlK5RKbozbRa5MFcSttABE/rdNXgMsGoZYis+EDcZTPvUUDk5owXk8s
-         mxJteozuc3y85bB8a60wXN9rRQt5O/dduaByP7Qk+TGSvFapJQNYfWW3cIK7Z7lGnjY6
-         2SEB/RNNr84Ru7f3urWgJagG89yFccWyQUM9QsRZhQIGo9AWeIUg3KwmJezTUd8QiYOl
-         iiGajSq7scKgiAi1+kmdzcE9Id08fOZ44e25JkJufl5QhUFrWe6ibwzybQfbWYbc/GAo
-         vHLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719235056; x=1719839856;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uf6/MqxTn+2Qt/l7h8bfPK5FWFTkO7Ox6K1eiKN7/3o=;
-        b=nRIe2fNu7JQmlFFl3NJCuTZY8D3eyU22bXcIau08utxlmu4BApN0kX1g3Zs4t0UZTf
-         GzigU23B1f0yJKZa2QZyP++Dzds7wy3Y9qQ/X7SkogY7S384zdue5Zoz3MxNPOPAdH+A
-         SyJuGkRGxY7Q+nT83RI1FcofLxZO8xoTUlRkfevjG8ulPWRsQJtd6vfHv9nXPz7v1cHm
-         ancl7GdXU04Sn4f8syFatce8Ma4aBLn02ePYHLUrZ6NM3pCD1fhIwEpqMtxpz3evSTzQ
-         U4aPs8x8KgZYwjOecwqXiKO10KSVPyxYW6YKXs4jWnSiK7zpNscjzn7TsGXnZKWhFm1U
-         IIOg==
-X-Forwarded-Encrypted: i=1; AJvYcCVLu+zUZnPeYfZjUfh516lNt6Y1m522fdBKbPc8STt/tYyOt/HJUhlfbbMkaptmF7dPvQMe39AiRSGMO0vz6zc8s5jD8VTy8vou07I=
-X-Gm-Message-State: AOJu0Yz1S/t+3YGjegY3HccaLfE7aq630ujYjJ3gLkhv7cqgTDFKkrZu
-	B5wmVU2xdZ24zfCf3bqlifZi56lEaQCIPvG4Xte4j9mM5juooYvhpFQcDZQLUgM=
-X-Google-Smtp-Source: AGHT+IGmuNonSBd4K5OMu+znO4FDc1Iz5xX1rsU7FDahhX9zP13Nb+uZ9kGoGdX8EBDOPFFs1VU4XA==
-X-Received: by 2002:a05:600c:2d55:b0:421:f68f:a144 with SMTP id 5b1f17b1804b1-4248cc66c9bmr31937595e9.36.1719235056480;
-        Mon, 24 Jun 2024 06:17:36 -0700 (PDT)
-Received: from localhost ([2a02:8071:b783:6940:5d40:c7b4:b6ef:a1b])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-424817b53f2sm140173725e9.25.2024.06.24.06.17.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jun 2024 06:17:36 -0700 (PDT)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Oder Chiou <oder_chiou@realtek.com>,
-	linux-sound@vger.kernel.org
-Subject: [PATCH] ASoC: codecs: Drop explicit initialization of struct i2c_device_id::driver_data to 0
-Date: Mon, 24 Jun 2024 15:17:27 +0200
-Message-ID: <20240624131728.1244053-2-u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="ukiECfQn"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id A52606E9B;
+	Mon, 24 Jun 2024 15:17:40 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz A52606E9B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1719235060; bh=oDZqGsQRq6/jQjLkXQGs5wVX/AqWYvr5SlGu5VROizw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ukiECfQn+5uB6O17hn42Blo1B/KEtX2dWU4u8CdqHro9joXd6BEMaasFVbD4F0I4P
+	 +4Jo0anwZ1z7tKi5DN4Ar7jKRLzT85cacPpAQQ/eLYa88m2TQWsfLq77imm1l1GJUV
+	 oV2kVIWzhfYMheRz3KcVzGecONGSrcQrqG6ymUWU=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Mon, 24 Jun 2024 15:17:36 +0200 (CEST)
+Message-ID: <21968dc0-4088-43c4-9b4e-472214ac0676@perex.cz>
+Date: Mon, 24 Jun 2024 15:17:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3713; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=zBAbVg7eY5v3w1YQ9z/X5gWtjjykDycleuAsmUw5MbQ=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBmeXHo4Db+ROG3fOAriQz6O3XjKVLpfnHtkTmaA YIMupulZSyJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZnlx6AAKCRCPgPtYfRL+ TkJFB/9aUNTZoZg0Om6imheGwQqsU6RAXSSNuZHpwQwgLSCT8HBbE6/IoZp7kXAQtsVP9vSGBM3 zdjLZXMx793Zr/55AbCiayz/Zet2kl8foMGKSZh6ilYGYOHeSCYNQusUaGc5d4hAvgDXnKRm/+K OLCCsy9UFuudZ+cOnzAejttXXBVSpQ/77VtC0bq1/29sjvHwJKZ4UnuMqdGxYvP9dffScuU+/H0 Ki4w/2M2a4+WSsmrLA1u9+AKUrWoBDgEl+hcdRwdho3ZKtnIYIaUkojKk0dpBKdak+SFCs452zV e7Vp5JId06irENNWJnikN7JnYl20o7yzvrTABo+AlgfFJAbZ
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/2] ALSA: pcm: reinvent the stream synchronization ID
+ API
+To: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+Cc: linux-sound@vger.kernel.org, Takashi Iwai <tiwai@suse.de>,
+ Takashi Sakamoto <takaswie@kernel.org>
+References: <20240507133551.607171-1-perex@perex.cz>
+ <20240507133551.607171-2-perex@perex.cz>
+ <20240613125649.GA421852@workstation.local>
+Content-Language: en-US
+From: Jaroslav Kysela <perex@perex.cz>
+Autocrypt: addr=perex@perex.cz; keydata=
+ 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
+In-Reply-To: <20240613125649.GA421852@workstation.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-These drivers don't use the driver_data member of struct i2c_device_id,
-so don't explicitly initialize this member.
+On 13. 06. 24 14:56, Takashi Sakamoto wrote:
+> Hi,
+> 
+> On Tue, May 07, 2024 at 03:30:50PM +0200, Jaroslav Kysela wrote:
+>> diff --git a/include/uapi/sound/asound.h b/include/uapi/sound/asound.h
+>> index 628d46a0da92..c458172b32d5 100644
+>> --- a/include/uapi/sound/asound.h
+>> +++ b/include/uapi/sound/asound.h
+>> @@ -142,7 +142,7 @@ struct snd_hwdep_dsp_image {
+>>    *                                                                           *
+>>    *****************************************************************************/
+>>   
+>> -#define SNDRV_PCM_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 17)
+>> +#define SNDRV_PCM_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 18)
+>>   
+>>   typedef unsigned long snd_pcm_uframes_t;
+>>   typedef signed long snd_pcm_sframes_t;
+>> @@ -330,12 +330,6 @@ enum {
+>>   #endif
+>>   };
+>>   
+>> -union snd_pcm_sync_id {
+>> -	unsigned char id[16];
+>> -	unsigned short id16[8];
+>> -	unsigned int id32[4];
+>> -};
+> 
+> It can bring FTBFS for any userspace application which uses the
+> structure. If getting rid of such public structure, we should have the
+> term to deprecate it for a while.
 
-This prepares putting driver_data in an anonymous union which requires
-either no initialization or named designators. But it's also a nice
-cleanup on its own.
+Marked with __attribute__((deprecated)) in v5.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
----
-Hello,
+>> +/**
+>> + * is sync id (clock id) empty?
+>> + */
+>> +static inline bool pcm_sync_empty(const unsigned char *sync)
+>> +{
+>> +	return get_unaligned((__u64 *)(sync + 0)) == 0 && get_unaligned((__u64 *)(sync + 8)) == 0;
+>> +}
+> 
+> This kind of usage of C inline qualifier is not useless, since the modern
+> compilers can optimize it into the local code.
 
-I already send a similar patch for drivers below sound/soc/codecs that
-became commit ba2a2c378ada ("ASoC: codecs: Drop explicit initialization
-of struct i2c_device_id::driver_data to 0"). The drivers touched here
-are all new since then.
+Removed get_unaligned() calls. Using standard C code because this code is 
+removed in the second patch.
 
-Best regards
-Uwe
+>> +static int snd_pcm_lib_ioctl_sync_id(struct snd_pcm_substream *substream,
+>> +				     void *arg)
+>> +{
+>> +	struct snd_pcm_hw_params *params = arg;
+>> +
+>> +	if (pcm_sync_empty(params->sync))
+>> +		memcpy(params->sync, substream->runtime->sync, sizeof(params->sync));
+>> +	return 0;
+>> +}
+> 
+> Furthermore, it does not work as expected in the case that any of driver sets
+> zeros to char[16] intentionally for its own purpose at PCM .open callback.
+> 
+> I think it is a kind of 'Separation of mechanism and policy' argument,
+> and a kind of designs which should be avoided.
 
- sound/soc/codecs/aw87390.c         | 2 +-
- sound/soc/codecs/aw88261.c         | 2 +-
- sound/soc/codecs/aw88395/aw88395.c | 2 +-
- sound/soc/codecs/aw88399.c         | 2 +-
- sound/soc/codecs/es8311.c          | 5 ++++-
- sound/soc/codecs/rt1318.c          | 2 +-
- 6 files changed, 9 insertions(+), 6 deletions(-)
+The second patch resolves this.
 
-diff --git a/sound/soc/codecs/aw87390.c b/sound/soc/codecs/aw87390.c
-index 79521ff44001..110009616966 100644
---- a/sound/soc/codecs/aw87390.c
-+++ b/sound/soc/codecs/aw87390.c
-@@ -445,7 +445,7 @@ static int aw87390_i2c_probe(struct i2c_client *i2c)
- }
- 
- static const struct i2c_device_id aw87390_i2c_id[] = {
--	{ AW87390_I2C_NAME, 0 },
-+	{ AW87390_I2C_NAME },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, aw87390_i2c_id);
-diff --git a/sound/soc/codecs/aw88261.c b/sound/soc/codecs/aw88261.c
-index a78ceedd0334..fb99871578c5 100644
---- a/sound/soc/codecs/aw88261.c
-+++ b/sound/soc/codecs/aw88261.c
-@@ -1266,7 +1266,7 @@ static int aw88261_i2c_probe(struct i2c_client *i2c)
- }
- 
- static const struct i2c_device_id aw88261_i2c_id[] = {
--	{ AW88261_I2C_NAME, 0 },
-+	{ AW88261_I2C_NAME },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, aw88261_i2c_id);
-diff --git a/sound/soc/codecs/aw88395/aw88395.c b/sound/soc/codecs/aw88395/aw88395.c
-index be6ebcb51cca..aea44a199b98 100644
---- a/sound/soc/codecs/aw88395/aw88395.c
-+++ b/sound/soc/codecs/aw88395/aw88395.c
-@@ -560,7 +560,7 @@ static int aw88395_i2c_probe(struct i2c_client *i2c)
- }
- 
- static const struct i2c_device_id aw88395_i2c_id[] = {
--	{ AW88395_I2C_NAME, 0 },
-+	{ AW88395_I2C_NAME },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, aw88395_i2c_id);
-diff --git a/sound/soc/codecs/aw88399.c b/sound/soc/codecs/aw88399.c
-index 5d8481612eab..8dc2b8aa6832 100644
---- a/sound/soc/codecs/aw88399.c
-+++ b/sound/soc/codecs/aw88399.c
-@@ -1892,7 +1892,7 @@ static int aw88399_i2c_probe(struct i2c_client *i2c)
- }
- 
- static const struct i2c_device_id aw88399_i2c_id[] = {
--	{ AW88399_I2C_NAME, 0 },
-+	{ AW88399_I2C_NAME },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, aw88399_i2c_id);
-diff --git a/sound/soc/codecs/es8311.c b/sound/soc/codecs/es8311.c
-index b2ee2d04b0e4..f557e33c26ad 100644
---- a/sound/soc/codecs/es8311.c
-+++ b/sound/soc/codecs/es8311.c
-@@ -943,7 +943,10 @@ static int es8311_i2c_probe(struct i2c_client *i2c_client)
- 					       &es8311_dai, 1);
- }
- 
--static const struct i2c_device_id es8311_id[] = { { "es8311", 0 }, {} };
-+static const struct i2c_device_id es8311_id[] = {
-+	{ "es8311" },
-+	{ }
-+};
- MODULE_DEVICE_TABLE(i2c, es8311_id);
- 
- static const struct of_device_id es8311_of_match[] = {
-diff --git a/sound/soc/codecs/rt1318.c b/sound/soc/codecs/rt1318.c
-index 4e47db4fc7fb..83b29b441be9 100644
---- a/sound/soc/codecs/rt1318.c
-+++ b/sound/soc/codecs/rt1318.c
-@@ -1141,7 +1141,7 @@ static const struct regmap_config rt1318_regmap = {
- };
- 
- static const struct i2c_device_id rt1318_i2c_id[] = {
--	{ "rt1318", 0 },
-+	{ "rt1318" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, rt1318_i2c_id);
+>> -	runtime->sync.id32[0] = substream->pcm->card->number;
+>> -	runtime->sync.id32[1] = 'P';
+>> -	runtime->sync.id32[2] = 16;
+>> -	runtime->sync.id32[3] = 'V';
+>> +	*(__u32 *)runtime->sync = cpu_to_le32(substream->pcm->card->number);
+>> +	memset(runtime->sync + 4, 0, sizeof(runtime->sync) - 4);
+>> +	strncpy(runtime->sync + 4, "P16V", 4);
+> 
+> I'm sorry if I overlooked your reply to my point, however the above is
+> not equivalent.
 
-base-commit: f76698bd9a8ca01d3581236082d786e9a6b72bb7
+It does not matter. The ID should not be used for a direct comparison. The ID 
+must be only unique for the system and applications should compare those IDs 
+between PCM streams (including multiple sound cards). If equal - the source 
+clock source is equal. I tried to explain this in the commit message in v5.
+
+				Thanks for your review,
+						Jaroslav
+
 -- 
-2.43.0
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
 
