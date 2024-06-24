@@ -1,189 +1,202 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA29B13A876
-	for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 13:17:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3138313B58C
+	for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 13:19:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719235064; cv=none; b=WoBVDn6ZNfhia1t2AQFtOVFhm1bVVBbUE3thC54mD5fSu7nermrU+ny/XFgTr8JWjor8WXlzy3vkPMO6Pc+4Po8fZu7OEl8dA6tY4sID5/K/suh5j6xNB3yZZhGHE7PYbGBUlJdkAt1UVaEOi9dS8UhJTqNhV1JrjXgKLcLkoMU=
+	t=1719235144; cv=none; b=rzUS7NIyOKcYoXn+me+xcpqoe1OStX/N/cHmww7zOFKjeeY9xyzy9EYnUSvb5fdMCpIUZQrXckbZaTJ51Ww55B46Rg9bi17i8lt9lRwx/MC1J0kWWEXTdhFRA7MuqUIMKwHQwb7QhGo2c/WRCqIn/KZ9xzw+T2G754mfCwiUAOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719235064; c=relaxed/simple;
-	bh=o1k8J6bRqex/wn1e2BUYnHtlM/rCQS8f4GMhztB/NOw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EUEBP1LkTbEjbJ2G54QLcmXZkXhrfVZfLc54zlINaKX0kVMrzA2US554seV13A4FSoE1Zb8JIHCVvmgR9ECDXGzHqGU+eh3gvnOLwfJH5ovFAwfXE96Dd5/KPSLnILyS2nBstp8jOOQ+Epx86P1eMHsqqdkqRDnFWVe5dqVCxyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=ukiECfQn; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	s=arc-20240116; t=1719235144; c=relaxed/simple;
+	bh=/lg4w/u30/y0cW3cBU/n6NLe6D90qmz66nHz3Vk0kes=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VDwPiXte+M9olvoycaJ9Lj8figsUT9CakkXlCq8Wi820dIVOBB6s61m1oEsb3Z2S+wwCoM4kqT1Uz1eW8GXgSL8YBLhyQR3kQ56RvjTQcaKceINgCyMq03ivYJIZerq3ec5obQ5qEbqOc4C5K2MpNBdkwBszYYfszYne3lC1c/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uSQrL2Ll; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2mvXowms; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hPPBmTl5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UFCi9pBj; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="ukiECfQn"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id A52606E9B;
-	Mon, 24 Jun 2024 15:17:40 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz A52606E9B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1719235060; bh=oDZqGsQRq6/jQjLkXQGs5wVX/AqWYvr5SlGu5VROizw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ukiECfQn+5uB6O17hn42Blo1B/KEtX2dWU4u8CdqHro9joXd6BEMaasFVbD4F0I4P
-	 +4Jo0anwZ1z7tKi5DN4Ar7jKRLzT85cacPpAQQ/eLYa88m2TQWsfLq77imm1l1GJUV
-	 oV2kVIWzhfYMheRz3KcVzGecONGSrcQrqG6ymUWU=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uSQrL2Ll";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2mvXowms";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hPPBmTl5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UFCi9pBj"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Mon, 24 Jun 2024 15:17:36 +0200 (CEST)
-Message-ID: <21968dc0-4088-43c4-9b4e-472214ac0676@perex.cz>
-Date: Mon, 24 Jun 2024 15:17:36 +0200
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7E1EA219C5;
+	Mon, 24 Jun 2024 13:18:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1719235137; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8IfgDqNK+VPoILXST+Rj/eqSWuPZs3BzIJgRcMXSlIQ=;
+	b=uSQrL2Ll1rFQ3rtCVLUCp+eSeXdg/JfMUGC6j5cQBRdH1za5MzrLObm0R4q/j2opaPn3xa
+	RU8hDmZeN6XOoLaQ8s9AVkRqTR22LoI2BvgH8+SmXGT2dVKSz9YfJY1bnherqSou77uqyR
+	RTj1aHLhUw4hmYim8c1fPeUAfYtSMfY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1719235137;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8IfgDqNK+VPoILXST+Rj/eqSWuPZs3BzIJgRcMXSlIQ=;
+	b=2mvXowmsiZzHAURq8LxQNbHh5RQNaG5f2r9EznkaovqNoHf7HkJ9dpcu6iZ8MhSV2vGzR8
+	1XfI3GREnSCPeLDA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=hPPBmTl5;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=UFCi9pBj
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1719235136; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8IfgDqNK+VPoILXST+Rj/eqSWuPZs3BzIJgRcMXSlIQ=;
+	b=hPPBmTl5SFI+2oViEW9e0y6/+bW9aCTqd6vm79rYqX6XpYnjEZsneaq8AXcAL/V+rcsfE+
+	Z/IDS8ol65C2VEQqinF5s1I2UVkfi06tReCuHp2uya394KdC44pL5ECObbyi1HEXiY33Oh
+	g6GGPLp8KaxSXNbD8Y6sndPzgUTx7xM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1719235136;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8IfgDqNK+VPoILXST+Rj/eqSWuPZs3BzIJgRcMXSlIQ=;
+	b=UFCi9pBj4YX2p2LwQsmzp2h/7h4DcltiOuABxXnK6BaJIbczvtptCQsILzH7I3NHPHWRVx
+	ol3OhWc0hTGsx3Bw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3F24113AA4;
+	Mon, 24 Jun 2024 13:18:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id /jA3DkByeWZFcgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 24 Jun 2024 13:18:56 +0000
+Date: Mon, 24 Jun 2024 15:19:24 +0200
+Message-ID: <878qyupjfn.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Jaroslav Kysela <perex@perex.cz>
+Cc:<linux-sound@vger.kernel.org>,	Takashi Iwai <tiwai@suse.de>,	Mark Brown
+ <broonie@kernel.org>,	Shengjiu Wang <shengjiu.wang@gmail.com>,	Nicolas
+ Dufresne <nicolas@ndufresne.ca>,	Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
+ <amadeuszx.slawinski@linux.intel.com>,	Pierre-Louis Bossart
+ <pierre-louis.bossart@linux.intel.com>,	Vinod Koul <vkoul@kernel.org>
+Subject: Re: [PATCH v3] ALSA: compress_offload: introduce passthrough operation mode
+In-Reply-To: <20240621164915.410946-1-perex@perex.cz>
+References: <20240621164915.410946-1-perex@perex.cz>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/2] ALSA: pcm: reinvent the stream synchronization ID
- API
-To: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-Cc: linux-sound@vger.kernel.org, Takashi Iwai <tiwai@suse.de>,
- Takashi Sakamoto <takaswie@kernel.org>
-References: <20240507133551.607171-1-perex@perex.cz>
- <20240507133551.607171-2-perex@perex.cz>
- <20240613125649.GA421852@workstation.local>
-Content-Language: en-US
-From: Jaroslav Kysela <perex@perex.cz>
-Autocrypt: addr=perex@perex.cz; keydata=
- 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
-In-Reply-To: <20240613125649.GA421852@workstation.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 7E1EA219C5
+X-Spam-Score: -2.01
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[vger.kernel.org,suse.de,kernel.org,gmail.com,ndufresne.ca,linux.intel.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	TAGGED_RCPT(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-On 13. 06. 24 14:56, Takashi Sakamoto wrote:
-> Hi,
-> 
-> On Tue, May 07, 2024 at 03:30:50PM +0200, Jaroslav Kysela wrote:
->> diff --git a/include/uapi/sound/asound.h b/include/uapi/sound/asound.h
->> index 628d46a0da92..c458172b32d5 100644
->> --- a/include/uapi/sound/asound.h
->> +++ b/include/uapi/sound/asound.h
->> @@ -142,7 +142,7 @@ struct snd_hwdep_dsp_image {
->>    *                                                                           *
->>    *****************************************************************************/
->>   
->> -#define SNDRV_PCM_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 17)
->> +#define SNDRV_PCM_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 18)
->>   
->>   typedef unsigned long snd_pcm_uframes_t;
->>   typedef signed long snd_pcm_sframes_t;
->> @@ -330,12 +330,6 @@ enum {
->>   #endif
->>   };
->>   
->> -union snd_pcm_sync_id {
->> -	unsigned char id[16];
->> -	unsigned short id16[8];
->> -	unsigned int id32[4];
->> -};
-> 
-> It can bring FTBFS for any userspace application which uses the
-> structure. If getting rid of such public structure, we should have the
-> term to deprecate it for a while.
+On Fri, 21 Jun 2024 18:49:15 +0200,
+Jaroslav Kysela wrote:
+>  /**
+>   * struct snd_compr_runtime: runtime stream description
+>   * @state: stream state
+> @@ -54,6 +70,11 @@ struct snd_compr_runtime {
+>  	dma_addr_t dma_addr;
+>  	size_t dma_bytes;
+>  	struct snd_dma_buffer *dma_buffer_p;
+> +
+> +	u32 active_tasks;
+> +	u32 total_tasks;
+> +	u64 task_seqno;
+> +	struct list_head tasks;
 
-Marked with __attribute__((deprecated)) in v5.
+Those new fields deserve for some more comments (at least mentioning
+that those are for passthrough operations).
 
->> +/**
->> + * is sync id (clock id) empty?
->> + */
->> +static inline bool pcm_sync_empty(const unsigned char *sync)
->> +{
->> +	return get_unaligned((__u64 *)(sync + 0)) == 0 && get_unaligned((__u64 *)(sync + 8)) == 0;
->> +}
-> 
-> This kind of usage of C inline qualifier is not useless, since the modern
-> compilers can optimize it into the local code.
+> --- a/sound/core/Kconfig
+> +++ b/sound/core/Kconfig
+> @@ -59,6 +59,10 @@ config SND_CORE_TEST
+>  config SND_COMPRESS_OFFLOAD
+>  	tristate
+>  
+> +config SND_COMPRESS_PASSTHROUGH
+> +	select DMA_BUF
+> +	tristate
 
-Removed get_unaligned() calls. Using standard C code because this code is 
-removed in the second patch.
+I suppose this is a boolean?
 
->> +static int snd_pcm_lib_ioctl_sync_id(struct snd_pcm_substream *substream,
->> +				     void *arg)
->> +{
->> +	struct snd_pcm_hw_params *params = arg;
->> +
->> +	if (pcm_sync_empty(params->sync))
->> +		memcpy(params->sync, substream->runtime->sync, sizeof(params->sync));
->> +	return 0;
->> +}
-> 
-> Furthermore, it does not work as expected in the case that any of driver sets
-> zeros to char[16] intentionally for its own purpose at PCM .open callback.
-> 
-> I think it is a kind of 'Separation of mechanism and policy' argument,
-> and a kind of designs which should be avoided.
+> --- a/sound/core/compress_offload.c
+> +++ b/sound/core/compress_offload.c
+(snip)
+> @@ -85,6 +92,8 @@ static int snd_compr_open(struct inode *inode, struct file *f)
+>  		dirn = SND_COMPRESS_PLAYBACK;
+>  	else if ((f->f_flags & O_ACCMODE) == O_RDONLY)
+>  		dirn = SND_COMPRESS_CAPTURE;
+> +	else if ((f->f_flags & O_ACCMODE) == O_RDWR)
+> +		dirn = SND_COMPRESS_PASSTHROUGH;
+>  	else
+>  		return -EINVAL;
 
-The second patch resolves this.
+Shouldn't it be safer to give an error for a RW access unless the
+driver supports the passthrough mode?
 
->> -	runtime->sync.id32[0] = substream->pcm->card->number;
->> -	runtime->sync.id32[1] = 'P';
->> -	runtime->sync.id32[2] = 16;
->> -	runtime->sync.id32[3] = 'V';
->> +	*(__u32 *)runtime->sync = cpu_to_le32(substream->pcm->card->number);
->> +	memset(runtime->sync + 4, 0, sizeof(runtime->sync) - 4);
->> +	strncpy(runtime->sync + 4, "P16V", 4);
-> 
-> I'm sorry if I overlooked your reply to my point, however the above is
-> not equivalent.
+> @@ -939,6 +988,262 @@ static int snd_compr_partial_drain(struct snd_compr_stream *stream)
+>  	return snd_compress_wait_for_drain(stream);
+>  }
+>  
+> +#if IS_ENABLED(CONFIG_SND_COMPRESS_PASSTHROUGH)
+> +
+> +static struct snd_compr_task_runtime *
+> +		snd_compr_find_task(struct snd_compr_stream *stream, __u64 seqno)
 
-It does not matter. The ID should not be used for a direct comparison. The ID 
-must be only unique for the system and applications should compare those IDs 
-between PCM streams (including multiple sound cards). If equal - the source 
-clock source is equal. I tried to explain this in the commit message in v5.
+Please fix indentation.
 
-				Thanks for your review,
-						Jaroslav
+> +void snd_compr_task_finished(struct snd_compr_stream *stream,
+> +			    struct snd_compr_task_runtime *task)
+> +{
+> +	guard(mutex)(&stream->device->lock);
+> +	if (!snd_BUG_ON(stream->runtime->active_tasks == 0))
+> +		stream->runtime->active_tasks--;
+> +	task->state = SND_COMPRESS_TASK_STATE_FINISHED;
+> +	wake_up(&stream->runtime->sleep);
+> +}
+> +EXPORT_SYMBOL(snd_compr_task_finished);
 
--- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+Let's use EXPORT_SYMBOL_GPL() for a new function.
 
+
+thanks,
+
+Takashi
