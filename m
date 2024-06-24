@@ -1,137 +1,119 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97D9779DE
-	for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 12:54:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D4813D285
+	for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 12:54:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719233662; cv=none; b=DNKckTDZh+gYKdjzzHXtj6JFjnF2r9rx2I9cVnYnB7cvOhEa9Edos+BE/FEQZfm5NOJk5CA8GP0JKnRjxB6B27/hcyGZ1SNf7BuJusMzPAG61sKJFqTPfGys7gvYGyUsxf6cVVBNa9FeiK6SRZtXbXgXzCjZ4NAvv9+92KzWMjI=
+	t=1719233674; cv=none; b=W1BWp5wphLsVFA7ONnohrMAVrvyQbu6RLSopI8t3rPJ0eFimZGWf2DnLe9ka0K4BRq/E0jWTovVeNkqe7ls4aDWNWkbgyrGsSW5MyvaawpVUowcjK2NHR519orpBo7m7TyaNIAiepsQmyB+MhkdNrwwylnQ1rwEBZgO9hX1he1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719233662; c=relaxed/simple;
-	bh=CQhPpA3CfJODlY7jR1FImUZVd4cmEtwEQq2h8V6pPYs=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=g8Om9MhoqYwfy8VYFRMYAdVW6stAuNOvK3rV2PZRYx5U4HS5SaMqCoa+7WD7oEVlY4uY2CuzX6fCogTXncpcprp048wdd0BCfppL0fqkAJ902JClo8BfXOPVPWatNsFmcz601QaKTYL+LL2aKPXWk+f1P/TXHzRQCsgbQcLsEC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pl/UK5ga; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=AYSwRtCX; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XxdtAcqD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mUMQWWw/; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1719233674; c=relaxed/simple;
+	bh=DOxpGDRPXOULudQMfRyURG+LRWh3ynkAOi8ERNjON/s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KZjz4G1Q0KsxOZxOPAGulDkCOqITLCjJrT8WtdpG/SMu94adSI1WJsvZBSX/2Ak6smE9Htpuhd8PwjyEiIf5eCl3XUSHsk/7WS4fj1bFOxP70v0BgaMYjH68JOIy4yQM5+QNoMyye+A+0lQYfb1cTOlGP0gF9WNgdIvV5H9q7KE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DtSvxBEE; arc=none smtp.client-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pl/UK5ga";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AYSwRtCX";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XxdtAcqD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mUMQWWw/"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7400A1F7D9;
-	Mon, 24 Jun 2024 12:54:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719233658; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=dKqOQRr6+O6TrNcK4OmXpySj0HCMzSfhyAPF+pXnSLA=;
-	b=pl/UK5ga1QS+anZzal27SifOrYFZOm4wnGPxanDmq1H2EtGH8Oq5EFXHmhiKeXGXcFVFyc
-	257wsUGp6jyIF53b+gwAN1S/zkDI8oKdwbYQjBpBPBnxp1EJU3aORAO6BLOSR8IKQ1e13C
-	QTFLITbMyh8p7ZPq5230CkYIfPUC8tk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719233658;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=dKqOQRr6+O6TrNcK4OmXpySj0HCMzSfhyAPF+pXnSLA=;
-	b=AYSwRtCXsEyXPIjqNfT6xJM2Xl6+q5SyfzXfp7HUOHRsJT6vEQKwWas3+XiFRUQo10HSSC
-	x8Q9st/nIe5XBdAg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=XxdtAcqD;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="mUMQWWw/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719233657; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=dKqOQRr6+O6TrNcK4OmXpySj0HCMzSfhyAPF+pXnSLA=;
-	b=XxdtAcqDSfTvGnYcV4b6L3ba1k2NiMbE4XvAwdUl74zhhftdsjEyUKN9F6YBYh4W8Fjq9S
-	XoX9THq3lfej4jwbtdVN3kC4mYb23tymvXPRD5Z+YrCL2X2I0/z5TPubtNgEbcSbkK6G1x
-	MLmo41mAFD8yK0vpWXvD1X/rDIY/pVw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719233657;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=dKqOQRr6+O6TrNcK4OmXpySj0HCMzSfhyAPF+pXnSLA=;
-	b=mUMQWWw/mxHfmdIWyCJoo9l7CZyiywtRc0xHZAUOH5F8FtcTy4YUPqY12hceGA4cy2TmVX
-	wYEXgp6ZKNnKzjBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4FC7513ACD;
-	Mon, 24 Jun 2024 12:54:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id RJA3EnlseWYMagAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 24 Jun 2024 12:54:17 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: PCM: Allow resume only for suspended streams
-Date: Mon, 24 Jun 2024 14:54:34 +0200
-Message-ID: <20240624125443.27808-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DtSvxBEE"
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-632bcf111ffso40326227b3.3
+        for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 05:54:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1719233672; x=1719838472; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=T4MhoPIjswsMp7f7a8/ndhL9pANhZJFzHy+iV0sTzTk=;
+        b=DtSvxBEEy6zDc7eqfmXzzgHKKeEFIglDj7rFFmslwBAG4coJwbFa3tTmqmHjZEMzgN
+         3j0yo8GpMAAZ6rVGKRPyazs2FH6qTvUReAznA0gIiTzapS8XxIojuL4SLTlTmhTMHEZ7
+         pESD+GwERCoS/86FQ5j6MuUsQHva//d85yDzZEGEfxeeFPQg3amVHgY4vMYqr28jLapQ
+         cVz7mMzkj/cxdbmZScoiXn4Ke33r7tQwAAxEikgoA6A5FUS1Gcg3X8AwFy6h2dk3XRS6
+         ZL/Sj94EEL8GLqriVthUuvUjt1nU2PaWCokok3W9MIn8d02E/VX/LgRsbLjzF3gR2nAn
+         XHKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719233672; x=1719838472;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=T4MhoPIjswsMp7f7a8/ndhL9pANhZJFzHy+iV0sTzTk=;
+        b=WcxuhcU1Zq8zWrViRnjCaOkRFjEVAh95y7sLO7Kfifx8cLFZow8DNeCn2mG3j06iut
+         o2XR1AzRpRJzimww5SUljcr+3vj0ye9+nQggHyu58mEEqbZZEfrj7Keg2wEiNlqxdGqx
+         Un8OVCqibh4rgLRvrG4e9wV7Qf2dh4kYNG3Er2cQzgjWxzj4AA69E6hvrEUoWLspN7vC
+         wdJ+Grask6Vck32qznfv9XkqaNjXTl5o2Cpv2akz/7/4+dMtSAptTUIziCjkzeKC7Z2A
+         17CG0awx4q5ACHbg4QHqlDsjEwtN6/jKzlqTAnq7R9nxyXv55IANz5aOd5uvFbwyJJgt
+         tT8w==
+X-Forwarded-Encrypted: i=1; AJvYcCXR21up8nyI7XlqtQpTCWYAmupzWIJPs7pqeKwOf3urCd/NggT+LKOL9YxBNgfpDTJ8vXW+tLUO+0psGPABa9InXaQTgZAmsgPu2LY=
+X-Gm-Message-State: AOJu0Yy/IVC0EnWf6JIsoLWFjezM89oEQKCUTSgom8WIytrFiABilW3Z
+	zZ8hKKi4UQ6AiVDuQM9wPCaIo/A4kUizJY4iLfJVhiCTyLP2PlZjiHodq1eOU6PZJLF58Zdw9+2
+	3iTVyWYIE/pcfe6DRNlaA5KV4+Jyok+kcCdqkkg==
+X-Google-Smtp-Source: AGHT+IEEe2Wox3jWC9RV0LVT1QsuSsNWmLHgdKtfDBvlgM6eb1pktgBqHVRKocFL/tWEa8Hwpz7Px1YRrvmHbynoaFc=
+X-Received: by 2002:a5b:bce:0:b0:df4:476e:7577 with SMTP id
+ 3f1490d57ef6-e03040182b2mr3570101276.60.1719233672328; Mon, 24 Jun 2024
+ 05:54:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 7400A1F7D9
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Spam-Level: 
+References: <20240619-lpass-wsa-vi-v2-0-7aff3f97a490@linaro.org>
+ <20240619-lpass-wsa-vi-v2-2-7aff3f97a490@linaro.org> <hz5eqta4ttzsnwttqzqrec4vcwvyleoow7thoiym3g3wjsfqk4@tx23nktde3gh>
+ <fe75671f-c292-44b7-9024-15e0825c55c2@linaro.org>
+In-Reply-To: <fe75671f-c292-44b7-9024-15e0825c55c2@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 24 Jun 2024 15:54:20 +0300
+Message-ID: <CAA8EJpoLE5zUEvC4-q8h5KH=c_ucew=py5TV2qCTaSEQNQeQzQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] ASoC: codecs:lpass-wsa-macro: Fix logic of
+ enabling vi channels
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc: Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, alsa-devel@alsa-project.org, 
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Manikantan R <quic_manrav@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 
-snd_pcm_resume() should bail out if the stream isn't in a suspended
-state.  Otherwise it'd allow doubly resume.
+On Mon, 24 Jun 2024 at 15:35, Srinivas Kandagatla
+<srinivas.kandagatla@linaro.org> wrote:
+>
+>
+>
+> On 20/06/2024 21:28, Dmitry Baryshkov wrote:
+> > On Wed, Jun 19, 2024 at 02:42:01PM GMT, Srinivas Kandagatla wrote:
+> >> Existing code only configures one of WSA_MACRO_TX0 or WSA_MACRO_TX1
+> >> paths eventhough we enable both of them. Fix this bug by adding proper
+> >> checks and rearranging some of the common code to able to allow setting
+> >> both TX0 and TX1 paths
+> >
+> > Same question. What is the observed issue? Corrupted audio? Cracking?
+> > Under/overruns?
+>
+> two Issues with existing code which are addressed by these two patches.
+>
+> -> only one channels gets enabled on VI feedback path instead of 2
+> channels. resulting in 1 channel recording instead of 2.
+> -> rate is not set correctly for the VI record path.
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/core/pcm_native.c | 2 ++
- 1 file changed, 2 insertions(+)
+Thanks. This should be a part of the commit message.
 
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index 521ba56392a0..c152ccf32214 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -1775,6 +1775,8 @@ static int snd_pcm_pre_resume(struct snd_pcm_substream *substream,
- 			      snd_pcm_state_t state)
- {
- 	struct snd_pcm_runtime *runtime = substream->runtime;
-+	if (runtime->state != SNDRV_PCM_STATE_SUSPENDED)
-+		return -EBADFD;
- 	if (!(runtime->info & SNDRV_PCM_INFO_RESUME))
- 		return -ENOSYS;
- 	runtime->trigger_master = substream;
+>
+>
+> --srini
+>
+>
+> >
+> >>
+> >> Fixes: 2c4066e5d428 ("ASoC: codecs: lpass-wsa-macro: add dapm widgets and route")
+> >> Co-developed-by: Manikantan R <quic_manrav@quicinc.com>
+> >> Signed-off-by: Manikantan R <quic_manrav@quicinc.com>
+> >> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> >> ---
+> >>   sound/soc/codecs/lpass-wsa-macro.c | 112 ++++++++++++++++++++++---------------
+> >>   1 file changed, 68 insertions(+), 44 deletions(-)
+> >>
+> >
+
+
+
 -- 
-2.43.0
-
+With best wishes
+Dmitry
