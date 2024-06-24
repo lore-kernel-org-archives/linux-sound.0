@@ -1,117 +1,166 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDBA313A86A
-	for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 13:38:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAFE71422C2;
+	Mon, 24 Jun 2024 13:55:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719236335; cv=none; b=JyNT5sj2uQVPLsIraNtO+s0hL8sRLpqlJiFMF1IjT6t6nQifN7gdWeHNm8Q0ADBbsljTCGNwTP4LgJQ08Lf3/F4+SS6wQL2h49hXZ6igyJGakDdmb7Rljh1WfGntinNPnpAMkNN0gbHMXg5fRT3ltBLczZKCGMl1nGYV5Xdyj58=
+	t=1719237360; cv=none; b=g/U2m871mf9aQrHumRznZbuXxVmc+80HG3K5F/0Ba96DOomPISf3zj035RqYJpRGAIHwGbLS81Hr/RfWbR2x2rRQoh5QoR3/fXwtD5CGVPbvQVf25MoGOPIhptCD3j0d+KEFnhfyaLnlSfrn2dzFVXHyo0ujVDQWh20fkpM8egg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719236335; c=relaxed/simple;
-	bh=ZmPymmWaPZBLqiPmZArq/wN0XJQKImTcYKdSX45SEpo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i/LdUHsqrrQhjveLFOarN3meotqw+Eq0VO/jVvfyZBsJerHQgD6jOxVsZ97Ooo9vW0numyNnl7Ybdf82PF2lboXp1m1EGtB7DzpzJ1nIt9szw2nEgpdY74FVFCqMjjQGYxhMqP/hRXAHVQh1iI2cv266lcHdvBqhtL/cDd0wIb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YrzF2F/a; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1719237360; c=relaxed/simple;
+	bh=5v0Iecke+jsVGTj1OuAtgk56rqbYKIIUBABpMnVGYWQ=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=s6uvJyLrfQ9Zzm2HsMNzoO2/obgKOvoYRtUgOPlF7fczhdl6pDRB/7k+uZDQQvvQ5WJvVBPHb82KFVWp/V59SelIIBnMpIgh/exWer1Y5E5cCBMYo/oVdYBVnKjv0zvY/GgBWub4fAUy6TzrejORf+WMNAEigSWwtz6Lv+8rhBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=DKVoMb6t; arc=none smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YrzF2F/a"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719236334; x=1750772334;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=ZmPymmWaPZBLqiPmZArq/wN0XJQKImTcYKdSX45SEpo=;
-  b=YrzF2F/aFSmKnq2goIC+qD6Z4T0LMCPy8DCaVnuQH/2jaoYQ1+QKhRIx
-   Ti/Q0wXVu7+XVUaGIZUlnJ5D3PLOep6xFJd55l6dZFywYh4cyoj5wXPRg
-   4JeMuhZdN7OchGO9XwUQMsjTJc1d+IIuLZerRGM5xC38/5odioeLXqKz/
-   dEtsOxdoa8aCYaW3HNcf0LVtukWX0CUJEEfhuQL8OcLiJfbnmewPBL4CU
-   DhOl/eBseDpElAeW7cjF6mZRQk1OdfG6iTZGq10Ser13p/A1QptrEH+TB
-   89xcyrQuh3w59y8eUQ2HsSkwBc5MzGBjUfz4sZ7xdXgk5SxxdprVHwy2g
-   w==;
-X-CSE-ConnectionGUID: v7vhRuYGQOOMtCEx6F4nDg==
-X-CSE-MsgGUID: fj0V5LFUQj2ST6Ro3mZuBQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11112"; a="27611009"
-X-IronPort-AV: E=Sophos;i="6.08,262,1712646000"; 
-   d="scan'208";a="27611009"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2024 06:38:53 -0700
-X-CSE-ConnectionGUID: voJgqMPNTHywfPC9Ntz8Ig==
-X-CSE-MsgGUID: 0lWvD4ioRhWSpXDW1yQPgw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,262,1712646000"; 
-   d="scan'208";a="44003664"
-Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.53]) ([10.94.0.53])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2024 06:38:51 -0700
-Message-ID: <28a5fde3-a02a-45c1-b3d7-25ae3fcfcfcc@linux.intel.com>
-Date: Mon, 24 Jun 2024 15:38:48 +0200
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="DKVoMb6t"
+X-UUID: 7818a4d0323111ef99dc3f8fac2c3230-20240624
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=aXkFnl1gbgMS/cNx7a1wFEypeYkF+yjqkt3QVTPW/A4=;
+	b=DKVoMb6tFT9PKxp3WtKBlPdu+3YCc2wVYx+jVjgkz8quwLJTgU9uBMA0qNIRaUKX7CYktkaW7LYyYhPaHEIYqAnJR6RcVSQ5RwjYoiBg0PrF75JRTd4HzxZOZQy1RPDx3Ow5yStWD70i15qBGBKnFs+IVvzKewIey95GCbYcu60=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.39,REQID:c5a760c6-4252-46fc-9de8-b354aade2cab,IP:0,U
+	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-25
+X-CID-META: VersionHash:393d96e,CLOUDID:001d5f94-e2c0-40b0-a8fe-7c7e47299109,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 7818a4d0323111ef99dc3f8fac2c3230-20240624
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
+	(envelope-from <jiaxin.yu@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 2084432780; Mon, 24 Jun 2024 21:55:52 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ MTKMBS14N2.mediatek.inc (172.21.101.76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Mon, 24 Jun 2024 21:55:47 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Mon, 24 Jun 2024 21:55:47 +0800
+From: Jiaxin Yu <jiaxin.yu@mediatek.com>
+To: <broonie@kernel.org>, <angelogioacchino.delregno@collabora.com>
+CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
+	Jiaxin Yu <jiaxin.yu@mediatek.com>
+Subject: [PATCH RESEND,v2] ASoC: mediatek: mt6358: Add "Dmic Mode Switch" kcontrol for switch DMIC mode.
+Date: Mon, 24 Jun 2024 21:55:46 +0800
+Message-ID: <20240624135546.19275-1-jiaxin.yu@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/2] ALSA: pcm: reinvent the stream synchronization ID
- API
-Content-Language: en-US
-To: Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org
-Cc: Takashi Iwai <tiwai@suse.de>, Takashi Sakamoto <takaswie@kernel.org>
-References: <20240624131127.498605-1-perex@perex.cz>
- <20240624131127.498605-2-perex@perex.cz>
-From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <20240624131127.498605-2-perex@perex.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--4.655100-8.000000
+X-TMASE-MatchedRID: gtvpwGSUn6ZUeA157rRKD2h77jTUbA6yoA9Le8XJpbovM0Gdq0fzqaJQ
+	wY2eSfAKzQCEFcQpqpiD1p+T3PkHc6o+znd4MHO5l1zsjZ1/6axDGFvBeB2nXEuCjz4ggdtwU7g
+	EPucszGcM1uAoS31c84on+M6nzz7EMtPBNyXS88a4jAucHcCqnX0tCKdnhB589yM15V5aWpj6C0
+	ePs7A07UngwKs5OejnuXgkVn0JDJE4akP/ZSUN3KtRKNFqtU0lysvSvATs2Zs4Wp3OuoY81CL+Y
+	Okaei+S6pCYQ5VLYGbfrVNSLotorpd/GKMggNgToydMlEjRcid9fBQSbWi4PMsNjEULX/uuMIFA
+	PLUElJzAvpLE+mvX8g==
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--4.655100-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP:
+	20DB901DD7FBC1216EBBCC858B30E70948715DD87123211B1B3E9751DD044ABB2000:8
+X-MTK: N
 
-On 6/24/2024 3:07 PM, Jaroslav Kysela wrote:
-> Until the commit e11f0f90a626 ("ALSA: pcm: remove SNDRV_PCM_IOCTL1_INFO
-> internal command"), there was a possibility to pass information
-> about the synchronized streams to the user space. The mentioned
-> commit removed blindly the appropriate code with an irrelevant comment.
-> 
-> The revert may be appropriate, but since this API was lost for several
-> years without any complains, it's time to improve it. The hardware
-> parameters may change the used stream clock source (e.g. USB hardware)
-> so move this synchronization ID to hw_params as read-only field.
-> 
-> It seems that pipewire can benefit from this API (disable adaptive
-> resampling for perfectly synchronized PCM streams) now.
-> 
-> Note that the contents of ID is not supposed to be used for direct
-> comparison with a specific byte sequence. The "empty" case is when
-> all bytes are zero (driver does not offer this information)
-> and all other cases must be only used for equal comparison among
-> PCM streams (including different sound cards) if they are using
-> identical hardware clock.
-> 
-> Cc: Takashi Sakamoto <takaswie@kernel.org>
-> Signed-off-by: Jaroslav Kysela <perex@perex.cz>
-> ---
+There are two hardware connection methods for DMICs on the MT6358. In cases
+where more than two DMICs are used, we need to time-multiplex these DMICs.
+Therefore, we need to dynamically switch the modes of these DMICs based on
+the actual usage scenarios.
 
-(...)
+            ---- DMIC1
+AU_VIN0 ---
+            ---- DMIC2
 
->   
-> @@ -420,7 +420,8 @@ struct snd_pcm_hw_params {
->   	unsigned int rate_num;		/* R: rate numerator */
->   	unsigned int rate_den;		/* R: rate denominator */
->   	snd_pcm_uframes_t fifo_size;	/* R: chip FIFO size in frames */
-> -	unsigned char reserved[64];	/* reserved for future */
-> +	unsigned char sync[16];		/* R: synchronization ID (perfect sync - one clock source) */
+AU_VIN2 --- ----DMIC3
 
-If it is introduced as new API, can't this be done better? Maybe like:
-struct sync {
-	char cardnum[4];
-	char id[12];
-};
-or maybe just:
-struct sync {
-	u32 cardnum;
-	char id[12];
-};
-or something like that? It is bit hard to follow in next patch all this 
-params->sync + 4 and memset/strncpy. And having named fields would help.
+When we want to use DMIC1/2, configure it to one-wire mode. When we want to
+use DMIC1/3, configure it to two-wire mode.
 
-Thanks,
-Amadeusz
+Signed-off-by: Jiaxin Yu <jiaxin.yu@mediatek.com>
+---
+Changes in v2:
+  - fix potential mixter-text errors, only allowing the user to set it
+  to 0 or 1.
+
+ sound/soc/codecs/mt6358.c | 38 +++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 37 insertions(+), 1 deletion(-)
+
+diff --git a/sound/soc/codecs/mt6358.c b/sound/soc/codecs/mt6358.c
+index 0284e29c11d3..9247b90d1b99 100644
+--- a/sound/soc/codecs/mt6358.c
++++ b/sound/soc/codecs/mt6358.c
+@@ -96,7 +96,7 @@ struct mt6358_priv {
+ 
+ 	int wov_enabled;
+ 
+-	unsigned int dmic_one_wire_mode;
++	int dmic_one_wire_mode;
+ };
+ 
+ int mt6358_set_mtkaif_protocol(struct snd_soc_component *cmpnt,
+@@ -577,6 +577,39 @@ static int mt6358_put_wov(struct snd_kcontrol *kcontrol,
+ 	return 0;
+ }
+ 
++static int mt6358_dmic_mode_get(struct snd_kcontrol *kcontrol,
++				struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_component *c = snd_soc_kcontrol_component(kcontrol);
++	struct mt6358_priv *priv = snd_soc_component_get_drvdata(c);
++
++	ucontrol->value.integer.value[0] = priv->dmic_one_wire_mode;
++	dev_dbg(priv->dev, "%s() dmic_mode = %d", __func__, priv->dmic_one_wire_mode);
++
++	return 0;
++}
++
++static int mt6358_dmic_mode_set(struct snd_kcontrol *kcontrol,
++				struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_component *c = snd_soc_kcontrol_component(kcontrol);
++	struct mt6358_priv *priv = snd_soc_component_get_drvdata(c);
++	int enabled = ucontrol->value.integer.value[0];
++
++	if (enabled < 0 || enabled > 1)
++		return -EINVAL;
++
++	if (priv->dmic_one_wire_mode != enabled) {
++		priv->dmic_one_wire_mode = enabled;
++		dev_dbg(priv->dev, "%s() dmic_mode = %d", __func__, priv->dmic_one_wire_mode);
++
++		return 1;
++	}
++	dev_dbg(priv->dev, "%s() dmic_mode = %d", __func__, priv->dmic_one_wire_mode);
++
++	return 0;
++}
++
+ static const DECLARE_TLV_DB_SCALE(playback_tlv, -1000, 100, 0);
+ static const DECLARE_TLV_DB_SCALE(pga_tlv, 0, 600, 0);
+ 
+@@ -599,6 +632,9 @@ static const struct snd_kcontrol_new mt6358_snd_controls[] = {
+ 
+ 	SOC_SINGLE_BOOL_EXT("Wake-on-Voice Phase2 Switch", 0,
+ 			    mt6358_get_wov, mt6358_put_wov),
++
++	SOC_SINGLE_BOOL_EXT("Dmic Mode Switch", 0,
++			    mt6358_dmic_mode_get, mt6358_dmic_mode_set),
+ };
+ 
+ /* MUX */
+-- 
+2.25.1
+
