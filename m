@@ -1,344 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0D118827;
-	Mon, 24 Jun 2024 05:39:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C50B820330
+	for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 06:13:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719207544; cv=none; b=PVvuKPkuqSUOCdOneczLD9jCVe/vrZy4RSVG3uBjgR0iUmpyEEdQv+dRa7BH8eLgiY6Z0r+z9UBuae5O+rTyVqg/Y8Cu0cyf1Crw9brfpwV35Af5HZic+siEIyDTzHztcTAQiWCK4YgdHr4vuvGNlCOqBBg63vGX+MnOnNUAh94=
+	t=1719209584; cv=none; b=k7JQIn+/r3+2hXBO7Y32GnajQtYFkpoZ5BRLFP8fyshVUDX6aXrtlUdYAK0RVwfK3uQqgdEwCb8GUXeeeFGMiZjKDXGUdn/47hLzn37PL2Hbm1plyMC4F++s6IGzqEp1xMIobTG3lIugn6y5x72jApc4bXPF010MBH5G2gj9p88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719207544; c=relaxed/simple;
-	bh=jJ/Xhogs+nACCcEGlLfB6HJx/oX5Us+Ij/qie1qauF4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FeygM/93ARaBVrO31SYqXilVODhwTKsvH6dPyBhUR1YHZXi3h1mKCbth4KVdXcEWIFQxfHJF9uboS6mFYlDDy6/T62rXqIRAQdv2Jfkj3wSSFREda2xKrlMugABTU2sdzdhStdzA5c40ycyf8cCHG5fx4YNA9Q0EKn7iDEbRqTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sz4Qa+Wi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719209584; c=relaxed/simple;
+	bh=aVHsVqa3Mw1s5TW5A0aHgn6rbR2d5USDh5nbiQUnUzI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=u5Lw4CNM6w3FZavD5NPrlK1GZmnifILUbRJrh1wXZVUl2YzJP7K5AqLalgnlY+W3sczuxLCNY5xYeSQn5HsB/t/M/kFi0xC/bfvRWTZQ60CwChULZD8yuGnbIf2nPHVJYu6Z+G5GtJi8gdLk4r1BEcgtgVha67FTYIXMn+liEbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=fNTGICP7; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sz4Qa+Wi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B15F4C2BBFC;
-	Mon, 24 Jun 2024 05:39:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719207543;
-	bh=jJ/Xhogs+nACCcEGlLfB6HJx/oX5Us+Ij/qie1qauF4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sz4Qa+WiiSVBfHghGys3is+d97crwImMZeX7km8DzqnirbEPwfFZiUsmg6QqCM+N6
-	 c3c9aY7v1tMgkJLVofzfYgrdifCkut9gb4NmvmjJRWjmnT6OYukYuIyWAQEhngcX4F
-	 O8/e/Z44xYgaTJz/QYq9RKcZvEoLmyQ3jf8pDlTBkg74DTdqTZnQoZsWorOW4NgJvh
-	 xvLb//6rdSGgcpcwEunLcd0qoLukSM6AWY9RA2dcg61pLa34v87nkJNg60bx1O9K6A
-	 Hwy8zWgE3SCaqvfHiFzOcl+K9aM7hfFXbQXNEPSrtRPKdZ/UjFUoVfxDApoXdr8U6V
-	 K+8UhvHhXxQsg==
-Date: Mon, 24 Jun 2024 11:08:59 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	"J.M.B. Downing" <jonathan.downing@nautel.com>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Yangtao Li <frank.li@vivo.com>, Arnd Bergmann <arnd@arndb.de>,
-	Li Zetao <lizetao1@huawei.com>, Chancel Liu <chancel.liu@nxp.com>,
-	Michael Ellerman <mpe@ellerman.id.au>, dmaengine@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
-	linuxppc-dev@lists.ozlabs.org, linux-sound@vger.kernel.org,
-	linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-mtd@lists.infradead.org,
-	Markus Elfring <Markus.Elfring@web.de>
-Subject: Re: [Patch v4 06/10] dmaengine: Add dma router for pl08x in LPC32XX
- SoC
-Message-ID: <ZnkGcwd8M1QFfmxl@matsya>
-References: <20240620175657.358273-1-piotr.wojtaszczyk@timesys.com>
- <20240620175657.358273-7-piotr.wojtaszczyk@timesys.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="fNTGICP7"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-70671ecd334so899574b3a.0
+        for <linux-sound@vger.kernel.org>; Sun, 23 Jun 2024 23:13:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1719209582; x=1719814382; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4N2wMnACbjcCz14LY0USvKoVXrjwARwQKVYyLGYLpXg=;
+        b=fNTGICP7L4PPagNQGZZYQ93XSI5ql0aHiM6yphO2C3o/0uIywNvjd/tyBJMRtWcPL4
+         5mkafq7FG7jWM9y1LLOekaWfg8JlOD1gOL9HoiqLa9KFnGM4ULhXfpJIEvy3CJeEsXK0
+         vEgnV6kWPetAd4uOnEACDPSdXOnP+mZHMds9U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719209582; x=1719814382;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4N2wMnACbjcCz14LY0USvKoVXrjwARwQKVYyLGYLpXg=;
+        b=BnKQ5pLFHIT9mfdDtz3t1WRu1/iOC3BMzy6m/dYjr8e4v1bAOArcpTVaCalnezEiNa
+         XmE1+M8YxGr8GbYFQWu7FihIgT91o/iIksB+DJY3ap1Cnig/YiAtm9PBcVCxXgz9Gk1i
+         vyXu8z65U1yyeF1CClFAMCE5mpppbpV1DUB9SQ3P7YmV0bYauICWTZ/QJtTjapG6lU0C
+         1HW+ZnaNO6Kq/0l4EEIARrykSJh716IT0bKMqTj5NV0c6zNc4eL5uKecmadMH3wZZs3h
+         Ve4+CubPvm8nP9qYhHSDDfErBrA9vMauN0SZEfGkUblBMHGefjV/fpY0fNECm7jBaWpV
+         2edw==
+X-Forwarded-Encrypted: i=1; AJvYcCWvkw/iaWKDSccsnK9A+Cw2XNazZrCDTDnlVg/mpjf53LnW/x4a6CPU9/6JV1ecllqjLsNMZD4/U5t/bUnDVAZVXQeoxzBeVx90EA4=
+X-Gm-Message-State: AOJu0Yy5X3FqyoUpSG1D/tGj8IL4ZBs8CItTR5ge+nYL3yC+zahNwxc0
+	ZVfOqb0KZJTmSQcKuVgKpsLGSnACA1bSdHh5q4DmXV2mrAHUTYQq5fD6OlE8Kw==
+X-Google-Smtp-Source: AGHT+IH+UlRR3GoF9E4C1DBHIOVlzoOCBHgWIsZ6epuQKT65Zpk0Nz9eUaoHFwng5u7QIXrd2vEFwg==
+X-Received: by 2002:a05:6a20:c120:b0:1b6:cd8e:4a5 with SMTP id adf61e73a8af0-1bcf4479e51mr4136921637.19.1719209581937;
+        Sun, 23 Jun 2024 23:13:01 -0700 (PDT)
+Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:62a6:1858:61eb:37a2])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f9eb5e5629sm54687965ad.220.2024.06.23.23.13.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Jun 2024 23:13:01 -0700 (PDT)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Mark Brown <broonie@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Chen-Yu Tsai <wenst@chromium.org>,
+	Trevor Wu <trevor.wu@mediatek.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mediatek@lists.infradead.org
+Subject: [PATCH v2] ASoC: mediatek: mt8195: Add platform entry for ETDM1_OUT_BE dai link
+Date: Mon, 24 Jun 2024 14:12:56 +0800
+Message-ID: <20240624061257.3115467-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.45.2.741.gdbec12cfda-goog
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240620175657.358273-7-piotr.wojtaszczyk@timesys.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Piotr,
+Commit e70b8dd26711 ("ASoC: mediatek: mt8195: Remove afe-dai component
+and rework codec link") removed the codec entry for the ETDM1_OUT_BE
+dai link entirely instead of replacing it with COMP_EMPTY(). This worked
+by accident as the remaining COMP_EMPTY() platform entry became the codec
+entry, and the platform entry became completely empty, effectively the
+same as COMP_DUMMY() since snd_soc_fill_dummy_dai() doesn't do anything
+for platform entries.
 
-Any reason why dmaengine parts cant be sent separately, why are they
-clubbed together, I dont see any obvious dependencies...
+This causes a KASAN out-of-bounds warning in mtk_soundcard_common_probe()
+in sound/soc/mediatek/common/mtk-soundcard-driver.c:
 
-On 20-06-24, 19:56, Piotr Wojtaszczyk wrote:
-> LPC32XX connects few of its peripherals to pl08x DMA thru a multiplexer,
-> this driver allows to route a signal request line thru the multiplexer for
-> given peripheral.
+	for_each_card_prelinks(card, i, dai_link) {
+		if (adsp_node && !strncmp(dai_link->name, "AFE_SOF", strlen("AFE_SOF")))
+			dai_link->platforms->of_node = adsp_node;
+		else if (!dai_link->platforms->name && !dai_link->platforms->of_node)
+			dai_link->platforms->of_node = platform_node;
+	}
 
-What is the difference b/w this and lpc18xx driver, why not reuse that
-one?
+where the code expects the platforms array to have space for at least one entry.
 
-> 
-> Signed-off-by: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
-> ---
-> Changes for v4:
-> - This patch is new in v4
-> 
->  MAINTAINERS                  |   1 +
->  drivers/dma/Kconfig          |   9 ++
->  drivers/dma/Makefile         |   1 +
->  drivers/dma/lpc32xx-dmamux.c | 195 +++++++++++++++++++++++++++++++++++
->  4 files changed, 206 insertions(+)
->  create mode 100644 drivers/dma/lpc32xx-dmamux.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index fadf1baafd89..5ffe988ee282 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2403,6 +2403,7 @@ R:	Vladimir Zapolskiy <vz@mleia.com>
->  L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/dma/nxp,lpc3220-dmamux.yaml
-> +F:	drivers/dma/lpc32xx-dmamux.c
->  N:	lpc32xx
->  
->  ARM/Marvell Dove/MV78xx0/Orion SOC support
-> diff --git a/drivers/dma/Kconfig b/drivers/dma/Kconfig
-> index 002a5ec80620..aeace3d7e066 100644
-> --- a/drivers/dma/Kconfig
-> +++ b/drivers/dma/Kconfig
-> @@ -378,6 +378,15 @@ config LPC18XX_DMAMUX
->  	  Enable support for DMA on NXP LPC18xx/43xx platforms
->  	  with PL080 and multiplexed DMA request lines.
->  
-> +config LPC32XX_DMAMUX
-> +	bool "NXP LPC32xx DMA MUX for PL080"
-> +	depends on ARCH_LPC32XX || COMPILE_TEST
-> +	depends on OF && AMBA_PL08X
-> +	select MFD_SYSCON
-> +	help
-> +	  Support for PL080 multiplexed DMA request lines on
-> +	  LPC32XX platrofm.
-> +
->  config LS2X_APB_DMA
->  	tristate "Loongson LS2X APB DMA support"
->  	depends on LOONGARCH || COMPILE_TEST
-> diff --git a/drivers/dma/Makefile b/drivers/dma/Makefile
-> index 802ca916f05f..6f1350b62e7f 100644
-> --- a/drivers/dma/Makefile
-> +++ b/drivers/dma/Makefile
-> @@ -50,6 +50,7 @@ obj-$(CONFIG_INTEL_IOATDMA) += ioat/
->  obj-y += idxd/
->  obj-$(CONFIG_K3_DMA) += k3dma.o
->  obj-$(CONFIG_LPC18XX_DMAMUX) += lpc18xx-dmamux.o
-> +obj-$(CONFIG_LPC32XX_DMAMUX) += lpc32xx-dmamux.o
->  obj-$(CONFIG_LS2X_APB_DMA) += ls2x-apb-dma.o
->  obj-$(CONFIG_MILBEAUT_HDMAC) += milbeaut-hdmac.o
->  obj-$(CONFIG_MILBEAUT_XDMAC) += milbeaut-xdmac.o
-> diff --git a/drivers/dma/lpc32xx-dmamux.c b/drivers/dma/lpc32xx-dmamux.c
-> new file mode 100644
-> index 000000000000..4e6ce6026164
-> --- /dev/null
-> +++ b/drivers/dma/lpc32xx-dmamux.c
-> @@ -0,0 +1,195 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +//
-> +// Copyright 2024 Timesys Corporation <piotr.wojtaszczyk@timesys.com>
-> +//
-> +// Based on TI DMA Crossbar driver by:
-> +//   Copyright (C) 2015 Texas Instruments Incorporated - http://www.ti.com
-> +//   Author: Peter Ujfalusi <peter.ujfalusi@ti.com>
-> +
-> +#include <linux/err.h>
-> +#include <linux/init.h>
-> +#include <linux/mfd/syscon.h>
-> +#include <linux/of.h>
-> +#include <linux/of_dma.h>
-> +#include <linux/of_platform.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/regmap.h>
-> +#include <linux/spinlock.h>
-> +
-> +#define LPC32XX_SSP_CLK_CTRL 0x78
-> +#define LPC32XX_I2S_CLK_CTRL 0x7c
-> +
-> +struct lpc32xx_dmamux {
-> +	int signal;
-> +	char *name_sel0;
-> +	char *name_sel1;
-> +	int muxval;
-> +	int muxreg;
-> +	int bit;
-> +	bool busy;
-> +};
-> +
-> +/* From LPC32x0 User manual "3.2.1 DMA request signals" */
-> +static struct lpc32xx_dmamux lpc32xx_muxes[] = {
-> +	{
-> +		.signal = 3,
-> +		.name_sel0 = "spi2-rx-tx",
-> +		.name_sel1 = "ssp1-rx",
-> +		.muxreg = LPC32XX_SSP_CLK_CTRL,
-> +		.bit = 5,
-> +	},
-> +	{
-> +		.signal = 10,
-> +		.name_sel0 = "uart7-rx",
-> +		.name_sel1 = "i2s1-dma1",
-> +		.muxreg = LPC32XX_I2S_CLK_CTRL,
-> +		.bit = 4,
-> +	},
-> +	{
-> +		.signal = 11,
-> +		.name_sel0 = "spi1-rx-tx",
-> +		.name_sel1 = "ssp1-tx",
-> +		.muxreg = LPC32XX_SSP_CLK_CTRL,
-> +		.bit = 4,
-> +	},
-> +	{
-> +		.signal = 14,
-> +		.name_sel0 = "none",
-> +		.name_sel1 = "ssp0-rx",
-> +		.muxreg = LPC32XX_SSP_CLK_CTRL,
-> +		.bit = 3,
-> +	},
-> +	{
-> +		.signal = 15,
-> +		.name_sel0 = "none",
-> +		.name_sel1 = "ssp0-tx",
-> +		.muxreg = LPC32XX_SSP_CLK_CTRL,
-> +		.bit = 2,
-> +	},
-> +};
-> +
-> +struct lpc32xx_dmamux_data {
-> +	struct dma_router dmarouter;
-> +	struct regmap *reg;
-> +	spinlock_t lock; /* protects busy status flag */
-> +};
-> +
-> +static void lpc32xx_dmamux_release(struct device *dev, void *route_data)
-> +{
-> +	struct lpc32xx_dmamux_data *dmamux = dev_get_drvdata(dev);
-> +	struct lpc32xx_dmamux *mux = route_data;
-> +	unsigned long flags;
-> +
-> +	dev_dbg(dev, "releasing dma request signal %d routed to %s\n",
-> +		mux->signal, mux->muxval ? mux->name_sel1 : mux->name_sel1);
-> +
-> +	guard(spinlock)(&dmamux->lock);
-> +
-> +	mux->busy = false;
-> +}
-> +
-> +static void *lpc32xx_dmamux_reserve(struct of_phandle_args *dma_spec,
-> +				    struct of_dma *ofdma)
-> +{
-> +	struct platform_device *pdev = of_find_device_by_node(ofdma->of_node);
-> +	struct device *dev = &pdev->dev;
-> +	struct lpc32xx_dmamux_data *dmamux = platform_get_drvdata(pdev);
-> +	unsigned long flags;
-> +	struct lpc32xx_dmamux *mux = NULL;
-> +	int i;
-> +
-> +	if (dma_spec->args_count != 3) {
-> +		dev_err(&pdev->dev, "invalid number of dma mux args\n");
-> +		return ERR_PTR(-EINVAL);
-> +	}
-> +
-> +	for (i = 0; i < ARRAY_SIZE(lpc32xx_muxes); i++) {
-> +		if (lpc32xx_muxes[i].signal == dma_spec->args[0])
-> +			mux = &lpc32xx_muxes[i];
-> +	}
-> +	if (!mux) {
-> +		dev_err(&pdev->dev, "invalid mux request number: %d\n",
-> +			dma_spec->args[0]);
-> +		return ERR_PTR(-EINVAL);
-> +	}
-> +
-> +	if (dma_spec->args[2] > 1) {
-> +		dev_err(&pdev->dev, "invalid dma mux value: %d\n",
-> +			dma_spec->args[1]);
-> +		return ERR_PTR(-EINVAL);
-> +	}
-> +
-> +	/* The of_node_put() will be done in the core for the node */
-> +	dma_spec->np = of_parse_phandle(ofdma->of_node, "dma-masters", 0);
-> +	if (!dma_spec->np) {
-> +		dev_err(&pdev->dev, "can't get dma master\n");
-> +		return ERR_PTR(-EINVAL);
-> +	}
-> +
-> +	spin_lock_irqsave(&dmamux->lock, flags);
-> +	if (mux->busy) {
-> +		spin_unlock_irqrestore(&dmamux->lock, flags);
-> +		dev_err(dev, "dma request signal %d busy, routed to %s\n",
-> +			mux->signal, mux->muxval ? mux->name_sel1 : mux->name_sel1);
-> +		of_node_put(dma_spec->np);
-> +		return ERR_PTR(-EBUSY);
-> +	}
-> +
-> +	mux->busy = true;
-> +	mux->muxval = dma_spec->args[2] ? BIT(mux->bit) : 0;
-> +
-> +	regmap_update_bits(dmamux->reg, mux->muxreg, BIT(mux->bit), mux->muxval);
-> +	spin_unlock_irqrestore(&dmamux->lock, flags);
-> +
-> +	dma_spec->args[2] = 0;
-> +	dma_spec->args_count = 2;
-> +
-> +	dev_dbg(dev, "dma request signal %d routed to %s\n",
-> +		mux->signal, mux->muxval ? mux->name_sel1 : mux->name_sel1);
-> +
-> +	return mux;
-> +}
-> +
-> +static int lpc32xx_dmamux_probe(struct platform_device *pdev)
-> +{
-> +	struct device_node *np = pdev->dev.of_node;
-> +	struct lpc32xx_dmamux_data *dmamux;
-> +	int ret;
-> +
-> +	dmamux = devm_kzalloc(&pdev->dev, sizeof(*dmamux), GFP_KERNEL);
-> +	if (!dmamux)
-> +		return -ENOMEM;
-> +
-> +	dmamux->reg = syscon_node_to_regmap(np->parent);
-> +	if (IS_ERR(dmamux->reg)) {
-> +		dev_err(&pdev->dev, "syscon lookup failed\n");
-> +		return PTR_ERR(dmamux->reg);
-> +	}
-> +
-> +	spin_lock_init(&dmamux->lock);
-> +	platform_set_drvdata(pdev, dmamux);
-> +	dmamux->dmarouter.dev = &pdev->dev;
-> +	dmamux->dmarouter.route_free = lpc32xx_dmamux_release;
-> +
-> +	return of_dma_router_register(np, lpc32xx_dmamux_reserve,
-> +				      &dmamux->dmarouter);
-> +}
-> +
-> +static const struct of_device_id lpc32xx_dmamux_match[] = {
-> +	{ .compatible = "nxp,lpc3220-dmamux" },
-> +	{},
-> +};
-> +
-> +static struct platform_driver lpc32xx_dmamux_driver = {
-> +	.probe	= lpc32xx_dmamux_probe,
-> +	.driver = {
-> +		.name = "lpc32xx-dmamux",
-> +		.of_match_table = lpc32xx_dmamux_match,
-> +	},
-> +};
-> +
-> +static int __init lpc32xx_dmamux_init(void)
-> +{
-> +	return platform_driver_register(&lpc32xx_dmamux_driver);
-> +}
-> +arch_initcall(lpc32xx_dmamux_init);
-> -- 
-> 2.25.1
+Add an COMP_EMPTY() entry so that dai_link->platforms has space.
 
+Fixes: e70b8dd26711 ("ASoC: mediatek: mt8195: Remove afe-dai component and rework codec link")
+Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+
+---
+Changes since v1:
+- Reword commit message with more details on how the original commit
+  got things wrong, and what this commit adds and fixes
+---
+ sound/soc/mediatek/mt8195/mt8195-mt6359.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/sound/soc/mediatek/mt8195/mt8195-mt6359.c b/sound/soc/mediatek/mt8195/mt8195-mt6359.c
+index ca8751190520..2832ef78eaed 100644
+--- a/sound/soc/mediatek/mt8195/mt8195-mt6359.c
++++ b/sound/soc/mediatek/mt8195/mt8195-mt6359.c
+@@ -827,6 +827,7 @@ SND_SOC_DAILINK_DEFS(ETDM2_IN_BE,
+ 
+ SND_SOC_DAILINK_DEFS(ETDM1_OUT_BE,
+ 		     DAILINK_COMP_ARRAY(COMP_CPU("ETDM1_OUT")),
++		     DAILINK_COMP_ARRAY(COMP_EMPTY()),
+ 		     DAILINK_COMP_ARRAY(COMP_EMPTY()));
+ 
+ SND_SOC_DAILINK_DEFS(ETDM2_OUT_BE,
 -- 
-~Vinod
+2.45.2.741.gdbec12cfda-goog
+
