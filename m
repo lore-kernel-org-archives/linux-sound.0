@@ -1,111 +1,107 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99FDC17BB6;
-	Mon, 24 Jun 2024 06:39:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9142C4436E;
+	Mon, 24 Jun 2024 07:39:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719211154; cv=none; b=MZ82xCP4/ZPPr2JT8apkvbUfmDwBHwfF2wYgALs+m47U+dLAvdDHC0iLDzj7UxxAGrn5QgA/vrWnwjQQeMnBWQVL0P15AXqwXWzXnh411zdhku/dyCMCOl87E46cg++UghFGwlapR3QEnPppKKxMSaNcEN/0vhgvQ+K/DglOAp8=
+	t=1719214767; cv=none; b=avheLYdd26tsOerySkA4jZ1A8YDiutX1F5pClqZEFEmSo173WITO6YayXjXVHbJSa+TCqF6m1D+3Zonl/he/0u8Jx5J4JHZR3Dsem01OfFPkFjNXCVVc66b/gIHmer0sgZmops81HlfN0SgMXdPVg6XLsfoYuuB0w8E/UI/NywQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719211154; c=relaxed/simple;
-	bh=8qQNy0cFi+vB5Mfp2npnGPe64P5YepXPolFgKOS6juw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iqDFfLV+1he0f4Xhhh3vw6m40jyRZ+5iGfaEiBJwJsEpMKwXNK/xXK6QN/MIL6fwrXkjBOJfUY/M1WV+rW3AGGD3dTA4R4uXsPIp0AwxjqwEYPhpG95cunrQrLoC1CjF7sPNlpc9IxZjKQNeN73HPWSDZPo3t2g1Mk2emfK6JOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Y2dSdUb7; arc=none smtp.client-ip=217.70.183.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1719214767; c=relaxed/simple;
+	bh=V+/MuvOB5oRpHrUXIua2jOm8NVL5toa1d2l3vx43fvc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=n1k312EUmTS8FDb+ao7wFf0wpecC5VlhnTSEUptUdA3+PBIh1pW+IvEwizcy3HE5sCgbdj3hP0CQHv9HhfxEtotywNHbZAdaB52CTRpzOotw1Mqr0ZyGjtgD3dBIPmtJEQSgRqdSbqTtfqnTB5AIMYSst7CvyXBz75ziQEMx5Iw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=kppcXub/; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Y2dSdUb7"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A1221C0006;
-	Mon, 24 Jun 2024 06:39:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1719211148;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8qQNy0cFi+vB5Mfp2npnGPe64P5YepXPolFgKOS6juw=;
-	b=Y2dSdUb7L45w0zOH/hMoZ0jqJMRt2RztXSF8cdHFJOQrvsC2d2TrOTWPfcBntkFhwN7H6/
-	hRjUcA+3RSAJ94uif8HqhAvbCWQJYiR+SVkX6EFFrYPEr/FW5wId9XKqYNzTH1dx6WDGG0
-	EpHqQyHHRgNy3VsxGvF0BTOq9xL4A+TxAGxtKMeEP3applLc9/8N0v4h797ONHvRbmXNoB
-	xidj39GDhF0L9I2O/NKLPWLoLxYKqnfunm/ZzhUtmDxgyWbMCW+SkvuckBwxpEg80TiaAu
-	EQMC92N1cUsplO1EO00oEc1qOUwmVwAOuZV611xRbhs1I+WiDGN7XvJsNyxmEw==
-Date: Mon, 24 Jun 2024 08:39:00 +0200
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, "J.M.B.
- Downing" <jonathan.downing@nautel.com>, Vladimir Zapolskiy <vz@mleia.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Russell King <linux@armlinux.org.uk>, Michael Turquette
- <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Andi Shyti
- <andi.shyti@kernel.org>, Richard Weinberger <richard@nod.at>, Vignesh
- Raghavendra <vigneshr@ti.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
- Iwai <tiwai@suse.com>, Arnd Bergmann <arnd@arndb.de>, Yangtao Li
- <frank.li@vivo.com>, Li Zetao <lizetao1@huawei.com>, Chancel Liu
- <chancel.liu@nxp.com>, Michael Ellerman <mpe@ellerman.id.au>,
- dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org,
- linux-sound@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-i2c@vger.kernel.org, linux-mtd@lists.infradead.org, Markus Elfring
- <Markus.Elfring@web.de>
-Subject: Re: [Patch v4 08/10] mtd: rawnand: lpx32xx: Request DMA channels
- using DT entries
-Message-ID: <20240624083900.14e38d82@xps-13>
-In-Reply-To: <CAG+cZ06GSxPsTzRLXSk23qWXMkp-qxYq7Z9av5-2cPHSJmVAHg@mail.gmail.com>
-References: <20240620175657.358273-1-piotr.wojtaszczyk@timesys.com>
-	<20240620175657.358273-9-piotr.wojtaszczyk@timesys.com>
-	<20240621103019.783271f4@xps-13>
-	<CAG+cZ06GSxPsTzRLXSk23qWXMkp-qxYq7Z9av5-2cPHSJmVAHg@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="kppcXub/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1719214758;
+	bh=V+/MuvOB5oRpHrUXIua2jOm8NVL5toa1d2l3vx43fvc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=kppcXub/wGYVKDXZW9lsyJvZlE+MHw94Ab2zNNosm0jdkPczLSeXIa1mX4CnB0TH3
+	 Yb4E0vqO3PjC9VKzOt94QYra2asAz1mEXL6qdPrzeUV6k0kfkfIAGNjjidmDutXjkx
+	 jsSsLzOtK/Ei0/dHmSjjlfMHlGaNxutpfeWUPXqGmg70DzoOe7p/L/gO5rcfofNGCh
+	 UzEFxUwjQIZ9Xr2d5UaBFjQ0XqYnx37U/cIJpHRFV5DMamkEVIJW4boJpkbktShAqi
+	 j78oPgSc40mkbwC6rOjvnJXUWGPueXDg5W3arSGPIQptFoOFBh/14pPeR9ZJ4u2DAC
+	 PqUdQOigkcQHA==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 950BA378216B;
+	Mon, 24 Jun 2024 07:39:17 +0000 (UTC)
+Message-ID: <aefe76a3-5712-4e34-8990-0463a5036324@collabora.com>
+Date: Mon, 24 Jun 2024 09:39:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] ASoC: mediatek: mt8195: Add platform entry for
+ ETDM1_OUT_BE dai link
+To: Chen-Yu Tsai <wenst@chromium.org>, Mark Brown <broonie@kernel.org>
+Cc: Trevor Wu <trevor.wu@mediatek.com>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
+References: <20240624061257.3115467-1-wenst@chromium.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20240624061257.3115467-1-wenst@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Piotr,
+Il 24/06/24 08:12, Chen-Yu Tsai ha scritto:
+> Commit e70b8dd26711 ("ASoC: mediatek: mt8195: Remove afe-dai component
+> and rework codec link") removed the codec entry for the ETDM1_OUT_BE
+> dai link entirely instead of replacing it with COMP_EMPTY(). This worked
+> by accident as the remaining COMP_EMPTY() platform entry became the codec
+> entry, and the platform entry became completely empty, effectively the
+> same as COMP_DUMMY() since snd_soc_fill_dummy_dai() doesn't do anything
+> for platform entries.
+> 
+> This causes a KASAN out-of-bounds warning in mtk_soundcard_common_probe()
+> in sound/soc/mediatek/common/mtk-soundcard-driver.c:
+> 
+> 	for_each_card_prelinks(card, i, dai_link) {
+> 		if (adsp_node && !strncmp(dai_link->name, "AFE_SOF", strlen("AFE_SOF")))
+> 			dai_link->platforms->of_node = adsp_node;
+> 		else if (!dai_link->platforms->name && !dai_link->platforms->of_node)
+> 			dai_link->platforms->of_node = platform_node;
+> 	}
+> 
+> where the code expects the platforms array to have space for at least one entry.
+> 
+> Add an COMP_EMPTY() entry so that dai_link->platforms has space.
+> 
+> Fixes: e70b8dd26711 ("ASoC: mediatek: mt8195: Remove afe-dai component and rework codec link")
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 
-piotr.wojtaszczyk@timesys.com wrote on Fri, 21 Jun 2024 14:44:21 +0200:
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-> On Fri, Jun 21, 2024 at 10:30=E2=80=AFAM Miquel Raynal
-> <miquel.raynal@bootlin.com> wrote:
-> >
-> > Hi Piotr,
-> >
-> > piotr.wojtaszczyk@timesys.com wrote on Thu, 20 Jun 2024 19:56:39 +0200:
-> > =20
-> > > Move away from pl08x platform data towards device tree.
-> > >
-> > > Signed-off-by: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com> =20
-> >
-> > I don't see any change regarding the NAND controller node in the device
-> > tree, is there any dependency with other patches from the same patchset
-> > or may I apply this directly to nand/next?
-> >
-> > Thanks,
-> > Miqu=C3=A8l =20
->=20
-> Yes, this patch depends on "[v4,04/10] ARM: dts: lpc32xx: Add missing
-> dma and i2s properties"
-> which will be splitted into two or more separate patches per request
-> in the comments.
-> I'd like to keep driver changes and corresponding changes in DTS in
-> the same patch
-> but I've made a separate patch for DTS per request from v2 of the patch s=
-et.
+> 
+> ---
+> Changes since v1:
+> - Reword commit message with more details on how the original commit
+>    got things wrong, and what this commit adds and fixes
+> ---
+>   sound/soc/mediatek/mt8195/mt8195-mt6359.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/sound/soc/mediatek/mt8195/mt8195-mt6359.c b/sound/soc/mediatek/mt8195/mt8195-mt6359.c
+> index ca8751190520..2832ef78eaed 100644
+> --- a/sound/soc/mediatek/mt8195/mt8195-mt6359.c
+> +++ b/sound/soc/mediatek/mt8195/mt8195-mt6359.c
+> @@ -827,6 +827,7 @@ SND_SOC_DAILINK_DEFS(ETDM2_IN_BE,
+>   
+>   SND_SOC_DAILINK_DEFS(ETDM1_OUT_BE,
+>   		     DAILINK_COMP_ARRAY(COMP_CPU("ETDM1_OUT")),
+> +		     DAILINK_COMP_ARRAY(COMP_EMPTY()),
+>   		     DAILINK_COMP_ARRAY(COMP_EMPTY()));
+>   
+>   SND_SOC_DAILINK_DEFS(ETDM2_OUT_BE,
 
-These changes won't be applied to the same tries so they must be split.
 
-So I will not take this patch for the next merge window and instead
-will take it for the one after, if the DT patches have been applied.
-Please ping me at -rc1 again if the DT patches have gone through.
-
-Thanks,
-Miqu=C3=A8l
