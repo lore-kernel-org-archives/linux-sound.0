@@ -1,83 +1,98 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C7213B58A
-	for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 12:11:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D87513B586
+	for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 12:11:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719231096; cv=none; b=G0fO4ooMOR0TzGHpQGBqjt6f+gLFgteuN3Qe60C1YKWfCPepPHYOK2F5x5rT9FM1GscFhC4Sa7ueiz3QXgylO6D4UsHT7VXVC1Pi9i/DRh9cu/V2wFfLFX5f6fFoZlFGEqoDxUdkx1iUFGSgyU+Gqb6mqj7BaVje3/gnLUuWAoA=
+	t=1719231098; cv=none; b=LQFk2Fb/8KRGijXwkHGiZAdb6emB6jOGkwQ7lu0/QZB+pZfG+vSTcSiYoWMAcTlpdtsEaL2KxnUjvaF16Rc+lcHrHU93HVGJ7JfienoHLUtY4SFBXrYbHei2stoGrgvwMqtptUpywNQnw3VAABIUKaMPNPymrm+XK5U4lhKEcDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719231096; c=relaxed/simple;
-	bh=vHfQoMBGTxMfLLJpnpM8vO0EymrfohqvJcIC5wK1quE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fiwLjJulwAf8oAQxPhdyTQUd2/rJfboVQt7ccwcd3fJM7UO/8NuGk6Sgl9u+IswajxurimW+JvEqX63nflagMc7q5hZKCzPPxaG4psjC8gCpY3rh3XsfZzqZ2rhuAeGt+KNug+r042YiroqKRgUc0XSAPG8sxHMSVHMu0Y+2LnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lO6uw4U/; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1719231098; c=relaxed/simple;
+	bh=eKR4UMvmeTLd+anS9f6YYfklV3EDalMCO5Nwb3ZoiP8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=rq858fGJ0pmuzeZGa104CB3/ov9xnd7Iv8Hu/VnKx3nbwM3gruIw5ic7bmc5X9rr2hc3kSZv43AzCUJAHwONcT7+xVSZGCn+XCu23luEKJNhCyjKp+Da5HQO6fTVOeU8428q/i6Hkg9jBQkJIzzdVeZ4/jeNtVrM8pIapfS9Lfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QnQ37w/F; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lO6uw4U/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QnQ37w/F"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719231094; x=1750767094;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=vHfQoMBGTxMfLLJpnpM8vO0EymrfohqvJcIC5wK1quE=;
-  b=lO6uw4U/W63e3PZRRza5y06aXF9RcHJFrJSCLcDhIS/Bmtyz2hIIkEL4
-   eGEKR77rAx1bVwZEPvNd2URNPno3PAClg2t90/5ws0g1rJm/Y0/O3hKWq
-   J//slafMScJi9bbXuzmpPefbJ9awFptPIaxRyUqtfTJVDHNwwWzlP80GC
-   gIU1ZpBW2XXt+qMlY10Vq1xYsAn1k/DLeJbWUxtg5T0uUf8qbBRP0W5Fn
-   dPtYemEr7qQTQJO0USgSHY9apSPyFxptlj2t88+QVo8MT10gE7MQzkCw4
-   a6HsimF7J+B9lPuIT1HvDXakdsuTGq6UemXBaa8WR3ujqNWMzc8B6FpTP
+  t=1719231096; x=1750767096;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=eKR4UMvmeTLd+anS9f6YYfklV3EDalMCO5Nwb3ZoiP8=;
+  b=QnQ37w/FCiP4DT5Rl12I8qALYfHBDRar8J2vb4MkUw7QNf0O6cyQSgEg
+   1kKAfplWiUzEuE2M/WNePgAU1w86sxtVO3KnuZHopdXYC8ctG3FT727wc
+   MEe9tFP2jZK6PtIpMdlQXQtZYsscyUdSPpFRNcGGzyjORUhuWL5rphHuG
+   l6RQ3o6WNdn0NVXZ0Z6YyWhAMgOrQ4mQt3nGB1/TnG8UHO5ocwQjk0YtC
+   HUnuiRTkKTNoTxvZer/gUX7/gZLE2qFX0pKQntHYC/f2ksV/F3mCJBfDQ
+   zO8nEKLm4SQ4vnLEXhP4ZKUrKPVQ/GOqaqEiJ+3KqBOOG6Q3Pw8tHCagc
    w==;
-X-CSE-ConnectionGUID: O3cPyOxwTtOd6ud/Cn32Wg==
-X-CSE-MsgGUID: rb2l4lHBRVKcwaYjy/LseQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11112"; a="15887530"
+X-CSE-ConnectionGUID: 0J/oGa47RJGtNFk1OuixYg==
+X-CSE-MsgGUID: ItvcBYt9Qgi8yWN6/gZYOg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11112"; a="15887536"
 X-IronPort-AV: E=Sophos;i="6.08,261,1712646000"; 
-   d="scan'208";a="15887530"
+   d="scan'208";a="15887536"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2024 05:11:33 -0700
-X-CSE-ConnectionGUID: g58QZ+PTRGmQPRc3EeZnkw==
-X-CSE-MsgGUID: aFgC8FldQuaxa2TXgO2YIQ==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2024 05:11:35 -0700
+X-CSE-ConnectionGUID: emiwiWU7R6+8Vwj9YUQlFQ==
+X-CSE-MsgGUID: qbks1TvfTx6vbjaMDC8leg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,261,1712646000"; 
-   d="scan'208";a="43091205"
+   d="scan'208";a="43091208"
 Received: from ksztyber-mobl2.ger.corp.intel.com (HELO pbossart-mobl6.intel.com) ([10.245.246.230])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2024 05:11:32 -0700
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2024 05:11:34 -0700
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 To: linux-sound@vger.kernel.org
 Cc: alsa-devel@alsa-project.org,
 	tiwai@suse.de,
 	broonie@kernel.org,
 	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [PATCH 0/4] ASoC: Intel: boards: updates for 6.11 - part2
-Date: Mon, 24 Jun 2024 14:11:15 +0200
-Message-ID: <20240624121119.91552-1-pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH 1/4] ASoC: Intel: sof_sdw: fix jack detection on ADL-N variant RVP
+Date: Mon, 24 Jun 2024 14:11:16 +0200
+Message-ID: <20240624121119.91552-2-pierre-louis.bossart@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240624121119.91552-1-pierre-louis.bossart@linux.intel.com>
+References: <20240624121119.91552-1-pierre-louis.bossart@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Minor additions and cleanups this time.
+Experimental tests show that JD2_100K is required, otherwise the jack
+is detected always even with nothing plugged-in.
 
-Bard Liao (1):
-  ASoC: Intel: sof_sdw: select PINCTRL_CS42L43 and SPI_CS42L43
+To avoid matching with other known quirks the SKU information is used.
 
-Brent Lu (1):
-  ASoC: Intel: maxim-common: add max_98373_get_tx_mask function
+Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+---
+ sound/soc/intel/boards/sof_sdw.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-Pierre-Louis Bossart (2):
-  ASoC: Intel: sof_sdw: fix jack detection on ADL-N variant RVP
-  ASoC: Intel: sof_sdw: add quirk for Dell SKU 0B8C
-
- sound/soc/intel/boards/Kconfig            |  2 +
- sound/soc/intel/boards/sof_maxim_common.c | 56 +++++++++++++++++------
- sound/soc/intel/boards/sof_sdw.c          | 18 ++++++++
- 3 files changed, 63 insertions(+), 13 deletions(-)
-
+diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
+index b646b32dd311..89b92a061489 100644
+--- a/sound/soc/intel/boards/sof_sdw.c
++++ b/sound/soc/intel/boards/sof_sdw.c
+@@ -277,6 +277,15 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
+ 					SOF_BT_OFFLOAD_SSP(2) |
+ 					SOF_SSP_BT_OFFLOAD_PRESENT),
+ 	},
++	{
++		.callback = sof_sdw_quirk_cb,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "Intel Corporation"),
++			DMI_MATCH(DMI_PRODUCT_SKU, "0000000000070000"),
++		},
++		.driver_data = (void *)(SOF_SDW_TGL_HDMI |
++					RT711_JD2_100K),
++	},
+ 	{
+ 		.callback = sof_sdw_quirk_cb,
+ 		.matches = {
 -- 
 2.43.0
 
