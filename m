@@ -1,236 +1,187 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC5C813D531
-	for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 13:11:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51CCD13A876
+	for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 13:17:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719234712; cv=none; b=IZ9Ftuy+I5euIcM+QCika5tqDoWuN+2QyqZzIpr2BSMgdekzOjuUjQQR0i9LMR33U+GI4x+siLJWvFC3MAxbqMxSk5y7iuuyjMR1eFyoI5JMEXDYzwNd/J8hSMzWzjSrbRQXDLX7HjFJzmYMZx67W2smvF1kjZu4IBgN+C7qf2k=
+	t=1719235061; cv=none; b=PLd4qERltHPlRkiuKF3ODWDgIjysW0VtWbWTetE/x3rAEknS8qAzZI3uqkG9pX9e+TS3Q8dciEphMabMCEZV1Utqo++XLlQSgaSq1OXW9AFyh9zlLhN+SuMhqBwRdhvOYG2tk5nRluSAzRyw1PG3Z/ATeLa5/Vh20hjVKr9qe58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719234712; c=relaxed/simple;
-	bh=WJifBTIwyDzn5GlTelrODKSXYsgi0+XvO3cObnLoGGs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XImctdWfkkYUT91IhmcHdzy731zizOV1Uv7KIvHbn0Vf2UsJgnKF8QgEjTmijd85y+U5iCpbomOQ78K8gz2djeTzzvGxxzpPOp6N6TpwYUvBWyp97/iKwtu9FnnBXtugGXifdxgnwmmbyR6G+MWow+YForeQkfn7wrsArKDnel8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=PjMAxk9j; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	s=arc-20240116; t=1719235061; c=relaxed/simple;
+	bh=zBAbVg7eY5v3w1YQ9z/X5gWtjjykDycleuAsmUw5MbQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nSUibP4cRTSs1s1SV/OaBVxuhOPeMpAmhjvDG31ZmzMkMuQH7/9mXhWSop1N1Q53GaKswtxEhL8UIyoSeI7WLeIvErOpYnaoHPwZq1r0/hdMA/SMzgbwrARjRgl7HpZZ3uo4rojMl6Iujd/WIuY8Je7nE5hf7ZPqxnMAuFgVWQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=lLN0SCFo; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="PjMAxk9j"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id EA4AF6E9B;
-	Mon, 24 Jun 2024 15:11:39 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz EA4AF6E9B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1719234700; bh=maYuR6bSnFMophdxKi4rXbYbv31bnlIcRA51+Ok0iis=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=PjMAxk9jEX0D+QlX9W3Dp5WbaT2TRxoRTO+T4sV1GkJLNMMe2OvbATEu/kvfc8LHG
-	 vRjTN9SGQ+zXMLpyPNTCHa8DMoITBv5z8VLfOJY8KWa2nvnRJdBJk+WKx7eI5ebmlG
-	 6r9QJWr5yNQhFy5Ek+aSGxuKdB00ss6xqXsGW6T4=
-Received: from p1gen4.perex-int.cz (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Mon, 24 Jun 2024 15:11:35 +0200 (CEST)
-From: Jaroslav Kysela <perex@perex.cz>
-To:  <linux-sound@vger.kernel.org>
-Cc: Takashi Iwai <tiwai@suse.de>,
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="lLN0SCFo"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-42172ab4b60so35902925e9.0
+        for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 06:17:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1719235056; x=1719839856; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uf6/MqxTn+2Qt/l7h8bfPK5FWFTkO7Ox6K1eiKN7/3o=;
+        b=lLN0SCForyoIPbm51ql/tXs4jnUNcPTYwmnvdbHQTqAjNfdVrTQ3RHs+bi90DFheEa
+         FdCHk/IqVNGCfWlK5RKbozbRa5MFcSttABE/rdNXgMsGoZYis+EDcZTPvUUDk5owXk8s
+         mxJteozuc3y85bB8a60wXN9rRQt5O/dduaByP7Qk+TGSvFapJQNYfWW3cIK7Z7lGnjY6
+         2SEB/RNNr84Ru7f3urWgJagG89yFccWyQUM9QsRZhQIGo9AWeIUg3KwmJezTUd8QiYOl
+         iiGajSq7scKgiAi1+kmdzcE9Id08fOZ44e25JkJufl5QhUFrWe6ibwzybQfbWYbc/GAo
+         vHLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719235056; x=1719839856;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uf6/MqxTn+2Qt/l7h8bfPK5FWFTkO7Ox6K1eiKN7/3o=;
+        b=nRIe2fNu7JQmlFFl3NJCuTZY8D3eyU22bXcIau08utxlmu4BApN0kX1g3Zs4t0UZTf
+         GzigU23B1f0yJKZa2QZyP++Dzds7wy3Y9qQ/X7SkogY7S384zdue5Zoz3MxNPOPAdH+A
+         SyJuGkRGxY7Q+nT83RI1FcofLxZO8xoTUlRkfevjG8ulPWRsQJtd6vfHv9nXPz7v1cHm
+         ancl7GdXU04Sn4f8syFatce8Ma4aBLn02ePYHLUrZ6NM3pCD1fhIwEpqMtxpz3evSTzQ
+         U4aPs8x8KgZYwjOecwqXiKO10KSVPyxYW6YKXs4jWnSiK7zpNscjzn7TsGXnZKWhFm1U
+         IIOg==
+X-Forwarded-Encrypted: i=1; AJvYcCVLu+zUZnPeYfZjUfh516lNt6Y1m522fdBKbPc8STt/tYyOt/HJUhlfbbMkaptmF7dPvQMe39AiRSGMO0vz6zc8s5jD8VTy8vou07I=
+X-Gm-Message-State: AOJu0Yz1S/t+3YGjegY3HccaLfE7aq630ujYjJ3gLkhv7cqgTDFKkrZu
+	B5wmVU2xdZ24zfCf3bqlifZi56lEaQCIPvG4Xte4j9mM5juooYvhpFQcDZQLUgM=
+X-Google-Smtp-Source: AGHT+IGmuNonSBd4K5OMu+znO4FDc1Iz5xX1rsU7FDahhX9zP13Nb+uZ9kGoGdX8EBDOPFFs1VU4XA==
+X-Received: by 2002:a05:600c:2d55:b0:421:f68f:a144 with SMTP id 5b1f17b1804b1-4248cc66c9bmr31937595e9.36.1719235056480;
+        Mon, 24 Jun 2024 06:17:36 -0700 (PDT)
+Received: from localhost ([2a02:8071:b783:6940:5d40:c7b4:b6ef:a1b])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-424817b53f2sm140173725e9.25.2024.06.24.06.17.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Jun 2024 06:17:36 -0700 (PDT)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Sakamoto <takaswie@kernel.org>
-Subject: [PATCH v5 1/2] ALSA: pcm: reinvent the stream synchronization ID API
-Date: Mon, 24 Jun 2024 15:07:48 +0200
-Message-ID: <20240624131127.498605-2-perex@perex.cz>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240624131127.498605-1-perex@perex.cz>
-References: <20240624131127.498605-1-perex@perex.cz>
+	Takashi Iwai <tiwai@suse.com>
+Cc: Oder Chiou <oder_chiou@realtek.com>,
+	linux-sound@vger.kernel.org
+Subject: [PATCH] ASoC: codecs: Drop explicit initialization of struct i2c_device_id::driver_data to 0
+Date: Mon, 24 Jun 2024 15:17:27 +0200
+Message-ID: <20240624131728.1244053-2-u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3713; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=zBAbVg7eY5v3w1YQ9z/X5gWtjjykDycleuAsmUw5MbQ=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBmeXHo4Db+ROG3fOAriQz6O3XjKVLpfnHtkTmaA YIMupulZSyJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZnlx6AAKCRCPgPtYfRL+ TkJFB/9aUNTZoZg0Om6imheGwQqsU6RAXSSNuZHpwQwgLSCT8HBbE6/IoZp7kXAQtsVP9vSGBM3 zdjLZXMx793Zr/55AbCiayz/Zet2kl8foMGKSZh6ilYGYOHeSCYNQusUaGc5d4hAvgDXnKRm/+K OLCCsy9UFuudZ+cOnzAejttXXBVSpQ/77VtC0bq1/29sjvHwJKZ4UnuMqdGxYvP9dffScuU+/H0 Ki4w/2M2a4+WSsmrLA1u9+AKUrWoBDgEl+hcdRwdho3ZKtnIYIaUkojKk0dpBKdak+SFCs452zV e7Vp5JId06irENNWJnikN7JnYl20o7yzvrTABo+AlgfFJAbZ
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 
-Until the commit e11f0f90a626 ("ALSA: pcm: remove SNDRV_PCM_IOCTL1_INFO
-internal command"), there was a possibility to pass information
-about the synchronized streams to the user space. The mentioned
-commit removed blindly the appropriate code with an irrelevant comment.
+These drivers don't use the driver_data member of struct i2c_device_id,
+so don't explicitly initialize this member.
 
-The revert may be appropriate, but since this API was lost for several
-years without any complains, it's time to improve it. The hardware
-parameters may change the used stream clock source (e.g. USB hardware)
-so move this synchronization ID to hw_params as read-only field.
+This prepares putting driver_data in an anonymous union which requires
+either no initialization or named designators. But it's also a nice
+cleanup on its own.
 
-It seems that pipewire can benefit from this API (disable adaptive
-resampling for perfectly synchronized PCM streams) now.
-
-Note that the contents of ID is not supposed to be used for direct
-comparison with a specific byte sequence. The "empty" case is when
-all bytes are zero (driver does not offer this information)
-and all other cases must be only used for equal comparison among
-PCM streams (including different sound cards) if they are using
-identical hardware clock.
-
-Cc: Takashi Sakamoto <takaswie@kernel.org>
-Signed-off-by: Jaroslav Kysela <perex@perex.cz>
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
 ---
- include/sound/pcm.h         |  3 ++-
- include/uapi/sound/asound.h |  9 +++++----
- sound/core/pcm_lib.c        | 27 +++++++++++++++++++++++----
- sound/core/pcm_native.c     |  6 ++++++
- sound/pci/emu10k1/p16v.c    |  7 +++----
- 5 files changed, 39 insertions(+), 13 deletions(-)
+Hello,
 
-diff --git a/include/sound/pcm.h b/include/sound/pcm.h
-index 3edd7a7346da..dbce137d8806 100644
---- a/include/sound/pcm.h
-+++ b/include/sound/pcm.h
-@@ -93,6 +93,7 @@ struct snd_pcm_ops {
- #define SNDRV_PCM_IOCTL1_CHANNEL_INFO	2
- /* 3 is absent slot. */
- #define SNDRV_PCM_IOCTL1_FIFO_SIZE	4
-+#define SNDRV_PCM_IOCTL1_SYNC_ID	5
+I already send a similar patch for drivers below sound/soc/codecs that
+became commit ba2a2c378ada ("ASoC: codecs: Drop explicit initialization
+of struct i2c_device_id::driver_data to 0"). The drivers touched here
+are all new since then.
+
+Best regards
+Uwe
+
+ sound/soc/codecs/aw87390.c         | 2 +-
+ sound/soc/codecs/aw88261.c         | 2 +-
+ sound/soc/codecs/aw88395/aw88395.c | 2 +-
+ sound/soc/codecs/aw88399.c         | 2 +-
+ sound/soc/codecs/es8311.c          | 5 ++++-
+ sound/soc/codecs/rt1318.c          | 2 +-
+ 6 files changed, 9 insertions(+), 6 deletions(-)
+
+diff --git a/sound/soc/codecs/aw87390.c b/sound/soc/codecs/aw87390.c
+index 79521ff44001..110009616966 100644
+--- a/sound/soc/codecs/aw87390.c
++++ b/sound/soc/codecs/aw87390.c
+@@ -445,7 +445,7 @@ static int aw87390_i2c_probe(struct i2c_client *i2c)
+ }
  
- #define SNDRV_PCM_TRIGGER_STOP		0
- #define SNDRV_PCM_TRIGGER_START		1
-@@ -401,7 +402,7 @@ struct snd_pcm_runtime {
- 	snd_pcm_uframes_t silence_start; /* starting pointer to silence area */
- 	snd_pcm_uframes_t silence_filled; /* already filled part of silence area */
+ static const struct i2c_device_id aw87390_i2c_id[] = {
+-	{ AW87390_I2C_NAME, 0 },
++	{ AW87390_I2C_NAME },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(i2c, aw87390_i2c_id);
+diff --git a/sound/soc/codecs/aw88261.c b/sound/soc/codecs/aw88261.c
+index a78ceedd0334..fb99871578c5 100644
+--- a/sound/soc/codecs/aw88261.c
++++ b/sound/soc/codecs/aw88261.c
+@@ -1266,7 +1266,7 @@ static int aw88261_i2c_probe(struct i2c_client *i2c)
+ }
  
--	union snd_pcm_sync_id sync;	/* hardware synchronization ID */
-+	unsigned char sync[16];		/* hardware synchronization ID */
+ static const struct i2c_device_id aw88261_i2c_id[] = {
+-	{ AW88261_I2C_NAME, 0 },
++	{ AW88261_I2C_NAME },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(i2c, aw88261_i2c_id);
+diff --git a/sound/soc/codecs/aw88395/aw88395.c b/sound/soc/codecs/aw88395/aw88395.c
+index be6ebcb51cca..aea44a199b98 100644
+--- a/sound/soc/codecs/aw88395/aw88395.c
++++ b/sound/soc/codecs/aw88395/aw88395.c
+@@ -560,7 +560,7 @@ static int aw88395_i2c_probe(struct i2c_client *i2c)
+ }
  
- 	/* -- mmap -- */
- 	struct snd_pcm_mmap_status *status;
-diff --git a/include/uapi/sound/asound.h b/include/uapi/sound/asound.h
-index 628d46a0da92..8bf7e8a0eb6f 100644
---- a/include/uapi/sound/asound.h
-+++ b/include/uapi/sound/asound.h
-@@ -142,7 +142,7 @@ struct snd_hwdep_dsp_image {
-  *                                                                           *
-  *****************************************************************************/
+ static const struct i2c_device_id aw88395_i2c_id[] = {
+-	{ AW88395_I2C_NAME, 0 },
++	{ AW88395_I2C_NAME },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(i2c, aw88395_i2c_id);
+diff --git a/sound/soc/codecs/aw88399.c b/sound/soc/codecs/aw88399.c
+index 5d8481612eab..8dc2b8aa6832 100644
+--- a/sound/soc/codecs/aw88399.c
++++ b/sound/soc/codecs/aw88399.c
+@@ -1892,7 +1892,7 @@ static int aw88399_i2c_probe(struct i2c_client *i2c)
+ }
  
--#define SNDRV_PCM_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 17)
-+#define SNDRV_PCM_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 18)
+ static const struct i2c_device_id aw88399_i2c_id[] = {
+-	{ AW88399_I2C_NAME, 0 },
++	{ AW88399_I2C_NAME },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(i2c, aw88399_i2c_id);
+diff --git a/sound/soc/codecs/es8311.c b/sound/soc/codecs/es8311.c
+index b2ee2d04b0e4..f557e33c26ad 100644
+--- a/sound/soc/codecs/es8311.c
++++ b/sound/soc/codecs/es8311.c
+@@ -943,7 +943,10 @@ static int es8311_i2c_probe(struct i2c_client *i2c_client)
+ 					       &es8311_dai, 1);
+ }
  
- typedef unsigned long snd_pcm_uframes_t;
- typedef signed long snd_pcm_sframes_t;
-@@ -334,7 +334,7 @@ union snd_pcm_sync_id {
- 	unsigned char id[16];
- 	unsigned short id16[8];
- 	unsigned int id32[4];
--};
-+} __attribute__((deprecated));
+-static const struct i2c_device_id es8311_id[] = { { "es8311", 0 }, {} };
++static const struct i2c_device_id es8311_id[] = {
++	{ "es8311" },
++	{ }
++};
+ MODULE_DEVICE_TABLE(i2c, es8311_id);
  
- struct snd_pcm_info {
- 	unsigned int device;		/* RO/WR (control): device number */
-@@ -348,7 +348,7 @@ struct snd_pcm_info {
- 	int dev_subclass;		/* SNDRV_PCM_SUBCLASS_* */
- 	unsigned int subdevices_count;
- 	unsigned int subdevices_avail;
--	union snd_pcm_sync_id sync;	/* hardware synchronization ID */
-+	unsigned char pad1[16];		/* was: hardware synchronization ID */
- 	unsigned char reserved[64];	/* reserved for future... */
+ static const struct of_device_id es8311_of_match[] = {
+diff --git a/sound/soc/codecs/rt1318.c b/sound/soc/codecs/rt1318.c
+index 4e47db4fc7fb..83b29b441be9 100644
+--- a/sound/soc/codecs/rt1318.c
++++ b/sound/soc/codecs/rt1318.c
+@@ -1141,7 +1141,7 @@ static const struct regmap_config rt1318_regmap = {
  };
  
-@@ -420,7 +420,8 @@ struct snd_pcm_hw_params {
- 	unsigned int rate_num;		/* R: rate numerator */
- 	unsigned int rate_den;		/* R: rate denominator */
- 	snd_pcm_uframes_t fifo_size;	/* R: chip FIFO size in frames */
--	unsigned char reserved[64];	/* reserved for future */
-+	unsigned char sync[16];		/* R: synchronization ID (perfect sync - one clock source) */
-+	unsigned char reserved[48];	/* reserved for future */
+ static const struct i2c_device_id rt1318_i2c_id[] = {
+-	{ "rt1318", 0 },
++	{ "rt1318" },
+ 	{ }
  };
- 
- enum {
-diff --git a/sound/core/pcm_lib.c b/sound/core/pcm_lib.c
-index 6f73b3c2c205..a6d59ee9eb52 100644
---- a/sound/core/pcm_lib.c
-+++ b/sound/core/pcm_lib.c
-@@ -525,10 +525,8 @@ void snd_pcm_set_sync(struct snd_pcm_substream *substream)
- {
- 	struct snd_pcm_runtime *runtime = substream->runtime;
- 	
--	runtime->sync.id32[0] = substream->pcm->card->number;
--	runtime->sync.id32[1] = -1;
--	runtime->sync.id32[2] = -1;
--	runtime->sync.id32[3] = -1;
-+	*(__u32 *)runtime->sync = cpu_to_le32(substream->pcm->card->number);
-+	memset(runtime->sync + 4, 0xff, sizeof(runtime->sync) - 4);
- }
- EXPORT_SYMBOL(snd_pcm_set_sync);
- 
-@@ -1810,6 +1808,25 @@ static int snd_pcm_lib_ioctl_fifo_size(struct snd_pcm_substream *substream,
- 	return 0;
- }
- 
-+/**
-+ * is sync id (clock id) empty?
-+ */
-+static inline bool pcm_sync_empty(const unsigned char *sync)
-+{
-+	return sync[0] == 0 && sync[1] == 0 && sync[2] == 0 && sync[3] == 0 &&
-+	       sync[4] == 0 && sync[5] == 0 && sync[6] == 0 && sync[7] == 0;
-+}
-+
-+static int snd_pcm_lib_ioctl_sync_id(struct snd_pcm_substream *substream,
-+				     void *arg)
-+{
-+	struct snd_pcm_hw_params *params = arg;
-+
-+	if (pcm_sync_empty(params->sync))
-+		memcpy(params->sync, substream->runtime->sync, sizeof(params->sync));
-+	return 0;
-+}
-+
- /**
-  * snd_pcm_lib_ioctl - a generic PCM ioctl callback
-  * @substream: the pcm substream instance
-@@ -1831,6 +1848,8 @@ int snd_pcm_lib_ioctl(struct snd_pcm_substream *substream,
- 		return snd_pcm_lib_ioctl_channel_info(substream, arg);
- 	case SNDRV_PCM_IOCTL1_FIFO_SIZE:
- 		return snd_pcm_lib_ioctl_fifo_size(substream, arg);
-+	case SNDRV_PCM_IOCTL1_SYNC_ID:
-+		return snd_pcm_lib_ioctl_sync_id(substream, arg);
- 	}
- 	return -ENXIO;
- }
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index 521ba56392a0..8be566df4d69 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -533,6 +533,12 @@ static int fixup_unreferenced_params(struct snd_pcm_substream *substream,
- 					  SNDRV_PCM_INFO_MMAP_VALID);
- 	}
- 
-+	err = snd_pcm_ops_ioctl(substream,
-+				SNDRV_PCM_IOCTL1_SYNC_ID,
-+				params);
-+	if (err < 0)
-+		return err;
-+
- 	return 0;
- }
- 
-diff --git a/sound/pci/emu10k1/p16v.c b/sound/pci/emu10k1/p16v.c
-index e7f097cae574..773725dbdfbd 100644
---- a/sound/pci/emu10k1/p16v.c
-+++ b/sound/pci/emu10k1/p16v.c
-@@ -174,10 +174,9 @@ static int snd_p16v_pcm_open_playback_channel(struct snd_pcm_substream *substrea
- 	if (err < 0)
-                 return err;
- 
--	runtime->sync.id32[0] = substream->pcm->card->number;
--	runtime->sync.id32[1] = 'P';
--	runtime->sync.id32[2] = 16;
--	runtime->sync.id32[3] = 'V';
-+	*(__u32 *)runtime->sync = cpu_to_le32(substream->pcm->card->number);
-+	memset(runtime->sync + 4, 0, sizeof(runtime->sync) - 4);
-+	strncpy(runtime->sync + 4, "P16V", 4);
- 
- 	return 0;
- }
+ MODULE_DEVICE_TABLE(i2c, rt1318_i2c_id);
+
+base-commit: f76698bd9a8ca01d3581236082d786e9a6b72bb7
 -- 
-2.45.2
+2.43.0
 
