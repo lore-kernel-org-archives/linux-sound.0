@@ -1,133 +1,87 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76BE14386A
-	for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 13:59:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF3C320330
+	for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 14:08:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719237584; cv=none; b=ZSReSE8DlHzX8EtRFJzsg/UAyrD/hKOj4BUyEe6yBjGjuzUIrTpz3bNpTx2zM3LC1yc+Q85Z5oqD/GF+xwLPkNAcRzrLU3Sgm02Qb9drlxfEVbxVvEsrz82XgcNJwf1a6JfCfbJBoi76UQfA5c79VdbAqzMo6fQ9VkqSkiwdlg4=
+	t=1719238130; cv=none; b=L5kmCzNQBaza2/d79jGEfZmh9+Dlw4LahBSeFgia3zHDxAB8B9cvXSjHIz8A5mGozdFJdlNiGhSBTijVAuno/qLj/iBz/8mOvaKypkB8DnKwmPyiUOlNrEglfVkPUs3MBTC1/5661VAsfnXY0HA3LSkg6v7Bgl60TPk7k32EScA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719237584; c=relaxed/simple;
-	bh=Ivn7pAhxBDb9IIAjViLrduAMtVdzVaWBE1rXPiE08Q4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rrM1UWlaNKd347QCDpynt9P8xmJi7qU+Lx43WLtwkaoOK/3ZITquJxleURBuxCLIz4H9Kvnl/nsU1zYoffE5XAokiz0S7eZgcGPHHG7TW8voBE1CzJgGi3Q+yqQTwJgzI9FO4Ei4W0riDpXF1U8Cq8rXjaWnSbq/GM13ZsC0sm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=XWn6Wjij; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	s=arc-20240116; t=1719238130; c=relaxed/simple;
+	bh=jqiiFeAOn7/znksPaKs4R8VuFBdjvk5ORDb4gPfh7ek=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=P7nG04cPvzYnRiqTa7b3Ek8piUBS52/2nyWoZljygMI8aj1H4p0eRbWAIl7jeS75yVgHV3XNk0pEuOaqgEQesXlv1e5azgzXSnvfn6dzatqCSaKLD0Qhw9zs9sVSzgwWO425Ek4u++GILHZ/pP8fCLXh97GKLO8IOYbk8JhkXQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jIkeHYZP; arc=none smtp.client-ip=209.85.215.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="XWn6Wjij"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 6A1DA6E9C;
-	Mon, 24 Jun 2024 15:59:39 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 6A1DA6E9C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1719237579; bh=tmg523HynqebNe680XcsH0MehcqBBsI/VQdpd8ap9LU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=XWn6Wjij40VmL4VWVzntzXchYGL92r9knXaNbNUnEuuA2mjouX0yaXpbaWKYlHJit
-	 SOFPz7+H6NObLsuAsVhCMvhyaPy0JaagL9b5qw/A+ARTGzB4Vu03CkxdngUhCAqeww
-	 yieSarEIvD6UHLlucDN5za/Dtk/DUMq6xCHSsU3g=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Mon, 24 Jun 2024 15:59:31 +0200 (CEST)
-Message-ID: <cc6d6016-267d-4d41-aa93-0873a0c9ef33@perex.cz>
-Date: Mon, 24 Jun 2024 15:59:30 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jIkeHYZP"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-711b1512aeaso3458955a12.3
+        for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 07:08:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719238128; x=1719842928; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=T9Rf6JRA+mYUBwhLf0oT4ls64Rhx3F0SXz/aJ/b0SCE=;
+        b=jIkeHYZP9pPZBAS1cOh/jmEkDujOEriRRzcBjg3qCGamYy3rtxPrxu2Q/T51GOpBbz
+         9rTMOgK8+BeSA6A732xMFWGFMQcXNzR2zYqvoOjuYIuE45zom5xJmV8TxxSYZWkYPkZ1
+         zXp9e7dgYXWYflDRvCWzE597WBr9uC69Ep4XIOoRYVM6sWcNurKFLObQX7KPmcW1ie34
+         ewy/WlG0OoV9cL5UsymeOzdMI6XJTr30GhsQJO3jEwu6zbZEKyikl3KrHzHHytTEooKE
+         WLpSIoTk+GJJ++GLmX8d27CrasYpO4llDdb8ohD1uUfW79/LqlUH1NdGz1YiC7zO5dnb
+         Ok9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719238128; x=1719842928;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=T9Rf6JRA+mYUBwhLf0oT4ls64Rhx3F0SXz/aJ/b0SCE=;
+        b=eZiQ26xTlBIjWBlRbSGILm+Gs/FGY1UNmZy1Gk5CNvpTPKSSNUP0Dp103gicl75QLJ
+         FJRL7EfzaAuvR/HEMAjuEAK7NqPHAiiRGRjYxXtAAG+RPiNeG/nSmcNkTRp26V0fPHan
+         BskNlLgMOlVtC3S9ZFtPCoSD0nNbS3Ip4cvhhF45kwzd2aEH2eMpy5lj1HowhQo2YhPn
+         dnMgZYiegIg47UxMUYpuiJg1k471sgIG8ZyhdL98dhTizzpUcx9b0AGG6anNzPaOTL2o
+         lwu9vErlGRR8vkT5yn2J5w2D/GftrS45HVxa134qI7dxXFlAxEwkWeJ7+X3+SeUp6fot
+         q8GQ==
+X-Gm-Message-State: AOJu0Yw0naxhrj72IfhkeIY2mQdRvMFV7c9jFUHwhioCoDXzE9V9YGZd
+	9rUZ/Gu0bnc1ZVuTzPxGu0i5U2cXmDLW9mZHVin4nR7bVmp2lzr11NDEp8S93ywIDvrPhbMXvA/
+	BQAjAvbFsVCRU3qYTJXd1fotJ/e5Lzfqp
+X-Google-Smtp-Source: AGHT+IE3DmCAqry5avzIZShe5gudtGmNBU2Lu4B9+1efLdmgMpyG5pmMn/g1f9KngsYVPEgyUxTktETd+BFzvrvR2Ho=
+X-Received: by 2002:a17:90a:4bce:b0:2c8:893:2c1b with SMTP id
+ 98e67ed59e1d1-2c8581e7053mr4501192a91.21.1719238127876; Mon, 24 Jun 2024
+ 07:08:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] ALSA: compress_offload: introduce passthrough
- operation mode
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- Shengjiu Wang <shengjiu.wang@gmail.com>,
- Nicolas Dufresne <nicolas@ndufresne.ca>,
- =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Vinod Koul <vkoul@kernel.org>
-References: <20240621164915.410946-1-perex@perex.cz>
- <878qyupjfn.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Jaroslav Kysela <perex@perex.cz>
-Autocrypt: addr=perex@perex.cz; keydata=
- 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
-In-Reply-To: <878qyupjfn.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Aivaz <reichaivaz@gmail.com>
+Date: Mon, 24 Jun 2024 14:08:33 +0500
+Message-ID: <CAGRy+7B8XNXNzFsb762e8d-qP+Uy5SGE8RaEm9Amm-dca-Z7hw@mail.gmail.com>
+Subject: ALSA: hda/realtek: Fix mute led of HP Laptop 15-gw0xxx
+To: tiwai@suse.com
+Cc: linux-sound@vger.kernel.org, kailang@realtek.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 24. 06. 24 15:19, Takashi Iwai wrote:
-> On Fri, 21 Jun 2024 18:49:15 +0200,
-> Jaroslav Kysela wrote:
->>   /**
->>    * struct snd_compr_runtime: runtime stream description
->>    * @state: stream state
->> @@ -54,6 +70,11 @@ struct snd_compr_runtime {
->>   	dma_addr_t dma_addr;
->>   	size_t dma_bytes;
->>   	struct snd_dma_buffer *dma_buffer_p;
->> +
->> +	u32 active_tasks;
->> +	u32 total_tasks;
->> +	u64 task_seqno;
->> +	struct list_head tasks;
-> 
-> Those new fields deserve for some more comments (at least mentioning
-> that those are for passthrough operations).
+This HP Laptop uses ALC236 codec with COEF 0x07
+controlling the mute LED. Enable existing quirk for this device.
 
-I've tried to resolve all comments in v4.
+Signed-off-by: Aivaz Latypov <reichaivaz@gmail.com>
+---
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-			Thank you for your review,
-						Jaroslav
-
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index f4454abadc8d..51225c5770ea 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10067,6 +10067,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+  SND_PCI_QUIRK(0x103c, 0x8786, "HP OMEN 15", ALC285_FIXUP_HP_MUTE_LED),
+  SND_PCI_QUIRK(0x103c, 0x8787, "HP OMEN 15", ALC285_FIXUP_HP_MUTE_LED),
+  SND_PCI_QUIRK(0x103c, 0x8788, "HP OMEN 15", ALC285_FIXUP_HP_MUTE_LED),
++ SND_PCI_QUIRK(0x103c, 0x87d3, "HP Laptop 15-gw0xxx",
+ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+  SND_PCI_QUIRK(0x103c, 0x87b7, "HP Laptop 14-fq0xxx",
+ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+  SND_PCI_QUIRK(0x103c, 0x87c8, "HP", ALC287_FIXUP_HP_GPIO_LED),
+  SND_PCI_QUIRK(0x103c, 0x87e5, "HP ProBook 440 G8 Notebook PC",
+ALC236_FIXUP_HP_GPIO_LED),
 -- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
-
+2.45.2
