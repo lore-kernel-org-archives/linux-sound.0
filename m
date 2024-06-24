@@ -1,117 +1,111 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C50B820330
-	for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 06:13:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99FDC17BB6;
+	Mon, 24 Jun 2024 06:39:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719209584; cv=none; b=k7JQIn+/r3+2hXBO7Y32GnajQtYFkpoZ5BRLFP8fyshVUDX6aXrtlUdYAK0RVwfK3uQqgdEwCb8GUXeeeFGMiZjKDXGUdn/47hLzn37PL2Hbm1plyMC4F++s6IGzqEp1xMIobTG3lIugn6y5x72jApc4bXPF010MBH5G2gj9p88=
+	t=1719211154; cv=none; b=MZ82xCP4/ZPPr2JT8apkvbUfmDwBHwfF2wYgALs+m47U+dLAvdDHC0iLDzj7UxxAGrn5QgA/vrWnwjQQeMnBWQVL0P15AXqwXWzXnh411zdhku/dyCMCOl87E46cg++UghFGwlapR3QEnPppKKxMSaNcEN/0vhgvQ+K/DglOAp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719209584; c=relaxed/simple;
-	bh=aVHsVqa3Mw1s5TW5A0aHgn6rbR2d5USDh5nbiQUnUzI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=u5Lw4CNM6w3FZavD5NPrlK1GZmnifILUbRJrh1wXZVUl2YzJP7K5AqLalgnlY+W3sczuxLCNY5xYeSQn5HsB/t/M/kFi0xC/bfvRWTZQ60CwChULZD8yuGnbIf2nPHVJYu6Z+G5GtJi8gdLk4r1BEcgtgVha67FTYIXMn+liEbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=fNTGICP7; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1719211154; c=relaxed/simple;
+	bh=8qQNy0cFi+vB5Mfp2npnGPe64P5YepXPolFgKOS6juw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=iqDFfLV+1he0f4Xhhh3vw6m40jyRZ+5iGfaEiBJwJsEpMKwXNK/xXK6QN/MIL6fwrXkjBOJfUY/M1WV+rW3AGGD3dTA4R4uXsPIp0AwxjqwEYPhpG95cunrQrLoC1CjF7sPNlpc9IxZjKQNeN73HPWSDZPo3t2g1Mk2emfK6JOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Y2dSdUb7; arc=none smtp.client-ip=217.70.183.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="fNTGICP7"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-70671ecd334so899574b3a.0
-        for <linux-sound@vger.kernel.org>; Sun, 23 Jun 2024 23:13:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1719209582; x=1719814382; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4N2wMnACbjcCz14LY0USvKoVXrjwARwQKVYyLGYLpXg=;
-        b=fNTGICP7L4PPagNQGZZYQ93XSI5ql0aHiM6yphO2C3o/0uIywNvjd/tyBJMRtWcPL4
-         5mkafq7FG7jWM9y1LLOekaWfg8JlOD1gOL9HoiqLa9KFnGM4ULhXfpJIEvy3CJeEsXK0
-         vEgnV6kWPetAd4uOnEACDPSdXOnP+mZHMds9U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719209582; x=1719814382;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4N2wMnACbjcCz14LY0USvKoVXrjwARwQKVYyLGYLpXg=;
-        b=BnKQ5pLFHIT9mfdDtz3t1WRu1/iOC3BMzy6m/dYjr8e4v1bAOArcpTVaCalnezEiNa
-         XmE1+M8YxGr8GbYFQWu7FihIgT91o/iIksB+DJY3ap1Cnig/YiAtm9PBcVCxXgz9Gk1i
-         vyXu8z65U1yyeF1CClFAMCE5mpppbpV1DUB9SQ3P7YmV0bYauICWTZ/QJtTjapG6lU0C
-         1HW+ZnaNO6Kq/0l4EEIARrykSJh716IT0bKMqTj5NV0c6zNc4eL5uKecmadMH3wZZs3h
-         Ve4+CubPvm8nP9qYhHSDDfErBrA9vMauN0SZEfGkUblBMHGefjV/fpY0fNECm7jBaWpV
-         2edw==
-X-Forwarded-Encrypted: i=1; AJvYcCWvkw/iaWKDSccsnK9A+Cw2XNazZrCDTDnlVg/mpjf53LnW/x4a6CPU9/6JV1ecllqjLsNMZD4/U5t/bUnDVAZVXQeoxzBeVx90EA4=
-X-Gm-Message-State: AOJu0Yy5X3FqyoUpSG1D/tGj8IL4ZBs8CItTR5ge+nYL3yC+zahNwxc0
-	ZVfOqb0KZJTmSQcKuVgKpsLGSnACA1bSdHh5q4DmXV2mrAHUTYQq5fD6OlE8Kw==
-X-Google-Smtp-Source: AGHT+IH+UlRR3GoF9E4C1DBHIOVlzoOCBHgWIsZ6epuQKT65Zpk0Nz9eUaoHFwng5u7QIXrd2vEFwg==
-X-Received: by 2002:a05:6a20:c120:b0:1b6:cd8e:4a5 with SMTP id adf61e73a8af0-1bcf4479e51mr4136921637.19.1719209581937;
-        Sun, 23 Jun 2024 23:13:01 -0700 (PDT)
-Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:62a6:1858:61eb:37a2])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f9eb5e5629sm54687965ad.220.2024.06.23.23.13.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Jun 2024 23:13:01 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Mark Brown <broonie@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Chen-Yu Tsai <wenst@chromium.org>,
-	Trevor Wu <trevor.wu@mediatek.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mediatek@lists.infradead.org
-Subject: [PATCH v2] ASoC: mediatek: mt8195: Add platform entry for ETDM1_OUT_BE dai link
-Date: Mon, 24 Jun 2024 14:12:56 +0800
-Message-ID: <20240624061257.3115467-1-wenst@chromium.org>
-X-Mailer: git-send-email 2.45.2.741.gdbec12cfda-goog
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Y2dSdUb7"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A1221C0006;
+	Mon, 24 Jun 2024 06:39:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1719211148;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8qQNy0cFi+vB5Mfp2npnGPe64P5YepXPolFgKOS6juw=;
+	b=Y2dSdUb7L45w0zOH/hMoZ0jqJMRt2RztXSF8cdHFJOQrvsC2d2TrOTWPfcBntkFhwN7H6/
+	hRjUcA+3RSAJ94uif8HqhAvbCWQJYiR+SVkX6EFFrYPEr/FW5wId9XKqYNzTH1dx6WDGG0
+	EpHqQyHHRgNy3VsxGvF0BTOq9xL4A+TxAGxtKMeEP3applLc9/8N0v4h797ONHvRbmXNoB
+	xidj39GDhF0L9I2O/NKLPWLoLxYKqnfunm/ZzhUtmDxgyWbMCW+SkvuckBwxpEg80TiaAu
+	EQMC92N1cUsplO1EO00oEc1qOUwmVwAOuZV611xRbhs1I+WiDGN7XvJsNyxmEw==
+Date: Mon, 24 Jun 2024 08:39:00 +0200
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, "J.M.B.
+ Downing" <jonathan.downing@nautel.com>, Vladimir Zapolskiy <vz@mleia.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Russell King <linux@armlinux.org.uk>, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Andi Shyti
+ <andi.shyti@kernel.org>, Richard Weinberger <richard@nod.at>, Vignesh
+ Raghavendra <vigneshr@ti.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
+ Iwai <tiwai@suse.com>, Arnd Bergmann <arnd@arndb.de>, Yangtao Li
+ <frank.li@vivo.com>, Li Zetao <lizetao1@huawei.com>, Chancel Liu
+ <chancel.liu@nxp.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org,
+ linux-sound@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux-mtd@lists.infradead.org, Markus Elfring
+ <Markus.Elfring@web.de>
+Subject: Re: [Patch v4 08/10] mtd: rawnand: lpx32xx: Request DMA channels
+ using DT entries
+Message-ID: <20240624083900.14e38d82@xps-13>
+In-Reply-To: <CAG+cZ06GSxPsTzRLXSk23qWXMkp-qxYq7Z9av5-2cPHSJmVAHg@mail.gmail.com>
+References: <20240620175657.358273-1-piotr.wojtaszczyk@timesys.com>
+	<20240620175657.358273-9-piotr.wojtaszczyk@timesys.com>
+	<20240621103019.783271f4@xps-13>
+	<CAG+cZ06GSxPsTzRLXSk23qWXMkp-qxYq7Z9av5-2cPHSJmVAHg@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: miquel.raynal@bootlin.com
 
-Commit e70b8dd26711 ("ASoC: mediatek: mt8195: Remove afe-dai component
-and rework codec link") removed the codec entry for the ETDM1_OUT_BE
-dai link entirely instead of replacing it with COMP_EMPTY(). This worked
-by accident as the remaining COMP_EMPTY() platform entry became the codec
-entry, and the platform entry became completely empty, effectively the
-same as COMP_DUMMY() since snd_soc_fill_dummy_dai() doesn't do anything
-for platform entries.
+Hi Piotr,
 
-This causes a KASAN out-of-bounds warning in mtk_soundcard_common_probe()
-in sound/soc/mediatek/common/mtk-soundcard-driver.c:
+piotr.wojtaszczyk@timesys.com wrote on Fri, 21 Jun 2024 14:44:21 +0200:
 
-	for_each_card_prelinks(card, i, dai_link) {
-		if (adsp_node && !strncmp(dai_link->name, "AFE_SOF", strlen("AFE_SOF")))
-			dai_link->platforms->of_node = adsp_node;
-		else if (!dai_link->platforms->name && !dai_link->platforms->of_node)
-			dai_link->platforms->of_node = platform_node;
-	}
+> On Fri, Jun 21, 2024 at 10:30=E2=80=AFAM Miquel Raynal
+> <miquel.raynal@bootlin.com> wrote:
+> >
+> > Hi Piotr,
+> >
+> > piotr.wojtaszczyk@timesys.com wrote on Thu, 20 Jun 2024 19:56:39 +0200:
+> > =20
+> > > Move away from pl08x platform data towards device tree.
+> > >
+> > > Signed-off-by: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com> =20
+> >
+> > I don't see any change regarding the NAND controller node in the device
+> > tree, is there any dependency with other patches from the same patchset
+> > or may I apply this directly to nand/next?
+> >
+> > Thanks,
+> > Miqu=C3=A8l =20
+>=20
+> Yes, this patch depends on "[v4,04/10] ARM: dts: lpc32xx: Add missing
+> dma and i2s properties"
+> which will be splitted into two or more separate patches per request
+> in the comments.
+> I'd like to keep driver changes and corresponding changes in DTS in
+> the same patch
+> but I've made a separate patch for DTS per request from v2 of the patch s=
+et.
 
-where the code expects the platforms array to have space for at least one entry.
+These changes won't be applied to the same tries so they must be split.
 
-Add an COMP_EMPTY() entry so that dai_link->platforms has space.
+So I will not take this patch for the next merge window and instead
+will take it for the one after, if the DT patches have been applied.
+Please ping me at -rc1 again if the DT patches have gone through.
 
-Fixes: e70b8dd26711 ("ASoC: mediatek: mt8195: Remove afe-dai component and rework codec link")
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-
----
-Changes since v1:
-- Reword commit message with more details on how the original commit
-  got things wrong, and what this commit adds and fixes
----
- sound/soc/mediatek/mt8195/mt8195-mt6359.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/sound/soc/mediatek/mt8195/mt8195-mt6359.c b/sound/soc/mediatek/mt8195/mt8195-mt6359.c
-index ca8751190520..2832ef78eaed 100644
---- a/sound/soc/mediatek/mt8195/mt8195-mt6359.c
-+++ b/sound/soc/mediatek/mt8195/mt8195-mt6359.c
-@@ -827,6 +827,7 @@ SND_SOC_DAILINK_DEFS(ETDM2_IN_BE,
- 
- SND_SOC_DAILINK_DEFS(ETDM1_OUT_BE,
- 		     DAILINK_COMP_ARRAY(COMP_CPU("ETDM1_OUT")),
-+		     DAILINK_COMP_ARRAY(COMP_EMPTY()),
- 		     DAILINK_COMP_ARRAY(COMP_EMPTY()));
- 
- SND_SOC_DAILINK_DEFS(ETDM2_OUT_BE,
--- 
-2.45.2.741.gdbec12cfda-goog
-
+Thanks,
+Miqu=C3=A8l
