@@ -1,202 +1,326 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3138313B58C
-	for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 13:19:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90172FC08;
+	Mon, 24 Jun 2024 13:30:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719235144; cv=none; b=rzUS7NIyOKcYoXn+me+xcpqoe1OStX/N/cHmww7zOFKjeeY9xyzy9EYnUSvb5fdMCpIUZQrXckbZaTJ51Ww55B46Rg9bi17i8lt9lRwx/MC1J0kWWEXTdhFRA7MuqUIMKwHQwb7QhGo2c/WRCqIn/KZ9xzw+T2G754mfCwiUAOo=
+	t=1719235809; cv=none; b=EBaPLGTJ8K6Hp0stWDY9fVLGmom5o8Lj+l/JHkIQBDIgYyoM1i4GAc0oZAo4t02QTOEhmYBfZAqTbDOGydRDTXYgTpUoZDKI9v9K/V7mFtcu3qjkEW9pyuP0BwVREPx8deu1W6HxEL5FeiXwDJLUc+7djq06dCONMLzfYBJ2Ihc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719235144; c=relaxed/simple;
-	bh=/lg4w/u30/y0cW3cBU/n6NLe6D90qmz66nHz3Vk0kes=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VDwPiXte+M9olvoycaJ9Lj8figsUT9CakkXlCq8Wi820dIVOBB6s61m1oEsb3Z2S+wwCoM4kqT1Uz1eW8GXgSL8YBLhyQR3kQ56RvjTQcaKceINgCyMq03ivYJIZerq3ec5obQ5qEbqOc4C5K2MpNBdkwBszYYfszYne3lC1c/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uSQrL2Ll; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2mvXowms; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hPPBmTl5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UFCi9pBj; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1719235809; c=relaxed/simple;
+	bh=4sv378fujeglQ3cZDizL0q0nX5zw8mKOUFqS0Dw6mp0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PN+F2Sow7GP3gekDOmR3DXCFHnmG9FVA5dMmrdYiMtrV4jPJW65RBZs96WQMxJB72/QsU82nTwCkP7W7wxWbuXRy+b05kqSdX6M6w79lG5gFIMvzmox7zDsrSWZBXqGfqvuub12bC/Uo243FIOq96DCFMr8OCQ3cLYRaTb8EL7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K4xZmgHp; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uSQrL2Ll";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2mvXowms";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hPPBmTl5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UFCi9pBj"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7E1EA219C5;
-	Mon, 24 Jun 2024 13:18:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719235137; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8IfgDqNK+VPoILXST+Rj/eqSWuPZs3BzIJgRcMXSlIQ=;
-	b=uSQrL2Ll1rFQ3rtCVLUCp+eSeXdg/JfMUGC6j5cQBRdH1za5MzrLObm0R4q/j2opaPn3xa
-	RU8hDmZeN6XOoLaQ8s9AVkRqTR22LoI2BvgH8+SmXGT2dVKSz9YfJY1bnherqSou77uqyR
-	RTj1aHLhUw4hmYim8c1fPeUAfYtSMfY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719235137;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8IfgDqNK+VPoILXST+Rj/eqSWuPZs3BzIJgRcMXSlIQ=;
-	b=2mvXowmsiZzHAURq8LxQNbHh5RQNaG5f2r9EznkaovqNoHf7HkJ9dpcu6iZ8MhSV2vGzR8
-	1XfI3GREnSCPeLDA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=hPPBmTl5;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=UFCi9pBj
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719235136; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8IfgDqNK+VPoILXST+Rj/eqSWuPZs3BzIJgRcMXSlIQ=;
-	b=hPPBmTl5SFI+2oViEW9e0y6/+bW9aCTqd6vm79rYqX6XpYnjEZsneaq8AXcAL/V+rcsfE+
-	Z/IDS8ol65C2VEQqinF5s1I2UVkfi06tReCuHp2uya394KdC44pL5ECObbyi1HEXiY33Oh
-	g6GGPLp8KaxSXNbD8Y6sndPzgUTx7xM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719235136;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8IfgDqNK+VPoILXST+Rj/eqSWuPZs3BzIJgRcMXSlIQ=;
-	b=UFCi9pBj4YX2p2LwQsmzp2h/7h4DcltiOuABxXnK6BaJIbczvtptCQsILzH7I3NHPHWRVx
-	ol3OhWc0hTGsx3Bw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3F24113AA4;
-	Mon, 24 Jun 2024 13:18:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /jA3DkByeWZFcgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 24 Jun 2024 13:18:56 +0000
-Date: Mon, 24 Jun 2024 15:19:24 +0200
-Message-ID: <878qyupjfn.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Jaroslav Kysela <perex@perex.cz>
-Cc:<linux-sound@vger.kernel.org>,	Takashi Iwai <tiwai@suse.de>,	Mark Brown
- <broonie@kernel.org>,	Shengjiu Wang <shengjiu.wang@gmail.com>,	Nicolas
- Dufresne <nicolas@ndufresne.ca>,	Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
- <amadeuszx.slawinski@linux.intel.com>,	Pierre-Louis Bossart
- <pierre-louis.bossart@linux.intel.com>,	Vinod Koul <vkoul@kernel.org>
-Subject: Re: [PATCH v3] ALSA: compress_offload: introduce passthrough operation mode
-In-Reply-To: <20240621164915.410946-1-perex@perex.cz>
-References: <20240621164915.410946-1-perex@perex.cz>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K4xZmgHp"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7066c9741fbso1756843b3a.2;
+        Mon, 24 Jun 2024 06:30:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719235807; x=1719840607; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oXltrUw5MuEEzoCZGOtO9g4puazQVQqF/y+GWYY9aCI=;
+        b=K4xZmgHpwazKNXgybR3NDhcdVM6qkTuScL4D33Fhk6nWefsR5Ji09Ekv8hmcxglr/l
+         axecfbvyT9hEXqcREEIpclUPyCF4cpdykTpJSV/jaJgXcO3R/VHHolKz7WLudGFi8516
+         PeIbRUCsxwwfahhZR2lddZMbk75O0T5Gw1hrm/PArm14h7t43yppbHumvY+avcISc3ep
+         XKN6Kt3VPjEPbtMDHmat+ytVcGVySQvll4X7NqZpHgjOPxRsJnqvZ2aQcErgt0mBYIt9
+         /quFao/qRQCwEPaYZjmw8wPjb15fGIEw3wELlnDKhR7rG1iplG5jeUdDmnNt2McNQiSk
+         JUVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719235807; x=1719840607;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oXltrUw5MuEEzoCZGOtO9g4puazQVQqF/y+GWYY9aCI=;
+        b=rWS1Lh3P7w4OMoBY7Vk4f1RSM7d8wla9+qmTkFi335iqs1ING6xFDXRN8gWFDmOLsP
+         1ogx/H9A75jpnNvgXr/6IbB/v6yDvCyZ5x/vmrRztkv43opQZiNYDv9akf4oa/XZGHLF
+         aEJ01PMXg1YPfdQs06wzXom7TXoTmlrFvlkQR5SiunH/66C/Ruwu+eTxjy0u4fhQattS
+         d4DLVqYfFX1lexgIQpPjLN6Fdrh1FdnL3YqHz6pwRwUDPLl1uwH7zCu0xwQGCek/VgEp
+         9iuWOoGI0teW1p45MTuKRcoq0Up3W5HWeaKjHPbrKGKAunNTE9vHv3FfQd4K6gWlptG8
+         y/Rw==
+X-Forwarded-Encrypted: i=1; AJvYcCWzb2Lum7+E5nvnpmszkZMSBAj/8qKjAqAVkBdUoKeXR3qpF/Ia71bhc259iT38O7K+NXnFgU2sQxCiqa+YgNCbb6cRLBdsYT1eLEisWK5ufP3cdFD+Go4IXV3TfZJgtu3fSBpOhBlJnALBTtplSJKP2jnLSG+bPvfEaIqhmQ/Gkt7E45DI
+X-Gm-Message-State: AOJu0YwsPQFms3bW0rl9YMMJWfEf5IjlH7IgDL8Uk+WdGH5TfnGqVV5k
+	e/RrMwaL2PGg5RAvUoLs1dWByfxUFUJ6k0H1vYF0QbrQ2nCj0ic7
+X-Google-Smtp-Source: AGHT+IE61dZOwYV8byHLse52VH790boyFMhcggAcxjd9FQDnZMeJLlzKLA12J88m2hbL/cwb8WUOhw==
+X-Received: by 2002:a05:6a00:1715:b0:705:9526:3c0d with SMTP id d2e1a72fcca58-706745bed3emr5452507b3a.12.1719235806683;
+        Mon, 24 Jun 2024 06:30:06 -0700 (PDT)
+Received: from fedora.one.one.one.one ([2405:201:6013:c0b2:ea4b:30e0:4e3a:ab56])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7066c7fb9casm4123931b3a.94.2024.06.24.06.30.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Jun 2024 06:30:06 -0700 (PDT)
+From: Animesh Agarwal <animeshagarwal28@gmail.com>
+To: 
+Cc: animeshagarwal28@gmail.com,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] ASoC: dt-bindings: realtek,rt5659: Convert to dtschema
+Date: Mon, 24 Jun 2024 18:59:44 +0530
+Message-ID: <20240624132949.124228-1-animeshagarwal28@gmail.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 7E1EA219C5
-X-Spam-Score: -2.01
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[vger.kernel.org,suse.de,kernel.org,gmail.com,ndufresne.ca,linux.intel.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	TAGGED_RCPT(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 21 Jun 2024 18:49:15 +0200,
-Jaroslav Kysela wrote:
->  /**
->   * struct snd_compr_runtime: runtime stream description
->   * @state: stream state
-> @@ -54,6 +70,11 @@ struct snd_compr_runtime {
->  	dma_addr_t dma_addr;
->  	size_t dma_bytes;
->  	struct snd_dma_buffer *dma_buffer_p;
-> +
-> +	u32 active_tasks;
-> +	u32 total_tasks;
-> +	u64 task_seqno;
-> +	struct list_head tasks;
+Convert the RT5659/RT5658 audio CODEC bindings to DT schema.
 
-Those new fields deserve for some more comments (at least mentioning
-that those are for passthrough operations).
+Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
+Cc: Daniel Baluta <daniel.baluta@nxp.com>
 
-> --- a/sound/core/Kconfig
-> +++ b/sound/core/Kconfig
-> @@ -59,6 +59,10 @@ config SND_CORE_TEST
->  config SND_COMPRESS_OFFLOAD
->  	tristate
->  
-> +config SND_COMPRESS_PASSTHROUGH
-> +	select DMA_BUF
-> +	tristate
+---
+Changes in v2:
+  - Dropped redundant descriptions from reg, interrupts and clocks.
+  - Added default to gpio properties.
+  - Dropped sound-name-prefix: true
+---
+ .../bindings/sound/realtek,rt5659.yaml        | 129 ++++++++++++++++++
+ .../devicetree/bindings/sound/rt5659.txt      |  89 ------------
+ 2 files changed, 129 insertions(+), 89 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/realtek,rt5659.yaml
+ delete mode 100644 Documentation/devicetree/bindings/sound/rt5659.txt
 
-I suppose this is a boolean?
+diff --git a/Documentation/devicetree/bindings/sound/realtek,rt5659.yaml b/Documentation/devicetree/bindings/sound/realtek,rt5659.yaml
+new file mode 100644
+index 000000000000..1100ffd9a7c0
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/realtek,rt5659.yaml
+@@ -0,0 +1,129 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/realtek,rt5659.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: RT5659/RT5658 audio CODEC
++
++maintainers:
++  - Animesh Agarwal <animeshagarwal28@gmail.com>
++
++description: |
++  This device supports I2C only.
++
++  Pins on the device (for linking into audio routes) for RT5659/RT5658:
++    * DMIC L1
++    * DMIC R1
++    * DMIC L2
++    * DMIC R2
++    * IN1P
++    * IN1N
++    * IN2P
++    * IN2N
++    * IN3P
++    * IN3N
++    * IN4P
++    * IN4N
++    * HPOL
++    * HPOR
++    * SPOL
++    * SPOR
++    * LOUTL
++    * LOUTR
++    * MONOOUT
++    * PDML
++    * PDMR
++    * SPDIF
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    enum:
++      - realtek,rt5659
++      - realtek,rt5658
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    const: mclk
++
++  realtek,dmic1-data-pin:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum:
++      - 0 # dmic1 is not used
++      - 1 # using IN2N pin as dmic1 data pin
++      - 2 # using GPIO5 pin as dmic1 data pin
++      - 3 # using GPIO9 pin as dmic1 data pin
++      - 4 # using GPIO11 pin as dmic1 data pin
++    description: Specify which pin to be used as DMIC1 data pin.
++    default: 0
++
++  realtek,dmic2-data-pin:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum:
++      - 0 # dmic2 is not used
++      - 1 # using IN2P pin as dmic2 data pin
++      - 2 # using GPIO6 pin as dmic2 data pin
++      - 3 # using GPIO10 pin as dmic2 data pin
++      - 4 # using GPIO12 pin as dmic2 data pin
++    description: Specify which pin to be used as DMIC2 data pin.
++    default: 0
++
++  realtek,jd-src:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum:
++      - 0 # No JD is used
++      - 1 # using JD3 as JD source
++      - 2 # JD source for Intel HDA header
++    description: Specify which JD source be used.
++    default: 0
++
++  realtek,ldo1-en-gpios:
++    maxItems: 1
++    description: CODEC's LDO1_EN pin.
++
++  realtek,reset-gpios:
++    maxItems: 1
++    description: CODEC's RESET pin.
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++  port:
++    $ref: audio-graph-port.yaml#
++    unevaluatedProperties: false
++
++required:
++  - compatible
++  - reg
++  - interrupts
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        codec@1b {
++            compatible = "realtek,rt5659";
++            reg = <0x1b>;
++            interrupt-parent = <&gpio>;
++            interrupts = <3 IRQ_TYPE_LEVEL_HIGH>;
++            realtek,ldo1-en-gpios = <&gpio 3 GPIO_ACTIVE_HIGH>;
++        };
++    };
+diff --git a/Documentation/devicetree/bindings/sound/rt5659.txt b/Documentation/devicetree/bindings/sound/rt5659.txt
+deleted file mode 100644
+index 8f3f62c0226a..000000000000
+--- a/Documentation/devicetree/bindings/sound/rt5659.txt
++++ /dev/null
+@@ -1,89 +0,0 @@
+-RT5659/RT5658 audio CODEC
+-
+-This device supports I2C only.
+-
+-Required properties:
+-
+-- compatible : One of "realtek,rt5659" or "realtek,rt5658".
+-
+-- reg : The I2C address of the device.
+-
+-- interrupts : The CODEC's interrupt output.
+-
+-Optional properties:
+-
+-- clocks: The phandle of the master clock to the CODEC
+-- clock-names: Should be "mclk"
+-
+-- realtek,in1-differential
+-- realtek,in3-differential
+-- realtek,in4-differential
+-  Boolean. Indicate MIC1/3/4 input are differential, rather than single-ended.
+-
+-- realtek,dmic1-data-pin
+-  0: dmic1 is not used
+-  1: using IN2N pin as dmic1 data pin
+-  2: using GPIO5 pin as dmic1 data pin
+-  3: using GPIO9 pin as dmic1 data pin
+-  4: using GPIO11 pin as dmic1 data pin
+-
+-- realtek,dmic2-data-pin
+-  0: dmic2 is not used
+-  1: using IN2P pin as dmic2 data pin
+-  2: using GPIO6 pin as dmic2 data pin
+-  3: using GPIO10 pin as dmic2 data pin
+-  4: using GPIO12 pin as dmic2 data pin
+-
+-- realtek,jd-src
+-  0: No JD is used
+-  1: using JD3 as JD source
+-  2: JD source for Intel HDA header
+-
+-- realtek,ldo1-en-gpios : The GPIO that controls the CODEC's LDO1_EN pin.
+-- realtek,reset-gpios : The GPIO that controls the CODEC's RESET pin.
+-
+-- sound-name-prefix: Please refer to dai-common.yaml
+-
+-- ports: A Codec may have a single or multiple I2S interfaces. These
+-  interfaces on Codec side can be described under 'ports' or 'port'.
+-  When the SoC or host device is connected to multiple interfaces of
+-  the Codec, the connectivity can be described using 'ports' property.
+-  If a single interface is used, then 'port' can be used. The usage
+-  depends on the platform or board design.
+-  Please refer to Documentation/devicetree/bindings/graph.txt
+-
+-Pins on the device (for linking into audio routes) for RT5659/RT5658:
+-
+-  * DMIC L1
+-  * DMIC R1
+-  * DMIC L2
+-  * DMIC R2
+-  * IN1P
+-  * IN1N
+-  * IN2P
+-  * IN2N
+-  * IN3P
+-  * IN3N
+-  * IN4P
+-  * IN4N
+-  * HPOL
+-  * HPOR
+-  * SPOL
+-  * SPOR
+-  * LOUTL
+-  * LOUTR
+-  * MONOOUT
+-  * PDML
+-  * PDMR
+-  * SPDIF
+-
+-Example:
+-
+-rt5659 {
+-	compatible = "realtek,rt5659";
+-	reg = <0x1b>;
+-	interrupt-parent = <&gpio>;
+-	interrupts = <TEGRA_GPIO(W, 3) IRQ_TYPE_LEVEL_HIGH>;
+-	realtek,ldo1-en-gpios =
+-		<&gpio TEGRA_GPIO(V, 3) GPIO_ACTIVE_HIGH>;
+-};
+-- 
+2.45.2
 
-> --- a/sound/core/compress_offload.c
-> +++ b/sound/core/compress_offload.c
-(snip)
-> @@ -85,6 +92,8 @@ static int snd_compr_open(struct inode *inode, struct file *f)
->  		dirn = SND_COMPRESS_PLAYBACK;
->  	else if ((f->f_flags & O_ACCMODE) == O_RDONLY)
->  		dirn = SND_COMPRESS_CAPTURE;
-> +	else if ((f->f_flags & O_ACCMODE) == O_RDWR)
-> +		dirn = SND_COMPRESS_PASSTHROUGH;
->  	else
->  		return -EINVAL;
-
-Shouldn't it be safer to give an error for a RW access unless the
-driver supports the passthrough mode?
-
-> @@ -939,6 +988,262 @@ static int snd_compr_partial_drain(struct snd_compr_stream *stream)
->  	return snd_compress_wait_for_drain(stream);
->  }
->  
-> +#if IS_ENABLED(CONFIG_SND_COMPRESS_PASSTHROUGH)
-> +
-> +static struct snd_compr_task_runtime *
-> +		snd_compr_find_task(struct snd_compr_stream *stream, __u64 seqno)
-
-Please fix indentation.
-
-> +void snd_compr_task_finished(struct snd_compr_stream *stream,
-> +			    struct snd_compr_task_runtime *task)
-> +{
-> +	guard(mutex)(&stream->device->lock);
-> +	if (!snd_BUG_ON(stream->runtime->active_tasks == 0))
-> +		stream->runtime->active_tasks--;
-> +	task->state = SND_COMPRESS_TASK_STATE_FINISHED;
-> +	wake_up(&stream->runtime->sleep);
-> +}
-> +EXPORT_SYMBOL(snd_compr_task_finished);
-
-Let's use EXPORT_SYMBOL_GPL() for a new function.
-
-
-thanks,
-
-Takashi
