@@ -1,81 +1,165 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 142C613C809
-	for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 12:37:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DCDB1386DA;
+	Mon, 24 Jun 2024 12:38:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719232662; cv=none; b=DI8PIPjKN5V2JE//KVU42M1euGH7lcePjISyifFpZX9bjGkljqufHjpoHVbIReJRbABVglQn2T4Xzfm/XMXiAE6dUpPvpCYzXsLN433mIqBzVQqSA6u4K6FRlYPeJF24J+ON8Js+ur5wtmSqCpf9g1yO8jH/bGb6Y13KLYxTANI=
+	t=1719232728; cv=none; b=BadduWOi0XKVMbI8KFBpu/k/+qqXvlCb0iMFLXasO/PJFhX9xLVz7e2GrxBnfVcVFzajojmt2OhZFNKVeMpDMG1Tfw+6kxi+hFq1DhMm+rAdZ5wauBqg1zKayQjfC5ksHW0hZNGNEnsAGFUFhYAT65DSLGqBeFmHcjm8Nse9eSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719232662; c=relaxed/simple;
-	bh=5VPx4voAM1j1D9PzeWsrAkqElvUIEYBdZlBVSM6s6LY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CiqezhZMmtPJrlp39G94eshBn7/Ye5PRqgN9KAvYwBBRbFgP9KXpKE28pSrnhqecGDCWs7YxN1pRfXTFaMfNIQbUurUJnhk3MHCDMpgIduWVCom3YGtSZhLZ3kM/KyYfjkrjxcnpwbLawQn/6FIOj8JDj86S0nSC5Peb15cjsxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JR/w7tM5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719232728; c=relaxed/simple;
+	bh=5f271pDr1ahM5SqwJ/FdzIvWr5YTy8DEC+ubl041pkA=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OfZ9jeqctqv7YAVbwiydU02ZH9Pa+R1JWoBIN4rSQdq95bT2btb/aMNuYsFiPbvToFEy6J7YyW4pjRe0MU/l+IFkcBrI1RawQjiNgdWcjkKKQgxBmHoTzyamxY6Plx4OkoDwcVcnFg/ld48/3gliuHNfW5CiJn5Net0hMabmdE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CcfiOsim; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=90Mqj0rn; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CcfiOsim; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=90Mqj0rn; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JR/w7tM5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22161C32781;
-	Mon, 24 Jun 2024 12:37:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719232661;
-	bh=5VPx4voAM1j1D9PzeWsrAkqElvUIEYBdZlBVSM6s6LY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JR/w7tM5pfqe0FfoumNp+iJVobXORI3HI2C2LWn3w1IMh73DH21CX6Tl86TmYB0MF
-	 O/c0pfVZjdJXWoJAzgrGQX+YUqAFgEK18RtCewVIgwRY4Grs9qg7DU5XEohFeeliww
-	 KBPA6n6p06tfkx+2Npyz0I0fgAvUzcC1Bb2j6/ItqfXQRr4sOh+pC3w3yHFRUuLJQW
-	 jRGs0fabQywc5l8bcvSGmwLVxNg0LEuwr4UDNcbDHwunhlLaViV2XBLUeKlIA33qpL
-	 N+CUWK3JwsQ21u4gD5ZwNmp37sps/tEdeYVkYATRdyqiGHmzV+xiqOHJWADmVUpAAd
-	 um4IYbvMuLBGw==
-Date: Mon, 24 Jun 2024 13:37:37 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, tiwai@suse.de,
-	Brent Lu <brent.lu@intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH 2/4] ASoC: Intel: maxim-common: add max_98373_get_tx_mask
- function
-Message-ID: <f3b5caee-a27e-42f9-b541-4f6bf8e8d2f2@sirena.org.uk>
-References: <20240624121119.91552-1-pierre-louis.bossart@linux.intel.com>
- <20240624121119.91552-3-pierre-louis.bossart@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CcfiOsim";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="90Mqj0rn";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CcfiOsim";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="90Mqj0rn"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 444611F80B;
+	Mon, 24 Jun 2024 12:38:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1719232725; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XbSage3HyrEVwFLtd/Vvui2tvoWIUIjXv/F2zE7Q6fM=;
+	b=CcfiOsimvtVMem5AXBI8XchBHjKtHK/2Z31AG7GcElIeKJ+98O7RfCWzkCbg42vVf30QMH
+	BqVRuh2YmnXYgijwdR1GET3WvLAPSXpDvxE3I7Im4Y2tn+Knw/CljYQ6AAMcwpDFUaNU/a
+	1GwF1vu/185iDIVPKfqtIGRHbkxpzZ0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1719232725;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XbSage3HyrEVwFLtd/Vvui2tvoWIUIjXv/F2zE7Q6fM=;
+	b=90Mqj0rnCZbnLYmhZNvEDKpRJIvo15yJznxe+aLPbWoxEVOOkEFcaTqVJ792LZDZdWyek2
+	V/dXcDiHA9EWsoDA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1719232725; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XbSage3HyrEVwFLtd/Vvui2tvoWIUIjXv/F2zE7Q6fM=;
+	b=CcfiOsimvtVMem5AXBI8XchBHjKtHK/2Z31AG7GcElIeKJ+98O7RfCWzkCbg42vVf30QMH
+	BqVRuh2YmnXYgijwdR1GET3WvLAPSXpDvxE3I7Im4Y2tn+Knw/CljYQ6AAMcwpDFUaNU/a
+	1GwF1vu/185iDIVPKfqtIGRHbkxpzZ0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1719232725;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XbSage3HyrEVwFLtd/Vvui2tvoWIUIjXv/F2zE7Q6fM=;
+	b=90Mqj0rnCZbnLYmhZNvEDKpRJIvo15yJznxe+aLPbWoxEVOOkEFcaTqVJ792LZDZdWyek2
+	V/dXcDiHA9EWsoDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 03BD41384C;
+	Mon, 24 Jun 2024 12:38:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 3XVJO9RoeWasZAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 24 Jun 2024 12:38:44 +0000
+Date: Mon, 24 Jun 2024 14:39:12 +0200
+Message-ID: <87cyo6plan.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Shengjiu Wang <shengjiu.wang@gmail.com>
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>,
+	lars@metafoo.de,
+	perex@perex.cz,
+	tiwai@suse.com,
+	broonie@kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [RESEND PATCH] ALSA: dmaengine_pcm: terminate dmaengine before synchronize
+In-Reply-To: <CAA+D8APZ8-3NFceuQeTnEL-K4reUGGfrgyG63jyjydFA6o_4MA@mail.gmail.com>
+References: <1718851218-27803-1-git-send-email-shengjiu.wang@nxp.com>
+	<87frt82gj7.wl-tiwai@suse.de>
+	<CAA+D8APZ8-3NFceuQeTnEL-K4reUGGfrgyG63jyjydFA6o_4MA@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="0XbT4Ni5LjwX/prS"
-Content-Disposition: inline
-In-Reply-To: <20240624121119.91552-3-pierre-louis.bossart@linux.intel.com>
-X-Cookie: Allow 6 to 8 weeks for delivery.
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -1.80
+X-Spam-Level: 
+
+On Fri, 21 Jun 2024 04:21:19 +0200,
+Shengjiu Wang wrote:
+> 
+> On Thu, Jun 20, 2024 at 3:56 PM Takashi Iwai <tiwai@suse.de> wrote:
+> > But, this may need more rework, too; admittedly it imposes the
+> > unnecessary resume of the stream although it shall be stopped and
+> > closed immediately after that.  We may have some optimization in
+> > addition.
+> 
+> The suspended_state is not cleared that the resume may be called again
+> at the end of stream.
+
+Right, that's the known side effect of this approach.
+
+> Will you push the code?
+
+I'm rethinking of this again, and I'm inclined rather to take your
+patch for now.  The side-effect above would be much higher impact in
+theory, so I'm not quite sure whether the behavior is acceptable.
+
+Basically, a missing piece is the shortcut state change from SUSPENDED
+to CLOSED.  Most drivers don't care as the SUSPENDED state is almost
+equivalent with STOPPED state, and they don't support RESUME (hence
+the application needs to re-initialize via PREPARE).  But a case like
+dmaengine, there can be inconsistency as you pointed out.
+
+By putting snd_pcm_resume() at the beginning of close procedure like
+my patch, the state change itself is corrected.  However, it imposes
+unnecessary resume, which should be avoided.
+
+Ultimately, we may need some flag or conditional trigger for clearing
+this pending SUSPENDED state.  But it needs further consideration.
 
 
---0XbT4Ni5LjwX/prS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+thanks,
 
-On Mon, Jun 24, 2024 at 02:11:17PM +0200, Pierre-Louis Bossart wrote:
-> From: Brent Lu <brent.lu@intel.com>
->=20
-> Add a helper function max_98373_get_tx_mask() to get tx mask from
-> max98373 ACPI device properties at runtime.
-
-Similarly here.
-
---0XbT4Ni5LjwX/prS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZ5aJAACgkQJNaLcl1U
-h9BwDAf+Ix6++u8cXGwWway2Gm2lKl9P0MaeP04OPNNlDMKYSdjxi3+20X4fYzeX
-O690a4nWmsc3/YoCfUKP94J+LbK2HrZit1P0uRBxdz1E/ZvHXziYqFblLF9IcTPm
-VnmYsN0K/EUbsnVNpy4OB5fUc8/b2Xx995RQg8AqORm3ALJvtQfTwW0a65zEUW7A
-MUQ1v/+f7sev9QQ9w5BHCSfBHxXNw6xulzgQuDBhG5bnm6lFCl1nLQOc4wx6vk26
-bWehSKMtnmsOkT3JIkz2lAajWzE7cYgFhudPzCmj+rpypMQxnlAG+7nqn32Nipxf
-ZlVlM95oh9LDWQkeyghm07fke1lvvw==
-=KjHY
------END PGP SIGNATURE-----
-
---0XbT4Ni5LjwX/prS--
+Takashi
