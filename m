@@ -1,33 +1,50 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D32A8130AD7;
-	Mon, 24 Jun 2024 09:24:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EB82256E
+	for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 09:30:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719221056; cv=none; b=NHCDxZ3MWQqYNkWjcjOm3cELmyK4VCdpTEPClJDvchhIoHWWxU4aM6tU469/yOTwYvhKOuKdoiZEr3YlGTzQT1T/shZbCknDS4OycEnVIeXjXgXRmFmQLVadU0L+bLdXIupUAxGj1Ro5x29OBXqIUShz45S4ErloFGsbFT4eB8o=
+	t=1719221444; cv=none; b=LNAPKD5M1LCJYWYcU21jkdsgbG2LajpN3Q4QkKl0EXfvgCUpUOJNIR614f/YdakK9ZCuXgeuiCB1Kw37Bs60mcP7N0Wt74E2t+Lh9GmgelK9UmIM/VC7D3uSxZjZGW9WjGWCXXXnWuxf8Zpe/lk936D0KDjvNdZJubhCo7CAW4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719221056; c=relaxed/simple;
-	bh=PoG110+Vg9Kgqy0v9zC+kNlBkxyCHRY9nhFLkjlrhKE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ldiswHHBc0Nj53YJt7Dgef8eqt9hlIIUXhBiougKxpXWcY2dDdZEQhHgKaZ2rzc8uDRIiNe/8eOI4oCszK63h1pW0cXJL/r1ku+jicTuU0IzoUOym5C0G9MqISTH2f5DiC09rsTINio43ZwO2hIlVRNN8KRApjrMvTq73ePck48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=due3BtFl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719221444; c=relaxed/simple;
+	bh=356pN8UYgA+jviXBXSGAqLiROZYoM4w79PUqpIHg72s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=n/bLmtAoJRdXZOadjUDdQHlZBrn7l5O8TH1CPW7ETaaKOp5Ne5DCD9ikhYe9d8ZuPN17kUORFkYp7ARH0zBCpgPVTqrkO4zDIeYVXeERgkHNBI4IWwTOuS+xWTLJbxt7Wd+8xpoas3rJjlmR1emlZaURAFqs6DeZC+5n/T8GRPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=hyemOfCt; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="due3BtFl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6499C2BBFC;
-	Mon, 24 Jun 2024 09:24:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719221056;
-	bh=PoG110+Vg9Kgqy0v9zC+kNlBkxyCHRY9nhFLkjlrhKE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=due3BtFlFpfgKEoERX3fWNf4oJKGPBMwIoryIkimKottOc66Ck0FU7HIwTfLlCARG
-	 G7Xdx+V9429rz5iPhEqY/+CegI4X+wEYm4yDrP3NwShzKh0dK3PeYSp5nWzMrnxQK8
-	 Fa3OrCbsREZxIuubaVRr2emrcHuwluCgtQnvMTcSZi4UOdoyMo0mQL9lAz/2zu2LFL
-	 5b5ZfpDvx9DGr12lX4IZKCLWoCP/TEQknzrz1DQdIA5wpWGIZOu7JgakX3wcxVkXqd
-	 XxY6Kbe+AlhjcuKHcdVPO44im+ERbE2roQFjgyxxHDuXb6AnM+T5H5ca4Ielm2Ks1I
-	 61To1rpQYfpqg==
-Message-ID: <1e26e816-5bb5-4592-8e2a-d5315bb7482d@kernel.org>
-Date: Mon, 24 Jun 2024 11:24:06 +0200
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="hyemOfCt"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45O7jeu8027262;
+	Mon, 24 Jun 2024 04:30:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=tgQS5fXe3IkIzHcJwfQArOdu8RXRy2xCt7+xc7UomIM=; b=
+	hyemOfCt8PdW8xU631ulQsKeQyxuOgyOTg0ZgHypw2LfAyLe11Ufl4EAmTw/kRv7
+	9tPvTPpHKKjX3U1LE1yn7Dyqxkj/t/B+Z4+GkHx51QxiAT5bE2R+y8azIbOUfoND
+	DypaQuY2uPJFvhpBM1oN9t/UC6nkAoCS4xgiS7nuqFZMZryrzOpU5oCQGoKNU92i
+	z4xFkVYmWulxU0CjY58F/YAUtQ3TSFhu8jJmsCaACga/abJouUvgQDxhEOiyR2aG
+	zx4zl51y4ydRGyTiFl96K4L9x/YeoVdCGzrCl4pPuD2jVZERA7gVlcjWvC8n+UjG
+	gmCyZXO30mUULpcc+0t1GQ==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3ywu1hsgeg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 24 Jun 2024 04:30:32 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 24 Jun
+ 2024 10:30:31 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Mon, 24 Jun 2024 10:30:31 +0100
+Received: from [198.90.208.18] (ediswws06.ad.cirrus.com [198.90.208.18])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 37078820244;
+	Mon, 24 Jun 2024 09:30:31 +0000 (UTC)
+Message-ID: <666f01f5-c7ef-4168-8f10-68ae5d77f1d9@opensource.cirrus.com>
+Date: Mon, 24 Jun 2024 10:30:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,102 +52,82 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv5 7/9] ASoC: dt-bindings: imx-audio-spdif: remove binding
-To: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- Russell King <linux@armlinux.org.uk>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- shengjiu wang <shengjiu.wang@gmail.com>, Xiubo Lee <Xiubo.Lee@gmail.com>,
- Nicolin Chen <nicoleotsuka@gmail.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-sound <linux-sound@vger.kernel.org>,
- devicetree <devicetree@vger.kernel.org>, imx <imx@lists.linux.dev>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- alsa-devel <alsa-devel@alsa-project.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- Philip-Dylan Gleonec <philip-dylan.gleonec@savoirfairelinux.com>
-References: <20240620132511.4291-1-elinor.montmasson@savoirfairelinux.com>
- <20240620132511.4291-8-elinor.montmasson@savoirfairelinux.com>
- <17a0efe3-72fa-4d13-b3b0-90e6640308f3@kernel.org>
- <1566099232.1714447.1719219107779.JavaMail.zimbra@savoirfairelinux.com>
- <42b32958-89ee-43b6-96d1-f3e18c7d8955@kernel.org>
- <1048207382.1714780.1719220717882.JavaMail.zimbra@savoirfairelinux.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <1048207382.1714780.1719220717882.JavaMail.zimbra@savoirfairelinux.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH] ALSA: hda: Use imply for suggesting
+ CONFIG_SERIAL_MULTI_INSTANTIATE
+To: Takashi Iwai <tiwai@suse.de>
+CC: <linux-sound@vger.kernel.org>,
+        Simon Trimmer
+	<simont@opensource.cirrus.com>
+References: <20240621073915.19576-1-tiwai@suse.de>
+ <40b32545-ea8c-4120-a024-cb5da63a39ac@opensource.cirrus.com>
+ <87a5jezk1w.wl-tiwai@suse.de>
+Content-Language: en-GB
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <87a5jezk1w.wl-tiwai@suse.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: lat3VtnjS4dwTAzLtgJ9o5Qz2GTNMA5W
+X-Proofpoint-GUID: lat3VtnjS4dwTAzLtgJ9o5Qz2GTNMA5W
+X-Proofpoint-Spam-Reason: safe
 
-On 24/06/2024 11:18, Elinor Montmasson wrote:
->>>
->>> Previous `imx-spdif` driver used the dummy codec instead of
->>> using declared spdif codecs. It was discussed in previous version of this
->>> contribution
->>> that using the dummy codec isn't good practice. So one to one backward
->>> compatibility
->>> isn't really possible.
+On 21/06/2024 11:06, Takashi Iwai wrote:
+> On Fri, 21 Jun 2024 11:13:46 +0200,
+> Richard Fitzgerald wrote:
 >>
->> Heh, that's not good. This is improvement, cleanup. While it is
->> important and useful, it should also not break existing users.
+>> On 21/06/2024 08:39, Takashi Iwai wrote:
+>>> The recent fix introduced a reverse selection of
+>>> CONFIG_SERIAL_MULTI_INSTANTIATE, but its condition isn't always met.
+>>> Use a weak reverse selection to suggest the config for avoiding such
+>>> inconsistencies, instead.
+>>>
+>>> Fixes: 9b1effff19cd ("ALSA: hda: cs35l56: Select SERIAL_MULTI_INSTANTIATE")
+>>> Reported-by: kernel test robot <lkp@intel.com>
+>>> Closes: https://lore.kernel.org/oe-kbuild-all/202406210732.ozgk8IMK-lkp@intel.com/
+>>> Closes: https://lore.kernel.org/oe-kbuild-all/202406211244.oLhoF3My-lkp@intel.com/
+>>> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+>>> ---
+>>>    sound/pci/hda/Kconfig | 4 ++--
+>>>    1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/sound/pci/hda/Kconfig b/sound/pci/hda/Kconfig
+>>> index e59df40a0007..a3cf0725fc43 100644
+>>> --- a/sound/pci/hda/Kconfig
+>>> +++ b/sound/pci/hda/Kconfig
+>>> @@ -162,7 +162,7 @@ config SND_HDA_SCODEC_CS35L56_I2C
+>>>    	depends on ACPI || COMPILE_TEST
+>>>    	depends on SND_SOC
+>>>    	select FW_CS_DSP
+>>> -	select SERIAL_MULTI_INSTANTIATE
+>>> +	imply SERIAL_MULTI_INSTANTIATE
+>>>    	select SND_HDA_GENERIC
+>>>    	select SND_SOC_CS35L56_SHARED
+>>>    	select SND_HDA_SCODEC_CS35L56
+>>> @@ -179,7 +179,7 @@ config SND_HDA_SCODEC_CS35L56_SPI
+>>>    	depends on ACPI || COMPILE_TEST
+>>>    	depends on SND_SOC
+>>>    	select FW_CS_DSP
+>>> -	select SERIAL_MULTI_INSTANTIATE
+>>> +	imply SERIAL_MULTI_INSTANTIATE
+>>>    	select SND_HDA_GENERIC
+>>>    	select SND_SOC_CS35L56_SHARED
+>>>    	select SND_HDA_SCODEC_CS35L56
+>> Sorry about that. Thanks for fixing.
+>> Reviewed-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+>>
+>> (Though I think this points at a bug in serial-multi-instantiate
+>> dependencies. When SPI support was added it was made mandatory
+>> to have both I2C AND SPI. But you shouldn't need to build in a
+>> subsystem if you don't have any devices of that type.)
 > 
+> Yeah, the condition there could be relaxed, I suppose.
 > 
-> Should I introduce then the use of the dummy codec in `fsl-asoc-card` to
-> assure backward compatibility at least for a time ?
-> With maybe warning messages in code to indicate that spdif codecs drivers
-> should be declared and used in the future ?
+> But the use of imply isn't bad for a case like this, so let's go
+> forward with this fix.
 > 
+Agreed.
 
-If it is doable (reasonable code), then yes, please keep backwards
-compatibility with old DTS.
-
-Best regards,
-Krzysztof
+> 
+> thanks,
+> 
+> Takashi
 
