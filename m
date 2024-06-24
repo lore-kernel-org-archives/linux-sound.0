@@ -1,119 +1,222 @@
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D4813D285
-	for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 12:54:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 706C413D60E
+	for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 13:11:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719233674; cv=none; b=W1BWp5wphLsVFA7ONnohrMAVrvyQbu6RLSopI8t3rPJ0eFimZGWf2DnLe9ka0K4BRq/E0jWTovVeNkqe7ls4aDWNWkbgyrGsSW5MyvaawpVUowcjK2NHR519orpBo7m7TyaNIAiepsQmyB+MhkdNrwwylnQ1rwEBZgO9hX1he1Y=
+	t=1719234711; cv=none; b=Twkuozz93M2DJ1VvSnxBjtaQGvk0eSIta/IYErqWaIj1Imy0kF4sZWz/VGHYQLe7UbmgB8L79gtNUcUlu8D39t0etYJ/xusS4N3exVAkhXp0/VXAQ/lpN1amJG6xxe9d7s0tuBx1zIdLWpArhy05Iaywq4BP0J1G1vI1g/73SWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719233674; c=relaxed/simple;
-	bh=DOxpGDRPXOULudQMfRyURG+LRWh3ynkAOi8ERNjON/s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KZjz4G1Q0KsxOZxOPAGulDkCOqITLCjJrT8WtdpG/SMu94adSI1WJsvZBSX/2Ak6smE9Htpuhd8PwjyEiIf5eCl3XUSHsk/7WS4fj1bFOxP70v0BgaMYjH68JOIy4yQM5+QNoMyye+A+0lQYfb1cTOlGP0gF9WNgdIvV5H9q7KE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DtSvxBEE; arc=none smtp.client-ip=209.85.128.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1719234711; c=relaxed/simple;
+	bh=OkbtoPa91aEDS3Owt/clFS+CDvxM1YlIr63BX0a97TM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Rt0N+fOVBlblyehHX3NCkDGWx23y4VmB4YlOlvRlh5qnrqCRwAvK2Z4FXu442m90Lkl4xrbRd34pkpJ1gifFkD6MjjJc8KkjnJBjC30Vo6kP262sZI6zpf4wCU6xWVTGIuzGlFmrAw7bHlof2kzs3FVc3/QYvOj8cv1hQX+6Wlo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=nb/lqPA4; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DtSvxBEE"
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-632bcf111ffso40326227b3.3
-        for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 05:54:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1719233672; x=1719838472; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=T4MhoPIjswsMp7f7a8/ndhL9pANhZJFzHy+iV0sTzTk=;
-        b=DtSvxBEEy6zDc7eqfmXzzgHKKeEFIglDj7rFFmslwBAG4coJwbFa3tTmqmHjZEMzgN
-         3j0yo8GpMAAZ6rVGKRPyazs2FH6qTvUReAznA0gIiTzapS8XxIojuL4SLTlTmhTMHEZ7
-         pESD+GwERCoS/86FQ5j6MuUsQHva//d85yDzZEGEfxeeFPQg3amVHgY4vMYqr28jLapQ
-         cVz7mMzkj/cxdbmZScoiXn4Ke33r7tQwAAxEikgoA6A5FUS1Gcg3X8AwFy6h2dk3XRS6
-         ZL/Sj94EEL8GLqriVthUuvUjt1nU2PaWCokok3W9MIn8d02E/VX/LgRsbLjzF3gR2nAn
-         XHKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719233672; x=1719838472;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=T4MhoPIjswsMp7f7a8/ndhL9pANhZJFzHy+iV0sTzTk=;
-        b=WcxuhcU1Zq8zWrViRnjCaOkRFjEVAh95y7sLO7Kfifx8cLFZow8DNeCn2mG3j06iut
-         o2XR1AzRpRJzimww5SUljcr+3vj0ye9+nQggHyu58mEEqbZZEfrj7Keg2wEiNlqxdGqx
-         Un8OVCqibh4rgLRvrG4e9wV7Qf2dh4kYNG3Er2cQzgjWxzj4AA69E6hvrEUoWLspN7vC
-         wdJ+Grask6Vck32qznfv9XkqaNjXTl5o2Cpv2akz/7/4+dMtSAptTUIziCjkzeKC7Z2A
-         17CG0awx4q5ACHbg4QHqlDsjEwtN6/jKzlqTAnq7R9nxyXv55IANz5aOd5uvFbwyJJgt
-         tT8w==
-X-Forwarded-Encrypted: i=1; AJvYcCXR21up8nyI7XlqtQpTCWYAmupzWIJPs7pqeKwOf3urCd/NggT+LKOL9YxBNgfpDTJ8vXW+tLUO+0psGPABa9InXaQTgZAmsgPu2LY=
-X-Gm-Message-State: AOJu0Yy/IVC0EnWf6JIsoLWFjezM89oEQKCUTSgom8WIytrFiABilW3Z
-	zZ8hKKi4UQ6AiVDuQM9wPCaIo/A4kUizJY4iLfJVhiCTyLP2PlZjiHodq1eOU6PZJLF58Zdw9+2
-	3iTVyWYIE/pcfe6DRNlaA5KV4+Jyok+kcCdqkkg==
-X-Google-Smtp-Source: AGHT+IEEe2Wox3jWC9RV0LVT1QsuSsNWmLHgdKtfDBvlgM6eb1pktgBqHVRKocFL/tWEa8Hwpz7Px1YRrvmHbynoaFc=
-X-Received: by 2002:a5b:bce:0:b0:df4:476e:7577 with SMTP id
- 3f1490d57ef6-e03040182b2mr3570101276.60.1719233672328; Mon, 24 Jun 2024
- 05:54:32 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="nb/lqPA4"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 8EF926E9C;
+	Mon, 24 Jun 2024 15:11:43 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 8EF926E9C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1719234703; bh=nbvvhNNWPgd2LAhGLTT4EDdWNKlw3Vq53o906fmnQSI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=nb/lqPA4MvCCBBz7Klg0b6aykltEt+7mveJnJodECDqVpsp0okcBObFLF/lj7OgFq
+	 aKTBYrgxPuk4ujpW/jvd1GVqWfqCABIpaGrx/pyhkA6Ioqe5P6SklmShqjxLuDNjeg
+	 vF6pzEJmsOLpKrxeLIHaBJ9B5r7kg8+VhZfw107g=
+Received: from p1gen4.perex-int.cz (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Mon, 24 Jun 2024 15:11:40 +0200 (CEST)
+From: Jaroslav Kysela <perex@perex.cz>
+To:  <linux-sound@vger.kernel.org>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Jaroslav Kysela <perex@perex.cz>
+Subject: [PATCH v5 2/2] ALSA: pcm: optimize and clarify stream sychronization ID API
+Date: Mon, 24 Jun 2024 15:07:49 +0200
+Message-ID: <20240624131127.498605-3-perex@perex.cz>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240624131127.498605-1-perex@perex.cz>
+References: <20240624131127.498605-1-perex@perex.cz>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240619-lpass-wsa-vi-v2-0-7aff3f97a490@linaro.org>
- <20240619-lpass-wsa-vi-v2-2-7aff3f97a490@linaro.org> <hz5eqta4ttzsnwttqzqrec4vcwvyleoow7thoiym3g3wjsfqk4@tx23nktde3gh>
- <fe75671f-c292-44b7-9024-15e0825c55c2@linaro.org>
-In-Reply-To: <fe75671f-c292-44b7-9024-15e0825c55c2@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 24 Jun 2024 15:54:20 +0300
-Message-ID: <CAA8EJpoLE5zUEvC4-q8h5KH=c_ucew=py5TV2qCTaSEQNQeQzQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] ASoC: codecs:lpass-wsa-macro: Fix logic of
- enabling vi channels
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, alsa-devel@alsa-project.org, 
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Manikantan R <quic_manrav@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, 24 Jun 2024 at 15:35, Srinivas Kandagatla
-<srinivas.kandagatla@linaro.org> wrote:
->
->
->
-> On 20/06/2024 21:28, Dmitry Baryshkov wrote:
-> > On Wed, Jun 19, 2024 at 02:42:01PM GMT, Srinivas Kandagatla wrote:
-> >> Existing code only configures one of WSA_MACRO_TX0 or WSA_MACRO_TX1
-> >> paths eventhough we enable both of them. Fix this bug by adding proper
-> >> checks and rearranging some of the common code to able to allow setting
-> >> both TX0 and TX1 paths
-> >
-> > Same question. What is the observed issue? Corrupted audio? Cracking?
-> > Under/overruns?
->
-> two Issues with existing code which are addressed by these two patches.
->
-> -> only one channels gets enabled on VI feedback path instead of 2
-> channels. resulting in 1 channel recording instead of 2.
-> -> rate is not set correctly for the VI record path.
+Optimize the memory usage in struct snd_pcm_runtime - use boolean
+value for the standard sync ID scheme.
 
-Thanks. This should be a part of the commit message.
+Introduce snd_pcm_set_sync_per_card function to build synchronization
+IDs.
 
->
->
-> --srini
->
->
-> >
-> >>
-> >> Fixes: 2c4066e5d428 ("ASoC: codecs: lpass-wsa-macro: add dapm widgets and route")
-> >> Co-developed-by: Manikantan R <quic_manrav@quicinc.com>
-> >> Signed-off-by: Manikantan R <quic_manrav@quicinc.com>
-> >> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> >> ---
-> >>   sound/soc/codecs/lpass-wsa-macro.c | 112 ++++++++++++++++++++++---------------
-> >>   1 file changed, 68 insertions(+), 44 deletions(-)
-> >>
-> >
+Signed-off-by: Jaroslav Kysela <perex@perex.cz>
+---
+ include/sound/pcm.h      | 16 +++++++++++--
+ sound/core/pcm_lib.c     | 51 ++++++++++++++++++++++++----------------
+ sound/pci/emu10k1/p16v.c | 16 +++++++++----
+ 3 files changed, 57 insertions(+), 26 deletions(-)
 
-
-
+diff --git a/include/sound/pcm.h b/include/sound/pcm.h
+index dbce137d8806..d3de660d1476 100644
+--- a/include/sound/pcm.h
++++ b/include/sound/pcm.h
+@@ -402,7 +402,7 @@ struct snd_pcm_runtime {
+ 	snd_pcm_uframes_t silence_start; /* starting pointer to silence area */
+ 	snd_pcm_uframes_t silence_filled; /* already filled part of silence area */
+ 
+-	unsigned char sync[16];		/* hardware synchronization ID */
++	bool sync_flag;			/* hardware synchronization - standard per card ID */
+ 
+ 	/* -- mmap -- */
+ 	struct snd_pcm_mmap_status *status;
+@@ -1156,7 +1156,19 @@ int snd_pcm_format_set_silence(snd_pcm_format_t format, void *buf, unsigned int
+ 
+ void snd_pcm_set_ops(struct snd_pcm * pcm, int direction,
+ 		     const struct snd_pcm_ops *ops);
+-void snd_pcm_set_sync(struct snd_pcm_substream *substream);
++void snd_pcm_set_sync_per_card(struct snd_pcm_substream *substream, struct snd_pcm_hw_params *params,
++			       const unsigned char *id, unsigned int len);
++/**
++ * snd_pcm_set_sync - set the PCM sync id
++ * snd_pcm_set_sync_per_card - set the PCM sync id with card number
++ * @substream: the pcm substream
++ *
++ * Use the default PCM sync identifier for the specific card.
++ */
++static inline void snd_pcm_set_sync(struct snd_pcm_substream *substream)
++{
++	substream->runtime->sync_flag = true;
++}
+ int snd_pcm_lib_ioctl(struct snd_pcm_substream *substream,
+ 		      unsigned int cmd, void *arg);                      
+ void snd_pcm_period_elapsed_under_stream_lock(struct snd_pcm_substream *substream);
+diff --git a/sound/core/pcm_lib.c b/sound/core/pcm_lib.c
+index a6d59ee9eb52..8d1a24a2c43d 100644
+--- a/sound/core/pcm_lib.c
++++ b/sound/core/pcm_lib.c
+@@ -516,19 +516,37 @@ void snd_pcm_set_ops(struct snd_pcm *pcm, int direction,
+ EXPORT_SYMBOL(snd_pcm_set_ops);
+ 
+ /**
+- * snd_pcm_set_sync - set the PCM sync id
++ * snd_pcm_set_sync_per_card - set the PCM sync id with card number
+  * @substream: the pcm substream
++ * @params: modified hardware parameters
++ * @id: identifier (max 12 bytes)
++ * @len: identifier length (max 12 bytes)
+  *
+- * Sets the PCM sync identifier for the card.
++ * Sets the PCM sync identifier for the card with zero padding.
++ *
++ * User space or any user should use this 16-byte identifier for a comparison only
++ * to check if two IDs are similar or different. Special case is the identifier
++ * containing only zeros. Interpretation for this combination is - empty (not set).
++ * The contents of the identifier should not be interpreted in any other way.
++ *
++ * The synchronization ID must be unique per clock source (usually one sound card,
++ * but multiple soundcard may use one PCM word clock source which means that they
++ * are fully synchronized).
++ *
++ * This routine composes this ID using card number in first four bytes and
++ * 12-byte additional ID. When other ID composition is used (e.g. for multiple
++ * sound cards), make sure that the composition does not clash with this
++ * composition scheme.
+  */
+-void snd_pcm_set_sync(struct snd_pcm_substream *substream)
++void snd_pcm_set_sync_per_card(struct snd_pcm_substream *substream,
++			       struct snd_pcm_hw_params *params,
++			       const unsigned char *id, unsigned int len)
+ {
+-	struct snd_pcm_runtime *runtime = substream->runtime;
+-	
+-	*(__u32 *)runtime->sync = cpu_to_le32(substream->pcm->card->number);
+-	memset(runtime->sync + 4, 0xff, sizeof(runtime->sync) - 4);
++	*(__u32 *)params->sync = cpu_to_le32(substream->pcm->card->number);
++	len = max(12, len);
++	strncpy(params->sync + 4, id, len);
++	memset(params->sync + 4 + len, 0, 12 - len);
+ }
+-EXPORT_SYMBOL(snd_pcm_set_sync);
+ 
+ /*
+  *  Standard ioctl routine
+@@ -1808,22 +1826,15 @@ static int snd_pcm_lib_ioctl_fifo_size(struct snd_pcm_substream *substream,
+ 	return 0;
+ }
+ 
+-/**
+- * is sync id (clock id) empty?
+- */
+-static inline bool pcm_sync_empty(const unsigned char *sync)
+-{
+-	return sync[0] == 0 && sync[1] == 0 && sync[2] == 0 && sync[3] == 0 &&
+-	       sync[4] == 0 && sync[5] == 0 && sync[6] == 0 && sync[7] == 0;
+-}
+-
+ static int snd_pcm_lib_ioctl_sync_id(struct snd_pcm_substream *substream,
+ 				     void *arg)
+ {
+-	struct snd_pcm_hw_params *params = arg;
++	static const unsigned char id[12] = { 0xff, 0xff, 0xff, 0xff,
++					      0xff, 0xff, 0xff, 0xff,
++					      0xff, 0xff, 0xff, 0xff };
+ 
+-	if (pcm_sync_empty(params->sync))
+-		memcpy(params->sync, substream->runtime->sync, sizeof(params->sync));
++	if (substream->runtime->sync_flag)
++		snd_pcm_set_sync_per_card(substream, arg, id, sizeof(id));
+ 	return 0;
+ }
+ 
+diff --git a/sound/pci/emu10k1/p16v.c b/sound/pci/emu10k1/p16v.c
+index 773725dbdfbd..a9a75891f1da 100644
+--- a/sound/pci/emu10k1/p16v.c
++++ b/sound/pci/emu10k1/p16v.c
+@@ -174,10 +174,6 @@ static int snd_p16v_pcm_open_playback_channel(struct snd_pcm_substream *substrea
+ 	if (err < 0)
+                 return err;
+ 
+-	*(__u32 *)runtime->sync = cpu_to_le32(substream->pcm->card->number);
+-	memset(runtime->sync + 4, 0, sizeof(runtime->sync) - 4);
+-	strncpy(runtime->sync + 4, "P16V", 4);
+-
+ 	return 0;
+ }
+ 
+@@ -225,6 +221,17 @@ static int snd_p16v_pcm_open_capture(struct snd_pcm_substream *substream)
+ 	return snd_p16v_pcm_open_capture_channel(substream, 0);
+ }
+ 
++static int snd_p16v_pcm_ioctl_playback(struct snd_pcm_substream *substream,
++				       unsigned int cmd, void *arg)
++{
++	if (cmd == SNDRV_PCM_IOCTL1_SYNC_ID) {
++		static const unsigned char id[4] = { 'P', '1', '6', 'V' };
++		snd_pcm_set_sync_per_card(substream, arg, id, 4);
++		return 0;
++	}
++	return snd_pcm_lib_ioctl(substream, cmd, arg);
++}
++
+ /* prepare playback callback */
+ static int snd_p16v_pcm_prepare_playback(struct snd_pcm_substream *substream)
+ {
+@@ -530,6 +537,7 @@ snd_p16v_pcm_pointer_capture(struct snd_pcm_substream *substream)
+ static const struct snd_pcm_ops snd_p16v_playback_front_ops = {
+ 	.open =        snd_p16v_pcm_open_playback_front,
+ 	.close =       snd_p16v_pcm_close_playback,
++	.ioctl =       snd_p16v_pcm_ioctl_playback,
+ 	.prepare =     snd_p16v_pcm_prepare_playback,
+ 	.trigger =     snd_p16v_pcm_trigger_playback,
+ 	.pointer =     snd_p16v_pcm_pointer_playback,
 -- 
-With best wishes
-Dmitry
+2.45.2
+
