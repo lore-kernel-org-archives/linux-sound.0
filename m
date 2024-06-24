@@ -1,92 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A58D913A260;
-	Mon, 24 Jun 2024 11:19:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C7213B58A
+	for <linux-sound@vger.kernel.org>; Mon, 24 Jun 2024 12:11:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719227996; cv=none; b=boVzWCPMQRN4ZlOwRqIrOof9dSOZJ1EC5ZYqYw8G+ley4qcCQNMIXnsGZG+NyxtTyF0HB8n0XAskxKWdJ3nvCeaO6os87sWTgUUDzN/C4K/WcXbVj2Ygkw0KW0TTHK5xYB7GAjqbEEgMCbkgXmNkaZqhr61P1SoVzmK13JlJ0M4=
+	t=1719231096; cv=none; b=G0fO4ooMOR0TzGHpQGBqjt6f+gLFgteuN3Qe60C1YKWfCPepPHYOK2F5x5rT9FM1GscFhC4Sa7ueiz3QXgylO6D4UsHT7VXVC1Pi9i/DRh9cu/V2wFfLFX5f6fFoZlFGEqoDxUdkx1iUFGSgyU+Gqb6mqj7BaVje3/gnLUuWAoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719227996; c=relaxed/simple;
-	bh=jwRuwDcYkx6HKhRYpj9ivnWyjbPJ2carDaco6Q3fl5c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EAzTVRdPCUZU1RAIfxiNpWBmUookvQSJWX5lkn4F34ZMVeUJZ3w7fOCoJZG2cdiUUI97n1bitpNKYxUT1N+lema3cCggedm6j/XJ3uTPptVNZd8ihIGnhmFC1HEJyI1qXv8HVeChtQMt63l182qzTit+IDZunKZtsYEiFFq1OBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GJUCynfX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719231096; c=relaxed/simple;
+	bh=vHfQoMBGTxMfLLJpnpM8vO0EymrfohqvJcIC5wK1quE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fiwLjJulwAf8oAQxPhdyTQUd2/rJfboVQt7ccwcd3fJM7UO/8NuGk6Sgl9u+IswajxurimW+JvEqX63nflagMc7q5hZKCzPPxaG4psjC8gCpY3rh3XsfZzqZ2rhuAeGt+KNug+r042YiroqKRgUc0XSAPG8sxHMSVHMu0Y+2LnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lO6uw4U/; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GJUCynfX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 205A5C32781;
-	Mon, 24 Jun 2024 11:19:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719227996;
-	bh=jwRuwDcYkx6HKhRYpj9ivnWyjbPJ2carDaco6Q3fl5c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GJUCynfX/d55AUJywlTOmPPeEMHC2xfyNOTwW8d7xyIvfCEDRXl/UxyPqR5OlwycI
-	 K/c5LDiWNY0tmenmxAdvzTpuzEV7eMxdERVdcVLkv0xx8WA/PEROQD7XGSPj+gp3/Z
-	 20sACruQIHcT2ttGWZVpeR2DRhLaAAfXFh0OLgJB7xH+OJc3QvOZhmEQDlXH+JJ5rb
-	 MZj0HHmJGycB/QDgTWXLsyzEeX/Nq3YTejZCs3rFzT472QP30bg7G3W8MgokKsi3hf
-	 q1ZeojkU39GdnnAbN5FktmkRBW24CasiRZTdax0i/zqLr3+nDjoiB7S6+CURyGCurj
-	 IDBnVoJ715oEQ==
-Date: Mon, 24 Jun 2024 12:19:51 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: dt-bindings: amlogic,gx-sound-card: drop minItems
- for audio-widgets
-Message-ID: <2d33411e-b98c-4cd8-aca9-d65b55fe43bf@sirena.org.uk>
-References: <20240605-topic-amlogic-upstream-bindings-fixes-audio-widgets-v1-1-65bd7cc2e09b@linaro.org>
- <5318f6e2-7bb2-4ed5-b0aa-585a6a2d8a5d@linaro.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lO6uw4U/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1719231094; x=1750767094;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=vHfQoMBGTxMfLLJpnpM8vO0EymrfohqvJcIC5wK1quE=;
+  b=lO6uw4U/W63e3PZRRza5y06aXF9RcHJFrJSCLcDhIS/Bmtyz2hIIkEL4
+   eGEKR77rAx1bVwZEPvNd2URNPno3PAClg2t90/5ws0g1rJm/Y0/O3hKWq
+   J//slafMScJi9bbXuzmpPefbJ9awFptPIaxRyUqtfTJVDHNwwWzlP80GC
+   gIU1ZpBW2XXt+qMlY10Vq1xYsAn1k/DLeJbWUxtg5T0uUf8qbBRP0W5Fn
+   dPtYemEr7qQTQJO0USgSHY9apSPyFxptlj2t88+QVo8MT10gE7MQzkCw4
+   a6HsimF7J+B9lPuIT1HvDXakdsuTGq6UemXBaa8WR3ujqNWMzc8B6FpTP
+   w==;
+X-CSE-ConnectionGUID: O3cPyOxwTtOd6ud/Cn32Wg==
+X-CSE-MsgGUID: rb2l4lHBRVKcwaYjy/LseQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11112"; a="15887530"
+X-IronPort-AV: E=Sophos;i="6.08,261,1712646000"; 
+   d="scan'208";a="15887530"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2024 05:11:33 -0700
+X-CSE-ConnectionGUID: g58QZ+PTRGmQPRc3EeZnkw==
+X-CSE-MsgGUID: aFgC8FldQuaxa2TXgO2YIQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,261,1712646000"; 
+   d="scan'208";a="43091205"
+Received: from ksztyber-mobl2.ger.corp.intel.com (HELO pbossart-mobl6.intel.com) ([10.245.246.230])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2024 05:11:32 -0700
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+To: linux-sound@vger.kernel.org
+Cc: alsa-devel@alsa-project.org,
+	tiwai@suse.de,
+	broonie@kernel.org,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH 0/4] ASoC: Intel: boards: updates for 6.11 - part2
+Date: Mon, 24 Jun 2024 14:11:15 +0200
+Message-ID: <20240624121119.91552-1-pierre-louis.bossart@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3UDGno+ZHVOYsb7K"
-Content-Disposition: inline
-In-Reply-To: <5318f6e2-7bb2-4ed5-b0aa-585a6a2d8a5d@linaro.org>
-X-Cookie: Allow 6 to 8 weeks for delivery.
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Minor additions and cleanups this time.
 
---3UDGno+ZHVOYsb7K
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Bard Liao (1):
+  ASoC: Intel: sof_sdw: select PINCTRL_CS42L43 and SPI_CS42L43
 
-On Mon, Jun 24, 2024 at 11:13:44AM +0200, Neil Armstrong wrote:
+Brent Lu (1):
+  ASoC: Intel: maxim-common: add max_98373_get_tx_mask function
 
-> Gentle ping !
+Pierre-Louis Bossart (2):
+  ASoC: Intel: sof_sdw: fix jack detection on ADL-N variant RVP
+  ASoC: Intel: sof_sdw: add quirk for Dell SKU 0B8C
 
-Please don't send content free pings and please allow a reasonable time
-for review.  People get busy, go on holiday, attend conferences and so=20
-on so unless there is some reason for urgency (like critical bug fixes)
-please allow at least a couple of weeks for review.  If there have been
-review comments then people may be waiting for those to be addressed.
+ sound/soc/intel/boards/Kconfig            |  2 +
+ sound/soc/intel/boards/sof_maxim_common.c | 56 +++++++++++++++++------
+ sound/soc/intel/boards/sof_sdw.c          | 18 ++++++++
+ 3 files changed, 63 insertions(+), 13 deletions(-)
 
-Sending content free pings adds to the mail volume (if they are seen at
-all) which is often the problem and since they can't be reviewed
-directly if something has gone wrong you'll have to resend the patches
-anyway, so sending again is generally a better approach though there are
-some other maintainers who like them - if in doubt look at how patches
-for the subsystem are normally handled.
+-- 
+2.43.0
 
---3UDGno+ZHVOYsb7K
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZ5VlYACgkQJNaLcl1U
-h9D4twgAhu1ezJ/DoUKfgtWfZ0GmLxAwrgt6KsXsN4s3OGsbtIG3G0DKrCzFllHb
-k0rMkM4WRBfFDXwg9LbgeXw/KNfBFzx3jHpw/x1xEoaZr/+o3UNMeVeQ36NaYEtC
-IEKUb6secYEfRGfy56+J53ROIZEZIIFfaOx4lnKR+eC7WQPaAmWnRk7JKYkDnQso
-NnN7JzRoemLk8w0egCPLcybDDsZzaed5ONX4Cu8L3lFpUi5+8cPLVCrEaV8RLatt
-5736pIa94htZOdw8H7bA1LlHPtq+ZgUOA+FccPD/bbbDVTjes9hVJ8ymrYz6sS9O
-2eXFwNHNDwHts7s5tPlx4Nm8C4+Nkg==
-=i/+i
------END PGP SIGNATURE-----
-
---3UDGno+ZHVOYsb7K--
