@@ -1,179 +1,89 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 921ED14B064
-	for <linux-sound@vger.kernel.org>; Tue, 25 Jun 2024 11:33:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 072C3149C7F;
+	Tue, 25 Jun 2024 11:33:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719315214; cv=none; b=rCwkK+lGOtioYuKrGjkBzjUC4c5684PEY+ofCyOxVjRlAYVngydNixYDuEcpRB0HKUMYEZ9R/liHG5GW/euVAurJNOTdXorfTe5+WFvuET/DEws+w8FrT4r4UxLsSO2j4URtCRkMo3XPnWsd8vmLRtr38Lzk8o27pPtgoPZVTQo=
+	t=1719315232; cv=none; b=Zw1Glx/6J99N5tXVc/s3Rgxu/ekW+vj/+D8yhFle8CDFJek2WpVNwyUfnasMHOXj+vZiuSRGi2qWQgX7GKY6HJrhFkPtXhHl/1uqp0JZ++X3XM/d399qE1nfQzP7YejUNfYzNG75x2E+J4upX9Nao8+KpeCJK6rMYfKzXqvHMP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719315214; c=relaxed/simple;
-	bh=HFEWyyvwp+XHphDM0viXNpfsqPIT+HOA268QK6XzZQM=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=Nyk22ENuY2DItWS5vNuMBAWbwCH/BGVW7Lhmp8SeLQVpeegqTsJJE7WzHSXZ8s27ErIFe7Lc99DntKCIx4AHbZsxyCXrG6F1Crzst/mA/rR+3jNQGwtOKVbhFSXzGuPUoLzpShGiWsLBbQvqQR06OUnoSw3cDCUg9UbDxHFar94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LN2iTGPS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2xq1ofvX; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LN2iTGPS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2xq1ofvX; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1719315232; c=relaxed/simple;
+	bh=NqJdMjPT9r805HO+jweg1g1ihBCkWTI4j4kjDfQkDEs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=fZnsFbZG3BmwT4gbRMXOJSpKfEnL+94KxjYFE0NepKrXCpeB/L70Y8o/VqQIbN2cL024bV4cv5EMZgwPVORE3JL7npGtv4yn5ADYiptxm5f4cyerK+T3AQ2JEVK8vObp2p3d5oWhCitEHvDadIxyKbaMOT8mLmmFNGpFF2Drcq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k7LB9nl9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LN2iTGPS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2xq1ofvX";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LN2iTGPS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2xq1ofvX"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B44A61F852;
-	Tue, 25 Jun 2024 11:33:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719315210; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=0svU6Ij4kZFjeZd9e9Dag/S4TeDdsTAYwesrrIPGf+g=;
-	b=LN2iTGPSrZpl9IiflVFZG5SJ87brrdvrSiXv09QYv+2C55wZ0RYzKWoleNALXCE63uC5Rb
-	KQwkirSz2gaRhJnsr/cCd4w1cPFJQdWS1YvQRpW0sEpVrETArJkyjXBpcfm1tsSB1m7fql
-	s0FnAOsZViDqPXP/YsnIgUENhfvpO6c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719315210;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=0svU6Ij4kZFjeZd9e9Dag/S4TeDdsTAYwesrrIPGf+g=;
-	b=2xq1ofvXcXuTVrfVyCIV1qj1F/Aa5+3Lg7wDRpKz/EdcY6p5YJkO3fC/AH/hoRkWCSU7+1
-	HOF2iOTqYe/waJDQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719315210; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=0svU6Ij4kZFjeZd9e9Dag/S4TeDdsTAYwesrrIPGf+g=;
-	b=LN2iTGPSrZpl9IiflVFZG5SJ87brrdvrSiXv09QYv+2C55wZ0RYzKWoleNALXCE63uC5Rb
-	KQwkirSz2gaRhJnsr/cCd4w1cPFJQdWS1YvQRpW0sEpVrETArJkyjXBpcfm1tsSB1m7fql
-	s0FnAOsZViDqPXP/YsnIgUENhfvpO6c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719315210;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=0svU6Ij4kZFjeZd9e9Dag/S4TeDdsTAYwesrrIPGf+g=;
-	b=2xq1ofvXcXuTVrfVyCIV1qj1F/Aa5+3Lg7wDRpKz/EdcY6p5YJkO3fC/AH/hoRkWCSU7+1
-	HOF2iOTqYe/waJDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A690013A9A;
-	Tue, 25 Jun 2024 11:33:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id PdwXKAqrembPcQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 25 Jun 2024 11:33:30 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: pcm_dmaengine: Unify two close functions
-Date: Tue, 25 Jun 2024 13:33:55 +0200
-Message-ID: <20240625113356.2123-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k7LB9nl9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61E1AC32781;
+	Tue, 25 Jun 2024 11:33:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719315231;
+	bh=NqJdMjPT9r805HO+jweg1g1ihBCkWTI4j4kjDfQkDEs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=k7LB9nl9SPm9p8yq0UhgCUR7+bcQ2vC25wnADZiANHdw/FVB5qEUdBC8IbJbQCOT1
+	 BLEEZKSC49WA0vTxYItoAqXfj2sqUj8nNQS4Boy4O2+gTssCZs5zttp/JKX0E/m1Qf
+	 Vhxh5oOW9C36dE3IXhfV/XxJoiYN2b7ssTX7cJUmQJV64C56HXcGXIEkhhBhpKFaka
+	 8kun7jFHzecU7wm6KpbiXDIIQ3GKEqdzIHqFg1iejFNdYe13loKLOfqac1dyiOFvs6
+	 fo3ZvMXOvaiC/6UhhfYyPrmWMAfrDuPMbcJ0o0SnzfDvBo//IccR6rR5fC0pt+U8/7
+	 NHtse6bPnwYuw==
+From: Mark Brown <broonie@kernel.org>
+To: Jiaxin Yu <jiaxin.yu@mediatek.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ angelogioacchino.delregno@collabora.com
+In-Reply-To: <20240613020725.27874-1-jiaxin.yu@mediatek.com>
+References: <20240613020725.27874-1-jiaxin.yu@mediatek.com>
+Subject: Re: [PATCH v2] ASoC: mediatek: mt6358: Add "Dmic Mode Switch"
+ kcontrol for switch DMIC mode.
+Message-Id: <171931523011.64144.683590179914133512.b4-ty@kernel.org>
+Date: Tue, 25 Jun 2024 12:33:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
-X-Spam-Level: 
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev-d4707
 
-Both snd_dmaengine_pcm_close() and
-snd_dmaengine_pcm_close_release_chan() are almost identical except for
-a call of dma_release_channel() in the latter.  For code
-simplification, unify them internally.
+On Thu, 13 Jun 2024 10:07:25 +0800, Jiaxin Yu wrote:
+> There are two hardware connection methods for DMICs on the MT6358. In cases
+> where more than two DMICs are used, we need to time-multiplex these DMICs.
+> Therefore, we need to dynamically switch the modes of these DMICs based on
+> the actual usage scenarios.
+> 
+>             ---- DMIC1
+> AU_VIN0 ---
+>             ---- DMIC2
+> 
+> [...]
 
-Just a code refactoring, and no functional changes.
+Applied to
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/core/pcm_dmaengine.c | 34 +++++++++++++++-------------------
- 1 file changed, 15 insertions(+), 19 deletions(-)
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-diff --git a/sound/core/pcm_dmaengine.c b/sound/core/pcm_dmaengine.c
-index 7346c993a067..4f18511f1c92 100644
---- a/sound/core/pcm_dmaengine.c
-+++ b/sound/core/pcm_dmaengine.c
-@@ -349,13 +349,8 @@ int snd_dmaengine_pcm_open_request_chan(struct snd_pcm_substream *substream,
- }
- EXPORT_SYMBOL_GPL(snd_dmaengine_pcm_open_request_chan);
- 
--/**
-- * snd_dmaengine_pcm_close - Close a dmaengine based PCM substream
-- * @substream: PCM substream
-- *
-- * Return: 0 on success, a negative error code otherwise
-- */
--int snd_dmaengine_pcm_close(struct snd_pcm_substream *substream)
-+static void __snd_dmaengine_pcm_close(struct snd_pcm_substream *substream,
-+				      bool release_channel)
- {
- 	struct dmaengine_pcm_runtime_data *prtd = substream_to_prtd(substream);
- 	struct dma_tx_state state;
-@@ -366,8 +361,20 @@ int snd_dmaengine_pcm_close(struct snd_pcm_substream *substream)
- 		dmaengine_terminate_async(prtd->dma_chan);
- 
- 	dmaengine_synchronize(prtd->dma_chan);
-+	if (release_channel)
-+		dma_release_channel(prtd->dma_chan);
- 	kfree(prtd);
-+}
- 
-+/**
-+ * snd_dmaengine_pcm_close - Close a dmaengine based PCM substream
-+ * @substream: PCM substream
-+ *
-+ * Return: 0 on success, a negative error code otherwise
-+ */
-+int snd_dmaengine_pcm_close(struct snd_pcm_substream *substream)
-+{
-+	__snd_dmaengine_pcm_close(substream, false);
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(snd_dmaengine_pcm_close);
-@@ -383,18 +390,7 @@ EXPORT_SYMBOL_GPL(snd_dmaengine_pcm_close);
-  */
- int snd_dmaengine_pcm_close_release_chan(struct snd_pcm_substream *substream)
- {
--	struct dmaengine_pcm_runtime_data *prtd = substream_to_prtd(substream);
--	struct dma_tx_state state;
--	enum dma_status status;
--
--	status = dmaengine_tx_status(prtd->dma_chan, prtd->cookie, &state);
--	if (status == DMA_PAUSED)
--		dmaengine_terminate_async(prtd->dma_chan);
--
--	dmaengine_synchronize(prtd->dma_chan);
--	dma_release_channel(prtd->dma_chan);
--	kfree(prtd);
--
-+	__snd_dmaengine_pcm_close(substream, true);
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(snd_dmaengine_pcm_close_release_chan);
--- 
-2.43.0
+Thanks!
+
+[1/1] ASoC: mediatek: mt6358: Add "Dmic Mode Switch" kcontrol for switch DMIC mode.
+      commit: 4ae814dabcdae3e434820c64396e15ccb33cc0ce
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
