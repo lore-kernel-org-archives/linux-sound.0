@@ -1,236 +1,87 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C574178395
-	for <linux-sound@vger.kernel.org>; Tue, 25 Jun 2024 13:56:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 892A0146A83;
+	Tue, 25 Jun 2024 14:01:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719323764; cv=none; b=WV71tNk+5ArMFl5KafRW73l/d84uRrkRUkepNgaSzL3JgEm/IrwphjlhQ6kknii9zh3Tjyv94yO31yuKZDr4APqu4hXcD5KoQt9OTlliF8aunKZPyrKnoI/ZVIENX5y97qByXgP2twDUD09xvMZdhhkvb3KVQYt94hnXUsLCi3I=
+	t=1719324096; cv=none; b=tLLDuWzlYX2W8phUubKTT2WRA271Q3L7NC2SyHGP8CugAKOV1r0S879DOqdMoncz4C9wgzalmMBAKyT90pLzBXPHj93+JjSZgcLpGFB7hJCaRd8sLnRKd5dacRv7DxwI1mB3ifzgXYYA1MPxiCuTCwNSybamdR1p2A1uB8fo/+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719323764; c=relaxed/simple;
-	bh=WJifBTIwyDzn5GlTelrODKSXYsgi0+XvO3cObnLoGGs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=n//yQ1Mm9vdLb4zM2SpHVjgcSGEiDfqoWp/bce2oSAO+ho0MMlyf1O6jPv535/zAtEsOEAYZ53kZ0X/mbkmjXLl6MUNC/o7ISj44IdtQ4Kqg+NI2jlDZNEltbOsEBIhso7i64q6Px9ynII8U+gP7HjeFjYJpAM/CyZS99XVkb7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=i9nCqMBw; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	s=arc-20240116; t=1719324096; c=relaxed/simple;
+	bh=X3Iggen6O1cM2G21L94wXloIh4QAzGgxW3l06iUP3Ok=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dbWDgsn47ZSfC5ZikBXQfsIlu1GHwOuZEjD6464FW8colVwt4PLiAN8X1mNWx2hAXWosUsy21X4319cSF7umk1MpDd+T1P6UsS/GgDeB/aXoOHX828fwYbTIDgdenQrdH8jB6VHqIR/g8qyk/VX3R4pc7VS6l59NGfxTfPxEb10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aHzd1s9o; arc=none smtp.client-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="i9nCqMBw"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id F274A6831;
-	Tue, 25 Jun 2024 15:55:52 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz F274A6831
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1719323753; bh=maYuR6bSnFMophdxKi4rXbYbv31bnlIcRA51+Ok0iis=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=i9nCqMBwNWQEFPYYWTOx2sQP91YUEMSEVT69PQFGAWGWLbZ7v8qszV2BewmVprlZn
-	 pEclj/wjHqwMir9ob34Oldwe1zgTsm+/IabY50wfuZT9iFhh1rKOG37gxmmJvbUg8f
-	 yiwW4QgmLhBv+RZY85eksYMREiEu4QdMliCouVzw=
-Received: from p1gen4.perex-int.cz (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Tue, 25 Jun 2024 15:55:48 +0200 (CEST)
-From: Jaroslav Kysela <perex@perex.cz>
-To:  <linux-sound@vger.kernel.org>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Sakamoto <takaswie@kernel.org>
-Subject: [PATCH v6 1/2] ALSA: pcm: reinvent the stream synchronization ID API
-Date: Tue, 25 Jun 2024 15:53:46 +0200
-Message-ID: <20240625135535.586233-2-perex@perex.cz>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240625135535.586233-1-perex@perex.cz>
-References: <20240625135535.586233-1-perex@perex.cz>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aHzd1s9o"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-711b1512aeaso4336467a12.3;
+        Tue, 25 Jun 2024 07:01:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719324095; x=1719928895; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=X3Iggen6O1cM2G21L94wXloIh4QAzGgxW3l06iUP3Ok=;
+        b=aHzd1s9oUHALAtdaI0hrPgrJgapDHnyLMuZf1QJz54ZSuLw9jDmV5Iya9EIat8FHBT
+         B38IaIJ7ei/Lb4+qCrXsxOTLuuxEA4rR/Z06VE0PnHdJr23FSlNj3u7G7aGlHLv3EK+o
+         z7xEEwMbZkLcx0cFwJY5kmt1zf7kVkQzYLbcQQpD0ohT9JNmgCqC0lIJmYtRqZKlXXEx
+         r4DDem125YQewcBvVAF+LiD1Pn/WwJdo2yh2hTud2aTjJitV8Yxeeqi3Dg4pEHPVVy8K
+         BIspJQAMVXVU6wQny5ZZF+ubcuyEbp46LYP/PTm42YmcAZTCYE3vSWRoydcSCBxUZERB
+         QmTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719324095; x=1719928895;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=X3Iggen6O1cM2G21L94wXloIh4QAzGgxW3l06iUP3Ok=;
+        b=Kk5c8wFUXCK4uCQpnGKeFH3fg/+rcYDWkx3yc9GyHtQ4jGvjYn5E1hOtOnKih2FwyG
+         PshVPB8JeciU0z5NirSKkuOlqzAGU8wcgTbhqsTb2a4H72LPTdjzP/DQmpzlP80UgQJJ
+         g8KTq8y/W4vRJoGuewuzD25rx9z7BFF/C4FOmRb21+suOS++cFYVu7+jy8EQjnjnrIm7
+         pPU4sht87JgpCH2yKLcrySXw8sCdtL7Y2BkC9B0UNFCvG8pHELtc0hiM474Ctuc4amRf
+         XoFQO6Vq028/PII5ezY8iC7B2aG6BqX9dWGm18VfiC2+g4tAuYkjWS3B6971JjFQ71T8
+         KhEw==
+X-Forwarded-Encrypted: i=1; AJvYcCVDcuRYELVJ613UZRyBm9x6DEP86UQCsXjuVgvAbMqMKSNink7GzWqhRDyO0Ob3E3oq53biJDcJXKYm2QECQI3fwwdh/Vi0m7QSGRvpxsqPhFHfcfL0pwbqBjA4k6RUe97rYArIL9hbhWw=
+X-Gm-Message-State: AOJu0Yyi8u10rYPUt5QaD360IquTlMG6lWv//GCYRhSFOUsLKpiVAY9B
+	ts8X/pPEfOAgtMARipg8/9pDs2XARbSuRVNO6jgiofXglNm1mX111gv+Ti9nZah17+/zZ2y6cNT
+	UcSG8KDHaI+rOMRKi0qo2f9Pfg0A=
+X-Google-Smtp-Source: AGHT+IEd+EBC/NWsf+VOsO01Za2baDweXjbJ43MpcDB03jH0q2mwqFAep7ly9pDQAeDiOXTil5t1xngphUxrU/41kEQ=
+X-Received: by 2002:a17:90a:7444:b0:2c8:84b:580e with SMTP id
+ 98e67ed59e1d1-2c85829734amr7015577a91.41.1719324094452; Tue, 25 Jun 2024
+ 07:01:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240615125457.167844-1-rauty@altlinux.org> <2c9ba341bc95d4b9010bf5f8794c0d14b1c57dc9.camel@irl.hu>
+ <CAGpJQTHoBAixmxta2WuZfjHjiK9GXF=hkfPyV7PBD5rt9Z_0WA@mail.gmail.com>
+ <CAGpJQTGqxEkfp003QLsp-syUgzDFCmHSmNaoOaem0ZMVf7_=bg@mail.gmail.com>
+ <c0a9e15e7926e098bdea97a7d31c32427e0910c9.camel@irl.hu> <871q4lm9dp.wl-tiwai@suse.de>
+In-Reply-To: <871q4lm9dp.wl-tiwai@suse.de>
+From: Rauty <rautyrauty@gmail.com>
+Date: Tue, 25 Jun 2024 17:00:57 +0300
+Message-ID: <CAGpJQTFF=gKN2h105dGhBOEhN0Q1Tpj5hJWpSdQ_-nCoUTzj5A@mail.gmail.com>
+Subject: Re: [PATCH v2] ALSA: hda/realtek: Enable headset mic on IdeaPad
+ 330-17IKB 81DM
+To: Takashi Iwai <tiwai@suse.de>, Gergo Koteles <soyer@irl.hu>, alsa-devel@alsa-project.org
+Cc: tiwai@suse.com, perex@perex.cz, kailang@realtek.com, 
+	sbinding@opensource.cirrus.com, luke@ljones.dev, shenghao-ding@ti.com, 
+	simont@opensource.cirrus.com, foss@athaariq.my.id, rf@opensource.cirrus.com, 
+	wzhd@ustc.edu, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Until the commit e11f0f90a626 ("ALSA: pcm: remove SNDRV_PCM_IOCTL1_INFO
-internal command"), there was a possibility to pass information
-about the synchronized streams to the user space. The mentioned
-commit removed blindly the appropriate code with an irrelevant comment.
+On Tue, 25 Jun 2024 at 16:32, Gergo Koteles <soyer@irl.hu> wrote:
+> I still think this breaks Duet 7 sound, because snd_hda_pick_fixup
+> function picks the PCI SSIDs before Codec SSIDs.
 
-The revert may be appropriate, but since this API was lost for several
-years without any complains, it's time to improve it. The hardware
-parameters may change the used stream clock source (e.g. USB hardware)
-so move this synchronization ID to hw_params as read-only field.
+a piece of lspci from Lenovo IdeaPad 330-17IKB 81DM:
+00:1f.3 Audio device [0403]: Intel Corporation Sunrise Point-LP HD
+Audio [8086:9d71] (rev 21)
+Subsystem: Lenovo Device [17aa:3837]
+Kernel driver in use: snd_hda_intel
 
-It seems that pipewire can benefit from this API (disable adaptive
-resampling for perfectly synchronized PCM streams) now.
-
-Note that the contents of ID is not supposed to be used for direct
-comparison with a specific byte sequence. The "empty" case is when
-all bytes are zero (driver does not offer this information)
-and all other cases must be only used for equal comparison among
-PCM streams (including different sound cards) if they are using
-identical hardware clock.
-
-Cc: Takashi Sakamoto <takaswie@kernel.org>
-Signed-off-by: Jaroslav Kysela <perex@perex.cz>
----
- include/sound/pcm.h         |  3 ++-
- include/uapi/sound/asound.h |  9 +++++----
- sound/core/pcm_lib.c        | 27 +++++++++++++++++++++++----
- sound/core/pcm_native.c     |  6 ++++++
- sound/pci/emu10k1/p16v.c    |  7 +++----
- 5 files changed, 39 insertions(+), 13 deletions(-)
-
-diff --git a/include/sound/pcm.h b/include/sound/pcm.h
-index 3edd7a7346da..dbce137d8806 100644
---- a/include/sound/pcm.h
-+++ b/include/sound/pcm.h
-@@ -93,6 +93,7 @@ struct snd_pcm_ops {
- #define SNDRV_PCM_IOCTL1_CHANNEL_INFO	2
- /* 3 is absent slot. */
- #define SNDRV_PCM_IOCTL1_FIFO_SIZE	4
-+#define SNDRV_PCM_IOCTL1_SYNC_ID	5
- 
- #define SNDRV_PCM_TRIGGER_STOP		0
- #define SNDRV_PCM_TRIGGER_START		1
-@@ -401,7 +402,7 @@ struct snd_pcm_runtime {
- 	snd_pcm_uframes_t silence_start; /* starting pointer to silence area */
- 	snd_pcm_uframes_t silence_filled; /* already filled part of silence area */
- 
--	union snd_pcm_sync_id sync;	/* hardware synchronization ID */
-+	unsigned char sync[16];		/* hardware synchronization ID */
- 
- 	/* -- mmap -- */
- 	struct snd_pcm_mmap_status *status;
-diff --git a/include/uapi/sound/asound.h b/include/uapi/sound/asound.h
-index 628d46a0da92..8bf7e8a0eb6f 100644
---- a/include/uapi/sound/asound.h
-+++ b/include/uapi/sound/asound.h
-@@ -142,7 +142,7 @@ struct snd_hwdep_dsp_image {
-  *                                                                           *
-  *****************************************************************************/
- 
--#define SNDRV_PCM_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 17)
-+#define SNDRV_PCM_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 18)
- 
- typedef unsigned long snd_pcm_uframes_t;
- typedef signed long snd_pcm_sframes_t;
-@@ -334,7 +334,7 @@ union snd_pcm_sync_id {
- 	unsigned char id[16];
- 	unsigned short id16[8];
- 	unsigned int id32[4];
--};
-+} __attribute__((deprecated));
- 
- struct snd_pcm_info {
- 	unsigned int device;		/* RO/WR (control): device number */
-@@ -348,7 +348,7 @@ struct snd_pcm_info {
- 	int dev_subclass;		/* SNDRV_PCM_SUBCLASS_* */
- 	unsigned int subdevices_count;
- 	unsigned int subdevices_avail;
--	union snd_pcm_sync_id sync;	/* hardware synchronization ID */
-+	unsigned char pad1[16];		/* was: hardware synchronization ID */
- 	unsigned char reserved[64];	/* reserved for future... */
- };
- 
-@@ -420,7 +420,8 @@ struct snd_pcm_hw_params {
- 	unsigned int rate_num;		/* R: rate numerator */
- 	unsigned int rate_den;		/* R: rate denominator */
- 	snd_pcm_uframes_t fifo_size;	/* R: chip FIFO size in frames */
--	unsigned char reserved[64];	/* reserved for future */
-+	unsigned char sync[16];		/* R: synchronization ID (perfect sync - one clock source) */
-+	unsigned char reserved[48];	/* reserved for future */
- };
- 
- enum {
-diff --git a/sound/core/pcm_lib.c b/sound/core/pcm_lib.c
-index 6f73b3c2c205..a6d59ee9eb52 100644
---- a/sound/core/pcm_lib.c
-+++ b/sound/core/pcm_lib.c
-@@ -525,10 +525,8 @@ void snd_pcm_set_sync(struct snd_pcm_substream *substream)
- {
- 	struct snd_pcm_runtime *runtime = substream->runtime;
- 	
--	runtime->sync.id32[0] = substream->pcm->card->number;
--	runtime->sync.id32[1] = -1;
--	runtime->sync.id32[2] = -1;
--	runtime->sync.id32[3] = -1;
-+	*(__u32 *)runtime->sync = cpu_to_le32(substream->pcm->card->number);
-+	memset(runtime->sync + 4, 0xff, sizeof(runtime->sync) - 4);
- }
- EXPORT_SYMBOL(snd_pcm_set_sync);
- 
-@@ -1810,6 +1808,25 @@ static int snd_pcm_lib_ioctl_fifo_size(struct snd_pcm_substream *substream,
- 	return 0;
- }
- 
-+/**
-+ * is sync id (clock id) empty?
-+ */
-+static inline bool pcm_sync_empty(const unsigned char *sync)
-+{
-+	return sync[0] == 0 && sync[1] == 0 && sync[2] == 0 && sync[3] == 0 &&
-+	       sync[4] == 0 && sync[5] == 0 && sync[6] == 0 && sync[7] == 0;
-+}
-+
-+static int snd_pcm_lib_ioctl_sync_id(struct snd_pcm_substream *substream,
-+				     void *arg)
-+{
-+	struct snd_pcm_hw_params *params = arg;
-+
-+	if (pcm_sync_empty(params->sync))
-+		memcpy(params->sync, substream->runtime->sync, sizeof(params->sync));
-+	return 0;
-+}
-+
- /**
-  * snd_pcm_lib_ioctl - a generic PCM ioctl callback
-  * @substream: the pcm substream instance
-@@ -1831,6 +1848,8 @@ int snd_pcm_lib_ioctl(struct snd_pcm_substream *substream,
- 		return snd_pcm_lib_ioctl_channel_info(substream, arg);
- 	case SNDRV_PCM_IOCTL1_FIFO_SIZE:
- 		return snd_pcm_lib_ioctl_fifo_size(substream, arg);
-+	case SNDRV_PCM_IOCTL1_SYNC_ID:
-+		return snd_pcm_lib_ioctl_sync_id(substream, arg);
- 	}
- 	return -ENXIO;
- }
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index 521ba56392a0..8be566df4d69 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -533,6 +533,12 @@ static int fixup_unreferenced_params(struct snd_pcm_substream *substream,
- 					  SNDRV_PCM_INFO_MMAP_VALID);
- 	}
- 
-+	err = snd_pcm_ops_ioctl(substream,
-+				SNDRV_PCM_IOCTL1_SYNC_ID,
-+				params);
-+	if (err < 0)
-+		return err;
-+
- 	return 0;
- }
- 
-diff --git a/sound/pci/emu10k1/p16v.c b/sound/pci/emu10k1/p16v.c
-index e7f097cae574..773725dbdfbd 100644
---- a/sound/pci/emu10k1/p16v.c
-+++ b/sound/pci/emu10k1/p16v.c
-@@ -174,10 +174,9 @@ static int snd_p16v_pcm_open_playback_channel(struct snd_pcm_substream *substrea
- 	if (err < 0)
-                 return err;
- 
--	runtime->sync.id32[0] = substream->pcm->card->number;
--	runtime->sync.id32[1] = 'P';
--	runtime->sync.id32[2] = 16;
--	runtime->sync.id32[3] = 'V';
-+	*(__u32 *)runtime->sync = cpu_to_le32(substream->pcm->card->number);
-+	memset(runtime->sync + 4, 0, sizeof(runtime->sync) - 4);
-+	strncpy(runtime->sync + 4, "P16V", 4);
- 
- 	return 0;
- }
--- 
-2.45.2
-
+Since PCI SSIDs are in priority, I will specify it (0x3837).
+Then this patch will not break the sound in the laptop and the change
+will be minimal.
