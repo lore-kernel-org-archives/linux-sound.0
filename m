@@ -1,42 +1,71 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DB021CABF
-	for <linux-sound@vger.kernel.org>; Tue, 25 Jun 2024 08:43:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 307B3145B3F;
+	Tue, 25 Jun 2024 09:22:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719305030; cv=none; b=HScqulV5uHq9Gj3aNoXTxwHVS24wJI2b8JFHoooSY3E3izgGj/KDiRAQ/v+byYHjS69U3KHYWr5Qo2N4u+YfCP+jPg/MqHJdOc52ERTvlZpvMOjjXBmRy3JGXCXYoupNBaOBARst+s5de/aaxonJMNrgsVLNprSQp0IxMrA43BA=
+	t=1719307371; cv=none; b=BB4Nk4K4VVPEqTezxYkRigtqKlgIvTRHECgSUj8FkUU2SWXjQHegyHfUHzo+rEG0NGF+x2eQtCv3B7RQyPp3b5lZt/nzZ2JiLFeUltVp7DZmytRn7u/IFXzlLg4G0gp4Pm5Jgn/MdzyQasDVwqnO4AX99A+FgpYOmPNLKafiQ+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719305030; c=relaxed/simple;
-	bh=FQFWA+Gd1u9qW6tE73vxMW13djpU/54Ne44++co65Wo=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=piNr6c0j9cEzXPNjST9YfpjB90lqETOzCGzbYgQCQrQl1GV8OzIA3t+hZnoJcKs7jP4MsopquSc9LXakhtVSk+Zg3ADn3MGW2kGLsz4Ph6VCHuy1HgFGftlDAcXxlc3qB7EGB+TdnQj+BDgkvpes0rwujpr2oqqE/LKuyfXivQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
-X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 45P8h9a354146769, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-	by rtits2.realtek.com.tw (8.15.2/2.95/5.92) with ESMTPS id 45P8h9a354146769
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 25 Jun 2024 16:43:09 +0800
-Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Tue, 25 Jun 2024 16:43:09 +0800
-Received: from sw-server.localdomain (172.22.102.1) by
- RTEXMBS01.realtek.com.tw (172.21.6.94) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Tue, 25 Jun 2024 16:43:09 +0800
-From: <shumingf@realtek.com>
-To: <broonie@kernel.org>, <lgirdwood@gmail.com>
-CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
-        <oder_chiou@realtek.com>, <jack.yu@realtek.com>,
-        <derek.fang@realtek.com>, <pierre-louis.bossart@intel.com>,
-        <bard.liao@intel.com>, Shuming Fan
-	<shumingf@realtek.com>
-Subject: [PATCH v2] ASoC: rt711-sdca: add GE selected mode control
-Date: Tue, 25 Jun 2024 16:43:03 +0800
-Message-ID: <20240625084303.2273911-1-shumingf@realtek.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1719307371; c=relaxed/simple;
+	bh=mcWUtvufMUDlR02FhzKpyqn2PcRxAZP2VwVsA8wNe+U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IOlxrTCTS23ZYEt7h1ToUjWD/enW5VLjv+hd2IZktvL/IprPkuVj77Cti/ONGsSrc1zKQTq+1XUIblWbHmCzLmmAYlzmW6RAwOXOjQnxGwYxdR/UViDsGpHgCEyrYf5ub08AwQSW8cGc8oRoNZTzOhtzFuL9sENQtpuFVn1VNhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bez1Ohws; arc=none smtp.client-ip=209.85.160.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bez1Ohws"
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-2598001aae7so2608408fac.2;
+        Tue, 25 Jun 2024 02:22:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719307369; x=1719912169; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z0R8M7G5C/6TgikPyq56VxTw6fauhX8XejnjEjTrpj8=;
+        b=Bez1OhwsIWN4QCUd35VItscU89sELY3idttxSLcqWopmbo2FX6SrDlMn/D0io3bAwX
+         zHxVckCakl0T0BR2VF7RBZjlMvrOUEgXIOs5/96cBM/MZLuY/xXRsc6Oh6fqURuz5NSu
+         vKn5nHpCmnowNCqcgNoYbR0ii696U2C/Z2QKoShjt2k4cq/dHhiW1rABTKnvVA35oRxm
+         KoY6AXpAxitjK8x2yXDdbwMxxVm6O5BZBLujMn1js9gSavsaAguck6xohIkis1nWUl4e
+         mq/QyDM7H01UD3BI1OXbPoP+ppfQPTimr4Mhs7m6Gr9ii8/3reNwZ7Zwx6sQaI2S+VNn
+         0SYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719307369; x=1719912169;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Z0R8M7G5C/6TgikPyq56VxTw6fauhX8XejnjEjTrpj8=;
+        b=ljLd9atiP9P2TKq2773sj4w5JayQs8fwBOOpQxEBOLboWqH9MvjzymxER0LOuj6mnf
+         RLKLv8dV3zXyiz2Q4Z8pO/jKloD3V8kWYr3HxcIgMTfyBuUJAVF2/HaE0RWM39p94q2J
+         5wGHs7/9Efg9u2pXb3QaeEe+Dcy26HVERG+CayouqjD4I1VWnaOBAUoKkUsBTbo9yg3i
+         yl8OsnChBBi8CBJ36n4iJzqEq2ESQW+jsQYEj4EM7ZWGkofzMsHaY/K0hPXKrF+g8Av6
+         WPO8QucblLTfmakoho/2AT2gtSPhdgQX3Wu+Yk7fEeCCBxjw3i6mYFk8zcCXNIIf9XZe
+         Vz3A==
+X-Forwarded-Encrypted: i=1; AJvYcCU+7EkEUL/psvPxK0siZ9ZAPNtihVXctu8JzyPCMNJrXbeJCcy7PgUZEWEQz1WjuynqtzT8LBCn9DvGKluBjE4KCmqCnrGaUAcOqdLHdSTMgZ/LrSsWwKY7SqZP1ClAgYVnm3Yox9Cbyjmaa5Xf89GzbbNNxO0SHKPDb8lyfOgZ3/w8GqBR
+X-Gm-Message-State: AOJu0YwWF81i7afsROdEePz/kNEGq5XqrGpNLq1dWbueOGMjxFMUulTa
+	EXrAzIfdcTRjPnA1Dcpy1doeNhDE3IFQrPi5eGYu0PtYnD89cLclfIpm+FEg0mMV6A==
+X-Google-Smtp-Source: AGHT+IEAjngNN8PW65r1MpgUKqsUwf3fE+qtEwDMKySzgU6HLV1rvwxRCek8VPF0cPfHMj4xuE/4Xw==
+X-Received: by 2002:a05:6870:d891:b0:254:7348:9071 with SMTP id 586e51a60fabf-25d0170cec9mr8774556fac.26.1719307369055;
+        Tue, 25 Jun 2024 02:22:49 -0700 (PDT)
+Received: from fedora.one.one.one.one ([2405:201:6013:c0b2:ea4b:30e0:4e3a:ab56])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7066c2ebd85sm5628034b3a.93.2024.06.25.02.22.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Jun 2024 02:22:48 -0700 (PDT)
+From: Animesh Agarwal <animeshagarwal28@gmail.com>
+To: 
+Cc: animeshagarwal28@gmail.com,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: dt-bindings: realtek,rt5677: Convert to dtschema
+Date: Tue, 25 Jun 2024 14:52:09 +0530
+Message-ID: <20240625092214.88005-1-animeshagarwal28@gmail.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,143 +73,225 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: RTEXH36505.realtek.com.tw (172.21.6.25) To
- RTEXMBS01.realtek.com.tw (172.21.6.94)
-X-KSE-ServerInfo: RTEXMBS01.realtek.com.tw, 9
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-Antivirus-Interceptor-Info: fallback
-X-KSE-AntiSpam-Interceptor-Info: fallback
 
-From: Shuming Fan <shumingf@realtek.com>
+Convert the RT5677 audio CODEC bindings to DT schema.
 
-The SDCA spec defines a 'selected_mode' control which can override
-the 'detected_mode' reported by hardware.
-This is useful for platform integration as well as in cases
-where the hardware(e.g. 3.5mm jack cable) is not able to accurately detect the jack type.
-
-Signed-off-by: Shuming Fan <shumingf@realtek.com>
+Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
+Cc: Daniel Baluta <daniel.baluta@nxp.com>
 ---
- sound/soc/codecs/rt711-sdca.c | 72 +++++++++++++++++++++++++++++++++++
- sound/soc/codecs/rt711-sdca.h |  1 +
- 2 files changed, 73 insertions(+)
+ .../bindings/sound/realtek,rt5677.yaml        | 117 ++++++++++++++++++
+ .../devicetree/bindings/sound/rt5677.txt      |  78 ------------
+ 2 files changed, 117 insertions(+), 78 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/realtek,rt5677.yaml
+ delete mode 100644 Documentation/devicetree/bindings/sound/rt5677.txt
 
-diff --git a/sound/soc/codecs/rt711-sdca.c b/sound/soc/codecs/rt711-sdca.c
-index 1e8dbfc3ecd9..dd6ccf17afd4 100644
---- a/sound/soc/codecs/rt711-sdca.c
-+++ b/sound/soc/codecs/rt711-sdca.c
-@@ -81,6 +81,24 @@ static void rt711_sdca_reset(struct rt711_sdca_priv *rt711)
- 		RT711_HDA_LEGACY_RESET_CTL, 0x1, 0x1);
- }
- 
-+static void rt711_sdca_ge_force_jack_type(struct rt711_sdca_priv *rt711, unsigned int det_mode)
-+{
-+	switch (det_mode) {
-+	case 0x00:
-+		rt711_sdca_index_update_bits(rt711, RT711_VENDOR_REG, RT711_COMBO_JACK_AUTO_CTL1, 0x8400, 0x0000);
-+		rt711_sdca_index_update_bits(rt711, RT711_VENDOR_HDA_CTL, RT711_PUSH_BTN_INT_CTL0, 0x10, 0x00);
-+		break;
-+	case 0x03:
-+		rt711_sdca_index_update_bits(rt711, RT711_VENDOR_REG, RT711_COMBO_JACK_AUTO_CTL1, 0x8400, 0x8000);
-+		rt711_sdca_index_update_bits(rt711, RT711_VENDOR_HDA_CTL, RT711_PUSH_BTN_INT_CTL0, 0x17, 0x13);
-+		break;
-+	case 0x05:
-+		rt711_sdca_index_update_bits(rt711, RT711_VENDOR_REG, RT711_COMBO_JACK_AUTO_CTL1, 0x8400, 0x8400);
-+		rt711_sdca_index_update_bits(rt711, RT711_VENDOR_HDA_CTL, RT711_PUSH_BTN_INT_CTL0, 0x17, 0x15);
-+		break;
-+	}
-+}
+diff --git a/Documentation/devicetree/bindings/sound/realtek,rt5677.yaml b/Documentation/devicetree/bindings/sound/realtek,rt5677.yaml
+new file mode 100644
+index 000000000000..598495dbe7fc
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/realtek,rt5677.yaml
+@@ -0,0 +1,117 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/realtek,rt5677.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- static int rt711_sdca_calibration(struct rt711_sdca_priv *rt711)
- {
- 	unsigned int val, loop_rc = 0, loop_dc = 0;
-@@ -248,6 +266,8 @@ static int rt711_sdca_headset_detect(struct rt711_sdca_priv *rt711)
- 	unsigned int det_mode;
- 	int ret;
- 
-+	rt711_sdca_ge_force_jack_type(rt711, rt711->ge_mode_override);
++title: RT5677 audio CODEC
 +
- 	/* get detected_mode */
- 	ret = regmap_read(rt711->regmap,
- 		SDW_SDCA_CTL(FUNC_NUM_JACK_CODEC, RT711_SDCA_ENT_GE49, RT711_SDCA_CTL_DETECTED_MODE, 0),
-@@ -790,6 +810,56 @@ static int rt711_sdca_fu0f_capture_put(struct snd_kcontrol *kcontrol,
- 	return changed;
- }
- 
-+static int rt711_sdca_ge_select_get(struct snd_kcontrol *kcontrol,
-+			      struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct soc_enum *e = (struct soc_enum *)kcontrol->private_value;
-+	struct snd_soc_component *component = snd_soc_kcontrol_component(kcontrol);
-+	struct rt711_sdca_priv *rt711 = snd_soc_component_get_drvdata(component);
-+	unsigned int val, item;
++maintainers:
++  - Animesh Agarwal <animeshagarwal28@gmail.com>
 +
-+	val = (rt711->ge_mode_override >> e->shift_l) & e->mask;
-+	item = snd_soc_enum_val_to_item(e, val);
-+	ucontrol->value.enumerated.item[0] = item;
-+	return 0;
-+}
++description: |
++  This device supports I2C only.
 +
-+static int rt711_sdca_ge_select_put(struct snd_kcontrol *kcontrol,
-+			      struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct soc_enum *e = (struct soc_enum *)kcontrol->private_value;
-+	unsigned int *item = ucontrol->value.enumerated.item;
-+	struct snd_soc_component *component = snd_soc_kcontrol_component(kcontrol);
-+	struct rt711_sdca_priv *rt711 = snd_soc_component_get_drvdata(component);
-+	unsigned int val, change = 0;
++  Pins on the device (for linking into audio routes):
++    * IN1P
++    * IN1N
++    * IN2P
++    * IN2N
++    * MICBIAS1
++    * DMIC1
++    * DMIC2
++    * DMIC3
++    * DMIC4
++    * LOUT1
++    * LOUT2
++    * LOUT3
 +
-+	if (item[0] >= e->items)
-+		return -EINVAL;
++allOf:
++  - $ref: dai-common.yaml#
 +
-+	val = snd_soc_enum_item_to_val(e, item[0]) << e->shift_l;
-+	if (rt711->ge_mode_override != val) {
-+		rt711->ge_mode_override = val;
-+		change = 1;
-+	}
++properties:
++  compatible:
++    const: realtek,rt5677
 +
-+	return change;
-+}
++  reg:
++    maxItems: 1
 +
-+static const char * const rt711_sdca_ge_select[] = {
-+	"Auto",
-+	"Headphone",
-+	"Headset",
-+};
++  interrupts:
++    maxItems: 1
 +
-+static int rt711_sdca_ge_select_values[] = {
-+	0,
-+	3,
-+	5,
-+};
++  gpio-controller: true
 +
-+static SOC_VALUE_ENUM_SINGLE_DECL(rt711_sdca_ge_mode_enum, SND_SOC_NOPM,
-+	0, 0x7, rt711_sdca_ge_select, rt711_sdca_ge_select_values);
++  '#gpio-cells':
++    const: 2
 +
- static const DECLARE_TLV_DB_SCALE(out_vol_tlv, -6525, 75, 0);
- static const DECLARE_TLV_DB_SCALE(in_vol_tlv, -1725, 75, 0);
- static const DECLARE_TLV_DB_SCALE(mic_vol_tlv, 0, 1000, 0);
-@@ -824,6 +894,8 @@ static const struct snd_kcontrol_new rt711_sdca_snd_controls[] = {
- 		SDW_SDCA_CTL(FUNC_NUM_MIC_ARRAY, RT711_SDCA_ENT_PLATFORM_FU15, RT711_SDCA_CTL_FU_CH_GAIN, CH_R),
- 		8, 3, 0,
- 		rt711_sdca_set_gain_get, rt711_sdca_set_gain_put, mic_vol_tlv),
-+	SOC_ENUM_EXT("GE49 Selected Mode", rt711_sdca_ge_mode_enum,
-+		rt711_sdca_ge_select_get, rt711_sdca_ge_select_put),
- };
- 
- static int rt711_sdca_mux_get(struct snd_kcontrol *kcontrol,
-diff --git a/sound/soc/codecs/rt711-sdca.h b/sound/soc/codecs/rt711-sdca.h
-index 11d421e8ab2b..15263dcb0314 100644
---- a/sound/soc/codecs/rt711-sdca.h
-+++ b/sound/soc/codecs/rt711-sdca.h
-@@ -33,6 +33,7 @@ struct  rt711_sdca_priv {
- 	int hw_ver;
- 	bool fu0f_dapm_mute, fu0f_mixer_l_mute, fu0f_mixer_r_mute;
- 	bool fu1e_dapm_mute, fu1e_mixer_l_mute, fu1e_mixer_r_mute;
-+	unsigned int ge_mode_override;
- };
- 
- /* NID */
++  realtek,pow-ldo2-gpio:
++    maxItems: 1
++    description: CODEC's POW_LDO2 pin.
++
++  realtek,reset-gpio:
++    maxItems: 1
++    description: CODEC's RESET pin. Active low.
++
++  realtek,gpio-config:
++    description: |
++      Array of six 8bit elements that configures GPIO.
++      0 - floating (reset value)
++      1 - pull down
++      2 - pull up
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    minItems: 6
++    maxItems: 6
++    items:
++      maximum: 2
++
++patternProperties:
++  "^realtek,in[1-2]-differential$":
++    type: boolean
++    description: Indicate MIC1/2 input are differential, rather than
++      single-ended.
++
++  "^realtek,lout[1-3]-differential$":
++    type: boolean
++    description: Indicate LOUT1/2/3 outputs are differential, rather than
++      single-ended.
++
++  "^realtek,jd[1-3]-gpio$":
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum:
++      - 0 # OFF
++      - 1 # GPIO1 for jd1 and GPIO4 for jd2.
++      - 2 # GPIO2 for jd1 and GPIO5 for jd2.
++      - 3 # GPIO3 for jd1 and GPIO6 for jd2.
++    description: Configures GPIO Mic Jack detection 1, 2 and 3.
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - gpio-controller
++  - '#gpio-cells'
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        codec@2c {
++            compatible = "realtek,rt5677";
++            reg = <0x2c>;
++            interrupt-parent = <&gpio>;
++            interrupts = <3 IRQ_TYPE_LEVEL_HIGH>;
++            gpio-controller;
++            #gpio-cells = <2>;
++            realtek,pow-ldo2-gpio = <&gpio 3 GPIO_ACTIVE_HIGH>;
++            realtek,reset-gpio = <&gpio 3 GPIO_ACTIVE_LOW>;
++            realtek,in1-differential;
++            realtek,gpio-config = <0 0 0 0 0 2>;
++        };
++    };
+diff --git a/Documentation/devicetree/bindings/sound/rt5677.txt b/Documentation/devicetree/bindings/sound/rt5677.txt
+deleted file mode 100644
+index da2430099181..000000000000
+--- a/Documentation/devicetree/bindings/sound/rt5677.txt
++++ /dev/null
+@@ -1,78 +0,0 @@
+-RT5677 audio CODEC
+-
+-This device supports I2C only.
+-
+-Required properties:
+-
+-- compatible : "realtek,rt5677".
+-
+-- reg : The I2C address of the device.
+-
+-- interrupts : The CODEC's interrupt output.
+-
+-- gpio-controller : Indicates this device is a GPIO controller.
+-
+-- #gpio-cells : Should be two. The first cell is the pin number and the
+-  second cell is used to specify optional parameters (currently unused).
+-
+-Optional properties:
+-
+-- realtek,pow-ldo2-gpio : The GPIO that controls the CODEC's POW_LDO2 pin.
+-- realtek,reset-gpio : The GPIO that controls the CODEC's RESET pin. Active low.
+-
+-- realtek,in1-differential
+-- realtek,in2-differential
+-- realtek,lout1-differential
+-- realtek,lout2-differential
+-- realtek,lout3-differential
+-  Boolean. Indicate MIC1/2 input and LOUT1/2/3 outputs are differential,
+-  rather than single-ended.
+-
+-- realtek,gpio-config
+-  Array of six 8bit elements that configures GPIO.
+-    0 - floating (reset value)
+-    1 - pull down
+-    2 - pull up
+-
+-- realtek,jd1-gpio
+-  Configures GPIO Mic Jack detection 1.
+-  Select 0 ~ 3 as OFF, GPIO1, GPIO2 and GPIO3 respectively.
+-
+-- realtek,jd2-gpio
+-- realtek,jd3-gpio
+-  Configures GPIO Mic Jack detection 2 and 3.
+-  Select 0 ~ 3 as OFF, GPIO4, GPIO5 and GPIO6 respectively.
+-
+-Pins on the device (for linking into audio routes):
+-
+-  * IN1P
+-  * IN1N
+-  * IN2P
+-  * IN2N
+-  * MICBIAS1
+-  * DMIC1
+-  * DMIC2
+-  * DMIC3
+-  * DMIC4
+-  * LOUT1
+-  * LOUT2
+-  * LOUT3
+-
+-Example:
+-
+-rt5677 {
+-	compatible = "realtek,rt5677";
+-	reg = <0x2c>;
+-	interrupt-parent = <&gpio>;
+-	interrupts = <TEGRA_GPIO(W, 3) IRQ_TYPE_LEVEL_HIGH>;
+-
+-	gpio-controller;
+-	#gpio-cells = <2>;
+-
+-	realtek,pow-ldo2-gpio =
+-		<&gpio TEGRA_GPIO(V, 3) GPIO_ACTIVE_HIGH>;
+-	realtek,reset-gpio = <&gpio TEGRA_GPIO(BB, 3) GPIO_ACTIVE_LOW>;
+-	realtek,in1-differential = "true";
+-	realtek,gpio-config = /bits/ 8  <0 0 0 0 0 2>;   /* pull up GPIO6 */
+-	realtek,jd2-gpio = <3>;  /* Enables Jack detection for GPIO6 */
+-};
 -- 
-2.34.1
+2.45.2
 
