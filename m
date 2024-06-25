@@ -1,134 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFAE817C98
-	for <linux-sound@vger.kernel.org>; Tue, 25 Jun 2024 13:48:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 329B016B72D
+	for <linux-sound@vger.kernel.org>; Tue, 25 Jun 2024 13:55:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719323289; cv=none; b=ZMwoSz9VZkS+eZWYLtmi4GpQzn3Dbl9mZhhfeWlAgh2IIERzDOKOCoxH6NEGHQqbXLAKQ1oW24yEsM3NIdQggGUrAY7dXGNoKx5+gTEreKil3KmKvcGryapXARc0crFlFPi1T/0K/Be7e6dQu7YkYIfyqK3wSK7rVqzNQkBA9SE=
+	t=1719323761; cv=none; b=GpEWhgb9XO/W+j383qYsRb1rTycx19PyR/LXVXL1ATdhN5gNKIvvNYjd+pZ2+zo4hl2ZHjiCtkECZhOSyc1SWkd5cnXcytQJbRS+95zG8pj4kwNis/vfBjh+c/QUGUdkM5BQNz/zMKW18Hfqt24CGPH7j8b6fH5lk64xLaqDRkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719323289; c=relaxed/simple;
-	bh=rLtw0kpyxKju24eTW3vtcckN7MU53T9UFLRzoxqvMRM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=D/nstbPnQHI+uBSjWlofHwiGwa7W47wSxNDeCCUWrcB8VJ12F8Nx2t5IDRSPfGxeRJ2MSXkjtrskt/Dn57rOZyPPMXBb0gcd/Gvrk0OLCkBHxlz+RV+FudH90fBOS8rCOLjfm8UZw7LB6uitYCW+DdNWWrQwVLiOCLJALYbenhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MMjI1Hpi; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1719323761; c=relaxed/simple;
+	bh=QA+efkIjPKjRehqfnBYtKQKQo+EVNSkeQJKFu6gk3gc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qJjav+OruE8nLF3vrj+HeR5um8dPa6kgvp1BNvWkNBkLvOdQXQbgwa4me7D+lmgK4ip6+2Qpz55I+TZEjGaDsmyhsYe+o+LkkIjThGHKPfIWzdt2REKHnbodnxH1Pk3BjcgzDDE+XEqsZiT2Cr9vgsxWT0JlswYCiicODigUhvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=ajQO/zmw; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MMjI1Hpi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719323288; x=1750859288;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=rLtw0kpyxKju24eTW3vtcckN7MU53T9UFLRzoxqvMRM=;
-  b=MMjI1Hpi7iWmdGKk3rwPiB4fsIHSbE6n+opiwR8tv3hoSKV0uRenxVuY
-   CvDVTLjO5xcnFgGHMCA37msA2BdDeiH7mWv1xqszKNGmAu5a5R3mX1TN2
-   mdnGEymiE8I1Qvm5EOjohD+oz6v5Q76HX4R15RQBDUiRsBChfgoWUS/ee
-   tB1i24Bb6iXmUVuNdk2MsnBlaDmrZPkDwp68ySkEEFXNK5c14tTQC/AyU
-   Vs4Kg+/2e9dUT1bp3NpNsJUf3i1etY9g2OlpfD6Lx0iPZvaLqtv7Znmxa
-   QwR6o1iRfd78H+2t8NwkXtY2qMdHIquVFWAtuS5RG2g87AVPB0SOPDW2v
-   A==;
-X-CSE-ConnectionGUID: /mZpOP42S5OHXVOUELOI4g==
-X-CSE-MsgGUID: e9yHKr5iRWyLTCV7PtP49Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11113"; a="16464801"
-X-IronPort-AV: E=Sophos;i="6.08,264,1712646000"; 
-   d="scan'208";a="16464801"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2024 06:48:08 -0700
-X-CSE-ConnectionGUID: aGOVYfp4QuW+arAOfxG5EQ==
-X-CSE-MsgGUID: UHJY94RWT4CvFJhmiNnlQw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,264,1712646000"; 
-   d="scan'208";a="74419380"
-Received: from ettammin-desk.ger.corp.intel.com (HELO [10.245.246.252]) ([10.245.246.252])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2024 06:48:05 -0700
-Message-ID: <7d79dfb4-5a36-4312-8c25-c93a4e5f9fa2@linux.intel.com>
-Date: Tue, 25 Jun 2024 15:48:01 +0200
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="ajQO/zmw"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 0EB46682B;
+	Tue, 25 Jun 2024 15:55:48 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 0EB46682B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1719323748; bh=TgNr2BHrk0pXJ3if+xg0svDDFwHUDueodPAVCmbrqVE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ajQO/zmwXCNATmF2/4GvIfJCJQqpeIKrr4I3SdisuZOkWJBkcEfiDONm2KZ7UgrPU
+	 GIs0Ee2jEL+OqDpRzQd+fZI2cSooIIxnAmNwWoOEqzyb8PHHaud4wgiLKPf7pTAAxC
+	 SEvPlNpmLqSXuQvM8bxigQt4KN5OPJz/a2o6bFKw=
+Received: from p1gen4.perex-int.cz (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Tue, 25 Jun 2024 15:55:43 +0200 (CEST)
+From: Jaroslav Kysela <perex@perex.cz>
+To:  <linux-sound@vger.kernel.org>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Sakamoto <takaswie@kernel.org>
+Subject: [PATCH v6 0/2] ALSA: pcm: reinvent the stream synchronization ID API
+Date: Tue, 25 Jun 2024 15:53:45 +0200
+Message-ID: <20240625135535.586233-1-perex@perex.cz>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] ALSA: compress_offload: introduce passthrough
- operation mode
-To: Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org
-Cc: Takashi Iwai <tiwai@suse.de>, Mark Brown <broonie@kernel.org>,
- Shengjiu Wang <shengjiu.wang@gmail.com>,
- Nicolas Dufresne <nicolas@ndufresne.ca>,
- =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>, Vinod Koul <vkoul@kernel.org>
-References: <20240621164915.410946-1-perex@perex.cz>
- <18c2a323-f0b5-4dea-b502-ce7e7021c555@linux.intel.com>
- <51462bc7-d9da-4e2d-9244-a59184c4d8ed@perex.cz>
- <7fb00353-08f2-4fad-b05e-cdf4b6451cbe@linux.intel.com>
- <626a22b6-7de9-45ba-a702-f4539f2a25a7@perex.cz>
- <69951352-c0c4-4984-bbab-acdfc4add146@linux.intel.com>
- <c2bcc49e-722f-43da-a3a1-ddd92210904f@perex.cz>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <c2bcc49e-722f-43da-a3a1-ddd92210904f@perex.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Until the commit e11f0f90a626 ("ALSA: pcm: remove SNDRV_PCM_IOCTL1_INFO
+internal command"), there was a possibility to pass information
+about the synchronized streams to the user space. The mentioned
+commit removed blindly the appropriate code with an irrelevant comment.
+    
+The revert may be appropriate, but since this API was lost for several
+years without any complains, it's time to improve it. The hardware
+parameters may change the used stream clock source (e.g. USB hardware)
+so move this synchronization ID to hw_params as read-only field.
+    
+It seems that pipewire can benefit from this API (disable adaptive
+resampling for perfectly synchronized PCM streams) now.
+    
+Note that the contents of ID is not supposed to be used for direct
+comparison with a specific byte sequence. The "empty" case is when
+all bytes are zero (driver does not offer this information)
+and all other cases must be only used for equal comparison among
+PCM streams (including different sound cards) if they are using
+identical hardware clock.
+    
+Cc: Takashi Sakamoto <takaswie@kernel.org>
 
-> The internal state requirement for multiple tasks is mostly given by the
-> used stream structure, so user space will handle this correctly (restart
-> stream on demand). You can imagine situation, where too many data are
-> queued and user space will receive a signal to do something different,
-> so it makes sense to support dequeuing of tasks. The stream state should
-> be reset when the task is stopped (removed from the queue) even if there
-> are other active tasks after this stopped one.
-We are in agreement that the 'drop' (stop now) and 'drain' (keep going
-until all data was consumed) capabilities are very much needed. I don't
-think controlling the states of intermediate tasks is possible or even
-desired though.
+v5->v6:
+  - remove wrong line from comment (suggested by Amadeusz)
 
-> I may also propose kernel API extension to inform user space that all
-> active tasks must be canceled in one shot (ioctl).
+v4->v5:
+  - extend commit message (clarification for ID use) for first patch
+  - mark union snd_pcm_sync_id as deprecated
+  - do not use get_unaligned() - reviewers are confused and the code
+    is removed in the second path (optimization)
 
-Did you mean "All active tasks in the same context" - defined by the
-open step?
+v3->v4:
+  - more code shuffle as suggested by Takashi
+  - remove unused snd_pcm_empty function in the second patch
+  - put back snd_pcm_set_sync documentation
 
->>>> Also I don't fully get the initial/final stages of processing. It seems
->>>> that the host needs to feed data to the first task in the chain, then
->>>> start it. That's fine for playback, but how would this be used if we
->>>> wanted to e.g. enable an ASRC on captured data coming from an audio
->>>> interface?
->>>
->>> There are no stream endpoints in kernel (no playback, no capture). It's
->>> just about we have some audio data, do something with them and return
->>> them back.
->>>
->>> For an universal media stream router, another API should be designed. I
->>> believe that using dma-buf buffers for I/O is nice and ready to be
->>> reused in another API.
->>
->> Humm, how would this work with the initial ask to enable the ASRC from
->> FSL/NXP? If we leave the ends of the processing chain completely
->> undefined, who's going to use this processing chain? Shouldn't there be
->> at least one example of how existing userspace (alsa-lib, pipewire,
->> wireplumber, etc) might use the API? It's been a while now, but when we
->> introduced the compress API there was a companion 'tinycompress' utility
->> - largely inspired by 'tinyplay' - to showcase how the API was meant to
->> be used.
-> 
-> I replied this in another answer. The expected users are media
-> frameworks like gstreamer or ffmpeg (use this directly as a plugin in
-> the processing chain). Maybe audio servers can use this hardware
-> acceleration, too.
-> 
-> I would like to define the basic kernel API (ioctls) in the first stage
-> and then continue with a test kernel module, user space library (maybe
-> include support in tinycompress) and user space test utility.
+v2->v3:
+  - fix pcm_sync_empty() function (wrong comparison) [thanks Takashi Sakamoto]
+  - more documentation for snd_pcm_set_sync_per_card (ID composition)
 
-Incremental development sounds fine, but at some point we'll need some
-sort of development hardware to check how well things work, and what's
-missing. In the case of the compress API some 12+ years ago we
-completely missed the gapless playback requirement which led to the ugly
-partial drain solution. We also underestimated the inertia and effort
-needed to change userspace, so much so that the main users of the
-compress API are in the Android world. I am not aware of any users of
-the compress API in the traditional Gnome/KDE environments.
+v1->v2:
+  - remove union usage per Takashi's request
+  - reduce memory usage
+  - use standard ID generation scheme
+
+Jaroslav Kysela (2):
+  ALSA: pcm: reinvent the stream synchronization ID API
+  ALSA: pcm: optimize and clarify stream synchronization ID API
+
+ include/sound/pcm.h         | 16 ++++++++++--
+ include/uapi/sound/asound.h |  9 ++++---
+ sound/core/pcm_lib.c        | 50 +++++++++++++++++++++++++++++--------
+ sound/core/pcm_native.c     |  6 +++++
+ sound/pci/emu10k1/p16v.c    | 17 +++++++++----
+ 5 files changed, 77 insertions(+), 21 deletions(-)
+
+-- 
+2.45.2
+
