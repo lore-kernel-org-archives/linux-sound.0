@@ -1,87 +1,125 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 892A0146A83;
-	Tue, 25 Jun 2024 14:01:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9380F1509A5
+	for <linux-sound@vger.kernel.org>; Tue, 25 Jun 2024 14:04:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719324096; cv=none; b=tLLDuWzlYX2W8phUubKTT2WRA271Q3L7NC2SyHGP8CugAKOV1r0S879DOqdMoncz4C9wgzalmMBAKyT90pLzBXPHj93+JjSZgcLpGFB7hJCaRd8sLnRKd5dacRv7DxwI1mB3ifzgXYYA1MPxiCuTCwNSybamdR1p2A1uB8fo/+c=
+	t=1719324274; cv=none; b=XxgUNh5sUoydeZ1FkMkAgpThLnNLfvkJ3DYU+X/gYe/VGRN3mRJlyusAu0iIHibMRiDGA812UcgUVqKVOTObU1Ftva5LY+REUS8yAmMx+vRgU2ztW9F74ZhIGyRl4UdnBSnweEkOToJSpo5VydR5Lx8AoVaKsnircC0k3pUg5oI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719324096; c=relaxed/simple;
-	bh=X3Iggen6O1cM2G21L94wXloIh4QAzGgxW3l06iUP3Ok=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dbWDgsn47ZSfC5ZikBXQfsIlu1GHwOuZEjD6464FW8colVwt4PLiAN8X1mNWx2hAXWosUsy21X4319cSF7umk1MpDd+T1P6UsS/GgDeB/aXoOHX828fwYbTIDgdenQrdH8jB6VHqIR/g8qyk/VX3R4pc7VS6l59NGfxTfPxEb10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aHzd1s9o; arc=none smtp.client-ip=209.85.215.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1719324274; c=relaxed/simple;
+	bh=4S7oWYI9qhhfoP2WCNRICqL3jK1bnNADs9+Pf6hbQMk=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=h7A8ycSP3oTaGFNJZPQLKqRNI2g68dKH1BVvDN6XC3bUUC5vzK+rFETEWvDZAn+rcdfBpxU7P9u+zAxWKrLQWz79YTqjifnJsFHFRvXiSN3l+32sDhrGkf8EO442pFmOSsCBusldxuM2aHa7WNHiUpc+Frj+qUcnlicKRP+i6M4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=S+9qUVEA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=k/0FJ8c0; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=S+9qUVEA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=k/0FJ8c0; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aHzd1s9o"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-711b1512aeaso4336467a12.3;
-        Tue, 25 Jun 2024 07:01:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719324095; x=1719928895; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=X3Iggen6O1cM2G21L94wXloIh4QAzGgxW3l06iUP3Ok=;
-        b=aHzd1s9oUHALAtdaI0hrPgrJgapDHnyLMuZf1QJz54ZSuLw9jDmV5Iya9EIat8FHBT
-         B38IaIJ7ei/Lb4+qCrXsxOTLuuxEA4rR/Z06VE0PnHdJr23FSlNj3u7G7aGlHLv3EK+o
-         z7xEEwMbZkLcx0cFwJY5kmt1zf7kVkQzYLbcQQpD0ohT9JNmgCqC0lIJmYtRqZKlXXEx
-         r4DDem125YQewcBvVAF+LiD1Pn/WwJdo2yh2hTud2aTjJitV8Yxeeqi3Dg4pEHPVVy8K
-         BIspJQAMVXVU6wQny5ZZF+ubcuyEbp46LYP/PTm42YmcAZTCYE3vSWRoydcSCBxUZERB
-         QmTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719324095; x=1719928895;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=X3Iggen6O1cM2G21L94wXloIh4QAzGgxW3l06iUP3Ok=;
-        b=Kk5c8wFUXCK4uCQpnGKeFH3fg/+rcYDWkx3yc9GyHtQ4jGvjYn5E1hOtOnKih2FwyG
-         PshVPB8JeciU0z5NirSKkuOlqzAGU8wcgTbhqsTb2a4H72LPTdjzP/DQmpzlP80UgQJJ
-         g8KTq8y/W4vRJoGuewuzD25rx9z7BFF/C4FOmRb21+suOS++cFYVu7+jy8EQjnjnrIm7
-         pPU4sht87JgpCH2yKLcrySXw8sCdtL7Y2BkC9B0UNFCvG8pHELtc0hiM474Ctuc4amRf
-         XoFQO6Vq028/PII5ezY8iC7B2aG6BqX9dWGm18VfiC2+g4tAuYkjWS3B6971JjFQ71T8
-         KhEw==
-X-Forwarded-Encrypted: i=1; AJvYcCVDcuRYELVJ613UZRyBm9x6DEP86UQCsXjuVgvAbMqMKSNink7GzWqhRDyO0Ob3E3oq53biJDcJXKYm2QECQI3fwwdh/Vi0m7QSGRvpxsqPhFHfcfL0pwbqBjA4k6RUe97rYArIL9hbhWw=
-X-Gm-Message-State: AOJu0Yyi8u10rYPUt5QaD360IquTlMG6lWv//GCYRhSFOUsLKpiVAY9B
-	ts8X/pPEfOAgtMARipg8/9pDs2XARbSuRVNO6jgiofXglNm1mX111gv+Ti9nZah17+/zZ2y6cNT
-	UcSG8KDHaI+rOMRKi0qo2f9Pfg0A=
-X-Google-Smtp-Source: AGHT+IEd+EBC/NWsf+VOsO01Za2baDweXjbJ43MpcDB03jH0q2mwqFAep7ly9pDQAeDiOXTil5t1xngphUxrU/41kEQ=
-X-Received: by 2002:a17:90a:7444:b0:2c8:84b:580e with SMTP id
- 98e67ed59e1d1-2c85829734amr7015577a91.41.1719324094452; Tue, 25 Jun 2024
- 07:01:34 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="S+9qUVEA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="k/0FJ8c0";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="S+9qUVEA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="k/0FJ8c0"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D510D1F889;
+	Tue, 25 Jun 2024 14:04:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1719324269; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oDnHl3nJGxtSpnz0KQlatq3vHiBiBHuW3YAwArTHvs0=;
+	b=S+9qUVEAYNVmLkPz1L0qL2EB5qivSXpRdZWisxQ/M+zqQXt9Gdz/yEqejHMyTa8ncQjo9u
+	/HQv9gL/E/Yrbjdt0qNt5y6bbEuTsinJWZAhXED4z+NIJfECg1iaXYWlJyRyfAfTUtBOOY
+	tYKmoy69DIEIHZDb1eSRi1S9Pnp/Zlo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1719324269;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oDnHl3nJGxtSpnz0KQlatq3vHiBiBHuW3YAwArTHvs0=;
+	b=k/0FJ8c01NxktSjP1dBYdJU1b8jxcmkJDbzKVd6aLxFUoWVph+7ZMN6oSkx8LdeVRzvz/F
+	/lL7Ul+uojk412AQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1719324269; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oDnHl3nJGxtSpnz0KQlatq3vHiBiBHuW3YAwArTHvs0=;
+	b=S+9qUVEAYNVmLkPz1L0qL2EB5qivSXpRdZWisxQ/M+zqQXt9Gdz/yEqejHMyTa8ncQjo9u
+	/HQv9gL/E/Yrbjdt0qNt5y6bbEuTsinJWZAhXED4z+NIJfECg1iaXYWlJyRyfAfTUtBOOY
+	tYKmoy69DIEIHZDb1eSRi1S9Pnp/Zlo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1719324269;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oDnHl3nJGxtSpnz0KQlatq3vHiBiBHuW3YAwArTHvs0=;
+	b=k/0FJ8c01NxktSjP1dBYdJU1b8jxcmkJDbzKVd6aLxFUoWVph+7ZMN6oSkx8LdeVRzvz/F
+	/lL7Ul+uojk412AQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C070A13A9A;
+	Tue, 25 Jun 2024 14:04:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 995QLm3OemZWJQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 25 Jun 2024 14:04:29 +0000
+Date: Tue, 25 Jun 2024 16:04:57 +0200
+Message-ID: <87v81xktiu.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Jaroslav Kysela <perex@perex.cz>
+Cc: <linux-sound@vger.kernel.org>,
+	Takashi Iwai <tiwai@suse.de>,
+	Takashi Sakamoto <takaswie@kernel.org>
+Subject: Re: [PATCH v6 2/2] ALSA: pcm: optimize and clarify stream synchronization ID API
+In-Reply-To: <20240625135535.586233-3-perex@perex.cz>
+References: <20240625135535.586233-1-perex@perex.cz>
+	<20240625135535.586233-3-perex@perex.cz>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240615125457.167844-1-rauty@altlinux.org> <2c9ba341bc95d4b9010bf5f8794c0d14b1c57dc9.camel@irl.hu>
- <CAGpJQTHoBAixmxta2WuZfjHjiK9GXF=hkfPyV7PBD5rt9Z_0WA@mail.gmail.com>
- <CAGpJQTGqxEkfp003QLsp-syUgzDFCmHSmNaoOaem0ZMVf7_=bg@mail.gmail.com>
- <c0a9e15e7926e098bdea97a7d31c32427e0910c9.camel@irl.hu> <871q4lm9dp.wl-tiwai@suse.de>
-In-Reply-To: <871q4lm9dp.wl-tiwai@suse.de>
-From: Rauty <rautyrauty@gmail.com>
-Date: Tue, 25 Jun 2024 17:00:57 +0300
-Message-ID: <CAGpJQTFF=gKN2h105dGhBOEhN0Q1Tpj5hJWpSdQ_-nCoUTzj5A@mail.gmail.com>
-Subject: Re: [PATCH v2] ALSA: hda/realtek: Enable headset mic on IdeaPad
- 330-17IKB 81DM
-To: Takashi Iwai <tiwai@suse.de>, Gergo Koteles <soyer@irl.hu>, alsa-devel@alsa-project.org
-Cc: tiwai@suse.com, perex@perex.cz, kailang@realtek.com, 
-	sbinding@opensource.cirrus.com, luke@ljones.dev, shenghao-ding@ti.com, 
-	simont@opensource.cirrus.com, foss@athaariq.my.id, rf@opensource.cirrus.com, 
-	wzhd@ustc.edu, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 
-On Tue, 25 Jun 2024 at 16:32, Gergo Koteles <soyer@irl.hu> wrote:
-> I still think this breaks Duet 7 sound, because snd_hda_pick_fixup
-> function picks the PCI SSIDs before Codec SSIDs.
+On Tue, 25 Jun 2024 15:53:47 +0200,
+Jaroslav Kysela wrote:
+> 
+> -	unsigned char sync[16];		/* hardware synchronization ID */
+> +	bool sync_flag;			/* hardware synchronization - standard per card ID */
 
-a piece of lspci from Lenovo IdeaPad 330-17IKB 81DM:
-00:1f.3 Audio device [0403]: Intel Corporation Sunrise Point-LP HD
-Audio [8086:9d71] (rev 21)
-Subsystem: Lenovo Device [17aa:3837]
-Kernel driver in use: snd_hda_intel
+sync_flag sounds too ambiguous to me.  Can we name it more explicitly?
 
-Since PCI SSIDs are in priority, I will specify it (0x3837).
-Then this patch will not break the sound in the laptop and the change
-will be minimal.
+
+thanks,
+
+Takashi
