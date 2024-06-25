@@ -1,42 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38B215250F;
-	Tue, 25 Jun 2024 11:33:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D3AD15531A
+	for <linux-sound@vger.kernel.org>; Tue, 25 Jun 2024 11:34:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719315239; cv=none; b=ipclvyk0CdOF1JGB0PK525cVXHQOClLErqKQTJvtDvK58X0gkP3vvOc8nDlos1Xr78zU5HXBZRrutSUWruo2ZH8LVr88eqYcfyNfG1y5Rl1A+w5yVTnqIBshkvRYftPgAyqoNjDIrsLh+9t09pV/47/CFUsC/lO5/BSrp/KoSK0=
+	t=1719315241; cv=none; b=BBf8WAS43L39vos+XKyjWTRqnluvygilbisD5KpZ0NlDTRDDty8K+r1ZlovGGKT4xWu4YFKUW9516ALIH8u4XDyVAH8aZOdEMs4fjhbrQ31uiKMTwVdt4OocGnHcEDZ3t7LpnGoZv7+JZoXEYBRMuF7cbcyAxFjEZi+nyjAL/mE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719315239; c=relaxed/simple;
-	bh=POLNQtzyiFdfDZHg+15z+oQL9f1wyzLbbFrSGtcTas8=;
+	s=arc-20240116; t=1719315241; c=relaxed/simple;
+	bh=0J08+6yd5i9j/VGiGzoX+5NKF+XEowmODy49szGTeJ0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=YLRMFOmgg4CyJYXuAin/CjheIAQJKymcphiVmEBTT6R0kr037l8OgyfmypDSO3H0nElSGtGL5d39L7IXAOFNSxTIuTZWt/RDZFKQikjhDxR+GJh0R8Psf+P7V1MlJdR85SZySzVzcmz8OtIev4WAKv4OwjIHPHadkEwWxkOjOFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oROhn3xk; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=gGnaWFDXTHbTWxC9QyqzKAJMvqHnnCKi6KMBu9g7Fzgl5G5lhu79m9ITLWSVYOyeVpnT4z395iSHqlx01/9xJPuCX1015B4ItgkA/eBdwvkPdWkG0xaqwevyXYAhcC+OqYDCEtX2NmsFPYS7OiVTKSZRTm+Omf0BSV5eucAjgOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rky4jUuJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oROhn3xk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4387DC32781;
-	Tue, 25 Jun 2024 11:33:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rky4jUuJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E663BC32789;
+	Tue, 25 Jun 2024 11:33:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719315239;
-	bh=POLNQtzyiFdfDZHg+15z+oQL9f1wyzLbbFrSGtcTas8=;
+	s=k20201202; t=1719315240;
+	bh=0J08+6yd5i9j/VGiGzoX+5NKF+XEowmODy49szGTeJ0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=oROhn3xk6yl2yx3SWMZlu+wq2wf1jN9UjC/ac/ON/5I9jvMfhlJeiYrzhIGsjWyPi
-	 27gsYWOjuiSZecuL1SnY7ToEtAkOJOLiMJS5ofAiDxazmczz9Ekz9Ls1PZQEVsv9vC
-	 YchB2yMBu7/yIuzQvwrVWn2eFVLOolOdVGD1j/H+FFjqE6XORawNUwvvutTGCI3I+U
-	 NN2WDyHHP8diGj4+UOs31O8gGlByJ91MbX1c05XHM7iuPb2JJxBmbRBuHBW3nXZsXM
-	 96LAPF2wkfPsDFaJKy4gGG5uUztE6yDskTcuTroVu+yrbVS5kip3zbeEXykg71FFBD
-	 EcUi6Hm9x7a8g==
+	b=rky4jUuJRX5vH7kvUdQb+4uSY6SUyeC96rpl7ANLX+Ja+ZAsh6c+CFDNaWD44C4pj
+	 oLLZnb1EqzqdhotKogr2+a+EWQG2qUDk9RItHVDlnFUR4NzDaNX/xBWi4U1jAqiwTF
+	 XYZ7D+OCk0J2wmj3R3BzBpYZDsNzm1aG961HmoWmG3YH/maIBXrEQgkMYS9E6ixuqz
+	 O/mT909aVkibI1Xgo0/MFtVWVlNdhFw9G+0suG7IH8p+B4dzedvrmrfWkhYAMiLIka
+	 owqrldX03vZTTkQiiXzGcw1WPbuJWqz/gQryHk2nCjj+AP9KuNduNVsOIjY3/3N9Nt
+	 q5IAHYFNROagA==
 From: Mark Brown <broonie@kernel.org>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Chen-Yu Tsai <wenst@chromium.org>
-Cc: Trevor Wu <trevor.wu@mediatek.com>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
-In-Reply-To: <20240624061257.3115467-1-wenst@chromium.org>
-References: <20240624061257.3115467-1-wenst@chromium.org>
-Subject: Re: [PATCH v2] ASoC: mediatek: mt8195: Add platform entry for
- ETDM1_OUT_BE dai link
-Message-Id: <171931523799.64144.6880619543186232885.b4-ty@kernel.org>
-Date: Tue, 25 Jun 2024 12:33:57 +0100
+To: linux-sound@vger.kernel.org, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: alsa-devel@alsa-project.org, tiwai@suse.de
+In-Reply-To: <20240624121519.91703-1-pierre-louis.bossart@linux.intel.com>
+References: <20240624121519.91703-1-pierre-louis.bossart@linux.intel.com>
+Subject: Re: (subset) [PATCH 0/3] ASoC: SOF: topology/intel improvements
+Message-Id: <171931523966.64144.7398167268117575892.b4-ty@kernel.org>
+Date: Tue, 25 Jun 2024 12:33:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,14 +45,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14-dev-d4707
 
-On Mon, 24 Jun 2024 14:12:56 +0800, Chen-Yu Tsai wrote:
-> Commit e70b8dd26711 ("ASoC: mediatek: mt8195: Remove afe-dai component
-> and rework codec link") removed the codec entry for the ETDM1_OUT_BE
-> dai link entirely instead of replacing it with COMP_EMPTY(). This worked
-> by accident as the remaining COMP_EMPTY() platform entry became the codec
-> entry, and the platform entry became completely empty, effectively the
-> same as COMP_DUMMY() since snd_soc_fill_dummy_dai() doesn't do anything
-> for platform entries.
+On Mon, 24 Jun 2024 14:15:16 +0200, Pierre-Louis Bossart wrote:
+> Two updates for corner cases seen with new topologies, and one
+> correction for the number of periods reported by Chrome stress tests.
+> 
+> Peter Ujfalusi (3):
+>   ASoC: SOF: ipc4-topology: Use single token list for the copiers
+>   ASoC: SOF: ipc4-topology: Use correct queue_id for requesting input
+>     pin format
+>   ASoC: SOF: Intel: hda-pcm: Limit the maximum number of periods by
+>     MAX_BDL_ENTRIES
 > 
 > [...]
 
@@ -64,8 +64,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: mediatek: mt8195: Add platform entry for ETDM1_OUT_BE dai link
-      commit: 282a4482e198e03781c152c88aac8aa382ef9a55
+[2/3] ASoC: SOF: ipc4-topology: Use correct queue_id for requesting input pin format
+      commit: fe836c78ef1ff16da32912c22348091a0d67bda1
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
