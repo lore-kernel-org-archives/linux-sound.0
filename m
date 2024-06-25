@@ -1,117 +1,87 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0A1F135A69
-	for <linux-sound@vger.kernel.org>; Tue, 25 Jun 2024 17:30:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C6E11448D9
+	for <linux-sound@vger.kernel.org>; Tue, 25 Jun 2024 18:12:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719336616; cv=none; b=W3VNDOf1uH3uqGRlNu7JmlhUZL2DkyA8R+Vyt5qgd0+Qgy5RZasZtAHt/AwTZbVlVYAEI+NIwkRdDHx0zRr9Adztvji3g+bXOfuNRvMIhPde7FiWPI58rvk22cM40u0lOkbS7222kxNNSKgZS+/MxfUcKgsDPUhyy/uA6ExTIkI=
+	t=1719339140; cv=none; b=opkyGEUgpuWHxN1pgEHLxkaRnHCBGswfSJ7FX489QgexnXSLTSW8/klm1mO1PQV4M3dn0Q+IjwBg5/5kZFZay3X4AdMGCBYHz7Q6O7Zdel6E8XBAQjF5jpvYab+4ePdoMMwEa23e4Gd1nTMN4QOkPhvMLdJG2YalV07Hp8CQehw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719336616; c=relaxed/simple;
-	bh=Qh6oG90H2uKpoRllcdB4rRwQHQsi5TOjJA8M5bN/dzA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ClTG7YcJRXWcdHnToXUfMZZoWA3jQKbjIM62d0PN/FYVv3VtCK58F0mhARsR2XfZrERfDBLHn94fTOYfN8Ax/vL3gDtDFbNTfYFpU0qSIFavFASq2JH0cWzYSF6iZeLmNLDgEKdgMr6RKIbwEIFltA2tfg/MIa9uf/3hbUZS9PI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=3hMP74jU; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	s=arc-20240116; t=1719339140; c=relaxed/simple;
+	bh=TWGNtahYAoMWqUSJ23OCag26AT838sr09jwWwmGXRH0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=SPiNwOZd/Wq/lNvYAoZ/OoQeuzPER01Sx7dG9/CxNQ8FEvw/y3tc5j6AhpRLx1DG9glZ2LyItAdM+upzYrs+I8NCuT5hUt5QmNZLGqO6QlxR2Apoento7igA6wIEV4YaekqHOFMBPjVk1VvFHafryowRHTJ3NPGhMvs6vHs1vMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W9XH+Hza; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="3hMP74jU"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 609F66839;
-	Tue, 25 Jun 2024 19:30:11 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 609F66839
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1719336611; bh=uBNpu97hSktBFm7uET/BXcBHVtTrwbG8zT1ihQUk+Vc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=3hMP74jUg6WgWvVgIR6RukFPSZ/y69HVBF0U0/qLlYkggqUkuFEH4ZPLfveDvoo79
-	 wkXo6GTjo2LBuD5gRH4CBO15ffRuP0U8BAkC3UBxyyr92mlOl5P0ZBSOCIwa6Gt4aY
-	 xlC3hyeWwk/kB1UilDGXHBGRfztvqrVJp5W90+B4=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Tue, 25 Jun 2024 19:30:08 +0200 (CEST)
-Message-ID: <7ac5d52a-456f-45fe-a14f-ea9920d2408d@perex.cz>
-Date: Tue, 25 Jun 2024 19:30:07 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W9XH+Hza"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 809C7C32781;
+	Tue, 25 Jun 2024 18:12:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719339139;
+	bh=TWGNtahYAoMWqUSJ23OCag26AT838sr09jwWwmGXRH0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=W9XH+HzaSfzkv7T+o/zL56JA4mJeQ+WXcWaOplEWV7DXc7XViwJYXoJoojxnP74mG
+	 Bl+cuvSIJAr5z0cnjku5NnkrfHML2tz+5eZl4RsRCpezIDJ0r0mwuPlKWSbhOkSx8g
+	 NwkZuwDTV9kP+KAiGAU4/2M67nxQLZSfnOGy59R+a9OUP1u0M/wvgYVeTatIBFv2UB
+	 LlYG6tpyxVYkeJAFV31edjiwo8Xi64jMHOo5NZiWuEyyixLXgsnYOjkAE1UdDBBa0l
+	 OLgD3kTYqEpoXXriy7+77LaOKvcHwk2pnsJyUJyd6pWVTzmbQI0dDMTg2lrF1TeDtA
+	 XL2DI1nTlmfIA==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Oder Chiou <oder_chiou@realtek.com>, linux-sound@vger.kernel.org
+In-Reply-To: <20240624131728.1244053-2-u.kleine-koenig@baylibre.com>
+References: <20240624131728.1244053-2-u.kleine-koenig@baylibre.com>
+Subject: Re: [PATCH] ASoC: codecs: Drop explicit initialization of struct
+ i2c_device_id::driver_data to 0
+Message-Id: <171933913823.1078071.14226460367405763719.b4-ty@kernel.org>
+Date: Tue, 25 Jun 2024 19:12:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/2] ALSA: pcm: optimize and clarify stream
- synchronization ID API
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org, Takashi Sakamoto <takaswie@kernel.org>
-References: <20240625135535.586233-1-perex@perex.cz>
- <20240625135535.586233-3-perex@perex.cz> <87v81xktiu.wl-tiwai@suse.de>
-From: Jaroslav Kysela <perex@perex.cz>
-Content-Language: en-US
-Autocrypt: addr=perex@perex.cz; keydata=
- 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
-In-Reply-To: <87v81xktiu.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.14-dev-d4707
 
-On 25. 06. 24 16:04, Takashi Iwai wrote:
-> On Tue, 25 Jun 2024 15:53:47 +0200,
-> Jaroslav Kysela wrote:
->>
->> -	unsigned char sync[16];		/* hardware synchronization ID */
->> +	bool sync_flag;			/* hardware synchronization - standard per card ID */
+On Mon, 24 Jun 2024 15:17:27 +0200, Uwe Kleine-König wrote:
+> These drivers don't use the driver_data member of struct i2c_device_id,
+> so don't explicitly initialize this member.
 > 
-> sync_flag sounds too ambiguous to me.  Can we name it more explicitly?
+> This prepares putting driver_data in an anonymous union which requires
+> either no initialization or named designators. But it's also a nice
+> cleanup on its own.
+> 
+> [...]
 
-Done in v7 - std_sync_id.
+Applied to
 
-		Thanks,
-			Jaroslav
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
--- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+Thanks!
+
+[1/1] ASoC: codecs: Drop explicit initialization of struct i2c_device_id::driver_data to 0
+      commit: 6f9faf1410fe151350ece4a93df30b9e06deec92
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
