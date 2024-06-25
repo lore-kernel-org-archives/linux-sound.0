@@ -1,33 +1,50 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BCCB161915;
-	Tue, 25 Jun 2024 13:44:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFAE817C98
+	for <linux-sound@vger.kernel.org>; Tue, 25 Jun 2024 13:48:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719323050; cv=none; b=kuUigrhzQ7viE+20hNFw5dokREgfW9KmQJSIPiU/yHXlG/hLJxUrKwUUOzo0KB7W64T9dsQepsEJER2yWvsYVH0UhJonyHpDUlpswv+obZqSAF2+2cVVxxuzRYWtQ9htORz6IFHKjj7gpMAnEvhFat+Iaz2SSwMwx24zkPMDuLM=
+	t=1719323289; cv=none; b=ZMwoSz9VZkS+eZWYLtmi4GpQzn3Dbl9mZhhfeWlAgh2IIERzDOKOCoxH6NEGHQqbXLAKQ1oW24yEsM3NIdQggGUrAY7dXGNoKx5+gTEreKil3KmKvcGryapXARc0crFlFPi1T/0K/Be7e6dQu7YkYIfyqK3wSK7rVqzNQkBA9SE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719323050; c=relaxed/simple;
-	bh=qQWHcYlUDLhXU8vkBrdqxz/UtKXK1E/0XxX62Qh+A5c=;
+	s=arc-20240116; t=1719323289; c=relaxed/simple;
+	bh=rLtw0kpyxKju24eTW3vtcckN7MU53T9UFLRzoxqvMRM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JeWgV8ypTs8SeRbGFJCsW2lJhSkpu0ptsDSadq10KrW6G/QMPk22KkbHktWnkA2gWYxOVq4+W79KsyIZHJ36gXnNdUN30LeFqFLJSnPUzBIdarDuk0IVePm/ZwcfzDdMd1j/rWi2pwGFsauq/Fkvi7c7BSkc6Af70QzQVoIN7XA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ha33VICF; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=D/nstbPnQHI+uBSjWlofHwiGwa7W47wSxNDeCCUWrcB8VJ12F8Nx2t5IDRSPfGxeRJ2MSXkjtrskt/Dn57rOZyPPMXBb0gcd/Gvrk0OLCkBHxlz+RV+FudH90fBOS8rCOLjfm8UZw7LB6uitYCW+DdNWWrQwVLiOCLJALYbenhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MMjI1Hpi; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ha33VICF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA04BC32786;
-	Tue, 25 Jun 2024 13:44:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719323049;
-	bh=qQWHcYlUDLhXU8vkBrdqxz/UtKXK1E/0XxX62Qh+A5c=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ha33VICFx8Cl6rQrGCxAALxVpGPzCRJMpS4FzY6a94Ws0zp+ey1rwAV/Hr65ShuAD
-	 G7qV7JNjQPDrKi/HgcO02Tkfl+XqQlhkbOxrDkZOTs88pA2Huw9TH+VVSZXShbKfky
-	 OTbtY7X3e99NXlY20Hu08LwMzFDBzF0rfoocpTqTyMWAa/8uNdqbKh6ub9VFhxBy4o
-	 +RvXHoY+bTvJq3HOgp+8GnK7bkarCXmuEI7PxztysV7edk1/sEJDe02WZZLVY9K+dV
-	 UWeUKIwKnrtKEn1TQXHiK434fS2FNmqHjv9+aA9SeCE9w+h6+UXsuNdpfsL3oOHn18
-	 YkxEQR0hPFA9w==
-Message-ID: <5c9ab5bf-95f2-4195-8797-335010223aac@kernel.org>
-Date: Tue, 25 Jun 2024 15:44:02 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MMjI1Hpi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1719323288; x=1750859288;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=rLtw0kpyxKju24eTW3vtcckN7MU53T9UFLRzoxqvMRM=;
+  b=MMjI1Hpi7iWmdGKk3rwPiB4fsIHSbE6n+opiwR8tv3hoSKV0uRenxVuY
+   CvDVTLjO5xcnFgGHMCA37msA2BdDeiH7mWv1xqszKNGmAu5a5R3mX1TN2
+   mdnGEymiE8I1Qvm5EOjohD+oz6v5Q76HX4R15RQBDUiRsBChfgoWUS/ee
+   tB1i24Bb6iXmUVuNdk2MsnBlaDmrZPkDwp68ySkEEFXNK5c14tTQC/AyU
+   Vs4Kg+/2e9dUT1bp3NpNsJUf3i1etY9g2OlpfD6Lx0iPZvaLqtv7Znmxa
+   QwR6o1iRfd78H+2t8NwkXtY2qMdHIquVFWAtuS5RG2g87AVPB0SOPDW2v
+   A==;
+X-CSE-ConnectionGUID: /mZpOP42S5OHXVOUELOI4g==
+X-CSE-MsgGUID: e9yHKr5iRWyLTCV7PtP49Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11113"; a="16464801"
+X-IronPort-AV: E=Sophos;i="6.08,264,1712646000"; 
+   d="scan'208";a="16464801"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2024 06:48:08 -0700
+X-CSE-ConnectionGUID: aGOVYfp4QuW+arAOfxG5EQ==
+X-CSE-MsgGUID: UHJY94RWT4CvFJhmiNnlQw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,264,1712646000"; 
+   d="scan'208";a="74419380"
+Received: from ettammin-desk.ger.corp.intel.com (HELO [10.245.246.252]) ([10.245.246.252])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2024 06:48:05 -0700
+Message-ID: <7d79dfb4-5a36-4312-8c25-c93a4e5f9fa2@linux.intel.com>
+Date: Tue, 25 Jun 2024 15:48:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,138 +52,83 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 03/16] dt-bindings: mfd: mediatek: Add codec property
- for MT6357 PMIC
-To: Alexandre Mergnat <amergnat@baylibre.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20240226-audio-i350-v6-0-f754ec1a7634@baylibre.com>
- <20240226-audio-i350-v6-3-f754ec1a7634@baylibre.com>
- <cd190d35-1658-43d8-9606-5e73257bbf3a@linaro.org>
- <95bab90f-b196-4e79-bb88-7fd534cca721@baylibre.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v3] ALSA: compress_offload: introduce passthrough
+ operation mode
+To: Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org
+Cc: Takashi Iwai <tiwai@suse.de>, Mark Brown <broonie@kernel.org>,
+ Shengjiu Wang <shengjiu.wang@gmail.com>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>,
+ =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>, Vinod Koul <vkoul@kernel.org>
+References: <20240621164915.410946-1-perex@perex.cz>
+ <18c2a323-f0b5-4dea-b502-ce7e7021c555@linux.intel.com>
+ <51462bc7-d9da-4e2d-9244-a59184c4d8ed@perex.cz>
+ <7fb00353-08f2-4fad-b05e-cdf4b6451cbe@linux.intel.com>
+ <626a22b6-7de9-45ba-a702-f4539f2a25a7@perex.cz>
+ <69951352-c0c4-4984-bbab-acdfc4add146@linux.intel.com>
+ <c2bcc49e-722f-43da-a3a1-ddd92210904f@perex.cz>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <95bab90f-b196-4e79-bb88-7fd534cca721@baylibre.com>
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <c2bcc49e-722f-43da-a3a1-ddd92210904f@perex.cz>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 25/06/2024 11:23, Alexandre Mergnat wrote:
-> 
-> 
-> On 21/06/2024 17:00, Krzysztof Kozlowski wrote:
->> On 19/06/2024 16:46, Alexandre Mergnat wrote:
->>> Add the audio codec sub-device. This sub-device is used to set the
->>> optional voltage values according to the hardware.
->>> The properties are:
->>>    - Setup of microphone bias voltage.
->>>    - Setup of the speaker pin pull-down.
->>>
->>> Also, add the audio power supply property which is dedicated for
->>> the audio codec sub-device.
->>>
->>> Signed-off-by: Alexandre Mergnat<amergnat@baylibre.com>
->>> ---
->>>   .../devicetree/bindings/mfd/mediatek,mt6357.yaml   | 33 ++++++++++++++++++++++
->>>   1 file changed, 33 insertions(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml b/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
->>> index 37423c2e0fdf..d95307393e75 100644
->>> --- a/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
->>> +++ b/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
->>> @@ -37,6 +37,32 @@ properties:
->>>     "#interrupt-cells":
->>>       const: 2
->>>   
->>> +  vaud28-supply:
->>> +    description: 2.8 volt supply phandle for the audio codec
->>> +
->>> +  audio-codec:
->>> +    type: object
->> Still not much improved. You do not have any resources there, so these
->> should go to the parent node.
-> 
-> Hi Krzysztof,
-> 
-> vaud28-supply seems to be a mistake that I forward port.
-> In the V4, AFAII, your feedback [1] suggested me to move the vaud28-supply from the "audio-codec" 
-> sub-node to the parent node, which for me is the "pmic" (mfd), because the property is considered as 
-> power-supply.
-> 
->      pwrap {
->          pmic {
->              ...
->              audio-codec {
->                  ...
-> 
-> Hardware side, vaud28-supply is the output of PMIC-regulator subsystem, and AVDD28 is the input of 
-> PMIC-audio-codec subsystem. Then:
-> - The property name is wrong and must be change to AVDD28, which is a consumer (power input), not a 
-> power-supply. => description: 2.8 volt power input for microphones (AU_VIN0, AU_VIN1, AU_VIN2)
-> - IMHO, move this property to the next parent (pwrap) isn't consistent. It should be moved back to 
-> Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml (Done in the V4) into audio-codec 
-> substystem, beside mediatek,micbias0-microvolt
 
-I don't understand why do we talk again about supply. My comment was not
-under the supply.
+> The internal state requirement for multiple tasks is mostly given by the
+> used stream structure, so user space will handle this correctly (restart
+> stream on demand). You can imagine situation, where too many data are
+> queued and user space will receive a signal to do something different,
+> so it makes sense to support dequeuing of tasks. The stream state should
+> be reset when the task is stopped (removed from the queue) even if there
+> are other active tasks after this stopped one.
+We are in agreement that the 'drop' (stop now) and 'drain' (keep going
+until all data was consumed) capabilities are very much needed. I don't
+think controlling the states of intermediate tasks is possible or even
+desired though.
 
-Best regards,
-Krzysztof
+> I may also propose kernel API extension to inform user space that all
+> active tasks must be canceled in one shot (ioctl).
 
+Did you mean "All active tasks in the same context" - defined by the
+open step?
+
+>>>> Also I don't fully get the initial/final stages of processing. It seems
+>>>> that the host needs to feed data to the first task in the chain, then
+>>>> start it. That's fine for playback, but how would this be used if we
+>>>> wanted to e.g. enable an ASRC on captured data coming from an audio
+>>>> interface?
+>>>
+>>> There are no stream endpoints in kernel (no playback, no capture). It's
+>>> just about we have some audio data, do something with them and return
+>>> them back.
+>>>
+>>> For an universal media stream router, another API should be designed. I
+>>> believe that using dma-buf buffers for I/O is nice and ready to be
+>>> reused in another API.
+>>
+>> Humm, how would this work with the initial ask to enable the ASRC from
+>> FSL/NXP? If we leave the ends of the processing chain completely
+>> undefined, who's going to use this processing chain? Shouldn't there be
+>> at least one example of how existing userspace (alsa-lib, pipewire,
+>> wireplumber, etc) might use the API? It's been a while now, but when we
+>> introduced the compress API there was a companion 'tinycompress' utility
+>> - largely inspired by 'tinyplay' - to showcase how the API was meant to
+>> be used.
+> 
+> I replied this in another answer. The expected users are media
+> frameworks like gstreamer or ffmpeg (use this directly as a plugin in
+> the processing chain). Maybe audio servers can use this hardware
+> acceleration, too.
+> 
+> I would like to define the basic kernel API (ioctls) in the first stage
+> and then continue with a test kernel module, user space library (maybe
+> include support in tinycompress) and user space test utility.
+
+Incremental development sounds fine, but at some point we'll need some
+sort of development hardware to check how well things work, and what's
+missing. In the case of the compress API some 12+ years ago we
+completely missed the gapless playback requirement which led to the ugly
+partial drain solution. We also underestimated the inertia and effort
+needed to change userspace, so much so that the main users of the
+compress API are in the Android world. I am not aware of any users of
+the compress API in the traditional Gnome/KDE environments.
