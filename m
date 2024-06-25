@@ -1,153 +1,172 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C974158A03;
-	Tue, 25 Jun 2024 13:36:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BCCB161915;
+	Tue, 25 Jun 2024 13:44:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719322602; cv=none; b=aoYshfAm5JVOZXrUU1smuh/OwNmuAcdh1xwCqQzdO6HT2Gc0ugabcRbBUSRnsCff9OPsnjW2AGdsCke2yzHJk1LKi1sbjxqu/k8AVcClBH4Vk3ebSoiiLGFW3hysQ0bBDWTOWzfC7FvxQpJpYX26G86gnOaZkgRAwFt4zQ7VIJA=
+	t=1719323050; cv=none; b=kuUigrhzQ7viE+20hNFw5dokREgfW9KmQJSIPiU/yHXlG/hLJxUrKwUUOzo0KB7W64T9dsQepsEJER2yWvsYVH0UhJonyHpDUlpswv+obZqSAF2+2cVVxxuzRYWtQ9htORz6IFHKjj7gpMAnEvhFat+Iaz2SSwMwx24zkPMDuLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719322602; c=relaxed/simple;
-	bh=2NNrfxdGHRIS9EPNSQASsFMV9IUSfTj+l1pLf5bdFn0=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rxAnEZM1MzBRAOwRxNJFnWYE7woOuQyU+8Abrd30ObFKb+QATh2lWKVNQxzkzwRAcrYqPBIjYs5Xuld32fRA0tVmBzpTcjunRfXQ9drIeD4ho0UpAa5Cd8tl/FLXRUNGbN6rPMoEYu9A4i6WdaBb0LICfhaWaPpVUOdWbQXSBIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ga1bEF6v; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WHCYmOdF; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ga1bEF6v; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WHCYmOdF; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1719323050; c=relaxed/simple;
+	bh=qQWHcYlUDLhXU8vkBrdqxz/UtKXK1E/0XxX62Qh+A5c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JeWgV8ypTs8SeRbGFJCsW2lJhSkpu0ptsDSadq10KrW6G/QMPk22KkbHktWnkA2gWYxOVq4+W79KsyIZHJ36gXnNdUN30LeFqFLJSnPUzBIdarDuk0IVePm/ZwcfzDdMd1j/rWi2pwGFsauq/Fkvi7c7BSkc6Af70QzQVoIN7XA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ha33VICF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ga1bEF6v";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WHCYmOdF";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ga1bEF6v";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WHCYmOdF"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 28AA61F455;
-	Tue, 25 Jun 2024 13:36:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719322599; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BjJvQF5Kx2DUvlD3SHvk77Gtd8qjlI64dqtGYtiomQY=;
-	b=ga1bEF6vZL7POkidm81twLxaoHimWh6jC3rbzv/xK6NBqAE7YdmotvR/re6lLYoX4CmKKa
-	xY+E24J/LwcA1M2nlg8G66Nc92JW1MWpQhMlTEOFhPHRoUpu+6UplNzg+JJiLzKladkqhM
-	JxuMCY3tzqULDhfGwLy4/I1y7rFDax4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719322599;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BjJvQF5Kx2DUvlD3SHvk77Gtd8qjlI64dqtGYtiomQY=;
-	b=WHCYmOdFyeWNEe1ujV2pojCdKscAUeEoqETCAuXoX011PuARYfkweT5nYYv5FFwOPTeGF6
-	qRYHPd8rfLHDRFAA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719322599; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BjJvQF5Kx2DUvlD3SHvk77Gtd8qjlI64dqtGYtiomQY=;
-	b=ga1bEF6vZL7POkidm81twLxaoHimWh6jC3rbzv/xK6NBqAE7YdmotvR/re6lLYoX4CmKKa
-	xY+E24J/LwcA1M2nlg8G66Nc92JW1MWpQhMlTEOFhPHRoUpu+6UplNzg+JJiLzKladkqhM
-	JxuMCY3tzqULDhfGwLy4/I1y7rFDax4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719322599;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BjJvQF5Kx2DUvlD3SHvk77Gtd8qjlI64dqtGYtiomQY=;
-	b=WHCYmOdFyeWNEe1ujV2pojCdKscAUeEoqETCAuXoX011PuARYfkweT5nYYv5FFwOPTeGF6
-	qRYHPd8rfLHDRFAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ED91E13A9A;
-	Tue, 25 Jun 2024 13:36:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id yjFYOebHemYUHAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 25 Jun 2024 13:36:38 +0000
-Date: Tue, 25 Jun 2024 15:37:06 +0200
-Message-ID: <871q4lm9dp.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Gergo Koteles <soyer@irl.hu>
-Cc: Rauty <rautyrauty@gmail.com>,
-	alsa-devel@alsa-project.org,
-	tiwai@suse.com,
-	perex@perex.cz,
-	kailang@realtek.com,
-	sbinding@opensource.cirrus.com,
-	luke@ljones.dev,
-	shenghao-ding@ti.com,
-	simont@opensource.cirrus.com,
-	foss@athaariq.my.id,
-	rf@opensource.cirrus.com,
-	wzhd@ustc.edu,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ALSA: hda/realtek: Enable headset mic on IdeaPad 330-17IKB 81DM
-In-Reply-To: <c0a9e15e7926e098bdea97a7d31c32427e0910c9.camel@irl.hu>
-References: <20240615125457.167844-1-rauty@altlinux.org>
-	<2c9ba341bc95d4b9010bf5f8794c0d14b1c57dc9.camel@irl.hu>
-	<CAGpJQTHoBAixmxta2WuZfjHjiK9GXF=hkfPyV7PBD5rt9Z_0WA@mail.gmail.com>
-	<CAGpJQTGqxEkfp003QLsp-syUgzDFCmHSmNaoOaem0ZMVf7_=bg@mail.gmail.com>
-	<c0a9e15e7926e098bdea97a7d31c32427e0910c9.camel@irl.hu>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ha33VICF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA04BC32786;
+	Tue, 25 Jun 2024 13:44:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719323049;
+	bh=qQWHcYlUDLhXU8vkBrdqxz/UtKXK1E/0XxX62Qh+A5c=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ha33VICFx8Cl6rQrGCxAALxVpGPzCRJMpS4FzY6a94Ws0zp+ey1rwAV/Hr65ShuAD
+	 G7qV7JNjQPDrKi/HgcO02Tkfl+XqQlhkbOxrDkZOTs88pA2Huw9TH+VVSZXShbKfky
+	 OTbtY7X3e99NXlY20Hu08LwMzFDBzF0rfoocpTqTyMWAa/8uNdqbKh6ub9VFhxBy4o
+	 +RvXHoY+bTvJq3HOgp+8GnK7bkarCXmuEI7PxztysV7edk1/sEJDe02WZZLVY9K+dV
+	 UWeUKIwKnrtKEn1TQXHiK434fS2FNmqHjv9+aA9SeCE9w+h6+UXsuNdpfsL3oOHn18
+	 YkxEQR0hPFA9w==
+Message-ID: <5c9ab5bf-95f2-4195-8797-335010223aac@kernel.org>
+Date: Tue, 25 Jun 2024 15:44:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[gmail.com,alsa-project.org,suse.com,perex.cz,realtek.com,opensource.cirrus.com,ljones.dev,ti.com,athaariq.my.id,ustc.edu,vger.kernel.org];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 03/16] dt-bindings: mfd: mediatek: Add codec property
+ for MT6357 PMIC
+To: Alexandre Mergnat <amergnat@baylibre.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20240226-audio-i350-v6-0-f754ec1a7634@baylibre.com>
+ <20240226-audio-i350-v6-3-f754ec1a7634@baylibre.com>
+ <cd190d35-1658-43d8-9606-5e73257bbf3a@linaro.org>
+ <95bab90f-b196-4e79-bb88-7fd534cca721@baylibre.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <95bab90f-b196-4e79-bb88-7fd534cca721@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, 25 Jun 2024 15:32:16 +0200,
-Gergo Koteles wrote:
+On 25/06/2024 11:23, Alexandre Mergnat wrote:
 > 
-> Hey Rauty,
 > 
-> On Mon, 2024-06-24 at 11:25 +0300, Rauty wrote:
-> > I haven't changed the patch yet, but it's already in the stable-queue:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/stable/stable-queue.git/tree/queue-5.10/alsa-hda-realtek-enable-headset-mic-on-ideapad-330-1.patch
-> > Do you still need changes from me?
+> On 21/06/2024 17:00, Krzysztof Kozlowski wrote:
+>> On 19/06/2024 16:46, Alexandre Mergnat wrote:
+>>> Add the audio codec sub-device. This sub-device is used to set the
+>>> optional voltage values according to the hardware.
+>>> The properties are:
+>>>    - Setup of microphone bias voltage.
+>>>    - Setup of the speaker pin pull-down.
+>>>
+>>> Also, add the audio power supply property which is dedicated for
+>>> the audio codec sub-device.
+>>>
+>>> Signed-off-by: Alexandre Mergnat<amergnat@baylibre.com>
+>>> ---
+>>>   .../devicetree/bindings/mfd/mediatek,mt6357.yaml   | 33 ++++++++++++++++++++++
+>>>   1 file changed, 33 insertions(+)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml b/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
+>>> index 37423c2e0fdf..d95307393e75 100644
+>>> --- a/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
+>>> +++ b/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
+>>> @@ -37,6 +37,32 @@ properties:
+>>>     "#interrupt-cells":
+>>>       const: 2
+>>>   
+>>> +  vaud28-supply:
+>>> +    description: 2.8 volt supply phandle for the audio codec
+>>> +
+>>> +  audio-codec:
+>>> +    type: object
+>> Still not much improved. You do not have any resources there, so these
+>> should go to the parent node.
 > 
-> I still think this breaks Duet 7 sound, because snd_hda_pick_fixup
-> function picks the PCI SSIDs before Codec SSIDs.
-> But maybe I missed something.
+> Hi Krzysztof,
 > 
-> Takashi, what do you think?
+> vaud28-supply seems to be a mistake that I forward port.
+> In the V4, AFAII, your feedback [1] suggested me to move the vaud28-supply from the "audio-codec" 
+> sub-node to the parent node, which for me is the "pmic" (mfd), because the property is considered as 
+> power-supply.
+> 
+>      pwrap {
+>          pmic {
+>              ...
+>              audio-codec {
+>                  ...
+> 
+> Hardware side, vaud28-supply is the output of PMIC-regulator subsystem, and AVDD28 is the input of 
+> PMIC-audio-codec subsystem. Then:
+> - The property name is wrong and must be change to AVDD28, which is a consumer (power input), not a 
+> power-supply. => description: 2.8 volt power input for microphones (AU_VIN0, AU_VIN1, AU_VIN2)
+> - IMHO, move this property to the next parent (pwrap) isn't consistent. It should be moved back to 
+> Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml (Done in the V4) into audio-codec 
+> substystem, beside mediatek,micbias0-microvolt
 
-Hm, a breakage looks possible, indeed.  I naively thought it being a
-same model, but this is a different one.
+I don't understand why do we talk again about supply. My comment was not
+under the supply.
 
-We need an additional codec vendor or SSID check as done for other
-machines.
+Best regards,
+Krzysztof
 
-
-Takashi
