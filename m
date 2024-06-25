@@ -1,122 +1,144 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18B3414C59C
-	for <linux-sound@vger.kernel.org>; Tue, 25 Jun 2024 16:07:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 514B517165B
+	for <linux-sound@vger.kernel.org>; Tue, 25 Jun 2024 16:21:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719331666; cv=none; b=uaOEqKbvq67lUR2jqU64G04Ba+KZiWK2a0T2hYvPCjMCK0ycBfmbMEuPgrFEf/RTYHuRNGrdKo0ujVIy1EKFgJUNFRMV0WdxvedR8yxhrlKL7MlqmWBMqXMQ6UcHSexWvk0hlBBlnXCDRefoJ8TA0qjCO0nj4Vl2XL5u+9wCbtI=
+	t=1719332491; cv=none; b=OwDa6DYo1nOJV5QCnBtfaQK5+f3MTkb00K7yWSYOGTGX9CS8Vc9ANMYMjUkEyUuqyfRt/rS5+uBBFomF5WCKypyk2tBq5uKxrCC0iAr8hXHvBy1fqaEaygPbeXNaiZGNrwnzZtKmWy6W9rfDKazhT1nI8LdlJ+YqZJ5nobB6Rh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719331666; c=relaxed/simple;
-	bh=1qbtk3OuDsg5JykbAutMiYplR43VIqHxiBteHho3YMo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=j/lq2DwNB5jRmnwBJMQrpEs21cSw1MSrSBr1Mlryoj8kBUwKs7UlLyMxfStoy01m6rhJNTCobLqZD1FwIiwsp7rSxVd8HXSVWWZ7M3V4uv4b5hJ6z/9+/iMbNqTVtK7lOEsZvetxk9yLikZ4eVgfYiEfyzsY4TXS+g30Z3ENER8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZneuiuVh; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1719332491; c=relaxed/simple;
+	bh=CqABDJyIvigPOHjeJkgCNT3v9E386/0PkbPOtvexrmk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VCi5NrHsGRgMm3vOXqQIgq4rCeM0+e5ca3BaSaGjYZXr22RUFW0x9gl7fL36LCusA01Z8jp6q7/ddoMHPouEgJJQvw008rHKLkHoymo5do/tZybPzSoc3VWo8xTUu2vFyeJ3vtbCyoOAg67QdbCUh99TxXVBN8EZ59fRSpcUavI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=fS4b1QOw; arc=none smtp.client-ip=209.85.219.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZneuiuVh"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-42122ac2f38so34334205e9.1
-        for <linux-sound@vger.kernel.org>; Tue, 25 Jun 2024 09:07:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="fS4b1QOw"
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-dff305df675so6210911276.1
+        for <linux-sound@vger.kernel.org>; Tue, 25 Jun 2024 09:21:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1719331663; x=1719936463; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=FSwASthEsdX2DteIZwJkoH24oLk9aUfOcBU7wEUFdws=;
-        b=ZneuiuVhKGDwXXgwxXWWQQgY4qjniYEkHeYo/aKmlN70D5gwP9PJZlPs+ZUTZjURzZ
-         ba5dmdbleR+fcksMUCAuuvg8808cXupJVi/SeFWO9DJIaSuLg1B4CPn+QI7oabKnEx/J
-         5PCYjGshsWrL4ZkPjN+IMJYjbUgyktiVtItB11uqpc9qUq/z9yaY2tdkLsawuB5/SCi9
-         t7F1PV/75p3KuxitVHXqpmdp22t3TpYH/fGljo/zmjeaaRfhsj0FYoqfOIl1xRTgsB7k
-         JGe7cL/J+4cEFdb96D9em1bixo9DWz8YL7MEO1P3wgZH2B0lxLekvOR5evFpuaEHOb+T
-         v/NQ==
+        d=raspberrypi.com; s=google; t=1719332489; x=1719937289; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=qb2E6wZdQOD4FpB99oMUsAKBgWpj20AwfW8pSsc6D5k=;
+        b=fS4b1QOwgMlQUSHPstioQam5Mc1zkmTwNGxybwB+TmbBaqEULmHCf5adr5a5aFqaIB
+         JzDnfVj4Uj0WLgHnSKH8yxlwfyEKIeMqzESqglDVlxVF5ZWjsqmg0aJlCLquwuIkdSP0
+         2fUR+fdp18dONH7HpSpt38Lxv3BV0p9ra4Tx0q9EN5OpaRv4ZEik7RV3TWGn5LTmu8Qc
+         sHpehnSNLOEKeYgJpwjqY9jKGcdyI/CpU8mUTpzvfIXQX5KeWh2Mc+w1xfnpcjsbwjLu
+         XdrTuLW/u/C9Ca5jfT9BT2eRDv4TUYsAdTdQBdFVzO0veB/cI6ox86isdXLXFM/mWl8/
+         /FTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719331663; x=1719936463;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FSwASthEsdX2DteIZwJkoH24oLk9aUfOcBU7wEUFdws=;
-        b=VP3HKztHoDhjxHOUdPTktk5OzY4YepnNbt/20HoLTSVmwFvTtA0yumX41lzzTu7Ubn
-         pyJpVocjb4VyYb3TZ1dOlSGm7VvqT8ynYM3VGlPg8Uxx6qlJDTnq/NFfdlK6cOHd+L1Q
-         VsIkUh6Zz+3RkQ7x99ewDwbw5uwRw3C/5N4tzj4NSaW1rH++Y29siBB2RNZO2c37Uf/A
-         +XVTy6RTAo66SqaqJ0PG4/SQVJHV3zFC47eUQlzT/6YEllZg9tZIWJCQrDJv2G3NkuWd
-         u8gpwCXPqdEcSAJyIJc0HNSYiX+r1nPh8ovje5PH+LQvkQeXmgxZLtqZHcxX0BWLT2Xh
-         NDPg==
-X-Forwarded-Encrypted: i=1; AJvYcCXJgfkCHU+vqKD1z7Ou1CpyUp67hI5iiP1nmalISLud0Kce8R9kLNSzDqz73r0JBOTZ3BgTVD9/DPxGcMll2s1XzBy7NA+bMZbDmAg=
-X-Gm-Message-State: AOJu0YzYZiZMdl9r8cLONGhBzfFoOGmpo5SthBHPiWC9Kmx47WbRoS1U
-	ClIZNY7brysVpcFLC4uz7WOlHOqtWENXcF6JPW+lqm6WqKpCyvGpKZQN065opa4=
-X-Google-Smtp-Source: AGHT+IED6hiE5o69v1WtTL3k7eeJk/2D8bpFnp51OGCzoqszKUCYkFDiXdUwLJ7ZvcRqmEegoDc1WQ==
-X-Received: by 2002:a05:600c:4618:b0:424:a401:f012 with SMTP id 5b1f17b1804b1-424a401f0d8mr16656025e9.3.1719331663402;
-        Tue, 25 Jun 2024 09:07:43 -0700 (PDT)
-Received: from [192.168.1.195] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-424819224fasm182691185e9.46.2024.06.25.09.07.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Jun 2024 09:07:42 -0700 (PDT)
-Message-ID: <a2b8296f-66d0-4b9a-ab3f-895f9ef647a4@linaro.org>
-Date: Tue, 25 Jun 2024 17:07:41 +0100
+        d=1e100.net; s=20230601; t=1719332489; x=1719937289;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qb2E6wZdQOD4FpB99oMUsAKBgWpj20AwfW8pSsc6D5k=;
+        b=EzwCrhDZfPlS319rwfL1n8XvSQdalwEk7ep4rg2QtXMSXU1Ip6UMlA4WiTJkEpNPH6
+         XzIPWbp4iabDYYo5THRhTF00ik5JWEYS+NArjxaKo0LrXir4xMU7udeCYdbGoeAyoBCI
+         qjYAmXMInwq/xT+2bWxWIBUDBCWExGfSu5WC9+aFuWJfdBn/BJa9EIO+OVoVC3zJQkx8
+         C695HLi9ieBIpfUA3JEHRG01xsC+qgEmEBn5PhFa/8Kc0VGo//GOmBj2wvZ12x+xGcbJ
+         4tFTsk7M945Pe2NLysN+LaYSvlnPDZRh91Njbgls6vmb7bEUWl8OsDfiCSThrELXn6io
+         Kaeg==
+X-Forwarded-Encrypted: i=1; AJvYcCXRbpzgrbhMHhvkmVX1QVgxtczvNszIUavB96WBS/ZDGD8C7Cuc50CXmFLyw7kms0OPVoetA7YdyTZZ7/cFgEra/NWiazJ8buFwskM=
+X-Gm-Message-State: AOJu0YxrHrNjOeRxp7yPOQDHgLk2yTtEKsX3Cm/mBZMYFe19O5txM4uy
+	yeKz/+pwqhec7/wr8IV8qDTNr3dgsT4FvjnvpDsBBVa/met8x27Fx4xRaTfIq0bIWEGgDv9Ba5m
+	HgiELs0ICykkNmfuzumnVpT/uGWu2Md/FepUq1g==
+X-Google-Smtp-Source: AGHT+IFvJFRMGLkvlz90nUmrwbH4uLb1Am8e4l5s0tWHQCH+l8Gv5Qv98MQC7wZStmOIUJKeQ6T13TtnSRScfn8cC/s=
+X-Received: by 2002:a25:28b:0:b0:e02:bd27:ffa0 with SMTP id
+ 3f1490d57ef6-e0303ff97e2mr7397168276.47.1719332489288; Tue, 25 Jun 2024
+ 09:21:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: codecs: lpass-rx-macro: add missing handling of
- v2.1 codec
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
- linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240625160614.450506-1-krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <20240625160614.450506-1-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240524182702.1317935-1-dave.stevenson@raspberrypi.com>
+ <20240524182702.1317935-2-dave.stevenson@raspberrypi.com> <20240528063332.GA30051@lst.de>
+In-Reply-To: <20240528063332.GA30051@lst.de>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Tue, 25 Jun 2024 17:21:12 +0100
+Message-ID: <CAPY8ntDuKjD08Q0Y8uukpd7ep85y2qoGDv8hPFxu3QPmL8+wew@mail.gmail.com>
+Subject: Re: [PATCH 01/18] dma-direct: take dma-ranges/offsets into account in
+ resource mapping
+To: Christoph Hellwig <hch@lst.de>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, Vinod Koul <vkoul@kernel.org>, 
+	Maxime Ripard <mripard@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Mark Brown <broonie@kernel.org>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Vladimir Murzin <vladimir.murzin@arm.com>, Phil Elwell <phil@raspberrypi.com>, 
+	Stefan Wahren <wahrenst@gmx.net>, Serge Semin <Sergey.Semin@baikalelectronics.ru>, 
+	devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-mmc@vger.kernel.org, linux-spi@vger.kernel.org, iommu@lists.linux.dev, 
+	linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Christoph
 
+Sorry for the delay in coming back to you.
 
-On 25/06/2024 17:06, Krzysztof Kozlowski wrote:
-> We have also v2.1 version of the codec (see 'enum lpass_codec_version'),
-> so handle it as well in all switch cases.
-> 
-> Fixes: dbacef05898d ("ASoC: codec: lpass-rx-macro: prepare driver to accomdate new codec versions")
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
+On Tue, 28 May 2024 at 07:33, Christoph Hellwig <hch@lst.de> wrote:
+>
+> On Fri, May 24, 2024 at 07:26:45PM +0100, Dave Stevenson wrote:
+> > From: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+> >
+> > A basic device-specific linear memory mapping was introduced back in
+> > commit ("dma: Take into account dma_pfn_offset") as a single-valued offset
+> > preserved in the device.dma_pfn_offset field, which was initialized for
+> > instance by means of the "dma-ranges" DT property. Afterwards the
+> > functionality was extended to support more than one device-specific region
+> > defined in the device.dma_range_map list of maps. But all of these
+> > improvements concerned a single pointer, page or sg DMA-mapping methods,
+> > while the system resource mapping function turned to miss the
+> > corresponding modification. Thus the dma_direct_map_resource() method now
+> > just casts the CPU physical address to the device DMA address with no
+> > dma-ranges-based mapping taking into account, which is obviously wrong.
+> > Let's fix it by using the phys_to_dma_direct() method to get the
+> > device-specific bus address from the passed memory resource for the case
+> > of the directly mapped DMA.
+>
+> My memory is getting a little bad, but as dma_direct_map_resource is
+> mostly used for (non-PCIe) peer to peer transfers, any kind of mapping
+> from the host address should be excluded.
 
-Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Could you elaborate on mapping from the host address being excluded?
+On BCM283x DMA address != CPU physical address, so some mapping has to occur.
 
---srini
->   sound/soc/codecs/lpass-rx-macro.c | 3 +++
->   1 file changed, 3 insertions(+)
-> 
-> diff --git a/sound/soc/codecs/lpass-rx-macro.c b/sound/soc/codecs/lpass-rx-macro.c
-> index 00ecc470ba8b..1c3429f004ed 100644
-> --- a/sound/soc/codecs/lpass-rx-macro.c
-> +++ b/sound/soc/codecs/lpass-rx-macro.c
-> @@ -1601,6 +1601,7 @@ static bool rx_is_rw_register(struct device *dev, unsigned int reg)
->   	case LPASS_CODEC_VERSION_1_1:
->   	case LPASS_CODEC_VERSION_1_2:
->   	case LPASS_CODEC_VERSION_2_0:
-> +	case LPASS_CODEC_VERSION_2_1:
->   		return rx_pre_2_5_is_rw_register(dev, reg);
->   	case LPASS_CODEC_VERSION_2_5:
->   	case LPASS_CODEC_VERSION_2_6:
-> @@ -3639,6 +3640,7 @@ static int rx_macro_component_probe(struct snd_soc_component *component)
->   	case LPASS_CODEC_VERSION_1_1:
->   	case LPASS_CODEC_VERSION_1_2:
->   	case LPASS_CODEC_VERSION_2_0:
-> +	case LPASS_CODEC_VERSION_2_1:
->   		controls = rx_macro_def_snd_controls;
->   		num_controls = ARRAY_SIZE(rx_macro_def_snd_controls);
->   		widgets = rx_macro_def_dapm_widgets;
-> @@ -3812,6 +3814,7 @@ static int rx_macro_probe(struct platform_device *pdev)
->   	case LPASS_CODEC_VERSION_1_1:
->   	case LPASS_CODEC_VERSION_1_2:
->   	case LPASS_CODEC_VERSION_2_0:
-> +	case LPASS_CODEC_VERSION_2_1:
->   		rx->rxn_reg_stride = 0x80;
->   		def_count = ARRAY_SIZE(rx_defaults) + ARRAY_SIZE(rx_pre_2_5_defaults);
->   		reg_defaults = kmalloc_array(def_count, sizeof(struct reg_default), GFP_KERNEL);
+Robin Murphy directed us at dma_map_resource() in [1], and referenced
+this patch as necessary because dma_map_resource() didn't currently
+use dma-ranges mappings.
+Mark Brown also hadn't corrected/objected to the statement that
+dma_map_resource() was the correct call when I was querying how to
+tackle this historic mismatch in [2].
+
+I'll happily defer to the experts on DMA (I would never classify
+myself as such), but I'm not clear on the direction you want here.
+
+[1] https://lore.kernel.org/lkml/ee19a95d-fe1e-4f3f-bc81-bdef38475469@arm.com/
+[2] https://lore.kernel.org/linux-arm-kernel/CAPY8ntBua=wPVUj+SM0WGcUL0fT56uEHo8YZUTMB8Z54X_aPRw@mail.gmail.com/T/
+
+> (dma_direct_map_resource in general is a horrible interface and I'd
+> prefer everyone to switch to the map_sg based P2P support, but we
+> have plenty of users for it unfortunately)
+
+Is that applicable for mapping device addresses with DMA_DEV_TO_MEM or
+DMA_MEM_TO_DEV transfers?
+Example use case on BCM283x is HDMI audio where the HDMI driver should
+be passing in the CPU physical address of the audio FIFO, and that
+needs to be mapped to the DMA address for the DMA controller. How do I
+get a sglist for the peripheral address?
+
+As noted in the cover letter for this series, if this isn't the
+approved mechanism, then please let me know what is.
+
+Many thanks
+  Dave
