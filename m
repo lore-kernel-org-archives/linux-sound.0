@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 072C3149C7F;
-	Tue, 25 Jun 2024 11:33:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38B215250F;
+	Tue, 25 Jun 2024 11:33:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719315232; cv=none; b=Zw1Glx/6J99N5tXVc/s3Rgxu/ekW+vj/+D8yhFle8CDFJek2WpVNwyUfnasMHOXj+vZiuSRGi2qWQgX7GKY6HJrhFkPtXhHl/1uqp0JZ++X3XM/d399qE1nfQzP7YejUNfYzNG75x2E+J4upX9Nao8+KpeCJK6rMYfKzXqvHMP4=
+	t=1719315239; cv=none; b=ipclvyk0CdOF1JGB0PK525cVXHQOClLErqKQTJvtDvK58X0gkP3vvOc8nDlos1Xr78zU5HXBZRrutSUWruo2ZH8LVr88eqYcfyNfG1y5Rl1A+w5yVTnqIBshkvRYftPgAyqoNjDIrsLh+9t09pV/47/CFUsC/lO5/BSrp/KoSK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719315232; c=relaxed/simple;
-	bh=NqJdMjPT9r805HO+jweg1g1ihBCkWTI4j4kjDfQkDEs=;
+	s=arc-20240116; t=1719315239; c=relaxed/simple;
+	bh=POLNQtzyiFdfDZHg+15z+oQL9f1wyzLbbFrSGtcTas8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=fZnsFbZG3BmwT4gbRMXOJSpKfEnL+94KxjYFE0NepKrXCpeB/L70Y8o/VqQIbN2cL024bV4cv5EMZgwPVORE3JL7npGtv4yn5ADYiptxm5f4cyerK+T3AQ2JEVK8vObp2p3d5oWhCitEHvDadIxyKbaMOT8mLmmFNGpFF2Drcq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k7LB9nl9; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=YLRMFOmgg4CyJYXuAin/CjheIAQJKymcphiVmEBTT6R0kr037l8OgyfmypDSO3H0nElSGtGL5d39L7IXAOFNSxTIuTZWt/RDZFKQikjhDxR+GJh0R8Psf+P7V1MlJdR85SZySzVzcmz8OtIev4WAKv4OwjIHPHadkEwWxkOjOFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oROhn3xk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k7LB9nl9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61E1AC32781;
-	Tue, 25 Jun 2024 11:33:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oROhn3xk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4387DC32781;
+	Tue, 25 Jun 2024 11:33:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719315231;
-	bh=NqJdMjPT9r805HO+jweg1g1ihBCkWTI4j4kjDfQkDEs=;
+	s=k20201202; t=1719315239;
+	bh=POLNQtzyiFdfDZHg+15z+oQL9f1wyzLbbFrSGtcTas8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=k7LB9nl9SPm9p8yq0UhgCUR7+bcQ2vC25wnADZiANHdw/FVB5qEUdBC8IbJbQCOT1
-	 BLEEZKSC49WA0vTxYItoAqXfj2sqUj8nNQS4Boy4O2+gTssCZs5zttp/JKX0E/m1Qf
-	 Vhxh5oOW9C36dE3IXhfV/XxJoiYN2b7ssTX7cJUmQJV64C56HXcGXIEkhhBhpKFaka
-	 8kun7jFHzecU7wm6KpbiXDIIQ3GKEqdzIHqFg1iejFNdYe13loKLOfqac1dyiOFvs6
-	 fo3ZvMXOvaiC/6UhhfYyPrmWMAfrDuPMbcJ0o0SnzfDvBo//IccR6rR5fC0pt+U8/7
-	 NHtse6bPnwYuw==
+	b=oROhn3xk6yl2yx3SWMZlu+wq2wf1jN9UjC/ac/ON/5I9jvMfhlJeiYrzhIGsjWyPi
+	 27gsYWOjuiSZecuL1SnY7ToEtAkOJOLiMJS5ofAiDxazmczz9Ekz9Ls1PZQEVsv9vC
+	 YchB2yMBu7/yIuzQvwrVWn2eFVLOolOdVGD1j/H+FFjqE6XORawNUwvvutTGCI3I+U
+	 NN2WDyHHP8diGj4+UOs31O8gGlByJ91MbX1c05XHM7iuPb2JJxBmbRBuHBW3nXZsXM
+	 96LAPF2wkfPsDFaJKy4gGG5uUztE6yDskTcuTroVu+yrbVS5kip3zbeEXykg71FFBD
+	 EcUi6Hm9x7a8g==
 From: Mark Brown <broonie@kernel.org>
-To: Jiaxin Yu <jiaxin.yu@mediatek.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- angelogioacchino.delregno@collabora.com
-In-Reply-To: <20240613020725.27874-1-jiaxin.yu@mediatek.com>
-References: <20240613020725.27874-1-jiaxin.yu@mediatek.com>
-Subject: Re: [PATCH v2] ASoC: mediatek: mt6358: Add "Dmic Mode Switch"
- kcontrol for switch DMIC mode.
-Message-Id: <171931523011.64144.683590179914133512.b4-ty@kernel.org>
-Date: Tue, 25 Jun 2024 12:33:50 +0100
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Chen-Yu Tsai <wenst@chromium.org>
+Cc: Trevor Wu <trevor.wu@mediatek.com>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
+In-Reply-To: <20240624061257.3115467-1-wenst@chromium.org>
+References: <20240624061257.3115467-1-wenst@chromium.org>
+Subject: Re: [PATCH v2] ASoC: mediatek: mt8195: Add platform entry for
+ ETDM1_OUT_BE dai link
+Message-Id: <171931523799.64144.6880619543186232885.b4-ty@kernel.org>
+Date: Tue, 25 Jun 2024 12:33:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,15 +47,14 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14-dev-d4707
 
-On Thu, 13 Jun 2024 10:07:25 +0800, Jiaxin Yu wrote:
-> There are two hardware connection methods for DMICs on the MT6358. In cases
-> where more than two DMICs are used, we need to time-multiplex these DMICs.
-> Therefore, we need to dynamically switch the modes of these DMICs based on
-> the actual usage scenarios.
-> 
->             ---- DMIC1
-> AU_VIN0 ---
->             ---- DMIC2
+On Mon, 24 Jun 2024 14:12:56 +0800, Chen-Yu Tsai wrote:
+> Commit e70b8dd26711 ("ASoC: mediatek: mt8195: Remove afe-dai component
+> and rework codec link") removed the codec entry for the ETDM1_OUT_BE
+> dai link entirely instead of replacing it with COMP_EMPTY(). This worked
+> by accident as the remaining COMP_EMPTY() platform entry became the codec
+> entry, and the platform entry became completely empty, effectively the
+> same as COMP_DUMMY() since snd_soc_fill_dummy_dai() doesn't do anything
+> for platform entries.
 > 
 > [...]
 
@@ -65,8 +64,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: mediatek: mt6358: Add "Dmic Mode Switch" kcontrol for switch DMIC mode.
-      commit: 4ae814dabcdae3e434820c64396e15ccb33cc0ce
+[1/1] ASoC: mediatek: mt8195: Add platform entry for ETDM1_OUT_BE dai link
+      commit: 282a4482e198e03781c152c88aac8aa382ef9a55
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
