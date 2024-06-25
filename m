@@ -1,55 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 124C417DE2E;
-	Tue, 25 Jun 2024 21:12:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95C4A1369B6;
+	Tue, 25 Jun 2024 21:37:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719349938; cv=none; b=Db5z4zAG5THtvBE8Sbjgpk7Buk8k5WivILb93bEMkP++nXYYkUQBjStuQLOqthCx9ZUCfXgapOgnLqK8GJfrbbUVyPJLlaHpDAyBdxJ+JxqwnoNWUqYRWl+MTV+bMSd9v9qaplIh3Ffm9yRv/akWd56wKgrFWFMkWcI+hegn0R8=
+	t=1719351469; cv=none; b=FWnwN1BY82X1AyP4/7tAJuliYwyl2sFb9bCCBEM4W1fi4aovp8OkC1K0vQLEa1Qw1W1ioMlcwdBZAr9yZbAXydvInlmGrJE1OpRXarJr857jZnCJKn/N3ubGBhsmZVX7vUBeXaioY0PfHbacpc8O9ktLyUqAkzY6ymcCrRRLKqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719349938; c=relaxed/simple;
-	bh=hyygwZzV0TA9MeTrczY+xfhnsSFmoluW/aMTxSPPF7g=;
+	s=arc-20240116; t=1719351469; c=relaxed/simple;
+	bh=pl2TqE2z9lm/nLZCVVZYqoMH+AryhVyL7hcdq1r/Nas=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rrsx3retKRTBVJTyM3S6vHK838RUV5hvPFphP1Gqr17eYJujvjIR5J7JcFM4n8gLXFMoRx0C1486VoYYLUauWvvCdzhTwn0Vzjol8SD1c3voUq0ajDCYRNGEVswIgHSVXgjLtoduOxeHFKbD2qDAMDUgDiGsju6urXTRgJFEazY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ArcIuk0u; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=GvVpcHtRBdYOaeCT+oEsCcvx1YfJOlv9H+RPhEYsB6HaWT/xDXG+zEBZyBi9sxr67BG9Y5KZvSgyaGQQbKcCM+EqHeER9gkyl+NoEL8K+OjXzAUGRtQjRCAFse5m3Hvz7J1wkgxw27Xu0kZHZv9dOeaPNbDqDGkQkRmBZmR5Q/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dAvRsXTc; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ArcIuk0u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54F61C32781;
-	Tue, 25 Jun 2024 21:12:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719349937;
-	bh=hyygwZzV0TA9MeTrczY+xfhnsSFmoluW/aMTxSPPF7g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ArcIuk0uRfsESHfkGfkKUOWRPGGQRoYshDAKXgfL7RAidYC2yoPUOF4EOIWRth/zx
-	 ykHnbRshuPVKR4UsTmEqJpfbjR7Lxb1MgohaxTO7sN4G186OXUULYfjTSoMk/JACVy
-	 rDH4YFTTQFVhxEeWdIOOD5ronHyHYn5GlVnw+3JtZFiKhbLmGLU7w1aHq4GtR8VqXx
-	 zOrwlDLRr/Fxt5QON7ooh6qk8zgpeQFn4BGJ4f8p9B/da2ub1m3VU/0NxxHk78cBsC
-	 Ylf78UIPjF87TiTkhrpWjEAnrqweWrfQoiMdjHdFmTSchTgaZPSVi6dGjUTTadSf7V
-	 tnFI4Gu0p7ohg==
-Date: Tue, 25 Jun 2024 23:12:12 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	"J.M.B. Downing" <jonathan.downing@nautel.com>, Vladimir Zapolskiy <vz@mleia.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Russell King <linux@armlinux.org.uk>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Yangtao Li <frank.li@vivo.com>, Li Zetao <lizetao1@huawei.com>, 
-	Chancel Liu <chancel.liu@nxp.com>, Michael Ellerman <mpe@ellerman.id.au>, dmaengine@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-sound@vger.kernel.org, linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	linux-mtd@lists.infradead.org, Markus Elfring <Markus.Elfring@web.de>
-Subject: Re: [Patch v4 10/10] i2x: pnx: Use threaded irq to fix warning from
- del_timer_sync()
-Message-ID: <73yvglxha45d5ft74m3y5fdmkgatm2yftvhza2msg4ombjz42f@wz43pubhbpdz>
-References: <20240620175657.358273-1-piotr.wojtaszczyk@timesys.com>
- <20240620175657.358273-11-piotr.wojtaszczyk@timesys.com>
- <jgqhlnysuwajlfxjwetas53jzdk6nnmewead2xzyt3xngwpcvl@xbooed6cwlq4>
- <CAG+cZ04suU53wR5f0PhudgNmkxTRtwEXTS1cWH1o9_rTNM94Cg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dAvRsXTc"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-7066cba4ebbso2408287b3a.3;
+        Tue, 25 Jun 2024 14:37:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719351467; x=1719956267; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=weB+BtIEG/QYH8z5HEJPhBi6ESLOJWOiD/JGuYsu58s=;
+        b=dAvRsXTcrEjb7+2B1yMPEMTmD07vVN90s8bjaFiGp8ZWYv6OLimfRjoZmeF/eR6woh
+         oK+9eBeIZPwt3yOf66yMewl6r9WKxvnPDyv+3h/26M6mIZXFre+Vl5ski+EscLbgkGvD
+         uxFS/pEnqvL+lAmaCRAmEts8sx8d1CZsHF3qvLPhUzQcd+wuTYtETp48hQ4RHX/HB9Zg
+         KAPvniEhAzaJ5BQydcYI89hpNMRYMGJPOmBan0STEEF1pIrfMJOK/WKi17AR/iBAKjyq
+         d4j7orBu+TRMRd0GFDyybTP5GsZ0W5LaoQAV7UA8ZWsb0sJHlcPTZqmSRdbmJfzQK3tH
+         CbeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719351467; x=1719956267;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=weB+BtIEG/QYH8z5HEJPhBi6ESLOJWOiD/JGuYsu58s=;
+        b=MqVCT+oMpKL7d0cGxsUhnkCNtArFYiLjJONAL7pS76XoMa+zCm4iNjScxQoB4uiV91
+         e3bHtYMoDp3aiIc++/MHzSIebUXr4WbBCHI/dKLGWy9uaSNOdQa7D7rtbpRfhyS0fmL6
+         d93yqV2yrwKaY9WOATStR1GheFKlxAtovm8/97uhyMFKzVWgzr8JbvlE/pUt092NlbLy
+         AF9lHkbaa9YQmfllrRZ8Zn2tjsiDMpbQYPqzSeToDunrCNSiF3J9K0+A1I9J6I4ref+E
+         IKAOzTUILeYNFBNt9KINxhHil8tAmkKNdhJyAtML2QWATgPhj++aiCJnq4HfPtoCHISu
+         /Lkg==
+X-Forwarded-Encrypted: i=1; AJvYcCVYL6Yz+V7rocEIifZolfzeYy9dxE9dLv1GEHSxyM1QTKF822aFz25+Lg2rXJKbcbe0fG8nwJUuacq3gpjV2mD5qEl6vxR509MLwlfzZ4vfhqlMmaNU4JCtcLMiTukZecl9wmTzqK0r+Ss=
+X-Gm-Message-State: AOJu0YxAFqdc2jEAGkgtzogh9oZj+KAd+OzmZpjJPUcsqfPSm+AbkOok
+	izDGb+b8gLpWVDWcN1tmwHVGUjyJVQM4a8rJbwwv8pPaPU/2sITd
+X-Google-Smtp-Source: AGHT+IH6ihr8MB0JtEUmCJt93CanJKKkIIEErjZEigCIacEIyFu5swR7SLrYKP5W5xM4WXF1iH/qpw==
+X-Received: by 2002:a05:6a00:1891:b0:705:a450:a993 with SMTP id d2e1a72fcca58-7066e542f24mr11560458b3a.17.1719351466813;
+        Tue, 25 Jun 2024 14:37:46 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70673ca69efsm5638390b3a.168.2024.06.25.14.37.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Jun 2024 14:37:45 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Tue, 25 Jun 2024 14:37:44 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>,
+	Allen Ballway <ballway@chromium.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Brady Norander <bradynorander@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org,
+	Mark Hasemeyer <markhas@chromium.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: Re: [PATCH] ALSA: hda: intel-dsp-config: Fix Azulle Access 4 quirk
+ detection
+Message-ID: <01904abc-5e7c-4006-96d9-83fc5de8bb21@roeck-us.net>
+References: <20240430212838.1.I77b0636d5df17c275042fd66cfa028de8ad43532@changeid>
+ <83e218f9-29f5-4f35-bd0c-b298e3bb9e8c@linux.intel.com>
+ <CAEs41JC-vJaMHj6fzmNO=-bu5oURRA-u565sN2=yzBeVtKb=4g@mail.gmail.com>
+ <b2375610-4044-49e6-86e9-5c172abb2ffa@linux.intel.com>
+ <CAEs41JAPPr3xRR42H6vKic5rVrtV-on4HyT5wNCXxbJtwijnCA@mail.gmail.com>
+ <3d44c749-6c81-4c11-9409-b01815fe1a91@linux.intel.com>
+ <3d9ef693-75e9-4be0-b1c0-488d3e2d41c5@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -59,47 +85,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAG+cZ04suU53wR5f0PhudgNmkxTRtwEXTS1cWH1o9_rTNM94Cg@mail.gmail.com>
+In-Reply-To: <3d9ef693-75e9-4be0-b1c0-488d3e2d41c5@linux.intel.com>
 
-Hi Piotr,
-
-On Fri, Jun 21, 2024 at 02:08:03PM GMT, Piotr Wojtaszczyk wrote:
-> On Fri, Jun 21, 2024 at 12:57 AM Andi Shyti <andi.shyti@kernel.org> wrote:
-> > On Thu, Jun 20, 2024 at 07:56:41PM GMT, Piotr Wojtaszczyk wrote:
-> > > When del_timer_sync() is called in an interrupt context it throws a warning
-> > > because of potential deadlock. Threaded irq handler fixes the potential
-> > > problem.
-> > >
-> > > Signed-off-by: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
-> >
-> > did you run into a lockdep splat?
-> >
-> > Anything against using del_timer(), instead? Have you tried?
+On Fri, Jun 21, 2024 at 10:35:31AM +0200, Pierre-Louis Bossart wrote:
 > 
-> I didn't get a lockdep splat but console was flooded with warnings from
-> https://github.com/torvalds/linux/blob/v6.10-rc4/kernel/time/timer.c#L1655
-> In the linux kernel v5.15 I didn't see these warnings.
 > 
-> I'm not a maintainer of the driver and I didn't do any research on
-> what kind of impact
-> would have using del_timer() instad. Maybe Vladimir Zapolskiy will know that.
+> On 6/21/24 08:15, Amadeusz Sławiński wrote:
+> > On 6/20/2024 9:27 PM, Allen Ballway wrote:
+> >> I filed a bug and after sharing the requested information it looks
+> >> like this device won't work on SOF without vendor support. Given this,
+> >> would the original patch returning this device to using HDAudio be
+> >> reasonable, or is there an preferred alternative to force this device
+> >> into using HDAudio?
+> >>
+> > 
+> > And can you share link to the issue on mailing list, so someone reading
+> > this thread in the future doesn't have to guess where it is? ;)
+> 
+> https://github.com/thesofproject/linux/issues/4981
+> 
+> I don't know what to do with this configuration.
+> We added a quirk to force SOF to be used for ES8336 devices. It worked
+> for some, but not for others. Now we have quite a few ES8336-based
+> platforms that are broken with zero support from the vendor, with
+> obscure I2C/GPIO/clk issues.
+> Are we going to tag each one of them and say 'not supported, use HDMI only'?
+> That's pushing a bit the notion of quirk...It would generate an endless
+> stream of patches. The alternative is to do nothing and ask that those
+> platforms revert to HDMI audio only with a kernel parameter. That latter
+> alternative has my vote.
+> 
 
-Your patch is definitely correct, no doubt about that.
+Given that this apparently does not work for many ES8336 devices,
+would it make more sense to disable SOF support for those by default
+and _enable_ them with a kernel parameter ?
 
-And I don't have anything aginast changing irq handlers to
-threaded handlers. But I would be careful at doing that depending
-on the use of the controller and for accepting such change I
-would need an ack from someone who knows the device. Vladimir,
-perhaps?
-
-There are cases where using threaded handlers are not totally
-right, for example when the controller is used at early boot for
-power management handling. I don't think it's the case for this
-driver, but I can't be 100% sure.
-
-If you were able to see the flood of WARN_ON's, would be
-interesting to know how it behaves with del_timer(). Mind
-giving it a test?
-
-Thanks,
-Andi
+Guenter
