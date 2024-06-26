@@ -1,50 +1,33 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B0988825;
-	Wed, 26 Jun 2024 13:30:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A418B1836F6;
+	Wed, 26 Jun 2024 13:35:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719408644; cv=none; b=e4FZsKEyb/wlToAtVqfyHXtScLAbpBdePa+Odrn+E6SAXu/P8aLRYRfq0O9g2sHy1WNEjZ6z/OgaB4cSA76ysBTZ1ysI+5rZmPFH/6TZBIFaFCnZzxcR2+ycWLzLgOlZK622/S2eSBVRMaD1toSCG1InJ8BXZvrSPcGfTI1er1A=
+	t=1719408920; cv=none; b=Qj41v9xu4beXdYahmO/72nO8BGJldhJ9dA5yfeOTpzwjRdafboKYdvttWG4fDZNitOTNEPfiByQXKiJLbO5ZXZB3jMc8thHME5EHrjxSHmQJyF/CzEyKQ54tjf0IvtPLu5PxDmowX9qGK/IzyMwiL5WJp2URBNtoSttuu7NLl8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719408644; c=relaxed/simple;
-	bh=0fVaUR0kdYT/imczx4lGPFmuFv72qFD2+TqVqLWotK0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BAMIobseraT//k7RvQ/bHM3ceFJMMULWLYGSp3nTO+ACCULqZVLVmfZktarUw+pdztfigi6LJbaUUXDBsUa9E41sy16cRr4++Jj1vR8wb5pP2AWfu2vupzKAA5fGoHa1FHgwlzIktUI6lLkzWbaPNX/p2u08BhrlfaGbMb1UkLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=exLIIBhL; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1719408920; c=relaxed/simple;
+	bh=CTJIO7yYyY8DK9qEV5bs974GSy53WZt/sJEXIpo1M4A=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=nhrB4FoaEtlqCrl6tALCVlgDwtZYJveDwekdJve2A7GyWNODSqcuGz1Tw8osDKnH1Xehq+r1tANV2iDy84T/UlZygree8ch7EVIz7UofBUcozRO8ga8qyaCv/flKjadctElJ6BcSe3o4ajYKmjM26vjvmt5TtsEWXuQWA0al6Xc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wxa9yFad; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="exLIIBhL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719408642; x=1750944642;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=0fVaUR0kdYT/imczx4lGPFmuFv72qFD2+TqVqLWotK0=;
-  b=exLIIBhLyz1LvWrp547P7EmTMCahPQ+Sk4F6/A3O+cXBMPJEOO7zEKvc
-   IB9j6a7kL3jjankx+IlGhFFuX/utAIswiLf6X3GyCGKEFD62mCL1bIbcT
-   oveaqXtDTJqux6ASULQe2zrCLI157c9Y4W3Y22PjhU9+GQsNW7+VVRqdD
-   39O9luOQQFVdH0HYsjgN2eevoeeBD11+l+GzOijzC6QXzXDzHoW+1vqO0
-   DHne0BbWe1JnZ8fIaLHl/E3gMEcFSgNT6fjhAC1BMaxU9kmRUKSPT8Dlr
-   3aMrUk1lAtCFDw0abXnFhPf0AUZl4cVoBfA6ZLlDu/mH1bLRkGNchQ/AW
-   A==;
-X-CSE-ConnectionGUID: cmkeoO1CQxOhrYZUGC7w3g==
-X-CSE-MsgGUID: BSVdKVR3QgqPy19c5KGqhA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11114"; a="20362020"
-X-IronPort-AV: E=Sophos;i="6.08,267,1712646000"; 
-   d="scan'208";a="20362020"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2024 06:30:41 -0700
-X-CSE-ConnectionGUID: 5ofn5FYPQSaJ7UGWYkm2Qg==
-X-CSE-MsgGUID: PB9cky4oTYyMwKazWTvtIg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,267,1712646000"; 
-   d="scan'208";a="48448185"
-Received: from ncintean-mobl1.ger.corp.intel.com (HELO [10.245.246.76]) ([10.245.246.76])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2024 06:30:38 -0700
-Message-ID: <437a6141-33e0-4075-be22-b2b364787b6a@linux.intel.com>
-Date: Wed, 26 Jun 2024 15:30:35 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wxa9yFad"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64083C2BD10;
+	Wed, 26 Jun 2024 13:35:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719408920;
+	bh=CTJIO7yYyY8DK9qEV5bs974GSy53WZt/sJEXIpo1M4A=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=Wxa9yFad55mqxZHXlWzqSA6WOX6N/eQfC2fdh5ed7jnMqAaPcUQ1/2LYbcHLLNn8w
+	 6UGQIq56Ggmazr+prYiYr70/1/rFjJIC2wps8AnUbpVdERm4Mb79lFeBc57O+FdJsg
+	 5BTtl3M78QEz/VVCo23SnL+ED2/RsHXIxVnLnWpW5m+9Dv2sV/uU54rxd6GC/Wu10P
+	 vJCT6p3DPa4BaJ7Mt4UFWk9c9/+qwVt5Tp9TYudV6TYlKGz5UIqX275ElxrXAQd+4m
+	 Gf7v9kp68bkvJhewtJPDtSNSV/+6U+6pXocFs14HwHl9Oe0Ljhl1c3kX2uqfcRl26j
+	 hqqQywmgqxx4g==
+Message-ID: <d7117060-734a-4f8b-bb05-a9a9473a53d1@kernel.org>
+Date: Wed, 26 Jun 2024 15:35:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,98 +35,106 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: hda: intel-dsp-config: Fix Azulle Access 4 quirk
- detection
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>, Allen Ballway <ballway@chromium.org>,
- LKML <linux-kernel@vger.kernel.org>, Brady Norander
- <bradynorander@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org,
- Mark Hasemeyer <markhas@chromium.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Cezary Rojewski <cezary.rojewski@intel.com>
-References: <20240430212838.1.I77b0636d5df17c275042fd66cfa028de8ad43532@changeid>
- <83e218f9-29f5-4f35-bd0c-b298e3bb9e8c@linux.intel.com>
- <CAEs41JC-vJaMHj6fzmNO=-bu5oURRA-u565sN2=yzBeVtKb=4g@mail.gmail.com>
- <b2375610-4044-49e6-86e9-5c172abb2ffa@linux.intel.com>
- <CAEs41JAPPr3xRR42H6vKic5rVrtV-on4HyT5wNCXxbJtwijnCA@mail.gmail.com>
- <3d44c749-6c81-4c11-9409-b01815fe1a91@linux.intel.com>
- <3d9ef693-75e9-4be0-b1c0-488d3e2d41c5@linux.intel.com>
- <01904abc-5e7c-4006-96d9-83fc5de8bb21@roeck-us.net>
- <fb9ce0ce-dddb-4f88-9ac6-0f6cdd6ccb28@linux.intel.com>
- <7bbf1688-4dfd-4a6f-90f2-ee235027c701@roeck-us.net>
+Subject: Re: [PATCH 1/3] ASoC: dt-bindings: fsl,xcvr: Adjust the number of
+ interrupts
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Shengjiu Wang <shengjiu.wang@gmail.com>
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, lgirdwood@gmail.com,
+ broonie@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+References: <1719291415-1168-1-git-send-email-shengjiu.wang@nxp.com>
+ <1719291415-1168-2-git-send-email-shengjiu.wang@nxp.com>
+ <293fb3d5-9b77-4321-8b31-d060cf96565d@kernel.org>
+ <CAA+D8AMQv_=X3hC5uQbrDBN0EGo3U6EToGFVjUYcOVHpf5b=aQ@mail.gmail.com>
+ <549edfff-24a5-403f-b35e-8929cc14c81f@kernel.org>
 Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <7bbf1688-4dfd-4a6f-90f2-ee235027c701@roeck-us.net>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <549edfff-24a5-403f-b35e-8929cc14c81f@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-
-
-On 6/26/24 15:09, Guenter Roeck wrote:
-> On 6/26/24 00:04, Pierre-Louis Bossart wrote:
->>
->>
->> On 6/25/24 23:37, Guenter Roeck wrote:
->>> On Fri, Jun 21, 2024 at 10:35:31AM +0200, Pierre-Louis Bossart wrote:
+On 26/06/2024 11:34, Krzysztof Kozlowski wrote:
+>>>>      items:
+>>>>        - description: WAKEUPMIX Audio XCVR Interrupt 1
+>>>>        - description: WAKEUPMIX Audio XCVR Interrupt 2
+>>>> +      - description: SPDIF wakeup interrupt from PHY
+>>>>      minItems: 1
 >>>>
+>>>>    clocks:
+>>>> @@ -88,6 +89,7 @@ required:
+>>>>    - dma-names
 >>>>
->>>> On 6/21/24 08:15, Amadeusz Sławiński wrote:
->>>>> On 6/20/2024 9:27 PM, Allen Ballway wrote:
->>>>>> I filed a bug and after sharing the requested information it looks
->>>>>> like this device won't work on SOF without vendor support. Given
->>>>>> this,
->>>>>> would the original patch returning this device to using HDAudio be
->>>>>> reasonable, or is there an preferred alternative to force this device
->>>>>> into using HDAudio?
->>>>>>
->>>>>
->>>>> And can you share link to the issue on mailing list, so someone
->>>>> reading
->>>>> this thread in the future doesn't have to guess where it is? ;)
->>>>
->>>> https://github.com/thesofproject/linux/issues/4981
->>>>
->>>> I don't know what to do with this configuration.
->>>> We added a quirk to force SOF to be used for ES8336 devices. It worked
->>>> for some, but not for others. Now we have quite a few ES8336-based
->>>> platforms that are broken with zero support from the vendor, with
->>>> obscure I2C/GPIO/clk issues.
->>>> Are we going to tag each one of them and say 'not supported, use
->>>> HDMI only'?
->>>> That's pushing a bit the notion of quirk...It would generate an endless
->>>> stream of patches. The alternative is to do nothing and ask that those
->>>> platforms revert to HDMI audio only with a kernel parameter. That
->>>> latter
->>>> alternative has my vote.
->>>>
+>>>>  allOf:
+>>>> +  - $ref: dai-common.yaml#
+>>>>    - if:
+>>>>        properties:
+>>>>          compatible:
+>>>> @@ -112,7 +114,7 @@ allOf:
+>>>>      else:
+>>>>        properties:
+>>>>          interrupts:
+>>>> -          maxItems: 1
+>>>> +          maxItems: 3
 >>>
->>> Given that this apparently does not work for many ES8336 devices,
->>> would it make more sense to disable SOF support for those by default
->>> and _enable_ them with a kernel parameter ?
+>>> I have doubts this was tested. The existing example should fail,
+>>> although I did not see any reports. Not sure why.
 >>
->> Some configurations work, so we would break them.
+>> it is tested, because the minItems is 1. so the example can pass
 >>
 > 
-> Yes, but for others it is a regression, so arguably the change to
-> force-enable
-> SOF caused a regression and should either be reverted or fixed such that
-> all
-> previously working configurations still work (even more so since fixing
-> the problem one-by-one as affected systems are found is being rejected).
+> That's a very unexpected change in dtschema. It indeed passes, but is
+> not correct. Why interrupts are flexible? This should be constrained.
+> Let's wait for Rob's confirmation that this is not a bug in dtschema.
 
-If you disable SOF, all you get with snd-hda-intel is HDMI outputs.
-There is no alternative if you want local speakers, mic and jack
-support, or extensions based on I2S.
+Yep we need here minItems as well, so this is strictly constrained or
+please explain why this should be flexible.
 
-Some of my Intel colleagues have an ES8336-based platform that works for
-them, they successfully modified the sof_es8336 machine driver to add
-HDMI support, so why would we disable a working config?
 
-I would really err on the side of "if you contributed a working config,
-or helped enable a working config, it will be maintained in the kernel".
-
+Best regards,
+Krzysztof
 
