@@ -1,92 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F2514532F;
-	Wed, 26 Jun 2024 17:31:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DCCA18F2F9;
+	Wed, 26 Jun 2024 18:09:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719423119; cv=none; b=qWticggmhLD20RcHoMcXSdrUxdA2ean0wS1yrbd54FGc203YtZTY7zgD2qxppUcOfqryKrViMpudhklos7opf+S+JZ83HsZpRlngRpDgJySrxHxAZIjEsFPk1D9xYojV0bpJzQScyaCx2UrslWefDEjFTWWaEyah6tCSkfhCWz0=
+	t=1719425350; cv=none; b=XKjv+vmM6Um76b5HYQ2CrB7c77Nt29TCM16c903Fnw8B/3mnUfMLu0KIhy82g2VodxFl8bHuW7VHGKXg23UN8yfO90fumX3acshnJhtsfAxnjuy64r+l8/lsaHMRcAywMp31hG8tFvMoGp1OAUiyT5c9CXY9OJSq+BZ4/MMMbSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719423119; c=relaxed/simple;
-	bh=bgYoAiD8CvH9vNhk+zX4YQSH6S0k8Ew4gkWwTOzazV4=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=RvjIVWcDSXonQgWilRqttUIWs6NgNu20AV0JDRQZ3dofuzrLjHBy8KnvPpK4gTpDZilHzDE4ljzyZkjBLJZLwhsyyFMEJYnxWWG7KVSB6kgMsSghyw1PLhUSwbzHSYiSeb9C3txZsKwJ3h+B92z6Yg54/zsmfkjZT/RNQ7qv1Qg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g4IYeIuC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719425350; c=relaxed/simple;
+	bh=OIkZs3VeZCuVNt3eHWozE2UzABo9DPlNoyZ+9Vp070c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i+WG49rKF/e3GGdrsBfLzPBdrXrSyGvwEwT/4h9t9IqyEbClgzT0eM1cOBPZPsjEL6vr1rj+Fxgk5I1S+4+0IjgoLdz0FoTo9zfZFCrYqbO4Gr1pWDGanzEmWw0K95zBeMp0R5jr+fA5bjQ0AU5B3Z6SB7tS5kINd13RmuotQBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QwEJkGaf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g4IYeIuC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A58F0C116B1;
-	Wed, 26 Jun 2024 17:31:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QwEJkGaf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC48DC32782;
+	Wed, 26 Jun 2024 18:09:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719423118;
-	bh=bgYoAiD8CvH9vNhk+zX4YQSH6S0k8Ew4gkWwTOzazV4=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=g4IYeIuCanVePZMW3hpekPLgDETXrfYnffoBGXTrlwF/6BGz36iUjS+LdkXK3hPBB
-	 cYALT+KXvBQkQva4NbbbsR4rgk27cpIFfMEZsGtaPQhVUjyVfr/LN158o25/Bxefzt
-	 n+kuaxvXvn4JIo+PgfdLy4+PbsAI94WNs/GB6tqe2DuBuwwABIC/r2HUoO82pXqaFz
-	 ODzJhB0ZMzvp8ZphOjuNWZvn1UzR7wQLFx60ByPlFsq+RIu65GA33vkLx2Ovjlw9j8
-	 w+NuHXpFCtvsGq2jqRX/Dvb+CwK8Rd52nkbr9FkTB+5qvvhWMM14qDKt4/vdMnqNM2
-	 oCZljRXuPIE3g==
+	s=k20201202; t=1719425350;
+	bh=OIkZs3VeZCuVNt3eHWozE2UzABo9DPlNoyZ+9Vp070c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QwEJkGaf+PUD0GGvn7FveAj8khf4l8XN2CySBP0dr1NWvuziTaS0gJ2zTSm+oPa2S
+	 Rc5ukM22Y4fLgjQlmtcELAzz/16F1TKIiiv9BnD+69sQBuR7JXfk2vuRUUMMJRKmVz
+	 Un6pl+Y9nipd2IdSo92cgGK8IZKaab6cUv65sfCcW7Jf1SCeEr3YxMOiq8P4vkwnvd
+	 QKlpk/DqQ2LYWm0f34r86lRnoh+G4uPPEKiEXkOoyC+o+yuwFIHy6ajew3hF1GWPx0
+	 1GqsKO22cTzv99XMTltE9Bb30KtJwNmg5vkvPlCzGiG0FAuYO2pf9gDjcVAqYh4Q02
+	 vc2BL+xiokCZg==
+Date: Wed, 26 Jun 2024 19:09:03 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Banajit Goswami <bgoswami@quicinc.com>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, 
- linux-arm-msm@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20240625165736.722106-1-krzysztof.kozlowski@linaro.org>
-References: <20240625165736.722106-1-krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 1/2] ASoC: codecs: lpass-macro: Gracefully handle
- unknown version
-Message-Id: <171942311637.1650281.3350190675006482081.b4-ty@kernel.org>
-Date: Wed, 26 Jun 2024 18:31:56 +0100
+To: James Ogletree <jogletre@opensource.cirrus.com>
+Cc: dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	lee@kernel.org, jeff@labundy.com, patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	David Rhodes <drhodes@opensource.cirrus.com>
+Subject: Re: [PATCH v11 5/5] ASoC: cs40l50: Support I2S streaming to CS40L50
+Message-ID: <a85e09d6-d8eb-4c60-ae83-b4dbf875a926@sirena.org.uk>
+References: <20240605135249.361082-1-jogletre@opensource.cirrus.com>
+ <20240605135249.361082-6-jogletre@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev-d4707
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="8mEJd0CHi+B3bZ3f"
+Content-Disposition: inline
+In-Reply-To: <20240605135249.361082-6-jogletre@opensource.cirrus.com>
+X-Cookie: Results vary by individual.
 
-On Tue, 25 Jun 2024 18:57:35 +0200, Krzysztof Kozlowski wrote:
-> Qualcomm LPASS macro codec driver parses registers in order to
-> detect version of the codec.  It recognizes codecs v2.0 - v2.8, however
-> we know that there are earlier versions and 'enum lpass_codec_version'
-> has also v1.0, v1.1 and v1.2.  If by any chance we run on unrecognized
-> version, driver will use random value from the stack as the codec
-> version.
-> 
-> [...]
 
-Applied to
+--8mEJd0CHi+B3bZ3f
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Wed, Jun 05, 2024 at 01:52:49PM +0000, James Ogletree wrote:
+> Introduce support for Cirrus Logic Device CS40L50: a
+> haptic driver with waveform memory, integrated DSP,
+> and closed-loop algorithms.
 
-Thanks!
+Reviewed-by: Mark Brown <broonie@kernel.org>
 
-[1/2] ASoC: codecs: lpass-macro: Gracefully handle unknown version
-      commit: ebc1a54051b58d1aa3a8855faac8bf16b88b8af7
-[2/2] ASoC: codecs: lpass-macro: Use enum for handling codec version
-      commit: 06462d6f3fb3c445b5abac7b134d9fe9e361113f
+--8mEJd0CHi+B3bZ3f
+Content-Type: application/pgp-signature; name="signature.asc"
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+-----BEGIN PGP SIGNATURE-----
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZ8WT4ACgkQJNaLcl1U
+h9Bt+Af9HBe54X4RVb20Y7bnquKBQ+YbOooZVqnUN2dSa1l0HdCs7CJR0llcRrKd
+BCA6oQIthd83emrxp01buNbaZ2pLOkZGIm+WAn9/jR8aHU8NcViLP3mSsaZf31Vz
+AETFhx5lfmLZrLFcz0Xi1an+tLvKD3auLxHw7Uyt936Y7pSJXB8I4mhWthPQ2jdI
+CRWT9/auz7Q8baFDr5ndlj8KznmUdL9a/8J1r/HhuXWmQg85GoxmhFJkFI/2SrPk
+kILmByXe5j7g2cudStW0HnTKy2Yn9j3vo16tydcrshecP3TUwxK/ie9TVNhqxg+Y
+amT1SSIWWnXdth5odVsUTo4ZnCMjSQ==
+=LRDI
+-----END PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--8mEJd0CHi+B3bZ3f--
