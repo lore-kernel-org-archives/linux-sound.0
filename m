@@ -1,132 +1,102 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6819B14A4D0;
-	Wed, 26 Jun 2024 05:58:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A87CF1FBB;
+	Wed, 26 Jun 2024 07:03:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719381514; cv=none; b=GPruFIEtYz2TdXeckvxTUD62YJMWRbcVooHYiDhEaqfS4FZQ55/kI8GOfcffOsk86SjzIe3IIoIxzMBjk8KjjfeDMBY7JZlKnr0+hsGU3GsuZMPzWXYFInvG3S3vWr3GnrlHNspN0G1hMXxWgcFXaeQx/Ms7IG4nm7L+3ZdQwkE=
+	t=1719385440; cv=none; b=FYIdhcwLxsSUGAU1b8Llv26vyfYvU0g1VwfWubUKndaWi36/Ui1aHDbuPKjNrL3Eza21/cAX/2IEs/ptbyxAUAXosJDwobEXYAXfDIptG5JZjI7j1C/E4zngnBAQwzwA0qJMUVDCdluEfwtILRirGNbgL6GKFe0rqoZg50G8Yvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719381514; c=relaxed/simple;
-	bh=inVXOAMIdOZjO3QO75g9cTCjaOkAQugpokklTpMiCRI=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Zf40JiwYc0yqwsGokMsmtXzSDla+3NYR1g8TsnDL953j1+1DVipU5ORXpUeg1GCCvu0G986SNxolT/Zl0q9/ivRYQw2yRwjeXcFNb3J0/5+rV5F56fqWxbcfY8Ek3eP+SWJ8g6NYxAMuW7YW3DglayEFddpxCCV4+UMVsUxecEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=e9rC+Fmg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0Y5SL1IM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=X7GhUBHi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=C/bdMNXX; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1719385440; c=relaxed/simple;
+	bh=yhiDsGtckWbJdiH+m4+tg0FxsetoSjM547eWaMzugqA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=SmE4g+T4FstsO0VJZj2CJf+7Ha1wjUmIUzHhFS8cAyADkno2OMp+AoKYS+LLojri+ZmFInFTB6CXjfR5fwk3PhebPvyKmvPp6VGd4uactZM2gZwJvkmkwqIVEG3OlkV10M/3tamrekJAZkOmmaVa0zJwwFtJEsWYLITZ0TPaxM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dk/2w8Gj; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="e9rC+Fmg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0Y5SL1IM";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="X7GhUBHi";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="C/bdMNXX"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id EB8FB1FB3E;
-	Wed, 26 Jun 2024 05:49:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719380995; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j/rEw1FTMyOhY9HcnraTtAszd9vB9c1FXutJrwG1tbw=;
-	b=e9rC+Fmg7+qpgN6VhN1hDSByLi5jKcsnpqp3/hS5cTGB+SkcIuJzoIVCyJg4/mje2CCOih
-	PNiHaYpJ0/aFrvODbJFyZVYg5YejyZq0YAJgCugu+tAyT353PWBZ8ImiI+ZKHz0xRIoluO
-	i5UAsugD0oQTt6RCHk11jC92SDqhRnc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719380995;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j/rEw1FTMyOhY9HcnraTtAszd9vB9c1FXutJrwG1tbw=;
-	b=0Y5SL1IMYVt16dABNhPuEGxRB3SD+Q7hWlnKeCTtEaqEL9t3ry3iNMquJP3UEQoUPkVRoF
-	WnIMFKLbmIWEmOAw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719380994; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j/rEw1FTMyOhY9HcnraTtAszd9vB9c1FXutJrwG1tbw=;
-	b=X7GhUBHiXtwPhA49sxEFcxjL2Vi07x8dZg1bMj5EGvRIA8V6lEVmgXwtdOtqlgOdrncBH0
-	PZdbAhK3rkAEUHeYE+XzgyQhv+IJk8dg45cxwgg0mJCPsIXoGbscvAy7MYcjYGyerueHTq
-	VQF+BZeAKu4UEcTiYk74aF4Yy9NXyMs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719380994;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j/rEw1FTMyOhY9HcnraTtAszd9vB9c1FXutJrwG1tbw=;
-	b=C/bdMNXXI2TMRncdE+24AqnfuZ8sEmhADpcy35Kgvm04mIf0d7fvJHsUbSJKY65ECZwNZQ
-	7Zl3fCceBpoFg9CA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8B3DA13ABD;
-	Wed, 26 Jun 2024 05:49:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id nao+IAKse2YeLQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 26 Jun 2024 05:49:54 +0000
-Date: Wed, 26 Jun 2024 07:50:21 +0200
-Message-ID: <878qysl0bm.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Dirk Su <dirk.su@canonical.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Stefan Binding <sbinding@opensource.cirrus.com>,
-	Kailang Yang <kailang@realtek.com>,
-	"Luke D. Jones" <luke@ljones.dev>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Simon Trimmer <simont@opensource.cirrus.com>,
-	Athaariq Ardhiansyah <foss@athaariq.my.id>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	linux-sound@vger.kernel.org (open list:SOUND),
-	linux-kernel@vger.kernel.org (open list)
-Subject: Re: [PATCH] ALSA: hda/realtek: fix mute/micmute LEDs don't work for EliteBook 645/665 G11.
-In-Reply-To: <20240626021437.77039-1-dirk.su@canonical.com>
-References: <20240626021437.77039-1-dirk.su@canonical.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dk/2w8Gj"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-57d1782679fso7796732a12.0;
+        Wed, 26 Jun 2024 00:03:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719385437; x=1719990237; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CCmw9U2ETNDBLBuD2pt2tF/w6GsMBw1zovesQGm6nj8=;
+        b=Dk/2w8GjuktBoRbBtDNRVWM6zPNNdvqXS/cDLan8zbYRM1BtGj16Mc9ofusu0dbjYY
+         +EzLnbOZlfX1CyPFCzj2owffYtgORvJ3uTayz/ptHNcInp7WsKEZ8OcywtF1nk0UELp2
+         /WGicI0lSB8ABZY84A0DGZ/pXUkRxiboQz/9XSPifjKnboeuTaSv4s/lQ3OcK/2/nYrl
+         NLOErXnd8TCqGVkKmR1/hk10DuLhrByDTBdLfAaSYfisECUmvvTZQywN8Boum4rWJm5v
+         4wwIeRt5ElSajzjhS5BcYeZe6fys2rmpfqZFmM1Tra3uFNqd8KUl/SM72yvdGN46esId
+         rFHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719385437; x=1719990237;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CCmw9U2ETNDBLBuD2pt2tF/w6GsMBw1zovesQGm6nj8=;
+        b=nlYCOVu7If4xeLshVGd3kjY2PWEIRRHG7PmSyg5tFHdNaaeWWWibVXrtehkLig02Zz
+         JoeK+mQE85DA7oPneRRc2mGpvjE0qQimija6e2iHFcT+jCBHaleuzGvAIIVqW7zG4LCz
+         La8ROTkrAscs3slw4+oB339Q8jIPTB5j70qKwojSZ+Agx2X+VYFIEFu5dQvDH3YQ63+n
+         ZkRhld4KdUa36HoQFnAWg+cFp/3X39PWitqZaLn5RjodOSOJI37r03SQeveb0tLNhXXh
+         n1TxjDUx9cBkv3pQ6BzuDbaawOXr9hgnOzzS4ErZZR+YGOxxE9mBVa/BBILtiglZ4O1M
+         Crxg==
+X-Forwarded-Encrypted: i=1; AJvYcCW/N+ICDDbBK8R5sGY+MogDqkVVQ8c96DXEPMy9x4um1PqkAbCbrpLDBA+CyOgYM2UzNCPfWNo7cpq5NZx/OD3V40ZCOelFIlEC8e/E
+X-Gm-Message-State: AOJu0YzZ1CoKbJEL2Ga2/BMv8MCQqTCknu12eYVjMg+k/qKLKap0wYUJ
+	U8d5+BxKMwYVs/IrdJdS5CqHTwcjN1c2zv0SQLPeKqRbBGROE4W0
+X-Google-Smtp-Source: AGHT+IG+YhujMvMhvhUyfqCcrHDikxocG4QadsjpWiXNy+jvs+ekjSV42yHz8cqiWyCcSzweRbZSCA==
+X-Received: by 2002:a17:906:c206:b0:a6f:adf7:b073 with SMTP id a640c23a62f3a-a7245b4cccfmr612328566b.10.1719385436674;
+        Wed, 26 Jun 2024 00:03:56 -0700 (PDT)
+Received: from localhost.localdomain ([95.67.7.157])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6fcf48a038sm582582966b.48.2024.06.26.00.03.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Jun 2024 00:03:56 -0700 (PDT)
+From: Vyacheslav Frantsishko <itmymaill@gmail.com>
+To: mario.limonciello@amd.com,
+	broonie@kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: linux-sound@vger.kernel.org,
+	itmymaill@gmail.com
+Subject: [PATCH] ASoC: amd: yc: Fix non-functional mic on ASUS M5602RA
+Date: Wed, 26 Jun 2024 10:03:34 +0300
+Message-ID: <20240626070334.45633-1-itmymaill@gmail.com>
+X-Mailer: git-send-email 2.45.1
+In-Reply-To: <0e571211-8921-4548-a093-6c5719c866c4@amd.com>
+References: <0e571211-8921-4548-a093-6c5719c866c4@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, 26 Jun 2024 04:14:36 +0200,
-Dirk Su wrote:
-> 
-> HP EliteBook 645/665 G11 needs ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF quirk to
-> make mic-mute/audio-mute working.
-> 
-> Signed-off-by: Dirk Su <dirk.su@canonical.com>
+The Vivobook S 16X IPS needs a quirks-table entry for the internal microphone to function properly.
 
-Thanks, applied now.
+Signed-off-by: Vyacheslav Frantsishko <itmymaill@gmail.com>
+---
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index 1760b5d42460..4e3a8ce690a4 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -283,6 +283,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "M5402RA"),
+ 		}
+ 	},
++        {
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "M5602RA"),
++		}
++	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
+-- 
+2.45.1
 
-Takashi
