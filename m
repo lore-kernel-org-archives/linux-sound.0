@@ -1,40 +1,58 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A77315820F;
-	Wed, 26 Jun 2024 07:49:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B31716193C
+	for <linux-sound@vger.kernel.org>; Wed, 26 Jun 2024 08:30:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719388200; cv=none; b=TQaecArPB4Z/eSRpSyvMuTTdjTcE+V0S3IwhVRYlKUasVLbKcaNVXsiFbOt3vbr+qs9i5+tNv7mteP8OUhWcNWD/FmXt7eO1qPGFW2y9p8f2Xf0OgmlvWO+Ezu5g8FDcFylPoXeSLXe2rFdSLCl6gpJ7iZfKv1sMShaMsKmgNZw=
+	t=1719390607; cv=none; b=Gfrm1CWKdgHyvMkNq/N1fQlGTEysANLRjMK8I5hnUck4HSiD/FoK5OOQSIElo5WPBNFR5c8EKpUCG+Z+Q5ddWXb+7ubvo/qlp5kUWTYvmh1pPHn5gLnC0SAQLY0x7qOsJsBcUC1Pcemny4WvJSWjvQX4LChza0Du1LTGq4O8Obg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719388200; c=relaxed/simple;
-	bh=9QQfkTqGG0QhCMsMVbYtu53vc1iWZc7ZgkRrLlMchWA=;
+	s=arc-20240116; t=1719390607; c=relaxed/simple;
+	bh=QeqkQtniBpxvd+UitRjWWYVFy5iXjPy7xv5fji8+3L8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E0wCCT0Nkg8GrIoDfaIi5jzGxv9HkTa+VzQWNr9xT5851+8WY8U8M4GHWA/nj0K0fdK3c3CcNR++K7RibQqahd7y4dq7fhDhFPOFxGh6F46PC+WONdc/FQLCdGtFyeWEyX4z5a15Btc8wUFcOyUl11s/lM3SZZ1zjHVCxMd+dNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=NJdrA4CJ; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	 In-Reply-To:Content-Type; b=KKX2k4Cb8T1VJA9AOwVWOgz6cyUUa1w842afFHo9k+chH3z3L/a27nzs03PGNutQQrY0Z2bBG2K67JzGbBaudnr6NkwdtpcPX3aEjOKMs/niqUchjlLiSGHjWqT/mbtbhWLKtTdTfI9oc4tRMX1TqZ4pNy0akVchscaQSyyeAVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=dud3sBF2; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="NJdrA4CJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1719388196;
-	bh=9QQfkTqGG0QhCMsMVbYtu53vc1iWZc7ZgkRrLlMchWA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=NJdrA4CJL4+8nPwAEvW3sG2WdUSiZG76Na/Inya71e1MmguanYYNHJBnXQtO95jb0
-	 KHtin9jIbd0OPkXU3JIipGO2OowdHWuJ73hW4oi0wTEawJmzJ+zUcLljq299J4kHmq
-	 J8lbJOV7uQHyJ4tHJQNJ4IU1dNdJJ/gevVbhmOzYA6btbjd3LLahWKBOPgoPeOdjZD
-	 XyENIzLuDe771IoEkneVqR26p2BtgRutpTghOsQ3YtdCKNmM2L+UfUDEPQe6K9F+pd
-	 169Ef7pYgZb1SiJtDXFVkdqmiujX0qyafT9JUh9oumB3xZdcxeUBIfKQ+8DkcpJ86G
-	 BXrQI1tjR+8Vw==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id D09A237810CD;
-	Wed, 26 Jun 2024 07:49:55 +0000 (UTC)
-Message-ID: <b838b9a9-0ce3-40a5-b7a5-d1c825a0fa20@collabora.com>
-Date: Wed, 26 Jun 2024 09:49:55 +0200
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="dud3sBF2"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-52cd6784aa4so5675774e87.3
+        for <linux-sound@vger.kernel.org>; Wed, 26 Jun 2024 01:30:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1719390603; x=1719995403; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yyQdICgaO84yFawHrHyVyr2QToU/+XJGR839rOrXaR0=;
+        b=dud3sBF2tVPRThcYciFuClucski/fMejwvP58nN7PA2C4550Bo1BWAmdARVLHwVjwE
+         iG/VckS1SBkJmwhbUhUdrTvAXJa+qUkiUvwTUbwY7JDSg6nlUbhVGjV0lzJQfSBsWl7t
+         AJbsBQHNfkMxtODpUfkOdbbmC5LdHOE2YbM/1zX9IQm+GjXcAzEnR1Z7KPWP516s9y35
+         SWqG/skTT6LKFroJwByr0mw4jxtc5bvFQL2GWGqMKF6U4LBQLf7fwKM9+PjfzENn0O9+
+         m1wQXj+ZuAtRrWRqMYubFa0aj+njwlJO76nffH00lHmh2ntyx6AAOpjQdprKcvep0tCW
+         AKhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719390603; x=1719995403;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yyQdICgaO84yFawHrHyVyr2QToU/+XJGR839rOrXaR0=;
+        b=IAZVdg+Ar5eMHZ4Yte9SK2X5MzStMHZME2+aN1qkmzm3/xDSB2m2ciprX1qH+qitFj
+         ITfPaxdI6WkC5PrRdZZqOZADTElNJoUG4OGeLVoR5BGlKM3W76+EnF4MU/nhUygfY/dr
+         Wf/2oTRkb4u+xJQCD4eM+7zFjfrK5MCJ7N2wbcWnNpV8RLqJkHWDelH5l3jejtYZCtsu
+         xAM7D1lzWdv7sloeglpshzROFPq9hGOcm9QPGMc6fO/iIw0ZB7dVoiQ/usvTg+rrhcDX
+         FdH/9/ceENOjUZ1jLiVW0nCdeP9cpeFc88+s0YXjUoghVWWtQ+2ozqYFHPdRWriBgNXy
+         jUcw==
+X-Gm-Message-State: AOJu0YzqdWPtmKmwt5QnTg7e6Zhlp5NXfarCu5SnfJR5NkjkokcSjyaF
+	3LK9I9rydVgTaNQtx0hb5lc2O+gdJmFDFLjQT8kpB8esL3luZmN94rraBHo0GFA=
+X-Google-Smtp-Source: AGHT+IEca5cJU5ZW212x9C2okoEwkWZvRgPivrrUuJX0Y9+4JhwZuZye4d1Yr/SDCtFZrF/eM34AgA==
+X-Received: by 2002:a05:6512:607:b0:52c:d84b:93b2 with SMTP id 2adb3069b0e04-52ce18341f9mr5698467e87.15.1719390603394;
+        Wed, 26 Jun 2024 01:30:03 -0700 (PDT)
+Received: from [192.168.1.172] ([93.5.22.158])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-424c84245f0sm16687705e9.33.2024.06.26.01.30.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Jun 2024 01:30:03 -0700 (PDT)
+Message-ID: <79811fff-4fdf-4121-9cea-6ed7e1329dad@baylibre.com>
+Date: Wed, 26 Jun 2024 10:30:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,301 +60,111 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: mediatek: Allow setting readable driver names
- through kconfig
-To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
+Subject: Re: [PATCH v6 03/16] dt-bindings: mfd: mediatek: Add codec property
+ for MT6357 PMIC
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Matthias Brugger <matthias.bgg@gmail.com>
-Cc: kernel@collabora.com, linux-sound@vger.kernel.org,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org
-References: <20240625-mt8195-driver-name-too-long-v1-1-8573b43a9868@collabora.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20240226-audio-i350-v6-0-f754ec1a7634@baylibre.com>
+ <20240226-audio-i350-v6-3-f754ec1a7634@baylibre.com>
+ <cd190d35-1658-43d8-9606-5e73257bbf3a@linaro.org>
+ <95bab90f-b196-4e79-bb88-7fd534cca721@baylibre.com>
+ <5c9ab5bf-95f2-4195-8797-335010223aac@kernel.org>
 Content-Language: en-US
-In-Reply-To: <20240625-mt8195-driver-name-too-long-v1-1-8573b43a9868@collabora.com>
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <5c9ab5bf-95f2-4195-8797-335010223aac@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Il 25/06/24 22:23, Nícolas F. R. A. Prado ha scritto:
-> Commit c8d18e440225 ("ASoC: core: clarify the driver name
-> initialization") introduced an error message when driver names are
-> automatically generated and result in truncated names.
+
+
+On 25/06/2024 15:44, Krzysztof Kozlowski wrote:
+> On 25/06/2024 11:23, Alexandre Mergnat wrote:
+>>
+>>
+>> On 21/06/2024 17:00, Krzysztof Kozlowski wrote:
+>>> On 19/06/2024 16:46, Alexandre Mergnat wrote:
+>>>> Add the audio codec sub-device. This sub-device is used to set the
+>>>> optional voltage values according to the hardware.
+>>>> The properties are:
+>>>>     - Setup of microphone bias voltage.
+>>>>     - Setup of the speaker pin pull-down.
+>>>>
+>>>> Also, add the audio power supply property which is dedicated for
+>>>> the audio codec sub-device.
+>>>>
+>>>> Signed-off-by: Alexandre Mergnat<amergnat@baylibre.com>
+>>>> ---
+>>>>    .../devicetree/bindings/mfd/mediatek,mt6357.yaml   | 33 ++++++++++++++++++++++
+>>>>    1 file changed, 33 insertions(+)
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml b/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
+>>>> index 37423c2e0fdf..d95307393e75 100644
+>>>> --- a/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
+>>>> +++ b/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
+>>>> @@ -37,6 +37,32 @@ properties:
+>>>>      "#interrupt-cells":
+>>>>        const: 2
+>>>>    
+>>>> +  vaud28-supply:
+>>>> +    description: 2.8 volt supply phandle for the audio codec
+>>>> +
+>>>> +  audio-codec:
+>>>> +    type: object
+>>> Still not much improved. You do not have any resources there, so these
+>>> should go to the parent node.
+>>
+>> Hi Krzysztof,
+>>
+>> vaud28-supply seems to be a mistake that I forward port.
+>> In the V4, AFAII, your feedback [1] suggested me to move the vaud28-supply from the "audio-codec"
+>> sub-node to the parent node, which for me is the "pmic" (mfd), because the property is considered as
+>> power-supply.
+>>
+>>       pwrap {
+>>           pmic {
+>>               ...
+>>               audio-codec {
+>>                   ...
+>>
+>> Hardware side, vaud28-supply is the output of PMIC-regulator subsystem, and AVDD28 is the input of
+>> PMIC-audio-codec subsystem. Then:
+>> - The property name is wrong and must be change to AVDD28, which is a consumer (power input), not a
+>> power-supply. => description: 2.8 volt power input for microphones (AU_VIN0, AU_VIN1, AU_VIN2)
+>> - IMHO, move this property to the next parent (pwrap) isn't consistent. It should be moved back to
+>> Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml (Done in the V4) into audio-codec
+>> substystem, beside mediatek,micbias0-microvolt
 > 
-> For example, this error message is printed on mt8195-cherry-tomato-rev2:
-> 
->    mt8195_mt6359 mt8195-sound: ASoC: driver name too long 'sof-mt8195_r1019_5682' -> 'sof-mt8195_r101'
-> 
-> Since that truncated driver name is already used by userspace (eg UCM),
-> it can't be unconditionally updated.
-> 
-> As suggested by Jaroslav, update the driver name but hide it behind a
-> kernel config option, which Linux distributions can enable once the
-> corresponding support in userspace audio configuration software lands.
-> This ensures that audio doesn't regress, while still allowing the error
-> to be fixed.
+> I don't understand why do we talk again about supply. My comment was not
+> under the supply.
 
-I can propose the following plan of action for such a rename:
-  1. Temporarily have both UCMs
-  2. Wait until distros update their packages
-  3. Change the name in kernel without extra config options
-  4. Remove the now deprecated UCMs
+Because your word are:
+"
+And now you should see how odd it looks. Supplies are part of entire
+chip, not subblock, even if they supply dedicated domain within that chip.
 
-...that's requiring a bit of time, yes, but I think this is the best way to
-ensure that no breakage happens in the meantime for any users.
+That's why I asked to put it in the parent node.
+"
 
-Anyone disagreeing? Does anyone have any better idea?
+My bad, I forgot to link you the old message in my previous answer [1]
 
-Cheers,
-Angelo
+[1] https://lore.kernel.org/all/6d21da37-8be7-467c-8878-d57af0b0201b@kernel.org/#t
 
-> 
-> Suggested-by: Jaroslav Kysela <perex@perex.cz>
-> Link: https://lore.kernel.org/all/8d0ccf4a-a6d9-f914-70a9-c2ad55af3a04@perex.cz
-> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-> ---
->   sound/soc/mediatek/Kconfig                         | 10 ++++++++++
->   sound/soc/mediatek/mt8173/mt8173-rt5650-rt5514.c   |  3 +++
->   sound/soc/mediatek/mt8173/mt8173-rt5650-rt5676.c   |  3 +++
->   sound/soc/mediatek/mt8183/mt8183-da7219-max98357.c | 13 ++++++++++++-
->   sound/soc/mediatek/mt8186/mt8186-mt6366.c          | 16 +++++++++++++++-
->   sound/soc/mediatek/mt8188/mt8188-mt6359.c          |  7 ++++++-
->   sound/soc/mediatek/mt8195/mt8195-mt6359.c          |  7 ++++++-
->   7 files changed, 55 insertions(+), 4 deletions(-)
-> 
-> diff --git a/sound/soc/mediatek/Kconfig b/sound/soc/mediatek/Kconfig
-> index 5a8476e1ecca..396d558bc75b 100644
-> --- a/sound/soc/mediatek/Kconfig
-> +++ b/sound/soc/mediatek/Kconfig
-> @@ -281,6 +281,16 @@ config SND_SOC_MT8195
->   	  Select Y if you have such device.
->   	  If unsure select "N".
->   
-> +config SND_SOC_MTK_READABLE_DRIVER_NAME
-> +	bool "Readable driver name for MediaTek sound cards"
-> +	help
-> +	  This explicitly sets the driver name for the MediaTek sound cards to
-> +	  prevent it from potentially being truncated and harder to read. The
-> +	  new names require support in the audio configuration userspace
-> +	  utilities (like UCM), so only select this once they have been updated
-> +	  to support the new names to ensure working audio.
-> +	  If unsure select "N".
-> +
->   config SND_SOC_MT8195_MT6359
->   	tristate "ASoC Audio driver for MT8195 with MT6359 and I2S codecs"
->   	depends on I2C && GPIOLIB
-> diff --git a/sound/soc/mediatek/mt8173/mt8173-rt5650-rt5514.c b/sound/soc/mediatek/mt8173/mt8173-rt5650-rt5514.c
-> index 4ed06c269065..9155bb29c0a2 100644
-> --- a/sound/soc/mediatek/mt8173/mt8173-rt5650-rt5514.c
-> +++ b/sound/soc/mediatek/mt8173/mt8173-rt5650-rt5514.c
-> @@ -173,6 +173,9 @@ static struct snd_soc_codec_conf mt8173_rt5650_rt5514_codec_conf[] = {
->   
->   static struct snd_soc_card mt8173_rt5650_rt5514_card = {
->   	.name = "mtk-rt5650-rt5514",
-> +#if IS_ENABLED(CONFIG_SND_SOC_MTK_READABLE_DRIVER_NAME)
-> +	.driver_name = "mtk-rt5514",
-> +#endif
->   	.owner = THIS_MODULE,
->   	.dai_link = mt8173_rt5650_rt5514_dais,
->   	.num_links = ARRAY_SIZE(mt8173_rt5650_rt5514_dais),
-> diff --git a/sound/soc/mediatek/mt8173/mt8173-rt5650-rt5676.c b/sound/soc/mediatek/mt8173/mt8173-rt5650-rt5676.c
-> index 763067c21153..212b36a0559f 100644
-> --- a/sound/soc/mediatek/mt8173/mt8173-rt5650-rt5676.c
-> +++ b/sound/soc/mediatek/mt8173/mt8173-rt5650-rt5676.c
-> @@ -229,6 +229,9 @@ static struct snd_soc_codec_conf mt8173_rt5650_rt5676_codec_conf[] = {
->   
->   static struct snd_soc_card mt8173_rt5650_rt5676_card = {
->   	.name = "mtk-rt5650-rt5676",
-> +#if IS_ENABLED(CONFIG_SND_SOC_MTK_READABLE_DRIVER_NAME)
-> +	.driver_name = "mtk-rt5676",
-> +#endif
->   	.owner = THIS_MODULE,
->   	.dai_link = mt8173_rt5650_rt5676_dais,
->   	.num_links = ARRAY_SIZE(mt8173_rt5650_rt5676_dais),
-> diff --git a/sound/soc/mediatek/mt8183/mt8183-da7219-max98357.c b/sound/soc/mediatek/mt8183/mt8183-da7219-max98357.c
-> index f848e14b091a..2664e3d14fec 100644
-> --- a/sound/soc/mediatek/mt8183/mt8183-da7219-max98357.c
-> +++ b/sound/soc/mediatek/mt8183/mt8183-da7219-max98357.c
-> @@ -19,6 +19,8 @@
->   #include "../common/mtk-afe-platform-driver.h"
->   #include "mt8183-afe-common.h"
->   
-> +#define DRIVER_NAME "mt8183_da7219"
-> +
->   #define DA7219_CODEC_DAI "da7219-hifi"
->   #define DA7219_DEV_NAME "da7219.5-001a"
->   #define RT1015_CODEC_DAI "rt1015-aif"
-> @@ -649,6 +651,9 @@ static const struct snd_soc_dapm_route mt8183_da7219_max98357_dapm_routes[] = {
->   
->   static struct snd_soc_card mt8183_da7219_max98357_card = {
->   	.name = "mt8183_da7219_max98357",
-> +#if IS_ENABLED(CONFIG_SND_SOC_MTK_READABLE_DRIVER_NAME)
-> +	.driver_name = DRIVER_NAME,
-> +#endif
->   	.owner = THIS_MODULE,
->   	.controls = mt8183_da7219_max98357_snd_controls,
->   	.num_controls = ARRAY_SIZE(mt8183_da7219_max98357_snd_controls),
-> @@ -706,6 +711,9 @@ static const struct snd_soc_dapm_route mt8183_da7219_rt1015_dapm_routes[] = {
->   
->   static struct snd_soc_card mt8183_da7219_rt1015_card = {
->   	.name = "mt8183_da7219_rt1015",
-> +#if IS_ENABLED(CONFIG_SND_SOC_MTK_READABLE_DRIVER_NAME)
-> +	.driver_name = DRIVER_NAME,
-> +#endif
->   	.owner = THIS_MODULE,
->   	.controls = mt8183_da7219_rt1015_snd_controls,
->   	.num_controls = ARRAY_SIZE(mt8183_da7219_rt1015_snd_controls),
-> @@ -723,6 +731,9 @@ static struct snd_soc_card mt8183_da7219_rt1015_card = {
->   
->   static struct snd_soc_card mt8183_da7219_rt1015p_card = {
->   	.name = "mt8183_da7219_rt1015p",
-> +#if IS_ENABLED(CONFIG_SND_SOC_MTK_READABLE_DRIVER_NAME)
-> +	.driver_name = DRIVER_NAME,
-> +#endif
->   	.owner = THIS_MODULE,
->   	.controls = mt8183_da7219_max98357_snd_controls,
->   	.num_controls = ARRAY_SIZE(mt8183_da7219_max98357_snd_controls),
-> @@ -875,7 +886,7 @@ MODULE_DEVICE_TABLE(of, mt8183_da7219_max98357_dt_match);
->   
->   static struct platform_driver mt8183_da7219_max98357_driver = {
->   	.driver = {
-> -		.name = "mt8183_da7219",
-> +		.name = DRIVER_NAME,
->   #ifdef CONFIG_OF
->   		.of_match_table = mt8183_da7219_max98357_dt_match,
->   #endif
-> diff --git a/sound/soc/mediatek/mt8186/mt8186-mt6366.c b/sound/soc/mediatek/mt8186/mt8186-mt6366.c
-> index 771d53611c2a..29f17dfb8f1b 100644
-> --- a/sound/soc/mediatek/mt8186/mt8186-mt6366.c
-> +++ b/sound/soc/mediatek/mt8186/mt8186-mt6366.c
-> @@ -31,6 +31,8 @@
->   #include "mt8186-afe-gpio.h"
->   #include "mt8186-mt6366-common.h"
->   
-> +#define DRIVER_NAME "mt8186_mt6366"
-> +
->   #define RT1019_CODEC_DAI	"HiFi"
->   #define RT1019_DEV0_NAME	"rt1019p"
->   
-> @@ -1119,6 +1121,9 @@ mt8186_mt6366_rt1019_rt5682s_controls[] = {
->   
->   static struct snd_soc_card mt8186_mt6366_da7219_max98357_soc_card = {
->   	.name = "mt8186_da7219_max98357",
-> +#if IS_ENABLED(CONFIG_SND_SOC_MTK_READABLE_DRIVER_NAME)
-> +	.driver_name = DRIVER_NAME,
-> +#endif
->   	.owner = THIS_MODULE,
->   	.dai_link = mt8186_mt6366_rt1019_rt5682s_dai_links,
->   	.num_links = ARRAY_SIZE(mt8186_mt6366_rt1019_rt5682s_dai_links),
-> @@ -1134,6 +1139,9 @@ static struct snd_soc_card mt8186_mt6366_da7219_max98357_soc_card = {
->   
->   static struct snd_soc_card mt8186_mt6366_rt1019_rt5682s_soc_card = {
->   	.name = "mt8186_rt1019_rt5682s",
-> +#if IS_ENABLED(CONFIG_SND_SOC_MTK_READABLE_DRIVER_NAME)
-> +	.driver_name = DRIVER_NAME,
-> +#endif
->   	.owner = THIS_MODULE,
->   	.dai_link = mt8186_mt6366_rt1019_rt5682s_dai_links,
->   	.num_links = ARRAY_SIZE(mt8186_mt6366_rt1019_rt5682s_dai_links),
-> @@ -1149,6 +1157,9 @@ static struct snd_soc_card mt8186_mt6366_rt1019_rt5682s_soc_card = {
->   
->   static struct snd_soc_card mt8186_mt6366_rt5682s_max98360_soc_card = {
->   	.name = "mt8186_rt5682s_max98360",
-> +#if IS_ENABLED(CONFIG_SND_SOC_MTK_READABLE_DRIVER_NAME)
-> +	.driver_name = DRIVER_NAME,
-> +#endif
->   	.owner = THIS_MODULE,
->   	.dai_link = mt8186_mt6366_rt1019_rt5682s_dai_links,
->   	.num_links = ARRAY_SIZE(mt8186_mt6366_rt1019_rt5682s_dai_links),
-> @@ -1164,6 +1175,9 @@ static struct snd_soc_card mt8186_mt6366_rt5682s_max98360_soc_card = {
->   
->   static struct snd_soc_card mt8186_mt6366_rt5650_soc_card = {
->   	.name = "mt8186_rt5650",
-> +#if IS_ENABLED(CONFIG_SND_SOC_MTK_READABLE_DRIVER_NAME)
-> +	.driver_name = DRIVER_NAME,
-> +#endif
->   	.owner = THIS_MODULE,
->   	.dai_link = mt8186_mt6366_rt1019_rt5682s_dai_links,
->   	.num_links = ARRAY_SIZE(mt8186_mt6366_rt1019_rt5682s_dai_links),
-> @@ -1380,7 +1394,7 @@ MODULE_DEVICE_TABLE(of, mt8186_mt6366_dt_match);
->   
->   static struct platform_driver mt8186_mt6366_driver = {
->   	.driver = {
-> -		.name = "mt8186_mt6366",
-> +		.name = DRIVER_NAME,
->   #if IS_ENABLED(CONFIG_OF)
->   		.of_match_table = mt8186_mt6366_dt_match,
->   #endif
-> diff --git a/sound/soc/mediatek/mt8188/mt8188-mt6359.c b/sound/soc/mediatek/mt8188/mt8188-mt6359.c
-> index eba6f4c445ff..2640981a2463 100644
-> --- a/sound/soc/mediatek/mt8188/mt8188-mt6359.c
-> +++ b/sound/soc/mediatek/mt8188/mt8188-mt6359.c
-> @@ -23,6 +23,8 @@
->   #include "../common/mtk-dsp-sof-common.h"
->   #include "../common/mtk-soc-card.h"
->   
-> +#define DRIVER_NAME "mt8188_mt6359"
-> +
->   #define CKSYS_AUD_TOP_CFG	0x032c
->    #define RG_TEST_ON		BIT(0)
->    #define RG_TEST_TYPE		BIT(2)
-> @@ -1240,6 +1242,9 @@ static void mt8188_fixup_controls(struct snd_soc_card *card)
->   }
->   
->   static struct snd_soc_card mt8188_mt6359_soc_card = {
-> +#if IS_ENABLED(CONFIG_SND_SOC_MTK_READABLE_DRIVER_NAME)
-> +	.driver_name = DRIVER_NAME,
-> +#endif
->   	.owner = THIS_MODULE,
->   	.dai_link = mt8188_mt6359_dai_links,
->   	.num_links = ARRAY_SIZE(mt8188_mt6359_dai_links),
-> @@ -1392,7 +1397,7 @@ MODULE_DEVICE_TABLE(of, mt8188_mt6359_dt_match);
->   
->   static struct platform_driver mt8188_mt6359_driver = {
->   	.driver = {
-> -		.name = "mt8188_mt6359",
-> +		.name = DRIVER_NAME,
->   		.of_match_table = mt8188_mt6359_dt_match,
->   		.pm = &snd_soc_pm_ops,
->   	},
-> diff --git a/sound/soc/mediatek/mt8195/mt8195-mt6359.c b/sound/soc/mediatek/mt8195/mt8195-mt6359.c
-> index ca8751190520..da406cbb40f6 100644
-> --- a/sound/soc/mediatek/mt8195/mt8195-mt6359.c
-> +++ b/sound/soc/mediatek/mt8195/mt8195-mt6359.c
-> @@ -26,6 +26,8 @@
->   #include "mt8195-afe-clk.h"
->   #include "mt8195-afe-common.h"
->   
-> +#define DRIVER_NAME "mt8195_mt6359"
-> +
->   #define RT1011_SPEAKER_AMP_PRESENT		BIT(0)
->   #define RT1019_SPEAKER_AMP_PRESENT		BIT(1)
->   #define MAX98390_SPEAKER_AMP_PRESENT		BIT(2)
-> @@ -1231,6 +1233,9 @@ static struct snd_soc_codec_conf max98390_codec_conf[] = {
->   };
->   
->   static struct snd_soc_card mt8195_mt6359_soc_card = {
-> +#if IS_ENABLED(CONFIG_SND_SOC_MTK_READABLE_DRIVER_NAME)
-> +	.driver_name = DRIVER_NAME,
-> +#endif
->   	.owner = THIS_MODULE,
->   	.dai_link = mt8195_mt6359_dai_links,
->   	.num_links = ARRAY_SIZE(mt8195_mt6359_dai_links),
-> @@ -1530,7 +1535,7 @@ MODULE_DEVICE_TABLE(of, mt8195_mt6359_dt_match);
->   
->   static struct platform_driver mt8195_mt6359_driver = {
->   	.driver = {
-> -		.name = "mt8195_mt6359",
-> +		.name = DRIVER_NAME,
->   		.of_match_table = mt8195_mt6359_dt_match,
->   		.pm = &snd_soc_pm_ops,
->   	},
-> 
-> ---
-> base-commit: 0fc4bfab2cd45f9acb86c4f04b5191e114e901ed
-> change-id: 20240625-mt8195-driver-name-too-long-095a030a2e86
-> 
-> Best regards,
-
-
-
+-- 
+Regards,
+Alexandre
