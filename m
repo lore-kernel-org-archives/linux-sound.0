@@ -1,75 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07711822F9;
-	Wed, 26 Jun 2024 10:41:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76BB7D53B;
+	Wed, 26 Jun 2024 12:37:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719398503; cv=none; b=h8s5UDVxfkzuzhINaSe/S8jJV5DYw/IPV8gTnLd1TPxxi8IQ2BgRcxYAf5hNLkrxHyq9A/4Aqge8p3fGc/g8CfdtgDKY7VuPWyXVppD+c0AG/ujT2Kn+qsws0G1ng/wXv658SEwW//upE6NrZjpGP45A08hq9w+B2L3XfNv1h0o=
+	t=1719405447; cv=none; b=bxhKl5Twn1yd5hsVF/cCySjmCZ7z3mo3U2r4cCNupvI00Vdhp4YvrEUENUP/nNax/HGibfRpyQitHiMz8wyt/DIR3aS5v9ckNzZuUsALWk2bhoYfMkUdRddf+Xho8GmiKwS6csWR79K9b8tWq93WyJnrJdbE2kIrQ8VfGLy3veM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719398503; c=relaxed/simple;
-	bh=5liAa5eq+JjIRvMH4LLV+J2ftrJA8xP0V0652DuHtkE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nEmbitIYYN0PNBGqz6zD6TSThwGlox9iqBdvWDrQUVQE/UhaiRFetmfe9F5XrTgGlHD2uSyQJZEs5SxymDoTJAZgkOHPN/mC3y4AQtvW7M9PnSj52Vu170zbTtIMcwzvjCWOkIV3NBBtLUNVS9lS0H/9mTshj5zpLSnk0ZPJNd0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U6/KVl26; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719405447; c=relaxed/simple;
+	bh=pQb/7G7/wHAHw21/xcFGrhcwpBfvJ00H8L5TVaEoaIY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=nXISJlk9jXooqjd9i3EwGPMyNfNrvol3bmTHG0DcGJKmXtEGUqgWkkGUsVzZVq1rQoykxYKpiWwNYZ/AWZyxc8KP6CMwlH0PuG+1oNSEGMn6Wjf/phDa8/N6QW8/g9q7mxMR3aB3L1oSMqREYcg3lv3L6/8rdhNqN3n2ox4LDvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HpV14F3C; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U6/KVl26"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A620DC32786;
-	Wed, 26 Jun 2024 10:41:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HpV14F3C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75B85C2BD10;
+	Wed, 26 Jun 2024 12:37:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719398503;
-	bh=5liAa5eq+JjIRvMH4LLV+J2ftrJA8xP0V0652DuHtkE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=U6/KVl26xDBLftI1+kDRvccEqK2MWbddiTESoO0Esin9P86fdZ7jGHqry8xatNikm
-	 iGGX8Aws55BlWxKicoIsQDu5vOUFMSe9dB2elSQlDKOzahCVEvl5ReiVDpyW6R1Mg0
-	 N63h+53UB634bkgUhbHsKTV8L0MjgOP1YSGRf+WNmUMsLJZ2rP87g3AqDpXPJdPRRm
-	 Gl9LjvCvHi8qNIV0/7c+9atP/HzS/55sQbny3kl9anMD/mE1924kKfpeteQQ7Ct2pB
-	 F4F9y1qpdcnpav2mazBGZaxPE64hEklMGk/byd1lyWNNazEafJjxWgOheX5bmRg+96
-	 RFtHDhv/W3Oag==
-Date: Wed, 26 Jun 2024 11:41:38 +0100
+	s=k20201202; t=1719405447;
+	bh=pQb/7G7/wHAHw21/xcFGrhcwpBfvJ00H8L5TVaEoaIY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=HpV14F3CDcfzkuE0MFodrYnh9P0lMSTXD0wKXrqklcoTw3PXD6bGYW2Day0fYcF5A
+	 MpJ2zClXQ6X8evyNRBXSAKhuVAsZKVu3vgHbXKMrwXk0oL8cZ6WBcUPjadXxyzVfma
+	 bvA7gPqLaFiq3asvjSrFwMiPrX3NOSMSbydCbluPe+j0Lom7tvSkR20X5F3jbjxeHZ
+	 xPuNCeGuzwksuLqwgXVVs+ywZw+R2hrSgPHQhT5OgmaL/qZIiMkInZNLnW+SGEOdA/
+	 ICTe2cZobv/F2gnlZQhGp7BUISWjKXxouTaMm9ddsg7wYgNflN4qlDei1jGigBWrNm
+	 Bvsigvt0Dcd2g==
 From: Mark Brown <broonie@kernel.org>
-To: Zhu Jun <zhujun2@cmss.chinamobile.com>
-Cc: ivan.orlov0322@gmail.com, perex@perex.cz, tiwai@suse.com,
-	shuah@kernel.org, linux-sound@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] selftests/alsa:Add memset to initialize memory
-Message-ID: <755d4876-9ce5-436e-aeeb-200f02ad7819@sirena.org.uk>
-References: <20240626095817.5037-1-zhujun2@cmss.chinamobile.com>
+To: mario.limonciello@amd.com, linux-kernel@vger.kernel.org, 
+ Vyacheslav Frantsishko <itmymaill@gmail.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20240626070334.45633-1-itmymaill@gmail.com>
+References: <0e571211-8921-4548-a093-6c5719c866c4@amd.com>
+ <20240626070334.45633-1-itmymaill@gmail.com>
+Subject: Re: [PATCH] ASoC: amd: yc: Fix non-functional mic on ASUS M5602RA
+Message-Id: <171940544619.1360002.3077526009321111718.b4-ty@kernel.org>
+Date: Wed, 26 Jun 2024 13:37:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="942wIzHHpXhuyjzx"
-Content-Disposition: inline
-In-Reply-To: <20240626095817.5037-1-zhujun2@cmss.chinamobile.com>
-X-Cookie: Results vary by individual.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev-d4707
 
+On Wed, 26 Jun 2024 10:03:34 +0300, Vyacheslav Frantsishko wrote:
+> The Vivobook S 16X IPS needs a quirks-table entry for the internal microphone to function properly.
+> 
+> 
 
---942wIzHHpXhuyjzx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Wed, Jun 26, 2024 at 02:58:17AM -0700, Zhu Jun wrote:
-> Add memset to initialize the requested memory
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Why?
+Thanks!
 
---942wIzHHpXhuyjzx
-Content-Type: application/pgp-signature; name="signature.asc"
+[1/1] ASoC: amd: yc: Fix non-functional mic on ASUS M5602RA
+      commit: 63b47f026cc841bd3d3438dd6fccbc394dfead87
 
------BEGIN PGP SIGNATURE-----
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZ78GIACgkQJNaLcl1U
-h9B6lwgAgO34y5xxu4pQjPXhvISych0YvoDsDFvW7n12BQ6Xmo80RCY4lQrxMs32
-BRKKoaUe3vux5+8mOjs7/skY3V43ToRyoN5gFIwXOf21Gg/EogUYxAKXYrd1MXai
-mlXG7ukuEbXf5g9UdxPeyj2bV71Ft/HOHnlflckQCJh+6xkpeMy+Gmq+fQF9+a1/
-mZkunXXibYE71ZeWGsyT7KaSRH7PJ9e8kCxeagDTiIorv3bah24w2+Mu1e/cD/xQ
-UPHCH+nvt8RMC+KQgC6t9yDZoytHKw5ulpN1nOcD/SKLt2a2FJmMkSlHTHJcIYRV
-JHfHD8h4U33BFJl6YFhbqWTDw7F6ng==
-=Zfgl
------END PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---942wIzHHpXhuyjzx--
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
