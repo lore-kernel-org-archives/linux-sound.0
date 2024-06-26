@@ -1,84 +1,100 @@
-Received: from smtp-relay-canonical-0.canonical.com (smtp-relay-canonical-0.canonical.com [185.125.188.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBE5A1BDDC;
-	Wed, 26 Jun 2024 02:14:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B299F13B28A
+	for <linux-sound@vger.kernel.org>; Wed, 26 Jun 2024 04:52:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719368100; cv=none; b=Rqo6tFm0P0/4ilo2fX2Eue48at4SsetOCHieobobeARP36d4SEkKo53Cf2akqMluWmpHL/5q7nVGpljgpf0nNZfP2cNWAlOVxK+a2WRxJan4G4ekyzyXXsy8lUJ+FsQCLttiulXzI50MGCUSgEJIZ8q0rnUXQWm4jhENCFGjTk4=
+	t=1719377532; cv=none; b=r8P6wodaWptfgr924jLUHORFqLqEGCVMh23Snohjwukl3aQ4SwmWB/o0OfFeLY/SPKqACgLqwFFFSeKTp+vJWMzcl13u+i4cICeBnnFtl5FzyNxVrYdxKsOyEfP1EaCMyKgKQifzmy3OKqsz6uAOY5hfhyzmJoL/V4B5vNjijTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719368100; c=relaxed/simple;
-	bh=wi/OsRxIRPvT2e5vLAcpKf6y5OLVsaxF+fxR97XgfvY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rYI/vOia0gKl7LbGiUgZvzn0IpmScr2IJ1UP8GmajV6/mSCRzzETLnsVsXcFpfUhCb6Ff7cLP1i4VpMe2Xap3Tuj1io+4+cnjA2OIyu96VCwh+6VpbqtvMgE1AECNQgfg6+92dFliLlJ/lTLDX3Yl3b4/+OOZLFNftbuLH4U73o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=CWSyroHR; arc=none smtp.client-ip=185.125.188.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+	s=arc-20240116; t=1719377532; c=relaxed/simple;
+	bh=YWCP4XS9NCMeFl42NORBvKgAR97zTeSKqwDJJ42RPHY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kgqO/9lFFuN2Q2zQDz/dQh2NE8/FbrDSC8437PEm+b0YVwVaTf//YK7zZWqc6dHx9koyDV9Y+Jtg+d8eEvNyItBJg2yiUPB0w3pUrKeyMVrxk9SdNE1rxXSOg3BObVekB+hXF3AJVmlAyttXmzuC/73Vff3N5cHmIQLG27xm20M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=q/czBRDL; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="CWSyroHR"
-Received: from localhost.localdomain (unknown [10.101.197.103])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id 122A140145;
-	Wed, 26 Jun 2024 02:14:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1719368095;
-	bh=xb3tBhUpOoEOIUkCkmssveM8jK358511+vc6tKxbuuY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
-	b=CWSyroHRIhIwoYNDx5E2eLjuHANwPgAWEf97LwJ6MHHuGEVLYbSU+cuwtqzRW7VUo
-	 9egHx+49cMJa+vvXYajd2HOz52c7TlR4Nexiv6iS34zgEy3mLJK4GIZfbeH3y8rL0+
-	 LGAF8cZxMPZ8XvJsfxTE4PWXPBo8ghVmXHUDFIJ/+VDxp1hm5E24ktfBKvIyCtzIES
-	 L8CheXmR7vXI21/ZATIAA3c/Evoho1JXFeuBJgBRXalTClgc4B36hi2UaS7+Ze1SKr
-	 HB5ApQtEftzz/ce7kCBzhTV8dnk4XMCiIWaiKxMms5YaOGxf4d/c9sNoD7+eyj9d/m
-	 X8r0h6/8LQU9g==
-From: Dirk Su <dirk.su@canonical.com>
-To: 
-Cc: dirk.su@canonical.com,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Stefan Binding <sbinding@opensource.cirrus.com>,
-	Kailang Yang <kailang@realtek.com>,
-	"Luke D. Jones" <luke@ljones.dev>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Simon Trimmer <simont@opensource.cirrus.com>,
-	Athaariq Ardhiansyah <foss@athaariq.my.id>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	linux-sound@vger.kernel.org (open list:SOUND),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] ALSA: hda/realtek: fix mute/micmute LEDs don't work for EliteBook 645/665 G11.
-Date: Wed, 26 Jun 2024 10:14:36 +0800
-Message-Id: <20240626021437.77039-1-dirk.su@canonical.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="q/czBRDL"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-52caebc6137so5897324e87.0
+        for <linux-sound@vger.kernel.org>; Tue, 25 Jun 2024 21:52:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1719377528; x=1719982328; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lc/ad8AuMtJ2+wNqYmI1VVXdrc0waVEdjHmQ67idPjs=;
+        b=q/czBRDLs5jw/8xT8lBWuNpfHypa12ZNozSfjkcI+QTafxcFsOpOL96ib+f41q2DCB
+         xFjTeqOqnsHvTOrAp3/PYvuLbqWnYREtesbHwTkYelHB5ExGsD4j2gZsvbydpGb2foFA
+         aG/VBac1asieM5Qmu8z+i7u7nZ6WHIl0hBRtDqzurC6n+mbx1QDzveEjtmb+Z1KPiaVB
+         Xha00pj93f5hZyB1O63fLaTFncLUqN5dND5ISEdEqtfd1AELeIm2qr0lwjzH5d7AM3ZV
+         BBBjSRBQTR9gnsDORNGpePk9O/hDxvWLyLyK9jHX6qB26aR/92zmsq44PJFzwf00A0Ti
+         YIgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719377528; x=1719982328;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lc/ad8AuMtJ2+wNqYmI1VVXdrc0waVEdjHmQ67idPjs=;
+        b=dsOJ8W0h6TRkO0tV0OSjjHYeARldZTg6vIfPHX5qv5v/mrfm91pKIrnBTyqr+1nuZG
+         lFFNRmEm7nS95lc15UDXSjwcdvDn0dH8JoIo+OYrPTBr6ida2hx0kBieTydIz8XcsUJZ
+         JovgeYV6m9whDXO4omYUJLZ4KiIwhu+OUMgq9Npt/4X3uISsHIuulEGfQGD2zu/I3+Pq
+         B5MLbQ1vsGlztvpMH7O0urdP6jzPa7YRbCfXDBoG4RXx5vycmQSlOjlqoZKGBAmYbJOy
+         RkFbzzPckHCPZTCm79sWAObfu1IDlM3axmTeHFianTKEMxHvzmbZP+sNrumonzgCoSP3
+         +Kcg==
+X-Forwarded-Encrypted: i=1; AJvYcCUL0AlGtoDTIHWqtaB/nj0+59Le2qPbz7a/0ThZyRJ1+QrZZQDbh5TrPWMmdGcOWbpWPUTzcqsCaDxnMAU0qDRcdG9vEDNQWj79b2c=
+X-Gm-Message-State: AOJu0YxpozZCLDP7yhQgliErnv9j2sA/cvQawsNwYPGhOaruKP4QnBCk
+	yjW6yc6vdq8TDQx9nWYkg25ArsKsx1ddBAWs0ktRp2vfBxiWZMfNIOwX3izVp1U=
+X-Google-Smtp-Source: AGHT+IFZ09iILP6kHgbKBpqNhbwz7AeISIrZ1LRcAxMhjyJ00DcvGAljOBBjtcKB7z+S0JfJ25G87Q==
+X-Received: by 2002:ac2:544f:0:b0:52c:d626:77aa with SMTP id 2adb3069b0e04-52ce18644a1mr5111412e87.58.1719377527612;
+        Tue, 25 Jun 2024 21:52:07 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52cd810d633sm1394422e87.165.2024.06.25.21.52.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Jun 2024 21:52:07 -0700 (PDT)
+Date: Wed, 26 Jun 2024 07:52:05 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Banajit Goswami <bgoswami@quicinc.com>, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, 
+	linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH 1/2] ASoC: codecs: lpass-macro: Gracefully handle unknown
+ version
+Message-ID: <6b4rnvhqnqf2w6kbafceaclri2gq7x7lttusllqswy4nkxzqg7@bqtmns4m3ghs>
+References: <20240625165736.722106-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240625165736.722106-1-krzysztof.kozlowski@linaro.org>
 
-HP EliteBook 645/665 G11 needs ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF quirk to
-make mic-mute/audio-mute working.
+On Tue, Jun 25, 2024 at 06:57:35PM GMT, Krzysztof Kozlowski wrote:
+> Qualcomm LPASS macro codec driver parses registers in order to
+> detect version of the codec.  It recognizes codecs v2.0 - v2.8, however
+> we know that there are earlier versions and 'enum lpass_codec_version'
+> has also v1.0, v1.1 and v1.2.  If by any chance we run on unrecognized
+> version, driver will use random value from the stack as the codec
+> version.
+> 
+> Fix it by mapping such cases to an enum of value 0:
+> LPASS_CODEC_VERSION_UNKNOWN.
+> 
+> Fixes: 378918d59181 ("ASoC: codecs: lpass-macro: add helpers to get codec version")
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  sound/soc/codecs/lpass-macro-common.h | 3 ++-
+>  sound/soc/codecs/lpass-va-macro.c     | 3 ++-
+>  2 files changed, 4 insertions(+), 2 deletions(-)
+> 
 
-Signed-off-by: Dirk Su <dirk.su@canonical.com>
----
- sound/pci/hda/patch_realtek.c | 3 +++
- 1 file changed, 3 insertions(+)
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 1aeaeab68437..c131e66062e7 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10222,6 +10222,9 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8c7c, "HP ProBook 445 G11", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
- 	SND_PCI_QUIRK(0x103c, 0x8c7d, "HP ProBook 465 G11", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
- 	SND_PCI_QUIRK(0x103c, 0x8c7e, "HP ProBook 465 G11", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
-+	SND_PCI_QUIRK(0x103c, 0x8c7f, "HP EliteBook 645 G11", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
-+	SND_PCI_QUIRK(0x103c, 0x8c80, "HP EliteBook 645 G11", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
-+	SND_PCI_QUIRK(0x103c, 0x8c81, "HP EliteBook 665 G11", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
- 	SND_PCI_QUIRK(0x103c, 0x8c89, "HP ProBook 460 G11", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8c8a, "HP EliteBook 630", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8c8c, "HP EliteBook 660", ALC236_FIXUP_HP_GPIO_LED),
+
 -- 
-2.34.1
-
+With best wishes
+Dmitry
