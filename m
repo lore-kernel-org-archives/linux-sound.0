@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3000B15FA85;
-	Wed, 26 Jun 2024 09:05:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87D0516EB68;
+	Wed, 26 Jun 2024 09:12:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719392751; cv=none; b=gPCh3kLmXeWQ3MzvnMD+swKWkIWQT6Of1uMjKnfhgMZWdQJClKoAV8q4x9E07O5PquiNPwu5Yi91Hj+CurR/iyIjUM+PtVPbNCZVZ961Z0iGHCHqv7EkAGeGQX1y1EYlVC3p8ucZwFrKi7Ux7YbsYPFiPNd26gsez1Z1894W2YU=
+	t=1719393174; cv=none; b=bBFsk/Udf/WfmqpdjhXMqeDSF31NgMeCNBJNbtgHD4RuhY0eRWe3PZ0z9uyZblf8xUIXhIMQDD/YDKG8jnJjcc/j47HnLo/vpmkCAxjPsCBVq8nr2lcvSHSNOV2MngBSw3lCrFT+8j6tMfiE8SvqH/LPGk+gTT4hZpMbEiMJ0/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719392751; c=relaxed/simple;
-	bh=nv0g+hT1HjrjxOyPe+8wJSFFnTJhduX2bepLTxmtUEI=;
+	s=arc-20240116; t=1719393174; c=relaxed/simple;
+	bh=qRy4tUMDP+Uxf64KBaFAJesy6ZVQGIcbefa8y1zH8ek=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Q0uOZgCO3XFy6Bpnpt7n39SCkkcWlyKwtEk9c/WGQYcbB95UyQIC/HJdkRFj2KNevQBDynK8y7266Z9PIZv0DzmZiyIn2qlF+oVc4C6e98UsCaInAv3eJCzbreOfFH7FzDyxl/O83r3bnlL29kiy+gC/IYX5ryeu+8EjK0zJep8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PicK2/Xv; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=of/gJU5O6gmDHpPfLUViw6pdxsWflPidaQSWX1NXhnmN2H4qTy2z5XebjcHMI/O6lxZvmpqQmQFr2Co56+u0AvO2eoh4lVHm3L1Im7dbdYF0ybchSQFaQCN/UsEAii/EtA/09cRUU/nvTgZpyJateozesGtGJIfK12KbYgz8IF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=huIXkH71; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PicK2/Xv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B239C2BD10;
-	Wed, 26 Jun 2024 09:05:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="huIXkH71"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F13DC2BD10;
+	Wed, 26 Jun 2024 09:12:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719392750;
-	bh=nv0g+hT1HjrjxOyPe+8wJSFFnTJhduX2bepLTxmtUEI=;
+	s=k20201202; t=1719393174;
+	bh=qRy4tUMDP+Uxf64KBaFAJesy6ZVQGIcbefa8y1zH8ek=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=PicK2/XvZD+ehnKQiO1k9dqeQYDtqBYU1lB4K7Vm/GGJ7EhCV0zdXy2r9RtU+CRSv
-	 xyCtRmCQp3usfbxZTulXo8ylvFt47gxvRkmJUD/t6OOoC77o4pE70Es9xnZeCfrj4X
-	 ikpPZ6BuRuMQPeiXLEw1ZHEedGQydPFYwFouxeKCzk6KPEhM419d3QULHDpwR361eZ
-	 Lda2SNJAvpeLnZiA9odd1hiv1xQqcJmzcSqwcCQKZfVkbePJ5nziv8qw7jK9R1EAkJ
-	 lRflUucNo2lea5vz10t/2h9cxELQ3rycxwdz5rKyZqWd+J+1oEU0R4dcnb7CHRR4h5
-	 o0EEOwe7J9cdA==
-Message-ID: <254c5205-06d6-49e2-a703-b6a33c7cb1a1@kernel.org>
-Date: Wed, 26 Jun 2024 11:05:44 +0200
+	b=huIXkH714nccd7u6UXnSxPFS9BLjkaTQHRbRCF9MeeQ14XucSjFxV0+GqCqpXjBLy
+	 AsQE66jxo1OQf6K+JOAy6dDrGU/OVUefIdvVAk6jiqN+soAw6a7r3Xfgdl8mr93LJX
+	 1LrlU0agu6md+Ai+FuY6GUqh5+W9dif+iPid7UmWNI9Pyfb7nYo71Ml4W6/A2GzpEh
+	 JpcpplmIyUPpB99ejbKeyHv2zqiwMdh9f/dGrAReyBpGsi1nkL97+nSl3sq3uUlbGq
+	 NfTQFqch2s8HGRFGct0rrJhc5IeOcoH3aw1B59aI2y1ISHiTa1q5JePP69N3ezAaTI
+	 eOR55AOf+uMtQ==
+Message-ID: <5dad1ef4-4dc8-4f36-9150-fbe8b388a6d7@kernel.org>
+Date: Wed, 26 Jun 2024 11:12:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,14 +35,32 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: dt-bindings: realtek,rt5677: Convert to dtschema
-To: Animesh Agarwal <animeshagarwal28@gmail.com>
-Cc: Daniel Baluta <daniel.baluta@nxp.com>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240625092214.88005-1-animeshagarwal28@gmail.com>
+Subject: Re: [PATCH v6 03/16] dt-bindings: mfd: mediatek: Add codec property
+ for MT6357 PMIC
+To: Alexandre Mergnat <amergnat@baylibre.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20240226-audio-i350-v6-0-f754ec1a7634@baylibre.com>
+ <20240226-audio-i350-v6-3-f754ec1a7634@baylibre.com>
+ <cd190d35-1658-43d8-9606-5e73257bbf3a@linaro.org>
+ <95bab90f-b196-4e79-bb88-7fd534cca721@baylibre.com>
+ <5c9ab5bf-95f2-4195-8797-335010223aac@kernel.org>
+ <79811fff-4fdf-4121-9cea-6ed7e1329dad@baylibre.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -88,66 +106,87 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240625092214.88005-1-animeshagarwal28@gmail.com>
+In-Reply-To: <79811fff-4fdf-4121-9cea-6ed7e1329dad@baylibre.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 25/06/2024 11:22, Animesh Agarwal wrote:
-> Convert the RT5677 audio CODEC bindings to DT schema.
+On 26/06/2024 10:30, Alexandre Mergnat wrote:
 > 
-> Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
-> Cc: Daniel Baluta <daniel.baluta@nxp.com>
+> 
+> On 25/06/2024 15:44, Krzysztof Kozlowski wrote:
+>> On 25/06/2024 11:23, Alexandre Mergnat wrote:
+>>>
+>>>
+>>> On 21/06/2024 17:00, Krzysztof Kozlowski wrote:
+>>>> On 19/06/2024 16:46, Alexandre Mergnat wrote:
+>>>>> Add the audio codec sub-device. This sub-device is used to set the
+>>>>> optional voltage values according to the hardware.
+>>>>> The properties are:
+>>>>>     - Setup of microphone bias voltage.
+>>>>>     - Setup of the speaker pin pull-down.
+>>>>>
+>>>>> Also, add the audio power supply property which is dedicated for
+>>>>> the audio codec sub-device.
+>>>>>
+>>>>> Signed-off-by: Alexandre Mergnat<amergnat@baylibre.com>
+>>>>> ---
+>>>>>    .../devicetree/bindings/mfd/mediatek,mt6357.yaml   | 33 ++++++++++++++++++++++
+>>>>>    1 file changed, 33 insertions(+)
+>>>>>
+>>>>> diff --git a/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml b/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
+>>>>> index 37423c2e0fdf..d95307393e75 100644
+>>>>> --- a/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
+>>>>> +++ b/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
+>>>>> @@ -37,6 +37,32 @@ properties:
+>>>>>      "#interrupt-cells":
+>>>>>        const: 2
+>>>>>    
+>>>>> +  vaud28-supply:
+>>>>> +    description: 2.8 volt supply phandle for the audio codec
+>>>>> +
+>>>>> +  audio-codec:
+>>>>> +    type: object
+>>>> Still not much improved. You do not have any resources there, so these
+>>>> should go to the parent node.
+>>>
+>>> Hi Krzysztof,
+>>>
+>>> vaud28-supply seems to be a mistake that I forward port.
+>>> In the V4, AFAII, your feedback [1] suggested me to move the vaud28-supply from the "audio-codec"
+>>> sub-node to the parent node, which for me is the "pmic" (mfd), because the property is considered as
+>>> power-supply.
+>>>
+>>>       pwrap {
+>>>           pmic {
+>>>               ...
+>>>               audio-codec {
+>>>                   ...
+>>>
+>>> Hardware side, vaud28-supply is the output of PMIC-regulator subsystem, and AVDD28 is the input of
+>>> PMIC-audio-codec subsystem. Then:
+>>> - The property name is wrong and must be change to AVDD28, which is a consumer (power input), not a
+>>> power-supply. => description: 2.8 volt power input for microphones (AU_VIN0, AU_VIN1, AU_VIN2)
+>>> - IMHO, move this property to the next parent (pwrap) isn't consistent. It should be moved back to
+>>> Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml (Done in the V4) into audio-codec
+>>> substystem, beside mediatek,micbias0-microvolt
+>>
+>> I don't understand why do we talk again about supply. My comment was not
+>> under the supply.
+> 
+> Because your word are:
+> "
+> And now you should see how odd it looks. Supplies are part of entire
+> chip, not subblock, even if they supply dedicated domain within that chip.
+> 
+> That's why I asked to put it in the parent node.
+> "
+> 
+> My bad, I forgot to link you the old message in my previous answer [1]
+> 
+> [1] https://lore.kernel.org/all/6d21da37-8be7-467c-8878-d57af0b0201b@kernel.org/#t
 
-Thank you for your patch. There is something to discuss/improve.
-
-> +  realtek,gpio-config:
-> +    description: |
-> +      Array of six 8bit elements that configures GPIO.
-> +      0 - floating (reset value)
-> +      1 - pull down
-> +      2 - pull up
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    minItems: 6
-> +    maxItems: 6
-> +    items:
-> +      maximum: 2
-> +
-> +patternProperties:
-> +  "^realtek,in[1-2]-differential$":
-
-In the future, please use consistent quotes, so either ' or ".
-
-> +    type: boolean
-> +    description: Indicate MIC1/2 input are differential, rather than
-> +      single-ended.
-> +
-> +  "^realtek,lout[1-3]-differential$":
-> +    type: boolean
-> +    description: Indicate LOUT1/2/3 outputs are differential, rather than
-> +      single-ended.
-> +
-> +  "^realtek,jd[1-3]-gpio$":
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum:
-> +      - 0 # OFF
-> +      - 1 # GPIO1 for jd1 and GPIO4 for jd2.
-> +      - 2 # GPIO2 for jd1 and GPIO5 for jd2.
-> +      - 3 # GPIO3 for jd1 and GPIO6 for jd2.
-
-
-I don't quite get it. What about jd3? I think it would be clearer if
-these were listed as properties, not pattern properties.
-
-> +    description: Configures GPIO Mic Jack detection 1, 2 and 3.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - gpio-controller
-> +  - '#gpio-cells'
-> +
-> +unevaluatedProperties: false
+And you implemented this, so why do we talk again about it? It is
+already solved, isn't it? Since previous version?
 
 Best regards,
 Krzysztof
