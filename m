@@ -1,208 +1,223 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A71F018EFF1
-	for <linux-sound@vger.kernel.org>; Wed, 26 Jun 2024 16:09:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073B818FC6B
+	for <linux-sound@vger.kernel.org>; Wed, 26 Jun 2024 16:11:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719418198; cv=none; b=tx7W5QhIGR3uUmsCvzcgC6dMFd9MucHC8NOHlGVsyU+wzhAiG+0DoPB9ICC8I0WA4RJ3pOSwx71LsqbVk/zLKgRtsZYvy6REVrdulIJCIr+fnKhVeSI6FOqo6Quf+1KCDqljTNvJIJmAjtzy8kKa3CBwDsMXqMOIohLwRlb1y90=
+	t=1719418285; cv=none; b=e9KOSNhOm+XAuga59Mad0OM3yVqO+EtHmXLNvCv+bLskgo08j2Tlahgl4PIsv1tVx7whT7+ATwUvBIHv0801sjAY+RgJaZ1Ydpaw4vLPfJkYTB6jdicpZgvJ1BMosU5F12sgqeYaac6iSrLC3Pmn6wh/0Cf8e3p5pE2d+IyWLl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719418198; c=relaxed/simple;
-	bh=wE/evG5aIuf/NRfa6675B7WJMUX2smOC45sb3lXcP8Y=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=SAgxqyzi1bB7XAjayYgMV4PxYB+KTLaWmZcWCr8N/Se3ACNND4EUr6ARJwCp+wpzJpIs0a8O8uKqCrnRoLzYZts02W3OD2t/R5Tqs4GMq+imXj5doctAmpv1AkGDA4UN5W5bdVlh4l6vloh0qra01mn7jw6VU7Dl7loIrFb7Nes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xFnupu95; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=T5BGSlyk; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xFnupu95; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=T5BGSlyk; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1719418285; c=relaxed/simple;
+	bh=IF+nGeFxDoq9PHrclbX2hA73yrjso5FCn0OVuBUXr/w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K4npQlIwqmM3vwmhuv/6AG/m81GV4Vt8VyACi0ipNnmLbQ7sFjdomnmftp/D5QbAFNV/Wv+G8fJ0y2DeQ8QNPPfBVMuzdUHRIQpcO9JDbhrHS2RtMN85davhwT20XpqwKUIGSPb/PXqWZLI4ToVkjuN96ecfhx1MlI2ETEUEl6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jO+673Ve; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xFnupu95";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="T5BGSlyk";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xFnupu95";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="T5BGSlyk"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A96411FB65;
-	Wed, 26 Jun 2024 16:09:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719418192; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=1gteg1SK9P+1d/KN0Dw7pF50O1xRvNNmDtXXFx0ZX4M=;
-	b=xFnupu95fVkkTcKB+fe+GoCFi+w+054+3G0+Py5UXIuAlH1jd5MRmST4B3oPe27X2NXRHs
-	rtimWnD5+6bSEwuGHABl77+XMIW5MRuaIzEI15UaEUTahfUSOyb2m4msbkxKKvdxSBk9U6
-	Qt+ES1Iv4xAWHKYCAqwrabHZPGW3XRY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719418192;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=1gteg1SK9P+1d/KN0Dw7pF50O1xRvNNmDtXXFx0ZX4M=;
-	b=T5BGSlykld2XtzI0IhbPH2gRSMAhVn+prRK5DZuwBVwGoCcUBtQ8U2cDwYP3wHgFWtGKIg
-	yXls2eW3ctBahOBA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xFnupu95;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=T5BGSlyk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719418192; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=1gteg1SK9P+1d/KN0Dw7pF50O1xRvNNmDtXXFx0ZX4M=;
-	b=xFnupu95fVkkTcKB+fe+GoCFi+w+054+3G0+Py5UXIuAlH1jd5MRmST4B3oPe27X2NXRHs
-	rtimWnD5+6bSEwuGHABl77+XMIW5MRuaIzEI15UaEUTahfUSOyb2m4msbkxKKvdxSBk9U6
-	Qt+ES1Iv4xAWHKYCAqwrabHZPGW3XRY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719418192;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=1gteg1SK9P+1d/KN0Dw7pF50O1xRvNNmDtXXFx0ZX4M=;
-	b=T5BGSlykld2XtzI0IhbPH2gRSMAhVn+prRK5DZuwBVwGoCcUBtQ8U2cDwYP3wHgFWtGKIg
-	yXls2eW3ctBahOBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 90C4313AAD;
-	Wed, 26 Jun 2024 16:09:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id mPkTIlA9fGaudgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 26 Jun 2024 16:09:52 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: seq: Improve UMP SysEx packing
-Date: Wed, 26 Jun 2024 18:10:15 +0200
-Message-ID: <20240626161017.9479-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jO+673Ve"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-52cdf2c7454so8324278e87.1
+        for <linux-sound@vger.kernel.org>; Wed, 26 Jun 2024 09:11:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1719418282; x=1720023082; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=sbhEvjvG0+S0jKL73QhvebbikzYI6KgKKLPFOTW6JQo=;
+        b=jO+673VehH6SbnvmJQQd17X0UqtL5w+2gVaMDh9xE0sYkfQO3bbSZKMuD/9YCVki4U
+         OFBLMZnguUMkI6U9ctc0KqLV/7QT6rfEji6KWuweN5FROZ0Vz/YBxTKjmfcZhFD7R8I1
+         C6+odqHLL+Dtv5lL49nEo0V1m5DXbcO2/CqH7gQ+BExEm15p37KIb+33QeEvzn324uio
+         fYWhe9REEKr6QGKzGEnOujz2rJYYAu+LTM23GUNsfaL54veAb3f4AkAyYfkaINsIFGqy
+         vU8MD/HmT/TeyrDea8CgeESHSoGmSc3cPOM5Zq4IKDdL5HwTZ2ok4f6eIbAjXEGz1MY3
+         C7ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719418282; x=1720023082;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sbhEvjvG0+S0jKL73QhvebbikzYI6KgKKLPFOTW6JQo=;
+        b=uZqtEGKuxpo3NvmJI70Py6oQCUjwcWcmAxd0TzLYYJETufcNpzfsMDMRzXHdR02K1b
+         c0n9DGGfrsvH8etfJVSFW+Q+xdlimU+YnW08BXal6hRAfJGC9aoHJXBtJq8we7ZpUUWt
+         FhjjAjpg/MEW1WoRTpX+1l1lfwGPbV7+RgizitNigoml4xgOrdBR1DDIPeQOwB0s1BqK
+         tCaUNMag7B1+yfoqpMAxjFoI27Ku4QwWoEwRmxJL+NI9zT9BJVQ/89ue+1w0AUCxqW4b
+         NcB6JX1w5Z8dPb+usbcrtKGAMudsV9+1nodS17+YQHUGHMYi8jYO7aXzQjwGrMSchNfb
+         vzlQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUWLQL7FZnRLEosbuL+lQppThgwYZsyCYNGmBqcgEmgWwHzhJdWel2rgtUAHACf9sNQpE8aSTHyvodC4nGRMNvR9PoOOrrz2GYCIG4=
+X-Gm-Message-State: AOJu0YyKW/lJVJl8z9urkD+WqRlqTnj4GDzeoPGFPBsYk21V5TAIEKdl
+	sNS8mYkS6g8LtzLDn7R8cFd87JsflgufnnVsfrrXFQzDeOyE9/nCNF/BynYvYS0=
+X-Google-Smtp-Source: AGHT+IFovT/Qkyd3fRnmp87RGtlsQxy3mmsB/6xiCPOtkFo7Oz4ZDoO6+zh5Vt8N6Y6HDfEU10YxmQ==
+X-Received: by 2002:ac2:5195:0:b0:52c:e080:6a07 with SMTP id 2adb3069b0e04-52ce1835949mr8564186e87.39.1719418280199;
+        Wed, 26 Jun 2024 09:11:20 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52cebf46335sm658632e87.132.2024.06.26.09.11.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Jun 2024 09:11:19 -0700 (PDT)
+Date: Wed, 26 Jun 2024 19:11:17 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Maxime Ripard <mripard@kernel.org>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH RFC 3/5] drm/connector: implement generic HDMI codec
+ helpers
+Message-ID: <r5226a5zzbp2d7zmxbskll6ed7coy4qbxhd6aaqulqzyuom6sp@dliwhreaqmtl>
+References: <20240615-drm-bridge-hdmi-connector-v1-0-d59fc7865ab2@linaro.org>
+ <20240615-drm-bridge-hdmi-connector-v1-3-d59fc7865ab2@linaro.org>
+ <20240621-glorious-oryx-of-expression-1ad75f@houat>
+ <CAA8EJpr=ervT-KD+tYphPeTfrFGDfSaxNaYC5hfzmtVch5v10g@mail.gmail.com>
+ <20240626-spiked-heavenly-kakapo-1dafce@houat>
+ <CAPY8ntAn3y5Su+SLJPv7FLq_aUhCv=vaATt4jLs4VUu4Xnd6aA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: A96411FB65
-X-Spam-Score: -3.01
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_NONE(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_ONE(0.00)[1];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCVD_COUNT_TWO(0.00)[2];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPY8ntAn3y5Su+SLJPv7FLq_aUhCv=vaATt4jLs4VUu4Xnd6aA@mail.gmail.com>
 
-The initial implementation of 7bit SysEx message conversion to UMP did
-a trick to deal with the first SysEx start byte (0xf7).  The converter
-trims it and sends the first packet with the content of 5 bytes.
-Although this is valid and should work, it's not ideal and a bit
-confusing as if something goes wrong.
+On Wed, Jun 26, 2024 at 04:10:05PM GMT, Dave Stevenson wrote:
+> Hi Maxime and Dmitry
+> 
+> On Wed, 26 Jun 2024 at 15:05, Maxime Ripard <mripard@kernel.org> wrote:
+> >
+> > On Fri, Jun 21, 2024 at 02:09:04PM GMT, Dmitry Baryshkov wrote:
+> > > On Fri, 21 Jun 2024 at 12:27, Maxime Ripard <mripard@kernel.org> wrote:
+> > > >
+> > > > Hi,
+> > > >
+> > > > Sorry for taking some time to review this series.
+> > >
+> > > No problem, that's not long.
+> > >
+> > > >
+> > > > On Sat, Jun 15, 2024 at 08:53:32PM GMT, Dmitry Baryshkov wrote:
+> > > > > Several DRM drivers implement HDMI codec support (despite its name it
+> > > > > applies to both HDMI and DisplayPort drivers). Implement generic
+> > > > > framework to be used by these drivers. This removes a requirement to
+> > > > > implement get_eld() callback and provides default implementation for
+> > > > > codec's plug handling.
+> > > > >
+> > > > > The framework is integrated with the DRM HDMI Connector framework, but
+> > > > > can be used by DisplayPort drivers.
+> > > > >
+> > > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > > > ---
+> > > > >  drivers/gpu/drm/Makefile                   |   1 +
+> > > > >  drivers/gpu/drm/drm_connector.c            |   8 ++
+> > > > >  drivers/gpu/drm/drm_connector_hdmi_codec.c | 157 +++++++++++++++++++++++++++++
+> > > > >  include/drm/drm_connector.h                |  33 ++++++
+> > > > >  4 files changed, 199 insertions(+)
+> > > > >
 
-This patch improves the handling to try filling always 6 bytes in the
-package.
+[...]
 
-Fixes: e9e02819a98a ("ALSA: seq: Automatic conversion of UMP events")
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/core/seq/seq_ump_convert.c | 48 +++++++++++++++++++-------------
- 1 file changed, 28 insertions(+), 20 deletions(-)
+> > > > > +
+> > > > > +static int drm_connector_hdmi_codec_get_eld(struct device *dev, void *data,
+> > > > > +                                         uint8_t *buf, size_t len)
+> > > > > +{
+> > > > > +     struct drm_connector *connector = data;
+> > > > > +
+> > > > > +     //  FIXME: locking against drm_edid_to_eld ?
+> > > > > +     memcpy(buf, connector->eld, min(sizeof(connector->eld), len));
+> > > > > +
+> > > > > +     return 0;
+> > > > > +}
+> > > > > +
+> > > > > +static int drm_connector_hdmi_codec_hook_plugged_cb(struct device *dev,
+> > > > > +                                                 void *data,
+> > > > > +                                                 hdmi_codec_plugged_cb fn,
+> > > > > +                                                 struct device *codec_dev)
+> > > > > +{
+> > > > > +     struct drm_connector *connector = data;
+> > > > > +
+> > > > > +     mutex_lock(&connector->hdmi_codec.lock);
+> > > > > +
+> > > > > +     connector->hdmi_codec.plugged_cb = fn;
+> > > > > +     connector->hdmi_codec.plugged_cb_dev = codec_dev;
+> > > > > +
+> > > > > +     fn(codec_dev, connector->hdmi_codec.last_state);
+> > > > > +
+> > > > > +     mutex_unlock(&connector->hdmi_codec.lock);
+> > > > > +
+> > > > > +     return 0;
+> > > > > +}
+> > > > > +
+> > > > > +void drm_connector_hdmi_codec_plugged_notify(struct drm_connector *connector,
+> > > > > +                                          bool plugged)
+> > > > > +{
+> > > > > +     mutex_lock(&connector->hdmi_codec.lock);
+> > > > > +
+> > > > > +     connector->hdmi_codec.last_state = plugged;
+> > > > > +
+> > > > > +     if (connector->hdmi_codec.plugged_cb &&
+> > > > > +         connector->hdmi_codec.plugged_cb_dev)
+> > > > > +             connector->hdmi_codec.plugged_cb(connector->hdmi_codec.plugged_cb_dev,
+> > > > > +                                              connector->hdmi_codec.last_state);
+> > > > > +
+> > > > > +     mutex_unlock(&connector->hdmi_codec.lock);
+> > > > > +}
+> > > > > +EXPORT_SYMBOL(drm_connector_hdmi_codec_plugged_notify);
+> > > >
+> > > > I think we should do this the other way around, or rather, like we do
+> > > > for drm_connector_hdmi_init. We'll need a hotplug handler for multiple
+> > > > things (CEC, HDMI 2.0, audio), so it would be best to have a single
+> > > > function to call from drivers, that will perform whatever is needed
+> > > > depending on the driver's capabilities.
+> > >
+> > > I see, this API is probably misnamed. The hdmi_codec_ops use the
+> > > 'plugged' term,
+> >
+> > Is it misnamed?
+> >
+> > It's documented as:
+> >
+> >   Hook callback function to handle connector plug event. Optional.
+> >
+> > > but most of the drivers notify the ASoC / codec during atomic_enable /
+> > > atomic_disable path, because usually the audio path can not work with
+> > > the video path being disabled.
+> >
+> > That's not clear to me either:
+> >
+> >   - rockchip/cdn-dp, msm/dp/dp-audio, dw-hdmi, seem to call it at
+> >     enable/disable
+> >
+> >   - anx7625, mtk_hdmi and mtk_dp calls it in detect
+> >
+> >   - adv7511, ite-it66121, lontium-lt9611, lontium-lt9611uxc, sii902x,
+> >     exynos, tda998x, msm_hdmi, sti, tegra, vc4 don't call it at all.
+> 
+> FWIW I have a patch in the next set that adds the call to vc4. The
+> downstream version of the patch is at [1].
 
-diff --git a/sound/core/seq/seq_ump_convert.c b/sound/core/seq/seq_ump_convert.c
-index e90b27a135e6..952e64c499dd 100644
---- a/sound/core/seq/seq_ump_convert.c
-+++ b/sound/core/seq/seq_ump_convert.c
-@@ -1192,7 +1192,7 @@ static int cvt_sysex_to_ump(struct snd_seq_client *dest,
- {
- 	struct snd_seq_ump_event ev_cvt;
- 	unsigned char status;
--	u8 buf[6], *xbuf;
-+	u8 buf[6];
- 	int offset = 0;
- 	int len, err;
- 
-@@ -1200,36 +1200,44 @@ static int cvt_sysex_to_ump(struct snd_seq_client *dest,
- 		return 0;
- 
- 	setup_ump_event(&ev_cvt, event);
-+	len = 0;
-+	status = UMP_SYSEX_STATUS_START;
- 	for (;;) {
--		len = snd_seq_expand_var_event_at(event, sizeof(buf), buf, offset);
--		if (len <= 0)
-+		err = snd_seq_expand_var_event_at(event, sizeof(buf) - len,
-+						  buf + len, offset);
-+		if (err < 0)
-+			break;
-+		len += err;
-+		if (!len)
- 			break;
- 		if (WARN_ON(len > 6))
- 			break;
--		offset += len;
--		xbuf = buf;
--		if (*xbuf == UMP_MIDI1_MSG_SYSEX_START) {
--			status = UMP_SYSEX_STATUS_START;
--			xbuf++;
-+		offset += err;
-+		if (status == UMP_SYSEX_STATUS_START &&
-+		    buf[0] == UMP_MIDI1_MSG_SYSEX_START) {
- 			len--;
--			if (len > 0 && xbuf[len - 1] == UMP_MIDI1_MSG_SYSEX_END) {
--				status = UMP_SYSEX_STATUS_SINGLE;
--				len--;
--			}
--		} else {
--			if (xbuf[len - 1] == UMP_MIDI1_MSG_SYSEX_END) {
--				status = UMP_SYSEX_STATUS_END;
--				len--;
--			} else {
--				status = UMP_SYSEX_STATUS_CONTINUE;
--			}
-+			memmove(buf, buf + 1, len);
-+			continue; /* fill one more byte */
- 		}
--		fill_sysex7_ump(dest_port, ev_cvt.ump, status, xbuf, len);
-+		if (buf[len - 1] == UMP_MIDI1_MSG_SYSEX_END) {
-+			len--;
-+			if (status == UMP_SYSEX_STATUS_START)
-+				status = UMP_SYSEX_STATUS_SINGLE;
-+			else
-+				status = UMP_SYSEX_STATUS_END;
-+		}
-+		fill_sysex7_ump(dest_port, ev_cvt.ump, status, buf, len);
- 		err = __snd_seq_deliver_single_event(dest, dest_port,
- 						     (struct snd_seq_event *)&ev_cvt,
- 						     atomic, hop);
- 		if (err < 0)
- 			return err;
-+
-+		if (status == UMP_SYSEX_STATUS_START)
-+			status = UMP_SYSEX_STATUS_CONTINUE;
-+		else if (status != UMP_SYSEX_STATUS_CONTINUE)
-+			break;
-+		len = 0; /* reset filling */
- 	}
- 	return 0;
- }
+Nice!
+
+> > So it doesn't look like there's a majority we can align with, and
+> > neither should we: we need to figure out what we *need* to do and when,
+> > and do that.
+> >
+> > From the documentation and quickly through the code though, handling it
+> > in detect looks like the right call.
+> 
+> We concluded that hotplug detect appeared to be the right place as well.
+
+Probably you also stumbled upon hotplug vs enable/disable. Could you
+please comment, why you made your decision towards hotplug path?
+
+> 
+>   Dave
+> 
+> [1] https://github.com/raspberrypi/linux/commit/051392bfdc6dc54563ed9909cc1164e8d734af43
+> 
+
+
 -- 
-2.43.0
-
+With best wishes
+Dmitry
