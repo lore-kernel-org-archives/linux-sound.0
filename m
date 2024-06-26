@@ -1,104 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CDBB14F134;
-	Wed, 26 Jun 2024 19:05:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2302719069C;
+	Wed, 26 Jun 2024 19:52:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719428704; cv=none; b=hQPmi8XAL0vhQfpp0H+K2rv3iZwI9QuPgV1JTt0APQJhvWi5TEqkKH2TjCtem4b8+7cAY3GgI8XL0vybXU2Unm66yOZ2WEiz6juSJUJ8jeCF+lQTRNjhBkopTCnnLvpzJeGEdhti+TV5E5oYFUQHXueFyCaJOvI0k5CATkcTih0=
+	t=1719431568; cv=none; b=VYWT8C08cnTBqPUj5CkqDQiRzFstVGYyrMz7YB1kEH+oojf3ft1dV2fEVTjvDQ1uo3AqNMiTLfSa2TFaV0HC7wmtvNaUOVCuYN2r3RtzgL/5vrVnrD50E3MofLejJWSYjIIOLdPuE6qHF+PwuUBc4G3k48wU7GW3CWp5ncSVEh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719428704; c=relaxed/simple;
-	bh=bWzjNCjmmPmpw45GxfdFgpAMeYdRjrSECxcv1hgHaOE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ahi46QCHkqxkPmGAPBygyh218sBgspukZLPzyLPiaY1oLav3GjqO5aBASHWMJCMy03YaVsZQkZKTcsvMMW4k+ytLubqoKg/I1IB6+wcGULmx+uA5nhLX9ZP3ttNBQNfd10R+2tcoAh2VQKXHF9r5uy/nsjTc7a1L/szzkxUaoj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UfBtbXZr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719431568; c=relaxed/simple;
+	bh=rNDLMS+vya2aLaa8DFgO3Tum00J0/6sLmaarSdgOpGg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Ag2fkYShtMaK9lmR7/VKn3I93iaaJi/LKz+JWUbrxkV6BKH/vVRRRRCcY9azllN7yUuh2k6jzqSLc027j7m/hHXscPEDwxxTbJ2ZmhrBCi+/+JOgrKYzODIWZk2WI072K2XMlUac98mikY8fC2Y0ELWc26pfVak+dS8KE0vd2x0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aCnsA5BE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UfBtbXZr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD2BCC116B1;
-	Wed, 26 Jun 2024 19:05:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aCnsA5BE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4A11C116B1;
+	Wed, 26 Jun 2024 19:52:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719428704;
-	bh=bWzjNCjmmPmpw45GxfdFgpAMeYdRjrSECxcv1hgHaOE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UfBtbXZrz6Gu+dElulr03dTkrIGgI3XSAFojGeEH/hCrFwKACQNZ7qeE3DkNmWx5g
-	 9pHqV49MzXV4k7+YR84FGaeBFzNoLtf1xyqL/udqkJHDAiz0iy5hlkoPWrjsE7XiSt
-	 8EJL+7VyyC1UZlMnIogwOKKjAwhl4KHA9Zu0re9mYnBLM5thrREXsZRNKmVzkFQpzt
-	 uLdi8ZSB7nKIp/ikdYH7uurEdnfxYuSWjbqiv3t18YJ3XMk17hbcEBmFSAshnJGCx0
-	 B9T7cq8bE92JbMWcebFSX0UdvjiBWqr31ZwDBwcCjFMPvL0Yq4SEwc2b0762O4/M7c
-	 Qpt6lwm0YalmA==
-Date: Wed, 26 Jun 2024 20:04:58 +0100
+	s=k20201202; t=1719431567;
+	bh=rNDLMS+vya2aLaa8DFgO3Tum00J0/6sLmaarSdgOpGg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=aCnsA5BEAvrQdzPkI3MIGW6fne4PO2OA9XFxxXSnK1lduqFfzP6YBFZ0jbc0iOK4O
+	 17F3NPUunj9X8cpC6aPJV7p6iH34hZ4b6wk7bSKkzGtVF3SG0popNge1rv0Ezjsxdv
+	 mr1MDu3CyOfLLmCxMlx6fUvUFk/96KI9LHB02S63ZwojuhmoatyZ3oAdn3gKsHxbNU
+	 rZEr6ZYfys61gPuW3pG+Ww0eTKb/7j+ZPQBDwG7y4Rqs1+z48/Hn2ooLJgvZo8O+QR
+	 bZHf47PvWo0wMkXfAR2BOne+E1GIRpEcXAGPUa8D+L1seViOogfiN1ROl7hSlvbkDI
+	 DGjDmlmU9tdqw==
 From: Mark Brown <broonie@kernel.org>
-To: Matteo Martelli <matteomartelli3@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Marcus Cooper <codekipper@gmail.com>,
-	=?iso-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>,
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] ASoC: sunxi: sun4i-i2s: fix LRCLK polarity in i2s
- mode
-Message-ID: <d614f04e-3609-48e3-bd30-9e57c69cd94d@sirena.org.uk>
-References: <20240529140658.180966-2-matteomartelli3@gmail.com>
- <20240529140658.180966-3-matteomartelli3@gmail.com>
- <20240606-savvy-wallaby-of-champagne-d4a50e@houat>
- <6662bf1b61bbc_2f51737023@njaxe.notmuch>
+To: Jerome Brunet <jbrunet@baylibre.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20240605-topic-amlogic-upstream-bindings-fixes-audio-widgets-v1-1-65bd7cc2e09b@linaro.org>
+References: <20240605-topic-amlogic-upstream-bindings-fixes-audio-widgets-v1-1-65bd7cc2e09b@linaro.org>
+Subject: Re: [PATCH] ASoC: dt-bindings: amlogic,gx-sound-card: drop
+ minItems for audio-widgets
+Message-Id: <171943156536.1690751.17356861338866008648.b4-ty@kernel.org>
+Date: Wed, 26 Jun 2024 20:52:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="brRwIUwfo+xty56n"
-Content-Disposition: inline
-In-Reply-To: <6662bf1b61bbc_2f51737023@njaxe.notmuch>
-X-Cookie: Results vary by individual.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev-d4707
 
+On Wed, 05 Jun 2024 11:40:51 +0200, Neil Armstrong wrote:
+> Like "audio-routing" drop the minItems: 2 from the "audio-widgets", because
+> any limit here - lower or upper- is rather meaningless.
+> 
+> This will also fix `dtbs_check` warnings like:
+> sound: audio-widgets: ['Speaker', '7J4-14 LEFT', 'Speaker', '7J4-11 RIGHT'] is too long
+> 
+> 
+> [...]
 
---brRwIUwfo+xty56n
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to
 
-On Fri, Jun 07, 2024 at 10:04:43AM +0200, Matteo Martelli wrote:
-> Maxime Ripard wrote:
-> > > -	/*
-> > > -	 * DAI clock polarity
-> > > -	 *
-> > > -	 * The setup for LRCK contradicts the datasheet, but under a
-> > > -	 * scope it's clear that the LRCK polarity is reversed
-> > > -	 * compared to the expected polarity on the bus.
-> > > -	 */
-> >=20
-> > I think we should keep that comment somewhere.
->=20
-> I think that keeping that comment would be very misleading since the LRCLK
-> setup would not contradict the datasheet anymore [1][2].
->=20
-> Also, do you recall any details about the mentioned scope test setup? Was=
- i2s
-> mode tested in that occasion? It would help clarify the situation.
->=20
-> Could anyone verify this patch against H3/H6 SoCs?
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Any news on any of this?
+Thanks!
 
---brRwIUwfo+xty56n
-Content-Type: application/pgp-signature; name="signature.asc"
+[1/1] ASoC: dt-bindings: amlogic,gx-sound-card: drop minItems for audio-widgets
+      commit: 4faed8ca581c0307af4a58e6c0027ce2b2cbd5d3
 
------BEGIN PGP SIGNATURE-----
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZ8ZloACgkQJNaLcl1U
-h9AW3Qf/S8w6LdQE07HH9i/c1/AtUnm7Oe9sG1q6TztFJXGX8wvFBYA3+t1896Hd
-LkFkm9asqUvCjn9z+D5/GfQhfc7xixh5T806AuouKiiihsAmWqyc6NicztYHgC2u
-1PzTWb49EyFiW74xItn2pIExpzeBAaE8SA1Y7cRPoNmE95ru82zu4K+kROV2usut
-XkX/NnybgjzIZ2WAwyyGuu0+pIBs539YXSdB/s2OUBrmn7gKjOBaD8cvX70NMP0Y
-iP23wh1FaDV7JE1Gm27DX5E0u8ibDRL2cjmSP2x7NswG0B7rCv3gtRe0Z0NozuTJ
-3zfr6um33uVy8saT12jEtBW4oPeIww==
-=J+fn
------END PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---brRwIUwfo+xty56n--
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
