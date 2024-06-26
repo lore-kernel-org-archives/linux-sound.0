@@ -1,192 +1,342 @@
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2079.outbound.protection.outlook.com [40.107.22.79])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6949415AD90;
-	Wed, 26 Jun 2024 07:12:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.22.79
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719385955; cv=fail; b=B0oZpGCRI5+wqGg2Ee8fxnZMfbG22etHLOChO9Z8WRBGu+Zj4e4Db2uE91jh9ILttHn7iKN5lFs4B5oxU/NyHf5J9AVSyDfrg4JD6BUF9Mta0TWgRomcwU/010iXI6FSBXPdeokyvXv0gr1qn1KxvmJr0Th8ZfrDr2qpRgIoYjY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719385955; c=relaxed/simple;
-	bh=phMajaCgPMrdygg95XGWsoqmGYUzgAwYjPQJ+mQkKtU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=hq6kA8qWioV/e4FrCmpBX+TqUwQWIvzMAII1N8TrZUzMwlg5bpLruEBSfTtcyHmpdc7hL5ciGx8PdgpWKCEQqk1s7aO4fPHwpsc0KuAcd27A0nqiAPMnBFuO2s+V0Mjv7/bWicRoOtbhn358UaHpQerV0GwoOc+osyYkbPM7p1A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b=RMLaHmnP; arc=fail smtp.client-ip=40.107.22.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A77315820F;
+	Wed, 26 Jun 2024 07:49:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719388200; cv=none; b=TQaecArPB4Z/eSRpSyvMuTTdjTcE+V0S3IwhVRYlKUasVLbKcaNVXsiFbOt3vbr+qs9i5+tNv7mteP8OUhWcNWD/FmXt7eO1qPGFW2y9p8f2Xf0OgmlvWO+Ezu5g8FDcFylPoXeSLXe2rFdSLCl6gpJ7iZfKv1sMShaMsKmgNZw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719388200; c=relaxed/simple;
+	bh=9QQfkTqGG0QhCMsMVbYtu53vc1iWZc7ZgkRrLlMchWA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=E0wCCT0Nkg8GrIoDfaIi5jzGxv9HkTa+VzQWNr9xT5851+8WY8U8M4GHWA/nj0K0fdK3c3CcNR++K7RibQqahd7y4dq7fhDhFPOFxGh6F46PC+WONdc/FQLCdGtFyeWEyX4z5a15Btc8wUFcOyUl11s/lM3SZZ1zjHVCxMd+dNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=NJdrA4CJ; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="RMLaHmnP"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Z526IhPYrAhgzCknBljrAh1Cnent239oF21fqgm9g79J6NiupXq8IC3zTbrLTNiI+21Z+PIoLKOs9fIMGHw4ZV3I7ZVIvO0YM0zjAQJBQYtxAWJrONxd+I6nkE4MsDOPv2ztVha3E7wS1i3LmMMQ+VJEeLwQQS1uool8DkWiJ8osfFWbySugtHOjMP46ocx5Wl5Z0o+ag2z/OitQE7HZB6SBTV0izl73w/TJSZwWCa3BMLyZCRhfJXdmNVWNVNJC6Pqry7JzZ207WWt9A0jamkWzQxJgCKqycpO1BqEuVnRtVz+mIzrwG7oFxUavOtgnwWYAbckTJYb2Forb5yAThQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VBG5T7H2uwT6F8Boex1R5ZyhXkTEGjCjeMrmJN6/rN8=;
- b=Ki0S9BxVvHvYORlQs+sI4odjmOtXJzLZBrR+ue0IcPTU6270uz77Qqvwg8OaWteTVG3KrwzeWr9YbOK5EKnZt183Od/LmJP0XMf5VTtD0iX8Vvz7hXnx3BbZZLdbbjRsdvN1zNtmlDXp6pPUKAwOVLcJL4PfpyKG25w5dFXOan0Z9l2QSVri+OxG2JXEEj9vr6KsuqSrbE3IdGG8qBRldokOgn+3necwgYcxCW6tjkM2mcwaBJr870sSdW7zs1HIY1IJQXhm3DLsugR7si4+sra8Z7iutg8OXPmJqxWBL2gyesP480HMaskk23oTpgzCe1Koa2N8tD0M2OcNmDTlyg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VBG5T7H2uwT6F8Boex1R5ZyhXkTEGjCjeMrmJN6/rN8=;
- b=RMLaHmnPRrPiiohfnOxobRcNVPBm1h5iA+lVj5Ztfu2eX4/UNiGLOoZqvaG67OeXGYYemKft23DK5d+6e39yyKLjSKCTRDpkNEfprkBSm4P1qpD29yhuul44vZL0Gb/hwbSjDdjB/U5IG7CUbpw8Hu66DWRAvsruAkm3k1NaL0Q=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from DB9PR04MB9498.eurprd04.prod.outlook.com (2603:10a6:10:360::21)
- by AS8PR04MB8689.eurprd04.prod.outlook.com (2603:10a6:20b:428::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.32; Wed, 26 Jun
- 2024 07:12:30 +0000
-Received: from DB9PR04MB9498.eurprd04.prod.outlook.com
- ([fe80::24fa:6f9:8247:c5dc]) by DB9PR04MB9498.eurprd04.prod.outlook.com
- ([fe80::24fa:6f9:8247:c5dc%7]) with mapi id 15.20.7698.025; Wed, 26 Jun 2024
- 07:12:30 +0000
-From: Chancel Liu <chancel.liu@nxp.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	devicetree@vger.kernel.org
-Cc: Chancel Liu <chancel.liu@nxp.com>
-Subject: [PATCH 2/2] ASoC: fsl_rpmsg: Add support for i.MX95 platform
-Date: Wed, 26 Jun 2024 16:12:02 +0900
-Message-ID: <20240626071202.7149-2-chancel.liu@nxp.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240626071202.7149-1-chancel.liu@nxp.com>
-References: <20240626071202.7149-1-chancel.liu@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR02CA0023.apcprd02.prod.outlook.com
- (2603:1096:3:17::35) To DB9PR04MB9498.eurprd04.prod.outlook.com
- (2603:10a6:10:360::21)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="NJdrA4CJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1719388196;
+	bh=9QQfkTqGG0QhCMsMVbYtu53vc1iWZc7ZgkRrLlMchWA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=NJdrA4CJL4+8nPwAEvW3sG2WdUSiZG76Na/Inya71e1MmguanYYNHJBnXQtO95jb0
+	 KHtin9jIbd0OPkXU3JIipGO2OowdHWuJ73hW4oi0wTEawJmzJ+zUcLljq299J4kHmq
+	 J8lbJOV7uQHyJ4tHJQNJ4IU1dNdJJ/gevVbhmOzYA6btbjd3LLahWKBOPgoPeOdjZD
+	 XyENIzLuDe771IoEkneVqR26p2BtgRutpTghOsQ3YtdCKNmM2L+UfUDEPQe6K9F+pd
+	 169Ef7pYgZb1SiJtDXFVkdqmiujX0qyafT9JUh9oumB3xZdcxeUBIfKQ+8DkcpJ86G
+	 BXrQI1tjR+8Vw==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id D09A237810CD;
+	Wed, 26 Jun 2024 07:49:55 +0000 (UTC)
+Message-ID: <b838b9a9-0ce3-40a5-b7a5-d1c825a0fa20@collabora.com>
+Date: Wed, 26 Jun 2024 09:49:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9PR04MB9498:EE_|AS8PR04MB8689:EE_
-X-MS-Office365-Filtering-Correlation-Id: 301af129-03ad-47a4-c143-08dc95af57ee
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230038|1800799022|376012|7416012|52116012|366014|38350700012|921018;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?z7R86+zZHyBhqENVi8w2Dr1M/99zpXqpmmEIYCbykzqqiPRwjC53Hm04u8xm?=
- =?us-ascii?Q?uW4dt7m4zKasdE8dKYbGhu0GFf23tJFtpUPjjYlWKmV2xCSDvB7a4J7jKomo?=
- =?us-ascii?Q?/NKEgFN6B7+LQ80jWRghJYbkVmWpH6cPxYAW+S00OOFhRPgzwTDQ/86/Imay?=
- =?us-ascii?Q?Bf1pMKsZXPQrJ7X40Fn+ycD3JbZiK/9KdYaI7++i1vv3CwDCm05+EgYFg/R4?=
- =?us-ascii?Q?EA1x3T459/oLQrN9baA/3QY6sNBXniM+vN/LQALvvRvFsgl2XcZ7HLRpKgTC?=
- =?us-ascii?Q?jswHnmu2ymlB9FpCCeK2nYo6TaDFlxdE1ptRXZcCpQwnhN4KTQ/iFqenFCB6?=
- =?us-ascii?Q?PGN9+bwB5StBnYjZP16vwUQ48HwgT+T1MiKxSNAkl1YuHHAhdeNTErWPeCPQ?=
- =?us-ascii?Q?4nG69q8XNPZBm3GNw+SAKPt0KYWlwwjxaIhejYbCsEXwHtiXOyMutUzA5RKk?=
- =?us-ascii?Q?+t7CLFoXOqB0OaIs1XSIxPIZZ1DMxkNvz7GbgfQwjgiq473jMmtzvsp3DsA4?=
- =?us-ascii?Q?6m8oMTQdgd1gzelU3w//bxnI3gVHTCZECdMBGZY1sXWwhaPek5JO3QcRdAQR?=
- =?us-ascii?Q?Qdp4bhRIdOkd/o1RQJ4LZRgEzryQuJxUzx75/z955T2OONYiIYrocztP+Qmx?=
- =?us-ascii?Q?Y0jmQ5ZPgpi4VZIMFfdkHqcCZp4UElF/ENUGxNiz6PofG9bQzuSr3ZCu5RZg?=
- =?us-ascii?Q?IclnnzQiims/Ks8FxzTQkVWmuq/Bg0r0cIIeXt94RlqjpZWlDNRJw9vzSyE9?=
- =?us-ascii?Q?6i2oQuHyCgOkfY6bhar6h14NyuF/qgcBSgHhpx43+Axc9CkQSXi5besimXXl?=
- =?us-ascii?Q?0ldElNlvjWTtaHxknSzVR15JU6I6xup80wsq/6oKv3iIMPHwKtxvQnLACFkH?=
- =?us-ascii?Q?T5JgQQssYQgAir5k0Npo5ICvrFNVxqZ5xbursdXvYX8qKBmbDrvvyTMXmx11?=
- =?us-ascii?Q?bDeKs9URGsFFW2e++Ljq0s3ajteXqaq2ONmhp4fsLASntObgDIwRpbG1PAwk?=
- =?us-ascii?Q?iqHHmvDDnX/Na68RCOFQz+HMBQvWYuySMa7yn15HPtzZTTwoDf3TaNjJ7Va7?=
- =?us-ascii?Q?/nZwCz4V9AKe0782JVrC2Q9llSUaxqABrUdIpP4UTioDaX3SBAUsAeUI2cEU?=
- =?us-ascii?Q?cxFUarY6VgbMiXtSu5AGRqIVLf/yWTPzyhBt7VBYPOHCBYCyoLVcafHu1nli?=
- =?us-ascii?Q?b2YUNlJhlNhfUf/BWNzck4H3034inKOWGiSh3YCwh3CQYPLaoG9EVKAr6FPJ?=
- =?us-ascii?Q?Xbs92pEPgLKDy8K9PWr5Gw3Hpt4g8vMKBy5hXbnnAd0A79+zhJBOWPJuQFvY?=
- =?us-ascii?Q?deIWdMfS3PlYSCm6NLq6qErqkDmxGxFvwa8PG24ufIidWWsPX8uC4VkIiBXz?=
- =?us-ascii?Q?1x+jpcf2GF6GljZGzGepcr9KGwc62kHrUPPzTRbzksQvTKVfUxhwpLJdIxRt?=
- =?us-ascii?Q?B9LFstF0IAA=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR04MB9498.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230038)(1800799022)(376012)(7416012)(52116012)(366014)(38350700012)(921018);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?RFHkBkc/GFTHljpA5gY5STv6IgSTJ6sztbs4kXafgj2k6xTouUp4dMDsbSr+?=
- =?us-ascii?Q?+npcqRWcBFSZqgcCIXobSl4Gm5o6OD/vAJCUC9QD9359Y4X1IL6d4B6tkeau?=
- =?us-ascii?Q?wKFvkt+UXBPFju0Vx5t1UF1N61QFJc/7aiGZSb56o9HC53qqnilSQvZUU5Jd?=
- =?us-ascii?Q?jtynPgTONSnvtDks+Zeu1kAUtUm5VSwRjQwzn24rJhhyQ728YEpEiy1NF10L?=
- =?us-ascii?Q?GoLZirxAupcnol7RenX09cjDaTbyfq1a+D6MiNopxfnvmTk+JtPutO0M70XX?=
- =?us-ascii?Q?crmD0zVUbKsCIYfeEaZDBQJcxoZvieMguHl88G71zWQ4R6qriOPihPY4FfNC?=
- =?us-ascii?Q?1DeKh+2JheeXaElMAzt2RoABCuvDc1mM9caL/uGdcbDE28TjK99ToGb0kyk1?=
- =?us-ascii?Q?5CQTVCtp1ILjafZL614gLTy85ayLhIWgWv3K3WAks9mTjofLjPQFj6sa9uvW?=
- =?us-ascii?Q?zS0+NrOBRhRvKSRyLshRTYU2vKybbEodlP82A3o4PdyotFYGPmh5jPc4g+8d?=
- =?us-ascii?Q?UJzw4qbKCvkp9NHD4risDaNf0oaQVbqJachHIQCmBPjvQPiXcubp1NQhPRWY?=
- =?us-ascii?Q?Hon2Vf1QaiWIhYUQ0ipKn46Iyhms0B9Oe7d9xz8n23cDXaprl1MaALF7EApT?=
- =?us-ascii?Q?lCWJP2LfSlg1DoEgFgRX4T92p9HV3KFSCVXZp/DSx0vv9w1TEFK/EGq4knla?=
- =?us-ascii?Q?+aUWBfO2vmLvSAH3mktz6FaFZ7zCcHW9BW9Po/IUWhDdyF8/dUmt19eW+pui?=
- =?us-ascii?Q?mdWP1dkIAzFcXhEEerr/sINkJNXCaNpWR2XT2RysG4+sv6YUFETbagVelXm0?=
- =?us-ascii?Q?VAObRRm5loNtFLTVAN10N7fyJREGAiUyY1X57DMp/KRophEjSH2BJFS97588?=
- =?us-ascii?Q?SfPcVK05D8a1f7o8Z+AtDr09MAXXKdbjPhtLOW/Y4SPXfcRELfSCTacI6nSD?=
- =?us-ascii?Q?ICH/XOxQIbAMBuhP0t/bjNcuDY4Miv8tWr0XeyTST2JZNhWxZtg2x9aSdaVQ?=
- =?us-ascii?Q?GquD1BhuqDKx9oVvpnysqzXVgjInvy7JktzOFiBzJoM1K4RMkCMHYOYcGVnh?=
- =?us-ascii?Q?MMTvqbCg+GrKAday832Sf3CbV8JnQ+t1FUiv44wCPnD55R+DpSpC/ztAdJXB?=
- =?us-ascii?Q?WVq9Ux9jeqh877+EB7piBk54ImoTc7I0gPY8kPRNUO9hH3m5hlRh3s+57+dN?=
- =?us-ascii?Q?SiLBZKZZryh8SISAfmnoykHxdNixlrS/WGwJLq7CR3ULwnZU4t8qxNHGkXBU?=
- =?us-ascii?Q?Z3AZ5PEIwgJW/i9w/76QJhAEUrDOGIJDSAukR7E0E905OflFyqNCH1kNYrTh?=
- =?us-ascii?Q?Gk06HGX61TaDOjas+NBslIqN3H7zLbRSvabhLtwfSu4TtO2cWdhBVmywgMvl?=
- =?us-ascii?Q?QUz0iN6deqshOJcvvW6wlgfG4JOJlR1tOiBiQfD6LyvNxaBFMv4hWb3/7TTE?=
- =?us-ascii?Q?2NV7Hk1eVw0uV7NoPuv9TcAKYplTP7jZNVkSgB6/oxSN6An+NNZABrl36M6k?=
- =?us-ascii?Q?3FAz8GpuDBaR3AmrQeyNbiBYxWet9Sj/8+n0iwLOHF6ZNGlIEWIZz3Uyaj+9?=
- =?us-ascii?Q?oLZ+eESqSUV+yapwa93LizM8KAldVC4nQeiW+Flw?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 301af129-03ad-47a4-c143-08dc95af57ee
-X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9498.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2024 07:12:30.8575
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GcObEc6rqc7m6kUKFFYl/jMLT9DFu1xzLVe1Z0p9Juba7fVNXgASXnIyYiZvUNuhZJYuDSvd6lFzjfqbuJAmLg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8689
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: mediatek: Allow setting readable driver names
+ through kconfig
+To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>
+Cc: kernel@collabora.com, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org
+References: <20240625-mt8195-driver-name-too-long-v1-1-8573b43a9868@collabora.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20240625-mt8195-driver-name-too-long-v1-1-8573b43a9868@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Add compatible string and specific soc data to support rpmsg sound card
-on i.MX95 platform.
+Il 25/06/24 22:23, Nícolas F. R. A. Prado ha scritto:
+> Commit c8d18e440225 ("ASoC: core: clarify the driver name
+> initialization") introduced an error message when driver names are
+> automatically generated and result in truncated names.
+> 
+> For example, this error message is printed on mt8195-cherry-tomato-rev2:
+> 
+>    mt8195_mt6359 mt8195-sound: ASoC: driver name too long 'sof-mt8195_r1019_5682' -> 'sof-mt8195_r101'
+> 
+> Since that truncated driver name is already used by userspace (eg UCM),
+> it can't be unconditionally updated.
+> 
+> As suggested by Jaroslav, update the driver name but hide it behind a
+> kernel config option, which Linux distributions can enable once the
+> corresponding support in userspace audio configuration software lands.
+> This ensures that audio doesn't regress, while still allowing the error
+> to be fixed.
 
-Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
----
- sound/soc/fsl/fsl_rpmsg.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+I can propose the following plan of action for such a rename:
+  1. Temporarily have both UCMs
+  2. Wait until distros update their packages
+  3. Change the name in kernel without extra config options
+  4. Remove the now deprecated UCMs
 
-diff --git a/sound/soc/fsl/fsl_rpmsg.c b/sound/soc/fsl/fsl_rpmsg.c
-index bc41a0666856..467d6bc9f956 100644
---- a/sound/soc/fsl/fsl_rpmsg.c
-+++ b/sound/soc/fsl/fsl_rpmsg.c
-@@ -175,6 +175,14 @@ static const struct fsl_rpmsg_soc_data imx93_data = {
- 		   SNDRV_PCM_FMTBIT_S32_LE,
- };
- 
-+static const struct fsl_rpmsg_soc_data imx95_data = {
-+	.rates = SNDRV_PCM_RATE_16000 | SNDRV_PCM_RATE_32000 |
-+		 SNDRV_PCM_RATE_44100 | SNDRV_PCM_RATE_48000 |
-+		 SNDRV_PCM_RATE_88200 | SNDRV_PCM_RATE_96000,
-+	.formats = SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_LE |
-+		   SNDRV_PCM_FMTBIT_S32_LE,
-+};
-+
- static const struct of_device_id fsl_rpmsg_ids[] = {
- 	{ .compatible = "fsl,imx7ulp-rpmsg-audio", .data = &imx7ulp_data},
- 	{ .compatible = "fsl,imx8mm-rpmsg-audio", .data = &imx8mm_data},
-@@ -182,6 +190,7 @@ static const struct of_device_id fsl_rpmsg_ids[] = {
- 	{ .compatible = "fsl,imx8mp-rpmsg-audio", .data = &imx8mp_data},
- 	{ .compatible = "fsl,imx8ulp-rpmsg-audio", .data = &imx7ulp_data},
- 	{ .compatible = "fsl,imx93-rpmsg-audio", .data = &imx93_data},
-+	{ .compatible = "fsl,imx95-rpmsg-audio", .data = &imx95_data},
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, fsl_rpmsg_ids);
--- 
-2.43.0
+...that's requiring a bit of time, yes, but I think this is the best way to
+ensure that no breakage happens in the meantime for any users.
+
+Anyone disagreeing? Does anyone have any better idea?
+
+Cheers,
+Angelo
+
+> 
+> Suggested-by: Jaroslav Kysela <perex@perex.cz>
+> Link: https://lore.kernel.org/all/8d0ccf4a-a6d9-f914-70a9-c2ad55af3a04@perex.cz
+> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> ---
+>   sound/soc/mediatek/Kconfig                         | 10 ++++++++++
+>   sound/soc/mediatek/mt8173/mt8173-rt5650-rt5514.c   |  3 +++
+>   sound/soc/mediatek/mt8173/mt8173-rt5650-rt5676.c   |  3 +++
+>   sound/soc/mediatek/mt8183/mt8183-da7219-max98357.c | 13 ++++++++++++-
+>   sound/soc/mediatek/mt8186/mt8186-mt6366.c          | 16 +++++++++++++++-
+>   sound/soc/mediatek/mt8188/mt8188-mt6359.c          |  7 ++++++-
+>   sound/soc/mediatek/mt8195/mt8195-mt6359.c          |  7 ++++++-
+>   7 files changed, 55 insertions(+), 4 deletions(-)
+> 
+> diff --git a/sound/soc/mediatek/Kconfig b/sound/soc/mediatek/Kconfig
+> index 5a8476e1ecca..396d558bc75b 100644
+> --- a/sound/soc/mediatek/Kconfig
+> +++ b/sound/soc/mediatek/Kconfig
+> @@ -281,6 +281,16 @@ config SND_SOC_MT8195
+>   	  Select Y if you have such device.
+>   	  If unsure select "N".
+>   
+> +config SND_SOC_MTK_READABLE_DRIVER_NAME
+> +	bool "Readable driver name for MediaTek sound cards"
+> +	help
+> +	  This explicitly sets the driver name for the MediaTek sound cards to
+> +	  prevent it from potentially being truncated and harder to read. The
+> +	  new names require support in the audio configuration userspace
+> +	  utilities (like UCM), so only select this once they have been updated
+> +	  to support the new names to ensure working audio.
+> +	  If unsure select "N".
+> +
+>   config SND_SOC_MT8195_MT6359
+>   	tristate "ASoC Audio driver for MT8195 with MT6359 and I2S codecs"
+>   	depends on I2C && GPIOLIB
+> diff --git a/sound/soc/mediatek/mt8173/mt8173-rt5650-rt5514.c b/sound/soc/mediatek/mt8173/mt8173-rt5650-rt5514.c
+> index 4ed06c269065..9155bb29c0a2 100644
+> --- a/sound/soc/mediatek/mt8173/mt8173-rt5650-rt5514.c
+> +++ b/sound/soc/mediatek/mt8173/mt8173-rt5650-rt5514.c
+> @@ -173,6 +173,9 @@ static struct snd_soc_codec_conf mt8173_rt5650_rt5514_codec_conf[] = {
+>   
+>   static struct snd_soc_card mt8173_rt5650_rt5514_card = {
+>   	.name = "mtk-rt5650-rt5514",
+> +#if IS_ENABLED(CONFIG_SND_SOC_MTK_READABLE_DRIVER_NAME)
+> +	.driver_name = "mtk-rt5514",
+> +#endif
+>   	.owner = THIS_MODULE,
+>   	.dai_link = mt8173_rt5650_rt5514_dais,
+>   	.num_links = ARRAY_SIZE(mt8173_rt5650_rt5514_dais),
+> diff --git a/sound/soc/mediatek/mt8173/mt8173-rt5650-rt5676.c b/sound/soc/mediatek/mt8173/mt8173-rt5650-rt5676.c
+> index 763067c21153..212b36a0559f 100644
+> --- a/sound/soc/mediatek/mt8173/mt8173-rt5650-rt5676.c
+> +++ b/sound/soc/mediatek/mt8173/mt8173-rt5650-rt5676.c
+> @@ -229,6 +229,9 @@ static struct snd_soc_codec_conf mt8173_rt5650_rt5676_codec_conf[] = {
+>   
+>   static struct snd_soc_card mt8173_rt5650_rt5676_card = {
+>   	.name = "mtk-rt5650-rt5676",
+> +#if IS_ENABLED(CONFIG_SND_SOC_MTK_READABLE_DRIVER_NAME)
+> +	.driver_name = "mtk-rt5676",
+> +#endif
+>   	.owner = THIS_MODULE,
+>   	.dai_link = mt8173_rt5650_rt5676_dais,
+>   	.num_links = ARRAY_SIZE(mt8173_rt5650_rt5676_dais),
+> diff --git a/sound/soc/mediatek/mt8183/mt8183-da7219-max98357.c b/sound/soc/mediatek/mt8183/mt8183-da7219-max98357.c
+> index f848e14b091a..2664e3d14fec 100644
+> --- a/sound/soc/mediatek/mt8183/mt8183-da7219-max98357.c
+> +++ b/sound/soc/mediatek/mt8183/mt8183-da7219-max98357.c
+> @@ -19,6 +19,8 @@
+>   #include "../common/mtk-afe-platform-driver.h"
+>   #include "mt8183-afe-common.h"
+>   
+> +#define DRIVER_NAME "mt8183_da7219"
+> +
+>   #define DA7219_CODEC_DAI "da7219-hifi"
+>   #define DA7219_DEV_NAME "da7219.5-001a"
+>   #define RT1015_CODEC_DAI "rt1015-aif"
+> @@ -649,6 +651,9 @@ static const struct snd_soc_dapm_route mt8183_da7219_max98357_dapm_routes[] = {
+>   
+>   static struct snd_soc_card mt8183_da7219_max98357_card = {
+>   	.name = "mt8183_da7219_max98357",
+> +#if IS_ENABLED(CONFIG_SND_SOC_MTK_READABLE_DRIVER_NAME)
+> +	.driver_name = DRIVER_NAME,
+> +#endif
+>   	.owner = THIS_MODULE,
+>   	.controls = mt8183_da7219_max98357_snd_controls,
+>   	.num_controls = ARRAY_SIZE(mt8183_da7219_max98357_snd_controls),
+> @@ -706,6 +711,9 @@ static const struct snd_soc_dapm_route mt8183_da7219_rt1015_dapm_routes[] = {
+>   
+>   static struct snd_soc_card mt8183_da7219_rt1015_card = {
+>   	.name = "mt8183_da7219_rt1015",
+> +#if IS_ENABLED(CONFIG_SND_SOC_MTK_READABLE_DRIVER_NAME)
+> +	.driver_name = DRIVER_NAME,
+> +#endif
+>   	.owner = THIS_MODULE,
+>   	.controls = mt8183_da7219_rt1015_snd_controls,
+>   	.num_controls = ARRAY_SIZE(mt8183_da7219_rt1015_snd_controls),
+> @@ -723,6 +731,9 @@ static struct snd_soc_card mt8183_da7219_rt1015_card = {
+>   
+>   static struct snd_soc_card mt8183_da7219_rt1015p_card = {
+>   	.name = "mt8183_da7219_rt1015p",
+> +#if IS_ENABLED(CONFIG_SND_SOC_MTK_READABLE_DRIVER_NAME)
+> +	.driver_name = DRIVER_NAME,
+> +#endif
+>   	.owner = THIS_MODULE,
+>   	.controls = mt8183_da7219_max98357_snd_controls,
+>   	.num_controls = ARRAY_SIZE(mt8183_da7219_max98357_snd_controls),
+> @@ -875,7 +886,7 @@ MODULE_DEVICE_TABLE(of, mt8183_da7219_max98357_dt_match);
+>   
+>   static struct platform_driver mt8183_da7219_max98357_driver = {
+>   	.driver = {
+> -		.name = "mt8183_da7219",
+> +		.name = DRIVER_NAME,
+>   #ifdef CONFIG_OF
+>   		.of_match_table = mt8183_da7219_max98357_dt_match,
+>   #endif
+> diff --git a/sound/soc/mediatek/mt8186/mt8186-mt6366.c b/sound/soc/mediatek/mt8186/mt8186-mt6366.c
+> index 771d53611c2a..29f17dfb8f1b 100644
+> --- a/sound/soc/mediatek/mt8186/mt8186-mt6366.c
+> +++ b/sound/soc/mediatek/mt8186/mt8186-mt6366.c
+> @@ -31,6 +31,8 @@
+>   #include "mt8186-afe-gpio.h"
+>   #include "mt8186-mt6366-common.h"
+>   
+> +#define DRIVER_NAME "mt8186_mt6366"
+> +
+>   #define RT1019_CODEC_DAI	"HiFi"
+>   #define RT1019_DEV0_NAME	"rt1019p"
+>   
+> @@ -1119,6 +1121,9 @@ mt8186_mt6366_rt1019_rt5682s_controls[] = {
+>   
+>   static struct snd_soc_card mt8186_mt6366_da7219_max98357_soc_card = {
+>   	.name = "mt8186_da7219_max98357",
+> +#if IS_ENABLED(CONFIG_SND_SOC_MTK_READABLE_DRIVER_NAME)
+> +	.driver_name = DRIVER_NAME,
+> +#endif
+>   	.owner = THIS_MODULE,
+>   	.dai_link = mt8186_mt6366_rt1019_rt5682s_dai_links,
+>   	.num_links = ARRAY_SIZE(mt8186_mt6366_rt1019_rt5682s_dai_links),
+> @@ -1134,6 +1139,9 @@ static struct snd_soc_card mt8186_mt6366_da7219_max98357_soc_card = {
+>   
+>   static struct snd_soc_card mt8186_mt6366_rt1019_rt5682s_soc_card = {
+>   	.name = "mt8186_rt1019_rt5682s",
+> +#if IS_ENABLED(CONFIG_SND_SOC_MTK_READABLE_DRIVER_NAME)
+> +	.driver_name = DRIVER_NAME,
+> +#endif
+>   	.owner = THIS_MODULE,
+>   	.dai_link = mt8186_mt6366_rt1019_rt5682s_dai_links,
+>   	.num_links = ARRAY_SIZE(mt8186_mt6366_rt1019_rt5682s_dai_links),
+> @@ -1149,6 +1157,9 @@ static struct snd_soc_card mt8186_mt6366_rt1019_rt5682s_soc_card = {
+>   
+>   static struct snd_soc_card mt8186_mt6366_rt5682s_max98360_soc_card = {
+>   	.name = "mt8186_rt5682s_max98360",
+> +#if IS_ENABLED(CONFIG_SND_SOC_MTK_READABLE_DRIVER_NAME)
+> +	.driver_name = DRIVER_NAME,
+> +#endif
+>   	.owner = THIS_MODULE,
+>   	.dai_link = mt8186_mt6366_rt1019_rt5682s_dai_links,
+>   	.num_links = ARRAY_SIZE(mt8186_mt6366_rt1019_rt5682s_dai_links),
+> @@ -1164,6 +1175,9 @@ static struct snd_soc_card mt8186_mt6366_rt5682s_max98360_soc_card = {
+>   
+>   static struct snd_soc_card mt8186_mt6366_rt5650_soc_card = {
+>   	.name = "mt8186_rt5650",
+> +#if IS_ENABLED(CONFIG_SND_SOC_MTK_READABLE_DRIVER_NAME)
+> +	.driver_name = DRIVER_NAME,
+> +#endif
+>   	.owner = THIS_MODULE,
+>   	.dai_link = mt8186_mt6366_rt1019_rt5682s_dai_links,
+>   	.num_links = ARRAY_SIZE(mt8186_mt6366_rt1019_rt5682s_dai_links),
+> @@ -1380,7 +1394,7 @@ MODULE_DEVICE_TABLE(of, mt8186_mt6366_dt_match);
+>   
+>   static struct platform_driver mt8186_mt6366_driver = {
+>   	.driver = {
+> -		.name = "mt8186_mt6366",
+> +		.name = DRIVER_NAME,
+>   #if IS_ENABLED(CONFIG_OF)
+>   		.of_match_table = mt8186_mt6366_dt_match,
+>   #endif
+> diff --git a/sound/soc/mediatek/mt8188/mt8188-mt6359.c b/sound/soc/mediatek/mt8188/mt8188-mt6359.c
+> index eba6f4c445ff..2640981a2463 100644
+> --- a/sound/soc/mediatek/mt8188/mt8188-mt6359.c
+> +++ b/sound/soc/mediatek/mt8188/mt8188-mt6359.c
+> @@ -23,6 +23,8 @@
+>   #include "../common/mtk-dsp-sof-common.h"
+>   #include "../common/mtk-soc-card.h"
+>   
+> +#define DRIVER_NAME "mt8188_mt6359"
+> +
+>   #define CKSYS_AUD_TOP_CFG	0x032c
+>    #define RG_TEST_ON		BIT(0)
+>    #define RG_TEST_TYPE		BIT(2)
+> @@ -1240,6 +1242,9 @@ static void mt8188_fixup_controls(struct snd_soc_card *card)
+>   }
+>   
+>   static struct snd_soc_card mt8188_mt6359_soc_card = {
+> +#if IS_ENABLED(CONFIG_SND_SOC_MTK_READABLE_DRIVER_NAME)
+> +	.driver_name = DRIVER_NAME,
+> +#endif
+>   	.owner = THIS_MODULE,
+>   	.dai_link = mt8188_mt6359_dai_links,
+>   	.num_links = ARRAY_SIZE(mt8188_mt6359_dai_links),
+> @@ -1392,7 +1397,7 @@ MODULE_DEVICE_TABLE(of, mt8188_mt6359_dt_match);
+>   
+>   static struct platform_driver mt8188_mt6359_driver = {
+>   	.driver = {
+> -		.name = "mt8188_mt6359",
+> +		.name = DRIVER_NAME,
+>   		.of_match_table = mt8188_mt6359_dt_match,
+>   		.pm = &snd_soc_pm_ops,
+>   	},
+> diff --git a/sound/soc/mediatek/mt8195/mt8195-mt6359.c b/sound/soc/mediatek/mt8195/mt8195-mt6359.c
+> index ca8751190520..da406cbb40f6 100644
+> --- a/sound/soc/mediatek/mt8195/mt8195-mt6359.c
+> +++ b/sound/soc/mediatek/mt8195/mt8195-mt6359.c
+> @@ -26,6 +26,8 @@
+>   #include "mt8195-afe-clk.h"
+>   #include "mt8195-afe-common.h"
+>   
+> +#define DRIVER_NAME "mt8195_mt6359"
+> +
+>   #define RT1011_SPEAKER_AMP_PRESENT		BIT(0)
+>   #define RT1019_SPEAKER_AMP_PRESENT		BIT(1)
+>   #define MAX98390_SPEAKER_AMP_PRESENT		BIT(2)
+> @@ -1231,6 +1233,9 @@ static struct snd_soc_codec_conf max98390_codec_conf[] = {
+>   };
+>   
+>   static struct snd_soc_card mt8195_mt6359_soc_card = {
+> +#if IS_ENABLED(CONFIG_SND_SOC_MTK_READABLE_DRIVER_NAME)
+> +	.driver_name = DRIVER_NAME,
+> +#endif
+>   	.owner = THIS_MODULE,
+>   	.dai_link = mt8195_mt6359_dai_links,
+>   	.num_links = ARRAY_SIZE(mt8195_mt6359_dai_links),
+> @@ -1530,7 +1535,7 @@ MODULE_DEVICE_TABLE(of, mt8195_mt6359_dt_match);
+>   
+>   static struct platform_driver mt8195_mt6359_driver = {
+>   	.driver = {
+> -		.name = "mt8195_mt6359",
+> +		.name = DRIVER_NAME,
+>   		.of_match_table = mt8195_mt6359_dt_match,
+>   		.pm = &snd_soc_pm_ops,
+>   	},
+> 
+> ---
+> base-commit: 0fc4bfab2cd45f9acb86c4f04b5191e114e901ed
+> change-id: 20240625-mt8195-driver-name-too-long-095a030a2e86
+> 
+> Best regards,
+
+
 
