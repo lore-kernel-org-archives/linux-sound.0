@@ -1,320 +1,146 @@
-Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C8FA208A5;
-	Thu, 27 Jun 2024 10:50:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBE341459E4
+	for <linux-sound@vger.kernel.org>; Thu, 27 Jun 2024 11:06:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719485452; cv=none; b=gANIQ4CExsPmDgJCwfbtFVrDt7aXqIXJXmQ7PtdhLE3M1pqeedGlySk86Rxlm9rKwH4Q5xWy8/5lNvVDxrFEn/xDodZ+W8PmwdN0c0ShQJ9SPWhipaVFiGtfx2rt5HM+FoxJtnCkWw/yPfpARhkhX75YBL3xsn9duw16L2orFA4=
+	t=1719486369; cv=none; b=qRjhxSBRFtGdzTZ1L7X//YlJrEw2d6h5M2YY15uwgGtPvIY4Z1sXgHSOOfPrH7RGnZEzzJeTFyeKY3kU3SbMFJ9PZquEeBpMWXnWKRqW7yLgR7iUc4JuQ+zerteYzNBvGhoWvWkwTKTnm7dPnHJ4+9eedEqV49WRIucktZPEbP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719485452; c=relaxed/simple;
-	bh=YBwgjVUikR/vPP6m/xvgU/SfQMiAcLM7lsk6wezZYrE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DBUxPMTdMV7NkAkQ07TOYkdhyCcyDOHH+y5kqcBshp3wB9/I0GG2DLF7awSAgRzjnV5tJ8suNfLNCjv05lNjqxGZh3EUBN3DGdoIpVJVlsfYSZ8MgYsNqJ3zx3hYkQCWaLL5h2i2gQO/Ermauc9GmsVPsjOorcECnHwIPMO/PQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JiRiFRiq; arc=none smtp.client-ip=209.85.166.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1719486369; c=relaxed/simple;
+	bh=q8pm1cQ32txw1WRPKTanNTmvRox3c7g4AlMuHhl+D20=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RwwDwZuiTsVtsWbVtEas02bBA2QEJmf2Z4yax6O2h0/lTehIuhYeYx4uUy5RB6EZGatMsf7wj1KD++6Ul/q3jFbNUNQtEhdEO/KfKK7/zmz1woV0p4Qkl0eoq7l1fBtNUdRtjMwTBzzIGQ8W2htlT8cF9Y9Zt7O2fBC4JGAOU9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timesys.com; spf=pass smtp.mailfrom=timesys.com; dkim=pass (2048-bit key) header.d=timesys-com.20230601.gappssmtp.com header.i=@timesys-com.20230601.gappssmtp.com header.b=fBhAyFjK; arc=none smtp.client-ip=209.85.219.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timesys.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=timesys.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JiRiFRiq"
-Received: by mail-il1-f180.google.com with SMTP id e9e14a558f8ab-3762abfe005so32200365ab.2;
-        Thu, 27 Jun 2024 03:50:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=timesys-com.20230601.gappssmtp.com header.i=@timesys-com.20230601.gappssmtp.com header.b="fBhAyFjK"
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-6b593387daaso3608496d6.1
+        for <linux-sound@vger.kernel.org>; Thu, 27 Jun 2024 04:06:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719485450; x=1720090250; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1Z0nf81rt4pKCg289A1fafeQoAs93ALMK9Xuprzaa04=;
-        b=JiRiFRiqfjeQ3YF+dRrhfzU+VyMAq8Y+U0LXGz1M8wep8U7GlC/qOBBoT5ITGf2pR3
-         5aVUT8284I/5cEyuTxV2qbKw/k0IRBx2Bp4Z02YuYkSZv7rUosvIXMOkmuco0J+uqr31
-         FI5o7t2USsrnVm/OXiQyGiETYx5yUP4Y+9mJ/6iRgtqpyPg/y/1atNAJHQ05L0ckqFxO
-         uIb3Epf8YeELXPwCoK1ktzjvhUJbX9mS+mM33F2xAjchIZZXTJe0spzVAfvtZFD0K9y+
-         bvp6fCHwyCnqWWXYuj8mmgLUKE7JL03KDnG5xnoNGCcpBOyuMjRxdMUjpOipUUkw4FlU
-         zJZg==
+        d=timesys-com.20230601.gappssmtp.com; s=20230601; t=1719486365; x=1720091165; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=q8pm1cQ32txw1WRPKTanNTmvRox3c7g4AlMuHhl+D20=;
+        b=fBhAyFjKVQH9Q7d5wuaZPgNCYT5JZ3kprAQjwr592CkBHUhnX3a5lAKlC+LXqlNXK6
+         IKK8qoY5lh5I5yR79PDRkGPX/5QQU+UXnW/wz+RYa/Jl6D9eDMGTT2zTYn9BxKtqPQvv
+         Sgr1yE824hNKoxfryHz8F8/9KFp9SALgaX0ApbIIi/stoOt+V6g7RGoCQ6LoBfr9loHz
+         9JV1cvDWtjwK0C4A6+1DlYe2isjwsVZmtHoPVYtVx+6k/T2WtcYngryOKSmglxBONKMj
+         kkhYSnsqi9hes+wu35KzkfUeFxqPQIjZBifRRIbZYREauaV1ZbL/e0JeaYxaWrwRLYq0
+         4ChA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719485450; x=1720090250;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1Z0nf81rt4pKCg289A1fafeQoAs93ALMK9Xuprzaa04=;
-        b=HueyDeEjSsMFBfTGR08WhNY3LiVOZdmv/8ttn6SPsyHgM0m30P/eqVFqdRTMHOpPA3
-         UTMYxwBhEfBNOkoy0DXp8C5ue5j68aujJeNrDxAMQr/qCIbYgHWEfsrsZt6zxHdoSUd5
-         5RN4jPDTHwW7lJiL8qI+c86Yugeo9n5TqLYtB6B9rFSaYVF27/Booh+VUgrfJZYaGLn1
-         /OmbHCaL7vwrRwxws6K2/6nXEIF0ryKafyrHkykAPBMHDcUeNkLt8cQiN8nZq5XGn/4V
-         pA6vzU2AQfvCGzFkByDnopQ0YcQyz+Py0+6APA/kfFRFFXKCSu6Vq1Qei/R3S6Kyl5bf
-         +k6g==
-X-Forwarded-Encrypted: i=1; AJvYcCUOhChg7MLlbltoeRd762VmcIG0NoVWKRnzx5vLsLOevuXDABDyTBqhF9kfLrHy+kDYFUGmV5WU4WHNpi9/1wmVs/GfpgPQkKb7rHCv50yQp6f8kn9MDZsvbyw3gvfteWSgES68yy4O1ostOhkDMoIo2MHAjEiq7LbhJDJa6FGDwnB0HOJT
-X-Gm-Message-State: AOJu0Yxc8cxr4Gu9VU5NX4eSF9pHsixSYsKIgrM5xOUIJX54ORKn8Iy9
-	rS9zU7RJPd7pPPaMqhCxJmpFSngs7DIfAqeSuCgBsJYiHNEcFqQq
-X-Google-Smtp-Source: AGHT+IGDM0alksr+Hd4IyG19uJTvuI9/pP6uHRFbuipA+wKeHE7MFDNVcAiTXIeALNGcV08o2DrY6g==
-X-Received: by 2002:a05:6e02:1807:b0:375:a6cd:dff2 with SMTP id e9e14a558f8ab-3763f5ca221mr181124435ab.5.1719485449554;
-        Thu, 27 Jun 2024 03:50:49 -0700 (PDT)
-Received: from fedora.one.one.one.one ([2405:201:6013:c9a2:59df:d296:bffe:732c])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-72749c25c3asm830283a12.90.2024.06.27.03.50.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jun 2024 03:50:49 -0700 (PDT)
-From: Animesh Agarwal <animeshagarwal28@gmail.com>
-To: 
-Cc: animeshagarwal28@gmail.com,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] ASoC: dt-bindings: realtek,rt5677: Convert to dtschema
-Date: Thu, 27 Jun 2024 16:20:26 +0530
-Message-ID: <20240627105030.14360-1-animeshagarwal28@gmail.com>
-X-Mailer: git-send-email 2.45.2
+        d=1e100.net; s=20230601; t=1719486365; x=1720091165;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=q8pm1cQ32txw1WRPKTanNTmvRox3c7g4AlMuHhl+D20=;
+        b=A+09Hu3uUGVhJaGosLA8IoeUQky3Wyq+aCm7GemxMgNVADFykXrceVo+eJn+FqJHUm
+         h6/CBTOmHl7J2bQGGGgzOIPrQfiLaoBYvnyW6RHoaL4ehBM7LjqtSmwRPiJw5ApgJ9yp
+         jamuKP992wG7bDvTy9EFwg3ZwBmBCREXg/ceaHyO2W+ALBfuihdjAKRSZQt0xT7j7nvz
+         W4RBiIWIlN4XZU+CV0HMbdciKiFlOHV/dRVLg0Gn8l73I28CPefzJSSYCTlj57MHjeNW
+         y++rVwyfSTiHLCqxeP9/9n8JmE/ka4W9UXEGiR54zC5Sc6k9Z6E2u4y8dbsqxWW3iyRy
+         k0SQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXd+eBigxCgZZBHrssu0LvthwIsQGdrFyB+73ixGI2mK+Spq5Kd9/5hCpAZvjjVrNKvXU4fB4hO7P9pvvcJZ6vol7WdilxImbJ+uYQ=
+X-Gm-Message-State: AOJu0YzGgoeNdQM2Kvk7Vk2taRCEs2zNsheVK5q+U/KsGVYIfVTU2YkV
+	NRSbWR/hJPwzxht48HDxbGYHfvfv14C/W0Sfa/SUjZEqFMT4rEE9lC/bzuM6/2d4KhTrlRjQV4/
+	goTPgb1jZjXn6O7Mm+GIsl9iu7WxH5rkMwfQP5Q==
+X-Google-Smtp-Source: AGHT+IG2MNKNNOGC761uBwvpqX9lGsPO6rQNPCNWhEy1V6ZqnINWb303gmPma/KMWKNSmIVuRVUQ+Leug+4DoYkVHJE=
+X-Received: by 2002:a0c:f2cd:0:b0:6b4:f7bb:6d69 with SMTP id
+ 6a1803df08f44-6b56380939dmr109313566d6.32.1719486364821; Thu, 27 Jun 2024
+ 04:06:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240620175657.358273-1-piotr.wojtaszczyk@timesys.com>
+ <20240620175657.358273-11-piotr.wojtaszczyk@timesys.com> <jgqhlnysuwajlfxjwetas53jzdk6nnmewead2xzyt3xngwpcvl@xbooed6cwlq4>
+ <CAG+cZ04suU53wR5f0PhudgNmkxTRtwEXTS1cWH1o9_rTNM94Cg@mail.gmail.com> <73yvglxha45d5ft74m3y5fdmkgatm2yftvhza2msg4ombjz42f@wz43pubhbpdz>
+In-Reply-To: <73yvglxha45d5ft74m3y5fdmkgatm2yftvhza2msg4ombjz42f@wz43pubhbpdz>
+From: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
+Date: Thu, 27 Jun 2024 13:05:53 +0200
+Message-ID: <CAG+cZ05uam3LkvLXG3xAc8FY_p6jx4p=zinNeWbkKUbcLxSTrg@mail.gmail.com>
+Subject: Re: [Patch v4 10/10] i2x: pnx: Use threaded irq to fix warning from del_timer_sync()
+To: Andi Shyti <andi.shyti@kernel.org>
+Cc: Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	"J.M.B. Downing" <jonathan.downing@nautel.com>, Vladimir Zapolskiy <vz@mleia.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Russell King <linux@armlinux.org.uk>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Miquel Raynal <miquel.raynal@bootlin.com>, 
+	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, Arnd Bergmann <arnd@arndb.de>, Yangtao Li <frank.li@vivo.com>, 
+	Li Zetao <lizetao1@huawei.com>, Chancel Liu <chancel.liu@nxp.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, dmaengine@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-sound@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, linux-mtd@lists.infradead.org, 
+	Markus Elfring <Markus.Elfring@web.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Convert the RT5677 audio CODEC bindings to DT schema.
+On Tue, Jun 25, 2024 at 11:12=E2=80=AFPM Andi Shyti <andi.shyti@kernel.org>=
+ wrote:
+>
+> Hi Piotr,
+>
+> On Fri, Jun 21, 2024 at 02:08:03PM GMT, Piotr Wojtaszczyk wrote:
+> > On Fri, Jun 21, 2024 at 12:57=E2=80=AFAM Andi Shyti <andi.shyti@kernel.=
+org> wrote:
+> > > On Thu, Jun 20, 2024 at 07:56:41PM GMT, Piotr Wojtaszczyk wrote:
+> > > > When del_timer_sync() is called in an interrupt context it throws a=
+ warning
+> > > > because of potential deadlock. Threaded irq handler fixes the poten=
+tial
+> > > > problem.
+> > > >
+> > > > Signed-off-by: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
+> > >
+> > > did you run into a lockdep splat?
+> > >
+> > > Anything against using del_timer(), instead? Have you tried?
+> >
+> > I didn't get a lockdep splat but console was flooded with warnings from
+> > https://github.com/torvalds/linux/blob/v6.10-rc4/kernel/time/timer.c#L1=
+655
+> > In the linux kernel v5.15 I didn't see these warnings.
+> >
+> > I'm not a maintainer of the driver and I didn't do any research on
+> > what kind of impact
+> > would have using del_timer() instad. Maybe Vladimir Zapolskiy will know=
+ that.
+>
+> Your patch is definitely correct, no doubt about that.
+>
+> And I don't have anything aginast changing irq handlers to
+> threaded handlers. But I would be careful at doing that depending
+> on the use of the controller and for accepting such change I
+> would need an ack from someone who knows the device. Vladimir,
+> perhaps?
+>
+> There are cases where using threaded handlers are not totally
+> right, for example when the controller is used at early boot for
+> power management handling. I don't think it's the case for this
+> driver, but I can't be 100% sure.
+>
+> If you were able to see the flood of WARN_ON's, would be
+> interesting to know how it behaves with del_timer(). Mind
+> giving it a test?
+>
+> Thanks,
+> Andi
 
-Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
-Cc: Daniel Baluta <daniel.baluta@nxp.com>
+I took some time to take a closer look at this and it turns out that the
+timer is used only to exit from the wait_for_completion(), after each
+del_timer_sync() there is a complete() call. So I will remove the timer
+all together and replace wait_for_completion() with
+wait_for_completion_timeout()
 
----
-Changes in v2:
-  - Used consistant quotes.
-  - Listed jack detect as properties instead of patternProperties.
----
- .../bindings/sound/realtek,rt5677.yaml        | 135 ++++++++++++++++++
- .../devicetree/bindings/sound/rt5677.txt      |  78 ----------
- 2 files changed, 135 insertions(+), 78 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/sound/realtek,rt5677.yaml
- delete mode 100644 Documentation/devicetree/bindings/sound/rt5677.txt
 
-diff --git a/Documentation/devicetree/bindings/sound/realtek,rt5677.yaml b/Documentation/devicetree/bindings/sound/realtek,rt5677.yaml
-new file mode 100644
-index 000000000000..9ce23e58e5ea
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/realtek,rt5677.yaml
-@@ -0,0 +1,135 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/realtek,rt5677.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: RT5677 audio CODEC
-+
-+maintainers:
-+  - Animesh Agarwal <animeshagarwal28@gmail.com>
-+
-+description: |
-+  This device supports I2C only.
-+
-+  Pins on the device (for linking into audio routes):
-+    * IN1P
-+    * IN1N
-+    * IN2P
-+    * IN2N
-+    * MICBIAS1
-+    * DMIC1
-+    * DMIC2
-+    * DMIC3
-+    * DMIC4
-+    * LOUT1
-+    * LOUT2
-+    * LOUT3
-+
-+allOf:
-+  - $ref: dai-common.yaml#
-+
-+properties:
-+  compatible:
-+    const: realtek,rt5677
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  gpio-controller: true
-+
-+  '#gpio-cells':
-+    const: 2
-+
-+  realtek,pow-ldo2-gpio:
-+    maxItems: 1
-+    description: CODEC's POW_LDO2 pin.
-+
-+  realtek,reset-gpio:
-+    maxItems: 1
-+    description: CODEC's RESET pin. Active low.
-+
-+  realtek,gpio-config:
-+    description: |
-+      Array of six 8bit elements that configures GPIO.
-+      0 - floating (reset value)
-+      1 - pull down
-+      2 - pull up
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
-+    minItems: 6
-+    maxItems: 6
-+    items:
-+      maximum: 2
-+
-+  realtek,jd1-gpio:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum:
-+      - 0 # OFF
-+      - 1 # GPIO1 for jd1.
-+      - 2 # GPIO2 for jd1.
-+      - 3 # GPIO3 for jd1.
-+    description: Configures GPIO Mic Jack detection 1.
-+
-+  realtek,jd2-gpio:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum:
-+      - 0 # OFF
-+      - 1 # GPIO4 for jd2.
-+      - 2 # GPIO5 for jd2.
-+      - 3 # GPIO6 for jd2.
-+    description: Configures GPIO Mic Jack detection 2.
-+
-+  realtek,jd3-gpio:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum:
-+      - 0 # OFF
-+      - 1 # GPIO4 for jd3.
-+      - 2 # GPIO5 for jd3.
-+      - 3 # GPIO6 for jd3.
-+    description: Configures GPIO Mic Jack detection 3.
-+
-+patternProperties:
-+  '^realtek,in[1-2]-differential$':
-+    type: boolean
-+    description: Indicate MIC1/2 input are differential, rather than
-+      single-ended.
-+
-+  '^realtek,lout[1-3]-differential$':
-+    type: boolean
-+    description: Indicate LOUT1/2/3 outputs are differential, rather than
-+      single-ended.
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - gpio-controller
-+  - '#gpio-cells'
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        codec@2c {
-+            compatible = "realtek,rt5677";
-+            reg = <0x2c>;
-+            interrupt-parent = <&gpio>;
-+            interrupts = <3 IRQ_TYPE_LEVEL_HIGH>;
-+            gpio-controller;
-+            #gpio-cells = <2>;
-+            realtek,pow-ldo2-gpio = <&gpio 3 GPIO_ACTIVE_HIGH>;
-+            realtek,reset-gpio = <&gpio 3 GPIO_ACTIVE_LOW>;
-+            realtek,in1-differential;
-+            realtek,gpio-config = <0 0 0 0 0 2>;
-+        };
-+    };
-diff --git a/Documentation/devicetree/bindings/sound/rt5677.txt b/Documentation/devicetree/bindings/sound/rt5677.txt
-deleted file mode 100644
-index da2430099181..000000000000
---- a/Documentation/devicetree/bindings/sound/rt5677.txt
-+++ /dev/null
-@@ -1,78 +0,0 @@
--RT5677 audio CODEC
--
--This device supports I2C only.
--
--Required properties:
--
--- compatible : "realtek,rt5677".
--
--- reg : The I2C address of the device.
--
--- interrupts : The CODEC's interrupt output.
--
--- gpio-controller : Indicates this device is a GPIO controller.
--
--- #gpio-cells : Should be two. The first cell is the pin number and the
--  second cell is used to specify optional parameters (currently unused).
--
--Optional properties:
--
--- realtek,pow-ldo2-gpio : The GPIO that controls the CODEC's POW_LDO2 pin.
--- realtek,reset-gpio : The GPIO that controls the CODEC's RESET pin. Active low.
--
--- realtek,in1-differential
--- realtek,in2-differential
--- realtek,lout1-differential
--- realtek,lout2-differential
--- realtek,lout3-differential
--  Boolean. Indicate MIC1/2 input and LOUT1/2/3 outputs are differential,
--  rather than single-ended.
--
--- realtek,gpio-config
--  Array of six 8bit elements that configures GPIO.
--    0 - floating (reset value)
--    1 - pull down
--    2 - pull up
--
--- realtek,jd1-gpio
--  Configures GPIO Mic Jack detection 1.
--  Select 0 ~ 3 as OFF, GPIO1, GPIO2 and GPIO3 respectively.
--
--- realtek,jd2-gpio
--- realtek,jd3-gpio
--  Configures GPIO Mic Jack detection 2 and 3.
--  Select 0 ~ 3 as OFF, GPIO4, GPIO5 and GPIO6 respectively.
--
--Pins on the device (for linking into audio routes):
--
--  * IN1P
--  * IN1N
--  * IN2P
--  * IN2N
--  * MICBIAS1
--  * DMIC1
--  * DMIC2
--  * DMIC3
--  * DMIC4
--  * LOUT1
--  * LOUT2
--  * LOUT3
--
--Example:
--
--rt5677 {
--	compatible = "realtek,rt5677";
--	reg = <0x2c>;
--	interrupt-parent = <&gpio>;
--	interrupts = <TEGRA_GPIO(W, 3) IRQ_TYPE_LEVEL_HIGH>;
--
--	gpio-controller;
--	#gpio-cells = <2>;
--
--	realtek,pow-ldo2-gpio =
--		<&gpio TEGRA_GPIO(V, 3) GPIO_ACTIVE_HIGH>;
--	realtek,reset-gpio = <&gpio TEGRA_GPIO(BB, 3) GPIO_ACTIVE_LOW>;
--	realtek,in1-differential = "true";
--	realtek,gpio-config = /bits/ 8  <0 0 0 0 0 2>;   /* pull up GPIO6 */
--	realtek,jd2-gpio = <3>;  /* Enables Jack detection for GPIO6 */
--};
--- 
-2.45.2
-
+--=20
+Piotr Wojtaszczyk
+Timesys
