@@ -1,165 +1,133 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD4BB4D8C1;
-	Thu, 27 Jun 2024 07:13:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 958DB28FC;
+	Thu, 27 Jun 2024 07:46:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719472384; cv=none; b=NHbuYzEleCkc1hnLpuJeOhx4bWI9aQjSw1PDqoZLAawpxHQK8NHV0OVFja7tBwaqoN585rCwZe76fPW5Ou/9twesx0RatklpMOm1eI4Mc2IWiCzXvB9OG2J+kBCZr2EY76bgKheCp7Z0wj6f9cFTqzYZWK5LQ3S9CRnr7hEApqg=
+	t=1719474396; cv=none; b=NlK+pAAqX16RaX9AJogCYvKaCzl/jwT7G59sJ/BcvmWSlHTJ9emsweWgw2+qg2ZUBEU8qQjun56iQ+Y+CFsuP/EpI/9zR7bdqAQmPoyyiCFxf/DsTLPmZkuckWIq621dEb2KLDuwtSjP2WDarTKX4np/4bmBdg9M0200+9yUURc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719472384; c=relaxed/simple;
-	bh=yjGyFvibMRcZKBJ0b9A+p3uvnDiFXIdsxcEBNYYupBk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FExExMB4PwC9AvmyvgBkEx0p6qymx4IbLMf3pLWy9AI53l6YANaxQFmuFqxagPQTgdp9icIm/KjkkoGLEOsRP9Pkkckv2NYupdIh1Z8B9pVIeYkppUgGMDP4pGldyxqaaiH0IugM8DPkwBBi3VOBRf3biISQELOuuyFwB65Ryaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jCUVWjS8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719474396; c=relaxed/simple;
+	bh=AH9D0ziQVkg9LV3FQsXYXHeGDQQY50zBANCOXWzsJeU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=MjTFPxkoGmiVHUcWMYjhggvnG+8lb58a8SG9VxP0esdaqJV0PVxMLQDVKJVqs+pmO6sBCnH/oFFtgQimbIhj+hi8OD0ASaQBp0FMg+vmFSpWjOopov6HEoYvU6ZdmSaOee7f3T/y227+PIsi5SDTi+V3gskjAr/ZZv+KGCuTLkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kPiug/0o; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jCUVWjS8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A72DC2BBFC;
-	Thu, 27 Jun 2024 07:13:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kPiug/0o"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECF78C2BBFC;
+	Thu, 27 Jun 2024 07:46:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719472383;
-	bh=yjGyFvibMRcZKBJ0b9A+p3uvnDiFXIdsxcEBNYYupBk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jCUVWjS8Bf+noBUDEGooaxzT11jIGgWEPxnGChglVpZcD5fzzfXv6zLTAlmNJcbX7
-	 Ki7meDBzAFVBRKo7MGuhzOQggDcx60wUC7abtrJEfByWGYEWVsVEfIkiH7t/J9G2Ca
-	 dLIFLeNk5YNy8gzOo+27D8D/MbQywnxauW+B9ibPPps0wQzp3wSrA70VDiC2kt4pnl
-	 BNBUzXoOTh2zGnc9Cut1+OsZc8iYIX+Vytk8P8eKg74fIO8D6edn9EPYcqpDMnvtG3
-	 xGx7jk05kzL34gKHmLuqUPvRuJfXMYaXv9pRowLkZSFH06PfBUn9cL6wouib2Ootkz
-	 PLHEbUy9RoqYQ==
-Date: Thu, 27 Jun 2024 08:12:58 +0100
-From: Lee Jones <lee@kernel.org>
-To: James Ogletree <James.Ogletree@cirrus.com>
-Cc: James Ogletree <jogletre@opensource.cirrus.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	"robh+dt@kernel.org" <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Jeff LaBundy <jeff@labundy.com>,
-	"patches@opensource.cirrus.com" <patches@opensource.cirrus.com>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: Re: [PATCH RESEND v11 0/5] Add support for CS40L50
-Message-ID: <20240627071258.GE2532839@google.com>
-References: <20240620161745.2312359-1-jogletre@opensource.cirrus.com>
- <20240620165935.GT3029315@google.com>
- <21975F67-D71D-4D5D-8042-8EE64E8864CA@cirrus.com>
+	s=k20201202; t=1719474396;
+	bh=AH9D0ziQVkg9LV3FQsXYXHeGDQQY50zBANCOXWzsJeU=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=kPiug/0owQPS/BCx+CSqJdw1XzL91EfeAY1WJca3CT1v9+B6H9vIJSYecT0xMC6me
+	 +ZG/knsUgGc1ED5gYFS4B5YbtGTl7ZL9a97keVasBfA8vFeaABZg3f8AeGP0B8zDRn
+	 Y+HlcI+e32YO8VLcYmtfZ798f8DHV1wt7xwh43dIDvNzgWUfOzXJIEgmkh8lp1nYVf
+	 LAWHdKV2SHyg8qARCrrXfidS5sapUsYiKIE7ndDcim8ZNADmXd0NnHunv4SH95b2Zu
+	 T3lqRKHqlGBAKc/c5cWwDpQCLvmAlGugyTgBtAUJwo5VsG3YyFeeX/KZfuo3N2MmHP
+	 jVEi5Eq82kOzg==
+Message-ID: <c7bad597-84cc-445f-8446-398cb5e5005e@kernel.org>
+Date: Thu, 27 Jun 2024 09:46:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <21975F67-D71D-4D5D-8042-8EE64E8864CA@cirrus.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] ASoC: dt-bindings: simple-audio-mux: add mux-names
+ property
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Alexandre Belloni <aleandre.belloni@bootlin.com>,
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Takashi Iwai <tiwai@suse.com>,
+ devicetree@vger.kernel.org, linux-sound@vger.kernel.org
+References: <87bk3nqc0e.wl-kuninori.morimoto.gx@renesas.com>
+ <878qyrqbyt.wl-kuninori.morimoto.gx@renesas.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <878qyrqbyt.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, 26 Jun 2024, James Ogletree wrote:
-
+On 27/06/2024 05:52, Kuninori Morimoto wrote:
+> Current simple-audio-mux selects MUX by "Input 1" or "Input 2",
+> it is not user friendly. Adds new "mux-names" property and enable to
+> select MUX by own names.
 > 
-> > On Jun 20, 2024, at 11:59 AM, Lee Jones <lee@kernel.org> wrote:
-> > 
-> > On Thu, 20 Jun 2024, James Ogletree wrote:
-> > 
-> >> Changes in v11:
-> >> - Constified function parameters in ASOC driver
-> >> - Removed an unneeded #include
-> >> - Changed number of max FF effects = 1
-> >> - Minor refactoring in Input driver
-> >> - Reworded comment in MFD driver
-> >> 
-> >> Changes in v10:
-> >> - Minor refactoring and logical improvements all around
-> >> - Renamed and added supplies
-> >> 
-> >> Changes in v9:
-> >> - Fixed empty struct by utilizing cs_dsp's post_run callback
-> >> - Style fixes in MFD driver
-> >> 
-> >> Changes in v8:
-> >> - set_sysclk() -> set_bclk_ratio()
-> >> - Added ID table to codec driver
-> >> - Style improvements
-> >> - Fixed ordering of new write sequence operations
-> >> 
-> >> Changes in v7:
-> >> - Fixed sparse warning
-> >> - Moved write sequences to private data structure
-> >> - Logical and style improvements in write sequence interface
-> >> 
-> >> Changes in v6:
-> >> - Updated write sequencer interface to be control-name based
-> >> - Fixed a race condition and non-handling of repeats in playback callback
-> >> - Stylistic and logical improvements all around
-> >> 
-> >> Changes in v5:
-> >> - Added a codec sub-device to support I2S streaming
-> >> - Moved write sequencer code from cirrus_haptics to cs_dsp
-> >> - Reverted cirrus_haptics library; future Cirrus input
-> >>  drivers will export and utilize cs40l50_vibra functions
-> >> - Added more comments
-> >> - Many small stylistic and logical improvements
-> >> 
-> >> Changes in v4:
-> >> - Moved from Input to MFD
-> >> - Moved common Cirrus haptic functions to a library
-> >> - Incorporated runtime PM framework
-> >> - Many style improvements
-> >> 
-> >> Changes in v3:
-> >> - YAML formatting corrections
-> >> - Fixed typo in MAINTAINERS
-> >> - Used generic node name "haptic-driver"
-> >> - Fixed probe error code paths
-> >> - Switched to "sizeof(*)"
-> >> - Removed tree reference in MAINTAINERS
-> >> 
-> >> Changes in v2:
-> >> - Fixed checkpatch warnings
-> >> 
-> >> James Ogletree (5):
-> >>  firmware: cs_dsp: Add write sequence interface
-> >>  dt-bindings: input: cirrus,cs40l50: Add initial DT binding
-> >>  mfd: cs40l50: Add support for CS40L50 core driver
-> >>  Input: cs40l50 - Add support for the CS40L50 haptic driver
-> >>  ASoC: cs40l50: Support I2S streaming to CS40L50
-> >> 
-> >> .../bindings/input/cirrus,cs40l50.yaml        |  68 +++
-> >> MAINTAINERS                                   |  12 +
-> >> drivers/firmware/cirrus/cs_dsp.c              | 278 +++++++++
-> >> drivers/input/misc/Kconfig                    |  10 +
-> >> drivers/input/misc/Makefile                   |   1 +
-> >> drivers/input/misc/cs40l50-vibra.c            | 555 +++++++++++++++++
-> >> drivers/mfd/Kconfig                           |  30 +
-> >> drivers/mfd/Makefile                          |   4 +
-> >> drivers/mfd/cs40l50-core.c                    | 570 ++++++++++++++++++
-> >> drivers/mfd/cs40l50-i2c.c                     |  68 +++
-> >> drivers/mfd/cs40l50-spi.c                     |  68 +++
-> >> include/linux/firmware/cirrus/cs_dsp.h        |  27 +
-> >> include/linux/mfd/cs40l50.h                   | 137 +++++
-> >> sound/soc/codecs/Kconfig                      |  11 +
-> >> sound/soc/codecs/Makefile                     |   2 +
-> >> sound/soc/codecs/cs40l50-codec.c              | 307 ++++++++++
-> >> 16 files changed, 2148 insertions(+)
-> >> create mode 100644 Documentation/devicetree/bindings/input/cirrus,cs40l50.yaml
-> >> create mode 100644 drivers/input/misc/cs40l50-vibra.c
-> >> create mode 100644 drivers/mfd/cs40l50-core.c
-> >> create mode 100644 drivers/mfd/cs40l50-i2c.c
-> >> create mode 100644 drivers/mfd/cs40l50-spi.c
-> >> create mode 100644 include/linux/mfd/cs40l50.h
-> >> create mode 100644 sound/soc/codecs/cs40l50-codec.c
-> > 
-> > Still needs Acks - ping me when you have them.
-> > 
-> > -- 
-> > Lee Jones [李琼斯]
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> ---
+>  Documentation/devicetree/bindings/sound/simple-audio-mux.yaml | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> Hi Lee,
-> 
-> You can take this series now.
+> diff --git a/Documentation/devicetree/bindings/sound/simple-audio-mux.yaml b/Documentation/devicetree/bindings/sound/simple-audio-mux.yaml
+> index 9f319caf3db7..6e4018936887 100644
+> --- a/Documentation/devicetree/bindings/sound/simple-audio-mux.yaml
+> +++ b/Documentation/devicetree/bindings/sound/simple-audio-mux.yaml
+> @@ -24,6 +24,10 @@ properties:
+>      description: |
+>        GPIOs used to select the input line.
+>  
+> +  mux-names:
+> +    description: |
+> +      Name of multiplexers. default is "Input 1", "Input 2"
+> +
 
-sound/soc?
+I have troubles with this binding... It seems driver expects only one
+GPIO, but the binding allows any number. Similarly mux-names...
 
--- 
-Lee Jones [李琼斯]
+Anyway, this does not look like hardware description but rather
+configuration of driver. What's wrong with input 1 or mux 1 or whatever
+is there for default?
+
+Also: extend the example.
+
+Best regards,
+Krzysztof
+
