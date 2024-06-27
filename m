@@ -1,146 +1,83 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBE341459E4
-	for <linux-sound@vger.kernel.org>; Thu, 27 Jun 2024 11:06:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 180C5148FED
+	for <linux-sound@vger.kernel.org>; Thu, 27 Jun 2024 11:30:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719486369; cv=none; b=qRjhxSBRFtGdzTZ1L7X//YlJrEw2d6h5M2YY15uwgGtPvIY4Z1sXgHSOOfPrH7RGnZEzzJeTFyeKY3kU3SbMFJ9PZquEeBpMWXnWKRqW7yLgR7iUc4JuQ+zerteYzNBvGhoWvWkwTKTnm7dPnHJ4+9eedEqV49WRIucktZPEbP8=
+	t=1719487829; cv=none; b=SuqYpYHQuDDn6NG1rCOxt74TiXBNe21wBFVAna0xIHIBhVQuOFdySk//2L5okfp0qOnIKeZ6RK+CsXTvqkiSKY+qxorvyGLuxa6gmNY/a/IQ6fCuEAk0E0UUW4sBHtP+qYrBs71LKAHSs6atGR0kvWVsozrDkRI2uN8HlRn9DDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719486369; c=relaxed/simple;
-	bh=q8pm1cQ32txw1WRPKTanNTmvRox3c7g4AlMuHhl+D20=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RwwDwZuiTsVtsWbVtEas02bBA2QEJmf2Z4yax6O2h0/lTehIuhYeYx4uUy5RB6EZGatMsf7wj1KD++6Ul/q3jFbNUNQtEhdEO/KfKK7/zmz1woV0p4Qkl0eoq7l1fBtNUdRtjMwTBzzIGQ8W2htlT8cF9Y9Zt7O2fBC4JGAOU9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timesys.com; spf=pass smtp.mailfrom=timesys.com; dkim=pass (2048-bit key) header.d=timesys-com.20230601.gappssmtp.com header.i=@timesys-com.20230601.gappssmtp.com header.b=fBhAyFjK; arc=none smtp.client-ip=209.85.219.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timesys.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=timesys.com
+	s=arc-20240116; t=1719487829; c=relaxed/simple;
+	bh=nUXxadfRolGXgOkeHyHvKiNdu54lNo3EHhOpRM4FYYc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=eaqQC+1UhT3zCUORNMY/tAzeKg+SXHJyXAx6/rNWAwWje292PpdfZZSb2pSV7nXx7Hd/c360gTseRHQ/L15UpgKFeFf72TfFD+t/qjatY1iN03YtDWFKFX38/e7kfK/OZC7LT7fhnhZ2gG++G2ud+v8qruFn4EpRRaO2TqHIt2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uJurPXbr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=timesys-com.20230601.gappssmtp.com header.i=@timesys-com.20230601.gappssmtp.com header.b="fBhAyFjK"
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-6b593387daaso3608496d6.1
-        for <linux-sound@vger.kernel.org>; Thu, 27 Jun 2024 04:06:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=timesys-com.20230601.gappssmtp.com; s=20230601; t=1719486365; x=1720091165; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=q8pm1cQ32txw1WRPKTanNTmvRox3c7g4AlMuHhl+D20=;
-        b=fBhAyFjKVQH9Q7d5wuaZPgNCYT5JZ3kprAQjwr592CkBHUhnX3a5lAKlC+LXqlNXK6
-         IKK8qoY5lh5I5yR79PDRkGPX/5QQU+UXnW/wz+RYa/Jl6D9eDMGTT2zTYn9BxKtqPQvv
-         Sgr1yE824hNKoxfryHz8F8/9KFp9SALgaX0ApbIIi/stoOt+V6g7RGoCQ6LoBfr9loHz
-         9JV1cvDWtjwK0C4A6+1DlYe2isjwsVZmtHoPVYtVx+6k/T2WtcYngryOKSmglxBONKMj
-         kkhYSnsqi9hes+wu35KzkfUeFxqPQIjZBifRRIbZYREauaV1ZbL/e0JeaYxaWrwRLYq0
-         4ChA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719486365; x=1720091165;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=q8pm1cQ32txw1WRPKTanNTmvRox3c7g4AlMuHhl+D20=;
-        b=A+09Hu3uUGVhJaGosLA8IoeUQky3Wyq+aCm7GemxMgNVADFykXrceVo+eJn+FqJHUm
-         h6/CBTOmHl7J2bQGGGgzOIPrQfiLaoBYvnyW6RHoaL4ehBM7LjqtSmwRPiJw5ApgJ9yp
-         jamuKP992wG7bDvTy9EFwg3ZwBmBCREXg/ceaHyO2W+ALBfuihdjAKRSZQt0xT7j7nvz
-         W4RBiIWIlN4XZU+CV0HMbdciKiFlOHV/dRVLg0Gn8l73I28CPefzJSSYCTlj57MHjeNW
-         y++rVwyfSTiHLCqxeP9/9n8JmE/ka4W9UXEGiR54zC5Sc6k9Z6E2u4y8dbsqxWW3iyRy
-         k0SQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXd+eBigxCgZZBHrssu0LvthwIsQGdrFyB+73ixGI2mK+Spq5Kd9/5hCpAZvjjVrNKvXU4fB4hO7P9pvvcJZ6vol7WdilxImbJ+uYQ=
-X-Gm-Message-State: AOJu0YzGgoeNdQM2Kvk7Vk2taRCEs2zNsheVK5q+U/KsGVYIfVTU2YkV
-	NRSbWR/hJPwzxht48HDxbGYHfvfv14C/W0Sfa/SUjZEqFMT4rEE9lC/bzuM6/2d4KhTrlRjQV4/
-	goTPgb1jZjXn6O7Mm+GIsl9iu7WxH5rkMwfQP5Q==
-X-Google-Smtp-Source: AGHT+IG2MNKNNOGC761uBwvpqX9lGsPO6rQNPCNWhEy1V6ZqnINWb303gmPma/KMWKNSmIVuRVUQ+Leug+4DoYkVHJE=
-X-Received: by 2002:a0c:f2cd:0:b0:6b4:f7bb:6d69 with SMTP id
- 6a1803df08f44-6b56380939dmr109313566d6.32.1719486364821; Thu, 27 Jun 2024
- 04:06:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uJurPXbr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10F05C32786;
+	Thu, 27 Jun 2024 11:30:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719487828;
+	bh=nUXxadfRolGXgOkeHyHvKiNdu54lNo3EHhOpRM4FYYc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=uJurPXbrxRjg9Qk7Xnk4Ep02lHQBbJXN4ZYZSsWiY9TJBdXk6NgWfRjDOwIyqMWj6
+	 GQF0XSXhtfCMBCMNkSsrSc+ZoGLYgkiMajX58gFD6hPRhgU8avjbgYMDiaJMbZKbYR
+	 mW0KdrpdKTJAQcTy1wtkZTBE3Ln5ZzcRMRCg7oYjJdXlhUV4RUe43nfp8a2VbKnh7N
+	 tgJiAg5uDQPPHceUQf9VJTiQ3bdCVxmJAEnb4qPIxyNxd0ZsYd9zAqqV1ej5HKbgAf
+	 oD05jA0eMRWYNsSPnM3e067K99BZJlJHgpNZFi2QyAzqLxxnYKv0Twgy3L8gSfVx+z
+	 u8J6iFv3xVzMQ==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, shumingf@realtek.com
+Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com, 
+ oder_chiou@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com
+In-Reply-To: <20240620103237.2124196-1-shumingf@realtek.com>
+References: <20240620103237.2124196-1-shumingf@realtek.com>
+Subject: Re: [PATCH 2/2] ASoC: rt712-sdca: add the function for version B
+Message-Id: <171948782677.68092.9737848700397005574.b4-ty@kernel.org>
+Date: Thu, 27 Jun 2024 12:30:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240620175657.358273-1-piotr.wojtaszczyk@timesys.com>
- <20240620175657.358273-11-piotr.wojtaszczyk@timesys.com> <jgqhlnysuwajlfxjwetas53jzdk6nnmewead2xzyt3xngwpcvl@xbooed6cwlq4>
- <CAG+cZ04suU53wR5f0PhudgNmkxTRtwEXTS1cWH1o9_rTNM94Cg@mail.gmail.com> <73yvglxha45d5ft74m3y5fdmkgatm2yftvhza2msg4ombjz42f@wz43pubhbpdz>
-In-Reply-To: <73yvglxha45d5ft74m3y5fdmkgatm2yftvhza2msg4ombjz42f@wz43pubhbpdz>
-From: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
-Date: Thu, 27 Jun 2024 13:05:53 +0200
-Message-ID: <CAG+cZ05uam3LkvLXG3xAc8FY_p6jx4p=zinNeWbkKUbcLxSTrg@mail.gmail.com>
-Subject: Re: [Patch v4 10/10] i2x: pnx: Use threaded irq to fix warning from del_timer_sync()
-To: Andi Shyti <andi.shyti@kernel.org>
-Cc: Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	"J.M.B. Downing" <jonathan.downing@nautel.com>, Vladimir Zapolskiy <vz@mleia.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Russell King <linux@armlinux.org.uk>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Arnd Bergmann <arnd@arndb.de>, Yangtao Li <frank.li@vivo.com>, 
-	Li Zetao <lizetao1@huawei.com>, Chancel Liu <chancel.liu@nxp.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, dmaengine@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-sound@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	Markus Elfring <Markus.Elfring@web.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev-d4707
 
-On Tue, Jun 25, 2024 at 11:12=E2=80=AFPM Andi Shyti <andi.shyti@kernel.org>=
- wrote:
->
-> Hi Piotr,
->
-> On Fri, Jun 21, 2024 at 02:08:03PM GMT, Piotr Wojtaszczyk wrote:
-> > On Fri, Jun 21, 2024 at 12:57=E2=80=AFAM Andi Shyti <andi.shyti@kernel.=
-org> wrote:
-> > > On Thu, Jun 20, 2024 at 07:56:41PM GMT, Piotr Wojtaszczyk wrote:
-> > > > When del_timer_sync() is called in an interrupt context it throws a=
- warning
-> > > > because of potential deadlock. Threaded irq handler fixes the poten=
-tial
-> > > > problem.
-> > > >
-> > > > Signed-off-by: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
-> > >
-> > > did you run into a lockdep splat?
-> > >
-> > > Anything against using del_timer(), instead? Have you tried?
-> >
-> > I didn't get a lockdep splat but console was flooded with warnings from
-> > https://github.com/torvalds/linux/blob/v6.10-rc4/kernel/time/timer.c#L1=
-655
-> > In the linux kernel v5.15 I didn't see these warnings.
-> >
-> > I'm not a maintainer of the driver and I didn't do any research on
-> > what kind of impact
-> > would have using del_timer() instad. Maybe Vladimir Zapolskiy will know=
- that.
->
-> Your patch is definitely correct, no doubt about that.
->
-> And I don't have anything aginast changing irq handlers to
-> threaded handlers. But I would be careful at doing that depending
-> on the use of the controller and for accepting such change I
-> would need an ack from someone who knows the device. Vladimir,
-> perhaps?
->
-> There are cases where using threaded handlers are not totally
-> right, for example when the controller is used at early boot for
-> power management handling. I don't think it's the case for this
-> driver, but I can't be 100% sure.
->
-> If you were able to see the flood of WARN_ON's, would be
-> interesting to know how it behaves with del_timer(). Mind
-> giving it a test?
->
-> Thanks,
-> Andi
+On Thu, 20 Jun 2024 18:32:37 +0800, shumingf@realtek.com wrote:
+> The version B will support the multi-lane function and integrate the DMIC function
+> in one SoundWire interface.
+> Due to some registers having different default values between version A and B,
+> this patch also removes the redundant default registers to avoid confusion.
+> 
+> 
 
-I took some time to take a closer look at this and it turns out that the
-timer is used only to exit from the wait_for_completion(), after each
-del_timer_sync() there is a complete() call. So I will remove the timer
-all together and replace wait_for_completion() with
-wait_for_completion_timeout()
+Applied to
 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
---=20
-Piotr Wojtaszczyk
-Timesys
+Thanks!
+
+[2/2] ASoC: rt712-sdca: add the function for version B
+      commit: 936abb09c1c7ce2c9c8b7838fc780e98c0140759
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
