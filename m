@@ -1,115 +1,89 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EA111990C8
-	for <linux-sound@vger.kernel.org>; Thu, 27 Jun 2024 15:39:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 866D3E56A;
+	Thu, 27 Jun 2024 16:45:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719502751; cv=none; b=ftMgmHZsyO5u3IAbvfbIUglNksHbCg5gXUWN1mKB3PK+6wJLfEkjzcMn1Jf7C+k7dInl7KN303/W5I5g0CHzI4vzin1PRRRvIq6X4CHQwVI4j6rNwF0UWfzj3Nz3912f0XKdNXuNGWCckxyY2rc9Xuow+LgfWd2tMt+ZdxguGu8=
+	t=1719506748; cv=none; b=a8IYQMZrZ83M+fAu1UkxP055ThVreObb2sq+gpqFTY2AhKeH9ZJP7qwAyV5egjRC99XhXL/Mv9KZFRAukjYCxagw0ws8D1dn3t5zX1GMdmNmx+2jVlaBnQSXNTZ3Uv1TqhFSxpVkS7bEoOR/kNgiUXapwuwRnKgvOLS4/A3B5yw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719502751; c=relaxed/simple;
-	bh=DAekPm9WUSabO1N0Fanj15qiAengfqdzXPC4rFMBSJM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e7/mJd2P0GZ/UPEtQ6aU1PpcNdn/70Er2IcqYQ6Eh2etmOWh7f1dAkYvqUpS33pXRbZcnmqSsq0OadwmQW4CqESs/yeTImJ2sXAwv8HXCPKllfmaatUOSQ+DyYO57/yIn7r7FsIwVh0F+cqE91AtA3NXSihl3y+GPPyCYRxEmM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XKf6u/Um; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1719506748; c=relaxed/simple;
+	bh=ehLBHgvsMjTLKrA3lXsAqbSSXkOgpaBtl+CYynRuFlA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=KByiqk8r36Ln1bqbF71pVidA+dDrg/79/FCiWGkoWvoNWD3vX/a3KfohrrvYiGNJhkH0wcX5OBrjz1FXO8HKmdKjGJYd8n4pFe8j72DNSHpCZeOdEKYxtDOCA6G8g4Qos0KxG/3Mu9puu1/whujDfX4TVBF6AclMmQruyGz5MH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DbuUJ1Pl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XKf6u/Um"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-52cdbc20faeso7870875e87.1
-        for <linux-sound@vger.kernel.org>; Thu, 27 Jun 2024 08:39:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1719502748; x=1720107548; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=eWNXGLL2Gm1RdbPIHxkoTg3h2G36zUXEzqhJRAemoV4=;
-        b=XKf6u/UmmENFenRu5GbmhvNztCcaZR2hZuNGzIgZI4TH3wFgK5i9rTuqxQYFwHzJil
-         gjmqUidbndcU4Zw2vjg0XqnONHAA6wQFd48PL9uTWDDPsyXGsGqNmIXgwyf66h1uw91e
-         j2RjTNnZMBBCPpcA5P9r1Nd2OdNvd7Z5OgUspvd8gyoB8NSG7trzcvMMfyFAKgkqi40y
-         YEqGEdLnBore7Q6TQnC9a5lEB6EX2D7HQvwSGPID1UGrY1uJNL3gONwyHOdL5ON1+cbP
-         rqtVKVoGC7SDm3y0G0/CzzT8PloaPWmrCJEiSNyRK24vEzF/Q3X3yerOzL+ou7l0BdBr
-         +HZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719502748; x=1720107548;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eWNXGLL2Gm1RdbPIHxkoTg3h2G36zUXEzqhJRAemoV4=;
-        b=IQ8Qbtdsh0tHKWFSzGNKMtErL4+Gy9Tj/BZrmSyC+fKbSl9Yivxy1TXCBscLqo7x8g
-         7ZHvskVDIsqJ3izMQUhtTnLUKdRUlq9li+/9RUrnPdXfCaLiHiYJO66cw5NPwLK8IT9I
-         YggtB+yTQlkGwc8vX+hrBN3fXQqKSRIW27gjR/Gs+I/wdCh2+7nJJ/tVGSd3xOgCZ8e2
-         4mZS9BPDSEjZW5JZnK8jE1+9M/Kbo5/i0257UccpqN/KvyyPfOUlN8upxUi1DheYHx8o
-         +6kImxUTvb26sh92eNkpnAox16eXTOXtkZ6Se0FKZUqyaz5wUkjjz4JQguDzGy/6Z+Vb
-         1R/A==
-X-Forwarded-Encrypted: i=1; AJvYcCUTCbuIPi/x9lzcs35mY5AqDmOReTzHEBKOGalhWP/HxFN0vJiHc+fak4mcJWV8YEcfN2PdRK+BcjSDxl9tBiwNEZJC2EO2DdwgGZI=
-X-Gm-Message-State: AOJu0YzALpdvjWREQyDfayRr+paZNJPMtbKzqrHGNs9N9qR2waejDiNJ
-	YwBqZNGCKyrlpM1gAyVL1fW1Fr41o1f+Y3TQwbKj1n/K9rnQnS985BITUYuMA0c=
-X-Google-Smtp-Source: AGHT+IFjjRiKI2kfI3Q40lKeSWkAul/C0e6nj4kqnbScxDo4sTHhLvoHXz/FY3xuW5kDV4YGXIvQvA==
-X-Received: by 2002:ac2:4c86:0:b0:52c:deae:b8fa with SMTP id 2adb3069b0e04-52ce18321afmr9465994e87.3.1719502748252;
-        Thu, 27 Jun 2024 08:39:08 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52e7131357esm242219e87.212.2024.06.27.08.39.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jun 2024 08:39:07 -0700 (PDT)
-Date: Thu, 27 Jun 2024 18:39:06 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: Banajit Goswami <bgoswami@quicinc.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	linux-arm-msm@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>, 
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v2 4/6] ASoC: codecs: wsa884x: parse port-mapping
- information
-Message-ID: <gyg34bmhtkhnl7ggbo6fwrr2w2seuf73o6qrkh25qvi3psi4wi@awnib2ilblf7>
-References: <20240626-port-map-v2-0-6cc1c5608cdd@linaro.org>
- <20240626-port-map-v2-4-6cc1c5608cdd@linaro.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DbuUJ1Pl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C67DC2BD10;
+	Thu, 27 Jun 2024 16:45:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719506748;
+	bh=ehLBHgvsMjTLKrA3lXsAqbSSXkOgpaBtl+CYynRuFlA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=DbuUJ1PlPIIoo+Ox/XQ3LxKNfHNeNaeqoZkEuN1kb9pGpETQn4Xnz1vQBv1mg9WTY
+	 C87F0PYkVWt3lmpMuDJJeoJ2SxbQXmFDpytTbNZP+Z9q1buiqCsnalkBa9gP/JeZvy
+	 Y5piS1uTNxStYgawXieNEadJiYKkVAVcPeO7BKAcWruiGgoukD1bBRFbq3c4/slN4b
+	 ghhycZpWpl/zsXILJsMWbtsJ0IAoGa/q5mIvn8+LhbtfoFKrd36oCZtdzanVslkfsi
+	 DKjPK1gBveECNutZMcVUt1ucHpZlMD/9Z5R9KKRHpHIOyCO0dEW3L4VTyCGzjCYk5V
+	 WZIuYOfSvH9sg==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: kernel test robot <lkp@intel.com>
+In-Reply-To: <20240627125203.171048-1-krzysztof.kozlowski@linaro.org>
+References: <20240627125203.171048-1-krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH] ASoC: codecs: lpass-wsa-macro: add missing select of
+ common code
+Message-Id: <171950674603.332147.2643144849799962522.b4-ty@kernel.org>
+Date: Thu, 27 Jun 2024 17:45:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240626-port-map-v2-4-6cc1c5608cdd@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev-d4707
 
-On Thu, Jun 27, 2024 at 03:44:41PM GMT, Srinivas Kandagatla wrote:
-> Add support to parse static master port map information from device tree.
-> This is required for correct port mapping between soundwire device and
-> master ports.
+On Thu, 27 Jun 2024 14:52:03 +0200, Krzysztof Kozlowski wrote:
+> The Qualcomm LPASS WSA macro codec driver uses now parts of common
+> module, so it has to select SND_SOC_LPASS_MACRO_COMMON.
 > 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Tested-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-HDK
-> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> ---
->  sound/soc/codecs/wsa884x.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>   sound/soc/codecs/lpass-wsa-macro.o: in function `wsa_macro_probe':
+>   sound/soc/codecs/lpass-wsa-macro.c:2767:(.text+0x1c9c): undefined reference to `lpass_macro_get_codec_version'
 > 
-> diff --git a/sound/soc/codecs/wsa884x.c b/sound/soc/codecs/wsa884x.c
-> index a9767ef0e39d..a6034547b4f3 100644
-> --- a/sound/soc/codecs/wsa884x.c
-> +++ b/sound/soc/codecs/wsa884x.c
-> @@ -1887,6 +1887,14 @@ static int wsa884x_probe(struct sdw_slave *pdev,
->  	wsa884x->sconfig.direction = SDW_DATA_DIR_RX;
->  	wsa884x->sconfig.type = SDW_STREAM_PDM;
->  
-> +	/**
-> +	 * Port map index starts with 0, however the data port for this codec
-> +	 * are from index 1
-> +	 */
-> +	if (of_property_read_u32_array(dev->of_node, "qcom,port-mapping", &pdev->m_port_map[1],
-> +					WSA884X_MAX_SWR_PORTS))
-> +		dev_dbg(dev, "Static Port mapping not specified\n");
-> +
+> 
+> [...]
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Applied to
 
--- 
-With best wishes
-Dmitry
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: codecs: lpass-wsa-macro: add missing select of common code
+      commit: 36ac1e29f49ff4cbf1500465db311b17d8ba9213
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
