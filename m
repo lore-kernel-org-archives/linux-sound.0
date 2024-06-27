@@ -1,133 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 958DB28FC;
-	Thu, 27 Jun 2024 07:46:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C6F6288BD;
+	Thu, 27 Jun 2024 07:57:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719474396; cv=none; b=NlK+pAAqX16RaX9AJogCYvKaCzl/jwT7G59sJ/BcvmWSlHTJ9emsweWgw2+qg2ZUBEU8qQjun56iQ+Y+CFsuP/EpI/9zR7bdqAQmPoyyiCFxf/DsTLPmZkuckWIq621dEb2KLDuwtSjP2WDarTKX4np/4bmBdg9M0200+9yUURc=
+	t=1719475044; cv=none; b=NhYA11kPqSQdku2uxOvKR56iJW+n3hDqweoSeizggSYzmnzNTOsqz3e2OZKhJ/74LAlzYwaPBn0xnYbALI5JyGDsfdZ9dbde5xQPUjhRCSNxUX1EVOvqiU32tTxWkWIU/d21yRmGy+sZBA9FA9KKQx687KklPBx3YKVM8VQkhmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719474396; c=relaxed/simple;
-	bh=AH9D0ziQVkg9LV3FQsXYXHeGDQQY50zBANCOXWzsJeU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=MjTFPxkoGmiVHUcWMYjhggvnG+8lb58a8SG9VxP0esdaqJV0PVxMLQDVKJVqs+pmO6sBCnH/oFFtgQimbIhj+hi8OD0ASaQBp0FMg+vmFSpWjOopov6HEoYvU6ZdmSaOee7f3T/y227+PIsi5SDTi+V3gskjAr/ZZv+KGCuTLkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kPiug/0o; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719475044; c=relaxed/simple;
+	bh=ufGuGd3hT7L+aLFQrsbFstDYud+aN3bGPAcDPDd59WM=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OgbmBzGjrheptxD1db6vGqXZVN1E2kniAp1sdYqkgwDhByx62ljfv4dww9r7YNprKx+l1Bg8qLScj5ShMDMJNEsgXShzbFyEKosnibE+WXPnr35EHhPkUQmQTxa8KSBdIJkEBpOgb0RyXFXg1WCr47qHZfBWtOQ+/k+CGEgJ8iE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vpwwC1D2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=W83jFYSa; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vpwwC1D2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=W83jFYSa; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kPiug/0o"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECF78C2BBFC;
-	Thu, 27 Jun 2024 07:46:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719474396;
-	bh=AH9D0ziQVkg9LV3FQsXYXHeGDQQY50zBANCOXWzsJeU=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=kPiug/0owQPS/BCx+CSqJdw1XzL91EfeAY1WJca3CT1v9+B6H9vIJSYecT0xMC6me
-	 +ZG/knsUgGc1ED5gYFS4B5YbtGTl7ZL9a97keVasBfA8vFeaABZg3f8AeGP0B8zDRn
-	 Y+HlcI+e32YO8VLcYmtfZ798f8DHV1wt7xwh43dIDvNzgWUfOzXJIEgmkh8lp1nYVf
-	 LAWHdKV2SHyg8qARCrrXfidS5sapUsYiKIE7ndDcim8ZNADmXd0NnHunv4SH95b2Zu
-	 T3lqRKHqlGBAKc/c5cWwDpQCLvmAlGugyTgBtAUJwo5VsG3YyFeeX/KZfuo3N2MmHP
-	 jVEi5Eq82kOzg==
-Message-ID: <c7bad597-84cc-445f-8446-398cb5e5005e@kernel.org>
-Date: Thu, 27 Jun 2024 09:46:29 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vpwwC1D2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="W83jFYSa";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vpwwC1D2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="W83jFYSa"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 650641FBAB;
+	Thu, 27 Jun 2024 07:57:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1719475040; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HY2aGPC0WvkJPwPz/6L4o8PZmsUMm2P0ZgwZlEgSINc=;
+	b=vpwwC1D23BpyRwUVI7r5t8FbA0SeYs7hD1EcsTn/KqsOA/5PbD7uDPTeddhIa7uoqa1U8Z
+	Z2CnDMjNfuNxtUQETH5NjcpA7VyJWsdMmqJUMCAz+LEOtd+GJ3kYRvDMY6W7E7v98UW76d
+	mV+xIMOkzX7IoQZXwUZZs2HgkoX7VBI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1719475040;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HY2aGPC0WvkJPwPz/6L4o8PZmsUMm2P0ZgwZlEgSINc=;
+	b=W83jFYSaMajPTmtWPxbncQyA/S0GCHEKrEvV8TMKE7MerovVBfatK2fV7l6cp4QZOdQEBl
+	rLOK7SOH3Mdu+RBg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=vpwwC1D2;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=W83jFYSa
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1719475040; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HY2aGPC0WvkJPwPz/6L4o8PZmsUMm2P0ZgwZlEgSINc=;
+	b=vpwwC1D23BpyRwUVI7r5t8FbA0SeYs7hD1EcsTn/KqsOA/5PbD7uDPTeddhIa7uoqa1U8Z
+	Z2CnDMjNfuNxtUQETH5NjcpA7VyJWsdMmqJUMCAz+LEOtd+GJ3kYRvDMY6W7E7v98UW76d
+	mV+xIMOkzX7IoQZXwUZZs2HgkoX7VBI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1719475040;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HY2aGPC0WvkJPwPz/6L4o8PZmsUMm2P0ZgwZlEgSINc=;
+	b=W83jFYSaMajPTmtWPxbncQyA/S0GCHEKrEvV8TMKE7MerovVBfatK2fV7l6cp4QZOdQEBl
+	rLOK7SOH3Mdu+RBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2C982137DF;
+	Thu, 27 Jun 2024 07:57:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id EL2hCWAbfWZBAQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 27 Jun 2024 07:57:20 +0000
+Date: Thu, 27 Jun 2024 09:57:48 +0200
+Message-ID: <874j9eizr7.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Zhu Jun <zhujun2@cmss.chinamobile.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	shuah@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	broonie@kernel.org
+Subject: Re: [PATCH] selftests/alsa:Fix printf format string in pcm-test.c
+In-Reply-To: <20240626084859.4350-1-zhujun2@cmss.chinamobile.com>
+References: <20240626084859.4350-1-zhujun2@cmss.chinamobile.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] ASoC: dt-bindings: simple-audio-mux: add mux-names
- property
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Alexandre Belloni <aleandre.belloni@bootlin.com>,
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Takashi Iwai <tiwai@suse.com>,
- devicetree@vger.kernel.org, linux-sound@vger.kernel.org
-References: <87bk3nqc0e.wl-kuninori.morimoto.gx@renesas.com>
- <878qyrqbyt.wl-kuninori.morimoto.gx@renesas.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <878qyrqbyt.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 650641FBAB
+X-Spam-Score: -5.51
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-5.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-On 27/06/2024 05:52, Kuninori Morimoto wrote:
-> Current simple-audio-mux selects MUX by "Input 1" or "Input 2",
-> it is not user friendly. Adds new "mux-names" property and enable to
-> select MUX by own names.
+On Wed, 26 Jun 2024 10:48:59 +0200,
+Zhu Jun wrote:
 > 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->  Documentation/devicetree/bindings/sound/simple-audio-mux.yaml | 4 ++++
->  1 file changed, 4 insertions(+)
+> Inside of test_pcm_time() arguments are printed via printf
+> but '%d' is used to print @flags (of type unsigned int).
+> Use '%u' instead, just like we do everywhere else.
 > 
-> diff --git a/Documentation/devicetree/bindings/sound/simple-audio-mux.yaml b/Documentation/devicetree/bindings/sound/simple-audio-mux.yaml
-> index 9f319caf3db7..6e4018936887 100644
-> --- a/Documentation/devicetree/bindings/sound/simple-audio-mux.yaml
-> +++ b/Documentation/devicetree/bindings/sound/simple-audio-mux.yaml
-> @@ -24,6 +24,10 @@ properties:
->      description: |
->        GPIOs used to select the input line.
->  
-> +  mux-names:
-> +    description: |
-> +      Name of multiplexers. default is "Input 1", "Input 2"
-> +
+> Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
 
-I have troubles with this binding... It seems driver expects only one
-GPIO, but the binding allows any number. Similarly mux-names...
+Applied now to for-next branch.  Thanks.
 
-Anyway, this does not look like hardware description but rather
-configuration of driver. What's wrong with input 1 or mux 1 or whatever
-is there for default?
 
-Also: extend the example.
-
-Best regards,
-Krzysztof
-
+Takashi
