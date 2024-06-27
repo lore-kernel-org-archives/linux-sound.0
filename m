@@ -1,456 +1,164 @@
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
+Received: from forward501a.mail.yandex.net (forward501a.mail.yandex.net [178.154.239.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBE9613C690;
-	Thu, 27 Jun 2024 08:32:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=208.88.110.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 098567C097;
+	Thu, 27 Jun 2024 08:38:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719477130; cv=none; b=gmx9EeNdlUIfJ39nzai6kpLe+f97IVZIPchKqsLGQ/2Q/Mh0eKdAFQyNHTwhtLg0N5gxpzS2QYdXVM+2IvltbJ7yvu0hYGsneymg6HKDu1DvqT0aUJQfozWLA6utEYswqamUvWwmXBGsl6c9vorukKFr3qwUGsxnAPG72Kf6yzs=
+	t=1719477511; cv=none; b=XLNDhkbXr/dR4DMCd2JJCE0Qos3YV1HJSo9TwBxPLpIe8LHWu2abh5dEEi45PfsYzuS7kNyTBW2QHB7iDxizNypSUmTiDIfxGPCdifQT0w0TZjVEorG+8pAxXQLPg9s6cVDlMby6Jo5bz5Wra7zERwQ9HcvGLFo+JiF9kkLrjdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719477130; c=relaxed/simple;
-	bh=yznvF9D1CYld7pI4oKQ8pBtszytKW/Cp/rmZ4H2IQgw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=IS1xiIPpGYGET0YD8LH4msTSkNcX0HdBxvvT/vPYDSkgj5CK0nmCcBrSVGWFumgbiVZ0PrU4khXOABChQviKtuLswRep9HRZGsKhUXey4k9YVU2UZkZjekkZAnb0H41Zvp9Z84t9qSEF75q79DjOer9fX8MIANQtNTdNqctihVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=savoirfairelinux.com; spf=pass smtp.mailfrom=savoirfairelinux.com; dkim=pass (2048-bit key) header.d=savoirfairelinux.com header.i=@savoirfairelinux.com header.b=npd7vSd3; arc=none smtp.client-ip=208.88.110.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=savoirfairelinux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=savoirfairelinux.com
+	s=arc-20240116; t=1719477511; c=relaxed/simple;
+	bh=sncecviZ4oVzyaqVg6LU/TKkhzMCJcCvnENYdLedhDQ=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=lCDDAcTYqAJfIwhLmscFk8xCyAW78PCjg/OoxkpdL++WvW/lVLcesjayHlKCKoa4pkxbpud7JcrwQZakAcKhWt4DSKa7DPLev6bpqsSraYWpficcmpSoHluYlKKsPP9D1+0knk07Mb5V2mNqZmeWPZNPVxLS704pF+/1M844NYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maquefel.me; spf=pass smtp.mailfrom=maquefel.me; dkim=pass (1024-bit key) header.d=maquefel.me header.i=@maquefel.me header.b=fYt77sep; arc=none smtp.client-ip=178.154.239.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maquefel.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=maquefel.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=savoirfairelinux.com header.i=@savoirfairelinux.com header.b="npd7vSd3"
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 396639C5C62;
-	Thu, 27 Jun 2024 04:32:08 -0400 (EDT)
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
- by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
- with ESMTP id Uw-mgDOsMtnL; Thu, 27 Jun 2024 04:32:05 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 94AF89C595F;
-	Thu, 27 Jun 2024 04:32:05 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 94AF89C595F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
-	t=1719477125; bh=in6IlZSz4u1A6Sdo+5vdYe+Hej/Bf0/2z5MF/7fUtI8=;
-	h=From:To:Date:Message-Id:MIME-Version;
-	b=npd7vSd3aPZO0zjIEEt0c/y2QbwHjMu5Z6IwfyKV1oSmbjtDKLelKapCxns99VKsl
-	 jRfoxhQV8Ehqldk+w/1yUznoInrSrSJrK4ZsNohtZNuPSUSEAOVmaT4vWdRAK8fIPQ
-	 fLA4jgOME9yVNPOO5pYLtveAp97pxwdo9jmcb9eJwajj8lhMTgNyjzgYMfadHLEJtp
-	 yUBuDCHHyfNcjU43FILvdjqEOf/UMkG+bQIU1YKn63qVyZ2/Pl4ywbPirDE60ClIW3
-	 5/Ki5l4loPth7Ic1SHFsVapD5b13jgyUeVEvYYlvt2ifYexbyMlRpPjJ9kAlHyKr5e
-	 oD1j6HNAymcig==
-X-Virus-Scanned: amavis at mail.savoirfairelinux.com
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
- by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
- with ESMTP id n7lck1uqRWV0; Thu, 27 Jun 2024 04:32:05 -0400 (EDT)
-Received: from gerard.rennes.sfl (80-15-101-118.ftth.fr.orangecustomers.net [80.15.101.118])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id B1E369C5B16;
-	Thu, 27 Jun 2024 04:32:02 -0400 (EDT)
-From: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	linuxppc-dev@lists.ozlabs.org,
-	Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>,
-	Philip-Dylan <philip-dylan.gleonec@savoirfairelinux.com>
-Subject: [PATCH v6 7/7] ARM: dts: imx6: update spdif sound card node properties
-Date: Thu, 27 Jun 2024 10:31:04 +0200
-Message-Id: <20240627083104.123357-8-elinor.montmasson@savoirfairelinux.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240627083104.123357-1-elinor.montmasson@savoirfairelinux.com>
-References: <20240627083104.123357-1-elinor.montmasson@savoirfairelinux.com>
+	dkim=pass (1024-bit key) header.d=maquefel.me header.i=@maquefel.me header.b="fYt77sep"
+Received: from mail-nwsmtp-smtp-production-main-54.vla.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-54.vla.yp-c.yandex.net [IPv6:2a02:6b8:c1f:6289:0:640:5fc6:0])
+	by forward501a.mail.yandex.net (Yandex) with ESMTPS id 62E6D62860;
+	Thu, 27 Jun 2024 11:29:53 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-54.vla.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id hTMqF50OgeA0-419Dn7dc;
+	Thu, 27 Jun 2024 11:29:51 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maquefel.me; s=mail;
+	t=1719476991; bh=sncecviZ4oVzyaqVg6LU/TKkhzMCJcCvnENYdLedhDQ=;
+	h=References:Date:In-Reply-To:Cc:To:From:Subject:Message-ID;
+	b=fYt77sepJb6Dz5nNn3wvLM2BcROhwWdG7wRisBkqtF3/hXtLy8lIDdb5a9wki+xgj
+	 m+gfMLnWml2khZDKWnsANuhxBC4XcH3KBbc8wli7qPcKfOBKMiiokOznOQZASnsShb
+	 uhxbpxZgH1kBKx/Vy2qTDCDcjYAISNAwQklonyaU=
+Authentication-Results: mail-nwsmtp-smtp-production-main-54.vla.yp-c.yandex.net; dkim=pass header.i=@maquefel.me
+Message-ID: <241a4cf9830b0118f01e8fcf2853c62527636049.camel@maquefel.me>
+Subject: Re: [PATCH v10 00/38] ep93xx device tree conversion
+From: Nikita Shubin <nikita.shubin@maquefel.me>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>, Arnd Bergmann
+ <arnd@arndb.de>,  Stephen Boyd <sboyd@kernel.org>
+Cc: Hartley Sweeten <hsweeten@visionengravers.com>, Alexander Sverdlin
+ <alexander.sverdlin@gmail.com>, Russell King <linux@armlinux.org.uk>,
+ Lukasz Majewski <lukma@denx.de>, Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Sebastian Reichel
+ <sre@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>,  Conor Dooley <conor+dt@kernel.org>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck
+ <linux@roeck-us.net>, Thierry Reding <thierry.reding@gmail.com>, Uwe
+ =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>, Mark
+ Brown <broonie@kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,  Paolo
+ Abeni <pabeni@redhat.com>, Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Damien Le Moal <dlemoal@kernel.org>, Sergey Shtylyov <s.shtylyov@omp.ru>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Liam Girdwood
+ <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+ <tiwai@suse.com>, Ralf Baechle <ralf@linux-mips.org>,  "Wu, Aaron"
+ <Aaron.Wu@analog.com>, Lee Jones <lee@kernel.org>, Olof Johansson
+ <olof@lixom.net>, Niklas Cassel <cassel@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-pm@vger.kernel.org,  devicetree@vger.kernel.org,
+ dmaengine@vger.kernel.org,  linux-watchdog@vger.kernel.org,
+ linux-pwm@vger.kernel.org,  linux-spi@vger.kernel.org,
+ netdev@vger.kernel.org, linux-mtd@lists.infradead.org, 
+ linux-ide@vger.kernel.org, linux-input@vger.kernel.org, 
+ linux-sound@vger.kernel.org, Bartosz Golaszewski
+ <bartosz.golaszewski@linaro.org>,  Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Andrew Lunn <andrew@lunn.ch>, Vinod
+ Koul <vkoul@kernel.org>
+Date: Thu, 27 Jun 2024 11:29:44 +0300
+In-Reply-To: <48c242838c77034485a9e667dc0e867207c5beed.camel@maquefel.me>
+References: <20240617-ep93xx-v10-0-662e640ed811@maquefel.me>
+	 <CAHp75VfSC9gAD9ipeWRPdQOxUp4FXqYYei-cJTs38nbz0cHpkg@mail.gmail.com>
+	 <48c242838c77034485a9e667dc0e867207c5beed.camel@maquefel.me>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
 
-The merge of imx-spdif driver into fsl-asoc-card brought
-new DT properties that can be used with the "fsl,imx-audio-spdif"
-compatible:
-* The "spdif-controller" property from imx-spdif is named "audio-cpu"
-  in fsl-asoc-card.
-* fsl-asoc-card uses codecs explicitly declared in DT
-  with "audio-codec".
-  With an S/PDIF, codec drivers spdif_transmitter and
-  spdif_receiver should be used.
-  Driver imx-spdif used instead the dummy codec and a pair of
-  boolean properties, "spdif-in" and "spdif-out".
+On Tue, 2024-06-18 at 19:20 +0300, Nikita Shubin wrote:
+> Hello Andy!
+> On Mon, 2024-06-17 at 12:58 +0200, Andy Shevchenko wrote:
+> > On Mon, Jun 17, 2024 at 11:38=E2=80=AFAM Nikita Shubin via B4 Relay
+> > <devnull+nikita.shubin.maquefel.me@kernel.org> wrote:
+> > >=20
+> > > The goal is to recieve ACKs for all patches in series to merge it
+> > > via Arnd branch.
+> >=20
+> > 'receive'
+> >=20
+> > > Unfortunately, CLK subsystem suddenly went silent on clk portion
+> > > of
+> > > series V2 reroll,
+> > > tried to ping them for about a month but no luck.
+> > >=20
+> > > Link:
+> > > https://lore.kernel.org/r/20240408-ep93xx-clk-v2-1-adcd68c13753@maque=
+fel.me
+> > >=20
+> > > Some changes since last version (v9) - see "Changes in v10",
+> > > mostly
+> > > cosmetic.
+> >=20
+> > ...
+> >=20
+> > > Patches should be formated with '--histogram'
+> >=20
+> > 'formatted'
+> >=20
+> > ...
+> >=20
+> > > Changes in v10:
+> > >=20
+> > > Reordered SoB tags to make sure they appear before Rb and Acked
+> > > tags.
+> >=20
+> > This is not required. The importance is only the order of SoBs
+> > themselves. If they are interleaved with other tags, it's fine.
+>=20
+> Ah - ok. Just saw someone was complaining about b4 reordering them.=20
+>=20
+> >=20
+> > ...
+> >=20
+> >=20
+> > Hopefully to see this series being eventually applied soon.
+> > Arnd? (Do we have all necessary subsystem maintainers' tags, btw?)
+> >=20
+> >=20
+>=20
+> As i see from my perspective only three left:
+>=20
+> Clk subsystem:
+>=20
+> - clk: ep93xx: add DT support for Cirrus EP93xx
+>=20
+> DMA subsystem (but the only request from Vinod, as far as i remember,
+> was fixing commits titles):
+>=20
+> - dmaengine: cirrus: Convert to DT for Cirrus EP93xx
+> - dmaengine: cirrus: remove platform code
+>=20
+> Beside that tags missing on platform code removal (which can be Acked
+> by Arnd himself i believe) and dtsi/dts files (same ?).
 
-While backward compatibility is kept to support properties
-"spdif-controller", "spdif-in" and "spdif-out", using new properties has
-several benefits:
-* "audio-cpu" and "audio-codec" are more generic names reflecting
-  that the fsl-asoc-card driver supports multiple hardware.
-  They are properties already used by devices using the
-  fsl-asoc-card driver.
-  They are also similar to properties of simple-card: "cpu" and "codec".
-* "spdif-in" and "spdif-out" imply the use of the dummy codec in the
-  driver. However, there are already two codec drivers for the S/PDIF,
-  spdif_transmitter and spdif_receiver.
-  It is better to declare S/PDIF Tx and Rx devices in a DT, and then
-  reference them with "audio-codec" than using the dummy codec.
+Vinod acked the above two patches:
 
-For those reasons, this commit updates in-tree DTs to use the new
-properties:
-* Rename "spdif-controller" property to "audio-cpu".
-* Declare S/PDIF transmitter and/or receiver devices, and use them with
-  the "audio-codec" property instead of "spdif-out" and/or "spdif-in".
+https://lore.kernel.org/all/ZnkIp8bOcZK3yVKP@matsya/
+https://lore.kernel.org/all/ZnkImp8BtTdxl7O3@matsya/
 
-These modifications were tested only on an imx8mn-evk board.
+so only:
 
-Note that out-of-tree and old DTs are still supported.
+- clk: ep93xx: add DT support for Cirrus EP93xx
 
-Signed-off-by: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
----
- arch/arm/boot/dts/nxp/imx/imx6q-cm-fx6.dts        | 15 ++++++++++++---
- arch/arm/boot/dts/nxp/imx/imx6q-prti6q.dts        | 15 ++++++++++++---
- arch/arm/boot/dts/nxp/imx/imx6q-tbs2910.dts       |  9 +++++++--
- arch/arm/boot/dts/nxp/imx/imx6qdl-apalis.dtsi     | 15 ++++++++++++---
- arch/arm/boot/dts/nxp/imx/imx6qdl-apf6dev.dtsi    |  9 +++++++--
- arch/arm/boot/dts/nxp/imx/imx6qdl-colibri.dtsi    | 15 ++++++++++++---
- arch/arm/boot/dts/nxp/imx/imx6qdl-cubox-i.dtsi    |  9 +++++++--
- .../boot/dts/nxp/imx/imx6qdl-hummingboard.dtsi    |  9 +++++++--
- arch/arm/boot/dts/nxp/imx/imx6qdl-sabreauto.dtsi  |  9 +++++++--
- arch/arm/boot/dts/nxp/imx/imx6qdl-wandboard.dtsi  |  9 +++++++--
- arch/arm/boot/dts/nxp/imx/imx6sx-sabreauto.dts    |  9 +++++++--
- arch/arm/boot/dts/nxp/imx/imx6sx-sdb.dtsi         |  9 +++++++--
- 12 files changed, 104 insertions(+), 28 deletions(-)
+https://lore.kernel.org/all/20240617-ep93xx-v10-3-662e640ed811@maquefel.me/
 
-diff --git a/arch/arm/boot/dts/nxp/imx/imx6q-cm-fx6.dts b/arch/arm/boot/dts=
-/nxp/imx/imx6q-cm-fx6.dts
-index 95b49fc83f7b..5c664c0f2169 100644
---- a/arch/arm/boot/dts/nxp/imx/imx6q-cm-fx6.dts
-+++ b/arch/arm/boot/dts/nxp/imx/imx6q-cm-fx6.dts
-@@ -127,12 +127,21 @@ simple-audio-card,codec {
- 		};
- 	};
-=20
-+	spdif_out: spdif-out {
-+		#sound-dai-cells =3D <0>;
-+		compatible =3D "linux,spdif-dit";
-+	};
-+
-+	spdif_in: spdif-in {
-+		#sound-dai-cells =3D <0>;
-+		compatible =3D "linux,spdif-dir";
-+	};
-+
- 	sound-spdif {
- 		compatible =3D "fsl,imx-audio-spdif";
- 		model =3D "imx-spdif";
--		spdif-controller =3D <&spdif>;
--		spdif-out;
--		spdif-in;
-+		audio-cpu =3D <&spdif>;
-+		audio-codec =3D <&spdif_out>, <&spdif_in>;
- 	};
- };
-=20
-diff --git a/arch/arm/boot/dts/nxp/imx/imx6q-prti6q.dts b/arch/arm/boot/dts=
-/nxp/imx/imx6q-prti6q.dts
-index a7d5693c5ab7..8491d656ef17 100644
---- a/arch/arm/boot/dts/nxp/imx/imx6q-prti6q.dts
-+++ b/arch/arm/boot/dts/nxp/imx/imx6q-prti6q.dts
-@@ -111,12 +111,21 @@ simple-audio-card,codec {
- 		};
- 	};
-=20
-+	spdif_out: spdif-out {
-+		#sound-dai-cells =3D <0>;
-+		compatible =3D "linux,spdif-dit";
-+	};
-+
-+	spdif_in: spdif-in {
-+		#sound-dai-cells =3D <0>;
-+		compatible =3D "linux,spdif-dir";
-+	};
-+
- 	sound-spdif {
- 		compatible =3D "fsl,imx-audio-spdif";
- 		model =3D "imx-spdif";
--		spdif-controller =3D <&spdif>;
--		spdif-in;
--		spdif-out;
-+		audio-cpu =3D <&spdif>;
-+		audio-codec =3D <&spdif_out>, <&spdif_in>;
- 	};
- };
-=20
-diff --git a/arch/arm/boot/dts/nxp/imx/imx6q-tbs2910.dts b/arch/arm/boot/dt=
-s/nxp/imx/imx6q-tbs2910.dts
-index 7c298d9aa21e..ea9a98887c7b 100644
---- a/arch/arm/boot/dts/nxp/imx/imx6q-tbs2910.dts
-+++ b/arch/arm/boot/dts/nxp/imx/imx6q-tbs2910.dts
-@@ -90,11 +90,16 @@ sound-sgtl5000 {
- 		ssi-controller =3D <&ssi1>;
- 	};
-=20
-+	spdif_out: spdif-out {
-+		#sound-dai-cells =3D <0>;
-+		compatible =3D "linux,spdif-dit";
-+	};
-+
- 	sound-spdif {
- 		compatible =3D "fsl,imx-audio-spdif";
- 		model =3D "On-board SPDIF";
--		spdif-controller =3D <&spdif>;
--		spdif-out;
-+		audio-cpu =3D <&spdif>;
-+		audio-codec =3D <&spdif_out>;
- 	};
- };
-=20
-diff --git a/arch/arm/boot/dts/nxp/imx/imx6qdl-apalis.dtsi b/arch/arm/boot/=
-dts/nxp/imx/imx6qdl-apalis.dtsi
-index ea40623d12e5..6f4546c59d38 100644
---- a/arch/arm/boot/dts/nxp/imx/imx6qdl-apalis.dtsi
-+++ b/arch/arm/boot/dts/nxp/imx/imx6qdl-apalis.dtsi
-@@ -197,11 +197,20 @@ sound {
- 		ssi-controller =3D <&ssi1>;
- 	};
-=20
-+	spdif_out: spdif-out {
-+		#sound-dai-cells =3D <0>;
-+		compatible =3D "linux,spdif-dit";
-+	};
-+
-+	spdif_in: spdif-in {
-+		#sound-dai-cells =3D <0>;
-+		compatible =3D "linux,spdif-dir";
-+	};
-+
- 	sound_spdif: sound-spdif {
- 		compatible =3D "fsl,imx-audio-spdif";
--		spdif-controller =3D <&spdif>;
--		spdif-in;
--		spdif-out;
-+		audio-cpu =3D <&spdif>;
-+		audio-codec =3D <&spdif_out>, <&spdif_in>;
- 		model =3D "imx-spdif";
- 		status =3D "disabled";
- 	};
-diff --git a/arch/arm/boot/dts/nxp/imx/imx6qdl-apf6dev.dtsi b/arch/arm/boot=
-/dts/nxp/imx/imx6qdl-apf6dev.dtsi
-index 3a46ade3b6bd..6aa6b152c3ae 100644
---- a/arch/arm/boot/dts/nxp/imx/imx6qdl-apf6dev.dtsi
-+++ b/arch/arm/boot/dts/nxp/imx/imx6qdl-apf6dev.dtsi
-@@ -121,11 +121,16 @@ sound {
- 		mux-ext-port =3D <3>;
- 	};
-=20
-+	spdif_out: spdif-out {
-+		#sound-dai-cells =3D <0>;
-+		compatible =3D "linux,spdif-dit";
-+	};
-+
- 	sound-spdif {
- 		compatible =3D "fsl,imx-audio-spdif";
- 		model =3D "imx-spdif";
--		spdif-controller =3D <&spdif>;
--		spdif-out;
-+		audio-cpu =3D <&spdif>;
-+		audio-codec =3D <&spdif_out>;
- 	};
- };
-=20
-diff --git a/arch/arm/boot/dts/nxp/imx/imx6qdl-colibri.dtsi b/arch/arm/boot=
-/dts/nxp/imx/imx6qdl-colibri.dtsi
-index d3a7a6eeb8e0..07f15726f203 100644
---- a/arch/arm/boot/dts/nxp/imx/imx6qdl-colibri.dtsi
-+++ b/arch/arm/boot/dts/nxp/imx/imx6qdl-colibri.dtsi
-@@ -142,12 +142,21 @@ sound {
- 		ssi-controller =3D <&ssi1>;
- 	};
-=20
-+	spdif_out: spdif-out {
-+		#sound-dai-cells =3D <0>;
-+		compatible =3D "linux,spdif-dit";
-+	};
-+
-+	spdif_in: spdif-in {
-+		#sound-dai-cells =3D <0>;
-+		compatible =3D "linux,spdif-dir";
-+	};
-+
- 	/* Optional S/PDIF in on SODIMM 88 and out on SODIMM 90, 137 or 168 */
- 	sound_spdif: sound-spdif {
- 		compatible =3D "fsl,imx-audio-spdif";
--		spdif-controller =3D <&spdif>;
--		spdif-in;
--		spdif-out;
-+		audio-cpu =3D <&spdif>;
-+		audio-codec =3D <&spdif_out>, <&spdif_in>;
- 		model =3D "imx-spdif";
- 		status =3D "disabled";
- 	};
-diff --git a/arch/arm/boot/dts/nxp/imx/imx6qdl-cubox-i.dtsi b/arch/arm/boot=
-/dts/nxp/imx/imx6qdl-cubox-i.dtsi
-index 761566ae3cf5..28afa8a0188b 100644
---- a/arch/arm/boot/dts/nxp/imx/imx6qdl-cubox-i.dtsi
-+++ b/arch/arm/boot/dts/nxp/imx/imx6qdl-cubox-i.dtsi
-@@ -100,12 +100,17 @@ v_usb1: regulator-v-usb1 {
- 		vin-supply =3D <&v_5v0>;
- 	};
-=20
-+	spdif_out: spdif-out {
-+		#sound-dai-cells =3D <0>;
-+		compatible =3D "linux,spdif-dit";
-+	};
-+
- 	sound-spdif {
- 		compatible =3D "fsl,imx-audio-spdif";
- 		model =3D "Integrated SPDIF";
- 		/* IMX6 doesn't implement this yet */
--		spdif-controller =3D <&spdif>;
--		spdif-out;
-+		audio-cpu =3D <&spdif>;
-+		audio-codec =3D <&spdif_out>;
- 	};
-=20
- 	gpio-keys {
-diff --git a/arch/arm/boot/dts/nxp/imx/imx6qdl-hummingboard.dtsi b/arch/arm=
-/boot/dts/nxp/imx/imx6qdl-hummingboard.dtsi
-index a955c77cd499..67f2a007a592 100644
---- a/arch/arm/boot/dts/nxp/imx/imx6qdl-hummingboard.dtsi
-+++ b/arch/arm/boot/dts/nxp/imx/imx6qdl-hummingboard.dtsi
-@@ -140,12 +140,17 @@ sound_codec: simple-audio-card,codec {
- 		};
- 	};
-=20
-+	spdif_out: spdif-out {
-+		#sound-dai-cells =3D <0>;
-+		compatible =3D "linux,spdif-dit";
-+	};
-+
- 	sound-spdif {
- 		compatible =3D "fsl,imx-audio-spdif";
- 		model =3D "On-board SPDIF";
- 		/* IMX6 doesn't implement this yet */
--		spdif-controller =3D <&spdif>;
--		spdif-out;
-+		audio-cpu =3D <&spdif>;
-+		audio-codec =3D <&spdif_out>;
- 	};
- };
-=20
-diff --git a/arch/arm/boot/dts/nxp/imx/imx6qdl-sabreauto.dtsi b/arch/arm/bo=
-ot/dts/nxp/imx/imx6qdl-sabreauto.dtsi
-index 6656e2e762a1..48dfd8151150 100644
---- a/arch/arm/boot/dts/nxp/imx/imx6qdl-sabreauto.dtsi
-+++ b/arch/arm/boot/dts/nxp/imx/imx6qdl-sabreauto.dtsi
-@@ -143,12 +143,17 @@ sound-cs42888 {
- 			"AIN2R", "Line In Jack";
- 	};
-=20
-+	spdif_in: spdif-in {
-+		#sound-dai-cells =3D <0>;
-+		compatible =3D "linux,spdif-dir";
-+	};
-+
- 	sound-spdif {
- 		compatible =3D "fsl,imx-sabreauto-spdif",
- 			     "fsl,imx-audio-spdif";
- 		model =3D "imx-spdif";
--		spdif-controller =3D <&spdif>;
--		spdif-in;
-+		audio-cpu =3D <&spdif>;
-+		audio-codec =3D <&spdif_in>;
- 	};
-=20
- 	backlight {
-diff --git a/arch/arm/boot/dts/nxp/imx/imx6qdl-wandboard.dtsi b/arch/arm/bo=
-ot/dts/nxp/imx/imx6qdl-wandboard.dtsi
-index 38abb6b50f6c..5a4b9ced297a 100644
---- a/arch/arm/boot/dts/nxp/imx/imx6qdl-wandboard.dtsi
-+++ b/arch/arm/boot/dts/nxp/imx/imx6qdl-wandboard.dtsi
-@@ -26,11 +26,16 @@ sound {
- 		mux-ext-port =3D <3>;
- 	};
-=20
-+	spdif_out: spdif-out {
-+		#sound-dai-cells =3D <0>;
-+		compatible =3D "linux,spdif-dit";
-+	};
-+
- 	sound-spdif {
- 		compatible =3D "fsl,imx-audio-spdif";
- 		model =3D "imx-spdif";
--		spdif-controller =3D <&spdif>;
--		spdif-out;
-+		audio-cpu =3D <&spdif>;
-+		audio-codec =3D <&spdif_out>;
- 	};
-=20
- 	reg_1p5v: regulator-1p5v {
-diff --git a/arch/arm/boot/dts/nxp/imx/imx6sx-sabreauto.dts b/arch/arm/boot=
-/dts/nxp/imx/imx6sx-sabreauto.dts
-index b0c27b9b0244..d2cc8b4e8b00 100644
---- a/arch/arm/boot/dts/nxp/imx/imx6sx-sabreauto.dts
-+++ b/arch/arm/boot/dts/nxp/imx/imx6sx-sabreauto.dts
-@@ -97,11 +97,16 @@ sound-cs42888 {
- 			"AIN2R", "Line In Jack";
- 	};
-=20
-+	spdif_in: spdif-in {
-+		#sound-dai-cells =3D <0>;
-+		compatible =3D "linux,spdif-dir";
-+	};
-+
- 	sound-spdif {
- 		compatible =3D "fsl,imx-audio-spdif";
- 		model =3D "imx-spdif";
--		spdif-controller =3D <&spdif>;
--		spdif-in;
-+		audio-cpu =3D <&spdif>;
-+		audio-codec =3D <&spdif_in>;
- 	};
- };
-=20
-diff --git a/arch/arm/boot/dts/nxp/imx/imx6sx-sdb.dtsi b/arch/arm/boot/dts/=
-nxp/imx/imx6sx-sdb.dtsi
-index 7d4170c27732..a8c1fc02eddb 100644
---- a/arch/arm/boot/dts/nxp/imx/imx6sx-sdb.dtsi
-+++ b/arch/arm/boot/dts/nxp/imx/imx6sx-sdb.dtsi
-@@ -183,12 +183,17 @@ panel_in: endpoint {
- 		};
- 	};
-=20
-+	spdif_out: spdif-out {
-+		#sound-dai-cells =3D <0>;
-+		compatible =3D "linux,spdif-dit";
-+	};
-+
- 	sound-spdif {
- 		compatible =3D "fsl,imx6sx-sdb-spdif",
- 			     "fsl,imx-audio-spdif";
- 		model =3D "imx-spdif";
--		spdif-controller =3D <&spdif>;
--		spdif-out;
-+		audio-cpu =3D <&spdif>;
-+		audio-codec =3D <&spdif_out>;
- 	};
-=20
- };
---=20
-2.34.1
+left.
+
+Hope Stephen will find some time for this one.
 
