@@ -1,60 +1,61 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 505BE196C9B
-	for <linux-sound@vger.kernel.org>; Thu, 27 Jun 2024 14:44:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E01F197A65
+	for <linux-sound@vger.kernel.org>; Thu, 27 Jun 2024 14:44:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719499487; cv=none; b=L29+x2JBrHyQrU+TaI73i70gjVS8mxzQY7iNmR45gXAiErG/hPNQQPWxd0MWcYHx/noee7uNONQvwApxSXAq/jd8t2GFZmb75/2yvBe9pjSW+Hd7LGiLuj7R8J1WtxdX0V/VVzJKznqYRxez7wQQcZXXC2W5HWqnxnHHVqygL2E=
+	t=1719499489; cv=none; b=gROS//jY40Ykp0VSAWJ+BUKh9PfAZFHb8hWfS0FKYNMOYQaQS+0eS/R+tcq/pAUGwRtKxbNX57fc3KatjAxfRyPIyQlZG6MI/DnF/n05A9TAZ/m1Wy3G0VRssuZ7q/Yxuqy1ztlDjLQBDXgJ5btSvAe8sYGIc0IR2gbJHusCKOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719499487; c=relaxed/simple;
-	bh=TUm0RaYqomUaGHfxczMiGxcHyL3VSRfdBI0wiwOJXjs=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=TrYRhYFrHEHMqs9iVGTVkf+wSbgVczTCmB4+lQBhTrzq5/EtNUPS2BytXrXx7dDxoxkHDvnM2caaA+xm3EWrj+MSsJw+HTnHyAQMRsmG1T91Urk9IdNJX9CzY8DdcZzha+uC3D3gsBq2Nw8cFkpfmZ4V8eR3jYWTJm04zOE/TL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hjXihHoD; arc=none smtp.client-ip=209.85.128.47
+	s=arc-20240116; t=1719499489; c=relaxed/simple;
+	bh=im24zS9c8NElT+N/gENu7NEwrDfO/2oaS1esQxJvmIE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=VEB8bi0Aulq4DvJpTrdi0BCNQP6g3OuA8bl8rvUBIrpBuVLgkFsrRfQDe9VVB4I5lllkX77BjusUPK/Ep7RX6YoPKfQIN9plPm/g8iHavnj/aUi4MtXofS1YPbkX6kimGQdSxKGoOo425T4TG3qRh2eYsN4msiK53itTu39A+YI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZZTLIT+q; arc=none smtp.client-ip=209.85.167.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hjXihHoD"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-42565cdf99cso7236005e9.3
-        for <linux-sound@vger.kernel.org>; Thu, 27 Jun 2024 07:44:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZZTLIT+q"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-52ce674da85so5068830e87.2
+        for <linux-sound@vger.kernel.org>; Thu, 27 Jun 2024 07:44:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1719499483; x=1720104283; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AmLpAWmlJIdMq/VoHVTuZd9JbEM9j0iTEvmVKd3mZ4w=;
-        b=hjXihHoDkO9rL8J1o+VSEdxrczVByj4cekgsIDJpgPKiXRe6qSP2HJvshonGYyvOOD
-         EgT2tPRaP7oc8RE3XTA1+JSw2yKVVdHnrw6vX4Sxssx212qWGNeQTZofnYuyVWfRjuYd
-         KXdJOMnUWRSOicz8scUN8+aawJ9YwffVNtq7a8tiOPSnurtRyV+7pBWjUFGFhO5jtrz2
-         HuNca4lzG3r3Ob4enEa6NNx5j47db0n276QEyQvaMB/xlZJ0zo7lBNZ68OKJDOCRu/tZ
-         0FN87HeHkziiHxfT4aqkq3mpODvfPzwL4K/0V0XVoEHRX/+LGGqGvkH5pV+cTIIbWsK/
-         kJsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719499483; x=1720104283;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=linaro.org; s=google; t=1719499485; x=1720104285; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=AmLpAWmlJIdMq/VoHVTuZd9JbEM9j0iTEvmVKd3mZ4w=;
-        b=QnBaet05K12NLMDGUfWLjuKqym8Sw79jV37XsAPtNx+zj+4StPdAxj+wqA1RTdZwEn
-         jqY0ZRW1cElbX51Us1KlwHsYFE1EW8MBbi5ONWFo4bzWOnx4adLX71boaqyJ7oZaHtCT
-         6eIo8GZiVOxOmravg1Q9tZi8ylh0OeJM7roUN/rs4g9d2wjgcNLuYvdy2Ma1tD9Lt4ye
-         +ySHfcXMm+R1RnwZxDQ3xK9IoQffDCTZJV9TYxvZKisJk1nfsPl59/ZYeUBVHcvfPhdR
-         /f78lErBQZycR+Qw6Gwytj+XGC0V77hibfTzFw/QWsLV4i1KF5e2YgULTJ9yRN/KWf+M
-         2D4g==
-X-Forwarded-Encrypted: i=1; AJvYcCVtCvf868+WlYiYIqZTjkqbzx1umWb2SJnU1VtfSMJKL4kqNlGJGTyPoVXZTGEi1VnT5QAt98DvfABVt66l2RTEC/diatmSlrUGFBM=
-X-Gm-Message-State: AOJu0YzbpfpNvZZfpI2nT1ToRYhjtu2W0eh+csiKKMrY6uiSWjkgOCw1
-	tdlgqaD9gfMdXgOj+NNDsitjOKmlW6zs6eFyFyrI2Gg7pPvvvCskBVz0LGS83Jc=
-X-Google-Smtp-Source: AGHT+IGovERBfpldUSDoy9yj6OyIfZTUPkLDC3sHsnVcAxkg0Vg/RCJP9nojWITLyBFMPwHPCMaAEA==
-X-Received: by 2002:a05:600c:460a:b0:425:6976:f5d6 with SMTP id 5b1f17b1804b1-4256976f94bmr391785e9.33.1719499482639;
-        Thu, 27 Jun 2024 07:44:42 -0700 (PDT)
+        bh=9fv7G4wggBcVvOCA5q2uk0HwTlQqcu/RAhSIH1THEBs=;
+        b=ZZTLIT+quCB4DBPh4NlTp0gmI15mMd7fXSR9NpashUDPWz3vZwk8qRDC2z8QL5xym0
+         2WiVtESoGuM+0slfR7uPjYu3vwY8EuABbvs0Jg85cZHQu8K0HB1DEq2+JIvbvPNUni8y
+         2uOdZ2JZM/M0AnQHmqgfyDd/6xcbRi7uWzSKnNsWsHHfFpyRpRu+mD00Fz0pww8T1ES/
+         EqlflQMZwpwqE0AoexZfZpLSi2YtY0CG/DjoUfdYkLL91/l9J4JC1BuTSX6eWR1j+RVz
+         3N34w4m3ziPKZZLj42CPBGL7j6Yz7ZiYnmBSxU/UjZsY4VwGCT8DCJGJEehcOYfmgnt2
+         jE7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719499485; x=1720104285;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9fv7G4wggBcVvOCA5q2uk0HwTlQqcu/RAhSIH1THEBs=;
+        b=E2rdshrUdnNxPzEqEIsOGjEv1qfYdcvun75kGuakzOGekzw7EIQZz2EpgjhB+YEL6X
+         WD+qB/0Zm0Gp3KPhK8h62JrKa6xZaLrawUvXgmDjfJwmlB4lu0qYBG6ckoZncoulxoAA
+         EezmWc6edPXhRNAefJC+wM/sLwPCbL3FZa4+7nR5YhgKk9eOwqmcPm62eOT8T46/q8MP
+         lJsxNtA49ChMQmNA83RCquu329hfRvKeP0W5XqyNfU7tz1bzdkOFj7gA9ah6VubpHBAm
+         Evl7bVJLDXF9EpwBXJIVbSjMggyksb6USjFL6NssF6RO2o/bfybEg9WBFXOWa1lw2o9+
+         UnbA==
+X-Forwarded-Encrypted: i=1; AJvYcCXQs1gQILec/rImkOVlXLrIrhCDSCFVj7gFKqysY0ZrpRt91XVYSE2MQrCUu0vo6M2f7uz7GA2LbxPp4zAypLi9dXBcw7+UsSSMpV4=
+X-Gm-Message-State: AOJu0Yw3gzDbK3d3ZFLdZxT5/CLb3QGGMjXWUnK7Z5eGCx6K3VfUhkSU
+	Pxv42YtG9FQlVeEuvd7Q0htW2fD0sNy8kNSOFveRPqcrUZ+pEKDET3VPNyf3I70=
+X-Google-Smtp-Source: AGHT+IEbLn33fk1NZx+p9Ng/LEPBTTHcSVtjsRY8RIe4VyoU34O7xYRjTaOVTRSNTon7MnYbskEVdw==
+X-Received: by 2002:a05:6512:2254:b0:52c:df55:e11a with SMTP id 2adb3069b0e04-52ce18325f3mr13317733e87.9.1719499485122;
+        Thu, 27 Jun 2024 07:44:45 -0700 (PDT)
 Received: from [192.168.1.195] ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42564b7b7c1sm31254075e9.23.2024.06.27.07.44.40
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42564b7b7c1sm31254075e9.23.2024.06.27.07.44.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jun 2024 07:44:41 -0700 (PDT)
+        Thu, 27 Jun 2024 07:44:43 -0700 (PDT)
 From: srinivas.kandagatla@linaro.org
-Subject: [PATCH v2 0/6] ASoC: codecs: wsa88xx: add support for static port
- mapping.
-Date: Thu, 27 Jun 2024 15:44:37 +0100
-Message-Id: <20240626-port-map-v2-0-6cc1c5608cdd@linaro.org>
+Date: Thu, 27 Jun 2024 15:44:38 +0100
+Subject: [PATCH v2 1/6] ASoC: dt-bindings: wsa883x: Document port mapping
+ property
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -63,10 +64,9 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIANV6fWYC/22Nyw6CMBBFf4XM2jG1RURX/odh0ccATaTFKSEYw
- r9bWLs895GzQiL2lOBRrMA0++RjyCBPBdheh47Qu8wghSxFJSscI0846BGpvQqrlChdqSHPjU6
- EhnWw/X742DhgGxkDLdPej0ytXw7Vq8nc+zRF/h7m+bKnfyTzBQUaV9/rm5NGKfl8+6A5niN30
- Gzb9gNqRURKwQAAAA==
+Message-Id: <20240626-port-map-v2-1-6cc1c5608cdd@linaro.org>
+References: <20240626-port-map-v2-0-6cc1c5608cdd@linaro.org>
+In-Reply-To: <20240626-port-map-v2-0-6cc1c5608cdd@linaro.org>
 To: Banajit Goswami <bgoswami@quicinc.com>, 
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -81,59 +81,55 @@ Cc: linux-arm-msm@vger.kernel.org,
  Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
  Manikantan R <quic_manrav@quicinc.com>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1843;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1352;
  i=srinivas.kandagatla@linaro.org; h=from:subject:message-id;
- bh=TUm0RaYqomUaGHfxczMiGxcHyL3VSRfdBI0wiwOJXjs=;
- b=owEBbQGS/pANAwAKAXqh/VnHNFU3AcsmYgBmfXrYjFzYED0KcuZ2JaqXktrm4rVyEowwWxnc7
- ZMDozvIgn2JATMEAAEKAB0WIQQi509axvzi9vce3Y16of1ZxzRVNwUCZn162AAKCRB6of1ZxzRV
- N5JDB/43Bh6z6Gxcpdr+eCHQGR8F/SIcmOhRRJob22JEBqE9fxst1E4BmGL2OWc9anSJ0JiQvkG
- wDIlBGjV1kd2ClZwCkihYlOGZqDyxLdstSPAqpthkcIiPFejtitraxcVTB6sKMsdHRduPfak3qS
- qlE78YAwYpcjAq3tZyO3XkgrsuaJU3CQlZjaxe5lky/jxbnpINsDWMv8ZgyVFZziwHTOw6IQlWP
- blVTM+0Ha5AyruwnFkVODH/aJ0JgMS5n/LcsSVU7qW8mmlC/f9K27eXosEO7HhQcNiAN9LdM8/o
- /VE0NoeMHe8r9saW0v5K8xUmAzVcYdrw/i7xMiAdl4CeMkAJ
+ bh=q2lXJvgATkQ9232ugFsaVN0aY0h1slxdwjETCG0KBuY=;
+ b=owEBbQGS/pANAwAKAXqh/VnHNFU3AcsmYgBmfXrYexE0bCsXqMCoJMK2qX+Svh51N1PDv/q+a
+ oMQdJLI6uWJATMEAAEKAB0WIQQi509axvzi9vce3Y16of1ZxzRVNwUCZn162AAKCRB6of1ZxzRV
+ Nz0nCACuIuRa5RKmZhysyKUIBtuAriVtIlqHhca5rq1Wr1TgcuGQt2d3t2Dpc6p65k9z952Qrsc
+ PF0LonPY3dvyUdhdFAfBB3oYPGdcwkjwq+Az48KLVhIrpmWmvU6FrbF06ynqu+JAI9Ymy5POxJ5
+ t9zEc8dEvJFqxt3K3a3NVsD1BsLKJcN6GA+Ox7LVtqDtr5AQMhBK95yqNQ9argu/vJnbYp4kyKp
+ hJ2dEmDEQtcIu5SF5qia2lLudFGqZZVqyrQ/iPy0EdsgPpTHkoY7FTXSUoj7xAuUHYYFoTkz9DA
+ c7ALvhsGe1nVX9sbecWWyamkZblYNyi7uhv1q1MbEgCYTW7B
 X-Developer-Key: i=srinivas.kandagatla@linaro.org; a=openpgp;
  fpr=ED6472765AB36EC43B3EF97AD77E3FC0562560D6
 
-Existing way of allocating soundwire master ports on Qualcommm platforms is
-dynamic, and in linear order starting from 1 to MAX_PORTS.
-This will work as long as soundwire device ports are 1:1 mapped
-linearly. However on most Qcom SoCs like SM8550, SM8650, x1e80100, these
-are NOT mapped in that order.
+From: Manikantan R <quic_manrav@quicinc.com>
 
-The result of this is that only one speaker among the pair of speakers
-is always silent, With recent changes for WSA codec to support codec
-versions and along with these patches we are able to get all speakers
-working on these SoCs.
+Document port mapping property for wsa883x. Port mapping is required
+to be able map correct master ports for VI feedback.
 
+All the device ports are not mapped in same order as master ports, so
+there is a need for having static port mapping for WSA codecs.
+
+Signed-off-by: Manikantan R <quic_manrav@quicinc.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-HDK
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 ---
-Changes in v2:
-- used dev_dbg instead of dev_info
-- Link to v1: https://lore.kernel.org/r/20240626-port-map-v1-0-bd8987d2b332@linaro.org
-
----
-Manikantan R (1):
-      ASoC: dt-bindings: wsa883x: Document port mapping property
-
-Srinivas Kandagatla (5):
-      ASoC: codecs: wsa883x: parse port-mapping information
-      ASoC: dt-bindings: wsa8840: Document port mapping property
-      ASoC: codecs: wsa884x: parse port-mapping information
-      arm64: dts: x1e80100-crd: fix wsa soundwire port mapping
-      arm64: dts: x1e80100-qcp: fix wsa soundwire port mapping
-
  Documentation/devicetree/bindings/sound/qcom,wsa883x.yaml | 8 ++++++++
- Documentation/devicetree/bindings/sound/qcom,wsa8840.yaml | 8 ++++++++
- arch/arm64/boot/dts/qcom/x1e80100-crd.dts                 | 4 ++++
- arch/arm64/boot/dts/qcom/x1e80100-qcp.dts                 | 2 ++
- sound/soc/codecs/wsa883x.c                                | 8 ++++++++
- sound/soc/codecs/wsa884x.c                                | 8 ++++++++
- 6 files changed, 38 insertions(+)
----
-base-commit: 9935be184a55dd84fc3275094f2df095491f6ea1
-change-id: 20240626-port-map-ef50c3304d4a
+ 1 file changed, 8 insertions(+)
 
-Best regards,
+diff --git a/Documentation/devicetree/bindings/sound/qcom,wsa883x.yaml b/Documentation/devicetree/bindings/sound/qcom,wsa883x.yaml
+index 8e462cdf0018..14d312f9c345 100644
+--- a/Documentation/devicetree/bindings/sound/qcom,wsa883x.yaml
++++ b/Documentation/devicetree/bindings/sound/qcom,wsa883x.yaml
+@@ -32,6 +32,14 @@ properties:
+   vdd-supply:
+     description: VDD Supply for the Codec
+ 
++  qcom,port-mapping:
++    description: |
++      Specifies static port mapping between slave and master ports.
++      In the order of slave port index.
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    minItems: 4
++    maxItems: 4
++
+   '#thermal-sensor-cells':
+     const: 0
+ 
+
 -- 
-Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+2.25.1
 
