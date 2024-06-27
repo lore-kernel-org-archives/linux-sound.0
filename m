@@ -1,69 +1,48 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 621442139D6
-	for <linux-sound@vger.kernel.org>; Thu, 27 Jun 2024 18:49:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49C3945BE4;
+	Thu, 27 Jun 2024 20:05:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719514169; cv=none; b=Mb8rhFSPOgNXAn3ivduw3LXXUKTmAGxpQJC2GZH23Q6sIOisL5ocor9EqdMfqPUIKegp3GiqGMEG5BW/HAKZpW75Q/iICk/GvwikOc2P6guHyakvK70LL9qnB/WIw4sojBFP4yO/dFO/em0XnGHq4UWJ/kAVjm0W3hJKr9ShA3o=
+	t=1719518745; cv=none; b=ervGFbUDGUEVH/pPJRkWILesyzcL8F0suqzmv7y9vkSBbgBeLZBywfqJFng29690dLcijUfCLvMVkaBXAPBncQQCcvrWjB0YTYhD2DJQlGqCle5PYtXwDwizD7UkV/OaFymJ7Gzo6bQNOEOTZ55sGnMbhTF3p5j9kk6RCYUuPfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719514169; c=relaxed/simple;
-	bh=+loIEVQbiIvCdpK080P2B2BC20Dlavm8jb2rv/XemnI=;
+	s=arc-20240116; t=1719518745; c=relaxed/simple;
+	bh=FE5LwB4HXBRsoGB9+h+mvR30T3AMRQyyiUCPx6AJibA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K5WM85QOiThMSbP7opxWUljaX6Bb4Q5L06XNXNzKb4KQm9wWhBl1odVTkIvuoYilImK7IDinjZN3M1j0FjJf8f1GgnVdO07RwFyBLR7wpNAUxn8/5yTdFIXnQZlcFGFEDoID4uKqA1wt8vLzQbxUiWVOIm3eMZGHINVmzMyWdoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FdWy26Es; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=aWpwRADPWwjUJv0O0VANh0ny2YVkErBUBokjICps4z9hVPYBoLoqXlbUsxDnDDkSnqqjIM+9pq0ckQioQaRTcXIDb+piZjOEw7iQIBpjCfi6tgS1IrVyCQeHwI4rTIbLID4cqGLwsxB7Afz3rTmPtU55inX2L9lKSdBAoYZu6TE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tec+vNI4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FdWy26Es"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-52cdd893e5cso6567442e87.1
-        for <linux-sound@vger.kernel.org>; Thu, 27 Jun 2024 11:49:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1719514164; x=1720118964; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dVlORxLyi+No4z6mzakpdO+uVb1Q8CeU42Yrc8ZopLA=;
-        b=FdWy26EsYMg1O8PZFwF05yLh8qmyWIh/bJIZBfTXIukjW4SD8S5so7RUAejlmOfJJ5
-         F8dC/MAIBBnDOPqFo8P66rB+OqDbAZbcRRxmTQkNo5lQUZPGwzuzn6asIVZ8sX2vzp3H
-         C4zbJKzGlGY6dxTGKim0wOaCvWKwtkAGxPnjDtgvanFS5+gLuYlH6ITjqQDYV3JxiOGh
-         JQP/yZGtNtV6CocGq8efMJJFUfgo8z1BYZ2kOFvCqde0izI9T9AwjK+8+UM9UZwzRBuC
-         sIKIe12ebCEfgxn9Ep8s5KqEW1+FYW4bcBnMAbVDKFWgyJqmsb975PtOymgxy05VIGz4
-         4Vmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719514164; x=1720118964;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dVlORxLyi+No4z6mzakpdO+uVb1Q8CeU42Yrc8ZopLA=;
-        b=MTn7kV8rj3zz61jZ7rw6PZowRPn2uYrOPx5QOvaLyxBTPI4r4waPz4s85d3+7CeqOU
-         G8PoDjBTmwVza2+4v+n8QpMIoWyHWkIyTfRgdWmgk5ei1ibSPd09xmmpWbSWzaQGC/yj
-         2OlmXUVEK2y4aZW4Ff/0LmRRlCJ3h63Ykg0H6a7BXtYDeia4wJ3KR3UfcL6IahSjEfBZ
-         lIYyuv3zNZ8oYLVhiAZMiSwWwLEUsovZsbw5s/VNlNq2XefaR3gmbhe7UoxtiLEzEgHR
-         B11ivH439Z0Y6Fursy6++MELaQa+6YWS/SMFAKN4wkv8z0HdpHshE0hbCjialc7R+7qt
-         0IQg==
-X-Forwarded-Encrypted: i=1; AJvYcCXDR1v2aGeAuP2Nd9dLod2HcD1AWXW0mcHBEJsO3BqOwVf2tTbpGXKSDhi5ZricBS35H1eF/w9G2+gD6KnRb12dC/EH6bLYD4CIgyc=
-X-Gm-Message-State: AOJu0YzRteY+WLJCqhfDWqliX6z6yQJ8qJtAdcMcgzHBy8+8xYBaSuFx
-	MSsXvXduCK3+UeGQW37BVd20zZrrpd30Z/QtL9j7ngDr82rFNHfEoreg9cWMjTQ=
-X-Google-Smtp-Source: AGHT+IHjokj2V4brw5oo7jZhZncGgRxq7Wc7ZcWz0FJNgfC3Iqf86Brk3YH4RGDnAqwGbGyYRtJGkA==
-X-Received: by 2002:ac2:464d:0:b0:52c:a88b:9997 with SMTP id 2adb3069b0e04-52ce185d20dmr11430836e87.49.1719514164382;
-        Thu, 27 Jun 2024 11:49:24 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52e7ab101c5sm20119e87.79.2024.06.27.11.49.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jun 2024 11:49:23 -0700 (PDT)
-Date: Thu, 27 Jun 2024 21:49:21 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
-	Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/4] ASoC: codecs: lpass-rx-macro: Simplify with devm
- allocations
-Message-ID: <dalyp774uk4ugomvdtrjkjpenfogx6dkx4vtiq6serc4unzasw@xa4adquvcijn>
-References: <20240627-b4-qcom-audio-lpass-codec-cleanups-v1-0-ede31891d238@linaro.org>
- <20240627-b4-qcom-audio-lpass-codec-cleanups-v1-1-ede31891d238@linaro.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tec+vNI4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94157C2BBFC;
+	Thu, 27 Jun 2024 20:05:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719518744;
+	bh=FE5LwB4HXBRsoGB9+h+mvR30T3AMRQyyiUCPx6AJibA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Tec+vNI4sG/7Ti1RLprvNypZGPCnZzbOElovxV8ey0vBaoA25bDO8+Sdev08E7LqF
+	 tulhYfqmL4+QD3GGENY2J4+RtUiB67WaEDA/CKwNNJp7lwlU7kmdS19OcHnt3DhJn2
+	 Ir2osxCYd/WoCsLCXfHVxSBYA1UKb+v45IlR5XQsMbSm4slNgKPjgtNd0J0L1GS51v
+	 CJAzCQjQhGrs9f3RQPcfqpLIaCEBQQ0eg9uiflzHCiuDezYQrRCgpaeUv0RM6+D1N+
+	 rsxH6wTx0oaKBrCmHtZuXDkbHJJcmN11Isfvs/gjCqegEA0JwxBWB2kEbw88wyfEeQ
+	 clzt1q3VRAhPw==
+Date: Thu, 27 Jun 2024 14:05:43 -0600
+From: Rob Herring <robh@kernel.org>
+To: Kartik Agarwala <agarwala.kartik@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Lee Jones <lee@kernel.org>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v2 3/3] dt-bindings: mfd: mt6397: Add reference for
+ mediatek,mt6358-sound
+Message-ID: <20240627200543.GA439514-robh@kernel.org>
+References: <20240617-mt6358-v2-0-5d9f0e99941e@gmail.com>
+ <20240617-mt6358-v2-3-5d9f0e99941e@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -72,23 +51,24 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240627-b4-qcom-audio-lpass-codec-cleanups-v1-1-ede31891d238@linaro.org>
+In-Reply-To: <20240617-mt6358-v2-3-5d9f0e99941e@gmail.com>
 
-On Thu, Jun 27, 2024 at 05:23:43PM GMT, Krzysztof Kozlowski wrote:
-> Allocate the default register values array with devm interface to reduce
-> number of error paths.  The array is not used after initializing regmap,
-> so move the freeing to place right after devm_regmap_init_mmio() to make
-> it obvious.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On Mon, Jun 17, 2024 at 05:58:26PM +0530, Kartik Agarwala wrote:
+> Add reference for mediatek,mt6358-sound
 > ---
->  sound/soc/codecs/lpass-rx-macro.c | 16 +++++++++-------
->  1 file changed, 9 insertions(+), 7 deletions(-)
+>  Documentation/devicetree/bindings/mfd/mt6397.txt | 1 +
+>  1 file changed, 1 insertion(+)
 > 
+> diff --git a/Documentation/devicetree/bindings/mfd/mt6397.txt b/Documentation/devicetree/bindings/mfd/mt6397.txt
+> index 10540aa7a..cf7fcc402 100644
+> --- a/Documentation/devicetree/bindings/mfd/mt6397.txt
+> +++ b/Documentation/devicetree/bindings/mfd/mt6397.txt
+> @@ -48,6 +48,7 @@ Optional subnodes:
+>  - codec
+>  	Required properties:
+>  		- compatible: "mediatek,mt6397-codec" or "mediatek,mt6358-sound"
+> +	see ../sound/mediatek,mt6358.yaml
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+No point in adding this as this file should get converted.
 
-
--- 
-With best wishes
-Dmitry
+Rob
