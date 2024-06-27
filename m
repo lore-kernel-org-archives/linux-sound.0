@@ -1,95 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEAB0178373;
-	Thu, 27 Jun 2024 12:48:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5937C178389
+	for <linux-sound@vger.kernel.org>; Thu, 27 Jun 2024 12:51:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719492480; cv=none; b=s2y88AAZTAGvGmoNRXl17zPMrUQY627fPzrVspRvbZyz2CH3IQo4UUZJZ0Nr/6PUm68+B/DOQjuvKTJWq4Z2CGCO4tycB+tbSAsLFnPBOmjuw4G6EYf1B2rinEDPAEKf47yoL/Na0SVTszNzjcyHZkELtl8qHmqTHMeuikZdS6A=
+	t=1719492716; cv=none; b=roMLhjLYt2yH6fJK5P1gARImbvh1NtN8kK/JA+kGZhOfqiYE3Zas3e5eA45eF5X9ksPJrqCrGVrYT4atMockuHzwf4DNqSKv4eklR13lD3ptc3/cqP75XiXPF98vd238K+k7vjlJxoUlhKHHQJd5oAtXrkrCa3ctYLjVRSEY7mM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719492480; c=relaxed/simple;
-	bh=ZSLfv18TPLtxO7NM7kuw1m/QWZeg3i2KDlFZOp8uhPI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ay9TfSo/mQXSX7B10VOg/0gdOggtiU7Nul591OhSw6eqAQhUhXVd/uoWpmiM4g6SsM3STDAVZc82V4DQZnq11z1+G0JI+zZc3xYxemtOZWhQRwFNo20QwLzPqyNwXaNK+Td0HK1uRfxT3jlJlfQSiMiCIOtRSrDIBZ416y2HIdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BOJvLtm1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719492716; c=relaxed/simple;
+	bh=XtdvjmExmK9D2dS6fGUdUIVDepbUx+JmHx/WT1CKyFQ=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=ngX5NDO7R+vz/qGkqxDeAt9x1/K8qSkPIP3g+uFEzYCZWQ0RZIklSCyYsWBmYzKvd40xqLS4iznw0vyxRw6zr0u0yimnYdy+Us4urw5FCKFCe8mn4FjtgproAGmAkxzqeY0bFjsppqXC+SEzoINV80wMdS1tdJN+KnnXRU54BNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=L31l/y1Q; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BOJvLtm1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02B8DC32786;
-	Thu, 27 Jun 2024 12:47:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719492480;
-	bh=ZSLfv18TPLtxO7NM7kuw1m/QWZeg3i2KDlFZOp8uhPI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=BOJvLtm1GkcoTRy+WOzgbU7r/Oe/0Xz7nvroqA5qLxEgzWByDvUGsa2qMpVrcTPKK
-	 7FK8JrKCosMIWiE2y+Gx/KXbnJ/C/eRqb9Av98AV62xyizopNUlqjhyr5O13KawpmR
-	 bB32IO/nGX5uE6L2lXNZYCVQxgW8cEK1WrjhlMyyZYVbnvkn2KXA+W7WTSq6wGWN8j
-	 DiDAUYqYoTGkHbVaUkp3qDTb+P+rceX5VEb+A6+ge4u1HtIlyqPA1wGgXge1E26CZg
-	 HrWi3t6jKAiTIQmHzXwO2RDTsHg9/jRC/d3tMtysaH2P7NMFCrxIZ6NKIJhYmkWIpt
-	 AXhkM9FnO25QQ==
-From: Mark Brown <broonie@kernel.org>
-To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
- nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
- alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org, 
- linux-sound@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: viorel.suman@nxp.com
-In-Reply-To: <1718174452-17596-1-git-send-email-shengjiu.wang@nxp.com>
-References: <1718174452-17596-1-git-send-email-shengjiu.wang@nxp.com>
-Subject: Re: [PATCH 0/3] ASoC: imx-audmix: Split capture device to be a new
- device
-Message-Id: <171949247673.260548.13585472243049698949.b4-ty@kernel.org>
-Date: Thu, 27 Jun 2024 13:47:56 +0100
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="L31l/y1Q"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3608e6d14b6so4996445f8f.0
+        for <linux-sound@vger.kernel.org>; Thu, 27 Jun 2024 05:51:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1719492714; x=1720097514; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fnYEn+08jqkRCijrF6N5I7CtgtXywXX5Pko+EhFcF/E=;
+        b=L31l/y1QDiu8q1GXO/OT/ybb//9oV1hJpaOHdLo7fjbsv+0FqcpD2H0GTWlDbwzlKT
+         vR7GdlC8P4iwMt4qMfDx+d4SgwONRnYtnfg1A2Wh/4gug3psmH27YrsQaLLr5DB3m/Ny
+         CLV+Ax2MRYyioVSEfzCIQwF1KYWezhB38JXBk5BJ69UW/z9ic7gD4bVS/xLk5G66WyQv
+         vHgrMGS4PRdUWO6HwwWMDYHP1PhYQpCqQj6QcJmuVqCzvaDbdP7kWmWu4LbMiRGhX0pY
+         FlVuUt4EXjMhLZZHWkcY7MN7GHMDsI9S6CXrbZRmg4JeTGe6caOxryt0sJ6D1KGhD/dK
+         5gyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719492714; x=1720097514;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=fnYEn+08jqkRCijrF6N5I7CtgtXywXX5Pko+EhFcF/E=;
+        b=hAYvKufILZSGTGSNunMLMeRrCVZ+vvZaIdH87sY9Bs/zO6ojP9N6kO9SAAmiC0GrWu
+         2FfP7liLjsOkcXSMwtj6NTWyqTtioOPtGGAuJvnQ68Q9H6vOn20pwlGRT8e8cmL4OI9S
+         /L1FTyaShW+EVmfFPfXaK7ePf56s2P9JsV+Mojl3/UXOw3Iw6peJv7xr3pMLIVDJT9A2
+         UfdbWaNv0pezXBf50LLt40BT0553ZpjwWVeNKRXNL1cifMjwKDRFqktrGMpLWEa9jMjb
+         VxwemepnVyOfqCytg3mXAZKAr1CYbQ5b7RWG51IVuIx6HgnMhcV7Zxi2VEw7oJ22oUvC
+         cAfA==
+X-Forwarded-Encrypted: i=1; AJvYcCU43WDEfYO8J52TgwM0oTTR4jF1EwYxdOHQJ6/g3rf4FEAbPxOpp7O1pNw/q1cu6D4+dytJVa54OZAB66c+9Wwh3/DnpiWRxxCeu78=
+X-Gm-Message-State: AOJu0YyeFMMQ54PV2ug74oSIyUqa3HggPkG3vMXcGitSmwEoLiYQG9BV
+	qRx5f6oSW0PmyNoOEHlzRMNWfyNAD5WtfQrGP4yCgNFvxvAqHUfLks7p6w0zq1w=
+X-Google-Smtp-Source: AGHT+IEdepWeFKby2pWGXn4ajKkwBMT3yEWL/Z2uvHjUQvfydEqGgmbC1o+puPl/54j5hAOcRfQ47w==
+X-Received: by 2002:adf:ec43:0:b0:366:eaa7:1133 with SMTP id ffacd0b85a97d-366eaa711damr8511782f8f.46.1719492713031;
+        Thu, 27 Jun 2024 05:51:53 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:feeb:faed:66fa:9e6a? ([2a01:e0a:982:cbb0:feeb:faed:66fa:9e6a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3674357ff28sm1774577f8f.47.2024.06.27.05.51.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Jun 2024 05:51:52 -0700 (PDT)
+Message-ID: <c71feb6b-4da5-4181-8b4a-2f5dac195135@linaro.org>
+Date: Thu, 27 Jun 2024 14:51:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: neil.armstrong@linaro.org
+Subject: Re: [PATCH 0/6] ASoC: codecs: wsa88xx: add support for static port
+ mapping.
+To: srinivas.kandagatla@linaro.org, Banajit Goswami <bgoswami@quicinc.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Manikantan R <quic_manrav@quicinc.com>
+References: <20240626-port-map-v1-0-bd8987d2b332@linaro.org>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20240626-port-map-v1-0-bd8987d2b332@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev-d4707
 
-On Wed, 12 Jun 2024 14:40:49 +0800, Shengjiu Wang wrote:
-> The transmitter and receiver part of the SAI interface need to be
-> configured with different master/slave mode, especially to work
-> with the audiomix module.
+On 27/06/2024 13:55, srinivas.kandagatla@linaro.org wrote:
+> Existing way of allocating soundwire master ports on Qualcommm platforms is
+> dynamic, and in linear order starting from 1 to MAX_PORTS.
+> This will work as long as soundwire device ports are 1:1 mapped
+> linearly. However on most Qcom SoCs like SM8550, SM8650, x1e80100, these
+> are NOT mapped in that order.
 > 
-> The SAI1 TX is in master mode, but SAI1 RX is in slave mode.
-> So add another two DAIs for TX and RX separately in fsl_sai driver.
+> The result of this is that only one speaker among the pair of speakers
+> is always silent, With recent changes for WSA codec to support codec
+> versions and along with these patches we are able to get all speakers
+> working on these SoCs.
 > 
-> [...]
+> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> ---
+> Manikantan R (1):
+>        ASoC: dt-bindings: wsa883x: Document port mapping property
+> 
+> Srinivas Kandagatla (5):
+>        ASoC: codecs: wsa883x: parse port-mapping information
+>        ASoC: dt-bindings: wsa8840: Document port mapping property
+>        ASoC: codecs: wsa884x: parse port-mapping information
+>        arm64: dts: x1e80100-crd: fix wsa soundwire port mapping
+>        arm64: dts: x1e80100-qcp: fix wsa soundwire port mapping
+> 
+>   Documentation/devicetree/bindings/sound/qcom,wsa883x.yaml | 8 ++++++++
+>   Documentation/devicetree/bindings/sound/qcom,wsa8840.yaml | 8 ++++++++
+>   arch/arm64/boot/dts/qcom/x1e80100-crd.dts                 | 4 ++++
+>   arch/arm64/boot/dts/qcom/x1e80100-qcp.dts                 | 2 ++
+>   sound/soc/codecs/wsa883x.c                                | 8 ++++++++
+>   sound/soc/codecs/wsa884x.c                                | 8 ++++++++
+>   6 files changed, 38 insertions(+)
+> ---
+> base-commit: 9935be184a55dd84fc3275094f2df095491f6ea1
+> change-id: 20240626-port-map-ef50c3304d4a
+> 
+> Best regards,
 
-Applied to
+I now have both speakers working !
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-HDK
 
 Thanks!
-
-[1/3] ASoC: fsl_sai: Add separate DAI for transmitter and receiver
-      commit: 15c958390460f964ec707ae6c5d1843638ebfe69
-[2/3] ASoC: fsl_audmix: Split playback and capture stream to different DAI
-      commit: 6232a7eb1afc842d0daf1c0314e1eda65731783f
-[3/3] ASoC: imx-audmix: Split capture device for audmix
-      commit: 05d996e113481fdd9ac40ccf5cadabd1e73f2404
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Neil
