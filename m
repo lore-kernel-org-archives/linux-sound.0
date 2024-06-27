@@ -1,57 +1,57 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25F161974FA
-	for <linux-sound@vger.kernel.org>; Thu, 27 Jun 2024 15:03:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC3D0198A20
+	for <linux-sound@vger.kernel.org>; Thu, 27 Jun 2024 15:03:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719500605; cv=none; b=Rew4bldAIheFAwmo92phRzkwl3tx7jX5rF9JbOrbg8VViCt+FohJIT3bPAISx+wpAds+EWWSU9mS6vqZI5wzKYNrP/kilDC77g2qKoteHFmPCCEYyDSTDLEYXWzYOmnjz1yHX2A30EgPwLvcsaRn+C0PKyoKiy1R7Ku2z6Mr3mw=
+	t=1719500626; cv=none; b=rGNc0tXuk+ePZq4K3h3bbGp9MjfqYH2Jbu1m+qhoM53IMu7X9MlWkllBgrmlqfJT68UYtW5tNhPSfzRRGczOErge/np/4dleyASOLtRPPb8QYG+ZbC3Q3l4UMHT0lnO+osHKA0ukk+HKBVHsGG7HdN25/i9IiSmYbDhtMQnx/ck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719500605; c=relaxed/simple;
-	bh=MOy/zclnpM1qz9tlFoI7C6TAtMnrzA/3fX7zjAQAoDQ=;
+	s=arc-20240116; t=1719500626; c=relaxed/simple;
+	bh=hz9vMGQkJCRjJHzyKADPoZQ1+W9Qq2q+0aeL6AyIwwE=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=VRF15w1hgjllsN95MA7qviArlGgHmOdHYqORCz1vI02Lnn2RHJ4rUAglFUIeZXmrCLinm+iE3lRUIPkxUb8ONXf5h44SzLBuc/cljrAQ8FEeab9TXZWENbEnwafLA4f4DS+b9Wj+D1eLSqBobHME4YKCeY/xUrIlMjIu/SUzym4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timesys.com; spf=pass smtp.mailfrom=timesys.com; dkim=pass (2048-bit key) header.d=timesys-com.20230601.gappssmtp.com header.i=@timesys-com.20230601.gappssmtp.com header.b=gyo4P4vE; arc=none smtp.client-ip=209.85.167.54
+	 MIME-Version; b=UlKsFgEmItrE9Rnja5XLq0eoh+aCokqD0dR1GUibroulvq03wXtWc7ToNuozQvxJngWSVb9tdeHFNxhmR4iVB3jFkkSmyXRr98h1tfkik/UT0Lq2Ig22MocGHx2FfLrARaIzh9ZEzcppYPlcIhE3mJodEnXstS4KY/O+1huvo5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timesys.com; spf=pass smtp.mailfrom=timesys.com; dkim=pass (2048-bit key) header.d=timesys-com.20230601.gappssmtp.com header.i=@timesys-com.20230601.gappssmtp.com header.b=WXTSZ5gL; arc=none smtp.client-ip=209.85.208.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timesys.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=timesys.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=timesys-com.20230601.gappssmtp.com header.i=@timesys-com.20230601.gappssmtp.com header.b="gyo4P4vE"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-52cd80e55efso11181652e87.0
-        for <linux-sound@vger.kernel.org>; Thu, 27 Jun 2024 08:03:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=timesys-com.20230601.gappssmtp.com header.i=@timesys-com.20230601.gappssmtp.com header.b="WXTSZ5gL"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-57d1d614049so2083814a12.1
+        for <linux-sound@vger.kernel.org>; Thu, 27 Jun 2024 08:03:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=timesys-com.20230601.gappssmtp.com; s=20230601; t=1719500601; x=1720105401; darn=vger.kernel.org;
+        d=timesys-com.20230601.gappssmtp.com; s=20230601; t=1719500623; x=1720105423; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=wfvNY7tGM2S+4v6UaWLAdWnrWccCsZezGAwDSPje/fE=;
-        b=gyo4P4vE+W5TaJExutRzBG+QEGdzwh/9iqGOxcMgc7WFtP0Lii/MnqY7xd/Byi9iUT
-         Evg1RpHPRKiJlLku3jTvnNZU/zCE7v31DlkU9RQQezKZESdhs/hgPmOxCwos/KYY80MV
-         LBlLejvW6Bx75tD1SNYa9sZXXyIwEmWdXxSroBWsfGCiS+YmflKU2zVLDC89/yl9YWYu
-         qwYjPjkkm786l1F9wUfM39oFxOqAaXViIVIRfnpWIbVJ16Fyi7/KOlZxB4J3dLv8xJ/I
-         lPQzkCzhNqTcsaLnSd3jl34uUv5UgckOsURYNAFDTQcL0LnRkLl+k31DdliwUOhW+j17
-         vNGg==
+        bh=HK3YnwUakD5I0BhgcE6EqxKNTh3E2b909JJ6LJOQWzo=;
+        b=WXTSZ5gLXCbzMHUx9pbcLusKQp5Li61OY1n5N2DlmVJI3KHgxuIGy6lNZPdbPybKEA
+         9o8fKETuWjIXlpFygS1wknH5ECCwz9K+Ifao2ivxt+zaUjnfIXJQmhe9w2CN2TKQXIk7
+         fKq+RmjqYYIV7pGnYUUIaDCDxeiUpOZmr0LlDb97s3UvQR+5zBBJeAPLa1PFnYG0LjWX
+         K30KXX1xNklc7dK9q8dRQOeSxdL7vM6xdHKtmWCcJbtEBUBXw8PWMHB5FH8qQv8U9jU/
+         /SkmO7nZ65XHJAaxzxd7zx7LVrA4CDtey97X2u0DcDiJ8D6SUYjFlPBgzc71Lq2F2Pgw
+         qjQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719500601; x=1720105401;
+        d=1e100.net; s=20230601; t=1719500623; x=1720105423;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wfvNY7tGM2S+4v6UaWLAdWnrWccCsZezGAwDSPje/fE=;
-        b=T+3zUbGh+mPx/Kb2VEIsNUw9uMQpwVJkfq+lIgJ1J9ZA5IrA61dwzrxaxLWCjTWOEd
-         WmctPiy2zL1tAGWrbeVpxr2gsDit2CSCUIDQolSGZ0nWuRfywsYeYEOmidYRzbeWlYiq
-         1JJHawGwLhZIwGXKb13Siaj4VNKTGr4iAp5GoyrK35thQXV7w0GpODO0Nd/fWVWfDK6j
-         r89+SO7ChaaJZQ9qhxw0c8QCBVuY6K3ocGldeyef/MmNxtHN5xeghHmhODc/0AYkOGHp
-         Hk494/q/uW7auCuicTpR+LcmSyRMxq7hItcO1zfEU12tJdDvfQ/ICNjshsCQj6gXeYPE
-         qFYg==
-X-Forwarded-Encrypted: i=1; AJvYcCVmHIwYXFUH3WGAscF9ddVFTu7hwJUAmDM7h2ZCNN2sL2LnI4nU861wvj2JDDhxYiKCKYKPtYd45JXrjcmXPUlzF7Vd6KTh2XGbLvg=
-X-Gm-Message-State: AOJu0Yz+XpUgvHbaMSiYlLbVMXJ6pjR+xcTCL+LXxfgiBjUfuQ2yrlla
-	qCO+B5xmvUvarUpIeb/wkNks5YDWuOAR4ntvt1jC7Rygwpng6TG+mermXrJWEz8=
-X-Google-Smtp-Source: AGHT+IHllh+sTlu3HrGAUtGTIRMnmFNSl2sKuSvILBbha0AGpyRun3RsrXSjlrG4YcRJnhpgiuUbGw==
-X-Received: by 2002:a05:6512:3b95:b0:52c:dd94:bda9 with SMTP id 2adb3069b0e04-52ce185c196mr13457029e87.56.1719500601213;
-        Thu, 27 Jun 2024 08:03:21 -0700 (PDT)
+        bh=HK3YnwUakD5I0BhgcE6EqxKNTh3E2b909JJ6LJOQWzo=;
+        b=tAC5b8Uo8bXgqHCTlCX1VT5yv71XFam2o81kWhMygV6DTSj2AnZj0BnK+uz67j9xwX
+         zQWGaHYMeoBGb1YR/B8MjwV/fysWU5ABC3LnKGptkraMX5BiJ87S1oqHrfyuG6nq2wnY
+         me/pcBvJugT+EZzSgdC6ZCZStr10Lo5L9M3rtW76Uw5GzVpvlaMtYIFornQsxv8APMib
+         OBafoi/UeOphpRZiA6UCQ0p6bxYEtOwO0m+1DHgrU0KJKMUo0LqwOVbiJEATJbpdFhuz
+         OMsa2I8UCWYoKtE7CVYqbKTOWkZIYrMzXXxxQDR/Y8h+r1jHiOkS1TOhnnOf05OXnxGi
+         x8RQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVWkgZbdLZXBaFLMMLBNN4a+UPY8GAaR7ZdAN/MSVYh4Y1d6KP80M+41GpRGNvMaOJkZk3D9888HDnXITgtDU0i3GSNU0pmceWHdNQ=
+X-Gm-Message-State: AOJu0YxHwl1awSdHyp6Ar3Amys+eauiUN8SIvGAffuDv196upjc6bgC8
+	K9jLlvME7CM6aWGekmZKYqOiFjPYl/MFZuAioEFcz+c4xNilkozYAy42k0SHRqU=
+X-Google-Smtp-Source: AGHT+IEAPzD6OW6I5gXrK5R5rKDBnBfIPb8ujVS2DyQUrkTnzInDvDleYelSt4/XGlIg6GkZNz/Tdg==
+X-Received: by 2002:a17:907:d386:b0:a72:8d4f:6720 with SMTP id a640c23a62f3a-a728d4f6df3mr385836766b.69.1719500620657;
+        Thu, 27 Jun 2024 08:03:40 -0700 (PDT)
 Received: from localhost.localdomain ([91.216.213.152])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a729d7ca289sm67189066b.222.2024.06.27.08.03.19
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a729d7ca289sm67189066b.222.2024.06.27.08.03.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jun 2024 08:03:20 -0700 (PDT)
+        Thu, 27 Jun 2024 08:03:40 -0700 (PDT)
 From: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
 To: Vinod Koul <vkoul@kernel.org>,
 	Rob Herring <robh@kernel.org>,
@@ -71,8 +71,8 @@ To: Vinod Koul <vkoul@kernel.org>,
 	Vignesh Raghavendra <vigneshr@ti.com>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	Yangtao Li <frank.li@vivo.com>,
 	Arnd Bergmann <arnd@arndb.de>,
+	Yangtao Li <frank.li@vivo.com>,
 	Li Zetao <lizetao1@huawei.com>,
 	Chancel Liu <chancel.liu@nxp.com>,
 	Michael Ellerman <mpe@ellerman.id.au>,
@@ -87,9 +87,9 @@ To: Vinod Koul <vkoul@kernel.org>,
 	linux-clk@vger.kernel.org,
 	linux-i2c@vger.kernel.org,
 	linux-mtd@lists.infradead.org
-Subject: [Patch v5 06/12] ARM: dts: lpc32xx: Add missing i2s properties
-Date: Thu, 27 Jun 2024 17:00:24 +0200
-Message-Id: <20240627150046.258795-7-piotr.wojtaszczyk@timesys.com>
+Subject: [Patch v5 07/12] clk: lpc32xx: initialize regmap using parent syscon
+Date: Thu, 27 Jun 2024 17:00:25 +0200
+Message-Id: <20240627150046.258795-8-piotr.wojtaszczyk@timesys.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240627150046.258795-1-piotr.wojtaszczyk@timesys.com>
 References: <20240627150046.258795-1-piotr.wojtaszczyk@timesys.com>
@@ -101,45 +101,78 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Adds properties declared in the new DT binding nxp,lpc3220-i2s.yaml
+This allows to share the regmap with other simple-mfd devices like
+nxp,lpc32xx-dmamux
 
 Signed-off-by: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
 ---
 Changes for v5:
-- This patch is new in v5
-- Split previous patch for lpc32xx.dtsi in to 3 patches
+- Add fallback regmap for previous simple-bus DT entry
 
- arch/arm/boot/dts/nxp/lpc/lpc32xx.dtsi | 6 ++++++
- 1 file changed, 6 insertions(+)
+Changes for v4:
+- This patch is new in v4
 
-diff --git a/arch/arm/boot/dts/nxp/lpc/lpc32xx.dtsi b/arch/arm/boot/dts/nxp/lpc/lpc32xx.dtsi
-index 6135ce4dde61..c58dc127e59f 100644
---- a/arch/arm/boot/dts/nxp/lpc/lpc32xx.dtsi
-+++ b/arch/arm/boot/dts/nxp/lpc/lpc32xx.dtsi
-@@ -240,8 +240,11 @@ spi2: spi@20090000 {
- 			i2s0: i2s@20094000 {
- 				compatible = "nxp,lpc3220-i2s";
- 				reg = <0x20094000 0x1000>;
-+				interrupts = <22 IRQ_TYPE_LEVEL_HIGH>;
-+				clocks = <&clk LPC32XX_CLK_I2S0>;
- 				dmas = <&dma 0 1>, <&dma 13 1>;
- 				dma-names = "rx", "tx";
-+				#sound-dai-cells = <0>;
- 				status = "disabled";
- 			};
+ drivers/clk/Kconfig           |  1 +
+ drivers/clk/nxp/clk-lpc32xx.c | 26 +++++++++++++++-----------
+ 2 files changed, 16 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/clk/Kconfig b/drivers/clk/Kconfig
+index 3e9099504fad..85ef57d5cccf 100644
+--- a/drivers/clk/Kconfig
++++ b/drivers/clk/Kconfig
+@@ -346,6 +346,7 @@ config COMMON_CLK_LOONGSON2
+ config COMMON_CLK_NXP
+ 	def_bool COMMON_CLK && (ARCH_LPC18XX || ARCH_LPC32XX)
+ 	select REGMAP_MMIO if ARCH_LPC32XX
++	select MFD_SYSCON if ARCH_LPC32XX
+ 	select MFD_SYSCON if ARCH_LPC18XX
+ 	help
+ 	  Support for clock providers on NXP platforms.
+diff --git a/drivers/clk/nxp/clk-lpc32xx.c b/drivers/clk/nxp/clk-lpc32xx.c
+index d0f870eff0d6..b8de7f66d1b5 100644
+--- a/drivers/clk/nxp/clk-lpc32xx.c
++++ b/drivers/clk/nxp/clk-lpc32xx.c
+@@ -7,6 +7,7 @@
+ #include <linux/clk-provider.h>
+ #include <linux/io.h>
+ #include <linux/of_address.h>
++#include <linux/mfd/syscon.h>
+ #include <linux/regmap.h>
  
-@@ -260,8 +263,11 @@ sd: sd@20098000 {
- 			i2s1: i2s@2009c000 {
- 				compatible = "nxp,lpc3220-i2s";
- 				reg = <0x2009c000 0x1000>;
-+				interrupts = <23 IRQ_TYPE_LEVEL_HIGH>;
-+				clocks = <&clk LPC32XX_CLK_I2S1>;
- 				dmas = <&dma 2 1>, <&dmamux 10 1 1>;
- 				dma-names = "rx", "tx";
-+				#sound-dai-cells = <0>;
- 				status = "disabled";
- 			};
+ #include <dt-bindings/clock/lpc32xx-clock.h>
+@@ -1511,18 +1512,21 @@ static void __init lpc32xx_clk_init(struct device_node *np)
+ 		return;
+ 	}
  
+-	base = of_iomap(np, 0);
+-	if (!base) {
+-		pr_err("failed to map system control block registers\n");
+-		return;
+-	}
+-
+-	clk_regmap = regmap_init_mmio(NULL, base, &lpc32xx_scb_regmap_config);
++	clk_regmap = syscon_node_to_regmap(np->parent);
+ 	if (IS_ERR(clk_regmap)) {
+-		pr_err("failed to regmap system control block: %ld\n",
+-			PTR_ERR(clk_regmap));
+-		iounmap(base);
+-		return;
++		/* fallback to mmio if syscon fails */
++		base = of_iomap(np, 0);
++		if (!base) {
++			pr_err("failed to map system control block registers\n");
++			return;
++		}
++		clk_regmap = regmap_init_mmio(NULL, base, &lpc32xx_scb_regmap_config);
++		if (IS_ERR(clk_regmap)) {
++			pr_err("failed to regmap system control block: %ld\n",
++			       PTR_ERR(clk_regmap));
++			iounmap(base);
++			return;
++		}
+ 	}
+ 
+ 	/*
 -- 
 2.25.1
 
