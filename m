@@ -1,48 +1,52 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49C3945BE4;
-	Thu, 27 Jun 2024 20:05:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E56C913FF9;
+	Thu, 27 Jun 2024 21:25:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719518745; cv=none; b=ervGFbUDGUEVH/pPJRkWILesyzcL8F0suqzmv7y9vkSBbgBeLZBywfqJFng29690dLcijUfCLvMVkaBXAPBncQQCcvrWjB0YTYhD2DJQlGqCle5PYtXwDwizD7UkV/OaFymJ7Gzo6bQNOEOTZ55sGnMbhTF3p5j9kk6RCYUuPfU=
+	t=1719523521; cv=none; b=sd+2pU0vgIQ/rcXYpO/retYXDYGEdp0xgJXbdmGi2jVdB8D7auII0bTYFTOxX9/0gjWK0hlqjiyzXilRJ+rtNx+4pu7UHoyGdHA6aH15ch+8/o5+VRlZ94ptF3rurBKzzmU3QMTTu3MpFEDW77Aelmeg0b7gs8ZBX5zuBvPGIpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719518745; c=relaxed/simple;
-	bh=FE5LwB4HXBRsoGB9+h+mvR30T3AMRQyyiUCPx6AJibA=;
+	s=arc-20240116; t=1719523521; c=relaxed/simple;
+	bh=sw6QJkUOx6dnvHnOUYkmwDviR+5bis7nK5kklIGe8B4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aWpwRADPWwjUJv0O0VANh0ny2YVkErBUBokjICps4z9hVPYBoLoqXlbUsxDnDDkSnqqjIM+9pq0ckQioQaRTcXIDb+piZjOEw7iQIBpjCfi6tgS1IrVyCQeHwI4rTIbLID4cqGLwsxB7Afz3rTmPtU55inX2L9lKSdBAoYZu6TE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tec+vNI4; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=FtJaG1g8SlEYcNxpsIaXaji/il4UgYZ8eFcExxhomP6xOf3DACZsRjuu8jIg9kGg8+fsN8fn4sDoM9gxbHKj87rMY5bToRhwiih15V8h/qolfCf33+CYxONf0DLHbNSs0XBhIZKqOz8LZz6vlWRMffMck4i1mR7sqiFThYeyW08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mqrAhONa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tec+vNI4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94157C2BBFC;
-	Thu, 27 Jun 2024 20:05:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mqrAhONa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37D25C2BBFC;
+	Thu, 27 Jun 2024 21:25:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719518744;
-	bh=FE5LwB4HXBRsoGB9+h+mvR30T3AMRQyyiUCPx6AJibA=;
+	s=k20201202; t=1719523520;
+	bh=sw6QJkUOx6dnvHnOUYkmwDviR+5bis7nK5kklIGe8B4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Tec+vNI4sG/7Ti1RLprvNypZGPCnZzbOElovxV8ey0vBaoA25bDO8+Sdev08E7LqF
-	 tulhYfqmL4+QD3GGENY2J4+RtUiB67WaEDA/CKwNNJp7lwlU7kmdS19OcHnt3DhJn2
-	 Ir2osxCYd/WoCsLCXfHVxSBYA1UKb+v45IlR5XQsMbSm4slNgKPjgtNd0J0L1GS51v
-	 CJAzCQjQhGrs9f3RQPcfqpLIaCEBQQ0eg9uiflzHCiuDezYQrRCgpaeUv0RM6+D1N+
-	 rsxH6wTx0oaKBrCmHtZuXDkbHJJcmN11Isfvs/gjCqegEA0JwxBWB2kEbw88wyfEeQ
-	 clzt1q3VRAhPw==
-Date: Thu, 27 Jun 2024 14:05:43 -0600
-From: Rob Herring <robh@kernel.org>
-To: Kartik Agarwala <agarwala.kartik@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	b=mqrAhONa3b8WIQ5LFtilKlUEIBKRc58ZejXGCuDCIhhNavv15R6ocbrxAtJdukAq3
+	 FaqCGgq5D79cWs7DpsS+7Dt9z+vMkhEkIv9NTJ1tc7U3z/LVPxmwONgM+sqOEZP+Se
+	 IrGOAiEUFtUcGpGg/2u5TXujcynjDQc3mJ2yY2PXRd3vTKnuSXgSGlu5HXcPWpNpwC
+	 gCU+kumkVWCX/RNvlXnBhnDwiszNVrbQaBPuZCAxxpFSqAoO275PVFEzqXvv/NdqfX
+	 Tt17cLoclyJ5KHzaBcD6uGse95ob/oOeubV3ic+nWUAhu6H2Dy0oTXl87QuTF5COsB
+	 KQeM8DU5j5zGg==
+Date: Thu, 27 Jun 2024 15:25:18 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: linux-arm-kernel@lists.infradead.org, Xiubo Li <Xiubo.Lee@gmail.com>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>, devicetree@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>,
+	linuxppc-dev@lists.ozlabs.org, Jaroslav Kysela <perex@perex.cz>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org, Qiang Zhao <qiang.zhao@nxp.com>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Lee Jones <lee@kernel.org>, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v2 3/3] dt-bindings: mfd: mt6397: Add reference for
- mediatek,mt6358-sound
-Message-ID: <20240627200543.GA439514-robh@kernel.org>
-References: <20240617-mt6358-v2-0-5d9f0e99941e@gmail.com>
- <20240617-mt6358-v2-3-5d9f0e99941e@gmail.com>
+	Fabio Estevam <festevam@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	alsa-devel@alsa-project.org
+Subject: Re: [PATCH 09/10] dt-bindings: sound: fsl,qmc-audio: Add support for
+ multiple QMC channels per DAI
+Message-ID: <171952351643.593434.7474652355291518276.robh@kernel.org>
+References: <20240620084300.397853-1-herve.codina@bootlin.com>
+ <20240620084300.397853-10-herve.codina@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,24 +55,24 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240617-mt6358-v2-3-5d9f0e99941e@gmail.com>
+In-Reply-To: <20240620084300.397853-10-herve.codina@bootlin.com>
 
-On Mon, Jun 17, 2024 at 05:58:26PM +0530, Kartik Agarwala wrote:
-> Add reference for mediatek,mt6358-sound
-> ---
->  Documentation/devicetree/bindings/mfd/mt6397.txt | 1 +
->  1 file changed, 1 insertion(+)
+
+On Thu, 20 Jun 2024 10:42:56 +0200, Herve Codina wrote:
+> The QMC audio uses one QMC channel per DAI and uses this QMC channel to
+> transmit interleaved audio channel samples.
 > 
-> diff --git a/Documentation/devicetree/bindings/mfd/mt6397.txt b/Documentation/devicetree/bindings/mfd/mt6397.txt
-> index 10540aa7a..cf7fcc402 100644
-> --- a/Documentation/devicetree/bindings/mfd/mt6397.txt
-> +++ b/Documentation/devicetree/bindings/mfd/mt6397.txt
-> @@ -48,6 +48,7 @@ Optional subnodes:
->  - codec
->  	Required properties:
->  		- compatible: "mediatek,mt6397-codec" or "mediatek,mt6358-sound"
-> +	see ../sound/mediatek,mt6358.yaml
+> In order to work in non-interleave mode, a QMC audio DAI needs to use
+> multiple QMC channels. In that case, the DAI maps each QMC channel to
+> exactly one audio channel.
+> 
+> Allow QMC audio DAIs with multiple QMC channels attached.
+> 
+> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> ---
+>  .../bindings/sound/fsl,qmc-audio.yaml         | 41 ++++++++++++++++---
+>  1 file changed, 35 insertions(+), 6 deletions(-)
+> 
 
-No point in adding this as this file should get converted.
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-Rob
