@@ -1,104 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B197B14B083;
-	Thu, 27 Jun 2024 11:45:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC1E14D451
+	for <linux-sound@vger.kernel.org>; Thu, 27 Jun 2024 11:56:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719488714; cv=none; b=g488MjOOw6Deh7ySrhdDLeIfMn+J3g5aISBRhlCGAlE5n6GDzLVJCvX2d1AEMre76KosidG4V9snlcKnR4i3kvegt8i7zkkSfSb/eYh7O3kf6YTmfGdOdYO7nV7heH3A8qPKnS6JEBdqKsuKiJcDZJAJQN/vkiKplZUh9fF6NNs=
+	t=1719489362; cv=none; b=hZjusy+pYmkITFv3eeg6q9P0NTFwtJwrBV7f5lMqM6vpUVzQIKb1Kr5exP6JP29BonaSqjCuAKEjAMtcleL+B3ZKKvyZ2V0F9Pd8Ba/fCVGDW4iLOVte/+B+8IiUXIyTEC79w33PaNrfIwNM4TJm2BcAAp6+XciExUEcbffyL4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719488714; c=relaxed/simple;
-	bh=VDvyQJrFafoefCcI3xmMSH7VK3qS/ShkSjr5pCXHH7U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=obT56lmuJu9wkNeDuRAswKtzKHdogOWPhFBDpQ5Yyv50gE4jFccVXNNJhEILPYaSgKALlOTipDFPVSHf3c0cxMbZFAo6zxChF7rcY6AmbGe0rnPZxmTK49v38ikbga9uYreDM8TuCEFVNWtPsYZwWyY7gbjSKTrQLeBdoDkR0AQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UfI2lMAr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719489362; c=relaxed/simple;
+	bh=Y6a+CFWgHPXv6qT5Hp7vM6uhEG/AZf1fZ0Ct7WBiP/4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=lx/tu+2EUQ06SisIT+2hkwNGqIA3Yt2BClnTIvEVu5ieHdrcPBAnxpZfE7mGlON98UFjCLNZy6ubWnNeYdM82xebaBRIb4SDEiqyIvkZX9H+I++9MFZ7nupHnuqfWeMNl8aZojKdtk5MfNkMATYTCLUBkF16XVUfgF+QZqsbsm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CyMoeFw5; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UfI2lMAr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90BE8C2BBFC;
-	Thu, 27 Jun 2024 11:45:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719488714;
-	bh=VDvyQJrFafoefCcI3xmMSH7VK3qS/ShkSjr5pCXHH7U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UfI2lMArkfOQ6Z23sscO8OW/zBTyyqKadyRFkq7enmcEbCVY/gMxhrC/9xJleVcOj
-	 GJJoLFRHLFNdrR9pesx6gIW20MBElULs2/G/MZhQ86HFUFP55CMqgPMKetOjfUmds6
-	 c4usiJpaB38058hyg1F5YKmguFpJtTcWxnM6eOsRQ5lYIFwqEGeFmc1uhMg2L5r2ii
-	 ma3iszQO3AHtP3jBxcysiwKhtFwbW5rfSBXQ05y6vGwFLam2WMKwvW3hrRO2t2yJNx
-	 YwyaCz9bF9+waQxHc1wxn5Ivp3GYKMijwNVcYsmtDRixqxWACmmHrbhUQDf5LDIsVH
-	 BEI3hu7ELfYDw==
-Date: Thu, 27 Jun 2024 12:45:07 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Alexandre Belloni <aleandre.belloni@bootlin.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>, devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 2/2] ASoC: dt-bindings: simple-audio-mux: add mux-names
- property
-Message-ID: <169aa3ed-8427-4832-b5e8-302a1ce0558e@sirena.org.uk>
-References: <87bk3nqc0e.wl-kuninori.morimoto.gx@renesas.com>
- <878qyrqbyt.wl-kuninori.morimoto.gx@renesas.com>
- <c7bad597-84cc-445f-8446-398cb5e5005e@kernel.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CyMoeFw5"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-364ff42999eso6105857f8f.3
+        for <linux-sound@vger.kernel.org>; Thu, 27 Jun 2024 04:56:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1719489359; x=1720094159; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9YnmAO3MDDhvSz55Ee35ZPJLjBLn/4qKkbnLt4Qs0cQ=;
+        b=CyMoeFw5y3JjPWidmTQzu27i2lq1V0p4cVkRxy7TRnh3WdoxxJ08Gr5YSwloJgReMS
+         79lYjJZsXdMCuum2R3or0pQ5bXP9nwOOopKNWCOz8v+t4JNS+SNqsdKsusKNhvN/QOu/
+         VpvRcOliMLSm+YzN4AcvOwb3RU0hwOdumMDIL4GWaufLjk3Iy/ZyvHJUC4z+rKc0yqQw
+         P4++n2UfIojk0WAWhaZZxvNB7hf4yLpbWHTJNFVU8J5b3p9ewoRYItTxmzdj/E/L+gs2
+         t761/kX3mG47kGtNUgJFKUQT3v7jS29KHjgfloLGnmo4kr1wlyrmvcbfzVnXpK0FI57Q
+         Tg3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719489359; x=1720094159;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9YnmAO3MDDhvSz55Ee35ZPJLjBLn/4qKkbnLt4Qs0cQ=;
+        b=w8D+bZdZPS5irDUTfjhXQryIC5qfzVICmNj6IBEjDoMJken1mtxtyBj2EBzAaaziWQ
+         kAaINdKmc7lcT5HNZU89S6VhHVLoMBxr4JNWRFh+15OpygkCM76LSyyOpdN7Ur/4Hhdh
+         YybDn4NMSGaLoTArxKCCEe1YJzokMhbWiDGv/4N968c8x+MoZL6OZ0Ad870TnwBDuP/C
+         lo20AKqp8M791y15OycoomuNZRRn9c2jaAFvQlqSuVPwM5Iv5aUJyadj4YoPPx70u0aa
+         RnnrxwurUw0rzFJVXoV3lDQvt6z1nUqtfbChh9VURhdAZh/+ZXYABs8Ft03HQobzaoLO
+         dNRA==
+X-Forwarded-Encrypted: i=1; AJvYcCVrA/dee0WIn5y5Z6yVyNIktzowNNx4w7Q5IzanxBDbJXef0PrldD0iiZFKyM9cOoGygNpmqWaxwA6fzyIVkETVyOChBnxCeLuUrWA=
+X-Gm-Message-State: AOJu0YxZTkm0Dt369q0YLw0nmjQsSkHgiSKFtbqKyfPGrIPVp58k64XS
+	mfPKL+ktrw2bnE7Kr2Zj56psngQXnNtIgoU3l9jtHv8ZQya4dgpuNDpAOa+a5chS3amvXHl2RmR
+	MUGk=
+X-Google-Smtp-Source: AGHT+IFCcsrDv77XmQBH18HYnTVf9w5zIC4CEAbu4wPpEDmsx0NRwUNfy6dTe2MXhewFcCnLX56l3w==
+X-Received: by 2002:a05:6000:4594:b0:362:c7b3:7649 with SMTP id ffacd0b85a97d-366e95eaeedmr10169584f8f.56.1719489358695;
+        Thu, 27 Jun 2024 04:55:58 -0700 (PDT)
+Received: from [192.168.1.195] ([5.133.47.210])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3674369980asm1597552f8f.80.2024.06.27.04.55.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Jun 2024 04:55:58 -0700 (PDT)
+From: srinivas.kandagatla@linaro.org
+Subject: [PATCH 0/6] ASoC: codecs: wsa88xx: add support for static port
+ mapping.
+Date: Thu, 27 Jun 2024 12:55:16 +0100
+Message-Id: <20240626-port-map-v1-0-bd8987d2b332@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="t8YVTPMu+WTibRgQ"
-Content-Disposition: inline
-In-Reply-To: <c7bad597-84cc-445f-8446-398cb5e5005e@kernel.org>
-X-Cookie: I just had a NOSE JOB!!
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACRTfWYC/x2NQQ6DMAwEv4J8xlIIKYd+peJgglN8IAkOQkiIv
+ zf0ONpZzQWFVbjAu7lA+ZAiKVbo2gb8QvHLKHNlsMY6M9gBc9IdV8rI4WV83xs3O4KqT1QYJ6X
+ ol+ew+bRiSIqRz/3Zs3KQ85/6jPf9A60tv1p6AAAA
+To: Banajit Goswami <bgoswami@quicinc.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org, 
+ Neil Armstrong <neil.armstrong@linaro.org>, alsa-devel@alsa-project.org, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Manikantan R <quic_manrav@quicinc.com>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1696;
+ i=srinivas.kandagatla@linaro.org; h=from:subject:message-id;
+ bh=Y6a+CFWgHPXv6qT5Hp7vM6uhEG/AZf1fZ0Ct7WBiP/4=;
+ b=owEBbQGS/pANAwAKAXqh/VnHNFU3AcsmYgBmfVNNbQVTHgiekg0lErk4gt5ZWmMGBmysToq7S
+ t48/kIo622JATMEAAEKAB0WIQQi509axvzi9vce3Y16of1ZxzRVNwUCZn1TTQAKCRB6of1ZxzRV
+ N6V/B/9AkRh3hlZAiigVdic/fNvxeVo66fZnqgO/Q8IAgdIpjMxo7qSFqoMZFmordGgniBjUHUS
+ kfY3HrEHUV6I6pPpVzVn2AFmv/OXXzHO2qN7UEYWyF4CfTxpjwEVMjMHZTUOOF9l9E8ppfCzjoc
+ jc9KYXFGb3TREZx/wLZ+7Q5kMHnhmYnrGZv3Ch7vLjN3dVaZ3OYWOQF71+08qwJrlg5oaflKgwL
+ bk1YKD9vzdOO56TkEI5Gycsec2yaWwUmHDsSxW859bUdeUQTLPCxw4+vyRqOMGIuyEP9W615rKM
+ UJSgbtUu4Jt296ZnPZS4OVbCgHyU444GWLGHdEbdx3igEKRT
+X-Developer-Key: i=srinivas.kandagatla@linaro.org; a=openpgp;
+ fpr=ED6472765AB36EC43B3EF97AD77E3FC0562560D6
 
+Existing way of allocating soundwire master ports on Qualcommm platforms is
+dynamic, and in linear order starting from 1 to MAX_PORTS.
+This will work as long as soundwire device ports are 1:1 mapped
+linearly. However on most Qcom SoCs like SM8550, SM8650, x1e80100, these
+are NOT mapped in that order.
 
---t8YVTPMu+WTibRgQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+The result of this is that only one speaker among the pair of speakers
+is always silent, With recent changes for WSA codec to support codec
+versions and along with these patches we are able to get all speakers
+working on these SoCs.
 
-On Thu, Jun 27, 2024 at 09:46:29AM +0200, Krzysztof Kozlowski wrote:
-> On 27/06/2024 05:52, Kuninori Morimoto wrote:
+Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+---
+Manikantan R (1):
+      ASoC: dt-bindings: wsa883x: Document port mapping property
 
-> > Current simple-audio-mux selects MUX by "Input 1" or "Input 2",
-> > it is not user friendly. Adds new "mux-names" property and enable to
-> > select MUX by own names.
+Srinivas Kandagatla (5):
+      ASoC: codecs: wsa883x: parse port-mapping information
+      ASoC: dt-bindings: wsa8840: Document port mapping property
+      ASoC: codecs: wsa884x: parse port-mapping information
+      arm64: dts: x1e80100-crd: fix wsa soundwire port mapping
+      arm64: dts: x1e80100-qcp: fix wsa soundwire port mapping
 
-> > +  mux-names:
-> > +    description: |
-> > +      Name of multiplexers. default is "Input 1", "Input 2"
+ Documentation/devicetree/bindings/sound/qcom,wsa883x.yaml | 8 ++++++++
+ Documentation/devicetree/bindings/sound/qcom,wsa8840.yaml | 8 ++++++++
+ arch/arm64/boot/dts/qcom/x1e80100-crd.dts                 | 4 ++++
+ arch/arm64/boot/dts/qcom/x1e80100-qcp.dts                 | 2 ++
+ sound/soc/codecs/wsa883x.c                                | 8 ++++++++
+ sound/soc/codecs/wsa884x.c                                | 8 ++++++++
+ 6 files changed, 38 insertions(+)
+---
+base-commit: 9935be184a55dd84fc3275094f2df095491f6ea1
+change-id: 20240626-port-map-ef50c3304d4a
 
-> I have troubles with this binding... It seems driver expects only one
-> GPIO, but the binding allows any number. Similarly mux-names...
+Best regards,
+-- 
+Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 
-> Anyway, this does not look like hardware description but rather
-> configuration of driver. What's wrong with input 1 or mux 1 or whatever
-> is there for default?
-
-I would expect that when this driver is deployed it would mainly be for
-selecting between things like microphone inputs that are defined and
-labelled as part of the system hardware design.  Using numbered inputs
-would *work* but it's not great for usability so I do see a use case for
-labels.  Possibly we could figure something out by walking the graph but
-that seems quite hard, possibly unreasonably so.
-
---t8YVTPMu+WTibRgQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZ9UMIACgkQJNaLcl1U
-h9C9ewf/SmgphPxh0Y9/eKw8s/0PtjG3yAAo1GcLrKXP9DDLLZsyuT9nJJ7H7zPk
-ajOLB0JHKMVuE6J3Sr0lF08RBmgotNIE4mJbmLDAtn3/QraFJJgrMrivhBwY1LdG
-Qdw1wWUWIu4VofsYhexo/7YqvTCVcNll7uTGYLxdyICUdF9KN8tUxLCOapB8FC2R
-hBBQcTNaHIIrj6rSpIDRx4e3gXRHixIqsjlXwcZ6QLasfesozaetTN6L+4arUPj/
-mtepJZQsXz6yej+PEUtWKE9e3OVEK1AV7TlSP2U318tkMEwOhJ3gG37++wKs/eyp
-JudB6Y8LS158+jlJi0+/K4Vvr3euaQ==
-=dRQc
------END PGP SIGNATURE-----
-
---t8YVTPMu+WTibRgQ--
