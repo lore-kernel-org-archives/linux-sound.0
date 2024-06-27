@@ -1,83 +1,104 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 180C5148FED
-	for <linux-sound@vger.kernel.org>; Thu, 27 Jun 2024 11:30:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B197B14B083;
+	Thu, 27 Jun 2024 11:45:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719487829; cv=none; b=SuqYpYHQuDDn6NG1rCOxt74TiXBNe21wBFVAna0xIHIBhVQuOFdySk//2L5okfp0qOnIKeZ6RK+CsXTvqkiSKY+qxorvyGLuxa6gmNY/a/IQ6fCuEAk0E0UUW4sBHtP+qYrBs71LKAHSs6atGR0kvWVsozrDkRI2uN8HlRn9DDc=
+	t=1719488714; cv=none; b=g488MjOOw6Deh7ySrhdDLeIfMn+J3g5aISBRhlCGAlE5n6GDzLVJCvX2d1AEMre76KosidG4V9snlcKnR4i3kvegt8i7zkkSfSb/eYh7O3kf6YTmfGdOdYO7nV7heH3A8qPKnS6JEBdqKsuKiJcDZJAJQN/vkiKplZUh9fF6NNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719487829; c=relaxed/simple;
-	bh=nUXxadfRolGXgOkeHyHvKiNdu54lNo3EHhOpRM4FYYc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=eaqQC+1UhT3zCUORNMY/tAzeKg+SXHJyXAx6/rNWAwWje292PpdfZZSb2pSV7nXx7Hd/c360gTseRHQ/L15UpgKFeFf72TfFD+t/qjatY1iN03YtDWFKFX38/e7kfK/OZC7LT7fhnhZ2gG++G2ud+v8qruFn4EpRRaO2TqHIt2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uJurPXbr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719488714; c=relaxed/simple;
+	bh=VDvyQJrFafoefCcI3xmMSH7VK3qS/ShkSjr5pCXHH7U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=obT56lmuJu9wkNeDuRAswKtzKHdogOWPhFBDpQ5Yyv50gE4jFccVXNNJhEILPYaSgKALlOTipDFPVSHf3c0cxMbZFAo6zxChF7rcY6AmbGe0rnPZxmTK49v38ikbga9uYreDM8TuCEFVNWtPsYZwWyY7gbjSKTrQLeBdoDkR0AQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UfI2lMAr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uJurPXbr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10F05C32786;
-	Thu, 27 Jun 2024 11:30:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UfI2lMAr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90BE8C2BBFC;
+	Thu, 27 Jun 2024 11:45:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719487828;
-	bh=nUXxadfRolGXgOkeHyHvKiNdu54lNo3EHhOpRM4FYYc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=uJurPXbrxRjg9Qk7Xnk4Ep02lHQBbJXN4ZYZSsWiY9TJBdXk6NgWfRjDOwIyqMWj6
-	 GQF0XSXhtfCMBCMNkSsrSc+ZoGLYgkiMajX58gFD6hPRhgU8avjbgYMDiaJMbZKbYR
-	 mW0KdrpdKTJAQcTy1wtkZTBE3Ln5ZzcRMRCg7oYjJdXlhUV4RUe43nfp8a2VbKnh7N
-	 tgJiAg5uDQPPHceUQf9VJTiQ3bdCVxmJAEnb4qPIxyNxd0ZsYd9zAqqV1ej5HKbgAf
-	 oD05jA0eMRWYNsSPnM3e067K99BZJlJHgpNZFi2QyAzqLxxnYKv0Twgy3L8gSfVx+z
-	 u8J6iFv3xVzMQ==
+	s=k20201202; t=1719488714;
+	bh=VDvyQJrFafoefCcI3xmMSH7VK3qS/ShkSjr5pCXHH7U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UfI2lMArkfOQ6Z23sscO8OW/zBTyyqKadyRFkq7enmcEbCVY/gMxhrC/9xJleVcOj
+	 GJJoLFRHLFNdrR9pesx6gIW20MBElULs2/G/MZhQ86HFUFP55CMqgPMKetOjfUmds6
+	 c4usiJpaB38058hyg1F5YKmguFpJtTcWxnM6eOsRQ5lYIFwqEGeFmc1uhMg2L5r2ii
+	 ma3iszQO3AHtP3jBxcysiwKhtFwbW5rfSBXQ05y6vGwFLam2WMKwvW3hrRO2t2yJNx
+	 YwyaCz9bF9+waQxHc1wxn5Ivp3GYKMijwNVcYsmtDRixqxWACmmHrbhUQDf5LDIsVH
+	 BEI3hu7ELfYDw==
+Date: Thu, 27 Jun 2024 12:45:07 +0100
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, shumingf@realtek.com
-Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com, 
- oder_chiou@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com
-In-Reply-To: <20240620103237.2124196-1-shumingf@realtek.com>
-References: <20240620103237.2124196-1-shumingf@realtek.com>
-Subject: Re: [PATCH 2/2] ASoC: rt712-sdca: add the function for version B
-Message-Id: <171948782677.68092.9737848700397005574.b4-ty@kernel.org>
-Date: Thu, 27 Jun 2024 12:30:26 +0100
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Alexandre Belloni <aleandre.belloni@bootlin.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>, devicetree@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 2/2] ASoC: dt-bindings: simple-audio-mux: add mux-names
+ property
+Message-ID: <169aa3ed-8427-4832-b5e8-302a1ce0558e@sirena.org.uk>
+References: <87bk3nqc0e.wl-kuninori.morimoto.gx@renesas.com>
+ <878qyrqbyt.wl-kuninori.morimoto.gx@renesas.com>
+ <c7bad597-84cc-445f-8446-398cb5e5005e@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev-d4707
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="t8YVTPMu+WTibRgQ"
+Content-Disposition: inline
+In-Reply-To: <c7bad597-84cc-445f-8446-398cb5e5005e@kernel.org>
+X-Cookie: I just had a NOSE JOB!!
 
-On Thu, 20 Jun 2024 18:32:37 +0800, shumingf@realtek.com wrote:
-> The version B will support the multi-lane function and integrate the DMIC function
-> in one SoundWire interface.
-> Due to some registers having different default values between version A and B,
-> this patch also removes the redundant default registers to avoid confusion.
-> 
-> 
 
-Applied to
+--t8YVTPMu+WTibRgQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Thu, Jun 27, 2024 at 09:46:29AM +0200, Krzysztof Kozlowski wrote:
+> On 27/06/2024 05:52, Kuninori Morimoto wrote:
 
-Thanks!
+> > Current simple-audio-mux selects MUX by "Input 1" or "Input 2",
+> > it is not user friendly. Adds new "mux-names" property and enable to
+> > select MUX by own names.
 
-[2/2] ASoC: rt712-sdca: add the function for version B
-      commit: 936abb09c1c7ce2c9c8b7838fc780e98c0140759
+> > +  mux-names:
+> > +    description: |
+> > +      Name of multiplexers. default is "Input 1", "Input 2"
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+> I have troubles with this binding... It seems driver expects only one
+> GPIO, but the binding allows any number. Similarly mux-names...
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+> Anyway, this does not look like hardware description but rather
+> configuration of driver. What's wrong with input 1 or mux 1 or whatever
+> is there for default?
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+I would expect that when this driver is deployed it would mainly be for
+selecting between things like microphone inputs that are defined and
+labelled as part of the system hardware design.  Using numbered inputs
+would *work* but it's not great for usability so I do see a use case for
+labels.  Possibly we could figure something out by walking the graph but
+that seems quite hard, possibly unreasonably so.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+--t8YVTPMu+WTibRgQ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thanks,
-Mark
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZ9UMIACgkQJNaLcl1U
+h9C9ewf/SmgphPxh0Y9/eKw8s/0PtjG3yAAo1GcLrKXP9DDLLZsyuT9nJJ7H7zPk
+ajOLB0JHKMVuE6J3Sr0lF08RBmgotNIE4mJbmLDAtn3/QraFJJgrMrivhBwY1LdG
+Qdw1wWUWIu4VofsYhexo/7YqvTCVcNll7uTGYLxdyICUdF9KN8tUxLCOapB8FC2R
+hBBQcTNaHIIrj6rSpIDRx4e3gXRHixIqsjlXwcZ6QLasfesozaetTN6L+4arUPj/
+mtepJZQsXz6yej+PEUtWKE9e3OVEK1AV7TlSP2U318tkMEwOhJ3gG37++wKs/eyp
+JudB6Y8LS158+jlJi0+/K4Vvr3euaQ==
+=dRQc
+-----END PGP SIGNATURE-----
+
+--t8YVTPMu+WTibRgQ--
