@@ -1,163 +1,199 @@
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4DF1C0044
-	for <linux-sound@vger.kernel.org>; Fri, 28 Jun 2024 14:17:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F601E517;
+	Fri, 28 Jun 2024 14:23:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719584253; cv=none; b=NLZLhsX3XgMEk4ds+4JjWD42S2xRO+0e6dgvyy5c2Ee6lV8+Kwefig2NrYkKfYMTW5rIIHL0j4zfpJngdxximZlaP0Hjp2qVqiPN5dM5Ty7xO4SJnjW/eNO7f3VQ9kvDlf6lUnV7XkIu6uEfvfQFFTnvQ8/kyjHBry5HCvxQByk=
+	t=1719584633; cv=none; b=Uck08rSET7Bx6h0lEeRmliKmfdQ4zO1WsGiLhlGT/r0h2DtSBFDVgNVe3BQfpr9nBhAyTYY4Ootx4Ek0SOPG/+VagwEDOTN+nZzlp+7hUAes2enQmFLT3YJHkuJ9233G7lHHaYFAse8eIScWsy/+R62Lk3DOcAm1TczGWPyqpEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719584253; c=relaxed/simple;
-	bh=X5an3abTWdvL8qtlTK3g1nKT+T6J9UFiLnTAbmQhG/I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IU6zkUI1toinkAW05cLtcxPtBLwOm3wjm4ZIByklGhJei63mtH+X7vT9W83BuAMdxC07oqWbp0KblZ5jDUAcov9R3gWzGTLQ1SUpm/uKnJnmH5eA+WIyKbz2tB6Bi4dHAV9zYLrgqO6kp2LpdWm9CdNPrYq8TL9xxgxNWgv5Uqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BHlT5rxF; arc=none smtp.client-ip=209.85.128.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1719584633; c=relaxed/simple;
+	bh=dSAzEhDO1Gae2NO13lpY5+95zUWJJdZJ5tNKaWjgOZg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sKRhtUI2rTKOCy1pBtL4LUT6NW+kN1Vy/jhD0VaFzhaALwXCo5MizRRblO83jlPr0Sg/Y7lIdhCd5ADUS8vnn7pcRmUpcJr8+Mi9rcCzNthrkk7AtL2Ild2GpzvBWb21N5ibU1+nI7n5LowgnhIQFNyCX+blKCQu3nur1VkYHFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V+UrNScO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BHlT5rxF"
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-64361817e78so6531467b3.1
-        for <linux-sound@vger.kernel.org>; Fri, 28 Jun 2024 07:17:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1719584251; x=1720189051; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=DGMldhhxstZD2VHINPtgUkJtig9Dn80WfHZSFwMmp2Q=;
-        b=BHlT5rxFHSWv8sv4ru8q0rkky44r4ZlHhYBkqNNJ20WkX2JHeZtr+OQioKivAjB3/I
-         phXINjdp+vtyWvJXjFEesmy4d+4tLq6q1P6gLej/3idYnVj0HSAy+8iIZJAyjI9gRwup
-         FPpM8TGz0ygI8QIlxfizj5lTpg7+XFOmJYUkx+QDaL/Mx0Rzclyt9K6lP0uny4Pt3Dax
-         iR1hqKU9AWGGXj2+gVzePLrTBvpehgRI1wTnb6X5H3M1T6psO5uSrSQxIMKBHCEOl9CI
-         +mDyo9m1GH/tslLRM4WpHe1ml56Sfwzd7n+HsTZvFVIXgT57pC7zLxD306guYUt3oCmh
-         f64Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719584251; x=1720189051;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DGMldhhxstZD2VHINPtgUkJtig9Dn80WfHZSFwMmp2Q=;
-        b=Nvg3JE8x5JpuHgqWqwuH4HFeILpWk6qE8ExSxtYOIDprWrNilvKXGIMbPpDcnbxANu
-         JA8WZLVaamqW7znoTAW0BqRo62ovjBiDphZiYwaDU5rpz/jPr8trTtcVVcuoYZQgdcHa
-         +LzC1wtaR+T3rrk485UT5YOAHCosClkZXiyxnEpAK8eEFdQ8SKdR2jprhD3UZZm26YAA
-         aZUMsbm0EzKTjKepx1YIHH9iz+SdSdfRt92DBwBUrvjEBwCCSgRLHFfqSkViPhIEFQNY
-         c3fhcQvS26cTeZ16Y6ANFwy2x9okNkh+QJ2a0CWkjZNM8Y2DIREPF6tv414givwrgKLd
-         CW1A==
-X-Forwarded-Encrypted: i=1; AJvYcCWl4WtxqNInX7ujRl02ZZZ2O6LAi8KeHnSTWqik0aP8CBGJXkJaM45hHkJf/ELoE+S5NC9p6i3vMMsVsEcPIOOUv7fs6THje8OjK80=
-X-Gm-Message-State: AOJu0YxbHAc2qrTEHhR3ybXptZw/mh2qq2KlkScToVI/77pIi1RyerAZ
-	knj+lA33hZ+yswiIBk+NMiF17++mX89MOimtvvk4+7itWjyqT8uU4tktbctq9QQITF2m/xYDlqM
-	KlsFYX+SVM71lYTQZ48taBi9NoJqNsYNg45P1Uw==
-X-Google-Smtp-Source: AGHT+IEnqc4gKd8d3/4CtY+9Z2dX/nIjYsaIb1fXkGgwuAAIIiovBHfJVK2XUUGwxWXGgo5SDGMIF1irekTJMnwHlS8=
-X-Received: by 2002:a81:de4d:0:b0:627:778f:b0a8 with SMTP id
- 00721157ae682-643aba4654bmr165212747b3.42.1719584250582; Fri, 28 Jun 2024
- 07:17:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V+UrNScO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6D1CC116B1;
+	Fri, 28 Jun 2024 14:23:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719584633;
+	bh=dSAzEhDO1Gae2NO13lpY5+95zUWJJdZJ5tNKaWjgOZg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=V+UrNScOc+11hsj3dWbTn1U8HYKKi0rjp2oEJtQjwU7jE2+/s0WnyLFXEMOQQdm0Z
+	 ADF04P2nhV001qvjNLyqQCfn0MWzBZqP62ZM4bcpUKvsL4huyPbPxe2JxXykX0+L0h
+	 KBUrIRFpDXl0oIkD7lsERf1TQD4tnNVf+buhujEoKx8ynnyfm4Ds0PEIc587SW22SA
+	 1AB8P+HRRcA3LarY/6PfGh3LQS1cmOfRkyQYEam7QLC7/Z9bBHJW2TLD7lMvn0vbDL
+	 xsX2HC85TNMVetEGAem2qNOjxw56v1u7Y9RjYIVlvuyXQsICfV9AwsGuXhgvnYeE/3
+	 cYpNWofQGXU7A==
+Date: Fri, 28 Jun 2024 15:23:48 +0100
+From: Lee Jones <lee@kernel.org>
+To: James Ogletree <James.Ogletree@cirrus.com>
+Cc: James Ogletree <jogletre@opensource.cirrus.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	"robh+dt@kernel.org" <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Jeff LaBundy <jeff@labundy.com>,
+	"patches@opensource.cirrus.com" <patches@opensource.cirrus.com>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Subject: Re: [PATCH RESEND v11 0/5] Add support for CS40L50
+Message-ID: <20240628142348.GL2532839@google.com>
+References: <20240620161745.2312359-1-jogletre@opensource.cirrus.com>
+ <20240620165935.GT3029315@google.com>
+ <21975F67-D71D-4D5D-8042-8EE64E8864CA@cirrus.com>
+ <20240627071258.GE2532839@google.com>
+ <C8C41985-E19A-400C-9DF2-720BCDE984E1@cirrus.com>
+ <20240628080653.GJ2532839@google.com>
+ <531E5C17-B55C-4548-97F7-B0B494AE7B16@cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240627-b4-qcom-audio-lpass-codec-cleanups-v1-0-ede31891d238@linaro.org>
- <20240627-b4-qcom-audio-lpass-codec-cleanups-v1-2-ede31891d238@linaro.org>
- <grpb57rhum4auor3n66mqd2tpmd52gzofbdog3vlmxlamfxv5a@2mhfkigl6ek2> <1fa1da22-07a5-4d76-b4c7-fc16e3df4b32@linaro.org>
-In-Reply-To: <1fa1da22-07a5-4d76-b4c7-fc16e3df4b32@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 28 Jun 2024 17:17:20 +0300
-Message-ID: <CAA8EJpq_2RUs3go6JZ+uVuJ5PJKzv0e2T8uS5QJMrB_JUAtNPw@mail.gmail.com>
-Subject: Re: [PATCH 2/4] ASoC: codecs: lpass-rx-macro: Keep static
- regmap_config as const
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Banajit Goswami <bgoswami@quicinc.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org, 
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <531E5C17-B55C-4548-97F7-B0B494AE7B16@cirrus.com>
 
-On Fri, 28 Jun 2024 at 11:39, Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 28/06/2024 10:34, Dmitry Baryshkov wrote:
-> > On Thu, Jun 27, 2024 at 05:23:44PM GMT, Krzysztof Kozlowski wrote:
-> >> The driver has static 'struct regmap_config', which is then customized
-> >> depending on device version.  This works fine, because there should not
-> >> be two devices in a system simultaneously and even less likely that such
-> >> two devices would have different versions, thus different regmap config.
-> >> However code is cleaner and more obvious when static data in the driver
-> >> is also const - it serves as a template.
-> >>
-> >> Mark the 'struct regmap_config' as const and duplicate it in the probe()
-> >> with devm_kmemdup to allow customizing per detected device variant.
-> >>
-> >> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> >> ---
-> >>  sound/soc/codecs/lpass-rx-macro.c | 17 +++++++++++++----
-> >>  1 file changed, 13 insertions(+), 4 deletions(-)
-> >
-> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >
-> >>
-> >> diff --git a/sound/soc/codecs/lpass-rx-macro.c b/sound/soc/codecs/lpass-rx-macro.c
-> >> index 59fe76b13cdb..3d8149665439 100644
-> >> --- a/sound/soc/codecs/lpass-rx-macro.c
-> >> +++ b/sound/soc/codecs/lpass-rx-macro.c
-> >> @@ -1662,7 +1662,7 @@ static bool rx_is_readable_register(struct device *dev, unsigned int reg)
-> >>      return rx_is_rw_register(dev, reg);
-> >>  }
-> >>
-> >> -static struct regmap_config rx_regmap_config = {
-> >> +static const struct regmap_config rx_regmap_config = {
-> >>      .name = "rx_macro",
-> >>      .reg_bits = 16,
-> >>      .val_bits = 32, /* 8 but with 32 bit read/write */
-> >> @@ -3765,6 +3765,7 @@ static const struct snd_soc_component_driver rx_macro_component_drv = {
-> >>  static int rx_macro_probe(struct platform_device *pdev)
-> >>  {
-> >>      struct reg_default *reg_defaults;
-> >> +    struct regmap_config *reg_config;
-> >>      struct device *dev = &pdev->dev;
-> >>      kernel_ulong_t flags;
-> >>      struct rx_macro *rx;
-> >> @@ -3851,14 +3852,22 @@ static int rx_macro_probe(struct platform_device *pdev)
-> >>              goto err;
-> >>      }
-> >>
-> >> -    rx_regmap_config.reg_defaults = reg_defaults;
-> >> -    rx_regmap_config.num_reg_defaults = def_count;
-> >> +    reg_config = devm_kmemdup(dev, &rx_regmap_config, sizeof(*reg_config),
-> >> +                              GFP_KERNEL);
-> >> +    if (!reg_config) {
-> >> +            ret = -ENOMEM;
-> >> +            goto err;
-> >> +    }
-> >>
-> >> -    rx->regmap = devm_regmap_init_mmio(dev, base, &rx_regmap_config);
-> >> +    reg_config->reg_defaults = reg_defaults;
-> >> +    reg_config->num_reg_defaults = def_count;
-> >> +
-> >> +    rx->regmap = devm_regmap_init_mmio(dev, base, reg_config);
-> >>      if (IS_ERR(rx->regmap)) {
-> >>              ret = PTR_ERR(rx->regmap);
-> >>              goto err;
-> >>      }
-> >> +    devm_kfree(dev, reg_config);
-> >>      devm_kfree(dev, reg_defaults);
-> >
-> > Seeing devm_kfree in the non-error path makes me feel strange. Maybe
-> > it's one of the rare occasions when I can say that __free is suitable
-> > here.
->
-> These would have a bit different meaning in such case. The __free would
-> not clean it in this spot, but on exit from the scope. I wanted to
-> kfree() here, because the config (and reg_defaults) are not used by past
-> regmap_init. I mentioned it briefly in previous patch msg.
->
-> To me this code is readable and obvious - past this point nothing uses
-> that allocation. However maybe instead of devm(), the code would be
-> easier to read if non-devm-malloc + __free()?
+On Fri, 28 Jun 2024, James Ogletree wrote:
 
-Yes, that's what I was thinking about. But it's definitely an optional
-topic. Your code is correct.
+> 
+> > On Jun 28, 2024, at 3:06 AM, Lee Jones <lee@kernel.org> wrote:
+> > 
+> > On Thu, 27 Jun 2024, James Ogletree wrote:
+> > 
+> >> 
+> >>> On Jun 27, 2024, at 2:12 AM, Lee Jones <lee@kernel.org> wrote:
+> >>> 
+> >>> On Wed, 26 Jun 2024, James Ogletree wrote:
+> >>> 
+> >>>> 
+> >>>>> On Jun 20, 2024, at 11:59 AM, Lee Jones <lee@kernel.org> wrote:
+> >>>>> 
+> >>>>> On Thu, 20 Jun 2024, James Ogletree wrote:
+> >>>>> 
+> >>>>>> Changes in v11:
+> >>>>>> - Constified function parameters in ASOC driver
+> >>>>>> - Removed an unneeded #include
+> >>>>>> - Changed number of max FF effects = 1
+> >>>>>> - Minor refactoring in Input driver
+> >>>>>> - Reworded comment in MFD driver
+> >>>>>> 
+> >>>>>> Changes in v10:
+> >>>>>> - Minor refactoring and logical improvements all around
+> >>>>>> - Renamed and added supplies
+> >>>>>> 
+> >>>>>> Changes in v9:
+> >>>>>> - Fixed empty struct by utilizing cs_dsp's post_run callback
+> >>>>>> - Style fixes in MFD driver
+> >>>>>> 
+> >>>>>> Changes in v8:
+> >>>>>> - set_sysclk() -> set_bclk_ratio()
+> >>>>>> - Added ID table to codec driver
+> >>>>>> - Style improvements
+> >>>>>> - Fixed ordering of new write sequence operations
+> >>>>>> 
+> >>>>>> Changes in v7:
+> >>>>>> - Fixed sparse warning
+> >>>>>> - Moved write sequences to private data structure
+> >>>>>> - Logical and style improvements in write sequence interface
+> >>>>>> 
+> >>>>>> Changes in v6:
+> >>>>>> - Updated write sequencer interface to be control-name based
+> >>>>>> - Fixed a race condition and non-handling of repeats in playback callback
+> >>>>>> - Stylistic and logical improvements all around
+> >>>>>> 
+> >>>>>> Changes in v5:
+> >>>>>> - Added a codec sub-device to support I2S streaming
+> >>>>>> - Moved write sequencer code from cirrus_haptics to cs_dsp
+> >>>>>> - Reverted cirrus_haptics library; future Cirrus input
+> >>>>>> drivers will export and utilize cs40l50_vibra functions
+> >>>>>> - Added more comments
+> >>>>>> - Many small stylistic and logical improvements
+> >>>>>> 
+> >>>>>> Changes in v4:
+> >>>>>> - Moved from Input to MFD
+> >>>>>> - Moved common Cirrus haptic functions to a library
+> >>>>>> - Incorporated runtime PM framework
+> >>>>>> - Many style improvements
+> >>>>>> 
+> >>>>>> Changes in v3:
+> >>>>>> - YAML formatting corrections
+> >>>>>> - Fixed typo in MAINTAINERS
+> >>>>>> - Used generic node name "haptic-driver"
+> >>>>>> - Fixed probe error code paths
+> >>>>>> - Switched to "sizeof(*)"
+> >>>>>> - Removed tree reference in MAINTAINERS
+> >>>>>> 
+> >>>>>> Changes in v2:
+> >>>>>> - Fixed checkpatch warnings
+> >>>>>> 
+> >>>>>> James Ogletree (5):
+> >>>>>> firmware: cs_dsp: Add write sequence interface
+> >>>>>> dt-bindings: input: cirrus,cs40l50: Add initial DT binding
+> >>>>>> mfd: cs40l50: Add support for CS40L50 core driver
+> >>>>>> Input: cs40l50 - Add support for the CS40L50 haptic driver
+> >>>>>> ASoC: cs40l50: Support I2S streaming to CS40L50
+> >>>>>> 
+> >>>>>> .../bindings/input/cirrus,cs40l50.yaml        |  68 +++
+> >>>>>> MAINTAINERS                                   |  12 +
+> >>>>>> drivers/firmware/cirrus/cs_dsp.c              | 278 +++++++++
+> >>>>>> drivers/input/misc/Kconfig                    |  10 +
+> >>>>>> drivers/input/misc/Makefile                   |   1 +
+> >>>>>> drivers/input/misc/cs40l50-vibra.c            | 555 +++++++++++++++++
+> >>>>>> drivers/mfd/Kconfig                           |  30 +
+> >>>>>> drivers/mfd/Makefile                          |   4 +
+> >>>>>> drivers/mfd/cs40l50-core.c                    | 570 ++++++++++++++++++
+> >>>>>> drivers/mfd/cs40l50-i2c.c                     |  68 +++
+> >>>>>> drivers/mfd/cs40l50-spi.c                     |  68 +++
+> >>>>>> include/linux/firmware/cirrus/cs_dsp.h        |  27 +
+> >>>>>> include/linux/mfd/cs40l50.h                   | 137 +++++
+> >>>>>> sound/soc/codecs/Kconfig                      |  11 +
+> >>>>>> sound/soc/codecs/Makefile                     |   2 +
+> >>>>>> sound/soc/codecs/cs40l50-codec.c              | 307 ++++++++++
+> >>>>>> 16 files changed, 2148 insertions(+)
+> >>>>>> create mode 100644 Documentation/devicetree/bindings/input/cirrus,cs40l50.yaml
+> >>>>>> create mode 100644 drivers/input/misc/cs40l50-vibra.c
+> >>>>>> create mode 100644 drivers/mfd/cs40l50-core.c
+> >>>>>> create mode 100644 drivers/mfd/cs40l50-i2c.c
+> >>>>>> create mode 100644 drivers/mfd/cs40l50-spi.c
+> >>>>>> create mode 100644 include/linux/mfd/cs40l50.h
+> >>>>>> create mode 100644 sound/soc/codecs/cs40l50-codec.c
+> >>>>> 
+> >>>>> Still needs Acks - ping me when you have them.
+> >>>>> 
+> >>>>> -- 
+> >>>>> Lee Jones [李琼斯]
+> >>>> 
+> >>>> Hi Lee,
+> >>>> 
+> >>>> You can take this series now.
+> >>> 
+> >>> sound/soc?
+> >>> 
+> >>> -- 
+> >>> Lee Jones [李琼斯]
+> >> 
+> >> Mark has Acked the original v11 series here:
+> >> https://urldefense.com/v3/__https://lore.kernel.org/all/a85e09d6-d8eb-4c60-ae83-b4dbf875a926@sirena.org.uk/__;!!DQ3KfwI!0a407iFiKYCsNXJTLf65046j5eBK-mijVgGMYsX8Rg8dCaxttzQAKBI976mPk_AxuVs7n1zqpQmpy7o$
+> > 
+> > Ah, you just forgot to add it to the RESEND?
+> > 
+> > Okay, leave it with me then.
+> > 
+> > -- 
+> > Lee Jones [李琼斯]
+> 
+> Actually it was Acked on the original v11 series after the RESEND had been sent
+> out. If you like, I can resend with all the collected tags.
 
+I see.  Thanks for the explanation.
+
+No need to resend again, I'll add it manually.
 
 -- 
-With best wishes
-Dmitry
+Lee Jones [李琼斯]
