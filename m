@@ -1,50 +1,50 @@
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2043.outbound.protection.outlook.com [40.107.113.43])
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2057.outbound.protection.outlook.com [40.107.113.57])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 368E2125DB;
-	Fri, 28 Jun 2024 01:47:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 658E8125DB;
+	Fri, 28 Jun 2024 01:48:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.57
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719539273; cv=fail; b=TnarXU1jAFoD4/Rqp88rIGnOwO+mtdjp8aW3ZN3HU2+J/wGKFEjF6IJKYRfO9QG9r6sf985Y+eJBU2p95/z/zrR31JJSJ91Qn9cVvB9Qlp2Byx03Ay3MIP1W6C0R8EoIKUr1tWdBsfvFK5m6gyYGMmdGzEbldgQmWFUmf3wiI0M=
+	t=1719539282; cv=fail; b=ojOwmu4LECM0P0sgnfWdcHINfoIxjrCgQj4xRYbQ3bb7BTBCwJZJ5TJ5dBfYn6rh0Z+RiaJFqfe29k+dg26dcIwZLONnNGuZEisGepsFYJKgP/ylVGk5c2zhbXtdfQYyPyCn5XoI+vnUgXBdlmwwMlyZPAemyybh1T1Dwx9LgeA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719539273; c=relaxed/simple;
-	bh=yMfUyPemph3YCtQ34l1j3nsKMwJ0uxckd0wbarJJEmE=;
+	s=arc-20240116; t=1719539282; c=relaxed/simple;
+	bh=AaMrLZgBc02FiWy9uvzjnD8w+ZORFU1I987r2DWPybM=;
 	h=Message-ID:From:Subject:To:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=TlbcPSpa6Harr2Cg262sOFQxQTketBTTF8KouVBp7ux0TGnfhRwoK3x+Lk7Yfrz3Tww5mbKkLdM6LmGuRaABYXAAvDJ2fzGlI00UG87lJaqsa0IOQbUEMBHRstgMl3d6u8CZjsqnZxEbcAJDHQw3SI46tNnlKuJ9wXxk34DiKRw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=k5kXgC8O; arc=fail smtp.client-ip=40.107.113.43
+	 Date:MIME-Version; b=FMcI2Q/j8WEQlb19539PG73XCN+KHgoAMsP97LwArwK1PLMbC7XcH0HF1+leCQCtveUvfgeQW/Vk1tcvjbQnkFwrqXnwodAnKb++wlOlm89PUasN6KW47/aFf/BgKM3SuPgcC8T2cY7LVItjiJqVKrOPooR2BqciNNHrtRhmBCg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=LDiF8Lbm; arc=fail smtp.client-ip=40.107.113.57
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="k5kXgC8O"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="LDiF8Lbm"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=i5LbNcCqEU5ly73/R52+YlocHOKCUOyesab5YiTW3bWYGQOH1NGTzYdbper2N2rqeLGH/wuIBhlrKDo/APZ/oQbZ7JRVyu/bN7lMs/FcVeUCciaCeyIyWmpv60vD9Sdg6vUhmQi4R8Zm/Xl27NSD2nYzW21Req3hevDsUd7IfjwGaJ5GRKT5Ek4hkpvJtpiqiZg3c1sqGzuWKhmIElJP4jXLCwVbWdL7OOFNF6TL75KAPCrje6SpJWmd5EcLAQPZFsWjuUvkKflkf5jZgoGeLKhWHZ7zJzkAYZRg3AtTqbHdt3j34dk/1lqe8biD34Lqwq2b1OTQBic8Up0OpdCwhw==
+ b=OWZ6Udw6BXMhfB03Ui/CxCxEfoxG8dfLpIrXpxjgF48f8xBE1L63CNcgqKIX2OoDOdnpEcE4FaVC3M411NcUGggIe6+aiaMQDANnSC6VQjJIHLyYSRLfaEY+RdWYLLdP3tr/V+5P+sf2a/P5z+Wu4wVklk8APtABKbmXBH2NYbikJRk7npbGGgZX/689u862IZtDHjzFP3m1AwieXSF4FNk/VcgcD/G430Qua1k5lKCmTFiC7zc/+x6iRM0WaBRq2Dr88hvZMlbTBMweLsrGzzvcXzDTaS0BwmEVkxbCUU+MrczVymH1p1QxMxa4TafTuqmvkshx2lsTbHvWRin3pA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1Tf8UpneksWrbhhJrPGvFmEtI/HKBn9yRONK+Ery9l4=;
- b=LR80IR6ArcVaXP7vS23mRaR/ph8QrdfgyG/NIsDkhRLotNgEZ/qUZsIQ60df/RE1rF/xJYIVLw7Ey6kJxCbV3VxdArUMp8/hnV72xAW+qI9Sv9oWK0lcvY84kSgTJFCNHamUf9iY5Uvg7tOh7k7pr2zKz3IUAJKCnsjdwPqk1z5OzBfrRFAzaqD54KNR3BLc4Ot51IBUXsPD9sJvNiwthgrYR7jxM2ro0Q6Y7WVs3X6AwQop2J9NxljmueCL++i59No316XnD50f8ZuRoxYqMWecFJxyRczYbpZsEZkDMnFA1gfcEe90kd+xbMyLZ53AmZn2casbhCx5GFPKZdvo9Q==
+ bh=NVY3oRgsh6M60t9TbuZjUC/hFLe3TSuxpb07/Q3ATXI=;
+ b=UYjs8fLJ56X1r1BKbD+7zB67KD+LanUYws/GewAu/uk/ruklbKS7/Tw+pROhHvXbex/toXsaZsl7biEyeDZU6Tnr1VM1vhMltLyqZUC2q7yxpqQwOzJV6zW8SRXE51vadwd9lDv4NnSsc9ustzpceiT5B/7bHIJaldptmlROdrJDN/gagJBrabh0QeLdcwhwWa/odwTOmRgSDO7ME8n+T6A8qdKyZGCYlzqxTtRxdcbbcBWoKmMIfHIUek6wnPbcJdw1cN23LgXVUzKROUKaHm/z4pqyXX7i54Y5nT6o4RJcPCkV6q5Tj83QnIwNbWEngd2NAbvTFHrJ8XFZYzhOVw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1Tf8UpneksWrbhhJrPGvFmEtI/HKBn9yRONK+Ery9l4=;
- b=k5kXgC8OBqQ+wWILNKHKZ6v2pOoWMLJCkfciA3T5mNv/hhcT2bM5JkjAz+ZkFCbC0cpzkWMgwK4QbQuWrqUVm5ASv1anZRFZBk6iaOhwshh2P9YV0Z3OtKFtWjhuNnVtqk3waSdEavkTqHbFn01SDUcylLbvRCXC9My9wn1Zv0I=
+ bh=NVY3oRgsh6M60t9TbuZjUC/hFLe3TSuxpb07/Q3ATXI=;
+ b=LDiF8LbmrBTsAT7AHRrJ5/EEb3Gp0QTCymrCELrWXo6Wok7yN4w5yaeym3DOpKlVs8AhNYbBlzbdgFz4v3L/D2ybH4TO9MB9NJa+iAt0CIbuFsn/p/fxoFSnQ3dKDYBR//kQQG2U7gT2SVqDttAEnmQquQqjZwXfIfKNYRj5r9k=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
  (2603:1096:400:3a9::11) by TYCPR01MB11434.jpnprd01.prod.outlook.com
  (2603:1096:400:379::11) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.32; Fri, 28 Jun
- 2024 01:47:47 +0000
+ 2024 01:47:58 +0000
 Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
  ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
  ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.7719.022; Fri, 28 Jun 2024
- 01:47:47 +0000
-Message-ID: <87frsxaldo.wl-kuninori.morimoto.gx@renesas.com>
+ 01:47:58 +0000
+Message-ID: <87ed8halde.wl-kuninori.morimoto.gx@renesas.com>
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v4 1/2] ASoC: simple-audio-mux: enable to select MUX names
+Subject: [PATCH v4 2/2] ASoC: dt-bindings: simple-audio-mux: add mux-names property
 User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
 To: Alexandre Belloni <aleandre.belloni@bootlin.com>,
 	Conor Dooley <conor+dt@kernel.org>,
@@ -60,9 +60,9 @@ To: Alexandre Belloni <aleandre.belloni@bootlin.com>,
 In-Reply-To: <87h6ddale3.wl-kuninori.morimoto.gx@renesas.com>
 References: <87h6ddale3.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset=US-ASCII
-Date: Fri, 28 Jun 2024 01:47:47 +0000
-X-ClientProxiedBy: TY2PR02CA0067.apcprd02.prod.outlook.com
- (2603:1096:404:e2::31) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+Date: Fri, 28 Jun 2024 01:47:57 +0000
+X-ClientProxiedBy: TYCP301CA0004.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:400:386::12) To TYCPR01MB10914.jpnprd01.prod.outlook.com
  (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -72,79 +72,79 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYCPR01MB11434:EE_
-X-MS-Office365-Filtering-Correlation-Id: fe43efdc-a508-47b9-5879-08dc97144fce
+X-MS-Office365-Filtering-Correlation-Id: 0b024d24-bc51-48f8-60a8-08dc97145613
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|52116014|366016|376014|7416014|1800799024|921020|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?xO8vzbBOIeMCV8/Aq8LSOb63yKI0lNmKnUJngxdkIUGDqz6c7RdpbbzOFLzo?=
- =?us-ascii?Q?xBLAe12+tDod0/qVejDumQCnSxt/Zz+kfDDcLf2xnU+pKb0tP1Q9TPBNZL+C?=
- =?us-ascii?Q?gKhNvJ5foy/BJY+OZYzXzWc1fhdkDdihhiXqysLds97KTnYoC+yd/eeqhF5/?=
- =?us-ascii?Q?NqKmjC3GEGsRASM7fTKUas5inCTQQvd4wGMh4WP8NzunAYGwrtZp2RAK7UUE?=
- =?us-ascii?Q?Lp8/ZZX8pu4T1mPqfsk1yTs4ujSKBwkwYUtz6avHjUoSJq2E+a6lEiCyuH2p?=
- =?us-ascii?Q?+7O2ocYYSPriLy5grUkvc0pgFKrKhlhPqsYFZ6St+bQiGc3QpJ3q6SbiNA8H?=
- =?us-ascii?Q?bUymcdQWC2avQLFVBLoklMXMCoXt7izsNbPpqc1+4P7SGeT828bNSxnxVH1u?=
- =?us-ascii?Q?IqnF/CT8RBkw6C2VkKHcY7ehiFIVCnNUUCqPno6P3mONRHKESiCPimbxtzTQ?=
- =?us-ascii?Q?yDW8qP74RnIZ8dMbUbrOg55iyKllUarsyGCPDK+rn7ZUdmuGCnbBcCVeqEYM?=
- =?us-ascii?Q?6S68dmZj/ZSO0mgd1qkZ0rThKlU+m51kUv4Z1UTlptTa4/WHM685BCA/4vOu?=
- =?us-ascii?Q?fB/iw2x5vPFarmrFlOQeJagsV8HyDHp2M9Q22BXUlsKc2XARN6PPqjvzidf1?=
- =?us-ascii?Q?DBvCiKR46hWh8bYh9oPQNQBUYMboA/IT/JNXFJZuzlF5Ni7In8EBW2g6F/D9?=
- =?us-ascii?Q?/IH5y8uoy3fw1uCWOcy8ZU015A4viiOkuKW2TNdVw9yzmcQxBvo1otb7jcqX?=
- =?us-ascii?Q?fAzeR23QsOe6BkOMJ7SchsRc0Tnn7x24ZcBIhqkRP4RE2K4ShYY6YwCD/Xbg?=
- =?us-ascii?Q?kczDa+drvmmLHZrc76xnXRmHuz7hXgYmzRW6FnSwEa+oKWbwZOfefJkwo5nU?=
- =?us-ascii?Q?OZlPVlMdGKEOEHJpAjQMlVtp9szRE8N7F22RZr4wVOjaMhnm/a0uB3le81Qb?=
- =?us-ascii?Q?xyFQLRO/NRj+IE8THHTLJMsMBy8O9383BIqDHwvqxI+y7qmZpYd/g4sy6QUJ?=
- =?us-ascii?Q?lBGcwBiH5LShU7RX2oxYRWEyKNFK0Iklchs7Y2UbJB0qZQRKarVrZ6Drf1lr?=
- =?us-ascii?Q?6vcfCrZggTC0sQPcuVAqk4otPE/08vvYFJUdD9QJdw/YPippjPwm1LK8vEw2?=
- =?us-ascii?Q?1oPRT9dpECjipjMiugyfhcSMbYm1N3u0o4MwZzh5wAoqRx2og9WSImbSbAiz?=
- =?us-ascii?Q?FdFTaE0PaItvCSmtwb2R7hB1R7KkLepgPu62WCT6Ky8v9nOVFeZfTRBjmUe0?=
- =?us-ascii?Q?Taixhx04kNlLrEvykxL24dveXClv+OajX1Tpr6m7vKjU/zyyAgetPgYSr57a?=
- =?us-ascii?Q?xud/X5AHdh+b97ruiSIozcvxaptOqM2/qzDoYVQpuQdFHDrpxOaU+RWMWEGk?=
- =?us-ascii?Q?wrrixz8HWaZKA3nxEJmxe5atfk0dHIcHnl7U/93GDKn8PTN+Msrgrfe3IdsX?=
- =?us-ascii?Q?8BZUejzMH3U=3D?=
+	=?us-ascii?Q?W/kFC1jPQsSQyT+RKEbDrEaf8zjbhm6G5uNiVbj6X8dIWxv1HKMGTd0J+tw0?=
+ =?us-ascii?Q?GO6wCb2lV/wcN+bBcSi7kd4uQadRqoEtRYDjckw/6IIwB7SUBqHznTNCLxDy?=
+ =?us-ascii?Q?IOWCeINFC9+PcsCmh7d1KMk23oVMHN0B4Mhigwmu+9gaJHI2Ert58QqJ/4sM?=
+ =?us-ascii?Q?NolW+THxS7xFZIm90sfFNVN2XYUuQBCI+GvQ8gWwN11QB8XGYgY7KCEKv3Nm?=
+ =?us-ascii?Q?2RV8Pfn3nHnDFdgjoGxr/QMvl0epVXgMdlPlQtUVlP1chlioIN/R3Sf+oEBp?=
+ =?us-ascii?Q?7uyeVjUq75VD/DNDrshwfOLv8urlN918qgkDCj39tZAiV3PL4RwqPiIR0XiF?=
+ =?us-ascii?Q?6YYwjAzpMK0SobjrpVxu2joez/N+qJ2CUueCWD3xo+a523QxnsFwC8u8cxyO?=
+ =?us-ascii?Q?2wK60jG/TmXkv6PxVrFkenkr7asZb+uoLptEYLwNW//uflaPr5kA3V7QPnhN?=
+ =?us-ascii?Q?o+TCr2BmmGg1DfugywhkGQNCv0q27tKDVVgWXL90/ci2Q/s7vb0qtZqlzZQ6?=
+ =?us-ascii?Q?jwKkk+hiNIyh7GoffhORXI2HOdiu0PrcHzZZqt/MnkAalP9rbTDFMfWILNGb?=
+ =?us-ascii?Q?MYcB60T9UtcYsELCPOeq/Za/zlH53Cq90eoHQ3d5E7R2MAlwezB+uOZ66dTv?=
+ =?us-ascii?Q?nNs8SSiWn/zhMAjRNFgZH4qGDgkeHpRQ0GwCCJrk37hw0DnmTV73jiCis9et?=
+ =?us-ascii?Q?RXGNmNBnhquFbuuHnrskYSFoC0Uj5DCIyLOMx2cDP8qlKM7x1G4Hm4FJWOb/?=
+ =?us-ascii?Q?lmR/JiCA/7PB5jXrtz9VzTt1WM5m/cnnMB/nSakJ4/pwzAOSR6cZ2ktPrClc?=
+ =?us-ascii?Q?//zD62sRH9ZwQaSHb4LoBAIthF/fnfs0yzn0tWE3hXpWeTFkEZA8e94d1kw6?=
+ =?us-ascii?Q?1615R6YVxguMqMQYOUuQQF9bCcGquiFK+sAQ0UcBt7tkwasn9W6e34GbnF/M?=
+ =?us-ascii?Q?hKx0hGtzA3JsU4xS/la5XcEB+53pDHnGTht66Mhcv+YWIyg1BqvlkmsYg17o?=
+ =?us-ascii?Q?Vc/S2f0H+WN7xVJWqWR5MZMt0jT6UVRku2k84tcVHHFL7RE9wzUgerF358FA?=
+ =?us-ascii?Q?YUH4n6Ik3s18R0zB8br7N4km2E3VRSRaNmQPQm1WMSw6Rjg55Lj/0Xo2g/sj?=
+ =?us-ascii?Q?i/6Pyk7VhKOJ0a+gSOyw6kK55WDw/nRudo21UIMhMsutfSHfu+KTN+XnSinA?=
+ =?us-ascii?Q?mPejMNBPYovFBi4VLa0d7jUepJgzVL2wlABHl0o1MhwCBEVwrd1cldmZfAHt?=
+ =?us-ascii?Q?R+4+cq1WDHPxFKI107blkoxLM38hIZcxqWJ0dRcryZqWJPcNeL8DJy2joJnA?=
+ =?us-ascii?Q?i1RsxTpKzaDFh3OhHXcl4BpTx7LWBlxt/DvB9T3ZKjslb+zY1OK2vDcHiaVV?=
+ =?us-ascii?Q?3ypYRHpzLbcufzNluoBJDrRSbMga0+hDGRR/ugSnRT2a1nX9itTv7k11e8ub?=
+ =?us-ascii?Q?zY3qm0yWWCI=3D?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(366016)(376014)(7416014)(1800799024)(921020)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?kvumHVyZNFUoSF8bP74vsNdwqt+7FZQy0IFKx3/buNRbc0TshoPQ7yLGboxC?=
- =?us-ascii?Q?JWm1bMHKl+aGjMuqOA/VFiC/SUYNhwvX7wheapPKutMtqXCYDUcc7JlGddV6?=
- =?us-ascii?Q?xQKWRFEMnXYpEd65nN0pTGAjzxIpzFGSNPVtuG6t7PGIxzBBmkcePKwQAP7S?=
- =?us-ascii?Q?ZFX3pza3jE4lP56HE91w2OqqSk0ay+WxYdWTQxjUO6ZK986tRL3Eq6uTJD6U?=
- =?us-ascii?Q?6LSInvXxWDvfMSJ2qclvfyJh5CAiEkhXwsm5hhEAdugEZHmsXBwTs6oxh5C5?=
- =?us-ascii?Q?AKG5vEHgI8J5ZgjKMiOJQJ7JBlz+VlVBdhR1qgSvu0pC0A0QR25gKXXYrT9t?=
- =?us-ascii?Q?AtnRT/GLUR7v+JjoWJJX86adgboqa9Hhv4RAwRsh6v+OzKIqxb4cDsIPLs5m?=
- =?us-ascii?Q?pAJJo1Ld1lhVox1EEX2dv9vG1ho2evLlgC+E81dXwmVA/Py5ULhl9jKMNPVf?=
- =?us-ascii?Q?PdsBdWj3ivbb6lMk2bKFAOj+jPGsvmt8cvDRZNUp8t5iEnmxTpO8Gu9EWl55?=
- =?us-ascii?Q?4uSAGHMXeF1Xr0Zv+397AnbHIg92GIM6XyaqgChriUk62NSqB1DMVhnnR5N3?=
- =?us-ascii?Q?4XXVLqfLunlee6i3aeyr48fTELrJR5fAOXkNyyAj2MhpxHaweQJ9r2dRSsnW?=
- =?us-ascii?Q?qcrvEh9RoOdKrI3lQEgwHxzSm1Mbbk8U3rXcQWEKrEBguS/UtxQnQsM0+QvS?=
- =?us-ascii?Q?oHYnTZUXQg5/BNkseBFDuANqaQp80JNytnJvWjuFbTy31vxlqMVlx9SFjKx7?=
- =?us-ascii?Q?z+lP74ekMlLJtW+GvhdAaR3Je9Oshg8Fuo3hkKAgK8aQBUEiaDD3+mxTSz0l?=
- =?us-ascii?Q?ykdpGW3bKOfORX36sZInCumB/YxZIiashvgLQHUAjAHbLYF+Gk1w8bFh4gCs?=
- =?us-ascii?Q?LXOFqgJn2Ih3NuUfDXeUIFTS/NKyFrP5SdwDStcESPsUuwapKxi3Di1SuPw3?=
- =?us-ascii?Q?iWoxhhYSqnb3eMKB59R5nSg5gSQEfVk76HvxpAq90yrqCcSjVHXqGOkp1+hC?=
- =?us-ascii?Q?8dgLc1dbAQoRH7eP2NYqnHZheKNPynMFvBvamljzLi8C5GiNOQFeE/kpgDsO?=
- =?us-ascii?Q?FJ3xNzNuC6njuZAN39l8NxXiSxQ/Gk1d5e5gaB0bMMK3IXLGNZFCc39UZi9o?=
- =?us-ascii?Q?XGX9pvh1qR1ivXrIlV7pfTAd7+0UjWRbE749kZ2ND28futSEPCGXlJ6SgpHW?=
- =?us-ascii?Q?CT4/H+maJr9j3kOrkNM4U/9GhDRQEzJyrB+M0Wf6LU0RidqPzBUFDzfdICrs?=
- =?us-ascii?Q?cBD9HKdGsOUH77YOnvS8qe7CqB4Hom2gjQyO8aUMGdtI56LhRZCrMJFeHS1O?=
- =?us-ascii?Q?g1K9GKwaVA2qDj6246RgjgbpBUYyOwdu+ZTxCicMxjZU4Wqt5Y/kqC/7mluq?=
- =?us-ascii?Q?5XZe1YlDM6bF/jU9VeRE5L1hH+b/yrIiDTfwcmmogBGPJK0fm1zjYQB5XJC2?=
- =?us-ascii?Q?8x/+fWMyp25mghHQYzwN8sk4lYX3zsM4zDY8kBqsrgCTVOfBOmdK1k3ZlAuv?=
- =?us-ascii?Q?i12HW0D+8+78b44UtcWKA8SIQnINfH6731ip8lld2QMHWQJh/gC+f+W1EvJj?=
- =?us-ascii?Q?91IZgKgjwshel5bpevicDTxzaxSGRDUOI7tnwsbivIAUECOAhyJIxzG9WN0A?=
- =?us-ascii?Q?jctIG+EiEj3Qq5XlSGlYGSA=3D?=
+	=?us-ascii?Q?mAxZZUchIuDz8ZvHDssTLouRIP/WodQKs6XDvDHPST8Cb3eLNW0bthXlVq+v?=
+ =?us-ascii?Q?ZHJBR5Q88qfVcYcsY434FLYHPnyI+KAZpZ6uTI7h0RowREZx2oKcDzTQ3FWJ?=
+ =?us-ascii?Q?I87kBkvBFSZluD3LUYARbFbSNYMDl9wiFoJ/OHmiCpR9AIoVhJ1rV7fMycDZ?=
+ =?us-ascii?Q?d/MnUpAwvOIl4Rnvv/anE154dDH3Ey6q5pauuUckvvMswwLN9IW/q3N6sOpl?=
+ =?us-ascii?Q?GjkQTB/v4/Q8Uyjf1X0R5MLdaRWTME4KQ5XWdNhreGucTMYFUurVIcLkDTT2?=
+ =?us-ascii?Q?LZusc/XLxyOS9ogiKHOl1uolBZOVjSt29Ks8fpCCFJKN1gU3HGHoo+6LKR6c?=
+ =?us-ascii?Q?S0Fz0VWSHlNp5q+c7yQdi3MqxdykhnM9kY8nLTn3psSAbsntlz1HhAjQJfpE?=
+ =?us-ascii?Q?bQfdLREf0Ax6u1c8hj4tzh3CfjVcRnVioxC0FZXnUjWMNvQAAMg4jK/tJ270?=
+ =?us-ascii?Q?xPDoQvJsDyIMAu1e4rUw2pMctiHIOAsnoHXFbxgcQMfNejDxJONY8HHV2aJf?=
+ =?us-ascii?Q?hJGnEvhY5MSleHLzfyA5/PmW+4XeQCTtdvwdqJ2uAXf0teWU4X6SWTGY1wiH?=
+ =?us-ascii?Q?1iTPKBc37MG9Rt+0df02TzbccQ70GgK/ZDq6yH1wjaR22zmms+1/G3qaQRg+?=
+ =?us-ascii?Q?VdINRrJw4tMV5NNnpE26/5sPNNOJwfJMAbgQfBYzGUD2MTSbH4ypnX9CHn7b?=
+ =?us-ascii?Q?2k3heiFj0Rfj1o1xXjyXV0QHqTeRhwt6ofFjAaWd1REFnVSuCEnbeFLPLowX?=
+ =?us-ascii?Q?mG8w/Ry2dfEHnpGDO8xoAoQH4V/jShhQ+jRrnDkVD139asqJ9uzFm/VFSEyV?=
+ =?us-ascii?Q?4hS7bLh3Gc0pyOMeRdaixo/20nQm6aHjzHioHYGRGNYjrJfa7/bXa0UxrRBh?=
+ =?us-ascii?Q?MWt8WbsCX7TmETTqdHah8cJH0CR6g+TCEUwqhvBHxuY1HBOsF3wQrsJqqJ5X?=
+ =?us-ascii?Q?jFm7+Mbb3bLeo7oaBRfwS8D7/7UFxslYxkE6WL1hpRa3QdIV6UL8++2LwLcY?=
+ =?us-ascii?Q?CfXVfl5kKL4IZRIuQbJhWk6TFiKtEJx+Rdh4/rWhdzzRoIARsFQ5I9RDzzWu?=
+ =?us-ascii?Q?T+8/V808HGMi9AhNixM6aWskuRGbYafWiB2jZ5oHTy3P2TzVwwDJrYBnglP5?=
+ =?us-ascii?Q?cMtYrdi9ghB7PhgeN6Le8+L1epw2D2pmReh+ylxJEYnd+fOKl5+idcUb4ysI?=
+ =?us-ascii?Q?5r1wotlv0uTwYWPejRAzetnxQiuougPyn48OCAPzj/TebkK8YpUgi0pIndMu?=
+ =?us-ascii?Q?SzxUeNvTqdF0UkG6Uxss4Yzq5aTbIg02WTMDlJqvcuV3g5ck5LOaelNHfV8M?=
+ =?us-ascii?Q?id90IzWPu1dJKmYCzaswMnjZCo2SiIiTUg5Z6oQhs4AT2aIO6b2XNVLnlIYY?=
+ =?us-ascii?Q?Xm8fU8emXIuhvKwFKrExUezfEUPBW4TqFoRAMIvnYsv0hxo248XRY6cLn+Nx?=
+ =?us-ascii?Q?uEd0zBLJENpPlGyWgr4h/QeeX0mNI4ZwckbFMKDw30FXXuuG98e7G2a3X/s8?=
+ =?us-ascii?Q?MbpyPyPOocSAq9V/NtT4BoJPIjW+bHRz5tRDT1CshCGiphbT5MY0ennINoxs?=
+ =?us-ascii?Q?vhNk8akA0rBX622/ozhSq8XFMVlm1sp9jKTI24wfqcNgdcVy1fCZ+N+yOsN4?=
+ =?us-ascii?Q?lyu2iU6k/3QO4NvanE0KBA0=3D?=
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fe43efdc-a508-47b9-5879-08dc97144fce
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0b024d24-bc51-48f8-60a8-08dc97145613
 X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jun 2024 01:47:47.4915
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jun 2024 01:47:57.9940
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Sf0JnBzzg3aiaeOnuXx4YuysZAjmN9BZ1q1YM1jdvyaVpqSAHNIBz8dloHghaCgGKO3Gr56r/cVkJ/7HeBInk747WZbkb9pLt63cTvoELTHeUQD5ZpRiK38ZI3qCqH96
+X-MS-Exchange-CrossTenant-UserPrincipalName: aWiBSyOW1cAo2n5V7UeR9ax8g9d0Se/hDxhOB5CJxUG7cll5f8KVXvRdCrqus28ngLBS20Wf/8lT3uvg8dkK2C1Ab66Rc+Yztz7cZk6c7e+CniUOsURdKmEnLvPwFmvv
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB11434
 
 simple-audio-mux is designed to be used generally, thus "Input 1" or
@@ -154,119 +154,33 @@ of system hardware design has some clear labels.
 Adds new "state-labels" property and enable to select MUX by own state
 names.
 
-Original
-	> amixer set "MUX" "Input 1"
-
-Use mux-names
-	sound_mux: mux {
-		compatible = "simple-audio-mux";
-		mux-gpios = <...>;
-		state-labels = "Label_A", "Label_B";
-	};
-
-	> amixer set "MUX" "Label_A"
-
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- sound/soc/codecs/simple-mux.c | 55 +++++++++++++++++++++++++----------
- 1 file changed, 40 insertions(+), 15 deletions(-)
+ .../devicetree/bindings/sound/simple-audio-mux.yaml         | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/sound/soc/codecs/simple-mux.c b/sound/soc/codecs/simple-mux.c
-index bf67de12d20b..240af0563283 100644
---- a/sound/soc/codecs/simple-mux.c
-+++ b/sound/soc/codecs/simple-mux.c
-@@ -9,12 +9,21 @@
- #include <linux/regulator/consumer.h>
- #include <sound/soc.h>
+diff --git a/Documentation/devicetree/bindings/sound/simple-audio-mux.yaml b/Documentation/devicetree/bindings/sound/simple-audio-mux.yaml
+index 9f319caf3db7..3b38a0753282 100644
+--- a/Documentation/devicetree/bindings/sound/simple-audio-mux.yaml
++++ b/Documentation/devicetree/bindings/sound/simple-audio-mux.yaml
+@@ -24,6 +24,11 @@ properties:
+     description: |
+       GPIOs used to select the input line.
  
-+#define MUX_TEXT_SIZE	2
-+#define MUX_WIDGET_SIZE	4
-+#define MUX_ROUTE_SIZE	3
- struct simple_mux {
- 	struct gpio_desc *gpiod_mux;
- 	unsigned int mux;
-+	const char *mux_texts[MUX_TEXT_SIZE];
-+	struct soc_enum mux_enum;
-+	struct snd_kcontrol_new mux_mux;
-+	struct snd_soc_dapm_widget mux_widgets[MUX_WIDGET_SIZE];
-+	struct snd_soc_dapm_route mux_routes[MUX_ROUTE_SIZE];
-+	struct snd_soc_component_driver mux_driver;
- };
- 
--static const char * const simple_mux_texts[] = {
-+static const char * const simple_mux_texts[MUX_TEXT_SIZE] = {
- 	"Input 1", "Input 2"
- };
- 
-@@ -66,30 +75,23 @@ static unsigned int simple_mux_read(struct snd_soc_component *component,
- static const struct snd_kcontrol_new simple_mux_mux =
- 	SOC_DAPM_ENUM_EXT("Muxer", simple_mux_enum, simple_mux_control_get, simple_mux_control_put);
- 
--static const struct snd_soc_dapm_widget simple_mux_dapm_widgets[] = {
-+static const struct snd_soc_dapm_widget simple_mux_dapm_widgets[MUX_WIDGET_SIZE] = {
- 	SND_SOC_DAPM_INPUT("IN1"),
- 	SND_SOC_DAPM_INPUT("IN2"),
--	SND_SOC_DAPM_MUX("MUX", SND_SOC_NOPM, 0, 0, &simple_mux_mux),
-+	SND_SOC_DAPM_MUX("MUX", SND_SOC_NOPM, 0, 0, &simple_mux_mux), // see simple_mux_probe()
- 	SND_SOC_DAPM_OUTPUT("OUT"),
- };
- 
--static const struct snd_soc_dapm_route simple_mux_dapm_routes[] = {
-+static const struct snd_soc_dapm_route simple_mux_dapm_routes[MUX_ROUTE_SIZE] = {
- 	{ "OUT", NULL, "MUX" },
--	{ "MUX", "Input 1", "IN1" },
--	{ "MUX", "Input 2", "IN2" },
--};
--
--static const struct snd_soc_component_driver simple_mux_component_driver = {
--	.dapm_widgets		= simple_mux_dapm_widgets,
--	.num_dapm_widgets	= ARRAY_SIZE(simple_mux_dapm_widgets),
--	.dapm_routes		= simple_mux_dapm_routes,
--	.num_dapm_routes	= ARRAY_SIZE(simple_mux_dapm_routes),
--	.read			= simple_mux_read,
-+	{ "MUX", "Input 1", "IN1" }, // see simple_mux_probe()
-+	{ "MUX", "Input 2", "IN2" }, // see simple_mux_probe()
- };
- 
- static int simple_mux_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-+	struct device_node *np = dev->of_node;
- 	struct simple_mux *priv;
- 
- 	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-@@ -103,7 +105,30 @@ static int simple_mux_probe(struct platform_device *pdev)
- 		return dev_err_probe(dev, PTR_ERR(priv->gpiod_mux),
- 				     "Failed to get 'mux' gpio");
- 
--	return devm_snd_soc_register_component(dev, &simple_mux_component_driver, NULL, 0);
-+	/* Copy default settings */
-+	memcpy(&priv->mux_texts,	&simple_mux_texts,		sizeof(priv->mux_texts));
-+	memcpy(&priv->mux_enum,		&simple_mux_enum,		sizeof(priv->mux_enum));
-+	memcpy(&priv->mux_mux,		&simple_mux_mux,		sizeof(priv->mux_mux));
-+	memcpy(&priv->mux_widgets,	&simple_mux_dapm_widgets,	sizeof(priv->mux_widgets));
-+	memcpy(&priv->mux_routes,	&simple_mux_dapm_routes,	sizeof(priv->mux_routes));
++  state-labels:
++    description: |
++      State of input line. default is "Input 1", "Input 2"
++    $ref: /schemas/types.yaml#/definitions/string-array
 +
-+	priv->mux_driver.dapm_widgets		= priv->mux_widgets;
-+	priv->mux_driver.num_dapm_widgets	= MUX_WIDGET_SIZE;
-+	priv->mux_driver.dapm_routes		= priv->mux_routes;
-+	priv->mux_driver.num_dapm_routes	= MUX_ROUTE_SIZE;
-+	priv->mux_driver.read			= simple_mux_read;
-+
-+	/* Overwrite text ("Input 1", "Input 2") if property exists */
-+	of_property_read_string_array(np, "state-labels", priv->mux_texts, MUX_TEXT_SIZE);
-+
-+	/* switch to use priv data instead of default */
-+	priv->mux_enum.texts			= priv->mux_texts;
-+	priv->mux_mux.private_value		= (unsigned long)&priv->mux_enum;
-+	priv->mux_widgets[2].kcontrol_news	= &priv->mux_mux;
-+	priv->mux_routes[1].control		= priv->mux_texts[0]; // "Input 1"
-+	priv->mux_routes[2].control		= priv->mux_texts[1]; // "Input 2"
-+
-+	return devm_snd_soc_register_component(dev, &priv->mux_driver, NULL, 0);
- }
+   sound-name-prefix: true
  
- #ifdef CONFIG_OF
+ required:
+@@ -37,4 +42,5 @@ examples:
+     mux {
+         compatible = "simple-audio-mux";
+         mux-gpios = <&gpio 3 0>;
++        state-labels = "Label_A", "Label_B";
+     };
 -- 
 2.43.0
 
