@@ -1,41 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A870156967;
-	Fri, 28 Jun 2024 12:34:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF96615885D;
+	Fri, 28 Jun 2024 12:42:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719578056; cv=none; b=lFIH5dO5sY6egWK7UsBUIMeY315hliuN0T+hTQK30UuKYK7+q3ktaP/UGmQEPGielRFI0mbiMTVNBvs958ZYG24B8SwCHoFxnZABZPtZEhSZ8g+7cKM8meScDhtyu+qGFvTcNpBlIIeY4/7UhwN5VglTEKJIbGd8uCcgZBd4K40=
+	t=1719578552; cv=none; b=L4GBY+BeiXuuMFNVZr30wTWWm66/MsesgppmA4B59bd52YIu6YrOcVKIB2EzQmscwIwX5C+QfrvFxYgF+CaZzeK/YhCF/rWWNfL45Bl+dITh6L7IXhAGYEYi2HWRf+2l697jrhGLUuh5KRlEzmFR6vWBtHi9Pc8YVL62AlvcR1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719578056; c=relaxed/simple;
-	bh=RoLBOx1Xy5qBc1UCaefddNk4J2vlDpzCR1gAkGZkB/c=;
+	s=arc-20240116; t=1719578552; c=relaxed/simple;
+	bh=N0otqIc3ONhcPh2fSlqdXklkUC8yTJ+pjdVnueEHiBU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LPALTGynaYymsFbWeeJnAcJggtN/Q0KER8u+Wg5+WRh9wOK70tTXx2oZZ42AFKhJS+Xwo8dNk5K26MBqaf/2jmOyXwEdMqy/Cwru56V9bNNB6sWqt8j+hSLCDbjlTKzaO0/whtBH4m6V6B29tn7DOqv8y4Fyr68LR47nxziOBjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EdXMo6Cx; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=WDTN6QdzDjY3JNafRl3eAUW8B5rsMX7hQO6154xcML26q9DDeZCLuiWCFO4TJfW+e7ikAii7K3D9F6YG9d+0yzVT8ruAvd4XcwMVDBm5eDbk+AzvDc8bFobReimgqA+9y6Gyx/8dvyh1S/E11TLNHjBgz5HcSmPbqGEkg+x8Dz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mSDstujL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EdXMo6Cx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FF36C116B1;
-	Fri, 28 Jun 2024 12:34:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mSDstujL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3D9DC116B1;
+	Fri, 28 Jun 2024 12:42:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719578055;
-	bh=RoLBOx1Xy5qBc1UCaefddNk4J2vlDpzCR1gAkGZkB/c=;
+	s=k20201202; t=1719578550;
+	bh=N0otqIc3ONhcPh2fSlqdXklkUC8yTJ+pjdVnueEHiBU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EdXMo6Cxj9Dz+FuOl47zowYC7zIEJSxGvnLpwVbU4Jw9Jw2tey7v8Oqm8vmeiVrYU
-	 IxCsDH0n+dnk8FNybI2064pZTyJrlqMtiYB8glFYUx1aEPeNd6joFdi5QilE9dwpA6
-	 UkobrgcmNhcvDocPlG4jtZXdwZ/xVUtf66iwf0nl5lQdPfztZQd/V4qOi0pxcBflOx
-	 BfzwJDSaxXsxe6BI8qrZi0HvXhMFPNlkYomqVEg2iYbPm4A7NT0N+XQwDCrSSnpd+N
-	 EoWccaexWOTDRDQ6XQmqn8l7/P1+h0C5oFqYTwC/rGYTr8iw7PeE3gjyElAHZs+6dM
-	 JZKa+9tT/aw8g==
-Date: Fri, 28 Jun 2024 13:34:11 +0100
+	b=mSDstujL69YFplT8GMQUW6etXVqYim2UsIpevYJxJHHC7OJCf+oXQfDkAVpvlgAjX
+	 oQdKrVah3u/DFIRL4vD7+vZraOfY7NihkywFTeId2c52CgK2NFM0sq/PULKvxqUIhE
+	 RqI0usWQdI3h9e+ZOa9aSXrkhG1gJgzaxtBSe4iLlE6M6lMN57g5XMytNRwBFPsn0R
+	 wFxGJyNCykH++jhK+GgQm7g8DPVryaI67RQ6kkUR082lMWB1R579E4nMpxtp54uJnP
+	 TR/vjyajsKnpKCcywKOpWskjW62Ay+K9rsHlhF+K40dG0+I9xIbcdVq7Wzp/Kx/FIn
+	 JbUPIWWZkuZxA==
+Date: Fri, 28 Jun 2024 13:42:26 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>, alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] ASoC: spdif: extend supported rates to 768kHz
-Message-ID: <c68fc059-d02e-4e83-a6ae-6de566016696@sirena.org.uk>
-References: <20240628122429.2018059-1-jbrunet@baylibre.com>
- <20240628122429.2018059-4-jbrunet@baylibre.com>
+To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	quic_rohkumar@quicinc.com
+Subject: Re: [PATCH v1 3/3] ASoC: codecs: wcd937x: Remove separate handling
+ for vdd-buck supply
+Message-ID: <53015d64-a194-4596-8950-a55b4b0e429a@sirena.org.uk>
+References: <20240628101143.1508513-1-quic_mohs@quicinc.com>
+ <20240628101143.1508513-4-quic_mohs@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -43,35 +46,37 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Xj3uMmawnUkssIii"
+	protocol="application/pgp-signature"; boundary="moOJjz50aeceZ/EA"
 Content-Disposition: inline
-In-Reply-To: <20240628122429.2018059-4-jbrunet@baylibre.com>
+In-Reply-To: <20240628101143.1508513-4-quic_mohs@quicinc.com>
 X-Cookie: divorce, n:
 
 
---Xj3uMmawnUkssIii
+--moOJjz50aeceZ/EA
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Fri, Jun 28, 2024 at 02:23:08PM +0200, Jerome Brunet wrote:
-> IEC958-3 defines sampling rate up to 768 kHz.
-> Such rates maybe used with high bandwidth IEC958 links, such as eARC.
+On Fri, Jun 28, 2024 at 03:41:43PM +0530, Mohammad Rafi Shaik wrote:
 
-Acked-by: Mark Brown <broonie@kernel.org>
+> Replace free_irq() with devm_free_irq() because irq have been requested
+> wth devm_request_threaded_irq().
 
---Xj3uMmawnUkssIii
+This seems like an unrelated change, and TBH if explict frees are
+required I'd question if devm_ should be being used in the first place.
+
+--moOJjz50aeceZ/EA
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZ+rcIACgkQJNaLcl1U
-h9BRLQf+OO8G76LapZvgf0BF5bWkvUp1HUCuRr1vY60IHBG9xBAQFKffRXGvKgFZ
-MkSfqFOYApi/BcabkuQRtnbwqRsd+BDj32lipbd37dLnyGZgBb/LfpXaMotrHVYi
-QdcsRnTjh5FzXCHxVmm5oD+VYvKJon8uJM4njmYwcSy5rWcLXbMMYgRs+DDBfTxi
-xzszPeGff9v7d33aSjs9jLGbS4K6GCr03JMVGasejPOQJHBc9s7CsjXGFYNF0ASt
-J9xI2mcFnD41/9+DhS1uWZvbqPDEJYvYh+V7itdlphATD4ZNGqn/FFGo/210flr/
-gOi6fVFUYJodvTI2Zq6xRSX7SRbAFg==
-=YXi5
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZ+r7EACgkQJNaLcl1U
+h9DDoQf8CENJNEqvh0heJLuo8hBLqvgk9WIppf3jh5PzOjDdRdXS2nahpPtX5PTD
+1uTxZdTMlGXpxSlGlXckNbCU9JxM4gWFTwd5Wtda6FH4KNQi6DUlIZJEUvN2w9CG
+6up05y4UUj5L9bBJyhypenv/WdWBUmXYKqzHsYw6zMIA9yW1IPiVVSIVK7c7YOKm
+a8ItfxzMnfhnfvlsYPnNl4a1PwwY2y/3s97sJqcQM8aVqD+yC1yxOiFZPtyKGjUJ
+QrGaLsV85yaQkec8o01fU1G6ZCYAG+Rj/eEci4ydMUQLgwI/G5bTebF9OT+Y/9BY
+YoVYikmuGY4eIDvy1p4d7xY89yFUpQ==
+=lr/h
 -----END PGP SIGNATURE-----
 
---Xj3uMmawnUkssIii--
+--moOJjz50aeceZ/EA--
