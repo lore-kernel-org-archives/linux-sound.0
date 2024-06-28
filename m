@@ -1,457 +1,247 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2055.outbound.protection.outlook.com [40.107.21.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4011465A1;
-	Fri, 28 Jun 2024 09:23:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719566625; cv=none; b=Y19GQWUDCYfkP7JR15FhkovVSApBQs13refui5buwRXhmiQcwn1Ek+uvZgZl2ptNxNRFJWVVpkdY0+uoisqmPUH6ZssXy22Pi6hpVNnXDILUm6bWNjy/3Pfx6HxH4Rk4toLrjIFTKBwxH2f3JTrF/0keMGno0H1etaavU82vnew=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719566625; c=relaxed/simple;
-	bh=SSys5MIYknqoTKv0F0mO251fQHgQ4iwR5eIb018WPZ0=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=TMQzBvGi8qmQVsrgygxgt6seHNL1R2odCw5py9jbr+CrHnbixclTP3olimFnV2D5UUwCRv5t9aCD+v35GL3hDn6cSkKh6R6R8aKQCwkTIqTqbYKF9ejw8G9ZUH6Ty1MHHnfUCqGTEWkzSN6zbPwrjmEIcEQRj9q19HS12TQf6KY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dDwcqVPE; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EC7015443B;
+	Fri, 28 Jun 2024 09:44:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.21.55
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719567869; cv=fail; b=CYeEVNF3GA7Q8Xo/Na+cB5PD275NQwpzjKtddUK5J+acp61e83sng0qEA66VEwCBL5/t02v3Nyng2RTM1AuYgwAsaHwV0HCUiTGR0Ma3qMFHRGeSMXII794wpL8kEQuIFb+dLGuZ0L5jcy3DjZNHs3HcM/iNHPVZhJXgQAgkZWI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719567869; c=relaxed/simple;
+	bh=mO1yvHTc3NKf8j77zNlIQV0mpQ8DhtbhBhLeaPmCUCU=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=lWTQUIf5bgy7aw+hJyNlu21BKuyEeHqhCdhuOXl13r2c3VyAdJobvO+/K/nfXVtaUhiOLPR01EWcKsxRKZ6JkMfKFWGrQ9e38VXuKg3cvwAdIzJxb44NaYL6aLnqhZEq0gf7X1uYgGo1ZoV1p9dC8mGV5q14qqI+3x7O0V/fkME=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b=HKd9Xynk; arc=fail smtp.client-ip=40.107.21.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dDwcqVPE"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-57d10354955so466733a12.1;
-        Fri, 28 Jun 2024 02:23:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719566622; x=1720171422; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-language:cc:to:subject:from
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=baYtxBYZ7pjEtPz9CdjikSrYOvBcpn6u3FQ2N+5TP40=;
-        b=dDwcqVPEsx6t/vQoPF1+LXyBhdzJlzxzAD03AiqMe77TificERKNkR4aHVzKjCJNdO
-         Hz/mMS4rhIx0Z+z/b3y8xGsmVL1aayKtmQ/iut+5ciPMROGc2k3N982ZhjMltkkLTdEp
-         vUDGgD69F2S3tg9CQaG4BCT2JOBK6e4+JJqAPGyHUSr589q6EntlyY1NeTozVSVHuXky
-         ZFJdJ6biVGh1rn1U0MkR6iyi4uRw1+KgbxmeviZCjyq/8WBUn2ncG2JEctkLxaOHXOiP
-         eGuuMAQ6fdFj0UMCohDbmtNZvL3jkYolDfL0srQxHNwmkY+y72cQ19g+EBZZdML6kT4t
-         VdBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719566622; x=1720171422;
-        h=content-transfer-encoding:content-language:cc:to:subject:from
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=baYtxBYZ7pjEtPz9CdjikSrYOvBcpn6u3FQ2N+5TP40=;
-        b=MA2U7L8djAhVSSVvqJQi+9NWZZVVV2RUOj2bflkjRC46xEQoPlK3s0zL/AZIPWhZNj
-         peVISUNLym1xI+NO53oh3I0uBuotalXT7WGnwxWq7C7hShktzpndXN0Qck7FpE+tnMAw
-         FVopy4J4NFO7LSgqPs/uKgfjrCa4M8vqfsEJvtRrmB9i5yMwHpwME7Zki/dEFEJkXvPB
-         Rf2RkFXd8ggx4P//f0r9ePgY9OmdY2KSgasRUIfvx/M08SLdbrkqWWtLuVMwweVwoYzq
-         WN2FsIcyrav/aqyiHSdgXFLT83C/qZ4gdz9BYFLJq3WEeV+fFurGQlwN3Vnjfd9mpumi
-         dp8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVuEug2flzmQ8W6MKvMQlG8khqp5FGcTC0pVEqwgiHu1Iqfs4hhV2iD2z5ZyljUXhSG8nNgwVU94gNWnr9KFJkZ/dkcIXQAxnI6BtlOIiZURyXFxxOPPYS2CUNvUZxj/e6rIiSLLp48Dpw=
-X-Gm-Message-State: AOJu0Yw2CDJLKtrk+/UDqAVI0+ygSHxiuY37nMcRsI2+Ipt/RV+NbHuL
-	WF+XaxP/DYxdIl3SYUTzPyJgguDeWvuAwe4SatdaNmkhU1NB0lBV
-X-Google-Smtp-Source: AGHT+IE/3Afs9vHxmzvsl3H9DsS1V7bwU/VSy6NAflbuOWuaWkgoVTgn8QbmHhY5fbqaugsJqQRbZA==
-X-Received: by 2002:a50:d7cf:0:b0:57c:84fe:1acf with SMTP id 4fb4d7f45d1cf-57d49cb4600mr10197228a12.17.1719566621565;
-        Fri, 28 Jun 2024 02:23:41 -0700 (PDT)
-Received: from ?IPV6:2a02:a449:4071:1:32d0:42ff:fe10:6983? (2a02-a449-4071-1-32d0-42ff-fe10-6983.fixed6.kpn.net. [2a02:a449:4071:1:32d0:42ff:fe10:6983])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-58612c835f7sm747284a12.8.2024.06.28.02.23.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Jun 2024 02:23:40 -0700 (PDT)
-Message-ID: <5c651b3f-fe30-4874-98ed-044f7c62dd97@gmail.com>
-Date: Fri, 28 Jun 2024 11:23:39 +0200
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="HKd9Xynk"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=c4SjnD0lMUKYwOavDtP79N7NUynHuP8UMKmsGd02bPcVMzQy4mEHn0bYE7tN2MUEivdLpjvSjreP1Ga20cfP7D5kXIOJfDI9cZZZ5n9t2xpGgwMatx6X0NPcLvs/hxWRy5i5udxPNepRyp24LlME5Yj4l7jyonwFmADXDa3Ikawk5aSpLI6Utw6WJcmatT5an+laVIBCo3eQdNvCZZfrDz7YNnRg4gltrbAkgeTwHraTp5Xayo9YhXbK3vOfMInUAHmr8HqPaIaWfUZfzwbo0YxeBIUA4IE/d26AzA9YgF2JZnKBehcsfmV3A7YC9+WYNk0524KCG+ifFf+q8howtA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uAs2Y1hllEPnEtkbRstwmGKu0em8iRigETu7W2hnzl4=;
+ b=gDgMB2hHDL2Ywib9OAgf6ydQRNjAUX2O/gSaNsafrOzTIjxtqFBhx/DW9NXd7DMeOnx2MC9mDouxxOqMF1CmspnSNZXr0y9j2epdmO1RXl5B60p8mSOaaEZXM93N6zcYQXtPqlIdDjuMQ0yxu8cRbnXJxw/sQ2Wxqqm/YPmmet0z9aM8Q/uoPGdgr+mOCGS8vkzJHbjgQRgWeLcHT5BuZXCiKt74/deuIc2jmZstKX/yv5vPLusIfTrLltZ4fnW+rJW5ELSfjh6C4M41rTK/okMjAe0aD8+6pPwds3xO8j8w8Xb++/PnPWAySBJQZLLZ6PaapI5m3d5wKMVYxcencQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uAs2Y1hllEPnEtkbRstwmGKu0em8iRigETu7W2hnzl4=;
+ b=HKd9XynkrB8AWJZC2M0xZcc4xreve6yX4Jpe0Vbbm3XhvWR0ZLTFW2W1Nxrh14HjoIyumrFE2WoZxH+PDIGN/CoGVd3b5cUw4T1QexM9g0ENBkrXDgcUZaUzzzgqxVdzGBnrpjL6QL8qag89Gbae7arUd2iA1P634xRMpEGF54o=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DB9PR04MB9498.eurprd04.prod.outlook.com (2603:10a6:10:360::21)
+ by PA1PR04MB10170.eurprd04.prod.outlook.com (2603:10a6:102:463::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7719.26; Fri, 28 Jun
+ 2024 09:44:22 +0000
+Received: from DB9PR04MB9498.eurprd04.prod.outlook.com
+ ([fe80::24fa:6f9:8247:c5dc]) by DB9PR04MB9498.eurprd04.prod.outlook.com
+ ([fe80::24fa:6f9:8247:c5dc%7]) with mapi id 15.20.7698.025; Fri, 28 Jun 2024
+ 09:44:22 +0000
+From: Chancel Liu <chancel.liu@nxp.com>
+To: shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	alsa-devel@alsa-project.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Chancel Liu <chancel.liu@nxp.com>
+Subject: [PATCH] ASoC: fsl_xcvr: Improve suspend/resume flow in fsl_xcvr_trigger()
+Date: Fri, 28 Jun 2024 18:43:54 +0900
+Message-ID: <20240628094354.780720-1-chancel.liu@nxp.com>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR04CA0203.apcprd04.prod.outlook.com
+ (2603:1096:4:187::22) To DB9PR04MB9498.eurprd04.prod.outlook.com
+ (2603:10a6:10:360::21)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Johan Jonker <jbx6244@gmail.com>
-Subject: [PATCH v7] drm/rockchip: rk3066_hdmi: add sound support
-To: heiko@sntech.de
-Cc: hjc@rock-chips.com, andy.yan@rock-chips.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, lgirdwood@gmail.com, broonie@kernel.org,
- linux-sound@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB9PR04MB9498:EE_|PA1PR04MB10170:EE_
+X-MS-Office365-Filtering-Correlation-Id: 005cc989-b24f-4ffa-c8b8-08dc9756e3bc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|52116014|376014|7416014|38350700014|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?EwC/dHQF6wHd+qZsjYNvy6oejPX4psruiFYuVNdiMw/k4M1dTijb5rNaNfNY?=
+ =?us-ascii?Q?7n3cMAe+LqAuKe+2EG2+ZNftwCcfCefTCcVXhPSpDoDgIRLpIOtDOzVh8mHb?=
+ =?us-ascii?Q?GkPaJi/Et4z5UejKGBFBnW6/53KXj8AnBrBdG601rqTN+sWSvDFFH/d8CY99?=
+ =?us-ascii?Q?ynRLQ5WEiQtKRtpRR4/ECLTrrSvMeFDinXRa7L7F+IYixPYcvdmX6czl9x/l?=
+ =?us-ascii?Q?OMXHcoLW6npuJHDvejJ31rZh7WJbO5bfuccXDAdIdLK0XhgbXLOGEXZ48AFQ?=
+ =?us-ascii?Q?/9FMrSJLKJ26jCOQtzFLXIrw+rLuDFhGh7dcfyb2EefNpHjiv3mIMqEJxpW3?=
+ =?us-ascii?Q?WmMAhSFanvF03UKx9y+8SsDAKaTz6Hvd1NKB4OWdMn7wWYb3amFR1oTAQdMm?=
+ =?us-ascii?Q?CH9ERLqcIsauYTD8Dzwa8W1+jSrft4qvtNXo7yeJ0YqrdeqC3FglQT3gn8S2?=
+ =?us-ascii?Q?RcgbJzT1t2E/HU7U2N8GXGnobO311ogd/MN0zy6L3RCfy/e9VMLxX/tNjIrY?=
+ =?us-ascii?Q?EE59EJl1Bfkn+8G6uurjk6/qcxK+Y9WFjihtMpIQljspvUKvnegjS6kNqP7Q?=
+ =?us-ascii?Q?uNGWwMd0rdKEmKREGbLb0QOil03lK010CgL0jwaDr0qQAoB877Kj2TcShJ1l?=
+ =?us-ascii?Q?uADfW2JpgQSll2HjDma4C7PY84D4WhJzW3W/IBxDR8+7epfKwwB9TsZls6Gj?=
+ =?us-ascii?Q?uGhdU7aaA0YfaVF/8G7PvMGbQt7HZsIhaJazUhaxMxSqyNqRkPibUU9EGUDb?=
+ =?us-ascii?Q?bJPZIE4UACgZa2P24W+LaWHYHVGkje1K6Jzc3bP92IX4h0sYJF2efT6GtMJz?=
+ =?us-ascii?Q?Oa2UlJZhk0ViJZRjhPPWyW8s5u1MS7Mhu/NRjmmDnweXe64Ol9RN41IGXVBV?=
+ =?us-ascii?Q?K0ySxaGzRQjsYxQnTHyqUBSQ16/Qlw1e3iWWgNtRVRWhj/HcG18NI8N+dEzn?=
+ =?us-ascii?Q?6GWEGAuloR5GrucGK9MtberuRZ10hWukYXk8PtRaDqPRoT2dG41Qq6+lMndX?=
+ =?us-ascii?Q?ABIemid1r4g2OZO4T+nRf0z9ERY9qd4bmjrEYT7V7aNSRKWDgc0ONID5q7x5?=
+ =?us-ascii?Q?arar1+18lbeum2nhWhQ5+EfAc/YPq1dkDUiarTomc5WHE3n3qHXFsctwNumS?=
+ =?us-ascii?Q?kKh1fyWgVKyInQ0Di9AmotYr0xNCYqW1T1OL3Tts7oFS8dKi3zY+vIPJ86pR?=
+ =?us-ascii?Q?c6lXchheLeOZscUF4HOIq32ajfKJqVDQMg0VUStHoZv5YqsapNYrWoyQrMns?=
+ =?us-ascii?Q?P+KLhR9UYolRzAbfyAqkg3tHrUK+gLLPYqycwv9gDL3IFqFhrEjFE/DGi7x5?=
+ =?us-ascii?Q?kx4XD1a/hfZj0iD57wltJlYpLTZZ4a6UPjP7KVGMBQk83DP2b9TfZY/p9wNS?=
+ =?us-ascii?Q?ZnTFjnrjApf5ZrVKcpdXoSNUggKXz9kYWU4+XMsO6RuZMg5EUUg3920oLGX6?=
+ =?us-ascii?Q?VDnCEwtqj7A=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR04MB9498.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(7416014)(38350700014)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?GYKHdQvnQp2YjOMivuL3/rxjHXyCgfkiWq5TVIKbnX44sJyCFWMgS622648N?=
+ =?us-ascii?Q?D0b3JlihWwdAJ8kf2K1nC4JsD381mfGQGdWQpsg0y6qT99b9WnAfSJNPxaNf?=
+ =?us-ascii?Q?94mz8JXvlCJpqut37aQb7Nv5Sy4ChUfH1vfEs82oRyYAMtEOTVG16wmE0k6f?=
+ =?us-ascii?Q?9/3/lgWUpbLvUpsAeFI7kUsPK/cRGl0QPSaH96yKv8m+DLdCPbc6Zd3FPkQu?=
+ =?us-ascii?Q?KcS+r4LiuBMhjimm49nWNGkdqGNRv2MF/SwFHjJaHK+3r/gcFJ/bWQb+dZ55?=
+ =?us-ascii?Q?WnGti/vllg0cTimE2F/gw3GK8z/Mk29zhjjxB/1ROhV1tzkRU+L34Pqn/ml4?=
+ =?us-ascii?Q?mL+AR8QjZytUBxdwddfc0emFY2mPp7r5yGq1thXGTkbwUYv9s+OgQowhOz41?=
+ =?us-ascii?Q?9BYnyVY6z6bBOlqT6Hz16e+62xyb2j7u19cgti4HLTdMsMUtk0xaEsA6T/aD?=
+ =?us-ascii?Q?JvJaBSRCmr313/Y7L2mPL7m7NklMTB4PKBTeld3bqO3TeZWAJXUvvQVLM8c7?=
+ =?us-ascii?Q?jkN5mvwJskVuqicyArmcQjbLjwETPFv0fU0g706UsfvXz3pRH7P1813AEIQS?=
+ =?us-ascii?Q?kDS1/WArCKxesv6D1jcAw2mvZ/R1uIpwgpPZ951a+k2Gaf45eiR9+XpdXc4C?=
+ =?us-ascii?Q?H6xuJ4a5qeKNduq4awLXuMuZ/tu7yeQfXNG6F2vuvXDAu9SzuTsaZsucrmK5?=
+ =?us-ascii?Q?JRxd7W+Oo3sAVztz3lJjGwLWe+H84RPw/MrRJQlMfyUXxlNhoZBcGLolhbRc?=
+ =?us-ascii?Q?YfRtQSgadDCVIEPfPfGEGdX/+ZTnRHTnRZsNSaCn36pv2bqdkKhVi5J0ADe5?=
+ =?us-ascii?Q?nD+X6Dl4DUsBbIsH/clt+EyRrWcuEcR2telrtOSr6w1v9hLkoPJ3pWbgFJGm?=
+ =?us-ascii?Q?AtqJdXDTlLx0GpkSI+gtvhuMssOGmelL9WjkFU0i7bFFZn3OPf88n05nirgk?=
+ =?us-ascii?Q?an+sSrCDE9NEocZ98PIk98HQ/2KegEtG5Jn19qhYtDxJTgSQ44qkq06hIN9B?=
+ =?us-ascii?Q?GzaAVodMk10p3pqZW2bWn3YGmq8l3HwU04/99Vmh4KEChBs2CIm8A5bE+atW?=
+ =?us-ascii?Q?MmTgGdoM3N+KA2UScAxzg2SgUXtpFhxY0IOxtBldZefpjngnAecw8Kk1ttCu?=
+ =?us-ascii?Q?ITTWMhlRwzRhYsrhYmIc2MBTff6BNRPf3pVGMnhRcUjYoTeF13aHfxRQdUie?=
+ =?us-ascii?Q?ZoYW9ZGPIEKnnIwp5zotCg2sb37/Z2uNqIFdr5hYRzYtKpOqV7guW5H/2gaC?=
+ =?us-ascii?Q?63dp39u5ZIvyYlGueTZxINSsX085L29jMiyF3mXUjZaEtxv5a20i9RWpUDP8?=
+ =?us-ascii?Q?2zbvUiz2e46j2K8RKyXb6nGuDOAVs3Dq4uHDg+Ehofy9B5nLHqIx546LuWCO?=
+ =?us-ascii?Q?u7rP81+K7gdqN2A+xjy0F0POLMUfTvnBogTUQ0t+gp2rTAvMv0k1NkZtXYTE?=
+ =?us-ascii?Q?fsnREYXNCTu+so4Ozjynrv5917Rjxqd9h1h5n7ERsGGto5SOIqNayAiugdt+?=
+ =?us-ascii?Q?zLtlVNvQ53kIlj9lpp/1GyJt1R3N94Wssy6V5L2DBG438se22zWafl9VAgLB?=
+ =?us-ascii?Q?EKX9Si8A5nUxFs2tMdF+IJoXaqGwhtgP+S+4ZGl1?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 005cc989-b24f-4ffa-c8b8-08dc9756e3bc
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9498.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jun 2024 09:44:22.5045
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0dW6Hh6dR7kzN549E15zs6Z6I+3QsxlxG/AcHGsOzE9zOqS4A9rTKS5wKmJBGVlR5V7sNTHiHTd98pDbPAjPlw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR04MB10170
 
-Add sound support to the RK3066 HDMI driver.
-The HDMI TX audio source is connected to I2S_8CH.
+In the current flow all interrupts are disabled in runtime suspend
+phase. However interrupts enablement only exists in fsl_xcvr_prepare().
+After resume fsl_xcvr_prepare() may not be called so it will cause all
+interrupts still disabled even if resume from suspend. Interrupts
+should be explictily enabled after resume.
 
-Signed-off-by: Zheng Yang <zhengyang@rock-chips.com>
-Signed-off-by: Johan Jonker <jbx6244@gmail.com>
+Also, DPATH reset setting only exists in fsl_xcvr_prepare(). After
+resume from suspend DPATH should be reset otherwise there'll be channel
+swap issue.
+
+Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
 ---
+ sound/soc/fsl/fsl_xcvr.c | 43 +++++++++++++++++++++-------------------
+ 1 file changed, 23 insertions(+), 20 deletions(-)
 
-Changed V7:
-  rebase
----
- drivers/gpu/drm/rockchip/Kconfig       |   2 +
- drivers/gpu/drm/rockchip/rk3066_hdmi.c | 274 ++++++++++++++++++++++++-
- 2 files changed, 275 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
-index 1bf3e2829cd0..a32ee558408c 100644
---- a/drivers/gpu/drm/rockchip/Kconfig
-+++ b/drivers/gpu/drm/rockchip/Kconfig
-@@ -102,6 +102,8 @@ config ROCKCHIP_RGB
- config ROCKCHIP_RK3066_HDMI
- 	bool "Rockchip specific extensions for RK3066 HDMI"
- 	depends on DRM_ROCKCHIP
-+	select SND_SOC_HDMI_CODEC if SND_SOC
-+	select SND_SOC_ROCKCHIP_I2S if SND_SOC
- 	help
- 	  This selects support for Rockchip SoC specific extensions
- 	  for the RK3066 HDMI driver. If you want to enable
-diff --git a/drivers/gpu/drm/rockchip/rk3066_hdmi.c b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-index 784de990da1b..d3128b787629 100644
---- a/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-+++ b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-@@ -15,12 +15,20 @@
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
-
-+#include <sound/hdmi-codec.h>
-+
- #include "rk3066_hdmi.h"
-
- #include "rockchip_drm_drv.h"
-
- #define DEFAULT_PLLA_RATE 30000000
-
-+struct audio_info {
-+	int channels;
-+	int sample_rate;
-+	int sample_width;
-+};
-+
- struct hdmi_data_info {
- 	int vic; /* The CEA Video ID (VIC) of the current drm display mode. */
- 	unsigned int enc_out_format;
-@@ -54,9 +62,16 @@ struct rk3066_hdmi {
-
- 	unsigned int tmdsclk;
-
-+	struct platform_device *audio_pdev;
-+	struct audio_info audio;
-+	bool audio_enable;
-+
- 	struct hdmi_data_info hdmi_data;
- };
-
-+static int
-+rk3066_hdmi_config_audio(struct rk3066_hdmi *hdmi, struct audio_info *audio);
-+
- static struct rk3066_hdmi *encoder_to_rk3066_hdmi(struct drm_encoder *encoder)
- {
- 	struct rockchip_encoder *rkencoder = to_rockchip_encoder(encoder);
-@@ -214,6 +229,23 @@ static int rk3066_hdmi_config_avi(struct rk3066_hdmi *hdmi,
- 					HDMI_INFOFRAME_AVI, 0, 0, 0);
- }
-
-+static int rk3066_hdmi_config_aai(struct rk3066_hdmi *hdmi,
-+				  struct audio_info *audio)
-+{
-+	union hdmi_infoframe frame;
-+	int rc;
-+
-+	rc = hdmi_audio_infoframe_init(&frame.audio);
-+
-+	frame.audio.coding_type = HDMI_AUDIO_CODING_TYPE_STREAM;
-+	frame.audio.sample_frequency = HDMI_AUDIO_SAMPLE_FREQUENCY_STREAM;
-+	frame.audio.sample_size = HDMI_AUDIO_SAMPLE_SIZE_STREAM;
-+	frame.audio.channels = hdmi->audio.channels;
-+
-+	return rk3066_hdmi_upload_frame(hdmi, rc, &frame,
-+					HDMI_INFOFRAME_AAI, 0, 0, 0);
-+}
-+
- static int rk3066_hdmi_config_video_timing(struct rk3066_hdmi *hdmi,
- 					   struct drm_display_mode *mode)
- {
-@@ -364,6 +396,7 @@ static int rk3066_hdmi_setup(struct rk3066_hdmi *hdmi,
- 		hdmi_modb(hdmi, HDMI_HDCP_CTRL, HDMI_VIDEO_MODE_MASK,
- 			  HDMI_VIDEO_MODE_HDMI);
- 		rk3066_hdmi_config_avi(hdmi, mode);
-+		rk3066_hdmi_config_audio(hdmi, &hdmi->audio);
- 	} else {
- 		hdmi_modb(hdmi, HDMI_HDCP_CTRL, HDMI_VIDEO_MODE_MASK, 0);
+diff --git a/sound/soc/fsl/fsl_xcvr.c b/sound/soc/fsl/fsl_xcvr.c
+index 337da46a2f90..bf9a4e90978e 100644
+--- a/sound/soc/fsl/fsl_xcvr.c
++++ b/sound/soc/fsl/fsl_xcvr.c
+@@ -529,16 +529,6 @@ static int fsl_xcvr_prepare(struct snd_pcm_substream *substream,
+ 		break;
  	}
-@@ -380,9 +413,20 @@ static int rk3066_hdmi_setup(struct rk3066_hdmi *hdmi,
- 	 */
- 	rk3066_hdmi_i2c_init(hdmi);
-
--	/* Unmute video output. */
-+	/* Unmute video and audio output. */
- 	hdmi_modb(hdmi, HDMI_VIDEO_CTRL2,
- 		  HDMI_VIDEO_AUDIO_DISABLE_MASK, HDMI_AUDIO_DISABLE);
-+	if (hdmi->audio_enable) {
-+		hdmi_modb(hdmi, HDMI_VIDEO_CTRL2, HDMI_AUDIO_DISABLE, 0);
-+		/* Reset audio capture logic. */
-+		hdmi_modb(hdmi, HDMI_VIDEO_CTRL2,
-+			  HDMI_AUDIO_CP_LOGIC_RESET_MASK,
-+			  HDMI_AUDIO_CP_LOGIC_RESET);
-+		usleep_range(900, 1000);
-+		hdmi_modb(hdmi, HDMI_VIDEO_CTRL2,
-+			  HDMI_AUDIO_CP_LOGIC_RESET_MASK, 0);
-+	}
-+
- 	return 0;
- }
-
-@@ -534,6 +578,230 @@ struct drm_connector_helper_funcs rk3066_hdmi_connector_helper_funcs = {
- 	.best_encoder = rk3066_hdmi_connector_best_encoder,
- };
-
-+static int
-+rk3066_hdmi_config_audio(struct rk3066_hdmi *hdmi, struct audio_info *audio)
-+{
-+	u32 rate, channel, word_length, N, CTS;
-+	u64 tmp;
-+
-+	if (audio->channels < 3)
-+		channel = HDMI_AUDIO_I2S_CHANNEL_1_2;
-+	else if (audio->channels < 5)
-+		channel = HDMI_AUDIO_I2S_CHANNEL_3_4;
-+	else if (audio->channels < 7)
-+		channel = HDMI_AUDIO_I2S_CHANNEL_5_6;
-+	else
-+		channel = HDMI_AUDIO_I2S_CHANNEL_7_8;
-+
-+	switch (audio->sample_rate) {
-+	case 32000:
-+		rate = HDMI_AUDIO_SAMPLE_FRE_32000;
-+		N = N_32K;
-+		break;
-+	case 44100:
-+		rate = HDMI_AUDIO_SAMPLE_FRE_44100;
-+		N = N_441K;
-+		break;
-+	case 48000:
-+		rate = HDMI_AUDIO_SAMPLE_FRE_48000;
-+		N = N_48K;
-+		break;
-+	case 88200:
-+		rate = HDMI_AUDIO_SAMPLE_FRE_88200;
-+		N = N_882K;
-+		break;
-+	case 96000:
-+		rate = HDMI_AUDIO_SAMPLE_FRE_96000;
-+		N = N_96K;
-+		break;
-+	case 176400:
-+		rate = HDMI_AUDIO_SAMPLE_FRE_176400;
-+		N = N_1764K;
-+		break;
-+	case 192000:
-+		rate = HDMI_AUDIO_SAMPLE_FRE_192000;
-+		N = N_192K;
-+		break;
-+	default:
-+		DRM_DEV_ERROR(hdmi->dev, "no support for sample rate %d\n",
-+			      audio->sample_rate);
-+		return -ENOENT;
-+	}
-+
-+	switch (audio->sample_width) {
-+	case 16:
-+		word_length = 0x02;
-+		break;
-+	case 20:
-+		word_length = 0x0a;
-+		break;
-+	case 24:
-+		word_length = 0x0b;
-+		break;
-+	default:
-+		DRM_DEV_ERROR(hdmi->dev, "no support for word length %d\n",
-+			      audio->sample_width);
-+		return -ENOENT;
-+	}
-+
-+	tmp = (u64)hdmi->tmdsclk * N;
-+	do_div(tmp, 128 * audio->sample_rate);
-+	CTS = tmp;
-+
-+	/* Set_audio source I2S. */
-+	hdmi_writeb(hdmi, HDMI_AUDIO_CTRL1, 0x00);
-+	hdmi_writeb(hdmi, HDMI_AUDIO_CTRL2, 0x40);
-+	hdmi_writeb(hdmi, HDMI_I2S_AUDIO_CTRL,
-+		    HDMI_AUDIO_I2S_FORMAT_STANDARD | channel);
-+	hdmi_writeb(hdmi, HDMI_I2S_SWAP, 0x00);
-+	hdmi_modb(hdmi, HDMI_AV_CTRL1, HDMI_AUDIO_SAMPLE_FRE_MASK, rate);
-+	hdmi_writeb(hdmi, HDMI_AUDIO_SRC_NUM_AND_LENGTH, word_length);
-+
-+	/* Set N value. */
-+	hdmi_modb(hdmi, HDMI_LR_SWAP_N3,
-+		  HDMI_AUDIO_N_19_16_MASK, (N >> 16) & 0x0F);
-+	hdmi_writeb(hdmi, HDMI_N2, (N >> 8) & 0xFF);
-+	hdmi_writeb(hdmi, HDMI_N1, N & 0xFF);
-+
-+	/* Set CTS value. */
-+	hdmi_writeb(hdmi, HDMI_CTS_EXT1, CTS & 0xff);
-+	hdmi_writeb(hdmi, HDMI_CTS_EXT2, (CTS >> 8) & 0xff);
-+	hdmi_writeb(hdmi, HDMI_CTS_EXT3, (CTS >> 16) & 0xff);
-+
-+	if (audio->channels > 2)
-+		hdmi_modb(hdmi, HDMI_LR_SWAP_N3,
-+			  HDMI_AUDIO_LR_SWAP_MASK,
-+			  HDMI_AUDIO_LR_SWAP_SUBPACKET1);
-+	rate = (~(rate >> 4)) & 0x0f;
-+	hdmi_writeb(hdmi, HDMI_AUDIO_STA_BIT_CTRL1, rate);
-+	hdmi_writeb(hdmi, HDMI_AUDIO_STA_BIT_CTRL2, 0);
-+
-+	return rk3066_hdmi_config_aai(hdmi, audio);
-+}
-+
-+static int rk3066_hdmi_audio_hw_params(struct device *dev, void *d,
-+				       struct hdmi_codec_daifmt *daifmt,
-+				       struct hdmi_codec_params *params)
-+{
-+	struct rk3066_hdmi *hdmi = dev_get_drvdata(dev);
-+	struct drm_display_info *display = &hdmi->connector.display_info;
-+
-+	if (!display->has_audio) {
-+		DRM_DEV_ERROR(hdmi->dev, "no audio support\n");
-+		return -ENODEV;
-+	}
-+
-+	if (!hdmi->encoder.encoder.crtc)
-+		return -ENODEV;
-+
-+	switch (daifmt->fmt) {
-+	case HDMI_I2S:
-+		break;
-+	default:
-+		DRM_DEV_ERROR(dev, "invalid format %d\n", daifmt->fmt);
-+		return -EINVAL;
-+	}
-+
-+	hdmi->audio.channels = params->channels;
-+	hdmi->audio.sample_rate = params->sample_rate;
-+	hdmi->audio.sample_width = params->sample_width;
-+
-+	return rk3066_hdmi_config_audio(hdmi, &hdmi->audio);
-+}
-+
-+static void rk3066_hdmi_audio_shutdown(struct device *dev, void *d)
-+{
-+	/* do nothing */
-+}
-+
-+static int
-+rk3066_hdmi_audio_mute_stream(struct device *dev, void *d,
-+			      bool mute, int direction)
-+{
-+	struct rk3066_hdmi *hdmi = dev_get_drvdata(dev);
-+	struct drm_display_info *display = &hdmi->connector.display_info;
-+
-+	if (!display->has_audio) {
-+		DRM_DEV_ERROR(hdmi->dev, "no audio support\n");
-+		return -ENODEV;
-+	}
-+
-+	hdmi->audio_enable = !mute;
-+
-+	if (mute)
-+		hdmi_modb(hdmi, HDMI_VIDEO_CTRL2,
-+			  HDMI_AUDIO_DISABLE, HDMI_AUDIO_DISABLE);
-+	else
-+		hdmi_modb(hdmi, HDMI_VIDEO_CTRL2, HDMI_AUDIO_DISABLE, 0);
-+
-+	/*
-+	 * Under power mode E we need to reset the audio capture logic to
-+	 * make the audio setting update.
-+	 */
-+	if (rk3066_hdmi_get_power_mode(hdmi) == HDMI_SYS_POWER_MODE_E) {
-+		hdmi_modb(hdmi, HDMI_VIDEO_CTRL2,
-+			  HDMI_AUDIO_CP_LOGIC_RESET_MASK,
-+			  HDMI_AUDIO_CP_LOGIC_RESET);
-+		usleep_range(900, 1000);
-+		hdmi_modb(hdmi, HDMI_VIDEO_CTRL2,
-+			  HDMI_AUDIO_CP_LOGIC_RESET_MASK, 0);
-+	}
-+
-+	return 0;
-+}
-+
-+static int rk3066_hdmi_audio_get_eld(struct device *dev, void *d,
-+				     u8 *buf, size_t len)
-+{
-+	struct rk3066_hdmi *hdmi = dev_get_drvdata(dev);
-+	struct drm_mode_config *config = &hdmi->encoder.encoder.dev->mode_config;
-+	struct drm_connector *connector;
-+	int ret = -ENODEV;
-+
-+	mutex_lock(&config->mutex);
-+	list_for_each_entry(connector, &config->connector_list, head) {
-+		if (&hdmi->encoder.encoder == connector->encoder) {
-+			memcpy(buf, connector->eld,
-+			       min(sizeof(connector->eld), len));
-+			ret = 0;
+ 
+-	ret = regmap_update_bits(xcvr->regmap, FSL_XCVR_EXT_IER0,
+-				 FSL_XCVR_IRQ_EARC_ALL, FSL_XCVR_IRQ_EARC_ALL);
+-	if (ret < 0) {
+-		dev_err(dai->dev, "Error while setting IER0: %d\n", ret);
+-		return ret;
+-	}
+-
+-	/* set DPATH RESET */
+-	m_ctl |= FSL_XCVR_EXT_CTRL_DPTH_RESET(tx);
+-	v_ctl |= FSL_XCVR_EXT_CTRL_DPTH_RESET(tx);
+ 	ret = regmap_update_bits(xcvr->regmap, FSL_XCVR_EXT_CTRL, m_ctl, v_ctl);
+ 	if (ret < 0) {
+ 		dev_err(dai->dev, "Error while setting EXT_CTRL: %d\n", ret);
+@@ -679,6 +669,15 @@ static int fsl_xcvr_trigger(struct snd_pcm_substream *substream, int cmd,
+ 	case SNDRV_PCM_TRIGGER_START:
+ 	case SNDRV_PCM_TRIGGER_RESUME:
+ 	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
++		/* set DPATH RESET */
++		ret = regmap_update_bits(xcvr->regmap, FSL_XCVR_EXT_CTRL,
++					 FSL_XCVR_EXT_CTRL_DPTH_RESET(tx),
++					 FSL_XCVR_EXT_CTRL_DPTH_RESET(tx));
++		if (ret < 0) {
++			dev_err(dai->dev, "Failed to set DPATH RESET: %d\n", ret);
++			return ret;
 +		}
-+	}
-+	mutex_unlock(&config->mutex);
 +
-+	return ret;
-+}
+ 		if (tx) {
+ 			switch (xcvr->mode) {
+ 			case FSL_XCVR_MODE_EARC:
+@@ -711,6 +710,13 @@ static int fsl_xcvr_trigger(struct snd_pcm_substream *substream, int cmd,
+ 			return ret;
+ 		}
+ 
++		ret = regmap_update_bits(xcvr->regmap, FSL_XCVR_EXT_IER0,
++					 FSL_XCVR_IRQ_EARC_ALL, FSL_XCVR_IRQ_EARC_ALL);
++		if (ret < 0) {
++			dev_err(dai->dev, "Error while setting IER0: %d\n", ret);
++			return ret;
++		}
 +
-+static const struct hdmi_codec_ops audio_codec_ops = {
-+	.hw_params = rk3066_hdmi_audio_hw_params,
-+	.audio_shutdown = rk3066_hdmi_audio_shutdown,
-+	.mute_stream = rk3066_hdmi_audio_mute_stream,
-+	.get_eld = rk3066_hdmi_audio_get_eld,
-+	.no_capture_mute = 1,
-+};
+ 		/* clear DPATH RESET */
+ 		ret = regmap_update_bits(xcvr->regmap, FSL_XCVR_EXT_CTRL,
+ 					 FSL_XCVR_EXT_CTRL_DPTH_RESET(tx),
+@@ -733,6 +739,13 @@ static int fsl_xcvr_trigger(struct snd_pcm_substream *substream, int cmd,
+ 			return ret;
+ 		}
+ 
++		ret = regmap_update_bits(xcvr->regmap, FSL_XCVR_EXT_IER0,
++					 FSL_XCVR_IRQ_EARC_ALL, 0);
++		if (ret < 0) {
++			dev_err(dai->dev, "Failed to clear IER0: %d\n", ret);
++			return ret;
++		}
 +
-+static int rk3066_hdmi_audio_codec_init(struct rk3066_hdmi *hdmi,
-+					struct device *dev)
-+{
-+	struct hdmi_codec_pdata codec_data = {
-+		.i2s = 1,
-+		.ops = &audio_codec_ops,
-+		.max_i2s_channels = 8,
-+	};
-+
-+	hdmi->audio.channels = 2;
-+	hdmi->audio.sample_rate = 48000;
-+	hdmi->audio.sample_width = 16;
-+	hdmi->audio_enable = false;
-+	hdmi->audio_pdev =
-+		platform_device_register_data(dev,
-+					      HDMI_CODEC_DRV_NAME,
-+					      PLATFORM_DEVID_NONE,
-+					      &codec_data,
-+					      sizeof(codec_data));
-+
-+	return PTR_ERR_OR_ZERO(hdmi->audio_pdev);
-+}
-+
- static int
- rk3066_hdmi_register(struct drm_device *drm, struct rk3066_hdmi *hdmi)
- {
-@@ -566,6 +834,8 @@ rk3066_hdmi_register(struct drm_device *drm, struct rk3066_hdmi *hdmi)
-
- 	drm_connector_attach_encoder(&hdmi->connector, encoder);
-
-+	rk3066_hdmi_audio_codec_init(hdmi, dev);
-+
- 	return 0;
- }
-
-@@ -813,6 +1083,7 @@ static int rk3066_hdmi_bind(struct device *dev, struct device *master,
- 	return 0;
-
- err_cleanup_hdmi:
-+	platform_device_unregister(hdmi->audio_pdev);
- 	hdmi->connector.funcs->destroy(&hdmi->connector);
- 	hdmi->encoder.encoder.funcs->destroy(&hdmi->encoder.encoder);
- err_disable_i2c:
-@@ -828,6 +1099,7 @@ static void rk3066_hdmi_unbind(struct device *dev, struct device *master,
- {
- 	struct rk3066_hdmi *hdmi = dev_get_drvdata(dev);
-
-+	platform_device_unregister(hdmi->audio_pdev);
- 	hdmi->connector.funcs->destroy(&hdmi->connector);
- 	hdmi->encoder.encoder.funcs->destroy(&hdmi->encoder.encoder);
-
---
-2.39.2
+ 		if (tx) {
+ 			switch (xcvr->mode) {
+ 			case FSL_XCVR_MODE_SPDIF:
+@@ -1411,16 +1424,6 @@ static int fsl_xcvr_runtime_suspend(struct device *dev)
+ 	struct fsl_xcvr *xcvr = dev_get_drvdata(dev);
+ 	int ret;
+ 
+-	/*
+-	 * Clear interrupts, when streams starts or resumes after
+-	 * suspend, interrupts are enabled in prepare(), so no need
+-	 * to enable interrupts in resume().
+-	 */
+-	ret = regmap_update_bits(xcvr->regmap, FSL_XCVR_EXT_IER0,
+-				 FSL_XCVR_IRQ_EARC_ALL, 0);
+-	if (ret < 0)
+-		dev_err(dev, "Failed to clear IER0: %d\n", ret);
+-
+ 	if (!xcvr->soc_data->spdif_only) {
+ 		/* Assert M0+ reset */
+ 		ret = regmap_update_bits(xcvr->regmap, FSL_XCVR_EXT_CTRL,
+-- 
+2.43.0
 
