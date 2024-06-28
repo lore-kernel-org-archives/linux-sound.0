@@ -1,60 +1,33 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C63734CE04
-	for <linux-sound@vger.kernel.org>; Fri, 28 Jun 2024 06:17:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E04355884;
+	Fri, 28 Jun 2024 06:24:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719555450; cv=none; b=j0xSBZLVj6K4GOep3khBIbMAw4ioXPhHyLi2tjIWpusi3NZU+nHpGHb68hQ6oVDfy7ewAwMPVTm0OSaAmDn8hPGSrgWhNZiEYBazZmbkpjuiK0FTLswtCxURGk8svD9oT1kZDfUIIb8lb0CgpNc960XlPdQuepX05JmtaMPvBa8=
+	t=1719555865; cv=none; b=WCXT3kfgcmglHLenH4MiNCA8qE1WKz38hIP/y/DpALnGAuhTP8kLJhOrD51ptgLNeZdJ5C8hh05Px3GXPYq+ZnrVoEYvMpyOEsSf2VDr/X+yIn5m9NJmvNTJQLh0MoJ6+/07qZ0FqCyLJ/LWZnPobaWGaj/pj93J47fMjnPxjGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719555450; c=relaxed/simple;
-	bh=z9UIB5rrLY/cxp9IDsiz9q0oKv8hf241y0FJMc9qyfg=;
+	s=arc-20240116; t=1719555865; c=relaxed/simple;
+	bh=CoZpPaIVx8YVW8mjXAoTrmwo9/8K5PCV+Yw5r106JqM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U85IZNy+gqlmpCHqhy828oS1rQZ1XHKd5QArP10f/08JpSXq6rCQuUdZlD5eW3z4F7OXoWxol7f+SKpplz9DKF6viKgaqBevMASXU/txO3YyRovYnO+sg6A66zfmaNTeI/Ka0gEGQIgvnOs/6TFOwdqERbym2CXF2dHGkP1A9Sc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qFKacbE9; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 In-Reply-To:Content-Type; b=stJ605lweYGlfMi3nr2wN3bwOvLEQgNBBvMl5nUMeeERj/DNj+8U+QGR2hZo0TNTIEvG40BVh26wu2YNNs+EuKOgqX+0z/7dcdN/rfB1T3RihXsRJ7QofLFUtYuG6e8UrmoTlq6WwTIzrmuyOK/lHifQyVAn8ziZGLgctwQVnco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DhHULUZd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qFKacbE9"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2eaea28868dso2699511fa.3
-        for <linux-sound@vger.kernel.org>; Thu, 27 Jun 2024 23:17:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1719555447; x=1720160247; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=cvL1Kpr+Y0kubwCGNWw6QnVBNlgmQ51dGFE/mo0TWS4=;
-        b=qFKacbE91QJRC+Mdgt/Q4oRB6zqR2OPRlTagtUn2PdZLGE1jLZPpUxRYJyQluDtPQ+
-         ATs9TgiSVKmoKg1NE9xfbxODdeYsTYoYXecVJsuIIVVAWtw01AbVVJhGFXKuu4Xzykm8
-         aqKbeVoaxWCRHKU8OStA+xuPrmDFBG9JIHz+YrhYnjmOgF+hReWez/+4aI0m2l6KI7cN
-         0ocRwjiTsj4ky5W48wKfvaQVqgVsar3ojZQq3HYEbUgx98gUsjVTeAm1bArouCdr0fYr
-         s7xQYXHWtJV4PyeOr42XDAmBQj1qPrhze2Bg+FUykqxH3rJL8EUZ+ltwwWBXqyyhsXRg
-         6JRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719555447; x=1720160247;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cvL1Kpr+Y0kubwCGNWw6QnVBNlgmQ51dGFE/mo0TWS4=;
-        b=L0Erk2VEiuukDO0ShO1x5zznLX3q0MkCAYgKktjFuasBEP9sEboRnvwDPvaNZEVvr4
-         /yuhpq2nEcUmIoQvVOjPG4btwtL/W60siyWsfbl0DSVZgn0NvV4Uaxr7jD+CftDIZkN7
-         ZIlpwBtR7Wq/3JdsQPO6NTd7s2qEWIqDx0kFYzB3+30Cxpskw6I9nH4J3fb88QBYhBnx
-         fNr29oIVw35cAzudH9eG1Fh0pq+osn7wlesc3ZpLmSivqLoi9T1lRkgHnlUDS4TaPweJ
-         x4zbj9IFvhiR2FCaXj/pudr4TQCiINXZC+4AV5tEYFp6rGHGgHxNearGqq5u8aQNmgX1
-         gnTg==
-X-Forwarded-Encrypted: i=1; AJvYcCUrYeqjlQ+g9eG0PKlKq3PCsRSQF4h+PzPTzpmS0C3Uvuj1ptHZeuLNo/EW2xKAoJtB6MkOCmoMHtYpaM7CyLmGOFkKZ/bqRAIRaxI=
-X-Gm-Message-State: AOJu0YzOe40C2EMG/TWl/OH0mjD00JFkiC7TNo8XYyUimfemQ043Gk0n
-	b4NV2B8vYnQtQ4tW8oObpOGzPSK1GGE7MN31Kui0YwLXpp3MMPekMwgzMV123hk=
-X-Google-Smtp-Source: AGHT+IGctVcgVA83EGYdDu70N8ryw4vx7TISaUQGYnxOzUZXWrpgYGOAAhjn8A4wHTQl74HS5QgbvA==
-X-Received: by 2002:a2e:8193:0:b0:2ec:2038:925d with SMTP id 38308e7fff4ca-2ec5b2c4f38mr108962601fa.1.1719555447004;
-        Thu, 27 Jun 2024 23:17:27 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.137])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4256af5ba67sm20005225e9.19.2024.06.27.23.17.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Jun 2024 23:17:26 -0700 (PDT)
-Message-ID: <53a591ef-caf8-4494-a672-0ee95d8dfd68@linaro.org>
-Date: Fri, 28 Jun 2024 08:17:24 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DhHULUZd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE13BC32789;
+	Fri, 28 Jun 2024 06:24:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719555865;
+	bh=CoZpPaIVx8YVW8mjXAoTrmwo9/8K5PCV+Yw5r106JqM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=DhHULUZdd6C/jTaHjWsbZUYCi8zwOJyCvNrBdJhnYOQM0neOIStILxWa1Kk0dS2WL
+	 w7TuGQt4BoRTyzOhsX5SyHUZjWn7AHz45IbnIprBlcybGdSPvhyfJOsUSlzrQCC0UY
+	 mSUWOVX62CViNGk4sZR4MHmkQIFB7kdRNo4fWKEBiRE+4kcUkT3aBkKhjvK2zDNcpn
+	 FRmEDfP2Sy7TVOikkDbJWyNyoaT+IjDqak3+p8KmUTy/mUskgdjY8LTBFDK3u3DS5k
+	 KVticidszd5oL60o31h2z8frMCjy696IrIgrfLRMKalhkl40AerupZcGZ7igYIn5Pt
+	 +uz94afLLo99A==
+Message-ID: <e177530a-046b-407b-8da5-85947d2d1340@kernel.org>
+Date: Fri, 28 Jun 2024 08:24:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -62,21 +35,21 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7/7] arm64: dts: qcom: qrb4210-rb2: add HDMI audio
- playback support
-To: Alexey Klimov <alexey.klimov@linaro.org>, linux-sound@vger.kernel.org,
- srinivas.kandagatla@linaro.org, bgoswami@quicinc.com, lgirdwood@gmail.com,
- broonie@kernel.org
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- andersson@kernel.org, konrad.dybcio@linaro.org, perex@perex.cz,
- tiwai@suse.com, linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org,
- devicetree@vger.kernel.org, elder@linaro.org, dmitry.baryshkov@linaro.org,
- caleb.connolly@linaro.org, linux-kernel@vger.kernel.org
-References: <20240628010715.438471-1-alexey.klimov@linaro.org>
- <20240628010715.438471-8-alexey.klimov@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v2 1/2] ASoC: codecs: nau8824: Add master clock handling
+To: Maxim Kochetkov <fido_max@inbox.ru>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, John Hsu <KCHSU0@nuvoton.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ alsa-devel@alsa-project.org
+References: <20240628061750.11141-1-fido_max@inbox.ru>
+ <20240628061750.11141-2-fido_max@inbox.ru>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
  JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
@@ -86,79 +59,110 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  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
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240628010715.438471-8-alexey.klimov@linaro.org>
+ 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 fv0=
+In-Reply-To: <20240628061750.11141-2-fido_max@inbox.ru>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 28/06/2024 03:07, Alexey Klimov wrote:
-> Add sound node, dsp-related pieces and LPASS pinctrl to enable
-> HDMI audio support on Qualcomm QRB4210 RB2 board. That is the
-> only sound output supported for now.
+On 28/06/2024 08:17, Maxim Kochetkov wrote:
+> Use master clock "mclk" if provided through device tree.
 > 
-> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+> Signed-off-by: Maxim Kochetkov <fido_max@inbox.ru>
 > ---
->  arch/arm64/boot/dts/qcom/qrb4210-rb2.dts | 73 ++++++++++++++++++++++++
->  1 file changed, 73 insertions(+)
+>  sound/soc/codecs/nau8824.c | 21 +++++++++++++++++++--
+>  sound/soc/codecs/nau8824.h |  1 +
+>  2 files changed, 20 insertions(+), 2 deletions(-)
 > 
-> diff --git a/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts b/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
-> index 2c39bb1b97db..9f4dde927be4 100644
-> --- a/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
-> +++ b/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
-> @@ -6,6 +6,8 @@
->  /dts-v1/;
+> diff --git a/sound/soc/codecs/nau8824.c b/sound/soc/codecs/nau8824.c
+> index f92b95b21cae..7153b746f4b1 100644
+> --- a/sound/soc/codecs/nau8824.c
+> +++ b/sound/soc/codecs/nau8824.c
+> @@ -520,8 +520,15 @@ static int system_clock_control(struct snd_soc_dapm_widget *w,
+>  		} else {
+>  			nau8824_config_sysclk(nau8824, NAU8824_CLK_DIS, 0);
+>  		}
+> +
+> +		if (!IS_ERR(nau8824->mclk))
+> +			clk_disable_unprepare(nau8824->mclk);
+>  	} else {
+>  		dev_dbg(nau8824->dev, "system clock control : POWER ON\n");
+> +
+> +		if (!IS_ERR(nau8824->mclk))
+
+Nah, clock API is not used like this. Open clk_prepare_enable() and look
+how it handles NULL ptr.
+
+> +			clk_prepare_enable(nau8824->mclk);
+> +
+>  		/* Check the clock source setting is proper or not
+>  		 * no matter the source is from FLL or MCLK.
+>  		 */
+> @@ -563,16 +570,22 @@ static int dmic_clock_control(struct snd_soc_dapm_widget *w,
+>  	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
+>  	struct nau8824 *nau8824 = snd_soc_component_get_drvdata(component);
+>  	int src;
+> +	unsigned int freq;
+> +
+> +	if (!IS_ERR(nau8824->mclk))
+> +		freq = clk_get_rate(nau8824->mclk);
+> +	else
+> +		freq = nau8824->fs * 256;
 >  
->  #include <dt-bindings/leds/common.h>
-> +#include <dt-bindings/sound/qcom,q6afe.h>
-> +#include <dt-bindings/sound/qcom,q6asm.h>
->  #include <dt-bindings/usb/pd.h>
->  #include "sm4250.dtsi"
->  #include "pm6125.dtsi"
-> @@ -230,6 +232,10 @@ lt9611_out: endpoint {
->  	};
->  };
+>  	/* The DMIC clock is gotten from system clock (256fs) divided by
+>  	 * DMIC_SRC (1, 2, 4, 8, 16, 32). The clock has to be equal or
+>  	 * less than 3.072 MHz.
+>  	 */
+>  	for (src = 0; src < 5; src++) {
+> -		if ((0x1 << (8 - src)) * nau8824->fs <= DMIC_CLK)
+> +		if (freq / (0x1 << src) <= DMIC_CLK)
+>  			break;
+>  	}
+> -	dev_dbg(nau8824->dev, "dmic src %d for mclk %d\n", src, nau8824->fs * 256);
+> +	dev_dbg(nau8824->dev, "dmic src %d for mclk %d\n", src, freq);
+>  	regmap_update_bits(nau8824->regmap, NAU8824_REG_CLK_DIVIDER,
+>  		NAU8824_CLK_DMIC_SRC_MASK, (src << NAU8824_CLK_DMIC_SRC_SFT));
 >  
-> +&lpass_tlmm {
-> +	status = "okay";
+> @@ -1871,6 +1884,10 @@ static int nau8824_read_device_properties(struct device *dev,
+>  	if (ret)
+>  		nau8824->jack_eject_debounce = 1;
+>  
+> +	nau8824->mclk = devm_clk_get(dev, "mclk");
+> +	if (PTR_ERR(nau8824->mclk) == -EPROBE_DEFER)
+> +		return -EPROBE_DEFER;
 
-Why LPASS TLMM was disabled? I do not see any missing resource.
-
-Drop.
-
-
+Aren't you open-coding getting optional clock?
 
 Best regards,
 Krzysztof
