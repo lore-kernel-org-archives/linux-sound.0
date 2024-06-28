@@ -1,42 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 837755C89;
-	Fri, 28 Jun 2024 20:37:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A4F80020;
+	Fri, 28 Jun 2024 21:47:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719607062; cv=none; b=RysHJM7rMIaJ05HWIuJB1LisH5s8aHokYG1o+ccfNKzHaXGN4aG1vmDJQjmn8tV0IkD4cgEh69Q8FM6prw4pqlQ+hBxNi6Flf53muitS/SmeZVxa/52405C0VFpN+chfGhM3tzTnAeef1gHcSUr98GL6SBBTgUaVglufBrGwjvI=
+	t=1719611270; cv=none; b=clgs4KBMVvFYqUeH86NMgQUzepU6hiI5yPT2uppQ8KAAVA6tilZ8YWLkNCABBBTYp1OzSwV2fhToxbfbcg0VGyc7DCSHDXZRFpqEPuTqyVMSzV2R+neQj+1hTvoaia0aYlzum8qpRipnr2EAyONEIX8oZs+9pBKY2hhOJOp9pZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719607062; c=relaxed/simple;
-	bh=AX6LBzNoPmrO8nUiMc2oTDoNRrQ7+h+H6LTmhxs/l6g=;
+	s=arc-20240116; t=1719611270; c=relaxed/simple;
+	bh=IBc0CYPamY7pDeJJ43X8GTYDFhvoT6MaIAE1S29b2d4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HtFBJgA7z2ggQB8Jdxzat2FBcFCvbnttBQYa+4OaIg6NvwDCz6jeNy+P7MfNq2nCtZW4JNmRrKQx/M/Cb+IPn0OuI0dUVCuGIueOBfOwuCPAVO6I02kryo1tB/arQ1/Rs+FrXgHrWjS+dCgAm7JNrNdqOG7BpFZ/3EDEBNMl6tc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ifPqJ+o+; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=tjhpuBvXcrtwObBxVFMdpRMp+1dhLTmY/tK3ja4WykylIuiLB52z9LTzMQ/OHVJG/2hY/DbG+56gQ6cehPdpDH4lJHoOVpFL+HUOHEwQnk9UPMM6g6Ywbr/rVF1Afgyz1y3fMZzNAyDgHDb7KBYvx1uZVJQen2W7woVDs+a9Mdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AORxbsxP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ifPqJ+o+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC41CC116B1;
-	Fri, 28 Jun 2024 20:37:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AORxbsxP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03868C116B1;
+	Fri, 28 Jun 2024 21:47:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719607062;
-	bh=AX6LBzNoPmrO8nUiMc2oTDoNRrQ7+h+H6LTmhxs/l6g=;
+	s=k20201202; t=1719611270;
+	bh=IBc0CYPamY7pDeJJ43X8GTYDFhvoT6MaIAE1S29b2d4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ifPqJ+o+XBvF5XVEWhcz66h08VaybrPd1aw9BL/iGvfGtYGToiTbeuXjHWHczzCEP
-	 DL2bmS/M3TXONMLsDWC6i9kda18FCREQ2aCTWBf27F4upYSNv/dQjljtB/KVyFwXJ2
-	 uSO99voSWREirrTAAgcUSaklGSiQY4JXkdpZT69gETn9Pla63VUfVEAhzrhvgfPKrw
-	 nljz5GducGZjrxLiGEpWGJrTGQUuGZBGNlpiQVUl7npapoj/zwp8+YwSn4wsjdbFAv
-	 t4t1HAtLZDXAkCqP7JFUVQr/VAuD3DT5GLjWDQcaZg2j7+hljixK3veEMAh8MWneBr
-	 47eab6PPBBzMA==
-Date: Fri, 28 Jun 2024 14:37:40 -0600
+	b=AORxbsxPRWbzJug5vWfZZCe/qUA0/8exXctT+IVd9tbVaBss0yDcTFeLyO0Fv5jYV
+	 RDuvgRHHtd+j5ETzBseezP80GYrHGtYivvyfS3XISCd8krIMQA9djIA/MTvYWbWCnP
+	 zYu5/EOf60wwQL9y1KKLTFC3xNH1tuEeHnNeXcDVSyPa6J2UxoH4KUQGNNTbu4UkBK
+	 a8xE5Y8gx5uqaCAK2gr7xeE+XJxfWvUM/xQGprmKn3uu9McHNzBRg/zR06SUJv8lHU
+	 1M0sGMcGjEVxrKYQAHXNYHOjSwlfi99Qszj0KZYnzO9v5pGQq5CkgcUJqaQ4HgsDDK
+	 nTUjlvGs6vDnw==
+Date: Fri, 28 Jun 2024 15:47:47 -0600
 From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Animesh Agarwal <animeshagarwal28@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Mark Brown <broonie@kernel.org>, devicetree@vger.kernel.org,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>
-Subject: Re: [PATCH v2] ASoC: dt-bindings: realtek,rt5659: Convert to dtschema
-Message-ID: <171960702851.177689.11478031644579833106.robh@kernel.org>
-References: <20240624132949.124228-1-animeshagarwal28@gmail.com>
+To: Chancel Liu <chancel.liu@nxp.com>
+Cc: krzysztof.kozlowski+dt@linaro.org, alsa-devel@alsa-project.org,
+	broonie@kernel.org, shengjiu.wang@gmail.com, festevam@gmail.com,
+	tiwai@suse.com, nicoleotsuka@gmail.com, Xiubo.Lee@gmail.com,
+	linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	robh+dt@kernel.org, lgirdwood@gmail.com, perex@perex.cz,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	conor+dt@kernel.org
+Subject: Re: [PATCH 1/2] ASoC: dt-bindings: fsl_rpmsg: Add compatible string
+ for i.MX95
+Message-ID: <171961126622.265750.10175458936157332851.robh@kernel.org>
+References: <20240626071202.7149-1-chancel.liu@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,27 +48,18 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240624132949.124228-1-animeshagarwal28@gmail.com>
+In-Reply-To: <20240626071202.7149-1-chancel.liu@nxp.com>
 
 
-On Mon, 24 Jun 2024 18:59:44 +0530, Animesh Agarwal wrote:
-> Convert the RT5659/RT5658 audio CODEC bindings to DT schema.
+On Wed, 26 Jun 2024 16:12:01 +0900, Chancel Liu wrote:
+> Add compatible string for i.MX95 platform which supports audio
+> function through rpmsg channel between Cortex-A and Cortex-M core.
 > 
-> Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
-> Cc: Daniel Baluta <daniel.baluta@nxp.com>
-> 
+> Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
 > ---
-> Changes in v2:
->   - Dropped redundant descriptions from reg, interrupts and clocks.
->   - Added default to gpio properties.
->   - Dropped sound-name-prefix: true
-> ---
->  .../bindings/sound/realtek,rt5659.yaml        | 129 ++++++++++++++++++
->  .../devicetree/bindings/sound/rt5659.txt      |  89 ------------
->  2 files changed, 129 insertions(+), 89 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/sound/realtek,rt5659.yaml
->  delete mode 100644 Documentation/devicetree/bindings/sound/rt5659.txt
+>  Documentation/devicetree/bindings/sound/fsl,rpmsg.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 > 
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
