@@ -1,133 +1,163 @@
-Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.219])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D4241BE256;
-	Fri, 28 Jun 2024 13:09:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.50.219
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4DF1C0044
+	for <linux-sound@vger.kernel.org>; Fri, 28 Jun 2024 14:17:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719580189; cv=none; b=Jyf537taOgyrPVEbjEScqR8QAPaeWy5b5uxobu0e7MFeWSNTNJSkTRZXGQMpe/gZgEalZkYcJALpigfakQZAjIDT/MJlYd7vqF9X/mXjOpHoAcW4oVYOzFvPVjhipYPsBqBMWqmOeFCMElkUt5ypwdISegtmxd5qOhw6G/4golM=
+	t=1719584253; cv=none; b=NLZLhsX3XgMEk4ds+4JjWD42S2xRO+0e6dgvyy5c2Ee6lV8+Kwefig2NrYkKfYMTW5rIIHL0j4zfpJngdxximZlaP0Hjp2qVqiPN5dM5Ty7xO4SJnjW/eNO7f3VQ9kvDlf6lUnV7XkIu6uEfvfQFFTnvQ8/kyjHBry5HCvxQByk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719580189; c=relaxed/simple;
-	bh=r5i9cNxmDvL19pGlTogLaDo6bd9EGEEfbZ3CzWV22qo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=Nk9LGFJ9r4UCeB/3Je2qkohkDEblCLgxhfR/Ji/dxBoIQfhCn3xrm8/9eAvDOpSk+k8mnfH8GNCtNakTQ+q5Ke6jf85aSa0TrOvukOqQC8A2IL3oLX5NFOGzPwtjB2Y4GLBSjQTG8zjLCn/ZoS5xHT2DqDL5w5J0iB6cdShhPOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=j0Qz7eAZ reason="signature verification failed"; arc=none smtp.client-ip=45.254.50.219
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1719584253; c=relaxed/simple;
+	bh=X5an3abTWdvL8qtlTK3g1nKT+T6J9UFiLnTAbmQhG/I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IU6zkUI1toinkAW05cLtcxPtBLwOm3wjm4ZIByklGhJei63mtH+X7vT9W83BuAMdxC07oqWbp0KblZ5jDUAcov9R3gWzGTLQ1SUpm/uKnJnmH5eA+WIyKbz2tB6Bi4dHAV9zYLrgqO6kp2LpdWm9CdNPrYq8TL9xxgxNWgv5Uqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BHlT5rxF; arc=none smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="j0Qz7eAZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=cqf/4WMNeaRoU39IHS4d1NmMLfGYJz1MQmZrQrLR5Nw=; b=j
-	0Qz7eAZzQXvnsg5fw2KJxYznKHWn96/k16UCBCqmXH5YkPOs2yEQFgZLKSIy4ULC
-	zoMrokSPFz/cDojiTlG95OBFyzOQUW/HL4IyYfXugGcj/x2D41le55WdQzXWoQQP
-	7gkoyV/+g8EzQ824rSlNP5pEl9XKDZZa4B2GsZD4kc=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-102 (Coremail) ; Fri, 28 Jun 2024 21:08:55 +0800
- (CST)
-Date: Fri, 28 Jun 2024 21:08:55 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Johan Jonker" <jbx6244@gmail.com>
-Cc: heiko@sntech.de, hjc@rock-chips.com, andy.yan@rock-chips.com, 
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
-	tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, 
-	lgirdwood@gmail.com, broonie@kernel.org, linux-sound@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re:[PATCH v7] drm/rockchip: rk3066_hdmi: add sound support
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
- Copyright (c) 2002-2024 www.mailtech.cn 163com
-In-Reply-To: <5c651b3f-fe30-4874-98ed-044f7c62dd97@gmail.com>
-References: <5c651b3f-fe30-4874-98ed-044f7c62dd97@gmail.com>
-X-NTES-SC: AL_Qu2aC/mTv0ko4yadY+kZnEobh+Y5UcK2s/ki2YFXN5k0tCTHxR8/Q1RdAkb0+uuMIA2XmzObawdD9sBlXpZ2XqvvOshJ1wZ3GH+oWtvPX5t/
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BHlT5rxF"
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-64361817e78so6531467b3.1
+        for <linux-sound@vger.kernel.org>; Fri, 28 Jun 2024 07:17:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1719584251; x=1720189051; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=DGMldhhxstZD2VHINPtgUkJtig9Dn80WfHZSFwMmp2Q=;
+        b=BHlT5rxFHSWv8sv4ru8q0rkky44r4ZlHhYBkqNNJ20WkX2JHeZtr+OQioKivAjB3/I
+         phXINjdp+vtyWvJXjFEesmy4d+4tLq6q1P6gLej/3idYnVj0HSAy+8iIZJAyjI9gRwup
+         FPpM8TGz0ygI8QIlxfizj5lTpg7+XFOmJYUkx+QDaL/Mx0Rzclyt9K6lP0uny4Pt3Dax
+         iR1hqKU9AWGGXj2+gVzePLrTBvpehgRI1wTnb6X5H3M1T6psO5uSrSQxIMKBHCEOl9CI
+         +mDyo9m1GH/tslLRM4WpHe1ml56Sfwzd7n+HsTZvFVIXgT57pC7zLxD306guYUt3oCmh
+         f64Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719584251; x=1720189051;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DGMldhhxstZD2VHINPtgUkJtig9Dn80WfHZSFwMmp2Q=;
+        b=Nvg3JE8x5JpuHgqWqwuH4HFeILpWk6qE8ExSxtYOIDprWrNilvKXGIMbPpDcnbxANu
+         JA8WZLVaamqW7znoTAW0BqRo62ovjBiDphZiYwaDU5rpz/jPr8trTtcVVcuoYZQgdcHa
+         +LzC1wtaR+T3rrk485UT5YOAHCosClkZXiyxnEpAK8eEFdQ8SKdR2jprhD3UZZm26YAA
+         aZUMsbm0EzKTjKepx1YIHH9iz+SdSdfRt92DBwBUrvjEBwCCSgRLHFfqSkViPhIEFQNY
+         c3fhcQvS26cTeZ16Y6ANFwy2x9okNkh+QJ2a0CWkjZNM8Y2DIREPF6tv414givwrgKLd
+         CW1A==
+X-Forwarded-Encrypted: i=1; AJvYcCWl4WtxqNInX7ujRl02ZZZ2O6LAi8KeHnSTWqik0aP8CBGJXkJaM45hHkJf/ELoE+S5NC9p6i3vMMsVsEcPIOOUv7fs6THje8OjK80=
+X-Gm-Message-State: AOJu0YxbHAc2qrTEHhR3ybXptZw/mh2qq2KlkScToVI/77pIi1RyerAZ
+	knj+lA33hZ+yswiIBk+NMiF17++mX89MOimtvvk4+7itWjyqT8uU4tktbctq9QQITF2m/xYDlqM
+	KlsFYX+SVM71lYTQZ48taBi9NoJqNsYNg45P1Uw==
+X-Google-Smtp-Source: AGHT+IEnqc4gKd8d3/4CtY+9Z2dX/nIjYsaIb1fXkGgwuAAIIiovBHfJVK2XUUGwxWXGgo5SDGMIF1irekTJMnwHlS8=
+X-Received: by 2002:a81:de4d:0:b0:627:778f:b0a8 with SMTP id
+ 00721157ae682-643aba4654bmr165212747b3.42.1719584250582; Fri, 28 Jun 2024
+ 07:17:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <7c53f7d.bb08.1905ef690ef.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:_____wD3P6TntX5myNsRAA--.3669W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0hIMXmWXyqo7rgABsU
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+References: <20240627-b4-qcom-audio-lpass-codec-cleanups-v1-0-ede31891d238@linaro.org>
+ <20240627-b4-qcom-audio-lpass-codec-cleanups-v1-2-ede31891d238@linaro.org>
+ <grpb57rhum4auor3n66mqd2tpmd52gzofbdog3vlmxlamfxv5a@2mhfkigl6ek2> <1fa1da22-07a5-4d76-b4c7-fc16e3df4b32@linaro.org>
+In-Reply-To: <1fa1da22-07a5-4d76-b4c7-fc16e3df4b32@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 28 Jun 2024 17:17:20 +0300
+Message-ID: <CAA8EJpq_2RUs3go6JZ+uVuJ5PJKzv0e2T8uS5QJMrB_JUAtNPw@mail.gmail.com>
+Subject: Re: [PATCH 2/4] ASoC: codecs: lpass-rx-macro: Keep static
+ regmap_config as const
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Banajit Goswami <bgoswami@quicinc.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org, 
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-CkhpIEpvaGFuLAoKQXQgMjAyNC0wNi0yOCAxNzoyMzozOSwgIkpvaGFuIEpvbmtlciIgPGpieDYy
-NDRAZ21haWwuY29tPiB3cm90ZToKPkFkZCBzb3VuZCBzdXBwb3J0IHRvIHRoZSBSSzMwNjYgSERN
-SSBkcml2ZXIuCj5UaGUgSERNSSBUWCBhdWRpbyBzb3VyY2UgaXMgY29ubmVjdGVkIHRvIEkyU184
-Q0guCj4KPlNpZ25lZC1vZmYtYnk6IFpoZW5nIFlhbmcgPHpoZW5neWFuZ0Byb2NrLWNoaXBzLmNv
-bT4KPlNpZ25lZC1vZmYtYnk6IEpvaGFuIEpvbmtlciA8amJ4NjI0NEBnbWFpbC5jb20+Cj4tLS0K
-Pgo+Q2hhbmdlZCBWNzoKPiAgcmViYXNlCj4tLS0KPiBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAv
-S2NvbmZpZyAgICAgICB8ICAgMiArCj4gZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JrMzA2Nl9o
-ZG1pLmMgfCAyNzQgKysrKysrKysrKysrKysrKysrKysrKysrLQo+IDIgZmlsZXMgY2hhbmdlZCwg
-Mjc1IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKPgo+ZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS9yb2NrY2hpcC9LY29uZmlnIGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL0tjb25m
-aWcKPmluZGV4IDFiZjNlMjgyOWNkMC4uYTMyZWU1NTg0MDhjIDEwMDY0NAo+LS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL3JvY2tjaGlwL0tjb25maWcKPisrKyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hp
-cC9LY29uZmlnCj5AQCAtMTAyLDYgKzEwMiw4IEBAIGNvbmZpZyBST0NLQ0hJUF9SR0IKPiBjb25m
-aWcgUk9DS0NISVBfUkszMDY2X0hETUkKPiAJYm9vbCAiUm9ja2NoaXAgc3BlY2lmaWMgZXh0ZW5z
-aW9ucyBmb3IgUkszMDY2IEhETUkiCj4gCWRlcGVuZHMgb24gRFJNX1JPQ0tDSElQCj4rCXNlbGVj
-dCBTTkRfU09DX0hETUlfQ09ERUMgaWYgU05EX1NPQwo+KwlzZWxlY3QgU05EX1NPQ19ST0NLQ0hJ
-UF9JMlMgaWYgU05EX1NPQwo+IAloZWxwCj4gCSAgVGhpcyBzZWxlY3RzIHN1cHBvcnQgZm9yIFJv
-Y2tjaGlwIFNvQyBzcGVjaWZpYyBleHRlbnNpb25zCj4gCSAgZm9yIHRoZSBSSzMwNjYgSERNSSBk
-cml2ZXIuIElmIHlvdSB3YW50IHRvIGVuYWJsZQo+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
-bS9yb2NrY2hpcC9yazMwNjZfaGRtaS5jIGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JrMzA2
-Nl9oZG1pLmMKPmluZGV4IDc4NGRlOTkwZGExYi4uZDMxMjhiNzg3NjI5IDEwMDY0NAo+LS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JrMzA2Nl9oZG1pLmMKPisrKyBiL2RyaXZlcnMvZ3B1
-L2RybS9yb2NrY2hpcC9yazMwNjZfaGRtaS5jCj5AQCAtMTUsMTIgKzE1LDIwIEBACj4gI2luY2x1
-ZGUgPGxpbnV4L3BsYXRmb3JtX2RldmljZS5oPgo+ICNpbmNsdWRlIDxsaW51eC9yZWdtYXAuaD4K
-Pgo+KyNpbmNsdWRlIDxzb3VuZC9oZG1pLWNvZGVjLmg+Cj4rCj4gI2luY2x1ZGUgInJrMzA2Nl9o
-ZG1pLmgiCj4KPiAjaW5jbHVkZSAicm9ja2NoaXBfZHJtX2Rydi5oIgo+Cj4gI2RlZmluZSBERUZB
-VUxUX1BMTEFfUkFURSAzMDAwMDAwMAo+Cj4rc3RydWN0IGF1ZGlvX2luZm8gewo+KwlpbnQgY2hh
-bm5lbHM7Cj4rCWludCBzYW1wbGVfcmF0ZTsKPisJaW50IHNhbXBsZV93aWR0aDsKPit9Owo+Kwo+
-IHN0cnVjdCBoZG1pX2RhdGFfaW5mbyB7Cj4gCWludCB2aWM7IC8qIFRoZSBDRUEgVmlkZW8gSUQg
-KFZJQykgb2YgdGhlIGN1cnJlbnQgZHJtIGRpc3BsYXkgbW9kZS4gKi8KPiAJdW5zaWduZWQgaW50
-IGVuY19vdXRfZm9ybWF0Owo+QEAgLTU0LDkgKzYyLDE2IEBAIHN0cnVjdCByazMwNjZfaGRtaSB7
-Cj4KPiAJdW5zaWduZWQgaW50IHRtZHNjbGs7Cj4KPisJc3RydWN0IHBsYXRmb3JtX2RldmljZSAq
-YXVkaW9fcGRldjsKPisJc3RydQoKLi4uLi4uCgo+Kwo+KwlyZXR1cm4gcmV0Owo+K30KPisKPitz
-dGF0aWMgY29uc3Qgc3RydWN0IGhkbWlfY29kZWNfb3BzIGF1ZGlvX2NvZGVjX29wcyA9IHsKPisJ
-Lmh3X3BhcmFtcyA9IHJrMzA2Nl9oZG1pX2F1ZGlvX2h3X3BhcmFtcywKPisJLmF1ZGlvX3NodXRk
-b3duID0gcmszMDY2X2hkbWlfYXVkaW9fc2h1dGRvd24sCj4rCS5tdXRlX3N0cmVhbSA9IHJrMzA2
-Nl9oZG1pX2F1ZGlvX211dGVfc3RyZWFtLAo+KwkuZ2V0X2VsZCA9IHJrMzA2Nl9oZG1pX2F1ZGlv
-X2dldF9lbGQsCj4rCS5ub19jYXB0dXJlX211dGUgPSAxLAo+K307Cj4rCj4rc3RhdGljIGludCBy
-azMwNjZfaGRtaV9hdWRpb19jb2RlY19pbml0KHN0cnVjdCByazMwNjZfaGRtaSAqaGRtaSwKPisJ
-CQkJCXN0cnVjdCBkZXZpY2UgKmRldikKPit7Cj4rCXN0cnVjdCBoZG1pX2NvZGVjX3BkYXRhIGNv
-ZGVjX2RhdGEgPSB7Cj4rCQkuaTJzID0gMSwKPisJCS5vcHMgPSAmYXVkaW9fY29kZWNfb3BzLAo+
-KwkJLm1heF9pMnNfY2hhbm5lbHMgPSA4LAo+Kwl9Owo+Kwo+KwloZG1pLT5hdWRpby5jaGFubmVs
-cyA9IDI7Cj4rCWhkbWktPmF1ZGlvLnNhbXBsZV9yYXRlID0gNDgwMDA7Cj4rCWhkbWktPmF1ZGlv
-LnNhbXBsZV93aWR0aCA9IDE2Owo+KwloZG1pLT5hdWRpb19lbmFibGUgPSBmYWxzZTsKPisJaGRt
-aS0+YXVkaW9fcGRldiA9Cj4rCQlwbGF0Zm9ybV9kZXZpY2VfcmVnaXN0ZXJfZGF0YShkZXYsCj4r
-CQkJCQkgICAgICBIRE1JX0NPREVDX0RSVl9OQU1FLAo+KwkJCQkJICAgICAgUExBVEZPUk1fREVW
-SURfTk9ORSwKPisJCQkJCSAgICAgICZjb2RlY19kYXRhLAo+KwkJCQkJICAgICAgc2l6ZW9mKGNv
-ZGVjX2RhdGEpKTsKPisKPisJcmV0dXJuIFBUUl9FUlJfT1JfWkVSTyhoZG1pLT5hdWRpb19wZGV2
-KTsKPit9Cj4rCj4gc3RhdGljIGludAo+IHJrMzA2Nl9oZG1pX3JlZ2lzdGVyKHN0cnVjdCBkcm1f
-ZGV2aWNlICpkcm0sIHN0cnVjdCByazMwNjZfaGRtaSAqaGRtaSkKPiB7Cj5AQCAtNTY2LDYgKzgz
-NCw4IEBAIHJrMzA2Nl9oZG1pX3JlZ2lzdGVyKHN0cnVjdCBkcm1fZGV2aWNlICpkcm0sIHN0cnVj
-dCByazMwNjZfaGRtaSAqaGRtaSkKPgo+IAlkcm1fY29ubmVjdG9yX2F0dGFjaF9lbmNvZGVyKCZo
-ZG1pLT5jb25uZWN0b3IsIGVuY29kZXIpOwo+Cj4rCXJrMzA2Nl9oZG1pX2F1ZGlvX2NvZGVjX2lu
-aXQoaGRtaSwgZGV2KTsKCgpBY2NvcmRpbmcgdG8gRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL2Ry
-aXZlci1tb2RlbC9kcml2ZXIucnN0LAoKSXQgaXMgYmVzdCBub3QgdG8gcmVnaXN0ZXIgYXQgdGhl
-IGJpbmQgY2FsbGJhY2vvvJoKCi4uIHdhcm5pbmc6OgogICAgICAtRVBST0JFX0RFRkVSIG11c3Qg
-bm90IGJlIHJldHVybmVkIGlmIHByb2JlKCkgaGFzIGFscmVhZHkgY3JlYXRlZAogICAgICBjaGls
-ZCBkZXZpY2VzLCBldmVuIGlmIHRob3NlIGNoaWxkIGRldmljZXMgYXJlIHJlbW92ZWQgYWdhaW4K
-ICAgICAgaW4gYSBjbGVhbnVwIHBhdGguIElmIC1FUFJPQkVfREVGRVIgaXMgcmV0dXJuZWQgYWZ0
-ZXIgYSBjaGlsZAogICAgICBkZXZpY2UgaGFzIGJlZW4gcmVnaXN0ZXJlZCwgaXQgbWF5IHJlc3Vs
-dCBpbiBhbiBpbmZpbml0ZSBsb29wIG9mCiAgICAgIC5wcm9iZSgpIGNhbGxzIHRvIHRoZSBzYW1l
-IGRyaXZlci4KCkZvciBleGFtcGxl77yaCnZvcF9wcm9iZSAtLeOAi2NvbXBvbmVudF9hZGQtLeOA
-i3JrMzA2Nl9oZG1pX2JpbmQtLeOAi3JrMzA2Nl9oZG1pX2F1ZGlvX2NvZGVjX2luaXQtLeOAi2hk
-bWlfY29kZWNfcHJvYmUtLeOAi3JvY2tjaGlwX3JnYl9pbml077yIREVGRVIgd2hlbiBwYW5lbCBu
-b3QgcmVhZHnvvIkKClRoaXMgIG1heSByZXN1bHQgaW4gYW4gaW5maW5pdGUgbG9vcCBvZiBwcm9i
-ZQoKCj4rCj4gCXJldHVybiAwOwo+IH0KPgo+QEAgLTgxMyw2ICsxMDgzLDcgQEAgc3RhdGljIGlu
-dCByazMwNjZfaGRtaV9iaW5kKHN0cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0IGRldmljZSAqbWFz
-dGVyLAo+IAlyZXR1cm4gMDsKPgo+IGVycl9jbGVhbnVwX2hkbWk6Cj4rCXBsYXRmb3JtX2Rldmlj
-ZV91bnJlZ2lzdGVyKGhkbWktPmF1ZGlvX3BkZXYpOwo+IAloZG1pLT5jb25uZWN0b3IuZnVuY3Mt
-PmRlc3Ryb3koJmhkbWktPmNvbm5lY3Rvcik7Cj4gCWhkbWktPmVuY29kZXIuZW5jb2Rlci5mdW5j
-cy0+ZGVzdHJveSgmaGRtaS0+ZW5jb2Rlci5lbmNvZGVyKTsKPiBlcnJfZGlzYWJsZV9pMmM6Cj5A
-QCAtODI4LDYgKzEwOTksNyBAQCBzdGF0aWMgdm9pZCByazMwNjZfaGRtaV91bmJpbmQoc3RydWN0
-IGRldmljZSAqZGV2LCBzdHJ1Y3QgZGV2aWNlICptYXN0ZXIsCj4gewo+IAlzdHJ1Y3QgcmszMDY2
-X2hkbWkgKmhkbWkgPSBkZXZfZ2V0X2RydmRhdGEoZGV2KTsKPgo+KwlwbGF0Zm9ybV9kZXZpY2Vf
-dW5yZWdpc3RlcihoZG1pLT5hdWRpb19wZGV2KTsKPiAJaGRtaS0+Y29ubmVjdG9yLmZ1bmNzLT5k
-ZXN0cm95KCZoZG1pLT5jb25uZWN0b3IpOwo+IAloZG1pLT5lbmNvZGVyLmVuY29kZXIuZnVuY3Mt
-PmRlc3Ryb3koJmhkbWktPmVuY29kZXIuZW5jb2Rlcik7Cj4KPi0tCj4yLjM5LjIKPgo=
+On Fri, 28 Jun 2024 at 11:39, Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On 28/06/2024 10:34, Dmitry Baryshkov wrote:
+> > On Thu, Jun 27, 2024 at 05:23:44PM GMT, Krzysztof Kozlowski wrote:
+> >> The driver has static 'struct regmap_config', which is then customized
+> >> depending on device version.  This works fine, because there should not
+> >> be two devices in a system simultaneously and even less likely that such
+> >> two devices would have different versions, thus different regmap config.
+> >> However code is cleaner and more obvious when static data in the driver
+> >> is also const - it serves as a template.
+> >>
+> >> Mark the 'struct regmap_config' as const and duplicate it in the probe()
+> >> with devm_kmemdup to allow customizing per detected device variant.
+> >>
+> >> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> >> ---
+> >>  sound/soc/codecs/lpass-rx-macro.c | 17 +++++++++++++----
+> >>  1 file changed, 13 insertions(+), 4 deletions(-)
+> >
+> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >
+> >>
+> >> diff --git a/sound/soc/codecs/lpass-rx-macro.c b/sound/soc/codecs/lpass-rx-macro.c
+> >> index 59fe76b13cdb..3d8149665439 100644
+> >> --- a/sound/soc/codecs/lpass-rx-macro.c
+> >> +++ b/sound/soc/codecs/lpass-rx-macro.c
+> >> @@ -1662,7 +1662,7 @@ static bool rx_is_readable_register(struct device *dev, unsigned int reg)
+> >>      return rx_is_rw_register(dev, reg);
+> >>  }
+> >>
+> >> -static struct regmap_config rx_regmap_config = {
+> >> +static const struct regmap_config rx_regmap_config = {
+> >>      .name = "rx_macro",
+> >>      .reg_bits = 16,
+> >>      .val_bits = 32, /* 8 but with 32 bit read/write */
+> >> @@ -3765,6 +3765,7 @@ static const struct snd_soc_component_driver rx_macro_component_drv = {
+> >>  static int rx_macro_probe(struct platform_device *pdev)
+> >>  {
+> >>      struct reg_default *reg_defaults;
+> >> +    struct regmap_config *reg_config;
+> >>      struct device *dev = &pdev->dev;
+> >>      kernel_ulong_t flags;
+> >>      struct rx_macro *rx;
+> >> @@ -3851,14 +3852,22 @@ static int rx_macro_probe(struct platform_device *pdev)
+> >>              goto err;
+> >>      }
+> >>
+> >> -    rx_regmap_config.reg_defaults = reg_defaults;
+> >> -    rx_regmap_config.num_reg_defaults = def_count;
+> >> +    reg_config = devm_kmemdup(dev, &rx_regmap_config, sizeof(*reg_config),
+> >> +                              GFP_KERNEL);
+> >> +    if (!reg_config) {
+> >> +            ret = -ENOMEM;
+> >> +            goto err;
+> >> +    }
+> >>
+> >> -    rx->regmap = devm_regmap_init_mmio(dev, base, &rx_regmap_config);
+> >> +    reg_config->reg_defaults = reg_defaults;
+> >> +    reg_config->num_reg_defaults = def_count;
+> >> +
+> >> +    rx->regmap = devm_regmap_init_mmio(dev, base, reg_config);
+> >>      if (IS_ERR(rx->regmap)) {
+> >>              ret = PTR_ERR(rx->regmap);
+> >>              goto err;
+> >>      }
+> >> +    devm_kfree(dev, reg_config);
+> >>      devm_kfree(dev, reg_defaults);
+> >
+> > Seeing devm_kfree in the non-error path makes me feel strange. Maybe
+> > it's one of the rare occasions when I can say that __free is suitable
+> > here.
+>
+> These would have a bit different meaning in such case. The __free would
+> not clean it in this spot, but on exit from the scope. I wanted to
+> kfree() here, because the config (and reg_defaults) are not used by past
+> regmap_init. I mentioned it briefly in previous patch msg.
+>
+> To me this code is readable and obvious - past this point nothing uses
+> that allocation. However maybe instead of devm(), the code would be
+> easier to read if non-devm-malloc + __free()?
+
+Yes, that's what I was thinking about. But it's definitely an optional
+topic. Your code is correct.
+
+
+-- 
+With best wishes
+Dmitry
