@@ -1,139 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BAF3558B9;
-	Fri, 28 Jun 2024 07:51:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 435F54436A;
+	Fri, 28 Jun 2024 08:06:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719561104; cv=none; b=AHnUyjZYGMKB7Yi5aS1yeFE4mP8/dPufpaXZ3y9q7Rjq3uhtfp+GiIRhdL/QJUYLmgMJGqmzXPE6vqMkQ4HkRvuh1DqOm9y9Oe0KLsgwXRJ4cKtqhZJHPUM5Q4vLi37YYKN/kU0jHi+TRQzDTpdARP5Z1AE9HMNr23fX/VB0neE=
+	t=1719562008; cv=none; b=P2AOPqd+TZdb3kjW4MZi9R4pPJxn3vGxFcTJFkYgRgUH6kEtRzVApVHq0jyeH4HuWzSuIh3Y2D4Gzu9VbUozUZVBRXcB/PtyFdFOmREt+vprmcxx4CwGa/7V92Ax8JGwVtkBWkGrINGNQlzGr8JPa8zdaEnAwSqHbozlrKBEiH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719561104; c=relaxed/simple;
-	bh=JYhWCzM9K6OFIT087UFtEhsefWWSk/6rEO08UuSQIG8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E9X88+YDYePnQpDQ8ttaW9cHjtLMnnPMvRD3M/XUWSOoZsE2NYUutNn+Gd+SRKACI4QrXB8AY94flq5c50ddfLAOYrAE/qpwpUc0ytSdbmyHZ/0G0H7MTOllcQ4uo2dk8mDVkSdS02WyTD2oj/Np7ZwYWDUgCIE3xtNhckMFgWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jKjc55Rz; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jKjc55Rz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DE39C116B1;
-	Fri, 28 Jun 2024 07:51:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719561104;
-	bh=JYhWCzM9K6OFIT087UFtEhsefWWSk/6rEO08UuSQIG8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=jKjc55RzXl7e4EF/rxzNQpQ5vTcPB0lcdlSEmAThMBBVUPDf9zWlwh5G5F+6p3DLa
-	 XD3Jfk1vuTYzPMDIoDAQ1tFx5z48aocVtbSoJF9yZmKX1ohg7G5oCO+BDj9kkNnDRR
-	 B573pn2OpRH91IiGQtNQPaQ7EtwBTyv6YXAkQkj5812HETL07REn4E+t7VgE00gEsE
-	 w41tilNRq0RHnIZQLk7SBqQQyhqIZIJUMScXuT6/BsdXwqAeGh0yHKhTS1ioK2tz2z
-	 PHBGP9tIko60FTNlLi/IBGu1PMIif9lC+VAXmHA6LS5OZHMBpY6/BLhxdHSLhI8OpE
-	 zkoMgHwv1YoIg==
-Message-ID: <2d1fea29-f6c2-41a8-a01f-52f6d20536f5@kernel.org>
-Date: Fri, 28 Jun 2024 09:51:34 +0200
+	s=arc-20240116; t=1719562008; c=relaxed/simple;
+	bh=1pPNyQf9RfZV5+5tCsb2gmDUywlRx2DwWpQE1OstHtc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=AYImCxqApzzhZ8CuZv+ueBq4orGWE11Z23Gagd62ONJ4MOsrQ8gZYdjFFuEvIRVeDzsfKDlGJyaqABP4yG6f7bQoG3bKkuwCuEeh0BV3Dmx86iPxazDvgtnnCc3G+A3qY/a2VFlDxvzPS0HZkN722f62ay3AblXhQIXx9fWtRqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost (unknown [124.16.138.129])
+	by APP-05 (Coremail) with SMTP id zQCowADX3eX0bn5mLEZaAA--.20555S2;
+	Fri, 28 Jun 2024 16:06:13 +0800 (CST)
+From: Chen Ni <nichen@iscas.ac.cn>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	m.felsch@pengutronix.de,
+	trblinux@gmail.com,
+	javier@osg.samsung.com,
+	afaerber@suse.de
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chen Ni <nichen@iscas.ac.cn>
+Subject: [PATCH] ASoC: max98088: Check for clk_prepare_enable() error
+Date: Fri, 28 Jun 2024 16:05:34 +0800
+Message-Id: <20240628080534.843815-1-nichen@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/7] arm64: dts: qcom: sm6115: add LPASS LPI pin
- controller
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Alexey Klimov <alexey.klimov@linaro.org>
-Cc: linux-sound@vger.kernel.org, srinivas.kandagatla@linaro.org,
- bgoswami@quicinc.com, lgirdwood@gmail.com, broonie@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- andersson@kernel.org, konrad.dybcio@linaro.org, perex@perex.cz,
- tiwai@suse.com, linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org,
- devicetree@vger.kernel.org, elder@linaro.org,
- krzysztof.kozlowski@linaro.org, caleb.connolly@linaro.org,
- linux-kernel@vger.kernel.org
-References: <20240628010715.438471-1-alexey.klimov@linaro.org>
- <20240628010715.438471-6-alexey.klimov@linaro.org>
- <yozlwsmrvolhaxobal4reootcfmgjyre7sv74pztbtqr6lcfhr@vuixh6qyalaz>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <yozlwsmrvolhaxobal4reootcfmgjyre7sv74pztbtqr6lcfhr@vuixh6qyalaz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowADX3eX0bn5mLEZaAA--.20555S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7XrW5WFykGryUJrW8XF45Awb_yoW8JrW5pr
+	s7trZ8ArW5X3yruan8t395ur1fJryfCa4fCrW2k34UZr13Ar1xWr1rKr9FvF4kXr18Crsx
+	Wr12qFs8ZF1qg3JanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+	n2kIc2xKxwCY02Avz4vE14v_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr
+	0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY
+	17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcV
+	C0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY
+	6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa
+	73UjIFyTuYvjfUe2NtDUUUU
+X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
 
-On 28/06/2024 09:43, Dmitry Baryshkov wrote:
-> On Fri, Jun 28, 2024 at 02:07:13AM GMT, Alexey Klimov wrote:
->> Add the Low Power Audio SubSystem Low Power Island (LPASS LPI)
->> pin controller device node required for audio subsystem on
->> Qualcomm QRB4210 RB2.
->>
->> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
->> ---
->>  arch/arm64/boot/dts/qcom/sm6115.dtsi | 19 +++++++++++++++++++
->>  1 file changed, 19 insertions(+)
->>
->> diff --git a/arch/arm64/boot/dts/qcom/sm6115.dtsi b/arch/arm64/boot/dts/qcom/sm6115.dtsi
->> index c49aca3d0772..3a9fb1780c90 100644
->> --- a/arch/arm64/boot/dts/qcom/sm6115.dtsi
->> +++ b/arch/arm64/boot/dts/qcom/sm6115.dtsi
->> @@ -15,6 +15,7 @@
->>  #include <dt-bindings/interrupt-controller/arm-gic.h>
->>  #include <dt-bindings/power/qcom-rpmpd.h>
->>  #include <dt-bindings/soc/qcom,apr.h>
->> +#include <dt-bindings/sound/qcom,q6dsp-lpass-ports.h>
->>  #include <dt-bindings/thermal/thermal.h>
->>  
->>  / {
->> @@ -809,6 +810,21 @@ data-pins {
->>  			};
->>  		};
->>  
->> +		lpass_tlmm: pinctrl@a7c0000 {
->> +			compatible = "qcom,sm4250-lpass-lpi-pinctrl";
-> 
-> Is it so? Or should it be qcom,sm6115-lpass-lpi-pinctrl instead?
+clk_prepare_enable() may fail, so we should better check its return
+value and propagate it in the case of error.
 
-Eh, now I am confused as well... There was so much talk about Srini's
-patchset that I assumed it is the same device. Why were you testing sm4250?
+Fixes: 62a7fc32a628 ("ASoC: max98088: Add master clock handling")
+Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+---
+ sound/soc/codecs/max98088.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-Best regards,
-Krzysztof
+diff --git a/sound/soc/codecs/max98088.c b/sound/soc/codecs/max98088.c
+index 8b56ee550c09..8b0645c63462 100644
+--- a/sound/soc/codecs/max98088.c
++++ b/sound/soc/codecs/max98088.c
+@@ -1318,6 +1318,7 @@ static int max98088_set_bias_level(struct snd_soc_component *component,
+                                   enum snd_soc_bias_level level)
+ {
+ 	struct max98088_priv *max98088 = snd_soc_component_get_drvdata(component);
++	int ret;
+ 
+ 	switch (level) {
+ 	case SND_SOC_BIAS_ON:
+@@ -1333,10 +1334,13 @@ static int max98088_set_bias_level(struct snd_soc_component *component,
+ 		 */
+ 		if (!IS_ERR(max98088->mclk)) {
+ 			if (snd_soc_component_get_bias_level(component) ==
+-			    SND_SOC_BIAS_ON)
++			    SND_SOC_BIAS_ON) {
+ 				clk_disable_unprepare(max98088->mclk);
+-			else
+-				clk_prepare_enable(max98088->mclk);
++			} else {
++				ret = clk_prepare_enable(max98088->mclk);
++				if (ret)
++					return ret;
++			}
+ 		}
+ 		break;
+ 
+-- 
+2.25.1
 
