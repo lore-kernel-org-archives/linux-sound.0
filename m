@@ -1,100 +1,147 @@
-Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9AC1581F3
-	for <linux-sound@vger.kernel.org>; Fri, 28 Jun 2024 12:10:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.14.17.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECBAB15748F
+	for <linux-sound@vger.kernel.org>; Fri, 28 Jun 2024 12:24:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719576640; cv=none; b=tTvAVa9sO7cSjr4VBX0/wiptfUBrw4PCtO6EYTtn0kW7MVvqa639kKClwd0nilsICYXPIvrvR3Ky2NFr2TsOzWsCsBLgjdtRbvZvznvesTvogujmNOdfra2xD5GkndTtq97zSfF9SotPNN9b6aawzkPybtNsF8JPUeOoPBdNIGA=
+	t=1719577481; cv=none; b=JIPCeG9RhFdBbF+ceeaYCWSRPDkyQ7RhYGPE9sxIxzhzHQ2wF/8Dj7S+OyLL5bH9fx2XcHLgsSA+wF+f7JZjQVJdaA4OjJqbjTa5QqL9lIMWDhBhUTKCOV+BeveanQowcELrALvlsEs/EEf+aaggyzTOU7cS2wufPTYU3iLx9/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719576640; c=relaxed/simple;
-	bh=TpsyjuhUgCHQKSSZSg7cuIwHP/180fUv/mHIwMdrzuU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=I8BpZ8DGoL0zjIom8qjD1kpePo08TDfCV3qDsmgrdlXWe8l6/wSf9PldR8heYOrXJIdeJFytovf+h/Z5WwenjGlwi3jW/8TpE0Fs9yHBmIDqyc/vLrsEKcjzsLeYhkK85NK4sWukkyevSTmYBEpNUedFwNM416ETbhfX3ckybPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de; spf=pass smtp.mailfrom=molgen.mpg.de; arc=none smtp.client-ip=141.14.17.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=molgen.mpg.de
-Received: from [141.14.220.45] (g45.guest.molgen.mpg.de [141.14.220.45])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: pmenzel)
-	by mx.molgen.mpg.de (Postfix) with ESMTPSA id CD3F161E5FE01;
-	Fri, 28 Jun 2024 14:10:23 +0200 (CEST)
-Message-ID: <455ad25f-e6f8-4574-8fe5-35d3c62161f8@molgen.mpg.de>
-Date: Fri, 28 Jun 2024 14:10:23 +0200
+	s=arc-20240116; t=1719577481; c=relaxed/simple;
+	bh=b27QyUJ5iOMLnb1ywUx1HGcm5LsMzNtf07lcBa/92Zs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=RYWRtSXaiLqSa/aSvXPwx7e+gGpCiBphrNswP5DQ1lf2JavjjSNUzVRMG7+DmBKUoSJAbNGNBjHXGM0SVvacL6oDQ6hr2uFmtIK7WiaQe/qmRiGiZaeq2ekTjHO2to9d0y9u+7JdTD+xgsxtCBoxfK5ddEt5exYiYQ15DSGPPNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=3EBTitZu; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="3EBTitZu"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-366edce6493so335819f8f.3
+        for <linux-sound@vger.kernel.org>; Fri, 28 Jun 2024 05:24:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1719577477; x=1720182277; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lnFOU1sbIqgovk5xhdHMfKNOv2vMSdFoRWRnoLUU7uY=;
+        b=3EBTitZueSjtCWbDr3C+DgAprV/X4UnLcM43NnHWcSqVxco+HcL0QdJ732Sd6OYVgl
+         BMagorq2aKDeIOB+QkB6p3lNfFTjyoWTRjDcOgBLdivqsNw+xGtSpH9dKZjzZj5Gua9h
+         uE+Qx6h8RW59+VxiCTR11kslt5a8pUiIwckn7p7fR0TMfMsyj/yeyNrkiK4eSl2po8ux
+         5slXOJq4DA0s24MHrzuzkUT9LGkehJNMZ4+Oipdtui2tellxjm9IwMtKN7nCWu8fSqNP
+         iVNx5t0wrdie12mbrg2sxVqBUpi1mF88lDu7ut1Bk2wvEETvkUg/m+mIhlrXHPAX/jKe
+         Udgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719577477; x=1720182277;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lnFOU1sbIqgovk5xhdHMfKNOv2vMSdFoRWRnoLUU7uY=;
+        b=AytBpBoz4ElQjP+MNa8Af9R03UOgZJFFkHIMKqY8xRvu6TbOimInzbbJ8TXFScg972
+         WBHn6VDOeW6z2zv8AvN2gHyWeUH+1CF1ceJ69lUnttCKurVAfrPMIvfvM5TQP1eA1AJY
+         6gnwUGcxGJ5j8NtJDTkuHqAtYHl8HiKXa1KpYqudNQClQaDXEYU4UPOxtNU7tuFlfM67
+         rR/L/Tb/6PXUQlGlbyziEFZDW1Pu4EfVfd+FjQUAvo2WeLL8nrPoxvZHoxA570cK5DWd
+         bX6m3r/9tCLgNRVVmNag4gDjImu9bUGENjM3YCm/NyfZi9TNb4gsyk9zuHNVpvwGHFMb
+         l0iw==
+X-Forwarded-Encrypted: i=1; AJvYcCX+CwCWs3RFm+/f7hWtl35SyGB4inLjknh4z5SyG12xKD525Tb0WZF3nq2Q8kvsI8jfNN8RPmHS2xBL4P9Z62RCnGGthPjmXoM9Py8=
+X-Gm-Message-State: AOJu0YxQPtXrFIkrPATaaC5wX3l+Fwxg6NhONjtOeDRoocLdN/ljr7T6
+	PB1SvbT0bTii4QFsmSt6NgjHELP5fAR49hIQodfzxJHCWGF44adqx0x4hQGt5BQ=
+X-Google-Smtp-Source: AGHT+IHcx4P02qa9MVJ93L8rnvMkCnp9jNt5pVErQKhpVoNe+nIx6+jrMgw0cTPvYrDqw0YMkFWn9A==
+X-Received: by 2002:adf:e682:0:b0:367:5280:a40a with SMTP id ffacd0b85a97d-3675280a593mr2487589f8f.42.1719577477194;
+        Fri, 28 Jun 2024 05:24:37 -0700 (PDT)
+Received: from toaster.lan ([2a01:e0a:3c5:5fb1:78b7:4c75:7e6e:807f])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3675a0cd623sm2179013f8f.16.2024.06.28.05.24.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Jun 2024 05:24:36 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>
+Cc: Jerome Brunet <jbrunet@baylibre.com>,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/3] ALSA: pcm: add support for 128kHz sample rate
+Date: Fri, 28 Jun 2024 14:23:06 +0200
+Message-ID: <20240628122429.2018059-2-jbrunet@baylibre.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240628122429.2018059-1-jbrunet@baylibre.com>
+References: <20240628122429.2018059-1-jbrunet@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Dell OptiPlex 5080: `Unstable LPIB (352800 >= 176400); disabling
- LPIB delay counting`
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-sound@vger.kernel.org
-References: <a653c2f1-9095-4b21-aa22-c26504ef3efc@molgen.mpg.de>
- <87pls1b898.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-In-Reply-To: <87pls1b898.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Patchwork-Bot: notify
+Content-Transfer-Encoding: 8bit
 
-Dear Takashi,
+The usual sample rate possible on an SPDIF link are
+32k, 44.1k, 48k, 88.2k, 96k, 172.4k and 192k.
 
+With higher bandwidth variant, such as eARC, and the introduction of 8
+channels mode, the spdif frame rate may be multiplied by 4. This happens
+when the interface use an IEC958_SUBFRAME format.
 
-Thank you very much for the prompt response.
+The spdif 8 channel mode rate list is:
+128k, 176.4k, 192k, 352.8k, 384k, 705.4k and 768k.
 
+All are already supported by ASLA expect for the 128kHz one.
+Add support for it but do not insert it the SNDRV_PCM_RATE_8000_192000
+macro. Doing so would silently add 128k support to a lot of HW which
+probably do not support it.
 
-Am 28.06.24 um 13:45 schrieb Takashi Iwai:
-> On Fri, 28 Jun 2024 13:11:18 +0200, Paul Menzel wrote:
+Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+---
+ include/sound/pcm.h     | 13 +++++++------
+ sound/core/pcm_native.c |  6 +++---
+ 2 files changed, 10 insertions(+), 9 deletions(-)
 
->> On a Dell OptiPlex 5080/032W55, BIOS 1.17.1 12/18/2022 Linux 6.6.12
->> and 6.6.35 sometimes log (`sound/pci/hda/hda_intel.c`):
->>
->>      snd_hda_intel 0000:00:1f.3: Unstable LPIB (352800 >= 176400); disabling LPIB delay counting
->>
->> Is there a problem with the system? The value seems exactly double of
->> the limit.
-> 
-> It was about the PCM position reporting and the hardware report is
-> somewhat flaky,
+diff --git a/include/sound/pcm.h b/include/sound/pcm.h
+index 3edd7a7346da..9cda92b34eda 100644
+--- a/include/sound/pcm.h
++++ b/include/sound/pcm.h
+@@ -116,12 +116,13 @@ struct snd_pcm_ops {
+ #define SNDRV_PCM_RATE_64000		(1U<<8)		/* 64000Hz */
+ #define SNDRV_PCM_RATE_88200		(1U<<9)		/* 88200Hz */
+ #define SNDRV_PCM_RATE_96000		(1U<<10)	/* 96000Hz */
+-#define SNDRV_PCM_RATE_176400		(1U<<11)	/* 176400Hz */
+-#define SNDRV_PCM_RATE_192000		(1U<<12)	/* 192000Hz */
+-#define SNDRV_PCM_RATE_352800		(1U<<13)	/* 352800Hz */
+-#define SNDRV_PCM_RATE_384000		(1U<<14)	/* 384000Hz */
+-#define SNDRV_PCM_RATE_705600		(1U<<15)	/* 705600Hz */
+-#define SNDRV_PCM_RATE_768000		(1U<<16)	/* 768000Hz */
++#define SNDRV_PCM_RATE_128000		(1U<<11)	/* 128000Hz */
++#define SNDRV_PCM_RATE_176400		(1U<<12)	/* 176400Hz */
++#define SNDRV_PCM_RATE_192000		(1U<<13)	/* 192000Hz */
++#define SNDRV_PCM_RATE_352800		(1U<<14)	/* 352800Hz */
++#define SNDRV_PCM_RATE_384000		(1U<<15)	/* 384000Hz */
++#define SNDRV_PCM_RATE_705600		(1U<<16)	/* 705600Hz */
++#define SNDRV_PCM_RATE_768000		(1U<<17)	/* 768000Hz */
+ 
+ #define SNDRV_PCM_RATE_CONTINUOUS	(1U<<30)	/* continuous range */
+ #define SNDRV_PCM_RATE_KNOT		(1U<<31)	/* supports more non-continuous rates */
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+index 521ba56392a0..87eeb9b7f54a 100644
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -2410,13 +2410,13 @@ static int snd_pcm_hw_rule_sample_bits(struct snd_pcm_hw_params *params,
+ 	return snd_interval_refine(hw_param_interval(params, rule->var), &t);
+ }
+ 
+-#if SNDRV_PCM_RATE_5512 != 1 << 0 || SNDRV_PCM_RATE_192000 != 1 << 12
++#if SNDRV_PCM_RATE_5512 != 1 << 0 || SNDRV_PCM_RATE_768000 != 1 << 17
+ #error "Change this table"
+ #endif
+ 
+ static const unsigned int rates[] = {
+-	5512, 8000, 11025, 16000, 22050, 32000, 44100,
+-	48000, 64000, 88200, 96000, 176400, 192000, 352800, 384000, 705600, 768000
++	5512, 8000, 11025, 16000, 22050, 32000, 44100, 48000, 64000, 88200,
++	96000, 128000, 176400, 192000, 352800, 384000, 705600, 768000,
+ };
+ 
+ const struct snd_pcm_hw_constraint_list snd_pcm_known_rates = {
+-- 
+2.43.0
 
-Excuse my ignorance. When does the position need to be reported. 
-Continuously or only if the sound card is in use?
-
-> so the driver gave up to take the LPIB register value for delay
-> calculation.
-I looked through the logs of our Dell desktops and found some of this 
-line from over three years ago, and only a few from 2023 and 2024. What 
-I noticed is, that some happened during the night, when the users were 
-not working in front of the system.
-
-     /var/log/messages.2024-05:2024-05-03T21:38:40.548614+02:00 
-fenchurch kernel: [1243538.698524] snd_hda_intel 0000:00:1f.3: Unstable 
-LPIB (352800 >= 176400); disabling LPIB delay counting
-     /var/log/messages:2024-06-22T17:53:02.705160+02:00 fenchurch 
-kernel: [91380.287519] snd_hda_intel 0000:00:1f.3: Unstable LPIB (352800 
- >= 176400); disabling LPIB delay counting
-     /var/log/messages:2024-06-26T22:16:53.731007+02:00 fenchurch 
-kernel: [15864.501200] snd_hda_intel 0000:00:1f.3: Unstable LPIB (352800 
- >= 176400); disabling LPIB delay counting
-
- From a Dell Precision Tower 3620/0MWYPT, BIOS 2.11.1 08/17/2018:
-
-     /var/log/messages:2024-06-25T01:43:44.172792+02:00 freddie kernel: 
-[58525.565008] snd_hda_intel 0000:00:1f.3: Unstable LPIB (349592 >= 
-176400); disabling LPIB delay counting
-
-> The position itself is reported by other ways, hence it's no serious
-> issue and in most cases you can ignore it.
-I ask to know, if I should contact Dell to fix something before systems 
-run out of warranty.
-
-
-Kind regards,
-
-Paul
