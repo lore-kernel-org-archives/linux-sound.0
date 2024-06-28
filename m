@@ -1,115 +1,93 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D30691C9EA7;
-	Fri, 28 Jun 2024 16:07:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2865B19AA4B;
+	Fri, 28 Jun 2024 17:06:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719590838; cv=none; b=gv5NxasDpwKPPDWQY5/da1JlDWM522Se5+qJZLafpPpCmg7CgDnXRTc/cRnGLcI5kpu2pDiyI/vayqeWYFXAxLi9TQW31ZNlFEf8luBl5ZAoT8q30ViIzPUnZqjDoDCPluGmzy7MFGcOlGFQvrtdJ01AO2Y7aHP0Iq8YFC9TAr8=
+	t=1719594414; cv=none; b=FxRzpL19syg9WnhjJG8/ZB/LwE0XQ+lnlBNwadwkMA1Tccjsyh2dLwfkxWqRqrBXAisQ1GcUVIx364UVCvrDUJEb+q7F56fh+lxAHYH2269yv5mh+AvMGc2NeQEmYBXSr+yYdmm4Tt6BaUB61yDB9dWJf4WMb5y0ZiZ5VqPg7PI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719590838; c=relaxed/simple;
-	bh=hfX+qJVjjcAcXiAhQztZ3+zVRGnspWsdg4Of5y5zZtg=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 Mime-Version:Content-Type; b=axIoGUDIJxvi6GiZN9RDzxoRhUvw7SpvPlUzA3TKbB6JdG9ixofFJ+P2jAZLHYU5UfaUUTd1sfsnGIuNFCGuvx3vJc6Rjczb811qvHEo5Js0fgoaxcsEX8u61h6F/rOhAnBVKbeERpu6Mv6xWuk/zEL2cmycuFrv6a1crDP9Cfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lawUVLj+; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1719594414; c=relaxed/simple;
+	bh=tuzV+wlKVKinCsa1NBBT834oI6faLS64mAnDCkWoMdg=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=DvOLU/QXdbeDX192tSyKcHt6D71n+AwrJHdWiSZEKHQMyGXEup/v9IVdWy0Ii9Tbr2Cvg5+RLWJE7cv7TqNLG2YgYVa7/zLkXpogKv/cYnuxFG88T4TIZbmPBIQlnrq57rFdZTZcWRfqUGNiSwiUcQX+rccka66dWy7flhCiHxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=upmW2SU3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lawUVLj+"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-52cdebf9f53so808213e87.2;
-        Fri, 28 Jun 2024 09:07:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719590835; x=1720195635; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8BLuQHw7XUYh7A6NXygwXg3SOfMQ/2DhzNHBqiquzFk=;
-        b=lawUVLj+9aRm3Wr/GI5EofWffXwtQJFVsKQzbOiEwlrt9CmKIs07ZphEaEmZ0WhYmv
-         DYnTMAOsXFO+fqLJanntzA4vb/9js9LeHF0Zwo7XaCW1jrCK01OIIPI64m5B4Le7kBQK
-         J0Y3iYJzqgI2QpwliCjRZJwIH3Z8wVhjxZ4oCdmwjd6ZNoHWBwdPFjv2af+JpFiNgbO0
-         Z5nij0gJaqXa+pBLbl5R9IT9ZyxSLUKwObPRMBYJmKOURyx5de8y6OfMnGuNUd7BTPWa
-         ZzTSx7WnZTEDJ7b0Hu8WfSoGVgTSvNgK3VlDSaPFYITffnvtAV3mrBF8XT0PqWe/v52F
-         LGJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719590835; x=1720195635;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=8BLuQHw7XUYh7A6NXygwXg3SOfMQ/2DhzNHBqiquzFk=;
-        b=t14AAdJJnQXKBsTdsJPNq4W87WDud3dJ2qJ7ovnPi6NgtlQ7X8DtDvldy6pf0uHlFc
-         OCqFKeOcN6Zgffcp7NMIpME/R80QV/Yi111Mpc1sxrzzvqk1gnEHzV+wJG1jDOjevEQF
-         8mvfYodSbA2XOi93+jTEGk9kB8pO1cQbrvNxJM2+ScR40DH0I+LDMGCF+y7OFeSb694l
-         fypZLUjqwhTbzB6s67waX20P4Ax0iZ/a6t4U9RSVba2lLCSpbbwPvPZQkDOM+ZCPQnG3
-         uSuO2M8McG2PEXAo351dWqVjlnAmAxIedaRjjCqxTN8xErTXDIWNRy/XPIsqVnHSC75E
-         /Yiw==
-X-Forwarded-Encrypted: i=1; AJvYcCWceyYYYHzsvAaNBlz56B9LVqk2WMAivxJBooatsaoiGA4pvNcTL9+G1z+8HnIXrCzvsIXcs/3MzLqNYnM/aEwTADqU6dofGkiNSQ6uNpw7dbJ3wC54pVyIQ9Cb/4jlmzeIUf4vOH9idzo=
-X-Gm-Message-State: AOJu0YzIawUiHennhwE9ifW/M5JFj90qui9Lc32GeaDN5LLeF1dcpMzK
-	1ucz83mDnUhh+CpuDkW3ITv22OPQ8ZV2iQKnoZhTofMUxaQ2hLLK
-X-Google-Smtp-Source: AGHT+IGKtZ27jyLm/4hObT+qQKvkXECnsn/l8exN8++MKWIkS87HhKNrOpgNjyAfe/Lwii2sJwIqVw==
-X-Received: by 2002:a05:6512:3105:b0:52b:b327:9c1c with SMTP id 2adb3069b0e04-52ce068042emr10387590e87.62.1719590834351;
-        Fri, 28 Jun 2024 09:07:14 -0700 (PDT)
-Received: from localhost (host-95-246-50-43.retail.telecomitalia.it. [95.246.50.43])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4256b097c2asm42256035e9.38.2024.06.28.09.07.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Jun 2024 09:07:13 -0700 (PDT)
-Date: Fri, 28 Jun 2024 18:07:12 +0200
-From: Matteo Martelli <matteomartelli3@gmail.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Maxime Ripard <mripard@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Marcus Cooper <codekipper@gmail.com>, 
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, 
- linux-sound@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org
-Message-ID: <667edfb08cbf3_eca1e370ea@njaxe.notmuch>
-In-Reply-To: <d614f04e-3609-48e3-bd30-9e57c69cd94d@sirena.org.uk>
-References: <20240529140658.180966-2-matteomartelli3@gmail.com>
- <20240529140658.180966-3-matteomartelli3@gmail.com>
- <20240606-savvy-wallaby-of-champagne-d4a50e@houat>
- <6662bf1b61bbc_2f51737023@njaxe.notmuch>
- <d614f04e-3609-48e3-bd30-9e57c69cd94d@sirena.org.uk>
-Subject: Re: [PATCH 1/1] ASoC: sunxi: sun4i-i2s: fix LRCLK polarity in i2s
- mode
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="upmW2SU3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9E5AC116B1;
+	Fri, 28 Jun 2024 17:06:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719594413;
+	bh=tuzV+wlKVKinCsa1NBBT834oI6faLS64mAnDCkWoMdg=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=upmW2SU3SSRfsMu0ZLekbfgLlUC+h/NfkXvJv6rqSBRZp82hA38zh2lOuijhh4dOL
+	 viZfSpvhMR1eM2p8UAG0MhLJ5ILZAi44Q5YqwHxxJGVf66dFJjaQ8g07wkGhB3E059
+	 ZH7tBLAMr2Q4ifwXKAQ2MXZdJz0HrdONfnTAOpPZK2XcQRhWdWg7iJl/HPmL6EInt6
+	 Yi9HVqDyHYy2hEVbEludaT4RuCGNEYF1Uz6m4C0rPm7HHJZE3ewQ/w2C5t9vCgNBQ5
+	 tn7uKMa/7HAt06/frCRPe0kVXPdqD4h2+/4S7AEmpdNZdxarMThh0BGZ9snUqrqici
+	 Bd6p2Z/So7vrQ==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
+ conor+dt@kernel.org, shengjiu.wang@gmail.com, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
+ festevam@gmail.com, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, Shengjiu Wang <shengjiu.wang@nxp.com>
+In-Reply-To: <1719481981-4069-1-git-send-email-shengjiu.wang@nxp.com>
+References: <1719481981-4069-1-git-send-email-shengjiu.wang@nxp.com>
+Subject: Re: (subset) [PATCH v2 0/3] arm64: dts: imx8mp: add audio XCVR
+ sound card
+Message-Id: <171959441065.130075.14895021485165511530.b4-ty@kernel.org>
+Date: Fri, 28 Jun 2024 18:06:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev-d4707
 
-Mark Brown wrote:
-> On Fri, Jun 07, 2024 at 10:04:43AM +0200, Matteo Martelli wrote:
-> > Maxime Ripard wrote:
-> > > > -	/*
-> > > > -	 * DAI clock polarity
-> > > > -	 *
-> > > > -	 * The setup for LRCK contradicts the datasheet, but under a
-> > > > -	 * scope it's clear that the LRCK polarity is reversed
-> > > > -	 * compared to the expected polarity on the bus.
-> > > > -	 */
-> > > 
-> > > I think we should keep that comment somewhere.
-> > 
-> > I think that keeping that comment would be very misleading since the LRCLK
-> > setup would not contradict the datasheet anymore [1][2].
-> > 
-> > Also, do you recall any details about the mentioned scope test setup? Was i2s
-> > mode tested in that occasion? It would help clarify the situation.
-> > 
-> > Could anyone verify this patch against H3/H6 SoCs?
+On Thu, 27 Jun 2024 17:52:58 +0800, Shengjiu Wang wrote:
+> Add audio XCVR sound card, which support SPDIF TX & RX,
+> eARC RX and ARC RX.
 > 
-> Any news on any of this?
+> changes in v2:
+> - use minItems:3 for i.MX8MP and update example
+> 
+> Shengjiu Wang (3):
+>   ASoC: dt-bindings: fsl,xcvr: Adjust the number of interrupts
+>   arm64: dts: imx8mp: Add audio XCVR device node
+>   arm64: dts: imx8mp-evk: Add audio XCVR sound card
+> 
+> [...]
 
-Not on my side, unfortunately I cannot test the fix against H3/H6 SoCs.
+Applied to
 
-Matteo Martelli
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/3] ASoC: dt-bindings: fsl,xcvr: Adjust the number of interrupts
+      commit: 288921232dd97bb2e35cff2ee38957db5b3e5ef1
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
