@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED23F57CB0;
-	Fri, 28 Jun 2024 06:25:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03CC15C8FC;
+	Fri, 28 Jun 2024 06:31:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719555907; cv=none; b=srW1cEbWbZf73iWUMc9bt1ktUsGEAa8n+YCN/fKsv0v1zmGsg/DXmP4AOHua5BOlo9Ex3Tbpu75cpIzuZeMvFXwFwkrqWzMp/dPmrrX7d+BToUycs0kHjZwlM7ymnVLgjX/JWOVeKJbXxTuZe6tenatNGG0rUAS/DQ3b5qSize0=
+	t=1719556265; cv=none; b=ktKIXfqJf4XhAwoU5FwJ7pmo4nQrW6geKtzUbT6k60iKY7kHL2E3q/uZjzKI5xo/04tZ+ZOcwXwZpoWc4h0OBxRe02OjN05rehr4niocqlrqI/uouRxbdBICutfF3L9k7BEsGm85/ZwO/6Z1187oGQ9U2oUAoeO6NHBcDgEf45w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719555907; c=relaxed/simple;
-	bh=XAVawEvkUjw4F5rP/7SvaAZ+lSjFkdzyftZk2Gs+RRA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tg4i/2x+T30b1USX8Crzcijxxqb11K3ix9voLS2OjRgKB1z2qB272EEK2NSitfNCcAhTI17BPrXiEpGR3rILIBc4VZ5KqG+FxNuAKqfbFAEgfNWZlKZIIdTTakgsOcTXgf2V6HU0m6N5zkuizNpkPE2Wfq+Xj8+FJwYIsHUCImw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cPP7+3Yj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719556265; c=relaxed/simple;
+	bh=IPj8V9mOlzMvkFpYjYiurmdx0muqxFevIN9X8P91Vl8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=WjEqZXH03Znh5Ch/NXugnZVxszuqhwMTs6236Hq81cyK7qgDez/Ab0jClvGVcF6hDKzwfzP7TCj4x3t2C2a2ChhSjXzYF0wzmOyiHCduj7RzQRkXKZbDigiRW33zUl79vE2TjyDM5jqbU5mA0GtfnNHSx0iW8Ky/nxAyj7qDng8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cMyGMCQO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cPP7+3Yj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA450C32781;
-	Fri, 28 Jun 2024 06:25:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cMyGMCQO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F322C116B1;
+	Fri, 28 Jun 2024 06:30:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719555906;
-	bh=XAVawEvkUjw4F5rP/7SvaAZ+lSjFkdzyftZk2Gs+RRA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=cPP7+3YjY7m6qXORAYXgBjvLuPUyUeV9HfA+ICpQiOtbGPVJN1jBptUVVapMBi9Ln
-	 WPT+0R3HD79ce5iQHBvoVS85fspFhn26reyuc5lzmoiw9gNHOQ88roPrPiNZ8Hdy7R
-	 ++jgqXGOwcVhPoKnIrwu2gfOrrYSlcshcbWSzEWUKYxJmBmD4W9KQJ8gRthy+5xuUN
-	 yRybpP1ZVJDau4UxLn6QmJ23cBjBakJdSlSSuF+Ntq+5qKv6EMFxxpygqnqjCwcTEt
-	 hjFaaoYM1KeUvFUnj8IfGSfGyj8uZePknKzfeErCxamlkgkDInoQpc9/XUQViq66Uk
-	 MIsOTzpfIfuEg==
-Message-ID: <e358a75e-a18c-45dd-9cae-ae7ded815c4a@kernel.org>
-Date: Fri, 28 Jun 2024 08:24:59 +0200
+	s=k20201202; t=1719556264;
+	bh=IPj8V9mOlzMvkFpYjYiurmdx0muqxFevIN9X8P91Vl8=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=cMyGMCQOprns2pIdaIZj37zwI8hTvjo+tYhz8559I85aTA/p5N3txDY7Jw1tkfxYD
+	 D+nbApsY344CtLCtW0ooI7NkWnCtloB5coBQjwEcN6IAXyY6/9hNzF6AtDVx1BuPTs
+	 zGnLM6AsLjuboobWtKLU9GrkPG+giKIYzm9EtttMp0cg4Y0a2EpmMC8RQs8BJF8Opk
+	 aU28amPDBdX1utJT92Fdcv3HMnzFICkRe4GjHjNGJZEzoQA4IasjDbCDMaldnwMVQr
+	 0F3+pZsLnN/D2rWI6iixulqGyqMHrlgtfzdQ6byh4/9C6XLB+QmtOA5u3YKsUsWqYz
+	 X/4HKz5Ls1OaA==
+Message-ID: <68684d06-0c37-4238-b709-ffecc40fb17b@kernel.org>
+Date: Fri, 28 Jun 2024 08:30:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,19 +35,16 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] ASoC: dt-bindings: nau8824: Add master clock
- handling
-To: Maxim Kochetkov <fido_max@inbox.ru>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- Andy Shevchenko <andy.shevchenko@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, John Hsu <KCHSU0@nuvoton.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- alsa-devel@alsa-project.org
-References: <20240628061750.11141-1-fido_max@inbox.ru>
- <20240628061750.11141-3-fido_max@inbox.ru>
+Subject: Re: [PATCH v2 1/3] ASoC: dt-bindings: fsl,xcvr: Adjust the number of
+ interrupts
+To: Shengjiu Wang <shengjiu.wang@nxp.com>, lgirdwood@gmail.com,
+ broonie@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, shengjiu.wang@gmail.com, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+References: <1719481981-4069-1-git-send-email-shengjiu.wang@nxp.com>
+ <1719481981-4069-2-git-send-email-shengjiu.wang@nxp.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -93,40 +90,20 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240628061750.11141-3-fido_max@inbox.ru>
+In-Reply-To: <1719481981-4069-2-git-send-email-shengjiu.wang@nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 28/06/2024 08:17, Maxim Kochetkov wrote:
-> Use master clock "mclk" if provided through device tree.
+On 27/06/2024 11:52, Shengjiu Wang wrote:
+> On i.MX8MP, there are 3 interrupts, the third interrupt is
+> SPDIF wakeup interrupt from PHY
 > 
-> Signed-off-by: Maxim Kochetkov <fido_max@inbox.ru>
-> ---
->  .../devicetree/bindings/sound/nuvoton,nau8824.yaml        | 8 ++++++++
->  1 file changed, 8 insertions(+)
-
-Bindings are before their users. Order the patches correctly.
+> Add ref: dai-common.yaml for #sound-dai-cells is needed and
+> XCVR is a DAI device.
+> 
+> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-
----
-
-<form letter>
-This is an automated instruction, just in case, because many review tags
-are being ignored. If you know the process, you can skip it (please do
-not feel offended by me posting it here - no bad intentions intended).
-If you do not know the process, here is a short explanation:
-
-Please add Acked-by/Reviewed-by/Tested-by tags when posting new
-versions, under or above your Signed-off-by tag. Tag is "received", when
-provided in a message replied to you on the mailing list. Tools like b4
-can help here. However, there's no need to repost patches *only* to add
-the tags. The upstream maintainer will do that for tags received on the
-version they apply.
-
-https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
-</form letter>
 
 Best regards,
 Krzysztof
