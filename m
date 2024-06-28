@@ -1,116 +1,142 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C85701C0DF0;
-	Fri, 28 Jun 2024 18:23:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CDBE80027;
+	Fri, 28 Jun 2024 20:34:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719599023; cv=none; b=XCteQ3jldpDEaxn6A+zQ+qNn6MVXjXiBQ2r/pyjnbKQFfXUHMK6ojF7M4Dve58TdeIpdHfMHHwMrxQkoxXPVMoTC9V06p6xv3fgaZ2JOGSnmnZ3JumUs66BhxNfF9z7niKviBTSOGSHfYdqRN7rL79kGZrcIDGdCiBzb9KlUuEA=
+	t=1719606897; cv=none; b=GnTyLr0G09WtCALg5HoP10ZMrOmhG3fY1X0WOHY43KupcPKnEn4X9bzxnBikbYYmzM9oTiRX9jDj/Wed+tRLrkWLNpJR/ivW4y1Ydee3pjlO7lr6xZmJL3TO2mY8lJx6o4w+kEn/5W8oQceHYDR2Kocf2eddqrTc2BEbmRgYNnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719599023; c=relaxed/simple;
-	bh=PSU3tdTo76FLPP7xiWLKc41rwOiwu52i+9dzvpqpwII=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=YITa3NWvSVBIJjjxew5TnX4sWnkMae3Eutk+9DibksXkIDizWHyu7ipLcjvDU7nqaY97yMWQ7PeKp8q9qcPfbG5/o0JjfkclRLVAI7l5PD9MZcvc39+61gDClDmXz8ALQLB1f5yjNv3BL8snxTt3kHFJizvlVcTJoo3wDoQG64I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZdyI0W+n; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719606897; c=relaxed/simple;
+	bh=lCcqJYgRiAEz9pBVyJBmMruRcOqpwTBPSELYvb2bHYM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uhu/rguelwrk+sgE8Yq36WhPiDQRwlGzVRnL2KaJMt+HqD9BhQGdNyo8c1Y4BG0h7BzMWhafb011NqYmEf7Gf3G3UxWBbDqEcrs+ZnY0Zw2e230W02V2ZOmKmqN7K7Mc9rzvPHL532KY6e7JzMHefj2xTDHAxQ7A55Orq5RNXnA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ilrtl5To; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZdyI0W+n"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72894C116B1;
-	Fri, 28 Jun 2024 18:23:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ilrtl5To"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0963EC4AF0F;
+	Fri, 28 Jun 2024 20:34:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719599023;
-	bh=PSU3tdTo76FLPP7xiWLKc41rwOiwu52i+9dzvpqpwII=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=ZdyI0W+nmqUJCWipPdNf4cmBtY+rypYDwx+itWdMspkZMxFXGqTXLiqwqj+P/L2HW
-	 ayxR9qnJXpys3ydRLPfokVQx98MOeqM03nKa/ytsBexikuA9liqDpHV1OfVVALU+tE
-	 f7Fj4nqi4PEUTPns+yPNM8egQuCOh0Ovv/wpOD+UZ/8SlcGE22Ghaiomf6798XikSx
-	 0fgHRjbt7tZT77y95s6ou8xunrmc2rYTHBH4XJGA+fSkOoEi4YpexqWOIht15+aPX7
-	 D00T9WThNkC2oKuTUBzvB83od0XpV7aqlLaIS7DCv64svIp/Io9uTUPLn1flWW5vhe
-	 Y1c3dtBmP4QfA==
-From: Mark Brown <broonie@kernel.org>
-To: Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- "J.M.B. Downing" <jonathan.downing@nautel.com>, 
- Vladimir Zapolskiy <vz@mleia.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Russell King <linux@armlinux.org.uk>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
- Miquel Raynal <miquel.raynal@bootlin.com>, 
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Arnd Bergmann <arnd@arndb.de>, Yangtao Li <frank.li@vivo.com>, 
- Li Zetao <lizetao1@huawei.com>, Chancel Liu <chancel.liu@nxp.com>, 
- Michael Ellerman <mpe@ellerman.id.au>, Corentin Labbe <clabbe@baylibre.com>, 
- dmaengine@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org, 
- linux-sound@vger.kernel.org, linux-clk@vger.kernel.org, 
- linux-i2c@vger.kernel.org, linux-mtd@lists.infradead.org, 
- Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
-In-Reply-To: <20240627150046.258795-1-piotr.wojtaszczyk@timesys.com>
-References: <20240627150046.258795-1-piotr.wojtaszczyk@timesys.com>
-Subject: Re: (subset) [Patch v5 00/12] Add audio support for LPC32XX CPUs
-Message-Id: <171959901719.141669.17001815513243855671.b4-ty@kernel.org>
-Date: Fri, 28 Jun 2024 19:23:37 +0100
+	s=k20201202; t=1719606897;
+	bh=lCcqJYgRiAEz9pBVyJBmMruRcOqpwTBPSELYvb2bHYM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ilrtl5Topbc4d0nUYU4CJJo5kqy6IyMLkg9hhTP2dqWmRsltug7FuK6i85Kfkcm4N
+	 +BNlrxipKIk5pqOJR4PAEll9RUeBQkeJ4sKyZ66toYOZZkZLp+91sleKQez+0CwV6W
+	 7yxemmydR3NdiVLXm5As+nS8j1NuSZgbQX9ukMCNJidQ40caqWUTcI/EIovctRRyez
+	 XelkDj4JIPTq+XONkTRyAyRpQ3bATSbdECQUh7vtCqHnQDzn1qTFtQ7roAhW96oedY
+	 R4jnJym98Qh2fl9ZwS/ze0P0pCPh1jtxKtWssJDywWTN0HhgiM0Hs6lDR4jKUcXgAZ
+	 hmUljZnr3jKiQ==
+Date: Fri, 28 Jun 2024 14:34:56 -0600
+From: Rob Herring <robh@kernel.org>
+To: Animesh Agarwal <animeshagarwal28@gmail.com>
+Cc: Daniel Baluta <daniel.baluta@nxp.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: dt-bindings: realtek,rt5645: Convert to dtschema
+Message-ID: <20240628203456.GA170991-robh@kernel.org>
+References: <20240621154034.489037-1-animeshagarwal28@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev-d4707
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240621154034.489037-1-animeshagarwal28@gmail.com>
 
-On Thu, 27 Jun 2024 17:00:18 +0200, Piotr Wojtaszczyk wrote:
-> This pach set is to bring back audio to machines with a LPC32XX CPU.
-> The legacy LPC32XX SoC used to have audio spport in linux 2.6.27.
-> The support was dropped due to lack of interest from mainaeners.
+On Fri, Jun 21, 2024 at 09:10:27PM +0530, Animesh Agarwal wrote:
+> Convert the RT5650/RT5645 audio CODEC bindings to DT schema.
 > 
-> Piotr Wojtaszczyk (12):
->   dt-bindings: dma: pl08x: Add dma-cells description
->   dt-bindings: dma: Add lpc32xx DMA mux binding
->   ASoC: dt-bindings: lpc32xx: Add lpc32xx i2s DT binding
->   ARM: dts: lpc32xx: Use simple-mfd for clock control block
->   ARM: dts: lpc32xx: Add missing dma properties
->   ARM: dts: lpc32xx: Add missing i2s properties
->   clk: lpc32xx: initialize regmap using parent syscon
->   dmaengine: Add dma router for pl08x in LPC32XX SoC
->   ARM: lpc32xx: Remove pl08x platform data in favor for device tree
->   mtd: rawnand: lpx32xx: Request DMA channels using DT entries
->   ASoC: fsl: Add i2s and pcm drivers for LPC32xx CPUs
->   i2x: pnx: Fix potential deadlock warning from del_timer_sync() call in
->     isr
+> Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
+> Cc: Daniel Baluta <daniel.baluta@nxp.com>
+> ---
+>  .../bindings/sound/realtek,rt5645.yaml        | 129 ++++++++++++++++++
+>  .../devicetree/bindings/sound/rt5645.txt      |  82 -----------
+>  2 files changed, 129 insertions(+), 82 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/sound/realtek,rt5645.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/sound/rt5645.txt
 > 
-> [...]
+> diff --git a/Documentation/devicetree/bindings/sound/realtek,rt5645.yaml b/Documentation/devicetree/bindings/sound/realtek,rt5645.yaml
+> new file mode 100644
+> index 000000000000..d2d97d2bca2e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/realtek,rt5645.yaml
+> @@ -0,0 +1,129 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/realtek,rt5645.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: RT5650/RT5645 audio CODEC
+> +
+> +maintainers:
+> +  - Animesh Agarwal <animeshagarwal28@gmail.com>
+> +
+> +description: |
+> +  This device supports I2C only.
+> +
+> +  Pins on the device (for linking into audio routes) for RT5645/RT5650:
+> +    * DMIC L1
+> +    * DMIC R1
+> +    * DMIC L2
+> +    * DMIC R2
+> +    * IN1P
+> +    * IN1N
+> +    * IN2P
+> +    * IN2N
+> +    * Haptic Generator
+> +    * HPOL
+> +    * HPOR
+> +    * LOUTL
+> +    * LOUTR
+> +    * PDM1L
+> +    * PDM1R
+> +    * SPOL
+> +    * SPOR
+> +
+> +allOf:
+> +  - $ref: dai-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - realtek,rt5645
+> +      - realtek,rt5650
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +    description: The CODEC's interrupt output.
+> +
+> +  avdd-supply:
+> +    description: Power supply for AVDD, providing 1.8V.
+> +
+> +  cpvdd-supply:
+> +    description: Power supply for CPVDD, providing 3.5V.
+> +
+> +  hp-detect-gpios:
+> +    description: 
+> +      A GPIO spec for the external headphone detect pin. If jd-mode = 0, we
+> +      will get the JD status by getting the value of hp-detect-gpios.
 
-Applied to
+       maxItems: 1
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> +
+> +  cbj-sleeve-gpios:
+> +    description:
+> +      A GPIO spec to control the external combo jack circuit to tie the
+> +      sleeve/ring2 contacts to the ground or floating. It could avoid some
+> +      electric noise from the active speaker jacks.
 
-Thanks!
+       maxItems: 1
 
-[03/12] ASoC: dt-bindings: lpc32xx: Add lpc32xx i2s DT binding
-        commit: 752fea92d9b3e4255a2f75e7efa6fe148562ccbf
-[11/12] ASoC: fsl: Add i2s and pcm drivers for LPC32xx CPUs
-        commit: 0959de657a10cc40b2cc41cff9169ab0e0fd4456
+With that,
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
