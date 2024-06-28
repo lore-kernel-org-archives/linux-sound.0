@@ -1,57 +1,57 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDE1A84FA5
-	for <linux-sound@vger.kernel.org>; Fri, 28 Jun 2024 08:35:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07FD149C7C
+	for <linux-sound@vger.kernel.org>; Fri, 28 Jun 2024 08:35:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719563729; cv=none; b=Et/XRkEQjcA2o1MSMau0K7ZtYcfKS+p4ZtvQaIKywN7nPusmYXYSdfU4Z6xOYtJsoyEe2nVwNIUAhrrSE7fHfNCTcO0gYb4d19s4izn/7fidtjGm+2pdgOJNfrh3WH5aNpYvWzltnsYnHZ4dlceYRrni9VplKXohNjw0eoivA8k=
+	t=1719563747; cv=none; b=e2iwghAOWjhX986/lR4ck61pXZtcT5nB8UFdn12bkdANBepJ9m0wQF+kxHNm4jXJB6DYRnFePBu9evMC0Pa6BBOPYK3Lug45DVCf39Ee91RcEdLXj7rrAvdVayrMQ0MVTgYiRkgEZo4lnIhOYgS9RjSz8ZtBhXe45Pwky8mIH7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719563729; c=relaxed/simple;
-	bh=r9/2elFYnoxM2mwS8pLdiixRoCcTB/Nu6twSfevvkBA=;
+	s=arc-20240116; t=1719563747; c=relaxed/simple;
+	bh=Aeqbd8mZF5g0gMvxy8MT2FkZAI51t9W3BeDBDhRYKN4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AB+VF8dRAZ+E3qbci4ZAw1+IxmCSPC6v+ZIkP29IvP8A+ZYjyRak6vSCy154gEHDgAp7+2QfeaqYPtaa24JNp7LlZ2KQdUYEDPF6n0srWAT3Rg+AsFNW7LINYAh74/Tlmc15eZEgdOcwEFCH9AvYlvmz2gJRur1qVqWbSbMAg68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Sh5nwbNL; arc=none smtp.client-ip=209.85.208.171
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z8zvCw4lRMsUoSTKz+2BhcCb5x+NQVz0QmmRzCI9v7SbUVhyFRjvZVl4j/4FJemJ7C48gd9gIIi55lBaZVvjIy4TVVQkXk8ggh5QJAnrstzcw6DFLpSUB4NojLjrkz96t0z2tppn7p6bExX3uOtiyrBI5PZY95cRfct90dcEhHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NfQ0KTPi; arc=none smtp.client-ip=209.85.167.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Sh5nwbNL"
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2ec10324791so2982131fa.1
-        for <linux-sound@vger.kernel.org>; Fri, 28 Jun 2024 01:35:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NfQ0KTPi"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-52caebc6137so320436e87.0
+        for <linux-sound@vger.kernel.org>; Fri, 28 Jun 2024 01:35:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1719563725; x=1720168525; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1719563744; x=1720168544; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tNolEEmkU6Ry+wXWBxbsl928QObWZnXzUE7LPASxVTE=;
-        b=Sh5nwbNL1jwLx6tbmRmDvUzzlvGOwzAwz7CffBWiU/I+gMO+UBESQv/tXar9Cx8b9w
-         Qr/nNzEpSV0fMl4HCVYHarM70k0/Ylj+xhzWEy+Bg2FJZHEf/pQbm0hH2LKrNo0yNkoM
-         Wsm4ZnHqHhrQexP0tUZOUAWCKFbQ3U/Amj3cj9mNE3ra8GX1oQe0HoS6RCoDRs965bJD
-         DF3CC1pN4CYTaEN0UHRb1lVQBwf91/18O6bZIhIkUeW2QKlUiJr9WvkykfQg5/kqbGka
-         54gc08hEI95/CafAHpSZ/FNlSIKWfNMUK4daZ3ESQ3LKgWKwl0n76nvukJGsiN4bth3w
-         iyMA==
+        bh=kW8kDPyCelVzk0XP+f0C1TOEkGrqmmm6HbfYVtTsZyA=;
+        b=NfQ0KTPifBwF4t6W3AUoHCV4ne4NxDOjpqwKEXJrzzthgBwpel/q7rg3ht7cKRQ0aX
+         lFcrmMGgEVm/IhB5HkUjaV+GOaSiEWlV/xOlmXfxiYnZmzoxxx7RjmWPqBGR5EMStl/J
+         ufwfLmLKWy8cizY/i32gp7BPb1LkD2WOebAak713r5VUhVPkhbaYvGJocwyXamtqoTJK
+         OTg4GWyx0bLzpD074D3LbZU9dmp+Nt0Sm4HRn0nyt/ar+FqrG4EtOUySeyObI9IvIn7F
+         0CJJd9bsj045ZeTuyLnaeHxVq6grrnyYIlWEVB8Dwt+mX3rlQ/Qr8VRaE5q/04lsgVI+
+         eMwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719563725; x=1720168525;
+        d=1e100.net; s=20230601; t=1719563744; x=1720168544;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tNolEEmkU6Ry+wXWBxbsl928QObWZnXzUE7LPASxVTE=;
-        b=OlPIbgo39JcyiYeZF/fIV4Um76l4Gu4BTd9DXmDyuCaaq1u8U5WZ7ewVF7cB/6o2Dl
-         veDqy5NTiRgLepjv8VMlZ9tALZD/n+8rOkOnsvm8q1RiRbzFYKAuTwYQTLzqkxZ/1yYt
-         9mUZzKb/BRKE0AW2cEfGqLTtkc/cfEwH1YlpyxsodsUrkS5NSgLre/QIhLA0lU7HfZUi
-         +siG7z5OKa+lebCzhLXBO9kpm4pVU4pQEC53ESgiE7uCadC8mrikh+957Kv6ibz7+8sC
-         Myy8+fFNreLIcMdxof5OQOiF62IVb5DQJLZFbQZAF7UQ9oZ1uRSPwlwCNy1tnTBcHBUY
-         61dA==
-X-Forwarded-Encrypted: i=1; AJvYcCUAGPyTeqfORhLdgvPwZ00urNGhIreltC1/EQvUuhiMJHJjb2Ilfa/FF6+X+sgM/32SPR4D1mb78fP6VrtiWWBPEaTj3HE10qZy6GU=
-X-Gm-Message-State: AOJu0Ywo0Eabyi3z1h72gda7jnug2UsuTC8Z8cscqgKBencHM/aRJ0+J
-	4EgbmEHOuAiEurbPKeAuHUQvlN0P7cRqizUGIt8bqXt71JwfrxXAlngRjRTA8UU=
-X-Google-Smtp-Source: AGHT+IH0dVLpq1WiFFtaJNklk51Rq5LfwF3kNGv46euWX6ESZ9aSdNKd7M7qDLdGFtoOEGCvB3sxKA==
-X-Received: by 2002:a2e:88c9:0:b0:2ec:556f:3474 with SMTP id 38308e7fff4ca-2ec5b2e94bbmr102009301fa.52.1719563725213;
-        Fri, 28 Jun 2024 01:35:25 -0700 (PDT)
+        bh=kW8kDPyCelVzk0XP+f0C1TOEkGrqmmm6HbfYVtTsZyA=;
+        b=C6qcZ4sDW3zJ6O01yAweHvZTn/1SWsvq8g2y3INd6z6fnhZV/ZwIRPTUU+RZgDUKjV
+         Nfcz5mbIR3Inimtfb7cDDVBuRZ3hXzq323vxWbPiz6szkyLCbGqTe9hg9/t1HDwjKDeJ
+         pvF6jMNvLLEhF06iz/mxlnHg8HVkH594bh/jGY6uNJnlH9AjkAR7gUQjT1cVSVnaBUHr
+         nIk8uWdeoJcrsVhHdylgCdP80voEGDV87lxJ2TDmsnBiYcnSgJBx6F0k1CbxCGQ3tWdO
+         sjhSKTYsxMROnlX3NjmXnoBP0vZMjMPhW6/Hlg7YxwA0KiLvspLq+fFOwaDAl6mRZdlq
+         cgEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWC7HHpT4asNcyK8WjLUnqYIFIda7bz9/8pd0o6iPMJEAQGbgIC+rSZAR06IEENRR4llwgliXXxJVk44XLPryTWzpwCd24RTDbjWmM=
+X-Gm-Message-State: AOJu0YxPbP4hB7ZM5Xj0vILVFW3FbW7EEYVZ1a0sKIEUs76WPQ/jQcF+
+	CMPhk3tc1RG1oehljsGkBTCWo/tGi7SwyVoIu3M7qYDr3u9zNJbkyx646wTFXOI=
+X-Google-Smtp-Source: AGHT+IHTiAZIPdDFBY86RLx+OqmRRF+qtx5Trn2TYV6LbMTMP6YvfamTxpc4oxDTByLWmHsNlvA5Vw==
+X-Received: by 2002:a05:6512:281:b0:52c:e10b:cb36 with SMTP id 2adb3069b0e04-52ce183add6mr9396478e87.33.1719563744009;
+        Fri, 28 Jun 2024 01:35:44 -0700 (PDT)
 Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ee51622ae6sm2179691fa.51.2024.06.28.01.35.24
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52e7ab3b37asm209380e87.275.2024.06.28.01.35.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Jun 2024 01:35:24 -0700 (PDT)
-Date: Fri, 28 Jun 2024 11:35:22 +0300
+        Fri, 28 Jun 2024 01:35:43 -0700 (PDT)
+Date: Fri, 28 Jun 2024 11:35:41 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
@@ -59,11 +59,11 @@ Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
 	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
 	alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/4] ASoC: dapm: Use unsigned for number of widgets in
- snd_soc_dapm_new_controls()
-Message-ID: <r2mogdrjnwf7bg7ytfnxrz2hmwbsuur2pzy2b3fpzz3apyxvts@bppukrkvrxhw>
+Subject: Re: [PATCH 4/4] ASoC: codecs: lpass-rx-macro: Use unsigned for
+ number of widgets
+Message-ID: <ojokmx4l5eaeclemszd4esgyfcov4gcqteegh3vqpbk7cdfmgn@yayrzbbaire5>
 References: <20240627-b4-qcom-audio-lpass-codec-cleanups-v1-0-ede31891d238@linaro.org>
- <20240627-b4-qcom-audio-lpass-codec-cleanups-v1-3-ede31891d238@linaro.org>
+ <20240627-b4-qcom-audio-lpass-codec-cleanups-v1-4-ede31891d238@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -72,22 +72,20 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240627-b4-qcom-audio-lpass-codec-cleanups-v1-3-ede31891d238@linaro.org>
+In-Reply-To: <20240627-b4-qcom-audio-lpass-codec-cleanups-v1-4-ede31891d238@linaro.org>
 
-On Thu, Jun 27, 2024 at 05:23:45PM GMT, Krzysztof Kozlowski wrote:
-> Number of widgets in array passed to snd_soc_dapm_new_controls() cannot
-> be negative, so make it explicit by using 'unsigned int', just like
-> snd_soc_add_component_controls() is doing.
+On Thu, Jun 27, 2024 at 05:23:46PM GMT, Krzysztof Kozlowski wrote:
+> Driver uses ARRAY_SIZE() to get number of widgets later passed to
+> snd_soc_dapm_new_controls(), which is an 'unsigned int'.
 > 
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > ---
->  include/sound/soc-dapm.h | 2 +-
->  sound/soc/soc-dapm.c     | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+>  sound/soc/codecs/lpass-rx-macro.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
 
-
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
 
 -- 
 With best wishes
