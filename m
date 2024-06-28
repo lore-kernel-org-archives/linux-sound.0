@@ -1,72 +1,149 @@
-Received: from out30-99.freemail.mail.aliyun.com (out30-99.freemail.mail.aliyun.com [115.124.30.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E0F728DBC;
-	Fri, 28 Jun 2024 05:24:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.99
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39A1446BA0
+	for <linux-sound@vger.kernel.org>; Fri, 28 Jun 2024 06:13:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719552259; cv=none; b=rfE8SjYu2EXPysGvWIDRnfcQFonOZ2uTADI8bIY9N/kqEpoyAlVyx3+sT6QKqdpLyIVXc/E1RwuBt45ZCbQ6P1U7Im+Ot6Wky9PFy4omtCAklUcdzkm6cjVv2HH9RVEc8+o8va/QvO5qMmn0z5Y0/wTndEX9HfK1GSzPtvGhhSk=
+	t=1719555197; cv=none; b=qKSbuy0s53EvhjgmK56snI7R41VW9UhY3Ma/me07njlTpRQzHt22YN/iHEsBQ5Q0g8GC6G5IiEvy3GAfC0uL7OZAua/zMznt0+paAChzs8Xf7FCiM4MLQVbk0efcaY3gVOKHnGp37ku2LjMFlfb8xdm1wcMvhvAkBgz9oy8pb4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719552259; c=relaxed/simple;
-	bh=KAI9AScrTRHCr6QdrKTyuj7IOPB8d078ZRqKTQhd9hI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mFXc9icp3XXB2qRHievCJA2l3gGWv/lb1RwHZ0IwPx/2ND2nycc4i3Kk6C20C9Y+hlUxOjJ2CrLJnoPgI+scF7ZSABPcL7hc7AAFW5pr1Vch5EVDKFmR980HFPgZwzDCheaCoXUFtd8v2jc/2FG+ksXFASpiDXqrSrLdG96ixCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=Zf22Ee/j; arc=none smtp.client-ip=115.124.30.99
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1719555197; c=relaxed/simple;
+	bh=mXboV2koynOibOquRmGUfTsfA6Kni9C+SoJxvBZRoxQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aRs5vvRNR5VlAlGKI3G7blJiWHVzTWlX5UCsjmiK1RpuVLbNAF0gDBzoun0NfVeQi5xsd23HQhZmiSC09v5ux7FBnu8hjP/CfGJz7wtfchMNkR9hqNtO0WPz0Ai8Qxs6wwgCvnj3Sim+uwMgwZTDezjSVeBrwZoW57ovrZ7Cz+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JZRxI+ok; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="Zf22Ee/j"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1719552248; h=From:To:Subject:Date:Message-Id:MIME-Version;
-	bh=5YG+Vtf9lpCwJoLbN/w6X/g6VhzIpD3Fm9Xobi8vOfE=;
-	b=Zf22Ee/js2pl+9nT5SKTf5PHxlFSm6yS7CzTjQUD0mB8t6vlqy2ea589K17KULmJ7HXsvqSBdUJ2/8l9VuJaAPD+BuFvY7nfo0Vyej5rRHFEdvTKXbdl13BgD/vTAsWgakmv3/uTuVQ7bMpXNGxHxdI1AOqr1cWTIaK41z6GhTQ=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045075189;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0W9P5uGv_1719552247;
-Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0W9P5uGv_1719552247)
-          by smtp.aliyun-inc.com;
-          Fri, 28 Jun 2024 13:24:08 +0800
-From: Yang Li <yang.lee@linux.alibaba.com>
-To: perex@perex.cz
-Cc: tiwai@suse.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Yang Li <yang.lee@linux.alibaba.com>,
-	Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH -next] ASoC: Remove unneeded semicolon
-Date: Fri, 28 Jun 2024 13:24:06 +0800
-Message-Id: <20240628052406.36644-1-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JZRxI+ok"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-363826fbcdeso185304f8f.0
+        for <linux-sound@vger.kernel.org>; Thu, 27 Jun 2024 23:13:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1719555194; x=1720159994; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=wFplG5h+eoy/SrRKzDXl/4JO4gHhBXb/PLwcKabXHLE=;
+        b=JZRxI+ok9RD78okC6lvHpHT2t4+CSrOaKFKeauAE8uwLoe1cRgbA2XjwjUuXmdqmo9
+         wUa+lbrxp+tB1zQiqnFWyi9SvH9W+QzrUDDliv6GM+13ipHvR8E/HSOxO8Zq1r86XKsd
+         6X4cxCXAz59vneQAQEaGAEe/qdQkPOLGDUajdet3uhdWOsO8sGPz6Dl9yfRI4XDxlWBw
+         +/EcRrd5dfNLM+ZgaLpyxGYRWme1zYxAPHkGJNp8mEWIYDNpZ461j+Wyu40GS8t2quoR
+         2wjkqE5T9x//loUXth+N/lYbT57WNQfw1RVOo+RRsYEZd+6d0MNARy49KRqjDcbpu5/E
+         pikA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719555194; x=1720159994;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wFplG5h+eoy/SrRKzDXl/4JO4gHhBXb/PLwcKabXHLE=;
+        b=U5NUJMFTQk4HjD1KqM95gAGa5Gqz8eZJcAwfrf+e6nH750Cbh512Ib0XbrlLj/tpj9
+         iRygfzs+GSSh6EdGfLdHLP+v3FwRgnFyg1bnnSfv43mO+ulul3mwyrigqCnoA2hH1SeJ
+         p0tJg7yMgjY3UjVf6TWFnrrRCDjyyJxDUEvaWrmapN1CIDLZ93lCCuwjcilnYt+PNgi0
+         7HdmLNYadQghzl1/R0YSXWaYaYH8kZ1y/Y0Wnt46DcVWgCG7BYMrrKw3QrTQ3GVzn1/F
+         armYIVW+WX7GPpGKAw57QDT07FvhEV0nUQsZY+IDF1ju2ZfUe8Q0GyJxD/MG0Jrkdjyi
+         tc3A==
+X-Forwarded-Encrypted: i=1; AJvYcCWGTVX3rH4LX10rnG+ZKHbWixOaDi0yqptAqnVGzPbfu5317DWHfed18QVkredmstnfUZOVxQ4hy5KqLN9rhaV/pZqdt8s0gLO6Uds=
+X-Gm-Message-State: AOJu0Yz6Y5nPfz844WJ3PFQiOBX0A5n8cGPCFkFo01bKP0W982sns5mW
+	BdO6y7BiTXI+4los1GEbUAFFMffqQ2IBClfshVSTojPGrlH6pmdkT5FNrdLA6cU=
+X-Google-Smtp-Source: AGHT+IFfBn99+tXVbecNsBlSQ/C+KgQNtbzR5Y/1VExDOuZn/jPCBkLeQYKy4DVrTb+Jbfl6YF1lww==
+X-Received: by 2002:a5d:68d2:0:b0:361:93d5:782f with SMTP id ffacd0b85a97d-366e79f1a3bmr10138328f8f.9.1719555194579;
+        Thu, 27 Jun 2024 23:13:14 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.137])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3675a0e12d7sm1220096f8f.51.2024.06.27.23.13.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Jun 2024 23:13:13 -0700 (PDT)
+Message-ID: <dac61c61-ab79-4ae4-b0b0-736a09d0d2dd@linaro.org>
+Date: Fri, 28 Jun 2024 08:13:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/7] arm64: dts: qcom: sm6115: add LPASS LPI pin
+ controller
+To: Alexey Klimov <alexey.klimov@linaro.org>, linux-sound@vger.kernel.org,
+ srinivas.kandagatla@linaro.org, bgoswami@quicinc.com, lgirdwood@gmail.com,
+ broonie@kernel.org
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ andersson@kernel.org, konrad.dybcio@linaro.org, perex@perex.cz,
+ tiwai@suse.com, linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org,
+ devicetree@vger.kernel.org, elder@linaro.org, dmitry.baryshkov@linaro.org,
+ caleb.connolly@linaro.org, linux-kernel@vger.kernel.org
+References: <20240628010715.438471-1-alexey.klimov@linaro.org>
+ <20240628010715.438471-6-alexey.klimov@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240628010715.438471-6-alexey.klimov@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-./sound/soc/codecs/ak4619.c:757:2-3: Unneeded semicolon
+On 28/06/2024 03:07, Alexey Klimov wrote:
+> Add the Low Power Audio SubSystem Low Power Island (LPASS LPI)
+> pin controller device node required for audio subsystem on
+> Qualcomm QRB4210 RB2.
+> 
+> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=9442
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
----
- sound/soc/codecs/ak4619.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/ak4619.c b/sound/soc/codecs/ak4619.c
-index cbe27abe1f50..8f2442482f72 100644
---- a/sound/soc/codecs/ak4619.c
-+++ b/sound/soc/codecs/ak4619.c
-@@ -754,7 +754,7 @@ static void ak4619_hw_constraints(struct ak4619_priv *ak4619,
- 		default:
- 			break;
- 		}
--	};
-+	}
- 
- 	constraint->list	= ak4619_sr;
- 	constraint->mask	= ak4619_rate_mask;
--- 
-2.20.1.7.g153144c
+>  		gcc: clock-controller@1400000 {
+>  			compatible = "qcom,gcc-sm6115";
+>  			reg = <0x0 0x01400000 0x0 0x1f0000>;
+> @@ -3068,6 +3084,9 @@ cpufreq_hw: cpufreq@f521000 {
+>  		};
+>  	};
+>  
+> +	sound: sound {
+> +	};
+
+That's not really needed and does not bring much of benefits.
+
+Best regards,
+Krzysztof
 
