@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 705F4558B9;
-	Fri, 28 Jun 2024 07:48:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BAF3558B9;
+	Fri, 28 Jun 2024 07:51:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719560923; cv=none; b=QkqESfTghgosu0KYNx/wcQOsVImBWLqIbgSn28uUUWGGAAq0SMaVGeENqM0a3TZcUOTFebXvSTDn8WaRf5YflBv1TZBidU+yrBiZNuFhPBpXTSOlU9KGU/cgGpIJoTq6xyObFd71Hl/6uutMvbVTq4Dsv1GOKYlAzC2eam1ucSY=
+	t=1719561104; cv=none; b=AHnUyjZYGMKB7Yi5aS1yeFE4mP8/dPufpaXZ3y9q7Rjq3uhtfp+GiIRhdL/QJUYLmgMJGqmzXPE6vqMkQ4HkRvuh1DqOm9y9Oe0KLsgwXRJ4cKtqhZJHPUM5Q4vLi37YYKN/kU0jHi+TRQzDTpdARP5Z1AE9HMNr23fX/VB0neE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719560923; c=relaxed/simple;
-	bh=Med/e/5poH47sw+X9ut1CH7guRvVlCNxLW8j4nDVLsk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=YRI7dBekV8gIzJzzQQMGklwpUEQDDVx9SzJXOLCcpDy2lBygKrZOdzYaTHfqfHJVrKO64ZIw5xw3OkRJkx74NrrMOxmmaJLTmtce/IYrD6XVFxTSJbETg6UzRJyl0hQk+uy+w3+A+/wzJOCW3ls8H5QDsg51ebQQZdw9UiZ3OfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y6RiG23z; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719561104; c=relaxed/simple;
+	bh=JYhWCzM9K6OFIT087UFtEhsefWWSk/6rEO08UuSQIG8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=E9X88+YDYePnQpDQ8ttaW9cHjtLMnnPMvRD3M/XUWSOoZsE2NYUutNn+Gd+SRKACI4QrXB8AY94flq5c50ddfLAOYrAE/qpwpUc0ytSdbmyHZ/0G0H7MTOllcQ4uo2dk8mDVkSdS02WyTD2oj/Np7ZwYWDUgCIE3xtNhckMFgWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jKjc55Rz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y6RiG23z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 386D8C2BD10;
-	Fri, 28 Jun 2024 07:48:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jKjc55Rz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DE39C116B1;
+	Fri, 28 Jun 2024 07:51:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719560923;
-	bh=Med/e/5poH47sw+X9ut1CH7guRvVlCNxLW8j4nDVLsk=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=Y6RiG23z69aCffJy0NTLVKqSETo/QxSs1fcdyqXXZiDFikz81WLMMGSrZ8fpX2Xgs
-	 UrFrYHnFJp/x5hxoWuPRKpveFjZwJdEBRLsakz4VKTJS0nwReePrv5EPrifL+UTrKM
-	 ItWXec9mMmFLpcgb2r8w3JaP8gc2W4FKVhnWpwJS+5b3LIKggNTUPlwXlD/FX2RTaF
-	 0Bny5YFR3Tc6gV0IGjnPxS6imOUUb0XCfRMePJQ8AgAi3lg2Xp02u3qDH6zq4HO3qr
-	 RLbRySEO/+jFRA1BByRnPbR6TBap24tsrx1qrleN8F18zR3uLtTUFGE3qiiuToQg8A
-	 Sjp3BAR5UXmNg==
-Message-ID: <819cda69-8502-4a1d-94ed-742cb7e2b50c@kernel.org>
-Date: Fri, 28 Jun 2024 09:48:29 +0200
+	s=k20201202; t=1719561104;
+	bh=JYhWCzM9K6OFIT087UFtEhsefWWSk/6rEO08UuSQIG8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=jKjc55RzXl7e4EF/rxzNQpQ5vTcPB0lcdlSEmAThMBBVUPDf9zWlwh5G5F+6p3DLa
+	 XD3Jfk1vuTYzPMDIoDAQ1tFx5z48aocVtbSoJF9yZmKX1ohg7G5oCO+BDj9kkNnDRR
+	 B573pn2OpRH91IiGQtNQPaQ7EtwBTyv6YXAkQkj5812HETL07REn4E+t7VgE00gEsE
+	 w41tilNRq0RHnIZQLk7SBqQQyhqIZIJUMScXuT6/BsdXwqAeGh0yHKhTS1ioK2tz2z
+	 PHBGP9tIko60FTNlLi/IBGu1PMIif9lC+VAXmHA6LS5OZHMBpY6/BLhxdHSLhI8OpE
+	 zkoMgHwv1YoIg==
+Message-ID: <2d1fea29-f6c2-41a8-a01f-52f6d20536f5@kernel.org>
+Date: Fri, 28 Jun 2024 09:51:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,31 +35,23 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [Patch v5 12/12] i2x: pnx: Fix potential deadlock warning from
- del_timer_sync() call in isr
-To: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
- Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, "J.M.B. Downing" <jonathan.downing@nautel.com>,
- Vladimir Zapolskiy <vz@mleia.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Yangtao Li <frank.li@vivo.com>, Arnd Bergmann <arnd@arndb.de>,
- Li Zetao <lizetao1@huawei.com>, Chancel Liu <chancel.liu@nxp.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Corentin Labbe <clabbe@baylibre.com>,
- dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org,
- linux-sound@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-i2c@vger.kernel.org, linux-mtd@lists.infradead.org
-References: <20240627150046.258795-1-piotr.wojtaszczyk@timesys.com>
- <20240627150046.258795-13-piotr.wojtaszczyk@timesys.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH 5/7] arm64: dts: qcom: sm6115: add LPASS LPI pin
+ controller
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Alexey Klimov <alexey.klimov@linaro.org>
+Cc: linux-sound@vger.kernel.org, srinivas.kandagatla@linaro.org,
+ bgoswami@quicinc.com, lgirdwood@gmail.com, broonie@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ andersson@kernel.org, konrad.dybcio@linaro.org, perex@perex.cz,
+ tiwai@suse.com, linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org,
+ devicetree@vger.kernel.org, elder@linaro.org,
+ krzysztof.kozlowski@linaro.org, caleb.connolly@linaro.org,
+ linux-kernel@vger.kernel.org
+References: <20240628010715.438471-1-alexey.klimov@linaro.org>
+ <20240628010715.438471-6-alexey.klimov@linaro.org>
+ <yozlwsmrvolhaxobal4reootcfmgjyre7sv74pztbtqr6lcfhr@vuixh6qyalaz>
 Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
@@ -103,19 +95,44 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240627150046.258795-13-piotr.wojtaszczyk@timesys.com>
+In-Reply-To: <yozlwsmrvolhaxobal4reootcfmgjyre7sv74pztbtqr6lcfhr@vuixh6qyalaz>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 27/06/2024 17:00, Piotr Wojtaszczyk wrote:
-> When del_timer_sync() is called in an interrupt context it throws a warning
-> because of potential deadlock. The timer is used only to exit from
-> wait_for_completion() after a timeout so replacing the call with
-> wait_for_completion_timeout() allows to remove the problematic timer and
-> its related functions altogether.
+On 28/06/2024 09:43, Dmitry Baryshkov wrote:
+> On Fri, Jun 28, 2024 at 02:07:13AM GMT, Alexey Klimov wrote:
+>> Add the Low Power Audio SubSystem Low Power Island (LPASS LPI)
+>> pin controller device node required for audio subsystem on
+>> Qualcomm QRB4210 RB2.
+>>
+>> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+>> ---
+>>  arch/arm64/boot/dts/qcom/sm6115.dtsi | 19 +++++++++++++++++++
+>>  1 file changed, 19 insertions(+)
+>>
+>> diff --git a/arch/arm64/boot/dts/qcom/sm6115.dtsi b/arch/arm64/boot/dts/qcom/sm6115.dtsi
+>> index c49aca3d0772..3a9fb1780c90 100644
+>> --- a/arch/arm64/boot/dts/qcom/sm6115.dtsi
+>> +++ b/arch/arm64/boot/dts/qcom/sm6115.dtsi
+>> @@ -15,6 +15,7 @@
+>>  #include <dt-bindings/interrupt-controller/arm-gic.h>
+>>  #include <dt-bindings/power/qcom-rpmpd.h>
+>>  #include <dt-bindings/soc/qcom,apr.h>
+>> +#include <dt-bindings/sound/qcom,q6dsp-lpass-ports.h>
+>>  #include <dt-bindings/thermal/thermal.h>
+>>  
+>>  / {
+>> @@ -809,6 +810,21 @@ data-pins {
+>>  			};
+>>  		};
+>>  
+>> +		lpass_tlmm: pinctrl@a7c0000 {
+>> +			compatible = "qcom,sm4250-lpass-lpi-pinctrl";
+> 
+> Is it so? Or should it be qcom,sm6115-lpass-lpi-pinctrl instead?
 
-Subject typo: i2c
-
+Eh, now I am confused as well... There was so much talk about Srini's
+patchset that I assumed it is the same device. Why were you testing sm4250?
 
 Best regards,
 Krzysztof
