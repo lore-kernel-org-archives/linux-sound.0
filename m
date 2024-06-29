@@ -1,59 +1,61 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4F2D23767;
-	Sat, 29 Jun 2024 10:18:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8ED44C64
+	for <linux-sound@vger.kernel.org>; Sat, 29 Jun 2024 12:58:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719656300; cv=none; b=mzKiAEK73+8HAKoirzR1Aqd4tsaa7OHUQIJtAkFER67wCoPnOUWlKUmIqbf+S47+VTHw88jctFGg7C2YXsbp9v5Ty/SxlwRASPlfAYsrHSikEMEnVRBR+9n2lWFaj1Lr6UXiK4x+Gy5dbC23Qzo/O7ipw1idIV1emjiykcMy+fU=
+	t=1719665925; cv=none; b=Ystx2SSVg6YM/dFJQ2doRDKzFZmthjW6fow2r67vPBE/38r/JRij3DUzriauP7tyB84lr313SA0pfq5wYpXr3dGVg0i3TvvAqozUMpjJbLbYFMPevP2a+Om33/wp6JK6U6X8JsUXTVOKsw6O7aCcuVgkCIbeC8mzwk/l77HClnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719656300; c=relaxed/simple;
-	bh=zNUije4Rf1fu7rha7favpYddd5zkpBg5u37yMsb+L/c=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=PRNo9sI0+Jo5kz0fWg7PHSr9/AshDoahEmnvoBYRRj5P2V1p2devw+yJlLBEU4rcqEptq++O4xjbCkEdk9yaYylywOFQy4Z9Bl5mbL7O5JRJYRqDQc4WKurFFGqgYOujVDnSP+kiwEeXOHuvDnV3voK4wYZAO2KdRQYoUUYqYDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e7WbSjO3; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1719665925; c=relaxed/simple;
+	bh=vDGWkwSsRo/RHGcWfPYYbGRp6w/yoKtIXAJWPvy2KMo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IDMWiMkd7R4yvWYEVZ2X9oomzHvJaOIpoPAAlv+bzeGPUi+hOnjRaJ+AOyTpJcdHQ5vgnY+rM3h+vvGg2XnS+kxjIp2OGEWevQNO/UFMoNerZdDMcKOTiBjqukvVbkNFQwM3qPscI+aBN8qBF1BS+7ZPGAHugJDBcaeaK+8Pxl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mkAnT5c/; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e7WbSjO3"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a7245453319so229573966b.1;
-        Sat, 29 Jun 2024 03:18:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mkAnT5c/"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a72585032f1so169152766b.3
+        for <linux-sound@vger.kernel.org>; Sat, 29 Jun 2024 05:58:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719656297; x=1720261097; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=QlwoXKISijQ0DRcF+GZnJmixbJReAkQz34nOTF0Vuxk=;
-        b=e7WbSjO3ZuAjbv1KvmjiFwQg7vpKYbXBDGygUBzcXTp77mAfrCeXmUssaajhpTB/HH
-         X1aCLlQ5ZXAOIx2fSKozBEcNPncMnP8UR1MDtW0BbXzZaRq2jfqsWLIqYXwirpambVOR
-         0fZ20ueny0hnl5dL8Tu3tqq7PWMePKKstEo9zzLNPzBXwYz8Odjqee0PbShyZf5//YsJ
-         NCfan5zCW4tmGjyjDIx9mqeDlNQGE7nt5GdBVOw9oaRBeipNXEiu5DzxQrsXyKEvC93E
-         u7l06f06q1YDLvoocUeECO0UiJnxAtZ8UaOoYm5GYYMASwEOpe+LAIkmGyL4sEpFfXfN
-         IGHQ==
+        d=linaro.org; s=google; t=1719665922; x=1720270722; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=v2mP7MxtYe2gIOfvr/SrQWWXQkCRmCCOozysmV9oTS4=;
+        b=mkAnT5c/ZaNGHGA+UV3fHYG17/mufa707oZ//M8zF0tH6p5F8Nq1WndIWzZdFIKvzT
+         RABIz5Q71bzWB7HTwDenHfchx9plhT8OY3IYgwZrr6KsL73qWu4gr4rSHdyNdqhLTuD8
+         2ClgB+/XBsNNl58IPnQ95QpcNcJDghGgmHtnP1+Q6enNjtsD2x79mgdb2fYFYebdfNYr
+         eGdVFd8M4taJxVcpISxlJh0NJtcEqafltVp3RiFeBQDYf1X0ynPA5+TBqEUV1StpnKmc
+         LvAqc6s//pAwZn+CrXnXubewMv4Z6RrUL5wsFVnwzeFmJsN0cjQls0UhJsnHbgVL0+0D
+         kveQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719656297; x=1720261097;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QlwoXKISijQ0DRcF+GZnJmixbJReAkQz34nOTF0Vuxk=;
-        b=nJ2EWJK49ZjyxbaRVW27LgomVPG9guy19xg6c2UIqYslWGx1Bj9AvWVumAjiRn3NTj
-         gnUHTw340Ro47USfXwwnzMLxnsRJulqeK18bvARhgV/xbd9X4W7JebZe7j1UdqFzcnv+
-         IcMAU4r5cLgXe5EWH9yDtl0VtwwsjZ6EjYnafFwl700nR44Jz0M00Hwa0lBcmvDcH8Qe
-         uVgqbrLc78N5o444Ux/+eVbNvCWV2/BiFzFQDXli58jkPSB8hKRP8MwsG9Tdh3N80aAL
-         3iDktU55YIKQgJslZYsd6eDQuBoJrSf/rJru6FC3v0wEwY4W2aIU3OnhV3doEgu9c845
-         DJyw==
-X-Forwarded-Encrypted: i=1; AJvYcCXN2Y8Belu8EMBNrIgtK5tof7eqWmnz0qRzepbLylZLUQ3UVaX+1XSGcnpAiIX1QNbtvFysXLTYWvBSVzqf8YPaCPpC0B8IPkyVmFp8xCu/IUuyO9iwOE0dHtvMr/hOlX/K9EdmpS5gj7g=
-X-Gm-Message-State: AOJu0YwI4BiSdJB9wWaJyY+Sj/8rFbpggaHLhAte9LPKnwWyUdMkAy41
-	Z9WnMyT3n9FTaMYlsljGzdw3TYLaDInqfLtGgqfH/7Ppe++9+Sv0
-X-Google-Smtp-Source: AGHT+IF/MBEiMijU8GjgEXLJuB9PxQWKYMlbEYZlv/UgCvP3oFNMsmcWz1PuXDww6RQR6rVaR2ksVQ==
-X-Received: by 2002:a17:907:2d86:b0:a72:5760:1424 with SMTP id a640c23a62f3a-a7513773b0dmr91562566b.0.1719656296728;
-        Sat, 29 Jun 2024 03:18:16 -0700 (PDT)
-Received: from ?IPV6:2a02:a449:4071:1:32d0:42ff:fe10:6983? (2a02-a449-4071-1-32d0-42ff-fe10-6983.fixed6.kpn.net. [2a02:a449:4071:1:32d0:42ff:fe10:6983])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a72ab06565csm151609666b.103.2024.06.29.03.18.15
+        d=1e100.net; s=20230601; t=1719665922; x=1720270722;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=v2mP7MxtYe2gIOfvr/SrQWWXQkCRmCCOozysmV9oTS4=;
+        b=fBlNfK9DGqflq5GkPCv748GGwm25/k3iw0iN1g02PeU0SlvPBUPH1lCnYikCV3swI6
+         Y5VT9bD5isnXlYW5f+2xkydS4MmPWMB/UMhQvthGKKZAK/lYUI4lXB2OMqMN8AMtMwq7
+         7pIBDNMzJNHOzM3hwn4zQCL/msboFeMjSGanSB211/Pl4Ga2HELEKF15bh66HGefhOhu
+         zAbb8nOYkiTd5myaSb4I00w+cyljbPTZvFzufgzb3jLJoc/upYhM3QCrfvC9vnr5fcCp
+         RRwHYkTand2CBJCdesVMn+kTGkeaA+Lv6GOcYWpvoyh90mzQE2T7r7yaSLbRYNJ0pjHW
+         ufCg==
+X-Forwarded-Encrypted: i=1; AJvYcCW7QxBNKErSe2MayYG1oLAXr0DUDdNxxaPhhS+iBT3n0ryI4kuDPTDdiRqs0Tz3AK4kc+RBkGdfY2sA7Z2dHmKe0plqebnrQD6Qyk0=
+X-Gm-Message-State: AOJu0Yxisy4EJO0fS7HqMPP4+R4/5HaPojiq8bvjH7QpfXrEGY91OmCw
+	Hqc+0dQSvhQwCw/yA3FGWs1ipU2GeERUd+WILYXjYaCKiAiz2oRXHg0V0wdQzw6XhAogPPtJIgd
+	S
+X-Google-Smtp-Source: AGHT+IGfBm1kNYL6sngRYMXntB+6Klbn8GdkkN+/Rh8GYMfmy08RaQLGcqeGMqMAGWneA8ZdDwkf3w==
+X-Received: by 2002:a17:906:e289:b0:a6f:51d0:d226 with SMTP id a640c23a62f3a-a75144a7c20mr64191666b.66.1719665921901;
+        Sat, 29 Jun 2024 05:58:41 -0700 (PDT)
+Received: from [192.168.215.29] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a72ab0657f1sm164707366b.141.2024.06.29.05.58.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 29 Jun 2024 03:18:16 -0700 (PDT)
-Message-ID: <a3a1ed17-17f7-480a-8faf-b493918956f0@gmail.com>
-Date: Sat, 29 Jun 2024 12:18:15 +0200
+        Sat, 29 Jun 2024 05:58:41 -0700 (PDT)
+Message-ID: <7854b136-7a10-42c1-8384-278e22922c2a@linaro.org>
+Date: Sat, 29 Jun 2024 14:58:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,180 +63,69 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Johan Jonker <jbx6244@gmail.com>
-Subject: Re: [PATCH v7] drm/rockchip: rk3066_hdmi: add sound support
-To: Andy Yan <andyshrk@163.com>
-Cc: heiko@sntech.de, hjc@rock-chips.com, andy.yan@rock-chips.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, lgirdwood@gmail.com, broonie@kernel.org,
- linux-sound@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+Subject: Re: [PATCH 4/7] arm64: dts: qcom: sm6115: add apr, its services and
+ simple sound node
+To: Alexey Klimov <alexey.klimov@linaro.org>, linux-sound@vger.kernel.org,
+ srinivas.kandagatla@linaro.org, bgoswami@quicinc.com, lgirdwood@gmail.com,
+ broonie@kernel.org
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ andersson@kernel.org, perex@perex.cz, tiwai@suse.com,
+ linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org,
+ devicetree@vger.kernel.org, elder@linaro.org, dmitry.baryshkov@linaro.org,
+ krzysztof.kozlowski@linaro.org, caleb.connolly@linaro.org,
  linux-kernel@vger.kernel.org
-References: <5c651b3f-fe30-4874-98ed-044f7c62dd97@gmail.com>
- <7c53f7d.bb08.1905ef690ef.Coremail.andyshrk@163.com>
+References: <20240628010715.438471-1-alexey.klimov@linaro.org>
+ <20240628010715.438471-5-alexey.klimov@linaro.org>
 Content-Language: en-US
-In-Reply-To: <7c53f7d.bb08.1905ef690ef.Coremail.andyshrk@163.com>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <20240628010715.438471-5-alexey.klimov@linaro.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Hi Andy, thanks.
+On 28.06.2024 3:07 AM, Alexey Klimov wrote:
+> Add apr (asynchronous packet router) node and its associated services
+> required to enable audio on QRB4210 RB2 platform.
+> Also, add an empty sound{} device node. This allows board dts
+> files to fill in required board specific properties.
+> 
+> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+> ---
 
-On 6/28/24 15:08, Andy Yan wrote:
-> 
-> Hi Johan,
-> 
-> At 2024-06-28 17:23:39, "Johan Jonker" <jbx6244@gmail.com> wrote:
->> Add sound support to the RK3066 HDMI driver.
->> The HDMI TX audio source is connected to I2S_8CH.
->>
->> Signed-off-by: Zheng Yang <zhengyang@rock-chips.com>
->> Signed-off-by: Johan Jonker <jbx6244@gmail.com>
->> ---
->>
->> Changed V7:
->>  rebase
->> ---
->> drivers/gpu/drm/rockchip/Kconfig       |   2 +
->> drivers/gpu/drm/rockchip/rk3066_hdmi.c | 274 ++++++++++++++++++++++++-
->> 2 files changed, 275 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
->> index 1bf3e2829cd0..a32ee558408c 100644
->> --- a/drivers/gpu/drm/rockchip/Kconfig
->> +++ b/drivers/gpu/drm/rockchip/Kconfig
->> @@ -102,6 +102,8 @@ config ROCKCHIP_RGB
->> config ROCKCHIP_RK3066_HDMI
->> 	bool "Rockchip specific extensions for RK3066 HDMI"
->> 	depends on DRM_ROCKCHIP
->> +	select SND_SOC_HDMI_CODEC if SND_SOC
->> +	select SND_SOC_ROCKCHIP_I2S if SND_SOC
->> 	help
->> 	  This selects support for Rockchip SoC specific extensions
->> 	  for the RK3066 HDMI driver. If you want to enable
->> diff --git a/drivers/gpu/drm/rockchip/rk3066_hdmi.c b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
->> index 784de990da1b..d3128b787629 100644
->> --- a/drivers/gpu/drm/rockchip/rk3066_hdmi.c
->> +++ b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
->> @@ -15,12 +15,20 @@
->> #include <linux/platform_device.h>
->> #include <linux/regmap.h>
->>
->> +#include <sound/hdmi-codec.h>
->> +
->> #include "rk3066_hdmi.h"
->>
->> #include "rockchip_drm_drv.h"
->>
->> #define DEFAULT_PLLA_RATE 30000000
->>
->> +struct audio_info {
->> +	int channels;
->> +	int sample_rate;
->> +	int sample_width;
->> +};
->> +
->> struct hdmi_data_info {
->> 	int vic; /* The CEA Video ID (VIC) of the current drm display mode. */
->> 	unsigned int enc_out_format;
->> @@ -54,9 +62,16 @@ struct rk3066_hdmi {
->>
->> 	unsigned int tmdsclk;
->>
->> +	struct platform_device *audio_pdev;
->> +	stru
-> 
-> ......
-> 
->> +
->> +	return ret;
->> +}
->> +
->> +static const struct hdmi_codec_ops audio_codec_ops = {
->> +	.hw_params = rk3066_hdmi_audio_hw_params,
->> +	.audio_shutdown = rk3066_hdmi_audio_shutdown,
->> +	.mute_stream = rk3066_hdmi_audio_mute_stream,
->> +	.get_eld = rk3066_hdmi_audio_get_eld,
->> +	.no_capture_mute = 1,
->> +};
->> +
->> +static int rk3066_hdmi_audio_codec_init(struct rk3066_hdmi *hdmi,
->> +					struct device *dev)
->> +{
->> +	struct hdmi_codec_pdata codec_data = {
->> +		.i2s = 1,
->> +		.ops = &audio_codec_ops,
->> +		.max_i2s_channels = 8,
->> +	};
->> +
->> +	hdmi->audio.channels = 2;
->> +	hdmi->audio.sample_rate = 48000;
->> +	hdmi->audio.sample_width = 16;
->> +	hdmi->audio_enable = false;
->> +	hdmi->audio_pdev =
->> +		platform_device_register_data(dev,
->> +					      HDMI_CODEC_DRV_NAME,
->> +					      PLATFORM_DEVID_NONE,
->> +					      &codec_data,
->> +					      sizeof(codec_data));
->> +
->> +	return PTR_ERR_OR_ZERO(hdmi->audio_pdev);
->> +}
->> +
->> static int
->> rk3066_hdmi_register(struct drm_device *drm, struct rk3066_hdmi *hdmi)
->> {
->> @@ -566,6 +834,8 @@ rk3066_hdmi_register(struct drm_device *drm, struct rk3066_hdmi *hdmi)
->>
->> 	drm_connector_attach_encoder(&hdmi->connector, encoder);
->>
->> +	rk3066_hdmi_audio_codec_init(hdmi, dev);
-> 
-> 
-> According to Documentation/driver-api/driver-model/driver.rst,
-> 
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
-> It is best not to register at the bind callback：
-
-Question for the DRM experts:
-What would be the correct location/level for the rk3066_hdmi_audio_codec_init() function?
-Is that at the rk3066_hdmi_encoder_enable() function?
-Are there other functions/examples for sound in the DRM toolbox?
-
-Johan
-> 
-> .. warning::
->       -EPROBE_DEFER must not be returned if probe() has already created
->       child devices, even if those child devices are removed again
->       in a cleanup path. If -EPROBE_DEFER is returned after a child
->       device has been registered, it may result in an infinite loop of
->       .probe() calls to the same driver.
-> 
-> For example：
-> vop_probe --》component_add--》rk3066_hdmi_bind--》rk3066_hdmi_audio_codec_init--》hdmi_codec_probe--》rockchip_rgb_init（DEFER when panel not ready）
-> 
-> This  may result in an infinite loop of probe
-> 
-> 
->> +
->> 	return 0;
->> }
->>
->> @@ -813,6 +1083,7 @@ static int rk3066_hdmi_bind(struct device *dev, struct device *master,
->> 	return 0;
->>
->> err_cleanup_hdmi:
->> +	platform_device_unregister(hdmi->audio_pdev);
->> 	hdmi->connector.funcs->destroy(&hdmi->connector);
->> 	hdmi->encoder.encoder.funcs->destroy(&hdmi->encoder.encoder);
->> err_disable_i2c:
->> @@ -828,6 +1099,7 @@ static void rk3066_hdmi_unbind(struct device *dev, struct device *master,
->> {
->> 	struct rk3066_hdmi *hdmi = dev_get_drvdata(dev);
->>
->> +	platform_device_unregister(hdmi->audio_pdev);
->> 	hdmi->connector.funcs->destroy(&hdmi->connector);
->> 	hdmi->encoder.encoder.funcs->destroy(&hdmi->encoder.encoder);
->>
->> --
->> 2.39.2
->>
+Konrad
