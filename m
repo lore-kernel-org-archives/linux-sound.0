@@ -1,120 +1,109 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D5233D967
-	for <linux-sound@vger.kernel.org>; Sun, 30 Jun 2024 06:53:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FAB1282F1
+	for <linux-sound@vger.kernel.org>; Sun, 30 Jun 2024 16:04:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719730403; cv=none; b=CJ/TpTgZK33QEvAnNbZVLRwLsc4euwacicZL4xfkhP2Y3hs8aXnJOcDtZ31Y1OfgY7IZhvkYQvC1p39EH000/QUGtZC0MGnX6b6FXF5PNfZRLioT134dKGRPZ9VR0+b3frFp70FSqJwzLOvrnp2Aw1p8HyV8KzME07KqN1ggRcQ=
+	t=1719763492; cv=none; b=HxkjuL8Me5UEpLQK4pp2CWqIlCE4KANKGhk0/HM5MyNeYu+u20jglPV5Tq5h9c6//C/RucPqBQNoNJKTaGoJWaHaSZyYz771ImO4mt+xjIkQej2KzyVQ3A/0EfwGQiQMMRoULcs5ChJTSrS9l7K3RNhW2ma69uIdupcz9g8zi5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719730403; c=relaxed/simple;
-	bh=92Fr2FI0hzTIr3j6+QoFA8EzGb3LeRI2MHqAshn6kcQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=UxgJrxPFagcsjhWoTaCrngZ8Ytqv1PGRc5ewxGVnizctZgmpdD8K6mDb/Hw1k8/OvG++p1BAe5j3J/LDZSOVIPM5QBnRNX7BAqGxnlkfi2J3fQJkwNU64Xx/KmtYnKh8F80g4FovRgxaygod9iJGGuVoZ8oW5NVhdP6iGvw8tLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=OgvTQ+88; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1719763492; c=relaxed/simple;
+	bh=GX5Otp5utvZGGs/kBsIHZhr8eaLpHC8CGzKUfMMXM5g=;
+	h=Message-ID:Date:MIME-Version:From:To:Cc:Subject:Content-Type; b=XLQ7mEXaDdMtc7N7LCTGXCJ+CxRyDzg9RthUSjJ1fy4ACQ1GH4XS+8Ns7u3i1oUagdgXxlltg27gKMRJAVob2/ufl38TAlY5VnR4EgLKhb6pwtkBtbGR8Ya2TleN3wPxf2vvodl/4p08b/ndstcsK2EC/0S5r+ZMe9y1QZvJP1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net; spf=pass smtp.mailfrom=asahilina.net; dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b=zM4sM+Bz; arc=none smtp.client-ip=212.63.210.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asahilina.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="OgvTQ+88"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-52cdf4bc083so2755161e87.2
-        for <linux-sound@vger.kernel.org>; Sat, 29 Jun 2024 23:53:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1719730398; x=1720335198; darn=vger.kernel.org;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ew4KWJgmKbpOxqo+GQy5qo/brhj1D5g+M8tiJYpqXX8=;
-        b=OgvTQ+88fFeaCfXlI8EFoQuCKPhtVYqHFlcvmQJvvBq+j1LbNhl+l8+KBAFtaZQ1fU
-         SyySRibUemRUuSyYhWN2xwdlWuXbNJMCGa5mQu4JJE2mBH2LezKFnMi4VBPeoLSHQ6bW
-         aREPZ7EptC/50NiwJzADOJ74JhwXBUzTgVceypJLRD7T4IySH3g32YnEsXbQmxaMvcm/
-         kgleX4cAkHCzCScVh6GaFDS50LiWGfBlj5hHc/v144GqmQzIi/iBCiyEhst2cMufJf3w
-         0CIlqw31L4cvIPJzaEdJJ5kbAtYlZpCRztVAaJ/cMaL8DBY5L1baDcCcYITd5xE15dFs
-         cNxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719730398; x=1720335198;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ew4KWJgmKbpOxqo+GQy5qo/brhj1D5g+M8tiJYpqXX8=;
-        b=xEKmJISaRilVZyc6oLJKQeJK9Dw+234Z2HNgZlOhV4b4FDOBf1YpBwGdcyzrWNR5bx
-         GAtdUK7WIt8VPvMXe+E3V0Va+SFvxuRz0Hy9bvYscup/0rBPEx3tkXJ6OTc9Jg9F6LGy
-         qpr1zwEHRAHKcuaLrjwNflYd6D28+nB/nvqINB70D47lcjEfn9WQKuu5i4AHi2mbSC//
-         hFAUNXHOhNRWIu0J6GERNrXu+V2+PL5xIdciF5njlniCvuTNQwgFuphBdd9NtgG7fPwL
-         1GYUivrxdIFsEHnOgtigLL6lH92akS9QUSQANfBpXKS2B8PCXkGPTbMlUUnqK256j3G/
-         PcqA==
-X-Forwarded-Encrypted: i=1; AJvYcCXHR3GztkBSdzxwOLxYDeQScQ8ZSmC93AOzMDOZ38gqmNwOYgCnM+kAtnt7y8LCPmpcOl3lHTMPa2LJ11wEBsxGJOJNva6wBInW75c=
-X-Gm-Message-State: AOJu0YxGE2xZBGcnKoknYdq/Z1v7b3oHhsJFvS7ekWc2iDcUjj6Dg2qU
-	0HAA3eFzTBIPlZ42sY8ZJ07XP37Zx/EC0zfOgc1BfsmvZInVphUUY4MVT2DID6M=
-X-Google-Smtp-Source: AGHT+IEnzCb0ZjEgk4HVemu0D2vV5LVoJK9bnWbsrBx3BpfdiC+g0YptGg0s/NfloHGeam0Y9qPU0w==
-X-Received: by 2002:a05:6512:4014:b0:52c:b479:902d with SMTP id 2adb3069b0e04-52e82643b97mr2093475e87.4.1719730397113;
-        Sat, 29 Jun 2024 23:53:17 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:51e2:ba1a:8ad5:52c9])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4256b09a073sm100168595e9.32.2024.06.29.23.53.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Jun 2024 23:53:16 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Mark Brown <broonie@kernel.org>,  Liam Girdwood <lgirdwood@gmail.com>,
-  Takashi Iwai <tiwai@suse.com>,  Jaroslav Kysela <perex@perex.cz>,
-  oe-kbuild-all@lists.linux.dev,  alsa-devel@alsa-project.org,
-  linux-sound@vger.kernel.org,  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] ALSA: pcm: add support for 128kHz sample rate
-In-Reply-To: <202406300718.iL828kaG-lkp@intel.com> (kernel test robot's
-	message of "Sun, 30 Jun 2024 07:29:29 +0800")
-References: <20240628122429.2018059-2-jbrunet@baylibre.com>
-	<202406300718.iL828kaG-lkp@intel.com>
-Date: Sun, 30 Jun 2024 08:53:15 +0200
-Message-ID: <1j1q4ej50k.fsf@starbuckisacylon.baylibre.com>
+	dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b="zM4sM+Bz"
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: lina@asahilina.net)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id D02594267F;
+	Sun, 30 Jun 2024 16:04:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+	s=default; t=1719763486;
+	bh=GX5Otp5utvZGGs/kBsIHZhr8eaLpHC8CGzKUfMMXM5g=;
+	h=Date:From:To:Cc:Subject;
+	b=zM4sM+BzNTaLA/4AarFvz2lVndLzN/xefCkuJILq7ZkoqMIiGrIRFxr373U61Tg7G
+	 V18+/IrM9nSMRcSQnRdN058nLgeH3x2M6409+VYfuTJReeD32q/FGLSN0QVbVoN6kp
+	 fdBf+vzfE/b8JbfiSeTnfRs1i64wSgxibLFmqM6jlKY59Vq3t5SYBrsGINmlEsQbv9
+	 ljcuDEv90dph6+uZn0tZP2qbv0zfRqPabP9Y7JC6sG6haD24P/hrmPFSiXsLMP007U
+	 4X3BYmXrtYgI0Zd2Z6z9f6Mn1HIEUS418Qu2enpiruhJOxHwQjnj74EfpHzoBim65i
+	 KWXBpeNsADRKw==
+Message-ID: <48beda37-1795-4d48-987d-1e2582cb3a18@asahilina.net>
+Date: Mon, 1 Jul 2024 01:04:41 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+From: Asahi Lina <lina@asahilina.net>
+To: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+Cc: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
+Subject: Handling complex matrix mixers in ALSA
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun 30 Jun 2024 at 07:29, kernel test robot <lkp@intel.com> wrote:
+Hi,
 
-> Hi Jerome,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on tiwai-sound/for-next]
-> [also build test ERROR on tiwai-sound/for-linus broonie-sound/for-next linus/master v6.10-rc5 next-20240628]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Jerome-Brunet/ALSA-pcm-add-support-for-128kHz-sample-rate/20240629-201915
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-> patch link:    https://lore.kernel.org/r/20240628122429.2018059-2-jbrunet%40baylibre.com
-> patch subject: [PATCH 1/3] ALSA: pcm: add support for 128kHz sample rate
-> config: i386-buildonly-randconfig-004-20240630
-> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-> reproduce (this is a W=1 build):
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202406300718.iL828kaG-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->>> sound/usb/caiaq/audio.c:179:2: error: #error "Change this table"
->     #error "Change this table"
->      ^~~~~
->
->
-> vim +179 sound/usb/caiaq/audio.c
->
-> 523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack 2007-03-26  176  
-> 523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack 2007-03-26  177  /* this should probably go upstream */
-> 523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack 2007-03-26  178  #if SNDRV_PCM_RATE_5512 != 1 << 0 || SNDRV_PCM_RATE_192000 != 1 << 12
-> 523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack 2007-03-26 @179  #error "Change this table"
-> 523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack 2007-03-26  180  #endif
-> 523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack 2007-03-26  181  
+I'm reverse engineering and implementing support for the RME Digiface
+USB, which is an ADAT interface with a non-class-compliant interface
+(probably similar to other RME interfaces like the MADIface, but I don't
+have any others to test). The basic audio streaming works fine with an
+entry in quirks-table.h and a format quirk to set the system sample rate
+in quirks.c. Now I need to figure out how to implement the mixer controls.
 
-This file is not in mainline or
-https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-branch ... Don't know what to make of this error ?
+Currently I have the snd-usb-audio driver claiming only interface #0
+(streaming) and I use a Python script to control the mixer/settings
+directly with libusb (control transfers and interface #1). This works
+fine and there's some prior art for this in the firewire world (for
+example, snd-dice doesn't do any mixer control stuff and you have to use
+ffado-mixer to control everything from userspace) but I assume it's not
+really the best way to go?
 
--- 
-Jerome
+The problem is that the device has a 66x34 matrix mixer, with up to 2048
+cross points enabled at once. Exposing each cross point as an ALSA mixer
+control (similar to how mixer_scarlett2.c does it) would mean 2244
+controls just for the mixer... which seems like a bit too much.
+
+On top of that there is also VU meter feedback for all the
+inputs/outputs, as well as general fader controls for each output and
+global output configs and status. I'm not sure about the VU meters, but
+everything else sounds like it would map fine to normal mixer controls.
+
+Is there some recommended way to expose this kind of matrix mixer
+interface to userspace? I think for something like this you pretty much
+have to rely on device-specific tools to make the UX manageable, so
+maybe hwdep... but at least exposing everything as an ALSA control would
+have the advantage of supporting save/restore with something like
+alsactl. So I don't really know what's the way to go here.
+
+System settings/general status/output faders go via control transfers,
+while interface #1 has an interrupt IN endpoint (streaming state
+feedback, not very useful) and two bulk endpoints (matrix mixer control
+out, VU meter data in). There's another pair of bulk endpoints in
+interface #2 which I'm guessing are for firmware updates (I haven't
+looked at that part). So in principle it's not crazy to expose all the
+system controls/output faders as mixer controls in ALSA and leave
+interface #1 entirely unclaimed so a userspace program can directly
+configure the matrix mixer and access VU meter levels. There is a global
+mixer enable bit (controlled via ctl transfer), so if that is exposed as
+an ALSA control and disabled by default the interface will operate as a
+1:1 in/out interface without needing any custom userspace to configure
+the mixer.
+
+There's one other quirky thing: it also needs a way to set the sample
+rate as a mixer control, because you need to be able to configure the
+rate even when the PCM device is not open (since that affects
+stand-alone mixer operation). I imagine the right logic here would be to
+have a selector control for the system sample rate, and automatically
+change it and lock it when the PCM is opened with a given rate?
+
+Any thoughts welcome ^^
+
+~~ Lina
