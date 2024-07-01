@@ -1,189 +1,84 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6431715D5B4
-	for <linux-sound@vger.kernel.org>; Mon,  1 Jul 2024 14:16:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BC8916C871;
+	Mon,  1 Jul 2024 15:14:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719843406; cv=none; b=dXjfk4VLSmWBN165w1LBLchnaLCOwuUdH2kgSehs5iwmWX9AZRWswSJ3FBdf+w/gA6xROWBkVgp/WAOrl4fhU8teT/hSWVL+XBu/ZuW+215YbKLTYbvjWaIBNJRLnkzpt0yvbGDa81+LlKThNDMVK8oKXl9MFJdVayNhkOVMEpw=
+	t=1719846884; cv=none; b=MQfTn8jcOx9ETH1iqWmpVcVp8gR1U8bdsNaJzL86GyxHci/3s0hOr6XVsPedZ2eQeY5qGrolHwZvw7XDw3ec0eR7UT0kvr00hxH9z2rYNRMSMmuRnCnMND9eKghVdnARxGT5T3h8yhPo3Gi7TN3uqYL8cJeh6cBIFq4vBfb/3C4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719843406; c=relaxed/simple;
-	bh=Mjjza8FfMvz4cHw1UobsfT8udVzT0tLlV7IEjtDFLMM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ea/P8NWN67oHmr5d62bse1Y0rYoZXTyRLgE4qHQ+HHiDtgznAE6ve03cJIvuOJDzHpT1wMpLYcsNEggvPDyaRrHF6MfUxOYrKOPo9o1+PrpknXVB8c28sHPMS74ShmOewVr/6HBVK2b++CVa5ajaqEQqRXKopKwh3dYXekJDYew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=toujm+yU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TArBXRSH; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=toujm+yU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TArBXRSH; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1719846884; c=relaxed/simple;
+	bh=KMbxszmTtAQTfUvimgTMN3qjOR1aGHntUXhKwepkAIM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=cZijPU8h9wlWpCRP5FwhKnNciaqnzh4xAghs2xQcSvwmSCuDPZY5iKXqOTmZzBghZtHeDZaIAWbFdzoFlnsLTb6/i/kB7FgEwX4HDX8m95/9dww/tiSdGz4y0HeJGPLYP512sthha+yZsntkSf8kedOIhJ5ySWZeDLoXUDRYFc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oNotNBLZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="toujm+yU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TArBXRSH";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="toujm+yU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TArBXRSH"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 851EF21A5C;
-	Mon,  1 Jul 2024 14:16:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719843403; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/waVY45CQIHYYJTuHmhw142WDxIKLlVSuY6XurD0EuQ=;
-	b=toujm+yUihyTTB8Ukg0gtXfjKVTbYRxS+GyK7xjzmNfXMqw1KtyChAuiaRQyE88O0vQHvY
-	OQDGwlJsb156ENG4/ShtQlY5TmneQ7xRmGjEt+Z+TvJw9xOJHq731do+J/9cYVKRUw4isR
-	crZSOS7/Sle0eikkk+ntPWe48ijJNqA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719843403;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/waVY45CQIHYYJTuHmhw142WDxIKLlVSuY6XurD0EuQ=;
-	b=TArBXRSH6nREcqXK9HFC4yiQqSUQFVUsUVm4nSAWOmcJoXVtN8I6MP0MOu8dL58+vCXc9B
-	P6y+Xn99UQxGkhAA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719843403; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/waVY45CQIHYYJTuHmhw142WDxIKLlVSuY6XurD0EuQ=;
-	b=toujm+yUihyTTB8Ukg0gtXfjKVTbYRxS+GyK7xjzmNfXMqw1KtyChAuiaRQyE88O0vQHvY
-	OQDGwlJsb156ENG4/ShtQlY5TmneQ7xRmGjEt+Z+TvJw9xOJHq731do+J/9cYVKRUw4isR
-	crZSOS7/Sle0eikkk+ntPWe48ijJNqA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719843403;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/waVY45CQIHYYJTuHmhw142WDxIKLlVSuY6XurD0EuQ=;
-	b=TArBXRSH6nREcqXK9HFC4yiQqSUQFVUsUVm4nSAWOmcJoXVtN8I6MP0MOu8dL58+vCXc9B
-	P6y+Xn99UQxGkhAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5A769139C2;
-	Mon,  1 Jul 2024 14:16:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id i2LVFEu6gmZYawAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 01 Jul 2024 14:16:43 +0000
-Date: Mon, 01 Jul 2024 16:17:11 +0200
-Message-ID: <8734ot42oo.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Asahi Lina <lina@asahilina.net>
-Cc: alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>
-Subject: Re: Handling complex matrix mixers in ALSA
-In-Reply-To: <48beda37-1795-4d48-987d-1e2582cb3a18@asahilina.net>
-References: <48beda37-1795-4d48-987d-1e2582cb3a18@asahilina.net>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oNotNBLZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58D48C116B1;
+	Mon,  1 Jul 2024 15:14:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719846884;
+	bh=KMbxszmTtAQTfUvimgTMN3qjOR1aGHntUXhKwepkAIM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=oNotNBLZbd0V2yBBPXQwrYgkWvWFMJ6AJwVBnrQtlsu6lALgjoRwrSenk8Rxzwetr
+	 BFqjywbrnJ3xfb9fJ+XJelHtELhj3mPPU9JdvUNc1SWkO65AfX1Nepn2gI4e+GvKMQ
+	 16Xv/vkB1kYfIK7quarIF0SCv570SnqbXohP0bQ0tRVgUa/GvdZTKnDDKRC6maenmq
+	 eRy2lqfCXzWiL8sFC22udw1erFVxu6x83i1bvgNp63K0gYwD1xPQIFO2/itFg6BFMG
+	 ZJxpOI/I6/Vtbq6nZ07nS7I1mz5A2kDsb3PJ/0QOMrJBNr1aOT0jwg7V3fAZo5ZujM
+	 450rA/YFbe+ww==
+From: Mark Brown <broonie@kernel.org>
+To: Animesh Agarwal <animeshagarwal28@gmail.com>
+Cc: Daniel Baluta <daniel.baluta@nxp.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20240624132949.124228-1-animeshagarwal28@gmail.com>
+References: <20240624132949.124228-1-animeshagarwal28@gmail.com>
+Subject: Re: [PATCH v2] ASoC: dt-bindings: realtek,rt5659: Convert to
+ dtschema
+Message-Id: <171984688206.72817.9141540174439714171.b4-ty@kernel.org>
+Date: Mon, 01 Jul 2024 16:14:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev-d4707
 
-On Sun, 30 Jun 2024 18:04:41 +0200,
-Asahi Lina wrote:
+On Mon, 24 Jun 2024 18:59:44 +0530, Animesh Agarwal wrote:
+> Convert the RT5659/RT5658 audio CODEC bindings to DT schema.
 > 
-> Hi,
 > 
-> I'm reverse engineering and implementing support for the RME Digiface
-> USB, which is an ADAT interface with a non-class-compliant interface
-> (probably similar to other RME interfaces like the MADIface, but I don't
-> have any others to test). The basic audio streaming works fine with an
-> entry in quirks-table.h and a format quirk to set the system sample rate
-> in quirks.c. Now I need to figure out how to implement the mixer controls.
-> 
-> Currently I have the snd-usb-audio driver claiming only interface #0
-> (streaming) and I use a Python script to control the mixer/settings
-> directly with libusb (control transfers and interface #1). This works
-> fine and there's some prior art for this in the firewire world (for
-> example, snd-dice doesn't do any mixer control stuff and you have to use
-> ffado-mixer to control everything from userspace) but I assume it's not
-> really the best way to go?
-> 
-> The problem is that the device has a 66x34 matrix mixer, with up to 2048
-> cross points enabled at once. Exposing each cross point as an ALSA mixer
-> control (similar to how mixer_scarlett2.c does it) would mean 2244
-> controls just for the mixer... which seems like a bit too much.
-> 
-> On top of that there is also VU meter feedback for all the
-> inputs/outputs, as well as general fader controls for each output and
-> global output configs and status. I'm not sure about the VU meters, but
-> everything else sounds like it would map fine to normal mixer controls.
-> 
-> Is there some recommended way to expose this kind of matrix mixer
-> interface to userspace? I think for something like this you pretty much
-> have to rely on device-specific tools to make the UX manageable, so
-> maybe hwdep... but at least exposing everything as an ALSA control would
-> have the advantage of supporting save/restore with something like
-> alsactl. So I don't really know what's the way to go here.
-> 
-> System settings/general status/output faders go via control transfers,
-> while interface #1 has an interrupt IN endpoint (streaming state
-> feedback, not very useful) and two bulk endpoints (matrix mixer control
-> out, VU meter data in). There's another pair of bulk endpoints in
-> interface #2 which I'm guessing are for firmware updates (I haven't
-> looked at that part). So in principle it's not crazy to expose all the
-> system controls/output faders as mixer controls in ALSA and leave
-> interface #1 entirely unclaimed so a userspace program can directly
-> configure the matrix mixer and access VU meter levels. There is a global
-> mixer enable bit (controlled via ctl transfer), so if that is exposed as
-> an ALSA control and disabled by default the interface will operate as a
-> 1:1 in/out interface without needing any custom userspace to configure
-> the mixer.
-> 
-> There's one other quirky thing: it also needs a way to set the sample
-> rate as a mixer control, because you need to be able to configure the
-> rate even when the PCM device is not open (since that affects
-> stand-alone mixer operation). I imagine the right logic here would be to
-> have a selector control for the system sample rate, and automatically
-> change it and lock it when the PCM is opened with a given rate?
-> 
-> Any thoughts welcome ^^
 
-As Geoffrey already suggested, the matrix size can be reduced since
-each kcontrol element can be an array, so the number of controls can
-be either column or row size of the matrix, which is well manageable.
+Applied to
 
-The VU meter can be provided as volatile read-only controls, too.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-So from the API-wise POV, it'll be a most straightforward
-implementation.
+Thanks!
 
-OTOH, if you need more efficiency (e.g. the control access is way too
-much overhead), it can be implemented freely via a hwdep device and
-your own ioctls or mmaps, too.  But this is literally h/w dependent,
-and the API becomes too specific, no other way than using own tool, as
-a drawback.
+[1/1] ASoC: dt-bindings: realtek,rt5659: Convert to dtschema
+      commit: 878f4c36f9235e8a15fe0c2ecde066d92c50c8ff
 
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-Takashi
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
