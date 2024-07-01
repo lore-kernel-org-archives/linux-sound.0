@@ -1,41 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2E781EB2A;
-	Mon,  1 Jul 2024 16:08:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3897016D4C7;
+	Mon,  1 Jul 2024 16:24:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719850101; cv=none; b=jnOKWK4aRZP3VphLcH4SXqaOw7s6mhCi92rAKkyF0Ba/FRbXwYzbpGxIc9QM4mHnLRDDT1GHkiQGjKwglXEnF/JwXRQqlzCIn9KymgBaMNcY2F/uWpIYiQP0RZ/P/nbpbpIA4jAmBeFvqZuZhBE2yJMnzRo530zxYTWWZJdpE+k=
+	t=1719851067; cv=none; b=CLub7RIg8fhWBAZjGQlWFnaFzRAt5ZSzf9FwYPsewyPWNG2HpmwG6j12NNNR7Muc+AKTFxvlHYAROa9DEHIs/U5325PcEs/ClFYLCxJnSaN1cG+aFMJ8twtLkzT2BZdHuNoAYz7y55cvXyfnuJrLib2xSFzJZ/wxHNuWHRoBFDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719850101; c=relaxed/simple;
-	bh=xo/lQLEgp4T9tOodEdYdrv/WFpbI3LH5AIIdorooP/M=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Qsp0RaBV2zdzlk/R1pDIAGZWhT1103gNQhuCL5aXvU+RFtoFSh4neOTozGLBwHQxjxusPV31iw83BOu5a7+XY1Orivx1MtXJKtyIy/3XkWnIHCSqqpUwJe1DhLNZIe0B81HJMMfWY9yZSypZCYD+N5vOXtEi9d0USXdFW019s8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cwoLHCTK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719851067; c=relaxed/simple;
+	bh=oBVFJlu3MmnNdnNe9Q9BhkVgV1GOgRax+RD1hh59NIs=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=qahsrmhxkjfKlngcQXSsWboxaXcosh1xImTZwXkyOu6i86kaHr82csV3YbFQHmgjRODf3Mm8fwILpF8OkqUcPquIwxp1pSjfYzc+ZFM99AFJdSsxGl/Q4qIrcG1p9/6+FBVYxlvPwLdsTG4ddjA2UB7I7RFpJRHsT5QDmHZtzfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MNfaOgTI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cwoLHCTK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E2B2C116B1;
-	Mon,  1 Jul 2024 16:08:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MNfaOgTI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30F67C116B1;
+	Mon,  1 Jul 2024 16:24:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719850100;
-	bh=xo/lQLEgp4T9tOodEdYdrv/WFpbI3LH5AIIdorooP/M=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=cwoLHCTKrl1c3Bo7IVHu2E2rOLxdFCDLCz/fiqC1Hr0UDY4sSn6KYiUb68E2mjhVt
-	 rF0RhoL/ILqR+JCyKuh0rWrXGmnANCeJ9ZstoFhfmA7toz8lqXpTG0i1W4JEXVTBtF
-	 Wvi2Lsl6H4nyTLFvo70y0rmPeo3wnQkEp8dfQor1iB+YOAiTJaWmjKf5E8FP5nTkUR
-	 ksfg3lq/t3pJymPH/n+qclsoWakdXXRuy3AUjwkXbSSWBBYkZbavN29UcrVJ8W2DA3
-	 5RliJ7TXYPLUg4zoyKunLW+/pjhkg0LjCotqsC28eGr0UJo5fEuVTuOftAif5o6iko
-	 fAf8ebBmYoSOQ==
-From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-kernel@vger.kernel.org, patches@opensource.cirrus.com, 
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-In-Reply-To: <20240627141432.93056-1-rf@opensource.cirrus.com>
-References: <20240627141432.93056-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH 0/4] firmware: cs_dsp: Add check to prevent overrunning
- the firmware file
-Message-Id: <171985009864.89113.4517197771955831374.b4-ty@kernel.org>
-Date: Mon, 01 Jul 2024 17:08:18 +0100
+	s=k20201202; t=1719851065;
+	bh=oBVFJlu3MmnNdnNe9Q9BhkVgV1GOgRax+RD1hh59NIs=;
+	h=From:Date:Subject:To:Cc:From;
+	b=MNfaOgTI38XHbTvoSalMKLauxUd+9J/w1Q99eE96NJCsllyoTZgXBI6Sy4yc5ZAWz
+	 9lhd7stnTg5qOwtBlWhzRf1bZEBM2Z1+KvGrt35Pga41dHChLFpsASxl2s7rcG5WEd
+	 IjTwmuvK9w6t2J3u5OVbPThQV2tY13Pro0/kDpUpeRyNlgPqSg4MZKVN3fUJHcLynI
+	 uM2rFprmO8AIyyoheuuoCfSd2mPaz4x/Fu1dYLf3ndPBr+SxBUowtowO8S2yRpptyQ
+	 /RZPof4m2qkjmhkp5DlG79wllZAAWMyyC+6SIlZNoY6TuR0RRpLC07brLaOhD0aXAo
+	 ZQkCdYNG01+ZQ==
+From: Nathan Chancellor <nathan@kernel.org>
+Date: Mon, 01 Jul 2024 09:24:16 -0700
+Subject: [PATCH] ASoC: fsl: lpc3xxx-i2s: Avoid using ret uninitialized in
+ lpc32xx_i2s_probe()
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,54 +37,72 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev-d4707
+Message-Id: <20240701-lpc32xx-asoc-fix-uninitialized-ret-v1-1-985d86189739@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAC/YgmYC/x2NzQqDMBAGX0X23IVN/ANfpfQQkm39QKIkVoLiu
+ zf0ODDMXJQ1QTNNzUVJD2SssYJ5NORnFz/KCJXJiu1kFMPL5ltbCru8en6j8DciYodbcGrgpDt
+ 3o0gYQt8P3lANbUmr+J88X/f9AyTAwd50AAAA
+To: "J.M.B. Downing" <jonathan.downing@nautel.com>, 
+ Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
+ Mark Brown <broonie@kernel.org>
+Cc: Vladimir Zapolskiy <vz@mleia.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-sound@vger.kernel.org, llvm@lists.linux.dev, patches@lists.linux.dev, 
+ Nathan Chancellor <nathan@kernel.org>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2122; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=oBVFJlu3MmnNdnNe9Q9BhkVgV1GOgRax+RD1hh59NIs=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDGlNNyxOBzy1UVET3irgUXTDdu7+cq5F79i0f9i/ydsUF
+ LG55862jlIWBjEuBlkxRZbqx6rHDQ3nnGW8cWoSzBxWJpAhDFycAjCRp0cZGXr631qo3FnZemTN
+ 5k6jhZ1rBSbECur+dFZelzgnU3eH3T9GhjX3eNamS0ZNeMxY1K8eef8+q6tI9MMgwRiFpSrX8rh
+ d2QE=
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 
-On Thu, 27 Jun 2024 15:14:28 +0100, Richard Fitzgerald wrote:
-> This series fixes various missing length checks when processing
-> variable-length data from the firmware file. These could have
-> caused overrunning the end of firmware file buffer, or wild
-> pointer accesses.
-> 
-> Richard Fitzgerald (4):
->   firmware: cs_dsp: Fix overflow checking of wmfw header
->   firmware: cs_dsp: Return error if block header overflows file
->   firmware: cs_dsp: Validate payload length before processing block
->   firmware: cs_dsp: Prevent buffer overrun when processing V2 alg
->     headers
-> 
-> [...]
+clang points out that ret may be used uninitialized in
+lpc32xx_i2s_probe() in an error pointer path (which becomes fatal with
+CONFIG_WERROR):
 
-Applied to
+  sound/soc/fsl/lpc3xxx-i2s.c:326:47: error: variable 'ret' is uninitialized when used here [-Werror,-Wuninitialized]
+    326 |                                      "failed to init register map: %d\n", ret);
+        |                                                                           ^~~
+  sound/soc/fsl/lpc3xxx-i2s.c:310:9: note: initialize the variable 'ret' to silence this warning
+    310 |         int ret;
+        |                ^
+        |                 = 0
+  1 error generated.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+One solution would be a small refactoring of the second parameter in
+dev_err_probe(), PTR_ERR(i2s_info_p->regs), to be the value of ret in
+the if statement. However, a nicer solution for debugging purposes,
+which is the point of this statement, would be to use the '%pe'
+specifier to symbolically print the error pointer value. Do so, which
+eliminates the uninitialized use of ret, clearing up the warning.
 
-Thanks!
+Fixes: 0959de657a10 ("ASoC: fsl: Add i2s and pcm drivers for LPC32xx CPUs")
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+---
+ sound/soc/fsl/lpc3xxx-i2s.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[1/4] firmware: cs_dsp: Fix overflow checking of wmfw header
-      commit: 3019b86bce16fbb5bc1964f3544d0ce7d0137278
-[2/4] firmware: cs_dsp: Return error if block header overflows file
-      commit: 959fe01e85b7241e3ec305d657febbe82da16a02
-[3/4] firmware: cs_dsp: Validate payload length before processing block
-      commit: 6598afa9320b6ab13041616950ca5f8f938c0cf1
-[4/4] firmware: cs_dsp: Prevent buffer overrun when processing V2 alg headers
-      commit: 2163aff6bebbb752edf73f79700f5e2095f3559e
+diff --git a/sound/soc/fsl/lpc3xxx-i2s.c b/sound/soc/fsl/lpc3xxx-i2s.c
+index 0e5b4d5202ff..af995ca081a3 100644
+--- a/sound/soc/fsl/lpc3xxx-i2s.c
++++ b/sound/soc/fsl/lpc3xxx-i2s.c
+@@ -323,7 +323,7 @@ static int lpc32xx_i2s_probe(struct platform_device *pdev)
+ 	i2s_info_p->regs = devm_regmap_init_mmio(dev, iomem, &lpc32xx_i2s_regconfig);
+ 	if (IS_ERR(i2s_info_p->regs))
+ 		return dev_err_probe(dev, PTR_ERR(i2s_info_p->regs),
+-				     "failed to init register map: %d\n", ret);
++				     "failed to init register map: %pe\n", i2s_info_p->regs);
+ 
+ 	i2s_info_p->clk = devm_clk_get(dev, NULL);
+ 	if (IS_ERR(i2s_info_p->clk))
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+---
+base-commit: 878f4c36f9235e8a15fe0c2ecde066d92c50c8ff
+change-id: 20240701-lpc32xx-asoc-fix-uninitialized-ret-4700d6d556c1
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Best regards,
+-- 
+Nathan Chancellor <nathan@kernel.org>
 
