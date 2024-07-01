@@ -1,49 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A69B17BDA;
-	Mon,  1 Jul 2024 00:12:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3BB442AB1;
+	Mon,  1 Jul 2024 00:12:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719792747; cv=none; b=loDfexV2cvS748BYAe1+McxpXanINPLhZ73rAdYgVYe+qKPhDsrpEDWeKOQ4b2Zxqw7TNQD4/+PHoBYxLzg/tpvqscoyP6vYGE5O8/RbAdnG7d6X4XgcqrxKEdraaAfbTI6q36uRhrGUqPyeSFhycCjrmGHbfYI1PLS8uJUbcQo=
+	t=1719792756; cv=none; b=CqSFf9xt6dLYt6m6DUfKymY9aAwbVwvJmnxjyPW0GktQlKTXNLpitgdyCJJg+5TQ/GC+fyw4NsRRKJ7dmAkitBskHfmb2H9BXjS0zYugTgE6VP2+DTFRJzMVBOy1cJwqSRh1mJ4iDj/EXML6lvGrTStRl3CN1Iu+QVyUKn9bZTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719792747; c=relaxed/simple;
-	bh=9ppsar3U9X6rd7sZwhOQ3vNvYo9VYpJ15BUhiX1oO9E=;
+	s=arc-20240116; t=1719792756; c=relaxed/simple;
+	bh=pmNLpYGTrh+IbL2zJ6QYoPCyOKNW6TCyewUsmUqYrZM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DIy3yfobXwVhw1LLHOL6cWfbTc+JI90l1mii8UR6PTo1tBJnRNs1+mQqgyImEtPeVxcKNMPW+eQaEjJRRTKngCYsZt82qsGa1TfXBgZy7sBCF2CjeDx4U8tR5YjTnQ8m5hp2tgfKrfSyQhgmyEM2SePj7BfrKcwJwXOnr3Dhr60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dLMg3nhr; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=gOkKCehhOCnKA5bYKizjMnGpHSe2wGi6oj0k+J7ZJEywWOzs03Qd0lDuNtn1vDOOmkU+0wrC5AmxRhLwj0azK4BXH7fhB/3QmcRIT5y+B40jaDr0p0AfK1xzEyUlRLj3t9TgQCW0qi8RPL0/bjzglJq8VsKMj5Xz9DuE8hxnKDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Af5/++a3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dLMg3nhr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37F03C4AF0B;
-	Mon,  1 Jul 2024 00:12:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Af5/++a3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06517C2BD10;
+	Mon,  1 Jul 2024 00:12:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719792746;
-	bh=9ppsar3U9X6rd7sZwhOQ3vNvYo9VYpJ15BUhiX1oO9E=;
+	s=k20201202; t=1719792756;
+	bh=pmNLpYGTrh+IbL2zJ6QYoPCyOKNW6TCyewUsmUqYrZM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dLMg3nhrC5rJkv1L1KM0POEWSDAet37W3r+9wEvISGtRTVRqnsgKEeIUaGPkYFj8X
-	 KKzORS2Z7Ddv6Fn4HGbFBqA7KRu1AWdaQVCJSUPSJo7H/eZ5TtyNfw63Tfi1aQwVvr
-	 9jf+K0GFp2upmOxIXuBq8Nx10k/De+OzI0BaOac9DJ/4K3nqo5R8JuYsMQ3d1X9jAp
-	 NsdAPRF7V+5vrIHY0ewUJBVww/VlduOjRExnpzg5U9CBRM2p/jm11aIGmCZNpSD6nE
-	 35kSGLioYtMWM6zclKhxAwXTHKL9jwX/l+f5TA6EPrEq5FlYFl/xevaLehzYTPyoGQ
-	 bqmbVtK5Jf+ug==
+	b=Af5/++a3el3BCAJiEgBt+ES8kss/y5Ht+l6hE5bb+8DBZU3Ri59rf8YHAzjTdZxb8
+	 DQJHkG03eZ6n0J55v8leVRI4qGjibDo5xSCHe2AheJMO1JbgSDu1vJVjiXBcUAi7tq
+	 Cb8BdVbODFmmSdHLPUoT86Y4Wx9zRYWglgbrd/K3L1IsYiqsjZ3uf07RlVhdvwirQH
+	 4oDl85KGE9TzqGgdv39P7YL/KnWUQZRlIMB4PTzvzEbWTNcMNU2i0fCMArPgiTeojE
+	 Euu0705dyl0SXXnFUQyGRNnw5OtxLY1U1ZPpzYCjXr8gC/4ZuPk3cCmHay++oz96v1
+	 SgknNCrKVy0aQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Stefan Binding <sbinding@opensource.cirrus.com>,
+Cc: Kailang Yang <kailang@realtek.com>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
-	kailang@realtek.com,
+	sbinding@opensource.cirrus.com,
 	luke@ljones.dev,
 	shenghao-ding@ti.com,
 	simont@opensource.cirrus.com,
 	foss@athaariq.my.id,
 	rf@opensource.cirrus.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.9 06/20] ALSA: hda/realtek: Support Lenovo Thinkbook 13x Gen 4
-Date: Sun, 30 Jun 2024 20:11:11 -0400
-Message-ID: <20240701001209.2920293-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.9 10/20] ALSA: hda/realtek: Add more codec ID to no shutup pins list
+Date: Sun, 30 Jun 2024 20:11:15 -0400
+Message-ID: <20240701001209.2920293-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240701001209.2920293-1-sashal@kernel.org>
 References: <20240701001209.2920293-1-sashal@kernel.org>
@@ -58,35 +58,39 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.9.7
 Content-Transfer-Encoding: 8bit
 
-From: Stefan Binding <sbinding@opensource.cirrus.com>
+From: Kailang Yang <kailang@realtek.com>
 
-[ Upstream commit 4ecb16d9250e6fcf8818572bf317b6adae16515b ]
+[ Upstream commit 70794b9563fe011988bcf6a081af9777e63e8d37 ]
 
-Add support for this laptop, which uses CS35L41 HDA amps.
-The laptop does not contain valid _DSD for these amps, so requires
-entries into the CS35L41 configuration table to function correctly.
+If it enter to runtime D3 state, it didn't shutup Headset MIC pin.
 
-Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
+Signed-off-by: Kailang Yang <kailang@realtek.com>
+Link: https://lore.kernel.org/r/8d86f61e7d6f4a03b311e4eb4e5caaef@realtek.com
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Link: https://lore.kernel.org/r/20240606130351.333495-5-sbinding@opensource.cirrus.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/pci/hda/patch_realtek.c | 2 ++
- 1 file changed, 2 insertions(+)
+ sound/pci/hda/patch_realtek.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 237fb86f2004a..c3412dbdc775d 100644
+index c3412dbdc775d..949fcdc0de98c 100644
 --- a/sound/pci/hda/patch_realtek.c
 +++ b/sound/pci/hda/patch_realtek.c
-@@ -10521,6 +10521,8 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x17aa, 0x38be, "Yoga S980-14.5 proX YC Dual", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x38bf, "Yoga S980-14.5 proX LX Dual", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x38c3, "Y980 DUAL", ALC287_FIXUP_TAS2781_I2C),
-+	SND_PCI_QUIRK(0x17aa, 0x38c7, "Thinkbook 13x Gen 4", ALC287_FIXUP_CS35L41_I2C_4),
-+	SND_PCI_QUIRK(0x17aa, 0x38c8, "Thinkbook 13x Gen 4", ALC287_FIXUP_CS35L41_I2C_4),
- 	SND_PCI_QUIRK(0x17aa, 0x38cb, "Y790 YG DUAL", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x38cd, "Y790 VECO DUAL", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x38d2, "Lenovo Yoga 9 14IMH9", ALC287_FIXUP_YOGA9_14IMH9_BASS_SPK_PIN),
+@@ -585,10 +585,14 @@ static void alc_shutup_pins(struct hda_codec *codec)
+ 	switch (codec->core.vendor_id) {
+ 	case 0x10ec0236:
+ 	case 0x10ec0256:
++	case 0x10ec0257:
+ 	case 0x19e58326:
+ 	case 0x10ec0283:
++	case 0x10ec0285:
+ 	case 0x10ec0286:
++	case 0x10ec0287:
+ 	case 0x10ec0288:
++	case 0x10ec0295:
+ 	case 0x10ec0298:
+ 		alc_headset_mic_no_shutup(codec);
+ 		break;
 -- 
 2.43.0
 
