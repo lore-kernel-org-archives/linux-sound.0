@@ -1,51 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B627C15CB;
-	Mon,  1 Jul 2024 00:13:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F2E517BD9;
+	Mon,  1 Jul 2024 00:13:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719792806; cv=none; b=n3CpjaHDv27TXucxD+9BJRHaygHeyrN9o1p+TrLqGLKh3Tika//Ym6exZWPL4udCSUaHnXPiRZf+V3jkBGEPBRhPuIM3W3+9A3dd/3PNgN7sb2Zlnt7+9tk/hj2/7uxAwYKGwen+ixU4HELy21zCFRNrh3SSMA0h3EH7Ag4j9Kw=
+	t=1719792825; cv=none; b=bZf9MFKUAg1hl+6UrwWcfg6m060K9FjozXYeR7KTlPT9K7XoS0xX3Wob0qwChflxOhLe9zeLBYVX8NLkP/UszEV1Wy/f4MmP8zHcRm3GhbDfGn5e2B7uwVtKPUOOOozc1LZuOf7BFrVAfWJcR9tSYr7l28to4SlvWEXVXui1QQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719792806; c=relaxed/simple;
-	bh=bCto09bGLe73+ADn1wV3krqSPU+Vncmk56lCkZV91co=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SP9zkfEuhCRKLrJPtfRF31Lg96UIyLkGXqNhsrwXbXq/OqaTPPgg2Sy/NRjrjNhp4uMCnJxLOc5HqZa4b5StLsiYc/ntODE8N7qR97DU4upcfdQ/ChkdbNc2vv+dx20dXxGG6R9iFsd2b/HBvsZq34sIxRGWrr6QtUxUw1PGZUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ix5tjOwK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719792825; c=relaxed/simple;
+	bh=qclWDWQblk91dDA0GVzaDjjEZGFR4p3CRjmmwvtKyCg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k5hRx0W1PUtqILEXdgsQdMcfu92T4fTiXJpIW5dDkZnaCLJ4TRziSR98MvFa12p/mJQyVoOfQnFkenwufOQol1rYJs1+Qcb2m5gR6iiGjd5pi21G3NEceUEIJgCT3AGnzsWR9/or+UkoKYTGad26u7DFJML0AISronidUr1WSog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OpiFQ/j8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ix5tjOwK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C261BC2BD10;
-	Mon,  1 Jul 2024 00:13:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OpiFQ/j8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 180DAC2BD10;
+	Mon,  1 Jul 2024 00:13:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719792806;
-	bh=bCto09bGLe73+ADn1wV3krqSPU+Vncmk56lCkZV91co=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Ix5tjOwKVhkKVlY7tt9eVvNqljshG1q+LlJjJZ6KhNwHYuyvrr4tdDzsD9PcMHwLq
-	 1k/ZTkDt0Fb8UFLAkOlHJutuj/DhhbQyIUfCuQJErJtL8SIy5aJGh0DWwJs/LkjTho
-	 M62jeh3vb0unc2bI41IFUC3yDorfkOuWzEDBUqOxM9XvmgU++ywOKbsoyFl9UCf6O6
-	 afoAYhll9NwjDgnW1jPnPwnkoKFeQWvRFZtkCKJkeoyjQ65wO3P5HN6MriXLAJM/oe
-	 ohvgK6wCd+ii0Ux4iXRPCywWBd2uWS4Z6ZxyN4BCL5YTxNjaOOA7sWiRIqCmXud/UJ
-	 m7lnuEAw+DOag==
+	s=k20201202; t=1719792825;
+	bh=qclWDWQblk91dDA0GVzaDjjEZGFR4p3CRjmmwvtKyCg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=OpiFQ/j8apaTm0zVNkSx5Bon3n4xMcwWGuPxLoT1NAqzYW7S7ejWYEoPE34JNt6k+
+	 ybL55QwGyFC22tEQnZWUD4iErZGZu/P5Jf8HEUMlbdHTII3PfPf5u7BiCQpG3DdMhO
+	 IxNMiKjCaRJWo0yN4FegHoty5KWKK7bykmNeolw6iSHWH63W+zPhngLmQiB4+VhXeJ
+	 9+iD9QE7zf8fDUbP3IbMwn1hmEjAVWVAv789Qozbfwh+8Y3keL3SFPyjO9kwL/84yg
+	 jwyAASFs5HXglwk2AO43vQ+E2JuAJeOEGEGRb6rwT4XyOOcgRLx5UduK90UarkObs4
+	 2Qj3XHu3HqeHw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Simon Trimmer <simont@opensource.cirrus.com>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
+	david.rhodes@cirrus.com,
+	rf@opensource.cirrus.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	rf@opensource.cirrus.com,
-	broonie@kernel.org,
-	lukas.bulwahn@gmail.com,
-	sbinding@opensource.cirrus.com,
-	shenghao-ding@ti.com,
+	alsa-devel@alsa-project.org,
+	patches@opensource.cirrus.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.9 18/20] ALSA: hda: cs35l56: Select SERIAL_MULTI_INSTANTIATE
-Date: Sun, 30 Jun 2024 20:11:23 -0400
-Message-ID: <20240701001209.2920293-18-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 01/12] ALSA: hda: cs35l56: Fix lifecycle of codec pointer
+Date: Sun, 30 Jun 2024 20:13:20 -0400
+Message-ID: <20240701001342.2920907-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240701001209.2920293-1-sashal@kernel.org>
-References: <20240701001209.2920293-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -54,48 +50,48 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.9.7
+X-stable-base: Linux 6.6.36
 Content-Transfer-Encoding: 8bit
 
 From: Simon Trimmer <simont@opensource.cirrus.com>
 
-[ Upstream commit 9b1effff19cdf2230d3ecb07ff4038a0da32e9cc ]
+[ Upstream commit d339131bf02d4ed918415574082caf5e8af6e664 ]
 
-The ACPI IDs used in the CS35L56 HDA drivers are all handled by the
-serial multi-instantiate driver which starts multiple Linux device
-instances from a single ACPI Device() node.
-
-As serial multi-instantiate is not an optional part of the system add it
-as a dependency in Kconfig so that it is not overlooked.
+The codec should be cleared when the amp driver is unbound and when
+resuming it should be tested to prevent loading firmware into the device
+and ALSA in a partially configured system state.
 
 Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
-Link: https://lore.kernel.org/20240619161602.117452-1-simont@opensource.cirrus.com
+Link: https://lore.kernel.org/r/20240531112716.25323-1-simont@opensource.cirrus.com
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/pci/hda/Kconfig | 2 ++
- 1 file changed, 2 insertions(+)
+ sound/pci/hda/cs35l56_hda.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/sound/pci/hda/Kconfig b/sound/pci/hda/Kconfig
-index f806636242ee9..9f560a8186802 100644
---- a/sound/pci/hda/Kconfig
-+++ b/sound/pci/hda/Kconfig
-@@ -160,6 +160,7 @@ config SND_HDA_SCODEC_CS35L56_I2C
- 	depends on ACPI || COMPILE_TEST
- 	depends on SND_SOC
- 	select FW_CS_DSP
-+	select SERIAL_MULTI_INSTANTIATE
- 	select SND_HDA_GENERIC
- 	select SND_SOC_CS35L56_SHARED
- 	select SND_HDA_SCODEC_CS35L56
-@@ -176,6 +177,7 @@ config SND_HDA_SCODEC_CS35L56_SPI
- 	depends on ACPI || COMPILE_TEST
- 	depends on SND_SOC
- 	select FW_CS_DSP
-+	select SERIAL_MULTI_INSTANTIATE
- 	select SND_HDA_GENERIC
- 	select SND_SOC_CS35L56_SHARED
- 	select SND_HDA_SCODEC_CS35L56
+diff --git a/sound/pci/hda/cs35l56_hda.c b/sound/pci/hda/cs35l56_hda.c
+index 15e20d9261393..77e8da7dffc6a 100644
+--- a/sound/pci/hda/cs35l56_hda.c
++++ b/sound/pci/hda/cs35l56_hda.c
+@@ -702,6 +702,8 @@ static void cs35l56_hda_unbind(struct device *dev, struct device *master, void *
+ 	if (comps[cs35l56->index].dev == dev)
+ 		memset(&comps[cs35l56->index], 0, sizeof(*comps));
+ 
++	cs35l56->codec = NULL;
++
+ 	dev_dbg(cs35l56->base.dev, "Unbound\n");
+ }
+ 
+@@ -807,6 +809,9 @@ static int cs35l56_hda_system_resume(struct device *dev)
+ 
+ 	cs35l56->suspended = false;
+ 
++	if (!cs35l56->codec)
++		return 0;
++
+ 	ret = cs35l56_is_fw_reload_needed(&cs35l56->base);
+ 	dev_dbg(cs35l56->base.dev, "fw_reload_needed: %d\n", ret);
+ 	if (ret > 0) {
 -- 
 2.43.0
 
