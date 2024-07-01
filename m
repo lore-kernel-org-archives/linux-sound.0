@@ -1,62 +1,183 @@
-Received: from mail-m16.yeah.net (mail-m16.yeah.net [220.197.32.18])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C15B315ECD6;
-	Mon,  1 Jul 2024 13:51:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.18
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B77F93D72;
+	Mon,  1 Jul 2024 14:03:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719841897; cv=none; b=KEc//LbJEjjrMs9/6MXiplyYozyFvMw7p5hB2Yo3kOaQLK/T1ZSnlX6zkF4dAcGpOCTfiPE9unMnli1iQo/9/fOus6JDZHedpQWQQAzRpOk5AJ8yQcGCopcyIfqGoM9PtQaYIVWxtPOViEkxTSlWh9yzAujlxUO4r0lEvW3QXT0=
+	t=1719842622; cv=none; b=hFBguvGgFYRFY02CZTLrf8ac6YIr18CKM3pDRjvWYNxTMeonPhcdnz01qAsm/ji988iqoKT3lScZzyWVEfVxvXI6R6+TmxMaIC78xgNz6bDwEP8Pc0wDqUrsdPjU/8qN/+zrVjBjngoBk+kAlxF/rbM1U5hQAs0M+qEy9KIp7vU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719841897; c=relaxed/simple;
-	bh=WJFcrpAfZ6kI2zxHwjgX/7RRQzrcoaIk1p4RHYDLG6E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mvRp6IS45LhckqLbcSDbRbstQzX4AKIlBNbyWOfrDOMszGG1IWIcsf5eZJFgWfsum37zPLBknvyNV/IHMhRooR8jNX/esRbYdDIeRfCXGguHjqVP8Ez9sfqnlVD7nTTh9cskyKUUTXIQXRZSfCmhTar+YvgDY1Eqf6AHpw2E5s0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net; spf=pass smtp.mailfrom=yeah.net; dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b=TDjtVtGv; arc=none smtp.client-ip=220.197.32.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yeah.net
+	s=arc-20240116; t=1719842622; c=relaxed/simple;
+	bh=w+fq7hAZICwQ8ms4QU9zqAnifRtgEhMdLeDYpMFOr0A=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JZ3DDHksvXTJNWmgYKaC2sB2c3RG5VWA/VO9Z2SeNU8DkNVu4rvFHKI7bP6b3xBir+Y5i+jy9Az4C1UEQnwOHX/M6rNr/BvlPVtWmSFmcz9biQVK0MW9gqfUtoegafjK6WALSi8WkZiPxYgu4ZKBbT524F1zleh7+JgDcAF9kuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nxwP+Q9n; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LurVQOTi; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ub/6WAXL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yOZG147l; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b="TDjtVtGv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yeah.net;
-	s=s110527; h=Date:From:Subject:Message-ID:MIME-Version:
-	Content-Type; bh=46sR/V9dviRjPP8fczYXYSmC0ZFzyAg7+5eAMPqu8VY=;
-	b=TDjtVtGvOiV4G3I4CyMU2yX6yusj8RjKxWWm8PBa/POYrSIvZPMO+LG+5n5i8K
-	mOO+GcgfYGyW7Nls1tJNmXAxWnc0tImyXe4vAACJ30YIn3JS57hrBEfEGUpO4uNB
-	6GnmyJ6miDhDWy3KSKzO6+lG7ex0MuqvbpEwASxyk07Jg=
-Received: from dragon (unknown [114.218.218.47])
-	by gzsmtp1 (Coremail) with SMTP id Mc8vCgD3H444tIJmlLU4AA--.1103S3;
-	Mon, 01 Jul 2024 21:50:50 +0800 (CST)
-Date: Mon, 1 Jul 2024 21:50:48 +0800
-From: Shawn Guo <shawnguo2@yeah.net>
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, shengjiu.wang@gmail.com,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, shawnguo@kernel.org,
-	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 3/3] arm64: dts: imx8mp-evk: Add audio XCVR sound card
-Message-ID: <ZoK0OCYzcvLDH7F5@dragon>
-References: <1719481981-4069-1-git-send-email-shengjiu.wang@nxp.com>
- <1719481981-4069-4-git-send-email-shengjiu.wang@nxp.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nxwP+Q9n";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LurVQOTi";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ub/6WAXL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yOZG147l"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C87BC219AE;
+	Mon,  1 Jul 2024 14:03:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1719842619; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=40Z2bpgm5kijfu/PKJMA05su7yleimcmmr2QFL4+IbM=;
+	b=nxwP+Q9nLHejCyTv8hmik6ylkRFgJqBt1oszlyYZrG+GWi0jfOJ2Lk2A4xdluxtxZgv3zL
+	SfUsurk9gD4r9rRCH5bcLg1uKlh8R4k8bDzOU9W7LESetfTzRodezuRGf8Hsu3vHOLR9/2
+	SjzHHvKVp1lKzkgXWymCh2UB2egxMMs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1719842619;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=40Z2bpgm5kijfu/PKJMA05su7yleimcmmr2QFL4+IbM=;
+	b=LurVQOTiQEBIZYfVO1Yo0uiasq5uqX8GhFmWPh8OB+7gDjkCg2lNzjsB/qeGeJfG4PKEbh
+	FaOeFslRPkQVARDA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="ub/6WAXL";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=yOZG147l
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1719842618; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=40Z2bpgm5kijfu/PKJMA05su7yleimcmmr2QFL4+IbM=;
+	b=ub/6WAXLNxFJWS8zhP7rSpSzcSnd0r1nyEJLVZUKMP2vf7ypH3P006LIpgIFEgYGgP0NBU
+	ECEVdgv0OiIOG1ErE/A3AA5Z0XesgDk9jtM7Py7aAR2gDMvTFW7uCMZ7dojj6vD96OhUTC
+	QXi4m89fuYKN3v9mK7BtNo9QQyzSUX8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1719842618;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=40Z2bpgm5kijfu/PKJMA05su7yleimcmmr2QFL4+IbM=;
+	b=yOZG147lLhEJDc2w6yhhoxL5Wv+TCNV1IiquuW5olXtA7QOhdrJIrn7v4wF33235NqAckX
+	2oV5BRQCdlhgIzBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 83E1F13800;
+	Mon,  1 Jul 2024 14:03:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id rGz9Hjq3gmZOZwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 01 Jul 2024 14:03:38 +0000
+Date: Mon, 01 Jul 2024 16:04:06 +0200
+Message-ID: <875xtp43ah.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Jerome Brunet <jbrunet@baylibre.com>
+Cc: kernel test robot <lkp@intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	oe-kbuild-all@lists.linux.dev,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] ALSA: pcm: add support for 128kHz sample rate
+In-Reply-To: <1j1q4ej50k.fsf@starbuckisacylon.baylibre.com>
+References: <20240628122429.2018059-2-jbrunet@baylibre.com>
+	<202406300718.iL828kaG-lkp@intel.com>
+	<1j1q4ej50k.fsf@starbuckisacylon.baylibre.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1719481981-4069-4-git-send-email-shengjiu.wang@nxp.com>
-X-CM-TRANSID:Mc8vCgD3H444tIJmlLU4AA--.1103S3
-X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUIF1vUUUUU
-X-CM-SenderInfo: pvkd40hjxrjqh1hdxhhqhw/1tbiBBoPZWZqry+fPwAAsY
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[intel.com,kernel.org,gmail.com,suse.com,perex.cz,lists.linux.dev,alsa-project.org,vger.kernel.org];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[git-scm.com:url,intel.com:email,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: C87BC219AE
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
 
-On Thu, Jun 27, 2024 at 05:53:01PM +0800, Shengjiu Wang wrote:
-> Add audio XCVR sound card, which supports SPDIF TX & RX,
-> eARC RX, ARC RX functions.
+On Sun, 30 Jun 2024 08:53:15 +0200,
+Jerome Brunet wrote:
 > 
-> HDMI_HPD is shared with the HDMI module so use pinctrl_hog.
+> On Sun 30 Jun 2024 at 07:29, kernel test robot <lkp@intel.com> wrote:
 > 
-> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> > Hi Jerome,
+> >
+> > kernel test robot noticed the following build errors:
+> >
+> > [auto build test ERROR on tiwai-sound/for-next]
+> > [also build test ERROR on tiwai-sound/for-linus broonie-sound/for-next linus/master v6.10-rc5 next-20240628]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Jerome-Brunet/ALSA-pcm-add-support-for-128kHz-sample-rate/20240629-201915
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+> > patch link:    https://lore.kernel.org/r/20240628122429.2018059-2-jbrunet%40baylibre.com
+> > patch subject: [PATCH 1/3] ALSA: pcm: add support for 128kHz sample rate
+> > config: i386-buildonly-randconfig-004-20240630
+> > compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+> > reproduce (this is a W=1 build):
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202406300718.iL828kaG-lkp@intel.com/
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> >>> sound/usb/caiaq/audio.c:179:2: error: #error "Change this table"
+> >     #error "Change this table"
+> >      ^~~~~
+> >
+> >
+> > vim +179 sound/usb/caiaq/audio.c
+> >
+> > 523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack 2007-03-26  176  
+> > 523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack 2007-03-26  177  /* this should probably go upstream */
+> > 523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack 2007-03-26  178  #if SNDRV_PCM_RATE_5512 != 1 << 0 || SNDRV_PCM_RATE_192000 != 1 << 12
+> > 523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack 2007-03-26 @179  #error "Change this table"
+> > 523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack 2007-03-26  180  #endif
+> > 523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack 2007-03-26  181  
+> 
+> This file is not in mainline or
+> https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+> branch ...
 
-Applied, thanks!
+It's sound/usb/caiaq/audio.c.
 
+
+Takashi
