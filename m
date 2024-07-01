@@ -1,124 +1,113 @@
-Received: from m.b4.vu (m.b4.vu [203.16.231.148])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C58CB674
-	for <linux-sound@vger.kernel.org>; Mon,  1 Jul 2024 02:51:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACC5728F5;
+	Mon,  1 Jul 2024 06:00:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719802299; cv=none; b=Dz9sHlBMLuebrqVX3CKQ5Veg0KsorwXERGkj7tGD9q1neNGA/EeiFk+rjRkwdi5QdCCyc6armpLMEJFebPAAXEk2fUZNYQ4FTIPwcMiU2hWfB5rnXUwAull/SK20hA31wJk0Dhl6Qf8sUm3GQICD5ERQkQERwGo/f4JSqMrLqsQ=
+	t=1719813629; cv=none; b=PF8pYzOXCsdd7pkr6cDb0B0YGfBUUr07UEJ5/8/CPWsQku2/VRLjlfhi/fKWmMcMun9ZJqsJIrtSoADImX6A3l/PaSWGTXfj4yHDHuKzpiwMswDCgfwBjWh4nUZ9+E+puOZXyZjtFZaEjc93eip3hI5oweRyrF1JQcxKj/jtF2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719802299; c=relaxed/simple;
-	bh=T+3QnOE1arN4m86oKGlpqiNveo+rq531LTN9zwAwCYc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bzpVaR3hMUTCz6tZ6zFzQB7bS37M71/+TyRtikNUUi5/EDhwgHl3ZyDRmbmq0WG9ZeaZVm/9qNKIqum4lslnW29qCSwSyJ48R+9e6kfTI0uF5uxhDxtnzwc6jQ6p6S7qBax06aABj/t5bZBK+NaI/j7rf3p5f89egaCgT9wF4LA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=Mam3VS2P; arc=none smtp.client-ip=203.16.231.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
+	s=arc-20240116; t=1719813629; c=relaxed/simple;
+	bh=V374CvmODMG9q8qZNeYgDNZLB/vi0eKCHGWX9StgBKg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=K4AUQNdLJFqsYCtlP8jHPxc7KiqHk12AewypAkL/Vld6YYLQ9NXIXgQaiWp3xt9uYD05343yYQ2eBetIFqwAxPJpynscGtyZigin7x9ELlJXKgn3MotvBF6jAgAbaiFtljLkUMUhyHylxN7jLQ5nYoaEBeQOCJenKi/jo794Di0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GOneBBdL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="Mam3VS2P"
-Received: by m.b4.vu (Postfix, from userid 1000)
-	id F0BFF60076C6; Mon,  1 Jul 2024 12:15:41 +0930 (ACST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu F0BFF60076C6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
-	t=1719801941; bh=XPGvHpTa6O0lJhx0PEo3ZlDgLpN7Ol9w+Fc3Zy2w1mc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Mam3VS2Pq9+neyJXeKQiIF7TP611434uXKT2cZwZ6oAKFWPjLCyNEvItuRXpxdN2t
-	 13s3RgXDmDdn8d5HhllTlKru770jbLWZG6jE7JO6ZVcggsyJ/sVWF8xMactv+ovuDF
-	 cgmGgf/m4D+lp1Sgxrx+X42LInWo/KVvZe+bV1twgI4gJCzUAhyuq8kY7yO5pxPECU
-	 g4LwF74+3HunndMqALrLoJ93Ox6Ht2HUXynufouhLWjdAs2zjWMtJqvTpM6Xl/vsM0
-	 U/g7JcfeR0qSiHMx6aAuhM8JE2aw7qo65rpvc8BNxxwQB5RsfauQ8292OC7AxAZDTj
-	 bc9fAhsETPKFw==
-Date: Mon, 1 Jul 2024 12:15:41 +0930
-From: "Geoffrey D. Bennett" <g@b4.vu>
-To: Asahi Lina <lina@asahilina.net>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
-Subject: Re: Handling complex matrix mixers in ALSA
-Message-ID: <ZoIYVVB+zDP78Apd@m.b4.vu>
-References: <48beda37-1795-4d48-987d-1e2582cb3a18@asahilina.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GOneBBdL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE9B6C116B1;
+	Mon,  1 Jul 2024 06:00:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719813629;
+	bh=V374CvmODMG9q8qZNeYgDNZLB/vi0eKCHGWX9StgBKg=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=GOneBBdLq3X/yx8Vgp7hfdu8D7UTvO7+PNAOrANGE54OQSEb7W7N0X5rAFnWzdQ6j
+	 IzrRcpKGK4raYSg5R1NziiLDtX9lTs5ngIp1s10CY4oGy3qoLlcu7OVVcP3MLGQJ10
+	 drsIFpS0MKVB5O+S48WaXOFrWjH/dexfTpHeVuteoxCFA1j7iW9ZNBfP2eLQxipMyg
+	 jypE3i4MmNJ3WGYOreG0Oy+R/FBcPrAHFHzqy+tIoR+D5vptIhiozf1dAwRdbSqI7h
+	 Tr2YJOmTTAc2CobEOYA70LyF/tgnLsSV2NA1yxBDNdWcnP+dcTMSu8Yna67Msgp8Lw
+	 ex+uQiys3NEnQ==
+Message-ID: <ac8d5e77-3ad5-4405-a276-8e684ba55126@kernel.org>
+Date: Mon, 1 Jul 2024 08:00:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <48beda37-1795-4d48-987d-1e2582cb3a18@asahilina.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/2] ASoC: dt-bindings: simple-audio-mux: add
+ state-labels property
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Alexandre Belloni <aleandre.belloni@bootlin.com>,
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Takashi Iwai <tiwai@suse.com>,
+ devicetree@vger.kernel.org, linux-sound@vger.kernel.org
+References: <87o77i7xq6.wl-kuninori.morimoto.gx@renesas.com>
+ <87le2m7xp8.wl-kuninori.morimoto.gx@renesas.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <87le2m7xp8.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Lina,
-
-On Mon, Jul 01, 2024 at 01:04:41AM +0900, Asahi Lina wrote:
-> Hi,
+On 01/07/2024 02:38, Kuninori Morimoto wrote:
+> simple-audio-mux is designed to be used generally, thus "Input 1" or
+> "Input 2" are used to selecting MUX input. This numbered inputs would
+> work, but might be not user friendly in some case, for example in case
+> of system hardware design has some clear labels.
+> Adds new "state-labels" property and enable to select MUX by own state
+> names.
 > 
-> I'm reverse engineering and implementing support for the RME Digiface
-> USB, which is an ADAT interface with a non-class-compliant interface
-> (probably similar to other RME interfaces like the MADIface, but I don't
-> have any others to test). The basic audio streaming works fine with an
-> entry in quirks-table.h and a format quirk to set the system sample rate
-> in quirks.c. Now I need to figure out how to implement the mixer controls.
-> 
-> Currently I have the snd-usb-audio driver claiming only interface #0
-> (streaming) and I use a Python script to control the mixer/settings
-> directly with libusb (control transfers and interface #1). This works
-> fine and there's some prior art for this in the firewire world (for
-> example, snd-dice doesn't do any mixer control stuff and you have to use
-> ffado-mixer to control everything from userspace) but I assume it's not
-> really the best way to go?
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-I'm the developer of the Scarlett2 driver. Doing as much as possible
-through ALSA mixer controls has worked well in my experience; as you
-say, being able to do save/restore with alsactl is useful.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-> The problem is that the device has a 66x34 matrix mixer, with up to 2048
-> cross points enabled at once. Exposing each cross point as an ALSA mixer
-> control (similar to how mixer_scarlett2.c does it) would mean 2244
-> controls just for the mixer... which seems like a bit too much.
+Best regards,
+Krzysztof
 
-Note that mixer controls may have more than one value. So I think you
-could have 66 controls with 34 values or 34 controls with 66 values or
-1 control with 2244 values.
-
-> On top of that there is also VU meter feedback for all the
-> inputs/outputs, as well as general fader controls for each output and
-> global output configs and status. I'm not sure about the VU meters, but
-> everything else sounds like it would map fine to normal mixer controls.
-
-I handle the VU meter feedback in the Scarlett2 driver with a
-read-only volatile control that contains multiple values (see
-scarlett2_meter_ctl).
-
-Regards,
-Geoffrey.
-
-> Is there some recommended way to expose this kind of matrix mixer
-> interface to userspace? I think for something like this you pretty much
-> have to rely on device-specific tools to make the UX manageable, so
-> maybe hwdep... but at least exposing everything as an ALSA control would
-> have the advantage of supporting save/restore with something like
-> alsactl. So I don't really know what's the way to go here.
-> 
-> System settings/general status/output faders go via control transfers,
-> while interface #1 has an interrupt IN endpoint (streaming state
-> feedback, not very useful) and two bulk endpoints (matrix mixer control
-> out, VU meter data in). There's another pair of bulk endpoints in
-> interface #2 which I'm guessing are for firmware updates (I haven't
-> looked at that part). So in principle it's not crazy to expose all the
-> system controls/output faders as mixer controls in ALSA and leave
-> interface #1 entirely unclaimed so a userspace program can directly
-> configure the matrix mixer and access VU meter levels. There is a global
-> mixer enable bit (controlled via ctl transfer), so if that is exposed as
-> an ALSA control and disabled by default the interface will operate as a
-> 1:1 in/out interface without needing any custom userspace to configure
-> the mixer.
-> 
-> There's one other quirky thing: it also needs a way to set the sample
-> rate as a mixer control, because you need to be able to configure the
-> rate even when the PCM device is not open (since that affects
-> stand-alone mixer operation). I imagine the right logic here would be to
-> have a selector control for the system sample rate, and automatically
-> change it and lock it when the PCM is opened with a given rate?
-> 
-> Any thoughts welcome ^^
-> 
-> ~~ Lina
