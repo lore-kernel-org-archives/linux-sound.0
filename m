@@ -1,154 +1,137 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F7622AD05;
-	Mon,  1 Jul 2024 07:13:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC6335028C
+	for <linux-sound@vger.kernel.org>; Mon,  1 Jul 2024 07:39:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719818002; cv=none; b=MnJNlB4XnBtF4wJtIvyNU1VY79ckOujXNviqxcxa30rOLs+n8y3M8S0aR+7wWjw2kYrMghccymUwOF2D/FpI6f7mN4j+N2BGtP/ci0ppgg+uKLsRJhUj3Y8zLJNv3FZlWWkazzCPmQbzGKAtqkjnbWRHU06i+5jTVvHJsHDBxKg=
+	t=1719819590; cv=none; b=YEUwZBgcvXV5tVF1710mKmeBOybBp8+9lsPhK0ztzqyBJsTx7Fs8AAy/jdd5664qcCJ1HoYs5Qk5meGa6wnHxfTR8mngT6uQSCn2SaZRMsaCrfCXNa5aUidjGZt5kKBcwXXyPcisQW1ZwalqJZQZ4aQTfteCuNHx2dkYOEtlBeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719818002; c=relaxed/simple;
-	bh=qUAkfJVWtPqbt4jLO5JajCL6NEIKpRiTrpsx0py35n8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hVy/vnqt34LcdOgIl+EgxbZ2ZtTHPyTtF4LdE12Yszx6JodzWBjZvPU0lPTlt5GhHkkZt36Qn3gZ4j6WEFJiZxY3lJJynrQHP1posjLT5fCC7edLWV63XR8ueZNwoPGX/mdNgIUjPFtziyE8v1OLh/f4OTt5aox1F1zyGNm78rM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=agxOA7Sm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xGl3+u28; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Th2fWMW1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EE14GiBt; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1719819590; c=relaxed/simple;
+	bh=l7CmpDx0OVT51yTSUKQ7OivFmec9RD8HJKyY4/LpEDk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=NNicGfgceW53kIYo/4zBCbc2pGHPQKINYEDTyld6QwhtPAQDjBFj1pew8b2vUO4yfOe8nvJ+3C35nooAKQnwAJIMGIrkzkzkLpkznAU07jMyu94po2S6JIweDPr6VArimt1/IDHY/S5nn5w5V/0thmE/NGpJ4SW291m7rK9c+0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PIt63bSg; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="agxOA7Sm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xGl3+u28";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Th2fWMW1";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EE14GiBt"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D872521AC4;
-	Mon,  1 Jul 2024 07:13:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719817993; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RntfX8icZol8M8rrp5guiSaR0MaQ5iQBleFBw6EU+ME=;
-	b=agxOA7SmcIn1byZ/ZvwfTRjQLi1CUcSqmOI+MZncs9FfpxmRV+FmQ+kefAyGlk46HAU+6V
-	+q9IiVeP9TCd67G0FsqSB6zvhDOkvXP2wI1j1KDeHyGmOGWUa6onfurVEe4LoueD5aRjmZ
-	TPr4ZiL6jn3gjR6dVTf8lGTFNiseSI4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719817993;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RntfX8icZol8M8rrp5guiSaR0MaQ5iQBleFBw6EU+ME=;
-	b=xGl3+u28BKWvdWFJd76MPeG8IVKbqyD6OyLKgB01eY6jtR6k+TEhtV3lbcJ6Ts1Ee0JDXM
-	ZIOTNO7aC1LETPCg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719817992; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RntfX8icZol8M8rrp5guiSaR0MaQ5iQBleFBw6EU+ME=;
-	b=Th2fWMW1v12RsTvEle8mT0d4qTokMLn9WNJ+HKq+0KyzRT8rpA9+yUVQwBZDR7UotBEkQk
-	3urM9wkja4tn8av58E4A2mTShNT0nlcTUxejfNeiuOaUR0oZHMl6aI/bl476bhc++nVkXw
-	NMNofmmcH2fygWMd5OaIKoCCXNm7Y30=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719817992;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RntfX8icZol8M8rrp5guiSaR0MaQ5iQBleFBw6EU+ME=;
-	b=EE14GiBtMgFFNDolbGLpPLz8I3c6al+BgVenqD/8nuWTMoc/eyl96gC6XTi28Cus1ugweU
-	krqX21puNrcDPuAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 80BB6139C2;
-	Mon,  1 Jul 2024 07:13:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id I9cTHghXgmaOawAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 01 Jul 2024 07:13:12 +0000
-Date: Mon, 01 Jul 2024 09:13:41 +0200
-Message-ID: <87wmm5a8ka.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Sasha Levin <sashal@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Simon Trimmer <simont@opensource.cirrus.com>,
-	Takashi Iwai <tiwai@suse.de>,
-	perex@perex.cz,
-	tiwai@suse.com,
-	rf@opensource.cirrus.com,
-	broonie@kernel.org,
-	shenghao-ding@ti.com,
-	sbinding@opensource.cirrus.com,
-	lukas.bulwahn@gmail.com,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 6.6 11/12] ALSA: hda: cs35l56: Select SERIAL_MULTI_INSTANTIATE
-In-Reply-To: <20240701001342.2920907-11-sashal@kernel.org>
-References: <20240701001342.2920907-1-sashal@kernel.org>
-	<20240701001342.2920907-11-sashal@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PIt63bSg"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3658197cdbbso1464750f8f.3
+        for <linux-sound@vger.kernel.org>; Mon, 01 Jul 2024 00:39:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1719819586; x=1720424386; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4B9dNm2ieQc2Bk/AjzSpT1hZ88q/WKm0M218pzJl4ks=;
+        b=PIt63bSgE90wUF77A3CEnqNrBkQuSJqziu/LkAvjdod7hXWwrxePAfw36UbsK3bMdq
+         rJufPfBljcOlvdGduc9fSDfpiLTlhq+s1yeiViohWBYqkMbUU5edSBfZs4G18adKFX7f
+         zOZTtsKXyVXgeLFhww+87tWbs2pLtrQpCUlbpa1QHDnEKF0l5TwqbWTeiQmW9TpdX1ja
+         hvZirXtR69ZKFRCwjjYYIbdZDuBnkUIRRiS3Le3GKrd0yYLiEjZePkymYjBUfjhYnE3b
+         OOjoan4mBcz8A9zIVMBro7i+TzU163JxTlgP+sEnWYNmAHTmLOX8ey6vAs9wYeOk2loC
+         tpcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719819586; x=1720424386;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4B9dNm2ieQc2Bk/AjzSpT1hZ88q/WKm0M218pzJl4ks=;
+        b=A1d+AeT5JeL05pYiIJh/yIRUpUyoGX+rJcgdcu+dKPmIUFU1MBmbwNl/PgIJ89RPBF
+         tH/mIjI75JSimrsbPFQJ0myZf/VcMElI1kjO/x88ydutbo7KXvkciAikdtDZ39JeO1Mf
+         wmxE2gCOrNAvmmzQ1CcSMHtx4RH89GajoNOowHmn+61+dExXKTPdmPR5GCOjiXhAW2Si
+         P5DgFPD24U6aU+PbLG7kZvo5fMCwmTzo+qBdsn1jLwzByqry45dm3eNpFPk6joeM9Aad
+         g9IJleREjldMsGNMq7qec6PF3uJLvZIV4qJTmqUblIw/VKOGRzYjL34Ldlyf8RjNte2j
+         CKMg==
+X-Forwarded-Encrypted: i=1; AJvYcCVU/qv3ryETek+eSb/4csOMjTw+YfSRsHib6CeFTNBU+C3dFc1HL/1IRXWI90GpxBSrK62CgSIE4awzpmkj3WIWAB1YdKj6lzTjMmo=
+X-Gm-Message-State: AOJu0Ywg+kwUQ1mHz5YT82YTdMMZ+aEjWGw3DvcM7mCkAz/TROJUCemf
+	YwC21LPTPI7adyAeFtlbnRPx60nR8544595THc4yajNzrpf5fM13NZ6osmeSz7o=
+X-Google-Smtp-Source: AGHT+IHwi9wQ7iu9omN0RZeIldhqGbPY9Yk8ZFtz7ksFEq8ByEQhX5wBxtlk/3yYRzB/D/lJIvLoQQ==
+X-Received: by 2002:a5d:524c:0:b0:360:791c:afed with SMTP id ffacd0b85a97d-367756a3ba6mr3178457f8f.13.1719819586184;
+        Mon, 01 Jul 2024 00:39:46 -0700 (PDT)
+Received: from [127.0.1.1] ([178.197.219.137])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3675a0fb9absm9279936f8f.80.2024.07.01.00.39.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Jul 2024 00:39:45 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v3 0/6] ASoC: codecs: lpass-rx-macro: Few code cleanups
+Date: Mon, 01 Jul 2024 09:39:32 +0200
+Message-Id: <20240701-b4-qcom-audio-lpass-codec-cleanups-v3-0-6d98d4dd1ef5@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-1.77 / 50.00];
-	BAYES_HAM(-2.97)[99.85%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,opensource.cirrus.com,suse.de,perex.cz,suse.com,kernel.org,ti.com,gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -1.77
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADRdgmYC/5XNvQ6CMBiF4Vsxnf1M/6Dg5H0Yh9p+QBOk2EqjI
+ dy7hUk3Hd8zPGcmEYPDSI67mQRMLjo/5BD7HTGdHloEZ3MTTrmkJVdwlXA3/gZ6ss5DP+oYwXi
+ LBkyPepjGCFwxVTTM0rJuSIbGgI17bifnS+7OxYcPr+0zsXX9i08MKKBFwaqaWS6qU+8GHfzBh
+ 5asfuKfZvWTyVezVpIxKVBWxZe5LMsb9CceQSkBAAA=
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>
+Cc: alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1651;
+ i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
+ bh=l7CmpDx0OVT51yTSUKQ7OivFmec9RD8HJKyY4/LpEDk=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmgl04miXbCVi2whIvFXDGy/G8Yc1booM4gP/Yd
+ EGO7UTr4v+JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZoJdOAAKCRDBN2bmhouD
+ 11raEACIDCPfzgDMUPpRI7qxYBm+QvKhVXtPljGQ1KS/fnSzaFQTSduEey/7UhMliwzArc1bobj
+ 2RjtD/nYMy8O5uy5LqWKfIpDjlUSLpaKKq8dKecfgLg3QSly0TaFJojGqTgHDFP8dxOMYcjBsPK
+ mDKL2Q+E69ofya307xc0aqKFtnppNnrfsLzewqabt+zfZ5LMgPtWDdZbbVsYv7ioTatdhhJXseC
+ AlmO3jx7CaNrn8ePK9J6iVkdrJ3fk5CywEawUh/USF7F7Z/WaWAvWqn1e/5d0L6GDmajy5E09Jk
+ aH8KCCHoelA7nHA5k8/m+0zs0g/269KPE8b6yZCeiCtnlMO+PVu1Pl4YhfKSOnw9+Lcuezz9mH9
+ EeTjtCMzkmUKD0nyyVNk8at9mmjVuS8LHyUivQOdcDFsov1bAq5IhHVV02OEjStclYa8c8DURl5
+ E2KysJF9RuuB1d0jjgaoglCq04/qw0NGqcO9vAW7JiRgJF5S7LMo3KsQHo1YkbbXxaYmMP9A+Zd
+ fg4Dgpi4EcajNkzW8VU4AfJU5+b41qqZgFbNM/nwQwUsHRkvzCFHRwsFMXfIe2A6mtLtL1COajX
+ 5vOEA8K+EVkC36y8/lVVpKz9dNNzqF9Rc2cQPJnQALnFpoYXbYfStvEATeOwB28qbdelMSTb/0D
+ Dm32U4t8lUDqAzw==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
+ fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-On Mon, 01 Jul 2024 02:13:30 +0200,
-Sasha Levin wrote:
-> 
-> From: Simon Trimmer <simont@opensource.cirrus.com>
-> 
-> [ Upstream commit 9b1effff19cdf2230d3ecb07ff4038a0da32e9cc ]
-> 
-> The ACPI IDs used in the CS35L56 HDA drivers are all handled by the
-> serial multi-instantiate driver which starts multiple Linux device
-> instances from a single ACPI Device() node.
-> 
-> As serial multi-instantiate is not an optional part of the system add it
-> as a dependency in Kconfig so that it is not overlooked.
-> 
-> Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
-> Link: https://lore.kernel.org/20240619161602.117452-1-simont@opensource.cirrus.com
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
+Hi,
 
-This change breaks random builds, so please pick up a follow-up fix
-17563b4a19d1844bdbccc7a82d2f31c28ca9cfae
-    ALSA: hda: Use imply for suggesting CONFIG_SERIAL_MULTI_INSTANTIATE
-too.
+Changes in v3:
+- New patch #1 to fix clang jump warning ("ASoC: codecs: lpass-rx-macro: Simplify PDS cleanup with devm")
+- Link to v2: https://lore.kernel.org/r/20240628-b4-qcom-audio-lpass-codec-cleanups-v2-0-e9741143e485@linaro.org
 
+Changes in v2:
+- Use cleanup.h instead of devm(), therefore not adding Dmitry's review.
+- New patch #5.
+- Link to v1: https://lore.kernel.org/r/20240627-b4-qcom-audio-lpass-codec-cleanups-v1-0-ede31891d238@linaro.org
 
-thanks,
+Improve a bit the Qualcomm LPASS RX macro driver and align similar parts
+of code with LPASS WSA macro driver for consistency.
 
-Takashi
+No external dependencies.
+
+Best regards,
+Krzysztof
+
+---
+Krzysztof Kozlowski (6):
+      ASoC: codecs: lpass-rx-macro: Simplify PDS cleanup with devm
+      ASoC: codecs: lpass-rx-macro: Simplify with cleanup.h
+      ASoC: codecs: lpass-rx-macro: Keep static regmap_config as const
+      ASoC: dapm: Use unsigned for number of widgets in snd_soc_dapm_new_controls()
+      ASoC: codecs: lpass-rx-macro: Use unsigned for number of widgets
+      ASoC: codecs: lpass-wsa-macro: Simplify with cleanup.h
+
+ include/sound/soc-dapm.h              |  2 +-
+ sound/soc/codecs/lpass-macro-common.h |  5 +++
+ sound/soc/codecs/lpass-rx-macro.c     | 63 +++++++++++++++++------------------
+ sound/soc/codecs/lpass-wsa-macro.c    | 22 ++++++------
+ sound/soc/soc-dapm.c                  |  2 +-
+ 5 files changed, 47 insertions(+), 47 deletions(-)
+---
+base-commit: feca1ff0cd5ab7bc3990ec5a387d81d4dff88068
+change-id: 20240627-b4-qcom-audio-lpass-codec-cleanups-27175f1d069f
+
+Best regards,
+-- 
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
