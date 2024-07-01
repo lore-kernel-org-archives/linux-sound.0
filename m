@@ -1,183 +1,106 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B77F93D72;
-	Mon,  1 Jul 2024 14:03:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCADB15FA61;
+	Mon,  1 Jul 2024 14:05:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719842622; cv=none; b=hFBguvGgFYRFY02CZTLrf8ac6YIr18CKM3pDRjvWYNxTMeonPhcdnz01qAsm/ji988iqoKT3lScZzyWVEfVxvXI6R6+TmxMaIC78xgNz6bDwEP8Pc0wDqUrsdPjU/8qN/+zrVjBjngoBk+kAlxF/rbM1U5hQAs0M+qEy9KIp7vU=
+	t=1719842726; cv=none; b=dxHXhlpWfYJMd6V8WYTYdG8/+Q86yTfisx7yUkROZmIgPGob6FdJVubQ9Ur/nptWn4AgMkrFX7nZEUrZJxTSL8cObseoAxnJNh54/RntrCmsU8467KK5VBfyGLJu1iWDTEGtkZqguIc879ygr8WqLXDPWK0a8CmWTk4W7lV0Po8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719842622; c=relaxed/simple;
-	bh=w+fq7hAZICwQ8ms4QU9zqAnifRtgEhMdLeDYpMFOr0A=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JZ3DDHksvXTJNWmgYKaC2sB2c3RG5VWA/VO9Z2SeNU8DkNVu4rvFHKI7bP6b3xBir+Y5i+jy9Az4C1UEQnwOHX/M6rNr/BvlPVtWmSFmcz9biQVK0MW9gqfUtoegafjK6WALSi8WkZiPxYgu4ZKBbT524F1zleh7+JgDcAF9kuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nxwP+Q9n; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LurVQOTi; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ub/6WAXL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yOZG147l; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1719842726; c=relaxed/simple;
+	bh=P7mHMYINrxetobn9ZViIRylKEP14vvmxEG4jiK7LAww=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=pl9mkOfYpheG51Rjlfh/DYp4jBS/ezyl5eheBqTob2XX0vPE6ca9giD/M6E5vxn3Osjnx1357xoFIs17bjW5d5Cw4T4ulnPpBLSgs8E2XLpR/FK5Lj326iPSBPTKEZcWbIODETM2n/015UNvHFG+9TRZatJ3rZM/hDY5xJUzyDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=H/ouHzEV; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nxwP+Q9n";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LurVQOTi";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ub/6WAXL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yOZG147l"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C87BC219AE;
-	Mon,  1 Jul 2024 14:03:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719842619; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=40Z2bpgm5kijfu/PKJMA05su7yleimcmmr2QFL4+IbM=;
-	b=nxwP+Q9nLHejCyTv8hmik6ylkRFgJqBt1oszlyYZrG+GWi0jfOJ2Lk2A4xdluxtxZgv3zL
-	SfUsurk9gD4r9rRCH5bcLg1uKlh8R4k8bDzOU9W7LESetfTzRodezuRGf8Hsu3vHOLR9/2
-	SjzHHvKVp1lKzkgXWymCh2UB2egxMMs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719842619;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=40Z2bpgm5kijfu/PKJMA05su7yleimcmmr2QFL4+IbM=;
-	b=LurVQOTiQEBIZYfVO1Yo0uiasq5uqX8GhFmWPh8OB+7gDjkCg2lNzjsB/qeGeJfG4PKEbh
-	FaOeFslRPkQVARDA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="ub/6WAXL";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=yOZG147l
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719842618; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=40Z2bpgm5kijfu/PKJMA05su7yleimcmmr2QFL4+IbM=;
-	b=ub/6WAXLNxFJWS8zhP7rSpSzcSnd0r1nyEJLVZUKMP2vf7ypH3P006LIpgIFEgYGgP0NBU
-	ECEVdgv0OiIOG1ErE/A3AA5Z0XesgDk9jtM7Py7aAR2gDMvTFW7uCMZ7dojj6vD96OhUTC
-	QXi4m89fuYKN3v9mK7BtNo9QQyzSUX8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719842618;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=40Z2bpgm5kijfu/PKJMA05su7yleimcmmr2QFL4+IbM=;
-	b=yOZG147lLhEJDc2w6yhhoxL5Wv+TCNV1IiquuW5olXtA7QOhdrJIrn7v4wF33235NqAckX
-	2oV5BRQCdlhgIzBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 83E1F13800;
-	Mon,  1 Jul 2024 14:03:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id rGz9Hjq3gmZOZwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 01 Jul 2024 14:03:38 +0000
-Date: Mon, 01 Jul 2024 16:04:06 +0200
-Message-ID: <875xtp43ah.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: kernel test robot <lkp@intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	oe-kbuild-all@lists.linux.dev,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] ALSA: pcm: add support for 128kHz sample rate
-In-Reply-To: <1j1q4ej50k.fsf@starbuckisacylon.baylibre.com>
-References: <20240628122429.2018059-2-jbrunet@baylibre.com>
-	<202406300718.iL828kaG-lkp@intel.com>
-	<1j1q4ej50k.fsf@starbuckisacylon.baylibre.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="H/ouHzEV"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 461Ar1u1016968;
+	Mon, 1 Jul 2024 14:05:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	8yEHUL1+8lG8dOzQpz4+tSx6KmesEvcgYDIBanPw4yw=; b=H/ouHzEVtUjUWr0+
+	1LTP5rt/Gm2V63hfHhRSi8nJLfYfAhvKIxklSC1kWoP7ajWsA1IsfY6jz1pa/R4i
+	fM23R1AW2lmthl8ElU46Lavgz5+mx2iOTZZQ3iMJpgNBttFfFUuDc+Cz99qCaVzK
+	1BYLsWL2U5jSlpYW+UCECgwUdgFYUG4yRh4TEd/lGvb6XZYoJ9RvcjQKVyoEiow6
+	88nlyWnAvhGQZ4osK3MxH15+SCKGpB6djAmhIv2EPnZTVDk84VaHNOZ/CotUXWDP
+	sc5kUC0EGc1bjrPDeGCfGet9+i0wSVMszDZaT09AEBB2LFu0IjfsIT4M6sAuinit
+	VEJtZw==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 402bj8475j-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 01 Jul 2024 14:05:02 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 461E51NS030326
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 1 Jul 2024 14:05:01 GMT
+Received: from [10.204.78.151] (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 1 Jul 2024
+ 07:04:58 -0700
+Message-ID: <a8a670f9-f03f-eff8-5cb2-b40b06267bc6@quicinc.com>
+Date: Mon, 1 Jul 2024 19:34:51 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[intel.com,kernel.org,gmail.com,suse.com,perex.cz,lists.linux.dev,alsa-project.org,vger.kernel.org];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[git-scm.com:url,intel.com:email,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: C87BC219AE
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v1 3/3] ASoC: codecs: wcd937x: Remove separate handling
+ for vdd-buck supply
+Content-Language: en-US
+To: Mark Brown <broonie@kernel.org>
+CC: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <quic_rohkumar@quicinc.com>
+References: <20240628101143.1508513-1-quic_mohs@quicinc.com>
+ <20240628101143.1508513-4-quic_mohs@quicinc.com>
+ <53015d64-a194-4596-8950-a55b4b0e429a@sirena.org.uk>
+From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+In-Reply-To: <53015d64-a194-4596-8950-a55b4b0e429a@sirena.org.uk>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 4z7-36iqK6WtMQCuMu3R855gofjn0oUO
+X-Proofpoint-GUID: 4z7-36iqK6WtMQCuMu3R855gofjn0oUO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-01_12,2024-06-28_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
+ spamscore=0 suspectscore=0 mlxlogscore=734 mlxscore=0 priorityscore=1501
+ malwarescore=0 adultscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2406140001
+ definitions=main-2407010108
 
-On Sun, 30 Jun 2024 08:53:15 +0200,
-Jerome Brunet wrote:
+On 6/28/2024 6:12 PM, Mark Brown wrote:
+> On Fri, Jun 28, 2024 at 03:41:43PM +0530, Mohammad Rafi Shaik wrote:
 > 
-> On Sun 30 Jun 2024 at 07:29, kernel test robot <lkp@intel.com> wrote:
+Thanks for the review.
+>> Replace free_irq() with devm_free_irq() because irq have been requested
+>> wth devm_request_threaded_irq().
 > 
-> > Hi Jerome,
-> >
-> > kernel test robot noticed the following build errors:
-> >
-> > [auto build test ERROR on tiwai-sound/for-next]
-> > [also build test ERROR on tiwai-sound/for-linus broonie-sound/for-next linus/master v6.10-rc5 next-20240628]
-> > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > And when submitting patch, we suggest to use '--base' as documented in
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> >
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Jerome-Brunet/ALSA-pcm-add-support-for-128kHz-sample-rate/20240629-201915
-> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-> > patch link:    https://lore.kernel.org/r/20240628122429.2018059-2-jbrunet%40baylibre.com
-> > patch subject: [PATCH 1/3] ALSA: pcm: add support for 128kHz sample rate
-> > config: i386-buildonly-randconfig-004-20240630
-> > compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-> > reproduce (this is a W=1 build):
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202406300718.iL828kaG-lkp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >>> sound/usb/caiaq/audio.c:179:2: error: #error "Change this table"
-> >     #error "Change this table"
-> >      ^~~~~
-> >
-> >
-> > vim +179 sound/usb/caiaq/audio.c
-> >
-> > 523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack 2007-03-26  176  
-> > 523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack 2007-03-26  177  /* this should probably go upstream */
-> > 523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack 2007-03-26  178  #if SNDRV_PCM_RATE_5512 != 1 << 0 || SNDRV_PCM_RATE_192000 != 1 << 12
-> > 523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack 2007-03-26 @179  #error "Change this table"
-> > 523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack 2007-03-26  180  #endif
-> > 523f1dce37434a sound/usb/caiaq/caiaq-audio.c Daniel Mack 2007-03-26  181  
-> 
-> This file is not in mainline or
-> https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-> branch ...
+> This seems like an unrelated change, and TBH if explict frees are
+> required I'd question if devm_ should be being used in the first place.
 
-It's sound/usb/caiaq/audio.c.
+okay, will remove this specific change from patch change.
+
+Based on review comments added devm_free_irq().
+
+https://lore.kernel.org/all/f741630e-f9e8-45e1-b3e2-4866f0baeac2@sirena.org.uk/
+
+Thanks and Regards,
+Rafi.
 
 
-Takashi
+
+
