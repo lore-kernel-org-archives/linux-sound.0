@@ -1,156 +1,154 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 864DA8002A
-	for <linux-sound@vger.kernel.org>; Mon,  1 Jul 2024 07:02:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F7622AD05;
+	Mon,  1 Jul 2024 07:13:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719817367; cv=none; b=nuwozr5wlRVLm78JN3SpZb8n2xxEQi7KNxAU6FrqVN9gLsM8TOJ0gOWrItWrlHU1C87L5eB1QmiBLwmXPng/29UZ8vKp34vsKZftsg0bKj2Jv4bqfeiCcLIDMwF9N9xMNWXaSDcWZ/2hX+yRw3jgzsq1idOS/0ICYC5NG7IK7EM=
+	t=1719818002; cv=none; b=MnJNlB4XnBtF4wJtIvyNU1VY79ckOujXNviqxcxa30rOLs+n8y3M8S0aR+7wWjw2kYrMghccymUwOF2D/FpI6f7mN4j+N2BGtP/ci0ppgg+uKLsRJhUj3Y8zLJNv3FZlWWkazzCPmQbzGKAtqkjnbWRHU06i+5jTVvHJsHDBxKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719817367; c=relaxed/simple;
-	bh=aJ1LZosClX5NnP0cJXhnk/NVUavVqkeU0v2SDbbuCfI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=M02uSm2u3OcKG5/a7aMJelFASIk4xaV5adVsgEXcU2RvPFFyKjKDS3zMWtf+IYh6N5vUzGGc9ekv1A03TRr/nfdv+zCY3V+eJxl7YeJAi90AoAHFD3qaSsV6Mu661fCOQoqdKCBTsQYnzp2Mcp1I0a35i7D+eYAVguN63sy0cig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tJGwj9c/; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1719818002; c=relaxed/simple;
+	bh=qUAkfJVWtPqbt4jLO5JajCL6NEIKpRiTrpsx0py35n8=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hVy/vnqt34LcdOgIl+EgxbZ2ZtTHPyTtF4LdE12Yszx6JodzWBjZvPU0lPTlt5GhHkkZt36Qn3gZ4j6WEFJiZxY3lJJynrQHP1posjLT5fCC7edLWV63XR8ueZNwoPGX/mdNgIUjPFtziyE8v1OLh/f4OTt5aox1F1zyGNm78rM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=agxOA7Sm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xGl3+u28; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Th2fWMW1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EE14GiBt; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tJGwj9c/"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-57d20d89748so2835819a12.0
-        for <linux-sound@vger.kernel.org>; Mon, 01 Jul 2024 00:02:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1719817363; x=1720422163; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GMJ9ytIbd8fpZ+zpiTVxchehIRD6mB7COwsKFHn30yI=;
-        b=tJGwj9c/tqICWraCp9z0ytaRnu5yRSRO2tZA4+tV2bv6v47mm3jY3Rr+LFy1gr7Sxq
-         kvCgySZSfVNadga8gX8ALZLHA1A9YJ5A+YpOkRkE25vICgjVMugcsLRjEv9Y/Oa3fm08
-         gJkErZq+n0M1wpZOJxelR/jmabSt3ZPCVf9yrfYmMVdCmpdbF0ObayUT87M0rtVtMa2b
-         R4lJh2/HMY4Pn4klHSCJRPgq1ReUb0dV5GLtRix04fNxutYJLPLXaMa+bv4xnbsW/ri2
-         tvAfl4C5gxGsDZZm2aXfHhHOlP9uW/sQiBAlybDBoT877lyszein7KsqL/58ePEqyjUk
-         l6UA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719817363; x=1720422163;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GMJ9ytIbd8fpZ+zpiTVxchehIRD6mB7COwsKFHn30yI=;
-        b=cNFCPiORi2YRCw3YvTNe34BrAQwaxyqDY0in6I0d/pr9+LElsYSB9M51YAQzsoqaOI
-         yZngOHO6BM1+A9zG8UnNfoLpZe6ZHjyNkKQnbeDtKl1FM5qvzjvWPzX7AY8ZgULSYcmC
-         v6Q5yd3SzJ9wHn4qoStVDkriOaq2X/QSqH2SewVNlucR9Ebz+kkjfahEIrjlWs+xdbIJ
-         fS5nBNf9J+dVhewyASTOGyMGRHRGpp3pQPSjomDfgOR1apyHv4PPP22ISi5QT3rRdjVC
-         6/k4ADCKo4Sm2e01WlabeZnFMMy+idPt5MXv25YpywcOX2Q74HoeQAQIMbX39LtpTVIv
-         wC3w==
-X-Gm-Message-State: AOJu0Ywq+HsHzEOu0gTUwk1qnyq+32cXa6Lju4MV2BTd0sDbN3E/A7NJ
-	/CtoLLdzWT9dU8QErvWJ8uOETsGH4Cc4X20vYfINM7T4TX+kPSeMCqlSN5wO7qs=
-X-Google-Smtp-Source: AGHT+IHR5yOOsqPZFJrRu7Wk8J8cXhauusw1meNRgDWk7XLLZNs2DncjjI+qUlPMsRkkGHRfGt2GEw==
-X-Received: by 2002:a05:6402:5cd:b0:57c:c10c:eee8 with SMTP id 4fb4d7f45d1cf-5879fa7f71emr2584654a12.19.1719817362830;
-        Mon, 01 Jul 2024 00:02:42 -0700 (PDT)
-Received: from lino.lan ([85.235.12.238])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5861324f036sm4034383a12.34.2024.07.01.00.02.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jul 2024 00:02:42 -0700 (PDT)
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 01 Jul 2024 09:02:15 +0200
-Subject: [PATCH 4/4] ASoC: tas*: Drop unused GPIO includes
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="agxOA7Sm";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xGl3+u28";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Th2fWMW1";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EE14GiBt"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D872521AC4;
+	Mon,  1 Jul 2024 07:13:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1719817993; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RntfX8icZol8M8rrp5guiSaR0MaQ5iQBleFBw6EU+ME=;
+	b=agxOA7SmcIn1byZ/ZvwfTRjQLi1CUcSqmOI+MZncs9FfpxmRV+FmQ+kefAyGlk46HAU+6V
+	+q9IiVeP9TCd67G0FsqSB6zvhDOkvXP2wI1j1KDeHyGmOGWUa6onfurVEe4LoueD5aRjmZ
+	TPr4ZiL6jn3gjR6dVTf8lGTFNiseSI4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1719817993;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RntfX8icZol8M8rrp5guiSaR0MaQ5iQBleFBw6EU+ME=;
+	b=xGl3+u28BKWvdWFJd76MPeG8IVKbqyD6OyLKgB01eY6jtR6k+TEhtV3lbcJ6Ts1Ee0JDXM
+	ZIOTNO7aC1LETPCg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1719817992; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RntfX8icZol8M8rrp5guiSaR0MaQ5iQBleFBw6EU+ME=;
+	b=Th2fWMW1v12RsTvEle8mT0d4qTokMLn9WNJ+HKq+0KyzRT8rpA9+yUVQwBZDR7UotBEkQk
+	3urM9wkja4tn8av58E4A2mTShNT0nlcTUxejfNeiuOaUR0oZHMl6aI/bl476bhc++nVkXw
+	NMNofmmcH2fygWMd5OaIKoCCXNm7Y30=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1719817992;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RntfX8icZol8M8rrp5guiSaR0MaQ5iQBleFBw6EU+ME=;
+	b=EE14GiBtMgFFNDolbGLpPLz8I3c6al+BgVenqD/8nuWTMoc/eyl96gC6XTi28Cus1ugweU
+	krqX21puNrcDPuAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 80BB6139C2;
+	Mon,  1 Jul 2024 07:13:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id I9cTHghXgmaOawAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 01 Jul 2024 07:13:12 +0000
+Date: Mon, 01 Jul 2024 09:13:41 +0200
+Message-ID: <87wmm5a8ka.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Sasha Levin <sashal@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Simon Trimmer <simont@opensource.cirrus.com>,
+	Takashi Iwai <tiwai@suse.de>,
+	perex@perex.cz,
+	tiwai@suse.com,
+	rf@opensource.cirrus.com,
+	broonie@kernel.org,
+	shenghao-ding@ti.com,
+	sbinding@opensource.cirrus.com,
+	lukas.bulwahn@gmail.com,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 6.6 11/12] ALSA: hda: cs35l56: Select SERIAL_MULTI_INSTANTIATE
+In-Reply-To: <20240701001342.2920907-11-sashal@kernel.org>
+References: <20240701001342.2920907-1-sashal@kernel.org>
+	<20240701001342.2920907-11-sashal@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240701-asoc-tas-gpios-v1-4-d69ec5d79939@linaro.org>
-References: <20240701-asoc-tas-gpios-v1-0-d69ec5d79939@linaro.org>
-In-Reply-To: <20240701-asoc-tas-gpios-v1-0-d69ec5d79939@linaro.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Shenghao Ding <13916275206@139.com>, alsa-devel@alsa-project.org, 
- Linus Walleij <linus.walleij@linaro.org>
-X-Mailer: b4 0.14.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-1.77 / 50.00];
+	BAYES_HAM(-2.97)[99.85%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TAGGED_RCPT(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,opensource.cirrus.com,suse.de,perex.cz,suse.com,kernel.org,ti.com,gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -1.77
+X-Spam-Level: 
 
-These drivers all use <linux/gpio/consumer.h> and has no business
-including the legacy headers <linux/gpio.h> or <linux/of_gpio.h>.
-Drop the surplus includes.
+On Mon, 01 Jul 2024 02:13:30 +0200,
+Sasha Levin wrote:
+> 
+> From: Simon Trimmer <simont@opensource.cirrus.com>
+> 
+> [ Upstream commit 9b1effff19cdf2230d3ecb07ff4038a0da32e9cc ]
+> 
+> The ACPI IDs used in the CS35L56 HDA drivers are all handled by the
+> serial multi-instantiate driver which starts multiple Linux device
+> instances from a single ACPI Device() node.
+> 
+> As serial multi-instantiate is not an optional part of the system add it
+> as a dependency in Kconfig so that it is not overlooked.
+> 
+> Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
+> Link: https://lore.kernel.org/20240619161602.117452-1-simont@opensource.cirrus.com
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
 
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
- sound/soc/codecs/tas2552.c | 2 --
- sound/soc/codecs/tas2764.c | 2 --
- sound/soc/codecs/tas2770.c | 2 --
- sound/soc/codecs/tas2780.c | 2 --
- 4 files changed, 8 deletions(-)
+This change breaks random builds, so please pick up a follow-up fix
+17563b4a19d1844bdbccc7a82d2f31c28ca9cfae
+    ALSA: hda: Use imply for suggesting CONFIG_SERIAL_MULTI_INSTANTIATE
+too.
 
-diff --git a/sound/soc/codecs/tas2552.c b/sound/soc/codecs/tas2552.c
-index a7ed59ec49a6..684d52ec6600 100644
---- a/sound/soc/codecs/tas2552.c
-+++ b/sound/soc/codecs/tas2552.c
-@@ -12,8 +12,6 @@
- #include <linux/errno.h>
- #include <linux/device.h>
- #include <linux/i2c.h>
--#include <linux/gpio.h>
--#include <linux/of_gpio.h>
- #include <linux/pm_runtime.h>
- #include <linux/regmap.h>
- #include <linux/slab.h>
-diff --git a/sound/soc/codecs/tas2764.c b/sound/soc/codecs/tas2764.c
-index 1dc719d726ab..d482cd194c08 100644
---- a/sound/soc/codecs/tas2764.c
-+++ b/sound/soc/codecs/tas2764.c
-@@ -10,12 +10,10 @@
- #include <linux/delay.h>
- #include <linux/pm.h>
- #include <linux/i2c.h>
--#include <linux/gpio.h>
- #include <linux/gpio/consumer.h>
- #include <linux/regulator/consumer.h>
- #include <linux/regmap.h>
- #include <linux/of.h>
--#include <linux/of_gpio.h>
- #include <linux/slab.h>
- #include <sound/soc.h>
- #include <sound/pcm.h>
-diff --git a/sound/soc/codecs/tas2770.c b/sound/soc/codecs/tas2770.c
-index 67bc1c8b0131..9f93b230652a 100644
---- a/sound/soc/codecs/tas2770.c
-+++ b/sound/soc/codecs/tas2770.c
-@@ -14,13 +14,11 @@
- #include <linux/delay.h>
- #include <linux/pm.h>
- #include <linux/i2c.h>
--#include <linux/gpio.h>
- #include <linux/gpio/consumer.h>
- #include <linux/regulator/consumer.h>
- #include <linux/firmware.h>
- #include <linux/regmap.h>
- #include <linux/of.h>
--#include <linux/of_gpio.h>
- #include <linux/slab.h>
- #include <sound/soc.h>
- #include <sound/pcm.h>
-diff --git a/sound/soc/codecs/tas2780.c b/sound/soc/codecs/tas2780.c
-index a18ccf5fb7ad..a1963415c931 100644
---- a/sound/soc/codecs/tas2780.c
-+++ b/sound/soc/codecs/tas2780.c
-@@ -7,11 +7,9 @@
- #include <linux/err.h>
- #include <linux/pm.h>
- #include <linux/i2c.h>
--#include <linux/gpio.h>
- #include <linux/gpio/consumer.h>
- #include <linux/regmap.h>
- #include <linux/of.h>
--#include <linux/of_gpio.h>
- #include <sound/soc.h>
- #include <sound/pcm.h>
- #include <sound/pcm_params.h>
 
--- 
-2.45.2
+thanks,
 
+Takashi
