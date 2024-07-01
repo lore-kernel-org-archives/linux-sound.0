@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26260C8C7;
-	Mon,  1 Jul 2024 19:07:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B149C8C7;
+	Mon,  1 Jul 2024 19:07:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719860837; cv=none; b=Zcxpwyo5YKv1ChTXI0KNOo6c3yyo69NHDwGMPMDVrDIBVfyX7s5ddnRQj9W2zDi8oLQR8BhqxKIkgi0J2s+UyxS4cLRlOXEZlbEpv0ncwnPk0qtK/kNRs0UZZ5dbpxDzxeAJ3jCmLl+zOvI4+jjbH+I605uzsBegAWGsZ/o2Iw4=
+	t=1719860839; cv=none; b=Nv3eZGwdU5pwIhP4oY2PL84uQ7cvQ+svIfADAMAj9804aal6LDJkri/pN869oUJubpsW6Ealw9GGidvDTPfPFnVm/j1rvsQR8NrYzQ5IJljDnHpuAr1KtgwYKQDHJoUWG84i3q3bKG8jrxx93mnm1GcUu76WWbpN32A1GTf1SYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719860837; c=relaxed/simple;
-	bh=MOxxmRlmg/SZh0P5F1EfQwqNwAEyA+LTm2j/JaqyIPA=;
+	s=arc-20240116; t=1719860839; c=relaxed/simple;
+	bh=gMrV+ijgZMh0m+2ERFZl/fbLXqTQXBW5x5rclYiAQDs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=OnM4foEmSS0gwP0v76da+HZEFKfLza6nE74HfNt+rOsqI5PRwRt7riP4KIK0PD+brVhXEKb+gWulK9wHaqV/4hgFJxAaXRWzLhGmM19cgnls+YzIscm49sivOpETmF8fyrJxoDAtjf01rwOrSkAfdGtuskVfiiTkoKswDtQgrKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rChvuHha; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=VAU86BM3OkwWIYgrWkfiR8mVWJl+efuftWYWLb2at7Q24q0Z9CvyOnC94JReeNsi3dIQ6hGxdN3R2LcLw5llpzxTqKrsFtK+ocSzwRiZdZWZvTYt5sdVTZOeV69rxX6QqtaeOVdvSBV4DydlwnyZr/1h5d55qrhbHm4vIryC/nM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WyDgSE21; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rChvuHha"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EDC4C116B1;
-	Mon,  1 Jul 2024 19:07:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WyDgSE21"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73E0CC116B1;
+	Mon,  1 Jul 2024 19:07:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719860837;
-	bh=MOxxmRlmg/SZh0P5F1EfQwqNwAEyA+LTm2j/JaqyIPA=;
+	s=k20201202; t=1719860839;
+	bh=gMrV+ijgZMh0m+2ERFZl/fbLXqTQXBW5x5rclYiAQDs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=rChvuHhaHG3NIc3ImXLO/wxd7Tmuj2m0n2q/Jqx8hJxthew4FGw4jDS8hLlESPcSS
-	 +1G5A5hWFyqpSmWEWRWleCItygEbW8UgkNELU6EE+OhPFwb5kumXnJqWwJ2OYIlIOS
-	 Kh8wLkBklQCNh+drgAUqCAKIKJkxd2OQb7c5hsVJHxC4RybggVFRlZlUEnY0HiWvl0
-	 bCbOB7OmA6PnMU9LAuOCFUutGVKKgzMQO3CV6v2t9OPMV9MYWCw5hkqs1vr9HpvUKM
-	 /O+vmbUh53T8KIuvZ/pgKltLWc3l+NBD4mS1owDGl7VOgFkSNfokJmRaSlUNX7IIT8
-	 aVp0s4pTNqAlQ==
+	b=WyDgSE21W/R6Z6n8hZW9i7gR2SypF4OkpA3/Cd0gbuR10uWBqElJUoJ3JKpnos/qW
+	 QJM+aWi/H0o8HYyL24E+OTRCsVcVs5zSXcTpAhj32Ej6aqnJOSzNqigan+U6KENP9U
+	 Cqwcf+mkzSPjQtnDcf7moWOeqhMrHD1nJWs2bC+/g2pM/ck+Nt/ZnwIrWplqma6RpT
+	 tZHlW1jC4HqrI00ETXsPxc/p7zvqQbQYj6sWoL3/aKforoZCcUwnDRnQv4/OlnKKPm
+	 k+aeJLhumfJ+2R2rJztRehC8EAbnI5hiPtaGo1hGj0ROtU/L0pOtTCsAZ2uIAOXlcN
+	 I7Qd1U6Bx/9rw==
 From: Mark Brown <broonie@kernel.org>
-To: "J.M.B. Downing" <jonathan.downing@nautel.com>, 
- Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
- Nathan Chancellor <nathan@kernel.org>
-Cc: Vladimir Zapolskiy <vz@mleia.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org, 
- linux-sound@vger.kernel.org, llvm@lists.linux.dev, patches@lists.linux.dev
-In-Reply-To: <20240701-lpc32xx-asoc-fix-uninitialized-ret-v1-1-985d86189739@kernel.org>
-References: <20240701-lpc32xx-asoc-fix-uninitialized-ret-v1-1-985d86189739@kernel.org>
-Subject: Re: [PATCH] ASoC: fsl: lpc3xxx-i2s: Avoid using ret uninitialized
- in lpc32xx_i2s_probe()
-Message-Id: <171986083478.121161.16800838408013522320.b4-ty@kernel.org>
-Date: Mon, 01 Jul 2024 20:07:14 +0100
+To: Animesh Agarwal <animeshagarwal28@gmail.com>
+Cc: Daniel Baluta <daniel.baluta@nxp.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20240627105030.14360-1-animeshagarwal28@gmail.com>
+References: <20240627105030.14360-1-animeshagarwal28@gmail.com>
+Subject: Re: [PATCH v2] ASoC: dt-bindings: realtek,rt5677: Convert to
+ dtschema
+Message-Id: <171986083720.121161.13189262733622905838.b4-ty@kernel.org>
+Date: Mon, 01 Jul 2024 20:07:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,21 +49,10 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14-dev-d4707
 
-On Mon, 01 Jul 2024 09:24:16 -0700, Nathan Chancellor wrote:
-> clang points out that ret may be used uninitialized in
-> lpc32xx_i2s_probe() in an error pointer path (which becomes fatal with
-> CONFIG_WERROR):
+On Thu, 27 Jun 2024 16:20:26 +0530, Animesh Agarwal wrote:
+> Convert the RT5677 audio CODEC bindings to DT schema.
 > 
->   sound/soc/fsl/lpc3xxx-i2s.c:326:47: error: variable 'ret' is uninitialized when used here [-Werror,-Wuninitialized]
->     326 |                                      "failed to init register map: %d\n", ret);
->         |                                                                           ^~~
->   sound/soc/fsl/lpc3xxx-i2s.c:310:9: note: initialize the variable 'ret' to silence this warning
->     310 |         int ret;
->         |                ^
->         |                 = 0
->   1 error generated.
 > 
-> [...]
 
 Applied to
 
@@ -71,8 +60,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: fsl: lpc3xxx-i2s: Avoid using ret uninitialized in lpc32xx_i2s_probe()
-      commit: f4662e6d51ffc0826f975429d3c1b6d1f1a295f1
+[1/1] ASoC: dt-bindings: realtek,rt5677: Convert to dtschema
+      commit: 4381b88b24a2edf9ce130adc9acd53258ba44116
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
