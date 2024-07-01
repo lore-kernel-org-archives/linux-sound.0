@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1654415AAD6;
-	Mon,  1 Jul 2024 00:15:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CDF6748E;
+	Mon,  1 Jul 2024 00:15:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719792906; cv=none; b=jshG3l1rKyuCpTzST4VNJUG+6G5lMkdNvBH6atDvzb53hHwVmx7YfudO+qjRGrU7Bj0vjuCqIuJryOVQY5AEMf0lIu2aXR2+e4XTyP5WPKGOVHMZ/z2uwc+nwnhbEXRZMJZSkAbp3w9PQ6j11Fo7B7vTuHRKV5CvBV6vIjhF5EY=
+	t=1719792923; cv=none; b=Rqk76jI5ik8qhYM1Ffb6moVpRq2RLX3eRbE9725tPgmYAnEv8pfPwE/G1g3SA4D2B0aQWIhcnJd5bONvjAv6l+tzUNpXMiwY4g2qccgUisBIUkJRTC3XblROsxY/8Ogodri1ce9I1XCY0kkI7TcFDeV0wJh0blak0b0AUCfkccU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719792906; c=relaxed/simple;
-	bh=tub/KFrI5WMPRKPPQQcJOvZ8W01m9UyyKhvkoQY+7jc=;
+	s=arc-20240116; t=1719792923; c=relaxed/simple;
+	bh=iJ14qfumv3LX6dr7VKaBc547Tx0oeU74P7uhca7wfg8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Zmh8+28QGwGWbmqffC00okaMUQrTjs7CqyM6J4PKvI4jbz7zr7qhJEe/rb1hKluUocTVaLgb1nkUUMXO5a0t/jPU8+85YF8RF5JNp015+nZGsj0xzUTC9urSixtVce3rFr8DqhhySchIHcn9MMDLZ+6b8Exn9mTWxl1dOheI4aE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UKzvkNFQ; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=HM9wLMkVClfnjvhcXMKpPN9GSpJ8ZU0s7rTc9GCtR/nhm7GKl4ILRpNsXNd82MfoBUppDMGnncaOBioBPt9TbDA5DBVYUNTe+D+1oIRg8w97w1pAntUIWYI1yAx1nFrlN7bds/O/TJWVqXBuouBU91CJp7uo59ejYJt4K3/1gqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gKee5f1J; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UKzvkNFQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A225C32786;
-	Mon,  1 Jul 2024 00:15:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gKee5f1J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 210F0C32786;
+	Mon,  1 Jul 2024 00:15:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719792905;
-	bh=tub/KFrI5WMPRKPPQQcJOvZ8W01m9UyyKhvkoQY+7jc=;
+	s=k20201202; t=1719792922;
+	bh=iJ14qfumv3LX6dr7VKaBc547Tx0oeU74P7uhca7wfg8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UKzvkNFQ/KkoSc1BZnfXx97riSmMMgnnRmGcseOaR3ysmZkiNd0ijTPXX5v1dhaPk
-	 VUpVbpbrPBsLg1bWyTqJy6Znf+bniPBHUBxhIGhoR/wl27h0YQFYKb6dm/pURtwczr
-	 aoYhujUoR2AserNkCVaMqz31/kbspcxh/QbQIgZ3paqFlclVTeeWEdqNb5oa8pKkno
-	 KpptWSUoLfix0vPgZ8dc+kOoG8VMo5aD0eucszoJ5VitU4Wh1Y0+MXIYaadARrAaXx
-	 jvWZgXrUBhyOcY/eK5IDbbDL4uAPO3qU2E+lq5+L+ZacJjGyr6FHtpNw2FzuxV2nAs
-	 2CySyCif3xFNA==
+	b=gKee5f1Jlno72pog4wkNXB9skoK+QdQfeW+cDf8fxRo2ikTh1e1d15QqvsDriFjC8
+	 JQURyw9nCQWgHz3vErFSMci2b9SCIkqCGe1vlNAwZwJhgumYVvpj6mlT70sC3pKj9d
+	 lVrAwdrjJtxYG/KvB5AdFXiQKtNRIhTmQ/7/IwpPn8cCb9B5MfIhTwaApg3v9FIIf5
+	 a4Fx2SkyPkqdWfYS1UbWQHzIG/jwYsz0Mv23a+ivANHLpEK4FH954BSa1285cp91XT
+	 8vhLptxPmFkV9gg+UP2e8odspxMKGlx+tH66+iwx2nNoICEOcVR+ykDyzotaP0xo95
+	 UcI1fcu25Ra4A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -41,12 +41,12 @@ Cc: Kailang Yang <kailang@realtek.com>,
 	foss@athaariq.my.id,
 	rf@opensource.cirrus.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 3/4] ALSA: hda/realtek: Add more codec ID to no shutup pins list
-Date: Sun, 30 Jun 2024 20:14:51 -0400
-Message-ID: <20240701001457.2921445-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 3/4] ALSA: hda/realtek: Add more codec ID to no shutup pins list
+Date: Sun, 30 Jun 2024 20:15:08 -0400
+Message-ID: <20240701001514.2921545-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240701001457.2921445-1-sashal@kernel.org>
-References: <20240701001457.2921445-1-sashal@kernel.org>
+In-Reply-To: <20240701001514.2921545-1-sashal@kernel.org>
+References: <20240701001514.2921545-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -55,7 +55,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.220
+X-stable-base: Linux 5.4.278
 Content-Transfer-Encoding: 8bit
 
 From: Kailang Yang <kailang@realtek.com>
@@ -73,10 +73,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+)
 
 diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 4af8094938059..7b02eb574dcb4 100644
+index bf9a4d5f8555d..3632a0c9d56be 100644
 --- a/sound/pci/hda/patch_realtek.c
 +++ b/sound/pci/hda/patch_realtek.c
-@@ -578,10 +578,14 @@ static void alc_shutup_pins(struct hda_codec *codec)
+@@ -520,10 +520,14 @@ static void alc_shutup_pins(struct hda_codec *codec)
  	switch (codec->core.vendor_id) {
  	case 0x10ec0236:
  	case 0x10ec0256:
