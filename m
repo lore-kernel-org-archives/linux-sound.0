@@ -1,449 +1,108 @@
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2046.outbound.protection.outlook.com [40.107.21.46])
+Received: from fallback18.i.mail.ru (fallback18.i.mail.ru [79.137.243.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56FAB16F8F3;
-	Mon,  1 Jul 2024 19:47:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.21.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719863255; cv=fail; b=p8IewT6e6Lv5tZlvwMQQJKAIv/kF5RRNcPDsYyhrVVXfZ+Bk6QlV1x7+SAOWVELifVfm8xHCljU4NBnjiUMMggLw8npd7wT6Au0eHAcfmHsOZmetNjr2LrMEOeYtrAbR2QtzToLd289+z52x8/6uXjHX9sVyX+kCDwDShmnfKtw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719863255; c=relaxed/simple;
-	bh=whwBicsLIw5g0NDOR2EBA7IvbgZkwEaEMjoSeOk6Gbk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=QkODcpuu4hUok63PAAoCVxJrbxYEHse117MNzkZqkhD5ITxWt15s70OTJ3PjPv/vwQGnlgJWQ4GMuz1y0X7gQavhaWgEfH1XNWCN0/lFmaVIhlODTunNL5sn7mH3Rc+rj6jsocENZlk7gmQAgJcLBMDPeokozT9JMfwTK59qlc4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b=LBlBcGYM; arc=fail smtp.client-ip=40.107.21.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC86F2BB05;
+	Mon,  1 Jul 2024 21:16:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.137.243.73
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719868620; cv=none; b=aueVN3OSqzr35Qiu69wkrcFOsSTwsN+zSs3r/X6buzt0yJzo2l3Xd/iKtcSCqoOWkrKsqtiGqhrkcyk05V0fv5P7sUwkeiwalqI7i01o2dcsVEoOQtcYNcCyOOqeYwG2/N3iISe6lYoFwZ9VtwY3qVDmGHbh2B5kihrRusrUkUA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719868620; c=relaxed/simple;
+	bh=3uy1q1I00JtZDOX21BnWa0Q7cjtU+TTWpXWV748Igt8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gftdFdg9hFKwnOPhF5VR3YSeQv2p1WgboNmxkzjkEWnSS+pzL0R49Ul9sYQ2+442UufJI4NImsyQaPxMagrbt0M0xv041ln6Il4E3BzTDNRA7l9VNUvvMeq6VeaQDMCKov8MTw8zBM0vAk91peijaQU+lbB5chK/LgVlMPmbpbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inbox.ru; spf=pass smtp.mailfrom=inbox.ru; dkim=pass (2048-bit key) header.d=inbox.ru header.i=@inbox.ru header.b=gdUszjX+; dkim=pass (2048-bit key) header.d=inbox.ru header.i=@inbox.ru header.b=YBkQZelM; arc=none smtp.client-ip=79.137.243.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inbox.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inbox.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="LBlBcGYM"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SXFeCAQcHwV/+goQF941rAm2aab2l3J3WW9VZSmlAcu1x+jI28DFlU+x1QCyBrqKO6c8Km/70lHwBJlldv2KME3z78+PeE5WiddB014Z0HhuIV6zfxWQnl9d0Z3/B+jY5nRmaFg/iFwEenUR9HJCPgjUZr609x80B4RoyYepViCm+abEbAYUNpaEkW7A4SKn92g3mZQdNjOHL4h9zdBPN+/xuCUG48QMvwlB4JL/nsE+M2TsOtzOec9vTOOeHRDmaAclp/SQF4nZ6BEy9CDLZBYTUsImU5W4PCyJc9hVfDSd9/RrDZYcI2vPGDrGB4fekxPoHei4y6V+niWIIicH3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hICCXKtcOQDqUtuANseh1x25+W6S4EmgP9u30nRj+AU=;
- b=DZRu1jU1GO60D/cDlHlunYTBiuGuRp84ZleNHDCloWdc8nAUtzbyQtrxQqyB7AO832Z/QsD8Col1tu7/Q59bMzmxelh/W/B8Q1UqukoHH3aO3w/5C0SeaFgMuQy931m+b3OVE5LEzPLro5xzPjtV5NzQIOu+SRZmeDSwLsTES7mL8Pz9Ql01DsEASRsLP4FtelWJrFuA+YZTEPU0Z4vpai/RcV0GMB40fCuQGM/sqq62TYfC9JLe/wkNKXqSVQSRgKhTaBoQczu5IVfwDSr12OIBKA4874zQsXR0kI1yIXAct10L1G4fFJ6gjSqzlVF+i5T/Utou85D3JKO/ZRI3TA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hICCXKtcOQDqUtuANseh1x25+W6S4EmgP9u30nRj+AU=;
- b=LBlBcGYMOcH/FlpSDeJ26gJLXFMTohv4ncBHFq8x0t7dL8Zmu6PorbTyYxuqz6tLsxc4xix8XZfNYy/5pgHXnX+RU1urqex3egsJrdup4csNxAToT/tkxt33f3Oucbod/mvC53d9KM6iCOE+o5NpDWRUKYIwi1HRfyEsEnLdIYM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
- by DU2PR04MB8773.eurprd04.prod.outlook.com (2603:10a6:10:2e0::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7719.32; Mon, 1 Jul
- 2024 19:47:28 +0000
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06%2]) with mapi id 15.20.7719.029; Mon, 1 Jul 2024
- 19:47:28 +0000
-Date: Mon, 1 Jul 2024 15:47:16 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>,
+	dkim=pass (2048-bit key) header.d=inbox.ru header.i=@inbox.ru header.b="gdUszjX+";
+	dkim=pass (2048-bit key) header.d=inbox.ru header.i=@inbox.ru header.b="YBkQZelM"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=inbox.ru; s=mail4;
+	h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc; bh=sFgWIfMs0xoIMQw9IXDbgyrr3vk9/94ACpMKZVZhK6o=;
+	t=1719868618;x=1719958618; 
+	b=gdUszjX+YA0KCJZwMaOKgPRcZQ8ivCK8tQlDt3CKSuk86JlJnuR9T1geRtwVej6nQBzEK2HfaC/YTnvceerugXcOumZYVXZDqbN8X50bs5+fvKqnc1o0xOgRdD40S3HjK8e7chE8PK23KQeM5WDzbygQ7dheNf5qquEW/yYQvHYs/mupjyY5AueuGVXcZrFQCeMVor00T/guSqE1qKaL7Y6cRW3X91KMxDUqUNAERaSOck0LMmy9xwC91Zd9xlVVcnoIp+iZN+egwCH7pPThXX3PcPWDbmpXPM3Egifv5YZ/kYaYS8fHYsA/hL7qGdUQYiY+CVp9I+iHY+jGLlpPog==;
+Received: from [10.12.4.37] (port=45226 helo=smtp61.i.mail.ru)
+	by fallback18.i.mail.ru with esmtp (envelope-from <fido_max@inbox.ru>)
+	id 1sOOOH-007hzV-Q5; Tue, 02 Jul 2024 00:16:50 +0300
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=inbox.ru;
+	s=mail4; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:
+	To:From:From:Sender:Reply-To:To:Cc:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive:
+	X-Cloud-Ids:Disposition-Notification-To;
+	bh=sFgWIfMs0xoIMQw9IXDbgyrr3vk9/94ACpMKZVZhK6o=; t=1719868609; x=1719958609; 
+	b=YBkQZelMtsXzGXzOg0SKYsxywQcFQPhpmixxIvCqeBUr+6MeHCtOFmH5jKBLncWEgieo7L8W17O
+	Yg7UvygLCPa7Mqx8S3oLUJGPKwFSRbzmV6d8aqjT/HSbIkbKeh+78nyYV92pFFlJURE9XgO12gVo3
+	dyJRpQi4H9rZnwgOkrNoHOHJMwWjeYuzwBTtM0+ij1YVWuh5TiIXIUWSLk9F897Zlbtiter8rl9kT
+	qux9tqJppZt7oy+rhHSu0jeInKT2adZzYhLhAONjaZGoyDQHPMNHwgI5PCVreyWJDSNpr4yKvNLoV
+	LFkYCzo5devzfT6/VpPJpv0EVXd8MxQi44Qg==;
+Received: by smtp61.i.mail.ru with esmtpa (envelope-from <fido_max@inbox.ru>)
+	id 1sOOO3-0000000HXqS-035B; Tue, 02 Jul 2024 00:16:35 +0300
+From: Maxim Kochetkov <fido_max@inbox.ru>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	"J.M.B. Downing" <jonathan.downing@nautel.com>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Arnd Bergmann <arnd@arndb.de>, Yangtao Li <frank.li@vivo.com>,
-	Li Zetao <lizetao1@huawei.com>, Chancel Liu <chancel.liu@nxp.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Corentin Labbe <clabbe@baylibre.com>, dmaengine@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
-	linuxppc-dev@lists.ozlabs.org, linux-sound@vger.kernel.org,
-	linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-mtd@lists.infradead.org
-Subject: Re: [Patch v5 08/12] dmaengine: Add dma router for pl08x in LPC32XX
- SoC
-Message-ID: <ZoMHxC7cRN45s0yl@lizhi-Precision-Tower-5810>
-References: <20240627150046.258795-1-piotr.wojtaszczyk@timesys.com>
- <20240627150046.258795-9-piotr.wojtaszczyk@timesys.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240627150046.258795-9-piotr.wojtaszczyk@timesys.com>
-X-ClientProxiedBy: BYAPR05CA0035.namprd05.prod.outlook.com
- (2603:10b6:a03:c0::48) To PAXPR04MB9642.eurprd04.prod.outlook.com
- (2603:10a6:102:240::14)
+	John Hsu <KCHSU0@nuvoton.com>
+Cc: Maxim Kochetkov <fido_max@inbox.ru>,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: [PATCH v3 0/2] Add master clock handling for nau8824
+Date: Tue,  2 Jul 2024 00:16:20 +0300
+Message-ID: <20240701211631.92384-1-fido_max@inbox.ru>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|DU2PR04MB8773:EE_
-X-MS-Office365-Filtering-Correlation-Id: e896c931-a10a-409d-32e5-08dc9a06a382
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|52116014|7416014|376014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?Mw9px1KJGKX0Pln0NxrxQWC3N2WXR+lh1tVqNDSNXGcyAoB+GvecBJBgIQD4?=
- =?us-ascii?Q?R9K3hjw7JYU6zcnKYBKGQpGC90jmlMswm9o+GkIln12kXEavMCXwBv0ByNtD?=
- =?us-ascii?Q?mt0qh+iy3De8OQcanh4D2oxxp1ZaiDp4TvkFNsZC1NI2v+/0JK6GZiEkJMlq?=
- =?us-ascii?Q?aKbLMSF4T5tomQzKqxqBmp6BPrnGD1oRi1JemMASq331mAOSOz52xCW5qJe3?=
- =?us-ascii?Q?WX9eeLGwsdgYLWA9mIt87YFxnK0c/AStIUcanTbTPykVdfgNI9/GwrGEMGcS?=
- =?us-ascii?Q?8DuvqymJtVfMJQ+1pZ5zkHgsdW+tVOrKTSuSPweifGlmOafkcWMtuMCrOnEu?=
- =?us-ascii?Q?7fYtweI5Q6+frQu1g74UFv5MIY5gYJvJguuMEm3Jnir9EPH62sqxFXoI8YhL?=
- =?us-ascii?Q?xk7BxMdyhrpckzF5ex+LVI8g1w624/cTkn3MTt18dIXQ4QKA0IZoVjISQpoF?=
- =?us-ascii?Q?8jQYX2LLbdzCcswdTnTFMGI2W96Ft05d16EXvgNY20qC4bIFHsQnNlCN8KD2?=
- =?us-ascii?Q?rybHFzwzzb8+56E/nBhXz1f4ZqxUgfp7Qg2a2IK3BvvATbgD3lTLRg4IlDgo?=
- =?us-ascii?Q?uriv5foBMkfEBIkn3hABtzPUUQ5zDBxRh6omI2QDsw9QLIc6NJdnvBWx6BCP?=
- =?us-ascii?Q?hjaYmUPPAeGlo+pXO8LaxcoVbsCB3v9Fx5awQjVy9paMxlGBw2iFDOtUnADc?=
- =?us-ascii?Q?0A1Si96180Gfm86JugFX/4DTHHBRQ594CRQWwBvoM/YjigqeZ/LxBuQGS2lT?=
- =?us-ascii?Q?TAufSEIl87Htj5/kZn0a+Fplv3zJ/R7WsidfdR7eXxog3+E1BhoPhr+jlnfP?=
- =?us-ascii?Q?7G2opItSX5+GuEcdxzhj9DsuVzHy+kW11PdtQAO3kqnwx/M4ZiZqBKqYvVwS?=
- =?us-ascii?Q?11K/pA9Wg7ENv3ilkAO7muktpmTsJbzq5B9X4syscRWTmTJkEv2ddPMUgZpv?=
- =?us-ascii?Q?scEoru/8xgG3DUW4bgsCx4yDBZOo48rQe3QGTtlRDwrUxxYk32/3+L5kBM0x?=
- =?us-ascii?Q?OVqm0u7URo6XObErXWYM2WIECk64GT+wLpVOIzoHhyGBXkm+mSQBXa0JxSO+?=
- =?us-ascii?Q?TMmg6FVxe9zXe2WwHUJlCIbA9bLibxIuEatDqxMf5j+Vceg3bAfepifxWDHK?=
- =?us-ascii?Q?me6/SrpBk9Zt2DrszJWyLk+JMfKBx2aQQpX13zky3uRvkv5S1jgJAD45F2Jr?=
- =?us-ascii?Q?zG48IMxGnl62FWjoGir3ARygvXO29hj3uk0Dbem5aHELae32/D3QBArSOvzf?=
- =?us-ascii?Q?lyfK9awYd5H7LLEzy7WyMckedUa20oZg5ZDiB4lw+CsXSr/jqw7JEFp/NWko?=
- =?us-ascii?Q?QzhY67qb6WVQEsm8yKk60VlluDD/puWosZJfZl+qdNgU0fDHFMJV5vXhwnuU?=
- =?us-ascii?Q?MGw87U0=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(7416014)(376014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?ZRiyCfaZqIGJr+j1met8q0fHABGzpLbhEEmcjoG6cSOrbwUKg96dEb1qgB0o?=
- =?us-ascii?Q?Wt/9LfHqiWbR2H2anvTpF+cr1H0V0UvLnNEdZCv4n7yaxN870g80EWesvZZC?=
- =?us-ascii?Q?JoL4E7iKSUvOhw1TrGkpakg4kNsIrUSvjHwEifov4GVuGD65tIT2xT3E/NeH?=
- =?us-ascii?Q?cVkKxC+iXoOuhnVUUtuyWaf4GUoMXkz0qNtCywDMGghqyNSabKmR9N5u935h?=
- =?us-ascii?Q?FffvalAvqoN8JJ0GghEg5C3XAv8g7d95GfJeQRLtSNMaeudbV7dJRwQHL0ox?=
- =?us-ascii?Q?C1W1aaYh3nor1jgxWnQd0JwU7zHG39h5UKRLxgbO07rIhkYIwvJO1Zm22BWc?=
- =?us-ascii?Q?5fA+LHnkpajGsR3MIa7Ac2f2GuQxr3Ipg/8fdB6CCxrzrdpIrTbhuh1Yz17d?=
- =?us-ascii?Q?vTM0ECPh2RUcGiu/N2hkMSbW7I8C33/r2b3j7N5I0O8hWs8oouAZ/yW/V5gF?=
- =?us-ascii?Q?1Uq7zyTgr0e0dhhdmWIuj/U4c1g83dQHRLBlU7BTXVv39KojW5CEh/Agod/0?=
- =?us-ascii?Q?pvgRVdSsaXZN2Nxreg2Q3wH/zEctnJJOksF9z3NhuS0H/jt33sRnnt//GH7F?=
- =?us-ascii?Q?YDqHEZlncclf7v42YkuC60Vxhh67y6+c8ky3aycld29A/koTEZPa/GaYS/eW?=
- =?us-ascii?Q?1ubMk2mjWmopqok9ewnV6PHiuzFZ9B2hqP6mQsqIseB8yDXJ3bmO+e2bqhb0?=
- =?us-ascii?Q?yuw5j1f9OP7ty6iyRox91t1sddNBhUnWSRwXB0kcXNdjBqmrD/dNBLSZJqux?=
- =?us-ascii?Q?QUS2qczBr3nfXyOEb1rRJPG5t01UJbeTfYdMqf7R7Jl/R5gveX3rXJvJQBE0?=
- =?us-ascii?Q?yeE4ZrsUcvLjh+y0PE4M1WzLsMRzeUy1wKCOF+WVdcsWbXrhDTzotOLaW50n?=
- =?us-ascii?Q?uOyCKRXucV7T6W4SXXxb1jfvrWlytiFx32GjCX8M8u6PzlV3lD0oyVVD9EXy?=
- =?us-ascii?Q?q5x9PdGHDB5wnrgEAzoehjXcR2PlVs3wtxM74DDausfxy/GnRRoGjFJpM623?=
- =?us-ascii?Q?BJH2+3pkSQ1nFHIfUTpKU2Krku0pZjudXTIdTP6xOwHHA3bVEF+VRKGkBIbB?=
- =?us-ascii?Q?IQvyE0dRXV9nnfFIydCQBmsuBbYe2Z96MeGmbCApmwFiSVLZP9SKN58YVT2d?=
- =?us-ascii?Q?xLDhnPQedQSfqQTwiI0krF8h400xIJS2VlE737tmD+zrvBFPXFm+LzgXW8rX?=
- =?us-ascii?Q?EcZ/m5WRg53YVGzlH9wdBr+QtB7qio028sfd8Ka0OgbK9LO88FVK8rg5YWgQ?=
- =?us-ascii?Q?OPuTY3uoYRYP1bhnkn6Lt8DjFRbM+7U6hqPY4bA1LPya81KmmMeeP7HbyQVk?=
- =?us-ascii?Q?qYhLWZQIdhAAYhvgI+ouULe2kM7QgiqzVySrd80oI043yey0EU/C7Ay7147N?=
- =?us-ascii?Q?NDCzAJt7CsZp+7LWouqsDMAibbnzeeBqmLsHolsO6+kpUgthgQ9XtX1S5Ul/?=
- =?us-ascii?Q?YcuWc0TODnbt3QG2rsRqe3X6Oohg/hnezNVg03vhBWOq3NfyI3Ks/raOnhe9?=
- =?us-ascii?Q?Zi7+9Nlg0YJTC/ZsgrFuM+smAddrkRWOvk/T6/RMfySZ3taBrs9RRVB7h6qQ?=
- =?us-ascii?Q?1VfL8izdgSjYQA+KPNs2W6RmN9XDSyBSOoJswQ+Z?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e896c931-a10a-409d-32e5-08dc9a06a382
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2024 19:47:28.6103
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: m9nNFWFnPYhoS9Qb3Ul5Z9yKd75CdzwZtMWYH559ymntNw6aq6QvDnMxLJbVYBDnQiPlQSSIa/urKFWcXkCuXA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8773
+Content-Transfer-Encoding: 8bit
+X-Mailru-Src: smtp
+X-7564579A: 646B95376F6C166E
+X-77F55803: 4F1203BC0FB41BD92EE09148F40C5446ED6AE8E79F10FAC9A00C41F324FD1478182A05F538085040ACD2589D9030AE9C89CEA9C911D099953E14ECB5C56879C0E597827C598CA07402FAF9720996C769
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7C4A7E4C0BFE8628DEA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F79006372E9841F416E2DCCD8638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D82DB741A93B3CB90BD012B7F63A9194D3BF6D75D10A29B85520879F7C8C5043D14489FFFB0AA5F4BF176DF2183F8FC7C0D9442B0B5983000E8941B15DA834481FA18204E546F3947CCE135D2742255B35F6B57BC7E64490618DEB871D839B7333395957E7521B51C2DFABB839C843B9C08941B15DA834481F8AA50765F79006370B730A9793D99025389733CBF5DBD5E9B5C8C57E37DE458B9E9CE733340B9D5F3BBE47FD9DD3FB595F5C1EE8F4F765FC72CEEB2601E22B093A03B725D353964B0B7D0EA88DDEDAC722CA9DD8327EE4930A3850AC1BE2E735D2D576BCF940C736C4224003CC83647689D4C264860C145E
+X-C1DE0DAB: 0D63561A33F958A5105DA9812A5A97635002B1117B3ED6965FAB9B8092746FEC406406D89DD9EB8A823CB91A9FED034534781492E4B8EEADC0A73878EBD0941BC79554A2A72441328621D336A7BC284946AD531847A6065A17B107DEF921CE79BDAD6C7F3747799A
+X-C8649E89: 1C3962B70DF3F0ADE00A9FD3E00BEEDF77DD89D51EBB7742D3581295AF09D3DF87807E0823442EA2ED31085941D9CD0AF7F820E7B07EA4CFAA417771BA057110F6448DD6630E738689BB76B209CF8A129B2F883581A88A5124DE828755D94EE99DF1169A732047E38579629537E4F8E9E936252639E45A3BE673792307AB8CCD146D90F64BF3396102C26D483E81D6BEEB84411BD425175970A7FB4ED9620804ADE12199CE9660BE
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojn+1t2APtxW8Uhc2wOmDKWQ==
+X-Mailru-Sender: 689FA8AB762F7393C6D0B12EA33CAA9B21965CBC0E059640E0E5D55A3A4A88C5599580C8E0FACCDD90DE4A6105A3658D481B2AED7BCCC0A49AE3A01A4DD0D55C6C99E19F044156F45FEEDEB644C299C0ED14614B50AE0675
+X-Mras: Ok
+X-7564579A: 646B95376F6C166E
+X-77F55803: 6242723A09DB00B4565E9E3B8D953FE21ECBD88C55622FA0E9F56EC15ECE38FF68F3CF0E9FE49B695C5F89FAF04D529353112B09C8C02CE7126864AC9C6DB6CA2836B3968E0EF14B
+X-7FA49CB5: 0D63561A33F958A5314093FF323DB02AEF12BA240B9FDFD50C99F4336FDC3878CACD7DF95DA8FC8BD5E8D9A59859A8B6389ED70FDB73D44FCC7F00164DA146DAFE8445B8C89999728AA50765F79006371CE0A079F1B3D4BD389733CBF5DBD5E9C8A9BA7A39EFB766F5D81C698A659EA7CC7F00164DA146DA9985D098DBDEAEC8D2B897A0B7B208E1F6B57BC7E6449061A352F6E88A58FB86F5D81C698A659EA775ECD9A6C639B01B78DA827A17800CE71D0063F52110EA4A731C566533BA786AA5CC5B56E945C8DA
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojn+1t2APtxW+2gnuYP+IG4A==
+X-Mailru-MI: 8000000000000800
+X-Mras: Ok
 
-On Thu, Jun 27, 2024 at 05:00:26PM +0200, Piotr Wojtaszczyk wrote:
-> LPC32XX connects few of its peripherals to pl08x DMA thru a multiplexer,
-                                                       ^^^ through?
-I google 'thru', most said it is informal spell of 'through'.
+nau8824 has external MCLK pin. So add enable/disable external clock
+management.
 
-> this driver allows to route a signal request line thru the multiplexer for
-> given peripheral.
-> 
-> Signed-off-by: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
-> ---
-> Changes for v5:
-> - Fix struct declaration order
-> - Removed unused variables
-> - Break search loop if expected lpc32xx_muxes[i].signal is found
-> 
-> Changes for v4:
-> - This patch is new in v4
-> 
->  MAINTAINERS                  |   1 +
->  drivers/dma/Kconfig          |   9 ++
->  drivers/dma/Makefile         |   1 +
->  drivers/dma/lpc32xx-dmamux.c | 195 +++++++++++++++++++++++++++++++++++
->  4 files changed, 206 insertions(+)
->  create mode 100644 drivers/dma/lpc32xx-dmamux.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index ceec359c68fc..118d48747641 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2404,6 +2404,7 @@ R:	Vladimir Zapolskiy <vz@mleia.com>
->  L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/dma/nxp,lpc3220-dmamux.yaml
-> +F:	drivers/dma/lpc32xx-dmamux.c
->  
->  ARM/Marvell Dove/MV78xx0/Orion SOC support
->  M:	Andrew Lunn <andrew@lunn.ch>
-> diff --git a/drivers/dma/Kconfig b/drivers/dma/Kconfig
-> index 002a5ec80620..aeace3d7e066 100644
-> --- a/drivers/dma/Kconfig
-> +++ b/drivers/dma/Kconfig
-> @@ -378,6 +378,15 @@ config LPC18XX_DMAMUX
->  	  Enable support for DMA on NXP LPC18xx/43xx platforms
->  	  with PL080 and multiplexed DMA request lines.
->  
-> +config LPC32XX_DMAMUX
-> +	bool "NXP LPC32xx DMA MUX for PL080"
-> +	depends on ARCH_LPC32XX || COMPILE_TEST
-> +	depends on OF && AMBA_PL08X
-> +	select MFD_SYSCON
-> +	help
-> +	  Support for PL080 multiplexed DMA request lines on
-> +	  LPC32XX platrofm.
-> +
->  config LS2X_APB_DMA
->  	tristate "Loongson LS2X APB DMA support"
->  	depends on LOONGARCH || COMPILE_TEST
-> diff --git a/drivers/dma/Makefile b/drivers/dma/Makefile
-> index 802ca916f05f..6f1350b62e7f 100644
-> --- a/drivers/dma/Makefile
-> +++ b/drivers/dma/Makefile
-> @@ -50,6 +50,7 @@ obj-$(CONFIG_INTEL_IOATDMA) += ioat/
->  obj-y += idxd/
->  obj-$(CONFIG_K3_DMA) += k3dma.o
->  obj-$(CONFIG_LPC18XX_DMAMUX) += lpc18xx-dmamux.o
-> +obj-$(CONFIG_LPC32XX_DMAMUX) += lpc32xx-dmamux.o
->  obj-$(CONFIG_LS2X_APB_DMA) += ls2x-apb-dma.o
->  obj-$(CONFIG_MILBEAUT_HDMAC) += milbeaut-hdmac.o
->  obj-$(CONFIG_MILBEAUT_XDMAC) += milbeaut-xdmac.o
-> diff --git a/drivers/dma/lpc32xx-dmamux.c b/drivers/dma/lpc32xx-dmamux.c
-> new file mode 100644
-> index 000000000000..351d7e23e615
-> --- /dev/null
-> +++ b/drivers/dma/lpc32xx-dmamux.c
-> @@ -0,0 +1,195 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +//
-> +// Copyright 2024 Timesys Corporation <piotr.wojtaszczyk@timesys.com>
-> +//
-> +// Based on TI DMA Crossbar driver by:
-> +//   Copyright (C) 2015 Texas Instruments Incorporated - http://www.ti.com
-> +//   Author: Peter Ujfalusi <peter.ujfalusi@ti.com>
-> +
-> +#include <linux/err.h>
-> +#include <linux/init.h>
-> +#include <linux/mfd/syscon.h>
-> +#include <linux/of.h>
-> +#include <linux/of_dma.h>
-> +#include <linux/of_platform.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/regmap.h>
-> +#include <linux/spinlock.h>
-> +
-> +#define LPC32XX_SSP_CLK_CTRL 0x78
-> +#define LPC32XX_I2S_CLK_CTRL 0x7c
-> +
-> +struct lpc32xx_dmamux {
-> +	int signal;
-> +	char *name_sel0;
-> +	char *name_sel1;
-> +	int muxval;
-> +	int muxreg;
-> +	int bit;
-> +	bool busy;
-> +};
-> +
-> +struct lpc32xx_dmamux_data {
-> +	struct dma_router dmarouter;
-> +	struct regmap *reg;
-> +	spinlock_t lock; /* protects busy status flag */
-> +};
-> +
-> +/* From LPC32x0 User manual "3.2.1 DMA request signals" */
-> +static struct lpc32xx_dmamux lpc32xx_muxes[] = {
-> +	{
-> +		.signal = 3,
-> +		.name_sel0 = "spi2-rx-tx",
-> +		.name_sel1 = "ssp1-rx",
-> +		.muxreg = LPC32XX_SSP_CLK_CTRL,
-> +		.bit = 5,
-> +	},
-> +	{
-> +		.signal = 10,
-> +		.name_sel0 = "uart7-rx",
-> +		.name_sel1 = "i2s1-dma1",
-> +		.muxreg = LPC32XX_I2S_CLK_CTRL,
-> +		.bit = 4,
-> +	},
-> +	{
-> +		.signal = 11,
-> +		.name_sel0 = "spi1-rx-tx",
-> +		.name_sel1 = "ssp1-tx",
-> +		.muxreg = LPC32XX_SSP_CLK_CTRL,
-> +		.bit = 4,
-> +	},
-> +	{
-> +		.signal = 14,
-> +		.name_sel0 = "none",
-> +		.name_sel1 = "ssp0-rx",
-> +		.muxreg = LPC32XX_SSP_CLK_CTRL,
-> +		.bit = 3,
-> +	},
-> +	{
-> +		.signal = 15,
-> +		.name_sel0 = "none",
-> +		.name_sel1 = "ssp0-tx",
-> +		.muxreg = LPC32XX_SSP_CLK_CTRL,
-> +		.bit = 2,
-> +	},
-> +};
-> +
-> +static void lpc32xx_dmamux_release(struct device *dev, void *route_data)
-> +{
-> +	struct lpc32xx_dmamux_data *dmamux = dev_get_drvdata(dev);
-> +	struct lpc32xx_dmamux *mux = route_data;
-> +
-> +	dev_dbg(dev, "releasing dma request signal %d routed to %s\n",
-> +		mux->signal, mux->muxval ? mux->name_sel1 : mux->name_sel1);
-> +
-> +	guard(spinlock)(&dmamux->lock);
-> +
-> +	mux->busy = false;
-> +}
-> +
-> +static void *lpc32xx_dmamux_reserve(struct of_phandle_args *dma_spec,
-> +				    struct of_dma *ofdma)
-> +{
-> +	struct platform_device *pdev = of_find_device_by_node(ofdma->of_node);
-> +	struct device *dev = &pdev->dev;
-> +	struct lpc32xx_dmamux_data *dmamux = platform_get_drvdata(pdev);
-> +	unsigned long flags;
-> +	struct lpc32xx_dmamux *mux = NULL;
-> +	int i;
+Signed-off-by: Maxim Kochetkov <fido_max@inbox.ru>
+---
+Changes in v3:
+- move bindings before their users
+- use devm_clk_get_optional()
+- let clock API care about NULL ptr
 
-It'd better keep reverse christmas tree order.
+Changes in v2:
+- move the devm_clk_get() to the nau8824_read_device()
 
-> +
-> +	if (dma_spec->args_count != 3) {
-> +		dev_err(&pdev->dev, "invalid number of dma mux args\n");
-> +		return ERR_PTR(-EINVAL);
-> +	}
-> +
-> +	for (i = 0; i < ARRAY_SIZE(lpc32xx_muxes); i++) {
-> +		if (lpc32xx_muxes[i].signal == dma_spec->args[0]) {
-> +			mux = &lpc32xx_muxes[i];
-> +			break;
-> +		}
-> +	}
 
-Add empty line here.
+Maxim Kochetkov (2):
+  ASoC: dt-bindings: nau8824: Add master clock handling
+  ASoC: codecs: nau8824: Add master clock handling
 
-> +	if (!mux) {
-> +		dev_err(&pdev->dev, "invalid mux request number: %d\n",
-> +			dma_spec->args[0]);
-> +		return ERR_PTR(-EINVAL);
-> +	}
-> +
-> +	if (dma_spec->args[2] > 1) {
-> +		dev_err(&pdev->dev, "invalid dma mux value: %d\n",
-> +			dma_spec->args[1]);
-> +		return ERR_PTR(-EINVAL);
-> +	}
-> +
-> +	/* The of_node_put() will be done in the core for the node */
-> +	dma_spec->np = of_parse_phandle(ofdma->of_node, "dma-masters", 0);
-> +	if (!dma_spec->np) {
-> +		dev_err(&pdev->dev, "can't get dma master\n");
-> +		return ERR_PTR(-EINVAL);
-> +	}
-> +
-> +	spin_lock_irqsave(&dmamux->lock, flags);
+ .../bindings/sound/nuvoton,nau8824.yaml       |  8 +++++++
+ sound/soc/codecs/nau8824.c                    | 21 +++++++++++++++++--
+ sound/soc/codecs/nau8824.h                    |  1 +
+ 3 files changed, 28 insertions(+), 2 deletions(-)
 
-you already use guard in lpc32xx_dmamux_release().
-here is better place to use guard also.
+-- 
+2.45.2
 
-because it spin lock, better use scoped_guard() {}.
-
-> +	if (mux->busy) {
-> +		spin_unlock_irqrestore(&dmamux->lock, flags);
-> +		dev_err(dev, "dma request signal %d busy, routed to %s\n",
-> +			mux->signal, mux->muxval ? mux->name_sel1 : mux->name_sel1);
-> +		of_node_put(dma_spec->np);
-> +		return ERR_PTR(-EBUSY);
-> +	}
-> +
-> +	mux->busy = true;
-> +	mux->muxval = dma_spec->args[2] ? BIT(mux->bit) : 0;
-> +
-> +	regmap_update_bits(dmamux->reg, mux->muxreg, BIT(mux->bit), mux->muxval);
-> +	spin_unlock_irqrestore(&dmamux->lock, flags);
-> +
-> +	dma_spec->args[2] = 0;
-> +	dma_spec->args_count = 2;
-
-Why need update dma_spec here? Suppose it just pass down dt information. 
-
-> +
-> +	dev_dbg(dev, "dma request signal %d routed to %s\n",
-> +		mux->signal, mux->muxval ? mux->name_sel1 : mux->name_sel1);
-> +
-> +	return mux;
-> +}
-> +
-> +static int lpc32xx_dmamux_probe(struct platform_device *pdev)
-> +{
-> +	struct device_node *np = pdev->dev.of_node;
-> +	struct lpc32xx_dmamux_data *dmamux;
-> +
-> +	dmamux = devm_kzalloc(&pdev->dev, sizeof(*dmamux), GFP_KERNEL);
-> +	if (!dmamux)
-> +		return -ENOMEM;
-> +
-> +	dmamux->reg = syscon_node_to_regmap(np->parent);
-> +	if (IS_ERR(dmamux->reg)) {
-> +		dev_err(&pdev->dev, "syscon lookup failed\n");
-> +		return PTR_ERR(dmamux->reg);
-> +	}
-> +
-> +	spin_lock_init(&dmamux->lock);
-> +	platform_set_drvdata(pdev, dmamux);
-> +	dmamux->dmarouter.dev = &pdev->dev;
-> +	dmamux->dmarouter.route_free = lpc32xx_dmamux_release;
-> +
-> +	return of_dma_router_register(np, lpc32xx_dmamux_reserve,
-> +				      &dmamux->dmarouter);
-> +}
-> +
-> +static const struct of_device_id lpc32xx_dmamux_match[] = {
-> +	{ .compatible = "nxp,lpc3220-dmamux" },
-> +	{},
-> +};
-> +
-> +static struct platform_driver lpc32xx_dmamux_driver = {
-> +	.probe	= lpc32xx_dmamux_probe,
-> +	.driver = {
-> +		.name = "lpc32xx-dmamux",
-> +		.of_match_table = lpc32xx_dmamux_match,
-> +	},
-> +};
-> +
-> +static int __init lpc32xx_dmamux_init(void)
-> +{
-> +	return platform_driver_register(&lpc32xx_dmamux_driver);
-> +}
-> +arch_initcall(lpc32xx_dmamux_init);
-> -- 
-> 2.25.1
-> 
