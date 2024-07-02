@@ -1,45 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E62621CB31A;
-	Tue,  2 Jul 2024 18:03:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 385621C6884;
+	Tue,  2 Jul 2024 18:03:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719943396; cv=none; b=sgoiVGF6Bq0M9C5Oo9H9J3KlLtfODOb6098g/VNVpKUFLSN1ZOg/IZXocPI/WuhZoIqUvKXGGOWFw4ntNi582lFygcLlF/Enxq/FoGlXtfLmP8cY6BwkBqI7M0kKbMyKJFJnA48QjW6OHk3mIQaHksLppVG4w1I20t+7pnjqu7w=
+	t=1719943401; cv=none; b=bxZXB+rm7ltlRnMTSSx4J6JKp3OlDyv7DYWwqKObpIVZY0Zi2j0+9TC9E6FuH471/60Brpncat6JeFSLtKBpIlG7/o0Kou9dMjr+p0P3SEBsxbBtj7lkIZDxs8IVZ+leki30N77G6CQ8Lgwprs1pREwcq/8h5mIp+1Bc/SdSqtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719943396; c=relaxed/simple;
-	bh=AGT5khCzgfJ8eOY1S/huSzXXO11htefvcgkKR96theQ=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=NsQTeOkvwvxMaSRiD6IVnIGPamPFYKrI1jDZkIBMV4EJyI+6MamAgHaiqIKx9U1PzzaXt+Jp+tBHnbFnABt9xAOKNmnrpx5iKsaugxsEDsJFR+CSuj+/vZkaxeanLav7pu6qnXeBefGX9vvd23Qa2v5/vBmm45gMZihVN3snXPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lEvTWqGz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719943401; c=relaxed/simple;
+	bh=1PTZ3uQgLKGQChj25rDAqkSCJmHzdA4sq5F+oAYqs4I=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=CgR8GIQWx7HV+9PDbmbGWYnwEV/RQinVw1myM/GQ/oXn69kGYB/aPH7NBxFh8P5YCoJBlzYQQj9IHw5+du1ih2DiBDAgXkKlGpFdbPPdnYh97n0x6ZZ/vgxBo3/ASzkeY9HcTBDClk4rB14OqtFrv1cpwH1aEBViubCUnLialYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hDW/sPSj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lEvTWqGz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BC24C4AF0A;
-	Tue,  2 Jul 2024 18:03:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hDW/sPSj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EFD5C4AF0C;
+	Tue,  2 Jul 2024 18:03:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719943395;
-	bh=AGT5khCzgfJ8eOY1S/huSzXXO11htefvcgkKR96theQ=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=lEvTWqGzTRrpSZekFEzvz8IY2D4ce8JHbcYq2Vb3W691AYDN+KVTLWiQBqpAQ5Tqz
-	 QgISC4qLtPflSRCS3cB6iZquY/pMHiGffoZ3FqefiELtFFBfjOgu51Oa9MeS3YJ0OM
-	 3x8/O+nClxmB7aepjGv89bZO0JYBjdqjbPzymgctT0NcULz000aRvtcIGB3oMrGfpE
-	 Vc2PwkstI49IX1+yKOQj+oeKo9x9Ftv94+TA9GorolkMYh9NntDmbC0AMzbI0OtF1+
-	 qJXVw9KUHj6dOhXofdtNuaxlk1ixMv2/sqREp7mSmh6CMMxd0cHpudasLABOeMLhm7
-	 cp2qQ7rdzxuiw==
+	s=k20201202; t=1719943400;
+	bh=1PTZ3uQgLKGQChj25rDAqkSCJmHzdA4sq5F+oAYqs4I=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=hDW/sPSj3h9jL8Kqc/SGeHmG7EvO/537Jie5OQ1hK7jsU0foy6ZK+y+hdhYn3EmLY
+	 0TNhVNo+fTLbLYQcFJGD/BCz4/fwCil5Qe+2z+FMBUhNJj9Ih+2fUOAscAzXnNaOeG
+	 tn8IDzbb0205hCfEqIIalNz2dEGDvoXvpIZVySK4qpOVMfRIzuwKPWvdjhp0F6buBO
+	 0mHqPGeUxfC1KbEP1G8HhhwKidkXeyRko+fpoab6x6s32w9h/uLvCkB3kP8pO7UpPT
+	 ZziXOWTUF0bPcPz0LTD8bFOjaPdbqg+S5wrnkkAkQlmw9OS5lJMe8tU3J0HDuKzL/Y
+	 NPMVyKHUfl8UQ==
 From: Mark Brown <broonie@kernel.org>
-To: Alexandre Belloni <aleandre.belloni@bootlin.com>, 
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+To: Banajit Goswami <bgoswami@quicinc.com>, 
  Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Takashi Iwai <tiwai@suse.com>, devicetree@vger.kernel.org, 
- linux-sound@vger.kernel.org, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87o77i7xq6.wl-kuninori.morimoto.gx@renesas.com>
-References: <87o77i7xq6.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH v5 0/2] ASoC: simple-audio-mux: add state-labels
-Message-Id: <171994339295.996226.14530039402051298924.b4-ty@kernel.org>
-Date: Tue, 02 Jul 2024 19:03:12 +0100
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, srinivas.kandagatla@linaro.org
+Cc: linux-arm-msm@vger.kernel.org, 
+ Neil Armstrong <neil.armstrong@linaro.org>, alsa-devel@alsa-project.org, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Manikantan R <quic_manrav@quicinc.com>
+In-Reply-To: <20240626-port-map-v2-0-6cc1c5608cdd@linaro.org>
+References: <20240626-port-map-v2-0-6cc1c5608cdd@linaro.org>
+Subject: Re: (subset) [PATCH v2 0/6] ASoC: codecs: wsa88xx: add support for
+ static port mapping.
+Message-Id: <171994339579.996226.3049749876359199381.b4-ty@kernel.org>
+Date: Tue, 02 Jul 2024 19:03:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,16 +55,17 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14-dev-d4707
 
-On Mon, 01 Jul 2024 00:38:31 +0000, Kuninori Morimoto wrote:
-> simple-audio-mux is designed to be used generally, thus "Input 1" or
-> "Input 2" are used to selecting MUX input. This numbered inputs would work,
-> but might be not user friendly in some case, for example in case of system
-> hardware design has some clear labels.
-> Adds new "state-labels" property and enable to select MUX by own state names.
+On Thu, 27 Jun 2024 15:44:37 +0100, srinivas.kandagatla@linaro.org wrote:
+> Existing way of allocating soundwire master ports on Qualcommm platforms is
+> dynamic, and in linear order starting from 1 to MAX_PORTS.
+> This will work as long as soundwire device ports are 1:1 mapped
+> linearly. However on most Qcom SoCs like SM8550, SM8650, x1e80100, these
+> are NOT mapped in that order.
 > 
-> Original
-> 	> amixer set "MUX" "Input 1"
-> 	> amixer set "MUX" "Input 2"
+> The result of this is that only one speaker among the pair of speakers
+> is always silent, With recent changes for WSA codec to support codec
+> versions and along with these patches we are able to get all speakers
+> working on these SoCs.
 > 
 > [...]
 
@@ -69,10 +75,14 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: simple-audio-mux: enable to select MUX names
-      commit: 3913ecb38833e8926467a17f1f1679ccd25a7230
-[2/2] ASoC: dt-bindings: simple-audio-mux: add state-labels property
-      commit: 9337f15f4fd6ebd35d911225c4a88ec82d27b2a2
+[1/6] ASoC: dt-bindings: wsa883x: Document port mapping property
+      commit: 49beb4d2e85634ec1e1c82d76461d9552676045d
+[2/6] ASoC: codecs: wsa883x: parse port-mapping information
+      commit: 1cf3295bd108abbd7f128071ae9775fd18394ca9
+[3/6] ASoC: dt-bindings: wsa8840: Document port mapping property
+      commit: d47abee9fede21b19d5227061c5a8761ec1659fb
+[4/6] ASoC: codecs: wsa884x: parse port-mapping information
+      commit: e1bc5c324bcca3acdbe817ccbf9aa7992d89479d
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
