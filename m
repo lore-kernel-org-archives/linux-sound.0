@@ -1,103 +1,106 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFE011B47AC;
-	Tue,  2 Jul 2024 13:42:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F422019F49D
+	for <linux-sound@vger.kernel.org>; Tue,  2 Jul 2024 13:51:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719927743; cv=none; b=Qu4UZgEIr1l8zoMgpAz7Yn+JbQQOb6XGOBzsTi/LaZA1zb18A6xByGmwaDNcjal/ShLVLG9TwdxaX0rUQc+ziigttEYFmkFgSPl9XsBykO+9mvALxsU67F/Gn2Mw44AUnVlifC8gHkHxUkR9gvd4Dj2bffR3fMvqcZC84gpUhjk=
+	t=1719928287; cv=none; b=axHWF1txAkIEJ6Uu3BfpILU1B2/I9YyNfUddrYRdxt4xPW26E8x73YyZFQ0kscvDf0AgxMxLnYfJGwEFHM569n7ejwAanfhAwkObpki1BbJ7S/wJMaMHAHFyVFZ8AF1e06yEijhzEoBvIPF6dpQd3V3BJH4mYdJSM1qGouhbQWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719927743; c=relaxed/simple;
-	bh=viWMyuSLPQcT8QQfWmFKUsU7APOiO0XeiC0Q+5KtxT4=;
+	s=arc-20240116; t=1719928287; c=relaxed/simple;
+	bh=5DN1qoNpLOxS7B9U2ZZc/UWsCH6qUQ9gFGgdb1j0VQQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dYh6UTVHxdexVdQh5O7qAkz2/0XrfgEE4ZxHufOhlhqYGa58OkzkaqjZOFMudaMQ7GV3/NzDoFKhA23Y+i+7FtdwIh3NCa7u3MwlzqCaCwpM5xsQ8RKq/ms+L2JSQ6Nve88bZFByFkkEaGHWG43bI3nI+8CJu+42FJl3vv07wJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W/IjLzG6; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=DD6zBWvfoZiO0dQEoDSZlF/WoKNqnzlZ/yDtFfkx9bYfpBB4m3+W9yrlzPGtfoZbQIQPiVvQvDYElzD9G58YEOBhpR1899jVGWlwOAEjpaNZtTielPweU9HQHCk5cwFfg8hB+IaLJIYDsnk5ncDXiICYHjrjY/EgoMRnLcHPiZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IlzkTiXG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W/IjLzG6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 162A0C116B1;
-	Tue,  2 Jul 2024 13:42:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IlzkTiXG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15655C116B1;
+	Tue,  2 Jul 2024 13:51:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719927742;
-	bh=viWMyuSLPQcT8QQfWmFKUsU7APOiO0XeiC0Q+5KtxT4=;
+	s=k20201202; t=1719928286;
+	bh=5DN1qoNpLOxS7B9U2ZZc/UWsCH6qUQ9gFGgdb1j0VQQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=W/IjLzG68TM7rttv/YSFDQ9jMMSBPjODnfFodJoeJ5QyC4HQ6T3fjQnPpmdMwgFVJ
-	 eZT8d2HZY4+j7w7knSNvIgOCH3a5IySSXvxW0AXQx1cXkD1imNArNtL23XjsXVgi/+
-	 sSPShsEL/2h1Q8NRhqNFYrg1AvDQJVCWUhDNfJMX+EixW+zr97l+NGIoXXZnjK0pMq
-	 +qxgC4UE3uNSY3XTkR24D+PUHigiyKt98Jxja9aeD8njc7B0IsEkhsZMXg2usEhLze
-	 vuHzs/177SP+CKODtMQQaYtXdR+yJSGJTTcR6TtUWq93kCUNLZQEXLNB6wHqzLg+hg
-	 rx1eF23fe7tHA==
-Date: Tue, 2 Jul 2024 15:42:18 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Matteo Martelli <matteomartelli3@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Marcus Cooper <codekipper@gmail.com>, =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, 
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] ASoC: sunxi: sun4i-i2s: fix LRCLK polarity in i2s
- mode
-Message-ID: <20240702-copperhead-of-unusual-intensity-7f43a8@houat>
-References: <20240529140658.180966-2-matteomartelli3@gmail.com>
- <20240529140658.180966-3-matteomartelli3@gmail.com>
- <20240606-savvy-wallaby-of-champagne-d4a50e@houat>
- <6662bf1b61bbc_2f51737023@njaxe.notmuch>
+	b=IlzkTiXGHr9jx0e8fChI/whv1XE8t3eeiBEG73X9JKiS4S+zAlZAUgRGMkSMVflXu
+	 GS4IViQkukYXk05RMlnE5QbymAgDgKpqJDx77TnUTKJZSICx+doKBOj1VjjYnoJeUH
+	 /3b83z57im31iQjPisHd8io8qkRQxD1WT5jutOffelrOVQIGd6X4keRaERAo1Iber4
+	 lhbQcbsH68YW1a0EDe7iKhoWgaclue6s1NGZLY59f4gLMO09JT1ids/kSUhm+t1Y9D
+	 xu2Qtzk0J14ifgPtnunG3DfAJ13UOv9TtT1js6ZUhvMhRS1wcR9GMeqRVGhR/YnFgG
+	 mpQTimE51a88A==
+Date: Tue, 2 Jul 2024 19:21:22 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org, Takashi Iwai <tiwai@suse.de>,
+	Mark Brown <broonie@kernel.org>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Nicolas Dufresne <nicolas@ndufresne.ca>,
+	Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Subject: Re: [PATCH v4] ALSA: compress_offload: introduce passthrough
+ operation mode
+Message-ID: <ZoQF2qjLf7_00yA7@matsya>
+References: <20240624135820.516893-1-perex@perex.cz>
+ <ZnmG77hBzedDQcIl@matsya>
+ <ae18019b-5e6f-4ca8-8fba-353ed19be46c@perex.cz>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6xqnwajdqjhkbqhg"
-Content-Disposition: inline
-In-Reply-To: <6662bf1b61bbc_2f51737023@njaxe.notmuch>
-
-
---6xqnwajdqjhkbqhg
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <ae18019b-5e6f-4ca8-8fba-353ed19be46c@perex.cz>
 
-Hi,
 
-On Fri, Jun 07, 2024 at 10:04:43AM GMT, Matteo Martelli wrote:
-> Maxime Ripard wrote:
-> > > -	/*
-> > > -	 * DAI clock polarity
-> > > -	 *
-> > > -	 * The setup for LRCK contradicts the datasheet, but under a
-> > > -	 * scope it's clear that the LRCK polarity is reversed
-> > > -	 * compared to the expected polarity on the bus.
-> > > -	 */
-> >=20
-> > I think we should keep that comment somewhere.
->=20
-> I think that keeping that comment would be very misleading since the LRCLK
-> setup would not contradict the datasheet anymore [1][2].
->
-> Also, do you recall any details about the mentioned scope test setup? Was=
- i2s
-> mode tested in that occasion? It would help clarify the situation.
+Hi Jaroslav,
 
-I can't remember if I tested i2s, I think I did though. But most of the
-work was done on either TDM or DSP modes, and I remember very clearly
-that the LRCK polarity was inverted compared to what Allwinner documents.
+On 24-06-24, 17:31, Jaroslav Kysela wrote:
+> On 24. 06. 24 16:47, Vinod Koul wrote:
+> > On 24-06-24, 15:58, Jaroslav Kysela wrote:
+> > > There is a requirement to expose the audio hardware that accelerates various
+> > > tasks for user space such as sample rate converters, compressed
+> > > stream decoders, etc.
+> > 
+> > Can you please tell me more about this requirement. The initial view of
+> > compressed API was data only and use alsa kcontrols to handle the DSP
+> > functions? I would like to understand why we need a new API.
+> 
+> There are very long threads for v4l audio support - last v15 thread:
+> 
+> https://lore.kernel.org/linux-media/1710834674-3285-1-git-send-email-shengjiu.wang@nxp.com/
 
-So the doc was, at best, misleading for these formats and we should keep
-the comments.
+Very long indeed but very interesting. I think going compressed audio
+way seems reasonable choice to me
 
-Maxime
+> 
+> So the goal is to create something more efficient for the offload work, when
+> the data (decoded/converted) should be returned back to the user space.
 
---6xqnwajdqjhkbqhg
-Content-Type: application/pgp-signature; name="signature.asc"
+Not rendered? so we are using it as an accelerator...?
 
------BEGIN PGP SIGNATURE-----
+> 
+> > What about the user of this API, i would like to see that as well
+> 
+> Any audio streaming framework like gstreamer or ffmpeg who can accelerate
+> stream conversions in hardware for capable devices.
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZoQDugAKCRDj7w1vZxhR
-xVvRAPwJR6VO4KkT6NwzPIFmZLjnVJpctsukmqnb9lXstjDJGAEA1SlfjzCl4zUa
-deqV6VITIqV5aIAAfkYTA5gnQ9iasAI=
-=K/Rr
------END PGP SIGNATURE-----
+I meant to see driver users along with this patch :-)
 
---6xqnwajdqjhkbqhg--
+That also reminds me to ask about usermode support for this, are you
+planning to support it in tinycompress?
+
+> 
+> > > +A new direction SND_COMPRESS_PASSTHROUGH is introduced to identify
+> > > +the passthrough API.
+> > 
+> > Is passthrough really a new good new name, this suggests data being
+> > passed thru but that is not the case...
+> 
+> It's something like "PASS data THROUGH kernel/driver". So it makes sense. My
+> alternate name may be ACCEL (like acceleration).
+
+I like that.. Also do we change the device name if the passthru is
+enabled? it should not be called a playback or capture compressed device
+
+-- 
+~Vinod
