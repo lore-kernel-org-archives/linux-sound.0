@@ -1,105 +1,320 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68B9115B559;
-	Tue,  2 Jul 2024 11:30:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01983146A68;
+	Tue,  2 Jul 2024 12:01:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719919807; cv=none; b=ZhlRXhcMd7ZepTly2Cx5zHusqmOkPgXw+GXcduq0eAwRfzHZ/b33c3Fn3aFzXy2qSzZDmL53hshBKAGhkfd4k1HwoE7gS/Y7z/r6X0Hti3Q/OO1ruswyyv5fuTZKE0Tnt6QrYyURVSv1SL74FuCJ1pgJLsO8/iG1asv1zh1P7jM=
+	t=1719921715; cv=none; b=XS0gfqJmYD3EmFhD7yr6ZEhCn3YNqVUYZneDboWANEUfOCkPoBHcX8BrEW52idA/Cu0M+0DRarFL52WpoYmw9633NlnXkL72JLKqZwNdUevA5GeEjaz0Hp4yn1irLXTNPEwnsjsnNg+Yf/uRqLzc7na3DpfteaBFlUVmltKroIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719919807; c=relaxed/simple;
-	bh=ZEBaVU6KtOqS65U4pWx3ZRaX/O4ExxXq3npKnwdQAtE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=NEJsywPEI4dW8D0XXLgtMqpkX2sL/93uQhVGuB1sJmhqJ1fcYHJWPsuTKiyO+WtuOW+xOxOD98Rat3tZD3gP5scsuVwtBMQTP8/MSHvol7KIKI5azlO0vQf9Fnb2Az8DKNGERlbe/8Dt+4skgCAdjXHAJbuBUrI3CY6ffqiguJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DTtgxuOa; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719921715; c=relaxed/simple;
+	bh=rJCAcM3C1JUaxUdTOIuMUvG0MunkfYjmkeJ84V5gn9E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Xn4UQXLkw1GxV7n5qVue6B2VkATbhymwfN+Zc9X4yVj7cgZqUB1G0FBHUOR/zjJtnWPqvuE5h+jb251Gk4ep/vKC69PMfgmAY7fl0lu6zZYMTsanr0VH2Bcy120qYjDnxDFVbBJNwJiIFLcPr6QrZWM81ulDpiyTISdZ8SREKL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Eb6O7c3I; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DTtgxuOa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAA95C2BD10;
-	Tue,  2 Jul 2024 11:30:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719919806;
-	bh=ZEBaVU6KtOqS65U4pWx3ZRaX/O4ExxXq3npKnwdQAtE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=DTtgxuOanW2fBW/ZV+zeYbRpGLfSG6m7KVdHV788+OXLEZIkpODkqa1H/yKDiEpUW
-	 MLExm6b1b2PESzTM3udHlJ1STxLrYN+LNYaZFhwlnOJoWilrsRWCJ7/KBnzOqgPWls
-	 k5FPANYDqv5dp8aTEKrJxiPew2Z7k5vtzL1Q/yc8K6wxOjAaEZK6X0vZzoRf2vwdC2
-	 vdgNyZkb/OEATiz3JJqRWcXXR9bfTgv+qpfrqUuinBkFktrRrgR194IGxw5z5MdN20
-	 58cINbsQuDUv3XDuNUPrA1+/YumETbMmbCf8EH6BXjbVsnlQ289OF+6+8GDy1/InRC
-	 mHexAq0PmuUjg==
-From: Mark Brown <broonie@kernel.org>
-To: "J.M.B. Downing" <jonathan.downing@nautel.com>, 
- Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
- Nathan Chancellor <nathan@kernel.org>
-Cc: Vladimir Zapolskiy <vz@mleia.com>, alsa-devel@alsa-project.org, 
- linuxppc-dev@lists.ozlabs.org, linux-sound@vger.kernel.org, 
- patches@lists.linux.dev
-In-Reply-To: <20240701-lpc32xx-asoc-fix-include-for-field_prep-v1-1-0c5d7f71921b@kernel.org>
-References: <20240701-lpc32xx-asoc-fix-include-for-field_prep-v1-1-0c5d7f71921b@kernel.org>
-Subject: Re: [PATCH] ASoC: fsl: lpc3xxx-i2s: Include bitfield.h for
- FIELD_PREP
-Message-Id: <171991980440.18111.17479068162057597635.b4-ty@kernel.org>
-Date: Tue, 02 Jul 2024 12:30:04 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Eb6O7c3I"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2bfdae7997aso2568376a91.2;
+        Tue, 02 Jul 2024 05:01:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719921713; x=1720526513; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=immZ7dYtz8mcNyvIOY7EMVgS8PS/MPa1M5Ott53bgFU=;
+        b=Eb6O7c3I1aMjr2729uoc217ecXouK0HRyc6Pi9oEw2yoUw0rD7c4PFURPxXmyuv6Ky
+         RZYUw3nfuoJ3Vj7TYO4j0WcxbPndxhgILPGPapoPc5nPYV6Hd2qj2Svi4ecHdqppini0
+         9sUp7L6cCyY8XGtsLjtCPOQLT/HqcJXVdPpvB4dhLGay0G1Dj731eWmhyXXfS4k2s06b
+         smuClSiGuGRo6NNMclYZRlNw+SOn4DXsO1dyaIBmDyqE6scMQjQvWqqpNVF/z8gziQaO
+         irWeU8R5CHtkJEEx5vsfLJp7a2rdGml29Y3FoforOmtrzQryR9fOajuiwc1GvKjHv53v
+         GsmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719921713; x=1720526513;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=immZ7dYtz8mcNyvIOY7EMVgS8PS/MPa1M5Ott53bgFU=;
+        b=PTLGdgGvvP5JlFhSGEX4MkYB+Sdf/ZsaiAGesMGOVEtPeObicnioBg7F0OE8wCWY2H
+         HTTcaW0KjM1eK1Zysbdx9o52b+KsFlOXlIgpYEZK7XIaVhJyNZKBwK6Qahh7f7+VGrph
+         yDZqKH+Zgfx822Lo8VvjDlOwYh/1xR3qFQy8hgcXlb2boJca8FtDGaHfVmf5cW9lmS3o
+         ztP6S36GotrbhN6rmrabHw128xQYmaJS/+UdVnKh8EwJU3b6U4H2PrfjZE4xGPMonKkY
+         AGwCag349QE4RwLiPuThqyNkrDWnLL/Z2PS7kPiu6Zn5ShbSGTI1r/5GjJU8n4hxG9+8
+         TJCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUi5EczYn2+xccNR2hiroxTludQufew4wtNdUkkr47FlBXz/4oeqIelT3qMekoQCyx4qxxIVbJJizpCsnjyrHluJ+1grtqRCu2t2+lWE44GHrYbvm5eoVhAga+iAnh5nY8DbBJMixZGEj6782TUlKGCqNCdnwpOdYqEaVCvwHrbzZ6AABBR
+X-Gm-Message-State: AOJu0Yz4xpbyCU47JzeDeJljzwrOkv+NTD6HC6W2PeO8s2vJExqNGPW9
+	AhOONuAVvFnCDJtGtDZE3KySuOyS4ijDoVsXy/qSLyfj1J7c8mjA
+X-Google-Smtp-Source: AGHT+IECRhON6Sr/wc0mzrJG+6RAoWBQYYpFGVBpBNFAPCWPML6GKN/WcMkdtYb6pxxmPI37+d1a+w==
+X-Received: by 2002:a17:90b:180d:b0:2c3:1234:8bbb with SMTP id 98e67ed59e1d1-2c93d771f59mr4883164a91.38.1719921711643;
+        Tue, 02 Jul 2024 05:01:51 -0700 (PDT)
+Received: from fedora.. ([2409:40e3:4029:df67:d5dc:7d86:b31:319d])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c91ce5490esm8725123a91.24.2024.07.02.05.01.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Jul 2024 05:01:51 -0700 (PDT)
+From: Animesh Agarwal <animeshagarwal28@gmail.com>
+To: 
+Cc: animeshagarwal28@gmail.com,
+	Rob Herring <robh@kernel.org>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] ASoC: dt-bindings: realtek,rt5645: Convert to dtschema
+Date: Tue,  2 Jul 2024 17:30:58 +0530
+Message-ID: <20240702120106.17100-1-animeshagarwal28@gmail.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev-d4707
+Content-Transfer-Encoding: 8bit
 
-On Mon, 01 Jul 2024 11:26:38 -0700, Nathan Chancellor wrote:
-> bitfield.h is not explicitly included but it is required for FIELD_PREP
-> to be expanded by the preprocessor. If it is not implicitly included,
-> there will be a compiler error (as seen with ARCH=hexagon allmodconfig):
-> 
->   sound/soc/fsl/lpc3xxx-i2s.c:169:10: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->     169 |                 tmp |= LPC3XXX_I2S_WW8 | LPC3XXX_I2S_WS_HP(LPC3XXX_I2S_WW8_HP);
->         |                        ^
->   sound/soc/fsl/lpc3xxx-i2s.h:42:30: note: expanded from macro 'LPC3XXX_I2S_WW8'
->      42 | #define LPC3XXX_I2S_WW8      FIELD_PREP(0x3, 0) /* Word width is 8bit */
->         |                              ^
->   sound/soc/fsl/lpc3xxx-i2s.c:205:34: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->     205 |                              LPC3XXX_I2S_DMA1_TX_EN | LPC3XXX_I2S_DMA0_TX_DEPTH(4));
->         |                                                       ^
->   sound/soc/fsl/lpc3xxx-i2s.h:65:38: note: expanded from macro 'LPC3XXX_I2S_DMA0_TX_DEPTH'
->      65 | #define LPC3XXX_I2S_DMA0_TX_DEPTH(s) FIELD_PREP(0xF0000, s) /* Set the DMA1 TX Request level */
->         |                                      ^
->   sound/soc/fsl/lpc3xxx-i2s.c:210:34: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->     210 |                              LPC3XXX_I2S_DMA0_RX_EN | LPC3XXX_I2S_DMA1_RX_DEPTH(4));
->         |                                                       ^
->   sound/soc/fsl/lpc3xxx-i2s.h:70:38: note: expanded from macro 'LPC3XXX_I2S_DMA1_RX_DEPTH'
->      70 | #define LPC3XXX_I2S_DMA1_RX_DEPTH(s) FIELD_PREP(0x700, s) /* Set the DMA1 RX Request level */
->         |                                      ^
-> 
-> [...]
+Convert the RT5650/RT5645 audio CODEC bindings to DT schema.
 
-Applied to
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
+Cc: Daniel Baluta <daniel.baluta@nxp.com>
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+---
+Changes in v2:
+  - Added maxItems: 1 for cbj-sleeve-gpios and hp-detect-gpios.
+---
+ .../bindings/sound/realtek,rt5645.yaml        | 131 ++++++++++++++++++
+ .../devicetree/bindings/sound/rt5645.txt      |  82 -----------
+ 2 files changed, 131 insertions(+), 82 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/realtek,rt5645.yaml
+ delete mode 100644 Documentation/devicetree/bindings/sound/rt5645.txt
 
-Thanks!
-
-[1/1] ASoC: fsl: lpc3xxx-i2s: Include bitfield.h for FIELD_PREP
-      commit: f1afb360b6f1f49e943ac85b26d4224ec67d22d3
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/Documentation/devicetree/bindings/sound/realtek,rt5645.yaml b/Documentation/devicetree/bindings/sound/realtek,rt5645.yaml
+new file mode 100644
+index 000000000000..13f09f1bc800
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/realtek,rt5645.yaml
+@@ -0,0 +1,131 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/realtek,rt5645.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: RT5650/RT5645 audio CODEC
++
++maintainers:
++  - Animesh Agarwal <animeshagarwal28@gmail.com>
++
++description: |
++  This device supports I2C only.
++
++  Pins on the device (for linking into audio routes) for RT5645/RT5650:
++    * DMIC L1
++    * DMIC R1
++    * DMIC L2
++    * DMIC R2
++    * IN1P
++    * IN1N
++    * IN2P
++    * IN2N
++    * Haptic Generator
++    * HPOL
++    * HPOR
++    * LOUTL
++    * LOUTR
++    * PDM1L
++    * PDM1R
++    * SPOL
++    * SPOR
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    enum:
++      - realtek,rt5645
++      - realtek,rt5650
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++    description: The CODEC's interrupt output.
++
++  avdd-supply:
++    description: Power supply for AVDD, providing 1.8V.
++
++  cpvdd-supply:
++    description: Power supply for CPVDD, providing 3.5V.
++
++  hp-detect-gpios:
++    description: 
++      A GPIO spec for the external headphone detect pin. If jd-mode = 0, we
++      will get the JD status by getting the value of hp-detect-gpios.
++    maxItems: 1
++
++  cbj-sleeve-gpios:
++    description:
++      A GPIO spec to control the external combo jack circuit to tie the
++      sleeve/ring2 contacts to the ground or floating. It could avoid some
++      electric noise from the active speaker jacks.
++    maxItems: 1
++
++  realtek,in2-differential:
++    description:
++      Indicate MIC2 input are differential, rather than single-ended.
++    type: boolean
++
++  realtek,dmic1-data-pin:
++    description: Specify which pin to be used as DMIC1 data pin.
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum:
++      - 0 # dmic1 is not used
++      - 1 # using IN2P pin as dmic1 data pin
++      - 2 # using GPIO6 pin as dmic1 data pin
++      - 3 # using GPIO10 pin as dmic1 data pin
++      - 4 # using GPIO12 pin as dmic1 data pin
++
++  realtek,dmic2-data-pin:
++    description: Specify which pin to be used as DMIC2 data pin.
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum:
++      - 0 # dmic2 is not used
++      - 1 # using IN2N pin as dmic2 data pin
++      - 2 # using GPIO5 pin as dmic2 data pin
++      - 3 # using GPIO11 pin as dmic2 data pin
++
++  realtek,jd-mode:
++    description: The JD mode of rt5645/rt5650.
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum:
++      - 0 # rt5645/rt5650 JD function is not used
++      - 1 # Mode-0 (VDD=3.3V), two port jack detection
++      - 2 # Mode-1 (VDD=3.3V), one port jack detection
++      - 3 # Mode-2 (VDD=1.8V), one port jack detection
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - avdd-supply
++  - cpvdd-supply
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        codec@1a {
++            compatible = "realtek,rt5650";
++            reg = <0x1a>;
++            hp-detect-gpios = <&gpio 19 0>;
++            cbj-sleeve-gpios = <&gpio 20 0>;
++            interrupt-parent = <&gpio>;
++            interrupts = <7 IRQ_TYPE_EDGE_FALLING>;
++            avdd-supply = <&avdd_reg>;
++            cpvdd-supply = <&cpvdd_supply>;
++            realtek,jd-mode = <3>;
++        };
++    };
+diff --git a/Documentation/devicetree/bindings/sound/rt5645.txt b/Documentation/devicetree/bindings/sound/rt5645.txt
+deleted file mode 100644
+index c1fa379f5f3e..000000000000
+--- a/Documentation/devicetree/bindings/sound/rt5645.txt
++++ /dev/null
+@@ -1,82 +0,0 @@
+-RT5650/RT5645 audio CODEC
+-
+-This device supports I2C only.
+-
+-Required properties:
+-
+-- compatible : One of "realtek,rt5645" or "realtek,rt5650".
+-
+-- reg : The I2C address of the device.
+-
+-- interrupts : The CODEC's interrupt output.
+-
+-- avdd-supply: Power supply for AVDD, providing 1.8V.
+-
+-- cpvdd-supply: Power supply for CPVDD, providing 3.5V.
+-
+-Optional properties:
+-
+-- hp-detect-gpios:
+-  a GPIO spec for the external headphone detect pin. If jd-mode = 0,
+-  we will get the JD status by getting the value of hp-detect-gpios.
+-
+-- cbj-sleeve-gpios:
+-  a GPIO spec to control the external combo jack circuit to tie the sleeve/ring2
+-  contacts to the ground or floating. It could avoid some electric noise from the
+-  active speaker jacks.
+-
+-- realtek,in2-differential
+-  Boolean. Indicate MIC2 input are differential, rather than single-ended.
+-
+-- realtek,dmic1-data-pin
+-  0: dmic1 is not used
+-  1: using IN2P pin as dmic1 data pin
+-  2: using GPIO6 pin as dmic1 data pin
+-  3: using GPIO10 pin as dmic1 data pin
+-  4: using GPIO12 pin as dmic1 data pin
+-
+-- realtek,dmic2-data-pin
+-  0: dmic2 is not used
+-  1: using IN2N pin as dmic2 data pin
+-  2: using GPIO5 pin as dmic2 data pin
+-  3: using GPIO11 pin as dmic2 data pin
+-
+--- realtek,jd-mode : The JD mode of rt5645/rt5650
+-   0 : rt5645/rt5650 JD function is not used
+-   1 : Mode-0 (VDD=3.3V), two port jack detection
+-   2 : Mode-1 (VDD=3.3V), one port jack detection
+-   3 : Mode-2 (VDD=1.8V), one port jack detection
+-
+-Pins on the device (for linking into audio routes) for RT5645/RT5650:
+-
+-  * DMIC L1
+-  * DMIC R1
+-  * DMIC L2
+-  * DMIC R2
+-  * IN1P
+-  * IN1N
+-  * IN2P
+-  * IN2N
+-  * Haptic Generator
+-  * HPOL
+-  * HPOR
+-  * LOUTL
+-  * LOUTR
+-  * PDM1L
+-  * PDM1R
+-  * SPOL
+-  * SPOR
+-
+-Example:
+-
+-codec: rt5650@1a {
+-	compatible = "realtek,rt5650";
+-	reg = <0x1a>;
+-	hp-detect-gpios = <&gpio 19 0>;
+-	cbj-sleeve-gpios = <&gpio 20 0>;
+-	interrupt-parent = <&gpio>;
+-	interrupts = <7 IRQ_TYPE_EDGE_FALLING>;
+-	realtek,dmic-en = "true";
+-	realtek,en-jd-func = "true";
+-	realtek,jd-mode = <3>;
+-};
+-- 
+2.45.2
 
