@@ -1,106 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F422019F49D
-	for <linux-sound@vger.kernel.org>; Tue,  2 Jul 2024 13:51:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40DEF1BBBD9;
+	Tue,  2 Jul 2024 15:17:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719928287; cv=none; b=axHWF1txAkIEJ6Uu3BfpILU1B2/I9YyNfUddrYRdxt4xPW26E8x73YyZFQ0kscvDf0AgxMxLnYfJGwEFHM569n7ejwAanfhAwkObpki1BbJ7S/wJMaMHAHFyVFZ8AF1e06yEijhzEoBvIPF6dpQd3V3BJH4mYdJSM1qGouhbQWQ=
+	t=1719933440; cv=none; b=mv29hvOr5T4EYv5R4ZUy98gjuoekAyEKZ+HXmH09pfHRNV9kxVA/UGa/NRP2LKnhriuaAw6n+qVDSz+hNjf1rwOQhmwFhkPwkT0T0b/w0HI0lD+qvHv/DU2q6JyL9GA7vlzfgI+vlwqVDZ4qu9QdrdAhq1ZiPTAW3QA5ikiBN5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719928287; c=relaxed/simple;
-	bh=5DN1qoNpLOxS7B9U2ZZc/UWsCH6qUQ9gFGgdb1j0VQQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DD6zBWvfoZiO0dQEoDSZlF/WoKNqnzlZ/yDtFfkx9bYfpBB4m3+W9yrlzPGtfoZbQIQPiVvQvDYElzD9G58YEOBhpR1899jVGWlwOAEjpaNZtTielPweU9HQHCk5cwFfg8hB+IaLJIYDsnk5ncDXiICYHjrjY/EgoMRnLcHPiZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IlzkTiXG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719933440; c=relaxed/simple;
+	bh=OH+FK15Szq9dfSrBQy16ayM0LYVw6SUGzokx5M9tzy8=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 Mime-Version:Content-Type; b=cUCGJ2wV74XYHsN/N6Uoov/a+3P05cCJNw8iAtgXwQHOx6dzhn/6gvWnQtT1M8JzC/767eCATNAzg+vhATj/GPAREQr5tqn1KGK3jBPSv5IlaOG3Er59Yzz1FO7eAWb3kyG060QnWiuUzVIjtUfZcQR7kYS12sak2XNsHmKM6t4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cLRJgxoB; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IlzkTiXG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15655C116B1;
-	Tue,  2 Jul 2024 13:51:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719928286;
-	bh=5DN1qoNpLOxS7B9U2ZZc/UWsCH6qUQ9gFGgdb1j0VQQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IlzkTiXGHr9jx0e8fChI/whv1XE8t3eeiBEG73X9JKiS4S+zAlZAUgRGMkSMVflXu
-	 GS4IViQkukYXk05RMlnE5QbymAgDgKpqJDx77TnUTKJZSICx+doKBOj1VjjYnoJeUH
-	 /3b83z57im31iQjPisHd8io8qkRQxD1WT5jutOffelrOVQIGd6X4keRaERAo1Iber4
-	 lhbQcbsH68YW1a0EDe7iKhoWgaclue6s1NGZLY59f4gLMO09JT1ids/kSUhm+t1Y9D
-	 xu2Qtzk0J14ifgPtnunG3DfAJ13UOv9TtT1js6ZUhvMhRS1wcR9GMeqRVGhR/YnFgG
-	 mpQTimE51a88A==
-Date: Tue, 2 Jul 2024 19:21:22 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org, Takashi Iwai <tiwai@suse.de>,
-	Mark Brown <broonie@kernel.org>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Nicolas Dufresne <nicolas@ndufresne.ca>,
-	Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: Re: [PATCH v4] ALSA: compress_offload: introduce passthrough
- operation mode
-Message-ID: <ZoQF2qjLf7_00yA7@matsya>
-References: <20240624135820.516893-1-perex@perex.cz>
- <ZnmG77hBzedDQcIl@matsya>
- <ae18019b-5e6f-4ca8-8fba-353ed19be46c@perex.cz>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cLRJgxoB"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-42567ddf099so30625175e9.3;
+        Tue, 02 Jul 2024 08:17:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719933438; x=1720538238; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t7xByIbV2umIoygttU7Su2ntwwqoRDPa8Pnvxm3eHlc=;
+        b=cLRJgxoBUqF04gG8tTO3jkNvhm85dEqu89RfUODfXSdqHhHjogLbDaBpM/xbJWHpbS
+         tLY6hCAMvIqnNKtZp5rqbTtRZT5ZGVnr+5bkQHtknTrb7IDvUw1nl5khcV3EDtJ3AveG
+         XuhQR4KBn0BLYLGcidNeTAAr5iAdDVwwyi2O08VM//X59hV+kLUGuNuCLHadhIw2Wkq2
+         U4Zis7PlRMhIratfIO4zEgi6Ew09jOY8iK5KiDq0BE8/epSSSpvyQt47JNUu132khRMy
+         ikLVRcnyR85nta2qAseEyUPTnaizTbB7VBmJ8tyvUFgaODy+hKXEIRQ+uiHVrccNu1Sp
+         mZCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719933438; x=1720538238;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=t7xByIbV2umIoygttU7Su2ntwwqoRDPa8Pnvxm3eHlc=;
+        b=kBsPzpmd2ryqNqQU4aNfmiKHU/ZvL8yJKSwN5mmJglkAIbkJE9bPMUGS/mZUEiItxV
+         ckNORuYNY0S14A5sGfMliqL8JX9h/VtwwvjadqcTe8rh7l1e+oNhb7K5XxPyA4rOPNOz
+         yR1CThRUl+Ri2xQZ99B6bR1f29UBVaMpySW95lzcXFlH5YSyb5aOniuWReBl4B9Imnfb
+         XLtssRpkAnYiJAYxQLR4BEWE3pDu3Q91JzBHur5JcNyCnPf027bkQEJWkFYlpv1J7BaQ
+         KedI3mdqJTMVIDS4/kHVbpPGYHfk/TL8X6zG2Dy19oNEj/emJ3jyE0EoQUIoIgNFcHB5
+         rAYA==
+X-Forwarded-Encrypted: i=1; AJvYcCW115FxMNUJhDTbvLbTarGvXQRirGLmnKYarfa8kA1VNNnNjeTrTSMeZGB43MD3RM9q3jD/41PdXCZTqKWDr8Ru3/CacSl9zddUllKHjzF/D435xB02mgHj3nHCsxxtTx7QTrUpLeWoopc=
+X-Gm-Message-State: AOJu0YxdABf659pY1k7qcfGJrYm7cVHGGPr6LXktvTZQauO9K50ZBwMD
+	h7KZlJJk5pJb1fVnvmGJM9VFea7Bat3/30W++o20ZwGzK95wvIiU
+X-Google-Smtp-Source: AGHT+IGX4cMz2AKxR9UquQ5Q7gBmz158IKH0vcsGbbVsGmFToi6f21HaHfYS04B91Tgb0Y7+kQ1CNw==
+X-Received: by 2002:a05:600c:3b09:b0:424:7bcf:2486 with SMTP id 5b1f17b1804b1-4257a00aadamr54017895e9.4.1719933437469;
+        Tue, 02 Jul 2024 08:17:17 -0700 (PDT)
+Received: from localhost (host-95-246-50-43.retail.telecomitalia.it. [95.246.50.43])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4256b068e54sm205410225e9.25.2024.07.02.08.17.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Jul 2024 08:17:17 -0700 (PDT)
+Date: Tue, 02 Jul 2024 17:17:15 +0200
+From: Matteo Martelli <matteomartelli3@gmail.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Marcus Cooper <codekipper@gmail.com>, 
+ =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, 
+ linux-sound@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org
+Message-ID: <668419fb8ef9f_2a76d370f1@njaxe.notmuch>
+In-Reply-To: <20240702-copperhead-of-unusual-intensity-7f43a8@houat>
+References: <20240529140658.180966-2-matteomartelli3@gmail.com>
+ <20240529140658.180966-3-matteomartelli3@gmail.com>
+ <20240606-savvy-wallaby-of-champagne-d4a50e@houat>
+ <6662bf1b61bbc_2f51737023@njaxe.notmuch>
+ <20240702-copperhead-of-unusual-intensity-7f43a8@houat>
+Subject: Re: [PATCH 1/1] ASoC: sunxi: sun4i-i2s: fix LRCLK polarity in i2s
+ mode
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ae18019b-5e6f-4ca8-8fba-353ed19be46c@perex.cz>
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-
-Hi Jaroslav,
-
-On 24-06-24, 17:31, Jaroslav Kysela wrote:
-> On 24. 06. 24 16:47, Vinod Koul wrote:
-> > On 24-06-24, 15:58, Jaroslav Kysela wrote:
-> > > There is a requirement to expose the audio hardware that accelerates various
-> > > tasks for user space such as sample rate converters, compressed
-> > > stream decoders, etc.
+Maxime Ripard wrote:
+> Hi,
+> 
+> On Fri, Jun 07, 2024 at 10:04:43AM GMT, Matteo Martelli wrote:
+> > Maxime Ripard wrote:
+> > > > -	/*
+> > > > -	 * DAI clock polarity
+> > > > -	 *
+> > > > -	 * The setup for LRCK contradicts the datasheet, but under a
+> > > > -	 * scope it's clear that the LRCK polarity is reversed
+> > > > -	 * compared to the expected polarity on the bus.
+> > > > -	 */
+> > > 
+> > > I think we should keep that comment somewhere.
 > > 
-> > Can you please tell me more about this requirement. The initial view of
-> > compressed API was data only and use alsa kcontrols to handle the DSP
-> > functions? I would like to understand why we need a new API.
+> > I think that keeping that comment would be very misleading since the LRCLK
+> > setup would not contradict the datasheet anymore [1][2].
+> >
+> > Also, do you recall any details about the mentioned scope test setup? Was i2s
+> > mode tested in that occasion? It would help clarify the situation.
 > 
-> There are very long threads for v4l audio support - last v15 thread:
+> I can't remember if I tested i2s, I think I did though. But most of the
+> work was done on either TDM or DSP modes, and I remember very clearly
+> that the LRCK polarity was inverted compared to what Allwinner documents.
 > 
-> https://lore.kernel.org/linux-media/1710834674-3285-1-git-send-email-shengjiu.wang@nxp.com/
-
-Very long indeed but very interesting. I think going compressed audio
-way seems reasonable choice to me
-
+> So the doc was, at best, misleading for these formats and we should keep
+> the comments.
 > 
-> So the goal is to create something more efficient for the offload work, when
-> the data (decoded/converted) should be returned back to the user space.
+> Maxime
 
-Not rendered? so we are using it as an accelerator...?
+Thanks for the reply Maxime, would you be able to point out the Allwinner
+document part that is (or was) misleading? The current datasheets (see links
+[1][2]) look correct, the current driver setup for TDM and DSP modes respects
+those datasheets and it's not "reversed compared to the expected polarity on
+the bus" as the comment states. Also I didn't find any related errata in their
+changelog. Could it be possible that during those mentioned tests you were
+still referring to the datasheets of other SoCs like A10 for instance? Or maybe
+that the misleading information was in another document rather than the main
+datasheets? If that's the case, would you still think that the comment should be
+kept as it is?
 
-> 
-> > What about the user of this API, i would like to see that as well
-> 
-> Any audio streaming framework like gstreamer or ffmpeg who can accelerate
-> stream conversions in hardware for capable devices.
+[1]: https://linux-sunxi.org/images/4/4b/Allwinner_H3_Datasheet_V1.2.pdf
+section 8.6.7.2
+[2]: https://linux-sunxi.org/images/4/46/Allwinner_H6_V200_User_Manual_V1.1.pdf
+section 7.2.5.2
 
-I meant to see driver users along with this patch :-)
-
-That also reminds me to ask about usermode support for this, are you
-planning to support it in tinycompress?
-
-> 
-> > > +A new direction SND_COMPRESS_PASSTHROUGH is introduced to identify
-> > > +the passthrough API.
-> > 
-> > Is passthrough really a new good new name, this suggests data being
-> > passed thru but that is not the case...
-> 
-> It's something like "PASS data THROUGH kernel/driver". So it makes sense. My
-> alternate name may be ACCEL (like acceleration).
-
-I like that.. Also do we change the device name if the passthru is
-enabled? it should not be called a playback or capture compressed device
-
--- 
-~Vinod
+Thanks,
+Matteo
