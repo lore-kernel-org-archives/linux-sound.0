@@ -1,117 +1,99 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DE7D13DBB1;
-	Wed,  3 Jul 2024 12:22:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from inva021.nxp.com (inva021.nxp.com [92.121.34.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2B5217966F;
+	Wed,  3 Jul 2024 12:44:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720009325; cv=none; b=EG+Gi+IoIyozaWJ5B5nly9+/38IqvrdU/5/HEpzzcZNoLnGGpmjxCkyLAmGtX4stpnvze6i4Rj3lO5XWB3D/eqURriOStY+h/Pb386fQf89ORJ/lzEPhJFQ6Vj5zwB4cvOZeJ2GqfHWXZaWPnGCMuuYDoCfzU4qQTkRoRzydyRo=
+	t=1720010644; cv=none; b=qz+x0zCVlKoBDK0VMiHd6sNxC3BjFlOrEzG32wDYcJLKsJlLfwoFf1sCLMQsUpz9Z1robKDhMPBXOYIKnZ9SEskHBeX9tJeKZCqajV5KY5PhlrEcmjgl7N5OyoH7aTscRALpV4aFykgPvjwreOziTcYljm7ThYc4VSPxyGWu9og=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720009325; c=relaxed/simple;
-	bh=vYuco9/NSRpqebQ4mYUp/0sTq0aoO3JjDyeQJOZxcqs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nVXPYLfTHoNcPLCei7GoPbI+PMLsNT+zSA4k5OEs6nBcoLlSi/2GJJZ1PWOKY6vkcskQbnHmZwDkOZiJFWLn25m+UNR4+W3Mm8NbK1T3mvJbMnFZmOjZL+qT1vHoN89RS/+S8CM26CwIO3oiFGEmFp4tljSdSgXMQ0wBRV/lA8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C2CF51007;
-	Wed,  3 Jul 2024 05:22:27 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 079283F766;
-	Wed,  3 Jul 2024 05:21:54 -0700 (PDT)
-Date: Wed, 3 Jul 2024 13:21:52 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Rob Herring <robh@kernel.org>, Saravana
- Kannan <saravanak@google.com>, Nathan Chancellor <nathan@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Tony Lindgren <tony@atomide.com>, Bjorn Andersson
- <andersson@kernel.org>, Emilio =?UTF-8?B?TMOzcGV6?= <emilio@elopez.com.ar>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Krzysztof Kozlowski
- <krzk@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, Thomas
- Gleixner <tglx@linutronix.de>, Florian Fainelli
- <florian.fainelli@broadcom.com>, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Linus Walleij
- <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Jonathan
- Cameron <jic23@kernel.org>, Lee Jones <lee@kernel.org>, Shawn Guo
- <shawnguo@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>, Uwe
- =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, Richard
- Leitner <richard.leitner@linux.dev>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Michael Ellerman <mpe@ellerman.id.au>,
- Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy
- <christophe.leroy@csgroup.eu>, "Naveen N. Rao"
- <naveen.n.rao@linux.ibm.com>, Damien Le Moal <dlemoal@kernel.org>, "Peng
- Fan (OSS)" <peng.fan@oss.nxp.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, llvm@lists.linux.dev,
- linux-clk@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-usb@vger.kernel.org, patches@opensource.cirrus.com,
- linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org
-Subject: Re: [PATCH 04/20] clk: sunxi: clk-simple-gates: convert to
- of_property_for_each_u32_new()
-Message-ID: <20240703132152.6c306a48@donnerap.manchester.arm.com>
-In-Reply-To: <20240703-of_property_for_each_u32-v1-4-42c1fc0b82aa@bootlin.com>
-References: <20240703-of_property_for_each_u32-v1-0-42c1fc0b82aa@bootlin.com>
-	<20240703-of_property_for_each_u32-v1-4-42c1fc0b82aa@bootlin.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1720010644; c=relaxed/simple;
+	bh=DW33uEh7lbKDEp+99mSXUnjmv+I8Iz/14mbPiuQxcHE=;
+	h=From:To:Subject:Date:Message-Id; b=uwmjkeW7HXo6vUXj0oSLRd0kAQ14tWJimy8V7HD30jdvAVK9c8w8ORr6BahCuXjmT2ZuSjM0wQmqN5ac89l1Y0Ix24699y4xy29d0GjxpfslqJ5m+uSWEJmMEum9ODFyduSy/XOdXuLnzKh/aT0zPmCpHLCwXfTW6pE403wlN54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+Received: from inva021.nxp.com (localhost [127.0.0.1])
+	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 3EC53200B6D;
+	Wed,  3 Jul 2024 14:44:01 +0200 (CEST)
+Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
+	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 05F45200AD5;
+	Wed,  3 Jul 2024 14:44:01 +0200 (CEST)
+Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
+	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 765F9180226C;
+	Wed,  3 Jul 2024 20:43:59 +0800 (+08)
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	ckeepax@opensource.cirrus.com,
+	andriy.shevchenko@linux.intel.com,
+	heiko@sntech.de,
+	robh@kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	shengjiu.wang@gmail.com
+Subject: [PATCH] ASoC: ak4458: remove "reset-gpios" property handler
+Date: Wed,  3 Jul 2024 20:26:15 +0800
+Message-Id: <1720009575-11677-1-git-send-email-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.7.4
+X-Virus-Scanned: ClamAV using ClamSMTP
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Wed, 03 Jul 2024 12:36:48 +0200
-Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+commit c721f189e89c0 ("reset: Instantiate reset GPIO controller for
+shared reset-gpios") check if there is no "resets" property
+will fallback to "reset-gpios".
 
-> Simplify code using of_property_for_each_u32_new() as the two additional
-> parameters in of_property_for_each_u32() are not used here.
-> 
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+So don't need to handle "reset-gpios" separately in the driver,
+the "reset-gpios" handler is duplicated with "resets" control handler,
+remove it.
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+---
+ sound/soc/codecs/ak4458.c | 11 +----------
+ 1 file changed, 1 insertion(+), 10 deletions(-)
 
-Cheers,
-Andre
-
-> ---
->  drivers/clk/sunxi/clk-simple-gates.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/drivers/clk/sunxi/clk-simple-gates.c b/drivers/clk/sunxi/clk-simple-gates.c
-> index 0399627c226a..a30d14937e0b 100644
-> --- a/drivers/clk/sunxi/clk-simple-gates.c
-> +++ b/drivers/clk/sunxi/clk-simple-gates.c
-> @@ -21,11 +21,9 @@ static void __init sunxi_simple_gates_setup(struct device_node *node,
->  {
->  	struct clk_onecell_data *clk_data;
->  	const char *clk_parent, *clk_name;
-> -	struct property *prop;
->  	struct resource res;
->  	void __iomem *clk_reg;
->  	void __iomem *reg;
-> -	const __be32 *p;
->  	int number, i = 0, j;
->  	u8 clk_bit;
->  	u32 index;
-> @@ -47,7 +45,7 @@ static void __init sunxi_simple_gates_setup(struct device_node *node,
->  	if (!clk_data->clks)
->  		goto err_free_data;
->  
-> -	of_property_for_each_u32(node, "clock-indices", prop, p, index) {
-> +	of_property_for_each_u32_new(node, "clock-indices", index) {
->  		of_property_read_string_index(node, "clock-output-names",
->  					      i, &clk_name);
->  
-> 
+diff --git a/sound/soc/codecs/ak4458.c b/sound/soc/codecs/ak4458.c
+index 32cb802ad635..d472d9952628 100644
+--- a/sound/soc/codecs/ak4458.c
++++ b/sound/soc/codecs/ak4458.c
+@@ -45,7 +45,6 @@ struct ak4458_priv {
+ 	const struct ak4458_drvdata *drvdata;
+ 	struct device *dev;
+ 	struct regmap *regmap;
+-	struct gpio_desc *reset_gpiod;
+ 	struct reset_control *reset;
+ 	struct gpio_desc *mute_gpiod;
+ 	int digfil;	/* SSLOW, SD, SLOW bits */
+@@ -631,10 +630,7 @@ static struct snd_soc_dai_driver ak4497_dai = {
+ 
+ static void ak4458_reset(struct ak4458_priv *ak4458, bool active)
+ {
+-	if (ak4458->reset_gpiod) {
+-		gpiod_set_value_cansleep(ak4458->reset_gpiod, active);
+-		usleep_range(1000, 2000);
+-	} else if (!IS_ERR_OR_NULL(ak4458->reset)) {
++	if (!IS_ERR_OR_NULL(ak4458->reset)) {
+ 		if (active)
+ 			reset_control_assert(ak4458->reset);
+ 		else
+@@ -758,11 +754,6 @@ static int ak4458_i2c_probe(struct i2c_client *i2c)
+ 	if (IS_ERR(ak4458->reset))
+ 		return PTR_ERR(ak4458->reset);
+ 
+-	ak4458->reset_gpiod = devm_gpiod_get_optional(ak4458->dev, "reset",
+-						      GPIOD_OUT_LOW);
+-	if (IS_ERR(ak4458->reset_gpiod))
+-		return PTR_ERR(ak4458->reset_gpiod);
+-
+ 	ak4458->mute_gpiod = devm_gpiod_get_optional(ak4458->dev, "mute",
+ 						     GPIOD_OUT_LOW);
+ 	if (IS_ERR(ak4458->mute_gpiod))
+-- 
+2.34.1
 
