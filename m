@@ -1,99 +1,136 @@
-Received: from inva021.nxp.com (inva021.nxp.com [92.121.34.21])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2B5217966F;
-	Wed,  3 Jul 2024 12:44:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2482B13DDA6;
+	Wed,  3 Jul 2024 13:09:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720010644; cv=none; b=qz+x0zCVlKoBDK0VMiHd6sNxC3BjFlOrEzG32wDYcJLKsJlLfwoFf1sCLMQsUpz9Z1robKDhMPBXOYIKnZ9SEskHBeX9tJeKZCqajV5KY5PhlrEcmjgl7N5OyoH7aTscRALpV4aFykgPvjwreOziTcYljm7ThYc4VSPxyGWu9og=
+	t=1720012168; cv=none; b=nv7MEfG3FNCOvPbqzTVUwEgyghlZVtsMysLpL3piHkRemeXN5sJ1tCOX4hnnhvFxqhe0k83Dodi+BS1h44qpmNT2xrdkArfhaR6Ix7573N4sPpToFh4foNitjEJhThlngUsqXYS65ncUntsCzSFOUqEfRuO52fvw9WnEqSP582c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720010644; c=relaxed/simple;
-	bh=DW33uEh7lbKDEp+99mSXUnjmv+I8Iz/14mbPiuQxcHE=;
-	h=From:To:Subject:Date:Message-Id; b=uwmjkeW7HXo6vUXj0oSLRd0kAQ14tWJimy8V7HD30jdvAVK9c8w8ORr6BahCuXjmT2ZuSjM0wQmqN5ac89l1Y0Ix24699y4xy29d0GjxpfslqJ5m+uSWEJmMEum9ODFyduSy/XOdXuLnzKh/aT0zPmCpHLCwXfTW6pE403wlN54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-Received: from inva021.nxp.com (localhost [127.0.0.1])
-	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 3EC53200B6D;
-	Wed,  3 Jul 2024 14:44:01 +0200 (CEST)
-Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
-	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 05F45200AD5;
-	Wed,  3 Jul 2024 14:44:01 +0200 (CEST)
-Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
-	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 765F9180226C;
-	Wed,  3 Jul 2024 20:43:59 +0800 (+08)
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	ckeepax@opensource.cirrus.com,
-	andriy.shevchenko@linux.intel.com,
-	heiko@sntech.de,
-	robh@kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	shengjiu.wang@gmail.com
-Subject: [PATCH] ASoC: ak4458: remove "reset-gpios" property handler
-Date: Wed,  3 Jul 2024 20:26:15 +0800
-Message-Id: <1720009575-11677-1-git-send-email-shengjiu.wang@nxp.com>
-X-Mailer: git-send-email 2.7.4
-X-Virus-Scanned: ClamAV using ClamSMTP
+	s=arc-20240116; t=1720012168; c=relaxed/simple;
+	bh=W8KnSELxoOeLFO4Bkg8ypBzvhOg9ofBU1heW/xaRe4k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=KUhXTWIBUcGJyrpGl9mRkHUag8woUY3otXdtjRNvvabYEdY73vcDJFBl9fA5XE6aFhbD2PrzCDHV6YWjq+3eFALhAP5PAzno3U2KyHs+nA2KruyiT3S8xqQIqoXyOGO7HSJLYrEnTXLOlP0GiTNkrw03jVXoNrDDzfwqmEgEo7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=fail smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=Rj5CV6gj; arc=none smtp.client-ip=68.232.154.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=microchip.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="Rj5CV6gj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1720012167; x=1751548167;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=W8KnSELxoOeLFO4Bkg8ypBzvhOg9ofBU1heW/xaRe4k=;
+  b=Rj5CV6gjA7bdouczrb90jR05EmC8s1gMOWvzhsKmCBE2E7JT4vVZzOdS
+   uBUAswn6AJt3J0nSb+5FoxsxGyLZ8Qjxbfu2zmiNjjSxvu3WcD7WYWqAw
+   oaL948Izy4XK6SU6PNJj+gGWNskvdmGM16iSYixj+uE9bizQTgIeC96WQ
+   jjhud9EqkR3dkpschvbXGcx6IIodTZym3NgjEus87t6wVzF7FWhj8WJbu
+   N9q0TBlMOh7Imj2TJnnXptonwil+6DUI/YFI1Gcz2Bxy0O0NlYYzOOR1K
+   jJPxapoEb0zIRrd1OwkSQ3tjgKtWYGanpCYw+DuuPYiytBf/vuZz1EKfX
+   Q==;
+X-CSE-ConnectionGUID: EqW5S7eWRE2aTexdHZiS+A==
+X-CSE-MsgGUID: NasQoXC7S5Kaxo5UL3Vsag==
+X-IronPort-AV: E=Sophos;i="6.09,182,1716274800"; 
+   d="scan'208";a="28777735"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 03 Jul 2024 06:09:24 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 3 Jul 2024 06:09:03 -0700
+Received: from [10.180.116.202] (10.10.85.11) by chn-vm-ex01.mchp-main.com
+ (10.10.85.143) with Microsoft SMTP Server id 15.1.2507.35 via Frontend
+ Transport; Wed, 3 Jul 2024 06:08:46 -0700
+Message-ID: <a8cc31a9-d58f-4a4e-98fb-a7ba47bc744e@microchip.com>
+Date: Wed, 3 Jul 2024 15:09:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 11/20] irqchip/atmel-aic: convert to
+ of_property_for_each_u32_new()
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>, Miguel Ojeda
+	<ojeda@kernel.org>, Rob Herring <robh@kernel.org>, Saravana Kannan
+	<saravanak@google.com>, Nathan Chancellor <nathan@kernel.org>, Michael
+ Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Tony
+ Lindgren <tony@atomide.com>, Bjorn Andersson <andersson@kernel.org>,
+	=?UTF-8?Q?Emilio_L=C3=B3pez?= <emilio@elopez.com.ar>, Chen-Yu Tsai
+	<wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+	<samuel@sholland.org>, Krzysztof Kozlowski <krzk@kernel.org>, Daniel Lezcano
+	<daniel.lezcano@linaro.org>, Thomas Gleixner <tglx@linutronix.de>, Florian
+ Fainelli <florian.fainelli@broadcom.com>, Broadcom internal kernel review
+ list <bcm-kernel-feedback-list@broadcom.com>, Linus Walleij
+	<linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Jonathan
+ Cameron <jic23@kernel.org>, Lee Jones <lee@kernel.org>, Shawn Guo
+	<shawnguo@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+	=?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, Richard
+ Leitner <richard.leitner@linux.dev>, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy
+	<christophe.leroy@csgroup.eu>, "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+	Damien Le Moal <dlemoal@kernel.org>
+CC: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, Thomas Petazzoni
+	<thomas.petazzoni@bootlin.com>, <linux-kernel@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <llvm@lists.linux.dev>,
+	<linux-clk@vger.kernel.org>, <linux-omap@vger.kernel.org>,
+	<linux-arm-msm@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-sunxi@lists.linux.dev>, <linux-samsung-soc@vger.kernel.org>,
+	<linux-gpio@vger.kernel.org>, <linux-iio@vger.kernel.org>,
+	<linux-pwm@vger.kernel.org>, <linux-serial@vger.kernel.org>,
+	<linux-usb@vger.kernel.org>, <patches@opensource.cirrus.com>,
+	<linux-sound@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>,
+	<linux-riscv@lists.infradead.org>
+References: <20240703-of_property_for_each_u32-v1-0-42c1fc0b82aa@bootlin.com>
+ <20240703-of_property_for_each_u32-v1-11-42c1fc0b82aa@bootlin.com>
+Content-Language: en-US, fr-FR
+From: Nicolas Ferre <nicolas.ferre@microchip.com>
+Organization: microchip
+In-Reply-To: <20240703-of_property_for_each_u32-v1-11-42c1fc0b82aa@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-commit c721f189e89c0 ("reset: Instantiate reset GPIO controller for
-shared reset-gpios") check if there is no "resets" property
-will fallback to "reset-gpios".
+On 03/07/2024 at 12:36, Luca Ceresoli wrote:
+> Simplify code using of_property_for_each_u32_new() as the two additional
+> parameters in of_property_for_each_u32() are not used here.
+> 
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-So don't need to handle "reset-gpios" separately in the driver,
-the "reset-gpios" handler is duplicated with "resets" control handler,
-remove it.
+Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
 
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
----
- sound/soc/codecs/ak4458.c | 11 +----------
- 1 file changed, 1 insertion(+), 10 deletions(-)
-
-diff --git a/sound/soc/codecs/ak4458.c b/sound/soc/codecs/ak4458.c
-index 32cb802ad635..d472d9952628 100644
---- a/sound/soc/codecs/ak4458.c
-+++ b/sound/soc/codecs/ak4458.c
-@@ -45,7 +45,6 @@ struct ak4458_priv {
- 	const struct ak4458_drvdata *drvdata;
- 	struct device *dev;
- 	struct regmap *regmap;
--	struct gpio_desc *reset_gpiod;
- 	struct reset_control *reset;
- 	struct gpio_desc *mute_gpiod;
- 	int digfil;	/* SSLOW, SD, SLOW bits */
-@@ -631,10 +630,7 @@ static struct snd_soc_dai_driver ak4497_dai = {
- 
- static void ak4458_reset(struct ak4458_priv *ak4458, bool active)
- {
--	if (ak4458->reset_gpiod) {
--		gpiod_set_value_cansleep(ak4458->reset_gpiod, active);
--		usleep_range(1000, 2000);
--	} else if (!IS_ERR_OR_NULL(ak4458->reset)) {
-+	if (!IS_ERR_OR_NULL(ak4458->reset)) {
- 		if (active)
- 			reset_control_assert(ak4458->reset);
- 		else
-@@ -758,11 +754,6 @@ static int ak4458_i2c_probe(struct i2c_client *i2c)
- 	if (IS_ERR(ak4458->reset))
- 		return PTR_ERR(ak4458->reset);
- 
--	ak4458->reset_gpiod = devm_gpiod_get_optional(ak4458->dev, "reset",
--						      GPIOD_OUT_LOW);
--	if (IS_ERR(ak4458->reset_gpiod))
--		return PTR_ERR(ak4458->reset_gpiod);
--
- 	ak4458->mute_gpiod = devm_gpiod_get_optional(ak4458->dev, "mute",
- 						     GPIOD_OUT_LOW);
- 	if (IS_ERR(ak4458->mute_gpiod))
--- 
-2.34.1
+> ---
+>   drivers/irqchip/irq-atmel-aic-common.c | 4 +---
+>   1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/irqchip/irq-atmel-aic-common.c b/drivers/irqchip/irq-atmel-aic-common.c
+> index 072bd227b6c6..543ea249df53 100644
+> --- a/drivers/irqchip/irq-atmel-aic-common.c
+> +++ b/drivers/irqchip/irq-atmel-aic-common.c
+> @@ -111,8 +111,6 @@ static void __init aic_common_ext_irq_of_init(struct irq_domain *domain)
+>          struct device_node *node = irq_domain_get_of_node(domain);
+>          struct irq_chip_generic *gc;
+>          struct aic_chip_data *aic;
+> -       struct property *prop;
+> -       const __be32 *p;
+>          u32 hwirq;
+> 
+>          gc = irq_get_domain_generic_chip(domain, 0);
+> @@ -120,7 +118,7 @@ static void __init aic_common_ext_irq_of_init(struct irq_domain *domain)
+>          aic = gc->private;
+>          aic->ext_irqs |= 1;
+> 
+> -       of_property_for_each_u32(node, "atmel,external-irqs", prop, p, hwirq) {
+> +       of_property_for_each_u32_new(node, "atmel,external-irqs", hwirq) {
+>                  gc = irq_get_domain_generic_chip(domain, hwirq);
+>                  if (!gc) {
+>                          pr_warn("AIC: external irq %d >= %d skip it\n",
+> 
+> --
+> 2.34.1
+> 
 
