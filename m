@@ -1,105 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx1.t-argos.ru (mx1.t-argos.ru [109.73.34.58])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07431DA313;
-	Wed,  3 Jul 2024 18:34:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACB2941A81;
+	Wed,  3 Jul 2024 19:12:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.73.34.58
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720031667; cv=none; b=PxpMPbRiGhSxFfFKgfGfPM1gTXQnFvjgQ7pqcDDN0goJqhJ0GVXPjK/s/4xTc8dCOwOI3a3ws2IqisHyZMaAUS9B5V7HxpWaSXlO2ccUn5tBeOO7q1W8cinwcH5DFIN5qsxoEYf55kJNlPt91xmCRpFdccWLXsOs5RKNU7s743k=
+	t=1720033929; cv=none; b=N8k3i0AJvLgU4E2UFOFrGy1lzkeKohv1yzWNE07gxoSgaMeDa79QJBC9ekxQy5PrNMFwQbzerSSKxAWmM2oogOEs9+8jKb1S+aclRy2MCTQzgFjGUEY25VAlDcWUuBzub7en+8gtkBU80JjRp9LA3OM5sbDvX5fy4vdnJO6U8Uc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720031667; c=relaxed/simple;
-	bh=75LWJFdF9aagmw6N/35Fph3+fUpWNs+Pce1uKbQYf3Y=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=E+LvTszF2Bx6YM1Hm/rv2Phwm44jQpr81VVSLOE7ybfySN7j+Pq2vWrfcpjyu/anYLuVcJ+xRxuqDGThfWSfWAJL9GlDxeg0b0Nrbx8HGKs3ysttU9dpE4AOw80CJ93bQky18a0z6wHDYcxZydytGcEef5kABYUGlogE4Fvclrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZlFinWsa; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720033929; c=relaxed/simple;
+	bh=N2yseTzSknHLCuz9k9d0iGU8jXJUX7vZr9eibLokf1s=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZKOPACptDTvG4pJIaFRhG9N+oO+GLwuQaZyqiRS1QKOKDAtILkXHItsn8zm5Nkji+C6LvM73n1h1m/DjmusenXl0qKarFhuGlZ0IbX4/yPuBjVa82mkyNZmYTbU+QxbhzgQCWEqrrh67lpUqlUW9DFfdGLgBlGAMCkCeBhafuO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=t-argos.ru; spf=pass smtp.mailfrom=t-argos.ru; dkim=pass (2048-bit key) header.d=t-argos.ru header.i=@t-argos.ru header.b=snxCe3va; arc=none smtp.client-ip=109.73.34.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=t-argos.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=t-argos.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZlFinWsa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2A33C32781;
-	Wed,  3 Jul 2024 18:34:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720031667;
-	bh=75LWJFdF9aagmw6N/35Fph3+fUpWNs+Pce1uKbQYf3Y=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ZlFinWsaNVrvGmZiNySxfxWG2sUm9QrY1MBykONGigKwpKDeYa0FHi8EKqXBxZJuy
-	 dsflTJ9guyvawMQH4J1OX8SDt6pj/rPiloc86OspDM0jkQK1cBoz0J5RU4hVJuPezI
-	 CxquH0GajkhBQ43C66pl/D4BpsQuO4oK6BJzmIk3bxrvEYxl+E7/rrW/ibS20Z5D+1
-	 QhDpUu0gZi0lZ2J1k67ownG6xVGF9InQMeJANT7C9A6eWg+rvGibhwl1BRtmgFcE9/
-	 isSK/HbjmPbXNIDWpfEzxypfSCP5E0ajN4t952uOuWjePgJBMzBYLMKLskq5hIwcaS
-	 /WaETrjuuBkiQ==
-From: Mark Brown <broonie@kernel.org>
-To: David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Paul Cercueil <paul@crapouillou.net>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Banajit Goswami <bgoswami@quicinc.com>, 
- Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: alsa-devel@alsa-project.org, patches@opensource.cirrus.com, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-mips@vger.kernel.org, linux-arm-msm@vger.kernel.org
-In-Reply-To: <20240703-sound-const-regmap_config-v1-0-2e379b0446a7@gmail.com>
-References: <20240703-sound-const-regmap_config-v1-0-2e379b0446a7@gmail.com>
-Subject: Re: [PATCH 0/9] ASoC: Constify struct regmap_config
-Message-Id: <172003166452.103730.17308665420530881641.b4-ty@kernel.org>
-Date: Wed, 03 Jul 2024 19:34:24 +0100
+	dkim=pass (2048-bit key) header.d=t-argos.ru header.i=@t-argos.ru header.b="snxCe3va"
+Received: from mx1.t-argos.ru (localhost [127.0.0.1])
+	by mx1.t-argos.ru (Postfix) with ESMTP id AEB3F100004;
+	Wed,  3 Jul 2024 22:11:44 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=t-argos.ru; s=mail;
+	t=1720033904; bh=wR4UhQBrxz9Tl2V3D1+Y+i8wbjNl2gzDlSVQGT2T3Kw=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=snxCe3vaTvNrSqB+OqExmDsR5hkNW6T5WrWagR5Zmw6kNNsIgD08LQC1ViVDn1Uxt
+	 f7/4+gSP/G+sAXP4pVy28CIZBBJaCJ0oA8PeSUBb/+F9LvYiK6ZCeUpsKJruKd1NMf
+	 LEjFW9zq1cGMphVk7SGqA3068A+Prhci7fLLyXhSPHx6QyZxeY5FvIsdXMo35m12pD
+	 fu7DyVjKHzzsvC9nZY8IgXerTmrj1b1cFYq48L2aelgC7hXADzX0fRGLqcAkAHi7VK
+	 ZQyHagO9Up5gnJxjJf8cLJ5v/cDR+1ZaS7MJNOsvQHUyTzpOa6R71R62IFu0fyBD7o
+	 Y0HPbuSe7G7uA==
+Received: from mx1.t-argos.ru.ru (ta-mail-02.ta.t-argos.ru [172.17.13.212])
+	by mx1.t-argos.ru (Postfix) with ESMTP;
+	Wed,  3 Jul 2024 22:10:47 +0300 (MSK)
+Received: from localhost.localdomain (172.17.215.5) by ta-mail-02
+ (172.17.13.212) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 3 Jul 2024
+ 22:10:27 +0300
+From: Aleksandr Mishin <amishin@t-argos.ru>
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+CC: Aleksandr Mishin <amishin@t-argos.ru>, Liam Girdwood
+	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela
+	<perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Kuninori Morimoto
+	<kuninori.morimoto.gx@renesas.com>, <linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>
+Subject: [PATCH v2] ASoC: amd: Adjust error handling in case of absent codec device
+Date: Wed, 3 Jul 2024 22:10:07 +0300
+Message-ID: <20240703191007.8524-1-amishin@t-argos.ru>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20240703164028.32806-1-amishin@t-argos.ru>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev-d4707
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: ta-mail-02.ta.t-argos.ru (172.17.13.212) To ta-mail-02
+ (172.17.13.212)
+X-KSMG-Rule-ID: 1
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 186315 [Jul 03 2024]
+X-KSMG-AntiSpam-Version: 6.1.0.4
+X-KSMG-AntiSpam-Envelope-From: amishin@t-argos.ru
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 21 0.3.21 ebee5449fc125b2da45f1a6a6bc2c5c0c3ad0e05, {Tracking_from_domain_doesnt_match_to}, mx1.t-argos.ru.ru:7.1.1;t-argos.ru:7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1, FromAlignment: s
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean, bases: 2024/07/03 18:01:00
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2024/07/03 17:02:00 #25823003
+X-KSMG-AntiVirus-Status: Clean, skipped
 
-On Wed, 03 Jul 2024 18:20:56 +0200, Javier Carrasco wrote:
-> This series adds the const modifier to the remaining regmap_config
-> structs under sound/soc that are effectively used as const (i.e., only
-> read after their declaration), but kept as writtable data.
-> 
-> 
+acpi_get_first_physical_node() can return NULL in several cases (no such
+device, ACPI table error, reference count drop to 0, etc).
+Existing check just emit error message, but doesn't perform return.
+Then this NULL pointer is passed to devm_acpi_dev_add_driver_gpios()
+where it is dereferenced.
 
-Applied to
+Adjust this error handling by adding error code return.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-Thanks!
+Fixes: 02527c3f2300 ("ASoC: amd: add Machine driver for Jadeite platform")
+Signed-off-by: Aleksandr Mishin <amishin@t-argos.ru>
+---
+v1->v2: Comment updated
 
-[1/9] ASoC: cs35l34: Constify struct regmap_config
-      commit: cb148180125ef88a4c1c20ecf25337f1e45657bb
-[2/9] ASoC: cs35l35: Constify struct regmap_config
-      commit: 306e0317bddfbb6bea1ad31c3daeecaec0304295
-[3/9] ASoC: cs35l36: Constify struct regmap_config
-      commit: 0271df05e6fe92b7000dcce5058a0ed6af127ef6
-[4/9] ASoC: cs53l30: Constify struct regmap_config
-      commit: 52f0aa5fb9437013f7f35d61426de497a8927891
-[5/9] ASoC: jz4760: Constify struct regmap_config
-      commit: 8d9c0ede48f29c9fccd095952d657fc5696da9ac
-[6/9] ASoC: jz4770: Constify struct regmap_config
-      commit: 7abfa29ba6a43c5e25622de1ba1f1846b9c9b5e8
-[7/9] ASoC: wsa881x: Constify struct regmap_config
-      commit: 5ffab1d3f3f3281869b894070fe4438f307759ec
-[8/9] ASoC: wsa883x: Constify struct regmap_config
-      commit: 22c361dc7ce4d4d6a688febee57d6e4b130b96b3
-[9/9] ASoC: wsa884x: Constify struct regmap_config
-      commit: e15cc906b9c5af5414bb6002b6a036550bca6bd8
+ sound/soc/amd/acp-es8336.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/soc/amd/acp-es8336.c b/sound/soc/amd/acp-es8336.c
+index e079b3218c6f..3756b8bef17b 100644
+--- a/sound/soc/amd/acp-es8336.c
++++ b/sound/soc/amd/acp-es8336.c
+@@ -203,8 +203,10 @@ static int st_es8336_late_probe(struct snd_soc_card *card)
+ 
+ 	codec_dev = acpi_get_first_physical_node(adev);
+ 	acpi_dev_put(adev);
+-	if (!codec_dev)
++	if (!codec_dev) {
+ 		dev_err(card->dev, "can not find codec dev\n");
++		return -ENODEV;
++	}
+ 
+ 	ret = devm_acpi_dev_add_driver_gpios(codec_dev, acpi_es8336_gpios);
+ 	if (ret)
+-- 
+2.30.2
 
