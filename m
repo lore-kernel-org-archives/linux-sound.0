@@ -1,43 +1,51 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DE61136678;
-	Wed,  3 Jul 2024 20:25:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA08710A1F;
+	Wed,  3 Jul 2024 21:02:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720038323; cv=none; b=cC5udfuRlS17O64CaangwO3W62+gO3EwbEhKonPObZGa17Cw99ZylMx+kXfSZhu1L31ty4xvK0gUbwewyDpRqggMMOOttU0Pttfniy3w9+twg7Z2XiTPwvPdPiLT9eTn9RIM9M9B9Nc1nn0EYjwpwW7KxuLayTeabKpNVMS+oco=
+	t=1720040551; cv=none; b=kIPAOuHghWMwI+YrEw1DfRRb8Wq/AQfsZvOXWRFF2u6EcBydAicY9yU4+C08EOLOiUuY8MMFbMvImKKf4Eq7YgyCf5f3I1+MM6G8IhLW0oNRhHyudpAnm4liypK+dLyksvMgjg+s0j+6DPwTbZFZs84bEgRVKvcmdi3Zo3hPbck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720038323; c=relaxed/simple;
-	bh=fM17ACxPi48RUkc6CTYUTCDM5lj10S/OBmpaFFNIkcQ=;
+	s=arc-20240116; t=1720040551; c=relaxed/simple;
+	bh=dmmPN7PbNyCuDzjw4nX616fO/kyvAhA6uaaJgw/vC5g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ch1Uvgxcz4JW22CX6/4WgkxpOZ+kQl2lnpyyvva387oJFCXzWORSRYA6fIl6hWX/B6b/9+M0Umj6BvkGG7HKPIroTfZsUfFFcOlE7sqpRHiJLdOCYrFYGEWEpO6G2kgBt6CgxubOYqi5LE6i8s1ombORprfoA+WQmq/pxmdAEhk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lsMHSpij; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ixgEIa2kQbYVGFewE/mjh/DGC5QLVF8yjWsQKVF9v5ixQZkJ94Tyj5/IQUlUm7c5TVMhRxzjES6CyZirazNlF7eifYorawlPurW6QtHKz8uIZt9GK1XC85vBMJ8oRg+0mgaSqIPm0xquSpuT83S9FqUtsOqMryXLK6/L9dGg234=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gGWRsB9H; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lsMHSpij"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EBD6C2BD10;
-	Wed,  3 Jul 2024 20:25:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gGWRsB9H"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57B3BC2BD10;
+	Wed,  3 Jul 2024 21:02:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720038322;
-	bh=fM17ACxPi48RUkc6CTYUTCDM5lj10S/OBmpaFFNIkcQ=;
+	s=k20201202; t=1720040550;
+	bh=dmmPN7PbNyCuDzjw4nX616fO/kyvAhA6uaaJgw/vC5g=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lsMHSpijNHgNraF3XmxVNow8XXBH8g/B5rA/mkxtYdBXza28HZvqneW87fCE9tetR
-	 pLs/iFZ+oItTxRg+CYcNp6YFgG3O+4M+XGVjkrXiqooUxLfVnz7eYbqQbWJPztHC99
-	 zY2KnY4a88ycjf04f0gzxOc0jU1hXTE8qT1LSdnZcOf6dNhc8bMOc0ZxXw/Y9bDWQ2
-	 o5oFKlLoA3K1/yubdduHwDPWeKeJXIAmsqbEuYzgGguTgAU0fplVjEPg4zvJlfYbis
-	 UIt6SIc+cJHXRhnR10KpEP6PynuDmIWKv4GakgPEsrohA2mypinD3lyvFurSWlYzTs
-	 o6xQdJ/8XZLYg==
-Date: Wed, 3 Jul 2024 21:25:17 +0100
+	b=gGWRsB9H5MXgtDn7xBNW3x8qyw8sNfFGFcrNRO8O/yIwf4qqlSgoIJAMpNG+t7BZX
+	 +AKaNMZnSTW4BhxsEDiixqYQXjKtfclgZgjhydQxZMm5TBdoAjiLfsPmtiPKpGEVBH
+	 aA0+F2GTdsgouJCp7SjzpViThXocsy3WXNw/Y+KaMkXP+XplJoFUdxgaEfzWOQixUZ
+	 bsQZkCrJg+4nGLJsbgVE8NmRAiwVdIjZxxi/tYhpzwa3F6oVqpx356zsR7lFetlzpJ
+	 X49nafffoCvVToREvd67r+CMnyPu62/lizDqCqlBh2Z56O17YJk6yCzqZkFQ0dmnAM
+	 o0nxREnHvwoVQ==
+Date: Wed, 3 Jul 2024 22:02:23 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Shenghao Ding <13916275206@139.com>, alsa-devel@alsa-project.org
-Subject: Re: [PATCH 2/4] ASoC: tas2781-i2c: Drop weird GPIO code
-Message-ID: <c14e3b14-ea10-4a92-b758-557a87fc8047@sirena.org.uk>
-References: <20240701-asoc-tas-gpios-v1-0-d69ec5d79939@linaro.org>
- <20240701-asoc-tas-gpios-v1-2-d69ec5d79939@linaro.org>
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Qiang Zhao <qiang.zhao@nxp.com>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v2 07/10] soc: fsl: cpm1: qmc: Introduce functions to get
+ a channel from a phandle list
+Message-ID: <a8c44188-d5d8-445d-9d64-bbfce6b1b628@sirena.org.uk>
+References: <20240701113038.55144-1-herve.codina@bootlin.com>
+ <20240701113038.55144-8-herve.codina@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,36 +53,41 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Lld/DtCFEGNZXhT7"
+	protocol="application/pgp-signature"; boundary="IXiemNHl5uycVqbr"
 Content-Disposition: inline
-In-Reply-To: <20240701-asoc-tas-gpios-v1-2-d69ec5d79939@linaro.org>
+In-Reply-To: <20240701113038.55144-8-herve.codina@bootlin.com>
 X-Cookie: There is a fly on your nose.
 
 
---Lld/DtCFEGNZXhT7
+--IXiemNHl5uycVqbr
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 01, 2024 at 09:02:13AM +0200, Linus Walleij wrote:
-> The tas2781-i2c driver gets an IRQ from either ACPI or device tree,
-> then proceeds to check if the IRQ has a corresponding GPIO and in
-> case it does enforce the GPIO as input and set a label on it.
+On Mon, Jul 01, 2024 at 01:30:34PM +0200, Herve Codina wrote:
+> qmc_chan_get_byphandle() and the resource managed version retrieve a
+> channel from a simple phandle.
+>=20
+> Extend the API and introduce qmc_chan_get_byphandles_index() and the
+> resource managed version in order to retrieve a channel from a phandle
+> list using the provided index to identify the phandle in the list.
 
-This doesn't apply against current code, please check and resend.
+These two PowerPC patches seem trivial enough and have got no response,
+unless someone objects I'll go ahead and apply them.
 
---Lld/DtCFEGNZXhT7
+--IXiemNHl5uycVqbr
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmaFs6wACgkQJNaLcl1U
-h9B5AQf+JweFR/QE46WZc782ZDWwAiD8hsguRmw353JdgBSB4wltFwz9wl2Rcg66
-4fFZ9FGFQ6+GRqYrCWbmnpgevm6G9JORPHSAKs3GJhvn8QWXK9IbRROaAPBHcnIV
-RxMMX/jjkPFsQOXWIDsV9VFi3XFNDD62AApXka9ctdWjxEb0XTgoF6SO6Qe9gn8k
-8O+UXOwai17vWnU8MRIwMFtZGe+PM+jIDee+B2B+hYuivpJ/JhZ9EsqcyFzEjfZe
-ovj4QXcHVVBZ3dAakTYoo17COckJu0bxH3IbuaacLtbVzcRA+P8VgCu4olUkjMgK
-eNtwwwO+BCD9U7wxoCTg/Ep9gHdCoQ==
-=KAlW
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmaFvF4ACgkQJNaLcl1U
+h9BZVQf/UimpDsgz78MuXcxLPQ7UIFnEeDuapV1kWGaWCmCLoHhTHXeG8B/9AQqI
+ttiEWJdBKBzc1NRr0xmsh4BpKIVlCe3zZ3tndxE0umFnliWOKBeo7ZqroZb47asH
+lcjxXenwNC733si1/zHRv3cxK8z0zprPshVonONBP4iaKppNz0Kmifj77IglG/h2
+C6j9RiJ9CNkG7KTc5XU376/q5G4PXStk+KRrVL0F+x+c93QywoqXinxhXovc/j69
+CNNc/7NjfF/7Rs+Y+F4QA+6VA9WjwjEO+WNaI3VtZad+beJ6ERyJBnh6G0tCrWl7
+PYG5NWe9uOZQxqsuESvUUBEGB2nJzg==
+=qAFL
 -----END PGP SIGNATURE-----
 
---Lld/DtCFEGNZXhT7--
+--IXiemNHl5uycVqbr--
