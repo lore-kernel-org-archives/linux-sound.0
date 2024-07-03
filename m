@@ -1,91 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx1.t-argos.ru (mx1.t-argos.ru [109.73.34.58])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C1A3142624;
-	Wed,  3 Jul 2024 16:30:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B82AF1822F8;
+	Wed,  3 Jul 2024 16:42:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.73.34.58
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720024239; cv=none; b=QIgFlssrm/VGR6LnEjWDCGhvzIuwvox8hg8UuIv+mr1DL5FzJOpuTpPCrfhSwgH7yHo8v3EaDg364Zre11msmE1nScp8BADirE0Oujv3EkUww2eOw2vZTfLFvufMKN+I8GLyOKkyrNgUeC3RRUPP7XRi8anVvBaE84BHhCC2MjE=
+	t=1720024934; cv=none; b=dFT5iU16a0wjV+RndXI4dG80/k88WrJodXOcU6vb92Ns0ijBAMkfpEzPg+AFUEy97lu08ID0Aoz6UbXp1jZu9rh4E8y5vp9QSPHj2tMp2XYTZy3ZI4cgeMopUd8pCmPNXxHEVGEyFTaJpTPypMYDOCQprsGjKRyvArxLQ4mx0i8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720024239; c=relaxed/simple;
-	bh=tbw4IjqXUR04CkMFwlqotJR1pTI1NbAbfwA6PTNVkYE=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=K/XZz+SarjD1IMlTfXdkCwQ/5ruMWvcHw2R6HikgRaLfDBwp5itcD+JyQZm8i2bsNKC3+ILJsJCG9PcEynBYGY1OPdPGUwTGGwFD6YMNoCICr3tEeyadtSPIXtp2wHe1wjlBim50SerUrKHg5tbZcy8iDphgcwySe4lBit3PWuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uhGbs0cz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720024934; c=relaxed/simple;
+	bh=aS05j7cqiVpGJkb8TVm9ieLHw6OH/xlV346wSSb/3Jg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=eOE0BfMFKmfi/RkP/Elqvj04xyZ1iz0lM0dGW2k/xeTAw+NkElykaS+a5DnipzL1ycRuMnbrQ6eV7UxVS+ycno6sFgfmmJ8TagbMFpRYAzxziozUQ1/clO37YdUcZ57tJrJ63gvbd3ZKMJT106u2S0UaSQ8XV+5xnYdr63yRyKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=t-argos.ru; spf=pass smtp.mailfrom=t-argos.ru; dkim=pass (2048-bit key) header.d=t-argos.ru header.i=@t-argos.ru header.b=OXxrza6w; arc=none smtp.client-ip=109.73.34.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=t-argos.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=t-argos.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uhGbs0cz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACF21C2BD10;
-	Wed,  3 Jul 2024 16:30:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720024239;
-	bh=tbw4IjqXUR04CkMFwlqotJR1pTI1NbAbfwA6PTNVkYE=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=uhGbs0cz+lh5Jr0TI6K7d7JJFV3jwor1ByoZyfHg+ROERKhTX2KwjYle0gI70vSRu
-	 a9ZFvzQDl+Xq9VYbMo8c4lLE2ap46PcOrE4ZUVt+eNxQZHu7xgVzJ/jI2axq56jx9T
-	 ZHYQtQRbq/O8WqlZfiSE5mRUlBEwn63DKMxGXFOAFQWvCVhfkeadv7EZVX7FTK3uRq
-	 FiTh/wrl/Mt2KheRaaqlwYupBX+7XVmU6mA14+cRZScuSJoHbHuG6iiw/nOPe6TTNe
-	 7SYj8qxx0I0sMsZc3Vn9ooFLIpJqf+ao7gcS65cPtSuOa9+D3XapmMgsB9XAHB4LHu
-	 ZVoewSoyUGuXw==
-From: Mark Brown <broonie@kernel.org>
-To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
- nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Chancel Liu <chancel.liu@nxp.com>
-In-Reply-To: <20240628094354.780720-1-chancel.liu@nxp.com>
-References: <20240628094354.780720-1-chancel.liu@nxp.com>
-Subject: Re: [PATCH] ASoC: fsl_xcvr: Improve suspend/resume flow in
- fsl_xcvr_trigger()
-Message-Id: <172002423642.71782.11871848740483876915.b4-ty@kernel.org>
-Date: Wed, 03 Jul 2024 17:30:36 +0100
+	dkim=pass (2048-bit key) header.d=t-argos.ru header.i=@t-argos.ru header.b="OXxrza6w"
+Received: from mx1.t-argos.ru (localhost [127.0.0.1])
+	by mx1.t-argos.ru (Postfix) with ESMTP id 9FCD5100004;
+	Wed,  3 Jul 2024 19:41:52 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=t-argos.ru; s=mail;
+	t=1720024912; bh=7HOsXZ+t5H5CIixi19Qsdci4dDO45Md8eG5cPokiVA8=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=OXxrza6wRh6yQcpNWs5G8kueSc1lprPnGTaXfRR10Xe8YVzBRNFfyqILnLmhcTtsz
+	 m4tEP3LjXSlMkHXMWvgxA2SDVrqpsZWyQVEK+L02T1ySKOAYqyUHBAoUOB9ExqkAoA
+	 ybZDHFb8VyBUEe+kJebMmiHLFgmUYHuTYbN2IyeZreKgUbVcmBV+CSYHbLHgY40U8e
+	 yVVWLd7WmLsxQ4m0/jEQq2Ew5NbItpBZht/cs5oIaqr7Z+41yxHSsle67i0HOOrR/V
+	 uuf8ts37djLW9taay2j2aRZYuaCla+WxQvZ92R6tWuK7JatbMg1gkcVh+IPsvu0M/2
+	 UOM3Wcjq/Hokw==
+Received: from mx1.t-argos.ru.ru (ta-mail-02.ta.t-argos.ru [172.17.13.212])
+	by mx1.t-argos.ru (Postfix) with ESMTP;
+	Wed,  3 Jul 2024 19:40:57 +0300 (MSK)
+Received: from localhost.localdomain (172.17.215.5) by ta-mail-02
+ (172.17.13.212) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 3 Jul 2024
+ 19:40:37 +0300
+From: Aleksandr Mishin <amishin@t-argos.ru>
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+CC: Aleksandr Mishin <amishin@t-argos.ru>, Liam Girdwood
+	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela
+	<perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Kuninori Morimoto
+	<kuninori.morimoto.gx@renesas.com>, <linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>
+Subject: [PATCH] ASoC: amd: Adjust error handling in case of absent codec device
+Date: Wed, 3 Jul 2024 19:40:28 +0300
+Message-ID: <20240703164028.32806-1-amishin@t-argos.ru>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev-d4707
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: ta-mail-02.ta.t-argos.ru (172.17.13.212) To ta-mail-02
+ (172.17.13.212)
+X-KSMG-Rule-ID: 1
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 186313 [Jul 03 2024]
+X-KSMG-AntiSpam-Version: 6.1.0.4
+X-KSMG-AntiSpam-Envelope-From: amishin@t-argos.ru
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 21 0.3.21 ebee5449fc125b2da45f1a6a6bc2c5c0c3ad0e05, {Tracking_from_domain_doesnt_match_to}, t-argos.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;mx1.t-argos.ru.ru:7.1.1;127.0.0.199:7.1.2, FromAlignment: s
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean, bases: 2024/07/03 15:42:00
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2024/07/03 06:16:00 #25818842
+X-KSMG-AntiVirus-Status: Clean, skipped
 
-On Fri, 28 Jun 2024 18:43:54 +0900, Chancel Liu wrote:
-> In the current flow all interrupts are disabled in runtime suspend
-> phase. However interrupts enablement only exists in fsl_xcvr_prepare().
-> After resume fsl_xcvr_prepare() may not be called so it will cause all
-> interrupts still disabled even if resume from suspend. Interrupts
-> should be explictily enabled after resume.
-> 
-> Also, DPATH reset setting only exists in fsl_xcvr_prepare(). After
-> resume from suspend DPATH should be reset otherwise there'll be channel
-> swap issue.
-> 
-> [...]
+acpi_get_first_physical_node() can return NULL in several cases (no such
+device, ACPI table error, reference count drop to 0, etc).
+Existing check just emit error message, but doesn't perform return.
 
-Applied to
+Adjust this error handling by adding error code return.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-Thanks!
+Fixes: 02527c3f2300 ("ASoC: amd: add Machine driver for Jadeite platform")
+Signed-off-by: Aleksandr Mishin <amishin@t-argos.ru>
+---
+ sound/soc/amd/acp-es8336.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-[1/1] ASoC: fsl_xcvr: Improve suspend/resume flow in fsl_xcvr_trigger()
-      commit: c288f0a1c08efa65f9e3bb7954eb3cefb966c97d
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/soc/amd/acp-es8336.c b/sound/soc/amd/acp-es8336.c
+index e079b3218c6f..3756b8bef17b 100644
+--- a/sound/soc/amd/acp-es8336.c
++++ b/sound/soc/amd/acp-es8336.c
+@@ -203,8 +203,10 @@ static int st_es8336_late_probe(struct snd_soc_card *card)
+ 
+ 	codec_dev = acpi_get_first_physical_node(adev);
+ 	acpi_dev_put(adev);
+-	if (!codec_dev)
++	if (!codec_dev) {
+ 		dev_err(card->dev, "can not find codec dev\n");
++		return -ENODEV;
++	}
+ 
+ 	ret = devm_acpi_dev_add_driver_gpios(codec_dev, acpi_es8336_gpios);
+ 	if (ret)
+-- 
+2.30.2
 
