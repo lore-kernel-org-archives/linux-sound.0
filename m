@@ -1,87 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3410117C9EE;
-	Wed,  3 Jul 2024 16:50:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3CA118732E;
+	Wed,  3 Jul 2024 17:21:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720025450; cv=none; b=LZPW0PRIehU6xMFjB+aedoOYRWGAcFCKT8FFbqaNm6hBMH31P4y6pQxa1v7fDmUIWsCj+8bDEW0rs2okOOdIxr6uNgU7Tjp+2IAV6BjdpiZ3M7oFEPlwTFg34PkS+ul/u2m5nYu6Ypq1oH+TR5YvApKzzsL1ma23+KDfk0cpfzw=
+	t=1720027292; cv=none; b=aMLOdOqiYaxrX4PsuJvCbunl7RdBt+DAKmBtjHngf80F3ueDueJVKrWAd9xl/QOhb7OSezd3H7ZCDPERo9PES3jWlAiNhZNRNx5/lO7gUKMe7++brEr5wAy/sQSFsct5Y8QFn27eaDVBKPeF0UiwCs1ee7U13ffcjREeKZmVykM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720025450; c=relaxed/simple;
-	bh=D/MaZTHnLDeuOo/Iggcd3e4LByeXme4plxgenvbdE5I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bx62Fkn1mDv9AqM28RMys5Ji9no6gCh9b1xV3dWjCHfmES/Wtbs9zoaR0DF7sGkC151rbKnEi9mOxnUTPlOVrN2h8neA/OfjmSqLtejfXW6MJM5XA6js6XaiTUrfxOZnBcPbzvco7XfGqCg8pZgw2ovtA64INUFRDOy849aNI84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P9xliZGf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720027292; c=relaxed/simple;
+	bh=giXUCjE/bVF2J8IwN5KMHAKxDuYcdenGtsscvyNcoFk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=MOHip8JVG8x+4ju7DiEebAtmKQV1BFny/Kf0tm8ClIFplAVovOYJ91vjXR1L/j/zV5fE7vlIFjGTwPoKRfglIPDnK4slw6P/BsQc6xxUCJ4vlwUPSqjCOar5IcmvPuOWnT3PkN3WOnFYlcqN8UnhFI4otZDxf3REYmOGxX+5EcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DNLaOhat; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P9xliZGf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0B36C2BD10;
-	Wed,  3 Jul 2024 16:50:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DNLaOhat"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83588C4AF07;
+	Wed,  3 Jul 2024 17:21:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720025449;
-	bh=D/MaZTHnLDeuOo/Iggcd3e4LByeXme4plxgenvbdE5I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=P9xliZGfnZOh1KHiKAGUQjCGSVRh7j6lDOinEAynp4N6ygspn7kzzXR8gGr+H07aL
-	 nSC95r6adPBhM/CPm/6qczd7w/csGoVGLCRXSVZv+d5scF1DzO/xiQrxF0PoD0VZit
-	 hvi14hvcNZTp81z/heeK4qAH/kxB+Ij7CrI2f3oqiDq0pZvGvLTs2VPkNq1mXvhjon
-	 hdSf7MjPrx0DKGu8Xd8hxJRFjlTiNYUiMKnHH+ubtymuq1WjoP1YBIafqp28eqtrgB
-	 iBjp88zDvsM+xf4jwvbTbm0/UhKXga/Ez1tvaH0fiifFnBGl+PHulFiTUqdhivuvln
-	 io6j1gKuWyfdQ==
-Date: Wed, 3 Jul 2024 17:50:43 +0100
+	s=k20201202; t=1720027291;
+	bh=giXUCjE/bVF2J8IwN5KMHAKxDuYcdenGtsscvyNcoFk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=DNLaOhatSyBmheBUCTXVoWP9pBSwvdkQCzPKio/jnWsJ28MZn/w9C/jXgxgYIHGA4
+	 +d3qWvFjFE9pDjd7FUTzpHs964S2+gFb9ZLZAlEMy9wMMH+DC/xzZqUB4RwXocLw5m
+	 ypk1gtUICiffHOFiLu0VoeAVcuwictBtFbE7QaAsujwbV5O+d1SnGMay3WZGJnRtVn
+	 NfwnLIlcsrS5qvLUe+pZT9uCYrB3EoFJbACcl81XVlfykkQKE5lPnQK1F9dnXS98bn
+	 ZEDGS6kQFD4phMsjoUvq0kla0oNEwjZQkDq1pVvUZ5rhTCts/SIYSP44GDCDqOZs6u
+	 M+ZeMzL8WTMeQ==
 From: Mark Brown <broonie@kernel.org>
-To: Aleksandr Mishin <amishin@t-argos.ru>
-Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org
-Subject: Re: [PATCH] ASoC: amd: Adjust error handling in case of absent codec
- device
-Message-ID: <2d37b9cb-f442-4925-a63f-e25dcfb388fe@sirena.org.uk>
-References: <20240703164028.32806-1-amishin@t-argos.ru>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-kernel@vger.kernel.org, patches@opensource.cirrus.com, 
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+In-Reply-To: <20240703095517.208077-1-rf@opensource.cirrus.com>
+References: <20240703095517.208077-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH 0/2] ASoC: cs35l56: Set correct upper volume limit
+Message-Id: <172002729026.88190.11217430564421888436.b4-ty@kernel.org>
+Date: Wed, 03 Jul 2024 18:21:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tqkLKcxuY6/Fw1sD"
-Content-Disposition: inline
-In-Reply-To: <20240703164028.32806-1-amishin@t-argos.ru>
-X-Cookie: There is a fly on your nose.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev-d4707
 
+On Wed, 03 Jul 2024 10:55:15 +0100, Richard Fitzgerald wrote:
+> These two commits set the upper limit of the Speaker Volume control
+> to +12dB instead of +100dB.
+> 
+> This should have been a simple 1-line change to the #define in the
+> header file, but only the HDA cs35l56 driver is using this define.
+> The ASoC cs35l56 driver was using hardcoded numbers instead of the
+> header defines.
+> 
+> [...]
 
---tqkLKcxuY6/Fw1sD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to
 
-On Wed, Jul 03, 2024 at 07:40:28PM +0300, Aleksandr Mishin wrote:
-> acpi_get_first_physical_node() can return NULL in several cases (no such
-> device, ACPI table error, reference count drop to 0, etc).
-> Existing check just emit error message, but doesn't perform return.
->=20
-> Adjust this error handling by adding error code return.
->=20
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-I am not seeing any analysis here about the correctness of this new
-error handling.
+Thanks!
 
---tqkLKcxuY6/Fw1sD
-Content-Type: application/pgp-signature; name="signature.asc"
+[1/2] ASoC: cs35l56: Use header defines for Speaker Volume control definition
+      commit: c66995ae403073212f5ba60d2079003866c6e130
+[2/2] ASoC: cs35l56: Limit Speaker Volume to +12dB maximum
+      commit: 244389bd42870640c4b5ef672a360da329b579ed
 
------BEGIN PGP SIGNATURE-----
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmaFgWMACgkQJNaLcl1U
-h9B3/Qf/Y9sZdHWsOhEGVGLH+O1+YbyUWiBTeYWFnuMM9C9i4Cd9pmhW9AYhzm3w
-E5GQaTAyD9vU49pEr3bohLZzqG5/jqstkf7K3o8jALyIvGlZA3p7mmG+84YkW+cD
-kHW57a3qyT3ckdQ8LFkY1WLO43cLvfhRxBYUEV+JAvOtnKFt90G3+ZN1vL3EImqt
-34QUTDURBOwRSpXGM6MMpNxhZc1ZEr35yv5UxvlvZPDBr6iYY5mL4blsyvBtH/LP
-aPTrqoXA7Rs3llDz2pc2972rGyCVHlX+8rbesreBliOAlzXiZOhs+Zxz0zMmIJlO
-LU0HkJDqdyZiK6gpdi+FLxxdbVPnBA==
-=yCQ5
------END PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---tqkLKcxuY6/Fw1sD--
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
