@@ -1,60 +1,43 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00EAF1836D0;
-	Wed,  3 Jul 2024 16:21:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C1A3142624;
+	Wed,  3 Jul 2024 16:30:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720023688; cv=none; b=Z7738ZA0KvAqg1OK1RTUkZQL9RiEF66FSFgPwvEXFbd8haIj6qPLjb8sw9ZJftk/vPgoN/xVfMeKfPKGk/dcXIboQPPQt6heDPLFqYNrLOYhiXQr+NhgbcTHqumZo+MJJzNIauEZywNRCnUrZFZsflX8uxhLt9HuoYq23QA+1i0=
+	t=1720024239; cv=none; b=QIgFlssrm/VGR6LnEjWDCGhvzIuwvox8hg8UuIv+mr1DL5FzJOpuTpPCrfhSwgH7yHo8v3EaDg364Zre11msmE1nScp8BADirE0Oujv3EkUww2eOw2vZTfLFvufMKN+I8GLyOKkyrNgUeC3RRUPP7XRi8anVvBaE84BHhCC2MjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720023688; c=relaxed/simple;
-	bh=GEk39FRydi1fT70oPtE+ZJuGWxA/nAzFfLAJ2IHsPtE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lcBhg1VNsoTbeXi+WammUiXkU4A3U6qgmFFbOdO7HDtgsZ3bZFqNbE4h5edjuhPAjxH6q0THwDx6DOljco6j92CKOEHAFXU2Jg6dwbKABZAeX2igr6rdotZwqxCfb/Zcbsi+4j2Qqq1VHnkg9qus/7nS2A3QhQzG55Re1c+0AW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kH2Jqy71; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1720024239; c=relaxed/simple;
+	bh=tbw4IjqXUR04CkMFwlqotJR1pTI1NbAbfwA6PTNVkYE=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=K/XZz+SarjD1IMlTfXdkCwQ/5ruMWvcHw2R6HikgRaLfDBwp5itcD+JyQZm8i2bsNKC3+ILJsJCG9PcEynBYGY1OPdPGUwTGGwFD6YMNoCICr3tEeyadtSPIXtp2wHe1wjlBim50SerUrKHg5tbZcy8iDphgcwySe4lBit3PWuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uhGbs0cz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kH2Jqy71"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a7245453319so143098066b.1;
-        Wed, 03 Jul 2024 09:21:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720023684; x=1720628484; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gG++efZ7r1OnmtfXthfdtG2tmWWRLh+fSeybQPYJHDQ=;
-        b=kH2Jqy716a2RanD/apZm5eDTOJAfvnQMVa3WWk0CLPzDHeVUHbbLblhGYR0V6w4UGH
-         UiEySrV9mdMtd43ZYm83GkqQlrdAWVW0dNeD/eqqnjg8P2Ld8qNn/NPr28cwvfsUGAhX
-         UlQidgBRx7PMTJ5L9htLu+gJRJdcpi0rGWpc2ZyVMVzttSGOIKYmYxKmvC7v1RYgZLJs
-         GRVr7SfUKW+zId8jjQl9f9j3CASCjKK7MBvpsd/Wuihfwdh+dbeLSFIcHP/E7OBvl5iJ
-         EmZqKk+OHmckd2pnKH3NOSe3HOfgElSijG0rkN3DiAbC6gFQUPlNHpj1X/D30QCe28rY
-         c9pA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720023684; x=1720628484;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gG++efZ7r1OnmtfXthfdtG2tmWWRLh+fSeybQPYJHDQ=;
-        b=CCZnionbIB1ThV3n/dJ7Yslw+Wlim9TRNWdr4fYpPvTaIdvJnO9jqSfh2rkWuKWdyX
-         WQwvT5NXBPyyBrId6fixwA77xWAL3ytqy3uTsWV1qoBV41fntgF+9vUfP8GphoXJgEdH
-         iEm4vSeUSKmStD5FttVf6VeY/JCbhAjUsuQnzdz2ikSvDyu5IaHFA9Y7fE83fXNyd7V4
-         M01uQI8CK3vYaOMS7UrqFgSHcxcDvBmYmdXByWSvmmh0kHxuVkuK1LAnnRI4Vafls0ub
-         JSl4DxdLRQvnsCzGQyTE0+TWpFng2ipDeSidFSRUhC3rrdqWOhMp9ZFeRRwvWYMMUTks
-         /pYw==
-X-Forwarded-Encrypted: i=1; AJvYcCVoMrDmJ5mLDXE0iJ5gW3p562bQECmj7pT0sz3tnNHPMkjfPwynmXkrM9Zaerdjs8oYVQgtHd+RMzui0+1Khw9UdYikrtUVhcKfqLfL5n49Xz+NcBkjc+HJqWQp3WDE3wesyiSNB3cjdJIfYwtyVAW+QCbsmBfV/FKLvm/GSPmGmGLV2SNV2GZ5nqXaaOw6QXzRDUEW1M9KiPCp7xvB3dDC6EuHyA==
-X-Gm-Message-State: AOJu0YzWOZRLfZPoLiqn7jxQK/uMUU6v+rA9YZRxixzoj8FZcJtFhm9U
-	O8KlrkbqAvjb8RNqm+YNGec3K9SkIJrPCu33EQP4gsQXtvxpw6fA
-X-Google-Smtp-Source: AGHT+IF1wtHFL+7cLyQBLapJSHhoz/9l0imQ+li63K8X61yyAq8uOaolAshVRhS+rXWk32NgpulPFA==
-X-Received: by 2002:a17:906:a259:b0:a6f:dd93:7ffb with SMTP id a640c23a62f3a-a77a2404383mr140720766b.1.1720023683153;
-        Wed, 03 Jul 2024 09:21:23 -0700 (PDT)
-Received: from [127.0.1.1] (91-118-163-37.static.upcbusiness.at. [91.118.163.37])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a72b5abddaesm473075166b.140.2024.07.03.09.21.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jul 2024 09:21:22 -0700 (PDT)
-From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Date: Wed, 03 Jul 2024 18:21:04 +0200
-Subject: [PATCH 8/9] ASoC: wsa883x: Constify struct regmap_config
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uhGbs0cz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACF21C2BD10;
+	Wed,  3 Jul 2024 16:30:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720024239;
+	bh=tbw4IjqXUR04CkMFwlqotJR1pTI1NbAbfwA6PTNVkYE=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=uhGbs0cz+lh5Jr0TI6K7d7JJFV3jwor1ByoZyfHg+ROERKhTX2KwjYle0gI70vSRu
+	 a9ZFvzQDl+Xq9VYbMo8c4lLE2ap46PcOrE4ZUVt+eNxQZHu7xgVzJ/jI2axq56jx9T
+	 ZHYQtQRbq/O8WqlZfiSE5mRUlBEwn63DKMxGXFOAFQWvCVhfkeadv7EZVX7FTK3uRq
+	 FiTh/wrl/Mt2KheRaaqlwYupBX+7XVmU6mA14+cRZScuSJoHbHuG6iiw/nOPe6TTNe
+	 7SYj8qxx0I0sMsZc3Vn9ooFLIpJqf+ao7gcS65cPtSuOa9+D3XapmMgsB9XAHB4LHu
+	 ZVoewSoyUGuXw==
+From: Mark Brown <broonie@kernel.org>
+To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+ nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Chancel Liu <chancel.liu@nxp.com>
+In-Reply-To: <20240628094354.780720-1-chancel.liu@nxp.com>
+References: <20240628094354.780720-1-chancel.liu@nxp.com>
+Subject: Re: [PATCH] ASoC: fsl_xcvr: Improve suspend/resume flow in
+ fsl_xcvr_trigger()
+Message-Id: <172002423642.71782.11871848740483876915.b4-ty@kernel.org>
+Date: Wed, 03 Jul 2024 17:30:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -63,51 +46,46 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240703-sound-const-regmap_config-v1-8-2e379b0446a7@gmail.com>
-References: <20240703-sound-const-regmap_config-v1-0-2e379b0446a7@gmail.com>
-In-Reply-To: <20240703-sound-const-regmap_config-v1-0-2e379b0446a7@gmail.com>
-To: David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Paul Cercueil <paul@crapouillou.net>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Banajit Goswami <bgoswami@quicinc.com>
-Cc: alsa-devel@alsa-project.org, patches@opensource.cirrus.com, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-mips@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Javier Carrasco <javier.carrasco.cruz@gmail.com>
-X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1720023669; l=803;
- i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
- bh=GEk39FRydi1fT70oPtE+ZJuGWxA/nAzFfLAJ2IHsPtE=;
- b=mBVpWmb88Olh/VCUWZconNdt8PnC5GlUgHDJFhFJmq4s9dXsX5xDlJDoQxBO0xm95ScDZadiC
- VHXdrkMl9zeD7CnE3OeehfrVKkA94ViNvLhIHXY09hkgLZNnSICo4Om
-X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
- pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
+X-Mailer: b4 0.14-dev-d4707
 
-`wsa883x_regmap_config` is not modified and can be declared as const to
-move its data to a read-only section.
+On Fri, 28 Jun 2024 18:43:54 +0900, Chancel Liu wrote:
+> In the current flow all interrupts are disabled in runtime suspend
+> phase. However interrupts enablement only exists in fsl_xcvr_prepare().
+> After resume fsl_xcvr_prepare() may not be called so it will cause all
+> interrupts still disabled even if resume from suspend. Interrupts
+> should be explictily enabled after resume.
+> 
+> Also, DPATH reset setting only exists in fsl_xcvr_prepare(). After
+> resume from suspend DPATH should be reset otherwise there'll be channel
+> swap issue.
+> 
+> [...]
 
-Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
----
- sound/soc/codecs/wsa883x.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied to
 
-diff --git a/sound/soc/codecs/wsa883x.c b/sound/soc/codecs/wsa883x.c
-index f5a15f0e891e..d0ab4e2290b6 100644
---- a/sound/soc/codecs/wsa883x.c
-+++ b/sound/soc/codecs/wsa883x.c
-@@ -934,7 +934,7 @@ static bool wsa883x_volatile_register(struct device *dev, unsigned int reg)
- 	return wsa883x_readonly_register(dev, reg);
- }
- 
--static struct regmap_config wsa883x_regmap_config = {
-+static const struct regmap_config wsa883x_regmap_config = {
- 	.reg_bits = 32,
- 	.val_bits = 8,
- 	.cache_type = REGCACHE_MAPLE,
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
--- 
-2.40.1
+Thanks!
+
+[1/1] ASoC: fsl_xcvr: Improve suspend/resume flow in fsl_xcvr_trigger()
+      commit: c288f0a1c08efa65f9e3bb7954eb3cefb966c97d
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
