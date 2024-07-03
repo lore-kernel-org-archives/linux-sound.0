@@ -1,96 +1,184 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A9C1411E0;
-	Wed,  3 Jul 2024 09:55:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10182142904;
+	Wed,  3 Jul 2024 10:37:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720000535; cv=none; b=ALVm1nEB5vkA49JCAp1x1vp1Eq6/6Zo7G7p4xjcpRhHc2Zr4G3nvd/t+fi90rP8Xu0NEodO8Z6KbDiVYVPhKTmadQKgCEiaxcOoLIHzIWL+MOVQxbd+nWyzWXYn8U5CI2VPelq+MGSDicUcY131A8oQVrIFEi2mPWbGiEK2ws2I=
+	t=1720003051; cv=none; b=raZXsFvvD4ILQMylTRE6f8waMrU+FPHiYvKlL/HiXfZldruX4VeTZSLAVx+sSwpbLOQ327NmImlcaFxb6xibdMKYjolDgTWqLUSWLNGpz5SIdH+zw2hNRVkIxNr5kdUuENk1N5LjC/+yW6ksrdLzNbQOyN7MjLiNjwKHjLO2kAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720000535; c=relaxed/simple;
-	bh=K6avlmTj3HXl3IF6sXdRJdTatC9czwwt3hrIqh+w2HI=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XCwSKl44Ubx3Lih+tb2LBzMUwSwDo8hxt+DPRoMsiX/zvOU3oeXtagCNmgXyxOQ71M6CvaPehCYnlsfPEb4qT9RGZLZZV9LhnccDoAX4lGFkoyEoKLQZ5Uo7rMHSDvzvVCf/x04nOaCezf/Neu8vjjKKziHZP0F56/AD/e72xA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Ujd4dAyD; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1720003051; c=relaxed/simple;
+	bh=9D0oFgRed8MuxGxSMJGRs4O77WGIRnK3b9TAv6iBcRo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=dZq1Hb7A7jL/XOKmywazgwWbZu6vQsAOXUz3RMFZZRUIAt7Yb93YqxU85xdTJIHuTKFXPe3jNvZILMU5luatsNcb9gY5zUfvTRA+LDCRcBxlJPI9GaSwiS/0nUflrHr+FPZmvK8uYVGsGLva25RhuvgpW/FQmRmLYWFyDhuaeJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=foJzSM9R; arc=none smtp.client-ip=217.70.183.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Ujd4dAyD"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4637xDTS029630;
-	Wed, 3 Jul 2024 04:55:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=xLpfh/EOvOaZoS9SdFgCbMXsXkOpWChOWYb38JS95bs=; b=
-	Ujd4dAyDI9H+3Y8Db+2hORYUGz1hd/ZEpKnrvR5G/3YxJt/Qljt4FwvyVuXsGvRc
-	8VncN2naq8Fv7kW3WUy5VP3gpQiq5Zbzexrn9pD+cEuia+STmAyJroFfuZy1Bk6R
-	yxX1m6jQbnf1Wiql5RQCvpIXVuQqVM3OlSME7nzeQjq+6cjh/0rhpBW7TitllbRj
-	HLO74ow6P2XKsaS/8mZ+ADa87Wbop/7fm3JNaN9srPhqcFeEVJRaQ+vRWTL9Ys0k
-	W4WMBH/3UQDlFRCz4InQa+yLB54sXLWkBa/aIBtoHlJHZ7C5wA2WWeS062dvQ5AE
-	0Ikj8LvNEOrJCEwGnh+vdQ==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 402fnxcq1c-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 03 Jul 2024 04:55:21 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 3 Jul 2024
- 10:55:18 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Wed, 3 Jul 2024 10:55:18 +0100
-Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 0F55E820257;
-	Wed,  3 Jul 2024 09:55:18 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: <broonie@kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>
-Subject: [PATCH 2/2] ASoC: cs35l56: Limit Speaker Volume to +12dB maximum
-Date: Wed, 3 Jul 2024 10:55:17 +0100
-Message-ID: <20240703095517.208077-3-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240703095517.208077-1-rf@opensource.cirrus.com>
-References: <20240703095517.208077-1-rf@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="foJzSM9R"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3ECA340002;
+	Wed,  3 Jul 2024 10:37:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1720003045;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Y9dKIY8UF+nReYR3bpF9Pb7TJp7WLPLWK/B5oYjjbq8=;
+	b=foJzSM9RuZQOf/VPApRW0lmUGrQblXobu0gWcMfK3rdR7fFeSllw9HZtvDHamCZSnVeAQd
+	xl3StvV0X9RM6zrGGH8rKfTVgGj2rxAQ/FXj4AoPA7jwEAAykHOnYYQdsWoKj0Z5qT9EbI
+	NJSgM2y4fGFlocfqLTtmMbWZcFSesBLFVfvUvMOxSvZzRHYiHre2aVkplOJXZ8APv8zjRO
+	yRmCwXsRILqubrSOViPCck2qs6VXTOpPU1Zh2pkMz/CDpauRr4KYDvJCL2P3T9WnVnXRPw
+	Yp49tSFnocZKud9kw1tjEbXpKeoo3s6qbV/lMc9MWdp1PkDr10Ce8YagcplEvA==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH 00/20] Simplify of_property_for_each_u32()
+Date: Wed, 03 Jul 2024 12:36:44 +0200
+Message-Id: <20240703-of_property_for_each_u32-v1-0-42c1fc0b82aa@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: w2kT3kpPaJmcpFSN0gZf-kdSIybRhFLH
-X-Proofpoint-ORIG-GUID: w2kT3kpPaJmcpFSN0gZf-kdSIybRhFLH
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALwphWYC/x3MTQqEMAxA4atI1lOI9Q+8igyltKlmY0uqw4j07
+ haX3+K9GzIJU4a5uUHox5njXtF+GnCb3VdS7KtBo+5xwlbFYJLERHJcJkQxZN1mzk6rfsTgUdv
+ Bo4OaJ6HA/3e9fEt5ALUFP0BqAAAA
+To: Miguel Ojeda <ojeda@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Saravana Kannan <saravanak@google.com>, 
+ Nathan Chancellor <nathan@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Tony Lindgren <tony@atomide.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ =?utf-8?q?Emilio_L=C3=B3pez?= <emilio@elopez.com.ar>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
+ Daniel Lezcano <daniel.lezcano@linaro.org>, 
+ Thomas Gleixner <tglx@linutronix.de>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, Jonathan Cameron <jic23@kernel.org>, 
+ Lee Jones <lee@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jiri Slaby <jirislaby@kernel.org>, 
+ Richard Leitner <richard.leitner@linux.dev>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+ Christophe Leroy <christophe.leroy@csgroup.eu>, 
+ "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, 
+ Damien Le Moal <dlemoal@kernel.org>
+Cc: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ llvm@lists.linux.dev, linux-clk@vger.kernel.org, linux-omap@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-samsung-soc@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org, 
+ linux-pwm@vger.kernel.org, linux-serial@vger.kernel.org, 
+ linux-usb@vger.kernel.org, patches@opensource.cirrus.com, 
+ linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-riscv@lists.infradead.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mailer: b4 0.14.0
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-Change CS35L56_MAIN_RENDER_USER_VOLUME_MAX to 48, to limit the maximum
-value of the Speaker Volume control to +12dB. The minimum value is
-unchanged so that the default 0dB has the same integer control value.
+[Note: to reduce the noise I have trimmed the get_maintainers list
+manually. Should you want to be removed, or someone else added, to future
+versions, just tell me. Sorry for the noise.]
 
-The original maximum of 400 (+100dB) was the largest value that can be
-mathematically handled by the DSP. The actual maximum amplification is
-+12dB.
+This series aims at simplifying of_property_for_each_u32() as well as
+making it more difficult to misuse it in the future.
 
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
----
- include/sound/cs35l56.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The long-term goal is changing this pattern:
 
-diff --git a/include/sound/cs35l56.h b/include/sound/cs35l56.h
-index 642ef690ebc2..a6aa112e5741 100644
---- a/include/sound/cs35l56.h
-+++ b/include/sound/cs35l56.h
-@@ -207,7 +207,7 @@
+  struct property *prop;
+  const __be32 *p;
+  u32 val;
  
- /* CS35L56_MAIN_RENDER_USER_VOLUME */
- #define CS35L56_MAIN_RENDER_USER_VOLUME_MIN		-400
--#define CS35L56_MAIN_RENDER_USER_VOLUME_MAX		400
-+#define CS35L56_MAIN_RENDER_USER_VOLUME_MAX		48
- #define CS35L56_MAIN_RENDER_USER_VOLUME_MASK		0x0000FFC0
- #define CS35L56_MAIN_RENDER_USER_VOLUME_SHIFT		6
- #define CS35L56_MAIN_RENDER_USER_VOLUME_SIGNBIT		9
+  of_property_for_each_u32(np, "xyz", prop, p, val) { ... }
+
+to this:
+
+  u32 val;
+
+  of_property_for_each_u32(np, "xyz", val) { ... }
+
+So, removing the 3rd and 4th arguments which are typically meant to be
+internal. Those two parameters used to be unavoidable until the kernel
+moved to building with the C11 standard unconditionally. Since then, it is
+now possible to get rid of them. However a few users of
+of_property_for_each_u32() do actually use those arguments, which
+complicates the transition. For this reason this series does the following:
+
+ * Add of_property_for_each_u32_new(), which does not have those two
+   arguments (patch 1)
+ * Convert _almost_ every usage to of_property_for_each_u32_new()
+ * Rename of_property_for_each_u32() to of_property_for_each_u32_old() and
+   deprecate it, as a incentive to code not (yet) in mainline to upgrade
+   to the *_new() version (last patch)
+
+The plan for the next series is to additionally:
+
+ * Convert the few remaining of_property_for_each_u32_old() instantes to
+   of_property_for_each_u32_new()
+ * Remove of_property_for_each_u32_old()
+ * Rename of_property_for_each_u32_new() to of_property_for_each_u32()
+
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+Luca Ceresoli (20):
+      of: add of_property_for_each_u32_new()
+      clk: convert to of_property_for_each_u32_new()
+      clk: qcom: convert to of_property_for_each_u32_new()
+      clk: sunxi: clk-simple-gates: convert to of_property_for_each_u32_new()
+      clk: sunxi:  clk-sun8i-bus-gates: convert to of_property_for_each_u32_new()
+      clocksource/drivers/samsung_pwm: convert to of_property_for_each_u32_new()
+      bus: ti-sysc: convert to of_property_for_each_u32_new()
+      lk: clk-conf: convert to of_property_for_each_u32_new()
+      gpio: brcmstb: convert to of_property_for_each_u32_new()
+      pinctrl: s32cc: convert to of_property_for_each_u32_new()
+      irqchip/atmel-aic: convert to of_property_for_each_u32_new()
+      iio: adc: ti_am335x_adc: convert to of_property_for_each_u32_new()
+      pwm: samsung: convert to of_property_for_each_u32_new()
+      tty: sysrq: convert to of_property_for_each_u32_new()
+      usb: usb251xb: convert to of_property_for_each_u32_new()
+      mfd: ti_am335x_tscadc: convert to of_property_for_each_u32_new()
+      ASoC: arizona: convert to of_property_for_each_u32_new()
+      powerpc/xive: convert to of_property_for_each_u32_new()
+      powerpc/xive: convert to of_property_for_each_u32_new()
+      of: deprecate and rename of_property_for_each_u32()
+
+ .clang-format                           |  3 ++-
+ arch/powerpc/sysdev/xive/native.c       |  4 +---
+ arch/powerpc/sysdev/xive/spapr.c        |  3 +--
+ drivers/bus/ti-sysc.c                   |  4 +---
+ drivers/clk/clk-conf.c                  |  4 +---
+ drivers/clk/clk-si5351.c                |  4 ++--
+ drivers/clk/clk.c                       |  6 ++----
+ drivers/clk/qcom/common.c               |  4 +---
+ drivers/clk/sunxi/clk-simple-gates.c    |  4 +---
+ drivers/clk/sunxi/clk-sun8i-bus-gates.c |  4 +---
+ drivers/clocksource/samsung_pwm_timer.c |  4 +---
+ drivers/gpio/gpio-brcmstb.c             |  5 +----
+ drivers/iio/adc/ti_am335x_adc.c         |  4 +---
+ drivers/irqchip/irq-atmel-aic-common.c  |  4 +---
+ drivers/irqchip/irq-pic32-evic.c        |  2 +-
+ drivers/mfd/ti_am335x_tscadc.c          |  4 +---
+ drivers/pinctrl/nxp/pinctrl-s32cc.c     |  4 +---
+ drivers/pinctrl/pinctrl-k210.c          |  2 +-
+ drivers/pwm/pwm-samsung.c               |  4 +---
+ drivers/tty/sysrq.c                     |  4 +---
+ drivers/usb/misc/usb251xb.c             |  4 +---
+ include/linux/of.h                      | 14 ++++++++++----
+ sound/soc/codecs/arizona.c              | 12 +++++-------
+ 23 files changed, 39 insertions(+), 68 deletions(-)
+---
+base-commit: e937d48ed96381e9620d9c81fbc1ce666f5b7358
+change-id: 20240701-of_property_for_each_u32-460fd02a5d0c
+
+Best regards,
 -- 
-2.39.2
+Luca Ceresoli <luca.ceresoli@bootlin.com>
 
