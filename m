@@ -1,177 +1,185 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9827B13CA95;
-	Wed,  3 Jul 2024 08:49:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B83B13BBEA
+	for <linux-sound@vger.kernel.org>; Wed,  3 Jul 2024 08:56:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719996569; cv=none; b=c6T2m0z2EpfEgrXKHxlUE0cQ/vYTC8YAlrD+PvS9PDsxasjAID3HWG0FYFt99j+Ss974EUqfcrgkg5YPD4Afs9gtgX9psQbJFRNAZcJrDBinaqF4G9TJ9GjkGUFOXa+pCOxegVQRw5WeBK8snVr9OGSGyBGdXrFBkOfMnwROae0=
+	t=1719997007; cv=none; b=oSWqTKYVweiuN/3suVvo97I/3rnL448AtfLgVJdXLIQbqS6BHPiYSQPrajbFuZlmNdfmkz9FEZZ1DzDTqS5zCjupRsCi5VLe+P3WbN4XUD+zsg/FmRKJE7IEbcEZ0/U915FPE+ixFF/h3wr8EvI6yjEkP9qWyGFaDeIOjmaBbOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719996569; c=relaxed/simple;
-	bh=3dltHtCt2kO8qiiW2Npq9piciE3gykOkQi65SIBblgk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XP/djhjAh/6lm6zcGJah2T12JEzxyxicV3NAzSg/iosJe7ijorV4X6x1quv9T+RSX4Y1DZb6MohYTt4JPqMVKSYBWGAWkJhf/AblEd1Tt0v11B189fH7fzGbEk0tEvk1S9g+7g5ARGGtMkxtauE6YD207idfQDY7SDnpCEX6vvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eLPu0Xf2; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1719997007; c=relaxed/simple;
+	bh=iAzAW4hNt5EJ1BB04zO+qp5oik+XysN+Y03/FuhfzYY=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hUMDMKAFt5lQ3l4Zj5EfYaetBjOC7Md258WPdQVL1Pyr9uNJnFAlJgV6bNsBKNmAElTA3U3hvdakBmj/ErdMf5MCSoZb9Mgv+EeLoX/smyHRJHlZlTnSAaMct2OQseyzgOt1QfORZpLgNewkJZBMUtheu0dyCA+8DF1Lg9GsFUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CdN5y96o; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bgkY9k1m; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CdN5y96o; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bgkY9k1m; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eLPu0Xf2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719996568; x=1751532568;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=3dltHtCt2kO8qiiW2Npq9piciE3gykOkQi65SIBblgk=;
-  b=eLPu0Xf2naHbJd3R4joRUOUgNK3W2MA1oSEj37nm+cuw53rBBa7TkYlb
-   ty9mawMntTaCP8FCdNHSuCm38JhME3BFDOy7rdJqCZOBMp+NUImeWj3SS
-   7CwkT1Zb0f1r5leXIr58BN7uwZ0uawBqgBmpJ4bix2Rj3oYXEqXBsSaaE
-   ETK4RWk2zGfPpPPyLpkcrRRe40h8hWDh8pMURMDk5WVlyFuCz+WmG2iqd
-   gZ0NboSlqYDNaUJn1cYFxYtcbFzP//PWaSbPYvUjB6jkVmteYLICDBT3b
-   ezp5lKhBpbiT1A7I+5mz05uZckVX9fsp2efiZUEwigQJzWTSH10xR7F2J
-   g==;
-X-CSE-ConnectionGUID: oYCxL8rqTa2lulKecwpiNA==
-X-CSE-MsgGUID: yW6Da1KhTBGBRtDsJzH2zA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11121"; a="17166459"
-X-IronPort-AV: E=Sophos;i="6.09,181,1716274800"; 
-   d="scan'208";a="17166459"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 01:49:27 -0700
-X-CSE-ConnectionGUID: hspAsi3VQOKExlrUFYcLFw==
-X-CSE-MsgGUID: 2ivefynxTxGERJHTPJ/Mqw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,181,1716274800"; 
-   d="scan'208";a="50501023"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO [10.245.246.242]) ([10.245.246.242])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 01:49:21 -0700
-Message-ID: <70bf10a7-7f87-4fd1-bd44-1733d3b2b15e@linux.intel.com>
-Date: Wed, 3 Jul 2024 10:49:18 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CdN5y96o";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bgkY9k1m";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CdN5y96o";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bgkY9k1m"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BFB2A21111;
+	Wed,  3 Jul 2024 08:56:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1719997003; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NKfbG/WE30MGFlrbHaxqa1Z+tRqVzvjAeno3ZoTbYNo=;
+	b=CdN5y96oYD4yUjaf84d2jGcvi+PJKyys39z+zZTpXmwNYQokSe7/lOMCGabwum2e4jTxtX
+	g5JhLYCkkqXhBYgzaGSXeKS3GmA0//gSXmMyyaYdAa/YC06Wqk581ZxOk9Zid/ekRnWYCt
+	Qmnioo+NLs0p827yHaVy9GnXy6hhzIA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1719997003;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NKfbG/WE30MGFlrbHaxqa1Z+tRqVzvjAeno3ZoTbYNo=;
+	b=bgkY9k1mYQ5qjWs2vkfZp44P5u8faRjOwBasAT21x92dWGH8Jvw415TnjuniNdukeGPgM9
+	z8c+VJuWbTddtXCw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=CdN5y96o;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bgkY9k1m
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1719997003; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NKfbG/WE30MGFlrbHaxqa1Z+tRqVzvjAeno3ZoTbYNo=;
+	b=CdN5y96oYD4yUjaf84d2jGcvi+PJKyys39z+zZTpXmwNYQokSe7/lOMCGabwum2e4jTxtX
+	g5JhLYCkkqXhBYgzaGSXeKS3GmA0//gSXmMyyaYdAa/YC06Wqk581ZxOk9Zid/ekRnWYCt
+	Qmnioo+NLs0p827yHaVy9GnXy6hhzIA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1719997003;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NKfbG/WE30MGFlrbHaxqa1Z+tRqVzvjAeno3ZoTbYNo=;
+	b=bgkY9k1mYQ5qjWs2vkfZp44P5u8faRjOwBasAT21x92dWGH8Jvw415TnjuniNdukeGPgM9
+	z8c+VJuWbTddtXCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9864F13889;
+	Wed,  3 Jul 2024 08:56:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id X4ZiI0sShWZHTAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 03 Jul 2024 08:56:43 +0000
+Date: Wed, 03 Jul 2024 10:57:12 +0200
+Message-ID: <87v81mzwd3.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Jaroslav Kysela <perex@perex.cz>
+Cc: <linux-sound@vger.kernel.org>,
+	Takashi Iwai <tiwai@suse.de>,
+	Takashi Sakamoto <takaswie@kernel.org>
+Subject: Re: [PATCH v7 0/2] ALSA: pcm: reinvent the stream synchronization ID API
+In-Reply-To: <20240625172836.589380-1-perex@perex.cz>
+References: <20240625172836.589380-1-perex@perex.cz>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v23 32/32] ASoC: doc: Add documentation for SOC USB
-To: Wesley Cheng <quic_wcheng@quicinc.com>,
- =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
- Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, tiwai@suse.com,
- robh@kernel.org, gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
- alsa-devel@alsa-project.org
-References: <20240610235808.22173-1-quic_wcheng@quicinc.com>
- <20240610235808.22173-33-quic_wcheng@quicinc.com>
- <5be51e1f-70c9-4bbc-96fa-1e50e441bd35@linux.intel.com>
- <408d9e8e-0f40-7e66-54be-2f8d2c0783a3@quicinc.com>
- <ca1e1063-e1bd-4e03-a7cd-91985e9954e9@linux.intel.com>
- <096d59a0-5e18-092c-c9ae-d98130226f06@quicinc.com>
- <368d9019-2c96-468e-b472-7e1127f76213@linux.intel.com>
- <eb6370ea-47a0-3659-3c10-cb7f95e3e520@quicinc.com>
- <510468c7-b181-48d0-bf2d-3e478b2f2aca@linux.intel.com>
- <c7a95157-1b71-1489-3657-8fe67f9acb4e@quicinc.com>
- <90463a4e-c2e7-4b59-9a79-23533b4acd1e@linux.intel.com>
- <fd8f1eb0-4b21-4697-8175-a61bc3858852@quicinc.com>
- <f982842a-1804-420b-a539-a609ecf8fb8a@linux.intel.com>
- <3c358604-6926-4f90-8fc8-8139c68c3418@quicinc.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <3c358604-6926-4f90-8fc8-8139c68c3418@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: BFB2A21111
+X-Spam-Score: -5.51
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-5.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-
-
->>>> There are really multiple layers to deal with
->>>>
->>>> a) is the controller able to support the offload path? IIRC this is
->>>> embedded in an obscure XHCI property, it would make sense to expose it
->>>> as a control, or component string, of the USB card.
->>> If a component string/tag is desired, I already have some way of doing that.  I can add it to the USB card.
->>>
->>>> b) is there a companion card capable of dealing with the offload path?
->>>> Since the presence of this card may depend on driver probe, there should
->>>> be a control on the USB card. userspace could detect changes to this
->>>> control and detect if that path is or is no longer enabled.
->>> So currently, the "USB Offload Playback Capable Card" kcontrol (on the USB card) will determine if there is an offload path.  However, this differs than what Amadeusz is suggesting, in that he wants a single kcontrol created for EACH USB card identified (per USB audio device), and a simple enable/disable control to determine if the offload path is enabled for that card/pcm stream.
->>>
->>> It would be a simpler approach for the userspace, and if the card that handles the offload card isn't present, then these enable/disable control will be set to "disabled," and even if users attempt to set the control, it won't go through.
->> Not following. Are you suggesting userspace would modify the
->> enable/disable status?
+On Tue, 25 Jun 2024 19:25:45 +0200,
+Jaroslav Kysela wrote:
 > 
-> Yes, this is the suggestion.  One writeable kcontrol on the USB SND audio device that will control if that USB audio device is going to be offloaded.  If the kcontrol reads back "enabled" (or 1) then userspace knows that the offload path is active.  Else, if it reads "disabled" (or 0) after the attempt to set the kcontrol, then the offload path was unsuccessfully enabled, ie maybe due to no available offload streams.
-
-It's a bit over-engineered IMHO.
-
-My alternate suggestion is a read-only control reporting that offload is
-possible. Then userspace attempts to open a PCM device on the ASoC card,
-any failures due to resources would be handled at that point.
-
->> I would just have a read-only control that reports what the hardware can
->> do and which other card can deal with offload. It's up to userspace to
->> select the offloaded PCM device or not.
->>
-> That is what I have implemented in the previous patch series.  One USB SND kcontrol within each USB audio device, which points to the ASoC platform card that supports offloading:
+> Until the commit e11f0f90a626 ("ALSA: pcm: remove SNDRV_PCM_IOCTL1_INFO
+> internal command"), there was a possibility to pass information
+> about the synchronized streams to the user space. The mentioned
+> commit removed blindly the appropriate code with an irrelevant comment.
+>     
+> The revert may be appropriate, but since this API was lost for several
+> years without any complains, it's time to improve it. The hardware
+> parameters may change the used stream clock source (e.g. USB hardware)
+> so move this synchronization ID to hw_params as read-only field.
+>     
+> It seems that pipewire can benefit from this API (disable adaptive
+> resampling for perfectly synchronized PCM streams) now.
+>     
+> Note that the contents of ID is not supposed to be used for direct
+> comparison with a specific byte sequence. The "empty" case is when
+> all bytes are zero (driver does not offer this information)
+> and all other cases must be only used for equal comparison among
+> PCM streams (including different sound cards) if they are using
+> identical hardware clock.
+>     
+> Cc: Takashi Sakamoto <takaswie@kernel.org>
 > 
-> "USB Offload Playback Capable Card" --> returns the card index to the ASoC platform card
+> v6->v7:
+>   - rename sync_flag to std_sync_id per Takashi's request
 > 
->>From there the offloading control is all within the ASoC platform card.  This is opposite to what Amaduesz suggested in that, the offload control of which USB device to offload should be within USB SND (not ASoC)
-
-It's very hard to follow, I don't understand what userspace needs to
-'control' - in the modify sense. What userspace needs is a place to read
-from, and then select the PCM device and follow usual ALSA configuration
-with hw_params.
-
->>>> c) which PCM device is actually offloaded? This could be plural for some
->>>> implementations. The mapping between PCM devices exposed by the USB
->>>> card, and those exposed by the companion card, should be known to
->>>> userspace. I am not sure how this would be done though, a variable
->>>> number of controls is a sure way to confuse userspace.
->>> Expanding on Amadeusz's suggestion, my idea is to have an enable/disable kcontrol per USB stream.  For example, one USB card could have multiple PCM devices (USB streams).  So we would have something like:
->>>
->>> PCM Offload Playback Enable Stream#0  enable/disable
->>>
->>> PCM Offload Playback Enable Stream#1  enable/disable
->>>
->>> ....
->> are those read-only or not?
+> v5->v6:
+>   - remove wrong line from comment (suggested by Amadeusz)
 > 
-> No, writable and readable.
-
-The writable part introduces a complicated error handling, e.g. what
-happens if you have an offloaded stream and then this control is changed
-with amixer while streaming?
-
->>> So we'd know which USB card and PCM device is selected for USB SND.  However, I see what you're getting at in case there are multiple supported streams, because userspace needs to know which ASoC card/pcm combination corresponds to which USB device/combination.
->> I don't understand how this would help map the two parts? There's got to
->> be an additional mapping...
-> It won't help with the mapping.  That is something which we'd need to add, suggestion below.
->>> What do you think about having a USB card kcontrol to display the mapped ASoC card and PCM indexes?
->>>
->>> PCM Offload Playback Enable Stream Mapping#0  0, 1 (ASoC card#0, PCM device#1)
->>>
->>> To summarize, if we did this, I'd plan to remove all the kcontrols in ASoC card, and have the following in the USB card for an USB audio device that supports one USB stream:
->>>
->>> PCM Offload Playback Enable Stream#0  enable/disable
->>>
->>> PCM Offload Playback Enable Stream Mapping#0  0, 1 (ASoC card#0, PCM device#1)
->> ... which is suggested here.
->>
->> Assuming these are read-only controls, we would need to know which PCM
->> device on the USB card can be optimized with the use of which PCM device
->> on the ASoC card. That means a set of three values. You would also want
->> a number of streams to make the guesswork on controls less painful.
+> v4->v5:
+>   - extend commit message (clarification for ID use) for first patch
+>   - mark union snd_pcm_sync_id as deprecated
+>   - do not use get_unaligned() - reviewers are confused and the code
+>     is removed in the second path (optimization)
 > 
-> OK, so now to just figuring out something that both you and Amadeusz can agree on before I put time implementing it.  So I've implemented the "enable/disable" path that Amadeusz suggested, which is highlighted in my previous response, for evaluation purposes.  The overall question is which layer should control the devices that will be offloaded.  In my submissions up until now, the control was given to the ASoC platform card to determine which USB device to offload.  Amadeusz mentioned that it might be beneficial to move the control to the USB SND devices, because what if the offloading is NOT backed by ASoC. (highlighted in [1])  However, IMO the current implementation assumes there is ASoC involved, which should mean that there is some platform "card" that is backing the offload path.  Please let me know if my understanding is incorrect, @Amadeusz. 
+> v3->v4:
+>   - more code shuffle as suggested by Takashi
+>   - remove unused snd_pcm_empty function in the second patch
+>   - put back snd_pcm_set_sync documentation
+> 
+> v2->v3:
+>   - fix pcm_sync_empty() function (wrong comparison) [thanks Takashi Sakamoto]
+>   - more documentation for snd_pcm_set_sync_per_card (ID composition)
+> 
+> v1->v2:
+>   - remove union usage per Takashi's request
+>   - reduce memory usage
+>   - use standard ID generation scheme
+> 
+> Jaroslav Kysela (2):
+>   ALSA: pcm: reinvent the stream synchronization ID API
+>   ALSA: pcm: optimize and clarify stream synchronization ID API
 
-I still fundamentally don't get why userspace would try and modify any
-controls, this makes the flows more complicated IMHO since you also have
-the PCM open/hw_params stages.
-I really think it'd be more than enough if the USB card exposed
-read-only values showing that offload is possible and which card/device
-to map to. Then userspace uses the ASoC PCM device and errors are
-handled at that level.
+I merged both patches now to for-next branch.
+
+
+Thanks!
+
+Takashi
