@@ -1,139 +1,105 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D201CF9D4;
-	Wed,  3 Jul 2024 18:07:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07431DA313;
+	Wed,  3 Jul 2024 18:34:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720030064; cv=none; b=i9XdwKQC4XV3xSPFlK/JYqpMJIbcTREXhPXjgN0PglgwgMJJxS/+FIgelBReg3LS8Wzr9omICAep/mLO8s/VRcYZWAgXPeH3ibLmzwNTHG0n6qRVW0wTQiJm72dFqXlMnCR8jdlYTenorftNIGnZvhQN6COL5MjlO98R8wLz1qE=
+	t=1720031667; cv=none; b=PxpMPbRiGhSxFfFKgfGfPM1gTXQnFvjgQ7pqcDDN0goJqhJ0GVXPjK/s/4xTc8dCOwOI3a3ws2IqisHyZMaAUS9B5V7HxpWaSXlO2ccUn5tBeOO7q1W8cinwcH5DFIN5qsxoEYf55kJNlPt91xmCRpFdccWLXsOs5RKNU7s743k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720030064; c=relaxed/simple;
-	bh=7VkdfXXbnQAAagurnl0t1uowHfXXxqv6JWqV5yzvHyc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CiMPUxASSVAdQ8N1jrJ4jlLETUK7VWDp3bpK1DeOHc+gim4rshy99CIXb9XQjsp7n9GbL6+VnGBgMdVXmLlMVfo34rFFswixa9gasJlyUYqZ0OkyMARPECxh1EncSIm+fCuZJJ8KcUj3zfgBnQWwkNnfSOHqyyF1gRKjH2P3384=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X3bpvJgx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720031667; c=relaxed/simple;
+	bh=75LWJFdF9aagmw6N/35Fph3+fUpWNs+Pce1uKbQYf3Y=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=E+LvTszF2Bx6YM1Hm/rv2Phwm44jQpr81VVSLOE7ybfySN7j+Pq2vWrfcpjyu/anYLuVcJ+xRxuqDGThfWSfWAJL9GlDxeg0b0Nrbx8HGKs3ysttU9dpE4AOw80CJ93bQky18a0z6wHDYcxZydytGcEef5kABYUGlogE4Fvclrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZlFinWsa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X3bpvJgx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2346AC2BD10;
-	Wed,  3 Jul 2024 18:07:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZlFinWsa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2A33C32781;
+	Wed,  3 Jul 2024 18:34:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720030063;
-	bh=7VkdfXXbnQAAagurnl0t1uowHfXXxqv6JWqV5yzvHyc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=X3bpvJgxZPWMXNOzcyielDafYLsorlGeMfGsYxZsE3DcfgNG38u+IpqkFauqV7JBb
-	 5vrbm1WYc3A6PpB/BYRkykAD7OTF0Cj7mNGz1MOi0sa5ZMS/EgfduMIqZfBT2ojOEE
-	 bFo2aTY3NN6jY868V+Ef+HPG5nwsrIILcL4gaARoEmQ/3VJxlw8KNvls5K1NJbvrcL
-	 liQUqmGsYZrzJg5w0kk4/LvcK6Tdp62Zk7+kzOZ/GnWL+VAWuwzwfMk9DNJ/Cy73bN
-	 +KSVQC/fntqBgC8EoMj80EdF4hoVvz6Kgpa3QHWVeUvUPp8LsLtGUtLPC5Ip21htEj
-	 aLChwBO4AdEcA==
-Date: Wed, 3 Jul 2024 12:07:42 -0600
-From: Rob Herring <robh@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Saravana Kannan <saravanak@google.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Tony Lindgren <tony@atomide.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Emilio =?iso-8859-1?Q?L=F3pez?= <emilio@elopez.com.ar>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Jonathan Cameron <jic23@kernel.org>, Lee Jones <lee@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Richard Leitner <richard.leitner@linux.dev>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	"Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	"Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	llvm@lists.linux.dev, linux-clk@vger.kernel.org,
-	linux-omap@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-samsung-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-pwm@vger.kernel.org,
-	linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-	patches@opensource.cirrus.com, linux-sound@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH 00/20] Simplify of_property_for_each_u32()
-Message-ID: <20240703180742.GB1245093-robh@kernel.org>
-References: <20240703-of_property_for_each_u32-v1-0-42c1fc0b82aa@bootlin.com>
+	s=k20201202; t=1720031667;
+	bh=75LWJFdF9aagmw6N/35Fph3+fUpWNs+Pce1uKbQYf3Y=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=ZlFinWsaNVrvGmZiNySxfxWG2sUm9QrY1MBykONGigKwpKDeYa0FHi8EKqXBxZJuy
+	 dsflTJ9guyvawMQH4J1OX8SDt6pj/rPiloc86OspDM0jkQK1cBoz0J5RU4hVJuPezI
+	 CxquH0GajkhBQ43C66pl/D4BpsQuO4oK6BJzmIk3bxrvEYxl+E7/rrW/ibS20Z5D+1
+	 QhDpUu0gZi0lZ2J1k67ownG6xVGF9InQMeJANT7C9A6eWg+rvGibhwl1BRtmgFcE9/
+	 isSK/HbjmPbXNIDWpfEzxypfSCP5E0ajN4t952uOuWjePgJBMzBYLMKLskq5hIwcaS
+	 /WaETrjuuBkiQ==
+From: Mark Brown <broonie@kernel.org>
+To: David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Paul Cercueil <paul@crapouillou.net>, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Banajit Goswami <bgoswami@quicinc.com>, 
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Cc: alsa-devel@alsa-project.org, patches@opensource.cirrus.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-mips@vger.kernel.org, linux-arm-msm@vger.kernel.org
+In-Reply-To: <20240703-sound-const-regmap_config-v1-0-2e379b0446a7@gmail.com>
+References: <20240703-sound-const-regmap_config-v1-0-2e379b0446a7@gmail.com>
+Subject: Re: [PATCH 0/9] ASoC: Constify struct regmap_config
+Message-Id: <172003166452.103730.17308665420530881641.b4-ty@kernel.org>
+Date: Wed, 03 Jul 2024 19:34:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240703-of_property_for_each_u32-v1-0-42c1fc0b82aa@bootlin.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev-d4707
 
-On Wed, Jul 03, 2024 at 12:36:44PM +0200, Luca Ceresoli wrote:
-> [Note: to reduce the noise I have trimmed the get_maintainers list
-> manually. Should you want to be removed, or someone else added, to future
-> versions, just tell me. Sorry for the noise.]
+On Wed, 03 Jul 2024 18:20:56 +0200, Javier Carrasco wrote:
+> This series adds the const modifier to the remaining regmap_config
+> structs under sound/soc that are effectively used as const (i.e., only
+> read after their declaration), but kept as writtable data.
 > 
-> This series aims at simplifying of_property_for_each_u32() as well as
-> making it more difficult to misuse it in the future.
 > 
-> The long-term goal is changing this pattern:
-> 
->   struct property *prop;
->   const __be32 *p;
->   u32 val;
->  
->   of_property_for_each_u32(np, "xyz", prop, p, val) { ... }
-> 
-> to this:
-> 
->   u32 val;
-> 
->   of_property_for_each_u32(np, "xyz", val) { ... }
-> 
-> So, removing the 3rd and 4th arguments which are typically meant to be
-> internal. Those two parameters used to be unavoidable until the kernel
-> moved to building with the C11 standard unconditionally. Since then, it is
-> now possible to get rid of them. However a few users of
-> of_property_for_each_u32() do actually use those arguments, which
-> complicates the transition. For this reason this series does the following:
-> 
->  * Add of_property_for_each_u32_new(), which does not have those two
->    arguments (patch 1)
->  * Convert _almost_ every usage to of_property_for_each_u32_new()
->  * Rename of_property_for_each_u32() to of_property_for_each_u32_old() and
->    deprecate it, as a incentive to code not (yet) in mainline to upgrade
->    to the *_new() version (last patch)
 
-I don't really see the point of introducing the _old variant. Let's get 
-this done in one step.
+Applied to
 
-> 
-> The plan for the next series is to additionally:
-> 
->  * Convert the few remaining of_property_for_each_u32_old() instantes to
->    of_property_for_each_u32_new()
->  * Remove of_property_for_each_u32_old()
->  * Rename of_property_for_each_u32_new() to of_property_for_each_u32()
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Honestly, I think there's few enough users we could just convert the 
-whole thing in one patch. It's all got to go thru 1 tree anyways. If 
-there's new cases in -next, then I'd be happy to send it to Linus at the 
-end of the merge window.
+Thanks!
 
-Rob
+[1/9] ASoC: cs35l34: Constify struct regmap_config
+      commit: cb148180125ef88a4c1c20ecf25337f1e45657bb
+[2/9] ASoC: cs35l35: Constify struct regmap_config
+      commit: 306e0317bddfbb6bea1ad31c3daeecaec0304295
+[3/9] ASoC: cs35l36: Constify struct regmap_config
+      commit: 0271df05e6fe92b7000dcce5058a0ed6af127ef6
+[4/9] ASoC: cs53l30: Constify struct regmap_config
+      commit: 52f0aa5fb9437013f7f35d61426de497a8927891
+[5/9] ASoC: jz4760: Constify struct regmap_config
+      commit: 8d9c0ede48f29c9fccd095952d657fc5696da9ac
+[6/9] ASoC: jz4770: Constify struct regmap_config
+      commit: 7abfa29ba6a43c5e25622de1ba1f1846b9c9b5e8
+[7/9] ASoC: wsa881x: Constify struct regmap_config
+      commit: 5ffab1d3f3f3281869b894070fe4438f307759ec
+[8/9] ASoC: wsa883x: Constify struct regmap_config
+      commit: 22c361dc7ce4d4d6a688febee57d6e4b130b96b3
+[9/9] ASoC: wsa884x: Constify struct regmap_config
+      commit: e15cc906b9c5af5414bb6002b6a036550bca6bd8
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
