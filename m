@@ -1,185 +1,200 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B83B13BBEA
-	for <linux-sound@vger.kernel.org>; Wed,  3 Jul 2024 08:56:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDB564D584;
+	Wed,  3 Jul 2024 09:12:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719997007; cv=none; b=oSWqTKYVweiuN/3suVvo97I/3rnL448AtfLgVJdXLIQbqS6BHPiYSQPrajbFuZlmNdfmkz9FEZZ1DzDTqS5zCjupRsCi5VLe+P3WbN4XUD+zsg/FmRKJE7IEbcEZ0/U915FPE+ixFF/h3wr8EvI6yjEkP9qWyGFaDeIOjmaBbOU=
+	t=1719997972; cv=none; b=ZX5+22FAGV4RBiL7SA9YfeIZqhCHuNZ+pBCneJ6vK7GxnDSR1s0LoQjUHdJZ6F3WH8ZRi8dQLFQlo1RU+ZEIWct7TyuJEMPUWjAY5ydKW1JKCRQkzqfZbDnwg/DFhoKOBI2djLa3Zwog7U8DeyLw2F1mRx3nFYIl9a5QrZf96kY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719997007; c=relaxed/simple;
-	bh=iAzAW4hNt5EJ1BB04zO+qp5oik+XysN+Y03/FuhfzYY=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hUMDMKAFt5lQ3l4Zj5EfYaetBjOC7Md258WPdQVL1Pyr9uNJnFAlJgV6bNsBKNmAElTA3U3hvdakBmj/ErdMf5MCSoZb9Mgv+EeLoX/smyHRJHlZlTnSAaMct2OQseyzgOt1QfORZpLgNewkJZBMUtheu0dyCA+8DF1Lg9GsFUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CdN5y96o; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bgkY9k1m; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CdN5y96o; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bgkY9k1m; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1719997972; c=relaxed/simple;
+	bh=fZjR28pBAkt6eSylkI8DEksfa2ZuVwFoI2Oxi5vkpOg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oNJe1CGN1TTm9y21qQq5q9DBd0/kb+kA7awQt2ND4QkCbiVO9n+xFjTreud0XaIU1qcHk+cnOm7jrFOcY+4sPh0uBTqi/5PHAXOa5PTY02PpKT/6izBewbHET+d/FPdnpBuHECc1K065GIGCg5g5mq05Ith3n3oabzVlBPgSs64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MTH8hQFi; arc=none smtp.client-ip=209.85.166.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CdN5y96o";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bgkY9k1m";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CdN5y96o";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bgkY9k1m"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id BFB2A21111;
-	Wed,  3 Jul 2024 08:56:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719997003; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NKfbG/WE30MGFlrbHaxqa1Z+tRqVzvjAeno3ZoTbYNo=;
-	b=CdN5y96oYD4yUjaf84d2jGcvi+PJKyys39z+zZTpXmwNYQokSe7/lOMCGabwum2e4jTxtX
-	g5JhLYCkkqXhBYgzaGSXeKS3GmA0//gSXmMyyaYdAa/YC06Wqk581ZxOk9Zid/ekRnWYCt
-	Qmnioo+NLs0p827yHaVy9GnXy6hhzIA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719997003;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NKfbG/WE30MGFlrbHaxqa1Z+tRqVzvjAeno3ZoTbYNo=;
-	b=bgkY9k1mYQ5qjWs2vkfZp44P5u8faRjOwBasAT21x92dWGH8Jvw415TnjuniNdukeGPgM9
-	z8c+VJuWbTddtXCw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=CdN5y96o;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bgkY9k1m
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719997003; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NKfbG/WE30MGFlrbHaxqa1Z+tRqVzvjAeno3ZoTbYNo=;
-	b=CdN5y96oYD4yUjaf84d2jGcvi+PJKyys39z+zZTpXmwNYQokSe7/lOMCGabwum2e4jTxtX
-	g5JhLYCkkqXhBYgzaGSXeKS3GmA0//gSXmMyyaYdAa/YC06Wqk581ZxOk9Zid/ekRnWYCt
-	Qmnioo+NLs0p827yHaVy9GnXy6hhzIA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719997003;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NKfbG/WE30MGFlrbHaxqa1Z+tRqVzvjAeno3ZoTbYNo=;
-	b=bgkY9k1mYQ5qjWs2vkfZp44P5u8faRjOwBasAT21x92dWGH8Jvw415TnjuniNdukeGPgM9
-	z8c+VJuWbTddtXCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9864F13889;
-	Wed,  3 Jul 2024 08:56:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id X4ZiI0sShWZHTAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 03 Jul 2024 08:56:43 +0000
-Date: Wed, 03 Jul 2024 10:57:12 +0200
-Message-ID: <87v81mzwd3.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Jaroslav Kysela <perex@perex.cz>
-Cc: <linux-sound@vger.kernel.org>,
-	Takashi Iwai <tiwai@suse.de>,
-	Takashi Sakamoto <takaswie@kernel.org>
-Subject: Re: [PATCH v7 0/2] ALSA: pcm: reinvent the stream synchronization ID API
-In-Reply-To: <20240625172836.589380-1-perex@perex.cz>
-References: <20240625172836.589380-1-perex@perex.cz>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MTH8hQFi"
+Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-375e96f5fddso18821835ab.1;
+        Wed, 03 Jul 2024 02:12:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719997970; x=1720602770; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1jI0rslYrv6mUgs3l1hovuzLhd9gfH1CvVqaU89w3P0=;
+        b=MTH8hQFirNBf4lGwKB4khOmszChC246s1bRtubp7LAEdkGwMzbZlIHUSmlXBMtWBDP
+         xXbYU0HPudwlq5d2+g2lk8eJIsDM2PCfSEta6plx4Uq41gt18Tj7laHeMXr0ml7qe7KX
+         ILmFuEAoCzNt/8Bxc8rkf7UBFsqkFZBqZP2liQqWkjclJS7Gm6MiRhZsV/SLKQHI1l8i
+         6b5zNZfqW5iaXbk9oK9ijAZtxovqJqH8SuQ6rOUR1d0hxwGf9dDCIbaro4/JeMtbth/V
+         htOQIQITlxX4J4Zc8rD9nFK6Im86mYb5Uq34UJbnwA6uy1PRBGW6hakNFSRW/AQz3H8e
+         VnUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719997970; x=1720602770;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1jI0rslYrv6mUgs3l1hovuzLhd9gfH1CvVqaU89w3P0=;
+        b=GIr6ozBncO6w/IybSs9Gp6rwwtW4c9icAhBwkvfRCA6L45W9oBki5gXsqiSKdrbKNp
+         qst8w6QmL/Y1RERVMNr3swGe/7/hKtl+UgJsw5SOGQ7MoqoArqpT7GuRmHStsHmHKYo1
+         g8fWD61uZoEZFhjdu6sYvNKwZye6eUiBcgOSjVHePiknDeoGPGAKkVylKUKYCStW/2h/
+         bhi7YJdH4oZ1hu6jl0dWl07KQHeHRwHgWzDprUgGneJ3SElpuD5w77DZgnxfo+yRMy/w
+         ZrRSPTNsPW3Z9gmj4zw7vZWRIF/8Bbk+ZT+KHKCt7Pj+xiYvkzkFNh7phK56ANbmVmcu
+         wpDg==
+X-Forwarded-Encrypted: i=1; AJvYcCUFk1+0Plv6k3n7bRNxm3QQixYdA6GEHqcZsvTtArsCAT9DizqfI/uaFIxIgjNdByqbZYrJVmzhS4wmFs/Z+63ykn7WR0z1AU3qgK+TqBW17fdGh1NkMURWLm1DTxIFmIiqT8Dx5gqWTd8=
+X-Gm-Message-State: AOJu0YxjL41hXdnUhO0vX4FZLUJ/dyutH/DRRlYLlw9cnhDxgsRhuLZC
+	FPNW88/FSLSk083V852vCUzmNbBSveY9cZwh5+88YWLtdYGG144EsJSFOaYAtKxqqKTf2d5ggo4
+	qJaY+RfXUDDZdwzJlQLK8zUSenU00UIyGKIQ=
+X-Google-Smtp-Source: AGHT+IG1ehcAilYAWAvfE7/9RzOn+5jnvezYCw9DkZlXjjrBfIA432A0Ksubc/kan0xqgCTbvKnpweLKFvy1Sc7lLho=
+X-Received: by 2002:a05:6e02:1c2c:b0:374:b0d8:6c4 with SMTP id
+ e9e14a558f8ab-37cd0afefdfmr127007475ab.3.1719997969760; Wed, 03 Jul 2024
+ 02:12:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: BFB2A21111
-X-Spam-Score: -5.51
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-5.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_THREE(0.00)[4];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+MIME-Version: 1.0
+References: <20240628094354.780720-1-chancel.liu@nxp.com>
+In-Reply-To: <20240628094354.780720-1-chancel.liu@nxp.com>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Wed, 3 Jul 2024 17:12:38 +0800
+Message-ID: <CAA+D8APvL_wo_L62M-LD88B9EZ6Sg89jtJrCkt4vuCuH3q9p4A@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: fsl_xcvr: Improve suspend/resume flow in fsl_xcvr_trigger()
+To: Chancel Liu <chancel.liu@nxp.com>
+Cc: Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com, 
+	lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
+	alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 25 Jun 2024 19:25:45 +0200,
-Jaroslav Kysela wrote:
-> 
-> Until the commit e11f0f90a626 ("ALSA: pcm: remove SNDRV_PCM_IOCTL1_INFO
-> internal command"), there was a possibility to pass information
-> about the synchronized streams to the user space. The mentioned
-> commit removed blindly the appropriate code with an irrelevant comment.
->     
-> The revert may be appropriate, but since this API was lost for several
-> years without any complains, it's time to improve it. The hardware
-> parameters may change the used stream clock source (e.g. USB hardware)
-> so move this synchronization ID to hw_params as read-only field.
->     
-> It seems that pipewire can benefit from this API (disable adaptive
-> resampling for perfectly synchronized PCM streams) now.
->     
-> Note that the contents of ID is not supposed to be used for direct
-> comparison with a specific byte sequence. The "empty" case is when
-> all bytes are zero (driver does not offer this information)
-> and all other cases must be only used for equal comparison among
-> PCM streams (including different sound cards) if they are using
-> identical hardware clock.
->     
-> Cc: Takashi Sakamoto <takaswie@kernel.org>
-> 
-> v6->v7:
->   - rename sync_flag to std_sync_id per Takashi's request
-> 
-> v5->v6:
->   - remove wrong line from comment (suggested by Amadeusz)
-> 
-> v4->v5:
->   - extend commit message (clarification for ID use) for first patch
->   - mark union snd_pcm_sync_id as deprecated
->   - do not use get_unaligned() - reviewers are confused and the code
->     is removed in the second path (optimization)
-> 
-> v3->v4:
->   - more code shuffle as suggested by Takashi
->   - remove unused snd_pcm_empty function in the second patch
->   - put back snd_pcm_set_sync documentation
-> 
-> v2->v3:
->   - fix pcm_sync_empty() function (wrong comparison) [thanks Takashi Sakamoto]
->   - more documentation for snd_pcm_set_sync_per_card (ID composition)
-> 
-> v1->v2:
->   - remove union usage per Takashi's request
->   - reduce memory usage
->   - use standard ID generation scheme
-> 
-> Jaroslav Kysela (2):
->   ALSA: pcm: reinvent the stream synchronization ID API
->   ALSA: pcm: optimize and clarify stream synchronization ID API
+On Fri, Jun 28, 2024 at 5:44=E2=80=AFPM Chancel Liu <chancel.liu@nxp.com> w=
+rote:
+>
+> In the current flow all interrupts are disabled in runtime suspend
+> phase. However interrupts enablement only exists in fsl_xcvr_prepare().
+> After resume fsl_xcvr_prepare() may not be called so it will cause all
+> interrupts still disabled even if resume from suspend. Interrupts
+> should be explictily enabled after resume.
+>
+> Also, DPATH reset setting only exists in fsl_xcvr_prepare(). After
+> resume from suspend DPATH should be reset otherwise there'll be channel
+> swap issue.
+>
+> Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
 
-I merged both patches now to for-next branch.
+Acked-by: Shengjiu Wang <shengjiu.wang@gmail.com>
 
-
-Thanks!
-
-Takashi
+Best regards
+Shengjiu Wang
+> ---
+>  sound/soc/fsl/fsl_xcvr.c | 43 +++++++++++++++++++++-------------------
+>  1 file changed, 23 insertions(+), 20 deletions(-)
+>
+> diff --git a/sound/soc/fsl/fsl_xcvr.c b/sound/soc/fsl/fsl_xcvr.c
+> index 337da46a2f90..bf9a4e90978e 100644
+> --- a/sound/soc/fsl/fsl_xcvr.c
+> +++ b/sound/soc/fsl/fsl_xcvr.c
+> @@ -529,16 +529,6 @@ static int fsl_xcvr_prepare(struct snd_pcm_substream=
+ *substream,
+>                 break;
+>         }
+>
+> -       ret =3D regmap_update_bits(xcvr->regmap, FSL_XCVR_EXT_IER0,
+> -                                FSL_XCVR_IRQ_EARC_ALL, FSL_XCVR_IRQ_EARC=
+_ALL);
+> -       if (ret < 0) {
+> -               dev_err(dai->dev, "Error while setting IER0: %d\n", ret);
+> -               return ret;
+> -       }
+> -
+> -       /* set DPATH RESET */
+> -       m_ctl |=3D FSL_XCVR_EXT_CTRL_DPTH_RESET(tx);
+> -       v_ctl |=3D FSL_XCVR_EXT_CTRL_DPTH_RESET(tx);
+>         ret =3D regmap_update_bits(xcvr->regmap, FSL_XCVR_EXT_CTRL, m_ctl=
+, v_ctl);
+>         if (ret < 0) {
+>                 dev_err(dai->dev, "Error while setting EXT_CTRL: %d\n", r=
+et);
+> @@ -679,6 +669,15 @@ static int fsl_xcvr_trigger(struct snd_pcm_substream=
+ *substream, int cmd,
+>         case SNDRV_PCM_TRIGGER_START:
+>         case SNDRV_PCM_TRIGGER_RESUME:
+>         case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+> +               /* set DPATH RESET */
+> +               ret =3D regmap_update_bits(xcvr->regmap, FSL_XCVR_EXT_CTR=
+L,
+> +                                        FSL_XCVR_EXT_CTRL_DPTH_RESET(tx)=
+,
+> +                                        FSL_XCVR_EXT_CTRL_DPTH_RESET(tx)=
+);
+> +               if (ret < 0) {
+> +                       dev_err(dai->dev, "Failed to set DPATH RESET: %d\=
+n", ret);
+> +                       return ret;
+> +               }
+> +
+>                 if (tx) {
+>                         switch (xcvr->mode) {
+>                         case FSL_XCVR_MODE_EARC:
+> @@ -711,6 +710,13 @@ static int fsl_xcvr_trigger(struct snd_pcm_substream=
+ *substream, int cmd,
+>                         return ret;
+>                 }
+>
+> +               ret =3D regmap_update_bits(xcvr->regmap, FSL_XCVR_EXT_IER=
+0,
+> +                                        FSL_XCVR_IRQ_EARC_ALL, FSL_XCVR_=
+IRQ_EARC_ALL);
+> +               if (ret < 0) {
+> +                       dev_err(dai->dev, "Error while setting IER0: %d\n=
+", ret);
+> +                       return ret;
+> +               }
+> +
+>                 /* clear DPATH RESET */
+>                 ret =3D regmap_update_bits(xcvr->regmap, FSL_XCVR_EXT_CTR=
+L,
+>                                          FSL_XCVR_EXT_CTRL_DPTH_RESET(tx)=
+,
+> @@ -733,6 +739,13 @@ static int fsl_xcvr_trigger(struct snd_pcm_substream=
+ *substream, int cmd,
+>                         return ret;
+>                 }
+>
+> +               ret =3D regmap_update_bits(xcvr->regmap, FSL_XCVR_EXT_IER=
+0,
+> +                                        FSL_XCVR_IRQ_EARC_ALL, 0);
+> +               if (ret < 0) {
+> +                       dev_err(dai->dev, "Failed to clear IER0: %d\n", r=
+et);
+> +                       return ret;
+> +               }
+> +
+>                 if (tx) {
+>                         switch (xcvr->mode) {
+>                         case FSL_XCVR_MODE_SPDIF:
+> @@ -1411,16 +1424,6 @@ static int fsl_xcvr_runtime_suspend(struct device =
+*dev)
+>         struct fsl_xcvr *xcvr =3D dev_get_drvdata(dev);
+>         int ret;
+>
+> -       /*
+> -        * Clear interrupts, when streams starts or resumes after
+> -        * suspend, interrupts are enabled in prepare(), so no need
+> -        * to enable interrupts in resume().
+> -        */
+> -       ret =3D regmap_update_bits(xcvr->regmap, FSL_XCVR_EXT_IER0,
+> -                                FSL_XCVR_IRQ_EARC_ALL, 0);
+> -       if (ret < 0)
+> -               dev_err(dev, "Failed to clear IER0: %d\n", ret);
+> -
+>         if (!xcvr->soc_data->spdif_only) {
+>                 /* Assert M0+ reset */
+>                 ret =3D regmap_update_bits(xcvr->regmap, FSL_XCVR_EXT_CTR=
+L,
+> --
+> 2.43.0
+>
