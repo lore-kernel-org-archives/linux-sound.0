@@ -1,136 +1,112 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2482B13DDA6;
-	Wed,  3 Jul 2024 13:09:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F40CE17967E
+	for <linux-sound@vger.kernel.org>; Wed,  3 Jul 2024 14:07:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720012168; cv=none; b=nv7MEfG3FNCOvPbqzTVUwEgyghlZVtsMysLpL3piHkRemeXN5sJ1tCOX4hnnhvFxqhe0k83Dodi+BS1h44qpmNT2xrdkArfhaR6Ix7573N4sPpToFh4foNitjEJhThlngUsqXYS65ncUntsCzSFOUqEfRuO52fvw9WnEqSP582c=
+	t=1720015629; cv=none; b=uSNnKfPfTB3iym8vF5gr/ougyX/wSqtUC/0W++De+InK88EA+AcixjWQgdxJqSC6tEiPFtWKoDx7ApJzjtPFmKWaxLGtg35rpcU9OmxJacuxYbsHq5LO71KU7AmK3zoZfwZF9PONdWlPK5xK2QicRS8M0IO26jZXTwGrDm/T1hw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720012168; c=relaxed/simple;
-	bh=W8KnSELxoOeLFO4Bkg8ypBzvhOg9ofBU1heW/xaRe4k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=KUhXTWIBUcGJyrpGl9mRkHUag8woUY3otXdtjRNvvabYEdY73vcDJFBl9fA5XE6aFhbD2PrzCDHV6YWjq+3eFALhAP5PAzno3U2KyHs+nA2KruyiT3S8xqQIqoXyOGO7HSJLYrEnTXLOlP0GiTNkrw03jVXoNrDDzfwqmEgEo7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=fail smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=Rj5CV6gj; arc=none smtp.client-ip=68.232.154.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1720015629; c=relaxed/simple;
+	bh=5DhfcaWdbscV9eVjCMxqQ0SHqE/XTq/XxrzXAOpPDSg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=nPIhuf4114JjMzQitLVcoLMqr23hchNhaC4u/lWOaiJ4fWnNqlP2tIvf9tDsuzVQ4KRLancLnEyaJ1Yuz18h4iJcuUVCvuvaXdNqj/j35nVyMTo5ApR2azouSiw1ZLW3cMwB6zaDuj5E1snktloK3tEjeQwkQop8G8XpG0sGnLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eL9+4/ym; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="Rj5CV6gj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1720012167; x=1751548167;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=W8KnSELxoOeLFO4Bkg8ypBzvhOg9ofBU1heW/xaRe4k=;
-  b=Rj5CV6gjA7bdouczrb90jR05EmC8s1gMOWvzhsKmCBE2E7JT4vVZzOdS
-   uBUAswn6AJt3J0nSb+5FoxsxGyLZ8Qjxbfu2zmiNjjSxvu3WcD7WYWqAw
-   oaL948Izy4XK6SU6PNJj+gGWNskvdmGM16iSYixj+uE9bizQTgIeC96WQ
-   jjhud9EqkR3dkpschvbXGcx6IIodTZym3NgjEus87t6wVzF7FWhj8WJbu
-   N9q0TBlMOh7Imj2TJnnXptonwil+6DUI/YFI1Gcz2Bxy0O0NlYYzOOR1K
-   jJPxapoEb0zIRrd1OwkSQ3tjgKtWYGanpCYw+DuuPYiytBf/vuZz1EKfX
-   Q==;
-X-CSE-ConnectionGUID: EqW5S7eWRE2aTexdHZiS+A==
-X-CSE-MsgGUID: NasQoXC7S5Kaxo5UL3Vsag==
-X-IronPort-AV: E=Sophos;i="6.09,182,1716274800"; 
-   d="scan'208";a="28777735"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 03 Jul 2024 06:09:24 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 3 Jul 2024 06:09:03 -0700
-Received: from [10.180.116.202] (10.10.85.11) by chn-vm-ex01.mchp-main.com
- (10.10.85.143) with Microsoft SMTP Server id 15.1.2507.35 via Frontend
- Transport; Wed, 3 Jul 2024 06:08:46 -0700
-Message-ID: <a8cc31a9-d58f-4a4e-98fb-a7ba47bc744e@microchip.com>
-Date: Wed, 3 Jul 2024 15:09:07 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eL9+4/ym"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 259DCC2BD10;
+	Wed,  3 Jul 2024 14:07:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720015628;
+	bh=5DhfcaWdbscV9eVjCMxqQ0SHqE/XTq/XxrzXAOpPDSg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=eL9+4/ymbiq67PgPMtUVhyuXDkuOOEsJ61Cg9d50InQLIzKd72PKCiGqPBMrIPEeH
+	 4CzDxF0gmRGccR0z3DDA7tHXngwEjBKjS8cczk/8dXr5dFvarsFqCekXdL71Fykyeg
+	 XUnPgF+RwgoPxwugLgJ0c0hrG4Oh8gmEZ89+cvsDL/qc+VmpM85c9ci8qjNAaqZk6T
+	 ZAzfdemMiidSL+bRbqzItCvAiHFW1QZtZqf5faWJqSPn3EVtmaffMoR4xYP4ZuXkBR
+	 SzshTkTs+EXmjUgoE9DddjBrYxUDx+fhIkbYlC2+9vxdA4tW27xN4cXIHYpJpyuQZc
+	 a2sSk0929ZZgQ==
+From: Mark Brown <broonie@kernel.org>
+To: =?utf-8?q?Amadeusz_S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>, 
+ linux-sound@vger.kernel.org
+In-Reply-To: <20240627101850.2191513-1-amadeuszx.slawinski@linux.intel.com>
+References: <20240627101850.2191513-1-amadeuszx.slawinski@linux.intel.com>
+Subject: Re: [PATCH 00/13] ASoC: topology: kcontrol registration cleanup
+Message-Id: <172001562687.37877.17206337577264966620.b4-ty@kernel.org>
+Date: Wed, 03 Jul 2024 15:07:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/20] irqchip/atmel-aic: convert to
- of_property_for_each_u32_new()
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>, Miguel Ojeda
-	<ojeda@kernel.org>, Rob Herring <robh@kernel.org>, Saravana Kannan
-	<saravanak@google.com>, Nathan Chancellor <nathan@kernel.org>, Michael
- Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Tony
- Lindgren <tony@atomide.com>, Bjorn Andersson <andersson@kernel.org>,
-	=?UTF-8?Q?Emilio_L=C3=B3pez?= <emilio@elopez.com.ar>, Chen-Yu Tsai
-	<wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
-	<samuel@sholland.org>, Krzysztof Kozlowski <krzk@kernel.org>, Daniel Lezcano
-	<daniel.lezcano@linaro.org>, Thomas Gleixner <tglx@linutronix.de>, Florian
- Fainelli <florian.fainelli@broadcom.com>, Broadcom internal kernel review
- list <bcm-kernel-feedback-list@broadcom.com>, Linus Walleij
-	<linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Jonathan
- Cameron <jic23@kernel.org>, Lee Jones <lee@kernel.org>, Shawn Guo
-	<shawnguo@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>,
-	=?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, Richard
- Leitner <richard.leitner@linux.dev>, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy
-	<christophe.leroy@csgroup.eu>, "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
-	Damien Le Moal <dlemoal@kernel.org>
-CC: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, Thomas Petazzoni
-	<thomas.petazzoni@bootlin.com>, <linux-kernel@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <llvm@lists.linux.dev>,
-	<linux-clk@vger.kernel.org>, <linux-omap@vger.kernel.org>,
-	<linux-arm-msm@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-samsung-soc@vger.kernel.org>,
-	<linux-gpio@vger.kernel.org>, <linux-iio@vger.kernel.org>,
-	<linux-pwm@vger.kernel.org>, <linux-serial@vger.kernel.org>,
-	<linux-usb@vger.kernel.org>, <patches@opensource.cirrus.com>,
-	<linux-sound@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>,
-	<linux-riscv@lists.infradead.org>
-References: <20240703-of_property_for_each_u32-v1-0-42c1fc0b82aa@bootlin.com>
- <20240703-of_property_for_each_u32-v1-11-42c1fc0b82aa@bootlin.com>
-Content-Language: en-US, fr-FR
-From: Nicolas Ferre <nicolas.ferre@microchip.com>
-Organization: microchip
-In-Reply-To: <20240703-of_property_for_each_u32-v1-11-42c1fc0b82aa@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.14-dev-d4707
 
-On 03/07/2024 at 12:36, Luca Ceresoli wrote:
-> Simplify code using of_property_for_each_u32_new() as the two additional
-> parameters in of_property_for_each_u32() are not used here.
+On Thu, 27 Jun 2024 12:18:37 +0200, Amadeusz Sławiński wrote:
+> Code used to create standalone and widget controls is mostly same, with
+> with exception that in standalone case dynamic object needs to be
+> registered and control created directly.
 > 
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> Following patches clean up and unify kcontrol creation code in topology
+> code.
+> 
+> [...]
 
-Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
+Applied to
 
-> ---
->   drivers/irqchip/irq-atmel-aic-common.c | 4 +---
->   1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/drivers/irqchip/irq-atmel-aic-common.c b/drivers/irqchip/irq-atmel-aic-common.c
-> index 072bd227b6c6..543ea249df53 100644
-> --- a/drivers/irqchip/irq-atmel-aic-common.c
-> +++ b/drivers/irqchip/irq-atmel-aic-common.c
-> @@ -111,8 +111,6 @@ static void __init aic_common_ext_irq_of_init(struct irq_domain *domain)
->          struct device_node *node = irq_domain_get_of_node(domain);
->          struct irq_chip_generic *gc;
->          struct aic_chip_data *aic;
-> -       struct property *prop;
-> -       const __be32 *p;
->          u32 hwirq;
-> 
->          gc = irq_get_domain_generic_chip(domain, 0);
-> @@ -120,7 +118,7 @@ static void __init aic_common_ext_irq_of_init(struct irq_domain *domain)
->          aic = gc->private;
->          aic->ext_irqs |= 1;
-> 
-> -       of_property_for_each_u32(node, "atmel,external-irqs", prop, p, hwirq) {
-> +       of_property_for_each_u32_new(node, "atmel,external-irqs", hwirq) {
->                  gc = irq_get_domain_generic_chip(domain, hwirq);
->                  if (!gc) {
->                          pr_warn("AIC: external irq %d >= %d skip it\n",
-> 
-> --
-> 2.34.1
-> 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[01/13] ASoC: topology: Simplify code
+        commit: 97a05cb4ab12f55e19cf28f6ceca47bb6ed8fea4
+[02/13] ASoC: topology: Do not do unnecessary dobj management
+        commit: 7aa129706b4d6f7a2c649b359eea0336eb640feb
+[03/13] ASoC: topology: Properly initialize soc_enum values
+        commit: 8ec2a2643544ce352f012ad3d248163199d05dfc
+[04/13] ASoC: topology: Cleanup soc_tplg_dapm_widget_dbytes_create
+        commit: 52f4f7272c92d5be3988839a33be41b180bbc28e
+[05/13] ASoC: topology: Cleanup soc_tplg_dapm_widget_dmixer_create
+        commit: 40a16442a048c5f2b4336edd4d202f1930fb9df5
+[06/13] ASoC: topology: Cleanup soc_tplg_dapm_widget_denum_create
+        commit: d1d0262a1f5c7a543271bd5899cdb4b3ddfe054b
+[07/13] ASoC: topology: Correctly set shift_r in soc_tplg_denum_create()
+        commit: 963942f73b02b053f97e079ed6dae5f3602cc4b1
+[08/13] ASoC: topology: Align dynamic object initialization for controls
+        commit: f14a33fcadbacc1d9728e9c75253145ae6e09bbf
+[09/13] ASoC: topology: Rename function creating widget kcontrol
+        commit: 76d8aa0f727e327a0ba9bcb904865c40d256c292
+[10/13] ASoC: topology: Reshuffle function placement
+        commit: c2dad0db01fcacd44616e9d4c7263b187c4ff530
+[11/13] ASoC: topology: Unify code for creating standalone and widget bytes control
+        commit: 0867278200f787817036419fc87b56fb04a448e4
+[12/13] ASoC: topology: Unify code for creating standalone and widget mixer control
+        commit: 4654ca7cc8d6b57c77436dd44b347cc7dd3f5f08
+[13/13] ASoC: topology: Unify code for creating standalone and widget enum control
+        commit: 8f2942b9198c935862bc2400602780844b352667
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
