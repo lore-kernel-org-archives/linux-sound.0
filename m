@@ -1,44 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5395B14006
-	for <linux-sound@vger.kernel.org>; Thu,  4 Jul 2024 15:01:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C23531B0117;
+	Thu,  4 Jul 2024 15:01:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720105316; cv=none; b=jJBAosah0SSBphI21nFzFiEGWCeyyn8wzsp4CzX7jW6ayZ4xupKmbVHBo67ynwQvMxaaehgsDVIMhWCL4e3veC8FEYJzvvr/mlryegx0FsWIk3Tr+pTagVwbFwsD3vb+NOE9+WoMoLCHrkYQyZ/RMkxPPGdk7dHw1t6y9PNRClI=
+	t=1720105318; cv=none; b=hCoS+ZH5m7UN5Y4BVDo1QeDHRZ+DQHx/3XIDlXrg4TV8Aa6ygqEHcRW/gYnG0rC5rvOfhSfrlzpVgKf2me9/1kXw8FtqqQN6cBRPH/eTrHjjj+GEhKAfUkEl1CO/7Ud54FKRi2ZVj/4VbvmG1aaCZPE+WSiR5ueAEsk7e4j9cZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720105316; c=relaxed/simple;
-	bh=sqDTlozgNMJSM0AHPdm7EUAIVn2oDHK0DdTYht4ikvI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=NQ/1ziCicdSLlwzP2tPbeMmWVsRqmvWAdJ5sOsY845720gzBuncVxf1dJDA4HXgXz4cKmb74nUHdZHasBpSH8OdX3BdGaO83DO7YdeRX5p20o8JnXFPs3FgWzx2NjfsJk3iWgia6z0gW0Pmaad2WwHk/tMULoVYXqhH3Wj8j0ZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mSjmkrk6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720105318; c=relaxed/simple;
+	bh=GD38v98uEi0utGYisW2QYjJqD4Hgh4wQJEQUjjOKZFA=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=jRypIRGoJQ+xMSChO//smGvpkwMY8vwhoDxLTCXpDsfGgUYl95SzhKr1or5lCQNET2p9s7ljyEHjnVTCFBbf7VghsS9NJMTQrEBxOhYteioXhxBCz+bE6IKBpfW/U18QttKLXQq8RX8OY0GtHGwPTi4uJoGpSiflhoHx8TjZLeE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F+CqAF47; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mSjmkrk6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81FA2C3277B;
-	Thu,  4 Jul 2024 15:01:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F+CqAF47"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 696E0C4AF0A;
+	Thu,  4 Jul 2024 15:01:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720105315;
-	bh=sqDTlozgNMJSM0AHPdm7EUAIVn2oDHK0DdTYht4ikvI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=mSjmkrk69vAiaxLyBPnptZ+Mxbi5naIja3zHNiCL6rBjv41RSqo2XFj64EHc6yQ2t
-	 0w+e/ryR7TrUfc27azlfQ0gJWNUZ8nVrQNJgKRmFUxJkpm6lU6jmoRQbysNLY0xuS8
-	 nCyDPG33sow9PQgK2M1N7wndKf85bjhhrd/JV/LsWPPJjNSYQpAuVih8imr8Sr01hB
-	 s84kUqvpAnsD9bojjf62QJ11Ohn6g9UW1XediS5G45SIRhR8fNYh2mzwQDjibNJZqB
-	 zeB/yWd2YtgaF6nhfA4wO1/MAiGuaQS4QyOFnYa/AoIqCarcgS03Qdk9PxXvL8ZSZd
-	 mTmHJ52GiIkRw==
+	s=k20201202; t=1720105318;
+	bh=GD38v98uEi0utGYisW2QYjJqD4Hgh4wQJEQUjjOKZFA=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=F+CqAF47A923IQmQNjQ27xkQ6SW5Zd2kFaXfJDvsChXEnG6+0TBrRkKyWN7V6HLu0
+	 ziDESXcO/N/NBHgGsH8SkO9y9KIk+zJsXkjIgT6DK0Dh6nUF4FppPDlcqY6BQd6fNp
+	 6RHM2vQzcrtWMHPMe2QOBSpkyvbnoe+2VNu1w+4qUSr9Gqbdd/Hcis/zFs03iV/uEs
+	 5rTic+ZvEoyhaPMhVVi8OZxsUPHoWOOrSaurXeYvRfEcZusPCoHiohG5ezJ0uTkpDJ
+	 u2GntCvu/fhem6l1AZSfYwNPqQCD/umaDvon5wFBMXFM9xzEnFhzk/+r+fiyhXt+2I
+	 ly7YBQ497pejg==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: alsa-devel@alsa-project.org, tiwai@suse.de, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-In-Reply-To: <20240704085944.371450-1-pierre-louis.bossart@linux.intel.com>
-References: <20240704085944.371450-1-pierre-louis.bossart@linux.intel.com>
-Subject: Re: [PATCH] ASoC: SOF: ipc4-topology: Use single token list for
- the copiers
-Message-Id: <172010531424.64240.8468418054807775164.b4-ty@kernel.org>
-Date: Thu, 04 Jul 2024 16:01:54 +0100
+To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ ckeepax@opensource.cirrus.com, andriy.shevchenko@linux.intel.com, 
+ heiko@sntech.de, robh@kernel.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, shengjiu.wang@gmail.com, 
+ Shengjiu Wang <shengjiu.wang@nxp.com>
+In-Reply-To: <1720009575-11677-1-git-send-email-shengjiu.wang@nxp.com>
+References: <1720009575-11677-1-git-send-email-shengjiu.wang@nxp.com>
+Subject: Re: [PATCH] ASoC: ak4458: remove "reset-gpios" property handler
+Message-Id: <172010531616.64240.2044968074924246988.b4-ty@kernel.org>
+Date: Thu, 04 Jul 2024 16:01:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,14 +47,14 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14-dev-d4707
 
-On Thu, 04 Jul 2024 10:59:44 +0200, Pierre-Louis Bossart wrote:
-> There is no need to keep separate token list for dai and 'common' copier
-> token list when the 'common' list is actually the aif list, the
-> SOF_COPIER_DEEP_BUFFER_TOKENS are not applicable for buffers.
+On Wed, 03 Jul 2024 20:26:15 +0800, Shengjiu Wang wrote:
+> commit c721f189e89c0 ("reset: Instantiate reset GPIO controller for
+> shared reset-gpios") check if there is no "resets" property
+> will fallback to "reset-gpios".
 > 
-> We could have separate lists for all types but it is probably simpler to
-> just use a single list for all types of copiers. Function specific tokens
-> will be only parsed by function specific code anyways.
+> So don't need to handle "reset-gpios" separately in the driver,
+> the "reset-gpios" handler is duplicated with "resets" control handler,
+> remove it.
 > 
 > [...]
 
@@ -66,8 +64,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: SOF: ipc4-topology: Use single token list for the copiers
-      commit: 6558e8737af2067763e115ce3759372cd068b897
+[1/1] ASoC: ak4458: remove "reset-gpios" property handler
+      commit: 1e0dff741b0a8af35645e5c3ffc4050893002a9c
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
