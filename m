@@ -1,42 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD9862E3F7
-	for <linux-sound@vger.kernel.org>; Thu,  4 Jul 2024 17:19:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47018381C7
+	for <linux-sound@vger.kernel.org>; Thu,  4 Jul 2024 17:19:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720113543; cv=none; b=fXXxx4yL2cQRvhCqq1u21gvFNIN/h5mWHGyV9aFgln9yJ54FLYKga6w/0urOTBEMN3ppXhRzLsymYqzDwPkMX1Xr3CI3Yr8x3utmhGpXhujl41zsW0wQacROeiWGsKS1yQyA6t+/xHK9TbEjox34GT5Xa2EaMfOAlfQ5Z9Y7p4c=
+	t=1720113545; cv=none; b=YfBpDxDFSeHLApiJsBoCnbwhUpJ4nCHGSs+DWWoCA4Sjck13S5lMcKAH9K1IW5oZhbAhrJO9ec0Z4jR/CpbR+JEt3MHcCKAasVsNAdLxjeUKqnSNwmmGjgTxiBMbf73l7TuVv7owj1gMX96wHskxGu2F/aCyb/RgCU/v1w/zw/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720113543; c=relaxed/simple;
-	bh=y1eAcALUBJtOcY/yRjb+HRjFX6xnxr1k9+LVlC7sRV8=;
+	s=arc-20240116; t=1720113545; c=relaxed/simple;
+	bh=7JTGKtyc4Yjij9mrrPoaC0T2Y6WDdP/k82YBD3wdM10=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=YBI+4FYMwXkqaLnUP9y/ukgAV6UD5+roc1uICp1PFtaHdJpizjALfNSlMm3V3712u0AfQi2LyqVmPf1BWAb2GFkuKolYgIYrX8YKJDnUux5xOomNbznSVR4L+ZQNZv6uJb3dBC7FzB2sOLvKv9ZNbjxVw4PIy/HeO9MucQqdR8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NWm+2O5t; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Eg+Lpfp/Rrlspk5cV/gxoUIuALexGm08U1oH+HoMkDUj86qbaXPnartcPb3wg679f61ZWn234nUjp+sloC6rcPhFx+i/+yi1hFOL6HtweDmey0vqxk/P1rxqR6LHx6NXIS4RyTWV1F/jJUNr0h4AlFyTILQqiuFrbVGYEZCxPwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mI4r4Z8o; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NWm+2O5t"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A1DEC32781;
-	Thu,  4 Jul 2024 17:19:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mI4r4Z8o"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2BBFC4AF0A;
+	Thu,  4 Jul 2024 17:19:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720113543;
-	bh=y1eAcALUBJtOcY/yRjb+HRjFX6xnxr1k9+LVlC7sRV8=;
+	s=k20201202; t=1720113544;
+	bh=7JTGKtyc4Yjij9mrrPoaC0T2Y6WDdP/k82YBD3wdM10=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=NWm+2O5tpmSwLbY5UOhSgVDcz415Se9L5pCVje9uQwZyioO39y3rWLkbbQdc0+/DZ
-	 5IgK5tyum6yRNy320ETN/sqON2ubCzv65AOuq1KFmzRjk07Rj7QrrZ1NuNHXvEm+Ot
-	 /wU4G+aH84/NlwAKU/QKglX7nyt+kRu0qGSy7IjPX8Qs14ge0gBmPJuRmSbAPVqkjy
-	 FSaScg4sSk9q1+aM0oE2786dTsleVMsMZvXqr1YB4wh7desxUyCngyBuEAE5I7Da+f
-	 IbCJSTZlgxJ8Tb2DKNUr8Hb4/buHZNqcxA6HBbUo+scP8aOecd3wnVhrHpvKsU70+6
-	 lqajMp1vz+Y7w==
+	b=mI4r4Z8o4qq9JhFFzM8UxfNyPC3d/TC4JOqZTrTjPeAvDPryZ6TbBhyqOh0ardPLL
+	 KHXgQi1ivY9sj2m+uAzIqluV+ob3/by5wBdMbnAIFCHAX+Iv3dr9eWPPa9gLDsH9sB
+	 FpFUuNd3DrMsl2Xo8F4aacF951/VYuCL3iDYnXQThkuum7lvt12cxnooa7LvTNfayo
+	 FniwOImwup/6ARVvvj3EY/jhRevZoOMx3mkTzQCJvcSEvbGi8GJS2HnMyUI/H9j9LD
+	 aMdrPL/f04yjH77CNAtYzXVh8eXLAeVavNvx74aI9WZciPCwuyPyNpyLEKwuXjeK+Y
+	 cCe3wMsKiQxpQ==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: alsa-devel@alsa-project.org, tiwai@suse.de, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <20240704090106.371497-1-pierre-louis.bossart@linux.intel.com>
-References: <20240704090106.371497-1-pierre-louis.bossart@linux.intel.com>
-Subject: Re: [PATCH] ASoC: SOF: Intel: hda-pcm: Limit the maximum number of
- periods by MAX_BDL_ENTRIES
-Message-Id: <172011354202.90743.11488058235913274313.b4-ty@kernel.org>
-Date: Thu, 04 Jul 2024 18:19:02 +0100
+To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.intel.com, 
+ bard.liao@intel.com
+In-Reply-To: <20240704092327.652609-1-yung-chuan.liao@linux.intel.com>
+References: <20240704092327.652609-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH] ASoC: rt711-sdw: add missing readable registers
+Message-Id: <172011354352.90743.8794293859272767109.b4-ty@kernel.org>
+Date: Thu, 04 Jul 2024 18:19:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,10 +45,8 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14-dev-d4707
 
-On Thu, 04 Jul 2024 11:01:06 +0200, Pierre-Louis Bossart wrote:
-> The HDaudio specification Section 3.6.2 limits the number of BDL entries to 256.
-> 
-> Make sure we don't allow more periods than this normative value.
+On Thu, 04 Jul 2024 17:23:27 +0800, Bard Liao wrote:
+> Those registers will be used when JD source is RT711_JD2_1P8V_1PORT.
 > 
 > 
 
@@ -60,8 +56,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: SOF: Intel: hda-pcm: Limit the maximum number of periods by MAX_BDL_ENTRIES
-      commit: 82bb8db96610b558920b8c57cd250ec90567d79b
+[1/1] ASoC: rt711-sdw: add missing readable registers
+      commit: 7441e7f3e682436a30afe50b858eac94295047b7
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
