@@ -1,95 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from disco.pogo.org.uk (disco.pogo.org.uk [93.93.128.62])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D66CB172764
-	for <linux-sound@vger.kernel.org>; Thu,  4 Jul 2024 09:01:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C0C9224D7
+	for <linux-sound@vger.kernel.org>; Thu,  4 Jul 2024 09:18:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.93.128.62
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720083689; cv=none; b=t8NeXv40k7vMh0CXHhr8HnrL/s/LuUtr7N65Zhv42QSeCnJrhxT9ijLTJo6Fx+CshJ9KKwEovPJ71IJ8p3bUpEGHCnSvXykWEfWHG+8Z+GyRIozIMipHvmpavg2mldCotf0GbHp2fpfOTS4cjr8/20wysUcrtuGbAIY+n7ULayg=
+	t=1720084718; cv=none; b=hdcZDRgC3PC1T9O+NI0glV/+ljjNs8I+z4x0uSIxMaIsk6Nn8bvjEBF8kdPqNHAd0qJ7d+RXQDGpLyNXsc9sQrMnV4KdRm73Wqq1arKMMimcSQIazojOuPbIsnafZsfH0zmecCkX2K7Ntmm6gYqLp+eTiLzQ7fuctX2OSwAJmxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720083689; c=relaxed/simple;
-	bh=BOPqb+hr+MZ44Y3ZgaO8aUjGSpet7jahVHcXhP9ems8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cbjIOyOVRtdr7xJUanCKi7apmjBbDeoQVogS7XamRWAUIDCz/Yr0O8kq0uYFelnn9jsHFtzEF403Gleb+T3ZrFoPesjrEOlKrrCfDK+s6woKPGrr9FrsCsYXeDNM7mruszEqCA3meAe2JYNx8QzGAuEuosfhA1H68BlCkJw1ZAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IL7PwCQD; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1720084718; c=relaxed/simple;
+	bh=WbXzrLYbelpWYb+vWRColZJQkfGtkoJg8hCor2oynf8=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=flVmcOZNsDa5MmoTWjgcSJxXdijd3szcu1vwy/ScLELSpby3+4LkvmRO8h8Afo+t4NdJ2HWc/LoHdP8s1ePETddM1w5/fwHgiHez2/BhQNUbXZbbsn/ZDYO5GgpiU2ISwc3Rjz7btq1IMMPT8Y6P56ujkN98xYfKHHt7PdH/JCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xwax.org; spf=pass smtp.mailfrom=xwax.org; dkim=pass (1024-bit key) header.d=xwax.org header.i=@xwax.org header.b=HYF35//5; arc=none smtp.client-ip=93.93.128.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xwax.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xwax.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IL7PwCQD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720083688; x=1751619688;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=BOPqb+hr+MZ44Y3ZgaO8aUjGSpet7jahVHcXhP9ems8=;
-  b=IL7PwCQDMNlOB8/yp+R2UDOjIcSQPiBBZJyepRRkBtpD+2ZU1um7GeqD
-   Wr7JTSgkVLzwhRZaYBsDnwQHwQTF9dUBVUyjNHGXCPsTS6FpV52K/Wag2
-   ucdzzJh4dluBFAikX+2erxaP9tX4E8lOeAW1rMvBCIntPm4WbUdxtBX3z
-   TBbCrqhUQQuTHj4vWyyOtJxtzkoV+FcecQgejwLDS55F0DfHNHf+Kzi9I
-   5PL8DcieAL56noyTwkeQmI+sXqN2Gw0UENoc9vYwqwAV4kakxpLgZVrEM
-   Qtc30S6a+vwpk4Uuz+bF+El77weRIxXaijea8l3AsSjdogXHZ6Ktbo0On
-   w==;
-X-CSE-ConnectionGUID: RS4Gj+0tQpK+gbkve6ypxg==
-X-CSE-MsgGUID: e2jsLFXSTUKER8cI0CGhpg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11122"; a="34799434"
-X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="34799434"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 02:01:25 -0700
-X-CSE-ConnectionGUID: 05o/pgpkQSuVbSCGnGLoRQ==
-X-CSE-MsgGUID: QlC7CNToTlW7imCFZ5SMQQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="50980484"
-Received: from bergbenj-mobl1.ger.corp.intel.com (HELO pbossart-mobl6.intel.com) ([10.245.246.90])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 02:01:20 -0700
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-To: linux-sound@vger.kernel.org
-Cc: alsa-devel@alsa-project.org,
-	tiwai@suse.de,
-	broonie@kernel.org,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [PATCH] ASoC: SOF: Intel: hda-pcm: Limit the maximum number of periods by MAX_BDL_ENTRIES
-Date: Thu,  4 Jul 2024 11:01:06 +0200
-Message-ID: <20240704090106.371497-1-pierre-louis.bossart@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=xwax.org header.i=@xwax.org header.b="HYF35//5"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=xwax.org;
+	s=swing; h=Content-Type:MIME-Version:References:Message-ID:In-Reply-To:
+	Subject:cc:To:From:Date:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description; bh=Mg5N1u3NQwC0syyKbSSGXV2bOG4ZP1SInZ/6+jwqoRE=; b=HYF35
+	//55ipLifYlR5Cr36CmvuBr6m7/FGtH91JJ0Carn1SD9pDdd8ZiVjE/mhKiXehddjTMkN/ol7Z1ZG
+	ADvidtbirlngCNUJaGnOdypeWsxqfaJ8qbSXUpFRWPhQLZTVVE3hc8tzibF0ftLbk0+9P9Tam3EH8
+	o4MWgWbF3RXU=;
+Received: from cpc93786-hari17-2-0-cust786.20-2.cable.virginm.net ([82.36.99.19] helo=tamla)
+	by disco.pogo.org.uk with esmtps  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.97.1 (FreeBSD))
+	(envelope-from <mark@xwax.org>)
+	id 1sPIFo-000000007H5-3d36;
+	Thu, 04 Jul 2024 09:55:48 +0100
+Received: from localhost (tamla.localdomain [local])
+	by tamla.localdomain (OpenSMTPD) with ESMTPA id 715619dd;
+	Thu, 4 Jul 2024 09:55:33 +0100 (BST)
+Date: Thu, 4 Jul 2024 09:55:33 +0100 (BST)
+From: Mark Hills <mark@xwax.org>
+To: Asahi Lina <lina@asahilina.net>
+cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+    Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
+Subject: Re: Handling complex matrix mixers in ALSA
+In-Reply-To: <48beda37-1795-4d48-987d-1e2582cb3a18@asahilina.net>
+Message-ID: <5e0a07da-c5d2-1209-0f26-d164f25a31f1@xwax.org>
+References: <48beda37-1795-4d48-987d-1e2582cb3a18@asahilina.net>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
 
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+On Mon, 1 Jul 2024, Asahi Lina wrote:
 
-The HDaudio specification Section 3.6.2 limits the number of BDL entries to 256.
+[...]
+> The problem is that the device has a 66x34 matrix mixer, with up to 2048
+> cross points enabled at once. Exposing each cross point as an ALSA mixer
+> control (similar to how mixer_scarlett2.c does it) would mean 2244
+> controls just for the mixer... which seems like a bit too much.
+> 
+> On top of that there is also VU meter feedback for all the
+> inputs/outputs, as well as general fader controls for each output and
+> global output configs and status. I'm not sure about the VU meters, but
+> everything else sounds like it would map fine to normal mixer controls.
+> 
+> Is there some recommended way to expose this kind of matrix mixer
+> interface to userspace?
 
-Make sure we don't allow more periods than this normative value.
+I don't know if it's recommended practice, but the echo3g driver may be a 
+prior art as it has a working matrix mixer for the Layla, and the 
+corresponding echomixer in alsa-tools.
 
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
----
- sound/soc/sof/intel/hda-pcm.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+> I think for something like this you pretty much have to rely on 
+> device-specific tools to make the UX manageable
 
-diff --git a/sound/soc/sof/intel/hda-pcm.c b/sound/soc/sof/intel/hda-pcm.c
-index 9fb8521b896b..f6e24edd7adb 100644
---- a/sound/soc/sof/intel/hda-pcm.c
-+++ b/sound/soc/sof/intel/hda-pcm.c
-@@ -258,6 +258,12 @@ int hda_dsp_pcm_open(struct snd_sof_dev *sdev,
- 	snd_pcm_hw_constraint_integer(substream->runtime,
- 				      SNDRV_PCM_HW_PARAM_PERIODS);
- 
-+	/* Limit the maximum number of periods to not exceed the BDL entries count */
-+	if (runtime->hw.periods_max > HDA_DSP_MAX_BDL_ENTRIES)
-+		snd_pcm_hw_constraint_minmax(runtime, SNDRV_PCM_HW_PARAM_PERIODS,
-+					     runtime->hw.periods_min,
-+					     HDA_DSP_MAX_BDL_ENTRIES);
-+
- 	/* Only S16 and S32 supported by HDA hardware when used without DSP */
- 	if (sdev->dspless_mode_selected)
- 		snd_pcm_hw_constraint_mask64(substream->runtime, SNDRV_PCM_HW_PARAM_FORMAT,
+For a full UX, perhaps. But the concept of a matrix mixer itself is 
+general enough.
+
+Perhaps there could be a UI tool which is self contained with one purpose, 
+to control a 'standard' matrix mixer. It could be invoked alongside 
+alsamixer or other mixer tool, and multiple times if there are multiple 
+matrix mixers on a piece of hardware.
+
 -- 
-2.43.0
-
+Mark
