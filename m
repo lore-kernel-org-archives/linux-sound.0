@@ -1,84 +1,87 @@
-Received: from disco.pogo.org.uk (disco.pogo.org.uk [93.93.128.62])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C0C9224D7
-	for <linux-sound@vger.kernel.org>; Thu,  4 Jul 2024 09:18:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.93.128.62
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D287F1AAE1E
+	for <linux-sound@vger.kernel.org>; Thu,  4 Jul 2024 09:23:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720084718; cv=none; b=hdcZDRgC3PC1T9O+NI0glV/+ljjNs8I+z4x0uSIxMaIsk6Nn8bvjEBF8kdPqNHAd0qJ7d+RXQDGpLyNXsc9sQrMnV4KdRm73Wqq1arKMMimcSQIazojOuPbIsnafZsfH0zmecCkX2K7Ntmm6gYqLp+eTiLzQ7fuctX2OSwAJmxs=
+	t=1720085021; cv=none; b=R+BN/bXqkM2NLjFhtKIrI9RADxsTwMJ4zGeMgkeQjSmvZ2CKNZS4FacXgiYf6uOMl2g63eFS//4i49HmvUTlAykpDp4OhJ4LdkQL8LBbMq6wYkXo4wCvjO7+Iwgp0A3Bp5+g3mmHrwB/OgF8EhX9g3OqEOlC1K+EBIPKfGtuP4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720084718; c=relaxed/simple;
-	bh=WbXzrLYbelpWYb+vWRColZJQkfGtkoJg8hCor2oynf8=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=flVmcOZNsDa5MmoTWjgcSJxXdijd3szcu1vwy/ScLELSpby3+4LkvmRO8h8Afo+t4NdJ2HWc/LoHdP8s1ePETddM1w5/fwHgiHez2/BhQNUbXZbbsn/ZDYO5GgpiU2ISwc3Rjz7btq1IMMPT8Y6P56ujkN98xYfKHHt7PdH/JCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xwax.org; spf=pass smtp.mailfrom=xwax.org; dkim=pass (1024-bit key) header.d=xwax.org header.i=@xwax.org header.b=HYF35//5; arc=none smtp.client-ip=93.93.128.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xwax.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xwax.org
+	s=arc-20240116; t=1720085021; c=relaxed/simple;
+	bh=uQqeoljhoOFWHFbzXg7Qf677Jf97Mi03dMjqHDsi5X0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qDuC5bkuTMW7Svx6Qe+olrCUsxj6b8l9DZ/49y953N3WxUy1b83GldiaxW0785h6+vga+IZQM/vznQd6WffVzvLD+LAyNh+F4okClRWvKQcOaZy1CVPjLYQU5154+DiKvl81p8d7Dy7bRnx/WY0tseMoaYTekmU0YtnxznxkkKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OG1+BW4s; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xwax.org header.i=@xwax.org header.b="HYF35//5"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=xwax.org;
-	s=swing; h=Content-Type:MIME-Version:References:Message-ID:In-Reply-To:
-	Subject:cc:To:From:Date:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description; bh=Mg5N1u3NQwC0syyKbSSGXV2bOG4ZP1SInZ/6+jwqoRE=; b=HYF35
-	//55ipLifYlR5Cr36CmvuBr6m7/FGtH91JJ0Carn1SD9pDdd8ZiVjE/mhKiXehddjTMkN/ol7Z1ZG
-	ADvidtbirlngCNUJaGnOdypeWsxqfaJ8qbSXUpFRWPhQLZTVVE3hc8tzibF0ftLbk0+9P9Tam3EH8
-	o4MWgWbF3RXU=;
-Received: from cpc93786-hari17-2-0-cust786.20-2.cable.virginm.net ([82.36.99.19] helo=tamla)
-	by disco.pogo.org.uk with esmtps  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.97.1 (FreeBSD))
-	(envelope-from <mark@xwax.org>)
-	id 1sPIFo-000000007H5-3d36;
-	Thu, 04 Jul 2024 09:55:48 +0100
-Received: from localhost (tamla.localdomain [local])
-	by tamla.localdomain (OpenSMTPD) with ESMTPA id 715619dd;
-	Thu, 4 Jul 2024 09:55:33 +0100 (BST)
-Date: Thu, 4 Jul 2024 09:55:33 +0100 (BST)
-From: Mark Hills <mark@xwax.org>
-To: Asahi Lina <lina@asahilina.net>
-cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
-    Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
-Subject: Re: Handling complex matrix mixers in ALSA
-In-Reply-To: <48beda37-1795-4d48-987d-1e2582cb3a18@asahilina.net>
-Message-ID: <5e0a07da-c5d2-1209-0f26-d164f25a31f1@xwax.org>
-References: <48beda37-1795-4d48-987d-1e2582cb3a18@asahilina.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OG1+BW4s"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1720085020; x=1751621020;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=uQqeoljhoOFWHFbzXg7Qf677Jf97Mi03dMjqHDsi5X0=;
+  b=OG1+BW4sTZsvW8MYecH4vmCsvZO/b8yGDirCaxY3WpaJjneuaPuMsl7F
+   QNDI54rGHV2HUQLWp4ulK+ChTUfgNJ5+bpvBI+3bsjB2kTSOwvJgL3MOS
+   k/HpXF1kaSYCz0ubU9FMpCDlYUcqAPFf+vdmldDQFSYrCl0X+wP7MpUYn
+   AjpdGa6F/6rB1ifwbbRL0vBCfHt9RImHKZKJyYbPosHPXv3T4ld0ZKpL1
+   8fxGGl+DVN/uGdBKdLiIZtxmT/CqYyRqH3sGg8KXP6tslSfGWdBhNNyFT
+   DfNKNxgCqyEBofMAiiSnLtcpvJtKF8xxjfVfKtmbd0bQPnP2GM0Zo4rkJ
+   w==;
+X-CSE-ConnectionGUID: 8XAqF2MvT0STsxANFXcXYg==
+X-CSE-MsgGUID: ON1VHJ/TSRqM5nAOrQWoCQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11122"; a="34802595"
+X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
+   d="scan'208";a="34802595"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 02:23:40 -0700
+X-CSE-ConnectionGUID: yMbznU44TL2m8nljoqVXAA==
+X-CSE-MsgGUID: KOeiKJKYQDeoJoWWtCreCA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
+   d="scan'208";a="84087981"
+Received: from anmitta2-mobl4.gar.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.119.127])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 02:23:37 -0700
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: broonie@kernel.org,
+	tiwai@suse.de
+Cc: linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	bard.liao@intel.com
+Subject: [PATCH] ASoC: rt711-sdw: add missing readable registers
+Date: Thu,  4 Jul 2024 17:23:27 +0800
+Message-ID: <20240704092327.652609-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 8bit
 
-On Mon, 1 Jul 2024, Asahi Lina wrote:
+Those registers will be used when JD source is RT711_JD2_1P8V_1PORT.
 
-[...]
-> The problem is that the device has a 66x34 matrix mixer, with up to 2048
-> cross points enabled at once. Exposing each cross point as an ALSA mixer
-> control (similar to how mixer_scarlett2.c does it) would mean 2244
-> controls just for the mixer... which seems like a bit too much.
-> 
-> On top of that there is also VU meter feedback for all the
-> inputs/outputs, as well as general fader controls for each output and
-> global output configs and status. I'm not sure about the VU meters, but
-> everything else sounds like it would map fine to normal mixer controls.
-> 
-> Is there some recommended way to expose this kind of matrix mixer
-> interface to userspace?
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+---
+ sound/soc/codecs/rt711-sdw.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-I don't know if it's recommended practice, but the echo3g driver may be a 
-prior art as it has a working matrix mixer for the Layla, and the 
-corresponding echomixer in alsa-tools.
-
-> I think for something like this you pretty much have to rely on 
-> device-specific tools to make the UX manageable
-
-For a full UX, perhaps. But the concept of a matrix mixer itself is 
-general enough.
-
-Perhaps there could be a UI tool which is self contained with one purpose, 
-to control a 'standard' matrix mixer. It could be invoked alongside 
-alsamixer or other mixer tool, and multiple times if there are multiple 
-matrix mixers on a piece of hardware.
-
+diff --git a/sound/soc/codecs/rt711-sdw.c b/sound/soc/codecs/rt711-sdw.c
+index 8ca8bcd177ab..dfda6bb5c6f8 100644
+--- a/sound/soc/codecs/rt711-sdw.c
++++ b/sound/soc/codecs/rt711-sdw.c
+@@ -38,7 +38,9 @@ static bool rt711_readable_register(struct device *dev, unsigned int reg)
+ 	case 0x8300 ... 0x83ff:
+ 	case 0x9c00 ... 0x9cff:
+ 	case 0xb900 ... 0xb9ff:
++	case 0x752008:
+ 	case 0x752009:
++	case 0x75200b:
+ 	case 0x752011:
+ 	case 0x75201a:
+ 	case 0x752045:
 -- 
-Mark
+2.43.0
+
