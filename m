@@ -1,139 +1,90 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D57D826289;
-	Thu,  4 Jul 2024 12:47:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5395B14006
+	for <linux-sound@vger.kernel.org>; Thu,  4 Jul 2024 15:01:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720097264; cv=none; b=u4Im+7S2VvAYh/mqvwGnqRQODyruM93fN0zuZQKDG0bpox1Ko8iUy5PbBilqmgogqvhbVRzUV76+lCAckztrU4+HA2iLw1GYUa/IwNi5IvwOSKlhIPH+Xqph1g+jRoPS8yJysIyB4iYK0XW7XLW25nakxQF9PF59uqTRKFzk0Ns=
+	t=1720105316; cv=none; b=jJBAosah0SSBphI21nFzFiEGWCeyyn8wzsp4CzX7jW6ayZ4xupKmbVHBo67ynwQvMxaaehgsDVIMhWCL4e3veC8FEYJzvvr/mlryegx0FsWIk3Tr+pTagVwbFwsD3vb+NOE9+WoMoLCHrkYQyZ/RMkxPPGdk7dHw1t6y9PNRClI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720097264; c=relaxed/simple;
-	bh=kdfPgfLH2eKr1DB40Cao0am5YIfhG3zVoKyzwH1q/To=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=M2OK0kZUQMVUYFji6ckFYCPyuGEjovDRMTviaZIbM2cS+VtuYfue+H4X6JtOnwJgzQLBqnKA9xEId37xPN0EJ7/ml8Fl1Rqn92jVkvytQAkWEOlwYuLbWPAly1alpDXGLaJ0yRg+ianbSA0bMkOAMfpek1XwWl9/jRmUZJOfoxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IQnGSDSe; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZFGryK0h; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=k7lyz6lc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pWb2af+o; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1720105316; c=relaxed/simple;
+	bh=sqDTlozgNMJSM0AHPdm7EUAIVn2oDHK0DdTYht4ikvI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=NQ/1ziCicdSLlwzP2tPbeMmWVsRqmvWAdJ5sOsY845720gzBuncVxf1dJDA4HXgXz4cKmb74nUHdZHasBpSH8OdX3BdGaO83DO7YdeRX5p20o8JnXFPs3FgWzx2NjfsJk3iWgia6z0gW0Pmaad2WwHk/tMULoVYXqhH3Wj8j0ZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mSjmkrk6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IQnGSDSe";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZFGryK0h";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="k7lyz6lc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pWb2af+o"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id ED5D71F7BC;
-	Thu,  4 Jul 2024 12:47:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1720097261; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vZvUaSXnMBp8WbLMLQCJEmFkGGzth3JwyEnW4gQ1isA=;
-	b=IQnGSDSedRuHGb7MdcH7ELAXpgJ/NTpBt639jlx5jdHvO0ncrgfngHhL/MvDhHt0r30xWY
-	//HSwtiM2kI7JQC5Tn9FRR9IrExQ13RhHyvDzUjAqNdtEADv27Z5FqI5TKzgf3AVBt+Azr
-	ef63YITuSmen8Xis9jVcs6wzwq6xzs8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1720097261;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vZvUaSXnMBp8WbLMLQCJEmFkGGzth3JwyEnW4gQ1isA=;
-	b=ZFGryK0h+R4aQgeGvn4d5Ii5/8tBTAMMYlRpX2SgusrIBBqGXNiLh0ddM+nWqLyEkoAvBE
-	SDfk6bcFHk8QtuAw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=k7lyz6lc;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=pWb2af+o
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1720097260; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vZvUaSXnMBp8WbLMLQCJEmFkGGzth3JwyEnW4gQ1isA=;
-	b=k7lyz6lcurJ/+feJ2ukA9D23VUjr0wHCUdOA0nRcGvS0TNNco7peL9NfOLZNBdZpm4zCb8
-	19Z0YQezbtLFM2tdr3SPPo45SJB3P3j3W7p9YQ+YTHrExTVBmOfUEMWodjy2OM1IejolzC
-	qG5n6khQCkid42jCpSw2iMn9wTejp98=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1720097260;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vZvUaSXnMBp8WbLMLQCJEmFkGGzth3JwyEnW4gQ1isA=;
-	b=pWb2af+oLw1PGlWdEbflp2uPXXY4gKO7Dak8y/fa8Lr45xFGMkep0navrn2MbzbLyV5z1a
-	0gIVYP3em7jTAhDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B951013889;
-	Thu,  4 Jul 2024 12:47:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id C3DwK+yZhmaXEwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 04 Jul 2024 12:47:40 +0000
-Date: Thu, 04 Jul 2024 14:48:10 +0200
-Message-ID: <87plrtiar9.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Stefan Binding <sbinding@opensource.cirrus.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	<alsa-devel@alsa-project.org>,
-	<linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>,
-	<patches@opensource.cirrus.com>
-Subject: Re: [PATCH v1] ALSA: hda: cs35l41: Fix missing Speaker ID GPIO description in _DSD
-In-Reply-To: <20240703140802.27688-1-sbinding@opensource.cirrus.com>
-References: <20240703140802.27688-1-sbinding@opensource.cirrus.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mSjmkrk6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81FA2C3277B;
+	Thu,  4 Jul 2024 15:01:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720105315;
+	bh=sqDTlozgNMJSM0AHPdm7EUAIVn2oDHK0DdTYht4ikvI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=mSjmkrk69vAiaxLyBPnptZ+Mxbi5naIja3zHNiCL6rBjv41RSqo2XFj64EHc6yQ2t
+	 0w+e/ryR7TrUfc27azlfQ0gJWNUZ8nVrQNJgKRmFUxJkpm6lU6jmoRQbysNLY0xuS8
+	 nCyDPG33sow9PQgK2M1N7wndKf85bjhhrd/JV/LsWPPJjNSYQpAuVih8imr8Sr01hB
+	 s84kUqvpAnsD9bojjf62QJ11Ohn6g9UW1XediS5G45SIRhR8fNYh2mzwQDjibNJZqB
+	 zeB/yWd2YtgaF6nhfA4wO1/MAiGuaQS4QyOFnYa/AoIqCarcgS03Qdk9PxXvL8ZSZd
+	 mTmHJ52GiIkRw==
+From: Mark Brown <broonie@kernel.org>
+To: linux-sound@vger.kernel.org, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: alsa-devel@alsa-project.org, tiwai@suse.de, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+In-Reply-To: <20240704085944.371450-1-pierre-louis.bossart@linux.intel.com>
+References: <20240704085944.371450-1-pierre-louis.bossart@linux.intel.com>
+Subject: Re: [PATCH] ASoC: SOF: ipc4-topology: Use single token list for
+ the copiers
+Message-Id: <172010531424.64240.8468418054807775164.b4-ty@kernel.org>
+Date: Thu, 04 Jul 2024 16:01:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: ED5D71F7BC
-X-Spam-Score: -4.51
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev-d4707
 
-On Wed, 03 Jul 2024 16:07:28 +0200,
-Stefan Binding wrote:
+On Thu, 04 Jul 2024 10:59:44 +0200, Pierre-Louis Bossart wrote:
+> There is no need to keep separate token list for dai and 'common' copier
+> token list when the 'common' list is actually the aif list, the
+> SOF_COPIER_DEEP_BUFFER_TOKENS are not applicable for buffers.
 > 
-> Laptop 10431A63 contains valid _DSD, but missing Speaker ID
-> description. Add this discription, but keep the rest of the _DSD to
-> ensure the correct firmware and tuning is loaded for this laptop.
+> We could have separate lists for all types but it is probably simpler to
+> just use a single list for all types of copiers. Function specific tokens
+> will be only parsed by function specific code anyways.
 > 
-> Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
+> [...]
 
-Applied to for-next branch now.  Thanks.
+Applied to
 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Takashi
+Thanks!
+
+[1/1] ASoC: SOF: ipc4-topology: Use single token list for the copiers
+      commit: 6558e8737af2067763e115ce3759372cd068b897
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
