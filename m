@@ -1,141 +1,136 @@
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D67B861FFA;
-	Fri,  5 Jul 2024 06:49:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F63136995
+	for <linux-sound@vger.kernel.org>; Fri,  5 Jul 2024 07:38:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720162200; cv=none; b=DY+PcDywxMQsmHtRHAhFKSb49atZtvvQqtKl+wGfYOYSTmpEQwyoec40QCTzrc09f7JWdJ5Nu7LamJp21ufr1YbXbRt+Uf6r/nf6HlHqLARl81Ogsn029f/cBkRcsXZM2Q01LqDXJOFwcCEaed1Es4edDRnH0OuWGrnlJfvF0lQ=
+	t=1720165119; cv=none; b=RhVBow3BXMZqHUoKAx7Ap5WREnQUzFjATZYwppIEoxlwvI0iPZyetEMQ5HWhcAJA4baaesDfrws27TN/3fhnh9j1HNHfrNmarzapKM+AuRO0GBPBRbp/s8IlF+H9y/LfEMFfvbKjFlVbLY+b0tpN4xPBeNkCv+cWZqd3sl9fLDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720162200; c=relaxed/simple;
-	bh=X4sBpiFvGRf8s3sGpg8NrXHB+7eBnkw+aAoHuQGw5oc=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Dx3SLstjuzHSzno2lsYptZoyjZN6aazCxZLNn73Pv23cweipYNBPAo60DK7lMmAsz2FzBbeoBuefuhFS/LCVUNVnfNj5McflxO+rjQCKqKlWgm6QCSpIJRjiKqzTcXnTEBYj9jD/RPazfsFPNgRZzrdc2KIzymBuOTDdkYQD3tk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=G/47uHTD; arc=none smtp.client-ip=198.47.19.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1720165119; c=relaxed/simple;
+	bh=mAXj1fVWhs3opui8x62/xlJ6CwAp9scl2x+NrbiM+M0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=OZd6Vt7Kxs9iqWmW3ijDB3YRRt+tJj/JCwkuUeUbIxeaugZJQWQSfubwfo5eMTwlepman0Zr5FpVD5YMMu4eio/bU6XxjNOW2FJI1UTOf3SuwgX7lL+DwB3lcX8MkX4EIb5G5FZ7LQ8scFNbCs2QPDTlzVDkjtf9fmAYGP+1tN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=lzQlyv3X; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="G/47uHTD"
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 4656muEa061005;
-	Fri, 5 Jul 2024 01:48:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1720162136;
-	bh=RvGJO/GUepuJX0Iexd1UfxNYXvI37Rbvm22LhgAfUkM=;
-	h=From:To:CC:Subject:Date;
-	b=G/47uHTDMtsE8lFph9gnnXrl23nSV0thFa7kbRucHOEELc3IKnLhJ6aNx0DTICfy5
-	 ALjwvPOpuhRO3lVGiH8RBw8j+FzGjQhF47Ebc+wxDtbofGQZAYoUt17QYtolsOhO9S
-	 zglvtzxyN7kBc5AbAyIfBPyFmgGYZ1Ag4mh4g1Xo=
-Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
-	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 4656mu0i071188
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 5 Jul 2024 01:48:56 -0500
-Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 5
- Jul 2024 01:48:56 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 5 Jul 2024 01:48:56 -0500
-Received: from LT5CG31242FY.dhcp.ti.com (lt5cg31242fy.dhcp.ti.com [10.85.14.205])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 4656mquG027792;
-	Fri, 5 Jul 2024 01:48:53 -0500
-From: Shenghao Ding <shenghao-ding@ti.com>
-To: <linux-kernel@vger.kernel.org>
-CC: <lgirdwood@gmail.com>, <broonie@kernel.org>, <linux-sound@vger.kernel.org>,
-        <perex@perex.cz>, <tiwai@suse.com>, <13916275206@139.com>,
-        <soyer@irl.hu>, <tiwai@suse.de>, <Baojun.Xu@fpt.com>,
-        Shenghao Ding <shenghao-ding@ti.com>
-Subject: [PATCH v1] ASoc: pcm6240: Remove unnecessary name-prefix for all the controls
-Date: Fri, 5 Jul 2024 14:48:46 +0800
-Message-ID: <20240705064846.1723-1-shenghao-ding@ti.com>
-X-Mailer: git-send-email 2.33.0.windows.2
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="lzQlyv3X"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 22B536E9B;
+	Fri,  5 Jul 2024 09:38:31 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 22B536E9B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1720165111; bh=yckVjm3JlOhFuKatukWOjPO9aOuPbXd3Sg9hDIV70MQ=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=lzQlyv3Xe8K3ySubK9CH/WbiugpHwlFddh9Z3m3fTRXDMn6F3lgO7zgQxmaYntLES
+	 I2Z99gIWuiDbKfOzHvNqll0tm6e3PwcehY2V6rXjYXbqyHA7sGgVS4yuBg33ZWY8Ai
+	 M0zOJTV3LyZ77DfufyzzVx3hVZ4YoOFsAI8f1zzA=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Fri,  5 Jul 2024 09:38:29 +0200 (CEST)
+Message-ID: <bffd90be-2e2b-49c5-977f-b248e3c60f55@perex.cz>
+Date: Fri, 5 Jul 2024 09:38:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: pcm: Fix missing export of
+ snd_pcm_set_sync_per-card()
+To: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org
+References: <20240705063555.17220-1-tiwai@suse.de>
+From: Jaroslav Kysela <perex@perex.cz>
+Content-Language: en-US
+Autocrypt: addr=perex@perex.cz; keydata=
+ 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
+In-Reply-To: <20240705063555.17220-1-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Adding name-prefix for each audio controls is a redundant, because
-name-prefix will be automatically added behind the control name when
-creating a new control.
+On 05. 07. 24 8:35, Takashi Iwai wrote:
+> The recent change for the PCM sync API forgot to export a new API
+> function that is currently used in emu10k1 driver.
+> 
+> This patch adds the missing export.
+> 
+> Fixes: d712c58c55d9 ("ALSA: pcm: optimize and clarify stream synchronization ID API")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202407051343.1Sz8AKFt-lkp@intel.com/
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> ---
+>   sound/core/pcm_lib.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/sound/core/pcm_lib.c b/sound/core/pcm_lib.c
+> index e48a84f8e977..66683656fb13 100644
+> --- a/sound/core/pcm_lib.c
+> +++ b/sound/core/pcm_lib.c
+> @@ -547,6 +547,7 @@ void snd_pcm_set_sync_per_card(struct snd_pcm_substream *substream,
+>   	strncpy(params->sync + 4, id, len);
+>   	memset(params->sync + 4 + len, 0, 12 - len);
+>   }
+> +EXPORT_SYMBOL_GPL(snd_pcm_set_sync_per_card);
+>   
+>   /*
+>    *  Standard ioctl routine
 
-Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
 
----
-v1:
- - remove pcmdev_ctrl_name_with_prefix
- - remove some processes for control name_prefix handling
----
- sound/soc/codecs/pcm6240.c | 30 ++++++------------------------
- 1 file changed, 6 insertions(+), 24 deletions(-)
+Reviewed-by: Jaroslav Kysela <perex@perex.cz>
 
-diff --git a/sound/soc/codecs/pcm6240.c b/sound/soc/codecs/pcm6240.c
-index 86e126783a1d..3de35b62439b 100644
---- a/sound/soc/codecs/pcm6240.c
-+++ b/sound/soc/codecs/pcm6240.c
-@@ -57,12 +57,6 @@ static const char *const pcmdev_ctrl_name[] = {
- 	"%s i2c%d Dev%d Ch%d Fine Volume",
- };
- 
--static const char *const pcmdev_ctrl_name_with_prefix[] = {
--	"%s Dev%d Ch%d Ana Volume",
--	"%s Dev%d Ch%d Digi Volume",
--	"%s Dev%d Ch%d Fine Volume",
--};
--
- static const struct pcmdevice_mixer_control adc5120_analog_gain_ctl[] = {
- 	{
- 		.shift = 1,
-@@ -1365,10 +1359,7 @@ static int pcmdev_gain_ctrl_add(struct pcmdevice_priv *pcm_dev,
- 
- 	name_id = pcmdev_gain_ctl_info[id][ctl_id].pcmdev_ctrl_name_id;
- 
--	if (comp->name_prefix)
--		ctrl_name = pcmdev_ctrl_name_with_prefix[name_id];
--	else
--		ctrl_name = pcmdev_ctrl_name[name_id];
-+	ctrl_name = pcmdev_ctrl_name[name_id];
- 
- 	for (chn = 1; chn <= nr_chn; chn++) {
- 		name = devm_kzalloc(pcm_dev->dev,
-@@ -1377,13 +1368,9 @@ static int pcmdev_gain_ctrl_add(struct pcmdevice_priv *pcm_dev,
- 			ret = -ENOMEM;
- 			goto out;
- 		}
--		if (comp->name_prefix)
--			scnprintf(name, SNDRV_CTL_ELEM_ID_NAME_MAXLEN,
--				ctrl_name, comp->name_prefix, dev_no, chn);
--		else
--			scnprintf(name, SNDRV_CTL_ELEM_ID_NAME_MAXLEN,
--				ctrl_name, pcm_dev->upper_dev_name, adap->nr,
--				dev_no, chn);
-+		scnprintf(name, SNDRV_CTL_ELEM_ID_NAME_MAXLEN,
-+			ctrl_name, pcm_dev->upper_dev_name, adap->nr,
-+			dev_no, chn);
- 		pcmdev_controls[mix_index].tlv.p =
- 			pcmdev_gain_ctl_info[id][ctl_id].gain;
- 		pcmdev_ctrl = devm_kmemdup(pcm_dev->dev,
-@@ -1437,13 +1424,8 @@ static int pcmdev_profile_ctrl_add(struct pcmdevice_priv *pcm_dev)
- 	if (!name)
- 		return -ENOMEM;
- 
--	if (comp->name_prefix)
--		scnprintf(name, SNDRV_CTL_ELEM_ID_NAME_MAXLEN,
--			"%s Profile id", comp->name_prefix);
--	else
--		scnprintf(name, SNDRV_CTL_ELEM_ID_NAME_MAXLEN,
--			"%s i2c%d Profile id", pcm_dev->upper_dev_name,
--			adap->nr);
-+	scnprintf(name, SNDRV_CTL_ELEM_ID_NAME_MAXLEN,
-+		"%s i2c%d Profile id", pcm_dev->upper_dev_name, adap->nr);
- 	pcmdev_ctrl->name = name;
- 	pcmdev_ctrl->iface = SNDRV_CTL_ELEM_IFACE_MIXER;
- 	pcmdev_ctrl->info = pcmdevice_info_profile;
+Thank you for this quick fix. I may also add this to the original patch set, 
+if you like.
+
+			Jaroslav
+
 -- 
-2.34.1
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
 
