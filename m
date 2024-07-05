@@ -1,76 +1,55 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED89A17995
-	for <linux-sound@vger.kernel.org>; Fri,  5 Jul 2024 06:35:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D67B861FFA;
+	Fri,  5 Jul 2024 06:49:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720161331; cv=none; b=bxS8WzYWzHcyWFGdrEqPl9bw/ukzqMqOf7mWjByBrKNkgsKZDWF22dN0DufDgCrA9tU+G7fYdnxJdCow7jpX4PRrT75ClViG91ZaSaJ4QL19vUSd5ieSYefIsipFmbvgpl8Y7bbN4hAbS9iaQFpjn/o3QforPzo+wFm99YJQ7Zc=
+	t=1720162200; cv=none; b=DY+PcDywxMQsmHtRHAhFKSb49atZtvvQqtKl+wGfYOYSTmpEQwyoec40QCTzrc09f7JWdJ5Nu7LamJp21ufr1YbXbRt+Uf6r/nf6HlHqLARl81Ogsn029f/cBkRcsXZM2Q01LqDXJOFwcCEaed1Es4edDRnH0OuWGrnlJfvF0lQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720161331; c=relaxed/simple;
-	bh=v6v5zgj2iE/PhAYiwtYfmw8HiPV3+x3K7NNXWVH9ljg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CnrrQ3jJImDPLJ6cl2up3QJ1dpSWWkAcRI9B8JK49dDo9kVBtpGWZedD6WkNgJijSCW/V7Bm7IxwQ1FnwYo9uTlYg067jydpP1MLEwrW3kVbVUlp26/R8fTfCvI/iBhN+8SP6diCpSOAFXzKEgxML9w120zJX2gzpK7ojkCKzFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dEJ65gsP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=k4eb4Vgj; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SUsrT+OH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=iV0KBcUD; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1720162200; c=relaxed/simple;
+	bh=X4sBpiFvGRf8s3sGpg8NrXHB+7eBnkw+aAoHuQGw5oc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Dx3SLstjuzHSzno2lsYptZoyjZN6aazCxZLNn73Pv23cweipYNBPAo60DK7lMmAsz2FzBbeoBuefuhFS/LCVUNVnfNj5McflxO+rjQCKqKlWgm6QCSpIJRjiKqzTcXnTEBYj9jD/RPazfsFPNgRZzrdc2KIzymBuOTDdkYQD3tk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=G/47uHTD; arc=none smtp.client-ip=198.47.19.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dEJ65gsP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="k4eb4Vgj";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SUsrT+OH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iV0KBcUD"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BC4981F818;
-	Fri,  5 Jul 2024 06:35:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1720161328; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=oKYAMEVyO4j7CKgEFqhWXsq0PTkGCfjsK/i3MN2HeFU=;
-	b=dEJ65gsPkyigKs1sK7TdhdWK+gKOJiA/fImaYWYkhckvMLOusN78TXKxi/YzVi5wX07ppP
-	UEAfzGBYW8Rt7DJdTLD6XPXWQr6B6/qs1HxDPp/jK6dLbx1WsUmGMfkoM5lhMUGM+lV3Zu
-	siKV9Pgv0ZrpBu52olbiBYG8IyLPmmw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1720161328;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=oKYAMEVyO4j7CKgEFqhWXsq0PTkGCfjsK/i3MN2HeFU=;
-	b=k4eb4VgjZT+qONxqt65qC2w/o+PTaseirmA1P0Bt79zxjhulCKbjvNOzoCuoBPzZfRjALs
-	y1d7QeY2XYX7S3Cg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1720161326; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=oKYAMEVyO4j7CKgEFqhWXsq0PTkGCfjsK/i3MN2HeFU=;
-	b=SUsrT+OHGfzX4BGeszsv1q3BgSq4RM/qG7Ok3ZYGBRPP1iqlXMXPpNpVR2VwD/yUsVRmfK
-	f5EvsPHKgWUdaxPVoizE4lITkUpR/7d+UX3XSXbk4iFHy+4OQ7FLC0SkiX2dpuSefyGjtv
-	PsVEs8ef9jxiWp52uNiBKoyrDL3dK/M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1720161326;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=oKYAMEVyO4j7CKgEFqhWXsq0PTkGCfjsK/i3MN2HeFU=;
-	b=iV0KBcUDu5fU+BGM5OzGvjDeYYDmu1KVmIB0Xx6l+K4QcMKyFr+o2Z+na6AasM/0dR8ffv
-	1tWHA5UZeI8S1JBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9B72A1396E;
-	Fri,  5 Jul 2024 06:35:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2eejJC6Uh2bZGgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 05 Jul 2024 06:35:26 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Cc: Jaroslav Kysela <perex@perex.cz>
-Subject: [PATCH] ALSA: pcm: Fix missing export of snd_pcm_set_sync_per-card()
-Date: Fri,  5 Jul 2024 08:35:53 +0200
-Message-ID: <20240705063555.17220-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="G/47uHTD"
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 4656muEa061005;
+	Fri, 5 Jul 2024 01:48:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1720162136;
+	bh=RvGJO/GUepuJX0Iexd1UfxNYXvI37Rbvm22LhgAfUkM=;
+	h=From:To:CC:Subject:Date;
+	b=G/47uHTDMtsE8lFph9gnnXrl23nSV0thFa7kbRucHOEELc3IKnLhJ6aNx0DTICfy5
+	 ALjwvPOpuhRO3lVGiH8RBw8j+FzGjQhF47Ebc+wxDtbofGQZAYoUt17QYtolsOhO9S
+	 zglvtzxyN7kBc5AbAyIfBPyFmgGYZ1Ag4mh4g1Xo=
+Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
+	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 4656mu0i071188
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Fri, 5 Jul 2024 01:48:56 -0500
+Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 5
+ Jul 2024 01:48:56 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Fri, 5 Jul 2024 01:48:56 -0500
+Received: from LT5CG31242FY.dhcp.ti.com (lt5cg31242fy.dhcp.ti.com [10.85.14.205])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 4656mquG027792;
+	Fri, 5 Jul 2024 01:48:53 -0500
+From: Shenghao Ding <shenghao-ding@ti.com>
+To: <linux-kernel@vger.kernel.org>
+CC: <lgirdwood@gmail.com>, <broonie@kernel.org>, <linux-sound@vger.kernel.org>,
+        <perex@perex.cz>, <tiwai@suse.com>, <13916275206@139.com>,
+        <soyer@irl.hu>, <tiwai@suse.de>, <Baojun.Xu@fpt.com>,
+        Shenghao Ding <shenghao-ding@ti.com>
+Subject: [PATCH v1] ASoc: pcm6240: Remove unnecessary name-prefix for all the controls
+Date: Fri, 5 Jul 2024 14:48:46 +0800
+Message-ID: <20240705064846.1723-1-shenghao-ding@ti.com>
+X-Mailer: git-send-email 2.33.0.windows.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -78,55 +57,85 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo,intel.com:email];
-	RCVD_TLS_ALL(0.00)[]
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-The recent change for the PCM sync API forgot to export a new API
-function that is currently used in emu10k1 driver.
+Adding name-prefix for each audio controls is a redundant, because
+name-prefix will be automatically added behind the control name when
+creating a new control.
 
-This patch adds the missing export.
+Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
 
-Fixes: d712c58c55d9 ("ALSA: pcm: optimize and clarify stream synchronization ID API")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202407051343.1Sz8AKFt-lkp@intel.com/
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/core/pcm_lib.c | 1 +
- 1 file changed, 1 insertion(+)
+v1:
+ - remove pcmdev_ctrl_name_with_prefix
+ - remove some processes for control name_prefix handling
+---
+ sound/soc/codecs/pcm6240.c | 30 ++++++------------------------
+ 1 file changed, 6 insertions(+), 24 deletions(-)
 
-diff --git a/sound/core/pcm_lib.c b/sound/core/pcm_lib.c
-index e48a84f8e977..66683656fb13 100644
---- a/sound/core/pcm_lib.c
-+++ b/sound/core/pcm_lib.c
-@@ -547,6 +547,7 @@ void snd_pcm_set_sync_per_card(struct snd_pcm_substream *substream,
- 	strncpy(params->sync + 4, id, len);
- 	memset(params->sync + 4 + len, 0, 12 - len);
- }
-+EXPORT_SYMBOL_GPL(snd_pcm_set_sync_per_card);
+diff --git a/sound/soc/codecs/pcm6240.c b/sound/soc/codecs/pcm6240.c
+index 86e126783a1d..3de35b62439b 100644
+--- a/sound/soc/codecs/pcm6240.c
++++ b/sound/soc/codecs/pcm6240.c
+@@ -57,12 +57,6 @@ static const char *const pcmdev_ctrl_name[] = {
+ 	"%s i2c%d Dev%d Ch%d Fine Volume",
+ };
  
- /*
-  *  Standard ioctl routine
+-static const char *const pcmdev_ctrl_name_with_prefix[] = {
+-	"%s Dev%d Ch%d Ana Volume",
+-	"%s Dev%d Ch%d Digi Volume",
+-	"%s Dev%d Ch%d Fine Volume",
+-};
+-
+ static const struct pcmdevice_mixer_control adc5120_analog_gain_ctl[] = {
+ 	{
+ 		.shift = 1,
+@@ -1365,10 +1359,7 @@ static int pcmdev_gain_ctrl_add(struct pcmdevice_priv *pcm_dev,
+ 
+ 	name_id = pcmdev_gain_ctl_info[id][ctl_id].pcmdev_ctrl_name_id;
+ 
+-	if (comp->name_prefix)
+-		ctrl_name = pcmdev_ctrl_name_with_prefix[name_id];
+-	else
+-		ctrl_name = pcmdev_ctrl_name[name_id];
++	ctrl_name = pcmdev_ctrl_name[name_id];
+ 
+ 	for (chn = 1; chn <= nr_chn; chn++) {
+ 		name = devm_kzalloc(pcm_dev->dev,
+@@ -1377,13 +1368,9 @@ static int pcmdev_gain_ctrl_add(struct pcmdevice_priv *pcm_dev,
+ 			ret = -ENOMEM;
+ 			goto out;
+ 		}
+-		if (comp->name_prefix)
+-			scnprintf(name, SNDRV_CTL_ELEM_ID_NAME_MAXLEN,
+-				ctrl_name, comp->name_prefix, dev_no, chn);
+-		else
+-			scnprintf(name, SNDRV_CTL_ELEM_ID_NAME_MAXLEN,
+-				ctrl_name, pcm_dev->upper_dev_name, adap->nr,
+-				dev_no, chn);
++		scnprintf(name, SNDRV_CTL_ELEM_ID_NAME_MAXLEN,
++			ctrl_name, pcm_dev->upper_dev_name, adap->nr,
++			dev_no, chn);
+ 		pcmdev_controls[mix_index].tlv.p =
+ 			pcmdev_gain_ctl_info[id][ctl_id].gain;
+ 		pcmdev_ctrl = devm_kmemdup(pcm_dev->dev,
+@@ -1437,13 +1424,8 @@ static int pcmdev_profile_ctrl_add(struct pcmdevice_priv *pcm_dev)
+ 	if (!name)
+ 		return -ENOMEM;
+ 
+-	if (comp->name_prefix)
+-		scnprintf(name, SNDRV_CTL_ELEM_ID_NAME_MAXLEN,
+-			"%s Profile id", comp->name_prefix);
+-	else
+-		scnprintf(name, SNDRV_CTL_ELEM_ID_NAME_MAXLEN,
+-			"%s i2c%d Profile id", pcm_dev->upper_dev_name,
+-			adap->nr);
++	scnprintf(name, SNDRV_CTL_ELEM_ID_NAME_MAXLEN,
++		"%s i2c%d Profile id", pcm_dev->upper_dev_name, adap->nr);
+ 	pcmdev_ctrl->name = name;
+ 	pcmdev_ctrl->iface = SNDRV_CTL_ELEM_IFACE_MIXER;
+ 	pcmdev_ctrl->info = pcmdevice_info_profile;
 -- 
-2.43.0
+2.34.1
 
