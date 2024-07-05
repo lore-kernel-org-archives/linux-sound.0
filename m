@@ -1,128 +1,217 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A4BF481AB
-	for <linux-sound@vger.kernel.org>; Fri,  5 Jul 2024 08:03:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B6C81465A7
+	for <linux-sound@vger.kernel.org>; Fri,  5 Jul 2024 09:21:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720166610; cv=none; b=bHQgD+fHVw00OcJriJtaYGULXZgPC0M8JwvE8XZtChxKzZQqBL48ffDv5tHGJcdicrtVAyxSLZJZZ4+UopjugCOiGVrt4dvxtlGeT/PxeCQ2iJFejZM6LXL4YzA5T0zgsps0tarD+dGXTQIrey4R3otxFgtfP4Xq492wNqsRRzI=
+	t=1720171290; cv=none; b=bsVadV8pUij1Y99aOUYyn89e0Kargkjb3FQTRMxvsgFjpXB+gtnRiY4/FJ8M5DQhHaCcb1TdKpkMQ3y0YKQKFVWOWVoCBNiHHw7BYURIWOUhhvmCsyKeoRyA52cT+iqasCffuHexT15ABGuwsZr2PqJSZ0jPrdslsx6x1UdNcYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720166610; c=relaxed/simple;
-	bh=tLhCFbNSJ4NL6UbmjVnv3bYn0x+SwDanE3BPOQqnSuY=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=khq0rahKA8GqZC/RlkJ7eNQAMJkBiPu1U2T7DpF9JFlkYZhxC5c/EciELjOxLJAbA/RwpY+ggeKeVjm9PFDcuMeLBZeKHcX1WzoVBnvMVBVl2i7HKUfq70yVnyq6C7RmbskhSmW1VswB7IOFOISGwPl/LyJERMqE1FdlBRVEFhU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oP6LQXqz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mDEg1ste; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oP6LQXqz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mDEg1ste; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1720171290; c=relaxed/simple;
+	bh=DAsvD8/mLkcQAkkYRWz+VC5gPXf282xVyAGgndXBPhk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eKsUP/fbdIak/oHCopZET/OFbuuKBWXLnHsulp/3gNh2eSsIoEQxgxEHwtV7wjC5jS885eNqfVk9Hwrfs9gms9V7heHh15TGMsT+eGh+Zwh0ZgOEtHsXSrPhCe152Ib9ZzNIT2qNDQmXVqo0hgpbBs+qP4B2Q0y+kXtoRA/GaHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=BHxXWldj; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oP6LQXqz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mDEg1ste";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oP6LQXqz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mDEg1ste"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 916E921B46;
-	Fri,  5 Jul 2024 08:03:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1720166607; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qTPaOyhZpKUvXD1QfJsD29NY4E+8VztFuZifr+OyNdc=;
-	b=oP6LQXqzqofC6PFoOqskFpPJXH55n3ynqlGV7gf76mbIjJ1CYVY4LWfmWhaf0VOwZW455W
-	FlzlPmJTNHKWRH6WSTQAZmd/MjRqxhKDkBJ4iLb56SiTAM7olPsCGpOH1th8woJNODPrDN
-	h07uZtydDD4f1mD8U1NAAHndIkQmiqM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1720166607;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qTPaOyhZpKUvXD1QfJsD29NY4E+8VztFuZifr+OyNdc=;
-	b=mDEg1steip0sSVJlx84I2f36HBrc6g6NG2SIGqk694fK3DxIBGAOGm4UFgpY54hbjOjoUG
-	Iq9Q5nivKyP83NAQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1720166607; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qTPaOyhZpKUvXD1QfJsD29NY4E+8VztFuZifr+OyNdc=;
-	b=oP6LQXqzqofC6PFoOqskFpPJXH55n3ynqlGV7gf76mbIjJ1CYVY4LWfmWhaf0VOwZW455W
-	FlzlPmJTNHKWRH6WSTQAZmd/MjRqxhKDkBJ4iLb56SiTAM7olPsCGpOH1th8woJNODPrDN
-	h07uZtydDD4f1mD8U1NAAHndIkQmiqM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1720166607;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qTPaOyhZpKUvXD1QfJsD29NY4E+8VztFuZifr+OyNdc=;
-	b=mDEg1steip0sSVJlx84I2f36HBrc6g6NG2SIGqk694fK3DxIBGAOGm4UFgpY54hbjOjoUG
-	Iq9Q5nivKyP83NAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6A83F1396E;
-	Fri,  5 Jul 2024 08:03:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ufqhGM+oh2ZGMwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 05 Jul 2024 08:03:27 +0000
-Date: Fri, 05 Jul 2024 10:03:57 +0200
-Message-ID: <87wmm0gt8y.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Jaroslav Kysela <perex@perex.cz>
-Cc: <linux-sound@vger.kernel.org>,
-	Takashi Iwai <tiwai@suse.de>,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] ALSA: pcm: Fix id copying in snd_pcm_set_sync_per_card()
-In-Reply-To: <20240705075828.19746-1-perex@perex.cz>
-References: <20240705075828.19746-1-perex@perex.cz>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="BHxXWldj"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-58bac81f3f9so1902246a12.2
+        for <linux-sound@vger.kernel.org>; Fri, 05 Jul 2024 02:21:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1720171286; x=1720776086; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DAsvD8/mLkcQAkkYRWz+VC5gPXf282xVyAGgndXBPhk=;
+        b=BHxXWldj+hHqE2ns8S7/HAU42Z7MkYBmemSuhBWSrNKLJElFlh+Q7FcO+aA+P9LbaA
+         EAYq1RdO44rOCVBQIN7NgVzw5+vw9GZXvknaG0YFg/JZExIY6Ex6YAvsSbvIyrCbT1Fk
+         SymdVF1FI8op/8C6GBynndXKuBvrUlCd7+Orq+SdWWRrmREve0aOYgn+m9F7lNz8pCmy
+         FX7mtN7hJUMBz7mmYMIbddHt6ohOM24jP83x4BCkktmhK91m4j7HsLvHwH7jy1VI5k4S
+         M7Qyb+ARd26QRITXmUIfMXUvfuVm+MhhkaFkNiZglCxndpvv5En9S08MJPo8WpnSxewy
+         oRRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720171286; x=1720776086;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DAsvD8/mLkcQAkkYRWz+VC5gPXf282xVyAGgndXBPhk=;
+        b=jWSrVEEW5BQOSWTo74N58jlAIHj2iJqUKMHgHJpQZxqKG0KyuoLAxgysipB80rdN0n
+         T95lN6ax+K3G1Mwo9kqpKdSkjHrJhrrvsd//elA5HN9Du7OWQX0uXWnbDK5FG72JQvli
+         bQxzWCuHb24f7AWgKdXlmC9wA519xAjl4zXPgTiY9xYqgJFwRN/u3MxO01rIvRn+A4m9
+         7smV6vowWP5mfI/sUFlc9IpiSqS9s3OXVL0BIVT2XjJ56Sz61UCkaMPEeXkgB+SiR815
+         VJGoag60KIgyPuddG5OD5rZh2KdPU7Y8tNkLTEMSKZBXVpqYPllWWN5kR6YNHpiDQZ9A
+         F5ag==
+X-Forwarded-Encrypted: i=1; AJvYcCVHuMmrK6HoHKXYK7BMyTLVOjSxzVBiS2RV2Ntf/tSxMyRdjNa/KTRWxgHHskZoBzVsLCQEeb8xlb1a52ymCWmhS2gdGPREvOWhGqc=
+X-Gm-Message-State: AOJu0YyEsaWjgzE0jYJZEXOi0bdYvA4Q1gfAuwAZLw1sXHLEK4QfOKeR
+	/yiuomscKaVRakFfxQ/IkrL9q2MYQv/gNtJ5tLgc93qzo0qc0ZEhQ3howwQGmf8=
+X-Google-Smtp-Source: AGHT+IH5GBzifj2YL+uV1tph7kmD/UU37Fput+e22tUxmHwQFDW0cLo/eN2fRQ1OiC6xRmZjvtbAaw==
+X-Received: by 2002:a17:906:fb95:b0:a6f:b400:4751 with SMTP id a640c23a62f3a-a77ba46ccffmr181755366b.22.1720171286291;
+        Fri, 05 Jul 2024 02:21:26 -0700 (PDT)
+Received: from localhost (p50915e7b.dip0.t-ipconnect.de. [80.145.94.123])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a77d9cdf337sm10855266b.53.2024.07.05.02.21.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Jul 2024 02:21:25 -0700 (PDT)
+Date: Fri, 5 Jul 2024 11:21:25 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Nikita Shubin <nikita.shubin@maquefel.me>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Stephen Boyd <sboyd@kernel.org>, 
+	Hartley Sweeten <hsweeten@visionengravers.com>, Alexander Sverdlin <alexander.sverdlin@gmail.com>, 
+	Russell King <linux@armlinux.org.uk>, Lukasz Majewski <lukma@denx.de>, 
+	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Andy Shevchenko <andy@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
+	Sebastian Reichel <sre@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, 
+	Thierry Reding <thierry.reding@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
+	Vignesh Raghavendra <vigneshr@ti.com>, Damien Le Moal <dlemoal@kernel.org>, 
+	Sergey Shtylyov <s.shtylyov@omp.ru>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Ralf Baechle <ralf@linux-mips.org>, "Wu, Aaron" <Aaron.Wu@analog.com>, Lee Jones <lee@kernel.org>, 
+	Olof Johansson <olof@lixom.net>, Niklas Cassel <cassel@kernel.org>, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
+	dmaengine@vger.kernel.org, linux-watchdog@vger.kernel.org, linux-pwm@vger.kernel.org, 
+	linux-spi@vger.kernel.org, netdev@vger.kernel.org, linux-mtd@lists.infradead.org, 
+	linux-ide@vger.kernel.org, linux-input@vger.kernel.org, linux-sound@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Andrew Lunn <andrew@lunn.ch>, Vinod Koul <vkoul@kernel.org>
+Subject: Re: [PATCH v10 00/38] ep93xx device tree conversion
+Message-ID: <jyvlqfvqn5bp3jmvxvwyrcqmihjohuq3o757mfph7x37kbwvtq@gtgyh4fca4fq>
+References: <20240617-ep93xx-v10-0-662e640ed811@maquefel.me>
+ <CAHp75VfSC9gAD9ipeWRPdQOxUp4FXqYYei-cJTs38nbz0cHpkg@mail.gmail.com>
+ <48c242838c77034485a9e667dc0e867207c5beed.camel@maquefel.me>
+ <241a4cf9830b0118f01e8fcf2853c62527636049.camel@maquefel.me>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
-
-On Fri, 05 Jul 2024 09:58:28 +0200,
-Jaroslav Kysela wrote:
-> 
-> Avoid to use strncpy and do proper length limiting (12 bytes)
-> to avoid out of array access.
-> 
-> Fixes: d712c58c55d9 ("ALSA: pcm: optimize and clarify stream synchronization
->  ID API")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202407050501.o5Z3bibi-lkp@intel.com/
-> Signed-off-by: Jaroslav Kysela <perex@perex.cz>
-
-Thanks, applied.
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="icynwgj6p72h37hs"
+Content-Disposition: inline
+In-Reply-To: <241a4cf9830b0118f01e8fcf2853c62527636049.camel@maquefel.me>
 
 
-Takashi
+--icynwgj6p72h37hs
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hello,
+
+On Thu, Jun 27, 2024 at 11:29:44AM +0300, Nikita Shubin wrote:
+> On Tue, 2024-06-18 at 19:20 +0300, Nikita Shubin wrote:
+> > Hello Andy!
+> > On Mon, 2024-06-17 at 12:58 +0200, Andy Shevchenko wrote:
+> > > On Mon, Jun 17, 2024 at 11:38=E2=80=AFAM Nikita Shubin via B4 Relay
+> > > <devnull+nikita.shubin.maquefel.me@kernel.org> wrote:
+> > > >=20
+> > > > The goal is to recieve ACKs for all patches in series to merge it
+> > > > via Arnd branch.
+> > >=20
+> > > 'receive'
+> > >=20
+> > > > Unfortunately, CLK subsystem suddenly went silent on clk portion
+> > > > of
+> > > > series V2 reroll,
+> > > > tried to ping them for about a month but no luck.
+> > > >=20
+> > > > Link:
+> > > > https://lore.kernel.org/r/20240408-ep93xx-clk-v2-1-adcd68c13753@maq=
+uefel.me
+> > > >=20
+> > > > Some changes since last version (v9) - see "Changes in v10",
+> > > > mostly
+> > > > cosmetic.
+> > >=20
+> > > ...
+> > >=20
+> > > > Patches should be formated with '--histogram'
+> > >=20
+> > > 'formatted'
+> > >=20
+> > > ...
+> > >=20
+> > > > Changes in v10:
+> > > >=20
+> > > > Reordered SoB tags to make sure they appear before Rb and Acked
+> > > > tags.
+> > >=20
+> > > This is not required. The importance is only the order of SoBs
+> > > themselves. If they are interleaved with other tags, it's fine.
+> >=20
+> > Ah - ok. Just saw someone was complaining about b4 reordering them.=20
+> >=20
+> > >=20
+> > > ...
+> > >=20
+> > >=20
+> > > Hopefully to see this series being eventually applied soon.
+> > > Arnd? (Do we have all necessary subsystem maintainers' tags, btw?)
+> > >=20
+> > >=20
+> >=20
+> > As i see from my perspective only three left:
+> >=20
+> > Clk subsystem:
+> >=20
+> > - clk: ep93xx: add DT support for Cirrus EP93xx
+> >=20
+> > DMA subsystem (but the only request from Vinod, as far as i remember,
+> > was fixing commits titles):
+> >=20
+> > - dmaengine: cirrus: Convert to DT for Cirrus EP93xx
+> > - dmaengine: cirrus: remove platform code
+> >=20
+> > Beside that tags missing on platform code removal (which can be Acked
+> > by Arnd himself i believe) and dtsi/dts files (same ?).
+>=20
+> Vinod acked the above two patches:
+>=20
+> https://lore.kernel.org/all/ZnkIp8bOcZK3yVKP@matsya/
+> https://lore.kernel.org/all/ZnkImp8BtTdxl7O3@matsya/
+>=20
+> so only:
+>=20
+> - clk: ep93xx: add DT support for Cirrus EP93xx
+>=20
+> https://lore.kernel.org/all/20240617-ep93xx-v10-3-662e640ed811@maquefel.m=
+e/
+>=20
+> left.
+>=20
+> Hope Stephen will find some time for this one.
+
+As we're approaching the merge window and this is still unclear, I
+applied the pwm bits (i.e. patches 12, 13). If I understand correctly,
+patch 33 isn't suitable for application yet as it has a dependency on
+pinctrl changes in that series.
+
+(side note: Your patches are signed, but that doesn't bring any benefit
+if the receivers don't have your key. I didn't find it neither on
+keys.openpgp.org nor in the kernel pgp key collection.)
+
+Best regards
+Uwe
+
+--icynwgj6p72h37hs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmaHuxIACgkQj4D7WH0S
+/k63agf/ctyXHUSwirhdvMJNeHEME1eqwJPf8P71cxUigi0cvcf0NrTT4jEqglzC
+BqT8dRZCw6LKUShZlhwO7ymRXcAjNYTvFLuJKQYOGuVQZQEtoK7PDa80NeQjFhZP
+r0CwuOQfcg2ovACIA1T/iSX2APqGatvsO4Ke7h2u5kawsGxQIu2TZnfPDhwTIdqj
+Ib33BChvzlU45YrMZrQUHKE3/3XOHyxVvZSutJmaHLtSdIOE/fPr/U5anDzjdWFS
+gxrbDGE0Z3LyDIb0OB8iZiVIeyXDjysmlTdYpfPQi3/4JT+ohaNXgpSC5dmYo/s+
+R6QHGSe+ahTTQGyCjdYkOM/hMh/CiQ==
+=1/WB
+-----END PGP SIGNATURE-----
+
+--icynwgj6p72h37hs--
