@@ -1,120 +1,86 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20E8A81E
-	for <linux-sound@vger.kernel.org>; Fri,  5 Jul 2024 18:59:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28AD21758F;
+	Sat,  6 Jul 2024 00:50:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720205982; cv=none; b=Kv5HTpjC9IHFiucBXwvpSf1tJOMCDTqw407pNnah52HWPq7wgjDQa1HKp9BCiLB1XGK26EJRuBVdOyXK5ERyUjwHUAGW9S81kOujK3gbyyyCCPrC+KGijjDCj/RVgylXBv70p0QQrz/DbHxO8kkP29qkpUxncHYX9YDOHqYAv3U=
+	t=1720227037; cv=none; b=acuXqRfdImQJudOUenYfR8KBA+BC12HpG9bNflZKBnYnT3l3LPe+UhC6UGi4c6fORnMLoUl6vi2WARYKhAGNx1uo4AK8HIPSkkeLa1PBgg+jgboTGSVPIRZcwgWrqOy3E00C5NWfLN28WmdY6Ieav7mLUqios1m7pvMGwTu+74A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720205982; c=relaxed/simple;
-	bh=xo89KX1c64UhWcmjj/qHvoqSh07/E96dhovFOF6yxXk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=cJUUUpwX7aCqOvOM0ZeXVKaKp/JJZ9lv60N4U9emCpR6beVmsN+Sg2V3RVDnLvpcyYwuzrfQ3rdNcBe0DK2/lFRY7KoaAw8gusDBcTbsj0mUY4Bxozvk2Cc9HhsCXOFwklwXS9uQ36ZKc9DZ5rMDkn3dIrMrxVeS4mBg2fe/v3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=KtmhCF1g; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	s=arc-20240116; t=1720227037; c=relaxed/simple;
+	bh=hjcatJzrKY+zgPSsW0kQGkVslVDge9AGFKuusDrivWY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Q3e2rC9q2niZYpQ6CCxzyloxf5JFtqrcGARVr0wrBhERWFx1Rl1YIlUnHLwoA7U0AbiBZS74rMbuP+ePWaLOYbML0xSD2IyXKQs3YSBQEDCXz2r1+Esd3CIpk/YrEKPNXKBvq91OohUS3s7hCK4v916emkfcZtltPrhzQwwiJQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lrNwZ9ef; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="KtmhCF1g"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 95EA936208;
-	Fri,  5 Jul 2024 20:59:34 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 95EA936208
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1720205974; bh=paPMd7DEke7ZHHrYfUCmF9/PoP4l+JT/NKaOMgWXQqE=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=KtmhCF1gb5b413jUltBWMhpBCAqkWK5x+tYpP74tV6QSI872aFYGMiR96SOLRR/5a
-	 5b5DeS9lbcsRCLWVOmrxLaCffl1eyI/1N21ThGam7KPGeP06W0k169RzBHRCMnjF1a
-	 oTav/6GOQ0VKRAm63k4gYyB1GBEgUPisXmDYv96U=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Fri,  5 Jul 2024 20:59:32 +0200 (CEST)
-Message-ID: <40c204ac-0406-46ae-8ebf-2290ae0ac166@perex.cz>
-Date: Fri, 5 Jul 2024 20:59:32 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lrNwZ9ef"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-424acf3226fso15308505e9.1;
+        Fri, 05 Jul 2024 17:50:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1720227034; x=1720831834; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hjcatJzrKY+zgPSsW0kQGkVslVDge9AGFKuusDrivWY=;
+        b=lrNwZ9efSI8dEcFAyooSL0o1XqhNVnuJ7v+mps3HHQJ6mL1cjihTe13L9DvZAyB2Us
+         +YO7t1c+YNGmcOyYug1X/1JSsIviHZNAzCpNKEswq5hP5fpeNKJgqTrmrbUpIbQq1c/O
+         TA4eczJTicGZYHWwM8Xhg5U5iO1y3RexfnnqketR9tNxc25zk41PV07HzLek3WXdJvbZ
+         7EluKqmOkMhUYtfaqcC4OnoyYzOxsftHu7BQb7sbanO9PvOIGwopcmbR689OokaT51dW
+         SYk1cHZKPCVWV91H0TeFMbLiy5LIyOnu6kOvNmfh8pouxnnP8+E9+QLhdF31tHGlIVer
+         IvOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720227034; x=1720831834;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hjcatJzrKY+zgPSsW0kQGkVslVDge9AGFKuusDrivWY=;
+        b=pZD9+5c6CHqlMUq6/MTA8tZ/zLFPG3VW+6G0NPDhhD509w5IXazlNUnxkao51v6pb6
+         0Zv+Cg+5tByzj1/3wlR0B71uQ+iknd9x5GxiSwEHs6NTdV3p3wNQUinR8jPvB5KQh8mm
+         kAoqtVUqBAHD42hvUTqjq8qBBZj02fUOoIv7PY1kCFJj3mCBwchV9jmNMU8tBy9bc8xC
+         ckGrLQhjPz+UmGbaDmt+8vBVoA63R8rm3i3y7w5JpHyOcrEe5jGCulMPyvSyIG7cGNVQ
+         UAmwqnPu5DsJGg+9TCmqyJPWaEywiO1BMXRamSQbGYhOdUoF82OU2vkX0QwA1g6LAL/C
+         5V9w==
+X-Forwarded-Encrypted: i=1; AJvYcCWMF7BAbkrd7dZVP6xSmoL2lFwOCdaciQSAEJ1Ic9nOBefWxB8NqMz+/mBbmRqqDjtZS2MbJEDEZSMiydr7DuCT3+4OK/YUXdcEVvJuIXRWK9EkStW0Kw7/O1BKFGa14MO29EQnwe4hoF8=
+X-Gm-Message-State: AOJu0YxLain/vye+E0WLEvVDhaHYtj6UHu7o8XPodV/IitWwhhrKXkfr
+	99mA8SXqWUQTwAQuuA0C4FeG9SpfJEOmWsKHi7ejHBq4g0b7XDZ/
+X-Google-Smtp-Source: AGHT+IGjYxkTgAFMYrAOqGcyo3iB+xYZ4rGSdz+l/S/21bkE/VIF1e54TQdkswJKtFRzX8Rafy6TwQ==
+X-Received: by 2002:a05:600c:4c15:b0:426:59ec:17a2 with SMTP id 5b1f17b1804b1-42659ec1a4cmr13105125e9.33.1720227033989;
+        Fri, 05 Jul 2024 17:50:33 -0700 (PDT)
+Received: from localhost.localdomain ([188.74.74.117])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-367a54f237bsm3382369f8f.16.2024.07.05.17.50.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Jul 2024 17:50:33 -0700 (PDT)
+From: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
+To: shenghao-ding@ti.com
+Cc: 13916275206@139.com,
+	baojun.xu@ti.com,
+	kevin-lu@ti.com,
+	linux-firmware@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	navada@ti.com,
+	peeyush@ti.com,
+	soyer@irl.hu,
+	Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
+Subject: Re: [PATCH v1] ASoC: tas2781: Add dsp firmware for different laptops
+Date: Sat,  6 Jul 2024 01:49:43 +0100
+Message-ID: <20240706004942.39403-2-stuart.a.hayhurst@gmail.com>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <23e85f35969447ab9161068f2c159845@ti.com>
+References: <23e85f35969447ab9161068f2c159845@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ALSA: seq: Add tempo base unit for MIDI2 Set Tempo
- messages
-To: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org
-References: <20240705160344.6481-1-tiwai@suse.de>
-Content-Language: en-US
-From: Jaroslav Kysela <perex@perex.cz>
-Autocrypt: addr=perex@perex.cz; keydata=
- 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
-In-Reply-To: <20240705160344.6481-1-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 05. 07. 24 18:03, Takashi Iwai wrote:
-> MIDI2 Set Tempo message defines the tempo in 10ns unit for finer
-> accuracy, while MIDI1 was defined in 1us unit.  For adapting this
-> different unit, introduce "tempo_base" field to snd_seq_queue_tempo
-> struct so that user-space can pass the proper tempo base unit.
-> 
-> The accepted value is limited, it must be either 0, 10 or 1000.
-> 
-> The protocol version is bumped to 1.0.4 along with this.
-> 
-> The access with the older protocol version ignores the tempo-base
-> value in ioctls and always treats as 1000.
-> 
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> ---
-> v1->v2: Reduce the size for snd_seq_queue_tempo.tempo_base field
+Following up on this again, is the licence correct here? "Allegedly GPLv2+ but no source visible" doesn't sound right for something straight from TI, and it can't be distributed in Debian either (see https://salsa.debian.org/kernel-team/linux/-/merge_requests/1033#note_471478 and https://salsa.debian.org/kernel-team/firmware-nonfree/-/merge_requests/96#note_504454).
 
-Reviewed-by: Jaroslav Kysela <perex@perex.cz>
+Is it supposed to have a binary redistribution licence, such as the licence in LICENCE.ti-tspa (https://gitlab.com/kernel-firmware/linux-firmware/-/blob/main/LICENCE.ti-tspa?ref_type=heads)?
 
--- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
-
+Thanks,
+Stuart
