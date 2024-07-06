@@ -1,86 +1,144 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28AD21758F;
-	Sat,  6 Jul 2024 00:50:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F7DFBE8;
+	Sat,  6 Jul 2024 07:37:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720227037; cv=none; b=acuXqRfdImQJudOUenYfR8KBA+BC12HpG9bNflZKBnYnT3l3LPe+UhC6UGi4c6fORnMLoUl6vi2WARYKhAGNx1uo4AK8HIPSkkeLa1PBgg+jgboTGSVPIRZcwgWrqOy3E00C5NWfLN28WmdY6Ieav7mLUqios1m7pvMGwTu+74A=
+	t=1720251424; cv=none; b=F28ULPPJMMnXORKFt6tKyVl0Cq2r8FgwhyiQGHQzU59rCMonkGsNqZfMdcOE7nn7tSSANrCkDRin1IIln0L+3utGfPeowMGbNCZ6GFGiO+J1J+Ygn+0paV2OWLR+N33zHpupS3olhQgVATKqkQEYF5G6n2H+8XbWbCOJ24yNagQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720227037; c=relaxed/simple;
-	bh=hjcatJzrKY+zgPSsW0kQGkVslVDge9AGFKuusDrivWY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Q3e2rC9q2niZYpQ6CCxzyloxf5JFtqrcGARVr0wrBhERWFx1Rl1YIlUnHLwoA7U0AbiBZS74rMbuP+ePWaLOYbML0xSD2IyXKQs3YSBQEDCXz2r1+Esd3CIpk/YrEKPNXKBvq91OohUS3s7hCK4v916emkfcZtltPrhzQwwiJQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lrNwZ9ef; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1720251424; c=relaxed/simple;
+	bh=BxnbgakI9ZYWUG1CT4WikmdI2VPddd0xi4IIypGmETE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=j5pKEh1bEHUi9lZ+ZywN/+5lJLa4No3RfqMlexUPwdNnibku31sQMS8wv+FG5Xc74I3xvd0b6DuAck8b6P/E4A13sK00AzPm0Kv8grJ33yhnzMuaPacTNLHnJRByzhY6ro1NXuSbunh4v6+6Wm2u8A4eeaI1vSyNJr1s/th9eBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qoo/AWeM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qUdprI2x; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HDGJX9L1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qGKo3fbp; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lrNwZ9ef"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-424acf3226fso15308505e9.1;
-        Fri, 05 Jul 2024 17:50:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720227034; x=1720831834; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hjcatJzrKY+zgPSsW0kQGkVslVDge9AGFKuusDrivWY=;
-        b=lrNwZ9efSI8dEcFAyooSL0o1XqhNVnuJ7v+mps3HHQJ6mL1cjihTe13L9DvZAyB2Us
-         +YO7t1c+YNGmcOyYug1X/1JSsIviHZNAzCpNKEswq5hP5fpeNKJgqTrmrbUpIbQq1c/O
-         TA4eczJTicGZYHWwM8Xhg5U5iO1y3RexfnnqketR9tNxc25zk41PV07HzLek3WXdJvbZ
-         7EluKqmOkMhUYtfaqcC4OnoyYzOxsftHu7BQb7sbanO9PvOIGwopcmbR689OokaT51dW
-         SYk1cHZKPCVWV91H0TeFMbLiy5LIyOnu6kOvNmfh8pouxnnP8+E9+QLhdF31tHGlIVer
-         IvOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720227034; x=1720831834;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hjcatJzrKY+zgPSsW0kQGkVslVDge9AGFKuusDrivWY=;
-        b=pZD9+5c6CHqlMUq6/MTA8tZ/zLFPG3VW+6G0NPDhhD509w5IXazlNUnxkao51v6pb6
-         0Zv+Cg+5tByzj1/3wlR0B71uQ+iknd9x5GxiSwEHs6NTdV3p3wNQUinR8jPvB5KQh8mm
-         kAoqtVUqBAHD42hvUTqjq8qBBZj02fUOoIv7PY1kCFJj3mCBwchV9jmNMU8tBy9bc8xC
-         ckGrLQhjPz+UmGbaDmt+8vBVoA63R8rm3i3y7w5JpHyOcrEe5jGCulMPyvSyIG7cGNVQ
-         UAmwqnPu5DsJGg+9TCmqyJPWaEywiO1BMXRamSQbGYhOdUoF82OU2vkX0QwA1g6LAL/C
-         5V9w==
-X-Forwarded-Encrypted: i=1; AJvYcCWMF7BAbkrd7dZVP6xSmoL2lFwOCdaciQSAEJ1Ic9nOBefWxB8NqMz+/mBbmRqqDjtZS2MbJEDEZSMiydr7DuCT3+4OK/YUXdcEVvJuIXRWK9EkStW0Kw7/O1BKFGa14MO29EQnwe4hoF8=
-X-Gm-Message-State: AOJu0YxLain/vye+E0WLEvVDhaHYtj6UHu7o8XPodV/IitWwhhrKXkfr
-	99mA8SXqWUQTwAQuuA0C4FeG9SpfJEOmWsKHi7ejHBq4g0b7XDZ/
-X-Google-Smtp-Source: AGHT+IGjYxkTgAFMYrAOqGcyo3iB+xYZ4rGSdz+l/S/21bkE/VIF1e54TQdkswJKtFRzX8Rafy6TwQ==
-X-Received: by 2002:a05:600c:4c15:b0:426:59ec:17a2 with SMTP id 5b1f17b1804b1-42659ec1a4cmr13105125e9.33.1720227033989;
-        Fri, 05 Jul 2024 17:50:33 -0700 (PDT)
-Received: from localhost.localdomain ([188.74.74.117])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-367a54f237bsm3382369f8f.16.2024.07.05.17.50.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jul 2024 17:50:33 -0700 (PDT)
-From: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
-To: shenghao-ding@ti.com
-Cc: 13916275206@139.com,
-	baojun.xu@ti.com,
-	kevin-lu@ti.com,
-	linux-firmware@kernel.org,
-	linux-kernel@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qoo/AWeM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qUdprI2x";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HDGJX9L1";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qGKo3fbp"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E230321A5A;
+	Sat,  6 Jul 2024 07:37:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1720251421; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JaEfGl+0YW/A8oCHv2vnSklitd9PDmAIAgFBfvowXsk=;
+	b=qoo/AWeMGw0PkFVi7fxZmO/EiH+OnoWucvk1eaUr1owQMx9vcNCPxNDt9cdNmf2/SY5W6V
+	eYwRxln2nmep+ToSsuHgg5vLzcu94S4lkYanpQ4zL8EKppOo0W58jkaWPr6vNRQvwrjzAR
+	9KVbg/3hrpi8RJI+qSpUiM6U/bukVfg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1720251421;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JaEfGl+0YW/A8oCHv2vnSklitd9PDmAIAgFBfvowXsk=;
+	b=qUdprI2xfZdtHY50mpmoajce5wov0YNJ8GC9MofYtor960+49FPt44wBfgeGyjNEzBtEgL
+	dKKMmuhjD3jAcfDw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=HDGJX9L1;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=qGKo3fbp
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1720251420; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JaEfGl+0YW/A8oCHv2vnSklitd9PDmAIAgFBfvowXsk=;
+	b=HDGJX9L1nGsDNQOWAdVL0z5bNHrfkV5IcYn0fngmYO4zAyB+v0X7u9EQE3aavXiIszFfC6
+	bvDWdISLTqvI1xPKodIoZPlCDnCEa9TxZB+5vkcS9x/GpYmIY+IljkMqxTIexUKjnUdiJW
+	WTeEqb+V9w+fjoTRnNPc4mJ5g55k8rw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1720251420;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JaEfGl+0YW/A8oCHv2vnSklitd9PDmAIAgFBfvowXsk=;
+	b=qGKo3fbpsEuZspTpM+GDH6oEZTqz4T5wfHz7AseUod7E+moewWh706pfnSpeMzZQ+w/m5u
+	0AV0zCHGoHWSSAAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 951A212FF6;
+	Sat,  6 Jul 2024 07:37:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 4v/MIhz0iGYqDQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 06 Jul 2024 07:37:00 +0000
+Date: Sat, 06 Jul 2024 09:37:31 +0200
+Message-ID: <87jzhzynr8.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	kailang@realtek.com,
+	sbinding@opensource.cirrus.com,
+	shenghao-ding@ti.com,
+	simont@opensource.cirrus.com,
+	foss@athaariq.my.id,
+	rf@opensource.cirrus.com,
 	linux-sound@vger.kernel.org,
-	navada@ti.com,
-	peeyush@ti.com,
-	soyer@irl.hu,
-	Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
-Subject: Re: [PATCH v1] ASoC: tas2781: Add dsp firmware for different laptops
-Date: Sat,  6 Jul 2024 01:49:43 +0100
-Message-ID: <20240706004942.39403-2-stuart.a.hayhurst@gmail.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <23e85f35969447ab9161068f2c159845@ti.com>
-References: <23e85f35969447ab9161068f2c159845@ti.com>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Limit mic boost on VAIO PRO PX
+In-Reply-To: <20240705141012.5368-1-edson.drosdeck@gmail.com>
+References: <20240705141012.5368-1-edson.drosdeck@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: E230321A5A
+X-Spam-Score: -2.01
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	TAGGED_RCPT(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-Following up on this again, is the licence correct here? "Allegedly GPLv2+ but no source visible" doesn't sound right for something straight from TI, and it can't be distributed in Debian either (see https://salsa.debian.org/kernel-team/linux/-/merge_requests/1033#note_471478 and https://salsa.debian.org/kernel-team/firmware-nonfree/-/merge_requests/96#note_504454).
+On Fri, 05 Jul 2024 16:10:12 +0200,
+Edson Juliano Drosdeck wrote:
+> 
+> The internal mic boost on the VAIO models VJFE-CL and VJFE-IL is too high.
+> Fix this by applying the ALC269_FIXUP_LIMIT_INT_MIC_BOOST fixup to the machine
+> to limit the gain.
+> 
+> Signed-off-by: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
 
-Is it supposed to have a binary redistribution licence, such as the licence in LICENCE.ti-tspa (https://gitlab.com/kernel-firmware/linux-firmware/-/blob/main/LICENCE.ti-tspa?ref_type=heads)?
+Thanks, applied now.
 
-Thanks,
-Stuart
+
+Takashi
