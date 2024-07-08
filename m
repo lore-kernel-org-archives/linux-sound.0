@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E65536FBE;
-	Sun,  7 Jul 2024 11:21:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B96224F6;
+	Mon,  8 Jul 2024 07:38:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720351300; cv=none; b=g4nSZNxPeVLyIEcTOBqrAykmSEPlDEcVdXFqjyRXNEv5M4zPLdmBCaKHPb3N0h5rY81A5bxqDJ8NPQtDR92n6ZgX75khUxkhin+49ViNBc/+6NJX7HIww0SxpjAgKCP5VpZadkWDe3DKG6jmidHSvgG0k4eWD+u37MO0yqaSanc=
+	t=1720424286; cv=none; b=iBg+/GOMuQUb31CmaeJJa9h9BlvUD6yXP60EHlb34zuOR8K9CQVk+NKnoKAa8evW9EmZ+G1LfDULlVwdEfOwDPdLx1FcHmCr4pnn9QVDcsW+I3F8GfhPIsIgnZNaxqH63e7nrFdfdBBDSUyve9pwqdGreBuEiIB72u/BJAZhrEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720351300; c=relaxed/simple;
-	bh=RuY0M+PTCkxY/xq17rYpCK199mEZaqpmtfHMMGxCftE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=UxEelUYczJZcPfRAR45hRYDNlY7YNOR9fEGx7DWtpFWanXfm948gJIU19+0py66edQ7PqRr4bnOL6p+CM/CfeDVNvZfw73wNg4vaHqY9aNGnsdksVU3sTRYP89Nb0Woupo46kqDkLWyubW3MuPAalEilQHcSYGPFQMWPqtJe3I4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hwqCyB8i; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720424286; c=relaxed/simple;
+	bh=oMiPUlVaYyVu66rjInYRHiAkIAq9At6rRlylsvOCCRg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=S8aKCAVPk3u7ZcPlMfYOxq6gne8FZVkqwvxmPWqMULUk/iFoqKSUc/5xIm3BRG9SfnpbV5USz5SgM4W7AEjSBw481uZFniWbhQXl6xPT08X65d16yEgCvLZUsAz/hggdBgceziWRAUdD8ErNSkVt4UWy6Bs6L9pXbZkkz7H6DDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MYCUH+1L; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hwqCyB8i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A789C3277B;
-	Sun,  7 Jul 2024 11:21:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MYCUH+1L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F1A3C4AF0B;
+	Mon,  8 Jul 2024 07:38:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720351299;
-	bh=RuY0M+PTCkxY/xq17rYpCK199mEZaqpmtfHMMGxCftE=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=hwqCyB8i+bVFuMMUf0NbIAMukTWz2xnrM35Iydj7smVJG3ROoaxkmkpsqL18ghvT4
-	 p8+J8MHHm2yPSrbva0OnpFU3RL8HBCSxbwWiPJAOnlYvhT7ld6N0xmnyMfXqvT2kef
-	 f8RxAYEqlRec7D5gpCA6ocPnoQAp9T5FJFt1s+MutjzdbzZs2j0Jgc4OEZDP61t9OC
-	 6qBf/jDFvsBQPVwd5+yFInFmxkr+meRUkr/Q/nKTGaM/5Em4C/z0/LJil3QrgCazrW
-	 w8qyb+y64R3LbSX8tml7Ns5MTBdJklIhSIqmjsMa8WMl0HUSK19Cgr+lOHLBS2s+Ar
-	 IrtUHM1EIdG5w==
-Message-ID: <4e0e5dea-09a7-479d-9a1d-7c95132949c1@kernel.org>
-Date: Sun, 7 Jul 2024 13:21:34 +0200
+	s=k20201202; t=1720424286;
+	bh=oMiPUlVaYyVu66rjInYRHiAkIAq9At6rRlylsvOCCRg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=MYCUH+1LfF/A77Udmoga7d/Y0/f0zG6df7Lu3TuZqh7G3RUuvvC55SnUyNSB39rTm
+	 9oK2MO9Tk5xWW7zyZl2c/LxIL4F88KrPUhOr1yPY7T+JiVDeDXGSD5R2BkPpaaESQU
+	 0qk0r4v+sM2pR7XHwIHpj8Aeczo58K6fMTdwh4TF+eXGackWMBIrjXnpe6FyYmV6lN
+	 /Bu5X06faISlUWnIVfoiwPH/348Q+/9TGXHDYeMnC0x8wW1UXeDqbU2LlQX7l3qlW4
+	 N8TsBvsgm758oqTKzbtWAER2jCFeMQJRRXGGcMZ/3KbufKq4J6M03UkZkff2+zIPEK
+	 Xt/AHctork+Xw==
+Message-ID: <3d40f02f-529b-45ac-aa31-c4342f6f4f55@kernel.org>
+Date: Mon, 8 Jul 2024 09:37:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,13 +35,17 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] Removed extra asterisks from comment beginnings, and
- removed unnecessary comment end
-To: Gold Side <goldside000@outlook.com>, "perex@perex.cz" <perex@perex.cz>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-References: <DM4P223MB054139F737887D40A2CA396FF7D92@DM4P223MB0541.NAMP223.PROD.OUTLOOK.COM>
+Subject: Re: [PATCH] ASoC: dt-bindings: cirrus,cs4270: Convert to dtschema
+To: Animesh Agarwal <animeshagarwal28@gmail.com>
+Cc: Daniel Baluta <daniel.baluta@nxp.com>,
+ David Rhodes <david.rhodes@cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, patches@opensource.cirrus.com,
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240707062702.174390-1-animeshagarwal28@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -87,32 +91,61 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <DM4P223MB054139F737887D40A2CA396FF7D92@DM4P223MB0541.NAMP223.PROD.OUTLOOK.COM>
+In-Reply-To: <20240707062702.174390-1-animeshagarwal28@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 07/07/2024 06:14, Gold Side wrote:
-> From 33dc0aa3973913f310840cc8f7d5d599d573c297 Mon Sep 17 00:00:00 2001
-> From: Steven Davis <goldside000@outlook.com>
-> Date: Tue, 2 Jul 2024 23:43:15 -0400
-> Subject: [PATCH 2/3] Removed unnecessary comment end
-> 
-> It still works the same without that comment end, so why is it in there?
+On 07/07/2024 08:26, Animesh Agarwal wrote:
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    description:
+> +      This pin will be deasserted before communication to the codec starts.
+> +    maxItems: 1
+> +
+> +  va-supply:
+> +    description: Voltage regulator phandle for the VA supply.
 
-Because license-rules asks for it. Why do you change only one file? Look
-how this is done in other files. This should make you ask questions why
-doing things differently.
+Your description is redundant: you did not say anything more than it is
+already said in the property name. This could be in such case just:
+": true"
 
-> Signed-off-by: Steven Davis <goldside000@outlook.com>
+Please keep this feedback for any future work (I feel I already said it
+once...).
 
-Please use git to create commits, not hand-craft them. Missing blank
-line before tag.
+> +
+> +  vd-supply:
+> +    description: Voltage regulator phandle for the VD supply.
+> +
+> +  vlc-supply:
+> +    description: Voltage regulator phandle for the VLC supply.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
 
-Entire patch does not look like proper patch, but some weirdly generated
-mbox file. :/ Use git format-patch or b4.
+This won't validate DTS... test the DTS. You miss dai-common.
 
-> ---
->  include/memory/renesas-rpc-if.h | 2 +-
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      codec: cs4270@48 {
+
+Node names should be generic. See also an explanation and list of
+examples (not exhaustive) in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+e.g. audio-codec or codec
+
+And drop unused label "codec:"
+
 
 Best regards,
 Krzysztof
