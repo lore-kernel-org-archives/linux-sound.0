@@ -1,163 +1,199 @@
-Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9900E364A9
-	for <linux-sound@vger.kernel.org>; Mon,  8 Jul 2024 07:45:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D2E553362;
+	Mon,  8 Jul 2024 09:56:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720424751; cv=none; b=HktDAoXQSH38yR7XQT2JvsCGudAqEtiSPQBsjwMaLPgjy3p/kr4YTfmeQH+ptOSItPFEUbfZR8cTTMzC6gjDKH8xRIY9wOzDMteC4WLvzVzRSA0i2q2ZSw6SgPGaLNHA9vLv3BCa9uKlUtpcr6V8cl5nteUWw7P4xsK72lDG8/I=
+	t=1720432613; cv=none; b=RY6r3s+yzBLCrQ9xwGBD9Azp4+sZV9EYT7JwY5ZsxRBrmSdJlMmxd39kD3yhEGFl0TxZ4WbQrvwmozm+mv3YIKSPuUavNyqcQQ/jFrYNKug54i4Y8daDrRt4mzEIOuDZfmI2N65PRIAMXn/ebscwgi6W3Gxq8DzzgczzqBcQqUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720424751; c=relaxed/simple;
-	bh=Ctg0u/mGa+VwyDSlNuzK+P613udK8Frsp14C56Ebnqw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TbP6hyI/QQQbLT9teY/NfeqvbXFC/anF9m6+aJK9170O8ByfpinMGBiCwYUaMdI6y2YkpUSml1+Dz+32xgBhqo3DcB0r387zaMjZ1YpY3KnSgapw6BK9UnFDL26Ed6N/Qa69hDxvBa2iPDwS+uWqHttWTgTmQHsh8ywf8+KeIek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=gh9N9Uw0; arc=none smtp.client-ip=95.215.58.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1720432613; c=relaxed/simple;
+	bh=x+B/2ML74coKTqWf/fcCs0R8H9A2qdIGmhQFctqOzUw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H1RXnIE2zsrby3VwHWzWzavi9N6b0qDCHCBU/mqagv0Phgpt83+1Tghsn2J1DQyqIixuxLJ3bTMG4uVkZAf+cnMSSHPNKjC+0Y9EBna23L656cEpVhhosG2bXJhs7Dhqu9RLERF5tV+pd7FWOluf4IYFHqH5s5SlMbGdcKxxI/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dA5GuL+2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=idJ673mz; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dA5GuL+2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=idJ673mz; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="gh9N9Uw0"
-X-Envelope-To: luca.ceresoli@bootlin.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1720424745;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6r0t4bqCeyTcKMQipHqJ13XIJ0M/NNLgBRa8TFFkq0k=;
-	b=gh9N9Uw0u8C6T2INQwENuJbySC4x56TU/bCYId7J19tXTNv2leS8YvS59ZHGfqV5iEcc2W
-	giRbXLJT0kVM9blL6cZF0eI0W/NaGwdLwsoCYd+qWtWL+ssOTOGgYIaHoZkEp8DXV+BDKD
-	QBEscHkTSbtdZ0QzmCUfJBvJe1gdrAw=
-X-Envelope-To: ojeda@kernel.org
-X-Envelope-To: robh@kernel.org
-X-Envelope-To: saravanak@google.com
-X-Envelope-To: nathan@kernel.org
-X-Envelope-To: mturquette@baylibre.com
-X-Envelope-To: sboyd@kernel.org
-X-Envelope-To: tony@atomide.com
-X-Envelope-To: andersson@kernel.org
-X-Envelope-To: emilio@elopez.com.ar
-X-Envelope-To: wens@csie.org
-X-Envelope-To: jernej.skrabec@gmail.com
-X-Envelope-To: samuel@sholland.org
-X-Envelope-To: krzk@kernel.org
-X-Envelope-To: daniel.lezcano@linaro.org
-X-Envelope-To: tglx@linutronix.de
-X-Envelope-To: florian.fainelli@broadcom.com
-X-Envelope-To: bcm-kernel-feedback-list@broadcom.com
-X-Envelope-To: linus.walleij@linaro.org
-X-Envelope-To: brgl@bgdev.pl
-X-Envelope-To: jic23@kernel.org
-X-Envelope-To: lee@kernel.org
-X-Envelope-To: shawnguo@kernel.org
-X-Envelope-To: kernel@pengutronix.de
-X-Envelope-To: ukleinek@kernel.org
-X-Envelope-To: gregkh@linuxfoundation.org
-X-Envelope-To: jirislaby@kernel.org
-X-Envelope-To: lgirdwood@gmail.com
-X-Envelope-To: broonie@kernel.org
-X-Envelope-To: nicolas.ferre@microchip.com
-X-Envelope-To: mpe@ellerman.id.au
-X-Envelope-To: npiggin@gmail.com
-X-Envelope-To: christophe.leroy@csgroup.eu
-X-Envelope-To: naveen.n.rao@linux.ibm.com
-X-Envelope-To: dlemoal@kernel.org
-X-Envelope-To: peng.fan@oss.nxp.com
-X-Envelope-To: thomas.petazzoni@bootlin.com
-X-Envelope-To: linux-kernel@vger.kernel.org
-X-Envelope-To: devicetree@vger.kernel.org
-X-Envelope-To: llvm@lists.linux.dev
-X-Envelope-To: linux-clk@vger.kernel.org
-X-Envelope-To: linux-omap@vger.kernel.org
-X-Envelope-To: linux-arm-msm@vger.kernel.org
-X-Envelope-To: linux-arm-kernel@lists.infradead.org
-X-Envelope-To: linux-sunxi@lists.linux.dev
-X-Envelope-To: linux-samsung-soc@vger.kernel.org
-X-Envelope-To: linux-gpio@vger.kernel.org
-X-Envelope-To: linux-iio@vger.kernel.org
-X-Envelope-To: linux-pwm@vger.kernel.org
-X-Envelope-To: linux-serial@vger.kernel.org
-X-Envelope-To: linux-usb@vger.kernel.org
-X-Envelope-To: patches@opensource.cirrus.com
-X-Envelope-To: linux-sound@vger.kernel.org
-X-Envelope-To: linuxppc-dev@lists.ozlabs.org
-X-Envelope-To: linux-riscv@lists.infradead.org
-Date: Mon, 8 Jul 2024 09:45:39 +0200
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Richard Leitner <richard.leitner@linux.dev>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Saravana Kannan <saravanak@google.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Tony Lindgren <tony@atomide.com>, Bjorn Andersson <andersson@kernel.org>, 
-	Emilio =?utf-8?B?TMOzcGV6?= <emilio@elopez.com.ar>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Jonathan Cameron <jic23@kernel.org>, Lee Jones <lee@kernel.org>, 
-	Shawn Guo <shawnguo@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Jiri Slaby <jirislaby@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, 
-	Damien Le Moal <dlemoal@kernel.org>, "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	llvm@lists.linux.dev, linux-clk@vger.kernel.org, linux-omap@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-samsung-soc@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-iio@vger.kernel.org, linux-pwm@vger.kernel.org, linux-serial@vger.kernel.org, 
-	linux-usb@vger.kernel.org, patches@opensource.cirrus.com, linux-sound@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH 15/20] usb: usb251xb: convert to
- of_property_for_each_u32_new()
-Message-ID: <34bbebxag4neccfkb4isi4bx5uvi2dk446bqqmfmtru4vwbehk@hp7vufvfyon4>
-References: <20240703-of_property_for_each_u32-v1-0-42c1fc0b82aa@bootlin.com>
- <20240703-of_property_for_each_u32-v1-15-42c1fc0b82aa@bootlin.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dA5GuL+2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="idJ673mz";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dA5GuL+2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="idJ673mz"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C58AB21B34;
+	Mon,  8 Jul 2024 09:56:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1720432609; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=N8Y4IL89FfVC6afdpT5IvYSfFgULE0O2g7AEbdsUBpE=;
+	b=dA5GuL+2qC61+53r9hgtPLivv9R1IrkAXv3I/r2lh8cE+6SentEDy7df8kOHKVz4cSYWmM
+	f7no5uqL2cdqRGXJ2cQ7Ir1a3o2hw0IpELsKnz6yohiiYtGKf9wkHFvq1WzU8ebblapnfO
+	imCSq0uu9TlJEvFrW4+go5jBBGgo/Qg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1720432609;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=N8Y4IL89FfVC6afdpT5IvYSfFgULE0O2g7AEbdsUBpE=;
+	b=idJ673mz54WylhZQehUWvtJ/trytKSuVnJicpey2yUR8LEJGzg7B3DAm/eHlrXpnqf3x/0
+	tadd3BlgmXpY75Cw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=dA5GuL+2;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=idJ673mz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1720432609; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=N8Y4IL89FfVC6afdpT5IvYSfFgULE0O2g7AEbdsUBpE=;
+	b=dA5GuL+2qC61+53r9hgtPLivv9R1IrkAXv3I/r2lh8cE+6SentEDy7df8kOHKVz4cSYWmM
+	f7no5uqL2cdqRGXJ2cQ7Ir1a3o2hw0IpELsKnz6yohiiYtGKf9wkHFvq1WzU8ebblapnfO
+	imCSq0uu9TlJEvFrW4+go5jBBGgo/Qg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1720432609;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=N8Y4IL89FfVC6afdpT5IvYSfFgULE0O2g7AEbdsUBpE=;
+	b=idJ673mz54WylhZQehUWvtJ/trytKSuVnJicpey2yUR8LEJGzg7B3DAm/eHlrXpnqf3x/0
+	tadd3BlgmXpY75Cw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A051713A82;
+	Mon,  8 Jul 2024 09:56:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id AG7mJeG3i2a1PwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 08 Jul 2024 09:56:49 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH] usb: gadget: midi2: Fix incorrect default MIDI2 protocol setup
+Date: Mon,  8 Jul 2024 11:57:17 +0200
+Message-ID: <20240708095719.25627-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240703-of_property_for_each_u32-v1-15-42c1fc0b82aa@bootlin.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.63 / 50.00];
+	BAYES_HAM(-2.62)[98.31%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: C58AB21B34
+X-Spam-Flag: NO
+X-Spam-Score: -2.63
+X-Spam-Level: 
 
-Hi Luca,
+The MIDI2 gadget driver handled the default MIDI protocol version
+incorrectly due to the confusion of the protocol version passed via
+configfs (either 1 or 2) and UMP protocol bits (0x100 / 0x200).
+As a consequence, the default protocol always resulted in MIDI1.
 
-On Wed, Jul 03, 2024 at 12:36:59PM GMT, Luca Ceresoli wrote:
-> Simplify code using of_property_for_each_u32_new() as the two additional
-> parameters in of_property_for_each_u32() are not used here.
-> 
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+This patch addresses the misunderstanding of the protocol handling.
 
-please feel free to add:
+Fixes: 29ee7a4dddd5 ("usb: gadget: midi2: Add configfs support")
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ drivers/usb/gadget/function/f_midi2.c | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
 
-Acked-by: Richard Leitner <richard.leitner@linux.dev>
-
-> ---
->  drivers/usb/misc/usb251xb.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/drivers/usb/misc/usb251xb.c b/drivers/usb/misc/usb251xb.c
-> index 7da404f55a6d..490004dbb9d8 100644
-> --- a/drivers/usb/misc/usb251xb.c
-> +++ b/drivers/usb/misc/usb251xb.c
-> @@ -382,11 +382,9 @@ static void usb251xb_get_ports_field(struct usb251xb *hub,
->  				    bool ds_only, u8 *fld)
->  {
->  	struct device *dev = hub->dev;
-> -	struct property *prop;
-> -	const __be32 *p;
->  	u32 port;
->  
-> -	of_property_for_each_u32(dev->of_node, prop_name, prop, p, port) {
-> +	of_property_for_each_u32_new(dev->of_node, prop_name, port) {
->  		if ((port >= ds_only ? 1 : 0) && (port <= port_cnt))
->  			*fld |= BIT(port);
->  		else
-> 
-> -- 
-> 2.34.1
+diff --git a/drivers/usb/gadget/function/f_midi2.c b/drivers/usb/gadget/function/f_midi2.c
+index ec8cd7c7bbfc..0e38bb145e8f 100644
+--- a/drivers/usb/gadget/function/f_midi2.c
++++ b/drivers/usb/gadget/function/f_midi2.c
+@@ -150,6 +150,9 @@ struct f_midi2 {
+ 
+ #define func_to_midi2(f)	container_of(f, struct f_midi2, func)
+ 
++/* convert from MIDI protocol number (1 or 2) to SNDRV_UMP_EP_INFO_PROTO_* */
++#define to_ump_protocol(v)	(((v) & 3) << 8)
++
+ /* get EP name string */
+ static const char *ump_ep_name(const struct f_midi2_ep *ep)
+ {
+@@ -564,8 +567,7 @@ static void reply_ump_stream_ep_config(struct f_midi2_ep *ep)
+ 		.status = UMP_STREAM_MSG_STATUS_STREAM_CFG,
+ 	};
+ 
+-	if ((ep->info.protocol & SNDRV_UMP_EP_INFO_PROTO_MIDI_MASK) ==
+-	    SNDRV_UMP_EP_INFO_PROTO_MIDI2)
++	if (ep->info.protocol == 2)
+ 		rep.protocol = UMP_STREAM_MSG_EP_INFO_CAP_MIDI2 >> 8;
+ 	else
+ 		rep.protocol = UMP_STREAM_MSG_EP_INFO_CAP_MIDI1 >> 8;
+@@ -627,13 +629,13 @@ static void process_ump_stream_msg(struct f_midi2_ep *ep, const u32 *data)
+ 		return;
+ 	case UMP_STREAM_MSG_STATUS_STREAM_CFG_REQUEST:
+ 		if (*data & UMP_STREAM_MSG_EP_INFO_CAP_MIDI2) {
+-			ep->info.protocol = SNDRV_UMP_EP_INFO_PROTO_MIDI2;
++			ep->info.protocol = 2;
+ 			DBG(midi2, "Switching Protocol to MIDI2\n");
+ 		} else {
+-			ep->info.protocol = SNDRV_UMP_EP_INFO_PROTO_MIDI1;
++			ep->info.protocol = 1;
+ 			DBG(midi2, "Switching Protocol to MIDI1\n");
+ 		}
+-		snd_ump_switch_protocol(ep->ump, ep->info.protocol);
++		snd_ump_switch_protocol(ep->ump, to_ump_protocol(ep->info.protocol));
+ 		reply_ump_stream_ep_config(ep);
+ 		return;
+ 	case UMP_STREAM_MSG_STATUS_FB_DISCOVERY:
+@@ -1065,7 +1067,8 @@ static void f_midi2_midi1_ep_out_complete(struct usb_ep *usb_ep,
+ 		group = midi2->out_cable_mapping[cable].group;
+ 		bytes = midi1_packet_bytes[*buf & 0x0f];
+ 		for (c = 0; c < bytes; c++) {
+-			snd_ump_convert_to_ump(cvt, group, ep->info.protocol,
++			snd_ump_convert_to_ump(cvt, group,
++					       to_ump_protocol(ep->info.protocol),
+ 					       buf[c + 1]);
+ 			if (cvt->ump_bytes) {
+ 				snd_ump_receive(ep->ump, cvt->ump,
+@@ -1375,7 +1378,7 @@ static void assign_block_descriptors(struct f_midi2 *midi2,
+ 			desc->nNumGroupTrm = b->num_groups;
+ 			desc->iBlockItem = ep->blks[blk].string_id;
+ 
+-			if (ep->info.protocol & SNDRV_UMP_EP_INFO_PROTO_MIDI2)
++			if (ep->info.protocol == 2)
+ 				desc->bMIDIProtocol = USB_MS_MIDI_PROTO_2_0;
+ 			else
+ 				desc->bMIDIProtocol = USB_MS_MIDI_PROTO_1_0_128;
+@@ -1552,7 +1555,7 @@ static int f_midi2_create_card(struct f_midi2 *midi2)
+ 		if (midi2->info.static_block)
+ 			ump->info.flags |= SNDRV_UMP_EP_INFO_STATIC_BLOCKS;
+ 		ump->info.protocol_caps = (ep->info.protocol_caps & 3) << 8;
+-		ump->info.protocol = (ep->info.protocol & 3) << 8;
++		ump->info.protocol = to_ump_protocol(ep->info.protocol);
+ 		ump->info.version = 0x0101;
+ 		ump->info.family_id = ep->info.family;
+ 		ump->info.model_id = ep->info.model;
+-- 
+2.43.0
 
