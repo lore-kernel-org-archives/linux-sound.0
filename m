@@ -1,44 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C688145A08;
-	Mon,  8 Jul 2024 16:56:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB7C79FD;
+	Mon,  8 Jul 2024 18:20:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720457812; cv=none; b=ImTGyXPhQIRmnsonAa6tP6rVBPyBoL2gEIaPyTVm+FbfMHB0lkiXqx43vURdjsQRIPJnv48IEZ0TlxM9/8feyjFnPa20hf9ginZTrePFr8jUDDGMi2rBFUhUU6Zj2+3hk5Ts31ILZljBfzxRM61RSd/Ychimk28545JHWhqzxMQ=
+	t=1720462803; cv=none; b=iBMw8woUzblh3nzM+9nBSAldZprlI5O1arCMnODR+LUbJhP6gWGtBJJru8EoyaWFNJoRlq1id3Fp2qhD2hlEvFGgMbpvA7VNiBlH41POjXY3q81UoJYqQort4Aw37Ixm1qtvw9PGUUj6fy40NvQ/hlWq6W9ShIbREe9UVefbWxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720457812; c=relaxed/simple;
-	bh=PCa8npqHnUycecA44yDRVAfSZz/Tb4vjGe8JijsOnOE=;
+	s=arc-20240116; t=1720462803; c=relaxed/simple;
+	bh=QOFBs3lyd5kSuHcIUTuqmRKn5lA/nl/6CEtMFJTqhtc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=d+bC3ir68gMgY4/EidKzAa7dYhLeOIl7ZfY8xcckraihBYrhW2yePaDUTL2OpxWOhIi1tGQSjfC9kVVBd7clgfjjPPIelPJ26Nv9/CjfC8rK5ql76Dk0xGbSqS2k4/g7s7SJf5ZIx7GxjAlhh03EgEzleGyHUJnWHV4nfGfIkdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SnHGlxpY; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=q3sGLy0e0QQw9rwK2qUVJuHgA9FQZ8LU8hzAIKmbtlvg4kyR+/+Y5S4JtJnsyyL3ffSjyNW3cHG2xf1TJ3CLCelb2AjEPCdoClIM1EAmTKDDFzwFhUdNeQjgYHgJqKGi5dUd10C8a+YG/YbihXPl/2WLbFNJyRYn3+/oKoIvFPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nd5HyoRZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SnHGlxpY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BA8DC116B1;
-	Mon,  8 Jul 2024 16:56:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nd5HyoRZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7267FC116B1;
+	Mon,  8 Jul 2024 18:20:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720457811;
-	bh=PCa8npqHnUycecA44yDRVAfSZz/Tb4vjGe8JijsOnOE=;
+	s=k20201202; t=1720462802;
+	bh=QOFBs3lyd5kSuHcIUTuqmRKn5lA/nl/6CEtMFJTqhtc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=SnHGlxpYtJAMCJb2Mc3uz23Aj1k/oCplSoxg9sQQu6Xj3E7TDjH3hIuJPa/5yGJSr
-	 ciiLoxdUu0r0CEESsCO40md/UqWZO4CUTd5/Chmr4GvYUtoOhbA1OQ0XZPcN2BKkPw
-	 R7w6RZSEd7G926ka3nsy1n7mU9pD4xOGHgEyYhXYYNWORwbAGigbvW8g8eMSIe5XhI
-	 3DK6d84LLd4ZvNISXHDWoNixDkLVxt/3CeF+OXdM8pybihmpTB02vB1aI2vHj3ObeS
-	 IR0/RgnsuN8yvtQQrMevtLmjFeQ7/rSVL9e8dRliq6udtq1FLxBa5HqmaiI/vjGgqT
-	 Pwyo+wkV06IsA==
+	b=nd5HyoRZ+1/kD1ldDYLBg+Olhz35hv8qT9ebD+RTFRANdyUkbH9VMmaUzOHWaJWs6
+	 n4WD7AksMoznOpTSs5aov6yh2bPVYMFkfabXXNsZ8drFPI1v7n6SO59UpuEM1BN4EL
+	 DeSTOcORPfPfSI+BWEcJTClSxyAoyMHQiUFlMqXZdZ/wQ9ouVBKYKQm33zC3hZ48D6
+	 gV49G4gP0SBQ2EiVM1E7V+mrJ7avvJ82oDRJT1SRxRHIqcumXg1JGNRE1ByUvkIFGe
+	 e7zANNhZ89mL3Jd790X3aF6GC9Z4UCRwZdz+nvoZxWjZlhbZd+JF8PI66ftHN9Oigb
+	 Z15bp8bt8DwWw==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Banajit Goswami <bgoswami@quicinc.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org
-In-Reply-To: <20240703-asoc-cleanup-h-v1-0-71219dfd0aef@linaro.org>
-References: <20240703-asoc-cleanup-h-v1-0-71219dfd0aef@linaro.org>
-Subject: Re: [PATCH 00/11] ASoC: Simplify code with cleanup.h
-Message-Id: <172045780936.93798.11339150703981455652.b4-ty@kernel.org>
-Date: Mon, 08 Jul 2024 17:56:49 +0100
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-kernel@vger.kernel.org, patches@opensource.cirrus.com, 
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+In-Reply-To: <20240708144855.385332-1-rf@opensource.cirrus.com>
+References: <20240708144855.385332-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH] firmware: cs_dsp: Use strnlen() on name fields in V1
+ wmfw files
+Message-Id: <172046280115.106387.10683882240697864309.b4-ty@kernel.org>
+Date: Mon, 08 Jul 2024 19:20:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,13 +46,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14-dev-d4707
 
-On Wed, 03 Jul 2024 14:10:54 +0200, Krzysztof Kozlowski wrote:
-> Allocate the memory with scoped/cleanup.h to reduce error handling
-> (simpler error paths) and make the code a bit smaller.
+On Mon, 08 Jul 2024 15:48:55 +0100, Richard Fitzgerald wrote:
+> Use strnlen() instead of strlen() on the algorithm and coefficient name
+> string arrays in V1 wmfw files.
 > 
-> Best regards,
-> Krzysztof
+> In V1 wmfw files the name is a NUL-terminated string in a fixed-size
+> array. cs_dsp should protect against overrunning the array if the NUL
+> terminator is missing.
 > 
+> [...]
 
 Applied to
 
@@ -63,28 +62,8 @@ Applied to
 
 Thanks!
 
-[01/11] ASoC: codecs: audio-iio-aux: Simplify audio_iio_aux_add_dapms() with cleanup.h
-        commit: 408e49381750ca22fc584a37636f5035d2cd4c25
-[02/11] ASoC: codecs: audio-iio-aux: Simplify audio_iio_aux_probe() with cleanup.h
-        commit: f9cbfb66127bfc2a47dece3dfcdab2b79ab06c50
-[03/11] ASoC: codecs: wcd9335: Simplify with cleanup.h
-        commit: 6344ab5d0826640799e0c054ed4c0846b3f87ccb
-[04/11] ASoC: codecs: wcd934x: Simplify with cleanup.h
-        commit: 56d426f5525d1ad919e20663ad01a58238652df7
-[05/11] ASoC: simple-card-utils: Simplify with cleanup.h
-        commit: 6440e7b2a058c50a05ebcc58f35693c50522fc1a
-[06/11] ASoC: audio-graph-card: Use cleanup.h instead of devm_kfree()
-        commit: 5725c16af2678d334de0bcb85b42cfa50b32e04c
-[07/11] ASoC: audio-graph-card2: Use cleanup.h instead of devm_kfree()
-        commit: b39f7713ece62b2b0a3cfad7a75a0eb0ab71aa4e
-[08/11] ASoC: simple-card: Use cleanup.h instead of devm_kfree()
-        commit: 7d996c8a5fea700e816379e57f4983e2611519a0
-[09/11] ASoC: ops: Simplify with cleanup.h
-        commit: 1a7b846818210cbdf8994bfee1340c09342a5b3b
-[10/11] ASoC: dapm: Simplify dapm_cnew_widget() with cleanup.h
-        commit: 5b3cc85673bcc7bb961a3a6fa229cbc4fe0441ac
-[11/11] ASoC: dapm: Simplify snd_soc_dai_link_event_pre_pmu() with cleanup.h
-        commit: 522133d4401010d936b0588a5a975c2c965cb88e
+[1/1] firmware: cs_dsp: Use strnlen() on name fields in V1 wmfw files
+      commit: 680e126ec0400f6daecf0510c5bb97a55779ff03
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
