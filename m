@@ -1,77 +1,62 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D2E553362;
-	Mon,  8 Jul 2024 09:56:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A07DA2E85E
+	for <linux-sound@vger.kernel.org>; Mon,  8 Jul 2024 13:03:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720432613; cv=none; b=RY6r3s+yzBLCrQ9xwGBD9Azp4+sZV9EYT7JwY5ZsxRBrmSdJlMmxd39kD3yhEGFl0TxZ4WbQrvwmozm+mv3YIKSPuUavNyqcQQ/jFrYNKug54i4Y8daDrRt4mzEIOuDZfmI2N65PRIAMXn/ebscwgi6W3Gxq8DzzgczzqBcQqUE=
+	t=1720443789; cv=none; b=hr1jxD5DHhJvzEhDD1X9Si8xqd3wdfzalhknXvO7Nlxz0GJoGeQBGQihisB6y6guKa8+2kS6gxWW1Hyt7IvuXJAOLjVpfLsVtB9zssQDUb+GKjg//4T43wXE+WmMaqlUFdo2+UYt+33V6pLhWQ5PMWckWeE9xnPmSGLMX2sJkU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720432613; c=relaxed/simple;
-	bh=x+B/2ML74coKTqWf/fcCs0R8H9A2qdIGmhQFctqOzUw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H1RXnIE2zsrby3VwHWzWzavi9N6b0qDCHCBU/mqagv0Phgpt83+1Tghsn2J1DQyqIixuxLJ3bTMG4uVkZAf+cnMSSHPNKjC+0Y9EBna23L656cEpVhhosG2bXJhs7Dhqu9RLERF5tV+pd7FWOluf4IYFHqH5s5SlMbGdcKxxI/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dA5GuL+2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=idJ673mz; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dA5GuL+2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=idJ673mz; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1720443789; c=relaxed/simple;
+	bh=/QZbpayaQe8Cyf03fyfhANl3j6bay3916qhNPC0PdsI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lZHb4mdSq7TR+9nf178m27LH5gTAm2UG2uwS8ublqYgZj2WS3umiMhCbzfTcJPymKCPf+BXEbrjcpVolWmNHKMp+QAP1SASi9WXRK49+HFvPpUZBkaZta22DQqzIiUOlT2flYv6QukXYu4YTZt/NmvLBRE5tLABZDa1j5vMrY8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Z6rVbH/q; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dA5GuL+2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="idJ673mz";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dA5GuL+2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="idJ673mz"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C58AB21B34;
-	Mon,  8 Jul 2024 09:56:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1720432609; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=N8Y4IL89FfVC6afdpT5IvYSfFgULE0O2g7AEbdsUBpE=;
-	b=dA5GuL+2qC61+53r9hgtPLivv9R1IrkAXv3I/r2lh8cE+6SentEDy7df8kOHKVz4cSYWmM
-	f7no5uqL2cdqRGXJ2cQ7Ir1a3o2hw0IpELsKnz6yohiiYtGKf9wkHFvq1WzU8ebblapnfO
-	imCSq0uu9TlJEvFrW4+go5jBBGgo/Qg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1720432609;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=N8Y4IL89FfVC6afdpT5IvYSfFgULE0O2g7AEbdsUBpE=;
-	b=idJ673mz54WylhZQehUWvtJ/trytKSuVnJicpey2yUR8LEJGzg7B3DAm/eHlrXpnqf3x/0
-	tadd3BlgmXpY75Cw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=dA5GuL+2;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=idJ673mz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1720432609; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=N8Y4IL89FfVC6afdpT5IvYSfFgULE0O2g7AEbdsUBpE=;
-	b=dA5GuL+2qC61+53r9hgtPLivv9R1IrkAXv3I/r2lh8cE+6SentEDy7df8kOHKVz4cSYWmM
-	f7no5uqL2cdqRGXJ2cQ7Ir1a3o2hw0IpELsKnz6yohiiYtGKf9wkHFvq1WzU8ebblapnfO
-	imCSq0uu9TlJEvFrW4+go5jBBGgo/Qg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1720432609;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=N8Y4IL89FfVC6afdpT5IvYSfFgULE0O2g7AEbdsUBpE=;
-	b=idJ673mz54WylhZQehUWvtJ/trytKSuVnJicpey2yUR8LEJGzg7B3DAm/eHlrXpnqf3x/0
-	tadd3BlgmXpY75Cw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A051713A82;
-	Mon,  8 Jul 2024 09:56:49 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id AG7mJeG3i2a1PwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 08 Jul 2024 09:56:49 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: [PATCH] usb: gadget: midi2: Fix incorrect default MIDI2 protocol setup
-Date: Mon,  8 Jul 2024 11:57:17 +0200
-Message-ID: <20240708095719.25627-1-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Z6rVbH/q"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a77b60cafecso443244666b.1
+        for <linux-sound@vger.kernel.org>; Mon, 08 Jul 2024 06:03:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1720443784; x=1721048584; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XtrdXMRid3VNyUdDJTp3ZlMxJj+zOdOH10/MUFsmRBE=;
+        b=Z6rVbH/q8WN1G9FzUfXo+Il7T+ji6NrOgJAYREqKSAnmn0cnKxRgqlJsBEEp5y688K
+         /SeuZvlA0jCNIErJ8vt4z2zGgjHwXWD50kVRDGhEG8GkPgD5Hgeb9W6moPGcgr9k6icQ
+         36EYCWMHFXYIfRh2QJBuT73IA6sTRi1Cn7lA8Eqx32Yj66A1AIpOtN0WFJB00ttFjVfE
+         sION2iq4Txe58E3GghKDipbD65URuS3JM3HEqcSyMQD8mcqtOYycpODoQJSwbHhFWlyH
+         BbUaLEN0pCwivtMZ1Sa1V6KmlXMIA2oA9hFpgP+W30SJSFpMjBjnTwxUMqiLhyyfTd1R
+         0c7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720443784; x=1721048584;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XtrdXMRid3VNyUdDJTp3ZlMxJj+zOdOH10/MUFsmRBE=;
+        b=atkkUH/VovP3deYJliwgbVz8vszOcppRYlaMu3AWQNgHDo6rNMAXH2Ez5hiFUmzCKD
+         dipjGMqOrHKxGcQaQEH5nAb6WSvErlj5I6Dbz4ooU40oiCRXAr1EWCeuESJBrsFsb2QS
+         8ffXZFODaRCgGhpe8SfXUQJoEokVN1khGbBkFwglE2t83YUBSzsytQaqsPD7Fn6iyko9
+         d0qoaZmNotgVNUtELuNdvCay8OfAONmCl5hiZAEoN20Np3MY+y2YDNKpZtTHkBbusjuf
+         2Cow5Qr6vC6abjPKgu5HVJjv4KqT8u3BhxBlx4Q2D+Jv0wz8bhwl8g8VNc/h/LxKmhWO
+         NYGw==
+X-Gm-Message-State: AOJu0Yw1MrpsmY0Ouoriu1g8Nz6H8aQY9IARB7DTDj6+NyE6qFMm2qmY
+	hSl7cMRbtEvlycS1Z9cWnAMaoN1WAa/HyjXy469Ln5OGhQzMo9NOUyKvqxdDhCX3JNZ7p+sv2+n
+	77bc=
+X-Google-Smtp-Source: AGHT+IHboZ/yBuV21DKJp+I97fpVFrhjGtG3Ce/AGtjyj5u1dNB6KLXwvU4JGs6xMVaUzPaaiTp0OA==
+X-Received: by 2002:a17:906:13db:b0:a77:cca9:b212 with SMTP id a640c23a62f3a-a77cca9b749mr582502766b.45.1720443783555;
+        Mon, 08 Jul 2024 06:03:03 -0700 (PDT)
+Received: from localhost ([2a02:8071:b783:6940:2eec:1938:748d:b200])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a77ea926485sm180799566b.207.2024.07.08.06.03.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Jul 2024 06:03:03 -0700 (PDT)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: ppc: keywest: Drop explicit initialization of struct i2c_device_id::driver_data to 0
+Date: Mon,  8 Jul 2024 15:02:53 +0200
+Message-ID: <20240708130254.9631-2-u.kleine-koenig@baylibre.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -79,121 +64,40 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1078; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=/QZbpayaQe8Cyf03fyfhANl3j6bay3916qhNPC0PdsI=; b=owGbwMvMwMXY3/A7olbonx/jabUkhrTux/VzPebaXPnIyTI/Q63z2IaJwq/vBX18WFEnKvFIX MC6er1IJ6MxCwMjF4OsmCKLfeOaTKsqucjOtf8uwwxiZQKZwsDFKQAT+dHL/j9YpUmOtXuZ/4e9 rIcc2xV/F8i4/l8evf2xZOc55/2/1W3PcnXnehm6TfCS4Gx7yqh//16gxeOsxQ21/uLWlb7mRpu Z+d+tylfs/Mr45skihh/HzUxWn//O3mbyxFro8Uzvad4csu6vmCVn+lQUdvu8ia0J9n61Xzzfoy r4W54uZ/1qc2Gj/qoZVV/ylEW8VixZ2HCD98ZhoVVunZycG1tz1u+sSM34K7hF3PTKV3MRPx9vs 0v2Nc1yfK/97I0yWLwqfgY/WPG9c7XkpjksvQxvmNzFvt/4+JDn3g/OmsU/l3U8sz5zOnqrjoTE nbUhVr8TNZ6t8VwlPmvKVOnpRy62NfcHtk7Y05dQyvMIAA==
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.63 / 50.00];
-	BAYES_HAM(-2.62)[98.31%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: C58AB21B34
-X-Spam-Flag: NO
-X-Spam-Score: -2.63
-X-Spam-Level: 
 
-The MIDI2 gadget driver handled the default MIDI protocol version
-incorrectly due to the confusion of the protocol version passed via
-configfs (either 1 or 2) and UMP protocol bits (0x100 / 0x200).
-As a consequence, the default protocol always resulted in MIDI1.
+The driver doesn't use the driver_data member of struct i2c_device_id,
+so don't explicitly initialize this member.
 
-This patch addresses the misunderstanding of the protocol handling.
+This prepares putting driver_data in an anonymous union which requires
+either no initialization or named designators. But it's also a nice
+cleanup on its own.
 
-Fixes: 29ee7a4dddd5 ("usb: gadget: midi2: Add configfs support")
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
 ---
- drivers/usb/gadget/function/f_midi2.c | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+ sound/ppc/keywest.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/gadget/function/f_midi2.c b/drivers/usb/gadget/function/f_midi2.c
-index ec8cd7c7bbfc..0e38bb145e8f 100644
---- a/drivers/usb/gadget/function/f_midi2.c
-+++ b/drivers/usb/gadget/function/f_midi2.c
-@@ -150,6 +150,9 @@ struct f_midi2 {
+diff --git a/sound/ppc/keywest.c b/sound/ppc/keywest.c
+index dfc1fc9b701d..2894d041b2f5 100644
+--- a/sound/ppc/keywest.c
++++ b/sound/ppc/keywest.c
+@@ -80,8 +80,8 @@ static void keywest_remove(struct i2c_client *client)
  
- #define func_to_midi2(f)	container_of(f, struct f_midi2, func)
  
-+/* convert from MIDI protocol number (1 or 2) to SNDRV_UMP_EP_INFO_PROTO_* */
-+#define to_ump_protocol(v)	(((v) & 3) << 8)
-+
- /* get EP name string */
- static const char *ump_ep_name(const struct f_midi2_ep *ep)
- {
-@@ -564,8 +567,7 @@ static void reply_ump_stream_ep_config(struct f_midi2_ep *ep)
- 		.status = UMP_STREAM_MSG_STATUS_STREAM_CFG,
- 	};
- 
--	if ((ep->info.protocol & SNDRV_UMP_EP_INFO_PROTO_MIDI_MASK) ==
--	    SNDRV_UMP_EP_INFO_PROTO_MIDI2)
-+	if (ep->info.protocol == 2)
- 		rep.protocol = UMP_STREAM_MSG_EP_INFO_CAP_MIDI2 >> 8;
- 	else
- 		rep.protocol = UMP_STREAM_MSG_EP_INFO_CAP_MIDI1 >> 8;
-@@ -627,13 +629,13 @@ static void process_ump_stream_msg(struct f_midi2_ep *ep, const u32 *data)
- 		return;
- 	case UMP_STREAM_MSG_STATUS_STREAM_CFG_REQUEST:
- 		if (*data & UMP_STREAM_MSG_EP_INFO_CAP_MIDI2) {
--			ep->info.protocol = SNDRV_UMP_EP_INFO_PROTO_MIDI2;
-+			ep->info.protocol = 2;
- 			DBG(midi2, "Switching Protocol to MIDI2\n");
- 		} else {
--			ep->info.protocol = SNDRV_UMP_EP_INFO_PROTO_MIDI1;
-+			ep->info.protocol = 1;
- 			DBG(midi2, "Switching Protocol to MIDI1\n");
- 		}
--		snd_ump_switch_protocol(ep->ump, ep->info.protocol);
-+		snd_ump_switch_protocol(ep->ump, to_ump_protocol(ep->info.protocol));
- 		reply_ump_stream_ep_config(ep);
- 		return;
- 	case UMP_STREAM_MSG_STATUS_FB_DISCOVERY:
-@@ -1065,7 +1067,8 @@ static void f_midi2_midi1_ep_out_complete(struct usb_ep *usb_ep,
- 		group = midi2->out_cable_mapping[cable].group;
- 		bytes = midi1_packet_bytes[*buf & 0x0f];
- 		for (c = 0; c < bytes; c++) {
--			snd_ump_convert_to_ump(cvt, group, ep->info.protocol,
-+			snd_ump_convert_to_ump(cvt, group,
-+					       to_ump_protocol(ep->info.protocol),
- 					       buf[c + 1]);
- 			if (cvt->ump_bytes) {
- 				snd_ump_receive(ep->ump, cvt->ump,
-@@ -1375,7 +1378,7 @@ static void assign_block_descriptors(struct f_midi2 *midi2,
- 			desc->nNumGroupTrm = b->num_groups;
- 			desc->iBlockItem = ep->blks[blk].string_id;
- 
--			if (ep->info.protocol & SNDRV_UMP_EP_INFO_PROTO_MIDI2)
-+			if (ep->info.protocol == 2)
- 				desc->bMIDIProtocol = USB_MS_MIDI_PROTO_2_0;
- 			else
- 				desc->bMIDIProtocol = USB_MS_MIDI_PROTO_1_0_128;
-@@ -1552,7 +1555,7 @@ static int f_midi2_create_card(struct f_midi2 *midi2)
- 		if (midi2->info.static_block)
- 			ump->info.flags |= SNDRV_UMP_EP_INFO_STATIC_BLOCKS;
- 		ump->info.protocol_caps = (ep->info.protocol_caps & 3) << 8;
--		ump->info.protocol = (ep->info.protocol & 3) << 8;
-+		ump->info.protocol = to_ump_protocol(ep->info.protocol);
- 		ump->info.version = 0x0101;
- 		ump->info.family_id = ep->info.family;
- 		ump->info.model_id = ep->info.model;
+ static const struct i2c_device_id keywest_i2c_id[] = {
+-	{ "MAC,tas3004", 0 },		/* instantiated by i2c-powermac */
+-	{ "keywest", 0 },		/* instantiated by us if needed */
++	{ "MAC,tas3004" },	/* instantiated by i2c-powermac */
++	{ "keywest" },		/* instantiated by us if needed */
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(i2c, keywest_i2c_id);
+
+base-commit: 0b58e108042b0ed28a71cd7edf5175999955b233
 -- 
 2.43.0
 
