@@ -1,103 +1,149 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A07DA2E85E
-	for <linux-sound@vger.kernel.org>; Mon,  8 Jul 2024 13:03:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8391D1AACC
+	for <linux-sound@vger.kernel.org>; Mon,  8 Jul 2024 13:34:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720443789; cv=none; b=hr1jxD5DHhJvzEhDD1X9Si8xqd3wdfzalhknXvO7Nlxz0GJoGeQBGQihisB6y6guKa8+2kS6gxWW1Hyt7IvuXJAOLjVpfLsVtB9zssQDUb+GKjg//4T43wXE+WmMaqlUFdo2+UYt+33V6pLhWQ5PMWckWeE9xnPmSGLMX2sJkU4=
+	t=1720445690; cv=none; b=b/eqk0qQTt40CejY84VAq9h22g4oEdIjE2Rhs/IWOMYqHMHpmZ/dgaFGygUNBFPjyOyYxBenh3wqNGzCbiWKTistuQrVaTNJ3WXKLRvru5zTAN5UVQIfmLRfPo3oE6r446kiX/ffYFBxXvkI83jctM4yLxWFXADQtOHqj/utQPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720443789; c=relaxed/simple;
-	bh=/QZbpayaQe8Cyf03fyfhANl3j6bay3916qhNPC0PdsI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lZHb4mdSq7TR+9nf178m27LH5gTAm2UG2uwS8ublqYgZj2WS3umiMhCbzfTcJPymKCPf+BXEbrjcpVolWmNHKMp+QAP1SASi9WXRK49+HFvPpUZBkaZta22DQqzIiUOlT2flYv6QukXYu4YTZt/NmvLBRE5tLABZDa1j5vMrY8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Z6rVbH/q; arc=none smtp.client-ip=209.85.218.47
+	s=arc-20240116; t=1720445690; c=relaxed/simple;
+	bh=ZEzWRO2LpDgyJB3Z+NE8SgN6LUV6fHcQtsqrgS8Yc10=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=LIjOgVv7hay/sCvx+j3DYT4eKwdI0hf/YP4K9WAmrdNvULXlwbGfuEL68zvIdcxewMtBu8jP8PA652ticj22qKltv44sBq0ikJKoX8yLW41iSJOikPbiy7Z21xazUUGpxvrp1objRF4nfE0MLYjHAqR50uKR93Qpfu0d4DZzoV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=O4W42dZA; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Z6rVbH/q"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a77b60cafecso443244666b.1
-        for <linux-sound@vger.kernel.org>; Mon, 08 Jul 2024 06:03:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="O4W42dZA"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-426606f80ebso11834165e9.1
+        for <linux-sound@vger.kernel.org>; Mon, 08 Jul 2024 06:34:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1720443784; x=1721048584; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XtrdXMRid3VNyUdDJTp3ZlMxJj+zOdOH10/MUFsmRBE=;
-        b=Z6rVbH/q8WN1G9FzUfXo+Il7T+ji6NrOgJAYREqKSAnmn0cnKxRgqlJsBEEp5y688K
-         /SeuZvlA0jCNIErJ8vt4z2zGgjHwXWD50kVRDGhEG8GkPgD5Hgeb9W6moPGcgr9k6icQ
-         36EYCWMHFXYIfRh2QJBuT73IA6sTRi1Cn7lA8Eqx32Yj66A1AIpOtN0WFJB00ttFjVfE
-         sION2iq4Txe58E3GghKDipbD65URuS3JM3HEqcSyMQD8mcqtOYycpODoQJSwbHhFWlyH
-         BbUaLEN0pCwivtMZ1Sa1V6KmlXMIA2oA9hFpgP+W30SJSFpMjBjnTwxUMqiLhyyfTd1R
-         0c7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720443784; x=1721048584;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1720445686; x=1721050486; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XtrdXMRid3VNyUdDJTp3ZlMxJj+zOdOH10/MUFsmRBE=;
-        b=atkkUH/VovP3deYJliwgbVz8vszOcppRYlaMu3AWQNgHDo6rNMAXH2Ez5hiFUmzCKD
-         dipjGMqOrHKxGcQaQEH5nAb6WSvErlj5I6Dbz4ooU40oiCRXAr1EWCeuESJBrsFsb2QS
-         8ffXZFODaRCgGhpe8SfXUQJoEokVN1khGbBkFwglE2t83YUBSzsytQaqsPD7Fn6iyko9
-         d0qoaZmNotgVNUtELuNdvCay8OfAONmCl5hiZAEoN20Np3MY+y2YDNKpZtTHkBbusjuf
-         2Cow5Qr6vC6abjPKgu5HVJjv4KqT8u3BhxBlx4Q2D+Jv0wz8bhwl8g8VNc/h/LxKmhWO
-         NYGw==
-X-Gm-Message-State: AOJu0Yw1MrpsmY0Ouoriu1g8Nz6H8aQY9IARB7DTDj6+NyE6qFMm2qmY
-	hSl7cMRbtEvlycS1Z9cWnAMaoN1WAa/HyjXy469Ln5OGhQzMo9NOUyKvqxdDhCX3JNZ7p+sv2+n
-	77bc=
-X-Google-Smtp-Source: AGHT+IHboZ/yBuV21DKJp+I97fpVFrhjGtG3Ce/AGtjyj5u1dNB6KLXwvU4JGs6xMVaUzPaaiTp0OA==
-X-Received: by 2002:a17:906:13db:b0:a77:cca9:b212 with SMTP id a640c23a62f3a-a77cca9b749mr582502766b.45.1720443783555;
-        Mon, 08 Jul 2024 06:03:03 -0700 (PDT)
-Received: from localhost ([2a02:8071:b783:6940:2eec:1938:748d:b200])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a77ea926485sm180799566b.207.2024.07.08.06.03.02
+        bh=ZEzWRO2LpDgyJB3Z+NE8SgN6LUV6fHcQtsqrgS8Yc10=;
+        b=O4W42dZAnR8unNf7Ibw16d5DKnl83zlDTzZbIPAPjZjzMD2Q6KHMbq3GqQBRXuhhgS
+         zZeX9upqcOGtsAkdTUP5PEAoaWSs6bBp560fdb3EPJmWECWBhWkHJBRmE0Z/c1q31pVq
+         F/BBHZga+Oh33kx7+Jr++HuzHhQ8lTqOFF/nyeCVhnhdTC4Ivh/OMT6gu6cKYiHWD/8p
+         t+0I4yY1QTjowHQDebos3PY1XzP7kTWpO1lfklvgQ6NHxyQG0OI9QGv2phuPL8bxPL2s
+         /MKBGICHc7dEJSaa2PmNDMLTCXzv0WoPwBohhETaGTzsaSUEgWDA5E7oMAuUfFz0XdLO
+         d93w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720445686; x=1721050486;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZEzWRO2LpDgyJB3Z+NE8SgN6LUV6fHcQtsqrgS8Yc10=;
+        b=RZ3kDBz2H1Rns5SM/KW/X4O02zLS2Femi93QNtoNmg0ASheTvf4BhKLT64+/587Oji
+         q8h9MsG5NowMFy5df7opBpHzJlc8Q+OwHEFpBz0VY8YgCY1DNQc7+nL+My70jtyGANTy
+         Q+18vKQLNRltzKrAFrxVRXrLPgjjWFlFDesTmzjiVNDoaNI2uOV4OizyHeNnZ8GWPsjK
+         7tblbwvlucwejmAJ5+oBvCiPLeyQOuckB9kFIhhYmi/GrHpdbFG+yoFWHynyVglzWizY
+         0ZTt+ChnbBuOf5bTbFCt/HzU9mlkESe+5buoZ2m0oe1O9Cn9LU7GAVOrSFa7yQw7z0Cu
+         jd4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW/iHGEU/NWWXqib/i8RMbBedMF8QXo6b9UtI+bmX0v19yLoXn86bt+9yklAhbssIKk7Q3M0l3gQ1D7ffiZZOChm+Ps2/vhDLl30uU=
+X-Gm-Message-State: AOJu0Yy0Z9rzqqC3KWTU0jl0UL0SRcCGoGWxHJv45TD5aSTyTwHVzCSJ
+	34lS+WItKMD6b2AHhHr7x03hjlDKLHQZ0AulBTGBO4D1WYl6pqqK73uYRr/LpKA=
+X-Google-Smtp-Source: AGHT+IGRHXzVP8vWodoy2IVaw2YC8m/sDvIPSISv1qKc25IfTFheIsZdbD3qEGLVm1zTHYZ1DPNdZQ==
+X-Received: by 2002:a05:600c:22d0:b0:426:5e1c:1ad0 with SMTP id 5b1f17b1804b1-4265e1c1db8mr42383885e9.37.1720445685795;
+        Mon, 08 Jul 2024 06:34:45 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:5158:f510:c35c:9d0b])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42649dec1cbsm66323985e9.1.2024.07.08.06.34.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jul 2024 06:03:03 -0700 (PDT)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: ppc: keywest: Drop explicit initialization of struct i2c_device_id::driver_data to 0
-Date: Mon,  8 Jul 2024 15:02:53 +0200
-Message-ID: <20240708130254.9631-2-u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.43.0
+        Mon, 08 Jul 2024 06:34:45 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?=
+ <amadeuszx.slawinski@linux.intel.com>,  Mark Brown
+ <broonie@kernel.org>,  Liam Girdwood <lgirdwood@gmail.com>,  Takashi Iwai
+ <tiwai@suse.com>,  Jaroslav Kysela <perex@perex.cz>,
+  alsa-devel@alsa-project.org,  linux-sound@vger.kernel.org,
+  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] ALSA: pcm: add support for 128kHz sample rate
+In-Reply-To: <874j99434a.wl-tiwai@suse.de> (Takashi Iwai's message of "Mon, 01
+	Jul 2024 16:07:49 +0200")
+References: <20240628122429.2018059-1-jbrunet@baylibre.com>
+	<20240628122429.2018059-2-jbrunet@baylibre.com>
+	<326792b9-e706-4ab0-a1e8-cc48943e357d@linux.intel.com>
+	<874j99434a.wl-tiwai@suse.de>
+Date: Mon, 08 Jul 2024 15:34:44 +0200
+Message-ID: <1j4j90hurv.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1078; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=/QZbpayaQe8Cyf03fyfhANl3j6bay3916qhNPC0PdsI=; b=owGbwMvMwMXY3/A7olbonx/jabUkhrTux/VzPebaXPnIyTI/Q63z2IaJwq/vBX18WFEnKvFIX MC6er1IJ6MxCwMjF4OsmCKLfeOaTKsqucjOtf8uwwxiZQKZwsDFKQAT+dHL/j9YpUmOtXuZ/4e9 rIcc2xV/F8i4/l8evf2xZOc55/2/1W3PcnXnehm6TfCS4Gx7yqh//16gxeOsxQ21/uLWlb7mRpu Z+d+tylfs/Mr45skihh/HzUxWn//O3mbyxFro8Uzvad4csu6vmCVn+lQUdvu8ia0J9n61Xzzfoy r4W54uZ/1qc2Gj/qoZVV/ylEW8VixZ2HCD98ZhoVVunZycG1tz1u+sSM34K7hF3PTKV3MRPx9vs 0v2Nc1yfK/97I0yWLwqfgY/WPG9c7XkpjksvQxvmNzFvt/4+JDn3g/OmsU/l3U8sz5zOnqrjoTE nbUhVr8TNZ6t8VwlPmvKVOnpRy62NfcHtk7Y05dQyvMIAA==
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-The driver doesn't use the driver_data member of struct i2c_device_id,
-so don't explicitly initialize this member.
+On Mon 01 Jul 2024 at 16:07, Takashi Iwai <tiwai@suse.de> wrote:
 
-This prepares putting driver_data in an anonymous union which requires
-either no initialization or named designators. But it's also a nice
-cleanup on its own.
+> On Mon, 01 Jul 2024 10:50:02 +0200,
+> Amadeusz S=C5=82awi=C5=84ski wrote:
+>>=20
+>> On 6/28/2024 2:23 PM, Jerome Brunet wrote:
+>> > The usual sample rate possible on an SPDIF link are
+>> > 32k, 44.1k, 48k, 88.2k, 96k, 172.4k and 192k.
+>> >=20
+>> > With higher bandwidth variant, such as eARC, and the introduction of 8
+>> > channels mode, the spdif frame rate may be multiplied by 4. This happe=
+ns
+>> > when the interface use an IEC958_SUBFRAME format.
+>> >=20
+>> > The spdif 8 channel mode rate list is:
+>> > 128k, 176.4k, 192k, 352.8k, 384k, 705.4k and 768k.
+>> >=20
+>> > All are already supported by ASLA expect for the 128kHz one.
+>> > Add support for it but do not insert it the SNDRV_PCM_RATE_8000_192000
+>> > macro. Doing so would silently add 128k support to a lot of HW which
+>> > probably do not support it.
+>> >=20
+>> > Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+>> > ---
+>>=20
+>> From what I remember the recommendation is to not add new rates, but
+>> use SNDRV_PCM_RATE_KNOT for all rates not included already.
+>
+> In general yes -- unless the new rate is used for significant amount
+> of drivers.
+>
+> So this case is a sort of on a border line; if it's only for ASoC
+> SPDIF codec driver, I'd rather implement with an extra rate list
+> instead of extending the common bits (that has some potential risks by
+> breaking the existing numbers).
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
----
- sound/ppc/keywest.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+At the moment it would be used by ASoC spdif codec yes (and with Amlogic
+eARC support reasonnably soon, hopefully)=20
 
-diff --git a/sound/ppc/keywest.c b/sound/ppc/keywest.c
-index dfc1fc9b701d..2894d041b2f5 100644
---- a/sound/ppc/keywest.c
-+++ b/sound/ppc/keywest.c
-@@ -80,8 +80,8 @@ static void keywest_remove(struct i2c_client *client)
- 
- 
- static const struct i2c_device_id keywest_i2c_id[] = {
--	{ "MAC,tas3004", 0 },		/* instantiated by i2c-powermac */
--	{ "keywest", 0 },		/* instantiated by us if needed */
-+	{ "MAC,tas3004" },	/* instantiated by i2c-powermac */
-+	{ "keywest" },		/* instantiated by us if needed */
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, keywest_i2c_id);
+However it is likely to be a common rate of any derivative of an IEC958
+interface, with a sufficiently high bandwidth. I suspect there might be
+more of those in the future. Also, it is not an exotic rate for some obscure
+codec no one really has. It is part of specified interface that every TV
+with HDMI 2 is likely to have nowadays. This is why I thought it made
+sense to add it to the usual list. It is the only rate missing,
+everything else is already there.
 
-base-commit: 0b58e108042b0ed28a71cd7edf5175999955b233
--- 
-2.43.0
+Changing the spdif codecs with SNDRV_PCM_RATE_KNOT and a custom rate
+list is doable I suppose, if the new ID is not OK.=20
 
+BTW, I tried not changing the existing numbers and add 128k last but that
+broke. I guess something requires the IDs to be ordered. I did not check
+this further since updating the IDs worked fine (for me, at least :) )
+
+> OTOH, if we can take this for further
+> cleanups of the existing requirement of 128khz rate, we can go with
+> it.
+>
+
+Apart from the problem reported in sound/usb/caiaq/audio.c, is there
+another clean up expected ?
+
+>
+> thanks,
+>
+> Takashi
+
+--=20
+Jerome
