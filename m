@@ -1,209 +1,105 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D463B13A3FF;
-	Mon,  8 Jul 2024 13:59:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB7B7E56B;
+	Mon,  8 Jul 2024 14:47:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720447196; cv=none; b=jI+hKnLi+EgYOxmJkWUEF829rTlG1r45nRd3kXcQbEys0UYlReykIiN5ihwF0QYGRfxtvbRZwBjS1SUXzK+AULWRBCPh66+HkZvJR0cYnqj01HSXnLxT3W8n0HTdGidN9h54ms0VwcyoPo/zCdTHrGXNBeGm/+4JJ+yMNHMAoXo=
+	t=1720450046; cv=none; b=kjDMZKau/4ZtiR1vKHKxGxZQmrfpNr+Zm3DEYKWkIR6KgPulVzp1V7ApLFQZgfwWc2wlRLIIZRxT+4lye7M8jvos7zu/55hGMZWyJIIaEqf150CwxV9Hs8W+kt89yszYajXxO4R0YOvibrnZyAIhVSkSPjrD7uJ22o6lGboZXkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720447196; c=relaxed/simple;
-	bh=KTjPz8HreuaDkbK28vIVvBVwBU/JqwxZLb37hSBqBm4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=n00LHDYIfR3qynbhT3mKGWx3I0W1ZZIkht7kaHEta/hhdgI4mHzIK3ZiK6vlH07LhJu3gfqilqQlP8pOkqM1/2/qJ56yJTWtW+uBZUmpUbs4NYkrhtNiKElUbhfh6gQQP3ODn2+r3uc0uVAJMBrq+BcY+XQkdJJWYipkieZMAZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Zddo+N8A; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=I0RRW3vr; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hgmlxR7a; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rMEMOgXh; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1720450046; c=relaxed/simple;
+	bh=+vH5Wl2pf2rKsw1/NxNTENPBRL2nLneoS1IPUz/ojvk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CfokjO+YiYF+ap2EXGepx5SIK+RKsELm0z1TDK5YNpbuoNXzIQM7ACaQg6h1BK56ZDc9yyJTqknKlDr4XzCuF1CwS3DQmXrb5YnH07vJ8tZXgJP5DoVY+RHHDbOKdcFYi9usx09OKCbGVKuAJOq5/VEO+fudexKi1V2FI8ladcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jc5AjsVs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Zddo+N8A";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="I0RRW3vr";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hgmlxR7a";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rMEMOgXh"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DBE401F449;
-	Mon,  8 Jul 2024 13:59:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1720447193; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=B5sXTijI002hf7XAvpPYziM6tBUMYCMUGWGA3oNXAdI=;
-	b=Zddo+N8AEsko7Qfi9lCopkSb+e7e9vgF6/s8Oe/6UiWXIixcjuKerzlJf+WMFEBxy5xqpW
-	TVjCdYeHFJOTBaUsf0MrxTddleRn2wZGOmbCIUhaZ/iBFM1xy/b+K7zarLbZDL/42laB/L
-	FGYZoyEcT91+KM89cxNq/jqF6iPlHtU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1720447193;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=B5sXTijI002hf7XAvpPYziM6tBUMYCMUGWGA3oNXAdI=;
-	b=I0RRW3vrEDfPJsD6t8fKGkK1ZYYXXo17E0Vs+lGLi6aZ4qsEAy4MoK2Fv6zXS27A4UEQ5u
-	gkGgHdPcQay9kJBg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=hgmlxR7a;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=rMEMOgXh
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1720447192; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=B5sXTijI002hf7XAvpPYziM6tBUMYCMUGWGA3oNXAdI=;
-	b=hgmlxR7anY41yimQ8IeVpAVQqJ99AvsOSssSwkf3EdP8wVC7NTSdyvuvSJhDL6mgviI8Vl
-	IPekXjrn0gcl5LDh9TDN2HBvBdYY5/Anv6euLXeCU/rtaawont6Sz1qVJwf7dS12ac97Th
-	3sMvt1y2rd4RF2z0YS3Xop54PzKbSAY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1720447192;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=B5sXTijI002hf7XAvpPYziM6tBUMYCMUGWGA3oNXAdI=;
-	b=rMEMOgXhaJmCTYOaRaKOcJHS/lViuvP7NZACG0aHKvQA19s8s8f0wzxdls+9k5Wb+7IW8F
-	6wtUIl+lwLWSxNCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 952B313A7F;
-	Mon,  8 Jul 2024 13:59:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ajUfI9jwi2aMCAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 08 Jul 2024 13:59:52 +0000
-Date: Mon, 08 Jul 2024 16:00:24 +0200
-Message-ID: <87ed84rnk7.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
- <amadeuszx.slawinski@linux.intel.com>,	Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,	Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] ALSA: pcm: add support for 128kHz sample rate
-In-Reply-To: <1j4j90hurv.fsf@starbuckisacylon.baylibre.com>
-References: <20240628122429.2018059-1-jbrunet@baylibre.com>
-	<20240628122429.2018059-2-jbrunet@baylibre.com>
-	<326792b9-e706-4ab0-a1e8-cc48943e357d@linux.intel.com>
-	<874j99434a.wl-tiwai@suse.de>
-	<1j4j90hurv.fsf@starbuckisacylon.baylibre.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jc5AjsVs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23C65C116B1;
+	Mon,  8 Jul 2024 14:47:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720450046;
+	bh=+vH5Wl2pf2rKsw1/NxNTENPBRL2nLneoS1IPUz/ojvk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jc5AjsVsDc+SYPNGAWZ3Ost1NVoAo4ADtJwYBoKm7KKgJebfDvDfxFGeKFx+u0w4X
+	 ocJDEfZ749lyVO+vQE8+bqZRP3iiZGaVm7WJYbngnkqmwIrqZquE89a72M+NiNAp0l
+	 zJUAWN2pUilGM8R7aFaKUK4b88rYnXtjYSZXTs/mwhAAjx4YCVfFfKbQUYdDNg24ah
+	 ukJlyiV8d5UM2gxY3ReeqGsGtREqYr1vXBR/N0mSsCGoAT5NHhQcnCdzk+ucMEpwHC
+	 ljesqdK27ntzO+EPHiQjNnpnOFV9wdL68scZxZm1v6XjHSYWe9eblBVPXSBKxlyPtP
+	 c73m3wWsUDSsQ==
+Date: Mon, 8 Jul 2024 08:47:25 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
+Cc: Shawn Guo <shawnguo@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	imx@lists.linux.dev, Catalin Marinas <catalin.marinas@arm.com>,
+	devicetree@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	linux-kernel@vger.kernel.org, Xiubo Li <Xiubo.Lee@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Will Deacon <will@kernel.org>, Fabio Estevam <festevam@gmail.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Russell King <linux@armlinux.org.uk>, linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org,
+	Philip-Dylan <philip-dylan.gleonec@savoirfairelinux.com>
+Subject: Re: [PATCH v6 5/7] ASoC: dt-bindings: update fsl-asoc-card bindings
+ after imx-spdif merge
+Message-ID: <172045004389.3168553.9456011538931000974.robh@kernel.org>
+References: <20240627083104.123357-1-elinor.montmasson@savoirfairelinux.com>
+ <20240627083104.123357-6-elinor.montmasson@savoirfairelinux.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-2
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,gmail.com,suse.com,perex.cz,alsa-project.org,vger.kernel.org];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim,baylibre.com:email]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: DBE401F449
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
-
-On Mon, 08 Jul 2024 15:34:44 +0200,
-Jerome Brunet wrote:
-> 
-> On Mon 01 Jul 2024 at 16:07, Takashi Iwai <tiwai@suse.de> wrote:
-> 
-> > On Mon, 01 Jul 2024 10:50:02 +0200,
-> > Amadeusz S³awiñski wrote:
-> >> 
-> >> On 6/28/2024 2:23 PM, Jerome Brunet wrote:
-> >> > The usual sample rate possible on an SPDIF link are
-> >> > 32k, 44.1k, 48k, 88.2k, 96k, 172.4k and 192k.
-> >> > 
-> >> > With higher bandwidth variant, such as eARC, and the introduction of 8
-> >> > channels mode, the spdif frame rate may be multiplied by 4. This happens
-> >> > when the interface use an IEC958_SUBFRAME format.
-> >> > 
-> >> > The spdif 8 channel mode rate list is:
-> >> > 128k, 176.4k, 192k, 352.8k, 384k, 705.4k and 768k.
-> >> > 
-> >> > All are already supported by ASLA expect for the 128kHz one.
-> >> > Add support for it but do not insert it the SNDRV_PCM_RATE_8000_192000
-> >> > macro. Doing so would silently add 128k support to a lot of HW which
-> >> > probably do not support it.
-> >> > 
-> >> > Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
-> >> > ---
-> >> 
-> >> From what I remember the recommendation is to not add new rates, but
-> >> use SNDRV_PCM_RATE_KNOT for all rates not included already.
-> >
-> > In general yes -- unless the new rate is used for significant amount
-> > of drivers.
-> >
-> > So this case is a sort of on a border line; if it's only for ASoC
-> > SPDIF codec driver, I'd rather implement with an extra rate list
-> > instead of extending the common bits (that has some potential risks by
-> > breaking the existing numbers).
-> 
-> At the moment it would be used by ASoC spdif codec yes (and with Amlogic
-> eARC support reasonnably soon, hopefully) 
-> 
-> However it is likely to be a common rate of any derivative of an IEC958
-> interface, with a sufficiently high bandwidth. I suspect there might be
-> more of those in the future. Also, it is not an exotic rate for some obscure
-> codec no one really has. It is part of specified interface that every TV
-> with HDMI 2 is likely to have nowadays. This is why I thought it made
-> sense to add it to the usual list. It is the only rate missing,
-> everything else is already there.
-> 
-> Changing the spdif codecs with SNDRV_PCM_RATE_KNOT and a custom rate
-> list is doable I suppose, if the new ID is not OK. 
-> 
-> BTW, I tried not changing the existing numbers and add 128k last but that
-> broke. I guess something requires the IDs to be ordered. I did not check
-> this further since updating the IDs worked fine (for me, at least :) )
-> 
-> > OTOH, if we can take this for further
-> > cleanups of the existing requirement of 128khz rate, we can go with
-> > it.
-> >
-> 
-> Apart from the problem reported in sound/usb/caiaq/audio.c, is there
-> another clean up expected ?
-
-The change for caiaq/audio.c is rather a "fix" :)
-As a cleanup, I meant, whether this extension can be applied to the
-other existing drivers that already use 128kHz with RATE_KNOT and an
-extra list.
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240627083104.123357-6-elinor.montmasson@savoirfairelinux.com>
 
 
-thanks,
+On Thu, 27 Jun 2024 10:31:02 +0200, Elinor Montmasson wrote:
+> The S/PDIF audio card support with compatible "fsl,imx-audio-spdif"
+> was merged from imx-spdif into the fsl-asoc-card driver.
+> It makes possible to use an S/PDIF with an ASRC.
+> 
+> This merge introduces new DT bindings to use with compatible
+> "fsl,imx-audio-spdif" to follow the way fsl-asoc-card works:
+> * the "spdif-controller" property from imx-spdif is named "audio-cpu"
+>   in fsl-asoc-card.
+> * fsl-asoc-card uses codecs explicitly declared in DT
+>   with "audio-codec".
+>   With an SPDIF, codec drivers spdif_transmitter and
+>   spdif_receiver should be used.
+>   Driver imx-spdif used instead the dummy codec and a pair of
+>   boolean properties, "spdif-in" and "spdif-out".
+> 
+> In an upcoming commit, in-tree DTs will be modified to follow these new
+> properties:
+> * Property "spdif-controller" will be renamed "audio-cpu".
+> * spdif_transmitter and spdif_receiver nodes will be declared
+>   and linked to the fsl-asoc-card node with the property "audio-codec".
+> 
+> To keep backward compatibility with other DTs, support for
+> "spdif-controller", "spdif-in" and "spdif-out" properties is kept.
+> However, it is recommended to use the new properties if possible.
+> It is better to declare transmitter and/or receiver
+> in DT than using the dummy codec.
+> 
+> DTs using compatible "fsl,imx-audio-spdif" are still supported, and
+> fsl-asoc-card will behave the same as imx-spdif for these DTs.
+> 
+> Signed-off-by: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
+> ---
+>  .../bindings/sound/fsl,imx-audio-spdif.yaml   | 66 -------------------
+>  .../bindings/sound/fsl-asoc-card.yaml         | 53 +++++++++++++--
+>  2 files changed, 49 insertions(+), 70 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/sound/fsl,imx-audio-spdif.yaml
+> 
 
-Takashi
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+
