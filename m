@@ -1,85 +1,107 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB4F76035;
-	Mon,  8 Jul 2024 15:28:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C688145A08;
+	Mon,  8 Jul 2024 16:56:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720452534; cv=none; b=VlpBdmT+Tx4eF6b3bCMNTkXuLcR/yflrpzBf0vwsSj9Hdzz6Rh+rzm0hU0OrBmKYFB99uVI46LmZJ8OOgRKKmMrqzsl34QASkZjAB0hAR0G9ouGzxlQrabSQ1CxPzNXygyo+oQdrvzUAyZ7O+rNp+ufs55dtQC0iqUNezkWo6mc=
+	t=1720457812; cv=none; b=ImTGyXPhQIRmnsonAa6tP6rVBPyBoL2gEIaPyTVm+FbfMHB0lkiXqx43vURdjsQRIPJnv48IEZ0TlxM9/8feyjFnPa20hf9ginZTrePFr8jUDDGMi2rBFUhUU6Zj2+3hk5Ts31ILZljBfzxRM61RSd/Ychimk28545JHWhqzxMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720452534; c=relaxed/simple;
-	bh=fGNrG710KVQF9G4461uY3S5esz47alZUo9ZD7VmRx1M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tkJaJNHP/2B3xL+8TWbVbCOgEkUpw801e8yNfkVoP4pRLcH745gq3E/7Kwcq4KbNKCpb9SMA0rZqtKclwfMMuDL07sMYM3mLP8Y5guGeZhqfZfefTWxy8X7kqzpv+nEeVD3HuZicoS0kqbLlq5CNAlJlBqF+O0SRMSJuIFUnLzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NHv8q685; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720457812; c=relaxed/simple;
+	bh=PCa8npqHnUycecA44yDRVAfSZz/Tb4vjGe8JijsOnOE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=d+bC3ir68gMgY4/EidKzAa7dYhLeOIl7ZfY8xcckraihBYrhW2yePaDUTL2OpxWOhIi1tGQSjfC9kVVBd7clgfjjPPIelPJ26Nv9/CjfC8rK5ql76Dk0xGbSqS2k4/g7s7SJf5ZIx7GxjAlhh03EgEzleGyHUJnWHV4nfGfIkdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SnHGlxpY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NHv8q685"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40F53C116B1;
-	Mon,  8 Jul 2024 15:28:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SnHGlxpY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BA8DC116B1;
+	Mon,  8 Jul 2024 16:56:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720452534;
-	bh=fGNrG710KVQF9G4461uY3S5esz47alZUo9ZD7VmRx1M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NHv8q685WKRhC5W483Xt1LsJAVW37UKg5XgU+g+ePd2Bx2J1Te3H8iDDICzUZc1W7
-	 +F1SWzeEJz2P476mWOb2gbe6Vz+cWIimerXuNIHLa4pruFSHrVerasWHCdpfroA6/H
-	 CCWUhWHQs2ULCcLFeY/0GINwCuhv3LR2tYQDhGuso4TfQkC+4tr2GLDCGy3J/ow3Z9
-	 wisn11YY63nAZJzG4mCVkcPMd4lLOxffTZeGRHN00ReLYTCCBXUIIoLtFdoUr4wOF7
-	 b0rbrfL50qADd83cMXVeW5ByM4YvK6gIWGjbfiqU5rEwbAT99g1KFXDUT1st93Qc9l
-	 /7d5EeBQoSagQ==
-Date: Mon, 8 Jul 2024 16:28:50 +0100
+	s=k20201202; t=1720457811;
+	bh=PCa8npqHnUycecA44yDRVAfSZz/Tb4vjGe8JijsOnOE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=SnHGlxpYtJAMCJb2Mc3uz23Aj1k/oCplSoxg9sQQu6Xj3E7TDjH3hIuJPa/5yGJSr
+	 ciiLoxdUu0r0CEESsCO40md/UqWZO4CUTd5/Chmr4GvYUtoOhbA1OQ0XZPcN2BKkPw
+	 R7w6RZSEd7G926ka3nsy1n7mU9pD4xOGHgEyYhXYYNWORwbAGigbvW8g8eMSIe5XhI
+	 3DK6d84LLd4ZvNISXHDWoNixDkLVxt/3CeF+OXdM8pybihmpTB02vB1aI2vHj3ObeS
+	 IR0/RgnsuN8yvtQQrMevtLmjFeQ7/rSVL9e8dRliq6udtq1FLxBa5HqmaiI/vjGgqT
+	 Pwyo+wkV06IsA==
 From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH] firmware: cs_dsp: Use strnlen() on name fields in V1
- wmfw files
-Message-ID: <cee81a44-f51c-4abf-81a1-36c40eff452d@sirena.org.uk>
-References: <20240708144855.385332-1-rf@opensource.cirrus.com>
- <de44f274-4e02-4c66-b784-41031e99c33e@opensource.cirrus.com>
- <91fc7cb3-6a00-4b3b-abed-a3a41b191912@sirena.org.uk>
- <27d74268-53ff-4248-8d3d-71948ffcf68b@opensource.cirrus.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Banajit Goswami <bgoswami@quicinc.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org
+In-Reply-To: <20240703-asoc-cleanup-h-v1-0-71219dfd0aef@linaro.org>
+References: <20240703-asoc-cleanup-h-v1-0-71219dfd0aef@linaro.org>
+Subject: Re: [PATCH 00/11] ASoC: Simplify code with cleanup.h
+Message-Id: <172045780936.93798.11339150703981455652.b4-ty@kernel.org>
+Date: Mon, 08 Jul 2024 17:56:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="/a5qg2alAm4FAP1y"
-Content-Disposition: inline
-In-Reply-To: <27d74268-53ff-4248-8d3d-71948ffcf68b@opensource.cirrus.com>
-X-Cookie: Many are cold, but few are frozen.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev-d4707
 
+On Wed, 03 Jul 2024 14:10:54 +0200, Krzysztof Kozlowski wrote:
+> Allocate the memory with scoped/cleanup.h to reduce error handling
+> (simpler error paths) and make the code a bit smaller.
+> 
+> Best regards,
+> Krzysztof
+> 
 
---/a5qg2alAm4FAP1y
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Mon, Jul 08, 2024 at 04:22:46PM +0100, Richard Fitzgerald wrote:
-> On 08/07/2024 16:05, Mark Brown wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-> > git seemed to be able to figure out the context for 6.10 (I apply
-> > everything with am -3).
+Thanks!
 
-> Oh, I read this just after I'd sent a V2. You can ignore my V2 if you've
-> got it to apply (it's the same patch but with a couple of conflicting
-> lines dropped from the context)
+[01/11] ASoC: codecs: audio-iio-aux: Simplify audio_iio_aux_add_dapms() with cleanup.h
+        commit: 408e49381750ca22fc584a37636f5035d2cd4c25
+[02/11] ASoC: codecs: audio-iio-aux: Simplify audio_iio_aux_probe() with cleanup.h
+        commit: f9cbfb66127bfc2a47dece3dfcdab2b79ab06c50
+[03/11] ASoC: codecs: wcd9335: Simplify with cleanup.h
+        commit: 6344ab5d0826640799e0c054ed4c0846b3f87ccb
+[04/11] ASoC: codecs: wcd934x: Simplify with cleanup.h
+        commit: 56d426f5525d1ad919e20663ad01a58238652df7
+[05/11] ASoC: simple-card-utils: Simplify with cleanup.h
+        commit: 6440e7b2a058c50a05ebcc58f35693c50522fc1a
+[06/11] ASoC: audio-graph-card: Use cleanup.h instead of devm_kfree()
+        commit: 5725c16af2678d334de0bcb85b42cfa50b32e04c
+[07/11] ASoC: audio-graph-card2: Use cleanup.h instead of devm_kfree()
+        commit: b39f7713ece62b2b0a3cfad7a75a0eb0ab71aa4e
+[08/11] ASoC: simple-card: Use cleanup.h instead of devm_kfree()
+        commit: 7d996c8a5fea700e816379e57f4983e2611519a0
+[09/11] ASoC: ops: Simplify with cleanup.h
+        commit: 1a7b846818210cbdf8994bfee1340c09342a5b3b
+[10/11] ASoC: dapm: Simplify dapm_cnew_widget() with cleanup.h
+        commit: 5b3cc85673bcc7bb961a3a6fa229cbc4fe0441ac
+[11/11] ASoC: dapm: Simplify snd_soc_dai_link_event_pre_pmu() with cleanup.h
+        commit: 522133d4401010d936b0588a5a975c2c965cb88e
 
-Yeah, no worries - git seemed to cope fine.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
---/a5qg2alAm4FAP1y
-Content-Type: application/pgp-signature; name="signature.asc"
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
------BEGIN PGP SIGNATURE-----
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmaMBbEACgkQJNaLcl1U
-h9C0Fwf+I/ECA8qGlN2zBdk7W5C2CSGXpLEvJ/bHyB1CiL23NmykqK7pDqisuk/3
-cbofSsQr66D2Zff8N4iJXtPawyHDuWPeDnY7PfuZp2Pz9pbYwJe3Y2N3s9qadS3V
-tRSW2SpYUMCXkDplwj/YjGPtRnVE3EiI3xC2tQYvOrla94hDMLzFj7HmDZ9axU8R
-Lqy6v9y1c7LTeKRuhKM/qU9VVBWq9PNTy/qYyxWFfgpg5syff1XZeLihnVn7knEc
-xkS+oit7Ft+hPLx6i0hJzVrBmr8TnUUZRXwmbNyVySUt280vTcItEoNWAcr0pXP6
-6iK7TB/5jqIx9vGmE3zlTp93equmag==
-=VA25
------END PGP SIGNATURE-----
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
---/a5qg2alAm4FAP1y--
+Thanks,
+Mark
+
