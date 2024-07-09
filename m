@@ -1,48 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 979C31ACA05;
-	Tue,  9 Jul 2024 16:27:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 272901B30B6;
+	Tue,  9 Jul 2024 16:27:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720542423; cv=none; b=QZoF5eqCkFHnVTJmD179Cnm9HH/REw6alN4kR3jofM5YxZEV5bQMyH4mFJXCqUmkyShLm2y7NHkzsmOVuqSXXzsoQZjTtnUYAOQZyU50UqDPC2uMGSV5u66jiYIR5+y1e562JRjEwgjpLpiiIvJQg7Eto9hMhR5Ypmk30cxh9PU=
+	t=1720542436; cv=none; b=Yo5wzoxP41D7ZqE74aiRb/oHroQl9AomnhPMMoit1CmcbfH7TgGien+2LPpD0c+tqDDUUfzpK5JLW/pXgWloWXEsD3ZMn6iKAtl/WyryU2+pokRDGYHFYeVeyuGSix2jfQNSF/nt9h7B6qgF7TuB+UqWYz8bvm36YDzxN1D5plc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720542423; c=relaxed/simple;
-	bh=lstzIYvPCZPCOyislBdQb7DoT8PCCt7CdK6+rbKdaiA=;
+	s=arc-20240116; t=1720542436; c=relaxed/simple;
+	bh=732bN4KdmSVKcisJi/1JjB7K1hRzj/CZchUVruxaRhU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lIbY7qnSC2jLYNm5gR2kKUIjb9nbq2eTdXm58TZ+GXPvTNal/o8psXEF/SkkZw7tCWQTqMrZnzevvdL9UgZOMJEZAJvVlkvSZ+yH03HCVPd6AuoJtSd/wX2Dzg+T+ofESA9qhe8ApvU5vWhx7TVag9MjXVZRQe05/EWwzWkH1Ac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OFOX4fs6; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=hXuiHuh+TAlIb9Q7CUEy/wGpB3tg+J7/NC+h8e6SuumeXb8elmzLUr/GFq24qlQAZ8kVCGaXiLEGQlMRjtLrPpB1CTU7VN216/x0qdkXn3Y5t+39A28xUd2QtHs6YiF92BcfVD1nb6UNohWcz/DSQ3Kybgs/MZaDKMSpfbQhrbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=THq/p2Ug; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OFOX4fs6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FC48C32782;
-	Tue,  9 Jul 2024 16:27:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="THq/p2Ug"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC2EEC4AF07;
+	Tue,  9 Jul 2024 16:27:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720542423;
-	bh=lstzIYvPCZPCOyislBdQb7DoT8PCCt7CdK6+rbKdaiA=;
+	s=k20201202; t=1720542435;
+	bh=732bN4KdmSVKcisJi/1JjB7K1hRzj/CZchUVruxaRhU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OFOX4fs6To2JPZ6RX2pNnVSdnc65vOGn28sxDrQuzTm71pSXASf6We9wbDXeDY8D8
-	 qDooI1NVSLkPIU//efZ96ER8N8RJ5hENJZ1ff4VceNZK5SAuRCL8GizgT9JGZssLpT
-	 3lxMvmI08M+EP1ki04qSUSldtjembyrgL52FViji2uIpKaSdK1bDemw5sHBpeA+Dwm
-	 tVZOUGxM7//b019c/xaSBfYUFpzsUN6AvIsBqcIWkqD9a55ertwJk5gZG49hIHcaCF
-	 McU3pcc2j0frEhawcMgDKR9IioyYD6tmrXqoOxjLbbaUzMFiIWj4Col5vQPBM4EH9e
-	 rY6SeaWINWOCw==
+	b=THq/p2UgYxnyVSBeHJbS/ZyvEGNXkeBZzkcXPMV0SpbpaIU/xR9rBYmIY32C4NxDL
+	 MJuuxZWdOg+IvWGMDmxtiwpBqbGjqHW3LyMgVcnR9DNQHSgTwduxQ+4cLvd+wVNVSM
+	 rRoJ5SKLM9V4HSNv9ItP2yx5r0sXF6jV1eNHmu4Fua2zQyOsNp+Tdi5tRxe4MNRvcz
+	 0a58ssumZB3T2OG9wikW7D6yFnsW1Jr8cxOwJB3ixGqHhIaQZ6FvGZiulkh7wIMDyv
+	 h80juerETpkc9JM3lYgZY3iTsnfU7pbC3fnoRPtkQ37tIZmnZLhi7BmwQIErHOQg+n
+	 x+SepapQlvvKQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Primoz Fiser <primoz.fiser@norik.com>,
-	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	jarkko.nikula@bitmer.com,
-	lgirdwood@gmail.com,
+	lars@metafoo.de,
 	perex@perex.cz,
 	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	linux-omap@vger.kernel.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 04/11] ASoC: ti: omap-hdmi: Fix too long driver name
-Date: Tue,  9 Jul 2024 12:26:37 -0400
-Message-ID: <20240709162654.33343-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 10/11] ALSA: dmaengine_pcm: terminate dmaengine before synchronize
+Date: Tue,  9 Jul 2024 12:26:43 -0400
+Message-ID: <20240709162654.33343-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240709162654.33343-1-sashal@kernel.org>
 References: <20240709162654.33343-1-sashal@kernel.org>
@@ -57,41 +53,64 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 5.4.279
 Content-Transfer-Encoding: 8bit
 
-From: Primoz Fiser <primoz.fiser@norik.com>
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
 
-[ Upstream commit 524d3f126362b6033e92cbe107ae2158d7fbff94 ]
+[ Upstream commit 6a7db25aad8ce6512b366d2ce1d0e60bac00a09d ]
 
-Set driver name to "HDMI". This simplifies the code and gets rid of
-the following error messages:
+When dmaengine supports pause function, in suspend state,
+dmaengine_pause() is called instead of dmaengine_terminate_async(),
 
-  ASoC: driver name too long 'HDMI 58040000.encoder' -> 'HDMI_58040000_e'
+In end of playback stream, the runtime->state will go to
+SNDRV_PCM_STATE_DRAINING, if system suspend & resume happen
+at this time, application will not resume playback stream, the
+stream will be closed directly, the dmaengine_terminate_async()
+will not be called before the dmaengine_synchronize(), which
+violates the call sequence for dmaengine_synchronize().
 
-Signed-off-by: Primoz Fiser <primoz.fiser@norik.com>
-Acked-by: Peter Ujfalusi <peter.ujfalusi@gmail.com>
-Link: https://lore.kernel.org/r/20240610125847.773394-1-primoz.fiser@norik.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+This behavior also happens for capture streams, but there is no
+SNDRV_PCM_STATE_DRAINING state for capture. So use
+dmaengine_tx_status() to check the DMA status if the status is
+DMA_PAUSED, then call dmaengine_terminate_async() to terminate
+dmaengine before dmaengine_synchronize().
+
+Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+Link: https://patch.msgid.link/1718851218-27803-1-git-send-email-shengjiu.wang@nxp.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/ti/omap-hdmi.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ sound/core/pcm_dmaengine.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/sound/soc/ti/omap-hdmi.c b/sound/soc/ti/omap-hdmi.c
-index def2a0ce88863..e4f661c5349ef 100644
---- a/sound/soc/ti/omap-hdmi.c
-+++ b/sound/soc/ti/omap-hdmi.c
-@@ -353,11 +353,7 @@ static int omap_hdmi_audio_probe(struct platform_device *pdev)
- 	if (!card)
- 		return -ENOMEM;
+diff --git a/sound/core/pcm_dmaengine.c b/sound/core/pcm_dmaengine.c
+index 5d9a24ca6f3ec..6c0d0a43baa11 100644
+--- a/sound/core/pcm_dmaengine.c
++++ b/sound/core/pcm_dmaengine.c
+@@ -345,6 +345,12 @@ EXPORT_SYMBOL_GPL(snd_dmaengine_pcm_open_request_chan);
+ int snd_dmaengine_pcm_close(struct snd_pcm_substream *substream)
+ {
+ 	struct dmaengine_pcm_runtime_data *prtd = substream_to_prtd(substream);
++	struct dma_tx_state state;
++	enum dma_status status;
++
++	status = dmaengine_tx_status(prtd->dma_chan, prtd->cookie, &state);
++	if (status == DMA_PAUSED)
++		dmaengine_terminate_async(prtd->dma_chan);
  
--	card->name = devm_kasprintf(dev, GFP_KERNEL,
--				    "HDMI %s", dev_name(ad->dssdev));
--	if (!card->name)
--		return -ENOMEM;
--
-+	card->name = "HDMI";
- 	card->owner = THIS_MODULE;
- 	card->dai_link =
- 		devm_kzalloc(dev, sizeof(*(card->dai_link)), GFP_KERNEL);
+ 	dmaengine_synchronize(prtd->dma_chan);
+ 	kfree(prtd);
+@@ -362,6 +368,12 @@ EXPORT_SYMBOL_GPL(snd_dmaengine_pcm_close);
+ int snd_dmaengine_pcm_close_release_chan(struct snd_pcm_substream *substream)
+ {
+ 	struct dmaengine_pcm_runtime_data *prtd = substream_to_prtd(substream);
++	struct dma_tx_state state;
++	enum dma_status status;
++
++	status = dmaengine_tx_status(prtd->dma_chan, prtd->cookie, &state);
++	if (status == DMA_PAUSED)
++		dmaengine_terminate_async(prtd->dma_chan);
+ 
+ 	dmaengine_synchronize(prtd->dma_chan);
+ 	dma_release_channel(prtd->dma_chan);
 -- 
 2.43.0
 
