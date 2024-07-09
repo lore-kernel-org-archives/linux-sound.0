@@ -1,47 +1,57 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E942192495;
-	Tue,  9 Jul 2024 16:25:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A01719A854;
+	Tue,  9 Jul 2024 16:26:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720542351; cv=none; b=Oj1Zc9DBnXN0Zwj+BsIJ9M+ee2FS8cYgw/gt44Mwk7MTmgzSyOEbGj9XxQwHxjfYVnvCR9iub7cSraGV+mVeqJpBIjX7/pxsR93IQdD7Zb3Jx/QwMm7aEFyMlA7Bm0aBwjm38S1d2Za4Dq6VUYfclQ9txp26oe7dphCEFwvXIJQ=
+	t=1720542381; cv=none; b=h1p323bpHU45FEiHLjdpJO5q6qDcCOThsHOdoOy1+r/J2Mg1JsTMj3uh63Xcym+8G7qCjvtfKNyGqKje80E+ozcky28x9b46D1tw8YNKLYAzVnF6iU0kTLGYSYaldyoaFTzu/cro/qTeTQZBfLBBpuKm8b8Dn6dqD2GiWTrMd20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720542351; c=relaxed/simple;
-	bh=43uQ+ReS2KRJiDZmBqZCfBhkvVVgCmazL3D70yVZ1v0=;
+	s=arc-20240116; t=1720542381; c=relaxed/simple;
+	bh=WO7VhII6dUc8eCAjBAK55s5oiuUwMqkB28oGuPSdRD8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ktd74lwSYLlGZI8zJIdffSd1d8rQ6NZphXKnb7Oa40s2+b3+Svtrr5bF29z17uFXMJt3JSayec7QoiMH/GUrmILBGL7yDg3YjBhpHa0G0O+GCh4HtWYRWZ4au/c7RG/biX0rkrZc9FnEkn3UJAWb93rhAD8UmihJWSOxOGq4GpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DS/U8h38; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=NqKN/f+lLwBVa0DmpmWF3v3fi2YNfvt9ASWThTzL059vSQKrTt556aR7bqT6D51g5TOHAbdSGfiIj/G4tdLFF6uhxKWuWJzuenNBPf1+3uyhYn61LOJLBTYWP1FRrfFNIOIN5qzBZe+wiy8E0V3uMhuVs4q64eil3GCED2RRueo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZnPZziLB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DS/U8h38"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E372C32782;
-	Tue,  9 Jul 2024 16:25:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZnPZziLB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3CE9C32782;
+	Tue,  9 Jul 2024 16:26:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720542351;
-	bh=43uQ+ReS2KRJiDZmBqZCfBhkvVVgCmazL3D70yVZ1v0=;
+	s=k20201202; t=1720542380;
+	bh=WO7VhII6dUc8eCAjBAK55s5oiuUwMqkB28oGuPSdRD8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DS/U8h38vQmiGt6KuUXbjdewht3CGNRzRWqJC+KNAoNVTTqJ5vhmjor0BQYsKkzhi
-	 eYXZsVn9gpuSqr53gjQAeFhV6UsO1K9t1xLudv/lH3mgQafKfFg0MmhFTIrNNIDpn3
-	 DCxCGF3UI7M5NN9D/wyf8pqdo/kWu2dqHCh5/cI8RG/nR9lX9LGbsg2cSKergfwsmX
-	 wTpZYOrAcawX3B1TXmRY1g5nL6VEfWGJydpEie4BWJ7m7UNzcj4pn17mJRTubDrdQZ
-	 SnP2FmxLUjV7un6vog1mLS1N6MwgLPliiWd/kst66Y3WhQN8jPoLzrAIKouF7d3GFX
-	 TW+1R0hCe1HrA==
+	b=ZnPZziLBvQZtluoo0ed01ppw6Uf3tE5CGvZgN3/Orcw007ooc76NVbVPR0NuY8E+6
+	 yuv6bjKlNY3iAw9Yhoq0qyhAW61Buzr6I6eyyuPw/VH7VRyH8NRvr8y/y5rKMevKzb
+	 t9a/O+zjHgV/e800aKXr876NGy7ofrqwzBNWOaIIrg3aFVAFkaDoJaYQx7agYwBkMc
+	 MXPqno8IJLn2XGDpotX8nmYns9gD/Tt9Bih2K/thccK5nhHfZxJ+XuYJbI8ng+a8jy
+	 YUkwhI1h86fGYGuRZ5oK6x0MfYtsbgqJsAbEqTTJOeu6Y/YWj3eWhfx/+JDOx4Cozu
+	 W74zR7BQC7RNw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>,
-	Takashi Iwai <tiwai@suse.de>,
+Cc: Thomas GENTY <tomlohave@gmail.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	lars@metafoo.de,
+	cezary.rojewski@intel.com,
+	liam.r.girdwood@linux.intel.com,
+	peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
 	perex@perex.cz,
 	tiwai@suse.com,
+	alban.boye@protonmail.com,
+	kuninori.morimoto.gx@renesas.com,
+	alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 15/17] ALSA: dmaengine_pcm: terminate dmaengine before synchronize
-Date: Tue,  9 Jul 2024 12:24:59 -0400
-Message-ID: <20240709162517.32584-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 03/14] bytcr_rt5640 : inverse jack detect for Archos 101 cesium
+Date: Tue,  9 Jul 2024 12:25:47 -0400
+Message-ID: <20240709162612.32988-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240709162517.32584-1-sashal@kernel.org>
-References: <20240709162517.32584-1-sashal@kernel.org>
+In-Reply-To: <20240709162612.32988-1-sashal@kernel.org>
+References: <20240709162612.32988-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,67 +60,49 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.162
+X-stable-base: Linux 5.10.221
 Content-Transfer-Encoding: 8bit
 
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
+From: Thomas GENTY <tomlohave@gmail.com>
 
-[ Upstream commit 6a7db25aad8ce6512b366d2ce1d0e60bac00a09d ]
+[ Upstream commit e3209a1827646daaab744aa6a5767b1f57fb5385 ]
 
-When dmaengine supports pause function, in suspend state,
-dmaengine_pause() is called instead of dmaengine_terminate_async(),
+When headphones are plugged in, they appear absent; when they are removed,
+they appear present.
+Add a specific entry in bytcr_rt5640 for this device
 
-In end of playback stream, the runtime->state will go to
-SNDRV_PCM_STATE_DRAINING, if system suspend & resume happen
-at this time, application will not resume playback stream, the
-stream will be closed directly, the dmaengine_terminate_async()
-will not be called before the dmaengine_synchronize(), which
-violates the call sequence for dmaengine_synchronize().
-
-This behavior also happens for capture streams, but there is no
-SNDRV_PCM_STATE_DRAINING state for capture. So use
-dmaengine_tx_status() to check the DMA status if the status is
-DMA_PAUSED, then call dmaengine_terminate_async() to terminate
-dmaengine before dmaengine_synchronize().
-
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-Link: https://patch.msgid.link/1718851218-27803-1-git-send-email-shengjiu.wang@nxp.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Thomas GENTY <tomlohave@gmail.com>
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Acked-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Link: https://lore.kernel.org/r/20240608170251.99936-1-tomlohave@gmail.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/core/pcm_dmaengine.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ sound/soc/intel/boards/bytcr_rt5640.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/sound/core/pcm_dmaengine.c b/sound/core/pcm_dmaengine.c
-index 3e479dca122a0..9f953ff8b0645 100644
---- a/sound/core/pcm_dmaengine.c
-+++ b/sound/core/pcm_dmaengine.c
-@@ -361,6 +361,12 @@ EXPORT_SYMBOL_GPL(snd_dmaengine_pcm_sync_stop);
- int snd_dmaengine_pcm_close(struct snd_pcm_substream *substream)
- {
- 	struct dmaengine_pcm_runtime_data *prtd = substream_to_prtd(substream);
-+	struct dma_tx_state state;
-+	enum dma_status status;
-+
-+	status = dmaengine_tx_status(prtd->dma_chan, prtd->cookie, &state);
-+	if (status == DMA_PAUSED)
-+		dmaengine_terminate_async(prtd->dma_chan);
- 
- 	dmaengine_synchronize(prtd->dma_chan);
- 	kfree(prtd);
-@@ -379,6 +385,12 @@ EXPORT_SYMBOL_GPL(snd_dmaengine_pcm_close);
- int snd_dmaengine_pcm_close_release_chan(struct snd_pcm_substream *substream)
- {
- 	struct dmaengine_pcm_runtime_data *prtd = substream_to_prtd(substream);
-+	struct dma_tx_state state;
-+	enum dma_status status;
-+
-+	status = dmaengine_tx_status(prtd->dma_chan, prtd->cookie, &state);
-+	if (status == DMA_PAUSED)
-+		dmaengine_terminate_async(prtd->dma_chan);
- 
- 	dmaengine_synchronize(prtd->dma_chan);
- 	dma_release_channel(prtd->dma_chan);
+diff --git a/sound/soc/intel/boards/bytcr_rt5640.c b/sound/soc/intel/boards/bytcr_rt5640.c
+index 1d049685e7075..47b581d99da67 100644
+--- a/sound/soc/intel/boards/bytcr_rt5640.c
++++ b/sound/soc/intel/boards/bytcr_rt5640.c
+@@ -468,6 +468,17 @@ static const struct dmi_system_id byt_rt5640_quirk_table[] = {
+ 					BYT_RT5640_SSP0_AIF1 |
+ 					BYT_RT5640_MCLK_EN),
+ 	},
++	{
++		.matches = {
++			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ARCHOS"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ARCHOS 101 CESIUM"),
++		},
++		.driver_data = (void *)(BYTCR_INPUT_DEFAULTS |
++					BYT_RT5640_JD_NOT_INV |
++					BYT_RT5640_DIFF_MIC |
++					BYT_RT5640_SSP0_AIF1 |
++					BYT_RT5640_MCLK_EN),
++	},
+ 	{
+ 		.matches = {
+ 			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ARCHOS"),
 -- 
 2.43.0
 
