@@ -1,46 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B56721018F;
-	Tue,  9 Jul 2024 16:24:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F1B9182A7B;
+	Tue,  9 Jul 2024 16:24:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720542264; cv=none; b=fDuBZi9RbYsUoqlDXfRqm7ao6+joS1ayj559OFSBco24N0VHo7h9jdeV96/GFFGtySPMee+vOoDVC3Dt3d2htdcbqd1j26Q95IqTibt7wMVWKXe3IcLaTcVvlz2G5ku15B8Cpk09T4XPdtAeFOhsEtgo9MWVopUUTjXQC7/0NqY=
+	t=1720542286; cv=none; b=W88jglwQk4QP5JMU1CEI6pKfdxW3XlzrSr9kE6lzErRBboF3KT7eAF3fCjhc8jlTXGnk4TVjMi82gMcB/N751SlzDBWsZNVlA6dhRlXUiaLzNqxclJtQsduls+uBuNo5T/HYRoMfsm8Ucq6jAGRpKHGDGXzNr8D1EAwqaXhd9ag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720542264; c=relaxed/simple;
-	bh=a6At4Js4R/IMnqMtV0xD484JF8aA8JO64IkabqMQpsI=;
+	s=arc-20240116; t=1720542286; c=relaxed/simple;
+	bh=wSGvy5NogWf2jXcYOJz48drM/eC2LiddVQHo+pzDfV4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=soD1Y+isN6e1ipGuv3T25J+Loi7qrt7th/xXNPVmK/xUSAwRBc/gcAJM1vZUwThw38wVLrPRV7KYTr3SLqWwmSlNi0X6/ZcB2E/HV9PCYWbxP2z48TOTWlBdA8rBc86DOKropJVlPrgKDCXH1/YnZ1BXIghhl7g/zIiU5xPI2qg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m+qWdHYN; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=jlDnb0qCn6HKoQ13EEGsV3gCWvg6TSnlQ82/Y5dRxgoK+CFTvKS8LE8yl1Q7P1awadGoqZNW+olISbRd8fK+Ov+7rrfrROgzQ+tG5hhDgQQxym6DmRtr007IUr8bkg49YI8mhpx8I1ZxfeYhTLsiqmWfOeW55Pqaqdfrg1Hby98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DwhUs2YY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m+qWdHYN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56D08C3277B;
-	Tue,  9 Jul 2024 16:24:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DwhUs2YY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B14F5C32786;
+	Tue,  9 Jul 2024 16:24:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720542264;
-	bh=a6At4Js4R/IMnqMtV0xD484JF8aA8JO64IkabqMQpsI=;
+	s=k20201202; t=1720542285;
+	bh=wSGvy5NogWf2jXcYOJz48drM/eC2LiddVQHo+pzDfV4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=m+qWdHYNPai3wzyKUnbKLp7eEOdspYO0EM+kyZ97KZP+2vBnvL1V1jO38X0SxnsGj
-	 If5FBZ2padLMQdL50my1UjDSLTHETyQG+Fl6qZ/idqONRoOc7P4wgoY60LyMx9ARRX
-	 Lffp0fs2g9om3/g5i9+S9tv3c2nA91GN/qLyLyhBQbEG/kApaQBvWGfpviP4MTLsst
-	 iE/Bft1fSYto3AfRITHevR4xmW2+zky+7mNMkQOYo4arnuCLuji3RP6wB+B8au8vCs
-	 l356jN9xvi87IbhDeYHPITl0aBHeWQcQ64BSc216c9rkO+pPyCoU7NFW+mPvJ36+8G
-	 dQxVBd/S2gsmw==
+	b=DwhUs2YYMtLJ4NFWqczoERuQKdkcj9/fokE3d69p37BQGrsi+SfLJzsma5wziReYc
+	 pFaldaO6B4cNvcixD3wWMlx/2NTvh23cKlCHzgmg/1wsbzFJdSa12ZIV5MWMCGbaKF
+	 J4Auip6lOjgMbXaqU0ZzpUa8JZOBVwtX8/t315fl3OBgT3XmpHMGLTwSrDh9AHqxpF
+	 9O124VeNFRPv7ltQL9JpB9Zm04JCRD/aqZpbMzJ2PnztpFh1iyUEj2Gnw/Tm9oDxea
+	 7RFrcabY9RGCk0U792xfKzsZ8KI0qIx3aSw+lp1C4JpOnoko1CN2EMgv/VNvmgUV6b
+	 17QxMeXOj6WHg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
+	pavel.hofman@ivitera.com,
+	broonie@kernel.org,
+	dhowells@redhat.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 11/27] ASoC: topology: Fix route memory corruption
-Date: Tue,  9 Jul 2024 12:23:25 -0400
-Message-ID: <20240709162401.31946-11-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 22/27] ALSA: PCM: Allow resume only for suspended streams
+Date: Tue,  9 Jul 2024 12:23:36 -0400
+Message-ID: <20240709162401.31946-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240709162401.31946-1-sashal@kernel.org>
 References: <20240709162401.31946-1-sashal@kernel.org>
@@ -50,61 +49,38 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.1.97
 Content-Transfer-Encoding: 8bit
 
-From: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+From: Takashi Iwai <tiwai@suse.de>
 
-[ Upstream commit 0298f51652be47b79780833e0b63194e1231fa34 ]
+[ Upstream commit 1225675ca74c746f09211528588e83b3def1ff6a ]
 
-It was reported that recent fix for memory corruption during topology
-load, causes corruption in other cases. Instead of being overeager with
-checking topology, assume that it is properly formatted and just
-duplicate strings.
+snd_pcm_resume() should bail out if the stream isn't in a suspended
+state.  Otherwise it'd allow doubly resume.
 
-Reported-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Closes: https://lore.kernel.org/linux-sound/171812236450.201359.3019210915105428447.b4-ty@kernel.org/T/#m8c4bd5abf453960fde6f826c4b7f84881da63e9d
-Suggested-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
-Link: https://lore.kernel.org/r/20240613090126.841189-1-amadeuszx.slawinski@linux.intel.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Link: https://patch.msgid.link/20240624125443.27808-1-tiwai@suse.de
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/soc-topology.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ sound/core/pcm_native.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/sound/soc/soc-topology.c b/sound/soc/soc-topology.c
-index e84fbb56ebf11..fcb8a36d4a06c 100644
---- a/sound/soc/soc-topology.c
-+++ b/sound/soc/soc-topology.c
-@@ -1093,21 +1093,15 @@ static int soc_tplg_dapm_graph_elems_load(struct soc_tplg *tplg,
- 			break;
- 		}
- 
--		route->source = devm_kmemdup(tplg->dev, elem->source,
--					     min(strlen(elem->source), maxlen),
--					     GFP_KERNEL);
--		route->sink = devm_kmemdup(tplg->dev, elem->sink,
--					   min(strlen(elem->sink), maxlen),
--					   GFP_KERNEL);
-+		route->source = devm_kstrdup(tplg->dev, elem->source, GFP_KERNEL);
-+		route->sink = devm_kstrdup(tplg->dev, elem->sink, GFP_KERNEL);
- 		if (!route->source || !route->sink) {
- 			ret = -ENOMEM;
- 			break;
- 		}
- 
- 		if (strnlen(elem->control, maxlen) != 0) {
--			route->control = devm_kmemdup(tplg->dev, elem->control,
--						      min(strlen(elem->control), maxlen),
--						      GFP_KERNEL);
-+			route->control = devm_kstrdup(tplg->dev, elem->control, GFP_KERNEL);
- 			if (!route->control) {
- 				ret = -ENOMEM;
- 				break;
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+index 9238abbfb2d62..2b73518e5e314 100644
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -1781,6 +1781,8 @@ static int snd_pcm_pre_resume(struct snd_pcm_substream *substream,
+ 			      snd_pcm_state_t state)
+ {
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
++	if (runtime->state != SNDRV_PCM_STATE_SUSPENDED)
++		return -EBADFD;
+ 	if (!(runtime->info & SNDRV_PCM_INFO_RESUME))
+ 		return -ENOSYS;
+ 	runtime->trigger_master = substream;
 -- 
 2.43.0
 
