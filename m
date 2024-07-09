@@ -1,152 +1,102 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA6919CD1E
-	for <linux-sound@vger.kernel.org>; Tue,  9 Jul 2024 15:22:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C30119D089
+	for <linux-sound@vger.kernel.org>; Tue,  9 Jul 2024 15:28:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720538532; cv=none; b=nvF9f+jLottxRFopwt6QducZvFVQ/wnjBdlMJYdLy5+G4OUxpEGY8eZEhDsYDU/7KWSOYuqlCNq1gTlkIK/eRfc4RNu0r233ujns/11ZgYW94vwRSXYqWvTsPfxIraAFjWTht2hRXpORr4xS2XdHeRrA82pFqn9mYnx9cNaA/zI=
+	t=1720538927; cv=none; b=Pf2wa77RR4CFSfsHPqSiul2ViKFz691OHjsALl6pfFCSzQqqSWrWqsIk2Sma29OFQh4tIAfbT4TGUef58hRXvuA17102lDh3kE2WhRllZVG4RGLqFzm9BEwIEvB597gTPZ5tQG1nuKx97KtmyQUcKySLQUJEwdXQ3V2WRY43K5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720538532; c=relaxed/simple;
-	bh=JWAQLFqZkuWOfZpZyTRyc8jygVtPln2o1M5TZCpyi7E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UlQJV4dwEe1ZivLocnzbiaZU3K8zwPqnoSXSxkXDc6rXvyUtYmKbmaUXxLuROfNBziGuBSf+41L6uofEbfstCD5KcCXOColQ0Ko/kvIF+YMcUDLpSDoWnHTt3gzXqfP9tKSW00WDaGh+wQhetERcwU79jiH/m/CUP1vCWXBMYYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=EkV/fz5J; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1720538927; c=relaxed/simple;
+	bh=68++p0TLm5vTWyW+78bNCCU7gxHIxep9gk/S1rYIeHc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=n8QuwHRDtMz+r0kJ2n8b4jgMMf3irHxXQNuzTdcJGPYq9e9myzFXUXYBFvWGrPELuwW8nVOSl2FdEIn6kOJxwb6RHSH44QRcE11rR4jKG6mmteKaqlZ0fIm4P2YRcG2viObP3m/M0Kh4uE1JuQOO1mpa6E4BA7m1/cmKhvv95Bs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qEqYBGub; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="EkV/fz5J"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-426717a2d12so6760055e9.0
-        for <linux-sound@vger.kernel.org>; Tue, 09 Jul 2024 08:22:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qEqYBGub"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-42579b60af1so37266735e9.2
+        for <linux-sound@vger.kernel.org>; Tue, 09 Jul 2024 08:28:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1720538529; x=1721143329; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jfUB9ZJ69EL9GipUtbkxGBaJaIV82ecNhY+j5SzQ2gM=;
-        b=EkV/fz5JvvHmnnNHgq4YBGewGglZkbZNa2fXIL2HdY63vneGnl6IzcUIQrksC9fkk/
-         6v3opD75UBPoSNI/KtCHYFOEnw7OgYVBWRREW/oIUtl7vaXPOkkMmG9HZrakDH/E3/wT
-         AAv5y0kbebSyBPwOHK3auUFmOBjVElMRxmQ91soA6aOy2DUPXRqvytsQX5MU+1TW6s1D
-         ee+F6JjwCPNJlKf4yhsjIkNAGD3mQRc9B/V3TXOGssh95SVNZ1cDJ3rn+/xui/u2Y0kz
-         9RD6hXVj8Y3GfLtcRuwI/NQRz+mArYfTC2pAnm41DrP7QwtFEOb6h1OlYfXR4LF6/q50
-         TgEw==
+        d=linaro.org; s=google; t=1720538924; x=1721143724; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1uvKJVDAkNfWouoiWb+1kR3F4IBUjlyoO5Q61R4r4Tw=;
+        b=qEqYBGubdShLx0Pykh5mmAC4J3htyJaup7qIgGYidQZAvkO4HgOepwSbPjhAGBJ8hD
+         wlmNUEp3Ziss1Ob+aa2D91N6nOjiQDKEr8WJJut1g0Pms4bAlyib9q2gnEXF5fP6qWm2
+         j3SgFlpSHfxEFVJBWVIOKmRyyc5/L696WhkKHigHwssWROVJXQmUmUYTlNXByDu1nb3Z
+         L1RiPH9qCJKUIHrIQuZHtrhZrOHBSOI6/3hGZftxVYzChR+HsUbX7gQBpZXGHy4e2DCs
+         WmAOtpa/Tp2vd7lWUwXdvSJqUKNE8ZPN607zPzy7/V0Q8tNj/O8qeR4ZxcNC91K48NP1
+         NQiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720538529; x=1721143329;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jfUB9ZJ69EL9GipUtbkxGBaJaIV82ecNhY+j5SzQ2gM=;
-        b=c59K715Qrt/Cr9PxOiJfwo0Oi0glpZABOgBrovew2Svcb67WoAjWzVAcr5abtiPAA9
-         B+DJS95VC0C273jOEhEtxRJPt9npISZaYxpOCYunWVrjSal5sh7XtouAScYnlq5FhPcQ
-         R4Y9cHyC+ZrP4L3vSKDi8aEeMMPEu/wpYAdl/rvDo73N9gLnnLqvxY2WqxSiYoEBdBi8
-         u8T8YOUm9NQ1DMGGn48KXQXP+yzHilF1IUrbrQKalfQx3K7WzemnmqDmb+2ZVJBHwQnG
-         lIJl/XSsF5h6U7F2ZpSwZ/2BZbOwgq+RQs5fqH5wvYDcHwf5DPMOQNE0FJs5CU7ctVnd
-         nKUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV/1mfnvbXcOPkXpJXvbJORP1FWQmp4vOL44xeUz0r0Ke5+QJbhr3Pjv9f87OUHhdX1Ch58KVb2EKbqXVqcHZh8YNDpHyjFbX9leu0=
-X-Gm-Message-State: AOJu0YwVz3hDjMKreeUT6MWiWfs8KJBN9r39V/gTV6L763EtDeiYryf0
-	r9c+eYgw0MhtS7koQxBUlLAlewNWXyCd3MSKDDDaoXFWC4uxi2FBuD+NH6AAHHQ=
-X-Google-Smtp-Source: AGHT+IFKyuCi8F65Rnjy2ONu9WDc7c8zSBudZGwZQkQFlY9b9EBnNysV/fwsOhCmIH3gVuNNKX3o0A==
-X-Received: by 2002:a05:600c:4ba4:b0:424:aa83:ef27 with SMTP id 5b1f17b1804b1-426722c11a1mr22876765e9.1.1720538528867;
-        Tue, 09 Jul 2024 08:22:08 -0700 (PDT)
-Received: from localhost (p50915e7b.dip0.t-ipconnect.de. [80.145.94.123])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4266f6f5f51sm46910255e9.25.2024.07.09.08.22.08
+        d=1e100.net; s=20230601; t=1720538924; x=1721143724;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1uvKJVDAkNfWouoiWb+1kR3F4IBUjlyoO5Q61R4r4Tw=;
+        b=wlEsP3JbZ20yU+KD6p8+jyQ6o1Tuu2gkYHJWbwnFjlOpx6Osbmo+5PUWQJl92RFbAD
+         gN820jYtXTdCXusPuUbjEOanil5mWsIX6w5PwResM5HHqHWroQc9AnDb6IcHKtIYnntI
+         OXT+uAE15qsExZ4xbLgtrYRAthGpZO7kkz0MshAfyvZ8zoTbobv/v6mrIJxUlxmCpWOK
+         +m2lKon8D0kS3EW6oo5N3KpIynCLKPOK/l8hDhQjqVbQjLHyTgUjtjft1hwn1t2oDSR9
+         RafaOrI7on/0zXkSdpOo6T/OnWK+i8SFeZCDmlyEY33TEHOVInXYEHGyfhP0qTKTtkry
+         UiGg==
+X-Forwarded-Encrypted: i=1; AJvYcCUP2Uw7U4CnY5S7nlJlcHe5RNRgECJG9rucJlWovKU+OcNT6fxBtg02MSlKTWn0TX+ba1fB9WFRDZHDVK45OsrcQidmOa+rQg2YOR4=
+X-Gm-Message-State: AOJu0YxZyogoY4UOeIkgVDp4Yj/Fq81B72GRWjFIx2wYnN55ggHxnG1l
+	banrEL3sLvA67cTRSVemr5oP5chBQhJDbFnsHcMN+1zEz11R9Dp5EaAZxT+bpFw=
+X-Google-Smtp-Source: AGHT+IECZyuBODbUWxODlQIq2TNUEQPYhnYHr3v7tlYB31S3xcLkk0SWvj9qahKiYTMEWYdHqCwhUA==
+X-Received: by 2002:a05:600c:2e04:b0:426:59ad:bbb3 with SMTP id 5b1f17b1804b1-426708f1f54mr17918255e9.32.1720538923729;
+        Tue, 09 Jul 2024 08:28:43 -0700 (PDT)
+Received: from rayyan-pc.broadband ([2a0a:ef40:ee7:2401:197d:e048:a80f:bc44])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4266f6f5a32sm45883775e9.24.2024.07.09.08.28.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jul 2024 08:22:08 -0700 (PDT)
-Date: Tue, 9 Jul 2024 17:22:07 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Rob Herring <robh+dt@kernel.org>
-Cc: Nikita Shubin <nikita.shubin@maquefel.me>, 
-	Andy Shevchenko <andy.shevchenko@gmail.com>, Arnd Bergmann <arnd@arndb.de>, Stephen Boyd <sboyd@kernel.org>, 
-	Hartley Sweeten <hsweeten@visionengravers.com>, Alexander Sverdlin <alexander.sverdlin@gmail.com>, 
-	Russell King <linux@armlinux.org.uk>, Lukasz Majewski <lukma@denx.de>, 
-	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Andy Shevchenko <andy@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
-	Sebastian Reichel <sre@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
-	Guenter Roeck <linux@roeck-us.net>, Thierry Reding <thierry.reding@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	Damien Le Moal <dlemoal@kernel.org>, Sergey Shtylyov <s.shtylyov@omp.ru>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Ralf Baechle <ralf@linux-mips.org>, "Wu, Aaron" <Aaron.Wu@analog.com>, Lee Jones <lee@kernel.org>, 
-	Olof Johansson <olof@lixom.net>, Niklas Cassel <cassel@kernel.org>, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
-	dmaengine@vger.kernel.org, linux-watchdog@vger.kernel.org, linux-pwm@vger.kernel.org, 
-	linux-spi@vger.kernel.org, netdev@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	linux-ide@vger.kernel.org, linux-input@vger.kernel.org, linux-sound@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Andrew Lunn <andrew@lunn.ch>, Vinod Koul <vkoul@kernel.org>
-Subject: Re: [PATCH v10 00/38] ep93xx device tree conversion
-Message-ID: <fjbvn3p7nqtvllcohtmcwlyv45blulb47t62gz3xey37wrbie5@ke6xcrfq2ztq>
-References: <20240617-ep93xx-v10-0-662e640ed811@maquefel.me>
- <CAHp75VfSC9gAD9ipeWRPdQOxUp4FXqYYei-cJTs38nbz0cHpkg@mail.gmail.com>
- <48c242838c77034485a9e667dc0e867207c5beed.camel@maquefel.me>
- <241a4cf9830b0118f01e8fcf2853c62527636049.camel@maquefel.me>
- <jyvlqfvqn5bp3jmvxvwyrcqmihjohuq3o757mfph7x37kbwvtq@gtgyh4fca4fq>
- <CAL_Jsq+9Jk90HovH8bwzgCHwwh9j4mBm_Aaiq+EOj1HT3R17_Q@mail.gmail.com>
+        Tue, 09 Jul 2024 08:28:43 -0700 (PDT)
+From: Rayyan Ansari <rayyan.ansari@linaro.org>
+To: devicetree@vger.kernel.org
+Cc: Rayyan Ansari <rayyan.ansari@linaro.org>,
+	alsa-devel@alsa-project.org,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Subject: [PATCH 0/2] ASoC: dt-bindings: convert qcom sound bindings to yaml
+Date: Tue,  9 Jul 2024 16:24:41 +0100
+Message-ID: <20240709152808.155405-1-rayyan.ansari@linaro.org>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="piveefpjjxp5n6ob"
-Content-Disposition: inline
-In-Reply-To: <CAL_Jsq+9Jk90HovH8bwzgCHwwh9j4mBm_Aaiq+EOj1HT3R17_Q@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
+Hi,
+These patches convert the remaining plain text bindings for Qualcomm
+sound drivers to dt schema, so device trees can be validated against
+them.
 
---piveefpjjxp5n6ob
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks,
+Rayyan
 
-Hello Rob,
+Rayyan Ansari (2):
+  ASoC: dt-bindings: qcom,msm8916-wcd-digital-codec: convert to dtschema
+  ASoC: dt-bindings: qcom,apq8096-sndcard: use dtschema
 
-On Tue, Jul 09, 2024 at 07:58:42AM -0600, Rob Herring wrote:
-> On Fri, Jul 5, 2024 at 3:21=E2=80=AFAM Uwe Kleine-K=C3=B6nig
-> <u.kleine-koenig@baylibre.com> wrote:
-> > As we're approaching the merge window and this is still unclear, I
-> > applied the pwm bits (i.e. patches 12, 13). If I understand correctly,
-> > patch 33 isn't suitable for application yet as it has a dependency on
-> > pinctrl changes in that series.
->=20
-> Now causing an error in linux-next:
->=20
-> Documentation/devicetree/bindings/pwm/cirrus,ep9301-pwm.example.dts:18:18:
-> fatal error: dt-bindings/clock/cirrus,ep9301-syscon.h: No such file or
-> directory
->    18 |         #include <dt-bindings/clock/cirrus,ep9301-syscon.h>
->       |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> compilation terminated.
-> make[2]: *** [scripts/Makefile.lib:442:
-> Documentation/devicetree/bindings/pwm/cirrus,ep9301-pwm.example.dtb]
-> Error 1
+ .../bindings/sound/qcom,apq8096.txt           | 128 ------------------
+ .../sound/qcom,msm8916-wcd-digital-codec.yaml |  53 ++++++++
+ .../sound/qcom,msm8916-wcd-digital.txt        |  20 ---
+ .../bindings/sound/qcom,sm8250.yaml           |   1 +
+ 4 files changed, 54 insertions(+), 148 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/qcom,apq8096.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/qcom,msm8916-wcd-digital-codec.yaml
+ delete mode 100644 Documentation/devicetree/bindings/sound/qcom,msm8916-wcd-digital.txt
 
-Oh, I thought I had tested that, but obviously I didn't. I'll drop them
-again.
+-- 
+2.45.2
 
-Thanks for letting me know.
-
-Best regards
-Uwe
-
---piveefpjjxp5n6ob
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmaNVZwACgkQj4D7WH0S
-/k4myggAuVPCnTKtBso6CgCuYoUSZB8cGFx1+fM36OQ0B75EHfb+T+oujbdiO1op
-Q/3NTb3vIUE2+lHn6n/WxHLdeKE1vhmOgiaHW3UabNSZZyT360OZNjin7rLPlQEy
-r1DW1w3QOUIS4g8P/v7skKSis2rOiAkICHLcRdDbW5K5dHLInEshegSKVLo+4McU
-8SqKoYP4acYJFTxAC+gPkDS663k7UCsJbnbHDLstfUnuxPbtKpbDx2z8zB9IXh89
-DMwNeZq7tszOWVZ3i0QEX9fZ/DBoFWY+lSL62ZKsQgh3fJucnwXkwqCdLWahNY0k
-Wth32xU/Xhmh//FAw+1Q2VDgLI37Kw==
-=z8zY
------END PGP SIGNATURE-----
-
---piveefpjjxp5n6ob--
