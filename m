@@ -1,103 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DECD9187852;
-	Tue,  9 Jul 2024 21:22:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C3A185612;
+	Tue,  9 Jul 2024 21:50:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720560143; cv=none; b=gBZtKntrfH7G28RqK43R7CsRnt6qoOzukqEiXGHdvkjP5XkmfhwkqAwyzdPnpv667v8fcreGVXbroZAiRIlFfoDV4nPNGEhg6705i6ZO8O0icdApUvgRWpcewfIzHRvynjXrtB5fDIoq0M/IMk2h+XCmWt6mQfI085JgQB52W+I=
+	t=1720561834; cv=none; b=hVEhbg0lqheKDT/bbyln1rnr4vS3UVgNc5nUHcxczZZRTVBMgpzfNJ8K8WnUFgztwx2jtkeXU9SpbK5K+gfB7x66bPlPk+BN0pILmYwPDG/c3Lca2NLR6bWp4rfTR3B7YtIjoqzDw9ez1+dtp9fYVVAC6tpgaAtycb0MSGotc6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720560143; c=relaxed/simple;
-	bh=PBSqaIbfp0Htue5RbLXrgCqKnH8wnNGynK9hnMexWRE=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=F5bnPKRZGNb2OQ7/n9AsNXc3P0/CBPZNesDXiWtGqEZlnR3FRq1BxVY09cXXEEUP505Qx2vPdZwAvIPM8+XkJIodjLi0vKxOHLTPptknZTaFjbZdE1tfDBtZ2AQJlr13fqK5CAjy+M49FwZLCih8gNeNlImtvFZBxUAXaBKsyY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F1fgBk9l; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720561834; c=relaxed/simple;
+	bh=ycuYAdGSjCFvzRGk5dVlud3+ZxsmqTsJTS56z2wlpNE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ENKl9R7JsZTs7QNtu02ZqF8FdzPnP+4eN4ZkhNR2KNPtT2m0mXwC7mljn99SfTAcRkMk43MPsWM2YYXP2rlgkQwzhW+fOjPNLd00vo3f6QPB/tnnvxV+rU1Re0cNsPR7k6r6jsspSXeDZt7ZdTQiL0kX3K5T0gee9TvIDaM/iso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CMCZ40Cz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F1fgBk9l"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF332C4AF0B;
-	Tue,  9 Jul 2024 21:22:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CMCZ40Cz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23FE8C3277B;
+	Tue,  9 Jul 2024 21:50:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720560142;
-	bh=PBSqaIbfp0Htue5RbLXrgCqKnH8wnNGynK9hnMexWRE=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=F1fgBk9ldH/2Z+INmq6me9LfLS2IPWylQzzywzEusildr2LW6Li3l2sMqzFtZ/U7X
-	 6NSM4GFI+W4Y+XFal97cQTifRDSludzWpKnU0F6MuwLIdH/0U5ebB/yo60B8tIjFNe
-	 3EvgjK82VYK7SpcSMCKLy9RYVw/aXU/5sUHDG3QQym24tbVu13g/upa2386i/1rTCk
-	 bTtWZELqLivrvzH2saaVBGgMwWiHhK77ymj10AGAIZiKyqQuZAseVanRjKpK5qF+pD
-	 omN45FRjnbCbwQD8f6sgxZ7J/NGuFZrBQygJKjJiAifF0rIZq8th0zZblbZ4AgsLQS
-	 CPZHWOujA8oSQ==
-Date: Tue, 09 Jul 2024 15:22:20 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20201202; t=1720561833;
+	bh=ycuYAdGSjCFvzRGk5dVlud3+ZxsmqTsJTS56z2wlpNE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=CMCZ40CzlD+4NKx9k4FhLID0Of+9zz0UU2TdmtI7qQREArKeO3mVsol4NKUghPz3F
+	 wdDEsYV+2efeDk/3lfWMVwMGuiHdd2ISkA1/vVCCn4HB7cvt3V4fME7fWVsP51Xt3k
+	 v/nUEPywYrCHNhz/H58tgfg327cbRiUn6OgJ4/igrtoRDCU7LOG/99YCiG3FghwvTp
+	 ZWmikeLwlqPqNRQS6iRLyJM6sZWiy5jLTs3usECPewFngH/a/RvfaS46nUfDEkO9QR
+	 LedU0FwJY4HJx1PrcqjwVwY3QdfY2sKVf09ndjfAhFE6r31LrIr2RSdErt+8hWmQiJ
+	 RWBYleZgE7PTA==
+From: Mark Brown <broonie@kernel.org>
+To: cezary.rojewski@intel.com, pierre-louis.bossart@linux.intel.com, 
+ liam.r.girdwood@linux.intel.com, peter.ujfalusi@linux.intel.com, 
+ yung-chuan.liao@linux.intel.com, ranjani.sridharan@linux.intel.com, 
+ kai.vehmanen@linux.intel.com, perex@perex.cz, tiwai@suse.com, 
+ ckeepax@opensource.cirrus.com, Chen Ni <nichen@iscas.ac.cn>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20240709030921.585740-1-nichen@iscas.ac.cn>
+References: <20240709030921.585740-1-nichen@iscas.ac.cn>
+Subject: Re: [PATCH] ASoC: Intel: sof_sdw: Convert comma to semicolon
+Message-Id: <172056183087.72205.7434504515517519216.b4-ty@kernel.org>
+Date: Tue, 09 Jul 2024 22:50:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Igor Prusov <ivprusov@salutedevices.com>
-Cc: Takashi Iwai <tiwai@suse.com>, kernel@salutedevices.com, 
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
- Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org, 
- prusovigor@gmail.com, Liam Girdwood <lgirdwood@gmail.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-kernel@vger.kernel.org, 
- Philipp Zabel <p.zabel@pengutronix.de>, Mark Brown <broonie@kernel.org>
-In-Reply-To: <20240709172834.9785-6-ivprusov@salutedevices.com>
-References: <20240709172834.9785-1-ivprusov@salutedevices.com>
- <20240709172834.9785-6-ivprusov@salutedevices.com>
-Message-Id: <172056013918.1151267.15277149998657038582.robh@kernel.org>
-Subject: Re: [PATCH 5/6] ASoC: dt-bindings: Add bindings for NeoFidelity
- NTP8835
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev-d4707
 
-
-On Tue, 09 Jul 2024 20:28:33 +0300, Igor Prusov wrote:
-> Add dt-bindings for NeoFidelity NTP8835C/NTP8835C Amplifiers
+On Tue, 09 Jul 2024 11:09:21 +0800, Chen Ni wrote:
+> Replace a comma between expression statements by a semicolon.
 > 
-> Signed-off-by: Igor Prusov <ivprusov@salutedevices.com>
-> ---
->  .../bindings/sound/neofidelity,ntp8835.yaml   | 65 +++++++++++++++++++
->  1 file changed, 65 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/neofidelity,ntp8835.yaml
 > 
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Applied to
 
-yamllint warnings/errors:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/neofidelity,ntp8835.yaml: properties:reg: 'enum' should not be valid under {'enum': ['const', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'minimum', 'maximum', 'multipleOf', 'pattern']}
-	hint: Scalar and array keywords cannot be mixed
-	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/neofidelity,ntp8835.yaml: properties:reg: 'anyOf' conditional failed, one must be fixed:
-	'enum' is not one of ['maxItems', 'description', 'deprecated']
-		hint: Only "maxItems" is required for a single entry if there are no constraints defined for the values.
-	Additional properties are not allowed ('enum' was unexpected)
-		hint: Arrays must be described with a combination of minItems/maxItems/items
-	'maxItems' is not one of ['description', 'deprecated', 'const', 'enum', 'minimum', 'maximum', 'multipleOf', 'default', '$ref', 'oneOf']
-	1 is less than the minimum of 2
-		hint: Arrays must be described with a combination of minItems/maxItems/items
-	hint: cell array properties must define how many entries and what the entries are when there is more than one entry.
-	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/neofidelity,ntp8835.example.dtb: ntp8835@56: reg:0:0: 86 is not one of [42, 43, 44, 45]
-	from schema $id: http://devicetree.org/schemas/sound/neofidelity,ntp8835.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/neofidelity,ntp8835.example.dtb: ntp8835@56: Unevaluated properties are not allowed ('reg' was unexpected)
-	from schema $id: http://devicetree.org/schemas/sound/neofidelity,ntp8835.yaml#
+Thanks!
 
-doc reference errors (make refcheckdocs):
+[1/1] ASoC: Intel: sof_sdw: Convert comma to semicolon
+      commit: e52a73e694522c7c94369a7741717a9f50baca0b
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240709172834.9785-6-ivprusov@salutedevices.com
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-pip3 install dtschema --upgrade
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+Thanks,
+Mark
 
