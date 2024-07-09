@@ -1,196 +1,103 @@
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2CDF18005D;
-	Tue,  9 Jul 2024 18:43:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02930152E0E;
+	Tue,  9 Jul 2024 21:22:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720550629; cv=none; b=mfzLk48V5gXCsXq5EkVvZWlSn22PLmAEjyeT9oRhaDUlcbVtv8yVB9J7QsW8ntkJlT1Dv4hRASjfUMIzjL89UqQ4rzAtLRlnAlqGWZ0xhxzw/KsFN8zts9p+bEug5xap+E72dMT98swX94xZ4RE/4V2BYrELHG+ZyuwDRQlpiek=
+	t=1720560141; cv=none; b=tgwuJds8kUASEUxF2YRGpnJhnhs0F6JLqlHOWopd3mcx4/kuNDCqs4n8O6eMoeuZS3GR8fD0vW87fKmZ9M6lAo0cA8lw88Su3uzHxsVAj4K6kyUgtQEBs/vgKq/+cOEF/lItKlYrJHA26GdOE9WkRkwRm2M8waIpchnxA4QEzyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720550629; c=relaxed/simple;
-	bh=VCkxZ+pGG+YSVbanqtrhKtfrCSVwsi7AFT3M1DJIRSY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cW0siFjtJcZdtqrElMTKzUkB61yvOgVCAaT/wTbX5Fam4wfJhrxWscsbR2GdxdhHktIlicrb7KVSHT+wHh4Ilb/djiAA6XHhzlXTK9K/5DsHslSnRXGtjqtD8/8uerWZileoYM1ZGzKRtQCv3qk1bXiOvtL6v3NebUB0arr1o1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=akNPpfxv; arc=none smtp.client-ip=209.85.167.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1720560141; c=relaxed/simple;
+	bh=y7YDFahM3f+y+ifeu6hRC0FG98NtJwmB+mRGq4qE30k=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=j1TNJsmTmCiisyMhmw1UkYW4f+xEeO3cKdzqEoQH2QQJ2Kj2n4bM/ajfezcqEwaI9F1gR+ENBh+jyB46UgpsJFr3gVH8Ghj5PiEckln9Q4MQfqBj+PTqoniJPsE0MEiugQJpkUgkBemQYVKTksuLCAQwa0QYjpaFGiXT3AWMnCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l70DDpUV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="akNPpfxv"
-Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-3d93df6b54dso618179b6e.2;
-        Tue, 09 Jul 2024 11:43:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720550627; x=1721155427; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/EJpK7h0+8kfla+x9mc6dab7bKKbfLCaCqSeT7reyNM=;
-        b=akNPpfxvUdliG6i9mZCH8d6rqB/vhI3Zdx11hVUDjuwgKOQ0geo+UrDzw/RKGqtzFo
-         mk52qbVV/rjaGyY1wReNoSEUAm1+q0lphfyR17Au/e9zCj8PIwt5FQbiYxjBNYBZVafy
-         Kc2jKJhi7VsM+mJXbpMc5hujQzkvAN7XggfBk7OZeJhUhGel1HdDubGHmf8FOzNYE4Y6
-         udZhpWTizPGezaY1UMSQ4G45H97wskEgOT5lmjophuLVb3O+Uk3sWEiDiJIgwUCpJLcS
-         EUe808aU2orEhutjzDk0iEFDSucnAJSSkSzHo+mgWZK+Pa5UPbP0j6RSa1akMuxxINAd
-         IqvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720550627; x=1721155427;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/EJpK7h0+8kfla+x9mc6dab7bKKbfLCaCqSeT7reyNM=;
-        b=sB4TWWl+rekhsy5dFEPszmXHE1MOalCtaCc34mODY2ZuT/7HTCS8Xep9ZE+0ECooZu
-         91TQMeIjstDA1GcEnPHw7FxjdP0kLfegqfg/H1hdMsvehtopjJUw1TWLswjDICccr5gV
-         ggIIryol8z6tg94dkyPuQCj+Eqv8nIOWrCxPr8/oyD+5nDA/5VmzZEo4QxxYr08wg75I
-         Nkz0QD6lfaQ0aZp9V0ga+IEmJ+GUMfdUli5kMavXJ0XaelmbHGYFXtme5oCjDiGBMQAP
-         52z8s/XVT04fbWo9M3Pb1FW5fAntVAEAPP6A8eLhH3Cpm0Lsp4O8tRUH52/tCHlfNqaR
-         efOg==
-X-Forwarded-Encrypted: i=1; AJvYcCUS1OKULJEvQYzWmTyU/KkSMKmKc7SAQAGBB+qF8rLUmPdFc2rLrD8xT2r/lY5Eyanlvd/s8FoHbo4Pfv9gJEOqih2RdEaS6Xq1Fc53VUQCBGIxVav4IBHnknXXn95BXR59mNq043Qzrx1bCo846f0Qe3nk51P0EEQqRoo/+wiMFVrjJy4w
-X-Gm-Message-State: AOJu0YzQ5lM7oqqyAGTysNfe6ZBcx+L56sQ8iNWOqDqT7rgy7uiaQigE
-	1rG8oOPXwDZ8hv6OKKJ0Rmx7ZrwzkhjrX9UEeVYFbhhrhAEypHi0
-X-Google-Smtp-Source: AGHT+IETG2JaYyEkIUs57OEWEyQjKyGmBijThps0J2yxIds1meOyf1V8scuBk/IWotf98tiQ4xEPJA==
-X-Received: by 2002:a05:6808:148b:b0:3d9:2920:bc2f with SMTP id 5614622812f47-3d93bdd1669mr3866455b6e.10.1720550626620;
-        Tue, 09 Jul 2024 11:43:46 -0700 (PDT)
-Received: from fedora.. ([45.118.158.79])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-77d607d5fa5sm1741683a12.31.2024.07.09.11.43.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jul 2024 11:43:46 -0700 (PDT)
-From: Animesh Agarwal <animeshagarwal28@gmail.com>
-To: 
-Cc: Animesh Agarwal <animeshagarwal28@gmail.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	patches@opensource.cirrus.com,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] ASoC: dt-bindings: cirrus,cs4270: Convert to dtschema
-Date: Wed, 10 Jul 2024 00:12:25 +0530
-Message-ID: <20240709184231.125207-1-animeshagarwal28@gmail.com>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l70DDpUV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CC1EC3277B;
+	Tue,  9 Jul 2024 21:22:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720560140;
+	bh=y7YDFahM3f+y+ifeu6hRC0FG98NtJwmB+mRGq4qE30k=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=l70DDpUVd4nsyxO9gleOg9pcT7aVCveJwP3rQnuJAq2zIgMSRdhgJLxZl6GMmAFuM
+	 l/SSN8D8g/heBxbth5m8A1nW7hyi2HJpvwxFjXxCd00QiiU4gDnuI+D1q2vCLEqHgA
+	 heHjQzD6gtj3CC+cgB5OYMLcH2bi6JHl/Ep7L+8+OjUaMT2Eyz7rpgPyx1IRVZSI9U
+	 vow7m3Ddvm5+UXGsMuvT3dIqsYRzzgRigzDWFg81DoGzV2dnER8F+waRpQuCqBujPX
+	 tBw+ej/vMVXyZ6nvSPpNjJ8Ocx8B0xof1FFAOxaxamgI4jl3/xX6JIWdSgXUEra4UO
+	 7o0ry/eZhdXDg==
+Date: Tue, 09 Jul 2024 15:22:19 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Igor Prusov <ivprusov@salutedevices.com>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-kernel@vger.kernel.org, 
+ Conor Dooley <conor+dt@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
+ kernel@salutedevices.com, Jaroslav Kysela <perex@perex.cz>, 
+ linux-sound@vger.kernel.org, prusovigor@gmail.com, 
+ Liam Girdwood <lgirdwood@gmail.com>, devicetree@vger.kernel.org, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Mark Brown <broonie@kernel.org>
+In-Reply-To: <20240709172834.9785-4-ivprusov@salutedevices.com>
+References: <20240709172834.9785-1-ivprusov@salutedevices.com>
+ <20240709172834.9785-4-ivprusov@salutedevices.com>
+Message-Id: <172056013798.1150861.13690347231414855621.robh@kernel.org>
+Subject: Re: [PATCH 3/6] ASoC: dt-bindings: Add bindings for NeoFidelity
+ NTP8918
 
-Convert the Cirrus Logic CS4270 audio CODEC bindings to DT schema. Add
-missing va-supply, vd-supply and vlc-supply properties, because they
-are already being used in the DTS and the driver for this device.
 
-Cc: Daniel Baluta <daniel.baluta@nxp.com>
-Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
+On Tue, 09 Jul 2024 20:28:31 +0300, Igor Prusov wrote:
+> Add dt-bindings for NeoFidelity NTP8918 Amplifier
+> 
+> Signed-off-by: Igor Prusov <ivprusov@salutedevices.com>
+> ---
+>  .../bindings/sound/neofidelity,ntp8918.yaml   | 63 +++++++++++++++++++
+>  1 file changed, 63 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/sound/neofidelity,ntp8918.yaml
+> 
 
----
-Changes in v2:
-  - Added proper description for power supply properties.
-  - Added ref to dai-common.
-  - Added '#sound-dai-cells'.
-  - Dropped unused labels in example.
-  - Replaced example node name to a generic name.
----
- .../bindings/sound/cirrus,cs4270.yaml         | 59 +++++++++++++++++++
- .../devicetree/bindings/sound/cs4270.txt      | 21 -------
- 2 files changed, 59 insertions(+), 21 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/sound/cirrus,cs4270.yaml
- delete mode 100644 Documentation/devicetree/bindings/sound/cs4270.txt
+My bot found errors running 'make dt_binding_check' on your patch:
 
-diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs4270.yaml b/Documentation/devicetree/bindings/sound/cirrus,cs4270.yaml
-new file mode 100644
-index 000000000000..336e11773694
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/cirrus,cs4270.yaml
-@@ -0,0 +1,59 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/cirrus,cs4270.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Cirrus Logic CS4270 audio CODEC
-+
-+maintainers:
-+  - patches@opensource.cirrus.com
-+
-+description:
-+  The CS4270 is a stereo audio codec. The driver for this device currently only
-+  supports I2C.
-+
-+allOf:
-+  - $ref: dai-common.yaml#
-+
-+properties:
-+  compatible:
-+    const: cirrus,cs4270
-+
-+  reg:
-+    maxItems: 1
-+
-+  '#sound-dai-cells':
-+    const: 0
-+
-+  reset-gpios:
-+    description:
-+      This pin will be deasserted before communication to the codec starts.
-+    maxItems: 1
-+
-+  va-supply:
-+    description: Analog power supply.
-+
-+  vd-supply:
-+    description: Digital power supply.
-+
-+  vlc-supply:
-+    description: Serial Control Port power supply.
-+
-+required:
-+  - compatible
-+  - reg
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+
-+      codec@48 {
-+          compatible = "cirrus,cs4270";
-+          reg = <0x48>;
-+      };
-+    };
-diff --git a/Documentation/devicetree/bindings/sound/cs4270.txt b/Documentation/devicetree/bindings/sound/cs4270.txt
-deleted file mode 100644
-index c33770ec4c3c..000000000000
---- a/Documentation/devicetree/bindings/sound/cs4270.txt
-+++ /dev/null
-@@ -1,21 +0,0 @@
--CS4270 audio CODEC
--
--The driver for this device currently only supports I2C.
--
--Required properties:
--
--  - compatible : "cirrus,cs4270"
--
--  - reg : the I2C address of the device for I2C
--
--Optional properties:
--
--  - reset-gpios : a GPIO spec for the reset pin. If specified, it will be
--		  deasserted before communication to the codec starts.
--
--Example:
--
--codec: cs4270@48 {
--	compatible = "cirrus,cs4270";
--	reg = <0x48>;
--};
--- 
-2.45.2
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/neofidelity,ntp8918.yaml: properties:reg: 'enum' should not be valid under {'enum': ['const', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'minimum', 'maximum', 'multipleOf', 'pattern']}
+	hint: Scalar and array keywords cannot be mixed
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/neofidelity,ntp8918.yaml: properties:reg: 'anyOf' conditional failed, one must be fixed:
+	'enum' is not one of ['maxItems', 'description', 'deprecated']
+		hint: Only "maxItems" is required for a single entry if there are no constraints defined for the values.
+	Additional properties are not allowed ('enum' was unexpected)
+		hint: Arrays must be described with a combination of minItems/maxItems/items
+	'maxItems' is not one of ['description', 'deprecated', 'const', 'enum', 'minimum', 'maximum', 'multipleOf', 'default', '$ref', 'oneOf']
+	1 is less than the minimum of 2
+		hint: Arrays must be described with a combination of minItems/maxItems/items
+	hint: cell array properties must define how many entries and what the entries are when there is more than one entry.
+	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/neofidelity,ntp8918.example.dtb: ntp8918@54: reg:0:0: 84 is not one of [42, 43, 44, 45]
+	from schema $id: http://devicetree.org/schemas/sound/neofidelity,ntp8918.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/neofidelity,ntp8918.example.dtb: ntp8918@54: Unevaluated properties are not allowed ('reg' was unexpected)
+	from schema $id: http://devicetree.org/schemas/sound/neofidelity,ntp8918.yaml#
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240709172834.9785-4-ivprusov@salutedevices.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
