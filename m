@@ -1,84 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx1.sberdevices.ru (mx1.sberdevices.ru [37.18.73.165])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C3A185612;
-	Tue,  9 Jul 2024 21:50:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC51F18EA9E;
+	Tue,  9 Jul 2024 22:12:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.18.73.165
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720561834; cv=none; b=hVEhbg0lqheKDT/bbyln1rnr4vS3UVgNc5nUHcxczZZRTVBMgpzfNJ8K8WnUFgztwx2jtkeXU9SpbK5K+gfB7x66bPlPk+BN0pILmYwPDG/c3Lca2NLR6bWp4rfTR3B7YtIjoqzDw9ez1+dtp9fYVVAC6tpgaAtycb0MSGotc6A=
+	t=1720563151; cv=none; b=fdyaFZIMYxosRZe5mOlM0pfqW4FuoJdGLijGuhdNJu16RUdYSKkzKKgd10BTMlCnlIFYGtk22h8RsLNnu3mp9jCUo0QeS6fM8XczNBS612JWrAcK5WuPH54yRdlnFLNNSEttDquRROqiG/LGGjPKSsit29YtdFvcnzr0gdJargc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720561834; c=relaxed/simple;
-	bh=ycuYAdGSjCFvzRGk5dVlud3+ZxsmqTsJTS56z2wlpNE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ENKl9R7JsZTs7QNtu02ZqF8FdzPnP+4eN4ZkhNR2KNPtT2m0mXwC7mljn99SfTAcRkMk43MPsWM2YYXP2rlgkQwzhW+fOjPNLd00vo3f6QPB/tnnvxV+rU1Re0cNsPR7k6r6jsspSXeDZt7ZdTQiL0kX3K5T0gee9TvIDaM/iso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CMCZ40Cz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720563151; c=relaxed/simple;
+	bh=Nb/C2sk02GSMvbKTWJKrZMO+vuRrdDvY+sxl315ffZg=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fuISgJAoozIrxnGGm7memzlTL0CUrTPE+mr3zNNSKhzqAlxgSVSni07K+Ao9pul3ZiePxpfS+HgX9IQJ4CkEJ/zxeHEceHqiFLnvoCPNn4kfoau/8opdgzVuQop1noji1a/HrRHUr0aT9cQL2gHKlhxW9Y0bYnL3CU+BLDOHWs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com; spf=pass smtp.mailfrom=salutedevices.com; dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b=csk4AAUr; arc=none smtp.client-ip=37.18.73.165
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=salutedevices.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CMCZ40Cz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23FE8C3277B;
-	Tue,  9 Jul 2024 21:50:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720561833;
-	bh=ycuYAdGSjCFvzRGk5dVlud3+ZxsmqTsJTS56z2wlpNE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=CMCZ40CzlD+4NKx9k4FhLID0Of+9zz0UU2TdmtI7qQREArKeO3mVsol4NKUghPz3F
-	 wdDEsYV+2efeDk/3lfWMVwMGuiHdd2ISkA1/vVCCn4HB7cvt3V4fME7fWVsP51Xt3k
-	 v/nUEPywYrCHNhz/H58tgfg327cbRiUn6OgJ4/igrtoRDCU7LOG/99YCiG3FghwvTp
-	 ZWmikeLwlqPqNRQS6iRLyJM6sZWiy5jLTs3usECPewFngH/a/RvfaS46nUfDEkO9QR
-	 LedU0FwJY4HJx1PrcqjwVwY3QdfY2sKVf09ndjfAhFE6r31LrIr2RSdErt+8hWmQiJ
-	 RWBYleZgE7PTA==
-From: Mark Brown <broonie@kernel.org>
-To: cezary.rojewski@intel.com, pierre-louis.bossart@linux.intel.com, 
- liam.r.girdwood@linux.intel.com, peter.ujfalusi@linux.intel.com, 
- yung-chuan.liao@linux.intel.com, ranjani.sridharan@linux.intel.com, 
- kai.vehmanen@linux.intel.com, perex@perex.cz, tiwai@suse.com, 
- ckeepax@opensource.cirrus.com, Chen Ni <nichen@iscas.ac.cn>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20240709030921.585740-1-nichen@iscas.ac.cn>
-References: <20240709030921.585740-1-nichen@iscas.ac.cn>
-Subject: Re: [PATCH] ASoC: Intel: sof_sdw: Convert comma to semicolon
-Message-Id: <172056183087.72205.7434504515517519216.b4-ty@kernel.org>
-Date: Tue, 09 Jul 2024 22:50:30 +0100
+	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="csk4AAUr"
+Received: from p-infra-ksmg-sc-msk01.sberdevices.ru (localhost [127.0.0.1])
+	by mx1.sberdevices.ru (Postfix) with ESMTP id 7419D100015;
+	Wed, 10 Jul 2024 01:12:26 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 7419D100015
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
+	s=mail; t=1720563146;
+	bh=usQACoAHQhJNBLt0R8E376ov5H4FLdFKTkqn7dzBpds=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
+	b=csk4AAUrAYRvazeYXLzicDJooBX7ERVNPmOEMfpT+Ab+RQeY/RC0prr82Ns5q5j6O
+	 SoI6V6EIRuIS6JN4bbZsbedYiJu6b1BdArxZPgBq5MpIyXWwucamWnNwv8to4Oj9zR
+	 KMOb/Dzoj08qEb+gBdAKJDj3ROSohu9etI0aokAO1x4Pw3OJ4felEoz1YfFlp3kNlb
+	 LLtyD32HkhZK9pXgOsdLrRc7/Uefx6qOoHXbW8vurcJ0D8mz2855ZzlE7B1FzNZQIW
+	 jD1dJmNrpiE/bNaXD2S4wbXEFRVdZ0nKteLoo5sAaJb79J0LiSTWeiSg4xh2zhBEQu
+	 jo3UyG9c++M2w==
+Received: from smtp.sberdevices.ru (p-i-exch-sc-m02.sberdevices.ru [172.16.192.103])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.sberdevices.ru (Postfix) with ESMTPS;
+	Wed, 10 Jul 2024 01:12:26 +0300 (MSK)
+Received: from localhost.localdomain (100.64.160.123) by
+ p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Wed, 10 Jul 2024 01:12:25 +0300
+From: Igor Prusov <ivprusov@salutedevices.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+	<tiwai@suse.com>, Philipp Zabel <p.zabel@pengutronix.de>, Igor Prusov
+	<ivprusov@salutedevices.com>
+CC: <prusovigor@gmail.com>, <kernel@salutedevices.com>,
+	<linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH v2 1/6] dt-bindings: vendor-prefixes: Add NeoFidelity, Inc
+Date: Wed, 10 Jul 2024 01:11:58 +0300
+Message-ID: <20240709221203.92167-2-ivprusov@salutedevices.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240709221203.92167-1-ivprusov@salutedevices.com>
+References: <20240709221203.92167-1-ivprusov@salutedevices.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev-d4707
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) To
+ p-i-exch-sc-m02.sberdevices.ru (172.16.192.103)
+X-KSMG-Rule-ID: 10
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 186406 [Jul 09 2024]
+X-KSMG-AntiSpam-Version: 6.1.0.4
+X-KSMG-AntiSpam-Envelope-From: ivprusov@salutedevices.com
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 24 0.3.24 186c4d603b899ccfd4883d230c53f273b80e467f, {Tracking_from_domain_doesnt_match_to}, smtp.sberdevices.ru:5.0.1,7.1.1;salutedevices.com:7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;100.64.160.123:7.1.2, FromAlignment: s, ApMailHostAddress: 100.64.160.123
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean
+X-KSMG-LinksScanning: Clean
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/07/09 15:25:00 #25923573
+X-KSMG-AntiVirus-Status: Clean, skipped
 
-On Tue, 09 Jul 2024 11:09:21 +0800, Chen Ni wrote:
-> Replace a comma between expression statements by a semicolon.
-> 
-> 
+Add vendor prefix for NeoFidelity, Inc
 
-Applied to
+Signed-off-by: Igor Prusov <ivprusov@salutedevices.com>
+---
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] ASoC: Intel: sof_sdw: Convert comma to semicolon
-      commit: e52a73e694522c7c94369a7741717a9f50baca0b
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index fbf47f0bacf1..be62a59788b5 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -997,6 +997,8 @@ patternProperties:
+     description: National Semiconductor
+   "^nec,.*":
+     description: NEC LCD Technologies, Ltd.
++  "^neofidelity,.*":
++    description: Neofidelity Inc.
+   "^neonode,.*":
+     description: Neonode Inc.
+   "^netgear,.*":
+-- 
+2.34.1
 
