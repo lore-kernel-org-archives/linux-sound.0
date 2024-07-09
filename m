@@ -1,241 +1,108 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8501419E7F5
-	for <linux-sound@vger.kernel.org>; Tue,  9 Jul 2024 15:28:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30D9B7F487;
+	Tue,  9 Jul 2024 15:34:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720538934; cv=none; b=MuT5ZEvnpKy3kfl6slJ0vVZUXo/Jgo0wvvFUOJ4HGWdvNVhBqvHJTgq8/0xSa/lZmAwNkW70Vs3rhHrSsdSBeT+djcVkV+p9pPJ9L4v/pcyp0v49eQ09jk98AqlGefTgfvxwhVRkliGxDxKL2jRZHPKQnPQm2KYDDpMkJjV+uCo=
+	t=1720539276; cv=none; b=RHTuGKWm9uey7fyuIducRZI6akPohnxpaYE/iGaKvbZh4roeyhDUCCd4HvqYbEHZSpeUN/vQnWsSikWB/my+0v77agAA6Q5R+uiBm/pQfUvrhSkfZle4XSY2mTwLi8Rv4kTv1jv2A6HuhWgQzHkCku+qMkZm7HVpvABFNT2bvNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720538934; c=relaxed/simple;
-	bh=3PoSvU8RpFcazekfoaaScSpR1wxv8/6f43Gz5oYx63w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cpCAeG/o0cbuOKrQWwaw+FedYioKwtSDMDJuBfQ9Asx2f6ZxA8jljBaG0f15GXMxj2i53j1oBSCnpdqFCSD30D/F6jmc1VcFg156rVP6aUs4er9q/ZA/620A6Pn7pourUbs6YE+bSSwnXvXhvuSKAR1rVE4Y05nnPgYtCv5oQZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DyLy/oCA; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1720539276; c=relaxed/simple;
+	bh=FvWdonThAmJ/q75JTUddBwM9tvlSfcVWOIEazl2kr/I=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V4qsHE+6uC8QLXUq+8CDHkhwU8sbrOLNQdvQG1GyDN5BnNOJ6RdG4wrTWrMwO4UCUg0Z4z2GTP+3BTtdc1CsnnC85J60ewsPYkOfpzHW5raCIqIjTllCqo6nplH30hKVcp0V+2dkQdfMeRydwrj1HOdu8CVyRKQs4SAnpBbgeEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=IV16cnaW; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DyLy/oCA"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4266f344091so10364695e9.0
-        for <linux-sound@vger.kernel.org>; Tue, 09 Jul 2024 08:28:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1720538931; x=1721143731; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rr3GSFWqoAD9HFFPG7fGztnMb9LgjvrtTWNplj4lKO0=;
-        b=DyLy/oCAQ3krLJ+rvFrbNSlHVwPlQ2xBdMqCRfIDBMu1wxS4JlDSDWNzCj7JRnPeL/
-         fq2H2szFVYPdGE/AdaFBlZc3BYtW5N6eJHfwTRxDVtulXzxNH5LH4GdCOSL5zwOa7IJn
-         egDw8CqyBFXksSIlDyuEEvAR+ySfqoG4awh2WUZOKTCXjCidhDCpC0F385nJ9dz92qlu
-         Ytld2VdxxflOczH7p1MGQrlNKC9eI+2a1YmhOmVv1kC7dAc+VBqR88iGzwTfsHMh9AI0
-         FLjzhiyR1SuheQ1rV5OvPFXnGwh2ujlver3aggOUgXir6tiXP2osXj6Dtl3EHB8svi4E
-         y4SQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720538931; x=1721143731;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rr3GSFWqoAD9HFFPG7fGztnMb9LgjvrtTWNplj4lKO0=;
-        b=CjZDHc9dJs/+PyRmZxuZdWhh+4/Hp/6/yoQEPpyJGDVprGX5/mPErfM/L1A23NRDTq
-         mjB2E1X2DKtbB530SE9mZ16hvSXN6Nhz+HF/Rasog6Lqz36GewyuiIsojopQYuK+wtQ9
-         i5f0ZDWgWnY79K5AkCRVlRgZN0CKJ8BrPTO7BhoF8BhkJcxdGwlst0g2SjQaWkV3VW5f
-         bCsRUddIKnMTrAn+P16WdiQB0MEKJAHzV66edb8z/xRB4YZF27fuJfFa2K2euOKpjqIL
-         k7y5syQ9OyG2ThjegMJaVFkAIuhyXNgYNFy8csqSvEtfqyhFZGPzmGgzuC/GGjXDZA0J
-         ztdg==
-X-Forwarded-Encrypted: i=1; AJvYcCUo/Hvf4BJJJyE1Zfew3xixgmJ+m2qFLHFYBLEVBhQTeA9YgnrRbt0Ua8y7d2gbYzDADSIdFgwRfra8kitsAm1RXhVw3OtTsSb03Vs=
-X-Gm-Message-State: AOJu0YzFvBLguumiRDzN1nm6OJrsWi6mddijc67nByFEtoTiiHS7daJ4
-	3kVqJTLUvMJE+jlhnDA8cXieXgYwNyqL4Y5JhXiTJHUW3KrzGmNS58f0+CrLklA=
-X-Google-Smtp-Source: AGHT+IF4NFy7/t/rb7zZIftACNCfbYCcto8cUw9zZFhNxIMxce8lrJOhUjAw1tc171MTvAxJ5BdJSA==
-X-Received: by 2002:a05:600c:6d4:b0:426:6b85:bafb with SMTP id 5b1f17b1804b1-426707db6e7mr16978265e9.20.1720538931001;
-        Tue, 09 Jul 2024 08:28:51 -0700 (PDT)
-Received: from rayyan-pc.broadband ([2a0a:ef40:ee7:2401:197d:e048:a80f:bc44])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4266f6f5a32sm45883775e9.24.2024.07.09.08.28.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jul 2024 08:28:50 -0700 (PDT)
-From: Rayyan Ansari <rayyan.ansari@linaro.org>
-To: devicetree@vger.kernel.org
-Cc: Rayyan Ansari <rayyan.ansari@linaro.org>,
-	alsa-devel@alsa-project.org,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Subject: [PATCH 2/2] ASoC: dt-bindings: qcom,apq8096-sndcard: use dtschema
-Date: Tue,  9 Jul 2024 16:24:43 +0100
-Message-ID: <20240709152808.155405-3-rayyan.ansari@linaro.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240709152808.155405-1-rayyan.ansari@linaro.org>
-References: <20240709152808.155405-1-rayyan.ansari@linaro.org>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="IV16cnaW"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4699T296013261;
+	Tue, 9 Jul 2024 10:34:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=6Xe73+JU2eVQQ8xYXG
+	t1Vn3w9CgNx65jHpc54wpvgKw=; b=IV16cnaWsSggxGT2sPvUjQSCnusIo7kGAe
+	KmPur7U0780Xmq1vgMGMC8W2fQCWRqSkkoEd54VxA9lkyMUtw8FeyRSv5S9IEcEV
+	P7OXD2QnC6dl3a05WFjyQXBvtdvWddhNxwlpl2L9cnQKN2Lo0yPUV2ByaCmMdLbn
+	x8rkDgGD2SAGRdzo1UUUODr47n4+2PZSkFJ/GV49ILMvOXtQcFX3YdkDNXKQ630e
+	TGW2/QLE8Psbfm9qnOJEcomZX3ceWuFNJh0IgNKaDlPnBScQGn0Rh2VEyJ7jYeT6
+	rsAVzzH7K99CkuLyF59fCrj7YbIM9K/IUJ/48xjB873dc1C+8/XA==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4072bjaumh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 09 Jul 2024 10:34:16 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 9 Jul 2024
+ 16:33:57 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Tue, 9 Jul 2024 16:33:57 +0100
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 644CE820244;
+	Tue,  9 Jul 2024 15:33:57 +0000 (UTC)
+Date: Tue, 9 Jul 2024 16:33:56 +0100
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+CC: <broonie@kernel.org>, <linux-kernel@vger.kernel.org>,
+        <patches@opensource.cirrus.com>, <alsa-devel@alsa-project.org>,
+        <linux-sound@vger.kernel.org>
+Subject: Re: [PATCH 3/4] firmware: cs_dsp: Merge wmfw format log message into
+ INFO message
+Message-ID: <Zo1YZHiE6WK3d8rm@opensource.cirrus.com>
+References: <20240709145156.268074-1-rf@opensource.cirrus.com>
+ <20240709145156.268074-4-rf@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240709145156.268074-4-rf@opensource.cirrus.com>
+X-Proofpoint-ORIG-GUID: hRAaVAlz16HcPybssSt-C_PeHfg3_Xgs
+X-Proofpoint-GUID: hRAaVAlz16HcPybssSt-C_PeHfg3_Xgs
+X-Proofpoint-Spam-Reason: safe
 
-Remove old txt bindings and add apq8096 soundcard entry to existing
-dt schema.
+On Tue, Jul 09, 2024 at 03:51:55PM +0100, Richard Fitzgerald wrote:
+> Log the WMFW file format version with the INFO_TEST message.
+> 
+> The behaviour of firmware controls depends on the WMFW format version,
+> so this is useful information to log for debugging. But there's no
+> need to use a separate log line just for this value.
+> 
+> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+> ---
+>  drivers/firmware/cirrus/cs_dsp.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/firmware/cirrus/cs_dsp.c b/drivers/firmware/cirrus/cs_dsp.c
+> index 1bc2e0b6d40b..141a6c9d6737 100644
+> --- a/drivers/firmware/cirrus/cs_dsp.c
+> +++ b/drivers/firmware/cirrus/cs_dsp.c
+> @@ -1502,7 +1502,6 @@ static int cs_dsp_load(struct cs_dsp *dsp, const struct firmware *firmware,
+>  		goto out_fw;
+>  	}
+>  
+> -	cs_dsp_info(dsp, "Firmware version: %d\n", header->ver);
+>  	dsp->fw_ver = header->ver;
+>  
+>  	if (header->core != dsp->type) {
+> @@ -1552,7 +1551,7 @@ static int cs_dsp_load(struct cs_dsp *dsp, const struct firmware *firmware,
+>  		case WMFW_INFO_TEXT:
+>  		case WMFW_NAME_TEXT:
+>  			region_name = "Info/Name";
+> -			cs_dsp_info(dsp, "%s: %.*s\n", file,
+> +			cs_dsp_info(dsp, "%s (rev %d): %.*s\n", file, dsp->fw_ver,
+>  				    min(le32_to_cpu(region->len), 100), region->data);
 
-Signed-off-by: Rayyan Ansari <rayyan.ansari@linaro.org>
----
- .../bindings/sound/qcom,apq8096.txt           | 128 ------------------
- .../bindings/sound/qcom,sm8250.yaml           |   1 +
- 2 files changed, 1 insertion(+), 128 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/sound/qcom,apq8096.txt
+Are we sure on this one? I don't think a WMFW is required to
+include an INFO/NAME block so it is now possible for this to not
+get printed. Granted I have not seen one that doesn't include
+at least one of these blocks but it isn't required. I think I
+would lean towards keening the separate print personally.
 
-diff --git a/Documentation/devicetree/bindings/sound/qcom,apq8096.txt b/Documentation/devicetree/bindings/sound/qcom,apq8096.txt
-deleted file mode 100644
-index e1b9fa8a5bf8..000000000000
---- a/Documentation/devicetree/bindings/sound/qcom,apq8096.txt
-+++ /dev/null
-@@ -1,128 +0,0 @@
--* Qualcomm Technologies APQ8096 ASoC sound card driver
--
--This binding describes the APQ8096 sound card, which uses qdsp for audio.
--
--- compatible:
--	Usage: required
--	Value type: <stringlist>
--	Definition: must be "qcom,apq8096-sndcard"
--
--- audio-routing:
--	Usage: Optional
--	Value type: <stringlist>
--	Definition:  A list of the connections between audio components.
--		  Each entry is a pair of strings, the first being the
--		  connection's sink, the second being the connection's
--		  source. Valid names could be power supplies, MicBias
--		  of codec and the jacks on the board:
--		  Valid names include:
--
--		Board Connectors:
--			"Headphone Left"
--			"Headphone Right"
--			"Earphone"
--			"Line Out1"
--			"Line Out2"
--			"Line Out3"
--			"Line Out4"
--			"Analog Mic1"
--			"Analog Mic2"
--			"Analog Mic3"
--			"Analog Mic4"
--			"Analog Mic5"
--			"Analog Mic6"
--			"Digital Mic2"
--			"Digital Mic3"
--
--		Audio pins and MicBias on WCD9335 Codec:
--			"MIC_BIAS1"
--			"MIC_BIAS2"
--			"MIC_BIAS3"
--			"MIC_BIAS4"
--			"AMIC1"
--			"AMIC2"
--			"AMIC3"
--			"AMIC4"
--			"AMIC5"
--			"AMIC6"
--			"AMIC6"
--			"DMIC1"
--			"DMIC2"
--			"DMIC3"
--
--- model:
--	Usage: required
--	Value type: <stringlist>
--	Definition: The user-visible name of this sound card.
--
--- aux-devs
--	Usage: optional
--	Value type: <array of phandles>
--	Definition: A list of phandles for auxiliary devices (e.g. analog
--		    amplifiers) that do not appear directly within the DAI
--		    links. Should be connected to another audio component
--		    using "audio-routing".
--
--= dailinks
--Each subnode of sndcard represents either a dailink, and subnodes of each
--dailinks would be cpu/codec/platform dais.
--
--- link-name:
--	Usage: required
--	Value type: <string>
--	Definition: User friendly name for dai link
--
--= CPU, PLATFORM, CODEC dais subnodes
--- cpu:
--	Usage: required
--	Value type: <subnode>
--	Definition: cpu dai sub-node
--
--- codec:
--	Usage: Optional
--	Value type: <subnode>
--	Definition: codec dai sub-node
--
--- platform:
--	Usage: Optional
--	Value type: <subnode>
--	Definition: platform dai sub-node
--
--- sound-dai:
--	Usage: required
--	Value type: <phandle with arguments>
--	Definition: dai phandle/s and port of CPU/CODEC/PLATFORM node.
--
--Obsolete:
--	qcom,model: String for soundcard name (Use model instead)
--	qcom,audio-routing: A list of the connections between audio components.
--			    (Use audio-routing instead)
--
--Example:
--
--audio {
--	compatible = "qcom,apq8096-sndcard";
--	model = "DB820c";
--
--	mm1-dai-link {
--		link-name = "MultiMedia1";
--		cpu {
--			sound-dai = <&q6asmdai MSM_FRONTEND_DAI_MULTIMEDIA1>;
--		};
--	};
--
--	hdmi-dai-link {
--		link-name = "HDMI Playback";
--		cpu {
--			sound-dai = <&q6afe HDMI_RX>;
--		};
--
--		platform {
--			sound-dai = <&q6adm>;
--		};
--
--		codec {
--			sound-dai = <&hdmi 0>;
--		};
--	};
--};
-diff --git a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-index b2e15ebbd1bc..c9076dcd44c1 100644
---- a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-+++ b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-@@ -28,6 +28,7 @@ properties:
-           - const: qcom,sm8450-sndcard
-       - enum:
-           - qcom,apq8016-sbc-sndcard
-+          - qcom,apq8096-sndcard
-           - qcom,msm8916-qdsp6-sndcard
-           - qcom,qcm6490-idp-sndcard
-           - qcom,qcs6490-rb3gen2-sndcard
--- 
-2.45.2
-
+Thanks,
+Charles
