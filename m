@@ -1,91 +1,140 @@
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6EB4A15;
-	Tue,  9 Jul 2024 03:12:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CEC83A1DB
+	for <linux-sound@vger.kernel.org>; Tue,  9 Jul 2024 07:16:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720494770; cv=none; b=Q4svF/l0JZ8O/d4Ph4DVIlplQNbAD75bP43ZOyjWg2zjU9/E8+w9KgtatNK3A+omwXGxwafI4q5JaLDT+yNIoQgpj9GxFp4Yf6tGxZkwe04nCu5E2v6TKxnBgFtj6D3on6DdOrZ4iA2GQcILPeVEudyfRLycoy86PHBCKpFtwcY=
+	t=1720509376; cv=none; b=p079YkZuf2WhRrNvAFeEo3AHaXOVhVxWb3XAp7V9KdPCWXTQtx4an2DnPqJxAAGnSuljsW1sRn+FpLLLCl/wJ3Fhp0pjrNDOCR6uYLOTv4rxhub/m00ezkFkGwm2vJdH4CL3xlkSZ2Fv+wboP+J2BVNXogPKNKxuRqGU40tKHjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720494770; c=relaxed/simple;
-	bh=gG7VPVdC1NgmfJ9wBm/I1DUwm9R5dW8xyB+Gsar80dg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pmX4Ae/ruCJjDZuZts0kQ9E5JgzX9FitYv6eavHWUkGP2FArhcleCxAzDT23wnA/RQuZT6VEqNtbuFeLhehJAACByEw00w4DHFXv5Hbr7DR1B8nSqa650J8p421nDoh66dib8qiEnHnwipD4b8IeDdrkCgHJWTOI/Kcg0qAd8Us=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost (unknown [124.16.138.129])
-	by APP-01 (Coremail) with SMTP id qwCowADnx0ydqoxmqBVcAg--.237S2;
-	Tue, 09 Jul 2024 11:12:29 +0800 (CST)
-From: Chen Ni <nichen@iscas.ac.cn>
-To: cezary.rojewski@intel.com,
-	pierre-louis.bossart@linux.intel.com,
-	liam.r.girdwood@linux.intel.com,
-	peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	ckeepax@opensource.cirrus.com
-Cc: alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] ASoC: Intel: sof_sdw: Convert comma to semicolon
-Date: Tue,  9 Jul 2024 11:09:21 +0800
-Message-Id: <20240709030921.585740-1-nichen@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1720509376; c=relaxed/simple;
+	bh=NCTVZmOheqhnKxDkDQ0GihYpV3LGrUPOoqcHJTrNtvs=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fzg38KYqJXn262Xb65xi1visP//2MKVWXYk5uvaWSRdnV2CVCHT/WgX2PLQP2U9FEORJxvn1a38p/KWgkR/ShBvU7Mi9gTdONqn7U1XoN+Zke74Gc1js/V6/526PPtWyFo7+9+m3XuJeZC6gHn7UOUhPaY5DBhLu9iUYxTWF8U0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Zfnf+Fr/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=tbjL9tAY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Zfnf+Fr/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=tbjL9tAY; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Zfnf+Fr/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tbjL9tAY";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Zfnf+Fr/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tbjL9tAY"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8417C21B93;
+	Tue,  9 Jul 2024 07:16:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1720509372; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wfeqBGBua7GhObnZbTdkG14adNc+6QdBaPRO88efiBE=;
+	b=Zfnf+Fr/89gAnSD+8Zal2JnNfnZ5agu2UhwVl81pxrTbBA3yE4NTAwpgFGFWwYNWRRU0ik
+	VWBltjdSTLZJgN2+OpI7iJ5/A5hui8QcXxI605syYFtxeB2YHHfqrqbHIM4xePp93zCdHS
+	efKKjfHT9JUTaK52vrKYm6tGavbPxJA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1720509372;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wfeqBGBua7GhObnZbTdkG14adNc+6QdBaPRO88efiBE=;
+	b=tbjL9tAYzIQhA4MtzwtsYbLsr3IrvSeGogAT84+K8YgfAJaKf0zwtXlFsZ8VLsEI48KzkA
+	zsuGAg8Glqy4lPBQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="Zfnf+Fr/";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=tbjL9tAY
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1720509372; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wfeqBGBua7GhObnZbTdkG14adNc+6QdBaPRO88efiBE=;
+	b=Zfnf+Fr/89gAnSD+8Zal2JnNfnZ5agu2UhwVl81pxrTbBA3yE4NTAwpgFGFWwYNWRRU0ik
+	VWBltjdSTLZJgN2+OpI7iJ5/A5hui8QcXxI605syYFtxeB2YHHfqrqbHIM4xePp93zCdHS
+	efKKjfHT9JUTaK52vrKYm6tGavbPxJA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1720509372;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wfeqBGBua7GhObnZbTdkG14adNc+6QdBaPRO88efiBE=;
+	b=tbjL9tAYzIQhA4MtzwtsYbLsr3IrvSeGogAT84+K8YgfAJaKf0zwtXlFsZ8VLsEI48KzkA
+	zsuGAg8Glqy4lPBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5FDE11396E;
+	Tue,  9 Jul 2024 07:16:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id CLY1FrzjjGbCEQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 09 Jul 2024 07:16:12 +0000
+Date: Tue, 09 Jul 2024 09:16:43 +0200
+Message-ID: <87jzhvc9wk.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ALSA: ppc: keywest: Drop explicit initialization of struct i2c_device_id::driver_data to 0
+In-Reply-To: <20240708130254.9631-2-u.kleine-koenig@baylibre.com>
+References: <20240708130254.9631-2-u.kleine-koenig@baylibre.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowADnx0ydqoxmqBVcAg--.237S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Jw4UZF15Zr4rKw4DKF4UArb_yoW3KrbEy3
-	Z3Ga4kuryUXr4Ivr15J3yavF4qgFZ2vF1UW3Z0gr4qyr9rJrWfX3Z3Jrs3urn5XrW8uFy2
-	yFykZw4qv3y0qjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUb38FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-	Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr
-	0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
-	6xIIjxv20xvE14v26r126r1DMcIj6I8E87Iv67AKxVWxJVW8Jr1lOx8S6xCaFVCjc4AY6r
-	1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02
-	628vn2kIc2xKxwCY02Avz4vE14v_Gr4l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7
-	v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
-	1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
-	AIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI
-	42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWI
-	evJa73UjIFyTuYvjfUYdgADUUUU
-X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
+X-Rspamd-Queue-Id: 8417C21B93
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,baylibre.com:email];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-Replace a comma between expression statements by a semicolon.
+On Mon, 08 Jul 2024 15:02:53 +0200,
+Uwe Kleine-König wrote:
+> 
+> The driver doesn't use the driver_data member of struct i2c_device_id,
+> so don't explicitly initialize this member.
+> 
+> This prepares putting driver_data in an anonymous union which requires
+> either no initialization or named designators. But it's also a nice
+> cleanup on its own.
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
 
-Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
----
- sound/soc/intel/boards/sof_sdw.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Thanks, applied now.
 
-diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
-index e94849b84a6b..e5feaef669d1 100644
---- a/sound/soc/intel/boards/sof_sdw.c
-+++ b/sound/soc/intel/boards/sof_sdw.c
-@@ -2136,9 +2136,9 @@ static int mc_probe(struct platform_device *pdev)
- 
- 	card = &ctx->card;
- 	card->dev = &pdev->dev;
--	card->name = "soundwire",
--	card->owner = THIS_MODULE,
--	card->late_probe = sof_sdw_card_late_probe,
-+	card->name = "soundwire";
-+	card->owner = THIS_MODULE;
-+	card->late_probe = sof_sdw_card_late_probe;
- 
- 	snd_soc_card_set_drvdata(card, ctx);
- 
--- 
-2.25.1
 
+Takashi
