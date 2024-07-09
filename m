@@ -1,135 +1,99 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.sberdevices.ru (mx1.sberdevices.ru [37.18.73.165])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36B3A26AC9;
-	Tue,  9 Jul 2024 09:59:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9023A155C93;
+	Tue,  9 Jul 2024 10:41:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.18.73.165
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720519160; cv=none; b=gwMcCAxq2l7mU4aQo0XZapfD6zh45AwhsRwTQ98OJTwzGA2iKcouedRtadi+vsnLOU3xIAjbE5e4EzkGdKCzIxvTg756j4Z8WWG4s6g+T8qWhR56aPav21+o/hu+9iQcmkNUKQwr/hX/R7z53KmfohSua67nE1ZQU+Snvgw5y2A=
+	t=1720521709; cv=none; b=p+E2hNCelvk98FISpknSNiId/yWgJuOrKozxGyUJ1Qo931QCdHEQmj4pbodrV+A0X2E4Lo+P1B/By80orC6HkAxKGZhV66SX1Zh7ljRhwiu+oYcwuq9sPdGh08AaJC9ushItafpjwbptQ59xEYiaFrxZXtG7bIVjBBCWu4YpJ6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720519160; c=relaxed/simple;
-	bh=0L8qZkIRswnVHIoZOL+QpI04Q8AqBRQSC0Xu+OGaZs8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XyUJx1L2bFsZJu6HPuKrKnb/DcaJudexpkBRJTINHZTQ0n2gNqH34clof5tkQ1S53jboizMiNsokfEG4lxbyqCCxsPiLZz+PixzluhZenfcj09vXvtGpC/Rbz64wfsoAEFxnm2zHHIis0j6ls8Wrh6ru+r5Mbd66cqsr6FhnZH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bmqg5BEZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=udF14+mV; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=n6cdigFQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dVSUL5VV; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1720521709; c=relaxed/simple;
+	bh=gyB7v+AqACavkmGFJ869As5NNRl8dkIY4iBD16/6g+4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Y2InRNyRceIQ2hgQtQIIUgK7jwjuEv8936n8AX6JpUaa+azI74IY5MzJg2u0oi88XYgStS/OXiKR+5JiKJUzLNHoehIMKSMf0A+qGnGyKosBLYbPDy082G/1mdBIaQFwvB8IMZ6YLfBlllcaWmLxAslBF3gSnPXxqcrLYamipsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com; spf=pass smtp.mailfrom=salutedevices.com; dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b=f+yhCnVH; arc=none smtp.client-ip=37.18.73.165
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=salutedevices.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bmqg5BEZ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="udF14+mV";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="n6cdigFQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dVSUL5VV"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="f+yhCnVH"
+Received: from p-infra-ksmg-sc-msk01.sberdevices.ru (localhost [127.0.0.1])
+	by mx1.sberdevices.ru (Postfix) with ESMTP id 17815100003;
+	Tue,  9 Jul 2024 13:41:37 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 17815100003
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
+	s=mail; t=1720521697;
+	bh=sR12pzHltQx08uov/cGpqyvv5R5yIyi/05+p4TSHs1E=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
+	b=f+yhCnVHh1ukQUEJQQq8ciO2JctFMfi3a3z33BbGroNTI8BMMnHKb/s+Vfjtgys3o
+	 E7qzgaO9MKM9vrepW6wv35SxSMMoDLWY7Au5zrvIk8TayQRRlRhAqXTwXjPT43SAKe
+	 ssT/npOfN5856mQQJziWBVHkM4Mp4HnrWd9nKwBY+S1MSVTLJiW794AtBG8aSQj9NW
+	 /WGZ0H1cxPjX9wtI4Ri+KKXGpb/3y2m8XZce+vgYxEobXBCVU/GmbduSRU7ozi1ZG7
+	 2rLOMhyAiY315Gg3cb5RH30fas89S4ZyAlRvKA/PzVc2/949IsxddaPczZgq8djdho
+	 lpIqfMYdHU7dA==
+Received: from smtp.sberdevices.ru (p-i-exch-sc-m02.sberdevices.ru [172.16.192.103])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0E55221B9A;
-	Tue,  9 Jul 2024 09:59:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1720519157; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eFGyhwLjwHvqnxzFNZDxqYKqmIP/aQi15p3X3ME9A3o=;
-	b=bmqg5BEZ5b48Xex84v8vIqjga9EzKe8xHztDHcnQyLQ4MMUPhEoGvK37VOaDnKVJ3hq7ib
-	Hg9iX8u1aZo3u8UPw4YXoQdfE5AVCe5GfCfa+gL0E4h4WIAaD7iTxkoQJ3uB6/jom5SalV
-	z9SNnHGlJQPPHLDYkqP6cG4dW8MkGa0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1720519157;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eFGyhwLjwHvqnxzFNZDxqYKqmIP/aQi15p3X3ME9A3o=;
-	b=udF14+mVf4SnwpCqK7VBfc8N7pyRSORzth19dk9ss3c3jgYttrmeBhritgXd/Hl9lHCSsw
-	BMuxaGf0uAKFqKAw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=n6cdigFQ;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=dVSUL5VV
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1720519156; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eFGyhwLjwHvqnxzFNZDxqYKqmIP/aQi15p3X3ME9A3o=;
-	b=n6cdigFQhLcLLZEnHKZ2+8bjmo1bLYgVsne3zCW7t8hGjnwHfxN+QC4OrZY7kKAeBnPbvA
-	+ZVaIAaNYGWU/OY9LrZ0nDuUz2JrM+ESc/1X2ZSGdkWaMC5FzH/nHaebC8Ol1bCkaXCo8A
-	mjoxNlJQruCz/hR5ZWjnRS66171WkXY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1720519156;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eFGyhwLjwHvqnxzFNZDxqYKqmIP/aQi15p3X3ME9A3o=;
-	b=dVSUL5VVE2wrfVPGBbq+3qAPxBGTkfblA/rcRQR6iajM1gaR81MuIQEpj6kCiisYdItrqt
-	7v474Mh2ESFeUvAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EBD051369A;
-	Tue,  9 Jul 2024 09:59:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 24cBOfMJjWY5RQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 09 Jul 2024 09:59:15 +0000
-Date: Tue, 09 Jul 2024 11:59:46 +0200
-Message-ID: <878qyadgx9.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Nazar Bilinskyi <nbilinskyi@gmail.com>
-Cc: tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Enable Mute LED on HP 250 G7
-In-Reply-To: <20240709080546.18344-1-nbilinskyi@gmail.com>
-References: <20240709080546.18344-1-nbilinskyi@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	by mx1.sberdevices.ru (Postfix) with ESMTPS;
+	Tue,  9 Jul 2024 13:41:36 +0300 (MSK)
+Received: from localhost.localdomain (100.64.160.123) by
+ p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Tue, 9 Jul 2024 13:41:36 +0300
+From: Igor Prusov <ivprusov@salutedevices.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+	<tiwai@suse.com>, Igor Prusov <ivprusov@salutedevices.com>
+CC: <prusovigor@gmail.com>, <kernel@salutedevices.com>,
+	<linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH 0/2] Add ES7243E ADC driver
+Date: Tue, 9 Jul 2024 13:41:15 +0300
+Message-ID: <20240709104117.33431-1-ivprusov@salutedevices.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 0E55221B9A
-X-Spam-Score: -3.50
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.50 / 50.00];
-	BAYES_HAM(-2.99)[99.97%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) To
+ p-i-exch-sc-m02.sberdevices.ru (172.16.192.103)
+X-KSMG-Rule-ID: 10
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 186389 [Jul 09 2024]
+X-KSMG-AntiSpam-Version: 6.1.0.4
+X-KSMG-AntiSpam-Envelope-From: ivprusov@salutedevices.com
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 23 0.3.23 8881c50ebb08f9085352475be251cf18bb0fcfdd, {Tracking_uf_ne_domains}, {Tracking_from_domain_doesnt_match_to}, smtp.sberdevices.ru:5.0.1,7.1.1;github.com:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;100.64.160.123:7.1.2;127.0.0.199:7.1.2;salutedevices.com:7.1.1, FromAlignment: s, ApMailHostAddress: 100.64.160.123
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean, bases: 2024/07/09 09:10:00
+X-KSMG-LinksScanning: Clean, bases: 2024/07/09 09:10:00
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/07/09 09:37:00 #25918307
+X-KSMG-AntiVirus-Status: Clean, skipped
 
-On Tue, 09 Jul 2024 10:05:46 +0200,
-Nazar Bilinskyi wrote:
-> 
-> HP 250 G7 has a mute LED that can be made to work using quirk
-> ALC269_FIXUP_HP_LINE1_MIC1_LED. Enable already existing quirk.
-> 
-> Signed-off-by: Nazar Bilinskyi <nbilinskyi@gmail.com>
+This series adds Everest Semi ES7243E ADC driver and bindings.
+Driver is based on David Yang's implementation [1].
 
-Thanks, applied now.
+[1] https://github.com/BPI-SINOVOIP/BPI-R2PRO-BSP/blob/main/kernel/sound/soc/codecs/es7243e.c
 
+Igor Prusov (2):
+  ASoC: dt-bindings: Add bindings for Everest ES7243E
+  ASoC: codecs: add ES7243E ADC driver
 
-Takashi
+ .../bindings/sound/everest,es7243e.yaml       |  42 ++
+ sound/soc/codecs/Kconfig                      |   3 +
+ sound/soc/codecs/Makefile                     |   2 +
+ sound/soc/codecs/es7243e.c                    | 676 ++++++++++++++++++
+ 4 files changed, 723 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/everest,es7243e.yaml
+ create mode 100644 sound/soc/codecs/es7243e.c
+
+-- 
+2.34.1
+
