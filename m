@@ -1,95 +1,122 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56F3D1A08A0;
-	Tue,  9 Jul 2024 16:23:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EDF61D47CE;
+	Tue,  9 Jul 2024 16:24:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720542218; cv=none; b=CBCe//PkVrFQA2uikkBy6KcdJ9377m6wOCeuumJqaZLeg6dfsXisEaVBf+lZ9L0VtwFH3szJvrElVSnAfINnepWJ9wihEezmyrVC587m7rmqDAhpAayPwHYYJCBM8mwfG4CL6hLSTZLpb+rVsGwdn1zwm72dnONNw63n7UmkK1k=
+	t=1720542248; cv=none; b=leOtM+U/nNpbK0ZkHWAbbF9DmQp8m0XM/19TT9gEW3DKl/sCeuC5LEMHT1Tkp+DmQNe3hXkEkiaTOdFYvEm0sekpcrkeC/T4LGoeqhhehU8zNQJvUke26YxARY1oq1fDAu/BJlRusJhGjiIuzSND/3cSR3u7ZwEpOmScNT0nv68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720542218; c=relaxed/simple;
-	bh=x4j+mPJIwJCDbaZ9DjFvkJ8ODGnYpHCdSfBKribIdbs=;
+	s=arc-20240116; t=1720542248; c=relaxed/simple;
+	bh=jaPpI5Eqcuz056iC/8jfQHa6ir1jCT7clsEmTe7NEos=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aXgoOg96bdMpJoRDHKaBJnSSckLhTQ9soD4t0/RROrtAguH6J4IlkeruocP5cAxQfgWdlPqfk7Os5PgmFjykDfyxyoswkmiWK9xar1yv9XgKJBc7hh1p1bL1hFqTz+VQYlEjR8y/GpKJW9tChh6PQV/bBM875CYgU4KpsfKaZv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DkSU4eCz; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=nZGkJeVbtBW3eGDaVanHkoFbccqbVtecwi8pzSCZ6ywD3wG35QdjFeP3yyLnTUVHDIv0wI4aJENy/dNYM9M8yhmGgq4epwzvA447AKZeurXWdaRgvk0xtWKm120BtbB3P/Y8qhw/BHg0MBp7Jr5HwF131rY9NpCwFsYj2sLPrqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sdTjoP3w; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DkSU4eCz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3470C32782;
-	Tue,  9 Jul 2024 16:23:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sdTjoP3w"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40C4BC3277B;
+	Tue,  9 Jul 2024 16:24:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720542218;
-	bh=x4j+mPJIwJCDbaZ9DjFvkJ8ODGnYpHCdSfBKribIdbs=;
+	s=k20201202; t=1720542248;
+	bh=jaPpI5Eqcuz056iC/8jfQHa6ir1jCT7clsEmTe7NEos=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DkSU4eCz+JOqni5dLnwbmoAbW2WshL4vEDX9JIRNZof7fazVGVw+/PZ8PcJuq3gJj
-	 mIn4wx5BwROfertfJkKK6DOyx/vGUEEWY4njXItu3/vtxZFJzX8o33vYtiEUKl6RUc
-	 dI0iS3LUWZeY+U53o8Dgyk7xEA1bkeX4RpHcP3WePCfjtSR3qAvgp6VyVxh/7aIf8z
-	 ezRjbBiV7ZVGs6uaIAYD5a7KaZLpGbzCfVWThC2QlsOo73eIPsIMtahgdJKrp+PY/b
-	 L1yd9EGS8Hnb2tDQDZosj+T3//nGjUkW8JbPrnm4xkapYCRVZty+LJfjix0d8yQvN0
-	 dsIO+ng2wo+Zg==
+	b=sdTjoP3wAVXH67zWu9dmcRP9gNNYhGA7eGpliE9IJmrCk179TqPyXrz84UfergoLx
+	 RKrh5qrN+eNmVAl0H01O6Sx75eyWOB+TQxEoCG+YwNl1yLFhqXQKP117BLMRDn11db
+	 Ep1pgsSonIWxFTFXXDYIyJabVhOiUK/VMWspZmOM56/bJYYZHaAFX5s0yh80J9Jc3W
+	 j9GJXLEDRzTc7SioFHf8pVbK9vkl+CuJLc8uSD/dx/h7TUbeP0s95MRZ7FQ33g+pc1
+	 JX2jc0x05CyA+x/YyYFYjCa8SguAhP1RHoCFE/OQQh/9c6fsrlIzqSUBfa5uwqtybD
+	 HvTmzGDzra8sw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Vyacheslav Frantsishko <itmymaill@gmail.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
+Cc: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>,
+	Jason Montleon <jmontleo@redhat.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	me@jwang.link,
-	end.to.start@mail.ru,
-	git@augustwikerfors.se,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 32/33] ASoC: amd: yc: Fix non-functional mic on ASUS M5602RA
-Date: Tue,  9 Jul 2024 12:21:58 -0400
-Message-ID: <20240709162224.31148-32-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 03/27] ASoC: topology: Fix references to freed memory
+Date: Tue,  9 Jul 2024 12:23:17 -0400
+Message-ID: <20240709162401.31946-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240709162224.31148-1-sashal@kernel.org>
-References: <20240709162224.31148-1-sashal@kernel.org>
+In-Reply-To: <20240709162401.31946-1-sashal@kernel.org>
+References: <20240709162401.31946-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.38
+X-stable-base: Linux 6.1.97
 Content-Transfer-Encoding: 8bit
 
-From: Vyacheslav Frantsishko <itmymaill@gmail.com>
+From: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
 
-[ Upstream commit 63b47f026cc841bd3d3438dd6fccbc394dfead87 ]
+[ Upstream commit 97ab304ecd95c0b1703ff8c8c3956dc6e2afe8e1 ]
 
-The Vivobook S 16X IPS needs a quirks-table entry for the internal microphone to function properly.
+Most users after parsing a topology file, release memory used by it, so
+having pointer references directly into topology file contents is wrong.
+Use devm_kmemdup(), to allocate memory as needed.
 
-Signed-off-by: Vyacheslav Frantsishko <itmymaill@gmail.com>
-Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
-Link: https://patch.msgid.link/20240626070334.45633-1-itmymaill@gmail.com
+Reported-by: Jason Montleon <jmontleo@redhat.com>
+Link: https://github.com/thesofproject/avs-topology-xml/issues/22#issuecomment-2127892605
+Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
+Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+Link: https://lore.kernel.org/r/20240603102818.36165-2-amadeuszx.slawinski@linux.intel.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ sound/soc/soc-topology.c | 27 ++++++++++++++++++++++-----
+ 1 file changed, 22 insertions(+), 5 deletions(-)
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 1760b5d42460a..4e3a8ce690a45 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -283,6 +283,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "M5402RA"),
+diff --git a/sound/soc/soc-topology.c b/sound/soc/soc-topology.c
+index d68c48555a7e3..b07083bae65ed 100644
+--- a/sound/soc/soc-topology.c
++++ b/sound/soc/soc-topology.c
+@@ -1101,15 +1101,32 @@ static int soc_tplg_dapm_graph_elems_load(struct soc_tplg *tplg,
+ 			break;
  		}
- 	},
-+        {
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "M5602RA"),
+ 
+-		route->source = elem->source;
+-		route->sink = elem->sink;
++		route->source = devm_kmemdup(tplg->dev, elem->source,
++					     min(strlen(elem->source),
++						 SNDRV_CTL_ELEM_ID_NAME_MAXLEN),
++					     GFP_KERNEL);
++		route->sink = devm_kmemdup(tplg->dev, elem->sink,
++					   min(strlen(elem->sink), SNDRV_CTL_ELEM_ID_NAME_MAXLEN),
++					   GFP_KERNEL);
++		if (!route->source || !route->sink) {
++			ret = -ENOMEM;
++			break;
 +		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
+ 
+ 		/* set to NULL atm for tplg users */
+ 		route->connected = NULL;
+-		if (strnlen(elem->control, SNDRV_CTL_ELEM_ID_NAME_MAXLEN) == 0)
++		if (strnlen(elem->control, SNDRV_CTL_ELEM_ID_NAME_MAXLEN) == 0) {
+ 			route->control = NULL;
+-		else
+-			route->control = elem->control;
++		} else {
++			route->control = devm_kmemdup(tplg->dev, elem->control,
++						      min(strlen(elem->control),
++							  SNDRV_CTL_ELEM_ID_NAME_MAXLEN),
++						      GFP_KERNEL);
++			if (!route->control) {
++				ret = -ENOMEM;
++				break;
++			}
++		}
+ 
+ 		/* add route dobj to dobj_list */
+ 		route->dobj.type = SND_SOC_DOBJ_GRAPH;
 -- 
 2.43.0
 
