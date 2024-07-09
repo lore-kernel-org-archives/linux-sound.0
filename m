@@ -1,91 +1,135 @@
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 027B7154BE4;
-	Tue,  9 Jul 2024 08:54:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36B3A26AC9;
+	Tue,  9 Jul 2024 09:59:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720515276; cv=none; b=TQ6iCIMgvSc5K4iwmEYuRO2Ln2hCOK4EGyvaxaenYyTNeblXGQlYM54rPWizkN1AxFr+ZJnrLdCc5vlYeEsAWKlpeNJup9cojp8azVDzt4iIq45Ynz9iX8PXnnb3LXsbm5T2dQVIXp3U3YYl+advB7R6fddkTkJANUmBzb3McrQ=
+	t=1720519160; cv=none; b=gwMcCAxq2l7mU4aQo0XZapfD6zh45AwhsRwTQ98OJTwzGA2iKcouedRtadi+vsnLOU3xIAjbE5e4EzkGdKCzIxvTg756j4Z8WWG4s6g+T8qWhR56aPav21+o/hu+9iQcmkNUKQwr/hX/R7z53KmfohSua67nE1ZQU+Snvgw5y2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720515276; c=relaxed/simple;
-	bh=cIiVSr1iYUHf8WjtaedoJtges/tulpFdO61UlfbtPr0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=btLxcKnW/MbM/Fu2WLBCmGNDwGWKieAQ5tUyo6LDyP7ajLqDOKc6WDIOigSoQZIDmndPDhSzRioTLer+ZuCbYdDXBDgj2+Jm5fq70dzrthXhJlyJXhzm8KO/5/LJ6Z8iik0/kXRn8+lcJMgEXo8sfi2VorY9Y6EUulDFYN8GZNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost (unknown [124.16.138.129])
-	by APP-01 (Coremail) with SMTP id qwCowADX3cmr+oxmTj1oAg--.4166S2;
-	Tue, 09 Jul 2024 16:54:03 +0800 (CST)
-From: Chen Ni <nichen@iscas.ac.cn>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com,
-	amergnat@baylibre.com,
-	kuninori.morimoto.gx@renesas.com,
-	jernej.skrabec@gmail.com,
-	nfraprado@collabora.com,
-	robh@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] ASoC: mediatek: mt8192: remove redundant null pointer check before of_node_put
-Date: Tue,  9 Jul 2024 16:51:31 +0800
-Message-Id: <20240709085131.1436128-1-nichen@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1720519160; c=relaxed/simple;
+	bh=0L8qZkIRswnVHIoZOL+QpI04Q8AqBRQSC0Xu+OGaZs8=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XyUJx1L2bFsZJu6HPuKrKnb/DcaJudexpkBRJTINHZTQ0n2gNqH34clof5tkQ1S53jboizMiNsokfEG4lxbyqCCxsPiLZz+PixzluhZenfcj09vXvtGpC/Rbz64wfsoAEFxnm2zHHIis0j6ls8Wrh6ru+r5Mbd66cqsr6FhnZH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bmqg5BEZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=udF14+mV; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=n6cdigFQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dVSUL5VV; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bmqg5BEZ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="udF14+mV";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="n6cdigFQ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dVSUL5VV"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0E55221B9A;
+	Tue,  9 Jul 2024 09:59:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1720519157; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eFGyhwLjwHvqnxzFNZDxqYKqmIP/aQi15p3X3ME9A3o=;
+	b=bmqg5BEZ5b48Xex84v8vIqjga9EzKe8xHztDHcnQyLQ4MMUPhEoGvK37VOaDnKVJ3hq7ib
+	Hg9iX8u1aZo3u8UPw4YXoQdfE5AVCe5GfCfa+gL0E4h4WIAaD7iTxkoQJ3uB6/jom5SalV
+	z9SNnHGlJQPPHLDYkqP6cG4dW8MkGa0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1720519157;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eFGyhwLjwHvqnxzFNZDxqYKqmIP/aQi15p3X3ME9A3o=;
+	b=udF14+mVf4SnwpCqK7VBfc8N7pyRSORzth19dk9ss3c3jgYttrmeBhritgXd/Hl9lHCSsw
+	BMuxaGf0uAKFqKAw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=n6cdigFQ;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=dVSUL5VV
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1720519156; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eFGyhwLjwHvqnxzFNZDxqYKqmIP/aQi15p3X3ME9A3o=;
+	b=n6cdigFQhLcLLZEnHKZ2+8bjmo1bLYgVsne3zCW7t8hGjnwHfxN+QC4OrZY7kKAeBnPbvA
+	+ZVaIAaNYGWU/OY9LrZ0nDuUz2JrM+ESc/1X2ZSGdkWaMC5FzH/nHaebC8Ol1bCkaXCo8A
+	mjoxNlJQruCz/hR5ZWjnRS66171WkXY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1720519156;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eFGyhwLjwHvqnxzFNZDxqYKqmIP/aQi15p3X3ME9A3o=;
+	b=dVSUL5VVE2wrfVPGBbq+3qAPxBGTkfblA/rcRQR6iajM1gaR81MuIQEpj6kCiisYdItrqt
+	7v474Mh2ESFeUvAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EBD051369A;
+	Tue,  9 Jul 2024 09:59:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 24cBOfMJjWY5RQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 09 Jul 2024 09:59:15 +0000
+Date: Tue, 09 Jul 2024 11:59:46 +0200
+Message-ID: <878qyadgx9.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Nazar Bilinskyi <nbilinskyi@gmail.com>
+Cc: tiwai@suse.com,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Enable Mute LED on HP 250 G7
+In-Reply-To: <20240709080546.18344-1-nbilinskyi@gmail.com>
+References: <20240709080546.18344-1-nbilinskyi@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowADX3cmr+oxmTj1oAg--.4166S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7JFW3Kr15GF17uFyDXFW8WFg_yoWfurg_J3
-	WkK3Z7ur1UGr48Crsrtr98CFs7ZayakF1xZF1YqwnxGry7Gr15A3Z8trnrur45ZrWvy3W5
-	ArsxZwn2yFZYvjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbVkFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-	Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-	jxv20xvE14v26r126r1DMcIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
-	Y2ka0xkIwI1lc2xSY4AK67AK6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r
-	1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
-	b7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
-	vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAI
-	cVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kf
-	nxnUUI43ZEXa7VUbrcTPUUUUU==
-X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 0E55221B9A
+X-Spam-Score: -3.50
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.50 / 50.00];
+	BAYES_HAM(-2.99)[99.97%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-of_node_put() has taken the null pointer check into account. So it is safe
-to remove the duplicated check before of_node_put().
+On Tue, 09 Jul 2024 10:05:46 +0200,
+Nazar Bilinskyi wrote:
+> 
+> HP 250 G7 has a mute LED that can be made to work using quirk
+> ALC269_FIXUP_HP_LINE1_MIC1_LED. Enable already existing quirk.
+> 
+> Signed-off-by: Nazar Bilinskyi <nbilinskyi@gmail.com>
 
-Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
----
- sound/soc/mediatek/mt8192/mt8192-mt6359-rt1015-rt5682.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Thanks, applied now.
 
-diff --git a/sound/soc/mediatek/mt8192/mt8192-mt6359-rt1015-rt5682.c b/sound/soc/mediatek/mt8192/mt8192-mt6359-rt1015-rt5682.c
-index 8b323fb19925..db00704e206d 100644
---- a/sound/soc/mediatek/mt8192/mt8192-mt6359-rt1015-rt5682.c
-+++ b/sound/soc/mediatek/mt8192/mt8192-mt6359-rt1015-rt5682.c
-@@ -1108,9 +1108,7 @@ static int mt8192_mt6359_legacy_probe(struct mtk_soc_card_data *soc_card_data)
- err_headset_codec:
- 	of_node_put(speaker_codec);
- err_speaker_codec:
--	if (hdmi_codec)
--		of_node_put(hdmi_codec);
--
-+	of_node_put(hdmi_codec);
- 	return ret;
- }
- 
--- 
-2.25.1
 
+Takashi
