@@ -1,211 +1,152 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 709E719CCF6;
-	Tue,  9 Jul 2024 14:52:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA6919CD1E
+	for <linux-sound@vger.kernel.org>; Tue,  9 Jul 2024 15:22:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720536741; cv=none; b=mWnw7yHeh3nafzbHW3kB5a0JHKt7HZo+m1TzoxkasOAq22G4ncAvRX1hag4vIo1Z1T+/JdrVqqCMRAw+6eFMVg76xZAdiWFH9wqDj1XI/3Hi2/fqyIv4lkkJpKSiDFWiX2UHUt0RhZIIsBgxDp0JN24kFQyMrSbndvydlcPwT2g=
+	t=1720538532; cv=none; b=nvF9f+jLottxRFopwt6QducZvFVQ/wnjBdlMJYdLy5+G4OUxpEGY8eZEhDsYDU/7KWSOYuqlCNq1gTlkIK/eRfc4RNu0r233ujns/11ZgYW94vwRSXYqWvTsPfxIraAFjWTht2hRXpORr4xS2XdHeRrA82pFqn9mYnx9cNaA/zI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720536741; c=relaxed/simple;
-	bh=Ij4C3w8dAUmZS8jiq4VbNchaZ9uf5BArZniso9j2Wms=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=by/Mk0c0OCO7z65kRnzuXA5oCgl8HcETvYFpoX546qlSBsQ3Uq13qw6jb/olchJpBVko8ciu0iIV4LM1hLnNT4mh92VFDEclPrGNTium7E/GzGhvLTrVayrm5syprvw+vhddsmG2OkCGTbbt5LX20hsfL19/V4MEKOE/vxrjIRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=c9nkzybT; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1720538532; c=relaxed/simple;
+	bh=JWAQLFqZkuWOfZpZyTRyc8jygVtPln2o1M5TZCpyi7E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UlQJV4dwEe1ZivLocnzbiaZU3K8zwPqnoSXSxkXDc6rXvyUtYmKbmaUXxLuROfNBziGuBSf+41L6uofEbfstCD5KcCXOColQ0Ko/kvIF+YMcUDLpSDoWnHTt3gzXqfP9tKSW00WDaGh+wQhetERcwU79jiH/m/CUP1vCWXBMYYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=EkV/fz5J; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="c9nkzybT"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4699SgHd015345;
-	Tue, 9 Jul 2024 09:52:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=z7r55chf67cOgUDruDOw4O5x+ATWaOhhgwvyJEKnqDw=; b=
-	c9nkzybTIpOmLkyDjGh7jR2tRS7R76KoGFnR8WamiwGVeg+teeCwzMvwNBQ+uVCt
-	+nZbs/Uu/Ye19ycsAnZ2N5GEWt73vj6MKl8Y8E8NHIDFIDP4Sat3fTzJRHKfb7J2
-	Ph963jV3G8q7eb5nLoyLhzAYoC6T9MSoPraUbXtoO26aA9qlwgBIZD4dzHYdOYLD
-	mwnt+m1pDiJxk9OqPcgzlNk7pvBB7JSAvoQ3gt04sVC2+jhW+FzyF1ctnAZIbedC
-	LZO6/erdB8vRF1lNis4CFF9RGrC2/Wlt1e3h3gqcj1v3cpIbrM9TQe0QS5ijYdH/
-	kgY1jRDRWfdG/BqlSB1+CA==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4073axtqjf-3
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 09 Jul 2024 09:52:01 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 9 Jul 2024
- 15:51:57 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Tue, 9 Jul 2024 15:51:57 +0100
-Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 2424A820259;
-	Tue,  9 Jul 2024 14:51:57 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: <broonie@kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>
-Subject: [PATCH 4/4] firmware: cs_dsp: Rename fw_ver to wmfw_ver
-Date: Tue, 9 Jul 2024 15:51:56 +0100
-Message-ID: <20240709145156.268074-5-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240709145156.268074-1-rf@opensource.cirrus.com>
-References: <20240709145156.268074-1-rf@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="EkV/fz5J"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-426717a2d12so6760055e9.0
+        for <linux-sound@vger.kernel.org>; Tue, 09 Jul 2024 08:22:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1720538529; x=1721143329; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jfUB9ZJ69EL9GipUtbkxGBaJaIV82ecNhY+j5SzQ2gM=;
+        b=EkV/fz5JvvHmnnNHgq4YBGewGglZkbZNa2fXIL2HdY63vneGnl6IzcUIQrksC9fkk/
+         6v3opD75UBPoSNI/KtCHYFOEnw7OgYVBWRREW/oIUtl7vaXPOkkMmG9HZrakDH/E3/wT
+         AAv5y0kbebSyBPwOHK3auUFmOBjVElMRxmQ91soA6aOy2DUPXRqvytsQX5MU+1TW6s1D
+         ee+F6JjwCPNJlKf4yhsjIkNAGD3mQRc9B/V3TXOGssh95SVNZ1cDJ3rn+/xui/u2Y0kz
+         9RD6hXVj8Y3GfLtcRuwI/NQRz+mArYfTC2pAnm41DrP7QwtFEOb6h1OlYfXR4LF6/q50
+         TgEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720538529; x=1721143329;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jfUB9ZJ69EL9GipUtbkxGBaJaIV82ecNhY+j5SzQ2gM=;
+        b=c59K715Qrt/Cr9PxOiJfwo0Oi0glpZABOgBrovew2Svcb67WoAjWzVAcr5abtiPAA9
+         B+DJS95VC0C273jOEhEtxRJPt9npISZaYxpOCYunWVrjSal5sh7XtouAScYnlq5FhPcQ
+         R4Y9cHyC+ZrP4L3vSKDi8aEeMMPEu/wpYAdl/rvDo73N9gLnnLqvxY2WqxSiYoEBdBi8
+         u8T8YOUm9NQ1DMGGn48KXQXP+yzHilF1IUrbrQKalfQx3K7WzemnmqDmb+2ZVJBHwQnG
+         lIJl/XSsF5h6U7F2ZpSwZ/2BZbOwgq+RQs5fqH5wvYDcHwf5DPMOQNE0FJs5CU7ctVnd
+         nKUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV/1mfnvbXcOPkXpJXvbJORP1FWQmp4vOL44xeUz0r0Ke5+QJbhr3Pjv9f87OUHhdX1Ch58KVb2EKbqXVqcHZh8YNDpHyjFbX9leu0=
+X-Gm-Message-State: AOJu0YwVz3hDjMKreeUT6MWiWfs8KJBN9r39V/gTV6L763EtDeiYryf0
+	r9c+eYgw0MhtS7koQxBUlLAlewNWXyCd3MSKDDDaoXFWC4uxi2FBuD+NH6AAHHQ=
+X-Google-Smtp-Source: AGHT+IFKyuCi8F65Rnjy2ONu9WDc7c8zSBudZGwZQkQFlY9b9EBnNysV/fwsOhCmIH3gVuNNKX3o0A==
+X-Received: by 2002:a05:600c:4ba4:b0:424:aa83:ef27 with SMTP id 5b1f17b1804b1-426722c11a1mr22876765e9.1.1720538528867;
+        Tue, 09 Jul 2024 08:22:08 -0700 (PDT)
+Received: from localhost (p50915e7b.dip0.t-ipconnect.de. [80.145.94.123])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4266f6f5f51sm46910255e9.25.2024.07.09.08.22.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jul 2024 08:22:08 -0700 (PDT)
+Date: Tue, 9 Jul 2024 17:22:07 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Rob Herring <robh+dt@kernel.org>
+Cc: Nikita Shubin <nikita.shubin@maquefel.me>, 
+	Andy Shevchenko <andy.shevchenko@gmail.com>, Arnd Bergmann <arnd@arndb.de>, Stephen Boyd <sboyd@kernel.org>, 
+	Hartley Sweeten <hsweeten@visionengravers.com>, Alexander Sverdlin <alexander.sverdlin@gmail.com>, 
+	Russell King <linux@armlinux.org.uk>, Lukasz Majewski <lukma@denx.de>, 
+	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Andy Shevchenko <andy@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
+	Sebastian Reichel <sre@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
+	Guenter Roeck <linux@roeck-us.net>, Thierry Reding <thierry.reding@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
+	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
+	Damien Le Moal <dlemoal@kernel.org>, Sergey Shtylyov <s.shtylyov@omp.ru>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Ralf Baechle <ralf@linux-mips.org>, "Wu, Aaron" <Aaron.Wu@analog.com>, Lee Jones <lee@kernel.org>, 
+	Olof Johansson <olof@lixom.net>, Niklas Cassel <cassel@kernel.org>, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
+	dmaengine@vger.kernel.org, linux-watchdog@vger.kernel.org, linux-pwm@vger.kernel.org, 
+	linux-spi@vger.kernel.org, netdev@vger.kernel.org, linux-mtd@lists.infradead.org, 
+	linux-ide@vger.kernel.org, linux-input@vger.kernel.org, linux-sound@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Andrew Lunn <andrew@lunn.ch>, Vinod Koul <vkoul@kernel.org>
+Subject: Re: [PATCH v10 00/38] ep93xx device tree conversion
+Message-ID: <fjbvn3p7nqtvllcohtmcwlyv45blulb47t62gz3xey37wrbie5@ke6xcrfq2ztq>
+References: <20240617-ep93xx-v10-0-662e640ed811@maquefel.me>
+ <CAHp75VfSC9gAD9ipeWRPdQOxUp4FXqYYei-cJTs38nbz0cHpkg@mail.gmail.com>
+ <48c242838c77034485a9e667dc0e867207c5beed.camel@maquefel.me>
+ <241a4cf9830b0118f01e8fcf2853c62527636049.camel@maquefel.me>
+ <jyvlqfvqn5bp3jmvxvwyrcqmihjohuq3o757mfph7x37kbwvtq@gtgyh4fca4fq>
+ <CAL_Jsq+9Jk90HovH8bwzgCHwwh9j4mBm_Aaiq+EOj1HT3R17_Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: f3ubVwF3Xvm_CRayawi4WLiUnt678VJ2
-X-Proofpoint-GUID: f3ubVwF3Xvm_CRayawi4WLiUnt678VJ2
-X-Proofpoint-Spam-Reason: safe
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="piveefpjjxp5n6ob"
+Content-Disposition: inline
+In-Reply-To: <CAL_Jsq+9Jk90HovH8bwzgCHwwh9j4mBm_Aaiq+EOj1HT3R17_Q@mail.gmail.com>
 
-Rename the confusingly named struct member fw_ver to wmfw_ver. It
-contains the wmfw format version of the loaded wmfw file.
 
-This commit also contains an update to wm_adsp for the new name.
+--piveefpjjxp5n6ob
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
----
- drivers/firmware/cirrus/cs_dsp.c       | 22 +++++++++++-----------
- include/linux/firmware/cirrus/cs_dsp.h |  2 +-
- sound/soc/codecs/wm_adsp.c             |  2 +-
- 3 files changed, 13 insertions(+), 13 deletions(-)
+Hello Rob,
 
-diff --git a/drivers/firmware/cirrus/cs_dsp.c b/drivers/firmware/cirrus/cs_dsp.c
-index 141a6c9d6737..b4dd1a768f1e 100644
---- a/drivers/firmware/cirrus/cs_dsp.c
-+++ b/drivers/firmware/cirrus/cs_dsp.c
-@@ -1051,7 +1051,7 @@ static int cs_dsp_create_control(struct cs_dsp *dsp,
- 
- 	ctl->fw_name = dsp->fw_name;
- 	ctl->alg_region = *alg_region;
--	if (subname && dsp->fw_ver >= 2) {
-+	if (subname && dsp->wmfw_ver >= 2) {
- 		ctl->subname_len = subname_len;
- 		ctl->subname = kasprintf(GFP_KERNEL, "%.*s", subname_len, subname);
- 		if (!ctl->subname) {
-@@ -1178,7 +1178,7 @@ static int cs_dsp_coeff_parse_alg(struct cs_dsp *dsp,
- 
- 	raw = (const struct wmfw_adsp_alg_data *)region->data;
- 
--	switch (dsp->fw_ver) {
-+	switch (dsp->wmfw_ver) {
- 	case 0:
- 	case 1:
- 		if (sizeof(*raw) > data_len)
-@@ -1255,7 +1255,7 @@ static int cs_dsp_coeff_parse_coeff(struct cs_dsp *dsp,
- 	blk->offset = le16_to_cpu(raw->hdr.offset);
- 	blk->mem_type = le16_to_cpu(raw->hdr.type);
- 
--	switch (dsp->fw_ver) {
-+	switch (dsp->wmfw_ver) {
- 	case 0:
- 	case 1:
- 		if (sizeof(*raw) > (data_len - pos))
-@@ -1502,7 +1502,7 @@ static int cs_dsp_load(struct cs_dsp *dsp, const struct firmware *firmware,
- 		goto out_fw;
- 	}
- 
--	dsp->fw_ver = header->ver;
-+	dsp->wmfw_ver = header->ver;
- 
- 	if (header->core != dsp->type) {
- 		cs_dsp_err(dsp, "%s: invalid core %d != %d\n",
-@@ -1551,7 +1551,7 @@ static int cs_dsp_load(struct cs_dsp *dsp, const struct firmware *firmware,
- 		case WMFW_INFO_TEXT:
- 		case WMFW_NAME_TEXT:
- 			region_name = "Info/Name";
--			cs_dsp_info(dsp, "%s (rev %d): %.*s\n", file, dsp->fw_ver,
-+			cs_dsp_info(dsp, "%s (rev %d): %.*s\n", file, dsp->wmfw_ver,
- 				    min(le32_to_cpu(region->len), 100), region->data);
- 			break;
- 		case WMFW_ALGORITHM_DATA:
-@@ -1782,7 +1782,7 @@ static struct cs_dsp_alg_region *cs_dsp_create_region(struct cs_dsp *dsp,
- 
- 	list_add_tail(&alg_region->list, &dsp->alg_regions);
- 
--	if (dsp->fw_ver > 0)
-+	if (dsp->wmfw_ver > 0)
- 		cs_dsp_ctl_fixup_base(dsp, alg_region);
- 
- 	return alg_region;
-@@ -1905,7 +1905,7 @@ static int cs_dsp_adsp1_setup_algs(struct cs_dsp *dsp)
- 			ret = PTR_ERR(alg_region);
- 			goto out;
- 		}
--		if (dsp->fw_ver == 0) {
-+		if (dsp->wmfw_ver == 0) {
- 			if (i + 1 < n_algs) {
- 				len = be32_to_cpu(adsp1_alg[i + 1].dm);
- 				len -= be32_to_cpu(adsp1_alg[i].dm);
-@@ -1927,7 +1927,7 @@ static int cs_dsp_adsp1_setup_algs(struct cs_dsp *dsp)
- 			ret = PTR_ERR(alg_region);
- 			goto out;
- 		}
--		if (dsp->fw_ver == 0) {
-+		if (dsp->wmfw_ver == 0) {
- 			if (i + 1 < n_algs) {
- 				len = be32_to_cpu(adsp1_alg[i + 1].zm);
- 				len -= be32_to_cpu(adsp1_alg[i].zm);
-@@ -2018,7 +2018,7 @@ static int cs_dsp_adsp2_setup_algs(struct cs_dsp *dsp)
- 			ret = PTR_ERR(alg_region);
- 			goto out;
- 		}
--		if (dsp->fw_ver == 0) {
-+		if (dsp->wmfw_ver == 0) {
- 			if (i + 1 < n_algs) {
- 				len = be32_to_cpu(adsp2_alg[i + 1].xm);
- 				len -= be32_to_cpu(adsp2_alg[i].xm);
-@@ -2040,7 +2040,7 @@ static int cs_dsp_adsp2_setup_algs(struct cs_dsp *dsp)
- 			ret = PTR_ERR(alg_region);
- 			goto out;
- 		}
--		if (dsp->fw_ver == 0) {
-+		if (dsp->wmfw_ver == 0) {
- 			if (i + 1 < n_algs) {
- 				len = be32_to_cpu(adsp2_alg[i + 1].ym);
- 				len -= be32_to_cpu(adsp2_alg[i].ym);
-@@ -2062,7 +2062,7 @@ static int cs_dsp_adsp2_setup_algs(struct cs_dsp *dsp)
- 			ret = PTR_ERR(alg_region);
- 			goto out;
- 		}
--		if (dsp->fw_ver == 0) {
-+		if (dsp->wmfw_ver == 0) {
- 			if (i + 1 < n_algs) {
- 				len = be32_to_cpu(adsp2_alg[i + 1].zm);
- 				len -= be32_to_cpu(adsp2_alg[i].zm);
-diff --git a/include/linux/firmware/cirrus/cs_dsp.h b/include/linux/firmware/cirrus/cs_dsp.h
-index 8078dc377948..2e649810169f 100644
---- a/include/linux/firmware/cirrus/cs_dsp.h
-+++ b/include/linux/firmware/cirrus/cs_dsp.h
-@@ -167,7 +167,7 @@ struct cs_dsp {
- 	const struct cs_dsp_region *mem;
- 	int num_mems;
- 
--	int fw_ver;
-+	int wmfw_ver;
- 
- 	bool booted;
- 	bool running;
-diff --git a/sound/soc/codecs/wm_adsp.c b/sound/soc/codecs/wm_adsp.c
-index 68d2d6444533..9f8549b34e30 100644
---- a/sound/soc/codecs/wm_adsp.c
-+++ b/sound/soc/codecs/wm_adsp.c
-@@ -601,7 +601,7 @@ static int wm_adsp_control_add(struct cs_dsp_coeff_ctl *cs_ctl)
- 		return -EINVAL;
- 	}
- 
--	switch (cs_dsp->fw_ver) {
-+	switch (cs_dsp->wmfw_ver) {
- 	case 0:
- 	case 1:
- 		ret = scnprintf(name, SNDRV_CTL_ELEM_ID_NAME_MAXLEN,
--- 
-2.39.2
+On Tue, Jul 09, 2024 at 07:58:42AM -0600, Rob Herring wrote:
+> On Fri, Jul 5, 2024 at 3:21=E2=80=AFAM Uwe Kleine-K=C3=B6nig
+> <u.kleine-koenig@baylibre.com> wrote:
+> > As we're approaching the merge window and this is still unclear, I
+> > applied the pwm bits (i.e. patches 12, 13). If I understand correctly,
+> > patch 33 isn't suitable for application yet as it has a dependency on
+> > pinctrl changes in that series.
+>=20
+> Now causing an error in linux-next:
+>=20
+> Documentation/devicetree/bindings/pwm/cirrus,ep9301-pwm.example.dts:18:18:
+> fatal error: dt-bindings/clock/cirrus,ep9301-syscon.h: No such file or
+> directory
+>    18 |         #include <dt-bindings/clock/cirrus,ep9301-syscon.h>
+>       |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> compilation terminated.
+> make[2]: *** [scripts/Makefile.lib:442:
+> Documentation/devicetree/bindings/pwm/cirrus,ep9301-pwm.example.dtb]
+> Error 1
 
+Oh, I thought I had tested that, but obviously I didn't. I'll drop them
+again.
+
+Thanks for letting me know.
+
+Best regards
+Uwe
+
+--piveefpjjxp5n6ob
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmaNVZwACgkQj4D7WH0S
+/k4myggAuVPCnTKtBso6CgCuYoUSZB8cGFx1+fM36OQ0B75EHfb+T+oujbdiO1op
+Q/3NTb3vIUE2+lHn6n/WxHLdeKE1vhmOgiaHW3UabNSZZyT360OZNjin7rLPlQEy
+r1DW1w3QOUIS4g8P/v7skKSis2rOiAkICHLcRdDbW5K5dHLInEshegSKVLo+4McU
+8SqKoYP4acYJFTxAC+gPkDS663k7UCsJbnbHDLstfUnuxPbtKpbDx2z8zB9IXh89
+DMwNeZq7tszOWVZ3i0QEX9fZ/DBoFWY+lSL62ZKsQgh3fJucnwXkwqCdLWahNY0k
+Wth32xU/Xhmh//FAw+1Q2VDgLI37Kw==
+=z8zY
+-----END PGP SIGNATURE-----
+
+--piveefpjjxp5n6ob--
