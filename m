@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDA558288F;
-	Wed, 10 Jul 2024 10:05:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D432B18FC78;
+	Wed, 10 Jul 2024 10:21:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720605944; cv=none; b=o9tXHwq4kCbXUIlCGBGXWNibtm7MoRLe0q03LKDCUrvocqcf4yytobMxekJynOOXjFd9qKuXoPZg7u6kxxKEpRGAy+fvhQ42N8cF+NmBVkJdy6qFWeia7TXl6doztRYjyoWsYpXt2ViEC3DJ/Dxqu+S5y/EItU2M1CbTw2kDw9M=
+	t=1720606912; cv=none; b=GNxp+pI2nPcnRiFbmztU2AYKIerWn/M8EdKFtMkAuihuKRsxbKx0BGl135+J5tqArR7pL5unq/CfOOCVXoCTiuZd1gsrUAvDx/CQz6sQrd5wrHwmPSu8Vl40a4DUed6ncT1Qaw2o1kWgTI7aW93KLQ/JliwfRnwOIWylhZoS5e0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720605944; c=relaxed/simple;
-	bh=WseIQlHNbc9vSw3sBMfgBfqjHy6gFXtvzDiFsRdb6UU=;
+	s=arc-20240116; t=1720606912; c=relaxed/simple;
+	bh=KeqjnIMxRzjZuQTlS+nkiZRUVGBQSJFob8OoHfMAimg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ubvvULg9UprdEL7PETcN2t4lf5k5geSsy7nyxijBSd3gjG13Lhkc2kvhsZevQF3HNYium+Pd2HqQVZIcbkAr41ugsb1DqsbPYnTyXXV7t9gdt/gMbGF/DOuQBTqQnvjDw/X5BynowORFkkTxSql6hRfKBVHD89rVra5UumMUyQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gd9NeJ1V; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=em/wUnCkgqf0eFJeZSLdFxJtPCLUiHo64YaBG9wl2Z8cgmbW4r84o5KjlXH48c/s6NJ0Z7G09Y9FWgcuSULjHj1OkSuoOAjtEr7RaaZCWjY9WbR5GouSezAYJButU7zzc1S48JKZV7L/QpVU61Z6UMb7A+zkhBMp6KnG90sfKxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H4IaL6yg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gd9NeJ1V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77500C32781;
-	Wed, 10 Jul 2024 10:05:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H4IaL6yg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42B1CC32781;
+	Wed, 10 Jul 2024 10:21:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720605943;
-	bh=WseIQlHNbc9vSw3sBMfgBfqjHy6gFXtvzDiFsRdb6UU=;
+	s=k20201202; t=1720606912;
+	bh=KeqjnIMxRzjZuQTlS+nkiZRUVGBQSJFob8OoHfMAimg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=gd9NeJ1V8k2X2ErFaBqjxrs1lWzmpOMEmGj4OGnUb798XkWJkGVfW+cjY4nwWRbho
-	 65xLW6a/oTNMr7r4myUf+8WFzaqsILWACha5IgUkQXlnun2KE1GP0iyb7KT1euw0Se
-	 gktb5a420rzV0f7m67yxu5FV/2q5ZIasf6AatUMV2Q8Od8dLP9Z2ab0GGRGswwKUoN
-	 OUsp4Ap4F2nxjHpt1253tVyoWfxGN/b8lmwqHXWw2sFJB7NPBHfDK5wk1aY+E2GY1H
-	 khI48SDN1HqqpOp+QyTDQyy2qd3Cb+r7sbg5r92JrkGX9HyKjv8dfK/Yqhi0TnEUpQ
-	 gHhzTK7vqDywg==
-Message-ID: <55dd9b13-3430-4455-bd67-1575b5ab3f98@kernel.org>
-Date: Wed, 10 Jul 2024 12:05:38 +0200
+	b=H4IaL6yglVoaV2nDoOhuPbaX1yeoHJt42UFx6SYxPOLfJp8/grEr1PCpNpo1VE4Bb
+	 WzyZ3U1tY+KrTPZM55DrBkTLVv6PJtvjJPvIzPhcJvUnOvljiFRzjAGslpfvo8v9E7
+	 mo4Olx1bnbu3Ry2hWxjKltFO8m3d8GHlg1yDtm9xmn+qVhXzdJHU4VCdCWxpYGugdo
+	 AiJaIdC/PYLL2M0HiGjPyUwJ2VZAWnRkLSamvL/Aje5OPnVi7gUAISI6KrhR46Plo5
+	 hZx1Mp2NPYdhlIaJlYx4d76ICPK4l23Z0YjqAc6BrRkPQfZyUDNFhgxSnEllWaECqF
+	 ee/zHiaozRI0Q==
+Message-ID: <30d66c46-925b-43c5-ba2a-1cc1f2c90002@kernel.org>
+Date: Wed, 10 Jul 2024 12:21:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,17 +35,17 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ASoC: dt-bindings: cirrus,cs4270: Convert to dtschema
-To: Animesh Agarwal <animeshagarwal28@gmail.com>
-Cc: Daniel Baluta <daniel.baluta@nxp.com>,
- David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
+Subject: Re: [PATCH 1/6] dt-bindings: vendor-prefixes: Add NeoFidelity, Inc
+To: Igor Prusov <ivprusov@salutedevices.com>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, patches@opensource.cirrus.com,
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240709184231.125207-1-animeshagarwal28@gmail.com>
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: prusovigor@gmail.com, kernel@salutedevices.com,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240709172834.9785-1-ivprusov@salutedevices.com>
+ <20240709172834.9785-2-ivprusov@salutedevices.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -91,20 +91,16 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240709184231.125207-1-animeshagarwal28@gmail.com>
+In-Reply-To: <20240709172834.9785-2-ivprusov@salutedevices.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 09/07/2024 20:42, Animesh Agarwal wrote:
-> Convert the Cirrus Logic CS4270 audio CODEC bindings to DT schema. Add
-> missing va-supply, vd-supply and vlc-supply properties, because they
-> are already being used in the DTS and the driver for this device.
+On 09/07/2024 19:28, Igor Prusov wrote:
+> Add vendor prefix for NeoFidelity, Inc
 > 
-> Cc: Daniel Baluta <daniel.baluta@nxp.com>
-> Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
-> 
+> Signed-off-by: Igor Prusov <ivprusov@salutedevices.com>
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
