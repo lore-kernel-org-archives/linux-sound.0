@@ -1,112 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout7-smtp.messagingengine.com (fout7-smtp.messagingengine.com [103.168.172.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA251E489;
-	Wed, 10 Jul 2024 12:30:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79BFE1E488;
+	Wed, 10 Jul 2024 12:32:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720614633; cv=none; b=QWpB0vz+i9kX+ESM2u9Yjw5dQpKnjBKYS7HULT540MmsWAakKEIQq4DZ4srRzbsaE+ISLNrhtos2dY0CN4nbr64449BlsbUs9LX43DGSou+N13qaegPwpO9haxxA/bk1DMK50kxy5COxDgDlNc49/c1Z8nqUXvuex6FvhRgD8/Q=
+	t=1720614727; cv=none; b=LTgfrWf6l56HiesS7A97WmBuDASmnDvF9r1RECH1wKBYqFu2RuXXgJve276Zx5XejZ9ryInKy7+jfKLLEkPd07GIxRwfEMY9Pw1PYArmtBf0BByBRqVNrEiGwSPHaObESPIapc3QRKhy71hGhqyBrCK/kRvmYgzfBAwbz3/rQBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720614633; c=relaxed/simple;
-	bh=Ty/jMZEzrJPaGaO+ljAa2VN2lH5jfuLfI0l0KW2KEi0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OOrqw4btF3BvQ+o3AI2vgGfbmxV5Bwwfs3FZlk5M7fMToLLGNDlTw/JsqWb7n/y56bjRYtiJAgknDjdsWT+RHVDfwhzkz9iSRamPGEXxJ3cFZJ4XM9u/bUuLQfdl0n+uFJASusftUZOlPWQwSSK5dincS99P3gRQZTRZkvw+yWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RlyZ1Umo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720614727; c=relaxed/simple;
+	bh=XU81jlqPSEHhklnXvmeUHF4K+FfBTeR9jSQAbMBRniM=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=I+qMFHWMO+rC+GJQRnBjALkPNoQdmi83uvXNlxqdXFE+rXyhDdSQDRGZpaOQdlLl162jhqm6YO8cNx6jmFaSWcCpC+syjdcbiz3/Lrefoo3vwCJ+bItS+lyliJSmVCM2JFNI1J8oSrCvwVSOF+67vkN0tqQWtYOXfHoDkQ3huUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=li1YxcHH; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=IB3v6d3P; arc=none smtp.client-ip=103.168.172.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RlyZ1Umo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0148FC32782;
-	Wed, 10 Jul 2024 12:30:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720614633;
-	bh=Ty/jMZEzrJPaGaO+ljAa2VN2lH5jfuLfI0l0KW2KEi0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RlyZ1UmoLiJKtORUGcPp1loR3iRPoJGcTToZDD6EQ3W9IO1b4jYYLwscez/wYwrxz
-	 Q8SR7IdKUcUdArfJTq7bAzPFpzKodKlCWjXEcfqYI3hgIfu69g5CaoRBeAkUFR0sjW
-	 tTwC9XBjBjuEF1339vBUMLr7PkOnW2rKEoBw6qOaaYwLjh8UMSEyg4ZxfpGcB97iLq
-	 D7QvZmr70vKD54Vetjs9xBIsctl0grm/YL5vYp2k4STwFjydwXaFKvWftbACcm7+kc
-	 LCYmtjGLIv1lOPNc5gYXbfpsWgFFC2v506y8prMQ6PZTN/75OH3nI1ywpVG6VlcTwm
-	 MaEM3YStGm2tA==
-Message-ID: <398f11ce-f3ac-495c-a0ef-f1201efcd799@kernel.org>
-Date: Wed, 10 Jul 2024 14:30:26 +0200
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="li1YxcHH";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="IB3v6d3P"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 689051385136;
+	Wed, 10 Jul 2024 08:32:04 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Wed, 10 Jul 2024 08:32:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1720614724; x=1720701124; bh=C2Se+H9RzY
+	HkM+IvsyadLBKj3T9ynrUDq9Xcr2QdKUs=; b=li1YxcHH3YLCQ4Le7dl2muHN8j
+	eMQ3UOnJF2Kn5c3G8TqV3FTvl3x6SSRi08Gli+0KxjlQo5baF/Uw2goGLZ0zV962
+	O+0dbBjc96aY0X3OfzwO4T9Vq3oycXC9UY+jfbqIQZnCZkVYvcVt4rGn0CjXFfsI
+	x01m2Qn7qm9aC1DjvEbzZv0Je+YJYwvl3wYilpL1OR+VQWic/lrfI/t/M23qmytk
+	obEhpc4FUTd6l1ENJI4CdSmTJImc1fVa4dJ717DPMPYK0c3wYKrThMImwyvtD373
+	9P0IhfOWjjqMlrqwtrY6DAjvnOcPjh+VSYYQXPLwHQjjvMtdYbw6d7BRU0KQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1720614724; x=1720701124; bh=C2Se+H9RzYHkM+IvsyadLBKj3T9y
+	nrUDq9Xcr2QdKUs=; b=IB3v6d3Phr9VWTcxt8gBc2qcRz2azkcEcmvH0Yd+yEa3
+	g9xn5bnLx1fKqjDN1R2Zwrnky673MsrPd0Hn7Zfe+mpOkhIbhvxlKL6EWJi8KkbX
+	IrFCk/rCfEBcoMQESHdkxOZF2rJde3RKeJzGC1TYQYAwUr5rUc6AxDCMpu9CJo68
+	u8ahhEa7s2NSp6hh+gt2paRMhj3TgijNx5vM4Xa4D6Wy4WXrTbE2i42ZrK2nFA+x
+	fXw47caFr8RHQOKF6GXXnf4EYiRsZTNNuhj6Vvw1EVBliFbdLQJmwuIoZHpw0gkx
+	+q4zkGZBCkISrLrcpnAZzZAhsHNa782s+ub2R7Xvqw==
+X-ME-Sender: <xms:Q3-OZubytZE4eowk4SBwd6hMi1H9GUi8VnkX6U3DBiJe6th8n_5a_w>
+    <xme:Q3-OZhYssSpvCnxNlzCJ9UZkhGWR04WPe8Nh1Ww-TQk3zUwsHMOxwG-QZoOEM6zOf
+    eQ8ecMhmQcG3EOFMyM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrfedugdehfecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
+    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
+    hnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:Q3-OZo_hswq48saoXU7mzKLp59S-ElC0pUMtf-ZdqPyc4tuSZaCSvw>
+    <xmx:Q3-OZgrw9GGfjnJwhwXkfnRA_RU8P6fsBJiCeL3U7HL26R6CQOl-Wg>
+    <xmx:Q3-OZpr0bvZIiYqiyQFln6EySrIEHwSZhi9tOoqN4tp0x1B8sPE-4Q>
+    <xmx:Q3-OZuQd3ydDSldUIX01Q5l0z9-EQ4hy3zb3OhkIisG9b-K3WDSgLg>
+    <xmx:RH-OZtLntWVOrwVwg-KdB-d6vurB4_VxNR9iIYGfWiVJaUprkM1Da6tC>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 09148B6008D; Wed, 10 Jul 2024 08:32:03 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-568-g843fbadbe-fm-20240701.003-g843fbadb
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: qcom,msm8916-wcd-digital-codec:
- convert to dtschema
-To: Rayyan Ansari <rayyan.ansari@linaro.org>, devicetree@vger.kernel.org
-Cc: alsa-devel@alsa-project.org, Banajit Goswami <bgoswami@quicinc.com>,
- Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-References: <20240710113833.39859-1-rayyan.ansari@linaro.org>
- <20240710113833.39859-2-rayyan.ansari@linaro.org>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240710113833.39859-2-rayyan.ansari@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Message-Id: <8f45a3d9-429c-441e-a17c-33a163eb86c2@app.fastmail.com>
+In-Reply-To: <663b1749afeb5cec281149fdb445ed36fdcbc68e.camel@maquefel.me>
+References: <20240617-ep93xx-v10-0-662e640ed811@maquefel.me>
+ <CAHp75VfSC9gAD9ipeWRPdQOxUp4FXqYYei-cJTs38nbz0cHpkg@mail.gmail.com>
+ <48c242838c77034485a9e667dc0e867207c5beed.camel@maquefel.me>
+ <241a4cf9830b0118f01e8fcf2853c62527636049.camel@maquefel.me>
+ <jyvlqfvqn5bp3jmvxvwyrcqmihjohuq3o757mfph7x37kbwvtq@gtgyh4fca4fq>
+ <663b1749afeb5cec281149fdb445ed36fdcbc68e.camel@maquefel.me>
+Date: Wed, 10 Jul 2024 14:31:42 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Nikita Shubin" <nikita.shubin@maquefel.me>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: "Andy Shevchenko" <andy.shevchenko@gmail.com>,
+ "Stephen Boyd" <sboyd@kernel.org>,
+ "Hartley Sweeten" <hsweeten@visionengravers.com>,
+ "Alexander Sverdlin" <alexander.sverdlin@gmail.com>,
+ "Russell King" <linux@armlinux.org.uk>,
+ "Lukasz Majewski" <lukma@denx.de>,
+ "Linus Walleij" <linus.walleij@linaro.org>,
+ "Bartosz Golaszewski" <brgl@bgdev.pl>,
+ "Andy Shevchenko" <andy@kernel.org>,
+ "Michael Turquette" <mturquette@baylibre.com>,
+ "Sebastian Reichel" <sre@kernel.org>, "Rob Herring" <robh+dt@kernel.org>,
+ "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+ "Conor Dooley" <conor+dt@kernel.org>,
+ "Wim Van Sebroeck" <wim@linux-watchdog.org>,
+ "Guenter Roeck" <linux@roeck-us.net>,
+ "Thierry Reding" <thierry.reding@gmail.com>,
+ "Mark Brown" <broonie@kernel.org>,
+ "David S . Miller" <davem@davemloft.net>,
+ "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
+ "Paolo Abeni" <pabeni@redhat.com>,
+ "Miquel Raynal" <miquel.raynal@bootlin.com>,
+ "Richard Weinberger" <richard@nod.at>,
+ "Vignesh Raghavendra" <vigneshr@ti.com>,
+ "Damien Le Moal" <dlemoal@kernel.org>,
+ "Sergey Shtylyov" <s.shtylyov@omp.ru>,
+ "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+ "Liam Girdwood" <lgirdwood@gmail.com>,
+ "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
+ "Ralf Baechle" <ralf@linux-mips.org>, "Aaron Wu" <Aaron.Wu@analog.com>,
+ "Lee Jones" <lee@kernel.org>, "Olof Johansson" <olof@lixom.net>,
+ "Niklas Cassel" <cassel@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ linux-clk@vger.kernel.org, linux-pm@vger.kernel.org,
+ devicetree@vger.kernel.org, dmaengine@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-spi@vger.kernel.org, Netdev <netdev@vger.kernel.org>,
+ linux-mtd@lists.infradead.org, linux-ide@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-sound@vger.kernel.org,
+ "Bartosz Golaszewski" <bartosz.golaszewski@linaro.org>,
+ "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
+ "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>,
+ "Andrew Lunn" <andrew@lunn.ch>, "Vinod Koul" <vkoul@kernel.org>
+Subject: Re: [PATCH v10 00/38] ep93xx device tree conversion
+Content-Type: text/plain
 
-On 10/07/2024 13:36, Rayyan Ansari wrote:
-> Convert the Qualcomm MSM8916 WCD Digital Audio Codec bindings from text
-> to yaml dt schema format.
-> Make bindings complete by adding #sound-dai-cells.
-> 
-> Signed-off-by: Rayyan Ansari <rayyan.ansari@linaro.org>
-> ---
-> v1 -> v2: removed unneeded minItems, added ref to dai-common.yaml
+On Mon, Jul 8, 2024, at 09:34, Nikita Shubin wrote:
+> Arnd, 
+>
+> Are we continuing this patch series ?
+>
+> You are silent since last version submit, which makes me a bit worried.
+>
+> If you suddenly changed your mind please let us know, cause anyway we
+> have no possibility to merge these series without you.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Hi Nikita,
 
-Best regards,
-Krzysztof
+I definitely still want to merge your work, I was just not paying
+attention while there were others commenting on it, and I don't
+know what the current state is. If you are ready to have some
+or all of the patches included in the next merge window, can
+you send either the set of patches that were reviewed to
+soc@kernel.org for me to pick up, or prepare a pull request
+to that address?
 
+       Arnd
