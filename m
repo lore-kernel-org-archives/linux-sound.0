@@ -1,44 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9053512F37C;
-	Wed, 10 Jul 2024 17:30:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0931527A7
+	for <linux-sound@vger.kernel.org>; Wed, 10 Jul 2024 23:26:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720632632; cv=none; b=QNqHc4eLx/34hF0Wou7iuAei9lHIDevWo8b68dFz0hrcSaxf35OQEHWT4pctXeM9vtewajEfiph/XbGOIuyT6aCrMrHaGbfxXiIBbRQHDdiBE8IXdb1004blTRcSEKEmDFbjz7D6rZb/hL+OFnycN5sJM5C7y2mzaMvc+NIhADg=
+	t=1720653968; cv=none; b=gPsc+64EMMUtG60VBH0r7Vlsi1lmNRM+WFpcqoJROfHSFH3mOD800wMVJbI/60tMr8I2VMaejnBwxNfgVGZNpbxu1Dzr6RMvrKkPJnwHHhGczNH9uBjqE41r78q6elMcG5fiH6VkheAuQiKJCVmNDUQdW8ctmHCRf7GXescw0Nw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720632632; c=relaxed/simple;
-	bh=EiksLOAaR1h6v3xrh4/4fRtC36Iw+GB1jm/EDk0JfoA=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=t8JWicRiM9E0hALURHKGmnn0s/nqOJJRniCtS7Kp+FHpmwzR6DGi36o7koZbcBSO3vGDExcD1Qbr2bU15WbuHeXIAqhzFlizIaB/XBEYbE+qMnhZREyPjGg11aNkvZC+SvqQbqigIyLKxZoTBONo94JPNJ7uXL/jqG1v0T1tl9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eVQgOzk9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720653968; c=relaxed/simple;
+	bh=WKMFH6nLyjOO8nU4WqVRfOByOKC8PY7HCJCQUpPmWP8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=mp+xUVwc59He89wV4oLQuYhiTm+ppBVXuk14c0L4QphVH1HcOXX1jRm1rZon1/RSMXvWYhm69YMbKWasfpwuTlEyK5Mrtk+zvjoq4NFGh8Mh3dAeV0Rgw/l7izk5vQO9HA1MBEruiPoNTHx0FrWg3RxVBFGDq5dlBfiZehGyMlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lZv5CSb/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eVQgOzk9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AA00C32781;
-	Wed, 10 Jul 2024 17:30:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lZv5CSb/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE4AAC32781;
+	Wed, 10 Jul 2024 23:26:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720632632;
-	bh=EiksLOAaR1h6v3xrh4/4fRtC36Iw+GB1jm/EDk0JfoA=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=eVQgOzk9hfJedk1BA8ccP7L4Fram1XErnxU3vSVe+NDJyPRcG7+hXr0trNCw6ireR
-	 Xa4eeIS64MlFSXeKANSJ0HORIp+XFgG1dRYW96cRzfkwhtRIXpIGeJJEx5ZmpAVx2W
-	 ndSzyS2kF4CWVFfWv4XMU99pofXcehJrNb9q523FQArPhJnKwhkTF10FOHXlYKZnHD
-	 PTdHo2xiGUBeCATAoT1FSNiDE9OqjwKep2+1xZDOuPfE3+zVfs8sOEhEO48Kk+KMdl
-	 z2TaacVQanJXWaFQED2P31RqCXASZKxcjX10vuI6HoFcaOD+i8BFkXW0II5JdBMO6L
-	 6SpmBKXoVceaQ==
+	s=k20201202; t=1720653968;
+	bh=WKMFH6nLyjOO8nU4WqVRfOByOKC8PY7HCJCQUpPmWP8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=lZv5CSb/lwRlh4zwiENegLezrb5jusGlHt/TatcU2ef/zDA5+t9jUvKTf42DegBlN
+	 N2SgQIqSF7yWUBXzxLPlKbsozfIAOy/vCC8u3TtiCksV8bwaxCZUeXJbOnt8//vufA
+	 rWc+WHRAYcHS+LerTrJMxUnQYfTLd829bzinhX++qsmIWkB9598yVMbYIiDN4cfLKJ
+	 iR2n91OfHfzHjkIeDawDugosbjX9iCHy9lhYCRqln1FsUxE1KKa3pKrUmwy4Sn/mrm
+	 kk36lYpZNe3ID3L2vmOBKcLLZFNTgqf2UoST6EwwA8UFeB4hvC6RkIog7l3iLdqtHd
+	 cgk4yh+FWKvIA==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Banajit Goswami <bgoswami@quicinc.com>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, 
- linux-arm-msm@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20240701171917.596173-1-krzysztof.kozlowski@linaro.org>
-References: <20240701171917.596173-1-krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 1/2] ASoC: codecs: aw88395: Simplify with cleanup.h
-Message-Id: <172063262990.22653.3673550348945714885.b4-ty@kernel.org>
-Date: Wed, 10 Jul 2024 18:30:29 +0100
+To: lgirdwood@gmail.com, linux-sound@vger.kernel.org, 
+ Paul Handrigan <paulha@opensource.cirrus.com>
+Cc: patches@opensource.cirrus.com
+In-Reply-To: <20240710160416.2617173-1-paulha@opensource.cirrus.com>
+References: <20240710160416.2617173-1-paulha@opensource.cirrus.com>
+Subject: Re: [PATCH 1/2] ASoC: cs530x: Calculate proper bclk rate using TDM
+Message-Id: <172065396662.391308.3041132210143214998.b4-ty@kernel.org>
+Date: Thu, 11 Jul 2024 00:26:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,12 +43,11 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev-d4707
+X-Mailer: b4 0.14-dev-0bd45
 
-On Mon, 01 Jul 2024 19:19:16 +0200, Krzysztof Kozlowski wrote:
-> Allocate memory, which is being freed at end of the scope, with
-> scoped/cleanup.h to reduce number of error paths and make code a bit
-> simpler.
+On Wed, 10 Jul 2024 11:04:15 -0500, Paul Handrigan wrote:
+> Calculate the proper bclk rate using the number of tdm slots
+> and the width of the tdm data.
 > 
 > 
 
@@ -62,10 +57,10 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: codecs: aw88395: Simplify with cleanup.h
-      commit: d0f4ce8a28dd992579949b8ea2df810c4b5fe9b5
-[2/2] ASoC: qcom: topology: Simplify with cleanup.h
-      commit: a8915e2fe86c29304a3038f269f4667b371b87d2
+[1/2] ASoC: cs530x: Calculate proper bclk rate using TDM
+      commit: c62bec0fe36873ab6c87c9ae84a6b661d09244c4
+[2/2] ASoC: cs530x: Remove bclk from private structure
+      commit: 0d1ebba74fad7b6b3eb0e2bc08d649d20c7aa7c9
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
