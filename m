@@ -1,152 +1,119 @@
-Received: from fout7-smtp.messagingengine.com (fout7-smtp.messagingengine.com [103.168.172.150])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79BFE1E488;
-	Wed, 10 Jul 2024 12:32:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAB3F193067
+	for <linux-sound@vger.kernel.org>; Wed, 10 Jul 2024 13:52:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720614727; cv=none; b=LTgfrWf6l56HiesS7A97WmBuDASmnDvF9r1RECH1wKBYqFu2RuXXgJve276Zx5XejZ9ryInKy7+jfKLLEkPd07GIxRwfEMY9Pw1PYArmtBf0BByBRqVNrEiGwSPHaObESPIapc3QRKhy71hGhqyBrCK/kRvmYgzfBAwbz3/rQBo=
+	t=1720619564; cv=none; b=Hqsnv1cIwoRQwSTI98sAdFqhBO7a5yWmJ3g3hkNUPPQ+DxID541222Me/OMraZUcaqn1JNaxgOaBoSYV7QLWVvec8F8yJlpL0MtR9bSMRHN0b5jinbcekHpKQvskwc36qIsj3SHRv6B+WliXgALv6Jz5YKU7OLliShQhdEUAPSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720614727; c=relaxed/simple;
-	bh=XU81jlqPSEHhklnXvmeUHF4K+FfBTeR9jSQAbMBRniM=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=I+qMFHWMO+rC+GJQRnBjALkPNoQdmi83uvXNlxqdXFE+rXyhDdSQDRGZpaOQdlLl162jhqm6YO8cNx6jmFaSWcCpC+syjdcbiz3/Lrefoo3vwCJ+bItS+lyliJSmVCM2JFNI1J8oSrCvwVSOF+67vkN0tqQWtYOXfHoDkQ3huUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=li1YxcHH; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=IB3v6d3P; arc=none smtp.client-ip=103.168.172.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1720619564; c=relaxed/simple;
+	bh=xCLRTG7ipn4tiGh+nXkgwfMZfAsmNK9dFGTdCsvf/7E=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=qAR4GpVrnCMHL17Zr5H4Cqx/AOyKZE8hI/WRgGprFMEM2XZK6yW+HFQKoH++J5vBVdRITebkh7cPdoJh62qM4+/6hu17DYXbeyaiNJyfmsANyNOaFFac+5noc7dtsMSfvm90KzUtoKXpQ3/3FjBYspOI6RFpq6LRzsnvDLvkIeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Z30DtUh9; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="li1YxcHH";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="IB3v6d3P"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfout.nyi.internal (Postfix) with ESMTP id 689051385136;
-	Wed, 10 Jul 2024 08:32:04 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Wed, 10 Jul 2024 08:32:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1720614724; x=1720701124; bh=C2Se+H9RzY
-	HkM+IvsyadLBKj3T9ynrUDq9Xcr2QdKUs=; b=li1YxcHH3YLCQ4Le7dl2muHN8j
-	eMQ3UOnJF2Kn5c3G8TqV3FTvl3x6SSRi08Gli+0KxjlQo5baF/Uw2goGLZ0zV962
-	O+0dbBjc96aY0X3OfzwO4T9Vq3oycXC9UY+jfbqIQZnCZkVYvcVt4rGn0CjXFfsI
-	x01m2Qn7qm9aC1DjvEbzZv0Je+YJYwvl3wYilpL1OR+VQWic/lrfI/t/M23qmytk
-	obEhpc4FUTd6l1ENJI4CdSmTJImc1fVa4dJ717DPMPYK0c3wYKrThMImwyvtD373
-	9P0IhfOWjjqMlrqwtrY6DAjvnOcPjh+VSYYQXPLwHQjjvMtdYbw6d7BRU0KQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1720614724; x=1720701124; bh=C2Se+H9RzYHkM+IvsyadLBKj3T9y
-	nrUDq9Xcr2QdKUs=; b=IB3v6d3Phr9VWTcxt8gBc2qcRz2azkcEcmvH0Yd+yEa3
-	g9xn5bnLx1fKqjDN1R2Zwrnky673MsrPd0Hn7Zfe+mpOkhIbhvxlKL6EWJi8KkbX
-	IrFCk/rCfEBcoMQESHdkxOZF2rJde3RKeJzGC1TYQYAwUr5rUc6AxDCMpu9CJo68
-	u8ahhEa7s2NSp6hh+gt2paRMhj3TgijNx5vM4Xa4D6Wy4WXrTbE2i42ZrK2nFA+x
-	fXw47caFr8RHQOKF6GXXnf4EYiRsZTNNuhj6Vvw1EVBliFbdLQJmwuIoZHpw0gkx
-	+q4zkGZBCkISrLrcpnAZzZAhsHNa782s+ub2R7Xvqw==
-X-ME-Sender: <xms:Q3-OZubytZE4eowk4SBwd6hMi1H9GUi8VnkX6U3DBiJe6th8n_5a_w>
-    <xme:Q3-OZhYssSpvCnxNlzCJ9UZkhGWR04WPe8Nh1Ww-TQk3zUwsHMOxwG-QZoOEM6zOf
-    eQ8ecMhmQcG3EOFMyM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrfedugdehfecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
-    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
-    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
-    hnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:Q3-OZo_hswq48saoXU7mzKLp59S-ElC0pUMtf-ZdqPyc4tuSZaCSvw>
-    <xmx:Q3-OZgrw9GGfjnJwhwXkfnRA_RU8P6fsBJiCeL3U7HL26R6CQOl-Wg>
-    <xmx:Q3-OZpr0bvZIiYqiyQFln6EySrIEHwSZhi9tOoqN4tp0x1B8sPE-4Q>
-    <xmx:Q3-OZuQd3ydDSldUIX01Q5l0z9-EQ4hy3zb3OhkIisG9b-K3WDSgLg>
-    <xmx:RH-OZtLntWVOrwVwg-KdB-d6vurB4_VxNR9iIYGfWiVJaUprkM1Da6tC>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 09148B6008D; Wed, 10 Jul 2024 08:32:03 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-568-g843fbadbe-fm-20240701.003-g843fbadb
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Z30DtUh9"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-52e97e5a84bso9650474e87.2
+        for <linux-sound@vger.kernel.org>; Wed, 10 Jul 2024 06:52:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1720619561; x=1721224361; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eG+Sr5tcj4iLYaVgjAszjSri4jbIahacA3U2hkyfLzQ=;
+        b=Z30DtUh9N6QdpXwDi9fRAFVXM5278EZUIjTiilVZ64Kr3iW5kngSc/zAcEa/iXvwPn
+         SKl10LTI+QrUb6Gz+jY+oHQ4sEHXVMw18T6Civ5C2GXUL08SgBEk7Du5MlVbbP+9k9xo
+         VDjRACERs3JfRO4ctVMoQPqMv3QCyPgZtq63k1R9xXn8SPU0Ki2NYnp3u6G1ZCEoa/H3
+         a0CwcPFD2uM+BI4kvzFi2Lgy4ahTHowTVNOtCcYOcb6HgVHg7r+TXg6czMuBWUweF5XW
+         ni6F2pEZ9/rJ1M/63a8axS14IcQ4ZmbCKUFimjOCgKGga14SHs4sz3Omb6D33iLPZ2wI
+         epLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720619561; x=1721224361;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eG+Sr5tcj4iLYaVgjAszjSri4jbIahacA3U2hkyfLzQ=;
+        b=G2zAkXt5Vz61WuBi8ZsFRPCJCTNPu+QFTqdHBFmioXShyccQJ1Jhb4S5XJCYhHA0Hf
+         QCdbMk38gBbZft74HeIfFlD8/lEdjDwXHt8755LOlowCy1cBdVqRSGLh/wl0ZTTlkfPa
+         1CmqZYHr80JuS5tGbqBPVqv4EJAQc8fV44SB+y/2JtJsx5Ztuzfln7trzAWmFZIRWkdf
+         T/2gGrGKZGLdpbII0/sbetFxksv/L0VoAerzr2e6FMTid0p8HSsR118j5Tu44zdRL3AN
+         XfSctvvefdlwYEWzROniiBSAZor+Ibn5xrE0dg4NC/JxUYM7wsIyOUsj/EpbLGot+UkO
+         vgtg==
+X-Forwarded-Encrypted: i=1; AJvYcCWWeyc/1fF2jAZpkpCjERXh8cPw1P0s+uVNxbOJ5iq8gWhgJ1EGrXANtt3UWCZS40+WKdIGmRaO1r6EKDQ8ktZHjbYvjmgUR3qEI/g=
+X-Gm-Message-State: AOJu0YxbPgBNaYSs065aqcsjPru6h9aediaAzJnIhWrOPwaf+qjitqaO
+	F2eu1V/wmohJla/e0VQMIAoXbZQDF9AAUO8L+c7p7PUGbFChxcIIz7nNgobQZas=
+X-Google-Smtp-Source: AGHT+IGI74Tkk+bMOUOiLt7ShAbiFrBfr/fOEAEBbMRa7tJDzVxniq8rJ4ZAffl1kUcxrWh4qs60mQ==
+X-Received: by 2002:a19:7708:0:b0:52e:9921:6dff with SMTP id 2adb3069b0e04-52eb999c2damr3844744e87.26.1720619560886;
+        Wed, 10 Jul 2024 06:52:40 -0700 (PDT)
+Received: from [127.0.1.1] ([178.197.219.137])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a780a8551afsm160440366b.166.2024.07.10.06.52.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jul 2024 06:52:40 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 0/4] ASoC: codecs: wsa88xx: Few cleanups
+Date: Wed, 10 Jul 2024 15:52:29 +0200
+Message-Id: <20240710-asoc-wsa88xx-version-v1-0-f1c54966ccde@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <8f45a3d9-429c-441e-a17c-33a163eb86c2@app.fastmail.com>
-In-Reply-To: <663b1749afeb5cec281149fdb445ed36fdcbc68e.camel@maquefel.me>
-References: <20240617-ep93xx-v10-0-662e640ed811@maquefel.me>
- <CAHp75VfSC9gAD9ipeWRPdQOxUp4FXqYYei-cJTs38nbz0cHpkg@mail.gmail.com>
- <48c242838c77034485a9e667dc0e867207c5beed.camel@maquefel.me>
- <241a4cf9830b0118f01e8fcf2853c62527636049.camel@maquefel.me>
- <jyvlqfvqn5bp3jmvxvwyrcqmihjohuq3o757mfph7x37kbwvtq@gtgyh4fca4fq>
- <663b1749afeb5cec281149fdb445ed36fdcbc68e.camel@maquefel.me>
-Date: Wed, 10 Jul 2024 14:31:42 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Nikita Shubin" <nikita.shubin@maquefel.me>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: "Andy Shevchenko" <andy.shevchenko@gmail.com>,
- "Stephen Boyd" <sboyd@kernel.org>,
- "Hartley Sweeten" <hsweeten@visionengravers.com>,
- "Alexander Sverdlin" <alexander.sverdlin@gmail.com>,
- "Russell King" <linux@armlinux.org.uk>,
- "Lukasz Majewski" <lukma@denx.de>,
- "Linus Walleij" <linus.walleij@linaro.org>,
- "Bartosz Golaszewski" <brgl@bgdev.pl>,
- "Andy Shevchenko" <andy@kernel.org>,
- "Michael Turquette" <mturquette@baylibre.com>,
- "Sebastian Reichel" <sre@kernel.org>, "Rob Herring" <robh+dt@kernel.org>,
- "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
- "Conor Dooley" <conor+dt@kernel.org>,
- "Wim Van Sebroeck" <wim@linux-watchdog.org>,
- "Guenter Roeck" <linux@roeck-us.net>,
- "Thierry Reding" <thierry.reding@gmail.com>,
- "Mark Brown" <broonie@kernel.org>,
- "David S . Miller" <davem@davemloft.net>,
- "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
- "Paolo Abeni" <pabeni@redhat.com>,
- "Miquel Raynal" <miquel.raynal@bootlin.com>,
- "Richard Weinberger" <richard@nod.at>,
- "Vignesh Raghavendra" <vigneshr@ti.com>,
- "Damien Le Moal" <dlemoal@kernel.org>,
- "Sergey Shtylyov" <s.shtylyov@omp.ru>,
- "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
- "Liam Girdwood" <lgirdwood@gmail.com>,
- "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
- "Ralf Baechle" <ralf@linux-mips.org>, "Aaron Wu" <Aaron.Wu@analog.com>,
- "Lee Jones" <lee@kernel.org>, "Olof Johansson" <olof@lixom.net>,
- "Niklas Cassel" <cassel@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- linux-clk@vger.kernel.org, linux-pm@vger.kernel.org,
- devicetree@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-watchdog@vger.kernel.org, linux-pwm@vger.kernel.org,
- linux-spi@vger.kernel.org, Netdev <netdev@vger.kernel.org>,
- linux-mtd@lists.infradead.org, linux-ide@vger.kernel.org,
- linux-input@vger.kernel.org, linux-sound@vger.kernel.org,
- "Bartosz Golaszewski" <bartosz.golaszewski@linaro.org>,
- "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
- "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>,
- "Andrew Lunn" <andrew@lunn.ch>, "Vinod Koul" <vkoul@kernel.org>
-Subject: Re: [PATCH v10 00/38] ep93xx device tree conversion
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAB2SjmYC/x3MPQqAMAxA4atIZgOx/nsVcSg2ahaVBrRQvLvV8
+ Q3fi6DshRWGLILnS1SOPUWRZzBvdl8ZxaUGQ6aitiC0esx4q+26EPBi/wF0jqjsTVObqoZET8+
+ LhH87Ts/zAvQQhONmAAAA
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>
+Cc: alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=735;
+ i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
+ bh=xCLRTG7ipn4tiGh+nXkgwfMZfAsmNK9dFGTdCsvf/7E=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmjpIgOoSVr2Zwu1wsDHRIcZrveKRJRSIuDq8nt
+ RPtif7BrGWJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZo6SIAAKCRDBN2bmhouD
+ 1wh/D/9lsgACXVjSoXDNyKh/50MNApgsGUF1FAG7hSEA8wgGCwfXTAlF+T6iLK/CwOAkjjYnr/X
+ cmNfVrwGDq8BVLYIMRKbC2HNV2obW+l+Ujo07/fLa+g9aQUhC7ZEP4tHAm8qrlY/m3aK5hPDBuf
+ z6IZTOW4byybU0zESW2OFb82RYXE1kt2ykvp+Q10qcYohOJloV/KKrC0YByHeLAv1/58adeBjeo
+ gcSIsfPleSMx29G2WjbpQ7tXT5wWDIANzMl4+PkUGgZrbd27unoL+xYm+0NqyGqis0G/BXI4JqH
+ +yErT3gQKDJaI4RNI8edaxLj3mkY5KYSQbSiQ75wklEz+xLdGmiQ7hdduSwxr+JagfZNuKIeaZe
+ jEuRBkbyQ4lQGu4kzyMJkXOWgFTWo1gDOSBVIvc0HcWvRtWs+Xtw3jiNjg7EJVGEnxyAy36AjBq
+ f2hQCZncbX3Kz85G7x/ARpGU79aXANhLFec/a/mWVqG5sqowgfvYq4Yh4Jax9Vyzfe1DODtHWLz
+ Y+Z39HzUJqBiosEnlz/+5ptF4y+/rUSDig+76co81LY2E3B6BzDxg7II0oZtO8pwoVfS9ivMuzv
+ C20tQU+/QOyG+ZDA2TVW688bOr4jgRDpAGFngu4vigPD0N5Of9bXOj5fnwQQWS1reYa49NMsF2u
+ B8nHm7ztuwmkKjA==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
+ fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-On Mon, Jul 8, 2024, at 09:34, Nikita Shubin wrote:
-> Arnd, 
->
-> Are we continuing this patch series ?
->
-> You are silent since last version submit, which makes me a bit worried.
->
-> If you suddenly changed your mind please let us know, cause anyway we
-> have no possibility to merge these series without you.
+Hi,
 
-Hi Nikita,
+Few cleanups around wsa88xx codecs.
 
-I definitely still want to merge your work, I was just not paying
-attention while there were others commenting on it, and I don't
-know what the current state is. If you are ready to have some
-or all of the patches included in the next merge window, can
-you send either the set of patches that were reviewed to
-soc@kernel.org for me to pick up, or prepare a pull request
-to that address?
+Best regards,
+Krzysztof
 
-       Arnd
+---
+Krzysztof Kozlowski (4):
+      ASoC: codecs: wsa881x: Drop unused version readout
+      ASoC: codecs: wsa883x: Handle reading version failure
+      ASoC: codecs: wsa883x: Simplify handling variant/version
+      ASoC: codecs: wsa884x: Simplify handling variant
+
+ sound/soc/codecs/wsa881x.c |  2 --
+ sound/soc/codecs/wsa883x.c | 33 ++++++++++++++++++---------------
+ sound/soc/codecs/wsa884x.c |  5 ++---
+ 3 files changed, 20 insertions(+), 20 deletions(-)
+---
+base-commit: 0b58e108042b0ed28a71cd7edf5175999955b233
+change-id: 20240710-asoc-wsa88xx-version-dd0039265245
+
+Best regards,
+-- 
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
