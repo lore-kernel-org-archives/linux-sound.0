@@ -1,58 +1,74 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C64197A91;
-	Wed, 10 Jul 2024 10:36:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E6BA18FA02
+	for <linux-sound@vger.kernel.org>; Wed, 10 Jul 2024 11:39:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720607816; cv=none; b=OXlkp8t+p0aqVp7kMeF8FfOBWvq3sfwlKCPOzlq96V/P5BHuJYGobG84QPDgsPtTCU6p+scRuzute2RjuMtbFKfca01ouLyEhcNddij9ZGgtDLrm1RfEp5PZmLI1K8OQ1LF9aFt2UH5dtuHbSVfsNJHv7l/23mepgKObVHHpmxQ=
+	t=1720611584; cv=none; b=G8T8WuxPhu+TL7pW404R1QnxMrMR0PSjCPrMhpNxmPxYVdHkPkAd+AW0+MDrI5w3AlngeXr8DTWEr8NlG7LnvslGrOs5Jof9KrCNpvt43spYbbtUDtXaTs0f6PSzuPeFqcbKd6AIh5rZUbWXy87N+e9l6SSV1ucM+ZElBd+9kOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720607816; c=relaxed/simple;
-	bh=mzgC7Iflzc1BlOGQq+JGPHCe1nBZjTuOzsMPE1uQueE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=D6KvvXwMtqMuJbFnmm7FsO9tt3kjQLoUKoWj/6wm0YGebMlolMIuvXgKLIlYvqOUUU47XZx8r+JdbgWoGDVDeZbz2qVDnbon02+NHQBLfixW6IkiBGTl3LrmcTe5QZiNaWJH9pS/M8TuUoZVCHonU+lXwIhIusPkqQe+66ptMfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=l+gbOCs4; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1720611584; c=relaxed/simple;
+	bh=Zi1bu+0mhBf3Hk6tKFUnpbpzDHk75+uCDG1w0Ixbnr4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LhNVpgXmNpjvLXhBzSSCsV0NwAE3Q7tFMAQUCm6GpT6S5MlsWCPFXSDoWB+PUKDp2qPdtiCamJW3pNoak7PCwwgpxjBgyQaL2qltM/eyVmh4YBQpuJrByhBiYZUiXVoMntE5REtxSH8BF/rNE9NwxVWITMbqnSm0b98W90TJL2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bf3zF0lr; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="l+gbOCs4"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46A4s4Gq006601;
-	Wed, 10 Jul 2024 05:36:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=748w9BISOBmfWOXmvCHF0/7TRcQPumgRgnCu07iWs58=; b=
-	l+gbOCs4bv0qv/Edmu6cDB+1sNBHgBcJpYXIJ47V4Gz/EyP3MsRNUR5rGIIg2X2i
-	W+SuSuGvUSTAR29YZoCjZr3zsx56lA1DkHxj3BR842HH8t/qyBLfPYMFJxEbRzZ4
-	WeOgz5mDu0w6ORBci1rC7EPZG4z0lKP97spVDJfO4xpSxwxZCYpQ9AaSXlwTji7X
-	F+Pi0WquV6+0t+XhYdd/hFEAMZokG1eczpznmuQrILxhZpeQ6sUQqBdvVcD45i5G
-	oVFNYFdv4qXSEibgKbwE4ykFCDh5OcuZ9B0loGF3Kx+wCpf7GC1dHk0/f4VnST/O
-	KfMyhQg/tD4j8ldfZMcZJQ==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 409c9a8h0p-5
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 10 Jul 2024 05:36:47 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 10 Jul
- 2024 11:36:40 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Wed, 10 Jul 2024 11:36:40 +0100
-Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 867E8820259;
-	Wed, 10 Jul 2024 10:36:40 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: <broonie@kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>
-Subject: [PATCH v2 4/4] firmware: cs_dsp: Rename fw_ver to wmfw_ver
-Date: Wed, 10 Jul 2024 11:36:40 +0100
-Message-ID: <20240710103640.78197-5-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240710103640.78197-1-rf@opensource.cirrus.com>
-References: <20240710103640.78197-1-rf@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bf3zF0lr"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-42579b60af1so42918195e9.2
+        for <linux-sound@vger.kernel.org>; Wed, 10 Jul 2024 04:39:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1720611579; x=1721216379; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MHKc6WWhLmwAuWzJd0ksrdeT5LunJAc73Qa62Pmp84o=;
+        b=bf3zF0lrAjMZG1XAs24vtGv3b9bZuWMLPwMKZuSrq1Xxr36q1+GbV78eKuKr++b2Mg
+         QBgfvn2JAEXRvZYwpARsYzalMtzoXYw/i7fJOuGc6heO7IZhiX1zZs398a2yUNIVpp06
+         BttZdjuSQxBKg/u1YGsxbTwO3yAv5Jj3j8B0IT2qQk49z1mzAVBSO8PPdkkkWvZe+jmw
+         HKoMBbUk8Q1fwu0lc8DFwDHhxCLYNA49dDswu83OGjre98U7jcEFe3SSR5s2zxcfmWAC
+         Vu8ISbLWif/FBJZiqBq4LAfQXGyuE55G0Dcpi1tmTi5zHCy5vODxjNgqzWDuP7Ff76iF
+         PQSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720611579; x=1721216379;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MHKc6WWhLmwAuWzJd0ksrdeT5LunJAc73Qa62Pmp84o=;
+        b=lNyxq6dzak2dwKeM/yP55CAwzx/ZJNwpU6pkhyQL34LUEJTIXmBb/aRJGFYr9MrDQM
+         mgj+F+lJVh5fADahky1+5h+D8evMIIioB9T119spUBgT7QXYTr1rp0kJFc4+8Lq4M96l
+         T27kbc1joZxs/uRIGK7DqFyU+MLJojCMJUtOoe54ZD6tooQqfno/7pJ+tyFf+XnmEh0M
+         JJUWTIyUiSi08M+kyOWbPAd8oDUYTSCn/QKjAnaOhToeKp6gctUPcLtN8Tu1aBCgbMGd
+         OEJr77AWA4+ARS4anVi+F93n3uvQwc2e6pb0+ypP+h8u4lOF72fC9W1Kn6y55v5gHohh
+         tkmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWLL4v62btIasK/cID93DSNRbt5i6JHdiRdGhzkCy2bYoanXCXg19r/NyYB2elxYadwCc511Iwjqnjd+LWvp9SoZmNnjkPio4LL1mg=
+X-Gm-Message-State: AOJu0Yx8zdGGITSv66TjvewREajfrTqHyVH5pl4m70Z3pWHtEAbFHHn5
+	SkVdfsS8YLmY3j2szcd8dEzK9wNNqxsbiaS7myeGNs13LWiXFB8uG9zj+RUvPXNlR5/r0HLPtpc
+	a
+X-Google-Smtp-Source: AGHT+IFHYPwe6yZ9R+JtpGuu8hlP3VMdv3GZsmSGlWY6ENZv3HqEopDNWzX5jjb+nxuJh9OPTx/xuw==
+X-Received: by 2002:a05:600c:22d3:b0:426:5f09:cf57 with SMTP id 5b1f17b1804b1-426707e3445mr33231125e9.19.1720611579201;
+        Wed, 10 Jul 2024 04:39:39 -0700 (PDT)
+Received: from rayyan-pc.broadband ([2a0a:ef40:ee7:2401:197d:e048:a80f:bc44])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4266f7361b5sm78602875e9.29.2024.07.10.04.39.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jul 2024 04:39:38 -0700 (PDT)
+From: Rayyan Ansari <rayyan.ansari@linaro.org>
+To: devicetree@vger.kernel.org
+Cc: Rayyan Ansari <rayyan.ansari@linaro.org>,
+	alsa-devel@alsa-project.org,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Subject: [PATCH v2 0/2] ASoC: dt-bindings: convert qcom sound bindings to yaml
+Date: Wed, 10 Jul 2024 12:36:05 +0100
+Message-ID: <20240710113833.39859-1-rayyan.ansari@linaro.org>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -60,147 +76,30 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: _iLuBainntKiVg-9qkx4_4uaoQM5j5xA
-X-Proofpoint-GUID: _iLuBainntKiVg-9qkx4_4uaoQM5j5xA
-X-Proofpoint-Spam-Reason: safe
 
-Rename the confusingly named struct member fw_ver to wmfw_ver. It
-contains the wmfw format version of the loaded wmfw file.
+Hi,
+These patches convert the remaining plain text bindings for Qualcomm
+sound drivers to dt schema, so device trees can be validated against
+them.
 
-This commit also contains an update to wm_adsp for the new name.
+v1: https://lore.kernel.org/all/20240709152808.155405-1-rayyan.ansari@linaro.org/
 
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
----
-Changes since V1:
-Rebased onto the new commit #3. This removes a single-line change
-from this commit. The rest of this commit is the same as V1.
----
- drivers/firmware/cirrus/cs_dsp.c       | 20 ++++++++++----------
- include/linux/firmware/cirrus/cs_dsp.h |  2 +-
- sound/soc/codecs/wm_adsp.c             |  2 +-
- 3 files changed, 12 insertions(+), 12 deletions(-)
+Thanks,
+Rayyan
 
-diff --git a/drivers/firmware/cirrus/cs_dsp.c b/drivers/firmware/cirrus/cs_dsp.c
-index cce81a3f68f9..a7b56eff086f 100644
---- a/drivers/firmware/cirrus/cs_dsp.c
-+++ b/drivers/firmware/cirrus/cs_dsp.c
-@@ -1051,7 +1051,7 @@ static int cs_dsp_create_control(struct cs_dsp *dsp,
- 
- 	ctl->fw_name = dsp->fw_name;
- 	ctl->alg_region = *alg_region;
--	if (subname && dsp->fw_ver >= 2) {
-+	if (subname && dsp->wmfw_ver >= 2) {
- 		ctl->subname_len = subname_len;
- 		ctl->subname = kasprintf(GFP_KERNEL, "%.*s", subname_len, subname);
- 		if (!ctl->subname) {
-@@ -1178,7 +1178,7 @@ static int cs_dsp_coeff_parse_alg(struct cs_dsp *dsp,
- 
- 	raw = (const struct wmfw_adsp_alg_data *)region->data;
- 
--	switch (dsp->fw_ver) {
-+	switch (dsp->wmfw_ver) {
- 	case 0:
- 	case 1:
- 		if (sizeof(*raw) > data_len)
-@@ -1255,7 +1255,7 @@ static int cs_dsp_coeff_parse_coeff(struct cs_dsp *dsp,
- 	blk->offset = le16_to_cpu(raw->hdr.offset);
- 	blk->mem_type = le16_to_cpu(raw->hdr.type);
- 
--	switch (dsp->fw_ver) {
-+	switch (dsp->wmfw_ver) {
- 	case 0:
- 	case 1:
- 		if (sizeof(*raw) > (data_len - pos))
-@@ -1502,7 +1502,7 @@ static int cs_dsp_load(struct cs_dsp *dsp, const struct firmware *firmware,
- 		goto out_fw;
- 	}
- 
--	dsp->fw_ver = header->ver;
-+	dsp->wmfw_ver = header->ver;
- 
- 	if (header->core != dsp->type) {
- 		cs_dsp_err(dsp, "%s: invalid core %d != %d\n",
-@@ -1782,7 +1782,7 @@ static struct cs_dsp_alg_region *cs_dsp_create_region(struct cs_dsp *dsp,
- 
- 	list_add_tail(&alg_region->list, &dsp->alg_regions);
- 
--	if (dsp->fw_ver > 0)
-+	if (dsp->wmfw_ver > 0)
- 		cs_dsp_ctl_fixup_base(dsp, alg_region);
- 
- 	return alg_region;
-@@ -1905,7 +1905,7 @@ static int cs_dsp_adsp1_setup_algs(struct cs_dsp *dsp)
- 			ret = PTR_ERR(alg_region);
- 			goto out;
- 		}
--		if (dsp->fw_ver == 0) {
-+		if (dsp->wmfw_ver == 0) {
- 			if (i + 1 < n_algs) {
- 				len = be32_to_cpu(adsp1_alg[i + 1].dm);
- 				len -= be32_to_cpu(adsp1_alg[i].dm);
-@@ -1927,7 +1927,7 @@ static int cs_dsp_adsp1_setup_algs(struct cs_dsp *dsp)
- 			ret = PTR_ERR(alg_region);
- 			goto out;
- 		}
--		if (dsp->fw_ver == 0) {
-+		if (dsp->wmfw_ver == 0) {
- 			if (i + 1 < n_algs) {
- 				len = be32_to_cpu(adsp1_alg[i + 1].zm);
- 				len -= be32_to_cpu(adsp1_alg[i].zm);
-@@ -2018,7 +2018,7 @@ static int cs_dsp_adsp2_setup_algs(struct cs_dsp *dsp)
- 			ret = PTR_ERR(alg_region);
- 			goto out;
- 		}
--		if (dsp->fw_ver == 0) {
-+		if (dsp->wmfw_ver == 0) {
- 			if (i + 1 < n_algs) {
- 				len = be32_to_cpu(adsp2_alg[i + 1].xm);
- 				len -= be32_to_cpu(adsp2_alg[i].xm);
-@@ -2040,7 +2040,7 @@ static int cs_dsp_adsp2_setup_algs(struct cs_dsp *dsp)
- 			ret = PTR_ERR(alg_region);
- 			goto out;
- 		}
--		if (dsp->fw_ver == 0) {
-+		if (dsp->wmfw_ver == 0) {
- 			if (i + 1 < n_algs) {
- 				len = be32_to_cpu(adsp2_alg[i + 1].ym);
- 				len -= be32_to_cpu(adsp2_alg[i].ym);
-@@ -2062,7 +2062,7 @@ static int cs_dsp_adsp2_setup_algs(struct cs_dsp *dsp)
- 			ret = PTR_ERR(alg_region);
- 			goto out;
- 		}
--		if (dsp->fw_ver == 0) {
-+		if (dsp->wmfw_ver == 0) {
- 			if (i + 1 < n_algs) {
- 				len = be32_to_cpu(adsp2_alg[i + 1].zm);
- 				len -= be32_to_cpu(adsp2_alg[i].zm);
-diff --git a/include/linux/firmware/cirrus/cs_dsp.h b/include/linux/firmware/cirrus/cs_dsp.h
-index 8078dc377948..2e649810169f 100644
---- a/include/linux/firmware/cirrus/cs_dsp.h
-+++ b/include/linux/firmware/cirrus/cs_dsp.h
-@@ -167,7 +167,7 @@ struct cs_dsp {
- 	const struct cs_dsp_region *mem;
- 	int num_mems;
- 
--	int fw_ver;
-+	int wmfw_ver;
- 
- 	bool booted;
- 	bool running;
-diff --git a/sound/soc/codecs/wm_adsp.c b/sound/soc/codecs/wm_adsp.c
-index 68d2d6444533..9f8549b34e30 100644
---- a/sound/soc/codecs/wm_adsp.c
-+++ b/sound/soc/codecs/wm_adsp.c
-@@ -601,7 +601,7 @@ static int wm_adsp_control_add(struct cs_dsp_coeff_ctl *cs_ctl)
- 		return -EINVAL;
- 	}
- 
--	switch (cs_dsp->fw_ver) {
-+	switch (cs_dsp->wmfw_ver) {
- 	case 0:
- 	case 1:
- 		ret = scnprintf(name, SNDRV_CTL_ELEM_ID_NAME_MAXLEN,
+Rayyan Ansari (2):
+  ASoC: dt-bindings: qcom,msm8916-wcd-digital-codec: convert to dtschema
+  ASoC: dt-bindings: qcom,apq8096-sndcard: use dtschema
+
+ .../bindings/sound/qcom,apq8096.txt           | 128 ------------------
+ .../sound/qcom,msm8916-wcd-digital-codec.yaml |  55 ++++++++
+ .../sound/qcom,msm8916-wcd-digital.txt        |  20 ---
+ .../bindings/sound/qcom,sm8250.yaml           |   1 +
+ 4 files changed, 56 insertions(+), 148 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/qcom,apq8096.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/qcom,msm8916-wcd-digital-codec.yaml
+ delete mode 100644 Documentation/devicetree/bindings/sound/qcom,msm8916-wcd-digital.txt
+
 -- 
-2.39.2
+2.45.2
 
