@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9497112DDBF;
-	Wed, 10 Jul 2024 10:31:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D49318FC89;
+	Wed, 10 Jul 2024 10:34:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720607518; cv=none; b=IKuo3jT7VP/dscWayyfbj2AUlsjeCIRQ+crFEbowAJeyd7oXmjQlZgixoFiR6VgStT/srRqfZIrtRnh5sTxM9G4zbJuiRtwHewflc0Mxn/mfr/wXakyX+FE+LsWYVXqDMg1XA05hCDSAvDP0tjMtMr+wXAuFPrzqmvEclZGRjsw=
+	t=1720607693; cv=none; b=asY3j2GZCMc0bjpSlBm2PlZXrLuSAGKdlOudpc9bcmZUCP87z/kNo+e8JQki2+m44qg+hf8l8yuWpOcicmOaEvA8/6p6uNLFEyR85WrCVVSE0h1UbMG5ez4te8BUX94WjQB1q/V5ryGILn36qYWtjjbMTjHI55Ey9fccJg+qVZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720607518; c=relaxed/simple;
-	bh=qZCBkedOnz4cUGI4ezY6Jbb/+7sW1blOaFzbW32X4Rw=;
+	s=arc-20240116; t=1720607693; c=relaxed/simple;
+	bh=8WdRmuyLpXfw6l4a1GwdoX0mS8F1vUEiws7qIN6fA1s=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JbZxA4NNcYJHwPtrhvAj3IqJmGWkyPwgYC/YhVSzPNklCsJrVlwotmWgIRnZc5pOlkq9vXdZAKimCcYndP66zJZo0ifqjUx3VeqQWV9E091OsD8pm5dCanu1RgCi1+jnY+mB5lIlu+8N7PnjPrNuPfHB0i0s9n+oAsZ8y+j3Vjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RMLsdwWj; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=hXs/TAL+yJ1bDVqiqBb3SP/wBn7MieZ9PNYvsG2ShGwbkQERGO/d0KrtW2oklzxDiimD7Nn7oqPhl0+wuwWImXtb1k67jVBwoff3xu1QoepVQzO6gTUpeJQU+qdNgFAhakLvdngNy3ssBeV4B8IViZSy1sF/ZiwnyTDf5FgAmd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CU4+DIki; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RMLsdwWj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C1C1C32781;
-	Wed, 10 Jul 2024 10:31:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CU4+DIki"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B4BBC32781;
+	Wed, 10 Jul 2024 10:34:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720607518;
-	bh=qZCBkedOnz4cUGI4ezY6Jbb/+7sW1blOaFzbW32X4Rw=;
+	s=k20201202; t=1720607692;
+	bh=8WdRmuyLpXfw6l4a1GwdoX0mS8F1vUEiws7qIN6fA1s=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RMLsdwWjFLAUG6prdpUgAaFyvBgL0qdeJvtB6ZzodSnecMFSNU8mzH14cAC2zL6LW
-	 6CjcdBpVbh/f26aHi9u90+t4mvunLaLTZvwIpOkPeIG8gFScTuDp8agttN/y1pMJWJ
-	 5GLILe4qww+bXLDLmpS96LEmz9xC8ISLVnkFbi/6GPSx5WLI11i6Mhj/tuSaaxQthA
-	 ATeF2tiFFE+5/FxLLDznSVdj2EN/ROxPpxGt3JEXNSnhKt5FltwnUebWwZm6KEG72I
-	 fWd7TdKBoSiMQZF/0XN/uqeV23imHAdK5NnQZzPmD5N8AZkJiOcC2cRzL7BZVWs5G3
-	 BFgjh2GwlSGJA==
-Message-ID: <751ebf34-cd0d-4d3a-bf02-e25ca3dd350b@kernel.org>
-Date: Wed, 10 Jul 2024 12:31:53 +0200
+	b=CU4+DIki6TGMsLcTq0tv7w4+ItVU85rVMGBmVkAgIkj3ruLsFylO/OVerYIq5DTWj
+	 ZK1K3e+mYmmwUKUo2ZhqkTHSRGGdo8VfcE1DVizTDJ3nPf8Ijp0ONkDASlyzn+wlRj
+	 a8xZaiOfjlJZFBxXmljcAJUo2l5aa38k+BzJi79WkmlW8AouRP8G7q3MqK34/q6TC0
+	 RucCN+5PiL3oWus78Cp5iuHHJ+GfdpX+ZgY+STTK/yWgN8jYuLxfrhhEuabRi7ioar
+	 cVJnt06p4Ea3SxKcMg4LZ9+JyDghkCgp58eRWwU/Q3D9qlRFQ51zPYIEztIj9BVU+H
+	 PicTuLmZvsg3Q==
+Message-ID: <05ed39c6-3c0b-4a43-b655-d26c69f686fa@kernel.org>
+Date: Wed, 10 Jul 2024 12:34:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,17 +35,18 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/6] ASoC: codecs: Add NeoFidelity NTP8835 codec
+Subject: Re: [PATCH 2/2] ASoC: codecs: add ES7243E ADC driver
 To: Igor Prusov <ivprusov@salutedevices.com>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Philipp Zabel <p.zabel@pengutronix.de>
+ Takashi Iwai <tiwai@suse.com>
 Cc: prusovigor@gmail.com, kernel@salutedevices.com,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240709172834.9785-1-ivprusov@salutedevices.com>
- <20240709172834.9785-7-ivprusov@salutedevices.com>
+ David Yang <yangxiaohua@everest-semi.com>,
+ Viktor Prutyanov <vvprutyanov@sberdevices.ru>, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240709104117.33431-1-ivprusov@salutedevices.com>
+ <20240709104117.33431-3-ivprusov@salutedevices.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -91,234 +92,187 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240709172834.9785-7-ivprusov@salutedevices.com>
+In-Reply-To: <20240709104117.33431-3-ivprusov@salutedevices.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 09/07/2024 19:28, Igor Prusov wrote:
-> The NeoFidelity NTP8835 adn NTP8835C are 2.1 channel amplifiers with
-> mixer and biquad filters. Both amplifiers have identical programming
-> interfaces but differ in output signal characteristics.
+On 09/07/2024 12:41, Igor Prusov wrote:
+> Add support for Everest Semi es7243e, which is a 24 bit, 8 to 48 kHz
+> stereo audio ADC with I2C control and I2S output.
 > 
-
-
+> Datasheet: https://www.pawpaw.cn/media/documents/2022-04/ES7243E_DS_pawpaw%E6%9C%A8%E7%93%9C%E7%A7%91%E6%8A%80.pdf
+> 
+> Signed-off-by: David Yang <yangxiaohua@everest-semi.com>
+> Signed-off-by: Igor Prusov <ivprusov@salutedevices.com>
+> Signed-off-by: Viktor Prutyanov <vvprutyanov@sberdevices.ru>
+> ---
+>  sound/soc/codecs/Kconfig   |   3 +
+>  sound/soc/codecs/Makefile  |   2 +
+>  sound/soc/codecs/es7243e.c | 676 +++++++++++++++++++++++++++++++++++++
+>  3 files changed, 681 insertions(+)
+>  create mode 100644 sound/soc/codecs/es7243e.c
+> 
+> diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+> index 4afc43d3f71f..bfc21073ea24 100644
+> --- a/sound/soc/codecs/Kconfig
+> +++ b/sound/soc/codecs/Kconfig
+> @@ -1097,6 +1097,9 @@ config SND_SOC_ES7134
+>  config SND_SOC_ES7241
+>  	tristate "Everest Semi ES7241 CODEC"
+>  
+> +config SND_SOC_ES7243E
+> +	tristate "Everest Semi ES7243E CODEC"
 > +
-> +#include <linux/kernel.h>
+>  config SND_SOC_ES83XX_DSM_COMMON
+>  	depends on ACPI
+>  	tristate
+> diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
+> index b4df22186e25..9469903662f8 100644
+> --- a/sound/soc/codecs/Makefile
+> +++ b/sound/soc/codecs/Makefile
+> @@ -118,6 +118,7 @@ snd-soc-da9055-y := da9055.o
+>  snd-soc-dmic-y := dmic.o
+>  snd-soc-es7134-y := es7134.o
+>  snd-soc-es7241-y := es7241.o
+> +snd-soc-es7243-y := es7243.o
+>  snd-soc-es83xx-dsm-common-y := es83xx-dsm-common.o
+>  snd-soc-es8316-y := es8316.o
+>  snd-soc-es8326-y := es8326.o
+> @@ -515,6 +516,7 @@ obj-$(CONFIG_SND_SOC_DA9055)	+= snd-soc-da9055.o
+>  obj-$(CONFIG_SND_SOC_DMIC)	+= snd-soc-dmic.o
+>  obj-$(CONFIG_SND_SOC_ES7134)	+= snd-soc-es7134.o
+>  obj-$(CONFIG_SND_SOC_ES7241)	+= snd-soc-es7241.o
+> +obj-$(CONFIG_SND_SOC_ES7243E)	+= snd-soc-es7243e.o
+>  obj-$(CONFIG_SND_SOC_ES83XX_DSM_COMMON)    += snd-soc-es83xx-dsm-common.o
+>  obj-$(CONFIG_SND_SOC_ES8316)    += snd-soc-es8316.o
+>  obj-$(CONFIG_SND_SOC_ES8326)    += snd-soc-es8326.o
+> diff --git a/sound/soc/codecs/es7243e.c b/sound/soc/codecs/es7243e.c
+> new file mode 100644
+> index 000000000000..be877d980cec
+> --- /dev/null
+> +++ b/sound/soc/codecs/es7243e.c
+> @@ -0,0 +1,676 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/**
+> + * es7243e.c - ASoC Everest Semiconductor ES7243E audio ADC driver
+> + *
+> + * Copyright (c) 2024, SaluteDevices. All Rights Reserved.
+> + *
+> + * Authors: Viktor Prutyanov <vvprutyanov@sberdevices.ru>
+> + *	    Igor Prusov <ivprusov@salutedevices.com>
+> + *
+> + * Based on ES7243E driver by David Yang <yangxiaohua@everest-semi.com>
+> + */
+> +
+> +#include <linux/clk.h>
 > +#include <linux/module.h>
 > +#include <linux/moduleparam.h>
 
-Where do you use moduleparam?
-
-> +#include <linux/bits.h>
-> +#include <linux/gpio.h>
-
-And gpio?
-
-> +#include <linux/slab.h>
-> +#include <linux/of.h>
-> +#include <linux/of_gpio.h>
-
-And this?
-
-Please clean up the driver first.
-
-> +#include <linux/reset.h>
-> +#include <linux/init.h>
-> +#include <linux/i2c.h>
-> +#include <linux/regmap.h>
-> +
-> +#include <sound/initval.h>
-> +#include <sound/core.h>
-> +#include <sound/pcm.h>
-> +#include <sound/pcm_params.h>
-> +#include <sound/soc.h>
-> +#include <sound/soc-component.h>
-> +#include <sound/tlv.h>
-> +
-> +#include "ntpfw.h"
-> +
-> +#define NTP8835_FORMATS     (SNDRV_PCM_FMTBIT_S16_LE | \
-> +			     SNDRV_PCM_FMTBIT_S20_3LE | \
-> +			     SNDRV_PCM_FMTBIT_S24_LE | \
-> +			     SNDRV_PCM_FMTBIT_S32_LE)
-> +
-> +#define NTP8835_INPUT_FMT			0x0
-> +#define  NTP8835_INPUT_FMT_MASTER_MODE		BIT(0)
-> +#define  NTP8835_INPUT_FMT_GSA_MODE		BIT(1)
-> +#define NTP8835_GSA_FMT				0x1
-> +#define  NTP8835_GSA_BS_MASK			GENMASK(3, 2)
-> +#define  NTP8835_GSA_BS(x)			((x) << 2)
-> +#define  NTP8835_GSA_RIGHT_J			BIT(0)
-> +#define  NTP8835_GSA_LSB			BIT(1)
-> +#define NTP8835_SOFT_MUTE			0x26
-> +#define  NTP8835_SOFT_MUTE_SM1			BIT(0)
-> +#define  NTP8835_SOFT_MUTE_SM2			BIT(1)
-> +#define  NTP8835_SOFT_MUTE_SM3			BIT(2)
-> +#define NTP8835_PWM_SWITCH			0x27
-> +#define  NTP8835_PWM_SWITCH_POF1		BIT(0)
-> +#define  NTP8835_PWM_SWITCH_POF2		BIT(1)
-> +#define  NTP8835_PWM_SWITCH_POF3		BIT(2)
-> +#define NTP8835_PWM_MASK_CTRL0			0x28
-> +#define  NTP8835_PWM_MASK_CTRL0_OUT_LOW		BIT(1)
-> +#define  NTP8835_PWM_MASK_CTRL0_FPMLD		BIT(2)
-> +#define NTP8835_MASTER_VOL			0x2e
-> +#define NTP8835_CHNL_A_VOL			0x2f
-> +#define NTP8835_CHNL_B_VOL			0x30
-> +#define NTP8835_CHNL_C_VOL			0x31
-> +#define REG_MAX					NTP8835_CHNL_C_VOL
-> +
-> +#define NTP8835_FW_NAME				"eq_8835.bin"
-> +#define NTP8835_FW_MAGIC			0x38383335	/* "8835" */
-> +
-
-
-...
+Same issues.
 
 
 > +
-> +static void ntp8835_reset_gpio(struct ntp8835_priv *ntp8835, bool active)
-> +{
-> +	if (active) {
-> +		/*
-> +		 * According to NTP8835 datasheet, 6.2 Timing Sequence (recommended):
-> +		 * Deassert for T2 >= 1ms...
-> +		 */
-> +		reset_control_deassert(ntp8835->reset);
+> +static const struct regmap_config es7243e_regmap_config = {
 
-Explain in comment why do you need to power up device to perform
-reset... This sounds odd.
-
-> +		fsleep(1000);
-> +
-> +		/* ...Assert for T3 >= 0.1us... */
-> +		reset_control_assert(ntp8835->reset);
-> +		fsleep(1);
-> +
-> +		/* ...Deassert, and wait for T4 >= 0.5ms before sound on sequence. */
-> +		reset_control_deassert(ntp8835->reset);
-> +		fsleep(500);
-> +	} else {
-> +		reset_control_assert(ntp8835->reset);
-
-This function is confusing. It is supposed to perform reset and leave
-the device in active state, but here it leaves the device in reset.
-
-
-
-> +
-> +static struct snd_soc_dai_driver ntp8835_dai = {
-
-Not const?
-
-> +	.name = "ntp8835-amplifier",
-> +	.playback = {
-> +		.stream_name = "Playback",
-> +		.channels_min = 1,
-> +		.channels_max = 3,
-> +		.rates = SNDRV_PCM_RATE_8000_192000,
-> +		.formats = NTP8835_FORMATS,
-> +	},
-> +	.ops = &ntp8835_dai_ops,
-> +};
-> +
-> +static struct regmap_config ntp8835_regmap = {
-
-Not const?
-
-Judging by weird includes and such simple issues, it looks like you try
-to upstream downstream or old code. That's not how you are supposed to
-bring new devices. You expect us to perform review on the same issues we
-fixed already. Work on newest drivers - take them as template - so you
-will not repeat the same issues we already fixed.
+But this one is correct...
 
 > +	.reg_bits = 8,
 > +	.val_bits = 8,
-> +	.max_register = REG_MAX,
+> +	.max_register = ES7243E_CHIP_VER,
 > +	.cache_type = REGCACHE_MAPLE,
 > +};
 > +
-> +static int ntp8835_i2c_probe(struct i2c_client *i2c)
+> +struct coeff_div {
+
+declarations go before definitions.
+
+> +	u32 mclk;		/* mclk frequency */
+> +	u32 sr_rate;		/* sample rate */
+> +	u8 osr;			/* ADC over sample rate */
+> +	u8 mclk_pre;		/* mclk prediv/premult */
+> +	u8 cf_dsp_div;		/* adclrck divider and daclrck divider */
+> +	u8 scale;		/* ADC gain scale up */
+> +	u8 lrckdiv;		/* lrck divider */
+> +	u8 bclkdiv;		/* sclk divider */
+> +};
+> +
+> +static const struct coeff_div coeff_div[] = {
+> +	/* mclk     lrck   osr   pre   div   scale lrdiv bclkdiv */
+> +	{ 24576000, 8000,  0x20, 0x50, 0x00, 0x00, 0x0b, 0x2f },
+> +	{ 24576000, 12000, 0x20, 0x30, 0x00, 0x00, 0x07, 0x1f },
+> +	{ 24576000, 16000, 0x20, 0x20, 0x00, 0x00, 0x05, 0x17 },
+> +	{ 24576000, 24000, 0x20, 0x10, 0x00, 0x00, 0x03, 0x0f },
+> +	{ 24576000, 32000, 0x20, 0x21, 0x00, 0x00, 0x02, 0x0b },
+> +	{ 24576000, 48000, 0x20, 0x00, 0x00, 0x00, 0x01, 0x07 },
+> +	{ 12288000, 8000,  0x20, 0x20, 0x00, 0x00, 0x05, 0x17 },
+> +	{ 12288000, 12000, 0x20, 0x10, 0x00, 0x00, 0x03, 0x0f },
+> +	{ 12288000, 16000, 0x20, 0x21, 0x00, 0x00, 0x02, 0x0b },
+> +	{ 12288000, 24000, 0x20, 0x00, 0x00, 0x00, 0x01, 0x07 },
+> +	{ 12288000, 32000, 0x20, 0x22, 0x00, 0x00, 0x01, 0x05 },
+> +	{ 12288000, 48000, 0x20, 0x01, 0x00, 0x00, 0x00, 0x03 },
+> +	{ 6144000,  8000,  0x20, 0x21, 0x00, 0x00, 0x02, 0x0b },
+> +	{ 6144000,  12000, 0x20, 0x00, 0x00, 0x00, 0x01, 0x07 },
+> +	{ 6144000,  16000, 0x20, 0x22, 0x00, 0x00, 0x01, 0x05 },
+> +	{ 6144000,  24000, 0x20, 0x01, 0x00, 0x00, 0x00, 0x03 },
+> +	{ 6144000,  32000, 0x20, 0x23, 0x00, 0x00, 0x00, 0x02 },
+> +	{ 6144000,  48000, 0x20, 0x02, 0x00, 0x00, 0x00, 0x01 },
+> +	{ 3072000,  8000,  0x20, 0x22, 0x00, 0x00, 0x01, 0x05 },
+> +	{ 3072000,  12000, 0x20, 0x01, 0x00, 0x00, 0x00, 0x03 },
+> +	{ 3072000,  16000, 0x20, 0x23, 0x00, 0x00, 0x00, 0x02 },
+> +	{ 3072000,  24000, 0x20, 0x02, 0x00, 0x00, 0x00, 0x01 },
+> +	{ 3072000,  32000, 0x10, 0x03, 0x20, 0x04, 0x00, 0x02 },
+> +	{ 3072000,  48000, 0x20, 0x03, 0x00, 0x00, 0x00, 0x00 },
+> +	{ 1536000,  8000,  0x20, 0x23, 0x00, 0x00, 0x00, 0x02 },
+> +	{ 1536000,  12000, 0x20, 0x02, 0x00, 0x00, 0x00, 0x01 },
+> +	{ 1536000,  16000, 0x10, 0x03, 0x20, 0x04, 0x00, 0x00 },
+> +	{ 1536000,  24000, 0x20, 0x03, 0x00, 0x00, 0x00, 0x00 },
+> +	{ 32768000, 8000,  0x20, 0x70, 0x00, 0x00, 0x0f, 0x3f },
+> +	{ 32768000, 16000, 0x20, 0x30, 0x00, 0x00, 0x07, 0x1f },
+> +	{ 32768000, 32000, 0x20, 0x10, 0x00, 0x00, 0x03, 0x0f },
+> +	{ 16384000, 8000,  0x20, 0x30, 0x00, 0x00, 0x07, 0x1f },
+> +	{ 16384000, 16000, 0x20, 0x10, 0x00, 0x00, 0x03, 0x0f },
+> +	{ 16384000, 32000, 0x20, 0x00, 0x00, 0x00, 0x01, 0x07 },
+> +	{ 8192000,  8000,  0x20, 0x10, 0x00, 0x00, 0x03, 0x0f },
+> +	{ 8192000,  16000, 0x20, 0x00, 0x00, 0x00, 0x01, 0x07 },
+> +	{ 8192000,  32000, 0x20, 0x01, 0x00, 0x00, 0x00, 0x03 },
+> +	{ 4096000,  8000,  0x20, 0x00, 0x00, 0x00, 0x01, 0x07 },
+> +	{ 4096000,  16000, 0x20, 0x01, 0x00, 0x00, 0x00, 0x03 },
+> +	{ 4096000,  32000, 0x20, 0x02, 0x00, 0x00, 0x00, 0x01 },
+> +	{ 2048000,  8000,  0x20, 0x01, 0x00, 0x00, 0x00, 0x03 },
+> +	{ 2048000,  16000, 0x20, 0x02, 0x00, 0x00, 0x00, 0x01 },
+> +	{ 2048000,  32000, 0x20, 0x03, 0x00, 0x00, 0x00, 0x00 },
+> +	{ 1024000,  8000,  0x20, 0x02, 0x00, 0x00, 0x00, 0x01 },
+> +	{ 1024000,  16000, 0x20, 0x03, 0x00, 0x00, 0x00, 0x00 },
+> +	{ 22579200, 11025, 0x20, 0x30, 0x00, 0x00, 0x07, 0x1f },
+> +	{ 22579200, 22050, 0x20, 0x10, 0x00, 0x00, 0x03, 0x0f },
+> +	{ 22579200, 44100, 0x20, 0x00, 0x00, 0x00, 0x01, 0x07 },
+> +	{ 11289600, 11025, 0x20, 0x10, 0x00, 0x00, 0x03, 0x0f },
+> +	{ 11289600, 22050, 0x20, 0x00, 0x00, 0x00, 0x01, 0x07 },
+> +	{ 11289600, 44100, 0x20, 0x01, 0x00, 0x00, 0x00, 0x03 },
+> +	{ 56448000, 11025, 0x20, 0x00, 0x00, 0x00, 0x01, 0x07 },
+> +	{ 56448000, 22050, 0x20, 0x01, 0x00, 0x00, 0x00, 0x03 },
+> +	{ 56448000, 44100, 0x20, 0x02, 0x00, 0x00, 0x00, 0x01 },
+> +	{ 28224000, 11025, 0x20, 0x01, 0x00, 0x00, 0x00, 0x03 },
+> +	{ 28224000, 22050, 0x20, 0x02, 0x00, 0x00, 0x00, 0x01 },
+> +	{ 28224000, 44100, 0x20, 0x03, 0x00, 0x00, 0x00, 0x00 },
+> +	{ 14112000, 11025, 0x20, 0x02, 0x00, 0x00, 0x00, 0x01 },
+> +	{ 14112000, 22050, 0x20, 0x03, 0x00, 0x00, 0x00, 0x00 },
+> +};
+> +
+> +static const struct coeff_div *get_coeff(int mclk, int rate)
 > +{
-> +	struct ntp8835_priv *ntp8835;
-> +	struct regmap *regmap;
-> +	int ret;
+> +	int i;
 > +
-> +	ntp8835 = devm_kzalloc(&i2c->dev, sizeof(struct ntp8835_priv), GFP_KERNEL);
-
-sizeof(*)
-
-> +	if (!ntp8835)
-> +		return -ENOMEM;
+> +	for (i = 0; i < ARRAY_SIZE(coeff_div); i++)
+> +		if (coeff_div[i].sr_rate == rate && coeff_div[i].mclk == mclk)
+> +			return &coeff_div[i];
 > +
-> +	ntp8835->i2c = i2c;
-> +
-> +	ntp8835->reset = devm_reset_control_get_shared(&i2c->dev, NULL);
-
-shared is on purpose?
-
-> +	if (IS_ERR(ntp8835->reset))
-> +		return dev_err_probe(&i2c->dev, PTR_ERR(ntp8835->reset),
-> +				     "Failed to get reset\n");
-> +
-> +	ret = reset_control_deassert(ntp8835->reset);
-> +	if (ret)
-> +		return dev_err_probe(&i2c->dev, PTR_ERR(ntp8835->reset),
-> +				     "Failed to deassert reset\n");
-> +
-> +	dev_set_drvdata(&i2c->dev, ntp8835);
-> +
-> +	ntp8835_reset_gpio(ntp8835, true);
-> +
-> +	regmap = devm_regmap_init_i2c(i2c, &ntp8835_regmap);
-> +	if (IS_ERR(regmap))
-> +		return dev_err_probe(&i2c->dev, PTR_ERR(regmap),
-> +				     "Failed to allocate regmap\n");
-> +
-> +	ret = devm_snd_soc_register_component(&i2c->dev, &soc_component_ntp8835,
-> +					      &ntp8835_dai, 1);
-> +	if (ret)
-> +		return dev_err_probe(&i2c->dev, ret,
-> +				     "Failed to register component\n");
-> +
-> +	return 0;
+> +	return NULL;
 > +}
 > +
-> +static const struct i2c_device_id ntp8835_i2c_id[] = {
-> +	{ "ntp8835", 0 },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(i2c, ntp8835_i2c_id);
-> +
-> +static const struct of_device_id ntp8835_of_match[] = {
-> +	{.compatible = "neofidelity,ntp8835",},
-> +	{.compatible = "neofidelity,ntp8835c",},
+> +static unsigned int rates_12288[] = {
 
-This does not match your i2c IDs, which leads to troubles when matching
-variants.
-
-Anyway, aren't they compatible?
-
-
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, ntp8835_of_match);
-> +
-> +static struct i2c_driver ntp8835_i2c_driver = {
-> +	.probe = ntp8835_i2c_probe,
-> +	.id_table = ntp8835_i2c_id,
-> +	.driver = {
-> +		.name = "NTP8835",
-
-Driver names are lowercase
-
-> +		.of_match_table = ntp8835_of_match,
-> +	},
-> +};
-> +module_i2c_driver(ntp8835_i2c_driver);
-> +
-> +MODULE_AUTHOR("Igor Prusov <ivprusov@salutedevices.com>");
-> +MODULE_DESCRIPTION("NTP8835 Audio Amplifier Driver");
-> +MODULE_LICENSE("GPL");
+Not a const?
 
 Best regards,
 Krzysztof
