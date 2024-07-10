@@ -1,222 +1,146 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7338E83CD9;
-	Wed, 10 Jul 2024 07:28:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41CF486AEE;
+	Wed, 10 Jul 2024 08:26:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720596501; cv=none; b=WksqgclySs4Rk4AT0cxye1A5wE5N/HSC0fTzuyZnLObV+AT0thGNd3wnhJ4C3C/h5vr1F7mqyORaQHTTAcJBTefxl8pUF3nt5E5vtsVScZhY9nRMooNFet1+PGe61ZiUGb/4QVed6+cebft7oaEgRaD77bqw0yftuHsnbUgOJyU=
+	t=1720599961; cv=none; b=GvZKQTbQj7+vj++ggExk4j9CRL8zHh3CyCuxZn6/c4SFPCksImjbKbmO1TqXwNIV36B+h7iewxBzUXOwJdqIISgEtPhei40Savj1ZcsbLIMykvDjOiNV2KRGK4MQ0Dbv25oCgi0ZlOMtVYMjnwadL9foPCzgSZ8RXLig4qNblb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720596501; c=relaxed/simple;
-	bh=xLrXFMCa+ZVf2BoMI1TvIQ2l4PsrXNPhP1XvRjPpC3E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L5jv9j+uZy88SwZVUuMEFpxyxyvNRfX5ro8TpSpDr6Cb5Z50XwZCtQk/2e/m7/+z6n3NKHc01aBa1t2aF/WklKXfQQDLJ8gBfcaRRu9JO5ZRlHjx52dXwq8ig4bx+UJhgknjZdru40TuOJhb5+21WUXRqU9DszRsIexT+0AgWNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NYEFHGoS; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1720599961; c=relaxed/simple;
+	bh=fvB2g0Xiz+QuOEyjJz2Jei/hZ/zPhy+LZkMMMFz6D6U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=f0fmFVQfeKt52FDEEiGXDYDnb6fJM4ZbLzdc1jjFuu3Cm/RymQajw1Z+QQGV5VgAmMdJI/33HxlyxnshIFVidTFe0JhFjaUA3ZvolBAuM0DZcL1fG4QAQix2gTAW/gEZTWboVbZWok+lTUaa4YyAq3zOyXtBmS8UWC7d7Lpp35s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cslxb1Mi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NYEFHGoS"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-6e7e23b42c3so3165576a12.1;
-        Wed, 10 Jul 2024 00:28:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720596500; x=1721201300; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/zjRVa3Uqe4dlMlnLz1HXHc8gPRm1KW7opYsvONaNGg=;
-        b=NYEFHGoSHQtu76hEVn4FJX3DOmil/yiPOcH6x+4Xd3EP4cWw03g42v3DbtQTLEoE9j
-         q8DnfCn5waZ1LpYOZOqF/L1WqPQdkwRgTC4k53DWqut8kN+Imfs1b+0KmK53QKLvlvet
-         qP8bph2C4l3PCLh16nmIsGR+kWj01/rtW8BnqQxMPc9nopxlX4JTBrJ2bHX6bbJvdZKA
-         uXcTQ4xM8pl2oRquPhGDUlvZa1sRmClYnrH9ARgAxnUfkg4KkJwXMbwAXQYTUsNPDFjp
-         F69/OXdNsKvhte9I9OattYjBCBEZbmdvx7FWZIYFNAcIPjHO6zNzsFuZZBalyBYAT3cR
-         3kuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720596500; x=1721201300;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/zjRVa3Uqe4dlMlnLz1HXHc8gPRm1KW7opYsvONaNGg=;
-        b=oZLVFvTprBEhmtBlVPF9Sytt9z5NM49i55AE93qJmkqdsK2F/89/EqcAwrkcNF2pD+
-         Ft567cHiI/69I7g/B1uhJvYQP/SU9HckVzU+LNJbCEovZzMUDecnMqY2hKQ/Vs+c7GiT
-         +XHO3PNJShqfVsWBnO//yl78bnMCoBZb6pf5Xcu/Kl4+BaSQ1cle0GN1DaME9+w+g7rE
-         QVteOYNL02os9XLZ+11T4ybG8zkdnF1iOn3tclqCFU6PwtD2kAg24GilBf9VPCvFfGNE
-         pVnHGfBNTYr8jdn+59d5okLMVsJyFyw8OTBIJ/pEuyrqB8UaXAD5aEmjanpMxfIK6b5M
-         lV9w==
-X-Forwarded-Encrypted: i=1; AJvYcCV/slI865McXxjy20ZoA1trS+SiMAxV4AELV6FSOXFTXlSksP6dO53Hy2cwQE0lQL/M7P1b9zcxaRbihBJF+/GKolbEEPIIdG7Hzj4DlwVkGczP8tMXL3zBM50e8Z1O8c96g45k403gA/MAvxbuSvmmO/qir4F/cI3eCVWerEllv9xN4zQM
-X-Gm-Message-State: AOJu0Yyjjh/0GCaYAc08qi6v7Km0sbGsEb2gMNUuba0rFFCVcexQ8pF1
-	AJNENdAc8PiG74C65T5+lChL0GwBBJq9hrYhXk1cBJ0ZkR+ZZdc1
-X-Google-Smtp-Source: AGHT+IFu0qG2le5/zbstuRM/nVLLnScMXOcToJf4iu1XEgBAZVxL4GTxdNfBD3Wm7sxWWCa+RNKpZg==
-X-Received: by 2002:a05:6a20:9e4a:b0:1be:c3dd:642a with SMTP id adf61e73a8af0-1c2982512f3mr5285279637.37.1720596499433;
-        Wed, 10 Jul 2024 00:28:19 -0700 (PDT)
-Received: from fedora.. ([45.118.158.79])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ca34e89d46sm3074678a91.27.2024.07.10.00.28.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jul 2024 00:28:19 -0700 (PDT)
-From: Animesh Agarwal <animeshagarwal28@gmail.com>
-To: 
-Cc: Animesh Agarwal <animeshagarwal28@gmail.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	patches@opensource.cirrus.com,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: dt-bindings: cirrus,cs42xx8: Convert to dtschema
-Date: Wed, 10 Jul 2024 12:57:52 +0530
-Message-ID: <20240710072756.99765-1-animeshagarwal28@gmail.com>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cslxb1Mi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77AC9C32786;
+	Wed, 10 Jul 2024 08:25:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720599960;
+	bh=fvB2g0Xiz+QuOEyjJz2Jei/hZ/zPhy+LZkMMMFz6D6U=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Cslxb1MiQ0wVZ3OJrJ2gefb4pb+I0KCz1MOLyTf1TGKk1WAux/905mxPolVTgsMXb
+	 rQecD0l7dDKDib+wKzTxVoAazgQmKZYa/zVjS6Z6+xH5YgNthm9B5I0cCtpVaXk8HU
+	 i1/Zz09xnFoXa3bdC4GkMVlM+EL6pFz7Vx3zdRmqK6+5mp1P8t0LU5VCo7P/XD+L9E
+	 mx4HDYP+/xKCqkCpX3WQuTm6cRSH6BbgycJDKt4OgXnT49jK52Efq7bB9UjUxWl8Qp
+	 K7gzn8TpDp5lJYvAUJecQWbQBxnl69ecOlm0HbrYfLN7klIfAPtt/Oi//UJ1/bN2Cq
+	 Yhnl7yTpZDTLg==
+Message-ID: <9f1d3c63-8b1c-43a8-b002-5399a81e704d@kernel.org>
+Date: Wed, 10 Jul 2024 10:25:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] ASoC: dt-bindings: qcom,msm8916-wcd-digital-codec:
+ convert to dtschema
+To: Rayyan Ansari <rayyan.ansari@linaro.org>, devicetree@vger.kernel.org
+Cc: alsa-devel@alsa-project.org, Banajit Goswami <bgoswami@quicinc.com>,
+ Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+References: <20240709152808.155405-1-rayyan.ansari@linaro.org>
+ <20240709152808.155405-2-rayyan.ansari@linaro.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240709152808.155405-2-rayyan.ansari@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Convert the Cirrus Logic CS42448/CS42888 audio CODEC bindings to DT
-schema format. Set power supply properties to required only for CS42888.
+On 09/07/2024 17:24, Rayyan Ansari wrote:
+> Convert the Qualcomm MSM8916 WCD Digital Audio Codec bindings from text
+> to yaml dt schema format.
+> Make bindings complete by adding #sound-dai-cells.
 
-Cc: Daniel Baluta <daniel.baluta@nxp.com>
-Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
----
- .../bindings/sound/cirrus,cs42xx8.yaml        | 81 +++++++++++++++++++
- .../devicetree/bindings/sound/cs42xx8.txt     | 34 --------
- 2 files changed, 81 insertions(+), 34 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/sound/cirrus,cs42xx8.yaml
- delete mode 100644 Documentation/devicetree/bindings/sound/cs42xx8.txt
 
-diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs42xx8.yaml b/Documentation/devicetree/bindings/sound/cirrus,cs42xx8.yaml
-new file mode 100644
-index 000000000000..725b47e82062
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/cirrus,cs42xx8.yaml
-@@ -0,0 +1,81 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/cirrus,cs42xx8.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Cirrus Logic CS42448/CS42888 audio CODEC
-+
-+maintainers:
-+  - patches@opensource.cirrus.com
-+
-+properties:
-+  compatible:
-+    enum:
-+      - cirrus,cs42448
-+      - cirrus,cs42888
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    minItems: 1
-+    maxItems: 2
-+
-+  clock-names:
-+    const: mclk
-+
-+  VA-supply:
-+    description: Analog power supply.
-+
-+  VD-supply:
-+    description: Digital power supply.
-+
-+  VLC-supply:
-+    description: Control port power supply
-+
-+  VLS-supply:
-+    description: Serial port interface power supply.
-+
-+  reset-gpios:
-+    description: This pin is connected to the chip's RESET pin.
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+
-+if:
-+  properties:
-+    compatible:
-+      contains:
-+        const: cirrus,cs42888
-+then:
-+  required:
-+    - VA-supply
-+    - VD-supply
-+    - VLC-supply
-+    - VLS-supply
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+
-+      codec@48 {
-+          compatible = "cirrus,cs42888";
-+          reg = <0x48>;
-+          clocks = <&codec_mclk 0>;
-+          clock-names = "mclk";
-+          VA-supply = <&reg_audio>;
-+          VD-supply = <&reg_audio>;
-+          VLS-supply = <&reg_audio>;
-+          VLC-supply = <&reg_audio>;
-+          reset-gpios = <&gpio 1>;
-+      };
-+    };
-diff --git a/Documentation/devicetree/bindings/sound/cs42xx8.txt b/Documentation/devicetree/bindings/sound/cs42xx8.txt
-deleted file mode 100644
-index bbfe39347c20..000000000000
---- a/Documentation/devicetree/bindings/sound/cs42xx8.txt
-+++ /dev/null
-@@ -1,34 +0,0 @@
--CS42448/CS42888 audio CODEC
--
--Required properties:
--
--  - compatible : must contain one of "cirrus,cs42448" and "cirrus,cs42888"
--
--  - reg : the I2C address of the device for I2C
--
--  - clocks : a list of phandles + clock-specifiers, one for each entry in
--    clock-names
--
--  - clock-names : must contain "mclk"
--
--  - VA-supply, VD-supply, VLS-supply, VLC-supply: power supplies for the device,
--    as covered in Documentation/devicetree/bindings/regulator/regulator.txt
--
--Optional properties:
--
--  - reset-gpios : a GPIO spec to define which pin is connected to the chip's
--    !RESET pin
--
--Example:
--
--cs42888: codec@48 {
--	compatible = "cirrus,cs42888";
--	reg = <0x48>;
--	clocks = <&codec_mclk 0>;
--	clock-names = "mclk";
--	VA-supply = <&reg_audio>;
--	VD-supply = <&reg_audio>;
--	VLS-supply = <&reg_audio>;
--	VLC-supply = <&reg_audio>;
--	reset-gpios = <&pca9557_b 1 GPIO_ACTIVE_LOW>;
--};
--- 
-2.45.2
+> +
+> +properties:
+> +  compatible:
+> +    const: qcom,msm8916-wcd-digital-codec
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    minItems: 2
+
+You can drop minItems if they equal max.
+
+> +    maxItems: 2
+> +
+> +  clock-names:
+> +    items:
+> +      - const: ahbix-clk
+> +      - const: mclk
+> +
+> +  '#sound-dai-cells':
+> +    const: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - '#sound-dai-cells'
+> +
+
+You need here allOf: with $ref to dai-common.yaml.
+
+> +additionalProperties: false
+
+... and this then becomes:
+unevaluatedProperties: false
+
+
+Best regards,
+Krzysztof
 
