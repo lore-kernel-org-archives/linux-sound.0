@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D432B18FC78;
-	Wed, 10 Jul 2024 10:21:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0133190053;
+	Wed, 10 Jul 2024 10:24:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720606912; cv=none; b=GNxp+pI2nPcnRiFbmztU2AYKIerWn/M8EdKFtMkAuihuKRsxbKx0BGl135+J5tqArR7pL5unq/CfOOCVXoCTiuZd1gsrUAvDx/CQz6sQrd5wrHwmPSu8Vl40a4DUed6ncT1Qaw2o1kWgTI7aW93KLQ/JliwfRnwOIWylhZoS5e0=
+	t=1720607041; cv=none; b=DG3HIYNDqm8KotYfQjIJD1MZKZi84cXarT9dRLZ02I06cJEHJTTv2tjS4We30BSZLElXscaWw1Al+62kkwKtTj2It3zHFj1iT5XkjZCheAb027diaK6+B2G0bAJtTpMimJtQKOG4L5xtodQM27kaTXzBhOeHQnFJEx/QxeVS79Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720606912; c=relaxed/simple;
-	bh=KeqjnIMxRzjZuQTlS+nkiZRUVGBQSJFob8OoHfMAimg=;
+	s=arc-20240116; t=1720607041; c=relaxed/simple;
+	bh=EcMkUlJFM00E09UiYhi1ZezvjWsFvIzEISzlMSNZoSg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=em/wUnCkgqf0eFJeZSLdFxJtPCLUiHo64YaBG9wl2Z8cgmbW4r84o5KjlXH48c/s6NJ0Z7G09Y9FWgcuSULjHj1OkSuoOAjtEr7RaaZCWjY9WbR5GouSezAYJButU7zzc1S48JKZV7L/QpVU61Z6UMb7A+zkhBMp6KnG90sfKxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H4IaL6yg; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=p/irUtA0oilMP+3qeEJXuzPKrmtSSdSY7vxx/AOsGxgAylAc7d8YawAee646JWAMoLL9mHwRY3/Nu/zQZySer/hUP304DDhVfqyfc6ABVHkr5EWjSjlYY2V/+fCQQEzMLznIZ9IA1Js+oiZXSaiEfy5qju6St/62JyFKgXCGuuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y8bhwXRT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H4IaL6yg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42B1CC32781;
-	Wed, 10 Jul 2024 10:21:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y8bhwXRT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FB0BC32781;
+	Wed, 10 Jul 2024 10:23:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720606912;
-	bh=KeqjnIMxRzjZuQTlS+nkiZRUVGBQSJFob8OoHfMAimg=;
+	s=k20201202; t=1720607040;
+	bh=EcMkUlJFM00E09UiYhi1ZezvjWsFvIzEISzlMSNZoSg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=H4IaL6yglVoaV2nDoOhuPbaX1yeoHJt42UFx6SYxPOLfJp8/grEr1PCpNpo1VE4Bb
-	 WzyZ3U1tY+KrTPZM55DrBkTLVv6PJtvjJPvIzPhcJvUnOvljiFRzjAGslpfvo8v9E7
-	 mo4Olx1bnbu3Ry2hWxjKltFO8m3d8GHlg1yDtm9xmn+qVhXzdJHU4VCdCWxpYGugdo
-	 AiJaIdC/PYLL2M0HiGjPyUwJ2VZAWnRkLSamvL/Aje5OPnVi7gUAISI6KrhR46Plo5
-	 hZx1Mp2NPYdhlIaJlYx4d76ICPK4l23Z0YjqAc6BrRkPQfZyUDNFhgxSnEllWaECqF
-	 ee/zHiaozRI0Q==
-Message-ID: <30d66c46-925b-43c5-ba2a-1cc1f2c90002@kernel.org>
-Date: Wed, 10 Jul 2024 12:21:47 +0200
+	b=Y8bhwXRT1INn9JvSi6sFz2PnNF6nXncBGin35BPXcjBQv09FWZVaRxO3WVMI1Cccp
+	 Y9QTmeUmRNx+P3naoXhBqjvazSUphQVM0dv3v05fDNn2jYpc1856izx70ghAKmPfTz
+	 BjjiO8+ePhqdK2XnENLAnK+0BE+4YPhBMlGFgOBD5lKh8cDwOHLkpZYbdd8vGZ8Vmu
+	 cB4oNovPNW9+HRvhIhHOi5eq0BgigeKwabTQtgrAW/EWi+Bvsa3v2FHbKeyVoE8QzH
+	 ZFnlqVO0E0E8/+2hL3/MeqjrRM9Pahq461rhxbKVHLBN+ZoRJxk7OO6xwzoJe2Pi1B
+	 /WsTbAZCQPx/Q==
+Message-ID: <18c0312a-5595-4f16-95e9-1136633c7646@kernel.org>
+Date: Wed, 10 Jul 2024 12:23:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,7 +35,8 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] dt-bindings: vendor-prefixes: Add NeoFidelity, Inc
+Subject: Re: [PATCH 3/6] ASoC: dt-bindings: Add bindings for NeoFidelity
+ NTP8918
 To: Igor Prusov <ivprusov@salutedevices.com>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -45,7 +46,7 @@ Cc: prusovigor@gmail.com, kernel@salutedevices.com,
  linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20240709172834.9785-1-ivprusov@salutedevices.com>
- <20240709172834.9785-2-ivprusov@salutedevices.com>
+ <20240709172834.9785-4-ivprusov@salutedevices.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -91,16 +92,92 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240709172834.9785-2-ivprusov@salutedevices.com>
+In-Reply-To: <20240709172834.9785-4-ivprusov@salutedevices.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 09/07/2024 19:28, Igor Prusov wrote:
-> Add vendor prefix for NeoFidelity, Inc
+> Add dt-bindings for NeoFidelity NTP8918 Amplifier
 > 
 > Signed-off-by: Igor Prusov <ivprusov@salutedevices.com>
+> ---
+>  .../bindings/sound/neofidelity,ntp8918.yaml   | 63 +++++++++++++++++++
+>  1 file changed, 63 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/sound/neofidelity,ntp8918.yaml
+> 
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+This looks like not tested, so limited review follows.
+
+A nit, subject: drop second/last, redundant "bindings". The
+"dt-bindings" prefix is already stating that these are bindings.
+See also:
+https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
+
+
+> +> +description: |
+
+Do not need '|' unless you need to preserve formatting.
+
+> +  The NTP8918 is a single chip full digital audio amplifier
+> +  including power stage for stereo amplifier system.
+> +  The NTP8918 is integrated with versatile digital audio signal
+> +  processing functions, high-performance, high-fidelity fully
+> +  digital PWM modulator and two high-power full-bridge MOSFET
+> +  power stages.
+> +
+> +allOf:
+> +  - $ref: dai-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - neofidelity,ntp8918
+> +
+> +  reg:
+> +    maxItems: 1
+> +    enum:
+> +      - 0x2a
+> +      - 0x2b
+> +      - 0x2c
+> +      - 0x2d
+> +    description: |
+> +      I2C address of the device.
+
+Drop description, redundant.
+
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description: GPIO used to control the state of the device.
+
+Drop description, redundant.
+
+> +
+> +  '#sound-dai-cells':
+> +    enum: [0]
+
+That's a const
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +   #include <dt-bindings/gpio/gpio.h>
+> +   i2c {
+> +     #address-cells = <1>;
+> +     #size-cells = <0>;
+> +     ntp8918@54 {
+
+Node names should be generic. See also an explanation and list of
+examples (not exhaustive) in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+
+
 
 Best regards,
 Krzysztof
