@@ -1,165 +1,88 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0477189F54
-	for <linux-sound@vger.kernel.org>; Wed, 10 Jul 2024 16:04:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9053512F37C;
+	Wed, 10 Jul 2024 17:30:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720627479; cv=none; b=QSiFdvVrKgEigWsHtal1nUI6NohqeRN8Lg7okl2C+cHBXgjwU9vHjHjfMF/RUDW5KXIycJXgX1YbDK3G9MpzaOAn597QpGMyRFtLnhcG01Sstt7N5Q6WxixWxOa8IF1/nSQCt6bw4U/y2DjiDIU5tKnvrCWi95Q1ZmcVRdYRdFk=
+	t=1720632632; cv=none; b=QNqHc4eLx/34hF0Wou7iuAei9lHIDevWo8b68dFz0hrcSaxf35OQEHWT4pctXeM9vtewajEfiph/XbGOIuyT6aCrMrHaGbfxXiIBbRQHDdiBE8IXdb1004blTRcSEKEmDFbjz7D6rZb/hL+OFnycN5sJM5C7y2mzaMvc+NIhADg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720627479; c=relaxed/simple;
-	bh=cUyP2tyMqUMckkhH7Osz5kbTD7djaxkuJUxSv5Aj3xw=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mGcwIWZkd06JqLlkWhhguoGwWBzph8xGodNqR2N1DR78lI9bR+cFn7tLpBXPE/6LfMLT66g3Qi4kt8JGZZxaNgChRssM5bo19WmJ+k6csW29+tb3WF0zYaKaY2z1kjib4w20SS5o8zPLd2/AfYYoGxiO83lEpFNpdMvN8+mY+lQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=DTaYaVoD; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1720632632; c=relaxed/simple;
+	bh=EiksLOAaR1h6v3xrh4/4fRtC36Iw+GB1jm/EDk0JfoA=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=t8JWicRiM9E0hALURHKGmnn0s/nqOJJRniCtS7Kp+FHpmwzR6DGi36o7koZbcBSO3vGDExcD1Qbr2bU15WbuHeXIAqhzFlizIaB/XBEYbE+qMnhZREyPjGg11aNkvZC+SvqQbqigIyLKxZoTBONo94JPNJ7uXL/jqG1v0T1tl9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eVQgOzk9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="DTaYaVoD"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46A4s4aH006601;
-	Wed, 10 Jul 2024 11:04:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=AZFe4vyOQNZSLgTUhWu4DO2tdekGbHxeclUS50no9Ac=; b=
-	DTaYaVoDbGXswIgRPsn1oNxrDaFp5ICHhyPj33z17+vlejcm7r1ehPsqocJ6y5o4
-	WiGYhofG0dwERQjEs3XmV84VCNwrSHrLkp9SEwUpo/ejUBLNNxgWP5i/YKrcYxch
-	lZwdraHY/Xw6Nj3/b/4C3ErUBpPu6EOrpmgnn8eIo5UBVA7/IUVqggZFc2hSoePF
-	yf5Sp4xiaHDGJpKZzIM+LUISjlXA9F4R+vo02kPdS+XGgYZpPcIlQj1LzVO5uyvf
-	DTXIeW2dkqoDkZu7KrZTvdcLMMf15fjmcRTwPz3bGVcbLg4QJEp9RfZ1ZHJdqmGa
-	uQX45gUmLpS0OIHvbFQrGg==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 409c9a8vqb-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 10 Jul 2024 11:04:22 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 10 Jul
- 2024 17:04:20 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Wed, 10 Jul 2024 17:04:20 +0100
-Received: from paulha.crystal.cirrus.com (paulha.ad.cirrus.com [141.131.145.123])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id F225982024D;
-	Wed, 10 Jul 2024 16:04:19 +0000 (UTC)
-From: Paul Handrigan <paulha@opensource.cirrus.com>
-To: <broonie@kernel.org>, <lgirdwood@gmail.com>, <linux-sound@vger.kernel.org>
-CC: <patches@opensource.cirrus.com>,
-        Paul Handrigan
-	<paulha@opensource.cirrus.com>
-Subject: [PATCH 2/2] ASoC: cs530x: Remove bclk from private structure
-Date: Wed, 10 Jul 2024 11:04:16 -0500
-Message-ID: <20240710160416.2617173-2-paulha@opensource.cirrus.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240710160416.2617173-1-paulha@opensource.cirrus.com>
-References: <20240710160416.2617173-1-paulha@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eVQgOzk9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AA00C32781;
+	Wed, 10 Jul 2024 17:30:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720632632;
+	bh=EiksLOAaR1h6v3xrh4/4fRtC36Iw+GB1jm/EDk0JfoA=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=eVQgOzk9hfJedk1BA8ccP7L4Fram1XErnxU3vSVe+NDJyPRcG7+hXr0trNCw6ireR
+	 Xa4eeIS64MlFSXeKANSJ0HORIp+XFgG1dRYW96cRzfkwhtRIXpIGeJJEx5ZmpAVx2W
+	 ndSzyS2kF4CWVFfWv4XMU99pofXcehJrNb9q523FQArPhJnKwhkTF10FOHXlYKZnHD
+	 PTdHo2xiGUBeCATAoT1FSNiDE9OqjwKep2+1xZDOuPfE3+zVfs8sOEhEO48Kk+KMdl
+	 z2TaacVQanJXWaFQED2P31RqCXASZKxcjX10vuI6HoFcaOD+i8BFkXW0II5JdBMO6L
+	 6SpmBKXoVceaQ==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Banajit Goswami <bgoswami@quicinc.com>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, 
+ linux-arm-msm@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20240701171917.596173-1-krzysztof.kozlowski@linaro.org>
+References: <20240701171917.596173-1-krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 1/2] ASoC: codecs: aw88395: Simplify with cleanup.h
+Message-Id: <172063262990.22653.3673550348945714885.b4-ty@kernel.org>
+Date: Wed, 10 Jul 2024 18:30:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: cQirYyR4uMMX45Y3ZXYO6ldvsFfJby20
-X-Proofpoint-GUID: cQirYyR4uMMX45Y3ZXYO6ldvsFfJby20
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev-d4707
 
-Remove the bclk int from the private structure and pass it into
-the set_bclk function.
+On Mon, 01 Jul 2024 19:19:16 +0200, Krzysztof Kozlowski wrote:
+> Allocate memory, which is being freed at end of the scope, with
+> scoped/cleanup.h to reduce number of error paths and make code a bit
+> simpler.
+> 
+> 
 
-Signed-off-by: Paul Handrigan <paulha@opensource.cirrus.com>
----
- sound/soc/codecs/cs530x.c | 24 ++++++++++++------------
- sound/soc/codecs/cs530x.h |  1 -
- 2 files changed, 12 insertions(+), 13 deletions(-)
+Applied to
 
-diff --git a/sound/soc/codecs/cs530x.c b/sound/soc/codecs/cs530x.c
-index 195739657f4e..25a86a32e936 100644
---- a/sound/soc/codecs/cs530x.c
-+++ b/sound/soc/codecs/cs530x.c
-@@ -415,13 +415,13 @@ static void cs530x_add_34_adc_widgets(struct snd_soc_component *component)
- 				ARRAY_SIZE(adc_ch3_4_routes));
- }
- 
--static int cs530x_set_bclk(struct snd_soc_component *component)
-+static int cs530x_set_bclk(struct snd_soc_component *component, const int freq)
- {
- 	struct cs530x_priv *cs530x = snd_soc_component_get_drvdata(component);
- 	struct regmap *regmap = cs530x->regmap;
- 	unsigned int bclk_val;
- 
--	switch (cs530x->bclk) {
-+	switch (freq) {
- 	case 2822400:
- 	case 3072000:
- 		bclk_val = CS530X_BCLK_2P822_3P072;
-@@ -439,11 +439,11 @@ static int cs530x_set_bclk(struct snd_soc_component *component)
- 		bclk_val = CS530X_BCLK_24P5792_24P576;
- 		break;
- 	default:
--		dev_err(component->dev, "Invalid BCLK %d\n", cs530x->bclk);
-+		dev_err(component->dev, "Invalid BCLK frequency %d\n", freq);
- 		return -EINVAL;
- 	}
- 
--	dev_dbg(component->dev, "BCLK is %d\n", cs530x->bclk);
-+	dev_dbg(component->dev, "BCLK frequency is %d\n", freq);
- 
- 	return regmap_update_bits(regmap, CS530X_ASP_CFG,
- 				  CS530X_ASP_BCLK_FREQ_MASK, bclk_val);
-@@ -489,7 +489,7 @@ static int cs530x_hw_params(struct snd_pcm_substream *substream,
- 	struct snd_soc_component *component = dai->component;
- 	struct cs530x_priv *cs530x = snd_soc_component_get_drvdata(component);
- 	struct regmap *regmap = cs530x->regmap;
--	int ret = 0, fs = params_rate(params);
-+	int ret = 0, fs = params_rate(params), bclk;
- 	unsigned int fs_val;
- 
- 
-@@ -531,22 +531,22 @@ static int cs530x_hw_params(struct snd_pcm_substream *substream,
- 			     CS530X_TDM_EN_MASK)) {
- 		dev_dbg(component->dev, "Configuring for %d %d bit TDM slots\n",
- 			cs530x->tdm_slots, cs530x->tdm_width);
--		cs530x->bclk = snd_soc_tdm_params_to_bclk(params,
--							  cs530x->tdm_width,
--							  cs530x->tdm_slots,
--							  1);
-+		bclk = snd_soc_tdm_params_to_bclk(params,
-+						  cs530x->tdm_width,
-+						  cs530x->tdm_slots,
-+						  1);
- 	} else {
--		cs530x->bclk = snd_soc_params_to_bclk(params);
-+		bclk = snd_soc_params_to_bclk(params);
- 	}
- 
- 	if (!regmap_test_bits(regmap, CS530X_CLK_CFG_0,
- 			     CS530X_PLL_REFCLK_SRC_MASK)) {
--		ret = cs530x_set_pll_refclk(component, cs530x->bclk);
-+		ret = cs530x_set_pll_refclk(component, bclk);
- 		if (ret)
- 			return ret;
- 	}
- 
--	return cs530x_set_bclk(component);
-+	return cs530x_set_bclk(component, bclk);
- }
- 
- static int cs530x_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
-diff --git a/sound/soc/codecs/cs530x.h b/sound/soc/codecs/cs530x.h
-index 1915a0efe829..f473e33eb835 100644
---- a/sound/soc/codecs/cs530x.h
-+++ b/sound/soc/codecs/cs530x.h
-@@ -211,7 +211,6 @@ struct cs530x_priv {
- 
- 	int tdm_width;
- 	int tdm_slots;
--	int bclk;
- 	int fs;
- 	int adc_pairs_count;
- 
--- 
-2.34.1
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/2] ASoC: codecs: aw88395: Simplify with cleanup.h
+      commit: d0f4ce8a28dd992579949b8ea2df810c4b5fe9b5
+[2/2] ASoC: qcom: topology: Simplify with cleanup.h
+      commit: a8915e2fe86c29304a3038f269f4667b371b87d2
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
