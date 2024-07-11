@@ -1,44 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9617919F470;
-	Thu, 11 Jul 2024 21:10:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50E9D51004;
+	Thu, 11 Jul 2024 21:14:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720732216; cv=none; b=ca1VsfMUVLBtXjLnTocLwDYfi8/q+YTpZyX7vf4T2e4yoXLnt6Bo+C1lkrybh2qn1B6ezV4tza/Dn3ZTjDhUe9YD9fq3bVDCkX3DJh4o99O244x+uPaHN/nUEOATdVDccSkUSHxYmZGzzVBNyZEoZX8dQQrFyMDxkOxqvqlo5Ss=
+	t=1720732474; cv=none; b=m1liY7xuY98dnmN1EnSsSAf9HQesv9ZJwTjVpO5Ak187GWnAgtHI6eISG8wETEuZHJESy1rTP9NtrFGLKlUvFPi1tljFpHN2gMaA1e37cn0JxlxN9i+KQ+uWICl6DhzYRikkIx9/ah5WHzYRhiO4olGwUx1eznpfp38ItgmUt8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720732216; c=relaxed/simple;
-	bh=UTRCsaBAwJ27kZVR9fIIRwXN90jfM8+V9iZaFILqX6w=;
+	s=arc-20240116; t=1720732474; c=relaxed/simple;
+	bh=PqmkKClzKA9/SBnHkaebvSMhSF4dVf6/yT6uauqZ1ac=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h9WYLR5Os80DBpZaLN1FbE0mCh0bTY2gO3bZjuo9qDI0hqo5rqRfs7ww6ZoFU0pMcZXfOSOVU9r8x+LDWNklFD6uDHRwFm37UffmefkGYS8TrCr+F83fsgpYC+ugh2Fqx7LuF+j7K3YKrEoUQBkcBmEistwv8QNkHU3vaT+KVCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fg1qpoyF; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=MllbonL/9cApT60aoVWQ34c6MurI2JW/GH1SOaD6OmYOCwoCO5yPBPyqYl9Bx7xMl21xW3SOboGzNKFFwUrUtwLeVflPpBBkrGm4oEwc62uNRRKuuzL3LyVRj5ZCKwlw7ugo93d4EobUkEjkEFCOs9Z8X35eWpcz9oJB4r0DBQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OwaEH00l; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fg1qpoyF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2A88C116B1;
-	Thu, 11 Jul 2024 21:10:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OwaEH00l"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6926C116B1;
+	Thu, 11 Jul 2024 21:14:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720732216;
-	bh=UTRCsaBAwJ27kZVR9fIIRwXN90jfM8+V9iZaFILqX6w=;
+	s=k20201202; t=1720732473;
+	bh=PqmkKClzKA9/SBnHkaebvSMhSF4dVf6/yT6uauqZ1ac=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Fg1qpoyFsQsZrFT8A+dixSkFvTM5ZfE0Hp7w0ZFs0Xl8bcAgcnD+LiDcpL48sTUxc
-	 NPWK5QxB2Wl19mLRAiQoan5+RuEBD9LbYpIeADvWqA5JHAbkfX62eZ3n/PJKzrLA3s
-	 LW7GSkmfmGZU/t/i1Xk4+YjjER1lLb6SaI5V3Bm2Kq+sv6a1dhzYBKJbouk0k+WqBe
-	 MvcBNj0FgF7uYizy4j6hWkboC2ne4UsP1bn0iWiGqb0z4DZT1xVZYjObb1crrT8PDW
-	 ogjih0CB5u8zSOxth5PqynhrwXpBgpPUBCFsLE/Y0cORU+OMgQG/UZS2proTJ/tlTm
-	 D/JTH9wG56EUQ==
-Date: Thu, 11 Jul 2024 15:10:14 -0600
-From: Rob Herring <robh@kernel.org>
-To: Igor Prusov <ivprusov@salutedevices.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	b=OwaEH00lPYizGDKn3Lj426vXvs6iS3F3txCwEPg5beVfkBvD61hOq1JKCd1ngTNsN
+	 XWu+VztjQPRqlkgQeFN1wOnBvlwvq6LNriLsQmFIBKKvTo9rc+SkAGBTl9ZXEFzKFG
+	 7MXRi+f1EA1TxV67rs7xvM0CgJwVJD6lZO5rDvfd69tV8avxM05k+5n7ach+cUVUti
+	 E6rVlxpW4vjtGQpmS0vgoBxdkDZ6zN+DcBHP2yR2+MiAeQkK5MxarHPOtl7UDG2cCy
+	 W/Zht9tvzw6GoSsEmIBur7LTi0ZYritzCsDbO2Ps3nZYdp5YY3PfWZ+GbF9hOLM89F
+	 U9q+Xi8IwMJdg==
+Date: Thu, 11 Jul 2024 15:14:32 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Animesh Agarwal <animeshagarwal28@gmail.com>
+Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
+	patches@opensource.cirrus.com, Conor Dooley <conor+dt@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>, prusovigor@gmail.com,
-	kernel@salutedevices.com, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/6] ASoC: Add NTP8918 and NTP8835 codecs support
-Message-ID: <20240711211014.GA3008651-robh@kernel.org>
-References: <20240709221203.92167-1-ivprusov@salutedevices.com>
+	alsa-devel@alsa-project.org, David Rhodes <david.rhodes@cirrus.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org,
+	Daniel Baluta <daniel.baluta@nxp.com>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: dt-bindings: cirrus,cs42xx8: Convert to dtschema
+Message-ID: <172073247178.3021175.15222505507624018342.robh@kernel.org>
+References: <20240710072756.99765-1-animeshagarwal28@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,23 +48,22 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240709221203.92167-1-ivprusov@salutedevices.com>
+In-Reply-To: <20240710072756.99765-1-animeshagarwal28@gmail.com>
 
-On Wed, Jul 10, 2024 at 01:11:57AM +0300, Igor Prusov wrote:
-> This series adds support for two NeoFidelity amplifiers. For both
-> amplifiers vendor provides software for equalizer and filters
-> configuration, which generates firmware files with registers values.
-> Since in both cases those files have same encoding, a common helper
-> module is added to get firmware via request_firmware() API and set
-> registers values.
+
+On Wed, 10 Jul 2024 12:57:52 +0530, Animesh Agarwal wrote:
+> Convert the Cirrus Logic CS42448/CS42888 audio CODEC bindings to DT
+> schema format. Set power supply properties to required only for CS42888.
 > 
-> V1: https://lore.kernel.org/all/20240709172834.9785-1-ivprusov@salutedevices.com/
+> Cc: Daniel Baluta <daniel.baluta@nxp.com>
+> Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
+> ---
+>  .../bindings/sound/cirrus,cs42xx8.yaml        | 81 +++++++++++++++++++
+>  .../devicetree/bindings/sound/cs42xx8.txt     | 34 --------
+>  2 files changed, 81 insertions(+), 34 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/sound/cirrus,cs42xx8.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/sound/cs42xx8.txt
 > 
-> V1 -> V2:
->  - Fix dt_binding_check errors
 
-Please implement the comments on v1. Please don't send new versions 
-right away and give people time to review. We're not all on the same 
-timezone, get busy on other tasks, take vacation, etc.
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-Rob
