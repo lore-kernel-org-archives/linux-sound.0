@@ -1,170 +1,126 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D45018E0E;
-	Fri, 12 Jul 2024 07:46:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D75513DBA0;
+	Fri, 12 Jul 2024 07:55:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720770376; cv=none; b=LTS/clj2+Y4QYfSc/RkTTIttc3a1XCWarquc7hE56Y65cn4TfzzMRPtH9vXoYgXl1nq9GpkcblGj9NWKAzhdTQpzNlH+jneDEVwWNfArzYYP6XyfxOLAYx93qEeXUEjB7odS0Untse8kwWMCwKCfFdQWetXhzpGtvD5z0yOSFR0=
+	t=1720770955; cv=none; b=SVJ5gxN6jZ5b3QTK20fQMojEVvGvRIsyW2hODdk7Hb70Zg5lRzk6ETfkfbbSj928ZJTOq1dGV5+QhCOsBjr4zhFU3T1QKQj7YuozA8CDNbwN67HLh8+0IFv141PG55f9BtE/Wb8pTCNr+ZWKYHS4QvjGsr1mEQDvlMW9/ZBHhVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720770376; c=relaxed/simple;
-	bh=FLZJ2DNKRObjLLAsheukVyi/6CyxQ92QWG6OPveNOeQ=;
-	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=jjuQba2wzFIN6dMsXy7ZefLlDAcjxFuU8KWRfE9NPMh+JnGMFNBpEgcsaf71TNv206ytGTWGojHy+Mvru0CuZpub+aVX6DPeeNRCObt6Oigsx7T36b/ZimU/r6XY/NdNzVLWuDb2HN0B6npJwyhxRd9+JfOqZRKPq2MJxGGZpZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LH19nVHR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FzAoSyOC; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LH19nVHR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FzAoSyOC; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1720770955; c=relaxed/simple;
+	bh=vykiAAfqP2gNGFHVGlFXNOgWPpbNO9euGY+/z8hqITo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fGv+w1xUjagqHj1vCniEdpH9zV2Q2vb3xrn/rMiEfIdX4Js0cei02RC4lcV5a8LM42zudHwNnL/c45M5w754LnE1uheLl0hpydzUylDKmBqqEaMV/h5DaRFJsmsQjrYgqMR4bdexE3nUDyIypyWls0+v41KYMWoP8Ph3HAUpaQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iSlooGm0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LH19nVHR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FzAoSyOC";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LH19nVHR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FzAoSyOC"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C414B21A9A;
-	Fri, 12 Jul 2024 07:46:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1720770372; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=4POzoQr9IczO1/1hb4qIFi9RmUkhNPmaG86SNToS2gI=;
-	b=LH19nVHRKIjBbPoqtXGprVQ2hNAT0WOPe9GuF1HlLiMXIc5CL8ZGHXdNrXKWTtiNbZyI/b
-	NlGKGCKaDDPmUjWAIiwWOj3XWlBTfLAzPukjEhIyR6iGR5ZvMCG3Ns3+gqdT3EoAjWjhuR
-	Tz3uXDFpafvopVTB6/6YaJfaYEm2RUA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1720770372;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=4POzoQr9IczO1/1hb4qIFi9RmUkhNPmaG86SNToS2gI=;
-	b=FzAoSyOCUDdGV8TKV7UatWnRqNwqYGuldnQ0KcWgU4oEfBAQUFVkzZ4G9BpKVLiKmTD7xc
-	zxDKYgqWwfkrUDCA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1720770372; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=4POzoQr9IczO1/1hb4qIFi9RmUkhNPmaG86SNToS2gI=;
-	b=LH19nVHRKIjBbPoqtXGprVQ2hNAT0WOPe9GuF1HlLiMXIc5CL8ZGHXdNrXKWTtiNbZyI/b
-	NlGKGCKaDDPmUjWAIiwWOj3XWlBTfLAzPukjEhIyR6iGR5ZvMCG3Ns3+gqdT3EoAjWjhuR
-	Tz3uXDFpafvopVTB6/6YaJfaYEm2RUA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1720770372;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=4POzoQr9IczO1/1hb4qIFi9RmUkhNPmaG86SNToS2gI=;
-	b=FzAoSyOCUDdGV8TKV7UatWnRqNwqYGuldnQ0KcWgU4oEfBAQUFVkzZ4G9BpKVLiKmTD7xc
-	zxDKYgqWwfkrUDCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9A6CE13686;
-	Fri, 12 Jul 2024 07:46:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id fRRyJETfkGbrdgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 12 Jul 2024 07:46:12 +0000
-Date: Fri, 12 Jul 2024 09:46:44 +0200
-Message-ID: <87a5int5ln.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 6.10
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iSlooGm0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46615C3277B;
+	Fri, 12 Jul 2024 07:55:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720770955;
+	bh=vykiAAfqP2gNGFHVGlFXNOgWPpbNO9euGY+/z8hqITo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=iSlooGm04XgxfHEnEdz4GmzplRLRoTbi3roBJ9smx8OmTVDPn3AG15yxZxLyoiECA
+	 6VbDvWU8vTd0MRJ+Cg20VGHNSXQhVm/ES8BrL0BFwBVK/DtM3om4jiDzaaHZk6VUps
+	 oIU0UklDO2HDxPPBhqWzLwzMKOa6AovDPLkjP7MCOl5dFiXoVEopPIyxOp8TKL/Qfa
+	 Pk6SBBPYUNc3nV5q9Hmyoz9uDS8JpTpaFZyLnvsz0iyySYMMrigsqpnXtpqVMkuA2n
+	 x6mVQRUQgOop7F1ukiYT0GbTh3KCIDMehLF6a4NvCvnb3Pb4oGs+LEdoiabqE06hIt
+	 Ra89LS81O5lsQ==
+Message-ID: <c59fc09d-e178-4acd-a825-4f00978c167e@kernel.org>
+Date: Fri, 12 Jul 2024 09:55:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-2
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_DN_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/6] dt-bindings: vendor-prefixes: Add NeoFidelity, Inc
+To: Igor Prusov <ivprusov@salutedevices.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: prusovigor@gmail.com, kernel@salutedevices.com,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240709221203.92167-1-ivprusov@salutedevices.com>
+ <20240709221203.92167-2-ivprusov@salutedevices.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240709221203.92167-2-ivprusov@salutedevices.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Linus,
+On 10/07/2024 00:11, Igor Prusov wrote:
+> Add vendor prefix for NeoFidelity, Inc
+> 
+> Signed-off-by: Igor Prusov <ivprusov@salutedevices.com>
 
-please pull sound fixes for v6.10 from:
+Did you just ignored every response?
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.10
 
-The topmost commit is f19e1027f6c0f5fae18b2f2ed88b55a6a637f76e
+<form letter>
+This is a friendly reminder during the review process.
 
-----------------------------------------------------------------
+It looks like you received a tag and forgot to add it.
 
-sound fixes for 6.10-final
+If you do not know the process, here is a short explanation:
+Please add Acked-by/Reviewed-by/Tested-by tags when posting new
+versions, under or above your Signed-off-by tag. Tag is "received", when
+provided in a message replied to you on the mailing list. Tools like b4
+can help here. However, there's no need to repost patches *only* to add
+the tags. The upstream maintainer will do that for tags received on the
+version they apply.
 
-Majority of changes here are small device-specific fixes for ASoC
-SOF / Intel and usual HD-audio quirks.
+https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
 
-The only significant high LOC is found in the Cirrus firmware driver,
-but all those are for hardening against malicious firmware blobs, and
-they look fine for taking as a last minute fix, too.
+If a tag was not added on purpose, please state why and what changed.
+</form letter>
 
-----------------------------------------------------------------
-
-Bard Liao (1):
-      ASoC: rt711-sdw: add missing readable registers
-
-Dmitry Savin (1):
-      ALSA: hda: cs35l41: Fix swapped l/r audio channels for Lenovo ThinBook 13x Gen4
-
-Edson Juliano Drosdeck (1):
-      ALSA: hda/realtek: Limit mic boost on VAIO PRO PX
-
-Kai Vehmanen (1):
-      ASoC: SOF: Intel: hda: fix null deref on system suspend entry
-
-Micha³ Kopeæ (1):
-      ALSA: hda/realtek: add quirk for Clevo V5[46]0TU
-
-Nazar Bilinskyi (1):
-      ALSA: hda/realtek: Enable Mute LED on HP 250 G7
-
-Peter Ujfalusi (1):
-      ASoC: SOF: Intel: hda-pcm: Limit the maximum number of periods by MAX_BDL_ENTRIES
-
-Richard Fitzgerald (5):
-      firmware: cs_dsp: Fix overflow checking of wmfw header
-      firmware: cs_dsp: Return error if block header overflows file
-      firmware: cs_dsp: Validate payload length before processing block
-      firmware: cs_dsp: Prevent buffer overrun when processing V2 alg headers
-      firmware: cs_dsp: Use strnlen() on name fields in V1 wmfw files
-
----
- drivers/firmware/cirrus/cs_dsp.c     | 231 +++++++++++++++++++++++++----------
- sound/pci/hda/cs35l41_hda_property.c |   4 +-
- sound/pci/hda/patch_realtek.c        |   4 +
- sound/soc/codecs/rt711-sdw.c         |   2 +
- sound/soc/sof/intel/hda-dai.c        |  12 +-
- sound/soc/sof/intel/hda-pcm.c        |   6 +
- 6 files changed, 184 insertions(+), 75 deletions(-)
+Best regards,
+Krzysztof
 
