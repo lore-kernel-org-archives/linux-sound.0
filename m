@@ -1,368 +1,120 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1DFB16A921
-	for <linux-sound@vger.kernel.org>; Fri, 12 Jul 2024 11:12:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 743ED15B96F;
+	Fri, 12 Jul 2024 12:27:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720782748; cv=none; b=lizL62FwQtprG2wRBQWkG3wFRNQMGoKinQG/AV0HgIzSC/AkyKoVF02Y+OT9HsK97ULdnDQFEgtp5BbX8r4jdqhbbgX/LRFy/o7/KaCOjFeuefW/j0k35uhX4X+f4Cg9FfPQIB9PKYIhM1QdGch14QEoKu9JrMrn28FtxFEWxQ8=
+	t=1720787236; cv=none; b=tHJvSsDdim2kuE6TcdEEi1iq7WV7FrjuOdCJJGap73pw5XI/8BHbicrmyoAMgi6VE0KdkfaAQT7wrSpkquvpyRfeUgyERN8rH8Zs3OJKtKcdpK0wktRR9KNoAdLMSO9DijaxPqXxpOm5gpGy4i06vGvQoBnsGDbh5KxGDqfLLUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720782748; c=relaxed/simple;
-	bh=qvowtk4oPBtXidGGSdnwGV7eiZrna+QT1iCqD7O6B0M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kpooHFI03REQjiuOrHgiybwbNons/KNDHpZ5LaJKpmvsWPAq9Dcpcuj4JrHTalbZ5H7cLtpM60y+Z5q1G3JLySTaVVOxC/bYFxTJrvl5z2TaXYlnmd4WMJjNzTAspY6Rcaz3xrlZo4RNiUMrKPjV26YOt4D5VRyQwqCuCEL6PYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PGcKCoPl; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1720787236; c=relaxed/simple;
+	bh=VFfujqGL4wmufeMpy4TXsgO2rW52SRPoW3j+ev/iI60=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=JvhSUY9gOCPPMk6g1cZkoBPwOUyaVGZX8R2rp0RO009yHUl0+j4Oa+6vPhBDiZVjItOo0UzMQl46cOkSXrDu/MZyRj/s0GiF3RLyNyN7ZPD6LGGYxHH+a4ftzoZG0Wp5/guuNoXZt+kGAj2tp18srVEPQ38KIuUytFpCkm+oXvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au; spf=pass smtp.mailfrom=ellerman.id.au; dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b=V5PMfiYd; arc=none smtp.client-ip=150.107.74.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ellerman.id.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PGcKCoPl"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4266f535e82so12340255e9.1
-        for <linux-sound@vger.kernel.org>; Fri, 12 Jul 2024 04:12:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1720782744; x=1721387544; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0ws/WN5VtvB/NY3hvXh8JUFotsmoTKoVR7TJMcWsTJ8=;
-        b=PGcKCoPlsdaHI3/D+gjuw71xiKWqqXjbD1Xtu3lUAo+bkO5MTFGHh5IQcrpfdjkSUD
-         GEPIaPF1NuRyxOg5BsEizw0lKg0wIoYQwIzKSBKCuomvNq/At+CajeNfj6WUFVoK/ZUj
-         1BgXLF7XitSBtk0j+o4LHCbdQTP+wDWmaYrKYOwJKNEt54Mu43riCg0Ovlvxhfahfdwg
-         gt6JrIqS68bMiP+Bzv3OS4/Pr9c3+2cQYkoApQtkpKCNsBl8XtvHX6z+a3fgTmqd+vVv
-         x0U1RgE//nLAzM1DD2mccyocVZiLSCJnzwSIlOPSFm4lbRTyC3FYVSYGhDt0coC2DWg6
-         I2eA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720782744; x=1721387544;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0ws/WN5VtvB/NY3hvXh8JUFotsmoTKoVR7TJMcWsTJ8=;
-        b=pcuezKulrrVV2wa4PfhASp6lCNWycpzz9wGpU0NvdHMGgWlTgAHtssNHnWQVrMjKJx
-         vnrNPpOKomUL4vE8CvODtR36qIKf59mEQzU/+TKbJNSPyAFI0hvYfdL830HGXQMBkLVV
-         PwLi4Ej+rZ52/1DnhwRGuuGj3spteBtvjv5e5LCrxeUfb8a+W2Exk9w28AvCM7ut4+GE
-         N51RTjVRUfGqq2894fgM7KZ2OSe1rzJQHq/7x+a7AagViM2Sg/9UEJPk/sF1DVyOOHv3
-         4+KvcYXHF68CEm4gvAP055mIcIw9ds8AgeYsJumAM7GQPVXXgqJLaDYPk4toXKcZvxOE
-         fzQA==
-X-Forwarded-Encrypted: i=1; AJvYcCVQz2G3n8FnXt4wpTgzaWmsIcU9eGawVpPOvY/D3CZYhKw0JdF31jeMB57bHPplKyL34FBTW9Q40D2ESodf0taNMp7DXW52SWi3pVo=
-X-Gm-Message-State: AOJu0YxNyZcPXVPPacAqJhnrTeCVPEAypxVOis8s532/L/KYbls1wFAj
-	wG+2dxXQUB+4l3rNlFLLVvlYCmogjhsjuYmHhxLTthEQftg8Y05YmlG0UToCMr0=
-X-Google-Smtp-Source: AGHT+IE+I8xL6C1YjfC9f2FLcxUf4RylJkfgRfsuuQ/1dYXYmMPyg15Xeq2cyJNJBVSZKhgvE/+93Q==
-X-Received: by 2002:a05:600c:48a7:b0:425:7bbf:fd07 with SMTP id 5b1f17b1804b1-426707cea0bmr73062785e9.5.1720782744106;
-        Fri, 12 Jul 2024 04:12:24 -0700 (PDT)
-Received: from krzk-bin.. ([178.197.219.137])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4279f2babdfsm20106705e9.36.2024.07.12.04.12.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jul 2024 04:12:23 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	alsa-devel@alsa-project.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] ASoC: codecs: wsa884x: Implement temperature reading and hwmon
-Date: Fri, 12 Jul 2024 13:12:06 +0200
-Message-ID: <20240712111206.72534-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="V5PMfiYd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+	s=201909; t=1720787233;
+	bh=4Vofh3nmGXbIRlscqKm0va6vapnmleNLgiTWfYE/btk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=V5PMfiYdHjm+q2zhG//PSDhbZxYuVaB/yWMCbKSb7YOZfB+YWffV8XUiFqmdJ+g+g
+	 /c6au7q5mVyEiJqj/pof4+FidWHw+Du77hF2RZBUglRFE//ThOFJQoTQqe6IUDIms0
+	 EJtVxRE/YpKncLPLY3tEkgutqHapFx9r3ZbshogxWBeGW6TCDCrXR4R0Buv6MKHije
+	 KTpMYbXdOCztwkqQk6lsuRJIWQqLg3eSog71GgUac4/5NigrRoqMUh20HyBAIopkIP
+	 3nRohakxnY0DT2cFAWUh7IiAjkavAFL6SZk+7SHz47UD7rpIBs0rGhqqwLOIEu+Cdo
+	 m8oeN6kVZK6ZA==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4WL9p73qQHz4x1V;
+	Fri, 12 Jul 2024 22:27:11 +1000 (AEST)
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: LEROY Christophe <christophe.leroy2@cs-soprasteria.com>, Mark Brown
+ <broonie@kernel.org>, Herve Codina <herve.codina@bootlin.com>, Arnd
+ Bergmann <arnd@arndb.de>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Qiang Zhao <qiang.zhao@nxp.com>, Shengjiu Wang
+ <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam
+ <festevam@gmail.com>, Nicolin
+ Chen <nicoleotsuka@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
+ Iwai <tiwai@suse.com>, Christophe Leroy <christophe.leroy@csgroup.eu>,
+ "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+ "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v2 07/10] soc: fsl: cpm1: qmc: Introduce functions to
+ get a channel from a phandle list
+In-Reply-To: <9423930f-8cb8-4b31-927f-a93b1006fb18@cs-soprasteria.com>
+References: <20240701113038.55144-1-herve.codina@bootlin.com>
+ <20240701113038.55144-8-herve.codina@bootlin.com>
+ <a8c44188-d5d8-445d-9d64-bbfce6b1b628@sirena.org.uk>
+ <87a5ixkghq.fsf@mail.lhotse>
+ <9423930f-8cb8-4b31-927f-a93b1006fb18@cs-soprasteria.com>
+Date: Fri, 12 Jul 2024 22:27:11 +1000
+Message-ID: <87v81a4wyo.fsf@mail.lhotse>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Read temperature of the speaker and expose it via hwmon interface, which
-will be later used during calibration of speaker protection algorithms.
+LEROY Christophe <christophe.leroy2@cs-soprasteria.com> writes:
+> Le 04/07/2024 =C3=A0 05:01, Michael Ellerman a =C3=A9crit=C2=A0:
+>> Mark Brown <broonie@kernel.org> writes:
+>>> On Mon, Jul 01, 2024 at 01:30:34PM +0200, Herve Codina wrote:
+>>>> qmc_chan_get_byphandle() and the resource managed version retrieve a
+>>>> channel from a simple phandle.
+>>>>
+>>>> Extend the API and introduce qmc_chan_get_byphandles_index() and the
+>>>> resource managed version in order to retrieve a channel from a phandle
+>>>> list using the provided index to identify the phandle in the list.
+>>>
+>>> These two PowerPC patches seem trivial enough and have got no response,
+>>> unless someone objects I'll go ahead and apply them.
+>>=20
+>> Ack.
+>>=20
+>> MAINTAINERS says:
+>>=20
+>> FREESCALE QUICC ENGINE LIBRARY
+>> M:      Qiang Zhao <qiang.zhao@nxp.com>
+>> L:      linuxppc-dev@lists.ozlabs.org
+>> S:      Maintained
+>> F:      drivers/soc/fsl/qe/
+>> F:      include/soc/fsl/qe/
+>>=20
+>> But I see no email from that address since January 2021:
+>>=20
+>>    https://lore.kernel.org/all/?q=3Df%3Aqiang.zhao%40nxp.com
+>>=20
+>> And actually drivers/soc/fsl was marked orphan in April, maybe this
+>> should be also.
+>>=20
+>> Or does Herve want to take over maintaining it?
+>
+> We had some discussion about that in April, see=20
+> https://lore.kernel.org/linuxppc-dev/20240219153016.ntltc76bphwrv6hn@skbu=
+f/T/#mf6d4a5eef79e8eae7ae0456a2794c01e630a6756
+>
+> Herv=C3=A9 has some of our hardware for a limited period of time because =
+he=20
+> is doing some implementation for us, but he won't keep that hardware on=20
+> the long run.
+>
+> I will send a patch to take over maintaining drivers/soc/fsl/
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- sound/soc/codecs/wsa884x.c | 197 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 197 insertions(+)
+Thanks.
 
-diff --git a/sound/soc/codecs/wsa884x.c b/sound/soc/codecs/wsa884x.c
-index 7b19df9c1728..5f4acd66f942 100644
---- a/sound/soc/codecs/wsa884x.c
-+++ b/sound/soc/codecs/wsa884x.c
-@@ -5,11 +5,14 @@
-  */
- 
- #include <linux/bitfield.h>
-+#include <linux/cleanup.h>
- #include <linux/device.h>
- #include <linux/gpio/consumer.h>
-+#include <linux/hwmon.h>
- #include <linux/init.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-+#include <linux/mutex.h>
- #include <linux/pm_runtime.h>
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
-@@ -301,8 +304,28 @@
- #define WSA884X_PA_FSM_MSK1		(WSA884X_DIG_CTRL0_BASE + 0x3b)
- #define WSA884X_PA_FSM_BYP_CTL		(WSA884X_DIG_CTRL0_BASE + 0x3c)
- #define WSA884X_PA_FSM_BYP0		(WSA884X_DIG_CTRL0_BASE + 0x3d)
-+#define WSA884X_PA_FSM_BYP0_DC_CAL_EN_MASK		0x01
-+#define WSA884X_PA_FSM_BYP0_DC_CAL_EN_SHIFT		0
-+#define WSA884X_PA_FSM_BYP0_CLK_WD_EN_MASK		0x02
-+#define WSA884X_PA_FSM_BYP0_CLK_WD_EN_SHIFT		1
-+#define WSA884X_PA_FSM_BYP0_BG_EN_MASK			0x04
-+#define WSA884X_PA_FSM_BYP0_BG_EN_SHIFT			2
-+#define WSA884X_PA_FSM_BYP0_BOOST_EN_MASK		0x08
-+#define WSA884X_PA_FSM_BYP0_BOOST_EN_SHIFT		3
-+#define WSA884X_PA_FSM_BYP0_PA_EN_MASK			0x10
-+#define WSA884X_PA_FSM_BYP0_PA_EN_SHIFT			4
-+#define WSA884X_PA_FSM_BYP0_D_UNMUTE_MASK		0x20
-+#define WSA884X_PA_FSM_BYP0_D_UNMUTE_SHIFT		5
-+#define WSA884X_PA_FSM_BYP0_SPKR_PROT_EN_MASK		0x40
-+#define WSA884X_PA_FSM_BYP0_SPKR_PROT_EN_SHIFT		6
-+#define WSA884X_PA_FSM_BYP0_TSADC_EN_MASK		0x80
-+#define WSA884X_PA_FSM_BYP0_TSADC_EN_SHIFT		7
- #define WSA884X_PA_FSM_BYP1		(WSA884X_DIG_CTRL0_BASE + 0x3e)
- #define WSA884X_TADC_VALUE_CTL		(WSA884X_DIG_CTRL0_BASE + 0x50)
-+#define WSA884X_TADC_VALUE_CTL_TEMP_VALUE_RD_EN_MASK	0x01
-+#define WSA884X_TADC_VALUE_CTL_TEMP_VALUE_RD_EN_SHIFT	0
-+#define WSA884X_TADC_VALUE_CTL_VBAT_VALUE_RD_EN_MASK	0x02
-+#define WSA884X_TADC_VALUE_CTL_VBAT_VALUE_RD_EN_SHIFT	1
- #define WSA884X_TEMP_DETECT_CTL		(WSA884X_DIG_CTRL0_BASE + 0x51)
- #define WSA884X_TEMP_DIN_MSB		(WSA884X_DIG_CTRL0_BASE + 0x52)
- #define WSA884X_TEMP_DIN_LSB		(WSA884X_DIG_CTRL0_BASE + 0x53)
-@@ -691,6 +714,17 @@
- 		SNDRV_PCM_FMTBIT_S24_LE |\
- 		SNDRV_PCM_FMTBIT_S24_3LE | SNDRV_PCM_FMTBIT_S32_LE)
- 
-+/* Two-point trimming for temperature calibration */
-+#define WSA884X_T1_TEMP			-10L
-+#define WSA884X_T2_TEMP			150L
-+
-+/*
-+ * Device will report senseless data in many cases, so discard any measurements
-+ * outside of valid range.
-+ */
-+#define WSA884X_LOW_TEMP_THRESHOLD	5
-+#define WSA884X_HIGH_TEMP_THRESHOLD	45
-+
- struct wsa884x_priv {
- 	struct regmap *regmap;
- 	struct device *dev;
-@@ -706,6 +740,13 @@ struct wsa884x_priv {
- 	int active_ports;
- 	int dev_mode;
- 	bool hw_init;
-+	/*
-+	 * Protects temperature reading code (related to speaker protection) and
-+	 * fields: temperature and pa_on.
-+	 */
-+	struct mutex sp_lock;
-+	unsigned int temperature;
-+	bool pa_on;
- };
- 
- enum {
-@@ -1650,6 +1691,10 @@ static int wsa884x_spkr_event(struct snd_soc_dapm_widget *w,
- 
- 	switch (event) {
- 	case SND_SOC_DAPM_POST_PMU:
-+		mutex_lock(&wsa884x->sp_lock);
-+		wsa884x->pa_on = true;
-+		mutex_unlock(&wsa884x->sp_lock);
-+
- 		wsa884x_spkr_post_pmu(component, wsa884x);
- 
- 		snd_soc_component_write_field(component, WSA884X_PDM_WD_CTL,
-@@ -1661,6 +1706,10 @@ static int wsa884x_spkr_event(struct snd_soc_dapm_widget *w,
- 		snd_soc_component_write_field(component, WSA884X_PDM_WD_CTL,
- 					      WSA884X_PDM_WD_CTL_PDM_WD_EN_MASK,
- 					      0x0);
-+
-+		mutex_lock(&wsa884x->sp_lock);
-+		wsa884x->pa_on = false;
-+		mutex_unlock(&wsa884x->sp_lock);
- 		break;
- 	}
- 
-@@ -1800,6 +1849,144 @@ static struct snd_soc_dai_driver wsa884x_dais[] = {
- 	},
- };
- 
-+static int wsa884x_get_temp(struct wsa884x_priv *wsa884x, long *temp)
-+{
-+	unsigned int d1_msb = 0, d1_lsb = 0, d2_msb = 0, d2_lsb = 0;
-+	unsigned int dmeas_msb = 0, dmeas_lsb = 0;
-+	int d1, d2, dmeas;
-+	unsigned int mask;
-+	long val;
-+	int ret;
-+
-+	guard(mutex)(&wsa884x->sp_lock);
-+
-+	if (wsa884x->pa_on) {
-+		/*
-+		 * Reading temperature is possible only when Power Amplifier is
-+		 * off. Report last cached data.
-+		 */
-+		*temp = wsa884x->temperature;
-+		return 0;
-+	}
-+
-+	ret = pm_runtime_resume_and_get(wsa884x->dev);
-+	if (ret < 0)
-+		return ret;
-+
-+	mask = WSA884X_PA_FSM_BYP0_DC_CAL_EN_MASK |
-+	       WSA884X_PA_FSM_BYP0_CLK_WD_EN_MASK |
-+	       WSA884X_PA_FSM_BYP0_BG_EN_MASK |
-+	       WSA884X_PA_FSM_BYP0_D_UNMUTE_MASK |
-+	       WSA884X_PA_FSM_BYP0_SPKR_PROT_EN_MASK |
-+	       WSA884X_PA_FSM_BYP0_TSADC_EN_MASK;
-+	/*
-+	 * Here and further do not care about read or update failures.
-+	 * For example, before turning on Power Amplifier for the first
-+	 * time, reading WSA884X_TEMP_DIN_MSB will always return 0.
-+	 * Instead, check if returned value is within reasonable
-+	 * thresholds.
-+	 */
-+	regmap_update_bits(wsa884x->regmap, WSA884X_PA_FSM_BYP0, mask, mask);
-+
-+	regmap_update_bits(wsa884x->regmap, WSA884X_TADC_VALUE_CTL,
-+			   WSA884X_TADC_VALUE_CTL_TEMP_VALUE_RD_EN_MASK,
-+			   FIELD_PREP(WSA884X_TADC_VALUE_CTL_TEMP_VALUE_RD_EN_MASK, 0x0));
-+
-+	regmap_read(wsa884x->regmap, WSA884X_TEMP_DIN_MSB, &dmeas_msb);
-+	regmap_read(wsa884x->regmap, WSA884X_TEMP_DIN_LSB, &dmeas_lsb);
-+
-+	regmap_update_bits(wsa884x->regmap, WSA884X_TADC_VALUE_CTL,
-+			   WSA884X_TADC_VALUE_CTL_TEMP_VALUE_RD_EN_MASK,
-+			   FIELD_PREP(WSA884X_TADC_VALUE_CTL_TEMP_VALUE_RD_EN_MASK, 0x1));
-+
-+	regmap_read(wsa884x->regmap, WSA884X_OTP_REG_1, &d1_msb);
-+	regmap_read(wsa884x->regmap, WSA884X_OTP_REG_2, &d1_lsb);
-+	regmap_read(wsa884x->regmap, WSA884X_OTP_REG_3, &d2_msb);
-+	regmap_read(wsa884x->regmap, WSA884X_OTP_REG_4, &d2_lsb);
-+
-+	regmap_update_bits(wsa884x->regmap, WSA884X_PA_FSM_BYP0, mask, 0x0);
-+
-+	dmeas = (((dmeas_msb & 0xff) << 0x8) | (dmeas_lsb & 0xff)) >> 0x6;
-+	d1 = (((d1_msb & 0xff) << 0x8) | (d1_lsb & 0xff)) >> 0x6;
-+	d2 = (((d2_msb & 0xff) << 0x8) | (d2_lsb & 0xff)) >> 0x6;
-+
-+	if (d1 == d2) {
-+		/* Incorrect data in OTP? */
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	val = WSA884X_T1_TEMP + (((dmeas - d1) * (WSA884X_T2_TEMP - WSA884X_T1_TEMP))/(d2 - d1));
-+
-+	dev_dbg(wsa884x->dev, "Measured temp %ld (dmeas=%d, d1=%d, d2=%d)\n",
-+		val, dmeas, d1, d2);
-+
-+	if ((val > WSA884X_LOW_TEMP_THRESHOLD) &&
-+	    (val < WSA884X_HIGH_TEMP_THRESHOLD)) {
-+		wsa884x->temperature = val;
-+		*temp = val;
-+		ret = 0;
-+	} else {
-+		ret = -EAGAIN;
-+	}
-+
-+out:
-+	pm_runtime_mark_last_busy(wsa884x->dev);
-+	pm_runtime_put_autosuspend(wsa884x->dev);
-+
-+	return ret;
-+}
-+
-+static umode_t wsa884x_hwmon_is_visible(const void *data,
-+					enum hwmon_sensor_types type, u32 attr,
-+					int channel)
-+{
-+	if (type != hwmon_temp)
-+		return 0;
-+
-+	switch (attr) {
-+	case hwmon_temp_input:
-+		return 0444;
-+	default:
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
-+static int wsa884x_hwmon_read(struct device *dev,
-+			      enum hwmon_sensor_types type,
-+			      u32 attr, int channel, long *temp)
-+{
-+	int ret;
-+
-+	switch (attr) {
-+	case hwmon_temp_input:
-+		ret = wsa884x_get_temp(dev_get_drvdata(dev), temp);
-+		break;
-+	default:
-+		ret = -EOPNOTSUPP;
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
-+static const struct hwmon_channel_info *const wsa884x_hwmon_info[] = {
-+	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT),
-+	NULL
-+};
-+
-+static const struct hwmon_ops wsa884x_hwmon_ops = {
-+	.is_visible	= wsa884x_hwmon_is_visible,
-+	.read		= wsa884x_hwmon_read,
-+};
-+
-+static const struct hwmon_chip_info wsa884x_hwmon_chip_info = {
-+	.ops	= &wsa884x_hwmon_ops,
-+	.info	= wsa884x_hwmon_info,
-+};
-+
- static void wsa884x_reset_powerdown(void *data)
- {
- 	struct wsa884x_priv *wsa884x = data;
-@@ -1849,6 +2036,7 @@ static int wsa884x_probe(struct sdw_slave *pdev,
- {
- 	struct device *dev = &pdev->dev;
- 	struct wsa884x_priv *wsa884x;
-+	struct device *hwmon;
- 	unsigned int i;
- 	int ret;
- 
-@@ -1856,6 +2044,8 @@ static int wsa884x_probe(struct sdw_slave *pdev,
- 	if (!wsa884x)
- 		return -ENOMEM;
- 
-+	mutex_init(&wsa884x->sp_lock);
-+
- 	for (i = 0; i < WSA884X_SUPPLIES_NUM; i++)
- 		wsa884x->supplies[i].supply = wsa884x_supply_name[i];
- 
-@@ -1913,6 +2103,13 @@ static int wsa884x_probe(struct sdw_slave *pdev,
- 	regcache_cache_only(wsa884x->regmap, true);
- 	wsa884x->hw_init = true;
- 
-+	hwmon = devm_hwmon_device_register_with_info(dev, "wsa884x", wsa884x,
-+						     &wsa884x_hwmon_chip_info,
-+						     NULL);
-+	if (IS_ERR(hwmon))
-+		return dev_err_probe(dev, PTR_ERR(hwmon),
-+				     "Failed to register hwmon sensor\n");
-+
- 	pm_runtime_set_autosuspend_delay(dev, 3000);
- 	pm_runtime_use_autosuspend(dev);
- 	pm_runtime_mark_last_busy(dev);
--- 
-2.43.0
-
+cheers
