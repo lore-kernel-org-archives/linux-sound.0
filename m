@@ -1,112 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mx1.sberdevices.ru (mx2.sberdevices.ru [45.89.224.132])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55B7433A8;
-	Fri, 12 Jul 2024 21:18:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E5D21BDD5;
+	Fri, 12 Jul 2024 21:30:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.89.224.132
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720819134; cv=none; b=lcOlZDOESU6wpEAU5SFClUGW3AnvdvZmmG0JQ9WmLrjzZ4AGrgq5R2ObZXmbSPwWaRyr82vzKkJyG+SqqAxlKlUZltarw8MmDjXkN3ehqcyfnH1SDxRY4FnpkpYv/wPPv7GY5CjB+Mom/Oqw4Zs1HQESFv+hzWb4nk10kafvKp0=
+	t=1720819835; cv=none; b=kOStfGXUOfgbKW04CWROadtNdvLy4bar6hrfgwuz2IObO8IiWfZ8nt+k+1SGobvA2ghqPQ3o2TPMnJzH1yaiaYXQ6qQxY6jFnOiZ/xC1cIxpxFL5UBW8DtO4o1P8hyCQoDyR8m0/hUIdbK+pEsKQPTyOd435FluH3NaT/aF+DOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720819134; c=relaxed/simple;
-	bh=N5xSnP8pdMySxHnBgNf2Tix1Gm3w2isPegAwUbJbCsI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=poqrXWrOrW/yd1LUDAEfm/bMGTbigwSXYXEp5SOGN9eMHc95isSxS3OFm+7biEpm81P3Rw37rtosjDzZlYajawlBbmMU5zm9jNRzoxUcHX5hQHQQzh+sR7NGy4axUhiYBIJfXNWjdhkcWH4DomS5qSjunEZJ0A0HoRGgYRu9F2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BN2c1KCq; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1720819835; c=relaxed/simple;
+	bh=NzRkn/29Wj6nv+39Cr7Y+df+r0V60+dHb8zRmS+u6JA=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HOMvMKjiOLwDdab9gx73oIilvl1g3O+rbKZMAyPjaKhbVaKNkRpxKi8uMKtUKLDlTPxOR3yXyI8WBQ4Qhskig9hY9Xtat8p8LJeP5Rzz3T4roI3SaWW/vI/Xu6SK5d/P/Ynvwt5C8RMu13z3199pvAU+JYR2ax5XtkwfCKv1tWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com; spf=pass smtp.mailfrom=salutedevices.com; dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b=Tgo1ogS2; arc=none smtp.client-ip=45.89.224.132
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=salutedevices.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BN2c1KCq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720819132; x=1752355132;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=N5xSnP8pdMySxHnBgNf2Tix1Gm3w2isPegAwUbJbCsI=;
-  b=BN2c1KCqGdFCElsZxarJxSzZbz8wwNBbfSjcNlSVbY5yA4TY8YQnZ2CK
-   CCezmmRy+ZFWv4NsbDQyg963ra0h1htehuOVBd16A2jDY4sqnWfZuu1zJ
-   6genzvjdcIKmdBIsd9kUemwJSQMXoeToZOzV6Pvd3Gpd2NZSix8p0d538
-   4YShcVtXyss4PkR1pKtgdZz+CffgmaQOcMB+MEw7fJyBsvPPZVr+FfvXl
-   d8f4ZF4fzcx/q581nwXhDQXc6b+e63i8hIfZAR7guizMfyHVyElKeACPQ
-   Kq16Sx34cE20GCAuZSmYdroa8rKirQ633f9dPUTy8rxMCtKM86IDJHuCW
-   w==;
-X-CSE-ConnectionGUID: fQ1zuvfqTkWm8SaasI4wZw==
-X-CSE-MsgGUID: 0AZhpralQlmXjuvw1crGJA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="28871205"
-X-IronPort-AV: E=Sophos;i="6.09,204,1716274800"; 
-   d="scan'208";a="28871205"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2024 14:18:52 -0700
-X-CSE-ConnectionGUID: 2V8RI/uQRxi6oGjFZxYTgA==
-X-CSE-MsgGUID: R2fl3YqJRRuCuJkmKaMehg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,204,1716274800"; 
-   d="scan'208";a="53979274"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 12 Jul 2024 14:18:48 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sSNfB-000bIw-32;
-	Fri, 12 Jul 2024 21:18:45 +0000
-Date: Sat, 13 Jul 2024 05:18:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Igor Prusov <ivprusov@salutedevices.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, prusovigor@gmail.com,
-	kernel@salutedevices.com, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/6] ASoC: codecs: Add NeoFidelity NTP8918 codec
-Message-ID: <202407130520.NOxTmD3N-lkp@intel.com>
-References: <20240709172834.9785-5-ivprusov@salutedevices.com>
+	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="Tgo1ogS2"
+Received: from p-infra-ksmg-sc-msk02.sberdevices.ru (localhost [127.0.0.1])
+	by mx1.sberdevices.ru (Postfix) with ESMTP id 297AC120003;
+	Sat, 13 Jul 2024 00:30:21 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 297AC120003
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
+	s=mail; t=1720819821;
+	bh=ra6Rb9PMS8Llilt6imdK07tpVm8s3Fl+HA/RmvYV5V4=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
+	b=Tgo1ogS2Znu5Ad5RjPIiKkjtk3XGjKEK0PGh62+KcC2Fi/GldeD12Ur7NBtL2moFd
+	 VihaVgB5VFXMIwTqDi8RalopqOnkqXSvXjzys5HkTL2hJn+7kJ4B856rUsFX7DdVIt
+	 9R1KhNesppbmPF+bsDBqG+k75BtvBiFj7s4O24H0jpzcYS/450hHshj2109vOw4fkw
+	 qJH8VM+TfqJ+D4wHY4nHnHhqVBh1Add0z7L9uqQWoKfN//cdFcug2lBEtTDbtjKLMT
+	 OwgwNc6gX1niVjh6HneMnsfr7A8GdXwGvVWxto24n2B0R/vdCh384eZIBqos/AClQl
+	 kFcbSM0UaQmlA==
+Received: from smtp.sberdevices.ru (p-i-exch-sc-m02.sberdevices.ru [172.16.192.103])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.sberdevices.ru (Postfix) with ESMTPS;
+	Sat, 13 Jul 2024 00:30:20 +0300 (MSK)
+Received: from pc (100.64.160.123) by p-i-exch-sc-m02.sberdevices.ru
+ (172.16.192.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Sat, 13 Jul
+ 2024 00:30:20 +0300
+Date: Sat, 13 Jul 2024 00:30:20 +0300
+From: Igor Prusov <ivprusov@salutedevices.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+	<tiwai@suse.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+	<prusovigor@gmail.com>, <kernel@salutedevices.com>,
+	<linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 1/6] dt-bindings: vendor-prefixes: Add NeoFidelity, Inc
+Message-ID: <20240712213020.a5n3x677bp4sxseh@pc>
+References: <20240709221203.92167-1-ivprusov@salutedevices.com>
+ <20240709221203.92167-2-ivprusov@salutedevices.com>
+ <c59fc09d-e178-4acd-a825-4f00978c167e@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20240709172834.9785-5-ivprusov@salutedevices.com>
+In-Reply-To: <c59fc09d-e178-4acd-a825-4f00978c167e@kernel.org>
+X-ClientProxiedBy: p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) To
+ p-i-exch-sc-m02.sberdevices.ru (172.16.192.103)
+X-KSMG-Rule-ID: 10
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 186497 [Jul 12 2024]
+X-KSMG-AntiSpam-Version: 6.1.0.4
+X-KSMG-AntiSpam-Envelope-From: ivprusov@salutedevices.com
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 24 0.3.24 186c4d603b899ccfd4883d230c53f273b80e467f, {Tracking_uf_ne_domains}, {Track_E25351}, {Tracking_from_domain_doesnt_match_to}, d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;elixir.bootlin.com:7.1.1;100.64.160.123:7.1.2;127.0.0.199:7.1.2;salutedevices.com:7.1.1;smtp.sberdevices.ru:7.1.1,5.0.1, FromAlignment: s, ApMailHostAddress: 100.64.160.123
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean, bases: 2024/07/12 20:10:00
+X-KSMG-LinksScanning: Clean, bases: 2024/07/12 20:10:00
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/07/12 20:31:00 #25975503
+X-KSMG-AntiVirus-Status: Clean, skipped
 
-Hi Igor,
+On Fri, Jul 12, 2024 at 09:55:47AM +0200, Krzysztof Kozlowski wrote:
+> On 10/07/2024 00:11, Igor Prusov wrote:
+> > Add vendor prefix for NeoFidelity, Inc
+> > 
+> > Signed-off-by: Igor Prusov <ivprusov@salutedevices.com>
+> 
+> Did you just ignored every response?
+> 
+Hello, Krzysztof,
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on robh/for-next linus/master v6.10-rc7 next-20240712]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Igor-Prusov/dt-bindings-vendor-prefixes-Add-NeoFidelity-Inc/20240710-145725
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20240709172834.9785-5-ivprusov%40salutedevices.com
-patch subject: [PATCH 4/6] ASoC: codecs: Add NeoFidelity NTP8918 codec
-config: sh-randconfig-r111-20240712 (https://download.01.org/0day-ci/archive/20240713/202407130520.NOxTmD3N-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20240713/202407130520.NOxTmD3N-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407130520.NOxTmD3N-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> sound/soc/codecs/ntp8918.c:274:24: sparse: sparse: symbol 'ntp8918_dai_ops' was not declared. Should it be static?
-
-vim +/ntp8918_dai_ops +274 sound/soc/codecs/ntp8918.c
-
-   273	
- > 274	struct snd_soc_dai_ops ntp8918_dai_ops = {
-   275		.hw_params = ntp8918_hw_params,
-   276		.set_fmt = ntp8918_set_fmt,
-   277	};
-   278	
+Sorry about that, I sent v2 right away after Rob's bot comment. I'll
+make sure to wait for more replies in the future and will address all
+comments in v3.
+> 
+> <form letter>
+> This is a friendly reminder during the review process.
+> 
+> It looks like you received a tag and forgot to add it.
+> 
+> If you do not know the process, here is a short explanation:
+> Please add Acked-by/Reviewed-by/Tested-by tags when posting new
+> versions, under or above your Signed-off-by tag. Tag is "received", when
+> provided in a message replied to you on the mailing list. Tools like b4
+> can help here. However, there's no need to repost patches *only* to add
+> the tags. The upstream maintainer will do that for tags received on the
+> version they apply.
+> 
+> https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
+> 
+> If a tag was not added on purpose, please state why and what changed.
+> </form letter>
+> 
+> Best regards,
+> Krzysztof
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best Regards,
+Igor Prusov
