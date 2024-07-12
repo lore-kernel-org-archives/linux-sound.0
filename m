@@ -1,40 +1,40 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BDCF1F5FA;
-	Fri, 12 Jul 2024 09:20:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 951CC146D79
+	for <linux-sound@vger.kernel.org>; Fri, 12 Jul 2024 09:57:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720776020; cv=none; b=S8BFfzrRHb+X88doCyzKjtswizGtoSpcw0YUaVXDCx+PsE2h1uAURE3tzL5fn68YGvpx6/u2oKtnFjXdEaV7LvML4ENF4OT5vfCnfWyVgXOzOP800KL4zbHYtgTSbMDFFCvEbJcTmcWKeIECdspHxzLksiwWo7N1BD890KzIWG4=
+	t=1720778238; cv=none; b=r+HQ7JueqFQGaZ7XZhHvSbVh7IndWtp5tsW4Lk5g/6RFAcw23oRGRdqSop0aKcm3kMGu0HeHuypLkY5lKgH8qa3Un4CsM3qmsqKBkCguwfWF0BuI/Wu+NvLOwwlqTq7rlXiLg1HtJQyZLh7P+oo3kc7ijjI2tfy8oSyZPVJAwpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720776020; c=relaxed/simple;
-	bh=tdzkJkLOFwwePr3kGCnzpbNrpUb7DMKq2cad8ChXv50=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bIafbcOaxV1K0LjvLsbncUTVurx0yNeYGxiNt/27JylG9JZuqxDFnHFXxwCkha9aKee8kGnB9+XJdi1Qfg+oB3v9Xoquv0FIGNxLp6fvK9xr3ZMaQrfcG9SESITHsADckHeaWawkmih6cab8fRavdqnsp/K+nNy66H3sMQ19kDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=uzO6BkiU; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	s=arc-20240116; t=1720778238; c=relaxed/simple;
+	bh=DBxWamB7thDTQssSsI2lahjfw8GY8wFwjut5upkIp08=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=D/ta2UKZzruFpenp+tnyLN6tYZY4AbsaLqvPzfV5GGy9QZl2an6NxS+bjfJjROWAWcrrPwZVlAwN9S7BxXrg4ehHWXHmGfZjcv5H8yJg/5Bo0ctXN4CChA4MQs/5wJeBu7k1IsPxTPeQlh7RNbgdAMc2ksxgS/1SJUp/bZhBGmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net; spf=pass smtp.mailfrom=asahilina.net; dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b=xM1QBoLM; arc=none smtp.client-ip=212.63.210.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asahilina.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="uzO6BkiU"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 6944E3622A;
-	Fri, 12 Jul 2024 11:20:13 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 6944E3622A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1720776013; bh=DNe657zGIo46NggYhJP/fMsHQReTMxTLdwUibXC0l10=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=uzO6BkiUkolBiBkzH4twlKAc9tuMN2cnLeCtfB0LX3ER0fcloeXMTOj7KSUPu/9M7
-	 H/tyJty1eJuu2auunosxxqHkHfXCusqJ4i+RmZPxxYeU1iTZ8sctyQt/u+07VvdpOv
-	 q6NWxNCkw1QUXy/AP5fB3CUYLZs/buvJgsi3QvAs=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b="xM1QBoLM"
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Fri, 12 Jul 2024 11:20:06 +0200 (CEST)
-Message-ID: <e4962ea0-3f03-43b5-b773-68abe1d73cc9@perex.cz>
-Date: Fri, 12 Jul 2024 11:20:05 +0200
+	(Authenticated sender: lina@asahilina.net)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 2B15E4347F;
+	Fri, 12 Jul 2024 09:48:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+	s=default; t=1720777696;
+	bh=DBxWamB7thDTQssSsI2lahjfw8GY8wFwjut5upkIp08=;
+	h=Date:Subject:To:References:From:In-Reply-To;
+	b=xM1QBoLMmGWfbA+EmeVL/Gqjr1kLcHs7IJI34N+OsjapvFeAXsbPk5RyaLPn2u1j6
+	 0ubengXUxMUq76p4DdSU8Ts72S1mU0SFJi05QTvGCO40qV/rBlcvrc0fKUfOvVmhGq
+	 mNZOSh/hgS0N5Sco/4P4aREiibHQOdu3UUhzllgwF5ZwG3p5+1bRsr2932DyZJfxQa
+	 g3SHYPle+2r5frnz9YEM0iZlP8eh1yuoccanOCUxEXDqV2tdNx+O8r1qeSYCjqm3DM
+	 Rm18qe3i6giAE8+WjtiAYlJvkEtQF3tnUtOnpfZyrm8HOIPjGxOp8jdmaj57z8iLbK
+	 cS3QS5BOIylHQ==
+Message-ID: <ccba37b8-0b92-43a9-83f3-297d96183855@asahilina.net>
+Date: Fri, 12 Jul 2024 18:48:09 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,102 +42,155 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] kselftest/alsa: Use card name rather than number in test
- names
-To: Takashi Iwai <tiwai@suse.de>, Mark Brown <broonie@kernel.org>
-Cc: Takashi Iwai <tiwai@suse.com>, Shuah Khan <shuah@kernel.org>,
- linux-sound@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240711-alsa-kselftest-board-name-v1-1-ab5cf2dbbea6@kernel.org>
- <7cd921b3-fed9-4b0c-9ba8-381e45ef4218@perex.cz>
- <b3fdbb63-067b-4ff4-8fd8-1c2455a553a5@sirena.org.uk>
- <877cdrt3zc.wl-tiwai@suse.de>
-From: Jaroslav Kysela <perex@perex.cz>
+Subject: Re: Handling complex matrix mixers in ALSA
+To: Takashi Iwai <tiwai@suse.de>, alsa-devel@alsa-project.org,
+ linux-sound@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
+ "Geoffrey D. Bennett" <g@b4.vu>
+References: <48beda37-1795-4d48-987d-1e2582cb3a18@asahilina.net>
+ <8734ot42oo.wl-tiwai@suse.de> <20240702004611.GA1029857@workstation.local>
 Content-Language: en-US
-Autocrypt: addr=perex@perex.cz; keydata=
- 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
-In-Reply-To: <877cdrt3zc.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Asahi Lina <lina@asahilina.net>
+In-Reply-To: <20240702004611.GA1029857@workstation.local>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 12. 07. 24 10:21, Takashi Iwai wrote:
-> On Thu, 11 Jul 2024 18:19:25 +0200,
-> Mark Brown wrote:
->>
->> On Thu, Jul 11, 2024 at 06:08:38PM +0200, Jaroslav Kysela wrote:
->>> On 11. 07. 24 16:33, Mark Brown wrote:
->>
->>>> Address this by replacing our use of card numbers with card names which are
->>>> more likely to be stable across runs. We use the long name since in the
->>
->>> I think that a combination of card number and card ID may be sufficient (and
->>> a compromise). It's shorter and user-friendly. Additionally, a table may be
->>> printed at the beginning of report with card number, card ID and long card
->>> name for further processing and identification.
->>
->> These don't help, the problem is that anything which includes the card
->> number in the test name result is going to result in unstable test names
->> depending on race conditions at boot.  There are automated systems that
->> parse kselftest output generically, I'm not sure there's a great deal of
->> enthusiasm for writing a custom parser for the ALSA selftests
->> specifically.
+On 7/2/24 9:46 AM, Takashi Sakamoto wrote:
+> On Mon, Jul 01, 2024 at 04:17:11PM +0200, Takashi Iwai wrote:
+>> As Geoffrey already suggested, the matrix size can be reduced since
+>> each kcontrol element can be an array, so the number of controls can
+>> be either column or row size of the matrix, which is well manageable.
+>  
+> Additionally, a snd_kcontrol structure can provide multiple control
+> elements by its 'count' member. I call it 'control element set'. It can
+> reduce allocation in kernel space. If the hardware in this case provides
+> software interface to access to all source coefficients to one
+> destination at once, it is suitable in the case.
+The hardware interface is basically a command stream of "set" commands
+for each individual mixer node, so there is no particular
+dimension/grouping that is more optimal. You can send up to 64~128
+arbitrary updates per 512-byte USB bulk packet (depending on whether you
+have to allocate nodes or just update existing nodes).
+
+Due to the max 2048 active node limitation, the driver is going to have
+to process/diff bulk updates anyway regardless of the way we group them
+(I will have to scan the new values, first update any zero values to
+free up nodes, then update nonzero values, and bail with an error before
+sending the update to the hardware if we run out of nodes). Hopefully
+this will never happen in real-life scenarios, but it does mean that
+some matrix mixer configurations are "illegal" and will be refused by
+the driver, due to hardware limitations.
+
+> For example, assuming the matrix mixer has 34 destination and 66
+> sources, they can be expressed by 34 control elements with 66 array
+> elements. A single snd_kcontrol structure can provide them, as long as
+> they have the same nature. The control elements are identified by index
+> value.
+
+It took me a while to understand what you meant here, but I think I get
+it: Using a single snd_kcontrol for the entire mixer, with 34 indexed
+elements each taking 66 array values, right?
+
+How do these kinds of controls show up in alsamixer and other userspace
+mixer tools? Are they usable at all, or just with low-level access via
+amixer/alsactl?
+
+> Once I talked with Philippe Bekaert about the issue, then we found another
+> issue about the way to distinguish both each control elements and the array
+> members. The usage of ALSA control interface heavily relies on the name of
+> control elements, while a single snd_kcontrol structure provides one name
+> and all of the controls provided by it have the same name. We've
+> investigated to use TLV (Type-Length-Array) function of ALSA control core
+> to provide channel information about the sources and destinations, but no
+> further work yet[1].
+
+Yeah, that's another issue... these interfaces have fairly homogeneous
+channels for the mixer, so it's not a big deal, but if we want to settle
+on any particular standard for matrix mixers we're going to need some
+way to inform userspace of what the numbered sources/destinations mean...
+
+> I think it better to have another care that in this case we have restriction
+> for the size of array; e.g. 128 array elements for integer (long) type of
+> value. The restriction is not the matter in your case.
+
+A related device (the MADIface USB, that I don't own but I can probably
+support with some traces from someone who does) has, if I'm
+understanding the manual correctly, up to a 192x128 mixer mode (128
+hardware inputs + 64 playback inputs per output mix), so that would
+exceed the maximum number of array elements. I could split each output
+submix control into multiple array controls per input group to keep the
+count under 128 for each, but that starts getting a bit weird and
+arbitrary I think...
+
 > 
-> OTOH, longname can be really ugly to read, and it can vary because it
-> often embeds address or irq numbers in the string.
+>> The VU meter can be provided as volatile read-only controls, too.
+>>
+>> So from the API-wise POV, it'll be a most straightforward
+>> implementation.
 > 
-> If a general name is the goal, how about using shortname instead?
+> As a side note, the design of software interface for recent hardware
+> requires floating point values for this kind of data, while it is not
+> supported in ALSA control core and its userspace interface.
+
+I don't know how the VU meter data works yet, but there's another issue
+here with the mixer controls. This device uses a 1-bit scale selector
+and a 14-bit value, basically a trivial floating point format with a
+1-bit exponent. There is also a sign bit (can invert the phase of any
+mixer node).
+
+Effectively I have a linear gain between -0x10000 and 0x10000 where
+0x8000 is 0dB and -0x8000 is 0dB(inverted), but for values outside of
+the -0x3fff..0x3fff range, it loses 3 bits of LSB precision.
+
+The inversion isn't really representable in a single control, right? So
+I'd have to have a whole separate boolean matrix control set for the
+sign bits, I think?
+
+And then I need to figure out how to scale the values... if I use the
+full range of 0..0x10000 then I can use DECLARE_TLV_DB_LINEAR to declare
+how it maps to dB, and then I guess I would just have to truncate the
+values sent to the hardware (when in the coarse range) but always keep
+track of the control value in the driver, so userspace doesn't get
+confused with "impossible" values? Of course that would be "lying" about
+the hardware precision, since 8 possible values would map to the same
+hardware volume at higher scales...
+
+From reading the alsa-lib code, I think I need to use TLV_DB_GAIN_MUTE
+as the min gain and then that turns it into a linear control where 0 = mute?
+
+I'm also a bit worried about being able to accurately represent
++0dB/unity (for bit-perfect passthrough), since ALSA uses 1/100th of a
+dB as scale for the TLVs (I think?). x2 gain is +6.02(...) dB, but that
+isn't enough significant digits to precisely map 0x8000 to 0dB:
+
+>>> hex(int(0x10000 * (10**(-6.02 / 20))))
+'0x8002'
+>>> hex(int(0x10000 * (10**(-6.03 / 20))))
+'0x7fdc'
+
+So userspace that tries to use the TLV scale data to set "0dB" using the
+simple API is unlikely to actually get precisely 0dB.
+
+(This is also a problem for the output fader controls unrelated to the
+matrix mixer, since they use the exact same scale encoding with inversion)
+
+Maybe the driver should just use an arbitrary log dB TLV scale for the
+controls and internally map to the hardware values? That means doing the
+conversions internally and lying about precision at the lower end but at
+least it would avoid rounding error when setting a gain to 0dB...
+
 > 
-> Or use id field, as Jaroslav suggested, but without the card number
-> suffix; then it's unique among multiple cards.
+>> OTOH, if you need more efficiency (e.g. the control access is way too
+>> much overhead), it can be implemented freely via a hwdep device and
+>> your own ioctls or mmaps, too.  But this is literally h/w dependent,
+>> and the API becomes too specific, no other way than using own tool, as
+>> a drawback.
+> 
+> [1] https://github.com/PhilippeBekaert/snd-hdspe/issues/13
 
-I prefer this (use only ID field). This string can be also set in the user 
-space using sysfs/udev, so the administrator may change it if the default is 
-not ideal.
+There's one more thing I'd like to ask. Would it be useful for me to
+submit just the streaming part of the device support upstream first
+(which would work with the userspace app for config) and then worry
+about designing the mixer control interface later? Or should it all be
+done in one submission?
 
-					Jaroslav
-
--- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
-
+~~ Lina
