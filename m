@@ -1,87 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A360F16F910;
-	Fri, 12 Jul 2024 14:33:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08C63178387;
+	Fri, 12 Jul 2024 16:05:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720794836; cv=none; b=mIa/68svRYPUSZX+O3XV6abXdLQxEbhDIUXqAvq19WtzlyVKJ19dx/6txQUlKSBQsJZ6HOdDQp2igWHzyyjjtqIKWISj3unsADAEXn7QVKMDFwDA8FZxwn5HfT9VLa5LXdeUtD3WdqXkmD5nawhxWmg1FIN4gT10ZXHrH+4TKsk=
+	t=1720800350; cv=none; b=c3ICRL73kGInAeGtbwI3YNJkC/1KN4L05JKcQElEe0XqeEVZLTfikNzSn+QP3nEwpNMCNclbY3htL4zRkbgvTFB8seUGt3rFz9kPPHq9e3cATCXLWaPzfHWQidId9Mzyr7jPw67kz0mc8asoop87NtDiWGY79Oo1xKNaYg6k7eA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720794836; c=relaxed/simple;
-	bh=gQcrFDGWggoe/ec5V49afFn7kmx2z7nIu9TGMMaHQNU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=cbqEwYmkMLVbaXqn0hunVIeIoCHRSAe0DVPC1giYEcxaXMNE42dS3FTBp+bxBjPAOrb/xUiH+NdeWgZon4q8WdjisbldA2RhWn5W6QZeebMmShfcteM2BjAgT36xgrzQrTsmltyjC5/Ab1MUKjC76MHOuCvfjlvRUnYpqmmQuAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PvT20OK/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720800350; c=relaxed/simple;
+	bh=Dxz0p3nSP6ZbWPn3w1petAoB7ZV+9uYU2Pp1A6fszI4=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=c/kUN00nlEgetGVmi7iEYGpVZwefUW2wknwd0a+aR2wjrZx4hqvEdTP/MBdEI5LyqrUvoMf5w5rNOYyF/F70pNWKvjPd18pYwvIsxz43pJgpmMz7pzl8/vSuVcj/1EpMuoxylmucpS5kwHaT4H3mVdm7GF1XZP1SZYuh2CHhPRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OzLeJ1yZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PvT20OK/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6BAEC32782;
-	Fri, 12 Jul 2024 14:33:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OzLeJ1yZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D8AB0C4AF07;
+	Fri, 12 Jul 2024 16:05:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720794836;
-	bh=gQcrFDGWggoe/ec5V49afFn7kmx2z7nIu9TGMMaHQNU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=PvT20OK/LujkSr3zquhW8ndmrLa4t0AyCFlAouH+u5qUV0T/+wbBZdJoOaOJuKUOf
-	 4xTPxY0rc//GzMP1GafqCstvmgMWh8cBnEBd4Nret4j3BtekCML+ARJ30L4lerVMYQ
-	 TZB5Xf+axxgkyW4vKKW+ktP4lLeIcKeq1VP5kqEmUWhAjlopTl+oZhkHjYub/yOS4c
-	 7ecO/8T/xtRH08WFSwtC8GAXMT6qQ6R9FpfkuOStenSdu6PwkFXTI/C2VS3NCUSH6W
-	 ducD/AsLjlJqKboNh9rDvns7ChSxNig8z79oVg2oDz9CWMFj/mSCa1taF5th9AiONW
-	 PmErLVNm/5/Ew==
-From: Mark Brown <broonie@kernel.org>
-To: Animesh Agarwal <animeshagarwal28@gmail.com>
-Cc: Daniel Baluta <daniel.baluta@nxp.com>, 
- David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, patches@opensource.cirrus.com, 
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20240710072756.99765-1-animeshagarwal28@gmail.com>
-References: <20240710072756.99765-1-animeshagarwal28@gmail.com>
-Subject: Re: [PATCH] ASoC: dt-bindings: cirrus,cs42xx8: Convert to dtschema
-Message-Id: <172079483344.520799.13382073069252399762.b4-ty@kernel.org>
-Date: Fri, 12 Jul 2024 15:33:53 +0100
+	s=k20201202; t=1720800349;
+	bh=Dxz0p3nSP6ZbWPn3w1petAoB7ZV+9uYU2Pp1A6fszI4=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=OzLeJ1yZiTXA5aLZekGoJgNiOapGv0PwPJioldWApxcZqg92N8nQcPgFnylT+AO41
+	 3jwWW9WX5Gv+dMiQ9OPoT0Mb8N+ZMumpso5lpNY23FrssKqASvG2O0ywTOE2S5qwOG
+	 6LVbN6DhtUUmWK4D73uEIrlkLI4W3nkj1PC0YCZ6G8M91yajT3f2feAEhiuyvuvheS
+	 7zr1SWMe6zpFSRGfHFeFVw80pEl50/PFKjIKqBE31TH4ccJjAdr+c2nTMpCYa1oj3o
+	 7JqeMZex0gWxD/UVJnrSgrMDhB6oT/07qcUesI0jZaX7rFGikvHxOe13BGHd4Zvpy5
+	 aJDvPzF0e4BfQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D1AECC43468;
+	Fri, 12 Jul 2024 16:05:49 +0000 (UTC)
+Subject: Re: [GIT PULL] sound fixes for 6.10
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <87a5int5ln.wl-tiwai@suse.de>
+References: <87a5int5ln.wl-tiwai@suse.de>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87a5int5ln.wl-tiwai@suse.de>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.10
+X-PR-Tracked-Commit-Id: f19e1027f6c0f5fae18b2f2ed88b55a6a637f76e
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 9b48104b2cde4d392ebf52fda17c3eb5282cddaa
+Message-Id: <172080034985.10368.9559171273149343421.pr-tracker-bot@kernel.org>
+Date: Fri, 12 Jul 2024 16:05:49 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev-d4707
 
-On Wed, 10 Jul 2024 12:57:52 +0530, Animesh Agarwal wrote:
-> Convert the Cirrus Logic CS42448/CS42888 audio CODEC bindings to DT
-> schema format. Set power supply properties to required only for CS42888.
-> 
-> 
+The pull request you sent on Fri, 12 Jul 2024 09:46:44 +0200:
 
-Applied to
+> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.10
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/9b48104b2cde4d392ebf52fda17c3eb5282cddaa
 
-Thanks!
+Thank you!
 
-[1/1] ASoC: dt-bindings: cirrus,cs42xx8: Convert to dtschema
-      commit: e3fff693da9fa0337d98dab496db3a04c5227aae
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
