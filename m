@@ -1,40 +1,40 @@
 Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE0017622F;
-	Fri, 12 Jul 2024 16:25:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00D2F1741CC
+	for <linux-sound@vger.kernel.org>; Fri, 12 Jul 2024 16:46:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720801541; cv=none; b=Jv6dCOvwmXhPfvNgiEgTCQHiA9SXK1pVf56J2psOZerVhWIUKcAXhcoxDjyhQqrv81hqjcjBOTo75ThX8ilQ8vHIyqgy6VWgbYN1JmntTMC1BmuBmrj8yyT2KVyAKhm3OtCVJV0C3vOXqrTBMc96xruac0RV9qs96nRxEz+zS2g=
+	t=1720802768; cv=none; b=RfzG3qV2P8efIHIXTvBJDB6z+rApKWtXug0fWSMXpxB7O3xqdRuYgYVLzMr/aXC5G3Vp/qO7afGH3mTViHuOMjo+T1mgHI8kSHlsS3n7Kug8ZiJ/JIsHpza2TUQCaaqFc+oCge9++tW6DuptB22jbKvu7bN6JrF9oQq09V1nthY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720801541; c=relaxed/simple;
-	bh=Z5kmgF9LvYBeJxCKb81WkdtZxSg4mhdw/2J4+GixorM=;
+	s=arc-20240116; t=1720802768; c=relaxed/simple;
+	bh=B7B2Odxjiwd5La+HdHOdsO4SYTr+Dc9qnO3RqB+c5/A=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ea0Ayz+bRQDy7ZhS9DLVkP5C4XfBvWtUI4d4nwOAfkhSLlZXhssVVoISLpAzTeRwukt38MVQm8shnPT+H3+kvkHccwZMLb8WcWpX1pQ+NW2XO7big1daSmT36jfd9JFHCD+R9LfDlEKBtD33xvCaeApuWlXqoJLBBxA9LvYJThs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=GhgfAKxw; arc=none smtp.client-ip=77.48.224.245
+	 In-Reply-To:Content-Type; b=mAY/O4UKEHQLKtphvHfuzQQCkilr0Hb3ULX0uiRXUQrvwM54As835w7DFheE9/Nn0imEFFs4MHgnXDaigCSuvlOsNCWH6TgSG8cShA2kpXwqJIoqVjBAy0NZgpru33jzDWMyWOdChqT2PEEmuAmQ/YHEMd5MIgH1Dkdnu+f7An8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=1m7HANMX; arc=none smtp.client-ip=77.48.224.245
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="GhgfAKxw"
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="1m7HANMX"
 Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id E04A33622B;
-	Fri, 12 Jul 2024 18:25:28 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz E04A33622B
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 1EAF23622B;
+	Fri, 12 Jul 2024 18:45:59 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 1EAF23622B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1720801528; bh=5yaBTIvXUpa60kxJ7bIM2RSzaH80TJaXXzx7FGpu3zQ=;
+	t=1720802759; bh=mdukoFwOsMPDVs1uKKBEeq4t6mFaX8w2WOFuzrIrYXY=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=GhgfAKxwA51q91q4Kj4kCDThva9oo67LRJiv23szUaLjiMpN2dJ6/cvkfFlINwZFT
-	 WClrR2eGx1t+Ea6pw9A7BkQGy4BbCkx5seMK0LsGyaEnpMiP6qmZgvjYBuugx5gB8g
-	 WKrmBp4cVIZHd7OA8dfUk1NHk9LYyVTgQHc5pbXE=
+	b=1m7HANMXB0CY403F7Apo7OhEbD8sME6Lb0AJcTGnWP74HCbygX7otahEY2wScSxNk
+	 zyGaIllreWYVA79BA5WSuCTPOdvi/TNhv9+U8HvaXeVf4k89PZqF+JtDfXig5LtI6O
+	 3TgAFkzlNdpc3Gfa+5T4ye847fLaLoTfXSN4o/q8=
 Received: from [192.168.100.98] (unknown [192.168.100.98])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: perex)
 	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Fri, 12 Jul 2024 18:25:21 +0200 (CEST)
-Message-ID: <c1be6bec-90f5-4bb3-b6b0-8524095fc490@perex.cz>
-Date: Fri, 12 Jul 2024 18:25:21 +0200
+	Fri, 12 Jul 2024 18:45:51 +0200 (CEST)
+Message-ID: <a89f3755-9b21-41b5-9b15-73105d4e6b95@perex.cz>
+Date: Fri, 12 Jul 2024 18:45:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,17 +42,17 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] kselftest/alsa: Use card name rather than number in test
- names
-To: Mark Brown <broonie@kernel.org>
-Cc: Takashi Iwai <tiwai@suse.de>, Takashi Iwai <tiwai@suse.com>,
- Shuah Khan <shuah@kernel.org>, linux-sound@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240711-alsa-kselftest-board-name-v1-1-ab5cf2dbbea6@kernel.org>
- <7cd921b3-fed9-4b0c-9ba8-381e45ef4218@perex.cz>
- <b3fdbb63-067b-4ff4-8fd8-1c2455a553a5@sirena.org.uk>
- <877cdrt3zc.wl-tiwai@suse.de> <e4962ea0-3f03-43b5-b773-68abe1d73cc9@perex.cz>
- <bb42afb8-48a7-4daf-b28b-b82bd5c77d57@sirena.org.uk>
+Subject: Re: [PATCH v4] ALSA: compress_offload: introduce passthrough
+ operation mode
+To: Vinod Koul <vkoul@kernel.org>
+Cc: linux-sound@vger.kernel.org, Takashi Iwai <tiwai@suse.de>,
+ Mark Brown <broonie@kernel.org>, Shengjiu Wang <shengjiu.wang@gmail.com>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>,
+ =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+References: <20240624135820.516893-1-perex@perex.cz> <ZnmG77hBzedDQcIl@matsya>
+ <ae18019b-5e6f-4ca8-8fba-353ed19be46c@perex.cz> <ZoQF2qjLf7_00yA7@matsya>
 From: Jaroslav Kysela <perex@perex.cz>
 Content-Language: en-US
 Autocrypt: addr=perex@perex.cz; keydata=
@@ -98,39 +98,74 @@ Autocrypt: addr=perex@perex.cz; keydata=
  k8vz1gDNeG7HOIh46GnKIrQiUXVzAuUvM5vI9YaW3YRNTcn3pguQRt+Tl9Y6G+j+yvuLL173
  m4zRUU6DOygmpQAVYSOJvKAJ07AhQGaWAAi5msM6BcTU4YGcpW7FHr6+xaFDlRHzf1lkvavX
  WoxP1IA1DFuBMeYMzfyi4qDWjXc+C51ZaQd39EulYMh+JVaWRoY=
-In-Reply-To: <bb42afb8-48a7-4daf-b28b-b82bd5c77d57@sirena.org.uk>
+In-Reply-To: <ZoQF2qjLf7_00yA7@matsya>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 12. 07. 24 15:00, Mark Brown wrote:
-> On Fri, Jul 12, 2024 at 11:20:05AM +0200, Jaroslav Kysela wrote:
->> On 12. 07. 24 10:21, Takashi Iwai wrote:
+On 02. 07. 24 15:51, Vinod Koul wrote:
 > 
->>> OTOH, longname can be really ugly to read, and it can vary because it
->>> often embeds address or irq numbers in the string.
+> Hi Jaroslav,
 > 
-> Capturing that variation is one of the goals - it should mostly be
-> stable between runs.
+> On 24-06-24, 17:31, Jaroslav Kysela wrote:
+>> On 24. 06. 24 16:47, Vinod Koul wrote:
+>>> On 24-06-24, 15:58, Jaroslav Kysela wrote:
+>>>> There is a requirement to expose the audio hardware that accelerates various
+>>>> tasks for user space such as sample rate converters, compressed
+>>>> stream decoders, etc.
+>>>
+>>> Can you please tell me more about this requirement. The initial view of
+>>> compressed API was data only and use alsa kcontrols to handle the DSP
+>>> functions? I would like to understand why we need a new API.
+>>
+>> There are very long threads for v4l audio support - last v15 thread:
+>>
+>> https://lore.kernel.org/linux-media/1710834674-3285-1-git-send-email-shengjiu.wang@nxp.com/
 > 
->>> If a general name is the goal, how about using shortname instead?
+> Very long indeed but very interesting. I think going compressed audio
+> way seems reasonable choice to me
 > 
->>> Or use id field, as Jaroslav suggested, but without the card number
->>> suffix; then it's unique among multiple cards.
+>>
+>> So the goal is to create something more efficient for the offload work, when
+>> the data (decoded/converted) should be returned back to the user space.
 > 
->> I prefer this (use only ID field). This string can be also set in the user
->> space using sysfs/udev, so the administrator may change it if the default is
->> not ideal.
-> 
-> The trouble with the ID field is that it's too short and seems likely to
-> create collisions, for example HDA stuff just seems to default to NVidia
-> for nVidia cards which seems very likely to create collisions if someone
-> has two graphics cards in their system.
+> Not rendered? so we are using it as an accelerator...?
 
-The default IDs are always unique - see snd_card_set_id_no_lock() in 
-sound/core/init.c . Basically, the suffix will follow the device probe order 
-in this case.
+Yes, it's just to accelerate decoding/encoding in the user space chain.
 
-				Jaroslav
+>>> What about the user of this API, i would like to see that as well
+>>
+>> Any audio streaming framework like gstreamer or ffmpeg who can accelerate
+>> stream conversions in hardware for capable devices.
+> 
+> I meant to see driver users along with this patch :-)
+> 
+> That also reminds me to ask about usermode support for this, are you
+> planning to support it in tinycompress?
+
+Yes, I do, but my time is limited in the next weeks, but it's on my to-do list.
+
+>>>> +A new direction SND_COMPRESS_PASSTHROUGH is introduced to identify
+>>>> +the passthrough API.
+>>>
+>>> Is passthrough really a new good new name, this suggests data being
+>>> passed thru but that is not the case...
+>>
+>> It's something like "PASS data THROUGH kernel/driver". So it makes sense. My
+>> alternate name may be ACCEL (like acceleration).
+> 
+> I like that..
+
+To clarify, are you speaking about "passthrough" or "accel" here?
+
+ > Also do we change the device name if the passthru is
+> enabled? it should not be called a playback or capture compressed device
+
+I tried to follow playback/capture scheme - O_ACCMODE for open determines the 
+direction - in the passthrough mode the matched value is O_RDWR. Also, the 
+range for static minor numbers is shared so different device name may be 
+problematic.
+
+					Jaroslav
 
 -- 
 Jaroslav Kysela <perex@perex.cz>
