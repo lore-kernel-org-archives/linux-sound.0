@@ -1,203 +1,167 @@
-Received: from fout4-smtp.messagingengine.com (fout4-smtp.messagingengine.com [103.168.172.147])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9D104437
-	for <linux-sound@vger.kernel.org>; Sat, 13 Jul 2024 01:35:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE43BF9EC;
+	Sat, 13 Jul 2024 06:46:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720834554; cv=none; b=N/iK6SgEsaV7nHeoitkEcy7QBtMYbLx0Oc9olG32AH9o0eA5sAsJ+8xPxaCcRTHm25Vbt1TngTVNhAOeW/F/t9wGm/KN9803Ihu/tRUfjqf6+1cirxgsBaFFnwajJ89bEWIQEB9yRkB4W9lXQvC+NshVY9AM62esVx2sTcNye8Y=
+	t=1720853175; cv=none; b=e07ROU5WIm17D5DSxT2TLCBJMxkpXLmRszYP+5mDefaQI9xUdyLrUwXRPslnzqWpRM/odaNlKN2kvXMHZaUSfHo8PG+YwKQ41k0GSjv2X1FQUBpDf+gYjmCIdv3vbf4K7bW2fzAYzK4NL4mWCdumscqWeYzZKTKXaZBRcflc/r8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720834554; c=relaxed/simple;
-	bh=yxytFmDwG/sNMTq4aBNwkg9PqivKLL4mz7tWsPj24zs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZdxD3/wrEgme74T3Lyn5PEOCL0QxWdGUVHsV85Z2KR2DPCunQNsiv7siIKMCnhAWikg7obprWlTEnS2h8CaGun2eCwqT3/uTJVSBYwnS/e6986unO++UtXnmZaR083HxJ0pd2sT3R+sG/WTXRzDCZL1fKnxrC5x777DNlwspcbE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=k2Fvaq1x; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PK/YyL6c; arc=none smtp.client-ip=103.168.172.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
+	s=arc-20240116; t=1720853175; c=relaxed/simple;
+	bh=yY33+5APyjEzae2iAwViq+yRRVuxE+Rb8qhIWwuuLeo=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KGPAr8iwDTzk2ev9CTzLsk2mtg63z3TW8CYT84Oai3rqCbTfARTP/vnuq9E6VqfXacLv7mDqZ5lzcnwjGBj4Vk21qOHDxXeEntMABcVBZi68dBEqWJQeq03KLj3NUGVsG0qoIq7/l9rNG43HyhIAQd4Q87kkXBs3G18HEtpumko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=JLivPKX4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RD+xW6hL; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=JLivPKX4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RD+xW6hL; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="k2Fvaq1x";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PK/YyL6c"
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailfout.nyi.internal (Postfix) with ESMTP id 0C16D1381E73;
-	Fri, 12 Jul 2024 21:35:51 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Fri, 12 Jul 2024 21:35:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1720834551; x=
-	1720920951; bh=22TDJyuRrKv8m5jGh39KDAxMi55uSQw1RcgMrw/wKfs=; b=k
-	2Fvaq1x3McBDu+o1DLMirrrSCRbQRWeR/9rhJ9nXeVnTGkBKeUcviE8wtAnbuBB0
-	fmUrFIiBP5l+hUUsvH2NMXfTlIybI3aM7upSyh1LNULZ/kOXrSILWyp6DfvYexNt
-	NBVj6gI9foUkJuptmpr0sVsRoRAsEoWh2wxasbtF3bayPZ1TJDFtXyBW1UFsActD
-	yzhCCoFsg2v5woM+LIKHJFGNjlStwp8eJDYt+TRMBY12szpWg/oINleU+0IkvV25
-	phtu042YVeQ7TPuiHa6UqKvz6CbfTEiRvBR0W8V1cnDuczBqpxvjzFgTLRKdsHxX
-	8RKSk7YyLmTTZxDgYwnzg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1720834551; x=1720920951; bh=22TDJyuRrKv8m5jGh39KDAxMi55u
-	SQw1RcgMrw/wKfs=; b=PK/YyL6cJoWHCVmqovL3aUs9U8czwPz8EK2IlsMz1+7J
-	jS3RYR7eRPGEWVmmlR2zcNmvwXWKioTE+rwdDnXiISMPbDShSEH1wQCU8tOD6Mg7
-	yspW4BEQha0IVwlDEXUC8rqPknOUo3lWk2EZcwxnt4G3unDFoUYVdjNiFIV8wzfR
-	xHJiuwn8NKoORKfw0Vbjq/NTTRjkndWtEwMBPK3/TcffeXFap/v8XMNLqJd5DxhX
-	j4mQEdSjX6KKTE56bKh10K+zUtckwUQaSAo/vk7obWs2CAO090cpdg1WYfYcGsY7
-	Otfv5byBJm7qaL18Y5Z8aqzxNx4/4xy9WKvikk2NuQ==
-X-ME-Sender: <xms:9NmRZnY7Q90EGJ9RwEs28jeD_YRV0jRbl0usQCG13UBnoGL3LCiMGg>
-    <xme:9NmRZmZxygkgS7cTX0RaFrWXQr33WuD30TwUWUUgAteRv9mHomVxUsvYXpCVF5g9z
-    ndzG3Nm3uyoAH2wNcI>
-X-ME-Received: <xmr:9NmRZp9EfAKmsZ3KBBZWkezbV_dWzu6EwmfMUmV8UTpEfLbBP3h1vDXBQEjIBfYT9zgga-Pg0VFD-XIIFg0qLCbHNB0cpRgI7OM2>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrfeejgdeglecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefvrghkrghs
-    hhhiucfurghkrghmohhtohcuoehoqdhtrghkrghshhhisehsrghkrghmohgttghhihdrjh
-    hpqeenucggtffrrghtthgvrhhnpeegueeivdevjeekiedvgfevtefgvefgtdelgfffheei
-    veehiedthedthfejudfhleenucffohhmrghinhepghhithhhuhgsrdgtohhmpdhgihhtlh
-    grsgdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhr
-    ohhmpehoqdhtrghkrghshhhisehsrghkrghmohgttghhihdrjhhp
-X-ME-Proxy: <xmx:9NmRZtp9Bx7fKP69RlnuUCXNZOrR6AOlhuj8LKdWrjUtmy-odlyXCg>
-    <xmx:9NmRZio2ftHf8yfzK1T5B8-hAMZqZ2uS1aFkCFeUJjLJtkSwdA1k6A>
-    <xmx:9NmRZjRoBXO_hpIQnQvEnKnRzV3c7_99PKtlV_Mm31OSDeYkdZ-EwQ>
-    <xmx:9NmRZqqneW-bE6v-ytnM0Tbb2uOI8t2KxnncbwuPBylObK6hvfeJJg>
-    <xmx:99mRZjdqbpE-m-NdEEkULREAeprJUUiyKatHc9XiW0Y-NPsJph4n8-mW>
-Feedback-ID: ie8e14432:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 12 Jul 2024 21:35:46 -0400 (EDT)
-Date: Sat, 13 Jul 2024 10:35:44 +0900
-From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-To: Asahi Lina <lina@asahilina.net>
-Cc: Takashi Iwai <tiwai@suse.de>, alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
-	"Geoffrey D. Bennett" <g@b4.vu>
-Subject: Re: Handling complex matrix mixers in ALSA
-Message-ID: <20240713013544.GB107956@workstation.local>
-Mail-Followup-To: Asahi Lina <lina@asahilina.net>,
-	Takashi Iwai <tiwai@suse.de>, alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
-	"Geoffrey D. Bennett" <g@b4.vu>
-References: <48beda37-1795-4d48-987d-1e2582cb3a18@asahilina.net>
- <8734ot42oo.wl-tiwai@suse.de>
- <20240702004611.GA1029857@workstation.local>
- <ccba37b8-0b92-43a9-83f3-297d96183855@asahilina.net>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JLivPKX4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RD+xW6hL";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JLivPKX4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RD+xW6hL"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B27481FBCD;
+	Sat, 13 Jul 2024 06:46:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1720853171; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bYtwHX31WJYVhnvwXw7XNIn9nZhkjNRMDGCTQUdLam4=;
+	b=JLivPKX4psON5JyiZ6nk6I/Y0uzb16X5RMTp9hp+esYWTKf4LWh1znvgQ7cp6ti5Oc7YCb
+	27kcw+BlR2ucIAGcj5GyQQdosU6TsEFSA/spL3sDJMxpIz0D827hRAnzkKs8zKn9sIaz7L
+	v4CnylJJXlc1axLVZ1F9zcRYurdkfpM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1720853171;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bYtwHX31WJYVhnvwXw7XNIn9nZhkjNRMDGCTQUdLam4=;
+	b=RD+xW6hLqdCYbQquS1M2tEQuyoiTjocmCo8stvc6uIdiU0RE6cbg+F+15zXxZK9Y1dAF1O
+	3/NwQmOyvv4sYlDA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=JLivPKX4;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=RD+xW6hL
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1720853171; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bYtwHX31WJYVhnvwXw7XNIn9nZhkjNRMDGCTQUdLam4=;
+	b=JLivPKX4psON5JyiZ6nk6I/Y0uzb16X5RMTp9hp+esYWTKf4LWh1znvgQ7cp6ti5Oc7YCb
+	27kcw+BlR2ucIAGcj5GyQQdosU6TsEFSA/spL3sDJMxpIz0D827hRAnzkKs8zKn9sIaz7L
+	v4CnylJJXlc1axLVZ1F9zcRYurdkfpM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1720853171;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bYtwHX31WJYVhnvwXw7XNIn9nZhkjNRMDGCTQUdLam4=;
+	b=RD+xW6hLqdCYbQquS1M2tEQuyoiTjocmCo8stvc6uIdiU0RE6cbg+F+15zXxZK9Y1dAF1O
+	3/NwQmOyvv4sYlDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 75D2D134AB;
+	Sat, 13 Jul 2024 06:46:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 8ZY8G7MikmYhYwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 13 Jul 2024 06:46:11 +0000
+Date: Sat, 13 Jul 2024 08:46:43 +0200
+Message-ID: <87plrhssa4.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.de>,
+	Takashi Iwai <tiwai@suse.com>,
+	Shuah Khan <shuah@kernel.org>,
+	linux-sound@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kselftest/alsa: Use card name rather than number in test names
+In-Reply-To: <31e73e81-e60f-4d0b-b0ac-118f1dc72610@sirena.org.uk>
+References: <20240711-alsa-kselftest-board-name-v1-1-ab5cf2dbbea6@kernel.org>
+	<7cd921b3-fed9-4b0c-9ba8-381e45ef4218@perex.cz>
+	<b3fdbb63-067b-4ff4-8fd8-1c2455a553a5@sirena.org.uk>
+	<877cdrt3zc.wl-tiwai@suse.de>
+	<e4962ea0-3f03-43b5-b773-68abe1d73cc9@perex.cz>
+	<bb42afb8-48a7-4daf-b28b-b82bd5c77d57@sirena.org.uk>
+	<c1be6bec-90f5-4bb3-b6b0-8524095fc490@perex.cz>
+	<31e73e81-e60f-4d0b-b0ac-118f1dc72610@sirena.org.uk>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ccba37b8-0b92-43a9-83f3-297d96183855@asahilina.net>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Rspamd-Queue-Id: B27481FBCD
 
-On Fri, Jul 12, 2024 at 06:48:09PM +0900, Asahi Lina wrote:
-> > For example, assuming the matrix mixer has 34 destination and 66
-> > sources, they can be expressed by 34 control elements with 66 array
-> > elements. A single snd_kcontrol structure can provide them, as long as
-> > they have the same nature. The control elements are identified by index
-> > value.
+On Fri, 12 Jul 2024 20:19:33 +0200,
+Mark Brown wrote:
 > 
-> It took me a while to understand what you meant here, but I think I get
-> it: Using a single snd_kcontrol for the entire mixer, with 34 indexed
-> elements each taking 66 array values, right?
+> On Fri, Jul 12, 2024 at 06:25:21PM +0200, Jaroslav Kysela wrote:
+> > On 12. 07. 24 15:00, Mark Brown wrote:
+> 
+> > > The trouble with the ID field is that it's too short and seems likely to
+> > > create collisions, for example HDA stuff just seems to default to NVidia
+> > > for nVidia cards which seems very likely to create collisions if someone
+> > > has two graphics cards in their system.
+> 
+> > The default IDs are always unique - see snd_card_set_id_no_lock() in
+> > sound/core/init.c . Basically, the suffix will follow the device probe order
+> > in this case.
+> 
+> Sure, but the genesis of this patch is that probe order isn't
+> sufficiently stable and we want to avoid names based on it...  using the
+> ID will be more likely to work out stable than just pure probe order but
+> it's still got the same issue.
 
-This is rough example for the above idea.
+Are you trying to solve the issue with two cards of the same driver,
+which are swapped sometimes at the probe time?  Or the mixture of
+different cards that are swapped?
 
-```
-static int info_cb(struct snd_kcontrol *kctl, struct snd_ctl_elem_info *einfo)
-{
-    einfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
-    einfo->count = 66;                  // up to 128 for integer value array.
-    einfo->value.integer.min = 0;       // note long type, varies between
-                                        // ILP32/LP64 data models.
-    einfo->value.integer.max = 256;     // ditto.
-    einfo->value.integer.step = 1;      // ditto.
+In the latter case, id should work well.  The id is primarily created
+from the (short)name string, and the suffix is added only when
+conflicting.
 
-    return 0;
-}
-
-static int get_cb(struct snd_kcontrol *kctl, struct snd_ctl_elem_value *uval)
-{
-    unsigned int index = snd_ctl_get_ioff(kctl, &info->id);
-
-    // Any operation according to the index of control elements in the set.
-
-    return 0;
-}
-
-static int put_cb(struct snd_kcontrol *kctl, struct snd_ctl_elem_value *uval)
-{
-    unsigned int offset = snd_ctl_get_ioff(kctl, &info->id);
-
-    // Any operation according to the index of control elements in the set.
-
-    return 0;
-}
-
-int add_control_elements(struct my_data *my_data)
-{
-    // Emulate AK4396.
-    // 20 * log10(x/255) (dB)
-    // Here, x is written value.
-    //
-    // Some examples in:
-    // https://github.com/alsa-project/alsa-lib/blob/master/test/user-ctl-element-set.c.
-    static const SNDRV_CTL_TLVD_DECLARE_DB_LINEAR(range_tlv, -4813, 0);
-    
-    static const struct snd_kcontrol_new template = {
-        . iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-        .device = 10,
-        .subdevice = 20,
-        .name = "multiplexer",
-        .index = 0,
-        // I guess any operation on ARC USB does not control the hardware directly unlike RC and
-        // ARC, thus SNDRV_CTL_ELEM_ACCESS_VOLATILE is not required.
-        .access = SNDRV_CTL_ELEM_ACCESS_READWRITE | SNDRV_CTL_ELEM_ACCESS_TLV_READ,
-        .count = 34,        // The total number of control elements in the set.
-        .info = info_cb,
-        .get = get_cb,
-        .put = pub_cb,
-        .tlv.p = &range_tlv,
-    };
-    
-    struct snd_kcontrol *kctl = snd_ctl_new1(&template, my_data);
-    err = snd_ctl_add(my_data->card, kctl);
-    ...
-}
-```
-
-> How do these kinds of controls show up in alsamixer and other userspace
-> mixer tools? Are they usable at all, or just with low-level access via
-> amixer/alsactl?
-
-These control elements can be enumerated and operated as usual, just
-have the sequential value in index (and numid) field in element
-identifier.
-
-```
-$ amixer -c 0 controls
-...
-numid=16,iface=MIXER,name='multiplexer',device=10,subdevice=20
-numid=17,iface=MIXER,name='multiplexer',index=1,device=10,subdevice=20
-numid=18,iface=MIXER,name='multiplexer',index=2,device=10,subdevice=20
-numid=19,iface=MIXER,name='multiplexer',index=3,device=10,subdevice=20
-numid=20,iface=MIXER,name='multiplexer',index=4,device=10,subdevice=20
-numid=21,iface=MIXER,name='multiplexer',index=5,device=10,subdevice=20
-numid=22,iface=MIXER,name='multiplexer',index=6,device=10,subdevice=20
-numid=23,iface=MIXER,name='multiplexer',index=7,device=10,subdevice=20
-numid=24,iface=MIXER,name='multiplexer',index=8,device=10,subdevice=20
-numid=25,iface=MIXER,name='multiplexer',index=9,device=10,subdevice=20
-...
-```
-
-Of cource, these is no integrations in any type of alsa-lib mixer API
-abstractions. I use Quasmixer in quastools project to operate them.
-
-* https://gitlab.com/sebholt/qastools
+OTOH, if the former is the problem, using longname won't help,
+either, rather it can be confusing.  I noticed that the test output
+truncates the name string, hence both cards look identical in the
+actual output (except for the card listing at the beginning).
 
 
-Regards
-
-Takashi Sakamoto
+Takashi
