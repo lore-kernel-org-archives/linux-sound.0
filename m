@@ -1,110 +1,203 @@
-Received: from mx1.sberdevices.ru (mx2.sberdevices.ru [45.89.224.132])
+Received: from fout4-smtp.messagingengine.com (fout4-smtp.messagingengine.com [103.168.172.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A22811BDD5;
-	Fri, 12 Jul 2024 21:43:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.89.224.132
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9D104437
+	for <linux-sound@vger.kernel.org>; Sat, 13 Jul 2024 01:35:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720820605; cv=none; b=kbOcbaUHmcaVCInVN1tyzw05hdWktX9lYAMWlzo2At6WQHfOIv83voETB+SWAV4GACNnMYQ9rkKLr1n291kOlUT7kKz003g5NaJNRtx2sd25++Geiqbcv2EIA6KMo5gTw07ViYZoLcmxBO9/JWnkOwFnoYbfcnz0xq+JfND+/SE=
+	t=1720834554; cv=none; b=N/iK6SgEsaV7nHeoitkEcy7QBtMYbLx0Oc9olG32AH9o0eA5sAsJ+8xPxaCcRTHm25Vbt1TngTVNhAOeW/F/t9wGm/KN9803Ihu/tRUfjqf6+1cirxgsBaFFnwajJ89bEWIQEB9yRkB4W9lXQvC+NshVY9AM62esVx2sTcNye8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720820605; c=relaxed/simple;
-	bh=RCeeKzAJg1FvECKSGKgaBOog4B19VvIg+G5oSHPL7IY=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ej45Gj3/yreNiPtFgWLkSHTr1vIqJ0iiXveyWzaQZN/GHXzhLj0TSmOHg8iggTABlcVVvmoGN6BWZtDvo3W0KnwRZinPcQfS8L0wSj+bcyLBYLGLJID6ebkfQTzLxiBsFZ9a+vUNkGZ2OKxaLtrqzFVUTCsf3Cr2cqLVmFG/+vs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com; spf=pass smtp.mailfrom=salutedevices.com; dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b=b7pXbGaj; arc=none smtp.client-ip=45.89.224.132
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=salutedevices.com
+	s=arc-20240116; t=1720834554; c=relaxed/simple;
+	bh=yxytFmDwG/sNMTq4aBNwkg9PqivKLL4mz7tWsPj24zs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZdxD3/wrEgme74T3Lyn5PEOCL0QxWdGUVHsV85Z2KR2DPCunQNsiv7siIKMCnhAWikg7obprWlTEnS2h8CaGun2eCwqT3/uTJVSBYwnS/e6986unO++UtXnmZaR083HxJ0pd2sT3R+sG/WTXRzDCZL1fKnxrC5x777DNlwspcbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=k2Fvaq1x; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PK/YyL6c; arc=none smtp.client-ip=103.168.172.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="b7pXbGaj"
-Received: from p-infra-ksmg-sc-msk02.sberdevices.ru (localhost [127.0.0.1])
-	by mx1.sberdevices.ru (Postfix) with ESMTP id 995EE120003;
-	Sat, 13 Jul 2024 00:43:20 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 995EE120003
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
-	s=mail; t=1720820600;
-	bh=4GV4tjJmQbTX60W5dCR9+m+1x/R7EQCeDhyXEOX7UtQ=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
-	b=b7pXbGajgcvb3qHIVTjjy6+Tti1SD4bda1gHdtylQEv7LLJ4zFn/U9jTyMh9kLy6z
-	 ecUf0tMO5L/Aq5lVX1Bo01PHIGU1kSZ6U0nNXsQVFvX/VFzSMMBaY8Udx8my+6V3az
-	 jhwCsBEBYQVJgDppSj+v5HSZW9UkY3p/Q9RLuoUfmrJNEWI48T49uKew8c7JeGMHwr
-	 yBhianNDNZKLr7Fn3K5Ts3PataNV0AO6+LVxCbB+dIUZXDdo6NTQ/E4EnCY5H1VVCD
-	 JnUElWPzHfYfix7BBpLNsT3Ik142FfUL9u8olwekEk1ESK7XuXkRuSsCqXtofcfDAQ
-	 q5JJt8BQn1/eQ==
-Received: from smtp.sberdevices.ru (p-i-exch-sc-m02.sberdevices.ru [172.16.192.103])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mx1.sberdevices.ru (Postfix) with ESMTPS;
-	Sat, 13 Jul 2024 00:43:20 +0300 (MSK)
-Received: from pc (100.64.160.123) by p-i-exch-sc-m02.sberdevices.ru
- (172.16.192.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Sat, 13 Jul
- 2024 00:43:19 +0300
-Date: Sat, 13 Jul 2024 00:43:19 +0300
-From: Igor Prusov <ivprusov@salutedevices.com>
-To: Rob Herring <robh@kernel.org>
-CC: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Philipp
- Zabel <p.zabel@pengutronix.de>, <prusovigor@gmail.com>,
-	<kernel@salutedevices.com>, <linux-sound@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 0/6] ASoC: Add NTP8918 and NTP8835 codecs support
-Message-ID: <20240712214319.7ku2oefkezawoido@pc>
-References: <20240709221203.92167-1-ivprusov@salutedevices.com>
- <20240711211014.GA3008651-robh@kernel.org>
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="k2Fvaq1x";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PK/YyL6c"
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 0C16D1381E73;
+	Fri, 12 Jul 2024 21:35:51 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Fri, 12 Jul 2024 21:35:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm2; t=1720834551; x=
+	1720920951; bh=22TDJyuRrKv8m5jGh39KDAxMi55uSQw1RcgMrw/wKfs=; b=k
+	2Fvaq1x3McBDu+o1DLMirrrSCRbQRWeR/9rhJ9nXeVnTGkBKeUcviE8wtAnbuBB0
+	fmUrFIiBP5l+hUUsvH2NMXfTlIybI3aM7upSyh1LNULZ/kOXrSILWyp6DfvYexNt
+	NBVj6gI9foUkJuptmpr0sVsRoRAsEoWh2wxasbtF3bayPZ1TJDFtXyBW1UFsActD
+	yzhCCoFsg2v5woM+LIKHJFGNjlStwp8eJDYt+TRMBY12szpWg/oINleU+0IkvV25
+	phtu042YVeQ7TPuiHa6UqKvz6CbfTEiRvBR0W8V1cnDuczBqpxvjzFgTLRKdsHxX
+	8RKSk7YyLmTTZxDgYwnzg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1720834551; x=1720920951; bh=22TDJyuRrKv8m5jGh39KDAxMi55u
+	SQw1RcgMrw/wKfs=; b=PK/YyL6cJoWHCVmqovL3aUs9U8czwPz8EK2IlsMz1+7J
+	jS3RYR7eRPGEWVmmlR2zcNmvwXWKioTE+rwdDnXiISMPbDShSEH1wQCU8tOD6Mg7
+	yspW4BEQha0IVwlDEXUC8rqPknOUo3lWk2EZcwxnt4G3unDFoUYVdjNiFIV8wzfR
+	xHJiuwn8NKoORKfw0Vbjq/NTTRjkndWtEwMBPK3/TcffeXFap/v8XMNLqJd5DxhX
+	j4mQEdSjX6KKTE56bKh10K+zUtckwUQaSAo/vk7obWs2CAO090cpdg1WYfYcGsY7
+	Otfv5byBJm7qaL18Y5Z8aqzxNx4/4xy9WKvikk2NuQ==
+X-ME-Sender: <xms:9NmRZnY7Q90EGJ9RwEs28jeD_YRV0jRbl0usQCG13UBnoGL3LCiMGg>
+    <xme:9NmRZmZxygkgS7cTX0RaFrWXQr33WuD30TwUWUUgAteRv9mHomVxUsvYXpCVF5g9z
+    ndzG3Nm3uyoAH2wNcI>
+X-ME-Received: <xmr:9NmRZp9EfAKmsZ3KBBZWkezbV_dWzu6EwmfMUmV8UTpEfLbBP3h1vDXBQEjIBfYT9zgga-Pg0VFD-XIIFg0qLCbHNB0cpRgI7OM2>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrfeejgdeglecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefvrghkrghs
+    hhhiucfurghkrghmohhtohcuoehoqdhtrghkrghshhhisehsrghkrghmohgttghhihdrjh
+    hpqeenucggtffrrghtthgvrhhnpeegueeivdevjeekiedvgfevtefgvefgtdelgfffheei
+    veehiedthedthfejudfhleenucffohhmrghinhepghhithhhuhgsrdgtohhmpdhgihhtlh
+    grsgdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhr
+    ohhmpehoqdhtrghkrghshhhisehsrghkrghmohgttghhihdrjhhp
+X-ME-Proxy: <xmx:9NmRZtp9Bx7fKP69RlnuUCXNZOrR6AOlhuj8LKdWrjUtmy-odlyXCg>
+    <xmx:9NmRZio2ftHf8yfzK1T5B8-hAMZqZ2uS1aFkCFeUJjLJtkSwdA1k6A>
+    <xmx:9NmRZjRoBXO_hpIQnQvEnKnRzV3c7_99PKtlV_Mm31OSDeYkdZ-EwQ>
+    <xmx:9NmRZqqneW-bE6v-ytnM0Tbb2uOI8t2KxnncbwuPBylObK6hvfeJJg>
+    <xmx:99mRZjdqbpE-m-NdEEkULREAeprJUUiyKatHc9XiW0Y-NPsJph4n8-mW>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 12 Jul 2024 21:35:46 -0400 (EDT)
+Date: Sat, 13 Jul 2024 10:35:44 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: Asahi Lina <lina@asahilina.net>
+Cc: Takashi Iwai <tiwai@suse.de>, alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
+	"Geoffrey D. Bennett" <g@b4.vu>
+Subject: Re: Handling complex matrix mixers in ALSA
+Message-ID: <20240713013544.GB107956@workstation.local>
+Mail-Followup-To: Asahi Lina <lina@asahilina.net>,
+	Takashi Iwai <tiwai@suse.de>, alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
+	"Geoffrey D. Bennett" <g@b4.vu>
+References: <48beda37-1795-4d48-987d-1e2582cb3a18@asahilina.net>
+ <8734ot42oo.wl-tiwai@suse.de>
+ <20240702004611.GA1029857@workstation.local>
+ <ccba37b8-0b92-43a9-83f3-297d96183855@asahilina.net>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240711211014.GA3008651-robh@kernel.org>
-X-ClientProxiedBy: p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) To
- p-i-exch-sc-m02.sberdevices.ru (172.16.192.103)
-X-KSMG-Rule-ID: 10
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Lua-Profiles: 186497 [Jul 12 2024]
-X-KSMG-AntiSpam-Version: 6.1.0.4
-X-KSMG-AntiSpam-Envelope-From: ivprusov@salutedevices.com
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 24 0.3.24 186c4d603b899ccfd4883d230c53f273b80e467f, {Tracking_uf_ne_domains}, {Track_E25351}, {Tracking_from_domain_doesnt_match_to}, 100.64.160.123:7.1.2;salutedevices.com:7.1.1;127.0.0.199:7.1.2;smtp.sberdevices.ru:7.1.1,5.0.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;lore.kernel.org:7.1.1, FromAlignment: s, ApMailHostAddress: 100.64.160.123
-X-MS-Exchange-Organization-SCL: -1
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean, bases: 2024/07/12 21:05:00
-X-KSMG-LinksScanning: Clean, bases: 2024/07/12 21:05:00
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/07/12 20:31:00 #25975503
-X-KSMG-AntiVirus-Status: Clean, skipped
+In-Reply-To: <ccba37b8-0b92-43a9-83f3-297d96183855@asahilina.net>
 
-On Thu, Jul 11, 2024 at 03:10:14PM -0600, Rob Herring wrote:
-> On Wed, Jul 10, 2024 at 01:11:57AM +0300, Igor Prusov wrote:
-> > This series adds support for two NeoFidelity amplifiers. For both
-> > amplifiers vendor provides software for equalizer and filters
-> > configuration, which generates firmware files with registers values.
-> > Since in both cases those files have same encoding, a common helper
-> > module is added to get firmware via request_firmware() API and set
-> > registers values.
-> > 
-> > V1: https://lore.kernel.org/all/20240709172834.9785-1-ivprusov@salutedevices.com/
-> > 
-> > V1 -> V2:
-> >  - Fix dt_binding_check errors
+On Fri, Jul 12, 2024 at 06:48:09PM +0900, Asahi Lina wrote:
+> > For example, assuming the matrix mixer has 34 destination and 66
+> > sources, they can be expressed by 34 control elements with 66 array
+> > elements. A single snd_kcontrol structure can provide them, as long as
+> > they have the same nature. The control elements are identified by index
+> > value.
 > 
-> Please implement the comments on v1. Please don't send new versions 
-> right away and give people time to review. We're not all on the same 
-> timezone, get busy on other tasks, take vacation, etc.
-Hello, Rob,
+> It took me a while to understand what you meant here, but I think I get
+> it: Using a single snd_kcontrol for the entire mixer, with 34 indexed
+> elements each taking 66 array values, right?
 
-Sorry, I' ve sent v2 before getting all comments on v1, I'll make sure
-not to rush with new versions in the future.
+This is rough example for the above idea.
 
-> 
-> Rob
+```
+static int info_cb(struct snd_kcontrol *kctl, struct snd_ctl_elem_info *einfo)
+{
+    einfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
+    einfo->count = 66;                  // up to 128 for integer value array.
+    einfo->value.integer.min = 0;       // note long type, varies between
+                                        // ILP32/LP64 data models.
+    einfo->value.integer.max = 256;     // ditto.
+    einfo->value.integer.step = 1;      // ditto.
 
--- 
-Best Regards,
-Igor Prusov
+    return 0;
+}
+
+static int get_cb(struct snd_kcontrol *kctl, struct snd_ctl_elem_value *uval)
+{
+    unsigned int index = snd_ctl_get_ioff(kctl, &info->id);
+
+    // Any operation according to the index of control elements in the set.
+
+    return 0;
+}
+
+static int put_cb(struct snd_kcontrol *kctl, struct snd_ctl_elem_value *uval)
+{
+    unsigned int offset = snd_ctl_get_ioff(kctl, &info->id);
+
+    // Any operation according to the index of control elements in the set.
+
+    return 0;
+}
+
+int add_control_elements(struct my_data *my_data)
+{
+    // Emulate AK4396.
+    // 20 * log10(x/255) (dB)
+    // Here, x is written value.
+    //
+    // Some examples in:
+    // https://github.com/alsa-project/alsa-lib/blob/master/test/user-ctl-element-set.c.
+    static const SNDRV_CTL_TLVD_DECLARE_DB_LINEAR(range_tlv, -4813, 0);
+    
+    static const struct snd_kcontrol_new template = {
+        . iface = SNDRV_CTL_ELEM_IFACE_MIXER,
+        .device = 10,
+        .subdevice = 20,
+        .name = "multiplexer",
+        .index = 0,
+        // I guess any operation on ARC USB does not control the hardware directly unlike RC and
+        // ARC, thus SNDRV_CTL_ELEM_ACCESS_VOLATILE is not required.
+        .access = SNDRV_CTL_ELEM_ACCESS_READWRITE | SNDRV_CTL_ELEM_ACCESS_TLV_READ,
+        .count = 34,        // The total number of control elements in the set.
+        .info = info_cb,
+        .get = get_cb,
+        .put = pub_cb,
+        .tlv.p = &range_tlv,
+    };
+    
+    struct snd_kcontrol *kctl = snd_ctl_new1(&template, my_data);
+    err = snd_ctl_add(my_data->card, kctl);
+    ...
+}
+```
+
+> How do these kinds of controls show up in alsamixer and other userspace
+> mixer tools? Are they usable at all, or just with low-level access via
+> amixer/alsactl?
+
+These control elements can be enumerated and operated as usual, just
+have the sequential value in index (and numid) field in element
+identifier.
+
+```
+$ amixer -c 0 controls
+...
+numid=16,iface=MIXER,name='multiplexer',device=10,subdevice=20
+numid=17,iface=MIXER,name='multiplexer',index=1,device=10,subdevice=20
+numid=18,iface=MIXER,name='multiplexer',index=2,device=10,subdevice=20
+numid=19,iface=MIXER,name='multiplexer',index=3,device=10,subdevice=20
+numid=20,iface=MIXER,name='multiplexer',index=4,device=10,subdevice=20
+numid=21,iface=MIXER,name='multiplexer',index=5,device=10,subdevice=20
+numid=22,iface=MIXER,name='multiplexer',index=6,device=10,subdevice=20
+numid=23,iface=MIXER,name='multiplexer',index=7,device=10,subdevice=20
+numid=24,iface=MIXER,name='multiplexer',index=8,device=10,subdevice=20
+numid=25,iface=MIXER,name='multiplexer',index=9,device=10,subdevice=20
+...
+```
+
+Of cource, these is no integrations in any type of alsa-lib mixer API
+abstractions. I use Quasmixer in quastools project to operate them.
+
+* https://gitlab.com/sebholt/qastools
+
+
+Regards
+
+Takashi Sakamoto
