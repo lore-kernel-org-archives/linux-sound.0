@@ -1,138 +1,388 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E172E639;
-	Sat, 13 Jul 2024 07:35:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7523C46558
+	for <linux-sound@vger.kernel.org>; Sat, 13 Jul 2024 09:56:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720856151; cv=none; b=P6sg1al4Be4xbWsiy9Sx268XOKr7jq2sIok+jcrHHv97WwPxN7nj1lshPchZwp50MiMiwzsLY11FNLWEQ/3XFK95rpffwmDit4hffH9Fet2eWHh4HXlnRtA/PlJIonl9e3aoCZODihmCP2qCVpZ9E6StrVwCT4mTdTJclKX4L1k=
+	t=1720864603; cv=none; b=FdfWBuykaXMbt3mxr8gXgHjKJY6wdSNZQc9ztIi8AehAHacchAtBjHj6e8pxNd9izLBvPGzQpRTc4H02nLck+cH/Av4X48LUd0YR4NyW+Td/9dEWNfK/WiuN+kHaXQ36TmQzStw2N9DZMaagepIK6CwtxEEivsw0i/xPxMGTJYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720856151; c=relaxed/simple;
-	bh=Nt7DtbUghfpmiuJNfl+S79BWrhGMTIA8LkYgRQ5kn8w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Lt1Kaj09YQc0VyOkIJaJO6D1+rnnQDKIR0ux4WXjH2tth+4dNTOy7FF0OobtEaxrqTqtFLpr5ImOlebTzxBXYFWyu7uSojp3ToctmdUUoDAV4BPETrpq6cCgeCDjsrC5uExiZxyGctSXYzZPxYluMaSB3r0F6M9huYoLNq1r45U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=orDonY4r; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	s=arc-20240116; t=1720864603; c=relaxed/simple;
+	bh=4LUoIZD2bqOQ9FMrdozx7Sb01W4WeTnNCquj66eoiwg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ovh5zLQ1+PETkuXrGmrIoe4uYysLsId51vqvcFhSS4wG7PBKhdIle0DuQIUjl5i0DQFkD2e6wwMElo3lSADUFiDYot5B/VDESCI2wbXMJ6olxA+2j7vvOlXsAIMsOKWIIihGa36lQhiUrtBj8zhWqcH6CmcblZFJuKgvHY5vc+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=s+oiJkwi; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="orDonY4r"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 079BF2AAF;
-	Sat, 13 Jul 2024 09:35:44 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 079BF2AAF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1720856144; bh=M0ImlIemWktuYYVMCsVISiontf3W9IWAMTjkj89Afj0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=orDonY4r81zyZwFIUwE18q1vHhCHqRNo5acA0T5SJsePLuizr7h+ndyKRYfev+e3W
-	 x8btkhvdi7oPlbulmbnUJigBlRTeVCg8MpcI/a5OkUQ4H1aQ4Xnm7PVqYVBeJSQkF9
-	 8CqLQSgwrL0fWABQYMrP8irL0dtm6pvo7HtgYEnk=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Sat, 13 Jul 2024 09:35:36 +0200 (CEST)
-Message-ID: <e52a5a7e-5358-40d4-8f3d-2adb03018c41@perex.cz>
-Date: Sat, 13 Jul 2024 09:35:36 +0200
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="s+oiJkwi"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-42565670e20so22413905e9.0
+        for <linux-sound@vger.kernel.org>; Sat, 13 Jul 2024 02:56:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1720864599; x=1721469399; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lunD1jtXUpUDh/B42v7PNILRWCB+xXP6OzCxOL3Idi8=;
+        b=s+oiJkwivKTIazbuxzvmD/pt5ddvpERMNQcp8yKWU/uJH3HuXpfK0rv56bP7kpQimz
+         SneXXp/VUkgXiKHmb1b1gxYE9RcRFXUWWMlUjHKEfS3UfkMwVs3KucBUK+4w8lBq4tPz
+         xxy/hsDj3NSJgJGJuqhptVHg0kbBgxVmN8VXLyB5gIfLg1gPiU0AV0nsefY9MvKlfsui
+         VFTUYyNEw0yL4vDi+No6mojEH7t8cAg0cY3QT/kuWmVuDpYvviv1x+WtD1inNVIZXtOO
+         ocnmUoDfQ6Bgp2+1sj84tPNcBZcMpMgIutgYjNn9uiQdwT5K2G3XHg+Dz0qjJoDxPaHp
+         t69g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720864599; x=1721469399;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lunD1jtXUpUDh/B42v7PNILRWCB+xXP6OzCxOL3Idi8=;
+        b=TADSmLlyJv70Vo29VN9FzkMboPsxEx/S00nfs5Lwva5PO1lGI8JaZ+bWKD/BRL1gQ9
+         Ln2RDcAYRxwOk4OwnJwI9kMgW3JHoTqOMlyODlJe77DvuU0OkRIanC1NrM32T2nXxnEW
+         4U2TnCu6jd9ixDseQ0jV1OU9vD5JmKxCU4YgsECY9Qy3q17aPhgdSKks/iei7lQAUvbQ
+         ATKotwVMbWSyKOShVobLByFKhOD8Cx3tC4JE+/zMdOEpQAmZMrj3b9gma+pyFHQUPuaG
+         L6q9t76SEn1B+BqXSs58nMQA7F/R/NqhDCzWpqSqDY5/WINO8Tuxjm6Z6W3+9MG+TvJm
+         5n4w==
+X-Forwarded-Encrypted: i=1; AJvYcCW/nBUjStuFRpRywHtNtX/0TLsYm24+CLCbjdSFV1s/4d7WKJXq5Edpz26nWHGs8zzQs+N6xxBL+ep1W1sMe7Dy5+T/GM3EDL7QDHI=
+X-Gm-Message-State: AOJu0Yy6TDRyOGkRmRmwBeZJzb6NafI348sY+KxqW9Hit9PMpjWUAawC
+	fWw5zyCGSBEQWI9QhJKALT1OBPcI3QF7Jfa/zKV9U/vsaXvq6zPq+LImPvmXmrY=
+X-Google-Smtp-Source: AGHT+IGWOe5Y6BuPPbzoKA2BFouCV6ObjC9SDNC1hzVVGYciWsMSvuicRw1jkiuBLeMvVVAJ3PlYYg==
+X-Received: by 2002:a05:600c:4793:b0:426:67f9:a7d8 with SMTP id 5b1f17b1804b1-4279dae2aedmr47392315e9.9.1720864598770;
+        Sat, 13 Jul 2024 02:56:38 -0700 (PDT)
+Received: from krzk-bin.. ([178.197.219.137])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3680dab3c2dsm1003638f8f.1.2024.07.13.02.56.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Jul 2024 02:56:38 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-hwmon@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v2] ASoC: codecs: wsa884x: Implement temperature reading and hwmon
+Date: Sat, 13 Jul 2024 11:56:35 +0200
+Message-ID: <20240713095635.23201-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] kselftest/alsa: Use card name rather than number in test
- names
-To: Mark Brown <broonie@kernel.org>
-Cc: Takashi Iwai <tiwai@suse.de>, Takashi Iwai <tiwai@suse.com>,
- Shuah Khan <shuah@kernel.org>, linux-sound@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240711-alsa-kselftest-board-name-v1-1-ab5cf2dbbea6@kernel.org>
- <7cd921b3-fed9-4b0c-9ba8-381e45ef4218@perex.cz>
- <b3fdbb63-067b-4ff4-8fd8-1c2455a553a5@sirena.org.uk>
- <877cdrt3zc.wl-tiwai@suse.de> <e4962ea0-3f03-43b5-b773-68abe1d73cc9@perex.cz>
- <bb42afb8-48a7-4daf-b28b-b82bd5c77d57@sirena.org.uk>
- <c1be6bec-90f5-4bb3-b6b0-8524095fc490@perex.cz>
- <31e73e81-e60f-4d0b-b0ac-118f1dc72610@sirena.org.uk>
-From: Jaroslav Kysela <perex@perex.cz>
-Content-Language: en-US
-Autocrypt: addr=perex@perex.cz; keydata=
- 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
-In-Reply-To: <31e73e81-e60f-4d0b-b0ac-118f1dc72610@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 12. 07. 24 20:19, Mark Brown wrote:
-> On Fri, Jul 12, 2024 at 06:25:21PM +0200, Jaroslav Kysela wrote:
->> On 12. 07. 24 15:00, Mark Brown wrote:
-> 
->>> The trouble with the ID field is that it's too short and seems likely to
->>> create collisions, for example HDA stuff just seems to default to NVidia
->>> for nVidia cards which seems very likely to create collisions if someone
->>> has two graphics cards in their system.
-> 
->> The default IDs are always unique - see snd_card_set_id_no_lock() in
->> sound/core/init.c . Basically, the suffix will follow the device probe order
->> in this case.
-> 
-> Sure, but the genesis of this patch is that probe order isn't
-> sufficiently stable and we want to avoid names based on it...  using the
-> ID will be more likely to work out stable than just pure probe order but
-> it's still got the same issue.
+Read temperature of the speaker and expose it via hwmon interface, which
+will be later used during calibration of speaker protection algorithms.
 
-The probe order is almost stable for the drivers with the non-deferred probe. 
-Also, administrators may set persistent ID for complex hardware configuration 
-cases based on other keys like serial number or so (sysfs/udev).
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-For long name - the device path may change (USB moved to different port, PCI 
-card moved to different slot), so the stability of this string is also 
-questionable.
+---
 
-					Jaroslav
+Changes in v2:
+1. Add missing dependency on HWMON for y!=m builds (kernel test robot
+   report: undefined reference to
+   `devm_hwmon_device_register_with_info').
+---
+ sound/soc/codecs/Kconfig   |   1 +
+ sound/soc/codecs/wsa884x.c | 197 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 198 insertions(+)
 
+diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+index 97bb69c9848d..09a0b209bc2f 100644
+--- a/sound/soc/codecs/Kconfig
++++ b/sound/soc/codecs/Kconfig
+@@ -2447,6 +2447,7 @@ config SND_SOC_WSA883X
+ config SND_SOC_WSA884X
+ 	tristate "WSA884X Codec"
+ 	depends on SOUNDWIRE
++	depends on HWMON || !HWMON
+ 	select REGMAP_SOUNDWIRE
+ 	help
+ 	  This enables support for Qualcomm WSA8840/WSA8845/WSA8845H Class-D
+diff --git a/sound/soc/codecs/wsa884x.c b/sound/soc/codecs/wsa884x.c
+index 7b19df9c1728..5f4acd66f942 100644
+--- a/sound/soc/codecs/wsa884x.c
++++ b/sound/soc/codecs/wsa884x.c
+@@ -5,11 +5,14 @@
+  */
+ 
+ #include <linux/bitfield.h>
++#include <linux/cleanup.h>
+ #include <linux/device.h>
+ #include <linux/gpio/consumer.h>
++#include <linux/hwmon.h>
+ #include <linux/init.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
++#include <linux/mutex.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/regmap.h>
+ #include <linux/regulator/consumer.h>
+@@ -301,8 +304,28 @@
+ #define WSA884X_PA_FSM_MSK1		(WSA884X_DIG_CTRL0_BASE + 0x3b)
+ #define WSA884X_PA_FSM_BYP_CTL		(WSA884X_DIG_CTRL0_BASE + 0x3c)
+ #define WSA884X_PA_FSM_BYP0		(WSA884X_DIG_CTRL0_BASE + 0x3d)
++#define WSA884X_PA_FSM_BYP0_DC_CAL_EN_MASK		0x01
++#define WSA884X_PA_FSM_BYP0_DC_CAL_EN_SHIFT		0
++#define WSA884X_PA_FSM_BYP0_CLK_WD_EN_MASK		0x02
++#define WSA884X_PA_FSM_BYP0_CLK_WD_EN_SHIFT		1
++#define WSA884X_PA_FSM_BYP0_BG_EN_MASK			0x04
++#define WSA884X_PA_FSM_BYP0_BG_EN_SHIFT			2
++#define WSA884X_PA_FSM_BYP0_BOOST_EN_MASK		0x08
++#define WSA884X_PA_FSM_BYP0_BOOST_EN_SHIFT		3
++#define WSA884X_PA_FSM_BYP0_PA_EN_MASK			0x10
++#define WSA884X_PA_FSM_BYP0_PA_EN_SHIFT			4
++#define WSA884X_PA_FSM_BYP0_D_UNMUTE_MASK		0x20
++#define WSA884X_PA_FSM_BYP0_D_UNMUTE_SHIFT		5
++#define WSA884X_PA_FSM_BYP0_SPKR_PROT_EN_MASK		0x40
++#define WSA884X_PA_FSM_BYP0_SPKR_PROT_EN_SHIFT		6
++#define WSA884X_PA_FSM_BYP0_TSADC_EN_MASK		0x80
++#define WSA884X_PA_FSM_BYP0_TSADC_EN_SHIFT		7
+ #define WSA884X_PA_FSM_BYP1		(WSA884X_DIG_CTRL0_BASE + 0x3e)
+ #define WSA884X_TADC_VALUE_CTL		(WSA884X_DIG_CTRL0_BASE + 0x50)
++#define WSA884X_TADC_VALUE_CTL_TEMP_VALUE_RD_EN_MASK	0x01
++#define WSA884X_TADC_VALUE_CTL_TEMP_VALUE_RD_EN_SHIFT	0
++#define WSA884X_TADC_VALUE_CTL_VBAT_VALUE_RD_EN_MASK	0x02
++#define WSA884X_TADC_VALUE_CTL_VBAT_VALUE_RD_EN_SHIFT	1
+ #define WSA884X_TEMP_DETECT_CTL		(WSA884X_DIG_CTRL0_BASE + 0x51)
+ #define WSA884X_TEMP_DIN_MSB		(WSA884X_DIG_CTRL0_BASE + 0x52)
+ #define WSA884X_TEMP_DIN_LSB		(WSA884X_DIG_CTRL0_BASE + 0x53)
+@@ -691,6 +714,17 @@
+ 		SNDRV_PCM_FMTBIT_S24_LE |\
+ 		SNDRV_PCM_FMTBIT_S24_3LE | SNDRV_PCM_FMTBIT_S32_LE)
+ 
++/* Two-point trimming for temperature calibration */
++#define WSA884X_T1_TEMP			-10L
++#define WSA884X_T2_TEMP			150L
++
++/*
++ * Device will report senseless data in many cases, so discard any measurements
++ * outside of valid range.
++ */
++#define WSA884X_LOW_TEMP_THRESHOLD	5
++#define WSA884X_HIGH_TEMP_THRESHOLD	45
++
+ struct wsa884x_priv {
+ 	struct regmap *regmap;
+ 	struct device *dev;
+@@ -706,6 +740,13 @@ struct wsa884x_priv {
+ 	int active_ports;
+ 	int dev_mode;
+ 	bool hw_init;
++	/*
++	 * Protects temperature reading code (related to speaker protection) and
++	 * fields: temperature and pa_on.
++	 */
++	struct mutex sp_lock;
++	unsigned int temperature;
++	bool pa_on;
+ };
+ 
+ enum {
+@@ -1650,6 +1691,10 @@ static int wsa884x_spkr_event(struct snd_soc_dapm_widget *w,
+ 
+ 	switch (event) {
+ 	case SND_SOC_DAPM_POST_PMU:
++		mutex_lock(&wsa884x->sp_lock);
++		wsa884x->pa_on = true;
++		mutex_unlock(&wsa884x->sp_lock);
++
+ 		wsa884x_spkr_post_pmu(component, wsa884x);
+ 
+ 		snd_soc_component_write_field(component, WSA884X_PDM_WD_CTL,
+@@ -1661,6 +1706,10 @@ static int wsa884x_spkr_event(struct snd_soc_dapm_widget *w,
+ 		snd_soc_component_write_field(component, WSA884X_PDM_WD_CTL,
+ 					      WSA884X_PDM_WD_CTL_PDM_WD_EN_MASK,
+ 					      0x0);
++
++		mutex_lock(&wsa884x->sp_lock);
++		wsa884x->pa_on = false;
++		mutex_unlock(&wsa884x->sp_lock);
+ 		break;
+ 	}
+ 
+@@ -1800,6 +1849,144 @@ static struct snd_soc_dai_driver wsa884x_dais[] = {
+ 	},
+ };
+ 
++static int wsa884x_get_temp(struct wsa884x_priv *wsa884x, long *temp)
++{
++	unsigned int d1_msb = 0, d1_lsb = 0, d2_msb = 0, d2_lsb = 0;
++	unsigned int dmeas_msb = 0, dmeas_lsb = 0;
++	int d1, d2, dmeas;
++	unsigned int mask;
++	long val;
++	int ret;
++
++	guard(mutex)(&wsa884x->sp_lock);
++
++	if (wsa884x->pa_on) {
++		/*
++		 * Reading temperature is possible only when Power Amplifier is
++		 * off. Report last cached data.
++		 */
++		*temp = wsa884x->temperature;
++		return 0;
++	}
++
++	ret = pm_runtime_resume_and_get(wsa884x->dev);
++	if (ret < 0)
++		return ret;
++
++	mask = WSA884X_PA_FSM_BYP0_DC_CAL_EN_MASK |
++	       WSA884X_PA_FSM_BYP0_CLK_WD_EN_MASK |
++	       WSA884X_PA_FSM_BYP0_BG_EN_MASK |
++	       WSA884X_PA_FSM_BYP0_D_UNMUTE_MASK |
++	       WSA884X_PA_FSM_BYP0_SPKR_PROT_EN_MASK |
++	       WSA884X_PA_FSM_BYP0_TSADC_EN_MASK;
++	/*
++	 * Here and further do not care about read or update failures.
++	 * For example, before turning on Power Amplifier for the first
++	 * time, reading WSA884X_TEMP_DIN_MSB will always return 0.
++	 * Instead, check if returned value is within reasonable
++	 * thresholds.
++	 */
++	regmap_update_bits(wsa884x->regmap, WSA884X_PA_FSM_BYP0, mask, mask);
++
++	regmap_update_bits(wsa884x->regmap, WSA884X_TADC_VALUE_CTL,
++			   WSA884X_TADC_VALUE_CTL_TEMP_VALUE_RD_EN_MASK,
++			   FIELD_PREP(WSA884X_TADC_VALUE_CTL_TEMP_VALUE_RD_EN_MASK, 0x0));
++
++	regmap_read(wsa884x->regmap, WSA884X_TEMP_DIN_MSB, &dmeas_msb);
++	regmap_read(wsa884x->regmap, WSA884X_TEMP_DIN_LSB, &dmeas_lsb);
++
++	regmap_update_bits(wsa884x->regmap, WSA884X_TADC_VALUE_CTL,
++			   WSA884X_TADC_VALUE_CTL_TEMP_VALUE_RD_EN_MASK,
++			   FIELD_PREP(WSA884X_TADC_VALUE_CTL_TEMP_VALUE_RD_EN_MASK, 0x1));
++
++	regmap_read(wsa884x->regmap, WSA884X_OTP_REG_1, &d1_msb);
++	regmap_read(wsa884x->regmap, WSA884X_OTP_REG_2, &d1_lsb);
++	regmap_read(wsa884x->regmap, WSA884X_OTP_REG_3, &d2_msb);
++	regmap_read(wsa884x->regmap, WSA884X_OTP_REG_4, &d2_lsb);
++
++	regmap_update_bits(wsa884x->regmap, WSA884X_PA_FSM_BYP0, mask, 0x0);
++
++	dmeas = (((dmeas_msb & 0xff) << 0x8) | (dmeas_lsb & 0xff)) >> 0x6;
++	d1 = (((d1_msb & 0xff) << 0x8) | (d1_lsb & 0xff)) >> 0x6;
++	d2 = (((d2_msb & 0xff) << 0x8) | (d2_lsb & 0xff)) >> 0x6;
++
++	if (d1 == d2) {
++		/* Incorrect data in OTP? */
++		ret = -EINVAL;
++		goto out;
++	}
++
++	val = WSA884X_T1_TEMP + (((dmeas - d1) * (WSA884X_T2_TEMP - WSA884X_T1_TEMP))/(d2 - d1));
++
++	dev_dbg(wsa884x->dev, "Measured temp %ld (dmeas=%d, d1=%d, d2=%d)\n",
++		val, dmeas, d1, d2);
++
++	if ((val > WSA884X_LOW_TEMP_THRESHOLD) &&
++	    (val < WSA884X_HIGH_TEMP_THRESHOLD)) {
++		wsa884x->temperature = val;
++		*temp = val;
++		ret = 0;
++	} else {
++		ret = -EAGAIN;
++	}
++
++out:
++	pm_runtime_mark_last_busy(wsa884x->dev);
++	pm_runtime_put_autosuspend(wsa884x->dev);
++
++	return ret;
++}
++
++static umode_t wsa884x_hwmon_is_visible(const void *data,
++					enum hwmon_sensor_types type, u32 attr,
++					int channel)
++{
++	if (type != hwmon_temp)
++		return 0;
++
++	switch (attr) {
++	case hwmon_temp_input:
++		return 0444;
++	default:
++		break;
++	}
++
++	return 0;
++}
++
++static int wsa884x_hwmon_read(struct device *dev,
++			      enum hwmon_sensor_types type,
++			      u32 attr, int channel, long *temp)
++{
++	int ret;
++
++	switch (attr) {
++	case hwmon_temp_input:
++		ret = wsa884x_get_temp(dev_get_drvdata(dev), temp);
++		break;
++	default:
++		ret = -EOPNOTSUPP;
++		break;
++	}
++
++	return ret;
++}
++
++static const struct hwmon_channel_info *const wsa884x_hwmon_info[] = {
++	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT),
++	NULL
++};
++
++static const struct hwmon_ops wsa884x_hwmon_ops = {
++	.is_visible	= wsa884x_hwmon_is_visible,
++	.read		= wsa884x_hwmon_read,
++};
++
++static const struct hwmon_chip_info wsa884x_hwmon_chip_info = {
++	.ops	= &wsa884x_hwmon_ops,
++	.info	= wsa884x_hwmon_info,
++};
++
+ static void wsa884x_reset_powerdown(void *data)
+ {
+ 	struct wsa884x_priv *wsa884x = data;
+@@ -1849,6 +2036,7 @@ static int wsa884x_probe(struct sdw_slave *pdev,
+ {
+ 	struct device *dev = &pdev->dev;
+ 	struct wsa884x_priv *wsa884x;
++	struct device *hwmon;
+ 	unsigned int i;
+ 	int ret;
+ 
+@@ -1856,6 +2044,8 @@ static int wsa884x_probe(struct sdw_slave *pdev,
+ 	if (!wsa884x)
+ 		return -ENOMEM;
+ 
++	mutex_init(&wsa884x->sp_lock);
++
+ 	for (i = 0; i < WSA884X_SUPPLIES_NUM; i++)
+ 		wsa884x->supplies[i].supply = wsa884x_supply_name[i];
+ 
+@@ -1913,6 +2103,13 @@ static int wsa884x_probe(struct sdw_slave *pdev,
+ 	regcache_cache_only(wsa884x->regmap, true);
+ 	wsa884x->hw_init = true;
+ 
++	hwmon = devm_hwmon_device_register_with_info(dev, "wsa884x", wsa884x,
++						     &wsa884x_hwmon_chip_info,
++						     NULL);
++	if (IS_ERR(hwmon))
++		return dev_err_probe(dev, PTR_ERR(hwmon),
++				     "Failed to register hwmon sensor\n");
++
+ 	pm_runtime_set_autosuspend_delay(dev, 3000);
+ 	pm_runtime_use_autosuspend(dev);
+ 	pm_runtime_mark_last_busy(dev);
 -- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+2.43.0
 
