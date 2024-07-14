@@ -1,59 +1,59 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E7144361
-	for <linux-sound@vger.kernel.org>; Sun, 14 Jul 2024 10:02:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBA8649656
+	for <linux-sound@vger.kernel.org>; Sun, 14 Jul 2024 10:21:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720951331; cv=none; b=kg5p7JMxlsjqSmW0GlICKX99g8OdFHHaNqAuEdREVGGB1IqlGOy7TSqFgAUqZ3dFqqotEEIzIijVrYZL9vQTjAGWoIwKkY+jhn+YM9I+c8tUor7tsbsa7B305gPD89bqJOgTaTY/Go9GjzIaq5tJM/6Z7PlMds7JBVRnZo8s1Zw=
+	t=1720952495; cv=none; b=aHeYJnse3yZAA/miwgzIUi7JmiPHtgQLDuTbd51N+Vz715/U68K/2vYwk2xap32rqKBf21Wb2zv2K57PN4ZF7v8elRRN2hrIelafYeFAb70LPkiDjiQ/zoL1AkE4TKdsFZAoN4O2fZyyRY++dpocUcPUtSIzOmv64vb5Zi5mhCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720951331; c=relaxed/simple;
-	bh=LoQ1NV0AS/TBbcmI8ui4ganNiMDBc39jVgfhte1N7+E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=Yi1YlTVzYUlBDvR78XpYu85SRbZMhM/22pIUm/YemCaOjUPSdQoTmt932/3mGNWbCK0IFMypOAL6PEvHF5SUmlTffgAzh0JfH2WUWBxO3s1hBAwapevr4lVX325xU60QoLR0d78WS7JPXQcCO7/9t1n1VJUe7rD5h2mO/8Yrxkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LPQV+1UU; arc=none smtp.client-ip=209.85.167.49
+	s=arc-20240116; t=1720952495; c=relaxed/simple;
+	bh=UcuDJs+XlgVYl+OTxAAxOqbM9vj+nn7D7kyPOTjhZCo=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:References:
+	 In-Reply-To:Content-Type; b=SRDgZxHrAn5rpAkWz0xKZ6gv4AF+sdwDfqM9meMFp9pNJ8adDIIUPS182F34fbuNAngP5+cJFdkypvVQi2SsLyg4emjr6med1cmNBt0/6muywQvkLS9hsztVbwXASI0o0Wx/jzeZCMdVBKnz5TJKyFkCqxeZcuRFuYQ+jgNjgfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=l+3RrpYx; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LPQV+1UU"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-52ea3e499b1so3825639e87.3
-        for <linux-sound@vger.kernel.org>; Sun, 14 Jul 2024 03:02:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="l+3RrpYx"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-367b6e5ffbfso1896212f8f.0
+        for <linux-sound@vger.kernel.org>; Sun, 14 Jul 2024 03:21:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1720951328; x=1721556128; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1720952492; x=1721557292; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:to:subject:user-agent:mime-version:date:message-id
+         :references:to:from:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=CYgeQV2LhMyh4iRG/9jc8OV5gHewFcWWgn9rMk1HTHg=;
-        b=LPQV+1UUL405wf51avmiAgzO8tISwARQF5MURhPc2ZnQaeqFHhsTnRaQyVViN8nqIa
-         9hlG4/PVwznd6nC0ZpwDul1tNTyaNvgI4ldz4MOvcd7tU1T3I5bGd2HpsIgrXNvQOeii
-         V6optMTSHDQ29G2X3CX2ZAV5JRSRf26c7QqVwGg7aByOjrFu4fO+CWDTri+qdiuSCRo4
-         caIeNfl8bO3v3ZZGDHMQsHcKbZJ0v1BjemveJk6UOUyNMQFigiN7gowCNMUZwSknv27p
-         ss2qlYm5ggRTTxg2RFCEkT41mnDUotFrWy0C+PcyTD1VNzFpOrHTobbhK7/Sc59b6A8r
-         AkjQ==
+        bh=5z/03b2vX7NcAXJ+dFsF5PuyQGEdW6/zBENfqYSkXws=;
+        b=l+3RrpYxhqUq/5lLPyL0VFlV/AC+9PNpbuESUn27iR39mM7fQG59Gz5KX5Lw/qCn2H
+         WRcq6PGV22qJDnAwVm9G+5Rt27UIheOdoqIWxRZ5PwfI6QaBRNvNhzDzf2G5WUslXRkK
+         Zti8pEIBpXnzom8zs9FOguEp9dQnlGsi9C6oZ5QGtaPLJFA5AmjQ9dXxFCMb6bGL/+7O
+         NlpvO1E7P43z0NaNrcFNd+ZclZ/6hao6vpvC4MeTzW3tIteA47fWtvX3yp3shpmYLIsR
+         skZOn/Qzx1DuvBcMbpjYcHjhUU/gZCTrBaRl+vxODBzEApffFMv46F3Wev7tH/JxtBXg
+         7DAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720951328; x=1721556128;
+        d=1e100.net; s=20230601; t=1720952492; x=1721557292;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:to:subject:user-agent:mime-version:date:message-id
+         :references:to:from:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CYgeQV2LhMyh4iRG/9jc8OV5gHewFcWWgn9rMk1HTHg=;
-        b=cevtepPN0BjMM26BEDcDLS6tnKyuG+MoYzHMXivKXeJXjvhxbq+y20QmbY6culxX5X
-         cEmdn0MTTDRpI49XrP90qnl2jKDQkfU117du/jTHrgVDPRMBSTdP67hXcrc8cgx21xTH
-         +/FWqIvpJvo2wiZqxm/RF4SO622gtb2pThAhoui8ya/ojynwLoX7I5vfNHyv8u9KHLh7
-         GNmHXvQwWGXbpYmppJog+DLcTOFLK/Zkug8sGvjI7HZbbE2lfmgnQEX1RHkv4LDr40rV
-         PErT2sT6mnG5FgEhBW/dDcZEnsvoB9470UP00hhUWXipEKN8fqyI1pOM/4ZOn9CSsf1c
-         qeNg==
-X-Forwarded-Encrypted: i=1; AJvYcCWhzKWhXvUEuEBcwlnkM/Kvb4DGFz7tqWCOr85N58ZnIqFAhHx+gjCySNtl+noElj+KmF/33CP64gAfQ+58t/zhKzGWYO06mZ5E4Z8=
-X-Gm-Message-State: AOJu0Ywzje14Iqxd4oSl+tHETDN0gB7UHfMoPrgqZqg28L9ZtjL7eJfu
-	Bnn/bDLS2NgE3++5nIIj3C6dgZnIB67+rIMghaYEspZobjID9H3VPGuaXiqDR/c=
-X-Google-Smtp-Source: AGHT+IE5kwo/7XpsPKWzwLfc0V7K6RUtxJa57vwpzUyE+Htdkgo+yctfMTkbVdX91AHSYnyjzWsYbw==
-X-Received: by 2002:a05:6512:3d21:b0:52c:ddc0:7a03 with SMTP id 2adb3069b0e04-52eb99d1feamr11639972e87.55.1720951327580;
-        Sun, 14 Jul 2024 03:02:07 -0700 (PDT)
+        bh=5z/03b2vX7NcAXJ+dFsF5PuyQGEdW6/zBENfqYSkXws=;
+        b=Fuiex9D0XEN0WKrLgrMalEpeXc7B7dyc6k/7+0rA8O6FuobCD+AYU9vub/R0dECq6P
+         roY8t7Y7jB8TKHrU8yIg1YEm8S/iIBs759haKxX6rGyQ87v/2m4z/BVYquqVFR/yg7XI
+         rA+/MBuQtiioBr3vb8WhTQ7HZiXNEzAn29Axq/CwCeQIbEtUwJWYQROLSXAuWLhgQ55V
+         ve9V2fPATtPJe5UJN7yJgwySLogo+I1K8fujXsLHMWLzTPG/5iKGS5+VrBdMOnMPx+vZ
+         CizRT/4ooErZzWToRc6o+TNhvyZ8/IWovRFTeoBNZb+td8uqGapJF74BXDlUi1DLHIZ1
+         k6Fg==
+X-Forwarded-Encrypted: i=1; AJvYcCVIxtUISJaobQHQVC7k22j+k59c8AiDdpbr86wX27aWG19KClm2q8Er8clT8Sq9jHNGgnHZQ15nv465LWOM2qZM3+2At7BgJ3iA3dI=
+X-Gm-Message-State: AOJu0Yygs6174PwErnRgmXh+/2F7NfW9Wf74B6MhapaRM68JdHjCVJUI
+	+BlYBQ9l0wbUwNXSsUFJAG7tt9VM2c8Oa9Ac+6Ucbvc5z13fyT/Zu4tTwiI+5mU=
+X-Google-Smtp-Source: AGHT+IGm6o+vwGijyHYqejsnlf6YGOgobKUZq1j+ksyWC2JQFBR4pON627dYIWnOuAYV5DQ6aApepg==
+X-Received: by 2002:a05:6000:110f:b0:361:bcc5:2e26 with SMTP id ffacd0b85a97d-367cea7382cmr11068764f8f.19.1720952491982;
+        Sun, 14 Jul 2024 03:21:31 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.219.137])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52ed252d759sm430106e87.128.2024.07.14.03.02.05
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3680dafb939sm3485997f8f.89.2024.07.14.03.21.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 14 Jul 2024 03:02:06 -0700 (PDT)
-Message-ID: <fd09fa44-1795-43a1-ba8d-ca2ba8f71d07@linaro.org>
-Date: Sun, 14 Jul 2024 12:02:03 +0200
+        Sun, 14 Jul 2024 03:21:31 -0700 (PDT)
+Message-ID: <36840696-772b-4e57-a672-ec5210ebeb64@linaro.org>
+Date: Sun, 14 Jul 2024 12:21:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -63,6 +63,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2] ASoC: codecs: wsa884x: Implement temperature reading
  and hwmon
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
  Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
@@ -71,7 +72,7 @@ To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
  linux-arm-msm@vger.kernel.org, linux-hwmon@vger.kernel.org
 References: <20240713095635.23201-1-krzysztof.kozlowski@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ <fd09fa44-1795-43a1-ba8d-ca2ba8f71d07@linaro.org>
 Content-Language: en-US
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -117,44 +118,49 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240713095635.23201-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <fd09fa44-1795-43a1-ba8d-ca2ba8f71d07@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 13/07/2024 11:56, Krzysztof Kozlowski wrote:
-> Read temperature of the speaker and expose it via hwmon interface, which
-> will be later used during calibration of speaker protection algorithms.
+On 14/07/2024 12:02, Krzysztof Kozlowski wrote:
+> On 13/07/2024 11:56, Krzysztof Kozlowski wrote:
+>> Read temperature of the speaker and expose it via hwmon interface, which
+>> will be later used during calibration of speaker protection algorithms.
+>>
+>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>>
+>> ---
+>>
+>> Changes in v2:
+>> 1. Add missing dependency on HWMON for y!=m builds (kernel test robot
+>>    report: undefined reference to
+>>    `devm_hwmon_device_register_with_info').
+>> ---
+>>  sound/soc/codecs/Kconfig   |   1 +
+>>  sound/soc/codecs/wsa884x.c | 197 +++++++++++++++++++++++++++++++++++++
+>>  2 files changed, 198 insertions(+)
+>>
+>> diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+>> index 97bb69c9848d..09a0b209bc2f 100644
+>> --- a/sound/soc/codecs/Kconfig
+>> +++ b/sound/soc/codecs/Kconfig
+>> @@ -2447,6 +2447,7 @@ config SND_SOC_WSA883X
+>>  config SND_SOC_WSA884X
+>>  	tristate "WSA884X Codec"
+>>  	depends on SOUNDWIRE
+>> +	depends on HWMON || !HWMON
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Eh, now I got build report that hwmon does not have stubs for !HWMON (by
+> design or missing?), so this still has compile failures.
 > 
-> ---
-> 
-> Changes in v2:
-> 1. Add missing dependency on HWMON for y!=m builds (kernel test robot
->    report: undefined reference to
->    `devm_hwmon_device_register_with_info').
-> ---
->  sound/soc/codecs/Kconfig   |   1 +
->  sound/soc/codecs/wsa884x.c | 197 +++++++++++++++++++++++++++++++++++++
->  2 files changed, 198 insertions(+)
-> 
-> diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-> index 97bb69c9848d..09a0b209bc2f 100644
-> --- a/sound/soc/codecs/Kconfig
-> +++ b/sound/soc/codecs/Kconfig
-> @@ -2447,6 +2447,7 @@ config SND_SOC_WSA883X
->  config SND_SOC_WSA884X
->  	tristate "WSA884X Codec"
->  	depends on SOUNDWIRE
-> +	depends on HWMON || !HWMON
+> I think we should have (devm_)hwmon_device_register_with_info() stubs
+> for drivers not depending on hwmon, so I will propose a patch for that.
+> If that approach is accepted, no changes should be needed in this
+> wsa884x v2 patchset.
 
-Eh, now I got build report that hwmon does not have stubs for !HWMON (by
-design or missing?), so this still has compile failures.
-
-I think we should have (devm_)hwmon_device_register_with_info() stubs
-for drivers not depending on hwmon, so I will propose a patch for that.
-If that approach is accepted, no changes should be needed in this
-wsa884x v2 patchset.
+Answering to myself: I see now that lack of !HWMON stubs for providers
+is rather by design and drivers use IS_REACHABLE. I'll send a v3 of this
+patch.
 
 Best regards,
 Krzysztof
