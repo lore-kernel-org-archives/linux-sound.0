@@ -1,167 +1,144 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBA8649656
-	for <linux-sound@vger.kernel.org>; Sun, 14 Jul 2024 10:21:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C61657F;
+	Sun, 14 Jul 2024 15:08:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720952495; cv=none; b=aHeYJnse3yZAA/miwgzIUi7JmiPHtgQLDuTbd51N+Vz715/U68K/2vYwk2xap32rqKBf21Wb2zv2K57PN4ZF7v8elRRN2hrIelafYeFAb70LPkiDjiQ/zoL1AkE4TKdsFZAoN4O2fZyyRY++dpocUcPUtSIzOmv64vb5Zi5mhCg=
+	t=1720969687; cv=none; b=VCqPevWN4h/pcelI91RGFFGpnoPG0bN+WC6AWWxc5Mq+wn8f3OY4XsGMZk/JlGQRuENVDUOamQs4XbrWk/aW6TU2aJVtFkjjvy5+S+9CBWw5Va8C7qY8SEdB0kj0M/Q4U+nAWtLYUYOnzpog8l4QhCnWvGgzew/6Gzg1jH6pOYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720952495; c=relaxed/simple;
-	bh=UcuDJs+XlgVYl+OTxAAxOqbM9vj+nn7D7kyPOTjhZCo=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:References:
-	 In-Reply-To:Content-Type; b=SRDgZxHrAn5rpAkWz0xKZ6gv4AF+sdwDfqM9meMFp9pNJ8adDIIUPS182F34fbuNAngP5+cJFdkypvVQi2SsLyg4emjr6med1cmNBt0/6muywQvkLS9hsztVbwXASI0o0Wx/jzeZCMdVBKnz5TJKyFkCqxeZcuRFuYQ+jgNjgfc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=l+3RrpYx; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1720969687; c=relaxed/simple;
+	bh=z4uK2wz50/+ujGk9dJ81N+qx8v2u0ifn7szdlEIhXlo=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DZOHJpg4t6ZVKy0yVlhAwF8TwHHztiVGVuNaoSS2jNhcqaqYTxBjDGPOwCvtVZ5IEwOzZ79io5Xvpxo4uSiU2TnmWvCdNIBOlZIhZt59ltSPhtHLaTPjHdCFcFNvKY0Esp3obNKwEVNPlZMOlgypy0I9CzGTo5pCqKghutNZIs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=St3OEl4V; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=weOEtTC2; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=St3OEl4V; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=weOEtTC2; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="l+3RrpYx"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-367b6e5ffbfso1896212f8f.0
-        for <linux-sound@vger.kernel.org>; Sun, 14 Jul 2024 03:21:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1720952492; x=1721557292; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :references:to:from:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5z/03b2vX7NcAXJ+dFsF5PuyQGEdW6/zBENfqYSkXws=;
-        b=l+3RrpYxhqUq/5lLPyL0VFlV/AC+9PNpbuESUn27iR39mM7fQG59Gz5KX5Lw/qCn2H
-         WRcq6PGV22qJDnAwVm9G+5Rt27UIheOdoqIWxRZ5PwfI6QaBRNvNhzDzf2G5WUslXRkK
-         Zti8pEIBpXnzom8zs9FOguEp9dQnlGsi9C6oZ5QGtaPLJFA5AmjQ9dXxFCMb6bGL/+7O
-         NlpvO1E7P43z0NaNrcFNd+ZclZ/6hao6vpvC4MeTzW3tIteA47fWtvX3yp3shpmYLIsR
-         skZOn/Qzx1DuvBcMbpjYcHjhUU/gZCTrBaRl+vxODBzEApffFMv46F3Wev7tH/JxtBXg
-         7DAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720952492; x=1721557292;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :references:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5z/03b2vX7NcAXJ+dFsF5PuyQGEdW6/zBENfqYSkXws=;
-        b=Fuiex9D0XEN0WKrLgrMalEpeXc7B7dyc6k/7+0rA8O6FuobCD+AYU9vub/R0dECq6P
-         roY8t7Y7jB8TKHrU8yIg1YEm8S/iIBs759haKxX6rGyQ87v/2m4z/BVYquqVFR/yg7XI
-         rA+/MBuQtiioBr3vb8WhTQ7HZiXNEzAn29Axq/CwCeQIbEtUwJWYQROLSXAuWLhgQ55V
-         ve9V2fPATtPJe5UJN7yJgwySLogo+I1K8fujXsLHMWLzTPG/5iKGS5+VrBdMOnMPx+vZ
-         CizRT/4ooErZzWToRc6o+TNhvyZ8/IWovRFTeoBNZb+td8uqGapJF74BXDlUi1DLHIZ1
-         k6Fg==
-X-Forwarded-Encrypted: i=1; AJvYcCVIxtUISJaobQHQVC7k22j+k59c8AiDdpbr86wX27aWG19KClm2q8Er8clT8Sq9jHNGgnHZQ15nv465LWOM2qZM3+2At7BgJ3iA3dI=
-X-Gm-Message-State: AOJu0Yygs6174PwErnRgmXh+/2F7NfW9Wf74B6MhapaRM68JdHjCVJUI
-	+BlYBQ9l0wbUwNXSsUFJAG7tt9VM2c8Oa9Ac+6Ucbvc5z13fyT/Zu4tTwiI+5mU=
-X-Google-Smtp-Source: AGHT+IGm6o+vwGijyHYqejsnlf6YGOgobKUZq1j+ksyWC2JQFBR4pON627dYIWnOuAYV5DQ6aApepg==
-X-Received: by 2002:a05:6000:110f:b0:361:bcc5:2e26 with SMTP id ffacd0b85a97d-367cea7382cmr11068764f8f.19.1720952491982;
-        Sun, 14 Jul 2024 03:21:31 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.137])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3680dafb939sm3485997f8f.89.2024.07.14.03.21.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 14 Jul 2024 03:21:31 -0700 (PDT)
-Message-ID: <36840696-772b-4e57-a672-ec5210ebeb64@linaro.org>
-Date: Sun, 14 Jul 2024 12:21:28 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="St3OEl4V";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="weOEtTC2";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="St3OEl4V";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="weOEtTC2"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BB04621B5E;
+	Sun, 14 Jul 2024 15:08:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1720969683; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PYPEFvMyvQnlHJU4/kVrIFPFji0CTb8hIhM4cc7C55I=;
+	b=St3OEl4VAkZQVkqRax03ojQdHs9WU5t4kM0blBL41d8wJLqpJBjv7YE30w5QfWKAc371QC
+	ll9NHjwsBbma3VNAA7bOstDz1Gz291QIvprhCEEEBU2ndL5GPNxTJM0+A1wRkvEERaHq5F
+	9sQJTuPXOHn5LrE5g/wiM+jx0O7R2ZE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1720969683;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PYPEFvMyvQnlHJU4/kVrIFPFji0CTb8hIhM4cc7C55I=;
+	b=weOEtTC2AQBugRRFZOQMc1U71r1qrqH6ZkLcCjSzzCpKwcQFUPJynGzUMpm9t5C8I/i2Lk
+	mqMYgPRCdykKsdDA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=St3OEl4V;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=weOEtTC2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1720969683; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PYPEFvMyvQnlHJU4/kVrIFPFji0CTb8hIhM4cc7C55I=;
+	b=St3OEl4VAkZQVkqRax03ojQdHs9WU5t4kM0blBL41d8wJLqpJBjv7YE30w5QfWKAc371QC
+	ll9NHjwsBbma3VNAA7bOstDz1Gz291QIvprhCEEEBU2ndL5GPNxTJM0+A1wRkvEERaHq5F
+	9sQJTuPXOHn5LrE5g/wiM+jx0O7R2ZE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1720969683;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PYPEFvMyvQnlHJU4/kVrIFPFji0CTb8hIhM4cc7C55I=;
+	b=weOEtTC2AQBugRRFZOQMc1U71r1qrqH6ZkLcCjSzzCpKwcQFUPJynGzUMpm9t5C8I/i2Lk
+	mqMYgPRCdykKsdDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 670D21389C;
+	Sun, 14 Jul 2024 15:08:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Hy9oF9Ppk2YQAwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 14 Jul 2024 15:08:03 +0000
+Date: Sun, 14 Jul 2024 17:08:36 +0200
+Message-ID: <87ikx8c8p7.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	sbinding@opensource.cirrus.com,
+	kailang@realtek.com,
+	shenghao-ding@ti.com,
+	simont@opensource.cirrus.com,
+	foss@athaariq.my.id,
+	rf@opensource.cirrus.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Enable headset mic on Positivo SU C1400
+In-Reply-To: <20240712180642.22564-1-edson.drosdeck@gmail.com>
+References: <20240712180642.22564-1-edson.drosdeck@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ASoC: codecs: wsa884x: Implement temperature reading
- and hwmon
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Banajit Goswami <bgoswami@quicinc.com>, Jean Delvare <jdelvare@suse.com>,
- Guenter Roeck <linux@roeck-us.net>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
- linux-arm-msm@vger.kernel.org, linux-hwmon@vger.kernel.org
-References: <20240713095635.23201-1-krzysztof.kozlowski@linaro.org>
- <fd09fa44-1795-43a1-ba8d-ca2ba8f71d07@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <fd09fa44-1795-43a1-ba8d-ca2ba8f71d07@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: BB04621B5E
+X-Spam-Flag: NO
+X-Spam-Score: 1.99
+X-Spam-Level: *
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [1.99 / 50.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim]
+X-Rspamd-Action: no action
+X-Spamd-Bar: +
 
-On 14/07/2024 12:02, Krzysztof Kozlowski wrote:
-> On 13/07/2024 11:56, Krzysztof Kozlowski wrote:
->> Read temperature of the speaker and expose it via hwmon interface, which
->> will be later used during calibration of speaker protection algorithms.
->>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>
->> ---
->>
->> Changes in v2:
->> 1. Add missing dependency on HWMON for y!=m builds (kernel test robot
->>    report: undefined reference to
->>    `devm_hwmon_device_register_with_info').
->> ---
->>  sound/soc/codecs/Kconfig   |   1 +
->>  sound/soc/codecs/wsa884x.c | 197 +++++++++++++++++++++++++++++++++++++
->>  2 files changed, 198 insertions(+)
->>
->> diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
->> index 97bb69c9848d..09a0b209bc2f 100644
->> --- a/sound/soc/codecs/Kconfig
->> +++ b/sound/soc/codecs/Kconfig
->> @@ -2447,6 +2447,7 @@ config SND_SOC_WSA883X
->>  config SND_SOC_WSA884X
->>  	tristate "WSA884X Codec"
->>  	depends on SOUNDWIRE
->> +	depends on HWMON || !HWMON
+On Fri, 12 Jul 2024 20:06:42 +0200,
+Edson Juliano Drosdeck wrote:
 > 
-> Eh, now I got build report that hwmon does not have stubs for !HWMON (by
-> design or missing?), so this still has compile failures.
+> Positivo SU C1400 is equipped with ALC256, and it needs
+> ALC269_FIXUP_ASPIRE_HEADSET_MIC quirk to make its headset mic work.
 > 
-> I think we should have (devm_)hwmon_device_register_with_info() stubs
-> for drivers not depending on hwmon, so I will propose a patch for that.
-> If that approach is accepted, no changes should be needed in this
-> wsa884x v2 patchset.
+> Signed-off-by: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
 
-Answering to myself: I see now that lack of !HWMON stubs for providers
-is rather by design and drivers use IS_REACHABLE. I'll send a v3 of this
-patch.
+Thanks, applied now.
 
-Best regards,
-Krzysztof
 
+Takashi
