@@ -1,151 +1,89 @@
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EF084AEF6
-	for <linux-sound@vger.kernel.org>; Sun, 14 Jul 2024 22:15:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA17C5223
+	for <linux-sound@vger.kernel.org>; Mon, 15 Jul 2024 06:22:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720995327; cv=none; b=dR0yphMVlsws0FJZ582iKE6ya0mx0JdHeswERYSpk7oN1SgxCkpeT20o9X3uPXynCNdar47PyjBX1ttqutDhTutLYCZ1jtfC1byTWY7FOBbjzGTK9pfdCCd5pSjl1oRfXaVFyg5vamNavoA3kHDqj8KNrAJLbJ+Ikww7JZmjVJA=
+	t=1721024574; cv=none; b=ncaVws35m8QTFp18o5Fndlpl21vW+o4frrnomEAFZu8v9uqNhgRc/rYfHCd3rUzXivTShEE1HAtCPPepG/uCsDlfh+lLQEDpJuuV5aaP8ocDcClQUUpEmxbpTmP1JyLffCZZKu1cdpqNJGpI0pfcDO4n0Uo3+VjELAeTpRLmhNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720995327; c=relaxed/simple;
-	bh=7idKCQDyaVmGGpKerW3fWIteTtJ4r7+0APXynq1GelY=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=pIEUOt93Z8ymQj2GmMuLbuiBH6VRHOQgea3F7Q8kV6srS4sVSLsir4U+2hr44zoviXo9kDyJgHEyHnCVBcKi4Y5G93HBaA5gb8rdFDoSWoBq04ONjMVizmw/xGTJsp3rl6D/9Nh1AEDd+0TJMmGrxGedMm1vRTS2OZ2KgZN85lM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f71.google.com with SMTP id ca18e2360f4ac-7f92912a614so424169239f.2
-        for <linux-sound@vger.kernel.org>; Sun, 14 Jul 2024 15:15:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720995325; x=1721600125;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=J8sCT2cJV+XOpFgesSioFHlQ/OWh8ETytiWFJgIjX/Q=;
-        b=EkHsOT7MiVPvosYU5TxYRbKfDAxNuBNDdwig74aZTAC0C1TbFGetlRpbJyuI7xLGm7
-         6vYJLPI1IAih7dTmIXyGqVbo3JbTzmVgH9jrBlAOlOnagF5cMSOkHPrLodufVeSW/OTr
-         zZPIaynkfcB6VdSLJGiP5YzZCowAEvpqGQ3toSK5Mfy7E9Q9uSFtBZcNtzHyvCxddUSQ
-         q7TXqvBwXmwCQhG38u0jrnmQPmk5nV9jfOCzR6i/n1JXRIPHXLcgb2MEHzD7oqMfUp+f
-         ezlbYFHDV1IzRkctFnjLB3/cNQgPdybOIuKYN+/lyhDfSpNvfmc/Z28wWHtFeNvJvxZD
-         VgbA==
-X-Forwarded-Encrypted: i=1; AJvYcCXnU8jf3Q9LiV4Rs5XxrotOY+6o4prtP+3XoQDlK+0maNYtJye1EhmQkde259L76LplZFu6l8sFtI3AblSWOU7qj/BSTn28qoVONv0=
-X-Gm-Message-State: AOJu0YzGmimL9Yyl0G3sLNFlS439N+zbStr90U3jHDtnkr5GxqAUVRRG
-	iwdYt6V1h9mWhx5u+gPS9lj3rXWW5BbNptADpsVo9buA1BexbiboyWjo6wM+LSjP+cQZcXiGLQh
-	gU2S0ftq8QWHi8GiK+0As04/59FBlhzitqDOODxGLBq4hY0OXVxcB3Lo=
-X-Google-Smtp-Source: AGHT+IH2Pf3MxqpHgT8sMBN7bPpDIiuAofWil9b7h+GNiZ9dk8JKY8jg+VDIRVbK8n94H71RqdrVCOy+ZhKsIIJaPvIQqodzGxmO
+	s=arc-20240116; t=1721024574; c=relaxed/simple;
+	bh=15ONLbLYNtoigo+icZZ2XfefDBTYuiUSJy+ucQ31YAY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XYS9bhMNLmuiMUiXiANli0EbO0P2QrHGdWBuW7RnzKz0rFOP6PrlX13PeJjFl8c74jSwJUbRAEooBcq+/mPPqmB3c5skmhgmw3MXZpKw7vm4lO59Nb0n3O1kDZgLq/j0nbUnEaJnXCQeGrMvx7VIzeuB1DVZwVtzCaTnI5UHqOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cO9FaQE/; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cO9FaQE/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA853C4AF0A;
+	Mon, 15 Jul 2024 06:22:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721024574;
+	bh=15ONLbLYNtoigo+icZZ2XfefDBTYuiUSJy+ucQ31YAY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cO9FaQE/GUxYGGsuxeI9Bo9vcEYdLybjtwTlxZn78pbZ+MiWg7vb5Tlcqj/Groirr
+	 7sz/BBdUoYgTgY4fvBdmViOCqd1PHNZHtWhLCiJqoLBe4Cd0o8Y7+BC5CRyvO4judt
+	 l8KPiwtleZ5rvYeOrDH5D83rJxGbBEpaKScBCgdvjZdpC8X61b0nYbkaw8VOHD3eeH
+	 u5VPzgBNuFXizJinC9LGI8X8K7L883iGQYQv7ChTMxX+AvFhT7I3r7dDD/lUibHbnj
+	 4M6GQvf1yCJLnd2sJocKOpB1i2YOr4ZZZv6Am7qjWYY1GdhKxpqn9lKazYli+ORjqx
+	 HTn9iKCZNGLbw==
+Date: Mon, 15 Jul 2024 11:52:50 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org, Takashi Iwai <tiwai@suse.de>,
+	Mark Brown <broonie@kernel.org>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Nicolas Dufresne <nicolas@ndufresne.ca>,
+	Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Subject: Re: [PATCH v4] ALSA: compress_offload: introduce passthrough
+ operation mode
+Message-ID: <ZpTAOhsQE0Eh2Yz8@matsya>
+References: <20240624135820.516893-1-perex@perex.cz>
+ <ZnmG77hBzedDQcIl@matsya>
+ <ae18019b-5e6f-4ca8-8fba-353ed19be46c@perex.cz>
+ <ZoQF2qjLf7_00yA7@matsya>
+ <a89f3755-9b21-41b5-9b15-73105d4e6b95@perex.cz>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:870a:b0:4c0:9a3e:c24b with SMTP id
- 8926c6da1cb9f-4c0b250a17amr1269033173.0.1720995325591; Sun, 14 Jul 2024
- 15:15:25 -0700 (PDT)
-Date: Sun, 14 Jul 2024 15:15:25 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000000adac5061d3c7355@google.com>
-Subject: [syzbot] [sound?] [usb?] UBSAN: shift-out-of-bounds in parse_audio_unit
-From: syzbot <syzbot+78d5b129a762182225aa@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-usb@vger.kernel.org, perex@perex.cz, syzkaller-bugs@googlegroups.com, 
-	tiwai@suse.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a89f3755-9b21-41b5-9b15-73105d4e6b95@perex.cz>
 
-Hello,
+On 12-07-24, 18:45, Jaroslav Kysela wrote:
+> On 02. 07. 24 15:51, Vinod Koul wrote:
 
-syzbot found the following issue on:
+> > > > What about the user of this API, i would like to see that as well
+> > > 
+> > > Any audio streaming framework like gstreamer or ffmpeg who can accelerate
+> > > stream conversions in hardware for capable devices.
+> > 
+> > I meant to see driver users along with this patch :-)
+> > 
+> > That also reminds me to ask about usermode support for this, are you
+> > planning to support it in tinycompress?
+> 
+> Yes, I do, but my time is limited in the next weeks, but it's on my to-do list.
+> 
+> > > > > +A new direction SND_COMPRESS_PASSTHROUGH is introduced to identify
+> > > > > +the passthrough API.
+> > > > 
+> > > > Is passthrough really a new good new name, this suggests data being
+> > > > passed thru but that is not the case...
+> > > 
+> > > It's something like "PASS data THROUGH kernel/driver". So it makes sense. My
+> > > alternate name may be ACCEL (like acceleration).
+> > 
+> > I like that..
+> 
+> To clarify, are you speaking about "passthrough" or "accel" here?
 
-HEAD commit:    a19ea421490d Merge tag 'platform-drivers-x86-v6.10-6' of g..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=173c2e9e980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=b63b35269462a0e0
-dashboard link: https://syzkaller.appspot.com/bug?extid=78d5b129a762182225aa
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15773776980000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1373427e980000
+Confirming that I would prefer 'accel' here and probably not to confuse
+with new 'accel' subsystem maybe compr_accel or something.. Better
+suggestions?
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/ea993841f842/disk-a19ea421.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/eef900c478c0/vmlinux-a19ea421.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/deecea0553fd/bzImage-a19ea421.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+78d5b129a762182225aa@syzkaller.appspotmail.com
-
-usb 1-1: 0:2 : does not exist
-------------[ cut here ]------------
-UBSAN: shift-out-of-bounds in sound/usb/mixer.c:2057:20
-shift exponent 42 is too large for 32-bit type 'int'
-CPU: 1 PID: 45 Comm: kworker/1:1 Not tainted 6.10.0-rc7-syzkaller-00025-ga19ea421490d #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/07/2024
-Workqueue: usb_hub_wq hub_event
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0x241/0x360 lib/dump_stack.c:114
- ubsan_epilogue lib/ubsan.c:231 [inline]
- __ubsan_handle_shift_out_of_bounds+0x3c8/0x420 lib/ubsan.c:468
- parse_audio_feature_unit sound/usb/mixer.c:2057 [inline]
- parse_audio_unit+0x277d/0x3f10 sound/usb/mixer.c:2907
- snd_usb_mixer_controls sound/usb/mixer.c:3252 [inline]
- snd_usb_create_mixer+0x1365/0x2fa0 sound/usb/mixer.c:3599
- usb_audio_probe+0x1688/0x2100 sound/usb/card.c:888
- usb_probe_interface+0x645/0xbb0 drivers/usb/core/driver.c:399
- really_probe+0x2b8/0xad0 drivers/base/dd.c:656
- __driver_probe_device+0x1a2/0x390 drivers/base/dd.c:798
- driver_probe_device+0x50/0x430 drivers/base/dd.c:828
- __device_attach_driver+0x2d6/0x530 drivers/base/dd.c:956
- bus_for_each_drv+0x24e/0x2e0 drivers/base/bus.c:457
- __device_attach+0x333/0x520 drivers/base/dd.c:1028
- bus_probe_device+0x189/0x260 drivers/base/bus.c:532
- device_add+0x856/0xbf0 drivers/base/core.c:3679
- usb_set_configuration+0x1976/0x1fb0 drivers/usb/core/message.c:2210
- usb_generic_driver_probe+0x88/0x140 drivers/usb/core/generic.c:254
- usb_probe_device+0x1b8/0x380 drivers/usb/core/driver.c:294
- really_probe+0x2b8/0xad0 drivers/base/dd.c:656
- __driver_probe_device+0x1a2/0x390 drivers/base/dd.c:798
- driver_probe_device+0x50/0x430 drivers/base/dd.c:828
- __device_attach_driver+0x2d6/0x530 drivers/base/dd.c:956
- bus_for_each_drv+0x24e/0x2e0 drivers/base/bus.c:457
- __device_attach+0x333/0x520 drivers/base/dd.c:1028
- bus_probe_device+0x189/0x260 drivers/base/bus.c:532
- device_add+0x856/0xbf0 drivers/base/core.c:3679
- usb_new_device+0x104a/0x19a0 drivers/usb/core/hub.c:2651
- hub_port_connect drivers/usb/core/hub.c:5521 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5661 [inline]
- port_event drivers/usb/core/hub.c:5821 [inline]
- hub_event+0x2d6a/0x5150 drivers/usb/core/hub.c:5903
- process_one_work kernel/workqueue.c:3248 [inline]
- process_scheduled_works+0xa2c/0x1830 kernel/workqueue.c:3329
- worker_thread+0x86d/0xd50 kernel/workqueue.c:3409
- kthread+0x2f0/0x390 kernel/kthread.c:389
- ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
- </TASK>
----[ end trace ]---
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+-- 
+~Vinod
