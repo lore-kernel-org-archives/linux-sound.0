@@ -1,237 +1,441 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90C60187324;
-	Mon, 15 Jul 2024 08:40:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EED27346C;
+	Mon, 15 Jul 2024 09:23:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721032805; cv=none; b=hYVZHESoWSyPShOINzX0RmmxNPyXrUZg9Za6NKyxUEksEpnqq+tqJlA2DhI3u6ivOlsT/XMX4Sifns4wjBIjTYJIiiTuj10kYti1s1KHzoYlz9ZAQU5G3svknMByRC0fgI+2dOPMU9PnERn3u2/lJ3DtC1+ybidb/8x/+GpA9fQ=
+	t=1721035419; cv=none; b=pPJ4psWwf5HZ4fBYJdKdWXJKIYgZqCUmIcXMheQvTi4wZSGS2uSYyiFE0yEHia3njZSChCs6OZ0x7nrydS9sxesFtdiPTiGA3avrMZNqldvDD7ibUER/omUyARJbPD5NjIVH1LLhB7xRhcRtvYq5xHccLVSEvG7SQmghuBuXLi0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721032805; c=relaxed/simple;
-	bh=Dw4qelO4Yw8qqwoja13UuuyY2TUVvElISzCYI/EHfLI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kIm9cHBarVfMXLO6uE2cRDHeuAxnLqJrUn6PjArHOxeOtUrl8xdErjLwee7zfGWsUp0ctkdUt5rnFlFhLYJmQCm1NBy4R7/qsB2GGabywxiii8tl4pdJ4v7SsEGrmn/O/6VTApvf/g6ADMAUcOpBkTf/OQRGdVUBUPLaM2lnP2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BrF9YIfH; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BrF9YIfH"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6F6FDC4AF53;
-	Mon, 15 Jul 2024 08:40:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721032805;
-	bh=Dw4qelO4Yw8qqwoja13UuuyY2TUVvElISzCYI/EHfLI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=BrF9YIfHhHq2nlNUJGmzhQhxd6GqeVimz8Y9HY3+Sv15ms1LCep29AD9xC46cntrU
-	 k9Tvmx7kJ61H7i9vA4xu1LNTn0OdIEio8Eop79OzU+dCoZcNzmDvOTBUz+l5oL12+R
-	 FQYk4+BUgBg/bNCRbp5Y1Dlir8Twhan7SxfhrXemx19ZgIEwWZ+K+eeIRpXCgMgGHr
-	 5Txhc+jd4nX7U7lysHRYWtc2S7y1cSDdZRk00aajwTRyAtjMdI5HTUrTrd3qDEyp9r
-	 b0Syyv7WlULsM4era+bmk6lpRbWXJV59mQbg7EggDjmpe7KOP39BmldS1mCTGYB0iM
-	 AoqCLLggLKAcQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6174CC3DA5D;
-	Mon, 15 Jul 2024 08:40:05 +0000 (UTC)
-From: Nikita Shubin via B4 Relay <devnull+nikita.shubin.maquefel.me@kernel.org>
-Date: Mon, 15 Jul 2024 11:38:41 +0300
-Subject: [PATCH v11 37/38] ASoC: cirrus: edb93xx: Delete driver
+	s=arc-20240116; t=1721035419; c=relaxed/simple;
+	bh=mvHTXOY6FpM/32JSNw9yx0nUrNp7h1+HZmsmW24kIlA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OSJzMwPpje8zc4YoDo7YSJkPvYVcXyPmJ4nDk8RN4Ltk423MWvjZ7DgppCBMZ6ErL6vd3B2oZ90Yg1em0WuY7cIH53xCPCyKbY+5VBJUVIwYSsQ28qU4xiMHZGuCqjC5j+ujLSaeNN5U/hra5/cSJa71HdTQwBbQLZHFLIqQZMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.09,209,1716217200"; 
+   d="scan'208";a="215322328"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 15 Jul 2024 18:23:29 +0900
+Received: from localhost.localdomain (unknown [10.226.92.132])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id EF71640165B2;
+	Mon, 15 Jul 2024 18:23:24 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Rob Herring <robh@kernel.org>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	linux-sound@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] ASoC: sh: rz-ssi: Add full duplex support
+Date: Mon, 15 Jul 2024 10:23:20 +0100
+Message-ID: <20240715092322.119879-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240715-ep93xx-v11-37-4e924efda795@maquefel.me>
-References: <20240715-ep93xx-v11-0-4e924efda795@maquefel.me>
-In-Reply-To: <20240715-ep93xx-v11-0-4e924efda795@maquefel.me>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Nikita Shubin <nikita.shubin@maquefel.me>, 
- Alexander Sverdlin <alexander.sverdlin@gmail.com>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Takashi Iwai <tiwai@suse.de>, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org
-X-Mailer: b4 0.13-dev-e3e53
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1721032800; l=4982;
- i=nikita.shubin@maquefel.me; s=20230718; h=from:subject:message-id;
- bh=ZGsaIwYTR1JNVHlGFBAmmmELz25300Pi752QNOzmkk0=;
- b=9O+F+17wxRLJz2yWUJ08D8BQgW2oaPsPcOcr2seEKHtGgzECvpK/2w4CQHfmtWdkimrzrvmVNhYe
- dh/psCZWCM6xZspB68g9mW8H2vIh2NuyCghRDLQinO8a+qo4olf5
-X-Developer-Key: i=nikita.shubin@maquefel.me; a=ed25519;
- pk=vqf5YIUJ7BJv3EJFaNNxWZgGuMgDH6rwufTLflwU9ac=
-X-Endpoint-Received: by B4 Relay for nikita.shubin@maquefel.me/20230718
- with auth_id=65
-X-Original-From: Nikita Shubin <nikita.shubin@maquefel.me>
-Reply-To: nikita.shubin@maquefel.me
+Content-Transfer-Encoding: 8bit
 
-From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+Add full duplex support, to support simultaneous
+playback/record on the same ssi channel.
 
-Can be replaced with "simple-audio-card" for the rates up to 50kHz, refer
-to commit "ARM: dts: ep93xx: Add EDB9302 DT".
-
-Signed-off-by: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-Signed-off-by: Nikita Shubin <nikita.shubin@maquefel.me>
-Acked-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- sound/soc/cirrus/Kconfig   |   9 ----
- sound/soc/cirrus/Makefile  |   4 --
- sound/soc/cirrus/edb93xx.c | 116 ---------------------------------------------
- 3 files changed, 129 deletions(-)
+ sound/soc/sh/rz-ssi.c | 257 ++++++++++++++++++++++++++++++------------
+ 1 file changed, 182 insertions(+), 75 deletions(-)
 
-diff --git a/sound/soc/cirrus/Kconfig b/sound/soc/cirrus/Kconfig
-index 38a83c4dcc2d..97def4e53fbc 100644
---- a/sound/soc/cirrus/Kconfig
-+++ b/sound/soc/cirrus/Kconfig
-@@ -31,12 +31,3 @@ config SND_EP93XX_SOC_I2S_WATCHDOG
+diff --git a/sound/soc/sh/rz-ssi.c b/sound/soc/sh/rz-ssi.c
+index 9d103646973a..d0bf0487bf1b 100644
+--- a/sound/soc/sh/rz-ssi.c
++++ b/sound/soc/sh/rz-ssi.c
+@@ -52,6 +52,7 @@
+ #define SSIFCR_RIE		BIT(2)
+ #define SSIFCR_TFRST		BIT(1)
+ #define SSIFCR_RFRST		BIT(0)
++#define SSIFCR_FIFO_RST		(SSIFCR_TFRST | SSIFCR_RFRST)
  
- endif # if SND_EP93XX_SOC_I2S
+ #define SSIFSR_TDC_MASK		0x3f
+ #define SSIFSR_TDC_SHIFT	24
+@@ -130,6 +131,14 @@ struct rz_ssi_priv {
+ 	bool lrckp_fsync_fall;	/* LR clock polarity (SSICR.LRCKP) */
+ 	bool bckp_rise;	/* Bit clock polarity (SSICR.BCKP) */
+ 	bool dma_rt;
++
++	/* Full duplex communication support */
++	struct {
++		unsigned int rate;
++		unsigned int channels;
++		unsigned int sample_width;
++		unsigned int sample_bits;
++	} hw_params_cache;
+ };
  
--config SND_EP93XX_SOC_EDB93XX
--	tristate "SoC Audio support for Cirrus Logic EDB93xx boards"
--	depends on SND_EP93XX_SOC && (MACH_EDB9301 || MACH_EDB9302 || MACH_EDB9302A || MACH_EDB9307A || MACH_EDB9315A)
--	select SND_EP93XX_SOC_I2S
--	select SND_SOC_CS4271_I2C if I2C
--	select SND_SOC_CS4271_SPI if SPI_MASTER
--	help
--	  Say Y or M here if you want to add support for I2S audio on the
--	  Cirrus Logic EDB93xx boards.
-diff --git a/sound/soc/cirrus/Makefile b/sound/soc/cirrus/Makefile
-index ad606b293715..61d8cf64e859 100644
---- a/sound/soc/cirrus/Makefile
-+++ b/sound/soc/cirrus/Makefile
-@@ -6,7 +6,3 @@ snd-soc-ep93xx-i2s-y	 			:= ep93xx-i2s.o
- obj-$(CONFIG_SND_EP93XX_SOC)			+= snd-soc-ep93xx.o
- obj-$(CONFIG_SND_EP93XX_SOC_I2S)		+= snd-soc-ep93xx-i2s.o
+ static void rz_ssi_dma_complete(void *data);
+@@ -208,6 +217,11 @@ static bool rz_ssi_stream_is_valid(struct rz_ssi_priv *ssi,
+ 	return ret;
+ }
  
--# EP93XX Machine Support
--snd-soc-edb93xx-y				:= edb93xx.o
++static inline bool rz_ssi_is_stream_running(struct rz_ssi_stream *strm)
++{
++	return strm->substream && strm->running;
++}
++
+ static void rz_ssi_stream_init(struct rz_ssi_stream *strm,
+ 			       struct snd_pcm_substream *substream)
+ {
+@@ -303,13 +317,53 @@ static int rz_ssi_clk_setup(struct rz_ssi_priv *ssi, unsigned int rate,
+ 	return 0;
+ }
+ 
++static void rz_ssi_set_idle(struct rz_ssi_priv *ssi)
++{
++	int timeout;
++
++	/* Disable irqs */
++	rz_ssi_reg_mask_setl(ssi, SSICR, SSICR_TUIEN | SSICR_TOIEN |
++			     SSICR_RUIEN | SSICR_ROIEN, 0);
++	rz_ssi_reg_mask_setl(ssi, SSIFCR, SSIFCR_TIE | SSIFCR_RIE, 0);
++
++	/* Clear all error flags */
++	rz_ssi_reg_mask_setl(ssi, SSISR,
++			     (SSISR_TOIRQ | SSISR_TUIRQ | SSISR_ROIRQ |
++			      SSISR_RUIRQ), 0);
++
++	/* Wait for idle */
++	timeout = 100;
++	while (--timeout) {
++		if (rz_ssi_reg_readl(ssi, SSISR) & SSISR_IIRQ)
++			break;
++		udelay(1);
++	}
++
++	if (!timeout)
++		dev_info(ssi->dev, "timeout waiting for SSI idle\n");
++
++	/* Hold FIFOs in reset */
++	rz_ssi_reg_mask_setl(ssi, SSIFCR, 0,
++			     SSIFCR_TFRST | SSIFCR_RFRST);
++}
++
+ static int rz_ssi_start(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
+ {
+ 	bool is_play = rz_ssi_stream_is_play(ssi, strm->substream);
++	bool is_full_duplex;
+ 	u32 ssicr, ssifcr;
+ 
++	is_full_duplex = rz_ssi_is_stream_running(&ssi->playback) ||
++		rz_ssi_is_stream_running(&ssi->capture);
+ 	ssicr = rz_ssi_reg_readl(ssi, SSICR);
+-	ssifcr = rz_ssi_reg_readl(ssi, SSIFCR) & ~0xF;
++	ssifcr = rz_ssi_reg_readl(ssi, SSIFCR);
++	if (!is_full_duplex) {
++		ssifcr &= ~0xF;
++	} else {
++		rz_ssi_reg_mask_setl(ssi, SSICR, SSICR_TEN | SSICR_REN, 0);
++		rz_ssi_set_idle(ssi);
++		ssifcr &= ~SSIFCR_FIFO_RST;
++	}
+ 
+ 	/* FIFO interrupt thresholds */
+ 	if (rz_ssi_is_dma_enabled(ssi))
+@@ -322,10 +376,14 @@ static int rz_ssi_start(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
+ 	/* enable IRQ */
+ 	if (is_play) {
+ 		ssicr |= SSICR_TUIEN | SSICR_TOIEN;
+-		ssifcr |= SSIFCR_TIE | SSIFCR_RFRST;
++		ssifcr |= SSIFCR_TIE;
++		if (!is_full_duplex)
++			ssifcr |= SSIFCR_RFRST;
+ 	} else {
+ 		ssicr |= SSICR_RUIEN | SSICR_ROIEN;
+-		ssifcr |= SSIFCR_RIE | SSIFCR_TFRST;
++		ssifcr |= SSIFCR_RIE;
++		if (!is_full_duplex)
++			ssifcr |= SSIFCR_TFRST;
+ 	}
+ 
+ 	rz_ssi_reg_writel(ssi, SSICR, ssicr);
+@@ -337,7 +395,11 @@ static int rz_ssi_start(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
+ 			      SSISR_RUIRQ), 0);
+ 
+ 	strm->running = 1;
+-	ssicr |= is_play ? SSICR_TEN : SSICR_REN;
++	if (is_full_duplex)
++		ssicr |= SSICR_TEN | SSICR_REN;
++	else
++		ssicr |= is_play ? SSICR_TEN : SSICR_REN;
++
+ 	rz_ssi_reg_writel(ssi, SSICR, ssicr);
+ 
+ 	return 0;
+@@ -345,10 +407,12 @@ static int rz_ssi_start(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
+ 
+ static int rz_ssi_stop(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
+ {
+-	int timeout;
 -
--obj-$(CONFIG_SND_EP93XX_SOC_EDB93XX)		+= snd-soc-edb93xx.o
-diff --git a/sound/soc/cirrus/edb93xx.c b/sound/soc/cirrus/edb93xx.c
-deleted file mode 100644
-index 8bb67d7d2b4b..000000000000
---- a/sound/soc/cirrus/edb93xx.c
-+++ /dev/null
-@@ -1,116 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-or-later
--/*
-- * SoC audio for EDB93xx
-- *
-- * Copyright (c) 2010 Alexander Sverdlin <subaparts@yandex.ru>
-- *
-- * This driver support CS4271 codec being master or slave, working
-- * in control port mode, connected either via SPI or I2C.
-- * The data format accepted is I2S or left-justified.
-- * DAPM support not implemented.
-- */
+ 	strm->running = 0;
+ 
++	if (rz_ssi_is_stream_running(&ssi->playback) ||
++	    rz_ssi_is_stream_running(&ssi->capture))
++		return 0;
++
+ 	/* Disable TX/RX */
+ 	rz_ssi_reg_mask_setl(ssi, SSICR, SSICR_TEN | SSICR_REN, 0);
+ 
+@@ -356,30 +420,7 @@ static int rz_ssi_stop(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
+ 	if (rz_ssi_is_dma_enabled(ssi))
+ 		dmaengine_terminate_async(strm->dma_ch);
+ 
+-	/* Disable irqs */
+-	rz_ssi_reg_mask_setl(ssi, SSICR, SSICR_TUIEN | SSICR_TOIEN |
+-			     SSICR_RUIEN | SSICR_ROIEN, 0);
+-	rz_ssi_reg_mask_setl(ssi, SSIFCR, SSIFCR_TIE | SSIFCR_RIE, 0);
 -
--#include <linux/platform_device.h>
--#include <linux/module.h>
--#include <linux/soc/cirrus/ep93xx.h>
--#include <sound/core.h>
--#include <sound/pcm.h>
--#include <sound/soc.h>
--#include <asm/mach-types.h>
+-	/* Clear all error flags */
+-	rz_ssi_reg_mask_setl(ssi, SSISR,
+-			     (SSISR_TOIRQ | SSISR_TUIRQ | SSISR_ROIRQ |
+-			      SSISR_RUIRQ), 0);
 -
--static int edb93xx_hw_params(struct snd_pcm_substream *substream,
--			     struct snd_pcm_hw_params *params)
--{
--	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
--	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
--	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
--	int err;
--	unsigned int mclk_rate;
--	unsigned int rate = params_rate(params);
--
--	/*
--	 * According to CS4271 datasheet we use MCLK/LRCK=256 for
--	 * rates below 50kHz and 128 for higher sample rates
--	 */
--	if (rate < 50000)
--		mclk_rate = rate * 64 * 4;
--	else
--		mclk_rate = rate * 64 * 2;
--
--	err = snd_soc_dai_set_sysclk(codec_dai, 0, mclk_rate,
--				     SND_SOC_CLOCK_IN);
--	if (err)
--		return err;
--
--	return snd_soc_dai_set_sysclk(cpu_dai, 0, mclk_rate,
--				      SND_SOC_CLOCK_OUT);
--}
--
--static const struct snd_soc_ops edb93xx_ops = {
--	.hw_params	= edb93xx_hw_params,
--};
--
--SND_SOC_DAILINK_DEFS(hifi,
--	DAILINK_COMP_ARRAY(COMP_CPU("ep93xx-i2s")),
--	DAILINK_COMP_ARRAY(COMP_CODEC("spi0.0", "cs4271-hifi")),
--	DAILINK_COMP_ARRAY(COMP_PLATFORM("ep93xx-i2s")));
--
--static struct snd_soc_dai_link edb93xx_dai = {
--	.name		= "CS4271",
--	.stream_name	= "CS4271 HiFi",
--	.dai_fmt	= SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF |
--			  SND_SOC_DAIFMT_CBC_CFC,
--	.ops		= &edb93xx_ops,
--	SND_SOC_DAILINK_REG(hifi),
--};
--
--static struct snd_soc_card snd_soc_edb93xx = {
--	.name		= "EDB93XX",
--	.owner		= THIS_MODULE,
--	.dai_link	= &edb93xx_dai,
--	.num_links	= 1,
--};
--
--static int edb93xx_probe(struct platform_device *pdev)
--{
--	struct snd_soc_card *card = &snd_soc_edb93xx;
--	int ret;
--
--	ret = ep93xx_i2s_acquire();
--	if (ret)
--		return ret;
--
--	card->dev = &pdev->dev;
--
--	ret = snd_soc_register_card(card);
--	if (ret) {
--		dev_err(&pdev->dev, "snd_soc_register_card() failed: %d\n",
--			ret);
--		ep93xx_i2s_release();
+-	/* Wait for idle */
+-	timeout = 100;
+-	while (--timeout) {
+-		if (rz_ssi_reg_readl(ssi, SSISR) & SSISR_IIRQ)
+-			break;
+-		udelay(1);
 -	}
 -
--	return ret;
--}
+-	if (!timeout)
+-		dev_info(ssi->dev, "timeout waiting for SSI idle\n");
 -
--static void edb93xx_remove(struct platform_device *pdev)
--{
--	struct snd_soc_card *card = platform_get_drvdata(pdev);
+-	/* Hold FIFOs in reset */
+-	rz_ssi_reg_mask_setl(ssi, SSIFCR, 0,
+-			     SSIFCR_TFRST | SSIFCR_RFRST);
++	rz_ssi_set_idle(ssi);
+ 
+ 	return 0;
+ }
+@@ -512,66 +553,90 @@ static int rz_ssi_pio_send(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
+ 
+ static irqreturn_t rz_ssi_interrupt(int irq, void *data)
+ {
+-	struct rz_ssi_stream *strm = NULL;
++	struct rz_ssi_stream *strm_playback = NULL;
++	struct rz_ssi_stream *strm_capture = NULL;
+ 	struct rz_ssi_priv *ssi = data;
+ 	u32 ssisr = rz_ssi_reg_readl(ssi, SSISR);
+ 
+ 	if (ssi->playback.substream)
+-		strm = &ssi->playback;
+-	else if (ssi->capture.substream)
+-		strm = &ssi->capture;
+-	else
++		strm_playback = &ssi->playback;
++	if (ssi->capture.substream)
++		strm_capture = &ssi->capture;
++
++	if (!strm_playback && !strm_capture)
+ 		return IRQ_HANDLED; /* Left over TX/RX interrupt */
+ 
+ 	if (irq == ssi->irq_int) { /* error or idle */
+-		if (ssisr & SSISR_TUIRQ)
+-			strm->uerr_num++;
+-		if (ssisr & SSISR_TOIRQ)
+-			strm->oerr_num++;
+-		if (ssisr & SSISR_RUIRQ)
+-			strm->uerr_num++;
+-		if (ssisr & SSISR_ROIRQ)
+-			strm->oerr_num++;
 -
--	snd_soc_unregister_card(card);
--	ep93xx_i2s_release();
--}
+-		if (ssisr & (SSISR_TUIRQ | SSISR_TOIRQ | SSISR_RUIRQ |
+-			     SSISR_ROIRQ)) {
+-			/* Error handling */
+-			/* You must reset (stop/restart) after each interrupt */
+-			rz_ssi_stop(ssi, strm);
 -
--static struct platform_driver edb93xx_driver = {
--	.driver		= {
--		.name	= "edb93xx-audio",
--	},
--	.probe		= edb93xx_probe,
--	.remove_new	= edb93xx_remove,
--};
+-			/* Clear all flags */
+-			rz_ssi_reg_mask_setl(ssi, SSISR, SSISR_TOIRQ |
+-					     SSISR_TUIRQ | SSISR_ROIRQ |
+-					     SSISR_RUIRQ, 0);
 -
--module_platform_driver(edb93xx_driver);
+-			/* Add/remove more data */
+-			strm->transfer(ssi, strm);
 -
--MODULE_AUTHOR("Alexander Sverdlin <subaparts@yandex.ru>");
--MODULE_DESCRIPTION("ALSA SoC EDB93xx");
--MODULE_LICENSE("GPL");
--MODULE_ALIAS("platform:edb93xx-audio");
-
+-			/* Resume */
+-			rz_ssi_start(ssi, strm);
++		bool is_stopped = false;
++		int i, count;
++
++		if (rz_ssi_is_dma_enabled(ssi))
++			count = 4;
++		else
++			count = 1;
++
++		if (ssisr & (SSISR_RUIRQ | SSISR_ROIRQ | SSISR_TUIRQ | SSISR_TOIRQ))
++			is_stopped = true;
++
++		if (ssi->capture.substream && is_stopped) {
++			if (ssisr & SSISR_RUIRQ)
++				strm_capture->uerr_num++;
++			if (ssisr & SSISR_ROIRQ)
++				strm_capture->oerr_num++;
++
++			rz_ssi_stop(ssi, strm_capture);
+ 		}
++
++		if (ssi->playback.substream && is_stopped) {
++			if (ssisr & SSISR_TUIRQ)
++				strm_playback->uerr_num++;
++			if (ssisr & SSISR_TOIRQ)
++				strm_playback->oerr_num++;
++
++			rz_ssi_stop(ssi, strm_playback);
++		}
++
++		/* Clear all flags */
++		rz_ssi_reg_mask_setl(ssi, SSISR, SSISR_TOIRQ | SSISR_TUIRQ |
++				     SSISR_ROIRQ | SSISR_RUIRQ, 0);
++
++		/* Add/remove more data */
++		if (ssi->capture.substream && is_stopped) {
++			for (i = 0; i < count; i++)
++				strm_capture->transfer(ssi, strm_capture);
++		}
++
++		if (ssi->playback.substream && is_stopped) {
++			for (i = 0; i < count; i++)
++				strm_playback->transfer(ssi, strm_playback);
++		}
++
++		/* Resume */
++		if (ssi->playback.substream && is_stopped)
++			rz_ssi_start(ssi, &ssi->playback);
++		if (ssi->capture.substream && is_stopped)
++			rz_ssi_start(ssi, &ssi->capture);
+ 	}
+ 
+-	if (!strm->running)
++	if (!rz_ssi_is_stream_running(&ssi->playback) &&
++	    !rz_ssi_is_stream_running(&ssi->capture))
+ 		return IRQ_HANDLED;
+ 
+ 	/* tx data empty */
+-	if (irq == ssi->irq_tx)
+-		strm->transfer(ssi, &ssi->playback);
++	if (irq == ssi->irq_tx && rz_ssi_is_stream_running(&ssi->playback))
++		strm_playback->transfer(ssi, &ssi->playback);
+ 
+ 	/* rx data full */
+-	if (irq == ssi->irq_rx) {
+-		strm->transfer(ssi, &ssi->capture);
++	if (irq == ssi->irq_rx && rz_ssi_is_stream_running(&ssi->capture)) {
++		strm_capture->transfer(ssi, &ssi->capture);
+ 		rz_ssi_reg_mask_setl(ssi, SSIFSR, SSIFSR_RDF, 0);
+ 	}
+ 
+ 	if (irq == ssi->irq_rt) {
+-		struct snd_pcm_substream *substream = strm->substream;
+-
+-		if (rz_ssi_stream_is_play(ssi, substream)) {
+-			strm->transfer(ssi, &ssi->playback);
++		if (ssi->playback.substream) {
++			strm_playback->transfer(ssi, &ssi->playback);
+ 		} else {
+-			strm->transfer(ssi, &ssi->capture);
++			strm_capture->transfer(ssi, &ssi->capture);
+ 			rz_ssi_reg_mask_setl(ssi, SSIFSR, SSIFSR_RDF, 0);
+ 		}
+ 	}
+@@ -731,9 +796,12 @@ static int rz_ssi_dai_trigger(struct snd_pcm_substream *substream, int cmd,
+ 	switch (cmd) {
+ 	case SNDRV_PCM_TRIGGER_START:
+ 		/* Soft Reset */
+-		rz_ssi_reg_mask_setl(ssi, SSIFCR, 0, SSIFCR_SSIRST);
+-		rz_ssi_reg_mask_setl(ssi, SSIFCR, SSIFCR_SSIRST, 0);
+-		udelay(5);
++		if (!rz_ssi_is_stream_running(&ssi->playback) &&
++		    !rz_ssi_is_stream_running(&ssi->capture)) {
++			rz_ssi_reg_mask_setl(ssi, SSIFCR, 0, SSIFCR_SSIRST);
++			rz_ssi_reg_mask_setl(ssi, SSIFCR, SSIFCR_SSIRST, 0);
++			udelay(5);
++		}
+ 
+ 		rz_ssi_stream_init(strm, substream);
+ 
+@@ -824,14 +892,41 @@ static int rz_ssi_dai_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
+ 	return 0;
+ }
+ 
++static bool rz_ssi_is_valid_hw_params(struct rz_ssi_priv *ssi, unsigned int rate,
++				      unsigned int channels,
++				      unsigned int sample_width,
++				      unsigned int sample_bits)
++{
++	if (ssi->hw_params_cache.rate != rate ||
++	    ssi->hw_params_cache.channels != channels ||
++	    ssi->hw_params_cache.sample_width != sample_width ||
++	    ssi->hw_params_cache.sample_bits != sample_bits)
++		return false;
++
++	return true;
++}
++
++static void rz_ssi_cache_hw_params(struct rz_ssi_priv *ssi, unsigned int rate,
++				   unsigned int channels,
++				   unsigned int sample_width,
++				   unsigned int sample_bits)
++{
++	ssi->hw_params_cache.rate = rate;
++	ssi->hw_params_cache.channels = channels;
++	ssi->hw_params_cache.sample_width = sample_width;
++	ssi->hw_params_cache.sample_bits = sample_bits;
++}
++
+ static int rz_ssi_dai_hw_params(struct snd_pcm_substream *substream,
+ 				struct snd_pcm_hw_params *params,
+ 				struct snd_soc_dai *dai)
+ {
+ 	struct rz_ssi_priv *ssi = snd_soc_dai_get_drvdata(dai);
++	struct rz_ssi_stream *strm = rz_ssi_stream_get(ssi, substream);
+ 	unsigned int sample_bits = hw_param_interval(params,
+ 					SNDRV_PCM_HW_PARAM_SAMPLE_BITS)->min;
+ 	unsigned int channels = params_channels(params);
++	unsigned int rate = params_rate(params);
+ 
+ 	if (sample_bits != 16) {
+ 		dev_err(ssi->dev, "Unsupported sample width: %d\n",
+@@ -845,8 +940,20 @@ static int rz_ssi_dai_hw_params(struct snd_pcm_substream *substream,
+ 		return -EINVAL;
+ 	}
+ 
+-	return rz_ssi_clk_setup(ssi, params_rate(params),
+-				params_channels(params));
++	if (rz_ssi_is_stream_running(&ssi->playback) ||
++	    rz_ssi_is_stream_running(&ssi->capture)) {
++		if (rz_ssi_is_valid_hw_params(ssi, rate, channels,
++					      strm->sample_width, sample_bits))
++			return 0;
++
++		dev_err(ssi->dev, "Full duplex needs same HW params\n");
++		return -EINVAL;
++	}
++
++	rz_ssi_cache_hw_params(ssi, rate, channels, strm->sample_width,
++			       sample_bits);
++
++	return rz_ssi_clk_setup(ssi, rate, channels);
+ }
+ 
+ static const struct snd_soc_dai_ops rz_ssi_dai_ops = {
 -- 
-2.43.2
-
+2.43.0
 
