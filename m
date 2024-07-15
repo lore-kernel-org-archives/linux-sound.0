@@ -1,92 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C8EC200A0;
-	Mon, 15 Jul 2024 17:31:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FBC1EAE7;
+	Mon, 15 Jul 2024 20:46:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721064719; cv=none; b=HVG506FinwqSAUsk5Te1j6r2gAnhHUyho/KA0eNl1x7fQs9I/d4u6Ja5K6g6G2Tq8nqocfSWEAWqBiK+AP9zdm504ISDnsVrTL0c1I32j4cR7+Lr77mR22bX/pQPiTsgmOPWbvQVz91d+8+1dzp2hawRrMu5eh1XxUFtDiRlKKY=
+	t=1721076365; cv=none; b=h5v9cHEEX37flV2iRMF0mWFC2/qiNWp8EP4i9guNqy6OMU89jW2yGOumWR3OD/Nz8D2qaIKd6+aBQrpnpq474Y5JT1ldoUe0/QAVKZxbDN1/nvbcfTzEzNqrb+wLot2oARJIHkwosRrdqdI9D00TFkFrWtZVsxo0yaB4RLfbquE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721064719; c=relaxed/simple;
-	bh=XG51VbTGnXobugGg42fOiPH80u+dQNhw+bmbq0lXs8I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dK3HPy7PnedCRhe3Qx+jxqD6SIXLTukb6oJUxqkDeIfczcGX8LOq7NH/7xGJanwgAMcq9p92ETlEJ8uJc6mtHCscxVRDORY5dqHsNpxZZTKxKYZ9woB3bTiqVZyPhZgSt/+2SlndTf3GVIkKfbuUs4K9w49og534aWzSHCKlCEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=avYrIYQM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721076365; c=relaxed/simple;
+	bh=pyID40vVKswGidkaN4WhWHKgSgKubU8Ytrc3zgyQIzA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=b+xGZLW1nLRyppQT2B46yP+WvImzzRJmVOXTGZytcuym8DVwcVYqI7o/P3rEt7O3GDFBeZg5esJxZ6RZtz9F2yes4S02qWexitfEi0wA8ywEo/BOt90g8tVI6lGajAM1YIQ8jRE159vWcswtL1VTpd+fz3eVfJzGpFh4TBuaeqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OHa5vIWE; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="avYrIYQM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94CACC32782;
-	Mon, 15 Jul 2024 17:31:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721064719;
-	bh=XG51VbTGnXobugGg42fOiPH80u+dQNhw+bmbq0lXs8I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=avYrIYQM38xoD2zvibsQyafPiceelCz20ZZpCeA3H7XmRoKOrFaO7+lpx8kCaynRh
-	 RSdKle0+CM+UvRtu5wv7NMGlzlcMfFi7ff0JFIaHPesEq1E6qdMq1+9Jq4HOoPyeoZ
-	 JooTy0j/iVIHtX30ZCcZLsRijSmpnSjY6s2o+qsfx0h/vPHWrWoohqLpl+BHldKqgy
-	 hX/VF6B1aA+39aq4nsSwhAqfNV452THwMCod5OS8RvCBbuhf3Zv2E7rjdniHt/oBs2
-	 yyuXh5FPyewRCgO/EgeWoWHuFdAWaKqFGHL9UzPiK1uQHZ0/DzVenCBgBG5VBHO0fp
-	 XbkuV9GaY4cXg==
-Date: Mon, 15 Jul 2024 18:31:54 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Shuah Khan <shuah@kernel.org>, linux-sound@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kselftest/alsa: Use card name rather than number in test
- names
-Message-ID: <0e566b45-784c-48df-bddf-8293a17e814a@sirena.org.uk>
-References: <7cd921b3-fed9-4b0c-9ba8-381e45ef4218@perex.cz>
- <b3fdbb63-067b-4ff4-8fd8-1c2455a553a5@sirena.org.uk>
- <877cdrt3zc.wl-tiwai@suse.de>
- <e4962ea0-3f03-43b5-b773-68abe1d73cc9@perex.cz>
- <bb42afb8-48a7-4daf-b28b-b82bd5c77d57@sirena.org.uk>
- <c1be6bec-90f5-4bb3-b6b0-8524095fc490@perex.cz>
- <31e73e81-e60f-4d0b-b0ac-118f1dc72610@sirena.org.uk>
- <87plrhssa4.wl-tiwai@suse.de>
- <652d6fef-9e63-4c3c-b61b-8a47d6eadaf1@sirena.org.uk>
- <87le2223hv.wl-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OHa5vIWE"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-58b447c513aso5254040a12.2;
+        Mon, 15 Jul 2024 13:46:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1721076362; x=1721681162; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=pyID40vVKswGidkaN4WhWHKgSgKubU8Ytrc3zgyQIzA=;
+        b=OHa5vIWEXxzyHXKqqoP9PYQGzYD1ecRI/3e3snuws82NE5UQ79FDYiB/pOHuiFPryN
+         MJYQYmy3Fh10xZDsajNlYCb4uFRq+/ufS8OoqSCBSVEpjhWGmWsfp54l/NkeQOnUs0I1
+         ShtJjTZEkLzihUVDf002/0WL9hMbECeuQumMgP69HCs8XvgmZyHO66k8TQHTxkj5yIFN
+         PTynY1OR4ZDo5NmLEqoxL65LdFXubh1mI1MreZxz/N0bvxnLCeL6MQ7U8lcmwpv8Og+k
+         5cYokb2ui3eOAxRfp3zq3TfbVFthC/El3qfCBZ436XLoGhJZWLpGpmymw8BxBYalKnoV
+         C+3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721076362; x=1721681162;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pyID40vVKswGidkaN4WhWHKgSgKubU8Ytrc3zgyQIzA=;
+        b=BJTkvlJfhF5RoHAzc0IN07daqmw6waORavq/QAIuxHJAWEwm4ZZGT+mAAMo/lnuN9W
+         6WAWpNWgDySogFKpUn4tEs/z0sSIAwYlm9Jmjn9ltDUX6+njQF3eYks5ESD+p1vVicw1
+         DkKTY6rumpF6BUIqk2Icv+Dyia1foggmiV4YMSrJ9BgFY8y56t5K3mNNo4NuK6p3Ibiu
+         zUGNCgJlubuE98LStBpR9XHzBTgOWoGPxZZm3vRADpznOekTd7YY35f0vWrxnXi2fCbJ
+         Fy2n57VBU5IE1LMAupL1dPgg0Yu5iw1M9DI9A2KvQ8ZuY2uCYufcqEZ00P8fKFrRbe+y
+         IXwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCURrBDqXuvgwdXyss97WSuG+2fN/jyDhB1oz554i1TvIpKykLIGO6JWaAI5JLW/EpOg8rd+itZCraMb/qQEtOLBXmUSgipXmY8XpZZoF9DuCUWqpRIKMs0H49zH1UQ5f3+c1f0V+EwT1Ux0xGCy++1SNo1PH4/1ojXqvmGGN8EXv824dvsYnB72I5EHt57qKU6czdBF9FucP80r9k6s4HgliJxmkJvtyy+Jp79D4Qevcak/w/lB5ltsm/eG7cVYe9tEmvadZkzNuaQJjV4M7Hs0Q7VsMRn11dFOv4prJ32iNpb/8FXu7LVXfKt0gRICRLM0qbLK/lXritMwxEdXnLWEK37bHNiVjbs/Hh14g+s/crg1LA==
+X-Gm-Message-State: AOJu0YwiKRFm/IaULVCU9XP7Xe/x3ucRvUmIXSbh73mZKkpgml0E8NeR
+	V9BOe5HiGLPVvOPydB8aWyo3LBES7z9b72TjC/5Z3Tm/4Y1WWUuu
+X-Google-Smtp-Source: AGHT+IHZpaZWcXFCjRZBArLC0Q4QIJCZB151JdU+pruJeqzfFvKL2FYuoiEW53znBItBXa8q8c0m1w==
+X-Received: by 2002:a05:6402:270b:b0:59a:aa54:4e23 with SMTP id 4fb4d7f45d1cf-59eee833f0amr46280a12.3.1721076362036;
+        Mon, 15 Jul 2024 13:46:02 -0700 (PDT)
+Received: from giga-mm.home ([2a02:1210:860a:c700:82ee:73ff:feb8:99e3])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-59b24a770dbsm3829880a12.4.2024.07.15.13.46.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jul 2024 13:46:01 -0700 (PDT)
+Message-ID: <f68b628c3978a4fb0e5989e3b6918c756da1fefb.camel@gmail.com>
+Subject: Re: [PATCH v11 00/38] ep93xx device tree conversion
+From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>, Nikita Shubin
+	 <nikita.shubin@maquefel.me>
+Cc: Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, 
+ linux-watchdog@vger.kernel.org, Wim Van Sebroeck <wim@linux-watchdog.org>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, Damien Le Moal
+ <dlemoal@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, Thierry
+ Reding <thierry.reding@gmail.com>,  Vignesh Raghavendra <vigneshr@ti.com>,
+ linux-pwm@vger.kernel.org, Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?=
+ <u.kleine-koenig@pengutronix.de>, Ralf Baechle <ralf@linux-mips.org>, 
+ Sebastian Reichel <sre@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>,  linux-ide@vger.kernel.org, Stephen
+ Boyd <sboyd@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>, linux-spi@vger.kernel.org, Andy
+ Shevchenko <andriy.shevchenko@linux.intel.com>, Mark Brown
+ <broonie@kernel.org>,  Hartley Sweeten <hsweeten@visionengravers.com>,
+ linux-kernel@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,  Andrew Lunn
+ <andrew@lunn.ch>, Richard Weinberger <richard@nod.at>, Eric Dumazet
+ <edumazet@google.com>,  linux-sound@vger.kernel.org, Arnd Bergmann
+ <arnd@arndb.de>,  linux-input@vger.kernel.org, Jaroslav Kysela
+ <perex@perex.cz>, Sergey Shtylyov <s.shtylyov@omp.ru>, Lukasz Majewski
+ <lukma@denx.de>
+Date: Mon, 15 Jul 2024 22:46:01 +0200
+In-Reply-To: <172104541245.3725513.13547524352291855487.robh@kernel.org>
+References: <20240715-ep93xx-v11-0-4e924efda795@maquefel.me>
+	 <172104541245.3725513.13547524352291855487.robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.2 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3qxdjPKLh7T4RPzM"
-Content-Disposition: inline
-In-Reply-To: <87le2223hv.wl-tiwai@suse.de>
-X-Cookie: You'll be sorry...
 
+Hi Rob,
 
---3qxdjPKLh7T4RPzM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Mon, 2024-07-15 at 06:12 -0600, Rob Herring (Arm) wrote:
+> My bot found new DTB warnings on the .dts files added or changed in this
+> series.
+>=20
+> Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+> are fixed by another series. Ultimately, it is up to the platform
+> maintainer whether these warnings are acceptable or not. No need to reply
+> unless the platform maintainer has comments.
+>=20
+> If you already ran DT checks and didn't see these error(s), then
+> make sure dt-schema is up to date:
+>=20
+> =C2=A0 pip3 install dtschema --upgrade
+>=20
+>=20
+> New warnings running 'make CHECK_DTBS=3Dy cirrus/ep93xx-bk3.dtb cirrus/ep=
+93xx-edb9302.dtb cirrus/ep93xx-ts7250.dtb' for 20240715-ep93xx-v11-0-4e924e=
+fda795@maquefel.me:
+>=20
+> arch/arm/boot/dts/cirrus/ep93xx-edb9302.dtb: /soc/spi@808a0000/codec@0: f=
+ailed to match any schema with compatible: ['cirrus,cs4271']
 
-On Mon, Jul 15, 2024 at 03:23:24PM +0200, Takashi Iwai wrote:
-> Mark Brown wrote:
+well, this seems to come from the fact is still documented in a .txt file
+(Documentation/devicetree/bindings/sound/cs4271.txt), which is not really
+the scope of this series. Hope it's OK to ignore it for the series.
 
-> > Interesting - I was mainly developing on a system with multiple HDA
-> > cards and was getting fairly clearly unique names.
+--=20
+Alexander Sverdlin.
 
-> An AMD system usually has two HD-audio entries, and both are "HD-audio
-> Generic".
-
-Right, that won't do.  My legacy system here is getting the addresses in
-there so deduplicates successfully.
-
---3qxdjPKLh7T4RPzM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmaVXQkACgkQJNaLcl1U
-h9CxNgf/Y+BxDjPCZdghC10RUW2q+AFR/vUdAvfJQsu2BP3UDFrdUVv8N1HIuwlA
-EeUpYI0ErLMmL9JxgTkMVdQ8h0STA1Qmd6oCGfOzznDe/cuuO8Nvjk1m0uFdW74D
-VDluaVFTUtJlP/U9UGE+M/Rpl90gQ5RzsE7hhrj1s8hOezOExPwQcTsoSHaE+l2/
-i0wxO6EC2FjlgqP4HhKJVjk+gSiHw58XGcwOikyfaGdKd6s3BLP8Svrleb0/z1U0
-g2VOhIAE8mHJQqPUKb2B6vmuT8FlIZChJMpnkj6byrflnp0t7yfAPjr0eMVQMyuG
-LvBzTAPYJCL31a9nl22n6G86HarLww==
-=I1/c
------END PGP SIGNATURE-----
-
---3qxdjPKLh7T4RPzM--
