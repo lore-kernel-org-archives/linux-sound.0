@@ -1,97 +1,63 @@
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 005D53224;
-	Tue, 16 Jul 2024 03:01:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5E811CD29
+	for <linux-sound@vger.kernel.org>; Tue, 16 Jul 2024 06:09:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.14.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721098868; cv=none; b=ehAzA+wpZQ+5SdpwhB5wQWFI2m/Qk3gANssKv6kFMM6cskcP5DzG9Zxd32UllgAee07bu51e5vJtWKLUby55seyHeMXhm9YemKw9HFEODmCC02IvBfVaX7oKSNTVmeVqsBfNfxqDGc/52WoKhLn5Sb4Irj2sS6DlXiuMCQYkLA0=
+	t=1721110193; cv=none; b=vAxynsHIj+QcdSnuiVJel1Ubxj2H13MelakKNukvwwESenJtTeDfV9twICaZ+dE7Fb31vcTsdS2e/IWHmo2Jnh//e6vwxPmjKlBthTTPaZ+6wCiK8bwxgex/irgEMmmNzwjEdjhEvJu0yvLq/k1iVBo2f71QQoiTUSL47rI0q3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721098868; c=relaxed/simple;
-	bh=wIZrglgYO769FiWXo1dTFFsEPXihHFxfIcMy8tkZCfU=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=igyVC6E+M4yEDSRfXx8oSX/fagpXSAdEGI1CACNEDEtwXfQsBa8vBDKI+fsnw8POYoxv+4Ltp3RhDgDPbdXi+C9bQ/SsqL3ptQp2RKCMmFKqM1brjwTto7PtLj0Ce4XrCXTPsjHj0pGzigY5rJ/3dBJRQTXM4wICZZw8/VtQPhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=lxuNgjXh; arc=none smtp.client-ip=116.203.91.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="lxuNgjXh"
+	s=arc-20240116; t=1721110193; c=relaxed/simple;
+	bh=0081uX8nyqZFnB15j3PB4+vDTFHpVX2dXi671uQks+8=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=RiE7sgpePreHyQ5joD31x/18oYvs99pn5u0zoYcELRW47+40w8Sqj0KBfLw5bwp54N75uIlx+yXpZRKZ23Q/CbeSAlaP8zO4I//XytqG5YOzx4RrtyBNqgRizzt+Cu7xGm3hV/1pnt1gC2QSCeslQBuIeWD/RuHHNUx1mN0hFhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de; spf=pass smtp.mailfrom=molgen.mpg.de; arc=none smtp.client-ip=141.14.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=molgen.mpg.de
+Received: from [192.168.0.2] (unknown [95.90.247.252])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: pmenzel)
+	by mx.molgen.mpg.de (Postfix) with ESMTPSA id CC62261E5FE01;
+	Tue, 16 Jul 2024 08:09:34 +0200 (CEST)
+Message-ID: <e0465adc-12fe-40cd-9b2e-9e67b714e173@molgen.mpg.de>
+Date: Tue, 16 Jul 2024 08:09:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1721098862;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rswZVR3IzZAW4VDWUHfqlBwWT/NMTNi3QeFCfqZztcA=;
-	b=lxuNgjXhtThjdVjaTyB7CTsdTVTkjfUE9RDuu8hlmnVLhQQqRpFmd0OLVyoDrSZy+yWYkZ
-	dATGbyxVxVsR+OInDlBIzVeCe7qzZnZmJFVMYOkrB3k2wt/8IugXdMZqYgpJKon4O0scLl
-	H+k5sQJ9w+kiBhOtOuOGGd75F4U1Z58hN8EF9PL/Fb0Ao7620HF9sv0N3jja+daz0nYX8p
-	vttaTk1jdramm55qdAykKHzixGmZPDfu4kbQhRtz0CKwGXiHcpCQ5XDEEEIotIgsFJBLdY
-	fBB9R7iOi0/WCvtdwEohs7uZO8+iFoSCzNut4auLRwdLCw92z3grtk/v6qDSHA==
-Date: Tue, 16 Jul 2024 05:01:01 +0200
-From: Dragan Simic <dsimic@manjaro.org>
-To: Chen Ni <nichen@iscas.ac.cn>
-Cc: david.rhodes@cirrus.com, rf@opensource.cirrus.com, lgirdwood@gmail.com,
- broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
- pierre-louis.bossart@linux.intel.com, sbinding@opensource.cirrus.com,
- alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: cs42l42: Convert comma to semicolon
-In-Reply-To: <20240716025307.400156-1-nichen@iscas.ac.cn>
-References: <20240716025307.400156-1-nichen@iscas.ac.cn>
-Message-ID: <32852e06f72e570de3da00f4ded84211@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: coreboot@coreboot.org, linux-sound@vger.kernel.org
+Cc: Nicholas Sudsgaard <devel+coreboot@nsudsgaard.com>
+From: Paul Menzel <pmenzel@molgen.mpg.de>
+Subject: [ANNOUNCE] Go utility *hda-decoder*
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 
-On 2024-07-16 04:53, Chen Ni wrote:
-> Replace a comma between expression statements by a semicolon.
-> 
-> Fixes: 90f6a2a20bd2 ("ASoC: cs42l42: Add SoundWire support")
-> Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+Dear coreboot and Linux folks,
 
-Nice catch, thanks!
 
-Reviewed-by: Dragan Simic <dsimic@manjaro.org>
+The utility *hda-decoder* written by Nicholas Sudsgaard was just 
+submitted to the coreboot repository [1][2].
 
-> ---
->  sound/soc/codecs/cs42l42-sdw.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+> util: Add hda-decoder
 > 
-> diff --git a/sound/soc/codecs/cs42l42-sdw.c 
-> b/sound/soc/codecs/cs42l42-sdw.c
-> index 94a66a325303..29891c1f6bec 100644
-> --- a/sound/soc/codecs/cs42l42-sdw.c
-> +++ b/sound/soc/codecs/cs42l42-sdw.c
-> @@ -323,15 +323,15 @@ static int cs42l42_sdw_read_prop(struct
-> sdw_slave *peripheral)
->  	prop->scp_int1_mask = SDW_SCP_INT1_BUS_CLASH | SDW_SCP_INT1_PARITY;
+> This tool helps take off the burden of manually decoding default
+> configuration registers. Using decoded values can make code more
+> self-documenting compared to shrouding it with magic numbers.
 > 
->  	/* DP1 - capture */
-> -	ports[0].num = CS42L42_SDW_CAPTURE_PORT,
-> -	ports[0].type = SDW_DPN_FULL,
-> -	ports[0].ch_prep_timeout = 10,
-> +	ports[0].num = CS42L42_SDW_CAPTURE_PORT;
-> +	ports[0].type = SDW_DPN_FULL;
-> +	ports[0].ch_prep_timeout = 10;
->  	prop->src_dpn_prop = &ports[0];
-> 
->  	/* DP2 - playback */
-> -	ports[1].num = CS42L42_SDW_PLAYBACK_PORT,
-> -	ports[1].type = SDW_DPN_FULL,
-> -	ports[1].ch_prep_timeout = 10,
-> +	ports[1].num = CS42L42_SDW_PLAYBACK_PORT;
-> +	ports[1].type = SDW_DPN_FULL;
-> +	ports[1].ch_prep_timeout = 10;
->  	prop->sink_dpn_prop = &ports[1];
-> 
->  	return 0;
+> This is also written as a module which allows easy integration with
+> other tools written in Go (e.g. autoport).
+
+
+Kind regards,
+
+Paul
+
+
+[1]: https://review.coreboot.org/c/coreboot/+/80470
+[2]: 
+https://review.coreboot.org/plugins/gitiles/coreboot/+/b205f4e53ec30487ea1c219366e496664a3c20aa
