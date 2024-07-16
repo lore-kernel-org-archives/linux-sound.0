@@ -1,42 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E89199E92
-	for <linux-sound@vger.kernel.org>; Tue, 16 Jul 2024 14:45:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1058419CD18;
+	Tue, 16 Jul 2024 14:48:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721141145; cv=none; b=r9t+UYE/m0QFFvotG9FfZK+2ox4kiHuOxxhmokYpWApU2nnLyWop4flfB1+ruHdRyGJSKbfTApIS4Yu7aQql94o4kEnd8zb6iV7pZzPEof5GPRst4sTNLFoDa7NzW3KdoXf2yfLzhpLXqyde5X8MaNhI2cdY6i6WV97RT063BPI=
+	t=1721141295; cv=none; b=McJ9jh4Xr/8POzWDGYg4rjHkDMazKDaaNiSrKnL1+wEXiIbtQNOIHUlr/mz1qwUTgTbKK7vzbOEog+yFYAQUxXOs8XzcapR5BVcW7xY9gzqNZcg1CpgAJKXzq2UtzfvOTTSAUa67jwZahsjiAQcCkdMiGQzVv0srZFc3wDAtQrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721141145; c=relaxed/simple;
-	bh=RjRpkJFPLTVtr7FF7jRiRNR6NNoZv16lBsE1D8s+HyY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ajyD48zTviA683+V8yivljh9+1A7S3TjVTHwd5y3Z3ULp3Mjkjy1ZRwIouZRKYLeaP1owtJBGrYSEF6FCadAYU7LbrZRbzU3kkAskv+f8bA6F41sn/FvBJiwvMcRSaasVYffrBAHBgr/WYod3l/D3G59mp4uyPCS/nm13fQjOE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sj+axYiS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721141295; c=relaxed/simple;
+	bh=ZT/7h9ZsmsVC1L12GWEyZknnq1KJmu8yPs8c4XxpnEw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=jcgnRnsMo5EQ3i+Q4PQaZVcQoog+b7hSP1aUXAr65MrKESnu5lv0MG7g0wV/BJHAQWuW+lH50NNbaRjbVmkYRC5BMu8n0onVcC4WbFBjH6GO1tJU3xH/rOmebLxb9+/xpghxdYX0utIYjulAWENtVQHHljcIX/b6shO3TYD7fiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CZx/lAmr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sj+axYiS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42FEAC116B1;
-	Tue, 16 Jul 2024 14:45:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CZx/lAmr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BA05C4AF0D;
+	Tue, 16 Jul 2024 14:48:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721141144;
-	bh=RjRpkJFPLTVtr7FF7jRiRNR6NNoZv16lBsE1D8s+HyY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=sj+axYiSmlSi+MkvpWpxTS1N8uxL9VMoiU8AcXl4XS7m2ab9LYR1068jHGefOaONN
-	 BDhKLU341oD3jKQMrZjYiA/i4tXrewK0dARKfSkdiSVB14kiFN5E5NZ1GmYlS+owvB
-	 UGqQ26Yp1LpMscUU32E716f7CsNMhLKUzEiyvu5vnxECh/ztJoYmivaIRih+NrxZnu
-	 mZ9WMpi1lWytxJCAlZJ0BaJqNaHxdhJ6KIzXgbU8qVXcZge/SKlpPtW0a8iB9V643y
-	 akJlnLVOOImx+IdeJS3bVEOi7OBboG/cRlnXNFqGWlhQoAjmtinnlKEvi/d36GtnBN
-	 UtCkiHaY9kCog==
+	s=k20201202; t=1721141294;
+	bh=ZT/7h9ZsmsVC1L12GWEyZknnq1KJmu8yPs8c4XxpnEw=;
+	h=From:Subject:Date:To:Cc:From;
+	b=CZx/lAmryLgsDGovHxRjryR00put2+RlYvVFcMInR61Z1iLYtYIMF1eLbf9j/H6TB
+	 hxgtcGiDXhxS75cCyij5/SXfsMHM3/srMCACu1RIUagrbm2iFeba462K3aZEF5yw5Z
+	 G6q3lkTwazgCFLXPFIKRwQjpE7XOKrU9mLEr3cvr3AzrEuXVteWo3LgIP/IscpOlZA
+	 WrF+JyJTKY1dfTFhxc0YWYDSHgVLpvNeXOn45xY3k0O84R7oNmaaur9fygjMhDgYlu
+	 SfB/LY9ZlZO9q+iDaMg/idWGt8UybLcoTKS0zzcuKH6vQw2/1UY3iuYQF+DNUF+X6+
+	 0D0OUVDCIURSA==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: alsa-devel@alsa-project.org, tiwai@suse.de, 
- Curtis Malainey <cujomalainey@chromium.org>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>
-In-Reply-To: <20240716084012.299257-1-pierre-louis.bossart@linux.intel.com>
-References: <20240716084012.299257-1-pierre-louis.bossart@linux.intel.com>
-Subject: Re: [PATCH] ASoC: Intel: Fix RT5650 SSP lookup
-Message-Id: <172114114300.56252.16479559406586120577.b4-ty@kernel.org>
-Date: Tue, 16 Jul 2024 15:45:43 +0100
+Subject: [PATCH v2 0/2] kselftest/alsa: Diagnostic improvements
+Date: Tue, 16 Jul 2024 15:47:58 +0100
+Message-Id: <20240716-alsa-kselftest-board-name-v2-0-60f1acdde096@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,43 +37,50 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAB+IlmYC/42NQQ6CMBBFr0Jm7RjaoCauvIdhMaVTaMDWzBCCI
+ dzdyglcvv/z399AWSIr3KsNhJeoMacC9lRBN1DqGaMvDLa2TX0zBmlSwlF5CjPrjC6TeEz0YuS
+ GDHnfdIFqKPu3cIjr4X62hYeoc5bPcbWYX/qPdTFYanfpgvXOMV0fI0vi6Zylh3bf9y9TfEhgw
+ wAAAA==
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Shuah Khan <shuah@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
 X-Mailer: b4 0.14-dev-d4707
+X-Developer-Signature: v=1; a=openpgp-sha256; l=907; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=ZT/7h9ZsmsVC1L12GWEyZknnq1KJmu8yPs8c4XxpnEw=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBmlogqfW0+3H5ztW5AMoEpdMErrGOvHoxgIfG0GMk5
+ m7ygr/iJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZpaIKgAKCRAk1otyXVSH0Db6B/
+ 4yrWmJXQ8WyyMU9zexZ0SYdD86TSgTshXM/1oFQjz7xJdnSIeMg/DLz76gkviXb8tCfyfGd7ZJISM6
+ N88ZF9Obb1nQqa2fnoBT5GMAabBUvvMlRg8dNORkOv5sKZGG/qfF+Zy1Sws6pdjmGxNEtVXGKXNbdE
+ M3/VnB/AJYQAMq7XvfLcHvGyNdXcJgkiOkT6jYf2hr4c0x/f6xs0gohtOyZitGp20ctgGV9iD98ed3
+ /PzBld3Iz1jCfa+M4j3LetCyIhy9n7MMokuUGRJd+ybsq5vb/Bz8ddTd1Bf/6MHDjsavWF1bAcJHLa
+ rYYF5B9UkkEIgfgUj1es7P6jzSjg8a
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 16 Jul 2024 10:40:12 +0200, Pierre-Louis Bossart wrote:
-> Commit 8efcd4864652 ("ASoC: Intel: sof_rt5682: use common module for
-> sof_card_private initialization") migrated the pin assignment in the
-> context struct up to soc-acpi-intel-ssp-common.c. This uses a lookup
-> table to see if a device has a amp/codec before assigning the pin. The
-> issue here arises when combination parts that serve both (with 2 ports)
-> are used.
-> 
-> [...]
+The first patch fixes unstable naming of tests due to probe ordering not
+being stable, the second just provides a bit more information.
 
-Applied to
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+Changes in v2:
+- Switch to using ID rather than longame.
+- Log the PCM ID too.
+- Link to v1: https://lore.kernel.org/r/20240711-alsa-kselftest-board-name-v1-1-ab5cf2dbbea6@kernel.org
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+---
+Mark Brown (2):
+      kselftest/alsa: Use card name rather than number in test names
+      kselftest/alsa: Log the PCM ID in pcm-test
 
-Thanks!
+ tools/testing/selftests/alsa/mixer-test.c | 98 +++++++++++++++++++------------
+ tools/testing/selftests/alsa/pcm-test.c   | 68 +++++++++++++++------
+ 2 files changed, 108 insertions(+), 58 deletions(-)
+---
+base-commit: f2661062f16b2de5d7b6a5c42a9a5c96326b8454
+change-id: 20240711-alsa-kselftest-board-name-e4a1add4cfa0
 
-[1/1] ASoC: Intel: Fix RT5650 SSP lookup
-      commit: 6f6a23d42bdfbbfe1b41a23e2c78319a0cc65db3
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Best regards,
+-- 
+Mark Brown <broonie@kernel.org>
 
