@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0871C1A01CD;
-	Tue, 16 Jul 2024 18:32:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698EA1A0AF8;
+	Tue, 16 Jul 2024 18:33:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721154757; cv=none; b=Kc6eSGvORUsSl7CwQV+K4c0a85gqtDKUptl7P+B8jgBi66Cj9dsfwFbsUvf5CTQBlHmMjlGKyMOgpdVa2ZX8lmC64AsHVMykifNTJi3QeuFGI2it4YtEH7t0S+MtwuqyP6Ogq0UxyLrmhDwwQNyzOwpScdyEy1vhnFCdnuwbQlo=
+	t=1721154814; cv=none; b=Vr4OW80kkigQIRGotgZ7QHEsjMxdydgFLxZqDJh8fZvsBx1lOpVtE/0bP+N/C0AHG3tEVKFFd5TNYS9Matsds/5WS83VmfEOlkIoLEdmKay0LwqHiVBdBduLGOA5uHfjtnNB4HhVyxuOA4kSy6OiO6Brcy7wTsEp4ScHXJXvwF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721154757; c=relaxed/simple;
-	bh=in01/cuBSfzW2fFwhuaZvYsjc3ek9xQkRKEYGumJyV4=;
+	s=arc-20240116; t=1721154814; c=relaxed/simple;
+	bh=YG6oQwo0hhMp9liGJwhLCAZgieohceHYXGJea/xVCz4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=om+n9yB4YckCNkZ0WFg98V3uyeSVUnKfuTGvqittkk6Qm6K+3HRfX1jHguEPgECqpiJqJ7X0BEGreXKHM7p2Yckz3o3CyPhc/fAmAZwLgHR4qgc4rONinkXXO4Q82QTBCUSMlT6IGl7mwjKNMyrhGsZlJmOWMhtiZAHSko7+dzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jB55YUc7; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=UwXLUshz8GtpVTIKwV4NjTGESAorRhXd42pEA3HMK9Pt6PabcG9Tw+ImUFPpWx9hRYO6giXZTWJU5i7A6+59BaUN8bY5UCATMw5S63gt9Q3R1j9NQwlW8gbrjXFqJ3XlHHsGOYPX/GFnUvLUi8GJrG8/W7++KlXLnxWrcb7LRRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=On5IlMjv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jB55YUc7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B93EC4AF0B;
-	Tue, 16 Jul 2024 18:32:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="On5IlMjv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B22CC4AF0D;
+	Tue, 16 Jul 2024 18:33:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721154756;
-	bh=in01/cuBSfzW2fFwhuaZvYsjc3ek9xQkRKEYGumJyV4=;
+	s=k20201202; t=1721154814;
+	bh=YG6oQwo0hhMp9liGJwhLCAZgieohceHYXGJea/xVCz4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jB55YUc7HOj2intzokVNITYiVr637+xHmWrWvvNA58j2TkOynOoM8k94LeyEQmMKq
-	 +c5LdgGJVDMsid0XbennAWLj7AcbdNpUi5QLpaW7jQFOPWViSnsAsC0pItkDw9G6cV
-	 sJYTimufui+/0Mm88pLZsLolJwpOFV+ctkzk2PRFpwfZtN2Y8GY1sE8cBMUNetB7h0
-	 SPlh/jThx0fNZjelxSbauOPcPTDGf2YWL15da4cMFk2Ns0SSr+nZ5j62LMBAhjoqOW
-	 fyXL0rScDDSPksjh8M1fdf6wDjiH5Hod4DrqyOBCIf1x8E1r5FXkjnfL1QK7CrUwEm
-	 hrDn+9RXnzztg==
+	b=On5IlMjvzdvuWHVLUAQN91ySzCdqMoaOSq84y9Vw9ivJvWq7Mxx5pLnlUAKDANLsM
+	 6toGhsD9w4ul+ZyWc/xGG5Zd5Eb1BeBksDR9HH7P2Ol83g9wrXKznlL8TyUA2ysTHK
+	 rNb2uFi8W1zYAcD6uEUNEZnTS4iWPZztG4y7uQf3cx4nHvNiscFo9sUJs7n4uHwJye
+	 NfeZvo/+zANOmyTRSpx5W1GVlN2n2b6XYonmZEf1wcihHbD25reOHCH8TIhM6d6pvb
+	 vGTxbr3xHU3SwI2n0kHWC1wDhiFrQcPURMQEcfT1ij5rEleIO1hnoiK7sH+UILJL//
+	 3Ey3Nu9zUnKfw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -43,12 +43,12 @@ Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
 	kuninori.morimoto.gx@renesas.com,
 	sound-open-firmware@alsa-project.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.9 06/11] ASoC: SOF: Intel: hda-pcm: Limit the maximum number of periods by MAX_BDL_ENTRIES
-Date: Tue, 16 Jul 2024 14:31:50 -0400
-Message-ID: <20240716183222.2813968-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 3/8] ASoC: SOF: Intel: hda-pcm: Limit the maximum number of periods by MAX_BDL_ENTRIES
+Date: Tue, 16 Jul 2024 14:33:00 -0400
+Message-ID: <20240716183324.2814275-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240716183222.2813968-1-sashal@kernel.org>
-References: <20240716183222.2813968-1-sashal@kernel.org>
+In-Reply-To: <20240716183324.2814275-1-sashal@kernel.org>
+References: <20240716183324.2814275-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -57,7 +57,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.9.9
+X-stable-base: Linux 6.6.40
 Content-Transfer-Encoding: 8bit
 
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
@@ -78,7 +78,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 6 insertions(+)
 
 diff --git a/sound/soc/sof/intel/hda-pcm.c b/sound/soc/sof/intel/hda-pcm.c
-index d7b446f3f973e..8b5fbbc777bd4 100644
+index f23c72cdff489..7d17d586ed9db 100644
 --- a/sound/soc/sof/intel/hda-pcm.c
 +++ b/sound/soc/sof/intel/hda-pcm.c
 @@ -254,6 +254,12 @@ int hda_dsp_pcm_open(struct snd_sof_dev *sdev,
