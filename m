@@ -1,44 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB23E19AD4B
-	for <linux-sound@vger.kernel.org>; Tue, 16 Jul 2024 14:45:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E89199E92
+	for <linux-sound@vger.kernel.org>; Tue, 16 Jul 2024 14:45:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721141143; cv=none; b=o1b32o1LIl6CNITK4vUFIyJbzgohE5aPvxoYRW1DgN6chRN4uLxemcDUhX89A17hD+WF9fh/0ae4OMaYY+YjF2Tcqq7M1ulI/R0jBP0DH/LNaL2+atYwQPj6ujJC0t0rXQhVwipT6CD+b2K5YMdGOL1q1nodHMmJ/9OVvzfEYew=
+	t=1721141145; cv=none; b=r9t+UYE/m0QFFvotG9FfZK+2ox4kiHuOxxhmokYpWApU2nnLyWop4flfB1+ruHdRyGJSKbfTApIS4Yu7aQql94o4kEnd8zb6iV7pZzPEof5GPRst4sTNLFoDa7NzW3KdoXf2yfLzhpLXqyde5X8MaNhI2cdY6i6WV97RT063BPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721141143; c=relaxed/simple;
-	bh=8WQ5SlhuRTQjpns/GLooy7U1HTe6n74GnCF9hYexhNU=;
+	s=arc-20240116; t=1721141145; c=relaxed/simple;
+	bh=RjRpkJFPLTVtr7FF7jRiRNR6NNoZv16lBsE1D8s+HyY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=fpvJVlBov9/gPdF0B7cKNoAsVWH5pOwD1iTzF76zYTDBOWKzwr3MA5hULXVsOL2mLwZKdgH+cOMxpr7bf252JEX0JxBNJAEUTjZKFD1UEOUi0Oao05f/sZaNRCpubl4Bm2/0cGRYlpd0a27q9hsW/im5LOmeDiPDAaTOKCocaOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vol71J+6; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=ajyD48zTviA683+V8yivljh9+1A7S3TjVTHwd5y3Z3ULp3Mjkjy1ZRwIouZRKYLeaP1owtJBGrYSEF6FCadAYU7LbrZRbzU3kkAskv+f8bA6F41sn/FvBJiwvMcRSaasVYffrBAHBgr/WYod3l/D3G59mp4uyPCS/nm13fQjOE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sj+axYiS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vol71J+6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E3C1C116B1;
-	Tue, 16 Jul 2024 14:45:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sj+axYiS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42FEAC116B1;
+	Tue, 16 Jul 2024 14:45:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721141142;
-	bh=8WQ5SlhuRTQjpns/GLooy7U1HTe6n74GnCF9hYexhNU=;
+	s=k20201202; t=1721141144;
+	bh=RjRpkJFPLTVtr7FF7jRiRNR6NNoZv16lBsE1D8s+HyY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Vol71J+6opG6uf2V8Js9u8hX6Nw4uuzdi2if/5TGnukv3EcZk+FwbrYFVpne9B0K4
-	 Weyyn8U5YAn7zNQTd/K6xKjQMIoTKnVuePbKbYj+ArLXG2jHGoipBVgWs/wpkrpaDh
-	 5D+tXxBPB0Vg2cNuLytk2ZeFfiRJhhZ4gH3i0tNgY/HkE01R0puPjMhVwJ8YRzor8J
-	 mCG6+4Vl0cm4J6/8ySijfjQuEtSK3k29EALiJn2NgC0f3l9uiuZd6U2BlQYg7fX7Qy
-	 npEiGfANupxxKGi12VKXxdijMxsEHjsLW8HrVqS+X4x27eMby1CruEMPPOo9ZF7Sx+
-	 8T8JaWd8V5/hw==
+	b=sj+axYiSmlSi+MkvpWpxTS1N8uxL9VMoiU8AcXl4XS7m2ab9LYR1068jHGefOaONN
+	 BDhKLU341oD3jKQMrZjYiA/i4tXrewK0dARKfSkdiSVB14kiFN5E5NZ1GmYlS+owvB
+	 UGqQ26Yp1LpMscUU32E716f7CsNMhLKUzEiyvu5vnxECh/ztJoYmivaIRih+NrxZnu
+	 mZ9WMpi1lWytxJCAlZJ0BaJqNaHxdhJ6KIzXgbU8qVXcZge/SKlpPtW0a8iB9V643y
+	 akJlnLVOOImx+IdeJS3bVEOi7OBboG/cRlnXNFqGWlhQoAjmtinnlKEvi/d36GtnBN
+	 UtCkiHaY9kCog==
 From: Mark Brown <broonie@kernel.org>
 To: linux-sound@vger.kernel.org, 
  Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 Cc: alsa-devel@alsa-project.org, tiwai@suse.de, 
- Mike Krinkin <krinkin.m.u@gmail.com>, 
- Todd Brandt <todd.e.brandt@linux.intel.com>, 
+ Curtis Malainey <cujomalainey@chromium.org>, 
  Bard Liao <yung-chuan.liao@linux.intel.com>
-In-Reply-To: <20240716084530.300829-1-pierre-louis.bossart@linux.intel.com>
-References: <20240716084530.300829-1-pierre-louis.bossart@linux.intel.com>
-Subject: Re: [PATCH] ASOC: SOF: Intel: hda-loader: only wait for HDaudio
- IOC for IPC4 devices
-Message-Id: <172114114117.56252.16346089758764770806.b4-ty@kernel.org>
-Date: Tue, 16 Jul 2024 15:45:41 +0100
+In-Reply-To: <20240716084012.299257-1-pierre-louis.bossart@linux.intel.com>
+References: <20240716084012.299257-1-pierre-louis.bossart@linux.intel.com>
+Subject: Re: [PATCH] ASoC: Intel: Fix RT5650 SSP lookup
+Message-Id: <172114114300.56252.16479559406586120577.b4-ty@kernel.org>
+Date: Tue, 16 Jul 2024 15:45:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,16 +47,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14-dev-d4707
 
-On Tue, 16 Jul 2024 10:45:30 +0200, Pierre-Louis Bossart wrote:
-> Multiple users report a regression bisected to commit d5263dbbd8af
-> ("ASoC: SOF: Intel: don't ignore IOC interrupts for non-audio
-> transfers"). The firmware version is the likely suspect, as these
-> users relied on SOF 2.0 while Intel only tested with the 2.2 release.
-> 
-> Rather than completely disable the wait_for_completion(), which can
-> help us gather timing information on the different stages of the boot
-> process, the simplest course of action is to just disable it for older
-> IPC versions which are no longer under active development.
+On Tue, 16 Jul 2024 10:40:12 +0200, Pierre-Louis Bossart wrote:
+> Commit 8efcd4864652 ("ASoC: Intel: sof_rt5682: use common module for
+> sof_card_private initialization") migrated the pin assignment in the
+> context struct up to soc-acpi-intel-ssp-common.c. This uses a lookup
+> table to see if a device has a amp/codec before assigning the pin. The
+> issue here arises when combination parts that serve both (with 2 ports)
+> are used.
 > 
 > [...]
 
@@ -68,8 +63,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASOC: SOF: Intel: hda-loader: only wait for HDaudio IOC for IPC4 devices
-      commit: 9ee3f0d8c9999eb1ef2866e86f8d57d996fc0348
+[1/1] ASoC: Intel: Fix RT5650 SSP lookup
+      commit: 6f6a23d42bdfbbfe1b41a23e2c78319a0cc65db3
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
