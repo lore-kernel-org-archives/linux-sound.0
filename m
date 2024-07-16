@@ -1,107 +1,202 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED6B93FB3B;
-	Tue, 16 Jul 2024 08:40:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 789B83FB3B
+	for <linux-sound@vger.kernel.org>; Tue, 16 Jul 2024 08:40:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721119223; cv=none; b=NM4nVpvfDmkGztvUj2yeUx9PyPR5NRTbR1+PuSydHVEtGNI+Obk4kGfsl+mHw9GrZLJf7NyNR6oM5sFgawh4cpQormSP+Vh0vM36WJM1c8mhTrCG2PRW4cICmg6q+YpwLKXMdIUu+yTNU8lF+nRWxm8x8hQse1BxgzWSKo/MeRQ=
+	t=1721119231; cv=none; b=pt6qeZcSvmSxWlAtHaCGl05xFeFyOuouKrd5Pru3eiO6AM8O+Slp/mRKvishF4YE+WdGeN4ClSGiSotJj9F806mdDyiFVGPMYDoSRYrPtie3Bp0+eduFSRE/L90gj1H/ra6Ta64GVOv0R1xhS1bOTGdrotEwEfHvIzxdEJWV4AE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721119223; c=relaxed/simple;
-	bh=+cb+A396TX01g/+krPAkegLsduwSJBAoVPNUU5Z37no=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=QGklHBnpj0U/kem2TJK+lB6vYv/X/1rS6AeV9wyHSRA7mr2txvb6tj8Idyq1MUU3Q2nBz06SwXEWWYm0TROujCHcrmqipk1YgcABa2WqdnUy5acvPIxSnhKJoisDoiEIGrlRIhvrXbFFJvGSA8DPkI7UYYbu6Y18n2ZTJl0eMtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Gq2vRck/; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1721119231; c=relaxed/simple;
+	bh=JsYVBSqNJXb2eN7XVFd49oK43QNpzg06jT/gd82/Sek=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UW8wqGxOcliImRoyWtuY77ZEKE/ECCrRRYqLd0wg6CuotOsOg3MJJPA1QJWDhvy42UXrxeARmEtsY6RWOu71RKLSCqz1QEhHkpuevz9DYjLqROf+XkBQbkvIg2H/7n/t6jKzjWFgzwYlGYJDc1XtrlizLSJX5YV9M2OLTDP3uWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PEkIEPPf; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Gq2vRck/"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46G4hlA9004722;
-	Tue, 16 Jul 2024 03:39:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=ITk2kB8sB5irsmZZA3IWAt7qcuvh9CDhBEbjd9TVeBs=; b=
-	Gq2vRck/Wc9wYqV7eTMmO+E3SpDVljLtpleVSPMImSgY/I4HhEASKihLW6QwD+Nd
-	ai2OI5iikP0hq+P/pZhfPZeXSVdiZsd4hX0wJb5oJqtuBEWkZgbOBQhDF51yuHSD
-	38F8jxO8C9qhjXkV98aoqcvc4A6/jeg7ODvo1Lnrf43li7FU7Ve0/Pn/JuV6+p/v
-	QgqU7V+zuOg6Y3fZxlKCcc4FBUIRHgPz7sJYCWTv78J/HAQpwN5eUyN3ZhCgveRb
-	4LlEo4Jw33TFDt+R0yjeRT0y/u/E3v+j6sGJut4o0lRd2gCRtiJL65VAhL8sjfoI
-	5K0iptwj7xZ0F900KuvvGQ==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 40bp0jjrcp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 16 Jul 2024 03:39:49 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 16 Jul
- 2024 09:39:47 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Tue, 16 Jul 2024 09:39:47 +0100
-Received: from [198.90.208.18] (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 4258D820244;
-	Tue, 16 Jul 2024 08:39:47 +0000 (UTC)
-Message-ID: <f551bffd-43f1-4162-9eaa-aac64ab227d0@opensource.cirrus.com>
-Date: Tue, 16 Jul 2024 09:39:47 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PEkIEPPf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1721119229; x=1752655229;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=JsYVBSqNJXb2eN7XVFd49oK43QNpzg06jT/gd82/Sek=;
+  b=PEkIEPPfzHwxi+yRJwDuPZ/jUZe+mhtpRmEk+AardaAzhGyuPu0swN45
+   J22W8eoD8GWdpbV/EML1aQqFuIRdL/3AnqFAGCVkl98Sd85JdnpO6qNkg
+   E2p4SuoIxYZKCos2vx78rE/eDNuiJKpVq45MZW2rFg3CIeHnyv4KiHBA+
+   vL0H++cyiY7sjurfknQXlDC/KoFpngJFIyvsYWuTCJx8Ana0Mj0XMA/bf
+   rL+a98F906HF1Dn5DT2TX3u34bDmEe6Ilq9vkIu/DFXvjHo3WDeDpHH5Q
+   LiG4tUyNvzgsZkrD82LM9H35ReEQ6EdeuoQHBTmWlAVhDckHbso7tzEqd
+   g==;
+X-CSE-ConnectionGUID: 4WIJv0+fSfOHw7S14IehQQ==
+X-CSE-MsgGUID: 8a1fZarNRuON+RJJ+mI4mA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11134"; a="18490422"
+X-IronPort-AV: E=Sophos;i="6.09,211,1716274800"; 
+   d="scan'208";a="18490422"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2024 01:40:29 -0700
+X-CSE-ConnectionGUID: qbor9/xXTym7nDwLh98bBA==
+X-CSE-MsgGUID: q6BdUxXVQWqBwYorVa1H1w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,211,1716274800"; 
+   d="scan'208";a="49682065"
+Received: from cpetruta-mobl1.ger.corp.intel.com (HELO pbossart-mobl6.intel.com) ([10.245.246.211])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2024 01:40:26 -0700
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+To: linux-sound@vger.kernel.org
+Cc: alsa-devel@alsa-project.org,
+	tiwai@suse.de,
+	broonie@kernel.org,
+	Curtis Malainey <cujomalainey@chromium.org>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH] ASoC: Intel: Fix RT5650 SSP lookup
+Date: Tue, 16 Jul 2024 10:40:12 +0200
+Message-ID: <20240716084012.299257-1-pierre-louis.bossart@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: cs42l42: Convert comma to semicolon
-To: Chen Ni <nichen@iscas.ac.cn>, <david.rhodes@cirrus.com>,
-        <lgirdwood@gmail.com>, <broonie@kernel.org>, <perex@perex.cz>,
-        <tiwai@suse.com>, <pierre-louis.bossart@linux.intel.com>,
-        <sbinding@opensource.cirrus.com>
-CC: <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
-        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20240716025307.400156-1-nichen@iscas.ac.cn>
-Content-Language: en-GB
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-In-Reply-To: <20240716025307.400156-1-nichen@iscas.ac.cn>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: OGq9hTF291lQclwBhHxKYphq6Eq1Plre
-X-Proofpoint-ORIG-GUID: OGq9hTF291lQclwBhHxKYphq6Eq1Plre
-X-Proofpoint-Spam-Reason: safe
+Content-Transfer-Encoding: 8bit
 
-On 16/07/2024 03:53, Chen Ni wrote:
-> Replace a comma between expression statements by a semicolon.
-> 
-> Fixes: 90f6a2a20bd2 ("ASoC: cs42l42: Add SoundWire support")
-> Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
-> ---
->   sound/soc/codecs/cs42l42-sdw.c | 12 ++++++------
->   1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/sound/soc/codecs/cs42l42-sdw.c b/sound/soc/codecs/cs42l42-sdw.c
-> index 94a66a325303..29891c1f6bec 100644
-> --- a/sound/soc/codecs/cs42l42-sdw.c
-> +++ b/sound/soc/codecs/cs42l42-sdw.c
-> @@ -323,15 +323,15 @@ static int cs42l42_sdw_read_prop(struct sdw_slave *peripheral)
->   	prop->scp_int1_mask = SDW_SCP_INT1_BUS_CLASH | SDW_SCP_INT1_PARITY;
->   
->   	/* DP1 - capture */
-> -	ports[0].num = CS42L42_SDW_CAPTURE_PORT,
-> -	ports[0].type = SDW_DPN_FULL,
-> -	ports[0].ch_prep_timeout = 10,
-> +	ports[0].num = CS42L42_SDW_CAPTURE_PORT;
-> +	ports[0].type = SDW_DPN_FULL;
-> +	ports[0].ch_prep_timeout = 10;
->   	prop->src_dpn_prop = &ports[0];
->   
->   	/* DP2 - playback */
-> -	ports[1].num = CS42L42_SDW_PLAYBACK_PORT,
-> -	ports[1].type = SDW_DPN_FULL,
-> -	ports[1].ch_prep_timeout = 10,
-> +	ports[1].num = CS42L42_SDW_PLAYBACK_PORT;
-> +	ports[1].type = SDW_DPN_FULL;
-> +	ports[1].ch_prep_timeout = 10;
->   	prop->sink_dpn_prop = &ports[1];
->   
->   	return 0;
-Reviewed-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+From: Curtis Malainey <cujomalainey@chromium.org>
+
+Commit 8efcd4864652 ("ASoC: Intel: sof_rt5682: use common module for
+sof_card_private initialization") migrated the pin assignment in the
+context struct up to soc-acpi-intel-ssp-common.c. This uses a lookup
+table to see if a device has a amp/codec before assigning the pin. The
+issue here arises when combination parts that serve both (with 2 ports)
+are used.
+
+sysfs: cannot create duplicate filename '/devices/pci0000:00/0000:00:1f.3/adl_rt5682_def/SSP0-Codec'
+CPU: 1 PID: 2079 Comm: udevd Tainted: G     U             6.6.36-03391-g744739e00023 #1 3be1a2880a0970f65545a957db7d08ef4b3e2c0d
+Hardware name: Google Anraggar/Anraggar, BIOS Google_Anraggar.15217.552.0 05/07/2024
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0x69/0xa0
+ sysfs_warn_dup+0x5b/0x70
+ sysfs_create_dir_ns+0xb0/0x100
+ kobject_add_internal+0x133/0x3c0
+ kobject_add+0x66/0xb0
+ ? device_add+0x65/0x780
+ device_add+0x164/0x780
+ snd_soc_add_pcm_runtimes+0x2fa/0x800
+ snd_soc_bind_card+0x35e/0xc20
+ devm_snd_soc_register_card+0x48/0x90
+ platform_probe+0x7b/0xb0
+ really_probe+0xf7/0x2a0
+ ...
+kobject: kobject_add_internal failed for SSP0-Codec with -EEXIST, don't try to register things with the same name in the same directory.
+
+The issue is that the ALC5650 was only defined in the codec table and
+not the amp table which left the pin unassigned but the dai link was
+still created by the machine driver.
+
+Also patch the suffix filename code for the topology to prevent double
+suffix names as a result of this change.
+
+Fixes: 8efcd4864652 ("ASoC: Intel: sof_rt5682: use common module for sof_card_private initialization")
+Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Signed-off-by: Curtis Malainey <cujomalainey@chromium.org>
+Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+---
+ .../intel/common/soc-acpi-intel-ssp-common.c  |  9 ++++
+ sound/soc/sof/intel/hda.c                     | 49 ++++++++++---------
+ 2 files changed, 34 insertions(+), 24 deletions(-)
+
+diff --git a/sound/soc/intel/common/soc-acpi-intel-ssp-common.c b/sound/soc/intel/common/soc-acpi-intel-ssp-common.c
+index 75d0b931d895..de7a3f7f47f1 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-ssp-common.c
++++ b/sound/soc/intel/common/soc-acpi-intel-ssp-common.c
+@@ -64,6 +64,15 @@ static const struct codec_map amps[] = {
+ 	CODEC_MAP_ENTRY("RT1015P", "rt1015", RT1015P_ACPI_HID, CODEC_RT1015P),
+ 	CODEC_MAP_ENTRY("RT1019P", "rt1019", RT1019P_ACPI_HID, CODEC_RT1019P),
+ 	CODEC_MAP_ENTRY("RT1308", "rt1308", RT1308_ACPI_HID, CODEC_RT1308),
++
++	/*
++	 * Monolithic components
++	 *
++	 * Only put components that can serve as both the amp and the codec below this line.
++	 * This will ensure that if the part is used just as a codec and there is an amp as well
++	 * then the amp will be selected properly.
++	 */
++	CODEC_MAP_ENTRY("RT5650", "rt5650", RT5650_ACPI_HID, CODEC_RT5650),
+ };
+ 
+ enum snd_soc_acpi_intel_codec
+diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
+index daf364f773dd..5a40b8fbbbd3 100644
+--- a/sound/soc/sof/intel/hda.c
++++ b/sound/soc/sof/intel/hda.c
+@@ -1307,9 +1307,10 @@ struct snd_soc_acpi_mach *hda_machine_select(struct snd_sof_dev *sdev)
+ 	const struct sof_dev_desc *desc = sof_pdata->desc;
+ 	struct hdac_bus *bus = sof_to_bus(sdev);
+ 	struct snd_soc_acpi_mach *mach = NULL;
+-	enum snd_soc_acpi_intel_codec codec_type;
++	enum snd_soc_acpi_intel_codec codec_type, amp_type;
+ 	const char *tplg_filename;
+ 	const char *tplg_suffix;
++	bool amp_name_valid;
+ 
+ 	/* Try I2S or DMIC if it is supported */
+ 	if (interface_mask & (BIT(SOF_DAI_INTEL_SSP) | BIT(SOF_DAI_INTEL_DMIC)))
+@@ -1413,30 +1414,30 @@ struct snd_soc_acpi_mach *hda_machine_select(struct snd_sof_dev *sdev)
+ 			}
+ 		}
+ 
+-		codec_type = snd_soc_acpi_intel_detect_amp_type(sdev->dev);
+-
+-		if (tplg_fixup &&
+-		    mach->tplg_quirk_mask & SND_SOC_ACPI_TPLG_INTEL_AMP_NAME &&
+-		    codec_type != CODEC_NONE) {
+-			tplg_suffix = snd_soc_acpi_intel_get_amp_tplg_suffix(codec_type);
+-			if (!tplg_suffix) {
+-				dev_err(sdev->dev, "no tplg suffix found, amp %d\n",
+-					codec_type);
+-				return NULL;
+-			}
+-
+-			tplg_filename = devm_kasprintf(sdev->dev, GFP_KERNEL,
+-						       "%s-%s",
+-						       sof_pdata->tplg_filename,
+-						       tplg_suffix);
+-			if (!tplg_filename)
+-				return NULL;
+-
+-			sof_pdata->tplg_filename = tplg_filename;
+-			add_extension = true;
+-		}
+-
++		amp_type = snd_soc_acpi_intel_detect_amp_type(sdev->dev);
+ 		codec_type = snd_soc_acpi_intel_detect_codec_type(sdev->dev);
++		amp_name_valid = amp_type != CODEC_NONE && amp_type != codec_type;
++
++		if (tplg_fixup && amp_name_valid &&
++		    mach->tplg_quirk_mask & SND_SOC_ACPI_TPLG_INTEL_AMP_NAME) {
++			tplg_suffix = snd_soc_acpi_intel_get_amp_tplg_suffix(amp_type);
++			if (!tplg_suffix) {
++				dev_err(sdev->dev, "no tplg suffix found, amp %d\n",
++					amp_type);
++				return NULL;
++			}
++
++			tplg_filename = devm_kasprintf(sdev->dev, GFP_KERNEL,
++						       "%s-%s",
++						       sof_pdata->tplg_filename,
++						       tplg_suffix);
++			if (!tplg_filename)
++				return NULL;
++
++			sof_pdata->tplg_filename = tplg_filename;
++			add_extension = true;
++		}
++
+ 
+ 		if (tplg_fixup &&
+ 		    mach->tplg_quirk_mask & SND_SOC_ACPI_TPLG_INTEL_CODEC_NAME &&
+-- 
+2.43.0
+
