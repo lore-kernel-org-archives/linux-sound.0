@@ -1,99 +1,97 @@
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 886916AD7;
-	Tue, 16 Jul 2024 02:55:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 005D53224;
+	Tue, 16 Jul 2024 03:01:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721098563; cv=none; b=MFmv7GHfeKxL1k1yNOv7sg098gJl6RWFc7fX3aKfn24TfSzmoRD+6d3wYt3nXIszUvjMJs9UHCMezdYT9F7Cg1X0jmX8E3E7D+TFpkW67yYkmonB/ngW6CMN3CPPF5VYHRwhaViMvLFDFX15OdnbJ3kpxqf9p9BLY+mvC/ck+AU=
+	t=1721098868; cv=none; b=ehAzA+wpZQ+5SdpwhB5wQWFI2m/Qk3gANssKv6kFMM6cskcP5DzG9Zxd32UllgAee07bu51e5vJtWKLUby55seyHeMXhm9YemKw9HFEODmCC02IvBfVaX7oKSNTVmeVqsBfNfxqDGc/52WoKhLn5Sb4Irj2sS6DlXiuMCQYkLA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721098563; c=relaxed/simple;
-	bh=A4sasep0wgFY/nol468aE8wUMXdmRa4J6+Hyubp4gQc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RtFTjetJa3SOJGyH2h6XH9vUsQ3V67XycHUcA04bglj8k1wUq+m/rr93IbH4zqWYLEyAWCbZA6UqCjpZHuJ89UvUxwwoVhK2WidgkOldZxmVoRGd6FHyXPOgADdWsXqwNtOKd9JafUQZqa/37Ity8hy6o6rqZg/NqMuQaiOTrmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost (unknown [124.16.138.129])
-	by APP-05 (Coremail) with SMTP id zQCowADX37cv4ZVm2umMAw--.46434S2;
-	Tue, 16 Jul 2024 10:55:43 +0800 (CST)
-From: Chen Ni <nichen@iscas.ac.cn>
-To: david.rhodes@cirrus.com,
-	rf@opensource.cirrus.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	pierre-louis.bossart@linux.intel.com,
-	sbinding@opensource.cirrus.com
-Cc: alsa-devel@alsa-project.org,
-	patches@opensource.cirrus.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] ASoC: cs42l42: Convert comma to semicolon
-Date: Tue, 16 Jul 2024 10:53:07 +0800
-Message-Id: <20240716025307.400156-1-nichen@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1721098868; c=relaxed/simple;
+	bh=wIZrglgYO769FiWXo1dTFFsEPXihHFxfIcMy8tkZCfU=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=igyVC6E+M4yEDSRfXx8oSX/fagpXSAdEGI1CACNEDEtwXfQsBa8vBDKI+fsnw8POYoxv+4Ltp3RhDgDPbdXi+C9bQ/SsqL3ptQp2RKCMmFKqM1brjwTto7PtLj0Ce4XrCXTPsjHj0pGzigY5rJ/3dBJRQTXM4wICZZw8/VtQPhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=lxuNgjXh; arc=none smtp.client-ip=116.203.91.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="lxuNgjXh"
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowADX37cv4ZVm2umMAw--.46434S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Jw4UZF15Wry8AF4rXF4UCFg_yoW8JF1fpa
-	1q9a95Z3yfJw47Z3sYyr1DW3W8GFWjka17Ary7Ga90ywnIqF9YqF1xAFsrJF9xJFyjkFZx
-	XFyaqr45Crn0yFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9j14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
-	1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
-	6xIIjxv20xvE14v26r1q6rW5McIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE7xkEbV
-	WUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7Cj
-	xVA2Y2ka0xkIwI1lc2xSY4AK67AK6r4UMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
-	AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
-	17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
-	IF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4l
-	IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvf
-	C2KfnxnUUI43ZEXa7VUbZ2-5UUUUU==
-X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+	t=1721098862;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rswZVR3IzZAW4VDWUHfqlBwWT/NMTNi3QeFCfqZztcA=;
+	b=lxuNgjXhtThjdVjaTyB7CTsdTVTkjfUE9RDuu8hlmnVLhQQqRpFmd0OLVyoDrSZy+yWYkZ
+	dATGbyxVxVsR+OInDlBIzVeCe7qzZnZmJFVMYOkrB3k2wt/8IugXdMZqYgpJKon4O0scLl
+	H+k5sQJ9w+kiBhOtOuOGGd75F4U1Z58hN8EF9PL/Fb0Ao7620HF9sv0N3jja+daz0nYX8p
+	vttaTk1jdramm55qdAykKHzixGmZPDfu4kbQhRtz0CKwGXiHcpCQ5XDEEEIotIgsFJBLdY
+	fBB9R7iOi0/WCvtdwEohs7uZO8+iFoSCzNut4auLRwdLCw92z3grtk/v6qDSHA==
+Date: Tue, 16 Jul 2024 05:01:01 +0200
+From: Dragan Simic <dsimic@manjaro.org>
+To: Chen Ni <nichen@iscas.ac.cn>
+Cc: david.rhodes@cirrus.com, rf@opensource.cirrus.com, lgirdwood@gmail.com,
+ broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+ pierre-louis.bossart@linux.intel.com, sbinding@opensource.cirrus.com,
+ alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: cs42l42: Convert comma to semicolon
+In-Reply-To: <20240716025307.400156-1-nichen@iscas.ac.cn>
+References: <20240716025307.400156-1-nichen@iscas.ac.cn>
+Message-ID: <32852e06f72e570de3da00f4ded84211@manjaro.org>
+X-Sender: dsimic@manjaro.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Authentication-Results: ORIGINATING;
+	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 
-Replace a comma between expression statements by a semicolon.
+On 2024-07-16 04:53, Chen Ni wrote:
+> Replace a comma between expression statements by a semicolon.
+> 
+> Fixes: 90f6a2a20bd2 ("ASoC: cs42l42: Add SoundWire support")
+> Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
 
-Fixes: 90f6a2a20bd2 ("ASoC: cs42l42: Add SoundWire support")
-Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
----
- sound/soc/codecs/cs42l42-sdw.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Nice catch, thanks!
 
-diff --git a/sound/soc/codecs/cs42l42-sdw.c b/sound/soc/codecs/cs42l42-sdw.c
-index 94a66a325303..29891c1f6bec 100644
---- a/sound/soc/codecs/cs42l42-sdw.c
-+++ b/sound/soc/codecs/cs42l42-sdw.c
-@@ -323,15 +323,15 @@ static int cs42l42_sdw_read_prop(struct sdw_slave *peripheral)
- 	prop->scp_int1_mask = SDW_SCP_INT1_BUS_CLASH | SDW_SCP_INT1_PARITY;
- 
- 	/* DP1 - capture */
--	ports[0].num = CS42L42_SDW_CAPTURE_PORT,
--	ports[0].type = SDW_DPN_FULL,
--	ports[0].ch_prep_timeout = 10,
-+	ports[0].num = CS42L42_SDW_CAPTURE_PORT;
-+	ports[0].type = SDW_DPN_FULL;
-+	ports[0].ch_prep_timeout = 10;
- 	prop->src_dpn_prop = &ports[0];
- 
- 	/* DP2 - playback */
--	ports[1].num = CS42L42_SDW_PLAYBACK_PORT,
--	ports[1].type = SDW_DPN_FULL,
--	ports[1].ch_prep_timeout = 10,
-+	ports[1].num = CS42L42_SDW_PLAYBACK_PORT;
-+	ports[1].type = SDW_DPN_FULL;
-+	ports[1].ch_prep_timeout = 10;
- 	prop->sink_dpn_prop = &ports[1];
- 
- 	return 0;
--- 
-2.25.1
+Reviewed-by: Dragan Simic <dsimic@manjaro.org>
 
+> ---
+>  sound/soc/codecs/cs42l42-sdw.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/sound/soc/codecs/cs42l42-sdw.c 
+> b/sound/soc/codecs/cs42l42-sdw.c
+> index 94a66a325303..29891c1f6bec 100644
+> --- a/sound/soc/codecs/cs42l42-sdw.c
+> +++ b/sound/soc/codecs/cs42l42-sdw.c
+> @@ -323,15 +323,15 @@ static int cs42l42_sdw_read_prop(struct
+> sdw_slave *peripheral)
+>  	prop->scp_int1_mask = SDW_SCP_INT1_BUS_CLASH | SDW_SCP_INT1_PARITY;
+> 
+>  	/* DP1 - capture */
+> -	ports[0].num = CS42L42_SDW_CAPTURE_PORT,
+> -	ports[0].type = SDW_DPN_FULL,
+> -	ports[0].ch_prep_timeout = 10,
+> +	ports[0].num = CS42L42_SDW_CAPTURE_PORT;
+> +	ports[0].type = SDW_DPN_FULL;
+> +	ports[0].ch_prep_timeout = 10;
+>  	prop->src_dpn_prop = &ports[0];
+> 
+>  	/* DP2 - playback */
+> -	ports[1].num = CS42L42_SDW_PLAYBACK_PORT,
+> -	ports[1].type = SDW_DPN_FULL,
+> -	ports[1].ch_prep_timeout = 10,
+> +	ports[1].num = CS42L42_SDW_PLAYBACK_PORT;
+> +	ports[1].type = SDW_DPN_FULL;
+> +	ports[1].ch_prep_timeout = 10;
+>  	prop->sink_dpn_prop = &ports[1];
+> 
+>  	return 0;
