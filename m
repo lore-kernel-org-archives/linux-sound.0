@@ -1,86 +1,194 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-43166.protonmail.ch (mail-43166.protonmail.ch [185.70.43.166])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC54219DF69;
-	Tue, 16 Jul 2024 14:48:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D2462A1AA;
+	Tue, 16 Jul 2024 14:51:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.166
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721141300; cv=none; b=fBmPeQb37YQaxQ1zC4jI/poL5FyhoiEa2iOEuZFd8EkuLvJ6tXQ5pfvtLAkJ+dne1Ld9mMJ7j7Uv4l9LXVvC7ykKUuI2M1DCPEHxSnazWefEPB9RDXEA6rMONBUBNBJ7e8+F40VHoaDOlwdH2IH71PJ2bV58h8zqmnbxDGvBxGo=
+	t=1721141502; cv=none; b=uyDmijJIAPPMN6Ke/QoPH+bp5cssl8bkH4dWhIaH2JgjjHRs6dd0UEF7dsrfWc4VIESqrFixehqRTMlIIlKbPFBRfSTisCH/YHabx9MCiVjMLTz/36oKtshD+bdc4Ul4nk+EV1G/HpjihOFyoXyawczI+R/7Wqd8KoE1SPSY87Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721141300; c=relaxed/simple;
-	bh=Tuz2Cqp7OAZTUWZxMCkgxInLDeSPCQDXRM7Tshu+UVQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qzTDwR4YsPlFaKVgHvAAeQhCJW8sd0iMPo14FwXUmWvkzFtjlrtTuZOG1U2nH/Si9qYs3m2ubEctUNuQm60+OXUNcgAWXAnXMhsj0UUzzuLxOowdsjqqRv9zHE8eQQ9RUxfG34SFmgBWLVAllONl3mWrh3RHpvlYqD5nGBiiYjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eGwKNO6D; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721141502; c=relaxed/simple;
+	bh=0IzSqzjHm9x5m187QXF1kulFH3ei6LhKoz2o7u+RAwQ=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=pLcI5+EtYUrc8f0qsr+uyAcbronjQFetozJBoI0+zBzThTTfnB29sW3j9NGufm+X3FhEQbiDZWLwttKCr6MTARF6mUw9ajCYfSgXXh9rO2eUca78Ag0TKsCPxarGbTdK5CRGpbIFMjlZxuM1QADDNvJ8xKIE1Tufb6Vbooat+iE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=nYjZo258; arc=none smtp.client-ip=185.70.43.166
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eGwKNO6D"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95EBFC116B1;
-	Tue, 16 Jul 2024 14:48:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721141300;
-	bh=Tuz2Cqp7OAZTUWZxMCkgxInLDeSPCQDXRM7Tshu+UVQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=eGwKNO6DY7e1m1YLACLSfor4erCPo6t+7zQCbLnB60QH7jLugfmwDpPX6c5PMRtL2
-	 d/h/0kJkVblnKm0+tAQYxb/X+sOWhVz1Tge8IyR4XCRNSOM5CLMFnn3wwygRLb+tFZ
-	 TU5V/y+BLRWt/Ecd4QnnlavdFk9DQH2KeHZdqAmjtbC3YsUE/u1w9WCjz41FBtFPel
-	 Vb22fudnrCE72Z3kRVwqk4VCGwtRGzeLC/IiUlSgbrigEdF5gzUqpRQ/eS9O3DL6Y0
-	 NJ8oDF1lVmCvB8hmnXch+56ZX2gr2MwlEWdAJi7FLu7WVftc3RnneARMKcyf4B6b0F
-	 8RcCvH50Qebzw==
-From: Mark Brown <broonie@kernel.org>
-Date: Tue, 16 Jul 2024 15:48:00 +0100
-Subject: [PATCH v2 2/2] kselftest/alsa: Log the PCM ID in pcm-test
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="nYjZo258"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1721141491; x=1721400691;
+	bh=0IzSqzjHm9x5m187QXF1kulFH3ei6LhKoz2o7u+RAwQ=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=nYjZo258xx8plk+L8sIJ7RmHHIqEeQkd7MyGPeqSCvVcAFI/pSe2lJ0O2TbHHQwQz
+	 AGQOVMBokP3KKUVBFF0xBK3QE2NO9t8bq6cecYiSoL0EeQwJXHTumaSMtlJOuaLBPT
+	 c8Oc9EXifS73a6rEUzH2suZrAHav3ZjSctZZJR5bPEmRNxiPAYAccj3qsuhm/cWub7
+	 3lB4tb8GQI7xVv0+f2AK6dR/mArBeyxpQ48dF2U2v7c3Wj5RsIamUUqjqT63aULstP
+	 dgFuueNl+GNY5/jSJf+0keXBIiaguPx5VEsdGO7hdoPBmnjHXpg7dzvT5iP3hsS2hT
+	 XHULwPgMw7ZyQ==
+Date: Tue, 16 Jul 2024 14:51:24 +0000
+To: stable@vger.kernel.org, alsa-devel@alsa-project.org
+From: "edmund.raile" <edmund.raile@proton.me>
+Cc: regressions@lists.linux.dev, o-takashi@sakamocchi.jp, tiwai@suse.de, clemens@ladisch.de, linux-sound@vger.kernel.org
+Subject: [REGRESSION] ALSA: firewire-lib: snd_pcm_period_elapsed deadlock with Fireface 800
+Message-ID: <kwryofzdmjvzkuw6j3clftsxmoolynljztxqwg76hzeo4simnl@jn3eo7pe642q>
+Feedback-ID: 45198251:user:proton
+X-Pm-Message-ID: 7a57af81588e3f78a241bcd640e29c0bac2516e8
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240716-alsa-kselftest-board-name-v2-2-60f1acdde096@kernel.org>
-References: <20240716-alsa-kselftest-board-name-v2-0-60f1acdde096@kernel.org>
-In-Reply-To: <20240716-alsa-kselftest-board-name-v2-0-60f1acdde096@kernel.org>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Shuah Khan <shuah@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.14-dev-d4707
-X-Developer-Signature: v=1; a=openpgp-sha256; l=945; i=broonie@kernel.org;
- h=from:subject:message-id; bh=Tuz2Cqp7OAZTUWZxMCkgxInLDeSPCQDXRM7Tshu+UVQ=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBmlogsg4N4aKcab1kvUtEMEejyFV/+puYuIz89EmPH
- jqiOzk+JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZpaILAAKCRAk1otyXVSH0JfdCA
- CG1RoHgLkdx8CjGJWC7jzgdl7KJSQ3rZYrwlcyB04wDpAd109fwN+V97SzFyRRl94hUBVcHAjl+iXv
- CoDBiRhGdAHhT+49ZaQjgJdGNxUC0LgEay94sFL5+kxnApr8iyMBN9mxNd0H5YUR9knmNswdFkEPT7
- fP6k0EU2BXwmC1riMx5Wro99c+nf6CK4BMJcMhrrqyPyEfx2nekh2isWpYocRn4aS72ft6Pf/msvF0
- 5B/CAi1h8caQgnJvXv3idet954lSJiIf+rFN/55WcCuqF+gYcQcstSK3qViTes83ktxMlkKd8lqNnS
- b8noohoTGBaBf/2PBkSxxlpjBv0uFV
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Drivers report a string with a name for each PCM, log it during startup of
-pcm-test as a diagnostic aid.
+On kernels since 5.14.0, ALSA playback to the FireWire RME Fireface 800
+audio interface results in a deadlock involving snd_pcm_period_elapsed(),
+freezing the system.
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- tools/testing/selftests/alsa/pcm-test.c | 4 ++++
- 1 file changed, 4 insertions(+)
+On kernels 5.0.0 to 5.13.19 the interface works just fine, as it does with
+the RME driver.
 
-diff --git a/tools/testing/selftests/alsa/pcm-test.c b/tools/testing/selftests/alsa/pcm-test.c
-index 7abb21845e10..70a96d64cbdc 100644
---- a/tools/testing/selftests/alsa/pcm-test.c
-+++ b/tools/testing/selftests/alsa/pcm-test.c
-@@ -240,6 +240,10 @@ static void find_pcms(void)
- 				if (err < 0)
- 					ksft_exit_fail_msg("snd_ctl_pcm_info: %d:%d:%d\n",
- 							   dev, 0, stream);
-+
-+				ksft_print_msg("%s.0 - %s\n", card_data->name,
-+					       snd_pcm_info_get_id(pcm_info));
-+
- 				count = snd_pcm_info_get_subdevices_count(pcm_info);
- 				for (subdev = 0; subdev < count; subdev++) {
- 					sprintf(key, "pcm.%d.%d.%s", dev, subdev, snd_pcm_stream_name(stream));
+Distributions tested:
+Ubuntu
+Manjaro
+Arch
+Fedora
 
--- 
-2.39.2
+FireWire chipsets tested:
+LSI FW643
+TI XIO2213B
+
+Platforms tested:
+Intel i5 4570 on AsRock H97 Pro4
+Intel i5 12600K on MSI MS-7D25
+
+The behavior was also observed on the RME forum:
+https://forum.rme-audio.de/viewtopic.php?pid=3D190472#p190472
+
+Shortened traces of 6.10.0-rc7 (Arch linux-mainline):
+
+RIP: 0010:tasklet_unlock_spin_wait (./arch/x86/include/asm/bitops.h:206 ./a=
+rch/x86/include/asm/bitops.h:238 ./include/asm-generic/bitops/instrumented-=
+non-atomic.h:142 kernel/softirq.c:851)=20
+ <NMI>
+? watchdog_hardlockup_check.cold (kernel/watchdog.c:200)=20
+? __perf_event_overflow (kernel/events/core.c:9737 (discriminator 2))=20
+? handle_pmi_common (arch/x86/events/intel/core.c:3061 (discriminator 1))=
+=20
+? intel_pmu_handle_irq (./arch/x86/include/asm/paravirt.h:192 arch/x86/even=
+ts/intel/core.c:2428 arch/x86/events/intel/core.c:3127)=20
+? perf_event_nmi_handler (arch/x86/events/core.c:1744 arch/x86/events/core.=
+c:1730)=20
+? nmi_handle (arch/x86/kernel/nmi.c:151)=20
+? default_do_nmi (arch/x86/kernel/nmi.c:352 (discriminator 61))=20
+? exc_nmi (arch/x86/kernel/nmi.c:546)=20
+? end_repeat_nmi (arch/x86/entry/entry_64.S:1408)=20
+? tasklet_unlock_spin_wait (./arch/x86/include/asm/bitops.h:206 ./arch/x86/=
+include/asm/bitops.h:238 ./include/asm-generic/bitops/instrumented-non-atom=
+ic.h:142 kernel/softirq.c:851)=20
+? tasklet_unlock_spin_wait (./arch/x86/include/asm/bitops.h:206 ./arch/x86/=
+include/asm/bitops.h:238 ./include/asm-generic/bitops/instrumented-non-atom=
+ic.h:142 kernel/softirq.c:851)=20
+? tasklet_unlock_spin_wait (./arch/x86/include/asm/bitops.h:206 ./arch/x86/=
+include/asm/bitops.h:238 ./include/asm-generic/bitops/instrumented-non-atom=
+ic.h:142 kernel/softirq.c:851)=20
+ </NMI>
+ <TASK>
+ohci_flush_iso_completions (./include/linux/interrupt.h:740 drivers/firewir=
+e/ohci.c:3530) firewire_ohci
+amdtp_domain_stream_pcm_pointer (sound/firewire/amdtp-stream.c:1858) snd_fi=
+rewire_lib
+snd_pcm_update_hw_ptr0 (sound/core/pcm_lib.c:304) snd_pcm
+snd_pcm_status64 (sound/core/pcm_native.c:1034) snd_pcm
+snd_pcm_status_user64 (./include/linux/uaccess.h:191 sound/core/pcm_native.=
+c:1096) snd_pcm
+snd_pcm_ioctl (sound/core/pcm_native.c:3401 (discriminator 1)) snd_pcm
+__x64_sys_ioctl (fs/ioctl.c:51 fs/ioctl.c:907 fs/ioctl.c:893 fs/ioctl.c:893=
+)=20
+do_syscall_64 (arch/x86/entry/common.c:52 (discriminator 1) arch/x86/entry/=
+common.c:83 (discriminator 1))=20
+? snd_pcm_status_user64 (sound/core/pcm_native.c:1096 (discriminator 1)) sn=
+d_pcm
+? futex_wake (kernel/futex/waitwake.c:173)=20
+? do_futex (kernel/futex/syscalls.c:107 (discriminator 1))=20
+? __x64_sys_futex (kernel/futex/syscalls.c:179 kernel/futex/syscalls.c:160 =
+kernel/futex/syscalls.c:160)=20
+? syscall_exit_to_user_mode (kernel/entry/common.c:221)=20
+? do_syscall_64 (./arch/x86/include/asm/cpufeature.h:178 arch/x86/entry/com=
+mon.c:98)=20
+? do_futex (kernel/futex/syscalls.c:107 (discriminator 1))=20
+? __x64_sys_futex (kernel/futex/syscalls.c:179 kernel/futex/syscalls.c:160 =
+kernel/futex/syscalls.c:160)=20
+? syscall_exit_to_user_mode (kernel/entry/common.c:221)=20
+? do_syscall_64 (./arch/x86/include/asm/cpufeature.h:178 arch/x86/entry/com=
+mon.c:98)=20
+? syscall_exit_to_user_mode (kernel/entry/common.c:221)=20
+? do_syscall_64 (./arch/x86/include/asm/cpufeature.h:178 arch/x86/entry/com=
+mon.c:98)=20
+? do_syscall_64 (./arch/x86/include/asm/cpufeature.h:178 arch/x86/entry/com=
+mon.c:98)=20
+? __irq_exit_rcu (kernel/softirq.c:620 (discriminator 1) kernel/softirq.c:6=
+39 (discriminator 1))=20
+entry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:130)=20
+
+RIP: 0010:native_queued_spin_lock_slowpath (kernel/locking/qspinlock.c:380 =
+(discriminator 3))=20
+ <NMI>
+? watchdog_hardlockup_check.cold (kernel/watchdog.c:200)=20
+? __perf_event_overflow (kernel/events/core.c:9737 (discriminator 2))=20
+? handle_pmi_common (arch/x86/events/intel/core.c:3061 (discriminator 1))=
+=20
+? intel_pmu_handle_irq (./arch/x86/include/asm/paravirt.h:192 arch/x86/even=
+ts/intel/core.c:2428 arch/x86/events/intel/core.c:3127)=20
+? perf_event_nmi_handler (arch/x86/events/core.c:1744 arch/x86/events/core.=
+c:1730)=20
+? nmi_handle (arch/x86/kernel/nmi.c:151)=20
+? default_do_nmi (arch/x86/kernel/nmi.c:352 (discriminator 61))=20
+? exc_nmi (arch/x86/kernel/nmi.c:546)=20
+? end_repeat_nmi (arch/x86/entry/entry_64.S:1408)=20
+? native_queued_spin_lock_slowpath (kernel/locking/qspinlock.c:380 (discrim=
+inator 3))=20
+? native_queued_spin_lock_slowpath (kernel/locking/qspinlock.c:380 (discrim=
+inator 3))=20
+? native_queued_spin_lock_slowpath (kernel/locking/qspinlock.c:380 (discrim=
+inator 3))=20
+ </NMI>
+ <IRQ>
+_raw_spin_lock_irqsave (./arch/x86/include/asm/paravirt.h:584 ./arch/x86/in=
+clude/asm/qspinlock.h:51 ./include/asm-generic/qspinlock.h:114 ./include/li=
+nux/spinlock.h:187 ./include/linux/spinlock_api_smp.h:111 kernel/locking/sp=
+inlock.c:162)=20
+snd_pcm_period_elapsed (sound/core/pcm_lib.c:1905) snd_pcm
+process_rx_packets (sound/firewire/amdtp-stream.c:1164) snd_firewire_lib
+irq_target_callback (sound/firewire/amdtp-stream.c:1549) snd_firewire_lib
+handle_it_packet (drivers/firewire/ohci.c:2786 drivers/firewire/ohci.c:2974=
+) firewire_ohci
+context_tasklet (drivers/firewire/ohci.c:1127) firewire_ohci
+tasklet_action_common.isra.0 (kernel/softirq.c:789)=20
+handle_softirqs (kernel/softirq.c:554)=20
+__irq_exit_rcu (kernel/softirq.c:589 kernel/softirq.c:428 kernel/softirq.c:=
+637)=20
+common_interrupt (arch/x86/kernel/irq.c:278 (discriminator 35))=20
+ </IRQ>
+ <TASK>
+asm_common_interrupt (./arch/x86/include/asm/idtentry.h:693)=20
+
+It can be induced by direct ALSA playback to the device:
+mpv --audio-device=3Dalsa/sysdefault:CARD=3DFireface800 Spor-Ignition.flac
+Time to occurrence ranges from two seconds to 30 minutes.
+
+Loading the CPU appears to increase the likelihood:
+stress --cpu $(nproc)
+So does switching between applications via workspaces (only tested Xfce).
+
+The regression has been traced to these two commits:
+7ba5ca32fe6e8d2e153fb5602997336517b34743
+b5b519965c4c364ae65c49fe9f11d222dd70a9c2
+
+I am currently testing a simple patch, in essence reverting both commits.
+Behaves well so far (stable), will likely send it in tomorrow.
+
+#regzbot introduced: 7ba5ca32fe6e
 
