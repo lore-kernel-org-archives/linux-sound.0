@@ -1,107 +1,76 @@
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78230AD5A;
-	Wed, 17 Jul 2024 05:10:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.249
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58DF71862A;
+	Wed, 17 Jul 2024 07:03:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721193035; cv=none; b=l+TmN/iU9jwGOdYYtXwSC0EhUa6c0szsByt+Mo8PWGRCnlZ3jRKdWj+az5xpZ7zAf5N4WP4LfurliYCQGOM30yZI5lHXZUCqXpmzvtoHIjG0L+5CDtw9fFkZw//W5VtKtgtpyTh9vuP8b3E+mROfTnoVaH5Q0Ee7mjRoLkxNmLw=
+	t=1721199813; cv=none; b=F6dedco1Mg6k9i9uJS+GT89EJ6Bc+LloySjauEUQda3iUN+W4R1EaVqMZmw5TBewMKJT8Wj8P9oDcc44hXMUM7tvyNNMphJtpLPOpxBW4gkPzE6aP2j2ADvVlj2YeoDaMVdjyEI6VMfPlyshH/IGZCTVnG9hmv7d0YDYlRH0X0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721193035; c=relaxed/simple;
-	bh=+u5nnLKYwp/6wtiocm4ix8p6rvb0RiPBvJ5u7yHI1Ds=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hA9CBcdYSwJuPxk7ePpf5Acbw5JnHYoTvzqZ3rlahiRpFLohUMO7BCp1A70GM2uNUc60BTdzHCmmtfGDVCnRE9sF2Jc9cJd6cpw+W+YNXFKBf8dMZq+iKC/3WG9Ez4tn9Bipmar16Wvy2qhH8sGbGYaRUp8tbSyxAaeT/wpXIa8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=sIDoK+Tc; arc=none smtp.client-ip=198.47.23.249
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="sIDoK+Tc"
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 46H59Sfh122485;
-	Wed, 17 Jul 2024 00:09:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1721192968;
-	bh=7L9STx9OurQV4QAGt/5PU0GHa7eFyMMm4I1geDhiLs4=;
-	h=From:To:CC:Subject:Date;
-	b=sIDoK+TcDsMwAME5uWkpoADtUx1vsibkln8lIq0h+axf+5HGeozyZpQuP3O66AqeB
-	 T6FQtC+FX0Je7JZ+Tiv8zCzV+2+a6DZKfKwpskJKya+DOfSH5/1gj/RZU8IPp1mNYf
-	 1yxhpP1r7QDI3EVGFi+ryr/2iHOvRFFhSNAgGgDU=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
-	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 46H59SbT043198
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 17 Jul 2024 00:09:28 -0500
-Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 17
- Jul 2024 00:09:28 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE110.ent.ti.com
- (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Wed, 17 Jul 2024 00:09:28 -0500
-Received: from LT5CG31242FY.dhcp.ti.com (lt5cg31242fy.dhcp.ti.com [10.85.14.243])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 46H59NEA011177;
-	Wed, 17 Jul 2024 00:09:24 -0500
-From: Shenghao Ding <shenghao-ding@ti.com>
-To: <linux-firmware@kernel.org>
-CC: <zigo@debian.org>, <baojun.xu@ti.com>, <13564923607@139.com>,
-        <v-po@ti.com>, <linux-sound@vger.kernel.org>, <robinchen@ti.com>,
-        <linux-kernel@vger.kernel.org>, <mimperial@lenovo.com>,
-        <cchen50@lenovo.com>, <soyer@irl.hu>, <stuart.a.hayhurst@gmail.com>,
-        <navada@ti.com>, Shenghao Ding
-	<shenghao-ding@ti.com>
-Subject: [PATCH v1] ASoC: tas2781: fix the license issue for tas781 firmware
-Date: Wed, 17 Jul 2024 13:09:18 +0800
-Message-ID: <20240717050919.692-1-shenghao-ding@ti.com>
-X-Mailer: git-send-email 2.33.0.windows.2
+	s=arc-20240116; t=1721199813; c=relaxed/simple;
+	bh=hJvvScmhIqGJyC3XUqfGf9ZhzNYQ9GAhIcMvzBgGxW4=;
+	h=From:To:Subject:Date:Message-Id; b=uSStgWBTBykK8h++5IMKHhmVq5kkFSd+U7f/KOG7KLz5OjhBUPr3+EIHFKLNAAK53eADQhbEIyrYqWR/VRWo9kqFa56lMMQ2XqG9snSLbpLOHaiaSxxZNBQ+BDdc+M/Nlo1CG+BKwUTeP/PTywiZ2LLeTbr2vpt7HPQ0kJgjLYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+Received: from inva020.nxp.com (localhost [127.0.0.1])
+	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 507BF1A1C27;
+	Wed, 17 Jul 2024 09:03:25 +0200 (CEST)
+Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
+	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 190061A1C1C;
+	Wed, 17 Jul 2024 09:03:25 +0200 (CEST)
+Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
+	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 15968183AD09;
+	Wed, 17 Jul 2024 15:03:24 +0800 (+08)
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: lars@metafoo.de,
+	perex@perex.cz,
+	tiwai@suse.com,
+	broonie@kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	shengjiu.wang@gmail.com
+Subject: [PATCH] ALSA: pcm_dmaengine: Don't synchronize DMA channel when DMA is paused
+Date: Wed, 17 Jul 2024 14:44:53 +0800
+Message-Id: <1721198693-27636-1-git-send-email-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.7.4
+X-Virus-Scanned: ClamAV using ClamSMTP
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-Fix the license issue for tas781 firmware, which are shipped as .bin
-opaque. Remove the GPL-2+, which imposes having the source code
-available.
+When suspended, the DMA channel may enter PAUSE state if dmaengine_pause()
+is supported by DMA.
+At this state, dmaengine_synchronize() should not be called, otherwise
+the DMA channel can't be resumed successfully.
 
-Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
-
+Fixes: e8343410ddf0 ("ALSA: dmaengine: Synchronize dma channel after drop()")
+Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
 ---
-v1:
- - Remove the GPL-2+ and fix the license issue.
- - Update the year of copyright.
----
- WHENCE | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ sound/core/pcm_dmaengine.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/WHENCE b/WHENCE
-index b2fc018..b5b12c2 100644
---- a/WHENCE
-+++ b/WHENCE
-@@ -7384,8 +7384,8 @@ Link: TAS2XXX38E0.bin -> ti/tas2781/TAS2XXX38E0.bin
- Link: TIAS2781RCA2.bin -> ti/tas2781/TIAS2781RCA2.bin
- Link: TIAS2781RCA4.bin -> ti/tas2781/TIAS2781RCA4.bin
+diff --git a/sound/core/pcm_dmaengine.c b/sound/core/pcm_dmaengine.c
+index b54336d4bffc..b134a51b3fd5 100644
+--- a/sound/core/pcm_dmaengine.c
++++ b/sound/core/pcm_dmaengine.c
+@@ -352,8 +352,12 @@ EXPORT_SYMBOL_GPL(snd_dmaengine_pcm_open_request_chan);
+ int snd_dmaengine_pcm_sync_stop(struct snd_pcm_substream *substream)
+ {
+ 	struct dmaengine_pcm_runtime_data *prtd = substream_to_prtd(substream);
++	struct dma_tx_state state;
++	enum dma_status status;
  
--Licence: Allegedly GPLv2+, but no source visible. Marked:
--	 Copyright (C) 2023 Texas Instruments
-+Licence: Allegedly LICENCE.ti-tspa, but no source visible. Marked:
-+	 Copyright (C) 2023 - 2024 Texas Instruments
+-	dmaengine_synchronize(prtd->dma_chan);
++	status = dmaengine_tx_status(prtd->dma_chan, prtd->cookie, &state);
++	if (status != DMA_PAUSED)
++		dmaengine_synchronize(prtd->dma_chan);
  
- Found in hex form in kernel source.
- 
-@@ -7397,8 +7397,8 @@ File: ti/tas2563/INT8866RCA2.bin
- Link: TAS2XXX3870.bin -> ti/tas2563/TAS2XXX3870.bin
- Link: INT8866RCA2.bin -> ti/tas2563/INT8866RCA2.bin
- 
--Licence: Allegedly GPLv2+, but no source visible. Marked:
--	 Copyright (C) 2023 Texas Instruments
-+Licence: Allegedly LICENCE.ti-tspa, but no source visible. Marked:
-+	 Copyright (C) 2023 - 2024 Texas Instruments
- 
- Found in hex form in kernel source.
- 
+ 	return 0;
+ }
 -- 
 2.34.1
 
