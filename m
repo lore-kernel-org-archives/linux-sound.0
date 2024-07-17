@@ -1,71 +1,75 @@
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B58CE14267;
-	Wed, 17 Jul 2024 07:10:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F8342E651
+	for <linux-sound@vger.kernel.org>; Wed, 17 Jul 2024 08:32:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721200235; cv=none; b=KOpiUiAgAUTRwNLXDpAgre9eEE/lKEA2jNn3KRQY+Yrl7ToXtVECRb+u7HBexSMWrAPFNq3Wf+m0+iyCqpT4Nn+jkgMD5rlojPycwzgbpqqRZDS2FD9UrwiXoVAfMywEodm2PVShx8RLjh6pynViTZr9CM1/7fohFboSGGjLxKw=
+	t=1721205177; cv=none; b=Zm13Qro9ZrXt5WikG0mEQ9XmiHirNajgGrfJ21qJPi9CgbvibunCKWOEAo1W3i4DJ+++uVsnHcE0u20Ph6gCUKBqXzPrz+N8XYgOKRNGNBtWuOefeSFYOGNYWQBL/O0j4EeaiECGPnWOrJtHIqgideTMJF+uHynt6mVkEmQYxFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721200235; c=relaxed/simple;
-	bh=pbB84E+DJFZ7Rqz4bRF7r+sShLSkf9DDLjHCtgiQTlQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gUywVupsCK0cCln3QIxo3r3j//hnIc3bgZr/gNm8ca6PJzwxp8yoi22E1EPtrsPcsUV0hgi+AcqGKPZ2ibUn3lgkbJsA8kWWSY6MYx/Gu/IE54zqQaGc3DB2LN3USlOMPto90XLwBsxxrzlUJybfu8aHAloVrGle+OqZPW/s+IY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ldKfg3wN; arc=none smtp.client-ip=209.85.167.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1721205177; c=relaxed/simple;
+	bh=gn8a6+t5OkKQIZ8C27iuFzsnMS2lKmlhu5dIQFt/yxo=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=Zveb4Q+FsOM7o2JQbGT2YGIJMm09yrgpYJHJOv6dSL/294uWLuAxFRyR530GiQbUmLztWazegqCzt08AJN/w9N6cUsKOilofLzy/PSqwJ4ci4/VVvq1HAIRyWz9lmvME9BSw+f9wGIQ0vDrHJNAUQuFuM04QulC+vEjjrexqaP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LeTdyeI7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=n+iJh38M; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LeTdyeI7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=n+iJh38M; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ldKfg3wN"
-Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3c9cc681e4fso3554042b6e.0;
-        Wed, 17 Jul 2024 00:10:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721200233; x=1721805033; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LzFXhN/4zexpSGV6jXmNmwyuYw2EujDfcH8DxGXktmk=;
-        b=ldKfg3wN63owKo/iyntPxxflZ/gNfgLcvPocK4EhquJX21Bcw5ziX97OS2uyiGHJEO
-         L0NFFVK92iLpCFBJx3vTxSmLaGnpkznwW8H9j4rY14EO94fj2y0qlDPbclwH9rJn3qpI
-         QbDEYZoXL2Rm1ArG5X2ko4pdIXXfcq9rmV11zAfgI2ENXG8dGoKrl7EqmxBZUAS7t2Na
-         M6lQZMBR5oYIl7ZMgEKSV7sLZT/dg6XhpU33STtFk99LWUSr75QNZeC2sdYSmoNyamll
-         7wq7OTPEogdNDFNK7c0fFYdeS/vqMtee9sJRwgACKUsKdcdc92MT2rdjayo7LQ0Lpewc
-         t5KA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721200233; x=1721805033;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LzFXhN/4zexpSGV6jXmNmwyuYw2EujDfcH8DxGXktmk=;
-        b=l8ZfuV8QwaBTR/FlnDHEauIcmXLXxXIhQ4bRCbib80g7XGBKg4rvR+yUa1TgCtiw3V
-         RgV70+y8/iZzWZRARMY/QS9CE9SWwXuGypg0pELtNFlcf/XIuUsvbsrgUa54N1BFZXJ1
-         dI1GgPHCTxGRDTiAdX+SOD1q7UVqcNHTVm+1Di5IiBzKmxD9VHXwmH1ZEqAp3Oe6HAoC
-         2vL7F3J5ypNfUvPhnQxwioxvjw0ZXtnEjh2NoFQrgh87j+GBG//SwvVSOSJjxup3cLp+
-         mI6RG2Y8AEbqkcEhTD4AfpTd9RmKG9lfIs9Y5CEopr7yJsFt/nuEssW/3Ty2sFKofkIA
-         AhvA==
-X-Forwarded-Encrypted: i=1; AJvYcCUJPkubyE7A4X6/rPm7ru5TyxKpq23nSZjIIIaTqT1OfQjYobCeuMw6e0YSQGPFWermMDUznVcFW8sTX/U0tgdtUXed1Y2lKOtsMWY+taSUSZUyWDjrhWag4g8byf2GjYVT4fyj87OVRttJo5YnsaPZBsC0mqM12/X16qb3CxNBJmvmwYa4
-X-Gm-Message-State: AOJu0YyhP97hpxHYVqlGG3qQ0CJyeJLizr/PgbgbDzdM32DpLagWoVYT
-	o16BEaqpHLjzeAZ8+jeDDLVhrQwgAQmIgLXInlTBoDrKR/rx2qPE
-X-Google-Smtp-Source: AGHT+IHYHLNiQMYFfPuy8h3AbJt+F+ROLpfldNCC0RiWPWi7h5zs8pqh7AbWsxlPdKaSWx4l2J3quA==
-X-Received: by 2002:a05:6871:5228:b0:259:cdf1:b8af with SMTP id 586e51a60fabf-260d9504d67mr653256fac.46.1721200232596;
-        Wed, 17 Jul 2024 00:10:32 -0700 (PDT)
-Received: from fedora.. ([2409:40f4:a8:bf06:b8b7:aa61:3ed2:c8f4])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70b7eb9c856sm7520236b3a.4.2024.07.17.00.10.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jul 2024 00:10:32 -0700 (PDT)
-From: Animesh Agarwal <animeshagarwal28@gmail.com>
-To: 
-Cc: Animesh Agarwal <animeshagarwal28@gmail.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: dt-bindings: ti,pcm512x: Convert to dtschema
-Date: Wed, 17 Jul 2024 12:40:08 +0530
-Message-ID: <20240717071012.114786-1-animeshagarwal28@gmail.com>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LeTdyeI7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="n+iJh38M";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LeTdyeI7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="n+iJh38M"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 6DA4F1FB63;
+	Wed, 17 Jul 2024 08:32:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1721205173; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=+UW3luWzxlfgPBApeX5rScZFkdqcrmV1744Orp8ghJQ=;
+	b=LeTdyeI76LxgC0/QhbxkZcKimZquMLP22byw4wIkDXc6AiUdWM1ularFVmUFP5Q+GF9Djk
+	QeJPAd/H9FpBHljPDrxNPxZsxMPQnWiG6JitdLy1O86qRQ32EC65pmu4e9vDhsr6H7HivO
+	dKQZ8TxFzgD0nl5kv/mGHRzUQMFm9OU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1721205173;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=+UW3luWzxlfgPBApeX5rScZFkdqcrmV1744Orp8ghJQ=;
+	b=n+iJh38M3ZWxYaqRFDrsNyhtFObaPBDMJAq571KFLoI2yCI2zhOXzQwsZ5YKtbVKZ26NhD
+	r6m7uGIg8Em6pLBA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1721205173; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=+UW3luWzxlfgPBApeX5rScZFkdqcrmV1744Orp8ghJQ=;
+	b=LeTdyeI76LxgC0/QhbxkZcKimZquMLP22byw4wIkDXc6AiUdWM1ularFVmUFP5Q+GF9Djk
+	QeJPAd/H9FpBHljPDrxNPxZsxMPQnWiG6JitdLy1O86qRQ32EC65pmu4e9vDhsr6H7HivO
+	dKQZ8TxFzgD0nl5kv/mGHRzUQMFm9OU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1721205173;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=+UW3luWzxlfgPBApeX5rScZFkdqcrmV1744Orp8ghJQ=;
+	b=n+iJh38M3ZWxYaqRFDrsNyhtFObaPBDMJAq571KFLoI2yCI2zhOXzQwsZ5YKtbVKZ26NhD
+	r6m7uGIg8Em6pLBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5302D1368F;
+	Wed, 17 Jul 2024 08:32:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id UKv3ErWBl2apFAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 17 Jul 2024 08:32:53 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: seq: ump: Skip useless ports for static blocks
+Date: Wed, 17 Jul 2024 10:33:01 +0200
+Message-ID: <20240717083322.25892-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -73,196 +77,110 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.995];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
+X-Spam-Level: 
 
-Convert the PCM512x and TAS575x audio CODECs/amplifiers bindings to DT
-schema format. Add missing sound-dai-cells property.
+When the UMP Endpoint is configured with static blocks, the block
+configuration will never change, hence the unused ports will be
+unchanged as well.  Creating sequencer ports for those unused ports
+is simply useless, and it might be rather confusing for users.
+The idea behind the inactive ports was for allowing connections
+from/to ports that can become usable later, but this will never
+happen for inactive groups in static blocks.
 
-Cc: Daniel Baluta <daniel.baluta@nxp.com>
-Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
+Let's change the sequencer UMP binding to skip those unused ports when
+the UMP EP is with static blocks.
+
+Fixes: 81fd444aa371 ("ALSA: seq: Bind UMP device")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- .../devicetree/bindings/sound/pcm512x.txt     |  53 ---------
- .../devicetree/bindings/sound/ti,pcm512x.yaml | 112 ++++++++++++++++++
- 2 files changed, 112 insertions(+), 53 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/sound/pcm512x.txt
- create mode 100644 Documentation/devicetree/bindings/sound/ti,pcm512x.yaml
+ sound/core/seq/seq_ump_client.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/sound/pcm512x.txt b/Documentation/devicetree/bindings/sound/pcm512x.txt
-deleted file mode 100644
-index 47878a6df608..000000000000
---- a/Documentation/devicetree/bindings/sound/pcm512x.txt
-+++ /dev/null
-@@ -1,53 +0,0 @@
--PCM512x and TAS575x audio CODECs/amplifiers
--
--These devices support both I2C and SPI (configured with pin strapping
--on the board). The TAS575x devices only support I2C.
--
--Required properties:
--
--  - compatible : One of "ti,pcm5121", "ti,pcm5122", "ti,pcm5141",
--                 "ti,pcm5142", "ti,pcm5242", "ti,tas5754" or "ti,tas5756"
--
--  - reg : the I2C address of the device for I2C, the chip select
--          number for SPI.
--
--  - AVDD-supply, DVDD-supply, and CPVDD-supply : power supplies for the
--    device, as covered in bindings/regulator/regulator.txt
--
--Optional properties:
--
--  - clocks : A clock specifier for the clock connected as SCLK.  If this
--    is absent the device will be configured to clock from BCLK.  If pll-in
--    and pll-out are specified in addition to a clock, the device is
--    configured to accept clock input on a specified gpio pin.
--
--  - pll-in, pll-out : gpio pins used to connect the pll using <1>
--    through <6>.  The device will be configured for clock input on the
--    given pll-in pin and PLL output on the given pll-out pin.  An
--    external connection from the pll-out pin to the SCLK pin is assumed.
--    Caution: the TAS-desvices only support gpios 1,2 and 3
--
--Examples:
--
--	pcm5122: pcm5122@4c {
--		compatible = "ti,pcm5122";
--		reg = <0x4c>;
--
--		AVDD-supply = <&reg_3v3_analog>;
--		DVDD-supply = <&reg_1v8>;
--		CPVDD-supply = <&reg_3v3>;
--	};
--
--
--	pcm5142: pcm5142@4c {
--		compatible = "ti,pcm5142";
--		reg = <0x4c>;
--
--		AVDD-supply = <&reg_3v3_analog>;
--		DVDD-supply = <&reg_1v8>;
--		CPVDD-supply = <&reg_3v3>;
--
--		clocks = <&sck>;
--		pll-in = <3>;
--		pll-out = <6>;
--	};
-diff --git a/Documentation/devicetree/bindings/sound/ti,pcm512x.yaml b/Documentation/devicetree/bindings/sound/ti,pcm512x.yaml
-new file mode 100644
-index 000000000000..a8635477d23e
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/ti,pcm512x.yaml
-@@ -0,0 +1,112 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/ti,pcm512x.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/sound/core/seq/seq_ump_client.c b/sound/core/seq/seq_ump_client.c
+index c627d72f7fe2..b1dadd7ad324 100644
+--- a/sound/core/seq/seq_ump_client.c
++++ b/sound/core/seq/seq_ump_client.c
+@@ -28,6 +28,7 @@ struct seq_ump_group {
+ 	int group;			/* group index (0-based) */
+ 	unsigned int dir_bits;		/* directions */
+ 	bool active;			/* activeness */
++	bool valid;			/* valid group (referred by blocks) */
+ 	char name[64];			/* seq port name */
+ };
+ 
+@@ -210,6 +211,13 @@ static void fill_port_info(struct snd_seq_port_info *port,
+ 		sprintf(port->name, "Group %d", group->group + 1);
+ }
+ 
++/* skip non-existing group for static blocks */
++static bool skip_group(struct seq_ump_client *client, struct seq_ump_group *group)
++{
++	return !group->valid &&
++		(client->ump->info.flags & SNDRV_UMP_EP_INFO_STATIC_BLOCKS);
++}
 +
-+title: PCM512x and TAS575x audio CODECs/amplifiers
+ /* create a new sequencer port per UMP group */
+ static int seq_ump_group_init(struct seq_ump_client *client, int group_index)
+ {
+@@ -217,6 +225,9 @@ static int seq_ump_group_init(struct seq_ump_client *client, int group_index)
+ 	struct snd_seq_port_info *port __free(kfree) = NULL;
+ 	struct snd_seq_port_callback pcallbacks;
+ 
++	if (skip_group(client, group))
++		return 0;
 +
-+maintainers:
-+  - Animesh Agarwal <animeshagarwal28@gmail.com>
+ 	port = kzalloc(sizeof(*port), GFP_KERNEL);
+ 	if (!port)
+ 		return -ENOMEM;
+@@ -250,6 +261,9 @@ static void update_port_infos(struct seq_ump_client *client)
+ 		return;
+ 
+ 	for (i = 0; i < SNDRV_UMP_MAX_GROUPS; i++) {
++		if (skip_group(client, &client->groups[i]))
++			continue;
 +
-+allOf:
-+  - $ref: dai-common.yaml#
-+
-+properties:
-+  compatible:
-+    enum:
-+      - ti,pcm5121
-+      - ti,pcm5122
-+      - ti,pcm5141
-+      - ti,pcm5142
-+      - ti,pcm5242
-+      - ti,tas5754
-+      - ti,tas5756
-+
-+  reg:
-+    maxItems: 1
-+
-+  AVDD-supply: true
-+
-+  DVDD-supply: true
-+
-+  CPVDD-supply: true
-+
-+  clocks:
-+    maxItems: 1
-+    description: A clock specifier for the clock connected as SCLK. If this is
-+      absent the device will be configured to clock from BCLK. If pll-in and
-+      pll-out are specified in addition to a clock, the device is configured to
-+      accept clock input on a specified gpio pin.
-+
-+  '#sound-dai-cells':
-+    const: 0
-+
-+required:
-+  - compatible
-+  - reg
-+  - AVDD-supply
-+  - DVDD-supply
-+  - CPVDD-supply
-+
-+if:
-+  properties:
-+    compatible:
-+      contains:
-+        enum:
-+          - ti,tas5754
-+          - ti,tas5756
-+
-+then:
-+  properties:
-+    pll-in:
-+      description: GPIO pin used to connect the pll using <1> through <3>. The
-+        device will be configured for clock input on the given pll-in pin.
-+      $ref: /schemas/types.yaml#/definitions/uint32
-+      minimum: 1
-+      maximum: 3
-+
-+    pll-out:
-+      description: GPIO pin used to connect the pll using <1> through <3>. The
-+        device will be configured for PLL output on the given pll-out pin.  An
-+        external connection from the pll-out pin to the SCLK pin is assumed.
-+      $ref: /schemas/types.yaml#/definitions/uint32
-+      minimum: 1
-+      maximum: 3
-+
-+else:
-+  properties:
-+    pll-in:
-+      description: GPIO pin used to connect the pll using <1> through <6>. The
-+      device will be configured for clock input on the given pll-in pin.
-+      $ref: /schemas/types.yaml#/definitions/uint32
-+      minimum: 1
-+      maximum: 6
-+
-+    pll-out:
-+      description: GPIO pin used to connect the pll using <1> through <6>. The
-+        device will be configured for PLL output on the given pll-out pin.  An
-+        external connection from the pll-out pin to the SCLK pin is assumed.
-+      $ref: /schemas/types.yaml#/definitions/uint32
-+      minimum: 1
-+      maximum: 6
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        codec@4c {
-+            compatible = "ti,pcm5142";
-+            reg = <0x4c>;
-+            AVDD-supply = <&reg_3v3_analog>;
-+            DVDD-supply = <&reg_1v8>;
-+            CPVDD-supply = <&reg_3v3>;
-+            #sound-dai-cells = <0>;
-+            clocks = <&sck>;
-+            pll-in = <3>;
-+            pll-out = <6>;
-+        };
-+    };
+ 		old->addr.client = client->seq_client;
+ 		old->addr.port = i;
+ 		err = snd_seq_kernel_client_ctl(client->seq_client,
+@@ -284,6 +298,7 @@ static void update_group_attrs(struct seq_ump_client *client)
+ 		group->dir_bits = 0;
+ 		group->active = 0;
+ 		group->group = i;
++		group->valid = false;
+ 	}
+ 
+ 	list_for_each_entry(fb, &client->ump->block_list, list) {
+@@ -291,6 +306,7 @@ static void update_group_attrs(struct seq_ump_client *client)
+ 			break;
+ 		group = &client->groups[fb->info.first_group];
+ 		for (i = 0; i < fb->info.num_groups; i++, group++) {
++			group->valid = true;
+ 			if (fb->info.active)
+ 				group->active = 1;
+ 			switch (fb->info.direction) {
 -- 
-2.45.2
+2.43.0
 
