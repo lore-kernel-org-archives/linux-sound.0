@@ -1,57 +1,64 @@
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9A6A8488;
-	Thu, 18 Jul 2024 07:01:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 421EE770F0;
+	Thu, 18 Jul 2024 08:09:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721286093; cv=none; b=vBdV6NUA46Ey7qkz68ERxj7iRqbl5z0L8+cI6ZjeC9o4idodcUI1brgGTf1/R5D+qlb6YPNoFq/Gxlnrz9u2MREPVaWndSolPK7AqEMyh+T3Ua8BGfwg5+jRpaJ0zQwrP6csbDAmCY5fplGOAy/YoEsZWJjzFlohsMLdL48w3Wk=
+	t=1721290174; cv=none; b=tJCfVxuPG+k28KqHql5PvOG3l/pVyld4VvgHx5Ej0zNjctEq922JYwOo3cP84fxBnR1FqoWX+KUZ/OpKcXftpErfeMbgb3bng4piJtkZVAUEWeZN7jBpfLlkIFt6l1SsrUp9XznpEKZ77xIFcI1MTYU1TWTAizg5fETeeIGWFGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721286093; c=relaxed/simple;
-	bh=s4Nm0pt3ObUkkwHFoDzvsGzhfX79K/Wlh3m1nazqm7Q=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=AvmLfRuJUiKAjoipOdSQj1rRX7weTbqL1a24wwM+NKib++UF0n3K4M3k06Bs5DYgQZp5S+cSd/k+ornPcyBgMLlNLc9/tXdPIEitqx5Kzfxk5+cDzXOISVdbtfP/GQX9/mXw6JpIScio8IAzPf1FiAXzuNMf5/FHqDO1j3oT9os=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=q/LwbwxA; arc=none smtp.client-ip=198.47.23.248
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1721290174; c=relaxed/simple;
+	bh=nPPGkjCBXcZy8CLRT0cJD7884CLC3WrqOg2b7ns6i9I=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kOVNQT1K/89KKMDOa/t0Qdx3UIYQ5rZ5nC5DUezHD2UJMxdx0Boh6vnamUkxMMm3jBTydwMijjnb0QH6RXQqPnmgEsrXy7P8ifCZ7g8QG8Msditi48Gtkyv2wpmwotkQbzZSZhdTD1UwpoOzvPrNlIoF6o0WqsYt/ZOYIOLb2ek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LcRd4FkX; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="q/LwbwxA"
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 46I70V0m023685;
-	Thu, 18 Jul 2024 02:00:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1721286031;
-	bh=7RVqeIDLuD6xV55kFX0VpsHpoNGYN5G0haiDA1UmC5I=;
-	h=From:To:CC:Subject:Date;
-	b=q/LwbwxAFcNZCWIc3wwUrtOEX9MqIGdECNcIJ7fiTKoWGkwFr6T8ADh/Ditr8yIDb
-	 d9EypqLEkCOqv9b2V0r+Cp+A6n9TOYohT4D3xn4VKjqY/J6ZBDx2n1GeMbkdv9EZAj
-	 2JcOtASvELtvnPooBan9CqwXLKzjuD7PpYuLg85A=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 46I70VGj019248
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 18 Jul 2024 02:00:31 -0500
-Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 18
- Jul 2024 02:00:31 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 18 Jul 2024 02:00:31 -0500
-Received: from LT5CG31242FY.dhcp.ti.com (lt5cg31242fy.dhcp.ti.com [10.85.14.216])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 46I70QHt006129;
-	Thu, 18 Jul 2024 02:00:27 -0500
-From: Shenghao Ding <shenghao-ding@ti.com>
-To: <linux-firmware@kernel.org>
-CC: <zigo@debian.org>, <baojun.xu@ti.com>, <13564923607@139.com>,
-        <v-po@ti.com>, <linux-sound@vger.kernel.org>, <robinchen@ti.com>,
-        <linux-kernel@vger.kernel.org>, <mimperial@lenovo.com>,
-        <cchen50@lenovo.com>, <soyer@irl.hu>, <stuart.a.hayhurst@gmail.com>,
-        <navada@ti.com>, Shenghao Ding
-	<shenghao-ding@ti.com>
-Subject: [PATCH v2] ASoC: tas2781: fix the license issue for tas781 firmware
-Date: Thu, 18 Jul 2024 15:00:22 +0800
-Message-ID: <20240718070022.591-1-shenghao-ding@ti.com>
-X-Mailer: git-send-email 2.33.0.windows.2
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LcRd4FkX"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-70b2a0542c2so384779b3a.3;
+        Thu, 18 Jul 2024 01:09:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1721290172; x=1721894972; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fYE0kxNgpzBFZuSh3Xys8pyqkbR8GwZWtw/ulDzehsU=;
+        b=LcRd4FkXad0NVTliJlBiFEiTecjfyUJmaACKw6tfnxJY50SVgBlwt5Is/+7TgXwcJE
+         uUtdxHkFVu8R0CmsZOy96bnOeB62anhimVNY2bfj94gjZ/vwQwuCp1fblQKQsE9dR34t
+         dUZhOo/yghByHmPOyvsVrpwxSrZK7/Cs9oePN1mi2w7zhR0d2pHzz+D2bbe7pIazO/7D
+         3KitkeaPvNNpLYlPbaf0nphWGNO7oyCtx6vDBlwJoEomIZz222D6ZQONERx4zKQBxTYP
+         2IhpoVIdgTrLCbMnLnWMnhNq2/2yMKEcMiazFGxMrBlC+tM4YI7T46XrFgpK+71Rp7gu
+         XUvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721290172; x=1721894972;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fYE0kxNgpzBFZuSh3Xys8pyqkbR8GwZWtw/ulDzehsU=;
+        b=RPz3AIb/X5vPU46++eJa19my7Fi9rFFo5pYPzOF5776inyV2pF4188L0GSRcJi3Qcc
+         kBXT5n90N41Al78ealgEcyBlgzzIbcY0ffFrr+3ILKHzJl2yhM81KiBTvq8vYabYVxLT
+         m3hWd+wzRmdVRrUuIRtpUIByb0kwJ7MzvbKoAzhm9RzIs13EH6ofrCUz9juZ9cgLMIzs
+         fY4NpMvAD3kWTusHR7Vcza3aouG42LIaPwVfg/c+F7mbwwzfpynzhq4R6RKuHZ10x+Zs
+         w+9zNof6O4ffGYqTYzoqdXMAX5dk7AXqCV3lnIvBNBN3s8pqFW7F6k0lIGhrRS4nlQB4
+         WAEg==
+X-Forwarded-Encrypted: i=1; AJvYcCX1f1UTkHlSG+A1keQIXd19CuIG48siy4Ai0ulnOrTEGEgjJg8ni658uoWTtjM7PR5lItWFM8ZqmWh6gCqNZ4SOUm3VlzJ4AFwWTsl5
+X-Gm-Message-State: AOJu0YzQnun62hWWNyiQI3WuCSrJOIrzejEUOTTzhIpaChqdEIGOXeO6
+	EHrrlp07VxZWfkbLwwhR2Qaz49OeYpErHXP6Hw2Fmgo6Kvx2eHm0
+X-Google-Smtp-Source: AGHT+IHMRLmDiAcl7Pqn1GXhu0ffWS33/W08KsV0d2/sCdDvJKIsPYf63OIffpqWMfOu0JtnBzyAxw==
+X-Received: by 2002:a05:6a00:2296:b0:705:b0aa:a6bf with SMTP id d2e1a72fcca58-70ce4f48c3cmr4581346b3a.2.1721290172391;
+        Thu, 18 Jul 2024 01:09:32 -0700 (PDT)
+Received: from localhost.localdomain ([221.158.180.180])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70b7eb9e290sm9432160b3a.5.2024.07.18.01.09.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jul 2024 01:09:32 -0700 (PDT)
+From: Seunghun Han <kkamagui@gmail.com>
+To: tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Seunghun Han <kkamagui@gmail.com>
+Subject: [PATCH] ALSA: hda/realtek: Fix the speaker output on Samsung Galaxy Book Pro 360
+Date: Thu, 18 Jul 2024 17:09:08 +0900
+Message-Id: <20240718080908.8677-1-kkamagui@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -59,56 +66,28 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-Fix the license issue for tas781 firmware, which are shipped as .bin
-opaque. Remove the GPL-2+, which imposes having the source code
-available.
+Samsung Galaxy Book Pro 360 (13" 2022 NT935QDB-KC71S) with codec SSID
+144d:c1a4 requires the same workaround to enable the speaker amp
+as other Samsung models with the ALC298 codec.
 
-Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
-
+Signed-off-by: Seunghun Han <kkamagui@gmail.com>
 ---
-v2:
- - Drop "Found in hex form in kernel source."
- - Drop Allegedly, Add Redistributable.
-v1:
- - Remove the GPL-2+ and fix the license issue.
- - Update the year of copyright.
----
- WHENCE | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/WHENCE b/WHENCE
-index b2fc018..3d95a97 100644
---- a/WHENCE
-+++ b/WHENCE
-@@ -7384,10 +7384,8 @@ Link: TAS2XXX38E0.bin -> ti/tas2781/TAS2XXX38E0.bin
- Link: TIAS2781RCA2.bin -> ti/tas2781/TIAS2781RCA2.bin
- Link: TIAS2781RCA4.bin -> ti/tas2781/TIAS2781RCA4.bin
- 
--Licence: Allegedly GPLv2+, but no source visible. Marked:
--	 Copyright (C) 2023 Texas Instruments
--
--Found in hex form in kernel source.
-+Licence: Redistributable. See LICENCE.ti-tspa for details. Marked:
-+	 Copyright (C) 2023 - 2024 Texas Instruments
- 
- --------------------------------------------------------------------------
- 
-@@ -7397,10 +7395,8 @@ File: ti/tas2563/INT8866RCA2.bin
- Link: TAS2XXX3870.bin -> ti/tas2563/TAS2XXX3870.bin
- Link: INT8866RCA2.bin -> ti/tas2563/INT8866RCA2.bin
- 
--Licence: Allegedly GPLv2+, but no source visible. Marked:
--	 Copyright (C) 2023 Texas Instruments
--
--Found in hex form in kernel source.
-+Licence: Redistributable. LICENCE.ti-tspa for details. Marked:
-+	 Copyright (C) 2023 - 2024 Texas Instruments
- 
- --------------------------------------------------------------------------
- 
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index d6b6a97600fc..c3a86a99f8c6 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10398,6 +10398,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x144d, 0xc189, "Samsung Galaxy Flex Book (NT950QCG-X716)", ALC298_FIXUP_SAMSUNG_AMP),
+ 	SND_PCI_QUIRK(0x144d, 0xc18a, "Samsung Galaxy Book Ion (NP930XCJ-K01US)", ALC298_FIXUP_SAMSUNG_AMP),
+ 	SND_PCI_QUIRK(0x144d, 0xc1a3, "Samsung Galaxy Book Pro (NP935XDB-KC1SE)", ALC298_FIXUP_SAMSUNG_AMP),
++	SND_PCI_QUIRK(0x144d, 0xc1a4, "Samsung Galaxy Book Pro 360 (NT935QBD)", ALC298_FIXUP_SAMSUNG_AMP),
+ 	SND_PCI_QUIRK(0x144d, 0xc1a6, "Samsung Galaxy Book Pro 360 (NP930QBD)", ALC298_FIXUP_SAMSUNG_AMP),
+ 	SND_PCI_QUIRK(0x144d, 0xc740, "Samsung Ativ book 8 (NP870Z5G)", ALC269_FIXUP_ATIV_BOOK_8),
+ 	SND_PCI_QUIRK(0x144d, 0xc812, "Samsung Notebook Pen S (NT950SBE-X58)", ALC298_FIXUP_SAMSUNG_AMP),
 -- 
 2.34.1
 
