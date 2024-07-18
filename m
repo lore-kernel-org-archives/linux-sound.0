@@ -1,124 +1,114 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A009F2CCA3;
-	Thu, 18 Jul 2024 06:57:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9A6A8488;
+	Thu, 18 Jul 2024 07:01:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721285833; cv=none; b=fNmUaH5/hDAeWsLLvkppIIirgmi1HtbJnuKnYqml9XcyWghm6dQ0du5cbbl9lGMp/uVT21LNCzIcGIFrEPxbQY+muuwMfwitKnnkwLQvTCyb6xuhA0REMgSsgoInLb+0Mq0qvqXOq9oC95A5W0TTZAbZj/VzxzslgLsYebixoxk=
+	t=1721286093; cv=none; b=vBdV6NUA46Ey7qkz68ERxj7iRqbl5z0L8+cI6ZjeC9o4idodcUI1brgGTf1/R5D+qlb6YPNoFq/Gxlnrz9u2MREPVaWndSolPK7AqEMyh+T3Ua8BGfwg5+jRpaJ0zQwrP6csbDAmCY5fplGOAy/YoEsZWJjzFlohsMLdL48w3Wk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721285833; c=relaxed/simple;
-	bh=z+aCMhKYfdvSH3LqcS7QRiHX5Ygt46joT7nhNjNOLXA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=R6V6ocq6oikBjxhzj8+vNfcMiWTu45ZEzHbhFgRHS4+nC6GeFhk81jBnyENm1YSo++iXzaZ1tfBJdxX+Dx2IpYBffxq1vvSDPIikQ1n9+bjxTEe0xWaT6Q7Ooc3L/Myt/6rFktvb5dlU/5RMviYmnc0bsfk8t91KKzRBpzY/tRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=OlB6nsD5; arc=none smtp.client-ip=217.70.183.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1721286093; c=relaxed/simple;
+	bh=s4Nm0pt3ObUkkwHFoDzvsGzhfX79K/Wlh3m1nazqm7Q=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=AvmLfRuJUiKAjoipOdSQj1rRX7weTbqL1a24wwM+NKib++UF0n3K4M3k06Bs5DYgQZp5S+cSd/k+ornPcyBgMLlNLc9/tXdPIEitqx5Kzfxk5+cDzXOISVdbtfP/GQX9/mXw6JpIScio8IAzPf1FiAXzuNMf5/FHqDO1j3oT9os=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=q/LwbwxA; arc=none smtp.client-ip=198.47.23.248
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="OlB6nsD5"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 66B00C0011;
-	Thu, 18 Jul 2024 06:56:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1721285821;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TgZHkXL2FGs1/bjZPDSboGR72yBe//NfgloPvNTjUQ0=;
-	b=OlB6nsD5RtGZmYjd7bhjEoZx7QMkbbOT8V45YhxxCFz4y2iiCJe+cf2PVPl+VsXD6UUMqk
-	Yc28bGhZQ13OubzP5CW/pjPqqFo91MRM0eVoREVGLvn0MLgNZy6pPxquFKWhNBkv4SbFT2
-	sax9ioW5vC5M5bokQz4XncM9ZdU0GCDemzBwA+l1XJdTnXTEUKHI48dxPqMAjv00+G3aQG
-	rBXI5/ojqb79XSjovNP74Rn6wSf1My85vfzfK9OmlUEoc3d8vGPg+knHhqSD5yHTRQLUcZ
-	BDxiKiWHxBRawYhcLiwX+N2Krj0xmgk4IRTokaqbJaztXMntEG+p6mo1v3ON7A==
-Date: Thu, 18 Jul 2024 08:56:51 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Stephen Boyd <sboyd@kernel.org>
-Cc: Aaro Koskinen <aaro.koskinen@iki.fi>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Alim Akhtar <alim.akhtar@samsung.com>,
- Andreas Kemnade <andreas@kemnade.info>, Bartosz Golaszewski
- <brgl@bgdev.pl>, Bjorn Andersson <andersson@kernel.org>, Broadcom internal
- kernel review list <bcm-kernel-feedback-list@broadcom.com>, Chen-Yu Tsai
- <wens@csie.org>, Chester Lin <chester62515@gmail.com>, Christophe Leroy
- <christophe.leroy@csgroup.eu>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Damien Le Moal <dlemoal@kernel.org>, Daniel Lezcano
- <daniel.lezcano@linaro.org>, Dong Aisheng <aisheng.dong@nxp.com>, Doug
- Berger <opendmb@gmail.com>, Emilio =?UTF-8?Q?L=C3=B3pez?=
- <emilio@elopez.com.ar>, Fabio Estevam <festevam@gmail.com>, Florian
- Fainelli <florian.fainelli@broadcom.com>, Ghennadi Procopciuc
- <ghennadi.procopciuc@oss.nxp.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Jacky Bai <ping.bai@nxp.com>, Jaroslav Kysela
- <perex@perex.cz>, Jernej Skrabec <jernej.skrabec@gmail.com>, Jiri Slaby 
- <jirislaby@kernel.org>, Jonathan Cameron <jic23@kernel.org>, Kevin Hilman
- <khilman@baylibre.com>, Krzysztof Kozlowski <krzk@kernel.org>, Lars-Peter
- Clausen <lars@metafoo.de>, Lee Jones <lee@kernel.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, Mark Brown
- <broonie@kernel.org>, Matthias Brugger <mbrugger@suse.com>, Michael
- Ellerman <mpe@ellerman.id.au>, Michael Turquette <mturquette@baylibre.com>,
- Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, Nicholas Piggin
- <npiggin@gmail.com>, Nicolas Ferre <nicolas.ferre@microchip.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, Richard Leitner
- <richard.leitner@linux.dev>, Rob Herring <robh@kernel.org>, Roger Quadros
- <rogerq@kernel.org>, Samuel Holland <samuel@sholland.org>, Saravana Kannan
- <saravanak@google.com>, Shawn Guo <shawnguo@kernel.org>, Takashi Iwai
- <tiwai@suse.com>, Thomas Gleixner  <tglx@linutronix.de>, Tony Lindgren
- <tony@atomide.com>, Uwe =?UTF-8?Q?Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>, "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, Thomas
- Petazzoni <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, llvm@lists.linux.dev,
- linux-clk@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-usb@vger.kernel.org, patches@opensource.cirrus.com,
- linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, Andre Przywara <andre.przywara@arm.com>,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Jonathan Cameron
- <Jonathan.Cameron@huawei.com>, Uwe =?UTF-8?Q?Kleine-K=C3=B6nig?=
- <u.kleine-koenig@baylibre.com>, Richard Fitzgerald
- <rf@opensource.cirrus.com>
-Subject: Re: [PATCH v2] of: remove internal arguments from
- of_property_for_each_u32()
-Message-ID: <20240718085651.63ddfb20@booty>
-In-Reply-To: <1e36b1ba8af3584128550822a70cb072.sboyd@kernel.org>
-References: <20240717-of_property_for_each_u32-v2-1-4060990f49c9@bootlin.com>
-	<1e36b1ba8af3584128550822a70cb072.sboyd@kernel.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="q/LwbwxA"
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 46I70V0m023685;
+	Thu, 18 Jul 2024 02:00:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1721286031;
+	bh=7RVqeIDLuD6xV55kFX0VpsHpoNGYN5G0haiDA1UmC5I=;
+	h=From:To:CC:Subject:Date;
+	b=q/LwbwxAFcNZCWIc3wwUrtOEX9MqIGdECNcIJ7fiTKoWGkwFr6T8ADh/Ditr8yIDb
+	 d9EypqLEkCOqv9b2V0r+Cp+A6n9TOYohT4D3xn4VKjqY/J6ZBDx2n1GeMbkdv9EZAj
+	 2JcOtASvELtvnPooBan9CqwXLKzjuD7PpYuLg85A=
+Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 46I70VGj019248
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 18 Jul 2024 02:00:31 -0500
+Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 18
+ Jul 2024 02:00:31 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Thu, 18 Jul 2024 02:00:31 -0500
+Received: from LT5CG31242FY.dhcp.ti.com (lt5cg31242fy.dhcp.ti.com [10.85.14.216])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 46I70QHt006129;
+	Thu, 18 Jul 2024 02:00:27 -0500
+From: Shenghao Ding <shenghao-ding@ti.com>
+To: <linux-firmware@kernel.org>
+CC: <zigo@debian.org>, <baojun.xu@ti.com>, <13564923607@139.com>,
+        <v-po@ti.com>, <linux-sound@vger.kernel.org>, <robinchen@ti.com>,
+        <linux-kernel@vger.kernel.org>, <mimperial@lenovo.com>,
+        <cchen50@lenovo.com>, <soyer@irl.hu>, <stuart.a.hayhurst@gmail.com>,
+        <navada@ti.com>, Shenghao Ding
+	<shenghao-ding@ti.com>
+Subject: [PATCH v2] ASoC: tas2781: fix the license issue for tas781 firmware
+Date: Thu, 18 Jul 2024 15:00:22 +0800
+Message-ID: <20240718070022.591-1-shenghao-ding@ti.com>
+X-Mailer: git-send-email 2.33.0.windows.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-Hello Stephen,
+Fix the license issue for tas781 firmware, which are shipped as .bin
+opaque. Remove the GPL-2+, which imposes having the source code
+available.
 
-On Wed, 17 Jul 2024 16:33:34 -0700
-Stephen Boyd <sboyd@kernel.org> wrote:
+Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
 
-> > @@ -1191,20 +1191,24 @@ static int si5351_dt_parse(struct i2c_client *client,
-> >          * property silabs,pll-source : <num src>, [<..>]
-> >          * allow to selectively set pll source
-> >          */
-> > -       of_property_for_each_u32(np, "silabs,pll-source", prop, p, num) {
-> > +       sz = of_property_read_variable_u32_array(np, "silabs,pll-source", array, 2, 4);
-> > +       sz = (sz == -EINVAL) ? 0 : sz; /* Missing property is OK */
-> > +       if (sz < 0)
-> > +               return dev_err_probe(&client->dev, sz, "invalid pll-source");  
-> 
-> Needs a newline on the printk message.
+---
+v2:
+ - Drop "Found in hex form in kernel source."
+ - Drop Allegedly, Add Redistributable.
+v1:
+ - Remove the GPL-2+ and fix the license issue.
+ - Update the year of copyright.
+---
+ WHENCE | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-Ouch! Fix queued for v3.
-
-Thanks,
-Luca
-
+diff --git a/WHENCE b/WHENCE
+index b2fc018..3d95a97 100644
+--- a/WHENCE
++++ b/WHENCE
+@@ -7384,10 +7384,8 @@ Link: TAS2XXX38E0.bin -> ti/tas2781/TAS2XXX38E0.bin
+ Link: TIAS2781RCA2.bin -> ti/tas2781/TIAS2781RCA2.bin
+ Link: TIAS2781RCA4.bin -> ti/tas2781/TIAS2781RCA4.bin
+ 
+-Licence: Allegedly GPLv2+, but no source visible. Marked:
+-	 Copyright (C) 2023 Texas Instruments
+-
+-Found in hex form in kernel source.
++Licence: Redistributable. See LICENCE.ti-tspa for details. Marked:
++	 Copyright (C) 2023 - 2024 Texas Instruments
+ 
+ --------------------------------------------------------------------------
+ 
+@@ -7397,10 +7395,8 @@ File: ti/tas2563/INT8866RCA2.bin
+ Link: TAS2XXX3870.bin -> ti/tas2563/TAS2XXX3870.bin
+ Link: INT8866RCA2.bin -> ti/tas2563/INT8866RCA2.bin
+ 
+-Licence: Allegedly GPLv2+, but no source visible. Marked:
+-	 Copyright (C) 2023 Texas Instruments
+-
+-Found in hex form in kernel source.
++Licence: Redistributable. LICENCE.ti-tspa for details. Marked:
++	 Copyright (C) 2023 - 2024 Texas Instruments
+ 
+ --------------------------------------------------------------------------
+ 
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.34.1
+
