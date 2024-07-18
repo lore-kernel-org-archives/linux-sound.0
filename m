@@ -1,147 +1,98 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F0613D62E;
-	Thu, 18 Jul 2024 14:53:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 082A52A8FE;
+	Thu, 18 Jul 2024 15:13:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721314392; cv=none; b=qhcVTQ07U5h2csYl5U1OOqZpSUxjUzLel7h5yfXjgsqnKjVH5UIyHAgHyP/2H/PDJ8/oNNybT15wqZRZFIxK41RJpy75/J+AoZQqLSbO6sqoSGfngXnvzsYS/mS0Q9qua/RwNG5DTk88vfLEnpQRSzsSNdio5yZ71Kd60sDShAs=
+	t=1721315612; cv=none; b=dbjgey6e4NeV7fSeWqLKxw6BIeL5qvuLqs9oFjCAm8+v/0J4nWZ4YXqzM3uUxOgvAzzwYY2dtcmU3XfmspC0HNNTfuaFA7k/2XQydj2YD0D7AMqDeSzcY23P6N5L0fAha8IOv3DX7i+8sK1NxSJnEPpyvhBrjofUUbe/0qMYQ7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721314392; c=relaxed/simple;
-	bh=82AS+Zf4CVHf1Vp9cEoNBDoDZNddG/48AXZ/c/Xq+eo=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fCCfxMRDgRKSCGTZjdu2EF6M4sbuIN369fkgsCbY2XvMDbc8dHDRokmsn0ppJYmFif7ElKDtepw7JKhqUi53kaAD6JS4+yJWR6mHBvFPAUdItLOiGwK8rVe49hFc3ImJRr73QOs8agNzT4OUaZ/IHeuVlTktPOfV/sppeVPFiVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RZ1mL2MO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OaZegsP4; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VJs4TWiB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gdGUfCbr; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1721315612; c=relaxed/simple;
+	bh=oWv1oGl/GTLJXgxvgrl4uvx3M8z/wDMz5cxH6HjEBFA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=W3u92pwGz1dIhssp11VxifSiOjIFkJQFCNVbLsWvnKjUEvF/0znMX8dD2NXU1wrJfRKjVuRk+WKt+fDTNIkcPzWdJYd0rEA8/Mnv+Ui2wZEHkMjpNKp1BwSjhxcFeo/hdS4EK1hAfTWty3nu097TlHRysavh+3qz0+AGF6jHWYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VDiKjJLy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RZ1mL2MO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OaZegsP4";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VJs4TWiB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gdGUfCbr"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 5776D21B09;
-	Thu, 18 Jul 2024 14:53:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1721314388; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Tt1Kt4kEZPopJGh7fa66YbcOuxMjJWMWWaVrPr/IRrY=;
-	b=RZ1mL2MO2LPuUXJYfLiCRtuq1w70IHUyIK+SwhuxCjFI4vvcdTs41vJKkVNTj09HeizsHv
-	dJm3OAO8CSRlABUjuhjcHfIvzGq1CmsO57sr2Jf7kmpAq4nRkJEOPHQJoNnm9Gphy3iGbm
-	4aFI0BqEJrmhhep0DlRpIatIr763xVo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1721314388;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Tt1Kt4kEZPopJGh7fa66YbcOuxMjJWMWWaVrPr/IRrY=;
-	b=OaZegsP462jZR3izfIF7VMnq6blF3gdSo/E/3B616AC0YGCdjTWI0GiTOKAbouhMeQ23WO
-	BnkiW2Oy3nBcEDDw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=VJs4TWiB;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=gdGUfCbr
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1721314387; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Tt1Kt4kEZPopJGh7fa66YbcOuxMjJWMWWaVrPr/IRrY=;
-	b=VJs4TWiBKOShELnsPgO98gCqKihDNWBuGzs6GFWAlO+VDmV+78i/0DPSHJhm409RAq7q5+
-	CKZGzNrnW2JJ1wHndyGWjeJcVQtavsvoWuhwqeCmKpz0lEmYT3rX90FPnuI9vtDvUG5csz
-	VA7qaOuR0KlhWHDk43ZWl6/O1KmoL5w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1721314387;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Tt1Kt4kEZPopJGh7fa66YbcOuxMjJWMWWaVrPr/IRrY=;
-	b=gdGUfCbrc3O4wPzc7JMbLLWp8Qo4RkEzyLP81E0TYsfBWxKhYVjqJOncvuHHt/16OGGZ2u
-	QawsmEIn4Tc+90AQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0B9F9136F7;
-	Thu, 18 Jul 2024 14:53:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id BVuGAVMsmWaHIQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 18 Jul 2024 14:53:07 +0000
-Date: Thu, 18 Jul 2024 16:53:40 +0200
-Message-ID: <87h6cmvjij.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-sound@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] kselftest/alsa: Diagnostic improvements
-In-Reply-To: <20240716-alsa-kselftest-board-name-v2-0-60f1acdde096@kernel.org>
-References: <20240716-alsa-kselftest-board-name-v2-0-60f1acdde096@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VDiKjJLy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37863C4AF0D;
+	Thu, 18 Jul 2024 15:13:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721315611;
+	bh=oWv1oGl/GTLJXgxvgrl4uvx3M8z/wDMz5cxH6HjEBFA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=VDiKjJLyay2P55bNcVqZKBQqtjm75AqLk52Qd/EoDF6sAQo9nFkLDj/YmgUqNiw/S
+	 EspfbUPrA4X9B9aAU/eIAB46e7gCmT/+C09q56+moPSvJoNZWXgkzy6opPeqD54oYX
+	 yqNQm1l04zKjovLvbrPtAzw9+Yt3hEGQM8P3+0rXBY9WIxauCKarERyP6hWFMI26k3
+	 IJBcmMHZZ2SLG8MQBmqWrEhewue8kUknQh9YAWvlRjVB7whZdhCAamzP96++pqZrhv
+	 avFnhB9WMm9RS2900Fq6ngikRr/S4/qLshaiv2mUvi1nmw7ozXD5SFVt0fJACH07JB
+	 DZHftEJEzpkWQ==
+From: Mark Brown <broonie@kernel.org>
+To: alsa-devel@alsa-project.org, 
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+Cc: Vijendar.Mukunda@amd.com, Basavaraj.Hiregoudar@amd.com, 
+ Sunil-kumar.Dommati@amd.com, syed.sabakareem@amd.com, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ "moderated list:SOUND - SOUND OPEN FIRMWARE (SOF) DRIVERS" <sound-open-firmware@alsa-project.org>, 
+ "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, 
+ open list <linux-kernel@vger.kernel.org>
+In-Reply-To: <20240718062004.581685-1-venkataprasad.potturu@amd.com>
+References: <20240718062004.581685-1-venkataprasad.potturu@amd.com>
+Subject: Re: [PATCH] ASoC: sof: amd: fix for firmware reload failure in
+ Vangogh platform
+Message-Id: <172131560794.82656.13194361470516878188.b4-ty@kernel.org>
+Date: Thu, 18 Jul 2024 16:13:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Spam-Flag: NO
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 5776D21B09
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev-d4707
 
-On Tue, 16 Jul 2024 16:47:58 +0200,
-Mark Brown wrote:
+On Thu, 18 Jul 2024 11:50:02 +0530, Venkata Prasad Potturu wrote:
+> Setting ACP ACLK as clock source when ACP enters D0 state causing
+> firmware load failure, as per design clock source should be internal
+> clock.
 > 
-> The first patch fixes unstable naming of tests due to probe ordering not
-> being stable, the second just provides a bit more information.
+> Remove acp_clkmux_sel field so that ACP will use internal clock
+> source when ACP enters into D0 state.
 > 
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
-> Changes in v2:
-> - Switch to using ID rather than longame.
-> - Log the PCM ID too.
-> - Link to v1: https://lore.kernel.org/r/20240711-alsa-kselftest-board-name-v1-1-ab5cf2dbbea6@kernel.org
-> 
-> ---
-> Mark Brown (2):
->       kselftest/alsa: Use card name rather than number in test names
->       kselftest/alsa: Log the PCM ID in pcm-test
+> [...]
 
-Applied both patches now.  Thanks!
+Applied to
 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Takashi
+Thanks!
+
+[1/1] ASoC: sof: amd: fix for firmware reload failure in Vangogh platform
+      commit: f2038c12e8133bf4c6bd4d1127a23310d55d9e21
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
