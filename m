@@ -1,93 +1,230 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-43166.protonmail.ch (mail-43166.protonmail.ch [185.70.43.166])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 421EE770F0;
-	Thu, 18 Jul 2024 08:09:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F92713AD12
+	for <linux-sound@vger.kernel.org>; Thu, 18 Jul 2024 11:57:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.166
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721290174; cv=none; b=tJCfVxuPG+k28KqHql5PvOG3l/pVyld4VvgHx5Ej0zNjctEq922JYwOo3cP84fxBnR1FqoWX+KUZ/OpKcXftpErfeMbgb3bng4piJtkZVAUEWeZN7jBpfLlkIFt6l1SsrUp9XznpEKZ77xIFcI1MTYU1TWTAizg5fETeeIGWFGQ=
+	t=1721303823; cv=none; b=smAQdutpPpEg7yL0NIQrToFQg/MHUUDaOkijZPqQdqBrEzQGD0EfSxBw26eX1xguvZWRZc/cbxOzrfU62ACzkBzeV09RbTwWNRbNqPCunC4tdjGkuo1Vta2xFlDlGzuKFPatu37MBTD1ehg507w5995qobpvRzDc0ymjpHDaKRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721290174; c=relaxed/simple;
-	bh=nPPGkjCBXcZy8CLRT0cJD7884CLC3WrqOg2b7ns6i9I=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kOVNQT1K/89KKMDOa/t0Qdx3UIYQ5rZ5nC5DUezHD2UJMxdx0Boh6vnamUkxMMm3jBTydwMijjnb0QH6RXQqPnmgEsrXy7P8ifCZ7g8QG8Msditi48Gtkyv2wpmwotkQbzZSZhdTD1UwpoOzvPrNlIoF6o0WqsYt/ZOYIOLb2ek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LcRd4FkX; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1721303823; c=relaxed/simple;
+	bh=xO1ybirnwHc/5PYbnp8br6AI3nTAS/ZKlIeSt8WCIZk=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=N0s6fV6UwxUjvbM2zRqdxMX0rT24U9Ba5DDWwjyPfdk5c1cfvT1jHNMbsF63N8ZrRRRmA4Vdo9JSiwvfAAwilzwe2gWV2iKKUlB19Bq+xKalrDOYYe8StL3qubFRreo5YWCrpWnY9/wFmt+6lF1GWZy0Hy4ue/9QbyklLREvrcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=YoDfyPfB; arc=none smtp.client-ip=185.70.43.166
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LcRd4FkX"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-70b2a0542c2so384779b3a.3;
-        Thu, 18 Jul 2024 01:09:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721290172; x=1721894972; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fYE0kxNgpzBFZuSh3Xys8pyqkbR8GwZWtw/ulDzehsU=;
-        b=LcRd4FkXad0NVTliJlBiFEiTecjfyUJmaACKw6tfnxJY50SVgBlwt5Is/+7TgXwcJE
-         uUtdxHkFVu8R0CmsZOy96bnOeB62anhimVNY2bfj94gjZ/vwQwuCp1fblQKQsE9dR34t
-         dUZhOo/yghByHmPOyvsVrpwxSrZK7/Cs9oePN1mi2w7zhR0d2pHzz+D2bbe7pIazO/7D
-         3KitkeaPvNNpLYlPbaf0nphWGNO7oyCtx6vDBlwJoEomIZz222D6ZQONERx4zKQBxTYP
-         2IhpoVIdgTrLCbMnLnWMnhNq2/2yMKEcMiazFGxMrBlC+tM4YI7T46XrFgpK+71Rp7gu
-         XUvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721290172; x=1721894972;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fYE0kxNgpzBFZuSh3Xys8pyqkbR8GwZWtw/ulDzehsU=;
-        b=RPz3AIb/X5vPU46++eJa19my7Fi9rFFo5pYPzOF5776inyV2pF4188L0GSRcJi3Qcc
-         kBXT5n90N41Al78ealgEcyBlgzzIbcY0ffFrr+3ILKHzJl2yhM81KiBTvq8vYabYVxLT
-         m3hWd+wzRmdVRrUuIRtpUIByb0kwJ7MzvbKoAzhm9RzIs13EH6ofrCUz9juZ9cgLMIzs
-         fY4NpMvAD3kWTusHR7Vcza3aouG42LIaPwVfg/c+F7mbwwzfpynzhq4R6RKuHZ10x+Zs
-         w+9zNof6O4ffGYqTYzoqdXMAX5dk7AXqCV3lnIvBNBN3s8pqFW7F6k0lIGhrRS4nlQB4
-         WAEg==
-X-Forwarded-Encrypted: i=1; AJvYcCX1f1UTkHlSG+A1keQIXd19CuIG48siy4Ai0ulnOrTEGEgjJg8ni658uoWTtjM7PR5lItWFM8ZqmWh6gCqNZ4SOUm3VlzJ4AFwWTsl5
-X-Gm-Message-State: AOJu0YzQnun62hWWNyiQI3WuCSrJOIrzejEUOTTzhIpaChqdEIGOXeO6
-	EHrrlp07VxZWfkbLwwhR2Qaz49OeYpErHXP6Hw2Fmgo6Kvx2eHm0
-X-Google-Smtp-Source: AGHT+IHMRLmDiAcl7Pqn1GXhu0ffWS33/W08KsV0d2/sCdDvJKIsPYf63OIffpqWMfOu0JtnBzyAxw==
-X-Received: by 2002:a05:6a00:2296:b0:705:b0aa:a6bf with SMTP id d2e1a72fcca58-70ce4f48c3cmr4581346b3a.2.1721290172391;
-        Thu, 18 Jul 2024 01:09:32 -0700 (PDT)
-Received: from localhost.localdomain ([221.158.180.180])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70b7eb9e290sm9432160b3a.5.2024.07.18.01.09.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jul 2024 01:09:32 -0700 (PDT)
-From: Seunghun Han <kkamagui@gmail.com>
-To: tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Seunghun Han <kkamagui@gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Fix the speaker output on Samsung Galaxy Book Pro 360
-Date: Thu, 18 Jul 2024 17:09:08 +0900
-Message-Id: <20240718080908.8677-1-kkamagui@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="YoDfyPfB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1721303818; x=1721563018;
+	bh=0IgroBuJlaGzNroVwV8aEok8gKxHNerwJQw2E/oX80E=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=YoDfyPfBqD0sUU5Uk00Xy4E8TgUjWcOGrjWalEaYZHesMTsEKxvUqKrJGUbwUcQjd
+	 pKLEvLtS0853RsSakHwHkT8hbyAZ7yzjz2i8s83h+j2OS5wLQxJH+uUzuOLHGwWRiR
+	 TQY2Fmor4Qq9zY7nRYlIX4SNhT4nliVD+BO+B1Y5GwoYyv6WVq3jO7D5KrX+BbIPhz
+	 Wi1gOxrVyfVpktqpyEU6j9nb2HEw1OBS3CZzDvB7O4+RPNlxH3mUZJFRs35hWYKpwk
+	 HTzKPPBXMomh1AdApZybDZt6Yho3721FT+Zxnuf3QFr+q/lS8wKyC7UzdT4ErVGk5p
+	 rI4brd9Udt+UQ==
+Date: Thu, 18 Jul 2024 11:56:54 +0000
+To: o-takashi@sakamocchi.jp, clemens@ladisch.de
+From: Edmund Raile <edmund.raile@proton.me>
+Cc: tiwai@suse.com, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, Edmund Raile <edmund.raile@proton.me>
+Subject: [PATCH] ALSA: firewire-lib: restore process context workqueue to prevent deadlock
+Message-ID: <20240718115637.12816-1-edmund.raile@proton.me>
+Feedback-ID: 45198251:user:proton
+X-Pm-Message-ID: 5f36b356ef27217606fffea2ecf7f96514ee86eb
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Samsung Galaxy Book Pro 360 (13" 2022 NT935QDB-KC71S) with codec SSID
-144d:c1a4 requires the same workaround to enable the speaker amp
-as other Samsung models with the ALC298 codec.
+Commit b5b519965c4c ("ALSA: firewire-lib: operate for period elapse event
+in process context") removed the process context workqueue from
+amdtp_domain_stream_pcm_pointer() and update_pcm_pointers() to remove
+its overhead.
 
-Signed-off-by: Seunghun Han <kkamagui@gmail.com>
+With RME Fireface 800, this lead to a regression since Kernels 5.14.0,
+causing a deadlock with eventual system freeze under ALSA operation:
+
+? tasklet_unlock_spin_wait
+ </NMI>
+ <TASK>
+ohci_flush_iso_completions firewire_ohci
+amdtp_domain_stream_pcm_pointer snd_firewire_lib
+snd_pcm_update_hw_ptr0 snd_pcm
+snd_pcm_status64 snd_pcm
+
+? native_queued_spin_lock_slowpath
+ </NMI>
+ <IRQ>
+_raw_spin_lock_irqsave
+snd_pcm_period_elapsed snd_pcm
+process_rx_packets snd_firewire_lib
+irq_target_callback snd_firewire_lib
+handle_it_packet firewire_ohci
+context_tasklet firewire_ohci
+
+Restore the work queue to prevent deadlock between ALSA substream
+process context spin_lock of snd_pcm_stream_lock_irq() in snd_pcm_status64(=
+)
+and OHCI 1394 IT softIRQ context spin_lock of snd_pcm_stream_lock_irqsave()
+in snd_pcm_period_elapsed().
+
+to reproduce the issue:
+direct ALSA playback to the device:
+  mpv --audio-device=3Dalsa/sysdefault:CARD=3DFireface800 Spor-Ignition.fla=
+c
+Time to occurrence: 2s to 30m
+Likelihood increased by:
+  - high CPU load
+    stress --cpu $(nproc)
+  - switching between applications via workspaces
+    tested with i915 in Xfce
+PulsaAudio / PipeWire conceal the issue as they run PCM substream
+without period wakeup mode, issuing less hardIRQs.
+
+Closes: https://lore.kernel.org/regressions/kwryofzdmjvzkuw6j3clftsxmoolynl=
+jztxqwg76hzeo4simnl@jn3eo7pe642q/T/#u
+Fixes: 7ba5ca32fe6e ("ALSA: firewire-lib: operate for period elapse event i=
+n process context")
+Signed-off-by: Edmund Raile <edmund.raile@proton.me>
 ---
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
+This is the follow-up patch to the 5.14.0 regression I reported:
+https://lore.kernel.org/regressions/kwryofzdmjvzkuw6j3clftsxmoolynljztxqwg7=
+6hzeo4simnl@jn3eo7pe642q/T/#u
+("[REGRESSION] ALSA: firewire-lib: snd_pcm_period_elapsed deadlock with Fir=
+eface 800")
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index d6b6a97600fc..c3a86a99f8c6 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10398,6 +10398,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x144d, 0xc189, "Samsung Galaxy Flex Book (NT950QCG-X716)", ALC298_FIXUP_SAMSUNG_AMP),
- 	SND_PCI_QUIRK(0x144d, 0xc18a, "Samsung Galaxy Book Ion (NP930XCJ-K01US)", ALC298_FIXUP_SAMSUNG_AMP),
- 	SND_PCI_QUIRK(0x144d, 0xc1a3, "Samsung Galaxy Book Pro (NP935XDB-KC1SE)", ALC298_FIXUP_SAMSUNG_AMP),
-+	SND_PCI_QUIRK(0x144d, 0xc1a4, "Samsung Galaxy Book Pro 360 (NT935QBD)", ALC298_FIXUP_SAMSUNG_AMP),
- 	SND_PCI_QUIRK(0x144d, 0xc1a6, "Samsung Galaxy Book Pro 360 (NP930QBD)", ALC298_FIXUP_SAMSUNG_AMP),
- 	SND_PCI_QUIRK(0x144d, 0xc740, "Samsung Ativ book 8 (NP870Z5G)", ALC269_FIXUP_ATIV_BOOK_8),
- 	SND_PCI_QUIRK(0x144d, 0xc812, "Samsung Notebook Pen S (NT950SBE-X58)", ALC298_FIXUP_SAMSUNG_AMP),
--- 
-2.34.1
+Takashi Sakamoto explained the issue in his response to the regression:
+A. In the process context
+    * (lock A) Acquiring spin_lock by snd_pcm_stream_lock_irq() in
+               snd_pcm_status64()
+    * (lock B) Then attempt to enter tasklet
+
+B. In the softIRQ context
+    * (lock B) Enter tasklet
+    * (lock A) Attempt to acquire spin_lock by snd_pcm_stream_lock_irqsave(=
+) in
+               snd_pcm_period_elapsed()
+
+This leads me to believe this isn't just an issue limited to the RME Firefa=
+ce
+
+driver (snd_fireface), though I can not test the other devices.
+ sound/firewire/amdtp-stream.c | 32 +++++++++++++++++++++-----------
+ sound/firewire/amdtp-stream.h |  1 +
+ 2 files changed, 22 insertions(+), 11 deletions(-)
+
+diff --git a/sound/firewire/amdtp-stream.c b/sound/firewire/amdtp-stream.c
+index d35d0a420ee0..77b99a2117f4 100644
+--- a/sound/firewire/amdtp-stream.c
++++ b/sound/firewire/amdtp-stream.c
+@@ -77,6 +77,8 @@
+ // overrun. Actual device can skip more, then this module stops the packet=
+ streaming.
+ #define IR_JUMBO_PAYLOAD_MAX_SKIP_CYCLES=095
+=20
++static void pcm_period_work(struct work_struct *work);
++
+ /**
+  * amdtp_stream_init - initialize an AMDTP stream structure
+  * @s: the AMDTP stream to initialize
+@@ -105,6 +107,7 @@ int amdtp_stream_init(struct amdtp_stream *s, struct fw=
+_unit *unit,
+ =09s->flags =3D flags;
+ =09s->context =3D ERR_PTR(-1);
+ =09mutex_init(&s->mutex);
++=09INIT_WORK(&s->period_work, pcm_period_work);
+ =09s->packet_index =3D 0;
+=20
+ =09init_waitqueue_head(&s->ready_wait);
+@@ -347,6 +350,7 @@ EXPORT_SYMBOL(amdtp_stream_get_max_payload);
+  */
+ void amdtp_stream_pcm_prepare(struct amdtp_stream *s)
+ {
++=09cancel_work_sync(&s->period_work);
+ =09s->pcm_buffer_pointer =3D 0;
+ =09s->pcm_period_pointer =3D 0;
+ }
+@@ -611,19 +615,21 @@ static void update_pcm_pointers(struct amdtp_stream *=
+s,
+ =09=09// The program in user process should periodically check the status =
+of intermediate
+ =09=09// buffer associated to PCM substream to process PCM frames in the b=
+uffer, instead
+ =09=09// of receiving notification of period elapsed by poll wait.
+-=09=09if (!pcm->runtime->no_period_wakeup) {
+-=09=09=09if (in_softirq()) {
+-=09=09=09=09// In software IRQ context for 1394 OHCI.
+-=09=09=09=09snd_pcm_period_elapsed(pcm);
+-=09=09=09} else {
+-=09=09=09=09// In process context of ALSA PCM application under acquired l=
+ock of
+-=09=09=09=09// PCM substream.
+-=09=09=09=09snd_pcm_period_elapsed_under_stream_lock(pcm);
+-=09=09=09}
+-=09=09}
++=09=09if (!pcm->runtime->no_period_wakeup)
++=09=09=09queue_work(system_highpri_wq, &s->period_work);
+ =09}
+ }
+=20
++static void pcm_period_work(struct work_struct *work)
++{
++=09struct amdtp_stream *s =3D container_of(work, struct amdtp_stream,
++=09=09=09=09=09      period_work);
++=09struct snd_pcm_substream *pcm =3D READ_ONCE(s->pcm);
++=09
++=09if (pcm)
++=09=09snd_pcm_period_elapsed(pcm);
++}
++
+ static int queue_packet(struct amdtp_stream *s, struct fw_iso_packet *para=
+ms,
+ =09=09=09bool sched_irq)
+ {
+@@ -1854,7 +1860,10 @@ unsigned long amdtp_domain_stream_pcm_pointer(struct=
+ amdtp_domain *d,
+ =09if (irq_target && amdtp_stream_running(irq_target)) {
+ =09=09// In software IRQ context, the call causes dead-lock to disable the=
+ tasklet
+ =09=09// synchronously.
+-=09=09if (!in_softirq())
++=09=09// workqueue serves to prevent deadlock between process context spin=
+lock
++=09=09// of snd_pcm_stream_lock_irq() in snd_pcm_status64() and softIRQ sp=
+inlock
++=09=09// of snd_pcm_stream_lock_irqsave() in snd_pcm_period_elapsed()
++=09=09if ((!in_softirq()) && (current_work() !=3D &s->period_work))
+ =09=09=09fw_iso_context_flush_completions(irq_target->context);
+ =09}
+=20
+@@ -1910,6 +1919,7 @@ static void amdtp_stream_stop(struct amdtp_stream *s)
+ =09=09return;
+ =09}
+=20
++=09cancel_work_sync(&s->period_work);
+ =09fw_iso_context_stop(s->context);
+ =09fw_iso_context_destroy(s->context);
+ =09s->context =3D ERR_PTR(-1);
+diff --git a/sound/firewire/amdtp-stream.h b/sound/firewire/amdtp-stream.h
+index a1ed2e80f91a..775db3fc4959 100644
+--- a/sound/firewire/amdtp-stream.h
++++ b/sound/firewire/amdtp-stream.h
+@@ -191,6 +191,7 @@ struct amdtp_stream {
+=20
+ =09/* For a PCM substream processing. */
+ =09struct snd_pcm_substream *pcm;
++=09struct work_struct period_work;
+ =09snd_pcm_uframes_t pcm_buffer_pointer;
+ =09unsigned int pcm_period_pointer;
+ =09unsigned int pcm_frame_multiplier;
+--=20
+2.45.2
+
 
