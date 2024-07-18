@@ -1,122 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67EC654645;
-	Thu, 18 Jul 2024 13:12:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DAF812F5A1;
+	Thu, 18 Jul 2024 14:44:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721308365; cv=none; b=fe7zOoUd2KfoPfYxXjBPT73jeEqOoucbtJMouqIHHs2tJ1i7sAlYv1B9XYHSw9I6xBkpawUuk1xuM6GYFnzH1w6R/5LXXCMkOXfrLlDyNenXy7bHrI78uhs0y/Tz9OLNqz8lWbR8yPaiLID+/gmqxBv9CzC0Op64og2UKiMqR7o=
+	t=1721313896; cv=none; b=XVQ7oFm/N/5vqOnB3vxeAK5wb3wpe8kfHUqXM9lTyrfiMWR2aRifvLpg1MHKBtGVH4jc3UNi9jWsm1oFytod/enaR4/KUB/K8Vy1De7eKyaQShA3RTgeACvKWkXx+6j5x80lZ1E22ANL6LrHPRq2ZUQRozLXhRV/YFka4/VfW5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721308365; c=relaxed/simple;
-	bh=vYl8MNkELU4Ts7nwqTZXYDv94oAOQlp6vOMvp3c6lbk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eWevThNvri8tiBsUxTl3dk6cOp/+acsxDlGT0dOPDPk0qGPwMVWwNA30Ez3IBodky1qPqoXJauwcuiTVgcYiGDeY/LgOQw024F18NDpXDOY4k4Yxtsc5zIlbdxMiUvMenS5os1sESNFOU//gefnAxD0sd/w0fjMXkomOW1URL0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mNZOdzPU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721313896; c=relaxed/simple;
+	bh=QOMftjxopqrdPolElgrkNok+9rZHCWk9f/wxM291T0c=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FFd/2wzptf1Hs2GVhtHPBG4eEuh984BB6QcP7qC9FS89p3i2sZnEjmyZOvdcUu8MCmLhC8e/0aFxYWKZR8tlVFF1ALJMUcwf6Ub9liEAreAT+7iAiE1teyhxpK364YyC8vpSoN3x8UGMqoUAKu4brDGqvFyJ60kaQCLPBiIboSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xfbJPynj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OFCdJaBu; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xfbJPynj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OFCdJaBu; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mNZOdzPU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E78C9C4AF0F;
-	Thu, 18 Jul 2024 13:12:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721308364;
-	bh=vYl8MNkELU4Ts7nwqTZXYDv94oAOQlp6vOMvp3c6lbk=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=mNZOdzPU3IGxduoRU3eUL8+SX4K40LDy43/8SFyyUGj22aTZUbJcavTaKvCCXaQb0
-	 x86PJXfz31XIQdtuOnQls/V7gf4vxWQOmRxxPoLFcaZfeWkktO1CeYnKPvSkhKdiUO
-	 rgu2Nrv1Vcpj2Gj/4iqrKWjjg4JVLIQAD2FwprcXGD7ncx8+28RVs+O964iS3yC2IL
-	 n55bS1Nd1OiOAvbbRz6MfhGbL1qZgwhAi7+ZeLGBIU7l7TRU0e7lPhUCeuBvQwqHb/
-	 8FLmFwLMLfq4BKUwqME4qEwFlf7wgu7xuwwm+6kezNO0tKMk6RwT9qWgZOAEmk/9t3
-	 WVB7hotnzJHjQ==
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6659e81bc68so8732677b3.0;
-        Thu, 18 Jul 2024 06:12:44 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW2edz7UiXXEhrzEqSz840ejpZwDlSz6OJe+mKlNls87+lB/+/SYq5dWn39knA3o7N2Qzp+70we/AZI3y+sVM7jb+0vvQuFa8gMu/5n30zpAciL/eRStu1rGpvHnnjlgFwvGAfzFcuZd2o=
-X-Gm-Message-State: AOJu0YygwpfQLOAaoGEeS18xf/kP0xvrGKn1pLsHoUPGZVQ1adkZT3yK
-	0fwPI4pU9knjaSuBB8zty9mZV0SUyNhJBBNG8jvtmydte93T5k5kzICix+pvSHhwsQH8HdqLQzK
-	jS+1mA4TFMGnWnTWQcK7aVhVfH/8=
-X-Google-Smtp-Source: AGHT+IGHGsKu3aGgiDsmP3QMUlXnyDu/titXfL14zN189O3HKZ68TtQ10LQvGGJTe2Rdb33EsSSV39sXbLdHNJmfdlQ=
-X-Received: by 2002:a0d:e443:0:b0:63b:ce21:da7f with SMTP id
- 00721157ae682-664fe74049dmr51662367b3.21.1721308364100; Thu, 18 Jul 2024
- 06:12:44 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xfbJPynj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OFCdJaBu";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xfbJPynj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OFCdJaBu"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 63EFC1FBF1;
+	Thu, 18 Jul 2024 14:44:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1721313893; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=62UzqyHcb5qg23qSy74KPb+SpJCu5vHT+MajU0HqhhQ=;
+	b=xfbJPynjEeer6VSEzkjPx5UdKyQGmUcMUw3kYTeobXfuBYsrz4x5FH0lEVGosGa9yAudHx
+	czs9A0SXuUEAzeDolfhWPJTWISyyeI7LvQY/FdqkG5broW2uXXDOpzYu3kXtRKGbDubQFj
+	As4LCUMxjme8z0yT+55Oo1yBYdXpams=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1721313893;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=62UzqyHcb5qg23qSy74KPb+SpJCu5vHT+MajU0HqhhQ=;
+	b=OFCdJaBuzfc4qDaFBqNR1YTui5KjNuFgl1u+pkoFDu4Q689xrP8mA23XIB25QO3VYB/Mow
+	bLn86yfBe+kD6BCQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1721313893; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=62UzqyHcb5qg23qSy74KPb+SpJCu5vHT+MajU0HqhhQ=;
+	b=xfbJPynjEeer6VSEzkjPx5UdKyQGmUcMUw3kYTeobXfuBYsrz4x5FH0lEVGosGa9yAudHx
+	czs9A0SXuUEAzeDolfhWPJTWISyyeI7LvQY/FdqkG5broW2uXXDOpzYu3kXtRKGbDubQFj
+	As4LCUMxjme8z0yT+55Oo1yBYdXpams=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1721313893;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=62UzqyHcb5qg23qSy74KPb+SpJCu5vHT+MajU0HqhhQ=;
+	b=OFCdJaBuzfc4qDaFBqNR1YTui5KjNuFgl1u+pkoFDu4Q689xrP8mA23XIB25QO3VYB/Mow
+	bLn86yfBe+kD6BCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3F850136F7;
+	Thu, 18 Jul 2024 14:44:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id M59RDmUqmWYHHwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 18 Jul 2024 14:44:53 +0000
+Date: Thu, 18 Jul 2024 16:45:26 +0200
+Message-ID: <87msmevjw9.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Seunghun Han <kkamagui@gmail.com>
+Cc: tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Fix the speaker output on Samsung Galaxy Book Pro 360
+In-Reply-To: <20240718080908.8677-1-kkamagui@gmail.com>
+References: <20240718080908.8677-1-kkamagui@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240718070022.591-1-shenghao-ding@ti.com>
-In-Reply-To: <20240718070022.591-1-shenghao-ding@ti.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Thu, 18 Jul 2024 09:12:32 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA4cRtsC6a3AvW65==seufG3zoiUtL0N9PPLpYNEvNYwwQ@mail.gmail.com>
-Message-ID: <CA+5PVA4cRtsC6a3AvW65==seufG3zoiUtL0N9PPLpYNEvNYwwQ@mail.gmail.com>
-Subject: Re: [PATCH v2] ASoC: tas2781: fix the license issue for tas781 firmware
-To: Shenghao Ding <shenghao-ding@ti.com>
-Cc: linux-firmware@kernel.org, zigo@debian.org, baojun.xu@ti.com, 
-	13564923607@139.com, v-po@ti.com, linux-sound@vger.kernel.org, 
-	robinchen@ti.com, linux-kernel@vger.kernel.org, mimperial@lenovo.com, 
-	cchen50@lenovo.com, soyer@irl.hu, stuart.a.hayhurst@gmail.com, navada@ti.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: 0.70
+X-Spamd-Result: default: False [0.70 / 50.00];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_TLS_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
 
-On Thu, Jul 18, 2024 at 3:01=E2=80=AFAM Shenghao Ding <shenghao-ding@ti.com=
-> wrote:
->
-> Fix the license issue for tas781 firmware, which are shipped as .bin
-> opaque. Remove the GPL-2+, which imposes having the source code
-> available.
->
-> Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
+On Thu, 18 Jul 2024 10:09:08 +0200,
+Seunghun Han wrote:
+> 
+> Samsung Galaxy Book Pro 360 (13" 2022 NT935QDB-KC71S) with codec SSID
+> 144d:c1a4 requires the same workaround to enable the speaker amp
+> as other Samsung models with the ALC298 codec.
+> 
+> Signed-off-by: Seunghun Han <kkamagui@gmail.com>
 
-Merged and pushed out.
+Thanks, applied now.
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/257
 
-josh
-
->
-> ---
-> v2:
->  - Drop "Found in hex form in kernel source."
->  - Drop Allegedly, Add Redistributable.
-> v1:
->  - Remove the GPL-2+ and fix the license issue.
->  - Update the year of copyright.
-> ---
->  WHENCE | 12 ++++--------
->  1 file changed, 4 insertions(+), 8 deletions(-)
->
-> diff --git a/WHENCE b/WHENCE
-> index b2fc018..3d95a97 100644
-> --- a/WHENCE
-> +++ b/WHENCE
-> @@ -7384,10 +7384,8 @@ Link: TAS2XXX38E0.bin -> ti/tas2781/TAS2XXX38E0.bi=
-n
->  Link: TIAS2781RCA2.bin -> ti/tas2781/TIAS2781RCA2.bin
->  Link: TIAS2781RCA4.bin -> ti/tas2781/TIAS2781RCA4.bin
->
-> -Licence: Allegedly GPLv2+, but no source visible. Marked:
-> -        Copyright (C) 2023 Texas Instruments
-> -
-> -Found in hex form in kernel source.
-> +Licence: Redistributable. See LICENCE.ti-tspa for details. Marked:
-> +        Copyright (C) 2023 - 2024 Texas Instruments
->
->  ------------------------------------------------------------------------=
---
->
-> @@ -7397,10 +7395,8 @@ File: ti/tas2563/INT8866RCA2.bin
->  Link: TAS2XXX3870.bin -> ti/tas2563/TAS2XXX3870.bin
->  Link: INT8866RCA2.bin -> ti/tas2563/INT8866RCA2.bin
->
-> -Licence: Allegedly GPLv2+, but no source visible. Marked:
-> -        Copyright (C) 2023 Texas Instruments
-> -
-> -Found in hex form in kernel source.
-> +Licence: Redistributable. LICENCE.ti-tspa for details. Marked:
-> +        Copyright (C) 2023 - 2024 Texas Instruments
->
->  ------------------------------------------------------------------------=
---
->
-> --
-> 2.34.1
->
+Takashi
