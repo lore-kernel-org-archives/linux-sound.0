@@ -1,68 +1,63 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD5C51448F6
-	for <linux-sound@vger.kernel.org>; Fri, 19 Jul 2024 16:23:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8CB31482E4;
+	Fri, 19 Jul 2024 19:54:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721406200; cv=none; b=ExkAmDGiJGDkhz/9G4bTd7wasI7F1z9FqmVTM3zoccloIlbPTHhLhk/dIACVhwmXk/WO2RRh+97nH0PzcBIl3wvkgGA+mUIgLgUYJ27raOaPAdrmiW3DkMYeg5NekF3a4DEkMR8cFbXwPlSXb7RYUv9pX2HPYtiGnjLFx5Wzt00=
+	t=1721418877; cv=none; b=NDIpvJSWi8KN83rZ8BIRlPLSR7H6G7yiKwLEGZNlSr5RTaaxsMaNmCtudg928XwH9jVFi2kTQgrnd8Nkznrc1sNqMGBbfNQQ0VRJNas8BbBelGjS8oUFg64gTO7p19omtuXGC6UJjZOMFCbCys4a06NKZumYINeIcd8RSqHEQSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721406200; c=relaxed/simple;
-	bh=/uoCW7etoicGPbRjZI4F3TMdO2LKe6DBsQClBEQEVcA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=U1UEOJAwsxFL+sxrv/+x/RtAo9KIVcmpI5xTvLPIIfdin2HVsGM8JQBptor4tV5YjvgIpouuWNrNg0Oi51APMJTYKH/N6JmkUdOJlUDK6LTfpbicr/uFnNTgOppTwwuvop2AP4m+bLR7VqpzNsP5ua3LrfYq+NjFNr0pduzPLEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gB6Md7Yq; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1721418877; c=relaxed/simple;
+	bh=VNM01rkeSr+xN3jpmM8tVqea1oaq/uzNvbrgTNEMPtU=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=a5cyo5uV1oeIou7w27eCLyTWFQEmWFy9z7LlpXNPiSR126vHKn1yaPc+SYU+zDt/xqXpbzKsgvp2yuFn01zsgNpuBmTURj2IpmGRbMlxb8sNCAYEIMdOyhwZ2UsJCxswAgpSlLEm1CkqGokJPtxxUEU3T8h9KUX02JiVBy/WXM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hZjY2RQc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gB6Md7Yq"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2cb682fb0cdso1151058a91.3
-        for <linux-sound@vger.kernel.org>; Fri, 19 Jul 2024 09:23:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721406199; x=1722010999; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=/uoCW7etoicGPbRjZI4F3TMdO2LKe6DBsQClBEQEVcA=;
-        b=gB6Md7YqIqM6BqSulSESbcYTHBUgWuWx0BTMW06oPoMkHDacx0g95khQXuakPC9lef
-         1Nzec7Qpvmy2389+hzaqVhxEt44jbQZmTdv9XAnoGOMNE5zQvBSYOcbe/FK+opM9Jva/
-         x8w9bcnH4B0jT4iZ2rqIT91dyC+2NlcXfInDDa5luc9eCOt3j+huiDI9K0PnWafGTDYP
-         XyPFdnAF8vtGRO4e5L6v35ZmqLdfvFN+jk+W0WjlZHom3oPisUuiUBZgzbhDJfCDXbvX
-         KsrHfpN+KB8W3rxsXpMSBZUcl9oiJE3TAhGARX1AhZgevfzJ87FqB8/Q3vdkIVx8AgRr
-         MWWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721406199; x=1722010999;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/uoCW7etoicGPbRjZI4F3TMdO2LKe6DBsQClBEQEVcA=;
-        b=YpMN2stDwWe2rxyT/uqGMRvxn0Jc2QjcpG6IuEZR3JgjdbEhtnwJBElsJHXpXxOv/T
-         Yy533XpLIkpQaTRzRg3dvjLGBveI5dQ5sVYbtDhpRlwfU/lfvEvHpDZUv6I9Rf3Kx2zQ
-         aVeUzXliZ4h2V+52cREsR9PXqKx54g/epcKtIwyx2vLCpdJ64YZlx3vLYtuAcTY43Q2C
-         3o1ZAebxrHohitsrh7AWxvCl0l+z9f0fQ5Xgr0hYZFu7UqKrbp7v8SiFS/SLOu/8cmH5
-         x3QrG+zaFt1GQgL0J+HO9Er6qBskCMIEWmlBRxfEudEg5IQvaODteMDuEBKEw1Yp9QML
-         Aw9A==
-X-Gm-Message-State: AOJu0YyPT+c75Bz5DNKWy/IicXduPGzMUiibbdLlHdvHqI2cIUAL2LFr
-	G5icVcfy4nrpqbcfV6X/E9xZ29r6f1h5htpwM8G7dzApcd5xhaGHz5+hZSYj0fBzScbKUZy7uaX
-	TpT1riFhFVAFlQ7+ihiJzWHQTQpY=
-X-Google-Smtp-Source: AGHT+IHa3qJGUfhNNEhWiokPkTxQ6FU8lkdLdFIkn7MYhdmho8lxi8QfxyffaCIOgMzTtvEtUA+NqB+S00jywhjTL/s=
-X-Received: by 2002:a17:90a:6882:b0:2c9:8f14:c02e with SMTP id
- 98e67ed59e1d1-2cb5243161dmr7130054a91.1.1721406198804; Fri, 19 Jul 2024
- 09:23:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hZjY2RQc"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C27BEC32782;
+	Fri, 19 Jul 2024 19:54:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721418876;
+	bh=VNM01rkeSr+xN3jpmM8tVqea1oaq/uzNvbrgTNEMPtU=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=hZjY2RQcQwaasTNVAHO7i78Yh/C6o0aaiqi0WvK8eRhMVvmpQvX9Tud7qvaVTA9nY
+	 38kJrnUGsxGmxDj8KUPs04OOjjwmxBX3C74J/fO6bISb8sne/0blNqjyF7aCcgrd98
+	 YCcGdcF+tEvKhusQzwHu/tJHt+/IMB2aeXJGt3qXQuhwTcZmD2uyBwRHIy0YS0eQnX
+	 Mmzl2mkObAk/nbXAsv8gDr4evHDdDYwIKOHv3BPnzqx6sT+yIVLX6uFPuFc0A4OEej
+	 XAZGlYQVdOI/vvod/qtoqimkrw3PX+In0URA2rq2oZbzM/Il6uFJjP6QJ13DP/i79i
+	 rlLgzI5B071dQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id B9335C43335;
+	Fri, 19 Jul 2024 19:54:36 +0000 (UTC)
+Subject: Re: [GIT PULL] sound updates for 6.11-rc1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <87v811u95j.wl-tiwai@suse.de>
+References: <87v811u95j.wl-tiwai@suse.de>
+X-PR-Tracked-List-Id: <linux-sound.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87v811u95j.wl-tiwai@suse.de>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.11-rc1
+X-PR-Tracked-Commit-Id: 4594d26fca91fab0e1621d2ab196f3f9bab96bc8
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 12cc3d5389f313f07222b000fefa2cd8fc98c4f8
+Message-Id: <172141887674.7828.13718589694542145906.pr-tracker-bot@kernel.org>
+Date: Fri, 19 Jul 2024 19:54:36 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240625155217.18767-1-tiwai@suse.de>
-In-Reply-To: <20240625155217.18767-1-tiwai@suse.de>
-From: Rauty <rautyrauty@gmail.com>
-Date: Fri, 19 Jul 2024 19:22:41 +0300
-Message-ID: <CAGpJQTFMiR3qSWOwwi8Wmridr08Rs7m=LErLbQo8790JrOHs9A@mail.gmail.com>
-Subject: Re: [PATCH] ALSA: hda/realtek: Fix conflicting quirk for PCI SSID 17aa:3820
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org, Zihao Wang <wzhd@ustc.edu>, 
-	Gergo Koteles <soyer@irl.hu>
-Content-Type: text/plain; charset="UTF-8"
 
-I checked, the microphone is working
+The pull request you sent on Fri, 19 Jul 2024 09:35:04 +0200:
+
+> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.11-rc1
+
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/12cc3d5389f313f07222b000fefa2cd8fc98c4f8
+
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
