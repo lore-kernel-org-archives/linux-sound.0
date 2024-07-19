@@ -1,63 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8CB31482E4;
-	Fri, 19 Jul 2024 19:54:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E49C1482FC
+	for <linux-sound@vger.kernel.org>; Fri, 19 Jul 2024 23:53:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721418877; cv=none; b=NDIpvJSWi8KN83rZ8BIRlPLSR7H6G7yiKwLEGZNlSr5RTaaxsMaNmCtudg928XwH9jVFi2kTQgrnd8Nkznrc1sNqMGBbfNQQ0VRJNas8BbBelGjS8oUFg64gTO7p19omtuXGC6UJjZOMFCbCys4a06NKZumYINeIcd8RSqHEQSQ=
+	t=1721433234; cv=none; b=O9YQPolLntNupjmR7uG/9LghZfi+0ZVgN1HweWO85P0vuc5FN9dV5njYPclISV4uvz92K3Majt09Pg8SkBMUlTQXIZjPJb9HGji0LIT8L2dReL9s0en2HxuszR4iKcDmW1fdqvfMNSvAcH8A3aQWffYg/ixso+finNR1YwEKqvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721418877; c=relaxed/simple;
-	bh=VNM01rkeSr+xN3jpmM8tVqea1oaq/uzNvbrgTNEMPtU=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=a5cyo5uV1oeIou7w27eCLyTWFQEmWFy9z7LlpXNPiSR126vHKn1yaPc+SYU+zDt/xqXpbzKsgvp2yuFn01zsgNpuBmTURj2IpmGRbMlxb8sNCAYEIMdOyhwZ2UsJCxswAgpSlLEm1CkqGokJPtxxUEU3T8h9KUX02JiVBy/WXM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hZjY2RQc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721433234; c=relaxed/simple;
+	bh=RDZn9nceSKHWHAEJxopugD/XqHyZGSXq4lGQoM/TFAQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=G7oJAKohbyeThzeL15wX0+F+7G/WiB0ZkuzkbRTmBg0jN4Ym83LblG3GvGcCnQCF4WZHhva3kkfD4vmjWeYcAby4yqth454LT4Mb/6Yr0F/hCq0eNOG2ZqNS3RxkwBSI0zjfLgV1TUStOnUXLW8n7Svsv5PO4uP3NsX2HLLGSj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Qo4TpDYt; arc=none smtp.client-ip=209.85.167.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hZjY2RQc"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C27BEC32782;
-	Fri, 19 Jul 2024 19:54:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721418876;
-	bh=VNM01rkeSr+xN3jpmM8tVqea1oaq/uzNvbrgTNEMPtU=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=hZjY2RQcQwaasTNVAHO7i78Yh/C6o0aaiqi0WvK8eRhMVvmpQvX9Tud7qvaVTA9nY
-	 38kJrnUGsxGmxDj8KUPs04OOjjwmxBX3C74J/fO6bISb8sne/0blNqjyF7aCcgrd98
-	 YCcGdcF+tEvKhusQzwHu/tJHt+/IMB2aeXJGt3qXQuhwTcZmD2uyBwRHIy0YS0eQnX
-	 Mmzl2mkObAk/nbXAsv8gDr4evHDdDYwIKOHv3BPnzqx6sT+yIVLX6uFPuFc0A4OEej
-	 XAZGlYQVdOI/vvod/qtoqimkrw3PX+In0URA2rq2oZbzM/Il6uFJjP6QJ13DP/i79i
-	 rlLgzI5B071dQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id B9335C43335;
-	Fri, 19 Jul 2024 19:54:36 +0000 (UTC)
-Subject: Re: [GIT PULL] sound updates for 6.11-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <87v811u95j.wl-tiwai@suse.de>
-References: <87v811u95j.wl-tiwai@suse.de>
-X-PR-Tracked-List-Id: <linux-sound.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87v811u95j.wl-tiwai@suse.de>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.11-rc1
-X-PR-Tracked-Commit-Id: 4594d26fca91fab0e1621d2ab196f3f9bab96bc8
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 12cc3d5389f313f07222b000fefa2cd8fc98c4f8
-Message-Id: <172141887674.7828.13718589694542145906.pr-tracker-bot@kernel.org>
-Date: Fri, 19 Jul 2024 19:54:36 +0000
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Qo4TpDYt"
+Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-3d9dd7e5f6eso1261834b6e.2
+        for <linux-sound@vger.kernel.org>; Fri, 19 Jul 2024 16:53:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1721433231; x=1722038031; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ldzFiam0mujMuq28ca76nisFGKp3WDY0EGEFzIWMbRk=;
+        b=Qo4TpDYtQTyxkrWD/tUAJOOSD2PB9SsoODeWPGlDrPseEVxF3Y2EZV/kzdRSqtVVQL
+         ByfZgAQG3bMfJjpmAmgCLM8NlLGOpIL3ndErJdWunWOkYjQZXi8sxEbprKxHmaOtMMdR
+         lWimbmIb0/cGMPeFXxodRT6WlS8GnDtcfn713pchHIBg2AifrqvR39PIb0F6GOozy0Rc
+         yxn7O1y5Po3h7T/+pg2zphJTUwyDsTqBaiJ53thcM2r3wE0JhQwXoxx9fRtIXDZ+JEr9
+         xWEE8PC93F81SxruE9aCFy3PWOC79MuXh+qMV1IY2cIZCd31O4qTG2KwwOe1iDVQNwkQ
+         F5Rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721433231; x=1722038031;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ldzFiam0mujMuq28ca76nisFGKp3WDY0EGEFzIWMbRk=;
+        b=tXL7jmWUVcckjF+NLEAfyY3z1lu/NmSNGaDswFpbZstSj2udqFxD8CJdCiQuJ9cVTG
+         IxHN1qeuCbK52AKUGOYqF6LigbRfkjpvsyDYpfKpH6Qc4QTB0o5isLxrW6MmW3hsre7J
+         bSQMU0ll/4fdAQoeHebh8Hz65TtIsOiqnpI+E9qNmPPmxFDR8g89Q1iR3RATTEXM3U/+
+         V0YDJ+lpk1THXTw1vT+9bFXdtPYd1vSuo/rfLqEjdBMMaJ2pgh8IHUxrFdBInJBjKJhC
+         8ZXFjTPKOkq4OZOW7g+7CGSSfy3cw8rNTyY69HW9uUQru4xykxBS+kLYzz2M6kIAtjMd
+         cEEw==
+X-Forwarded-Encrypted: i=1; AJvYcCW+SG8tfcV0hpWoJMBTPXJEkq+uCXAH6NrLKkelRN/nqMi6oEA+KVo2xwQGZg6bKOJvyVzYUuEj7g6Yz1DFWzurLEwPF6tSeKw/q8M=
+X-Gm-Message-State: AOJu0YxnSOZ9/u5cnvkBsxQLHGxxDn8KbNiGLp+j8218WWhgcBfDshoX
+	NR28Cz8w9Rczz5uYlGo4R0FldxgT9RQ6p4EBUoznIWrnWLldkyU7PRxdfKvKGY0=
+X-Google-Smtp-Source: AGHT+IHqte/qz54f4SL0d75xLOAyVvOPIAw+LbKlNbbM1Lp827319iwrSa6rBuKjQZrpHBI/U5i0og==
+X-Received: by 2002:a05:6808:159b:b0:3d6:40fe:d537 with SMTP id 5614622812f47-3dae97c592emr95855b6e.13.1721433231314;
+        Fri, 19 Jul 2024 16:53:51 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:739a:b665:7f57:d340])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3dae09ce8d7sm487021b6e.46.2024.07.19.16.53.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Jul 2024 16:53:50 -0700 (PDT)
+Date: Fri, 19 Jul 2024 18:53:48 -0500
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Shenghao Ding <shenghao-ding@ti.com>
+Cc: Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: [PATCH] ASoc: TAS2781: Fix tasdev_load_calibrated_data()
+Message-ID: <18a29b68-cc85-4139-b7c7-2514e8409a42@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 
-The pull request you sent on Fri, 19 Jul 2024 09:35:04 +0200:
+This function has a reversed if statement so it's either a no-op or it
+leads to a NULL dereference.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.11-rc1
+Fixes: b195acf5266d ("ASoC: tas2781: Fix wrong loading calibrated data sequence")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ sound/soc/codecs/tas2781-fmwlib.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/12cc3d5389f313f07222b000fefa2cd8fc98c4f8
-
-Thank you!
-
+diff --git a/sound/soc/codecs/tas2781-fmwlib.c b/sound/soc/codecs/tas2781-fmwlib.c
+index 63626b982d04..8f9a3ae7153e 100644
+--- a/sound/soc/codecs/tas2781-fmwlib.c
++++ b/sound/soc/codecs/tas2781-fmwlib.c
+@@ -2162,7 +2162,7 @@ static void tasdev_load_calibrated_data(struct tasdevice_priv *priv, int i)
+ 		return;
+ 
+ 	cal = cal_fmw->calibrations;
+-	if (cal)
++	if (!cal)
+ 		return;
+ 
+ 	load_calib_data(priv, &cal->dev_data);
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.43.0
+
