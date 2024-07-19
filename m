@@ -1,83 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E00B61A269;
-	Fri, 19 Jul 2024 07:48:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A12E454765
+	for <linux-sound@vger.kernel.org>; Fri, 19 Jul 2024 08:03:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721375318; cv=none; b=mtsn4uwjwty/zaHn/U/MaUrvAaEKPy32VVX7nU5LMh8ZCqgt+SbgUZYsEnB1N5UwovQzLonIDdwTK5EgUWic8fFz0wWGxicWJMzcMuX8uUvzUoNXTCSvVq/9pUY0z0X0RfHSU4s5M0l9Gj4t2vP8bTba1YagJAE3oh0ur2N2dRc=
+	t=1721376193; cv=none; b=di7x7/weI8UHqtdeFc/K3fuRy3ZVwjvVLzRJj/ojsWWFLePMDUEC7a0+HPJhwrTwZJ2en1QzK+vY0Z9T2oDFXdKZjdAoidafDwEQLfzWFrKs7N5W59utx9TSv3oVkDqL19cLbRLxSqLlJiAEYN17sv9gaXuiLQPX4FUos7MqyyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721375318; c=relaxed/simple;
-	bh=DuBeB9Jo4XDCLdekAEbGjpBDINlXuEmgBBn9z0DQtkc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Yn6gIC1hUhPppRnZw8m68oLM/PLVW1qSJuHRG69Utovkogcaa0PvBe2sIV37zWNePt3gzDwz2BSMrSXsxHSN8GQdLtCUj0hso0NDigTZPV52rG5vQu8nWgRfFZJ06c+o2RPgTJw9xBs35j0WkOg+uxK4uu+rjNhyTyvYCzW+ET4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uiip+ivV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721376193; c=relaxed/simple;
+	bh=+6VT0XzZoxj9XDWHzC2JD7Qd5AsazCLCzcu5O/Uqc3I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aR3KlIp+k5B0autqp9dQCysiSC3nh202/3bjM+n+zbQ1jVAuFXzJHfUalYaK7YQVpJi5yc6g5EFi4600SX+5B4YQ0VdGzkMMrxWkiConEg585ZsgWbl5KBClO0RzP2Pdsl3gNWYwFp2LZkNex4jnsqeL4fRiDoBqGbbdbvTaV+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=mYzcr/4u; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uiip+ivV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0EBCC32782;
-	Fri, 19 Jul 2024 07:48:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721375317;
-	bh=DuBeB9Jo4XDCLdekAEbGjpBDINlXuEmgBBn9z0DQtkc=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Uiip+ivV+oT5r8mssop0C70ck395gOwZWGDRVxM4o7BJM9EiAEYtvcmLW1xlHwwTO
-	 aqDMF/YIr1mcuZ3RxoBtGEcrIvF+I0/lGZrq3NanBn08GZbwJjvh2bMwTzCsbb02KJ
-	 T5OvE9NKQEq2GfFYRVgZyl19If//8JijYJHaEBUf8XVlr4q5zYX1BO+cBY959uynac
-	 Gq+SnY/+W0L8cFwcKefLSG3IClZzVmLfNYufbJVrNSbOc2bgje8UkL7txduetj4C1f
-	 gaDt21ckcm0r4FuSdBBbNpbXexpxM36/O+lRWBJQR0A9RKtMwjbjMPDV99RN4Kqi5K
-	 zVLoplzCB7Bcg==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Mark Brown <broonie@kernel.org>,
-	Mohan Kumar <mkumard@nvidia.com>,
-	Sameer Pujar <spujar@nvidia.com>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	linux-sound@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: tegra: select CONFIG_SND_SIMPLE_CARD_UTILS
-Date: Fri, 19 Jul 2024 09:48:03 +0200
-Message-Id: <20240719074831.3253995-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="mYzcr/4u"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a79fe8e6282so182345866b.2
+        for <linux-sound@vger.kernel.org>; Fri, 19 Jul 2024 01:03:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1721376190; x=1721980990; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=z+V9iTvENoLkDMcxv1MaALvsWBKCPdjEAwX/SNQRJv8=;
+        b=mYzcr/4umhHQnw06RhXwkMj2eIgquKDkQMP23g+IdcNP2chbhfZ40F2QszMnxhl92Q
+         l43Q2WuXuAJiQt5ozZRleQ6dqLYchVz1tdSqs24E3t8v17EGHvuF7fXntsrbxzmUie33
+         j2H/SGk3RTeTcvoVNJhuXT3DlGq0fZ0A8SSTHUsHEuwuViMkfS9rAb0MlLOOVJ4TXP2J
+         ct96bQMGBQ8jVQWJa4hm6Vb7pHghoAlibmDR0pJK3b/UE8bq1OcZUm35qrkna3oCiVIc
+         f744OB2Ka/+/Y4CAFtBgUixkW/pDlU0+mLCHMtl7FzUf0wuIS1JcjMxhIZZIg7GdibKQ
+         y/lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721376190; x=1721980990;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=z+V9iTvENoLkDMcxv1MaALvsWBKCPdjEAwX/SNQRJv8=;
+        b=CgdqcDHC2PPucbytRf8GZkhFsJYgrtHD42g30IMYrh7C3h9lp7rRysvEa8VHoQ9eTr
+         jFMt6AJFPXKpZiezu+pAIhcB0rm8geHQPl3YZ8zueRvljKfPGTByB7BvgnJOfuMY5cjW
+         lVL0YYHSx1Swau5eNZZOkKG8BdoMK9l2T/Q76Uk4agK2oe4GKqUwvORKMFO18AOJ7evJ
+         KUumoOrdF/zcRNf4zaJV+IAjv/NS0qMx5l25vMDVxxNcLYX/QzyEr1rG+SYwcPWXTkdW
+         0IltHA0eIlpbn9CGTfSmNwt/rXUS3jpGYkfj412XiBYvGRT3JRo+t5zRicU8kf/c+wEe
+         K1rw==
+X-Forwarded-Encrypted: i=1; AJvYcCW8dJKIobzX5bqcMh/DPoiD8SqXQ25AN5BiQUwZNMcuc+ptmQnTo+0umAtjba4+oqX1Pe6ouhniD+ZvTkC5FfV4i0sAzktaPo+WXgE=
+X-Gm-Message-State: AOJu0YzHkRAN+lxYe0XsSDjNSRuDGMfDlzS4EVSxGL6GCiBaX60I1XvM
+	jTivvcVxmEAg5/qqyYvEAe4WQn5ND+rh9wgxw8c9uriGZUpYzdj/BgpDhyJuDF0=
+X-Google-Smtp-Source: AGHT+IFSI/urq3kgCZ03qW/7Cfy3KmDoz5hvQStjC02N5fU8bds0AoRqbPquZ19VCIFBWcFmrd5RIA==
+X-Received: by 2002:a17:906:ae84:b0:a75:2495:a6a3 with SMTP id a640c23a62f3a-a7a013c0f56mr554702166b.67.1721376189891;
+        Fri, 19 Jul 2024 01:03:09 -0700 (PDT)
+Received: from [192.168.1.172] (158.22.5.93.rev.sfr.net. [93.5.22.158])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7a33ad4bfdsm72480666b.85.2024.07.19.01.03.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 19 Jul 2024 01:03:09 -0700 (PDT)
+Message-ID: <45b4a493-875a-4c9c-aa45-a6f32f74b865@baylibre.com>
+Date: Fri, 19 Jul 2024 10:03:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 12/16] ASoC: codecs: add MT6357 support
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Nicolas Belin <nbelin@baylibre.com>
+References: <20240226-audio-i350-v6-0-f754ec1a7634@baylibre.com>
+ <20240226-audio-i350-v6-12-f754ec1a7634@baylibre.com>
+ <1ca27c79-a83a-42a7-9e9b-766da0064c73@sirena.org.uk>
+Content-Language: en-US
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <1ca27c79-a83a-42a7-9e9b-766da0064c73@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Arnd Bergmann <arnd@arndb.de>
 
-This I2S client driver now uses functions exported from a helper module
-but fails to link when the helper is disabled:
 
-ERROR: modpost: "simple_util_parse_convert" [sound/soc/tegra/snd-soc-tegra210-i2s.ko] undefined!
-ERROR: modpost: "simple_util_get_sample_fmt" [sound/soc/tegra/snd-soc-tegra210-i2s.ko] undefined!
+On 21/06/2024 14:44, Mark Brown wrote:
+> On Wed, Jun 19, 2024 at 04:46:48PM +0200, amergnat@baylibre.com wrote:
+> 
+>> +	/* gain default values*/
+>> +	regmap_update_bits(priv->regmap, MT6357_AUDENC_ANA_CON0, MT6357_AUDPREAMPLGAIN_MASK,
+>> +			   UL_GAIN_0DB << MT6357_AUDPREAMPLGAIN_SFT);
+>> +	regmap_update_bits(priv->regmap, MT6357_AUDENC_ANA_CON1, MT6357_AUDPREAMPRGAIN_MASK,
+>> +			   UL_GAIN_0DB << MT6357_AUDPREAMPRGAIN_SFT);
+>> +
+>> +	regmap_update_bits(priv->regmap, MT6357_ZCD_CON1,
+>> +			   MT6357_AUD_LOL_GAIN_MASK |
+>> +			   MT6357_AUD_LOR_GAIN_MASK,
+>> +			   DL_GAIN_0DB << MT6357_AUD_LOL_GAIN_SFT |
+>> +			   DL_GAIN_0DB << MT6357_AUD_LOR_GAIN_SFT);
+>> +
+>> +	regmap_update_bits(priv->regmap, MT6357_ZCD_CON2,
+>> +			   MT6357_AUD_HPL_GAIN_MASK |
+>> +			   MT6357_AUD_HPR_GAIN_MASK,
+>> +			   DL_GAIN_0DB << MT6357_AUD_HPL_GAIN_SFT |
+>> +			   DL_GAIN_0DB << MT6357_AUD_HPR_GAIN_SFT);
+>> +
+>> +	regmap_update_bits(priv->regmap, MT6357_ZCD_CON3,
+>> +			   MT6357_AUD_HS_GAIN_MASK, DL_GAIN_0DB);
+> 
+> We generally leave everything at chip defaults, why is this different?
 
-Add a Kconfig select line to ensure it's always turned on here.
+Ok, after test, it isn't a problem to leave at chip defaults.
 
-Fixes: 2502f8dd8c30 ("ASoC: tegra: I2S client convert formats handling")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- sound/soc/tegra/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+> 
+>> +static int mt6357_codec_probe(struct snd_soc_component *codec)
+>> +{
+>> +	struct mt6357_priv *priv = snd_soc_component_get_drvdata(codec);
+>> +
+>> +	mt6357_codec_init(priv);
+>> +	return 0;
+>> +}
+> 
+> Why not just inline mt6357_codec_init() into the one user?
 
-diff --git a/sound/soc/tegra/Kconfig b/sound/soc/tegra/Kconfig
-index 74effc57a7a0..2463c22e9cf6 100644
---- a/sound/soc/tegra/Kconfig
-+++ b/sound/soc/tegra/Kconfig
-@@ -78,6 +78,7 @@ config SND_SOC_TEGRA210_DMIC
- 
- config SND_SOC_TEGRA210_I2S
- 	tristate "Tegra210 I2S module"
-+	select SND_SIMPLE_CARD_UTILS
- 	help
- 	  Config to enable the Inter-IC Sound (I2S) Controller which
- 	  implements full-duplex and bidirectional and single direction
+You're right.
+
+> 
+>> +static unsigned int mt6357_read(struct snd_soc_component *codec, unsigned int reg)
+>> +{
+>> +	struct mt6357_priv *priv = snd_soc_component_get_drvdata(codec);
+>> +	unsigned int val;
+>> +
+>> +	regmap_read(priv->regmap, reg, &val);
+>> +	return val;
+>> +}
+>> +
+>> +static int mt6357_write(struct snd_soc_component *codec, unsigned int reg, unsigned int value)
+>> +{
+>> +	struct mt6357_priv *priv = snd_soc_component_get_drvdata(codec);
+>> +
+>> +	return regmap_update_bits(priv->regmap, reg, 0xffff, value);
+>> +}
+> 
+> Why open code these, the core has standard adaptors for regmap?
+
+You're right. snd_soc_component_write/read should be used instead
+
+> 
+>> +static const u32 micbias_values[MT6357_MICBIAS_ARRAY_SIZE] = {
+>> +	1700000, 1800000, 1900000, 2000000,
+>> +	2100000, 2500000, 2600000, 2700000
+>> +};
+> 
+> Just use ARRAY_SIZE() for the size then the number can't be out of sync.
+>
+You're right.
+
 -- 
-2.39.2
-
+Regards,
+Alexandre
