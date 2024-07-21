@@ -1,113 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp4-g21.free.fr (smtp4-g21.free.fr [212.27.42.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1427C15FD15;
-	Sun, 21 Jul 2024 13:27:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF3DC2907;
+	Sun, 21 Jul 2024 15:40:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721568450; cv=none; b=KK16dDczcQq3lqHZrMkqr+41sUssxhsnfBdS1nJpThtZIbMUH/42luO1Ij3fJZs+fKO3dr/g7uDta8WnuVZx94/mpvtnDXP++uyxMqPcqFu9jqUDMXFlN2bFLfs1YXqbz0Ek5SBJEOYMRqsK9NwWMwIE0MIJTa1sbSPV2TwuPgk=
+	t=1721576426; cv=none; b=pEtK+vy0aSiD2f1eiksq7bkv4budoqPeCpzenfN6k9ISZBSa1jswh75ANXDq4KDjuTpN/6y/AtfK8pdYPN9PLB96iX4nvlK74gkpEglSPtMMghRJreA1zOpN3n9i0yWYLC5IwM4msTOUw6jjbUG05kkwmI/tZvnAdBJNV2BIKfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721568450; c=relaxed/simple;
-	bh=HezH/tvdxDCsu4MOD1Y/U6aKVxvjAus43G7k7Y1xgv8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ejrRfh4K/eNP53M0p7o2TCHGOSAPB4Q8mK8uYtqUh0hZOxKZ1GqC99TbXQ/KZLhCFXUlK3lqCy2A9Vrjl7navJLLH8Go1mFq4NwstIsh98XJgyh3NRjCmURfQRaDWMdPWV0sxK52BE86z3tcrvbknv2CH5jXIvk8QX9XdHw0QF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tkqc2lAj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721576426; c=relaxed/simple;
+	bh=sCm+3ajUXc1cFZrI0mjG4sX5WmpX3phQ/BWF3fE4vKg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Vug+m2y0JgO4sASMamNfHYwd04AEtY2pdeIKExkcpf/KNjEqNNY6IUhSKz6ZsdDtR834yK8JzRNCi9LDTOuvulekLKIizH9ZK7ufEyyN/ng6ro5bN3UX0DuXnvbJpcmBH2zI6wxXp57GGygMdXum2najSp8NN/o/aperAjgcrdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=free.fr; spf=pass smtp.mailfrom=free.fr; dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b=NkdDUR54; arc=none smtp.client-ip=212.27.42.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=free.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tkqc2lAj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A678C116B1;
-	Sun, 21 Jul 2024 13:27:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721568449;
-	bh=HezH/tvdxDCsu4MOD1Y/U6aKVxvjAus43G7k7Y1xgv8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Tkqc2lAjHO7fUlGQipP4eUFzIAfT2xIeH7tzEPeELVn1WJh7CGuZKEvKfC4SLpiQg
-	 0c6zOZt7G6hMrN5odbaajIv6hhO80TfEaDcbwlPlcy0vLHkGvumkjSBKHmYQvQ1gsN
-	 luBNAQprwbh8Kq4WTFgOZTkwVDikdA40WNocw6vHrFhMt0i7PXrJ4gcWNroVSfnPFr
-	 h9G3M3jMVBegHKSsIgGLr6TIezH1lxXE+R1jwxNXjuYU/3S85zjV0GCYDung3EyhL6
-	 YejTkU34nEfYKmuEBVM9D6GleCIqnJGtjm6VHCuG4xGZ1B+FE1IfHEy8h2ShnX4ZeC
-	 /da28cFZXSc5Q==
-Message-ID: <a65a1668-beec-417f-a278-514ab3a61e7f@kernel.org>
-Date: Sun, 21 Jul 2024 15:27:22 +0200
+	dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b="NkdDUR54"
+Received: from fedora.local (unknown [82.64.9.191])
+	(Authenticated sender: jau@free.fr)
+	by smtp4-g21.free.fr (Postfix) with ESMTPSA id 812E419F745;
+	Sun, 21 Jul 2024 17:40:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
+	s=smtp-20201208; t=1721576421;
+	bh=sCm+3ajUXc1cFZrI0mjG4sX5WmpX3phQ/BWF3fE4vKg=;
+	h=From:Date:Subject:To:Cc:From;
+	b=NkdDUR544zaqnQO6GHvHKE3DOopE7+7pGHOUMS7yiqkwsKmDNqnf5NAi9rvlIYP/9
+	 0/Nn0G/vgkJhRksCSlHpLtyVcx9J8gMtfveX31eG/1lY0gVZlr4FNGQIvCfAOVFd+6
+	 DVelVOsp4PR0xG0jsuuawUwkJfrQbSKirsCj2FJEB62Ado8c1sk5WWzeIzceLUCfOe
+	 +wtgDBf30IoIYD1itFgUiQGI4cwvoSTgtn+cyVSjp5WcLHSe1/WYdf6QC/0NlmxUc1
+	 AToEwh7Pl/k3oMs2jWAr/0MDUHck1Y3kkahmpqTx5pa8voY3ObntD0N2Gpvvjt4aZN
+	 sbm19sHaQGwcQ==
+From: Jerome Audu <jau@free.fr>
+Date: Sun, 21 Jul 2024 17:40:02 +0200
+Subject: [PATCH] ASoC: sti: add missing probe entry for player and reader
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: dt-bindings: fsl,imx-audio-es8328: Convert to
- dtschema
-To: Animesh Agarwal <animeshagarwal28@gmail.com>
-Cc: Daniel Baluta <daniel.baluta@nxp.com>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20240720100848.203546-1-animeshagarwal28@gmail.com>
- <ac09aec1-0c42-4f8a-b4cb-64eb67018d15@kernel.org>
- <CAE3Oz81jhzAiwJXPiE4rQjD8TzBghugvA9sWV+Tb_kz9CdQyiQ@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <CAE3Oz81jhzAiwJXPiE4rQjD8TzBghugvA9sWV+Tb_kz9CdQyiQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240721-sti-audio-fix-v1-1-a8b1ecf61cb4@free.fr>
+X-B4-Tracking: v=1; b=H4sIANErnWYC/x2MQQqAIBAAvyJ7bkFNEPpKdLBcay8aWhGIf086z
+ sBMhUKZqcAkKmR6uHCKHdQgYDtc3AnZdwYttZFWKywXo7s9Jwz8ohqtCSGs2pCF3pyZuv5/89L
+ aByeqMexfAAAA
+To: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Jerome Audu <jau@free.fr>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1721576412; l=3557;
+ i=jau@free.fr; s=20240721; h=from:subject:message-id;
+ bh=sCm+3ajUXc1cFZrI0mjG4sX5WmpX3phQ/BWF3fE4vKg=;
+ b=tQSvHV+QaJADU8qlO9HVimwakbjAkY3lV+9+i73x9xk3PistmuEWmIqgAJ/jHIqCp9saca/mY
+ 2bBJYNN6we6CzUDqz41VhIAnmWznGOA/VVAq5uneuL+QrlXDWsEQoKc
+X-Developer-Key: i=jau@free.fr; a=ed25519;
+ pk=CfXLqyNBjY9A4RDoxPChE7qFvTjVyy0rJNTfI4JQ0dI=
 
-On 21/07/2024 13:40, Animesh Agarwal wrote:
-> On Sun, Jul 21, 2024 at 3:03 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>
->> That's not a DAI but audio card / complex. Drop.
-> 
-> A reference to sound-card-common.yaml is required instead, if I'm not wrong?
+Restores the audio functionality that was broken
+since Linux version 6.6.y by adding the missing probe
+functions for the player and reader components.
 
-Most likely yes, assuming the properties there match properties here.
+Fixes: 9f625f5e6cf9 ("ASoC: sti: merge DAI call back functions into ops")
+Signed-off-by: Jerome Audu <jau@free.fr>
+---
+Specifically, the probe function in `sound/soc/sti/sti_uniperif.c:415` is being replaced by another probe function located at `sound/soc/sti/sti_uniperif.c:453`, which should instead be derived from the player and reader components. My patch correctly reinserts the missing probe entries, restoring the intended functionality.
+
+The patch modifies the following files:
+- `sound/soc/sti/sti_uniperif.c`: Changes the visibility of `sti_uniperiph_dai_probe` to non-static.
+- `sound/soc/sti/uniperif.h`: Adds the declaration of `sti_uniperiph_dai_probe`.
+- `sound/soc/sti/uniperif_player.c`: Adds `probe` function to `uni_player_dai_ops`.
+- `sound/soc/sti/uniperif_reader.c`: Adds `probe` function to `uni_reader_dai_ops`.
+
+This ensures the correct `probe` functions are utilized, thus fixing the audio regression. 
+---
+ sound/soc/sti/sti_uniperif.c    | 2 +-
+ sound/soc/sti/uniperif.h        | 1 +
+ sound/soc/sti/uniperif_player.c | 1 +
+ sound/soc/sti/uniperif_reader.c | 1 +
+ 4 files changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/sound/soc/sti/sti_uniperif.c b/sound/soc/sti/sti_uniperif.c
+index ba824f14a39c..a7956e5a4ee5 100644
+--- a/sound/soc/sti/sti_uniperif.c
++++ b/sound/soc/sti/sti_uniperif.c
+@@ -352,7 +352,7 @@ static int sti_uniperiph_resume(struct snd_soc_component *component)
+ 	return ret;
+ }
+ 
+-static int sti_uniperiph_dai_probe(struct snd_soc_dai *dai)
++int sti_uniperiph_dai_probe(struct snd_soc_dai *dai)
+ {
+ 	struct sti_uniperiph_data *priv = snd_soc_dai_get_drvdata(dai);
+ 	struct sti_uniperiph_dai *dai_data = &priv->dai_data;
+diff --git a/sound/soc/sti/uniperif.h b/sound/soc/sti/uniperif.h
+index 2a5de328501c..74e51f0ff85c 100644
+--- a/sound/soc/sti/uniperif.h
++++ b/sound/soc/sti/uniperif.h
+@@ -1380,6 +1380,7 @@ int uni_reader_init(struct platform_device *pdev,
+ 		    struct uniperif *reader);
+ 
+ /* common */
++int sti_uniperiph_dai_probe(struct snd_soc_dai *dai);
+ int sti_uniperiph_dai_set_fmt(struct snd_soc_dai *dai,
+ 			      unsigned int fmt);
+ 
+diff --git a/sound/soc/sti/uniperif_player.c b/sound/soc/sti/uniperif_player.c
+index dd9013c47664..6d1ce030963c 100644
+--- a/sound/soc/sti/uniperif_player.c
++++ b/sound/soc/sti/uniperif_player.c
+@@ -1038,6 +1038,7 @@ static const struct snd_soc_dai_ops uni_player_dai_ops = {
+ 		.startup = uni_player_startup,
+ 		.shutdown = uni_player_shutdown,
+ 		.prepare = uni_player_prepare,
++		.probe = sti_uniperiph_dai_probe,
+ 		.trigger = uni_player_trigger,
+ 		.hw_params = sti_uniperiph_dai_hw_params,
+ 		.set_fmt = sti_uniperiph_dai_set_fmt,
+diff --git a/sound/soc/sti/uniperif_reader.c b/sound/soc/sti/uniperif_reader.c
+index 065c5f0d1f5f..05ea2b794eb9 100644
+--- a/sound/soc/sti/uniperif_reader.c
++++ b/sound/soc/sti/uniperif_reader.c
+@@ -401,6 +401,7 @@ static const struct snd_soc_dai_ops uni_reader_dai_ops = {
+ 		.startup = uni_reader_startup,
+ 		.shutdown = uni_reader_shutdown,
+ 		.prepare = uni_reader_prepare,
++		.probe = sti_uniperiph_dai_probe,
+ 		.trigger = uni_reader_trigger,
+ 		.hw_params = sti_uniperiph_dai_hw_params,
+ 		.set_fmt = sti_uniperiph_dai_set_fmt,
+
+---
+base-commit: 0c3836482481200ead7b416ca80c68a29cfdaabd
+change-id: 20240721-sti-audio-fix-1374fffb24e7
 
 Best regards,
-Krzysztof
+-- 
+Jerome Audu <jau@free.fr>
 
