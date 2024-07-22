@@ -1,240 +1,87 @@
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [195.130.132.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F7A116D4D1
-	for <linux-sound@vger.kernel.org>; Mon, 22 Jul 2024 12:04:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.53
+Received: from smtpfb2-g21.free.fr (smtpfb2-g21.free.fr [212.27.42.10])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C58CB3A8D0;
+	Mon, 22 Jul 2024 12:31:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721649850; cv=none; b=tbJljY2d5bMBEPwOgaYHnchIrd4dPTaA5rz46zA//9gM1oPja1dteoXsXFdCqIL9ag1MVHd2NXihvr1Quxplji4KoycEIV1lRC7ZrfxiTA9uXUXve91UCEeF+Y7FPWvOeEftjD5xcMKe50pIZREwL8W/1wNFoTX6mlwbil1vvDM=
+	t=1721651509; cv=none; b=XyoYMV9j4T/KgiZBIjZR6YwHPWdidyJEjj4IKG+nk4KoJwQS8o17InNfOi8NXy1MuGezeet/Q8ycG5CtNf9KmpesOXZ86ky+jYFjfQT74H1Bd8V9mjzvllJdlp96FJhE9Mal8r6724N1b6elEu5hT0x2WewwPjf6swSUfwaqkWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721649850; c=relaxed/simple;
-	bh=qWy9RXASZTPs6u+xH3wHysH2cA1hSPDfQUjvLKSWxbc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=k35nMtaCihLONNB6hprWTJn5Ula8Bdi9X9Fs6CnRnsYeRwvVjoYqm1mzeSJgPqnGgOgGr35jIWQ2D+YudAMswkIjMWePAhZCTtSgZDKjplqVcoTMqCeTBLiSRK5IE1lX0q3sk5LXtNg1zZs62aZsfHHaXrONaJAbj/mnpLtlQ00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:173b:9414:53f5:de4c])
-	by andre.telenet-ops.be with bizsmtp
-	id qc452C00B1wvoRx01c45Lh; Mon, 22 Jul 2024 14:04:06 +0200
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1sVrla-002zES-HX;
-	Mon, 22 Jul 2024 14:04:05 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1sVrls-00210E-Vl;
-	Mon, 22 Jul 2024 14:04:05 +0200
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Support Opensource <support.opensource@diasemi.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] dt-bindings: sound: dlg,da7213: Convert to json-schema
-Date: Mon, 22 Jul 2024 14:04:00 +0200
-Message-Id: <7645c9024a1762d281f4067504bc32a7a3d27caa.1721649741.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1721651509; c=relaxed/simple;
+	bh=BiKjjXqriNc0igBmEkUuZeDzqg3CLyNhLfoLB2fdxm8=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:Subject:MIME-Version:
+	 Content-Type; b=cNqBPMA5UVcvLtFiiqs51o+ZJGvkntmiwyp96h/5taVPrPyUejjkQUOU0FtYL8A8r52UEq58FJdU/UyWOGVj/jdSzWfdNLAaPQd6mdcwduylsFqsYqMdcb1izjtlKM93+HNHWuzAoZo/SmAOsaHYGedqp2Q7rFV5ppkwGqpwuv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=free.fr; spf=pass smtp.mailfrom=free.fr; dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b=nKVNdP02; arc=none smtp.client-ip=212.27.42.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=free.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b="nKVNdP02"
+Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
+	by smtpfb2-g21.free.fr (Postfix) with ESMTP id 8275FC3FBE;
+	Mon, 22 Jul 2024 14:31:32 +0200 (CEST)
+Received: from zimbra60-e10.priv.proxad.net (unknown [172.20.243.210])
+	by smtp3-g21.free.fr (Postfix) with ESMTP id EEA7413F8AE;
+	Mon, 22 Jul 2024 14:31:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
+	s=smtp-20201208; t=1721651485;
+	bh=BiKjjXqriNc0igBmEkUuZeDzqg3CLyNhLfoLB2fdxm8=;
+	h=Date:From:To:Cc:In-Reply-To:Subject:From;
+	b=nKVNdP02vmdgwZbxloDoc5xxAq+YPXlTxJswZjbU+kE1zN5HA5U8TgqAZs6C7rfRr
+	 eVcEYO2FQ9kKk1yn9GOY9iU2BejEIBjyDFkCAEBPNchCKJcHugehvWqZQfx0tDGNwE
+	 o4obrIL/FyMKDpxStcUq7jZQIcGYp4q6W/OibzOynS+Evy/3tDsuW0eqpkuss869CR
+	 duBoc7fFQwJBeJIusoQHnm5V+9UuHv81WuY1pzs1Qse859XiYVfeOz7BrE5ULmNZ60
+	 LrsWhIXrnGy8kychSc8qQBLvtlzUmNXQJaVfqEPtWmneBGXHU9OQRTC3daT4yArzmE
+	 IVMoN/yeZY06A==
+Date: Mon, 22 Jul 2024 14:31:24 +0200 (CEST)
+From: jau@free.fr
+To: Mark Brown <broonie@kernel.org>
+Cc: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Message-ID: <1474761635.17820466.1721651484902.JavaMail.root@zimbra60-e10.priv.proxad.net>
+In-Reply-To: <d85590f2-88b3-4bc2-b7b8-9f96a5d5bb17@sirena.org.uk>
+Subject: Re: [PATCH] ASoC: sti: add missing probe entry for player and
+ reader
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Zimbra 7.2.0-GA2598 (ZimbraWebClient - GC126 (Linux)/7.2.0-GA2598)
+X-Authenticated-User: jau@free.fr
 
-Convert the Dialog Semiconductor DA7212/DA7213 Audio Codec Device Tree
-binding documentation to json-schema.
+Thanks for the review!
 
-Add missing properties.
+See updated changlog, if ok for you, I will send a V2
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- .../devicetree/bindings/sound/da7213.txt      |  45 --------
- .../devicetree/bindings/sound/dlg,da7213.yaml | 103 ++++++++++++++++++
- MAINTAINERS                                   |   1 +
- 3 files changed, 104 insertions(+), 45 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/sound/da7213.txt
- create mode 100644 Documentation/devicetree/bindings/sound/dlg,da7213.yaml
+Le 22/07/2024 12:52, Mark Brown a =C3=A9crit=C2=A0:
+> This should be in the changelog, your actual changelog doesn't describe
+> the actual change at all.
+>=20
 
-diff --git a/Documentation/devicetree/bindings/sound/da7213.txt b/Documentation/devicetree/bindings/sound/da7213.txt
-deleted file mode 100644
-index 94584c96c4ae2237..0000000000000000
---- a/Documentation/devicetree/bindings/sound/da7213.txt
-+++ /dev/null
-@@ -1,45 +0,0 @@
--Dialog Semiconductor DA7212/DA7213 Audio Codec bindings
--
--======
--
--Required properties:
--- compatible : Should be "dlg,da7212" or "dlg,da7213"
--- reg: Specifies the I2C slave address
--
--Optional properties:
--- clocks : phandle and clock specifier for codec MCLK.
--- clock-names : Clock name string for 'clocks' attribute, should be "mclk".
--
--- dlg,micbias1-lvl : Voltage (mV) for Mic Bias 1
--	[<1600>, <2200>, <2500>, <3000>]
--- dlg,micbias2-lvl : Voltage (mV) for Mic Bias 2
--	[<1600>, <2200>, <2500>, <3000>]
--- dlg,dmic-data-sel : DMIC channel select based on clock edge.
--	["lrise_rfall", "lfall_rrise"]
--- dlg,dmic-samplephase : When to sample audio from DMIC.
--	["on_clkedge", "between_clkedge"]
--- dlg,dmic-clkrate : DMIC clock frequency (Hz).
--	[<1500000>, <3000000>]
--
-- - VDDA-supply : Regulator phandle for Analogue power supply
-- - VDDMIC-supply : Regulator phandle for Mic Bias
-- - VDDIO-supply : Regulator phandle for I/O power supply
--
--======
--
--Example:
--
--	codec_i2c: da7213@1a {
--		compatible = "dlg,da7213";
-- 		reg = <0x1a>;
--
-- 		clocks = <&clks 201>;
--		clock-names = "mclk";
--
--		dlg,micbias1-lvl = <2500>;
--		dlg,micbias2-lvl = <2500>;
--
--		dlg,dmic-data-sel = "lrise_rfall";
--		dlg,dmic-samplephase = "between_clkedge";
--		dlg,dmic-clkrate = <3000000>;
--	};
-diff --git a/Documentation/devicetree/bindings/sound/dlg,da7213.yaml b/Documentation/devicetree/bindings/sound/dlg,da7213.yaml
-new file mode 100644
-index 0000000000000000..c2dede1e82ffa4d4
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/dlg,da7213.yaml
-@@ -0,0 +1,103 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/dlg,da7213.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Dialog Semiconductor DA7212/DA7213 Audio Codec
-+
-+maintainers:
-+  - Support Opensource <support.opensource@diasemi.com>
-+
-+allOf:
-+  - $ref: dai-common.yaml#
-+
-+properties:
-+  compatible:
-+    enum:
-+      - dlg,da7212
-+      - dlg,da7213
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  clock-names:
-+    const: mclk
-+
-+  "#sound-dai-cells":
-+    const: 0
-+
-+  dlg,micbias1-lvl:
-+    description: Voltage (mV) for Mic Bias 1
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [ 1600, 2200, 2500, 3000 ]
-+
-+  dlg,micbias2-lvl:
-+    description: Voltage (mV) for Mic Bias 2
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [ 1600, 2200, 2500, 3000 ]
-+
-+  dlg,dmic-data-sel:
-+    description: DMIC channel select based on clock edge
-+    enum: [ lrise_rfall, lfall_rrise ]
-+
-+  dlg,dmic-samplephase:
-+    description: When to sample audio from DMIC
-+    enum: [ on_clkedge, between_clkedge ]
-+
-+  dlg,dmic-clkrate:
-+    description: DMIC clock frequency (Hz)
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [ 1500000, 3000000 ]
-+
-+  VDDA-supply:
-+    description: Analogue power supply
-+
-+  VDDIO-supply:
-+    description: I/O power supply
-+
-+  VDDMIC-supply:
-+    description: Mic Bias
-+
-+  VDDSP-supply:
-+    description: Speaker supply
-+
-+  ports:
-+    $ref: audio-graph-port.yaml#/definitions/ports
-+
-+  port:
-+    $ref: audio-graph-port.yaml#
-+    unevaluatedProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        codec@1a {
-+            compatible = "dlg,da7213";
-+            reg = <0x1a>;
-+
-+            clocks = <&clks 201>;
-+            clock-names = "mclk";
-+
-+            #sound-dai-cells = <0>;
-+
-+            dlg,micbias1-lvl = <2500>;
-+            dlg,micbias2-lvl = <2500>;
-+
-+            dlg,dmic-data-sel = "lrise_rfall";
-+            dlg,dmic-samplephase = "between_clkedge";
-+            dlg,dmic-clkrate = <3000000>;
-+        };
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a577e41bd90cb1ac..990aced7e7a57e1f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6458,6 +6458,7 @@ F:	Documentation/devicetree/bindings/regulator/da92*.txt
- F:	Documentation/devicetree/bindings/regulator/dlg,da9*.yaml
- F:	Documentation/devicetree/bindings/regulator/dlg,slg51000.yaml
- F:	Documentation/devicetree/bindings/sound/da[79]*.txt
-+F:	Documentation/devicetree/bindings/sound/dlg,da7213.yaml
- F:	Documentation/devicetree/bindings/thermal/dlg,da9062-thermal.yaml
- F:	Documentation/devicetree/bindings/watchdog/dlg,da9062-watchdog.yaml
- F:	Documentation/hwmon/da90??.rst
--- 
-2.34.1
+New Changelog:
 
+  This patch addresses a regression in the ASoC STI drivers that was introd=
+uced in Linux version 6.6.y.
+  The issue originated from a series of patches (see https://lore.kernel.or=
+g/all/87wmy5b0wt.wl-kuninori.morimoto.gx@renesas.com/)
+  that unintentionally omitted necessary probe functions for the player and=
+ reader components.
+
+  Probe function in `sound/soc/sti/sti_uniperif.c:415` is being replaced by=
+ another probe function located at=20
+  `sound/soc/sti/sti_uniperif.c:453`, which should instead be derived from =
+the player and reader components.
+  This patch correctly reinserts the missing probe entries, restoring the i=
+ntended functionality.
+
+> This detail isn't really needed, it just describes the content of the
+> patch.
+
+ok, I remove this part.
+
+Regards,=20
+J=C3=A9r=C3=B4me
