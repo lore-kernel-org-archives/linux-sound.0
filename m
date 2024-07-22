@@ -1,104 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B091714A90
-	for <linux-sound@vger.kernel.org>; Mon, 22 Jul 2024 08:30:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 237A116C437;
+	Mon, 22 Jul 2024 09:52:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721637019; cv=none; b=fGg/BFks/EPku1gRmAVE8kShbXa2Ahtby7Ac8QTNj+k2tvfnjWJR7r0pau8lAfc8oMzHBSFh5jT3MBjU3Rz8JstwqpSWXLkvrJvzulo6a0nbWgVCgW5YA5UCETogTyAUm6eKuMZrfdybVShAUEnkdRjBY0FqR4nWAULU5oGPXNE=
+	t=1721641936; cv=none; b=eishTYswVoroD/93HbAsoPab37cUt7EgQBnQdBxLlSOPB+uSfiFD0wvjXR3dw4ZbJKMzXEEsb1Cmw8RPuj8RSDqYiXmSgmxJlnHu77TXlhLyE1mnHsSU9Xz/ZIPE/n/WmTWknpXuDI6PGnce8yBqgvqbxAdBSKvKxzHaThiIVdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721637019; c=relaxed/simple;
-	bh=sNxor0rL/zyQgFc1ihPqOWgxV/sr0J968WghxDq+t1Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OsCcl6JfqRrxyShytOtZHW2ViGQdYz6IydZbAqkddDTm0wAsFLxadhbDB5a01JyYtwyzniUOJs1aRHmdyLydTd0jIejBSfvbm1OUviy8IjoYGAOvZlwRjcIEPyli5Y6ClLHGeh3rv+jxufIQ3f1GNDzb+jxTMvfjbP0+M3k3bu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W1jSPEoU; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1721641936; c=relaxed/simple;
+	bh=0LjKiXktDHZSweMPPr1G1Ui1nNR6eQAesBAToZ8LpPw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Nbr1PLCiYZH4EgSblMrPTdZaRl34wdMCK1Om1CtHqTc9Fwm/1EAiNOlONQAMdi6IYw+KtJ5z3rTyXJle4XGTXMOk9BjZKG1w9iAseDtucEa/u5djL14/OYXcjO+eVVLCs9C2+1j1X9jBAPO/WeCjJt3H1M+GG2qKXfMMnpEbbR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TbzHNfLF; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W1jSPEoU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721637017; x=1753173017;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=sNxor0rL/zyQgFc1ihPqOWgxV/sr0J968WghxDq+t1Q=;
-  b=W1jSPEoUAGgY56Sn/3ntFO0xhN3bvCSOT/+26/F+0N/j0f+N1BnPqEND
-   Gw7d3+00brXDJUx0/UQ6HpFWcpLzlRzmbcvqOVEXmUGR5FqQNBuWe4rqR
-   wyyNN2TfJrc2rIvZclQ0JYZ5KIcezc/OIGCOPxcDSscqwgJJGSywD2DF4
-   hXZhGZ5WA5oeZc3509O9sDbNDtZxcse82GuK35krRdFcjFTJ9yDyOfqPD
-   5rqf6iTTK+xThrMQsemfC/qnu/4ikDNQ9yMELAqgQZ7fu/V+fexOACw7t
-   HMhGXWewhOTA4UX6iVW8oqTw5scLP38YRI/lwYbMEMBT1Vq69PbWHrIeU
-   A==;
-X-CSE-ConnectionGUID: hjpmHnWSTGesKp+DzPTQ9w==
-X-CSE-MsgGUID: HQATS1Y3SwuJk2ApNrpu7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11140"; a="19320851"
-X-IronPort-AV: E=Sophos;i="6.09,227,1716274800"; 
-   d="scan'208";a="19320851"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2024 01:30:17 -0700
-X-CSE-ConnectionGUID: 4iWpr9BbT6+aRBLbPY9l5Q==
-X-CSE-MsgGUID: PoaYMgEbSUacfhmV5SKc9Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,227,1716274800"; 
-   d="scan'208";a="82453834"
-Received: from ettammin-desk.ger.corp.intel.com (HELO pbossart-mobl6.intel.com) ([10.245.246.242])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2024 01:30:14 -0700
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-To: linux-sound@vger.kernel.org
-Cc: alsa-devel@alsa-project.org,
-	tiwai@suse.de,
-	broonie@kernel.org,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	kernel test robot <lkp@intel.com>,
-	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>
-Subject: [PATCH] ASoC: Intel: use soc_intel_is_byt_cr() only when IOSF_MBI is reachable
-Date: Mon, 22 Jul 2024 10:30:02 +0200
-Message-ID: <20240722083002.10800-1-pierre-louis.bossart@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TbzHNfLF"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-52f025ab3a7so1361634e87.2;
+        Mon, 22 Jul 2024 02:52:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1721641933; x=1722246733; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=M9E2WTC0jfBaQQGfChBxNUT7+lSWee29QeSeHVUI7bU=;
+        b=TbzHNfLFhpMVKWrJUMr1TkZyd2XluCdoDEj8ZZM+D+Y9MZlSEaIkzhTIXvEXWZCBWj
+         wHh/izlQWQa2XoWYrskT/vcB9cdl44wcDmbofuJVfUs9iFjO9TsnYCZjjIUlhNS/n2Y/
+         NpCLsVErqHxiUJmzYK58RgwT7ET4+fed9VeHLaArt8PWLOlQpYa/eVwq+mzQuFXV+ZP8
+         THcwVPH1Hcg51MOG3R8VCs6VNmPWUTRFN17DXOL0UwGT77P6HYA3Nus8EwQLoqSQ26/5
+         1tfoK6kzdBIaLFw4PhzqEM0RST0pTbX6XomIxVp7JgI0W8aJH/Mdg5/8rW/ms0KGbRUH
+         DohA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721641933; x=1722246733;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=M9E2WTC0jfBaQQGfChBxNUT7+lSWee29QeSeHVUI7bU=;
+        b=HbFp2XP7tH2XKf9jLdcCdNb83G+6iTLGom9pJf+GOCzRFVq9ga6Y5mARxF+WsRNZYR
+         Av8te949VH9m4dcMqutdy+uHA18CoFvxv0nDpiVzY5EU0/FMcdwpShFatd00RfxiCkbd
+         TAhrYqoIHg+SBoPEilvFOhpyUUqJcemT120IM7aAmrvjZfR0EUjWt42xjXmXdyvYqOLK
+         c3jPIdiZlfVWvXrdoPvtU0WUJephWQ2QwBuHb4NL78ASMFwXULQ7wNJdFw9Eg4Ab7rkq
+         L2ImNYTtcFsPKU8V4c7yGm4uh/rfmKvFMN5KKmexiya4SVuTdfPnatvhgKACcJ7xAdT+
+         Nttw==
+X-Forwarded-Encrypted: i=1; AJvYcCXELQbYfAYDsMxOqCo5QXnx1pKvi5x5hOgGd3oALjcZyH+zYzH7HxEZswXtjOR+9JE7HKRdhPwFHqj+nBJ7TXyz/Jllm1EpHPPnRXPQuKHFhBhsKFmBBv5cLCNiX8Z8TjUfmInOm7s6ja6wUOiGj9Mv4PEcMN3eXTHIwHsourVlaOFdnWfUmocfu7skAgUTrSFo6Z1lOq/RpkEAFze8YsKaazLhnA==
+X-Gm-Message-State: AOJu0YydCQJiwe3XF9BcVG5AmtV3VDiZ/7c2sABy6G19DFKElvo83UWp
+	x7a8fvo7HAPlLjhQ2czJ+1EKu0a4zpfnXVrKvSdmwboiws3IkB/l13/RRA==
+X-Google-Smtp-Source: AGHT+IHUrVK9nAGRcepdpcmmyoaKs3owYskKR6lrL0H9J1qjEWYRZA/UQF9/9MY/4zXr/4CmzISjbA==
+X-Received: by 2002:ac2:4e15:0:b0:52c:a016:5405 with SMTP id 2adb3069b0e04-52ef8d859f8mr4808575e87.8.1721641932543;
+        Mon, 22 Jul 2024 02:52:12 -0700 (PDT)
+Received: from localhost.localdomain (byy214.neoplus.adsl.tpnet.pl. [83.30.44.214])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52fc226cdccsm91552e87.164.2024.07.22.02.52.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jul 2024 02:52:11 -0700 (PDT)
+From: Adam Skladowski <a39.skl@gmail.com>
+To: 
+Cc: phone-devel@vger.kernel.org,
+	~postmarketos/upstreaming@lists.sr.ht,
+	Adam Skladowski <a39.skl@gmail.com>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-arm-msm@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/4] MSM8953/MSM8976 ASoC support
+Date: Mon, 22 Jul 2024 11:51:04 +0200
+Message-ID: <20240722095147.3372-1-a39.skl@gmail.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-the Intel kbuild bot reports a link failure when IOSF_MBI is built-in
-but the Merrifield driver is configured as a module. The
-soc-intel-quirks.h is included for Merrifield platforms, but IOSF_MBI
-is not selected for that platform.
+Introduce support for basic sound card setup on MSM8953/MSM8976
+platforms, document new compatibles and introduce support for more dais.
+Most of code is sourced from msm8953-mainline fork over github
+with some changes implemented by me,some basic changes are 
+mentioned in each patch.
 
-ld.lld: error: undefined symbol: iosf_mbi_read
->>> referenced by atom.c
->>>               sound/soc/sof/intel/atom.o:(atom_machine_select) in archive vmlinux.a
+Adam Skladowski (1):
+  ASoC: dt-bindings: qcom,sm8250: Add msm8953/msm8976-qdsp6-sndcard
 
-This patch forces the use of the fallback static inline when IOSF_MBI is not reachable.
+Vladimir Lypak (3):
+  ASoC: qcom: apq8016_sbc.c: Add Quinary support
+  ASoC: msm8916-wcd-analog: add cajon and cajon v2 support
+  ASoC: qcom: apq8016_sbc: Add support for msm8953/msm8976 SoC
 
-Fixes: 536cfd2f375d ("ASoC: Intel: use common helpers to detect CPUs")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202407160704.zpdhJ8da-lkp@intel.com/
-Suggested-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
----
- sound/soc/intel/common/soc-intel-quirks.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../bindings/sound/qcom,sm8250.yaml           | 28 ++++++-
+ sound/soc/codecs/msm8916-wcd-analog.c         | 63 +++++++++++++-
+ sound/soc/qcom/apq8016_sbc.c                  | 82 ++++++++++++++++++-
+ 3 files changed, 164 insertions(+), 9 deletions(-)
 
-diff --git a/sound/soc/intel/common/soc-intel-quirks.h b/sound/soc/intel/common/soc-intel-quirks.h
-index de4e550c5b34..42bd51456b94 100644
---- a/sound/soc/intel/common/soc-intel-quirks.h
-+++ b/sound/soc/intel/common/soc-intel-quirks.h
-@@ -11,7 +11,7 @@
- 
- #include <linux/platform_data/x86/soc.h>
- 
--#if IS_ENABLED(CONFIG_X86)
-+#if IS_REACHABLE(CONFIG_IOSF_MBI)
- 
- #include <linux/dmi.h>
- #include <asm/iosf_mbi.h>
 -- 
-2.43.0
+2.45.2
 
