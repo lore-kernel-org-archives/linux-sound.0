@@ -1,231 +1,137 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B05F77F48C
-	for <linux-sound@vger.kernel.org>; Mon, 22 Jul 2024 06:54:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0206B14D2B7;
+	Mon, 22 Jul 2024 07:45:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721631255; cv=none; b=uhL1rqN2BVqU5VgJAaQEEzKmLIbPYQhU366p0a+MniTmI7PhUpDkb3tO+TG+d4pHpA4k62DrpXJrdg+75pBGHHxUBfoBtl9zOAOPtlWRHXIzYHriyYar/VVkRp3Obqcg/9ItgAyXBpSPpRiX47wJkngskOUO4CMjV7XMavpMnGc=
+	t=1721634320; cv=none; b=NANsJnpK1dGUi9dSdmgNYQSly8C2LHfHn87HUQVjhdzCyIeQaJCElhtAYLNaT72ast62zpNjvXwaoGDMir2W/qWDp6zvmFAFPTv/LclxyfsprPItiNuyMzGzUPfWlsUrXQ+3eyOEitniVAgdPePIkuwav4C1rVWb1eXi8Pu/Bqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721631255; c=relaxed/simple;
-	bh=qUIeCtFecA8nmqn0H3dpPJSUWwNz+5gepp/PnumnSJE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tOklusDe/KyaHPfh9n9sORE84WpLOcYnqzXhtVsWjMtHVWieNJTok/W4yOWEmkS51ScrUFFRtm3vNbCK5alF0TFy9+JPmhNZIukIP2Tns8EZpz+tij9LHw+PSXoVN3msfZD5LRwh1XbXvhlRKt04fzCSwIi10eBhnaG2nPA8XD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=yJ5dKDYi; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1721634320; c=relaxed/simple;
+	bh=+MaJBgjNtkARNpfQULTFjsybhHCcQiUPkH4lCQ3ICrc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=V0s2JLnENX0ABfjQo0w5FZ6zLneMXfykO50sfNKf0uM9zoUJVUyJ0eYvhWdhShjqyszgOYFi3b4M1i/7rbXRXI7o2sYWRacT1ICjjgnUXfaSrBxgTcd9tBWSGtqraYNF1jFq8OUKQkoWL5fgQHDTCD3MUSmjiCEAf9ENVrx23/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TMF+IQLT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="yJ5dKDYi"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5a1fcb611baso3010396a12.1
-        for <linux-sound@vger.kernel.org>; Sun, 21 Jul 2024 23:54:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1721631252; x=1722236052; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dqkMPJOSzbja9rCDv1W+aq1XxPAw4w/o+YYYBlTqJb0=;
-        b=yJ5dKDYiIitvDlIearS+K1B26h6i0OeqpGs9pfQx8UBIMHkMa/JrTakYBziuakYGtj
-         Zo3uscKgTHfUm1TnAF2lg2za5YeMHkfkA/jt58HEKj0EhZ0PmkRKW6PNN1eZz3+6Zicq
-         DVA7rLm6KAdhVYrr+p0slHRhjmFKo1d7F7rXdict0TiC/Uc0QDBu8iTokj4GJJ/PJ1Vr
-         WPSEpq6QRKAWb7f9r12k3hov6DAPn7wOVAukxxluJ19J3ku0dHdKZ6P/qgdBwYYQMXf4
-         7gSfngzRC1GuqGW6sfXO+xjK5NeK6x3M1NWIvkdMWfUUfBxlVOfUoBhBk76jwR08KRYt
-         NH4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721631252; x=1722236052;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dqkMPJOSzbja9rCDv1W+aq1XxPAw4w/o+YYYBlTqJb0=;
-        b=ZcoUBDxJcaXlZ6fQMGq6vsn9r9Bp3H0oDGehzAJXJMfCPQr8FUZSC5MmzpKTwMubw8
-         ay01iTubE1+OYNRI+PcYtjJVUvcNBBlc06HUWKmsXtZrEkqM1BaIEplquKaL1A3/RSjA
-         hGsNKsN3l+WE7mIy5rHRl3oW7ZXWoxVZ1nzL4Ue5aAReMUeJj1F65KXpWfY5RArb9dpK
-         tJKRj+4Yuu+UKswnu9iuNT9tNQrpjbW8Nmiu1LH0SbQQbxVTqvLV65Oix4mmjIxC6F03
-         QSYAmQYnYS3K0gXtoIafakmGP2JfvD1+9bXTYdHudqGnxcP2sndPQ7kOHyp4FWR9fSmx
-         ITlA==
-X-Gm-Message-State: AOJu0YxykTZHTwLDK9kj0h+W3a8dpilnOC1wqlj6vvpyZ6ndzEhRZbux
-	EqPadg8KzjbGIFOSjYn/cc11za1g1u8Soo+1C5YZOthnaUvXMRLxAZBg9jwpthM=
-X-Google-Smtp-Source: AGHT+IHEChH+y+Y9XHfXiJcOJtbcMIXSn76WcXLtLzJTBXBNmK3LPl3PbBmPLI53uuEd/e8+kC1KLw==
-X-Received: by 2002:a05:6402:3482:b0:5a0:f8a2:9cf4 with SMTP id 4fb4d7f45d1cf-5a47bc87334mr3553300a12.25.1721631252131;
-        Sun, 21 Jul 2024 23:54:12 -0700 (PDT)
-Received: from [127.0.1.1] (158.22.5.93.rev.sfr.net. [93.5.22.158])
-        by smtp.googlemail.com with ESMTPSA id 4fb4d7f45d1cf-5a69c1f56a0sm1982126a12.64.2024.07.21.23.54.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Jul 2024 23:54:11 -0700 (PDT)
-From: Alexandre Mergnat <amergnat@baylibre.com>
-Date: Mon, 22 Jul 2024 08:53:45 +0200
-Subject: [PATCH v7 16/16] arm64: dts: mediatek: add audio support for
- mt8365-evk
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TMF+IQLT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6301C116B1;
+	Mon, 22 Jul 2024 07:45:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721634319;
+	bh=+MaJBgjNtkARNpfQULTFjsybhHCcQiUPkH4lCQ3ICrc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=TMF+IQLTfIOn1GM/iKUWiDlYdlwjQus76rNAFKeGl3C6ZgudWeVxFThu3ulTlkWOF
+	 K6Ad4YZzCvttCJTkzNwIGlTOuXaHYkNtOhllocd+qirET9kMz/fo1JKKgc3c8K0w5r
+	 hEcgkwH9eaYxOHc5yOHZccd4OHUpJAyZLxpR6qZHtgOpsL53UuLBKyEfyEwX+Lo9Cn
+	 TekuTvOebkI2EEHQCXKhPhPvnnBIMQOjrIVI67FlTaaW6Ha9BNm7/6O/iDZJIC8Gee
+	 G+8oxIkm7Mkj515FhXVY6+HYTcDOUSNop0BR5VslQMrOdFDiPQeMCpeLCroyj4XdvI
+	 6A7EcuziLw68Q==
+Message-ID: <bdb3a8fd-2f49-4b97-bedd-4d65ee2a1d79@kernel.org>
+Date: Mon, 22 Jul 2024 09:45:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240226-audio-i350-v7-16-6518d953a141@baylibre.com>
-References: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
-In-Reply-To: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- Alexandre Mergnat <amergnat@baylibre.com>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3691; i=amergnat@baylibre.com;
- h=from:subject:message-id; bh=qUIeCtFecA8nmqn0H3dpPJSUWwNz+5gepp/PnumnSJE=;
- b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBmngHxbH6X4/4QzRgM+QgRXmm3F99YLaY9HWnsQS4a
- /UFBkXmJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZp4B8QAKCRArRkmdfjHURaajD/
- 9qc9SiPZ6f/ido8YKEvVNpxPUjppH67+Y/FT8IyHS4jCG8xQaHbhoIxbK4aao5qYB8VbDyENZ/xeVd
- DaO53tHrc5jaZ4Ys93ylidN7ahgJIAjCE43g/loQSWFuydofSJxoGmj5xHeNoiR25S+6cZO0TzY2F1
- r6dplliF/3H7/PNZJ9yOJpDQKNvVW2doY5alyuS3jKbZjg27V+3WW6jyK1aqCoP4FGP87YcW+46hLN
- U028Og4XEpIwKe+Y+ttGlGr+ytMWKnP+kuEeHrfJlf7H8DooPHvdnTlrW2AUCDy8FN1frDm1F/1xL6
- 1RxeAUEA4orOsS5z3MULiDbAhFiZvHJWk7lu+SnAaC3aRwrzEf1QFe5Me5C2e5eSQeVFSsa7g8X+//
- Y+NWAtVvzuEzwOU88v9c9GVJmhlqSPm6FmoYgqcYohaR3/KlSSNN9ETgMdDJhRUCRW3Vcf33Dp7cLT
- wedVj/reYhgnxQNix2dYCEUo9Caf1fSDDPe5BzxjkgtVb2PP4fQi6KcWfQiUi7BvAWTi3CUSJY/8i/
- 3D9XCIgtpbk/5ayjOEvsnfblaPiWfYj3tc4C1rpvto9zueYprgjJMHFY3wYikBKE8TJyw8YRabNU8J
- ogwDyFATJ2Ehk9X2o5nhFKXc0ZrGGvLgWKo9eiIrLW9iHQlqKWi2lnhz2MCw==
-X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
- fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/6] ASoC: dt-bindings: midas-audio: Declare required
+ properties for GPIO jack det
+To: Artur Weber <aweber.kernel@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+References: <20240716-midas-audio-tab3-v1-0-a53ea075af5a@gmail.com>
+ <20240716-midas-audio-tab3-v1-1-a53ea075af5a@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240716-midas-audio-tab3-v1-1-a53ea075af5a@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Add the sound node which is linked to the MT8365 SoC AFE and
-the MT6357 audio codec.
+On 16/07/2024 21:36, Artur Weber wrote:
+> GPIO jack detection requires an IIO channel and the detection threshold
+> to work. Explicitly declare the requirement in DT schema.
+> 
+> Fixes: 0a590ecc672a ("ASoC: dt-bindings: samsung,midas-audio: Add GPIO-based headset jack detection")
+> Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
+> ---
+>  .../bindings/sound/samsung,midas-audio.yaml        | 29 +++++++++++++++++++---
+>  1 file changed, 26 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/samsung,midas-audio.yaml b/Documentation/devicetree/bindings/sound/samsung,midas-audio.yaml
+> index 69ddfd4afdcd..e7af3c09de38 100644
+> --- a/Documentation/devicetree/bindings/sound/samsung,midas-audio.yaml
+> +++ b/Documentation/devicetree/bindings/sound/samsung,midas-audio.yaml
+> @@ -9,9 +9,6 @@ title: Samsung Midas audio complex with WM1811 codec
+>  maintainers:
+>    - Sylwester Nawrocki <s.nawrocki@samsung.com>
+>  
+> -allOf:
+> -  - $ref: sound-card-common.yaml#
+> -
+>  properties:
+>    compatible:
+>      const: samsung,midas-audio
+> @@ -102,6 +99,32 @@ required:
+>    - mic-bias-supply
+>    - submic-bias-supply
+>  
+> +allOf:
+> +  - $ref: sound-card-common.yaml#
+> +
+> +  - if:
+> +      oneOf:
 
-Update the file header.
+This won't work if you have both detect and key gpios. I think you want
+anyOf here.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
----
- arch/arm64/boot/dts/mediatek/mt8365-evk.dts | 86 +++++++++++++++++++++++++++++
- 1 file changed, 86 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8365-evk.dts b/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
-index 50cbaefa1a99..6288bcbef241 100644
---- a/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
-+++ b/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
-@@ -4,6 +4,7 @@
-  * Authors:
-  * Fabien Parent <fparent@baylibre.com>
-  * Bernhard Rosenkränzer <bero@baylibre.com>
-+ * Alexandre Mergnat <amergnat@baylibre.com>
-  */
- 
- /dts-v1/;
-@@ -86,6 +87,28 @@ optee_reserved: optee@43200000 {
- 			reg = <0 0x43200000 0 0x00c00000>;
- 		};
- 	};
-+
-+	sound: sound {
-+		compatible = "mediatek,mt8365-mt6357";
-+		pinctrl-names = "default",
-+				"dmic",
-+				"miso_off",
-+				"miso_on",
-+				"mosi_off",
-+				"mosi_on";
-+		pinctrl-0 = <&aud_default_pins>;
-+		pinctrl-1 = <&aud_dmic_pins>;
-+		pinctrl-2 = <&aud_miso_off_pins>;
-+		pinctrl-3 = <&aud_miso_on_pins>;
-+		pinctrl-4 = <&aud_mosi_off_pins>;
-+		pinctrl-5 = <&aud_mosi_on_pins>;
-+		mediatek,platform = <&afe>;
-+	};
-+};
-+
-+&afe {
-+	mediatek,dmic-mode = <1>;
-+	status = "okay";
- };
- 
- &cpu0 {
-@@ -178,9 +201,72 @@ &mt6357_pmic {
- 	interrupts-extended = <&pio 145 IRQ_TYPE_LEVEL_HIGH>;
- 	interrupt-controller;
- 	#interrupt-cells = <2>;
-+	mediatek,micbias0-microvolt = <1900000>;
-+	mediatek,micbias1-microvolt = <1700000>;
- };
- 
- &pio {
-+	aud_default_pins: audiodefault-pins {
-+		clk-dat-pins {
-+			pinmux = <MT8365_PIN_72_CMDAT4__FUNC_I2S3_BCK>,
-+				 <MT8365_PIN_73_CMDAT5__FUNC_I2S3_LRCK>,
-+				 <MT8365_PIN_74_CMDAT6__FUNC_I2S3_MCK>,
-+				 <MT8365_PIN_75_CMDAT7__FUNC_I2S3_DO>;
-+		};
-+	};
-+
-+	aud_dmic_pins: audiodmic-pins {
-+		clk-dat-pins {
-+			pinmux = <MT8365_PIN_117_DMIC0_CLK__FUNC_DMIC0_CLK>,
-+				 <MT8365_PIN_118_DMIC0_DAT0__FUNC_DMIC0_DAT0>,
-+				 <MT8365_PIN_119_DMIC0_DAT1__FUNC_DMIC0_DAT1>;
-+		};
-+	};
-+
-+	aud_miso_off_pins: misooff-pins {
-+		clk-dat-pins {
-+			pinmux = <MT8365_PIN_53_AUD_CLK_MISO__FUNC_GPIO53>,
-+				 <MT8365_PIN_54_AUD_SYNC_MISO__FUNC_GPIO54>,
-+				 <MT8365_PIN_55_AUD_DAT_MISO0__FUNC_GPIO55>,
-+				 <MT8365_PIN_56_AUD_DAT_MISO1__FUNC_GPIO56>;
-+			input-enable;
-+			bias-pull-down;
-+			drive-strength = <2>;
-+		};
-+	};
-+
-+	aud_miso_on_pins: misoon-pins {
-+		clk-dat-pins {
-+			pinmux = <MT8365_PIN_53_AUD_CLK_MISO__FUNC_AUD_CLK_MISO>,
-+				 <MT8365_PIN_54_AUD_SYNC_MISO__FUNC_AUD_SYNC_MISO>,
-+				 <MT8365_PIN_55_AUD_DAT_MISO0__FUNC_AUD_DAT_MISO0>,
-+				 <MT8365_PIN_56_AUD_DAT_MISO1__FUNC_AUD_DAT_MISO1>;
-+			drive-strength = <6>;
-+		};
-+	};
-+
-+	aud_mosi_off_pins: mosioff-pins {
-+		clk-dat-pins {
-+			pinmux = <MT8365_PIN_49_AUD_CLK_MOSI__FUNC_GPIO49>,
-+				 <MT8365_PIN_50_AUD_SYNC_MOSI__FUNC_GPIO50>,
-+				 <MT8365_PIN_51_AUD_DAT_MOSI0__FUNC_GPIO51>,
-+				 <MT8365_PIN_52_AUD_DAT_MOSI1__FUNC_GPIO52>;
-+			input-enable;
-+			bias-pull-down;
-+			drive-strength = <2>;
-+		};
-+	};
-+
-+	aud_mosi_on_pins: mosion-pins {
-+		clk-dat-pins {
-+			pinmux = <MT8365_PIN_49_AUD_CLK_MOSI__FUNC_AUD_CLK_MOSI>,
-+				 <MT8365_PIN_50_AUD_SYNC_MOSI__FUNC_AUD_SYNC_MOSI>,
-+				 <MT8365_PIN_51_AUD_DAT_MOSI0__FUNC_AUD_DAT_MOSI0>,
-+				 <MT8365_PIN_52_AUD_DAT_MOSI1__FUNC_AUD_DAT_MOSI1>;
-+			drive-strength = <6>;
-+		};
-+	};
-+
- 	ethernet_pins: ethernet-pins {
- 		phy_reset_pins {
- 			pinmux = <MT8365_PIN_133_TDM_TX_DATA1__FUNC_GPIO133>;
-
--- 
-2.25.1
+Best regards,
+Krzysztof
 
