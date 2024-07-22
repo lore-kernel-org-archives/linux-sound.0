@@ -1,153 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C54415252D;
-	Mon, 22 Jul 2024 07:56:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C1C818E1F
+	for <linux-sound@vger.kernel.org>; Mon, 22 Jul 2024 08:05:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721635018; cv=none; b=uzumqsuoV6vPNVucdCmbsW+E9UXKQy8OLD3XWFiIMjRczBLUh4L2FYfMP679sPNDtiPhOg+cFtmaM7VjiBxw3imy1csouY30snvtf8z0rH+LK7PrZ6nM0atDLOYLShvh69a5s+8x7LougoScYfc9STL8SoWnNrnn6qxUFZqTrtE=
+	t=1721635536; cv=none; b=adTTwIGJ495hjinsZmVsTJAF+fW7LziowBhW10t09bsM6JDQTj4ej53bl1+dmFNfD0ohvm9Ct4FSvPeyZWP18pfx0fCw3fom5K9RT3ITbDzFV+3h++XxqQwaBEAeitCJ8eWzZ2Ww+H31MSDJAN5rwFcd3A2+zSg16jfUKghmX3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721635018; c=relaxed/simple;
-	bh=COQMtfBNJwfO8uljz2p9okL45TamVuQg+CNbtYLtpZM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BkEU74y3d7HPNHIaP0ti0tOAT0D2awTF3IC/RC0BmTOk/PznWY2E9lAP93oNbO1iwv6gbYLZUGF1uwaW0GKBb1+BpweSq5vMTnsUjFWe7wH4LBpFJyk7nEkY116baOP6S8e2bZi0Ur1YF6mSSlBqd+6CldR9h0uJr0bnEajJhBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sbawr4QQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721635536; c=relaxed/simple;
+	bh=D+JxusPDTUA8oLrns+/s5WKUNnQsXBFT/+tFzdQ/D6o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rqWEnT+yE1ND+oK66Tr2tGTGC6+rDEdFq5r0l4dzOV1rg+0KAwOtvNVJwqHo0QPdN1nbfXvk7usOjHwqymGMaEtwXRSMiWJpMVXI5XoI9ECcU2JL+2WZra4v7hETp90kcMBG1hQhIWURnCoarp9w1kG/V7+3qMsrycNSvMqvirY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rns60D06; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WHdLnZRg; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rns60D06; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WHdLnZRg; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sbawr4QQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B32EC116B1;
-	Mon, 22 Jul 2024 07:56:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721635018;
-	bh=COQMtfBNJwfO8uljz2p9okL45TamVuQg+CNbtYLtpZM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Sbawr4QQYzw5QLZVw8zvAqKoy7urqCgbWgYlzmZaBYFN9RPr+ZzuP9p7jhtK0/laG
-	 QO8/5fCc8oNhng7DxdUzK5Rd3qkKXj4jcXdKOVhShzba0OXRgg4aXW5defW8lq0AMx
-	 Jmv4ieATVzjO7dM7fpnr/FrHFdEGkhyrqrVTOlZV13e76LA3nlFh6DDhpDFN5N2Eiv
-	 a7XCfPvcz8MDOnKOtsb0Vl1Ny7WHHojLiYi8VUWXbiQzXw2+/yA2uda+v5kR6u4RGq
-	 EpzJfNw+cTG4HIoojCtpiwjtV2KFQQHAirTQ7N89ZBtshELZ9ynJugep+jglGHE7hS
-	 MidUhEHCxk8Sw==
-Message-ID: <ebe3853e-aa69-417c-ad0d-efe58a0dd1b9@kernel.org>
-Date: Mon, 22 Jul 2024 09:56:52 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rns60D06";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WHdLnZRg";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rns60D06";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WHdLnZRg"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id AF7B11FD3C;
+	Mon, 22 Jul 2024 08:05:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1721635532; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=fxRLRtHWxqrDwdvC2Viyp3tYJwYFL2WVAakA9BS4bqc=;
+	b=rns60D06pEgr0IaFIuALMvc72fuhQB48/yLhBNLl3xKh+8BNsAnyXyCaw0IJB2E0j1pLkQ
+	8x2mli1kCPW/HiAG0HBh02rV+QTZ7FvZEJQRdmbv4JPYUTSa98uaE5kpuMM0unN3H+3Jrg
+	ccT8A22Vp3yQEGQ68Y3j2f5b3f8msmY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1721635532;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=fxRLRtHWxqrDwdvC2Viyp3tYJwYFL2WVAakA9BS4bqc=;
+	b=WHdLnZRgyT3GL7P8/A0B0/QX5TRTygre5wWhnAevZ5GX1YFgKrQ1lYLE2BGV5u5Vo9qNM5
+	ADx7sXiWtOX4zaBg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1721635532; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=fxRLRtHWxqrDwdvC2Viyp3tYJwYFL2WVAakA9BS4bqc=;
+	b=rns60D06pEgr0IaFIuALMvc72fuhQB48/yLhBNLl3xKh+8BNsAnyXyCaw0IJB2E0j1pLkQ
+	8x2mli1kCPW/HiAG0HBh02rV+QTZ7FvZEJQRdmbv4JPYUTSa98uaE5kpuMM0unN3H+3Jrg
+	ccT8A22Vp3yQEGQ68Y3j2f5b3f8msmY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1721635532;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=fxRLRtHWxqrDwdvC2Viyp3tYJwYFL2WVAakA9BS4bqc=;
+	b=WHdLnZRgyT3GL7P8/A0B0/QX5TRTygre5wWhnAevZ5GX1YFgKrQ1lYLE2BGV5u5Vo9qNM5
+	ADx7sXiWtOX4zaBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8F889138A7;
+	Mon, 22 Jul 2024 08:05:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id X/zbIcwSnmZxVAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 22 Jul 2024 08:05:32 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Cc: wangdicheng <wangdicheng@kylinos.cn>
+Subject: [PATCH] ALSA: usb-audio: Move HD Webcam quirk to the right place
+Date: Mon, 22 Jul 2024 10:06:04 +0200
+Message-ID: <20240722080605.23481-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/6] ARM: dts: samsung: exynos4212-tab3: Drop dummy mic
- bias regulators
-To: Artur Weber <aweber.kernel@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
-References: <20240716-midas-audio-tab3-v1-0-a53ea075af5a@gmail.com>
- <20240716-midas-audio-tab3-v1-6-a53ea075af5a@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240716-midas-audio-tab3-v1-6-a53ea075af5a@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -2.60
+X-Spamd-Result: default: False [-2.60 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	MIME_GOOD(-0.10)[text/plain];
+	RCPT_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-On 16/07/2024 21:36, Artur Weber wrote:
-> Add the samsung,tab3-audio compatible that makes mic bias regulators
-> non-required, and drop the dummy main/sub mic bias regulators that
-> don't exist in hardware.
-> 
-> Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
-> ---
->  arch/arm/boot/dts/samsung/exynos4212-tab3.dtsi | 20 ++------------------
->  1 file changed, 2 insertions(+), 18 deletions(-)
-> 
-> diff --git a/arch/arm/boot/dts/samsung/exynos4212-tab3.dtsi b/arch/arm/boot/dts/samsung/exynos4212-tab3.dtsi
-> index 2f39f3c0661e..a140f86d399b 100644
-> --- a/arch/arm/boot/dts/samsung/exynos4212-tab3.dtsi
-> +++ b/arch/arm/boot/dts/samsung/exynos4212-tab3.dtsi
-> @@ -286,20 +286,6 @@ display_3v3_supply: voltage-regulator-3 {
->  		enable-active-high;
->  	};
->  
-> -	mic_bias_reg: voltage-regulator-4 {
-> -		compatible = "regulator-fixed";
-> -		regulator-name = "MICBIAS_LDO_2.8V";
-> -		regulator-min-microvolt = <2800000>;
-> -		regulator-max-microvolt = <2800000>;
-> -	};
-> -
-> -	submic_bias_reg: voltage-regulator-5 {
-> -		compatible = "regulator-fixed";
-> -		regulator-name = "SUB_MICBIAS_LDO_2.8V";
-> -		regulator-min-microvolt = <2800000>;
-> -		regulator-max-microvolt = <2800000>;
-> -	};
-> -
->  	earmic_bias_reg: voltage-regulator-6 {
+The quirk_flags_table[] is sorted in the USB ID order, while the last
+fix was put at a wrong position.  Adjust the entry at the right
+position.
 
-This should be voltage-regulator-4.
+Fixes: 74dba2408818 ("ALSA: usb-audio: Fix microphone sound on HD webcam.")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/usb/quirks.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
->  		compatible = "regulator-fixed";
->  		regulator-name = "EAR_MICBIAS_LDO_2.8V";
-> @@ -310,14 +296,12 @@ earmic_bias_reg: voltage-regulator-6 {
->  	};
->  
->  	sound: sound {
-> -		compatible = "samsung,midas-audio";
-> +		compatible = "samsung,tab3-audio", "samsung,midas-audio";
->  		model = "TAB3";
-> -		mic-bias-supply = <&mic_bias_reg>;
-> -		submic-bias-supply = <&submic_bias_reg>;
-> -		headset-mic-bias-supply = <&earmic_bias_reg>;
->  
-
-You just added this line. Organize patches or code in a way that does
-not move it within one patchset.
-
-
-Best regards,
-Krzysztof
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index 19c1fc9504c3..f070ecf75ce8 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2167,6 +2167,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE),
+ 	DEVICE_FLG(0x19f7, 0x0035, /* RODE NT-USB+ */
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE),
++	DEVICE_FLG(0x1bcf, 0x2281, /* HD Webcam */
++		   QUIRK_FLAG_GET_SAMPLE_RATE),
+ 	DEVICE_FLG(0x1bcf, 0x2283, /* NexiGo N930AF FHD Webcam */
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE),
+ 	DEVICE_FLG(0x2040, 0x7200, /* Hauppauge HVR-950Q */
+@@ -2225,8 +2227,6 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_ALIGN_TRANSFER),
+ 	DEVICE_FLG(0x534d, 0x2109, /* MacroSilicon MS2109 */
+ 		   QUIRK_FLAG_ALIGN_TRANSFER),
+-	DEVICE_FLG(0x1bcf, 0x2281, /* HD Webcam */
+-		   QUIRK_FLAG_GET_SAMPLE_RATE),
+ 
+ 	/* Vendor matches */
+ 	VENDOR_FLG(0x045e, /* MS Lifecam */
+-- 
+2.43.0
 
