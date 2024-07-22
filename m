@@ -1,60 +1,60 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A25918AF9
-	for <linux-sound@vger.kernel.org>; Mon, 22 Jul 2024 06:53:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89D591B95B
+	for <linux-sound@vger.kernel.org>; Mon, 22 Jul 2024 06:53:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721631224; cv=none; b=OZbitJIbFuZi3hYMH3HR0auOJKD8A3WGU0kyRAF6Dov4KPJykDveyOmw6QY7/Y8DQRXZIX7Rb4ppCfCaTYqW5pDjhSzvJqPFZl9CS4/VuuT3opcpMPbXD3XTt88Nyq0YtwyG6B/+gU4ySHTb4xuN0hZWn4srrKQ5oYgnh5tUcoE=
+	t=1721631226; cv=none; b=ZJFZpNGkkQnD5+1st1pyeQ2ZTaJCuUXZ79f7D+1EFEjty3JOKUCuoq5SbsG8LzIv1dX2gP8J1Tlbx05GTrS4Xmcx63L3dt0CvI8t0FUB4Zy96zRNfwDwWJ5ayWubGYQw8+Kar85B8Jo1SiEsWYpIrKGWDr59+YUou682rJTU8vg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721631224; c=relaxed/simple;
-	bh=7RiTz7/DbEcpnGh40/G/GiZJyYiXWSGAGW7k/Ludygk=;
+	s=arc-20240116; t=1721631226; c=relaxed/simple;
+	bh=UIlaXrHC3JXqJmHxOl8jKxQMiudwmYCtEVWajCQIFbA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mlBW0o+tAhBVS7kOOJpMgSjT8OHeVxw1PCbPfR3urMrfJ3/ji0AStYaE/7aRqW2eL9d8gu3cCCv54tnsFnEShGv2ceSdABlYWI+4WNE20jumNbO4aWd0WnWMb52bWTHBQGMGTQX+MCi69DPUzysHArgAL4Y2Qm1POi/B/wOgPH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=P/JXLbXq; arc=none smtp.client-ip=209.85.208.52
+	 In-Reply-To:To:Cc; b=I4Vy0jsdcZWvrx1lbVho4RdiCxeTVMSy3iRdFpd9eRVrmOo6Gf+v+qr/dL4mb5fTPupum7eQq7caM5uj5IAtj9yAyO2q/TRDtCOS6dmDuzlZ286+tgp/stHVx22zaosuytsAhRnEonM3dW3i9amY/crCRrWlVl2jiTvVd2jGRL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=iV3xp9i7; arc=none smtp.client-ip=209.85.208.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="P/JXLbXq"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5a15c2dc569so1452629a12.3
-        for <linux-sound@vger.kernel.org>; Sun, 21 Jul 2024 23:53:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="iV3xp9i7"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5a10835480bso2839634a12.2
+        for <linux-sound@vger.kernel.org>; Sun, 21 Jul 2024 23:53:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1721631220; x=1722236020; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1721631222; x=1722236022; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=a+Cj7XwFFzAC2R+vJ+C1jfJoPbZ6EO8weZS6/aNxaN8=;
-        b=P/JXLbXqT7z/XmbknFNoiw1u19Rrz/YAZ0bl3xS7Jz7ZwY8VnTz93XZCrAPJA6DCRG
-         JtSv4r7teMbbel7fk4eUkUyNOA/2UJoSUxF6Jq1jc4HelkEkhXk4s/avp5s0/NmWlHj9
-         ODTxsM6kpEwc0aShxlPpZtjXk02JYZpYO7O4k/wAV+jIqxghohb/TDCzBPQDMwJR8jGT
-         5hWhMav98Xz/W9Qh9ZZbdPvhP8g20LQRQtsaV5ImLmTxCirdfqBvjgAfUOpkPaImfSAT
-         skUPFCAcu1j12an0ux5FhX0VzSM+wb7WV3zm28DEBHU4BiKG9TGS/SOEx8xQo6bVi9Qa
-         1sxA==
+        bh=u+3ze/IP2QrseHnlo80eunkZiTdbCzauDagUJ/lYngU=;
+        b=iV3xp9i7kT35cHeFJkYBYp53CZTwmyE4q9/lcMlaHmQvlIvf71JQwRMIOf5a9ND9x9
+         Y5aIITmvdiFr6rrO6SWPVebF1lxnw6zvrNUF1Aqq//9ZlwMDk1CuRWV7Mrt7LAwxKCTZ
+         GWxUJCQ8zjZt+UEgNTZ+6ddJ6UU4QsILSMC5EniWKWMZoTU3fOa7tay4tQQpwVdrT8YQ
+         0Vbbf7RaxzrjSm6UeXIz0n2z8YUD0ewa2kl2zVwre/kdFcRt4e+PQp+/K3ohPW7kULNr
+         YRHkmZ2+357zNoqGuf/7CieeaCNgUncXGau5RPVcsM0Y7nAm/Q4XCWpIrK9UZUR1emWK
+         SkFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721631220; x=1722236020;
+        d=1e100.net; s=20230601; t=1721631222; x=1722236022;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=a+Cj7XwFFzAC2R+vJ+C1jfJoPbZ6EO8weZS6/aNxaN8=;
-        b=TkVYzEg2BbQDMNbM9mLzXcEObucd4RcGoIkPmH09L370aV51v3BM5GcdWQa6Ck5u0j
-         UgonwcqZLWdl+vHU3apOvZsv7AZtJ4T6/Bg3Gywn0WBKGj/T0Xm9mrWfn5pKMZCwZyyo
-         ScQTwW1Eip4+0O3boSOpnWXnUjtXviggPjajbXfOS3hXEDoID/SNXfxp9/1Rz/VvWxGk
-         oPIeChtENLeIiKcMUc2LmnXRGWluCD/bWiw10RtLpHy0nGeu5ftPdb4u5Ay4jnGQGh+G
-         YME3E0eTwzy06mA3y4Rbd+X9JQZl+DnVN5PB77JePAbiN11Ktqg6x2uekZRJJ6szVhTi
-         RKPQ==
-X-Gm-Message-State: AOJu0YxDFj6OeTzmvO8LXmt+k8vR39eLxa4AyrCM1xZEVMFLumGqGAN0
-	bCDGq0JVKK7eFqk28UQDfZgpHxc8kxVRJV8jNZ4ugP66B8sWhwHBMRe+lxbTizE=
-X-Google-Smtp-Source: AGHT+IHUPUZEPf4MkuXpuZ1eBdP2F87Pg9/UOsRP7bwjnKX895Rnp97yYU72I9lpPkf7L+Ns9p//8A==
-X-Received: by 2002:a05:6402:1d4c:b0:5a2:4558:d17c with SMTP id 4fb4d7f45d1cf-5a478b65d96mr5616343a12.4.1721631220529;
-        Sun, 21 Jul 2024 23:53:40 -0700 (PDT)
+        bh=u+3ze/IP2QrseHnlo80eunkZiTdbCzauDagUJ/lYngU=;
+        b=fblhI8jUBpT6uQFaNDZrSTCL7K36fjQk8h4SLCT5K7talfFq/b9npI36u27POBo5fd
+         wA09OzZkFdqBVtkc9wkb/i+8lauAIUWVLhVURZsrWQS4lWSTBj1FSWAmqCcDNNlgxYro
+         EjPCkogxSE3ReG0BV3tl/GCAGyztfxuua0tQJBAlLi+EA+jSzpBOpWqjZvcC4YYqxmKU
+         3SPZM7AhOWn1Ojwh9gTRG9mc6MKPTCfnYbkvDpQKOqIRdmXPa/7JB+BUFplIwXEVsc5j
+         NPlnr1drKLENF2dvMIb1KBNqDdls6AZAJAkUROtOeXWm8t8WGy4FOVWGwxjzxzaSgK8j
+         9OKw==
+X-Gm-Message-State: AOJu0YxySWlvdVtpYs9CeSglFKCdocZ9W5r6UPZtcsBc0GF7lZnwOPbs
+	BL3u84aBeOGPKxyuvKG6ww7+921BJTXxHoQmAnyPnkSK7PvridKcLA/w31/uG78=
+X-Google-Smtp-Source: AGHT+IFJymhhbtomjKgP2gDQkxgVKRlXBgHheppPAvjAkJL2snZBn5zWFyPNQaFdccjRosPDO5Nvtw==
+X-Received: by 2002:a50:d699:0:b0:5a2:80f:f7c9 with SMTP id 4fb4d7f45d1cf-5a479970367mr3223477a12.2.1721631221950;
+        Sun, 21 Jul 2024 23:53:41 -0700 (PDT)
 Received: from [127.0.1.1] (158.22.5.93.rev.sfr.net. [93.5.22.158])
-        by smtp.googlemail.com with ESMTPSA id 4fb4d7f45d1cf-5a69c1f56a0sm1982126a12.64.2024.07.21.23.53.39
+        by smtp.googlemail.com with ESMTPSA id 4fb4d7f45d1cf-5a69c1f56a0sm1982126a12.64.2024.07.21.23.53.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Jul 2024 23:53:40 -0700 (PDT)
+        Sun, 21 Jul 2024 23:53:41 -0700 (PDT)
 From: Alexandre Mergnat <amergnat@baylibre.com>
-Date: Mon, 22 Jul 2024 08:53:31 +0200
-Subject: [PATCH v7 02/16] ASoC: dt-bindings: mediatek,mt8365-mt6357: Add
- audio sound card document
+Date: Mon, 22 Jul 2024 08:53:32 +0200
+Subject: [PATCH v7 03/16] dt-bindings: mfd: mediatek: Add codec property
+ for MT6357 PMIC
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -63,7 +63,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240226-audio-i350-v7-2-6518d953a141@baylibre.com>
+Message-Id: <20240226-audio-i350-v7-3-6518d953a141@baylibre.com>
 References: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
 In-Reply-To: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -82,147 +82,77 @@ Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- Alexandre Mergnat <amergnat@baylibre.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ Alexandre Mergnat <amergnat@baylibre.com>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3413; i=amergnat@baylibre.com;
- h=from:subject:message-id; bh=7RiTz7/DbEcpnGh40/G/GiZJyYiXWSGAGW7k/Ludygk=;
- b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBmngHwXd0xvDpLVp0CSV+q14Gvkt2Efi6arTJxAw3p
- IJGl4OGJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZp4B8AAKCRArRkmdfjHURYIBD/
- 4r2AhbZX+WCAyw7/UINA2YuXQ2ixUIY8ECPOeuc/Y10XhRSWTI4ohbrcxZEFA8E9j7J9NEoH8cwwzq
- 6JlDHxqVGQp1k/Lh4ov9LLrknjvPU9uRFz3j3A/nEE5Ffm6eBQN2rFd4UdR6uZIm6WHYNmgFAg/TNl
- etNmpFgoBPJGaB2haSczJ1fsuyf4IvER2DehMRZxj6gtIq/bwdfffyyt9NGHwHHuZVTMlyrzH8D0YW
- kKp6ZL07eWqLFBe8SCubj4TqSPNWcA71GuXiFPA6GVeVpxcsFSDTnzTISdFj7X+LKUai+X4wo/iLQp
- yspBo/Ogo+ccwbKrIY035Wa8VTzrYE+/wEFHBr2PUxfYYuaj5C7Ze+VhWEFtRVjKp/MVe8FYQkFgRv
- lb+LT7D0xw7Ns3lUxJcOFNAMW+xf2o5UCF3XIH8VMWqoNSk1zhfeeN5JJznWlo9O0H23JodqdoMYHt
- cY+T6UjM8fc3vyCYVeZbpp2zOVESoMJnq3hNYxu1Ulhvu/9SkMnVUX+cpoBGWiQjIPME4QBPr6aion
- m1HrwlT1L67suGAkAupoMTqLWhP+fbmTjWwdpWxGlud0Z+gBIdYTudf93RpUr3LtjYEuw5o+F/XLe+
- y/Iftno3bvJeVhXlPr9a4Tw4sZPOSitH5nDK2vQjz3tJYCMKK2nRCRMNipPw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1920; i=amergnat@baylibre.com;
+ h=from:subject:message-id; bh=UIlaXrHC3JXqJmHxOl8jKxQMiudwmYCtEVWajCQIFbA=;
+ b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBmngHwcvHRLjV9AcqoRaSL0Yq3rkWT8qbII8GiPHlR
+ zhVMDb+JAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZp4B8AAKCRArRkmdfjHURZeBD/
+ 926K6vv60HlYRpqFEOI8Rwz/HhG/pQHXFSsTFR1tDqg19ttpvN7X4FeGuXGeLO3Mc4JFp0Ahn4vEsW
+ 1eL5yXsXgmfrvhpMzj8qts68wnEwk2CW+P8Bm8iW/OKVySOc5hirQmJW+ffaKrdOp8pyP4ZsBrpyho
+ qAl9LhWp6stCrQcX2lY8GfgZ3yqsvV66Brh2ifPjGaC4m++c2Dh5gSe+Vx6Ki072ABSePEitfqdFrs
+ oeS6PMqXv9C/swOSKY+5qaBD45/zThXsyOnBvpOUC8AEr4NWwr2UETodSaHSOuzHMfSsH8jOZlmmz7
+ bA9hpJcXSttRsYL3v4F9D91lfa4xHKqkNS3Hs1mWZbS7Q5OGAPn+DstZvGjYOPHr6B09+SJXLE7Qoc
+ 2870Tqjt1bdFTjz/l4nMMeET3IXvzwGLI5/1fBlmWFql2AYwZnKhsUNexYhGPq5iax4We1cxnCjJNC
+ 7woyOHGJFTwHsiZZ2wFr+9draTok5hflT2TeOUKW74HBQwUz8Pf6n7LgsVNW3KZcQ7256dFL6b5BUZ
+ F/1B11dezdLMqSVo3WmFOGQXx4tEG4lh/AXO60JCXrz7p4d4DfC6rY2LBzEhvVi4dTlHoskzwRHmDr
+ mR/+dFiQa9OLoCvr12SnKK3MARcMhluKNqIm0yiZOuDAauFDTNrCDVf9mDJA==
 X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
  fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
 
-Add soundcard bindings for the MT8365 SoC with the MT6357 audio codec.
+Add the audio codec sub-device. This sub-device is used to set the
+optional voltage values according to the hardware.
+The properties are:
+  - Setup of microphone bias voltage.
+  - Setup of the speaker pin pull-down.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Also, add the audio power supply property which is dedicated for
+the audio codec sub-device.
+
 Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 ---
- .../bindings/sound/mediatek,mt8365-mt6357.yaml     | 107 +++++++++++++++++++++
- 1 file changed, 107 insertions(+)
+ .../devicetree/bindings/mfd/mediatek,mt6357.yaml    | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8365-mt6357.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8365-mt6357.yaml
-new file mode 100644
-index 000000000000..ff9ebb63a05f
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/mediatek,mt8365-mt6357.yaml
-@@ -0,0 +1,107 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/mediatek,mt8365-mt6357.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: MediaTek MT8365 ASoC sound card
-+
-+maintainers:
-+  - Alexandre Mergnat <amergnat@baylibre.com>
-+
-+properties:
-+  compatible:
-+    const: mediatek,mt8365-mt6357
-+
-+  pinctrl-names:
-+    minItems: 1
-+    items:
-+      - const: default
-+      - const: dmic
-+      - const: miso_off
-+      - const: miso_on
-+      - const: mosi_off
-+      - const: mosi_on
-+
-+  mediatek,platform:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: The phandle of MT8365 ASoC platform.
-+
-+patternProperties:
-+  "^dai-link-[0-9]+$":
-+    type: object
+diff --git a/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml b/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
+index 37423c2e0fdf..b67fbe0e7a63 100644
+--- a/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
++++ b/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
+@@ -37,6 +37,24 @@ properties:
+   "#interrupt-cells":
+     const: 2
+ 
++  mediatek,hp-pull-down:
 +    description:
-+      Container for dai-link level properties and CODEC sub-nodes.
++      Earphone driver positive output stage short to
++      the audio reference ground.
++    type: boolean
 +
-+    properties:
-+      codec:
-+        type: object
-+        description: Holds subnode which indicates codec dai.
++  mediatek,micbias0-microvolt:
++    description: Selects MIC Bias 0 output voltage.
++    enum: [1700000, 1800000, 1900000, 2000000,
++           2100000, 2500000, 2600000, 2700000]
++    default: 1700000
 +
-+        properties:
-+          sound-dai:
-+            maxItems: 1
-+            description: phandle of the codec DAI
++  mediatek,micbias1-microvolt:
++    description: Selects MIC Bias 1 output voltage.
++    enum: [1700000, 1800000, 1900000, 2000000,
++           2100000, 2500000, 2600000, 2700000]
++    default: 1700000
 +
-+        additionalProperties: false
+   regulators:
+     type: object
+     $ref: /schemas/regulator/mediatek,mt6357-regulator.yaml
+@@ -83,6 +101,9 @@ examples:
+             interrupt-controller;
+             #interrupt-cells = <2>;
+ 
++            mediatek,micbias0-microvolt = <1700000>;
++            mediatek,micbias1-microvolt = <1700000>;
 +
-+      link-name:
-+        description: Indicates dai-link name and PCM stream name
-+        enum:
-+          - I2S_IN_BE
-+          - I2S_OUT_BE
-+          - PCM1_BE
-+          - PDM1_BE
-+          - PDM2_BE
-+          - PDM3_BE
-+          - PDM4_BE
-+          - SPDIF_IN_BE
-+          - SPDIF_OUT_BE
-+          - TDM_IN_BE
-+          - TDM_OUT_BE
-+
-+      sound-dai:
-+        maxItems: 1
-+        description: phandle of the CPU DAI
-+
-+    required:
-+      - link-name
-+      - sound-dai
-+
-+    additionalProperties: false
-+
-+required:
-+  - compatible
-+  - pinctrl-names
-+  - mediatek,platform
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    sound {
-+        compatible = "mediatek,mt8365-mt6357";
-+        pinctrl-names = "default",
-+                        "dmic",
-+                        "miso_off",
-+                        "miso_on",
-+                        "mosi_off",
-+                        "mosi_on";
-+        pinctrl-0 = <&aud_default_pins>;
-+        pinctrl-1 = <&aud_dmic_pins>;
-+        pinctrl-2 = <&aud_miso_off_pins>;
-+        pinctrl-3 = <&aud_miso_on_pins>;
-+        pinctrl-4 = <&aud_mosi_off_pins>;
-+        pinctrl-5 = <&aud_mosi_on_pins>;
-+        mediatek,platform = <&afe>;
-+
-+        /* hdmi interface */
-+        dai-link-0 {
-+            link-name = "I2S_OUT_BE";
-+            sound-dai = <&afe>;
-+
-+            codec {
-+                sound-dai = <&it66121hdmitx>;
-+            };
-+        };
-+    };
+             regulators {
+                 mt6357_vproc_reg: buck-vproc {
+                     regulator-name = "vproc";
 
 -- 
 2.25.1
