@@ -1,192 +1,134 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA4016A399;
-	Mon, 22 Jul 2024 12:57:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38B916CD33
+	for <linux-sound@vger.kernel.org>; Mon, 22 Jul 2024 13:58:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721653033; cv=none; b=ZciN0W0q+hFq0iIuJd5VPXXmum+0Qrsx+t1iqScUAh5btLI+0YbZofJFxufXojM9/qpfAlwdw2e5UXM4uJsLesyvuXpgfjB3Eczw+iQBGK6GrgUoCnHrmo4inoXVEPDvJVG0zX/w4uCFBga9eKdR0jYM70FJYyKiWZrL3DeNSA4=
+	t=1721656740; cv=none; b=qMjJAKZne/ahkdOGk3pqqqGt/sCNha9NqRBGu4DiMO+DK32uGa9GAotamd8ixLLpE0rVHwXBumAXIiqqrRTydwNHkpl7WJ6l+6b9tTJMGtFDwLH133Yy2LAazdngtgx03d5nq64IDQIQz+lsC5dQO250Lt4gQ7FzCKGNBzlkq5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721653033; c=relaxed/simple;
-	bh=WChoUybuFOfPdrfhko7m25GNRNYjGCeVsl5cWwnGGoM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ABncEIVQOLBvtbPWdXhklqPJViThQQA+pEBkccNEUnohFULlTl++wO7hre9s2lVU8bCq3TXey73qSbxbuKyTVdRRiJGk4v+KQv8ZLfewg44uk/W2Aw8kBTBKQBA74BLFxjXPA2pYpiLnqYtYX13VGKi08dzT+uF/rmbyS8akKw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gEx/O9jn; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MzuayszW; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gEx/O9jn; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MzuayszW; arc=none smtp.client-ip=195.135.223.130
+	s=arc-20240116; t=1721656740; c=relaxed/simple;
+	bh=OuD8aT6LAAFi3fUQh+CtRLXTYPG+5pbrQ7jcoeALQCY=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=fBAS6jW14QMDP+UPUMHXorGmCNP3QT4A5XT7Wy5x9GjST9UkzGCBI6+L84wwkeqckH8jf8RCyjo6g7psMp2PEBg+j94YRSGNDnpcIYDeWipFVOr/TCnv+3tBOPmyLNxuqjHJ6Ci86giXNFvuoKClG75kf4xSUED7gIaQK/UH5Y0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=chfyC8Fh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FZRD0VWZ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=chfyC8Fh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FZRD0VWZ; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gEx/O9jn";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MzuayszW";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gEx/O9jn";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MzuayszW"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="chfyC8Fh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FZRD0VWZ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="chfyC8Fh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FZRD0VWZ"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 418D621A2A;
-	Mon, 22 Jul 2024 12:57:09 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0EDF121B9F;
+	Mon, 22 Jul 2024 13:58:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1721653029; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/Cp1ZyS4N4wStUscrinCWknLNr7kS4hDp7m0OYKKM7k=;
-	b=gEx/O9jn8sdafbaRiBC6u15YDe0JcSSXL8OWvSvRrUIncvUt3MVfhhRsAs8opf3aITHFqZ
-	YkEfWRL5cOc7aWGguj0RIrjwJCbPmbdjJXK9FMawJmnB6wkZ85YPc3CUw8pN3NwYBtlDm0
-	+u9mSA6UhPqcP6seesh75CA18X2oI7s=
+	t=1721656737; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=AJNYwFd+/Mj61w2gLAr6nIokjIAuYGdmHgJ3XEmXDqQ=;
+	b=chfyC8FhJBTawCVgiV2fmey+03vhqZ2+Z1pQwnXDysDa2HuFguiomzMC1+c6JKR8daYatB
+	/+5ZHzi2q3l3j6s0PuqzUqw9yO3YDvzH2szrDX8YTFZqoJkWxYoUjtblJdDFqxCgwGChcI
+	PNeuwMrLZN6Y/Zyox0YLne32lnsVZAI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1721653029;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/Cp1ZyS4N4wStUscrinCWknLNr7kS4hDp7m0OYKKM7k=;
-	b=MzuayszWdKjNc+GmV+0LC8hb2D9YXvRaHJFLToeDMySi+UOVVAgLFfqQX43QTNfsm0oxUn
-	fFk8LhZ0vTnRMHBA==
+	s=susede2_ed25519; t=1721656737;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=AJNYwFd+/Mj61w2gLAr6nIokjIAuYGdmHgJ3XEmXDqQ=;
+	b=FZRD0VWZGPXEk1M2eDTgDLMsD4G14I3lieJ58wR7aUQQCmtUpSvfDSN24zSu2ouX3sMqVN
+	tu99B8YWGd9kInBg==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="gEx/O9jn";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=MzuayszW
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1721653029; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/Cp1ZyS4N4wStUscrinCWknLNr7kS4hDp7m0OYKKM7k=;
-	b=gEx/O9jn8sdafbaRiBC6u15YDe0JcSSXL8OWvSvRrUIncvUt3MVfhhRsAs8opf3aITHFqZ
-	YkEfWRL5cOc7aWGguj0RIrjwJCbPmbdjJXK9FMawJmnB6wkZ85YPc3CUw8pN3NwYBtlDm0
-	+u9mSA6UhPqcP6seesh75CA18X2oI7s=
+	t=1721656737; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=AJNYwFd+/Mj61w2gLAr6nIokjIAuYGdmHgJ3XEmXDqQ=;
+	b=chfyC8FhJBTawCVgiV2fmey+03vhqZ2+Z1pQwnXDysDa2HuFguiomzMC1+c6JKR8daYatB
+	/+5ZHzi2q3l3j6s0PuqzUqw9yO3YDvzH2szrDX8YTFZqoJkWxYoUjtblJdDFqxCgwGChcI
+	PNeuwMrLZN6Y/Zyox0YLne32lnsVZAI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1721653029;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/Cp1ZyS4N4wStUscrinCWknLNr7kS4hDp7m0OYKKM7k=;
-	b=MzuayszWdKjNc+GmV+0LC8hb2D9YXvRaHJFLToeDMySi+UOVVAgLFfqQX43QTNfsm0oxUn
-	fFk8LhZ0vTnRMHBA==
+	s=susede2_ed25519; t=1721656737;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=AJNYwFd+/Mj61w2gLAr6nIokjIAuYGdmHgJ3XEmXDqQ=;
+	b=FZRD0VWZGPXEk1M2eDTgDLMsD4G14I3lieJ58wR7aUQQCmtUpSvfDSN24zSu2ouX3sMqVN
+	tu99B8YWGd9kInBg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 124F5136A9;
-	Mon, 22 Jul 2024 12:57:09 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E6256138A7;
+	Mon, 22 Jul 2024 13:58:56 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id zbqjAiVXnmbHLQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 22 Jul 2024 12:57:09 +0000
-Date: Mon, 22 Jul 2024 14:57:42 +0200
-Message-ID: <87zfq9oa7t.wl-tiwai@suse.de>
+	id PCJZNqBlnmYTQgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 22 Jul 2024 13:58:56 +0000
 From: Takashi Iwai <tiwai@suse.de>
-To: Nick Weihs <nick.weihs@gmail.com>
-Cc: tiwai@suse.com,
-	lsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Implement sound init sequence for Samsung Galaxy Book3 Pro 360
-In-Reply-To: <CAGKKx0-FRCbeS5CTQfoe3Zqw9BH6Wws1ch_XhyzxaP_s2z+OqA@mail.gmail.com>
-References: <CAGKKx0-FRCbeS5CTQfoe3Zqw9BH6Wws1ch_XhyzxaP_s2z+OqA@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+To: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: ump: Don't update FB name for static blocks
+Date: Mon, 22 Jul 2024 15:59:28 +0200
+Message-ID: <20240722135929.8612-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -1.81
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 418D621A2A
-X-Spamd-Result: default: False [-1.81 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -2.60
+X-Spamd-Result: default: False [-2.60 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
 	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
 	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+	RCPT_COUNT_ONE(0.00)[1];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Level: 
 X-Spam-Flag: NO
 
-On Mon, 22 Jul 2024 02:10:59 +0200,
-Nick Weihs wrote:
-> 
-> Samsung Galaxy Book3 Pro 360 sends a large amount of data to the codec
-> through hda processing coefficients.  This data was captured using a
-> modified version of QEMU, but the actual content of the data remains
-> opaque to me.  Elliding any part of the data seems to cause sound to
-> not work.
-> 
-> Signed-off-by: Nick Weihs <nick.weihs@gmail.com>
+When a device tries to update the FB name string even if its Endpoint
+is declared as static, we should skip it, just already done for the FB
+info update reply.
 
-Thanks for the patch.  However, the patch isn't cleanly applicable as
-your mailer seems breaking spaces.  Please try to fix the mailer setup
-(at best use git-send-email) or use attachment as the last resort.
+Fixes: 37e0e14128e0 ("ALSA: ump: Support UMP Endpoint and Function Block parsing")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/core/ump.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-About the code change:
-> +static inline void alc298_samsung_write_coef_pack2(struct hda_codec *codec,
-> +                           const unsigned short coefs[4])
+diff --git a/sound/core/ump.c b/sound/core/ump.c
+index 3f61220c23b4..b325fcfa77d0 100644
+--- a/sound/core/ump.c
++++ b/sound/core/ump.c
+@@ -806,6 +806,13 @@ static int ump_handle_fb_name_msg(struct snd_ump_endpoint *ump,
+ 	if (!fb)
+ 		return -ENODEV;
+ 
++	if (ump->parsed &&
++	    (ump->info.flags & SNDRV_UMP_EP_INFO_STATIC_BLOCKS)) {
++		ump_dbg(ump, "Skipping static FB name update (blk#%d)\n",
++			fb->info.block_id);
++		return 0;
++	}
++
+ 	ret = ump_append_string(ump, fb->info.name, sizeof(fb->info.name),
+ 				buf->raw, 3);
+ 	/* notify the FB name update to sequencer, too */
+-- 
+2.43.0
 
-Passing the fixed size array as an argument is hard to read and
-error-prone.  Better to define a struct instead?
-
-> +{
-> +    int i;
-> +
-> +    for (i = 0; i < 100; i++) {
-> +        if ((alc_read_coef_idx(codec, 0x26) & 0x0010) == 0)
-> +            break;
-> +    }
-
-This loop looks unreliable.  Usually this kind of loop should have
-some delay and/or timeout as the break out condition.
-
-> +static void alc298_fixup_samsung_amp2(struct hda_codec *codec,
-> +                      const struct hda_fixup *fix, int action)
-> +{
-> +    int i;
-> +    static const struct alc298_samsung_coeff_fixup_desc fixups1[] = {
-> +        { 0x99, 0x8000 }, { 0x82, 0x4408 }, { 0x32, 0x3f00 }, { 0x0e, 0x6f80 },
-> +        { 0x10, 0x0e21 }, { 0x55, 0x8000 }, { 0x08, 0x2fcf }, { 0x08, 0x2fcf },
-> +        { 0x2d, 0xc020 }, { 0x19, 0x0017 }, { 0x50, 0x1000 }, { 0x0e, 0x6f80 },
-> +        { 0x08, 0x2fcf }, { 0x80, 0x0011 }, { 0x2b, 0x0c10 }, { 0x2d, 0xc020 },
-> +        { 0x03, 0x0042 }, { 0x0f, 0x0062 }, { 0x08, 0x2fcf },
-> +    };
-> +
-> +    static const unsigned short amp_0x38[][4] = {
-> +        { 0x2000, 0x0000, 0x0001, 0xB011 }, { 0x23FF, 0x0000, 0x0000, 0xB011 },
-> +        { 0x203A, 0x0000, 0x0080, 0xB011 }, { 0x23E1, 0x0000, 0x0000, 0xB011 },
-(snip)
-
-Such a bulk of data is usually put into another file, and included
-from patch_realtek.c.  Otherwise the code becomes too clumsy.
-See sound/pci/hda/*_helper.c files as examples.
-
-Also, we prefer the lower alphabet for hex numbers.
-
-> +    ///// First set of fixups
-
-Too many slashes.  Just use '//'.
-
-Last but not least, try to fix coding-style issues reported by
-scripts/checkpatch.pl.
-
-
-thanks,
-
-Takashi
