@@ -1,141 +1,108 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E70458F5E
-	for <linux-sound@vger.kernel.org>; Mon, 22 Jul 2024 14:05:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A458F5E
+	for <linux-sound@vger.kernel.org>; Mon, 22 Jul 2024 14:07:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721657141; cv=none; b=C6cdoK3Vw4DUthGJNI/l7l8kFaHkHH6Y7wSBxj6iUiB7E38pT8j/0H2eseP2LfR1hAoQekjiWkkEeGc9HfqVfkMahB+TCC4HZTQq6IexbydB9Iqzujup2dAXlv4aj15GZbY/1l+r2RrkzkfnWXSekt1lpJA2tWieVGCR1loDxdA=
+	t=1721657225; cv=none; b=ZL+YjPvk13exTuN5WquZJRQyyxmXoRtzZwi6D7HeUIBoOhImJsO13lK5vtBeySjQXyvZxPlPBxzZCmq/Y5Co40D42YedphfQxLbXwwExDzCH9FD1vz5hitVXXIWIfSVbWPPSnZMArUTIlqd8D4KcUCAhvht+kuyy2/zr8JWBLJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721657141; c=relaxed/simple;
-	bh=r8jyv7ECWouLJb5MEJpMEld3y21J6KEslZwDNxqPxc8=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=B0yjXzVaInCDtuk/C5MixbaRSG+61gGKJMnpA54KgKqeDUl3g9RLaiKNw7Xm9o/DNFe/oqUbBIhM5aJOuP4xUVelMNB8fDQSD+HE8Vw93/JMl7A0jGku2ky1way4XX1gFNy/Jr8AwXrahVvCjVMYfRDeFpig+ES3X8z6RuxywG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RHMjN0Va; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xztucMXf; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RHMjN0Va; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xztucMXf; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1721657225; c=relaxed/simple;
+	bh=BZ9zVGteGyw7KM+ePl27FW6gWSzQRxLfIhCKf+ZtPuM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tsfW/twMSz+wjIe99byGVXZljC1ANOudmRyWmZi1FJMLa7XuXPUXs24KZHY04lpGed4g3IWm4Yeq6HcLhqgKIROLOL5Xule3WVg86pZZT6faJvth71skwevtbKQhF05Di/+aYYezuuhyQlNe8wNbE+PnAKgw4aEy09fZnj/kavM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uvu3fZUF; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RHMjN0Va";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xztucMXf";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RHMjN0Va";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xztucMXf"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 11EC11FB6F;
-	Mon, 22 Jul 2024 14:05:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1721657138; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=75IC8k363+R0hKnFzBkYVn43DI4p2KDIVo+bgp8Xxo8=;
-	b=RHMjN0VaA+DHreWBeBgy6QFAthwzby1nPf6CCugWsj7yABhPih6oHzWZTin6dfKR4yFupR
-	jiRrr6KX/E3iEXF2spgjVDprv/4793S3zG5KMDclI8MaZQ5tpnkC5CKG+n4w9q9rlzLM8u
-	BjhN0XOtzgQ0mbzf6xfg8Y5bI/vDh60=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1721657138;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=75IC8k363+R0hKnFzBkYVn43DI4p2KDIVo+bgp8Xxo8=;
-	b=xztucMXfXwiubnRgAzTeOoRomWdw6yhpIhbt4aL/Mx2tGsbh4xFgIrOyz/cjwadFUktOJA
-	2BL0/srlFLJESjDQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=RHMjN0Va;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=xztucMXf
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1721657138; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=75IC8k363+R0hKnFzBkYVn43DI4p2KDIVo+bgp8Xxo8=;
-	b=RHMjN0VaA+DHreWBeBgy6QFAthwzby1nPf6CCugWsj7yABhPih6oHzWZTin6dfKR4yFupR
-	jiRrr6KX/E3iEXF2spgjVDprv/4793S3zG5KMDclI8MaZQ5tpnkC5CKG+n4w9q9rlzLM8u
-	BjhN0XOtzgQ0mbzf6xfg8Y5bI/vDh60=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1721657138;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=75IC8k363+R0hKnFzBkYVn43DI4p2KDIVo+bgp8Xxo8=;
-	b=xztucMXfXwiubnRgAzTeOoRomWdw6yhpIhbt4aL/Mx2tGsbh4xFgIrOyz/cjwadFUktOJA
-	2BL0/srlFLJESjDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ECFA6138A7;
-	Mon, 22 Jul 2024 14:05:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Hk2HODFnnmYkRAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 22 Jul 2024 14:05:37 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: ump: Force 1 Group for MIDI1 FBs
-Date: Mon, 22 Jul 2024 16:06:06 +0200
-Message-ID: <20240722140610.10845-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uvu3fZUF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1721657224; x=1753193224;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=BZ9zVGteGyw7KM+ePl27FW6gWSzQRxLfIhCKf+ZtPuM=;
+  b=Uvu3fZUFpHFa4SL+Bv17BTjGGPcgDEMzHOicKIWgm/TF1RqykwVqfJtV
+   SIFoHNQTOg5yXLFYKmT25F4D6VyDeN2BozT5z9OLWSKUZfP+T4Saa1BmM
+   i/SuszgG1mLn9EesJCVBHZwHYK9D6o/4peR+BaHMwvaXoC0BFclxr8eIa
+   KdtB/8C5cllGFyhn17AiGjGAF26jL9Qemc1cO3jhh8ES/I1mXeg9gqENA
+   q4FCvygZo5AOJsQBaE4Nw2RCmrAFyYc5Yrsa0wUUfSzlUzLyEHsH+8Bhp
+   fgx9bpdzkRYRkwH5hC7t5sPWsAoKg/6GyjkXiOjwQRw5fbfk2vigM+hN1
+   A==;
+X-CSE-ConnectionGUID: HxH1IgQJR82xP2r8aqdPtQ==
+X-CSE-MsgGUID: TAbuVk8xRXKIXXySKejCiw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11141"; a="19042528"
+X-IronPort-AV: E=Sophos;i="6.09,228,1716274800"; 
+   d="scan'208";a="19042528"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2024 07:07:03 -0700
+X-CSE-ConnectionGUID: sIn4xKfaSBu87WaP9FFVog==
+X-CSE-MsgGUID: AZpDnaaHRrqUDj+rsfTi8Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,228,1716274800"; 
+   d="scan'208";a="52630203"
+Received: from ettammin-desk.ger.corp.intel.com (HELO [10.245.246.242]) ([10.245.246.242])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2024 07:07:01 -0700
+Message-ID: <c7572302-7d78-4e72-a470-57f2aa0c8537@linux.intel.com>
+Date: Mon, 22 Jul 2024 16:06:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.81
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 11EC11FB6F
-X-Spamd-Result: default: False [-2.81 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_ONE(0.00)[1];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
+User-Agent: Mozilla Thunderbird
+Subject: Re: [bug report] ASoC: Intel: cht_bsw_rt5645: Set card.components
+ string
+To: Dan Carpenter <dan.carpenter@linaro.org>,
+ Hans de Goede <hdegoede@redhat.com>
+Cc: alsa-devel@alsa-project.org,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>
+References: <918944d2-3d00-465e-a9d1-5d57fc966113@stanley.mountain>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <918944d2-3d00-465e-a9d1-5d57fc966113@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-When a Function Block declares it being a legacy MIDI1 device, it has
-to be only with a single UMP Group.  Correct the attribute when a
-device declares it wrongly.
+Thanks Dan for the report.
 
-Fixes: 37e0e14128e0 ("ALSA: ump: Support UMP Endpoint and Function Block parsing")
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/core/ump.c | 6 ++++++
- 1 file changed, 6 insertions(+)
 
-diff --git a/sound/core/ump.c b/sound/core/ump.c
-index 3f61220c23b4..4b10aa5819bf 100644
---- a/sound/core/ump.c
-+++ b/sound/core/ump.c
-@@ -733,6 +733,12 @@ static void fill_fb_info(struct snd_ump_endpoint *ump,
- 		info->block_id, info->direction, info->active,
- 		info->first_group, info->num_groups, info->midi_ci_version,
- 		info->sysex8_streams, info->flags);
-+
-+	if ((info->flags & SNDRV_UMP_BLOCK_IS_MIDI1) && info->num_groups != 1) {
-+		info->num_groups = 1;
-+		ump_dbg(ump, "FB %d: corrected groups to 1 for MIDI1\n",
-+			info->block_id);
-+	}
- }
- 
- /* check whether the FB info gets updated by the current message */
--- 
-2.43.0
+> Commit f87b4402163b ("ASoC: Intel: cht_bsw_rt5645: Set
+> card.components string") from Nov 26, 2023 (linux-next), leads to the
+> following Smatch static checker warning:
+> 
+> 	sound/soc/intel/boards/cht_bsw_rt5645.c:587 snd_cht_mc_probe()
+> 	error: we previously assumed 'adev' could be null (see line 581)
+> 
+> sound/soc/intel/boards/cht_bsw_rt5645.c
+>     570         /* set correct codec name */
+>     571         for (i = 0; i < ARRAY_SIZE(cht_dailink); i++)
+>     572                 if (cht_dailink[i].codecs->name &&
+>     573                     !strcmp(cht_dailink[i].codecs->name,
+>     574                             "i2c-10EC5645:00")) {
+>     575                         dai_index = i;
+>     576                         break;
+>     577                 }
+>     578 
+>     579         /* fixup codec name based on HID */
+>     580         adev = acpi_dev_get_first_match_dev(mach->id, NULL, -1);
+>     581         if (adev) {
+>                     ^^^^
+> The old code assumes adev can be NULL
+> 
+>     582                 snprintf(cht_rt5645_codec_name, sizeof(cht_rt5645_codec_name),
+>     583                          "i2c-%s", acpi_dev_name(adev));
+>     584                 cht_dailink[dai_index].codecs->name = cht_rt5645_codec_name;
+>     585         }
+>     586         /* acpi_get_first_physical_node() returns a borrowed ref, no need to deref */
+> --> 587         codec_dev = acpi_get_first_physical_node(adev);
+>                                                          ^^^^
+> Unchecked dereference
+
+This looks like a problem in multiple machine drivers sharing similar
+code, if we want to consistently check the output we probably need
+something like https://github.com/thesofproject/linux/pull/5117 ?
+
 
