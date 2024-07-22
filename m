@@ -1,109 +1,106 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23CF016C695;
-	Mon, 22 Jul 2024 10:26:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAFC216B39E;
+	Mon, 22 Jul 2024 10:52:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721643975; cv=none; b=sA/EHcyICyCFgE+Cy8csVrGXHw47Ov47Vn6XnTMWoU1C27K9FIRbPuFVXUqM0bKzRt6XkIqSkaBwZQlNIOy1bRs+tMr+8XGhwPRX10xW47LTIAiqLyFuCOkS0/yWFF50mqIsX+iHMhqPJPT0vDovsncWncDNAxgoOyLH+bQAkEY=
+	t=1721645569; cv=none; b=g2fheL+uqvywzPHOR2g0U/+jS9PdojlTMPybg3W9nctLeJBQldc+c3FfNTYLPnLb/1fYcBTWiVjD/5YhEB6KmN54kElrIFLZGXYrBAStEgIhCzZOMKPqDUbqPtl8wT0P+4SrbNVZXAOcLzk5bOME2Mk4+U0yZLfa9LxraoAba3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721643975; c=relaxed/simple;
-	bh=0l8O3M4kP3eoaMG4z05pJZgheO9kWmWMulcubFD+vNo=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PMH8Enc3Y7fYKsOsZ7+vwcKaWNDPb62DRCgWXZXATO2jOu1FVXfPRenKFHEiGis8BYeXUWa/7RL0/XUuU9dMPIoGX0+LnRNLC4ac5K4esIq7VdugLUkb3zwGV43waFtMICAKh0nCPi7cLS8iV2x1NyEbQLv5fx40qI5y2r24gME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=XjjwGUsn; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1721645569; c=relaxed/simple;
+	bh=d/phvPCFH5b62HPy+3QDiw3vQq0Av/LO7MFoVObg1OY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qd+CMImM8x+zbTTnWevXLy5GX+n7e9zfovfEx4R/9Fd1C7Q/53oQzP+otRpKb8B/cEmBW89xAuMqbp5kxln/XLvucoMnxvr19erO4vfl8VARO65m5aQ9sZMb1cgBHGeWlMct4wVEzc+Tf0m0+m2pM/rxOuF6PBz6zg6Ks4tYB70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IJ+ZojLF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="XjjwGUsn"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46M6AUpP030632;
-	Mon, 22 Jul 2024 05:26:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=ra314kbOhsrM/Q5p+Z/Ul8wHRE5K03gY7xfgRvtL9kc=; b=
-	XjjwGUsnxx0rOWFXcKmS5wCgyGAO6oKBBT0+x5TOVsPmaOwdYO/liBdQB2/ws1Zv
-	BiM4niZ75dcfRhkCxAHw7vj8fnlsAwj9AJsz3YdwD8aph134JbKLoMUK40SxybFN
-	Dy723X1GJ0BBnxztv588wDt01S/RBkUstJTMcazoK5KPhCl3bofPLfP/Vamlzjoh
-	2QFuNtmc45cJu2l+qgwr54hiv9YHlzX635JnZBnUZPrrxJOaKWSGi5xaYCWvTcYz
-	G0lGPwf20qLoJHOL4EuMAf0KzQt7GW46VK5f2MrfAoPFb3XsakV7eVQ2KJZk+eCj
-	FqJSPQ8ocF0ZQBku8xcU4Q==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 40gamx1mh7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 22 Jul 2024 05:26:02 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 22 Jul
- 2024 11:26:00 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Mon, 22 Jul 2024 11:26:00 +0100
-Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 6F4A8820247;
-	Mon, 22 Jul 2024 10:26:00 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: <stable@vger.kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>
-Subject: [PATCH for-6.10 1/2] ASoC: cs35l56: Use header defines for Speaker Volume control definition
-Date: Mon, 22 Jul 2024 11:25:59 +0100
-Message-ID: <20240722102600.37931-2-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240722102600.37931-1-rf@opensource.cirrus.com>
-References: <20240722102600.37931-1-rf@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IJ+ZojLF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8916BC116B1;
+	Mon, 22 Jul 2024 10:52:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721645569;
+	bh=d/phvPCFH5b62HPy+3QDiw3vQq0Av/LO7MFoVObg1OY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IJ+ZojLFM9Wj7orCKE8k7kcHLxHlKDc0UmBL6mlLiI1+nGrswWaYt4dlLn2NCnrF1
+	 8OWQtO4pdoDt8x9Ula19MWuGDi/VhCmFklM4ceq/cybFABERPEEIYpPj/RfbmFsXPd
+	 4mQNMffonA2NgGqzo2ejWetGC7SncY23MDq8cVuCXHU/nhpTq+AGgwmxabJxqmKEHw
+	 PflzdO28df1xUtHspYtlb21s2IvsCv2MKcSyh1TCpRze0tJKnYY38ISnTpcduFPYWh
+	 v/S1eRd4mXnsTHHU/CoQpK6r6JbcK9Wc9zUZ74A7bHNInugUMYhUV8EJGD/qtZfmuN
+	 FiwFIZhe7GTMw==
+Date: Mon, 22 Jul 2024 11:52:44 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Jerome Audu <jau@free.fr>
+Cc: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: sti: add missing probe entry for player and reader
+Message-ID: <d85590f2-88b3-4bc2-b7b8-9f96a5d5bb17@sirena.org.uk>
+References: <20240721-sti-audio-fix-v1-1-a8b1ecf61cb4@free.fr>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: 0RrkAHuE1XvBnW674rwWaFzKEJiRlDxV
-X-Proofpoint-ORIG-GUID: 0RrkAHuE1XvBnW674rwWaFzKEJiRlDxV
-X-Proofpoint-Spam-Reason: safe
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="uwcgTLsscWO31/aR"
+Content-Disposition: inline
+In-Reply-To: <20240721-sti-audio-fix-v1-1-a8b1ecf61cb4@free.fr>
+X-Cookie: Everything you know is wrong!
 
-[ Upstream commit c66995ae403073212f5ba60d2079003866c6e130 ]
-Please apply to 6.10
 
-The "Speaker Volume" control was being defined using four hardcoded magic
-numbers. There are #defines in the cs35l56.h header for these numbers, so
-change the code to use the defined constants.
+--uwcgTLsscWO31/aR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Backport Note:
-Identical to upstream commit. This was originally thought to be only a
-cosmetic issue (the user can simply reduce the volume) but for some complex
-audio topologies with SOF Audio DSP + CS42L43 + multiple CS35L56 it has
-turned out to be not obvious to the user what the problem actually is and
-what to do to fix it. As support for these topologies went into 6.10 we
-would like this commit to be backported into 6.10.
+On Sun, Jul 21, 2024 at 05:40:02PM +0200, Jerome Audu wrote:
+> Restores the audio functionality that was broken
+> since Linux version 6.6.y by adding the missing probe
+> functions for the player and reader components.
+>=20
+> Fixes: 9f625f5e6cf9 ("ASoC: sti: merge DAI call back functions into ops")
+> Signed-off-by: Jerome Audu <jau@free.fr>
+> ---
+> Specifically, the probe function in `sound/soc/sti/sti_uniperif.c:415` is=
+ being replaced by another probe function located at `sound/soc/sti/sti_uni=
+perif.c:453`, which should instead be derived from the player and reader co=
+mponents. My patch correctly reinserts the missing probe entries, restoring=
+ the intended functionality.
 
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-Link: https://patch.msgid.link/20240703095517.208077-2-rf@opensource.cirrus.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- sound/soc/codecs/cs35l56.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+This should be in the changelog, your actual changelog doesn't describe
+the actual change at all.
 
-diff --git a/sound/soc/codecs/cs35l56.c b/sound/soc/codecs/cs35l56.c
-index 758dfdf9d3ea..7f2f2f8c13fa 100644
---- a/sound/soc/codecs/cs35l56.c
-+++ b/sound/soc/codecs/cs35l56.c
-@@ -196,7 +196,11 @@ static const struct snd_kcontrol_new cs35l56_controls[] = {
- 		       cs35l56_dspwait_get_volsw, cs35l56_dspwait_put_volsw),
- 	SOC_SINGLE_S_EXT_TLV("Speaker Volume",
- 			     CS35L56_MAIN_RENDER_USER_VOLUME,
--			     6, -400, 400, 9, 0,
-+			     CS35L56_MAIN_RENDER_USER_VOLUME_SHIFT,
-+			     CS35L56_MAIN_RENDER_USER_VOLUME_MIN,
-+			     CS35L56_MAIN_RENDER_USER_VOLUME_MAX,
-+			     CS35L56_MAIN_RENDER_USER_VOLUME_SIGNBIT,
-+			     0,
- 			     cs35l56_dspwait_get_volsw,
- 			     cs35l56_dspwait_put_volsw,
- 			     vol_tlv),
--- 
-2.39.2
+> The patch modifies the following files:
+> - `sound/soc/sti/sti_uniperif.c`: Changes the visibility of `sti_uniperip=
+h_dai_probe` to non-static.
+> - `sound/soc/sti/uniperif.h`: Adds the declaration of `sti_uniperiph_dai_=
+probe`.
+> - `sound/soc/sti/uniperif_player.c`: Adds `probe` function to `uni_player=
+_dai_ops`.
+> - `sound/soc/sti/uniperif_reader.c`: Adds `probe` function to `uni_reader=
+_dai_ops`.
+>=20
+> This ensures the correct `probe` functions are utilized, thus fixing the =
+audio regression.=20
 
+This detail isn't really needed, it just describes the content of the
+patch.
+
+--uwcgTLsscWO31/aR
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmaeOfsACgkQJNaLcl1U
+h9C03Qf/QXpJLlhj+1SJvQdYxrSRwLJKrcGsmk/kgcE+JjBKDzZe2iW2nK6+fJgr
+sxQtN1ytBBbvvsB2ZYRamU85xpsVdhQ6a10U110NYztC5JJ3HS/XPSuhVjVZk5zs
+rH+k1mzi/Zu/hmo6Jbdhf+73wPXF3uW7s+0/Ov3Fm6agDoIzd6xwcTe6BcW044ak
+o9c7ObJcKl0G2mdUQZ0RVbrQ/6eME01yqhUJoxPR6ArZ/HBMdKrmLO3lg5vSxzmq
+zFxCZJvYa9I/Rug4s67JptLVW86TCQRGzO0gbFWDPfD0t71SjBBDYNTGLyEmvA1p
+/Dgv9Is1wL6SjvhG17XKQ75DuGlZfg==
+=o3Ai
+-----END PGP SIGNATURE-----
+
+--uwcgTLsscWO31/aR--
