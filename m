@@ -1,87 +1,76 @@
-Received: from smtpfb2-g21.free.fr (smtpfb2-g21.free.fr [212.27.42.10])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C58CB3A8D0;
-	Mon, 22 Jul 2024 12:31:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.10
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8E7C16A399;
+	Mon, 22 Jul 2024 12:49:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721651509; cv=none; b=XyoYMV9j4T/KgiZBIjZR6YwHPWdidyJEjj4IKG+nk4KoJwQS8o17InNfOi8NXy1MuGezeet/Q8ycG5CtNf9KmpesOXZ86ky+jYFjfQT74H1Bd8V9mjzvllJdlp96FJhE9Mal8r6724N1b6elEu5hT0x2WewwPjf6swSUfwaqkWk=
+	t=1721652575; cv=none; b=bYE2u9cHAR1FXxK8+4gv+YyOmegAMgBNgXu9k3d806HAsNLc60l55oyvbI5i4MXCwCzrpyItJ2LKAWbIVrn2Budn6kxys9EW5N6h8c+AXZ8b54A60YaH7Gu9FlKYILAGTeG7MOnJhEu9eDmok7CF07grHHth2H9gTvPLZFYmSrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721651509; c=relaxed/simple;
-	bh=BiKjjXqriNc0igBmEkUuZeDzqg3CLyNhLfoLB2fdxm8=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:Subject:MIME-Version:
-	 Content-Type; b=cNqBPMA5UVcvLtFiiqs51o+ZJGvkntmiwyp96h/5taVPrPyUejjkQUOU0FtYL8A8r52UEq58FJdU/UyWOGVj/jdSzWfdNLAaPQd6mdcwduylsFqsYqMdcb1izjtlKM93+HNHWuzAoZo/SmAOsaHYGedqp2Q7rFV5ppkwGqpwuv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=free.fr; spf=pass smtp.mailfrom=free.fr; dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b=nKVNdP02; arc=none smtp.client-ip=212.27.42.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=free.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
+	s=arc-20240116; t=1721652575; c=relaxed/simple;
+	bh=PjR5duhkjr8DNHVqLUTYNN7l737LnHJ9IB8dtErhseA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tmj2tbSRaOKWsx20kzDce/gLaxT67DtkTymgO3QR9k05/CH92E5MJbAmGTd2gPRMK8KK4QpIifGKvKkNSdkTWBMT3kiFgrdtjw2N5CXd5ztgYp+i0ulCCtotusrqr+PnYGAHfOMhxqtbeO/Vh7YwyFceiVPqalSZubgZsMYMJbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PHsmywl4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b="nKVNdP02"
-Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
-	by smtpfb2-g21.free.fr (Postfix) with ESMTP id 8275FC3FBE;
-	Mon, 22 Jul 2024 14:31:32 +0200 (CEST)
-Received: from zimbra60-e10.priv.proxad.net (unknown [172.20.243.210])
-	by smtp3-g21.free.fr (Postfix) with ESMTP id EEA7413F8AE;
-	Mon, 22 Jul 2024 14:31:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
-	s=smtp-20201208; t=1721651485;
-	bh=BiKjjXqriNc0igBmEkUuZeDzqg3CLyNhLfoLB2fdxm8=;
-	h=Date:From:To:Cc:In-Reply-To:Subject:From;
-	b=nKVNdP02vmdgwZbxloDoc5xxAq+YPXlTxJswZjbU+kE1zN5HA5U8TgqAZs6C7rfRr
-	 eVcEYO2FQ9kKk1yn9GOY9iU2BejEIBjyDFkCAEBPNchCKJcHugehvWqZQfx0tDGNwE
-	 o4obrIL/FyMKDpxStcUq7jZQIcGYp4q6W/OibzOynS+Evy/3tDsuW0eqpkuss869CR
-	 duBoc7fFQwJBeJIusoQHnm5V+9UuHv81WuY1pzs1Qse859XiYVfeOz7BrE5ULmNZ60
-	 LrsWhIXrnGy8kychSc8qQBLvtlzUmNXQJaVfqEPtWmneBGXHU9OQRTC3daT4yArzmE
-	 IVMoN/yeZY06A==
-Date: Mon, 22 Jul 2024 14:31:24 +0200 (CEST)
-From: jau@free.fr
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PHsmywl4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25CEAC116B1;
+	Mon, 22 Jul 2024 12:49:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721652575;
+	bh=PjR5duhkjr8DNHVqLUTYNN7l737LnHJ9IB8dtErhseA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PHsmywl4/kHG4FfswELuiK/WjJ9b3REnDi82AulwR2LAuZkPEzNy8ny9CZcHppc8I
+	 GQjm8iWxCGEggAnGzjBGw33CFffLkHwUQWZK/LRXaht3FYEjMYGoZqkXy68bIt9TuK
+	 s1kkRa8waLMxjgL4mK8EybwegSoHNeD8CPsDPt5K9bTMoVwOsINy+IJnz3XdQH8nTb
+	 CENG3KZfhQZe7v4LQrKJNAkDfWoKZfnPNgqXzjWM/vHQBU7fKwWZdZAdvNsF9iOmy2
+	 USRMJyuCVJHCeKTiXI2mQz/pUmJGtvIWCCBe2oOzwRjH3FRs89hevDdyOwTSRgdYBy
+	 5Uv0f9V+JEwhA==
+Date: Mon, 22 Jul 2024 08:49:33 -0400
+From: Sasha Levin <sashal@kernel.org>
 To: Mark Brown <broonie@kernel.org>
-Cc: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Message-ID: <1474761635.17820466.1721651484902.JavaMail.root@zimbra60-e10.priv.proxad.net>
-In-Reply-To: <d85590f2-88b3-4bc2-b7b8-9f96a5d5bb17@sirena.org.uk>
-Subject: Re: [PATCH] ASoC: sti: add missing probe entry for player and
- reader
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>, lgirdwood@gmail.com,
+	perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 6.9 10/40] ASoC: topology: Clean up route loading
+Message-ID: <Zp5VXeNkZPrcwwfw@sashalap>
+References: <20240709162007.30160-1-sashal@kernel.org>
+ <20240709162007.30160-10-sashal@kernel.org>
+ <844e0213-33ea-48b6-ad55-145c9dab584a@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Zimbra 7.2.0-GA2598 (ZimbraWebClient - GC126 (Linux)/7.2.0-GA2598)
-X-Authenticated-User: jau@free.fr
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <844e0213-33ea-48b6-ad55-145c9dab584a@sirena.org.uk>
 
-Thanks for the review!
+On Tue, Jul 09, 2024 at 05:34:51PM +0100, Mark Brown wrote:
+>On Tue, Jul 09, 2024 at 12:18:50PM -0400, Sasha Levin wrote:
+>> From: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+>>
+>> [ Upstream commit e0e7bc2cbee93778c4ad7d9a792d425ffb5af6f7 ]
+>>
+>> Instead of using very long macro name, assign it to shorter variable
+>> and use it instead. While doing that, we can reduce multiple if checks
+>> using this define to one.
+>>
+>> Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
+>> Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+>> Link: https://lore.kernel.org/r/20240603102818.36165-5-amadeuszx.slawinski@linux.intel.com
+>> Signed-off-by: Mark Brown <broonie@kernel.org>
+>> Signed-off-by: Sasha Levin <sashal@kernel.org>
+>> ---
+>
+>This is clearly a code cleanup, there is nothing here that looks in the
+>slightest bit like stable material.
 
-See updated changlog, if ok for you, I will send a V2
+Dropped, thanks!
 
-Le 22/07/2024 12:52, Mark Brown a =C3=A9crit=C2=A0:
-> This should be in the changelog, your actual changelog doesn't describe
-> the actual change at all.
->=20
-
-New Changelog:
-
-  This patch addresses a regression in the ASoC STI drivers that was introd=
-uced in Linux version 6.6.y.
-  The issue originated from a series of patches (see https://lore.kernel.or=
-g/all/87wmy5b0wt.wl-kuninori.morimoto.gx@renesas.com/)
-  that unintentionally omitted necessary probe functions for the player and=
- reader components.
-
-  Probe function in `sound/soc/sti/sti_uniperif.c:415` is being replaced by=
- another probe function located at=20
-  `sound/soc/sti/sti_uniperif.c:453`, which should instead be derived from =
-the player and reader components.
-  This patch correctly reinserts the missing probe entries, restoring the i=
-ntended functionality.
-
-> This detail isn't really needed, it just describes the content of the
-> patch.
-
-ok, I remove this part.
-
-Regards,=20
-J=C3=A9r=C3=B4me
+-- 
+Thanks,
+Sasha
