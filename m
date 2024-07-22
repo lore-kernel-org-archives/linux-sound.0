@@ -1,106 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAFC216B39E;
-	Mon, 22 Jul 2024 10:52:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6586322E
+	for <linux-sound@vger.kernel.org>; Mon, 22 Jul 2024 12:00:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721645569; cv=none; b=g2fheL+uqvywzPHOR2g0U/+jS9PdojlTMPybg3W9nctLeJBQldc+c3FfNTYLPnLb/1fYcBTWiVjD/5YhEB6KmN54kElrIFLZGXYrBAStEgIhCzZOMKPqDUbqPtl8wT0P+4SrbNVZXAOcLzk5bOME2Mk4+U0yZLfa9LxraoAba3M=
+	t=1721649633; cv=none; b=bSkZpp8a+wxgU3xOUbvIlBi4cck2oGUYcq6t2MBdFEv5gfvzMuda3FKNYaR28RscZdogfpKPP/cWWtKfhI8JdtTdTgTTACLP4gqIFiw1Whhv0oRfW7FTJ2pMVccz9Md2m9bOwzHKk2SuMOsMruQQ+Ko0Qmihx+Mi5VL5vg7lXgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721645569; c=relaxed/simple;
-	bh=d/phvPCFH5b62HPy+3QDiw3vQq0Av/LO7MFoVObg1OY=;
+	s=arc-20240116; t=1721649633; c=relaxed/simple;
+	bh=/H5dtfxa+Nw4zsSc6z5aDmVUmIULoNGWM3agejyxotY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qd+CMImM8x+zbTTnWevXLy5GX+n7e9zfovfEx4R/9Fd1C7Q/53oQzP+otRpKb8B/cEmBW89xAuMqbp5kxln/XLvucoMnxvr19erO4vfl8VARO65m5aQ9sZMb1cgBHGeWlMct4wVEzc+Tf0m0+m2pM/rxOuF6PBz6zg6Ks4tYB70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IJ+ZojLF; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=D5lx9aGytNR1MOjnMf+4Sd81GLQlimbNA1LBRhu9g3kh9U7sEH95OO43FlyvzwAEoyw+T0uPPD6ndqfACv+ldqrgDLrfTEgMcSR0oJDBl+uC99zf9w4AyEJzGRkdWjhm57rI6l36th8hE55eKmJF0oKmsywZ2KIekVvaPoi4tKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=I22mSe2w; arc=none smtp.client-ip=209.85.208.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IJ+ZojLF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8916BC116B1;
-	Mon, 22 Jul 2024 10:52:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721645569;
-	bh=d/phvPCFH5b62HPy+3QDiw3vQq0Av/LO7MFoVObg1OY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IJ+ZojLFM9Wj7orCKE8k7kcHLxHlKDc0UmBL6mlLiI1+nGrswWaYt4dlLn2NCnrF1
-	 8OWQtO4pdoDt8x9Ula19MWuGDi/VhCmFklM4ceq/cybFABERPEEIYpPj/RfbmFsXPd
-	 4mQNMffonA2NgGqzo2ejWetGC7SncY23MDq8cVuCXHU/nhpTq+AGgwmxabJxqmKEHw
-	 PflzdO28df1xUtHspYtlb21s2IvsCv2MKcSyh1TCpRze0tJKnYY38ISnTpcduFPYWh
-	 v/S1eRd4mXnsTHHU/CoQpK6r6JbcK9Wc9zUZ74A7bHNInugUMYhUV8EJGD/qtZfmuN
-	 FiwFIZhe7GTMw==
-Date: Mon, 22 Jul 2024 11:52:44 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Jerome Audu <jau@free.fr>
-Cc: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: sti: add missing probe entry for player and reader
-Message-ID: <d85590f2-88b3-4bc2-b7b8-9f96a5d5bb17@sirena.org.uk>
-References: <20240721-sti-audio-fix-v1-1-a8b1ecf61cb4@free.fr>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="I22mSe2w"
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2ef2cce8c08so12500691fa.0
+        for <linux-sound@vger.kernel.org>; Mon, 22 Jul 2024 05:00:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1721649629; x=1722254429; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=trXo2Kud/+4CHx1yH0TBjLSkOLQ44ny84aia5JfqCsM=;
+        b=I22mSe2wKPtaWjRUbhb0Zc0WRLnoLDJaRaj6ZeN+/oR7F1Iq2lbvaNh6WqzVC02jr7
+         jJq9pEvafghM5tae68p5OidJwwj/lGSzTukWTg+yzXt/0vFPpT6Q5cNGY5Ck8LXLC2tq
+         fyMOMa3tLVVvPkb2R6atmBBm7QAYela1Iw6eRsC2KBsI/is+GlpucGCC10sxqSPBNdHU
+         UM8IWTbzoBK+YZ3AKm9jC/V/UqLRpEIMefJOeMm2vshTekTQE7n/iDRtZTEi25uN6eXZ
+         L00Fp+utVCJr7l90GadlHHZyarY2Pf6GnqQD7FOUyh3pvGuTX6rA/gl6s33NMV470lWF
+         QB/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721649629; x=1722254429;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=trXo2Kud/+4CHx1yH0TBjLSkOLQ44ny84aia5JfqCsM=;
+        b=qNnEB34wcCTNlln1TAZNVt6fAIsn0pwkklpLcUr5NW4PmHCkEsc5Y9oI0sjuYm7ezo
+         6F5MWmmRMClcUhA46CVrOXgPzCbBi7kWTzzvcIMjfKjlctPLOPo5IxmgQ/eb1CI1JizD
+         jwoABH0e2RRu2vvvpuM/E7DEjmB85F4Q54vIIaFhEoefWmn0CJnVR0Ql7+cmzMaGW5yc
+         1PQSylU/2r+gzbkU7KACaicjsASLqF0inoTUld9nDoNTPeMDTYGG9hYzxt/mKQDyWYeK
+         GzhWhZV1dvA90dgbSr0L08HTv9qM6zDjw4kUPClqKtcQS3/z8byobeNZN7SqN/Zk6vtx
+         sr3w==
+X-Forwarded-Encrypted: i=1; AJvYcCWdxOkFn/lqCq1aYAqsesIuVBS/moZuNFZczz0NUnCRPoFNzuQ6Vy/HfVmw95ODSClmPpmdfdweJJVJ6GpqakQdbT8BDwGXJtbNsNo=
+X-Gm-Message-State: AOJu0Yxwrfh5faEnCGBWmx5x6wAv4r3I4LQVtJ8RMN9ANtd9C+MNA7I3
+	gWknL8AAXNtsh3DYVdqpYF2mYbBUDYKMWDgYdEBlS0+bmPkGtvkM053Wv0E7kDE=
+X-Google-Smtp-Source: AGHT+IHfpRkiwCwyjhMtcbqX/KMogZuiuVRMVA2GKfuTw4dL3YtZnf0Zu/Vpy6wLwRiUYsUM8T5TnQ==
+X-Received: by 2002:a2e:9f57:0:b0:2ef:2006:bfb1 with SMTP id 38308e7fff4ca-2ef2006c9e1mr40429441fa.15.1721649629135;
+        Mon, 22 Jul 2024 05:00:29 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ef2eae89ecsm4705601fa.68.2024.07.22.05.00.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jul 2024 05:00:28 -0700 (PDT)
+Date: Mon, 22 Jul 2024 15:00:27 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Adam Skladowski <a39.skl@gmail.com>
+Cc: phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht, 
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Banajit Goswami <bgoswami@quicinc.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org, 
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Vladimir Lypak <vladimir.lypak@gmail.com>
+Subject: Re: [PATCH 1/4] ASoC: qcom: apq8016_sbc.c: Add Quinary support
+Message-ID: <jx26jgbw2appm4yvcz45lisa2nr3uf7r4lvdd3i2eazl5nwjar@mk2xug4zhb7h>
+References: <20240722095147.3372-1-a39.skl@gmail.com>
+ <20240722095147.3372-2-a39.skl@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="uwcgTLsscWO31/aR"
-Content-Disposition: inline
-In-Reply-To: <20240721-sti-audio-fix-v1-1-a8b1ecf61cb4@free.fr>
-X-Cookie: Everything you know is wrong!
-
-
---uwcgTLsscWO31/aR
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240722095147.3372-2-a39.skl@gmail.com>
 
-On Sun, Jul 21, 2024 at 05:40:02PM +0200, Jerome Audu wrote:
-> Restores the audio functionality that was broken
-> since Linux version 6.6.y by adding the missing probe
-> functions for the player and reader components.
->=20
-> Fixes: 9f625f5e6cf9 ("ASoC: sti: merge DAI call back functions into ops")
-> Signed-off-by: Jerome Audu <jau@free.fr>
+On Mon, Jul 22, 2024 at 11:51:05AM GMT, Adam Skladowski wrote:
+> From: Vladimir Lypak <vladimir.lypak@gmail.com>
+> 
+> Add support for configuring Quinary Mi2S interface
+> it will be used on MSM8953 and MSM8976 platform.
+> 
+> Signed-off-by: Vladimir Lypak <vladimir.lypak@gmail.com>
+> [Adam: Split from MSM8953 support patch,add msg]
+> Signed-off-by: Adam Skladowski <a39.skl@gmail.com>
 > ---
-> Specifically, the probe function in `sound/soc/sti/sti_uniperif.c:415` is=
- being replaced by another probe function located at `sound/soc/sti/sti_uni=
-perif.c:453`, which should instead be derived from the player and reader co=
-mponents. My patch correctly reinserts the missing probe entries, restoring=
- the intended functionality.
+>  sound/soc/qcom/apq8016_sbc.c | 16 +++++++++++++++-
+>  1 file changed, 15 insertions(+), 1 deletion(-)
+> 
+> diff --git a/sound/soc/qcom/apq8016_sbc.c b/sound/soc/qcom/apq8016_sbc.c
+> index 3023cf180a75..8971f4f5d339 100644
+> --- a/sound/soc/qcom/apq8016_sbc.c
+> +++ b/sound/soc/qcom/apq8016_sbc.c
+> @@ -320,6 +330,10 @@ static int apq8016_sbc_platform_probe(struct platform_device *pdev)
+>  	if (IS_ERR(data->spkr_iomux))
+>  		return PTR_ERR(data->spkr_iomux);
+>  
+> +	data->quin_iomux = devm_platform_ioremap_resource_byname(pdev, "quin-iomux");
 
-This should be in the changelog, your actual changelog doesn't describe
-the actual change at all.
+This should probably handle -ENOENT (or -ENODEV?) case and set the
+pointer to NULL.
 
-> The patch modifies the following files:
-> - `sound/soc/sti/sti_uniperif.c`: Changes the visibility of `sti_uniperip=
-h_dai_probe` to non-static.
-> - `sound/soc/sti/uniperif.h`: Adds the declaration of `sti_uniperiph_dai_=
-probe`.
-> - `sound/soc/sti/uniperif_player.c`: Adds `probe` function to `uni_player=
-_dai_ops`.
-> - `sound/soc/sti/uniperif_reader.c`: Adds `probe` function to `uni_reader=
-_dai_ops`.
->=20
-> This ensures the correct `probe` functions are utilized, thus fixing the =
-audio regression.=20
+> +	if (IS_ERR(data->quin_iomux))
+> +		return PTR_ERR(data->quin_iomux);
+> +
+>  	snd_soc_card_set_drvdata(card, data);
+>  
+>  	add_ops(card);
+> -- 
+> 2.45.2
+> 
 
-This detail isn't really needed, it just describes the content of the
-patch.
-
---uwcgTLsscWO31/aR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmaeOfsACgkQJNaLcl1U
-h9C03Qf/QXpJLlhj+1SJvQdYxrSRwLJKrcGsmk/kgcE+JjBKDzZe2iW2nK6+fJgr
-sxQtN1ytBBbvvsB2ZYRamU85xpsVdhQ6a10U110NYztC5JJ3HS/XPSuhVjVZk5zs
-rH+k1mzi/Zu/hmo6Jbdhf+73wPXF3uW7s+0/Ov3Fm6agDoIzd6xwcTe6BcW044ak
-o9c7ObJcKl0G2mdUQZ0RVbrQ/6eME01yqhUJoxPR6ArZ/HBMdKrmLO3lg5vSxzmq
-zFxCZJvYa9I/Rug4s67JptLVW86TCQRGzO0gbFWDPfD0t71SjBBDYNTGLyEmvA1p
-/Dgv9Is1wL6SjvhG17XKQ75DuGlZfg==
-=o3Ai
------END PGP SIGNATURE-----
-
---uwcgTLsscWO31/aR--
+-- 
+With best wishes
+Dmitry
