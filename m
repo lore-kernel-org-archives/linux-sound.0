@@ -1,90 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh5-smtp.messagingengine.com (fhigh5-smtp.messagingengine.com [103.168.172.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63563171090;
-	Mon, 22 Jul 2024 19:12:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63C0DBE6C;
+	Tue, 23 Jul 2024 01:12:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721675549; cv=none; b=kZgWGJIFriBUO1BCbGSAxajlRN5CpaeCTrOuNsp5Uh728kNycVRo0NraBAi63ct3zBFGNMh9nk2+pqqZm+8qfscMp08N2znMWcCMQvgOtKIIgh1cbGypyvSjTydqHZbg1w7bBtQosF7SDg0MqRfNFSh5EjRa/FCfGbjdt9166SU=
+	t=1721697159; cv=none; b=WODYb1YjKkqXCi+I4Z9MWwBLlRcVXDJoo6zJFYcL1atI6kHqA2sEn2hKvljPPfGmpNcWeT3/NGMNvOWZRZRzqY+LKuTbMyWVPxLRvfIC8BUoxo0rdUGji5jB5Z1leXzPwugZ/sSWhxRiBj06GNxfJvLkKeppiwRB2NowYQGaO30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721675549; c=relaxed/simple;
-	bh=tt7nBCTkE08woPcGBlj1kAwJ+cvv//ghyZPhMNwcEfU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=JbhnIjy937f3CoDHoIjC2wUZqO9LAQNBTHijS8i5V9Crp0fvWCeY45dJpAZ9X1j/dYRs3v6FnWdE0sAgltSYKOvQUeyqzfcRMogw0QCf/Ivge2sweRnaf9AQJ8X/z3+prZnOVZV9AT4uNFZIiC+Pq7uRGoQC7ezrrckk3U2OsUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HGzII5Cg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721697159; c=relaxed/simple;
+	bh=IkarGNjUMzsVK52tfxhA8TBBu+FmIkwAa4o85lxFhdQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=doaY4+aP3JC4+97ocrI6fuCJ+uEs97l5XK5VJZlcWsRuQdGeZ+DGQQ1VH/jPeqckRLyKR3EB/V/sr/krYwqKETEu6imqozCtXWYD6m2tuUxvYlCZKFobC63p1wvi6zH25L0RnQp5RATiTf+gdPFpDCkWk9lRx11Apy95waulCOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=KpVFC0rm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=EKv7suAr; arc=none smtp.client-ip=103.168.172.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ljones.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HGzII5Cg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78164C116B1;
-	Mon, 22 Jul 2024 19:12:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721675549;
-	bh=tt7nBCTkE08woPcGBlj1kAwJ+cvv//ghyZPhMNwcEfU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=HGzII5CgcYvIgbwkJMWOQ0TiW3NE6s9srOT1idXfehlpzwwssns4xBuxOE3MgAuPN
-	 rxXGJA42q9jiiJ6mDhv1KuKgKRrrMiFBLQ7hr+Exr0tUdKzQdIH2/fYR6qvNdMCrwc
-	 oAbSsIeOm+bYaLzuGP8JSCDggt1sZ9mPOWZ/uuu3gS4UKDgcj6RYfMlkQK04qFVTRv
-	 o0wiB8Ao0nvJHTq5Nc5ByY7gR/VCoBvF2ecRaXvxvmjcjhA5oRi+GX7eJE1W8oSH6h
-	 iDQoOA5DCd28x/CxhyukicKypcGrCe7GWurx4Iw23iZu8ntd4gEUmUvvwp/koaI+u1
-	 8vvPibwzOA68Q==
-From: Mark Brown <broonie@kernel.org>
-To: Mohan Kumar <mkumard@nvidia.com>, Sameer Pujar <spujar@nvidia.com>, 
- Arnd Bergmann <arnd@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, linux-sound@vger.kernel.org, 
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20240719074831.3253995-1-arnd@kernel.org>
-References: <20240719074831.3253995-1-arnd@kernel.org>
-Subject: Re: [PATCH] ASoC: tegra: select CONFIG_SND_SIMPLE_CARD_UTILS
-Message-Id: <172167554618.83479.16434509879831157082.b4-ty@kernel.org>
-Date: Mon, 22 Jul 2024 20:12:26 +0100
+	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="KpVFC0rm";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="EKv7suAr"
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id 5430311400F9;
+	Mon, 22 Jul 2024 21:12:35 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Mon, 22 Jul 2024 21:12:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm1; t=1721697155; x=1721783555; bh=ZsmQ0WLvV3wDMpmJh5hyy
+	IvCia9aqqRrsxaRN9p9k8M=; b=KpVFC0rmyRJnigwIgmW4XYPH60IJcPbH7Dc78
+	U2IqzbUOQoW9zyZwllTOkuoOe8E+pIMsTtACefOifJi4tb67jHCjmV0Hq+ICQ/c2
+	OKWEm1PmTntt7hs40Gb8ZEAlJ/9laUWeJSMqHA50M5s20XaDkT2AxHlVaZ/WQrgP
+	5ZWGI9TACnvP7TfqzWMJCY1VYKG+2G4WZOt2dY9yR+rbO7fIrZ+bjOFcP+NxAVZd
+	NcfQq2MvAGTJU2jP4etjZcg/SisEqtxqfVe0/PAcFSXT9KvVPWTcrB7EJpkY30gd
+	lTjmrICW29BTmBvMBCUiin4qL4HfyQsZ7EDtV0bZiDpoNh5lQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1721697155; x=1721783555; bh=ZsmQ0WLvV3wDMpmJh5hyyIvCia9a
+	qqRrsxaRN9p9k8M=; b=EKv7suArKyv1KxMz5+Km0n7urw9Iq+7BVd5arkYsLzMx
+	p/8IGVV05ICK1fK/uXSXcnPYQ03fYJt4s33AYRPrdF+FlSWCIDngSy1RAe1jxN36
+	R8xPGJltsY7My1S2cmd+sD/3Uxy5wPRBJXW8Lhp0xKgcBsYB4EePeMvOXVAEg3CP
+	xPLuk9+P9DwRriKCldxHFTWuvuwRYXq3H4+1oFEa0FAZKellDwtyZHDjZU+l9Ho4
+	byFD2B09Ak/9mgoiAKYJr9F2+Tu2mlrYyADhYNyrsSfpjgXZDqoJkv4L7uG2laF7
+	P5tyK82a9a3gkALVoNVRVb2HsmzFehuae3AVa8CNxw==
+X-ME-Sender: <xms:ggOfZjFQ6CmAgQRN-H5jlopvQT4fwutWDFj-zDBYHmF8tCAilHiIVg>
+    <xme:ggOfZgVHGEMedNKLutbz2Gwe1L8dFz93cEnSkeohonK8V-p_QqITJt6-U6RErXGRk
+    jf8x0pWKiVd8x1-VfY>
+X-ME-Received: <xmr:ggOfZlITISeNEI8t0fbJIaoPY_taR0WnhQoeVeVVswRJRiLeGchX3S7kjH92>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrheekgdeghecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekredtre
+    dttdenucfhrhhomhepfdfnuhhkvgcuffdrucflohhnvghsfdcuoehluhhkvgeslhhjohhn
+    vghsrdguvghvqeenucggtffrrghtthgvrhhnpefgudejtdfhuddukefffeekiefftddtvd
+    fhgeduudeuffeuhfefgfegfeetvedvgeenucevlhhushhtvghrufhiiigvpedtnecurfgr
+    rhgrmhepmhgrihhlfhhrohhmpehluhhkvgeslhhjohhnvghsrdguvghv
+X-ME-Proxy: <xmx:ggOfZhFS7JAU1-hHL1CntZJvu7og1TafzajtZzF0v76NfHiNaobARQ>
+    <xmx:ggOfZpX7Saix60URPBTG-6tZq9v84q16oCm_UgpwRW7NvpWAg-7e3g>
+    <xmx:ggOfZsOYysNJUFIkTuiHn21ajzEvUSk4cm1FA8egxBQXPXawCpAh-A>
+    <xmx:ggOfZo3O48L4m-Rx3BJj2RvI1ROI8MvgpQnbDpKS9ggO3AghWR3_fQ>
+    <xmx:gwOfZoGcZToV3IIcph0UAXMtNRukCAfB2rKwrkXc0pgppgot4DbdqnHy>
+Feedback-ID: i5ec1447f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 22 Jul 2024 21:12:31 -0400 (EDT)
+From: "Luke D. Jones" <luke@ljones.dev>
+To: tiwai@suse.com
+Cc: kailang@realtek.com,
+	sbinding@opensource.cirrus.com,
+	simont@opensource.cirrus.com,
+	rf@opensource.cirrus.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"Luke D. Jones" <luke@ljones.dev>
+Subject: [PATCH] ALSA: hda/realtek: cs35l41: Fixup remaining asus strix models
+Date: Tue, 23 Jul 2024 13:12:24 +1200
+Message-ID: <20240723011224.115579-1-luke@ljones.dev>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev-d4707
+Content-Transfer-Encoding: 8bit
 
-On Fri, 19 Jul 2024 09:48:03 +0200, Arnd Bergmann wrote:
-> This I2S client driver now uses functions exported from a helper module
-> but fails to link when the helper is disabled:
-> 
-> ERROR: modpost: "simple_util_parse_convert" [sound/soc/tegra/snd-soc-tegra210-i2s.ko] undefined!
-> ERROR: modpost: "simple_util_get_sample_fmt" [sound/soc/tegra/snd-soc-tegra210-i2s.ko] undefined!
-> 
-> Add a Kconfig select line to ensure it's always turned on here.
-> 
-> [...]
+Adjust quirks for 0x3a20, 0x3a30, 0x3a50 to match the 0x3a60. This
+set has now been confirmed to work with this patch.
 
-Applied to
+Signed-off-by: Luke D. Jones <luke@ljones.dev>
+---
+ sound/pci/hda/patch_realtek.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] ASoC: tegra: select CONFIG_SND_SIMPLE_CARD_UTILS
-      commit: 83340b855d222f257354afd272dc8d315fecc3ee
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 766f0b1d3e9d..e61c5924b4ea 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10360,10 +10360,10 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1043, 0x1f62, "ASUS UX7602ZM", ALC245_FIXUP_CS35L41_SPI_2),
+ 	SND_PCI_QUIRK(0x1043, 0x1f92, "ASUS ROG Flow X16", ALC289_FIXUP_ASUS_GA401),
+ 	SND_PCI_QUIRK(0x1043, 0x3030, "ASUS ZN270IE", ALC256_FIXUP_ASUS_AIO_GPIO2),
+-	SND_PCI_QUIRK(0x1043, 0x3a20, "ASUS G614JZR", ALC245_FIXUP_CS35L41_SPI_2),
+-	SND_PCI_QUIRK(0x1043, 0x3a30, "ASUS G814JVR/JIR", ALC245_FIXUP_CS35L41_SPI_2),
++	SND_PCI_QUIRK(0x1043, 0x3a20, "ASUS G614JZR", ALC285_FIXUP_ASUS_SPI_REAR_SPEAKERS),
++	SND_PCI_QUIRK(0x1043, 0x3a30, "ASUS G814JVR/JIR", ALC285_FIXUP_ASUS_SPI_REAR_SPEAKERS),
+ 	SND_PCI_QUIRK(0x1043, 0x3a40, "ASUS G814JZR", ALC285_FIXUP_ASUS_SPI_REAR_SPEAKERS),
+-	SND_PCI_QUIRK(0x1043, 0x3a50, "ASUS G834JYR/JZR", ALC245_FIXUP_CS35L41_SPI_2),
++	SND_PCI_QUIRK(0x1043, 0x3a50, "ASUS G834JYR/JZR", ALC285_FIXUP_ASUS_SPI_REAR_SPEAKERS),
+ 	SND_PCI_QUIRK(0x1043, 0x3a60, "ASUS G634JYR/JZR", ALC285_FIXUP_ASUS_SPI_REAR_SPEAKERS),
+ 	SND_PCI_QUIRK(0x1043, 0x831a, "ASUS P901", ALC269_FIXUP_STEREO_DMIC),
+ 	SND_PCI_QUIRK(0x1043, 0x834a, "ASUS S101", ALC269_FIXUP_STEREO_DMIC),
+-- 
+2.45.2
 
