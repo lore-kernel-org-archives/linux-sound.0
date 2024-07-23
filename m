@@ -1,135 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB5BA14A0A4;
-	Tue, 23 Jul 2024 08:36:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C984C22EE8;
+	Tue, 23 Jul 2024 09:55:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721723794; cv=none; b=kxKCUIzqxSP22TKR2XL5IFknHYqLh0DayBfoqSZtRgXUwWDMRYT0oPsp75/NONl47/p8N904OSnRnHhwwXAQUfFxJU4CrwQx/uvZf3WNH8uemv1XkrHQL8bXr5m4+A7HMbAL94qEQmqRoycXG4/bzUoFZ8nHLQey8OIbyamZPJY=
+	t=1721728546; cv=none; b=PFFH0uySDLsbI9Or1Ku5aEx27UdFPTGVVec8Z3IOdGGPDEzZDGASXJEvvTqSd61LSus8fMJC24o9mgjN9QxC1UEwsbrIVeBjaxsbqIh4yn2M9/PqLNVTN936IzJOLF1tdPr8l1k6ohZTp68fQrsnNIeqdyG8Gye3eTqpZArpy/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721723794; c=relaxed/simple;
-	bh=bdT6WXZm8HMSNPpbUWhqRb25Qc2ZpMdIwQWjm0rmeZc=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=rkihEJCOhASzs7h1ITPvl8Xmtqa6qR4Gbo97F8Amrhy8sRbAs23AGoVe2Xpg5cXW6tIb4FcUCUbiXPXB62c4Qd1xgPRNNMBSDGWI9nRzuc5i8TdO2Po4bYA+ZjfgHXcAiuXmd738pJ5pYLu6iQJ57PO0jUZPhZ5tJcLvspD9CHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VFCAgjU2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721728546; c=relaxed/simple;
+	bh=7df1qMiD4gwryncxE4h8sRbORSPOCwNE/8hu+Un7qnU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tcas4+53/CmTwMqx9jkaQfuL2xGDdkthK8TBFXYTL34RKoM8fUk/2wt0gpNhOkADFWOasszyZh0BhoDka+zwNxMg57zOu6trMpSHy8/+vzxDKaaG4pcVw+tOs3sAYFKXUChyzMDf6rycxjpUqmtB5m6pq581h6gWwru5+wmtKYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MjgDiqm3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VFCAgjU2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F7BCC4AF09;
-	Tue, 23 Jul 2024 08:36:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MjgDiqm3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B60C7C4AF09;
+	Tue, 23 Jul 2024 09:55:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721723793;
-	bh=bdT6WXZm8HMSNPpbUWhqRb25Qc2ZpMdIwQWjm0rmeZc=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=VFCAgjU2CCrtWrmuu8FdY9bnqEjlELO5BjP+eN9w2cjoAHnlQEpF3I9bbQ8WEYmmF
-	 5yyu6SQJGQeIyVXXjRtHGQLDZuXmC5ERGIrczs6L1BPMZ/GMrN9c6De3rDovyBpOpL
-	 sJJDgne1rAVsSIFOZ1l/ayBA48IIgCmq/V/djcME2yJLFRRiJZvYz3UJt4euHTmfQT
-	 iZzvEFDKQmlj1MCWcE5CLdeSMrlIH/XrlkzyrysQ3gBWG/taCSTRDyspGI1Nsul7P5
-	 di8xyWENBqbl9wN0pCLes8ek0RJmFZPRM0PvrudaB0gZIrFZMyqMiwA3JGL6oINEH4
-	 GsdjYcs8f26vQ==
-Message-ID: <ea4436f1-1b85-4083-9807-98e814ba597e@kernel.org>
-Date: Tue, 23 Jul 2024 10:36:25 +0200
+	s=k20201202; t=1721728546;
+	bh=7df1qMiD4gwryncxE4h8sRbORSPOCwNE/8hu+Un7qnU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MjgDiqm3qCYr88JoRqf2O3hAgTdpf0drTeOtBJefEM7uuu142JTfX39sEqmify6LL
+	 h2J+Pnk5FNfcmqQYPBXjUN1PdItpq2UOuRrRcXBeYQGafjv6lOi/5aW0hiRDSqUEzo
+	 QuHs9P8mDq2bAEl+EaLaZd9Io5o0JO9J/KdE0VzTAVLr/7aBNsY/PBLVsM8lc5z97l
+	 5oSJRYlVy3WGfl0ImRt4FokNHwC0XgR1dK4H9m/XRa279UbXZ1CYZ6jwllGrG4SMXr
+	 y8ZaxHM+KWV9dT6u2zLMiKTb7LtQNCl9fyIbrqFsOwYQvZQ2adyMR0CaaIChfw4FMk
+	 laTn7xdUozpKA==
+Date: Tue, 23 Jul 2024 10:55:38 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Support Opensource <support.opensource@diasemi.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: sound: dlg,da7213: Convert to json-schema
+Message-ID: <a55e07c1-985d-4c43-8c69-69363a0ea9de@sirena.org.uk>
+References: <7645c9024a1762d281f4067504bc32a7a3d27caa.1721649741.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] ASoC: dt-bindings: qcom,sm8250: Add
- msm8953/msm8976-qdsp6-sndcard
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Adam Skladowski <a39.skl@gmail.com>
-Cc: phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org,
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240722095147.3372-1-a39.skl@gmail.com>
- <20240722095147.3372-4-a39.skl@gmail.com>
- <c9386ee6-77bb-49be-97cd-2b25ebb08472@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <c9386ee6-77bb-49be-97cd-2b25ebb08472@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="I3W7CxPvVdY0vKyf"
+Content-Disposition: inline
+In-Reply-To: <7645c9024a1762d281f4067504bc32a7a3d27caa.1721649741.git.geert+renesas@glider.be>
+X-Cookie: Parsley
 
-On 23/07/2024 10:19, Krzysztof Kozlowski wrote:
-> On 22/07/2024 11:51, Adam Skladowski wrote:
->> Document MSM8953/MSM8976 QDSP6 cards.
->>
->> Signed-off-by: Adam Skladowski <a39.skl@gmail.com>
-> 
-> ...
-> 
->> +    then:
->>        properties:
->> -        reg: false
->> -        reg-names: false
->> +        reg:
->> +          items:
->> +            - description: Microphone I/O mux register address
->> +            - description: Speaker I/O mux register address
->> +            - description: Quinary Mi2S I/O mux register address
->> +        reg-names:
->> +          items:
->> +            - const: mic-iomux
->> +            - const: spkr-iomux
->> +            - const: quin-iomux
->> +      required:
->> +        - compatible
->> +        - model
-> 
-> Don't duplicate. It's already required.
 
-I suggest to rebase on top of my patch. Optionally, take it into your
-patchset.
+--I3W7CxPvVdY0vKyf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Best regards,
-Krzysztof
+On Mon, Jul 22, 2024 at 02:04:00PM +0200, Geert Uytterhoeven wrote:
+> Convert the Dialog Semiconductor DA7212/DA7213 Audio Codec Device Tree
+> binding documentation to json-schema.
 
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
+
+--I3W7CxPvVdY0vKyf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmaffhoACgkQJNaLcl1U
+h9Agngf+IVtNmcfOBV5AvuwcdW9xvBrs9/eZl9Ew0S0c9g3dPTyrse7BFlk/iHQz
+uJNW93EP5jdpBBNIPVCnIMxKRRMYcW1xlK/PDZLPFJAjIHtZiB/G2+fvEpMsq9hg
+fqj46UTA8kcktLfRW7rLnR4NEQCkZSu8hV3gSBrR3H9/qA6kZ00N3+EgD1R76EgS
+buV7FDwRCvdPhnnBiK+kXBMsro0Sy99qOrbyNIh33h4NFYFl8WoaI8sQ0ZzG+4Fk
+CrDKKppKl6V92assKXUIrROjVb/SqGRNQHAzHZALuv9AFToLuvp5ErwTA4rhFp6+
+8P5cP3M8wtbe1S6R+dpCglCvgLYKEA==
+=QWtq
+-----END PGP SIGNATURE-----
+
+--I3W7CxPvVdY0vKyf--
