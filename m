@@ -1,144 +1,121 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23182152DF5
-	for <linux-sound@vger.kernel.org>; Tue, 23 Jul 2024 14:46:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2628213B599
+	for <linux-sound@vger.kernel.org>; Tue, 23 Jul 2024 15:38:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721745974; cv=none; b=TzAYGjaPuEqvv2mAFcYKHuy8rafaZi4prV6zp7lHcfvah6//E3xIMr+/A4kP7fWza6ougDc0cD/dQ2mZF7J3nOSK+ZqKZsx8WkLpGZ+vry39WY7RyTcyQun2auAvpsXWXSQERIOaYnEMO/4+1PjDVAKekmn8Kt0VP8j6oYwmAv0=
+	t=1721749141; cv=none; b=gg7qdOqjr7VlPcmo4VLvXpA9j4FhGpLJ13cEZIjlxE3firLIcgT2ZOoRRf0Tx7OyN675HwAvnP90ELGzR7iCrvIk6OTZ7L2HwRhDDg+vMz600ln8prkOObxls9l78mKXRx1JMXI6iRMmVSjhZSVu4M/TcnuYSNHotGC8ixc5HC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721745974; c=relaxed/simple;
-	bh=f4nFfrVFsoZlAw2TqgkIjPVPxb5PG9oafUyuaGzF2hc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sflr0zEvBo9EZVEZTM5YaU5frLA/J1ELogsbFDk8XP4YBYMOoMv33csku3nH22AJ2SD9TDMc+wQek1jDGnCkm2UeSM4YtnGqe8IzSKNxQdlqdT1HXQaogpIGEG62eCeDE+K0LrnoXkNPWVDOfCVk9DxNRM2RyfzHld/AQM0XADM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dvHnG7iD; arc=none smtp.client-ip=209.85.208.54
+	s=arc-20240116; t=1721749141; c=relaxed/simple;
+	bh=LqkjbtqpwsvD6irvMKsUzQm23DdSEtCegougaYPwBb4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lDu5F1ltdOCCZA8TO5MfywIB+hn6RmzaE2mBhH6MsmRjROZINjS0ZxWiQfoxlDgmWcu+gC4YjC0G3RNTUfrYiCCXvPi4PHp876AsU/NtsabXX96hmjzoA9TT+qpBrbSVFqRDkclcw07a9jzGXQCXuMeJEEQnBvtTWxf7Aa4DTxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fOu9gLDL; arc=none smtp.client-ip=209.85.210.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dvHnG7iD"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5a156556fb4so4783323a12.3
-        for <linux-sound@vger.kernel.org>; Tue, 23 Jul 2024 07:46:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fOu9gLDL"
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-704156d0e0dso3256953a34.1
+        for <linux-sound@vger.kernel.org>; Tue, 23 Jul 2024 08:38:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1721745971; x=1722350771; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TGhe5Ex1bPFfV1vlOFlhgJUy/23nt8E3XkBUwt2fp5w=;
-        b=dvHnG7iDG0W79pgxSUvSrwTmGOtdbod+NXVXJ27rz1cMklfqe9tTvFOl3jZJ86g0ym
-         GwQFmJL7s09OO1xc+qlaEwVFvWZaKkvnvT/W4Kmbl9lnqWW+q0KBqXdMTevvwxGpFBHL
-         N56SDcYAC4a3WwSoEVGt7Y21QE6AelrfgRO6PE3RaOh7wTA7NaresmHAFC1zmzkKfN9L
-         PA34EeWE28N//UtzTvsrVSLn16GxlZtmwthGLKAgD05iSoJUxqCq92iacjEj9tR0aQoc
-         T2XJti/S/n+ryjzMHXCQ0rf0bqI6lPv1XlbQYPaMi8xcHrdEyCqAgg46Cp/eigfyY5Gr
-         Sq5A==
+        d=linaro.org; s=google; t=1721749139; x=1722353939; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jrK0UXWlpbKJ090e0e3tzuMfddfgd69GL57oA2q1Do4=;
+        b=fOu9gLDLYXFp1mU9tFdpWi+FbNpUtl17XXkaWz46QSZ0ZegMYHtj8VK3px8hzOGzTS
+         9uN9Ho1BoBqVpBpy9fAzxKXA6ChLIB5OkDfdKGEf88bVLrVSFpb345q/YncMrJLpNXa4
+         YJhTYaedM6V+9gPeE1PmytncMlPGkdaQLtGTdKMSoASnFQldW1TYR4GVT/QR0DfveiZb
+         C+4JzvMRj0LiCPgalzwa828VwYM9FELlBPxTJnPZ56PBj9Aq8MW1atqR0+L++9CPiFhy
+         BxSrsKQWTjvBTwYrfA8yl1Hh6VBsRLZRk64M2inoepGoTTbQ9X8XsOvyOYdmvBNlaQBS
+         lP/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721745971; x=1722350771;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TGhe5Ex1bPFfV1vlOFlhgJUy/23nt8E3XkBUwt2fp5w=;
-        b=BXu4oyHvxMX8suk160fUGgB8imi8OMfJg72fv7tlKFV2NxlHqc0BG5U2dIFY4o1deR
-         Z7hK4Amh5xtczM6d90/vvEFaJAJZomU0GplCVOe3bWd86f6I32tG/FNVwiCIcaLZSWoC
-         hn4MCU1umuZ94zhCV1dmS10z/Cw8iWBgUpTays7KK0084qRv50WLrNPmDXqjj5560zNd
-         MgMf3ufurZUnaO7uPbMUrCpoGsyM7onrfHqE1ZJioD4Ub7pN3bQfZzSJ3Vm8reENAc7E
-         iFE5KPSe2PizLIuCOzuhPFDm6QaeiitItvoH+eZWoCO796lR9UK+x0tiYtHkij6AuPLD
-         hzPg==
-X-Forwarded-Encrypted: i=1; AJvYcCXK5wWxv+FuYxUWAx1SokkEuPbgbEYuxTTJ6xo6gpg55SKD9veWeBeiY8z6aikKsxnlqTwV/qtkoAzKqt0A6zkt6gF08iONs0caMfY=
-X-Gm-Message-State: AOJu0YyRXtFnMZADkl5nbwZWd0cynh8FGysW+JiR1MNvm+bBHLbFiJr1
-	jSyr/Y3vJOEI09zrP1nL/a1CpDiiZEaN/xazUMHs+BOuwCwbOGjARHcEfLe1ZXU=
-X-Google-Smtp-Source: AGHT+IE6FPRxaRZAelP7XYoRe2kh2fF3fU2NbulOmAczM715i/eTYrmwCoGSdVXZHnXFZX+KM1NhGg==
-X-Received: by 2002:a50:a6ce:0:b0:57d:2659:9141 with SMTP id 4fb4d7f45d1cf-5a47b0e7da1mr5752175a12.24.1721745971395;
-        Tue, 23 Jul 2024 07:46:11 -0700 (PDT)
-Received: from krzk-bin.. ([178.197.219.137])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5a30c2f88a5sm7592422a12.77.2024.07.23.07.46.10
+        d=1e100.net; s=20230601; t=1721749139; x=1722353939;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jrK0UXWlpbKJ090e0e3tzuMfddfgd69GL57oA2q1Do4=;
+        b=A/4mZFIQ3zraxhPgIbW14z501t7xek0zUyH75Wdqn5taUvNEpLHrga522gwqbolvHj
+         SQOHrnks4J51lkx2OpClQ/mmOqIHQ5m3V1NHBcZvGb1u55L8aJpgwrqLcmevgTGIsZeD
+         iU3IggKyAS5JM7cWtk2kFei3bkCKbRQBDDzM2CXpjZsvTJsQVPcGs+nI9CWcmx974xdS
+         l7Jsq9XkNKIclXPcGha1EtVVv5xLVF742wDLwwckyzXsb7Y4IJekIG4T5bmMZ23hB17p
+         RbYx9EXuSvTZqAtLi0LIhjhQGXbDz7VIlC24H3MNDGS7oC7uJ54ES/LzbCzdWRITW6cg
+         AbhA==
+X-Forwarded-Encrypted: i=1; AJvYcCWv13GK8C2nubbKauklCyPhOYrc22/XeaScdL0o0SPvVetf+h/CDznO4al0ien6t9w5tiqkOUNzykfnR+CjpEXQdB8oLSblaAM9EmE=
+X-Gm-Message-State: AOJu0YzrfwqhLHtMJK5wZRNV27cJ+rAPe4g9hefUI2Wpm8C7CPeWigqP
+	2yfSgNKuTu96QJciyrozOxCdEQ3MRmd9ZP+UGTBs9481b9Ia57sJu+hSuQAcN54=
+X-Google-Smtp-Source: AGHT+IG3gOY3GBGSAIwmggul7hffPHMXaMDevCa/MxXDME5o5zKlku823JsGxkRP8YZNuITVW34JGw==
+X-Received: by 2002:a05:6830:dc3:b0:704:4948:c4b9 with SMTP id 46e09a7af769-709234a7813mr200705a34.24.1721749139067;
+        Tue, 23 Jul 2024 08:38:59 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:eca3:bb93:d28d:1005])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-708f60ee136sm2084491a34.47.2024.07.23.08.38.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jul 2024 07:46:10 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] ASoC: codecs: lpass-wsa-macro: Do not hard-code dai in VI mixer
-Date: Tue, 23 Jul 2024 16:46:07 +0200
-Message-ID: <20240723144607.123240-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.43.0
+        Tue, 23 Jul 2024 08:38:58 -0700 (PDT)
+Date: Tue, 23 Jul 2024 10:38:56 -0500
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, alsa-devel@alsa-project.org,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>
+Subject: Re: [bug report] ASoC: Intel: cht_bsw_rt5645: Set card.components
+ string
+Message-ID: <7052bf95-3aa2-4dd6-8136-d94833810463@suswa.mountain>
+References: <918944d2-3d00-465e-a9d1-5d57fc966113@stanley.mountain>
+ <c7572302-7d78-4e72-a470-57f2aa0c8537@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c7572302-7d78-4e72-a470-57f2aa0c8537@linux.intel.com>
 
-The wsa_macro_vi_feed_mixer_put() callback for setting VI feedback mixer
-value could be used for different DAIs (planned in the future CPS DAI),
-so make the code a bit more generic by using DAI ID from widget->shift,
-instead of hard-coding it.  The get() callback already follows such
-convention.
+On Mon, Jul 22, 2024 at 04:06:58PM +0200, Pierre-Louis Bossart wrote:
+> Thanks Dan for the report.
+> 
+> 
+> > Commit f87b4402163b ("ASoC: Intel: cht_bsw_rt5645: Set
+> > card.components string") from Nov 26, 2023 (linux-next), leads to the
+> > following Smatch static checker warning:
+> > 
+> > 	sound/soc/intel/boards/cht_bsw_rt5645.c:587 snd_cht_mc_probe()
+> > 	error: we previously assumed 'adev' could be null (see line 581)
+> > 
+> > sound/soc/intel/boards/cht_bsw_rt5645.c
+> >     570         /* set correct codec name */
+> >     571         for (i = 0; i < ARRAY_SIZE(cht_dailink); i++)
+> >     572                 if (cht_dailink[i].codecs->name &&
+> >     573                     !strcmp(cht_dailink[i].codecs->name,
+> >     574                             "i2c-10EC5645:00")) {
+> >     575                         dai_index = i;
+> >     576                         break;
+> >     577                 }
+> >     578 
+> >     579         /* fixup codec name based on HID */
+> >     580         adev = acpi_dev_get_first_match_dev(mach->id, NULL, -1);
+> >     581         if (adev) {
+> >                     ^^^^
+> > The old code assumes adev can be NULL
+> > 
+> >     582                 snprintf(cht_rt5645_codec_name, sizeof(cht_rt5645_codec_name),
+> >     583                          "i2c-%s", acpi_dev_name(adev));
+> >     584                 cht_dailink[dai_index].codecs->name = cht_rt5645_codec_name;
+> >     585         }
+> >     586         /* acpi_get_first_physical_node() returns a borrowed ref, no need to deref */
+> > --> 587         codec_dev = acpi_get_first_physical_node(adev);
+> >                                                          ^^^^
+> > Unchecked dereference
+> 
+> This looks like a problem in multiple machine drivers sharing similar
+> code, if we want to consistently check the output we probably need
+> something like https://github.com/thesofproject/linux/pull/5117 ?
+> 
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- sound/soc/codecs/lpass-wsa-macro.c | 25 +++++++++++++------------
- 1 file changed, 13 insertions(+), 12 deletions(-)
+These are actually Smatch warnings, not Sparse warnings btw.  (Smatch
+uses Sparse as a parser.  Everyone gets them mixed up).
 
-diff --git a/sound/soc/codecs/lpass-wsa-macro.c b/sound/soc/codecs/lpass-wsa-macro.c
-index 8351f0974e6a..4158657914fb 100644
---- a/sound/soc/codecs/lpass-wsa-macro.c
-+++ b/sound/soc/codecs/lpass-wsa-macro.c
-@@ -2296,36 +2296,37 @@ static int wsa_macro_vi_feed_mixer_put(struct snd_kcontrol *kcontrol,
- 	struct wsa_macro *wsa = snd_soc_component_get_drvdata(component);
- 	u32 enable = ucontrol->value.integer.value[0];
- 	u32 spk_tx_id = mixer->shift;
-+	u32 dai_id = widget->shift;
- 
- 	if (enable) {
- 		if (spk_tx_id == WSA_MACRO_TX0 &&
- 			!test_bit(WSA_MACRO_TX0,
--				&wsa->active_ch_mask[WSA_MACRO_AIF_VI])) {
-+				&wsa->active_ch_mask[dai_id])) {
- 			set_bit(WSA_MACRO_TX0,
--				&wsa->active_ch_mask[WSA_MACRO_AIF_VI]);
--			wsa->active_ch_cnt[WSA_MACRO_AIF_VI]++;
-+				&wsa->active_ch_mask[dai_id]);
-+			wsa->active_ch_cnt[dai_id]++;
- 		}
- 		if (spk_tx_id == WSA_MACRO_TX1 &&
- 			!test_bit(WSA_MACRO_TX1,
--				&wsa->active_ch_mask[WSA_MACRO_AIF_VI])) {
-+				&wsa->active_ch_mask[dai_id])) {
- 			set_bit(WSA_MACRO_TX1,
--				&wsa->active_ch_mask[WSA_MACRO_AIF_VI]);
--			wsa->active_ch_cnt[WSA_MACRO_AIF_VI]++;
-+				&wsa->active_ch_mask[dai_id]);
-+			wsa->active_ch_cnt[dai_id]++;
- 		}
- 	} else {
- 		if (spk_tx_id == WSA_MACRO_TX0 &&
- 			test_bit(WSA_MACRO_TX0,
--				&wsa->active_ch_mask[WSA_MACRO_AIF_VI])) {
-+				&wsa->active_ch_mask[dai_id])) {
- 			clear_bit(WSA_MACRO_TX0,
--				&wsa->active_ch_mask[WSA_MACRO_AIF_VI]);
--			wsa->active_ch_cnt[WSA_MACRO_AIF_VI]--;
-+				&wsa->active_ch_mask[dai_id]);
-+			wsa->active_ch_cnt[dai_id]--;
- 		}
- 		if (spk_tx_id == WSA_MACRO_TX1 &&
- 			test_bit(WSA_MACRO_TX1,
--				&wsa->active_ch_mask[WSA_MACRO_AIF_VI])) {
-+				&wsa->active_ch_mask[dai_id])) {
- 			clear_bit(WSA_MACRO_TX1,
--				&wsa->active_ch_mask[WSA_MACRO_AIF_VI]);
--			wsa->active_ch_cnt[WSA_MACRO_AIF_VI]--;
-+				&wsa->active_ch_mask[dai_id]);
-+			wsa->active_ch_cnt[dai_id]--;
- 		}
- 	}
- 	snd_soc_dapm_mixer_update_power(widget->dapm, kcontrol, enable, NULL);
--- 
-2.43.0
+regards,
+dan carpenter
 
