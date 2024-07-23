@@ -1,38 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F27A13D8B3;
-	Tue, 23 Jul 2024 11:37:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4132154C05;
+	Tue, 23 Jul 2024 14:28:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721734678; cv=none; b=i7NtCH0SlXFLVRtmrWQDcm8KyMaMgp5fB556Q27kaq01kVY7lWVPL/D5a+d4rrqucqh2mXBywGUsdVDsiVGh/C9qoXPJaAf2LeoYBvwx7hWx1g770PfHTl0CTsVUequgx+Hta3Kd0PnFk3zKsiseW2M7ogZ+GncxDJA6Tbsmujk=
+	t=1721744922; cv=none; b=Nh2ccQj8ShoJRwEPViHZ9Q8acoT8HP0ENHbDwD/MmvjZbpM/6bO9o3PUgoLvx5D6yfpJoocRh8kd+LHxSLc8Mn6e5KYivc/4iOUYAVBhW7BAfmnCQHoQjnpx8sNNkJs1HU+gFJVEggHOc5+jKx17i1rBW6uzSfoguRhAhxycDQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721734678; c=relaxed/simple;
-	bh=9fp/JUizxS5IqkIRscjC1V5D08luobHz0+npLcTNzR8=;
+	s=arc-20240116; t=1721744922; c=relaxed/simple;
+	bh=15cKbkKLCHSvqsyLYXRKTBYJvAWhsD+yZ2TWL6IBELM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ljB/V02OLXP9gCZqhgVCkOMqtPhUSq7Ml9/aRllvnnOPH5rieHkPRZLsbS1dXAol2vh2R6NVh3HivWM4XOyEvvmBvFmnSfYtWyQU1vGo0JDQPSKf6RLTQZN0k8ktdkRgVzmrYZ4SDGCh6AwHbQzhZa5PsN30IvGXPtZWiQxXQG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=1H/C62pm; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=uU5KI56mJMxcsP9bEAcQjL++LIjbOM+dPPwIyzypt/lDKPe6DZciND4e1WhSzMLDO+LYLLZxL1XDShXCuAqDXEJqVZhsEt8uYnGtl5Hb5hjl81QDlOTqVAOXCOp1kOgEdo3dKIwn14LDC5wr/3u+y7NqG1obtR0E4WN+aSjNqLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dkV4Bxad; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="1H/C62pm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A1A4C4AF0A;
-	Tue, 23 Jul 2024 11:37:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1721734677;
-	bh=9fp/JUizxS5IqkIRscjC1V5D08luobHz0+npLcTNzR8=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dkV4Bxad"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D1D9C4AF12;
+	Tue, 23 Jul 2024 14:28:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721744922;
+	bh=15cKbkKLCHSvqsyLYXRKTBYJvAWhsD+yZ2TWL6IBELM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=1H/C62pmK7q/CUr62Ib5rGt192NvwRBGHg1EgQf/EmZsCW9vFZWGRCFvMUH6i3mt5
-	 9kesfOyx8TYh2pr1zhlqGEccxFaSVP/kDy3qd33eG1hh5DtAsKLK8QtDpl6P+4yPrg
-	 LlETAt6y6A0eC3dUCmME3TIm8ouFrlCLvmi141u8=
-Date: Tue, 23 Jul 2024 13:37:53 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: stable@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org, alsa-devel@alsa-project.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH for-6.10 0/2] ASoC: cs35l56: Set correct upper volume
- limit
-Message-ID: <2024072342-recall-dedicator-98d5@gregkh>
-References: <20240722102600.37931-1-rf@opensource.cirrus.com>
+	b=dkV4BxadumsKlLALlkxrdsZ1RV+59WN42Rv9UbOZdF2wNN7bKEae2qJ97H03hdUiI
+	 2TirdXYi1GtkX13NnplKeLZsmFFU2an/ZdDCFjkuaD7X2UP2nTmmkLS6asIOeUsyDX
+	 PgBHUx3hZHKGdZ9IlRyDXJvlK0ABJkcvL9RS4vNsAzJU8TXrtjcJdxeeMNu9c+7H7T
+	 d1VcSCCoIrQNdtcYibWpYUuP5K0w6dKSvdMCTGzghra7xXZ5osLe+VE8obqfMpAuFV
+	 /bCx3QkNZU+qoJPhT5bHzPwFHhauDBu/oL4Yk5ULXUlVLg5XCaYaByCS5/tkoKB+Ex
+	 6GYG8kJKPkx+Q==
+Date: Tue, 23 Jul 2024 08:28:41 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Animesh Agarwal <animeshagarwal28@gmail.com>
+Cc: linux-kernel@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>,
+	imx@lists.linux.dev, Daniel Baluta <daniel.baluta@nxp.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Liam Girdwood <lgirdwood@gmail.com>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Fabio Estevam <festevam@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2] ASoC: dt-bindings: fsl,imx-audio-es8328: Convert to
+ dtschema
+Message-ID: <172174491993.340929.3967279887834783302.robh@kernel.org>
+References: <20240722063657.23018-1-animeshagarwal28@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -41,20 +51,26 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240722102600.37931-1-rf@opensource.cirrus.com>
+In-Reply-To: <20240722063657.23018-1-animeshagarwal28@gmail.com>
 
-On Mon, Jul 22, 2024 at 11:25:58AM +0100, Richard Fitzgerald wrote:
-> Patch series to limit the upper range of the CS35L56 volume control to
-> +12 dB.
+
+On Mon, 22 Jul 2024 12:06:51 +0530, Animesh Agarwal wrote:
+> Convert the Freescale i.MX audio complex with ES8328 codec bindings to
+> DT schema format.
 > 
-> These commits were not marked 'Fixes' because they were thought to be only
-> a cosmetic issue. The user could reduce the volume to a usable value.
+> Cc: Daniel Baluta <daniel.baluta@nxp.com>
+> Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
 > 
-> But for some complex audio topologies with SOF Audio DSP + CS42L43 +
-> multiple CS35L56 it has turned out to be not obvious to the user what the
-> problem actually is and what to do to fix it. As support for these
-> topologies went into 6.10 we would like this series to be applied to 6.10.
+> ---
+> Changes in v2:
+>   - Changed top level ref to sound-card-common.yaml
+> ---
+>  .../bindings/sound/fsl,imx-audio-es8328.yaml  | 111 ++++++++++++++++++
+>  .../bindings/sound/imx-audio-es8328.txt       |  60 ----------
+>  2 files changed, 111 insertions(+), 60 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/sound/fsl,imx-audio-es8328.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/sound/imx-audio-es8328.txt
+> 
 
-Now queued up, thanks.
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-greg k-h
