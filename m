@@ -1,76 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4132154C05;
-	Tue, 23 Jul 2024 14:28:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23182152DF5
+	for <linux-sound@vger.kernel.org>; Tue, 23 Jul 2024 14:46:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721744922; cv=none; b=Nh2ccQj8ShoJRwEPViHZ9Q8acoT8HP0ENHbDwD/MmvjZbpM/6bO9o3PUgoLvx5D6yfpJoocRh8kd+LHxSLc8Mn6e5KYivc/4iOUYAVBhW7BAfmnCQHoQjnpx8sNNkJs1HU+gFJVEggHOc5+jKx17i1rBW6uzSfoguRhAhxycDQ0=
+	t=1721745974; cv=none; b=TzAYGjaPuEqvv2mAFcYKHuy8rafaZi4prV6zp7lHcfvah6//E3xIMr+/A4kP7fWza6ougDc0cD/dQ2mZF7J3nOSK+ZqKZsx8WkLpGZ+vry39WY7RyTcyQun2auAvpsXWXSQERIOaYnEMO/4+1PjDVAKekmn8Kt0VP8j6oYwmAv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721744922; c=relaxed/simple;
-	bh=15cKbkKLCHSvqsyLYXRKTBYJvAWhsD+yZ2TWL6IBELM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uU5KI56mJMxcsP9bEAcQjL++LIjbOM+dPPwIyzypt/lDKPe6DZciND4e1WhSzMLDO+LYLLZxL1XDShXCuAqDXEJqVZhsEt8uYnGtl5Hb5hjl81QDlOTqVAOXCOp1kOgEdo3dKIwn14LDC5wr/3u+y7NqG1obtR0E4WN+aSjNqLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dkV4Bxad; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721745974; c=relaxed/simple;
+	bh=f4nFfrVFsoZlAw2TqgkIjPVPxb5PG9oafUyuaGzF2hc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sflr0zEvBo9EZVEZTM5YaU5frLA/J1ELogsbFDk8XP4YBYMOoMv33csku3nH22AJ2SD9TDMc+wQek1jDGnCkm2UeSM4YtnGqe8IzSKNxQdlqdT1HXQaogpIGEG62eCeDE+K0LrnoXkNPWVDOfCVk9DxNRM2RyfzHld/AQM0XADM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dvHnG7iD; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dkV4Bxad"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D1D9C4AF12;
-	Tue, 23 Jul 2024 14:28:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721744922;
-	bh=15cKbkKLCHSvqsyLYXRKTBYJvAWhsD+yZ2TWL6IBELM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dkV4BxadumsKlLALlkxrdsZ1RV+59WN42Rv9UbOZdF2wNN7bKEae2qJ97H03hdUiI
-	 2TirdXYi1GtkX13NnplKeLZsmFFU2an/ZdDCFjkuaD7X2UP2nTmmkLS6asIOeUsyDX
-	 PgBHUx3hZHKGdZ9IlRyDXJvlK0ABJkcvL9RS4vNsAzJU8TXrtjcJdxeeMNu9c+7H7T
-	 d1VcSCCoIrQNdtcYibWpYUuP5K0w6dKSvdMCTGzghra7xXZ5osLe+VE8obqfMpAuFV
-	 /bCx3QkNZU+qoJPhT5bHzPwFHhauDBu/oL4Yk5ULXUlVLg5XCaYaByCS5/tkoKB+Ex
-	 6GYG8kJKPkx+Q==
-Date: Tue, 23 Jul 2024 08:28:41 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Animesh Agarwal <animeshagarwal28@gmail.com>
-Cc: linux-kernel@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>,
-	imx@lists.linux.dev, Daniel Baluta <daniel.baluta@nxp.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Liam Girdwood <lgirdwood@gmail.com>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Fabio Estevam <festevam@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2] ASoC: dt-bindings: fsl,imx-audio-es8328: Convert to
- dtschema
-Message-ID: <172174491993.340929.3967279887834783302.robh@kernel.org>
-References: <20240722063657.23018-1-animeshagarwal28@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dvHnG7iD"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5a156556fb4so4783323a12.3
+        for <linux-sound@vger.kernel.org>; Tue, 23 Jul 2024 07:46:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1721745971; x=1722350771; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TGhe5Ex1bPFfV1vlOFlhgJUy/23nt8E3XkBUwt2fp5w=;
+        b=dvHnG7iDG0W79pgxSUvSrwTmGOtdbod+NXVXJ27rz1cMklfqe9tTvFOl3jZJ86g0ym
+         GwQFmJL7s09OO1xc+qlaEwVFvWZaKkvnvT/W4Kmbl9lnqWW+q0KBqXdMTevvwxGpFBHL
+         N56SDcYAC4a3WwSoEVGt7Y21QE6AelrfgRO6PE3RaOh7wTA7NaresmHAFC1zmzkKfN9L
+         PA34EeWE28N//UtzTvsrVSLn16GxlZtmwthGLKAgD05iSoJUxqCq92iacjEj9tR0aQoc
+         T2XJti/S/n+ryjzMHXCQ0rf0bqI6lPv1XlbQYPaMi8xcHrdEyCqAgg46Cp/eigfyY5Gr
+         Sq5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721745971; x=1722350771;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TGhe5Ex1bPFfV1vlOFlhgJUy/23nt8E3XkBUwt2fp5w=;
+        b=BXu4oyHvxMX8suk160fUGgB8imi8OMfJg72fv7tlKFV2NxlHqc0BG5U2dIFY4o1deR
+         Z7hK4Amh5xtczM6d90/vvEFaJAJZomU0GplCVOe3bWd86f6I32tG/FNVwiCIcaLZSWoC
+         hn4MCU1umuZ94zhCV1dmS10z/Cw8iWBgUpTays7KK0084qRv50WLrNPmDXqjj5560zNd
+         MgMf3ufurZUnaO7uPbMUrCpoGsyM7onrfHqE1ZJioD4Ub7pN3bQfZzSJ3Vm8reENAc7E
+         iFE5KPSe2PizLIuCOzuhPFDm6QaeiitItvoH+eZWoCO796lR9UK+x0tiYtHkij6AuPLD
+         hzPg==
+X-Forwarded-Encrypted: i=1; AJvYcCXK5wWxv+FuYxUWAx1SokkEuPbgbEYuxTTJ6xo6gpg55SKD9veWeBeiY8z6aikKsxnlqTwV/qtkoAzKqt0A6zkt6gF08iONs0caMfY=
+X-Gm-Message-State: AOJu0YyRXtFnMZADkl5nbwZWd0cynh8FGysW+JiR1MNvm+bBHLbFiJr1
+	jSyr/Y3vJOEI09zrP1nL/a1CpDiiZEaN/xazUMHs+BOuwCwbOGjARHcEfLe1ZXU=
+X-Google-Smtp-Source: AGHT+IE6FPRxaRZAelP7XYoRe2kh2fF3fU2NbulOmAczM715i/eTYrmwCoGSdVXZHnXFZX+KM1NhGg==
+X-Received: by 2002:a50:a6ce:0:b0:57d:2659:9141 with SMTP id 4fb4d7f45d1cf-5a47b0e7da1mr5752175a12.24.1721745971395;
+        Tue, 23 Jul 2024 07:46:11 -0700 (PDT)
+Received: from krzk-bin.. ([178.197.219.137])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5a30c2f88a5sm7592422a12.77.2024.07.23.07.46.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Jul 2024 07:46:10 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] ASoC: codecs: lpass-wsa-macro: Do not hard-code dai in VI mixer
+Date: Tue, 23 Jul 2024 16:46:07 +0200
+Message-ID: <20240723144607.123240-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240722063657.23018-1-animeshagarwal28@gmail.com>
+Content-Transfer-Encoding: 8bit
 
+The wsa_macro_vi_feed_mixer_put() callback for setting VI feedback mixer
+value could be used for different DAIs (planned in the future CPS DAI),
+so make the code a bit more generic by using DAI ID from widget->shift,
+instead of hard-coding it.  The get() callback already follows such
+convention.
 
-On Mon, 22 Jul 2024 12:06:51 +0530, Animesh Agarwal wrote:
-> Convert the Freescale i.MX audio complex with ES8328 codec bindings to
-> DT schema format.
-> 
-> Cc: Daniel Baluta <daniel.baluta@nxp.com>
-> Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
-> 
-> ---
-> Changes in v2:
->   - Changed top level ref to sound-card-common.yaml
-> ---
->  .../bindings/sound/fsl,imx-audio-es8328.yaml  | 111 ++++++++++++++++++
->  .../bindings/sound/imx-audio-es8328.txt       |  60 ----------
->  2 files changed, 111 insertions(+), 60 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/sound/fsl,imx-audio-es8328.yaml
->  delete mode 100644 Documentation/devicetree/bindings/sound/imx-audio-es8328.txt
-> 
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ sound/soc/codecs/lpass-wsa-macro.c | 25 +++++++++++++------------
+ 1 file changed, 13 insertions(+), 12 deletions(-)
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+diff --git a/sound/soc/codecs/lpass-wsa-macro.c b/sound/soc/codecs/lpass-wsa-macro.c
+index 8351f0974e6a..4158657914fb 100644
+--- a/sound/soc/codecs/lpass-wsa-macro.c
++++ b/sound/soc/codecs/lpass-wsa-macro.c
+@@ -2296,36 +2296,37 @@ static int wsa_macro_vi_feed_mixer_put(struct snd_kcontrol *kcontrol,
+ 	struct wsa_macro *wsa = snd_soc_component_get_drvdata(component);
+ 	u32 enable = ucontrol->value.integer.value[0];
+ 	u32 spk_tx_id = mixer->shift;
++	u32 dai_id = widget->shift;
+ 
+ 	if (enable) {
+ 		if (spk_tx_id == WSA_MACRO_TX0 &&
+ 			!test_bit(WSA_MACRO_TX0,
+-				&wsa->active_ch_mask[WSA_MACRO_AIF_VI])) {
++				&wsa->active_ch_mask[dai_id])) {
+ 			set_bit(WSA_MACRO_TX0,
+-				&wsa->active_ch_mask[WSA_MACRO_AIF_VI]);
+-			wsa->active_ch_cnt[WSA_MACRO_AIF_VI]++;
++				&wsa->active_ch_mask[dai_id]);
++			wsa->active_ch_cnt[dai_id]++;
+ 		}
+ 		if (spk_tx_id == WSA_MACRO_TX1 &&
+ 			!test_bit(WSA_MACRO_TX1,
+-				&wsa->active_ch_mask[WSA_MACRO_AIF_VI])) {
++				&wsa->active_ch_mask[dai_id])) {
+ 			set_bit(WSA_MACRO_TX1,
+-				&wsa->active_ch_mask[WSA_MACRO_AIF_VI]);
+-			wsa->active_ch_cnt[WSA_MACRO_AIF_VI]++;
++				&wsa->active_ch_mask[dai_id]);
++			wsa->active_ch_cnt[dai_id]++;
+ 		}
+ 	} else {
+ 		if (spk_tx_id == WSA_MACRO_TX0 &&
+ 			test_bit(WSA_MACRO_TX0,
+-				&wsa->active_ch_mask[WSA_MACRO_AIF_VI])) {
++				&wsa->active_ch_mask[dai_id])) {
+ 			clear_bit(WSA_MACRO_TX0,
+-				&wsa->active_ch_mask[WSA_MACRO_AIF_VI]);
+-			wsa->active_ch_cnt[WSA_MACRO_AIF_VI]--;
++				&wsa->active_ch_mask[dai_id]);
++			wsa->active_ch_cnt[dai_id]--;
+ 		}
+ 		if (spk_tx_id == WSA_MACRO_TX1 &&
+ 			test_bit(WSA_MACRO_TX1,
+-				&wsa->active_ch_mask[WSA_MACRO_AIF_VI])) {
++				&wsa->active_ch_mask[dai_id])) {
+ 			clear_bit(WSA_MACRO_TX1,
+-				&wsa->active_ch_mask[WSA_MACRO_AIF_VI]);
+-			wsa->active_ch_cnt[WSA_MACRO_AIF_VI]--;
++				&wsa->active_ch_mask[dai_id]);
++			wsa->active_ch_cnt[dai_id]--;
+ 		}
+ 	}
+ 	snd_soc_dapm_mixer_update_power(widget->dapm, kcontrol, enable, NULL);
+-- 
+2.43.0
 
