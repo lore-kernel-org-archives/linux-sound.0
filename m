@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B75938814;
-	Tue, 23 Jul 2024 08:17:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF85314B94C;
+	Tue, 23 Jul 2024 08:19:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721722628; cv=none; b=jWT7QFxdP56v1h7OOdexZgtL/2Gkp0VWJuoczoJI2aeQKYS8yhDHXaFLE4id+DHXMvLnUN3B3ObWL0LgsTY+1Wn+0BUyKUjTaKDh+LolHDyoHe+xTViIohZp3HPZy66MwVkbcNJKJEuT2ok69JZXNkdA//Ir7gGZQAhVRAtDT4I=
+	t=1721722750; cv=none; b=ORQBiJYKYoRag1pPa3jt3oUHSx+2jOQWdWJwP+fITa9jceyg5X/YfUXGnn8TRILK40icQTg6U5iEOpNYCxozjGhj0T/fOH3KsmwkPOpQCX87yx/VDb7lEGsmwI+lzJSpmIBVbuJXjTeJN/fjDiEJpCxBMW7dSGjJDSWuusGf+7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721722628; c=relaxed/simple;
-	bh=PKkXPHNmWdDy/fWI53xUIiRIvqAzcNq3FSh5kqBhjDE=;
+	s=arc-20240116; t=1721722750; c=relaxed/simple;
+	bh=6e0Z0aaAvxxzijYS/k8qqEo9hPFUeuv/sn/KQKMbgUI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jnqjCIyXLwTlow1tt9aESBYZWWGvLQdDeh+QZY40J8+xchoT8J2QDqHCGKKQG+5xKaoY58YL5X2DQY0EcStE8+3aenZlSyEJKY64Xo4LGES6PvnDd1Zg6UwuGpLPF5Rcqxw3KXixhf0ImAdZWJbotYDbxyI0uhZsEXEMOsiYoSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pzN8vBup; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=KLNXOZRNDG0EHVMMmDwB/B4NmRYqzKcPFScmV8muEFVU7xT40eUQawbTYALUklnsjFwP4z46rSNpc+cxrow2lyKehVtaPR0lI2OIa4kHbe9epXaT26KfFHlDcwobxzB6W6CccaB87Kxz/3VeEIirQ0ISqL0EKE26S2hcMDca6sc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gb/VJl5w; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pzN8vBup"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66C41C4AF0B;
-	Tue, 23 Jul 2024 08:17:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gb/VJl5w"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F2CFC4AF0A;
+	Tue, 23 Jul 2024 08:19:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721722628;
-	bh=PKkXPHNmWdDy/fWI53xUIiRIvqAzcNq3FSh5kqBhjDE=;
+	s=k20201202; t=1721722749;
+	bh=6e0Z0aaAvxxzijYS/k8qqEo9hPFUeuv/sn/KQKMbgUI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=pzN8vBup5ca57+UOp02gmz9cG1D19jg4UR7eFyxmZfhAWLShVY+JbNia0DTO1kB1D
-	 Xr7PrcZ6zthZXZK7swgJ2agpLe8yl0CWFfC0SFg5h8WHaT7vPbwiPwPfGz0DsmvKlb
-	 x7dU4NmRh2t5/17Yml5M4o2hEbc5Nn1Nt4P+LKAunYpLKgeee91+1bph9+UY6PnlHc
-	 AQ0JDP2haBTKjGvp5iWR6BZ5t55vCg3Mvg9jDF/is6Hdzl8G4hangugPOTiTOOvuZ5
-	 YZ+7l92bE7dvianbD2YawBIZznQ+wdRq7I89rnwB0EI3qsrXbCkkVPhzSkewBmqnQS
-	 SFwt1eSPxErOg==
-Message-ID: <4049658f-cfe7-43ae-b006-c1a14b6c2611@kernel.org>
-Date: Tue, 23 Jul 2024 10:17:01 +0200
+	b=Gb/VJl5w+ctuVmoBVIwOTz+Jr0gmNClWvh/iF2ZSSTIyBlK6pG4f3/VsJXV3v4xO8
+	 BG92JiPGOqz2DX/Pkvi1eIIXmqHgaC/R61FyTb761kqzT9tFABbOeEvN2G+Eto87df
+	 Qfe9gWZhATv1A0RhwQSjJEz2WUGFVaWBKCzs1HmXtHjr4lkKOczzW5peKafYnl0ubD
+	 BZLGnjNDN7SFKg7LH6Z0lv+dG+sTsto5JzjYly+CJw1mZGYXKEWRn2RZE6islqdmI+
+	 RngBMIdjiSx13CB+H9An43fdJ1D4xyGLjPSUaqblbX1nr4G4HOOhr7KG85dpH3XJyh
+	 mMNZODpK3r+2A==
+Message-ID: <c9386ee6-77bb-49be-97cd-2b25ebb08472@kernel.org>
+Date: Tue, 23 Jul 2024 10:19:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,16 +35,20 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dt-bindings: sound: dlg,da7213: Convert to json-schema
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Support Opensource <support.opensource@diasemi.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-References: <7645c9024a1762d281f4067504bc32a7a3d27caa.1721649741.git.geert+renesas@glider.be>
+Subject: Re: [PATCH 3/4] ASoC: dt-bindings: qcom,sm8250: Add
+ msm8953/msm8976-qdsp6-sndcard
+To: Adam Skladowski <a39.skl@gmail.com>
+Cc: phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org,
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240722095147.3372-1-a39.skl@gmail.com>
+ <20240722095147.3372-4-a39.skl@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -90,23 +94,45 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <7645c9024a1762d281f4067504bc32a7a3d27caa.1721649741.git.geert+renesas@glider.be>
+In-Reply-To: <20240722095147.3372-4-a39.skl@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 22/07/2024 14:04, Geert Uytterhoeven wrote:
-> Convert the Dialog Semiconductor DA7212/DA7213 Audio Codec Device Tree
-> binding documentation to json-schema.
+On 22/07/2024 11:51, Adam Skladowski wrote:
+> Document MSM8953/MSM8976 QDSP6 cards.
 > 
-> Add missing properties.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  .../devicetree/bindings/sound/da7213.txt      |  45 --------
->  .../devicetree/bindings/sound/dlg,da7213.yaml | 103 ++++++++++++++++++
+> Signed-off-by: Adam Skladowski <a39.skl@gmail.com>
 
+...
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> +    then:
+>        properties:
+> -        reg: false
+> -        reg-names: false
+> +        reg:
+> +          items:
+> +            - description: Microphone I/O mux register address
+> +            - description: Speaker I/O mux register address
+> +            - description: Quinary Mi2S I/O mux register address
+> +        reg-names:
+> +          items:
+> +            - const: mic-iomux
+> +            - const: spkr-iomux
+> +            - const: quin-iomux
+> +      required:
+> +        - compatible
+> +        - model
+
+Don't duplicate. It's already required.
+
+> +        - reg
+> +        - reg-names
+
+And what happened with all other variants? Why do you affect them?
+
+>  
+>  additionalProperties: false
+>  
 
 Best regards,
 Krzysztof
