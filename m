@@ -1,203 +1,124 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D55D4C84;
-	Wed, 24 Jul 2024 07:21:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 248635336B;
+	Wed, 24 Jul 2024 08:06:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721805694; cv=none; b=rOAsBiAXXJkCS2ZghePl+R2tDdpQ1Yxw6yAC1g0VhWxiiuEZ1RNCxaD2AK2L4PcOJmvBsNhrUAGNKcdQEXjt8M/KTvdks6ptwwTNeTKiJUj+i8nsgqmUROQ2SReTCzn4A8n5rf+6BngaMWQ8QjcGdndvw+bwmhmRYT8dplTDk4s=
+	t=1721808388; cv=none; b=r0xmf/ziLOWhKfQgmr5IGCTj9irneGbl32z0a0ZI3vyqLrtwGBlezGqf1e94OxgoVQ5MJPFeFfQnpB28sz9M2Gou7a837yl5Vg9kKCnb20rGXXLw1W9gdHVnoTeDW0/cBIw98nlvoGiHXAPnS6fPuSOiS+wrIO6K5cztUUdqtg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721805694; c=relaxed/simple;
-	bh=/OxbqeFXZJBzITyYv+VkE5wJKT+kzst/yWR2yQbPhNI=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UZHMoHFcQNFazx+6mFtASJh9s7T7UPdoWs9HUIti7zyFrUW3aHeTSzUYUD4bw+gs5841MZSZyc1Bl1qxdwOh/CzNG5CVTGY9D0RTkv4n2SlzVdL1uNTvNHIIKNmVq6kWN9Ttm1beuQCE6uZ6C3XgNxlwF9OyKY7seSuX1vN+86I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=J5eYjVer; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wohCYoZu; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=J5eYjVer; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wohCYoZu; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1721808388; c=relaxed/simple;
+	bh=AKKM6ppMNxmC7UXJSSz3Ux9097zdWoX9DlJdSKA47D4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UL/Ho7V+QHrP1S+aTTutD93BWFf+XuVle5KmYybFIsrvCPpIUbcvb7cRY4tpA7K6fG2DMnyVCNzDIJSMFlEyqi0YNT2n9aL2K+3BCkllYDM/LDNmhLD5YtUExOrpFoyGAcrs6UfFRPHRK4jkKmO6EMuoCb5AZohgsQZtIL31BNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T2mKwvje; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="J5eYjVer";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wohCYoZu";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="J5eYjVer";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wohCYoZu"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 191CD1F74B;
-	Wed, 24 Jul 2024 07:21:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1721805690; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gPPgtgLiOKT8FFQeCtEOAG2iHovCigqjgeJnxTCVTi8=;
-	b=J5eYjVerz1TnhJP0ultEZFNJxXNFGMmJbyBTH9h4P1IZYH3NuSK01QC0oVsife43s97m+Y
-	um/XDvF1Kz3/9i7r1UttEpeSciizEcPuItBWccEkdka/+mG6teF8JXJfFxdEdIJpTK7aNE
-	ROQxdwcQS8C1UbBUsqiXRdlZAf27yVI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1721805690;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gPPgtgLiOKT8FFQeCtEOAG2iHovCigqjgeJnxTCVTi8=;
-	b=wohCYoZuO6HZ9ZoHa17pK7Ac7tuln8TgDrlkahs4MZ+F2CYFxQHx/apoF57GtBDixjFYFJ
-	+PMQ7vw/7XmdyMBg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=J5eYjVer;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=wohCYoZu
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1721805690; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gPPgtgLiOKT8FFQeCtEOAG2iHovCigqjgeJnxTCVTi8=;
-	b=J5eYjVerz1TnhJP0ultEZFNJxXNFGMmJbyBTH9h4P1IZYH3NuSK01QC0oVsife43s97m+Y
-	um/XDvF1Kz3/9i7r1UttEpeSciizEcPuItBWccEkdka/+mG6teF8JXJfFxdEdIJpTK7aNE
-	ROQxdwcQS8C1UbBUsqiXRdlZAf27yVI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1721805690;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gPPgtgLiOKT8FFQeCtEOAG2iHovCigqjgeJnxTCVTi8=;
-	b=wohCYoZuO6HZ9ZoHa17pK7Ac7tuln8TgDrlkahs4MZ+F2CYFxQHx/apoF57GtBDixjFYFJ
-	+PMQ7vw/7XmdyMBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D3CCF1324F;
-	Wed, 24 Jul 2024 07:21:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ucHrMXmroGYyNQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 24 Jul 2024 07:21:29 +0000
-Date: Wed, 24 Jul 2024 09:22:04 +0200
-Message-ID: <871q3jmezn.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Edward Adam Davis <eadavis@qq.com>
-Cc: syzbot+78eccfb8b3c9a85fc6c5@syzkaller.appspotmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	syzkaller-bugs@googlegroups.com,
-	tiwai@suse.com
-Subject: Re: [PATCH] ALSA: line6: init buf to zero
-In-Reply-To: <tencent_6ECFD36FE36EC96283A5C4587761F76F8605@qq.com>
-References: <00000000000000949c061df288c5@google.com>
-	<tencent_6ECFD36FE36EC96283A5C4587761F76F8605@qq.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T2mKwvje"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6486C32782;
+	Wed, 24 Jul 2024 08:06:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721808387;
+	bh=AKKM6ppMNxmC7UXJSSz3Ux9097zdWoX9DlJdSKA47D4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=T2mKwvje3zz3Tu+q9/weTIFmMsr4waWW4t+NKBRQiPZd6QZucUTu2hjyLDyChR/EK
+	 XutvMGcA54ehmZslh+rwuxlKFSFQF4BPD6yKnZrejsEJwk/EVaDSZjJbBmTHIj13Km
+	 TawreHGT/6YVXpVSEem3JavFS0j6012pl+qKx1LB62owOFpWCwUeKniNG+JtclOYWb
+	 Q8EJYCs2otMvvQeu71KqPsGxWMexoVxYMuPU1RgRLBXo/KuFwq8IZi2G85Di4cVTAl
+	 tD0futDU6Y/0UVcaYkG55sg+0pjkd5MjhaFE3RfULjlWM6Mqqv4XxlLAWi29PsygKd
+	 Cv/j9peV3ENOA==
+Message-ID: <119c9a56-ada7-42b2-a0c4-93038950f325@kernel.org>
+Date: Wed, 24 Jul 2024 10:06:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-0.81 / 50.00];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[qq.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[qq.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	TAGGED_RCPT(0.00)[78eccfb8b3c9a85fc6c5];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Spamd-Bar: /
-X-Rspamd-Queue-Id: 191CD1F74B
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -0.81
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 03/16] dt-bindings: mfd: mediatek: Add codec property
+ for MT6357 PMIC
+To: Alexandre Mergnat <amergnat@baylibre.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
+ <20240226-audio-i350-v7-3-6518d953a141@baylibre.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240226-audio-i350-v7-3-6518d953a141@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, 24 Jul 2024 07:58:45 +0200,
-Edward Adam Davis wrote:
+On 22/07/2024 08:53, Alexandre Mergnat wrote:
+> Add the audio codec sub-device. This sub-device is used to set the
+> optional voltage values according to the hardware.
+> The properties are:
+>   - Setup of microphone bias voltage.
+>   - Setup of the speaker pin pull-down.
 > 
-> Syzbot report KMSAN uninit-value warnings.
-> When alloc buffer for midi_buffer->buf, init mem to 0.
+> Also, add the audio power supply property which is dedicated for
+> the audio codec sub-device.
 > 
-> Reported-and-tested-by: syzbot+78eccfb8b3c9a85fc6c5@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=78eccfb8b3c9a85fc6c5
-> Signed-off-by: Edward Adam Davis <eadavis@qq.com>
-> ---
->  sound/usb/line6/midibuf.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/sound/usb/line6/midibuf.c b/sound/usb/line6/midibuf.c
-> index e7f830f7526c..1b699cb3b38d 100644
-> --- a/sound/usb/line6/midibuf.c
-> +++ b/sound/usb/line6/midibuf.c
-> @@ -48,7 +48,7 @@ void line6_midibuf_reset(struct midi_buffer *this)
->  
->  int line6_midibuf_init(struct midi_buffer *this, int size, int split)
->  {
-> -	this->buf = kmalloc(size, GFP_KERNEL);
-> +	this->buf = kzalloc(size, GFP_KERNEL);
+> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 
-Thanks for the patch.  But this just hides the KMSAN warning, and it
-doesn't really address the cause - why it was exposed at all; the
-driver code had already a check and should have accessed only the
-updated data, but by some reason it slipped.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Through a quick glance, I see a possible.  If that's the cause, the
-patch like below might help.  I checked the reproducer locally but
-couldn't  trigger the bug on my image, unfortunately, so it's just a
-wild guess, and it might be shooting a wrong way.  Let's see.
+Best regards,
+Krzysztof
 
-
-thanks,
-
-Takashi
-
--- 8< --
---- a/sound/usb/line6/driver.c
-+++ b/sound/usb/line6/driver.c
-@@ -286,12 +286,14 @@ static void line6_data_received(struct urb *urb)
- {
- 	struct usb_line6 *line6 = (struct usb_line6 *)urb->context;
- 	struct midi_buffer *mb = &line6->line6midi->midibuf_in;
-+	unsigned long flags;
- 	int done;
- 
- 	if (urb->status == -ESHUTDOWN)
- 		return;
- 
- 	if (line6->properties->capabilities & LINE6_CAP_CONTROL_MIDI) {
-+		spin_lock_irqsave(&line6->line6midi->lock, flags);
- 		done =
- 			line6_midibuf_write(mb, urb->transfer_buffer, urb->actual_length);
- 
-@@ -300,12 +302,15 @@ static void line6_data_received(struct urb *urb)
- 			dev_dbg(line6->ifcdev, "%d %d buffer overflow - message skipped\n",
- 				done, urb->actual_length);
- 		}
-+		spin_unlock_irqrestore(&line6->line6midi->lock, flags);
- 
- 		for (;;) {
-+			spin_lock_irqsave(&line6->line6midi->lock, flags);
- 			done =
- 				line6_midibuf_read(mb, line6->buffer_message,
- 						   LINE6_MIDI_MESSAGE_MAXLEN,
- 						   LINE6_MIDIBUF_READ_RX);
-+			spin_unlock_irqrestore(&line6->line6midi->lock, flags);
- 
- 			if (done <= 0)
- 				break;
