@@ -1,124 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 248635336B;
-	Wed, 24 Jul 2024 08:06:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28467AD23;
+	Wed, 24 Jul 2024 08:18:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721808388; cv=none; b=r0xmf/ziLOWhKfQgmr5IGCTj9irneGbl32z0a0ZI3vyqLrtwGBlezGqf1e94OxgoVQ5MJPFeFfQnpB28sz9M2Gou7a837yl5Vg9kKCnb20rGXXLw1W9gdHVnoTeDW0/cBIw98nlvoGiHXAPnS6fPuSOiS+wrIO6K5cztUUdqtg8=
+	t=1721809123; cv=none; b=h4fIWjMlqYLIl2oCMLjQjroi+hRsZnp6UFfvkh0KSmbAGTLiegTU/0tCcDE/Qu0zICEfSxx/r6VD+wBf6lADfpHGwAdAU05+2tUnKqSpjT35PtfnN5dlMscWs6xoo8G3ddIuSrNvr5ZK1BS+H4QNEy3SveFt4y6qbV0wJ4aF0ao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721808388; c=relaxed/simple;
-	bh=AKKM6ppMNxmC7UXJSSz3Ux9097zdWoX9DlJdSKA47D4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UL/Ho7V+QHrP1S+aTTutD93BWFf+XuVle5KmYybFIsrvCPpIUbcvb7cRY4tpA7K6fG2DMnyVCNzDIJSMFlEyqi0YNT2n9aL2K+3BCkllYDM/LDNmhLD5YtUExOrpFoyGAcrs6UfFRPHRK4jkKmO6EMuoCb5AZohgsQZtIL31BNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T2mKwvje; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721809123; c=relaxed/simple;
+	bh=dqQHkxF05tB3TmiieXCGAuWu0V/uXuhTF6SPvMaJwqA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lagYAw1B8YwXxtJRq1UoCIPaK+8wLQOlae0yQ3bbny8LU9JFKtl2iiN5XEALc5RCY+8JPjGh7IOKX5rfeSUCuIWI2L11V1R/EtFPuGbgEhxJlpMo/l46QKB2axHYGnvFqxAPupPLXnTQWteumVPsK6Xq20nsF/mIowYy+5U3rkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mkXNC+4p; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T2mKwvje"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6486C32782;
-	Wed, 24 Jul 2024 08:06:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721808387;
-	bh=AKKM6ppMNxmC7UXJSSz3Ux9097zdWoX9DlJdSKA47D4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=T2mKwvje3zz3Tu+q9/weTIFmMsr4waWW4t+NKBRQiPZd6QZucUTu2hjyLDyChR/EK
-	 XutvMGcA54ehmZslh+rwuxlKFSFQF4BPD6yKnZrejsEJwk/EVaDSZjJbBmTHIj13Km
-	 TawreHGT/6YVXpVSEem3JavFS0j6012pl+qKx1LB62owOFpWCwUeKniNG+JtclOYWb
-	 Q8EJYCs2otMvvQeu71KqPsGxWMexoVxYMuPU1RgRLBXo/KuFwq8IZi2G85Di4cVTAl
-	 tD0futDU6Y/0UVcaYkG55sg+0pjkd5MjhaFE3RfULjlWM6Mqqv4XxlLAWi29PsygKd
-	 Cv/j9peV3ENOA==
-Message-ID: <119c9a56-ada7-42b2-a0c4-93038950f325@kernel.org>
-Date: Wed, 24 Jul 2024 10:06:16 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mkXNC+4p"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1721809122; x=1753345122;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=dqQHkxF05tB3TmiieXCGAuWu0V/uXuhTF6SPvMaJwqA=;
+  b=mkXNC+4pggMCTwRtDUmer6q69Sk6kV8cFa8Yemd6tds9Z9IGwRyBANSG
+   4SmPTogb5wtWU6QNqW19ALfevkJrsLAImxSRleClzF6sL5gg1Mm4rgJlR
+   /qjNmPfJAuijyB2Mq+BEC56VbaUUiolkMSuaHCHoEJ7YVocx7l7wYwVIb
+   4QcbAcUMtTB1dkm4oKv0uHlmjR2pEXEY4EmzuCbWjqZOr0C70JEAb/lIc
+   wO5BckX6Wpxnx1I1FDJ19Tnt3qbMNH83DBzc4SjioqCzEoRgHTRL/B8E+
+   vvkVHvuk+qhqguQgsQzd3/K1qn30fP77Ce1yrubk1/dyDlLo93oKChL9o
+   w==;
+X-CSE-ConnectionGUID: 6dqjPPo/Ray4SbHpbwgwKA==
+X-CSE-MsgGUID: cTvs0agVT/KFlKalRzEO9w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11142"; a="19166176"
+X-IronPort-AV: E=Sophos;i="6.09,232,1716274800"; 
+   d="scan'208";a="19166176"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2024 01:18:41 -0700
+X-CSE-ConnectionGUID: P/nyfodXSweqZhcnoN6GAg==
+X-CSE-MsgGUID: HM5esxDoT86B4U/bBRQonw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,232,1716274800"; 
+   d="scan'208";a="52221749"
+Received: from dhhellew-desk2.ger.corp.intel.com.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.244.68])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2024 01:18:39 -0700
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	stable@vger.kernel.org
+Subject: [PATCH fro 6.11 0/2] ASoC SOF: ipc4-topology: Fix LinkID handling for ChainDMA
+Date: Wed, 24 Jul 2024 11:19:30 +0300
+Message-ID: <20240724081932.24542-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 03/16] dt-bindings: mfd: mediatek: Add codec property
- for MT6357 PMIC
-To: Alexandre Mergnat <amergnat@baylibre.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
- <20240226-audio-i350-v7-3-6518d953a141@baylibre.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240226-audio-i350-v7-3-6518d953a141@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 22/07/2024 08:53, Alexandre Mergnat wrote:
-> Add the audio codec sub-device. This sub-device is used to set the
-> optional voltage values according to the hardware.
-> The properties are:
->   - Setup of microphone bias voltage.
->   - Setup of the speaker pin pull-down.
-> 
-> Also, add the audio power supply property which is dedicated for
-> the audio codec sub-device.
-> 
-> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+Hi,
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+A recent patch available in 6.10 [1] uncovered two issues on how the DMA Link ID
+is tracked with ChainDMA and can cause under specific conditions [2] to cause a DSP
+panic.
+The issue is not academic as we have one user report of it:
+https://github.com/thesofproject/linux/issues/5116
 
-Best regards,
-Krzysztof
+The patches have been marked for stable backport to made there way to 6.10.
+
+The first patch is fixing a code move patch, for older than 6.9 we would need
+different patch to fix the original code, but since the issue is only valid for
+6.10, I will do that at a later time.
+
+Mark, can you please schedule these as fixes for 6.11 to get them fast to 6.10?
+Thank you.
+
+[1] ebd3b3014eeb ("ASoC: SOF: pcm: reset all PCM sources in case of xruns")
+[2] https://github.com/thesofproject/linux/pull/5119#issuecomment-2244770449
+
+Regards,
+Peter
+---
+Peter Ujfalusi (2):
+  ASoC: SOF: ipc4-topology: Only handle dai_config with HW_PARAMS for
+    ChainDMA
+  ASoC: SOF: ipc4-topology: Preserve the DMA Link ID for ChainDMA on
+    unprepare
+
+ sound/soc/sof/ipc4-topology.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
+
+-- 
+2.45.2
 
