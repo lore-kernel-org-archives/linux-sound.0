@@ -1,89 +1,86 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65AFB199E9B;
-	Thu, 25 Jul 2024 13:07:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97571132492;
+	Thu, 25 Jul 2024 13:09:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721912829; cv=none; b=L0KpUpuP1KKzz3INoLOopP4wQr8o688eUCdWho2F4xWYNVV8GpO9rTT/a20q+A6CwxdZVz96cY1Bd2gzP+Dx8gGJq6NwcPruaVG6lmAbs7NSwS9lflFjf2Jjbar8ayJXdzKs3T2VXzLYbJcWKIpj+Xk7JV/ac6kvKJhdFONWcGc=
+	t=1721912985; cv=none; b=s9jpuTFfT9KXO8lvg8+6zDpxfy8KYdJ54S77ykfDV52nb7Eipf4uyped960FogG0AvJYlxn6PzMRWvFZpWKRCM7iQbfWNi5t3mrP/nrJP7c9UwviOnt+U1xJT/c/9zq0p4njTTx6xrMt+TQLPrCaBSpZl2OH60dbu7XuuaV/zlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721912829; c=relaxed/simple;
-	bh=27UdjVY2T9kftaELLseaAoaA4TD8YZeRfanOV32l7I0=;
+	s=arc-20240116; t=1721912985; c=relaxed/simple;
+	bh=n1gUr2c4GQu5jNGebTPfPhLof3eEJ04vnF3m/uM8RPg=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=p59T+cvO7FnqivV+iYza/aND4FBI1HrASy7iCn0Fs//4OAMbHNtHgp/lwMngEUF7rwECkxJe+MlOp9U8GTx+5RBjmsVZD5ZNz55Mp/x5VuJASmd7wvd9y0sT89db8MW5OuhrNd4usis2xlmLWojSxwMDizedvadY2LFK+9jTjhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oUd2QNDt; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SCp6G7Eq; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oUd2QNDt; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SCp6G7Eq; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=mkX9uDoUKJ1HpYUylJUZvlnlZ0aqPeE3+o3UsSCiAF+oxfr9LlpPilnxzl4hL4E9Nm8W9QaMPpTJKNCpJVPF8qTl1jjr/xKwYzQec+ZLpjCR8KHeCxdAb0f3iUTc4ZIaqJPK05cYv92JGEAPFgowWp48kvmsWAW6QqnvRGgxax4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=agEgf15+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gNKq+b1Q; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=agEgf15+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gNKq+b1Q; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oUd2QNDt";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SCp6G7Eq";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oUd2QNDt";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SCp6G7Eq"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="agEgf15+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gNKq+b1Q";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="agEgf15+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gNKq+b1Q"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9FA471FC24;
-	Thu, 25 Jul 2024 13:07:05 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B61F81F45A;
+	Thu, 25 Jul 2024 13:09:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1721912825; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1721912981; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=x7a2eLlH3iIWOinS6JEA7tMaX+0WlcTQWISwluY5v5U=;
-	b=oUd2QNDtyhsQ3bE2a/AeXhL7YygsZVTa8e7uZ4oGeucZyLPU93E6qpdGMpnms41r6AHiAI
-	L4M7Prp9JhVQuI7ZOcq4vaiRNKQEYbUxQM4d5gt/D52cC0H2QivekzVC4bqDVQgyaUkzAC
-	bGuWh1c7DEW4I6O8Yn8goQsp5Y6k31g=
+	bh=QKjiNMrsBhBaZ0D8OVqE+BfZnp5dRRJ+v/JWkSJHC9c=;
+	b=agEgf15+fX52b43Kz9PD/y77GRLe3F7aQ0VbOd7anvpMOoubM2Hk92S+CrDGR0Wlf7HYw/
+	6bRSHfq5Pewm6vE497jxSJ+oEXTmm0dNhCBLvQ2c06SJRB74b1UIb9h0DWqFEdG4kf84fY
+	LOkx8B2kohdpMkBV7LjDxl+Jwsv0H1o=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1721912825;
+	s=susede2_ed25519; t=1721912981;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=x7a2eLlH3iIWOinS6JEA7tMaX+0WlcTQWISwluY5v5U=;
-	b=SCp6G7Eq6DJVRxI6M3JoMYXXwQI5pP0r1nwln+zkmD4qugxDH/d6P00SvZq4MXl1lUJEKL
-	1dp4w/20ll4/4+Dw==
+	bh=QKjiNMrsBhBaZ0D8OVqE+BfZnp5dRRJ+v/JWkSJHC9c=;
+	b=gNKq+b1QMPu1QCFADYdDmBWO76i31LVeCWbIl2ry1r3W1y7kBCuqOf0YlKuWKWOj21sZOc
+	qXYfOJfmJtjj8gAw==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=oUd2QNDt;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=SCp6G7Eq
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1721912825; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1721912981; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=x7a2eLlH3iIWOinS6JEA7tMaX+0WlcTQWISwluY5v5U=;
-	b=oUd2QNDtyhsQ3bE2a/AeXhL7YygsZVTa8e7uZ4oGeucZyLPU93E6qpdGMpnms41r6AHiAI
-	L4M7Prp9JhVQuI7ZOcq4vaiRNKQEYbUxQM4d5gt/D52cC0H2QivekzVC4bqDVQgyaUkzAC
-	bGuWh1c7DEW4I6O8Yn8goQsp5Y6k31g=
+	bh=QKjiNMrsBhBaZ0D8OVqE+BfZnp5dRRJ+v/JWkSJHC9c=;
+	b=agEgf15+fX52b43Kz9PD/y77GRLe3F7aQ0VbOd7anvpMOoubM2Hk92S+CrDGR0Wlf7HYw/
+	6bRSHfq5Pewm6vE497jxSJ+oEXTmm0dNhCBLvQ2c06SJRB74b1UIb9h0DWqFEdG4kf84fY
+	LOkx8B2kohdpMkBV7LjDxl+Jwsv0H1o=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1721912825;
+	s=susede2_ed25519; t=1721912981;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=x7a2eLlH3iIWOinS6JEA7tMaX+0WlcTQWISwluY5v5U=;
-	b=SCp6G7Eq6DJVRxI6M3JoMYXXwQI5pP0r1nwln+zkmD4qugxDH/d6P00SvZq4MXl1lUJEKL
-	1dp4w/20ll4/4+Dw==
+	bh=QKjiNMrsBhBaZ0D8OVqE+BfZnp5dRRJ+v/JWkSJHC9c=;
+	b=gNKq+b1QMPu1QCFADYdDmBWO76i31LVeCWbIl2ry1r3W1y7kBCuqOf0YlKuWKWOj21sZOc
+	qXYfOJfmJtjj8gAw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 68FBC13874;
-	Thu, 25 Jul 2024 13:07:05 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7C38213874;
+	Thu, 25 Jul 2024 13:09:41 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id zDuHGPlNomaCegAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 25 Jul 2024 13:07:05 +0000
-Date: Thu, 25 Jul 2024 15:07:40 +0200
-Message-ID: <87r0bhipr7.wl-tiwai@suse.de>
+	id SnbxHJVOomZRewAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 25 Jul 2024 13:09:41 +0000
+Date: Thu, 25 Jul 2024 15:10:16 +0200
+Message-ID: <87plr1ipmv.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: "edmund.raile" <edmund.raile@proton.me>
-Cc: alsa-devel@alsa-project.org,
-	stable@vger.kernel.org,
-	regressions@lists.linux.dev,
-	o-takashi@sakamocchi.jp,
-	gustavoars@kernel.org,
-	clemens@ladisch.de,
-	linux-sound@vger.kernel.org
-Subject: Re: [REGRESSION] ALSA: firewire-lib: heavy digital distortion with Fireface 800
-In-Reply-To: <rrufondjeynlkx2lniot26ablsltnynfaq2gnqvbiso7ds32il@qk4r6xps7jh2>
-References: <rrufondjeynlkx2lniot26ablsltnynfaq2gnqvbiso7ds32il@qk4r6xps7jh2>
+To: soxiebing <soxiebing@163.com>
+Cc: tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	songxiebing <songxiebing@kylinos.cn>,
+	bo liu <bo.liu@senarytech.com>
+Subject: Re: [PATCH] ALSA: hda: conexant: Fix headset auto detect fail in the polling mode
+In-Reply-To: <20240725082610.45504-1-soxiebing@163.com>
+References: <20240725082610.45504-1-soxiebing@163.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -92,53 +89,49 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-0.31 / 50.00];
+X-Spam-Level: 
+X-Spamd-Result: default: False [-0.10 / 50.00];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[163.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[163.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_TLS_ALL(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spamd-Bar: /
-X-Rspamd-Queue-Id: 9FA471FC24
-X-Spam-Level: 
-X-Rspamd-Action: no action
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 X-Spam-Flag: NO
-X-Spam-Score: -0.31
+X-Spam-Score: -0.10
 
-On Thu, 25 Jul 2024 00:24:29 +0200,
-edmund.raile wrote:
+On Thu, 25 Jul 2024 10:26:10 +0200,
+soxiebing wrote:
 > 
-> Bisection revealed that the bitcrushing distortion with RME FireFace 800
-> was caused by 1d717123bb1a7555
-> ("ALSA: firewire-lib: Avoid -Wflex-array-member-not-at-end warning").
+> From: songxiebing <songxiebing@kylinos.cn>
 > 
-> Reverting this commit yields restoration of clear audio output.
-> I will send in a patch reverting this commit for now, soonTM.
-> 
-> #regzbot introduced: 1d717123bb1a7555
+> 'Fixes: 7aeb25908648 ("Fix headset auto detect fail in cx8070 and SN6140")'
 
-While it's OK to have a quick revert, it'd be worth to investigate
-further what broke there; the change is rather trivial, so it might be
-something in the macro expansion or a use of flex array stuff.
+The Fixes tag should be put around Signed-off-by.
+Also drop the quote ''.
+
+> This patch only handles the unsol_event reporting during interrupts
+> and does not include the polling mode used to set jackroll_ms, so
+> it's changed to use snd_hda_jack_detect-enable_callback function.
+
+If you mean about the commit above as "this patch", better to
+rephrase to be clearer.
+
+The code change itself looks good, through a quick glance.
+
+Could you try to improve the patch description and resubmit?
 
 
 thanks,
