@@ -1,54 +1,155 @@
-Received: from mail-4027.protonmail.ch (mail-4027.protonmail.ch [185.70.40.27])
+Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2B1413B7BC
-	for <linux-sound@vger.kernel.org>; Wed, 24 Jul 2024 22:24:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.27
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F34233CA;
+	Thu, 25 Jul 2024 03:48:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721859878; cv=none; b=sglaM+bIkRzKXUfV9x5Bw03F67qV/NGS08M5k6KfbuWCMHcmwTk6ovZTcr3DftFcL9nmIY4E+AEkQXqi1BHLi7H3RoxdmZyNKHFCgNqAAU7wc1awYExiKxPmOjgBTkwYbuw4k5INRS7V8jZm6IjlOaU0jKkdPdu/3ysu3opWZz4=
+	t=1721879322; cv=none; b=bhLF1HA+NjQj6P9bCfBysR7dGETxxw530WsRUsHH2PoMfLQTrvk2fuI+JW//h87oxBnh9Q9SGFhQzIijCbQTbBepFc/8jbNmieWL5zBpOW6qQYKweIaC+P4WMQJUXBkClRtpZk0u1OpmM5rIw0v2JK+58UwccszBThircvr7ZfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721859878; c=relaxed/simple;
-	bh=FOX3CF69PyQxiCr877/OkmnO+5fy6DMx7+bI5kwdjKU=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=VdD6/DoOF0k7fzFQuADuO+EKTkYnkaoTr1DPQY7rDcdu1Bi225+IcUdAI2PKxQ6S5O0wNIMnn5PkwpD4IEzyfwklQxhe/vnv1t52gsCc6BR3h/1RdHpumiA1Vr4HI1O/P7jHb0982mMoVBen3ePy2QVoZR1gPa2cNLc2V3ks8mw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=Eivfab7h; arc=none smtp.client-ip=185.70.40.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="Eivfab7h"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1721859875; x=1722119075;
-	bh=FOX3CF69PyQxiCr877/OkmnO+5fy6DMx7+bI5kwdjKU=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=Eivfab7hqgtkUXTNdb2EXVzsbeQvmvLqpGi+fq3NDaImsy9l8CnY1+stYNO/1x7l1
-	 WUedn1jJ1OiWwcU+9Ldn//ULgGBmi439IwDnMxaixyBHJhDBDBa+s+0emS6sAfdh78
-	 jzhlcaHiGS+j4POtjtnFIaR0vbSOAEltSt/uxEDpsp6ZWbCOzFLifoaLj5BEgXJ4Lg
-	 3fRiH9YTgv53PnKPTMa5PBz0D5XQweBT5yi3iX5h2DjNvUq4RqKJVwR9kkqEx0Vp5s
-	 Ypgq4p4gt+wlaSVkwfiYopsofbfu7Q1FnP8Gl02AGI4kb4wsRT5bxA6I30Ohl6ZuYU
-	 0/uq/BSOadugw==
-Date: Wed, 24 Jul 2024 22:24:29 +0000
-To: alsa-devel@alsa-project.org, stable@vger.kernel.org
-From: "edmund.raile" <edmund.raile@proton.me>
-Cc: regressions@lists.linux.dev, o-takashi@sakamocchi.jp, tiwai@suse.de, gustavoars@kernel.org, clemens@ladisch.de, linux-sound@vger.kernel.org
-Subject: [REGRESSION] ALSA: firewire-lib: heavy digital distortion with Fireface 800
-Message-ID: <rrufondjeynlkx2lniot26ablsltnynfaq2gnqvbiso7ds32il@qk4r6xps7jh2>
-Feedback-ID: 45198251:user:proton
-X-Pm-Message-ID: e4a59c6ab075e46504783ff58826a51143fc3be1
+	s=arc-20240116; t=1721879322; c=relaxed/simple;
+	bh=EyDmCsB+rlaknj5yPLW/sti7muC19st9eo8Ju/3pAy4=;
+	h=From:To:Subject:Date:Message-Id; b=AhF3dt3mpV7mcN2uMsuF6wE78lIYlECZn1M0IjySqcTfC8eTw7AALlRNuGW5/y6/4esfYraTtW6Hh3R6QghIMBvvyXPUcD642eYCQQwhBp7hvSJgUJgKRHtm61Wd6c7tLTBLeJNBnjk0yIjaVu5fNRCTI+kRrcOMPO1M1PIhAOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+Received: from inva020.nxp.com (localhost [127.0.0.1])
+	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id BFD061A038B;
+	Thu, 25 Jul 2024 05:48:31 +0200 (CEST)
+Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
+	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 68D8F1A05AA;
+	Thu, 25 Jul 2024 05:48:31 +0200 (CEST)
+Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
+	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 19DC7183AD09;
+	Thu, 25 Jul 2024 11:48:30 +0800 (+08)
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	elinor.montmasson@savoirfairelinux.com,
+	alsa-devel@alsa-project.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: fsl-asoc-card: Dynamically allocate memory for snd_soc_dai_link_components
+Date: Thu, 25 Jul 2024 11:22:53 +0800
+Message-Id: <1721877773-5229-1-git-send-email-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.7.4
+X-Virus-Scanned: ClamAV using ClamSMTP
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-Bisection revealed that the bitcrushing distortion with RME FireFace 800
-was caused by 1d717123bb1a7555
-("ALSA: firewire-lib: Avoid -Wflex-array-member-not-at-end warning").
+The static snd_soc_dai_link_components cause conflict for multiple
+instances of this generic driver. For example, when there is
+wm8962 and SPDIF case enabled together, the contaminated
+snd_soc_dai_link_components will cause another device probe fail.
 
-Reverting this commit yields restoration of clear audio output.
-I will send in a patch reverting this commit for now, soonTM.
+Fixes: 6d174cc4f224 ("ASoC: fsl-asoc-card: merge spdif support from imx-spdif.c")
+Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+---
+ sound/soc/fsl/fsl-asoc-card.c | 46 ++++++++++++++++++++++-------------
+ 1 file changed, 29 insertions(+), 17 deletions(-)
 
-#regzbot introduced: 1d717123bb1a7555
+diff --git a/sound/soc/fsl/fsl-asoc-card.c b/sound/soc/fsl/fsl-asoc-card.c
+index 82df887b3af5..f6c3aeff0d8e 100644
+--- a/sound/soc/fsl/fsl-asoc-card.c
++++ b/sound/soc/fsl/fsl-asoc-card.c
+@@ -306,27 +306,12 @@ static int be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
+ 	return 0;
+ }
+ 
+-SND_SOC_DAILINK_DEFS(hifi,
+-	DAILINK_COMP_ARRAY(COMP_EMPTY()),
+-	DAILINK_COMP_ARRAY(COMP_EMPTY(), COMP_EMPTY()),
+-	DAILINK_COMP_ARRAY(COMP_EMPTY()));
+-
+-SND_SOC_DAILINK_DEFS(hifi_fe,
+-	DAILINK_COMP_ARRAY(COMP_EMPTY()),
+-	DAILINK_COMP_ARRAY(COMP_DUMMY()),
+-	DAILINK_COMP_ARRAY(COMP_EMPTY()));
+-
+-SND_SOC_DAILINK_DEFS(hifi_be,
+-	DAILINK_COMP_ARRAY(COMP_EMPTY()),
+-	DAILINK_COMP_ARRAY(COMP_EMPTY(), COMP_EMPTY()));
+-
+ static const struct snd_soc_dai_link fsl_asoc_card_dai[] = {
+ 	/* Default ASoC DAI Link*/
+ 	{
+ 		.name = "HiFi",
+ 		.stream_name = "HiFi",
+ 		.ops = &fsl_asoc_card_ops,
+-		SND_SOC_DAILINK_REG(hifi),
+ 	},
+ 	/* DPCM Link between Front-End and Back-End (Optional) */
+ 	{
+@@ -335,7 +320,6 @@ static const struct snd_soc_dai_link fsl_asoc_card_dai[] = {
+ 		.dpcm_playback = 1,
+ 		.dpcm_capture = 1,
+ 		.dynamic = 1,
+-		SND_SOC_DAILINK_REG(hifi_fe),
+ 	},
+ 	{
+ 		.name = "HiFi-ASRC-BE",
+@@ -345,7 +329,6 @@ static const struct snd_soc_dai_link fsl_asoc_card_dai[] = {
+ 		.dpcm_playback = 1,
+ 		.dpcm_capture = 1,
+ 		.no_pcm = 1,
+-		SND_SOC_DAILINK_REG(hifi_be),
+ 	},
+ };
+ 
+@@ -637,6 +620,7 @@ static int fsl_asoc_card_probe(struct platform_device *pdev)
+ 	struct platform_device *cpu_pdev;
+ 	struct fsl_asoc_card_priv *priv;
+ 	struct device *codec_dev[2] = { NULL, NULL };
++	struct snd_soc_dai_link_component *dlc;
+ 	const char *codec_dai_name[2];
+ 	const char *codec_dev_name[2];
+ 	u32 asrc_fmt = 0;
+@@ -717,7 +701,35 @@ static int fsl_asoc_card_probe(struct platform_device *pdev)
+ 
+ 	memcpy(priv->dai_link, fsl_asoc_card_dai,
+ 	       sizeof(struct snd_soc_dai_link) * ARRAY_SIZE(priv->dai_link));
++	/*
++	 * "Default ASoC DAI Link": 1 cpus, 2 codecs, 1 platforms
++	 * "DPCM Link Front-End":  1 cpus, 1 codecs (dummy), 1 platforms
++	 * "DPCM Link Back-End": 1 cpus, 2 codecs
++	 * totally 10 components
++	 */
++	dlc = devm_kcalloc(&pdev->dev, 10, sizeof(*dlc), GFP_KERNEL);
++	if (!dlc) {
++		ret = -ENOMEM;
++		goto asrc_fail;
++	}
++
++	priv->dai_link[0].cpus = &dlc[0];
++	priv->dai_link[0].num_cpus = 1;
++	priv->dai_link[0].codecs = &dlc[1];
+ 	priv->dai_link[0].num_codecs = 1;
++	priv->dai_link[0].platforms = &dlc[3];
++	priv->dai_link[0].num_platforms = 1;
++
++	priv->dai_link[1].cpus = &dlc[4];
++	priv->dai_link[1].num_cpus = 1;
++	priv->dai_link[1].codecs = &dlc[5];
++	priv->dai_link[1].num_codecs = 0; /* dummy */
++	priv->dai_link[1].platforms = &dlc[6];
++	priv->dai_link[1].num_platforms = 1;
++
++	priv->dai_link[2].cpus = &dlc[7];
++	priv->dai_link[2].num_cpus = 1;
++	priv->dai_link[2].codecs = &dlc[8];
+ 	priv->dai_link[2].num_codecs = 1;
+ 
+ 	priv->card.dapm_routes = audio_map;
+-- 
+2.34.1
 
