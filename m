@@ -1,142 +1,146 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 796BA19A29C
-	for <linux-sound@vger.kernel.org>; Thu, 25 Jul 2024 11:24:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65AFB199E9B;
+	Thu, 25 Jul 2024 13:07:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721906647; cv=none; b=QGIRSL9Oy6ctfvwGyRY9tuhTm+bwDBcR9OCO9IJmsLBs1clAUiD3CxasBb34tIhDcu0FdEPXARN8UZ1Wnd7+WeSkFU/X6fu18SYMePwPaifstEanGQy0Mcb31TuJtvigszSF9qSULo0JUOUh192aWFFnW5JaFL6Z3BgT+4EIjm8=
+	t=1721912829; cv=none; b=L0KpUpuP1KKzz3INoLOopP4wQr8o688eUCdWho2F4xWYNVV8GpO9rTT/a20q+A6CwxdZVz96cY1Bd2gzP+Dx8gGJq6NwcPruaVG6lmAbs7NSwS9lflFjf2Jjbar8ayJXdzKs3T2VXzLYbJcWKIpj+Xk7JV/ac6kvKJhdFONWcGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721906647; c=relaxed/simple;
-	bh=IezU2W8rytHN1+OJjzdCLOScjz5OOSUaMHzxu2FqxSk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=b08Mekx2Pn0ai6Oz9kx/GRIHK6p01Hq5mNRVAe0z7+ijoB46vrMBVZIhECCoDqRFvvAef8BRHxUHe/VzSnpq4Oz4q8HWsqdwFGT8NJGiN3XsT4AAMSUDDsZ5FdigYhUaAnMf5/KGgkG4fu5twGZe+teF/6LH6YidqJECb8Srv+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XkH2aDr9; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1721912829; c=relaxed/simple;
+	bh=27UdjVY2T9kftaELLseaAoaA4TD8YZeRfanOV32l7I0=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=p59T+cvO7FnqivV+iYza/aND4FBI1HrASy7iCn0Fs//4OAMbHNtHgp/lwMngEUF7rwECkxJe+MlOp9U8GTx+5RBjmsVZD5ZNz55Mp/x5VuJASmd7wvd9y0sT89db8MW5OuhrNd4usis2xlmLWojSxwMDizedvadY2LFK+9jTjhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oUd2QNDt; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SCp6G7Eq; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oUd2QNDt; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SCp6G7Eq; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XkH2aDr9"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-36858357bb7so458170f8f.2
-        for <linux-sound@vger.kernel.org>; Thu, 25 Jul 2024 04:24:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1721906644; x=1722511444; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fuc1obU/KvJR69EdA4JL3jyV+SdcVptiD/ClFtmUvzY=;
-        b=XkH2aDr9HNOLJdQOaumUwwY+YYe/r55sg2VQkWcL0aQGwBpzd9YMfxik78XDHlokjW
-         YR9p0JNd1ymN9VhtDRUb8dAZU6+09I3MNds2vi7RPZPv0wVUp0lP0y7B6sfIIhs4V9oM
-         7VC4NDgxSBrKhw8PNV4+MeO8f5bKG7E1vBY+EgJiIH81e8Shz6J6IHtbNuWTNvV4dGP4
-         UzwuTuKaJ+DcH8RynLb6OrMC0h4IMSn4zQQIeqN7+b3fWumDBerdvz2e/Wv/LFbhLsT6
-         kHpq30q0lHC2zvU2yTIxlOO3yTnptxtB7fqbpJ0afuI9HgOgqJEslosW9lP5mUW+yo45
-         +OYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721906644; x=1722511444;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fuc1obU/KvJR69EdA4JL3jyV+SdcVptiD/ClFtmUvzY=;
-        b=u0u0TS5V4lf5vX8rwzkcSAhSbibf45PJVbk8o4AfJkJVaTDQFsWk7+TkouMyvN3Xpc
-         NpKcSjOED5jzYbZ/Upe+QR6bxSaydP77Rn8MCPzEl0CM305fkpP8tVAvHrm1oAk5VO8K
-         XA27JO82WkQml0i3eqog027o4gMe7x6sUUbwy7PEAnjAz6Rm2Ap6fJQEfUKCSLXiWZbr
-         nnNudHmQbYHYSJ/nwb1tWW1k0mLiBJOnrOm2dcS+dV7fPtfb68wemeDVdrx16o+Kox6j
-         oNx+7mXEeXXdtonbFRLt6oKa2bMlJ1Mq/i1ybRztQh1go4h8VU8xVjA9VpJrAJNdagQJ
-         Pw6w==
-X-Forwarded-Encrypted: i=1; AJvYcCULN5si55QhYQqNUnpvLChXMEXAvV9MlTSunXQUfTWxZw17a53Zg6YoW/9pSs1VRgMfNG3fFLAYL/txHpAxdtTFAO0jcL1RtpGVyOM=
-X-Gm-Message-State: AOJu0YwyBkBz/+NxBs//CC7lQVhxHj0fAJ/60Kw+w0SrgexnRvzp9sQO
-	5+IgHJbFw27Soj9/j9EUyHqlsscwwlsT8uJpm+DzPy3ff4KFJCpTvo2U7yj1O8M=
-X-Google-Smtp-Source: AGHT+IEpQs3fxfrt410fx954ueUVYLvEFG6tI5ahSFyUrB+n2S+LTUldQrepCDb1PHiuZbAbge4L7Q==
-X-Received: by 2002:adf:f64f:0:b0:367:9828:f42d with SMTP id ffacd0b85a97d-36b31a4acd9mr1754985f8f.53.1721906643810;
-        Thu, 25 Jul 2024 04:24:03 -0700 (PDT)
-Received: from [127.0.1.1] ([178.197.219.137])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36b367e072asm1823607f8f.42.2024.07.25.04.24.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jul 2024 04:24:03 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Thu, 25 Jul 2024 13:23:49 +0200
-Subject: [PATCH 7/7] ASoC: codecs: wcd939x: Move max port number defines to
- enum
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oUd2QNDt";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SCp6G7Eq";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oUd2QNDt";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SCp6G7Eq"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9FA471FC24;
+	Thu, 25 Jul 2024 13:07:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1721912825; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=x7a2eLlH3iIWOinS6JEA7tMaX+0WlcTQWISwluY5v5U=;
+	b=oUd2QNDtyhsQ3bE2a/AeXhL7YygsZVTa8e7uZ4oGeucZyLPU93E6qpdGMpnms41r6AHiAI
+	L4M7Prp9JhVQuI7ZOcq4vaiRNKQEYbUxQM4d5gt/D52cC0H2QivekzVC4bqDVQgyaUkzAC
+	bGuWh1c7DEW4I6O8Yn8goQsp5Y6k31g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1721912825;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=x7a2eLlH3iIWOinS6JEA7tMaX+0WlcTQWISwluY5v5U=;
+	b=SCp6G7Eq6DJVRxI6M3JoMYXXwQI5pP0r1nwln+zkmD4qugxDH/d6P00SvZq4MXl1lUJEKL
+	1dp4w/20ll4/4+Dw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=oUd2QNDt;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=SCp6G7Eq
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1721912825; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=x7a2eLlH3iIWOinS6JEA7tMaX+0WlcTQWISwluY5v5U=;
+	b=oUd2QNDtyhsQ3bE2a/AeXhL7YygsZVTa8e7uZ4oGeucZyLPU93E6qpdGMpnms41r6AHiAI
+	L4M7Prp9JhVQuI7ZOcq4vaiRNKQEYbUxQM4d5gt/D52cC0H2QivekzVC4bqDVQgyaUkzAC
+	bGuWh1c7DEW4I6O8Yn8goQsp5Y6k31g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1721912825;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=x7a2eLlH3iIWOinS6JEA7tMaX+0WlcTQWISwluY5v5U=;
+	b=SCp6G7Eq6DJVRxI6M3JoMYXXwQI5pP0r1nwln+zkmD4qugxDH/d6P00SvZq4MXl1lUJEKL
+	1dp4w/20ll4/4+Dw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 68FBC13874;
+	Thu, 25 Jul 2024 13:07:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id zDuHGPlNomaCegAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 25 Jul 2024 13:07:05 +0000
+Date: Thu, 25 Jul 2024 15:07:40 +0200
+Message-ID: <87r0bhipr7.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: "edmund.raile" <edmund.raile@proton.me>
+Cc: alsa-devel@alsa-project.org,
+	stable@vger.kernel.org,
+	regressions@lists.linux.dev,
+	o-takashi@sakamocchi.jp,
+	gustavoars@kernel.org,
+	clemens@ladisch.de,
+	linux-sound@vger.kernel.org
+Subject: Re: [REGRESSION] ALSA: firewire-lib: heavy digital distortion with Fireface 800
+In-Reply-To: <rrufondjeynlkx2lniot26ablsltnynfaq2gnqvbiso7ds32il@qk4r6xps7jh2>
+References: <rrufondjeynlkx2lniot26ablsltnynfaq2gnqvbiso7ds32il@qk4r6xps7jh2>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240725-asoc-wsa88xx-port-arrays-v1-7-80a03f440c72@linaro.org>
-References: <20240725-asoc-wsa88xx-port-arrays-v1-0-80a03f440c72@linaro.org>
-In-Reply-To: <20240725-asoc-wsa88xx-port-arrays-v1-0-80a03f440c72@linaro.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>
-Cc: alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1490;
- i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=IezU2W8rytHN1+OJjzdCLOScjz5OOSUaMHzxu2FqxSk=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmojXIk1Qbl0Iz5KBaJYKuj2Qh1UtAtZ0R+L4Iu
- QPHwZbXeJyJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZqI1yAAKCRDBN2bmhouD
- 1zGvD/9lV+y+SrlBfQ7yOLDLv7oPdnM38VM/viNyVIT0BCtBO1cQIqak1MpJ+VzgJFg7wxm45xJ
- rzbYHIQXM4rVzd6z3x4i7KjJqs/tW7gB4UyuLT173BKU0ScNuU01SaoIQvzkGJT7Xs8v4M2ht40
- jQR1xGzufBOfFmJwMgiArP58KcGok2mjx2PHdu3WScEqxlbPCPPovxjQwIyutXPNUMx0PaTsDOK
- 33605E8o9Gt4i+E2tTBYCTzJcH5LQjdIFFSySsx8MY6s5vyKbytntCyxaahQZV9Qf8J7dBFX6ug
- RzPLtwP2/LfnGFvngYU64mDvC38Dv4rpl+T7Ufrae4K7Lq4kFkiCa8rRdY3/ActDCYaIVHuG+Hn
- oUS5UvvtETkK0B2oiu1nxWO0U6yR4PWthV+F1KGLANunnSvQio25Pus7sp5PVTHRzbTkC4ngEeG
- tQ6NPBnqrmeOEoQK/v0I0q/FaRAWB3+hGMvUPreQQwKJ0ajNnLDCrQzRXqihzFW0CQf+P6Tpu6D
- RjGbwC/retdTGBnZV03iQKXOAjBuqaGCT6v27jWvCA2d/RT1ven4liULuTqlkWL/lgTFKoTVf7Y
- 9ZTfJ3LezBmVls/gHDRczKT3Djr23nUwoIVomyLCZg6OpBtBUD3FLswFdKVX3V5QNXIV8r2Eukw
- g2PsqiVBMnqYuTA==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
- fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-0.31 / 50.00];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_ALL(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spamd-Bar: /
+X-Rspamd-Queue-Id: 9FA471FC24
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -0.31
 
-Instead of having separate define to indicate number of TX and RX
-Soundwire ports, move it to the enums defining actual port
-indices/values.  This makes it more obvious why such value was chosen as
-number of TX/RX ports.
-Note: the enums start from 1, thus number of ports equals to the last
-vaue in the enum.
+On Thu, 25 Jul 2024 00:24:29 +0200,
+edmund.raile wrote:
+> 
+> Bisection revealed that the bitcrushing distortion with RME FireFace 800
+> was caused by 1d717123bb1a7555
+> ("ALSA: firewire-lib: Avoid -Wflex-array-member-not-at-end warning").
+> 
+> Reverting this commit yields restoration of clear audio output.
+> I will send in a patch reverting this commit for now, soonTM.
+> 
+> #regzbot introduced: 1d717123bb1a7555
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- sound/soc/codecs/wcd939x.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+While it's OK to have a quick revert, it'd be worth to investigate
+further what broke there; the change is rather trivial, so it might be
+something in the macro expansion or a use of flex array stuff.
 
-diff --git a/sound/soc/codecs/wcd939x.h b/sound/soc/codecs/wcd939x.h
-index 1571c2120cfc..3204fb10b58d 100644
---- a/sound/soc/codecs/wcd939x.h
-+++ b/sound/soc/codecs/wcd939x.h
-@@ -842,9 +842,6 @@
- #define WCD939X_DSD_HPHR_CFG5				   (0x35a6)
- #define WCD939X_MAX_REGISTER				   (WCD939X_DSD_HPHR_CFG5)
- 
--#define WCD939X_MAX_SWR_PORTS		(6)
--#define WCD939X_MAX_RX_SWR_PORTS	(6)
--#define WCD939X_MAX_TX_SWR_PORTS	(4)
- #define WCD939X_MAX_SWR_CH_IDS		(15)
- 
- struct wcd939x_sdw_ch_info {
-@@ -863,6 +860,7 @@ enum wcd939x_tx_sdw_ports {
- 	WCD939X_ADC_DMIC_1_2_PORT,
- 	WCD939X_DMIC_0_3_MBHC_PORT,
- 	WCD939X_DMIC_3_7_PORT,
-+	WCD939X_MAX_TX_SWR_PORTS = WCD939X_DMIC_3_7_PORT,
- };
- 
- enum wcd939x_tx_sdw_channels {
-@@ -888,6 +886,8 @@ enum wcd939x_rx_sdw_ports {
- 	WCD939X_LO_PORT,
- 	WCD939X_DSD_PORT,
- 	WCD939X_HIFI_PCM_PORT,
-+	WCD939X_MAX_RX_SWR_PORTS = WCD939X_HIFI_PCM_PORT,
-+	WCD939X_MAX_SWR_PORTS = WCD939X_MAX_RX_SWR_PORTS,
- };
- 
- enum wcd939x_rx_sdw_channels {
 
--- 
-2.43.0
+thanks,
 
+Takashi
