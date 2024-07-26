@@ -1,191 +1,63 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66DC9101F7
-	for <linux-sound@vger.kernel.org>; Fri, 26 Jul 2024 15:52:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8808E17D366;
+	Fri, 26 Jul 2024 18:07:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722009132; cv=none; b=GEq2RY+bEKSv4s58X52h6s6iHNA7VmQUIAUAN28KP3Ozv+R+w7J1W+VJIwqiwFjcQSYArTKSDfW6jJbzOzOdZnoqO1lBNS1ocA2govgAPIVLpSSvnit06U4YfhV9raJ7BN8/UzTSYeIFv/ldRCcIS71e6A1MNcus47KazcQoIVY=
+	t=1722017253; cv=none; b=eK2zSR+ccWQrcatTyQErs9qa2LiBqXTErZ13YIAMrFVdnbNCJg2wvFe5BbixbdpbJP0f39L0otd1DsCh2vkt3W+4OdZccAV+EO5FJpLr0t5cdQwFCI1WYB78e8O5XsGdO4UJPK32WBrm9O6mM0peJY4v7qh4nzkdHuw+21ivHl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722009132; c=relaxed/simple;
-	bh=ZkkAdD6i4WDmk/ry/WzzBwkX9EMQsetDO3Wyhu/w1p0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=K5FBHQYr6d4+qDeapVtz0MAJaOI9yka/VBIt7fpeO36p6stYgA81jftbYTgJN74ON+8aB7wIOhIQA8mO9UZX11qbkEfWvoNFnuKbMj7JzylujG4V6x1KKInJp0L3Dg/mO4dMKHINVokBnTt9H/OsJ1DvagdwF+KPeqXA8H8sw6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=I1QlgX+G; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VATvYnrZ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=I1QlgX+G; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VATvYnrZ; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1722017253; c=relaxed/simple;
+	bh=+zVZvqZ3sriL5W4o+oRhLEnsE5uwCnbUL1esfYlj6D8=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=jAXNTujgATpTfKQshw2gVJ+9iHne83e1outTs2tSezRKt/oVAYDLxaN1bGdIE+V5LaibkJ0q8rprePikUTmZZyDIktl4EF8Z7CXc8XgPsvdKyrik3g9ZufDK+8jUGf15hSFR00ZVqqnrvLkxKwiu46jgxd15satfwCwlKzE3FFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U+rC0nS2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="I1QlgX+G";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VATvYnrZ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="I1QlgX+G";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VATvYnrZ"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7E6D121ACF;
-	Fri, 26 Jul 2024 15:52:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1722009127; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=yjLHMWqrgoqe7XPRtD63prhGnmbl3PM93EgtRAmvKFA=;
-	b=I1QlgX+GqDnJRS1qiA7kR4OHb1z8PvzkdUelOkwBYGeMsuHgN3HM+1J7+oTkzhm70O0i03
-	sq8Zm5VajJ1VzMZkWYhSQLc2ux/3kvHHvV2HDZflacuMiyJmWWVjkvmKG2p4q1ubhuBwjQ
-	omIJSDjlP/aG3+s3lQ1xrannobHetGg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1722009127;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=yjLHMWqrgoqe7XPRtD63prhGnmbl3PM93EgtRAmvKFA=;
-	b=VATvYnrZHAlYav3jVYdmJEl1cmzs/ejlHkw0k94i7tooemjSbEl1/2/5uQjZWuhOianGAe
-	GeqIgpJvrLa3VMBA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=I1QlgX+G;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=VATvYnrZ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1722009127; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=yjLHMWqrgoqe7XPRtD63prhGnmbl3PM93EgtRAmvKFA=;
-	b=I1QlgX+GqDnJRS1qiA7kR4OHb1z8PvzkdUelOkwBYGeMsuHgN3HM+1J7+oTkzhm70O0i03
-	sq8Zm5VajJ1VzMZkWYhSQLc2ux/3kvHHvV2HDZflacuMiyJmWWVjkvmKG2p4q1ubhuBwjQ
-	omIJSDjlP/aG3+s3lQ1xrannobHetGg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1722009127;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=yjLHMWqrgoqe7XPRtD63prhGnmbl3PM93EgtRAmvKFA=;
-	b=VATvYnrZHAlYav3jVYdmJEl1cmzs/ejlHkw0k94i7tooemjSbEl1/2/5uQjZWuhOianGAe
-	GeqIgpJvrLa3VMBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 534C61396E;
-	Fri, 26 Jul 2024 15:52:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id DSfSEifGo2agNgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 26 Jul 2024 15:52:07 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org,
-	"Gustavo A . R . Silva" <gustavoars@kernel.org>
-Subject: [PATCH] ASoC: Use __counted_by() annotation for snd_soc_pcm_runtime
-Date: Fri, 26 Jul 2024 17:52:36 +0200
-Message-ID: <20240726155237.21961-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U+rC0nS2"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5D261C32782;
+	Fri, 26 Jul 2024 18:07:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722017253;
+	bh=+zVZvqZ3sriL5W4o+oRhLEnsE5uwCnbUL1esfYlj6D8=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=U+rC0nS2CvDwbf1ZIcrUSDiSTuocfFvmHpAAVWqvnA1NkAI6viJBnS0MDe+Qepe5Q
+	 S1ow2htOsJd5RMqmFv1uGWqCwrCPHs7iG9cSHtHA219b1ocYEzUBHl4FtEqi0fyvuI
+	 lCarD4CgmsOUR7NrrLLepdoWQZqwlZjaKPAwOMFq1VVNVdPPVAAMN5frqR8xMZ9buG
+	 HleCnnvWE+g2xy8Rbv7yKeW20KdxpXyfgrkBztW7OgSo8fEcx+nWkc5xsoef2wCp/M
+	 ne+xpFbcx3UBuYzIubBFgh7keGmXupGtzJCJJfgmzEzR4cZwJ1Wpp47/4y2wvRm8V0
+	 Rbq3K+1Hnihcw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 54AA2C433E9;
+	Fri, 26 Jul 2024 18:07:33 +0000 (UTC)
+Subject: Re: [GIT PULL] sound fixes for 6.11-rc1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <87ttgchc3w.wl-tiwai@suse.de>
+References: <87ttgchc3w.wl-tiwai@suse.de>
+X-PR-Tracked-List-Id: <linux-sound.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87ttgchc3w.wl-tiwai@suse.de>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix-6.11-rc1
+X-PR-Tracked-Commit-Id: e8b96a66ae01d039699bac256c5b6b30b2284170
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: eb966e0c5f238ffeacc15543f1d25fb06a5100c2
+Message-Id: <172201725334.32235.4822343686201388703.pr-tracker-bot@kernel.org>
+Date: Fri, 26 Jul 2024 18:07:33 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 7E6D121ACF
-X-Spam-Score: -4.81
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-4.81 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
 
-The struct snd_soc_pcm_runtime has a flex array of snd_soc_component
-objects at its end, and the size is kept in num_components field.
-We can add __counted_by() annotation for compiler's assistance to
-catch array overflows.
+The pull request you sent on Fri, 26 Jul 2024 09:00:03 +0200:
 
-A slight additional change is the assignment of rtd->components[];
-the array counter has to be incremented at first for avoiding
-false-positive reports from compilers.
+> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix-6.11-rc1
 
-Also, the allocation size of snd_soc_pcm_runtime is cleaned up with
-the standard struct_size() helper, too.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/eb966e0c5f238ffeacc15543f1d25fb06a5100c2
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
+Thank you!
 
-Another missing one in sound/*.  It'd be appreciated if anyone can
-actually check this annotation.
-
- include/sound/soc.h  |  3 ++-
- sound/soc/soc-core.c | 13 ++++++-------
- 2 files changed, 8 insertions(+), 8 deletions(-)
-
-diff --git a/include/sound/soc.h b/include/sound/soc.h
-index a8e66bbf932b..e844f6afc5b5 100644
---- a/include/sound/soc.h
-+++ b/include/sound/soc.h
-@@ -1209,8 +1209,9 @@ struct snd_soc_pcm_runtime {
- 
- 	bool initialized;
- 
-+	/* CPU/Codec/Platform */
- 	int num_components;
--	struct snd_soc_component *components[]; /* CPU/Codec/Platform */
-+	struct snd_soc_component *components[] __counted_by(num_components);
- };
- 
- /* see soc_new_pcm_runtime()  */
-diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-index 724fe1f033b5..80bacea6bb90 100644
---- a/sound/soc/soc-core.c
-+++ b/sound/soc/soc-core.c
-@@ -326,8 +326,8 @@ static int snd_soc_rtd_add_component(struct snd_soc_pcm_runtime *rtd,
- 	}
- 
- 	/* see for_each_rtd_components */
--	rtd->components[rtd->num_components] = component;
--	rtd->num_components++;
-+	rtd->num_components++; // increment flex array count at first
-+	rtd->components[rtd->num_components - 1] = component;
- 
- 	return 0;
- }
-@@ -494,7 +494,6 @@ static struct snd_soc_pcm_runtime *soc_new_pcm_runtime(
- 	struct snd_soc_card *card, struct snd_soc_dai_link *dai_link)
- {
- 	struct snd_soc_pcm_runtime *rtd;
--	struct snd_soc_component *component;
- 	struct device *dev;
- 	int ret;
- 	int stream;
-@@ -521,10 +520,10 @@ static struct snd_soc_pcm_runtime *soc_new_pcm_runtime(
- 	 * for rtd
- 	 */
- 	rtd = devm_kzalloc(dev,
--			   sizeof(*rtd) +
--			   sizeof(component) * (dai_link->num_cpus +
--						 dai_link->num_codecs +
--						 dai_link->num_platforms),
-+			   struct_size(rtd, components,
-+				       dai_link->num_cpus +
-+				       dai_link->num_codecs +
-+				       dai_link->num_platforms),
- 			   GFP_KERNEL);
- 	if (!rtd) {
- 		device_unregister(dev);
 -- 
-2.43.0
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
