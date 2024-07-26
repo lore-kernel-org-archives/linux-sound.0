@@ -1,55 +1,76 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09C323A8
-	for <linux-sound@vger.kernel.org>; Fri, 26 Jul 2024 15:11:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7817117BB03
+	for <linux-sound@vger.kernel.org>; Fri, 26 Jul 2024 15:28:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722006694; cv=none; b=rO868qTkTJs5VTz/kRvYnu006Zm9t2aV8O6mfrZDHYY2oQkT+0QQRPQ2qBvLNwgyVEDzou8fpkxqOabHQDg27bzyQgmouS1u/UuVtWKqDnkc0YA5Z29JKB4fZ+szm481KIDfoSpbX+NJVR2Y3jXtpaCS/eCll9qw4CEc1U86t48=
+	t=1722007693; cv=none; b=nPX8CKQk5QklEqJ5Ovm/NwrziO8/XhkV4GuhwFSXVPCiXvCRHhjjpn/koq/Z7z7kR6WwGlT+a9AFEMbceELTCdzef6MZ4Jnaz409uRkr+bmuVqiZi9db1d4e5hPW/+3YAKNQrJltgFwDdU249Pp8y6oRoSIPyHyn5y4VfSYtIE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722006694; c=relaxed/simple;
-	bh=R8pLKYxeT7P2Ua1fP1XL+qzWt5ru5NF3/nQl7I1LkwI=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FK2ujP3Zzt6U9CkEl+dk/RHLX8LboZAgg+6oyijGQIaQYbeqjAM/SCfBgk3bwydbJCWTLd0KUxABzFv+nZtobzBKOYkI+KzDZ2DzXM+NqmsQSZtQQQoM6d5snukp3fV2gje/KeFnqGVqWnkmMvemjnLsI08J7LnpexCo4qVwS0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=NU9YWhua; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1722007693; c=relaxed/simple;
+	bh=5ZsHMli+/VBT7LTPV5mtwDMCGNyHd09t9XDLqiluIls=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=btpJvB2QbQgMrvlbcQ0sNMOehYJBGeIlWW6ThJf2B9uWpR3kZEW3SvZSrtierJ8/V27WVAJ3WNVJaSXS5jY7TjhZfM03/Sktc+vpUhpS/2SRv3enKwkWs31gZGBuyzfXMuiZ0nh057vdYp/MOsnTlPhU0mSUlURabNQP/u8DlpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XsMrV2Vz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4dGGQFm1; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XsMrV2Vz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4dGGQFm1; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="NU9YWhua"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46Q3vr9V021428;
-	Fri, 26 Jul 2024 10:11:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=ldo6rWTGUHueDfmK
-	AxJddl6iNyyQdtC0KcKIzOrjF98=; b=NU9YWhuar37WcnIgkHYE2xCiT6PHvi6W
-	7ldvpQbPOBY18B0M93CZ4NWBAVVggkLHDYQvf6SPg8VRsCfUPi1Hsbqy1pSHYMkv
-	qP6PfUD9ir6DZEaD/+uQssLvi0bDQk6mUWaH559eyESyUX9zZ+ZTe9x7hhIjBDyp
-	kae9sWee8vg+dmz8VmbSOUmsEkMb996zF+x6HV6eO+dSfHZkHRC8zI7YyP9+Bg15
-	3jFMS3aCh9WJnZCF3nGlC9vnjmrKAbgIeZncvkg9m3J1Ydu+pBLOqiXoRQIvOgFa
-	oqLUymFeSIegEYzRrx4lkVdkeOrlJpGUwmhzlD3rtNULXBMOrdKF7w==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 40m1tqgn52-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 26 Jul 2024 10:11:21 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 26 Jul
- 2024 16:11:19 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Fri, 26 Jul 2024 16:11:19 +0100
-Received: from paulha.crystal.cirrus.com (paulha.ad.cirrus.com [141.131.145.123])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id E4EA8820244;
-	Fri, 26 Jul 2024 15:11:18 +0000 (UTC)
-From: Paul Handrigan <paulha@opensource.cirrus.com>
-To: <broonie@kernel.org>, <lgirdwood@gmail.com>, <linux-sound@vger.kernel.org>
-CC: <patches@opensource.cirrus.com>,
-        Paul Handrigan
-	<paulha@opensource.cirrus.com>
-Subject: [PATCH RESEND] ASoC: cs530x: Change IN HPF Select kcontrol name
-Date: Fri, 26 Jul 2024 10:11:11 -0500
-Message-ID: <20240726151111.3247774-1-paulha@opensource.cirrus.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XsMrV2Vz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4dGGQFm1";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XsMrV2Vz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4dGGQFm1"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CC23F21A1B;
+	Fri, 26 Jul 2024 15:28:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1722007689; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=K4Y+tAKMOwTgKV4vppb/DcXq09pQo2U6ZBV28izI1yc=;
+	b=XsMrV2VzZ+5WGqacPdhQGKBIO36IVTbbotsYh35FpQgMzDj+8OQjR1OzCs0xdkh/cZm2HK
+	x8qjemGIVcApTdXA71kQYp6kDJsEYIKiA6z6hjgBIaB/Z+hmwgRX2GhL2u6o4BL7Fx0xhc
+	iRFJOMRZoLipwJ7ApIltq37b3Ainb3w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1722007689;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=K4Y+tAKMOwTgKV4vppb/DcXq09pQo2U6ZBV28izI1yc=;
+	b=4dGGQFm11hb0mKLuAZIKBH2oHKhU/4Hnbfo9NtXyZpiYxnT/6HRqMn6csipS7DfnvfDgbY
+	kCbeAioQxyI30JDQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1722007689; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=K4Y+tAKMOwTgKV4vppb/DcXq09pQo2U6ZBV28izI1yc=;
+	b=XsMrV2VzZ+5WGqacPdhQGKBIO36IVTbbotsYh35FpQgMzDj+8OQjR1OzCs0xdkh/cZm2HK
+	x8qjemGIVcApTdXA71kQYp6kDJsEYIKiA6z6hjgBIaB/Z+hmwgRX2GhL2u6o4BL7Fx0xhc
+	iRFJOMRZoLipwJ7ApIltq37b3Ainb3w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1722007689;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=K4Y+tAKMOwTgKV4vppb/DcXq09pQo2U6ZBV28izI1yc=;
+	b=4dGGQFm11hb0mKLuAZIKBH2oHKhU/4Hnbfo9NtXyZpiYxnT/6HRqMn6csipS7DfnvfDgbY
+	kCbeAioQxyI30JDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AB8051396E;
+	Fri, 26 Jul 2024 15:28:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id M058KInAo2YfMAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 26 Jul 2024 15:28:09 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Cc: "Gustavo A . R . Silva" <gustavo@embeddedor.com>
+Subject: [PATCH] ALSA: control: Annotate snd_kcontrol with __counted_by()
+Date: Fri, 26 Jul 2024 17:28:15 +0200
+Message-ID: <20240726152840.8629-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -57,52 +78,77 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: X5qeCzaYHBnYJgMvW7k0RFT8clhAlH2Y
-X-Proofpoint-ORIG-GUID: X5qeCzaYHBnYJgMvW7k0RFT8clhAlH2Y
-X-Proofpoint-Spam-Reason: safe
+X-Spam-Level: 
+X-Spamd-Result: default: False [0.40 / 50.00];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	MIME_GOOD(-0.10)[text/plain];
+	RCPT_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Flag: NO
+X-Spam-Score: 0.40
 
-Change to the IN HPF Select kcontrol to the correct name
-IN DEC Filter Select.
+struct snd_kcontrol contains a flex array of snd_kcontrol_volatile
+objects at its end, and the array size is stored in count field.
+This can be annotated gracefully with __counted_by() for catching
+possible array overflows.
 
-Signed-off-by: Paul Handrigan <paulha@opensource.cirrus.com>
+One additional change is the order of the count field initialization;
+The assignment of the count field is moved before assignment of vd[]
+elements for avoiding false-positive warnings from compilers.
+
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/soc/codecs/cs530x.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/sound/soc/codecs/cs530x.c b/sound/soc/codecs/cs530x.c
-index 25a86a32e936..da52afe56c3c 100644
---- a/sound/soc/codecs/cs530x.c
-+++ b/sound/soc/codecs/cs530x.c
-@@ -129,16 +129,16 @@ static int cs530x_put_volsw_vu(struct snd_kcontrol *kcontrol,
- 
- static const DECLARE_TLV_DB_SCALE(in_vol_tlv, -1270, 50, 0);
- 
--static const char * const cs530x_in_hpf_text[] = {
-+static const char * const cs530x_in_filter_text[] = {
- 	"Min Phase Slow Roll-off",
- 	"Min Phase Fast Roll-off",
- 	"Linear Phase Slow Roll-off",
- 	"Linear Phase Fast Roll-off",
+This one seems out of Gustavo's radar.  I have no compiler that can
+actually check this annotation, so it's a bit untested.
+
+ include/sound/control.h | 2 +-
+ sound/core/control.c    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/include/sound/control.h b/include/sound/control.h
+index c1659036c4a7..13511c50825f 100644
+--- a/include/sound/control.h
++++ b/include/sound/control.h
+@@ -81,7 +81,7 @@ struct snd_kcontrol {
+ 	unsigned long private_value;
+ 	void *private_data;
+ 	void (*private_free)(struct snd_kcontrol *kcontrol);
+-	struct snd_kcontrol_volatile vd[];	/* volatile data */
++	struct snd_kcontrol_volatile vd[] __counted_by(count);	/* volatile data */
  };
  
--static SOC_ENUM_SINGLE_DECL(cs530x_in_hpf_enum, CS530X_IN_FILTER,
-+static SOC_ENUM_SINGLE_DECL(cs530x_in_filter_enum, CS530X_IN_FILTER,
- 			    CS530X_IN_FILTER_SHIFT,
--			    cs530x_in_hpf_text);
-+			    cs530x_in_filter_text);
+ #define snd_kcontrol(n) list_entry(n, struct snd_kcontrol, list)
+diff --git a/sound/core/control.c b/sound/core/control.c
+index f64a555f404f..c3aad64ffbf5 100644
+--- a/sound/core/control.c
++++ b/sound/core/control.c
+@@ -237,11 +237,11 @@ static int snd_ctl_new(struct snd_kcontrol **kctl, unsigned int count,
+ 	if (!*kctl)
+ 		return -ENOMEM;
  
- static const char * const cs530x_in_4ch_sum_text[] = {
- 	"None",
-@@ -189,7 +189,7 @@ SOC_SINGLE_EXT_TLV("IN1 Volume", CS530X_IN_VOL_CTRL1_0, 0, 255, 1,
- SOC_SINGLE_EXT_TLV("IN2 Volume", CS530X_IN_VOL_CTRL1_1, 0, 255, 1,
- 		    snd_soc_get_volsw, cs530x_put_volsw_vu, in_vol_tlv),
++	(*kctl)->count = count;
+ 	for (idx = 0; idx < count; idx++) {
+ 		(*kctl)->vd[idx].access = access;
+ 		(*kctl)->vd[idx].owner = file;
+ 	}
+-	(*kctl)->count = count;
  
--SOC_ENUM("IN HPF Select", cs530x_in_hpf_enum),
-+SOC_ENUM("IN DEC Filter Select", cs530x_in_filter_enum),
- SOC_ENUM("Input Ramp Up", cs530x_ramp_inc_enum),
- SOC_ENUM("Input Ramp Down", cs530x_ramp_dec_enum),
- 
+ 	return 0;
+ }
 -- 
-2.34.1
+2.43.0
 
