@@ -1,166 +1,141 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23521548EE;
-	Fri, 26 Jul 2024 07:07:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44631741FB;
+	Fri, 26 Jul 2024 07:48:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721977655; cv=none; b=W+Hk/HbjGoFwnETaQVLCbTjH5n1W8bb2iD/LgJGdQ73wwCsRK0DehBY73HyB9B8DJ+MHX0WQl+u9aEr2KokIaH1UrKD9dlm4YMPMlTJzsz/WTcFwq2g7LuDWrUz0Y5NEcolx2G9ruklKZlqPaABR9ViivSgoq/iebK8k6/qAugc=
+	t=1721980115; cv=none; b=HIFCFU7K3/IYN4U3o33UFDETcTg6qr6yC3M3aNI8vkqX4uigZvcbtdOu9ZqSQ8ib5r3Fb55bvP7+cFVuuefYsrvjl65IDHw64cQzEikMA6uQ6HGxXu9Zumns7zMZInLTPLV+iHmEW0TIrrx9+rPpREVUj14YtBT1BShIS7WHDNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721977655; c=relaxed/simple;
-	bh=pgTJnZC1Z1ijfVBAlpiMVk9RkOn68pFBBhgkoMd+oOI=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SaXQWtXT4phQlueWpqP2258/99eqj2EZB+7Ow0cd+5hnTScYXD4YTEbX2EwOHI2Hiwr6maAA4d0QHzK6KiHznFimhl3/BbP1d5PTe2CabeLMMItcvVeNu+Xr3zIPiMK8k+s+DmBgzcYIAqpPBGWJpyWobE3vY0zzB++td/CO5rU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dfAjCbXV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+SJQ8dsx; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dfAjCbXV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+SJQ8dsx; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1721980115; c=relaxed/simple;
+	bh=5ON6IusU5v7qrydb7czcU0yYORsRRJri7xK6Rr4x24w=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=a0gmZHMBHWH10N/CP3hm9fikjg2C6kRSht8q4Iv/ESzobhbljkA56X19V6IRWmBf1riV4vOYTbiR899Pz/RBnK3UfTWsUs/bbUYp6jP0ZL77bYRbvEuQ9u6nJyK32+5i0QX8ZgJ/N5hgd49k70Ef8ceNVgxOgEEQjTFMS2ZO964=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NXoczIPf; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dfAjCbXV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+SJQ8dsx";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dfAjCbXV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+SJQ8dsx"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 446271F871;
-	Fri, 26 Jul 2024 07:07:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1721977652; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mNojGv8R08gqdVJ3FDYCOLdZ/qIMRHlJVSJJ5bMiuGI=;
-	b=dfAjCbXVPJUEY+/2wT2ZdBsJ9YBF1C92tgb4K/KplX2r23nANffhpHXNX049gAFMjvwNxW
-	O2Y1u6xPQ+DCs95CIin+X7zQKzH1KDhisf1IZua42oMS4EZcTooElBrd736jbI9t/0jZI3
-	5OE3m/p8g+hkzvVvGBiyn2hTDC5Gq5E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1721977652;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mNojGv8R08gqdVJ3FDYCOLdZ/qIMRHlJVSJJ5bMiuGI=;
-	b=+SJQ8dsx1onLogUvhQLDt/rq3ik8RsInY6fCsYRnjnUv172EGu7DPZO9oGPxvHotvh7okW
-	ibr+jSgR3GbXdtCg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=dfAjCbXV;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=+SJQ8dsx
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1721977652; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mNojGv8R08gqdVJ3FDYCOLdZ/qIMRHlJVSJJ5bMiuGI=;
-	b=dfAjCbXVPJUEY+/2wT2ZdBsJ9YBF1C92tgb4K/KplX2r23nANffhpHXNX049gAFMjvwNxW
-	O2Y1u6xPQ+DCs95CIin+X7zQKzH1KDhisf1IZua42oMS4EZcTooElBrd736jbI9t/0jZI3
-	5OE3m/p8g+hkzvVvGBiyn2hTDC5Gq5E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1721977652;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mNojGv8R08gqdVJ3FDYCOLdZ/qIMRHlJVSJJ5bMiuGI=;
-	b=+SJQ8dsx1onLogUvhQLDt/rq3ik8RsInY6fCsYRnjnUv172EGu7DPZO9oGPxvHotvh7okW
-	ibr+jSgR3GbXdtCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 11F21138A7;
-	Fri, 26 Jul 2024 07:07:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id c7rvATRLo2bQGgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 26 Jul 2024 07:07:32 +0000
-Date: Fri, 26 Jul 2024 09:08:06 +0200
-Message-ID: <87r0bghbqh.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: soxiebing <soxiebing@163.com>
-Cc: tiwai@suse.com,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NXoczIPf"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-428098e2b3bso1037035e9.3;
+        Fri, 26 Jul 2024 00:48:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1721980112; x=1722584912; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=j7STCBcMZoBcNkHRG9IYlvtYZY+jcGZj/eZGXSHCEQA=;
+        b=NXoczIPfgrrxY+fNWFPXGIqj3dPGK1CAAzlAutSHM6kNEulthaMoZyOZp9pYcSv5nj
+         fvTKULweCEC9UeY8b0AIoxNc+PZXZD642VYvI2bo2xvFbHGeENcjEqdaslVRyfDJ2h8R
+         X3GXjVPicxwFdhFkoYqyxaixrqHTZ9g5jJdjFgNN35N7rx8nW9sfFov0N8RyuFcANRCC
+         g3eSrOXMqEz2Db0FdyJyBpRUtqjxa1Fw8C6RehR8ubWvKdLgSbKD9QVjJARYakCh2jZE
+         00zlSZsPAhn5aHgmyfMrRolYXc0lhHGuvCt6lI/rgoHcaCI9T+DpqwERNzwSQuVHiWvj
+         KFTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721980112; x=1722584912;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=j7STCBcMZoBcNkHRG9IYlvtYZY+jcGZj/eZGXSHCEQA=;
+        b=ckYufXy/vzPKKasjtDTSbqmyCrzY8p2oigix6gBiLAhgbKuFKHOqs9VUUr1zyXTgxP
+         +yFYXPCVa6vcCHmyhGDGIjILorrppbhLQ01s9eCkcyAmqg4PkTJPSjUaJBILGRag75XK
+         /oKSLu2CWOy8lGKlSArxbeNJHl069vJSV9g4p5IZP9x6vmnTJ/EFppUMK7sL/khKNusR
+         4yOigqt0bfB3MWDlOHi/xR+jlyWBWGReRhSa1bXAiO5fvNbL91X7ew848/+T8e6OX91K
+         rX4/oGlKwX+/CBypMD1IDefEfwxvxcuUFF4GoQ43eoYJmCB/uLZzQ1flJec7bwv6IKPi
+         Wpeg==
+X-Forwarded-Encrypted: i=1; AJvYcCWxqxc4LxOE67FT3wcwuXSwo0G+e3rYa2b575zNyXt4Hv+ZW7NWmMgT7sa1xF+8TaoN9XLsVR6nhO+Y/WDqlnxjtv8+BZGrZvi5CiUdwG21Brg5Xvi0iQuP9ByYZwZSauxQkT5+YTzh4bDugHSTbfPpFJrbp1mDKlhAwGSY5ICmd3S1daP3JPziBXN97VZ8eX9UTpzT51rHjNcGTRfaMPSXmyTb8V8=
+X-Gm-Message-State: AOJu0YyT02eHFgP765fgplrefUa/QRCsNwwCy/+dZhEHh+RgOnCFdPA+
+	NxDZIj8/oQxvSfxpgKBGFHrfdgB78dUxQVkkR1eCWOCECVC3jZga
+X-Google-Smtp-Source: AGHT+IFjpz/7j0G/aN/7uXAqlqfX5pso/gmcLd8tUV2EhE7wpv7H5UoFFdvgPWnhdAQIGAJFn+acLA==
+X-Received: by 2002:a05:600c:3b87:b0:426:5f08:542b with SMTP id 5b1f17b1804b1-428053c9c55mr20937075e9.0.1721980111737;
+        Fri, 26 Jul 2024 00:48:31 -0700 (PDT)
+Received: from ivan-HLYL-WXX9.. ([2a01:4b00:d20e:7300:68e5:11ce:4d88:9958])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-428057a6368sm66045565e9.38.2024.07.26.00.48.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Jul 2024 00:48:31 -0700 (PDT)
+From: Ivan Orlov <ivan.orlov0322@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com,
+	corbet@lwn.net,
+	broonie@kernel.org,
+	shuah@kernel.org
+Cc: Ivan Orlov <ivan.orlov0322@gmail.com>,
+	linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	songxiebing <songxiebing@kylinos.cn>,
-	bo liu <bo.liu@senarytech.com>
-Subject: Re: [PATCH] ALSA: hda: conexant: Fix headset auto detect fail in the polling mode
-In-Reply-To: <20240726012342.8645-1-soxiebing@163.com>
-References: <20240726012342.8645-1-soxiebing@163.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	aholzinger@gmx.de
+Subject: [PATCH 0/4] Introduce userspace-driven ALSA timers
+Date: Fri, 26 Jul 2024 08:47:45 +0100
+Message-Id: <20240726074750.626671-1-ivan.orlov0322@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-0.31 / 50.00];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
-	FREEMAIL_TO(0.00)[163.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[163.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spamd-Bar: /
-X-Rspamd-Queue-Id: 446271F871
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -0.31
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 26 Jul 2024 03:23:42 +0200,
-soxiebing wrote:
-> 
-> From: songxiebing <songxiebing@kylinos.cn>
-> 
-> This patch(7aeb25908648) only handles the unsol_event reporting during
+There are multiple possible timer sources which could be useful for
+the sound stream synchronization: hrtimers, hardware clocks (e.g. PTP),
+timer wheels (jiffies). Currently, using one of them to synchronize
+the audio stream of snd-aloop module would require writing a
+kernel-space driver which exports an ALSA timer through the
+snd_timer interface.
 
-It should be rather "The previous fix (7aeb25908648)".  "This" points
-the very patch you send now :)
+However, it is not really convenient for application developers, who may
+want to define their custom timer sources for audio synchronization.
 
-> interrupts and does not include the polling mode used to set jackroll_ms,
-> so now we are replacing it with snd_hda_jack_detect_enable_callback.
-> 
-> Fixes: 7aeb25908648 ("Fix headset auto detect fail in cx8070 and SN6140")
+For instance, we could have a network application which receives frames
+and sends them to snd-aloop pcm device, and another application
+listening on the other end of snd-aloop. It makes sense to transfer a
+new period of data only when certain amount of frames is received
+through the network, but definitely not when a certain amount of jiffies
+on a local system elapses. Since all of the devices are purely virtual
+it won't introduce any glitches and will help the application developers
+to avoid using sample-rate conversion.
 
-Don't drop "ALSA: hda/conexant:" prefix but copy the full subject line.
+This patch series introduces userspace-driven ALSA timers: virtual
+timers which are created and controlled from userspace. The timer can
+be created from the userspace using the new ioctl SNDRV_TIMER_IOCTL_CREATE.
+After creating a timer, it becomes available for use system-wide, so it
+can be passed to snd-aloop as a timer source (timer_source parameter
+would be "-1.SNDRV_TIMER_GLOBAL_UDRIVEN.{timer_id}"). When the userspace
+app decides to trigger a timer, it calls another ioctl
+SNDRV_TIMER_IOCTL_TRIGGER on the file descriptor of a timer. It
+initiates a transfer of a new period of data.
 
-> Co-developed-by: bo liu <bo.liu@senarytech.com>
+Userspace-driven timers are associated with file descriptors. If the
+application wishes to destroy the timer, it can simply release the file
+descriptor of a virtual timer.
 
-Usually Co-developed-by is followed by a Signed-off-by of that
-author.
+I believe introducing new ioctl calls is quite inconvenient (as we have
+a limited amount of them), but other possible ways of app <-> kernel
+communication (like virtual FS) seem completely inappropriate for this
+task (but I'd love to discuss alternative solutions).
 
-> Signed-off-by: songxiebing <songxiebing@kylinos.cn>
+This patch series also updates the snd-aloop module so the global timers
+can be used as a timer_source for it (it allows using userspace-driven
+timers as timer source).
 
-And, I noticed a typo in the patch that broke the compilation:
+Ivan Orlov (4):
+  ALSA: aloop: Allow using global timers
+  Docs/sound: Add documentation for userspace-driven ALSA timers
+  ALSA: timer: Introduce virtual userspace-driven timers
+  selftests: ALSA: Cover userspace-driven timers with test
 
-> -static void cx_update_headset_mic_vref(struct hda_codec *codec, unsigned int res)
-> +static void cx_update_headset_mic_vref(struct hda_codec *codec, struct hda_jack_callback *event)
->  {
-> -	unsigned int phone_present, mic_persent, phone_tag, mic_tag;
-> -	struct conexant_spec *spec = codec->spec;
-> +	unsigned int mic_persent;
+ Documentation/sound/index.rst               |   1 +
+ Documentation/sound/utimers.rst             | 120 +++++++++++
+ include/uapi/sound/asound.h                 |  17 ++
+ sound/core/Kconfig                          |  11 +
+ sound/core/timer.c                          | 226 ++++++++++++++++++++
+ sound/drivers/aloop.c                       |   2 +
+ tools/testing/selftests/alsa/Makefile       |   2 +-
+ tools/testing/selftests/alsa/global-timer.c |  87 ++++++++
+ tools/testing/selftests/alsa/utimer-test.c  | 133 ++++++++++++
+ 9 files changed, 598 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/sound/utimers.rst
+ create mode 100644 tools/testing/selftests/alsa/global-timer.c
+ create mode 100644 tools/testing/selftests/alsa/utimer-test.c
 
-... here.
+-- 
+2.34.1
 
-Please make sure that the patch really works before submission.
-Also, run scripts/checkpatch.pl for checking the coding style and the
-patch formalities.
-
-
-thanks,
-
-Takashi
