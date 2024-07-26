@@ -1,163 +1,190 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0803368;
-	Fri, 26 Jul 2024 01:24:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 460B8176FB3;
+	Fri, 26 Jul 2024 07:07:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721957092; cv=none; b=Rzn8qXZjOVv+lhJ8RIJ0HQPyHYGHFCqciOCc7ULe84b3EX7CufZnr7YtSAHLGEeAozLfgJreZsi/rryGPEAibd7/WzzfzAL4IrwxHVbj+m5/GaRPFOWk8YP4NRQq+AoXTZZNZOK7tDWc579fx3GhCiqv7uY4LclMh8UH2IEYtMM=
+	t=1721977627; cv=none; b=CAcsZvko/B7Inm0CuveKNPKFD6dm2nYtLwjL6Gx7bh2TJnI8fLiQ653Ej0fPPBgqB1rntTMO5JP1WjDbiFL4YB3mCa06uMCSRFyNtsAwvFLlMla+K/vgCLMlO3kC2EQsPK3vO9rQ0kM8Cg3TrWZLj9Ns7T5JNAvgwCeQX/kaV8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721957092; c=relaxed/simple;
-	bh=TnCYHw3eOXBCkjnTvatqDQ9DwhjXWqg4oiesu+5NNTY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HgpeCYDxY/BWQc8peX3qqP4puPatK+6eKIHY6sD4W4Mgiz+KH2h+zNK0QvE1fFoRUkuLEsscyz9Aq1JRhppZLe2W/rm3s8MfVGWJcpknI9YgfL1w6SyySo/eY+QCDuovF49ZFcokIYycZZC468Qq3xTZ0SrCNle6Vug16ySe5JE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=HX639VI/; arc=none smtp.client-ip=117.135.210.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1721977627; c=relaxed/simple;
+	bh=zAhgEqjAUHHGlpi6Rh8b5bm1Di8bavHwLB0FzbgZaAY=;
+	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=I0XQuOOyytwvxoARalH0M/5BvejVQVzbgGJhgW34gVhAp9Nw4TAtSK/JvxiOE5fkTtoMX451dgwjwKOb7fmmu0Uh12l3qZZsQRO7t+9rkkxvVqRv3C4HCJ/BWkz6OIJBbOo+RovgF9YgiTF6aHDzSFqj4pJZdw5P/QBdzj7gzhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cMJnBSOh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Ki8qKwq4; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cMJnBSOh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Ki8qKwq4; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="HX639VI/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=RhX0I
-	yAv90c0tqohLNwDtosy7YrI9V558rawJHwv1R8=; b=HX639VI/j6KQilj8HnDZb
-	ZdJTjCtLSthFvyHmSsL0Em8xeMvUMelHdFc8gqgmjg9t/vM/F4NUOYc1mroX9FyV
-	ICpsbJ0s6yFOhDcMMJhOyFTWxBJQRKPFhNq9vM+kY7o1A5M9d2axO7VoagTwk+P+
-	9nBiQk9dItiIJW65g7D4vQ=
-Received: from localhost.localdomain (unknown [111.48.69.245])
-	by gzga-smtp-mta-g2-0 (Coremail) with SMTP id _____wD3_82g+qJm6U9SBg--.31956S2;
-	Fri, 26 Jul 2024 09:23:45 +0800 (CST)
-From: soxiebing <soxiebing@163.com>
-To: tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	songxiebing <songxiebing@kylinos.cn>,
-	bo liu <bo.liu@senarytech.com>
-Subject: [PATCH] ALSA: hda: conexant: Fix headset auto detect fail in the polling mode
-Date: Fri, 26 Jul 2024 09:23:42 +0800
-Message-Id: <20240726012342.8645-1-soxiebing@163.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cMJnBSOh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ki8qKwq4";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cMJnBSOh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ki8qKwq4"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 6567A1F867;
+	Fri, 26 Jul 2024 06:59:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1721977169; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=HjInU5/CNBl9RZHwKcIpVuA5oVueIOQCnxxVoCimJJQ=;
+	b=cMJnBSOh3EB0jHL/++VhXNPalkqiqgzpGIIR1F+eTcK7UOP76lmzeKYr6SVsI+Xylwq+3W
+	Gz4akr6qqZpooCpKDYziHfQYoKsPuFBS+OFyJqbr8i0EvwTCGyR07DJKSREEIGhO+vK3Nl
+	P/rA61ijWtADhSGIwuLz2tFliLRPTCI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1721977169;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=HjInU5/CNBl9RZHwKcIpVuA5oVueIOQCnxxVoCimJJQ=;
+	b=Ki8qKwq4iMR/IC8QJ4qW01DhaLmtnPWnZ6GMqpiOeeVZd0iBpmjeP3VIp9HPBjRvPRGpdx
+	YoOFMieHay52NSBg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1721977169; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=HjInU5/CNBl9RZHwKcIpVuA5oVueIOQCnxxVoCimJJQ=;
+	b=cMJnBSOh3EB0jHL/++VhXNPalkqiqgzpGIIR1F+eTcK7UOP76lmzeKYr6SVsI+Xylwq+3W
+	Gz4akr6qqZpooCpKDYziHfQYoKsPuFBS+OFyJqbr8i0EvwTCGyR07DJKSREEIGhO+vK3Nl
+	P/rA61ijWtADhSGIwuLz2tFliLRPTCI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1721977169;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=HjInU5/CNBl9RZHwKcIpVuA5oVueIOQCnxxVoCimJJQ=;
+	b=Ki8qKwq4iMR/IC8QJ4qW01DhaLmtnPWnZ6GMqpiOeeVZd0iBpmjeP3VIp9HPBjRvPRGpdx
+	YoOFMieHay52NSBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3BE16138A7;
+	Fri, 26 Jul 2024 06:59:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id bZmODVFJo2Z5GAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 26 Jul 2024 06:59:29 +0000
+Date: Fri, 26 Jul 2024 09:00:03 +0200
+Message-ID: <87ttgchc3w.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes for 6.11-rc1
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3_82g+qJm6U9SBg--.31956S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxAr1xJw47WF1rZr43CrWxJFb_yoWrCF1kpF
-	1rCF1fXrZ3tF1vvayrJrs7u3WUCFyfZFZrG347t34ftw1a9ry8Xa42grySvFW3JFyDKF12
-	vr4qga45tr4UXFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jeoGQUUUUU=
-X-CM-SenderInfo: 5vr0xvpelqwqqrwthudrp/1tbiRAQow2VOD6+DPgAAsd
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.10 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_FIVE(0.00)[5];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -3.10
 
-From: songxiebing <songxiebing@kylinos.cn>
+Linus,
 
-This patch(7aeb25908648) only handles the unsol_event reporting during
-interrupts and does not include the polling mode used to set jackroll_ms,
-so now we are replacing it with snd_hda_jack_detect_enable_callback.
+please pull sound fixes for v6.11-rc1 from:
 
-Fixes: 7aeb25908648 ("Fix headset auto detect fail in cx8070 and SN6140")
-Co-developed-by: bo liu <bo.liu@senarytech.com>
-Signed-off-by: songxiebing <songxiebing@kylinos.cn>
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix-6.11-rc1
+
+The topmost commit is e8b96a66ae01d039699bac256c5b6b30b2284170
+
+----------------------------------------------------------------
+
+sound fixes for 6.11-rc1
+
+A collection of the fixes gathered since the previous PR.
+We see a bit large LOCs at a HD-audio quirk, but that's only bulk
+COEF data, hence it's safe to take.  In addition to that, there
+were two minor fixes for MIDI 2.0 handling for ALSA core, and the
+rest are all rather random small and device-specific fixes.
+
+----------------------------------------------------------------
+
+Arnd Bergmann (2):
+      ALSA: hda: tas2781: mark const variables as __maybe_unused
+      ASoC: tegra: select CONFIG_SND_SIMPLE_CARD_UTILS
+
+Curtis Malainey (1):
+      ASoC: Intel: Fix RT5650 SSP lookup
+
+Dan Carpenter (1):
+      ASoC: TAS2781: Fix tasdev_load_calibrated_data()
+
+Daniel Baluta (1):
+      ASoC: SOF: imx8m: Fix DSP control regmap retrieval
+
+Luke D. Jones (1):
+      ALSA: hda/realtek: cs35l41: Fixup remaining asus strix models
+
+Nick Weihs (1):
+      ALSA: hda/realtek: Implement sound init sequence for Samsung Galaxy Book3 Pro 360
+
+Peter Ujfalusi (2):
+      ASoC: SOF: ipc4-topology: Only handle dai_config with HW_PARAMS for ChainDMA
+      ASoC: SOF: ipc4-topology: Preserve the DMA Link ID for ChainDMA on unprepare
+
+Pierre-Louis Bossart (2):
+      ASOC: SOF: Intel: hda-loader: only wait for HDaudio IOC for IPC4 devices
+      ASoC: Intel: use soc_intel_is_byt_cr() only when IOSF_MBI is reachable
+
+Shengjiu Wang (1):
+      ASoC: fsl-asoc-card: Dynamically allocate memory for snd_soc_dai_link_components
+
+Takashi Iwai (4):
+      ALSA: usb-audio: Move HD Webcam quirk to the right place
+      ALSA: ump: Don't update FB name for static blocks
+      ALSA: ump: Force 1 Group for MIDI1 FBs
+      ASoC: amd: yc: Support mic on Lenovo Thinkpad E16 Gen 2
+
+Venkata Prasad Potturu (1):
+      ASoC: sof: amd: fix for firmware reload failure in Vangogh platform
+
+wangdicheng (2):
+      ALSA: usb-audio: Fix microphone sound on HD webcam.
+      ALSA: usb-audio: Add a quirk for Sonix HD USB Camera
+
 ---
- sound/pci/hda/patch_conexant.c | 54 ++++++----------------------------
- 1 file changed, 9 insertions(+), 45 deletions(-)
-
-diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
-index 17389a3801bd..e994ebad53fa 100644
---- a/sound/pci/hda/patch_conexant.c
-+++ b/sound/pci/hda/patch_conexant.c
-@@ -21,12 +21,6 @@
- #include "hda_jack.h"
- #include "hda_generic.h"
- 
--enum {
--	CX_HEADSET_NOPRESENT = 0,
--	CX_HEADSET_PARTPRESENT,
--	CX_HEADSET_ALLPRESENT,
--};
--
- struct conexant_spec {
- 	struct hda_gen_spec gen;
- 
-@@ -48,7 +42,6 @@ struct conexant_spec {
- 	unsigned int gpio_led;
- 	unsigned int gpio_mute_led_mask;
- 	unsigned int gpio_mic_led_mask;
--	unsigned int headset_present_flag;
- 	bool is_cx8070_sn6140;
- };
- 
-@@ -250,48 +243,19 @@ static void cx_process_headset_plugin(struct hda_codec *codec)
- 	}
- }
- 
--static void cx_update_headset_mic_vref(struct hda_codec *codec, unsigned int res)
-+static void cx_update_headset_mic_vref(struct hda_codec *codec, struct hda_jack_callback *event)
- {
--	unsigned int phone_present, mic_persent, phone_tag, mic_tag;
--	struct conexant_spec *spec = codec->spec;
-+	unsigned int mic_persent;
- 
- 	/* In cx8070 and sn6140, the node 16 can only be config to headphone or disabled,
- 	 * the node 19 can only be config to microphone or disabled.
- 	 * Check hp&mic tag to process headset pulgin&plugout.
- 	 */
--	phone_tag = snd_hda_codec_read(codec, 0x16, 0, AC_VERB_GET_UNSOLICITED_RESPONSE, 0x0);
--	mic_tag = snd_hda_codec_read(codec, 0x19, 0, AC_VERB_GET_UNSOLICITED_RESPONSE, 0x0);
--	if ((phone_tag & (res >> AC_UNSOL_RES_TAG_SHIFT)) ||
--	    (mic_tag & (res >> AC_UNSOL_RES_TAG_SHIFT))) {
--		phone_present = snd_hda_codec_read(codec, 0x16, 0, AC_VERB_GET_PIN_SENSE, 0x0);
--		if (!(phone_present & AC_PINSENSE_PRESENCE)) {/* headphone plugout */
--			spec->headset_present_flag = CX_HEADSET_NOPRESENT;
--			snd_hda_codec_write(codec, 0x19, 0, AC_VERB_SET_PIN_WIDGET_CONTROL, 0x20);
--			return;
--		}
--		if (spec->headset_present_flag == CX_HEADSET_NOPRESENT) {
--			spec->headset_present_flag = CX_HEADSET_PARTPRESENT;
--		} else if (spec->headset_present_flag == CX_HEADSET_PARTPRESENT) {
--			mic_persent = snd_hda_codec_read(codec, 0x19, 0,
--							 AC_VERB_GET_PIN_SENSE, 0x0);
--			/* headset is present */
--			if ((phone_present & AC_PINSENSE_PRESENCE) &&
--			    (mic_persent & AC_PINSENSE_PRESENCE)) {
--				cx_process_headset_plugin(codec);
--				spec->headset_present_flag = CX_HEADSET_ALLPRESENT;
--			}
--		}
--	}
--}
--
--static void cx_jack_unsol_event(struct hda_codec *codec, unsigned int res)
--{
--	struct conexant_spec *spec = codec->spec;
--
--	if (spec->is_cx8070_sn6140)
--		cx_update_headset_mic_vref(codec, res);
--
--	snd_hda_jack_unsol_event(codec, res);
-+	mic_present = snd_hda_codec_read(codec, 0x19, 0, AC_VERB_GET_PIN_SENSE, 0x0);
-+	if (!(mic_present & AC_PINSENSE_PRESENCE)) /* mic plugout */
-+		snd_hda_codec_write(codec, 0x19, 0, AC_VERB_SET_PIN_WIDGET_CONTROL, 0x20);
-+	else
-+		cx_process_headset_plugin(codec);
- }
- 
- static int cx_auto_suspend(struct hda_codec *codec)
-@@ -305,7 +269,7 @@ static const struct hda_codec_ops cx_auto_patch_ops = {
- 	.build_pcms = snd_hda_gen_build_pcms,
- 	.init = cx_auto_init,
- 	.free = cx_auto_free,
--	.unsol_event = cx_jack_unsol_event,
-+	.unsol_event = snd_hda_jack_unsol_event,
- 	.suspend = cx_auto_suspend,
- 	.check_power_status = snd_hda_gen_check_power_status,
- };
-@@ -1163,7 +1127,7 @@ static int patch_conexant_auto(struct hda_codec *codec)
- 	case 0x14f11f86:
- 	case 0x14f11f87:
- 		spec->is_cx8070_sn6140 = true;
--		spec->headset_present_flag = CX_HEADSET_NOPRESENT;
-+		snd_hda_jack_detect_enable_callback(codec, 0x19, cx_update_headset_mic_vref);
- 		break;
- 	}
- 
--- 
-2.25.1
+ include/sound/tas2781-tlv.h                        |   6 +-
+ sound/core/ump.c                                   |  13 +
+ sound/pci/hda/patch_realtek.c                      |  15 +-
+ sound/pci/hda/samsung_helper.c                     | 310 +++++++++++++++++++++
+ sound/soc/amd/yc/acp6x-mach.c                      |   7 +
+ sound/soc/codecs/tas2781-fmwlib.c                  |   2 +-
+ sound/soc/fsl/fsl-asoc-card.c                      |  46 +--
+ sound/soc/intel/common/soc-acpi-intel-ssp-common.c |   9 +
+ sound/soc/intel/common/soc-intel-quirks.h          |   2 +-
+ sound/soc/sof/amd/pci-vangogh.c                    |   1 -
+ sound/soc/sof/imx/imx8m.c                          |   2 +-
+ sound/soc/sof/intel/hda-loader.c                   |  18 +-
+ sound/soc/sof/intel/hda.c                          |  17 +-
+ sound/soc/sof/ipc4-topology.c                      |  18 +-
+ sound/soc/tegra/Kconfig                            |   1 +
+ sound/usb/mixer.c                                  |   7 +
+ sound/usb/quirks.c                                 |   4 +
+ 17 files changed, 433 insertions(+), 45 deletions(-)
+ create mode 100644 sound/pci/hda/samsung_helper.c
 
