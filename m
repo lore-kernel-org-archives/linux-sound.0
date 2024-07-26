@@ -1,77 +1,87 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 460B8176FB3;
-	Fri, 26 Jul 2024 07:07:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23521548EE;
+	Fri, 26 Jul 2024 07:07:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721977627; cv=none; b=CAcsZvko/B7Inm0CuveKNPKFD6dm2nYtLwjL6Gx7bh2TJnI8fLiQ653Ej0fPPBgqB1rntTMO5JP1WjDbiFL4YB3mCa06uMCSRFyNtsAwvFLlMla+K/vgCLMlO3kC2EQsPK3vO9rQ0kM8Cg3TrWZLj9Ns7T5JNAvgwCeQX/kaV8s=
+	t=1721977655; cv=none; b=W+Hk/HbjGoFwnETaQVLCbTjH5n1W8bb2iD/LgJGdQ73wwCsRK0DehBY73HyB9B8DJ+MHX0WQl+u9aEr2KokIaH1UrKD9dlm4YMPMlTJzsz/WTcFwq2g7LuDWrUz0Y5NEcolx2G9ruklKZlqPaABR9ViivSgoq/iebK8k6/qAugc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721977627; c=relaxed/simple;
-	bh=zAhgEqjAUHHGlpi6Rh8b5bm1Di8bavHwLB0FzbgZaAY=;
-	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=I0XQuOOyytwvxoARalH0M/5BvejVQVzbgGJhgW34gVhAp9Nw4TAtSK/JvxiOE5fkTtoMX451dgwjwKOb7fmmu0Uh12l3qZZsQRO7t+9rkkxvVqRv3C4HCJ/BWkz6OIJBbOo+RovgF9YgiTF6aHDzSFqj4pJZdw5P/QBdzj7gzhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cMJnBSOh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Ki8qKwq4; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cMJnBSOh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Ki8qKwq4; arc=none smtp.client-ip=195.135.223.131
+	s=arc-20240116; t=1721977655; c=relaxed/simple;
+	bh=pgTJnZC1Z1ijfVBAlpiMVk9RkOn68pFBBhgkoMd+oOI=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SaXQWtXT4phQlueWpqP2258/99eqj2EZB+7Ow0cd+5hnTScYXD4YTEbX2EwOHI2Hiwr6maAA4d0QHzK6KiHznFimhl3/BbP1d5PTe2CabeLMMItcvVeNu+Xr3zIPiMK8k+s+DmBgzcYIAqpPBGWJpyWobE3vY0zzB++td/CO5rU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dfAjCbXV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+SJQ8dsx; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dfAjCbXV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+SJQ8dsx; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cMJnBSOh";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ki8qKwq4";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cMJnBSOh";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ki8qKwq4"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dfAjCbXV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+SJQ8dsx";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dfAjCbXV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+SJQ8dsx"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 6567A1F867;
-	Fri, 26 Jul 2024 06:59:29 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 446271F871;
+	Fri, 26 Jul 2024 07:07:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1721977169; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=HjInU5/CNBl9RZHwKcIpVuA5oVueIOQCnxxVoCimJJQ=;
-	b=cMJnBSOh3EB0jHL/++VhXNPalkqiqgzpGIIR1F+eTcK7UOP76lmzeKYr6SVsI+Xylwq+3W
-	Gz4akr6qqZpooCpKDYziHfQYoKsPuFBS+OFyJqbr8i0EvwTCGyR07DJKSREEIGhO+vK3Nl
-	P/rA61ijWtADhSGIwuLz2tFliLRPTCI=
+	t=1721977652; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mNojGv8R08gqdVJ3FDYCOLdZ/qIMRHlJVSJJ5bMiuGI=;
+	b=dfAjCbXVPJUEY+/2wT2ZdBsJ9YBF1C92tgb4K/KplX2r23nANffhpHXNX049gAFMjvwNxW
+	O2Y1u6xPQ+DCs95CIin+X7zQKzH1KDhisf1IZua42oMS4EZcTooElBrd736jbI9t/0jZI3
+	5OE3m/p8g+hkzvVvGBiyn2hTDC5Gq5E=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1721977169;
+	s=susede2_ed25519; t=1721977652;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=HjInU5/CNBl9RZHwKcIpVuA5oVueIOQCnxxVoCimJJQ=;
-	b=Ki8qKwq4iMR/IC8QJ4qW01DhaLmtnPWnZ6GMqpiOeeVZd0iBpmjeP3VIp9HPBjRvPRGpdx
-	YoOFMieHay52NSBg==
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mNojGv8R08gqdVJ3FDYCOLdZ/qIMRHlJVSJJ5bMiuGI=;
+	b=+SJQ8dsx1onLogUvhQLDt/rq3ik8RsInY6fCsYRnjnUv172EGu7DPZO9oGPxvHotvh7okW
+	ibr+jSgR3GbXdtCg==
 Authentication-Results: smtp-out2.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=dfAjCbXV;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=+SJQ8dsx
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1721977169; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=HjInU5/CNBl9RZHwKcIpVuA5oVueIOQCnxxVoCimJJQ=;
-	b=cMJnBSOh3EB0jHL/++VhXNPalkqiqgzpGIIR1F+eTcK7UOP76lmzeKYr6SVsI+Xylwq+3W
-	Gz4akr6qqZpooCpKDYziHfQYoKsPuFBS+OFyJqbr8i0EvwTCGyR07DJKSREEIGhO+vK3Nl
-	P/rA61ijWtADhSGIwuLz2tFliLRPTCI=
+	t=1721977652; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mNojGv8R08gqdVJ3FDYCOLdZ/qIMRHlJVSJJ5bMiuGI=;
+	b=dfAjCbXVPJUEY+/2wT2ZdBsJ9YBF1C92tgb4K/KplX2r23nANffhpHXNX049gAFMjvwNxW
+	O2Y1u6xPQ+DCs95CIin+X7zQKzH1KDhisf1IZua42oMS4EZcTooElBrd736jbI9t/0jZI3
+	5OE3m/p8g+hkzvVvGBiyn2hTDC5Gq5E=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1721977169;
+	s=susede2_ed25519; t=1721977652;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=HjInU5/CNBl9RZHwKcIpVuA5oVueIOQCnxxVoCimJJQ=;
-	b=Ki8qKwq4iMR/IC8QJ4qW01DhaLmtnPWnZ6GMqpiOeeVZd0iBpmjeP3VIp9HPBjRvPRGpdx
-	YoOFMieHay52NSBg==
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mNojGv8R08gqdVJ3FDYCOLdZ/qIMRHlJVSJJ5bMiuGI=;
+	b=+SJQ8dsx1onLogUvhQLDt/rq3ik8RsInY6fCsYRnjnUv172EGu7DPZO9oGPxvHotvh7okW
+	ibr+jSgR3GbXdtCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3BE16138A7;
-	Fri, 26 Jul 2024 06:59:29 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 11F21138A7;
+	Fri, 26 Jul 2024 07:07:32 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id bZmODVFJo2Z5GAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 26 Jul 2024 06:59:29 +0000
-Date: Fri, 26 Jul 2024 09:00:03 +0200
-Message-ID: <87ttgchc3w.wl-tiwai@suse.de>
+	id c7rvATRLo2bQGgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 26 Jul 2024 07:07:32 +0000
+Date: Fri, 26 Jul 2024 09:08:06 +0200
+Message-ID: <87r0bghbqh.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 6.11-rc1
+To: soxiebing <soxiebing@163.com>
+Cc: tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	songxiebing <songxiebing@kylinos.cn>,
+	bo liu <bo.liu@senarytech.com>
+Subject: Re: [PATCH] ALSA: hda: conexant: Fix headset auto detect fail in the polling mode
+In-Reply-To: <20240726012342.8645-1-soxiebing@163.com>
+References: <20240726012342.8645-1-soxiebing@163.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -80,111 +90,77 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.10 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-0.31 / 50.00];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	ARC_NA(0.00)[];
+	MX_GOOD(-0.01)[];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	FREEMAIL_TO(0.00)[163.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_DN_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
 	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[163.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spamd-Bar: /
+X-Rspamd-Queue-Id: 446271F871
 X-Spam-Level: 
+X-Rspamd-Action: no action
 X-Spam-Flag: NO
-X-Spam-Score: -3.10
+X-Spam-Score: -0.31
 
-Linus,
+On Fri, 26 Jul 2024 03:23:42 +0200,
+soxiebing wrote:
+> 
+> From: songxiebing <songxiebing@kylinos.cn>
+> 
+> This patch(7aeb25908648) only handles the unsol_event reporting during
 
-please pull sound fixes for v6.11-rc1 from:
+It should be rather "The previous fix (7aeb25908648)".  "This" points
+the very patch you send now :)
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix-6.11-rc1
+> interrupts and does not include the polling mode used to set jackroll_ms,
+> so now we are replacing it with snd_hda_jack_detect_enable_callback.
+> 
+> Fixes: 7aeb25908648 ("Fix headset auto detect fail in cx8070 and SN6140")
 
-The topmost commit is e8b96a66ae01d039699bac256c5b6b30b2284170
+Don't drop "ALSA: hda/conexant:" prefix but copy the full subject line.
 
-----------------------------------------------------------------
+> Co-developed-by: bo liu <bo.liu@senarytech.com>
 
-sound fixes for 6.11-rc1
+Usually Co-developed-by is followed by a Signed-off-by of that
+author.
 
-A collection of the fixes gathered since the previous PR.
-We see a bit large LOCs at a HD-audio quirk, but that's only bulk
-COEF data, hence it's safe to take.  In addition to that, there
-were two minor fixes for MIDI 2.0 handling for ALSA core, and the
-rest are all rather random small and device-specific fixes.
+> Signed-off-by: songxiebing <songxiebing@kylinos.cn>
 
-----------------------------------------------------------------
+And, I noticed a typo in the patch that broke the compilation:
 
-Arnd Bergmann (2):
-      ALSA: hda: tas2781: mark const variables as __maybe_unused
-      ASoC: tegra: select CONFIG_SND_SIMPLE_CARD_UTILS
+> -static void cx_update_headset_mic_vref(struct hda_codec *codec, unsigned int res)
+> +static void cx_update_headset_mic_vref(struct hda_codec *codec, struct hda_jack_callback *event)
+>  {
+> -	unsigned int phone_present, mic_persent, phone_tag, mic_tag;
+> -	struct conexant_spec *spec = codec->spec;
+> +	unsigned int mic_persent;
 
-Curtis Malainey (1):
-      ASoC: Intel: Fix RT5650 SSP lookup
+... here.
 
-Dan Carpenter (1):
-      ASoC: TAS2781: Fix tasdev_load_calibrated_data()
+Please make sure that the patch really works before submission.
+Also, run scripts/checkpatch.pl for checking the coding style and the
+patch formalities.
 
-Daniel Baluta (1):
-      ASoC: SOF: imx8m: Fix DSP control regmap retrieval
 
-Luke D. Jones (1):
-      ALSA: hda/realtek: cs35l41: Fixup remaining asus strix models
+thanks,
 
-Nick Weihs (1):
-      ALSA: hda/realtek: Implement sound init sequence for Samsung Galaxy Book3 Pro 360
-
-Peter Ujfalusi (2):
-      ASoC: SOF: ipc4-topology: Only handle dai_config with HW_PARAMS for ChainDMA
-      ASoC: SOF: ipc4-topology: Preserve the DMA Link ID for ChainDMA on unprepare
-
-Pierre-Louis Bossart (2):
-      ASOC: SOF: Intel: hda-loader: only wait for HDaudio IOC for IPC4 devices
-      ASoC: Intel: use soc_intel_is_byt_cr() only when IOSF_MBI is reachable
-
-Shengjiu Wang (1):
-      ASoC: fsl-asoc-card: Dynamically allocate memory for snd_soc_dai_link_components
-
-Takashi Iwai (4):
-      ALSA: usb-audio: Move HD Webcam quirk to the right place
-      ALSA: ump: Don't update FB name for static blocks
-      ALSA: ump: Force 1 Group for MIDI1 FBs
-      ASoC: amd: yc: Support mic on Lenovo Thinkpad E16 Gen 2
-
-Venkata Prasad Potturu (1):
-      ASoC: sof: amd: fix for firmware reload failure in Vangogh platform
-
-wangdicheng (2):
-      ALSA: usb-audio: Fix microphone sound on HD webcam.
-      ALSA: usb-audio: Add a quirk for Sonix HD USB Camera
-
----
- include/sound/tas2781-tlv.h                        |   6 +-
- sound/core/ump.c                                   |  13 +
- sound/pci/hda/patch_realtek.c                      |  15 +-
- sound/pci/hda/samsung_helper.c                     | 310 +++++++++++++++++++++
- sound/soc/amd/yc/acp6x-mach.c                      |   7 +
- sound/soc/codecs/tas2781-fmwlib.c                  |   2 +-
- sound/soc/fsl/fsl-asoc-card.c                      |  46 +--
- sound/soc/intel/common/soc-acpi-intel-ssp-common.c |   9 +
- sound/soc/intel/common/soc-intel-quirks.h          |   2 +-
- sound/soc/sof/amd/pci-vangogh.c                    |   1 -
- sound/soc/sof/imx/imx8m.c                          |   2 +-
- sound/soc/sof/intel/hda-loader.c                   |  18 +-
- sound/soc/sof/intel/hda.c                          |  17 +-
- sound/soc/sof/ipc4-topology.c                      |  18 +-
- sound/soc/tegra/Kconfig                            |   1 +
- sound/usb/mixer.c                                  |   7 +
- sound/usb/quirks.c                                 |   4 +
- 17 files changed, 433 insertions(+), 45 deletions(-)
- create mode 100644 sound/pci/hda/samsung_helper.c
-
+Takashi
