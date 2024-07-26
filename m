@@ -1,116 +1,136 @@
-Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD9717B511;
-	Fri, 26 Jul 2024 12:55:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.201.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6339B4430
+	for <linux-sound@vger.kernel.org>; Fri, 26 Jul 2024 14:10:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721998541; cv=none; b=hmfMr6FDfKFUwfdrIfoS/fXMwzmU3hDHwCshuoABsg5K8EP3VoE6h9wcA74GYs1noOe7rZiNPAxSQOqsp51VNYKVkCC+8Ho4AcdF4HVSj1NlGX154mrJ3ZmJkJGHqLR//XLbzO8mRrYYs3qy0coHcnOyT2gN3uSl/n48mc+1de8=
+	t=1722003059; cv=none; b=BANc9R7CkTfGZlS+z1r+56JtsTnE8p04dvrwAS8qMpSTfCJhuliNeNv9jpUnkfCdsSv2YsG/hPJaNpKm5/eWQrKipFmGBRlnaw18wQ0d9dLWY3FkkwxwpGHyWeppFzpl/wQaBiDrQJtrkgvTG8k6lrbVA5SiKKP3BqtmcFvz+Aw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721998541; c=relaxed/simple;
-	bh=yzOx6oM1nG1syyzmhuVhnMa728h4vx7kNlsuELDiy+4=;
-	h=Content-Type:Date:Message-Id:Subject:Cc:From:To:References:
-	 In-Reply-To; b=ioOUnjYtBbhCYXTftSW1mD4Uvsls6E1fCVBR5o7hEv53uUoTgIc3NQBO6e6x1247GNsVqiCpCNCywSXJANGpP9qwGiH+AqH4qJdSLmnPBHVmY1WkVdsLwepSWh57Z0nPqoakBMrO1bIuwXtfJhYZ40g/UzwXLFajEHvEqfKNPmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=walle.cc; spf=pass smtp.mailfrom=walle.cc; dkim=pass (2048-bit key) header.d=walle.cc header.i=@walle.cc header.b=YZdNMN0d; arc=none smtp.client-ip=159.69.201.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=walle.cc
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=walle.cc
+	s=arc-20240116; t=1722003059; c=relaxed/simple;
+	bh=YE4hixYCVQKmzPIsA7SgCIYgqoaL2VnDKmtBWegqXfg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=bnnq6A5burpFs+/vLhlR/AMDN2eKLD40R/1d0D7o+0YdJMJXCXAu5Yl9grIkrz3QpIP5g7jqvN11+0Ik6txpg7nemLt7xcSOwFDHtElLU9ASiUik3FKWjXB/X7nfmjdoH898/KVYyq+pxRAY4p6hoUUUYwQdPj2P6YP9jsKnfQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EHyxN2gT; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=walle.cc header.i=@walle.cc header.b="YZdNMN0d"
-Received: from localhost (unknown [213.135.10.150])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.3ffe.de (Postfix) with ESMTPSA id A8D4D3C3;
-	Fri, 26 Jul 2024 14:55:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
-	t=1721998530;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
-	 references:references; bh=yzOx6oM1nG1syyzmhuVhnMa728h4vx7kNlsuELDiy+4=;
-	b=YZdNMN0dE0uA7FnFXFdQTZc+gmQ70zEsvC94v1Q86rzibdNqDnJL5nrE5j8IB/b+AFTBzz
-	Dt4IzhB9GH0pF8coLguAkhMykHFlDxsb7IQC+qSUYMRZcp5e5A77Zwq5byUEB5RusCBMwr
-	7nlQc4/EIUzYkfbtqzGPcbrGikt6KKZioI14gpIIONVciaCFyrxrt33p0iZf5x4gZyx7YU
-	U9OhZkBEgbYpE+W5LeXEPVV77ZZltUaVXsCYdDgDQq2CdX7+I45vXmnPFxI0vBpvf2FPAa
-	fZ6T9AmMoYOvGazPddd7C7Lge7dhToJFuw15hwDu68RIEENxFamVE+FGrITgFg==
-Content-Type: multipart/signed;
- boundary=3ce0a5c807a2ece26c72ec8034eaad1072585a573fd66fa563151480afdc;
- micalg=pgp-sha384; protocol="application/pgp-signature"
-Date: Fri, 26 Jul 2024 14:55:28 +0200
-Message-Id: <D2ZHJ765LUGP.2KTA46P1BL75X@walle.cc>
-Subject: Re: [PATCH v11 07/10] mtd: spi-nor: Add stacked memories support in
- spi-nor
-Cc: "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
- "nicolas.ferre@microchip.com" <nicolas.ferre@microchip.com>,
- "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
- "claudiu.beznea@tuxon.dev" <claudiu.beznea@tuxon.dev>, "Simek, Michal"
- <michal.simek@amd.com>, "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "alsa-devel@alsa-project.org"
- <alsa-devel@alsa-project.org>, "patches@opensource.cirrus.com"
- <patches@opensource.cirrus.com>, "linux-sound@vger.kernel.org"
- <linux-sound@vger.kernel.org>, "git (AMD-Xilinx)" <git@amd.com>,
- "amitrkcian2002@gmail.com" <amitrkcian2002@gmail.com>, "Conor Dooley"
- <conor.dooley@microchip.com>, "beanhuo@micron.com" <beanhuo@micron.com>
-From: "Michael Walle" <michael@walle.cc>
-To: "Mahapatra, Amit Kumar" <amit.kumar-mahapatra@amd.com>, "Tudor Ambarus"
- <tudor.ambarus@linaro.org>, "broonie@kernel.org" <broonie@kernel.org>,
- "pratyush@kernel.org" <pratyush@kernel.org>, "miquel.raynal@bootlin.com"
- <miquel.raynal@bootlin.com>, "richard@nod.at" <richard@nod.at>,
- "vigneshr@ti.com" <vigneshr@ti.com>, "sbinding@opensource.cirrus.com"
- <sbinding@opensource.cirrus.com>, "lee@kernel.org" <lee@kernel.org>,
- "james.schulman@cirrus.com" <james.schulman@cirrus.com>,
- "david.rhodes@cirrus.com" <david.rhodes@cirrus.com>,
- "rf@opensource.cirrus.com" <rf@opensource.cirrus.com>, "perex@perex.cz"
- <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>
-X-Mailer: aerc 0.16.0
-References: <20231125092137.2948-1-amit.kumar-mahapatra@amd.com>
- <BN7PR12MB2802BEDFB821A1748185794CDC8AA@BN7PR12MB2802.namprd12.prod.outlook.com> <f5a47024-514a-4846-bc16-08cf0f9af912@linaro.org> <BN7PR12MB2802BB3DA682D9C13EF7DE08DC8FA@BN7PR12MB2802.namprd12.prod.outlook.com> <5a6f6764-6779-42b0-b6c6-3f638b85ef78@linaro.org> <BN7PR12MB28029EB1A7D09882878499A2DC8FA@BN7PR12MB2802.namprd12.prod.outlook.com> <c3fa1e04-92ed-48ab-a509-98e43abd5cd6@linaro.org> <BN7PR12MB2802E87F1A6CD22D904CAEACDC93A@BN7PR12MB2802.namprd12.prod.outlook.com> <b3d3c457-a43b-478a-85b3-52558227d139@linaro.org> <BN7PR12MB28027E62D66460A374E3CFEADC93A@BN7PR12MB2802.namprd12.prod.outlook.com> <e212f9fa-83c5-4b9e-8636-c8c6183096ab@linaro.org> <BN7PR12MB280237CDD7BB148479932874DC93A@BN7PR12MB2802.namprd12.prod.outlook.com> <576d56ed-d24b-40f9-9ae4-a02c50eea2ab@linaro.org> <BN7PR12MB2802F288C6A6B1580CF07959DC95A@BN7PR12MB2802.namprd12.prod.outlook.com> <c6f209c8-47da-4881-921d-683464b9ddd5@linaro.org> <9cdb7f8b-e64f-46f6-94cb-194a25a42ccd@linaro.org>
- <BN7PR12MB28028B63E69134094D50F3E4DC2A2@BN7PR12MB2802.namprd12.prod.outlook.com> <IA0PR12MB769944254171C39FF4171B52DCB42@IA0PR12MB7699.namprd12.prod.outlook.com>
-In-Reply-To: <
- <IA0PR12MB769944254171C39FF4171B52DCB42@IA0PR12MB7699.namprd12.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EHyxN2gT"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-427b4c621b9so16127165e9.1
+        for <linux-sound@vger.kernel.org>; Fri, 26 Jul 2024 07:10:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1722003056; x=1722607856; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=foeasWWJNDhQ/HQ4yEQa5PNHkqWSKIaHaPMG9mfsBz4=;
+        b=EHyxN2gTN19o6M9Oab0xWVWZEEONvHKM6rbAdTiKHDnNZKq0CyY+Vl4hpiUh5UhrMm
+         z7t2rMTicg6HaP5c7Ebi2AQRcDcjeEmVRtKnOf61FICa1oO2IcR1ppLBJDxLRzReF0aO
+         KL5N9eM7/lNhiOG05rXRBkcKZRi1tTGjqef1XXgNDyACVRckBhcVb4ZjwhG2vsnuiE2D
+         1pwn/tMmr6BafXN4aPYpL68o5GxuHJ0enYJDJ4E15F0JgBKkWRbK9lkBFJakhx5jSrrZ
+         BM/f1OUPX/QCiMc0qnrLds77VYmCYkLG2aJYtLVvnOrQnv7+5G9TjcrKeTob+9MP32NN
+         1Q0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722003056; x=1722607856;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=foeasWWJNDhQ/HQ4yEQa5PNHkqWSKIaHaPMG9mfsBz4=;
+        b=uABC8g3PEGhsHcxpp6PsLFlHfV8Gz1m6M7ztuD8NgyRP8W1z5J/NJ1sX7PLFLom2pD
+         wr+AEQvwMtvv2oxQj9b85hPx2+pacS4QvAirQS/QxSMnD7xSo+i+5cssGfYGJ3GMKhj+
+         e3XhUBlYZcBFaSgbFdYxcUxbZW/gJ8K80X59P+AMvKK5mk2KK7zMm/m/mpM8Ny3c/c8i
+         ctFoee3tDpadfGTdP+ZnodhP+m/lnjN9tMLMtgsXla/+Pxalk7OYyDk3R6d4dGfFSeRN
+         xKzpvoO5JyoLUIHt2zF7asFUUg8KFZgP+NK3kpjtHBaxTSVO0qhvaE83ClqaaRBueRyM
+         V2/Q==
+X-Gm-Message-State: AOJu0Yyfr+jITt20a8Ql6Pi1ejLhO+LPJtESoUuzX5BZGmnpGcPhiPnF
+	1JNoQ4eXC+B+YnoMZihWa28uh1TOR7o/C0dSWJFHJjPmDC1/srXtAVkvDOTIf8M=
+X-Google-Smtp-Source: AGHT+IG3sp1c9rKGEdCfW+UiBfPYjCoX2jPEb3H4yCS5NXZnPSEYkTnzpC6vqLsOS0B4q9wzpWgk1g==
+X-Received: by 2002:a05:600c:4590:b0:426:6f31:5f5c with SMTP id 5b1f17b1804b1-4280570f82bmr39943175e9.17.1722003055613;
+        Fri, 26 Jul 2024 07:10:55 -0700 (PDT)
+Received: from [127.0.1.1] ([178.197.219.137])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427f941352asm120841115e9.41.2024.07.26.07.10.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Jul 2024 07:10:54 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 0/6] ASoC: codecs: wcd93xx/wsa88xx: Correct Soundwire ports
+ mask
+Date: Fri, 26 Jul 2024 16:10:40 +0200
+Message-Id: <20240726-asoc-wcd-wsa-swr-ports-genmask-v1-0-d4d7a8b56f05@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-
---3ce0a5c807a2ece26c72ec8034eaad1072585a573fd66fa563151480afdc
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGCuo2YC/x2NywqEMAwAf0VyNuBW8bG/Ih5KTTWIrSTLVhD/3
+ eJpmMvMBUrCpPAtLhD6s3IMWT5lAW61YSHkOTuYyjRVZ1q0Gh0mN2NSi5oEjyg/xYXCbnXDvu1
+ NPfghw0OOHEKez3cwTvf9APRfa3xwAAAA
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Mohammad Rafi Shaik <quic_mohs@quicinc.com>, 
+ Prasad Kumpatla <quic_pkumpatl@quicinc.com>, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Banajit Goswami <bgoswami@quicinc.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1318;
+ i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
+ bh=YE4hixYCVQKmzPIsA7SgCIYgqoaL2VnDKmtBWegqXfg=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmo65lV9Gvax58HA4nJOVWc+P2pZ4UebG+2xFoE
+ EFFTphcM7GJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZqOuZQAKCRDBN2bmhouD
+ 18aQD/9jqTriLZNGzTS27m5EsRS6+s02mSwC3shx1DXDLvoNDAw3a7tPUCH16TNnrKhlXaoJhfw
+ JL+dnvFlRiqGh1EnC3HOJUcY07m5RHTRSFm7THjhgQWo1GZG2XvYgqFjvkVV9bOKK5vQHiF+nI/
+ BS+DvwFMNocr/veCSQsUuvKNPlVwdlxkYTh7zwlyvBE60417cWSOR05RfYYYctkp7AWi/h6Ieiw
+ woHS3QR/jNB8xqMG0DFUA0Ckoeu3Z116swyTO7PSMUfE2D9gB0HLSpjm08Jzm/+3lLGAQgaPC+I
+ UdacDO88/fZdMMC1aQb1c0cUjEhlxdaEMosP6Yg/egprTP+MJo4WFCkGdqldyFMfiWAlNUmfqp9
+ 7Nb3qFgQ/gflcncKXAGzaDiosxI64hYYwVmPzyE0ge1+3pb30U1AYk3NXelhdpznWqtzR8vSZvX
+ vvxCa3NfJGHKbDvojkN1aHQH82meYPyHSXHT6+oZqnydzIgr0PcWNfjC/nbM2yIfq5/+FEX4hNZ
+ 2wAw0bBFvrOpIT8K/UeHgw2EjCO8UbQWAhy/aMgA6fkQ0Vuj6HRWt5PXyYsLcMJ1DOaA8Sx3UrI
+ 6r0pSO9YO+k3gZbYwQ6yx6A0MEgvrVbeC9ej09sbT958JvkHwy9ftAmlab7+diNSrPWT/EioYBL
+ kvDVeyddORIUEoQ==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
+ fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
 Hi,
 
-> Based on the inputs/suggestions from Tudor, i am planning to add a new=20
-> layer between the SPI-NOR and MTD layers to support stacked and parallel=
-=20
-> configurations. This new layer will be part of the spi-nor and located in=
-=20
-> mtd/spi-nor/
+Incorrect mask of Soundwire ports - one bit too long/big - was passed.
 
-Will AMD submit to maintain this layer? What happens if the
-maintainer will leave AMD? TBH, personally, I don't like to
-maintain such a niche feature.
-I'd really like to see some use cases and performance reports for
-this, like actual boards (and no evaluation boards don't count). Why
-wouldn't someone just use an octal flash?
+Theoretically, too wide mask could cause an out of bounds read in
+sdw_get_slave_dpn_prop() in stream.c, however only in the case of buggy
+driver, e.g. adding incorrect number of ports via
+sdw_stream_add_slave().
 
-And as already mentioned there is also mtdcat, which seems to
-duplicate some features?
+Not adding Cc-stable because I don't think the issue can lead to real
+out-of-bounds read.
 
--michael
+Best regards,
+Krzysztof
 
---3ce0a5c807a2ece26c72ec8034eaad1072585a573fd66fa563151480afdc
-Content-Type: application/pgp-signature; name="signature.asc"
+---
+Krzysztof Kozlowski (6):
+      ASoC: codecs: wcd937x-sdw: Correct Soundwire ports mask
+      ASoC: codecs: wcd938x-sdw: Correct Soundwire ports mask
+      ASoC: codecs: wcd939x-sdw: Correct Soundwire ports mask
+      ASoC: codecs: wsa881x: Correct Soundwire ports mask
+      ASoC: codecs: wsa883x: Correct Soundwire ports mask
+      ASoC: codecs: wsa884x: Correct Soundwire ports mask
 
------BEGIN PGP SIGNATURE-----
+ sound/soc/codecs/wcd937x-sdw.c | 4 ++--
+ sound/soc/codecs/wcd938x-sdw.c | 4 ++--
+ sound/soc/codecs/wcd939x-sdw.c | 4 ++--
+ sound/soc/codecs/wsa881x.c     | 2 +-
+ sound/soc/codecs/wsa883x.c     | 2 +-
+ sound/soc/codecs/wsa884x.c     | 2 +-
+ 6 files changed, 9 insertions(+), 9 deletions(-)
+---
+base-commit: 864b1099d16fc7e332c3ad7823058c65f890486c
+change-id: 20240726-asoc-wcd-wsa-swr-ports-genmask-868239f9682f
 
-iKcEABMJAC8WIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCZqOcwREcbWljaGFlbEB3
-YWxsZS5jYwAKCRASJzzuPgIf+OcUAX9IjhR2BCZQ3HqidzuFStguMrN9iUIuss1D
-/ACvRq7kf2Zbxhm0mck1AjUfrnZR1eABf0SfkJW5GxxyiY5HbWtKSnCVoTuXKQTM
-LqmzqtPHKs+pr9bhbYutKEnQZiOlOyW93g==
-=jfd2
------END PGP SIGNATURE-----
+Best regards,
+-- 
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
---3ce0a5c807a2ece26c72ec8034eaad1072585a573fd66fa563151480afdc--
