@@ -1,83 +1,163 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4366619DF6A;
-	Thu, 25 Jul 2024 16:29:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0803368;
+	Fri, 26 Jul 2024 01:24:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721924946; cv=none; b=jUE2PrGdoMkrBFe0K7sJSvNdP7CMZejX9mj0HCzECsWGagrjTzBnB6riq1X3IUUX27zAJgfkBCfOtlwCrhZU2oZ7za07wlwrWgZVHprZvLURVW7Ld4VgafMsc76hlXo1pjVlIHNN7eZbIZHogtJc977P2yEsBznHkkWQcJVmX0w=
+	t=1721957092; cv=none; b=Rzn8qXZjOVv+lhJ8RIJ0HQPyHYGHFCqciOCc7ULe84b3EX7CufZnr7YtSAHLGEeAozLfgJreZsi/rryGPEAibd7/WzzfzAL4IrwxHVbj+m5/GaRPFOWk8YP4NRQq+AoXTZZNZOK7tDWc579fx3GhCiqv7uY4LclMh8UH2IEYtMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721924946; c=relaxed/simple;
-	bh=6M9VEwQ0bCBbEukoo/UWmk3UpgsSaKDRg0kAVMformg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=k15tnCszRIEwXV5CZMshEIg7gxTAtL7mkRm1cWism6qoz9Vdkmp+FxH3+s5VXQbUsRsKzalLKilpIVUuF61oyJuKy7wznqKcOyTOyBX4DY4b6DMpKcAwAfe+UOoTXWZSfzVGeujl+oQIfiuJc1SwpBZq9LMFQHccqvWev78NxCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T8eboKwt; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721957092; c=relaxed/simple;
+	bh=TnCYHw3eOXBCkjnTvatqDQ9DwhjXWqg4oiesu+5NNTY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HgpeCYDxY/BWQc8peX3qqP4puPatK+6eKIHY6sD4W4Mgiz+KH2h+zNK0QvE1fFoRUkuLEsscyz9Aq1JRhppZLe2W/rm3s8MfVGWJcpknI9YgfL1w6SyySo/eY+QCDuovF49ZFcokIYycZZC468Qq3xTZ0SrCNle6Vug16ySe5JE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=HX639VI/; arc=none smtp.client-ip=117.135.210.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T8eboKwt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52E65C4AF07;
-	Thu, 25 Jul 2024 16:29:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721924946;
-	bh=6M9VEwQ0bCBbEukoo/UWmk3UpgsSaKDRg0kAVMformg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=T8eboKwt63bDwOUKiZpVQxR38fh1QOLlVI2F7pPUT9mbxxqyWa4EvKAxGnXp3/CbV
-	 n/Scg7QCtvteXcE5w/IHr87pLi4oVXk/ngNMgo0Rn4fYa8bj81/xOVUcM0IT+DRUIM
-	 0nNQ/NJZ628zHQdrwnbQ8mbRYdMwG+EirQiVeVKitq/yRyPjpXoYPeDQhJ89JxLpUD
-	 Kl6l+btIgr5OZZ6WKKpslw1c9LKaB/IC+xrnw5IQM8cgW1zGqsf56I+FEqfVhhRls5
-	 QhGGBlKzaxr2E2O/wRrA45cbF6fCq+rT2KQhAjP80z/YOMguStbJz3vP7RbvfbBEsQ
-	 g9db7e7JW4xew==
-From: Lee Jones <lee@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Alexandre Mergnat <amergnat@baylibre.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-In-Reply-To: <20240226-audio-i350-v7-3-6518d953a141@baylibre.com>
-References: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
- <20240226-audio-i350-v7-3-6518d953a141@baylibre.com>
-Subject: Re: (subset) [PATCH v7 03/16] dt-bindings: mfd: mediatek: Add
- codec property for MT6357 PMIC
-Message-Id: <172192494107.1054722.15668367028139729556.b4-ty@kernel.org>
-Date: Thu, 25 Jul 2024 17:29:01 +0100
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="HX639VI/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=RhX0I
+	yAv90c0tqohLNwDtosy7YrI9V558rawJHwv1R8=; b=HX639VI/j6KQilj8HnDZb
+	ZdJTjCtLSthFvyHmSsL0Em8xeMvUMelHdFc8gqgmjg9t/vM/F4NUOYc1mroX9FyV
+	ICpsbJ0s6yFOhDcMMJhOyFTWxBJQRKPFhNq9vM+kY7o1A5M9d2axO7VoagTwk+P+
+	9nBiQk9dItiIJW65g7D4vQ=
+Received: from localhost.localdomain (unknown [111.48.69.245])
+	by gzga-smtp-mta-g2-0 (Coremail) with SMTP id _____wD3_82g+qJm6U9SBg--.31956S2;
+	Fri, 26 Jul 2024 09:23:45 +0800 (CST)
+From: soxiebing <soxiebing@163.com>
+To: tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	songxiebing <songxiebing@kylinos.cn>,
+	bo liu <bo.liu@senarytech.com>
+Subject: [PATCH] ALSA: hda: conexant: Fix headset auto detect fail in the polling mode
+Date: Fri, 26 Jul 2024 09:23:42 +0800
+Message-Id: <20240726012342.8645-1-soxiebing@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.13.0
+X-CM-TRANSID:_____wD3_82g+qJm6U9SBg--.31956S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxAr1xJw47WF1rZr43CrWxJFb_yoWrCF1kpF
+	1rCF1fXrZ3tF1vvayrJrs7u3WUCFyfZFZrG347t34ftw1a9ry8Xa42grySvFW3JFyDKF12
+	vr4qga45tr4UXFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jeoGQUUUUU=
+X-CM-SenderInfo: 5vr0xvpelqwqqrwthudrp/1tbiRAQow2VOD6+DPgAAsd
 
-On Mon, 22 Jul 2024 08:53:32 +0200, Alexandre Mergnat wrote:
-> Add the audio codec sub-device. This sub-device is used to set the
-> optional voltage values according to the hardware.
-> The properties are:
->   - Setup of microphone bias voltage.
->   - Setup of the speaker pin pull-down.
-> 
-> Also, add the audio power supply property which is dedicated for
-> the audio codec sub-device.
-> 
-> [...]
+From: songxiebing <songxiebing@kylinos.cn>
 
-Applied, thanks!
+This patch(7aeb25908648) only handles the unsol_event reporting during
+interrupts and does not include the polling mode used to set jackroll_ms,
+so now we are replacing it with snd_hda_jack_detect_enable_callback.
 
-[03/16] dt-bindings: mfd: mediatek: Add codec property for MT6357 PMIC
-        commit: 3821149eb101fe2d45a4697659e60930828400d8
+Fixes: 7aeb25908648 ("Fix headset auto detect fail in cx8070 and SN6140")
+Co-developed-by: bo liu <bo.liu@senarytech.com>
+Signed-off-by: songxiebing <songxiebing@kylinos.cn>
+---
+ sound/pci/hda/patch_conexant.c | 54 ++++++----------------------------
+ 1 file changed, 9 insertions(+), 45 deletions(-)
 
---
-Lee Jones [李琼斯]
+diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
+index 17389a3801bd..e994ebad53fa 100644
+--- a/sound/pci/hda/patch_conexant.c
++++ b/sound/pci/hda/patch_conexant.c
+@@ -21,12 +21,6 @@
+ #include "hda_jack.h"
+ #include "hda_generic.h"
+ 
+-enum {
+-	CX_HEADSET_NOPRESENT = 0,
+-	CX_HEADSET_PARTPRESENT,
+-	CX_HEADSET_ALLPRESENT,
+-};
+-
+ struct conexant_spec {
+ 	struct hda_gen_spec gen;
+ 
+@@ -48,7 +42,6 @@ struct conexant_spec {
+ 	unsigned int gpio_led;
+ 	unsigned int gpio_mute_led_mask;
+ 	unsigned int gpio_mic_led_mask;
+-	unsigned int headset_present_flag;
+ 	bool is_cx8070_sn6140;
+ };
+ 
+@@ -250,48 +243,19 @@ static void cx_process_headset_plugin(struct hda_codec *codec)
+ 	}
+ }
+ 
+-static void cx_update_headset_mic_vref(struct hda_codec *codec, unsigned int res)
++static void cx_update_headset_mic_vref(struct hda_codec *codec, struct hda_jack_callback *event)
+ {
+-	unsigned int phone_present, mic_persent, phone_tag, mic_tag;
+-	struct conexant_spec *spec = codec->spec;
++	unsigned int mic_persent;
+ 
+ 	/* In cx8070 and sn6140, the node 16 can only be config to headphone or disabled,
+ 	 * the node 19 can only be config to microphone or disabled.
+ 	 * Check hp&mic tag to process headset pulgin&plugout.
+ 	 */
+-	phone_tag = snd_hda_codec_read(codec, 0x16, 0, AC_VERB_GET_UNSOLICITED_RESPONSE, 0x0);
+-	mic_tag = snd_hda_codec_read(codec, 0x19, 0, AC_VERB_GET_UNSOLICITED_RESPONSE, 0x0);
+-	if ((phone_tag & (res >> AC_UNSOL_RES_TAG_SHIFT)) ||
+-	    (mic_tag & (res >> AC_UNSOL_RES_TAG_SHIFT))) {
+-		phone_present = snd_hda_codec_read(codec, 0x16, 0, AC_VERB_GET_PIN_SENSE, 0x0);
+-		if (!(phone_present & AC_PINSENSE_PRESENCE)) {/* headphone plugout */
+-			spec->headset_present_flag = CX_HEADSET_NOPRESENT;
+-			snd_hda_codec_write(codec, 0x19, 0, AC_VERB_SET_PIN_WIDGET_CONTROL, 0x20);
+-			return;
+-		}
+-		if (spec->headset_present_flag == CX_HEADSET_NOPRESENT) {
+-			spec->headset_present_flag = CX_HEADSET_PARTPRESENT;
+-		} else if (spec->headset_present_flag == CX_HEADSET_PARTPRESENT) {
+-			mic_persent = snd_hda_codec_read(codec, 0x19, 0,
+-							 AC_VERB_GET_PIN_SENSE, 0x0);
+-			/* headset is present */
+-			if ((phone_present & AC_PINSENSE_PRESENCE) &&
+-			    (mic_persent & AC_PINSENSE_PRESENCE)) {
+-				cx_process_headset_plugin(codec);
+-				spec->headset_present_flag = CX_HEADSET_ALLPRESENT;
+-			}
+-		}
+-	}
+-}
+-
+-static void cx_jack_unsol_event(struct hda_codec *codec, unsigned int res)
+-{
+-	struct conexant_spec *spec = codec->spec;
+-
+-	if (spec->is_cx8070_sn6140)
+-		cx_update_headset_mic_vref(codec, res);
+-
+-	snd_hda_jack_unsol_event(codec, res);
++	mic_present = snd_hda_codec_read(codec, 0x19, 0, AC_VERB_GET_PIN_SENSE, 0x0);
++	if (!(mic_present & AC_PINSENSE_PRESENCE)) /* mic plugout */
++		snd_hda_codec_write(codec, 0x19, 0, AC_VERB_SET_PIN_WIDGET_CONTROL, 0x20);
++	else
++		cx_process_headset_plugin(codec);
+ }
+ 
+ static int cx_auto_suspend(struct hda_codec *codec)
+@@ -305,7 +269,7 @@ static const struct hda_codec_ops cx_auto_patch_ops = {
+ 	.build_pcms = snd_hda_gen_build_pcms,
+ 	.init = cx_auto_init,
+ 	.free = cx_auto_free,
+-	.unsol_event = cx_jack_unsol_event,
++	.unsol_event = snd_hda_jack_unsol_event,
+ 	.suspend = cx_auto_suspend,
+ 	.check_power_status = snd_hda_gen_check_power_status,
+ };
+@@ -1163,7 +1127,7 @@ static int patch_conexant_auto(struct hda_codec *codec)
+ 	case 0x14f11f86:
+ 	case 0x14f11f87:
+ 		spec->is_cx8070_sn6140 = true;
+-		spec->headset_present_flag = CX_HEADSET_NOPRESENT;
++		snd_hda_jack_detect_enable_callback(codec, 0x19, cx_update_headset_mic_vref);
+ 		break;
+ 	}
+ 
+-- 
+2.25.1
 
