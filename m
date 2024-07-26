@@ -1,75 +1,74 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6059510953
-	for <linux-sound@vger.kernel.org>; Fri, 26 Jul 2024 14:25:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83AB5182AE
+	for <linux-sound@vger.kernel.org>; Fri, 26 Jul 2024 14:34:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722003958; cv=none; b=tXdKSC5YzORxun6QlIoDwNMW2l3SUBFKYGUJkza/VXk7TTZcMpyf3w4juFm4FlRUegfiCNmig5YCdUtzQ1Exh1zmJQ9t3ouNLszg01FzNMFsCeUabbJ8VtAcpxiLonfmELkrYYs74ilZmBbpfsXhVUWgkQcsuk0hiDMHAubY89s=
+	t=1722004465; cv=none; b=H4o076/CThYWuiWn4FYwRAUz8hb+vyRw/ijOC/17XIl9xhe7qUWh0qDTSEYTaBTjlwBylUyp1g+eMKJBkIQGiHTOYCNYjMDHE6qOza5N9zjKMVG7TnUoakxbs6knuRj5d38gPRAkDKMBmdQhJouRoUKo4Ey9ZTP91XKK1XP5EF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722003958; c=relaxed/simple;
-	bh=F6hYFJFM1Wz6FrMXY9qRCizS9Nhu9WREQJbyy0keEA4=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=kIfSFHux6eDxYJAjMK5yHfQcRq0ZrGvlpvOhV3SmXcIENlxS3Nn21WIkBFDI3uiM7wdhCKyEjM9HrgUQ1zfYKQeENwOP5lC0CIY1pr1CA0C3Ca3jyuuRtnTxF2RFExNesHURG3hMEh1b9I6d3jyTYlzlB7L/gLiN4YjwYN6ZEHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=o9WWxv0q; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JDqhyROo; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Gv4DlMFE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QBMcoibf; arc=none smtp.client-ip=195.135.223.131
+	s=arc-20240116; t=1722004465; c=relaxed/simple;
+	bh=q147MjCyy/lSaS46JdrmP1VeCOLc71/hTfsR5i2mg+k=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=uKWiHO0vY4OTZP2QY0JZMt/iWFjJCXVp8XqSVS3/rQhdFTeLk2cSDVf7CG3DtI/dT9o/MLxK32FNZwTcoVSsaHHt3tzd/EKtzpNJn5fcyPcdKVFUL/KaOQMVaxw7grCrYGq6V3Ij9L1xXOmfiZSD+b5S4Z8BwnTUpmm6YIDHrqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jIM9fyxk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gh4VKpmr; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jIM9fyxk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gh4VKpmr; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="o9WWxv0q";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JDqhyROo";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Gv4DlMFE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QBMcoibf"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jIM9fyxk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gh4VKpmr";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jIM9fyxk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gh4VKpmr"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3A07D1F8AA;
-	Fri, 26 Jul 2024 14:25:53 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BA47A21BEE;
+	Fri, 26 Jul 2024 14:34:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1722003954; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1722004461; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=FtvrKoBncqHURFlgdXkg+oF35zjMYsmQOGG6b+QA+rE=;
-	b=o9WWxv0qnaUM7ZQIlfOtjukVmv/qWzcJj/wwAlFeUHG7MOMiX36qG7e85w+KhhnOxdkqfe
-	qbq2wiqkNt5pZnNHPDIygbMzdg6H3cJkyJtvsy7QmBxd6kNM4CsKhzQ58oJ+tSZlBA29ZD
-	UTH6FC79PGizyfsBolyJNTpooF1Ta24=
+	bh=Arx9Z2hC7DiuauqKd9iXu6Jkhx3SKh3tuMSMI62mke4=;
+	b=jIM9fyxkw4Uts95W3ZENWEO5aGerGEOcdkdm/oI1djCgkBrayZxXFNDXWxTpALpWoqFyRc
+	cC/KtdJ1ogO90wCdFES4TqxIbYFQFgDiA19D15slmB6Q8OjyQw/naH/jJwNb+5dRkGZHfI
+	O8UYlhcDi03E8vmmxuj7H8PVNGfgTEQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1722003954;
+	s=susede2_ed25519; t=1722004461;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=FtvrKoBncqHURFlgdXkg+oF35zjMYsmQOGG6b+QA+rE=;
-	b=JDqhyROoiXkZWn/Pz13B0OREqWnll4WWaB1/ZfrEHODKnw4c52UpxwzAcoHKBtarV7RzzD
-	0bpv6oxk5qkokiBA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Gv4DlMFE;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=QBMcoibf
+	bh=Arx9Z2hC7DiuauqKd9iXu6Jkhx3SKh3tuMSMI62mke4=;
+	b=gh4VKpmrndrep7HPC3T5gBt39nNgkgOTsL/WMKREcOR0+T08mrm6uQy5yGkIwyjWAdU4XZ
+	sB5HnfqWT1AfjsCg==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1722003953; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1722004461; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=FtvrKoBncqHURFlgdXkg+oF35zjMYsmQOGG6b+QA+rE=;
-	b=Gv4DlMFEi3KvS/J2Pj6fGGQ8+Ua7iPGal5Yb+qE02oGJLHQO0iWAEq5GHvlW9G5CwdLU3J
-	NuC42EXwl0fIUH6iTnK//NJcy2Zc9TUBW0gQ3wzDMlI1Ezrtovwz3j94qsyseWdkrPGNzz
-	c3uIr+BNfgV0HaB1CeuutnCz9YwHAaM=
+	bh=Arx9Z2hC7DiuauqKd9iXu6Jkhx3SKh3tuMSMI62mke4=;
+	b=jIM9fyxkw4Uts95W3ZENWEO5aGerGEOcdkdm/oI1djCgkBrayZxXFNDXWxTpALpWoqFyRc
+	cC/KtdJ1ogO90wCdFES4TqxIbYFQFgDiA19D15slmB6Q8OjyQw/naH/jJwNb+5dRkGZHfI
+	O8UYlhcDi03E8vmmxuj7H8PVNGfgTEQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1722003953;
+	s=susede2_ed25519; t=1722004461;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=FtvrKoBncqHURFlgdXkg+oF35zjMYsmQOGG6b+QA+rE=;
-	b=QBMcoibfgiUR2Rkk6OgtKgydUXMPw0hPTVYM2x5Mx/ZfVl7q/XMyeiV5ofylGuAMgTneP9
-	IQvjcxN209wzXzCw==
+	bh=Arx9Z2hC7DiuauqKd9iXu6Jkhx3SKh3tuMSMI62mke4=;
+	b=gh4VKpmrndrep7HPC3T5gBt39nNgkgOTsL/WMKREcOR0+T08mrm6uQy5yGkIwyjWAdU4XZ
+	sB5HnfqWT1AfjsCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 21091138A7;
-	Fri, 26 Jul 2024 14:25:53 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 916BB138A7;
+	Fri, 26 Jul 2024 14:34:21 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id fPTdBvGxo2YwHwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 26 Jul 2024 14:25:53 +0000
+	id bJs6Iu2zo2amIQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 26 Jul 2024 14:34:21 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 1/2] ALSA: hda/generic: Add a helper to mute speakers at suspend/shutdown
-Date: Fri, 26 Jul 2024 16:26:19 +0200
-Message-ID: <20240726142625.2460-1-tiwai@suse.de>
+Subject: [PATCH] ALSA: seq: ump: Optimize conversions from SysEx to UMP
+Date: Fri, 26 Jul 2024 16:34:54 +0200
+Message-ID: <20240726143455.3254-1-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -78,138 +77,126 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 3A07D1F8AA
-X-Spam-Score: -2.81
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.81 / 50.00];
+X-Spamd-Result: default: False [-2.60 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
 	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCPT_COUNT_ONE(0.00)[1];
-	RCVD_COUNT_TWO(0.00)[2];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	TO_DN_NONE(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+	TO_DN_NONE(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -2.60
 
-Some devices indicate click noises at suspend or shutdown when the
-speakers are unmuted.  This patch adds a helper,
-snd_hda_gen_shutup_speakers(), to work around it.  The new function is
-supposed to be called at suspend or shutdown by the codec driver, and
-it mutes the speakers.
+The current conversion from the legacy SysEx event to UMP SysEx packet
+in the sequencer core has a couple of issues:
 
-The mute status isn't cached, hence the original mute state will be
-restored at resume again.
+* The first packet trims the SysEx start byte (0xf0), hence it
+  contains only 5 bytes instead of 6.  This isn't wrong, per
+  specification, but it's strange not to fill 6 bytes.
 
+* When the SysEx end marker (0xf7) is placed at the first byte of the
+  next packet, it'll end up with an empty data just with the END
+  status.  It can be rather folded into the previous packet with the
+  END status.
+
+This patch tries to address those issues.  The first packet may have 6
+bytes even with the SysEx start, and an empty packet with the SysEx
+end marker is omitted.
+
+Fixes: e9e02819a98a ("ALSA: seq: Automatic conversion of UMP events")
+Cc: <stable@vger.kernel.org>
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/pci/hda/hda_generic.c | 63 +++++++++++++++++++++++++++++++++++++
- sound/pci/hda/hda_generic.h |  1 +
- 2 files changed, 64 insertions(+)
+ sound/core/seq/seq_ump_convert.c | 41 +++++++++++++++++++-------------
+ 1 file changed, 25 insertions(+), 16 deletions(-)
 
-diff --git a/sound/pci/hda/hda_generic.c b/sound/pci/hda/hda_generic.c
-index f64d9dc197a3..9cff87dfbecb 100644
---- a/sound/pci/hda/hda_generic.c
-+++ b/sound/pci/hda/hda_generic.c
-@@ -4955,6 +4955,69 @@ void snd_hda_gen_stream_pm(struct hda_codec *codec, hda_nid_t nid, bool on)
+diff --git a/sound/core/seq/seq_ump_convert.c b/sound/core/seq/seq_ump_convert.c
+index e90b27a135e6..d9dacfbe4a9a 100644
+--- a/sound/core/seq/seq_ump_convert.c
++++ b/sound/core/seq/seq_ump_convert.c
+@@ -1192,44 +1192,53 @@ static int cvt_sysex_to_ump(struct snd_seq_client *dest,
+ {
+ 	struct snd_seq_ump_event ev_cvt;
+ 	unsigned char status;
+-	u8 buf[6], *xbuf;
++	u8 buf[8], *xbuf;
+ 	int offset = 0;
+ 	int len, err;
++	bool finished = false;
+ 
+ 	if (!snd_seq_ev_is_variable(event))
+ 		return 0;
+ 
+ 	setup_ump_event(&ev_cvt, event);
+-	for (;;) {
++	while (!finished) {
+ 		len = snd_seq_expand_var_event_at(event, sizeof(buf), buf, offset);
+ 		if (len <= 0)
+ 			break;
+-		if (WARN_ON(len > 6))
++		if (WARN_ON(len > sizeof(buf)))
+ 			break;
+-		offset += len;
++
+ 		xbuf = buf;
++		status = UMP_SYSEX_STATUS_CONTINUE;
++		/* truncate the sysex start-marker */
+ 		if (*xbuf == UMP_MIDI1_MSG_SYSEX_START) {
+ 			status = UMP_SYSEX_STATUS_START;
+-			xbuf++;
+ 			len--;
+-			if (len > 0 && xbuf[len - 1] == UMP_MIDI1_MSG_SYSEX_END) {
+-				status = UMP_SYSEX_STATUS_SINGLE;
+-				len--;
+-			}
+-		} else {
+-			if (xbuf[len - 1] == UMP_MIDI1_MSG_SYSEX_END) {
+-				status = UMP_SYSEX_STATUS_END;
+-				len--;
+-			} else {
+-				status = UMP_SYSEX_STATUS_CONTINUE;
+-			}
++			offset++;
++			xbuf++;
+ 		}
++
++		/* if the last of this packet or the 1st byte of the next packet
++		 * is the end-marker, finish the transfer with this packet
++		 */
++		if (len > 0 && len < 8 &&
++		    xbuf[len - 1] == UMP_MIDI1_MSG_SYSEX_END) {
++			if (status == UMP_SYSEX_STATUS_START)
++				status = UMP_SYSEX_STATUS_SINGLE;
++			else
++				status = UMP_SYSEX_STATUS_END;
++			len--;
++			finished = true;
++		}
++
++		len = min(len, 6);
+ 		fill_sysex7_ump(dest_port, ev_cvt.ump, status, xbuf, len);
+ 		err = __snd_seq_deliver_single_event(dest, dest_port,
+ 						     (struct snd_seq_event *)&ev_cvt,
+ 						     atomic, hop);
+ 		if (err < 0)
+ 			return err;
++		offset += len;
+ 	}
+ 	return 0;
  }
- EXPORT_SYMBOL_GPL(snd_hda_gen_stream_pm);
- 
-+/* forcibly mute the speaker output without caching; return true if updated */
-+static bool force_mute_output_path(struct hda_codec *codec, hda_nid_t nid)
-+{
-+	if (!nid)
-+		return false;
-+	if (!nid_has_mute(codec, nid, HDA_OUTPUT))
-+		return false; /* no mute, skip */
-+	if (snd_hda_codec_amp_read(codec, nid, 0, HDA_OUTPUT, 0) &
-+	    snd_hda_codec_amp_read(codec, nid, 1, HDA_OUTPUT, 0) &
-+	    HDA_AMP_MUTE)
-+		return false; /* both channels already muted, skip */
-+
-+	/* direct amp update without caching */
-+	snd_hda_codec_write(codec, nid, 0, AC_VERB_SET_AMP_GAIN_MUTE,
-+			    AC_AMP_SET_OUTPUT | AC_AMP_SET_LEFT |
-+			    AC_AMP_SET_RIGHT | HDA_AMP_MUTE);
-+	return true;
-+}
-+
-+/**
-+ * snd_hda_gen_shutup_speakers - Forcibly mute the speaker outputs
-+ * @codec: the HDA codec
-+ *
-+ * Forcibly mute the speaker outputs, to be called at suspend or shutdown.
-+ *
-+ * The mute state done by this function isn't cached, hence the original state
-+ * will be restored at resume.
-+ *
-+ * Return true if the mute state has been changed.
-+ */
-+bool snd_hda_gen_shutup_speakers(struct hda_codec *codec)
-+{
-+	struct hda_gen_spec *spec = codec->spec;
-+	const int *paths;
-+	const struct nid_path *path;
-+	int i, p, num_paths;
-+	bool updated = false;
-+
-+	/* if already powered off, do nothing */
-+	if (!snd_hdac_is_power_on(&codec->core))
-+		return false;
-+
-+	if (spec->autocfg.line_out_type == AUTO_PIN_SPEAKER_OUT) {
-+		paths = spec->out_paths;
-+		num_paths = spec->autocfg.line_outs;
-+	} else {
-+		paths = spec->speaker_paths;
-+		num_paths = spec->autocfg.speaker_outs;
-+	}
-+
-+	for (i = 0; i < num_paths; i++) {
-+		path = snd_hda_get_path_from_idx(codec, paths[i]);
-+		if (!path)
-+			continue;
-+		for (p = 0; p < path->depth; p++)
-+			if (force_mute_output_path(codec, path->path[p]))
-+				updated = true;
-+	}
-+
-+	return updated;
-+}
-+EXPORT_SYMBOL_GPL(snd_hda_gen_shutup_speakers);
-+
- /**
-  * snd_hda_gen_parse_auto_config - Parse the given BIOS configuration and
-  * set up the hda_gen_spec
-diff --git a/sound/pci/hda/hda_generic.h b/sound/pci/hda/hda_generic.h
-index 8f5ecf740c49..08544601b4ce 100644
---- a/sound/pci/hda/hda_generic.h
-+++ b/sound/pci/hda/hda_generic.h
-@@ -353,5 +353,6 @@ int snd_hda_gen_add_mute_led_cdev(struct hda_codec *codec,
- int snd_hda_gen_add_micmute_led_cdev(struct hda_codec *codec,
- 				     int (*callback)(struct led_classdev *,
- 						     enum led_brightness));
-+bool snd_hda_gen_shutup_speakers(struct hda_codec *codec);
- 
- #endif /* __SOUND_HDA_GENERIC_H */
 -- 
 2.43.0
 
