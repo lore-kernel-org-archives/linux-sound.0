@@ -1,144 +1,119 @@
-Received: from smtp5-g21.free.fr (smtp5-g21.free.fr [212.27.42.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C8C6F2E2;
-	Sat, 27 Jul 2024 13:40:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C7C7288BD;
+	Sat, 27 Jul 2024 18:20:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722087651; cv=none; b=UauRSvx1jQUsJ6xYt2sGFsTsczM98jyY5HmTt57uMB6jfuAzfBmogkccWy4eF8BRVaxKZZ/9lkTgtb4liWbXS+YIybCtJx1drJUnxhD2GqtFvv30Kb32jufjRzcAg58oMZ6psBKTPcj8ahs3Auk40OKG2wTBIEjl7u8VGOWp+dw=
+	t=1722104446; cv=none; b=Yzz/yHTq4zzdGZ7ZL7sqmbWDdR05G3wq49C9WK2vU9GO9LiCC38XT9gpp7RHEgGJl/jC2i2rd1+YK9ggVewjBJGXdWBHMzAJMMcFNpDGrFpocf/HTL4eo6ZVsH47nLURQaDJpZkv6lt7AOEWTopcfC3UYCunKWhQExOWmdi6rII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722087651; c=relaxed/simple;
-	bh=r+dhww+Qqi4Jwf+59kLJSk6bzmgwKaWwB6UQ6V8q3kA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ghUSLQF8h1uvxdoLzsu7UH6WPY3+4+hmGJ0hNpWcF6ESKE69vW7QKL4rMTL/Z/FLlFx+u1Jlojnq01jAlNLXDpxkMU+6OvXyC/NhDcmPZmteciGljOwTiQdvoCtoouNPBzgJV5x+9Dsv6fkV29Bmzhg/NpRbnmeiRE+b5X0s5g8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=free.fr; spf=pass smtp.mailfrom=free.fr; dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b=ia3UWRJJ; arc=none smtp.client-ip=212.27.42.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=free.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
+	s=arc-20240116; t=1722104446; c=relaxed/simple;
+	bh=3Lh1BwhVeqRnEATXFageAXiylnoLj5EisM5J8nNNO+w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NrJfynAJeCrBzH8R4dK5e0j8d+YS4rzCduBEhIs7e/JOY4eRqCpIpvjcgOvqhrtg/j7CwPLbhLNiBjJKWeLLsSL6ezpLd0irpfxmErPMHbMlBHYtsHaMKllz7lLjWyFn/xwz4SrRIdIfzaUQkQ6V1Ma2QBhNmSUWFyo2Xoif1cs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fLBQgegb; arc=none smtp.client-ip=209.85.208.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b="ia3UWRJJ"
-Received: from fedora.local (unknown [IPv6:2a01:cb16:6:5884:9994:cab6:56f0:715d])
-	(Authenticated sender: jau@free.fr)
-	by smtp5-g21.free.fr (Postfix) with ESMTPSA id 3428E60141;
-	Sat, 27 Jul 2024 15:40:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
-	s=smtp-20201208; t=1722087641;
-	bh=r+dhww+Qqi4Jwf+59kLJSk6bzmgwKaWwB6UQ6V8q3kA=;
-	h=From:Date:Subject:To:Cc:From;
-	b=ia3UWRJJBLrX5fupW1sc2Logaeogl/KXPBIEQTy3jlU1mU94QeYML95YCIOXhA9Ar
-	 KVu6FE52Q/ofxzNK4jBEqX1cU0VVJm/Cq1lVoYPCVJG2qczRVn5IA6A5s2xrmSBzRB
-	 gweuAIEEd/X8Q3Sp6rKvF5uphq1F/dA9zhRkc9HSDNFEqvMoHvMH7vaeoWny9Xv09K
-	 QaMV1jBCA4GmLzW6AE+oIKo7kcOeeu75mtwyD6J5fkLCQJKfRm1xJeaQRsBxxDh+Q3
-	 UL9mZ9BWUxg5a3ewibQC9Wp3yp47nTHO7Oh60SGnO2Wz/290jmmepZ6AUBNniQtJzm
-	 DaiYkFPykB/Qg==
-From: Jerome Audu <jau@free.fr>
-Date: Sat, 27 Jul 2024 15:40:15 +0200
-Subject: [PATCH v2] ASoC: sti: add missing probe entry for player and
- reader
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fLBQgegb"
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2f0dfdc9e16so21871781fa.2;
+        Sat, 27 Jul 2024 11:20:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722104442; x=1722709242; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WxFUyWe0lcthVY5bBYHT4KxjaYpQ0TGg/fnnCJonf3U=;
+        b=fLBQgegbcWnOfKExeNz98EDEn/2MonZFJV8gncht3fQ4v51OhIUPqfmdciDQTzCkcH
+         JSeDWATZMUYL5OLeOR9CYcDc6UevFJj/+inK1UHbnaIOUOfyPHH71BxdxyKTOasfsnuS
+         MkGv1jZdgB/gpeZLFuEDQ/RlyWcRIqe2azuA+fjTUQt8zV9Lw6w8MWSeqqXYLKiG68jO
+         fSFCutTyEG0cNPlwKrY2Xecg2xUIZuzGusVf+a2/qiePw44G98+pzDcK053Oln5hlwqx
+         gEoONCGLw4Ve+and6tIZ+4G1knRLTanW7lLyDdk89g3csd6PyXFoC29wbgu5FVjHEiKE
+         g0lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722104442; x=1722709242;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WxFUyWe0lcthVY5bBYHT4KxjaYpQ0TGg/fnnCJonf3U=;
+        b=RO/h74plrMOo9olyILSkkASdPK9Rtow5ZhFUmpa99rcWVcEw+/VFgwVPZ+iozidhPw
+         jKB5c5D3PEx2xGVVV6wi/jcF28OLYubDYKuF+e6OU9koVz4UX7KRP6ubK3Y6o1fy3q86
+         MmL0bnxdm7sODxgPOlcIq+kqWABBgxMa9xRTq/8PqWLSyb4QwpjS0V3O9KxKchd/dxdQ
+         gfttRvHqscyntDWK/SUsiZCvvxN3G9aOknEa4Xbuyijfe1ZhiXKuqRqCz5pJFKdOGh69
+         cdGMyXkzvnNL/Mp5QQku694/mt9oIgYb7zvhR1oFzRN41VKvvi+npsVR/mbdwj75sots
+         bYQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXoET85MXpQDr61k1qZcbtF5pvZrbkZYcg+7pzYnWos2c4gjJXE/TWTPxxz+SidoGeGl9OK/rgGfIQOItgzF4RH4KSxkjusT8dmiW2sCglmH60Z97Ah5UyTYtVlMt4j4LdKiMUzK6FTZVwlVusPgK0HLZoSzEGCfxu+IdFG/hoNXN2y7GRRdIzrZOYcCNZvNcFUZewomQFmD/qWf5XK+7ZGnyL04g==
+X-Gm-Message-State: AOJu0YwZoFzOCErTDOjLQXM65EuXTXRyLsL/bZIvrwJK9F1VlvYkkkx1
+	4s4+/lA3CqtatSXvnp/B2EKVXdjNqVBQ1kG/4srTQ+2/+tREoF8O6tiaFQ==
+X-Google-Smtp-Source: AGHT+IEu0dt6qpt6W9qSkNlLYQ68T+/D93Gf2dnEZ2mPYWT0uQCbffw2RtHL1SdmIIuqusSF1cnhUQ==
+X-Received: by 2002:a2e:9795:0:b0:2ef:2fcc:c9fb with SMTP id 38308e7fff4ca-2f12ee47152mr21852671fa.36.1722104441734;
+        Sat, 27 Jul 2024 11:20:41 -0700 (PDT)
+Received: from localhost.localdomain (byw127.neoplus.adsl.tpnet.pl. [83.30.42.127])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2f03d077226sm7504891fa.126.2024.07.27.11.20.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Jul 2024 11:20:41 -0700 (PDT)
+From: Adam Skladowski <a39.skl@gmail.com>
+To: 
+Cc: phone-devel@vger.kernel.org,
+	~postmarketos/upstreaming@lists.sr.ht,
+	Adam Skladowski <a39.skl@gmail.com>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Stephan Gerhold <stephan@gerhold.net>,
+	alsa-devel@alsa-project.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH v2 0/4] MSM8953/MSM8976 ASoC support
+Date: Sat, 27 Jul 2024 20:20:23 +0200
+Message-ID: <20240727182031.35069-1-a39.skl@gmail.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240727-sti-audio-fix-v2-1-208bde546c3f@free.fr>
-X-B4-Tracking: v=1; b=H4sIAL74pGYC/3WMMQ7CMAwAv1J5xqgOEUFM/AN1SFqbemlQUiJQl
- b8TujPeSXcbZE7KGa7dBomLZo1LA3PoYJz98mDUqTGY3tjeGcK8KvrXpBFF30gnZ0UkGMsOWvN
- M3PT+uw+NZ81rTJ99X+hn/50KIaG/BOJRzjQGe5PEfJQEQ631Czs1wimoAAAA
-To: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Jerome Audu <jau@free.fr>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1722087631; l=3355;
- i=jau@free.fr; s=20240721; h=from:subject:message-id;
- bh=r+dhww+Qqi4Jwf+59kLJSk6bzmgwKaWwB6UQ6V8q3kA=;
- b=ZarBGTSz1xjIEXXH1wTTuH4cum1rX6cKT6MnHivk7q26E5+h/LQ4p2/N1N5qVXTwLA+524zh9
- v+e4RMecMqOBPXENoUt16xiuHwbopAK7I7kCwcAhn5aYPI7qNHhtUVC
-X-Developer-Key: i=jau@free.fr; a=ed25519;
- pk=CfXLqyNBjY9A4RDoxPChE7qFvTjVyy0rJNTfI4JQ0dI=
+Content-Transfer-Encoding: 8bit
 
-This patch addresses a regression in the ASoC STI drivers that was
-introduced in Linux version 6.6.y. The issue originated from a series of
-patches (see https://lore.kernel.org/all/87wmy5b0wt.wl-kuninori.morimoto.gx@renesas.com/)
-that unintentionally omitted necessary probe functions for the player
-and reader components.
+Introduce support for basic sound card setup on MSM8953/MSM8976
+platforms, document new compatibles and introduce support for more dais.
+Most of code is sourced from msm8953-mainline fork over github
+with some changes implemented by me,some basic changes are 
+mentioned in each patch.
 
-Probe function in `sound/soc/sti/sti_uniperif.c:415` is being replaced
-by another probe function located at `sound/soc/sti/sti_uniperif.c:453`,
-which should instead be derived from the player and reader components.
-This patch correctly reinserts the missing probe entries,
-restoring the intended functionality.
+[1] - https://lore.kernel.org/lkml/20240723083300.35605-1-krzysztof.kozlowski@linaro.org/T/
 
-Fixes: 9f625f5e6cf9 ("ASoC: sti: merge DAI call back functions into ops")
-Signed-off-by: Jerome Audu <jau@free.fr>
----
-Changes in v2:
-- Update changelog
-- Link to v1: https://lore.kernel.org/r/20240721-sti-audio-fix-v1-1-a8b1ecf61cb4@free.fr
----
- sound/soc/sti/sti_uniperif.c    | 2 +-
- sound/soc/sti/uniperif.h        | 1 +
- sound/soc/sti/uniperif_player.c | 1 +
- sound/soc/sti/uniperif_reader.c | 1 +
- 4 files changed, 4 insertions(+), 1 deletion(-)
+Changes since v1
+================
+1. Rebased dt-bindings documentation based on Krzysztof's split patch[1]
+2. Resolved clang errors by guarding ret verification inside if
+3. Switched quin-iomux to devm_ioremap_resource to not fail on msm8916
 
-diff --git a/sound/soc/sti/sti_uniperif.c b/sound/soc/sti/sti_uniperif.c
-index ba824f14a39c..a7956e5a4ee5 100644
---- a/sound/soc/sti/sti_uniperif.c
-+++ b/sound/soc/sti/sti_uniperif.c
-@@ -352,7 +352,7 @@ static int sti_uniperiph_resume(struct snd_soc_component *component)
- 	return ret;
- }
- 
--static int sti_uniperiph_dai_probe(struct snd_soc_dai *dai)
-+int sti_uniperiph_dai_probe(struct snd_soc_dai *dai)
- {
- 	struct sti_uniperiph_data *priv = snd_soc_dai_get_drvdata(dai);
- 	struct sti_uniperiph_dai *dai_data = &priv->dai_data;
-diff --git a/sound/soc/sti/uniperif.h b/sound/soc/sti/uniperif.h
-index 2a5de328501c..74e51f0ff85c 100644
---- a/sound/soc/sti/uniperif.h
-+++ b/sound/soc/sti/uniperif.h
-@@ -1380,6 +1380,7 @@ int uni_reader_init(struct platform_device *pdev,
- 		    struct uniperif *reader);
- 
- /* common */
-+int sti_uniperiph_dai_probe(struct snd_soc_dai *dai);
- int sti_uniperiph_dai_set_fmt(struct snd_soc_dai *dai,
- 			      unsigned int fmt);
- 
-diff --git a/sound/soc/sti/uniperif_player.c b/sound/soc/sti/uniperif_player.c
-index dd9013c47664..6d1ce030963c 100644
---- a/sound/soc/sti/uniperif_player.c
-+++ b/sound/soc/sti/uniperif_player.c
-@@ -1038,6 +1038,7 @@ static const struct snd_soc_dai_ops uni_player_dai_ops = {
- 		.startup = uni_player_startup,
- 		.shutdown = uni_player_shutdown,
- 		.prepare = uni_player_prepare,
-+		.probe = sti_uniperiph_dai_probe,
- 		.trigger = uni_player_trigger,
- 		.hw_params = sti_uniperiph_dai_hw_params,
- 		.set_fmt = sti_uniperiph_dai_set_fmt,
-diff --git a/sound/soc/sti/uniperif_reader.c b/sound/soc/sti/uniperif_reader.c
-index 065c5f0d1f5f..05ea2b794eb9 100644
---- a/sound/soc/sti/uniperif_reader.c
-+++ b/sound/soc/sti/uniperif_reader.c
-@@ -401,6 +401,7 @@ static const struct snd_soc_dai_ops uni_reader_dai_ops = {
- 		.startup = uni_reader_startup,
- 		.shutdown = uni_reader_shutdown,
- 		.prepare = uni_reader_prepare,
-+		.probe = sti_uniperiph_dai_probe,
- 		.trigger = uni_reader_trigger,
- 		.hw_params = sti_uniperiph_dai_hw_params,
- 		.set_fmt = sti_uniperiph_dai_set_fmt,
+Adam Skladowski (1):
+  ASoC: dt-bindings: apq8016-sbc: Add msm8953/msm8976-qdsp6-sndcard
 
----
-base-commit: 0c3836482481200ead7b416ca80c68a29cfdaabd
-change-id: 20240721-sti-audio-fix-1374fffb24e7
+Vladimir Lypak (3):
+  ASoC: qcom: apq8016_sbc.c: Add Quinary support
+  ASoC: msm8916-wcd-analog: add cajon and cajon v2 support
+  ASoC: qcom: apq8016_sbc: Add support for msm8953/msm8976 SoC
 
-Best regards,
+ .../sound/qcom,apq8016-sbc-sndcard.yaml       | 51 +++++++++--
+ sound/soc/codecs/msm8916-wcd-analog.c         | 63 +++++++++++++-
+ sound/soc/qcom/apq8016_sbc.c                  | 84 ++++++++++++++++++-
+ 3 files changed, 186 insertions(+), 12 deletions(-)
+
 -- 
-Jerome Audu <jau@free.fr>
+2.45.2
 
