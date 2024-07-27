@@ -1,79 +1,69 @@
-Received: from fhigh1-smtp.messagingengine.com (fhigh1-smtp.messagingengine.com [103.168.172.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13668186A;
-	Sat, 27 Jul 2024 01:35:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 740BC433C4
+	for <linux-sound@vger.kernel.org>; Sat, 27 Jul 2024 10:46:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722044119; cv=none; b=hUhAH8x+zcYb0s/QV8iDDi/CvjZ82TZR+8eNixDBJyEMQs0tXsypuxdA2FwzL0Z5zDNB7VTODEBo0vvj1rc9h2AHmoFlFYrc95VkzPbH8Vy6NKrpoPA3AX8ToGE4xmufki63SGELvrYOD3Yms4hDESnA69LHf9slC3hbMFJcjoQ=
+	t=1722077192; cv=none; b=rIzT2oaORUj5+AwjIWElywTGyMUgFv2lv9CMDWGYDqgnXveNvTQMLi5KwBGZbeMmLERxBWOEXpfnnokJ+aqUxfeu4QwJJBq3++H0iXN0vO0HFaISl8d5ADvTuzYMU2Pr2aYxQOc/zFj2yBYkFY6vcPcg21zE67nrsd0croIj0Tk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722044119; c=relaxed/simple;
-	bh=caKF6u6Pl+NoxLygxRMFyDqsz80P3X6Uwn53Yo++fvY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=R6l56E6d+kXOP0ZKRj91LXeT13KY4BL6rJlZjjCbFjQ5wVO3gMXy9MuVZGgJrmS8e7YMPC4flPJr/D23U4SO3oxe44k+Q0Y77gD1fMiYkdpJ8WaZdS2eSZs280F3LDKLv2BRJ7X3kJ3T5Dh6hNuXcnZG7gS+Ho4pe0bcgU8HuO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=SsTACFw1; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ZJyTTvqp; arc=none smtp.client-ip=103.168.172.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
+	s=arc-20240116; t=1722077192; c=relaxed/simple;
+	bh=fa7kLGj++0G0Eg231uyiEToWORgo2WWIgnIiDtLOJqE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hAl8F9HScyiJQoAuDiVe2kosbZAoFMC5ZVNBUlDo7BFzSgAf8xEns7an6NEfFWgw3Wkm7koquJr5yPXWI+W9PHfq2M22PW88dGWC/PxbOeqNiRwNZ7bEpEdWGiHF637JmPJqy6S4222AiFrNWpEzCGQ0wg3Mv5pWXDwQxrV9/jU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zS0aIosM; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="SsTACFw1";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ZJyTTvqp"
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id 0C323114016B;
-	Fri, 26 Jul 2024 21:35:16 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute7.internal (MEProxy); Fri, 26 Jul 2024 21:35:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm3; t=1722044116; x=1722130516; bh=oq
-	cjv4bT7MIFsiqTNHBGPXx0q9DQaCb9mZzOClyodqM=; b=SsTACFw1XDFV8DKgxq
-	jibFtpsUulIAceQTWNfRedAZVyEnVpaSJcdbyq+QuqLNaQ60FUXN8yVUGyK57Xoj
-	7uQ+m4B+PiHy99xx0meQsPK2sEaerIEsUHsljX2S+znAs5e4k/IyHx8nJzAZCKNQ
-	Yp3GCBMyWqUYb5UVi4b0VIMO9Y4ilUmkYTdZywsRQF4bNqxzsP5sfkbENeJiqdGw
-	uVEbLAJr2a9S4IeastKZHMSHR3ay78sET0mqG0rdswifwMfz9YF+F2phbUhhJyIC
-	IcPC4e1mNV8dI9O8gzspAXQndAoiXsUF9TQsbNZiDacBTsPLR/6Nc+2TKwEi3NJa
-	RgGg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:reply-to:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1722044116; x=1722130516; bh=oqcjv4bT7MIFsiqTNHBGPXx0q9DQ
-	aCb9mZzOClyodqM=; b=ZJyTTvqpmSLVUzHIJwcN7y3lzNXIuaf/K7VhJgwHpwF9
-	1JkDHKh4w0iqueN6J/PHBMQjGV8oSWMhZI7LfCVBg9ePnL6iPWKkG216qjPuKHAU
-	wdqMFpZtXz6H7kwXl807IYH5bAq8WDwF57kIHTaAaNpcMUZMPC8gxz3C6OeAu1TV
-	TeSRtYapEuwOvDqJX2ZZIDju0rSd+GLQzSaaX1mOqZdaPEMPD8ZTKJk1vQnwkPJi
-	feBF5RMl+Vsh4IvwSYz49mPRKdbTbPI4lCbmW9VuzHn/T1VHJDRQikYyLG9UhNCp
-	v3zY60YZfb5bA6VJabShUiSHH5sYKfn+YHTCMaSR2g==
-X-ME-Sender: <xms:006kZgN-ePo0PUaBqf93TQ47a_r6XKa7EFlVIn8OnsTpbgiK62O9HQ>
-    <xme:006kZm91PvNQdere4LRCCoSRrIQLuDrInOILfdEu0Co7PullGh7AfxEe6mBxUfm9w
-    Gtsqz4bZ7296l3a96s>
-X-ME-Received: <xmr:006kZnQSzirFzI7L9oIYmyz7S5aszGwD-VQWVGu00KIFyuEC1I0oEGrpfu0VSOYudG0f6nRmaV9p7tKewm_JtBOcpWYJA_0SmNQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrieeigdehtdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecunecujfgurhepfffhvfevuffkgggtuggjsehttdertd
-    dttddvnecuhfhrohhmpefvrghkrghshhhiucfurghkrghmohhtohcuoehoqdhtrghkrghs
-    hhhisehsrghkrghmohgttghhihdrjhhpqeenucggtffrrghtthgvrhhnpeeuieffveeggf
-    efjeeufeetveejuddtkedtgedtjeekgedufffhhfegkeekteetgeenucffohhmrghinhep
-    khgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
-    hilhhfrhhomhepohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhirdhjphdpnhgspghr
-    tghpthhtoheptd
-X-ME-Proxy: <xmx:006kZot_JT7q8sFbfXA-TdP7uk0btpMmCAPnzgpXfGlDxVfQA_ZmMA>
-    <xmx:006kZof09YCdbat1C9BFnhywU0YUPa7EdwrU-IEeAH9MHuK4T3mGDw>
-    <xmx:006kZs0DxeF-ujj4pLKvUxo67tJ1npqIGSmYecKcgSnokie7djo-sA>
-    <xmx:006kZs9d5ttjKyeBpsTSF8VNmRZVp7oeWqgz6_YkLdireMhxZBFt-A>
-    <xmx:1E6kZtHKzaRg3g8aVCulUTUK80VhUGXbMg3lP3mYbXEthMI8WcYZCfCG>
-Feedback-ID: ie8e14432:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 26 Jul 2024 21:35:13 -0400 (EDT)
-Date: Sat, 27 Jul 2024 10:35:10 +0900
-From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-To: tiwai@suse.de
-Cc: stable@vger.kernel.org, edmund.raile@proton.me,
-	linux-sound@vger.kernel.org, gustavo@embeddedor.com
-Subject: Re: [PATCH] ALSA: firewire-lib: fix wrong value as length of header
- for CIP_NO_HEADER case
-Message-ID: <20240727013510.GA163039@workstation.local>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zS0aIosM"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-52f04c29588so3525708e87.3
+        for <linux-sound@vger.kernel.org>; Sat, 27 Jul 2024 03:46:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1722077188; x=1722681988; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=OQ/xr1RKgXgl0tJIEKuoNjq+bUa/0Y66j4NiEBoptb8=;
+        b=zS0aIosMcof1+y4RkLmOh4tKkhirP6S0w7mO1iwPqyPhFbHYI9MctmJqqdEnyF9maq
+         4gQEsZGlVBoLKmusjkQ9BrW6cFXDKZZodsT9EKmZA3M3BcJtX7jqVGqQJlWeDUOioRtl
+         L46x0+ehiKxIAxSd+gLEd/07j58ZkRfKubhon77diGL2iy0SqO3VDDSq4UYCG6xXDjML
+         /y/cefwqOn1rR/8tHR3NQ9h4mnfxqt21uQ+OM5iRwjsP7h5O+jyUpWUTaM0zPi0BEZGC
+         CNRUnO6oee+pR/+ZdoAYV4okoOxWrT/zpQ1MBW9h1PW0tMpji3Ywr7V6GPJx4GqmYYVj
+         jnLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722077188; x=1722681988;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OQ/xr1RKgXgl0tJIEKuoNjq+bUa/0Y66j4NiEBoptb8=;
+        b=JDDm0/BgIpmiDuUbDcme2TJaD1+YvOq8N7y58LeRDUmJjHlvbPtYYV0dEbAteru8/K
+         1hEwIMQSu3QHjtVNYPFUnL7rK4qADqFsVSa5iSCB7hTAipcVuiERv0LZYHny3obn1W0i
+         B4onb2OCkMQ+7v8NrJbsail+dPuwk9UwTP4VGwdLDM3e6dRdXYrV43lCr1p8wAWD827P
+         mVfAkHZvWdYlIwWa3gBr5rB5aN5W1nJayikCmH5RpK5uwKWEMeCcyzvIlPiNXfCYIetq
+         DB2N4k9o4feMWg+ZdRMywMk9+61NPWP71THQfY7e37z0uhu5hFF77VKupiHI0DI8Mgs7
+         uOzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVsmgWtppabAmWWhuRupi9U9oN0yhMOwngoSMwxqme8erjXs9+scn3uZfO0siCk4lWxPbD3gLmHY0Hpj6yN593oPn+1Pfhg5sS8NY4=
+X-Gm-Message-State: AOJu0YwxPKRW+zmpkO+85uo891XyN0TgSi+8djflVOr+AbdHry1ykWhF
+	LGMkX4lzMOLEsUcmuchfAyeguBxfNE66+9xFAhUYxDo9eWdYY2Rq3sKJMfwTJW0=
+X-Google-Smtp-Source: AGHT+IGGP1B2SaB4xulY6ueyuAVpyf5RWWcSGeN89eSnIuMZurceJMYLWHdDgl7Jret0zGlTBndyrg==
+X-Received: by 2002:a05:6512:128b:b0:52d:582e:4117 with SMTP id 2adb3069b0e04-5309b2ce92dmr1450181e87.54.1722077188458;
+        Sat, 27 Jul 2024 03:46:28 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52fd5c09109sm729450e87.178.2024.07.27.03.46.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Jul 2024 03:46:28 -0700 (PDT)
+Date: Sat, 27 Jul 2024 13:46:26 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+	Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/7] ASoC: codecs: wsa881x: Use designator array
+ initializers for Soundwire ports
+Message-ID: <bsnfiskyvzf2zrsarek47irjmt3feqyqxi5b6s7zbanagkh7dl@yhqpncgaxgtv>
+References: <20240725-asoc-wsa88xx-port-arrays-v1-0-80a03f440c72@linaro.org>
+ <20240725-asoc-wsa88xx-port-arrays-v1-1-80a03f440c72@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -82,54 +72,28 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240725155640.128442-1-o-takashi@sakamocchi.jp>
+In-Reply-To: <20240725-asoc-wsa88xx-port-arrays-v1-1-80a03f440c72@linaro.org>
 
-On 25/07/24 09:56, Takashi Sakamoto wrote:
-> In a commit 1d717123bb1a ("ALSA: firewire-lib: Avoid
-> -Wflex-array-member-not-at-end warning"), DEFINE_FLEX() macro was used to
-> handle variable length of array for header field in struct fw_iso_packet
-> structure. The usage of macro has a side effect that the designated
-> initializer assigns the count of array to the given field. Therefore
-> CIP_HEADER_QUADLETS (=2) is assigned to struct fw_iso_packet.header,
-> while the original designated initializer assigns zero to all fields.
+On Thu, Jul 25, 2024 at 01:23:43PM GMT, Krzysztof Kozlowski wrote:
+> Two arrays (with 'struct sdw_dpn_prop' and 'struct sdw_port_config')
+> store configuration of Soundwire ports, thus each of their element is
+> indexed according to the port number (enum wsa_port_ids, e.g.
+> WSA881X_PORT_DAC).  Except the indexing, they also store port number
+> offset by one in member 'num'.
 > 
-> With CIP_NO_HEADER flag, the change causes invalid length of header in
-> isochronous packet for 1394 OHCI IT context. This bug affects all of
-> devices supported by ALSA fireface driver; RME Fireface 400, 800, UCX, UFX,
-> and 802.
+> Entire code depends on that correlation between array index and port
+> number, thus make it explicit by using designators.  The code is
+> functionally the same, but more obvious for reading.
 > 
-> This commit fixes the bug by replacing it with the alternative version of
-> macro which corresponds no initializer.
-> 
-> Cc: <stable@vger.kernel.org>
-> Fixes: 1d717123bb1a ("ALSA: firewire-lib: Avoid -Wflex-array-member-not-at-end warning")
-> Reported-by: Edmund Raile <edmund.raile@proton.me>
-> Closes: https://lore.kernel.org/r/rrufondjeynlkx2lniot26ablsltnynfaq2gnqvbiso7ds32il@qk4r6xps7jh2/
-> Signed-off-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > ---
->   sound/firewire/amdtp-stream.c | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
+>  sound/soc/codecs/wsa881x.c | 42 ++++++++++++++++++++++--------------------
+>  1 file changed, 22 insertions(+), 20 deletions(-)
 > 
-> diff --git a/sound/firewire/amdtp-stream.c b/sound/firewire/amdtp-stream.c
-> index d35d0a420ee0..1a163bbcabd7 100644
-> --- a/sound/firewire/amdtp-stream.c
-> +++ b/sound/firewire/amdtp-stream.c
-> @@ -1180,8 +1180,7 @@ static void process_rx_packets(struct fw_iso_context *context, u32 tstamp, size_
->   		(void)fw_card_read_cycle_time(fw_parent_device(s->unit)->card, &curr_cycle_time);
->   	for (i = 0; i < packets; ++i) {
-> -		DEFINE_FLEX(struct fw_iso_packet, template, header,
-> -			    header_length, CIP_HEADER_QUADLETS);
-> +		DEFINE_RAW_FLEX(struct fw_iso_packet, template, header, CIP_HEADER_QUADLETS);
->   		bool sched_irq = false;
->   		build_it_pkt_header(s, desc->cycle, template, pkt_header_length,
-
-Applied to for-linus branch in firewire subsystem tree[1], and would be
-sent to mainline today with another patch[2].
 
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/ieee1394/linux1394.git/log/?h=for-linus
-[2] https://lore.kernel.org/lkml/20240725161648.130404-1-o-takashi@sakamocchi.jp/
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Regards
-
-Takashi Sakamoto
+-- 
+With best wishes
+Dmitry
