@@ -1,57 +1,57 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 866622629D
-	for <linux-sound@vger.kernel.org>; Sat, 27 Jul 2024 22:18:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA18239FD8
+	for <linux-sound@vger.kernel.org>; Sat, 27 Jul 2024 22:22:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722118703; cv=none; b=QkA7PSZZp++Ux2DlnAVlRdDvufYfJfM+voTcz6NIRWKM2l/reAEEajqOZVck3Pkyn44tP6S9tpxbLlFRPBiKzI1I1kiBPw6GDXS7k6SAg1EFhm1pWqbbWyQODHC5+8KL8F+WpSPvIku/jpOYle256qaKf0dLBEL5BYtkgmyGPmU=
+	t=1722118957; cv=none; b=C4LqOG311Q504gqG09Ac8MFy+SXOOZ+0DmNp0VVVBUB6jEDnGejfwd82QMyVkEoVEnNj8ly9aRpzL9mbcmi1oI+1H7YqX0RAmko96A4KCi8nvgNyin8SlE6vonVC8gR03qdT29AZY6Og/AY4Ig7xnj39f2PtdRKFWZBgeR4Wgb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722118703; c=relaxed/simple;
-	bh=5lFK4MT8kHjxmIDSWsaDwLNDfSAtd1FNjuD5F+3Vnk4=;
+	s=arc-20240116; t=1722118957; c=relaxed/simple;
+	bh=fDjNUHr6dA8rOXDlgnigy+h72KTsuiW6mnnOcpO2mks=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=en8xiD/ywjoIWgLd2YfN7K4heS4S11I4XrkWp76Qcub77AaJ9KhDUgyBizANyj35d6x+fX/1CGseRGcMTICm62Vh2gQ7PNcDeJqyeLt3e9W5hvyJh+ZV+phh+8D8MuThH+ICwEUL4IJu4Emfsyx7nUg3Lgm3oIE5C0+0314PILA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ULIjy17M; arc=none smtp.client-ip=209.85.167.54
+	 Content-Type:Content-Disposition:In-Reply-To; b=q6PoKOAquuuSG8SbYrvdIIHPrgp8NLIOdk7fe6kUzt0mB4CZCTh7lfzaasMExKfnrzpimM7AwLm4H461662XUZM0Q5P7NWCrkEedaeB6oreMJ2a+4uLtBYJVMYI1hg0vp7wlaYgw/q3p3HEaO7HsQqkwGcipB/2yhR8vwqocuhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=i9athftF; arc=none smtp.client-ip=209.85.167.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ULIjy17M"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-52f04b4abdcso3668030e87.2
-        for <linux-sound@vger.kernel.org>; Sat, 27 Jul 2024 15:18:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="i9athftF"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-52f04150796so3790672e87.3
+        for <linux-sound@vger.kernel.org>; Sat, 27 Jul 2024 15:22:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1722118699; x=1722723499; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1722118954; x=1722723754; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=SRPFdqDNMT5cVtgo5Uruy9LQl2dnULjagrFjzTadsmA=;
-        b=ULIjy17M/R2H95Uu386xs3KG3yiU4o4K5fMaJui7hyE3bFbmeJ+pUYdeBrykCfkQJR
-         wRfavlKqFlA8E0JdKOhiJlxsg7vXL4Up5cRwHXiOukQm60tbAQ+Q1A5WjLWGOCxZCQk7
-         y4iK7FMhsbWelUiWWvWkSMM9C8zeA5fzLeDQ4HCeJdvP8Q0pNWkfVKSjkmgvRvV5uzKU
-         obqapUXj4OZohM8+TWVauBwQ/1uDQC1i3kZ1x5tZrYKzSxoQzjGM6KgTiQ4RveMRr3Wk
-         t4JCa2KM6MBBcLcwDSLCMAn32AXqpz8K6wC7mwBmvCjL93aeugjGXRAO/i/xZTdG3OYV
-         jbvQ==
+        bh=SmqlrirUFtzyURY6qK3fyfdNBiwmBrDBIWtbVFCj68k=;
+        b=i9athftFb3IK36fqslbvcmnAQ2IVj8sK6Mh52pfqUBCgX3WoERtBL9+5ztFVpR5mGw
+         4PQnq/6uc/zWab+VEKNuJh+NGuj2UrvOBU/YAM1VugJJiGEmd9TKWVoSzrmEXiUlh9WK
+         ZQpdhFfZ/G1piXm9/mwveuZ318WjblQELLd78tKIbXv2TN+Xmlt/TGaiN6eO24pqjKaL
+         xEAgEUDJXS+9RQ43DlfTWZ9ypyZEQTTFyyNUkdyWvxy2O4AADzYYmUldCTnKltzTBfFj
+         WKPMzh+0id9tNbZwaMghrkAx37nO/aqeBErILlJLZyOY5vJIBtRqcB9i7BQDWnCew5D4
+         MbHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722118699; x=1722723499;
+        d=1e100.net; s=20230601; t=1722118954; x=1722723754;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SRPFdqDNMT5cVtgo5Uruy9LQl2dnULjagrFjzTadsmA=;
-        b=G3tYhlLUWNzG640a/Q8LFE1Mn5+kkN8OZOSK1Ab9dMoLeaSemZ3uWk7MgJXXl9Myr4
-         8oYcmPn5/Fr7rAcbAc8FspOZqkbKoP85T7Vd9+ZnC1UvDo+VL7/cFIvL2+f0cr2Ebyac
-         rGEYhOdS+YDozYOylfwmGUdZaIOB5PUA6JxkBXb/k+oshRlx6AsRVKFDJ1w6yIM6kYY4
-         ygFNTInDZewijhrNWg173wtWA4DEJrid7aIYyCdRSVYDKkpJBSkarHKgxV0bJiVqUuco
-         NSvN7Gm5SKeT0f6Q9+TQx1TJz+zzNgIz43MPqXCTFyPfB9/qX457WZSx8ioIRZ0HOb7y
-         myKg==
-X-Forwarded-Encrypted: i=1; AJvYcCUhG2UeYYKqkejhRV/NW9S6B9Nkg1m07pvW4ZQLcjPC2EQ+f/hHpRuXmQXLNwpn01ARPIitc83qVn3BsgRGJEy0z8WwP9hS9oLnmZ8=
-X-Gm-Message-State: AOJu0YyVI9JMXEvxhLe9h1AF58TsC6HAl/SEjFDDzE08hPoLIZ4e+YtK
-	+w3cZuog0/6fTW2YoORI+MSG9cCbMJeub3C5Sqwh6ZTCHa3TDYCz9d0sNzTlQFs=
-X-Google-Smtp-Source: AGHT+IFUBQ6q8OXXKFdSK1WefD+EdS1b4NdGUG2Kdoz2aBuzpXsjNTWAKu80JFuplft0bFTX/L8E5A==
-X-Received: by 2002:a05:6512:606:b0:52d:582e:410f with SMTP id 2adb3069b0e04-5309b2c3061mr1949742e87.46.1722118698555;
-        Sat, 27 Jul 2024 15:18:18 -0700 (PDT)
+        bh=SmqlrirUFtzyURY6qK3fyfdNBiwmBrDBIWtbVFCj68k=;
+        b=tLtF8CmpSnmtuh9Lx1B37b1ScBCwCvkzfnVgJtAvzZtE9XJrKAaIHPuRbe5fs5uHOk
+         fPTK6F7B2s3yIQfOH5NHNmG/Ah/LJidYg3+AWjc9dip/aJEWIe7j0rNwxWyQyuUb4pzg
+         uyn4ePJWIc3D4BEj5qHPbmxoCrP0ZNYdvFBRiSWKJObEZXyk1GfXMLp9VwB6xH/QR+se
+         kWloe3X4bnTnCoX0GWCUhec7VeCuR2uN7zWBCf/XigdKalXkltpANOKl6Hj7UbHWQPHO
+         QVdLR5ghxuNwo7lAVGX6cB/ooZ+0GZ1XA2HX9D492dxZTdA3H7fbECPdSIDkDmP90vNO
+         Jcdg==
+X-Forwarded-Encrypted: i=1; AJvYcCXYqRWIRz8QnruAHBp5p2Zay7hNJMiGyOZwDu3x392R5Wb7lBWDukQ7SZY2wphqO5wBvPQUSQDST2zgFsSGO7lHGjqq+HenzFZgLDg=
+X-Gm-Message-State: AOJu0Yw7Y7SknaldYyUaSRzv2zhWFPik/ixu3kqIkwYb3sKggvH6qnpP
+	XtSj1+yaoIIfLqwyfcoYi2/qksGyC079A0pAtEbKW0Zlq1znIneyswFA3+z69tw=
+X-Google-Smtp-Source: AGHT+IF/s11CSBZC1Ioc8fNTDjjnGQIm4OyRZiAH0axmuM5wcvd3DkIFT4ZzI5q6QFp25Q1zWlz7ZA==
+X-Received: by 2002:ac2:511c:0:b0:52e:6d71:e8f1 with SMTP id 2adb3069b0e04-5309b2ce524mr2179378e87.53.1722118953841;
+        Sat, 27 Jul 2024 15:22:33 -0700 (PDT)
 Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52fd5c196e7sm872644e87.190.2024.07.27.15.18.17
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52fd5bc40cesm871534e87.28.2024.07.27.15.22.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Jul 2024 15:18:18 -0700 (PDT)
-Date: Sun, 28 Jul 2024 01:18:16 +0300
+        Sat, 27 Jul 2024 15:22:33 -0700 (PDT)
+Date: Sun, 28 Jul 2024 01:22:31 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Adam Skladowski <a39.skl@gmail.com>
 Cc: phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht, 
@@ -63,12 +63,12 @@ Cc: phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
 	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
 	Stephan Gerhold <stephan@gerhold.net>, alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org, 
 	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev
-Subject: Re: [PATCH v2 3/4] ASoC: dt-bindings: apq8016-sbc: Add
- msm8953/msm8976-qdsp6-sndcard
-Message-ID: <ctww7q6kmkvke7acubxupsfvi3cmvn3i4h7s7pb6pmzw5hl4ry@w35exuha32k7>
+	llvm@lists.linux.dev, Vladimir Lypak <vladimir.lypak@gmail.com>
+Subject: Re: [PATCH v2 4/4] ASoC: qcom: apq8016_sbc: Add support for
+ msm8953/msm8976 SoC
+Message-ID: <4ncs2zopzh2qnf4cgb7wnq2ai3vw2zjyhnv4tsgdhu3zqqnvug@63ypk324n3mr>
 References: <20240727182031.35069-1-a39.skl@gmail.com>
- <20240727182031.35069-4-a39.skl@gmail.com>
+ <20240727182031.35069-5-a39.skl@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -77,129 +77,158 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240727182031.35069-4-a39.skl@gmail.com>
+In-Reply-To: <20240727182031.35069-5-a39.skl@gmail.com>
 
-On Sat, Jul 27, 2024 at 08:20:26PM GMT, Adam Skladowski wrote:
-> Document MSM8953/MSM8976 QDSP6 cards.
+On Sat, Jul 27, 2024 at 08:20:27PM GMT, Adam Skladowski wrote:
+> From: Vladimir Lypak <vladimir.lypak@gmail.com>
 > 
+> Introduce support for audio card on MSM8953/MSM8976 platform.
+> Main difference between those two is Q6AFE CLK API supported by firmware
+> which influence way we enable digital codec clock.
+> Either inside machine driver or outside via q6afe-clocks driver.
+> 
+> Signed-off-by: Vladimir Lypak <vladimir.lypak@gmail.com>
+> [Adam: Add MSM8976, rename functions, add mclk setting,add msg]
+> Co-developed-by: Adam Skladowski <a39.skl@gmail.com>
 > Signed-off-by: Adam Skladowski <a39.skl@gmail.com>
 > ---
->  .../sound/qcom,apq8016-sbc-sndcard.yaml       | 51 ++++++++++++++++---
->  1 file changed, 45 insertions(+), 6 deletions(-)
+>  sound/soc/qcom/apq8016_sbc.c | 68 ++++++++++++++++++++++++++++++++++--
+>  1 file changed, 66 insertions(+), 2 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/sound/qcom,apq8016-sbc-sndcard.yaml b/Documentation/devicetree/bindings/sound/qcom,apq8016-sbc-sndcard.yaml
-> index 6ad451549036..1706ce334d2f 100644
-> --- a/Documentation/devicetree/bindings/sound/qcom,apq8016-sbc-sndcard.yaml
-> +++ b/Documentation/devicetree/bindings/sound/qcom,apq8016-sbc-sndcard.yaml
-> @@ -15,16 +15,16 @@ properties:
->      enum:
->        - qcom,apq8016-sbc-sndcard
->        - qcom,msm8916-qdsp6-sndcard
-> +      - qcom,msm8953-qdsp6-sndcard
-> +      - qcom,msm8976-qdsp6-sndcard
+> diff --git a/sound/soc/qcom/apq8016_sbc.c b/sound/soc/qcom/apq8016_sbc.c
+> index 303dd88206b1..453ca4795603 100644
+> --- a/sound/soc/qcom/apq8016_sbc.c
+> +++ b/sound/soc/qcom/apq8016_sbc.c
+> @@ -22,6 +22,11 @@
 >  
->    reg:
-> -    items:
-> -      - description: Microphone I/O mux register address
-> -      - description: Speaker I/O mux register address
-> +    minItems: 2
-> +    maxItems: 3
+>  #define MI2S_COUNT  (MI2S_QUINARY + 1)
 >  
->    reg-names:
-> -    items:
-> -      - const: mic-iomux
-> -      - const: spkr-iomux
-> +    minItems: 2
-> +    maxItems: 3
->  
->    audio-routing:
->      $ref: /schemas/types.yaml#/definitions/non-unique-string-array
-> @@ -106,6 +106,45 @@ required:
->    - reg-names
->    - model
->  
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - qcom,apq8016-sbc-sndcard
-> +              - qcom,msm8916-qdsp6-sndcard
-> +    then:
-> +      properties:
-> +        reg:
-> +          items:
-> +            - description: Microphone I/O mux register address
-> +            - description: Speaker I/O mux register address
-> +        reg-names:
-> +          items:
-> +            - const: mic-iomux
-> +            - const: spkr-iomux
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - qcom,msm8953-qdsp6-sndcard
-> +              - qcom,msm8976-qdsp6-sndcard
-> +    then:
-> +      properties:
-> +        reg:
-> +          items:
-> +            - description: Microphone I/O mux register address
-> +            - description: Speaker I/O mux register address
-> +            - description: Quinary Mi2S I/O mux register address
-> +        reg-names:
-> +          items:
-> +            - const: mic-iomux
-> +            - const: spkr-iomux
-> +            - const: quin-iomux
+> +enum afe_clk_api {
+> +	Q6AFE_CLK_V1,
+> +	Q6AFE_CLK_V2
+> +};
 
-As msm8953 / msm8976 just add one new region it might be better to
-move the lists back to top-level definitions (still having mix/maxItems
-next to it) and then in the conditional branches just specify maxItems:2
-for apq8016/msm8916 and maxItems:3 for msm8953/msm8976.
-
-This way it becomes:
-
-  reg:
-    items:
-      - description: Microphone I/O mux register address
-      - description: Speaker I/O mux register address
-    minItems: 2
-    maxItems: 3
-
-  # same for reg-names
-
-[....]
-
-  - if:
-      properties:
-        compatible:
-          contains:
-            enum:
-              - qcom,apq8016-sbc-sndcard
-              - qcom,msm8916-qdsp6-sndcard
-    then:
-      properties:
-        reg:
-          maxItems: 2
-        reg-names:
-          maxItems: 2
-    else:
-      properties:
-        reg:
-          maxItems: 3
-        reg-names:
-          maxItems: 3
-
+Are these v1/v2 coming from some msm-N.M kernel? It's not obvious from
+the patch, but msm8916 also falls into v1 category. Is that expected?
 
 > +
->  additionalProperties: false
+>  struct apq8016_sbc_data {
+>  	struct snd_soc_card card;
+>  	void __iomem *mic_iomux;
+> @@ -29,6 +34,8 @@ struct apq8016_sbc_data {
+>  	void __iomem *quin_iomux;
+>  	struct snd_soc_jack jack;
+>  	bool jack_setup;
+> +	enum afe_clk_api q6afe_clk_ver;
+> +	bool dig_cdc_mclk_en;
+>  	int mi2s_clk_count[MI2S_COUNT];
+>  };
 >  
->  examples:
+> @@ -192,6 +199,28 @@ static int qdsp6_dai_get_lpass_id(struct snd_soc_dai *cpu_dai)
+>  	}
+>  }
+>  
+> +static int qdsp6_get_clk_id(struct apq8016_sbc_data *data, int mi2s_id)
+> +{
+> +	if (data->q6afe_clk_ver == Q6AFE_CLK_V2) {
+> +		switch (mi2s_id) {
+> +		case MI2S_PRIMARY:
+> +			return Q6AFE_LPASS_CLK_ID_PRI_MI2S_IBIT;
+> +		case MI2S_SECONDARY:
+> +			return Q6AFE_LPASS_CLK_ID_SEC_MI2S_IBIT;
+> +		case MI2S_TERTIARY:
+> +			return Q6AFE_LPASS_CLK_ID_TER_MI2S_IBIT;
+> +		case MI2S_QUATERNARY:
+> +			return Q6AFE_LPASS_CLK_ID_QUAD_MI2S_IBIT;
+> +		case MI2S_QUINARY:
+> +			return Q6AFE_LPASS_CLK_ID_QUI_MI2S_IBIT;
+> +		default:
+> +			break;
+> +		}
+> +	}
+> +	/* If AFE CLK isn't V2 return V1 */
+> +	return LPAIF_BIT_CLK;
+> +}
+> +
+>  static int msm8916_qdsp6_dai_init(struct snd_soc_pcm_runtime *rtd)
+>  {
+>  	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+> @@ -214,8 +243,17 @@ static int msm8916_qdsp6_startup(struct snd_pcm_substream *substream)
+>  
+>  	if (++data->mi2s_clk_count[mi2s] > 1)
+>  		return 0;
+> +	/*
+> +	 * On newer legacy SoC (MSM8976) lpass codec clocks are not available in gcc region
+> +	 * so we have to request clock from machine driver using V1 API)
+> +	 */
+> +	if (data->q6afe_clk_ver == Q6AFE_CLK_V1 && data->dig_cdc_mclk_en == true) {
+
+Nit: line feed after &&
+
+> +		ret = snd_soc_dai_set_sysclk(cpu_dai,  LPAIF_DIG_CLK, DEFAULT_MCLK_RATE, 0);
+> +		if (ret)
+> +			dev_err(card->dev, "Failed to enable LPAIF dig clk: %d\n", ret);
+> +	}
+>  
+> -	ret = snd_soc_dai_set_sysclk(cpu_dai, LPAIF_BIT_CLK, MI2S_BCLK_RATE, 0);
+> +	ret = snd_soc_dai_set_sysclk(cpu_dai, qdsp6_get_clk_id(data, mi2s), MI2S_BCLK_RATE, 0);
+>  	if (ret)
+>  		dev_err(card->dev, "Failed to enable LPAIF bit clk: %d\n", ret);
+>  	return ret;
+> @@ -236,9 +274,16 @@ static void msm8916_qdsp6_shutdown(struct snd_pcm_substream *substream)
+>  	if (--data->mi2s_clk_count[mi2s] > 0)
+>  		return;
+>  
+> -	ret = snd_soc_dai_set_sysclk(cpu_dai, LPAIF_BIT_CLK, 0, 0);
+> +	ret = snd_soc_dai_set_sysclk(cpu_dai, qdsp6_get_clk_id(data, mi2s), 0, 0);
+>  	if (ret)
+>  		dev_err(card->dev, "Failed to disable LPAIF bit clk: %d\n", ret);
+> +
+> +	if (data->q6afe_clk_ver == Q6AFE_CLK_V1 && data->dig_cdc_mclk_en == true) {
+
+Nit: And here too, please.
+
+> +		ret = snd_soc_dai_set_sysclk(cpu_dai,  LPAIF_DIG_CLK, 0, 0);
+> +		if (ret)
+> +			dev_err(card->dev, "Failed to disable LPAIF dig clk: %d\n", ret);
+> +	}
+> +
+>  }
+>  
+>  static const struct snd_soc_ops msm8916_qdsp6_be_ops = {
+> @@ -279,6 +324,23 @@ static void msm8916_qdsp6_add_ops(struct snd_soc_card *card)
+>  	}
+>  }
+>  
+> +static void msm8953_qdsp6_add_ops(struct snd_soc_card *card)
+> +{
+> +	struct apq8016_sbc_data *pdata = snd_soc_card_get_drvdata(card);
+> +
+> +	pdata->q6afe_clk_ver = Q6AFE_CLK_V2;
+> +	msm8916_qdsp6_add_ops(card);
+> +}
+> +
+> +static void msm8976_qdsp6_add_ops(struct snd_soc_card *card)
+> +{
+> +	struct apq8016_sbc_data *pdata = snd_soc_card_get_drvdata(card);
+> +
+> +	pdata->q6afe_clk_ver = Q6AFE_CLK_V1;
+> +	pdata->dig_cdc_mclk_en = true;
+> +	msm8916_qdsp6_add_ops(card);
+> +}
+> +
+>  static const struct snd_kcontrol_new apq8016_sbc_snd_controls[] = {
+>  	SOC_DAPM_PIN_SWITCH("Headphone Jack"),
+>  	SOC_DAPM_PIN_SWITCH("Mic Jack"),
+> @@ -343,6 +405,8 @@ static int apq8016_sbc_platform_probe(struct platform_device *pdev)
+>  static const struct of_device_id apq8016_sbc_device_id[] __maybe_unused = {
+>  	{ .compatible = "qcom,apq8016-sbc-sndcard", .data = apq8016_sbc_add_ops },
+>  	{ .compatible = "qcom,msm8916-qdsp6-sndcard", .data = msm8916_qdsp6_add_ops },
+> +	{ .compatible = "qcom,msm8953-qdsp6-sndcard", .data = msm8953_qdsp6_add_ops },
+> +	{ .compatible = "qcom,msm8976-qdsp6-sndcard", .data = msm8976_qdsp6_add_ops },
+>  	{},
+>  };
+>  MODULE_DEVICE_TABLE(of, apq8016_sbc_device_id);
 > -- 
 > 2.45.2
 > 
