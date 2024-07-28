@@ -1,125 +1,128 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-40140.protonmail.ch (mail-40140.protonmail.ch [185.70.40.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC318EAD0;
-	Sun, 28 Jul 2024 11:54:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5126829A1;
+	Sun, 28 Jul 2024 12:26:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722167701; cv=none; b=DrQpiMcJPq9Ar/deB4n7AyQ61iYf/mQzizx42mRO9VkvLg/ZD5lX+zGsG8Yl3GQOOA+3dHJxiL6R4n+Hjvyc9s2p4140YJ+CtB16EdEQyIAs7YfZF5M0T32z0B3hmyzGh3Tsvq8iPVIFSkuNN6eN74m3SSOtE+k9MhHU7hHa7eU=
+	t=1722169597; cv=none; b=boPzfnm6REETLhKa3Asx/P47/iR6CLvTnbl4OPlQXr3SSr1H9R1XenBPoPCsGHwW4kM28Sby6osBNWHzp2UJxi0LYalR6oo8IP/GVFTPZQSdHbTRZ+LAPyUrJhHg5HegdhiUFXP2ujbdwaIlg2yfutZwbfYvOOhxUrIRaJnK0Wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722167701; c=relaxed/simple;
-	bh=ebEmE6yxa72kDlnAPNumxA/Rzcxn7AaMkp24552T6fw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s8tOT9YUPYWKqcDkl3WOHHhxzlhTXrM6D6psefmhFWLhYaNHKIIXCJJ8gLYV9TBuRhtHmDFHA67hILRrJpFt6KrFO1DET1vEJTT72nXDu8sX4wlpkvXYVC71ZVWKO280tCyKDC3WnoysOinKxV4MTfNWIvd/VNsx0OCRy3SqvP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=exCTy/SZ; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1722169597; c=relaxed/simple;
+	bh=MAxeEGmgS9693J0PQhUIRbfqko2MsleF4u/sBRGsb4Y=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=CiI5SQT825/AkgJViCIzGeXZKVF7jYUzBj4CJKq8PH5g7of0PGrN3tizq822RTSh1+2gyyZYDCNtmObyja0Rvh96ZV+WO95BpquzmfMLS+1NK5gQl7ucj5bhSYMIfsaclzI0x5FQXqJ41teS6A4d9dzUiLb1onSmyxsC5HzF8W8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=svThna/8; arc=none smtp.client-ip=185.70.40.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="exCTy/SZ"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-36874d7f70bso196314f8f.1;
-        Sun, 28 Jul 2024 04:54:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722167698; x=1722772498; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8xmpSOBK68vpqOxcO8IAsD8IIZwNUgCDMrjM2ilo6Vo=;
-        b=exCTy/SZZwCcq43wzF+bWPFz6OI4duQ1LX8byf8gQDA3JkghLuU1iIzB1GuZhAhDGI
-         zNNAkjMC85JfXtWa7env/R8fO3YXv14XqtmKlVWAz41V/sdNFUszIAT76NxYA3H5NKCR
-         yqbGt0ZxJXy2poch/H49L6TL9hMkBSyjhEGjGDLcS36z2EMYQjtke4eukFVSY2JzFU2J
-         nhPNuOSipEPiVRjJENRC0zxzBVRVSlLccBWufEPgg3/BB22JY/XpfmCXpxLlwJBUadoC
-         d84MRnCralpW+3nmHmUsyufrNuGxACpbnWfQX9pXFhSD0LotHQ5HcmyuR94LegEKgGUK
-         RQAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722167698; x=1722772498;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8xmpSOBK68vpqOxcO8IAsD8IIZwNUgCDMrjM2ilo6Vo=;
-        b=FGJ3NAvTdCJrYRa57U++c4n72gy4oIKHoqsfwvaK4yNFRiwKTiLv6nSAPFn+uBre0C
-         P59Y4ac8gcYJuMs7paizHjhQD3N1aosahbi5FTmGDpqdf5uvK2CcwbbkYgHJMfKZOb4O
-         Emc5LS84G1oeDoarkuqbP/QNNweQJaKykjs6CpAjKy+sHAPGtUu4yp3f6JIVOgYkxsRN
-         z/od/gYLTpV6+BXHh84PsYCgwgX8nZaSeEvb+njg6434Lf1hQUivwNhdSc/vBvkqK+sX
-         HnV/+E6FSPOtU3HvYwgNw3lvsOsnCsFPQ7+RP9x2jbXhDyWCtN5PFmyeXpBRvAAWzhd5
-         5/+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU5j8B+jL2j6tGgmnYBctiTqapQrHQo/lCbq1cVT8wmFbWJu92MyFmz9RZTunvBDLldAeMnrsJk9m/HIIdM@vger.kernel.org, AJvYcCVmLqExAcxul6peAzdURLhhNffNUfq2oCzyZvrJJiGRssSxl3Nv9oiwxiSd66l/DtQv48FjqB1ZxQE=@vger.kernel.org, AJvYcCWL28nHjdKHKSKqhjc9uQDeq6dnXhxaK1rJHkpi9Yu+U/Zki55HIOaWxWjdsjUPhLWSLpWo2AGXfGcrN4Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTj5prkQCkXLo9V7i7Cv+dDCGa5e7bVjwXTsqnYb8aM4yh8ffS
-	9peUjtEkyb2BGL1egBkt/ob+Axz1ADWYKzAXyF/wTOJSVHVP6pPD
-X-Google-Smtp-Source: AGHT+IGVymRTomVtW5etCRWyLm9nm566X+zs1ZwGWNnf1O596eq4IbUw3D6Gl+lQ4o8znDqETUm+TA==
-X-Received: by 2002:a5d:64c4:0:b0:366:ea51:be79 with SMTP id ffacd0b85a97d-36b34e4dbdemr4718187f8f.6.1722167697727;
-        Sun, 28 Jul 2024 04:54:57 -0700 (PDT)
-Received: from ?IPV6:2a01:4b00:d20e:7300:1d00:5943:7f74:2af0? ([2a01:4b00:d20e:7300:1d00:5943:7f74:2af0])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36b36863d87sm9643407f8f.110.2024.07.28.04.54.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 28 Jul 2024 04:54:57 -0700 (PDT)
-Message-ID: <b9ac0ee3-18af-459d-958e-3b8122e7bb9d@gmail.com>
-Date: Sun, 28 Jul 2024 12:54:55 +0100
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="svThna/8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1722169588; x=1722428788;
+	bh=74jrJoeOKYDJalJmIabOoA19hszvpDADNvzc31C/j48=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=svThna/84zGaTHZ4yVuXTMAPuIKprGMAJgK7BKsrz/2IJ3mtALCljNiP7PKoeeloi
+	 9UZK7bQDnEYP7Dxy6bvH59KKLXVBUJkRVGmyGb+at+aSem6UZgzWEHL6xDkBKhbDLB
+	 Fw/RczRop40p2PrH0pe1myvGS8NUKQ9J4b523FNjndbt6c4n318/c4Hpy+Ph5sWmmq
+	 5ffzHo++EXN+j7+C1xr07rOYxCWzkxOilSJ9guvUci4RdebBwq6G2LmqP69+1DRSu3
+	 bR37HpKHPxJ+cuuM3DDa8i82S0Emn4il8DmdF67z2h38/7ZqwoSIZBdhKvTO71HqrQ
+	 D0Y68FqqhpLrQ==
+Date: Sun, 28 Jul 2024 12:26:21 +0000
+To: o-takashi@sakamocchi.jp, clemens@ladisch.de
+From: Edmund Raile <edmund.raile@protonmail.com>
+Cc: tiwai@suse.com, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, edmund.raile@protonmail.com, stable@vger.kernel.org
+Subject: [PATCH v2 0/2] ALSA: firewire-lib: restore process context workqueue to prevent deadlock
+Message-ID: <20240728122614.329544-1-edmund.raile@protonmail.com>
+Feedback-ID: 43016623:user:proton
+X-Pm-Message-ID: 7405776f7170639ffa300581e17a2b4f23d866bf
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] ALSA: timer: Introduce virtual userspace-driven
- timers
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>, perex@perex.cz,
- tiwai@suse.com, corbet@lwn.net, broonie@kernel.org, shuah@kernel.org
-Cc: linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, aholzinger@gmx.de
-References: <20240726074750.626671-1-ivan.orlov0322@gmail.com>
- <20240726074750.626671-4-ivan.orlov0322@gmail.com>
- <0576f5dd-656b-4085-8c8d-b0f845875f0f@wanadoo.fr>
- <3ab0aa72-4f89-4911-8546-ce17f362c981@gmail.com>
- <42ba79ad-3354-448d-ae03-6f68d51f46c5@wanadoo.fr>
- <08bdc510-da39-42d4-a104-9c7119d082ea@gmail.com>
- <c73da5fd-51a9-4744-9687-0ebc56c34fca@wanadoo.fr>
-Content-Language: en-US
-From: Ivan Orlov <ivan.orlov0322@gmail.com>
-In-Reply-To: <c73da5fd-51a9-4744-9687-0ebc56c34fca@wanadoo.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 7/28/24 11:29, Christophe JAILLET wrote:
-> 
-> I may be wrong but I think that ida allocates hunks for 1024 bits (128 
-> bytes * 8) at a time. (see [1])
-> 
-> So with this extra sape and the sapce for the xarray, it would waste a 
-> few bytes of memory, yes.
-> 
-> With ida, there is also some locking that may be unnecessary (but harmless)
-> 
-> 
-> Hoping, I got it right, here are a few numbers:
-> 
-> On a x86_64, with allmodconfig:
-> 
-> Your initial patch:
->     text       data        bss        dec        hex    filename
->    55020       1783        268      57071       deef    sound/core/timer.o
-> 
-> With ida:
->    54763       1631        116      56510       dcbe    sound/core/timer.o
-> + 128 bytes of runtime memory allocation
-> 
-> With bitmap:
->    54805       1535        132      56472       dc98    sound/core/timer.o
-> 
-> 
-> I think that the code would be slightly more elegant with ida, but 
-> implementing it with a bitmap does not add that much complexity.
-> 
+This patchset serves to prevent a deadlock between
+process context and softIRQ context:
 
-Ah, alright, I agree that the code would be cleaner when using IDA, and 
-such a small memory overhead won't be significant/noticeable. I'm going 
-to use IDA in the V2 instead of bitmap API, thank you so much for 
-pointing me to it (I was wondering if the Kernel has a generic ID 
-allocator and now I finally know it does :) ).
+A. In the process context
+    * (lock A) Acquiring spin_lock by snd_pcm_stream_lock_irq() in
+               snd_pcm_status64()
+    * (lock B) Then attempt to enter tasklet
 
-Thank you!
+B. In the softIRQ context
+    * (lock B) Enter tasklet
+    * (lock A) Attempt to acquire spin_lock by snd_pcm_stream_lock_irqsave(=
+) in
+               snd_pcm_period_elapsed()
 
--- 
-Kind regards,
-Ivan Orlov
+? tasklet_unlock_spin_wait
+ </NMI>
+ <TASK>
+ohci_flush_iso_completions firewire_ohci
+amdtp_domain_stream_pcm_pointer snd_firewire_lib
+snd_pcm_update_hw_ptr0 snd_pcm
+snd_pcm_status64 snd_pcm
+
+? native_queued_spin_lock_slowpath
+ </NMI>
+ <IRQ>
+_raw_spin_lock_irqsave
+snd_pcm_period_elapsed snd_pcm
+process_rx_packets snd_firewire_lib
+irq_target_callback snd_firewire_lib
+handle_it_packet firewire_ohci
+context_tasklet firewire_ohci
+
+The issue has been reported as a regression of kernel 5.14:
+Link: https://lore.kernel.org/regressions/kwryofzdmjvzkuw6j3clftsxmoolynljz=
+txqwg76hzeo4simnl@jn3eo7pe642q/T/#u
+("[REGRESSION] ALSA: firewire-lib: snd_pcm_period_elapsed deadlock with
+Fireface 800")
+
+Commit 7ba5ca32fe6e ("ALSA: firewire-lib: operate for period elapse event
+in process context") removed the process context workqueue from
+amdtp_domain_stream_pcm_pointer() and update_pcm_pointers() to remove
+its overhead.
+Commit b5b519965c4c ("ALSA: firewire-lib: obsolete workqueue for period
+update") belongs to the same patch series and removed
+the now-unused workqueue entirely.
+
+Though being observed on RME Fireface 800, this issue would affect all
+Firewire audio interfaces using ohci amdtp + pcm streaming.
+
+ALSA streaming, especially under intensive CPU load will reveal this issue
+the soonest due to issuing more hardIRQs, with time to occurrence ranging
+from 2 secons to 30 minutes after starting playback.
+
+to reproduce the issue:
+direct ALSA playback to the device:
+  mpv --audio-device=3Dalsa/sysdefault:CARD=3DFireface800 Spor-Ignition.fla=
+c
+Time to occurrence: 2s to 30m
+Likelihood increased by:
+  - high CPU load
+    stress --cpu $(nproc)
+  - switching between applications via workspaces
+    tested with i915 in Xfce
+PulsaAudio / PipeWire conceal the issue as they run PCM substream
+without period wakeup mode, issuing less hardIRQs.
+
+Backport note:
+Also applies to and fixes on (tested):
+6.10.2, 6.9.12, 6.6.43, 6.1.102, 5.15.164
+
+Edmund Raile (2):
+  ALSA: firewire-lib: restore workqueue for process context
+  ALSA: firewire-lib: prevent deadlock between process and softIRQ
+    context
+
+ sound/firewire/amdtp-stream.c | 36 ++++++++++++++++++++++-------------
+ sound/firewire/amdtp-stream.h |  1 +
+ 2 files changed, 24 insertions(+), 13 deletions(-)
+
+--=20
+2.45.2
+
 
