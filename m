@@ -1,43 +1,39 @@
-Received: from mail-4325.protonmail.ch (mail-4325.protonmail.ch [185.70.43.25])
+Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch [185.70.40.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B61550A80;
-	Sun, 28 Jul 2024 12:31:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E8C2374C3
+	for <linux-sound@vger.kernel.org>; Sun, 28 Jul 2024 12:36:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.134
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722169875; cv=none; b=ISJkoOb8xApEHYElyZldTgyHfoC5uEZPQ7hFZYOfT1plFUkqfa9Yp/0q44fOkOTCl2tFyjGnOTfypeSLM+9PG8PQGy4LZJnfUW9K6G6GrM6mD8PS9neur0iIrm6otmcsPn6ywFsgCl0rgsPd0Y+taG/rIwUttWB8v5FXjvK89rs=
+	t=1722170178; cv=none; b=kGplGw5KRa9Zv24CjErc3uqa0ZL9/W9MJunnEnxwnCN4pE7au6fwLvJv9Ci1muDhDodKOBguUk5H9H+BBQCs2i2O+825q5W7zA2ByYQZBqmzaOue601iX24pJZwFqQKeU8QEnQkSUcRqOkP59EjwPmf8JpOqmAa8jCsQjk7dxpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722169875; c=relaxed/simple;
-	bh=zYeI0RXOOsfL8/wFCi+vO2omAPFQKXW51I6FzL+Chhs=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RpwUci0Y30vHAiEQqRPzrrVfq2FRHjVt6Yhc9LLiyd87h5UNmu61YIBT/SNc0esJEj9HfK0m6LkC9cd6Lkx3kdcQEg6x2uJTaDKwSe18IgBSWRCZcAJnhbi0CBtqTOGoCzGZpUNwpzxDuCjzS2OWQ+uxSP7hob2z2OYkuvO3Ze4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=a1KjOzNc; arc=none smtp.client-ip=185.70.43.25
+	s=arc-20240116; t=1722170178; c=relaxed/simple;
+	bh=KL1Uek1AlXEmf1EG35sIdKgxJf2Dovo3YAoBvGp8qLo=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=RKp0ozOk77ss/KQL0BRXBHOv+YIuQlvU5iPNevpSkv2v+XyjYjgvptP8mvR0rudzbfzgEIBIkQnyVhGTU/DGo4VexAgIEHa0E3lCzloxlipjYpjbB/IilD9ver51AGqIO/BOdOs2xB/T+hhaW+5tB7xpHlS85buLOV0e99CoJPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=c8qWFlUk; arc=none smtp.client-ip=185.70.40.134
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="a1KjOzNc"
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="c8qWFlUk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1722169867; x=1722429067;
-	bh=KBafj0W+hLUSbIhjE/xmSCOMhfBOVKrA7riUOgwT7ls=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=a1KjOzNcElvwgZR+zofIEb5MYjjMzwqyPOZl0LHgc9yPH3JVWDU238enBD++qXpNi
-	 OTXQHGgqoPmOJr48llF0f1pJsHbon+M0sF8YUnHjhW5uaGqxlQ3DVcWrUXM4IATro9
-	 n2DLow+7vrkx3HqthV9IemMBBKmVUJQu9TnkzPMcIhgLFVlcCLgy2L4JhAa7Cg1fsk
-	 wxl7zp0TTjNYaMwe8Xu7A3Zckg7U1WjzVi34ECZPFW4kpW+fb9ysoV6EzK/OhnZEtb
-	 3FETPM8X8DvuSdrhlDcPurtEUmTdgJ3PInl4VX4nxp/s6GAjSVFuUFs5IZCqDBAT24
-	 KyiZInE5KhP6w==
-Date: Sun, 28 Jul 2024 12:31:03 +0000
-To: o-takashi@sakamocchi.jp, clemens@ladisch.de
-From: Edmund Raile <edmund.raile@protonmail.com>
-Cc: tiwai@suse.com, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, edmund.raile@protonmail.com, stable@vger.kernel.org
-Subject: [PATCH v2 2/2] ALSA: firewire-lib: restore process context workqueue to prevent deadlock
-Message-ID: <20240728123041.330216-3-edmund.raile@protonmail.com>
-In-Reply-To: <20240728123041.330216-1-edmund.raile@protonmail.com>
-References: <20240728123041.330216-1-edmund.raile@protonmail.com>
-Feedback-ID: 43016623:user:proton
-X-Pm-Message-ID: 5e1ed2a306242a75e68ed5c02831d4a3f6f0a481
+	s=protonmail3; t=1722170170; x=1722429370;
+	bh=KL1Uek1AlXEmf1EG35sIdKgxJf2Dovo3YAoBvGp8qLo=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=c8qWFlUkz6KYRqjERl5V35KVayeOOfbs+JFg0LptF9S+E56aj6FaA9pEy7jUKz43L
+	 WsfT1OGjNxK6mSOoUG0GaXLYibgwX3sCfeHNGyARsFA4fFhcDcjEFjNbPJS9D9M/Fi
+	 ucD/FrCmqL34+lY1aJPZGhhtS40lgqPAvF3o9wZEwzeq+2ROzNmzDBOhddCwyFoQGl
+	 eLQhe7dWr0IFfEqnkPqGAgpaik/ax7naHkNb6M9NVmves2PGTGrGlqaXrH7MNhn86g
+	 WdjUM15uKX44a6rq4Tl/cQVce2Hg1yYhOH9iQ6Juslf3T5xEr6vFtB7yijFLqb0F7M
+	 1MJu4x9+m8nfg==
+Date: Sun, 28 Jul 2024 12:36:04 +0000
+To: linux-sound@vger.kernel.org
+From: Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
+Cc: tiwai@suse.com, perex@perex.cz, Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
+Subject: [PATCH] ALSA: hda/realtek: Add quirk for Acer Aspire E5-574G
+Message-ID: <20240728123601.144017-1-mavchatz@protonmail.com>
+Feedback-ID: 20039310:user:proton
+X-Pm-Message-ID: 8490e2e58e62bd4b164fafbf762bf1e3f458b6a8
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,107 +43,35 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Commit 7ba5ca32fe6e ("ALSA: firewire-lib: operate for period elapse event
-in process context") removed the process context workqueue from
-amdtp_domain_stream_pcm_pointer() and update_pcm_pointers() to remove
-its overhead.
+ALC255_FIXUP_ACER_LIMIT_INT_MIC_BOOST fixes combo jack detection and
+limits the internal microphone boost that causes clipping on this model.
 
-With RME Fireface 800, this lead to a regression since Kernels 5.14.0,
-causing a deadlock with eventual system freeze under ALSA operation:
-
-A. In the process context
-    * (lock A) Acquiring spin_lock by snd_pcm_stream_lock_irq() in
-=09snd_pcm_status64()
-    * (lock B) Then attempt to enter tasklet
-
-B. In the softIRQ context
-    * (lock B) Enter tasklet
-    * (lock A) Attempt to acquire spin_lock by
-=09snd_pcm_stream_lock_irqsave() in snd_pcm_period_elapsed()
-
-? tasklet_unlock_spin_wait
- </NMI>
- <TASK>
-ohci_flush_iso_completions firewire_ohci
-amdtp_domain_stream_pcm_pointer snd_firewire_lib
-snd_pcm_update_hw_ptr0 snd_pcm
-snd_pcm_status64 snd_pcm
-
-? native_queued_spin_lock_slowpath
- </NMI>
- <IRQ>
-_raw_spin_lock_irqsave
-snd_pcm_period_elapsed snd_pcm
-process_rx_packets snd_firewire_lib
-irq_target_callback snd_firewire_lib
-handle_it_packet firewire_ohci
-context_tasklet firewire_ohci
-
-Restore the process context work queue to prevent deadlock
-between ALSA substream process context spin_lock of
-snd_pcm_stream_lock_irq() in snd_pcm_status64()
-and OHCI 1394 IT softIRQ context spin_lock of
-snd_pcm_stream_lock_irqsave() in snd_pcm_period_elapsed().
-
-Cc: stable@vger.kernel.org
-Fixes: 7ba5ca32fe6e ("ALSA: firewire-lib: operate for period elapse event i=
-n process context")
-Link: https://lore.kernel.org/r/kwryofzdmjvzkuw6j3clftsxmoolynljztxqwg76hze=
-o4simnl@jn3eo7pe642q/
-Reported-by: edmund.raile <edmund.raile@proton.me>
-Signed-off-by: Edmund Raile <edmund.raile@protonmail.com>
+Signed-off-by: Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
 ---
- sound/firewire/amdtp-stream.c | 21 ++++++++-------------
- 1 file changed, 8 insertions(+), 13 deletions(-)
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/firewire/amdtp-stream.c b/sound/firewire/amdtp-stream.c
-index 31201d506a21..c037d7de1fdc 100644
---- a/sound/firewire/amdtp-stream.c
-+++ b/sound/firewire/amdtp-stream.c
-@@ -615,16 +615,9 @@ static void update_pcm_pointers(struct amdtp_stream *s=
-,
- =09=09// The program in user process should periodically check the status =
-of intermediate
- =09=09// buffer associated to PCM substream to process PCM frames in the b=
-uffer, instead
- =09=09// of receiving notification of period elapsed by poll wait.
--=09=09if (!pcm->runtime->no_period_wakeup) {
--=09=09=09if (in_softirq()) {
--=09=09=09=09// In software IRQ context for 1394 OHCI.
--=09=09=09=09snd_pcm_period_elapsed(pcm);
--=09=09=09} else {
--=09=09=09=09// In process context of ALSA PCM application under acquired l=
-ock of
--=09=09=09=09// PCM substream.
--=09=09=09=09snd_pcm_period_elapsed_under_stream_lock(pcm);
--=09=09=09}
--=09=09}
-+=09=09if (!pcm->runtime->no_period_wakeup)
-+=09=09=09// wq used with amdtp_domain_stream_pcm_pointer() to prevent dead=
-lock
-+=09=09=09queue_work(system_highpri_wq, &s->period_work);
- =09}
- }
-=20
-@@ -1866,9 +1859,11 @@ unsigned long amdtp_domain_stream_pcm_pointer(struct=
- amdtp_domain *d,
-=20
- =09// Process isochronous packets queued till recent isochronous cycle to =
-handle PCM frames.
- =09if (irq_target && amdtp_stream_running(irq_target)) {
--=09=09// In software IRQ context, the call causes dead-lock to disable the=
- tasklet
--=09=09// synchronously.
--=09=09if (!in_softirq())
-+=09=09// use wq to prevent deadlock between process context spin_lock
-+=09=09// of snd_pcm_stream_lock_irq() in snd_pcm_status64() and
-+=09=09// softIRQ context spin_lock of snd_pcm_stream_lock_irqsave()
-+=09=09// in snd_pcm_period_elapsed()
-+=09=09if ((!in_softirq()) && (current_work() !=3D &s->period_work))
- =09=09=09fw_iso_context_flush_completions(irq_target->context);
- =09}
-=20
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index ba0ce8750ca4..1645d21d422f 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -9872,6 +9872,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] =
+=3D {
+ =09SND_PCI_QUIRK(0x1025, 0x079b, "Acer Aspire V5-573G", ALC282_FIXUP_ASPIR=
+E_V5_PINS),
+ =09SND_PCI_QUIRK(0x1025, 0x080d, "Acer Aspire V5-122P", ALC269_FIXUP_ASPIR=
+E_HEADSET_MIC),
+ =09SND_PCI_QUIRK(0x1025, 0x0840, "Acer Aspire E1", ALC269VB_FIXUP_ASPIRE_E=
+1_COEF),
++=09SND_PCI_QUIRK(0x1025, 0x100c, "Acer Aspire E5-574G", ALC255_FIXUP_ACER_=
+LIMIT_INT_MIC_BOOST),
+ =09SND_PCI_QUIRK(0x1025, 0x101c, "Acer Veriton N2510G", ALC269_FIXUP_LIFEB=
+OOK),
+ =09SND_PCI_QUIRK(0x1025, 0x102b, "Acer Aspire C24-860", ALC286_FIXUP_ACER_=
+AIO_MIC_NO_PRESENCE),
+ =09SND_PCI_QUIRK(0x1025, 0x1065, "Acer Aspire C20-820", ALC269VC_FIXUP_ACE=
+R_HEADSET_MIC),
 --=20
-2.45.2
+2.34.1
 
 
