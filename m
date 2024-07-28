@@ -1,77 +1,109 @@
-Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch [185.70.40.134])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E8C2374C3
-	for <linux-sound@vger.kernel.org>; Sun, 28 Jul 2024 12:36:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.134
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD83C4F8BB;
+	Sun, 28 Jul 2024 16:05:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722170178; cv=none; b=kGplGw5KRa9Zv24CjErc3uqa0ZL9/W9MJunnEnxwnCN4pE7au6fwLvJv9Ci1muDhDodKOBguUk5H9H+BBQCs2i2O+825q5W7zA2ByYQZBqmzaOue601iX24pJZwFqQKeU8QEnQkSUcRqOkP59EjwPmf8JpOqmAa8jCsQjk7dxpg=
+	t=1722182745; cv=none; b=JcODH/HWmd5lC1aAf+9oDXPTKXvC7CO30wXYO4SQaFNfUNP5Q3ZoboDRN1km5MQmTO+ahIF4KjmyKDcETJXp/RY5lRKX15SguTxxIw0ABazfqDVzhaOtxsoXxNId7YV8VzaOK07emcHreRKQhw8ts3f+S6OJ3wVtbHJD+uvYYFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722170178; c=relaxed/simple;
-	bh=KL1Uek1AlXEmf1EG35sIdKgxJf2Dovo3YAoBvGp8qLo=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=RKp0ozOk77ss/KQL0BRXBHOv+YIuQlvU5iPNevpSkv2v+XyjYjgvptP8mvR0rudzbfzgEIBIkQnyVhGTU/DGo4VexAgIEHa0E3lCzloxlipjYpjbB/IilD9ver51AGqIO/BOdOs2xB/T+hhaW+5tB7xpHlS85buLOV0e99CoJPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=c8qWFlUk; arc=none smtp.client-ip=185.70.40.134
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+	s=arc-20240116; t=1722182745; c=relaxed/simple;
+	bh=xwVtkJUeRlDwxnmbUOFPYWdDGzfaMGXt5evdhgS8qUM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=StamRJiOEs0fnDoL4NVEdG7bSj3parmFaFSTvDcC8bidO4yOZ3bUy1sef1rUVPBb2ZSD5ol3jhhLkIyxjT/9Z0doF4AdMmoBjmIR51URAFQA0EzOBXEEnwqVL2GNH0nbhr6FEa9Il/weD3DYMmkVAeYVsaXDSVCr7nVC5SlSOXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y670VLp6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="c8qWFlUk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1722170170; x=1722429370;
-	bh=KL1Uek1AlXEmf1EG35sIdKgxJf2Dovo3YAoBvGp8qLo=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=c8qWFlUkz6KYRqjERl5V35KVayeOOfbs+JFg0LptF9S+E56aj6FaA9pEy7jUKz43L
-	 WsfT1OGjNxK6mSOoUG0GaXLYibgwX3sCfeHNGyARsFA4fFhcDcjEFjNbPJS9D9M/Fi
-	 ucD/FrCmqL34+lY1aJPZGhhtS40lgqPAvF3o9wZEwzeq+2ROzNmzDBOhddCwyFoQGl
-	 eLQhe7dWr0IFfEqnkPqGAgpaik/ax7naHkNb6M9NVmves2PGTGrGlqaXrH7MNhn86g
-	 WdjUM15uKX44a6rq4Tl/cQVce2Hg1yYhOH9iQ6Juslf3T5xEr6vFtB7yijFLqb0F7M
-	 1MJu4x9+m8nfg==
-Date: Sun, 28 Jul 2024 12:36:04 +0000
-To: linux-sound@vger.kernel.org
-From: Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
-Cc: tiwai@suse.com, perex@perex.cz, Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Add quirk for Acer Aspire E5-574G
-Message-ID: <20240728123601.144017-1-mavchatz@protonmail.com>
-Feedback-ID: 20039310:user:proton
-X-Pm-Message-ID: 8490e2e58e62bd4b164fafbf762bf1e3f458b6a8
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y670VLp6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3184AC116B1;
+	Sun, 28 Jul 2024 16:05:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722182745;
+	bh=xwVtkJUeRlDwxnmbUOFPYWdDGzfaMGXt5evdhgS8qUM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Y670VLp6k40ie1STd0ROQDNw5dIRi725/eAxCjdnHe5gwRCRKnsQbqTXwpeDSNm3C
+	 9GiUkCB9aihunr4RzFSl8h3KUSDGS8np4j+kiRS+08ogzaLmGjBJd9xZApVHJN9R58
+	 X2QQwtWNVWJkoHCFIuAqq8kb1G1ixWQ7J2xLWvvZd1pgdJ4S0lU+Dt5ZSds8XL7sRB
+	 VUwWFpV0bHETPSLzOZZXUYMGA029gP5Je4nLcjbvDn3KB47JhHx/6rB71/rlxy3Jqz
+	 gLyYwZwvxv6fYOgzYFthebvCxY7xHRkwMCJWzqs15fx8VaQppwPhpTSEZj6annpiMp
+	 dJkwBFvnfNkCA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	cezary.rojewski@intel.com,
+	liam.r.girdwood@linux.intel.com,
+	peter.ujfalusi@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.10 02/23] ASoC: Intel: sof_sdw: Add quirks for some new Dell laptops
+Date: Sun, 28 Jul 2024 12:04:43 -0400
+Message-ID: <20240728160538.2051879-2-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240728160538.2051879-1-sashal@kernel.org>
+References: <20240728160538.2051879-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.10.2
+Content-Transfer-Encoding: 8bit
 
-ALC255_FIXUP_ACER_LIMIT_INT_MIC_BOOST fixes combo jack detection and
-limits the internal microphone boost that causes clipping on this model.
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-Signed-off-by: Mavroudis Chatzilazaridis <mavchatz@protonmail.com>
+[ Upstream commit 91cdecaba791c74df6da0650e797fe1192cf2700 ]
+
+Add quirks for some new Dell laptops using Cirrus amplifiers in a bridge
+configuration.
+
+Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Link: https://msgid.link/r/20240527193552.165567-11-pierre-louis.bossart@linux.intel.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/soc/intel/boards/sof_sdw.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index ba0ce8750ca4..1645d21d422f 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -9872,6 +9872,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] =
-=3D {
- =09SND_PCI_QUIRK(0x1025, 0x079b, "Acer Aspire V5-573G", ALC282_FIXUP_ASPIR=
-E_V5_PINS),
- =09SND_PCI_QUIRK(0x1025, 0x080d, "Acer Aspire V5-122P", ALC269_FIXUP_ASPIR=
-E_HEADSET_MIC),
- =09SND_PCI_QUIRK(0x1025, 0x0840, "Acer Aspire E1", ALC269VB_FIXUP_ASPIRE_E=
-1_COEF),
-+=09SND_PCI_QUIRK(0x1025, 0x100c, "Acer Aspire E5-574G", ALC255_FIXUP_ACER_=
-LIMIT_INT_MIC_BOOST),
- =09SND_PCI_QUIRK(0x1025, 0x101c, "Acer Veriton N2510G", ALC269_FIXUP_LIFEB=
-OOK),
- =09SND_PCI_QUIRK(0x1025, 0x102b, "Acer Aspire C24-860", ALC286_FIXUP_ACER_=
-AIO_MIC_NO_PRESENCE),
- =09SND_PCI_QUIRK(0x1025, 0x1065, "Acer Aspire C20-820", ALC269VC_FIXUP_ACE=
-R_HEADSET_MIC),
---=20
-2.34.1
-
+diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
+index e41b0d95e0ff7..a878b6b3d1948 100644
+--- a/sound/soc/intel/boards/sof_sdw.c
++++ b/sound/soc/intel/boards/sof_sdw.c
+@@ -505,6 +505,22 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
+ 		},
+ 		.driver_data = (void *)(RT711_JD2),
+ 	},
++	{
++		.callback = sof_sdw_quirk_cb,
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0CE3")
++		},
++		.driver_data = (void *)(SOF_SIDECAR_AMPS),
++	},
++	{
++		.callback = sof_sdw_quirk_cb,
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0CE4")
++		},
++		.driver_data = (void *)(SOF_SIDECAR_AMPS),
++	},
+ 	{}
+ };
+ 
+-- 
+2.43.0
 
