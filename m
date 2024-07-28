@@ -1,40 +1,33 @@
-Received: from smtp.smtpout.orange.fr (smtp-21.smtpout.orange.fr [80.12.242.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DA3E28382;
-	Sun, 28 Jul 2024 10:29:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 336C52C69B;
+	Sun, 28 Jul 2024 10:30:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722162599; cv=none; b=VX6LZNSjQnX2fCi1MCULpkpH1oQlszJl80Q/4RIjLiW4IeYQ5uWieP9W2URMX1EZrEZbjNnIZkRQzjzHZEU7d/rMGc9bBKtG1ffYugQAGGz32UTzJ08eVEq0tEaC6HLcGFNFV9Cy4IMtSNa5M0ez4o+UNw3f2A7c2f0KcUn6xLE=
+	t=1722162620; cv=none; b=MEdylj8WdMJhf5SBxrUcuOVB+66VPuGADSsgYvamHk1RnlNWKM8l41qdRHQzPzc9qWgv+ktQ424pto3Ed5i6xVCqm8xTdIeXoK3lWouiQK1u4QWOpsNlk+nj+ri4M6alKkcMmQ9TBUKnY2aMlHCc/2umxSY5KykyWh3oYlRu1ZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722162599; c=relaxed/simple;
-	bh=X4zyslduhoxBJhcIf9T3uXj0lYCZ88zJlCzb9/Q4Mzw=;
+	s=arc-20240116; t=1722162620; c=relaxed/simple;
+	bh=eDWjhLzi6G1agWre6Y7l9EsOG8ksGnVzkj/CACSAyj0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=upBq5lDF8fbJS4bLBPeACSsFxDsLyl5k8sYzGdszSNP+/DA6lJWi7KOb3b2gd0+aUxp0WxoFU1rlBBn7pPkrH7CWM7fbxrTQ3RU0Ytp2mPgt8gp0ieY3JePl4U73m8lRLu0MtlElw1HuzeNK/j+BPcj9xU83BiyUKjS7DH56Ysw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=OkL57efV; arc=none smtp.client-ip=80.12.242.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	 In-Reply-To:Content-Type; b=EVFvbq+bJ1T75Uhz/RPhV833GOrZgEAt2RtxFpGogZJp8UcxOuTOlbrujJ1w6zjy9hvzpmcbOadrB35elFqccHB/Mw238Q3EKeO86c7Uyoz74rMqlOogvOKUJS6EvVmN4iAXC86bebWBEsHReAUC2zqMsJ9DWuM2nLylHKNYW8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k/xYx9T7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="OkL57efV"
-Received: from [192.168.1.37] ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id Y19zscztz6NRTY19zs8LwH; Sun, 28 Jul 2024 12:29:53 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1722162593;
-	bh=p46J9kZB/fzXgFZvNvDVd+YvmQ29LxB8OC6+hd1jihc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=OkL57efVzquh5+3kouEh51FEacBXQOyAxV53ErXxQODSw5317wzHaJXtennFC2wiq
-	 DgqLE6sfQ2ai1LjPSmXYtLEn6JOygS2W0jFmvjispvmQSGaI6BHNo/m0ouQg6Pg3u2
-	 rJ6BKlp3R67ng6BaeSjHQi5Y1EwcdrzD+QY/HqJZ54gfSto/AZTxknHxvFoQjT9sHd
-	 bLrYfil7D2KZ1TPLczAeNW+owbhDNskjtnaDkpZ5V+xdVcSkoD9it//4iEzOKh7IcV
-	 oFgKfvuATdUSfRkQHDCxGN+LDOA5HEHapmrqf4rhZg0KiOUqt01UJ5JXaDTPKkQTjM
-	 Jghuy/xQ53Jvg==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Sun, 28 Jul 2024 12:29:53 +0200
-X-ME-IP: 90.11.132.44
-Message-ID: <c73da5fd-51a9-4744-9687-0ebc56c34fca@wanadoo.fr>
-Date: Sun, 28 Jul 2024 12:29:51 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k/xYx9T7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6C7AC116B1;
+	Sun, 28 Jul 2024 10:30:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722162619;
+	bh=eDWjhLzi6G1agWre6Y7l9EsOG8ksGnVzkj/CACSAyj0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=k/xYx9T7/I2WLfcnu+Qa5RkJFKH7BboES21hXWKrBAIClTAFCPA1Oqyli2VQYQn7h
+	 9yVsmefHU5cfToCSrPRG9wTIeOo3mD93MxzSc9NScVH/PEtZZgsgsei8bcXhXW01PW
+	 WkbOvyR8aNgRuZZXiIZayXSyK08RAWwZd3Si9fGI+0tmLcz3vo4gs2aGf4OuLgFvAu
+	 wVow3KrkyVlKuzd2cKdAlWDieWPy1zSFbfwBxUxOMBlEQNmSk0hZyZxeiBc6ACZn9H
+	 zcJCbeuVv5/ssY8PSXvoooSn0oGM/6RcYMka/BqlBsGWVdVVr+hOSsmAurOZetqJJN
+	 pO04cnEfEZNTA==
+Message-ID: <3d9f76c1-2e14-43dc-b438-5fac94ffc73e@kernel.org>
+Date: Sun, 28 Jul 2024 12:30:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,144 +35,134 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] ALSA: timer: Introduce virtual userspace-driven
- timers
-To: Ivan Orlov <ivan.orlov0322@gmail.com>, perex@perex.cz, tiwai@suse.com,
- corbet@lwn.net, broonie@kernel.org, shuah@kernel.org
-Cc: linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, aholzinger@gmx.de
-References: <20240726074750.626671-1-ivan.orlov0322@gmail.com>
- <20240726074750.626671-4-ivan.orlov0322@gmail.com>
- <0576f5dd-656b-4085-8c8d-b0f845875f0f@wanadoo.fr>
- <3ab0aa72-4f89-4911-8546-ce17f362c981@gmail.com>
- <42ba79ad-3354-448d-ae03-6f68d51f46c5@wanadoo.fr>
- <08bdc510-da39-42d4-a104-9c7119d082ea@gmail.com>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <08bdc510-da39-42d4-a104-9c7119d082ea@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] ASoC: dt-bindings: qcom,apq8016-sbc-sndcard: move to
+ separate binding
+To: Stephan Gerhold <stephan@gerhold.net>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, alsa-devel@alsa-project.org,
+ linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Adam Skladowski <a39.skl@gmail.com>,
+ Stephan Gerhold <stephan.gerhold@linaro.org>
+References: <20240723083300.35605-1-krzysztof.kozlowski@linaro.org>
+ <ZqVXUI37fNB5D0DM@gerhold.net>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <ZqVXUI37fNB5D0DM@gerhold.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Le 28/07/2024 à 11:42, Ivan Orlov a écrit :
-> On 7/28/24 10:30, Christophe JAILLET wrote:
->> Le 28/07/2024 à 10:51, Ivan Orlov a écrit :
->>> On 7/28/24 07:59, Christophe JAILLET wrote:
->>>> Le 26/07/2024 à 09:47, Ivan Orlov a écrit :
->>>>> Implement two ioctl calls in order to support virtual userspace-driven
->>>>> ALSA timers.
->>>>>
->>>>> The first ioctl is SNDRV_TIMER_IOCTL_CREATE, which gets the
->>>>> snd_utimer_info struct as a parameter and returns a file descriptor of
->>>>> a virtual timer. It also updates the `id` field of the snd_utimer_info
->>>>> struct, which provides a unique identifier for the timer (basically,
->>>>> the subdevice number which can be used when creating timer instances).
->>>>>
->>>>> This patch also introduces a tiny id allocator for the 
->>>>> userspace-driven
->>>>> timers, which guarantees that we don't have more than 128 of them 
->>>>> in the
->>>>> system.
->>>>>
->>>>> Another ioctl is SNDRV_TIMER_IOCTL_TRIGGER, which allows us to trigger
->>>>> the virtual timer (and calls snd_timer_interrupt for the timer under
->>>>> the hood), causing all of the timer instances binded to this timer to
->>>>> execute their callbacks.
->>>>>
->>>>> The maximum amount of ticks available for the timer is 1 for the 
->>>>> sake of
->>>>> simplification of the userspace API. 'start', 'stop', 'open' and 
->>>>> 'close'
->>>>> callbacks for the userspace-driven timers are empty since we don't
->>>>> really do any hardware initialization here.
->>>>>
->>>>> Suggested-by: Axel Holzinger <aholzinger@gmx.de>
->>>>> Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
->>>>> ---
->>>>
->>>> ...
->>>>
->>>>> +#ifdef CONFIG_SND_UTIMER
->>>>> +/*
->>>>> + * Since userspace-driven timers are passed to userspace, we need 
->>>>> to have an identifier
->>>>> + * which will allow us to use them (basically, the subdevice 
->>>>> number of udriven timer).
->>>>> + *
->>>>> + * We have a pool of SNDRV_UTIMERS_MAX_COUNT ids from 0 to 
->>>>> (SNDRV_UTIMERS_MAX_COUNT - 1).
->>>>> + * When we take one of them, the corresponding entry in 
->>>>> snd_utimer_ids becomes true.
->>>>> + */
->>>>> +static bool snd_utimer_ids[SNDRV_UTIMERS_MAX_COUNT];
->>>>> +
->>>>> +static void snd_utimer_put_id(struct snd_utimer *utimer)
->>>>> +{
->>>>> +    int timer_id = utimer->id;
->>>>> +
->>>>> +    snd_BUG_ON(timer_id < 0 || timer_id >= SNDRV_UTIMERS_MAX_COUNT);
->>>>> +    snd_utimer_ids[timer_id] = false;
->>>>> +}
->>>>> +
->>>>> +static int snd_utimer_take_id(void)
->>>>> +{
->>>>> +    size_t i;
->>>>> +
->>>>> +    for (i = 0; i < SNDRV_UTIMERS_MAX_COUNT; i++) {
->>>>> +        if (!snd_utimer_ids[i]) {
->>>>> +            snd_utimer_ids[i] = true;
->>>>> +            return i;
->>>>> +        }
->>>>> +    }
->>>>> +
->>>>> +    return -EBUSY;
->>>>> +}
->>>>
->>>> Also the bitmap API could be useful here.
->>>>
->>>
->>> Awesome, will use it in V2.
+On 27/07/2024 22:23, Stephan Gerhold wrote:
+> On Tue, Jul 23, 2024 at 10:33:00AM +0200, Krzysztof Kozlowski wrote:
+>> The APQ8016 SBC and MSM8916 QDSP6 sound cards are a bit different from
+>> others: they have additional IO muxing address space and pin control.
+>> Move them to separate schema, so the original qcom,sm8250.yaml will be
+>> easier to manage.  New schema is going to grow for other platforms
+>> having more of IO muxing address spaces.
 >>
->> Hmm, maybe DEFINE_IDA(), ida_alloc_max() and ida_free() would be even 
->> better.
+>> Cc: Adam Skladowski <a39.skl@gmail.com>
+>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> ---
+>> .../sound/qcom,apq8016-sbc-sndcard.yaml       | 205 ++++++++++++++++++
+>> .../bindings/sound/qcom,sm8250.yaml           | 137 ------------
+>> 2 files changed, 205 insertions(+), 137 deletions(-)
+>> create mode 100644 Documentation/devicetree/bindings/sound/qcom,apq8016-sbc-sndcard.yaml
 >>
+>> diff --git a/Documentation/devicetree/bindings/sound/qcom,apq8016-sbc-sndcard.yaml b/Documentation/devicetree/bindings/sound/qcom,apq8016-sbc-sndcard.yaml
+>> new file mode 100644
+>> index 000000000000..6ad451549036
+>> [...]
+>> diff --git a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+>> index c9076dcd44c1..1d3acdc0c733 100644
+>> --- a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+>> +++ b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+>> @@ -27,9 +27,7 @@ properties:
+>>               - qcom,sm8650-sndcard
+>>           - const: qcom,sm8450-sndcard
+>>       - enum:
+>> -          - qcom,apq8016-sbc-sndcard
+>>           - qcom,apq8096-sndcard
+>> -          - qcom,msm8916-qdsp6-sndcard
+>>           - qcom,qcm6490-idp-sndcard
+>>           - qcom,qcs6490-rb3gen2-sndcard
+>>           - qcom,qrb5165-rb5-sndcard
+>> @@ -58,18 +56,6 @@ properties:
+>>     $ref: /schemas/types.yaml#/definitions/string
+>>     description: User visible long sound card name
+>>
+>> -  pin-switches:
+>> -    description: List of widget names for which pin switches should be created.
+>> -    $ref: /schemas/types.yaml#/definitions/string-array
+>> -
+>> -  widgets:
+>> -    description: User specified audio sound widgets.
+>> -    $ref: /schemas/types.yaml#/definitions/non-unique-string-array
+>> -
 > 
-> It looks like IDA allocator uses XArrays under the hood to allocate ids 
-> between 0 and INT_MAX... Considering the fact, that we currently could 
-> have up to 128 userspace-driven timers in the system, using XArrays 
-> seems a bit redundant, and I believe bitmap approach would be more 
-> efficient. What do you think?
+> These two properties are also valid and supported on all newer
+> platforms, please keep them here! There are certain use cases where
+> these are needed independent of the platform, e.g. to control an analog
+> switch or mux connected to speaker or headphone outputs.
 > 
+> I agree that it is cleaner to move the IO muxing to a new schema though.
+> Perhaps we could define something like a shared qcom,sndcard-common.yaml
+> schema to avoid duplication for these generic properties? In the Linux
+> driver, these are handled for all platforms in sound/soc/qcom/common.c.
 
-I may be wrong but I think that ida allocates hunks for 1024 bits (128 
-bytes * 8) at a time. (see [1])
+This was added to the common driver code but it does not mean it is
+reasonable binding. I don't understand why for example we even accept
+here aux-devs, instead of putting them into one of DAI links.
 
-So with this extra sape and the sapce for the xarray, it would waste a 
-few bytes of memory, yes.
+The pin-switches and widgets could be used, but are they? The only valid
+argument to keep them is that you added them to common driver code.
 
-With ida, there is also some locking that may be unnecessary (but harmless)
+Best regards,
+Krzysztof
 
-
-Hoping, I got it right, here are a few numbers:
-
-On a x86_64, with allmodconfig:
-
-Your initial patch:
-    text	   data	    bss	    dec	    hex	filename
-   55020	   1783	    268	  57071	   deef	sound/core/timer.o
-
-With ida:
-   54763	   1631	    116	  56510	   dcbe	sound/core/timer.o
-+ 128 bytes of runtime memory allocation
-
-With bitmap:
-   54805	   1535	    132	  56472	   dc98	sound/core/timer.o
-
-
-I think that the code would be slightly more elegant with ida, but 
-implementing it with a bitmap does not add that much complexity.
-
-CJ
-
-
-[1]: 
-https://elixir.bootlin.com/linux/v6.10.2/source/include/linux/idr.h#L238
