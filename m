@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D65E191491;
-	Sun, 28 Jul 2024 16:10:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEFEF7FBB7;
+	Sun, 28 Jul 2024 16:11:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722183052; cv=none; b=GW9i1W4SbJdmlo515vgsrE6RO3hZ0YpNa3/8JDy1iP2PfCydajX5tzXAq3941tazOKQzSd9thb4wGsbxRNbx/46mqm8uoGLI88LDBX5cNXKAKMrfdofP/nLQ6sBp4rsGK08VU1fqPr2FiK85zAF36Vld5IZDKq5xzFnC8FKYJrk=
+	t=1722183064; cv=none; b=VhXebyKWZpZpaBS1nTjSIASmvjf0thTcQSRO2Tt8cTyynTmBMqVzGFH4WD74R/ia+fhmWV/cIitBbxlP3c95AFF6T2xPvOk75mKiwwMYKoMi0U7gpIbR71kj1iftbSaIzAthMOJ+X70uD35tP3IuVYqA+uEAF+ketkE4OxtTFtA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722183052; c=relaxed/simple;
-	bh=Juop5UgddgfGEmjsO6T3nbpR8y3z1NUs4nxOCY+2TZU=;
+	s=arc-20240116; t=1722183064; c=relaxed/simple;
+	bh=k4+eVN+vaw5dF351vpZrGQ3K9Lgs02TzdsKCOYRzh68=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aE8JlifaPhqbBCuRQXp/1WNRf5BEvtF12CAxHp11pRcxNL4672oIDykC3hvsFdHlKC7rJ8kwpbPNkeZhAhEus6ScXZSSIa7T3dpJKadUdTngOMZpkoy/d4Cp5RIRoxP94ylzCq6MEXIP3GU75P3sYRUSyLtdzpNckfrv1qtM8Lg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QNQaGNbB; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=JNafbdFUY8WoaWqsW8pKbPTlhS9gTJ1vWKJPOPdHXEt1MHp0KgQ23tc6TFkT1yi+JpaPZb5O4QkRDb4qZfMrLKe4pMeVuHwAWHVlSz1+Og010P6nEKLSr/DaFeBtwUwiPQoMjuC5VZAX/XlEbPOGvzgf7hFSgPO52c54dD3CNCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o4ruFJSA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QNQaGNbB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05BB0C32782;
-	Sun, 28 Jul 2024 16:10:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o4ruFJSA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 485B8C4AF0A;
+	Sun, 28 Jul 2024 16:11:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722183052;
-	bh=Juop5UgddgfGEmjsO6T3nbpR8y3z1NUs4nxOCY+2TZU=;
+	s=k20201202; t=1722183064;
+	bh=k4+eVN+vaw5dF351vpZrGQ3K9Lgs02TzdsKCOYRzh68=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QNQaGNbBQIWKiWLhotT3H0HI49llE9glgkGtdrxnczVc83nj5+E/mY/2k2IF8t8Ew
-	 gJIdUkN1A4wmkMdZScZZ6nibeT2Lz+lEEwz3rpzJlpAC+IgEMT8rImwqtDQVh6oQHN
-	 hnYCEprcAYaV+iq8HrsUcT2oRT2vr25pfgAf7BP1t70D6Bg0Bkb6jMBrnIjwnTcrf7
-	 5nNdp38WAaGBmcPur7VeUjFdTpXCAiIpnKfcgpqHIkL6hUcryVzIQHdgcMNshVvrlu
-	 48Mlzxe2O7cvRMOrVKoPUt4dep2tIYOLsAD/o5rgUv4gCobteg2vYyfx0+KSVMwjiz
-	 62pHuUdBVHpZg==
+	b=o4ruFJSAC1cRNomquyIQrWbp+wmjlurc7rIGX3B28muXX8P/SSpbBucDK3zRHc+3o
+	 VsMW7tjiEbpt6L+KHdJD9/cKVaKjMvPT6htf3TNlhfzMqV86DUFUMrwTxV0dtaG7Hl
+	 vU9aX4p/rJit6OAF0q7qCWTkcLAqC46+zMLB/HQt3FB3Oaa4aFflwaNxOq5gTkiNkD
+	 7Fq9quS4KWp4Z9PlwX1wvqf2Yz/PoTR2kacHZtnPQ1t1afKepaoG9fHGzOXgSUUhV+
+	 vWpvVBJPz0iRqS/cD3Hl7CWsafjfu1kc+rplKGojYIcfv0XTl9d3L1VyhN32E9vXS2
+	 pzJIwoYnQoKHQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -34,16 +34,16 @@ Cc: Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
-	kl@kl.wtf,
-	peter.ujfalusi@linux.intel.com,
 	xristos.thes@gmail.com,
+	peter.ujfalusi@linux.intel.com,
+	kl@kl.wtf,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 7/7] ALSA: usb: Fix UBSAN warning in parse_audio_unit()
-Date: Sun, 28 Jul 2024 12:10:27 -0400
-Message-ID: <20240728161033.2054341-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 4/4] ALSA: usb: Fix UBSAN warning in parse_audio_unit()
+Date: Sun, 28 Jul 2024 12:10:53 -0400
+Message-ID: <20240728161055.2054513-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240728161033.2054341-1-sashal@kernel.org>
-References: <20240728161033.2054341-1-sashal@kernel.org>
+In-Reply-To: <20240728161055.2054513-1-sashal@kernel.org>
+References: <20240728161055.2054513-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,7 +52,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.4.281
+X-stable-base: Linux 4.19.319
 Content-Transfer-Encoding: 8bit
 
 From: Takashi Iwai <tiwai@suse.de>
@@ -77,10 +77,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 7 insertions(+)
 
 diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-index 67eb1293fa155..1374a4e093b3f 100644
+index 6c8cdce8156be..fbfb729212d3b 100644
 --- a/sound/usb/mixer.c
 +++ b/sound/usb/mixer.c
-@@ -1906,6 +1906,13 @@ static int parse_audio_feature_unit(struct mixer_build *state, int unitid,
+@@ -1921,6 +1921,13 @@ static int parse_audio_feature_unit(struct mixer_build *state, int unitid,
  		bmaControls = ftr->bmaControls;
  	}
  
