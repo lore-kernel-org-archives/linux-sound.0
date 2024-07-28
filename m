@@ -1,51 +1,51 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD83C4F8BB;
-	Sun, 28 Jul 2024 16:05:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C37AE137905;
+	Sun, 28 Jul 2024 16:06:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722182745; cv=none; b=JcODH/HWmd5lC1aAf+9oDXPTKXvC7CO30wXYO4SQaFNfUNP5Q3ZoboDRN1km5MQmTO+ahIF4KjmyKDcETJXp/RY5lRKX15SguTxxIw0ABazfqDVzhaOtxsoXxNId7YV8VzaOK07emcHreRKQhw8ts3f+S6OJ3wVtbHJD+uvYYFM=
+	t=1722182775; cv=none; b=ODHQWHUaTyiuRmejGzqtC5dBrAt2b/d/mcKVeU9VPB6oLEhd5/QtFLMfedTId5Tccg+R/LTnp+jmaWTDpGNdPaaCmz+C7ZbIJy3NTDhEJAVFFVK0qXucGf8GqF2AVVlpV7GuGh10gkXahdZmKhn3PxfwAfTPHQahsNXeDqT0x/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722182745; c=relaxed/simple;
-	bh=xwVtkJUeRlDwxnmbUOFPYWdDGzfaMGXt5evdhgS8qUM=;
+	s=arc-20240116; t=1722182775; c=relaxed/simple;
+	bh=ZWwOIXhWJ16760WpJd2nj8bqfFlHut1jmYjqK1gtZ5k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=StamRJiOEs0fnDoL4NVEdG7bSj3parmFaFSTvDcC8bidO4yOZ3bUy1sef1rUVPBb2ZSD5ol3jhhLkIyxjT/9Z0doF4AdMmoBjmIR51URAFQA0EzOBXEEnwqVL2GNH0nbhr6FEa9Il/weD3DYMmkVAeYVsaXDSVCr7nVC5SlSOXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y670VLp6; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=AzGFQLPZO2liv9tGJHA0R3Gj/wiJHNqWRuy8XbjoFpput6JGVhTkFmuLpQUqtBj1VN0cNG1WzZ1TecmxsdN+7nU9AZNaATWi7kOHlXyYjIWUhOTB7YnQ3PWkaA+tCCqL6TiAJsZ4Iz4rY5E/cUpJw2T823nph0AUfRfCqYXhmxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oQaa6gIS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y670VLp6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3184AC116B1;
-	Sun, 28 Jul 2024 16:05:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oQaa6gIS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6907BC32782;
+	Sun, 28 Jul 2024 16:06:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722182745;
-	bh=xwVtkJUeRlDwxnmbUOFPYWdDGzfaMGXt5evdhgS8qUM=;
+	s=k20201202; t=1722182775;
+	bh=ZWwOIXhWJ16760WpJd2nj8bqfFlHut1jmYjqK1gtZ5k=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Y670VLp6k40ie1STd0ROQDNw5dIRi725/eAxCjdnHe5gwRCRKnsQbqTXwpeDSNm3C
-	 9GiUkCB9aihunr4RzFSl8h3KUSDGS8np4j+kiRS+08ogzaLmGjBJd9xZApVHJN9R58
-	 X2QQwtWNVWJkoHCFIuAqq8kb1G1ixWQ7J2xLWvvZd1pgdJ4S0lU+Dt5ZSds8XL7sRB
-	 VUwWFpV0bHETPSLzOZZXUYMGA029gP5Je4nLcjbvDn3KB47JhHx/6rB71/rlxy3Jqz
-	 gLyYwZwvxv6fYOgzYFthebvCxY7xHRkwMCJWzqs15fx8VaQppwPhpTSEZj6annpiMp
-	 dJkwBFvnfNkCA==
+	b=oQaa6gISkRKHfHi55ZNSei5FMmzy9Wpp8s3JafPOw606y462WSYWbi9aU7e7ffX2z
+	 RLSyx7KcoGSh9nRlRVkcnrYDDWTQRERit6BlzD4dhrv+srcPCb8T9j0jo+kG43oBib
+	 yiicXUaWHSSteYwkTutobLCPew/GCx3XuWWTKk6/HqCR931YlbPcIHjOGODlP+ut1z
+	 kvBmV6Fwr3pfGnjhOpQKjCiOFOMIH+3XAf4qmzy1JNsG2jiyqUHVFLXAfnbq9YGiOR
+	 YrtiSG5osyEpNzeS6hUM7Yqf4pdCBMhyd/M2b1GADlI0+1CvEZOy0tKKSlGBYfyMyP
+	 dcWiiODu9VKlQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	cezary.rojewski@intel.com,
 	liam.r.girdwood@linux.intel.com,
 	peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
 	ranjani.sridharan@linux.intel.com,
 	kai.vehmanen@linux.intel.com,
 	perex@perex.cz,
 	tiwai@suse.com,
+	ckeepax@opensource.cirrus.com,
 	alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.10 02/23] ASoC: Intel: sof_sdw: Add quirks for some new Dell laptops
-Date: Sun, 28 Jul 2024 12:04:43 -0400
-Message-ID: <20240728160538.2051879-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.10 14/23] ASoC: Intel: sof_sdw: fix jack detection on ADL-N variant RVP
+Date: Sun, 28 Jul 2024 12:04:55 -0400
+Message-ID: <20240728160538.2051879-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240728160538.2051879-1-sashal@kernel.org>
 References: <20240728160538.2051879-1-sashal@kernel.org>
@@ -60,50 +60,43 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.10.2
 Content-Transfer-Encoding: 8bit
 
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 
-[ Upstream commit 91cdecaba791c74df6da0650e797fe1192cf2700 ]
+[ Upstream commit 65c90df918205bc84f5448550cde76a54dae5f52 ]
 
-Add quirks for some new Dell laptops using Cirrus amplifiers in a bridge
-configuration.
+Experimental tests show that JD2_100K is required, otherwise the jack
+is detected always even with nothing plugged-in.
 
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+To avoid matching with other known quirks the SKU information is used.
+
 Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Link: https://msgid.link/r/20240527193552.165567-11-pierre-louis.bossart@linux.intel.com
+Link: https://patch.msgid.link/20240624121119.91552-2-pierre-louis.bossart@linux.intel.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/intel/boards/sof_sdw.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ sound/soc/intel/boards/sof_sdw.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
-index e41b0d95e0ff7..a878b6b3d1948 100644
+index a878b6b3d1948..965d46968f95a 100644
 --- a/sound/soc/intel/boards/sof_sdw.c
 +++ b/sound/soc/intel/boards/sof_sdw.c
-@@ -505,6 +505,22 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 		},
- 		.driver_data = (void *)(RT711_JD2),
+@@ -277,6 +277,15 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
+ 					SOF_BT_OFFLOAD_SSP(2) |
+ 					SOF_SSP_BT_OFFLOAD_PRESENT),
  	},
 +	{
 +		.callback = sof_sdw_quirk_cb,
 +		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0CE3")
++			DMI_MATCH(DMI_BOARD_VENDOR, "Intel Corporation"),
++			DMI_MATCH(DMI_PRODUCT_SKU, "0000000000070000"),
 +		},
-+		.driver_data = (void *)(SOF_SIDECAR_AMPS),
++		.driver_data = (void *)(SOF_SDW_TGL_HDMI |
++					RT711_JD2_100K),
 +	},
-+	{
-+		.callback = sof_sdw_quirk_cb,
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0CE4")
-+		},
-+		.driver_data = (void *)(SOF_SIDECAR_AMPS),
-+	},
- 	{}
- };
- 
+ 	{
+ 		.callback = sof_sdw_quirk_cb,
+ 		.matches = {
 -- 
 2.43.0
 
