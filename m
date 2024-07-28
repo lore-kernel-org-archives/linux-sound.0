@@ -1,51 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77FC615B541;
-	Sun, 28 Jul 2024 16:08:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB5BF17F4EC;
+	Sun, 28 Jul 2024 16:08:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722182921; cv=none; b=EsS2cT1VnbVk9tQNHp+hllhmnHCz2v/TnV0bg/SRZhP69fAvsGm+BNOA169GH8tYuRTbOwWEysXk0RQhKCH0o8QrjxKX7m4+N9gR6/G77oJtnxS3KzNAfVfKhxJzxZIfvkxbxBmomwNwB2gWoSNAcMXNMGGc62tDUcwtc0P/lb4=
+	t=1722182934; cv=none; b=byXrweV+XVyMc0Y5R+naUfI+QXvysMjQutOigpgX/Ei/fh0rW+bnmS1pFztH4yp1EmmLPbL2jV5Pz7CgN4kQBZwRYiQAyM5wfpRhcnOBHVAqMR3zbq+806MvGpoxOAXYls4LQHYDSSSoaRdQ16l53QXxWAsaPvfiJYcB8O91VCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722182921; c=relaxed/simple;
-	bh=HPO7cGP7s8Ww89uL/cVx3o/ppVc1I+iEoYqDdS7ryLI=;
+	s=arc-20240116; t=1722182934; c=relaxed/simple;
+	bh=ExrVCeksod6JyAy+Xk0beiYQTUgn6IodPc0Grk+vbB8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sHwsRpPgTPcJ1azkwmXlEpWDg7hJNAF0AW4EUlUX1N4E4JFUzY+/gtXuc3oKkS9zTCIpXEf6ydBjvsfXz2t3Ve6/PflM4dlxfj8RhajL+k4UaGd+F0NLH5VYmCDi97rawn06uDlIV0hhh1niL6SsxCKv5P6UO52A1C/guTKZ3mg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kRRU90JA; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=MEoM2rx4lJpAWmkuVdCgzJDogXjau++bFAW9mAYnZdhKgpLXEZrJkTVrrWOSDDS8/LPbaVWUNnlJ2hhVP6QT1tB7MEwVtjCc3RcLoNrYyk3xrENHuYr20oU2K+7m/ela8TVTFWu4m26zrUIDGInPdSsnFzBAYV7LUo6gJfHHOvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I2FJ0e40; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kRRU90JA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5ED63C32782;
-	Sun, 28 Jul 2024 16:08:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I2FJ0e40"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38197C4AF0F;
+	Sun, 28 Jul 2024 16:08:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722182921;
-	bh=HPO7cGP7s8Ww89uL/cVx3o/ppVc1I+iEoYqDdS7ryLI=;
+	s=k20201202; t=1722182934;
+	bh=ExrVCeksod6JyAy+Xk0beiYQTUgn6IodPc0Grk+vbB8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kRRU90JAnb7ilxQDsM6JjtFiI2IQgJJuyO4c/9a5BlPXwCvASvx/a4Qj6VRteKJRN
-	 fTes81ZvsITOVr0et2zPaZ8VDz/z6iyngEmtMQu1PrIA/4+bmV2SZTXr5BTiJYC1tW
-	 eCwY7e+6JrsUr6XtnFembeLTSKZvQtwSNEFptNnf2VSt5jxNQfZxIAU1h1AZnIyXYG
-	 zE/1zeihk1HvKNDRY6qo+WBlEM/Yr3kvE9VQtnEB8b8/uO0ApgxaktFX3KJmxgoE7h
-	 74A6z+zBIS0HDgGEWztb3TFeM5tbJJcFmOT7vuAzY1upcnI+PcueutoazWPA6EOIaq
-	 Tr2Bz5t3z+ksQ==
+	b=I2FJ0e40FQ/n8qMlDHfCtdUFPFMA2hvhnyfr+ZNoL4x/VGtHmXbgYP50Kf7R6ZykK
+	 fR+YDY+26baVXl5vyizkdQe+xiLNGwmjAjePlsdqn91Ylnm8vXZku2UIkqH3FuKK3y
+	 K0pbumulfhu2Pnk2P5T14UyjcVBlQxVqEx/oW/cT/V2l/kNlbHo1rkypZ7MYXQW1Dy
+	 MweFWeM4uMWeCq64Zo9BaR7mw1GmyDTSPm+gQ+KGga1sk9GS7RDBw5jNJdLHYhV8yB
+	 WaEuklxZ9cW64ckWRTl4ZqPhZBXX+uesJ4c+HuSSHXZPDqNhTMVXdEDbR3G90j0IdM
+	 H2JttF7NeZVtw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Takashi Iwai <tiwai@suse.de>,
+	syzbot+78d5b129a762182225aa@syzkaller.appspotmail.com,
 	Sasha Levin <sashal@kernel.org>,
-	cezary.rojewski@intel.com,
-	liam.r.girdwood@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	ckeepax@opensource.cirrus.com,
-	alsa-devel@alsa-project.org,
+	kl@kl.wtf,
+	peter.ujfalusi@linux.intel.com,
+	xristos.thes@gmail.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 10/15] ASoC: Intel: sof_sdw: add quirk for Dell SKU 0B8C
-Date: Sun, 28 Jul 2024 12:07:54 -0400
-Message-ID: <20240728160813.2053107-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 15/15] ALSA: usb: Fix UBSAN warning in parse_audio_unit()
+Date: Sun, 28 Jul 2024 12:07:59 -0400
+Message-ID: <20240728160813.2053107-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240728160813.2053107-1-sashal@kernel.org>
 References: <20240728160813.2053107-1-sashal@kernel.org>
@@ -55,50 +50,50 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.1.102
 Content-Transfer-Encoding: 8bit
 
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+From: Takashi Iwai <tiwai@suse.de>
 
-[ Upstream commit 92d5b5930e7d55ca07b483490d6298eee828bbe4 ]
+[ Upstream commit 2f38cf730caedaeacdefb7ff35b0a3c1168117f9 ]
 
-Jack detection needs to rely on JD2, as most other Dell
-AlderLake-based devices.
+A malformed USB descriptor may pass the lengthy mixer description with
+a lot of channels, and this may overflow the 32bit integer shift
+size, as caught by syzbot UBSAN test.  Although this won't cause any
+real trouble, it's better to address.
 
-Closes: https://github.com/thesofproject/linux/issues/5021
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Link: https://patch.msgid.link/20240624121119.91552-4-pierre-louis.bossart@linux.intel.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+This patch introduces a sanity check of the number of channels to bail
+out the parsing when too many channels are found.
+
+Reported-by: syzbot+78d5b129a762182225aa@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/0000000000000adac5061d3c7355@google.com
+Link: https://patch.msgid.link/20240715123619.26612-1-tiwai@suse.de
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/intel/boards/sof_sdw.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ sound/usb/mixer.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
-index cf501baf6f143..9cd85ab19c553 100644
---- a/sound/soc/intel/boards/sof_sdw.c
-+++ b/sound/soc/intel/boards/sof_sdw.c
-@@ -387,6 +387,15 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 					RT711_JD2 |
- 					SOF_SDW_FOUR_SPK),
- 	},
-+	{
-+		.callback = sof_sdw_quirk_cb,
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0B8C"),
-+		},
-+		.driver_data = (void *)(SOF_SDW_TGL_HDMI |
-+					RT711_JD2),
-+	},
- 	{
- 		.callback = sof_sdw_quirk_cb,
- 		.matches = {
+diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+index 783a2493707ea..3ed56b5a26c37 100644
+--- a/sound/usb/mixer.c
++++ b/sound/usb/mixer.c
+@@ -2016,6 +2016,13 @@ static int parse_audio_feature_unit(struct mixer_build *state, int unitid,
+ 		bmaControls = ftr->bmaControls;
+ 	}
+ 
++	if (channels > 32) {
++		usb_audio_info(state->chip,
++			       "usbmixer: too many channels (%d) in unit %d\n",
++			       channels, unitid);
++		return -EINVAL;
++	}
++
+ 	/* parse the source unit */
+ 	err = parse_audio_unit(state, hdr->bSourceID);
+ 	if (err < 0)
 -- 
 2.43.0
 
