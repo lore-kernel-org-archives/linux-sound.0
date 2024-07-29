@@ -1,244 +1,189 @@
-Received: from msa.smtpout.orange.fr (smtp-81.smtpout.orange.fr [80.12.242.81])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BFC71474CE;
-	Mon, 29 Jul 2024 17:36:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC89F84D34;
+	Mon, 29 Jul 2024 19:27:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722274585; cv=none; b=P56zqH5DFBirCQ/Va+zes40QoAtNGfdXufXp1fxiIqVg+NSI8GILgcCb9/esoUK1ihbOt73wHBZ/v5c3oqPs9CGS1tEymI3Pa7R4Yw+uz2Y9wB3N9N2Q+c5rMjAt61isckwiuMKD9zNOyi401ZE9OgwRtyzjPBu2J7bhdXKJdZk=
+	t=1722281224; cv=none; b=AlEfnpSOL9sorJ8KpIhqfofM7nYj2bTljBaRUlYc1EfiWzjK/DmoZHamOHWpVS/90skFAatjDcs9WqExlmAGkHCl0JvcEzM69QUEERFpMHe3jNeWhWld+d7qFgbo8lBwF7QPnJP2n0giG5ohxRnk13MIQoYiR0w03S33rAhL4xo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722274585; c=relaxed/simple;
-	bh=8qXgcTEK1sB9juukqwPldLWJ+ngenIcIAxtBMYrrYQQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mGGjZ+RjJNFQ+wB38dLo+0fQleoucFhi2Jcdgg4mBgnkpxP0MX7Rz0jIRBbA8xSuJa28VBzsTPIh1lSuPiQC5U94cFllfiVFYlNgzgxZm+Wdn14RzD7GZUm6jEM4ciqyIrW4vVdzy3vZIoT+VWiKNdFhvLlyfkrOVg106WlieEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=jtg+bA2v; arc=none smtp.client-ip=80.12.242.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	s=arc-20240116; t=1722281224; c=relaxed/simple;
+	bh=cvfsAHSi0d/dgRWJetm1h/PLtW/nC7SPpo8BdBSh174=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lyru3wwB3y7W8Ihhr4tTr+Kzq/3hMY8i6vjbAqPBPiBqGDiDpb+JfOBCtID1c3Zab0aO6AWasylcuSw7TrSXZStVJqua4KI3fH3EhNgf0ZVBltTlDdQWYHuHVeSf1StwVrIDsFDGaw1yRm4Qc0sjkG1yWD05i8a90uv59EmYNHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VliUM/b6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=f7J9uxb/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=s69QFT0M; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=u5FK5zBv; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="jtg+bA2v"
-Received: from fedora.home ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id YUI7soyZFhajuYUI8sQhbA; Mon, 29 Jul 2024 19:36:13 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1722274573;
-	bh=OMMMxQpsZCVMR8l67H2YGQ2dCZFaG5DSz7db9edlKWs=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=jtg+bA2vAlqfi+cTiS2Gf1imYLuSNwgshlLsieACR9yNef8s5TO5dFfcpBYV3EWd2
-	 eXWKd19sIWEbUTZFk/gueaYcPAV1FnnQ94kEU4RlOuML3YLh+cmQDuhjB9eYgNQkQL
-	 S5gKp8Ehpv5ptcdiO849BuW42lximhOiHb5rKYxZaQf9yOZA2fg0yB/2DrZvp2xQWQ
-	 11VORJBZMItKMepoAhxvMETKxQIY7esmqgS8CI9QJUDWfoLKUe9JlwE/iHsTcUQMyG
-	 LxUAtHDlaxiahSCm8ucJVOIEhEkVUIXe1L32c3ex0eFLirLchPk4qACcsd88/oasFk
-	 GyWD2O9b238dA==
-X-ME-Helo: fedora.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Mon, 29 Jul 2024 19:36:13 +0200
-X-ME-IP: 90.11.132.44
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: ckeepax@opensource.cirrus.com,
-	javier.carrasco.cruz@gmail.com,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	alsa-devel@alsa-project.org,
-	patches@opensource.cirrus.com,
-	linux-sound@vger.kernel.org
-Subject: [PATCH] ASoC: cs43130: Constify snd_soc_component_driver struct
-Date: Mon, 29 Jul 2024 19:36:05 +0200
-Message-ID: <1f04bb0366d9640d7ee361dae114ff79e4b381c1.1722274212.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VliUM/b6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="f7J9uxb/";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="s69QFT0M";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="u5FK5zBv"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id EEAB11F7B7;
+	Mon, 29 Jul 2024 19:26:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1722281220; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ap1CzPaQNwLMZeEIW6gyKI8pGrm9CZN65+dOLmY4P3U=;
+	b=VliUM/b6VWpb27ZaZ24e37m5yPfrVX8wD6h+TLPdru4kSlwBpSU+e/fgbFAkVimaJqhZlu
+	T3ULJjgsuCPaTyb06A4EoT9IczZh7saH9TYDFe4bxDgVqagPzFVk0SuFx+aHbpNtcuw7Dp
+	dOMq01hobuaYyrw4DKLZ1FZ5N4/tjzs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1722281220;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ap1CzPaQNwLMZeEIW6gyKI8pGrm9CZN65+dOLmY4P3U=;
+	b=f7J9uxb/14xDOSETXcQHsbDNG6dnajRdOnwdZKTKLGMLaTd1u9eajxFj2e4q7tr5tfW7qJ
+	Cn7JiCGsSRZQurAw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1722281218; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ap1CzPaQNwLMZeEIW6gyKI8pGrm9CZN65+dOLmY4P3U=;
+	b=s69QFT0M1jaEEoIyemRP4nmXu+g4fEQed9H+o23IMdvnXyiYpCsknxXNTDK/zt7opkpOuK
+	NKyHcKPslD23f/IUTt84ZingYVyWWjdOIup2Acghq77j11I6GXqNz/pgWre+/Tfsg2dUaw
+	ZtuI+Z5z04epmG+tuTLyo5HIeBZkAjQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1722281218;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ap1CzPaQNwLMZeEIW6gyKI8pGrm9CZN65+dOLmY4P3U=;
+	b=u5FK5zBv/I7ikIqK/JCXDhj8aV0EV/O3VeWTBQvrzIBtrpA8NTWYoQAYPShS72vW33kDZb
+	E4jpYECuYeoj7cCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C1229138A7;
+	Mon, 29 Jul 2024 19:26:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Opr7LQLtp2YYPAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 29 Jul 2024 19:26:58 +0000
+Date: Mon, 29 Jul 2024 21:27:34 +0200
+Message-ID: <87jzh49exl.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Simon Trimmer <simont@opensource.cirrus.com>
+Cc: <tiwai@suse.com>,
+	<linux-sound@vger.kernel.org>,
+	<alsa-devel@alsa-project.org>,
+	<linux-kernel@vger.kernel.org>,
+	<patches@opensource.cirrus.com>
+Subject: Re: [PATCH] ALSA: hda: cs35l56: Stop creating ALSA controls for firmware coefficients
+In-Reply-To: <019d01dae1da$bc32b1d0$34981570$@opensource.cirrus.com>
+References: <20240729161532.147893-1-simont@opensource.cirrus.com>
+	<019d01dae1da$bc32b1d0$34981570$@opensource.cirrus.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.10 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,alsa-project.org:email,suse.com:email,cirrus.com:email]
+X-Spam-Flag: NO
+X-Spam-Score: -3.10
 
-In order to constify `snd_soc_component_driver` struct, duplicate
-`soc_component_dev_cs43130` into a `soc_component_dev_cs43130_digital` and
-`soc_component_dev_cs43130_analog`.
+On Mon, 29 Jul 2024 19:14:13 +0200,
+Simon Trimmer wrote:
+> 
+> Apologies Takashi - can you ignore this one please? It will need a V2
 
-These 2 new structures share the same .dapm_widgets and .dapm_routes
-arrays but differ for .num_dapm_widgets and .num_dapm_routes.
+Sure.
 
-In the digital case, the last entries are not taken into account.
 
-Doing so has several advantages:
-  - `snd_soc_component_driver` can be declared as const to move their
-    declarations to read-only sections.
-  - code in the probe is simpler. There is no need to concatenate some
-    arrays to handle the "analog" case
-  - this saves some memory because all_hp_widgets and analog_hp_routes can
-    be removed.
+thanks,
 
-Before :
-======
-   text	   data	    bss	    dec	    hex	filename
-  53965	   8265	   4512	  66742	  104b6	sound/soc/codecs/cs43130.o
+Takashi
 
-After :
-=====
-   text	   data	    bss	    dec	    hex	filename
-  54409	   7881	     64	  62354	   f392	sound/soc/codecs/cs43130.o
-
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-Compile tested-only.
-
-See discussion at [1].
-
-[1]: https://lore.kernel.org/all/ZqNawRmAqBRLIoQq@opensource.cirrus.com/
----
- sound/soc/codecs/cs43130.c | 73 +++++++++++++++++---------------------
- 1 file changed, 32 insertions(+), 41 deletions(-)
-
-diff --git a/sound/soc/codecs/cs43130.c b/sound/soc/codecs/cs43130.c
-index be4037890fdb..cb4ca80f36d2 100644
---- a/sound/soc/codecs/cs43130.c
-+++ b/sound/soc/codecs/cs43130.c
-@@ -1415,7 +1415,7 @@ static const char * const bypass_mux_text[] = {
- static SOC_ENUM_SINGLE_DECL(bypass_enum, SND_SOC_NOPM, 0, bypass_mux_text);
- static const struct snd_kcontrol_new bypass_ctrl = SOC_DAPM_ENUM("Switch", bypass_enum);
- 
--static const struct snd_soc_dapm_widget digital_hp_widgets[] = {
-+static const struct snd_soc_dapm_widget hp_widgets[] = {
- 	SND_SOC_DAPM_MUX("Bypass Switch", SND_SOC_NOPM, 0, 0, &bypass_ctrl),
- 	SND_SOC_DAPM_OUTPUT("HPOUTA"),
- 	SND_SOC_DAPM_OUTPUT("HPOUTB"),
-@@ -1447,19 +1447,16 @@ static const struct snd_soc_dapm_widget digital_hp_widgets[] = {
- 			   CS43130_PDN_HP_SHIFT, 1, cs43130_dac_event,
- 			   (SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU |
- 			    SND_SOC_DAPM_POST_PMD)),
--};
- 
--static const struct snd_soc_dapm_widget analog_hp_widgets[] = {
-+/* Some devices have some extra analog widgets */
-+#define NUM_ANALOG_WIDGETS	1
-+
- 	SND_SOC_DAPM_DAC_E("Analog Playback", NULL, CS43130_HP_OUT_CTL_1,
- 			   CS43130_HP_IN_EN_SHIFT, 0, cs43130_hpin_event,
- 			   (SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMD)),
- };
- 
--static struct snd_soc_dapm_widget all_hp_widgets[
--			ARRAY_SIZE(digital_hp_widgets) +
--			ARRAY_SIZE(analog_hp_widgets)];
--
--static const struct snd_soc_dapm_route digital_hp_routes[] = {
-+static const struct snd_soc_dapm_route hp_routes[] = {
- 	{"ASPIN PCM", NULL, "ASP PCM Playback"},
- 	{"ASPIN DoP", NULL, "ASP DoP Playback"},
- 	{"XSPIN DoP", NULL, "XSP DoP Playback"},
-@@ -1472,15 +1469,12 @@ static const struct snd_soc_dapm_route digital_hp_routes[] = {
- 	{"Bypass Switch", "Internal", "HiFi DAC"},
- 	{"HPOUTA", NULL, "Bypass Switch"},
- 	{"HPOUTB", NULL, "Bypass Switch"},
--};
- 
--static const struct snd_soc_dapm_route analog_hp_routes[] = {
-+/* Some devices have some extra analog routes */
-+#define NUM_ANALOG_ROUTES	1
- 	{"Bypass Switch", "Alternative", "Analog Playback"},
- };
- 
--static struct snd_soc_dapm_route all_hp_routes[
--			ARRAY_SIZE(digital_hp_routes) +
--			ARRAY_SIZE(analog_hp_routes)];
- 
- static const unsigned int cs43130_asp_src_rates[] = {
- 	32000, 44100, 48000, 88200, 96000, 176400, 192000, 352800, 384000
-@@ -2398,7 +2392,23 @@ static int cs43130_probe(struct snd_soc_component *component)
- 	return 0;
- }
- 
--static struct snd_soc_component_driver soc_component_dev_cs43130 = {
-+static const struct snd_soc_component_driver soc_component_dev_cs43130_digital = {
-+	.probe			= cs43130_probe,
-+	.controls		= cs43130_snd_controls,
-+	.num_controls		= ARRAY_SIZE(cs43130_snd_controls),
-+	.set_sysclk		= cs43130_component_set_sysclk,
-+	.set_pll		= cs43130_set_pll,
-+	.idle_bias_on		= 1,
-+	.use_pmdown_time	= 1,
-+	.endianness		= 1,
-+	/* Don't take into account the ending analog widgets and routes */
-+	.dapm_widgets		= hp_widgets,
-+	.num_dapm_widgets	= ARRAY_SIZE(hp_widgets) - NUM_ANALOG_WIDGETS,
-+	.dapm_routes		= hp_routes,
-+	.num_dapm_routes	= ARRAY_SIZE(hp_routes) - NUM_ANALOG_ROUTES,
-+};
-+
-+static const struct snd_soc_component_driver soc_component_dev_cs43130_analog = {
- 	.probe			= cs43130_probe,
- 	.controls		= cs43130_snd_controls,
- 	.num_controls		= ARRAY_SIZE(cs43130_snd_controls),
-@@ -2407,6 +2417,10 @@ static struct snd_soc_component_driver soc_component_dev_cs43130 = {
- 	.idle_bias_on		= 1,
- 	.use_pmdown_time	= 1,
- 	.endianness		= 1,
-+	.dapm_widgets		= hp_widgets,
-+	.num_dapm_widgets	= ARRAY_SIZE(hp_widgets),
-+	.dapm_routes		= hp_routes,
-+	.num_dapm_routes	= ARRAY_SIZE(hp_routes),
- };
- 
- static const struct regmap_config cs43130_regmap = {
-@@ -2479,6 +2493,7 @@ static int cs43130_handle_device_data(struct cs43130_private *cs43130)
- 
- static int cs43130_i2c_probe(struct i2c_client *client)
- {
-+	const struct snd_soc_component_driver *component_driver;
- 	struct cs43130_private *cs43130;
- 	int ret;
- 	unsigned int reg;
-@@ -2596,39 +2611,15 @@ static int cs43130_i2c_probe(struct i2c_client *client)
- 	switch (cs43130->dev_id) {
- 	case CS43130_CHIP_ID:
- 	case CS43131_CHIP_ID:
--		memcpy(all_hp_widgets, digital_hp_widgets,
--		       sizeof(digital_hp_widgets));
--		memcpy(all_hp_widgets + ARRAY_SIZE(digital_hp_widgets),
--		       analog_hp_widgets, sizeof(analog_hp_widgets));
--		memcpy(all_hp_routes, digital_hp_routes,
--		       sizeof(digital_hp_routes));
--		memcpy(all_hp_routes + ARRAY_SIZE(digital_hp_routes),
--		       analog_hp_routes, sizeof(analog_hp_routes));
--
--		soc_component_dev_cs43130.dapm_widgets =
--			all_hp_widgets;
--		soc_component_dev_cs43130.num_dapm_widgets =
--			ARRAY_SIZE(all_hp_widgets);
--		soc_component_dev_cs43130.dapm_routes =
--			all_hp_routes;
--		soc_component_dev_cs43130.num_dapm_routes =
--			ARRAY_SIZE(all_hp_routes);
-+		component_driver = &soc_component_dev_cs43130_analog;
- 		break;
- 	case CS43198_CHIP_ID:
- 	case CS4399_CHIP_ID:
--		soc_component_dev_cs43130.dapm_widgets =
--			digital_hp_widgets;
--		soc_component_dev_cs43130.num_dapm_widgets =
--			ARRAY_SIZE(digital_hp_widgets);
--		soc_component_dev_cs43130.dapm_routes =
--			digital_hp_routes;
--		soc_component_dev_cs43130.num_dapm_routes =
--			ARRAY_SIZE(digital_hp_routes);
-+		component_driver = &soc_component_dev_cs43130_digital;
- 		break;
- 	}
- 
--	ret = devm_snd_soc_register_component(cs43130->dev,
--				     &soc_component_dev_cs43130,
-+	ret = devm_snd_soc_register_component(cs43130->dev, component_driver,
- 				     cs43130_dai, ARRAY_SIZE(cs43130_dai));
- 	if (ret < 0) {
- 		dev_err(cs43130->dev,
--- 
-2.45.2
-
+> 
+> > -----Original Message-----
+> > From: Simon Trimmer <simont@opensource.cirrus.com>
+> > Sent: Monday, July 29, 2024 5:16 PM
+> > To: tiwai@suse.com
+> > Cc: linux-sound@vger.kernel.org; alsa-devel@alsa-project.org; linux-
+> > kernel@vger.kernel.org; patches@opensource.cirrus.com; Simon Trimmer
+> > <simont@opensource.cirrus.com>
+> > Subject: [PATCH] ALSA: hda: cs35l56: Stop creating ALSA controls for
+> firmware
+> > coefficients
+> > 
+> > A number of laptops have gone to market with old firmware versions that
+> > export controls that have since been hidden, but we can't just install a
+> > newer firmware because the firmware for each product is customized and
+> > qualified by the OEM. The issue is that alsactl save and restore has no
+> > idea what controls are good to persist which can lead to
+> > misconfiguration.
+> > 
+> > As the ALSA controls for the firmware coefficients are not used in
+> > normal operation they can all be hidden, but add a kernel parameter so
+> > that they can be re-enabled for debugging.
+> > 
+> > Fixes: 73cfbfa9caea ("ALSA: hda/cs35l56: Add driver for Cirrus Logic
+> CS35L56
+> > amplifier")
+> > Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
+> > ---
+> >  sound/pci/hda/cs35l56_hda.c | 7 +++++++
+> >  1 file changed, 7 insertions(+)
+> > 
+> > diff --git a/sound/pci/hda/cs35l56_hda.c b/sound/pci/hda/cs35l56_hda.c
+> > index 96d3f13c5abf..1494383b22c9 100644
+> > --- a/sound/pci/hda/cs35l56_hda.c
+> > +++ b/sound/pci/hda/cs35l56_hda.c
+> > @@ -23,6 +23,10 @@
+> >  #include "hda_cs_dsp_ctl.h"
+> >  #include "hda_generic.h"
+> > 
+> > +static bool expose_dsp_controls;
+> > +module_param(expose_dsp_controls, bool, 0444);
+> > +MODULE_PARM_DESC(expose_dsp_controls, "Expose firmware controls as
+> > ALSA controls 0=no (default), 1=yes");
+> > +
+> >   /*
+> >    * The cs35l56_hda_dai_config[] reg sequence configures the device as
+> >    *  ASP1_BCLK_FREQ = 3.072 MHz
+> > @@ -758,6 +762,9 @@ static int cs35l56_hda_bind(struct device *dev, struct
+> > device *master, void *mas
+> > 
+> >  	cs35l56_hda_create_controls(cs35l56);
+> > 
+> > +	if (expose_dsp_controls)
+> > +		cs35l56_hda_add_dsp_controls(cs35l56);
+> > +
+> >  #if IS_ENABLED(CONFIG_SND_DEBUG)
+> >  	cs35l56->debugfs_root = debugfs_create_dir(dev_name(cs35l56-
+> > >base.dev), sound_debugfs_root);
+> >  	cs_dsp_init_debugfs(&cs35l56->cs_dsp, cs35l56->debugfs_root);
+> > --
+> > 2.43.0
+> 
+> 
