@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B791891D6
-	for <linux-sound@vger.kernel.org>; Mon, 29 Jul 2024 17:17:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A2FA189F25
+	for <linux-sound@vger.kernel.org>; Mon, 29 Jul 2024 17:17:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722273455; cv=none; b=pPGxY2t0EwU9RdIs/h+4oBnXImLHUMHCGFs+aE+VxZzdgshPSFVEu0m0sEwy11UBkfPCYYJepkLQNM1PFbjjuuRTAJEXxtAS0P2aljBd4tLblKlC/M7n3ujyzOUO8jrxrOEtpncBjLe8byw5JngQXfMOeWEs61ld5q6Jic8hquk=
+	t=1722273456; cv=none; b=Y5lWivRE4zfRrwjgftxo7n/qKqMSP3ZW5ictNXPDebC9xWr6tRhZCwGHxqCSNvgfRgNInxPKJ515kOAAG438br/PP/aS252Kz9QuGYl7PLVwfz3FjVr5AwhS1gtLXembbemyb1hKxwYIN3BJOOreQBQ586A6LrIDWgJ8r++C+Qc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722273455; c=relaxed/simple;
-	bh=xgjE5DHD/BdADdWH9bgYChJKZ8IMK2CN1Ou/MzBekzc=;
+	s=arc-20240116; t=1722273456; c=relaxed/simple;
+	bh=2/fxQabMbrn07FPkajHzSXbNfRWxzdCNHHSma8lb0Pk=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=QIo06QT32RsX1kYsmRG1zv+4uAJptcTQdjrZRGIcKNchwZoQaXtm8kOpl7nObYyAQEs6iDQTjGQnpHBloosvyvVqNop+f65fkf9MgwRDbs3X6W2jfq3j2wrr4lZJicxhwPIfL5tSHYlUw8KcAyy5sLUG+gJQ2XZyeslPNwKXHP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N7juWwFU; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=NbaraYMFwNq2sthQcTqtwEP/0oe0x49lbXGCPX1WuP9JeiNvLbmIgt6PjffJ9xwloMwBfU0ZumEXvBqpV7VQBqxm5Di5Fll9EJpOqdYPDWsd0W66GLxFr2RzWSSpxgfJhkLar+B5ugBLdbSe4ouNVG0KyS60y93W/HqfT781Oqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MhGKJAuN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N7juWwFU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FB36C4AF0E;
-	Mon, 29 Jul 2024 17:17:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MhGKJAuN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD242C4AF0A;
+	Mon, 29 Jul 2024 17:17:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722273455;
-	bh=xgjE5DHD/BdADdWH9bgYChJKZ8IMK2CN1Ou/MzBekzc=;
+	s=k20201202; t=1722273456;
+	bh=2/fxQabMbrn07FPkajHzSXbNfRWxzdCNHHSma8lb0Pk=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=N7juWwFUydwqC00EZb9RaMawooHmMr+50fZdEI78ekkeZYo+hKD0na+j/9NMkAAqv
-	 eNS3yyIgczx7xpRJs/yu4uj8OYV/1rki5KK2UVeOQyG5EeuMHz4iZmiIiX2PV7wL2i
-	 WsxpwOoof6XuFg2IXqx29nH+Bu+Wg8Hbtj5Ykaeyannyv7e5trtpS5vce2rLQIPqNT
-	 EqAhZRN0U71aNe0RDnJ6KhUX/frDV7QloDPhsqdbvjlXueKGAq/qFemDbtYEVSnO8c
-	 YC641ypiPyKE/Kj2wDfqJVTsi/GmI2rEPQHGvUd8CjyoipZ4AGqg4FZaxW2s4iZKPE
-	 aVt1kitookG2w==
+	b=MhGKJAuNWgqSvkPD/idKQI8dZvzZ6v2IPEcG0yx3j8gS/ScZAYCkQ0j+HtiAagQc+
+	 Ai+W1lUzDVayO1RF/1sq+/4KLJg7w0PcI4+VCzyMd5b/EyL9Ed1d6dbI332AMWMUna
+	 ZROtWgkaPX90gJ9O1iw0IBXoWEtXhNMzQULDCsr2b6XMQk9DDmwK/DocxtyMaBv3RP
+	 q/h3AXnGm79GyVkqekCXFWKwHG1vjzGNEBBhmu3YP+YKDNTHhoZUKElnPJPR6PKSP/
+	 h2V0Ha9P4gNpfCwirQORB4sBYYpl8BNDntAka9AhRR90JYkRb9B6MiA3AxLZ4tAFa8
+	 TIahLX2ZpxLPg==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, linux-sound@vger.kernel.org, 
- Paul Handrigan <paulha@opensource.cirrus.com>
-Cc: patches@opensource.cirrus.com
-In-Reply-To: <20240726151111.3247774-1-paulha@opensource.cirrus.com>
-References: <20240726151111.3247774-1-paulha@opensource.cirrus.com>
-Subject: Re: [PATCH RESEND] ASoC: cs530x: Change IN HPF Select kcontrol
- name
-Message-Id: <172227345418.109775.2195797478065280606.b4-ty@kernel.org>
-Date: Mon, 29 Jul 2024 18:17:34 +0100
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org, 
+ "Gustavo A . R . Silva" <gustavoars@kernel.org>
+In-Reply-To: <20240726155237.21961-1-tiwai@suse.de>
+References: <20240726155237.21961-1-tiwai@suse.de>
+Subject: Re: [PATCH] ASoC: Use __counted_by() annotation for
+ snd_soc_pcm_runtime
+Message-Id: <172227345549.109775.451012584100322040.b4-ty@kernel.org>
+Date: Mon, 29 Jul 2024 18:17:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,11 +46,17 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-37811
 
-On Fri, 26 Jul 2024 10:11:11 -0500, Paul Handrigan wrote:
-> Change to the IN HPF Select kcontrol to the correct name
-> IN DEC Filter Select.
+On Fri, 26 Jul 2024 17:52:36 +0200, Takashi Iwai wrote:
+> The struct snd_soc_pcm_runtime has a flex array of snd_soc_component
+> objects at its end, and the size is kept in num_components field.
+> We can add __counted_by() annotation for compiler's assistance to
+> catch array overflows.
 > 
+> A slight additional change is the assignment of rtd->components[];
+> the array counter has to be incremented at first for avoiding
+> false-positive reports from compilers.
 > 
+> [...]
 
 Applied to
 
@@ -58,8 +64,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: cs530x: Change IN HPF Select kcontrol name
-      commit: 45d763fe503e6e0f180f873b750aea307e73fdcf
+[1/1] ASoC: Use __counted_by() annotation for snd_soc_pcm_runtime
+      commit: aaa5e1aa39074fb466f6ef3df4de6903741dfeec
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
