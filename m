@@ -1,132 +1,179 @@
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11012054.outbound.protection.outlook.com [52.101.66.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B0F382495;
-	Mon, 29 Jul 2024 07:30:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722238231; cv=none; b=MJDlcuHkeQjERFoDRbyFRldzxFokd2+haEWNYNuLU1ftkjAUMFXXSvgIwXNlWxbKnN5STFrdfs55vbgqVR3yTryEskZjzMXiHkOPcH1GJNYeoNpxDCFxhkx966nEUSLNpGgGlMlZaJHALTfkFCvEPr9/Z8TVCeGMHZDckurmIv8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722238231; c=relaxed/simple;
-	bh=rzRnBMAhujuPKKOHrgTq3gIWFwMYpwLxxoLovIeXZQM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fmIRtBx8Y46a1yAcKKTj1ihzwyLNyUTTQPIV4nydonUYmjLe6CMuOtqbbxb2Nhq52ikcMLI1jWvI1xQdKKD/NVMQIzmcBywD8+VTH9PbAIyB9z1p9+tPhBVtqnRm5OcmBZf2j8xsTYmMYgvjok++25HCZ3BTzBwKaU6u+5nT77Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=c6btUDAK; arc=none smtp.client-ip=46.255.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8586E1304AB;
+	Mon, 29 Jul 2024 08:02:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722240132; cv=fail; b=J0VbEevDq1WkoaVtdZs8URlzehnuq9VQ+TY6tiSUB4DrHVlOr2FUbtyjyh6GmQeZom4b5+F7xs9uGpm27wPmNHAtHTMR+W6+0e/yWoR/4ubXLc6McfZ2or6ewbmBgLAjKqAvkoCFKgkeP/G+NR9KlaCIoR5CmscL/EvjI2dZE+w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722240132; c=relaxed/simple;
+	bh=+xIO1STgO8UeCpWHaMoYV8fRUjDpdfyDezyapChiZ7I=;
+	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=B+GRdKFG7eOSP3aI7Lq48RKP4SOAhD07Th5z4C3p3uIiG3GiwakzEOjdxdAs+FsYfemNrT6sKPSvtN/PmQozskw+u7vFOmIB6rFywmzBI4Pk8zJZJka3tHb/6RA2qT4Tpd8BPVQ4cZISCPpgpej2SIiHVnXEtbLcfeGO8N1s1Jo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=aRqftNqa; arc=fail smtp.client-ip=52.101.66.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="c6btUDAK"
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id 29E971C0099; Mon, 29 Jul 2024 09:30:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-	t=1722238220;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zTd2KlVuLTT6I8hyqN4ws/kahOabpp6ySXuCYxyp4UE=;
-	b=c6btUDAKxgnJ/3zWUO+AS/0e7p5fQlDuqBAebmmjiRJ7qXbmUtfGLS7ZXgUXnid6z9ZT29
-	ilQ1vI9ylveQDXZggrse+QlAbskpQRjzt8xYkqw6IFpw6LM93YWVWd4S4acCoWec0HtaVS
-	rsKIR2EZx6pZQ1QU3r2u4rypxHe7Q0c=
-Date: Mon, 29 Jul 2024 09:30:19 +0200
-From: Pavel Machek <pavel@ucw.cz>
-To: Sasha Levin <sashal@kernel.org>
-Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>, cezary.rojewski@intel.com,
-	liam.r.girdwood@linux.intel.com, peter.ujfalusi@linux.intel.com,
-	ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com,
-	perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 5.10 02/11] ASoC: Intel: sof_sdw: Add quirks for
- some new Dell laptops
-Message-ID: <ZqdFCzqqkEWFl8tA@duo.ucw.cz>
-References: <20240728160954.2054068-1-sashal@kernel.org>
- <20240728160954.2054068-2-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="aRqftNqa"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=pibjsYGz5j/ox0XDrd3muwKMbmZl5OT7uJyDFEO03S4KCz0fM3P3HkZxc7Fx+ulmk4qC1MdU9QNq3UpSDDRYJIt4NYKKfxDFTCY92hsnw1Oz8xCZ9dgwVGUpEVjguaNAVDnSNWGylLiXmYbdVeb55eKvTcU2bR5fCkwZEbtr9n1kzzkwD9Z1vmWwwQ0MG4y2dezbSRXCV8FBCSp1OeJlFLFXwmYs78kO2cTb4St66FlrU7PWMXDGFiJr1kNjirhZj3XVjtlIH1QANrezCLHEnS68A+UuJYjWAPDLk37qvR6IqWg12FKvO9+Z0DsxoA5ii+5OgO5ynXMrqfe8PVGYzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=x9EgHBcpcFqXEuY9dzz2aBw2CV1Il8GXCbDP6TmCKLM=;
+ b=RhAw2Oe/UX7EJLEOWNwI0lKN2bqki2IClEQT4mk1F5z/PNpHPVl1+Dyy2Kz/5kdHnj+d3rbfsz5rZRmpCXJYENB9aMlnkXblL700YcvtVvjhlgsHUOrZbBP2mKrCyL4V2I70h04YB4Q0+D6ejd+4gleE4fahsTXxH3xaoQzCukZskkIWXE2zpKV2gL1DAVRusgb2vdAC2xxmWWcFlHtM0P7MvEtWLiFeTZl0eLnAy68TLTLka1ymdUyKAV0WfV8SXr5KZg4Pg8rHOqi/tRXQRiMId0s6055iNBv+Osfo2gs7XvG2V90M1cCDp8i9XCS/pfrpkxXiyx7h7tUjhpt3BQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=x9EgHBcpcFqXEuY9dzz2aBw2CV1Il8GXCbDP6TmCKLM=;
+ b=aRqftNqaC/3nUfG2xes+CtDhaJvjjyShHraNH8CDcUtigmEmLqTYX/ofm9izn2S6cnGE5YvYwOkQWtZyMU2rXNtThwglabGS63xtHCbkeyR4i/GdgSF8AqVBG++ZEcbiEgvdYYFHIPv6WewgTwo+srhSRnz6P87wz3Fad/04MiqW2FL8dvz387RCEHNr5TY/zfkF9BmeCaMETD6hMLk80vS7JSFr0lD3vIy/0uVzmhrzbOJXtYZ+kpPDvIlQ9H59fztAn/loIZiPyy+ijqInDpT/+xRVr521RFm5OqNdAZbxU5OE66dl+V/0jUlFWhzDIUu7EB6uashDUvgZGlDgEQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DU2PR04MB8774.eurprd04.prod.outlook.com (2603:10a6:10:2e1::21)
+ by VI0PR04MB10758.eurprd04.prod.outlook.com (2603:10a6:800:25c::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7807.26; Mon, 29 Jul
+ 2024 08:02:07 +0000
+Received: from DU2PR04MB8774.eurprd04.prod.outlook.com
+ ([fe80::88b8:8584:24dc:e2a1]) by DU2PR04MB8774.eurprd04.prod.outlook.com
+ ([fe80::88b8:8584:24dc:e2a1%3]) with mapi id 15.20.7784.020; Mon, 29 Jul 2024
+ 08:02:07 +0000
+Message-ID: <d3a4654c-7d20-4a21-8fff-fb5dc0076547@nxp.com>
+Date: Mon, 29 Jul 2024 11:02:04 +0300
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] ASoC: fsl_micfil: Check the difference for i.MX8 and
+ i.MX9
+To: Shengjiu Wang <shengjiu.wang@nxp.com>, shengjiu.wang@gmail.com,
+ Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
+ lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+ alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1721897694-6088-1-git-send-email-shengjiu.wang@nxp.com>
+Content-Language: en-US
+From: Iuliana Prodan <iuliana.prodan@nxp.com>
+In-Reply-To: <1721897694-6088-1-git-send-email-shengjiu.wang@nxp.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR03CA0030.eurprd03.prod.outlook.com
+ (2603:10a6:208:14::43) To DU2PR04MB8774.eurprd04.prod.outlook.com
+ (2603:10a6:10:2e1::21)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="QS4mOibUoRUapvlO"
-Content-Disposition: inline
-In-Reply-To: <20240728160954.2054068-2-sashal@kernel.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU2PR04MB8774:EE_|VI0PR04MB10758:EE_
+X-MS-Office365-Filtering-Correlation-Id: 40c828c9-6a0b-4068-c546-08dcafa4bdc2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|1800799024|7416014|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?OHZCRU5yNjhHNExuZmJOVFJiR2N6OTh5cklESFRkRXVkYkpMbzhoa0hORDRP?=
+ =?utf-8?B?MGhQemQyUGtIZTJ2NFNGNjg1aUZ0dkhHbFlNUkRLQ3RKUG8zVW81RUY3Y293?=
+ =?utf-8?B?U0FmV1UzUHR1OFlJaDcwaGJoYWhCTk83aGREdmdaVFZvVG1Sb2tmckY4WXd1?=
+ =?utf-8?B?OFN0eVJpYmQybHBSTk81dGZtZ0dIdnh0TzFXRXd6SVY2VlRsdjZuWFFDK1BF?=
+ =?utf-8?B?VlRzY3JVdlZQaEFzZldFdlF2Z21IVjFKQkh3a1NoVjJhc0ZHYWRsaXdBcnRX?=
+ =?utf-8?B?MzdJcUlBQjVlYS9tSkV0MTZ4Y25LM3dNTGViTVlJeUtqazhXYTRhM1FqUzAv?=
+ =?utf-8?B?Q2xodk90R0p1aGlBa21KRWJUZld5RHF6QlZLREEvendsSlFuenFhUW9WbytM?=
+ =?utf-8?B?V1FlSFBUM1FVR1JoTVVtYVJTVHZNVnRiUDB4b01jTXdpSTJpdSt4WDJKOGJw?=
+ =?utf-8?B?cG5aZ3IzTDg5UkptUFV2TThOSmNHRTA4aGpwYWtqZjlKczdEUXRLZExsTUdW?=
+ =?utf-8?B?cWdjdExsMysrOWtPYm9kQjZBbXpZWWw4Y29tSEIvVytSRWhCOFJJS1FBdFFz?=
+ =?utf-8?B?YUQwVEhGMFRVUHdxVnBFSlpqeEhsT1JsOURjTnFveFdoSW9YOVZUMjhySmhw?=
+ =?utf-8?B?YUZ6L0lqVkk5eXdPbkM4MFA1YURHQzVTaU05OGRCZjIycFM1MUxvaWlBMytq?=
+ =?utf-8?B?SHl6R2srWWxleEpnNVIrcTZaRVpxNjRjL01tL1ltRVp6cW9oajFqWUgxRXE4?=
+ =?utf-8?B?WGVVNVZzT3UzcGJzUTVZZlNaWVkwa3VMVGxaVlZaL2ZpcDUyMnI5WFdPZ0dR?=
+ =?utf-8?B?dmxNOFc1WUNCSzFKMVFSbDZYNk5lcnJRbUVJbyt0dkpmU3N3SGZEN0JORGpn?=
+ =?utf-8?B?ck1OV1B4TWJVNWU3RGpJc0Vvanhld2VVTkRQNVc4Q0NCbVdzcVViYW91SFhu?=
+ =?utf-8?B?NFkwNnQwaXRreFJQUzZNbHZrREJNOGtkVnY1czl2UGRFQ3ZOczV2ajIyc2hm?=
+ =?utf-8?B?NUt2b2NYWHFEbUlDSUlSN3VaeWI3TGp2ek5JYnByOVhuUG5qY0VIWHg5NTNS?=
+ =?utf-8?B?aVRTV2xwLzVFOEtYa1FJckdFdUlCODYrVGxBQ0xDNkdMOFR5NGpZaDNUVHRK?=
+ =?utf-8?B?THhYUkpMZjlZQ2d6dHJWckxuV2Jsb0lnQS9XY1ZWMTNWY0J2enhqZ1hOT29n?=
+ =?utf-8?B?bllhNDdOYzJZcWdWZGpFWDJVZWl1RmVRdFloaFMzR083RnBvQ2VMYlgxOEd3?=
+ =?utf-8?B?SkhkcG9sbXNXUzY4eHFZTUNMMWxpSmdjdjhpL1QrdHdScUMzS3VvMWo0b1BJ?=
+ =?utf-8?B?TG5DdVhUUzVHaW9CcHJ0TEl0eTkrR3FvTlRsN0dySHlOWndZTEN4SENOazZy?=
+ =?utf-8?B?a0lUTmEwMXEvcnYvZlRlblBjVnFtZURNOUc2Vk0ybTVXOWdqRndsenBtMS92?=
+ =?utf-8?B?TVkwRlRFNHIvUmlQWGQvSnpUekdib3ZjdjNHeDhsM1QwcFhhSVZzTkoxSEV2?=
+ =?utf-8?B?WCtZTndNY3FyV3U0VWtWSHdFblZtZjVJZXdZQS9maWZ3SklvcjNlNFh0aUlY?=
+ =?utf-8?B?TEljOHNYL09SZDdyZjFPUEExckIyL0lKVVg4UldzUjEvTE5RZHFPV2VyeW5L?=
+ =?utf-8?B?OFRTa0E5cTlUS1prR0hTTVhoZW5TZkZhak9GQmF1SGxJZWxuMVFnSGhsMmRN?=
+ =?utf-8?B?SXhmejREU2lVVERMWEJ4c0d3Nm9CMklxTkVMWDdRSy9jT3RJU2o5bWJSMlNQ?=
+ =?utf-8?B?enVDRElMTUdPWUFJSkMzVWlMM0VUckdTR1hzeEdZRjZCQ2toOUl6dVZndkpN?=
+ =?utf-8?B?VjdJbDBSeHRFc29RTVM3cGVxUHdYd2x2cEVSaU9MaEFqK0xhOGdhWG1YQ2di?=
+ =?utf-8?Q?vNb6W767F0asT?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8774.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7416014)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?YTlvZ0JXMzlBQXBaZ3BTYWJaUnJ4OG8rL2pOZVVxYnJGdEkxMlFwd0E2eDUz?=
+ =?utf-8?B?aHdCQ2V2eC9vT2R1czBiRVhRTDVPUnBqRlRFazZ0cGU5ME94Zit1c0I3TjZn?=
+ =?utf-8?B?aitRd3lIeUdlSHVJelNrN1RKa2RKallCWm95T3FObXV2LzJmWFJKeTJ6WjlJ?=
+ =?utf-8?B?aUljaXVtQUxRcUpuS05TTFgzVGxSV091cW1MQmVOVTdud3hQZ2VFWk00MUY4?=
+ =?utf-8?B?Q1prYjZXZUU4OWtFU2RFR1picTNZRkM5YU1Gc2dkSXZYUU1xRXE2UFJleXNo?=
+ =?utf-8?B?VFZnZ2thMEJyQlAzUURGV25rYmUyaTVSS2NmcS9BL1FhLzNNVjF1ck8wTzBS?=
+ =?utf-8?B?YnRUWWhyN1BKT0tvZGhlUm1YS1RVaCtncGtUOWpNWnlxQ3JvakZXZVMrckJn?=
+ =?utf-8?B?SlY0TUJtaEY4eUVLQXZ0ZXFaU1N2cEprV3M0V3R0MnRJdmVBT2ZtUkhmWlZ5?=
+ =?utf-8?B?cW8yL3F4YUhEcUVrWGM3cjhwTnBGSzRWaDlIeFIzaHNoaE1yMExpYkFxMnda?=
+ =?utf-8?B?T0hvWFV5cWpBOUtaZCtWbE95NzVQem8wOGpacWRncGdTL3NURyt0a1Zadkl5?=
+ =?utf-8?B?NDJGcFduNjZWYkY3S1cxSFloN2JIN2VoYXp6ZmM1bTYwNytQKzdrdndCZ2Zr?=
+ =?utf-8?B?OUtpTkhXUkhYbVIzMjNjMUIzRjJ4Mjg3SHFhQnJFWmx4MG1jdXh1bkF4N3A3?=
+ =?utf-8?B?L2Q5SUJTNDBlVG5aNEZtbVFOSjNUY0Q3SmxXTjI4UEpEQmhuOGxRQVVLKzdj?=
+ =?utf-8?B?VGViaXREMm9GV25FM0pEZWIrdzJBWXArV0pZZ0R0WTRDeXhHVFNNVmhJb0VF?=
+ =?utf-8?B?Y3VIREtOWUpKalZHaWZxMDh6bzU0SWVyK3h4M29rajZGdkZMd1FZMVVseGlI?=
+ =?utf-8?B?WjZOVldnYmVaNDJ2eUR4U0xLb2NockVuOGtYelRkSDR1U3NEU09KMjlqbFBY?=
+ =?utf-8?B?eEpVYi9FZHdqeVBLSU1vZFZZRHRMRHlXTmtUNDRSQWtTWHpSRDNuckZrS1FP?=
+ =?utf-8?B?M1dQUGRteHE5TzBUWS9Ud0tBa3RCNzR3dkE1SmR2akJyaFVzS2cyZHlZS3Q3?=
+ =?utf-8?B?YmlUaTBvQmlKOFBGNm5WM2FPazE4Q1NnS0haVTVYVGtvQ0NrOHhOK3lBQVVq?=
+ =?utf-8?B?elRrdjNiVFpQN1F4M2hQeTJTekNIY1VQQXhpWml0OWtOYWowa1V1Z05DSlZw?=
+ =?utf-8?B?cFBxU0MzWXhwWXArSExOd0dnNytJWlFXUkhoL0J0SE5WdVRObnhlTXJMUHRh?=
+ =?utf-8?B?emlHM3JnU2ZteXdZMjVRaG9aNHVPNmhieUV5eHQ2a3g5c0tQWHlpM0Njbmdm?=
+ =?utf-8?B?L29YTGJBNE5oVk5KU0ZXTmk4UHRLRXJRZ0hJYUZvZEJmdHR5UzdtSFFsYmNo?=
+ =?utf-8?B?S2ZON1hqL1BwSjY1a1J0T3c1SDJ0MzQ4RkdzSlo3enBDVmVtN1NDc0lXdDlJ?=
+ =?utf-8?B?djZFeGRtc0NqZEFmS0pVUWhiMVRGK2FUS0k2dlI2eEtwMnoxL2tFYnFLT05l?=
+ =?utf-8?B?eWY2elE5RHdqZmlOYkpERjZTWVJOWUN0U0tLaVFmU1ptSVU4N1ZsQ2c5aVVa?=
+ =?utf-8?B?WXk3TzlOZGVFTHlCdXo0VU1Rc084VHJyYUlKUUYxeXhqSmxGNVZNZVJGb3FB?=
+ =?utf-8?B?Uk00NVFEUFhEWWRXQmtVWEFlTC9qYUxBRjYyUHVxTG84Wklxei9jMFNUZTRC?=
+ =?utf-8?B?OE51eUNIZVB2N0hZM2ZickxKWUtXVTFnQk16QXlrVGJKR3dWdzlXazd3S0dq?=
+ =?utf-8?B?NENsaGhwOGd0TDlneWlJRHg4WXBYSUUvSnloT0pUd041dGMvK1NiUHJYMWsv?=
+ =?utf-8?B?SVZVYmhxMjZIZTFCNXNOVGRIZTVIUXBjbURBVmM4Z0kzTGhFRTBqbEk4VXAz?=
+ =?utf-8?B?SERPSExBL2E2NTg0NC9BVE1ieHdEOHEzN3NhbFdCTUc1UU9pM2pFZE9MSGJs?=
+ =?utf-8?B?RUMrV2Fid1lJb3VCUGlVUFJoTy9jNjlTM1lpM3k4ZUVKNC9EcVg5UTRCUUpl?=
+ =?utf-8?B?ZWdza2JuRXVudUpnZUpZdVdRSUcxMlRMWG1RWlE3SVVxZUxuMlo4ZndiWlBh?=
+ =?utf-8?B?VU4rcDYrNEkxZ2ZYV0xpY2x4dkR2UDBqSHVXenNRU1hVK2VCNkF4WXpvaGxX?=
+ =?utf-8?Q?BHBfpGGiMYipq2z2X2Vw3Rfm5?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 40c828c9-6a0b-4068-c546-08dcafa4bdc2
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8774.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2024 08:02:07.4716
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fxjEnJqMhK2Hj4gySkxRy2dHTD1mhbG2vTKyHb/dAXw0mazwZERO8kGINWcB0+mGBH2780KAelTHhik7bk/IPw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB10758
 
+On 7/25/2024 11:54 AM, Shengjiu Wang wrote:
+> There are some register difference for i.MX8 and i.MX9
+> REG_MICFIL_FIFO_CTRL definition is updated.
+> REG_MICFIL_FSYNC_CTRL, REG_MICFIL_VERID, REG_MICFIL_PARAM are added from
+> i.MX9
+>
+> Shengjiu Wang (2):
+>    ASoC: fsl_micfil: Expand the range of FIFO watermark mask
+>    ASoC: fsl_micfil: Differentiate register access permission for
+>      platforms
+>
+>   sound/soc/fsl/fsl_micfil.c | 20 +++++++++++++++-----
+>   sound/soc/fsl/fsl_micfil.h |  2 +-
+>   2 files changed, 16 insertions(+), 6 deletions(-)
 
---QS4mOibUoRUapvlO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+For the series: Reviewed-by: Iuliana Prodan <iuliana.prodan@nxp.com>
 
-Hi!
+Thanks, Iulia
 
-> From: Charles Keepax <ckeepax@opensource.cirrus.com>
->=20
-> [ Upstream commit 91cdecaba791c74df6da0650e797fe1192cf2700 ]
->=20
-> Add quirks for some new Dell laptops using Cirrus amplifiers in a bridge
-> configuration.
-
-This is queued for 5.10, but not for 6.1. Mistake?
-
-Best regards,
-								Pavel
-
-> Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-> Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-> Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-> Link: https://msgid.link/r/20240527193552.165567-11-pierre-louis.bossart@=
-linux.intel.com
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> ---
->  sound/soc/intel/boards/sof_sdw.c | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
->=20
-> diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/so=
-f_sdw.c
-> index 25bf73a7e7bfa..ad3694d36d969 100644
-> --- a/sound/soc/intel/boards/sof_sdw.c
-> +++ b/sound/soc/intel/boards/sof_sdw.c
-> @@ -234,6 +234,22 @@ static const struct dmi_system_id sof_sdw_quirk_tabl=
-e[] =3D {
->  		},
->  		.driver_data =3D (void *)(RT711_JD2_100K),
->  	},
-> +	{
-> +		.callback =3D sof_sdw_quirk_cb,
-> +		.matches =3D {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
-> +			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0CE3")
-> +		},
-> +		.driver_data =3D (void *)(SOF_SIDECAR_AMPS),
-> +	},
-> +	{
-> +		.callback =3D sof_sdw_quirk_cb,
-> +		.matches =3D {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
-> +			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0CE4")
-> +		},
-> +		.driver_data =3D (void *)(SOF_SIDECAR_AMPS),
-> +	},
->  	{}
->  };
-> =20
-
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---QS4mOibUoRUapvlO
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZqdFCwAKCRAw5/Bqldv6
-8jZSAKCFb+KQBMbfj8kZhJLkt4A7CAUFdwCeKq4szws9C2/4fnVjlejX07kGBqs=
-=5VIV
------END PGP SIGNATURE-----
-
---QS4mOibUoRUapvlO--
