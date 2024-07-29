@@ -1,75 +1,55 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20DD9145B21
-	for <linux-sound@vger.kernel.org>; Mon, 29 Jul 2024 16:06:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1119ECC;
+	Mon, 29 Jul 2024 16:15:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722269189; cv=none; b=E/YaZH+3V7ct9G8FVlJ+6zwAcLp5NuLoc7QHA22VPL9SQ3Zxlf6rb9shwMKI/vZfctHbeiXWCfq9LcjVAR6Lh/ncFTCNCpjz6JLSuOTLWdGEzghFqsNs0lrZaoTzilZM3uwHBKQUMeUO/m6EARNfSbCchEdchX5mTzCzkBEb0Ms=
+	t=1722269743; cv=none; b=NRDvc+VTgTT8n28EvfKscQNBQKjauOIp14sVO29LpHci4cH35gL0BesZOS6O8v4dOJKQghckBZWrRTsulMIcNq37Qeu4C/EGPkloh+kL/lGpyey20rCK0FHljapKcM+6ijnU1W1nkfcSB7/PCPcm34l4TohRzMGTcByTh6SkSPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722269189; c=relaxed/simple;
-	bh=5FeoWSK8ctvh5zxsVTTprqnZToszZogpTovYDSTwN28=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=e2Y+cB8JWv/LOvIXz9hqD8kfygtmUgvMreA4CMhb/HlScU/HB1ihlcx9dTW9ZDE0cBjR9uSnqra8ouk2nMYhdWQTaLWvQQ1y1rklPdd2aVe/cKViXzjMAB0UXsoPJQELSUXVy01IDV68EPZ1kxEDPCnY/zawbEYvN4Iz6o9T3D8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oWOyJjby; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6KrOhUAe; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oWOyJjby; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6KrOhUAe; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1722269743; c=relaxed/simple;
+	bh=e25RnGm3UUfzN+5y7ZyHo2fNUQbHueNz+JQ13IN92Q8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BjOv3FAjPxF60X9DdcBfiaBSIvlCP51yEDKQ2bXsEPur0LetjQop+b80FXFm0oU3dl8igg/rOXgTxdzbocAyIVHxiCABy88lyCOuJn/9TIv15gblAig1jgjOAZPU+JDzh/R14HfH0GnYDQ8AXSPCzWLoZci6unopKCfH4TWWMjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=nFLP2IPC; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oWOyJjby";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6KrOhUAe";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oWOyJjby";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6KrOhUAe"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2892E1F7A7;
-	Mon, 29 Jul 2024 16:06:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1722269185; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=b7/2tvrKJeQmKE+UkKOys0KrTWvEy62FZNw7RmGEP7s=;
-	b=oWOyJjbykDKNBmZxY79+GhowICv2Q0N7eMw4PCVDhWrGifaTZIv6NHFwArKZo9vEAfsRA8
-	DrOgqxGUOE4Ws5hqBvDygAcORajlN+y7KwXki2Ums/LCtd1wxYFarFkIFwsHHVS4H8tvOZ
-	OJ4CuWHVYyx4gTD+mXRBZB/eKxxIvWY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1722269185;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=b7/2tvrKJeQmKE+UkKOys0KrTWvEy62FZNw7RmGEP7s=;
-	b=6KrOhUAeGOTB/QaMaJrqh8dbbCwFESgClIhAqQItgLjMaY5qtGrlMvEcOVf/gDWvhds/4D
-	gLJEYRiEeEEeevBQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=oWOyJjby;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=6KrOhUAe
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1722269185; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=b7/2tvrKJeQmKE+UkKOys0KrTWvEy62FZNw7RmGEP7s=;
-	b=oWOyJjbykDKNBmZxY79+GhowICv2Q0N7eMw4PCVDhWrGifaTZIv6NHFwArKZo9vEAfsRA8
-	DrOgqxGUOE4Ws5hqBvDygAcORajlN+y7KwXki2Ums/LCtd1wxYFarFkIFwsHHVS4H8tvOZ
-	OJ4CuWHVYyx4gTD+mXRBZB/eKxxIvWY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1722269185;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=b7/2tvrKJeQmKE+UkKOys0KrTWvEy62FZNw7RmGEP7s=;
-	b=6KrOhUAeGOTB/QaMaJrqh8dbbCwFESgClIhAqQItgLjMaY5qtGrlMvEcOVf/gDWvhds/4D
-	gLJEYRiEeEEeevBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EE25C1368A;
-	Mon, 29 Jul 2024 16:06:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 9nZoOAC+p2ZnBwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 29 Jul 2024 16:06:24 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: control: Take power_ref lock primarily
-Date: Mon, 29 Jul 2024 18:06:58 +0200
-Message-ID: <20240729160659.4516-1-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="nFLP2IPC"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46TFGMTM019487;
+	Mon, 29 Jul 2024 11:15:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=qRzBBbqoXOWQyyYO
+	JMgkXOAR8+qV4bh0yhqqlwUEGVA=; b=nFLP2IPC2OwvDdvbC44c7L85phYx/Lz+
+	aavMdD6RmN/mkSRX9N/a/bUz9SiEI/Gg8FU/yEC6Wer/XZhFH5B2HaG6h13TIlK9
+	Hv5PxrNsPRikZ1+KD9tvgX/KSBLh6ELrdJRQKEXU2Kj6yT3HUfpvTrNxgGh3GSZf
+	sxAV7mvY8g9GK1CcwAPM9r1bb2+ELpuCFgPBy4m9IKu0GMHQu2GmBXFm6V320GBr
+	9Qnl33OzKSErJRGAIJgtqS0bISnI/eeCT3IcnMJBvSmY53ae1ZrIVyviFifosaju
+	0So/5sAQVTNF0KRbzZz88NWQvW0/PlFQzjFKjwzafkvbi0xuW4KZLQ==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 40mwajtbgb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 29 Jul 2024 11:15:36 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 29 Jul
+ 2024 17:15:34 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Mon, 29 Jul 2024 17:15:34 +0100
+Received: from lonswws01.ad.cirrus.com (lonswws01.ad.cirrus.com [198.90.188.26])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 3E6F6820244;
+	Mon, 29 Jul 2024 16:15:34 +0000 (UTC)
+From: Simon Trimmer <simont@opensource.cirrus.com>
+To: <tiwai@suse.com>
+CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
+        "Simon
+ Trimmer" <simont@opensource.cirrus.com>
+Subject: [PATCH] ALSA: hda: cs35l56: Stop creating ALSA controls for firmware coefficients
+Date: Mon, 29 Jul 2024 16:15:32 +0000
+Message-ID: <20240729161532.147893-1-simont@opensource.cirrus.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -78,204 +58,53 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 2892E1F7A7
-X-Spam-Score: -2.81
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.81 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	ARC_NA(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
+Content-Type: text/plain
+X-Proofpoint-GUID: JDXsPmEN9C12lN1Lyq9L7W6c4TiV9wzo
+X-Proofpoint-ORIG-GUID: JDXsPmEN9C12lN1Lyq9L7W6c4TiV9wzo
+X-Proofpoint-Spam-Reason: safe
 
-The code path for kcontrol accesses have often nested locks of both
-card's controls_rwsem and power_ref, and applies in that order.
-However, what could take much longer is the latter, power_ref; it
-waits for the power state of the device, and it pretty much depends on
-the user's action.
+A number of laptops have gone to market with old firmware versions that
+export controls that have since been hidden, but we can't just install a
+newer firmware because the firmware for each product is customized and
+qualified by the OEM. The issue is that alsactl save and restore has no
+idea what controls are good to persist which can lead to
+misconfiguration.
 
-This patch swaps the locking order of those locks to a more natural
-way, namely, power_ref -> controls_rwsem, in order to shorten the time
-of possible nested locks.  For consistency, power_ref is taken always
-in the top-level caller side (that is, *_user() functions and the
-ioctl handler itself).
+As the ALSA controls for the firmware coefficients are not used in
+normal operation they can all be hidden, but add a kernel parameter so
+that they can be re-enabled for debugging.
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Fixes: 73cfbfa9caea ("ALSA: hda/cs35l56: Add driver for Cirrus Logic CS35L56 amplifier")
+Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
 ---
- sound/core/control.c | 54 ++++++++++++++++++++++++++++----------------
- 1 file changed, 34 insertions(+), 20 deletions(-)
+ sound/pci/hda/cs35l56_hda.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/sound/core/control.c b/sound/core/control.c
-index f64a555f404f..96a2c088a460 100644
---- a/sound/core/control.c
-+++ b/sound/core/control.c
-@@ -1167,9 +1167,7 @@ static int __snd_ctl_elem_info(struct snd_card *card,
- #ifdef CONFIG_SND_DEBUG
- 	info->access = 0;
- #endif
--	result = snd_power_ref_and_wait(card);
--	if (!result)
--		result = kctl->info(kctl, info);
-+	result = kctl->info(kctl, info);
- 	snd_power_unref(card);
- 	if (result >= 0) {
- 		snd_BUG_ON(info->access);
-@@ -1208,12 +1206,17 @@ static int snd_ctl_elem_info(struct snd_ctl_file *ctl,
- static int snd_ctl_elem_info_user(struct snd_ctl_file *ctl,
- 				  struct snd_ctl_elem_info __user *_info)
- {
-+	struct snd_card *card = ctl->card;
- 	struct snd_ctl_elem_info info;
- 	int result;
+diff --git a/sound/pci/hda/cs35l56_hda.c b/sound/pci/hda/cs35l56_hda.c
+index 96d3f13c5abf..1494383b22c9 100644
+--- a/sound/pci/hda/cs35l56_hda.c
++++ b/sound/pci/hda/cs35l56_hda.c
+@@ -23,6 +23,10 @@
+ #include "hda_cs_dsp_ctl.h"
+ #include "hda_generic.h"
  
- 	if (copy_from_user(&info, _info, sizeof(info)))
- 		return -EFAULT;
-+	result = snd_power_ref_and_wait(card);
-+	if (result)
-+		return result;
- 	result = snd_ctl_elem_info(ctl, &info);
-+	snd_power_unref(card);
- 	if (result < 0)
- 		return result;
- 	/* drop internal access flags */
-@@ -1257,10 +1260,7 @@ static int snd_ctl_elem_read(struct snd_card *card,
++static bool expose_dsp_controls;
++module_param(expose_dsp_controls, bool, 0444);
++MODULE_PARM_DESC(expose_dsp_controls, "Expose firmware controls as ALSA controls 0=no (default), 1=yes");
++
+  /*
+   * The cs35l56_hda_dai_config[] reg sequence configures the device as
+   *  ASP1_BCLK_FREQ = 3.072 MHz
+@@ -758,6 +762,9 @@ static int cs35l56_hda_bind(struct device *dev, struct device *master, void *mas
  
- 	if (!snd_ctl_skip_validation(&info))
- 		fill_remaining_elem_value(control, &info, pattern);
--	ret = snd_power_ref_and_wait(card);
--	if (!ret)
--		ret = kctl->get(kctl, control);
--	snd_power_unref(card);
-+	ret = kctl->get(kctl, control);
- 	if (ret < 0)
- 		return ret;
- 	if (!snd_ctl_skip_validation(&info) &&
-@@ -1285,7 +1285,11 @@ static int snd_ctl_elem_read_user(struct snd_card *card,
- 	if (IS_ERR(control))
- 		return PTR_ERR(no_free_ptr(control));
+ 	cs35l56_hda_create_controls(cs35l56);
  
-+	result = snd_power_ref_and_wait(card);
-+	if (result)
-+		return result;
- 	result = snd_ctl_elem_read(card, control);
-+	snd_power_unref(card);
- 	if (result < 0)
- 		return result;
- 
-@@ -1300,7 +1304,7 @@ static int snd_ctl_elem_write(struct snd_card *card, struct snd_ctl_file *file,
- 	struct snd_kcontrol *kctl;
- 	struct snd_kcontrol_volatile *vd;
- 	unsigned int index_offset;
--	int result;
-+	int result = 0;
- 
- 	down_write(&card->controls_rwsem);
- 	kctl = snd_ctl_find_id_locked(card, &control->id);
-@@ -1318,9 +1322,8 @@ static int snd_ctl_elem_write(struct snd_card *card, struct snd_ctl_file *file,
- 	}
- 
- 	snd_ctl_build_ioff(&control->id, kctl, index_offset);
--	result = snd_power_ref_and_wait(card);
- 	/* validate input values */
--	if (IS_ENABLED(CONFIG_SND_CTL_INPUT_VALIDATION) && !result) {
-+	if (IS_ENABLED(CONFIG_SND_CTL_INPUT_VALIDATION)) {
- 		struct snd_ctl_elem_info info;
- 
- 		memset(&info, 0, sizeof(info));
-@@ -1332,7 +1335,6 @@ static int snd_ctl_elem_write(struct snd_card *card, struct snd_ctl_file *file,
- 	}
- 	if (!result)
- 		result = kctl->put(kctl, control);
--	snd_power_unref(card);
- 	if (result < 0) {
- 		up_write(&card->controls_rwsem);
- 		return result;
-@@ -1361,7 +1363,11 @@ static int snd_ctl_elem_write_user(struct snd_ctl_file *file,
- 		return PTR_ERR(no_free_ptr(control));
- 
- 	card = file->card;
-+	result = snd_power_ref_and_wait(card);
-+	if (result < 0)
-+		return result;
- 	result = snd_ctl_elem_write(card, file, control);
-+	snd_power_unref(card);
- 	if (result < 0)
- 		return result;
- 
-@@ -1830,7 +1836,7 @@ static int call_tlv_handler(struct snd_ctl_file *file, int op_flag,
- 		{SNDRV_CTL_TLV_OP_CMD,   SNDRV_CTL_ELEM_ACCESS_TLV_COMMAND},
- 	};
- 	struct snd_kcontrol_volatile *vd = &kctl->vd[snd_ctl_get_ioff(kctl, id)];
--	int i, ret;
-+	int i;
- 
- 	/* Check support of the request for this element. */
- 	for (i = 0; i < ARRAY_SIZE(pairs); ++i) {
-@@ -1848,11 +1854,7 @@ static int call_tlv_handler(struct snd_ctl_file *file, int op_flag,
- 	    vd->owner != NULL && vd->owner != file)
- 		return -EPERM;
- 
--	ret = snd_power_ref_and_wait(file->card);
--	if (!ret)
--		ret = kctl->tlv.c(kctl, op_flag, size, buf);
--	snd_power_unref(file->card);
--	return ret;
-+	return kctl->tlv.c(kctl, op_flag, size, buf);
- }
- 
- static int read_tlv_buf(struct snd_kcontrol *kctl, struct snd_ctl_elem_id *id,
-@@ -1965,16 +1967,28 @@ static long snd_ctl_ioctl(struct file *file, unsigned int cmd, unsigned long arg
- 	case SNDRV_CTL_IOCTL_SUBSCRIBE_EVENTS:
- 		return snd_ctl_subscribe_events(ctl, ip);
- 	case SNDRV_CTL_IOCTL_TLV_READ:
--		scoped_guard(rwsem_read, &ctl->card->controls_rwsem)
-+		err = snd_power_ref_and_wait(card);
-+		if (err < 0)
-+			return err;
-+		scoped_guard(rwsem_read, &card->controls_rwsem)
- 			err = snd_ctl_tlv_ioctl(ctl, argp, SNDRV_CTL_TLV_OP_READ);
-+		snd_power_unref(card);
- 		return err;
- 	case SNDRV_CTL_IOCTL_TLV_WRITE:
--		scoped_guard(rwsem_write, &ctl->card->controls_rwsem)
-+		err = snd_power_ref_and_wait(card);
-+		if (err < 0)
-+			return err;
-+		scoped_guard(rwsem_write, &card->controls_rwsem)
- 			err = snd_ctl_tlv_ioctl(ctl, argp, SNDRV_CTL_TLV_OP_WRITE);
-+		snd_power_unref(card);
- 		return err;
- 	case SNDRV_CTL_IOCTL_TLV_COMMAND:
--		scoped_guard(rwsem_write, &ctl->card->controls_rwsem)
-+		err = snd_power_ref_and_wait(card);
-+		if (err < 0)
-+			return err;
-+		scoped_guard(rwsem_write, &card->controls_rwsem)
- 			err = snd_ctl_tlv_ioctl(ctl, argp, SNDRV_CTL_TLV_OP_CMD);
-+		snd_power_unref(card);
- 		return err;
- 	case SNDRV_CTL_IOCTL_POWER:
- 		return -ENOPROTOOPT;
++	if (expose_dsp_controls)
++		cs35l56_hda_add_dsp_controls(cs35l56);
++
+ #if IS_ENABLED(CONFIG_SND_DEBUG)
+ 	cs35l56->debugfs_root = debugfs_create_dir(dev_name(cs35l56->base.dev), sound_debugfs_root);
+ 	cs_dsp_init_debugfs(&cs35l56->cs_dsp, cs35l56->debugfs_root);
 -- 
 2.43.0
 
