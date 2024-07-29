@@ -1,127 +1,105 @@
-Received: from fhigh6-smtp.messagingengine.com (fhigh6-smtp.messagingengine.com [103.168.172.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3D7C1877;
-	Mon, 29 Jul 2024 00:27:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3830F1E49E;
+	Mon, 29 Jul 2024 04:54:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722212854; cv=none; b=CVbDm4ogm88Ruuc4cfsrCrRphoq7L+4rGFN3nrPz/NFrL71Y9pDU552F9fLXCoYQuoBhoK7n4HfGewgcbFCjywKuH6O+402xExleExq8XhzGB/QQlYfI4tFbPMJajCNH6TSRXG6SWrktZp6s0uDiAJIZwyB+vfP/tl/VZT0UcsU=
+	t=1722228844; cv=none; b=VHm5YK09nAULw0IgMoEmKOo8JEO+MPHWK4nB56sOt74JWUV8tqoJ4seITQOAyq3S5Ud+plQEvchg4nqH/p8zyN7r8keSsa20BgAZxXjjRbmzl/wm7NyG3+BZpQuHZQxeXc1CWZ8PgypC11oogYLQbMXaMNw6jJOWf/XVkyPp52U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722212854; c=relaxed/simple;
-	bh=i7oXsCWfcO/9Kin2zf9lN96R2podeKV2ryanNLQwNYM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uovbhnFwlyHytt5av9P33ZrkWI89/Gzjm10jszaBCdfs53T5WtNBzsf5jF671HRa4Pj8ONmtzDSOXyG89tibebdwLDcqT/fdWJNjETQGqMPjheyj/zZ8Zk1x1o+fhDsMxvEsQiHBav90I/tCd5LSII5ahUsH/lMdrRhtv5D07eY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=iGzsKd82; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=M6Kqw8qu; arc=none smtp.client-ip=103.168.172.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
+	s=arc-20240116; t=1722228844; c=relaxed/simple;
+	bh=YQY1+EGmU6p1BXm+sXTRYrXdxhhszFQMSs/lDvue4hI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FaieFZ4IZH+F36hqKdGSW3Ij5qdhQSxbeNNtRFyEsC7caFRzlEHdbZ6ZmHNiFemYEiocNkoKuBbSsp69whReqb/sxOiDRRAEV/IBhrB/c15N+x2Nm09zR2ks9PLROGCrPEGVk6ZzOk6RkNmnFgsZ6HUTBr4BbBqDpRXyEeehvko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kkXAtN2+; arc=none smtp.client-ip=209.85.161.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="iGzsKd82";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="M6Kqw8qu"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id 9F36811400BF;
-	Sun, 28 Jul 2024 20:27:29 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Sun, 28 Jul 2024 20:27:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm3; t=1722212849; x=
-	1722299249; bh=k+zl1gJKs4RZGZe7zAg8h9HGt2WHFPnN6AkdANlRvyw=; b=i
-	GzsKd82m8jLdFjvZ0PiJe2bqUaCaYdh14RfPPCOQQk85FwwUDP1H0sMICGkIw5mp
-	n/rUSqGTvVx1zQfw9mX+AaV4memPKPa0I2Ilu9fnBVOOYjUYOCAdULNGzdkoj0r0
-	qKVT9Avh3NI+FCoSo28KLyTzQp4rm/csZltg8J6/XTL9+0VXCfbDrJ0Ka1xZWc8d
-	WFWRQOT2IZ2tV63uu1u70u5MqmSSNVg8nRNah8fU7dtP4mV2zxFeZsp8nQlKhyrK
-	fWu1LSiVpO3tRrrujtu8IHIUipfa92c2OXmhScNUJX7d72ArJatVMYfaJfoBzbeO
-	hWBScxGpjuC9JJKWiqIfg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1722212849; x=1722299249; bh=k+zl1gJKs4RZGZe7zAg8h9HGt2WH
-	FPnN6AkdANlRvyw=; b=M6Kqw8quxJ8fYgquzFOvZE6hNdY+IDdojSQszXZMCT/n
-	0f+D3vdfuUFlx3k+BzLzebc7Ne/xw6+UElgUh8h4DJ1DXWInmZtMDkRt1Gt9kwSD
-	IKNU3X7fSIdCFELltW0G7NUJjsLXlX+eSPdGKqpaow3QGsMR31VI3O024dz0Pab0
-	6mfv8luDj1brlYS0QhE6wdn7IorhIkLZHs3OUFcdUGCYxFOt3ZExpJrAxVC8/FXy
-	bAnIV2D66gflLtxZ2iEx7Dn+vZoy9dwUPnsQGrWs5RCMecMIs1OFHww9BqOm1kBs
-	0T8nb2CAKVbhtJRAQKTWHMUfoe69xB34yOn4JZxdHw==
-X-ME-Sender: <xms:8eGmZvrMTh9Yb5qKTn6_HWaCSS7CHeR0WIFjNghvBNx6cat4F21RAA>
-    <xme:8eGmZpr-IyuDjLCJW9s0ydSUIVUXR49WuS2pGE_xtMeyJ5VlekJdi9TeNtdkpZu9Q
-    a4XJQrMhNfVm63G2fg>
-X-ME-Received: <xmr:8eGmZsMbau5t3h7HHVFXGyGlOnruW3DKDCalGZNTVoJp38h_A4xAi7N9myw8QyYskqWVEBRqtLGkFngxBr2gy4BBlVZfs0MlubQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrjedugdefgecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefvrghkrghs
-    hhhiucfurghkrghmohhtohcuoehoqdhtrghkrghshhhisehsrghkrghmohgttghhihdrjh
-    hpqeenucggtffrrghtthgvrhhnpeekueeuvdetheffgeejkeduieeukeejteejfeffhfel
-    feeggfduffelheefueevtdenucffohhmrghinhepghhithdqshgtmhdrtghomhdpkhgvrh
-    hnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhf
-    rhhomhepohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhirdhjphdpnhgspghrtghpth
-    htoheptd
-X-ME-Proxy: <xmx:8eGmZi5wxs6sYGBKVzxLUevsrsIs0A6bJWGmZSyozQFEnBMKXFdGFg>
-    <xmx:8eGmZu7b8t18ywH8k4zYMlqJ-a9XuW4ugvccBUeupv1ycxS1OR-NQQ>
-    <xmx:8eGmZqgUTlb0UuGUr0XwwrsLkOSDnMrJlFan0C_uhtGTBj9BtKaJYw>
-    <xmx:8eGmZg5NSxNkdEQz_Dnc9qIGfrFY853WmYEEfULr8ngwWttC3f0QCg>
-    <xmx:8eGmZp0viGv67fXBTZdVve-soVOX0Ju1zjDKmYeFlidkO0m06K3REzmy>
-Feedback-ID: ie8e14432:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 28 Jul 2024 20:27:28 -0400 (EDT)
-Date: Mon, 29 Jul 2024 09:27:25 +0900
-From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-To: Edmund Raile <edmund.raile@protonmail.com>
-Cc: tiwai@suse.com, linux-sound@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] ALSA: firewire-lib: restore process context
- workqueue to prevent deadlock
-Message-ID: <20240729002725.GA33722@workstation.local>
-References: <20240728122614.329544-1-edmund.raile@protonmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kkXAtN2+"
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-5d5e1c86b83so749344eaf.3;
+        Sun, 28 Jul 2024 21:54:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722228842; x=1722833642; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SkLKEA2633f1HunNS4eFBTixQIza2jM4pjLFo7cmpNk=;
+        b=kkXAtN2+J43aJXno25DIoW2diZo9Au+U8/fOVq/9VwmVIwAK+qu3kAbHy0qAT0D0Kp
+         0DlkENo7F73mP1or/Evh0uWLx/eEU6CRf19ng1J9BZioejfLglnRvZWvultcMSPcKaVJ
+         dVQ2mY+C3Ds0N8QylbHI4UTMjvJztvMjge2XvRalOHtJogPam5Lio/gq1vf1ooKy+26e
+         dUybwiyq+iarL348JRRWYnrCmFrOSS0hIyS6F3dTxZJyebNBVrVu0dRsyg/UrOMY+RkU
+         +dTvtHeIB8eh/SmuaSovvMAT8kLgFJ3zYAhwbQGOw/WhKSrPIajVUaWM8M7uzE5wiAsY
+         1Umw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722228842; x=1722833642;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SkLKEA2633f1HunNS4eFBTixQIza2jM4pjLFo7cmpNk=;
+        b=XBA0ssD5wARn/D+MyS38KQ+fw/T1wRqGFYbAdEeuOkgGDdtxxbcO/MSCQSO88vkn6I
+         xOIjthB09nO2CR0Pww0Hvx0U09c1PUyegcayzvYoxQGhpF18EETHZzBbExyAB34H1wG+
+         kp8gwUVJp8sW5GAlGrbpVDGYOf6A/7TBllZkvyT2j++y3k61Kl3jjbpmay2nIh/BwODy
+         vWtuUJg8y/5eD8t2Oicx5jMSFGd5awNDTrlcniF4zAPfkWxCiv3+XEKehPm+FEIWBxnJ
+         g6D3Y5rioJfVTUAy9qePFd9qHjoxpxANPQnGyp0pUhSxfcKQzBV1BipI7TRihf2cJct0
+         OF8w==
+X-Forwarded-Encrypted: i=1; AJvYcCWkLOPi2Y08JxaJNhgCRcNz8z0viD1R9aR2Vv6j3qMCEZIyKZ+I3C5uM1lKQ13KOKgfPIo1q6PDf9+ClM7xV9IKmP2MpbhzwughAV3aTW+t6iVQe5tamhJDl0fG1rtmwiUkxD5mQktErUI=
+X-Gm-Message-State: AOJu0YwXPgRdbXaOcOs0vyQylvChFTG/fdpsBzXO9/FKLYK63dSLrSmm
+	nUW/AtphIb3oRO6rImd9Ad0PeIig6JOvSuQbRh9U/t+MQXxzV/Jh
+X-Google-Smtp-Source: AGHT+IHEL5mooUHNR8rrOyElAG+ahbJQ3FyX/143GslHAxjurwtu/L4Sx3VSu5n4H1ILdC3gmNi99A==
+X-Received: by 2002:a05:6820:2292:b0:5c6:658c:a9f6 with SMTP id 006d021491bc7-5d5d0d86e0fmr7488061eaf.2.1722228842070;
+        Sun, 28 Jul 2024 21:54:02 -0700 (PDT)
+Received: from localhost.localdomain ([189.172.173.208])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5d5b369464fsm1046623eaf.45.2024.07.28.21.54.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Jul 2024 21:54:01 -0700 (PDT)
+From: Bruno Ancona <brunoanconasala@gmail.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	mario.limonciello@amd.com,
+	end.to.start@mail.ru,
+	me@jwang.link,
+	git@augustwikerfors.se,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Bruno Ancona <brunoanconasala@gmail.com>
+Subject: [PATCH] ASoC: amd: yc: Support mic on HP 14-em0002la
+Date: Sun, 28 Jul 2024 22:50:32 -0600
+Message-ID: <20240729045032.223230-1-brunoanconasala@gmail.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240728122614.329544-1-edmund.raile@protonmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Add support for the internal microphone for HP 14-em0002la laptop using
+a quirk entry.
 
-On Sun, Jul 28, 2024 at 12:26:21PM +0000, Edmund Raile wrote:
-> This patchset serves to prevent a deadlock between
-> process context and softIRQ context:
+Signed-off-by: Bruno Ancona <brunoanconasala@gmail.com>
+---
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-(snip)
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index 1769e07e83dc..f4bbfffe9fcb 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -423,6 +423,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_BOARD_NAME, "8A3E"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
++			DMI_MATCH(DMI_BOARD_NAME, "8B27"),
++		}
++	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
+-- 
+2.45.2
 
-> Edmund Raile (2):
->   ALSA: firewire-lib: restore workqueue for process context
->   ALSA: firewire-lib: prevent deadlock between process and softIRQ
->     context
-> 
->  sound/firewire/amdtp-stream.c | 36 ++++++++++++++++++++++-------------
->  sound/firewire/amdtp-stream.h |  1 +
->  2 files changed, 24 insertions(+), 13 deletions(-)
-
-Thank you for your sending the revised patches, it looks better than the
-previous one. However, I have an additional request.
-
-In this case, it is enough to execute 'revert' subcommand[1] of git(1),
-like:
-
-$ git revert -s b5b519965c4c
-$ git revert -s 7ba5ca32fe6e
-
-It is permitted to add postscript to the commit comment generated by the
-above command. You see my recent post as an example[2].
-
-Just for safe, it is preferable to execute 'scripts/checkpatch.pl' in
-kernel tree to check the patchset generated by send-email subcommand[3].
-
-[1] https://git-scm.com/docs/git-revert
-[2] https://lore.kernel.org/lkml/20240725161648.130404-1-o-takashi@sakamocchi.jp/
-[3] https://git-scm.com/docs/git-send-email
-
-
-Thanks
-
-Takashi Sakamoto
