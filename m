@@ -1,111 +1,137 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from mail-40137.protonmail.ch (mail-40137.protonmail.ch [185.70.40.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FA11186E29;
-	Mon, 29 Jul 2024 21:21:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C49A818A93C;
+	Mon, 29 Jul 2024 21:42:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722288080; cv=none; b=nWbjbnguoxfjX80TcCB8UKs3ZJIQmwCo33frMeiAQ9/1PqynpJBWBXFnLXM+Gz5jp6mUfZqqQBhTEqtAfVpqbf+APGZcZIDZtpnp55M3qe1Z7lrAtmnqy33GJDg5fWf5NlO3q7dA+GBhDc0ARTnOvAU5+bQFt6MP2xOEcTUQTV8=
+	t=1722289341; cv=none; b=COZbHL3bgQfoJVvQlWU8vuYgxzuDLnnTRjHbB0isxYrGktbCouyenW7jWWWG0lZ6jOepen116J8AcAFabzx1bTDytKYFEjyc+Jh0lhs4Ema522sXCx+yz06ut0Glb/Riw9pxgROn+3/04rm3g51rIlN44758M/z6NkILXE/Lu+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722288080; c=relaxed/simple;
-	bh=ZWvFvenxvVLQhpwvLVDSVCXk8VFJNRKMxGTisH0CrkY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L1C70Etj48EuRcrQA3Evyrz/duauJ18eNgKq7InaiqjysqA8k2XgZqz5wYGC967ypd9xue79C4wpPDfrTrJSUO+6s6Osdz8Cgi5j75JRKTDnqUH+3kKAVVD0jzND324cCe8PZmujBV7vPJXqT0PJfQH5OWuD9dVsdRzhspoMw7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=41cXb/uo; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1722289341; c=relaxed/simple;
+	bh=7qJtw/UvlNXcAPicePSmEwYf5d2bgVGEcAntS/y13O8=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=UJ6Gw4oMOGPKfxYxGDhOJqhrzmwFEbwxDpwBtVW4LSvQGJygHYYfc1ZvXd1tWX7U14Qd4Ywb7Z8DS0BBVg8P1j1WFkh+0aKbyFDpIIXKcwZn/+THkzp+9q4UO0bA/dpUG1xXzu/Pf40NdiVrzKy3MtGYe5rzZH/U5amSPq2Myr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=pIjcGNld; arc=none smtp.client-ip=185.70.40.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="41cXb/uo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1722288077;
-	bh=ZWvFvenxvVLQhpwvLVDSVCXk8VFJNRKMxGTisH0CrkY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=41cXb/uohPMjcTl6P/BJHrW9hnFbr6INy2bZK8V37eOGmsx6Q7FCL53sXkPA3uBBF
-	 0mCMa305BaQG3ebcKGaV5a/XaZOPShcWuxgF+FMku7X/WJstBLQZ/Divh0rnEWgdo2
-	 p6oI77hL4rtYWBf4qGmzGZrFIeEwjhjyWsE228M50ndYKOgwf2WvMAyIya9NNwcRlQ
-	 dL9s3xjXBVRaFJZTxJusi0daKzz6to1CEMhF4jbT1rgKpCQhcGKV+O6qvpMsZybANi
-	 TtqcIAezO0qTLYl8zWi6o5deNcg3cCHLJMGym68b3KL8i0WNBUydIPwjdOsAcJjZs1
-	 9zVwXjNpgTjlg==
-Received: from notapiano (zone.collabora.co.uk [167.235.23.81])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nfraprado)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id D12F43780B50;
-	Mon, 29 Jul 2024 21:21:14 +0000 (UTC)
-Date: Mon, 29 Jul 2024 17:21:12 -0400
-From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>, kernel@collabora.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH] ASoC: mediatek: Allow setting readable driver names
- through kconfig
-Message-ID: <31abcafc-67fc-4932-abf6-5ba64f09ba5d@notapiano>
-References: <20240625-mt8195-driver-name-too-long-v1-1-8573b43a9868@collabora.com>
- <b838b9a9-0ce3-40a5-b7a5-d1c825a0fa20@collabora.com>
- <0b5f6fe0-fdb7-42d3-9c91-85a28b50526a@notapiano>
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="pIjcGNld"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1722289330; x=1722548530;
+	bh=HEq22jk5NAJ4QPno+5COoC2Tm/I0lDMtAHj74ZnsIdE=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=pIjcGNld7NYClv7ZkFK1RuWiP9F1tpLvRoLP8rGTifQhaNbE2GBiEKfS0E9Jz6V3r
+	 ZE/ufTRFm8PSvOFbj3yOq9mQl9/LsEqa9KxZp/YQuto/+FM3YQQ16vr6F0riraSr+h
+	 NAzivbXI8mDlQUbyUH353eQpXGee2TEwDXDDdOKlil81qMa8S6moLYkV68FpFFTYrA
+	 6rVNtlcx3J2DvFV1h7efmOZJLADUI76I2QLzr3j3eQyBg4TQZ2fw+/2+dzxQqGM41U
+	 t0l9gXkouECBB9mLpiNuJS5r+p4SE33xepLyX0rGuNSn6JD9oKSilei51kWXrASaDD
+	 /0+iXpQ1Phnlg==
+Date: Mon, 29 Jul 2024 21:42:02 +0000
+To: o-takashi@sakamocchi.jp, clemens@ladisch.de
+From: Edmund Raile <edmund.raile@protonmail.com>
+Cc: tiwai@suse.com, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: [PATCH v3 0/3] ALSA: firewire-lib: restore process context workqueue to prevent deadlock
+Message-ID: <20240729214149.752663-1-edmund.raile@protonmail.com>
+Feedback-ID: 43016623:user:proton
+X-Pm-Message-ID: e00f443d75923ea0f965957ed92a6031714d5273
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0b5f6fe0-fdb7-42d3-9c91-85a28b50526a@notapiano>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 26, 2024 at 08:44:14AM -0400, Nícolas F. R. A. Prado wrote:
-> On Wed, Jun 26, 2024 at 09:49:55AM +0200, AngeloGioacchino Del Regno wrote:
-> > Il 25/06/24 22:23, Nícolas F. R. A. Prado ha scritto:
-> > > Commit c8d18e440225 ("ASoC: core: clarify the driver name
-> > > initialization") introduced an error message when driver names are
-> > > automatically generated and result in truncated names.
-> > > 
-> > > For example, this error message is printed on mt8195-cherry-tomato-rev2:
-> > > 
-> > >    mt8195_mt6359 mt8195-sound: ASoC: driver name too long 'sof-mt8195_r1019_5682' -> 'sof-mt8195_r101'
-> > > 
-> > > Since that truncated driver name is already used by userspace (eg UCM),
-> > > it can't be unconditionally updated.
-> > > 
-> > > As suggested by Jaroslav, update the driver name but hide it behind a
-> > > kernel config option, which Linux distributions can enable once the
-> > > corresponding support in userspace audio configuration software lands.
-> > > This ensures that audio doesn't regress, while still allowing the error
-> > > to be fixed.
-> > 
-> > I can propose the following plan of action for such a rename:
-> >  1. Temporarily have both UCMs
-> >  2. Wait until distros update their packages
-> 
-> It's not possible to monitor the package version for every single distro, so I
-> guess you mean tracking only the big distros and hoping that no small distro
-> still uses the old version.
-> 
-> Also, is UCM the only userspace tool that might use this name? There might be
-> others too that we would need to care about.
-> 
-> >  3. Change the name in kernel without extra config options
-> >  4. Remove the now deprecated UCMs
-> > 
-> > ...that's requiring a bit of time, yes, but I think this is the best way to
-> > ensure that no breakage happens in the meantime for any users.
-> 
-> My worry is that we don't know how long it would take, if a small distro decides
-> to keep using the old version. But even in the best case it might take years for
-> the old version to be phased out, I'm not sure I'll be around for that, so maybe
-> we'll just keep using the old name forever.
-> 
-> The nice thing about the config is that distros and users can opt-in immediately
-> to get rid of the error. For example KernelCI, which is monitoring such errors,
-> can enable this config to fix this error right now.
+This patchset serves to prevent an AB/BA deadlock:
 
-Anyone has any thoughts on this?
+thread 0:
+    * (lock A) acquire substream lock by
+=09snd_pcm_stream_lock_irq() in
+=09snd_pcm_status64()
+    * (lock B) wait for tasklet to finish by calling
+    =09tasklet_unlock_spin_wait() in
+=09tasklet_disable_in_atomic() in
+=09ohci_flush_iso_completions() of ohci.c
 
-Thanks,
-Nícolas
+thread 1:
+    * (lock B) enter tasklet
+    * (lock A) attempt to acquire substream lock,
+    =09waiting for it to be released:
+=09snd_pcm_stream_lock_irqsave() in
+    =09snd_pcm_period_elapsed() in
+=09update_pcm_pointers() in
+=09process_ctx_payloads() in
+=09process_rx_packets() of amdtp-stream.c
+
+? tasklet_unlock_spin_wait
+ </NMI>
+ <TASK>
+ohci_flush_iso_completions firewire_ohci
+amdtp_domain_stream_pcm_pointer snd_firewire_lib
+snd_pcm_update_hw_ptr0 snd_pcm
+snd_pcm_status64 snd_pcm
+
+? native_queued_spin_lock_slowpath
+ </NMI>
+ <IRQ>
+_raw_spin_lock_irqsave
+snd_pcm_period_elapsed snd_pcm
+process_rx_packets snd_firewire_lib
+irq_target_callback snd_firewire_lib
+handle_it_packet firewire_ohci
+context_tasklet firewire_ohci
+
+The issue has been reported as a regression of kernel 5.14:
+Link: https://lore.kernel.org/regressions/kwryofzdmjvzkuw6j3clftsxmoolynljz=
+txqwg76hzeo4simnl@jn3eo7pe642q/T/#u
+("[REGRESSION] ALSA: firewire-lib: snd_pcm_period_elapsed deadlock with
+Fireface 800")
+
+Commit 7ba5ca32fe6e ("ALSA: firewire-lib: operate for period elapse event
+in process context") removed the process context workqueue from
+amdtp_domain_stream_pcm_pointer() and update_pcm_pointers() to remove
+its overhead.
+Commit b5b519965c4c ("ALSA: firewire-lib: obsolete workqueue for period
+update") belongs to the same patch series and removed
+the now-unused workqueue entirely.
+
+Though being observed on RME Fireface 800, this issue would affect all
+Firewire audio interfaces using ohci amdtp + pcm streaming.
+
+ALSA streaming, especially under intensive CPU load will reveal this issue
+the soonest due to issuing more hardIRQs, with time to occurrence ranging
+from 2 secons to 30 minutes after starting playback.
+
+to reproduce the issue:
+direct ALSA playback to the device:
+  mpv --audio-device=3Dalsa/sysdefault:CARD=3DFireface800 Spor-Ignition.fla=
+c
+Time to occurrence: 2s to 30m
+Likelihood increased by:
+  - high CPU load
+    stress --cpu $(nproc)
+  - switching between applications via workspaces
+    tested with i915 in Xfce
+PulsaAudio / PipeWire conceal the issue as they run PCM substream
+without period wakeup mode, issuing less hardIRQs.
+
+Cc: stable@vger.kernel.org
+Backport note:
+Also applies to and fixes on (tested):
+6.10.2, 6.9.12, 6.6.43, 6.1.102, 5.15.164
+
+Edmund Raile (3):
+  Revert "ALSA: firewire-lib: obsolete workqueue for period update"
+  Revert "ALSA: firewire-lib: operate for period elapse event in process
+    context"
+  ALSA: firewire-lib: amdtp-stream work queue inline description
+
+ sound/firewire/amdtp-stream.c | 38 ++++++++++++++++++++++-------------
+ sound/firewire/amdtp-stream.h |  1 +
+ 2 files changed, 25 insertions(+), 14 deletions(-)
+
+--=20
+2.45.2
+
+
