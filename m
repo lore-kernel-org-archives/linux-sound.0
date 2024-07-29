@@ -1,47 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 515667E58D;
-	Mon, 29 Jul 2024 17:17:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B8D15B0E3;
+	Mon, 29 Jul 2024 17:17:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722273430; cv=none; b=sUcpa4jR0xZnRjLB/bXuaRceZn8/XBbkIj62lEYzK/168acGXwJonn7dDiCRGhgcqT/FDsBCUg8oIc8EPeHp7SGdr8LAceGdPiWvXVHXqQrhCAzNPkfU9qO1TgM9cLn1F42qgERo3SG6L+XsEgQ4jMDZoURXo9FBPqDwJS843jM=
+	t=1722273433; cv=none; b=oB9b8RZWxnt1JTtGORE4VEtqekNvT8dUmYG2xpRs1j6Ia/HpsRQ27kHjaizNDs7tNbm7+Uy51Cdlk9Pt8oFovr1MNLTg3lqHiTvkC3PoJeLpRVc6ara9Vf1tciN2i69+NHH0pGnRbqTzwWsPRlhYCUVVglxSBdCWUdT8ZsoAMhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722273430; c=relaxed/simple;
-	bh=y951BVKQUtiwE8SJIRQ0RqwJAK3Or/mHuMlhMRQ+NPE=;
+	s=arc-20240116; t=1722273433; c=relaxed/simple;
+	bh=A6vdhVEPOCt1GZLSIT08jaj2sy7xUIqD8bI7n3yYE7g=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ATIjwki+g7L18GPVwL6Hfzbp6xMenFoAa61p7WbbHADPD2nj4Oag2iL8HseM4sBJ1E2jZJqkd798+mN17iltF773MwBuh2oSS6sQBxZuSnG+LrKG92jCAx+uWQYVctVS7fb2xbtKnuTy7ApUw2vfgERgGDoUtd4eaFgiwCw0U8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QBYhmJYK; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=VXatLKg3TCztgwVsun5hh5fbaM8H3AJNxkiJrHy9Rl1JqxsYsHFqapQLYWZi27bW1A6cITo159mWJSK+0oWgdRuwAjCxqgSl1zNV06jeGMWG4yHp/xrWpV3J6LfjrPdjdYJfo5K5WAKMSj607jMKKGehbp/4/wGrk0mql8Hizb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fNCMJvnB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QBYhmJYK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F79EC4AF09;
-	Mon, 29 Jul 2024 17:17:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fNCMJvnB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B6CCC32786;
+	Mon, 29 Jul 2024 17:17:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722273429;
-	bh=y951BVKQUtiwE8SJIRQ0RqwJAK3Or/mHuMlhMRQ+NPE=;
+	s=k20201202; t=1722273432;
+	bh=A6vdhVEPOCt1GZLSIT08jaj2sy7xUIqD8bI7n3yYE7g=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=QBYhmJYKNk/uGE58u6kcblXAi/i0UNKR0vYkcoEfyja4R+SpRV/2xfq8+szadt8kC
-	 eE66sXOqWlPfRfNomTcxoBLHfB/uFQwrLsOao6r6/Z41BS8Mjnm5N+7ietB1mz5FZI
-	 hk3tWPk+9S6ZUaJS8P9DXapbp3yuI5DrHNaeZEE9oUsS5DnKcYcH6CrW828HkzjkKy
-	 WOgwqdFvKOEEq7ZzVdxY12zQAp4Z4GMJxPTYootlcwDKW20Q8hakayo0zdNTMlBKlz
-	 DK+msD7hlvL47kNh3zp21xBSVTymAmYBEqCZpHhXNkbVbJ95ZZNSiSENGAaQy++xA7
-	 88DMOSdhuKOLg==
+	b=fNCMJvnBHpaNAn4wwtS+XoW6xc/iHu92p5xl+5QFoGiDhJtcoo5JsWCBXk7uBfuAY
+	 pAGIYfIW+E5Q2+DQ13EBF9qV6W4+QNXIuaBNFIsE3vNw+mzprOxejCJYJsyOLiEBaS
+	 1hAWvZ3FA5BVsLQ/Z9XDs/CgAe/67ouCuPlbn39P30E96UtG5G9Tyn5yG/CVS5Ba3x
+	 3cpDP23sjcEC0litdniCvOqOTCQXZsBGof2JMtjZLrTjIYYDgnGKA7z5q8rzBgyXvp
+	 RDNDwVhYrunqqkILDHE4MgXBB1KhZxWXVWnGC0tipRyG5t73Cvg1Ap50G8Q+pNsgHQ
+	 qymL7GnlC13gQ==
 From: Mark Brown <broonie@kernel.org>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Rob Herring <robh@kernel.org>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- linux-sound@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, 
- Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-In-Reply-To: <20240715092322.119879-1-biju.das.jz@bp.renesas.com>
-References: <20240715092322.119879-1-biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH] ASoC: sh: rz-ssi: Add full duplex support
-Message-Id: <172227342707.109775.9630437653460387234.b4-ty@kernel.org>
-Date: Mon, 29 Jul 2024 18:17:07 +0100
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20240710-asoc-wsa88xx-version-v1-0-f1c54966ccde@linaro.org>
+References: <20240710-asoc-wsa88xx-version-v1-0-f1c54966ccde@linaro.org>
+Subject: Re: [PATCH 0/4] ASoC: codecs: wsa88xx: Few cleanups
+Message-Id: <172227343010.109775.12144627736852943571.b4-ty@kernel.org>
+Date: Mon, 29 Jul 2024 18:17:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,10 +48,11 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-37811
 
-On Mon, 15 Jul 2024 10:23:20 +0100, Biju Das wrote:
-> Add full duplex support, to support simultaneous
-> playback/record on the same ssi channel.
+On Wed, 10 Jul 2024 15:52:29 +0200, Krzysztof Kozlowski wrote:
+> Few cleanups around wsa88xx codecs.
 > 
+> Best regards,
+> Krzysztof
 > 
 
 Applied to
@@ -64,8 +61,14 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: sh: rz-ssi: Add full duplex support
-      commit: 4f8cd05a43058b165b83f12f656e60415d2ff5be
+[1/4] ASoC: codecs: wsa881x: Drop unused version readout
+      commit: 3d2a69eb503d15171a7ba51cf0b562728ac396b7
+[2/4] ASoC: codecs: wsa883x: Handle reading version failure
+      commit: 2fbf16992e5aa14acf0441320033a01a32309ded
+[3/4] ASoC: codecs: wsa883x: Simplify handling variant/version
+      commit: cd15fded0e1090bf713647a5bcfd83e372152844
+[4/4] ASoC: codecs: wsa884x: Simplify handling variant
+      commit: 7eb62acd43c9299630f0e859f56981072401c5b6
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
