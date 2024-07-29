@@ -1,45 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8914F15F32E;
-	Mon, 29 Jul 2024 17:17:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B132F16F0C5;
+	Mon, 29 Jul 2024 17:17:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722273446; cv=none; b=qw6vSE2fVEesVg9B49KxTejlX467QmQkRIutMvMlTqHQLJetIxDIuvbNnzbeXBDK6LLdD8UMc9/gWLsAM1tFn6xp0knlGR386j/Lc0HrhL7wVQMxNVhoBxJTejTjxobK69katSU3IF7bhgLaaNAJBb8nyW3ljoLPMFq71eal+b4=
+	t=1722273448; cv=none; b=ZNcIUc8CWVBgiB+/9nFYHVYX5JVpTqUPnme23uHsVxvM8Tr+cGcLh1kcjRx6ZPNcGSiirrfJLFVbICbjbz6DvBxne8jLG6+8oHUORoVIRTbOyKdkWuItu3/U1sXaibtdjv6K8i1roGMzmnCSLB+3VwgarhpOW7tOvK6Xk/tYTYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722273446; c=relaxed/simple;
-	bh=jPVwPbzGjpuo+qaDkF9mdK7f0mgjanMEINPeVhLJejM=;
+	s=arc-20240116; t=1722273448; c=relaxed/simple;
+	bh=WEp7MKcDizDCCmWrtrmzawwxKIgA8pq0VK4KYR7wRv8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=UIHo5yWqfjCdEdHTRdvGoJaTmkgKxbUKgRKnwf3FdT8r+NkUPiyqsxAY8AQftVTU77PrhVIAwxzONzG9CQNlBdTXjFhp/SfZQLKYiIVfVwvVPPE1iJRU9sdE2jHufvvgTWiYj7ivHN065DBClXsQbHA+9TwWz4IzHTzVw1tSWQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YS5VSpME; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=aldHcXRyEZVrF5rH2O0YqfiL5j3tYu/oe7mmfiOc5erHSNtisvwWxzNd5HD6L6FbbfFMu5z4SmxtXEw1Yz8YBjgmbAEYAL2G9JyY+1wZutGe/dEJKJUimV6zsKPy7WQfLK/f8/pMMZN6Ut97UypZnn6t4f7uIqGHCgle/1fjSZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EYS0dRUW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YS5VSpME"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2378DC4AF0A;
-	Mon, 29 Jul 2024 17:17:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EYS0dRUW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9012DC4AF09;
+	Mon, 29 Jul 2024 17:17:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722273445;
-	bh=jPVwPbzGjpuo+qaDkF9mdK7f0mgjanMEINPeVhLJejM=;
+	s=k20201202; t=1722273448;
+	bh=WEp7MKcDizDCCmWrtrmzawwxKIgA8pq0VK4KYR7wRv8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=YS5VSpMEepZ9R58xMIv3/G5EyHeLzOqkkkbsDKeeMxD77XwdbudyuMN9OkJ5GBqEq
-	 MqexMOW8Z+PzTeLKdrDAuLtMjv6A65arKhY8aFkF9uun0rNS5H9ya1hsgkHW99SyRP
-	 yas6drFTiC5LCzBGAjBHBgqvylSKuhERSCL2/zPc8IhDzrplaAsFUBAxTtHm6VAJvI
-	 twEVO+7onblEDpRaOdQsah2DOOhxk1qL/5HrYqKv7CQOcBX6DoheOePhaYH58CS2Jz
-	 nt+a8qzcp7TbLyyhSen0mWBFH9eVPtF+JL0JNku8+NggwJ51BMhz8lICq3dlto4dvl
-	 8HmWTx/HpvXbA==
+	b=EYS0dRUWWI54YiZjUGYaFWirms4lFG4IfgpKnfBF2LMiggAKMgGD/zVDhcqSo8/+8
+	 4Se4G83nFa+yz6UmhKS0kNzh1xhhtxVNNLdRkwy/O4YEHssomQqZ0FlxWyu/sWp/Lj
+	 pxBa719WjOCD1iLZHb3nCOSb/tNPx210XsVCpehqoPBfgw60s1Oscfmi7of1u0LBfB
+	 ircXZ2C7hryyk4IijVwlXXAVAsXNbZquATXjuJcA9MP7S8eK07lawacEbNZQ3Tmx3q
+	 N/fsmqz7oq9o0G1YPfRTAoBgf9F7O2wPE0QaTAiqPXOVEO3ta5eHDAvNwJTEmFmLrk
+	 zXQL7ual5KcvQ==
 From: Mark Brown <broonie@kernel.org>
-To: Support Opensource <support.opensource@diasemi.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org
-In-Reply-To: <7645c9024a1762d281f4067504bc32a7a3d27caa.1721649741.git.geert+renesas@glider.be>
-References: <7645c9024a1762d281f4067504bc32a7a3d27caa.1721649741.git.geert+renesas@glider.be>
-Subject: Re: [PATCH] dt-bindings: sound: dlg,da7213: Convert to json-schema
-Message-Id: <172227344287.109775.17086394127467756882.b4-ty@kernel.org>
-Date: Mon, 29 Jul 2024 18:17:22 +0100
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Stephan Gerhold <stephan@gerhold.net>, 
+ alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Adam Skladowski <a39.skl@gmail.com>
+In-Reply-To: <20240723083300.35605-1-krzysztof.kozlowski@linaro.org>
+References: <20240723083300.35605-1-krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH] ASoC: dt-bindings: qcom,apq8016-sbc-sndcard: move to
+ separate binding
+Message-Id: <172227344531.109775.3516537789525186479.b4-ty@kernel.org>
+Date: Mon, 29 Jul 2024 18:17:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,13 +52,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-37811
 
-On Mon, 22 Jul 2024 14:04:00 +0200, Geert Uytterhoeven wrote:
-> Convert the Dialog Semiconductor DA7212/DA7213 Audio Codec Device Tree
-> binding documentation to json-schema.
+On Tue, 23 Jul 2024 10:33:00 +0200, Krzysztof Kozlowski wrote:
+> The APQ8016 SBC and MSM8916 QDSP6 sound cards are a bit different from
+> others: they have additional IO muxing address space and pin control.
+> Move them to separate schema, so the original qcom,sm8250.yaml will be
+> easier to manage.  New schema is going to grow for other platforms
+> having more of IO muxing address spaces.
 > 
-> Add missing properties.
 > 
-> 
+> [...]
 
 Applied to
 
@@ -64,8 +68,8 @@ Applied to
 
 Thanks!
 
-[1/1] dt-bindings: sound: dlg,da7213: Convert to json-schema
-      commit: d57ef03314f529e76385a9d5108c115459b54c2b
+[1/1] ASoC: dt-bindings: qcom,apq8016-sbc-sndcard: move to separate binding
+      commit: 8716bd241fa120aacce5e0136125b7ecc74fe3b2
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
