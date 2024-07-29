@@ -1,201 +1,152 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44E4146D55
-	for <linux-sound@vger.kernel.org>; Mon, 29 Jul 2024 14:14:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04FBD1E4A2
+	for <linux-sound@vger.kernel.org>; Mon, 29 Jul 2024 14:15:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722262490; cv=none; b=NqQnWqkNmif6q7toVZMVLKibAwBRH5g9M1iDi4wHSacb+Nwdv0jKGM3wNvJ7MDMCvX1lVLjL5h50QrtrB+8WQF43UHUMowvBI4hr6ix7ss1myw7hQl9MJcdj3BVp/5RKZ2qy5EJbrbYXBHSsjwsarffa7hxAKMB3cE7Wylzdfp4=
+	t=1722262537; cv=none; b=ozjegEY3vkiE+oxPKT5Jy98Rz4qAlM8Ti1YQQx2+5Ie1buz36N0rz3jrwzMij1d9JA/CFhLZMnwHBBt8t1OD+gmYO+RJ0AQC5v4Xi+p7yvfs7k1BWmrgNLGiTWhsqBAJsVThQ9ZBv7aBws+gVet/VEVB+xmjnDQ4gFiq7qc8n9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722262490; c=relaxed/simple;
-	bh=ZmSR7juDTiLbAGNJZn/PyXYsY3XdMCB1RAJXTqWvf+A=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=W4tLhWTK3AWpTDMWgWM6bVu/DtS/qI1FBFEODdHs8B0tacL7mXfg2zru9dB8qOG2BgOeS7ylVxQ/qdkkZuC61T+S+cr7dWxV3CM/SLp0RdlhdWgceJ9LvsJXS/0tvX7u5IXMoxeYVYE5ydjA4c3nG/WQfI1isFf9glFolBtUKjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YhU7+CvR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=S6QnU+M1; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YhU7+CvR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=S6QnU+M1; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1722262537; c=relaxed/simple;
+	bh=D1ZYFHP/38LgdR0JBD7XaxbjYHhm3ApdP7ZKB5nxgew=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=hnQCCNZlJ4CVdsA4314h3lwjJnyV7Hk5Dsnkfbdr59kn+hBogpmGAyWggCcwZPNhhcbCBmneWZM68LQWGRjv3rdkCQx+NrE4Mbps9a9i13ZagCVuC55u7cEN6k8sy4huZxsdPtQHoWzLeKS2vShXlYKv7tFb/w76GL6VDLmNJT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=zjoTEaaq; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YhU7+CvR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="S6QnU+M1";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YhU7+CvR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="S6QnU+M1"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 1432A1F79C;
-	Mon, 29 Jul 2024 14:14:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1722262487; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3NIjFwJyJh8JHHkAl6PMWJeNXxGiZ4ZenIAmWSCUIYI=;
-	b=YhU7+CvRmNLGK7sTaouUEPbX+NsMDyfsorxENX5YC/VvPwrsjhul//oSLzGfBeoKRgswZZ
-	3k0xcapKIJzWQVUb9gA6QZQL8O6tgP5AyXtV7B09sQ1kKgN37EMW5sr8ClB8tKaMku41RD
-	E9TWZfC8bsBvtUr9fm89+VQmG60j8iA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1722262487;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3NIjFwJyJh8JHHkAl6PMWJeNXxGiZ4ZenIAmWSCUIYI=;
-	b=S6QnU+M1wqLdEZRkpwAXeeHXJ69OLJRniwIfpsC1HIsw8LY8pRnpnTfSRg6MSQPLNabMQP
-	XIGnKW5MkchK5RBA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1722262487; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3NIjFwJyJh8JHHkAl6PMWJeNXxGiZ4ZenIAmWSCUIYI=;
-	b=YhU7+CvRmNLGK7sTaouUEPbX+NsMDyfsorxENX5YC/VvPwrsjhul//oSLzGfBeoKRgswZZ
-	3k0xcapKIJzWQVUb9gA6QZQL8O6tgP5AyXtV7B09sQ1kKgN37EMW5sr8ClB8tKaMku41RD
-	E9TWZfC8bsBvtUr9fm89+VQmG60j8iA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1722262487;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3NIjFwJyJh8JHHkAl6PMWJeNXxGiZ4ZenIAmWSCUIYI=;
-	b=S6QnU+M1wqLdEZRkpwAXeeHXJ69OLJRniwIfpsC1HIsw8LY8pRnpnTfSRg6MSQPLNabMQP
-	XIGnKW5MkchK5RBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EDDF7138A7;
-	Mon, 29 Jul 2024 14:14:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id CFG5ONajp2YhZQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 29 Jul 2024 14:14:46 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH 2/2] ALSA: hda: Enhance pm_blacklist option
-Date: Mon, 29 Jul 2024 16:15:17 +0200
-Message-ID: <20240729141519.18398-2-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240729141519.18398-1-tiwai@suse.de>
-References: <20240729141519.18398-1-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="zjoTEaaq"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-42819654737so11904755e9.1
+        for <linux-sound@vger.kernel.org>; Mon, 29 Jul 2024 07:15:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1722262533; x=1722867333; darn=vger.kernel.org;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PEE5YCygicDy/XBXKqh7m+z9CwXQT4fXt6CN+8nkicI=;
+        b=zjoTEaaqG+7tw4I2DOhoKPqvRb12zzNlEUKq0sirs/2YZlUuL4h+skY94MCmA902lU
+         cET8bJ6hGFw5e8xVQYmqK1WUo0tdY3FmYC3y7uRC8GAdmdV12z5eNAzVybUiEz7PY/8j
+         Fw7WnaOTLGsSF+RLeeBJfL4I6v2bdvw/IP61Db74HTGlegNwBncxTvDPJbwdt6yDqc8W
+         VbAf+V/5I0ImMl3AiPNZ9o/8w+08uKooM3eDKlcyOklSVOrFhNsJr9mEk1a3OZlJ/lvF
+         MES99aRN20rUQhXFqiAVlLG75X4HMMk7A9qLTk7VRRq58aaYEdlaoWS7s/IdxHbL/cbb
+         M1hQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722262533; x=1722867333;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PEE5YCygicDy/XBXKqh7m+z9CwXQT4fXt6CN+8nkicI=;
+        b=uzeZLTzDgBmaCxe6tZRV737VSF6dJOtJ/fVQEr8ok4qftNLKSM5RzBEaldWwVuhIyn
+         1bTXa5S+f8wxHVpqk+Er0wDeFz+OJpC33Fuq0tmtDMST2xoofPKKzvP885B9bLenqsXs
+         NlGU/IlgXVj7A+PImVdihwRdOdVCt5GSVidwSGbBHTgiWTqsNLlexw6OPKe1bMSEGeAL
+         GtakvQxOKvUsUsl8aXP+HDVCYefG0BCs24a90Wz0vS6cJPj3m7aEKTmU91xaUWw7F1jb
+         xlQQPjyeuohhvFe64TnrLw3aYiEtg/86XA7hrLRtlWwnPsHmrJLVz55wNDwdsXUtv0z2
+         6pwg==
+X-Forwarded-Encrypted: i=1; AJvYcCVmQJXf1hSGVMM/mYuWfYZUIDrRPLSNO7XlOU03gsS63bjqebqFfGxzJYIVGLxhfJrbXvBTY2CueaAA4Gz+lyCLf3qMc4F8G33+6gQ=
+X-Gm-Message-State: AOJu0YxlJoF38kBI8AYkb/4yY2X2rgYYkDLxxOgibOTWYJ4LMaFqsEnZ
+	x9PTVhHXpH/xa7rsYqq06iFhiR0YERtIgsItmHoulQW742nrwwmlKvOwIFhX+d4=
+X-Google-Smtp-Source: AGHT+IGvhW6W5lhj8wCPR9kGfAvnftNlZn/nJWbDUFlhvd5DqspfoHe3v4BYeRLrWpFDIhKz3FbMyw==
+X-Received: by 2002:a5d:5184:0:b0:368:6596:c60c with SMTP id ffacd0b85a97d-36b5cefdef5mr5201083f8f.30.1722262532993;
+        Mon, 29 Jul 2024 07:15:32 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:abd3:cdc8:2363:54ef])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36b367fc8a7sm12284340f8f.59.2024.07.29.07.15.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jul 2024 07:15:32 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Arseniy Krasnov <avkrasnov@salutedevices.com>, Mark Brown
+ <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,  Jaroslav Kysela <perex@perex.cz>,
+  Takashi Iwai <tiwai@suse.com>,  Neil Armstrong
+ <neil.armstrong@linaro.org>,  Kevin Hilman <khilman@baylibre.com>,  Martin
+ Blumenstingl <martin.blumenstingl@googlemail.com>,
+  <alsa-devel@alsa-project.org>,  <linux-sound@vger.kernel.org>,
+  <linux-arm-kernel@lists.infradead.org>,
+  <linux-amlogic@lists.infradead.org>,  <linux-kernel@vger.kernel.org>,
+  <kernel@sberdevices.ru>,  <oxffffaa@gmail.com>
+Subject: Re: [PATCH v1] ASoC: meson: axg-fifo: set option to use raw spinlock
+In-Reply-To: <20240729131652.3012327-1-avkrasnov@salutedevices.com> (Arseniy
+	Krasnov's message of "Mon, 29 Jul 2024 16:16:52 +0300")
+References: <20240729131652.3012327-1-avkrasnov@salutedevices.com>
+Date: Mon, 29 Jul 2024 16:15:31 +0200
+Message-ID: <1ja5i0wags.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.60 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: -2.60
+Content-Type: text/plain
 
-We want sometimes to keep the runtime PM disabled persistently just
-like we did for the PM deny-list in the previous change, e.g. for
-testing some buggy device.  This patch enhances the existing
-pm_blacklist option for achieving it easily.
+On Mon 29 Jul 2024 at 16:16, Arseniy Krasnov <avkrasnov@salutedevices.com> wrote:
 
-The default behavior doesn't change -- the driver looks up the deny
-list and disables the runtime PM if matches.  However, when
-pm_blacklist=1 option is set, now the driver disables the runtime PM
-completely, just like the deny-list does.
+> Raw spinlock is needed here, because with enabled PREEMPT_RT,
+> spinlock_t become preemptible, but this regmap lock could be
+> acquired in IRQ handler. Found by lockdep:
 
-Update the documentation for this option, too.
+Assuming I understand the problem correctly, any driver with an IRQ and
+using mmio regmaps would be subject to this problem, isn't it ?
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- Documentation/sound/alsa-configuration.rst |  3 +++
- sound/pci/hda/hda_intel.c                  | 14 ++++++++++----
- 2 files changed, 13 insertions(+), 4 deletions(-)
+That does not seems particularily specific to this driver, so changing
+just this one like that does not make a lot of sense to me.
 
-diff --git a/Documentation/sound/alsa-configuration.rst b/Documentation/sound/alsa-configuration.rst
-index 829c672d9fe6..04254474fa04 100644
---- a/Documentation/sound/alsa-configuration.rst
-+++ b/Documentation/sound/alsa-configuration.rst
-@@ -1059,6 +1059,9 @@ power_save
-     Automatic power-saving timeout (in second, 0 = disable)
- power_save_controller
-     Reset HD-audio controller in power-saving mode (default = on)
-+pm_blacklist
-+    Enable / disable power-management deny-list (default = look up PM
-+    deny-list, 0 = skip PM deny-list, 1 = force to turn off runtime PM)
- align_buffer_size
-     Force rounding of buffer/period sizes to multiples of 128 bytes.
-     This is more efficient in terms of memory access but isn't
-diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
-index 951ea46824d5..bf9c9bfd38e3 100644
---- a/sound/pci/hda/hda_intel.c
-+++ b/sound/pci/hda/hda_intel.c
-@@ -175,8 +175,8 @@ module_param(power_save, xint, 0644);
- MODULE_PARM_DESC(power_save, "Automatic power-saving timeout "
- 		 "(in second, 0 = disable).");
- 
--static bool pm_blacklist = true;
--module_param(pm_blacklist, bool, 0644);
-+static int pm_blacklist = -1;
-+module_param(pm_blacklist, bint, 0644);
- MODULE_PARM_DESC(pm_blacklist, "Enable power-management denylist");
- 
- /* reset the HD-audio controller in power save mode.
-@@ -188,7 +188,7 @@ module_param(power_save_controller, bool, 0644);
- MODULE_PARM_DESC(power_save_controller, "Reset controller in power save mode.");
- #else /* CONFIG_PM */
- #define power_save	0
--#define pm_blacklist	false
-+#define pm_blacklist	0
- #define power_save_controller	false
- #endif /* CONFIG_PM */
- 
-@@ -930,6 +930,9 @@ static int __maybe_unused param_set_xint(const char *val, const struct kernel_pa
- 	if (ret || prev == power_save)
- 		return ret;
- 
-+	if (pm_blacklist > 0)
-+		return 0;
-+
- 	mutex_lock(&card_list_lock);
- 	list_for_each_entry(hda, &card_list, list) {
- 		chip = &hda->chip;
-@@ -2247,7 +2250,7 @@ static void set_default_power_save(struct azx *chip)
- 	struct hda_intel *hda = container_of(chip, struct hda_intel, chip);
- 	int val = power_save;
- 
--	if (pm_blacklist) {
-+	if (pm_blacklist < 0) {
- 		const struct snd_pci_quirk *q;
- 
- 		q = snd_pci_quirk_lookup(chip->pci, power_save_denylist);
-@@ -2257,6 +2260,9 @@ static void set_default_power_save(struct azx *chip)
- 			val = 0;
- 			hda->runtime_pm_disabled = 1;
- 		}
-+	} else if (pm_blacklist > 0) {
-+		dev_info(chip->card->dev, "Forcing power_save to 0 via option\n");
-+		val = 0;
- 	}
- 	snd_hda_set_power_save(&chip->bus, val * 1000);
- }
+Maybe mmio regmap should '.use_raw_spinlock = true' by default when
+'.fast_io' is set ?
+
+Mark, what is your opinion on this ? I guess it is not the first time
+this occurs ?
+
+>
+> [ ] =============================
+> [ ] [ BUG: Invalid wait context ]
+> [ ] 6.9.9-sdkernel #1 Tainted: G O
+> [ ] -----------------------------
+> [ ] aplay/413 is trying to lock:
+> [ ] ffff000003930018 (axg_fifo:356:(&axg_fifo_regmap_cfg)->lock){....}-{3:3},c
+> [ ] other info that might help us debug this:
+> [ ] context-{2:2}
+> [ ] no locks held by aplay/413.
+> [ ] stack backtrace:
+> [ ] CPU: 0 PID: 413 Comm: aplay Tainted: G           O       6.9.9-kernel #1
+> [ ] Hardware name: SberDevices SberBoom Mini (DT)
+> [ ] Call trace:
+> [ ]  dump_backtrace+0x98/0xf0
+> [ ]  show_stack+0x18/0x24
+> [ ]  dump_stack_lvl+0x90/0xd0
+> [ ]  dump_stack+0x18/0x24
+> [ ]  __lock_acquire+0x9dc/0x1f10
+> [ ]  lock_acquire.part.0+0xe8/0x228
+> [ ]  lock_acquire+0x68/0x84
+> [ ]  _raw_spin_lock_irqsave+0x60/0x88
+> [ ]  regmap_lock_spinlock+0x18/0x2c
+> [ ]  regmap_read+0x3c/0x78
+> [ ]  axg_fifo_pcm_irq_block+0x4c/0xc8
+> [ ]  __handle_irq_event_percpu+0xa4/0x2f8
+> [ ]  handle_irq_event+0x4c/0xbc
+> [ ]  handle_fasteoi_irq+0xa4/0x23c
+> [ ]  generic_handle_domain_irq+0x2c/0x44
+> [ ]  gic_handle_irq+0x40/0xc4
+> [ ]  call_on_irq_stack+0x24/0x4c
+> [ ]  do_interrupt_handler+0x80/0x84
+> [ ]  el0_interrupt+0x5c/0x124
+> [ ]  __el0_irq_handler_common+0x18/0x24
+> [ ]  el0t_32_irq_handler+0x10/0x1c
+> [ ]  el0t_32_irq+0x194/0x198
+>
+> Signed-off-by: Arseniy Krasnov <avkrasnov@salutedevices.com>
+> ---
+>  sound/soc/meson/axg-fifo.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/sound/soc/meson/axg-fifo.c b/sound/soc/meson/axg-fifo.c
+> index ecb3eb7a9723d..a22298f74b35a 100644
+> --- a/sound/soc/meson/axg-fifo.c
+> +++ b/sound/soc/meson/axg-fifo.c
+> @@ -328,6 +328,7 @@ static const struct regmap_config axg_fifo_regmap_cfg = {
+>  	.val_bits	= 32,
+>  	.reg_stride	= 4,
+>  	.max_register	= FIFO_CTRL2,
+> +	.use_raw_spinlock = true,
+>  };
+>  
+>  int axg_fifo_probe(struct platform_device *pdev)
+
 -- 
-2.43.0
-
+Jerome
