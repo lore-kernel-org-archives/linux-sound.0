@@ -1,103 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4F585947;
-	Mon, 29 Jul 2024 19:37:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FA11186E29;
+	Mon, 29 Jul 2024 21:21:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722281854; cv=none; b=g6YDf2eSJoIGcplJhRFVXx7/i+rVKUqKu9fAasbgZGw71S7TbMdP0xUvweQOMN/jEU3L31vru9DfztH4RcP6gLyxLE7LgUqHgqSUEyZ+CxzAdjBsItITNf+xSqLPV0ZQn0yge6HB/KkiXCB2npT9A/ivZlg4r0VQ+ND/j0JHBsU=
+	t=1722288080; cv=none; b=nWbjbnguoxfjX80TcCB8UKs3ZJIQmwCo33frMeiAQ9/1PqynpJBWBXFnLXM+Gz5jp6mUfZqqQBhTEqtAfVpqbf+APGZcZIDZtpnp55M3qe1Z7lrAtmnqy33GJDg5fWf5NlO3q7dA+GBhDc0ARTnOvAU5+bQFt6MP2xOEcTUQTV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722281854; c=relaxed/simple;
-	bh=lQ1UwaSVRVCr28nA9MaSL3OK4CCm3hBI4Kq6+31BSqY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ZktlTnncVajWPKhfLz48QzFJQDHI5QIcFvCiBVJCkKvsHyWWRF26TSiUAji0tzcVxA2+7zmF9XI/tqWu9dfKsX6aTu/hp4yvw/hr+qSn5bZoG48ebWqqwYCejO7K5cbVf46MwKE0YxkAl+A6vSolOtjlrljCoBngfU3qaE4Q+Jk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XUrKe0VV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722288080; c=relaxed/simple;
+	bh=ZWvFvenxvVLQhpwvLVDSVCXk8VFJNRKMxGTisH0CrkY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L1C70Etj48EuRcrQA3Evyrz/duauJ18eNgKq7InaiqjysqA8k2XgZqz5wYGC967ypd9xue79C4wpPDfrTrJSUO+6s6Osdz8Cgi5j75JRKTDnqUH+3kKAVVD0jzND324cCe8PZmujBV7vPJXqT0PJfQH5OWuD9dVsdRzhspoMw7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=41cXb/uo; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XUrKe0VV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA431C32786;
-	Mon, 29 Jul 2024 19:37:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722281854;
-	bh=lQ1UwaSVRVCr28nA9MaSL3OK4CCm3hBI4Kq6+31BSqY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=XUrKe0VVUZj94jTxc8zqQQzjE9ymJYbBPAUKm9WXeaaAPjwudJ7XUgr5DtcD8uGRA
-	 ohdogn/7LFCPN6kcrLqkohq92gXMdVL0ax9ubaiNZm3wzk3cCIlP5aGqpSdi5u//jO
-	 6iqRrBkbVBHQqU/JWZmqshQQ0MAy2llTqnskQIa/ahzK7h+ACyj7PuR4K5z06DaPUU
-	 ZtRddCROjSiT0Zk3uiOWXDx+979TCIIucX2imDjjOChWD+zKmQD8Ug8wLUBRPvjWkv
-	 19fqCpUw7U0J3rRrKVDwRTf9WCjZwWcIuVXMpshJ+CpzHw5VUT6no60zqNoYx3SyOs
-	 i4zSuUNixVwQw==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Mohammad Rafi Shaik <quic_mohs@quicinc.com>, 
- Prasad Kumpatla <quic_pkumpatl@quicinc.com>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Banajit Goswami <bgoswami@quicinc.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org
-In-Reply-To: <20240726-asoc-wcd-wsa-swr-ports-genmask-v1-0-d4d7a8b56f05@linaro.org>
-References: <20240726-asoc-wcd-wsa-swr-ports-genmask-v1-0-d4d7a8b56f05@linaro.org>
-Subject: Re: [PATCH 0/6] ASoC: codecs: wcd93xx/wsa88xx: Correct Soundwire
- ports mask
-Message-Id: <172228185142.141226.9862825989484734633.b4-ty@kernel.org>
-Date: Mon, 29 Jul 2024 20:37:31 +0100
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="41cXb/uo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1722288077;
+	bh=ZWvFvenxvVLQhpwvLVDSVCXk8VFJNRKMxGTisH0CrkY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=41cXb/uohPMjcTl6P/BJHrW9hnFbr6INy2bZK8V37eOGmsx6Q7FCL53sXkPA3uBBF
+	 0mCMa305BaQG3ebcKGaV5a/XaZOPShcWuxgF+FMku7X/WJstBLQZ/Divh0rnEWgdo2
+	 p6oI77hL4rtYWBf4qGmzGZrFIeEwjhjyWsE228M50ndYKOgwf2WvMAyIya9NNwcRlQ
+	 dL9s3xjXBVRaFJZTxJusi0daKzz6to1CEMhF4jbT1rgKpCQhcGKV+O6qvpMsZybANi
+	 TtqcIAezO0qTLYl8zWi6o5deNcg3cCHLJMGym68b3KL8i0WNBUydIPwjdOsAcJjZs1
+	 9zVwXjNpgTjlg==
+Received: from notapiano (zone.collabora.co.uk [167.235.23.81])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id D12F43780B50;
+	Mon, 29 Jul 2024 21:21:14 +0000 (UTC)
+Date: Mon, 29 Jul 2024 17:21:12 -0400
+From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>, kernel@collabora.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] ASoC: mediatek: Allow setting readable driver names
+ through kconfig
+Message-ID: <31abcafc-67fc-4932-abf6-5ba64f09ba5d@notapiano>
+References: <20240625-mt8195-driver-name-too-long-v1-1-8573b43a9868@collabora.com>
+ <b838b9a9-0ce3-40a5-b7a5-d1c825a0fa20@collabora.com>
+ <0b5f6fe0-fdb7-42d3-9c91-85a28b50526a@notapiano>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-37811
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0b5f6fe0-fdb7-42d3-9c91-85a28b50526a@notapiano>
 
-On Fri, 26 Jul 2024 16:10:40 +0200, Krzysztof Kozlowski wrote:
-> Incorrect mask of Soundwire ports - one bit too long/big - was passed.
+On Wed, Jun 26, 2024 at 08:44:14AM -0400, Nícolas F. R. A. Prado wrote:
+> On Wed, Jun 26, 2024 at 09:49:55AM +0200, AngeloGioacchino Del Regno wrote:
+> > Il 25/06/24 22:23, Nícolas F. R. A. Prado ha scritto:
+> > > Commit c8d18e440225 ("ASoC: core: clarify the driver name
+> > > initialization") introduced an error message when driver names are
+> > > automatically generated and result in truncated names.
+> > > 
+> > > For example, this error message is printed on mt8195-cherry-tomato-rev2:
+> > > 
+> > >    mt8195_mt6359 mt8195-sound: ASoC: driver name too long 'sof-mt8195_r1019_5682' -> 'sof-mt8195_r101'
+> > > 
+> > > Since that truncated driver name is already used by userspace (eg UCM),
+> > > it can't be unconditionally updated.
+> > > 
+> > > As suggested by Jaroslav, update the driver name but hide it behind a
+> > > kernel config option, which Linux distributions can enable once the
+> > > corresponding support in userspace audio configuration software lands.
+> > > This ensures that audio doesn't regress, while still allowing the error
+> > > to be fixed.
+> > 
+> > I can propose the following plan of action for such a rename:
+> >  1. Temporarily have both UCMs
+> >  2. Wait until distros update their packages
 > 
-> Theoretically, too wide mask could cause an out of bounds read in
-> sdw_get_slave_dpn_prop() in stream.c, however only in the case of buggy
-> driver, e.g. adding incorrect number of ports via
-> sdw_stream_add_slave().
+> It's not possible to monitor the package version for every single distro, so I
+> guess you mean tracking only the big distros and hoping that no small distro
+> still uses the old version.
 > 
-> [...]
+> Also, is UCM the only userspace tool that might use this name? There might be
+> others too that we would need to care about.
+> 
+> >  3. Change the name in kernel without extra config options
+> >  4. Remove the now deprecated UCMs
+> > 
+> > ...that's requiring a bit of time, yes, but I think this is the best way to
+> > ensure that no breakage happens in the meantime for any users.
+> 
+> My worry is that we don't know how long it would take, if a small distro decides
+> to keep using the old version. But even in the best case it might take years for
+> the old version to be phased out, I'm not sure I'll be around for that, so maybe
+> we'll just keep using the old name forever.
+> 
+> The nice thing about the config is that distros and users can opt-in immediately
+> to get rid of the error. For example KernelCI, which is monitoring such errors,
+> can enable this config to fix this error right now.
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/6] ASoC: codecs: wcd937x-sdw: Correct Soundwire ports mask
-      commit: aebb1813c279ce8f3a2dfa3f86def0c0ec1cbb8d
-[2/6] ASoC: codecs: wcd938x-sdw: Correct Soundwire ports mask
-      commit: 3f6fb03dae9c7dfba7670858d29e03c8faaa89fe
-[3/6] ASoC: codecs: wcd939x-sdw: Correct Soundwire ports mask
-      commit: 74a79977c4e1d09eced33e6e22f875a5bb3fad29
-[4/6] ASoC: codecs: wsa881x: Correct Soundwire ports mask
-      commit: eb11c3bb64ad0a05aeacdb01039863aa2aa3614b
-[5/6] ASoC: codecs: wsa883x: Correct Soundwire ports mask
-      commit: 6801ac36f25690e14955f7f9eace1eaa29edbdd0
-[6/6] ASoC: codecs: wsa884x: Correct Soundwire ports mask
-      commit: dcb6631d05152930e2ea70fd2abfd811b0e970b5
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+Anyone has any thoughts on this?
 
 Thanks,
-Mark
-
+Nícolas
