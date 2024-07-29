@@ -1,43 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7393B15F32E;
-	Mon, 29 Jul 2024 17:17:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED2215F32E;
+	Mon, 29 Jul 2024 17:17:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722273439; cv=none; b=ikkbu6EDmH0tkwChxQ6zP6TfAu38gVhic6jX/2PVQGvNB68nMt1hHcAl2wIgUVnPT2WtHmDO+Nkqty5GCPPlQ3wbUTFnrhdrNxb6ZyQ0Oqo2hIU1Nnge7SFX/XoTJd5c2EEP6/mmpbqc6uLeg52v2Zkb/EzxRV3HAg9srflhzZI=
+	t=1722273442; cv=none; b=bUAYshlSIrNvk6uudx2oBTl5SubdojgXvuowxhizPx11R+UqyE7W5T+WZDXZYlNU6EGyHlmwj0Fz4OEThg8yVxPe2ZBPKFnqKVkhaXxNEeZREDK2Kd57aixtzWLou/kMQKTZ4ing17P/GZW7WVN76Ugg7Mt0ZGljlF12p2GZSWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722273439; c=relaxed/simple;
-	bh=ub2XiA1hn6+BNDRtOQD/sPOjh2gGpJW/+F3Q1VdfMhI=;
+	s=arc-20240116; t=1722273442; c=relaxed/simple;
+	bh=PEY4N1SeOldJfpmYebIWBl67BwD9EmlTasjdOhxv4W8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=l8urUQwAPviA9X2wUG/pO4p2AyH3MqpMHJQsQyXsr45/HnFVTMDHvIKvB6fqJ0nmLrD/BO55Xv75/pp8f+uJA88bDLe2Gi7pqwap8MlFQQmEMc56TE/s6Fh9kSM02R34vdkQjrMg1ZN3vhj5Pm5l8VAvesszSMsoixjR4OnGvBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X+JLfyg3; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=rov0ZZLXV4f9Pjhz2wM7Jvaxau944GFnzesIh1GNoUFzfOgM2YlIk06rrORj0rYSytIDp6HaOOJ/pB3ypSD0fXgQurSNX/Imm3qyb4QQph5sDfaAt3TskJ4tpI9uO7fE/djYnzb3ki7QcqywAmh8D7tHMTC+H++bj8kHcRuT8i4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E93kPSWi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X+JLfyg3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 918A5C32786;
-	Mon, 29 Jul 2024 17:17:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E93kPSWi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE20EC4AF09;
+	Mon, 29 Jul 2024 17:17:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722273439;
-	bh=ub2XiA1hn6+BNDRtOQD/sPOjh2gGpJW/+F3Q1VdfMhI=;
+	s=k20201202; t=1722273442;
+	bh=PEY4N1SeOldJfpmYebIWBl67BwD9EmlTasjdOhxv4W8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=X+JLfyg3c2NX3tX7wRg2IeKF7YlAao4mH63kBi8XW7YE005iUnHJ1n3NfGGj8+ZPW
-	 biDFN3tcPTnQB1r6/L3LU/RiPfu3mtLHsmm5P3cWk3jmND/9sEoM831lSQ02wK7Dg/
-	 xNfBnyRIOL2RjcStQwfSMDCCYJib+tTSjW8EHokLMl5/OGkMnUvX56MHI9o/eQrQpV
-	 xIkUEOOyFi3c497IOHyvNdNUtrIwQnPaYGuS2kg+PN0GNYNDN8cn7CTkcreU6tBuJK
-	 QAbN1YFm954ZdEMRMOCZVAJODbeTKI7g27Ba+Ni8uhafUyZ3OvRF9VUwEsniXVaJOO
-	 WIDHG+j882qkA==
+	b=E93kPSWixEDFqZLHZ8Xl2LZjTukyIwS7TrnNXwsJ6o4KG7chXU5Q1yZywA2xFzqX9
+	 XtTEU2SA4kKPDeel0t9hX88+m3TOesea2fWk7glZKU3cAOswKTrB/te98vDv8H3T1b
+	 qjX/son+O3HfadXwNS2TLpehXU/A9idvJAGs41D35MpkZbaYDMUg8eeAa6bjCD87do
+	 fKJWjEL8TGHV/Q25697Dkl/Fr5jxQRxqlgfpXzxOxHCQBHLquYxA0EKaQvoGz7t1AV
+	 xTp34zxmrGd0awXvLCfqRvhkBg/B4gfywT19g7AoOXOYL/erDQYhFvi+CLthLdtOEQ
+	 D2u1tLBBjuybg==
 From: Mark Brown <broonie@kernel.org>
-To: Animesh Agarwal <animeshagarwal28@gmail.com>
-Cc: Daniel Baluta <daniel.baluta@nxp.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20240717134729.51661-1-animeshagarwal28@gmail.com>
-References: <20240717134729.51661-1-animeshagarwal28@gmail.com>
-Subject: Re: [PATCH v2] ASoC: dt-bindings: ti,pcm512x: Convert to dtschema
-Message-Id: <172227343732.109775.15565180087385393576.b4-ty@kernel.org>
-Date: Mon, 29 Jul 2024 18:17:17 +0100
+To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com, 
+ amergnat@baylibre.com, kuninori.morimoto.gx@renesas.com, 
+ jernej.skrabec@gmail.com, nfraprado@collabora.com, robh@kernel.org, 
+ Chen Ni <nichen@iscas.ac.cn>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+In-Reply-To: <20240709085131.1436128-1-nichen@iscas.ac.cn>
+References: <20240709085131.1436128-1-nichen@iscas.ac.cn>
+Subject: Re: [PATCH] ASoC: mediatek: mt8192: remove redundant null pointer
+ check before of_node_put
+Message-Id: <172227343957.109775.6108322650659499357.b4-ty@kernel.org>
+Date: Mon, 29 Jul 2024 18:17:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,9 +50,9 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-37811
 
-On Wed, 17 Jul 2024 19:17:21 +0530, Animesh Agarwal wrote:
-> Convert the PCM512x and TAS575x audio CODECs/amplifiers bindings to DT
-> schema format. Add missing sound-dai-cells property.
+On Tue, 09 Jul 2024 16:51:31 +0800, Chen Ni wrote:
+> of_node_put() has taken the null pointer check into account. So it is safe
+> to remove the duplicated check before of_node_put().
 > 
 > 
 
@@ -60,8 +62,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: dt-bindings: ti,pcm512x: Convert to dtschema
-      commit: 00425bf8cbc9981bd975a5475cec4964544fb297
+[1/1] ASoC: mediatek: mt8192: remove redundant null pointer check before of_node_put
+      commit: 42eb47310f89eca3226e8e427bc9d571149dc866
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
