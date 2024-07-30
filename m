@@ -1,105 +1,114 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A30F199230
-	for <linux-sound@vger.kernel.org>; Tue, 30 Jul 2024 10:35:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F2E19CD17;
+	Tue, 30 Jul 2024 10:35:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722335721; cv=none; b=BQo5C9Z3FylMoV8GzogpevIh1IkpZ4ZQMqSirzL+6mJfHOP/VKgSuaO/axbV/b7X/YsoozdhB6/1R1yhKAWdD3MJrDDWjt/KFPaAnqs0zQ2AdiwyjUVV9q50rFWN6SeToMqMqMPzE9zKjoW3Y83/gxlDuDU1GgWp/gihSQqdSDk=
+	t=1722335742; cv=none; b=PCyq1qEv/dX5iJ8hYKL9lxeIJSiTTmUcDP4dbZTHu9J1dkX5S1vW8r3tRn8wk7/BuXhxm57Vq6ZxBxVRzoFrsXOkABqziqLtYtmjjkyBcdgzYOWJI+3QjJW1wD0BZQ/7LPtCpKZ4/eITYSwUvwcE16ArUI1bL0ROnCzB9AaiSOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722335721; c=relaxed/simple;
-	bh=b75YOHBxm2lQYDbG5iuWV5yJhvgfQruxGNEGB+zBnrQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IbBqhwgDzryeb7M3joSnlhekhTp1rV1l48nDNNyCZRts+UiC+qVleb5zpEWyB0cVza/5gEZHbapJd9yqGYOA8jitvY4+VCmrONqtdmm6vgPVVDDbD6dVXlVoKkkbtfjtwt4N1rOPsd/itlcz064Rwnjc17FZ0MJdB4BYDWQCQvw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WT8RJLWt; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1722335742; c=relaxed/simple;
+	bh=qu2Pv08OrvKfaJH5pTaBnMemTX9a+jS+z+H+/i7Jqjs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DA05miOa4c6r9FNNiTyN2wQoYXRahNBQIGA4GRuwiQycnUMEoR2cWmvM9galYinJUZV26gdnuwX8QCmBeGkKQSnz+yrXy18xtdscr0Gskjq1LfcJGHRuRtmatKUWUcB3SN8bQXBeZeIFmQZmZzFDX5y7rvPBni9CNBCnAT1tGa0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kS5KfIM9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WT8RJLWt"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3686b285969so1977853f8f.0
-        for <linux-sound@vger.kernel.org>; Tue, 30 Jul 2024 03:35:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1722335718; x=1722940518; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2k7WfqvNrE7q/baTECjG6uCgYMUMqGAXr8zev5hDQtc=;
-        b=WT8RJLWtCu7YKXagIOYx7OpehU+d9157smwQf4ZrarAgu7syI5XKl72z9BAx8LbE7n
-         w9pLqpiWoD2/HdS7AQkZBXllPCM1VUHWSBn+RViLn658BH7NUxzR5Gi49jM6EFecYGE4
-         5Ztw/MIcfJuOMBgY9BA5e0Aa+O5gwsVfQiNSnMdv9scgEg6aVFkdWH1h/vRsIZdtDRy5
-         +Zx6dCzDKFZ3ctr2cnesqPzxvl4TiJ5SJKSMlsJ7ou58LA0BHbiw8EDJTkhxK8AsE2Pr
-         rJRzABsdCTBpNasXEyNqI+BD4/FaT1RL9OzbvIltKO3DPe6sRr3Njuds1kk1tpGHpDh6
-         u12Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722335718; x=1722940518;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2k7WfqvNrE7q/baTECjG6uCgYMUMqGAXr8zev5hDQtc=;
-        b=ForTMAjqQPTzi7M2SdqS4hJBDdtEmoBUa0Vd/lGEqXzj2a8661XhbX75tRMqrHskm0
-         RLOdU4SIE7gg7vxkis7fRlb+ICuNjuiDZJy+9Da/dDSdDwWuaGfGVhSghqsF85DpFzbN
-         jtkO1hno9WT45ejLqfHt+lUI3CdhHK/lNVq4uvzglCvj9uWAakNBuTu3TUohDOx2EUHo
-         fUZfqEIOoKzT1s5vkAKC9l59xl07Y+HOD0n3dzRccYLIMPXTZfM5Hcc3nf/Yt9Eo47pg
-         XmyZtlgH2496NPornztx6l7ZegE7Wsl9XB2Oux2qr5g1ttNvCPJDejSCSc/6QTdHwZ4T
-         /hEA==
-X-Forwarded-Encrypted: i=1; AJvYcCUErQW+RfP1bDAPwPAE0XX+H5nQdPMW+8VJ6PUpckMUa6k4a79BQ3WDHqD/0o9JNy/U+o9NWiupYX2HaNJ1xFQWtu+ufB2gL1BQzTI=
-X-Gm-Message-State: AOJu0YxMt+I8lZoNFxZvtjK8Ycx39zgRIci+SMDcCFMH/+7BFbASe2vm
-	p7bEBZQ6T9GhCLzLJxsqY3ygIda6z89WOtLeOe7CrG/Q+RYmVjCXJCPorpRKIpw=
-X-Google-Smtp-Source: AGHT+IE9D+3MsMR02xuAhjzlxgXskiGjsFnlnKtGunsAe9F0MUMFrjLgF7vKlnZ2xqmjqZZBdUI2XA==
-X-Received: by 2002:a5d:560d:0:b0:369:5d7d:ee96 with SMTP id ffacd0b85a97d-36b5ceee0dfmr7519309f8f.27.1722335717783;
-        Tue, 30 Jul 2024 03:35:17 -0700 (PDT)
-Received: from krzk-bin.. ([178.197.219.137])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36b36863d87sm14284048f8f.110.2024.07.30.03.35.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jul 2024 03:35:17 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] ASoC: MAINTAINERS: Drop Banajit Goswami from Qualcomm sound drivers
-Date: Tue, 30 Jul 2024 12:35:11 +0200
-Message-ID: <20240730103511.21728-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kS5KfIM9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30199C4AF09;
+	Tue, 30 Jul 2024 10:35:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722335742;
+	bh=qu2Pv08OrvKfaJH5pTaBnMemTX9a+jS+z+H+/i7Jqjs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kS5KfIM91AFndH8uSyBHWVcJBgKpUSq1m2v9SK/lS9nranqql+fX7fySfhDzTepRp
+	 0o4Btxlh7n18zvBrlG8w1tYy422Zlh1JmFk2Fj/z1Qb/cWKuzPdsz22eXHUsZKS8VH
+	 gI8H2fUoUpg6LACblBYlQct8HEh7xpiS9OWiXcgcHAMZ+H+7Fci/eavvPxkCA7SVv8
+	 BwFlm4PJKRj9MlRw89b0Zfc6JkKqE1FpCuJIaS5l4Sjj+gCV9XAMrJ9XVgPGNJor03
+	 uw9M0Q6teETOkytUioyg4A3Wc40xIqhwNXogAjBN/czj/8obNh59yNMG4LEFXfsQ2D
+	 zRDoCaIsdrpNA==
+Date: Tue, 30 Jul 2024 11:35:36 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Stephan Gerhold <stephan.gerhold@linaro.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>,
+	Stephan Gerhold <stephan@gerhold.net>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, alsa-devel@alsa-project.org,
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Adam Skladowski <a39.skl@gmail.com>
+Subject: Re: [PATCH] ASoC: dt-bindings: qcom,apq8016-sbc-sndcard: move to
+ separate binding
+Message-ID: <d7067720-5524-4f8d-82fa-b2636be79676@sirena.org.uk>
+References: <20240723083300.35605-1-krzysztof.kozlowski@linaro.org>
+ <ZqVXUI37fNB5D0DM@gerhold.net>
+ <3d9f76c1-2e14-43dc-b438-5fac94ffc73e@kernel.org>
+ <ZqjAzgoKo-5vaCtK@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="S6y8uV4MuB6RROEa"
+Content-Disposition: inline
+In-Reply-To: <ZqjAzgoKo-5vaCtK@linaro.org>
+X-Cookie: Don't SANFORIZE me!!
 
-There was no active maintenance from Banajit Goswami - last email is
-from 2019 - so make obvious that Qualcomm sound drivers are maintained
-by only one person.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+--S6y8uV4MuB6RROEa
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
----
+On Tue, Jul 30, 2024 at 12:30:38PM +0200, Stephan Gerhold wrote:
+> On Sun, Jul 28, 2024 at 12:30:12PM +0200, Krzysztof Kozlowski wrote:
 
-Not moving to credits because lore does not point to significant
-contributions. Just ~140 emails:
-https://lore.kernel.org/all/?q=f%3A%22Banajit+Goswami%22
----
- MAINTAINERS | 1 -
- 1 file changed, 1 deletion(-)
+> > This was added to the common driver code but it does not mean it is
+> > reasonable binding. I don't understand why for example we even accept
+> > here aux-devs, instead of putting them into one of DAI links.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c8e16a649a0e..43e7668aacb0 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18419,7 +18419,6 @@ F:	drivers/crypto/intel/qat/
- 
- QCOM AUDIO (ASoC) DRIVERS
- M:	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
--M:	Banajit Goswami <bgoswami@quicinc.com>
- L:	alsa-devel@alsa-project.org (moderated for non-subscribers)
- L:	linux-arm-msm@vger.kernel.org
- S:	Supported
--- 
-2.43.0
+> The auxiliary devices (typically analog audio components) are not
+> necessarily related to one particular digital audio interface link. It
+> is typically the case (e.g. an analog speaker amplifier connected in
+> parallel to the headphone output of one of the codecs), but I don't
+> think we can assume that as a general rule. There are often multiple DAI
+> links that go to one codec and then it might be tricky to decide which
+> of the DAI links the aux-dev belongs to.
 
+Right, aux devices may cover more than one DAI link (eg, if there's a
+CODEC that can do mixing and they're connected to an analog output) or
+may in rare cases not fit with one at all (there's use cases where you
+have a sound card that has no DAIs and is all analog bypass).
+
+> > The pin-switches and widgets could be used, but are they? The only valid
+> > argument to keep them is that you added them to common driver code.
+
+> These go hand in hand with the aux-devs property. If you have multiple
+> analog audio components connected to a codec output (e.g. an analog
+> speaker amplifier connected to the codec headphone output) then the
+> pin-switches/widgets describe that the output paths (speaker and
+> headphones) should be separately controllable.
+
+Plus the above cases where you don't have a direct mapping with aux devs
+and DAIs also apply to pin switches since they're in the analog domain.
+
+--S6y8uV4MuB6RROEa
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmaowfcACgkQJNaLcl1U
+h9DMeQf+JjZ3Zel23S9ESTi6xAdBKDTMAIMzoNtWk1WtyW5Ckxp1zdhqAqsxcSbF
+JUO9AtiCUxts+cG6rulPJunQzZGzVAxN916GHlwd+eeQH3YJCcIZ/Pc/iaMmNKUr
+4qR4I+hNFITFB8NmL2PAImPBiHIhc838R7zu3Nuf4vmbKqpMArc0VFRMNURTYswf
+qFyxJ+PMHilhp2rNtvonTwRNAUu5POT11PblCLkqLM/t2lfLiaUbBW3lLCruTi3G
+XeYGSUzSWTxT1zr7uNuw47iE+eVfCMegJ7OVK9TZ1Be/4buOeYIEP7h84YYZ+pv7
+6KMc/28yL1Y8dgAis4b2Kz/uhp1XSQ==
+=/e6J
+-----END PGP SIGNATURE-----
+
+--S6y8uV4MuB6RROEa--
