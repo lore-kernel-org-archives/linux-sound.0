@@ -1,196 +1,128 @@
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010005.outbound.protection.outlook.com [52.101.229.5])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A14FF749A;
-	Tue, 30 Jul 2024 01:03:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.5
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722301393; cv=fail; b=s9tcDM3Lk+Q7hUlnrEtW+Iid6dal3aADuGbOVLWgeseIU5Yyzhm8LKNHveiHUctEvRpdJbLdI24sCzU2AWP/1vOKCQSZ/0QlSLcXMJTsinV7qNfiHtdGCTrMhli3V6wWjSBJi2BSQbr9kFIWkRgQpwpoq/JnE9rup/3rvH23ixY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722301393; c=relaxed/simple;
-	bh=Uz/kPhm+sBwzmYBtIrAWuxVrZiYDofB26JFdChMs134=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=Yz8mhMZIozvyHU5D6LIr6Lv0nfp/eZCgGjbEZweiIJVSe22yTmWhPb3KVa24/PXfj015yzbzXzocCiwY0iMYXGZnmMOOzBgbiYivNT6f94Yl2HPZqkp1J6tBt6Em8q/fqA5+CWGR9xNkqdsi2n9MKlzPu24D12gOgJw/dIzXxa0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=Y0l4oqQi; arc=fail smtp.client-ip=52.101.229.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F10B3CA6F;
+	Tue, 30 Jul 2024 02:58:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722308303; cv=none; b=GbyGiuO6UVXBCl6aQMtYwi+L2ysoLmjgBFjwfdC+FviFq6rfvwGBt4QNISRGDungoW5bNdMPDAk0gjVnm23+8Ge3of49dEcaV1x1K8ylX8Q+YN5oQ9VkXIujxycziZCYNMHf/BmQY7ijfi/daUZg/x7DT2DqR3dxMyQlJkAOEJA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722308303; c=relaxed/simple;
+	bh=oJEsx3xbe0US5zKtnHkifmq15x8BlK/2xDiLeLK2+JQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fO9O8oOnlEnq8Wk4UvITKUb5rTxjjB1WaQdXejfqI2h3f9wbkoEMFcZKNd2HSfwYv++0xOHjZ4GZL2CP59PPFJbBs1/SWdPHIFLagyF3gErLecxnpGF9f69Wfz7uYBbWXVq6UyBYz9knm5gf6VXksRXhZvxdGHF0J8Q7qBuk6SU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XvUZhhsQ; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="Y0l4oqQi"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FHNM4yw/4tpGy78Dm2088keqxeZRKvlSjUTTVDLIOFVflyDR9qeZohVQRLb9Pbxo3mYLxMib1mPhqmeIvmmIKFZHtSxRyig0DZX1RSu7aNl18ZTgUTfyBaRr+iX24Q1hc/wlLLbTDh5d5XrmMp+Bf1Eb4om989dGT6Mrmx12EyXkDaPJ3Ntprbt6JuAPpJ9j2LNEUER3Opx3AYekyKm972te3ZrxzthRYoh2eL3CD1sEUzkIs4LQaUtQzwtgJn8W6A/P1jioTh66Ay5Odl30EgJHlYVrZujSX0y2iz8a4D0cfGt063kUvvmS64BZXOO4Epe9cNpLwa+wyPSvzw+yuA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=d07BmDK5flRTcQ0+f2XxaGi76mesJGwHsriDAB1CJ1A=;
- b=qfCgpnH4UijxuZOMRZH+ERg1dF5VDEw+7pWMmpKdRiyFfqqlmP2RB9QjphZh7qs4wsBLChIVw7EO5b3TYGzG/nNlLQZ+HOdT8jXOXOeGzI3FT+0jH69Xv3qNvqwaFm3PgjGPoK3aD3+Cpu9hgDZgB8uDTm8hAP/Hmd18l7u3MC6flC4sBQ/hsV2yYpzGZX3+kt86Z1c6SuKwezX6Aq/8+bmXyhqbxfOpvCnKzyr8I0P6tnTvIfPRTOrBGhNFN/A+QDKnLHDAco/fWq/xtVWQ1+yihRd1F/rhAEU95A+9L552at5J+Zr/4v++fW00W9mjV4GNYPSH3RocoHZC9zVmtA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d07BmDK5flRTcQ0+f2XxaGi76mesJGwHsriDAB1CJ1A=;
- b=Y0l4oqQiogsdFZQ7V/GyprTLPoCxbs36z1UqZjXV598Te68Vdg2T4w7joKXkjsSi2ZGfwkhkiInP4AwO7rxTXWYxNJrAY8Gy+Rafkk1OMa7PsLpzcstYAMAD7xzhrxHluxHcgeIBTnpWOLfOq37CqhB18p2K6LYiPBG+FeoMXDU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by OS9PR01MB12484.jpnprd01.prod.outlook.com
- (2603:1096:604:2f6::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7807.27; Tue, 30 Jul
- 2024 01:03:09 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.7807.026; Tue, 30 Jul 2024
- 01:03:09 +0000
-Message-ID: <877cd3lmid.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v7 4/4] ASoC: Intel: sof_sdw: use playback/capture_only flags
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-To: =?ISO-8859-2?Q?=22Amadeusz_S=B3awi=F1ski=22?=
- <amadeuszx.slawinski@linux.intel.com>,	Alexandre Belloni
- <alexandre.belloni@bootlin.com>,	Alper Nebi Yasak
- <alpernebiyasak@gmail.com>,	AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>,	Banajit Goswami
- <bgoswami@quicinc.com>,	Bard Liao <yung-chuan.liao@linux.intel.com>,	Brent
- Lu <brent.lu@intel.com>,	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,	Claudiu Beznea
- <claudiu.beznea@tuxon.dev>,	Cristian Ciocaltea
- <cristian.ciocaltea@collabora.com>,	Daniel Baluta <daniel.baluta@nxp.com>,
-	Hans de Goede <hdegoede@redhat.com>,	Jaroslav Kysela <perex@perex.cz>,
-	Jerome Brunet <jbrunet@baylibre.com>,	Jiawei Wang <me@jwang.link>,	Jonathan
- Corbet <corbet@lwn.net>,	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Kevin Hilman <khilman@baylibre.com>,	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,	Maso Huang <maso.huang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,	Neil Armstrong
- <neil.armstrong@linaro.org>,	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,	Pierre-Louis Bossart
- <pierre-louis.bossart@linux.intel.com>,	Ranjani Sridharan
- <ranjani.sridharan@linux.intel.com>,	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,	Sylwester Nawrocki
- <s.nawrocki@samsung.com>,	Takashi Iwai <tiwai@suse.com>,	Vinod Koul
- <vkoul@kernel.org>,	Xiubo Li <Xiubo.Lee@gmail.com>
-Cc: alsa-devel@alsa-project.org,
-	imx@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-sound@vger.kernel.org
-In-Reply-To: <87cymvlmki.wl-kuninori.morimoto.gx@renesas.com>
-References: <87cymvlmki.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 30 Jul 2024 01:03:07 +0000
-X-ClientProxiedBy: TYCP286CA0226.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:3c7::20) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XvUZhhsQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722308302; x=1753844302;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oJEsx3xbe0US5zKtnHkifmq15x8BlK/2xDiLeLK2+JQ=;
+  b=XvUZhhsQz8AkoFQbXffipdW5SEe44jUCcbQiW1BGqRlG4VXrhGBJQphV
+   4gfSv80akAetOhEbdZylS327Km5uVX+jNbGxHjtGEp2nDesd7rBe4E3oB
+   qia3vWNzqazhMaTrzsjzOc4H5h9X+5nwpCpbBC5D+VKHRkimi4fLgP2zZ
+   m/NsesFfCSGuKrQcQe3sSPPiOt4Fh3+Xz8PpFY97DiuNmJpgbhPFqvuuC
+   ymwZuY9m8T14ivISlBKx//EsAqIAzXu16AMO0AQidF14PVOtGYTuUl/0O
+   hBBND/qthvJJMryVbwQcK8PvSyKzzM1ez8SSFrr4WT5m8aEn/ZNl8eN9W
+   Q==;
+X-CSE-ConnectionGUID: kCB5EPRaQiSMf7ECrxl9rQ==
+X-CSE-MsgGUID: rDD93Z6pTMuIasD2nRigkQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11148"; a="31496393"
+X-IronPort-AV: E=Sophos;i="6.09,247,1716274800"; 
+   d="scan'208";a="31496393"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2024 19:58:21 -0700
+X-CSE-ConnectionGUID: SnWCYWfWTYm4KsasHgyTAw==
+X-CSE-MsgGUID: tCPHR/58QA2oVwgK2BcKuw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,247,1716274800"; 
+   d="scan'208";a="59007393"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 29 Jul 2024 19:58:18 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sYd43-000sP4-31;
+	Tue, 30 Jul 2024 02:58:15 +0000
+Date: Tue, 30 Jul 2024 10:57:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ivan Orlov <ivan.orlov0322@gmail.com>, perex@perex.cz, tiwai@suse.com,
+	corbet@lwn.net, broonie@kernel.org, shuah@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Ivan Orlov <ivan.orlov0322@gmail.com>,
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	christophe.jaillet@wanadoo.fr, Axel Holzinger <aholzinger@gmx.de>
+Subject: Re: [PATCH v2 3/4] ALSA: timer: Introduce virtual userspace-driven
+ timers
+Message-ID: <202407301002.SaoBM0NA-lkp@intel.com>
+References: <20240729085905.6602-4-ivan.orlov0322@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OS9PR01MB12484:EE_
-X-MS-Office365-Filtering-Correlation-Id: b35b8924-a2a2-4393-0867-08dcb0336069
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|52116014|7416014|1800799024|366016|921020|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?LzhuE6S7FTCY8JV4E3zNKQ+i5PS37TT3plLNTNimkd7129ry5xrm1KzKhsb7?=
- =?us-ascii?Q?31dy1ERfQWsb1JU08Df3XAYV9hjbbQxNYSmTBG4d9c22uo+RnSEpzfMPlxuD?=
- =?us-ascii?Q?n7mLzi83otz0YWcdG/VdS3VX27O9GgafUpuhTzAP7t5/g6/cP28OBXAySjR7?=
- =?us-ascii?Q?Y+YfbesBF55gBAkvVlF5Z1dKJKIEMjNA8oI2/rrkfJL6/Yp9FyW2RQYflxPU?=
- =?us-ascii?Q?x+uAylYHQvuSXmnknmgM3b4cEGqHkYVi6SEkrfq/8z1y6R5ts9w6+hbjnETA?=
- =?us-ascii?Q?RuSceVq5REtMHQ5oS+xGnae/G4WDxVb44t9DsyqULTOjD9xJah24tIIokpKh?=
- =?us-ascii?Q?6I4Yn3Os9c1GYejT9/TbKwoCqQNsdW0qn/85sn66bumEvvLJ2aJnTnYVeYFz?=
- =?us-ascii?Q?xHg5etZpTB2l827ReabcMxEAEj5bBnRtGMUE7DQ/Z6p0w4kebKo9/3Gbyrsn?=
- =?us-ascii?Q?ZC98/2Lu9KGgveBe3XF3lxCiN90qCN/4GKAhwM5eg+sKTKYm5BkVqT5oB64M?=
- =?us-ascii?Q?2FP+EL+Wlo5pbanRpiS/IAE1D6uHwIn7jH0i9m84FBHTBJlP1LNF4wcraiC2?=
- =?us-ascii?Q?jyo0ioWLFmhG7Ky72IGfSvX8S41aRWhREeJYl8lHm+n/A5fXQakI8xOa+NK1?=
- =?us-ascii?Q?2DnkQnCgFN2gJyz9lHph2voDEY/XrksCWFu2czvJkF1rPCtjmuh+5fcJrQeC?=
- =?us-ascii?Q?EdGzi56h5DI5UxgRMSGykd03E6rYdRoZlLqBfrW0r+cdZZ6MSPVVPuTex9Lg?=
- =?us-ascii?Q?vSWuqjAZElyLW8DfRbN2YKzHhVNl+r5ky89cna7N1HuCT3tycmXr6fP+GMZX?=
- =?us-ascii?Q?vRu6FKKU7lh22krideaOMSkB3cZMWJIR7U8CWv+qpK3MMFEum01WrEM41DET?=
- =?us-ascii?Q?QTVPRpNljaSRADATK/WIYpq3korsbpPmX8R1UoPeLFSYKlMUOSl2c2Sm2lQy?=
- =?us-ascii?Q?kBeeEqNv+6O4jgLRxhjNi29hpYZ7YfbcB+h4IdWUcwnXwDFikkSVUSSyNINp?=
- =?us-ascii?Q?vFoH1+6hFnd98/HsFuXxKm7lNveu1u+B4voL0cREJYHrhT0l13Dj8YjRtoVf?=
- =?us-ascii?Q?22i//VS0r0sgKG0FbRgsHf5rOHef31wHSxKcE1+cGLYvhqvprtAyb9UtcHnV?=
- =?us-ascii?Q?GxLFa+Rs5kO6fAYuSyouKatqHSchpZ2jNiNpabU8JxVb8uJ94cQDxDbxLVGB?=
- =?us-ascii?Q?Hldx3QEyZ9F3cr9TTppE+R2sskqBw7aGYCaqiaw3h1W67qvmrbLM3Ptsl8tV?=
- =?us-ascii?Q?TdG+RfQrInFhQLEMtZWDm8VG4n6VZBJ1gTKJtccHaKhAQmtPzC1QUxyfs/YQ?=
- =?us-ascii?Q?8Z+fUbJ/SD4JX+lxGwiZ9x8UsOtFPYw3xepbLlPSFLGNybHX2C+UoES1vYxO?=
- =?us-ascii?Q?mmH8YTfShmNfwrlx90dDDh3rC3hwl6YSRroWUX8PRAJbPx0tVxk+VFka1aET?=
- =?us-ascii?Q?jIZU1FuBtew=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(7416014)(1800799024)(366016)(921020)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?MGQmcfyLZzR/5AP04xnEHxecs4D8H0AhKKnF0/GM2ohF30/tZ8wDJ007nl8T?=
- =?us-ascii?Q?o8PbYA1Er/XhsNf48FtH1KRRrg1FOpz8poihFU7SoiguzPkHFHiryP+PZDJW?=
- =?us-ascii?Q?uhHDYJhF/6NlX+qVk21QWBe3bqEgnjwjWDaVprL9+Y5xTs8wqSS4E2ztQEW/?=
- =?us-ascii?Q?ZEFotHlcPIGlQWoERO7DyCCsPhsk8QBry8KbeOC4qmi9lUsUvbE01BzeKbad?=
- =?us-ascii?Q?dPnV5cKpH5W2YsKW3Uzx3+YpqaLe6/YM/4eEbep7bizIvCChGN0VtxtXoawM?=
- =?us-ascii?Q?tZ8qDs8ntvHWOEltFTAJn7yvIg65/qD5kFejWF0Y/yZ0ou11/yq61TyjJzcl?=
- =?us-ascii?Q?MSMA5x95qjZ+QFJZ32jBvBSXPCHv3dmEzyfv+lqjYU1hLf+3Dhic2XWUjhjx?=
- =?us-ascii?Q?yxmXD8GTfnBdQREfqZLsRR71JyfjM12ImEqKgZfbKztSnQCjmRK6A/uF+4IJ?=
- =?us-ascii?Q?GNKswD9TZPPiwodI898Lk1m6MNxsF0EL2nhg0aC+nYcdDkBJAtLOPjkbjV76?=
- =?us-ascii?Q?BxF1MGczINInGhPe7re4MhQePrIm3vxSeTG4uMLtBERyhZLkP5BzrYVmVpqY?=
- =?us-ascii?Q?rwgZcJAYl2SyAKHXGpI35RF9g8ovF6VljOfGWYvl6Dxi2du97JHpyvCQIEjU?=
- =?us-ascii?Q?2aM5zwzYSMFv8SeyydfJkFU4Eys7q7ALUDSoFYt7cRbrFGmkRTcYHBWii5VW?=
- =?us-ascii?Q?uR4EyMYwJnXuO1fpqqGpwNcv3I5W51ShgDZ4yjNBuAjz2p5HSWcMpyE+mvNT?=
- =?us-ascii?Q?BrxGNzEbfBNHvpIG2+8yw31G1fU6qm2uDJlegaVCuTrXNglhj7q68aDeCyF7?=
- =?us-ascii?Q?a0+pUn1yZRO3dGnx9ZBdfVGpnJN9kmCnmYiqOv03kY+SpqPoASD5Nh2ViirO?=
- =?us-ascii?Q?m6roSqb+wuKu/ZCpYrxx75+O6mkWi9bXCxdS+rSUW+CDbZGH0Yi3X34WXwe5?=
- =?us-ascii?Q?lQYByEOC2mEodeGXUmuTPD9MYFQ8hovfSObCa6OrFGo2z6CzEvD1Sih/FJWt?=
- =?us-ascii?Q?fnVR+FiBZ38W701AYwQ5PLaZ+hM+W1WgdGZA9C6yn8gOdnBd6903qnzxma7U?=
- =?us-ascii?Q?oEvW2fH60x/Z6JMn8qUIqX6VpXtW92lJrUXS2kYxvxzGmicuAqq1J7ohJ16P?=
- =?us-ascii?Q?jEHQ6YfQzgo3dfHp5H+5oOour1vhp0zGsLBGhQU4xomkLDWqDrYB5yPsYy1+?=
- =?us-ascii?Q?1e91e/r5LhJOJ1LlPVCCbwB7lDC+47llq7BYwwSCk6kQ9i6XIVIlfnsr9cyo?=
- =?us-ascii?Q?d8XFCDsqov6q1F9O3IDETJUBwiKBUxK4hwTxT6jfXQ0P4bfLU/APGLGeMsre?=
- =?us-ascii?Q?Xkq6sKIVTQITEShwl/HafIV6y1+OV5b4kZXhMXDFb35zZ+5c/4t/wk2hjKfs?=
- =?us-ascii?Q?8agKUlsdolGAHpJ6hoKvGgOkuCcci2zgWBLsd3dYoShYhlVKyS9AMV+HfRvk?=
- =?us-ascii?Q?auEKSa44EzvgH7eoQBUXkfUWjRj2RG9SKCvykbHjXHNfhxhicexePVqYKju7?=
- =?us-ascii?Q?Qg3GB+Re9eLTmAarpSj4QL4apxMGlzAi3gggES2hfTU8gHzf0ZWjLKIgfBxV?=
- =?us-ascii?Q?x2HsaeMksIkQtp4N4fvA6jDrgRKsvvIKj8RjcXsTt59+ZZyiwv9kDQJWDx6O?=
- =?us-ascii?Q?0OVACVfnhkGgGMbxRZVqTUE=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b35b8924-a2a2-4393-0867-08dcb0336069
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2024 01:03:08.9756
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: q8EDUJ2BGlab+gfaviJXpGPcS2xLqxTblHsAl3Pax2ZzdDzfjEshquDy9Djs4jT2Uz7yowyrkk0uc0uSo6LpHMNejMbx6aMxFZ5/82vbtrw/H2hJyPSBMpwNJIqpi/Su
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS9PR01MB12484
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240729085905.6602-4-ivan.orlov0322@gmail.com>
 
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Hi Ivan,
 
-Prepare for removal of dpcm_playback and dpcm_capture flags in
-dailinks.
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
----
- sound/soc/intel/boards/sof_sdw.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+[auto build test WARNING on tiwai-sound/for-next]
+[also build test WARNING on tiwai-sound/for-linus linus/master v6.11-rc1 next-20240729]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
-index e5feaef669d14..17581473343f3 100644
---- a/sound/soc/intel/boards/sof_sdw.c
-+++ b/sound/soc/intel/boards/sof_sdw.c
-@@ -1289,8 +1289,8 @@ static void init_dai_link(struct device *dev, struct snd_soc_dai_link *dai_links
- 	dai_links->num_cpus = cpus_num;
- 	dai_links->codecs = codecs;
- 	dai_links->num_codecs = codecs_num;
--	dai_links->dpcm_playback = playback;
--	dai_links->dpcm_capture = capture;
-+	dai_links->playback_only = playback && !capture;
-+	dai_links->capture_only = !playback && capture;
- 	dai_links->init = init;
- 	dai_links->ops = ops;
- }
+url:    https://github.com/intel-lab-lkp/linux/commits/Ivan-Orlov/ALSA-aloop-Allow-using-global-timers/20240729-171015
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/20240729085905.6602-4-ivan.orlov0322%40gmail.com
+patch subject: [PATCH v2 3/4] ALSA: timer: Introduce virtual userspace-driven timers
+config: nios2-randconfig-r113-20240730 (https://download.01.org/0day-ci/archive/20240730/202407301002.SaoBM0NA-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240730/202407301002.SaoBM0NA-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407301002.SaoBM0NA-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> sound/core/timer.c:2030:1: sparse: sparse: symbol 'snd_utimer_ids' was not declared. Should it be static?
+   sound/core/timer.c:230:12: sparse: sparse: context imbalance in 'check_matching_master_slave' - different lock contexts for basic block
+   sound/core/timer.c:405:9: sparse: sparse: context imbalance in 'remove_slave_links' - wrong count at exit
+   sound/core/timer.c:456:9: sparse: sparse: context imbalance in 'snd_timer_close_locked' - wrong count at exit
+   sound/core/timer.c:492:15: sparse: sparse: context imbalance in 'snd_timer_resolution' - different lock contexts for basic block
+   sound/core/timer.c:541:12: sparse: sparse: context imbalance in 'snd_timer_start1' - wrong count at exit
+   sound/core/timer.c:596:12: sparse: sparse: context imbalance in 'snd_timer_start_slave' - wrong count at exit
+   sound/core/timer.c:616:12: sparse: sparse: context imbalance in 'snd_timer_stop1' - wrong count at exit
+   sound/core/timer.c:673:9: sparse: sparse: context imbalance in 'snd_timer_stop_slave' - wrong count at exit
+   sound/core/timer.c:780:25: sparse: sparse: context imbalance in 'snd_timer_process_callbacks' - unexpected unlock
+   sound/core/timer.c:798:9: sparse: sparse: context imbalance in 'snd_timer_clear_callbacks' - wrong count at exit
+   sound/core/timer.c:806:13: sparse: sparse: context imbalance in 'snd_timer_work' - different lock contexts for basic block
+   sound/core/timer.c:825:6: sparse: sparse: context imbalance in 'snd_timer_interrupt' - different lock contexts for basic block
+   sound/core/timer.c:1049:6: sparse: sparse: context imbalance in 'snd_timer_notify' - different lock contexts for basic block
+   sound/core/timer.c:1323:9: sparse: sparse: context imbalance in 'snd_timer_user_interrupt' - wrong count at exit
+   sound/core/timer.c:1430:12: sparse: sparse: context imbalance in 'realloc_user_queue' - wrong count at exit
+   sound/core/timer.c:1672:12: sparse: sparse: context imbalance in 'snd_timer_user_gstatus' - different lock contexts for basic block
+   sound/core/timer.c:2412:9: sparse: sparse: context imbalance in 'snd_timer_user_poll' - wrong count at exit
+
+vim +/snd_utimer_ids +2030 sound/core/timer.c
+
+  2024	
+  2025	#ifdef CONFIG_SND_UTIMER
+  2026	/*
+  2027	 * Since userspace-driven timers are passed to userspace, we need to have an identifier
+  2028	 * which will allow us to use them (basically, the subdevice number of udriven timer).
+  2029	 */
+> 2030	DEFINE_IDA(snd_utimer_ids);
+  2031	
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
