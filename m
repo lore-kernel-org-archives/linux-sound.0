@@ -1,114 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F2E19CD17;
-	Tue, 30 Jul 2024 10:35:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CFAC197A89
+	for <linux-sound@vger.kernel.org>; Tue, 30 Jul 2024 10:42:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722335742; cv=none; b=PCyq1qEv/dX5iJ8hYKL9lxeIJSiTTmUcDP4dbZTHu9J1dkX5S1vW8r3tRn8wk7/BuXhxm57Vq6ZxBxVRzoFrsXOkABqziqLtYtmjjkyBcdgzYOWJI+3QjJW1wD0BZQ/7LPtCpKZ4/eITYSwUvwcE16ArUI1bL0ROnCzB9AaiSOY=
+	t=1722336140; cv=none; b=iDTvq+Sp5LFd1EAY2aW22zR8nLml6ZPAA6O/DRPjREDNdus5tJoB+nRBRfhZeAEC65KZlzyVUh//+ywBZflUdYaRw+4kpaAVzQnVEMbwnIlSXz6kx3C5+F7r0Y85e0ZjNCYNiYUHIqcRCtx+7s3mcPtWjzc54W/ra2OQnhLXNqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722335742; c=relaxed/simple;
-	bh=qu2Pv08OrvKfaJH5pTaBnMemTX9a+jS+z+H+/i7Jqjs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DA05miOa4c6r9FNNiTyN2wQoYXRahNBQIGA4GRuwiQycnUMEoR2cWmvM9galYinJUZV26gdnuwX8QCmBeGkKQSnz+yrXy18xtdscr0Gskjq1LfcJGHRuRtmatKUWUcB3SN8bQXBeZeIFmQZmZzFDX5y7rvPBni9CNBCnAT1tGa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kS5KfIM9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722336140; c=relaxed/simple;
+	bh=1VRZiR2rqVPNl8VRXfZPLhHjOtvzuPO1/pgyFLT/s64=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=cWV0jx9EUV36obab6DRmUvIbFoItoeANhw8sIsUI8BnzMFQpg9X+xZt7INCJ/h4GYBHeOqO8DZNz2S6dfUcGtdyMQNOii9iVvIfTNLEdWjxBYsw22+I4jIzv/EBML8I7tcKwXM06Sns7MVeUjPO4elmqm8uzfmNBaaFKZG4royE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zK9Zf+/c; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kS5KfIM9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30199C4AF09;
-	Tue, 30 Jul 2024 10:35:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722335742;
-	bh=qu2Pv08OrvKfaJH5pTaBnMemTX9a+jS+z+H+/i7Jqjs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kS5KfIM91AFndH8uSyBHWVcJBgKpUSq1m2v9SK/lS9nranqql+fX7fySfhDzTepRp
-	 0o4Btxlh7n18zvBrlG8w1tYy422Zlh1JmFk2Fj/z1Qb/cWKuzPdsz22eXHUsZKS8VH
-	 gI8H2fUoUpg6LACblBYlQct8HEh7xpiS9OWiXcgcHAMZ+H+7Fci/eavvPxkCA7SVv8
-	 BwFlm4PJKRj9MlRw89b0Zfc6JkKqE1FpCuJIaS5l4Sjj+gCV9XAMrJ9XVgPGNJor03
-	 uw9M0Q6teETOkytUioyg4A3Wc40xIqhwNXogAjBN/czj/8obNh59yNMG4LEFXfsQ2D
-	 zRDoCaIsdrpNA==
-Date: Tue, 30 Jul 2024 11:35:36 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Stephan Gerhold <stephan.gerhold@linaro.org>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>,
-	Stephan Gerhold <stephan@gerhold.net>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, alsa-devel@alsa-project.org,
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Adam Skladowski <a39.skl@gmail.com>
-Subject: Re: [PATCH] ASoC: dt-bindings: qcom,apq8016-sbc-sndcard: move to
- separate binding
-Message-ID: <d7067720-5524-4f8d-82fa-b2636be79676@sirena.org.uk>
-References: <20240723083300.35605-1-krzysztof.kozlowski@linaro.org>
- <ZqVXUI37fNB5D0DM@gerhold.net>
- <3d9f76c1-2e14-43dc-b438-5fac94ffc73e@kernel.org>
- <ZqjAzgoKo-5vaCtK@linaro.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zK9Zf+/c"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4280c55e488so16677355e9.0
+        for <linux-sound@vger.kernel.org>; Tue, 30 Jul 2024 03:42:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1722336137; x=1722940937; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6deSvIqqsQyDChLYyOgrv+pIRLeJpzpJBJQ+0ud0A3s=;
+        b=zK9Zf+/cea/tsg/V6vw3S9elTwXNx9rNPEJMinKymKrMQDUjmzHvKzqhtrzgTw9MJR
+         iGcMZbGw6cH4q5sO3NuPTp1g7pqin9G6EAj5v6wed3t7VfrtwzuOEl/nLh8yo3YI0I72
+         +eEOtqM5wx7+HCqFhwNFkt6E6PLqbLRMZHgMuR0XJmeF8pnOzJH77QOKbts4gJqXmbvG
+         vLEPiocaUH0wopz46uryMYACX9tTHm/T056F4AtcRoOw3SWjn/BpPHBV7SVN1PLq6Xtt
+         +5mXof6iZihNlPEX8XDUlZtcFBETH/J7+u2Aj70Y8JxdK61DDQP7CvAlIt8FTNXwKQhR
+         /ptw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722336137; x=1722940937;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6deSvIqqsQyDChLYyOgrv+pIRLeJpzpJBJQ+0ud0A3s=;
+        b=hWIKEmq0mH6VZ3Daeb8fKjV08vE/596DAGgmBxpFH1rTZIS1b6e2kPUVPsjSRfuHO9
+         NuEJRzHkY4BQqvX+PDTta9HmouPOvnFiG97SCU3U6IjE9GwuS7zTSh/1rH/wgmYneBd1
+         7UP4yX1rjk8TPuujAanlfEPINKEAmwtfWDGBkkXASb/v7Q9PB6wZEnpRjDOve66jddgg
+         QXS6MFvBsJ3J9csxtP3h2bUyoceOq89xgEyoHxQBJRuqHCm8FX3zEMwHdWGdFDy5/ZrT
+         PW8KHFISnbZh3bRrXxXZ2Fd/iAF0cDe1K/yjVLayRLHHEHL/GN2FgaiiEn8ePLjcHquk
+         tP4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUAlLPN0ufsOmsfgh/Sqddtx7HsEq3LxOvgdHJwC6Y6deL4NVi1NsPoeHIcyZrN2029T6BHkdYcAMwR/j2D/nA0vIKu4AWdmGHAJ8o=
+X-Gm-Message-State: AOJu0YxoDO1Yq7SlcjnTrCayJfnVT2zJhkdY4P0KpnhsvXTqswRydzCi
+	g6UIY2bgLdoldGBD/scDsO4mVrAFK4y+YhcD42+cvuHj9xcQaJO4ft/Sics3kC4=
+X-Google-Smtp-Source: AGHT+IHeXHY88suE4ewnhsolNXbKjO152PQ5psGYhMg2+jD7tzsUInVGMCmfVitO6UqhI4G5TKjqiw==
+X-Received: by 2002:a05:600c:474b:b0:428:b4a:7001 with SMTP id 5b1f17b1804b1-4282445c599mr9828245e9.15.1722336136694;
+        Tue, 30 Jul 2024 03:42:16 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.137])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427f9372e99sm248611245e9.16.2024.07.30.03.42.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Jul 2024 03:42:16 -0700 (PDT)
+Message-ID: <6acf132a-fa8a-4737-88da-23300755f410@linaro.org>
+Date: Tue, 30 Jul 2024 12:42:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="S6y8uV4MuB6RROEa"
-Content-Disposition: inline
-In-Reply-To: <ZqjAzgoKo-5vaCtK@linaro.org>
-X-Cookie: Don't SANFORIZE me!!
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: MAINTAINERS: Drop Banajit Goswami from Qualcomm
+ sound drivers
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Banajit Goswami <bgoswami@quicinc.com>
+References: <20240730103511.21728-1-krzysztof.kozlowski@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240730103511.21728-1-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 30/07/2024 12:35, Krzysztof Kozlowski wrote:
+> There was no active maintenance from Banajit Goswami - last email is
+> from 2019 - so make obvious that Qualcomm sound drivers are maintained
+> by only one person.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> ---
+> 
+> Not moving to credits because lore does not point to significant
+> contributions. Just ~140 emails:
+> https://lore.kernel.org/all/?q=f%3A%22Banajit+Goswami%22
+> ---
 
---S6y8uV4MuB6RROEa
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+I forgot cc to Banajit. Sorry for that, adding here and I will also
+bounce the original email.
 
-On Tue, Jul 30, 2024 at 12:30:38PM +0200, Stephan Gerhold wrote:
-> On Sun, Jul 28, 2024 at 12:30:12PM +0200, Krzysztof Kozlowski wrote:
+Best regards,
+Krzysztof
 
-> > This was added to the common driver code but it does not mean it is
-> > reasonable binding. I don't understand why for example we even accept
-> > here aux-devs, instead of putting them into one of DAI links.
-
-> The auxiliary devices (typically analog audio components) are not
-> necessarily related to one particular digital audio interface link. It
-> is typically the case (e.g. an analog speaker amplifier connected in
-> parallel to the headphone output of one of the codecs), but I don't
-> think we can assume that as a general rule. There are often multiple DAI
-> links that go to one codec and then it might be tricky to decide which
-> of the DAI links the aux-dev belongs to.
-
-Right, aux devices may cover more than one DAI link (eg, if there's a
-CODEC that can do mixing and they're connected to an analog output) or
-may in rare cases not fit with one at all (there's use cases where you
-have a sound card that has no DAIs and is all analog bypass).
-
-> > The pin-switches and widgets could be used, but are they? The only valid
-> > argument to keep them is that you added them to common driver code.
-
-> These go hand in hand with the aux-devs property. If you have multiple
-> analog audio components connected to a codec output (e.g. an analog
-> speaker amplifier connected to the codec headphone output) then the
-> pin-switches/widgets describe that the output paths (speaker and
-> headphones) should be separately controllable.
-
-Plus the above cases where you don't have a direct mapping with aux devs
-and DAIs also apply to pin switches since they're in the analog domain.
-
---S6y8uV4MuB6RROEa
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmaowfcACgkQJNaLcl1U
-h9DMeQf+JjZ3Zel23S9ESTi6xAdBKDTMAIMzoNtWk1WtyW5Ckxp1zdhqAqsxcSbF
-JUO9AtiCUxts+cG6rulPJunQzZGzVAxN916GHlwd+eeQH3YJCcIZ/Pc/iaMmNKUr
-4qR4I+hNFITFB8NmL2PAImPBiHIhc838R7zu3Nuf4vmbKqpMArc0VFRMNURTYswf
-qFyxJ+PMHilhp2rNtvonTwRNAUu5POT11PblCLkqLM/t2lfLiaUbBW3lLCruTi3G
-XeYGSUzSWTxT1zr7uNuw47iE+eVfCMegJ7OVK9TZ1Be/4buOeYIEP7h84YYZ+pv7
-6KMc/28yL1Y8dgAis4b2Kz/uhp1XSQ==
-=/e6J
------END PGP SIGNATURE-----
-
---S6y8uV4MuB6RROEa--
