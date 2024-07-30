@@ -1,40 +1,40 @@
 Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53E0A1946CF
-	for <linux-sound@vger.kernel.org>; Tue, 30 Jul 2024 10:18:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C61F0192B65
+	for <linux-sound@vger.kernel.org>; Tue, 30 Jul 2024 10:25:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722334723; cv=none; b=Ort9VI3Be8HJ2s38hW0JJFQyjnUvKSqivYEKC5yQtWRFNWw2ddiWjUPsxN5dqe+aNqj793wvcEZfbPvJUsEgTiG7G/oKglJjtqkC4+3LlYACDOiaRUvgMDoBsAGwkLAKnGHd/i9KVTOrkmPoOn1IpVZofHgbJZNC/QSpqNJ31ZU=
+	t=1722335136; cv=none; b=oQyCTkhPK1JkDFP8YIO9nM8V+Qw4kumVgyWYauYf+eHs2JnxsxzmU/fERCLHhTojiCWrNISsfq8ZzDCyNzYqw+XYePoEP+jjP25hdsf5c2r0U8mSd2oeNgN//KKs7Mvkh52r+Np4F3BdDUxXkVPdshe0ioQYUvghxJ3JGprnAp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722334723; c=relaxed/simple;
+	s=arc-20240116; t=1722335136; c=relaxed/simple;
 	bh=V9lZT+FYXBV9eINZ0r+HUBViTt29kUETGkdQzXCJLd0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=QiuyEGj5PxujtH45etIs3ziw4nFvEX+GZr4Sni+MtmPRXvrM5mPf6xHT/juOFXKKASFpouncjIiSdElMboZSZ0TojY8Nee9wb09kL3+yWCx1Ik9l0B/UHM3TPec9llRrjpEfgm4J8RXh731ICrRusRPM3x3tsMeb3CtUYm77UNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=12Pwtz8s; arc=none smtp.client-ip=77.48.224.245
+	 In-Reply-To:Content-Type; b=eZFcX1sP5DYbC5da78qFTX/h3sfwMU7/DCINVzhBBWl7pdDKk6bdYa2Q47yP1BD5y5j2jpkx1C1mWmhZzlnAGzWjSVYmUy48/9vorIv7/8AGqTiVwvqrOP1uYl8x94ayDijRNyRQ0coNXdLLunHqr+166iD6+6/32ezyWtYFIZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=Kgtw+adr; arc=none smtp.client-ip=77.48.224.245
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="12Pwtz8s"
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="Kgtw+adr"
 Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id DC61836260;
-	Tue, 30 Jul 2024 12:18:33 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz DC61836260
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id B58893625A;
+	Tue, 30 Jul 2024 12:18:06 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz B58893625A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1722334713; bh=RltOulAX8PsToocsavrobGz+BAH8RxzHCwoU7B9N95A=;
+	t=1722334686; bh=RltOulAX8PsToocsavrobGz+BAH8RxzHCwoU7B9N95A=;
 	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=12Pwtz8sIsllNdrvD4goYnDaa8Z+0diKkBMnYKRMidxl/RBcqo1twq6Sg3H04OJd+
-	 yuGt+eccWVF9LMcykjw8QVTQvqdEAaiiNpsKM49XWrFXevMePP3Nql95AckpnAmcsP
-	 PMKWsc132lV1y0V0ubaw2WTMB/0WRZFyReEyjB+Y=
+	b=Kgtw+adr4LmxhUI8gReW5cYC0Zn5uc0TdIXKDbU968nWLbcD1NDcNvyyw2JMOJ52o
+	 HONSMsDT/z78ha3sxWzdDVP9fr1X1q8f2xbNj14d4Pk7nYWfjjJi61/p91zqZ0bEUy
+	 ZzaztngYbnrroRhiVSh3ihc51EoQX0vmjZBoXj0s=
 Received: from [192.168.100.98] (unknown [192.168.100.98])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: perex)
 	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Tue, 30 Jul 2024 12:18:31 +0200 (CEST)
-Message-ID: <b322f08d-d7fb-48d7-b6b1-244960024980@perex.cz>
-Date: Tue, 30 Jul 2024 12:18:31 +0200
+	Tue, 30 Jul 2024 12:18:04 +0200 (CEST)
+Message-ID: <f0e4eea2-4250-42a7-af4a-d0e058452935@perex.cz>
+Date: Tue, 30 Jul 2024 12:18:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
