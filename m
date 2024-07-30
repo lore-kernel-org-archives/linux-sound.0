@@ -1,105 +1,120 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C7A19308E
-	for <linux-sound@vger.kernel.org>; Tue, 30 Jul 2024 08:43:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53E0A1946CF
+	for <linux-sound@vger.kernel.org>; Tue, 30 Jul 2024 10:18:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722328992; cv=none; b=BH82r/XFkNrAyQfvPk9bG6iukX4/0ZAd7APiptVJPZ0TQ4fpKyFvXh6TP5QDOZInDGk9dQqBBfqewyqybbOkGkR98A3wNOTy60xOR2vVwm5aRTq5HKczmNwMRe707eHgNsl9lJCJalDh3ZTn2/xd1MJGn942doHXPp9cBu/1g74=
+	t=1722334723; cv=none; b=Ort9VI3Be8HJ2s38hW0JJFQyjnUvKSqivYEKC5yQtWRFNWw2ddiWjUPsxN5dqe+aNqj793wvcEZfbPvJUsEgTiG7G/oKglJjtqkC4+3LlYACDOiaRUvgMDoBsAGwkLAKnGHd/i9KVTOrkmPoOn1IpVZofHgbJZNC/QSpqNJ31ZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722328992; c=relaxed/simple;
-	bh=sh5qUXkmLCuV6DmHvHcEJysB+t82/LnCNI8sKdOIVQ8=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=euQCI84nWsS/Eh8SEc1aHFhcNNGfwGyo9C/YojyLuTkVpTw7ykRaw+RjMffh2PSIoC/wE6zJbsFun7ehiWYj19avJtBIDJ6Yy9a8o2MUHgjV3N7G0tW5ZPqKWHDfUzfY9Ff4p5vIoSnsICM7rLhkMe2TJYmQPlAmi/bu+8umGKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Vuno9b0r; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1722334723; c=relaxed/simple;
+	bh=V9lZT+FYXBV9eINZ0r+HUBViTt29kUETGkdQzXCJLd0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=QiuyEGj5PxujtH45etIs3ziw4nFvEX+GZr4Sni+MtmPRXvrM5mPf6xHT/juOFXKKASFpouncjIiSdElMboZSZ0TojY8Nee9wb09kL3+yWCx1Ik9l0B/UHM3TPec9llRrjpEfgm4J8RXh731ICrRusRPM3x3tsMeb3CtUYm77UNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=12Pwtz8s; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Vuno9b0r"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46U5LV55006061;
-	Tue, 30 Jul 2024 03:43:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=Mspl6XHxNoA4ZFPIua
-	Vn8kFSs1wAMwtCp/cRic6+13E=; b=Vuno9b0rVmjARbqAs747G/bJ5mIrxZfx4Y
-	Rjnq0X9ORbJdIJRmX4l2kLeFKbppDCvnI3wpc88gRGyTEA8nkGPGff0mHoHu1ril
-	8vttJMxIqiIqMxK8j7rqoM6grroXmzCrqRITLHTtBOj5ve+mZ2ukO6pfN9Oh7uOj
-	bkCeF5hW4HNkonVG4+RvwFhJrypkW6Vl+E6C+/ryOMeLBLq7ooDfmQYaDPOVWh3R
-	t6Bs9BnCnxZNYLBuS5r+u8Qp0GQR4EWznDw2W3AIULSRdxHbU2iVOWiCYTHVpNr+
-	Lrb8xS9ood1+r63p+IMqm1/v4z5IVbH8E8zfItnbIBdNGEv0DhsA==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 40mwaju36n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 30 Jul 2024 03:43:03 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 30 Jul
- 2024 09:43:02 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Tue, 30 Jul 2024 09:43:02 +0100
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 0F7C8820244;
-	Tue, 30 Jul 2024 08:43:02 +0000 (UTC)
-Date: Tue, 30 Jul 2024 09:43:01 +0100
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Takashi Iwai <tiwai@suse.de>
-CC: <broonie@kernel.org>, <lgirdwood@gmail.com>, <linux-sound@vger.kernel.org>,
-        <patches@opensource.cirrus.com>
-Subject: Re: [PATCH] ASoC: cs42l43: Move shutter IRQ handling into a worker
- thread
-Message-ID: <ZqinleaAqikxdQGr@opensource.cirrus.com>
-References: <20240729155932.3054632-1-ckeepax@opensource.cirrus.com>
- <87plqw9no5.wl-tiwai@suse.de>
- <ZqfHC7IodobTlVT4@opensource.cirrus.com>
- <87ikwo9etj.wl-tiwai@suse.de>
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="12Pwtz8s"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id DC61836260;
+	Tue, 30 Jul 2024 12:18:33 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz DC61836260
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1722334713; bh=RltOulAX8PsToocsavrobGz+BAH8RxzHCwoU7B9N95A=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=12Pwtz8sIsllNdrvD4goYnDaa8Z+0diKkBMnYKRMidxl/RBcqo1twq6Sg3H04OJd+
+	 yuGt+eccWVF9LMcykjw8QVTQvqdEAaiiNpsKM49XWrFXevMePP3Nql95AckpnAmcsP
+	 PMKWsc132lV1y0V0ubaw2WTMB/0WRZFyReEyjB+Y=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Tue, 30 Jul 2024 12:18:31 +0200 (CEST)
+Message-ID: <b322f08d-d7fb-48d7-b6b1-244960024980@perex.cz>
+Date: Tue, 30 Jul 2024 12:18:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <87ikwo9etj.wl-tiwai@suse.de>
-X-Proofpoint-GUID: eyGPBTebgaiB0agpMKUiI2SJHKYeQluB
-X-Proofpoint-ORIG-GUID: eyGPBTebgaiB0agpMKUiI2SJHKYeQluB
-X-Proofpoint-Spam-Reason: safe
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: control: Take power_ref lock primarily
+To: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org
+References: <20240729160659.4516-1-tiwai@suse.de>
+From: Jaroslav Kysela <perex@perex.cz>
+Content-Language: en-US
+Autocrypt: addr=perex@perex.cz; keydata=
+ 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
+In-Reply-To: <20240729160659.4516-1-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jul 29, 2024 at 09:30:00PM +0200, Takashi Iwai wrote:
-> On Mon, 29 Jul 2024 18:44:59 +0200,
-> Charles Keepax wrote:
-> > 
-> > On Mon, Jul 29, 2024 at 06:18:50PM +0200, Takashi Iwai wrote:
-> > > On Mon, 29 Jul 2024 17:59:32 +0200,
-> > > Charles Keepax wrote:
-> > > > 
-> > > > The microphone/speaker privacy shutter ALSA control handlers need to
-> > > > call pm_runtime_resume, since the hardware needs to be powered up to
-> > > > check the hardware state of the shutter. The IRQ handler for the
-> > > > shutters also needs to notify the ALSA control to inform user-space
-> > > > the shutters updated. However this leads to a mutex inversion, between
-> > > > the sdw_dev_lock and the controls_rwsem.
-> > > 
-> > > That's bad, how does the mutex inversion look like?  Generally
-> > > speaking, a call of snd_ctl_notify() from an irq handler is a very
-> > > standard procedure, and it should work without too much workaround.
-> > > 
-> > 
-> > SoundWire IRQs are called under the sdw_dev_lock, and then in the
-> > IRQ handler we call snd_ctl_notify which takes controls_rwsem.
+On 29. 07. 24 18:06, Takashi Iwai wrote:
+> The code path for kcontrol accesses have often nested locks of both
+> card's controls_rwsem and power_ref, and applies in that order.
+> However, what could take much longer is the latter, power_ref; it
+> waits for the power state of the device, and it pretty much depends on
+> the user's action.
 > 
-> snd_ctl_notify() doesn't take rwsem but ctl_files_rwlock.
-> And rwlock isn't taken except for two cases, at a list traverse at
-> enumerating from user-space and at the device disconnection, so it
-> shouldn't race.  Anything missing there...?
+> This patch swaps the locking order of those locks to a more natural
+> way, namely, power_ref -> controls_rwsem, in order to shorten the time
+> of possible nested locks.  For consistency, power_ref is taken always
+> in the top-level caller side (that is, *_user() functions and the
+> ioctl handler itself).
 > 
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
 
-The trouble here isn't the snd_ctl_notify, the handler uses
-snd_soc_component_notify_control which also does a
-snd_soc_card_get_kcontrol, which eventually calls snd_ctl_find_id
-which does take the controls_rwsem.
+It looks fine, but perhaps, we can DEFINE_GUARD for snd_power_ref_and_wait and 
+use this scoped guard, too? It would greatly simplify code.
 
-Thanks,
-Charles
+					Jaroslav
+
+-- 
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+
