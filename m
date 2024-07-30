@@ -1,94 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AC6C19DF41
-	for <linux-sound@vger.kernel.org>; Tue, 30 Jul 2024 14:44:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA41BCA6B;
+	Tue, 30 Jul 2024 14:55:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722350669; cv=none; b=bWmfKMAgib6GwZZY3n8+MfejhGm4cBxBDaJNZh1Vb8MnZupE8RspfY5A7fBHUmONytt+aTNPtDj/5HbzizLfgN/OpJadMJ5HQM4/SlDjBhMG5mn8pia5ym0ZqvfdFiB+J8wyiquAh6XCdCj/komIlJqtA101CMfXiTnPQ0Z/ATw=
+	t=1722351334; cv=none; b=Cl9ExgUYdgA3JRVA4idirUuBJnAoNjHS0inMqe40RxklCmxEaD3C70sUjSdlsM6B4DAmLC7nhvi48yH585iPcNtYfySJdD+fhrimGPI1nfRkI4e3W1HvdalSP8WJReSSYh5pJay2Da6bfHzuY8yBHS9m0jQZ7rMXxZv5ZlzEzk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722350669; c=relaxed/simple;
-	bh=QxbZIWrg6o1IrnrY9hoHKyv42XxaojzQ8n9wFvRNqBg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A3KEsh4Pz6BLvNLrX5Z7kF8288Ul/LIPVjoaUW3gocKi2rCQdGo0qm2wAlv6r8XX39f2Z1FdsDpncrCQ4DvwHF687QKjUSqpaCm8t6YrOcF3cbT3wXq6o0QSswghZYCapRbxE2FTke2/unvpQuTRaNWWRR70Q9ypXIdteZoLbx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hLr5eptu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722351334; c=relaxed/simple;
+	bh=CJC+hb2Na/jyoFpOXMJOwws73CDpK8PcvxOikDqLr6A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=shyb08NWNsHnaBKlwzyzwNDr608+XPyTQtnZtTpB3C5H3pzy6iGBfTQd1P4jxsZ5sauujdcoclNGH/T1v8ZHEFhV35rahI0H+BPpJttcNXjF7klVE4rE0VcknIeQUQRNCiFdhk5z+DGjOXlueqHFba1UUwOV8FbCmipyCRJJiLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=ShHCw8l8; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hLr5eptu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E203C32782;
-	Tue, 30 Jul 2024 14:44:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722350668;
-	bh=QxbZIWrg6o1IrnrY9hoHKyv42XxaojzQ8n9wFvRNqBg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hLr5eptuQandSChXQW/aeVXDp18GTGE3Zu3X55hAzb9fQqoPb7Uk23M9EulBLpks2
-	 2l11zgDrmaT9edZUAljB6HszRYmuuyIsvj5wu0s0rD7npDc7J2n7WnCw/Jn6iDBqNB
-	 8TeEnK40sG22/YYU1FY4sqJInVqR8wxrTVm5cZ+Hp0B/quLKqqY6Gcj2QxQ8GZHl6K
-	 nC0jJC6bwq7FxEDowREITJp6k7WX4QNEUzafVrLtHW7gUHq/SX0aw5bpU25QdJag89
-	 zSGHiz2MASdyjnaIuwvLWLBgAogk305VFqN62MWLvkh7XKv0ppRNNcCA4uEUcTWP+Y
-	 czMHLsHq405Iw==
-Date: Tue, 30 Jul 2024 15:44:24 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>, lgirdwood@gmail.com,
-	linux-sound@vger.kernel.org, patches@opensource.cirrus.com
-Subject: Re: [PATCH] ASoC: cs42l43: Move shutter IRQ handling into a worker
- thread
-Message-ID: <f7503750-d751-42e7-88de-061f6263e4b6@sirena.org.uk>
-References: <20240729155932.3054632-1-ckeepax@opensource.cirrus.com>
- <87plqw9no5.wl-tiwai@suse.de>
- <ZqfHC7IodobTlVT4@opensource.cirrus.com>
- <87ikwo9etj.wl-tiwai@suse.de>
- <ZqinleaAqikxdQGr@opensource.cirrus.com>
- <87ikwn3vqf.wl-tiwai@suse.de>
- <81eb73d0-60e6-4a77-a3c6-f9d7355119d0@perex.cz>
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="ShHCw8l8"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id B6B6F3625A;
+	Tue, 30 Jul 2024 16:55:25 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz B6B6F3625A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1722351325; bh=/RJUdk1DcPg8bjGU02sjFsZczcUWHds0ju+ytc8+SJ8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ShHCw8l8LnXQPf4cM5s9P7WsbMGvcRYjesl0bl65P3VVwO3gkWrgwoV91XHsmyBIK
+	 N/7TGcOa19wR18admK7F8VQoM8HOTQIC8k8uhk2UVZFnPbO5+hKIf1AVLASfw6178z
+	 UkYmNpyhtlwcDDZ80whw8wnTyOR18mKCKuOy6YNA=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Tue, 30 Jul 2024 16:55:19 +0200 (CEST)
+Message-ID: <013bdb56-b940-4881-b881-ad12be7321d0@perex.cz>
+Date: Tue, 30 Jul 2024 16:55:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="NWNPN4YhXig7sWuI"
-Content-Disposition: inline
-In-Reply-To: <81eb73d0-60e6-4a77-a3c6-f9d7355119d0@perex.cz>
-X-Cookie: Don't SANFORIZE me!!
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] ALSA: hda: cs35l41: Stop creating ALSA Controls for
+ firmware coefficients
+To: Stefan Binding <sbinding@opensource.cirrus.com>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+References: <20240730143748.351651-1-sbinding@opensource.cirrus.com>
+From: Jaroslav Kysela <perex@perex.cz>
+Content-Language: en-US
+Autocrypt: addr=perex@perex.cz; keydata=
+ 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
+In-Reply-To: <20240730143748.351651-1-sbinding@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 30. 07. 24 16:37, Stefan Binding wrote:
+> Add a kernel parameter to allow coefficients to be exposed as ALSA controls.
+> 
+> When the CS35L41 loads its firmware, it has a number of controls to
+> affect its behaviour. Currently, these controls are exposed as ALSA
+> Controls by default.
+> 
+> However, nothing in userspace currently uses them, and is unlikely to
+> do so in the future, therefore we don't need to create ASLA controls
+> for them.
+> 
+> These controls can be useful for debug, so we can add a kernel
+> parameter to re-enable them if necessary.
+> 
+> Disabling these controls would prevent userspace from trying to read
+> these controls when the CS35L41 is hibernating, which ordinarily
+> would result in an error message.
 
---NWNPN4YhXig7sWuI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This is probably not a right argument to add this code. The codec should be 
+powered up when those controls are accessed or those controls should be cached 
+by the driver.
 
-On Tue, Jul 30, 2024 at 04:13:33PM +0200, Jaroslav Kysela wrote:
-> On 30. 07. 24 14:33, Takashi Iwai wrote:
+Although the controls have not been used yet, exposing them in this way is not 
+ideal.
 
-> > OK, now it's clearer.  I think we can change snd_ctl_find_*() rather
-> > to take rwlock instead of rwsem.  It's only a quick look-up, hence
-> > rwlock can work well.
+Could you fix the driver (no I/O errors)?
 
-> > Totally untested patch set is below.
+					Jaroslav
 
-> But why the interrupt routine does not use the cached kcontrol pointer? It
-> looks like a bad driver design when you need to do such name (string based)
-> lookups from the interrupt routine.
+-- 
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
 
-With some of these slower buses it's not immediately obvious that it's
-worth the bother of caching - the overhead of doing the lookup is
-negligable in the overall context of handling the interrupt.
-
---NWNPN4YhXig7sWuI
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmao/EcACgkQJNaLcl1U
-h9CrVAf9FQV2TrPsDcedRs6Xqpkqi4QwEHrl1/K2iNj0RD3vPPIUJ/JHeSAuWnjQ
-0Q2VG96Y9mwNW/ixUBRUvnx7ikXKrBgqaqr3eHRZDIHYgzKl1oQ3IBOSluYGZdVt
-eRLT8ptGLO5zOeHookOsAGPa4frcFZvBEEgnRWoUtHOAuHkrzQet+/HYtXK/Qsa8
-Jt+ypfU9g8Ghavgc5lm81BpiGhPcHezmuBzz+dO/OkqeanH/eoeOkqCSfO00i6b2
-XssTg3lHWRlZGGGJu3VPbsfbw40qQ5S7PQTz32f1KLx3xTXbiexX+r3qVplJ7q0P
-PCFVgkFE+lJg74oMFeP2rkXbKDEcng==
-=cRKJ
------END PGP SIGNATURE-----
-
---NWNPN4YhXig7sWuI--
