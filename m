@@ -1,83 +1,83 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBB02209F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43A0918C91D
 	for <linux-sound@vger.kernel.org>; Wed, 31 Jul 2024 13:04:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722431097; cv=none; b=KrHBzst4v6S1+aUy2kdfH7oLOmxSE4lVmTLgaR5ouc0Lu3eOpezDzyg0/KDQ4B2+bWbP6g+o5UNs3+rQanA9772DbWUF6hJdk5ka+4owUF8JPEaFgM8es2IjQGgdEcL63X8s6P3TspVSUbHSymMxaq/ujQPmn7cAf6YohrPki3A=
+	t=1722431097; cv=none; b=lOHSDAR8216B4I+aYgY0S1W+TysAPxje1KGMI9jpYQHwaAWyw2Sy+bTID4M/3oeFtNeNsr78oJu2v+SfaM1rzrQ2oZ8+aV4gN/+rWFGi+GCUmO+WDbdian7fTP3GNYJkXSAM+TxI7baOuRcfI5jvMtgkVvIKToIspPC5BpDrzKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1722431097; c=relaxed/simple;
-	bh=B5WsamjuS20KPAoSquP2yD521Fg8Yt9/LPXXPaOS5sc=;
+	bh=5IQw8P8rVOMOZlmuqS+PgJXGed2u9NFYge9GWsk9KZU=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QiQpLS2vIIdqWDbTHNFL5DD/psBUdcmktFmqbHZ7HwZ5nmciuSnYw9HBRGLFrTtC0ddwGNOWd/sMv5/px716VJIcaGYpU9BrZ8irLKaOyTJ6mfy9KwJMgOcpVdFmgafqWR+vd4BYFfs9eEXlbvAsbw4NEky4ZWlsZhMwfGQ/qtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GuuNyBCp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=kyD3gwmy; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GuuNyBCp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=kyD3gwmy; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=ESPuJpqq0uXirMgpb6aAesKyM6zdTZMX7Se0z7FBDoFGsGedbtsNXyq9/5ipb6mpBmRFte+EZ8wgnlMxu0b5KShFt7mX/EBSxKXMFx3oLuvggglCWcym/KNNhAMxStrbiXo7RvVpB07RJ2iZ8MF6atph1o3gNK84P6VpzdtuFvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OHR6VsAa; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=G8+vePVE; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CLSEX94E; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5plIVKBN; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GuuNyBCp";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kyD3gwmy";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GuuNyBCp";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kyD3gwmy"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OHR6VsAa";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="G8+vePVE";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CLSEX94E";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5plIVKBN"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id ABE1A21B70;
-	Wed, 31 Jul 2024 13:04:54 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C3B7F1F840;
+	Wed, 31 Jul 2024 13:04:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1722431094; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iIuCGLYnFxVzQ2WV4zRR2IQLaTe4h/OocPK8hDfrEcE=;
-	b=GuuNyBCpAuHI3hMNh+WpXuomphTiRFwx27ODy2e/aJpVpI9eHTc0/ROcDo4/+ARRe5LzDk
-	9MsxiA/nwn2bjzbM8wRgBD1wNcuCD8f1gjB5KlWd07aFsdV6I97Bc3cbcbvbTBDz1fgOEu
-	5EjwTkjy8aG45CTlCo0PohtCy2JD/iw=
+	bh=4iHTkzJcM0pMr2AViWgOWnSYLAB59nevSfT6aQbAFi4=;
+	b=OHR6VsAaxN3T/lVPgr/plOcxiw3iTWr73101MsAkHvRBH8RLqA7an03aTPabCSWbcO0jDn
+	U/OfrtFxiN5YmBYe5AMz+qIxmBExvwtm2J2vNmcvp19GOZxlOvtQBUHIhGCrdErHNXlErU
+	sUKCPNVJ7pT4+WHm1A3nq3t3VMSf+Vo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1722431094;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iIuCGLYnFxVzQ2WV4zRR2IQLaTe4h/OocPK8hDfrEcE=;
-	b=kyD3gwmyhKUHLP7IIbBR6VkYB9KBnV6QMX6SjFqNsfcYWDEZ3VCuAfh6g7m4ZGrmvk7C/8
-	86S/i/RtFlO9/+AA==
-Authentication-Results: smtp-out1.suse.de;
+	bh=4iHTkzJcM0pMr2AViWgOWnSYLAB59nevSfT6aQbAFi4=;
+	b=G8+vePVEjcWHzbwxHNflQo9grGFOK+iYeouOFwTQ2bAaPvu1JE8h1e68l4lqsYVv2CYReS
+	aCSijsg+vFmGXgDQ==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1722431094; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1722431093; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iIuCGLYnFxVzQ2WV4zRR2IQLaTe4h/OocPK8hDfrEcE=;
-	b=GuuNyBCpAuHI3hMNh+WpXuomphTiRFwx27ODy2e/aJpVpI9eHTc0/ROcDo4/+ARRe5LzDk
-	9MsxiA/nwn2bjzbM8wRgBD1wNcuCD8f1gjB5KlWd07aFsdV6I97Bc3cbcbvbTBDz1fgOEu
-	5EjwTkjy8aG45CTlCo0PohtCy2JD/iw=
+	bh=4iHTkzJcM0pMr2AViWgOWnSYLAB59nevSfT6aQbAFi4=;
+	b=CLSEX94E7wp0nu2ad1MkHzCG/mkvXCAG6U6zQuALa7c6Xp7XVT4EKpxeHzoZXzuUpZFwEl
+	Vt4J/n2hWTOhbdacHosN3Sbe7BRGpNyM9nA5wtkjhJ4i1G1m9EwQIoLKGzio5PMBbAmCEZ
+	Y6CyWQaT5X0tFgZRdZKuKfK/0IdE41I=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1722431094;
+	s=susede2_ed25519; t=1722431093;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iIuCGLYnFxVzQ2WV4zRR2IQLaTe4h/OocPK8hDfrEcE=;
-	b=kyD3gwmyhKUHLP7IIbBR6VkYB9KBnV6QMX6SjFqNsfcYWDEZ3VCuAfh6g7m4ZGrmvk7C/8
-	86S/i/RtFlO9/+AA==
+	bh=4iHTkzJcM0pMr2AViWgOWnSYLAB59nevSfT6aQbAFi4=;
+	b=5plIVKBNTp4ot9jkok7hg3HN598nXrEcgrLnhpD/cPMtgdm4fd9uwXeK5Nmf42LK2lv9GI
+	7ugSitSW0f5ksVBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E697513AE0;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A5EC913ADB;
 	Wed, 31 Jul 2024 13:04:53 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 8A8PN3U2qmYrWgAAD6G6ig
+	id CCVWJ3U2qmYrWgAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Wed, 31 Jul 2024 13:04:53 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 5/5] ALSA: seq: ump: Explicitly reset RPN with Null RPN
-Date: Wed, 31 Jul 2024 15:05:26 +0200
-Message-ID: <20240731130528.12600-6-tiwai@suse.de>
+Subject: [PATCH 3/5] ALSA: seq: ump: Use the common RPN/bank conversion context
+Date: Wed, 31 Jul 2024 15:05:24 +0200
+Message-ID: <20240731130528.12600-4-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240731130528.12600-1-tiwai@suse.de>
 References: <20240731130528.12600-1-tiwai@suse.de>
@@ -111,74 +111,105 @@ X-Spam-Level:
 X-Spam-Flag: NO
 X-Spam-Score: -2.60
 
-RPN with 127:127 is treated as a Null RPN, just to reset the
-parameters, and it's not translated to MIDI2.  Although the current
-code can work as is in most cases, better to implement the RPN reset
-explicitly for Null message.
+The UMP core conversion helper API already defines the context needed
+to record the bank and RPN/NRPN values, and we can simply re-use the
+same struct instead of re-defining the same content as a different
+name.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/core/seq/seq_ump_convert.c | 21 ++++++++++++++++-----
- 1 file changed, 16 insertions(+), 5 deletions(-)
+ sound/core/seq/seq_ports.h       | 14 ++------------
+ sound/core/seq/seq_ump_convert.c | 10 +++++-----
+ 2 files changed, 7 insertions(+), 17 deletions(-)
 
+diff --git a/sound/core/seq/seq_ports.h b/sound/core/seq/seq_ports.h
+index b111382f697a..9e36738c0dd0 100644
+--- a/sound/core/seq/seq_ports.h
++++ b/sound/core/seq/seq_ports.h
+@@ -7,6 +7,7 @@
+ #define __SND_SEQ_PORTS_H
+ 
+ #include <sound/seq_kernel.h>
++#include <sound/ump_convert.h>
+ #include "seq_lock.h"
+ 
+ /* list of 'exported' ports */
+@@ -42,17 +43,6 @@ struct snd_seq_port_subs_info {
+ 	int (*close)(void *private_data, struct snd_seq_port_subscribe *info);
+ };
+ 
+-/* context for converting from legacy control event to UMP packet */
+-struct snd_seq_ump_midi2_bank {
+-	bool rpn_set;
+-	bool nrpn_set;
+-	bool bank_set;
+-	unsigned char cc_rpn_msb, cc_rpn_lsb;
+-	unsigned char cc_nrpn_msb, cc_nrpn_lsb;
+-	unsigned char cc_data_msb, cc_data_lsb;
+-	unsigned char cc_bank_msb, cc_bank_lsb;
+-};
+-
+ struct snd_seq_client_port {
+ 
+ 	struct snd_seq_addr addr;	/* client/port number */
+@@ -88,7 +78,7 @@ struct snd_seq_client_port {
+ 	unsigned char ump_group;
+ 
+ #if IS_ENABLED(CONFIG_SND_SEQ_UMP)
+-	struct snd_seq_ump_midi2_bank midi2_bank[16]; /* per channel */
++	struct ump_cvt_to_ump_bank midi2_bank[16]; /* per channel */
+ #endif
+ };
+ 
 diff --git a/sound/core/seq/seq_ump_convert.c b/sound/core/seq/seq_ump_convert.c
-index 7ca62667f28d..4dd540cbb1cb 100644
+index d9dacfbe4a9a..b1bc6d122d92 100644
 --- a/sound/core/seq/seq_ump_convert.c
 +++ b/sound/core/seq/seq_ump_convert.c
-@@ -789,6 +789,15 @@ static int paf_ev_to_ump_midi2(const struct snd_seq_event *event,
- 	return 1;
+@@ -368,7 +368,7 @@ static int cvt_ump_midi1_to_midi2(struct snd_seq_client *dest,
+ 	struct snd_seq_ump_event ev_cvt;
+ 	const union snd_ump_midi1_msg *midi1 = (const union snd_ump_midi1_msg *)event->ump;
+ 	union snd_ump_midi2_msg *midi2 = (union snd_ump_midi2_msg *)ev_cvt.ump;
+-	struct snd_seq_ump_midi2_bank *cc;
++	struct ump_cvt_to_ump_bank *cc;
+ 
+ 	ev_cvt = *event;
+ 	memset(&ev_cvt.ump, 0, sizeof(ev_cvt.ump));
+@@ -790,7 +790,7 @@ static int paf_ev_to_ump_midi2(const struct snd_seq_event *event,
  }
  
-+static void reset_rpn(struct ump_cvt_to_ump_bank *cc)
-+{
-+	cc->rpn_set = 0;
-+	cc->nrpn_set = 0;
-+	cc->cc_rpn_msb = cc->cc_rpn_lsb = 0;
-+	cc->cc_data_msb = cc->cc_data_lsb = 0;
-+	cc->cc_data_msb_set = cc->cc_data_lsb_set = 0;
-+}
-+
  /* set up the MIDI2 RPN/NRPN packet data from the parsed info */
- static int fill_rpn(struct ump_cvt_to_ump_bank *cc,
- 		    union snd_ump_midi2_msg *data,
-@@ -817,11 +826,7 @@ static int fill_rpn(struct ump_cvt_to_ump_bank *cc,
- 					     cc->cc_data_lsb);
- 	data->rpn.channel = channel;
+-static void fill_rpn(struct snd_seq_ump_midi2_bank *cc,
++static void fill_rpn(struct ump_cvt_to_ump_bank *cc,
+ 		     union snd_ump_midi2_msg *data,
+ 		     unsigned char channel)
+ {
+@@ -822,7 +822,7 @@ static int cc_ev_to_ump_midi2(const struct snd_seq_event *event,
+ 	unsigned char channel = event->data.control.channel & 0x0f;
+ 	unsigned char index = event->data.control.param & 0x7f;
+ 	unsigned char val = event->data.control.value & 0x7f;
+-	struct snd_seq_ump_midi2_bank *cc = &dest_port->midi2_bank[channel];
++	struct ump_cvt_to_ump_bank *cc = &dest_port->midi2_bank[channel];
  
--	cc->rpn_set = 0;
--	cc->nrpn_set = 0;
--	cc->cc_rpn_msb = cc->cc_rpn_lsb = 0;
--	cc->cc_data_msb = cc->cc_data_lsb = 0;
--	cc->cc_data_msb_set = cc->cc_data_lsb_set = 0;
-+	reset_rpn(cc);
- 	return 1;
- }
+ 	/* process special CC's (bank/rpn/nrpn) */
+ 	switch (index) {
+@@ -887,7 +887,7 @@ static int pgm_ev_to_ump_midi2(const struct snd_seq_event *event,
+ 			       unsigned char status)
+ {
+ 	unsigned char channel = event->data.control.channel & 0x0f;
+-	struct snd_seq_ump_midi2_bank *cc = &dest_port->midi2_bank[channel];
++	struct ump_cvt_to_ump_bank *cc = &dest_port->midi2_bank[channel];
  
-@@ -843,11 +848,15 @@ static int cc_ev_to_ump_midi2(const struct snd_seq_event *event,
- 		ret = fill_rpn(cc, data, channel, true);
- 		cc->rpn_set = 1;
- 		cc->cc_rpn_msb = val;
-+		if (cc->cc_rpn_msb == 0x7f && cc->cc_rpn_lsb == 0x7f)
-+			reset_rpn(cc);
- 		return ret;
- 	case UMP_CC_RPN_LSB:
- 		ret = fill_rpn(cc, data, channel, true);
- 		cc->rpn_set = 1;
- 		cc->cc_rpn_lsb = val;
-+		if (cc->cc_rpn_msb == 0x7f && cc->cc_rpn_lsb == 0x7f)
-+			reset_rpn(cc);
- 		return ret;
- 	case UMP_CC_NRPN_MSB:
- 		ret = fill_rpn(cc, data, channel, true);
-@@ -961,6 +970,8 @@ static int ctrl14_ev_to_ump_midi2(const struct snd_seq_event *event,
- 		cc->cc_rpn_msb = msb;
- 		cc->cc_rpn_lsb = lsb;
- 		cc->rpn_set = 1;
-+		if (cc->cc_rpn_msb == 0x7f && cc->cc_rpn_lsb == 0x7f)
-+			reset_rpn(cc);
- 		return ret;
- 	case UMP_CC_NRPN_MSB:
- 	case UMP_CC_NRPN_LSB:
+ 	data->pg.status = status;
+ 	data->pg.channel = channel;
+@@ -924,7 +924,7 @@ static int ctrl14_ev_to_ump_midi2(const struct snd_seq_event *event,
+ {
+ 	unsigned char channel = event->data.control.channel & 0x0f;
+ 	unsigned char index = event->data.control.param & 0x7f;
+-	struct snd_seq_ump_midi2_bank *cc = &dest_port->midi2_bank[channel];
++	struct ump_cvt_to_ump_bank *cc = &dest_port->midi2_bank[channel];
+ 	unsigned char msb, lsb;
+ 
+ 	msb = (event->data.control.value >> 7) & 0x7f;
 -- 
 2.43.0
 
