@@ -1,94 +1,93 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AF851B29AB
-	for <linux-sound@vger.kernel.org>; Wed, 31 Jul 2024 13:52:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B6BA1A7F7F;
+	Wed, 31 Jul 2024 13:53:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722433922; cv=none; b=qRMMn9Ss32jl8cJ99ofWUpqbZFPBKkJj2SD4jjZofsgu+3gKnaZX5Vql+1zAu/bovlWd7ka6HB0fh3VSCapJ+LNyxGWQaiW7tZNFCs86PPaN0qffRDnEVboMhwX5IMKPFru1QUPueCs0NOwNn042RSPaFhqACw62LMzFzuaWjDQ=
+	t=1722434007; cv=none; b=JZzMsXcGkglm8PLSJ0JInZUWO/9ROH/TtDglD2J6oYJ7XNeVXzcDCTfYFwPhgz2pj484ecobWw5KPoInX+/KgBxVmYJt+DuM5TzFYDgpCnPBUasf60mflGkt7r6CdWJrcQu3QUbmPGaJvYwaPNIl3tnra8gjTqdD33Fz9FoBp4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722433922; c=relaxed/simple;
-	bh=9R5oo3GqCl5byKUP4cdCVzEJaAQFQ4ndDFj9AtwAkFg=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EK7H7h2AbAvL/nh/iwQN85H4AbRQHZp4dGpHPeGayRWqbqH+yiLXxF1SKtgwyvlgwyEQhpi48r6VKUPpQKaI7WIldZJaPoaWTNOIW+1QbDoBRETryNZh1kwO2cdcfnUeAW5Iyj1nPT+9TXvnKckc08gGwq9BuhgP96a9isXRguU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Ak2NV5Xq; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1722434007; c=relaxed/simple;
+	bh=h4jkxfwJQEcLEg45LO0JMK3kGyr4gy5FVoR95arp49E=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=rhdlhzDlOrinUZmkhiuWVDz1KiPxkxd4KG5z4owJo+PvY3ee+cSvFXXk0Mi7MjxQK2JHlY0mK/pmtbxPzVjcL0v0S8ZAdH4H+ci4EbOnU71OZMpJKZl2TRDMLVAEotsZ6lmjNglVaRA6WYWTJxY54a20uToO+P0LgSYuHPyjcxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fsCfmhZS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Ak2NV5Xq"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46V9i9re014719;
-	Wed, 31 Jul 2024 08:51:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=uDaa/d7RVH8bsfoasv
-	GEKK6dAmoj1G2ABR0Z4/K07PY=; b=Ak2NV5XqUovVzeXSJ7yA97O9BZyPIqZz2W
-	QsEv+V7UfrrM76LmQl5DFCSQNrv6Cf7OUoG9pBkcmBccv3lVrDK6CT61KpT9/IYS
-	V7k7eiHHqd4EXpM/6eKumZjjgnVPTSAth4ZbALMDNsl6VqsXHdeVI0H//eRYaJEV
-	U7P86c29d0m78XqYcOOr/xB1fTBXoqhji8pwPjSBY74mFMk3Pz1N1lGUq54qizhQ
-	5uoqJ5zHxLfmEWvH/88kkBH+eV/3+kdRN1mSF9mSSWNqOQhK8TWyc3rp17xeCSoi
-	F9ZsVdkg/mSkNT4sVcXwEeqEskVy5kv2d2VYbiHHVKVgLiKMN0Ww==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 40qjw98afp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 31 Jul 2024 08:51:27 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 31 Jul
- 2024 14:51:25 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Wed, 31 Jul 2024 14:51:25 +0100
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id BB8A1820244;
-	Wed, 31 Jul 2024 13:51:25 +0000 (UTC)
-Date: Wed, 31 Jul 2024 14:51:24 +0100
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: <broonie@kernel.org>, <perex@perex.cz>, <tiwai@suse.com>
-CC: <lgirdwood@gmail.com>, <linux-sound@vger.kernel.org>,
-        <patches@opensource.cirrus.com>
-Subject: Re: [PATCH v2 4/4] ASoC: cs42l43: Cache shutter IRQ control pointers
-Message-ID: <ZqpBXGH2+PZG2W95@opensource.cirrus.com>
-References: <20240731133905.1254796-1-ckeepax@opensource.cirrus.com>
- <20240731133905.1254796-4-ckeepax@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fsCfmhZS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8D1EC116B1;
+	Wed, 31 Jul 2024 13:53:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722434006;
+	bh=h4jkxfwJQEcLEg45LO0JMK3kGyr4gy5FVoR95arp49E=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=fsCfmhZSDqAoNxS7TL+g2Cyvt+P/djSELkOmXa7C+3x69n/p7AFXQLdp2LZdv1Uva
+	 N6idLgS1d45bF4NwpxbF4ai0HmK61KoO0CBvLcOAIr0a3XT/+daWBl+E7Y9Htsof+3
+	 6oeBJt5ZvQyZjPAH6gUD4Nd0+7yFubIJL3QzbOAaAwo/Efb/XaE28ORi0xDqbbYIYi
+	 Zw8l179LS9wrWRqCetYFm+GD9YWwsPEgYBC84TU5FxTr0Zyq2D/2s7dJva9X0yRnIj
+	 Ks4BYMr873zY+q6Hx/Rk8GzroKrJpVeSA5K2DQOSPzzuvxBgXm3h7d6UJK4iav9xQ8
+	 0uEV4bU/px5XA==
+From: Mark Brown <broonie@kernel.org>
+To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+ nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Shengjiu Wang <shengjiu.wang@nxp.com>
+In-Reply-To: <1721897694-6088-1-git-send-email-shengjiu.wang@nxp.com>
+References: <1721897694-6088-1-git-send-email-shengjiu.wang@nxp.com>
+Subject: Re: [PATCH 0/2] ASoC: fsl_micfil: Check the difference for i.MX8
+ and i.MX9
+Message-Id: <172243400439.75630.6636735348572180704.b4-ty@kernel.org>
+Date: Wed, 31 Jul 2024 14:53:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240731133905.1254796-4-ckeepax@opensource.cirrus.com>
-X-Proofpoint-GUID: pa-euLx9kv8mX3_VtLnh1H4hr38maLP_
-X-Proofpoint-ORIG-GUID: pa-euLx9kv8mX3_VtLnh1H4hr38maLP_
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-37811
 
-On Wed, Jul 31, 2024 at 02:39:05PM +0100, Charles Keepax wrote:
-> The microphone/speaker privacy shutter ALSA control handlers need to
-> call pm_runtime_resume, since the hardware needs to be powered up to
-> check the hardware state of the shutter. The IRQ handler for the
-> shutters also needs to notify the ALSA control to inform user-space
-> the shutters updated. However this leads to a mutex inversion,
-> between the sdw_dev_lock and the controls_rwsem.
+On Thu, 25 Jul 2024 16:54:52 +0800, Shengjiu Wang wrote:
+> There are some register difference for i.MX8 and i.MX9
+> REG_MICFIL_FIFO_CTRL definition is updated.
+> REG_MICFIL_FSYNC_CTRL, REG_MICFIL_VERID, REG_MICFIL_PARAM are added from
+> i.MX9
 > 
-> To avoid this mutex inversion cache the kctl pointers before the IRQ
-> handler, which avoids the need to lookup the control and take the
-> controls_rwsem.
+> Shengjiu Wang (2):
+>   ASoC: fsl_micfil: Expand the range of FIFO watermark mask
+>   ASoC: fsl_micfil: Differentiate register access permission for
+>     platforms
 > 
-> Suggested-by: Jaroslav Kysela <perex@perex.cz>
-> Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-> ---
->  static const struct snd_soc_dai_ops cs42l43_sdw_ops = {
-> +	.probe		= cs42l43_dai_probe,
-> +	.remove		= cs42l43_dai_remove,
->  	.startup	= cs42l43_startup,
->  	.set_stream	= cs42l43_sdw_set_stream,
->  	.hw_params	= cs42l43_sdw_hw_params,
+> [...]
 
-Actually probably makes slightly more sense to use the ASP ops
-for the caching the control names, I will leave the patches
-overnight for any other comments then send a v3 tomorrow.
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/2] ASoC: fsl_micfil: Expand the range of FIFO watermark mask
+      commit: 4ddd51ccff911a2e9e961307692532a325f6c78a
+[2/2] ASoC: fsl_micfil: Differentiate register access permission for platforms
+      commit: aa4f76ef09a993efa9b5fab6ddf5d6d324baaea3
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
 Thanks,
-Charles
+Mark
+
