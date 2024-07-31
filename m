@@ -1,75 +1,58 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4502D1B1400
-	for <linux-sound@vger.kernel.org>; Wed, 31 Jul 2024 13:05:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2055B1B1503
+	for <linux-sound@vger.kernel.org>; Wed, 31 Jul 2024 13:39:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722431116; cv=none; b=svWkIdMEzydfnxlwieiL0yw+Ex7MbCUEUzmwzcfqJuaLxldmchckxt83cKuwkNcfAjPiy79LBlnMrS4ugqmhhNAxR3DjpfCKgRAAKxINUJr89YLCfWvTUiqw+WXiz4N+yf/4mZpJMyzaB4ub1HWG3lU0J0D0fHCC/wIetseq0zg=
+	t=1722433163; cv=none; b=g8pfi+GHpo+CCmP9dJVY/0kCG8kQ+Si3u9twoHH9NYNb81KaJr/Tougimf6KDQM2tuQJBnepJLsa/4l+YCcnTc0CAEK/kgDX7mS8C1Ixgjgt6bqCdczBieUAcivrsxXVDauDxzlNaumXSpap/wkl2h+HYA1AlqZEnHs0hHgMO3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722431116; c=relaxed/simple;
-	bh=8fvuuHcARjGrSfmetR7Tlnpq9KqO04ZYsFdo/PKG6Ms=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=haSr8fSbXIeQs17CMBAkS56+pkdkXtv8dWTgto0yt/1YoWLZBXfJU6snd/utzZkf58p5/a5L+ALnObgZ28T3aYq1NsgAiQe2rjQ1GJj0mB31We2c79kuA7q1/vdFLvgzXYSk0k6kTIO3mW7+3AUkIhN8OAWGwWuPpdYqC/aTD5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=R5bu6vm2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3gXbLt8+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mNHT8zdl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ah9td15a; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1722433163; c=relaxed/simple;
+	bh=lDiGNW+wpzqSfH3yDNtxZMX4vL2klH7bgyAQczyjYeE=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BXP+SvbTUPkJTYbkR0pbmgkdcSrxftDSJLPpiaYuLzvhHiLqTZkYIUqddNQ7pqA0xt2cbFxhByrFKVW30sYDDYp0GP+2y9udiR2VAwbwY+UyLKfLdT3lTti0gcMZSwpPvX4OeMzkJTDpRmucG90A+WuGFSesfTodXMPF5suYlNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Ctv9Enfx; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="R5bu6vm2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3gXbLt8+";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mNHT8zdl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ah9td15a"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 6244D1F833;
-	Wed, 31 Jul 2024 13:04:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1722431094; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=BPxayUZJ4dgdMdsy3Flw9a1LK5cll6LS8hglcQSROZQ=;
-	b=R5bu6vm2awYHRQa4100ucfxzF7Z7XpuW6U/2m+KISru7SAg63Xj2U+k4VxhAWLhzoBBNMY
-	9VQpbDVgVRiA1Pn8CXzTTmXOd+QqYQ6TbvmRfW8PjlC7cfMERd/NGKFRZts3O1SjTG9cvK
-	3LapTQ8RvH152bFc33fjY56XqHl23ZQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1722431094;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=BPxayUZJ4dgdMdsy3Flw9a1LK5cll6LS8hglcQSROZQ=;
-	b=3gXbLt8+PbA8X3DxW3nLKpINdKvLMXhKMhJrpOqQfgmyaqI6j9ChF1XQjS2uXn03Nk3UIZ
-	DA4EjNbUTlg7MsDA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1722431093; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=BPxayUZJ4dgdMdsy3Flw9a1LK5cll6LS8hglcQSROZQ=;
-	b=mNHT8zdllv6iiqD9jypY3hEBXZX/UfiFGLwVzzpZDXqz9SsVG96LKJEbXqAOCyjvUSnJUg
-	skkBZqgoOBhf2s6xBy4Kg/MMigh0ZpfTa4CXrZTogirrCa2wuxtloesOr1Q/60ReMDUmI/
-	a2cNI+0t3LLzIBXjYo9ZoR5FQ0/i87U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1722431093;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=BPxayUZJ4dgdMdsy3Flw9a1LK5cll6LS8hglcQSROZQ=;
-	b=ah9td15awtQlyv6KY9jKwP3kmZw88cOeK7r42Yk2AjlInWdjNk/MCauf+XvyQ6SQCfi2fL
-	Fgev3pO87Yj1kxCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4840413297;
-	Wed, 31 Jul 2024 13:04:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id t/RkEHU2qmYrWgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 31 Jul 2024 13:04:53 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH 0/5] ALSA: UMP RPN/NRPN conversion fixes
-Date: Wed, 31 Jul 2024 15:05:21 +0200
-Message-ID: <20240731130528.12600-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Ctv9Enfx"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46V4lq21024935;
+	Wed, 31 Jul 2024 08:39:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=Rh5jgZggqSRQKQ0ZFrEVWOjTyeku5L57e7FLHq8p/cU=; b=
+	Ctv9EnfxP5NX+G4Wq7SvkRjSvw0QBg65m6KT921yIeXi4mXpYNLy0mT478O4G37N
+	F26RRx3I+YheBZ1WVMeybho/UoG2rBQkhk02o5ybk6qhtmJb6esfmA1DxUAU/83L
+	bRfPWak6cKfNKUjdHhFS/+qwfq89IlW+zWWfJZUfVikGEK7RCC27mQTpgPQL9TRe
+	CEZnz+juHP1IiLXoQ37M2h1iMKruxNMgqWDO98nfdy6VQdVStSYnnlwyVa6mdTFE
+	TCZNS0B37QWQiRdyPoGFeyTHYSl81GybkGImqnjMiOR7Gj0GobrzQoRr3ro3VH1P
+	g4Pa2GiHYB6PJsAEJaVzNA==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 40mx9ymr5u-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 31 Jul 2024 08:39:08 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 31 Jul
+ 2024 14:39:05 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Wed, 31 Jul 2024 14:39:05 +0100
+Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 3C7AC82024B;
+	Wed, 31 Jul 2024 13:39:05 +0000 (UTC)
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: <broonie@kernel.org>, <perex@perex.cz>, <tiwai@suse.com>
+CC: <lgirdwood@gmail.com>, <linux-sound@vger.kernel.org>,
+        <patches@opensource.cirrus.com>
+Subject: [PATCH v2 3/4] ASoC: cs35l45: Use new snd_soc_component_get_kcontrol() helper
+Date: Wed, 31 Jul 2024 14:39:04 +0100
+Message-ID: <20240731133905.1254796-3-ckeepax@opensource.cirrus.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240731133905.1254796-1-ckeepax@opensource.cirrus.com>
+References: <20240731133905.1254796-1-ckeepax@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -77,53 +60,46 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.60 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -2.60
+Content-Type: text/plain
+X-Proofpoint-GUID: JUKKl37_-MbMH4ROteYz0vRO8HR7oeh-
+X-Proofpoint-ORIG-GUID: JUKKl37_-MbMH4ROteYz0vRO8HR7oeh-
+X-Proofpoint-Spam-Reason: safe
 
-There are a few minor issues about RPN/NRPN message conversions
-between MIDI1 and MIDI2 when some incomplete messages are sent.
-This patch set addresses the issue.  It also cleans up the data type
-shared by both UMP core and sequencer UMP conversion.
+No longer any need to hard code the addition of the name prefix, use the
+new helper.
 
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+---
 
-Takashi
+New since v1 of the series.
 
-===
+ sound/soc/codecs/cs35l45.c | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
-Takashi Iwai (5):
-  ALSA: ump: Transmit RPN/NRPN message at each MSB/LSB data reception
-  ALSA: ump: Explicitly reset RPN with Null RPN
-  ALSA: seq: ump: Use the common RPN/bank conversion context
-  ALSA: seq: ump: Transmit RPN/NRPN message at each MSB/LSB data
-    reception
-  ALSA: seq: ump: Explicitly reset RPN with Null RPN
-
- include/sound/ump_convert.h      |  1 +
- sound/core/seq/seq_ports.h       | 14 +----
- sound/core/seq/seq_ump_convert.c | 97 ++++++++++++++++++++------------
- sound/core/ump_convert.c         | 60 ++++++++++++++------
- 4 files changed, 106 insertions(+), 66 deletions(-)
-
+diff --git a/sound/soc/codecs/cs35l45.c b/sound/soc/codecs/cs35l45.c
+index 2392c6effed85..1fefdb80d758c 100644
+--- a/sound/soc/codecs/cs35l45.c
++++ b/sound/soc/codecs/cs35l45.c
+@@ -176,17 +176,10 @@ static int cs35l45_activate_ctl(struct snd_soc_component *component,
+ 	struct snd_kcontrol *kcontrol;
+ 	struct snd_kcontrol_volatile *vd;
+ 	unsigned int index_offset;
+-	char name[SNDRV_CTL_ELEM_ID_NAME_MAXLEN];
+ 
+-	if (component->name_prefix)
+-		snprintf(name, SNDRV_CTL_ELEM_ID_NAME_MAXLEN, "%s %s",
+-			 component->name_prefix, ctl_name);
+-	else
+-		snprintf(name, SNDRV_CTL_ELEM_ID_NAME_MAXLEN, "%s", ctl_name);
+-
+-	kcontrol = snd_soc_card_get_kcontrol_locked(component->card, name);
++	kcontrol = snd_soc_component_get_kcontrol_locked(component->card, ctl_name);
+ 	if (!kcontrol) {
+-		dev_err(component->dev, "Can't find kcontrol %s\n", name);
++		dev_err(component->dev, "Can't find kcontrol %s\n", ctl_name);
+ 		return -EINVAL;
+ 	}
+ 
 -- 
-2.43.0
+2.39.2
 
