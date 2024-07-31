@@ -1,148 +1,129 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C1769D2B
-	for <linux-sound@vger.kernel.org>; Wed, 31 Jul 2024 06:29:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B4521A6166
+	for <linux-sound@vger.kernel.org>; Wed, 31 Jul 2024 08:26:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722407381; cv=none; b=mXZWrUNWjg7FPpDF+7dCQ2tLKCSxp/xnUPdRI0Fitwzys+ghnsVk95xeUD+BzaDdkeVBzNX0Y9r3cWpE8QuVAMfFuVQUi4hjVXsFNr1ao92BFV53L8VBav96xP9c2wJkBhvRfwYsKKDcZ8dzkNDCAHDToZ+t2qu79S+rhVo4wFc=
+	t=1722414365; cv=none; b=LnnTzhIFUU3O22MGb4rdfyj3LHsCnCMvS/5LS1RyYNwaMQ8yqGsHwGOChd4gUXfTpa+ynP2q6Tz/QLeKZsVCGeFj6+/YUR8i9pRSN00Z/erBrFiG6+HqbzF9dojBeB5eXM+Tan3SxnraEEE8A8MYmXc6qPOwe4lJGREItrmVRe0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722407381; c=relaxed/simple;
-	bh=zWham1aABvcAldH3nct2+vbbOh2hf1v2UxqVMc38JGg=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pc7fUnxhT7mASKkT7+ff5r9rBO27ZrBp+83uPEgTIA9maL8YiOPSAXM1d9yUorwYUkRDsgFYLOVJeCJ5z/I4xarD+9ct+2RznzdwZ9kIiI1WYcnEEqhXPhhfC/Dit53c5RYrA2NHe96Mb0d6rxBWz9rl0swWvea/pjN/T8m+XWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fyD+HcQ+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YkwH1zXV; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fyD+HcQ+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YkwH1zXV; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1722414365; c=relaxed/simple;
+	bh=tAC3ug/LGqAdm2YEhAedFZNCwyk2NGSC0+F1U6scVTk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PkeqpnHzuPf8+E8VuPsfh1q2i94z/LR5SDvPycnAlnvL3cRXqY6XKXdS2P4Etignmlsjw7UOeABsQMztCMXPbyyoOyxMprvq12hrTkqzWqQVK+zvQnZqtjnvwbRuDIQ/VgytFDmEf6naHVlcF2PHY4lG6XyCqnEzPZfZ5Pk7jc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timesys.com; spf=pass smtp.mailfrom=timesys.com; dkim=pass (2048-bit key) header.d=timesys-com.20230601.gappssmtp.com header.i=@timesys-com.20230601.gappssmtp.com header.b=IVu7w6Ed; arc=none smtp.client-ip=209.85.222.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=timesys.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=timesys.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fyD+HcQ+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YkwH1zXV";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fyD+HcQ+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YkwH1zXV"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DF10F21F31;
-	Wed, 31 Jul 2024 06:29:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1722407378; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=65ZU/IcMBSto9GQ0aMYtNo8USn2FhslmqvAzK8F26c4=;
-	b=fyD+HcQ+2NO4uszbAfcS641Qs/6beK5kWuypwH3NvXp3e6colH0gCAJrLWDXNQAweUsF/o
-	IMMtm/r8hNRszqiHns2Xo19dzJRfh7zjpaUz2EhzI6EXQHayIVDbMfQVZ79AGpUtEMv3nt
-	QKnTZFPotvcU+vYvXQ2C6ifcUEj0Dzg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1722407378;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=65ZU/IcMBSto9GQ0aMYtNo8USn2FhslmqvAzK8F26c4=;
-	b=YkwH1zXVvXzwoU/9X0FLbFDYpKrXgpcsKWH9vCjF6ThShYFQ2vs1GvDDgZMIKHfSuM9B4U
-	2qBcZkQ1I7MsW2AQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1722407378; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=65ZU/IcMBSto9GQ0aMYtNo8USn2FhslmqvAzK8F26c4=;
-	b=fyD+HcQ+2NO4uszbAfcS641Qs/6beK5kWuypwH3NvXp3e6colH0gCAJrLWDXNQAweUsF/o
-	IMMtm/r8hNRszqiHns2Xo19dzJRfh7zjpaUz2EhzI6EXQHayIVDbMfQVZ79AGpUtEMv3nt
-	QKnTZFPotvcU+vYvXQ2C6ifcUEj0Dzg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1722407378;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=65ZU/IcMBSto9GQ0aMYtNo8USn2FhslmqvAzK8F26c4=;
-	b=YkwH1zXVvXzwoU/9X0FLbFDYpKrXgpcsKWH9vCjF6ThShYFQ2vs1GvDDgZMIKHfSuM9B4U
-	2qBcZkQ1I7MsW2AQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9D15513297;
-	Wed, 31 Jul 2024 06:29:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id yKwFJdLZqWYXZwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 31 Jul 2024 06:29:38 +0000
-Date: Wed, 31 Jul 2024 08:30:15 +0200
-Message-ID: <87ikwmoyyw.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.de>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	lgirdwood@gmail.com,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH] ASoC: cs42l43: Move shutter IRQ handling into a worker thread
-In-Reply-To: <c555e200-af4a-4b71-9e04-d03f3f10c8d7@sirena.org.uk>
-References: <20240729155932.3054632-1-ckeepax@opensource.cirrus.com>
-	<87plqw9no5.wl-tiwai@suse.de>
-	<ZqfHC7IodobTlVT4@opensource.cirrus.com>
-	<87ikwo9etj.wl-tiwai@suse.de>
-	<ZqinleaAqikxdQGr@opensource.cirrus.com>
-	<87ikwn3vqf.wl-tiwai@suse.de>
-	<81eb73d0-60e6-4a77-a3c6-f9d7355119d0@perex.cz>
-	<f7503750-d751-42e7-88de-061f6263e4b6@sirena.org.uk>
-	<3615b393-64cc-4983-960a-44bd2b0773fe@perex.cz>
-	<c555e200-af4a-4b71-9e04-d03f3f10c8d7@sirena.org.uk>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=timesys-com.20230601.gappssmtp.com header.i=@timesys-com.20230601.gappssmtp.com header.b="IVu7w6Ed"
+Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-8223f0614b6so1495356241.2
+        for <linux-sound@vger.kernel.org>; Wed, 31 Jul 2024 01:26:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=timesys-com.20230601.gappssmtp.com; s=20230601; t=1722414362; x=1723019162; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DFjJ7n63paZS6uSG42PXEZWs1JHtvlpu1J7pCHV1MaA=;
+        b=IVu7w6Ed6g7vZqHOo5KjS/8XW5dDLZcltfDNvyt18ajCx4Tov99PhxiYy8I332RWeW
+         5gKisO4AFbWdGc4EGFHviRB/t6Rkqr8vV3f5z2HDP3Vo+UdxwX06FKBF3KBmRB0DOmML
+         vgywV/rmorxcHnyjn7V3v4Kpik+jWDqdko7ZvsYNvdGo9w72I8ZVxHTbchW2/9s2UNii
+         FbXQ+asuzXroKbut/PXg7YozCgvdozZ3D0QdGxafV/WoD3OpCuaVLAC/vFY9zjuVs8Yz
+         8ffumjhOXAJpEBk1FgHgu7K3NPsH4Eyv8kAfS2/EAbbcO44q6S/adCdCchKPvanUN5xm
+         PoTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722414362; x=1723019162;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DFjJ7n63paZS6uSG42PXEZWs1JHtvlpu1J7pCHV1MaA=;
+        b=ih+v9izv6nO0WEmj8UxuXro3tdY7W9Nu9jHQTDE2Re16Vr9IzHUDNSzNVRz5CkdQz4
+         oQ2Q16Xt/xFCXZCiaNi9wA2206gxOM5lrincQ1IgHMwN/NkMhbYKx6k+OM6tMJND+Fml
+         7JRiRaFq6gv44w8UeVTV4XrhdSsK8tYJjVYpA9tUgXzXs/ovQLTrSIiUlvSHBnXCQECM
+         NegER3PIvajTe3Pj912vmFQ5v1EKST5yHOaC8g6VGPraV4fhtJQPzm33Omyj1VWMrm/Z
+         qcjfUl3DYouIE20LTXvVv8oIPA9j9+2z6zfsc+3jRrqJuztxfaYYP+tnC7YdwlfYUTQm
+         l/nw==
+X-Forwarded-Encrypted: i=1; AJvYcCX33ioMDwcvSWVoy5k55dcarhoYWzyJL6+yVugBfFqUq3c+7GUXUBxtYdIi60sChNAyK98zWulnKWtrcqQX/C1gC6YBQEYrh2F0LPk=
+X-Gm-Message-State: AOJu0Yxb0rKuR8g/AuzLuUXzRhqsPDzcXGCQmCAUXOHfXJUdIgxHNuBh
+	OJRkcbiNjTq/QCdA9pkFglrIVrs5mzGKf7XdH6cElxmwtfs395lOWWEkXRn8PR75Su0Oy7c3qnW
+	2CC5zmoQvssorqOCT55LdMyrak6DazUuyZuMQWA==
+X-Google-Smtp-Source: AGHT+IEZQxKOD7qrEVQxXh0yoroOagYvbnV14lRkkP0QqCJaL1USQW1bT0weUmb2OMtTj4zK11JciNIw6TA8x5ATMzI=
+X-Received: by 2002:a05:6102:390b:b0:492:a7e5:df9 with SMTP id
+ ada2fe7eead31-493faa417bfmr15098391137.17.1722414362030; Wed, 31 Jul 2024
+ 01:26:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-0.10 / 50.00];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[perex.cz,suse.de,opensource.cirrus.com,gmail.com,vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -0.10
+MIME-Version: 1.0
+References: <20240731022949.135016-1-yuehaibing@huawei.com>
+In-Reply-To: <20240731022949.135016-1-yuehaibing@huawei.com>
+From: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
+Date: Wed, 31 Jul 2024 10:25:51 +0200
+Message-ID: <CAG+cZ05LGBsNODyAaApS1uoPXPh7Cchp8utm_AAWoM09HZzOzw@mail.gmail.com>
+Subject: Re: [PATCH -next] ASoC: fsl: lpc3xxx-i2s: Remove set but not used
+ variable 'savedbitclkrate'
+To: Yue Haibing <yuehaibing@huawei.com>
+Cc: jonathan.downing@nautel.com, vz@mleia.com, lgirdwood@gmail.com, 
+	broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
+	alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 31 Jul 2024 01:20:40 +0200,
-Mark Brown wrote:
-> 
-> On Tue, Jul 30, 2024 at 11:47:48PM +0200, Jaroslav Kysela wrote:
-> > On 30. 07. 24 16:44, Mark Brown wrote:
-> 
-> > > With some of these slower buses it's not immediately obvious that it's
-> > > worth the bother of caching - the overhead of doing the lookup is
-> > > negligable in the overall context of handling the interrupt.
-> 
-> > I don't buy that argument. We should always try to write an optimal code.
-> > Every CPU tick counts.
-> 
-> So do the bytes of memory you'd use caching the pointers!
+On Wed, Jul 31, 2024 at 4:39=E2=80=AFAM Yue Haibing <yuehaibing@huawei.com>=
+ wrote:
+>
+> The variable savedbitclkrate is assigned and never used, so can be remove=
+d.
+>
+> sound/soc/fsl/lpc3xxx-i2s.c:42:13: warning: variable =E2=80=98savedbitclk=
+rate=E2=80=99 set but not used [-Wunused-but-set-variable]
+>
+> Fixes: 0959de657a10 ("ASoC: fsl: Add i2s and pcm drivers for LPC32xx CPUs=
+")
+> Signed-off-by: Yue Haibing <yuehaibing@huawei.com>
+> ---
+>  sound/soc/fsl/lpc3xxx-i2s.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/sound/soc/fsl/lpc3xxx-i2s.c b/sound/soc/fsl/lpc3xxx-i2s.c
+> index af995ca081a3..62ef624d6dd4 100644
+> --- a/sound/soc/fsl/lpc3xxx-i2s.c
+> +++ b/sound/soc/fsl/lpc3xxx-i2s.c
+> @@ -39,7 +39,7 @@ static void __lpc3xxx_find_clkdiv(u32 *clkx, u32 *clky,=
+ int freq, int xbytes, u3
+>  {
+>         u32 i2srate;
+>         u32 idxx, idyy;
+> -       u32 savedbitclkrate, diff, trate, baseclk;
+> +       u32 diff, trate, baseclk;
+>
+>         /* Adjust rate for sample size (bits) and 2 channels and offset f=
+or
+>          * divider in clock output
+> @@ -53,14 +53,12 @@ static void __lpc3xxx_find_clkdiv(u32 *clkx, u32 *clk=
+y, int freq, int xbytes, u3
+>
+>         /* Find the best divider */
+>         *clkx =3D *clky =3D 0;
+> -       savedbitclkrate =3D 0;
+>         diff =3D ~0;
+>         for (idxx =3D 1; idxx < 0xFF; idxx++) {
+>                 for (idyy =3D 1; idyy < 0xFF; idyy++) {
+>                         trate =3D (baseclk * idxx) / idyy;
+>                         if (abs(trate - i2srate) < diff) {
+>                                 diff =3D abs(trate - i2srate);
+> -                               savedbitclkrate =3D trate;
+>                                 *clkx =3D idxx;
+>                                 *clky =3D idyy;
+>                         }
+> --
+> 2.34.1
+>
 
-Adding two more works would be even more wastes, that's the beginning
-of the discussion :)
+Looks good, thanks.
 
-The problem is the order of ASoC component initialization, though;
-AFAIUC, the kcontrols aren't instantiated at the point of component
-probe, hence you can't get kcontrol objects there.
-
-
-Takashi
+--=20
+Piotr Wojtaszczyk
+Timesys
