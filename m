@@ -1,44 +1,86 @@
-Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7285191F8C;
-	Wed, 31 Jul 2024 11:48:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.194.8.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBB02209F
+	for <linux-sound@vger.kernel.org>; Wed, 31 Jul 2024 13:04:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722426530; cv=none; b=SAYMssRGcKBKRPfcBp1FGkx5DZn1WvRJfpYcodrKwuTzLTsecKv+HED8Wajz1iRBx/+Zo5CbZaef+jKlVYI40gYsXMc2Gm/mddAxoiYrPCCllCQ3jJrmEsdbgKPJ1klIwMb7CIEQjC3eHfJy6EuaSjarAqScD999mDeu9sX22FQ=
+	t=1722431097; cv=none; b=KrHBzst4v6S1+aUy2kdfH7oLOmxSE4lVmTLgaR5ouc0Lu3eOpezDzyg0/KDQ4B2+bWbP6g+o5UNs3+rQanA9772DbWUF6hJdk5ka+4owUF8JPEaFgM8es2IjQGgdEcL63X8s6P3TspVSUbHSymMxaq/ujQPmn7cAf6YohrPki3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722426530; c=relaxed/simple;
-	bh=eMCe0BeajwTdXJk8ZG7lWHugRG3CBtcRg4RMJ2blul0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=DSKIyeSk5oRCnBizz8FmZ23p47IqmkqvehN3kW5wG3uisqrHc2Dq9Z4uo8pCX9/AvdPPLWv4utDQzo2erzcPTW8BFuNuobBrCD+gcRDJFk/USCOneg/Bu8LGfWZnzl3tl0hq3nVkCi0QcxLceZpK8jVdmqWWqAejpD6Iw4OP51U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it; spf=pass smtp.mailfrom=dolcini.it; dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b=R1wcR+yg; arc=none smtp.client-ip=217.194.8.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dolcini.it
+	s=arc-20240116; t=1722431097; c=relaxed/simple;
+	bh=B5WsamjuS20KPAoSquP2yD521Fg8Yt9/LPXXPaOS5sc=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=QiQpLS2vIIdqWDbTHNFL5DD/psBUdcmktFmqbHZ7HwZ5nmciuSnYw9HBRGLFrTtC0ddwGNOWd/sMv5/px716VJIcaGYpU9BrZ8irLKaOyTJ6mfy9KwJMgOcpVdFmgafqWR+vd4BYFfs9eEXlbvAsbw4NEky4ZWlsZhMwfGQ/qtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GuuNyBCp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=kyD3gwmy; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GuuNyBCp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=kyD3gwmy; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b="R1wcR+yg"
-Received: from francesco-nb.pivistrello.it (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
-	by mail11.truemail.it (Postfix) with ESMTPA id E5CD31F999;
-	Wed, 31 Jul 2024 13:48:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
-	s=default; t=1722426520;
-	bh=Rzs2zKhNmbV41FgRJBzDyt1F9WRkatvV0fHFhoA9GTk=; h=From:To:Subject;
-	b=R1wcR+ygxatdDtpZ8IhYZtQ/nLAQQ4ym8O/y+aOK41s/qMJ+N7cVBb1PmgTOYdjEw
-	 2TgpNBdh3Ov1BXPqq1jvIwO/wS1vNyuVY1mGGcnWw5vl2MR3YRx+89ZabRN67aYnnV
-	 trjG1rvgC7YHqu6tkQoX8b0n2YwCc/ToK1K4O4Uob8A1hVaOC8lgqgCxctzjmzNnzU
-	 ACdtcuQriQkt4ERPpsNwXBtDTZ1FF+4y7MfL+ieKiJkPx8wu4nWrCillE/jiEWjnaD
-	 YmNO0BUXx1rB6o6GLEShE9e9sy31Y0sa7hfjHp0amRpKlg/nC98UnHN7G10Or5Hzb2
-	 lrFZAJKHoCoKQ==
-From: Francesco Dolcini <francesco@dolcini.it>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Francesco Dolcini <francesco.dolcini@toradex.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v1] ASoC: nau8822: Lower debug print priority
-Date: Wed, 31 Jul 2024 13:48:28 +0200
-Message-Id: <20240731114828.61238-1-francesco@dolcini.it>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GuuNyBCp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kyD3gwmy";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GuuNyBCp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kyD3gwmy"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id ABE1A21B70;
+	Wed, 31 Jul 2024 13:04:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1722431094; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iIuCGLYnFxVzQ2WV4zRR2IQLaTe4h/OocPK8hDfrEcE=;
+	b=GuuNyBCpAuHI3hMNh+WpXuomphTiRFwx27ODy2e/aJpVpI9eHTc0/ROcDo4/+ARRe5LzDk
+	9MsxiA/nwn2bjzbM8wRgBD1wNcuCD8f1gjB5KlWd07aFsdV6I97Bc3cbcbvbTBDz1fgOEu
+	5EjwTkjy8aG45CTlCo0PohtCy2JD/iw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1722431094;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iIuCGLYnFxVzQ2WV4zRR2IQLaTe4h/OocPK8hDfrEcE=;
+	b=kyD3gwmyhKUHLP7IIbBR6VkYB9KBnV6QMX6SjFqNsfcYWDEZ3VCuAfh6g7m4ZGrmvk7C/8
+	86S/i/RtFlO9/+AA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1722431094; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iIuCGLYnFxVzQ2WV4zRR2IQLaTe4h/OocPK8hDfrEcE=;
+	b=GuuNyBCpAuHI3hMNh+WpXuomphTiRFwx27ODy2e/aJpVpI9eHTc0/ROcDo4/+ARRe5LzDk
+	9MsxiA/nwn2bjzbM8wRgBD1wNcuCD8f1gjB5KlWd07aFsdV6I97Bc3cbcbvbTBDz1fgOEu
+	5EjwTkjy8aG45CTlCo0PohtCy2JD/iw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1722431094;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iIuCGLYnFxVzQ2WV4zRR2IQLaTe4h/OocPK8hDfrEcE=;
+	b=kyD3gwmyhKUHLP7IIbBR6VkYB9KBnV6QMX6SjFqNsfcYWDEZ3VCuAfh6g7m4ZGrmvk7C/8
+	86S/i/RtFlO9/+AA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E697513AE0;
+	Wed, 31 Jul 2024 13:04:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 8A8PN3U2qmYrWgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 31 Jul 2024 13:04:53 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH 5/5] ALSA: seq: ump: Explicitly reset RPN with Null RPN
+Date: Wed, 31 Jul 2024 15:05:26 +0200
+Message-ID: <20240731130528.12600-6-tiwai@suse.de>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240731130528.12600-1-tiwai@suse.de>
+References: <20240731130528.12600-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,31 +88,97 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.60 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -2.60
 
-From: Francesco Dolcini <francesco.dolcini@toradex.com>
+RPN with 127:127 is treated as a Null RPN, just to reset the
+parameters, and it's not translated to MIDI2.  Although the current
+code can work as is in most cases, better to implement the RPN reset
+explicitly for Null message.
 
-NAU8822 codec PLL parameters are not an information that the general
-user should care about, this print is supposed to be used for debugging,
-adjust the debug print priority accordingly.
-
-Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/soc/codecs/nau8822.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/core/seq/seq_ump_convert.c | 21 ++++++++++++++++-----
+ 1 file changed, 16 insertions(+), 5 deletions(-)
 
-diff --git a/sound/soc/codecs/nau8822.c b/sound/soc/codecs/nau8822.c
-index e1cbaf8a944d..fd4a96a12060 100644
---- a/sound/soc/codecs/nau8822.c
-+++ b/sound/soc/codecs/nau8822.c
-@@ -736,7 +736,7 @@ static int nau8822_set_pll(struct snd_soc_dai *dai, int pll_id, int source,
- 		return ret;
- 	}
+diff --git a/sound/core/seq/seq_ump_convert.c b/sound/core/seq/seq_ump_convert.c
+index 7ca62667f28d..4dd540cbb1cb 100644
+--- a/sound/core/seq/seq_ump_convert.c
++++ b/sound/core/seq/seq_ump_convert.c
+@@ -789,6 +789,15 @@ static int paf_ev_to_ump_midi2(const struct snd_seq_event *event,
+ 	return 1;
+ }
  
--	dev_info(component->dev,
-+	dev_dbg(component->dev,
- 		"pll_int=%x pll_frac=%x mclk_scaler=%x pre_factor=%x\n",
- 		pll_param->pll_int, pll_param->pll_frac,
- 		pll_param->mclk_scaler, pll_param->pre_factor);
++static void reset_rpn(struct ump_cvt_to_ump_bank *cc)
++{
++	cc->rpn_set = 0;
++	cc->nrpn_set = 0;
++	cc->cc_rpn_msb = cc->cc_rpn_lsb = 0;
++	cc->cc_data_msb = cc->cc_data_lsb = 0;
++	cc->cc_data_msb_set = cc->cc_data_lsb_set = 0;
++}
++
+ /* set up the MIDI2 RPN/NRPN packet data from the parsed info */
+ static int fill_rpn(struct ump_cvt_to_ump_bank *cc,
+ 		    union snd_ump_midi2_msg *data,
+@@ -817,11 +826,7 @@ static int fill_rpn(struct ump_cvt_to_ump_bank *cc,
+ 					     cc->cc_data_lsb);
+ 	data->rpn.channel = channel;
+ 
+-	cc->rpn_set = 0;
+-	cc->nrpn_set = 0;
+-	cc->cc_rpn_msb = cc->cc_rpn_lsb = 0;
+-	cc->cc_data_msb = cc->cc_data_lsb = 0;
+-	cc->cc_data_msb_set = cc->cc_data_lsb_set = 0;
++	reset_rpn(cc);
+ 	return 1;
+ }
+ 
+@@ -843,11 +848,15 @@ static int cc_ev_to_ump_midi2(const struct snd_seq_event *event,
+ 		ret = fill_rpn(cc, data, channel, true);
+ 		cc->rpn_set = 1;
+ 		cc->cc_rpn_msb = val;
++		if (cc->cc_rpn_msb == 0x7f && cc->cc_rpn_lsb == 0x7f)
++			reset_rpn(cc);
+ 		return ret;
+ 	case UMP_CC_RPN_LSB:
+ 		ret = fill_rpn(cc, data, channel, true);
+ 		cc->rpn_set = 1;
+ 		cc->cc_rpn_lsb = val;
++		if (cc->cc_rpn_msb == 0x7f && cc->cc_rpn_lsb == 0x7f)
++			reset_rpn(cc);
+ 		return ret;
+ 	case UMP_CC_NRPN_MSB:
+ 		ret = fill_rpn(cc, data, channel, true);
+@@ -961,6 +970,8 @@ static int ctrl14_ev_to_ump_midi2(const struct snd_seq_event *event,
+ 		cc->cc_rpn_msb = msb;
+ 		cc->cc_rpn_lsb = lsb;
+ 		cc->rpn_set = 1;
++		if (cc->cc_rpn_msb == 0x7f && cc->cc_rpn_lsb == 0x7f)
++			reset_rpn(cc);
+ 		return ret;
+ 	case UMP_CC_NRPN_MSB:
+ 	case UMP_CC_NRPN_LSB:
 -- 
-2.39.2
+2.43.0
 
