@@ -1,91 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1922190070
-	for <linux-sound@vger.kernel.org>; Tue, 30 Jul 2024 23:20:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E6FC14F70;
+	Wed, 31 Jul 2024 02:38:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722381646; cv=none; b=u6vgh7oFY1HFWsBLHpMcZ++B6kT88RVPGl9Dvnj5Q4RKAQkV4LzkeQoKJcHfr/P86QAN0HMfy1hJr/sg/rbAH/VPxiK6+UW3iYtd3s5sw4aFOUi2xJoLWgAt9rj99TDBUfoMu4Hxhf+yTEfH2jerKr6NhIZoCTY2TxDqGb6cFNU=
+	t=1722393543; cv=none; b=MLXFGCfJa32ZFbA2BvFsD3ZRXvG+v5ZqVun/7yc+JEY1Ak1/VP0IeI+2BMiX6mKMe8OBGDQHJ0gSWtbaXWM4xaPy6HjTl+i51iXtxb9/wFqJHtjSFCqepAU3USSFzDWAA+pygIIcqAewFy8CnGKTKJZMN14Si4L23gvZ7wffJCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722381646; c=relaxed/simple;
-	bh=LZxzyKDhj6ONY/YDDRGa3J9/pKl7a/fn/RY1T0fk2qw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sHgaPtZFyuxg34dB8PZkCh1J1VyaMeE/i0YoPz2Rl0RdTDwPkDWlPSwiUEYx47v3X9pVujVjHQZY81s6ROYezK/ZaaxM/Amf7tnec5mA8+ZUC7woc4WiWI1cyiO0Y+F5MyZ7ZaTfuJDXkZ6YwRWSF9RMAt4XuKUELm0WDzMqKHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c6XVsbBX; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c6XVsbBX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3A15C32782;
-	Tue, 30 Jul 2024 23:20:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722381645;
-	bh=LZxzyKDhj6ONY/YDDRGa3J9/pKl7a/fn/RY1T0fk2qw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=c6XVsbBXuUVziJQrvPS/YAVPT0FHFJ33mVqz8N6l/Irh40pviSsxm0yIaDlQ7hyGj
-	 2oKwFD/pqTgj3xFqYACOhil72s1+9/XXFaoCwnvMsZ37q5pk/H6Xf77FyUM+b1z7kp
-	 CczkobDRg7YGKfrMO6YO2xS8gPhIBRiFxmuZDFXwVTca+nBfKMXrN+KW+FGkigQhu2
-	 92YJfNlbhGkSZYJLWbdFjoIPg49SpQd/l8GuZkPJZLAwudr8NyyNjr14rB+DV0gLXt
-	 PlMRId/6spvqfeyxQdd0hkEasDZJtTHugyEUroC+IuDXBjQGvJG999fPMV3t0k7gHm
-	 extDPL7Wd1Z8w==
-Date: Wed, 31 Jul 2024 00:20:40 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>, lgirdwood@gmail.com,
-	linux-sound@vger.kernel.org, patches@opensource.cirrus.com
-Subject: Re: [PATCH] ASoC: cs42l43: Move shutter IRQ handling into a worker
- thread
-Message-ID: <c555e200-af4a-4b71-9e04-d03f3f10c8d7@sirena.org.uk>
-References: <20240729155932.3054632-1-ckeepax@opensource.cirrus.com>
- <87plqw9no5.wl-tiwai@suse.de>
- <ZqfHC7IodobTlVT4@opensource.cirrus.com>
- <87ikwo9etj.wl-tiwai@suse.de>
- <ZqinleaAqikxdQGr@opensource.cirrus.com>
- <87ikwn3vqf.wl-tiwai@suse.de>
- <81eb73d0-60e6-4a77-a3c6-f9d7355119d0@perex.cz>
- <f7503750-d751-42e7-88de-061f6263e4b6@sirena.org.uk>
- <3615b393-64cc-4983-960a-44bd2b0773fe@perex.cz>
+	s=arc-20240116; t=1722393543; c=relaxed/simple;
+	bh=u5QbBOsv0qQWNCKCfryxh7VHTlVZB5DaCf9udjhHYmI=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=q39FJ/gmvk4WJnnPhpSU7fml72SLY8DdVS0b81H3zU9uKbdm9nci4753K6jS1hJSY/yT8X0WvBJCD1QjHC/BWdtPUv3Sl1yaUvbT6bLQtTG6ra5Eripvw7AJHY1HShaEJric1L27scEt6oqhA6JFPv/Os1vax1xkK/QfM261bLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.162.254])
+	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4WYblY1pqTzQnMR;
+	Wed, 31 Jul 2024 10:34:33 +0800 (CST)
+Received: from dggpemf500002.china.huawei.com (unknown [7.185.36.57])
+	by mail.maildlp.com (Postfix) with ESMTPS id D2C50180101;
+	Wed, 31 Jul 2024 10:38:51 +0800 (CST)
+Received: from huawei.com (10.175.101.6) by dggpemf500002.china.huawei.com
+ (7.185.36.57) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Wed, 31 Jul
+ 2024 10:38:51 +0800
+From: Yue Haibing <yuehaibing@huawei.com>
+To: <jonathan.downing@nautel.com>, <piotr.wojtaszczyk@timesys.com>,
+	<vz@mleia.com>, <lgirdwood@gmail.com>, <broonie@kernel.org>,
+	<perex@perex.cz>, <tiwai@suse.com>, <yuehaibing@huawei.com>
+CC: <alsa-devel@alsa-project.org>, <linuxppc-dev@lists.ozlabs.org>,
+	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH -next] ASoC: fsl: lpc3xxx-i2s: Remove set but not used variable 'savedbitclkrate'
+Date: Wed, 31 Jul 2024 10:29:49 +0800
+Message-ID: <20240731022949.135016-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="4UdLT9TaKlnEyW14"
-Content-Disposition: inline
-In-Reply-To: <3615b393-64cc-4983-960a-44bd2b0773fe@perex.cz>
-X-Cookie: Don't SANFORIZE me!!
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemf500002.china.huawei.com (7.185.36.57)
 
+The variable savedbitclkrate is assigned and never used, so can be removed.
 
---4UdLT9TaKlnEyW14
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+sound/soc/fsl/lpc3xxx-i2s.c:42:13: warning: variable ‘savedbitclkrate’ set but not used [-Wunused-but-set-variable]
 
-On Tue, Jul 30, 2024 at 11:47:48PM +0200, Jaroslav Kysela wrote:
-> On 30. 07. 24 16:44, Mark Brown wrote:
+Fixes: 0959de657a10 ("ASoC: fsl: Add i2s and pcm drivers for LPC32xx CPUs")
+Signed-off-by: Yue Haibing <yuehaibing@huawei.com>
+---
+ sound/soc/fsl/lpc3xxx-i2s.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-> > With some of these slower buses it's not immediately obvious that it's
-> > worth the bother of caching - the overhead of doing the lookup is
-> > negligable in the overall context of handling the interrupt.
+diff --git a/sound/soc/fsl/lpc3xxx-i2s.c b/sound/soc/fsl/lpc3xxx-i2s.c
+index af995ca081a3..62ef624d6dd4 100644
+--- a/sound/soc/fsl/lpc3xxx-i2s.c
++++ b/sound/soc/fsl/lpc3xxx-i2s.c
+@@ -39,7 +39,7 @@ static void __lpc3xxx_find_clkdiv(u32 *clkx, u32 *clky, int freq, int xbytes, u3
+ {
+ 	u32 i2srate;
+ 	u32 idxx, idyy;
+-	u32 savedbitclkrate, diff, trate, baseclk;
++	u32 diff, trate, baseclk;
+ 
+ 	/* Adjust rate for sample size (bits) and 2 channels and offset for
+ 	 * divider in clock output
+@@ -53,14 +53,12 @@ static void __lpc3xxx_find_clkdiv(u32 *clkx, u32 *clky, int freq, int xbytes, u3
+ 
+ 	/* Find the best divider */
+ 	*clkx = *clky = 0;
+-	savedbitclkrate = 0;
+ 	diff = ~0;
+ 	for (idxx = 1; idxx < 0xFF; idxx++) {
+ 		for (idyy = 1; idyy < 0xFF; idyy++) {
+ 			trate = (baseclk * idxx) / idyy;
+ 			if (abs(trate - i2srate) < diff) {
+ 				diff = abs(trate - i2srate);
+-				savedbitclkrate = trate;
+ 				*clkx = idxx;
+ 				*clky = idyy;
+ 			}
+-- 
+2.34.1
 
-> I don't buy that argument. We should always try to write an optimal code.
-> Every CPU tick counts.
-
-So do the bytes of memory you'd use caching the pointers!
-
---4UdLT9TaKlnEyW14
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmapdUgACgkQJNaLcl1U
-h9DpKAf/a93dyr8c3cLH7JS9qp4ZtRcWSyOlynUk+kAZ5MSYSn/yiMCbdYbGpzJe
-7bXjzdfELc6RXiehuAKSJZOfq05MkZiFeFjVdg0+LJPRs5i4zFW/MVR5ruy4h0i9
-n0W8GYX93dETszSaCu9poT9PpMqfGUWJ7kBzSdROjem4LWlYXQet/wtNbMWfQN5N
-/TImlLaSQFowhrMwa2d+f+d4DtoblFLC18PEPNpIxJG3N68qJo3U7Yhc7HCzCgLN
-sC1yO8qzqQKOu2dP22avasaXr09wPc4MM+RhxBaI9NNI10dNUHmgJhwDApa2b+sz
-TnUv5detWKYprQBmv7gMz4b3iBGfXg==
-=ECEs
------END PGP SIGNATURE-----
-
---4UdLT9TaKlnEyW14--
