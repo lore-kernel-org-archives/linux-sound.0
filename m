@@ -1,88 +1,88 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F30817C8D;
-	Wed, 31 Jul 2024 09:28:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 979FD161311;
+	Wed, 31 Jul 2024 10:30:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722418137; cv=none; b=iUfv/SilyHI7nLs2e+jq4PxDFc+201bZSTmzXoYJVu4XwwnTb2p6ynAEPL7WVQKtHgIXhNdoF+pNEN0T+CMW88TNNw++3OY38ZpFXWAjUKMuhEqMKfPB+nbxnMVE9GeYQFADzXODioG7VNtbOOrzq2Crp0KF9uZ+vEVqLnxdx/g=
+	t=1722421815; cv=none; b=OM24V6JRMSl2R8BKCJbpanu+PKJDpAnGoYzDbtFZPAC7JQZMbQExjO4MutKPi4jR0UqHhqY63b5snQ1HynTowqlu2BBSYyh898xkRrcIYzMJY5MM5gO7nlgJnuvN8ypS2zTMdtoq/RJqhJtUon+ZCA823LazWbai4bTwubMxvhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722418137; c=relaxed/simple;
-	bh=dW8Zk6W9eMjp2YUthgUJ/GZykyYD06tqeF8b7dB27wg=;
+	s=arc-20240116; t=1722421815; c=relaxed/simple;
+	bh=Ncb9CTSSLlmKgoCRZiTaArzwVM7o0BSNdYG6IQTySMY=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=J9q4iMQzawZ/NPH73gpxLab7Of6oEPT+BeXv8P5zzRoXsrz6YxB6ZGEFM8PJkiDXTYs6IrePpWMjA3X2RF1XzDCt3HSjtksgSNWLHsSvoJihyU3uREUjFWmkom/lvLr6DoehDyqgNx3TfHRKcfCcux8s28gj6F3dQhkqN7fKIn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uHXUG/ud; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BmMoWYvo; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uHXUG/ud; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BmMoWYvo; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=Ai/xIBDhdkhoGdgcy7B3Quk7iJZ0LE4m+/Ypwa8rI+sA1lg9XHiYdWBhss4y3Pwco05x4C0u6IpEA0NcOtdrP+L8YyYtIWWx/brZHJFsyv4w/gVQsv4cq35M2kNr48ODWVm8ya8Fr1lPPT4Ly2ZwKwCW5E7uFYfI+6CChI3Ut/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lKgP2ubq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=47hLUtRx; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lKgP2ubq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=47hLUtRx; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uHXUG/ud";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BmMoWYvo";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uHXUG/ud";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BmMoWYvo"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lKgP2ubq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="47hLUtRx";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lKgP2ubq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="47hLUtRx"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 6306C1F833;
-	Wed, 31 Jul 2024 09:28:53 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C6A4221CD6;
+	Wed, 31 Jul 2024 10:30:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1722418133; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1722421811; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Xww2KrgmTygSkhqjYmOgbKvDtHvBLkrRjLM8Ffaw1vI=;
-	b=uHXUG/ud+yLP3GulJDgZyjAFtOZL37GyTo9PzP0odYPyMQ6xaLycNVEru365CcWF2szoaR
-	aeHH7CKQ0hdUKzMbO3/oUjxW/DroUvOUKsFW3Bw8bhcGgO825l4xNpYkxdMz+IvUAg622d
-	KPVrZkq8hAk97TbWm/jvcKEu9tJI7AM=
+	bh=3zApTDqqRMnQ88tdecMBReesZBZBFTQO5WdcU+17HzM=;
+	b=lKgP2ubq1Qv+W7jxtJwq2uetX5S0ThzTrZQO6BScyvxNPFEFmG//Ba/XqxXvN6mBP8gA5Q
+	/O8xAHMOE1GOVfF2rAiAzTzdfvUVZILJF7CFy9DhS0bOTFo9o8VmhqKWzj4vMzXJhCrO4T
+	ujqwF+Q3WxxMj4EcODUQAnopjsIIdtc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1722418133;
+	s=susede2_ed25519; t=1722421811;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Xww2KrgmTygSkhqjYmOgbKvDtHvBLkrRjLM8Ffaw1vI=;
-	b=BmMoWYvoM9LUzNqtUInq+2feL5ZbQ7D4Cm3a3iJE/PIm+D9TaCRJtsAk4we1ZrGYBlaDoD
-	XC88qYTTAoT49iAQ==
-Authentication-Results: smtp-out2.suse.de;
+	bh=3zApTDqqRMnQ88tdecMBReesZBZBFTQO5WdcU+17HzM=;
+	b=47hLUtRxrkijK5iaAKklCEckDnKtvard7qgPjbs1XdUFgblEk2ZnR4iCAT0KEwl8bK6F0c
+	qXxfIE49WFi2F4Dg==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1722418133; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1722421811; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Xww2KrgmTygSkhqjYmOgbKvDtHvBLkrRjLM8Ffaw1vI=;
-	b=uHXUG/ud+yLP3GulJDgZyjAFtOZL37GyTo9PzP0odYPyMQ6xaLycNVEru365CcWF2szoaR
-	aeHH7CKQ0hdUKzMbO3/oUjxW/DroUvOUKsFW3Bw8bhcGgO825l4xNpYkxdMz+IvUAg622d
-	KPVrZkq8hAk97TbWm/jvcKEu9tJI7AM=
+	bh=3zApTDqqRMnQ88tdecMBReesZBZBFTQO5WdcU+17HzM=;
+	b=lKgP2ubq1Qv+W7jxtJwq2uetX5S0ThzTrZQO6BScyvxNPFEFmG//Ba/XqxXvN6mBP8gA5Q
+	/O8xAHMOE1GOVfF2rAiAzTzdfvUVZILJF7CFy9DhS0bOTFo9o8VmhqKWzj4vMzXJhCrO4T
+	ujqwF+Q3WxxMj4EcODUQAnopjsIIdtc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1722418133;
+	s=susede2_ed25519; t=1722421811;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Xww2KrgmTygSkhqjYmOgbKvDtHvBLkrRjLM8Ffaw1vI=;
-	b=BmMoWYvoM9LUzNqtUInq+2feL5ZbQ7D4Cm3a3iJE/PIm+D9TaCRJtsAk4we1ZrGYBlaDoD
-	XC88qYTTAoT49iAQ==
+	bh=3zApTDqqRMnQ88tdecMBReesZBZBFTQO5WdcU+17HzM=;
+	b=47hLUtRxrkijK5iaAKklCEckDnKtvard7qgPjbs1XdUFgblEk2ZnR4iCAT0KEwl8bK6F0c
+	qXxfIE49WFi2F4Dg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2AC311368F;
-	Wed, 31 Jul 2024 09:28:53 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8A6DB13297;
+	Wed, 31 Jul 2024 10:30:11 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id zhM2CNUDqmamGwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 31 Jul 2024 09:28:53 +0000
-Date: Wed, 31 Jul 2024 11:29:30 +0200
-Message-ID: <87ed79zz7p.wl-tiwai@suse.de>
+	id ZEKdIDMSqmYHLQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 31 Jul 2024 10:30:11 +0000
+Date: Wed, 31 Jul 2024 12:30:48 +0200
+Message-ID: <87zfpxyht3.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Edmund Raile <edmund.raile@protonmail.com>
-Cc: o-takashi@sakamocchi.jp,
-	clemens@ladisch.de,
-	tiwai@suse.com,
+To: Jaroslav Kysela <perex@perex.cz>
+Cc: Stefan Binding <sbinding@opensource.cirrus.com>,
+	Takashi Iwai <tiwai@suse.com>,
 	alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v4 0/2] ALSA: firewire-lib: restore process context workqueue to prevent deadlock
-In-Reply-To: <20240730195318.869840-1-edmund.raile@protonmail.com>
-References: <20240730195318.869840-1-edmund.raile@protonmail.com>
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH v1] ALSA: hda: cs35l41: Stop creating ALSA Controls for firmware coefficients
+In-Reply-To: <013bdb56-b940-4881-b881-ad12be7321d0@perex.cz>
+References: <20240730143748.351651-1-sbinding@opensource.cirrus.com>
+	<013bdb56-b940-4881-b881-ad12be7321d0@perex.cz>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -91,113 +91,63 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-0.10 / 50.00];
+X-Spamd-Result: default: False [-3.10 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_ENVRCPT(0.00)[protonmail.com];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_TLS_ALL(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_TO(0.00)[protonmail.com];
-	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
 X-Spam-Flag: NO
-X-Spam-Score: -0.10
+X-Spam-Score: -3.10
 
-On Tue, 30 Jul 2024 21:53:23 +0200,
-Edmund Raile wrote:
+On Tue, 30 Jul 2024 16:55:19 +0200,
+Jaroslav Kysela wrote:
 > 
-> This patchset serves to prevent an AB/BA deadlock:
+> On 30. 07. 24 16:37, Stefan Binding wrote:
+> > Add a kernel parameter to allow coefficients to be exposed as ALSA controls.
+> > 
+> > When the CS35L41 loads its firmware, it has a number of controls to
+> > affect its behaviour. Currently, these controls are exposed as ALSA
+> > Controls by default.
+> > 
+> > However, nothing in userspace currently uses them, and is unlikely to
+> > do so in the future, therefore we don't need to create ASLA controls
+> > for them.
+> > 
+> > These controls can be useful for debug, so we can add a kernel
+> > parameter to re-enable them if necessary.
+> > 
+> > Disabling these controls would prevent userspace from trying to read
+> > these controls when the CS35L41 is hibernating, which ordinarily
+> > would result in an error message.
 > 
-> thread 0:
->     * (lock A) acquire substream lock by
-> 	snd_pcm_stream_lock_irq() in
-> 	snd_pcm_status64()
->     * (lock B) wait for tasklet to finish by calling
->     	tasklet_unlock_spin_wait() in
-> 	tasklet_disable_in_atomic() in
-> 	ohci_flush_iso_completions() of ohci.c
+> This is probably not a right argument to add this code. The codec
+> should be powered up when those controls are accessed or those
+> controls should be cached by the driver.
 > 
-> thread 1:
->     * (lock B) enter tasklet
->     * (lock A) attempt to acquire substream lock,
->     	waiting for it to be released:
-> 	snd_pcm_stream_lock_irqsave() in
->     	snd_pcm_period_elapsed() in
-> 	update_pcm_pointers() in
-> 	process_ctx_payloads() in
-> 	process_rx_packets() of amdtp-stream.c
+> Although the controls have not been used yet, exposing them in this
+> way is not ideal.
 > 
-> ? tasklet_unlock_spin_wait
->  </NMI>
->  <TASK>
-> ohci_flush_iso_completions firewire_ohci
-> amdtp_domain_stream_pcm_pointer snd_firewire_lib
-> snd_pcm_update_hw_ptr0 snd_pcm
-> snd_pcm_status64 snd_pcm
-> 
-> ? native_queued_spin_lock_slowpath
->  </NMI>
->  <IRQ>
-> _raw_spin_lock_irqsave
-> snd_pcm_period_elapsed snd_pcm
-> process_rx_packets snd_firewire_lib
-> irq_target_callback snd_firewire_lib
-> handle_it_packet firewire_ohci
-> context_tasklet firewire_ohci
-> 
-> The issue has been reported as a regression of kernel 5.14:
-> Link: https://lore.kernel.org/regressions/kwryofzdmjvzkuw6j3clftsxmoolynljztxqwg76hzeo4simnl@jn3eo7pe642q/T/#u
-> ("[REGRESSION] ALSA: firewire-lib: snd_pcm_period_elapsed deadlock
-> with Fireface 800")
-> 
-> Commit 7ba5ca32fe6e ("ALSA: firewire-lib: operate for period elapse event
-> in process context") removed the process context workqueue from
-> amdtp_domain_stream_pcm_pointer() and update_pcm_pointers() to remove
-> its overhead.
-> Commit b5b519965c4c ("ALSA: firewire-lib: obsolete workqueue for period
-> update") belongs to the same patch series and removed
-> the now-unused workqueue entirely.
-> 
-> Though being observed on RME Fireface 800, this issue would affect all
-> Firewire audio interfaces using ohci amdtp + pcm streaming.
-> 
-> ALSA streaming, especially under intensive CPU load will reveal this issue
-> the soonest due to issuing more hardIRQs, with time to occurrence ranging
-> from 2 secons to 30 minutes after starting playback.
-> 
-> to reproduce the issue:
-> direct ALSA playback to the device:
->   mpv --audio-device=alsa/sysdefault:CARD=Fireface800 Spor-Ignition.flac
-> Time to occurrence: 2s to 30m
-> Likelihood increased by:
->   - high CPU load
->     stress --cpu $(nproc)
->   - switching between applications via workspaces
->     tested with i915 in Xfce
-> PulsaAudio / PipeWire conceal the issue as they run PCM substream
-> without period wakeup mode, issuing less hardIRQs.
-> 
-> Cc: stable@vger.kernel.org
-> Backport note:
-> Also applies to and fixes on (tested):
-> 6.10.2, 6.9.12, 6.6.43, 6.1.102, 5.15.164
-> 
-> Edmund Raile (2):
->   Revert "ALSA: firewire-lib: obsolete workqueue for period update"
->   Revert "ALSA: firewire-lib: operate for period elapse event in process
->     context"
+> Could you fix the driver (no I/O errors)?
 
-Applied both patches now.  Thanks.
+While we should fix the potential errors at hibernation, it's not bad
+to hide those controls, IMO.  For the normal use cases, it's nothing
+but a cause of troubles, after all.
 
+
+thanks,
 
 Takashi
