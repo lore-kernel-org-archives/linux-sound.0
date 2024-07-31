@@ -1,153 +1,203 @@
-Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B1271AC436;
-	Wed, 31 Jul 2024 09:19:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.201.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F30817C8D;
+	Wed, 31 Jul 2024 09:28:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722417554; cv=none; b=BGbU7DYI7V2fTxdwfcmZtHqp5caKGIwVgB9gaxu/VBqXuSfATCvbeDzXUqNLDTTIns0Ngdw7tT/AE+tVnKbT9pzqNHTekhtXBBlxYLr2YOZx4ygl9BSZs3jY0AWqRQ/pD0Ia23E9LJZaZTEk37g4XAgHJSvnmD9N0yBPeAFJbkc=
+	t=1722418137; cv=none; b=iUfv/SilyHI7nLs2e+jq4PxDFc+201bZSTmzXoYJVu4XwwnTb2p6ynAEPL7WVQKtHgIXhNdoF+pNEN0T+CMW88TNNw++3OY38ZpFXWAjUKMuhEqMKfPB+nbxnMVE9GeYQFADzXODioG7VNtbOOrzq2Crp0KF9uZ+vEVqLnxdx/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722417554; c=relaxed/simple;
-	bh=HprpdnPTmMpjlLpYTx/G5QGJKkhmU8L+PeKIYH3jtBs=;
-	h=Content-Type:Date:Message-Id:From:To:Subject:Cc:References:
-	 In-Reply-To; b=jECQ5K8L45Y8yBVGgdxU6Sg6NJWiUjQQRsgT0XTAgpqYv5wgtxkb9LFPl8GOvYe16WEEDequs8nKKYK1NiGo0DZcm/R1v14bZWvsq28M0n3YBm9WWhQGUQRA6IupAabyfodLHO4J18/IvaoJiPfT4FsbavCHTih+8RPDwuM6sUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=walle.cc; spf=pass smtp.mailfrom=walle.cc; dkim=pass (2048-bit key) header.d=walle.cc header.i=@walle.cc header.b=GF+4IjxB; arc=none smtp.client-ip=159.69.201.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=walle.cc
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=walle.cc
+	s=arc-20240116; t=1722418137; c=relaxed/simple;
+	bh=dW8Zk6W9eMjp2YUthgUJ/GZykyYD06tqeF8b7dB27wg=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=J9q4iMQzawZ/NPH73gpxLab7Of6oEPT+BeXv8P5zzRoXsrz6YxB6ZGEFM8PJkiDXTYs6IrePpWMjA3X2RF1XzDCt3HSjtksgSNWLHsSvoJihyU3uREUjFWmkom/lvLr6DoehDyqgNx3TfHRKcfCcux8s28gj6F3dQhkqN7fKIn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uHXUG/ud; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BmMoWYvo; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uHXUG/ud; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BmMoWYvo; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=walle.cc header.i=@walle.cc header.b="GF+4IjxB"
-Received: from localhost (unknown [213.135.10.150])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uHXUG/ud";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BmMoWYvo";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uHXUG/ud";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BmMoWYvo"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.3ffe.de (Postfix) with ESMTPSA id 254664090;
-	Wed, 31 Jul 2024 11:19:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
-	t=1722417543;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
-	 references:references; bh=HprpdnPTmMpjlLpYTx/G5QGJKkhmU8L+PeKIYH3jtBs=;
-	b=GF+4IjxB2TIt42gTk4Pq7iBvhsew8XFF/tg3hs4xxBp2l4el+lQQsXPhZvZFqqB+B/yaW6
-	pzeQ2eS8abDXh6pdv1yxwcvJORltW5gNWTIW0M24ZEJ7ykvuKYGpIuVnXI7NGUsssc7EbO
-	zsO0EbswGGZ3xx8mYRyGCm+PvftxCaOhhWWI18zvToFcWjLI3dI8n0hmd6FN0UblTS4N3g
-	4KjFaPK/srzD4zY+qjD0495XF/PXdGoT4ddnA/+P/Ur9npBDCLkIoX8f6Yg1ZcNXm0ks7m
-	tSJ6zIh9C1UpyhD0IJCKiR+s+z5RScfmnR3LiHAR8TWRFiVWsf33B8zZU3w3mA==
-Content-Type: multipart/signed;
- boundary=ca39702cffd96d931aee706a09ce1aa2ba1611296eda65bd78f72e98793e;
- micalg=pgp-sha384; protocol="application/pgp-signature"
-Date: Wed, 31 Jul 2024 11:19:01 +0200
-Message-Id: <D33M26RLVLHF.3Q5YARPBNSBOY@walle.cc>
-From: "Michael Walle" <michael@walle.cc>
-To: "Michal Simek" <michal.simek@amd.com>, "Mahapatra, Amit Kumar"
- <amit.kumar-mahapatra@amd.com>, "Tudor Ambarus" <tudor.ambarus@linaro.org>,
- "broonie@kernel.org" <broonie@kernel.org>, "pratyush@kernel.org"
- <pratyush@kernel.org>, "miquel.raynal@bootlin.com"
- <miquel.raynal@bootlin.com>, "richard@nod.at" <richard@nod.at>,
- "vigneshr@ti.com" <vigneshr@ti.com>, "sbinding@opensource.cirrus.com"
- <sbinding@opensource.cirrus.com>, "lee@kernel.org" <lee@kernel.org>,
- "james.schulman@cirrus.com" <james.schulman@cirrus.com>,
- "david.rhodes@cirrus.com" <david.rhodes@cirrus.com>,
- "rf@opensource.cirrus.com" <rf@opensource.cirrus.com>, "perex@perex.cz"
- <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>
-Subject: Re: [PATCH v11 07/10] mtd: spi-nor: Add stacked memories support in
- spi-nor
-Cc: "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
- "nicolas.ferre@microchip.com" <nicolas.ferre@microchip.com>,
- "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
- "claudiu.beznea@tuxon.dev" <claudiu.beznea@tuxon.dev>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "alsa-devel@alsa-project.org"
- <alsa-devel@alsa-project.org>, "patches@opensource.cirrus.com"
- <patches@opensource.cirrus.com>, "linux-sound@vger.kernel.org"
- <linux-sound@vger.kernel.org>, "git (AMD-Xilinx)" <git@amd.com>,
- "amitrkcian2002@gmail.com" <amitrkcian2002@gmail.com>, "Conor Dooley"
- <conor.dooley@microchip.com>, "beanhuo@micron.com" <beanhuo@micron.com>
-X-Mailer: aerc 0.16.0
-References: <20231125092137.2948-1-amit.kumar-mahapatra@amd.com>
- <BN7PR12MB28029EB1A7D09882878499A2DC8FA@BN7PR12MB2802.namprd12.prod.outlook.com> <c3fa1e04-92ed-48ab-a509-98e43abd5cd6@linaro.org> <BN7PR12MB2802E87F1A6CD22D904CAEACDC93A@BN7PR12MB2802.namprd12.prod.outlook.com> <b3d3c457-a43b-478a-85b3-52558227d139@linaro.org> <BN7PR12MB28027E62D66460A374E3CFEADC93A@BN7PR12MB2802.namprd12.prod.outlook.com> <e212f9fa-83c5-4b9e-8636-c8c6183096ab@linaro.org> <BN7PR12MB280237CDD7BB148479932874DC93A@BN7PR12MB2802.namprd12.prod.outlook.com> <576d56ed-d24b-40f9-9ae4-a02c50eea2ab@linaro.org> <BN7PR12MB2802F288C6A6B1580CF07959DC95A@BN7PR12MB2802.namprd12.prod.outlook.com> <c6f209c8-47da-4881-921d-683464b9ddd5@linaro.org> <9cdb7f8b-e64f-46f6-94cb-194a25a42ccd@linaro.org> <BN7PR12MB28028B63E69134094D50F3E4DC2A2@BN7PR12MB2802.namprd12.prod.outlook.com> <IA0PR12MB769944254171C39FF4171B52DCB42@IA0PR12MB7699.namprd12.prod.outlook.com> <D2ZHJ765LUGP.2KTA46P1BL75X@walle.cc> <e1587f61-f765-4a22-b06e-71387cc49c4d@amd.com>
-In-Reply-To: <e1587f61-f765-4a22-b06e-71387cc49c4d@amd.com>
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 6306C1F833;
+	Wed, 31 Jul 2024 09:28:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1722418133; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Xww2KrgmTygSkhqjYmOgbKvDtHvBLkrRjLM8Ffaw1vI=;
+	b=uHXUG/ud+yLP3GulJDgZyjAFtOZL37GyTo9PzP0odYPyMQ6xaLycNVEru365CcWF2szoaR
+	aeHH7CKQ0hdUKzMbO3/oUjxW/DroUvOUKsFW3Bw8bhcGgO825l4xNpYkxdMz+IvUAg622d
+	KPVrZkq8hAk97TbWm/jvcKEu9tJI7AM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1722418133;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Xww2KrgmTygSkhqjYmOgbKvDtHvBLkrRjLM8Ffaw1vI=;
+	b=BmMoWYvoM9LUzNqtUInq+2feL5ZbQ7D4Cm3a3iJE/PIm+D9TaCRJtsAk4we1ZrGYBlaDoD
+	XC88qYTTAoT49iAQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1722418133; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Xww2KrgmTygSkhqjYmOgbKvDtHvBLkrRjLM8Ffaw1vI=;
+	b=uHXUG/ud+yLP3GulJDgZyjAFtOZL37GyTo9PzP0odYPyMQ6xaLycNVEru365CcWF2szoaR
+	aeHH7CKQ0hdUKzMbO3/oUjxW/DroUvOUKsFW3Bw8bhcGgO825l4xNpYkxdMz+IvUAg622d
+	KPVrZkq8hAk97TbWm/jvcKEu9tJI7AM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1722418133;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Xww2KrgmTygSkhqjYmOgbKvDtHvBLkrRjLM8Ffaw1vI=;
+	b=BmMoWYvoM9LUzNqtUInq+2feL5ZbQ7D4Cm3a3iJE/PIm+D9TaCRJtsAk4we1ZrGYBlaDoD
+	XC88qYTTAoT49iAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2AC311368F;
+	Wed, 31 Jul 2024 09:28:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id zhM2CNUDqmamGwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 31 Jul 2024 09:28:53 +0000
+Date: Wed, 31 Jul 2024 11:29:30 +0200
+Message-ID: <87ed79zz7p.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Edmund Raile <edmund.raile@protonmail.com>
+Cc: o-takashi@sakamocchi.jp,
+	clemens@ladisch.de,
+	tiwai@suse.com,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v4 0/2] ALSA: firewire-lib: restore process context workqueue to prevent deadlock
+In-Reply-To: <20240730195318.869840-1-edmund.raile@protonmail.com>
+References: <20240730195318.869840-1-edmund.raile@protonmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-0.10 / 50.00];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_ENVRCPT(0.00)[protonmail.com];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_TO(0.00)[protonmail.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[]
+X-Spam-Flag: NO
+X-Spam-Score: -0.10
 
---ca39702cffd96d931aee706a09ce1aa2ba1611296eda65bd78f72e98793e
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+On Tue, 30 Jul 2024 21:53:23 +0200,
+Edmund Raile wrote:
+> 
+> This patchset serves to prevent an AB/BA deadlock:
+> 
+> thread 0:
+>     * (lock A) acquire substream lock by
+> 	snd_pcm_stream_lock_irq() in
+> 	snd_pcm_status64()
+>     * (lock B) wait for tasklet to finish by calling
+>     	tasklet_unlock_spin_wait() in
+> 	tasklet_disable_in_atomic() in
+> 	ohci_flush_iso_completions() of ohci.c
+> 
+> thread 1:
+>     * (lock B) enter tasklet
+>     * (lock A) attempt to acquire substream lock,
+>     	waiting for it to be released:
+> 	snd_pcm_stream_lock_irqsave() in
+>     	snd_pcm_period_elapsed() in
+> 	update_pcm_pointers() in
+> 	process_ctx_payloads() in
+> 	process_rx_packets() of amdtp-stream.c
+> 
+> ? tasklet_unlock_spin_wait
+>  </NMI>
+>  <TASK>
+> ohci_flush_iso_completions firewire_ohci
+> amdtp_domain_stream_pcm_pointer snd_firewire_lib
+> snd_pcm_update_hw_ptr0 snd_pcm
+> snd_pcm_status64 snd_pcm
+> 
+> ? native_queued_spin_lock_slowpath
+>  </NMI>
+>  <IRQ>
+> _raw_spin_lock_irqsave
+> snd_pcm_period_elapsed snd_pcm
+> process_rx_packets snd_firewire_lib
+> irq_target_callback snd_firewire_lib
+> handle_it_packet firewire_ohci
+> context_tasklet firewire_ohci
+> 
+> The issue has been reported as a regression of kernel 5.14:
+> Link: https://lore.kernel.org/regressions/kwryofzdmjvzkuw6j3clftsxmoolynljztxqwg76hzeo4simnl@jn3eo7pe642q/T/#u
+> ("[REGRESSION] ALSA: firewire-lib: snd_pcm_period_elapsed deadlock
+> with Fireface 800")
+> 
+> Commit 7ba5ca32fe6e ("ALSA: firewire-lib: operate for period elapse event
+> in process context") removed the process context workqueue from
+> amdtp_domain_stream_pcm_pointer() and update_pcm_pointers() to remove
+> its overhead.
+> Commit b5b519965c4c ("ALSA: firewire-lib: obsolete workqueue for period
+> update") belongs to the same patch series and removed
+> the now-unused workqueue entirely.
+> 
+> Though being observed on RME Fireface 800, this issue would affect all
+> Firewire audio interfaces using ohci amdtp + pcm streaming.
+> 
+> ALSA streaming, especially under intensive CPU load will reveal this issue
+> the soonest due to issuing more hardIRQs, with time to occurrence ranging
+> from 2 secons to 30 minutes after starting playback.
+> 
+> to reproduce the issue:
+> direct ALSA playback to the device:
+>   mpv --audio-device=alsa/sysdefault:CARD=Fireface800 Spor-Ignition.flac
+> Time to occurrence: 2s to 30m
+> Likelihood increased by:
+>   - high CPU load
+>     stress --cpu $(nproc)
+>   - switching between applications via workspaces
+>     tested with i915 in Xfce
+> PulsaAudio / PipeWire conceal the issue as they run PCM substream
+> without period wakeup mode, issuing less hardIRQs.
+> 
+> Cc: stable@vger.kernel.org
+> Backport note:
+> Also applies to and fixes on (tested):
+> 6.10.2, 6.9.12, 6.6.43, 6.1.102, 5.15.164
+> 
+> Edmund Raile (2):
+>   Revert "ALSA: firewire-lib: obsolete workqueue for period update"
+>   Revert "ALSA: firewire-lib: operate for period elapse event in process
+>     context"
 
-Hi Michal,
+Applied both patches now.  Thanks.
 
-> >> Based on the inputs/suggestions from Tudor, i am planning to add a new
-> >> layer between the SPI-NOR and MTD layers to support stacked and parall=
-el
-> >> configurations. This new layer will be part of the spi-nor and located=
- in
-> >> mtd/spi-nor/
-> >=20
-> > Will AMD submit to maintain this layer? What happens if the
-> > maintainer will leave AMD? TBH, personally, I don't like to
-> > maintain such a niche feature.
-> > I'd really like to see some use cases and performance reports for
-> > this, like actual boards (and no evaluation boards don't count). Why
-> > wouldn't someone just use an octal flash?
->
-> AMD/Xilinx is not creating products that's why we don't have data on actu=
-al=20
-> boards but I don't really understand why evaluation boards don't count.
 
-Because on an eval board the vendor just puts everything possible on
-the board.
-
-> A lot of=20
-> customers are taking schematics from us and removing parts which they don=
-'t need=20
-> and add their custom part.
->
-> But one product for parallel configuration which is publicly saying that =
-it is=20
-> using it is for example this SOM.
-> https://shop.trenz-electronic.de/en/TE0820-05-2AI21MA-MPSoC-Module-with-A=
-MD-Zynq-UltraScale-ZU2CG-1I-2-GByte-DDR4-SDRAM-4-x-5-cm
->
-> I am not marketing guy to tell if there is any other which publicly sayin=
-g we=20
-> are using this feature but we can only develop/support/maintain support f=
-or=20
-> these configurations on our evaluation boards because that's what we have=
- access=20
-> to and what we know how it is done.
->
-> Also performance numbers from us can be only provided against our evaluat=
-ion boards.
-
-Which is good enough.
-
-All I'm saying is that you shouldn't put burden on us (the SPI NOR
-maintainers) for what seems to me at least as a niche. Thus I was
-asking for performance numbers and users. Convince me that I'm
-wrong and that is worth our time.
-
-The first round of patches were really invasive regarding the core
-code. So if there is a clean layering approach which can be enabled
-as a module and you are maintaining it I'm fine with that (even if
-the core code needs some changes then like hooks or so, not sure).
-
--michael
-
---ca39702cffd96d931aee706a09ce1aa2ba1611296eda65bd78f72e98793e
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iKcEABMJAC8WIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCZqoBhREcbWljaGFlbEB3
-YWxsZS5jYwAKCRASJzzuPgIf+FjVAYC5j+67h/KcneaPcQzec/oCTc8m829x/Zf8
-EK35rLhdUySt8hQX8KGtzw5kcHwOdKEBgPjKd9pncip/3XoPQTsDQcLTz0R/NsXm
-914ogzDCj82ep11eIYUq1UjdDpsyJWJMFA==
-=QrXm
------END PGP SIGNATURE-----
-
---ca39702cffd96d931aee706a09ce1aa2ba1611296eda65bd78f72e98793e--
+Takashi
