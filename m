@@ -1,99 +1,85 @@
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35ADD16EB41;
-	Thu,  1 Aug 2024 08:43:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87D8916EB54;
+	Thu,  1 Aug 2024 09:11:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722501827; cv=none; b=bxV32cylYTjY3pf+feYW40RskV+FS3EzsAErjBLE1ZOhk0z97pcpJvaFY1Ne7gLeubESWQxjiZZumsS18plqhvmAaic+F8ysf8T8f7hI2vIoQnEphHGGv3jUQzCLzRxFK747NxZSwtpGf6Is/7S9QQ38odO8eLW6u7+457req/0=
+	t=1722503516; cv=none; b=UIXhwMMJ5BBZU6z0kyaa/cxHeqAk4yosMzHuJUAS6PuOA8xyXRAiK9DTGMETFiBiLgFYo8DszMOiITNmPhpKyVkRDu9LsT0csBab4eTZ6rSuZ+3K0Vv16s8XurSrGXxL+NqnURj2sD4O9JEQlYnYbfk8QUVWLL1w4DLloR2Eb0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722501827; c=relaxed/simple;
-	bh=pFLB9riUbK2ceAAAvdyEErAppLLtQQ7KvwBuO4hN9V4=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WNRLi5kBVe8sxM9xDxigGX+QbKjLZ1Nssx2GQbIi4NXkLg7aPhKCXJ9ksPg50DA/Yp+qS8WES8bmyvWGNZCiwFRVc09i+JWQvoZTGKztzPEbNeHoXS0vdulfC6JazK6Qi1CEXY2PCCa9K2a8qtC3GtfQxTd+ywzrsRg/rDTcumY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=TEehCUii; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+	s=arc-20240116; t=1722503516; c=relaxed/simple;
+	bh=bWXEw8TFjsKa/Hb4/Eb5rG16j7U/8Z24Kda92N1MJ4I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZQX+GiaYsGObg4COBU+B65/A37k0cGi8TkC/AueGvNLimyA6tiYEkk8MQ7l706bCnaIxFIBIlMEqzsZrb0N0wN0kpXMkXxxQQhjVPnhP7VAjpoF2a0OkShq7uKhDqyen3MVWqo2hxC3TY0FKG1qLlLEC6XapZ7a4u3xiCUYipH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XZ4wP0Fa; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="TEehCUii"
-X-UUID: 25ea61344fe211ef9a4e6796c666300c-20240801
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=wxNcnqQo5NU+fObOUqkwuDhDALZigjO5uaz8LMLm0ok=;
-	b=TEehCUiiQoZMz79Roef6y92CyPotL/HQ8a0V9nVZNupRlUiqckHdgaziYVV7txugMQxJ0lqdBJbL8pO9Z/1c3/ePk2PVBhIcHqxAI5ZqVHvnsonyD/0+eBxqCDqohWApTDBwc9kblpg3QNauC7o/KM0oxolOxAzwshbzxa58Qs4=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.41,REQID:88296e2b-c4ec-4c3c-a623-4ce45e3d2861,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:6dc6a47,CLOUDID:c40c2ad2-436f-4604-ad9d-558fa44a3bbe,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
-	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-UUID: 25ea61344fe211ef9a4e6796c666300c-20240801
-Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by mailgw01.mediatek.com
-	(envelope-from <yr.yang@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 961891854; Thu, 01 Aug 2024 16:43:38 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Thu, 1 Aug 2024 16:43:38 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Thu, 1 Aug 2024 16:43:37 +0800
-From: yr.yang <yr.yang@mediatek.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Matthias
- Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>
-CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>, YR Yang
-	<yr.yang@mediatek.com>
-Subject: [PATCH v2] ASoC: mediatek: mt8188: Mark AFE_DAC_CON0 register as volatile
-Date: Thu, 1 Aug 2024 16:43:26 +0800
-Message-ID: <20240801084326.1472-1-yr.yang@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XZ4wP0Fa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722503515; x=1754039515;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=bWXEw8TFjsKa/Hb4/Eb5rG16j7U/8Z24Kda92N1MJ4I=;
+  b=XZ4wP0FaKD5reUwjC6TZKxcatdSha69HUEBb2bdXNzAxDRB+wg0Cqnzh
+   8D1xVAegpOe9T1L+r0SApD9rI20/oS1IapsnqortRGhU3WHm2UQKwP3lt
+   x/b9tivoMHcFnTuwsKeyAynRziTCbgqkbMBrancZluCzog7JNOehc8RJ7
+   VDSF5fIVqrg+UjReDsnfs37QygoJbvYQaZ77Ka30fkqRDgTc12K3mmhWm
+   T3iaoHk/PQEv+FDZDL8BcTsBiEmnerLJ6Sac3zuCChn657JbO4Lmc73LN
+   mFV9XYkSlPRvoaqhPBG1iqr9ivm+Jg1pUDAYH9CZy8b/Kl+Tl0bpCihd8
+   Q==;
+X-CSE-ConnectionGUID: RiYsEug7SjW+ViCl7F3biQ==
+X-CSE-MsgGUID: pu1B2tb+Ra2RgRJ+UN6gJg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11150"; a="20383378"
+X-IronPort-AV: E=Sophos;i="6.09,254,1716274800"; 
+   d="scan'208";a="20383378"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2024 02:10:59 -0700
+X-CSE-ConnectionGUID: wD2mZchpQ2uK+zw06fP8TQ==
+X-CSE-MsgGUID: 2y4A7VElRRC8qWG3k+0cRQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,254,1716274800"; 
+   d="scan'208";a="59089784"
+Received: from lfiedoro-mobl.ger.corp.intel.com (HELO [10.245.246.220]) ([10.245.246.220])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2024 02:10:53 -0700
+Message-ID: <f70b6f65-fd8f-4d2c-ba41-fa814d0b5154@linux.intel.com>
+Date: Thu, 1 Aug 2024 11:10:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v24 00/34] Introduce QC USB SND audio offloading support
+To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+ mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+ corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
+ Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, tiwai@suse.com,
+ gregkh@linuxfoundation.org, robh@kernel.org
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+ alsa-devel@alsa-project.org
+References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <20240801011730.4797-1-quic_wcheng@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: YR Yang <yr.yang@mediatek.com>
 
-Add AFE Control Register 0 to the volatile_register.
-AFE_DAC_CON0 can be modified by both the SOF and ALSA drivers.
-If this register is read and written in cache mode, the cached value
-might not reflect the actual value when the register is modified by
-another driver. It can cause playback or capture failures. Therefore,
-it is necessary to add AFE_DAC_CON0 to the list of volatile registers.
 
-Signed-off-by: YR Yang <yr.yang@mediatek.com>
----
-Changes in v2:
-- Modify commit message.
-- Link to v1: https://patchwork.kernel.org/project/linux-mediatek/patch/20240801031030.31114-1-yr.yang@mediatek.com/
----
- sound/soc/mediatek/mt8188/mt8188-afe-pcm.c | 1 +
- 1 file changed, 1 insertion(+)
+On 8/1/24 03:16, Wesley Cheng wrote:
+> Requesting to see if we can get some Acked-By tags, and merge on usb-next.
 
-diff --git a/sound/soc/mediatek/mt8188/mt8188-afe-pcm.c b/sound/soc/mediatek/mt8188/mt8188-afe-pcm.c
-index ccb6c1f3adc7..73e5c63aeec8 100644
---- a/sound/soc/mediatek/mt8188/mt8188-afe-pcm.c
-+++ b/sound/soc/mediatek/mt8188/mt8188-afe-pcm.c
-@@ -2748,6 +2748,7 @@ static bool mt8188_is_volatile_reg(struct device *dev, unsigned int reg)
- 	case AFE_ASRC12_NEW_CON9:
- 	case AFE_LRCK_CNT:
- 	case AFE_DAC_MON0:
-+	case AFE_DAC_CON0:
- 	case AFE_DL2_CUR:
- 	case AFE_DL3_CUR:
- 	case AFE_DL6_CUR:
--- 
-2.34.1
+I find this update a lot easier to review than previous versions, thanks
+for this. That said, there are still quite a few confusing parts in the
+documentation and implementation - specifically the get_offload_dev()
+stuff makes sense at a high-level but the details can be improved a
+great deal.
+
+It's encouraging though, there aren't any major conceptual issues IMHO,
+it shouldn't be too hard to make the patches clearer/cleaner.
 
