@@ -1,114 +1,102 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A22A816EB76;
-	Wed, 31 Jul 2024 19:14:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FCE614B95F;
+	Thu,  1 Aug 2024 00:16:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722453252; cv=none; b=NgdUcf+4EdrGjavuPx5O36FtuGL5D7opuPyUYqNXK7X0JqB2bBjefI6r7bohp9/+S2maABb7UDO5lwDvp49b7ZbOTzhrCEJnrSR9L4A8tMXiNBLuCdlZJ9YycJJpYPQTQ+Vb7eR0MRZqQOfJxhy3ADcJPznuuzAayw3VapPIKYk=
+	t=1722471394; cv=none; b=kPscdYQiWdCDERHC7HrUI62FsiuCvxh4fn5oTI6ETgiUFOsOH9062RdjPUlruRe0HeJtzEP8fcVRmTnVqy92e+J1AVRVeb5PssNpyGsqmO9DQdGlXpj2inwUgHBU856snlXDnLlkTBec2FaLAWHg7EDpAx5CnTvS7S24RFT757s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722453252; c=relaxed/simple;
-	bh=Yb9KX4oQgVp1G59d0ACBGnoozofmcvfUYaeuTlPClF0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DHQ4nHj7t9RYSmxq0h6CkSTYTTS4Ivw1V7xEz0WOU5Jbhf7K96b1oEHZd1V1e/Rh6ZLhGbxZXqV2QsV9K954V74Lv6beVeN68hwyztrAtKk3QsBNFKd+7Zx5eEyVtbXOKSZOx3SFZaiPa4VRMQUEEX2x1JryxT6CnEtM2XFQCVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A3VnWxv2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722471394; c=relaxed/simple;
+	bh=V4Kcgb0nUBZTrD5W899N/HFd0MuzKFq4G9y3UypF5Vw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=pobMgOTZ6mz4INXstlrXgK085FG6tj4/xbccNo6sXXuF0Lc9jprLVgPdmdcw+812VecDfB9kWOaYuBx8xUN/eU82NDdcZvYZ6i0m5FavNEutup8ZrnavP44hQwu31v2TEcjqPCJRWQgTI/3usDulcTQRE/eSVBVAcUcJ3vyKBnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NUdugZsl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A3VnWxv2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32963C4AF0C;
-	Wed, 31 Jul 2024 19:14:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NUdugZsl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2181DC4AF10;
+	Thu,  1 Aug 2024 00:16:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722453252;
-	bh=Yb9KX4oQgVp1G59d0ACBGnoozofmcvfUYaeuTlPClF0=;
-	h=From:To:Cc:Subject:Date:From;
-	b=A3VnWxv2M+qGAlkIi/fuwwiGgsCW3t8USD6Ev6aHbmaKWigYbftc/+R9F8Q0kFITZ
-	 wCPcyJwT84m+Sa7OFcTkBKfRN4GmFL+lnNOemJHdmQvjyfOiQrWWGTyJxhTVmvhkM/
-	 oGfytNtxNuvmq6+RQSYpj6PWONxqs/qgcTTSV1Oq4prfSRRgK3va2mle3mYBeQFrE3
-	 i51pcZ9WrHo+7W5cpXvp9JoQGyzKgk/4LgDVBPjvt9tp/bwSAC21hxAtAZs4ppNbhI
-	 NcAdNZtaJ8rFJluR4Z69ffBC1tZvji8cdRsLEr2i7pMCkM5X0lIcvIZOhR4zuZFnG3
-	 gn26FwAycMLDA==
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
+	s=k20201202; t=1722471394;
+	bh=V4Kcgb0nUBZTrD5W899N/HFd0MuzKFq4G9y3UypF5Vw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=NUdugZsl6D/+vFCuIdJWOF3sruPoMg1evs/P+TXLpQfXnaF9lpoQPuHLYoQ/VG3Fi
+	 zbYCmVdzv4YqoDPv5Bld0dpKViFy0Ht7yHvK43Nx1ipyv5ELeAopBE9Kd22Ozio2U+
+	 cTJPOSa6mih9Nscoo7CfZth7cyNZr570ieccIuZ0rR+0CmoxldcAlKAJdDi1kj7sVM
+	 pNNQr9oUOC1K/2vYx37CTepATsEn2Iy7wGnS+cyhuYJukgi+ymuNIPsxR2l8GEbDgE
+	 khr4zo1rL31h7ntWcMZcNANYr+Lek56AmLP0//Ie75YLzpQkz9HLNZ6xqVz01iAIrd
+	 rJVSvhe2mOX5g==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Paul Menzel <pmenzel@molgen.mpg.de>,
 	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: Use of_property_read_bool()
-Date: Wed, 31 Jul 2024 13:12:58 -0600
-Message-ID: <20240731191312.1710417-20-robh@kernel.org>
+	Sasha Levin <sashal@kernel.org>,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.10 084/121] ALSA: vmaster: Return error for invalid input values
+Date: Wed, 31 Jul 2024 20:00:22 -0400
+Message-ID: <20240801000834.3930818-84-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240801000834.3930818-1-sashal@kernel.org>
+References: <20240801000834.3930818-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.10.2
 Content-Transfer-Encoding: 8bit
 
-Use of_property_read_bool() to read boolean properties rather than
-of_get_property(). This is part of a larger effort to remove callers
-of of_get_property() and similar functions. of_get_property() leaks
-the DT property data pointer which is a problem for dynamically
-allocated nodes which may be freed.
+From: Takashi Iwai <tiwai@suse.de>
 
-Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+[ Upstream commit 10457f5042b4890a667e2f15a2e783490dda44d2 ]
+
+So far the vmaster code has been tolerant about the input values and
+accepts any values by correcting internally.  But now our own selftest
+starts complaining about this behavior, so let's be picky and change
+the behavior to return -EINVAL for invalid input values instead.
+
+Reported-by: Paul Menzel <pmenzel@molgen.mpg.de>
+Closes: https://lore.kernel.org/r/1d44be36-9bb9-4d82-8953-5ae2a4f09405@molgen.mpg.de
+Reviewed-by: Jaroslav Kysela <perex@perex.cz>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Link: https://lore.kernel.org/20240616073454.16512-2-tiwai@suse.de
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/codecs/ak4613.c | 4 ++--
- sound/soc/soc-core.c      | 8 ++++----
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ sound/core/vmaster.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/sound/soc/codecs/ak4613.c b/sound/soc/codecs/ak4613.c
-index 551738abd1a5..de9e43185555 100644
---- a/sound/soc/codecs/ak4613.c
-+++ b/sound/soc/codecs/ak4613.c
-@@ -840,14 +840,14 @@ static void ak4613_parse_of(struct ak4613_priv *priv,
- 	/* Input 1 - 2 */
- 	for (i = 0; i < 2; i++) {
- 		snprintf(prop, sizeof(prop), "asahi-kasei,in%d-single-end", i + 1);
--		if (!of_get_property(np, prop, NULL))
-+		if (!of_property_read_bool(np, prop))
- 			priv->ic |= 1 << i;
- 	}
+diff --git a/sound/core/vmaster.c b/sound/core/vmaster.c
+index 04a57f7be6ea4..c657659b236c4 100644
+--- a/sound/core/vmaster.c
++++ b/sound/core/vmaster.c
+@@ -198,6 +198,12 @@ static int follower_put(struct snd_kcontrol *kcontrol,
+ 	err = follower_init(follower);
+ 	if (err < 0)
+ 		return err;
++	for (ch = 0; ch < follower->info.count; ch++) {
++		if (ucontrol->value.integer.value[ch] < follower->info.min_val ||
++		    ucontrol->value.integer.value[ch] > follower->info.max_val)
++			return -EINVAL;
++	}
++
+ 	for (ch = 0; ch < follower->info.count; ch++) {
+ 		if (follower->vals[ch] != ucontrol->value.integer.value[ch]) {
+ 			changed = 1;
+@@ -365,6 +371,8 @@ static int master_put(struct snd_kcontrol *kcontrol,
+ 	new_val = ucontrol->value.integer.value[0];
+ 	if (new_val == old_val)
+ 		return 0;
++	if (new_val < master->info.min_val || new_val > master->info.max_val)
++		return -EINVAL;
  
- 	/* Output 1 - 6 */
- 	for (i = 0; i < 6; i++) {
- 		snprintf(prop, sizeof(prop), "asahi-kasei,out%d-single-end", i + 1);
--		if (!of_get_property(np, prop, NULL))
-+		if (!of_property_read_bool(np, prop))
- 			priv->oc |= 1 << i;
- 	}
- 
-diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-index 724fe1f033b5..4b36afbdd166 100644
---- a/sound/soc/soc-core.c
-+++ b/sound/soc/soc-core.c
-@@ -3372,10 +3372,10 @@ unsigned int snd_soc_daifmt_parse_format(struct device_node *np,
- 	 * SND_SOC_DAIFMT_INV_MASK area
- 	 */
- 	snprintf(prop, sizeof(prop), "%sbitclock-inversion", prefix);
--	bit = !!of_get_property(np, prop, NULL);
-+	bit = of_property_read_bool(np, prop);
- 
- 	snprintf(prop, sizeof(prop), "%sframe-inversion", prefix);
--	frame = !!of_get_property(np, prop, NULL);
-+	frame = of_property_read_bool(np, prop);
- 
- 	switch ((bit << 4) + frame) {
- 	case 0x11:
-@@ -3412,12 +3412,12 @@ unsigned int snd_soc_daifmt_parse_clock_provider_raw(struct device_node *np,
- 	 * check "[prefix]frame-master"
- 	 */
- 	snprintf(prop, sizeof(prop), "%sbitclock-master", prefix);
--	bit = !!of_get_property(np, prop, NULL);
-+	bit = of_property_read_bool(np, prop);
- 	if (bit && bitclkmaster)
- 		*bitclkmaster = of_parse_phandle(np, prop, 0);
- 
- 	snprintf(prop, sizeof(prop), "%sframe-master", prefix);
--	frame = !!of_get_property(np, prop, NULL);
-+	frame = of_property_read_bool(np, prop);
- 	if (frame && framemaster)
- 		*framemaster = of_parse_phandle(np, prop, 0);
- 
+ 	err = sync_followers(master, old_val, new_val);
+ 	if (err < 0)
 -- 
 2.43.0
 
