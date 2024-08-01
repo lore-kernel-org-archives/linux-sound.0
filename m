@@ -1,57 +1,57 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B77A16C85D
-	for <linux-sound@vger.kernel.org>; Thu,  1 Aug 2024 08:21:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C1916CD09
+	for <linux-sound@vger.kernel.org>; Thu,  1 Aug 2024 08:21:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722500466; cv=none; b=cYHnHi9cw4TSmVKyIiFsiGxnqVia9LwjbshxgBH1sLkb/F/pc3IgFE0m6GLsmdB5TgpyEFKwesgeQf2mDX5J8CdYa/KuyEAQKDwBGHuedf/wZM482pmReyJ2K9cS2JuA0VoiIadv5D+5ZgjUy9XkMn8u3j6/GclUmnBlujugUBk=
+	t=1722500515; cv=none; b=o7u7BAjfUIAgtLrYcUlZbXiJtC8DN0rjbiO1xDLPpWun4ySpiclP/7rThNrniTtilJ3tPqp0IPeYIE1Z922VbhuYv4wH1dFczBPgjllMko1jPySxoAuFc533xOGWEMADN3SURM+EPpXEW6Ude/T9v+rXg+LYH9lRwjndpZ+FyUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722500466; c=relaxed/simple;
-	bh=Z/R/jE3UetsT6jIzeeUL2oO4nHocrgIt0QNSJ9yXa1I=;
+	s=arc-20240116; t=1722500515; c=relaxed/simple;
+	bh=UoQSyuIzYrJk4Fh/zjMGo2XwjtgAN5edcsp1gl8VrW8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g+x6jUcQJuZexe0Gdf/K3mO6VtB7HNo0uoHBvD0eGlELxN93tKdbMraV7z1CcnMxeG1oYhknVSxN9WWv6ewvbp40DKV8SRe0WgH55ntajoNfxwYqRC7xHj1gs0/sFkr9E83zAhIyoyyqYAwnV07MEmhlmV1tfbXtVsC6wJMTduE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XnyxjlFg; arc=none smtp.client-ip=209.85.208.170
+	 Content-Type:Content-Disposition:In-Reply-To; b=rPHyeIvDMIeq+rWRRgf3UYAv6CYyC50k0e2KvqRaWFOOET2C9M2N9sPCcJSY8xTIZ5/hEetTsn0j/qQCRYschPTuIvw50ncUQgswLddFmQEcmPFV2GBfubv0wVketr5sKEGmaXI0cN1nR6sZU3mrUHpuw2GK9zsNdoIJIMXscUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OjAQA/3w; arc=none smtp.client-ip=209.85.167.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XnyxjlFg"
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2f025b94e07so86716831fa.0
-        for <linux-sound@vger.kernel.org>; Thu, 01 Aug 2024 01:21:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OjAQA/3w"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-52efbc57456so6735503e87.1
+        for <linux-sound@vger.kernel.org>; Thu, 01 Aug 2024 01:21:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1722500463; x=1723105263; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1722500512; x=1723105312; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WwtmoHKhwxmQ7ba/RVWyEJFACGd+bpfz3WwZuXqhvo4=;
-        b=XnyxjlFgbVZt4olAK7yBuLYLCB/svNm+FWPUA5ZjttlNHgYRSFa8gEWMben7m07nR1
-         XXWa66aWyFgKaAOgYZXQx38nrFdp7JH0uo4Xn6qsI290MzjU+nW+iNiDMpZVHbPBPIFA
-         /aCK4OMg9zALOgf/pGI7RFSUZwjWe9kfPNYdsgZz0MQhFcy+kMhkznvbasMzEn7IXjYJ
-         c+d7mZ4dHub7c+uDK+/Y5fT1WOYhi33Vb2wE7lmKziaOL9F45XAKovcwEb+GVw9w2stl
-         xWvhTqI8kx2OgNrb6BhUkCCDmgBOifg87ylnZL7pgedJRzvv/jwGGcCuR6xyfrRLd0BN
-         1Zwg==
+        bh=tQu81mOBzzOWipOlZKpoZPnN6w6xjj6nnqcvweSDhgA=;
+        b=OjAQA/3wLDdWRK77nYoWsOnhvDtYCalWDNPWwmg9HYG0US5JU/cJPaLa94mQ+P3175
+         1ta2Btuffkvs4SUOuQYFPJCU5kHwkFAeJ2Xeoz4zzWvsCGMnSPfkx2sd+vK6jYVe3CvZ
+         /8Rymur7iOTia/PDRru/blzMt4tmI1t9C2+u/zY0oWhk+N96CbjE/NjEA8TpMaNWREsi
+         79IDYCAysEDsfGN2WfIIPI5WwVEYXgXIp00AIxl4Kru0W4JnEGaNpsoAn/0ResxKjgln
+         t/e1ez8sXLEstege+U1knxeZeSOO1pWg43zBlwjSMP4rWJGiqBZMHrzDWFtdRfFnFbNb
+         PH2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722500463; x=1723105263;
+        d=1e100.net; s=20230601; t=1722500512; x=1723105312;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WwtmoHKhwxmQ7ba/RVWyEJFACGd+bpfz3WwZuXqhvo4=;
-        b=J1SqH6hlaMSveWxMuQ33Ig8W4LzBBBSBKIclDmv0DMN35RUAwQacmAeQY7dML0Nhec
-         qQ4MxlS2WDwQIYZt6VBU9cU2jZmVIbHZlh1DWtt9Ha/KBN5vERwtOscWyhW1baSSrZh9
-         86MTs55TLw3XYxJPsMP8OffcNak5P7eIchYgfmJBcu1w3dwnCRgrW+k9XNmypr3jh51C
-         Et1AJ1mpCAi5lwPRZ155xl8TqNuHa8TkIyjXRmRi59u0YMTRn4EZVulOqSZUwSa3QpZv
-         oIA6e94nAiU5LXk2zAl3krkM60GQotiBP0Cj76w6IDNLkvxOcfRgvUj5Mpv3Qs3DPRnL
-         LG7g==
-X-Forwarded-Encrypted: i=1; AJvYcCUD1sAkwbQOKh0kXn17EZbadonKk/DDb5GZTeFivmVlzQqDHPKPXyimoVKh8Fi5sDGV11xfoWzbf4dNgAXBJTlwC+dm9IQhIPUDOL0=
-X-Gm-Message-State: AOJu0Yzmum+rEo0a9LXZtkHk3PgSI9ZkTC44cliOJn0WzkmPxi2LMJ4e
-	QYt59/HwF91XnNw2ImdkBqJ+B4wCXgIEOnEu+pquSjGYJa3gf7Q0s9Mi6Pc1Oas=
-X-Google-Smtp-Source: AGHT+IH2rrp/DcZo+alL+PQQLhSzxuBc4O3JwWhJX/xYrbDZk4ReJ8Td8cb1JnBDOgBdEencF/BngA==
-X-Received: by 2002:a2e:9b1a:0:b0:2ee:8d19:85af with SMTP id 38308e7fff4ca-2f1532d3daemr12584361fa.36.1722500461234;
-        Thu, 01 Aug 2024 01:21:01 -0700 (PDT)
+        bh=tQu81mOBzzOWipOlZKpoZPnN6w6xjj6nnqcvweSDhgA=;
+        b=F+f023q+LXd7B4+k2wOLGsho6wT6NSUl9xbwTq72WaapeuyxZJrAKoQYG/H84vZyMq
+         c620oPN5eMLooSbDzz3DjmeBLyWHwhGzvsOY4hkjgwpragAZ4Mk90pNz5dVjdsUuPU/P
+         sBEcQLAE+teAqRC7MEgm6UUK00Ob0mePW8wqxBBlMbHpINbHa3kMDBAvUdZLO1t1LFwd
+         0nOGumtc5L65w6TA8TAhsoEAtmZkvkF2doEOR9xL9I/zfuAX3jFF+UREumkM7KPexNqD
+         5xzyfXZ+xP0c7gJibKdkQi1fWFHSMseMewfHNd+pJvqvXfKJlRhCkgcShgDoK/CEWXxQ
+         V8Ww==
+X-Forwarded-Encrypted: i=1; AJvYcCVLPtNN+/VW3I8Q3Coh7dUGDMA2ikfcnZYlhUtESZM3c1J/fI4UfjXDCeAzQIWWyONEMz3qkE6QsXKPoEi8NGWfaQ6DJaPVgR8BD+o=
+X-Gm-Message-State: AOJu0Yy/GD++HVuKj5YrRhirRN6+RNNRWszItHOIqtTDcWTbmue5pn/1
+	63tv1LQ6etciw+ANDyzEBJbIgiXNys5ByhOOox8z1l8WH1qnoHoRyoS80FluUTI=
+X-Google-Smtp-Source: AGHT+IGCjn18yTuRNfOwsOFNz0Fkpj4M64OUkHF6jkjiHZXaoXhEToRN+DzmYsOikMX79YcrO2lmHw==
+X-Received: by 2002:a05:6512:110d:b0:52d:582e:410f with SMTP id 2adb3069b0e04-530b61ed210mr1013825e87.46.1722500512059;
+        Thu, 01 Aug 2024 01:21:52 -0700 (PDT)
 Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2f03d074b19sm22171011fa.110.2024.08.01.01.21.00
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-530ad7faa08sm649248e87.214.2024.08.01.01.21.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Aug 2024 01:21:00 -0700 (PDT)
-Date: Thu, 1 Aug 2024 11:20:59 +0300
+        Thu, 01 Aug 2024 01:21:51 -0700 (PDT)
+Date: Thu, 1 Aug 2024 11:21:50 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Adam Skladowski <a39.skl@gmail.com>
 Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
@@ -60,12 +60,11 @@ Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
 	Conor Dooley <conor+dt@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
 	Stephan Gerhold <stephan@gerhold.net>, alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	Vladimir Lypak <vladimir.lypak@gmail.com>
-Subject: Re: [PATCH v3 1/8] ASoC: qcom: apq8016_sbc.c: Add Quinary support
-Message-ID: <fm6wqsznxxxlofht2nouqtaryl7delloatc2v3b737unt7hqd4@l46iayvs64ru>
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 3/8] ASoC: msm8916-wcd-analog: add pm8950 codec
+Message-ID: <estrecxmj6im5wk5iy2eahcqf74mw6ydnvbpuselmrvb2paggc@u2dsyrn3wki2>
 References: <20240731-msm8953-msm8976-asoc-v3-0-163f23c3a28d@gmail.com>
- <20240731-msm8953-msm8976-asoc-v3-1-163f23c3a28d@gmail.com>
+ <20240731-msm8953-msm8976-asoc-v3-3-163f23c3a28d@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -74,20 +73,16 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240731-msm8953-msm8976-asoc-v3-1-163f23c3a28d@gmail.com>
+In-Reply-To: <20240731-msm8953-msm8976-asoc-v3-3-163f23c3a28d@gmail.com>
 
-On Wed, Jul 31, 2024 at 05:25:25PM GMT, Adam Skladowski wrote:
-> From: Vladimir Lypak <vladimir.lypak@gmail.com>
+On Wed, Jul 31, 2024 at 05:25:27PM GMT, Adam Skladowski wrote:
+> Add regs overrides for PM8950 codec and implement matching reg overrides
+> via compatible.
 > 
-> Add support for configuring Quinary Mi2S interface
-> it will be used on MSM8953 and MSM8976 platform.
-> 
-> Signed-off-by: Vladimir Lypak <vladimir.lypak@gmail.com>
-> [Adam: Split from MSM8953 support patch,add msg]
 > Signed-off-by: Adam Skladowski <a39.skl@gmail.com>
 > ---
->  sound/soc/qcom/apq8016_sbc.c | 17 ++++++++++++++++-
->  1 file changed, 16 insertions(+), 1 deletion(-)
+>  sound/soc/codecs/msm8916-wcd-analog.c | 52 ++++++++++++++++++++++++++++++++---
+>  1 file changed, 48 insertions(+), 4 deletions(-)
 > 
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
