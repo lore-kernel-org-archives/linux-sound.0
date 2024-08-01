@@ -1,116 +1,83 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A9419E7E3;
-	Thu,  1 Aug 2024 15:53:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 664271B3F25
+	for <linux-sound@vger.kernel.org>; Thu,  1 Aug 2024 16:38:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722527583; cv=none; b=sBje7n2VvyI06+sQwJYjB4vK+IWgcQxWJaKQ/jVBWTk4zsBzquWqXHPjdcOKC6wT1dEc3m4tzrrkg3Ke6/OHjWngQLkweffH+KGtfEFarEB5Xfob2QpgtgZL8UdQ7jOWo0x31FqM9VzcsJ6B2UvfcuIrWskFZESlsTcY6C8nHQw=
+	t=1722530317; cv=none; b=F8IMWu7SFzKKWKlXkvYA3tGePyEbrT1LEdW3M8GXt8Jc3Ef61Zj31AJYomJUMpxjglpIH9gjtSfqNYlXZ1I5PUBIzTI5nNmiqrznPSEJW4QGKAe27ZPkflIJo1ljSelvIGNZRAJI3/plePON5p+ZsafJDt7YIfiB8lP40gJU9Xg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722527583; c=relaxed/simple;
-	bh=lQk44XHczDRYM6nLafmMm+oVfZnAi9uGJ3MVHbLyH5Q=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XImaExGM0Cb78tWSpRfmrRj+3DEVQ6UYKwmjpS82+hPnAdbl2w50pgdQqDmkZO3eQMG0tGMVBwDBeUxNFwiUMhzz6IAt1M4sk8YQ3Q8WcyCcjH/+gDje/FDk792CLneg0RxKuGnnqQ6n0UD/XrPFm9xXCIfF9Jgw4B+C47obSfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Jlzlc5+C; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1722530317; c=relaxed/simple;
+	bh=pdy/MIhliY+lu5Q8bDIfNiCCNFh8h4zd3ooCjFyvgHg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tm0iNUmMdBT0fT64nK2NDDp8NAwA7DvG4QM7Pr0lyJNq9rk05BqheiaYIZcrjy4+Z4YXAeRR1aC+QpMDhCdJbbxVDCF+yVuTrKRaSZujiOnp2XPBCofcv528VeqIrKu3MM2cjfFpi1fnzELzfbZBugReUa1E6g0iCQhkah3fp6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=muZjGF5P; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Jlzlc5+C"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 471B7jT0018617;
-	Thu, 1 Aug 2024 10:50:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=vA4YnIoXhgtb2Vr+
-	Sw8CAqszqP5Gp8SLedy8ZRCd80c=; b=Jlzlc5+C0pXc2dC1O2YErBcSTEALtPfU
-	hsN3TmgymVMnC0ZxLU5sPbZb/HXoybh4jpqI+EndGVvIY03nYkT/EmAQPpo3TclN
-	FUq43Fe7KsEvagBBRr8TxnmYDhQeqGLgm4bOGAIOlva14q4nhXhlJrUDv4rbWZTW
-	yjj4d6TzGOLJN2SL4OB0Ky7PqJreSjEw8yICZWK6OBYNjXoFsKvnCQjrKZ0nCkIx
-	kSAZjKeMEZXQYUTks4S4bYQJXVeq6pg9+h9RR6G+oDFdtl9x27a0dK2MFHN1ZFIy
-	UPtu2MAllf8kcJvOJLYsyv4NgJOP0sFxe5lei0nhZxmQyebOIu1pKw==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 40qjw9ah0g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 01 Aug 2024 10:50:53 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 1 Aug 2024
- 16:50:51 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Thu, 1 Aug 2024 16:50:51 +0100
-Received: from lonswws02.ad.cirrus.com (lonswws02.ad.cirrus.com [198.90.188.42])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id A31F0820244;
-	Thu,  1 Aug 2024 15:50:51 +0000 (UTC)
-From: Stefan Binding <sbinding@opensource.cirrus.com>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        "Stefan
- Binding" <sbinding@opensource.cirrus.com>
-Subject: [PATCH v2] ALSA: hda: cs35l41: Stop creating ALSA Controls for firmware coefficients
-Date: Thu, 1 Aug 2024 16:50:44 +0100
-Message-ID: <20240801155047.456540-1-sbinding@opensource.cirrus.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="muZjGF5P"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E589C32786;
+	Thu,  1 Aug 2024 16:38:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722530317;
+	bh=pdy/MIhliY+lu5Q8bDIfNiCCNFh8h4zd3ooCjFyvgHg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=muZjGF5PGJXlYheQAUhaMoPEovmsagjoiNRQ5YTU+lWGUnHYihFH/dtakJcaKVGjx
+	 Ly6+9JcqsXOv6VBRB2yshZJs1sCsQYEdJQLansoN6j1DIO1irRF0l58kfGxCIHI5/2
+	 xG3w38nA0/PZaQ3NkPMQQ/kXwm1gqaXEV8tYyCz0xucnPDOQ2Zx2f1nEu+QVts/KUD
+	 shvhR/AIR0FBzIaUuZ80MKcHY5e8LwCJ0I9RqHt9TOR7vvOpa2jdfWx8dpiWsFsHaj
+	 t8tvZkGjh88Uh514HBaOSJSBE88vx3zWefZBOd6pwAiAqKdpXPchk7HCwlv805NObn
+	 1UUgN9/xA25FA==
+Date: Thu, 1 Aug 2024 17:38:32 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: perex@perex.cz, tiwai@suse.com, lgirdwood@gmail.com,
+	linux-sound@vger.kernel.org, patches@opensource.cirrus.com
+Subject: Re: [PATCH v3 3/4] ASoC: cs35l45: Use new
+ snd_soc_component_get_kcontrol() helper
+Message-ID: <c4712e65-2914-4fa5-900c-e85edb7246d8@sirena.org.uk>
+References: <20240801100413.1620481-1-ckeepax@opensource.cirrus.com>
+ <20240801100413.1620481-3-ckeepax@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: 8yjjT0z8P8zD35W4P3UWYpdfW3LQyWuJ
-X-Proofpoint-ORIG-GUID: 8yjjT0z8P8zD35W4P3UWYpdfW3LQyWuJ
-X-Proofpoint-Spam-Reason: safe
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="l4wefJZHnBqvI+o4"
+Content-Disposition: inline
+In-Reply-To: <20240801100413.1620481-3-ckeepax@opensource.cirrus.com>
+X-Cookie: Keep on keepin' on.
 
-When the CS35L41 loads its firmware, it has a number of controls to
-affect its behaviour. Currently, these controls are exposed as ALSA
-Controls.
 
-These controls were never intended to be exposed to users but the
-firmware doesn't mark them hidden, so make the driver ignore them.
+--l4wefJZHnBqvI+o4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Any changes in the coefficients handled by these controls needs to
-be matched to the individual system by SSID, which is already handled
-using the tuning file, when firmware is loaded, so UCM should not be
-setting these controls anyway.
+On Thu, Aug 01, 2024 at 11:04:12AM +0100, Charles Keepax wrote:
+> No longer any need to hard code the addition of the name prefix, use the
+> new helper.
 
-Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
----
- sound/pci/hda/cs35l41_hda.c | 13 -------------
- 1 file changed, 13 deletions(-)
+> -	kcontrol = snd_soc_card_get_kcontrol_locked(component->card, name);
+> +	kcontrol = snd_soc_component_get_kcontrol_locked(component->card, ctl_name);
 
-diff --git a/sound/pci/hda/cs35l41_hda.c b/sound/pci/hda/cs35l41_hda.c
-index 4b411ed8c3fe..3a92e98da72d 100644
---- a/sound/pci/hda/cs35l41_hda.c
-+++ b/sound/pci/hda/cs35l41_hda.c
-@@ -133,17 +133,6 @@ static const struct reg_sequence cs35l41_hda_mute[] = {
- 	{ CS35L41_AMP_DIG_VOL_CTRL,	0x0000A678 }, // AMP_HPF_PCM_EN = 1, AMP_VOL_PCM Mute
- };
- 
--static void cs35l41_add_controls(struct cs35l41_hda *cs35l41)
--{
--	struct hda_cs_dsp_ctl_info info;
--
--	info.device_name = cs35l41->amp_name;
--	info.fw_type = cs35l41->firmware_type;
--	info.card = cs35l41->codec->card;
--
--	hda_cs_dsp_add_controls(&cs35l41->cs_dsp, &info);
--}
--
- static const struct cs_dsp_client_ops client_ops = {
- 	.control_remove = hda_cs_dsp_control_remove,
- };
-@@ -603,8 +592,6 @@ static int cs35l41_init_dsp(struct cs35l41_hda *cs35l41)
- 	if (ret)
- 		goto err;
- 
--	cs35l41_add_controls(cs35l41);
--
- 	cs35l41_hda_apply_calibration(cs35l41);
- 
- err:
--- 
-2.43.0
+That's not the helper that the subject line references, nor the one
+added by the prior patch - did you test this?
 
+Please use cover letters for patch serieses too.
+
+--l4wefJZHnBqvI+o4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmaruggACgkQJNaLcl1U
+h9CDWAf/fTuOyr3u+E6XW4FIFD2a3vy5AklQo06afZB1f/xec1iAeIXYXXVkLzpA
+PSuAxqe0ErdamSCXA0+QxVprcTbl/h9XSH0Z5dcu92H7M6J2/JKWmcz4w8f7uU0f
+p3gEEUv8wF+ea7SE2roSEBbZpoHEvMOZLGSQa0va1sOmU80yOiOJoMdWqi+pJoPr
+3LcM+QmgWwn1QKIW7LjETE7PEecVQqRhGkUGVBs6ROddmOErcUR9PenyOAv12tlX
+c3DLJCa8FfQgGAZ/lenRHg7atXSdMEqFAyPgqk7ctLJEAoXl+D+GoP6/9fWors5i
+30DG2upAPe6bbJkPFouHE/nEwsJHqQ==
+=KL3O
+-----END PGP SIGNATURE-----
+
+--l4wefJZHnBqvI+o4--
