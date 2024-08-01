@@ -1,83 +1,174 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 664271B3F25
-	for <linux-sound@vger.kernel.org>; Thu,  1 Aug 2024 16:38:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 534BD1BA86D
+	for <linux-sound@vger.kernel.org>; Thu,  1 Aug 2024 17:46:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722530317; cv=none; b=F8IMWu7SFzKKWKlXkvYA3tGePyEbrT1LEdW3M8GXt8Jc3Ef61Zj31AJYomJUMpxjglpIH9gjtSfqNYlXZ1I5PUBIzTI5nNmiqrznPSEJW4QGKAe27ZPkflIJo1ljSelvIGNZRAJI3/plePON5p+ZsafJDt7YIfiB8lP40gJU9Xg=
+	t=1722534393; cv=none; b=hqLAvySgAQ72gBuFsWYjCT8v/ta5A3PrJya5MSVS3d5RLPptj4/RLRBiVUoOQ5+ab9gdNe7L93nR9XOHusptpg/tJSSXKvTmKQptEKFgE8Szq3oQSu4cYgh3nt3bmlNcn04D0AHfKl26BZD6zyo4oWVNmTlnaDQgst6sfnLay3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722530317; c=relaxed/simple;
-	bh=pdy/MIhliY+lu5Q8bDIfNiCCNFh8h4zd3ooCjFyvgHg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tm0iNUmMdBT0fT64nK2NDDp8NAwA7DvG4QM7Pr0lyJNq9rk05BqheiaYIZcrjy4+Z4YXAeRR1aC+QpMDhCdJbbxVDCF+yVuTrKRaSZujiOnp2XPBCofcv528VeqIrKu3MM2cjfFpi1fnzELzfbZBugReUa1E6g0iCQhkah3fp6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=muZjGF5P; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722534393; c=relaxed/simple;
+	bh=lqUBCglzn3f4G/USTNUZWIqwmTKyh9NTx5PNNci0oUk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=t9bgv1NCRT+agW4+VLLQVhZ6+6LLyoypjiIU+ezZS0K/XvjnbK0Ab9e3Iaz+YIse7HE8vpm/NERF9+UrqWCAGTndf71/HcNQxQw7u88W6uu6wfevKvh/FoqPIuLNt5H0L/RcKj17Zt4/B2sk1uAEVn7ycWMaNJS8LLIa1jHAYH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VGCdu6ey; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="muZjGF5P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E589C32786;
-	Thu,  1 Aug 2024 16:38:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722530317;
-	bh=pdy/MIhliY+lu5Q8bDIfNiCCNFh8h4zd3ooCjFyvgHg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=muZjGF5PGJXlYheQAUhaMoPEovmsagjoiNRQ5YTU+lWGUnHYihFH/dtakJcaKVGjx
-	 Ly6+9JcqsXOv6VBRB2yshZJs1sCsQYEdJQLansoN6j1DIO1irRF0l58kfGxCIHI5/2
-	 xG3w38nA0/PZaQ3NkPMQQ/kXwm1gqaXEV8tYyCz0xucnPDOQ2Zx2f1nEu+QVts/KUD
-	 shvhR/AIR0FBzIaUuZ80MKcHY5e8LwCJ0I9RqHt9TOR7vvOpa2jdfWx8dpiWsFsHaj
-	 t8tvZkGjh88Uh514HBaOSJSBE88vx3zWefZBOd6pwAiAqKdpXPchk7HCwlv805NObn
-	 1UUgN9/xA25FA==
-Date: Thu, 1 Aug 2024 17:38:32 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: perex@perex.cz, tiwai@suse.com, lgirdwood@gmail.com,
-	linux-sound@vger.kernel.org, patches@opensource.cirrus.com
-Subject: Re: [PATCH v3 3/4] ASoC: cs35l45: Use new
- snd_soc_component_get_kcontrol() helper
-Message-ID: <c4712e65-2914-4fa5-900c-e85edb7246d8@sirena.org.uk>
-References: <20240801100413.1620481-1-ckeepax@opensource.cirrus.com>
- <20240801100413.1620481-3-ckeepax@opensource.cirrus.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VGCdu6ey"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1722534391;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=IdydxZIGJr3ghOK2fEzH68i3FlzUyX1ZkiOar1Iub4w=;
+	b=VGCdu6eyTS635cNTmIa/Nzz41FLjMUA0V+5PROx6JPxvkp7/9gywrd/2v9Ehq3qMU3cc6o
+	elI6VVxyBvxVX27dX1A7i4ANr7G0++IO09DfbFty42WibjIhMCqwqkwE95qYBCSS6/7W6L
+	0okmxN0Fi7KQLvXWCSM1r7E0fuoc3UU=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-479-mNOqy-uXOau1T8sZT3sdkg-1; Thu, 01 Aug 2024 13:46:27 -0400
+X-MC-Unique: mNOqy-uXOau1T8sZT3sdkg-1
+Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-5a11cd40426so1072196a12.1
+        for <linux-sound@vger.kernel.org>; Thu, 01 Aug 2024 10:46:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722534386; x=1723139186;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IdydxZIGJr3ghOK2fEzH68i3FlzUyX1ZkiOar1Iub4w=;
+        b=O/69ekYgRei0dY8YN3lPc7bmKRyDepcr3eKGZVOp8GU3RiSuEUnGgaoIReC2rCAZrq
+         RufEcaO7UPcOZWwY/KElj4tDLQ0PQiPb02UInCxeI3g4IZk5RV+msDdpAWgsJ5UCVfju
+         DlTShjgVUzEqk8PpIuiCxDK9OC/8qIArlthRrnHCDFq6JZcVVkGGQUDktkMhxVORXi6m
+         w35JvQ5tXHy+4HM2NUvS24/DW81Sqa51mo+pmBrWveouGcBQdWBvGVDaKJGHzcbtcK5S
+         1vz+q4qNcb1U80fb5md9IzvV95RTwV9nDluoSHBJqp73L9FRkN6/ZPoYzhDAf+rf92Ys
+         XNIA==
+X-Forwarded-Encrypted: i=1; AJvYcCUEplv/zianQRbGLMTZop4L/UBahIifAexbXlqt2MAavtRZocEF14dPS4//xsTCjeEEDIAdGmY5Pe4FsA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxLFpXKgK9L2PuEHNwuwD97Pk/tkkkSuqkyhQc85cFNz9FQU1/E
+	102hnimLXbcs66omku4cucJxdx9bR8BTqicdxJupGxZN1d4hIc3gEAc1uyN1AayzUHpKZiL59N9
+	i3BpJmBdOYlkzDIKDykHUIBkwNg0McoHNj+ZgNyt00VoveqptgMZ3J2vk2iDD
+X-Received: by 2002:a17:907:3da7:b0:a7d:a4d2:a2a7 with SMTP id a640c23a62f3a-a7dc4e50c01mr44422466b.3.1722534386294;
+        Thu, 01 Aug 2024 10:46:26 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH5Km5jd9cOTYruluysPjH0y6sNbWlr0amJSpmaneqU1ki99pbWjXrxV2Pr+1gBC+OPuM4UGw==
+X-Received: by 2002:a17:907:3da7:b0:a7d:a4d2:a2a7 with SMTP id a640c23a62f3a-a7dc4e50c01mr44419866b.3.1722534385669;
+        Thu, 01 Aug 2024 10:46:25 -0700 (PDT)
+Received: from eisenberg.fritz.box ([2001:16b8:3d4b:3000:1a1d:18ca:1d82:9859])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7dc9e83848sm5339066b.177.2024.08.01.10.46.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Aug 2024 10:46:25 -0700 (PDT)
+From: Philipp Stanner <pstanner@redhat.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>,
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Boris Brezillon <bbrezillon@kernel.org>,
+	Arnaud Ebalard <arno@natisbad.org>,
+	Srujana Challa <schalla@marvell.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Miri Korenblit <miriam.rachel.korenblit@intel.com>,
+	Kalle Valo <kvalo@kernel.org>,
+	Serge Semin <fancer.lancer@gmail.com>,
+	Jon Mason <jdmason@kudzu.us>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Allen Hubbe <allenbh@gmail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Kevin Cernekee <cernekee@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Mark Brown <broonie@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Philipp Stanner <pstanner@redhat.com>,
+	Jie Wang <jie.wang@intel.com>,
+	Adam Guerin <adam.guerin@intel.com>,
+	Shashank Gupta <shashank.gupta@intel.com>,
+	Damian Muszynski <damian.muszynski@intel.com>,
+	Nithin Dabilpuram <ndabilpuram@marvell.com>,
+	Bharat Bhushan <bbhushan2@marvell.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Gregory Greenman <gregory.greenman@intel.com>,
+	Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+	Yedidya Benshimol <yedidya.ben.shimol@intel.com>,
+	Breno Leitao <leitao@debian.org>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	John Ogness <john.ogness@linutronix.de>,
+	Thomas Gleixner <tglx@linutronix.de>
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-ide@vger.kernel.org,
+	qat-linux@intel.com,
+	linux-crypto@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	ntb@lists.linux.dev,
+	linux-pci@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH 00/10] Remove pcim_iomap_regions_request_all()
+Date: Thu,  1 Aug 2024 19:45:58 +0200
+Message-ID: <20240801174608.50592-1-pstanner@redhat.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="l4wefJZHnBqvI+o4"
-Content-Disposition: inline
-In-Reply-To: <20240801100413.1620481-3-ckeepax@opensource.cirrus.com>
-X-Cookie: Keep on keepin' on.
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
+Hi all,
 
---l4wefJZHnBqvI+o4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+the PCI subsystem is currently working on cleaning up its devres API. To
+do so, a few functions will be replaced with better alternatives.
 
-On Thu, Aug 01, 2024 at 11:04:12AM +0100, Charles Keepax wrote:
-> No longer any need to hard code the addition of the name prefix, use the
-> new helper.
+This series removes pcim_iomap_regions_request_all(), which has been
+deprecated already, and accordingly replaces the calls to
+pcim_iomap_table() (which were only necessary because of
+pcim_iomap_regions_request_all() in the first place) with calls to
+pcim_iomap().
 
-> -	kcontrol = snd_soc_card_get_kcontrol_locked(component->card, name);
-> +	kcontrol = snd_soc_component_get_kcontrol_locked(component->card, ctl_name);
+Would be great if you can take a look whether this behaves as you
+intended for your respective component.
 
-That's not the helper that the subject line references, nor the one
-added by the prior patch - did you test this?
+Cheers,
+Philipp
 
-Please use cover letters for patch serieses too.
+Philipp Stanner (10):
+  PCI: Make pcim_request_all_regions() a public function
+  ata: ahci: Replace deprecated PCI functions
+  crypto: qat - replace deprecated PCI functions
+  crypto: marvell - replace deprecated PCI functions
+  intel_th: pci: Replace deprecated PCI functions
+  wifi: iwlwifi: replace deprecated PCI functions
+  ntb: idt: Replace deprecated PCI functions
+  serial: rp2: Remove deprecated PCI functions
+  ALSA: korg1212: Replace deprecated PCI functions
+  PCI: Remove pcim_iomap_regions_request_all()
 
---l4wefJZHnBqvI+o4
-Content-Type: application/pgp-signature; name="signature.asc"
+ .../driver-api/driver-model/devres.rst        |  1 -
+ drivers/ata/acard-ahci.c                      |  6 +-
+ drivers/ata/ahci.c                            |  6 +-
+ drivers/crypto/intel/qat/qat_420xx/adf_drv.c  | 11 +++-
+ drivers/crypto/intel/qat/qat_4xxx/adf_drv.c   | 11 +++-
+ .../marvell/octeontx2/otx2_cptpf_main.c       | 14 +++--
+ .../marvell/octeontx2/otx2_cptvf_main.c       | 13 ++--
+ drivers/hwtracing/intel_th/pci.c              |  9 ++-
+ .../net/wireless/intel/iwlwifi/pcie/trans.c   | 16 ++---
+ drivers/ntb/hw/idt/ntb_hw_idt.c               | 13 ++--
+ drivers/pci/devres.c                          | 59 +------------------
+ drivers/tty/serial/rp2.c                      | 12 ++--
+ include/linux/pci.h                           |  3 +-
+ sound/pci/korg1212/korg1212.c                 |  6 +-
+ 14 files changed, 76 insertions(+), 104 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+-- 
+2.45.2
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmaruggACgkQJNaLcl1U
-h9CDWAf/fTuOyr3u+E6XW4FIFD2a3vy5AklQo06afZB1f/xec1iAeIXYXXVkLzpA
-PSuAxqe0ErdamSCXA0+QxVprcTbl/h9XSH0Z5dcu92H7M6J2/JKWmcz4w8f7uU0f
-p3gEEUv8wF+ea7SE2roSEBbZpoHEvMOZLGSQa0va1sOmU80yOiOJoMdWqi+pJoPr
-3LcM+QmgWwn1QKIW7LjETE7PEecVQqRhGkUGVBs6ROddmOErcUR9PenyOAv12tlX
-c3DLJCa8FfQgGAZ/lenRHg7atXSdMEqFAyPgqk7ctLJEAoXl+D+GoP6/9fWors5i
-30DG2upAPe6bbJkPFouHE/nEwsJHqQ==
-=KL3O
------END PGP SIGNATURE-----
-
---l4wefJZHnBqvI+o4--
