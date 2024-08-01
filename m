@@ -1,96 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F151210E0;
-	Thu,  1 Aug 2024 02:22:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DA1713D24D;
+	Thu,  1 Aug 2024 03:11:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722478933; cv=none; b=PBz8SnWJim5cPpoeZSuHnQvwXgHAOX1eozuAnlQxugsJwGchZTzkGZdIo+Nl2O+6n93aXpfGH8v60RzHqgNYRnO1ohitZjEACKXKioRat4dHeOtyp7MWJ80FYuFZ2xyTbYtAMkBdIQapM8NpdaEXPx9nrHtYbVoVrgwnOGWaoq0=
+	t=1722481877; cv=none; b=lwZ+WcuDWs5cqZM1cSrRokY+okUPwPF6RKooeLTBo4XdtygGfkdjZLzfpNPshJ15L6CJb5HtJomLeOJUnCdmtZ6/5L90qWqRCIpBTcfXjxBtz7TTvPRBwTPPNrxT4fYbgWxfKHWT/NJGBxQSDLjRF9xa0d8Wdlu6WYRCXEY5cmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722478933; c=relaxed/simple;
-	bh=cgxg4rbo4fUOa9zSmibfWqsv00PQFdhsSeKcX4HAPjg=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=RkzC5IkxQSimb3+/2li3tiijvMReY6TVbgS/R5sCsu1tUyj9PKrZ6QEmoGDHWvASoXP+yJuSyva83v+rmj4XGlMDGUGgzaegR9A2dtkDXwx2sIdWPqtJdKjihSLpojWSRDDrz4VyHWYvx+h6Cif83YlvkLRag0m3dI82bo/em0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g0NGMFz1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722481877; c=relaxed/simple;
+	bh=03Q/BMZ1/DUeZIMFE3RjLQaNlXs/KLu9/a8TbwH+ZZo=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Rncey6Plk36FzaH6VWLlCxSsxVjAoka729XwrE8k1L0zN078ipl7mOQumxfOqrfwoCPIIOA7SlRObqzviT0tFWJzsB84KuJne12RnPOMalqT54dDvIxxv146DTQlXZUqqKjb+DR/sE/QqceAUe+9eMMzehWmt+9yxDbXfKDML6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=piyTGWGq; arc=none smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g0NGMFz1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24934C116B1;
-	Thu,  1 Aug 2024 02:22:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722478932;
-	bh=cgxg4rbo4fUOa9zSmibfWqsv00PQFdhsSeKcX4HAPjg=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=g0NGMFz1HOD7/T0s35VIIArFp5yKZQqK2zn5bgOKLqFQWsYd2iG92tRhhtE2CpZQF
-	 QBuD9G/910Q7Mw1q+xOpDWtVsZ4sszv644qjVVhmFSml9jrzsiCclJE25xEyWcDc/W
-	 SHfoGtCNOu/yzzmspyvZOkdZN9+ockI+hBATMnlbH2aszcTagPa1fHk/Wr6X05VvgQ
-	 h9ToZZi1ciswwXnPVXqurmNQFmlwQzwRE7FgzaiyAkcQRK6d+h6WdzlTs73VNxDx9l
-	 pm1zKgvDDqkWBF5H/iUyc6pJ3msqajhP+PoFAptHCJkmRki/JKN1Cm2NsjlT3cxxnY
-	 0VUev0OBhuy5g==
-Date: Wed, 31 Jul 2024 20:22:10 -0600
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="piyTGWGq"
+X-UUID: b0c363e84fb311ef9a4e6796c666300c-20240801
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=4GpAIRZdMhZSTsJPSVOYqCnYUdwUP7d/1luMYhvJfaI=;
+	b=piyTGWGqAqtDF6xg6X7BFIfGnwJqE/4YJru5cHQINeQkCeZlE9c45D/GbkK6L4uLCTOTNO/W4BCTa9sy120NjoTLPLGDk5t4USv3Lrg9ZeVqfK6+hs3iLeuaUS8ZGLtY/zc1sULtqS0duCI166uqjERe8QFaNQWf22t7mjdDFHU=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.41,REQID:26aaa21a-6fbf-4206-ae2e-302d8afb0ba8,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:6dc6a47,CLOUDID:1ab102d6-0d68-4615-a20f-01d7bd41f0bb,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: b0c363e84fb311ef9a4e6796c666300c-20240801
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
+	(envelope-from <yr.yang@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 299177876; Thu, 01 Aug 2024 11:11:05 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Thu, 1 Aug 2024 11:11:03 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Thu, 1 Aug 2024 11:11:02 +0800
+From: yr.yang <yr.yang@mediatek.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, "Matthias
+ Brugger" <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>
+CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>, YR Yang
+	<yr.yang@mediatek.com>
+Subject: [PATCH 1/1] ASoC: mediatek: mt8188: add register to volatile_register
+Date: Thu, 1 Aug 2024 11:10:30 +0800
+Message-ID: <20240801031030.31114-1-yr.yang@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: mathias.nyman@intel.com, linux-usb@vger.kernel.org, 
- Thinh.Nguyen@synopsys.com, krzk+dt@kernel.org, 
- srinivas.kandagatla@linaro.org, linux-doc@vger.kernel.org, 
- bgoswami@quicinc.com, linux-arm-msm@vger.kernel.org, tiwai@suse.com, 
- lgirdwood@gmail.com, alsa-devel@alsa-project.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, corbet@lwn.net, 
- perex@perex.cz, gregkh@linuxfoundation.org, conor+dt@kernel.org, 
- linux-sound@vger.kernel.org, broonie@kernel.org
-In-Reply-To: <20240801011730.4797-14-quic_wcheng@quicinc.com>
-References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
- <20240801011730.4797-14-quic_wcheng@quicinc.com>
-Message-Id: <172247893082.2670643.17763625549296585780.robh@kernel.org>
-Subject: Re: [PATCH v24 13/34] ASoC: dt-bindings: Update example for
- enabling USB offload on SM8250
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--3.381700-8.000000
+X-TMASE-MatchedRID: rHai9PqIGYaLwgJA7qJvFMnUT+eskUQPuLwbhNl9B5UeaAmZIX542Jah
+	y9R3rl2Rpg88JvjuALCKmwyUcf+f3LL5lB/vTWKDA9lly13c/gHt/okBLaEo+H5h6y4KCSJcpMB
+	UwgqWxUfwHUSrzAMoARAISLmT6dDEHxPMjOKY7A8LbigRnpKlKTpcQTtiHDgW/KZGkrHlNGg3u5
+	jQHadGg6dqnoOcTqwEj6l9Lqw9rFdR8lOQtOtaFme5sbOn0w4k1/nMyHDPr2V8yzUl7m/92666w
+	hc7npsj4sOrsb4iT/K/bbEolHIgZUOc7GjOamnWv5a9cmIodEszD8HZ4XvJ2ZRMZUCEHkRt
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--3.381700-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP: F12722AC61B8F341386EF201A7D976671705BBB306208B188874C6169E7692B12000:8
 
+From: YR Yang <yr.yang@mediatek.com>
 
-On Wed, 31 Jul 2024 18:17:09 -0700, Wesley Cheng wrote:
-> Add an example on enabling of USB offload for the Q6DSP.  The routing can
-> be done by the mixer, which can pass the multimedia stream to the USB
-> backend.
-> 
-> Acked-by: Rob Herring <robh@kernel.org>
-> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
-> ---
->  .../devicetree/bindings/sound/qcom,sm8250.yaml    | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
-> 
+Add AFE Control Register 0 to volatile_register.
+AFE_DAC_CON0 can be modified by both SOF and ALSA driver.
+If this register read & write by cache mode, 
+the cached value may be not the real value
+when the register modified by other side.
+It will cause playback or capture fail.
+Need add AFE_DAC_CON0 to volatile register.
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Signed-off-by: YR Yang <yr.yang@mediatek.com>
 
-yamllint warnings/errors:
+---
+ sound/soc/mediatek/mt8188/mt8188-afe-pcm.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-dtschema/dtc warnings/errors:
-Error: Documentation/devicetree/bindings/sound/qcom,sm8250.example.dts:97.44-45 syntax error
-FATAL ERROR: Unable to parse input tree
-make[2]: *** [scripts/Makefile.lib:427: Documentation/devicetree/bindings/sound/qcom,sm8250.example.dtb] Error 1
-make[2]: *** Waiting for unfinished jobs....
-make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1430: dt_binding_check] Error 2
-make: *** [Makefile:240: __sub-make] Error 2
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240801011730.4797-14-quic_wcheng@quicinc.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+diff --git a/sound/soc/mediatek/mt8188/mt8188-afe-pcm.c b/sound/soc/mediatek/mt8188/mt8188-afe-pcm.c
+index ccb6c1f3adc7..73e5c63aeec8 100644
+--- a/sound/soc/mediatek/mt8188/mt8188-afe-pcm.c
++++ b/sound/soc/mediatek/mt8188/mt8188-afe-pcm.c
+@@ -2748,6 +2748,7 @@ static bool mt8188_is_volatile_reg(struct device *dev, unsigned int reg)
+ 	case AFE_ASRC12_NEW_CON9:
+ 	case AFE_LRCK_CNT:
+ 	case AFE_DAC_MON0:
++	case AFE_DAC_CON0:
+ 	case AFE_DL2_CUR:
+ 	case AFE_DL3_CUR:
+ 	case AFE_DL6_CUR:
+-- 
+2.34.1
 
