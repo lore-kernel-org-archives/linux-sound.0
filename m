@@ -1,155 +1,191 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2056.outbound.protection.outlook.com [40.107.223.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50750183CA7
-	for <linux-sound@vger.kernel.org>; Thu,  1 Aug 2024 11:08:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722510507; cv=none; b=bjH1ZCIoeQNlU84NGptKHqPYjc4QTulgAtF3IuyAqqMlzKUeSRy286SMiMwiBpiX0pc4JxylfjI0sllixeL4JRYGs74hfT+loBCK6rBxOxRWfmXnvDgq6z2wrozFDDnX07N48++YCoMJdj+c+CnHuolVboMWLsm6zO2SSc9qLjg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722510507; c=relaxed/simple;
-	bh=IzTwNrilBUAlwP925WvEJZboHMLUQHtVa3f+NyNlaK0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UWiM7L5MK3Ad/gy8AGmioq42YKqAZdgsUcsp85eutgyjxFqSNQTQN5uMUNue0AMcdbMoldZoEmd/8kPR41qls/jfNUXtzAn2XgfocgRas0aVHA0YktiWO+urqw9tEJsOg4pwDqKjrnOE40d3W95lcgLs63X0VoEVFXznEtSH2OI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Yq8ZrD88; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD95918453A;
+	Thu,  1 Aug 2024 11:18:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.56
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722511119; cv=fail; b=S/xFkn84fHs3bCFzRUOv4krvE4rIMEzVPYtGK0NDm8HzjSd7NtUf5rpgwfmFLlc2UVEMBERO/ffG6CepTGyD7dmL+Py/QuRkbeTiqxJBN1GaHJnGnMUB2VRp+Ub9F8cHoGeWc8DEgL5ZRBeBsRf9JIyIwprHZ28PvjRIwwALFuk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722511119; c=relaxed/simple;
+	bh=MPZvZJr2dKgEyoC5PT2bfOAWgLLDd/Ys8BCPH9ABZM8=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=py3yC8pDj0YswC/aK4Q3nofi3deb7N+rlVhAgWJ1SbBKpwfgMUA0zzXA/GBvootI4LVPC0tbbHAwQo516geS9FN20aMW6Wk1d7UJEfwXUKZdvqN1OqC7sJh+62/er0qjkqrbkGpQJhSIujBqZiXzLn4lpAKzGaeOO1ldaz/LzhU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=4jSVGk+L; arc=fail smtp.client-ip=40.107.223.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Yq8ZrD88"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a7a9185e1c0so685245966b.1
-        for <linux-sound@vger.kernel.org>; Thu, 01 Aug 2024 04:08:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1722510502; x=1723115302; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FExuf/EqIwu44cXtirgV7vgVSEt4vB1L1sgTb2On32Q=;
-        b=Yq8ZrD887ONOyl4wEtu2lGibkCoVD+lyETrjB1OxHCJXnoMhjFIMb0HD2KrNgiEZS1
-         Z5ySNdjFKrCqbphmgawAjuHTcWE4AqQkqamRnCU15OHUEAOXo4ny5vYiw50A8bv09eiW
-         GG/v6hC7210/9TOKlJ8apE3Z6RqyRxEtcDY3oVm+8/1VoQUxg+qeoROqIOruPfsqDqsU
-         6LM44aVieRPCx6f1U82GH7TL7dX1/5dTZbPl7UZcGuLI+JwL742UlH8McGIIayOrpXOy
-         DTPm0twDcyx8PabSraq9SQI1j2AeKcTmEfJs9CB9bcQXrgFBA2U4KCAN/qZD9+HGn4vl
-         djXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722510502; x=1723115302;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FExuf/EqIwu44cXtirgV7vgVSEt4vB1L1sgTb2On32Q=;
-        b=A4J70xhtZZ1WwqevcitjP7Ad3/iRKeDXMQuzU02TnuDDi0CbaaA6qqQAkiXUaL3iRr
-         ZZzNFRUQHc2NTS4zMBxfSDb8mnos5FkMPyr3d28JO8pDWSPP7jJa8sFMY3vQq0LwqV4K
-         lqgo+JB5Sl5XR8aO/Vo448bMTffS1zDK7vN/n9ISQmVZhL94nXmcIDLOs6Qj4a10slgS
-         SCFi0lH3PVlv9t9akEkbn6euMYVNKQD4eUba+rLVBRRKjd3A4D5le46/sBvmWYusxxPr
-         yqGBPJp0++HYyopJNMKvY3VoBWeSc4oUwvWCrkyRMl3d/IfmgKrYDiK3cYEnun2Pj5BN
-         TQrg==
-X-Forwarded-Encrypted: i=1; AJvYcCWVxmkuzpRMaMOgvzTSj7NdiQjp5CjyQYi1RO0MrwInrrhbul9yfIcapU22kjvPPbTTD9rZmuKe5YTeslNNVR3dVw8p1d1Cakq2dXg=
-X-Gm-Message-State: AOJu0YweWAxRQqu7a+bbKxAIlO6UP0g1t8ey2ZjCeioiWzFgMzl47vCS
-	5u2DcNRMUU0ynmIfWS+l0iuVhJ6PRATFHqyWaP0gn69sz5dExcoZdyWaW5hf2ao=
-X-Google-Smtp-Source: AGHT+IGqr7N4CpNmN1ermVEFWMT0947mfSXTC3VHJzla+OoRW5oknSUl8o0Y7+o27NpeeOS8sdiOuw==
-X-Received: by 2002:a17:907:25c3:b0:a77:e48d:bc8 with SMTP id a640c23a62f3a-a7daf4c8093mr173415166b.21.1722510502384;
-        Thu, 01 Aug 2024 04:08:22 -0700 (PDT)
-Received: from linaro.org ([2a02:2454:ff1f:b280:31d2:aeb1:18cd:e482])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7acad90264sm894932366b.148.2024.08.01.04.08.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Aug 2024 04:08:22 -0700 (PDT)
-Date: Thu, 1 Aug 2024 13:08:20 +0200
-From: Stephan Gerhold <stephan.gerhold@linaro.org>
-To: Adam Skladowski <a39.skl@gmail.com>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Stephan Gerhold <stephan@gerhold.net>, alsa-devel@alsa-project.org,
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 7/8] ASoC: qcom: apq8016_sbc: Add support for msm8976
- SoC
-Message-ID: <ZqtspO9hO0yFus1u@linaro.org>
-References: <20240731-msm8953-msm8976-asoc-v3-0-163f23c3a28d@gmail.com>
- <20240731-msm8953-msm8976-asoc-v3-7-163f23c3a28d@gmail.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="4jSVGk+L"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=IG8lZQySTN6mi29yFHzB33btK6I+TM828CUL82L4kWOkTLU/pacIIlH7mcJDEJfFIN0DamGq4yyeLXfUN6NurJ2nzyJZfuYB+JQ4IYsRzmquckw+ZwiXqzxL92CDr3RliTG3DqRtjkMEeUoYY+e1uU7kJAp/UdAJl1sTZs13DmNvSzXd5Ez5dX6WFGdSSd8K3tQA8Pvm7rQqMrUTnhlVebT49uEKrM1lcxNdyOHsVD6gZLPwx7aYcKuiNhubdrV79s55opr66dogqfe/ClCbRQqJysa5waqt/6wcjNNZvlFCei5tj9kKVjOIDXsZyg3LSr8Lf9iXCGEN2QBZpfdMBw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CDKExy/DCIR6/246/oZSdxS0in9FcMvHavGaSS7dzj4=;
+ b=lP4+xax7j4yPWA1xZwGabOGs838rSvLgZGiDJQc86eAqMhlLNQtw6AU+lB8TAYlUkV3ygRuW5s4CISAoTXC+DtEmc8ymhMS5h7LCpwscsEVSkAtrPQTJinPL+yHqLn7vaC9DWFhI3en71Qfvkq0gr2BxESOBwVD7Oaz+735g/UQ0WFBQz4FSwPEJvQxCIH2dHUFWxJosMcdyDyY3jQOjjST1Rw4bh++QZqaFDKA1eYJ23V/6j25uMUd4hctmeFPiI8239D4sPzjHsWsHMpTrVwMEu9tdehNsFJhTM1ZnAE9lhEZRmQX/PKjCCsV9mcutLtKBe67QE11rUBjO212LgA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CDKExy/DCIR6/246/oZSdxS0in9FcMvHavGaSS7dzj4=;
+ b=4jSVGk+L+UGtWdHX4BDiRDfKaJUlwT5RQaWPo4IcVTXO3Rw1Fv7L2LQJbB2lr5QFyBSW7BnUU+mojjbrpPSbKF+TwpFLXp9bbuoPEl1yK+ht0PqFP69iZ+2n7MGlALXF7uiTgOIxgQhu95mxuJbB3/eO0nWPclDQOgCOAdhZ1iQ=
+Received: from MN2PR20CA0066.namprd20.prod.outlook.com (2603:10b6:208:235::35)
+ by CH3PR12MB9077.namprd12.prod.outlook.com (2603:10b6:610:1a2::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.22; Thu, 1 Aug
+ 2024 11:18:33 +0000
+Received: from BL6PEPF00022571.namprd02.prod.outlook.com
+ (2603:10b6:208:235:cafe::cd) by MN2PR20CA0066.outlook.office365.com
+ (2603:10b6:208:235::35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.22 via Frontend
+ Transport; Thu, 1 Aug 2024 11:18:33 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BL6PEPF00022571.mail.protection.outlook.com (10.167.249.39) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7828.19 via Frontend Transport; Thu, 1 Aug 2024 11:18:33 +0000
+Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 1 Aug
+ 2024 06:18:32 -0500
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB06.amd.com
+ (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 1 Aug
+ 2024 06:18:32 -0500
+Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39
+ via Frontend Transport; Thu, 1 Aug 2024 06:18:22 -0500
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <broonie@kernel.org>
+CC: <vijendar.mukunda@amd.com>, <Basavaraj.Hiregoudar@amd.com>,
+	<Sunil-kumar.Dommati@amd.com>, <alsa-devel@alsa-project.org>,
+	<pierre-louis.bossart@linux.intel.com>, <venkataprasad.potturu@amd.com>,
+	<yung-chuan.liao@linux.intel.com>, <linux-sound@vger.kernel.org>, "Vijendar
+ Mukunda" <Vijendar.Mukunda@amd.com>, Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, "Cezary
+ Rojewski" <cezary.rojewski@intel.com>, Peter Ujfalusi
+	<peter.ujfalusi@linux.intel.com>, Ranjani Sridharan
+	<ranjani.sridharan@linux.intel.com>, Kai Vehmanen
+	<kai.vehmanen@linux.intel.com>, Charles Keepax
+	<ckeepax@opensource.cirrus.com>, Maciej Strozek
+	<mstrozek@opensource.cirrus.com>, Chao Song <chao.song@linux.intel.com>, open
+ list <linux-kernel@vger.kernel.org>
+Subject: [PATCH RESEND 21/31] ASoC: intel/sdw_utils: move dai id common macros
+Date: Thu, 1 Aug 2024 16:48:07 +0530
+Message-ID: <20240801111821.18076-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240801091446.10457-1-Vijendar.Mukunda@amd.com>
+References: <20240801091446.10457-1-Vijendar.Mukunda@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240731-msm8953-msm8976-asoc-v3-7-163f23c3a28d@gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF00022571:EE_|CH3PR12MB9077:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0fe03777-542e-4b27-ea6a-08dcb21bae01
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|82310400026|1800799024|36860700013;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?3VCAdaSk/WIAEXzSG/8pF6GIjsJ6mrMlnf9DRHQs5d1sXGjD3BTcD34nDoBO?=
+ =?us-ascii?Q?n5lRLpm+Ok2D1iDVrMfiQCulpeod5OQhn49Cgjb/Ur/EWImEIcmN+jsORsoN?=
+ =?us-ascii?Q?P4HpLmdNNNtwl3ChYKzR3ZwVJRrRTG9/wVxI3sRYNunJRoJirVC8hwyzjjk+?=
+ =?us-ascii?Q?kbPh4jU5eUWkFjSOJAaFc7F5Qd6U4YampAflDWa7Kvy5Z7qUBvs05Z9WDDeD?=
+ =?us-ascii?Q?wav/USq7dwhuHaSx/Rib4SknywUKdNhb+DYJAJKmGWk3XWKqQC7jET0vdx39?=
+ =?us-ascii?Q?tOfU+fTWww92/YkepsF4Cp998Fc97dzbdJOqPu6Jm3OxJu/DbXux8XwBxZK5?=
+ =?us-ascii?Q?1Zn4XDmchjKXGkdftyCDaqsO6IBuIF3aOamb9HW02rqf/91IsNp/lKSPtv6y?=
+ =?us-ascii?Q?kx9nU/Y27SPfVo5SH0mROlBmjDrFCqJwTUnayxc7ShEy0kjk4Nap5SyM2GB4?=
+ =?us-ascii?Q?bxeFUZAupA5DxHyeMgc0h3Y3O9N3e7zcOIXQEgS2otyXtqaJxtVS3yU41LMg?=
+ =?us-ascii?Q?Z4bExMgH+kbS0NXIknaQIlqEDwUQz363n9FraDZjZAf2FTi73Uv+/0CNJ6fH?=
+ =?us-ascii?Q?1vO6ldMNTE785Y5L4FoNz1Xrmu+ey1619jIBUD50+CE66XKV4J+j3FdEDrqN?=
+ =?us-ascii?Q?dYRg5iHYL9TFaKhk2y0Ujrxn/rtEXv1knTF9Tc1+rwpbWeN403rL/a3+3lvi?=
+ =?us-ascii?Q?XN1TLqfgoNJRW+91ftNVV+w0tIXMeFXWmbMX9wfrFLcOkUNU0QOVxloPH4gl?=
+ =?us-ascii?Q?ec/9eZdwXeAI+OmUvGsyNa+LjV4EeOEpRC0KDi8e46MF4y1CTHd/VoP5WaBk?=
+ =?us-ascii?Q?IOKo8TIbIKAd4Vp7dRLZVnwj8LnWZkO9uFYaznw9I9qn6Q+laV6mDJNxV/u3?=
+ =?us-ascii?Q?4xn81vqbjjm4EvEbw4k97cuggn+K6hPaRwrUykYZt76k5yLEd9hNSQux8+Q4?=
+ =?us-ascii?Q?PF22elRwcjkYv9JP23NG3WtPxOd+FA2Y51NLgjTXE3/aUNisU/QnvQd+KSl1?=
+ =?us-ascii?Q?khk4ivVTC1Ai9rOjCTZ9juPaJPTsdqH/Mik8jpT0XoHD9yBVirtuxKS0YBfP?=
+ =?us-ascii?Q?Dv45apI4ZvJER1lx/Nf3fkkOUqN6YIg2K5gF6gaI0krs8ayt/s39aQppPCaz?=
+ =?us-ascii?Q?gpH31P9rHv3OwwFG3HXoLMNuPdpo8exmd6eQXqB66Boa/W8POeWg0zmg+0iK?=
+ =?us-ascii?Q?fAk9VtHxSs8IldrH8AlIZebzqSubvV0b50wuvX7kCYP6dyky2fSaAHgLkFOv?=
+ =?us-ascii?Q?ahSr2ckrPAQrcBZuR6PbvR/7c1/aVNrqpHrcZs3HY/SFY7SOcY+QlxsdKjRa?=
+ =?us-ascii?Q?HRsZqYIZuMADXntUTBFG+8sSlN3is+fcMye/m/hy1LBYePhyOEbQFnwdvgKz?=
+ =?us-ascii?Q?dKjwtpu4rRD/5DRaByZif6HSGE3EncvbDKtMuPgymdHmH7ed0A=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(82310400026)(1800799024)(36860700013);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Aug 2024 11:18:33.2208
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0fe03777-542e-4b27-ea6a-08dcb21bae01
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL6PEPF00022571.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9077
 
-On Wed, Jul 31, 2024 at 05:25:31PM +0200, Adam Skladowski wrote:
-> Introduce support for audio card on MSM8976 platform.
-> While MSM8976 falls into v1 category with MSM8916, digitial codec clock
-> is not available in GCC so we have to set it in machine driver.
-> For that reason for V1 clocks new boolean is added to check
-> if we need to enable codec clock.
-> 
-> Signed-off-by: Adam Skladowski <a39.skl@gmail.com>
-> ---
->  sound/soc/qcom/apq8016_sbc.c | 28 ++++++++++++++++++++++++++++
->  1 file changed, 28 insertions(+)
-> 
-> diff --git a/sound/soc/qcom/apq8016_sbc.c b/sound/soc/qcom/apq8016_sbc.c
-> index 3ed35beb671a..8219d4d55625 100644
-> --- a/sound/soc/qcom/apq8016_sbc.c
-> +++ b/sound/soc/qcom/apq8016_sbc.c
-> @@ -35,6 +35,7 @@ struct apq8016_sbc_data {
->  	struct snd_soc_jack jack;
->  	bool jack_setup;
->  	enum afe_clk_api q6afe_clk_ver;
-> +	bool dig_cdc_mclk_en;
->  	int mi2s_clk_count[MI2S_COUNT];
->  };
->  
-> @@ -242,6 +243,16 @@ static int msm8916_qdsp6_startup(struct snd_pcm_substream *substream)
->  
->  	if (++data->mi2s_clk_count[mi2s] > 1)
->  		return 0;
-> +	/*
-> +	 * On newer legacy SoC (MSM8976) lpass codec clocks are not available in gcc region
-> +	 * so we have to request clock from machine driver using V1 API)
-> +	 */
-> +	if (data->q6afe_clk_ver == Q6AFE_CLK_V1 &&
-> +	    data->dig_cdc_mclk_en) {
-> +		ret = snd_soc_dai_set_sysclk(cpu_dai,  LPAIF_DIG_CLK, DEFAULT_MCLK_RATE, 0);
-> +		if (ret)
-> +			dev_err(card->dev, "Failed to enable LPAIF dig clk: %d\n", ret);
-> +	}
->  
->  	ret = snd_soc_dai_set_sysclk(cpu_dai, qdsp6_get_clk_id(data, mi2s), MI2S_BCLK_RATE, 0);
->  	if (ret)
-> @@ -267,6 +278,13 @@ static void msm8916_qdsp6_shutdown(struct snd_pcm_substream *substream)
->  	ret = snd_soc_dai_set_sysclk(cpu_dai, qdsp6_get_clk_id(data, mi2s), 0, 0);
->  	if (ret)
->  		dev_err(card->dev, "Failed to disable LPAIF bit clk: %d\n", ret);
-> +
-> +	if (data->q6afe_clk_ver == Q6AFE_CLK_V1 &&
-> +	    data->dig_cdc_mclk_en) {
-> +		ret = snd_soc_dai_set_sysclk(cpu_dai,  LPAIF_DIG_CLK, 0, 0);
-> +		if (ret)
-> +			dev_err(card->dev, "Failed to disable LPAIF dig clk: %d\n", ret);
-> +	}
->  }
+Move dai id common macros from intel SoundWire generic driver to
+soc_sdw_utils.h file so that it can be used by other platform machine
+driver.
 
-I'm a bit confused why this works correctly. The digital codec clock
-(mclk) is needed whenever accessing registers of the digital codec
-("qcom,msm8916-wcd-digital-codec"). This is why the clock is directly
-assigned to it in the DT, so the codec driver can request it when
-needed. The startup/shutdown callbacks in this patch are only called
-during audio playback, while the codec registers might be accessed any
-time e.g. when changing the volume mixers. Perhaps you are lucky not to
-hit that, but if the clock is off at that point the device will crash or
-hang.
+Link: https://github.com/thesofproject/linux/pull/5068
+Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+---
+ include/sound/soc_sdw_utils.h           | 7 +++++++
+ sound/soc/intel/boards/sof_sdw_common.h | 6 ------
+ 2 files changed, 7 insertions(+), 6 deletions(-)
 
-Instead of requesting the clock here, we should assign it to the digital
-codec in the DT. I think Otto's series also allowed that for the older
-v1 firmware [1]. Can we work towards finishing that up instead? That
-should be more reliable.
+diff --git a/include/sound/soc_sdw_utils.h b/include/sound/soc_sdw_utils.h
+index 9e84d1ab6cd0..13941ddd24c8 100644
+--- a/include/sound/soc_sdw_utils.h
++++ b/include/sound/soc_sdw_utils.h
+@@ -29,6 +29,13 @@
+  */
+ #define SOC_SDW_SIDECAR_AMPS		BIT(16)
+ 
++#define SOC_SDW_UNUSED_DAI_ID		-1
++#define SOC_SDW_JACK_OUT_DAI_ID		0
++#define SOC_SDW_JACK_IN_DAI_ID		1
++#define SOC_SDW_AMP_OUT_DAI_ID		2
++#define SOC_SDW_AMP_IN_DAI_ID		3
++#define SOC_SDW_DMIC_DAI_ID		4
++
+ struct asoc_sdw_codec_info;
+ 
+ struct asoc_sdw_dai_info {
+diff --git a/sound/soc/intel/boards/sof_sdw_common.h b/sound/soc/intel/boards/sof_sdw_common.h
+index 664c3404eb81..8bfdffde16a3 100644
+--- a/sound/soc/intel/boards/sof_sdw_common.h
++++ b/sound/soc/intel/boards/sof_sdw_common.h
+@@ -16,12 +16,6 @@
+ #include "sof_hdmi_common.h"
+ 
+ #define MAX_HDMI_NUM 4
+-#define SOC_SDW_UNUSED_DAI_ID -1
+-#define SOC_SDW_JACK_OUT_DAI_ID 0
+-#define SOC_SDW_JACK_IN_DAI_ID 1
+-#define SOC_SDW_AMP_OUT_DAI_ID 2
+-#define SOC_SDW_AMP_IN_DAI_ID 3
+-#define SOC_SDW_DMIC_DAI_ID 4
+ #define SOC_SDW_MAX_CPU_DAIS 16
+ #define SOC_SDW_INTEL_BIDIR_PDI_BASE 2
+ 
+-- 
+2.34.1
 
-Thanks,
-Stephan
-
-[1]: https://lore.kernel.org/linux-arm-msm/20231029165716.69878-1-otto.pflueger@abscue.de/
