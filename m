@@ -1,145 +1,204 @@
-Received: from omta040.useast.a.cloudfilter.net (omta040.useast.a.cloudfilter.net [44.202.169.39])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D91A1A57C5
-	for <linux-sound@vger.kernel.org>; Thu,  1 Aug 2024 13:09:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.202.169.39
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D296D1E4AB;
+	Thu,  1 Aug 2024 14:33:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722517744; cv=none; b=oFf0leXhdn/d+bZ4AV/EmgvXKs1fYP7xcVAF/YuCdPFlgOgfKfJe2jTLuOwqz4Ps3lssP78KMX6ngC0b8CxNnBBrKy6acmKs/fBHG+UnxBlz4hMfe3JS3OR8mbArh4eCf+ffQQH5boTnCeERvSKeiykff5jC+cKA/4eCYcuEDqQ=
+	t=1722522835; cv=none; b=gPNHbAxQSDrpqRrkpecnzHXCvPCBL1jqpJhdI0KTiUYfMwIbeoYA6o5tEqAglVvyc6PVuLUfBJUd2m+QMjSw4M0cJZsT89RjwrkPe8ovSSeSqrcUqh9jBRTBqyjxEj5P3etShhUQwU12Oq1smKV7JbSDrE8PDba1Nc/paiHylHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722517744; c=relaxed/simple;
-	bh=iffcO17agYLVMGm5nGnKD3vKGu63G7RQVHCgaY+KI5Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=GCs7DESdbRGCI+ssB8hur7W0DsSR61VsIgHWGALRD51Fo08+JExLyUtmvTGRGzp64iUcJVR5OmMZOC7bpja/XbyXC5YiZGc0VFEjppFKeYGqHMoUA0LJ44zicFzKuswYAcWBZ47Y3VEDH/2QWz70IkFHPayWoki3WUTbxRPB2rM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com; spf=pass smtp.mailfrom=embeddedor.com; dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b=lEGezGLg; arc=none smtp.client-ip=44.202.169.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedor.com
+	s=arc-20240116; t=1722522835; c=relaxed/simple;
+	bh=qDtxOqPLsQcOJe8TqfVlY5wm51p2NXX3ZCiOi/YHnz8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=UOlxUS8GvP7dEVh6aswsAahOIGDWoAGZfLbCV8NAyx8qUqUGaiz9ExGajEvvX33Q3OAdcEgESBnJm8vj00eu4bsjGYa68DGNyisO9eaNRBqt0x/wSjziVJADHxumZ1FZK5G/poZZ4Voy+m6UIR9Bw8Y2TYUHFbIqPkOPM30SNTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=ZDzjaonC; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="lEGezGLg"
-Received: from eig-obgw-6010a.ext.cloudfilter.net ([10.0.30.248])
-	by cmsmtp with ESMTPS
-	id ZU0hsoQO6nNFGZVY8sP2Ke; Thu, 01 Aug 2024 13:08:56 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22])
-	by cmsmtp with ESMTPS
-	id ZVY7sm1M7cYJ2ZVY8seE8A; Thu, 01 Aug 2024 13:08:56 +0000
-X-Authority-Analysis: v=2.4 cv=apm0CzZV c=1 sm=1 tr=0 ts=66ab88e8
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=frY+GlAHrI6frpeK1MvySw==:17
- a=IkcTkHD0fZMA:10 a=yoJbH4e0A30A:10 a=VwQbUJbxAAAA:8 a=0mdKdCKJ4Rrql2SUlNgA:9
- a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22 a=Xt_RvD8W3m28Mn_h3AK8:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:To:Subject:MIME-Version:Date:Message-ID:Sender:
-	Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=NkAiNWUkCoIRyYDoQLEqDnt4FZOujt+jX4L+GRdPUDM=; b=lEGezGLgMnQlKrrD2vVgZVSdI4
-	T5cZqRBVNqOr/dEV1EhvUtnqF+4CxbWk5Q6pzs3qmjzOlp/hh5Gk8+FG0wIkHiVV90z/YnqkLTtgR
-	LK40AQ5P7bgZiEJ/OtzNECIVx9VWOYsWsCiiWdrK6LPjNuKxVj29im04L9Am9FL9EDm3KDRf4mW/y
-	p+wwtB+duGrzd7Vpmc8jgGA911UYOg4lCfaoaGLnzkYb3jweYd9w6LJfb3B/xKVduTEMK9gZfVLYU
-	z+Nv1aRQSdiLg8KYWfxB/67Bun23d5aCv8A8UQsvKEstPDq53L3hhUizo16NqBxGmfv7V+4kF0AvV
-	Imj3rPMg==;
-Received: from [201.172.173.139] (port=59502 helo=[192.168.15.14])
-	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.96.2)
-	(envelope-from <gustavo@embeddedor.com>)
-	id 1sZVY7-000jO8-1e;
-	Thu, 01 Aug 2024 08:08:55 -0500
-Message-ID: <0436d53d-23c9-4058-9e8e-84b37f4d2241@embeddedor.com>
-Date: Thu, 1 Aug 2024 07:08:54 -0600
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="ZDzjaonC"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 471B7jM2018617;
+	Thu, 1 Aug 2024 09:31:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=t1VkGL6mPdtrtxmC
+	EAca93+GS4gd18fjPVS4TxXhBk4=; b=ZDzjaonCljViJGvKSqcZZ+H/Sw7lhPhn
+	tEIkGh7doaLrieZtunORafrqZk2lOBwUPcV7vdbfuxxUnDLh5PVTByIBg6jdu2Vn
+	yJu4Ov4Mmm34aiNSXrJgnorMlC/8PupEqKFdCf5WDGJdQcpYmN4dQu1ftnIuM7PB
+	bRSy85EHftukZoM9NHV5AVrZvwyIjF09V6u0bPpiRneANrC6hcS0jNiXJlIFXFDS
+	x8k7CPbkI8ejYw1+ggZwvoW7f4MTm4EU7QN90J2j9aQv+4+jp1gZswuBGQ8rgpt7
+	gfUHPllOhzuLBA8Qzvf2zZt+wb/qj830xyz8Kre6pq6xcfXOANmEVw==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 40qjw9adeh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 01 Aug 2024 09:31:45 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 1 Aug 2024
+ 15:31:42 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Thu, 1 Aug 2024 15:31:42 +0100
+Received: from lonswws01.ad.cirrus.com (lonswws01.ad.cirrus.com [198.90.188.26])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 92C2A820244;
+	Thu,  1 Aug 2024 14:31:42 +0000 (UTC)
+From: Simon Trimmer <simont@opensource.cirrus.com>
+To: <tiwai@suse.com>
+CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
+        "Simon
+ Trimmer" <simont@opensource.cirrus.com>
+Subject: [PATCH v3] ALSA: hda: cs35l56: Stop creating ALSA controls for firmware coefficients
+Date: Thu, 1 Aug 2024 14:31:39 +0000
+Message-ID: <20240801143139.34549-1-simont@opensource.cirrus.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: control: Annotate snd_kcontrol with __counted_by()
-To: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org
-References: <20240726152840.8629-1-tiwai@suse.de>
-Content-Language: en-US
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <20240726152840.8629-1-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 201.172.173.139
-X-Source-L: No
-X-Exim-ID: 1sZVY7-000jO8-1e
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.15.14]) [201.172.173.139]:59502
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 1
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfFI6PJoiLbR+C5UB/Ui04g4M//N2PCuewH2grF519qATHqTLZTWCPxyr/zYjEa5zhXNdHxvq36ZsVSPZtJxB5mKMtkY1HHjU2RB7eLyfvSQ+1H3yByTD
- Ko/ZHCPBNxroSRHLsXcvImmOvTjBKa7nqin6RjxUpkCE2CLEe4dHyn0r9adcI9Hx3Z198qaibeT88WJ5zaf894d/lBrPW0SrDiQcRFCPmSEOGZZKJlYmwib0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: 0nB_L6BAJxgoU621T3i4GeheG_Y26O9g
+X-Proofpoint-ORIG-GUID: 0nB_L6BAJxgoU621T3i4GeheG_Y26O9g
+X-Proofpoint-Spam-Reason: safe
 
+A number of laptops have gone to market with old firmware versions that
+export controls that have since been hidden, but we can't just install a
+newer firmware because the firmware for each product is customized and
+qualified by the OEM. The issue is that alsactl save and restore has no
+idea what controls are good to persist which can lead to
+misconfiguration.
 
+There is no reason that the UCM or user should need to interact with any
+of the ALSA controls for the firmware coefficients so they can be
+removed entirely, this also simplifies the driver.
 
-On 26/07/24 09:28, Takashi Iwai wrote:
-> struct snd_kcontrol contains a flex array of snd_kcontrol_volatile
-> objects at its end, and the array size is stored in count field.
-> This can be annotated gracefully with __counted_by() for catching
-> possible array overflows.
-> 
-> One additional change is the order of the count field initialization;
-> The assignment of the count field is moved before assignment of vd[]
-> elements for avoiding false-positive warnings from compilers.
-> 
+Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
+---
+Changes in v3:
+- Remove ability to add firmware coefficients as ALSA controls
+  entirely
 
-Thanks for catching this!
+Changes in v2:
+- v1 was accidentally the backport version for older kernels instead of
+  the one for v6.11
 
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+ sound/pci/hda/cs35l56_hda.c | 38 +------------------------------------
+ sound/pci/hda/cs35l56_hda.h |  1 -
+ 2 files changed, 1 insertion(+), 38 deletions(-)
 
-Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-
+diff --git a/sound/pci/hda/cs35l56_hda.c b/sound/pci/hda/cs35l56_hda.c
+index 96d3f13c5abf..31cc92bac89a 100644
+--- a/sound/pci/hda/cs35l56_hda.c
++++ b/sound/pci/hda/cs35l56_hda.c
+@@ -559,18 +559,6 @@ static void cs35l56_hda_release_firmware_files(const struct firmware *wmfw_firmw
+ 	kfree(coeff_filename);
+ }
+ 
+-static void cs35l56_hda_create_dsp_controls_work(struct work_struct *work)
+-{
+-	struct cs35l56_hda *cs35l56 = container_of(work, struct cs35l56_hda, control_work);
+-	struct hda_cs_dsp_ctl_info info;
 -
-Gustavo
+-	info.device_name = cs35l56->amp_name;
+-	info.fw_type = HDA_CS_DSP_FW_MISC;
+-	info.card = cs35l56->codec->card;
+-
+-	hda_cs_dsp_add_controls(&cs35l56->cs_dsp, &info);
+-}
+-
+ static void cs35l56_hda_apply_calibration(struct cs35l56_hda *cs35l56)
+ {
+ 	int ret;
+@@ -595,26 +583,15 @@ static void cs35l56_hda_fw_load(struct cs35l56_hda *cs35l56)
+ 	char *wmfw_filename = NULL;
+ 	unsigned int preloaded_fw_ver;
+ 	bool firmware_missing;
+-	bool add_dsp_controls_required = false;
+ 	int ret;
+ 
+-	/*
+-	 * control_work must be flushed before proceeding, but we can't do that
+-	 * here as it would create a deadlock on controls_rwsem so it must be
+-	 * performed before queuing dsp_work.
+-	 */
+-	WARN_ON_ONCE(work_busy(&cs35l56->control_work));
+-
+ 	/*
+ 	 * Prepare for a new DSP power-up. If the DSP has had firmware
+ 	 * downloaded previously then it needs to be powered down so that it
+-	 * can be updated and if hadn't been patched before then the controls
+-	 * will need to be added once firmware download succeeds.
++	 * can be updated.
+ 	 */
+ 	if (cs35l56->base.fw_patched)
+ 		cs_dsp_power_down(&cs35l56->cs_dsp);
+-	else
+-		add_dsp_controls_required = true;
+ 
+ 	cs35l56->base.fw_patched = false;
+ 
+@@ -698,15 +675,6 @@ static void cs35l56_hda_fw_load(struct cs35l56_hda *cs35l56)
+ 			  CS35L56_FIRMWARE_MISSING);
+ 	cs35l56->base.fw_patched = true;
+ 
+-	/*
+-	 * Adding controls is deferred to prevent a lock inversion - ALSA takes
+-	 * the controls_rwsem when adding a control, the get() / put()
+-	 * functions of a control are called holding controls_rwsem and those
+-	 * that depend on running firmware wait for dsp_work() to complete.
+-	 */
+-	if (add_dsp_controls_required)
+-		queue_work(system_long_wq, &cs35l56->control_work);
+-
+ 	ret = cs_dsp_run(&cs35l56->cs_dsp);
+ 	if (ret)
+ 		dev_dbg(cs35l56->base.dev, "%s: cs_dsp_run ret %d\n", __func__, ret);
+@@ -753,7 +721,6 @@ static int cs35l56_hda_bind(struct device *dev, struct device *master, void *mas
+ 	strscpy(comp->name, dev_name(dev), sizeof(comp->name));
+ 	comp->playback_hook = cs35l56_hda_playback_hook;
+ 
+-	flush_work(&cs35l56->control_work);
+ 	queue_work(system_long_wq, &cs35l56->dsp_work);
+ 
+ 	cs35l56_hda_create_controls(cs35l56);
+@@ -775,7 +742,6 @@ static void cs35l56_hda_unbind(struct device *dev, struct device *master, void *
+ 	struct hda_component *comp;
+ 
+ 	cancel_work_sync(&cs35l56->dsp_work);
+-	cancel_work_sync(&cs35l56->control_work);
+ 
+ 	cs35l56_hda_remove_controls(cs35l56);
+ 
+@@ -806,7 +772,6 @@ static int cs35l56_hda_system_suspend(struct device *dev)
+ 	struct cs35l56_hda *cs35l56 = dev_get_drvdata(dev);
+ 
+ 	cs35l56_hda_wait_dsp_ready(cs35l56);
+-	flush_work(&cs35l56->control_work);
+ 
+ 	if (cs35l56->playing)
+ 		cs35l56_hda_pause(cs35l56);
+@@ -1026,7 +991,6 @@ int cs35l56_hda_common_probe(struct cs35l56_hda *cs35l56, int hid, int id)
+ 	dev_set_drvdata(cs35l56->base.dev, cs35l56);
+ 
+ 	INIT_WORK(&cs35l56->dsp_work, cs35l56_hda_dsp_work);
+-	INIT_WORK(&cs35l56->control_work, cs35l56_hda_create_dsp_controls_work);
+ 
+ 	ret = cs35l56_hda_read_acpi(cs35l56, hid, id);
+ 	if (ret)
+diff --git a/sound/pci/hda/cs35l56_hda.h b/sound/pci/hda/cs35l56_hda.h
+index c40d159507c2..38d94fb213a5 100644
+--- a/sound/pci/hda/cs35l56_hda.h
++++ b/sound/pci/hda/cs35l56_hda.h
+@@ -23,7 +23,6 @@ struct cs35l56_hda {
+ 	struct cs35l56_base base;
+ 	struct hda_codec *codec;
+ 	struct work_struct dsp_work;
+-	struct work_struct control_work;
+ 
+ 	int index;
+ 	const char *system_name;
+-- 
+2.43.0
 
-> ---
-> 
-> This one seems out of Gustavo's radar.  I have no compiler that can
-> actually check this annotation, so it's a bit untested.
-> 
->   include/sound/control.h | 2 +-
->   sound/core/control.c    | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/sound/control.h b/include/sound/control.h
-> index c1659036c4a7..13511c50825f 100644
-> --- a/include/sound/control.h
-> +++ b/include/sound/control.h
-> @@ -81,7 +81,7 @@ struct snd_kcontrol {
->   	unsigned long private_value;
->   	void *private_data;
->   	void (*private_free)(struct snd_kcontrol *kcontrol);
-> -	struct snd_kcontrol_volatile vd[];	/* volatile data */
-> +	struct snd_kcontrol_volatile vd[] __counted_by(count);	/* volatile data */
->   };
->   
->   #define snd_kcontrol(n) list_entry(n, struct snd_kcontrol, list)
-> diff --git a/sound/core/control.c b/sound/core/control.c
-> index f64a555f404f..c3aad64ffbf5 100644
-> --- a/sound/core/control.c
-> +++ b/sound/core/control.c
-> @@ -237,11 +237,11 @@ static int snd_ctl_new(struct snd_kcontrol **kctl, unsigned int count,
->   	if (!*kctl)
->   		return -ENOMEM;
->   
-> +	(*kctl)->count = count;
->   	for (idx = 0; idx < count; idx++) {
->   		(*kctl)->vd[idx].access = access;
->   		(*kctl)->vd[idx].owner = file;
->   	}
-> -	(*kctl)->count = count;
->   
->   	return 0;
->   }
