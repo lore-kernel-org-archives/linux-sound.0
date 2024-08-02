@@ -1,133 +1,109 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A270114A4C8;
-	Fri,  2 Aug 2024 12:10:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459151E287E;
+	Fri,  2 Aug 2024 12:40:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722600656; cv=none; b=Aw3qVwWEr7hlRWQdoIzzhlESNqJ7cnYL5KnQT05cPfm+sJbG5akEXNcEhNgFfEhsnGSAiAIoU9fPY4z2j5/DvJlixECL8UQ6nRc11p8BTlY2YRuHOadexn9feazSZYK8z9gfCYo2WK8eZ7DASeailkdl+NrnGgmjFjeX12/pEew=
+	t=1722602425; cv=none; b=WqjfOE7zXNAQWUawzI/X1Pk4avQDc6bi64BVMlbPT4hcnLeq7PJF2Tg+0IEBvf22HEU/ygEIgARnigiPho1lS30tOz/Qcls5J4Ksza0AwEBKAdZ6z7XMpJroTkMfowe2k9KCeODAt0/d8B7pWpONkV6IPzKogKwZ2UrYaKthSik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722600656; c=relaxed/simple;
-	bh=KEYXx/jAB3vyQ6OMi4gTqUazWDOQK45pIkjybNC7SuQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=W0ixrjS16z7r3o067+7/1JXiuoPCy/ZGq6jyvitE46vsmSTgDKkN+GNJ5nrtwKnJlHtD4Ryshwo8xA/xu7Ut0KH3Rjv6NU1gJDb8c/COfjFicghHQKMCVkZRYstC3ghglOEAgRd53qCU4VWETpYBeuSZpRp+sSrCNmh+FNlJydE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y+aYgezj; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1722602425; c=relaxed/simple;
+	bh=WTSJwv/19uap5j9vdOZH9IINjQPo/rKXf2y1UW7I5Ig=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jbXxRRkkCXrWDxzdEkA6qJFnsHyiTovbC1x3DqPwJhDfrt+7HIbAHEREy/3i7nd4IvuIz7jEG8y+wGW+4hLoitHzbkU3LmLx3gS0vSP5Sm3dGsTUlLuZ1o7Hz2d5CHFmCnf+Ohuca4+cA/ZQODOUcsA/0f9chFP1MyudqQA2fb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SXSmyeqW; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y+aYgezj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SXSmyeqW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722600653; x=1754136653;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=KEYXx/jAB3vyQ6OMi4gTqUazWDOQK45pIkjybNC7SuQ=;
-  b=Y+aYgezjFqv+K5AaTC4vZGcAh5hr2dQwe9wm9pi4K3h0Yz24cUe+d3H9
-   ZsqbKBkwhHNZc+7OtZ0lDfh8wDGYvnp5h2Ecwagae2cWQzviJIh8hZLb/
-   VLja1EpZGQdbrnB/DWdAKtdjgY3yqY1ka63zpxvjBzohWs1l8tFY6JAIN
-   fxmTJv+pxr4H5ZVuQetR9jYG60Q42WYoIqi5LUXYPHj/G3sftzD34n49+
-   ltFwKxKv0qx184oJS3CzJLMWzUYialY6SJZx3xynsE4nd9klZCq5FNH00
-   KEpbbbtZQzWIjGoUr1zIcbSGhlmEkEPb37Xpz8nyE4eX0VjODfZ0jkAoP
-   w==;
-X-CSE-ConnectionGUID: ZapiAaSiQsKXTYMnVIxb0g==
-X-CSE-MsgGUID: Ey9/KvnNTiCDawbkGRz3gA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11151"; a="24484218"
+  t=1722602423; x=1754138423;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=WTSJwv/19uap5j9vdOZH9IINjQPo/rKXf2y1UW7I5Ig=;
+  b=SXSmyeqWo+idgd9iDfL0PBhrHp5oRI65iWyeCppUZgwCIJ2Fy5oF36qJ
+   3Z3rvjjhCAecPnwE0qXftc0GeuZAmro7CCrnnXkR8luhnCG+NB/ZkrT2p
+   svn6zwEY1KKgQcKrn/N4dqc0Vg2g5zLTqeV9gQldGlPQwZ88M01M4KONj
+   T343V4OREHpjTWCt7OEtDlYfnsfNrivHaGpzbchxhASEapWC9QYVPX57b
+   KVXDfE0az+kZyBYoLXhnsu9Lfk57TVV9Jsoz+6ty72jrnEBytgIuDJXPT
+   MJa1PlqMU4lZeC3UlVQCM4LCOYiOmhIprETDt6toOhjY0tWOo7ZEWptt0
+   Q==;
+X-CSE-ConnectionGUID: Pl5sXy6NQMOAYp0od5cHNQ==
+X-CSE-MsgGUID: e6tGJvJFRzS84OCzDbtAyA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11152"; a="24488162"
 X-IronPort-AV: E=Sophos;i="6.09,257,1716274800"; 
-   d="scan'208";a="24484218"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2024 05:10:53 -0700
-X-CSE-ConnectionGUID: eze3z9pvRdWNf/nfC0oIGw==
-X-CSE-MsgGUID: nX2dhYZKTa2IYxh8hBSGJg==
+   d="scan'208";a="24488162"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2024 05:40:22 -0700
+X-CSE-ConnectionGUID: CWHzzN24SrqeQhVc6ZEudw==
+X-CSE-MsgGUID: VBN6K++MS8SZ0DYAT0XFCg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,257,1716274800"; 
-   d="scan'208";a="55978928"
-Received: from ltuz-desk.ger.corp.intel.com (HELO [10.245.246.89]) ([10.245.246.89])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2024 05:10:48 -0700
-Message-ID: <1a2d0962-405d-4ccf-a0da-00a624c0f3e8@linux.intel.com>
-Date: Fri, 2 Aug 2024 08:32:30 +0200
+   d="scan'208";a="55024685"
+Received: from ltuz-desk.ger.corp.intel.com (HELO pbossart-mobl6.intel.com) ([10.245.246.89])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2024 05:40:20 -0700
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+To: linux-sound@vger.kernel.org
+Cc: alsa-devel@alsa-project.org,
+	tiwai@suse.de,
+	broonie@kernel.org,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	linux-pci@vger.kernel.org,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH v4 0/5] ASoC/SOF/PCI/Intel: add PantherLake support
+Date: Fri,  2 Aug 2024 14:40:06 +0200
+Message-ID: <20240802124011.173820-1-pierre-louis.bossart@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v24 17/34] ASoC: qcom: qdsp6: Add USB backend ASoC driver
- for Q6
-To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
- Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, tiwai@suse.com,
- gregkh@linuxfoundation.org, robh@kernel.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
- alsa-devel@alsa-project.org
-References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
- <20240801011730.4797-18-quic_wcheng@quicinc.com>
- <5f37c04d-f564-40b9-a9f3-d071ea0a6f19@linux.intel.com>
- <1a284449-204a-4d01-90c9-ec6b1ed56e30@quicinc.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <1a284449-204a-4d01-90c9-ec6b1ed56e30@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+Add initial support for the PantherLake platform, and initial ACPI
+configurations.
 
+All the dependencies required in the initial versions are now
+available in ASoc for-next branch.
 
-On 8/2/24 01:10, Wesley Cheng wrote:
-> Hi Pierre,
-> 
-> On 8/1/2024 1:40 AM, Pierre-Louis Bossart wrote:
->>
->>
->>> +static int q6usb_hw_params(struct snd_pcm_substream *substream,
->>> +			   struct snd_pcm_hw_params *params,
->>> +			   struct snd_soc_dai *dai)
->>> +{
->>> +	struct q6usb_port_data *data = dev_get_drvdata(dai->dev);
->>> +	struct snd_soc_pcm_runtime *rtd = substream->private_data;
->>> +	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
->>> +	struct q6afe_port *q6usb_afe;
->>> +	struct snd_soc_usb_device *sdev;
->>> +	int ret;
->>> +
->>> +	/* No active chip index */
->>> +	if (list_empty(&data->devices))
->>> +		return -EINVAL;
->>> +
->>> +	mutex_lock(&data->mutex);
->>> +	sdev = list_last_entry(&data->devices, struct snd_soc_usb_device, list);
->>> +
->>> +	q6usb_afe = q6afe_port_get_from_id(cpu_dai->dev, USB_RX);
->>> +	if (IS_ERR(q6usb_afe))
->>> +		goto out;
->>> +
->>> +	/* Notify audio DSP about the devices being offloaded */
->>> +	ret = afe_port_send_usb_dev_param(q6usb_afe, sdev->card_idx,
->>> +						sdev->pcm_idx);
->>> +
->>> +out:
->>> +	mutex_unlock(&data->mutex);
->>> +
->>> +	return ret;
->>> +}
->> Humm, multiple questions here
->>
->> a) is this intentional that the params are not used in a hw_params routine?
-> Think this was answered in patch#34.
+v4: topology name simplification for rt722
 
-yes, but that really begs the question if the format check shouldn't be
-added here.
+v3: add configuration with rt722 on Link3 
 
->> b) if yes, could this be replaced by a .prepare callback
->>
->> c) along the same lines as b), is suspend-resume during playback
->> supported? Usually this is handled with a .prepare callback to restore
->> connections.
-> 
-> I don't see us supporting that throughout any of the QC based DAI drivers, so this probably isn't implemented yet.  In terms of supporting system PM suspend for this USB offload path, we're going to explicitly stop the audio stream from the USB offload driver (qc_audio_offload) before we suspend the usb device. (refer to qc_usb_audio_offload_suspend()
+v2: changed order of patches to fix git bisect error reported by Intel
+kbuild bot
+https://lore.kernel.org/oe-kbuild-all/202406131144.L6gW0I47-lkp@intel.com/
 
-The system suspend-resume during playback is not enabled in all
-platforms indeed, it mostly depends on what userspace does. IIRC this is
-required for Chrome/CRAS and it's supported by aplay.
+Bard Liao (2):
+  ASoC: Intel: soc-acpi-intel-ptl-match: add rt711-sdca table
+  ASoC: Intel: soc-acpi-intel-ptl-match: Add rt722 support
+
+Fred Oh (1):
+  ASoC: SOF: Intel: add PTL specific power control register
+
+Pierre-Louis Bossart (2):
+  ASoC: Intel: soc-acpi: add PTL match tables
+  ASoC: SOF: Intel: add initial support for PTL
+
+ include/sound/soc-acpi-intel-match.h          |   2 +
+ sound/soc/intel/common/Makefile               |   1 +
+ .../intel/common/soc-acpi-intel-ptl-match.c   | 145 ++++++++++++++++++
+ sound/soc/sof/intel/Kconfig                   |  17 ++
+ sound/soc/sof/intel/Makefile                  |   2 +
+ sound/soc/sof/intel/hda-dsp.c                 |   1 +
+ sound/soc/sof/intel/hda.h                     |   1 +
+ sound/soc/sof/intel/lnl.c                     |  27 ++++
+ sound/soc/sof/intel/mtl.c                     |  16 +-
+ sound/soc/sof/intel/mtl.h                     |   2 +
+ sound/soc/sof/intel/pci-ptl.c                 |  77 ++++++++++
+ sound/soc/sof/intel/shim.h                    |   1 +
+ 12 files changed, 290 insertions(+), 2 deletions(-)
+ create mode 100644 sound/soc/intel/common/soc-acpi-intel-ptl-match.c
+ create mode 100644 sound/soc/sof/intel/pci-ptl.c
+
+-- 
+2.43.0
+
