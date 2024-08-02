@@ -1,41 +1,55 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD7C91757D
-	for <linux-sound@vger.kernel.org>; Fri,  2 Aug 2024 22:28:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D607131BDF
+	for <linux-sound@vger.kernel.org>; Fri,  2 Aug 2024 23:50:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722637709; cv=none; b=Em3xRCci6ajdXgvReSB+bZAvXCx2Z2gq2IDuGqTD4uBqWNdiv82vPb93s2uYL/QRXMmG2//m9W3GQ8rTuxV6tknGh86CHDWEL3J5mUKtWV1mLFLK5Vdo3/kO+nsdIzPAcHbLglggfAhIDqLyV2HA8SdEm/2fDa97SBU2D763t+w=
+	t=1722642622; cv=none; b=YRlBuoi0YVyFNz41Kv8dhBq0NAac6czz+EPCmr8dYUDEhHf8KNtPUJzpd3L57itqw0HW5Bod3jiiNUu9XvPZ3wpCNHuETDRrGixIjQ6EVbrCH2GjtYILlBTYFHPiQP6LNdEx1Y/N85RykdeDuLsaEFGCJlw90B+lVvhSgAMO8qo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722637709; c=relaxed/simple;
-	bh=WHN1h7KzVZiSt7ckWJFDefAjYkEnMrlDR2WxF8xT4lc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=XdzVRdZ6Ox5bORtUImPLGmUWb99v2hu5yN18lwYFGiffeCd4+fnUU1xQ46MatOke0JBu0GVqHyWVU53jBpFE5YWOGN7WkHf0WhIwcihyeknf3p8IGSjfbUiUXj1D+//8tTnB0adwdN74VmrxeH8G2xRNMQ2uvSUuTozRr9HjgS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hmt4BXDv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722642622; c=relaxed/simple;
+	bh=HZZKOKBtxpjlkoQFp4cJicu8lxw32wL3IJROduhb6xY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=rNrSGHCCVVYIXc6Gy6x/ZX5SYA88oB5QuuV0OsptWdZBnhP9w69IUUZXZWR8y9ArgS25dw8KH/9ByO3LDqi6hJMVgqMMzepDwi6EejDSDSu1IJ1sSA0mRkFHa0wpYjjKbld5Kr/AqiKhE/LBJy1pQDYturKjjDnstwegCODTgpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=l4I8QxHq; arc=none smtp.client-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hmt4BXDv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50AC1C4AF09;
-	Fri,  2 Aug 2024 22:28:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722637708;
-	bh=WHN1h7KzVZiSt7ckWJFDefAjYkEnMrlDR2WxF8xT4lc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Hmt4BXDvYZJNPVjeAaoUOLYIRLJthwN8xsEFvEmakcGeJyPb339/U+CotcQYBZfEN
-	 G4erDJM3ju/79xTBnEdpMbGcLDYbj4jdD6j1xzO+UWKxVcCFO+u7tVUFX+cnZBJ/Tq
-	 h9mf2KOAQNf6yjb+0GnoTESGRmHRsV5Zhg+V7yDta8wKWxsDL95hjDt7jpKTDZuFgS
-	 NaVXGhm++VUEzMO7h81OSCnKtaF2M1T6oUDq/WkcoN2xsS6/wJRF49b+BCJz1Po/fV
-	 lV5BYl+huw5/DSzQvAwaptVyoS6AorbDoZ4cDK9YFYf2+6aNpbAwoQQuKjrX6e+jnM
-	 egAk+yPeBKcAw==
-From: Mark Brown <broonie@kernel.org>
-To: perex@perex.cz, tiwai@suse.com, 
- Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20240802105734.2309788-1-ckeepax@opensource.cirrus.com>
-References: <20240802105734.2309788-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH v4 0/4] Fix IRQ mutex inversion on cs42l43
-Message-Id: <172263770706.147512.10216685266646816700.b4-ty@kernel.org>
-Date: Fri, 02 Aug 2024 23:28:27 +0100
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="l4I8QxHq"
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6b7b23793c1so49289126d6.0
+        for <linux-sound@vger.kernel.org>; Fri, 02 Aug 2024 16:50:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1722642620; x=1723247420; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=D4XYocTn+pNPWt0L7L14LMVVJ06I8yBBoe1EZGTqQIg=;
+        b=l4I8QxHqCQbOevY/mrv7JGGk8OTeIXwuuoS9rDqZl5KRZFsPuEEXI9E9wYeGiFGl4o
+         oYfhSHr7ZdPeHqksiB5pAUAxDHKXqy0mCbMRX4cLP418R5QLPupXqD5CLKhXV4NhHm1/
+         zMT9YZNX7Y0xgYoNljjCIDSgWmr3cZHGMAkes=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722642620; x=1723247420;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=D4XYocTn+pNPWt0L7L14LMVVJ06I8yBBoe1EZGTqQIg=;
+        b=oJyCSDTBfGKz+HgyxR+XJtg1MxsWa0E8inpNot9wPvZ9PDNXh6nU4agU3qHy9puc9D
+         2C73G2sWpaBugOBJQvhEooiGhzAYmNia4UwARCMXxaAIlpmQ59QiioGIr+HEy3d5Xgq+
+         powgut2uyXriuqKBbbuCWdBnwkMkayFwl+Oo55nQkG7Te3BcB5PKa1b/uJVO9eXRlh8b
+         8AO4IVsJbZMjlRV9tpykbDg8Bknsn0eHodjsGbBaWRyyaHxiQYrnu3BQYOjW7PPOPWUw
+         vcaNesmF03/MeQ2Oq/Os2pULJGF/WTe1LhFkp2Uo2NI2YeG9+hbojCVzqH3BVbiw7qF5
+         n8ow==
+X-Gm-Message-State: AOJu0YwaV8mr6QKidncof8TZjoOysiAUaUkoqmpMrRI5flX1dwox7XsA
+	e5HGzeWPz1yE30JiB5a9PQ1fhS/o5/NTR2sAfcUx9TSgRfc8wcJSTFaPwqgQ7A==
+X-Google-Smtp-Source: AGHT+IFuV35DEopal41iDz2o7MrEzXaR2/N5I3z8L/RTuEhAHmh75MLAy2R0IAOqHsk0cSQwfBidpQ==
+X-Received: by 2002:a05:6214:3907:b0:6b5:e8d3:6bf9 with SMTP id 6a1803df08f44-6bb9839253cmr71633366d6.28.1722642620125;
+        Fri, 02 Aug 2024 16:50:20 -0700 (PDT)
+Received: from wilburliny.c.googlers.com (200.234.86.34.bc.googleusercontent.com. [34.86.234.200])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6bb9c7b5b0dsm11231226d6.63.2024.08.02.16.50.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Aug 2024 16:50:19 -0700 (PDT)
+From: Steven 'Steve' Kendall <skend@chromium.org>
+Date: Fri, 02 Aug 2024 23:50:11 +0000
+Subject: [PATCH] ALSA: hda: Manally set pins to correct HP firmware
+ settings
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,50 +58,74 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-37811
+Message-Id: <20240802-hdmi-audio-hp-wrongpins-v1-1-8d8ba10d77f8@chromium.org>
+X-B4-Tracking: v=1; b=H4sIALJwrWYC/x3MTQqAIBBA4avErBswi5CuEi0sx5xFKko/IN09a
+ fkt3iuQKTFlmJoCiS7OHHxF1zawOe13QjbVIIUchBISnTkY9Wk4oIt4p+D3yD6jVWoUo1Wm1yv
+ UOiay/PzneXnfD2TVcyNpAAAA
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Steven 'Steve' Kendall <skend@chromium.org>
+X-Mailer: b4 0.13.0
 
-On Fri, 02 Aug 2024 11:57:30 +0100, Charles Keepax wrote:
-> Fix a mutex inversion in the IRQ handling for the speaker shutters on
-> cs42l43. Do this by adding some new helper functions to get kcontrol
-> pointers and caching those in the driver rather than directly acquiring
-> them in the IRQ handler.
-> 
-> Changes in v4:
->  - Add the missing helper that was causing problems the cs35l45 update.
-> 
-> [...]
+In recent HP UEFI firmware (likely v2.15 and above, tested on 2.27),
+these pins are incorrectly set for HDMI/DP audio. Tested on
+HP MP9 G4 Retail System AMS. Pins for the ports set to escalating values
+(0x70, 80, 90) to have differing default associations, though in my
+testing setting all pins to 0x70 also worked as suggested by the first
+link below. Tested audio with two monitors connected via DisplayPort.
 
-Applied to
+Link: https://forum.manjaro.org/t/intel-cannon-lake-pch-cavs-conexant-cx20632-no-sound-at-hdmi-or-displayport/133494
+Link: https://bbs.archlinux.org/viewtopic.php?id=270523
+Signed-off-by: Steven 'Steve' Kendall <skend@chromium.org>
+---
+ sound/pci/hda/patch_hdmi.c | 21 ++++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+diff --git a/sound/pci/hda/patch_hdmi.c b/sound/pci/hda/patch_hdmi.c
+index 707d203ba652..dfcbd41097f8 100644
+--- a/sound/pci/hda/patch_hdmi.c
++++ b/sound/pci/hda/patch_hdmi.c
+@@ -3115,6 +3115,25 @@ static int patch_i915_hsw_hdmi(struct hda_codec *codec)
+ 				     enable_silent_stream);
+ }
+ 
++static const struct snd_pci_quirk kaby_hdmi_list[] = {
++	SND_PCI_QUIRK(0x103c, 0x83ef, "HP MP9 G4 Retail System AMS", 1),
++	{}
++};
++
++static int patch_i915_kaby_hdmi(struct hda_codec *codec)
++{
++	const struct snd_pci_quirk *q;
++
++	q = snd_pci_quirk_lookup(codec->bus->pci, kaby_hdmi_list);
++	if (q && q->value) {
++		/* Recent HP firmware assigns incorrect pins, corrected here */
++		snd_hda_codec_set_pincfg(codec, 0x05, 0x18560070);
++		snd_hda_codec_set_pincfg(codec, 0x06, 0x18560080);
++		snd_hda_codec_set_pincfg(codec, 0x07, 0x18560090);
++	}
++	return patch_i915_hsw_hdmi(codec);
++}
++
+ static int patch_i915_glk_hdmi(struct hda_codec *codec)
+ {
+ 	/*
+@@ -4620,7 +4639,7 @@ HDA_CODEC_ENTRY(0x80862807, "Haswell HDMI",	patch_i915_hsw_hdmi),
+ HDA_CODEC_ENTRY(0x80862808, "Broadwell HDMI",	patch_i915_hsw_hdmi),
+ HDA_CODEC_ENTRY(0x80862809, "Skylake HDMI",	patch_i915_hsw_hdmi),
+ HDA_CODEC_ENTRY(0x8086280a, "Broxton HDMI",	patch_i915_hsw_hdmi),
+-HDA_CODEC_ENTRY(0x8086280b, "Kabylake HDMI",	patch_i915_hsw_hdmi),
++HDA_CODEC_ENTRY(0x8086280b, "Kabylake HDMI",	patch_i915_kaby_hdmi),
+ HDA_CODEC_ENTRY(0x8086280c, "Cannonlake HDMI",	patch_i915_glk_hdmi),
+ HDA_CODEC_ENTRY(0x8086280d, "Geminilake HDMI",	patch_i915_glk_hdmi),
+ HDA_CODEC_ENTRY(0x8086280f, "Icelake HDMI",	patch_i915_icl_hdmi),
 
-Thanks!
+---
+base-commit: 8400291e289ee6b2bf9779ff1c83a291501f017b
+change-id: 20240802-hdmi-audio-hp-wrongpins-f88606f8d3ab
 
-[1/4] ASoC: cs42l43: Remove redundant semi-colon at end of function
-      commit: becfa08bfefa2cbb22c84d9e583e81387f2f3bf2
-[2/4] ASoC: soc-component: Add new snd_soc_component_get_kcontrol() helpers
-      commit: c8a132e2e032b00828d51141ab34f9aeb24f44ae
-[3/4] ASoC: cs35l45: Use new snd_soc_component_get_kcontrol_locked() helper
-      commit: 4791c422981350d0de4ad02a14a08b99c766d06f
-[4/4] ASoC: cs42l43: Cache shutter IRQ control pointers
-      commit: 93afd028fb5f06a46a32375fd1f0473451eb1c5a
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Best regards,
+-- 
+Steven 'Steve' Kendall <skend@chromium.org>
 
