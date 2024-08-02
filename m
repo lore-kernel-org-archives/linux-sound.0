@@ -1,44 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A6621ABEBB;
-	Fri,  2 Aug 2024 21:49:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0CB1757D;
+	Fri,  2 Aug 2024 22:22:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722635377; cv=none; b=catFGkR9eHbzUAxx+2mrHc4AZxqNcg0QVJN6iMo2sibnKiI/hapn4Ljh6UMTzTo+vcNs5AluuJp0pEsWQaiUXtbuwcDMZRhSpVpp82f0aKbMPYX/iJ9tt0O4u6TlnHyOYbOif0mWCL+EJpGR20YU2O0P+MTIB3FJ6OX36Ga8eyc=
+	t=1722637341; cv=none; b=CF39onZfeXnWMvQ7laeug0RMFPP2LELkllh5+12hLfkoYgK/pIXlXvMCLZb/UbExVxvmhNDJY0mff6d+6CPFx+hn+3kwlU/HJDgEoCq+aSF+p+FCE7FQM8Cn60aMdV8jlsVwI+fUvuMwhINgqhWHNo40wveYHJTZ7kcvDFzLN6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722635377; c=relaxed/simple;
-	bh=8KXki3ZE507jcp3Uw+Zx1cRw7K8NBL2f5Z+CxVo9XaY=;
+	s=arc-20240116; t=1722637341; c=relaxed/simple;
+	bh=/eVmcksdoa4kQw5S2+wVUPx1PaMX3q1iFd1MtgTYtXM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=rhsdCFVVHI13qFtydQEtG0a76Zw2cKp6LPWBzJqMet6sdbKbZBcle82/tMpHIj4b/f2LbG891cpu8rg2R5yB/C5tPZmhuGnUSvzQQtcrhDCFLFCdHPcyPMANysyCmXo3/CRRmoXBHAll70JqyLsaT2UpNFtWqW6AZ89+lHGt3Zc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LK8GNeGe; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=sxuw9PXjK/O4PnByqZTPa7iyJSm/ccQNAnZQKj5Dg0JYQtShPhe8gG95hQs/Vw14t5QA3R+3hEjbI00cnZef52ChX/HpTwDRYcKBl9hg1/4kV0kYUYHba3hFZNJpnKiU4EwJm9qAE8+H4KZz5y015S0hm5XTPB/IOyKXqkXbhqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ojgRO6N5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LK8GNeGe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 505F1C32782;
-	Fri,  2 Aug 2024 21:49:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ojgRO6N5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D828EC32782;
+	Fri,  2 Aug 2024 22:22:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722635377;
-	bh=8KXki3ZE507jcp3Uw+Zx1cRw7K8NBL2f5Z+CxVo9XaY=;
+	s=k20201202; t=1722637341;
+	bh=/eVmcksdoa4kQw5S2+wVUPx1PaMX3q1iFd1MtgTYtXM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=LK8GNeGeUSoxeuqwUymkxA5pzFtD1V0UZqSZC9P3GT9qiVn+EJXLcwZHUvY2lKmD+
-	 BnfAhKzK9GcrU9vbEm7y03dRcbZwbm448N4FTMKA3qTcbTPUON2T8Wx2Fr5jpXtsaA
-	 gE9MopOBylLaJ6MF+S+cJiC7RZzs8N2ZIqW2eQFlwo2f85vINcRtSO8Vk0saaqyglF
-	 BPTrx3xkvWlUIiacyb5cK2nbxEYBkxZyt/O1lSEOGI9DPlzw7WC+/jhZC5n4jS3DHG
-	 QIv2KZXB8Z70vaVimCTVfGUqh78t/DUCJNyqNsh3uzSt10QKIe2ZsuHo9+prt2N+st
-	 jfnjCjzmxCscA==
+	b=ojgRO6N5BMItB/nYMai2Kn/KR9U06/FwsCs738VezxjlaQnVp5KZ1XJVsXt0fnSPS
+	 +vS3mdb+fhV0K6kjiGEvbgF0hocL4ACGcSOAoeko3wMrfT4LAsofwiTqwMbe9l+MRi
+	 uxczxvRrKnfUyW9ocPxkLrqKDIMdMh8SsTrgTYO7Sj3hynmuEBoL4VsUYcJgfttyi0
+	 E/eMnUl+ruGlPiRlzvSyYu/q9oZKYDYlLjBzqi+P0lpMxVyMv4tgH0ds1M3GIj5zNu
+	 BTZeEXKZeOu68yZgpS+SuQ4Pb24i9YchQP/tiJRuccUsLEYf5n+SQx4sVdA1/Rdp5/
+	 pQNkqBmZXm7Iw==
 From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.com, wsa+renesas@sang-engineering.com, 
- mika.westerberg@linux.intel.com, 
- Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-spi@vger.kernel.org, 
- linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20240802152215.20831-1-rf@opensource.cirrus.com>
-References: <20240802152215.20831-1-rf@opensource.cirrus.com>
-Subject: Re: (subset) [PATCH v2 0/3] ALSA: Add support for new HP G12
- laptops
-Message-Id: <172263537504.136958.10336910404426833298.b4-ty@kernel.org>
-Date: Fri, 02 Aug 2024 22:49:35 +0100
+To: linux-sound@vger.kernel.org, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: alsa-devel@alsa-project.org, tiwai@suse.de, 
+ Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org
+In-Reply-To: <20240802124011.173820-1-pierre-louis.bossart@linux.intel.com>
+References: <20240802124011.173820-1-pierre-louis.bossart@linux.intel.com>
+Subject: Re: [PATCH v4 0/5] ASoC/SOF/PCI/Intel: add PantherLake support
+Message-Id: <172263733961.144413.228232614375148648.b4-ty@kernel.org>
+Date: Fri, 02 Aug 2024 23:22:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,26 +46,33 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-37811
 
-On Fri, 02 Aug 2024 16:22:12 +0100, Richard Fitzgerald wrote:
-> Add support for HP G12 laptops that use CS35L54 or CS35L56 amplifiers
-> with Realtek HDA codecs. Some of these use the same SSID for models with
-> CS35L54 and models with CS35L56 so the ACPI entries are examined to
-> determine which amp is present.
+On Fri, 02 Aug 2024 14:40:06 +0200, Pierre-Louis Bossart wrote:
+> Add initial support for the PantherLake platform, and initial ACPI
+> configurations.
 > 
-> To avoid having to #ifdef around this code we've fixed the definitions
-> of SPI and I2C functions that were not correctly supplying dummy functions
-> when the real functions are not in the build.
+> All the dependencies required in the initial versions are now
+> available in ASoc for-next branch.
+> 
+> v4: topology name simplification for rt722
 > 
 > [...]
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
 Thanks!
 
-[1/3] spi: Add empty versions of ACPI functions
-      commit: 90ec3a8a7fd0d43026fcca979713e077d4883b56
+[1/5] ASoC: Intel: soc-acpi: add PTL match tables
+      commit: 6a965fbaac461564ae74dbfe6d9c9e9de65ea67a
+[2/5] ASoC: SOF: Intel: add PTL specific power control register
+      commit: 42b4763ab301c5604343aa49774426d5005711a3
+[3/5] ASoC: SOF: Intel: add initial support for PTL
+      commit: 3f8c8027775901c13d1289b4c54e024d3d5d982a
+[4/5] ASoC: Intel: soc-acpi-intel-ptl-match: add rt711-sdca table
+      commit: 77a6869afbbfad0db297e9e4b9233aac209d5385
+[5/5] ASoC: Intel: soc-acpi-intel-ptl-match: Add rt722 support
+      commit: 2786d3f4943c472c10dd630ec3e0a1a892181562
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
