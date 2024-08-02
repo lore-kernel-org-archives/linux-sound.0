@@ -1,63 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EA2915C151;
-	Fri,  2 Aug 2024 16:53:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CDD413633C;
+	Fri,  2 Aug 2024 18:21:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722617593; cv=none; b=rhtfiPhjot3FI21Bx6VmmNUs8fEwDygEaVLKW+iCu4oKw75ip7qV8HhoMRrYrVld1+RmjEOLrxpu/ot7MLDgsXuT4ZzcyoIGnKu7pUvTQ+nXNJn45KY3tAui3Zyv8+uL3r8nAoIdIj2kM3bYfwRB2tbJv03NHExx/AdNFlM70tk=
+	t=1722622864; cv=none; b=hXkw++M7unaIuCAP9FTrX2bEgnoK61H5+O+1j880Zqrd8cBvvW6KtTIWYcVhUEtWKopRSVxu48l/UcYURG4Z7EC8zAfoZFNkWdYx2rzjnZlP7QD6UrEL1aamYoazkHFKYD850fLj05dF0tleLkbcG59Y3DvGG63xu8MgsGGw+rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722617593; c=relaxed/simple;
-	bh=uGvHre6ZGVmg+y85Rk7IMv1KcF7y13Qe0obzgX6m3n0=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=SJ9BizHQDiy9JfWkMpKefGkckvXCfYr30MgURJf1MxvBKrDETPhbE67rDxE98GWkXBG0fDdoXUV55jKJvPv6q+zCNJGJwQkDNj/JbtGG6rGserDIOLxJYaUhotT/8FurIFrnA1Bq80ICB/9aOQSiUlaR0iXIwzvlz9NOlyHslYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mFKwu3KX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722622864; c=relaxed/simple;
+	bh=SIayKwg6/dUeT/mwVPn/+0LZgcgWn0cXJslMp5cufg4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=eR5IaNFOc4FzFcBoV1ds4bj7veSitq7G3P0oDGnFLU87hqV16inqgUVboX7c9F8DmQk7kswR5z1UvKH8wEeZ8RfUp1+XYHSlftRXbz4f52djh87WnVVGt/RctZ9eOPMo3pLnE0dbC1NumP8lTxgqmRzZIrFCFVZcG0AzJVj3akY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c8AvHhuC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mFKwu3KX"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E82B0C4AF09;
-	Fri,  2 Aug 2024 16:53:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c8AvHhuC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C68DAC32782;
+	Fri,  2 Aug 2024 18:21:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722617592;
-	bh=uGvHre6ZGVmg+y85Rk7IMv1KcF7y13Qe0obzgX6m3n0=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=mFKwu3KXldAg1iAoAMQ8Z5eYNPfuKVaAUaGXAJqxH16xTMnKZ6qSdx7KBX4nH8/eK
-	 rQe+Dwd39kNsPqvJkeWaJbj+39dJ7o4QC7OmSqG55JT/BCnq6on3qiCz5j+KkvFEz9
-	 vylX9QL7rL8ZMG5HcQWlCBx+shhTDqxsuZueA2YY7KcF0pVLJBf0gGPLbkM3xBgF6g
-	 I+h5UjAbvO83Cu3OgfnZaKLe33H/zCIgz1OZEzdBxK0phvV7NzMIVjA7wyk1bA/Op9
-	 +fkwX2s9z7Nndh5o6GRVynK/FqB4eM9bT7XtjHXlLLCiXPZ1waxt33uTx/HWYZClK7
-	 2owBZC2oTILnQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E00F2D0C60C;
-	Fri,  2 Aug 2024 16:53:12 +0000 (UTC)
-Subject: Re: [GIT PULL] sound fixes for 6.12-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <87a5hvibm6.wl-tiwai@suse.de>
-References: <87a5hvibm6.wl-tiwai@suse.de>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87a5hvibm6.wl-tiwai@suse.de>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.11-rc2
-X-PR-Tracked-Commit-Id: 478689b5990deb626a0b3f1ebf165979914d6be4
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 6b779f8a8648848d74c24b07d0e2436c00211788
-Message-Id: <172261759291.28369.6765747889777533296.pr-tracker-bot@kernel.org>
-Date: Fri, 02 Aug 2024 16:53:12 +0000
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	s=k20201202; t=1722622863;
+	bh=SIayKwg6/dUeT/mwVPn/+0LZgcgWn0cXJslMp5cufg4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=c8AvHhuCfvhgpAl8cS4jYym4/+PoRMJY/eIMj8cS2d2POJL6GpOY81ktu+SjVs07Q
+	 rcee2NwjJqc3OHMNhfjlWsVPXoXrDNWXz9dawbgbetLI4UwMRVL3b7A76wdLIZCtUt
+	 r4PISXYw9ioHJKZXyrHRHvgA4h0YgEZX2SCY6VjVdo2TfP7ldQrDZ4jMMWwYGTM0KH
+	 wpEuRGMdl2i9cpbJia9sigPl2c2WsjpaaRWH/B3BsHYJpqGtr4yXx8tu3hdkpNBqI9
+	 9Htf/8zcwOT//dNXUU64fDrFg+qV6POBh2xZFe3AlDtBevNHSCFM4JOtui20g54u4d
+	 SodKAx0RoMldw==
+From: Mark Brown <broonie@kernel.org>
+To: ckeepax@opensource.cirrus.com, javier.carrasco.cruz@gmail.com, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, 
+ linux-sound@vger.kernel.org
+In-Reply-To: <2c08558813e3bbfae0a5302199cf6ca226e7cde1.1722544073.git.christophe.jaillet@wanadoo.fr>
+References: <2c08558813e3bbfae0a5302199cf6ca226e7cde1.1722544073.git.christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH] ASoC: sti-sas: Constify snd_soc_component_driver
+ struct
+Message-Id: <172262286152.83468.908434920268261104.b4-ty@kernel.org>
+Date: Fri, 02 Aug 2024 19:21:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-37811
 
-The pull request you sent on Fri, 02 Aug 2024 10:15:45 +0200:
+On Thu, 01 Aug 2024 22:30:05 +0200, Christophe JAILLET wrote:
+> In order to constify `snd_soc_component_driver` struct, simplify the logic
+> and the `sti_sas_dev_data` struct.
+> 
+> Since commit 165a57a3df02 ("ASoC: sti-sas: clean legacy in sti-sas") only
+> only chip is supported and `sti_sas_driver` can be fully defined at
+> compilation time.
+> 
+> [...]
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.11-rc2
+Applied to
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/6b779f8a8648848d74c24b07d0e2436c00211788
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Thank you!
+Thanks!
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+[1/1] ASoC: sti-sas: Constify snd_soc_component_driver struct
+      commit: 11c2d223713b7a7fee848595e9f582d34adc552b
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
