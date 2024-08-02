@@ -1,143 +1,141 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4039E1BF30F;
-	Fri,  2 Aug 2024 08:16:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F1B81CAB3;
+	Fri,  2 Aug 2024 08:37:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722586618; cv=none; b=pQYPJGrS8nKOPlRu/VOJzr3EcCgQ8zJycOxZ9+99+J5OpoR7h7ZxRT+tXRqQxQietE4K2ScCmZAjhDCJ35rdod+hvGKGHxt4wA+gt5fBffvo0Qo1emR/aMiHpyHY80s1lRia+2E5J8zeRRlk/UxtqhgKVTzwVxjdxfq2Pysa3UE=
+	t=1722587850; cv=none; b=ZC2Kj7ewTP0OY7p2H5frSOYKVkrjm6XqQHubnuUXGw2dM+hOCW5WHhpPcQYvE4mLB3L0xO59x6s9WbrXS9trqY7cHGGGsni3gUjYP21ph4+m8ws0TrfMIZsLS/FBW5sRsWlTYDMTVN94/DSGfdjXbGNN10Yhi2LQz3O34fNBLXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722586618; c=relaxed/simple;
-	bh=65RzXJHvkUqmUodSQnw2StnvjyO47CSk2+I0m9aVnqg=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IIeIv2pyv0Vq93ZJW1TThHqIbHLRosuiT/V8VZ/T3eSgwf8Vba9PYDfOyJFbMoUHzGn1+sB920PIXWTtm2CPgAao3x6W8zaqhdxo6J4KIjzlA4d0d4ArfvZaMspSCGz1YEztemdCU9uSivoRyPDdy2gTUKTRRvb5F4x8srFiryI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OaKWQNtc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=J7fyKT/q; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OaKWQNtc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=J7fyKT/q; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1722587850; c=relaxed/simple;
+	bh=o5ldDmwI4O1uoqb5bZgb+RdBM23lBYhE06XgyRHKgGI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NmTmIWqrLNWVJExR3TJCiFTYrWoWHLlG4dcGRPYJ5Pv0yoXAe8geEwMcHYVZTa56s8ikQskMtUyZlhClj23Q830DfOPfm2IQ07yjCaxox7s70iwNwo68gWHgCiW1rGqnob34wmG6G3aiakaDmnqRbvF06A8ll73OLzQ9wfF3JWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KjgRkYS8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OaKWQNtc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="J7fyKT/q";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OaKWQNtc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="J7fyKT/q"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 5696B21A89;
-	Fri,  2 Aug 2024 08:16:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1722586614; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pio5Kdh9UwMOT8Wq7vCSSTQuQ8tWE9yeEfnxBE5AReU=;
-	b=OaKWQNtckV1F1ft6JWr0QUzWGG/Ef5EV3NA7631X7iuzjB+gwd5BIoqHOBq/WU/Jit2+UL
-	dMAuT87d8ICDTJMUjrGgoSwVlr8kv485UJQUhsZiv/tnk5Rgs3t6eYGqOiiHeoX4DBOGfS
-	xbpFT2v0AmcmJQ+cIRHBB085IVdcBcw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1722586614;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pio5Kdh9UwMOT8Wq7vCSSTQuQ8tWE9yeEfnxBE5AReU=;
-	b=J7fyKT/qgAGeQazWkSz1VP1VryHVOsCtX+UqCD/dF/luF9U2mj/XJ/e4CFROAXiAojruFB
-	9aitli9D2FA7PKCQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=OaKWQNtc;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="J7fyKT/q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1722586614; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pio5Kdh9UwMOT8Wq7vCSSTQuQ8tWE9yeEfnxBE5AReU=;
-	b=OaKWQNtckV1F1ft6JWr0QUzWGG/Ef5EV3NA7631X7iuzjB+gwd5BIoqHOBq/WU/Jit2+UL
-	dMAuT87d8ICDTJMUjrGgoSwVlr8kv485UJQUhsZiv/tnk5Rgs3t6eYGqOiiHeoX4DBOGfS
-	xbpFT2v0AmcmJQ+cIRHBB085IVdcBcw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1722586614;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pio5Kdh9UwMOT8Wq7vCSSTQuQ8tWE9yeEfnxBE5AReU=;
-	b=J7fyKT/qgAGeQazWkSz1VP1VryHVOsCtX+UqCD/dF/luF9U2mj/XJ/e4CFROAXiAojruFB
-	9aitli9D2FA7PKCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 386AE1388E;
-	Fri,  2 Aug 2024 08:16:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Jx91DPaVrGYfFAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 02 Aug 2024 08:16:54 +0000
-Date: Fri, 02 Aug 2024 10:17:30 +0200
-Message-ID: <877cczibj9.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Linux Sound Mailing List <linux-sound@vger.kernel.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [GIT PULL] sound fixes for 6.12-rc1
-In-Reply-To: <87a5hvibm6.wl-tiwai@suse.de>
-References: <87a5hvibm6.wl-tiwai@suse.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KjgRkYS8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1D55C32782;
+	Fri,  2 Aug 2024 08:37:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722587850;
+	bh=o5ldDmwI4O1uoqb5bZgb+RdBM23lBYhE06XgyRHKgGI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=KjgRkYS8UdU75/UaDsETcM4aNDYHLgl7s6eVAs4m0jMRobz24pvNG/F0UjLLXbqey
+	 V42a7uAmME/BPGQSecchATBWd1X0R9X55iTH/uYxXoTR6RToRgfLhCWbUEuIrPn6BM
+	 WvnvCxmQm/3jk9pwLlscFD+Ov0Aeq7W5xkGGeuplZ6XUSYcUZ8lqyRKkyuWIHjSVzx
+	 DqoEvjyXxDnaCCsygdCD5Vl/IIF7Tc2no2OS5ZlBD9Almw2rm8Iu1PT6Xsv834LdXE
+	 ajsy76TVq7NPklqf6BiB8A4weu3jMHTmjKtqanjmADepKZg3g0xUri+aJS/vsRCboE
+	 UhgcVliSad6uQ==
+Message-ID: <64839bd4-f8c8-42da-823a-13fd6dc34238@kernel.org>
+Date: Fri, 2 Aug 2024 10:37:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 5696B21A89
-X-Spam-Score: -3.31
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.31 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim];
-	TO_DN_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND 31/31] ASoC: amd/sdw_utils: add sof based soundwire
+ generic machine driver
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, broonie@kernel.org
+Cc: Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com,
+ alsa-devel@alsa-project.org, pierre-louis.bossart@linux.intel.com,
+ venkataprasad.potturu@amd.com, yung-chuan.liao@linux.intel.com,
+ linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Syed Saba Kareem <Syed.SabaKareem@amd.com>, Arnd Bergmann <arnd@arndb.de>,
+ Marian Postevca <posteuca@mutex.one>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20240801091446.10457-1-Vijendar.Mukunda@amd.com>
+ <20240801111821.18076-1-Vijendar.Mukunda@amd.com>
+ <20240801111821.18076-11-Vijendar.Mukunda@amd.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240801111821.18076-11-Vijendar.Mukunda@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, 02 Aug 2024 10:15:45 +0200,
-Takashi Iwai wrote:
+On 01/08/2024 13:18, Vijendar Mukunda wrote:
+> Add sof based Soundwire generic driver for amd platforms.
+> Currently support added for ACP6.3 based platforms.
 > 
-> Linus,
-> 
-> please pull sound fixes for v6.11-rc2 from:
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.11-rc2
-> 
-> The topmost commit is 478689b5990deb626a0b3f1ebf165979914d6be4
-> 
-> ----------------------------------------------------------------
-> 
-> sound fixes for 6.11-rc2
-> 
-> A small collection of fixes:
-> - Revert of FireWire changes that caused a long-time regression
-> - Another long-time regression fix for AMD HDMI
-> - MIDI2 UMP fixes
-> - HD-audio Conexant codec fixes and a qurik
 
-... and ignore the subject line typo :)  It's too early.
+...
+
+> +static const struct platform_device_id mc_id_table[] = {
+> +	{ "amd_sof_sdw", },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(platform, mc_id_table);
+> +
+> +static struct platform_driver sof_sdw_driver = {
+> +	.driver = {
+> +		.name = "amd_sof_sdw",
+> +		.pm = &snd_soc_pm_ops,
+> +	},
+> +	.probe = mc_probe,
+> +	.remove_new = mc_remove,
+> +	.id_table = mc_id_table,
+> +};
+> +
+> +module_platform_driver(sof_sdw_driver);
+> +
+> +MODULE_DESCRIPTION("ASoC AMD SoundWire Generic Machine driver");
+> +MODULE_AUTHOR("Vijendar Mukunda <Vijendar.Mukunda@amd.com");
+> +MODULE_LICENSE("GPL");
+> +MODULE_ALIAS("platform:amd_sof_sdw");
+
+That's a total duplicate... standard form letter:
+
+You should not need MODULE_ALIAS() in normal cases. If you need it,
+usually it means your device ID table is wrong (e.g. misses either
+entries or MODULE_DEVICE_TABLE()). MODULE_ALIAS() is not a substitute
+for incomplete ID table.
 
 
-Takashi
+Best regards,
+Krzysztof
+
