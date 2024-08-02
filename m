@@ -1,165 +1,184 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C558C1DF662
-	for <linux-sound@vger.kernel.org>; Fri,  2 Aug 2024 10:58:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 167F014A4C8;
+	Fri,  2 Aug 2024 12:10:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722596286; cv=none; b=RTGPcNCWMZy/91tadpzCuxawKEoj5gHBrwrGugkSXRtkNx8HbV/qR93mVpAtXn0M++a/WkL+ubbTmHNPY8e13+uWLuZEx1CzAJqgFU4lwMXCmZ9QTs96IRdbIbsIS3j8anUpSuHe2tjX4mXgw+92LIvG9MSqup/dBcmRi3zvdJ0=
+	t=1722600650; cv=none; b=UrJ3TYH0ONeNzxnitoM7bCnxP65+NouvCBR6RtEa7+Q3RBhLAIPBe/Rrv6jvCStfsFPJszi5voaBBq33APUUNrqDxO6z4MRtXjLfDcuwTKpWKkpsVPS6eaxnHTrY767j9xxhBGBLz/Y7HTcxU9sAO/eZ3F7nH7VGMRz7PJLskMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722596286; c=relaxed/simple;
-	bh=kCtPikW5m4HQBCDTt4AdXlzVR2vDHT5BVVjwKwM5bpw=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hYsdwnAGAbE5oJZVUNIprjyVkbCDO7cBm2/mdEJl9Q6i4VhAQGBp8ElZgBSJaDYFki2mNSYBHXpiDA7YnHOtD2RES+2Y4EALuczhGmNMpFNyHZB42I7Kaex3SWvFI8FBoOjucGTYdoEBLVzIi19c7rlSG1Favxh1mzpaGrskNaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=gvQAYvPr; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1722600650; c=relaxed/simple;
+	bh=eR+iu6/0WXfDTtplSQGsJVWxAt8YS165hY1VY+hKTf8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Fz3Kvp32G7darda5tO0HiuYkgnGp/sAKDpVM/2+H2I9zVayBGLJzUpEht72660IAgsSPppJcRQo7vG7ehDnoOJlW6XYu0PxAPcKr55134hJhQJiyy7NWHXBaBsPkBzNTBtFwN59hIpLjm6k1jsstPqUJttVwWfE7bVQVNzvkzDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LEcceYM8; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="gvQAYvPr"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4726i5at032551;
-	Fri, 2 Aug 2024 05:57:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=Hm7cYHw3IbsWKPdOPufszkieZJVz8McrDxKj16qNbGQ=; b=
-	gvQAYvPr/YWwZsBVL5uMLqXs59V8hequWHw8Ct5dWgXgtLiufAiPxeOD7sPEWvYb
-	LG9fTMNOuzD9VIDmmNsuVL+Qv7aIj+wI0yEnyzu1uuRh06B8zyFMlVKHQGTmAszJ
-	lW+DA79xbvFxGPDVCHu0RKEZ109I2bNaEjdyMdJQibz+Jve5gDvV+HqijIYF5mAQ
-	NZ4p+25Y5hV9cguLvkD1TUWxmuIk0ix6b85yPQLMBZwMHXq2vhEdKxaZemFa7LvK
-	Uyhk19uIyfttQYsm+p1St6XVsLr3gYcs8S7em/IcHdDhfxakmpWpGz4e1xtWAgak
-	7zWLHOGGP705JTVXmNLa+w==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 40rjdxrj1y-4
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 02 Aug 2024 05:57:42 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 2 Aug 2024
- 11:57:34 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Fri, 2 Aug 2024 11:57:34 +0100
-Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 5332082024B;
-	Fri,  2 Aug 2024 10:57:34 +0000 (UTC)
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: <broonie@kernel.org>, <perex@perex.cz>, <tiwai@suse.com>
-CC: <lgirdwood@gmail.com>, <linux-sound@vger.kernel.org>,
-        <patches@opensource.cirrus.com>
-Subject: [PATCH v4 2/4] ASoC: soc-component: Add new snd_soc_component_get_kcontrol() helpers
-Date: Fri, 2 Aug 2024 11:57:32 +0100
-Message-ID: <20240802105734.2309788-3-ckeepax@opensource.cirrus.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240802105734.2309788-1-ckeepax@opensource.cirrus.com>
-References: <20240802105734.2309788-1-ckeepax@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LEcceYM8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722600647; x=1754136647;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=eR+iu6/0WXfDTtplSQGsJVWxAt8YS165hY1VY+hKTf8=;
+  b=LEcceYM80ly35bcyLQlfwZTzMxhwhmHL5MQeG9tWI9n0Vmuy2yaYK/cE
+   ad8hzGs2YSRc0UugZohJG1HtyiRr0REPdL+EEkNfr+k1pRY22NQrtAmFo
+   RdpQF+cyYhZZ+cKVdPR63Sb3Doh7VkDpDWW7k5j4X/d8zSqH/9B/je/Nd
+   UoQ064ucX9XSbc38yAW9MT+qYOpOK7VPQueCZrToI2tVdMzMyKq6UIZ+p
+   BQnCWKzvo2p8mI3psY7NaHiJAb+DlvNB6IULOUoZBJg+B0DfnmSDZVZCL
+   YiMy7NqJ5Sgd6bUO5qlzT98vQSlU4iydO/rW4JUOSkDUDPk+fHtZSm3JM
+   A==;
+X-CSE-ConnectionGUID: YiJ6omhhTICaHTyB845Jhw==
+X-CSE-MsgGUID: pDQWo+DIQUupP6xdMfzwBw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11151"; a="24484192"
+X-IronPort-AV: E=Sophos;i="6.09,257,1716274800"; 
+   d="scan'208";a="24484192"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2024 05:10:46 -0700
+X-CSE-ConnectionGUID: WeoaLZ5qS1yBmoKb3Bfcyg==
+X-CSE-MsgGUID: UgZNmmCzQrqeVCUuSYL9GA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,257,1716274800"; 
+   d="scan'208";a="55978897"
+Received: from ltuz-desk.ger.corp.intel.com (HELO [10.245.246.89]) ([10.245.246.89])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2024 05:10:42 -0700
+Message-ID: <acf4de1d-d551-4539-8353-3c85aa3d965c@linux.intel.com>
+Date: Fri, 2 Aug 2024 08:26:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v24 09/34] ASoC: Add SOC USB APIs for adding an USB
+ backend
+To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+ mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+ corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
+ Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, tiwai@suse.com,
+ gregkh@linuxfoundation.org, robh@kernel.org
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+ alsa-devel@alsa-project.org
+References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
+ <20240801011730.4797-10-quic_wcheng@quicinc.com>
+ <09fde4e6-c3be-484d-a7a5-bd653dc42094@linux.intel.com>
+ <f761530c-a49b-4dd5-b01c-97d08931e0ab@quicinc.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <f761530c-a49b-4dd5-b01c-97d08931e0ab@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: fRUe4Kif1sJLk-Nlgh0ReK1ta3qJI3dU
-X-Proofpoint-ORIG-GUID: fRUe4Kif1sJLk-Nlgh0ReK1ta3qJI3dU
-X-Proofpoint-Spam-Reason: safe
 
-Add new helper functions snd_soc_component_get_kcontrol() and
-snd_soc_component_get_kcontrol_locked() that returns a kcontrol
-by name, but will factor in the components name_prefix, to handle
-situations where multiple components are present with the same
-controls.
 
-Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
----
 
-Changes since v3:
- - Add new _locked version of the helper.
- - Factor out the control name generation to share between the two
-   helpers.
+On 8/1/24 23:43, Wesley Cheng wrote:
+> Hi Pierre,
+> 
+> On 8/1/2024 1:02 AM, Pierre-Louis Bossart wrote:
+>>
+>>
+>>> +/**
+>>> + * struct snd_soc_usb_device
+>>> + * @card_idx - sound card index associated with USB device
+>>> + * @pcm_idx - PCM device index associated with USB device
+>>> + * @chip_idx - USB sound chip array index
+>>> + * @num_playback - number of playback streams
+>>> + * @num_capture - number of capture streams
+>> so here we have a clear separation between playback and capture...
+> 
+> Thanks for the quick review of the series, I know that its a lot of work, so its much appreciated.
+> 
+> I guess in the past revisions there was some discussions that highlighted on the fact that, currently, in our QC USB offload implementation we're supporting playback only, and maybe it should be considered to also expand on the capture path.  I went ahead and added some sprinkles of that throughout the SOC USB layer, since its vendor agnostic, and some vendors may potentially have that type of support.  Is it safe to assume that this is the right thinking?  If so, I will go and review some of the spots that may need to consider both playback and capture paths ONLY for soc-usb. (as you highlighted one below)  Else, I can note an assumption somewhere that soc-usb supports playback only and add the capture path when implemented.
 
-Thanks,
-Charles
+I don't think it's as simple as playback only or playback+capture. If
+there is no support for capture, then there is also no support for
+devices with implicit feedback - which uses the capture path. So you
+gradually start drawing a jagged boundary of what is supported and what
+isn't.
 
- include/sound/soc-component.h |  5 +++++
- sound/soc/soc-component.c     | 42 ++++++++++++++++++++++++++++-------
- 2 files changed, 39 insertions(+), 8 deletions(-)
+My preference would be to add capture in APIs where we can, with TODOs
+added to make sure no one us under any illusion that the code is fully
+tested. But at least some of the basic plumbing will be in place.
 
-diff --git a/include/sound/soc-component.h b/include/sound/soc-component.h
-index ceca69b46a821..bf2e381cd124b 100644
---- a/include/sound/soc-component.h
-+++ b/include/sound/soc-component.h
-@@ -462,6 +462,11 @@ int snd_soc_component_force_enable_pin_unlocked(
- 	const char *pin);
- 
- /* component controls */
-+struct snd_kcontrol *snd_soc_component_get_kcontrol(struct snd_soc_component *component,
-+						    const char * const ctl);
-+struct snd_kcontrol *
-+snd_soc_component_get_kcontrol_locked(struct snd_soc_component *component,
-+				      const char * const ctl);
- int snd_soc_component_notify_control(struct snd_soc_component *component,
- 				     const char * const ctl);
- 
-diff --git a/sound/soc/soc-component.c b/sound/soc/soc-component.c
-index 4d7c2e3c929a9..42f4813219197 100644
---- a/sound/soc/soc-component.c
-+++ b/sound/soc/soc-component.c
-@@ -236,19 +236,45 @@ int snd_soc_component_force_enable_pin_unlocked(
- }
- EXPORT_SYMBOL_GPL(snd_soc_component_force_enable_pin_unlocked);
- 
--int snd_soc_component_notify_control(struct snd_soc_component *component,
--				     const char * const ctl)
-+static void soc_get_kcontrol_name(struct snd_soc_component *component,
-+				  char *buf, int size, const char * const ctl)
- {
--	char name[SNDRV_CTL_ELEM_ID_NAME_MAXLEN];
--	struct snd_kcontrol *kctl;
--
- 	/* When updating, change also snd_soc_dapm_widget_name_cmp() */
- 	if (component->name_prefix)
--		snprintf(name, ARRAY_SIZE(name), "%s %s", component->name_prefix, ctl);
-+		snprintf(buf, size, "%s %s", component->name_prefix, ctl);
- 	else
--		snprintf(name, ARRAY_SIZE(name), "%s", ctl);
-+		snprintf(buf, size, "%s", ctl);
-+}
-+
-+struct snd_kcontrol *snd_soc_component_get_kcontrol(struct snd_soc_component *component,
-+						    const char * const ctl)
-+{
-+	char name[SNDRV_CTL_ELEM_ID_NAME_MAXLEN];
-+
-+	soc_get_kcontrol_name(component, name, ARRAY_SIZE(name), ctl);
-+
-+	return snd_soc_card_get_kcontrol(component->card, name);
-+}
-+EXPORT_SYMBOL_GPL(snd_soc_component_get_kcontrol);
-+
-+struct snd_kcontrol *
-+snd_soc_component_get_kcontrol_locked(struct snd_soc_component *component,
-+				      const char * const ctl)
-+{
-+	char name[SNDRV_CTL_ELEM_ID_NAME_MAXLEN];
-+
-+	soc_get_kcontrol_name(component, name, ARRAY_SIZE(name), ctl);
-+
-+	return snd_soc_card_get_kcontrol_locked(component->card, name);
-+}
-+EXPORT_SYMBOL_GPL(snd_soc_component_get_kcontrol_locked);
-+
-+int snd_soc_component_notify_control(struct snd_soc_component *component,
-+				     const char * const ctl)
-+{
-+	struct snd_kcontrol *kctl;
- 
--	kctl = snd_soc_card_get_kcontrol(component->card, name);
-+	kctl = snd_soc_component_get_kcontrol(component, ctl);
- 	if (!kctl)
- 		return soc_component_ret(component, -EINVAL);
- 
--- 
-2.39.2
+Takashi should chime in on this...
+
+>>> + * @list - list head for SoC USB devices
+>>> + **/
+>>> +struct snd_soc_usb_device {
+>>> +	int card_idx;
+>>> +	int pcm_idx;
+>>> +	int chip_idx;
+>>> +	int num_playback;
+>>> +	int num_capture;
+>>> +	struct list_head list;
+>>> +};
+>>> +
+>>> +/**
+>>> + * struct snd_soc_usb
+>>> + * @list - list head for SND SOC struct list
+>>> + * @component - reference to ASoC component
+>>> + * @num_supported_streams - number of supported concurrent sessions
+>> ... but here we don't. And it's not clear what the working 'sessions'
+>> means in the comment.
+>>
+>>> + * @connection_status_cb - callback to notify connection events
+>>> + * @priv_data - driver data
+>>> + **/
+>>> +struct snd_soc_usb {
+>>> +	struct list_head list;
+>>> +	struct snd_soc_component *component;
+>>> +	unsigned int num_supported_streams;
+>>> +	int (*connection_status_cb)(struct snd_soc_usb *usb,
+>>> +			struct snd_soc_usb_device *sdev, bool connected);
+>>> +	void *priv_data;
+>>> +};
+>>> +/**
+>>> + * snd_soc_usb_allocate_port() - allocate a SOC USB device
+>> USB port?
+> Noted, refer to the last comment.
+>>> + * @component: USB DPCM backend DAI component
+>>> + * @num_streams: number of offloading sessions supported
+>> same comment, is this direction-specific or not?
+> Depending on what you think about my first comment above, I'll also fix or remove the concept of direction entirely.
+>>> + * @data: private data
+>>> + *
+>>> + * Allocate and initialize a SOC USB device.  This will populate parameters that
+>>> + * are used in subsequent sequences.
+>>> + *
+>>> + */
+>>> +struct snd_soc_usb *snd_soc_usb_allocate_port(struct snd_soc_component *component,
+>>> +					      int num_streams, void *data)
+>>> +{
+>>> +	struct snd_soc_usb *usb;
+>>> +
+>>> +	usb = kzalloc(sizeof(*usb), GFP_KERNEL);
+>>> +	if (!usb)
+>>> +		return ERR_PTR(-ENOMEM);
+>>> +
+>>> +	usb->component = component;
+>>> +	usb->priv_data = data;
+>>> +	usb->num_supported_streams = num_streams;
+>>> +
+>>> +	return usb;
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(snd_soc_usb_allocate_port);
+>>> +
+>>> +/**
+>>> + * snd_soc_usb_free_port() - free a SOC USB device
+>>> + * @usb: allocated SOC USB device
+>>> +
+>>> + * Free and remove the SOC USB device from the available list of devices.
+>> Now I am lost again on the device:port relationship. I am sure you've
+>> explained this before but I forget things and the code isn't
+>> self-explanatory.
+>>
+> Ok, I think the problem is that I'm interchanging the port and device terminology, because from the USB perspective its one device connected to a USB port, so its a one-to-one relation.  Removing that mindset, I think the proper term here would still be "port," because in the end SOC USB is always only servicing a port.  If this is the case, do you have any objections using this terminology in the Q6AFE as well as ASoC?  I will use consistent wording throughout SOC USB if so.
+
+I am not sure USB uses 'port' at all. If by 'port' you meant 'connector'
+it's not quite right, USB audio works across hubs.
+
 
