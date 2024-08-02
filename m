@@ -1,55 +1,55 @@
 Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9711DE874
-	for <linux-sound@vger.kernel.org>; Fri,  2 Aug 2024 10:58:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C558C1DF662
+	for <linux-sound@vger.kernel.org>; Fri,  2 Aug 2024 10:58:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722596285; cv=none; b=SYfs8iS7VsqpEv3gcps2yoinFUkbgy+KMn6SV5ncMJdlBJafpmXIZ9xw8YmA2qanAaSsHWqaEeGQcfGPoj2ApKqh7lmvVqwYteIUG2f8LDKMK2WmAVuaJESFYwPDVqlRRDerJM9PjQX6tGqK1yEvTdtNRRD8bxF2CwekChAJQRU=
+	t=1722596286; cv=none; b=RTGPcNCWMZy/91tadpzCuxawKEoj5gHBrwrGugkSXRtkNx8HbV/qR93mVpAtXn0M++a/WkL+ubbTmHNPY8e13+uWLuZEx1CzAJqgFU4lwMXCmZ9QTs96IRdbIbsIS3j8anUpSuHe2tjX4mXgw+92LIvG9MSqup/dBcmRi3zvdJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722596285; c=relaxed/simple;
-	bh=o/K/+gF9gXNZhvvqnBJOoBo6h47aosxXA3Pp2HVnTpI=;
+	s=arc-20240116; t=1722596286; c=relaxed/simple;
+	bh=kCtPikW5m4HQBCDTt4AdXlzVR2vDHT5BVVjwKwM5bpw=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iWUvUyMh9kik0T/V09XStvWdefdIwLNrQCbRIrdz0NT4A1RJmqSGtVVjZFR1v8WTX02OIayt22y3OOwKVLIou/NWquqfPXeo9wBVt59yXh7yG9vdDefYghla8Pq/M+RuIYneAE1f3Wat3lapIBDLEmODNO8Mfs/snRR7QQguFgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=ATi0GU6O; arc=none smtp.client-ip=67.231.149.25
+	 MIME-Version:Content-Type; b=hYsdwnAGAbE5oJZVUNIprjyVkbCDO7cBm2/mdEJl9Q6i4VhAQGBp8ElZgBSJaDYFki2mNSYBHXpiDA7YnHOtD2RES+2Y4EALuczhGmNMpFNyHZB42I7Kaex3SWvFI8FBoOjucGTYdoEBLVzIi19c7rlSG1Favxh1mzpaGrskNaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=gvQAYvPr; arc=none smtp.client-ip=67.231.149.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="ATi0GU6O"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="gvQAYvPr"
 Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4726i5as032551;
-	Fri, 2 Aug 2024 05:57:41 -0500
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4726i5at032551;
+	Fri, 2 Aug 2024 05:57:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=lSRNN22vyo9fsrtxJPuMLG9lCiDsRsJSQ8TVpGoLz3M=; b=
-	ATi0GU6OntiPOpmIJc1fG8R0ZUdOON/iEj5taGBHzfZDkLWVJcy2yQ2A2bjH6KOy
-	izvAJ0W2qEobe+hKMHA4c0x9BiWtgZsG7jxc3rih+2AIkrzSiWYxVDRtMrzyc2oh
-	RMawBpKcqQLJPkvimQODtbWNjZ+F7qIcF6dawaFy34oyJxisxONfoOAu7rw9hiYS
-	NB4F3dwc97VCVMYn2kUGRZc3BfZCt/dBgnVSvrvxBapLtwcpethSJbgjT+WhhFtU
-	J5sPkkT/icxTWvOVWZqL3/RAFaYR7L1YoDdnOgNJt6+5mDyLf7w52lMXGa2urehN
-	s1D0hLbR3h1Qt6Pya3dFVQ==
+	PODMain02222019; bh=Hm7cYHw3IbsWKPdOPufszkieZJVz8McrDxKj16qNbGQ=; b=
+	gvQAYvPr/YWwZsBVL5uMLqXs59V8hequWHw8Ct5dWgXgtLiufAiPxeOD7sPEWvYb
+	LG9fTMNOuzD9VIDmmNsuVL+Qv7aIj+wI0yEnyzu1uuRh06B8zyFMlVKHQGTmAszJ
+	lW+DA79xbvFxGPDVCHu0RKEZ109I2bNaEjdyMdJQibz+Jve5gDvV+HqijIYF5mAQ
+	NZ4p+25Y5hV9cguLvkD1TUWxmuIk0ix6b85yPQLMBZwMHXq2vhEdKxaZemFa7LvK
+	Uyhk19uIyfttQYsm+p1St6XVsLr3gYcs8S7em/IcHdDhfxakmpWpGz4e1xtWAgak
+	7zWLHOGGP705JTVXmNLa+w==
 Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 40rjdxrj1y-3
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 40rjdxrj1y-4
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 02 Aug 2024 05:57:41 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+	Fri, 02 Aug 2024 05:57:42 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 2 Aug 2024
  11:57:34 +0100
 Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
  15.2.1544.9 via Frontend Transport; Fri, 2 Aug 2024 11:57:34 +0100
 Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 6E341820259;
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 5332082024B;
 	Fri,  2 Aug 2024 10:57:34 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>, <perex@perex.cz>, <tiwai@suse.com>
 CC: <lgirdwood@gmail.com>, <linux-sound@vger.kernel.org>,
         <patches@opensource.cirrus.com>
-Subject: [PATCH v4 4/4] ASoC: cs42l43: Cache shutter IRQ control pointers
-Date: Fri, 2 Aug 2024 11:57:34 +0100
-Message-ID: <20240802105734.2309788-5-ckeepax@opensource.cirrus.com>
+Subject: [PATCH v4 2/4] ASoC: soc-component: Add new snd_soc_component_get_kcontrol() helpers
+Date: Fri, 2 Aug 2024 11:57:32 +0100
+Message-ID: <20240802105734.2309788-3-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240802105734.2309788-1-ckeepax@opensource.cirrus.com>
 References: <20240802105734.2309788-1-ckeepax@opensource.cirrus.com>
@@ -61,173 +61,105 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: x1wgLcwhe4laSvzqInXs2zjPus29v92Y
-X-Proofpoint-ORIG-GUID: x1wgLcwhe4laSvzqInXs2zjPus29v92Y
+X-Proofpoint-GUID: fRUe4Kif1sJLk-Nlgh0ReK1ta3qJI3dU
+X-Proofpoint-ORIG-GUID: fRUe4Kif1sJLk-Nlgh0ReK1ta3qJI3dU
 X-Proofpoint-Spam-Reason: safe
 
-The microphone/speaker privacy shutter ALSA control handlers need to
-call pm_runtime_resume, since the hardware needs to be powered up to
-check the hardware state of the shutter. The IRQ handler for the
-shutters also needs to notify the ALSA control to inform user-space
-the shutters updated. However this leads to a mutex inversion,
-between the sdw_dev_lock and the controls_rwsem.
+Add new helper functions snd_soc_component_get_kcontrol() and
+snd_soc_component_get_kcontrol_locked() that returns a kcontrol
+by name, but will factor in the components name_prefix, to handle
+situations where multiple components are present with the same
+controls.
 
-To avoid this mutex inversion cache the kctl pointers before the IRQ
-handler, which avoids the need to lookup the control and take the
-controls_rwsem.
-
-Suggested-by: Jaroslav Kysela <perex@perex.cz>
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
 
-No changes since v3.
+Changes since v3:
+ - Add new _locked version of the helper.
+ - Factor out the control name generation to share between the two
+   helpers.
 
 Thanks,
 Charles
 
- sound/soc/codecs/cs42l43.c | 73 +++++++++++++++++++++++++++++---------
- sound/soc/codecs/cs42l43.h |  2 ++
- 2 files changed, 58 insertions(+), 17 deletions(-)
+ include/sound/soc-component.h |  5 +++++
+ sound/soc/soc-component.c     | 42 ++++++++++++++++++++++++++++-------
+ 2 files changed, 39 insertions(+), 8 deletions(-)
 
-diff --git a/sound/soc/codecs/cs42l43.c b/sound/soc/codecs/cs42l43.c
-index 80825777048a6..5183b45864243 100644
---- a/sound/soc/codecs/cs42l43.c
-+++ b/sound/soc/codecs/cs42l43.c
-@@ -7,6 +7,7 @@
+diff --git a/include/sound/soc-component.h b/include/sound/soc-component.h
+index ceca69b46a821..bf2e381cd124b 100644
+--- a/include/sound/soc-component.h
++++ b/include/sound/soc-component.h
+@@ -462,6 +462,11 @@ int snd_soc_component_force_enable_pin_unlocked(
+ 	const char *pin);
  
- #include <linux/bitops.h>
- #include <linux/bits.h>
-+#include <linux/build_bug.h>
- #include <linux/clk.h>
- #include <linux/device.h>
- #include <linux/err.h>
-@@ -252,24 +253,20 @@ CS42L43_IRQ_COMPLETE(load_detect)
- static irqreturn_t cs42l43_mic_shutter(int irq, void *data)
- {
- 	struct cs42l43_codec *priv = data;
--	static const char * const controls[] = {
--		"Decimator 1 Switch",
--		"Decimator 2 Switch",
--		"Decimator 3 Switch",
--		"Decimator 4 Switch",
--	};
--	int i, ret;
-+	struct snd_soc_component *component = priv->component;
-+	int i;
+ /* component controls */
++struct snd_kcontrol *snd_soc_component_get_kcontrol(struct snd_soc_component *component,
++						    const char * const ctl);
++struct snd_kcontrol *
++snd_soc_component_get_kcontrol_locked(struct snd_soc_component *component,
++				      const char * const ctl);
+ int snd_soc_component_notify_control(struct snd_soc_component *component,
+ 				     const char * const ctl);
  
- 	dev_dbg(priv->dev, "Microphone shutter changed\n");
- 
--	if (!priv->component)
-+	if (!component)
- 		return IRQ_NONE;
- 
--	for (i = 0; i < ARRAY_SIZE(controls); i++) {
--		ret = snd_soc_component_notify_control(priv->component,
--						       controls[i]);
--		if (ret)
-+	for (i = 1; i < ARRAY_SIZE(priv->kctl); i++) {
-+		if (!priv->kctl[i])
- 			return IRQ_NONE;
-+
-+		snd_ctl_notify(component->card->snd_card,
-+			       SNDRV_CTL_EVENT_MASK_VALUE, &priv->kctl[i]->id);
- 	}
- 
- 	return IRQ_HANDLED;
-@@ -278,18 +275,19 @@ static irqreturn_t cs42l43_mic_shutter(int irq, void *data)
- static irqreturn_t cs42l43_spk_shutter(int irq, void *data)
- {
- 	struct cs42l43_codec *priv = data;
--	int ret;
-+	struct snd_soc_component *component = priv->component;
- 
- 	dev_dbg(priv->dev, "Speaker shutter changed\n");
- 
--	if (!priv->component)
-+	if (!component)
- 		return IRQ_NONE;
- 
--	ret = snd_soc_component_notify_control(priv->component,
--					       "Speaker Digital Switch");
--	if (ret)
-+	if (!priv->kctl[0])
- 		return IRQ_NONE;
- 
-+	snd_ctl_notify(component->card->snd_card,
-+		       SNDRV_CTL_EVENT_MASK_VALUE, &priv->kctl[0]->id);
-+
- 	return IRQ_HANDLED;
+diff --git a/sound/soc/soc-component.c b/sound/soc/soc-component.c
+index 4d7c2e3c929a9..42f4813219197 100644
+--- a/sound/soc/soc-component.c
++++ b/sound/soc/soc-component.c
+@@ -236,19 +236,45 @@ int snd_soc_component_force_enable_pin_unlocked(
  }
+ EXPORT_SYMBOL_GPL(snd_soc_component_force_enable_pin_unlocked);
  
-@@ -590,7 +588,46 @@ static int cs42l43_asp_set_tdm_slot(struct snd_soc_dai *dai, unsigned int tx_mas
- 	return 0;
- }
- 
-+static int cs42l43_dai_probe(struct snd_soc_dai *dai)
-+{
-+	struct snd_soc_component *component = dai->component;
-+	struct cs42l43_codec *priv = snd_soc_component_get_drvdata(component);
-+	static const char * const controls[] = {
-+		"Speaker Digital Switch",
-+		"Decimator 1 Switch",
-+		"Decimator 2 Switch",
-+		"Decimator 3 Switch",
-+		"Decimator 4 Switch",
-+	};
-+	int i;
-+
-+	static_assert(ARRAY_SIZE(controls) == ARRAY_SIZE(priv->kctl));
-+
-+	for (i = 0; i < ARRAY_SIZE(controls); i++) {
-+		if (priv->kctl[i])
-+			continue;
-+
-+		priv->kctl[i] = snd_soc_component_get_kcontrol(component, controls[i]);
-+	}
-+
-+	return 0;
+-int snd_soc_component_notify_control(struct snd_soc_component *component,
+-				     const char * const ctl)
++static void soc_get_kcontrol_name(struct snd_soc_component *component,
++				  char *buf, int size, const char * const ctl)
+ {
+-	char name[SNDRV_CTL_ELEM_ID_NAME_MAXLEN];
+-	struct snd_kcontrol *kctl;
+-
+ 	/* When updating, change also snd_soc_dapm_widget_name_cmp() */
+ 	if (component->name_prefix)
+-		snprintf(name, ARRAY_SIZE(name), "%s %s", component->name_prefix, ctl);
++		snprintf(buf, size, "%s %s", component->name_prefix, ctl);
+ 	else
+-		snprintf(name, ARRAY_SIZE(name), "%s", ctl);
++		snprintf(buf, size, "%s", ctl);
 +}
 +
-+static int cs42l43_dai_remove(struct snd_soc_dai *dai)
++struct snd_kcontrol *snd_soc_component_get_kcontrol(struct snd_soc_component *component,
++						    const char * const ctl)
 +{
-+	struct snd_soc_component *component = dai->component;
-+	struct cs42l43_codec *priv = snd_soc_component_get_drvdata(component);
-+	int i;
++	char name[SNDRV_CTL_ELEM_ID_NAME_MAXLEN];
 +
-+	for (i = 0; i < ARRAY_SIZE(priv->kctl); i++)
-+		priv->kctl[i] = NULL;
++	soc_get_kcontrol_name(component, name, ARRAY_SIZE(name), ctl);
 +
-+	return 0;
++	return snd_soc_card_get_kcontrol(component->card, name);
 +}
++EXPORT_SYMBOL_GPL(snd_soc_component_get_kcontrol);
 +
- static const struct snd_soc_dai_ops cs42l43_asp_ops = {
-+	.probe		= cs42l43_dai_probe,
-+	.remove		= cs42l43_dai_remove,
- 	.startup	= cs42l43_startup,
- 	.hw_params	= cs42l43_asp_hw_params,
- 	.set_fmt	= cs42l43_asp_set_fmt,
-@@ -611,6 +648,8 @@ static int cs42l43_sdw_hw_params(struct snd_pcm_substream *substream,
- }
- 
- static const struct snd_soc_dai_ops cs42l43_sdw_ops = {
-+	.probe		= cs42l43_dai_probe,
-+	.remove		= cs42l43_dai_remove,
- 	.startup	= cs42l43_startup,
- 	.set_stream	= cs42l43_sdw_set_stream,
- 	.hw_params	= cs42l43_sdw_hw_params,
-diff --git a/sound/soc/codecs/cs42l43.h b/sound/soc/codecs/cs42l43.h
-index 9924c13e1eb53..9c144e129535f 100644
---- a/sound/soc/codecs/cs42l43.h
-+++ b/sound/soc/codecs/cs42l43.h
-@@ -100,6 +100,8 @@ struct cs42l43_codec {
- 	struct delayed_work hp_ilimit_clear_work;
- 	bool hp_ilimited;
- 	int hp_ilimit_count;
++struct snd_kcontrol *
++snd_soc_component_get_kcontrol_locked(struct snd_soc_component *component,
++				      const char * const ctl)
++{
++	char name[SNDRV_CTL_ELEM_ID_NAME_MAXLEN];
 +
-+	struct snd_kcontrol *kctl[5];
- };
++	soc_get_kcontrol_name(component, name, ARRAY_SIZE(name), ctl);
++
++	return snd_soc_card_get_kcontrol_locked(component->card, name);
++}
++EXPORT_SYMBOL_GPL(snd_soc_component_get_kcontrol_locked);
++
++int snd_soc_component_notify_control(struct snd_soc_component *component,
++				     const char * const ctl)
++{
++	struct snd_kcontrol *kctl;
  
- #if IS_REACHABLE(CONFIG_SND_SOC_CS42L43_SDW)
+-	kctl = snd_soc_card_get_kcontrol(component->card, name);
++	kctl = snd_soc_component_get_kcontrol(component, ctl);
+ 	if (!kctl)
+ 		return soc_component_ret(component, -EINVAL);
+ 
 -- 
 2.39.2
 
