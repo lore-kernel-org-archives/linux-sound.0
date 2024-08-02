@@ -1,40 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E33D7139D1B
-	for <linux-sound@vger.kernel.org>; Fri,  2 Aug 2024 22:22:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6021757D
+	for <linux-sound@vger.kernel.org>; Fri,  2 Aug 2024 22:28:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722637343; cv=none; b=UhWX1p9lMEAfvSrUyeTzxigpJo6xBICDab4uO2MRWNWmPv/u7oj5GuoCBJ4baw5KLtUfsSGHXM6dL56sYsWCRlmmcqBUBQnCANTWX4pk8RVQJdrGwkFwFUZXckzo1ccwjtj27GxA1vIm8nce1wu8VQ1AhgCmAUStA2JeOyz9tls=
+	t=1722637707; cv=none; b=Z8Y16JsLHzZ8MRUCdnJkXWFShra8hdirxaOR+nVkaAjk2nEBbzN5YvmjRmy5HzaZammgLUPREH4TveIulyAA43yp98LfS8miM4IIQkQ1ekwaCl5hO2uyJN0I7avY3HWrEjrWUOuZeB+9qfqsLPzlnwZ853rmNKAu2naVjZa7v8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722637343; c=relaxed/simple;
-	bh=+aSlO9zlo6n0Ul95qcd+80nMphawjWrVFENBLzlbUp4=;
+	s=arc-20240116; t=1722637707; c=relaxed/simple;
+	bh=QKOJBGWTJn2jPLVa/+pdDhsHq7fyVsLxEOx12D5x2yg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=S+iBRnZC3ousXNcz79PTAtfCZv9mhbpqY52wT9MuV3J9v4P8oSDPbzfSWoabaFQekRmCtw8WIgNnFfQaywEdQBbpfWR9d6N+iNIBBxkXPT+oFk3ylQ6s9WsUSroNlKSiBSjv/jpefh1iimqr0G/ifZQ3j+E9t4BkuZ5KphEbiNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KxE7W0sk; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=H9OnnatQ/moXg21yAXtnTLl0z7xh5fpaVtN03yfiLDVOlEoHXiF1bNINtcxduHoYa9M0cPflt/xqGPFXAnOl8GvaMJEcFx4ejtT8Za2238jV3TrxWivYuNq80wy93zV9H5QqzJ5Dc1HeaChFqWmsI67zGcNC+qn3SFvx2nu7mxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ehpe8fWv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KxE7W0sk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 883FBC4AF0B;
-	Fri,  2 Aug 2024 22:22:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ehpe8fWv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB4B9C32782;
+	Fri,  2 Aug 2024 22:28:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722637342;
-	bh=+aSlO9zlo6n0Ul95qcd+80nMphawjWrVFENBLzlbUp4=;
+	s=k20201202; t=1722637706;
+	bh=QKOJBGWTJn2jPLVa/+pdDhsHq7fyVsLxEOx12D5x2yg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=KxE7W0skz/BBU8KT6UDXUpDEWMoZuGu8QiQoECEJt4HC058KAX25YAJznksxTuc4P
-	 ECQSKcT8D7LOrjGhdikLG65x+72CAwPB8B+HSCvfaeNSb0bJt0RSLrA35szpYNdr6D
-	 86gHlo6M/HjcbgpaB/me70pTGSW2fHNoBpzw5IF92CJSrw92NQ1+7llRgRD0SG/HjV
-	 VC7g+CKHLJDeG80HLuF2KuyoOGO8Mqz9SzS04D0NuXfw5vB2lBq/OaknIoVf2G7bWs
-	 UPlmrlI/I8qu8kKq4NW1aVMfFOlO1KNYQID/ru7eeru9Q2LEq/9VOuyz/Hoiqfj6ZY
-	 lp0Hw5atzKU6A==
+	b=Ehpe8fWvBsuCGiEKdeZbme0iHdZv5BR9Pp8HTrtBBSJj79Cfud0XLjI/9xBiwpx97
+	 S531JEeEhtI0w9pGsRTY7R62MtmLv06N3y0mUgV2+vUvzD9pJTj3nguKMjZnfmN7FK
+	 oCPtJljCPGhS0JAr1lmASj5dtS+LlQpllcrtOIZOCe5r+gxNEY1Xvq/Hmg/a5sT00w
+	 fzzSeiOJW8NTVgS3AkQ1YptDZ+6Nco8F4UWGapvV130fm/HMUzE/3NVeqqm8waszYc
+	 E+4/WkKyp5Onuxuj5IIPvP8ujDfHRCLaIdvfujKx+NMquMcRRWwej6Q16W8aWC3yT8
+	 IBYzZXTeoIXNw==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: alsa-devel@alsa-project.org, tiwai@suse.de
-In-Reply-To: <20240802124609.188954-1-pierre-louis.bossart@linux.intel.com>
-References: <20240802124609.188954-1-pierre-louis.bossart@linux.intel.com>
-Subject: Re: [PATCH 0/4] ASoC: SOF: reshuffle and optimize structures
-Message-Id: <172263734128.144413.3497995259829988964.b4-ty@kernel.org>
-Date: Fri, 02 Aug 2024 23:22:21 +0100
+To: perex@perex.cz, tiwai@suse.com, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20240801100413.1620481-1-ckeepax@opensource.cirrus.com>
+References: <20240801100413.1620481-1-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH v3 1/4] ASoC: cs42l43: Remove redundant semi-colon at
+ end of function
+Message-Id: <172263770541.147512.5422412015989326949.b4-ty@kernel.org>
+Date: Fri, 02 Aug 2024 23:28:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,20 +47,9 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-37811
 
-On Fri, 02 Aug 2024 14:46:05 +0200, Pierre-Louis Bossart wrote:
-> pahole reports a number of sub-optimal structure definitions with
-> holes and cache-line alignment problems, this patchset optimizes a
-> couple of structure frequently used.
+On Thu, 01 Aug 2024 11:04:10 +0100, Charles Keepax wrote:
 > 
-> No functionality change, only re-ordering of structure members.
-> 
-> Pierre-Louis Bossart (4):
->   ASoC: SOF: sof-priv.h: optimize snd_sof_platform_stream_params
->   ASoC: SOF: sof-priv.h: optimize snd_sof_mailbox
->   ASoC: SOF: sof-priv.h: optimize snd_sof_ipc_msg
->   ASoC: SOF: sof-audio.h: optimize snd_sof_pcm_stream_pipeline_list
-> 
-> [...]
+
 
 Applied to
 
@@ -66,14 +57,14 @@ Applied to
 
 Thanks!
 
-[1/4] ASoC: SOF: sof-priv.h: optimize snd_sof_platform_stream_params
-      commit: cac88e96ba0961921b8068326579b26094f37ba4
-[2/4] ASoC: SOF: sof-priv.h: optimize snd_sof_mailbox
-      commit: e9e7eeaf199c7961d634235dbedeb7b682b1dd32
-[3/4] ASoC: SOF: sof-priv.h: optimize snd_sof_ipc_msg
-      commit: 5a4413d0fa8d0a438246acaf81637d71aab1b6a0
-[4/4] ASoC: SOF: sof-audio.h: optimize snd_sof_pcm_stream_pipeline_list
-      commit: 5821d7b4981f4915ab353f538be38defe9656f81
+[1/4] ASoC: cs42l43: Remove redundant semi-colon at end of function
+      commit: becfa08bfefa2cbb22c84d9e583e81387f2f3bf2
+[2/4] ASoC: soc-component: Add new snd_soc_component_get_kcontrol() helper
+      (no commit info)
+[3/4] ASoC: cs35l45: Use new snd_soc_component_get_kcontrol() helper
+      (no commit info)
+[4/4] ASoC: cs42l43: Cache shutter IRQ control pointers
+      commit: 93afd028fb5f06a46a32375fd1f0473451eb1c5a
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
