@@ -1,55 +1,58 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D607131BDF
-	for <linux-sound@vger.kernel.org>; Fri,  2 Aug 2024 23:50:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAFB61292CE
+	for <linux-sound@vger.kernel.org>; Sat,  3 Aug 2024 10:41:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722642622; cv=none; b=YRlBuoi0YVyFNz41Kv8dhBq0NAac6czz+EPCmr8dYUDEhHf8KNtPUJzpd3L57itqw0HW5Bod3jiiNUu9XvPZ3wpCNHuETDRrGixIjQ6EVbrCH2GjtYILlBTYFHPiQP6LNdEx1Y/N85RykdeDuLsaEFGCJlw90B+lVvhSgAMO8qo=
+	t=1722681708; cv=none; b=M1ZNOM7kZSMngMKEpj0QXHw9jBs532QReP0dE6rEt0hCiJrYqQjKsG7R960WzQ0Ur26QWOpJaPpymdQTJm6BeLKL2iUq4tZ5TTzl/ce8EdSxjBoeFN9ac6tu8hY7KjnoD5IPXRSJUp6cml8xJU5mQNIyuOESxzxehXFAV337Vb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722642622; c=relaxed/simple;
-	bh=HZZKOKBtxpjlkoQFp4cJicu8lxw32wL3IJROduhb6xY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=rNrSGHCCVVYIXc6Gy6x/ZX5SYA88oB5QuuV0OsptWdZBnhP9w69IUUZXZWR8y9ArgS25dw8KH/9ByO3LDqi6hJMVgqMMzepDwi6EejDSDSu1IJ1sSA0mRkFHa0wpYjjKbld5Kr/AqiKhE/LBJy1pQDYturKjjDnstwegCODTgpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=l4I8QxHq; arc=none smtp.client-ip=209.85.219.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1722681708; c=relaxed/simple;
+	bh=/keCe+RYTAEof6iY2K+Bnv28/+hoBwjA1/9NQ0Hke4I=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YJJ7Bqk5fKzEBZakvcC1rmmhCnPwloeHKe+nZhmDRzW8VF/E2Q4WJ1ODsJPru0kmDv+xCphebxqHyPo60t1q3uNMydcSTgg1yRom/G8UvPly1b4oiDeP/0bXb8kF/iFIbr2lK0X5JS5nazl7lf8Wn4MeEuD8QNpD6fZ+XELPCXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=idBS6qZZ; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="l4I8QxHq"
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6b7b23793c1so49289126d6.0
-        for <linux-sound@vger.kernel.org>; Fri, 02 Aug 2024 16:50:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="idBS6qZZ"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-530ae4ef29dso8208395e87.3
+        for <linux-sound@vger.kernel.org>; Sat, 03 Aug 2024 03:41:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1722642620; x=1723247420; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=D4XYocTn+pNPWt0L7L14LMVVJ06I8yBBoe1EZGTqQIg=;
-        b=l4I8QxHqCQbOevY/mrv7JGGk8OTeIXwuuoS9rDqZl5KRZFsPuEEXI9E9wYeGiFGl4o
-         oYfhSHr7ZdPeHqksiB5pAUAxDHKXqy0mCbMRX4cLP418R5QLPupXqD5CLKhXV4NhHm1/
-         zMT9YZNX7Y0xgYoNljjCIDSgWmr3cZHGMAkes=
+        d=linaro.org; s=google; t=1722681705; x=1723286505; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=X6XfE0wuy/HIDAoO9pP4NYutSvJQFGt1Hra+lGxkJO4=;
+        b=idBS6qZZpRrFktyEkNxKJ2O1rIhtVqdf02d+J9QJ16mrpTO3/LxkQiXXR9buGakS0b
+         IbHZLJfd6JsaeIDCSqkcnEe0kI7B230Sz330uKar7RQfh0VIoawYrR2N50AZBYgp1+OM
+         jIPz7Hf+1aAryySTlj8C+Bc61Y6sUX/VWprGZApClVr46Nz1WrL54Qj6Y6BLFXEIrOgp
+         mxWCeWOwoqhd/nQ1DP7P0phb6Nktoaq47dzy/ISiOK91Hva5JIvwp5K7YKszFJxhZKFE
+         e5X05WirxPT+wWurQo+owOEabvFWqUBU/r4ZXikJZvhcncIgxex5+meNw0nmdy2MEbLB
+         2D7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722642620; x=1723247420;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1722681705; x=1723286505;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=D4XYocTn+pNPWt0L7L14LMVVJ06I8yBBoe1EZGTqQIg=;
-        b=oJyCSDTBfGKz+HgyxR+XJtg1MxsWa0E8inpNot9wPvZ9PDNXh6nU4agU3qHy9puc9D
-         2C73G2sWpaBugOBJQvhEooiGhzAYmNia4UwARCMXxaAIlpmQ59QiioGIr+HEy3d5Xgq+
-         powgut2uyXriuqKBbbuCWdBnwkMkayFwl+Oo55nQkG7Te3BcB5PKa1b/uJVO9eXRlh8b
-         8AO4IVsJbZMjlRV9tpykbDg8Bknsn0eHodjsGbBaWRyyaHxiQYrnu3BQYOjW7PPOPWUw
-         vcaNesmF03/MeQ2Oq/Os2pULJGF/WTe1LhFkp2Uo2NI2YeG9+hbojCVzqH3BVbiw7qF5
-         n8ow==
-X-Gm-Message-State: AOJu0YwaV8mr6QKidncof8TZjoOysiAUaUkoqmpMrRI5flX1dwox7XsA
-	e5HGzeWPz1yE30JiB5a9PQ1fhS/o5/NTR2sAfcUx9TSgRfc8wcJSTFaPwqgQ7A==
-X-Google-Smtp-Source: AGHT+IFuV35DEopal41iDz2o7MrEzXaR2/N5I3z8L/RTuEhAHmh75MLAy2R0IAOqHsk0cSQwfBidpQ==
-X-Received: by 2002:a05:6214:3907:b0:6b5:e8d3:6bf9 with SMTP id 6a1803df08f44-6bb9839253cmr71633366d6.28.1722642620125;
-        Fri, 02 Aug 2024 16:50:20 -0700 (PDT)
-Received: from wilburliny.c.googlers.com (200.234.86.34.bc.googleusercontent.com. [34.86.234.200])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6bb9c7b5b0dsm11231226d6.63.2024.08.02.16.50.19
+        bh=X6XfE0wuy/HIDAoO9pP4NYutSvJQFGt1Hra+lGxkJO4=;
+        b=Js8O18Vbk6mbfPF5/YfuynR2JAblu7YgZ7dActP6Po8fLomMwkvu/XML5gTG/bG4rI
+         TKK2kDeciXb3qi/3bO+b2JdKNA2hNEVJZ6mhMTjr0ZQ0jzjUS4SWCK/7NlKGOgLKkLLe
+         r52FN970TswdRdlFvbVvzQkX/nuh7G8OqdeLmDom+jNGxb6oEBBjktRo3ThZbHJSknWr
+         9BXZ+687Wp2ZfrGmVzHCI2HdIKc2V29/jy0W1BCHR3VDY48f7n6fxWhtGcpUHLzCXP/a
+         RzYYg3SbYP6qI2jAewpQ2EgZ1GDzKq8tpIZMRP2iIcJBAXSL/naJUYqpaKtXjelXF0vd
+         uCbw==
+X-Gm-Message-State: AOJu0YywBBfYvaqwISWgTsylsbgj653hWdYJagQdPnJGBT4Hzak0t/QY
+	lHnGvlcFuGcFykFbruRtO8FAzZHDEIR883EX9HHGSzRMxsuVFgUuzB5qNyDxKqI=
+X-Google-Smtp-Source: AGHT+IF800af46goSmkquETHEPslclS/M3eT6WGABoZvnDas++CS/5VA5nNGupa/GwDs2mHuxpiZKg==
+X-Received: by 2002:a05:6512:1094:b0:52c:df55:e110 with SMTP id 2adb3069b0e04-530bb373806mr5208762e87.12.1722681704438;
+        Sat, 03 Aug 2024 03:41:44 -0700 (PDT)
+Received: from umbar.lan ([192.130.178.91])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7dc9e7feecsm202086366b.176.2024.08.03.03.41.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Aug 2024 16:50:19 -0700 (PDT)
-From: Steven 'Steve' Kendall <skend@chromium.org>
-Date: Fri, 02 Aug 2024 23:50:11 +0000
-Subject: [PATCH] ALSA: hda: Manally set pins to correct HP firmware
- settings
+        Sat, 03 Aug 2024 03:41:43 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH 0/2] ASoC: codecs: warn on unknown codec version
+Date: Sat, 03 Aug 2024 13:41:39 +0300
+Message-Id: <20240803-codec-version-v1-0-bc29baa5e417@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -58,74 +61,53 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240802-hdmi-audio-hp-wrongpins-v1-1-8d8ba10d77f8@chromium.org>
-X-B4-Tracking: v=1; b=H4sIALJwrWYC/x3MTQqAIBBA4avErBswi5CuEi0sx5xFKko/IN09a
- fkt3iuQKTFlmJoCiS7OHHxF1zawOe13QjbVIIUchBISnTkY9Wk4oIt4p+D3yD6jVWoUo1Wm1yv
- UOiay/PzneXnfD2TVcyNpAAAA
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+X-B4-Tracking: v=1; b=H4sIAGQJrmYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDCwNj3eT8lNRk3bLUIpBK3ZQkszQz08QkU8PkVCWgnoKi1LTMCrB50bG
+ 1tQASd7tkXwAAAA==
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Banajit Goswami <bgoswami@quicinc.com>
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Steven 'Steve' Kendall <skend@chromium.org>
-X-Mailer: b4 0.13.0
+ alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=967;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=/keCe+RYTAEof6iY2K+Bnv28/+hoBwjA1/9NQ0Hke4I=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmrglmKnfdtOGxXRACB8UtRgTdRs5sMF7sJRo7w
+ 3EY4ygT+smJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZq4JZgAKCRCLPIo+Aiko
+ 1WG/CACayIklwe1wlfXJJ61EnWlvC8/+TtjBvjCNMmW6IlKA8j+pUQYqOb+lXwgofI8nDEAN7mG
+ nC4IqS1m583hIVeTvOVh+A714w9AgQ1lRSBHIn//0Wo4RXGYOfuPZUuQg+BknlbWx6iE+X14gwN
+ mLSDiebkQtEx5ePwbUl41NGCM3i8XHCssI8Kl9ptHceBty9qD6lwk5XdyTbQn7RbzbeWXk8vVc/
+ 25iTZbVmDW4iIEG37IzqszToAl+A8YkD4xEN5x/F8Yr1wA5+uZyiY8aO9zAPrdlLKtaiDLf1ME2
+ xpy3DXb2xx2u+DNMojPMNf68mgvEShp/c4KgWQNeRq1KjCZC
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 
-In recent HP UEFI firmware (likely v2.15 and above, tested on 2.27),
-these pins are incorrectly set for HDMI/DP audio. Tested on
-HP MP9 G4 Retail System AMS. Pins for the ports set to escalating values
-(0x70, 80, 90) to have differing default associations, though in my
-testing setting all pins to 0x70 also worked as suggested by the first
-link below. Tested audio with two monitors connected via DisplayPort.
+While debugging broken audio issues on some of Qualcomm platforms I
+stumbled upon the kernel not providing the actual error information.
+It prints an error from the wsa_macro driver, but the actual issue is in
+the VA macro driver. Add error message to point to the actual error
+location.
 
-Link: https://forum.manjaro.org/t/intel-cannon-lake-pch-cavs-conexant-cx20632-no-sound-at-hdmi-or-displayport/133494
-Link: https://bbs.archlinux.org/viewtopic.php?id=270523
-Signed-off-by: Steven 'Steve' Kendall <skend@chromium.org>
+va_macro 3370000.codec: Unknown VA Codec version, ID: 00 / 0f / 00
+wsa_macro 3240000.codec: Unsupported Codec version (0)
+
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- sound/pci/hda/patch_hdmi.c | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
+Dmitry Baryshkov (2):
+      ASoC: codecs: lpass-macro: fix version strings returned for 1.x codecs
+      ASoC: codecs: lpass-va-macro: warn on unknown version
 
-diff --git a/sound/pci/hda/patch_hdmi.c b/sound/pci/hda/patch_hdmi.c
-index 707d203ba652..dfcbd41097f8 100644
---- a/sound/pci/hda/patch_hdmi.c
-+++ b/sound/pci/hda/patch_hdmi.c
-@@ -3115,6 +3115,25 @@ static int patch_i915_hsw_hdmi(struct hda_codec *codec)
- 				     enable_silent_stream);
- }
- 
-+static const struct snd_pci_quirk kaby_hdmi_list[] = {
-+	SND_PCI_QUIRK(0x103c, 0x83ef, "HP MP9 G4 Retail System AMS", 1),
-+	{}
-+};
-+
-+static int patch_i915_kaby_hdmi(struct hda_codec *codec)
-+{
-+	const struct snd_pci_quirk *q;
-+
-+	q = snd_pci_quirk_lookup(codec->bus->pci, kaby_hdmi_list);
-+	if (q && q->value) {
-+		/* Recent HP firmware assigns incorrect pins, corrected here */
-+		snd_hda_codec_set_pincfg(codec, 0x05, 0x18560070);
-+		snd_hda_codec_set_pincfg(codec, 0x06, 0x18560080);
-+		snd_hda_codec_set_pincfg(codec, 0x07, 0x18560090);
-+	}
-+	return patch_i915_hsw_hdmi(codec);
-+}
-+
- static int patch_i915_glk_hdmi(struct hda_codec *codec)
- {
- 	/*
-@@ -4620,7 +4639,7 @@ HDA_CODEC_ENTRY(0x80862807, "Haswell HDMI",	patch_i915_hsw_hdmi),
- HDA_CODEC_ENTRY(0x80862808, "Broadwell HDMI",	patch_i915_hsw_hdmi),
- HDA_CODEC_ENTRY(0x80862809, "Skylake HDMI",	patch_i915_hsw_hdmi),
- HDA_CODEC_ENTRY(0x8086280a, "Broxton HDMI",	patch_i915_hsw_hdmi),
--HDA_CODEC_ENTRY(0x8086280b, "Kabylake HDMI",	patch_i915_hsw_hdmi),
-+HDA_CODEC_ENTRY(0x8086280b, "Kabylake HDMI",	patch_i915_kaby_hdmi),
- HDA_CODEC_ENTRY(0x8086280c, "Cannonlake HDMI",	patch_i915_glk_hdmi),
- HDA_CODEC_ENTRY(0x8086280d, "Geminilake HDMI",	patch_i915_glk_hdmi),
- HDA_CODEC_ENTRY(0x8086280f, "Icelake HDMI",	patch_i915_icl_hdmi),
-
+ sound/soc/codecs/lpass-macro-common.h | 6 ++++++
+ sound/soc/codecs/lpass-va-macro.c     | 4 ++++
+ 2 files changed, 10 insertions(+)
 ---
-base-commit: 8400291e289ee6b2bf9779ff1c83a291501f017b
-change-id: 20240802-hdmi-audio-hp-wrongpins-f88606f8d3ab
+base-commit: 668d33c9ff922c4590c58754ab064aaf53c387dd
+change-id: 20240803-codec-version-db6f65ab51ce
 
 Best regards,
 -- 
-Steven 'Steve' Kendall <skend@chromium.org>
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
