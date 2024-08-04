@@ -1,100 +1,56 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from mail-4319.protonmail.ch (mail-4319.protonmail.ch [185.70.43.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93CF73BB32
-	for <linux-sound@vger.kernel.org>; Sun,  4 Aug 2024 14:34:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F0213BB32
+	for <linux-sound@vger.kernel.org>; Sun,  4 Aug 2024 14:37:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722782054; cv=none; b=BVTcErGA9IR8sm4wOe2kcsXs3PpArJT7b8wpAUz+r02oOBBtz1kkh9qVcLj+vCoCskWCWbRNxYNjjkn0beFtk3FQ1E7SwUGMdP0TrZcCa+8DWrkgqupAfKzVFx/Xm09i4sfgo01/nJh3HfwPhu7fWrcJd9k4ublv6Kz2FJwO7qg=
+	t=1722782276; cv=none; b=DDuzK2QXVH2e09ehkT/zKyHS4laOA4cAoEet7/Pk5rSi650wOT6KjYiMmQuBcyp2MczBn3sII4LGjoR+8evvmuLsVqr2XOCAYlpxcdZbbTTnGfweb+yhojBS5AfkRE4Q1EyvkMFoYga2sjj5k8I1pJh0bL0P22vYZcclRwEnKD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722782054; c=relaxed/simple;
-	bh=2lx3g7N36zwl+ThoqCfB7bZOdmmAoxKPpweee5Hr2W4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UYt9Z5Vu8fT1v9E+v3sHkUUbn6dTM45KTNCjLLDZDBXiq2zvb3mFzcvOhz7FFYFFSGWINiLeZmLCkfX13L1ea+C7xNNbQ6AvSDpKYfejssyM/Vm6D1SxgBLJawYWiFnmoiCjYVMDBhbjKzw1fzozcUSpANgxz6RsOuHnsZsQeL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=MJh13q/v; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1722782276; c=relaxed/simple;
+	bh=pXorRA7lrPRwZoEWKAUUzh/78rSwO0jHTLCYz2vam0E=;
+	h=Date:To:From:Subject:Message-ID:MIME-Version:Content-Type; b=AfelDN1P2sLpUfYF/oKbAT9rcipbhUpr5XY8eO/+5CYD/4cJozJ7GwU+lZvM4qW1yFh7iETwP37DHG0qK1GeksxsTSH/yEtfpTVStT+uMe4jOFl2NZqs5qVkaJaErj+0diyl4bNL87Sr+ER9zeVBmwwr/XFMUexDNvaghi0oFf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=WBpPihos; arc=none smtp.client-ip=185.70.43.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="MJh13q/v"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=2lx3
-	g7N36zwl+ThoqCfB7bZOdmmAoxKPpweee5Hr2W4=; b=MJh13q/vmVE2a0vqrBQi
-	+hNRiubSP7c8MJ+S3suTHjV0BvYqaVAfhRvA1XESe4nPonoep/7v18aGCnQKUyd5
-	AMAqPUKluopu3/23u2Z9A0xWOtn8d4mTeCghbKyoTsOBej2zL++hClFpwpmcXiR2
-	xUxSMalKS9E2xG4ZK3bH9nSfarMJD0jwfFEpcN4ESGKL7W0lt12j7DPYpHzWH8+b
-	BmO4uZVLdFGe3642ejEd19Tr5jkHJ5ba+1iVddnGH/ThMllP0fh3vxdHhFqozlG6
-	GAPfZK9hgflqweiRzUNrJVaaeEOcwpQPDue1TOsx+RujOiNS3zU2/kxyyfi0EW0y
-	mw==
-Received: (qmail 1704320 invoked from network); 4 Aug 2024 16:34:07 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 4 Aug 2024 16:34:07 +0200
-X-UD-Smtp-Session: l3s3148p1@dzzsc9weyOVehhtX
-Date: Sun, 4 Aug 2024 16:34:06 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: tiwai@suse.com, broonie@kernel.org, mika.westerberg@linux.intel.com,
-	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org,
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH v2 2/3] i2c: Fix conditional for substituting empty ACPI
- functions
-Message-ID: <Zq-RXoAhH1kZvdRZ@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>, tiwai@suse.com,
-	broonie@kernel.org, mika.westerberg@linux.intel.com,
-	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org,
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-References: <20240802152215.20831-1-rf@opensource.cirrus.com>
- <20240802152215.20831-3-rf@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="WBpPihos"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1722782272; x=1723041472;
+	bh=pXorRA7lrPRwZoEWKAUUzh/78rSwO0jHTLCYz2vam0E=;
+	h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=WBpPihoshZsB88qhyMx40epR3RO0U2AE9RTAPNErCFu1npFSeu/UKox5HgESjmdhS
+	 c/CIGJLwfR5EIN3i0oKzqJRo+ELPEw43jvOMVZxkEih4za/TVkFKX8N1NsL22GcE3N
+	 ePM0zCrN8Q531n2JcQ/OfqrcmcGnv5lfATgHXBMKyw+CqCins83MqNIZEwFhMUh4TO
+	 mGOZqpk5AtDJIdPMAWrankudVkqRJijAF/1bn6RaFS5wfPWLNAIla2G0Hzbm82AiKQ
+	 fun3mQWmamIiju/s73hSBnR9Jm3Cv40wp/bt+wEmyI7+9nm6rzomeS6ODy4r7RhBBU
+	 7Ee8Vi0RRef8A==
+Date: Sun, 04 Aug 2024 14:37:42 +0000
+To: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
+From: David <DavidRLTG@protonmail.com>
+Subject: Soundblaster AE-5 100% Muted on alsamixer every boot!!
+Message-ID: <sK3xSuFdDg19iN_-dje3N1lN2yzFBVc2RnpsXwmPmHu7BgECI9SwTMKunms7BhR4pI0t86xG01OACEjZbIzDXKJAyeVNazB9cCV2vgSTDHI=@protonmail.com>
+Feedback-ID: 35466975:user:proton
+X-Pm-Message-ID: a4acd2fe97c60cdbd87bfa52707faf7af05823a9
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="K5x/eKI0KCQaJbDH"
-Content-Disposition: inline
-In-Reply-To: <20240802152215.20831-3-rf@opensource.cirrus.com>
-
-
---K5x/eKI0KCQaJbDH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 02, 2024 at 04:22:14PM +0100, Richard Fitzgerald wrote:
-> Add IS_ENABLED(CONFIG_I2C) to the conditional around a bunch of ACPI
-> functions.
->=20
-> The conditional around these functions depended only on CONFIG_ACPI.
-> But the functions are implemented in I2C core, so are only present if
-> CONFIG_I2C is enabled.
->=20
-> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+I am on Linux Mint Wilma (22), 64-bit.
+Obviously, I have a Soundblaster AE-5 Sound card
+The issue I am encountering is, well, every boot I have to enter Alsamixer =
+and unmute every channel on my Soundblaster AE-5.
 
-Applied to for-current, thanks!
+alsactl store does nothing, and yes I ran it as superuser.
+Also, I'm on pipewire! I think Wilma comes with it preinstalled.
 
+sudo alsactl store is also temporary, the config is lost at every reboot, a=
+nd doing sudo alsactl restore does nothing.
 
---K5x/eKI0KCQaJbDH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmavkV4ACgkQFA3kzBSg
-Kba8kQ//R2hJFFtxTxAWIj5wBKxOw1RDWxS5D/37YhhcWnBCvMzImW/Dtlt7uoYB
-P9O1xQTLK7B0dxkzDX6glvIg94j46CWLsBTtUzCMu1yBVQK2FojAfxrOfVePSoGR
-FkBTjSAMhG6lJDQcipJGnDG1KdnMi0RJ9Y8FERD1A81YsLIkIDmIIUXPU6kmolsn
-RV1fZARoqLo0BuWwE2xZAv4fAULs2t62Z9LEIHlY//8IJnaCZT256BPU7BNK2tHj
-Rg3pa4U1aKmi8aWtiw2KTTrsTilvZFSvtdpjuePaFXZ+OJdH3JSh46dpajZ9b8qU
-/uEf8tz/O+UwDRvNLDlaTrH3mwjk1ks5D0tx5cXe4kpPhk9b/RXEFkGZiY5+owot
-N5WrNepRptCuJMDdv0XYbF/Hr/c9k9PsTasEkM74bxjJ74NinsMNua9jye8hV7n5
-HKJWiXRCjXMA5cjG+RCpshi5sDu0K3oBgTonKhl1RasqndzwL4mljYGRgkjtabvG
-MiR7lVvmqSwX/xRqKaK5d3tx0f7F6PY8KMJ0a0zVTmC1JwfjQh2CuzGNw8AUxWy/
-l+1sRjuc0lWFtG7YcVPnZenNKxX/yy3raDgpHL+dtJZmoRSqFQj7oapUbhhakf8H
-F+IQ72ohmiUnHz9POIDEr9/aGdtJn6K5B24xl+PIFh8IOlWXMjM=
-=nS/5
------END PGP SIGNATURE-----
-
---K5x/eKI0KCQaJbDH--
+Any ideas for a fix?
