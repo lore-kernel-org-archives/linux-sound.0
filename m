@@ -1,223 +1,149 @@
-Received: from mail-m16.yeah.net (mail-m16.yeah.net [1.95.21.16])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1D2E57323;
-	Sun,  4 Aug 2024 14:46:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=1.95.21.16
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D0F41A92
+	for <linux-sound@vger.kernel.org>; Sun,  4 Aug 2024 15:03:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722782786; cv=none; b=FCyUvfJ4HVyStL5RM9NxrxHsw/mqrrzOo+hWl8haV+FsSdXXFON1YavmCBnmywCCS+BJrJnmPogND9U7IywTMwKF+gyCKlzlfDYJ5vLsAXWXtD/f04x0i2JKYpq2+bYh/MNy6Jhdm5M8HsZ2Dc2/Nl17nZB26YPJRb9i4sUptA0=
+	t=1722783818; cv=none; b=KHbY37an5iFRP2BMgLIk6+9WSCZTH8kSfhjo9mZo4Q0dXK54uRbLZr/7jf8xn/rkO98dyii+8fIE7iB6hNSZatVm9X2u4w+24WFNlf+PmdCDV8SXmqUZfyp18RI34778yOWwji68v/j5zWw+LZlvEaD38CQ59WCian1rL47KqOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722782786; c=relaxed/simple;
-	bh=tr2hvW/r5N6TVdAKZ17CUyY3aWxwTcu2aswf6pSub4E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PHphtNEgGCZ0m3/vzFVnw0FOuG4sTZo/tKPEI/euMW9cGuoyYmOH4hxKfQ+oZs7ySPLPE1TK4sQUCjZ6QlaD05vd3IbS9Z7EcGGBDc7c6acTZ24D8AhwePnUUl0o4DaC3ybVe2mbOMv1FqGEQvihzSO8tCz1WLknMDGdfBp33e0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net; spf=pass smtp.mailfrom=yeah.net; dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b=R4AuMlJc; arc=none smtp.client-ip=1.95.21.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yeah.net
+	s=arc-20240116; t=1722783818; c=relaxed/simple;
+	bh=64fQVaczufE3HS8AgC+4WNqdmfTFZLjyFnUF9JCrBCQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EuHzPWWNoHm9zkec519VMtLDbWrD9xbQ8Uw3pW4yyOaeZLu6PcA6S/EN8EgzN5fec8zD1NohTX7jLsvaHrrSlBskt49QK+yC3+nbXNCZ6gNUflqfuOOx+GRU4d7TD82H9T5fU5JWIn/D3Mm4Kw4Kxoq8ZsKnYSi1XOakJM84iFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BePnZuNN; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b="R4AuMlJc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yeah.net;
-	s=s110527; h=Date:From:Subject:Message-ID:MIME-Version:
-	Content-Type; bh=2Q94fzLl3lSmFdIfJpIE1h4MlKx0ywkHDPte+ksg2FI=;
-	b=R4AuMlJcBZ8UfBtIXyM2Bw2P0p6SKG9SiSYXTbCUoAx4Uznm/YB7hXx/T54ncj
-	kPeOmH53nbbkTVc2XStCCqnT40Ba0qEr0p8NOeTIhknnLGj4w6n08yXI/DULNBgy
-	PEiVC+3Izg70MuT4/Raqr6jpQHlb0UiBjyv5uUvjfdW1k=
-Received: from dragon (unknown [117.62.10.86])
-	by gzsmtp1 (Coremail) with SMTP id Mc8vCgCXnyCvkK9mrxa9AQ--.57464S3;
-	Sun, 04 Aug 2024 22:31:13 +0800 (CST)
-Date: Sun, 4 Aug 2024 22:31:11 +0800
-From: Shawn Guo <shawnguo2@yeah.net>
-To: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
-	linuxppc-dev@lists.ozlabs.org,
-	Philip-Dylan <philip-dylan.gleonec@savoirfairelinux.com>
-Subject: Re: [PATCH v6 6/7] arm64: dts: imx8m: update spdif sound card node
- properties
-Message-ID: <Zq+QrxKFb3U1IEv/@dragon>
-References: <20240627083104.123357-1-elinor.montmasson@savoirfairelinux.com>
- <20240627083104.123357-7-elinor.montmasson@savoirfairelinux.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BePnZuNN"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-530c2e5f4feso1804601e87.0
+        for <linux-sound@vger.kernel.org>; Sun, 04 Aug 2024 08:03:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1722783815; x=1723388615; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=CEwiM67K6TOyUjPbByvDl5BteCRvkr/bmWWcBlwbZ5M=;
+        b=BePnZuNNulffrLMEFWGE2Hzjy64m4HroHTil2zVLTWaooJpRY3cADWtWhvoJLsoJEZ
+         CP+G9yjX1mbDlQruA3vCyFQNX/gkjSwbeWJwu2/TVfU8ivXNU+fk/mN8XLmReo0gws+m
+         Ok/azfLD2LyvHlwQThVQXoex75GyGpHwxXoZM6kYb3k8d2wjhDlZTY8R8YREfaOHZcHH
+         PkYvLAArE1pDS66c9WXVMiD8FNkFuht9XtFAJFP8Qadouad0QZlKpwQjg+IU2juwlPLz
+         RQCL+61jqATJnbP8cr98Zaoqic/MKcPCumHzpx5X8T8c2ViOCsqxOP3E1i3ItacK54Oy
+         74MQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722783815; x=1723388615;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CEwiM67K6TOyUjPbByvDl5BteCRvkr/bmWWcBlwbZ5M=;
+        b=tatMHmsrIKvT6FX9CJLZ+qli7LrGzQnNfQkhjo0YjxK2Q6w2Kt2l5D044fNIvaq1o8
+         LHJCmlIWq7n411bV+y5GubpTaJMyU9/yY4FYIm2zaqTO6zfkjE5I7Z9JWJXrfTNaWH/Q
+         PiNu3NFAtE5cQjda7BXqhdcdlpNrwbHXFgtiS9Yz9DrPTV85kK+EFZRfivUEDFxJkmxn
+         WMcPT4FE4faHSYG87CxtQqffNN1y0zIIfqqMFquvvvLu3T6tjvSB88mclKJCDryMgQJ8
+         3xtvso/cyjUfeld4ylE7f4i//COZoFPnayP1c4ePE4Uab3hSBnK+1ZhcHUzthd0Hi+BR
+         sUbg==
+X-Forwarded-Encrypted: i=1; AJvYcCX544wO60yTyxRA1C6pEXDvwgkybScy13XieJg6SfUWU7/I2vY7+6M45zFCqY0dkbP9FpfIS/Hzm8Jw2JSDhozsl9bVWLbe4phlKY8=
+X-Gm-Message-State: AOJu0YxujU6d2LqtEZE1azHkhXN5Z+khVHGbvmPZy3wDscjzfYuwCHMK
+	95XG3KjSb4qSqcOZn1J8TRtVF8TMDapQfRgzTw2HuiKfhHl77BIQtgGKOc/e2Kc=
+X-Google-Smtp-Source: AGHT+IGneXt1dFxPw+SaUnLoig2VToT62r4amOZ66tPHFqLmbLdAQjfxHZeozGHFzarvcyNU+kSM4g==
+X-Received: by 2002:a05:6512:b29:b0:52c:e047:5c38 with SMTP id 2adb3069b0e04-530bb36e672mr6513893e87.15.1722783815026;
+        Sun, 04 Aug 2024 08:03:35 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.137])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5b83a03b403sm3745364a12.42.2024.08.04.08.03.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 04 Aug 2024 08:03:34 -0700 (PDT)
+Message-ID: <b00f98db-92f3-4fb2-b268-0d94e52d28f4@linaro.org>
+Date: Sun, 4 Aug 2024 17:03:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240627083104.123357-7-elinor.montmasson@savoirfairelinux.com>
-X-CM-TRANSID:Mc8vCgCXnyCvkK9mrxa9AQ--.57464S3
-X-Coremail-Antispam: 1Uf129KBjvJXoWxuryfAryfAFW7Wr45XFW8WFg_yoW7JF47pa
-	1vkFZ7Zr1xG3WIy345XF40v3s3Aa4rGFs09r17try8trs8Zry8twn7Krn5ur4UZr1Sqw4S
-	gF1DZFy8Wrn0qaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jbrcfUUUUU=
-X-CM-SenderInfo: pvkd40hjxrjqh1hdxhhqhw/1tbiEQoxZWavY9tYNAAAsS
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: codecs: lpass-macro: fix missing codec version
+To: Johan Hovold <johan+linaro@kernel.org>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, alsa-devel@alsa-project.org,
+ linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, regressions@lists.linux.dev
+References: <20240729131351.27886-1-johan+linaro@kernel.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240729131351.27886-1-johan+linaro@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jun 27, 2024 at 10:31:03AM +0200, Elinor Montmasson wrote:
-> The merge of imx-spdif driver into fsl-asoc-card brought
-> new DT properties that can be used with the "fsl,imx-audio-spdif"
-> compatible:
-> * The "spdif-controller" property from imx-spdif is named "audio-cpu"
->   in fsl-asoc-card.
-> * fsl-asoc-card uses codecs explicitly declared in DT
->   with "audio-codec".
->   With an S/PDIF, codec drivers spdif_transmitter and
->   spdif_receiver should be used.
->   Driver imx-spdif used instead the dummy codec and a pair of
->   boolean properties, "spdif-in" and "spdif-out".
+On 29/07/2024 15:13, Johan Hovold wrote:
+> Recent changes that started checking the codec version broke audio on
+> the Lenovo ThinkPad X13s:
 > 
-> While backward compatibility is kept to support properties
-> "spdif-controller", "spdif-in" and "spdif-out", using new properties has
-> several benefits:
-> * "audio-cpu" and "audio-codec" are more generic names reflecting
->   that the fsl-asoc-card driver supports multiple hardware.
->   They are properties already used by devices using the
->   fsl-asoc-card driver.
->   They are also similar to properties of simple-card: "cpu" and "codec".
-> * "spdif-in" and "spdif-out" imply the use of the dummy codec in the
->   driver. However, there are already two codec drivers for the S/PDIF,
->   spdif_transmitter and spdif_receiver.
->   It is better to declare S/PDIF Tx and Rx devices in a DT, and then
->   reference them with "audio-codec" than using the dummy codec.
+> 	wsa_macro 3240000.codec: Unsupported Codec version (0)
+> 	wsa_macro 3240000.codec: probe with driver wsa_macro failed with error -22
+> 	rx_macro 3200000.rxmacro: Unsupported Codec version (0)
+> 	rx_macro 3200000.rxmacro: probe with driver rx_macro failed with error -22
 > 
-> For those reasons, this commit updates in-tree DTs to use the new
-> properties:
-> * Rename "spdif-controller" property to "audio-cpu".
-> * Declare S/PDIF transmitter and/or receiver devices, and use them with
->   the "audio-codec" property instead of "spdif-out" and/or "spdif-in".
+> Add the missing codec version to the lookup table so that the codec
+> drivers probe successfully.
 > 
-> These modifications were tested only on an imx8mn-evk board.
+> Note that I'm just assuming that this is a 2.0 codec based on the fact
+> that this device uses the older register layout.
 > 
-> Note that out-of-tree and old DTs are still supported.
-> 
-> Signed-off-by: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
-> ---
->  arch/arm64/boot/dts/freescale/imx8mm-evk.dtsi | 15 +++++++++---
->  arch/arm64/boot/dts/freescale/imx8mn-evk.dtsi | 15 +++++++++---
->  arch/arm64/boot/dts/freescale/imx8mq-evk.dts  | 24 +++++++++++++++----
->  3 files changed, 43 insertions(+), 11 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/freescale/imx8mm-evk.dtsi b/arch/arm64/boot/dts/freescale/imx8mm-evk.dtsi
-> index 90d1901df2b1..348855a41852 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8mm-evk.dtsi
-> +++ b/arch/arm64/boot/dts/freescale/imx8mm-evk.dtsi
-> @@ -180,12 +180,21 @@ cpu {
->  		};
->  	};
->  
-> +	spdif_out: spdif-out {
-> +		#sound-dai-cells = <0>;
-> +		compatible = "linux,spdif-dit";
+> Fixes: 378918d59181 ("ASoC: codecs: lpass-macro: add helpers to get codec version")
+> Fixes: dbacef05898d ("ASoC: codec: lpass-rx-macro: prepare driver to accomdate new codec versions")
+> Fixes: 727de4fbc546 ("ASoC: codecs: lpass-wsa-macro: Correct support for newer v2.5 version")
+> Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
 
-It's recommended that the property list begins with 'compatible'.  Could
-you flip them?
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Shawn
-
-> +	};
-> +
-> +	spdif_in: spdif-in {
-> +		#sound-dai-cells = <0>;
-> +		compatible = "linux,spdif-dir";
-> +	};
-> +
->  	sound-spdif {
->  		compatible = "fsl,imx-audio-spdif";
->  		model = "imx-spdif";
-> -		spdif-controller = <&spdif1>;
-> -		spdif-out;
-> -		spdif-in;
-> +		audio-cpu = <&spdif1>;
-> +		audio-codec = <&spdif_out>, <&spdif_in>;
->  	};
->  };
->  
-> diff --git a/arch/arm64/boot/dts/freescale/imx8mn-evk.dtsi b/arch/arm64/boot/dts/freescale/imx8mn-evk.dtsi
-> index 9e0259ddf4bc..6a47e09703a7 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8mn-evk.dtsi
-> +++ b/arch/arm64/boot/dts/freescale/imx8mn-evk.dtsi
-> @@ -124,12 +124,21 @@ sound-wm8524 {
->  			"Line Out Jack", "LINEVOUTR";
->  	};
->  
-> +	spdif_out: spdif-out {
-> +		#sound-dai-cells = <0>;
-> +		compatible = "linux,spdif-dit";
-> +	};
-> +
-> +	spdif_in: spdif-in {
-> +		#sound-dai-cells = <0>;
-> +		compatible = "linux,spdif-dir";
-> +	};
-> +
->  	sound-spdif {
->  		compatible = "fsl,imx-audio-spdif";
->  		model = "imx-spdif";
-> -		spdif-controller = <&spdif1>;
-> -		spdif-out;
-> -		spdif-in;
-> +		audio-cpu = <&spdif1>;
-> +		audio-codec = <&spdif_out>, <&spdif_in>;
->  	};
->  
->  	sound-micfil {
-> diff --git a/arch/arm64/boot/dts/freescale/imx8mq-evk.dts b/arch/arm64/boot/dts/freescale/imx8mq-evk.dts
-> index 7507548cdb16..b953865f0b46 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8mq-evk.dts
-> +++ b/arch/arm64/boot/dts/freescale/imx8mq-evk.dts
-> @@ -125,19 +125,33 @@ link_codec: simple-audio-card,codec {
->  		};
->  	};
->  
-> +	spdif_out: spdif-out {
-> +		#sound-dai-cells = <0>;
-> +		compatible = "linux,spdif-dit";
-> +	};
-> +
-> +	spdif_in: spdif-in {
-> +		#sound-dai-cells = <0>;
-> +		compatible = "linux,spdif-dir";
-> +	};
-> +
->  	sound-spdif {
->  		compatible = "fsl,imx-audio-spdif";
->  		model = "imx-spdif";
-> -		spdif-controller = <&spdif1>;
-> -		spdif-out;
-> -		spdif-in;
-> +		audio-cpu = <&spdif1>;
-> +		audio-codec = <&spdif_out>, <&spdif_in>;
-> +	};
-> +
-> +	hdmi_arc_in: hdmi-arc-in {
-> +		#sound-dai-cells = <0>;
-> +		compatible = "linux,spdif-dir";
->  	};
->  
->  	sound-hdmi-arc {
->  		compatible = "fsl,imx-audio-spdif";
->  		model = "imx-hdmi-arc";
-> -		spdif-controller = <&spdif2>;
-> -		spdif-in;
-> +		audio-cpu = <&spdif2>;
-> +		audio-codec = <&hdmi_arc_in>;
->  	};
->  };
->  
-> -- 
-> 2.34.1
-> 
+Best regards,
+Krzysztof
 
