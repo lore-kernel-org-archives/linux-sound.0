@@ -1,118 +1,100 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC1C0139CFC
-	for <linux-sound@vger.kernel.org>; Sat,  3 Aug 2024 10:41:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93CF73BB32
+	for <linux-sound@vger.kernel.org>; Sun,  4 Aug 2024 14:34:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722681710; cv=none; b=VBLRGbsjBeKrh/1OEskD2RNfm7ZhqoUiVhbQbGwvH6Vq1ymSClCiouNy4hlbVygC+vXlRmvlgKyvChW7d7Mg1kMqOPrK2ZfBO+PYGUyRZWdGpOFrT7wiEBiWGSgmpo8wSlAnVV01ufldNrKKA3BHM8hBJY2ZZ8Br2weRpz5hd1Y=
+	t=1722782054; cv=none; b=BVTcErGA9IR8sm4wOe2kcsXs3PpArJT7b8wpAUz+r02oOBBtz1kkh9qVcLj+vCoCskWCWbRNxYNjjkn0beFtk3FQ1E7SwUGMdP0TrZcCa+8DWrkgqupAfKzVFx/Xm09i4sfgo01/nJh3HfwPhu7fWrcJd9k4ublv6Kz2FJwO7qg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722681710; c=relaxed/simple;
-	bh=8swDYCKlHMm/RjEDI1jjvRnoWAi33eYa7CllXV/57qw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YknzaN5zdCOmISbStygZOsysibpeklrqH48vyMsx1PCW3JQZloE8YnThZKv8AVsYi4yzu5WD/3uAPa0xXY5ODQyV0hBDHoEEQqW2kNGbRltMkOnmzFJlDz5XKEV80WluEcuOzuSfvvS2GGBRjkqsy2Hs9twj/thlFiNS9iH0x8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=j+cQvfFA; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1722782054; c=relaxed/simple;
+	bh=2lx3g7N36zwl+ThoqCfB7bZOdmmAoxKPpweee5Hr2W4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UYt9Z5Vu8fT1v9E+v3sHkUUbn6dTM45KTNCjLLDZDBXiq2zvb3mFzcvOhz7FFYFFSGWINiLeZmLCkfX13L1ea+C7xNNbQ6AvSDpKYfejssyM/Vm6D1SxgBLJawYWiFnmoiCjYVMDBhbjKzw1fzozcUSpANgxz6RsOuHnsZsQeL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=MJh13q/v; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="j+cQvfFA"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5a167b9df7eso13580989a12.3
-        for <linux-sound@vger.kernel.org>; Sat, 03 Aug 2024 03:41:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1722681707; x=1723286507; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=h2P5CUm71nRXIdibIz1zY1EQPaX8kSIUbjLIcJ8FN4Y=;
-        b=j+cQvfFAKoUJVj/EbdjFfbDZ23FnLF/JmUTZqBzc22AEzxWPZkGMLcR6XzDFUEg07d
-         O9zIzs2j5kUKFy4ZvCjwtu2FehhaDO6I7S7kQzum7SnZLyFJ54MnwaqByrHK6JlcX2ut
-         OMcbjcFjepguGzuQY9dsZ1WCZCQe11ARaLiqGMa4u9RM8CIUXQz4yL0abDTqqzMIqCpz
-         VHTy/TZB0p64pz4w4oJFAS4YWHVLVjPMoHIYJm8D7LejjUNW5W5dLWiA4xD9yWN5yMJP
-         SRyEMFv5jv+FgfFXr43TBzRij5EpBLQsRM/iEN9/w1ClINQnnw/+opu5oOn/Ju08u3OS
-         3sFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722681707; x=1723286507;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=h2P5CUm71nRXIdibIz1zY1EQPaX8kSIUbjLIcJ8FN4Y=;
-        b=UPld4WkkJbMiJ2uvqFMDVnNEzLJoRRkqQsp42D5590xqxhXyZxdz5hvxX4qTjdqeyj
-         q2eg2uNtO9HuzV39X0GQtW+90TPdD3zobG1BGx1CgLPISBsrD0qoibpANAj+Ar27eFA9
-         AfMIJR9ZeHzLtJ+ar8SU8ZH3ZtVhoMPdm5uW7ER9yxDaOqDTTJZyhmawxZS9+CsGYUKo
-         03aDp8PhnBIXRo6izohE4yBxvQmUbQzlxlSuos1pjFtjNJXtyv7TfN4yHBBBf6c4Xp4s
-         v8VW5/SNVB0K2lYFXIKsJQNlfUL4eWOz8qwobnhVus+6ufb600tZzS3EZorsXeaouzO6
-         Llzg==
-X-Gm-Message-State: AOJu0YyFzZ4xXX1FcNufQsdFOWnDyedG31pwzSyAyKNu5/Rm1Eqqyizb
-	rEtUqRzfvC2dMiZpiUzgDwYx3oIfWATi2AnD7vc04nUIEaJB9Kx5zAeHB2w6UYU=
-X-Google-Smtp-Source: AGHT+IGx8JIglmqEtvVOloITy2p1V5U6PesAEG1DHceXHVPF+dkLXz1ocl5KFlVXTMxUWNwK3835aA==
-X-Received: by 2002:a17:907:6093:b0:a7a:a7b8:ada7 with SMTP id a640c23a62f3a-a7dc4df97f8mr402428566b.24.1722681706827;
-        Sat, 03 Aug 2024 03:41:46 -0700 (PDT)
-Received: from umbar.lan ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7dc9e7feecsm202086366b.176.2024.08.03.03.41.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Aug 2024 03:41:46 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 03 Aug 2024 13:41:41 +0300
-Subject: [PATCH 2/2] ASoC: codecs: lpass-va-macro: warn on unknown version
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="MJh13q/v"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=2lx3
+	g7N36zwl+ThoqCfB7bZOdmmAoxKPpweee5Hr2W4=; b=MJh13q/vmVE2a0vqrBQi
+	+hNRiubSP7c8MJ+S3suTHjV0BvYqaVAfhRvA1XESe4nPonoep/7v18aGCnQKUyd5
+	AMAqPUKluopu3/23u2Z9A0xWOtn8d4mTeCghbKyoTsOBej2zL++hClFpwpmcXiR2
+	xUxSMalKS9E2xG4ZK3bH9nSfarMJD0jwfFEpcN4ESGKL7W0lt12j7DPYpHzWH8+b
+	BmO4uZVLdFGe3642ejEd19Tr5jkHJ5ba+1iVddnGH/ThMllP0fh3vxdHhFqozlG6
+	GAPfZK9hgflqweiRzUNrJVaaeEOcwpQPDue1TOsx+RujOiNS3zU2/kxyyfi0EW0y
+	mw==
+Received: (qmail 1704320 invoked from network); 4 Aug 2024 16:34:07 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 4 Aug 2024 16:34:07 +0200
+X-UD-Smtp-Session: l3s3148p1@dzzsc9weyOVehhtX
+Date: Sun, 4 Aug 2024 16:34:06 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: tiwai@suse.com, broonie@kernel.org, mika.westerberg@linux.intel.com,
+	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org,
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH v2 2/3] i2c: Fix conditional for substituting empty ACPI
+ functions
+Message-ID: <Zq-RXoAhH1kZvdRZ@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>, tiwai@suse.com,
+	broonie@kernel.org, mika.westerberg@linux.intel.com,
+	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org,
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com
+References: <20240802152215.20831-1-rf@opensource.cirrus.com>
+ <20240802152215.20831-3-rf@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240803-codec-version-v1-2-bc29baa5e417@linaro.org>
-References: <20240803-codec-version-v1-0-bc29baa5e417@linaro.org>
-In-Reply-To: <20240803-codec-version-v1-0-bc29baa5e417@linaro.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Banajit Goswami <bgoswami@quicinc.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1126;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=8swDYCKlHMm/RjEDI1jjvRnoWAi33eYa7CllXV/57qw=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmrglnQf2eSPxhCPoW50YyCE1b+UmchLkcoNa1+
- dvwTlj910+JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZq4JZwAKCRCLPIo+Aiko
- 1VfsCACUeTsaUC8cUzv19Lh7pPQnhShgpW6Nj2314n5dvpeCHe4zpggfLbi8sxpB6rdB/mz6e9H
- ILm68xJuIZXE+HtM5m0JwHucNwU7sNeTWqPL/vhcgNKyH4jZeoyAHwMYutMqkeXoIuspg36KcU4
- nMqEIszCdROdPeJ7pzaXs7pP05lW67SDv9bJi6u4YTCPIJuhlMVcpEl7nEWKHJ8xbRsDghHhf0T
- sQM/WWIddmjWKwEG298mvWjM6wsDDjfMLlSMkmH65C+EZctbnxD+EijiFMdjHhpRN6wJ0qUDUMr
- OhV4HE4+/VdZBtnQLKlXKDH9paR4HGoCR8FGMNvgSJPsfQxN
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="K5x/eKI0KCQaJbDH"
+Content-Disposition: inline
+In-Reply-To: <20240802152215.20831-3-rf@opensource.cirrus.com>
 
-Warn the users if the driver doesn't know the codec version. This helps
-in debugging the issues with other codec not detecting the correct
-version.
 
-va_macro 3370000.codec: Unknown VA Codec version, ID: 00 / 0f / 00
+--K5x/eKI0KCQaJbDH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- sound/soc/codecs/lpass-va-macro.c | 4 ++++
- 1 file changed, 4 insertions(+)
+On Fri, Aug 02, 2024 at 04:22:14PM +0100, Richard Fitzgerald wrote:
+> Add IS_ENABLED(CONFIG_I2C) to the conditional around a bunch of ACPI
+> functions.
+>=20
+> The conditional around these functions depended only on CONFIG_ACPI.
+> But the functions are implemented in I2C core, so are only present if
+> CONFIG_I2C is enabled.
+>=20
+> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
 
-diff --git a/sound/soc/codecs/lpass-va-macro.c b/sound/soc/codecs/lpass-va-macro.c
-index b852cc7ffad9..cdc090418d74 100644
---- a/sound/soc/codecs/lpass-va-macro.c
-+++ b/sound/soc/codecs/lpass-va-macro.c
-@@ -1483,6 +1483,10 @@ static void va_macro_set_lpass_codec_version(struct va_macro *va)
- 	if ((core_id_0 == 0x02) && (core_id_1 == 0x0F) && (core_id_2 == 0x80 || core_id_2 == 0x81))
- 		version = LPASS_CODEC_VERSION_2_8;
- 
-+	if (version == LPASS_CODEC_VERSION_UNKNOWN)
-+		dev_warn(va->dev, "Unknown Codec version, ID: %02x / %02x / %02x\n",
-+			 core_id_0, core_id_1, core_id_2);
-+
- 	lpass_macro_set_codec_version(version);
- 
- 	dev_dbg(va->dev, "LPASS Codec Version %s\n", lpass_macro_get_codec_version_string(version));
+Applied to for-current, thanks!
 
--- 
-2.39.2
 
+--K5x/eKI0KCQaJbDH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmavkV4ACgkQFA3kzBSg
+Kba8kQ//R2hJFFtxTxAWIj5wBKxOw1RDWxS5D/37YhhcWnBCvMzImW/Dtlt7uoYB
+P9O1xQTLK7B0dxkzDX6glvIg94j46CWLsBTtUzCMu1yBVQK2FojAfxrOfVePSoGR
+FkBTjSAMhG6lJDQcipJGnDG1KdnMi0RJ9Y8FERD1A81YsLIkIDmIIUXPU6kmolsn
+RV1fZARoqLo0BuWwE2xZAv4fAULs2t62Z9LEIHlY//8IJnaCZT256BPU7BNK2tHj
+Rg3pa4U1aKmi8aWtiw2KTTrsTilvZFSvtdpjuePaFXZ+OJdH3JSh46dpajZ9b8qU
+/uEf8tz/O+UwDRvNLDlaTrH3mwjk1ks5D0tx5cXe4kpPhk9b/RXEFkGZiY5+owot
+N5WrNepRptCuJMDdv0XYbF/Hr/c9k9PsTasEkM74bxjJ74NinsMNua9jye8hV7n5
+HKJWiXRCjXMA5cjG+RCpshi5sDu0K3oBgTonKhl1RasqndzwL4mljYGRgkjtabvG
+MiR7lVvmqSwX/xRqKaK5d3tx0f7F6PY8KMJ0a0zVTmC1JwfjQh2CuzGNw8AUxWy/
+l+1sRjuc0lWFtG7YcVPnZenNKxX/yy3raDgpHL+dtJZmoRSqFQj7oapUbhhakf8H
+F+IQ72ohmiUnHz9POIDEr9/aGdtJn6K5B24xl+PIFh8IOlWXMjM=
+=nS/5
+-----END PGP SIGNATURE-----
+
+--K5x/eKI0KCQaJbDH--
