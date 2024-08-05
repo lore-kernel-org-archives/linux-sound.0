@@ -1,197 +1,99 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E85A213AA36;
-	Mon,  5 Aug 2024 14:08:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4D6C44C6C;
+	Mon,  5 Aug 2024 15:28:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722866928; cv=none; b=ZHzxHQL9qDqZKpuFFKFAzIHqSRKmldw8inZCt4y78OYp24RN5FeQiWr/LkIrCiPan2fpJb4gZ1kPp1Mgdt4AJ1spl0LPWXgikvgd16GJXA840jJG9T6eCx2ki/G960UhGANihe5VC30k1PZVBNawPJY6SeyLdMiLCFDuqUq7qQA=
+	t=1722871739; cv=none; b=DUjLYx2ptylZO5JwrX2InbPTertz+Bde1u1bbFKc3uVrXsj6Y53Wk5PfHwnJ7I8hrVjlxVixzmkYX1TRtZnS1V+rEUtzo+aa3nfreiw4luwOZQDCqo8uAiG1C+weJ/enCVB3DuUZXabrfrw9IgfMXeC+oVVyitmYPXoB4rcT2TE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722866928; c=relaxed/simple;
-	bh=3XDOoBApCAGlDBSUQ/sssCkZjwHNUxmgYDcy/DjrxVw=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uxUQJWJCS2YPwcyxgoQRs71qkdo2daemHoK7CJq5IhGiVPY0xxJ6BXa1v2kWTYofH7DhsImmZoj8mkd5cKmdWCLax19bHwsV2AWNSwWj/8e/CH9027pt4ePz0uKpn7OQmYK3DSgqTHD4rDtgi+K1HwjmY1x4P8YcRvBxmbIq/sw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=EY1cPy+8; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1722871739; c=relaxed/simple;
+	bh=9ceTR3FS3YsE/s7IKyWm602O6C7rxBh8abM34OAH5+E=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=aaUtrfe+sPdJRjZj3Cjuf7M4I6svdDr/unkrYzgDmbJIfBI5qX4Hto5wZSPmGlhuRnGVuMtelgEHQsnbKol0Wn/MrhywhpsIG7y5CC3ft3lK3gbzQgDtGql6ByGrPQjVCfyAX05jRiofP2yVQocMxA4rQr6AbW/U6iPE0jk83f8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pXyzu3Js; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="EY1cPy+8"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4755WG4w021667;
-	Mon, 5 Aug 2024 09:08:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=0LiVHQUoQpbmKSVh
-	TQZjFLh3wJkOnEZu3YG/U0vC4YE=; b=EY1cPy+8jx/uP/2HjVekt6U4/pW+fTcp
-	MNdrMpF6diD+U6b1Sltk/IB6v8GUeHnSkM8xFL0741X2NDpBgRraLbk216zkqJKd
-	047YbGh8XfdGus1Dtq/MlW4Ny1+ze4cBklpBlcj2L42kry3Zd376Gcr0TUurfvBA
-	P78RAaenOLCRB4vMEheve81rHvdab/Ezw0Rso/5U7Pghp6qB9uuxOGl1JHk2wWhu
-	VliqwwET1tmh7E4yc/O4ksLkzanYHcEZwtya8SF+eU2aVWxtT4iNg+I3pjcOK127
-	Qj40VwExrvb2yHAqoODriu6RHgZzCCK7Tqv2FBQkZMJ0EpghiGxoIA==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 40shxx1vcx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 05 Aug 2024 09:08:43 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 5 Aug 2024
- 15:08:41 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Mon, 5 Aug 2024 15:08:41 +0100
-Received: from EDIN4L06LR3.ad.cirrus.com (EDIN4L06LR3.ad.cirrus.com [198.61.68.170])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 5DF45820244;
-	Mon,  5 Aug 2024 14:08:41 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: <broonie@kernel.org>
-CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <patches@opensource.cirrus.com>,
-        Richard Fitzgerald
-	<rf@opensource.cirrus.com>
-Subject: [PATCH] ASoC: cs35l56: Handle OTP read latency over SoundWire
-Date: Mon, 5 Aug 2024 15:08:39 +0100
-Message-ID: <20240805140839.26042-1-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pXyzu3Js"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE53FC32782;
+	Mon,  5 Aug 2024 15:28:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722871739;
+	bh=9ceTR3FS3YsE/s7IKyWm602O6C7rxBh8abM34OAH5+E=;
+	h=Date:From:To:Cc:Subject:From;
+	b=pXyzu3JsU4tzt6EEi+BUFNppuNT1yAYgV0M3I61GlrwZqPF2RPlCByNk43gSsem85
+	 ZW0AHzZI3U7CyVYyDdrK130kuAJO/xBGOwIz4j7L8/aC5AxzLXkW3PcVpkVUccdf/F
+	 emHXm0p0xoA8Q0S5Z8uBtXk3g2w8XPL4Ip3BT4HARSekiiC8KYk6kO4psx6rsCUdE6
+	 iIaPzWNJ65mbudc7va3LXVAEkpcLTjW1qezkB0+6cGtvieoutvOBaFW/ghgRnFpmdS
+	 teUG/8QY62/xm1Ft/ufys4kcQMWqIC3zOQA9EVa55S3QlNm05mdwdUU61GSNxkq8v3
+	 lVB8NZhg7wW5A==
+Date: Mon, 5 Aug 2024 09:28:55 -0600
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH][next] ASoC: SOF: sof-audio: Avoid
+ -Wflex-array-member-not-at-end warnings
+Message-ID: <ZrDvt6eyeFyajq6l@cute>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: IM7KC8jdvoqxcKRwwqvSQO_YHmI_PQDd
-X-Proofpoint-ORIG-GUID: IM7KC8jdvoqxcKRwwqvSQO_YHmI_PQDd
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Use the late-read buffer in the CS35L56 SoundWire interface to
-read OTP memory.
+-Wflex-array-member-not-at-end was introduced in GCC-14, and we are
+getting ready to enable it, globally.
 
-The OTP memory has a longer access latency than chip registers
-and cannot guarantee to return the data value in the SoundWire
-control response if the bus clock is >4.8 MHz. The Cirrus
-SoundWire peripheral IP exposes the bridge-to-bus read buffer
-and status bits. For a read from OTP the bridge status bits are
-polled to wait for the OTP data to be loaded into the read buffer
-and the data is then read from there.
+Move the conflicting declaration to the end of the structure. Notice
+that `struct snd_sof_pcm` ends in a flexible-array member through
+`struct snd_soc_tplg_pcm` -> `struct snd_soc_tplg_private`.
 
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-Fixes: e1830f66f6c6 ("ASoC: cs35l56: Add helper functions for amp calibration")
+Whith this, fix the following warnings:
+sound/soc/sof/sof-audio.h:350:33: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+./include/trace/events/../../../sound/soc/sof/sof-audio.h:350:33: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+sound/soc/amd/../sof/amd/../sof-audio.h:350:33: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+sound/soc/sof/amd/../sof-audio.h:350:33: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+sound/soc/sof/intel/../sof-audio.h:350:33: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+sound/soc/sof/mediatek/mt8186/../../sof-audio.h:350:33: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+sound/soc/sof/mediatek/mt8195/../../sof-audio.h:350:33: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 ---
- include/sound/cs35l56.h        |  5 +++
- sound/soc/codecs/cs35l56-sdw.c | 77 ++++++++++++++++++++++++++++++++++
- 2 files changed, 82 insertions(+)
+ sound/soc/sof/sof-audio.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/include/sound/cs35l56.h b/include/sound/cs35l56.h
-index a6aa112e5741..a51acefa785f 100644
---- a/include/sound/cs35l56.h
-+++ b/include/sound/cs35l56.h
-@@ -277,6 +277,11 @@ static inline int cs35l56_force_sync_asp1_registers_from_cache(struct cs35l56_ba
- 	return 0;
- }
+diff --git a/sound/soc/sof/sof-audio.h b/sound/soc/sof/sof-audio.h
+index 49be02234fc3..4967dd3cf3f5 100644
+--- a/sound/soc/sof/sof-audio.h
++++ b/sound/soc/sof/sof-audio.h
+@@ -347,12 +347,14 @@ struct snd_sof_pcm_stream {
+ /* ALSA SOF PCM device */
+ struct snd_sof_pcm {
+ 	struct snd_soc_component *scomp;
+-	struct snd_soc_tplg_pcm pcm;
+ 	struct snd_sof_pcm_stream stream[2];
+ 	struct list_head list;	/* list in sdev pcm list */
+ 	struct snd_pcm_hw_params params[2];
+ 	bool prepared[2]; /* PCM_PARAMS set successfully */
+ 	bool pending_stop[2]; /* only used if (!pcm_ops->platform_stop_during_hw_free) */
++
++	/* Must be last - ends in a flex-array member. */
++	struct snd_soc_tplg_pcm pcm;
+ };
  
-+static inline bool cs35l56_is_otp_register(unsigned int reg)
-+{
-+	return (reg >> 16) == 3;
-+}
-+
- extern struct regmap_config cs35l56_regmap_i2c;
- extern struct regmap_config cs35l56_regmap_spi;
- extern struct regmap_config cs35l56_regmap_sdw;
-diff --git a/sound/soc/codecs/cs35l56-sdw.c b/sound/soc/codecs/cs35l56-sdw.c
-index fc03bb7ecae1..7c9a17fe2195 100644
---- a/sound/soc/codecs/cs35l56-sdw.c
-+++ b/sound/soc/codecs/cs35l56-sdw.c
-@@ -23,6 +23,79 @@
- /* Register addresses are offset when sent over SoundWire */
- #define CS35L56_SDW_ADDR_OFFSET		0x8000
- 
-+/* Cirrus bus bridge registers */
-+#define CS35L56_SDW_MEM_ACCESS_STATUS	0xd0
-+#define CS35L56_SDW_MEM_READ_DATA	0xd8
-+
-+#define CS35L56_SDW_LAST_LATE		BIT(3)
-+#define CS35L56_SDW_CMD_IN_PROGRESS	BIT(2)
-+#define CS35L56_SDW_RDATA_RDY		BIT(0)
-+
-+#define CS35L56_LATE_READ_POLL_US	10
-+#define CS35L56_LATE_READ_TIMEOUT_US	1000
-+
-+static int cs35l56_sdw_poll_mem_status(struct sdw_slave *peripheral,
-+				       unsigned int mask,
-+				       unsigned int match)
-+{
-+	int ret, val;
-+
-+	ret = read_poll_timeout(sdw_read_no_pm, val,
-+				(val < 0) || ((val & mask) == match),
-+				CS35L56_LATE_READ_POLL_US, CS35L56_LATE_READ_TIMEOUT_US,
-+				false, peripheral, CS35L56_SDW_MEM_ACCESS_STATUS);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (val < 0)
-+		return val;
-+
-+	return 0;
-+}
-+
-+static int cs35l56_sdw_slow_read(struct sdw_slave *peripheral, unsigned int reg,
-+				 u8 *buf, size_t val_size)
-+{
-+	int ret, i;
-+
-+	reg += CS35L56_SDW_ADDR_OFFSET;
-+
-+	for (i = 0; i < val_size; i += sizeof(u32)) {
-+		/* Poll for bus bridge idle */
-+		ret = cs35l56_sdw_poll_mem_status(peripheral,
-+						  CS35L56_SDW_CMD_IN_PROGRESS,
-+						  0);
-+		if (ret < 0) {
-+			dev_err(&peripheral->dev, "!CMD_IN_PROGRESS fail: %d\n", ret);
-+			return ret;
-+		}
-+
-+		/* Reading LSByte triggers read of register to holding buffer */
-+		sdw_read_no_pm(peripheral, reg + i);
-+
-+		/* Wait for data available */
-+		ret = cs35l56_sdw_poll_mem_status(peripheral,
-+						  CS35L56_SDW_RDATA_RDY,
-+						  CS35L56_SDW_RDATA_RDY);
-+		if (ret < 0) {
-+			dev_err(&peripheral->dev, "RDATA_RDY fail: %d\n", ret);
-+			return ret;
-+		}
-+
-+		/* Read data from buffer */
-+		ret = sdw_nread_no_pm(peripheral, CS35L56_SDW_MEM_READ_DATA,
-+				      sizeof(u32), &buf[i]);
-+		if (ret) {
-+			dev_err(&peripheral->dev, "Late read @%#x failed: %d\n", reg + i, ret);
-+			return ret;
-+		}
-+
-+		swab32s((u32 *)&buf[i]);
-+	}
-+
-+	return 0;
-+}
-+
- static int cs35l56_sdw_read_one(struct sdw_slave *peripheral, unsigned int reg, void *buf)
- {
- 	int ret;
-@@ -48,6 +121,10 @@ static int cs35l56_sdw_read(void *context, const void *reg_buf,
- 	int ret;
- 
- 	reg = le32_to_cpu(*(const __le32 *)reg_buf);
-+
-+	if (cs35l56_is_otp_register(reg))
-+		return cs35l56_sdw_slow_read(peripheral, reg, buf8, val_size);
-+
- 	reg += CS35L56_SDW_ADDR_OFFSET;
- 
- 	if (val_size == 4)
+ struct snd_sof_led_control {
 -- 
-2.39.2
+2.34.1
 
