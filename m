@@ -1,371 +1,262 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 826E53CF5E;
-	Mon,  5 Aug 2024 15:53:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3D632AD13
+	for <linux-sound@vger.kernel.org>; Mon,  5 Aug 2024 16:07:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722873184; cv=none; b=cQbGrUiXxKCJrlrt0s8lhC97wpCvEvgWnigvSpG9xHSciQ4WikeSaLGHmCnwRbWUvnA2tCYsN6RMFO4gtH96CERo8TbbE9SqsY0OCWL/K7UFbHlAM6mMi3xPGUT5QyAqBcpbGc0Vtr13frIRx89/E3ys0qObzbSdnVPDwN1htM0=
+	t=1722874054; cv=none; b=lHa13uaakqwbTsoYWjMbaTcZ8afgQMbCZmOqgCHqVziGbUkGj87V1o1+QlHKbA+jnvWMj+jpJKkOk/x5vN1eM9NACFwFzReuBXRBhvXL/UXfeyOFLTJkGAIu9vcYwLi0SqcOF8pN09TkZ/4h3pqvuGJyTGbGjzzRYj2iOYxAOJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722873184; c=relaxed/simple;
-	bh=OeL22E/KXmQ82MAYYQh1u09OhI8MXN/L0x8aTvEVZHQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MfRxylsN3VJn8Gg2T3rGLd4m+b21f/t+2AViKyY/11pN/neg625lb1UYmzP5jFNczs7czXcq1LCvHIndNSTK648sycBexJN5XOzasorFIwNpNT5WJ/WWuLVFXUFB/dTtBydh24kusIY5qfHD8XJw+bDCsXk9JZ/xV1CWAXfEAgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bxjy06t/; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1722874054; c=relaxed/simple;
+	bh=o0quoQ7ppGWq3Zo/T52ZVjVGnd+dV4B7L5rUpE1A9pI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=qnjGTQHmv/ZdYjpQ1JqbR+d+oAqqp0BO1PAeFLLVliNaGoHD+52qiVeK32wHBOJILuz3H00iA548yY/D1SVLwBDlRo70mOHNauoQ0eiCDddZnzGjj2ssfUD+5PyAI0m5/Plj1UnfEILJwMHsvQc3cg23y4EnVevw7q6CLZzYyAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=PBeBn37k; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bxjy06t/"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1fd9e6189d5so84375335ad.3;
-        Mon, 05 Aug 2024 08:53:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="PBeBn37k"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4280b3a7efaso73878905e9.0
+        for <linux-sound@vger.kernel.org>; Mon, 05 Aug 2024 09:07:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722873182; x=1723477982; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Exxr9ZKCMR26O37xzhkua2Zgj/OpQR6qjUogB6VNG44=;
-        b=bxjy06t/CmC3c4zosIK65wCyz+euOsJk5wOtAmcN4oOU9t53NRV+u2E9JUajfNYmxa
-         2UXHXk4tlJFXv68JUNO+zw3Xeykxy/b44R/HNRWOEKTwPMESsHuWKLh5LaSdfoE0B+ia
-         /Glko0PKJTzbOTL28Ewt/xbU31gUYS+O3RUTW6gWvCXl4O0iSsNCUfREiO9HFWZ+eArR
-         CdLXcYXvAorUAUSjsz2wXNfM4B3TN1XLqehOli2RZ+v0Ahu7lhyP6lgRKOYjeW+WI3UY
-         VOzUOKh86f4VRgWCY0mRpPFc4jXMc40+UdBaG2QnJurfAsGcKheRiyeanHRkpyybtfwy
-         eHlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722873182; x=1723477982;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1722874050; x=1723478850; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Exxr9ZKCMR26O37xzhkua2Zgj/OpQR6qjUogB6VNG44=;
-        b=vXvu0OZvwcQNhfZb7RTKC2rmvqL0Gp3YQ5xpVFEP8tDnXKUpP7198zNtwNPNGqlAAI
-         Qh+r3wY7sk9nmilN6AulcjnxCUVpYeuI5N0ipiQv37x2lXf0WSu1i0KEVS5v9u6lA+Qk
-         nosmic1oK6SYCDH/hJLBz53EBZt1X21m8Pi/RL4Kp6O1d1FobV3oC8gXIp866NJ09KtV
-         2YmftaqTSli6Ji0HzWbDy0a1a3zH50kjZGMwzZxYhvKR/BF+vII7xHNjM1dxsCxvFHnu
-         1ywcvrB8GGdXeE6sliUZMIBAJ2s81vfb3fr/pA9dbY/LKrpL0igWHYN5aXUp5hh/V9dq
-         wMNw==
-X-Forwarded-Encrypted: i=1; AJvYcCX9oowgd7o8Jdf4YdBNJ0I55lKjPCijgESEz4AmzFcyht/lyxfDT1jRQfkB/Mn7wqo7fZ/26hQ2LUiyuMNamJmPKl08cD2jMBIQ9KkKo9dcNnF1eivWSlyBfzTNbfiiJKGo94XlUrcfZjE=
-X-Gm-Message-State: AOJu0Yz7Kxo3WpU4orF9LBVnLHCMRJQpJYbg8gWWlsm8r5yxQoVPJTYC
-	ZI1MIkEREHVgCGmU/R9cj7eoq0yfmvvrz51ij9jqKS9u0TbShcDe
-X-Google-Smtp-Source: AGHT+IEdJ+tzVMwuAuEgGleilvj4BLgv+tkS7bWC+VW5HR4lKxwc3SudV36tsF8Xd6dXqa2WuNgpAQ==
-X-Received: by 2002:a17:902:e5c3:b0:1fc:5319:8c7d with SMTP id d9443c01a7336-1ff574dfd29mr139067605ad.61.1722873181430;
-        Mon, 05 Aug 2024 08:53:01 -0700 (PDT)
-Received: from embed-PC.. ([122.169.160.8])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ff58f272f0sm69802055ad.4.2024.08.05.08.52.58
+        bh=mLnycLNpcQG5GUSmWzuFCsE23qxX0cM+qsqCFWzhcF4=;
+        b=PBeBn37kWCyHYnxwLi8feiqn5pUULotJFTZbgj0WrxoRIZdKR2BAlVZPkWZBONWy0C
+         5a5eSEhTprb1RznVSvhYNVIEVqW9PBtQJJ04QGG9Zk2ZCb9lhUdghfbUf/nSYvjPRXiW
+         L0DZSVVMYA+Fx5B9rme1c7b1KokhhaPMYE1lIJHcUXZf+VNiONHl6p9sDFlRt7fq/1Sr
+         ilYuWyUJ8hOi/JX+bN7V0TzOEuckI9gUiJhQ9WHzTyxMA66D9yCC2zi/oU07TP0mjqiA
+         lQji2klq+hBFWVqtOYiXWiP9CS0DlJhqXzFkDl/NaMzW5xz5LqLrFWTWQExoMTfY/TEY
+         UJew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722874050; x=1723478850;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mLnycLNpcQG5GUSmWzuFCsE23qxX0cM+qsqCFWzhcF4=;
+        b=kuKKCgayEcvehMVu+P16N5KZIP9SXW1HrgUvMDV81dPrwAMgj2dpbxl+nbObAg4k2S
+         sjMq82qW7RuKIPu58pL+OsnyQA1RBjsYPKRSMOyD4T8jrK2+EbTc4b3MwiCaZy6sAAiu
+         V1cNjot+60tev4ArtRHJRFhSngscZPnA5EGo38jVz6UP5mg4xmnq0X0S/FR4tKomUor9
+         401nqNeIRaF2BGSPJm2Gglo4YCXj5lsf3tuvkksGPYmqyY9pzOl8UC/bux8SAnXeq6tb
+         JLqYuo3057K1hFK0EkN9UQXCt9KZnN1u7YUv/CJ0RHw2TwzmS/vCqk3X6x4O+s7aBcH6
+         Au2A==
+X-Forwarded-Encrypted: i=1; AJvYcCUjftgff1Ie9ZP9VeMmmHc38bKAzab1a6BEX4uia/D1yGfeeS5KGM9A0lEiGtfP6ryE9GMEGyOLr8ZuK9nXdlBul4PXPHcJ9xojrMQ=
+X-Gm-Message-State: AOJu0YynpW58y91obR22qv+zx+LZiUqQPQZjiwSSu6I4coMVnHs/3ahl
+	65MuARiIQtUK94ZAry9J8vW9Q/shx1x8yBf6GWZalMB24yULWk/UwXlVgZMhEpo=
+X-Google-Smtp-Source: AGHT+IF7E+JH5oT9xq8G5w8s8h2rAblTnJFziKMkgTgJWNnfhajr1VdmMfvwoBX7+IWMhH58JY1aHw==
+X-Received: by 2002:a05:600c:a04:b0:426:6ea8:5037 with SMTP id 5b1f17b1804b1-428e6b93136mr74516395e9.37.1722874049736;
+        Mon, 05 Aug 2024 09:07:29 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:e06c:bc48:dc7f:827a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36bbd169697sm10229385f8f.107.2024.08.05.09.07.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Aug 2024 08:53:01 -0700 (PDT)
-From: Abhishek Tamboli <abhishektamboli9@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: oswald.buddenhagen@gmx.de,
-	skhan@linuxfoundation.org,
-	rbmarliere@gmail.com,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: emu10k1: Fix coding style issues and warnings
-Date: Mon,  5 Aug 2024 21:22:06 +0530
-Message-Id: <20240805155206.463035-1-abhishektamboli9@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Mon, 05 Aug 2024 09:07:29 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Mark Brown <broonie@kernel.org>,  linux-rt-users@vger.kernel.org,
+  Arseniy Krasnov <avkrasnov@salutedevices.com>,  Liam Girdwood
+ <lgirdwood@gmail.com>,  Jaroslav Kysela <perex@perex.cz>,  Takashi Iwai
+ <tiwai@suse.com>,  Neil Armstrong <neil.armstrong@linaro.org>,  Kevin
+ Hilman <khilman@baylibre.com>,  Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>,  alsa-devel@alsa-project.org,
+  linux-sound@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
+  linux-amlogic@lists.infradead.org,  linux-kernel@vger.kernel.org,
+  kernel@sberdevices.ru,  oxffffaa@gmail.com,  Thomas Gleixner
+ <tglx@linutronix.de>
+Subject: Re: [PATCH v1] ASoC: meson: axg-fifo: set option to use raw spinlock
+In-Reply-To: <20240805153309.k_SfHw62@linutronix.de> (Sebastian Andrzej
+	Siewior's message of "Mon, 5 Aug 2024 17:33:09 +0200")
+References: <20240729131652.3012327-1-avkrasnov@salutedevices.com>
+	<1ja5i0wags.fsf@starbuckisacylon.baylibre.com>
+	<2b16b95e-196e-4d8a-98c3-3be568cdd18a@sirena.org.uk>
+	<1j5xsow839.fsf@starbuckisacylon.baylibre.com>
+	<7dfdade5-3a57-4883-bfac-067c50ec0ffb@sirena.org.uk>
+	<1j1q3cw5ri.fsf@starbuckisacylon.baylibre.com>
+	<20240805153309.k_SfHw62@linutronix.de>
+Date: Mon, 05 Aug 2024 18:07:28 +0200
+Message-ID: <1jplqnuf5r.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Fix coding style errors and warnings in sound/pci/emu10k1/memory.c
-reported by checkpatch.pl. Changes includes:
+On Mon 05 Aug 2024 at 17:33, Sebastian Andrzej Siewior <bigeasy@linutronix.=
+de> wrote:
 
-- Add spaces after commas in macro definitions.
-- Insert blank lines after variable declarations.
-- Consistent spacing around operators.
-- Remove trailing whitespace.
-- Move EXPORT_SYMBOL declarations to immediately follow their
-  respective functions.
-- Correct spacing in conditional statements and type casts.
+> On 2024-07-29 17:57:05 [+0200], Jerome Brunet wrote:
+>> On Mon 29 Jul 2024 at 16:28, Mark Brown <broonie@kernel.org> wrote:
+>>=20
+>> > On Mon, Jul 29, 2024 at 05:06:50PM +0200, Jerome Brunet wrote:
+>> >> On Mon 29 Jul 2024 at 15:44, Mark Brown <broonie@kernel.org> wrote:
+>> >
+>> >> > I don't recall this coming up much TBH.  It may be that people just=
+ set
+>> >> > raw spinlocks when they need it, or that there's not many people us=
+ing
+>> >> > relevant devices with RT kernels.
+>> >
+>> >> I have not been playing much with RT TBH, but AFAIK, with RT irq
+>> >> handlers are threaded unless IRQF_NO_THREAD is set. In this case,
+>> >> something preemptible in the handler should not be a problem.
+>> >
+>> >> The axg-fifo drivers do not have IRQF_NO_THREAD so something is a bit
+>> >> unclear here.
+>> >
+>> > Yeah, it's definitely likely to happen all the time for people using RT
+>> > with relevant devices.  I'm not sure I have a good sense of if it's
+>> > likely to be a nasty surprise to switch raw spinlocks on by default wh=
+en
+>> > it's currently controllable, I'd expect it'll generally be fine but it=
+'s
+>> > possibly a bit rude to any users that don't use interrupts...
+>>=20
+>> Indeed it is bit radical.
+>>=20
+>> My concern with this patch is that, IIUC, the handler should be
+>> threaded under RT and there should be no problem with the spinlock API.
+>>=20
+>> Adding the RT folks to try to get a better understanding, they should
+>> have been CCed anyway.
+>
+> I'm not sure if making the lock a raw_spinlock_t solves all the
+> problems. The regmap is regmap_mmio so direct memory-access and looks
+> simple enough to do so. In regmap_mmio_write() I see clk_enable() and
+> and this uses a spinlock_t so we should be back at the same problem.
+> There might be an additional problem if reg-caching is enabled.
 
-Fix the following errors and warnings:
+Hi Sebastian,
 
-ERROR: space required after that ',' (ctx:VxV)
-+#define __set_ptb_entry(emu,page,addr) \
+Thanks a lot for taking the time to dig into the driver specifics.
+The IRQ handler is actually not awfully critical in this case. The HW
+will continue to run regardless of the IRQ being acked or not
 
-ERROR: space required after that ',' (ctx:VxV)
-+#define __set_ptb_entry(emu,page,addr) \
+The purpose of the handler is mainly to let Alsa know that 1 (or more)
+period is ready. If alsa is too slow to react, and the buffer allows
+just a few periods, the HW may under/overflow the buffer.
 
-ERROR: space required after that ',' (ctx:VxV)
-+#define set_ptb_entry(emu,page,addr)	__set_ptb_entry(emu,page,addr)
+IRQF_ONESHOT is fine because snd_pcm_period_elapsed() 'notifies'
+all past periods, not just one. The irq handler does not need to
+run again until this function has been called. It also helps if the
+period is ridiculously small, to try to reduce the number of IRQs.
 
-ERROR: space required after that ',' (ctx:VxV)
-+#define set_ptb_entry(emu,page,addr)	__set_ptb_entry(emu,page,addr)
+>
+> Let me propose two alternatives:
+> #1: Why two handlers if we have IRQF_ONESHOT and the primary does almost
+>     nothing. Assuming the thread is always woken up and the "unexpected
+>     irq" case does not happen. If so, why not:
 
-ERROR: space required after that ',' (ctx:VxV)
-+#define set_ptb_entry(emu,page,addr)	__set_ptb_entry(emu,page,addr)
+That was mainly there for initial debugging. It does not happen (yet).
 
-ERROR: space required after that ',' (ctx:VxV)
-+#define set_ptb_entry(emu,page,addr)	__set_ptb_entry(emu,page,addr)
+>
+> diff --git a/sound/soc/meson/axg-fifo.c b/sound/soc/meson/axg-fifo.c
+> index 7e6090af720b9..60af05a3cad6b 100644
+> --- a/sound/soc/meson/axg-fifo.c
+> +++ b/sound/soc/meson/axg-fifo.c
+> @@ -220,9 +220,21 @@ static irqreturn_t axg_fifo_pcm_irq_block(int irq, v=
+oid *dev_id)
+>  static irqreturn_t axg_fifo_pcm_irq_block_thread(int irq, void *dev_id)
+>  {
+>  	struct snd_pcm_substream *ss =3D dev_id;
+> +	struct axg_fifo *fifo =3D axg_fifo_data(ss);
+> +	unsigned int status;
+> +
+> +	regmap_read(fifo->map, FIFO_STATUS1, &status);
+> +	status =3D FIELD_GET(STATUS1_INT_STS, status);
+> +
+> +	/* Use the thread to call period elapsed on nonatomic links */
+> +	if (!(status & FIFO_INT_COUNT_REPEAT)) {
+> +		dev_dbg(axg_fifo_dev(ss), "unexpected irq - STS 0x%02x\n",
+> +			status);
+> +		return IRQ_NONE;
+> +	}
+> +	axg_fifo_ack_irq(fifo, status);
+>=20=20
+>  	snd_pcm_period_elapsed(ss);
+> -
+>  	return IRQ_HANDLED;
+>  }
+>=20=20
+> @@ -251,9 +263,9 @@ int axg_fifo_pcm_open(struct snd_soc_component *compo=
+nent,
+>  	if (ret)
+>  		return ret;
+>=20=20
+> -	ret =3D request_threaded_irq(fifo->irq, axg_fifo_pcm_irq_block,
+> -				   axg_fifo_pcm_irq_block_thread,
+> -				   IRQF_ONESHOT, dev_name(dev), ss);
+> +	ret =3D request_threaded_irq(fifo->irq, NULL,
+> +				   axg_fifo_pcm_irq_block_thread, IRQF_ONESHOT,
+> +				   dev_name(dev), ss);
+>  	if (ret)
+>  		return ret;
+>=20=20
+>
+> #2: If two handers are required due to $REASON then primary should ACK/
+>     disable the interrupt line while the secondary/ threaded handler is
+>     running. In this is case then IRQF_ONESHOT is not needed because its
+>     "tasks" is performed by the primary handler:
+>
+> diff --git a/sound/soc/meson/axg-fifo.c b/sound/soc/meson/axg-fifo.c
+> index 7e6090af720b9..5b4c518eb4ccd 100644
+> --- a/sound/soc/meson/axg-fifo.c
+> +++ b/sound/soc/meson/axg-fifo.c
+> @@ -205,11 +205,16 @@ static irqreturn_t axg_fifo_pcm_irq_block(int irq, =
+void *dev_id)
+>=20=20
+>  	regmap_read(fifo->map, FIFO_STATUS1, &status);
+>  	status =3D FIELD_GET(STATUS1_INT_STS, status);
+> -	axg_fifo_ack_irq(fifo, status);
+>=20=20
+>  	/* Use the thread to call period elapsed on nonatomic links */
+> -	if (status & FIFO_INT_COUNT_REPEAT)
+> +	if (status & FIFO_INT_COUNT_REPEAT) {
+> +		/*
+> +		 * ACKs/ Disables the interrupt until re-enabled by
+> +		 * axg_fifo_pcm_irq_block_thread()
+> +		 */
+> +		axg_fifo_ack_irq(fifo, status);
+>  		return IRQ_WAKE_THREAD;
+> +	}
+>=20=20
+>  	dev_dbg(axg_fifo_dev(ss), "unexpected irq - STS 0x%02x\n",
+>  		status);
+> @@ -253,7 +258,7 @@ int axg_fifo_pcm_open(struct snd_soc_component *compo=
+nent,
+>=20=20
+>  	ret =3D request_threaded_irq(fifo->irq, axg_fifo_pcm_irq_block,
+>  				   axg_fifo_pcm_irq_block_thread,
+> -				   IRQF_ONESHOT, dev_name(dev), ss);
+> +				   0, dev_name(dev), ss);
+>  	if (ret)
+>  		return ret;
+>
+> On the PREEMPT_RT both handler will be threaded.
+>=20=20
+> My favorite is #1. Also ACKing the interrupt only if it occurred for the
+> device/ driver in charge. Otherwise don't care=E2=80=A6
 
-ERROR: space required after that ',' (ctx:VxV)
-+#define set_silent_ptb(emu,page)
-	__set_ptb_entry(emu,page,emu->silent_page.addr)
+I'd prefer #1 too. IRQ is not shared, so the ownership should be fine.
 
-ERROR: space required after that ',' (ctx:VxV)
-+#define set_silent_ptb(emu,page)
-	__set_ptb_entry(emu,page,emu->silent_page.addr)
+However I still don't fully understand what we are fixing here TBH. It
+seems it could apply to other parts of the kernel so I'd like to
+understand what is wrong (and avoid repeating the same mistake)
 
-ERROR: space required after that ',' (ctx:VxV)
-+#define set_silent_ptb(emu,page)
-	__set_ptb_entry(emu,page,emu->silent_page.addr)
+* With PREEMPT_RT, both handler will threaded, so they should be able to
+  call preemptible function, right ?
+* If so, and spinlock_lock() actually becomes preemptible with
+  PREEMPT_RT as stated in this change description, why is it problem here ?
 
-WARNING: Missing a blank line after declarations
-+	int i;
-+	page *= UNIT_PAGES;
+Do you have an idea about what is going on ?
 
-WARNING: Missing a blank line after declarations
-+	int i;
-+	page *= UNIT_PAGES;
+Again, thanks a lot for your help.
 
-ERROR: space required after that ',' (ctx:VxV)
-+#define get_emu10k1_memblk(l,member)
-	list_entry(l, struct snd_emu10k1_memblk, member)
+>
+> Sebastian
 
-WARNING: space prohibited between function name and open parenthesis '('
-+	list_for_each (pos, &emu->mapped_link_head) {
-
-WARNING: Missing a blank line after declarations
-+	struct snd_emu10k1_memblk *blk =
-		get_emu10k1_memblk(pos, mapped_link);
-+	if (blk->mapped_page < 0)
-
-ERROR: else should follow close brace '}'
-+		}
-+		else if (size > max_size) {
-
-ERROR: need consistent spacing around '-' (ctx:WxV)
-+	psize = get_aligned_page(size + PAGE_SIZE -1);
- 	                                          ^
-
-WARNING: EXPORT_SYMBOL(foo); should immediately follow its function/variable
-+EXPORT_SYMBOL(snd_emu10k1_memblk_map);
-
-WARNING: Missing a blank line after declarations
-+		dma_addr_t addr;
-+		if (ofs >= runtime->dma_bytes)
-
-ERROR: space prohibited after that '!' (ctx:BxW)
-+		if (! is_valid_page(emu, addr)) {
- 		    ^
-
-ERROR: trailing whitespace
-+^Istruct snd_util_memhdr *hdr = hw->memhdr; $
-
-WARNING: EXPORT_SYMBOL(foo); should immediately follow its function/variable
-+EXPORT_SYMBOL(snd_emu10k1_synth_alloc);
-
-ERROR: trailing whitespace
-+^Istruct snd_util_memhdr *hdr = emu->memhdr; $
-
-WARNING: EXPORT_SYMBOL(foo); should immediately follow its function/variable
-+EXPORT_SYMBOL(snd_emu10k1_synth_free);
-
-WARNING: Missing a blank line after declarations
-+	int first_page, last_page;
-+	first_page = blk->first_page;
-
-WARNING: Missing a blank line after declarations
-+	char *ptr;
-+	if (snd_BUG_ON(page < 0 || page >= emu->max_cache_pages))
-
-ERROR: space prohibited after that '!' (ctx:BxW)
-+	if (! ptr) {
- 	    ^
-
-ERROR: "(foo*)" should be "(foo *)"
-+	return (void*)ptr;
-
-WARNING: EXPORT_SYMBOL(foo); should immediately follow its function/variable
-+EXPORT_SYMBOL(snd_emu10k1_synth_memset);
-
-WARNING: EXPORT_SYMBOL(foo); should immediately follow its function/variable
-+EXPORT_SYMBOL(snd_emu10k1_synth_copy_from_user);
-
-Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
----
- sound/pci/emu10k1/memory.c | 36 ++++++++++++++++++------------------
- 1 file changed, 18 insertions(+), 18 deletions(-)
-
-diff --git a/sound/pci/emu10k1/memory.c b/sound/pci/emu10k1/memory.c
-index d29711777161..124497c14fb0 100644
---- a/sound/pci/emu10k1/memory.c
-+++ b/sound/pci/emu10k1/memory.c
-@@ -18,7 +18,7 @@
- /* page arguments of these two macros are Emu page (4096 bytes), not like
-  * aligned pages in others
-  */
--#define __set_ptb_entry(emu,page,addr) \
-+#define __set_ptb_entry(emu, page, addr) \
- 	(((__le32 *)(emu)->ptb_pages.area)[page] = \
- 	 cpu_to_le32(((addr) << (emu->address_mode)) | (page)))
- #define __get_ptb_entry(emu, page) \
-@@ -34,14 +34,15 @@
-
- #if PAGE_SIZE == EMUPAGESIZE && !IS_ENABLED(CONFIG_DYNAMIC_DEBUG)
- /* fill PTB entrie(s) corresponding to page with addr */
--#define set_ptb_entry(emu,page,addr)	__set_ptb_entry(emu,page,addr)
-+#define set_ptb_entry(emu, page, addr)	__set_ptb_entry(emu, page, addr)
- /* fill PTB entrie(s) corresponding to page with silence pointer */
--#define set_silent_ptb(emu,page)	__set_ptb_entry(emu,page,emu->silent_page.addr)
-+#define set_silent_ptb(emu, page)	__set_ptb_entry(emu, page, emu->silent_page.addr)
- #else
- /* fill PTB entries -- we need to fill UNIT_PAGES entries */
- static inline void set_ptb_entry(struct snd_emu10k1 *emu, int page, dma_addr_t addr)
- {
- 	int i;
-+
- 	page *= UNIT_PAGES;
- 	for (i = 0; i < UNIT_PAGES; i++, page++) {
- 		__set_ptb_entry(emu, page, addr);
-@@ -53,6 +54,7 @@ static inline void set_ptb_entry(struct snd_emu10k1 *emu, int page, dma_addr_t a
- static inline void set_silent_ptb(struct snd_emu10k1 *emu, int page)
- {
- 	int i;
-+
- 	page *= UNIT_PAGES;
- 	for (i = 0; i < UNIT_PAGES; i++, page++) {
- 		/* do not increment ptr */
-@@ -69,7 +71,7 @@ static inline void set_silent_ptb(struct snd_emu10k1 *emu, int page)
- static int synth_alloc_pages(struct snd_emu10k1 *hw, struct snd_emu10k1_memblk *blk);
- static int synth_free_pages(struct snd_emu10k1 *hw, struct snd_emu10k1_memblk *blk);
-
--#define get_emu10k1_memblk(l,member)	list_entry(l, struct snd_emu10k1_memblk, member)
-+#define get_emu10k1_memblk(l, member)	list_entry(l, struct snd_emu10k1_memblk, member)
-
-
- /* initialize emu10k1 part */
-@@ -100,16 +102,16 @@ static int search_empty_map_area(struct snd_emu10k1 *emu, int npages, struct lis
- 	struct list_head *candidate = &emu->mapped_link_head;
- 	struct list_head *pos;
-
--	list_for_each (pos, &emu->mapped_link_head) {
-+	list_for_each(pos, &emu->mapped_link_head) {
- 		struct snd_emu10k1_memblk *blk = get_emu10k1_memblk(pos, mapped_link);
-+
- 		if (blk->mapped_page < 0)
- 			continue;
- 		size = blk->mapped_page - page;
- 		if (size == npages) {
- 			*nextp = pos;
- 			return page;
--		}
--		else if (size > max_size) {
-+		} else if (size > max_size) {
- 			/* we look for the maximum empty hole */
- 			max_size = size;
- 			candidate = pos;
-@@ -209,7 +211,7 @@ search_empty(struct snd_emu10k1 *emu, int size)
- 	struct snd_emu10k1_memblk *blk;
- 	int page, psize;
-
--	psize = get_aligned_page(size + PAGE_SIZE -1);
-+	psize = get_aligned_page(size + PAGE_SIZE - 1);
- 	page = 0;
- 	list_for_each(p, &emu->memhdr->block) {
- 		blk = get_emu10k1_memblk(p, mem.list);
-@@ -292,7 +294,6 @@ int snd_emu10k1_memblk_map(struct snd_emu10k1 *emu, struct snd_emu10k1_memblk *b
- 	spin_unlock_irqrestore(&emu->memblk_lock, flags);
- 	return err;
- }
--
- EXPORT_SYMBOL(snd_emu10k1_memblk_map);
-
- /*
-@@ -328,11 +329,12 @@ snd_emu10k1_alloc_pages(struct snd_emu10k1 *emu, struct snd_pcm_substream *subst
- 	for (page = blk->first_page; page <= blk->last_page; page++, idx++) {
- 		unsigned long ofs = idx << PAGE_SHIFT;
- 		dma_addr_t addr;
-+
- 		if (ofs >= runtime->dma_bytes)
- 			addr = emu->silent_page.addr;
- 		else
- 			addr = snd_pcm_sgbuf_get_addr(substream, ofs);
--		if (! is_valid_page(emu, addr)) {
-+		if (!is_valid_page(emu, addr)) {
- 			dev_err_ratelimited(emu->card->dev,
- 				"emu: failure page = %d\n", idx);
- 			mutex_unlock(&hdr->block_mutex);
-@@ -405,7 +407,7 @@ struct snd_util_memblk *
- snd_emu10k1_synth_alloc(struct snd_emu10k1 *hw, unsigned int size)
- {
- 	struct snd_emu10k1_memblk *blk;
--	struct snd_util_memhdr *hdr = hw->memhdr;
-+	struct snd_util_memhdr *hdr = hw->memhdr;
-
- 	mutex_lock(&hdr->block_mutex);
- 	blk = (struct snd_emu10k1_memblk *)__snd_util_mem_alloc(hdr, size);
-@@ -422,7 +424,6 @@ snd_emu10k1_synth_alloc(struct snd_emu10k1 *hw, unsigned int size)
- 	mutex_unlock(&hdr->block_mutex);
- 	return (struct snd_util_memblk *)blk;
- }
--
- EXPORT_SYMBOL(snd_emu10k1_synth_alloc);
-
- /*
-@@ -431,7 +432,7 @@ EXPORT_SYMBOL(snd_emu10k1_synth_alloc);
- int
- snd_emu10k1_synth_free(struct snd_emu10k1 *emu, struct snd_util_memblk *memblk)
- {
--	struct snd_util_memhdr *hdr = emu->memhdr;
-+	struct snd_util_memhdr *hdr = emu->memhdr;
- 	struct snd_emu10k1_memblk *blk = (struct snd_emu10k1_memblk *)memblk;
- 	unsigned long flags;
-
-@@ -445,7 +446,6 @@ snd_emu10k1_synth_free(struct snd_emu10k1 *emu, struct snd_util_memblk *memblk)
- 	mutex_unlock(&hdr->block_mutex);
- 	return 0;
- }
--
- EXPORT_SYMBOL(snd_emu10k1_synth_free);
-
- /* check new allocation range */
-@@ -456,6 +456,7 @@ static void get_single_page_range(struct snd_util_memhdr *hdr,
- 	struct list_head *p;
- 	struct snd_emu10k1_memblk *q;
- 	int first_page, last_page;
-+
- 	first_page = blk->first_page;
- 	p = blk->mem.list.prev;
- 	if (p != &hdr->block) {
-@@ -552,16 +553,17 @@ static int synth_free_pages(struct snd_emu10k1 *emu, struct snd_emu10k1_memblk *
- static inline void *offset_ptr(struct snd_emu10k1 *emu, int page, int offset)
- {
- 	char *ptr;
-+
- 	if (snd_BUG_ON(page < 0 || page >= emu->max_cache_pages))
- 		return NULL;
- 	ptr = emu->page_ptr_table[page];
--	if (! ptr) {
-+	if (!ptr) {
- 		dev_err(emu->card->dev,
- 			"access to NULL ptr: page = %d\n", page);
- 		return NULL;
- 	}
- 	ptr += offset & (PAGE_SIZE - 1);
--	return (void*)ptr;
-+	return (void *)ptr;
- }
-
- /*
-@@ -594,7 +596,6 @@ int snd_emu10k1_synth_memset(struct snd_emu10k1 *emu, struct snd_util_memblk *bl
- 	} while (offset < end_offset);
- 	return 0;
- }
--
- EXPORT_SYMBOL(snd_emu10k1_synth_memset);
-
- // Note that the value is assumed to be suitably repetitive.
-@@ -659,5 +660,4 @@ int snd_emu10k1_synth_copy_from_user(struct snd_emu10k1 *emu, struct snd_util_me
- 	} while (offset < end_offset);
- 	return 0;
- }
--
- EXPORT_SYMBOL(snd_emu10k1_synth_copy_from_user);
---
-2.34.1
-
+--=20
+Jerome
