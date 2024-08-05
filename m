@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D7C3176242;
-	Mon,  5 Aug 2024 17:58:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 427A3176AA2;
+	Mon,  5 Aug 2024 17:58:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722880682; cv=none; b=WW8FU0EKGdpRI2Q2EGIFpN9AAlHMkFaf9LlWmGa40uirxjoL2ljVIf4RzAfZoyyJZBq/eWSTqwGm/fQYF/btnG+inaHn7zfXacVdG9EYXbk5ZJtKosYdQ0mbrzlLoH7NcKUBpCctguBjogXZblsKgePEpxqxzvM3OUNHDLvWW/Q=
+	t=1722880687; cv=none; b=rBVBKKCkfdsBP8vFGezqpgXG2NJn+I1BS9N81U1lPusSqWtI3OcCKZ2jE5DbIhPc/oalTG7ElYKJTsVdmgEefWauDL3gwJFPh1mz1ZF7rD9JpGfFg64Yyqar3z8wnBU2o77cztKQ6nM2SIGOKhrUeFOJdY/ZaV5G4PYlb/kya0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722880682; c=relaxed/simple;
-	bh=c6Ownx+iWsQEvgWsGYT+lbPsC5vHcmYz5Ph9J0a+bQU=;
+	s=arc-20240116; t=1722880687; c=relaxed/simple;
+	bh=pF7B1EJOvfIsXUHadIn5iapfDm/Q6ZxnUOD1S8JlJrE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dIubnUqSzBVAUw8/tXJPqRBWOheWrP4QExDUH8WgLhd/5NwvQqsblG/kPEFcO1GFC5v9AsMlRtdtvyfxkrNjBNPbASromno9/mFbj7CaVBBksNFAR0IFtR8KJYyApf18Q6ApsG++VddrvB7BLxqt+iRcRA+XyEh3zc4u3ETiqZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ShQ6RVJ/; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=SyYT/Si8C1uCXkE6j6CgrdOQIMqCHWAPL1xRCoXUct/+SnsFswlwI7dZVk95Y3Hgqs51GX8+lGSzoHr0n+XWYdmiQLp9CFRWLIGmbc2NSq9jQCO9zT68DoMVNuBUEWRo71MbBNiEl9Fi1HFufZYJ/m1E6yOKNFNRRoqKygTHWkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h3gLyP4D; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ShQ6RVJ/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 178B4C32782;
-	Mon,  5 Aug 2024 17:58:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h3gLyP4D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEA3DC32782;
+	Mon,  5 Aug 2024 17:58:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722880682;
-	bh=c6Ownx+iWsQEvgWsGYT+lbPsC5vHcmYz5Ph9J0a+bQU=;
+	s=k20201202; t=1722880687;
+	bh=pF7B1EJOvfIsXUHadIn5iapfDm/Q6ZxnUOD1S8JlJrE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ShQ6RVJ/778zO8w36knidMYVa1dBBiL1AIMRYe4KtEMhpJL6g+mCC7+gn8ylnn1Mt
-	 w+uG17VvQ7GgGhZKufq/vi6gH7I8K2W+z4WN+3mkS78vCnsopW+AH9keiJwV7d/yC2
-	 on/KggrhwmSYBFfqf+uI7sjQFN9B9yqwp+lm0Vn5jp5GxAoW2JhzVQ0nU2CHUbM4X2
-	 K173Yu1A9y+Febp8o4icy+07Sxs1KoIE0IGlzodgqzV/I2xuH2bE6AT92q4QPEFMZQ
-	 S5+04HjqfjKpvUPrmsUn88PPFJAayB5gXfqHWlVdvkbAp2/jJ+1etHPg/FF1lgxi3O
-	 bldVI5lnF1nsw==
+	b=h3gLyP4D5F4d69KSxdclP9VcmPLFBrvBGi6C4aLuLMRQkH9VP77T1WvZda0EzEBDv
+	 nITevKTGTxwawZ/SPO8lodNF5jg7fj9gbZ6q5g74MWlijhk7GOcSV6LCAofglMj++r
+	 d9BjjTV/qIt4PnKkUHjg8PtvYiWyukBs9lk79mFISNgEbA0BjW1SLKr38DkIUshHpw
+	 2KmPtqbxP0ISBUGY0Zkx+zMX00tQfrMBiEOpqk1g4fsQmNvcbum3A8q4UbtS3ape3c
+	 XL5qsF40UGKrSSHZdQmyK/sOo7RpqlvQ/hZ7yoc1q3m20wm2SYQVJWAUiS/4vTfRrA
+	 wW+VvMiTLC3FA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -33,12 +33,10 @@ Cc: Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
-	bo.liu@senarytech.com,
-	songxiebing@kylinos.cn,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 07/15] ALSA: hda/conexant: Mute speakers at suspend / shutdown
-Date: Mon,  5 Aug 2024 13:57:04 -0400
-Message-ID: <20240805175736.3252615-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 09/15] ALSA: ump: Transmit RPN/NRPN message at each MSB/LSB data reception
+Date: Mon,  5 Aug 2024 13:57:06 -0400
+Message-ID: <20240805175736.3252615-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240805175736.3252615-1-sashal@kernel.org>
 References: <20240805175736.3252615-1-sashal@kernel.org>
@@ -55,32 +53,146 @@ Content-Transfer-Encoding: 8bit
 
 From: Takashi Iwai <tiwai@suse.de>
 
-[ Upstream commit 4f61c8fe35202702426cfc0003e15116a01ba885 ]
+[ Upstream commit e6ce8a28c768dbbad3f818db286cd0f4c7a921a8 ]
 
-Use the new helper to mute speakers at suspend / shutdown for avoiding
-click noises.
+The UMP 1.1 spec says that an RPN/NRPN should be sent when one of the
+following occurs:
+* a CC 38 is received
+* a subsequent CC 6 is received
+* a CC 98, 99, 100, and 101 is received, indicating the last RPN/NRPN
+  message has ended and a new one has started
 
-Link: https://bugzilla.suse.com/show_bug.cgi?id=1228269
-Link: https://patch.msgid.link/20240726142625.2460-2-tiwai@suse.de
+That said, we should send a partial data even if it's not fully
+filled.  Let's change the UMP conversion helper code to follow that
+rule.
+
+Link: https://patch.msgid.link/20240731130528.12600-2-tiwai@suse.de
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/pci/hda/patch_conexant.c | 2 ++
- 1 file changed, 2 insertions(+)
+ include/sound/ump_convert.h |  1 +
+ sound/core/ump_convert.c    | 49 ++++++++++++++++++++++++-------------
+ 2 files changed, 33 insertions(+), 17 deletions(-)
 
-diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
-index e8209178d87bb..083d640fe348c 100644
---- a/sound/pci/hda/patch_conexant.c
-+++ b/sound/pci/hda/patch_conexant.c
-@@ -212,6 +212,8 @@ static void cx_auto_shutdown(struct hda_codec *codec)
- {
- 	struct conexant_spec *spec = codec->spec;
+diff --git a/include/sound/ump_convert.h b/include/sound/ump_convert.h
+index 28c364c63245d..d099ae27f8491 100644
+--- a/include/sound/ump_convert.h
++++ b/include/sound/ump_convert.h
+@@ -13,6 +13,7 @@ struct ump_cvt_to_ump_bank {
+ 	unsigned char cc_nrpn_msb, cc_nrpn_lsb;
+ 	unsigned char cc_data_msb, cc_data_lsb;
+ 	unsigned char cc_bank_msb, cc_bank_lsb;
++	bool cc_data_msb_set, cc_data_lsb_set;
+ };
  
-+	snd_hda_gen_shutup_speakers(codec);
+ /* context for converting from MIDI1 byte stream to UMP packet */
+diff --git a/sound/core/ump_convert.c b/sound/core/ump_convert.c
+index f67c44c83fde4..5d1b85e7ac165 100644
+--- a/sound/core/ump_convert.c
++++ b/sound/core/ump_convert.c
+@@ -287,25 +287,37 @@ static int cvt_legacy_system_to_ump(struct ump_cvt_to_ump *cvt,
+ 	return 4;
+ }
+ 
+-static void fill_rpn(struct ump_cvt_to_ump_bank *cc,
+-		     union snd_ump_midi2_msg *midi2)
++static int fill_rpn(struct ump_cvt_to_ump_bank *cc,
++		    union snd_ump_midi2_msg *midi2,
++		    bool flush)
+ {
++	if (!(cc->cc_data_lsb_set || cc->cc_data_msb_set))
++		return 0; // skip
++	/* when not flushing, wait for complete data set */
++	if (!flush && (!cc->cc_data_lsb_set || !cc->cc_data_msb_set))
++		return 0; // skip
 +
- 	/* Turn the problematic codec into D3 to avoid spurious noises
- 	   from the internal speaker during (and after) reboot */
- 	cx_auto_turn_eapd(codec, spec->num_eapds, spec->eapds, false);
+ 	if (cc->rpn_set) {
+ 		midi2->rpn.status = UMP_MSG_STATUS_RPN;
+ 		midi2->rpn.bank = cc->cc_rpn_msb;
+ 		midi2->rpn.index = cc->cc_rpn_lsb;
+-		cc->rpn_set = 0;
+-		cc->cc_rpn_msb = cc->cc_rpn_lsb = 0;
+-	} else {
++	} else if (cc->nrpn_set) {
+ 		midi2->rpn.status = UMP_MSG_STATUS_NRPN;
+ 		midi2->rpn.bank = cc->cc_nrpn_msb;
+ 		midi2->rpn.index = cc->cc_nrpn_lsb;
+-		cc->nrpn_set = 0;
+-		cc->cc_nrpn_msb = cc->cc_nrpn_lsb = 0;
++	} else {
++		return 0; // skip
+ 	}
++
+ 	midi2->rpn.data = upscale_14_to_32bit((cc->cc_data_msb << 7) |
+ 					      cc->cc_data_lsb);
++
++	cc->rpn_set = 0;
++	cc->nrpn_set = 0;
++	cc->cc_rpn_msb = cc->cc_rpn_lsb = 0;
+ 	cc->cc_data_msb = cc->cc_data_lsb = 0;
++	cc->cc_data_msb_set = cc->cc_data_lsb_set = 0;
++	return 1;
+ }
+ 
+ /* convert to a MIDI 1.0 Channel Voice message */
+@@ -318,6 +330,7 @@ static int cvt_legacy_cmd_to_ump(struct ump_cvt_to_ump *cvt,
+ 	struct ump_cvt_to_ump_bank *cc;
+ 	union snd_ump_midi2_msg *midi2 = (union snd_ump_midi2_msg *)data;
+ 	unsigned char status, channel;
++	int ret;
+ 
+ 	BUILD_BUG_ON(sizeof(union snd_ump_midi1_msg) != 4);
+ 	BUILD_BUG_ON(sizeof(union snd_ump_midi2_msg) != 8);
+@@ -358,24 +371,29 @@ static int cvt_legacy_cmd_to_ump(struct ump_cvt_to_ump *cvt,
+ 	case UMP_MSG_STATUS_CC:
+ 		switch (buf[1]) {
+ 		case UMP_CC_RPN_MSB:
++			ret = fill_rpn(cc, midi2, true);
+ 			cc->rpn_set = 1;
+ 			cc->cc_rpn_msb = buf[2];
+-			return 0; // skip
++			return ret;
+ 		case UMP_CC_RPN_LSB:
++			ret = fill_rpn(cc, midi2, true);
+ 			cc->rpn_set = 1;
+ 			cc->cc_rpn_lsb = buf[2];
+-			return 0; // skip
++			return ret;
+ 		case UMP_CC_NRPN_MSB:
++			ret = fill_rpn(cc, midi2, true);
+ 			cc->nrpn_set = 1;
+ 			cc->cc_nrpn_msb = buf[2];
+-			return 0; // skip
++			return ret;
+ 		case UMP_CC_NRPN_LSB:
++			ret = fill_rpn(cc, midi2, true);
+ 			cc->nrpn_set = 1;
+ 			cc->cc_nrpn_lsb = buf[2];
+-			return 0; // skip
++			return ret;
+ 		case UMP_CC_DATA:
++			cc->cc_data_msb_set = 1;
+ 			cc->cc_data_msb = buf[2];
+-			return 0; // skip
++			return fill_rpn(cc, midi2, false);
+ 		case UMP_CC_BANK_SELECT:
+ 			cc->bank_set = 1;
+ 			cc->cc_bank_msb = buf[2];
+@@ -385,12 +403,9 @@ static int cvt_legacy_cmd_to_ump(struct ump_cvt_to_ump *cvt,
+ 			cc->cc_bank_lsb = buf[2];
+ 			return 0; // skip
+ 		case UMP_CC_DATA_LSB:
++			cc->cc_data_lsb_set = 1;
+ 			cc->cc_data_lsb = buf[2];
+-			if (cc->rpn_set || cc->nrpn_set)
+-				fill_rpn(cc, midi2);
+-			else
+-				return 0; // skip
+-			break;
++			return fill_rpn(cc, midi2, false);
+ 		default:
+ 			midi2->cc.index = buf[1];
+ 			midi2->cc.data = upscale_7_to_32bit(buf[2]);
 -- 
 2.43.0
 
