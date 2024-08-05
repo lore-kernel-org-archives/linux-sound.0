@@ -1,81 +1,37 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3D632AD13
-	for <linux-sound@vger.kernel.org>; Mon,  5 Aug 2024 16:07:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+Received: from vmicros1.altlinux.org (vmicros1.altlinux.org [194.107.17.57])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70D9B149C69;
+	Mon,  5 Aug 2024 16:17:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.107.17.57
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722874054; cv=none; b=lHa13uaakqwbTsoYWjMbaTcZ8afgQMbCZmOqgCHqVziGbUkGj87V1o1+QlHKbA+jnvWMj+jpJKkOk/x5vN1eM9NACFwFzReuBXRBhvXL/UXfeyOFLTJkGAIu9vcYwLi0SqcOF8pN09TkZ/4h3pqvuGJyTGbGjzzRYj2iOYxAOJY=
+	t=1722874634; cv=none; b=rAUzAcgUtXolBYtwZrQZd9JYWcvywrfuluoqrVV1ENARsBCD7jMvTkVnvm6Uj1k80ZGT78u57O7HJADMXBG11lmpB5EVdAqazofgpu6NjBWot4Sj662JijTol06FMw0yW92BHHSDKiWdbUvvi9STQjUn6GAjsocw4OOQeGhFOjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722874054; c=relaxed/simple;
-	bh=o0quoQ7ppGWq3Zo/T52ZVjVGnd+dV4B7L5rUpE1A9pI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=qnjGTQHmv/ZdYjpQ1JqbR+d+oAqqp0BO1PAeFLLVliNaGoHD+52qiVeK32wHBOJILuz3H00iA548yY/D1SVLwBDlRo70mOHNauoQ0eiCDddZnzGjj2ssfUD+5PyAI0m5/Plj1UnfEILJwMHsvQc3cg23y4EnVevw7q6CLZzYyAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=PBeBn37k; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="PBeBn37k"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4280b3a7efaso73878905e9.0
-        for <linux-sound@vger.kernel.org>; Mon, 05 Aug 2024 09:07:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1722874050; x=1723478850; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mLnycLNpcQG5GUSmWzuFCsE23qxX0cM+qsqCFWzhcF4=;
-        b=PBeBn37kWCyHYnxwLi8feiqn5pUULotJFTZbgj0WrxoRIZdKR2BAlVZPkWZBONWy0C
-         5a5eSEhTprb1RznVSvhYNVIEVqW9PBtQJJ04QGG9Zk2ZCb9lhUdghfbUf/nSYvjPRXiW
-         L0DZSVVMYA+Fx5B9rme1c7b1KokhhaPMYE1lIJHcUXZf+VNiONHl6p9sDFlRt7fq/1Sr
-         ilYuWyUJ8hOi/JX+bN7V0TzOEuckI9gUiJhQ9WHzTyxMA66D9yCC2zi/oU07TP0mjqiA
-         lQji2klq+hBFWVqtOYiXWiP9CS0DlJhqXzFkDl/NaMzW5xz5LqLrFWTWQExoMTfY/TEY
-         UJew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722874050; x=1723478850;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mLnycLNpcQG5GUSmWzuFCsE23qxX0cM+qsqCFWzhcF4=;
-        b=kuKKCgayEcvehMVu+P16N5KZIP9SXW1HrgUvMDV81dPrwAMgj2dpbxl+nbObAg4k2S
-         sjMq82qW7RuKIPu58pL+OsnyQA1RBjsYPKRSMOyD4T8jrK2+EbTc4b3MwiCaZy6sAAiu
-         V1cNjot+60tev4ArtRHJRFhSngscZPnA5EGo38jVz6UP5mg4xmnq0X0S/FR4tKomUor9
-         401nqNeIRaF2BGSPJm2Gglo4YCXj5lsf3tuvkksGPYmqyY9pzOl8UC/bux8SAnXeq6tb
-         JLqYuo3057K1hFK0EkN9UQXCt9KZnN1u7YUv/CJ0RHw2TwzmS/vCqk3X6x4O+s7aBcH6
-         Au2A==
-X-Forwarded-Encrypted: i=1; AJvYcCUjftgff1Ie9ZP9VeMmmHc38bKAzab1a6BEX4uia/D1yGfeeS5KGM9A0lEiGtfP6ryE9GMEGyOLr8ZuK9nXdlBul4PXPHcJ9xojrMQ=
-X-Gm-Message-State: AOJu0YynpW58y91obR22qv+zx+LZiUqQPQZjiwSSu6I4coMVnHs/3ahl
-	65MuARiIQtUK94ZAry9J8vW9Q/shx1x8yBf6GWZalMB24yULWk/UwXlVgZMhEpo=
-X-Google-Smtp-Source: AGHT+IF7E+JH5oT9xq8G5w8s8h2rAblTnJFziKMkgTgJWNnfhajr1VdmMfvwoBX7+IWMhH58JY1aHw==
-X-Received: by 2002:a05:600c:a04:b0:426:6ea8:5037 with SMTP id 5b1f17b1804b1-428e6b93136mr74516395e9.37.1722874049736;
-        Mon, 05 Aug 2024 09:07:29 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:e06c:bc48:dc7f:827a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36bbd169697sm10229385f8f.107.2024.08.05.09.07.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Aug 2024 09:07:29 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Mark Brown <broonie@kernel.org>,  linux-rt-users@vger.kernel.org,
-  Arseniy Krasnov <avkrasnov@salutedevices.com>,  Liam Girdwood
- <lgirdwood@gmail.com>,  Jaroslav Kysela <perex@perex.cz>,  Takashi Iwai
- <tiwai@suse.com>,  Neil Armstrong <neil.armstrong@linaro.org>,  Kevin
- Hilman <khilman@baylibre.com>,  Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>,  alsa-devel@alsa-project.org,
-  linux-sound@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
-  linux-amlogic@lists.infradead.org,  linux-kernel@vger.kernel.org,
-  kernel@sberdevices.ru,  oxffffaa@gmail.com,  Thomas Gleixner
- <tglx@linutronix.de>
-Subject: Re: [PATCH v1] ASoC: meson: axg-fifo: set option to use raw spinlock
-In-Reply-To: <20240805153309.k_SfHw62@linutronix.de> (Sebastian Andrzej
-	Siewior's message of "Mon, 5 Aug 2024 17:33:09 +0200")
-References: <20240729131652.3012327-1-avkrasnov@salutedevices.com>
-	<1ja5i0wags.fsf@starbuckisacylon.baylibre.com>
-	<2b16b95e-196e-4d8a-98c3-3be568cdd18a@sirena.org.uk>
-	<1j5xsow839.fsf@starbuckisacylon.baylibre.com>
-	<7dfdade5-3a57-4883-bfac-067c50ec0ffb@sirena.org.uk>
-	<1j1q3cw5ri.fsf@starbuckisacylon.baylibre.com>
-	<20240805153309.k_SfHw62@linutronix.de>
-Date: Mon, 05 Aug 2024 18:07:28 +0200
-Message-ID: <1jplqnuf5r.fsf@starbuckisacylon.baylibre.com>
+	s=arc-20240116; t=1722874634; c=relaxed/simple;
+	bh=1AU3uHyHgBd+fNoGKpCyHDzwTORE5i8l+dO0lWvgOGk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Tn5V2iRewAMjaDDy5TQbPfYpdYrs0O3PAZavbJ630T0JBMwcbaNQ76mDF9JXN/RVxn3TvXUoFSqatT9bpqimFQ4YqbT0ZgPHbU0ZdcYqkwLcdB4whuZfEqC/uOcyqn6nHegCqZNPnOwT0H8xG7ZCNi86130DE/Zk17RB3rr97Hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=194.107.17.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
+Received: from imap.altlinux.org (imap.altlinux.org [194.107.17.38])
+	by vmicros1.altlinux.org (Postfix) with ESMTP id 6060872C8FB;
+	Mon,  5 Aug 2024 19:17:04 +0300 (MSK)
+Received: from pony.office.basealt.ru (unknown [193.43.10.9])
+	by imap.altlinux.org (Postfix) with ESMTPSA id 58FC636D0168;
+	Mon,  5 Aug 2024 19:17:04 +0300 (MSK)
+Received: by pony.office.basealt.ru (Postfix, from userid 500)
+	id A772E360BFC2; Mon,  5 Aug 2024 19:17:03 +0300 (MSK)
+Date: Mon, 5 Aug 2024 19:17:03 +0300
+From: Vitaly Chikunov <vt@altlinux.org>
+To: Sasha Levin <sashal@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, 
+	Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>, Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
+	=?utf-8?B?UMOpdGVy?= Ujfalusi <peter.ujfalusi@linux.intel.com>, Mark Brown <broonie@kernel.org>, lgirdwood@gmail.com, 
+	perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 6.9 17/40] ASoC: topology: Fix route memory
+ corruption
+Message-ID: <czx7na7qfoacihuxcalowdosncubkqatf7gkd3snrb63wvpsdb@mncryvo4iiep>
+X-In-Reply-To: <20240709162007.30160-17-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -83,180 +39,93 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Mon 05 Aug 2024 at 17:33, Sebastian Andrzej Siewior <bigeasy@linutronix.=
-de> wrote:
+Sasha, Greg,
 
-> On 2024-07-29 17:57:05 [+0200], Jerome Brunet wrote:
->> On Mon 29 Jul 2024 at 16:28, Mark Brown <broonie@kernel.org> wrote:
->>=20
->> > On Mon, Jul 29, 2024 at 05:06:50PM +0200, Jerome Brunet wrote:
->> >> On Mon 29 Jul 2024 at 15:44, Mark Brown <broonie@kernel.org> wrote:
->> >
->> >> > I don't recall this coming up much TBH.  It may be that people just=
- set
->> >> > raw spinlocks when they need it, or that there's not many people us=
-ing
->> >> > relevant devices with RT kernels.
->> >
->> >> I have not been playing much with RT TBH, but AFAIK, with RT irq
->> >> handlers are threaded unless IRQF_NO_THREAD is set. In this case,
->> >> something preemptible in the handler should not be a problem.
->> >
->> >> The axg-fifo drivers do not have IRQF_NO_THREAD so something is a bit
->> >> unclear here.
->> >
->> > Yeah, it's definitely likely to happen all the time for people using RT
->> > with relevant devices.  I'm not sure I have a good sense of if it's
->> > likely to be a nasty surprise to switch raw spinlocks on by default wh=
-en
->> > it's currently controllable, I'd expect it'll generally be fine but it=
-'s
->> > possibly a bit rude to any users that don't use interrupts...
->>=20
->> Indeed it is bit radical.
->>=20
->> My concern with this patch is that, IIUC, the handler should be
->> threaded under RT and there should be no problem with the spinlock API.
->>=20
->> Adding the RT folks to try to get a better understanding, they should
->> have been CCed anyway.
->
-> I'm not sure if making the lock a raw_spinlock_t solves all the
-> problems. The regmap is regmap_mmio so direct memory-access and looks
-> simple enough to do so. In regmap_mmio_write() I see clk_enable() and
-> and this uses a spinlock_t so we should be back at the same problem.
-> There might be an additional problem if reg-caching is enabled.
+On Tue, Jul 09, 2024 at 12:18:57PM GMT, Sasha Levin wrote:
+> From: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+> 
+> [ Upstream commit 0298f51652be47b79780833e0b63194e1231fa34 ]
+> 
+> It was reported that recent fix for memory corruption during topology
+> load, causes corruption in other cases. Instead of being overeager with
+> checking topology, assume that it is properly formatted and just
+> duplicate strings.
 
-Hi Sebastian,
+Can this backport actually be applied to the 6.9/6.6/6.1 stable branches?
 
-Thanks a lot for taking the time to dig into the driver specifics.
-The IRQ handler is actually not awfully critical in this case. The HW
-will continue to run regardless of the IRQ being acked or not
+I have multiple bug reports about sound not working and memory
+corruption on some laptops (for example ICL RAYbook Si1516). See for
+example bug reports[1][2], and the fix discussion [3].
 
-The purpose of the handler is mainly to let Alsa know that 1 (or more)
-period is ready. If alsa is too slow to react, and the buffer allows
-just a few periods, the HW may under/overflow the buffer.
+dmesg messages from Lenovo ThinkBook 13 gen 1:
 
-IRQF_ONESHOT is fine because snd_pcm_period_elapsed() 'notifies'
-all past periods, not just one. The irq handler does not need to
-run again until this function has been called. It also helps if the
-period is ridiculously small, to try to reduce the number of IRQs.
 
->
-> Let me propose two alternatives:
-> #1: Why two handlers if we have IRQF_ONESHOT and the primary does almost
->     nothing. Assuming the thread is always woken up and the "unexpected
->     irq" case does not happen. If so, why not:
+  [ 3.555191] sof-audio-pci-intel-cnl 0000:00:1f.3: Firmware info: version 2:2:0-57864
+  [ 3.555206] sof-audio-pci-intel-cnl 0000:00:1f.3: Firmware: ABI 3:22:1 Kernel ABI 3:23:0
+  [ 3.574043] sof-audio-pci-intel-cnl 0000:00:1f.3: Topology: ABI 3:22:1 Kernel ABI 3:23:0
+  [ 3.575180] sof-audio-pci-intel-cnl 0000:00:1f.3: error: sink MIXER1.0> not found
+  [ 3.575772] sof-audio-pci-intel-cnl 0000:00:1f.3: error: tplg component load failed -22
+  [ 3.575793] sof-audio-pci-intel-cnl 0000:00:1f.3: error: failed to load DSP topology -22
+  [ 3.575801] sof-audio-pci-intel-cnl 0000:00:1f.3: ASoC: error at snd_soc_component_probe on 0000:00:1f.3: -22
 
-That was mainly there for initial debugging. It does not happen (yet).
+Error messages from other boots showing memory corruption:
 
->
-> diff --git a/sound/soc/meson/axg-fifo.c b/sound/soc/meson/axg-fifo.c
-> index 7e6090af720b9..60af05a3cad6b 100644
-> --- a/sound/soc/meson/axg-fifo.c
-> +++ b/sound/soc/meson/axg-fifo.c
-> @@ -220,9 +220,21 @@ static irqreturn_t axg_fifo_pcm_irq_block(int irq, v=
-oid *dev_id)
->  static irqreturn_t axg_fifo_pcm_irq_block_thread(int irq, void *dev_id)
->  {
->  	struct snd_pcm_substream *ss =3D dev_id;
-> +	struct axg_fifo *fifo =3D axg_fifo_data(ss);
-> +	unsigned int status;
-> +
-> +	regmap_read(fifo->map, FIFO_STATUS1, &status);
-> +	status =3D FIELD_GET(STATUS1_INT_STS, status);
-> +
-> +	/* Use the thread to call period elapsed on nonatomic links */
-> +	if (!(status & FIFO_INT_COUNT_REPEAT)) {
-> +		dev_dbg(axg_fifo_dev(ss), "unexpected irq - STS 0x%02x\n",
-> +			status);
-> +		return IRQ_NONE;
-> +	}
-> +	axg_fifo_ack_irq(fifo, status);
->=20=20
->  	snd_pcm_period_elapsed(ss);
-> -
->  	return IRQ_HANDLED;
->  }
->=20=20
-> @@ -251,9 +263,9 @@ int axg_fifo_pcm_open(struct snd_soc_component *compo=
-nent,
->  	if (ret)
->  		return ret;
->=20=20
-> -	ret =3D request_threaded_irq(fifo->irq, axg_fifo_pcm_irq_block,
-> -				   axg_fifo_pcm_irq_block_thread,
-> -				   IRQF_ONESHOT, dev_name(dev), ss);
-> +	ret =3D request_threaded_irq(fifo->irq, NULL,
-> +				   axg_fifo_pcm_irq_block_thread, IRQF_ONESHOT,
-> +				   dev_name(dev), ss);
->  	if (ret)
->  		return ret;
->=20=20
->
-> #2: If two handers are required due to $REASON then primary should ACK/
->     disable the interrupt line while the secondary/ threaded handler is
->     running. In this is case then IRQF_ONESHOT is not needed because its
->     "tasks" is performed by the primary handler:
->
-> diff --git a/sound/soc/meson/axg-fifo.c b/sound/soc/meson/axg-fifo.c
-> index 7e6090af720b9..5b4c518eb4ccd 100644
-> --- a/sound/soc/meson/axg-fifo.c
-> +++ b/sound/soc/meson/axg-fifo.c
-> @@ -205,11 +205,16 @@ static irqreturn_t axg_fifo_pcm_irq_block(int irq, =
-void *dev_id)
->=20=20
->  	regmap_read(fifo->map, FIFO_STATUS1, &status);
->  	status =3D FIELD_GET(STATUS1_INT_STS, status);
-> -	axg_fifo_ack_irq(fifo, status);
->=20=20
->  	/* Use the thread to call period elapsed on nonatomic links */
-> -	if (status & FIFO_INT_COUNT_REPEAT)
-> +	if (status & FIFO_INT_COUNT_REPEAT) {
-> +		/*
-> +		 * ACKs/ Disables the interrupt until re-enabled by
-> +		 * axg_fifo_pcm_irq_block_thread()
-> +		 */
-> +		axg_fifo_ack_irq(fifo, status);
->  		return IRQ_WAKE_THREAD;
-> +	}
->=20=20
->  	dev_dbg(axg_fifo_dev(ss), "unexpected irq - STS 0x%02x\n",
->  		status);
-> @@ -253,7 +258,7 @@ int axg_fifo_pcm_open(struct snd_soc_component *compo=
-nent,
->=20=20
->  	ret =3D request_threaded_irq(fifo->irq, axg_fifo_pcm_irq_block,
->  				   axg_fifo_pcm_irq_block_thread,
-> -				   IRQF_ONESHOT, dev_name(dev), ss);
-> +				   0, dev_name(dev), ss);
->  	if (ret)
->  		return ret;
->
-> On the PREEMPT_RT both handler will be threaded.
->=20=20
-> My favorite is #1. Also ACKing the interrupt only if it occurred for the
-> device/ driver in charge. Otherwise don't care=E2=80=A6
+  [ 3.904397] sof-audio-pci-intel-cnl 0000:00:1f.3: error: sink PCM0C03-std-def-alt0.p11@jh\x86Ŝ\xff\xff@\xc8\xff\x82Ŝ\xff\xff`P\x82\xbb\xff\xff\xff\xff\x94$A\xbc\xff\xff\xff\xff\x06 not found
+  [ 3.966777] sof-audio-pci-intel-cnl 0000:00:1f.3: error: sink PGA1.0\x01 not found
+  [ 3.899748] sof-audio-pci-intel-cnl 0000:00:1f.3: error: source BUF2.0 not found
+  [ 3.975359] sof-audio-pci-intel-cnl 0000:00:1f.3: error: source PCM0P\x01pcsc-lite.conf not found
+  [ 7.275851] sof-audio-pci-intel-tgl 0000:00:1f.3: error: source HDA1.IN/0123456789:;<=>? not found
 
-I'd prefer #1 too. IRQ is not shared, so the ownership should be fine.
+[1] https://github.com/thesofproject/sof/issues/9339
+[2] https://github.com/thesofproject/sof/issues/9341
+[3] https://lore.kernel.org/linux-sound/171812236450.201359.3019210915105428447.b4-ty@kernel.org/T/#m8c4bd5abf453960fde6f826c4b7f84881da63e9d
 
-However I still don't fully understand what we are fixing here TBH. It
-seems it could apply to other parts of the kernel so I'd like to
-understand what is wrong (and avoid repeating the same mistake)
+Thanks,
 
-* With PREEMPT_RT, both handler will threaded, so they should be able to
-  call preemptible function, right ?
-* If so, and spinlock_lock() actually becomes preemptible with
-  PREEMPT_RT as stated in this change description, why is it problem here ?
-
-Do you have an idea about what is going on ?
-
-Again, thanks a lot for your help.
-
->
-> Sebastian
-
---=20
-Jerome
+> 
+> Reported-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+> Closes: https://lore.kernel.org/linux-sound/171812236450.201359.3019210915105428447.b4-ty@kernel.org/T/#m8c4bd5abf453960fde6f826c4b7f84881da63e9d
+> Suggested-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+> Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+> Link: https://lore.kernel.org/r/20240613090126.841189-1-amadeuszx.slawinski@linux.intel.com
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+>  sound/soc/soc-topology.c | 12 +++---------
+>  1 file changed, 3 insertions(+), 9 deletions(-)
+> 
+> diff --git a/sound/soc/soc-topology.c b/sound/soc/soc-topology.c
+> index 52752e0a5dc27..27aba69894b17 100644
+> --- a/sound/soc/soc-topology.c
+> +++ b/sound/soc/soc-topology.c
+> @@ -1052,21 +1052,15 @@ static int soc_tplg_dapm_graph_elems_load(struct soc_tplg *tplg,
+>  			break;
+>  		}
+>  
+> -		route->source = devm_kmemdup(tplg->dev, elem->source,
+> -					     min(strlen(elem->source), maxlen),
+> -					     GFP_KERNEL);
+> -		route->sink = devm_kmemdup(tplg->dev, elem->sink,
+> -					   min(strlen(elem->sink), maxlen),
+> -					   GFP_KERNEL);
+> +		route->source = devm_kstrdup(tplg->dev, elem->source, GFP_KERNEL);
+> +		route->sink = devm_kstrdup(tplg->dev, elem->sink, GFP_KERNEL);
+>  		if (!route->source || !route->sink) {
+>  			ret = -ENOMEM;
+>  			break;
+>  		}
+>  
+>  		if (strnlen(elem->control, maxlen) != 0) {
+> -			route->control = devm_kmemdup(tplg->dev, elem->control,
+> -						      min(strlen(elem->control), maxlen),
+> -						      GFP_KERNEL);
+> +			route->control = devm_kstrdup(tplg->dev, elem->control, GFP_KERNEL);
+>  			if (!route->control) {
+>  				ret = -ENOMEM;
+>  				break;
+> -- 
+> 2.43.0
+> 
