@@ -1,105 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C343D3FB3B;
-	Mon,  5 Aug 2024 08:43:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27C841E505;
+	Mon,  5 Aug 2024 10:29:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722847402; cv=none; b=f5bQUyhicaAZl2QS0qEOrObNZN0vrDjtkOH5lA6iWTR9TYqyr/LUEVknWqf17wTJqa3zKpeOajdwzjYyT3zAdGPjrNDnTsxkUgHtnfBSyoHs9rvyoMS2vvhg/PWh1oq+C4FGkc/klEww79HWiH3Y2CPIwV7EsQVg3emIvry65Rc=
+	t=1722853797; cv=none; b=NB3jxOKtI2Q4RLcDeC93f9VgyiPAuGSvR5QNpeuAY64L28Y0gtSC19a3+ZEpEkrNTvQUj1kqaIupCCoX9c/chP2bHPWrOT9V4Ru6RVbCWW6lsLjLz/v1f33mUyFq+b14rMK9ucVN0HWEJZzI6E2mcEgiqlTf+3BM02p6WQ5+5xs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722847402; c=relaxed/simple;
-	bh=6V+NUWtERM0UhpzcaLVsRmqe5qPsjA6dhvW+4SWx5Pg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jusoMxeaJQf9v1+ditsCvSx4QnSWIcITYWynY6Nj6nfWqKeulrMyJ8L17lSOiQaAk4CeIrJ7wln6tfL8ofH5/tXojyaFP0V9M8ISnj1pdeVrz1qO4FxepwVLqFJoKoYYD1rCz7z4qgVr+78/97i5MGnT4fps74FafiYqINIXT/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PMGYM3m8; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1722853797; c=relaxed/simple;
+	bh=ZeqSfLoissZBrgzCEz1AO0KXc11j7fM6/NaCc3pgp7g=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=G15Cyb4+dwO1D0buPeShgDX/aF8yImEz/XpBtTMzeIWp2TixPqwLkmge2D5tsJeSHq7WNptNC8cid/qf0CIBz5KNvyKHpwnabc9iVBGvdE9Fr5nLjM4LabNEoyvuTH5vedClU7X+qc5x3u6/9LusFBzKMZX53DiMuV+HTa/uddw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=WUWXTUrj; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PMGYM3m8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722847401; x=1754383401;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=6V+NUWtERM0UhpzcaLVsRmqe5qPsjA6dhvW+4SWx5Pg=;
-  b=PMGYM3m88lUF+IfWjSRIkFVjP8MGJUOo1vLn18RNHefv0G3x/CsyWQL7
-   jA80Bl5tBbt+NJ0DqwJYwcDV/ZzVXHJtcF8ec7td8Z8j7ZChMFMIGyFsa
-   XD8l5JOg5WDcMni4Iu4kT2KMBmTpaUuK8cnN8mq6lx0aRu8LnpuMDPE4y
-   MwK2rBwsebdK+sBrhPBGPeuEVEwcIRbS4SpNic00ZG6TsfPdmWAdFS/Eo
-   0TOdEu3O5Zo1Vaq86N9/Z0VYoM6s3ozKTTuv4cLVUwNOzmiiMcfWikxpN
-   emeI3J6xA0tH+M6X4MCk0bSHP07rncRic/0R0ea6luVONS2b9x4m51pan
-   w==;
-X-CSE-ConnectionGUID: E5/4+mZIQlub8z1qJLf57A==
-X-CSE-MsgGUID: ozf7ShDvTRewoGWh7+jovQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11154"; a="24664413"
-X-IronPort-AV: E=Sophos;i="6.09,264,1716274800"; 
-   d="scan'208";a="24664413"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2024 01:43:20 -0700
-X-CSE-ConnectionGUID: 9Ma2Wu6YQjO+e8vJqN52fA==
-X-CSE-MsgGUID: mOqaFRYgTW+ZAhNCcWlnUg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,264,1716274800"; 
-   d="scan'208";a="60226007"
-Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.53]) ([10.94.0.53])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2024 01:43:18 -0700
-Message-ID: <83d0a673-007e-4e0e-8db3-856ae02cd67c@linux.intel.com>
-Date: Mon, 5 Aug 2024 10:43:15 +0200
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="WUWXTUrj"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47571BNJ029909;
+	Mon, 5 Aug 2024 05:27:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=3SsXaADfYXmkfGdF
+	EQ8BqI7QxDoQ1bVhx0E6UcjhWAc=; b=WUWXTUrjsFapGsgTKQVMEPNHnfKVfkps
+	M1wmzCsUqkstq+9p788Gm32EXrpD5GXWH1sqQqIrt+dLrVMCupM9huYos+zs92q+
+	ffkoENxY4mMCvws0lEkZ1YsHMko8iZGfla0uOLuT8OXZwl+buuUP4FyyiQWXAnzy
+	YL0W2v9qyRjX6prsfuFBFcH1tvoOE/YdlTjSjJtK1Q8Gqz8LfSOAVXagD6Tssye1
+	LsHcqswkjE0mgSCHX4YskAA0TgK5qgUjdmp8CtqQW6+a6OXCecWvAWrs3cCTHbtF
+	SyU6cRtkBj+DHpE6ODuj+z5z6/4d6obl4Z2MRVoJxT9kZE+j0QFX1A==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 40sgyhsmt5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 05 Aug 2024 05:27:40 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 5 Aug 2024
+ 11:27:39 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Mon, 5 Aug 2024 11:27:39 +0100
+Received: from lonswws01.ad.cirrus.com (lonswws01.ad.cirrus.com [198.90.188.26])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 0562A820241;
+	Mon,  5 Aug 2024 10:27:39 +0000 (UTC)
+From: Simon Trimmer <simont@opensource.cirrus.com>
+To: <broonie@kernel.org>
+CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
+        "Simon
+ Trimmer" <simont@opensource.cirrus.com>
+Subject: [PATCH 0/2] ASoC: Extend wm_adsp so cs35l56 can suppress controls
+Date: Mon, 5 Aug 2024 10:27:19 +0000
+Message-ID: <20240805102721.30102-1-simont@opensource.cirrus.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: hda: Manally set pins to correct HP firmware
- settings
-Content-Language: en-US
-To: Steven 'Steve' Kendall <skend@chromium.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240802-hdmi-audio-hp-wrongpins-v1-1-8d8ba10d77f8@chromium.org>
-From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <20240802-hdmi-audio-hp-wrongpins-v1-1-8d8ba10d77f8@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: y4efbioVgD9Uc8QXDjlnAqFMtOy9A9lO
+X-Proofpoint-GUID: y4efbioVgD9Uc8QXDjlnAqFMtOy9A9lO
+X-Proofpoint-Spam-Reason: safe
 
-On 8/3/2024 1:50 AM, Steven 'Steve' Kendall wrote:
-> In recent HP UEFI firmware (likely v2.15 and above, tested on 2.27),
-> these pins are incorrectly set for HDMI/DP audio. Tested on
-> HP MP9 G4 Retail System AMS. Pins for the ports set to escalating values
-> (0x70, 80, 90) to have differing default associations, though in my
-> testing setting all pins to 0x70 also worked as suggested by the first
-> link below. Tested audio with two monitors connected via DisplayPort.
-> 
-> Link: https://forum.manjaro.org/t/intel-cannon-lake-pch-cavs-conexant-cx20632-no-sound-at-hdmi-or-displayport/133494
-> Link: https://bbs.archlinux.org/viewtopic.php?id=270523
-> Signed-off-by: Steven 'Steve' Kendall <skend@chromium.org>
-> ---
->   sound/pci/hda/patch_hdmi.c | 21 ++++++++++++++++++++-
->   1 file changed, 20 insertions(+), 1 deletion(-)
-> 
-> diff --git a/sound/pci/hda/patch_hdmi.c b/sound/pci/hda/patch_hdmi.c
-> index 707d203ba652..dfcbd41097f8 100644
-> --- a/sound/pci/hda/patch_hdmi.c
-> +++ b/sound/pci/hda/patch_hdmi.c
-> @@ -3115,6 +3115,25 @@ static int patch_i915_hsw_hdmi(struct hda_codec *codec)
->   				     enable_silent_stream);
->   }
->   
-> +static const struct snd_pci_quirk kaby_hdmi_list[] = {
+This pair of patches extend wm_adsp to add a callback that can be used
+to control whether ALSA controls are added and then tweak cs35l56 to use
+it to suppress controls made from firmware coefficients.
 
-I see that Takashi gave some other suggestion, but in case there is 
-decision to proceed with this patch, change kaby_hdmi_list to kbl_hdmi_list.
+Simon Trimmer (2):
+  ASoC: wm_adsp: Add control_add callback and export
+    wm_adsp_control_add()
+  ASoC: cs35l56: Stop creating ALSA controls for firmware coefficients
 
-> +	SND_PCI_QUIRK(0x103c, 0x83ef, "HP MP9 G4 Retail System AMS", 1),
-> +	{}
-> +};
-> +
-> +static int patch_i915_kaby_hdmi(struct hda_codec *codec)
+ sound/soc/codecs/cs35l56.c | 11 +++++++++++
+ sound/soc/codecs/wm_adsp.c | 17 ++++++++++++++---
+ sound/soc/codecs/wm_adsp.h |  3 +++
+ 3 files changed, 28 insertions(+), 3 deletions(-)
 
-and same here, kaby -> kbl
+-- 
+2.43.0
 
-or maybe even consider cnl, as both linked issues seem to be reported on 
-devices with Cannon Lake audio controller?
