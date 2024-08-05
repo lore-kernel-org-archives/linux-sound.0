@@ -1,57 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A921547CC;
-	Mon,  5 Aug 2024 11:50:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10BC81E480
+	for <linux-sound@vger.kernel.org>; Mon,  5 Aug 2024 13:00:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722858618; cv=none; b=Zt4li0aM6IqhzYtB2hso+1AMH1P7LkntrspbcYrVtIMWTQ2Qon2FJOjgnqvowMxBVss/cxExXPhOu/F/drqZzXYIdXDEnd4xaDnbNJ+Crk/96o5EVLKH3pcGYxnH/ZDLiJGniaVsqHOyZm+Lu4R2c3U0TQOYOdVkcS3L/ti+o3U=
+	t=1722862856; cv=none; b=TsiBIXrU5BmuKZlgJ3n57OGBIM366edCrixbv5w1NEG1aqmJJlGAynzQLDMaEp3XT6J1ujBFruuldJ6rN+Q3xU6Ul1gWFHpEBZnSuDse2K9a1Fn5x7Y4hqG8Lk8KEhTTkrOFYDxTfeBaIFsel9pQjDokramPNKJ7aK5hBHRarmE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722858618; c=relaxed/simple;
-	bh=9ovFynt3b40ahsg006bNqlL8urBMdE4VrkjwcfoBQ8A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WN8NlaTIj2XGFpWFhV1p+6mcLS1fBOHUfwbSomJKMKZUiFcNDa8kie6PDp6V+PH2+FkSr6lJB7/zPXNPs0gigHNzNf+RTqxfBBjptoDpWRgY88fJk/7CIt1fwEYqc+3jKWaLW0Uiae1sbWVD4PVsMlE3gf1WIGzr6DF/LQqBHdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hw50HoVR; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1722862856; c=relaxed/simple;
+	bh=it/9TQj09E1uiMvs9gCdXLjrI9r47lIJ5e7krLeeu6A=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=Vxx4vpVm1zG6O4PjjQp1x/z84Q/B+UK7kXxi7w3mS1xz9KtRmBosjjcHGhLPoeZ4FZuCbnGDbiIVi59e963tHnEdzguWsmlXQltuv3/kG6SllD2/sDcTGNgs0Ls8U7A3+Pk6x5ritiye795BmAMPnEDEwWfW09QiSpdT+c0wh4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CTl9X+GR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jxwT2brf; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CTl9X+GR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jxwT2brf; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hw50HoVR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722858616; x=1754394616;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=9ovFynt3b40ahsg006bNqlL8urBMdE4VrkjwcfoBQ8A=;
-  b=Hw50HoVRS56WI/b3TCXjPH5tR7U3rIe76M692ILYoYWMGHAFw5sy6TKQ
-   YcmEWaaF5xU/y7GFkm82o06angGBgbjX0JsxHCQ87oTmVxWGdIDNTHlzO
-   lWHkzxlui80LTbuRhg/PbGDY5dOYRWEbCSGAHFT9Jm39qZx8eXVlz6/+m
-   nHEiJsWGf4cjav428GfXbUnah3+wDjWkIFj/564kcRdqB1qfajg513o6y
-   DzvYp2bJ1pQFhjn0r3Z3YajGIXzZkjzWJiAxlK7RKV4lqERCXNFCvZV9Y
-   6eXxrUFrhm67m4G9AwXRHjSC+QqJtk/WZH2+e5WyztbmS5pxrCpCEMOv/
-   g==;
-X-CSE-ConnectionGUID: S269MDwyRBqekPW3+XVpEA==
-X-CSE-MsgGUID: Z0PRYUtwRjmJhFsLAc2LxQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11155"; a="32224199"
-X-IronPort-AV: E=Sophos;i="6.09,264,1716274800"; 
-   d="scan'208";a="32224199"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2024 04:50:15 -0700
-X-CSE-ConnectionGUID: sC6W97SlQPGeA7dRqeCm7w==
-X-CSE-MsgGUID: 7aGCM9hoStq7itt93NzysQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,264,1716274800"; 
-   d="scan'208";a="61103007"
-Received: from unknown (HELO yungchua-desk.intel.com) ([10.247.119.12])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2024 04:50:13 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: linux-sound@vger.kernel.org,
-	vkoul@kernel.org
-Cc: vinod.koul@linaro.org,
-	linux-kernel@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com,
-	bard.liao@intel.com
-Subject: [PATCH] soundwire: intel_bus_common: enable interrupts before exiting reset
-Date: Mon,  5 Aug 2024 19:50:03 +0800
-Message-ID: <20240805115003.88035-1-yung-chuan.liao@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CTl9X+GR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jxwT2brf";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CTl9X+GR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jxwT2brf"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 167361F841;
+	Mon,  5 Aug 2024 13:00:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1722862853; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=wYQZS2bIQ1xkBC7vm42xw6NH2Cmc/Q9P91th9EEjOco=;
+	b=CTl9X+GRD+U61jiF2gj9tCDSN0wBVSSEqaRyzrQXrjaZJen0+8drV5L9gMELhl0ESM7RwW
+	MQTvwq5wdE42MrO5YqiyMgxuFJw5v4FG2Ns9TcuENCDS6eHe03Vl/kxHuWhSzKfL0BfiGN
+	KwVmn5UfrJcZRIcFCt0CpvOyF8NxuM8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1722862853;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=wYQZS2bIQ1xkBC7vm42xw6NH2Cmc/Q9P91th9EEjOco=;
+	b=jxwT2brfkL2mBqiLaKO+ZYaHaEI+lYgYgqcx0EZRgJG6RjArMFw+rYjlyAr9MLxlTxX8AM
+	M3bAyLnKJ2gXQXCg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=CTl9X+GR;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=jxwT2brf
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1722862853; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=wYQZS2bIQ1xkBC7vm42xw6NH2Cmc/Q9P91th9EEjOco=;
+	b=CTl9X+GRD+U61jiF2gj9tCDSN0wBVSSEqaRyzrQXrjaZJen0+8drV5L9gMELhl0ESM7RwW
+	MQTvwq5wdE42MrO5YqiyMgxuFJw5v4FG2Ns9TcuENCDS6eHe03Vl/kxHuWhSzKfL0BfiGN
+	KwVmn5UfrJcZRIcFCt0CpvOyF8NxuM8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1722862853;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=wYQZS2bIQ1xkBC7vm42xw6NH2Cmc/Q9P91th9EEjOco=;
+	b=jxwT2brfkL2mBqiLaKO+ZYaHaEI+lYgYgqcx0EZRgJG6RjArMFw+rYjlyAr9MLxlTxX8AM
+	M3bAyLnKJ2gXQXCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F10F613ACF;
+	Mon,  5 Aug 2024 13:00:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id H7ucOQTNsGY0MQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 05 Aug 2024 13:00:52 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: line6: Fix racy access to midibuf
+Date: Mon,  5 Aug 2024 15:01:28 +0200
+Message-ID: <20240805130129.10872-1-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -60,87 +78,91 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Spam-Score: -5.01
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 167361F841
+X-Spamd-Result: default: False [-5.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	TO_DN_NONE(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_TRACE(0.00)[suse.de:+];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+There can be concurrent accesses to line6 midibuf from both the URB
+completion callback and the rawmidi API access.  This could be a cause
+of KMSAN warning triggered by syzkaller below (so put as reported-by
+here).
 
-The existing code enables the Cadence IP interrupts after the bus
-reset sequence. The problem with this sequence is that it might be
-pre-empted, giving SoundWire devices time to sync and report as
-ATTACHED before the interrupts are enabled. In that case, the Cadence
-IP will not detect a state change and will not throw an interrupt to
-proceed with the enumeration of a Device0.
+This patch protects the midibuf call of the former code path with a
+spinlock for avoiding the possible races.
 
-In our overnight stress tests, we observed that a slight
-sub-millisecond delay in enabling interrupts after the reset was
-correlated with detection failures. This problem is more prevalent on
-the LunarLake silicon, likely due to SOC integration changes, but it
-was observed on earlier generations as well.
-
-This patch reverts the sequence, with the interrupts enabled before
-performing the bus reset. This removes the race condition and makes
-sure the Cadence IP is able to detect the presence of a Device0 in all
-cases.
-
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Reported-by: syzbot+78eccfb8b3c9a85fc6c5@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/00000000000000949c061df288c5@google.com
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- drivers/soundwire/intel_bus_common.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ sound/usb/line6/driver.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/soundwire/intel_bus_common.c b/drivers/soundwire/intel_bus_common.c
-index 2bc960d05780..d3ff6c65b64c 100644
---- a/drivers/soundwire/intel_bus_common.c
-+++ b/drivers/soundwire/intel_bus_common.c
-@@ -45,18 +45,18 @@ int intel_start_bus(struct sdw_intel *sdw)
- 		return ret;
- 	}
+diff --git a/sound/usb/line6/driver.c b/sound/usb/line6/driver.c
+index f4437015d43a..9df49a880b75 100644
+--- a/sound/usb/line6/driver.c
++++ b/sound/usb/line6/driver.c
+@@ -286,12 +286,14 @@ static void line6_data_received(struct urb *urb)
+ {
+ 	struct usb_line6 *line6 = (struct usb_line6 *)urb->context;
+ 	struct midi_buffer *mb = &line6->line6midi->midibuf_in;
++	unsigned long flags;
+ 	int done;
  
-+	ret = sdw_cdns_enable_interrupt(cdns, true);
-+	if (ret < 0) {
-+		dev_err(dev, "%s: cannot enable interrupts: %d\n", __func__, ret);
-+		return ret;
-+	}
-+
- 	ret = sdw_cdns_exit_reset(cdns);
- 	if (ret < 0) {
- 		dev_err(dev, "%s: unable to exit bus reset sequence: %d\n", __func__, ret);
- 		return ret;
- 	}
+ 	if (urb->status == -ESHUTDOWN)
+ 		return;
  
--	ret = sdw_cdns_enable_interrupt(cdns, true);
--	if (ret < 0) {
--		dev_err(dev, "%s: cannot enable interrupts: %d\n", __func__, ret);
--		return ret;
--	}
--
- 	sdw_cdns_check_self_clearing_bits(cdns, __func__,
- 					  true, INTEL_MASTER_RESET_ITERATIONS);
+ 	if (line6->properties->capabilities & LINE6_CAP_CONTROL_MIDI) {
++		spin_lock_irqsave(&line6->line6midi->lock, flags);
+ 		done =
+ 			line6_midibuf_write(mb, urb->transfer_buffer, urb->actual_length);
  
-@@ -139,18 +139,18 @@ int intel_start_bus_after_reset(struct sdw_intel *sdw)
- 			return ret;
+@@ -300,12 +302,15 @@ static void line6_data_received(struct urb *urb)
+ 			dev_dbg(line6->ifcdev, "%d %d buffer overflow - message skipped\n",
+ 				done, urb->actual_length);
  		}
++		spin_unlock_irqrestore(&line6->line6midi->lock, flags);
  
-+		ret = sdw_cdns_enable_interrupt(cdns, true);
-+		if (ret < 0) {
-+			dev_err(dev, "cannot enable interrupts during resume\n");
-+			return ret;
-+		}
-+
- 		ret = sdw_cdns_exit_reset(cdns);
- 		if (ret < 0) {
- 			dev_err(dev, "unable to exit bus reset sequence during resume\n");
- 			return ret;
- 		}
+ 		for (;;) {
++			spin_lock_irqsave(&line6->line6midi->lock, flags);
+ 			done =
+ 				line6_midibuf_read(mb, line6->buffer_message,
+ 						   LINE6_MIDI_MESSAGE_MAXLEN,
+ 						   LINE6_MIDIBUF_READ_RX);
++			spin_unlock_irqrestore(&line6->line6midi->lock, flags);
  
--		ret = sdw_cdns_enable_interrupt(cdns, true);
--		if (ret < 0) {
--			dev_err(dev, "cannot enable interrupts during resume\n");
--			return ret;
--		}
--
- 	}
- 	sdw_cdns_check_self_clearing_bits(cdns, __func__, true, INTEL_MASTER_RESET_ITERATIONS);
- 
+ 			if (done <= 0)
+ 				break;
 -- 
 2.43.0
 
