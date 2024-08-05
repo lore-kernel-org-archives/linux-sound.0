@@ -1,171 +1,159 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6451C158A0D
-	for <linux-sound@vger.kernel.org>; Mon,  5 Aug 2024 08:02:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BED9148FED;
+	Mon,  5 Aug 2024 08:15:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.201.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722844955; cv=none; b=G/DQFCED18yQjxTXlR475gfvHm4/rmUdw/xnhi79PKdUQnGA5XYTycEHe3COyuQBoh50xk4WsotuiVKr3ScMR+TEKptojV0Q46UgkIPikFx8tZvYVctOmnmKlU3GC4quJWPskxPmtsNCDxXSbPVpCM7LwUZBjenuenWaVCCXcEk=
+	t=1722845709; cv=none; b=HOBg+SicGOURRwAg5zYRAJO4dOXm1SmKeimIkRbyz/lwQsxUjTmOc0Fh3udxELXyRl0xmgMOUxtsfsy3REqbVAbO5iKS24pqSDR2CjAku3CWf0m7/KUzUPApUu4GRWIYG1sEmkgh4t4Cw0czFXrV69C4zPEi0IHUBA6xn7vj0SQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722844955; c=relaxed/simple;
-	bh=eDX/oUhvMuTvOdEU35gML3pMZ3bHnmTWwtIB4yn4vRc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nd52u3NZghkI2Wb3N9eYu5EwCSH480Ca2S2yw94nXfLuATOVXcIYNkey9vl8r2RTcljYu29Q+5rNunAVem2iDes92zca3QhcWqzn9aUhWMmoAAufK4vmKmW4e631EY8iDdDgnsY8QOVntbf2HP52qEYPYik9dj1wBLVZV2HbbeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BwGwGtHx; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1722845709; c=relaxed/simple;
+	bh=xLwAL30HsUazONbAdeyL6SW7m8LuRtuI1JpFRvYHPkI=;
+	h=Content-Type:Date:Message-Id:Cc:From:To:Subject:References:
+	 In-Reply-To; b=JKZcZ/nv+H+7/cebN5Y3G47tLMNm5Yn51raAlQIVQiTQOhAAciqVN0eNp3s9U+D7MTiCLd9jl+Cwxfdtm+3YZALtXw9ublv4HghkF3k1YMWibDNOopi9cDWuF53wQFa07kfs5CnLm10yDWkCqZNUeboZpQg6dWsCqdUBur+C/EE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=walle.cc; spf=pass smtp.mailfrom=walle.cc; dkim=pass (2048-bit key) header.d=walle.cc header.i=@walle.cc header.b=gGs8eCs0; arc=none smtp.client-ip=159.69.201.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=walle.cc
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=walle.cc
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BwGwGtHx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1722844953;
+	dkim=pass (2048-bit key) header.d=walle.cc header.i=@walle.cc header.b="gGs8eCs0"
+Received: from localhost (unknown [213.135.10.150])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.3ffe.de (Postfix) with ESMTPSA id B62FE112;
+	Mon,  5 Aug 2024 10:14:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
+	t=1722845698;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6elIcVAva6IdGos3xrpBxA061GwStf3eghsSoUI+FxU=;
-	b=BwGwGtHxiSPLnupt/pe/EoWhFg8r3vCsW+gFIPk5+P7JsUoRu64sZTqEBRYfvkV4nZx6Lo
-	7EiZKJ+/Gn9hGZdyT7OX/l8G1V3a8M4eDQrFe3VPrQPRFlJYcpA7EBAA7xVarCEJ8hjNsH
-	zXAJc1dGBtW1LE6jWiM8DE5EV8EUkwU=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-624-VXPQmgBDOhC7_gD2Y2X2nw-1; Mon, 05 Aug 2024 04:02:22 -0400
-X-MC-Unique: VXPQmgBDOhC7_gD2Y2X2nw-1
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-a77e377501cso105869466b.0
-        for <linux-sound@vger.kernel.org>; Mon, 05 Aug 2024 01:02:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722844941; x=1723449741;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6elIcVAva6IdGos3xrpBxA061GwStf3eghsSoUI+FxU=;
-        b=Vsg1yPQ+9Mg/CUvuHOBZ/9+5GLu/twTgNMyNsdulsRtfwqiSP9Fg2vKh4yISprXiRw
-         bdvmX4n7bfNL8JWPvRXHK3tiAgl0ieV11YFUQonaT1wXN3qcVhYafQ4V2gFfFHBR4JjC
-         z8FUQhKS1soA4Cq8iFkuNAcnJKz3/jiEVnLy8sd+BwndA7muRByIPugMdzLTKLmkS/OS
-         ARWOMiuaI3/SUIIiHagSqlBI0aT/HLW7Ujc/fPi522bGZtvjfyxxJMxCLAshXWNKwJhe
-         r5asRVwzCme4CQ0o5FavyZZ3ZJ0l/ufYMwryNDApcj7cxIDjWCbQ9ivhnUm/s1C99+CD
-         GwTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUrkJWD/UbrT/pJod3ZqzRJrBTKpiaKECuGfXn9sNE4szZdZPheOuEHV/KKNSnX32VX+qEqzKf/WYbJEA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyGSi1n+UxmUfTwxuDwdjFEPhE0CKJcKyV/CX3qi+TGI2sc5/AQ
-	AAba+nNzgdKNor8vj8quavtzGXSrVlLHhMlD0PYn6yHuWe694ujjt9wDOncLHfeUOxh1J6y/uKT
-	58e0hlSx7Hp1YGbmk8MONPvcSLPky6ma49rlb5J8KtCtTxKkPMn0v/S2NLjLv
-X-Received: by 2002:a17:906:bc0b:b0:a7a:9a78:4b5e with SMTP id a640c23a62f3a-a7dc50ff341mr387933466b.8.1722844941124;
-        Mon, 05 Aug 2024 01:02:21 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGkK5Lt7n9jXqXSSRLA1PwUtBlM1U1xQiwgfbtLyFZ2DIUDAUIZgCzu48VuDRqWx5Z3WdARVA==
-X-Received: by 2002:a17:906:bc0b:b0:a7a:9a78:4b5e with SMTP id a640c23a62f3a-a7dc50ff341mr387928066b.8.1722844940701;
-        Mon, 05 Aug 2024 01:02:20 -0700 (PDT)
-Received: from eisenberg.fritz.box (200116b82df07e000a5f4891a3b0b190.dip.versatel-1u1.de. [2001:16b8:2df0:7e00:a5f:4891:a3b0:b190])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7de8d0868bsm277958966b.143.2024.08.05.01.02.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Aug 2024 01:02:20 -0700 (PDT)
-From: Philipp Stanner <pstanner@redhat.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Niklas Cassel <cassel@kernel.org>,
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Boris Brezillon <bbrezillon@kernel.org>,
-	Arnaud Ebalard <arno@natisbad.org>,
-	Srujana Challa <schalla@marvell.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Miri Korenblit <miriam.rachel.korenblit@intel.com>,
-	Kalle Valo <kvalo@kernel.org>,
-	Serge Semin <fancer.lancer@gmail.com>,
-	Jon Mason <jdmason@kudzu.us>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Allen Hubbe <allenbh@gmail.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Kevin Cernekee <cernekee@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Mark Brown <broonie@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Philipp Stanner <pstanner@redhat.com>,
-	Jie Wang <jie.wang@intel.com>,
-	Adam Guerin <adam.guerin@intel.com>,
-	Shashank Gupta <shashank.gupta@intel.com>,
-	Damian Muszynski <damian.muszynski@intel.com>,
-	Nithin Dabilpuram <ndabilpuram@marvell.com>,
-	Bharat Bhushan <bbhushan2@marvell.com>,
-	Johannes Berg <johannes.berg@intel.com>,
-	Gregory Greenman <gregory.greenman@intel.com>,
-	Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
-	Yedidya Benshimol <yedidya.ben.shimol@intel.com>,
-	Breno Leitao <leitao@debian.org>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	John Ogness <john.ogness@linutronix.de>,
-	Thomas Gleixner <tglx@linutronix.de>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-ide@vger.kernel.org,
-	qat-linux@intel.com,
-	linux-crypto@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	ntb@lists.linux.dev,
-	linux-pci@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH v2 09/10] ALSA: korg1212: Replace deprecated PCI functions
-Date: Mon,  5 Aug 2024 10:01:36 +0200
-Message-ID: <20240805080150.9739-11-pstanner@redhat.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240805080150.9739-2-pstanner@redhat.com>
-References: <20240805080150.9739-2-pstanner@redhat.com>
+	 to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+	 references:references; bh=5BjVyMLlxUNN9B+c+TnMQJMAi/0kH47F+XpZ7pZB+aY=;
+	b=gGs8eCs06i5Bm0tao3zgmqnXZxRLfAVT9HCBeDdXP8vkxsjJE4j5FvUAbG369KAyjIHMT8
+	BYZmNMlnsOqH+DonAHT8TCoFTn+Ra08pncLMz1OTv1uLPM7iP8q58ioWfZS7UpuTGeQ3T3
+	dYTsDbzQzDlyjGGm4sqcAKDvGrsDWKnxE07Cje6GwTMwkYLQSieOKz9CWFpbT/+triyUps
+	rcIAWsgWxg2rUaNBaNq+9zJgga+ZnL/xnA9jBKiHW/EbNNCUl4MiK99L+TOkg1Xaf7KGlq
+	tm6wsSKL4cmLtNuXDq1VL+0txgqm/iXXj0O1yC1hOz5JTu7pYr9KsdAJli+GQg==
+Content-Type: multipart/signed;
+ boundary=7dd7e4000aaf39ea05868ee56141ae02e60c588dac0a5b0688b30f1b385e;
+ micalg=pgp-sha384; protocol="application/pgp-signature"
+Date: Mon, 05 Aug 2024 10:14:55 +0200
+Message-Id: <D37TTUBLTRVT.9J44JZ1DP06A@walle.cc>
+Cc: "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
+ "nicolas.ferre@microchip.com" <nicolas.ferre@microchip.com>,
+ "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
+ "claudiu.beznea@tuxon.dev" <claudiu.beznea@tuxon.dev>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "alsa-devel@alsa-project.org"
+ <alsa-devel@alsa-project.org>, "patches@opensource.cirrus.com"
+ <patches@opensource.cirrus.com>, "linux-sound@vger.kernel.org"
+ <linux-sound@vger.kernel.org>, "git (AMD-Xilinx)" <git@amd.com>,
+ "amitrkcian2002@gmail.com" <amitrkcian2002@gmail.com>, "Conor Dooley"
+ <conor.dooley@microchip.com>, "beanhuo@micron.com" <beanhuo@micron.com>
+From: "Michael Walle" <michael@walle.cc>
+To: "Frager, Neal" <neal.frager@amd.com>, "Simek, Michal"
+ <michal.simek@amd.com>, "Mahapatra, Amit Kumar"
+ <amit.kumar-mahapatra@amd.com>, "Tudor Ambarus" <tudor.ambarus@linaro.org>,
+ "broonie@kernel.org" <broonie@kernel.org>, "pratyush@kernel.org"
+ <pratyush@kernel.org>, "miquel.raynal@bootlin.com"
+ <miquel.raynal@bootlin.com>, "richard@nod.at" <richard@nod.at>,
+ "vigneshr@ti.com" <vigneshr@ti.com>, "sbinding@opensource.cirrus.com"
+ <sbinding@opensource.cirrus.com>, "lee@kernel.org" <lee@kernel.org>,
+ "james.schulman@cirrus.com" <james.schulman@cirrus.com>,
+ "david.rhodes@cirrus.com" <david.rhodes@cirrus.com>,
+ "rf@opensource.cirrus.com" <rf@opensource.cirrus.com>, "perex@perex.cz"
+ <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>
+Subject: Re: [PATCH v11 07/10] mtd: spi-nor: Add stacked memories support in
+ spi-nor
+X-Mailer: aerc 0.16.0
+References: <20231125092137.2948-1-amit.kumar-mahapatra@amd.com>
+ <b3d3c457-a43b-478a-85b3-52558227d139@linaro.org>
+ <BN7PR12MB28027E62D66460A374E3CFEADC93A@BN7PR12MB2802.namprd12.prod.outlook.com> <e212f9fa-83c5-4b9e-8636-c8c6183096ab@linaro.org> <BN7PR12MB280237CDD7BB148479932874DC93A@BN7PR12MB2802.namprd12.prod.outlook.com> <576d56ed-d24b-40f9-9ae4-a02c50eea2ab@linaro.org> <BN7PR12MB2802F288C6A6B1580CF07959DC95A@BN7PR12MB2802.namprd12.prod.outlook.com> <c6f209c8-47da-4881-921d-683464b9ddd5@linaro.org> <9cdb7f8b-e64f-46f6-94cb-194a25a42ccd@linaro.org> <BN7PR12MB28028B63E69134094D50F3E4DC2A2@BN7PR12MB2802.namprd12.prod.outlook.com> <IA0PR12MB769944254171C39FF4171B52DCB42@IA0PR12MB7699.namprd12.prod.outlook.com> <D2ZHJ765LUGP.2KTA46P1BL75X@walle.cc> <e1587f61-f765-4a22-b06e-71387cc49c4d@amd.com> <D33M26RLVLHF.3Q5YARPBNSBOY@walle.cc> <9fb60743-3e89-49fa-a399-3cf2607a7e41@amd.com> <D33S9T73M6ND.G7CCJ4PDVYQU@walle.cc> <c01d048f-ad8b-417e-8ff0-96f9252c87f2@amd.com> <CH2PR12MB50044242FE253D7B0E3425ABF0B22@CH2PR12MB5004.namprd12.prod.outlook.com>
+In-Reply-To: <
+ <CH2PR12MB50044242FE253D7B0E3425ABF0B22@CH2PR12MB5004.namprd12.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-pcim_iomap_table() and pcim_iomap_regions_request_all() have been
-deprecated by the PCI subsystem in commit e354bb84a4c1 ("PCI: Deprecate
-pcim_iomap_table(), pcim_iomap_regions_request_all()").
+--7dd7e4000aaf39ea05868ee56141ae02e60c588dac0a5b0688b30f1b385e
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-Replace these functions with their successors, pcim_iomap() and
-pcim_request_all_regions()
+Hi,
 
-Signed-off-by: Philipp Stanner <pstanner@redhat.com>
-Reviewed-by: Takashi Iwai <tiwai@suse.de>
----
- sound/pci/korg1212/korg1212.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+> > You get twice more capacity based on that configuration. I can't answer=
+ the=20
+> > second question because not working with field. But both of that config=
+urations=20
+> > are used by customers. Adding Neal if he wants to add something more to=
+ it.
+>
+> Just to add a comment as I work directly with our customers.  The main re=
+ason
+> this support is important is for our older SoCs, zynq and zynqmp.
+>
+> Most of our customers are using QSPI flash as the first boot memory to ge=
+t
+> from the boot ROM to u-boot.  They then typically use other memories, suc=
+h as
+> eMMC for the Linux kernel, OS and file system.
 
-diff --git a/sound/pci/korg1212/korg1212.c b/sound/pci/korg1212/korg1212.c
-index 5c2cac201a28..b5428ac34d3b 100644
---- a/sound/pci/korg1212/korg1212.c
-+++ b/sound/pci/korg1212/korg1212.c
-@@ -2106,7 +2106,7 @@ static int snd_korg1212_create(struct snd_card *card, struct pci_dev *pci)
-         for (i=0; i<kAudioChannels; i++)
-                 korg1212->volumePhase[i] = 0;
- 
--	err = pcim_iomap_regions_request_all(pci, 1 << 0, "korg1212");
-+	err = pcim_request_all_regions(pci, "korg1212");
- 	if (err < 0)
- 		return err;
- 
-@@ -2128,7 +2128,9 @@ static int snd_korg1212_create(struct snd_card *card, struct pci_dev *pci)
- 		   korg1212->iomem2, iomem2_size,
- 		   stateName[korg1212->cardState]);
- 
--	korg1212->iobase = pcim_iomap_table(pci)[0];
-+	korg1212->iobase = pcim_iomap(pci, 0, 0);
-+	if (!korg1212->iobase)
-+		return -ENOMEM;
- 
- 	err = devm_request_irq(&pci->dev, pci->irq, snd_korg1212_interrupt,
-                           IRQF_SHARED,
--- 
-2.45.2
+Agreed and that's probably the most prominent use case for NOR
+flashes anyway.
 
+> The issue we have on the zynq and zynqmp SoCs is that the boot ROM (code =
+that
+> cannot be changed) will not boot from an OSPI flash.  It will only boot f=
+rom a
+> QSPI flash.  This is what is forcing many of our customers down the QSPI =
+path.
+> Since many of these customers are interested in additional speed and memo=
+ry
+> size, they then end up using a parallel or stacked configuration because =
+they
+> cannot use an OSPI with zynq or zynqmp.
+
+Above you've said, the bootloader is stored on the NOR flash and the
+bulk storage is eMMC. So why do you need bigger NOR flashes (where
+even the biggest NOR flash isn't enough)?
+
+I also don't understand "the boot ROM will just boot from QSPI".
+First, you cannot connect an octal flash anyway, because you only
+have an QSPI controller, right? Secondly, normally the bootrom will
+(at least) boot the first stage using normal (single line) SPI
+commands. Is that not the case for zynq and zynqmp?
+
+> All of our newer SoCs can boot from OSPI.  I agree with you that if someo=
+ne
+> could choose OSPI for performance, they would, so I do not expect paralle=
+l or
+> stacked configurations with our newer SoCs.
+
+Ok, but then the argument with bigger flashes are void, because you
+are back to be bound to one OSPI flash.
+
+> I get why you see this configuration as a niche, but for us, it is a very
+> large niche because zynq and zynqmp are two of our most successful SoC
+> families.
+
+Fair enough. But please find a way to support it without butchering
+the whole core.
+
+-michael
+
+--7dd7e4000aaf39ea05868ee56141ae02e60c588dac0a5b0688b30f1b385e
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iKcEABMJAC8WIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCZrCKABEcbWljaGFlbEB3
+YWxsZS5jYwAKCRASJzzuPgIf+FYNAX9NIWR38ce9qJn6zNk09ma1XmS8x6pEwlyq
+B9zfpWmszaRp5K+VrBhJPhG/hsHdCEYBgJOO6eD7uzRx54DCJJvPk/PtcUpV9fHS
+uITq20JdXO5/9F2UNXphqdnMQ0F8FW7hjg==
+=jmIb
+-----END PGP SIGNATURE-----
+
+--7dd7e4000aaf39ea05868ee56141ae02e60c588dac0a5b0688b30f1b385e--
