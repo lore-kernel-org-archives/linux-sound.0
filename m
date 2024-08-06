@@ -1,127 +1,120 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C68631BC066
-	for <linux-sound@vger.kernel.org>; Tue,  6 Aug 2024 06:48:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B4B71BB683;
+	Tue,  6 Aug 2024 06:50:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722926927; cv=none; b=f1sy/93gfZ8hKJumqiLqiHZclpqpOBbz+WqNa0x8hYT0wage4fnL78u6euzX6K4RlpgaSk+uxrZzzVO1rLQcVmgXWCEME5taP9MR4DDEoEJ08yWgtxzqUGbJ49ghnPiF3LcdEseyIpew8objLHjid6vGZ0fqpz8Fkq/nwYTvCeE=
+	t=1722927028; cv=none; b=gmYZSlCR+O4k6J1Hdc8SsEbBMoiPRl/HFouP8eT2f0UwVlgDta61qS72oH2k8PMlsSLuzHQSDWq8lQs571Y5qEZVbsQeRYHFa+1Bvmrq0/JKCMOUQEcGOUrHgoV563Une64vmSIIF1h/a3DVbXc9IGd5w6+t2fnICz4XicuquZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722926927; c=relaxed/simple;
-	bh=XVeGsh5ehZkO0p3Kdor3jFQ7vMOzmMpqzgCDp/hUqs4=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=edRm5Sf+9PDkD0CZcmVc56133woZAQOa16MDj2adC2uq8BUEMGBNOb6JnJf2nX00qNtm1SW4vvlayOJoO0c81kSWi2Dn25nFKoBLn2LFsiDotkOEECUYflzv0YMcGshSG9TXBNra6Y7LreOO4nGky+Xzykn9yVYEyDDAg7s/rjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0mgvR3RJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8BtkYqEp; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0mgvR3RJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8BtkYqEp; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1722927028; c=relaxed/simple;
+	bh=T6SyAPa43fw3itnzT92TxN8RxarjUCzV8S2bnCPfBT4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=goObBIq8em4W9KxrrrQtJ6omBFk9HWGr8keYXEwiyLrkwOqO4QxKb65rqWxP4vyY1J1okloKmZxuuAqr8PxOBla3T4QkfYGWg62J1eZPwIqipbAzpSAUXZQogcioiLjOh/4Spo/xbAE+c5oSXsOE7wTA2gWbA4Ga50FP3iWyrRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=KRNXjRJv; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=n3ml5t+u; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0mgvR3RJ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8BtkYqEp";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0mgvR3RJ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8BtkYqEp"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C2ABD21BFB;
-	Tue,  6 Aug 2024 06:48:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1722926923; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=vY2BLAaUi1UcGeXDAzPtD1RdnrtTY5rdcyT/pOpD5ts=;
-	b=0mgvR3RJUeIibMpKBsdjZ6WLjIu9vDnsgfwAltrEvxyGM4hGCwVuV03pNYxvR29BwUtpOt
-	a85q+3jYVUwgcwSv4aod/zKtlKNdzaJbLk9/MLK6Apz48qe9frtGBaXbXPq6an0LUlRwaB
-	cDrxpiFOvKaBWHzdgPaGKbSPWDONSVs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1722926923;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=vY2BLAaUi1UcGeXDAzPtD1RdnrtTY5rdcyT/pOpD5ts=;
-	b=8BtkYqEpQlSOKFyEXSybT2Qs/yQh2fmDUdYRq0UONlTEnZpssyl67E8HYQ/Czm9G+6+ZWg
-	wwJPbIdqmUrH4DBg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1722926923; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=vY2BLAaUi1UcGeXDAzPtD1RdnrtTY5rdcyT/pOpD5ts=;
-	b=0mgvR3RJUeIibMpKBsdjZ6WLjIu9vDnsgfwAltrEvxyGM4hGCwVuV03pNYxvR29BwUtpOt
-	a85q+3jYVUwgcwSv4aod/zKtlKNdzaJbLk9/MLK6Apz48qe9frtGBaXbXPq6an0LUlRwaB
-	cDrxpiFOvKaBWHzdgPaGKbSPWDONSVs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1722926923;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=vY2BLAaUi1UcGeXDAzPtD1RdnrtTY5rdcyT/pOpD5ts=;
-	b=8BtkYqEpQlSOKFyEXSybT2Qs/yQh2fmDUdYRq0UONlTEnZpssyl67E8HYQ/Czm9G+6+ZWg
-	wwJPbIdqmUrH4DBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9B5F513770;
-	Tue,  6 Aug 2024 06:48:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 1jVIJEvHsWaHTwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 06 Aug 2024 06:48:43 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: hda/hdmi: Yet more pin fix for HP EliteDesk 800 G4
-Date: Tue,  6 Aug 2024 08:49:16 +0200
-Message-ID: <20240806064918.11132-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="KRNXjRJv";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="n3ml5t+u"
+Date: Tue, 6 Aug 2024 08:50:21 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1722927024;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8rYwgW2vpzfVbKjwpUB+DO7Cgb0fWJ3gvVqC78ZYBjc=;
+	b=KRNXjRJvNQzui5oqkfFTnZJm+mq5/Uz7KzMCCC2D3wdX+ye1GTrX5Msw+xHtI3OOc1Hdj6
+	VieGZ1a/OcRs1m9Sb2Apsmoh29p7j8ragrJqRrkqTqzqWEkNyQJ83OHZPhua96Npo0mpEe
+	ALyPCoum7gGChvW2uRhzsZhC8bPmttEZSXIRuy8QVmDTcKZgGI0Bu2e1i1m7QVORQDKD+R
+	bb85RgD+Xnhhb0aIybhg3yASzuJvvC5V4LhL3djs7AlTa8zOr56uJSarKVsxymHbK00x3E
+	/2asiIoBSLElgrAJZCcVvjtdcfpxSUUlT86D3WjGTe3nt3MpWwhG2OJ6RW5VPw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1722927024;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8rYwgW2vpzfVbKjwpUB+DO7Cgb0fWJ3gvVqC78ZYBjc=;
+	b=n3ml5t+ugxpduMixS1Q22fM9Y967N/rmITKJzqOlOAMP+ffzesZhFEfh/n6FQXYxf5BhY4
+	KO++8jgRBOhm3lAQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Mark Brown <broonie@kernel.org>, linux-rt-users@vger.kernel.org,
+	Arseniy Krasnov <avkrasnov@salutedevices.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
+	kernel@sberdevices.ru, oxffffaa@gmail.com,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH v1] ASoC: meson: axg-fifo: set option to use raw spinlock
+Message-ID: <20240806065021.PINvpze_@linutronix.de>
+References: <20240729131652.3012327-1-avkrasnov@salutedevices.com>
+ <1ja5i0wags.fsf@starbuckisacylon.baylibre.com>
+ <2b16b95e-196e-4d8a-98c3-3be568cdd18a@sirena.org.uk>
+ <1j5xsow839.fsf@starbuckisacylon.baylibre.com>
+ <7dfdade5-3a57-4883-bfac-067c50ec0ffb@sirena.org.uk>
+ <1j1q3cw5ri.fsf@starbuckisacylon.baylibre.com>
+ <20240805153309.k_SfHw62@linutronix.de>
+ <1jplqnuf5r.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Score: -2.80
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <1jplqnuf5r.fsf@starbuckisacylon.baylibre.com>
 
-HP EliteDesk 800 G4 (PCI SSID 103c:83e2) is another Kabylake machine
-where BIOS misses the HDMI pin initializations.  Add the quirk entry.
+On 2024-08-05 18:07:28 [+0200], Jerome Brunet wrote:
+> Hi Sebastian,
+Hi Jerome,
 
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/pci/hda/patch_hdmi.c | 1 +
- 1 file changed, 1 insertion(+)
+> Thanks a lot for taking the time to dig into the driver specifics.
+> The IRQ handler is actually not awfully critical in this case. The HW
+> will continue to run regardless of the IRQ being acked or not
+>=20
+> The purpose of the handler is mainly to let Alsa know that 1 (or more)
+> period is ready. If alsa is too slow to react, and the buffer allows
+> just a few periods, the HW may under/overflow the buffer.
+>=20
+> IRQF_ONESHOT is fine because snd_pcm_period_elapsed() 'notifies'
+> all past periods, not just one. The irq handler does not need to
+> run again until this function has been called. It also helps if the
+> period is ridiculously small, to try to reduce the number of IRQs.
 
-diff --git a/sound/pci/hda/patch_hdmi.c b/sound/pci/hda/patch_hdmi.c
-index 4e7361d1d518..78042ac2b71f 100644
---- a/sound/pci/hda/patch_hdmi.c
-+++ b/sound/pci/hda/patch_hdmi.c
-@@ -1989,6 +1989,7 @@ static int hdmi_add_cvt(struct hda_codec *codec, hda_nid_t cvt_nid)
- }
- 
- static const struct snd_pci_quirk force_connect_list[] = {
-+	SND_PCI_QUIRK(0x103c, 0x83e2, "HP EliteDesk 800 G4", 1),
- 	SND_PCI_QUIRK(0x103c, 0x83ef, "HP MP9 G4 Retail System AMS", 1),
- 	SND_PCI_QUIRK(0x103c, 0x870f, "HP", 1),
- 	SND_PCI_QUIRK(0x103c, 0x871a, "HP", 1),
--- 
-2.43.0
+IRQF_ONESHOT is used to disable to keep the IRQ line disabled (after the
+primary handler) while the threaded handler is running. This implies
+that the primary handler must not be threaded under PREEMPT_RT.
+=E2=80=A6
+> I'd prefer #1 too. IRQ is not shared, so the ownership should be fine.
+>=20
+> However I still don't fully understand what we are fixing here TBH. It
+> seems it could apply to other parts of the kernel so I'd like to
+> understand what is wrong (and avoid repeating the same mistake)
+>=20
+> * With PREEMPT_RT, both handler will threaded, so they should be able to
+>   call preemptible function, right ?
 
+Correct. But flags like IRQF_ONESHOT won't thread the primary handler.
+
+> * If so, and spinlock_lock() actually becomes preemptible with
+>   PREEMPT_RT as stated in this change description, why is it problem here=
+ ?
+
+Because in this case the primary handler is not threaded and runs in
+not preemptible hard-IRQ context.
+
+> Do you have an idea about what is going on ?
+
+Yes.
+
+Sebastian
