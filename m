@@ -1,85 +1,96 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from inva021.nxp.com (inva021.nxp.com [92.121.34.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F263A35;
-	Tue,  6 Aug 2024 10:03:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 443701BBBF5;
+	Tue,  6 Aug 2024 10:47:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722938587; cv=none; b=uj0jp0scHrJOpc+OlLWI40tZYyV4AYjiayzE231y8uExLhP1TpJ94r6lVRDjnIrThJw27x3Ml00y6ZUBx2FjkI8rhuxPVV7lqCyzAC7KKe8dE5UfZEX/1dToJylgW5mWbQ475TS4x0CGtKSDbc99Xr88Vp4RDd9JH48Sl9txeiw=
+	t=1722941262; cv=none; b=Qk6TA44D67bfaXZPTjDvU45fs64xQVYnHZzGIqvyYnNJq/xDtvpCDWXky/Vu6g8hdyPCKiweJImTPznuOrbBU5yV+t+sV10RiOqsQpiA1gx2zp7sNTRTwDQu/7KMNN0/udLi9itqx4pI4YezvTprQNit/s4dkZSljCeneVqe7Xc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722938587; c=relaxed/simple;
-	bh=21Y0pBIwI1HwR2U/LzZA8z4cSXds/LWXTl9nxaUvVYI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kCLVscIfQj3gI0ow5fu6143UdufethX7ULbY91hV84Gu+VjudkFZCoxBrVKXiryE5kl03pHVA94rrcd4XvmcCSy4ja+X80DGrgCxGQNHiIWzqqhdb8c2ght7025exjnbtC/vIPc9457Biy3WOf2mcGhDwEHmQ71Tb7b/zbBGWew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Ye9wDXLy; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=YwVtx5h/; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Ye9wDXLy";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="YwVtx5h/"
-Date: Tue, 6 Aug 2024 12:03:02 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1722938583;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CJrVNiSI/EhQvj7Rlw5xd+RbUJSrKucNzsEUSMrER3w=;
-	b=Ye9wDXLyEG1YGrxeXzdM4wDn35Pm8HgIT2GMjREevsmZpjkH9w7d0u3V2FvVo29k9nE0l5
-	mBQQKQMBDDGsevQuOX+zeBCn0aQ9pKkmagioEcsKOziMw9k76+KUqFULSrDNZO7qZ6IOER
-	+4mQ9+erau+G6RKuqLIkL8EeWmjvujTIPD3pkgqIDxri0LRpIHpo8sQEE9GjhTBS+ZdthC
-	dTYoD90oZ3U9CO5KJQVJNuCYtzDi9S93VK3Zaa26CTHPNNxZehk8y32JOQphwLvsz1Q+OT
-	7ZaVF7gguZFRf8/q4MXbXGb6xMGKh34kVBx9T0gL2xynnrmmEYWiRtMXXsbvWQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1722938583;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CJrVNiSI/EhQvj7Rlw5xd+RbUJSrKucNzsEUSMrER3w=;
-	b=YwVtx5h/onLbQ9kVaqP9fZ3ZiVEu5dYoPqDOBbRZWdoM5gDipsTsy0vAfbKrxprnSE32lz
-	U0tbrXT2FbsBrgBQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Mark Brown <broonie@kernel.org>, linux-rt-users@vger.kernel.org,
-	Arseniy Krasnov <avkrasnov@salutedevices.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
-	kernel@sberdevices.ru, oxffffaa@gmail.com,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH v1] ASoC: meson: axg-fifo: set option to use raw spinlock
-Message-ID: <20240806100302.Up0MShrZ@linutronix.de>
-References: <20240729131652.3012327-1-avkrasnov@salutedevices.com>
- <1ja5i0wags.fsf@starbuckisacylon.baylibre.com>
- <2b16b95e-196e-4d8a-98c3-3be568cdd18a@sirena.org.uk>
- <1j5xsow839.fsf@starbuckisacylon.baylibre.com>
- <7dfdade5-3a57-4883-bfac-067c50ec0ffb@sirena.org.uk>
- <1j1q3cw5ri.fsf@starbuckisacylon.baylibre.com>
- <20240805153309.k_SfHw62@linutronix.de>
- <1jplqnuf5r.fsf@starbuckisacylon.baylibre.com>
- <20240806065021.PINvpze_@linutronix.de>
- <1jle1auhu9.fsf@starbuckisacylon.baylibre.com>
+	s=arc-20240116; t=1722941262; c=relaxed/simple;
+	bh=9fdUbeL5VmVbgc4V2YDBBj0iZm0h0ykJsMbO/3e+Wo8=;
+	h=From:To:Subject:Date:Message-Id; b=M0AZcwfM9cvac5/kR8WwOuuT6tLPj33QzX3rEdKaoMnsL+AlNVhmSWIm41JLqeVtLt9mf8yF9pmz3PIxYFXFir/yN0rbprUYLM4Kp8oPOC1syp4BjVug1CJO4Xtl8+i5y+XKJ8L0I4+n8jLMNHh5sRbsHZEKb4NczpZm9aGDrKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+Received: from inva021.nxp.com (localhost [127.0.0.1])
+	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id C7017200691;
+	Tue,  6 Aug 2024 12:47:33 +0200 (CEST)
+Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
+	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 8D918200E65;
+	Tue,  6 Aug 2024 12:47:33 +0200 (CEST)
+Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
+	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id D12E4183487B;
+	Tue,  6 Aug 2024 18:47:31 +0800 (+08)
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: vkoul@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	linuxppc-dev@lists.ozlabs.org
+Subject: [RFC PATCH 0/6] ASoC: fsl: add memory to memory function for ASRC
+Date: Tue,  6 Aug 2024 18:26:37 +0800
+Message-Id: <1722940003-20126-1-git-send-email-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.7.4
+X-Virus-Scanned: ClamAV using ClamSMTP
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1jle1auhu9.fsf@starbuckisacylon.baylibre.com>
 
-On 2024-08-06 11:21:50 [+0200], Jerome Brunet wrote:
-> I have tweaked #1 and added a few tags but the gist remains the same.
-> I was going to add you under 'Suggested-by' but maybe putting you as the
-> actual Author would be more appropriate. 
-> 
-> What do you prefer ?
+This function is base on the accelerator implementation
+for compress API:
+https://patchwork.kernel.org/project/alsa-devel/patch/20240731083843.59911-1-perex@perex.cz/
 
-Suggested-by is fine.
+Audio signal processing also has the requirement for memory to
+memory similar as Video.
 
-Sebastian
+This asrc memory to memory (memory ->asrc->memory) case is a non
+real time use case.
+
+User fills the input buffer to the asrc module, after conversion, then asrc
+sends back the output buffer to user. So it is not a traditional ALSA playback
+and capture case.
+
+Because we had implemented the "memory -> asrc ->i2s device-> codec"
+use case in ALSA.  Now the "memory->asrc->memory" needs
+to reuse the code in asrc driver, so the patch 1 and patch 2 is for refining
+the code to make it can be shared by the "memory->asrc->memory"
+driver.
+
+Other change is to add memory to memory support for two kinds of i.MX ASRC
+modules.
+
+Shengjiu Wang (6):
+  ALSA: compress: add Sample Rate Converter codec support
+  ASoC: fsl_asrc: define functions for memory to memory usage
+  ASoC: fsl_easrc: define functions for memory to memory usage
+  ASoC: fsl_asrc_m2m: Add memory to memory function
+  ASoC: fsl_asrc: register m2m platform device
+  ASoC: fsl_easrc: register m2m platform device
+
+ include/uapi/sound/compress_offload.h |   2 +
+ include/uapi/sound/compress_params.h  |   9 +-
+ sound/soc/fsl/Kconfig                 |   1 +
+ sound/soc/fsl/Makefile                |   2 +-
+ sound/soc/fsl/fsl_asrc.c              | 176 +++++-
+ sound/soc/fsl/fsl_asrc.h              |   2 +
+ sound/soc/fsl/fsl_asrc_common.h       |  68 +++
+ sound/soc/fsl/fsl_asrc_m2m.c          | 769 ++++++++++++++++++++++++++
+ sound/soc/fsl/fsl_easrc.c             | 259 ++++++++-
+ sound/soc/fsl/fsl_easrc.h             |   4 +
+ 10 files changed, 1284 insertions(+), 8 deletions(-)
+ create mode 100644 sound/soc/fsl/fsl_asrc_m2m.c
+
+-- 
+2.34.1
+
