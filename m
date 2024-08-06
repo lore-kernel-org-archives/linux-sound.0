@@ -1,151 +1,150 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from hosting3.qishost.com (signalogic.com [209.150.126.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32E091C2324;
-	Tue,  6 Aug 2024 11:41:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CE3B16B3B5;
+	Tue,  6 Aug 2024 11:45:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.150.126.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722944479; cv=none; b=m2KAzFzCT3lea9zLIKbET3QQOs/ECzD5ex+ZjPC/n6l5iH8KwqR8rr/GMvRbBuTLLGUoKoQSc/nRa2LLUwOxUftXs5y2O2bGpWQt9N9JWE/IV4MfAabTjZwym8dCqH8RgcaqsE/XeWDJ0IyVzKh9EjvaNBky7RxOjJyYeIrudXQ=
+	t=1722944750; cv=none; b=GqYnBDLuJ4joE35llDAen0ICX4AP3h0CXipsfzddi1VUn/EN9kQLqit5RWTxIUlgML9grtx/gyORND5HjgVqyHaaqt2XfHP+H5uoNbF4Gu7QkPMjEZNaUQWAKljRsmPZiDpVsmMm9xhBwad9FmgpPsZFMBp7SRF6nAfpYniCrkI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722944479; c=relaxed/simple;
-	bh=osiUu56Pden8wvlw/UtWgVtSmmDZoylOq6KwUOSfIQI=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Gjgxh+HhyR/6jkw+DMh5+vrPorWNmVlw/JWlDQnMOakbMkFoxKKMstgfgxdnhDjDDnKkzhy6DulDVCopVVtK6tB6N4o9fb4yTwgK+76QjfubSZ9qekkY503JsIMRQeNzgvg2RrOhQH6tE7aDLlz92c4IkbQtApd7sPc4uKvRWZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gB1m/UP1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KJGFkoMA; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gB1m/UP1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KJGFkoMA; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gB1m/UP1";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KJGFkoMA";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gB1m/UP1";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KJGFkoMA"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0A62D1FB44;
-	Tue,  6 Aug 2024 11:41:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1722944476; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WjVHrdHo0zVqIEtFcBxDFXDNQccZA09P2VUyPQEiu4Q=;
-	b=gB1m/UP1d/kyYziphMWQiPexH6ysBUudfrYnNAqRrtsFuYqbFKS31JH3r5QCU8CQl/D8Y+
-	+thGwfvBplnIE1xGDFIMX0pMxlZkMyZ+D9U9yInwBMTg3Qg0WGi5lUGkbFf7lbkMKu8Asa
-	y96OeXZRUzmPkdWqHEYL2eDNYWenlv8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1722944476;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WjVHrdHo0zVqIEtFcBxDFXDNQccZA09P2VUyPQEiu4Q=;
-	b=KJGFkoMAlJBBOxE/BEqzFOXBLZk8kfCKknxcDmA2Xvr0OQEg+yIqLoATBC86ulHSRM+E8s
-	W9dvBbaJpsqdvkBA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="gB1m/UP1";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=KJGFkoMA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1722944476; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WjVHrdHo0zVqIEtFcBxDFXDNQccZA09P2VUyPQEiu4Q=;
-	b=gB1m/UP1d/kyYziphMWQiPexH6ysBUudfrYnNAqRrtsFuYqbFKS31JH3r5QCU8CQl/D8Y+
-	+thGwfvBplnIE1xGDFIMX0pMxlZkMyZ+D9U9yInwBMTg3Qg0WGi5lUGkbFf7lbkMKu8Asa
-	y96OeXZRUzmPkdWqHEYL2eDNYWenlv8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1722944476;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WjVHrdHo0zVqIEtFcBxDFXDNQccZA09P2VUyPQEiu4Q=;
-	b=KJGFkoMAlJBBOxE/BEqzFOXBLZk8kfCKknxcDmA2Xvr0OQEg+yIqLoATBC86ulHSRM+E8s
-	W9dvBbaJpsqdvkBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D8CC513981;
-	Tue,  6 Aug 2024 11:41:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id hcdPNNsLsma5JwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 06 Aug 2024 11:41:15 +0000
-Date: Tue, 06 Aug 2024 13:41:50 +0200
-Message-ID: <87bk25anep.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Mark Brown <broonie@kernel.org>,
-	tiwai@suse.com,
-	mika.westerberg@linux.intel.com,
-	linux-sound@vger.kernel.org,
-	linux-spi@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH v2 0/3] ALSA: Add support for new HP G12 laptops
-In-Reply-To: <ZrIJBUJfgiKPCKXv@shikoro>
-References: <20240802152215.20831-1-rf@opensource.cirrus.com>
-	<8734njl7my.wl-tiwai@suse.de>
-	<554660e1-01ea-4bb4-877f-fd8deb527ce7@opensource.cirrus.com>
-	<87frrhaofs.wl-tiwai@suse.de>
-	<ZrIJBUJfgiKPCKXv@shikoro>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	s=arc-20240116; t=1722944750; c=relaxed/simple;
+	bh=IZLPCVzb3kPUDGJIg69Ehm8qFNzjVH6IUeurAwjF0EU=;
+	h=Date:Message-ID:From:To:Cc:Subject:References:In-Reply-To:
+	 Content-Type:MIME-Version:Content-Disposition; b=pDH9opPHrS+WpK0sqYW/fuW1sLwcKNUXDDSMvIYmaUXeRJncniy+cxwvllwes6vO2c534AsyA/Ucg2M5znFzNhaq1r7IIwvdjJHispMeK7dFjyNdt/o+AP18Vg9EjsPF5JNDcAHBrD3YW9T6htjNIfmcURqTuLtuv2psXoKw190=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=signalogic.com; spf=pass smtp.mailfrom=signalogic.com; arc=none smtp.client-ip=209.150.126.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=signalogic.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=signalogic.com
+Received: from hosting3.qishost.com (localhost [IPv6:::1])
+	by hosting3.qishost.com (Postfix) with ESMTPSA id 7702F45A59;
+	Tue,  6 Aug 2024 07:39:36 -0400 (EDT)
+Authentication-Results: hosting3.qishost.com;
+        spf=pass (sender IP is ::1) smtp.mailfrom=jbrower@signalogic.com smtp.helo=hosting3.qishost.com
+Received-SPF: pass (hosting3.qishost.com: connection is authenticated)
+Received: from c-76-132-49-220.hsd1.ca.comcast.net
+ (c-76-132-49-220.hsd1.ca.comcast.net [76.132.49.220]) by
+ webmail.signalogic.com (Horde Framework) with HTTP; Tue, 06 Aug 2024
+ 11:39:36 +0000
+Date: Tue, 06 Aug 2024 11:39:36 +0000
+Message-ID: <20240806113936.Horde.vcDWoEx08a51SUfvt56nQ2p@webmail.signalogic.com>
+From: Jeff Brower <jbrower@signalogic.com>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, vkoul@kernel.org, perex@perex.cz,
+ tiwai@suse.com, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com,
+ festevam@gmail.com, nicoleotsuka@gmail.com, lgirdwood@gmail.com,
+ broonie@kernel.org, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [RFC PATCH 1/6] ALSA: compress: add Sample Rate Converter codec
+ support
+References: <1722940003-20126-1-git-send-email-shengjiu.wang@nxp.com>
+ <1722940003-20126-2-git-send-email-shengjiu.wang@nxp.com>
+ <e89a56bf-c377-43d8-bba8-6a09e571ed64@linux.intel.com>
+In-Reply-To: <e89a56bf-c377-43d8-bba8-6a09e571ed64@linux.intel.com>
+User-Agent: Horde Application Framework 5
+Content-Type: text/plain; charset=utf-8; format=flowed; DelSp=Yes
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-1.01 / 50.00];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_RCPT(0.00)[renesas];
-	RCVD_TLS_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -1.01
-X-Rspamd-Queue-Id: 0A62D1FB44
+MIME-Version: 1.0
+Content-Disposition: inline
 
-On Tue, 06 Aug 2024 13:29:09 +0200,
-Wolfram Sang wrote:
-> 
-> 
-> > Wolfram, has the patch been merged for your branch for 6.11?  If yes,
-> > can I pull your change, so that I can apply the patch 3 together with
-> > the SPI change?
-> 
-> Yes, you can pull i2c/for-current. Maybe I can also retrofit an
-> immutable branch for you. I'd think, though, that it is easiest to wait
-> for 6.11-rc3 which will include the I2C part of this series. Or?
+All-
 
-Yeah, it's fine, I can wait for 6.11-rc3.
+"The sample rate converter is not an encoder ..."
+
+Indeed, an encoder creates a compressed bitstream from audio data  
+(typically linear PCM samples), normally for transmission of some  
+type. A sample rate converter generates audio data from audio data,  
+and is normally applied prior to an encoder because it can only accept  
+a limited range of sample rates.
+
+-Jeff
+
+Quoting Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>:
+
+> On 8/6/24 12:26, Shengjiu Wang wrote:
+>> Add Sample Rate Converter(SRC) codec support, define the output
+>> format and rate for SRC.
+>>
+>> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+>> ---
+>>  include/uapi/sound/compress_offload.h | 2 ++
+>>  include/uapi/sound/compress_params.h  | 9 ++++++++-
+>>  2 files changed, 10 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/include/uapi/sound/compress_offload.h  
+>> b/include/uapi/sound/compress_offload.h
+>> index 98772b0cbcb7..8b2b72f94e26 100644
+>> --- a/include/uapi/sound/compress_offload.h
+>> +++ b/include/uapi/sound/compress_offload.h
+>> @@ -112,10 +112,12 @@ struct snd_compr_codec_caps {
+>>   * end of the track
+>>   * @SNDRV_COMPRESS_ENCODER_DELAY: no of samples inserted by the  
+>> encoder at the
+>>   * beginning of the track
+>> + * @SNDRV_COMPRESS_SRC_RATIO_MOD: Resampling Ratio Modifier for  
+>> sample rate converter
+>>   */
+>>  enum sndrv_compress_encoder {
+>>  	SNDRV_COMPRESS_ENCODER_PADDING = 1,
+>>  	SNDRV_COMPRESS_ENCODER_DELAY = 2,
+>> +	SNDRV_COMPRESS_SRC_RATIO_MOD = 3,
+>>  };
+>
+> this sounds wrong to me. The sample rate converter is not an "encoder",
+> and the properties for padding/delay are totally specific to an encoder
+> function.
+>
+> The other point is that I am not sure how standard this ratio_mod
+> parameter is. This could be totally specific to a specific
+> implementation, and another ASRC might have different parameters.
+>
+>>
+>>  /**
+>> diff --git a/include/uapi/sound/compress_params.h  
+>> b/include/uapi/sound/compress_params.h
+>> index ddc77322d571..0843773ea6b4 100644
+>> --- a/include/uapi/sound/compress_params.h
+>> +++ b/include/uapi/sound/compress_params.h
+>> @@ -43,7 +43,8 @@
+>>  #define SND_AUDIOCODEC_BESPOKE               ((__u32) 0x0000000E)
+>>  #define SND_AUDIOCODEC_ALAC                  ((__u32) 0x0000000F)
+>>  #define SND_AUDIOCODEC_APE                   ((__u32) 0x00000010)
+>> -#define SND_AUDIOCODEC_MAX                   SND_AUDIOCODEC_APE
+>> +#define SND_AUDIOCODEC_SRC                   ((__u32) 0x00000011)
+>> +#define SND_AUDIOCODEC_MAX                   SND_AUDIOCODEC_SRC
+>
+> I am not sure this is wise to change such definitions?
+>>
+>>  /*
+>>   * Profile and modes are listed with bit masks. This allows for a
+>> @@ -324,6 +325,11 @@ struct snd_dec_ape {
+>>  	__u32 seek_table_present;
+>>  } __attribute__((packed, aligned(4)));
+>>
+>> +struct snd_dec_src {
+>> +	__u32 format_out;
+>> +	__u32 rate_out;
+>> +} __attribute__((packed, aligned(4)));
+>
+> Again I am not sure how standard those parameters are, and even if they
+> were if their representation is reusable.
+>
+> And the compressed API has a good split between encoders and decoders, I
+> am not sure how an SRC can be classified as either.
+>
+>>  union snd_codec_options {
+>>  	struct snd_enc_wma wma;
+>>  	struct snd_enc_vorbis vorbis;
+>> @@ -334,6 +340,7 @@ union snd_codec_options {
+>>  	struct snd_dec_wma wma_d;
+>>  	struct snd_dec_alac alac_d;
+>>  	struct snd_dec_ape ape_d;
+>> +	struct snd_dec_src src;
+>>  } __attribute__((packed, aligned(4)));
+>>
+>>  /** struct snd_codec_desc - description of codec capabilities
 
 
-thanks,
 
-Takashi
