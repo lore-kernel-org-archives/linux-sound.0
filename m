@@ -1,105 +1,123 @@
-Received: from smtp.smtpout.orange.fr (smtp-21.smtpout.orange.fr [80.12.242.21])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93D3B1D54F2;
-	Tue,  6 Aug 2024 13:52:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F42021EA0BD;
+	Tue,  6 Aug 2024 13:53:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722952361; cv=none; b=ZOvSJq+9lq3OBWXvlw2GUuTaMIzmsMcZZz4/5Z3LU+M61qKyvTA/o1DkvvBp7MRTGPGkL87zJ21kh7/xR8CTcaeRWpohqSw5Jv4b7TldKDc3N4jTh8a8G7jlPa4UYDRU4ahZ6w///QtMqEUbU72DNwFMLdFn91R+vb6pqhmG6Ck=
+	t=1722952391; cv=none; b=Nj7k2CSsOWaxlBiTcp4Wc3Ya5fhSH9oMWV83hxOBqd0xEhWJamVIEEtYHHoUGdh7nm0bSxqAgfKX5tl/eJtIxvLoTvK5qsVYHOHh/7zV7eG50BBsuVzrlzbIefcpuHaOpaD4ro8UF6QiRMU/H8Hn/TC9OwGf/xImA8xBdcofY7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722952361; c=relaxed/simple;
-	bh=1xp8MpcbIf4SJReiGGRUdwOnwB4XlkxoI0nTOvXGop0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=F0R1Ky2M7/kN//q0K1VGvu1HEzZXYTIiI6hqvD6VWztphzyijwf2Zbx5V63UtSWBYbYzfPKZK3gFD0Iw+U7TPHt5gKOED4wA7RPJxXgSOo1NAxv53GnPPXmZksXggC8q50RDAvtCNuNo0gkXjA8VKIy09tTwsIJjSiAbEzy/PKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=hQW0CjW9; arc=none smtp.client-ip=80.12.242.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	s=arc-20240116; t=1722952391; c=relaxed/simple;
+	bh=HvFHdNSXsI7+QfH5LiWr9J9QYWprpWMl/4cvaIuvVMQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Gw7tL2b/FRjkM4pt1HNp+V6bP/8/uXtZkBxTA/dBzI6lp8RZ2U7aNnRMv8q2azbh2aoOg8HSA3WRCdpe4NUIZoi4UqqsebPYH9QBkx1o/Nx9hcqYH3tTaAd98jnP46pWDWX5Q84K/7GFUr/VlyI8ChtkS4CZAEEx2uhCAwviPH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b7LEkFXq; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="hQW0CjW9"
-Received: from fedora.home ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id bKbzsGbpa1n2IbKbzsv4Xt; Tue, 06 Aug 2024 15:52:30 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1722952350;
-	bh=mc++s71P86r5Z0x7KKuuJQxBX0xc+KPuIQNkerrGWJc=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=hQW0CjW9L9pEKnBc4HRnBH49bThclJIlf+wQTLUm+ku4twf8fJugchH1cnt7PDvIB
-	 t1UlDvFuJgY2O/V7wqFZkWPbkE8VRCeoXCCVmpbZOqM2difB2ol8ORk52NUXYNVUdi
-	 hGsFj1kwQlNn5OBHEINdGgfPJGU2a7021Ox8K7DvoszuNSdjeGT0C8+U8D3pmUFS6x
-	 H+tTCXkXuEEQqbCEENZ5umBySDXJKNT/s4SAIv0HwAfWq8fxas/8t12XT86BMEqJ4i
-	 riBkkqEP0uLk9YeObjscXBPzljWN5R6PkOLpsgHeClS3QonKg42uCVxASxMb5ryej3
-	 HMOZcvd3Lh+Kg==
-X-ME-Helo: fedora.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Tue, 06 Aug 2024 15:52:30 +0200
-X-ME-IP: 90.11.132.44
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Oder Chiou <oder_chiou@realtek.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	linux-sound@vger.kernel.org
-Subject: [PATCH] ASoC: rt1318: Constify struct reg_sequence
-Date: Tue,  6 Aug 2024 15:52:24 +0200
-Message-ID: <96561dd2962d4312eb0e68ab850027f44350d070.1722952334.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b7LEkFXq"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-427d71e746aso123465e9.1;
+        Tue, 06 Aug 2024 06:53:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722952388; x=1723557188; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ESWuuRI+S8LlXsCQ7zsswRjv/m7jikQQ1fbrdUBF+y8=;
+        b=b7LEkFXq6R1YXhE6l40e3rUz80Rlrz5Mzgm2SkJ/1QdzSshiUYpyPugUTurBesUVXH
+         GmcErHGhIepuZEvyBj61Giewzu7wBRDX0ftBUlb42a+BTtGT/FK1gGHS0rJqqgzNLZZZ
+         zmDgeeaqMdxuR27RJPh5inubqEaXwFHnpzaqY+nb+b6DGbTZfF46YspPqH06I7SAwLU8
+         GZHH6USZyVplI628r1dmJo+UzokoCIN0eOQA+B4UmDcGe3Ufwby3hRoH0Wv5xUCuaE++
+         HRYr74kJDaJm9kx6IZz8oxrvEwBcQjIql3+cTKuz1i9h7uq7uTeKQGB0TNx5flLHiOuK
+         ii6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722952388; x=1723557188;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ESWuuRI+S8LlXsCQ7zsswRjv/m7jikQQ1fbrdUBF+y8=;
+        b=u748pWdoDNwQXxa1fr+Fv0O0k552XMomHC2zjgQVwFmzPSjwTIV4VhikmaOpOUPVvY
+         RetvGuQBCLtlHdL6RF3fczjn31yvhg6hHzEfhK1sprtmMGCuBBV3o2xrm1iamz7OG0zD
+         /UkAE1kQWugMHBtXM4wyeXqRXICQM9PehcibgCkvQV2yb2j+348+CHGhkN4Hffiqajli
+         S7Eb778mM+rl/Oe2odjnFs5j++AI/NZntxEVLfnABUeF+PfAZtxfFdYSWb3UgeG/gqV7
+         q/zio2j7Pr8XG9WASUgLx9JPet7ulNhS2NDjM1Cus+9leqi/1Z7Bpx0B7zJ+wAvuCH5w
+         325A==
+X-Forwarded-Encrypted: i=1; AJvYcCV+94qXR0kHqYzlxmNRpFXBX+8OoHjm/a95yOu+6qR5Vrvmw5a4EiBZJk7lElwGLXkwGzeUnR9EGeY=@vger.kernel.org, AJvYcCVAHHq1FTf1ywb/g4jVWdsAZt6proGY3HynkcgK82tSijxU7EYoH78REnjs+vP9KD3s33A9txCzrGhvtBps@vger.kernel.org, AJvYcCW1FawjrP2VgSCHempiQiD/CzRbpEXXXr4cf+fD3zEmTWJPXkjXzeK6Nw7y9W+RTVSnM/jwQl3/VaPAtFvvJWa+@vger.kernel.org, AJvYcCWuLLTEb+lEmHrs5jpDI1p+YH3auIcYKcIqaG5F5WSjzwtf9cBaG6EVDGxctyFuwUomsO8bQK6DZ1QuN3U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTClRPijG3JFUJo2LbQqyM1IKTtuqo8SxaWCtH3xo4fLihwJNi
+	qi7CBSo2sJG2CLyGmExavjQyKnPBcd3xKNSGg1tz+nz5FDjAXQ+h
+X-Google-Smtp-Source: AGHT+IE3B97iqF+o2EyfNUzNzruvfVcTRIeX9q/YkXCwXDoGFn+N6ekjHInQAAjvVAVxszERARpnhA==
+X-Received: by 2002:a05:600c:3b9b:b0:426:6fc0:5910 with SMTP id 5b1f17b1804b1-428e6aeff6dmr65884775e9.1.1722952388042;
+        Tue, 06 Aug 2024 06:53:08 -0700 (PDT)
+Received: from ?IPV6:2a01:4b00:d20e:7300:b50e:24fa:fd17:c835? ([2a01:4b00:d20e:7300:b50e:24fa:fd17:c835])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36bbcf0c314sm12914617f8f.12.2024.08.06.06.53.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Aug 2024 06:53:07 -0700 (PDT)
+Message-ID: <a6be66bd-1133-48aa-b892-48b132e7a0c2@gmail.com>
+Date: Tue, 6 Aug 2024 14:53:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 4/4] selftests: ALSA: Cover userspace-driven timers
+ with test
+To: Mark Brown <broonie@kernel.org>
+Cc: perex@perex.cz, tiwai@suse.com, corbet@lwn.net, shuah@kernel.org,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ christophe.jaillet@wanadoo.fr, aholzinger@gmx.de
+References: <20240806125243.449959-1-ivan.orlov0322@gmail.com>
+ <20240806125243.449959-5-ivan.orlov0322@gmail.com>
+ <038cb9ff-4028-4179-9722-df324e29c73d@sirena.org.uk>
+Content-Language: en-US
+From: Ivan Orlov <ivan.orlov0322@gmail.com>
+In-Reply-To: <038cb9ff-4028-4179-9722-df324e29c73d@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-'struct reg_sequence' is not modified in this driver.
+On 8/6/24 14:04, Mark Brown wrote:
+> On Tue, Aug 06, 2024 at 01:52:43PM +0100, Ivan Orlov wrote:
+> 
+>> -TEST_GEN_PROGS := mixer-test pcm-test test-pcmtest-driver
+>> +TEST_GEN_PROGS := mixer-test pcm-test utimer-test test-pcmtest-driver global-timer
+> 
+> This is adding the timer timer tests as standard kselftests to be run by
+> the wrapper script...
+> 
+>> index 000000000000..c15ec0ba851a
+>> --- /dev/null
+>> +++ b/tools/testing/selftests/alsa/global-timer.c
+> 
+>> +int main(int argc, char *argv[])
+>> +{
+>> +	int device, subdevice, timeout;
+>> +
+>> +	if (argc < 4) {
+>> +		perror("Usage: %s <device> <subdevice> <timeout>");
+>> +		return EXIT_FAILURE;
+>> +	}
+> 
+> ...but this requires specific arguments to be run which the kselftest
+> runner won't supply.  I'd expect it to be a good default to enumerate
+> and test every possible device and generate a test for each.  However it
+> looks like this is really intended not as a standalone test but rather
+> as something run from within utimer-test, in that case it should be a
+> TEST_GEN_PROGS_EXTENDED.
 
-Constifying this structure moves some data to a read-only section, so
-increase overall security.
+Hi Mark,
 
-While at it, remove rt1318_INIT_REG_LEN which is ununsed.
+Yes, the 'global-timer' application is not a standalone test and it 
+should be ran by 'utimer-test'. I had to extract the timer-binding 
+functionality into a different application as we can't have 
+'sound/asound.h' and 'alsa/asoundlib.h' in single source due to some 
+declarations overlap problems.
 
-On a x86_64, with allmodconfig:
-Before:
-======
-   text	   data	    bss	    dec	    hex	filename
-  22062	   4859	     32	  26953	   6949	sound/soc/codecs/rt1318.o
+I'll move the 'global-timer' tool into the TEST_GEN_PROGS_EXTENDED list.
 
-After:
-=====
-   text	   data	    bss	    dec	    hex	filename
-  24742	   2171	     32	  26945	   6941	sound/soc/codecs/rt1318.o
+Thank you so much for the review!
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-Compile tested-only.
----
- sound/soc/codecs/rt1318.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/sound/soc/codecs/rt1318.c b/sound/soc/codecs/rt1318.c
-index 83b29b441be9..e12b1e96a53a 100644
---- a/sound/soc/codecs/rt1318.c
-+++ b/sound/soc/codecs/rt1318.c
-@@ -30,7 +30,7 @@
- 
- #include "rt1318.h"
- 
--static struct reg_sequence init_list[] = {
-+static const struct reg_sequence init_list[] = {
- 	{ 0x0000C000, 0x01},
- 	{ 0x0000F20D, 0x00},
- 	{ 0x0000F212, 0x3E},
-@@ -254,7 +254,6 @@ static struct reg_sequence init_list[] = {
- 	{ 0x0000C320, 0x20},
- 	{ 0x0000C203, 0x9C},
- };
--#define rt1318_INIT_REG_LEN ARRAY_SIZE(init_list)
- 
- static const struct reg_default rt1318_reg[] = {
- 	{ 0xc000, 0x00 },
 -- 
-2.45.2
-
+Kind regards,
+Ivan Orlov
