@@ -1,76 +1,72 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81F961FA5
-	for <linux-sound@vger.kernel.org>; Tue,  6 Aug 2024 12:46:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4932E1DDE9;
+	Tue,  6 Aug 2024 12:52:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722948378; cv=none; b=EkW4tB4ppwchFBufrcQCPy6O4qNDcPujjRVZIDSejB33RePDsfJPEmjo3451csZ00O6SPOMjAal6B4G4Znn5IcHnxKHIaSdy115lgtL/iEG7UsDtrsDOr4cuSGngyWe1aqDm8WNu6/ELWgZC3rEtMegfV8FJYhdASQoSheJWPoI=
+	t=1722948771; cv=none; b=KZFDrOEhSg2JXHzfEND8SavAMnul5eBQHfD7YVYDCLdWS1J/S+JKfibB+QYufHIKCNWmjnGAtc8COW/j/Qp37en4qN4suGQ6Lr4mWZKivspPs/wSqfgGNQZAlH5ThkAnph200rmluf2+zPoXSde9O5IIvGOQjxYv5GUC5ljR25U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722948378; c=relaxed/simple;
-	bh=fqYlmaMc3sNF7QCm1ilFOJkhERVjyCm7TqDEFf+67Kw=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=AIs5YmX6c2N2PRlivUKaw7Ij6aqFYjSLVnG7AC5CCve4tK+81edRvnmkfTQ3J45GwDoacqI7YSAk2cO77vNds8gUKASs8RL75T/rOdrnTq/Do2dSdUB2rT9R4UjJLTKH6EvSAv8hfNdPijBOs10gAcOuPlUTiNVRrB0NVcmgrY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=D5o4/K5O; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pVYY0wHH; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=D5o4/K5O; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pVYY0wHH; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1722948771; c=relaxed/simple;
+	bh=XCUyjKV+4WCLNTZyX/VgSzrT52E+iaAR5TRzoM5QI/U=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NgABqxzZLeX1UXNXYeTb9ma8T94kXXgZw7Uv6ppefQJw+B3XSo3BBI3nkQaV0AOxZApLC4Lv05I7QGBZzdfl6ZWY0rb+gNLMO4QIUXsrpAtMS5HapAinvvw+v5WvWj8LKX9zp8BwZHihIefYZB7QlOfJr8numWyOZz1dV+rdCeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EZa1j2QK; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="D5o4/K5O";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pVYY0wHH";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="D5o4/K5O";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pVYY0wHH"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A66271FB4A;
-	Tue,  6 Aug 2024 12:46:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1722948374; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=DB77dkJAclKt3WMGMiIJN86vv2sIcw2sDnKMHjKYiv4=;
-	b=D5o4/K5OvWk887Dzjj08J/LWDNe/efE8bg8BA1fHzeTYDBpHkUBUre/qvHrumFrOGmbfmz
-	xV8bZlHKowmq/9izNF496j3q5svozjzVE4S2iUWHK4WmHTihZEn+7CAG9hXGNNfsEE8nPW
-	epvR4e+FPGF1Vnw942BC9/LCozxps4s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1722948374;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=DB77dkJAclKt3WMGMiIJN86vv2sIcw2sDnKMHjKYiv4=;
-	b=pVYY0wHHhn1HxyNHSQYCgVcRBuNvK6GMBD408HQlAf/Kk/92C5WcHFAlkZwLObYnVyi3Yc
-	jo7nNE9NCgNZ7YAQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="D5o4/K5O";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=pVYY0wHH
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1722948374; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=DB77dkJAclKt3WMGMiIJN86vv2sIcw2sDnKMHjKYiv4=;
-	b=D5o4/K5OvWk887Dzjj08J/LWDNe/efE8bg8BA1fHzeTYDBpHkUBUre/qvHrumFrOGmbfmz
-	xV8bZlHKowmq/9izNF496j3q5svozjzVE4S2iUWHK4WmHTihZEn+7CAG9hXGNNfsEE8nPW
-	epvR4e+FPGF1Vnw942BC9/LCozxps4s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1722948374;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=DB77dkJAclKt3WMGMiIJN86vv2sIcw2sDnKMHjKYiv4=;
-	b=pVYY0wHHhn1HxyNHSQYCgVcRBuNvK6GMBD408HQlAf/Kk/92C5WcHFAlkZwLObYnVyi3Yc
-	jo7nNE9NCgNZ7YAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 97EB213770;
-	Tue,  6 Aug 2024 12:46:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Hu14JBYbsmYjOwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 06 Aug 2024 12:46:14 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: usb-audio: Add input value sanity checks for standard types
-Date: Tue,  6 Aug 2024 14:46:50 +0200
-Message-ID: <20240806124651.28203-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EZa1j2QK"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4281e715904so300105e9.0;
+        Tue, 06 Aug 2024 05:52:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722948767; x=1723553567; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jqDxoQp4BOQP53+6L9ROSS9A2LeV1Vg9EkuWNnmpg8w=;
+        b=EZa1j2QKjjGEuqLbLZryLK3LVHa9lNIqNGAfRFUiktybgNQsNqGl9WvzV9hldG3oea
+         Dg9vANDTy4ZaDEEBznTKd7qjpSSeYx38aeytjzuzNYjsr110Sudniq8U9iHw8vPzfCPJ
+         uZvWeilwrDQVcxR7i6wzg+aRmxkUShwtpsYpFqPXteC/cCBGXxE6yrqfqkCYiR9FAHw8
+         k9qRvNKg2ofPa40BzxEX2l4ChdiZfKSV56+U30ZWY2QsXhVXt4pYowowAmbQG46EZigO
+         u5Py0YXcZ3k6tMpMA/GBdJzuJBIz/NpLY61V2I4i0qA9a2N5u8+TZ6bTTrjHee0TEgK7
+         Y8Ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722948767; x=1723553567;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jqDxoQp4BOQP53+6L9ROSS9A2LeV1Vg9EkuWNnmpg8w=;
+        b=VXEg40Y9yTCKIx4tew8W07Z2lDQEAYIXRkM/39ORRKyF8Vb076PESihwxbdA891xby
+         HYJYRr5PZez8cSlaZ+wzE899tcd3k93EbGZHfwUUVmDdX5Ice1snp5bw7FT6zpzvXwgu
+         8yJAlsfJSazugPPU/3njOegMi2CqANLWKr5BzDAaSQF7/U9LsTXk2L4Aig1Is8MXGuWW
+         TaNJDHzlr99L272to4nHXZ7xYK0ehxubJHBuzyOjo02nxzGnZqlT3/39A0/mOTqqsIh6
+         rWMBgczwRF5VSHxWsJuAeTV/bhPIL4WwzAnwCqHUu/3f6QfJk7bPSzp4OqaM+u/unwvi
+         G8Nw==
+X-Forwarded-Encrypted: i=1; AJvYcCWMTuUZe3tc0WoAoMjR+wLJ3ax4C+CfMOVs/B8roTIvfqjxbYu/95U+hEK+icdzJEiFezyhEOMqAttMQQdlc3CdwIM4tKUPjdv82QJ16mCBSTswGTrcQWz7KnHtw4onrFSj3HQoGQeFvInoHq3YmpiBjPvW9DlwAptjPiQ5SWTmrd2D5jEPtPmSHbPakuYY7VcNFflyBVh8e7oikIyzQBnWrIenQN4=
+X-Gm-Message-State: AOJu0YzoQc62XUjq6xApVCLKOUD3ol0wPE7ELHe7Of91TfdXa4MeSVkL
+	jwzZFkzNEK3cOs50g9KUMSbDsTeDP1m3YsEU0u/X9c9U6NEM7kYivscbuA==
+X-Google-Smtp-Source: AGHT+IFVOcJgwMnCsAeqQiZdTZs0AWrij7s+j6kS/5GzLBAoTaFQvQo/XUT/labHKgaPPOl3vXnwhQ==
+X-Received: by 2002:a05:600c:3b92:b0:426:5dd5:f245 with SMTP id 5b1f17b1804b1-428e6af8117mr70070985e9.2.1722948767137;
+        Tue, 06 Aug 2024 05:52:47 -0700 (PDT)
+Received: from ivan-HLYL-WXX9.. ([2a01:4b00:d20e:7300:b50e:24fa:fd17:c835])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-428e6d648a0sm179487255e9.10.2024.08.06.05.52.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Aug 2024 05:52:46 -0700 (PDT)
+From: Ivan Orlov <ivan.orlov0322@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com,
+	corbet@lwn.net,
+	broonie@kernel.org,
+	shuah@kernel.org
+Cc: Ivan Orlov <ivan.orlov0322@gmail.com>,
+	linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	christophe.jaillet@wanadoo.fr,
+	aholzinger@gmx.de
+Subject: [PATCH v3 0/4] Introduce userspace-driven ALSA timers
+Date: Tue,  6 Aug 2024 13:52:39 +0100
+Message-Id: <20240806125243.449959-1-ivan.orlov0322@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -78,165 +74,77 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_ONE(0.00)[1];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:dkim];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -2.01
-X-Rspamd-Queue-Id: A66271FB4A
 
-For an invalid input value that is out of the given range, currently
-USB-audio driver corrects the value silently and accepts without
-errors.  This is no wrong behavior, per se, but the recent kselftest
-rather wants to have an error in such a case, hence a different
-behavior is expected now.
+There are multiple possible timer sources which could be useful for
+the sound stream synchronization: hrtimers, hardware clocks (e.g. PTP),
+timer wheels (jiffies). Currently, using one of them to synchronize
+the audio stream of snd-aloop module would require writing a
+kernel-space driver which exports an ALSA timer through the
+snd_timer interface.
 
-This patch adds a sanity check at each control put for the standard
-mixer types and returns an error if an invalid value is given.
+However, it is not really convenient for application developers, who may
+want to define their custom timer sources for audio synchronization.
 
-Note that this covers only the standard mixer types.  The mixer quirks
-that have own control callbacks would need different coverage.
+For instance, we could have a network application which receives frames
+and sends them to snd-aloop pcm device, and another application
+listening on the other end of snd-aloop. It makes sense to transfer a
+new period of data only when certain amount of frames is received
+through the network, but definitely not when a certain amount of jiffies
+on a local system elapses. Since all of the devices are purely virtual
+it won't introduce any glitches and will help the application developers
+to avoid using sample-rate conversion.
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/usb/mixer.c | 35 +++++++++++++++++++++++++++--------
- sound/usb/mixer.h |  1 +
- 2 files changed, 28 insertions(+), 8 deletions(-)
+This patch series introduces userspace-driven ALSA timers: virtual
+timers which are created and controlled from userspace. The timer can
+be created from the userspace using the new ioctl SNDRV_TIMER_IOCTL_CREATE.
+After creating a timer, it becomes available for use system-wide, so it
+can be passed to snd-aloop as a timer source (timer_source parameter
+would be "-1.SNDRV_TIMER_GLOBAL_UDRIVEN.{timer_id}"). When the userspace
+app decides to trigger a timer, it calls another ioctl
+SNDRV_TIMER_IOCTL_TRIGGER on the file descriptor of a timer. It
+initiates a transfer of a new period of data.
 
-diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-index f7ce8e8c3c3e..2d27d729c3be 100644
---- a/sound/usb/mixer.c
-+++ b/sound/usb/mixer.c
-@@ -1377,6 +1377,19 @@ static int get_min_max_with_quirks(struct usb_mixer_elem_info *cval,
- 
- #define get_min_max(cval, def)	get_min_max_with_quirks(cval, def, NULL)
- 
-+/* get the max value advertised via control API */
-+static int get_max_exposed(struct usb_mixer_elem_info *cval)
-+{
-+	if (!cval->max_exposed) {
-+		if (cval->res)
-+			cval->max_exposed =
-+				DIV_ROUND_UP(cval->max - cval->min, cval->res);
-+		else
-+			cval->max_exposed = cval->max - cval->min;
-+	}
-+	return cval->max_exposed;
-+}
-+
- /* get a feature/mixer unit info */
- static int mixer_ctl_feature_info(struct snd_kcontrol *kcontrol,
- 				  struct snd_ctl_elem_info *uinfo)
-@@ -1389,11 +1402,8 @@ static int mixer_ctl_feature_info(struct snd_kcontrol *kcontrol,
- 	else
- 		uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
- 	uinfo->count = cval->channels;
--	if (cval->val_type == USB_MIXER_BOOLEAN ||
--	    cval->val_type == USB_MIXER_INV_BOOLEAN) {
--		uinfo->value.integer.min = 0;
--		uinfo->value.integer.max = 1;
--	} else {
-+	if (cval->val_type != USB_MIXER_BOOLEAN &&
-+	    cval->val_type != USB_MIXER_INV_BOOLEAN) {
- 		if (!cval->initialized) {
- 			get_min_max_with_quirks(cval, 0, kcontrol);
- 			if (cval->initialized && cval->dBmin >= cval->dBmax) {
-@@ -1405,10 +1415,10 @@ static int mixer_ctl_feature_info(struct snd_kcontrol *kcontrol,
- 					       &kcontrol->id);
- 			}
- 		}
--		uinfo->value.integer.min = 0;
--		uinfo->value.integer.max =
--			DIV_ROUND_UP(cval->max - cval->min, cval->res);
- 	}
-+
-+	uinfo->value.integer.min = 0;
-+	uinfo->value.integer.max = get_max_exposed(cval);
- 	return 0;
- }
- 
-@@ -1449,6 +1459,7 @@ static int mixer_ctl_feature_put(struct snd_kcontrol *kcontrol,
- 				 struct snd_ctl_elem_value *ucontrol)
- {
- 	struct usb_mixer_elem_info *cval = kcontrol->private_data;
-+	int max_val = get_max_exposed(cval);
- 	int c, cnt, val, oval, err;
- 	int changed = 0;
- 
-@@ -1461,6 +1472,8 @@ static int mixer_ctl_feature_put(struct snd_kcontrol *kcontrol,
- 			if (err < 0)
- 				return filter_error(cval, err);
- 			val = ucontrol->value.integer.value[cnt];
-+			if (val < 0 || val > max_val)
-+				return -EINVAL;
- 			val = get_abs_value(cval, val);
- 			if (oval != val) {
- 				snd_usb_set_cur_mix_value(cval, c + 1, cnt, val);
-@@ -1474,6 +1487,8 @@ static int mixer_ctl_feature_put(struct snd_kcontrol *kcontrol,
- 		if (err < 0)
- 			return filter_error(cval, err);
- 		val = ucontrol->value.integer.value[0];
-+		if (val < 0 || val > max_val)
-+			return -EINVAL;
- 		val = get_abs_value(cval, val);
- 		if (val != oval) {
- 			snd_usb_set_cur_mix_value(cval, 0, 0, val);
-@@ -2337,6 +2352,8 @@ static int mixer_ctl_procunit_put(struct snd_kcontrol *kcontrol,
- 	if (err < 0)
- 		return filter_error(cval, err);
- 	val = ucontrol->value.integer.value[0];
-+	if (val < 0 || val > get_max_exposed(cval))
-+		return -EINVAL;
- 	val = get_abs_value(cval, val);
- 	if (val != oval) {
- 		set_cur_ctl_value(cval, cval->control << 8, val);
-@@ -2699,6 +2716,8 @@ static int mixer_ctl_selector_put(struct snd_kcontrol *kcontrol,
- 	if (err < 0)
- 		return filter_error(cval, err);
- 	val = ucontrol->value.enumerated.item[0];
-+	if (val < 0 || val >= cval->max) /* here cval->max = # elements */
-+		return -EINVAL;
- 	val = get_abs_value(cval, val);
- 	if (val != oval) {
- 		set_cur_ctl_value(cval, cval->control << 8, val);
-diff --git a/sound/usb/mixer.h b/sound/usb/mixer.h
-index d43895c1ae5c..167fbfcf01ac 100644
---- a/sound/usb/mixer.h
-+++ b/sound/usb/mixer.h
-@@ -88,6 +88,7 @@ struct usb_mixer_elem_info {
- 	int channels;
- 	int val_type;
- 	int min, max, res;
-+	int max_exposed; /* control API exposes the value in 0..max_exposed */
- 	int dBmin, dBmax;
- 	int cached;
- 	int cache_val[MAX_CHANNELS];
+Userspace-driven timers are associated with file descriptors. If the
+application wishes to destroy the timer, it can simply release the file
+descriptor of a virtual timer.
+
+I believe introducing new ioctl calls is quite inconvenient (as we have
+a limited amount of them), but other possible ways of app <-> kernel
+communication (like virtual FS) seem completely inappropriate for this
+task (but I'd love to discuss alternative solutions).
+
+This patch series also updates the snd-aloop module so the global timers
+can be used as a timer_source for it (it allows using userspace-driven
+timers as timer source).
+
+V1 -> V2:
+- Fix some problems found by Christophe Jaillet
+<christophe.jaillet@wanadoo.fr>
+V2 -> V3:
+- Add improvements suggested by Takashi Iwai <tiwai@suse.de>
+
+Please, find the patch-specific changelog in the following patches.
+
+Ivan Orlov (4):
+  ALSA: aloop: Allow using global timers
+  Docs/sound: Add documentation for userspace-driven ALSA timers
+  ALSA: timer: Introduce virtual userspace-driven timers
+  selftests: ALSA: Cover userspace-driven timers with test
+
+ Documentation/sound/index.rst               |   1 +
+ Documentation/sound/utimers.rst             | 120 +++++++++++
+ include/uapi/sound/asound.h                 |  20 +-
+ sound/core/Kconfig                          |  10 +
+ sound/core/timer.c                          | 221 ++++++++++++++++++++
+ sound/drivers/aloop.c                       |   2 +
+ tools/testing/selftests/alsa/Makefile       |   2 +-
+ tools/testing/selftests/alsa/global-timer.c |  87 ++++++++
+ tools/testing/selftests/alsa/utimer-test.c  | 170 +++++++++++++++
+ 9 files changed, 631 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/sound/utimers.rst
+ create mode 100644 tools/testing/selftests/alsa/global-timer.c
+ create mode 100644 tools/testing/selftests/alsa/utimer-test.c
+
 -- 
-2.43.0
+2.34.1
 
