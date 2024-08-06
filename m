@@ -1,113 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E107B16B3B8;
-	Mon,  5 Aug 2024 19:40:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D911364A
+	for <linux-sound@vger.kernel.org>; Tue,  6 Aug 2024 00:09:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722886811; cv=none; b=RRMU+a9bg3Z70nkmJDTGPPlUYutZ4VN5aw7mq4jyWz8nRSw3GQdHFxTbjrx/NPYTSifT/HxHNFQ2SKHCJf3/0Sq5EL3QKf0sKVzcLBbDoTyWWBhPOyHNUuqycdkM3L2DeMKN/U5kBRRhYKMruAIoTqee64ha1oKn+sQcTnIg7e4=
+	t=1722902957; cv=none; b=HIvEWBrB6zz9GAYgYlog18f/qhMXA4H/z5+DtPixLEzC/81A9m15WPPWgLXYxXpMvYfR1+rhvifBkn36KMPIQF4mb4NB+A9+3eqAdACxF3NZGt5xCqlP8BQHZ8ihOKmYZP2NUctMKP+rAHfrsLV5CmE65wP6I013JqHdgGZjLfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722886811; c=relaxed/simple;
-	bh=nsjCGH343izgOMkxJYAFGHUyQp8LXP/VhiPZfGja3sk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lf/eR6E4vdr7ohXsNw6TjKZOGtSxGh0BuF9bXkp/nf+D5w+lA0VF7rYW5+nIuVL0DgzNT2G2Z+HSrXEIr09xetXwZAEfleMU/wZ7FLRbS6Hy3GmJPZZeOM9bpoED+R3J7jX6r73k9yZH89Tg/mSQfTdjD0gJnAa89aW2882oRKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r/FsDV4V; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722902957; c=relaxed/simple;
+	bh=R6MOIkZuJBuFqSF8tqOnUxEyKt8uQ3N4KcXwTYj2IeU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=BElXSOnEI/xX7PVRG0udG+1oNi5S+IQQbtNRXcSG8W/KmENZuxZJCSDEP/qAdKhl5kxIeTGN0jrXm7OFmdL4+4Yy+cEayhF1pIrToLFc/8Sn44TCC/ExPVyyas1Xuo9j+wUH7A7ixq09yPhuxZvxYDiDx472hViv21UN5THNc6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=UVBmax1F; arc=none smtp.client-ip=209.85.219.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r/FsDV4V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80303C32782;
-	Mon,  5 Aug 2024 19:40:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722886810;
-	bh=nsjCGH343izgOMkxJYAFGHUyQp8LXP/VhiPZfGja3sk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r/FsDV4VUpMBy9Zf+ZF642nX114nx0JsNcWcTl40GcDV7z9JFNq9bWVd1+iHxCc2x
-	 QzYDX1tWqUeHqa5CuOA6Xvh7s383BkvP3LvRtXu7sctMHxTbkMHFjrMm95d15bACRk
-	 zuS19XNGsGf6jnbQfPEEMzUxljWbO/OuT8rhNEGFX6ADefT/nkwC0azMIyeytrjU/5
-	 ojZHU+TiRgjqIrVyyGEr+TLutxUstLHz9PGD7jdl8RdonFD2HOkUTENoO2FMxwZCTQ
-	 O0fdcw1z3E54mo2zIbcE//h9II38mHCeaU9kpzAfdzRZ4HiRlD2fc9+oQv/NMDQ6WA
-	 ebaFB0po8cg1g==
-Date: Mon, 5 Aug 2024 20:40:05 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: tiwai@suse.com, wsa+renesas@sang-engineering.com,
-	mika.westerberg@linux.intel.com, linux-sound@vger.kernel.org,
-	linux-spi@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-Subject: Re: [PATCH v2 0/3] ALSA: Add support for new HP G12 laptops
-Message-ID: <c2dafdd5-64c5-4184-9b19-da4988993195@sirena.org.uk>
-References: <20240802152215.20831-1-rf@opensource.cirrus.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UVBmax1F"
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6b79293a858so571876d6.3
+        for <linux-sound@vger.kernel.org>; Mon, 05 Aug 2024 17:09:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1722902955; x=1723507755; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eXLI8wHyVdI6kvmwcMZ262mNarDv3w8K9hN3q9ZyawI=;
+        b=UVBmax1FkPHOhlPKsNP4IbRtIoupq2A+pvmTirtuQabZ3GHOqLRPcM6ZqAA4tWhUti
+         XFy0+AQR7Un7NK71xBuVV/8hCzquCRu+cnvBBoTVvT5+b2Im6uxrsiI0T4wP2GKr8dYB
+         OnhjlLQDojHX/m2p4zbEkfwLTmaxYWSdgDPZE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722902955; x=1723507755;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eXLI8wHyVdI6kvmwcMZ262mNarDv3w8K9hN3q9ZyawI=;
+        b=MXQV8of3z5h0sTjr8V1vkZjdjfxC1CgQYutpQ1jS63jWJmJ2vIGqDwN+omJUG+OXgw
+         TEeqCneHdWzDVHY+M8cD7qqEGrRuiKOx+BVEIbR5xEXr4TJ0tODraC7u1l6kmEzYNMOc
+         mHvbIcAGkxCoi2kD6WlCFIe5cqRvlGKc59umRkIVAiRE933QARscS9xJu5AJrC88P+iK
+         y2JDXXAPW3QfBu0lAzNsmrjZZyK1S7H2qPC1XZCL0h/hZ3nBrD/UmutoBzNaITuu8QIN
+         Y2ZKSAqofXNC9g65vJsZ1o8LwXYw6oUg9lrcgALETtAni2HBDqwlNzuR58EspqtVlP+I
+         j5Cw==
+X-Gm-Message-State: AOJu0YwyJfV7DigYss2TdVE+egpZ+J+zvaqnACtKegZ8WW/TXAHJXtPN
+	LdvDDkRe39N0KabUfM49tBzJW4IGeLVgwNFEt8xQmgQCVvFjZaWB73ESzHSCgQ==
+X-Google-Smtp-Source: AGHT+IGYHOxtSbB4Mzyzks5148QuRo36C5zZ7fJBUfAm/CwA0XoNyW8GIPaCPTpDpRYgGH4p13D3fg==
+X-Received: by 2002:a05:6214:4805:b0:6bb:8c08:8830 with SMTP id 6a1803df08f44-6bb984c57c1mr154234956d6.56.1722902954681;
+        Mon, 05 Aug 2024 17:09:14 -0700 (PDT)
+Received: from wilburliny.c.googlers.com (200.234.86.34.bc.googleusercontent.com. [34.86.234.200])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6bb9c87bb90sm40166026d6.130.2024.08.05.17.09.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Aug 2024 17:09:14 -0700 (PDT)
+From: Steven 'Steve' Kendall <skend@chromium.org>
+Date: Tue, 06 Aug 2024 00:08:24 +0000
+Subject: [PATCH v2] ALSA: hda: Add HP MP9 G4 Retail System AMS to force
+ connect list
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="U9cAF4Z+E/FV6Zqo"
-Content-Disposition: inline
-In-Reply-To: <20240802152215.20831-1-rf@opensource.cirrus.com>
-X-Cookie: Goodbye, cool world.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240806-hdmi-audio-hp-wrongpins-v2-1-d9eb4ad41043@chromium.org>
+X-B4-Tracking: v=1; b=H4sIAHdpsWYC/4WNQQ7CIBBFr9LM2jGApiWuvIfpghYosyg0g0VN0
+ 7uLvYDL95L//gbZMbkMt2YDdoUypVhBnRoYg4mTQ7KVQQl1FVooDHYmNKulhGHBF6c4LRQzeq1
+ b0XptL2aAul7YeXof5UdfOVB+Jv4cR0X+7P9mkShRWz0YKWzXeX0fA6eZ1vmceIJ+3/cvElM8q
+ sEAAAA=
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Steven 'Steve' Kendall <skend@chromium.org>
+X-Mailer: b4 0.13.0
 
+In recent HP UEFI firmware (likely v2.15 and above, tested on 2.27),
+these pins are incorrectly set for HDMI/DP audio. Tested on
+HP MP9 G4 Retail System AMS. Tested audio with two monitors connected
+via DisplayPort.
 
---U9cAF4Z+E/FV6Zqo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Link: https://forum.manjaro.org/t/intel-cannon-lake-pch-cavs-conexant-cx20632-no-sound-at-hdmi-or-displayport/133494
+Link: https://bbs.archlinux.org/viewtopic.php?id=270523
+Signed-off-by: Steven 'Steve' Kendall <skend@chromium.org>
+---
+Changes in v2:
+- Now instead adds value to force connect list as suggested in review.
+- I tested these changes with two monitors via DP, results identical to v1.
+- Link to v1: https://lore.kernel.org/r/20240802-hdmi-audio-hp-wrongpins-v1-1-8d8ba10d77f8@chromium.org
+---
+ sound/pci/hda/patch_hdmi.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-On Fri, Aug 02, 2024 at 04:22:12PM +0100, Richard Fitzgerald wrote:
-> Add support for HP G12 laptops that use CS35L54 or CS35L56 amplifiers
-> with Realtek HDA codecs. Some of these use the same SSID for models with
-> CS35L54 and models with CS35L56 so the ACPI entries are examined to
-> determine which amp is present.
+diff --git a/sound/pci/hda/patch_hdmi.c b/sound/pci/hda/patch_hdmi.c
+index 707d203ba652..4e7361d1d518 100644
+--- a/sound/pci/hda/patch_hdmi.c
++++ b/sound/pci/hda/patch_hdmi.c
+@@ -1989,6 +1989,7 @@ static int hdmi_add_cvt(struct hda_codec *codec, hda_nid_t cvt_nid)
+ }
+ 
+ static const struct snd_pci_quirk force_connect_list[] = {
++	SND_PCI_QUIRK(0x103c, 0x83ef, "HP MP9 G4 Retail System AMS", 1),
+ 	SND_PCI_QUIRK(0x103c, 0x870f, "HP", 1),
+ 	SND_PCI_QUIRK(0x103c, 0x871a, "HP", 1),
+ 	SND_PCI_QUIRK(0x103c, 0x8711, "HP", 1),
 
-The following changes since commit a0c04bd55a467aee3eb647555343ad6971106e86:
+---
+base-commit: 8400291e289ee6b2bf9779ff1c83a291501f017b
+change-id: 20240802-hdmi-audio-hp-wrongpins-f88606f8d3ab
 
-  Merge tag 'kbuild-fixes-v6.11' of git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild (2024-07-28 14:02:48 -0700)
+Best regards,
+-- 
+Steven 'Steve' Kendall <skend@chromium.org>
 
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git tags/spi-acpi-lookup-dummy
-
-for you to fetch changes up to 90ec3a8a7fd0d43026fcca979713e077d4883b56:
-
-  spi: Add empty versions of ACPI functions (2024-08-02 18:51:59 +0100)
-
-----------------------------------------------------------------
-spi: Add empty versions of ACPI lookup functions
-
-A patch from Richard Fitzgerald adding dummy versions of the ACPI lookup
-functions for SPI:
-
-    Provide empty versions of acpi_spi_count_resources(),
-    acpi_spi_device_alloc() and acpi_spi_find_controller_by_adev()
-    if the real functions are not being built.
-
-    This commit fixes two problems with the original definitions:
-
-    1) There wasn't an empty version of these functions
-    2) The #if only depended on CONFIG_ACPI. But the functions are implemented
-       in the core spi.c so CONFIG_SPI_MASTER must also be enabled for the real
-       functions to exist.
-
-----------------------------------------------------------------
-Richard Fitzgerald (1):
-      spi: Add empty versions of ACPI functions
-
- include/linux/spi/spi.h | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
-
---U9cAF4Z+E/FV6Zqo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmaxKpUACgkQJNaLcl1U
-h9A1jQf/ThbzDuoxq7pKr3RSBN1wmnlzv0e3UL7TqekNxcoyKeBGCTnuei6frNYE
-tGt+cNydd7vCSVeGv5Yl0tjNetWRi+UG/XoNpMssPPtESyEHeFoDpSfkTBZIingp
-7b1nYLjKDoXhATCAIHTzjxlefkTPncvBVqh91T5yA29d54nM3FsnRr1hqsVusQqF
-j2E/cUGXQN1+nQNgItXaSrUMuxGHUKro0sjFryIR8/fx+ymoUL+i0v8UWadV7kR0
-y/vkuLN+dzc4ktN0bTphehCqIed85KB1p5/P8J1xapGAqPfZWbRiifQ42v+ni4dp
-kC55BY7n03BTzbzHkDRDBUhX0yRhyQ==
-=ct4I
------END PGP SIGNATURE-----
-
---U9cAF4Z+E/FV6Zqo--
