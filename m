@@ -1,132 +1,144 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E9D6173355;
-	Tue,  6 Aug 2024 06:09:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F279A94A;
+	Tue,  6 Aug 2024 06:46:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722924586; cv=none; b=tWhgQOavH8UBzF3JvFDdJXo93tRoojzebFqyF1e4PxCEdInZrj1FTzdn/GBm6H3pm2b12HzaM7FuGnaOPkiMXsaiWH9I+0cIclUaTaqa6OHB1Gzsaci8QSx4daC4VWsRAe1dpNDJRkpPzlp36WuDz9ka1QnTLT1hijmiLp/L614=
+	t=1722926780; cv=none; b=DWudMasdNsDST/vRzE+K23l52NIMjP3FNx558sNjcgjQXpeff6NTw2rTjOgFG/AHkC3b1VylvuKG8EP0EPC/gBcPEuikpKYW3xJhZ1YzgyY01HqyddYhaFkwnMENCNjOfbBfkH2gptQ17Kd/hmUVYbZLdjYEYiEqMk1/hBZARlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722924586; c=relaxed/simple;
-	bh=NLPE2unbjlIkQEEfMyKb8wnCPg2MGxqBLITscCraHUU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aPeftFQ44K3JBKbX2nLCuMaje6BTFElK5k5TXgo09sqYtDzX962WFFTpHEoJKNKjRNFFKo9jZR2hQuo8mbeL4P4ROQtlVdupNmQi7skIJRp8ELBToVXkHMSE3qzSQBfqVg9UESXP72ERPZX5LEyGvPdY62i8JEXmg/HaS9r+5uE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kIB26Hlx; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1722926780; c=relaxed/simple;
+	bh=zAUroZkbYUiYkj1fZojDj+I5ZFvwK8DYp1Fs6p2xXFk=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HeuU1T3p3r9FIiLFom/j/eZ2z/sQm2ELlI/nCxZNAbpuDoPrlV3ej1vBS5sEJJT7cb1uhVAMa8dNCMR3whG4ykmp9XdhgTWiyKqi89trU2IyikSZHeotQ0M7Ph6V0lzqDxwdK9HNfwEH0lUiS3T3tEzhXJa6nKHnQ04uU8XwVew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PQO5OEqT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=tadESHvh; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=M3+Mb4/7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JmobEoqX; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kIB26Hlx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722924584; x=1754460584;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=NLPE2unbjlIkQEEfMyKb8wnCPg2MGxqBLITscCraHUU=;
-  b=kIB26Hlxlyrv4+cocAkPxIbUdgSRc6SI7c/h0ditN0mIodvgxXpu1jZV
-   GIkrXzvtx/sLWr8UaIu3wt8uYEozE+23TELdhyKjDGIkeVW8r1n7yjHTf
-   nS8xkpAsRFACb6KyT+fYS+BXUiBqJoQVlg6rwUqSmentW5bz4lRc0/1UN
-   0LQp34dtqs6/vpQdAVlEQ8tEL1ZA5FvhxzHCXq66pKvMo0HGk6qoTMY1S
-   40Q9Q/haM0sj3k+WVeZAidK4ZgAs3i5rttqvMO8sn/GWgK4UehcM+mKo5
-   9viPKR8bTjC6uFYwuN3lu4YMvV1ESFBK7gZXS3I836PNI0OlM0FQIFdy5
-   A==;
-X-CSE-ConnectionGUID: pyTDu2FXSxynapcP0krN1g==
-X-CSE-MsgGUID: zjW9qD69QDO7cqxTy+pZaA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11155"; a="20498137"
-X-IronPort-AV: E=Sophos;i="6.09,266,1716274800"; 
-   d="scan'208";a="20498137"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2024 23:09:43 -0700
-X-CSE-ConnectionGUID: 0kjO4AeeRZi9R2Mf6T7tZQ==
-X-CSE-MsgGUID: UUtMKR7nRvK1bNvFOcF5OQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,266,1716274800"; 
-   d="scan'208";a="61263556"
-Received: from anmitta2-mobl4.gar.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.119.23])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2024 23:09:40 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: linux-sound@vger.kernel.org,
-	vkoul@kernel.org
-Cc: vinod.koul@linaro.org,
-	linux-kernel@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com,
-	bard.liao@intel.com
-Subject: [PATCH] soundwire: add lane field in sdw_port_runtime
-Date: Tue,  6 Aug 2024 14:09:30 +0800
-Message-ID: <20240806060930.10433-1-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PQO5OEqT";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tadESHvh";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="M3+Mb4/7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JmobEoqX"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E822B1F7D4;
+	Tue,  6 Aug 2024 06:46:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1722926770; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vHfmuv8sXX+oH8BW97sEQ6nsuTkEviC0eHXDTTuvsA8=;
+	b=PQO5OEqT8yssN2LkM1UACpmej5WvXD47DDzCk4WFUcUZM3an8D6cfy6kkqPXXZhfblx8+C
+	2foIRc0C4th/b4gNfO3fJ/3ibZlp8gsH7iOmweRTewbIPtlpZ7QaOhRUv37cGK6M3bFm8P
+	ajPTc4QLjujSSVTBYXQPEIX+VJvzg1M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1722926770;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vHfmuv8sXX+oH8BW97sEQ6nsuTkEviC0eHXDTTuvsA8=;
+	b=tadESHvhlrijUJwBa3j/WL7Rh9Kb+5V1LaEvHaS/QdzQkqxN4PabDI+dIsGuXQVnGnxgyg
+	Zw97XPFoq6BrwxBA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="M3+Mb4/7";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=JmobEoqX
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1722926768; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vHfmuv8sXX+oH8BW97sEQ6nsuTkEviC0eHXDTTuvsA8=;
+	b=M3+Mb4/7ouoUxeGC0GY93x6zbm+ABfvlOHkRcu8WQylCJQkGZdlgQB7nZza8KD8mSUtNU0
+	BCg9cXvEYVTwZXtY8a29c0vBi5/HI9OSsagGKqJlGmFyET/1dRE9uppwxZ7OBkay0BTqIH
+	WoGNpA5+WxpZTkKkI5zTAkXhbDUg9bk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1722926768;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vHfmuv8sXX+oH8BW97sEQ6nsuTkEviC0eHXDTTuvsA8=;
+	b=JmobEoqXJzTIgTJed1UAz49wnvPzakRuWaI4Q+Gw2E5VaouY+hiNs30dxmaSiRUdVVcEAO
+	1HL6qgDQf6j7tKAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B900B13770;
+	Tue,  6 Aug 2024 06:46:08 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id tF1sK7DGsWbiTgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 06 Aug 2024 06:46:08 +0000
+Date: Tue, 06 Aug 2024 08:46:46 +0200
+Message-ID: <87y15ai1wp.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Steven 'Steve' Kendall <skend@chromium.org>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] ALSA: hda: Add HP MP9 G4 Retail System AMS to force connect list
+In-Reply-To: <20240806-hdmi-audio-hp-wrongpins-v2-1-d9eb4ad41043@chromium.org>
+References: <20240806-hdmi-audio-hp-wrongpins-v2-1-d9eb4ad41043@chromium.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: E822B1F7D4
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-Currently, lane_ctrl is always 0. Add a lane field in sdw_port_runtime
-to indicate the data lane of the data port.
-They are 0 by default.
+On Tue, 06 Aug 2024 02:08:24 +0200,
+Steven 'Steve' Kendall wrote:
+> 
+> In recent HP UEFI firmware (likely v2.15 and above, tested on 2.27),
+> these pins are incorrectly set for HDMI/DP audio. Tested on
+> HP MP9 G4 Retail System AMS. Tested audio with two monitors connected
+> via DisplayPort.
+> 
+> Link: https://forum.manjaro.org/t/intel-cannon-lake-pch-cavs-conexant-cx20632-no-sound-at-hdmi-or-displayport/133494
+> Link: https://bbs.archlinux.org/viewtopic.php?id=270523
+> Signed-off-by: Steven 'Steve' Kendall <skend@chromium.org>
+> ---
+> Changes in v2:
+> - Now instead adds value to force connect list as suggested in review.
+> - I tested these changes with two monitors via DP, results identical to v1.
+> - Link to v1: https://lore.kernel.org/r/20240802-hdmi-audio-hp-wrongpins-v1-1-8d8ba10d77f8@chromium.org
 
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
----
- drivers/soundwire/amd_manager.c                  | 2 +-
- drivers/soundwire/bus.h                          | 2 ++
- drivers/soundwire/generic_bandwidth_allocation.c | 4 ++--
- 3 files changed, 5 insertions(+), 3 deletions(-)
+Thanks, applied now.
 
-diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
-index 0d01849c3586..babb580f3124 100644
---- a/drivers/soundwire/amd_manager.c
-+++ b/drivers/soundwire/amd_manager.c
-@@ -410,7 +410,7 @@ static int amd_sdw_compute_params(struct sdw_bus *bus)
- 			sdw_fill_xport_params(&p_rt->transport_params, p_rt->num,
- 					      false, SDW_BLK_GRP_CNT_1, sample_int,
- 					      port_bo, port_bo >> 8, hstart, hstop,
--					      SDW_BLK_PKG_PER_PORT, 0x0);
-+					      SDW_BLK_PKG_PER_PORT, p_rt->lane);
- 
- 			sdw_fill_port_params(&p_rt->port_params,
- 					     p_rt->num, bps,
-diff --git a/drivers/soundwire/bus.h b/drivers/soundwire/bus.h
-index fda6b24ac2da..ff03b97f1d8b 100644
---- a/drivers/soundwire/bus.h
-+++ b/drivers/soundwire/bus.h
-@@ -90,6 +90,7 @@ int sdw_find_col_index(int col);
-  * @transport_params: Transport parameters
-  * @port_params: Port parameters
-  * @port_node: List node for Master or Slave port_list
-+ * @lane: Which lane is used
-  *
-  * SoundWire spec has no mention of ports for Master interface but the
-  * concept is logically extended.
-@@ -100,6 +101,7 @@ struct sdw_port_runtime {
- 	struct sdw_transport_params transport_params;
- 	struct sdw_port_params port_params;
- 	struct list_head port_node;
-+	unsigned int lane;
- };
- 
- /**
-diff --git a/drivers/soundwire/generic_bandwidth_allocation.c b/drivers/soundwire/generic_bandwidth_allocation.c
-index b9316207c3ab..abf9b85daa52 100644
---- a/drivers/soundwire/generic_bandwidth_allocation.c
-+++ b/drivers/soundwire/generic_bandwidth_allocation.c
-@@ -56,7 +56,7 @@ void sdw_compute_slave_ports(struct sdw_master_runtime *m_rt,
- 					      sample_int, port_bo, port_bo >> 8,
- 					      t_data->hstart,
- 					      t_data->hstop,
--					      SDW_BLK_PKG_PER_PORT, 0x0);
-+					      SDW_BLK_PKG_PER_PORT, p_rt->lane);
- 
- 			sdw_fill_port_params(&p_rt->port_params,
- 					     p_rt->num, bps,
-@@ -109,7 +109,7 @@ static void sdw_compute_master_ports(struct sdw_master_runtime *m_rt,
- 		sdw_fill_xport_params(&p_rt->transport_params, p_rt->num,
- 				      false, SDW_BLK_GRP_CNT_1, sample_int,
- 				      *port_bo, (*port_bo) >> 8, hstart, hstop,
--				      SDW_BLK_PKG_PER_PORT, 0x0);
-+				      SDW_BLK_PKG_PER_PORT, p_rt->lane);
- 
- 		sdw_fill_port_params(&p_rt->port_params,
- 				     p_rt->num, bps,
--- 
-2.43.0
 
+Takashi
