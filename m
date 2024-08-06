@@ -1,89 +1,272 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D7111C3F0A;
-	Tue,  6 Aug 2024 14:31:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA97D1D27BF;
+	Tue,  6 Aug 2024 14:50:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722954668; cv=none; b=LTqtlryt2tAHyJyouZsSMnCT1r19Ozim0U0RjvvvnC508HNgcWVhsui/O0dGxqskEheYvO1e13JnriWfHQ2Fynd+E/MOkyq9SAUmSjuYkelSHyaLqjnEVfvPKrpW4I+SWstJjTRVoeYXK505wH71y5AvHCagGnH+/8va8UN4paE=
+	t=1722955802; cv=none; b=Q1n3S0hBvdl78fdZpbVnMMtILAAZ7D4Hx1yA/7Bt8e23biJ0Dvi/op2JmFavytUdEEmj38aQjShWJ32UBrgSogxaOwhYfpuprRBnT3mClWuJ2N9I9dODlN78NFq1sT5wtZ2otAl1UjhwcAPFuyfxQTbEb0gjzBgLabAGAfKAD9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722954668; c=relaxed/simple;
-	bh=z9Z+g2feDnkuhfvIGe/3YA3l9cpUOQrggJcUaFTCHSI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qcmajm2dX1jyudhuWBM/MqBOsfM76Sf2EfFc9Zfg2rhM6WeXnIh4HHmjGm7dyE9aRALkKqCy77ellgwMBiWWBw38ip3t01rWMIjyprgdXOGmjFrwgNUbRmTyrCJzq87Uh/ZAfQCdGYKr71auqCH2wsI+URdFOFxf2dXDRhVzh1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=obsp8+xN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722955802; c=relaxed/simple;
+	bh=+sYV3bR8cNzsi5/7+csPwicHhBV/ErOUK65A21w+XSU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=q4vo5gOm7HB8sJwVhTkUIbqkWBhTh7wvpT6vVwJhSw3nTmCvVP0swMCCNCOHw4lMPEzIBBIurz27FYkgGOhUTzEgXvCcWlDppJUPJdUHl6+5Pzr7YIMZj5lhP7YBX7VllJM5Qr4g6HXlxGojHHrTtNqmsUqn0RZe0HB/Toy9igw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XSSDd1H1; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="obsp8+xN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C6F5C4AF09;
-	Tue,  6 Aug 2024 14:31:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722954668;
-	bh=z9Z+g2feDnkuhfvIGe/3YA3l9cpUOQrggJcUaFTCHSI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=obsp8+xN5zt6o407KwVLtuBGkJRaQ3lleXX2XMVXdE07H+7189ETnUKv6mzJ3A11o
-	 VUA8uSWUd3JB+4867dYWg+RrRDvOsoml2MoxFSv9nxcHH7wZ+pw8xpCuWOlUlgy5pD
-	 4zGa42yEl5YJqrRp+gwujnbwrK4kzKT4zkCmkMoxjy3XxOE1BRFKejfwsndwC7us6u
-	 ap7pBThfUCYKm/+gnamciSriQx/WZONvyftc+RXw/ah4Kk/6DGwTyZ0pr3Y4Px9kMv
-	 wSZdkZAtanHy7tbK5j+PdsGh0OxXm50W1qNgI6JhRGzy7D9Vz9kZ2WcIwDKaqfA4li
-	 tHYJvK/GAPrbQ==
-Date: Tue, 6 Aug 2024 15:30:59 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 6/9] ASoC: audio-graph-card2: use new of_graph functions
-Message-ID: <69dddb47-d213-4bab-9254-3e106c6f4901@sirena.org.uk>
-References: <87mslqw8mj.wl-kuninori.morimoto.gx@renesas.com>
- <87ed72w8l5.wl-kuninori.morimoto.gx@renesas.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XSSDd1H1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722955801; x=1754491801;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=+sYV3bR8cNzsi5/7+csPwicHhBV/ErOUK65A21w+XSU=;
+  b=XSSDd1H15ut38egK4wV9JE410Uc9g+tPeoFKIvDerinzK7zwxLdWJtmF
+   MiBjIAJx0MADow+ZKkUblEo/Cq5TQb5tpIa/q6nKJdA8OVzIWD2lcsQki
+   RV1Av48JeckLJaumCzgnWR3cyPlMy+F3IyscDOZjhvk9h4ZS0iG5JQ7J2
+   k/mPjP4V1Y31mq0cupKKV1pp8w5eTQf6lBAEN0fcm/jgROzs8eP17Uvt5
+   ULZl7bePQ8kr0gts4FFILWR4x9ahoMkmGxWF81eV4song7RbXBhldrO5z
+   dSHA1pR01Y+n+i2cGw5FjDL8kpgfhcQtpu0HhclPiYf/WAsyfplRE3ghH
+   Q==;
+X-CSE-ConnectionGUID: owQlL4mlSq2zCffr6f5l2A==
+X-CSE-MsgGUID: EqNOxev6Qjmm9EfR+Gu7kQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="21101419"
+X-IronPort-AV: E=Sophos;i="6.09,268,1716274800"; 
+   d="scan'208";a="21101419"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2024 07:50:00 -0700
+X-CSE-ConnectionGUID: 3p2+ZU0fQd+Xzs93IIWvIw==
+X-CSE-MsgGUID: K5IOHqvVSl2HSCiyenrnEA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,268,1716274800"; 
+   d="scan'208";a="87476425"
+Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.53]) ([10.94.0.53])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2024 07:49:54 -0700
+Message-ID: <1a80c749-1cbc-4ad9-ac14-dec660bd7f8b@linux.intel.com>
+Date: Tue, 6 Aug 2024 16:49:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="rB+6M9oEMqdlod6b"
-Content-Disposition: inline
-In-Reply-To: <87ed72w8l5.wl-kuninori.morimoto.gx@renesas.com>
-X-Cookie: One picture is worth 128K words.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v24 03/34] xhci: sideband: add initial api to register a
+ sideband entity
+Content-Language: en-US
+To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+ mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+ corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
+ Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, tiwai@suse.com,
+ gregkh@linuxfoundation.org, robh@kernel.org
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+ alsa-devel@alsa-project.org, Mathias Nyman <mathias.nyman@linux.intel.com>
+References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
+ <20240801011730.4797-4-quic_wcheng@quicinc.com>
+From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+In-Reply-To: <20240801011730.4797-4-quic_wcheng@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 8/1/2024 3:16 AM, Wesley Cheng wrote:
+> From: Mathias Nyman <mathias.nyman@linux.intel.com>
+> 
+> Introduce XHCI sideband, which manages the USB endpoints being requested by
+> a client driver.  This is used for when client drivers are attempting to
+> offload USB endpoints to another entity for handling USB transfers.  XHCI
+> sideband will allow for drivers to fetch the required information about the
+> transfer ring, so the user can submit transfers independently.  Expose the
+> required APIs for drivers to register and request for a USB endpoint and to
+> manage XHCI secondary interrupters.
+> 
+> Multiple ring segment page linking, proper endpoint clean up, and allowing
+> module compliation added by Wesley Cheng to complete original concept code
+> by Mathias Nyman.
+> 
+> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+> Co-developed-by: Wesley Cheng <quic_wcheng@quicinc.com>
+> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+> ---
+>   drivers/usb/host/Kconfig          |   9 +
+>   drivers/usb/host/Makefile         |   2 +
+>   drivers/usb/host/xhci-sideband.c  | 419 ++++++++++++++++++++++++++++++
+>   drivers/usb/host/xhci.h           |   4 +
+>   include/linux/usb/xhci-sideband.h |  68 +++++
+>   5 files changed, 502 insertions(+)
+>   create mode 100644 drivers/usb/host/xhci-sideband.c
+>   create mode 100644 include/linux/usb/xhci-sideband.h
+> 
+> diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
+> index 4448d0ab06f0..6135603c5dc4 100644
+> --- a/drivers/usb/host/Kconfig
+> +++ b/drivers/usb/host/Kconfig
+> @@ -104,6 +104,15 @@ config USB_XHCI_RZV2M
+>   	  Say 'Y' to enable the support for the xHCI host controller
+>   	  found in Renesas RZ/V2M SoC.
+>   
+> +config USB_XHCI_SIDEBAND
+> +	tristate "xHCI support for sideband"
+> +	help
+> +	  Say 'Y' to enable the support for the xHCI sideband capability.
+> +	  provide a mechanism for a sideband datapath for payload associated
 
---rB+6M9oEMqdlod6b
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Sentence should start from capital letter, so provide -> Provide
 
-On Tue, Aug 06, 2024 at 04:58:46AM +0000, Kuninori Morimoto wrote:
-> Now we can use new port related functions for port parsing. Use it.
+> +	  with audio class endpoints. This allows for an audio DSP to use
+> +	  xHCI USB endpoints directly, allowing CPU to sleep while playing
+> +	  audio
 
-Acked-by: Mark Brown <broonie@kernel.org>
+Missing '.' at the end of sentence.
 
---rB+6M9oEMqdlod6b
-Content-Type: application/pgp-signature; name="signature.asc"
+(...)
 
------BEGIN PGP SIGNATURE-----
+> +/**
+> + * xhci_sideband_remove_endpoint - remove endpoint from sideband access list
+> + * @sb: sideband instance for this usb device
+> + * @host_ep: usb host endpoint
+> + *
+> + * Removes an endpoint from the list of sideband accessed endpoints for this usb
+> + * device.
+> + * sideband client should no longer touch the endpoint transfer buffer after
+> + * calling this.
+> + *
+> + * Return: 0 on success, negative error otherwise.
+> + */
+> +int
+> +xhci_sideband_remove_endpoint(struct xhci_sideband *sb,
+> +			      struct usb_host_endpoint *host_ep)
+> +{
+> +	struct xhci_virt_ep *ep;
+> +	unsigned int ep_index;
+> +
+> +	mutex_lock(&sb->mutex);
+> +	ep_index = xhci_get_endpoint_index(&host_ep->desc);
+> +	ep = sb->eps[ep_index];
+> +
+> +	if (!ep || !ep->sideband) {
+> +		mutex_unlock(&sb->mutex);
+> +		return -ENODEV;
+> +	}
+> +
+> +	__xhci_sideband_remove_endpoint(sb, ep);
+> +	xhci_initialize_ring_info(ep->ring, 1);
+> +	mutex_unlock(&sb->mutex);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(xhci_sideband_remove_endpoint);
+> +
+> +int
+> +xhci_sideband_stop_endpoint(struct xhci_sideband *sb,
+> +			    struct usb_host_endpoint *host_ep)
+> +{
+> +	struct xhci_virt_ep *ep;
+> +	unsigned int ep_index;
+> +
+> +	ep_index = xhci_get_endpoint_index(&host_ep->desc);
+> +	ep = sb->eps[ep_index];
+> +
+> +	if (!ep || ep->sideband != sb)
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmayM6IACgkQJNaLcl1U
-h9CTwAf/Rp21kyj9Xxk/Pgim3nZw/IcEQiQrO6hVmgLckzIHLowfAKfMHUqbxAgj
-VXm75UKaVh8XHua24r5snBRJPfW+enIHuUEQ6AJ78zPT+Pbu34QC0fmTzbpc/8RJ
-sNBDx96xPxdHab9mqWpxwIzzIBpTpUUQN+5nuUxwB8lcVLsxWQ+uYdkYPcSd+kXL
-BPn01TohuSAzI8zjLX5P/+9jW0f3VPpk1shUnoKAXbQt6aYoDfoKfcj/YUaS0VLX
-rM257+kSHiWLGxkcuc4b5pd7hY70ZnWF5n1jgE3fNv85ro3THq5RLzLryrYy+KCm
-nq4Vz1m2Hlp2gQ8MuykKVTjJ9JheRA==
-=ySqz
------END PGP SIGNATURE-----
+Any reason why we check if ep->sideband != sb only on stop but not on 
+remove above?
 
---rB+6M9oEMqdlod6b--
+> +		return -EINVAL;
+> +
+> +	return xhci_stop_endpoint_sync(sb->xhci, ep, 0, GFP_KERNEL);
+> +}
+> +EXPORT_SYMBOL_GPL(xhci_sideband_stop_endpoint);
+> +
+> +/**
+> + * xhci_sideband_get_endpoint_buffer - gets the endpoint transfer buffer address
+> + * @sb: sideband instance for this usb device
+> + * @host_ep: usb host endpoint
+> + *
+> + * Returns the address of the endpoint buffer where xHC controller reads queued
+> + * transfer TRBs from. This is the starting address of the ringbuffer where the
+> + * sideband client should write TRBs to.
+> + *
+> + * Caller needs to free the returned sg_table
+> + *
+> + * Return: struct sg_table * if successful. NULL otherwise.
+> + */
+> +struct sg_table *
+> +xhci_sideband_get_endpoint_buffer(struct xhci_sideband *sb,
+> +			      struct usb_host_endpoint *host_ep)
+> +{
+> +	struct xhci_virt_ep *ep;
+> +	unsigned int ep_index;
+> +
+> +	ep_index = xhci_get_endpoint_index(&host_ep->desc);
+> +	ep = sb->eps[ep_index];
+> +
+> +	if (!ep)
+
+And here there is none of checks done in above 2 functions? Seems bit weird.
+
+> +		return NULL;
+> +
+> +	return xhci_ring_to_sgtable(sb, ep->ring);
+> +}
+> +EXPORT_SYMBOL_GPL(xhci_sideband_get_endpoint_buffer);
+> +
+
+(...)
+
+> +MODULE_DESCRIPTION("XHCI sideband driver for secondary interrupter management");
+
+XHCI -> xHCI
+
+> +MODULE_LICENSE("GPL");
+> diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+> index efbd1f651da4..9232c53d204a 100644
+> --- a/drivers/usb/host/xhci.h
+> +++ b/drivers/usb/host/xhci.h
+> @@ -693,6 +693,8 @@ struct xhci_virt_ep {
+>   	int			next_frame_id;
+>   	/* Use new Isoch TRB layout needed for extended TBC support */
+>   	bool			use_extended_tbc;
+> +	/* set if this endpoint is controlled via sideband access*/
+> +	struct xhci_sideband			*sideband;
+>   };
+>   
+>   enum xhci_overhead_type {
+> @@ -755,6 +757,8 @@ struct xhci_virt_device {
+>   	u16				current_mel;
+>   	/* Used for the debugfs interfaces. */
+>   	void				*debugfs_private;
+> +	/* set if this device is registered for sideband access */
+> +	struct xhci_sideband			*sideband;
+>   };
+>   
+>   /*
+> diff --git a/include/linux/usb/xhci-sideband.h b/include/linux/usb/xhci-sideband.h
+> new file mode 100644
+> index 000000000000..1035dae43cee
+> --- /dev/null
+> +++ b/include/linux/usb/xhci-sideband.h
+> @@ -0,0 +1,68 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * xHCI host controller sideband support
+> + *
+> + * Copyright (c) 2023, Intel Corporation.
+> + *
+> + * Author: Mathias Nyman <mathias.nyman@linux.intel.com>
+> + */
+> +
+> +#ifndef __LINUX_XHCI_SIDEBAND_H
+> +#define __LINUX_XHCI_SIDEBAND_H
+> +
+> +#include <linux/scatterlist.h>
+> +#include <linux/usb.h>
+> +
+> +#define	EP_CTX_PER_DEV		31	/* FIMXME defined twice, from xhci.h */
+
+If it is left for later, FIMXME -> FIXME
+
+(...)
