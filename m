@@ -1,267 +1,123 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30A0A12BF32
-	for <linux-sound@vger.kernel.org>; Wed,  7 Aug 2024 15:26:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DFC67829C;
+	Wed,  7 Aug 2024 16:22:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723044413; cv=none; b=j1LBqig5wqmWQlCFbro/QO7xPUeC0SFOl7B2/yHZzcimmcxSqGXgG111GNuoCTKVDmIbAWM8DTgLl2jfssN1f5R6K4MF8q1071LucYa+Qk9ODY5jhP7ngQnqLgrzLXiXT4vhPdIEOxWgeu6IyQCl01jPHjMk6b59KRCa6e59H3Q=
+	t=1723047725; cv=none; b=oayMhQW/dtUKCfXFayTA6AY5Kiby+Q8BANM4NwWgOyEygBAriFK+i75ZGv+9/8tPNixPBVpLPQ2o3+393R0p36Wo/FfTIOiMzGhwf/4BOB0Ygj0AVw2ZN5VN92D6bCZAiUNxvHai93Yc3M/5e674AWeuzQjd+wQzJvenR1O/grs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723044413; c=relaxed/simple;
-	bh=n7wcPyREd4NAvNXJWqoUtVHW9c3N2MeA3eSB7B4Gmdk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Jlk71cQijvyYCxgS7rl7cMRdY5Ici6dx+kjmZ/r96gKQ7QmVt9CHxkerlG4nuWcGQ2Sf9hML3tGgPcwCKtc6jqYNKPVkVMJ0hrbc1OHAK//au/jZlsf61+mqboQ4y+2t9yQLIpuht+i/ddHT7EW3IAhmD3HS83HQbe6czbr3VBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MXHQWiq3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Q/J78puK; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MXHQWiq3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Q/J78puK; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1723047725; c=relaxed/simple;
+	bh=csoxM504M/IKkeAwQJU4vJ16AtPpU2Ww21JXNHIvTgo=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=gbXYciCaJKiBc79WuenjUE/7DU0YHmzK674jaNnNufDPo2COU+SFhgOrvL0yrX4aBltTJokzDmvAS9sBzR/ZZD7YqlGCagAhM1SsXXUt/levD8Hl1K5S1hGmcjo/9Y9Bw29sXQzxRabltH4BZjJQWqpNkGYk/Hdg0CJ7mbvZQRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PajLKMfh; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MXHQWiq3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q/J78puK";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MXHQWiq3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q/J78puK"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 820CD21CFF;
-	Wed,  7 Aug 2024 15:26:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723044410; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tADxz/0yhbC81kKO8/23h1vQ6FFpecaRf/di915epZk=;
-	b=MXHQWiq3cHR1EZT1eHHePh8EZXJTtYBkY/9sPLslUejgW0QvBBiA3EFvf71IvnQVWN0Kmj
-	S2zwRC0Z+Wbanvh9Nq7XxIQlN/Qb6Etu6yVRkAYIPIDlStR+4fk5nxsOIt7OSMB3Ya7dvP
-	qSosRVAbdzcIwyYBfIIr3Igw/82caSE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723044410;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tADxz/0yhbC81kKO8/23h1vQ6FFpecaRf/di915epZk=;
-	b=Q/J78puKCjVrziqO7FFGoRKOTvOZG9/ISjOICgbG67qEBbjrRJxxVSeXHxEKW+1YZdXtud
-	Op93dSpjzcVMNyCw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723044410; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tADxz/0yhbC81kKO8/23h1vQ6FFpecaRf/di915epZk=;
-	b=MXHQWiq3cHR1EZT1eHHePh8EZXJTtYBkY/9sPLslUejgW0QvBBiA3EFvf71IvnQVWN0Kmj
-	S2zwRC0Z+Wbanvh9Nq7XxIQlN/Qb6Etu6yVRkAYIPIDlStR+4fk5nxsOIt7OSMB3Ya7dvP
-	qSosRVAbdzcIwyYBfIIr3Igw/82caSE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723044410;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tADxz/0yhbC81kKO8/23h1vQ6FFpecaRf/di915epZk=;
-	b=Q/J78puKCjVrziqO7FFGoRKOTvOZG9/ISjOICgbG67qEBbjrRJxxVSeXHxEKW+1YZdXtud
-	Op93dSpjzcVMNyCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 36F8E13297;
-	Wed,  7 Aug 2024 15:26:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id EBU4DDqSs2bxewAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 07 Aug 2024 15:26:50 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 2/2] ALSA: pcm: Drop PCM vmalloc buffer helpers
-Date: Wed,  7 Aug 2024 17:27:23 +0200
-Message-ID: <20240807152725.18948-3-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240807152725.18948-1-tiwai@suse.de>
-References: <20240807152725.18948-1-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PajLKMfh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723047724; x=1754583724;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=csoxM504M/IKkeAwQJU4vJ16AtPpU2Ww21JXNHIvTgo=;
+  b=PajLKMfh/WOtJ9WiwEeC0wLMwkLlcJfZjPmcncs/ZCaiibhmiYY7+mcx
+   XGbHAGqRK0VfEQjQW8vbk15vwU0bLUzEE0vK7dtTuZwBpXyzMLXIJZoVu
+   ILiNp41yJncnlgJz3BCUFJQWZLxGieTRRELfcscuvhfiTaBPmWhpypvxy
+   +FghqhUHatWFluX03KNRH0C67a2tF7CFrV/+JL1T4H+/8j78Nw7WvMBQh
+   pK7HIpsHxAuN84F8DDJgcO2vxJzOay744SWisBJSJTETSu2s/Pv8fCkpj
+   mnvZVGpGXXC+KSaUNFjk4/BoVLnZHd6QayMt098HYkIvfX63wVY0LBit+
+   w==;
+X-CSE-ConnectionGUID: rgFOp8S9S82QzEZZFAeO5Q==
+X-CSE-MsgGUID: 3MPUVaRZSYyZiH+VkIt6yw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11157"; a="21251596"
+X-IronPort-AV: E=Sophos;i="6.09,270,1716274800"; 
+   d="scan'208";a="21251596"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 09:22:03 -0700
+X-CSE-ConnectionGUID: lcWSrhGmRom/U+ItrnaNKA==
+X-CSE-MsgGUID: HiDpRUBGSwSm3VMuqQ/oXg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,270,1716274800"; 
+   d="scan'208";a="57602771"
+Received: from opintica-mobl1 (HELO [10.245.245.20]) ([10.245.245.20])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 09:21:56 -0700
+Message-ID: <a91373cef3d55ba7f13f347e2b10b2398c347c35.camel@linux.intel.com>
+Subject: Re: [PATCH] sound: sof: ioc4-topology: avoid extra dai_params copy
+From: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+To: Arnd Bergmann <arnd@arndb.de>, Mark Brown <broonie@kernel.org>, Arnd
+ Bergmann <arnd@kernel.org>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, Liam
+ Girdwood <lgirdwood@gmail.com>, Peter Ujfalusi
+ <peter.ujfalusi@linux.intel.com>, Bard Liao
+ <yung-chuan.liao@linux.intel.com>, Daniel Baluta <daniel.baluta@nxp.com>, 
+ Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>, Kai Vehmanen
+ <kai.vehmanen@linux.intel.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
+ Iwai <tiwai@suse.com>, Nathan Chancellor <nathan@kernel.org>, Nick
+ Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>,
+ Justin Stitt <justinstitt@google.com>, Brent Lu <brent.lu@intel.com>,
+ sound-open-firmware@alsa-project.org,  linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Date: Wed, 07 Aug 2024 09:21:46 -0700
+In-Reply-To: <d988fe89-104e-46ce-94b7-6754f2c7a455@app.fastmail.com>
+References: <20240807080302.2372297-1-arnd@kernel.org>
+	 <731fa66a-bed7-45fb-9187-a9263612eac4@sirena.org.uk>
+	 <d988fe89-104e-46ce-94b7-6754f2c7a455@app.fastmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.0-1build2 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: *
-X-Spamd-Result: default: False [1.70 / 50.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Flag: NO
-X-Spam-Score: 1.70
 
-As the last-standing user of PCM vmalloc buffer helper API took its
-own buffer management, we can finally drop those API functions, which
-were leftover after reorganization of ALSA memalloc code.
+On Wed, 2024-08-07 at 17:18 +0200, Arnd Bergmann wrote:
+> On Wed, Aug 7, 2024, at 17:09, Mark Brown wrote:
+> > On Wed, Aug 07, 2024 at 10:02:27AM +0200, Arnd Bergmann wrote:
+> >=20
+> > > From what I can tell, this was unintentional, as both
+> > > sof_ipc4_prepare_dai_copier() and
+> > > sof_ipc4_prepare_copier_module() make a
+> > > copy for the same purpose, but copying it once has the exact same
+> > > effect.
+> >=20
+> > > Remove the extra copy and change the direct struct assignment to
+> > > an explicit memcpy() call to make it clearer to the reader that
+> > > this
+> > > is what happens. Note that gcc treats struct assignment as a
+> > > memcpy()
+> > > that may be inlined anyway, so the resulting object code is the
+> > > same.
+> >=20
+> > The effect of the copy is to ensure that if the function fails the
+> > argument is unmodified - did you do the analysis to check that it's
+> > OK
+> > to modify on error?=C2=A0 Your commit log says "the same purpose" but
+> > never
+> > specifies what that purpose is.
+>=20
+> There is always a chance that I misunderstood the code, but
+> yes, I did understand that the idea is to not modify the
+> parameters inside of sof_ipc4_prepare_dai_copier.
+Hi Arnd,
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- include/sound/pcm.h     | 42 -----------------------------
- sound/core/pcm_memory.c | 59 -----------------------------------------
- 2 files changed, 101 deletions(-)
+The idea behind the local copy is that the DAI widget needs to handle
+its audio formats in topology differently from the other widgets in the
+pipeline. So, locally the sof_ipc4_prepare_dai_copier() modifies the
+params to make sure the right NHLT blobs are chosen based on what's
+available in topology and the information passed in the params. But
+when the params variable is passed on to the next widget in the
+pipeline, any local modifications done by the DAI widget should be
+carried forward.
 
-diff --git a/include/sound/pcm.h b/include/sound/pcm.h
-index ac8f3aef9205..3c56a648bdcd 100644
---- a/include/sound/pcm.h
-+++ b/include/sound/pcm.h
-@@ -1355,48 +1355,6 @@ snd_pcm_set_fixed_buffer_all(struct snd_pcm *pcm, int type,
- 	return snd_pcm_set_managed_buffer_all(pcm, type, data, size, 0);
- }
- 
--int _snd_pcm_lib_alloc_vmalloc_buffer(struct snd_pcm_substream *substream,
--				      size_t size, gfp_t gfp_flags);
--int snd_pcm_lib_free_vmalloc_buffer(struct snd_pcm_substream *substream);
--struct page *snd_pcm_lib_get_vmalloc_page(struct snd_pcm_substream *substream,
--					  unsigned long offset);
--/**
-- * snd_pcm_lib_alloc_vmalloc_buffer - allocate virtual DMA buffer
-- * @substream: the substream to allocate the buffer to
-- * @size: the requested buffer size, in bytes
-- *
-- * Allocates the PCM substream buffer using vmalloc(), i.e., the memory is
-- * contiguous in kernel virtual space, but not in physical memory.  Use this
-- * if the buffer is accessed by kernel code but not by device DMA.
-- *
-- * Return: 1 if the buffer was changed, 0 if not changed, or a negative error
-- * code.
-- */
--static inline int snd_pcm_lib_alloc_vmalloc_buffer
--			(struct snd_pcm_substream *substream, size_t size)
--{
--	return _snd_pcm_lib_alloc_vmalloc_buffer(substream, size,
--						 GFP_KERNEL | __GFP_HIGHMEM | __GFP_ZERO);
--}
--
--/**
-- * snd_pcm_lib_alloc_vmalloc_32_buffer - allocate 32-bit-addressable buffer
-- * @substream: the substream to allocate the buffer to
-- * @size: the requested buffer size, in bytes
-- *
-- * This function works like snd_pcm_lib_alloc_vmalloc_buffer(), but uses
-- * vmalloc_32(), i.e., the pages are allocated from 32-bit-addressable memory.
-- *
-- * Return: 1 if the buffer was changed, 0 if not changed, or a negative error
-- * code.
-- */
--static inline int snd_pcm_lib_alloc_vmalloc_32_buffer
--			(struct snd_pcm_substream *substream, size_t size)
--{
--	return _snd_pcm_lib_alloc_vmalloc_buffer(substream, size,
--						 GFP_KERNEL | GFP_DMA32 | __GFP_ZERO);
--}
--
- #define snd_pcm_get_dma_buf(substream) ((substream)->runtime->dma_buffer_p)
- 
- /**
-diff --git a/sound/core/pcm_memory.c b/sound/core/pcm_memory.c
-index 506386959f08..8e4c68e3bbd0 100644
---- a/sound/core/pcm_memory.c
-+++ b/sound/core/pcm_memory.c
-@@ -9,7 +9,6 @@
- #include <linux/init.h>
- #include <linux/slab.h>
- #include <linux/moduleparam.h>
--#include <linux/vmalloc.h>
- #include <linux/export.h>
- #include <sound/core.h>
- #include <sound/pcm.h>
-@@ -497,61 +496,3 @@ int snd_pcm_lib_free_pages(struct snd_pcm_substream *substream)
- 	return 0;
- }
- EXPORT_SYMBOL(snd_pcm_lib_free_pages);
--
--int _snd_pcm_lib_alloc_vmalloc_buffer(struct snd_pcm_substream *substream,
--				      size_t size, gfp_t gfp_flags)
--{
--	struct snd_pcm_runtime *runtime;
--
--	if (PCM_RUNTIME_CHECK(substream))
--		return -EINVAL;
--	runtime = substream->runtime;
--	if (runtime->dma_area) {
--		if (runtime->dma_bytes >= size)
--			return 0; /* already large enough */
--		vfree(runtime->dma_area);
--	}
--	runtime->dma_area = __vmalloc(size, gfp_flags);
--	if (!runtime->dma_area)
--		return -ENOMEM;
--	runtime->dma_bytes = size;
--	return 1;
--}
--EXPORT_SYMBOL(_snd_pcm_lib_alloc_vmalloc_buffer);
--
--/**
-- * snd_pcm_lib_free_vmalloc_buffer - free vmalloc buffer
-- * @substream: the substream with a buffer allocated by
-- *	snd_pcm_lib_alloc_vmalloc_buffer()
-- *
-- * Return: Zero if successful, or a negative error code on failure.
-- */
--int snd_pcm_lib_free_vmalloc_buffer(struct snd_pcm_substream *substream)
--{
--	struct snd_pcm_runtime *runtime;
--
--	if (PCM_RUNTIME_CHECK(substream))
--		return -EINVAL;
--	runtime = substream->runtime;
--	vfree(runtime->dma_area);
--	runtime->dma_area = NULL;
--	return 0;
--}
--EXPORT_SYMBOL(snd_pcm_lib_free_vmalloc_buffer);
--
--/**
-- * snd_pcm_lib_get_vmalloc_page - map vmalloc buffer offset to page struct
-- * @substream: the substream with a buffer allocated by
-- *	snd_pcm_lib_alloc_vmalloc_buffer()
-- * @offset: offset in the buffer
-- *
-- * This function is to be used as the page callback in the PCM ops.
-- *
-- * Return: The page struct, or %NULL on failure.
-- */
--struct page *snd_pcm_lib_get_vmalloc_page(struct snd_pcm_substream *substream,
--					  unsigned long offset)
--{
--	return vmalloc_to_page(substream->runtime->dma_area + offset);
--}
--EXPORT_SYMBOL(snd_pcm_lib_get_vmalloc_page);
--- 
-2.43.0
+For your reference, this is code that does the propagation of the
+prepare callback for each widget in the playback/capture path in the
+pipeline.
+https://github.com/thesofproject/linux/blob/bc47b82db6e03d540061964d4540a37=
+1e7d344c8/sound/soc/sof/sof-audio.c#L442
 
+Thanks,
+Ranjani
