@@ -1,298 +1,151 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E686A1442E8
-	for <linux-sound@vger.kernel.org>; Wed,  7 Aug 2024 19:11:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6072E82499;
+	Wed,  7 Aug 2024 20:06:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723057897; cv=none; b=Xei9jRrSlr5enrrlQ01zUmoKUiRAV9HZ0BAZ+yayHub7BwBTJzREX719ybEeO2q/4qAvDTLnUlVfGtEKY5UaXWlpHjTOAF0tb9B95+2ecgsRT3cCyz2AtT8qmSxRKU0g5h+SkxAdsW9BvX9pAKj7CylGPG0gu9jrkKd/qwi1M8Y=
+	t=1723061167; cv=none; b=NV7EWT9RmnrDL7T3rhUI99mmEM3Nyc/9pzlU3zXSfgwZPKrgbQAGZZeqWQr04Bl27bb0C7yNU94McgxlssWF98+t8YWOKXpDXrUJ53nFRrByhATLxKXIQbDEG89HWb5f7WKMQU0k9S2IhGD2/Ds83xYFNlzOfgVIzBDA5dzs4mE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723057897; c=relaxed/simple;
-	bh=VoAlmkiadVaDADJkifI9qsn/McqfWgl3/vgxW53T5dk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=q94VCZzLW8apiyVMooIo2kP8utsWCT2mUpaPfs4sLbqS48w/h8gTxljmqSKxAtKL2519bV+xAspaRJsZdlTED8k9sCxnjTP6kBV19gqabHjTXMgOrY7bNSnrEDFn2F3O5npCSWesfoEjk96aF3hsUImZGpCCvdTNCDn6Ob7Lu+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A7uVIQUl; arc=none smtp.client-ip=209.85.208.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1723061167; c=relaxed/simple;
+	bh=tP5PZPiSOfnHtE2NF+/nff/1qVnyTM8U4pN2u4dY22w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=a7ClPsAsJ9oGRm6mS1kW2SzmhgS8rJiJPz3NhSy9Ow15ETrJcFOvhURTvwmSPN64fzFvEFBkWglDz/bEOuNU/vu16Q0ZXhXstXEOIGoQCnncP5MXj5EnnndQfhNgw4HKUrIbRmWe3Msjl8Dy4qIcSYEr0qTj+o8Xy7waawHZOdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Gl8WZrpf; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A7uVIQUl"
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2ef248ab2aeso2253431fa.0
-        for <linux-sound@vger.kernel.org>; Wed, 07 Aug 2024 12:11:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723057894; x=1723662694; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JElm4ZAr7bRF+SgA8pOcLDaF7nOfLIcx5yZg97Mky8A=;
-        b=A7uVIQUljuK48Fh75Y+BIcTqeixDZqlJX9SKsHD1gd+ugS3pHZglLwmVZ0E4omCEEq
-         58ta5GhsUjxwsKZVmJXszY0uU0p41BgdYyDJdbjvajviGudNGn1hFvBVtHbqBHvTQSKB
-         vzFZYNKnFLuE9xfmfokEUJNVJXMW7E/LPIJtD1Z8Z26oIUB1gw6oFeW1WdYGMfX3wloN
-         lmLa3RaXaxqOdBvqdDhkId6uwDSuBukphPH/lARILWlPfrszBchxVJGocynXBOeeiUMM
-         J8y5SELsMzoD9wVB5Y+kE8k1b35iBpBhxO1KLE6eFj2jhdtTw7Y7UBfWksQlQ+8JFoSa
-         CRtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723057894; x=1723662694;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JElm4ZAr7bRF+SgA8pOcLDaF7nOfLIcx5yZg97Mky8A=;
-        b=dDr87M4i1uwurtYusYbU+vim38hgx39GGBzdjZifm06huVVkohUWqiN+WGWsUpCSI3
-         Tlnag/lhXRM1t3xlas2SSbON5+peinoJYgGspFymX/6YflSNN5BU1F1KRWj4tEjYbAJr
-         aWBLCEtuKiVRdYTCHgfh4LhL/0DZwN/qqFBb/MKfQ5um7ywj7icuC7BAH1iFp7nuzCBF
-         tL6Kr/g8Q6jNBnxCzL2E0XkJKl/mD892lEJMZ3v+PUDq8ptqs0fFXF+2cysX3EUuPMj1
-         vN3MSS21dV6Ysg+su2ZO5ATdWRucHxISkY8YDckUygpkx1ky3iy8u4FWNMx/SBxsyLc8
-         xeXQ==
-X-Gm-Message-State: AOJu0YwX5VEM6LKzh1lPLepmGI+8KBpdgtdpIX9Kt4QAln5UYijCYDYl
-	cJC8pKbUTY5fcbQ81XXOmWGZqssfdiheJ7Tvu+rLJf6fSkHtMCrHC0OYoh5rJlM=
-X-Google-Smtp-Source: AGHT+IF7d/sfDtHvUQHeTj/vL0hOyrFqDTD7udEyHDi/01LHeAMbj2Tal3TEnKfaSODnR0s1cmmyeg==
-X-Received: by 2002:a2e:b60a:0:b0:2ee:52f4:266 with SMTP id 38308e7fff4ca-2f15aa88b39mr168133871fa.3.1723057893304;
-        Wed, 07 Aug 2024 12:11:33 -0700 (PDT)
-Received: from stefan-ms7d75.lan (84-217-106-36.customers.ownit.se. [84.217.106.36])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2f15e1c7581sm18887751fa.68.2024.08.07.12.11.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Aug 2024 12:11:33 -0700 (PDT)
-From: Stefan Stistrup <sstistrup@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: tiwai@suse.de,
-	Stefan Stistrup <sstistrup@gmail.com>
-Subject: [PATCH v2] ALSA: usb-audio: Add input gain and master output mixer elements for RME Babyface Pro
-Date: Wed,  7 Aug 2024 21:11:21 +0200
-Message-ID: <20240807191121.68614-1-sstistrup@gmail.com>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Gl8WZrpf"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 477I2CCO016435;
+	Wed, 7 Aug 2024 20:05:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	BBQkqFMaehnNVf00RomtVqmkJg9WcgOkBeKwzL5TMP8=; b=Gl8WZrpfsq2WndmI
+	vq8ltohYyFRNsQAOOipCQh8AY3CKAU9orOFIjFKQy0/IwVK7qM++/1CFtBXWhRkI
+	+v8nzim8SsXu4MoDcH9kmgQ54yZ5v3ZrEibnkVVkI/+dehSKb/M98CvR18kk/0c5
+	HAj4B3v//ASNN1SES+XeGFR8sCMlhTu/fnsA2f5gHf5rAlgyl7cicSCOuqwA7sT9
+	oQ6yhVzdNyuAvwwlkLhqIQQC30k3WTXxL7nDr1OGyLaRs2Gxf3uqCx74qk3bqV6E
+	WbRtyPWvTvpZVUiBLhiBpS7XlswmpzGCJYPeVPdb9SKtenkhVelHRA6OpbxJ55bQ
+	DmgG7g==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40vdupg851-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 07 Aug 2024 20:05:37 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 477K5akV014973
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 7 Aug 2024 20:05:36 GMT
+Received: from [10.71.113.127] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 7 Aug 2024
+ 13:05:35 -0700
+Message-ID: <09aa3611-42bb-413a-b5a6-6d08045e5c00@quicinc.com>
+Date: Wed, 7 Aug 2024 13:05:35 -0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v24 17/34] ASoC: qcom: qdsp6: Add USB backend ASoC driver
+ for Q6
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <broonie@kernel.org>, <lgirdwood@gmail.com>, <krzk+dt@kernel.org>,
+        <Thinh.Nguyen@synopsys.com>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
+        <gregkh@linuxfoundation.org>, <robh@kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>
+References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
+ <20240801011730.4797-18-quic_wcheng@quicinc.com>
+ <5f37c04d-f564-40b9-a9f3-d071ea0a6f19@linux.intel.com>
+ <1a284449-204a-4d01-90c9-ec6b1ed56e30@quicinc.com>
+ <1a2d0962-405d-4ccf-a0da-00a624c0f3e8@linux.intel.com>
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <1a2d0962-405d-4ccf-a0da-00a624c0f3e8@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: mjrcji4RzpWV_B4Ua1x-VexTrXY01KX0
+X-Proofpoint-GUID: mjrcji4RzpWV_B4Ua1x-VexTrXY01KX0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-07_11,2024-08-07_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
+ priorityscore=1501 suspectscore=0 phishscore=0 impostorscore=0 mlxscore=0
+ clxscore=1015 mlxlogscore=999 spamscore=0 bulkscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2407110000
+ definitions=main-2408070141
 
-Add missing input gain and master output mixer controls for RME Babyface Pro
+Hi Pierre,
 
-This patch implements:
+On 8/1/2024 11:32 PM, Pierre-Louis Bossart wrote:
+>
+> On 8/2/24 01:10, Wesley Cheng wrote:
+>> Hi Pierre,
+>>
+>> On 8/1/2024 1:40 AM, Pierre-Louis Bossart wrote:
+>>>
+>>>> +static int q6usb_hw_params(struct snd_pcm_substream *substream,
+>>>> +			   struct snd_pcm_hw_params *params,
+>>>> +			   struct snd_soc_dai *dai)
+>>>> +{
+>>>> +	struct q6usb_port_data *data = dev_get_drvdata(dai->dev);
+>>>> +	struct snd_soc_pcm_runtime *rtd = substream->private_data;
+>>>> +	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+>>>> +	struct q6afe_port *q6usb_afe;
+>>>> +	struct snd_soc_usb_device *sdev;
+>>>> +	int ret;
+>>>> +
+>>>> +	/* No active chip index */
+>>>> +	if (list_empty(&data->devices))
+>>>> +		return -EINVAL;
+>>>> +
+>>>> +	mutex_lock(&data->mutex);
+>>>> +	sdev = list_last_entry(&data->devices, struct snd_soc_usb_device, list);
+>>>> +
+>>>> +	q6usb_afe = q6afe_port_get_from_id(cpu_dai->dev, USB_RX);
+>>>> +	if (IS_ERR(q6usb_afe))
+>>>> +		goto out;
+>>>> +
+>>>> +	/* Notify audio DSP about the devices being offloaded */
+>>>> +	ret = afe_port_send_usb_dev_param(q6usb_afe, sdev->card_idx,
+>>>> +						sdev->pcm_idx);
+>>>> +
+>>>> +out:
+>>>> +	mutex_unlock(&data->mutex);
+>>>> +
+>>>> +	return ret;
+>>>> +}
+>>> Humm, multiple questions here
+>>>
+>>> a) is this intentional that the params are not used in a hw_params routine?
+>> Think this was answered in patch#34.
+> yes, but that really begs the question if the format check shouldn't be
+> added here.
 
-1. Input gain controls for 2 mic and 2 line inputs
-2. Master output volume controls for all 12 output channels
+Sure, I'm not against squashing the format check to this patch.
 
-These additions allow for more complete control of the Babyface Pro under Linux.
+Thanks
 
-Signed-off-by: Stefan Stistrup <sstistrup@gmail.com>
----
-Changes in v2:
- - Check invalid negative values in snd_bbfpro_gain_put
- - Coding style fixes, blank line in snd_bbfpro_gain_update and checkpatch.pl errors
+Wesley Cheng
 
- sound/usb/mixer_quirks.c | 164 ++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 163 insertions(+), 1 deletion(-)
-
-diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-index 065a4be0d771..4c050110004b 100644
---- a/sound/usb/mixer_quirks.c
-+++ b/sound/usb/mixer_quirks.c
-@@ -2541,14 +2541,23 @@ enum {
- #define SND_BBFPRO_CTL_REG2_PAD_AN1 4
- #define SND_BBFPRO_CTL_REG2_PAD_AN2 5
-
--#define SND_BBFPRO_MIXER_IDX_MASK 0x1ff
-+#define SND_BBFPRO_MIXER_MAIN_OUT_CH_OFFSET 992
-+#define SND_BBFPRO_MIXER_IDX_MASK 0x3ff
- #define SND_BBFPRO_MIXER_VAL_MASK 0x3ffff
- #define SND_BBFPRO_MIXER_VAL_SHIFT 9
- #define SND_BBFPRO_MIXER_VAL_MIN 0 // -inf
- #define SND_BBFPRO_MIXER_VAL_MAX 65536 // +6dB
-
-+#define SND_BBFPRO_GAIN_CHANNEL_MASK 0x03
-+#define SND_BBFPRO_GAIN_CHANNEL_SHIFT 7
-+#define SND_BBFPRO_GAIN_VAL_MASK 0x7f
-+#define SND_BBFPRO_GAIN_VAL_MIN 0
-+#define SND_BBFPRO_GAIN_VAL_MIC_MAX 65
-+#define SND_BBFPRO_GAIN_VAL_LINE_MAX 18 // 9db in 0.5db incraments
-+
- #define SND_BBFPRO_USBREQ_CTL_REG1 0x10
- #define SND_BBFPRO_USBREQ_CTL_REG2 0x17
-+#define SND_BBFPRO_USBREQ_GAIN 0x1a
- #define SND_BBFPRO_USBREQ_MIXER 0x12
-
- static int snd_bbfpro_ctl_update(struct usb_mixer_interface *mixer, u8 reg,
-@@ -2695,6 +2704,115 @@ static int snd_bbfpro_ctl_resume(struct usb_mixer_elem_list *list)
- 	return snd_bbfpro_ctl_update(list->mixer, reg, idx, value);
- }
-
-+static int snd_bbfpro_gain_update(struct usb_mixer_interface *mixer,
-+				  u8 channel, u8 gain)
-+{
-+	int err;
-+	struct snd_usb_audio *chip = mixer->chip;
-+
-+	if (channel < 2) {
-+		// XLR preamp: 3-bit fine, 5-bit coarse; special case >60
-+		if (gain < 60)
-+			gain = ((gain % 3) << 5) | (gain / 3);
-+		else
-+			gain = ((gain % 6) << 5) | (60 / 3);
-+	}
-+
-+	err = snd_usb_lock_shutdown(chip);
-+	if (err < 0)
-+		return err;
-+
-+	err = snd_usb_ctl_msg(chip->dev,
-+				usb_sndctrlpipe(chip->dev, 0),
-+				SND_BBFPRO_USBREQ_GAIN,
-+				USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
-+				gain, channel, NULL, 0);
-+
-+	snd_usb_unlock_shutdown(chip);
-+	return err;
-+}
-+
-+static int snd_bbfpro_gain_get(struct snd_kcontrol *kcontrol,
-+                               struct snd_ctl_elem_value *ucontrol)
-+{
-+	int value = kcontrol->private_value & SND_BBFPRO_GAIN_VAL_MASK;
-+	ucontrol->value.integer.value[0] = value;
-+	return 0;
-+}
-+
-+static int snd_bbfpro_gain_info(struct snd_kcontrol *kcontrol,
-+                                struct snd_ctl_elem_info *uinfo)
-+{
-+	int pv, channel;
-+
-+	pv = kcontrol->private_value;
-+	channel = (pv >> SND_BBFPRO_GAIN_CHANNEL_SHIFT) &
-+		  SND_BBFPRO_GAIN_CHANNEL_MASK;
-+
-+	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
-+	uinfo->count = 1;
-+	uinfo->value.integer.min = SND_BBFPRO_GAIN_VAL_MIN;
-+
-+	if (channel < 2) {
-+		uinfo->value.integer.max = SND_BBFPRO_GAIN_VAL_MIC_MAX;
-+	} else {
-+		uinfo->value.integer.max = SND_BBFPRO_GAIN_VAL_LINE_MAX;
-+	}
-+
-+	return 0;
-+}
-+
-+static int snd_bbfpro_gain_put(struct snd_kcontrol *kcontrol,
-+                               struct snd_ctl_elem_value *ucontrol)
-+{
-+	int pv, channel, old_value, value, err;
-+
-+	struct usb_mixer_elem_list *list = snd_kcontrol_chip(kcontrol);
-+	struct usb_mixer_interface *mixer = list->mixer;
-+
-+	pv = kcontrol->private_value;
-+	channel = (pv >> SND_BBFPRO_GAIN_CHANNEL_SHIFT) &
-+		  SND_BBFPRO_GAIN_CHANNEL_MASK;
-+	old_value = pv & SND_BBFPRO_GAIN_VAL_MASK;
-+	value = ucontrol->value.integer.value[0];
-+
-+	if (value < SND_BBFPRO_GAIN_VAL_MIN)
-+		return -EINVAL;
-+
-+	if (channel < 2) {
-+		if (value > SND_BBFPRO_GAIN_VAL_MIC_MAX)
-+			return -EINVAL;
-+	} else {
-+		if (value > SND_BBFPRO_GAIN_VAL_LINE_MAX)
-+			return -EINVAL;
-+	}
-+
-+	if (value == old_value)
-+		return 0;
-+
-+	err = snd_bbfpro_gain_update(mixer, channel, value);
-+	if (err < 0)
-+		return err;
-+
-+	kcontrol->private_value =
-+		  (channel << SND_BBFPRO_GAIN_CHANNEL_SHIFT) | value;
-+	return 1;
-+}
-+
-+static int snd_bbfpro_gain_resume(struct usb_mixer_elem_list *list)
-+{
-+	int pv, channel, value;
-+
-+	struct snd_kcontrol *kctl = list->kctl;
-+
-+	pv = kctl->private_value;
-+	channel = (pv >> SND_BBFPRO_GAIN_CHANNEL_SHIFT) &
-+		  SND_BBFPRO_GAIN_CHANNEL_MASK;
-+	value = pv & SND_BBFPRO_GAIN_VAL_MASK;
-+
-+	return snd_bbfpro_gain_update(list->mixer, channel, value);
-+}
-+
- static int snd_bbfpro_vol_update(struct usb_mixer_interface *mixer, u16 index,
- 				 u32 value)
- {
-@@ -2790,6 +2908,15 @@ static const struct snd_kcontrol_new snd_bbfpro_ctl_control = {
- 	.put = snd_bbfpro_ctl_put
- };
-
-+static const struct snd_kcontrol_new snd_bbfpro_gain_control = {
-+	.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+	.access = SNDRV_CTL_ELEM_ACCESS_READWRITE,
-+	.index = 0,
-+	.info = snd_bbfpro_gain_info,
-+	.get = snd_bbfpro_gain_get,
-+	.put = snd_bbfpro_gain_put
-+};
-+
- static const struct snd_kcontrol_new snd_bbfpro_vol_control = {
- 	.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
- 	.access = SNDRV_CTL_ELEM_ACCESS_READWRITE,
-@@ -2813,6 +2940,18 @@ static int snd_bbfpro_ctl_add(struct usb_mixer_interface *mixer, u8 reg,
- 		&knew, NULL);
- }
-
-+static int snd_bbfpro_gain_add(struct usb_mixer_interface *mixer, u8 channel,
-+                               char *name)
-+{
-+	struct snd_kcontrol_new knew = snd_bbfpro_gain_control;
-+
-+	knew.name = name;
-+	knew.private_value = channel << SND_BBFPRO_GAIN_CHANNEL_SHIFT;
-+
-+	return add_single_ctl_with_resume(mixer, 0, snd_bbfpro_gain_resume,
-+		&knew, NULL);
-+}
-+
- static int snd_bbfpro_vol_add(struct usb_mixer_interface *mixer, u16 index,
- 			      char *name)
- {
-@@ -2860,6 +2999,29 @@ static int snd_bbfpro_controls_create(struct usb_mixer_interface *mixer)
- 		}
- 	}
-
-+	// Main out volume
-+	for (i = 0 ; i < 12 ; ++i) {
-+		snprintf(name, sizeof(name), "Main-Out %s", output[i]);
-+		// Main outs are offset to 992
-+		err = snd_bbfpro_vol_add(mixer,
-+					 i + SND_BBFPRO_MIXER_MAIN_OUT_CH_OFFSET,
-+					 name);
-+		if (err < 0)
-+			return err;
-+	}
-+
-+	// Input gain
-+	for (i = 0 ; i < 4 ; ++i) {
-+		if (i < 2) {
-+			snprintf(name, sizeof(name), "Mic-%s Gain", input[i]);
-+		} else {
-+			snprintf(name, sizeof(name), "Line-%s Gain", input[i]);
-+		}
-+		err = snd_bbfpro_gain_add(mixer, i, name);
-+		if (err < 0)
-+			return err;
-+	}
-+
- 	// Control Reg 1
- 	err = snd_bbfpro_ctl_add(mixer, SND_BBFPRO_CTL_REG1,
- 				 SND_BBFPRO_CTL_REG1_CLK_OPTICAL,
---
-2.45.2
-
+>>> b) if yes, could this be replaced by a .prepare callback
+>>>
+>>> c) along the same lines as b), is suspend-resume during playback
+>>> supported? Usually this is handled with a .prepare callback to restore
+>>> connections.
+>> I don't see us supporting that throughout any of the QC based DAI drivers, so this probably isn't implemented yet.  In terms of supporting system PM suspend for this USB offload path, we're going to explicitly stop the audio stream from the USB offload driver (qc_audio_offload) before we suspend the usb device. (refer to qc_usb_audio_offload_suspend()
+> The system suspend-resume during playback is not enabled in all
+> platforms indeed, it mostly depends on what userspace does. IIRC this is
+> required for Chrome/CRAS and it's supported by aplay.
