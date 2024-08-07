@@ -1,84 +1,84 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D471C1E674B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40D521EA0B5
 	for <linux-sound@vger.kernel.org>; Wed,  7 Aug 2024 13:34:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723037664; cv=none; b=Faq0uJonTGPLZtQ+VnUpRr84hUt2d6lGQqkBIgkrnFjibnMXLHe+JoSsJNBLwhtW1eV4d1B5VAL5DGMpAK5DPJU1GxsA60MUo887F9NHlS6lJdEKw1akyu2mlITU/cIlwdbJQsdL8rePaVWZgxG6JOMo60FBA5ryoQbQ2joIsng=
+	t=1723037664; cv=none; b=E32+g7epnHYWFe0SpAbtpi1lbrSMmZ6crtCT0wIBJIebxwbcY6cOaEvxyFeV0c5iMRvUqwZUt3V3wSGjlClilNclZViCPw40nTYBozhOtbOvhgQWbcT4V/SpTKS1HrrO87sa/b/PGu/tnW4/RHPLlglID1T/o2ceKlEeMTqMHkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1723037664; c=relaxed/simple;
-	bh=YPRPcm5IThAvsIMS01cdKfAWCZG979oPiq4DeQ5vqpU=;
+	bh=aShfoQo6fbUfT/knjxjhPrI5hh077TMMRBKcpxYdhNI=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EWR4J47nQan0sDQ8p90tz36UxPLVRaHQYRdaryWXVxybYOYvOEh6Z8PPFHZBXxFKRILnwjufR+cHrkHcYhigjPtMuoLsX9p2ZmNgT62w7qAHL50cH3d9YyVSEt0Ppygv5RHAiiIexuZ362InD1W9GRaSWAGNkmQvXlltO3DsNWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nAAtoHKg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sBXwvpxJ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nAAtoHKg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sBXwvpxJ; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=tj0zPQT5wq2bsVZfftCxSG/EOJhywGRe1Tcik94vQsbKaHP31OsiBY6yXFasRFW3pmp0w/DdlIcAW0l2vUwGGCXr6QFPG5tDb0sNZY0CzDU+SYPoDqegQOQ7g5mvOoRGRn4iLHmabDUZ+LAg1FOJILmNfEebuQwxg88LVJkq9UU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AEUsVWYZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CCZBRS6R; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AEUsVWYZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CCZBRS6R; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nAAtoHKg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sBXwvpxJ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nAAtoHKg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sBXwvpxJ"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AEUsVWYZ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CCZBRS6R";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AEUsVWYZ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CCZBRS6R"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 40D9E21D21;
-	Wed,  7 Aug 2024 13:34:19 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BBE5E21D1D;
+	Wed,  7 Aug 2024 13:34:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723037659; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1723037658; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Ia/KbgZueV6WxQzPUtoJHOcdi3wu7s99CSwUPMuERT0=;
-	b=nAAtoHKgi2QPeMVA7cHZB3p17FBFz9anKkdS4FToNJBxnpt3u27okuo805PxW+MpjS/NLX
-	EG6QLU7xna+u9MyY47s59l94wXq9zEn6TVVxoFvlr5iba8YIZcHfBDla2UFa43Vu3iwxuR
-	cVhyUuOYB99JZAVfqrXun2EYk0KPwiM=
+	bh=e6LkHsmUxgHQZBNmJ7bczhnuJvfRZqCc5RK7fPLvFys=;
+	b=AEUsVWYZROShqCsgyFHjJLJhnY/b+swIoSGkYfjxR2FMCHaiw1G12UQdPiNVJhVh/31beT
+	l8UeDFFsql77E75wYtNTUM9Lx5y2wpCqfKZVgxcS+7ArVM1iNvf8coXQkRc0On2vCGdiwX
+	2MwWL06NQrAodIxL87Nij61+6nUkfXc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723037659;
+	s=susede2_ed25519; t=1723037658;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Ia/KbgZueV6WxQzPUtoJHOcdi3wu7s99CSwUPMuERT0=;
-	b=sBXwvpxJeXDzpEmbLIcY4jq/uHUun+SOP0y7BExoe7TB0VJQtUGSnYTeKQs41YBovIy0wH
-	ZXf89hNxWlb0iQAg==
+	bh=e6LkHsmUxgHQZBNmJ7bczhnuJvfRZqCc5RK7fPLvFys=;
+	b=CCZBRS6RZPBFdV8bBfeFzU12Sh3M7iWq7y+waUeP01osQzdXw0Qw+1lFOg+9HAOPhh9hzD
+	KBGqMzFib6VoiaCg==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=nAAtoHKg;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=sBXwvpxJ
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=AEUsVWYZ;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=CCZBRS6R
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723037659; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1723037658; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Ia/KbgZueV6WxQzPUtoJHOcdi3wu7s99CSwUPMuERT0=;
-	b=nAAtoHKgi2QPeMVA7cHZB3p17FBFz9anKkdS4FToNJBxnpt3u27okuo805PxW+MpjS/NLX
-	EG6QLU7xna+u9MyY47s59l94wXq9zEn6TVVxoFvlr5iba8YIZcHfBDla2UFa43Vu3iwxuR
-	cVhyUuOYB99JZAVfqrXun2EYk0KPwiM=
+	bh=e6LkHsmUxgHQZBNmJ7bczhnuJvfRZqCc5RK7fPLvFys=;
+	b=AEUsVWYZROShqCsgyFHjJLJhnY/b+swIoSGkYfjxR2FMCHaiw1G12UQdPiNVJhVh/31beT
+	l8UeDFFsql77E75wYtNTUM9Lx5y2wpCqfKZVgxcS+7ArVM1iNvf8coXQkRc0On2vCGdiwX
+	2MwWL06NQrAodIxL87Nij61+6nUkfXc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723037659;
+	s=susede2_ed25519; t=1723037658;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Ia/KbgZueV6WxQzPUtoJHOcdi3wu7s99CSwUPMuERT0=;
-	b=sBXwvpxJeXDzpEmbLIcY4jq/uHUun+SOP0y7BExoe7TB0VJQtUGSnYTeKQs41YBovIy0wH
-	ZXf89hNxWlb0iQAg==
+	bh=e6LkHsmUxgHQZBNmJ7bczhnuJvfRZqCc5RK7fPLvFys=;
+	b=CCZBRS6RZPBFdV8bBfeFzU12Sh3M7iWq7y+waUeP01osQzdXw0Qw+1lFOg+9HAOPhh9hzD
+	KBGqMzFib6VoiaCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 24E6913A7D;
-	Wed,  7 Aug 2024 13:34:19 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A4B4813A7D;
+	Wed,  7 Aug 2024 13:34:18 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id kE3UB9t3s2ZpVgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 07 Aug 2024 13:34:19 +0000
+	id cFIbJ9p3s2ZpVgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 07 Aug 2024 13:34:18 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 19/54] ALSA: als100: Use standard print API
-Date: Wed,  7 Aug 2024 15:34:09 +0200
-Message-ID: <20240807133452.9424-20-tiwai@suse.de>
+Subject: [PATCH 15/54] ALSA: i2c: cs8427: Use standard print API
+Date: Wed,  7 Aug 2024 15:34:05 +0200
+Message-ID: <20240807133452.9424-16-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240807133452.9424-1-tiwai@suse.de>
 References: <20240807133452.9424-1-tiwai@suse.de>
@@ -93,7 +93,7 @@ X-Spam-Level:
 X-Rspamd-Action: no action
 X-Spam-Score: -3.01
 X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 40D9E21D21
+X-Rspamd-Queue-Id: BBE5E21D1D
 X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
@@ -120,87 +120,106 @@ X-Spamd-Result: default: False [-3.01 / 50.00];
 	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:email]
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
 Use the standard print API with dev_*() instead of the old house-baked
 one.  It gives better information and allows dynamically control of
 debug prints.
 
-Use the standard print API instead of open-coded printk().
-
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/isa/als100.c | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
+ sound/i2c/cs8427.c | 37 ++++++++++++++++++++-----------------
+ 1 file changed, 20 insertions(+), 17 deletions(-)
 
-diff --git a/sound/isa/als100.c b/sound/isa/als100.c
-index d582eff64082..e70dbf0b099a 100644
---- a/sound/isa/als100.c
-+++ b/sound/isa/als100.c
-@@ -23,8 +23,6 @@
- #include <sound/opl3.h>
- #include <sound/sb.h>
- 
--#define PFX "als100: "
--
- MODULE_DESCRIPTION("Avance Logic ALS007/ALS1X0");
- MODULE_AUTHOR("Massimo Piccioni <dafastidio@libero.it>");
- MODULE_LICENSE("GPL");
-@@ -112,7 +110,7 @@ static int snd_card_als100_pnp(int dev, struct snd_card_als100 *acard,
- 
- 	err = pnp_activate_dev(pdev);
- 	if (err < 0) {
--		snd_printk(KERN_ERR PFX "AUDIO pnp configure failure\n");
-+		dev_err(&pdev->dev, "AUDIO pnp configure failure\n");
- 		return err;
+diff --git a/sound/i2c/cs8427.c b/sound/i2c/cs8427.c
+index f58b14b49045..29a1a7a0d050 100644
+--- a/sound/i2c/cs8427.c
++++ b/sound/i2c/cs8427.c
+@@ -52,8 +52,9 @@ int snd_cs8427_reg_write(struct snd_i2c_device *device, unsigned char reg,
+ 	buf[1] = val;
+ 	err = snd_i2c_sendbytes(device, buf, 2);
+ 	if (err != 2) {
+-		snd_printk(KERN_ERR "unable to send bytes 0x%02x:0x%02x "
+-			   "to CS8427 (%i)\n", buf[0], buf[1], err);
++		dev_err(device->bus->card->dev,
++			"unable to send bytes 0x%02x:0x%02x to CS8427 (%i)\n",
++			buf[0], buf[1], err);
+ 		return err < 0 ? err : -EIO;
  	}
- 	port[dev] = pnp_port_start(pdev, 0);
-@@ -135,7 +133,7 @@ static int snd_card_als100_pnp(int dev, struct snd_card_als100 *acard,
- 	     __mpu_error:
- 	     	if (pdev) {
- 		     	pnp_release_card_device(pdev);
--	     		snd_printk(KERN_ERR PFX "MPU401 pnp configure failure, skipping\n");
-+			dev_err(&pdev->dev, "MPU401 pnp configure failure, skipping\n");
- 	     	}
- 	     	acard->devmpu = NULL;
- 	     	mpu_port[dev] = -1;
-@@ -151,7 +149,7 @@ static int snd_card_als100_pnp(int dev, struct snd_card_als100 *acard,
- 	      __fm_error:
- 	     	if (pdev) {
- 		     	pnp_release_card_device(pdev);
--	     		snd_printk(KERN_ERR PFX "OPL3 pnp configure failure, skipping\n");
-+			dev_err(&pdev->dev, "OPL3 pnp configure failure, skipping\n");
- 	     	}
- 	     	acard->devopl = NULL;
- 	     	fm_port[dev] = -1;
-@@ -230,15 +228,15 @@ static int snd_card_als100_probe(int dev,
- 					mpu_port[dev], 0, 
- 					mpu_irq[dev],
- 					NULL) < 0)
--			snd_printk(KERN_ERR PFX "no MPU-401 device at 0x%lx\n", mpu_port[dev]);
-+			dev_err(card->dev, "no MPU-401 device at 0x%lx\n", mpu_port[dev]);
- 	}
+ 	return 0;
+@@ -68,14 +69,14 @@ static int snd_cs8427_reg_read(struct snd_i2c_device *device, unsigned char reg)
  
- 	if (fm_port[dev] > 0 && fm_port[dev] != SNDRV_AUTO_PORT) {
- 		if (snd_opl3_create(card,
- 				    fm_port[dev], fm_port[dev] + 2,
- 				    OPL3_HW_AUTO, 0, &opl3) < 0) {
--			snd_printk(KERN_ERR PFX "no OPL device at 0x%lx-0x%lx\n",
--				   fm_port[dev], fm_port[dev] + 2);
-+			dev_err(card->dev, "no OPL device at 0x%lx-0x%lx\n",
-+				fm_port[dev], fm_port[dev] + 2);
- 		} else {
- 			error = snd_opl3_timer_new(opl3, 0, 1);
- 			if (error < 0)
-@@ -324,7 +322,7 @@ static int __init alsa_card_als100_init(void)
- 	if (!als100_devices) {
- 		pnp_unregister_card_driver(&als100_pnpc_driver);
- #ifdef MODULE
--		snd_printk(KERN_ERR "no Avance Logic based soundcards found\n");
-+		pr_err("no Avance Logic based soundcards found\n");
+ 	err = snd_i2c_sendbytes(device, &reg, 1);
+ 	if (err != 1) {
+-		snd_printk(KERN_ERR "unable to send register 0x%x byte "
+-			   "to CS8427\n", reg);
++		dev_err(device->bus->card->dev,
++			"unable to send register 0x%x byte to CS8427\n", reg);
+ 		return err < 0 ? err : -EIO;
+ 	}
+ 	err = snd_i2c_readbytes(device, &buf, 1);
+ 	if (err != 1) {
+-		snd_printk(KERN_ERR "unable to read register 0x%x byte "
+-			   "from CS8427\n", reg);
++		dev_err(device->bus->card->dev,
++			"unable to read register 0x%x byte from CS8427\n", reg);
+ 		return err < 0 ? err : -EIO;
+ 	}
+ 	return buf;
+@@ -195,16 +196,18 @@ int snd_cs8427_init(struct snd_i2c_bus *bus,
+ 	err = snd_cs8427_reg_read(device, CS8427_REG_ID_AND_VER);
+ 	if (err != CS8427_VER8427A) {
+ 		/* give second chance */
+-		snd_printk(KERN_WARNING "invalid CS8427 signature 0x%x: "
+-			   "let me try again...\n", err);
++		dev_warn(device->bus->card->dev,
++			 "invalid CS8427 signature 0x%x: let me try again...\n",
++			 err);
+ 		err = snd_cs8427_reg_read(device, CS8427_REG_ID_AND_VER);
+ 	}
+ 	if (err != CS8427_VER8427A) {
+ 		snd_i2c_unlock(bus);
+-		snd_printk(KERN_ERR "unable to find CS8427 signature "
+-			   "(expected 0x%x, read 0x%x),\n",
+-			   CS8427_VER8427A, err);
+-		snd_printk(KERN_ERR "   initialization is not completed\n");
++		dev_err(device->bus->card->dev,
++			"unable to find CS8427 signature (expected 0x%x, read 0x%x),\n",
++			CS8427_VER8427A, err);
++		dev_err(device->bus->card->dev,
++			"   initialization is not completed\n");
+ 		return -EFAULT;
+ 	}
+ 	/* turn off run bit while making changes to configuration */
+@@ -289,7 +292,7 @@ int snd_cs8427_create(struct snd_i2c_bus *bus,
+ 	snd_i2c_sendbytes(device, buf, 1);
+ 	snd_i2c_readbytes(device, buf, 127);
+ 	for (xx = 0; xx < 127; xx++)
+-		printk(KERN_DEBUG "reg[0x%x] = 0x%x\n", xx+1, buf[xx]);
++		dev_dbg(device->bus->card->dev, "reg[0x%x] = 0x%x\n", xx+1, buf[xx]);
+ 	}
  #endif
- 		return -ENODEV;
+ 	
+@@ -392,15 +395,15 @@ static int snd_cs8427_qsubcode_get(struct snd_kcontrol *kcontrol,
+ 	snd_i2c_lock(device->bus);
+ 	err = snd_i2c_sendbytes(device, &reg, 1);
+ 	if (err != 1) {
+-		snd_printk(KERN_ERR "unable to send register 0x%x byte "
+-			   "to CS8427\n", reg);
++		dev_err(device->bus->card->dev,
++			"unable to send register 0x%x byte to CS8427\n", reg);
+ 		snd_i2c_unlock(device->bus);
+ 		return err < 0 ? err : -EIO;
+ 	}
+ 	err = snd_i2c_readbytes(device, ucontrol->value.bytes.data, 10);
+ 	if (err != 10) {
+-		snd_printk(KERN_ERR "unable to read Q-subcode bytes "
+-			   "from CS8427\n");
++		dev_err(device->bus->card->dev,
++			"unable to read Q-subcode bytes from CS8427\n");
+ 		snd_i2c_unlock(device->bus);
+ 		return err < 0 ? err : -EIO;
  	}
 -- 
 2.43.0
