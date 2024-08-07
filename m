@@ -1,84 +1,83 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95803200134
-	for <linux-sound@vger.kernel.org>; Wed,  7 Aug 2024 13:34:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20F3D200131
+	for <linux-sound@vger.kernel.org>; Wed,  7 Aug 2024 13:34:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723037670; cv=none; b=D+NTUGiTYbZhdRHAuCRF5BbRfzoRM1waRgyHU4oegXm5sMIUzBnLAXEL2wzc/ySpNprZvvgZZrje9BbZt1qeY+Nuq+a6l53tsRe097raVmy0tmovM2zNdy6Xv8bV8AFN6XZ3LsY1lRnR2g0h/GJacfJSybGk78m64Jd4zYHyWYI=
+	t=1723037670; cv=none; b=m/3j9NqvzUnMCM2dDJ0qm4ElUBctwOR0GpAuVbBLirvb42wH3Iddt62MwX9ca4R4MsYUXyaTacLT05JTqZxiwYbxEbDNBqL1olYYl7eOjhuMVJAr4BnB4CCiTeCrBRFMxQy+gryN95vR2DDYB6C/P9waH8Apa03zWUuMqgwDp10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1723037670; c=relaxed/simple;
-	bh=PHi7x7SQ3p3H0SmjJOcnLfwuMnEaOS2rom0qPpmKf/o=;
+	bh=trB/SMSfe4z+WoZ+RL8lJx1KhabhVkERydY1qaL4Pf4=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Oli1UphxTpiiV6Xx7BBP8DBl62/YQaVOBa8ocdLI0mdz1MN5cu/6HLdi16DEp44+a2rtpeZwaKFszR+8pcTq5XInbFW9//8/GtCRGZpRovT6RQBRBY7oZE7swHFppUAojy4J7epiQrxx2bPrpO2qaXn8VnXXPjASqxd8Swn/VzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=raaZMDcd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XTWBq9Fo; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=raaZMDcd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XTWBq9Fo; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=Jfm90QweeK+Wl0xSNyrV3jcm37LRHS4tLaw+P5ruBmF1M7Rjm3vJuWEPTRovelHCTzNoJH3nDd+4RjBkSZ9x1aazd67/Utkt53HuE64pb/aL5Pwdgjg6YGP72YEcvy/6+NuWuc31ECCkJc+wgCyjIuLdn4YP3PAvU74h9znOFjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=S5YqiVst; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=h82DAQGH; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=S5YqiVst; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=h82DAQGH; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="raaZMDcd";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XTWBq9Fo";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="raaZMDcd";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XTWBq9Fo"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="S5YqiVst";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="h82DAQGH";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="S5YqiVst";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="h82DAQGH"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 525541FB9D;
-	Wed,  7 Aug 2024 13:34:21 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7E6541FB98;
+	Wed,  7 Aug 2024 13:34:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723037661; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1723037660; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Xu3u9NTVeI1aXCnYziypKQIXv+0K2ti5iNZmwYrc5ws=;
-	b=raaZMDcdR/ljJpTw6lE5M9yJb7N8veqjtpmNGYY6Lx2RliJ4CdQxSgtwvXZ30CBIabFf35
-	UKCgFndDPZ9Rk9quX5hGp+56c5Ufzj78wmKwxuXjkweGoTy0iD1wDbkB0BlzvhHwQioxiO
-	LfpMhN5lXiYe8LKgX+nnqWGbXSblO0s=
+	bh=hLL1ufgJ8GjMX0sd/7QlQrfL6FI8v3g/wfM9swiQnNc=;
+	b=S5YqiVstVgXQAue1l9sEeMogknsGFOuDlneVRHvwTS80lKa8OKA4MOz8SPwbecHOsKUIhW
+	eJO+SdsIXBnUCId/27jbYGmR4AyphTyFKp17yj4FSF6Frc7Yv2l69VrpqyEQfhAyey1yb3
+	7MKH2B9SJ4Kgk/W9lwKHYL2rr94OxMk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723037661;
+	s=susede2_ed25519; t=1723037660;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Xu3u9NTVeI1aXCnYziypKQIXv+0K2ti5iNZmwYrc5ws=;
-	b=XTWBq9Fo/8EtiKj0VnfoXk8YJ1OWjwYEDyAyXlRidKRaEZSoxtPGpBomcQeZuCENjbH2NQ
-	mCIyDLZkFvJD/QDA==
+	bh=hLL1ufgJ8GjMX0sd/7QlQrfL6FI8v3g/wfM9swiQnNc=;
+	b=h82DAQGHNoZGl7G5ifXBZtQBwFRU9l5vWYrF3fbhYwDFor/sDgqh7J7pFvd0X4GO3F5qoa
+	c8DX5ZR/DUlwAdAw==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=raaZMDcd;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=XTWBq9Fo
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723037661; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1723037660; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Xu3u9NTVeI1aXCnYziypKQIXv+0K2ti5iNZmwYrc5ws=;
-	b=raaZMDcdR/ljJpTw6lE5M9yJb7N8veqjtpmNGYY6Lx2RliJ4CdQxSgtwvXZ30CBIabFf35
-	UKCgFndDPZ9Rk9quX5hGp+56c5Ufzj78wmKwxuXjkweGoTy0iD1wDbkB0BlzvhHwQioxiO
-	LfpMhN5lXiYe8LKgX+nnqWGbXSblO0s=
+	bh=hLL1ufgJ8GjMX0sd/7QlQrfL6FI8v3g/wfM9swiQnNc=;
+	b=S5YqiVstVgXQAue1l9sEeMogknsGFOuDlneVRHvwTS80lKa8OKA4MOz8SPwbecHOsKUIhW
+	eJO+SdsIXBnUCId/27jbYGmR4AyphTyFKp17yj4FSF6Frc7Yv2l69VrpqyEQfhAyey1yb3
+	7MKH2B9SJ4Kgk/W9lwKHYL2rr94OxMk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723037661;
+	s=susede2_ed25519; t=1723037660;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Xu3u9NTVeI1aXCnYziypKQIXv+0K2ti5iNZmwYrc5ws=;
-	b=XTWBq9Fo/8EtiKj0VnfoXk8YJ1OWjwYEDyAyXlRidKRaEZSoxtPGpBomcQeZuCENjbH2NQ
-	mCIyDLZkFvJD/QDA==
+	bh=hLL1ufgJ8GjMX0sd/7QlQrfL6FI8v3g/wfM9swiQnNc=;
+	b=h82DAQGHNoZGl7G5ifXBZtQBwFRU9l5vWYrF3fbhYwDFor/sDgqh7J7pFvd0X4GO3F5qoa
+	c8DX5ZR/DUlwAdAw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3B30213B03;
-	Wed,  7 Aug 2024 13:34:21 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6750113B05;
+	Wed,  7 Aug 2024 13:34:20 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ADRQDd13s2ZpVgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 07 Aug 2024 13:34:21 +0000
+	id kF0YGNx3s2ZpVgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 07 Aug 2024 13:34:20 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 34/54] ALSA: sscape: Use standard print API
-Date: Wed,  7 Aug 2024 15:34:24 +0200
-Message-ID: <20240807133452.9424-35-tiwai@suse.de>
+Subject: [PATCH 28/54] ALSA: opl3sa2: Use standard print API
+Date: Wed,  7 Aug 2024 15:34:18 +0200
+Message-ID: <20240807133452.9424-29-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240807133452.9424-1-tiwai@suse.de>
 References: <20240807133452.9424-1-tiwai@suse.de>
@@ -89,340 +88,220 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-0.01 / 50.00];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
+X-Spam-Level: 
+X-Spamd-Result: default: False [0.21 / 50.00];
 	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.19)[-0.946];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
 	ARC_NA(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:dkim];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
 	TO_DN_NONE(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spamd-Bar: /
-X-Rspamd-Queue-Id: 525541FB9D
-X-Spam-Level: 
-X-Rspamd-Action: no action
+	RCVD_TLS_ALL(0.00)[]
 X-Spam-Flag: NO
-X-Spam-Score: -0.01
+X-Spam-Score: 0.21
 
 Use the standard print API with dev_*() instead of the old house-baked
 one.  It gives better information and allows dynamically control of
 debug prints.
 
-The device pointer is stored in struct soundscape for calling
-dev_*().
+The card pointer is stored in struct snd_opl3sa2 to be referred for
+dev_*() calls.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/isa/sscape.c | 96 +++++++++++++++++++++++-----------------------
- 1 file changed, 48 insertions(+), 48 deletions(-)
+ sound/isa/opl3sa2.c | 46 ++++++++++++++++++++++-----------------------
+ 1 file changed, 22 insertions(+), 24 deletions(-)
 
-diff --git a/sound/isa/sscape.c b/sound/isa/sscape.c
-index cc56fafd27b1..09120e38f4c2 100644
---- a/sound/isa/sscape.c
-+++ b/sound/isa/sscape.c
-@@ -138,6 +138,7 @@ struct soundscape {
- 	struct snd_wss *chip;
- 
- 	unsigned char midi_vol;
-+	struct device *dev;
- };
- 
- #define INVALID_IRQ  ((unsigned)-1)
-@@ -161,9 +162,9 @@ static struct snd_dma_buffer *get_dmabuf(struct soundscape *s,
- 		if (snd_dma_alloc_pages_fallback(SNDRV_DMA_TYPE_DEV,
- 						 s->chip->card->dev,
- 						 size, buf) < 0) {
--			snd_printk(KERN_ERR "sscape: Failed to allocate "
--					    "%lu bytes for DMA\n",
--					    size);
-+			dev_err(s->dev,
-+				"sscape: Failed to allocate %lu bytes for DMA\n",
-+				size);
- 			return NULL;
- 		}
- 	}
-@@ -463,8 +464,7 @@ static int upload_dma_data(struct soundscape *s, const unsigned char *data,
- 			 */
- 			spin_unlock_irqrestore(&s->lock, flags);
- 
--			snd_printk(KERN_ERR
--					"sscape: DMA upload has timed out\n");
-+			dev_err(s->dev, "sscape: DMA upload has timed out\n");
- 			ret = -EAGAIN;
- 			goto _release_dma;
- 		}
-@@ -487,12 +487,11 @@ static int upload_dma_data(struct soundscape *s, const unsigned char *data,
- 	 */
- 	ret = 0;
- 	if (!obp_startup_ack(s, 5000)) {
--		snd_printk(KERN_ERR "sscape: No response "
--				    "from on-board processor after upload\n");
-+		dev_err(s->dev,
-+			"sscape: No response from on-board processor after upload\n");
- 		ret = -EAGAIN;
- 	} else if (!host_startup_ack(s, 5000)) {
--		snd_printk(KERN_ERR
--				"sscape: SoundScape failed to initialise\n");
-+		dev_err(s->dev, "sscape: SoundScape failed to initialise\n");
- 		ret = -EAGAIN;
- 	}
- 
-@@ -521,7 +520,7 @@ static int sscape_upload_bootblock(struct snd_card *card)
- 
- 	ret = request_firmware(&init_fw, "scope.cod", card->dev);
- 	if (ret < 0) {
--		snd_printk(KERN_ERR "sscape: Error loading scope.cod");
-+		dev_err(card->dev, "sscape: Error loading scope.cod");
- 		return ret;
- 	}
- 	ret = upload_dma_data(sscape, init_fw->data, init_fw->size);
-@@ -539,8 +538,8 @@ static int sscape_upload_bootblock(struct snd_card *card)
- 
- 	data &= 0xf;
- 	if (ret == 0 && data > 7) {
--		snd_printk(KERN_ERR
--				"sscape: timeout reading firmware version\n");
-+		dev_err(card->dev,
-+			"sscape: timeout reading firmware version\n");
- 		ret = -EAGAIN;
- 	}
- 
-@@ -561,14 +560,14 @@ static int sscape_upload_microcode(struct snd_card *card, int version)
- 
- 	err = request_firmware(&init_fw, name, card->dev);
- 	if (err < 0) {
--		snd_printk(KERN_ERR "sscape: Error loading sndscape.co%d",
--				version);
-+		dev_err(card->dev, "sscape: Error loading sndscape.co%d",
-+			version);
- 		return err;
- 	}
- 	err = upload_dma_data(sscape, init_fw->data, init_fw->size);
- 	if (err == 0)
--		snd_printk(KERN_INFO "sscape: MIDI firmware loaded %zu KBs\n",
--				init_fw->size >> 10);
-+		dev_info(card->dev, "sscape: MIDI firmware loaded %zu KBs\n",
-+			 init_fw->size >> 10);
- 
- 	release_firmware(init_fw);
- 
-@@ -783,8 +782,8 @@ static int detect_sscape(struct soundscape *s, long wss_io)
- static int mpu401_open(struct snd_mpu401 *mpu)
- {
- 	if (!verify_mpu401(mpu)) {
--		snd_printk(KERN_ERR "sscape: MIDI disabled, "
--				    "please load firmware\n");
-+		dev_err(mpu->rmidi->card->dev,
-+			"sscape: MIDI disabled, please load firmware\n");
- 		return -ENODEV;
- 	}
- 
-@@ -871,22 +870,22 @@ static int create_ad1845(struct snd_card *card, unsigned port,
- 
- 		err = snd_wss_pcm(chip, 0);
- 		if (err < 0) {
--			snd_printk(KERN_ERR "sscape: No PCM device "
--					    "for AD1845 chip\n");
-+			dev_err(card->dev,
-+				"sscape: No PCM device for AD1845 chip\n");
- 			goto _error;
- 		}
- 
- 		err = snd_wss_mixer(chip);
- 		if (err < 0) {
--			snd_printk(KERN_ERR "sscape: No mixer device "
--					    "for AD1845 chip\n");
-+			dev_err(card->dev,
-+				"sscape: No mixer device for AD1845 chip\n");
- 			goto _error;
- 		}
- 		if (chip->hardware != WSS_HW_AD1848) {
- 			err = snd_wss_timer(chip, 0);
- 			if (err < 0) {
--				snd_printk(KERN_ERR "sscape: No timer device "
--						    "for AD1845 chip\n");
-+				dev_err(card->dev,
-+					"sscape: No timer device for AD1845 chip\n");
- 				goto _error;
- 			}
- 		}
-@@ -895,8 +894,8 @@ static int create_ad1845(struct snd_card *card, unsigned port,
- 			err = snd_ctl_add(card,
- 					  snd_ctl_new1(&midi_mixer_ctl, chip));
- 			if (err < 0) {
--				snd_printk(KERN_ERR "sscape: Could not create "
--						    "MIDI mixer control\n");
-+				dev_err(card->dev,
-+					"sscape: Could not create MIDI mixer control\n");
- 				goto _error;
- 			}
- 		}
-@@ -932,8 +931,8 @@ static int create_sscape(int dev, struct snd_card *card)
- 	 */
- 	io_res = devm_request_region(card->dev, port[dev], 8, "SoundScape");
- 	if (!io_res) {
--		snd_printk(KERN_ERR
--			   "sscape: can't grab port 0x%lx\n", port[dev]);
-+		dev_err(card->dev,
-+			"sscape: can't grab port 0x%lx\n", port[dev]);
+diff --git a/sound/isa/opl3sa2.c b/sound/isa/opl3sa2.c
+index bad1490a66a0..a5ed5aa0606f 100644
+--- a/sound/isa/opl3sa2.c
++++ b/sound/isa/opl3sa2.c
+@@ -108,6 +108,7 @@ struct snd_opl3sa2 {
+ 	int irq;
+ 	int single_dma;
+ 	spinlock_t reg_lock;
++	struct snd_card *card;
+ 	struct snd_hwdep *synth;
+ 	struct snd_rawmidi *rmidi;
+ 	struct snd_wss *wss;
+@@ -157,12 +158,12 @@ static unsigned char __snd_opl3sa2_read(struct snd_opl3sa2 *chip, unsigned char
+ 	unsigned char result;
+ #if 0
+ 	outb(0x1d, port);	/* password */
+-	printk(KERN_DEBUG "read [0x%lx] = 0x%x\n", port, inb(port));
++	dev_dbg(chip->card->dev, "read [0x%lx] = 0x%x\n", port, inb(port));
+ #endif
+ 	outb(reg, chip->port);	/* register */
+ 	result = inb(chip->port + 1);
+ #if 0
+-	printk(KERN_DEBUG "read [0x%lx] = 0x%x [0x%x]\n",
++	dev_dbg(chip->card->dev, "read [0x%lx] = 0x%x [0x%x]\n",
+ 	       port, result, inb(port));
+ #endif
+ 	return result;
+@@ -211,17 +212,13 @@ static int snd_opl3sa2_detect(struct snd_card *card)
+ 	chip->res_port = devm_request_region(card->dev, port, 2,
+ 					     "OPL3-SA control");
+ 	if (!chip->res_port) {
+-		snd_printk(KERN_ERR PFX "can't grab port 0x%lx\n", port);
++		dev_err(card->dev, "can't grab port 0x%lx\n", port);
  		return -EBUSY;
  	}
- 	wss_res = NULL;
-@@ -941,8 +940,8 @@ static int create_sscape(int dev, struct snd_card *card)
- 		wss_res = devm_request_region(card->dev, wss_port[dev], 4,
- 					      "SoundScape");
- 		if (!wss_res) {
--			snd_printk(KERN_ERR "sscape: can't grab port 0x%lx\n",
--					    wss_port[dev]);
-+			dev_err(card->dev, "sscape: can't grab port 0x%lx\n",
-+				wss_port[dev]);
- 			return -EBUSY;
- 		}
- 	}
-@@ -952,7 +951,7 @@ static int create_sscape(int dev, struct snd_card *card)
- 	 */
- 	err = snd_devm_request_dma(card->dev, dma[dev], "SoundScape");
- 	if (err < 0) {
--		snd_printk(KERN_ERR "sscape: can't grab DMA %d\n", dma[dev]);
-+		dev_err(card->dev, "sscape: can't grab DMA %d\n", dma[dev]);
- 		return err;
- 	}
- 
-@@ -962,7 +961,7 @@ static int create_sscape(int dev, struct snd_card *card)
- 	sscape->io_base = port[dev];
- 
- 	if (!detect_sscape(sscape, wss_port[dev])) {
--		printk(KERN_ERR "sscape: hardware not detected at 0x%x\n",
-+		dev_err(card->dev, "sscape: hardware not detected at 0x%x\n",
- 			sscape->io_base);
+-	/*
+-	snd_printk(KERN_DEBUG "REG 0A = 0x%x\n",
+-		   snd_opl3sa2_read(chip, 0x0a));
+-	*/
+ 	chip->version = 0;
+ 	tmp = snd_opl3sa2_read(chip, OPL3SA2_MISC);
+ 	if (tmp == 0xff) {
+-		snd_printd("OPL3-SA [0x%lx] detect = 0x%x\n", port, tmp);
++		dev_dbg(card->dev, "OPL3-SA [0x%lx] detect = 0x%x\n", port, tmp);
  		return -ENODEV;
  	}
-@@ -985,21 +984,21 @@ static int create_sscape(int dev, struct snd_card *card)
- 		break;
+ 	switch (tmp & 0x07) {
+@@ -243,7 +240,7 @@ static int snd_opl3sa2_detect(struct snd_card *card)
+ 	snd_opl3sa2_write(chip, OPL3SA2_MISC, tmp ^ 7);
+ 	tmp1 = snd_opl3sa2_read(chip, OPL3SA2_MISC);
+ 	if (tmp1 != tmp) {
+-		snd_printd("OPL3-SA [0x%lx] detect (1) = 0x%x (0x%x)\n", port, tmp, tmp1);
++		dev_dbg(card->dev, "OPL3-SA [0x%lx] detect (1) = 0x%x (0x%x)\n", port, tmp, tmp1);
+ 		return -ENODEV;
  	}
- 
--	printk(KERN_INFO "sscape: %s card detected at 0x%x, using IRQ %d, DMA %d\n",
--			 name, sscape->io_base, irq[dev], dma[dev]);
-+	dev_info(card->dev, "sscape: %s card detected at 0x%x, using IRQ %d, DMA %d\n",
-+		 name, sscape->io_base, irq[dev], dma[dev]);
- 
- 	/*
- 	 * Check that the user didn't pass us garbage data ...
- 	 */
- 	irq_cfg = get_irq_config(sscape->type, irq[dev]);
- 	if (irq_cfg == INVALID_IRQ) {
--		snd_printk(KERN_ERR "sscape: Invalid IRQ %d\n", irq[dev]);
-+		dev_err(card->dev, "sscape: Invalid IRQ %d\n", irq[dev]);
- 		return -ENXIO;
+ 	/* try if the MIC register is accessible */
+@@ -251,7 +248,7 @@ static int snd_opl3sa2_detect(struct snd_card *card)
+ 	snd_opl3sa2_write(chip, OPL3SA2_MIC, 0x8a);
+ 	tmp1 = snd_opl3sa2_read(chip, OPL3SA2_MIC);
+ 	if ((tmp1 & 0x9f) != 0x8a) {
+-		snd_printd("OPL3-SA [0x%lx] detect (2) = 0x%x (0x%x)\n", port, tmp, tmp1);
++		dev_dbg(card->dev, "OPL3-SA [0x%lx] detect (2) = 0x%x (0x%x)\n", port, tmp, tmp1);
+ 		return -ENODEV;
  	}
- 
- 	mpu_irq_cfg = get_irq_config(sscape->type, mpu_irq[dev]);
- 	if (mpu_irq_cfg == INVALID_IRQ) {
--		snd_printk(KERN_ERR "sscape: Invalid IRQ %d\n", mpu_irq[dev]);
-+		dev_err(card->dev, "sscape: Invalid IRQ %d\n", mpu_irq[dev]);
- 		return -ENXIO;
- 	}
- 
-@@ -1043,9 +1042,9 @@ static int create_sscape(int dev, struct snd_card *card)
- 	err = create_ad1845(card, wss_port[dev], irq[dev],
- 			    dma[dev], dma2[dev]);
+ 	snd_opl3sa2_write(chip, OPL3SA2_MIC, 0x9f);
+@@ -495,14 +492,14 @@ static int snd_opl3sa2_mixer(struct snd_card *card)
+         strcpy(id2.name, "CD Playback Switch");
+ 	err = snd_ctl_rename_id(card, &id1, &id2);
  	if (err < 0) {
--		snd_printk(KERN_ERR
--				"sscape: No AD1845 device at 0x%lx, IRQ %d\n",
--				wss_port[dev], irq[dev]);
-+		dev_err(card->dev,
-+			"sscape: No AD1845 device at 0x%lx, IRQ %d\n",
-+			wss_port[dev], irq[dev]);
+-		snd_printk(KERN_ERR "Cannot rename opl3sa2 control\n");
++		dev_err(card->dev, "Cannot rename opl3sa2 control\n");
+                 return err;
+ 	}
+         strcpy(id1.name, "Aux Playback Volume");
+         strcpy(id2.name, "CD Playback Volume");
+ 	err = snd_ctl_rename_id(card, &id1, &id2);
+ 	if (err < 0) {
+-		snd_printk(KERN_ERR "Cannot rename opl3sa2 control\n");
++		dev_err(card->dev, "Cannot rename opl3sa2 control\n");
+                 return err;
+ 	}
+ 	/* reassign AUX1 to FM */
+@@ -510,14 +507,14 @@ static int snd_opl3sa2_mixer(struct snd_card *card)
+         strcpy(id2.name, "FM Playback Switch");
+ 	err = snd_ctl_rename_id(card, &id1, &id2);
+ 	if (err < 0) {
+-		snd_printk(KERN_ERR "Cannot rename opl3sa2 control\n");
++		dev_err(card->dev, "Cannot rename opl3sa2 control\n");
+                 return err;
+ 	}
+         strcpy(id1.name, "Aux Playback Volume");
+         strcpy(id2.name, "FM Playback Volume");
+ 	err = snd_ctl_rename_id(card, &id1, &id2);
+ 	if (err < 0) {
+-		snd_printk(KERN_ERR "Cannot rename opl3sa2 control\n");
++		dev_err(card->dev, "Cannot rename opl3sa2 control\n");
+                 return err;
+ 	}
+ 	/* add OPL3SA2 controls */
+@@ -591,7 +588,7 @@ static int snd_opl3sa2_pnp(int dev, struct snd_opl3sa2 *chip,
+ 			   struct pnp_dev *pdev)
+ {
+ 	if (pnp_activate_dev(pdev) < 0) {
+-		snd_printk(KERN_ERR "PnP configure failure (out of resources?)\n");
++		dev_err(chip->card->dev, "PnP configure failure (out of resources?)\n");
+ 		return -EBUSY;
+ 	}
+ 	sb_port[dev] = pnp_port_start(pdev, 0);
+@@ -602,9 +599,9 @@ static int snd_opl3sa2_pnp(int dev, struct snd_opl3sa2 *chip,
+ 	dma1[dev] = pnp_dma(pdev, 0);
+ 	dma2[dev] = pnp_dma(pdev, 1);
+ 	irq[dev] = pnp_irq(pdev, 0);
+-	snd_printdd("%sPnP OPL3-SA: sb port=0x%lx, wss port=0x%lx, fm port=0x%lx, midi port=0x%lx\n",
++	dev_dbg(chip->card->dev, "%sPnP OPL3-SA: sb port=0x%lx, wss port=0x%lx, fm port=0x%lx, midi port=0x%lx\n",
+ 		pnp_device_is_pnpbios(pdev) ? "BIOS" : "ISA", sb_port[dev], wss_port[dev], fm_port[dev], midi_port[dev]);
+-	snd_printdd("%sPnP OPL3-SA: control port=0x%lx, dma1=%i, dma2=%i, irq=%i\n",
++	dev_dbg(chip->card->dev, "%sPnP OPL3-SA: control port=0x%lx, dma1=%i, dma2=%i, irq=%i\n",
+ 		pnp_device_is_pnpbios(pdev) ? "BIOS" : "ISA", port[dev], dma1[dev], dma2[dev], irq[dev]);
+ 	return 0;
+ }
+@@ -640,6 +637,7 @@ static int snd_opl3sa2_probe(struct snd_card *card, int dev)
+ 
+ 	/* initialise this card from supplied (or default) parameter*/ 
+ 	chip = card->private_data;
++	chip->card = card;
+ 	chip->ymode = opl3sa3_ymode[dev] & 0x03 ;
+ 	chip->port = port[dev];
+ 	xirq = irq[dev];
+@@ -653,7 +651,7 @@ static int snd_opl3sa2_probe(struct snd_card *card, int dev)
+ 	err = devm_request_irq(card->dev, xirq, snd_opl3sa2_interrupt, 0,
+ 			       "OPL3-SA2", card);
+ 	if (err) {
+-		snd_printk(KERN_ERR PFX "can't grab IRQ %d\n", xirq);
++		dev_err(card->dev, "can't grab IRQ %d\n", xirq);
+ 		return -ENODEV;
+ 	}
+ 	chip->irq = xirq;
+@@ -663,7 +661,7 @@ static int snd_opl3sa2_probe(struct snd_card *card, int dev)
+ 			     xirq, xdma1, xdma2,
+ 			     WSS_HW_OPL3SA2, WSS_HWSHARE_IRQ, &wss);
+ 	if (err < 0) {
+-		snd_printd("Oops, WSS not detected at 0x%lx\n", wss_port[dev] + 4);
++		dev_dbg(card->dev, "Oops, WSS not detected at 0x%lx\n", wss_port[dev] + 4);
  		return err;
  	}
- 	strcpy(card->driver, "SoundScape");
-@@ -1065,9 +1064,9 @@ static int create_sscape(int dev, struct snd_card *card)
- 			err = create_mpu401(card, MIDI_DEVNUM, port[dev],
- 					    mpu_irq[dev]);
- 			if (err < 0) {
--				snd_printk(KERN_ERR "sscape: Failed to create "
--						"MPU-401 device at 0x%lx\n",
--						port[dev]);
-+				dev_err(card->dev,
-+					"sscape: Failed to create MPU-401 device at 0x%lx\n",
-+					port[dev]);
- 				return err;
- 			}
+ 	chip->wss = wss;
+@@ -770,7 +768,7 @@ static int snd_opl3sa2_pnp_cdetect(struct pnp_card_link *pcard,
  
-@@ -1110,9 +1109,8 @@ static int snd_sscape_match(struct device *pdev, unsigned int i)
- 	if (irq[i] == SNDRV_AUTO_IRQ ||
- 	    mpu_irq[i] == SNDRV_AUTO_IRQ ||
- 	    dma[i] == SNDRV_AUTO_DMA) {
--		printk(KERN_INFO
--		       "sscape: insufficient parameters, "
--		       "need IO, IRQ, MPU-IRQ and DMA\n");
-+		dev_info(pdev,
-+			 "sscape: insufficient parameters, need IO, IRQ, MPU-IRQ and DMA\n");
+ 	pdev = pnp_request_card_device(pcard, id->devs[0].id, NULL);
+ 	if (pdev == NULL) {
+-		snd_printk(KERN_ERR PFX "can't get pnp device from id '%s'\n",
++		dev_err(&pcard->card->dev, "can't get pnp device from id '%s'\n",
+ 			   id->devs[0].id);
+ 		return -EBUSY;
+ 	}
+@@ -828,19 +826,19 @@ static int snd_opl3sa2_isa_match(struct device *pdev,
+ 		return 0;
+ #endif
+ 	if (port[dev] == SNDRV_AUTO_PORT) {
+-		snd_printk(KERN_ERR PFX "specify port\n");
++		dev_err(pdev, "specify port\n");
  		return 0;
  	}
- 
-@@ -1131,6 +1129,7 @@ static int snd_sscape_probe(struct device *pdev, unsigned int dev)
- 		return ret;
- 
- 	sscape = get_card_soundscape(card);
-+	sscape->dev = pdev;
- 	sscape->type = SSCAPE;
- 
- 	dma[dev] &= 0x03;
-@@ -1141,7 +1140,7 @@ static int snd_sscape_probe(struct device *pdev, unsigned int dev)
- 
- 	ret = snd_card_register(card);
- 	if (ret < 0) {
--		snd_printk(KERN_ERR "sscape: Failed to register sound card\n");
-+		dev_err(pdev, "sscape: Failed to register sound card\n");
- 		return ret;
+ 	if (wss_port[dev] == SNDRV_AUTO_PORT) {
+-		snd_printk(KERN_ERR PFX "specify wss_port\n");
++		dev_err(pdev, "specify wss_port\n");
+ 		return 0;
  	}
- 	dev_set_drvdata(pdev, card);
-@@ -1194,7 +1193,7 @@ static int sscape_pnp_detect(struct pnp_card_link *pcard,
- 
- 	if (!pnp_is_active(dev)) {
- 		if (pnp_activate_dev(dev) < 0) {
--			snd_printk(KERN_INFO "sscape: device is inactive\n");
-+			dev_info(&dev->dev, "sscape: device is inactive\n");
- 			return -EBUSY;
- 		}
+ 	if (fm_port[dev] == SNDRV_AUTO_PORT) {
+-		snd_printk(KERN_ERR PFX "specify fm_port\n");
++		dev_err(pdev, "specify fm_port\n");
+ 		return 0;
  	}
-@@ -1210,6 +1209,7 @@ static int sscape_pnp_detect(struct pnp_card_link *pcard,
- 		return ret;
- 
- 	sscape = get_card_soundscape(card);
-+	sscape->dev = card->dev;
- 
- 	/*
- 	 * Identify card model ...
-@@ -1240,7 +1240,7 @@ static int sscape_pnp_detect(struct pnp_card_link *pcard,
- 
- 	ret = snd_card_register(card);
- 	if (ret < 0) {
--		snd_printk(KERN_ERR "sscape: Failed to register sound card\n");
-+		dev_err(card->dev, "sscape: Failed to register sound card\n");
- 		return ret;
+ 	if (midi_port[dev] == SNDRV_AUTO_PORT) {
+-		snd_printk(KERN_ERR PFX "specify midi_port\n");
++		dev_err(pdev, "specify midi_port\n");
+ 		return 0;
  	}
- 
+ 	return 1;
 -- 
 2.43.0
 
