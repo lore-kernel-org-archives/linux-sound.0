@@ -1,59 +1,59 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F050682488
-	for <linux-sound@vger.kernel.org>; Wed,  7 Aug 2024 15:02:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 909C280638
+	for <linux-sound@vger.kernel.org>; Wed,  7 Aug 2024 15:02:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723042963; cv=none; b=JwIzjjgwfpV2onVm67WP9Ci/75W5tqmnlLciVWFKFiXyypxHBd4es/Yn3pWLGFww1XcnRrtvcCA/BRFz+sQIaFcX9SFWAaISo1hYvGVN7w/4LI2PeN5EVZImjh2JrC3QcutRAuqn2tO/5/MazukhxYOgHBXCyUnE6YiFCyGyDt4=
+	t=1723042965; cv=none; b=Wq4fvaHUy/cqh5PBRIrOZGZfruR3/Wssx/EhT1T50bFfUe0r6AaaqbN2gHBTzdwOqptvLH40TZp5GDlVPpriB0h4sYQ7/WkfWJRZytc2qVTqzPkU5C+6TDUiz5CPGxC83Mx6qVHB0vE7UPfoqR1V9weukrAYdngIysIsicfn2lw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723042963; c=relaxed/simple;
-	bh=7UDfwJmrMLWgAadMr/nmIe/06eQrWV7hakK6EjfMO1k=;
+	s=arc-20240116; t=1723042965; c=relaxed/simple;
+	bh=Y7W8wbrOkuNmZ8CQ0WcwZSJsXls2By5/tn0Y2KGbT34=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=hkcsxXGMx9ltlg365o3UrEXvGd9hqaWZdFUFor6VBw65K6tFQCiFpu1ZN3M2O8KJls6QLNlJYdqJmUWri8eZJq9AknNk6OaS18Wgpnpc5+Ja9UvHdwmhGQMgRkVEt/h/8yOHnDACuPIxSWj/DUBKQtS+6zTNyXZI5QU5IhSrhqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AH2+l3A6; arc=none smtp.client-ip=209.85.208.46
+	 In-Reply-To:To:Cc; b=sJ7gky86Ua7rSpSCIPafphs+FzHTltiyNo6I/NXoCkcvVdFqqJIq+o58VbVTV3Pnurw8xurKur18EPiZCojgvdF4UAdUjbX+4Q/XUkVHgrW7NFIZoahxjNxtgkChqJfK+vrV63wnIBsEPqakHwDpTblKekFviQkVabUPvX90LF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GjM1C5kS; arc=none smtp.client-ip=209.85.208.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AH2+l3A6"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5b8c2a611adso2653232a12.1
-        for <linux-sound@vger.kernel.org>; Wed, 07 Aug 2024 08:02:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GjM1C5kS"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5a1c49632deso2279894a12.2
+        for <linux-sound@vger.kernel.org>; Wed, 07 Aug 2024 08:02:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723042959; x=1723647759; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1723042962; x=1723647762; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GOZ9eu7KzFM6ThSYO7rTFdAab7Vy2Og8cSyaXW3jcO4=;
-        b=AH2+l3A6C+2EJMkRvwSfM7aZ6WdxCPhm7Ym6bwQSvWmJCPKSqFuWXDF/0E5/zNUlZG
-         iX59/EWAc2uq/tPgQAsb2rWnZxKwMfOWcA9NLssZg8gx/JiiFL5xe4dUfPysm6CpVLhj
-         bHfLwEQjPfDqoKUrTBYFZkAnmmkfaVnplOThDIXK8+hG7L+M+k+CWSr+MWIIgr9iG6yS
-         M53EChJR/s/9YlZpsiFaBtkQZSeb0bYUPla0tO1IbSF4AL2umwjhZZ6PEnDoQqdE0zIz
-         EtDKvG35jAaPvACdGEVNmrNvvjPnd9W93He9ocqliPC7TBj6+1HA0JAUYJcc8pdnqVPL
-         crug==
+        bh=WPaeIu/7/ToaPftt+nmZwaEM7lBvNV082estk80tIAQ=;
+        b=GjM1C5kSf+SfapsFA4MuOL0unWnYAvVxP+sq96PLrXGdWi1i4JS+zA6nC8uyRJdZ6C
+         zMh1xba5jQbFiDfKeBi4VxiqcnemXs3CBjNLfvvCKkMbNSOMAQcDp3t7iUB54XULDWJ3
+         TKzxaruJMd8h0yaIQFihOm7bzrNWZPso8x8wMEzNJcLHpKx5P5K2FZvcaEv0E4BTtQhm
+         mLU6ouxmIbzKEXwRkMYUrJovKqq8euTsNfwswkuRcOVCrYyMCrtHaqg4dPbBl2J7gO+S
+         pQDMCfd6Z/DH2kshXfGdwmPDD6+CQMwIuzSLuzWJyZmheT1V9sWUc4m0yvTvKGamC7/Q
+         Q/ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723042959; x=1723647759;
+        d=1e100.net; s=20230601; t=1723042962; x=1723647762;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GOZ9eu7KzFM6ThSYO7rTFdAab7Vy2Og8cSyaXW3jcO4=;
-        b=g5Rm7KHwMGUCytZ5bvX14n7+HpAgB/NKW40DJaBuRpqKOTm5XF+tSnylJTW3NlnWwj
-         wgBqJg8pN+E8Nr4QGa3aGhqj/YcUj32nmbWBw6cGxrIjSMXyy55JuIL/vl9XQOhaCvvN
-         wr4nJBf2M93W5f3I555qqkYiBdDirRku/7s5SqxaaHHq//VWS8ydEIaHO5+LXHxIhnQJ
-         VpDcIKzbMpurExgg7UM+994mOA/YDNaDOWIYq/g5TWNt0YdMeGr78G3FYQuYkkmSJptc
-         /vGrH0MWJrVbvxbJqtktBfA0wjZ/u3q+v2F6HulSZ2AwXKNG6I/LdoE4pn62+luh9qrb
-         cCnA==
-X-Gm-Message-State: AOJu0Yzbuyb9MsUEOMGLNHY2NtVDEAwYHU+BIlNCnzmWhqlI4kQ9Qd2S
-	1PZaZmMTsTZyOww/EoPTZxE7nt0dUQu1XBxyGyLMQSEiOkvn361E4kjE2h2h+5A=
-X-Google-Smtp-Source: AGHT+IGzpq+YuuOIP2PFUJ3vNl0MEGcLj5O6pGV4HEUMI9rYt73RXdKBpR8FRW+FrH9d3cp16wWxwA==
-X-Received: by 2002:a05:6402:60f:b0:5a3:a9f8:cf20 with SMTP id 4fb4d7f45d1cf-5b7f58eb70dmr12836219a12.34.1723042958942;
-        Wed, 07 Aug 2024 08:02:38 -0700 (PDT)
+        bh=WPaeIu/7/ToaPftt+nmZwaEM7lBvNV082estk80tIAQ=;
+        b=qrtW24BDh7SbvRQ28yOJ16Ix/y6i/mPjws65pK49TFekgNnX2IozwyISpjeyMq+5Ow
+         NG7zQLkhxpXHOLH+RRJ4ZlzXU5DrJnNRkRNr6cB0rw9H25xWqSroBDP7xi479jAoxTHs
+         04mzMrOvzKeuZ5T2lonw0HZdNu5WtfoSiQqVAVaZoyUjIi6iAlZYykIh85jR2NdTeOBD
+         KuGjr4LgPFmx1kiAL9Amkk6LxX8brrmr7+btPuMvqjREKMDAb4aLeXbxCFYVp0AK+tuL
+         Odc9w/PlfkmU4/ih6lKbWkgNgj+pUXhl2FQb1c3cEw25Xrl7P7NjCXnJgrJl86RIVWUJ
+         AN4Q==
+X-Gm-Message-State: AOJu0YwgAeTAVWHknZSndpOGFD9VshPCxAOWR2WGDhl0szWREn9ly/MX
+	yfQZXQrnog6mygB4VXyfq1pFp/UzuH23OMWWWtjKhHFs5OutGTRWbSu96BZi9Zw=
+X-Google-Smtp-Source: AGHT+IEYpjjpJDMbHBEqI4Rw2M2UUag+5UjvthzgGzzeXam2hAGeCohE28/rAsaJU5XDD5v2iV+kRw==
+X-Received: by 2002:a05:6402:331:b0:5a2:2654:7fd1 with SMTP id 4fb4d7f45d1cf-5b7f59e04d9mr11178515a12.36.1723042961586;
+        Wed, 07 Aug 2024 08:02:41 -0700 (PDT)
 Received: from lino.lan ([85.235.12.238])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5bb90be3a91sm2583047a12.65.2024.08.07.08.02.37
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5bb90be3a91sm2583047a12.65.2024.08.07.08.02.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Aug 2024 08:02:38 -0700 (PDT)
+        Wed, 07 Aug 2024 08:02:39 -0700 (PDT)
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 07 Aug 2024 17:02:32 +0200
-Subject: [PATCH v2 1/3] ASoC: tas2781-i2c: Drop weird GPIO code
+Date: Wed, 07 Aug 2024 17:02:33 +0200
+Subject: [PATCH v2 2/3] ASoC: tas2781-i2c: Get the right GPIO line
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -62,7 +62,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240807-asoc-tas-gpios-v2-1-bd0f2705d58b@linaro.org>
+Message-Id: <20240807-asoc-tas-gpios-v2-2-bd0f2705d58b@linaro.org>
 References: <20240807-asoc-tas-gpios-v2-0-bd0f2705d58b@linaro.org>
 In-Reply-To: <20240807-asoc-tas-gpios-v2-0-bd0f2705d58b@linaro.org>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -74,183 +74,33 @@ Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
  Linus Walleij <linus.walleij@linaro.org>
 X-Mailer: b4 0.14.0
 
-The tas2781-i2c driver gets an IRQ from either ACPI or device tree,
-then proceeds to check if the IRQ has a corresponding GPIO and in
-case it does enforce the GPIO as input and set a label on it.
+The code is obtaining a GPIO reset using the reset GPIO
+name "reset-gpios", but the gpiolib is already adding the
+suffix "-gpios" to anything passed to this function and
+will be looking for "reset-gpios-gpios" which is most
+certainly not what the author desired.
 
-This is abuse of the API:
-
-- First we cannot guarantee that the numberspaces of the GPIOs and
-  the IRQs are the same, i.e that an IRQ number corresponds to
-  a GPIO number like that.
-
-- Second, GPIO chips and IRQ chips should be treated as orthogonal
-  APIs, the irqchip needs to ascertain that the backing GPIO line
-  is set to input etc just using the irqchip.
-
-- Third it is using the legacy <linux/gpio.h> API which should not
-  be used in new code yet this was added just a year ago.
-
-Delete the offending code.
-
-If this creates problems the GPIO and irqchip maintainers can help
-to fix the issues.
-
-It *should* not create any problems, because the irq isn't
-used anywhere in the driver, it's just obtained and then
-left unused.
+Fix it up.
 
 Fixes: ef3bcde75d06 ("ASoC: tas2781: Add tas2781 driver")
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- include/sound/tas2781.h           |  7 +------
- sound/pci/hda/tas2781_hda_i2c.c   |  2 +-
- sound/soc/codecs/tas2781-comlib.c |  3 ---
- sound/soc/codecs/tas2781-fmwlib.c |  1 -
- sound/soc/codecs/tas2781-i2c.c    | 24 +++---------------------
- 5 files changed, 5 insertions(+), 32 deletions(-)
+ sound/soc/codecs/tas2781-i2c.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/sound/tas2781.h b/include/sound/tas2781.h
-index 18161d02a96f..dbda552398b5 100644
---- a/include/sound/tas2781.h
-+++ b/include/sound/tas2781.h
-@@ -81,11 +81,6 @@ struct tasdevice {
- 	bool is_loaderr;
- };
- 
--struct tasdevice_irqinfo {
--	int irq_gpio;
--	int irq;
--};
--
- struct calidata {
- 	unsigned char *data;
- 	unsigned long total_sz;
-@@ -93,7 +88,6 @@ struct calidata {
- 
- struct tasdevice_priv {
- 	struct tasdevice tasdevice[TASDEVICE_MAX_CHANNELS];
--	struct tasdevice_irqinfo irq_info;
- 	struct tasdevice_rca rcabin;
- 	struct calidata cali_data;
- 	struct tasdevice_fw *fmw;
-@@ -115,6 +109,7 @@ struct tasdevice_priv {
- 	unsigned int chip_id;
- 	unsigned int sysclk;
- 
-+	int irq;
- 	int cur_prog;
- 	int cur_conf;
- 	int fw_state;
-diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_i2c.c
-index 49bd7097d892..8a7fe48043d2 100644
---- a/sound/pci/hda/tas2781_hda_i2c.c
-+++ b/sound/pci/hda/tas2781_hda_i2c.c
-@@ -814,7 +814,7 @@ static int tas2781_hda_i2c_probe(struct i2c_client *clt)
- 	} else
- 		return -ENODEV;
- 
--	tas_hda->priv->irq_info.irq = clt->irq;
-+	tas_hda->priv->irq = clt->irq;
- 	ret = tas2781_read_acpi(tas_hda->priv, device_name);
- 	if (ret)
- 		return dev_err_probe(tas_hda->dev, ret,
-diff --git a/sound/soc/codecs/tas2781-comlib.c b/sound/soc/codecs/tas2781-comlib.c
-index 1fbf4560f5cc..28d8b4d7b985 100644
---- a/sound/soc/codecs/tas2781-comlib.c
-+++ b/sound/soc/codecs/tas2781-comlib.c
-@@ -14,7 +14,6 @@
- #include <linux/interrupt.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_gpio.h>
- #include <linux/of_irq.h>
- #include <linux/regmap.h>
- #include <linux/slab.h>
-@@ -411,8 +410,6 @@ EXPORT_SYMBOL_GPL(tasdevice_dsp_remove);
- 
- void tasdevice_remove(struct tasdevice_priv *tas_priv)
- {
--	if (gpio_is_valid(tas_priv->irq_info.irq_gpio))
--		gpio_free(tas_priv->irq_info.irq_gpio);
- 	mutex_destroy(&tas_priv->codec_lock);
- }
- EXPORT_SYMBOL_GPL(tasdevice_remove);
-diff --git a/sound/soc/codecs/tas2781-fmwlib.c b/sound/soc/codecs/tas2781-fmwlib.c
-index 8f9a3ae7153e..f3a7605f0710 100644
---- a/sound/soc/codecs/tas2781-fmwlib.c
-+++ b/sound/soc/codecs/tas2781-fmwlib.c
-@@ -13,7 +13,6 @@
- #include <linux/interrupt.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_gpio.h>
- #include <linux/of_irq.h>
- #include <linux/regmap.h>
- #include <linux/slab.h>
 diff --git a/sound/soc/codecs/tas2781-i2c.c b/sound/soc/codecs/tas2781-i2c.c
-index e79d613745b4..fdf0840ac6c7 100644
+index fdf0840ac6c7..bac5ea6d99b9 100644
 --- a/sound/soc/codecs/tas2781-i2c.c
 +++ b/sound/soc/codecs/tas2781-i2c.c
-@@ -22,7 +22,6 @@
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/of_address.h>
--#include <linux/of_gpio.h>
- #include <linux/of_irq.h>
- #include <linux/regmap.h>
- #include <linux/slab.h>
-@@ -757,7 +756,7 @@ static void tasdevice_parse_dt(struct tasdevice_priv *tas_priv)
- {
- 	struct i2c_client *client = (struct i2c_client *)tas_priv->client;
- 	unsigned int dev_addrs[TASDEVICE_MAX_CHANNELS];
--	int rc, i, ndev = 0;
-+	int i, ndev = 0;
+@@ -793,7 +793,7 @@ static void tasdevice_parse_dt(struct tasdevice_priv *tas_priv)
+ 		tas_priv->tasdevice[i].dev_addr = dev_addrs[i];
  
- 	if (tas_priv->isacpi) {
- 		ndev = device_property_read_u32_array(&client->dev,
-@@ -772,7 +771,7 @@ static void tasdevice_parse_dt(struct tasdevice_priv *tas_priv)
- 				"ti,audio-slots", dev_addrs, ndev);
- 		}
- 
--		tas_priv->irq_info.irq_gpio =
-+		tas_priv->irq =
- 			acpi_dev_gpio_irq_get(ACPI_COMPANION(&client->dev), 0);
- 	} else if (IS_ENABLED(CONFIG_OF)) {
- 		struct device_node *np = tas_priv->dev->of_node;
-@@ -784,7 +783,7 @@ static void tasdevice_parse_dt(struct tasdevice_priv *tas_priv)
- 			dev_addrs[ndev++] = addr;
- 		}
- 
--		tas_priv->irq_info.irq_gpio = of_irq_get(np, 0);
-+		tas_priv->irq = of_irq_get(np, 0);
- 	} else {
- 		ndev = 1;
- 		dev_addrs[0] = client->addr;
-@@ -800,23 +799,6 @@ static void tasdevice_parse_dt(struct tasdevice_priv *tas_priv)
+ 	tas_priv->reset = devm_gpiod_get_optional(&client->dev,
+-			"reset-gpios", GPIOD_OUT_HIGH);
++			"reset", GPIOD_OUT_HIGH);
+ 	if (IS_ERR(tas_priv->reset))
+ 		dev_err(tas_priv->dev, "%s Can't get reset GPIO\n",
  			__func__);
- 
- 	strcpy(tas_priv->dev_name, tasdevice_id[tas_priv->chip_id].name);
--
--	if (gpio_is_valid(tas_priv->irq_info.irq_gpio)) {
--		rc = gpio_request(tas_priv->irq_info.irq_gpio,
--				"AUDEV-IRQ");
--		if (!rc) {
--			gpio_direction_input(
--				tas_priv->irq_info.irq_gpio);
--
--			tas_priv->irq_info.irq =
--				gpio_to_irq(tas_priv->irq_info.irq_gpio);
--		} else
--			dev_err(tas_priv->dev, "%s: GPIO %d request error\n",
--				__func__, tas_priv->irq_info.irq_gpio);
--	} else
--		dev_err(tas_priv->dev,
--			"Looking up irq-gpio property failed %d\n",
--			tas_priv->irq_info.irq_gpio);
- }
- 
- static int tasdevice_i2c_probe(struct i2c_client *i2c)
 
 -- 
 2.45.2
