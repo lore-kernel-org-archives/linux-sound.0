@@ -1,59 +1,59 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 909C280638
-	for <linux-sound@vger.kernel.org>; Wed,  7 Aug 2024 15:02:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3F6F12BF25
+	for <linux-sound@vger.kernel.org>; Wed,  7 Aug 2024 15:02:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723042965; cv=none; b=Wq4fvaHUy/cqh5PBRIrOZGZfruR3/Wssx/EhT1T50bFfUe0r6AaaqbN2gHBTzdwOqptvLH40TZp5GDlVPpriB0h4sYQ7/WkfWJRZytc2qVTqzPkU5C+6TDUiz5CPGxC83Mx6qVHB0vE7UPfoqR1V9weukrAYdngIysIsicfn2lw=
+	t=1723042968; cv=none; b=Jb1072F7iSxjBO+UF0huNaabz6HdJWaUPC+/jX3gWU/W8N5qowOB7TIQvYaliaanDUbhDy/fFeI2PSDqkJn3gWyx8bWBZjo2th5GWWTDXpwWtYL1ur5yUIiFudzgRgtgRXNMz5G5mN3uiCbP9RtFcYFolmaz5fRI5Ec/I7Ht55A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723042965; c=relaxed/simple;
-	bh=Y7W8wbrOkuNmZ8CQ0WcwZSJsXls2By5/tn0Y2KGbT34=;
+	s=arc-20240116; t=1723042968; c=relaxed/simple;
+	bh=gD60QMy/QwxxGBLOYwPLMsMir9my6tspif2L4UDaxCo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=sJ7gky86Ua7rSpSCIPafphs+FzHTltiyNo6I/NXoCkcvVdFqqJIq+o58VbVTV3Pnurw8xurKur18EPiZCojgvdF4UAdUjbX+4Q/XUkVHgrW7NFIZoahxjNxtgkChqJfK+vrV63wnIBsEPqakHwDpTblKekFviQkVabUPvX90LF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GjM1C5kS; arc=none smtp.client-ip=209.85.208.49
+	 In-Reply-To:To:Cc; b=KzuU3vUOvelxoz5fsmIEqABUiZi/GwBoJLYS0JeucqBqx/+Bn8r1rwDD1pzzJjZOdP3herFyuwCKdP3saRch+WGIsrlPm++gslM5TNoiIf01bxMEd+jy1UnHYq3+G6gs/Tu8PLS0qs0xzisbMN3k+fK4jQWTjMRLxfOUQpyz9Ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=V3FwzrXB; arc=none smtp.client-ip=209.85.208.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GjM1C5kS"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5a1c49632deso2279894a12.2
-        for <linux-sound@vger.kernel.org>; Wed, 07 Aug 2024 08:02:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="V3FwzrXB"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5b7b6a30454so2721987a12.2
+        for <linux-sound@vger.kernel.org>; Wed, 07 Aug 2024 08:02:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723042962; x=1723647762; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1723042964; x=1723647764; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=WPaeIu/7/ToaPftt+nmZwaEM7lBvNV082estk80tIAQ=;
-        b=GjM1C5kSf+SfapsFA4MuOL0unWnYAvVxP+sq96PLrXGdWi1i4JS+zA6nC8uyRJdZ6C
-         zMh1xba5jQbFiDfKeBi4VxiqcnemXs3CBjNLfvvCKkMbNSOMAQcDp3t7iUB54XULDWJ3
-         TKzxaruJMd8h0yaIQFihOm7bzrNWZPso8x8wMEzNJcLHpKx5P5K2FZvcaEv0E4BTtQhm
-         mLU6ouxmIbzKEXwRkMYUrJovKqq8euTsNfwswkuRcOVCrYyMCrtHaqg4dPbBl2J7gO+S
-         pQDMCfd6Z/DH2kshXfGdwmPDD6+CQMwIuzSLuzWJyZmheT1V9sWUc4m0yvTvKGamC7/Q
-         Q/ZA==
+        bh=zb7lA4qnI7KpE11eMK8Td9pIdoQNK6RGZ1WWHf+hwpk=;
+        b=V3FwzrXBnjaiasK9Ob9h2GAQIct1cF/wb9N4tT0DeGsDybdEV34fB8CoGqEpP5ObiU
+         i1Ft0lqxmzLTQuRBX+Ar6e1EP8QfGCY6eJR9oY6iUrJQ5C+enREUTU201gzIYSyO5pDz
+         X6pSM2sVi/D2Nbt2KYy429MgV3lAP3eRQB5D13Dzdt/Dgf4ccqX0nAqbwvuqT7yMB27P
+         JQjWsOM9AVhzdrCmc8V6iGLhTnLlWbnUkKCRARvX59FeP5HfLPQCCbac30kPTfxfvIwU
+         qs5U/YvY7qWfkNHeMsbAJEhfKwvxDtbHYutR/17C1Jx4UDTxbHAobMk9PhBpexiddh5G
+         nKcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723042962; x=1723647762;
+        d=1e100.net; s=20230601; t=1723042964; x=1723647764;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WPaeIu/7/ToaPftt+nmZwaEM7lBvNV082estk80tIAQ=;
-        b=qrtW24BDh7SbvRQ28yOJ16Ix/y6i/mPjws65pK49TFekgNnX2IozwyISpjeyMq+5Ow
-         NG7zQLkhxpXHOLH+RRJ4ZlzXU5DrJnNRkRNr6cB0rw9H25xWqSroBDP7xi479jAoxTHs
-         04mzMrOvzKeuZ5T2lonw0HZdNu5WtfoSiQqVAVaZoyUjIi6iAlZYykIh85jR2NdTeOBD
-         KuGjr4LgPFmx1kiAL9Amkk6LxX8brrmr7+btPuMvqjREKMDAb4aLeXbxCFYVp0AK+tuL
-         Odc9w/PlfkmU4/ih6lKbWkgNgj+pUXhl2FQb1c3cEw25Xrl7P7NjCXnJgrJl86RIVWUJ
-         AN4Q==
-X-Gm-Message-State: AOJu0YwgAeTAVWHknZSndpOGFD9VshPCxAOWR2WGDhl0szWREn9ly/MX
-	yfQZXQrnog6mygB4VXyfq1pFp/UzuH23OMWWWtjKhHFs5OutGTRWbSu96BZi9Zw=
-X-Google-Smtp-Source: AGHT+IEYpjjpJDMbHBEqI4Rw2M2UUag+5UjvthzgGzzeXam2hAGeCohE28/rAsaJU5XDD5v2iV+kRw==
-X-Received: by 2002:a05:6402:331:b0:5a2:2654:7fd1 with SMTP id 4fb4d7f45d1cf-5b7f59e04d9mr11178515a12.36.1723042961586;
-        Wed, 07 Aug 2024 08:02:41 -0700 (PDT)
+        bh=zb7lA4qnI7KpE11eMK8Td9pIdoQNK6RGZ1WWHf+hwpk=;
+        b=AYdNGxqkiH1ozD42p8acyQ2Rp6/W9357aXfnR0w9czGUTGg4itvqrywjaxY5jXCve4
+         6mx06RQOO84EZHycOzW83J5jMck3Eapguvygdbvfr1+f62YBe6ol9uqViTJPWn300jZs
+         ZvTjg29VaHC849Ao6Yuag/GXhNTLYYHRvCFNEv8uo82QpQx/sEWN3EgUc9W6c+q4gCeS
+         byJRqfklwl49kJ1DpXxh97PhYLTmr6zKISJuJKexr2Afz5ivnTQTCD0fIX9JzSQTynLD
+         i4xVOSQm62bOPh9KtDkEGGEdOw+vr/oHDilD7RoTJUmt8BGe+TX6wsG6Xi9sWBlZCjjx
+         juFQ==
+X-Gm-Message-State: AOJu0YxHQHqHXa15gEp1uDezWTTBKUK4OkHPzmnAhNasdgUTyWg54X1j
+	ob8j/4ZTGN0oIIAZ4SFsv10etl7KCUZKpYvZZLy1fSsMxJf6/ly8UcbC52byDLM=
+X-Google-Smtp-Source: AGHT+IEBb/2tO0u0sDAp3dDW7mXSiJkZfOd7Vz4ANN2+MBZgge3MX1YpJhT2vVz4APXcj0lgtag8Kw==
+X-Received: by 2002:a05:6402:1a3c:b0:5a2:1f7b:dffa with SMTP id 4fb4d7f45d1cf-5b7f350462fmr13646143a12.3.1723042963968;
+        Wed, 07 Aug 2024 08:02:43 -0700 (PDT)
 Received: from lino.lan ([85.235.12.238])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5bb90be3a91sm2583047a12.65.2024.08.07.08.02.39
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5bb90be3a91sm2583047a12.65.2024.08.07.08.02.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Aug 2024 08:02:39 -0700 (PDT)
+        Wed, 07 Aug 2024 08:02:42 -0700 (PDT)
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 07 Aug 2024 17:02:33 +0200
-Subject: [PATCH v2 2/3] ASoC: tas2781-i2c: Get the right GPIO line
+Date: Wed, 07 Aug 2024 17:02:34 +0200
+Subject: [PATCH v2 3/3] ASoC: tas*: Drop unused GPIO includes
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -62,7 +62,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240807-asoc-tas-gpios-v2-2-bd0f2705d58b@linaro.org>
+Message-Id: <20240807-asoc-tas-gpios-v2-3-bd0f2705d58b@linaro.org>
 References: <20240807-asoc-tas-gpios-v2-0-bd0f2705d58b@linaro.org>
 In-Reply-To: <20240807-asoc-tas-gpios-v2-0-bd0f2705d58b@linaro.org>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -74,33 +74,66 @@ Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
  Linus Walleij <linus.walleij@linaro.org>
 X-Mailer: b4 0.14.0
 
-The code is obtaining a GPIO reset using the reset GPIO
-name "reset-gpios", but the gpiolib is already adding the
-suffix "-gpios" to anything passed to this function and
-will be looking for "reset-gpios-gpios" which is most
-certainly not what the author desired.
+These drivers all use <linux/gpio/consumer.h> and has no business
+including the legacy headers <linux/gpio.h> or <linux/of_gpio.h>.
+Drop the surplus includes.
 
-Fix it up.
-
-Fixes: ef3bcde75d06 ("ASoC: tas2781: Add tas2781 driver")
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- sound/soc/codecs/tas2781-i2c.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/soc/codecs/tas2552.c | 1 -
+ sound/soc/codecs/tas2764.c | 1 -
+ sound/soc/codecs/tas2770.c | 1 -
+ sound/soc/codecs/tas2780.c | 1 -
+ 4 files changed, 4 deletions(-)
 
-diff --git a/sound/soc/codecs/tas2781-i2c.c b/sound/soc/codecs/tas2781-i2c.c
-index fdf0840ac6c7..bac5ea6d99b9 100644
---- a/sound/soc/codecs/tas2781-i2c.c
-+++ b/sound/soc/codecs/tas2781-i2c.c
-@@ -793,7 +793,7 @@ static void tasdevice_parse_dt(struct tasdevice_priv *tas_priv)
- 		tas_priv->tasdevice[i].dev_addr = dev_addrs[i];
- 
- 	tas_priv->reset = devm_gpiod_get_optional(&client->dev,
--			"reset-gpios", GPIOD_OUT_HIGH);
-+			"reset", GPIOD_OUT_HIGH);
- 	if (IS_ERR(tas_priv->reset))
- 		dev_err(tas_priv->dev, "%s Can't get reset GPIO\n",
- 			__func__);
+diff --git a/sound/soc/codecs/tas2552.c b/sound/soc/codecs/tas2552.c
+index 9e68afc09897..684d52ec6600 100644
+--- a/sound/soc/codecs/tas2552.c
++++ b/sound/soc/codecs/tas2552.c
+@@ -12,7 +12,6 @@
+ #include <linux/errno.h>
+ #include <linux/device.h>
+ #include <linux/i2c.h>
+-#include <linux/gpio.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/regmap.h>
+ #include <linux/slab.h>
+diff --git a/sound/soc/codecs/tas2764.c b/sound/soc/codecs/tas2764.c
+index 5eaddf07aadc..d482cd194c08 100644
+--- a/sound/soc/codecs/tas2764.c
++++ b/sound/soc/codecs/tas2764.c
+@@ -10,7 +10,6 @@
+ #include <linux/delay.h>
+ #include <linux/pm.h>
+ #include <linux/i2c.h>
+-#include <linux/gpio.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/regmap.h>
+diff --git a/sound/soc/codecs/tas2770.c b/sound/soc/codecs/tas2770.c
+index 5601fba17c96..9f93b230652a 100644
+--- a/sound/soc/codecs/tas2770.c
++++ b/sound/soc/codecs/tas2770.c
+@@ -14,7 +14,6 @@
+ #include <linux/delay.h>
+ #include <linux/pm.h>
+ #include <linux/i2c.h>
+-#include <linux/gpio.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/firmware.h>
+diff --git a/sound/soc/codecs/tas2780.c b/sound/soc/codecs/tas2780.c
+index 6902bfef185b..a1963415c931 100644
+--- a/sound/soc/codecs/tas2780.c
++++ b/sound/soc/codecs/tas2780.c
+@@ -7,7 +7,6 @@
+ #include <linux/err.h>
+ #include <linux/pm.h>
+ #include <linux/i2c.h>
+-#include <linux/gpio.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/regmap.h>
+ #include <linux/of.h>
 
 -- 
 2.45.2
