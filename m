@@ -1,99 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A41C1CCB35;
-	Wed,  7 Aug 2024 10:00:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9864F1CCB45;
+	Wed,  7 Aug 2024 12:07:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723024843; cv=none; b=EoiWGj4DOeYoAAzXuuUMxDZbQsCHOMjKSPha9NcLo1d8rCkAELVOcRpFu34KeOYPTxBO3D79BYNTA/3+BPUtzDUDj9a4rNGSaEBOEQjuV18tFoubmfyfFis9WTuy1wukEyd6W61JiyjfH7Xxa4XS+c7LuAbWMFcdEpHPWF40jLA=
+	t=1723032470; cv=none; b=lsEWfM/FOwRRWg23Z54V1AWJYgj7KJKdY+/i6Cbln/vWVsf5hUL6/aeaJQMK8k5MiE1K841ytXI7yMN9+m0EAi+P2ICeLrpTjywXK4OsF8EG0YylxC5VHVjJJYa6WAYTFCBVN0ZkyGAmeiXaHj1OnRJRwzOMCKnwIN0wkaJBgsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723024843; c=relaxed/simple;
-	bh=GYOdhohoWSTAlECirRhTbMhtu4F/Qp2FJ9KwXEWuheI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YZu8tQECl9KmosoxsQwzvLhhzWRFZOsImPo3XyotQCWQZrERRYF1crHWaghRqsDDIdujJmCkgDOUKEnvp956acn8gAp+nT1z2JVU4tBW+q01zMned+vVsGxoDB4YFBe0U7CNj64WHjpJPH5XAh7ysdUjF70I9DBC74klPsBfyEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j28K3tku; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723032470; c=relaxed/simple;
+	bh=MDDNu/zajjfFpykkUwCqlLc2ljXZwowVHH4+J5jVMIU=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qu/CLzmUOqCtlBXaQLjtK5xuSK2rrrvSA7/KyZauzEkcTMYLY0nQksTeAQVTWMFgnmZE3oANqKSgMfqCJGLkZH6Uuq/a3mDw0/H6UOuwgLqE1//UFwtJpSeJp1Sys+Fm4JV3FFs9JF8Oa3tc7gotT0tu86t3WbtGjWWKfHv6vvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Y+ABNLz8; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j28K3tku"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E90FDC32782;
-	Wed,  7 Aug 2024 10:00:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723024843;
-	bh=GYOdhohoWSTAlECirRhTbMhtu4F/Qp2FJ9KwXEWuheI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=j28K3tkuqO/kIgwQvpVAsL5q34iez39cNmTnhtvVEBvaU3KqGUFLWljW8mwAyqx8J
-	 89VuvjQMJX7G5kTZRS2jeVuBwvsVq0mRD9KfA22gEM96PltSDsFTQ3R6Rc85rpybvJ
-	 F/ikbJaEpBg//80I1w6fIog3MWe4jBqGifBuD5hQsa8maYS0v/p3URM7ZMUSa+K32o
-	 FYaSd8QUFVN1OAc2S6UhRfcNORBOznkbE++aZuF/gliCzvypYiVcQAK9jmtnJaLPGK
-	 8rv6O7hQUoPg2qk5BnZlG4q3cTQxkTbt9Hg4LTgVH80JLXsjuAMUhUoPhCxwHI7L3j
-	 Z8jGpLgv03OEA==
-Date: Wed, 7 Aug 2024 11:00:35 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Brent Lu <brent.lu@intel.com>, sound-open-firmware@alsa-project.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH] sound: sof: ioc4-topology: avoid extra dai_params copy
-Message-ID: <f1d65326-e671-44f1-bc10-0e1ec33c30ce@sirena.org.uk>
-References: <20240807080302.2372297-1-arnd@kernel.org>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Y+ABNLz8"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47700RE1025336;
+	Wed, 7 Aug 2024 07:05:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=6jY5QYeGmEHK54GJH2
+	dhb4cGIv8f9TreS6EMGG3Fk3A=; b=Y+ABNLz8CbDp9UnVCRY6kbiK2VQp64N0ma
+	mp7CjNqBwUPs4g5rqe1lWhfwDyNMH0an+KtuiRFK6tqT2gbB2frzt5Ms4n78oOzv
+	B/j2NBh4qaKBShOAmrDoJNmTCHur1ImipX0HuVeyFgpZO3iTtqRzPGLgfXMjmsOh
+	X79M0F/FPiMklp8iybEanYN19byeJxy/CCp10ZgPke6GQuS0MJPKropHw9ujvw0e
+	byB6wOALPtFkO8JMfsd7M2tf3Z+vCkBCxImU5OA0LJTEbclxxvvszHQnuVWsZzhz
+	UnFQQ7oQxypxSBcBGchqWSiGkWnmAQlfsNrR0CiuzPqNUlEKlJHg==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 40sgyhvae3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 07 Aug 2024 07:05:24 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 7 Aug 2024
+ 13:05:22 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Wed, 7 Aug 2024 13:05:22 +0100
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id C0476820241;
+	Wed,  7 Aug 2024 12:05:22 +0000 (UTC)
+Date: Wed, 7 Aug 2024 13:05:21 +0100
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+CC: David Rhodes <david.rhodes@cirrus.com>,
+        Richard Fitzgerald
+	<rf@opensource.cirrus.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+	<broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+	<tiwai@suse.com>,
+        <linux-kernel@vger.kernel.org>, <kernel-janitors@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
+        <linux-sound@vger.kernel.org>
+Subject: Re: [PATCH] ASoC: cs43130: Constify struct reg_sequence and
+ reg_sequences
+Message-ID: <ZrNjAdV7wG1SvX9G@opensource.cirrus.com>
+References: <5b906a0cc9b7be15d0d6310069f54254a75ea767.1722951770.git.christophe.jaillet@wanadoo.fr>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tj0N6rkUapViYW72"
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20240807080302.2372297-1-arnd@kernel.org>
-X-Cookie: Offer may end without notice.
+In-Reply-To: <5b906a0cc9b7be15d0d6310069f54254a75ea767.1722951770.git.christophe.jaillet@wanadoo.fr>
+X-Proofpoint-ORIG-GUID: PY5ysZ-wbzARALhasRhm8SICPhdPLjzM
+X-Proofpoint-GUID: PY5ysZ-wbzARALhasRhm8SICPhdPLjzM
+X-Proofpoint-Spam-Reason: safe
 
+On Tue, Aug 06, 2024 at 03:43:00PM +0200, Christophe JAILLET wrote:
+> 'struct reg_sequence' and 'struct reg_sequences' are not modified in this
+> drivers.
+> 
+> Constifying these structures moves some data to a read-only section, so
+> increase overall security.
+> 
+> On a x86_64, with allmodconfig:
+> Before:
+> ======
+>    text	   data	    bss	    dec	    hex	filename
+>   54409	   7881	     64	  62354	   f392	sound/soc/codecs/cs43130.o
+> 
+> After:
+> =====
+>    text	   data	    bss	    dec	    hex	filename
+>   55562	   6729	     64	  62355	   f393	sound/soc/codecs/cs43130.o
+> 
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
 
---tj0N6rkUapViYW72
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-On Wed, Aug 07, 2024 at 10:02:27AM +0200, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
->=20
-> The snd_pcm_hw_params structure is really too large to fit on the
-> stack. Because of the way that clang inlines functions, it ends up
-> twice in one function, which exceeds the 1024 byte limit for 32-bit
-> architecutes:
-
-Please submit patches using subject lines reflecting the style for the
-subsystem, this makes it easier for people to identify relevant patches.
-Look at what existing commits in the area you're changing are doing and
-make sure your subject lines visually resemble what they're doing.
-There's no need to resubmit to fix this alone.
-
---tj0N6rkUapViYW72
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmazRcMACgkQJNaLcl1U
-h9CF4Qf+Odlon1G/8fg6R//jYM1cLs/S2fc/r/6YmRgmBsaMl8WG/XWiUWHD7I43
-jFfc+MQeQn27U37A0p22iblDjx7nAuo0fK0HwoPu6oHm+5TyeW9x+aXeGQYzyyvg
-WDthIEXhk2vB4pfFb6H9s2z2hZ1I6Q19HKS8HMtWLLaU/m6PP5pDw4iWP0qG1Ji5
-MQeDNTc1zbiZgz0vPgczuBkAUZtnrXJW2/46uXESwQzOEiXd4gp5e/b/qdGj1MZ3
-ob+W79ECNyRaSkmhN9EcggyN0ugZ6E3Nm71ZX2QtKkE5Swuy6MqV+hqNvie3A+NZ
-81CHvb2TLQobkgSF1WVSyMOolV89JA==
-=l80j
------END PGP SIGNATURE-----
-
---tj0N6rkUapViYW72--
+Thanks,
+Charles
