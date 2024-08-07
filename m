@@ -1,84 +1,84 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E176200112
-	for <linux-sound@vger.kernel.org>; Wed,  7 Aug 2024 13:34:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A21C1EB4AD
+	for <linux-sound@vger.kernel.org>; Wed,  7 Aug 2024 13:34:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723037668; cv=none; b=RS8iAt5efyDp67ae62VPJPO1AVMwWnsPwaVR7LvV/7D0cJhQzm4xa4B3sNLRHdfgh4+Iej+z8UhgZBR+o4J6u0lJoAbea04ZXLncvm/hAzol/PE75D+eu8uMAoTNX6dVmoQOeMqtXWjRb978ohEPSf/q50pr5co8tfiAMnSa1hw=
+	t=1723037668; cv=none; b=V8P/vjMB56ywYEScfNRYsF2tm8npm1okAUFtIHtofTcnWgR/rKCeJ0wo5dwIgY7NwklzFbl6P9BO/ibVYWXKCYPCxaQRWj4RCP2vIk4hY1IEkhSHIyj5FSOJqGN61wxuaOhtJdhE/VjM/eW6p+wtVEFIlWHKjAh4iZFOPW9HNyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1723037668; c=relaxed/simple;
-	bh=Cw4rNjjsueCSvwWHsCp9bpR+6927cFs9Dz1VIelggG8=;
+	bh=E3VUKDGRq0fN3b9E08uG0ALH8fNaMf8vya3RWKqtZjU=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fK1pdnkk0A1btQXZbMBanOSzyXpIjDLTm9zUC9EuguDzt9brmfEP2uiANKn/q5FlsAQtt3wZJyvnGjHTVk36GSHDSMlBMMJNrvq1iIbcxNG6FInYHL+qjlaexO1FM3bbp2QMA54yLia5KvUSkJ5g2ul2Qb/qjN3asIsSJOw3GSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OKGiwdtm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CeckvwQP; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OKGiwdtm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CeckvwQP; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=ahl5Q6GqKbl7bYxdO2vibJfEUz/jv5wIIxFYQw5GFQcnssKQKPAju3C3Qd3P24s8xoc3TeytPdUjHI+8IxTFnfodyWa0QFM1R1drjeFmxrTS0zKtDsed/cdFtTfrnWyeQSHl6DT1hDTzPAzUykB+qAZrM58ISLGuDTqpzMcN2s8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hzx2DC+O; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xUJkWtNM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hzx2DC+O; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xUJkWtNM; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OKGiwdtm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CeckvwQP";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OKGiwdtm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CeckvwQP"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hzx2DC+O";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xUJkWtNM";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hzx2DC+O";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xUJkWtNM"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 708CC21D17;
-	Wed,  7 Aug 2024 13:34:21 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 44F9921D23;
+	Wed,  7 Aug 2024 13:34:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723037661; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1723037660; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JBmsTGOi3HuyR6NWf69ztLir9KdsCTXNehvzACbZuhc=;
-	b=OKGiwdtm9B5N3hSuZHv0Ra+bU7OAsz9rK+u82SjpQxj3StQ6DmfmL+kegtMMwNcI6Zrfh2
-	h8pa/4ACTI+jVUDDA13P1edAYIZiNrzKwAbh5xYxhh5zvR3Sp3vgKM0PwfYnbvKlW9Iy1d
-	VJDEpDlePtL71oVulCkKf07M5vWTJhk=
+	bh=WhXImX7lXa/QUr5TYRo4Xx16dXK7vnXemXN9EmtUlys=;
+	b=hzx2DC+OxsL5/F2rPyIXfjWL8Ik684SLB420kHgWsFC1UwOI9PeEGGvU5RXgBpjKj5//1m
+	Rzg73cZRjBkDxxZE9iQM1sREGq9VWaDqX3fckjQUrsVmdAouD0du3tXSXU9ddCZTsc7ds/
+	ewPyEw/0VqKtimZKB1u2w/o10s4KODw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723037661;
+	s=susede2_ed25519; t=1723037660;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JBmsTGOi3HuyR6NWf69ztLir9KdsCTXNehvzACbZuhc=;
-	b=CeckvwQPFn6rFDMko+cOqbtb7okBg0Pj1Pl4DFHu3lnpSt6pNollk6bAqcVUg4g9vLDJiF
-	bquZBXP7ZRGQpTCQ==
+	bh=WhXImX7lXa/QUr5TYRo4Xx16dXK7vnXemXN9EmtUlys=;
+	b=xUJkWtNMUHa56x/F0ikDNa7wpUG3Z5M9H5fRDwc3s/y+vK80Dd+plSuHYr6HkgDTqjrrf7
+	Guyb1jFm9Lyto1Dg==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=OKGiwdtm;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=CeckvwQP
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=hzx2DC+O;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=xUJkWtNM
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723037661; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1723037660; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JBmsTGOi3HuyR6NWf69ztLir9KdsCTXNehvzACbZuhc=;
-	b=OKGiwdtm9B5N3hSuZHv0Ra+bU7OAsz9rK+u82SjpQxj3StQ6DmfmL+kegtMMwNcI6Zrfh2
-	h8pa/4ACTI+jVUDDA13P1edAYIZiNrzKwAbh5xYxhh5zvR3Sp3vgKM0PwfYnbvKlW9Iy1d
-	VJDEpDlePtL71oVulCkKf07M5vWTJhk=
+	bh=WhXImX7lXa/QUr5TYRo4Xx16dXK7vnXemXN9EmtUlys=;
+	b=hzx2DC+OxsL5/F2rPyIXfjWL8Ik684SLB420kHgWsFC1UwOI9PeEGGvU5RXgBpjKj5//1m
+	Rzg73cZRjBkDxxZE9iQM1sREGq9VWaDqX3fckjQUrsVmdAouD0du3tXSXU9ddCZTsc7ds/
+	ewPyEw/0VqKtimZKB1u2w/o10s4KODw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723037661;
+	s=susede2_ed25519; t=1723037660;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JBmsTGOi3HuyR6NWf69ztLir9KdsCTXNehvzACbZuhc=;
-	b=CeckvwQPFn6rFDMko+cOqbtb7okBg0Pj1Pl4DFHu3lnpSt6pNollk6bAqcVUg4g9vLDJiF
-	bquZBXP7ZRGQpTCQ==
+	bh=WhXImX7lXa/QUr5TYRo4Xx16dXK7vnXemXN9EmtUlys=;
+	b=xUJkWtNMUHa56x/F0ikDNa7wpUG3Z5M9H5fRDwc3s/y+vK80Dd+plSuHYr6HkgDTqjrrf7
+	Guyb1jFm9Lyto1Dg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 58D9713A7D;
-	Wed,  7 Aug 2024 13:34:21 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 21C5113B03;
+	Wed,  7 Aug 2024 13:34:20 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id kECdFN13s2ZpVgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 07 Aug 2024 13:34:21 +0000
+	id 4C7WBtx3s2ZpVgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 07 Aug 2024 13:34:20 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 35/54] ALSA: wavefront: Use standard print API
-Date: Wed,  7 Aug 2024 15:34:25 +0200
-Message-ID: <20240807133452.9424-36-tiwai@suse.de>
+Subject: [PATCH 26/54] ALSA: gus: Use standard print API
+Date: Wed,  7 Aug 2024 15:34:16 +0200
+Message-ID: <20240807133452.9424-27-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240807133452.9424-1-tiwai@suse.de>
 References: <20240807133452.9424-1-tiwai@suse.de>
@@ -89,1033 +89,1077 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 708CC21D17
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-0.01 / 50.00];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
 	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
 	RCPT_COUNT_ONE(0.00)[1];
 	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
 	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	TO_DN_NONE(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
 	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:email]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spamd-Bar: /
+X-Rspamd-Queue-Id: 44F9921D23
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -0.01
 
 Use the standard print API with dev_*() instead of the old house-baked
 one.  It gives better information and allows dynamically control of
 debug prints.
 
+Some commented-out debug prints and dead code are dropped as well.
+
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- include/sound/snd_wavefront.h         |   4 -
- sound/isa/wavefront/wavefront.c       |  61 ++++----
- sound/isa/wavefront/wavefront_fx.c    |  36 ++---
- sound/isa/wavefront/wavefront_midi.c  |  15 +-
- sound/isa/wavefront/wavefront_synth.c | 196 +++++++++++++-------------
- 5 files changed, 158 insertions(+), 154 deletions(-)
+ sound/isa/gus/gus_dma.c    |  37 ++++---
+ sound/isa/gus/gus_io.c     | 215 +++++++++++++++++++++++++------------
+ sound/isa/gus/gus_irq.c    |   7 +-
+ sound/isa/gus/gus_main.c   |  29 ++---
+ sound/isa/gus/gus_mem.c    |   2 +-
+ sound/isa/gus/gus_pcm.c    |  33 ++----
+ sound/isa/gus/gus_reset.c  |   8 +-
+ sound/isa/gus/gus_uart.c   |  21 ++--
+ sound/isa/gus/gus_volume.c |   7 +-
+ sound/isa/gus/gusclassic.c |   4 +-
+ sound/isa/gus/gusextreme.c |   4 +-
+ sound/isa/gus/gusmax.c     |  16 ++-
+ sound/isa/gus/interwave.c  |  61 ++++++-----
+ 13 files changed, 266 insertions(+), 178 deletions(-)
 
-diff --git a/include/sound/snd_wavefront.h b/include/sound/snd_wavefront.h
-index 55053557c898..27f7e8a477c2 100644
---- a/include/sound/snd_wavefront.h
-+++ b/include/sound/snd_wavefront.h
-@@ -137,8 +137,4 @@ extern int  snd_wavefront_fx_ioctl  (struct snd_hwdep *,
- extern int snd_wavefront_fx_open    (struct snd_hwdep *, struct file *);
- extern int snd_wavefront_fx_release (struct snd_hwdep *, struct file *);
+diff --git a/sound/isa/gus/gus_dma.c b/sound/isa/gus/gus_dma.c
+index 6d664dd8dde0..bb5a4e2fbfb3 100644
+--- a/sound/isa/gus/gus_dma.c
++++ b/sound/isa/gus/gus_dma.c
+@@ -30,15 +30,18 @@ static void snd_gf1_dma_program(struct snd_gus_card * gus,
+ 	unsigned char dma_cmd;
+ 	unsigned int address_high;
  
--/* prefix in all snd_printk() delivered messages */
--
--#define LOGNAME "WaveFront: "
--
- #endif  /* __SOUND_SND_WAVEFRONT_H__ */
-diff --git a/sound/isa/wavefront/wavefront.c b/sound/isa/wavefront/wavefront.c
-index e6e46a0266b0..621ab420a60f 100644
---- a/sound/isa/wavefront/wavefront.c
-+++ b/sound/isa/wavefront/wavefront.c
-@@ -140,7 +140,7 @@ snd_wavefront_pnp (int dev, snd_wavefront_card_t *acard, struct pnp_card_link *c
+-	snd_printdd("dma_transfer: addr=0x%x, buf=0x%lx, count=0x%x\n",
+-		    addr, buf_addr, count);
++	dev_dbg(gus->card->dev,
++		"dma_transfer: addr=0x%x, buf=0x%lx, count=0x%x\n",
++		addr, buf_addr, count);
  
- 	err = pnp_activate_dev(pdev);
- 	if (err < 0) {
--		snd_printk(KERN_ERR "PnP WSS pnp configure failure\n");
-+		dev_err(&pdev->dev, "PnP WSS pnp configure failure\n");
- 		return err;
- 	}
- 
-@@ -156,7 +156,7 @@ snd_wavefront_pnp (int dev, snd_wavefront_card_t *acard, struct pnp_card_link *c
- 	
- 	err = pnp_activate_dev(pdev);
- 	if (err < 0) {
--		snd_printk(KERN_ERR "PnP ICS2115 pnp configure failure\n");
-+		dev_err(&pdev->dev, "PnP ICS2115 pnp configure failure\n");
- 		return err;
- 	}
- 
-@@ -174,26 +174,27 @@ snd_wavefront_pnp (int dev, snd_wavefront_card_t *acard, struct pnp_card_link *c
- 
- 		err = pnp_activate_dev(pdev);
- 		if (err < 0) {
--			snd_printk(KERN_ERR "PnP MPU401 pnp configure failure\n");
-+			dev_err(&pdev->dev, "PnP MPU401 pnp configure failure\n");
- 			cs4232_mpu_port[dev] = SNDRV_AUTO_PORT;
+ 	if (gus->gf1.dma1 > 3) {
+ 		if (gus->gf1.enh_mode) {
+ 			address = addr >> 1;
  		} else {
- 			cs4232_mpu_port[dev] = pnp_port_start(pdev, 0);
- 			cs4232_mpu_irq[dev] = pnp_irq(pdev, 0);
- 		}
- 
--		snd_printk (KERN_INFO "CS4232 MPU: port=0x%lx, irq=%i\n", 
--			    cs4232_mpu_port[dev], 
--			    cs4232_mpu_irq[dev]);
-+		dev_info(&pdev->dev, "CS4232 MPU: port=0x%lx, irq=%i\n",
-+			 cs4232_mpu_port[dev],
-+			 cs4232_mpu_irq[dev]);
- 	}
- 
--	snd_printdd ("CS4232: pcm port=0x%lx, fm port=0x%lx, dma1=%i, dma2=%i, irq=%i\nICS2115: port=0x%lx, irq=%i\n", 
--		    cs4232_pcm_port[dev], 
--		    fm_port[dev],
--		    dma1[dev], 
--		    dma2[dev], 
--		    cs4232_pcm_irq[dev],
--		    ics2115_port[dev], 
--		    ics2115_irq[dev]);
-+	dev_dbg(&pdev->dev,
-+		"CS4232: pcm port=0x%lx, fm port=0x%lx, dma1=%i, dma2=%i, irq=%i\nICS2115: port=0x%lx, irq=%i\n",
-+		cs4232_pcm_port[dev],
-+		fm_port[dev],
-+		dma1[dev],
-+		dma2[dev],
-+		cs4232_pcm_irq[dev],
-+		ics2115_port[dev],
-+		ics2115_irq[dev]);
- 	
- 	return 0;
+ 			if (addr & 0x1f) {
+-				snd_printd("snd_gf1_dma_transfer: unaligned address (0x%x)?\n", addr);
++				dev_dbg(gus->card->dev,
++					"%s: unaligned address (0x%x)?\n",
++					__func__, addr);
+ 				return;
+ 			}
+ 			address = (addr & 0x000c0000) | ((addr & 0x0003ffff) >> 1);
+@@ -63,8 +66,9 @@ static void snd_gf1_dma_program(struct snd_gus_card * gus,
+ 	snd_gf1_dma_ack(gus);
+ 	snd_dma_program(gus->gf1.dma1, buf_addr, count, dma_cmd & SNDRV_GF1_DMA_READ ? DMA_MODE_READ : DMA_MODE_WRITE);
+ #if 0
+-	snd_printk(KERN_DEBUG "address = 0x%x, count = 0x%x, dma_cmd = 0x%x\n",
+-		   address << 1, count, dma_cmd);
++	dev_dbg(gus->card->dev,
++		"address = 0x%x, count = 0x%x, dma_cmd = 0x%x\n",
++		address << 1, count, dma_cmd);
+ #endif
+ 	spin_lock_irqsave(&gus->reg_lock, flags);
+ 	if (gus->gf1.enh_mode) {
+@@ -131,9 +135,9 @@ static void snd_gf1_dma_interrupt(struct snd_gus_card * gus)
+ 	snd_gf1_dma_program(gus, block->addr, block->buf_addr, block->count, (unsigned short) block->cmd);
+ 	kfree(block);
+ #if 0
+-	snd_printd(KERN_DEBUG "program dma (IRQ) - "
+-		   "addr = 0x%x, buffer = 0x%lx, count = 0x%x, cmd = 0x%x\n",
+-		   block->addr, block->buf_addr, block->count, block->cmd);
++	dev_dbg(gus->card->dev,
++		"program dma (IRQ) - addr = 0x%x, buffer = 0x%lx, count = 0x%x, cmd = 0x%x\n",
++		block->addr, block->buf_addr, block->count, block->cmd);
+ #endif
  }
-@@ -251,7 +252,7 @@ static struct snd_hwdep *snd_wavefront_new_fx(struct snd_card *card,
- 	struct snd_hwdep *fx_processor;
  
- 	if (snd_wavefront_fx_start (&acard->wavefront)) {
--		snd_printk (KERN_ERR "cannot initialize YSS225 FX processor");
-+		dev_err(card->dev, "cannot initialize YSS225 FX processor");
- 		return NULL;
- 	}
+@@ -194,14 +198,17 @@ int snd_gf1_dma_transfer_block(struct snd_gus_card * gus,
+ 	*block = *__block;
+ 	block->next = NULL;
  
-@@ -282,7 +283,7 @@ static struct snd_rawmidi *snd_wavefront_new_midi(struct snd_card *card,
- 		first = 0;
- 		acard->wavefront.midi.base = port;
- 		if (snd_wavefront_midi_start (acard)) {
--			snd_printk (KERN_ERR "cannot initialize MIDI interface\n");
-+			dev_err(card->dev, "cannot initialize MIDI interface\n");
- 			return NULL;
+-	snd_printdd("addr = 0x%x, buffer = 0x%lx, count = 0x%x, cmd = 0x%x\n",
+-		    block->addr, (long) block->buffer, block->count,
+-		    block->cmd);
++	dev_dbg(gus->card->dev,
++		"addr = 0x%x, buffer = 0x%lx, count = 0x%x, cmd = 0x%x\n",
++		block->addr, (long) block->buffer, block->count,
++		block->cmd);
+ 
+-	snd_printdd("gus->gf1.dma_data_pcm_last = 0x%lx\n",
+-		    (long)gus->gf1.dma_data_pcm_last);
+-	snd_printdd("gus->gf1.dma_data_pcm = 0x%lx\n",
+-		    (long)gus->gf1.dma_data_pcm);
++	dev_dbg(gus->card->dev,
++		"gus->gf1.dma_data_pcm_last = 0x%lx\n",
++		(long)gus->gf1.dma_data_pcm_last);
++	dev_dbg(gus->card->dev,
++		"gus->gf1.dma_data_pcm = 0x%lx\n",
++		(long)gus->gf1.dma_data_pcm);
+ 
+ 	spin_lock_irqsave(&gus->dma_lock, flags);
+ 	if (synth) {
+diff --git a/sound/isa/gus/gus_io.c b/sound/isa/gus/gus_io.c
+index fb7b5e2636b8..1dc9e0edb3d9 100644
+--- a/sound/isa/gus/gus_io.c
++++ b/sound/isa/gus/gus_io.c
+@@ -325,10 +325,8 @@ void snd_gf1_pokew(struct snd_gus_card * gus, unsigned int addr, unsigned short
+ {
+ 	unsigned long flags;
+ 
+-#ifdef CONFIG_SND_DEBUG
+ 	if (!gus->interwave)
+-		snd_printk(KERN_DEBUG "snd_gf1_pokew - GF1!!!\n");
+-#endif
++		dev_dbg(gus->card->dev, "%s - GF1!!!\n", __func__);
+ 	spin_lock_irqsave(&gus->reg_lock, flags);
+ 	outb(SNDRV_GF1_GW_DRAM_IO_LOW, gus->gf1.reg_regsel);
+ 	mb();
+@@ -349,10 +347,8 @@ unsigned short snd_gf1_peekw(struct snd_gus_card * gus, unsigned int addr)
+ 	unsigned long flags;
+ 	unsigned short res;
+ 
+-#ifdef CONFIG_SND_DEBUG
+ 	if (!gus->interwave)
+-		snd_printk(KERN_DEBUG "snd_gf1_peekw - GF1!!!\n");
+-#endif
++		dev_dbg(gus->card->dev, "%s - GF1!!!\n", __func__);
+ 	spin_lock_irqsave(&gus->reg_lock, flags);
+ 	outb(SNDRV_GF1_GW_DRAM_IO_LOW, gus->gf1.reg_regsel);
+ 	mb();
+@@ -375,10 +371,8 @@ void snd_gf1_dram_setmem(struct snd_gus_card * gus, unsigned int addr,
+ 	unsigned long port;
+ 	unsigned long flags;
+ 
+-#ifdef CONFIG_SND_DEBUG
+ 	if (!gus->interwave)
+-		snd_printk(KERN_DEBUG "snd_gf1_dram_setmem - GF1!!!\n");
+-#endif
++		dev_dbg(gus->card->dev, "%s - GF1!!!\n", __func__);
+ 	addr &= ~1;
+ 	count >>= 1;
+ 	port = GUSP(gus, GF1DATALOW);
+@@ -433,30 +427,73 @@ void snd_gf1_print_voice_registers(struct snd_gus_card * gus)
+ 	int voice, ctrl;
+ 
+ 	voice = gus->gf1.active_voice;
+-	printk(KERN_INFO " -%i- GF1  voice ctrl, ramp ctrl  = 0x%x, 0x%x\n", voice, ctrl = snd_gf1_i_read8(gus, 0), snd_gf1_i_read8(gus, 0x0d));
+-	printk(KERN_INFO " -%i- GF1  frequency              = 0x%x\n", voice, snd_gf1_i_read16(gus, 1));
+-	printk(KERN_INFO " -%i- GF1  loop start, end        = 0x%x (0x%x), 0x%x (0x%x)\n", voice, snd_gf1_i_read_addr(gus, 2, ctrl & 4), snd_gf1_i_read_addr(gus, 2, (ctrl & 4) ^ 4), snd_gf1_i_read_addr(gus, 4, ctrl & 4), snd_gf1_i_read_addr(gus, 4, (ctrl & 4) ^ 4));
+-	printk(KERN_INFO " -%i- GF1  ramp start, end, rate  = 0x%x, 0x%x, 0x%x\n", voice, snd_gf1_i_read8(gus, 7), snd_gf1_i_read8(gus, 8), snd_gf1_i_read8(gus, 6));
+-	printk(KERN_INFO" -%i- GF1  volume                 = 0x%x\n", voice, snd_gf1_i_read16(gus, 9));
+-	printk(KERN_INFO " -%i- GF1  position               = 0x%x (0x%x)\n", voice, snd_gf1_i_read_addr(gus, 0x0a, ctrl & 4), snd_gf1_i_read_addr(gus, 0x0a, (ctrl & 4) ^ 4));
++	dev_info(gus->card->dev,
++		 " -%i- GF1  voice ctrl, ramp ctrl  = 0x%x, 0x%x\n",
++		 voice, ctrl = snd_gf1_i_read8(gus, 0), snd_gf1_i_read8(gus, 0x0d));
++	dev_info(gus->card->dev,
++		 " -%i- GF1  frequency              = 0x%x\n",
++		 voice, snd_gf1_i_read16(gus, 1));
++	dev_info(gus->card->dev,
++		 " -%i- GF1  loop start, end        = 0x%x (0x%x), 0x%x (0x%x)\n",
++		 voice, snd_gf1_i_read_addr(gus, 2, ctrl & 4),
++		 snd_gf1_i_read_addr(gus, 2, (ctrl & 4) ^ 4),
++		 snd_gf1_i_read_addr(gus, 4, ctrl & 4),
++		 snd_gf1_i_read_addr(gus, 4, (ctrl & 4) ^ 4));
++	dev_info(gus->card->dev,
++		 " -%i- GF1  ramp start, end, rate  = 0x%x, 0x%x, 0x%x\n",
++		 voice, snd_gf1_i_read8(gus, 7), snd_gf1_i_read8(gus, 8),
++		 snd_gf1_i_read8(gus, 6));
++	dev_info(gus->card->dev,
++		 " -%i- GF1  volume                 = 0x%x\n",
++		 voice, snd_gf1_i_read16(gus, 9));
++	dev_info(gus->card->dev,
++		 " -%i- GF1  position               = 0x%x (0x%x)\n",
++		 voice, snd_gf1_i_read_addr(gus, 0x0a, ctrl & 4),
++		 snd_gf1_i_read_addr(gus, 0x0a, (ctrl & 4) ^ 4));
+ 	if (gus->interwave && snd_gf1_i_read8(gus, 0x19) & 0x01) {	/* enhanced mode */
+ 		mode = snd_gf1_i_read8(gus, 0x15);
+-		printk(KERN_INFO " -%i- GFA1 mode                   = 0x%x\n", voice, mode);
++		dev_info(gus->card->dev,
++			 " -%i- GFA1 mode                   = 0x%x\n",
++			 voice, mode);
+ 		if (mode & 0x01) {	/* Effect processor */
+-			printk(KERN_INFO " -%i- GFA1 effect address         = 0x%x\n", voice, snd_gf1_i_read_addr(gus, 0x11, ctrl & 4));
+-			printk(KERN_INFO " -%i- GFA1 effect volume          = 0x%x\n", voice, snd_gf1_i_read16(gus, 0x16));
+-			printk(KERN_INFO " -%i- GFA1 effect volume final    = 0x%x\n", voice, snd_gf1_i_read16(gus, 0x1d));
+-			printk(KERN_INFO " -%i- GFA1 effect accumulator     = 0x%x\n", voice, snd_gf1_i_read8(gus, 0x14));
++			dev_info(gus->card->dev,
++				 " -%i- GFA1 effect address         = 0x%x\n",
++				 voice, snd_gf1_i_read_addr(gus, 0x11, ctrl & 4));
++			dev_info(gus->card->dev,
++				 " -%i- GFA1 effect volume          = 0x%x\n",
++				 voice, snd_gf1_i_read16(gus, 0x16));
++			dev_info(gus->card->dev,
++				 " -%i- GFA1 effect volume final    = 0x%x\n",
++				 voice, snd_gf1_i_read16(gus, 0x1d));
++			dev_info(gus->card->dev,
++				 " -%i- GFA1 effect accumulator     = 0x%x\n",
++				 voice, snd_gf1_i_read8(gus, 0x14));
  		}
- 	}
-@@ -349,7 +350,7 @@ snd_wavefront_probe (struct snd_card *card, int dev)
- 			     cs4232_pcm_irq[dev], dma1[dev], dma2[dev],
- 			     WSS_HW_DETECT, 0, &chip);
- 	if (err < 0) {
--		snd_printk(KERN_ERR "can't allocate WSS device\n");
-+		dev_err(card->dev, "can't allocate WSS device\n");
- 		return err;
- 	}
+ 		if (mode & 0x20) {
+-			printk(KERN_INFO " -%i- GFA1 left offset            = 0x%x (%i)\n", voice, snd_gf1_i_read16(gus, 0x13), snd_gf1_i_read16(gus, 0x13) >> 4);
+-			printk(KERN_INFO " -%i- GFA1 left offset final      = 0x%x (%i)\n", voice, snd_gf1_i_read16(gus, 0x1c), snd_gf1_i_read16(gus, 0x1c) >> 4);
+-			printk(KERN_INFO " -%i- GFA1 right offset           = 0x%x (%i)\n", voice, snd_gf1_i_read16(gus, 0x0c), snd_gf1_i_read16(gus, 0x0c) >> 4);
+-			printk(KERN_INFO " -%i- GFA1 right offset final     = 0x%x (%i)\n", voice, snd_gf1_i_read16(gus, 0x1b), snd_gf1_i_read16(gus, 0x1b) >> 4);
++			dev_info(gus->card->dev,
++				 " -%i- GFA1 left offset            = 0x%x (%i)\n",
++				 voice, snd_gf1_i_read16(gus, 0x13),
++				 snd_gf1_i_read16(gus, 0x13) >> 4);
++			dev_info(gus->card->dev,
++				 " -%i- GFA1 left offset final      = 0x%x (%i)\n",
++				 voice, snd_gf1_i_read16(gus, 0x1c),
++				 snd_gf1_i_read16(gus, 0x1c) >> 4);
++			dev_info(gus->card->dev,
++				 " -%i- GFA1 right offset           = 0x%x (%i)\n",
++				 voice, snd_gf1_i_read16(gus, 0x0c),
++				 snd_gf1_i_read16(gus, 0x0c) >> 4);
++			dev_info(gus->card->dev,
++				 " -%i- GFA1 right offset final     = 0x%x (%i)\n",
++				 voice, snd_gf1_i_read16(gus, 0x1b),
++				 snd_gf1_i_read16(gus, 0x1b) >> 4);
+ 		} else
+-			printk(KERN_INFO " -%i- GF1  pan                    = 0x%x\n", voice, snd_gf1_i_read8(gus, 0x0c));
++			dev_info(gus->card->dev,
++				 " -%i- GF1  pan                    = 0x%x\n",
++				 voice, snd_gf1_i_read8(gus, 0x0c));
+ 	} else
+-		printk(KERN_INFO " -%i- GF1  pan                    = 0x%x\n", voice, snd_gf1_i_read8(gus, 0x0c));
++		dev_info(gus->card->dev,
++			 " -%i- GF1  pan                    = 0x%x\n",
++			 voice, snd_gf1_i_read8(gus, 0x0c));
+ }
  
-@@ -369,7 +370,7 @@ snd_wavefront_probe (struct snd_card *card, int dev)
- 		err = snd_opl3_create(card, fm_port[dev], fm_port[dev] + 2,
- 				      OPL3_HW_OPL3_CS, 0, &opl3);
- 		if (err < 0) {
--			snd_printk (KERN_ERR "can't allocate or detect OPL3 synth\n");
-+			dev_err(card->dev, "can't allocate or detect OPL3 synth\n");
- 			return err;
- 		}
+ #if 0
+@@ -465,61 +502,105 @@ void snd_gf1_print_global_registers(struct snd_gus_card * gus)
+ {
+ 	unsigned char global_mode = 0x00;
  
-@@ -385,14 +386,14 @@ snd_wavefront_probe (struct snd_card *card, int dev)
- 		devm_request_region(card->dev, ics2115_port[dev], 16,
- 				    "ICS2115");
- 	if (acard->wavefront.res_base == NULL) {
--		snd_printk(KERN_ERR "unable to grab ICS2115 i/o region 0x%lx-0x%lx\n",
--			   ics2115_port[dev], ics2115_port[dev] + 16 - 1);
-+		dev_err(card->dev, "unable to grab ICS2115 i/o region 0x%lx-0x%lx\n",
-+			ics2115_port[dev], ics2115_port[dev] + 16 - 1);
+-	printk(KERN_INFO " -G- GF1 active voices            = 0x%x\n", snd_gf1_i_look8(gus, SNDRV_GF1_GB_ACTIVE_VOICES));
++	dev_info(gus->card->dev,
++		 " -G- GF1 active voices            = 0x%x\n",
++		 snd_gf1_i_look8(gus, SNDRV_GF1_GB_ACTIVE_VOICES));
+ 	if (gus->interwave) {
+ 		global_mode = snd_gf1_i_read8(gus, SNDRV_GF1_GB_GLOBAL_MODE);
+-		printk(KERN_INFO " -G- GF1 global mode              = 0x%x\n", global_mode);
++		dev_info(gus->card->dev,
++			 " -G- GF1 global mode              = 0x%x\n",
++			 global_mode);
+ 	}
+ 	if (global_mode & 0x02)	/* LFO enabled? */
+-		printk(KERN_INFO " -G- GF1 LFO base                 = 0x%x\n", snd_gf1_i_look16(gus, SNDRV_GF1_GW_LFO_BASE));
+-	printk(KERN_INFO " -G- GF1 voices IRQ read          = 0x%x\n", snd_gf1_i_look8(gus, SNDRV_GF1_GB_VOICES_IRQ_READ));
+-	printk(KERN_INFO " -G- GF1 DRAM DMA control         = 0x%x\n", snd_gf1_i_look8(gus, SNDRV_GF1_GB_DRAM_DMA_CONTROL));
+-	printk(KERN_INFO " -G- GF1 DRAM DMA high/low        = 0x%x/0x%x\n", snd_gf1_i_look8(gus, SNDRV_GF1_GB_DRAM_DMA_HIGH), snd_gf1_i_read16(gus, SNDRV_GF1_GW_DRAM_DMA_LOW));
+-	printk(KERN_INFO " -G- GF1 DRAM IO high/low         = 0x%x/0x%x\n", snd_gf1_i_look8(gus, SNDRV_GF1_GB_DRAM_IO_HIGH), snd_gf1_i_read16(gus, SNDRV_GF1_GW_DRAM_IO_LOW));
++		dev_info(gus->card->dev,
++			 " -G- GF1 LFO base                 = 0x%x\n",
++			 snd_gf1_i_look16(gus, SNDRV_GF1_GW_LFO_BASE));
++	dev_info(gus->card->dev,
++		 " -G- GF1 voices IRQ read          = 0x%x\n",
++		 snd_gf1_i_look8(gus, SNDRV_GF1_GB_VOICES_IRQ_READ));
++	dev_info(gus->card->dev,
++		 " -G- GF1 DRAM DMA control         = 0x%x\n",
++		 snd_gf1_i_look8(gus, SNDRV_GF1_GB_DRAM_DMA_CONTROL));
++	dev_info(gus->card->dev,
++		 " -G- GF1 DRAM DMA high/low        = 0x%x/0x%x\n",
++		 snd_gf1_i_look8(gus, SNDRV_GF1_GB_DRAM_DMA_HIGH),
++		 snd_gf1_i_read16(gus, SNDRV_GF1_GW_DRAM_DMA_LOW));
++	dev_info(gus->card->dev,
++		 " -G- GF1 DRAM IO high/low         = 0x%x/0x%x\n",
++		 snd_gf1_i_look8(gus, SNDRV_GF1_GB_DRAM_IO_HIGH),
++		 snd_gf1_i_read16(gus, SNDRV_GF1_GW_DRAM_IO_LOW));
+ 	if (!gus->interwave)
+-		printk(KERN_INFO " -G- GF1 record DMA control       = 0x%x\n", snd_gf1_i_look8(gus, SNDRV_GF1_GB_REC_DMA_CONTROL));
+-	printk(KERN_INFO " -G- GF1 DRAM IO 16               = 0x%x\n", snd_gf1_i_look16(gus, SNDRV_GF1_GW_DRAM_IO16));
++		dev_info(gus->card->dev,
++			 " -G- GF1 record DMA control       = 0x%x\n",
++			 snd_gf1_i_look8(gus, SNDRV_GF1_GB_REC_DMA_CONTROL));
++	dev_info(gus->card->dev,
++		 " -G- GF1 DRAM IO 16               = 0x%x\n",
++		 snd_gf1_i_look16(gus, SNDRV_GF1_GW_DRAM_IO16));
+ 	if (gus->gf1.enh_mode) {
+-		printk(KERN_INFO " -G- GFA1 memory config           = 0x%x\n", snd_gf1_i_look16(gus, SNDRV_GF1_GW_MEMORY_CONFIG));
+-		printk(KERN_INFO " -G- GFA1 memory control          = 0x%x\n", snd_gf1_i_look8(gus, SNDRV_GF1_GB_MEMORY_CONTROL));
+-		printk(KERN_INFO " -G- GFA1 FIFO record base        = 0x%x\n", snd_gf1_i_look16(gus, SNDRV_GF1_GW_FIFO_RECORD_BASE_ADDR));
+-		printk(KERN_INFO " -G- GFA1 FIFO playback base      = 0x%x\n", snd_gf1_i_look16(gus, SNDRV_GF1_GW_FIFO_PLAY_BASE_ADDR));
+-		printk(KERN_INFO " -G- GFA1 interleave control      = 0x%x\n", snd_gf1_i_look16(gus, SNDRV_GF1_GW_INTERLEAVE));
++		dev_info(gus->card->dev,
++			 " -G- GFA1 memory config           = 0x%x\n",
++			 snd_gf1_i_look16(gus, SNDRV_GF1_GW_MEMORY_CONFIG));
++		dev_info(gus->card->dev,
++			 " -G- GFA1 memory control          = 0x%x\n",
++			 snd_gf1_i_look8(gus, SNDRV_GF1_GB_MEMORY_CONTROL));
++		dev_info(gus->card->dev,
++			 " -G- GFA1 FIFO record base        = 0x%x\n",
++			 snd_gf1_i_look16(gus, SNDRV_GF1_GW_FIFO_RECORD_BASE_ADDR));
++		dev_info(gus->card->dev,
++			 " -G- GFA1 FIFO playback base      = 0x%x\n",
++			 snd_gf1_i_look16(gus, SNDRV_GF1_GW_FIFO_PLAY_BASE_ADDR));
++		dev_info(gus->card->dev,
++			 " -G- GFA1 interleave control      = 0x%x\n",
++			 snd_gf1_i_look16(gus, SNDRV_GF1_GW_INTERLEAVE));
+ 	}
+ }
+ 
+ void snd_gf1_print_setup_registers(struct snd_gus_card * gus)
+ {
+-	printk(KERN_INFO " -S- mix control                  = 0x%x\n", inb(GUSP(gus, MIXCNTRLREG)));
+-	printk(KERN_INFO " -S- IRQ status                   = 0x%x\n", inb(GUSP(gus, IRQSTAT)));
+-	printk(KERN_INFO " -S- timer control                = 0x%x\n", inb(GUSP(gus, TIMERCNTRL)));
+-	printk(KERN_INFO " -S- timer data                   = 0x%x\n", inb(GUSP(gus, TIMERDATA)));
+-	printk(KERN_INFO " -S- status read                  = 0x%x\n", inb(GUSP(gus, REGCNTRLS)));
+-	printk(KERN_INFO " -S- Sound Blaster control        = 0x%x\n", snd_gf1_i_look8(gus, SNDRV_GF1_GB_SOUND_BLASTER_CONTROL));
+-	printk(KERN_INFO " -S- AdLib timer 1/2              = 0x%x/0x%x\n", snd_gf1_i_look8(gus, SNDRV_GF1_GB_ADLIB_TIMER_1), snd_gf1_i_look8(gus, SNDRV_GF1_GB_ADLIB_TIMER_2));
+-	printk(KERN_INFO " -S- reset                        = 0x%x\n", snd_gf1_i_look8(gus, SNDRV_GF1_GB_RESET));
++	dev_info(gus->card->dev,
++		 " -S- mix control                  = 0x%x\n",
++		 inb(GUSP(gus, MIXCNTRLREG)));
++	dev_info(gus->card->dev,
++		 " -S- IRQ status                   = 0x%x\n",
++		 inb(GUSP(gus, IRQSTAT)));
++	dev_info(gus->card->dev,
++		 " -S- timer control                = 0x%x\n",
++		 inb(GUSP(gus, TIMERCNTRL)));
++	dev_info(gus->card->dev,
++		 " -S- timer data                   = 0x%x\n",
++		 inb(GUSP(gus, TIMERDATA)));
++	dev_info(gus->card->dev,
++		 " -S- status read                  = 0x%x\n",
++		 inb(GUSP(gus, REGCNTRLS)));
++	dev_info(gus->card->dev,
++		 " -S- Sound Blaster control        = 0x%x\n",
++		 snd_gf1_i_look8(gus, SNDRV_GF1_GB_SOUND_BLASTER_CONTROL));
++	dev_info(gus->card->dev,
++		 " -S- AdLib timer 1/2              = 0x%x/0x%x\n",
++		 snd_gf1_i_look8(gus, SNDRV_GF1_GB_ADLIB_TIMER_1),
++		 snd_gf1_i_look8(gus, SNDRV_GF1_GB_ADLIB_TIMER_2));
++	dev_info(gus->card->dev,
++		 " -S- reset                        = 0x%x\n",
++		 snd_gf1_i_look8(gus, SNDRV_GF1_GB_RESET));
+ 	if (gus->interwave) {
+-		printk(KERN_INFO " -S- compatibility                = 0x%x\n", snd_gf1_i_look8(gus, SNDRV_GF1_GB_COMPATIBILITY));
+-		printk(KERN_INFO " -S- decode control               = 0x%x\n", snd_gf1_i_look8(gus, SNDRV_GF1_GB_DECODE_CONTROL));
+-		printk(KERN_INFO " -S- version number               = 0x%x\n", snd_gf1_i_look8(gus, SNDRV_GF1_GB_VERSION_NUMBER));
+-		printk(KERN_INFO " -S- MPU-401 emul. control A/B    = 0x%x/0x%x\n", snd_gf1_i_look8(gus, SNDRV_GF1_GB_MPU401_CONTROL_A), snd_gf1_i_look8(gus, SNDRV_GF1_GB_MPU401_CONTROL_B));
+-		printk(KERN_INFO " -S- emulation IRQ                = 0x%x\n", snd_gf1_i_look8(gus, SNDRV_GF1_GB_EMULATION_IRQ));
++		dev_info(gus->card->dev,
++			 " -S- compatibility                = 0x%x\n",
++			 snd_gf1_i_look8(gus, SNDRV_GF1_GB_COMPATIBILITY));
++		dev_info(gus->card->dev,
++			 " -S- decode control               = 0x%x\n",
++			 snd_gf1_i_look8(gus, SNDRV_GF1_GB_DECODE_CONTROL));
++		dev_info(gus->card->dev,
++			 " -S- version number               = 0x%x\n",
++			 snd_gf1_i_look8(gus, SNDRV_GF1_GB_VERSION_NUMBER));
++		dev_info(gus->card->dev,
++			 " -S- MPU-401 emul. control A/B    = 0x%x/0x%x\n",
++			 snd_gf1_i_look8(gus, SNDRV_GF1_GB_MPU401_CONTROL_A),
++			 snd_gf1_i_look8(gus, SNDRV_GF1_GB_MPU401_CONTROL_B));
++		dev_info(gus->card->dev,
++			 " -S- emulation IRQ                = 0x%x\n",
++			 snd_gf1_i_look8(gus, SNDRV_GF1_GB_EMULATION_IRQ));
+ 	}
+ }
+-
+-void snd_gf1_peek_print_block(struct snd_gus_card * gus, unsigned int addr, int count, int w_16bit)
+-{
+-	if (!w_16bit) {
+-		while (count-- > 0)
+-			printk(count > 0 ? "%02x:" : "%02x", snd_gf1_peek(gus, addr++));
+-	} else {
+-		while (count-- > 0) {
+-			printk(count > 0 ? "%04x:" : "%04x", snd_gf1_peek(gus, addr) | (snd_gf1_peek(gus, addr + 1) << 8));
+-			addr += 2;
+-		}
+-	}
+-}
+-
+ #endif  /*  0  */
+ 
+ #endif
+diff --git a/sound/isa/gus/gus_irq.c b/sound/isa/gus/gus_irq.c
+index 226b8438aa70..0e1054402c91 100644
+--- a/sound/isa/gus/gus_irq.c
++++ b/sound/isa/gus/gus_irq.c
+@@ -26,7 +26,6 @@ irqreturn_t snd_gus_interrupt(int irq, void *dev_id)
+ 	if (status == 0)
+ 		return IRQ_RETVAL(handled);
+ 	handled = 1;
+-	/* snd_printk(KERN_DEBUG "IRQ: status = 0x%x\n", status); */
+ 	if (status & 0x02) {
+ 		STAT_ADD(gus->gf1.interrupt_stat_midi_in);
+ 		if (gus->gf1.interrupt_handler_midi_in)
+@@ -50,9 +49,9 @@ irqreturn_t snd_gus_interrupt(int irq, void *dev_id)
+ 				continue;	/* multi request */
+ 			already |= _current_;	/* mark request */
+ #if 0
+-			printk(KERN_DEBUG "voice = %i, voice_status = 0x%x, "
+-			       "voice_verify = %i\n",
+-			       voice, voice_status, inb(GUSP(gus, GF1PAGE)));
++			dev_dbg(gus->card->dev,
++				"voice = %i, voice_status = 0x%x, voice_verify = %i\n",
++				voice, voice_status, inb(GUSP(gus, GF1PAGE)));
+ #endif
+ 			pvoice = &gus->gf1.voices[voice]; 
+ 			if (pvoice->use) {
+diff --git a/sound/isa/gus/gus_main.c b/sound/isa/gus/gus_main.c
+index 3b46490271fe..51ce405eba7a 100644
+--- a/sound/isa/gus/gus_main.c
++++ b/sound/isa/gus/gus_main.c
+@@ -158,32 +158,32 @@ int snd_gus_create(struct snd_card *card,
+ 	/* allocate resources */
+ 	gus->gf1.res_port1 = request_region(port, 16, "GUS GF1 (Adlib/SB)");
+ 	if (!gus->gf1.res_port1) {
+-		snd_printk(KERN_ERR "gus: can't grab SB port 0x%lx\n", port);
++		dev_err(card->dev, "gus: can't grab SB port 0x%lx\n", port);
+ 		snd_gus_free(gus);
  		return -EBUSY;
  	}
- 	if (devm_request_irq(card->dev, ics2115_irq[dev],
- 			     snd_wavefront_ics2115_interrupt,
- 			     0, "ICS2115", acard)) {
--		snd_printk(KERN_ERR "unable to use ICS2115 IRQ %d\n", ics2115_irq[dev]);
-+		dev_err(card->dev, "unable to use ICS2115 IRQ %d\n", ics2115_irq[dev]);
+ 	gus->gf1.res_port2 = request_region(port + 0x100, 12, "GUS GF1 (Synth)");
+ 	if (!gus->gf1.res_port2) {
+-		snd_printk(KERN_ERR "gus: can't grab synth port 0x%lx\n", port + 0x100);
++		dev_err(card->dev, "gus: can't grab synth port 0x%lx\n", port + 0x100);
+ 		snd_gus_free(gus);
  		return -EBUSY;
  	}
- 	
-@@ -402,7 +403,7 @@ snd_wavefront_probe (struct snd_card *card, int dev)
- 
- 	wavefront_synth = snd_wavefront_new_synth(card, hw_dev, acard);
- 	if (wavefront_synth == NULL) {
--		snd_printk (KERN_ERR "can't create WaveFront synth device\n");
-+		dev_err(card->dev, "can't create WaveFront synth device\n");
+ 	if (irq >= 0 && request_irq(irq, snd_gus_interrupt, 0, "GUS GF1", (void *) gus)) {
+-		snd_printk(KERN_ERR "gus: can't grab irq %d\n", irq);
++		dev_err(card->dev, "gus: can't grab irq %d\n", irq);
+ 		snd_gus_free(gus);
+ 		return -EBUSY;
+ 	}
+ 	gus->gf1.irq = irq;
+ 	card->sync_irq = irq;
+ 	if (request_dma(dma1, "GUS - 1")) {
+-		snd_printk(KERN_ERR "gus: can't grab DMA1 %d\n", dma1);
++		dev_err(card->dev, "gus: can't grab DMA1 %d\n", dma1);
+ 		snd_gus_free(gus);
+ 		return -EBUSY;
+ 	}
+ 	gus->gf1.dma1 = dma1;
+ 	if (dma2 >= 0 && dma1 != dma2) {
+ 		if (request_dma(dma2, "GUS - 2")) {
+-			snd_printk(KERN_ERR "gus: can't grab DMA2 %d\n", dma2);
++			dev_err(card->dev, "gus: can't grab DMA2 %d\n", dma2);
+ 			snd_gus_free(gus);
+ 			return -EBUSY;
+ 		}
+@@ -229,7 +229,9 @@ static int snd_gus_detect_memory(struct snd_gus_card * gus)
+ 	snd_gf1_poke(gus, 0L, 0xaa);
+ 	snd_gf1_poke(gus, 1L, 0x55);
+ 	if (snd_gf1_peek(gus, 0L) != 0xaa || snd_gf1_peek(gus, 1L) != 0x55) {
+-		snd_printk(KERN_ERR "plain GF1 card at 0x%lx without onboard DRAM?\n", gus->gf1.port);
++		dev_err(gus->card->dev,
++			"plain GF1 card at 0x%lx without onboard DRAM?\n",
++			gus->gf1.port);
  		return -ENOMEM;
  	}
+ 	for (idx = 1, d = 0xab; idx < 4; idx++, d++) {
+@@ -287,14 +289,14 @@ static int snd_gus_init_dma_irq(struct snd_gus_card * gus, int latches)
+ 	dma1 |= gus->equal_dma ? 0x40 : (dma2 << 3);
  
-@@ -414,7 +415,7 @@ snd_wavefront_probe (struct snd_card *card, int dev)
- 
- 	err = snd_wss_mixer(chip);
- 	if (err < 0) {
--		snd_printk (KERN_ERR "can't allocate mixer device\n");
-+		dev_err(card->dev, "can't allocate mixer device\n");
- 		return err;
+ 	if ((dma1 & 7) == 0 || (dma2 & 7) == 0) {
+-		snd_printk(KERN_ERR "Error! DMA isn't defined.\n");
++		dev_err(gus->card->dev, "Error! DMA isn't defined.\n");
+ 		return -EINVAL;
  	}
- 
-@@ -425,7 +426,7 @@ snd_wavefront_probe (struct snd_card *card, int dev)
- 					  cs4232_mpu_port[dev], 0,
- 					  cs4232_mpu_irq[dev], NULL);
+ 	irq = gus->gf1.irq;
+ 	irq = abs(irq);
+ 	irq = irqs[irq & 0x0f];
+ 	if (irq == 0) {
+-		snd_printk(KERN_ERR "Error! IRQ isn't defined.\n");
++		dev_err(gus->card->dev, "Error! IRQ isn't defined.\n");
+ 		return -EINVAL;
+ 	}
+ 	irq |= 0x40;
+@@ -357,7 +359,7 @@ static int snd_gus_check_version(struct snd_gus_card * gus)
+ 	val = inb(GUSP(gus, REGCNTRLS));
+ 	rev = inb(GUSP(gus, BOARDVERSION));
+ 	spin_unlock_irqrestore(&gus->reg_lock, flags);
+-	snd_printdd("GF1 [0x%lx] init - val = 0x%x, rev = 0x%x\n", gus->gf1.port, val, rev);
++	dev_dbg(card->dev, "GF1 [0x%lx] init - val = 0x%x, rev = 0x%x\n", gus->gf1.port, val, rev);
+ 	strcpy(card->driver, "GUS");
+ 	strcpy(card->longname, "Gravis UltraSound Classic (2.4)");
+ 	if ((val != 255 && (val & 0x06)) || (rev >= 5 && rev != 255)) {
+@@ -382,8 +384,11 @@ static int snd_gus_check_version(struct snd_gus_card * gus)
+ 				strcpy(card->longname, "Gravis UltraSound Extreme");
+ 				gus->ess_flag = 1;
+ 			} else {
+-				snd_printk(KERN_ERR "unknown GF1 revision number at 0x%lx - 0x%x (0x%x)\n", gus->gf1.port, rev, val);
+-				snd_printk(KERN_ERR "  please - report to <perex@perex.cz>\n");
++				dev_err(card->dev,
++					"unknown GF1 revision number at 0x%lx - 0x%x (0x%x)\n",
++					gus->gf1.port, rev, val);
++				dev_err(card->dev,
++					"  please - report to <perex@perex.cz>\n");
+ 			}
+ 		}
+ 	}
+@@ -400,7 +405,7 @@ int snd_gus_initialize(struct snd_gus_card *gus)
+ 	if (!gus->interwave) {
+ 		err = snd_gus_check_version(gus);
  		if (err < 0) {
--			snd_printk (KERN_ERR "can't allocate CS4232 MPU-401 device\n");
-+			dev_err(card->dev, "can't allocate CS4232 MPU-401 device\n");
+-			snd_printk(KERN_ERR "version check failed\n");
++			dev_err(gus->card->dev, "version check failed\n");
  			return err;
  		}
- 		midi_dev++;
-@@ -441,7 +442,7 @@ snd_wavefront_probe (struct snd_card *card, int dev)
- 						ics2115_port[dev],
- 						internal_mpu);
- 		if (ics2115_internal_rmidi == NULL) {
--			snd_printk (KERN_ERR "can't setup ICS2115 internal MIDI device\n");
-+			dev_err(card->dev, "can't setup ICS2115 internal MIDI device\n");
- 			return -ENOMEM;
- 		}
- 		midi_dev++;
-@@ -457,7 +458,7 @@ snd_wavefront_probe (struct snd_card *card, int dev)
- 						ics2115_port[dev],
- 						external_mpu);
- 		if (ics2115_external_rmidi == NULL) {
--			snd_printk (KERN_ERR "can't setup ICS2115 external MIDI device\n");
-+			dev_err(card->dev, "can't setup ICS2115 external MIDI device\n");
- 			return -ENOMEM;
- 		}
- 		midi_dev++;
-@@ -471,7 +472,7 @@ snd_wavefront_probe (struct snd_card *card, int dev)
- 						     acard,
- 						     ics2115_port[dev]);
- 		if (fx_processor == NULL) {
--			snd_printk (KERN_ERR "can't setup FX device\n");
-+			dev_err(card->dev, "can't setup FX device\n");
- 			return -ENOMEM;
- 		}
+ 		err = snd_gus_detect_memory(gus);
+diff --git a/sound/isa/gus/gus_mem.c b/sound/isa/gus/gus_mem.c
+index 3e56c01c4544..054058779db6 100644
+--- a/sound/isa/gus/gus_mem.c
++++ b/sound/isa/gus/gus_mem.c
+@@ -189,7 +189,7 @@ struct snd_gf1_mem_block *snd_gf1_mem_alloc(struct snd_gf1_mem * alloc, int owne
+ 		if (nblock != NULL) {
+ 			if (size != (int)nblock->size) {
+ 				/* TODO: remove in the future */
+-				snd_printk(KERN_ERR "snd_gf1_mem_alloc - share: sizes differ\n");
++				pr_err("%s - share: sizes differ\n", __func__);
+ 				goto __std;
+ 			}
+ 			nblock->share++;
+diff --git a/sound/isa/gus/gus_pcm.c b/sound/isa/gus/gus_pcm.c
+index 850544725da7..bcbcaa924c12 100644
+--- a/sound/isa/gus/gus_pcm.c
++++ b/sound/isa/gus/gus_pcm.c
+@@ -67,10 +67,6 @@ static int snd_gf1_pcm_block_change(struct snd_pcm_substream *substream,
  
-@@ -525,11 +526,11 @@ static int snd_wavefront_isa_match(struct device *pdev,
- 		return 0;
+ 	count += offset & 31;
+ 	offset &= ~31;
+-	/*
+-	snd_printk(KERN_DEBUG "block change - offset = 0x%x, count = 0x%x\n",
+-		   offset, count);
+-	*/
+ 	memset(&block, 0, sizeof(block));
+ 	block.cmd = SNDRV_GF1_DMA_IRQ;
+ 	if (snd_pcm_format_unsigned(runtime->format))
+@@ -123,11 +119,6 @@ static void snd_gf1_pcm_trigger_up(struct snd_pcm_substream *substream)
+ 		curr = begin + (pcmp->bpos * pcmp->block_size) / runtime->channels;
+ 		end = curr + (pcmp->block_size / runtime->channels);
+ 		end -= snd_pcm_format_width(runtime->format) == 16 ? 2 : 1;
+-		/*
+-		snd_printk(KERN_DEBUG "init: curr=0x%x, begin=0x%x, end=0x%x, "
+-			   "ctrl=0x%x, ramp=0x%x, rate=0x%x\n",
+-			   curr, begin, end, voice_ctrl, ramp_ctrl, rate);
+-		*/
+ 		pan = runtime->channels == 2 ? (!voice ? 1 : 14) : 8;
+ 		vol = !voice ? gus->gf1.pcm_volume_level_left : gus->gf1.pcm_volume_level_right;
+ 		spin_lock_irqsave(&gus->reg_lock, flags);
+@@ -178,13 +169,13 @@ static void snd_gf1_pcm_interrupt_wave(struct snd_gus_card * gus,
+ 	unsigned int end, step;
+ 
+ 	if (!pvoice->private_data) {
+-		snd_printd("snd_gf1_pcm: unknown wave irq?\n");
++		dev_dbg(gus->card->dev, "%s: unknown wave irq?\n", __func__);
+ 		snd_gf1_smart_stop_voice(gus, pvoice->number);
+ 		return;
+ 	}
+ 	pcmp = pvoice->private_data;
+ 	if (pcmp == NULL) {
+-		snd_printd("snd_gf1_pcm: unknown wave irq?\n");
++		dev_dbg(gus->card->dev, "%s: unknown wave irq?\n", __func__);
+ 		snd_gf1_smart_stop_voice(gus, pvoice->number);
+ 		return;
+ 	}		
+@@ -197,11 +188,11 @@ static void snd_gf1_pcm_interrupt_wave(struct snd_gus_card * gus,
+ 	ramp_ctrl = (snd_gf1_read8(gus, SNDRV_GF1_VB_VOLUME_CONTROL) & ~0xa4) | 0x03;
+ #if 0
+ 	snd_gf1_select_voice(gus, pvoice->number);
+-	printk(KERN_DEBUG "position = 0x%x\n",
+-	       (snd_gf1_read_addr(gus, SNDRV_GF1_VA_CURRENT, voice_ctrl & 4) >> 4));
++	dev_dbg(gus->card->dev, "position = 0x%x\n",
++		(snd_gf1_read_addr(gus, SNDRV_GF1_VA_CURRENT, voice_ctrl & 4) >> 4));
+ 	snd_gf1_select_voice(gus, pcmp->pvoices[1]->number);
+-	printk(KERN_DEBUG "position = 0x%x\n",
+-	       (snd_gf1_read_addr(gus, SNDRV_GF1_VA_CURRENT, voice_ctrl & 4) >> 4));
++	dev_dbg(gus->card->dev, "position = 0x%x\n",
++		(snd_gf1_read_addr(gus, SNDRV_GF1_VA_CURRENT, voice_ctrl & 4) >> 4));
+ 	snd_gf1_select_voice(gus, pvoice->number);
  #endif
- 	if (cs4232_pcm_port[dev] == SNDRV_AUTO_PORT) {
--		snd_printk(KERN_ERR "specify CS4232 port\n");
-+		dev_err(pdev, "specify CS4232 port\n");
- 		return 0;
- 	}
- 	if (ics2115_port[dev] == SNDRV_AUTO_PORT) {
--		snd_printk(KERN_ERR "specify ICS2115 port\n");
-+		dev_err(pdev, "specify ICS2115 port\n");
- 		return 0;
- 	}
- 	return 1;
-@@ -585,7 +586,7 @@ static int snd_wavefront_pnp_detect(struct pnp_card_link *pcard,
+ 	pcmp->bpos++;
+@@ -293,11 +284,6 @@ static int snd_gf1_pcm_poke_block(struct snd_gus_card *gus, unsigned char *buf,
+ 	unsigned int len;
+ 	unsigned long flags;
  
- 	if (snd_wavefront_pnp (dev, card->private_data, pcard, pid) < 0) {
- 		if (cs4232_pcm_port[dev] == SNDRV_AUTO_PORT) {
--			snd_printk (KERN_ERR "isapnp detection failed\n");
-+			dev_err(card->dev, "isapnp detection failed\n");
- 			return -ENODEV;
- 		}
- 	}
-diff --git a/sound/isa/wavefront/wavefront_fx.c b/sound/isa/wavefront/wavefront_fx.c
-index 0273b7dfaf12..beca35ce04f3 100644
---- a/sound/isa/wavefront/wavefront_fx.c
-+++ b/sound/isa/wavefront/wavefront_fx.c
-@@ -38,7 +38,7 @@ wavefront_fx_idle (snd_wavefront_t *dev)
- 	}
+-	/*
+-	printk(KERN_DEBUG
+-	       "poke block; buf = 0x%x, pos = %i, count = %i, port = 0x%x\n",
+-	       (int)buf, pos, count, gus->gf1.port);
+-	*/
+ 	while (count > 0) {
+ 		len = count;
+ 		if (len > 512)		/* limit, to allow IRQ */
+@@ -673,8 +659,9 @@ static int snd_gf1_pcm_playback_open(struct snd_pcm_substream *substream)
+ 	runtime->private_free = snd_gf1_pcm_playback_free;
  
- 	if (x & 0x80) {
--		snd_printk ("FX device never idle.\n");
-+		dev_err(dev->card->dev, "FX device never idle.\n");
- 		return 0;
- 	}
+ #if 0
+-	printk(KERN_DEBUG "playback.buffer = 0x%lx, gf1.pcm_buffer = 0x%lx\n",
+-	       (long) pcm->playback.buffer, (long) gus->gf1.pcm_buffer);
++	dev_dbg(gus->card->dev,
++		"playback.buffer = 0x%lx, gf1.pcm_buffer = 0x%lx\n",
++		(long) pcm->playback.buffer, (long) gus->gf1.pcm_buffer);
+ #endif
+ 	err = snd_gf1_dma_init(gus);
+ 	if (err < 0)
+@@ -695,7 +682,7 @@ static int snd_gf1_pcm_playback_close(struct snd_pcm_substream *substream)
+ 	struct gus_pcm_private *pcmp = runtime->private_data;
+ 	
+ 	if (!wait_event_timeout(pcmp->sleep, (atomic_read(&pcmp->dma_count) <= 0), 2*HZ))
+-		snd_printk(KERN_ERR "gf1 pcm - serious DMA problem\n");
++		dev_err(gus->card->dev, "gf1 pcm - serious DMA problem\n");
  
-@@ -64,14 +64,14 @@ wavefront_fx_memset (snd_wavefront_t *dev,
- 		     unsigned short *data)
- {
- 	if (page < 0 || page > 7) {
--		snd_printk ("FX memset: "
--			"page must be >= 0 and <= 7\n");
-+		dev_err(dev->card->dev,
-+			"FX memset: page must be >= 0 and <= 7\n");
- 		return -EINVAL;
- 	}
- 
- 	if (addr < 0 || addr > 0x7f) {
--		snd_printk ("FX memset: "
--			"addr must be >= 0 and <= 7f\n");
-+		dev_err(dev->card->dev,
-+			"FX memset: addr must be >= 0 and <= 7f\n");
- 		return -EINVAL;
- 	}
- 
-@@ -83,7 +83,7 @@ wavefront_fx_memset (snd_wavefront_t *dev,
- 		outb ((data[0] >> 8), dev->fx_dsp_msb);
- 		outb ((data[0] & 0xff), dev->fx_dsp_lsb);
- 
--		snd_printk ("FX: addr %d:%x set to 0x%x\n",
-+		dev_err(dev->card->dev, "FX: addr %d:%x set to 0x%x\n",
- 			page, addr, data[0]);
- 
- 	} else {
-@@ -102,9 +102,9 @@ wavefront_fx_memset (snd_wavefront_t *dev,
- 		}
- 
- 		if (i != cnt) {
--			snd_printk ("FX memset "
--				    "(0x%x, 0x%x, 0x%lx, %d) incomplete\n",
--				    page, addr, (unsigned long) data, cnt);
-+			dev_err(dev->card->dev,
-+				"FX memset (0x%x, 0x%x, 0x%lx, %d) incomplete\n",
-+				page, addr, (unsigned long) data, cnt);
- 			return -EIO;
- 		}
- 	}
-@@ -123,7 +123,7 @@ snd_wavefront_fx_detect (snd_wavefront_t *dev)
- 	*/
- 
- 	if (inb (dev->fx_status) & 0x80) {
--		snd_printk ("Hmm, probably a Maui or Tropez.\n");
-+		dev_err(dev->card->dev, "Hmm, probably a Maui or Tropez.\n");
- 		return -1;
- 	}
- 
-@@ -180,15 +180,15 @@ snd_wavefront_fx_ioctl (struct snd_hwdep *sdev, struct file *file,
- 
- 	case WFFX_MEMSET:
- 		if (r.data[2] <= 0) {
--			snd_printk ("cannot write "
--				"<= 0 bytes to FX\n");
-+			dev_err(dev->card->dev,
-+				"cannot write <= 0 bytes to FX\n");
- 			return -EIO;
- 		} else if (r.data[2] == 1) {
- 			pd = (unsigned short *) &r.data[3];
- 		} else {
- 			if (r.data[2] > 256) {
--				snd_printk ("cannot write "
--					    "> 512 bytes to FX\n");
-+				dev_err(dev->card->dev,
-+					"cannot write > 512 bytes to FX\n");
- 				return -EIO;
- 			}
- 			page_data = memdup_array_user((unsigned char __user *)
-@@ -208,8 +208,8 @@ snd_wavefront_fx_ioctl (struct snd_hwdep *sdev, struct file *file,
- 		break;
- 
- 	default:
--		snd_printk ("FX: ioctl %d not yet supported\n",
--			    r.request);
-+		dev_err(dev->card->dev, "FX: ioctl %d not yet supported\n",
-+			r.request);
- 		return -ENOTTY;
- 	}
- 	return err;
-@@ -254,8 +254,8 @@ snd_wavefront_fx_start (snd_wavefront_t *dev)
- 				goto out;
- 			}
- 		} else {
--			snd_printk(KERN_ERR "invalid address"
--				   " in register data\n");
-+			dev_err(dev->card->dev,
-+				"invalid address in register data\n");
- 			err = -1;
- 			goto out;
- 		}
-diff --git a/sound/isa/wavefront/wavefront_midi.c b/sound/isa/wavefront/wavefront_midi.c
-index 72e775ac7ad7..ead8cbe638de 100644
---- a/sound/isa/wavefront/wavefront_midi.c
-+++ b/sound/isa/wavefront/wavefront_midi.c
-@@ -501,7 +501,8 @@ snd_wavefront_midi_start (snd_wavefront_card_t *card)
- 	for (i = 0; i < 30000 && !output_ready (midi); i++);
- 
- 	if (!output_ready (midi)) {
--		snd_printk ("MIDI interface not ready for command\n");
-+		dev_err(card->wavefront.card->dev,
-+			"MIDI interface not ready for command\n");
- 		return -1;
- 	}
- 
-@@ -523,7 +524,8 @@ snd_wavefront_midi_start (snd_wavefront_card_t *card)
- 	}
- 
- 	if (!ok) {
--		snd_printk ("cannot set UART mode for MIDI interface");
-+		dev_err(card->wavefront.card->dev,
-+			"cannot set UART mode for MIDI interface");
- 		dev->interrupts_are_midi = 0;
- 		return -1;
- 	}
-@@ -531,7 +533,8 @@ snd_wavefront_midi_start (snd_wavefront_card_t *card)
- 	/* Route external MIDI to WaveFront synth (by default) */
-     
- 	if (snd_wavefront_cmd (dev, WFC_MISYNTH_ON, rbuf, wbuf)) {
--		snd_printk ("can't enable MIDI-IN-2-synth routing.\n");
-+		dev_warn(card->wavefront.card->dev,
-+			 "can't enable MIDI-IN-2-synth routing.\n");
- 		/* XXX error ? */
- 	}
- 
-@@ -547,14 +550,16 @@ snd_wavefront_midi_start (snd_wavefront_card_t *card)
- 	*/
- 
- 	if (snd_wavefront_cmd (dev, WFC_VMIDI_OFF, rbuf, wbuf)) { 
--		snd_printk ("virtual MIDI mode not disabled\n");
-+		dev_warn(card->wavefront.card->dev,
-+			 "virtual MIDI mode not disabled\n");
- 		return 0; /* We're OK, but missing the external MIDI dev */
- 	}
- 
- 	snd_wavefront_midi_enable_virtual (card);
- 
- 	if (snd_wavefront_cmd (dev, WFC_VMIDI_ON, rbuf, wbuf)) {
--		snd_printk ("cannot enable virtual MIDI mode.\n");
-+		dev_warn(card->wavefront.card->dev,
-+			 "cannot enable virtual MIDI mode.\n");
- 		snd_wavefront_midi_disable_virtual (card);
- 	} 
+ 	snd_gf1_dma_done(gus);	
  	return 0;
-diff --git a/sound/isa/wavefront/wavefront_synth.c b/sound/isa/wavefront/wavefront_synth.c
-index 13ce96148fa3..bd679e2da154 100644
---- a/sound/isa/wavefront/wavefront_synth.c
-+++ b/sound/isa/wavefront/wavefront_synth.c
-@@ -116,7 +116,7 @@ MODULE_PARM_DESC(osrun_time, "how many seconds to wait for the ICS2115 OS");
+diff --git a/sound/isa/gus/gus_reset.c b/sound/isa/gus/gus_reset.c
+index 9a1ab5872c4f..ac5da1281042 100644
+--- a/sound/isa/gus/gus_reset.c
++++ b/sound/isa/gus/gus_reset.c
+@@ -116,7 +116,9 @@ void snd_gf1_smart_stop_voice(struct snd_gus_card * gus, unsigned short voice)
+ 	spin_lock_irqsave(&gus->reg_lock, flags);
+ 	snd_gf1_select_voice(gus, voice);
+ #if 0
+-	printk(KERN_DEBUG " -%i- smart stop voice - volume = 0x%x\n", voice, snd_gf1_i_read16(gus, SNDRV_GF1_VW_VOLUME));
++	dev_dbg(gus->card->dev,
++		" -%i- smart stop voice - volume = 0x%x\n",
++		voice, snd_gf1_i_read16(gus, SNDRV_GF1_VW_VOLUME));
+ #endif
+ 	snd_gf1_ctrl_stop(gus, SNDRV_GF1_VB_ADDRESS_CONTROL);
+ 	snd_gf1_ctrl_stop(gus, SNDRV_GF1_VB_VOLUME_CONTROL);
+@@ -130,7 +132,9 @@ void snd_gf1_stop_voice(struct snd_gus_card * gus, unsigned short voice)
+ 	spin_lock_irqsave(&gus->reg_lock, flags);
+ 	snd_gf1_select_voice(gus, voice);
+ #if 0
+-	printk(KERN_DEBUG " -%i- stop voice - volume = 0x%x\n", voice, snd_gf1_i_read16(gus, SNDRV_GF1_VW_VOLUME));
++	dev_dbg(gus->card->dev,
++		" -%i- stop voice - volume = 0x%x\n",
++		voice, snd_gf1_i_read16(gus, SNDRV_GF1_VW_VOLUME));
+ #endif
+ 	snd_gf1_ctrl_stop(gus, SNDRV_GF1_VB_ADDRESS_CONTROL);
+ 	snd_gf1_ctrl_stop(gus, SNDRV_GF1_VB_VOLUME_CONTROL);
+diff --git a/sound/isa/gus/gus_uart.c b/sound/isa/gus/gus_uart.c
+index 3975848160e7..08276509447f 100644
+--- a/sound/isa/gus/gus_uart.c
++++ b/sound/isa/gus/gus_uart.c
+@@ -89,7 +89,9 @@ static int snd_gf1_uart_output_open(struct snd_rawmidi_substream *substream)
+ 	gus->midi_substream_output = substream;
+ 	spin_unlock_irqrestore(&gus->uart_cmd_lock, flags);
+ #if 0
+-	snd_printk(KERN_DEBUG "write init - cmd = 0x%x, stat = 0x%x\n", gus->gf1.uart_cmd, snd_gf1_uart_stat(gus));
++	dev_dbg(gus->card->dev,
++		"write init - cmd = 0x%x, stat = 0x%x\n",
++		gus->gf1.uart_cmd, snd_gf1_uart_stat(gus));
+ #endif
+ 	return 0;
+ }
+@@ -111,18 +113,17 @@ static int snd_gf1_uart_input_open(struct snd_rawmidi_substream *substream)
+ 		for (i = 0; i < 1000 && (snd_gf1_uart_stat(gus) & 0x01); i++)
+ 			snd_gf1_uart_get(gus);	/* clean Rx */
+ 		if (i >= 1000)
+-			snd_printk(KERN_ERR "gus midi uart init read - cleanup error\n");
++			dev_err(gus->card->dev, "gus midi uart init read - cleanup error\n");
+ 	}
+ 	spin_unlock_irqrestore(&gus->uart_cmd_lock, flags);
+ #if 0
+-	snd_printk(KERN_DEBUG
+-		   "read init - enable = %i, cmd = 0x%x, stat = 0x%x\n",
+-		   gus->uart_enable, gus->gf1.uart_cmd, snd_gf1_uart_stat(gus));
+-	snd_printk(KERN_DEBUG
+-		   "[0x%x] reg (ctrl/status) = 0x%x, reg (data) = 0x%x "
+-		   "(page = 0x%x)\n",
+-		   gus->gf1.port + 0x100, inb(gus->gf1.port + 0x100),
+-		   inb(gus->gf1.port + 0x101), inb(gus->gf1.port + 0x102));
++	dev_dbg(gus->card->dev,
++		"read init - enable = %i, cmd = 0x%x, stat = 0x%x\n",
++		gus->uart_enable, gus->gf1.uart_cmd, snd_gf1_uart_stat(gus));
++	dev_dbg(gus->card->dev,
++		"[0x%x] reg (ctrl/status) = 0x%x, reg (data) = 0x%x (page = 0x%x)\n",
++		gus->gf1.port + 0x100, inb(gus->gf1.port + 0x100),
++		inb(gus->gf1.port + 0x101), inb(gus->gf1.port + 0x102));
+ #endif
+ 	return 0;
+ }
+diff --git a/sound/isa/gus/gus_volume.c b/sound/isa/gus/gus_volume.c
+index ed72196a361b..e729621756cf 100644
+--- a/sound/isa/gus/gus_volume.c
++++ b/sound/isa/gus/gus_volume.c
+@@ -104,7 +104,8 @@ unsigned short snd_gf1_translate_freq(struct snd_gus_card * gus, unsigned int fr
+ 		freq16 = 50;
+ 	if (freq16 & 0xf8000000) {
+ 		freq16 = ~0xf8000000;
+-		snd_printk(KERN_ERR "snd_gf1_translate_freq: overflow - freq = 0x%x\n", freq16);
++		dev_err(gus->card->dev, "%s: overflow - freq = 0x%x\n",
++			__func__, freq16);
+ 	}
+ 	return ((freq16 << 9) + (gus->gf1.playback_freq >> 1)) / gus->gf1.playback_freq;
+ }
+@@ -189,14 +190,14 @@ unsigned short snd_gf1_compute_freq(unsigned int freq,
+ 	fc = (freq << 10) / rate;
+ 	if (fc > 97391L) {
+ 		fc = 97391;
+-		snd_printk(KERN_ERR "patch: (1) fc frequency overflow - %u\n", fc);
++		pr_err("patch: (1) fc frequency overflow - %u\n", fc);
+ 	}
+ 	fc = (fc * 44100UL) / mix_rate;
+ 	while (scale--)
+ 		fc <<= 1;
+ 	if (fc > 65535L) {
+ 		fc = 65535;
+-		snd_printk(KERN_ERR "patch: (2) fc frequency overflow - %u\n", fc);
++		pr_err("patch: (2) fc frequency overflow - %u\n", fc);
+ 	}
+ 	return (unsigned short) fc;
+ }
+diff --git a/sound/isa/gus/gusclassic.c b/sound/isa/gus/gusclassic.c
+index 09cc53ceea2a..101202acefb3 100644
+--- a/sound/isa/gus/gusclassic.c
++++ b/sound/isa/gus/gusclassic.c
+@@ -115,7 +115,7 @@ static int snd_gusclassic_detect(struct snd_gus_card *gus)
+ 	snd_gf1_i_write8(gus, SNDRV_GF1_GB_RESET, 0);	/* reset GF1 */
+ 	d = snd_gf1_i_look8(gus, SNDRV_GF1_GB_RESET);
+ 	if ((d & 0x07) != 0) {
+-		snd_printdd("[0x%lx] check 1 failed - 0x%x\n", gus->gf1.port, d);
++		dev_dbg(gus->card->dev, "[0x%lx] check 1 failed - 0x%x\n", gus->gf1.port, d);
+ 		return -ENODEV;
+ 	}
+ 	udelay(160);
+@@ -123,7 +123,7 @@ static int snd_gusclassic_detect(struct snd_gus_card *gus)
+ 	udelay(160);
+ 	d = snd_gf1_i_look8(gus, SNDRV_GF1_GB_RESET);
+ 	if ((d & 0x07) != 1) {
+-		snd_printdd("[0x%lx] check 2 failed - 0x%x\n", gus->gf1.port, d);
++		dev_dbg(gus->card->dev, "[0x%lx] check 2 failed - 0x%x\n", gus->gf1.port, d);
+ 		return -ENODEV;
+ 	}
+ 	return 0;
+diff --git a/sound/isa/gus/gusextreme.c b/sound/isa/gus/gusextreme.c
+index 63d9f2d75df0..6eab95bd49c1 100644
+--- a/sound/isa/gus/gusextreme.c
++++ b/sound/isa/gus/gusextreme.c
+@@ -179,7 +179,7 @@ static int snd_gusextreme_detect(struct snd_gus_card *gus,
+ 	snd_gf1_i_write8(gus, SNDRV_GF1_GB_RESET, 0);	/* reset GF1 */
+ 	d = snd_gf1_i_look8(gus, SNDRV_GF1_GB_RESET);
+ 	if ((d & 0x07) != 0) {
+-		snd_printdd("[0x%lx] check 1 failed - 0x%x\n", gus->gf1.port, d);
++		dev_dbg(gus->card->dev, "[0x%lx] check 1 failed - 0x%x\n", gus->gf1.port, d);
+ 		return -EIO;
+ 	}
+ 	udelay(160);
+@@ -187,7 +187,7 @@ static int snd_gusextreme_detect(struct snd_gus_card *gus,
+ 	udelay(160);
+ 	d = snd_gf1_i_look8(gus, SNDRV_GF1_GB_RESET);
+ 	if ((d & 0x07) != 1) {
+-		snd_printdd("[0x%lx] check 2 failed - 0x%x\n", gus->gf1.port, d);
++		dev_dbg(gus->card->dev, "[0x%lx] check 2 failed - 0x%x\n", gus->gf1.port, d);
+ 		return -EIO;
+ 	}
  
- #define DPRINT(cond, ...) \
-        if ((dev->debug & (cond)) == (cond)) { \
--	     snd_printk (__VA_ARGS__); \
-+	     pr_debug(__VA_ARGS__); \
-        }
+diff --git a/sound/isa/gus/gusmax.c b/sound/isa/gus/gusmax.c
+index 6834c0560064..445fd2fb50f1 100644
+--- a/sound/isa/gus/gusmax.c
++++ b/sound/isa/gus/gusmax.c
+@@ -64,8 +64,6 @@ struct snd_gusmax {
+ 	unsigned short pcm_status_reg;
+ };
+ 
+-#define PFX	"gusmax: "
+-
+ static int snd_gusmax_detect(struct snd_gus_card *gus)
+ {
+ 	unsigned char d;
+@@ -73,7 +71,7 @@ static int snd_gusmax_detect(struct snd_gus_card *gus)
+ 	snd_gf1_i_write8(gus, SNDRV_GF1_GB_RESET, 0);	/* reset GF1 */
+ 	d = snd_gf1_i_look8(gus, SNDRV_GF1_GB_RESET);
+ 	if ((d & 0x07) != 0) {
+-		snd_printdd("[0x%lx] check 1 failed - 0x%x\n", gus->gf1.port, d);
++		dev_dbg(gus->card->dev, "[0x%lx] check 1 failed - 0x%x\n", gus->gf1.port, d);
+ 		return -ENODEV;
+ 	}
+ 	udelay(160);
+@@ -81,7 +79,7 @@ static int snd_gusmax_detect(struct snd_gus_card *gus)
+ 	udelay(160);
+ 	d = snd_gf1_i_look8(gus, SNDRV_GF1_GB_RESET);
+ 	if ((d & 0x07) != 1) {
+-		snd_printdd("[0x%lx] check 2 failed - 0x%x\n", gus->gf1.port, d);
++		dev_dbg(gus->card->dev, "[0x%lx] check 2 failed - 0x%x\n", gus->gf1.port, d);
+ 		return -ENODEV;
+ 	}
+ 
+@@ -206,7 +204,7 @@ static int snd_gusmax_probe(struct device *pdev, unsigned int dev)
+ 	if (xirq == SNDRV_AUTO_IRQ) {
+ 		xirq = snd_legacy_find_free_irq(possible_irqs);
+ 		if (xirq < 0) {
+-			snd_printk(KERN_ERR PFX "unable to find a free IRQ\n");
++			dev_err(pdev, "unable to find a free IRQ\n");
+ 			return -EBUSY;
+ 		}
+ 	}
+@@ -214,7 +212,7 @@ static int snd_gusmax_probe(struct device *pdev, unsigned int dev)
+ 	if (xdma1 == SNDRV_AUTO_DMA) {
+ 		xdma1 = snd_legacy_find_free_dma(possible_dmas);
+ 		if (xdma1 < 0) {
+-			snd_printk(KERN_ERR PFX "unable to find a free DMA1\n");
++			dev_err(pdev, "unable to find a free DMA1\n");
+ 			return -EBUSY;
+ 		}
+ 	}
+@@ -222,7 +220,7 @@ static int snd_gusmax_probe(struct device *pdev, unsigned int dev)
+ 	if (xdma2 == SNDRV_AUTO_DMA) {
+ 		xdma2 = snd_legacy_find_free_dma(possible_dmas);
+ 		if (xdma2 < 0) {
+-			snd_printk(KERN_ERR PFX "unable to find a free DMA2\n");
++			dev_err(pdev, "unable to find a free DMA2\n");
+ 			return -EBUSY;
+ 		}
+ 	}
+@@ -267,13 +265,13 @@ static int snd_gusmax_probe(struct device *pdev, unsigned int dev)
+ 		return err;
+ 
+ 	if (!gus->max_flag) {
+-		snd_printk(KERN_ERR PFX "GUS MAX soundcard was not detected at 0x%lx\n", gus->gf1.port);
++		dev_err(pdev, "GUS MAX soundcard was not detected at 0x%lx\n", gus->gf1.port);
+ 		return -ENODEV;
+ 	}
+ 
+ 	if (devm_request_irq(card->dev, xirq, snd_gusmax_interrupt, 0,
+ 			     "GUS MAX", (void *)maxcard)) {
+-		snd_printk(KERN_ERR PFX "unable to grab IRQ %d\n", xirq);
++		dev_err(pdev, "unable to grab IRQ %d\n", xirq);
+ 		return -EBUSY;
+ 	}
+ 	maxcard->irq = xirq;
+diff --git a/sound/isa/gus/interwave.c b/sound/isa/gus/interwave.c
+index a04a9d3253f8..18a98123e286 100644
+--- a/sound/isa/gus/interwave.c
++++ b/sound/isa/gus/interwave.c
+@@ -52,11 +52,9 @@ static int pcm_channels[SNDRV_CARDS] = {[0 ... (SNDRV_CARDS - 1)] = 2};
+ static int effect[SNDRV_CARDS];
+ 
+ #ifdef SNDRV_STB
+-#define PFX "interwave-stb: "
+ #define INTERWAVE_DRIVER	"snd_interwave_stb"
+ #define INTERWAVE_PNP_DRIVER	"interwave-stb"
  #else
- #define DPRINT(cond, args...)
-@@ -341,7 +341,7 @@ snd_wavefront_cmd (snd_wavefront_t *dev,
- 
- 	wfcmd = wavefront_get_command(cmd);
- 	if (!wfcmd) {
--		snd_printk ("command 0x%x not supported.\n",
-+		dev_err(dev->card->dev, "command 0x%x not supported.\n",
- 			cmd);
- 		return 1;
- 	}
-@@ -623,7 +623,7 @@ wavefront_get_sample_status (snd_wavefront_t *dev, int assume_rom)
- 	/* check sample status */
-     
- 	if (snd_wavefront_cmd (dev, WFC_GET_NSAMPLES, rbuf, wbuf)) {
--		snd_printk ("cannot request sample count.\n");
-+		dev_err(dev->card->dev, "cannot request sample count.\n");
- 		return -1;
- 	} 
-     
-@@ -635,8 +635,8 @@ wavefront_get_sample_status (snd_wavefront_t *dev, int assume_rom)
- 		wbuf[1] = i >> 7;
- 
- 		if (snd_wavefront_cmd (dev, WFC_IDENTIFY_SAMPLE_TYPE, rbuf, wbuf)) {
--			snd_printk(KERN_WARNING "cannot identify sample "
--				   "type of slot %d\n", i);
-+			dev_warn(dev->card->dev,
-+				 "cannot identify sample type of slot %d\n", i);
- 			dev->sample_status[i] = WF_ST_EMPTY;
- 			continue;
- 		}
-@@ -661,9 +661,9 @@ wavefront_get_sample_status (snd_wavefront_t *dev, int assume_rom)
- 			break;
- 
- 		default:
--			snd_printk ("unknown sample type for "
--				    "slot %d (0x%x)\n", 
--				    i, rbuf[0]);
-+			dev_err(dev->card->dev,
-+				"unknown sample type for slot %d (0x%x)\n",
-+				i, rbuf[0]);
- 		}
- 
- 		if (rbuf[0] != WF_ST_EMPTY) {
-@@ -671,9 +671,10 @@ wavefront_get_sample_status (snd_wavefront_t *dev, int assume_rom)
- 		} 
- 	}
- 
--	snd_printk ("%d samples used (%d real, %d aliases, %d multi), "
--		    "%d empty\n", dev->samples_used, sc_real, sc_alias, sc_multi,
--		    WF_MAX_SAMPLE - dev->samples_used);
-+	dev_info(dev->card->dev,
-+		 "%d samples used (%d real, %d aliases, %d multi), %d empty\n",
-+		 dev->samples_used, sc_real, sc_alias, sc_multi,
-+		 WF_MAX_SAMPLE - dev->samples_used);
- 
- 
- 	return (0);
-@@ -706,8 +707,8 @@ wavefront_get_patch_status (snd_wavefront_t *dev)
- 		} else if (x == 3) { /* Bad patch number */
- 			dev->patch_status[i] = 0;
- 		} else {
--			snd_printk ("upload patch "
--				    "error 0x%x\n", x);
-+			dev_err(dev->card->dev,
-+				"upload patch error 0x%x\n", x);
- 			dev->patch_status[i] = 0;
- 			return 1;
- 		}
-@@ -724,7 +725,8 @@ wavefront_get_patch_status (snd_wavefront_t *dev)
- 		}
- 	
- 	}
--	snd_printk ("%d patch slots filled, %d in use\n", cnt, cnt2);
-+	dev_info(dev->card->dev, "%d patch slots filled, %d in use\n",
-+		 cnt, cnt2);
- 
- 	return (0);
- }
-@@ -760,8 +762,8 @@ wavefront_get_program_status (snd_wavefront_t *dev)
- 		} else if (x == 1) { /* Bad program number */
- 			dev->prog_status[i] = 0;
- 		} else {
--			snd_printk ("upload program "
--				    "error 0x%x\n", x);
-+			dev_err(dev->card->dev,
-+				"upload program error 0x%x\n", x);
- 			dev->prog_status[i] = 0;
- 		}
- 	}
-@@ -772,7 +774,7 @@ wavefront_get_program_status (snd_wavefront_t *dev)
- 		}
- 	}
- 
--	snd_printk ("%d programs slots in use\n", cnt);
-+	dev_info(dev->card->dev, "%d programs slots in use\n", cnt);
- 
- 	return (0);
- }
-@@ -796,7 +798,7 @@ wavefront_send_patch (snd_wavefront_t *dev, wavefront_patch_info *header)
- 	munge_buf ((unsigned char *)&header->hdr.p, bptr, WF_PATCH_BYTES);
-     
- 	if (snd_wavefront_cmd (dev, WFC_DOWNLOAD_PATCH, NULL, buf)) {
--		snd_printk ("download patch failed\n");
-+		dev_err(dev->card->dev, "download patch failed\n");
- 		return -EIO;
- 	}
- 
-@@ -837,7 +839,7 @@ wavefront_send_program (snd_wavefront_t *dev, wavefront_patch_info *header)
- 	munge_buf ((unsigned char *)&header->hdr.pr, &buf[1], WF_PROGRAM_BYTES);
-     
- 	if (snd_wavefront_cmd (dev, WFC_DOWNLOAD_PROGRAM, NULL, buf)) {
--		snd_printk ("download patch failed\n");	
-+		dev_err(dev->card->dev, "download patch failed\n");
- 		return -EIO;
- 	}
- 
-@@ -851,7 +853,7 @@ wavefront_freemem (snd_wavefront_t *dev)
- 	char rbuf[8];
- 
- 	if (snd_wavefront_cmd (dev, WFC_REPORT_FREE_MEMORY, rbuf, NULL)) {
--		snd_printk ("can't get memory stats.\n");
-+		dev_err(dev->card->dev, "can't get memory stats.\n");
- 		return -1;
- 	} else {
- 		return demunge_int32 (rbuf, 4);
-@@ -901,7 +903,7 @@ wavefront_send_sample (snd_wavefront_t *dev,
- 		x = wavefront_find_free_sample(dev);
- 		if (x < 0)
- 			return -ENOMEM;
--		snd_printk ("unspecified sample => %d\n", x);
-+		dev_info(dev->card->dev, "unspecified sample => %d\n", x);
- 		header->number = x;
- 	}
- 
-@@ -935,9 +937,9 @@ wavefront_send_sample (snd_wavefront_t *dev,
- 
- 		if (dev->rom_samples_rdonly) {
- 			if (dev->sample_status[header->number] & WF_SLOT_ROM) {
--				snd_printk ("sample slot %d "
--					    "write protected\n",
--					    header->number);
-+				dev_err(dev->card->dev,
-+					"sample slot %d write protected\n",
-+					header->number);
- 				return -EACCES;
- 			}
- 		}
-@@ -949,9 +951,9 @@ wavefront_send_sample (snd_wavefront_t *dev,
- 		dev->freemem = wavefront_freemem (dev);
- 
- 		if (dev->freemem < (int)header->size) {
--			snd_printk ("insufficient memory to "
--				    "load %d byte sample.\n",
--				    header->size);
-+			dev_err(dev->card->dev,
-+				"insufficient memory to load %d byte sample.\n",
-+				header->size);
- 			return -ENOMEM;
- 		}
- 	
-@@ -960,8 +962,8 @@ wavefront_send_sample (snd_wavefront_t *dev,
- 	skip = WF_GET_CHANNEL(&header->hdr.s);
- 
- 	if (skip > 0 && header->hdr.s.SampleResolution != LINEAR_16BIT) {
--		snd_printk ("channel selection only "
--			    "possible on 16-bit samples");
-+		dev_err(dev->card->dev,
-+			"channel selection only possible on 16-bit samples");
- 		return -EINVAL;
- 	}
- 
-@@ -1057,8 +1059,8 @@ wavefront_send_sample (snd_wavefront_t *dev,
- 			   header->size ?
- 			   WFC_DOWNLOAD_SAMPLE : WFC_DOWNLOAD_SAMPLE_HEADER,
- 			   NULL, sample_hdr)) {
--		snd_printk ("sample %sdownload refused.\n",
--			    header->size ? "" : "header ");
-+		dev_err(dev->card->dev, "sample %sdownload refused.\n",
-+			header->size ? "" : "header ");
- 		return -EIO;
- 	}
- 
-@@ -1083,8 +1085,8 @@ wavefront_send_sample (snd_wavefront_t *dev,
- 		}
- 
- 		if (snd_wavefront_cmd (dev, WFC_DOWNLOAD_BLOCK, NULL, NULL)) {
--			snd_printk ("download block "
--				    "request refused.\n");
-+			dev_err(dev->card->dev,
-+				"download block request refused.\n");
- 			return -EIO;
- 		}
- 
-@@ -1145,13 +1147,13 @@ wavefront_send_sample (snd_wavefront_t *dev,
- 		dma_ack = wavefront_read(dev);
- 		if (dma_ack != WF_DMA_ACK) {
- 			if (dma_ack == -1) {
--				snd_printk ("upload sample "
--					    "DMA ack timeout\n");
-+				dev_err(dev->card->dev,
-+					"upload sample DMA ack timeout\n");
- 				return -EIO;
- 			} else {
--				snd_printk ("upload sample "
--					    "DMA ack error 0x%x\n",
--					    dma_ack);
-+				dev_err(dev->card->dev,
-+					"upload sample DMA ack error 0x%x\n",
-+					dma_ack);
- 				return -EIO;
- 			}
- 		}
-@@ -1195,7 +1197,7 @@ wavefront_send_alias (snd_wavefront_t *dev, wavefront_patch_info *header)
- 	munge_int32 (*(&header->hdr.a.FrequencyBias+1), &alias_hdr[23], 2);
- 
- 	if (snd_wavefront_cmd (dev, WFC_DOWNLOAD_SAMPLE_ALIAS, NULL, alias_hdr)) {
--		snd_printk ("download alias failed.\n");
-+		dev_err(dev->card->dev, "download alias failed.\n");
- 		return -EIO;
- 	}
- 
-@@ -1248,7 +1250,7 @@ wavefront_send_multisample (snd_wavefront_t *dev, wavefront_patch_info *header)
- 	if (snd_wavefront_cmd (dev, WFC_DOWNLOAD_MULTISAMPLE, 
- 			   (unsigned char *) (long) ((num_samples*2)+3),
- 			   msample_hdr)) {
--		snd_printk ("download of multisample failed.\n");
-+		dev_err(dev->card->dev, "download of multisample failed.\n");
- 		kfree(msample_hdr);
- 		return -EIO;
- 	}
-@@ -1271,7 +1273,7 @@ wavefront_fetch_multisample (snd_wavefront_t *dev,
- 	munge_int32 (header->number, number, 2);
-     
- 	if (snd_wavefront_cmd (dev, WFC_UPLOAD_MULTISAMPLE, log_ns, number)) {
--		snd_printk ("upload multisample failed.\n");
-+		dev_err(dev->card->dev, "upload multisample failed.\n");
- 		return -EIO;
- 	}
-     
-@@ -1290,16 +1292,16 @@ wavefront_fetch_multisample (snd_wavefront_t *dev,
- 	
- 		val = wavefront_read(dev);
- 		if (val == -1) {
--			snd_printk ("upload multisample failed "
--				    "during sample loop.\n");
-+			dev_err(dev->card->dev,
-+				"upload multisample failed during sample loop.\n");
- 			return -EIO;
- 		}
- 		d[0] = val;
- 
- 		val = wavefront_read(dev);
- 		if (val == -1) {
--			snd_printk ("upload multisample failed "
--				    "during sample loop.\n");
-+			dev_err(dev->card->dev,
-+				"upload multisample failed during sample loop.\n");
- 			return -EIO;
- 		}
- 		d[1] = val;
-@@ -1334,7 +1336,7 @@ wavefront_send_drum (snd_wavefront_t *dev, wavefront_patch_info *header)
- 	}
- 
- 	if (snd_wavefront_cmd (dev, WFC_DOWNLOAD_EDRUM_PROGRAM, NULL, drumbuf)) {
--		snd_printk ("download drum failed.\n");
-+		dev_err(dev->card->dev, "download drum failed.\n");
- 		return -EIO;
- 	}
- 
-@@ -1352,7 +1354,7 @@ wavefront_find_free_sample (snd_wavefront_t *dev)
- 			return i;
- 		}
- 	}
--	snd_printk ("no free sample slots!\n");
-+	dev_err(dev->card->dev, "no free sample slots!\n");
- 	return -1;
- }
- 
-@@ -1368,7 +1370,7 @@ wavefront_find_free_patch (snd_wavefront_t *dev)
- 			return i;
- 		}
- 	}
--	snd_printk ("no free patch slots!\n");
-+	dev_err(dev->card->dev, "no free patch slots!\n");
- 	return -1;
- }
+-#define PFX "interwave: "
+ #define INTERWAVE_DRIVER	"snd_interwave"
+ #define INTERWAVE_PNP_DRIVER	"interwave"
  #endif
-@@ -1385,7 +1387,7 @@ wavefront_load_patch (snd_wavefront_t *dev, const char __user *addr)
+@@ -148,7 +146,7 @@ static void snd_interwave_i2c_setlines(struct snd_i2c_bus *bus, int ctrl, int da
+ 	unsigned long port = bus->private_value;
  
- 	if (copy_from_user (header, addr, sizeof(wavefront_patch_info) -
- 			    sizeof(wavefront_any))) {
--		snd_printk ("bad address for load patch.\n");
-+		dev_err(dev->card->dev, "bad address for load patch.\n");
- 		err = -EFAULT;
- 		goto __error;
+ #if 0
+-	printk(KERN_DEBUG "i2c_setlines - 0x%lx <- %i,%i\n", port, ctrl, data);
++	dev_dbg(bus->card->dev, "i2c_setlines - 0x%lx <- %i,%i\n", port, ctrl, data);
+ #endif
+ 	outb((data << 1) | ctrl, port);
+ 	udelay(10);
+@@ -161,7 +159,7 @@ static int snd_interwave_i2c_getclockline(struct snd_i2c_bus *bus)
+ 
+ 	res = inb(port) & 1;
+ #if 0
+-	printk(KERN_DEBUG "i2c_getclockline - 0x%lx -> %i\n", port, res);
++	dev_dbg(bus->card->dev, "i2c_getclockline - 0x%lx -> %i\n", port, res);
+ #endif
+ 	return res;
+ }
+@@ -175,7 +173,7 @@ static int snd_interwave_i2c_getdataline(struct snd_i2c_bus *bus, int ack)
+ 		udelay(10);
+ 	res = (inb(port) & 2) >> 1;
+ #if 0
+-	printk(KERN_DEBUG "i2c_getdataline - 0x%lx -> %i\n", port, res);
++	dev_dbg(bus->card->dev, "i2c_getdataline - 0x%lx -> %i\n", port, res);
+ #endif
+ 	return res;
+ }
+@@ -215,7 +213,7 @@ static int snd_interwave_detect_stb(struct snd_interwave *iwcard,
+ 						      "InterWave (I2C bus)");
  	}
-@@ -1463,8 +1465,8 @@ wavefront_load_patch (snd_wavefront_t *dev, const char __user *addr)
- 		break;
- 
- 	default:
--		snd_printk ("unknown patch type %d.\n",
--			    header->subkey);
-+		dev_err(dev->card->dev, "unknown patch type %d.\n",
-+			header->subkey);
- 		err = -EINVAL;
- 		break;
- 	}
-@@ -1527,13 +1529,13 @@ wavefront_synth_control (snd_wavefront_card_t *acard,
- 	switch (wc->cmd) {
- 		
- 	case WFC_DISABLE_INTERRUPTS:
--		snd_printk ("interrupts disabled.\n");
-+		dev_dbg(dev->card->dev, "interrupts disabled.\n");
- 		outb (0x80|0x20, dev->control_port);
- 		dev->interrupts_are_midi = 1;
- 		return 0;
- 
- 	case WFC_ENABLE_INTERRUPTS:
--		snd_printk ("interrupts enabled.\n");
-+		dev_dbg(dev->card->dev, "interrupts enabled.\n");
- 		outb (0x80|0x40|0x20, dev->control_port);
- 		dev->interrupts_are_midi = 1;
- 		return 0;
-@@ -1550,7 +1552,7 @@ wavefront_synth_control (snd_wavefront_card_t *acard,
- 	case WFC_IDENTIFY_SLOT_TYPE:
- 		i = wc->wbuf[0] | (wc->wbuf[1] << 7);
- 		if (i <0 || i >= WF_MAX_SAMPLE) {
--			snd_printk ("invalid slot ID %d\n",
-+			dev_err(dev->card->dev, "invalid slot ID %d\n",
- 				i);
- 			wc->status = EINVAL;
- 			return -EINVAL;
-@@ -1561,7 +1563,7 @@ wavefront_synth_control (snd_wavefront_card_t *acard,
- 
- 	case WFC_DEBUG_DRIVER:
- 		dev->debug = wc->wbuf[0];
--		snd_printk ("debug = 0x%x\n", dev->debug);
-+		dev_dbg(dev->card->dev, "debug = 0x%x\n", dev->debug);
- 		return 0;
- 
- 	case WFC_UPLOAD_PATCH:
-@@ -1578,8 +1580,8 @@ wavefront_synth_control (snd_wavefront_card_t *acard,
- 		return 0;
- 
- 	case WFC_UPLOAD_SAMPLE_ALIAS:
--		snd_printk ("support for sample alias upload "
--			"being considered.\n");
-+		dev_err(dev->card->dev,
-+			"support for sample alias upload being considered.\n");
- 		wc->status = EINVAL;
- 		return -EINVAL;
- 	}
-@@ -1620,9 +1622,8 @@ wavefront_synth_control (snd_wavefront_card_t *acard,
- 			break;
- 
- 		case WFC_UPLOAD_SAMPLE_ALIAS:
--			snd_printk ("support for "
--				    "sample aliases still "
--				    "being considered.\n");
-+			dev_err(dev->card->dev,
-+				"support for sample aliases still being considered.\n");
- 			break;
- 
- 		case WFC_VMIDI_OFF:
-@@ -1760,7 +1761,7 @@ snd_wavefront_internal_interrupt (snd_wavefront_card_t *card)
- */
- 
- static int
--snd_wavefront_interrupt_bits (int irq)
-+snd_wavefront_interrupt_bits(snd_wavefront_t *dev, int irq)
- 
- {
- 	int bits;
-@@ -1780,7 +1781,7 @@ snd_wavefront_interrupt_bits (int irq)
- 		break;
- 	
- 	default:
--		snd_printk ("invalid IRQ %d\n", irq);
-+		dev_err(dev->card->dev, "invalid IRQ %d\n", irq);
- 		bits = -1;
+ 	if (iwcard->i2c_res == NULL) {
+-		snd_printk(KERN_ERR "interwave: can't grab i2c bus port\n");
++		dev_err(card->dev, "interwave: can't grab i2c bus port\n");
+ 		return -ENODEV;
  	}
  
-@@ -1815,7 +1816,7 @@ wavefront_reset_to_cleanliness (snd_wavefront_t *dev)
- 
- 	/* IRQ already checked */
- 
--	bits = snd_wavefront_interrupt_bits (dev->irq);
-+	bits = snd_wavefront_interrupt_bits(dev, dev->irq);
- 
- 	/* try reset of port */
- 
-@@ -1885,7 +1886,7 @@ wavefront_reset_to_cleanliness (snd_wavefront_t *dev)
- 	 */
- 
- 	if (!dev->irq_ok) {
--		snd_printk ("intr not received after h/w un-reset.\n");
-+		dev_err(dev->card->dev, "intr not received after h/w un-reset.\n");
- 		goto gone_bad;
- 	} 
- 
-@@ -1909,18 +1910,18 @@ wavefront_reset_to_cleanliness (snd_wavefront_t *dev)
- 					 dev->data_port, ramcheck_time*HZ);
- 
- 	if (!dev->irq_ok) {
--		snd_printk ("post-RAM-check interrupt not received.\n");
-+		dev_err(dev->card->dev, "post-RAM-check interrupt not received.\n");
- 		goto gone_bad;
- 	} 
- 
- 	if (!wavefront_wait (dev, STAT_CAN_READ)) {
--		snd_printk ("no response to HW version cmd.\n");
-+		dev_err(dev->card->dev, "no response to HW version cmd.\n");
- 		goto gone_bad;
+@@ -248,7 +246,7 @@ static int snd_interwave_detect(struct snd_interwave *iwcard,
+ 	snd_gf1_i_write8(gus, SNDRV_GF1_GB_RESET, 0);	/* reset GF1 */
+ 	d = snd_gf1_i_look8(gus, SNDRV_GF1_GB_RESET);
+ 	if ((d & 0x07) != 0) {
+-		snd_printdd("[0x%lx] check 1 failed - 0x%x\n", gus->gf1.port, d);
++		dev_dbg(gus->card->dev, "[0x%lx] check 1 failed - 0x%x\n", gus->gf1.port, d);
+ 		return -ENODEV;
  	}
- 	
- 	hwv[0] = wavefront_read(dev);
- 	if (hwv[0] == -1) {
--		snd_printk ("board not responding correctly.\n");
-+		dev_err(dev->card->dev, "board not responding correctly.\n");
- 		goto gone_bad;
+ 	udelay(160);
+@@ -256,7 +254,7 @@ static int snd_interwave_detect(struct snd_interwave *iwcard,
+ 	udelay(160);
+ 	d = snd_gf1_i_look8(gus, SNDRV_GF1_GB_RESET);
+ 	if ((d & 0x07) != 1) {
+-		snd_printdd("[0x%lx] check 2 failed - 0x%x\n", gus->gf1.port, d);
++		dev_dbg(gus->card->dev, "[0x%lx] check 2 failed - 0x%x\n", gus->gf1.port, d);
+ 		return -ENODEV;
  	}
- 
-@@ -1932,11 +1933,11 @@ wavefront_reset_to_cleanliness (snd_wavefront_t *dev)
- 		
- 		hwv[0] = wavefront_read(dev);
- 		if (hwv[0] == -1) {
--			snd_printk ("on-board RAM test failed "
--				    "(bad error code).\n");
-+			dev_err(dev->card->dev,
-+				"on-board RAM test failed (bad error code).\n");
- 		} else {
--			snd_printk ("on-board RAM test failed "
--				    "(error code: 0x%x).\n",
-+			dev_err(dev->card->dev,
-+				"on-board RAM test failed (error code: 0x%x).\n",
- 				hwv[0]);
- 		}
- 		goto gone_bad;
-@@ -1946,12 +1947,12 @@ wavefront_reset_to_cleanliness (snd_wavefront_t *dev)
- 
- 	hwv[1] = wavefront_read(dev);
- 	if (hwv[1] == -1) {
--		snd_printk ("incorrect h/w response.\n");
-+		dev_err(dev->card->dev, "incorrect h/w response.\n");
- 		goto gone_bad;
+ 	spin_lock_irqsave(&gus->reg_lock, flags);
+@@ -265,10 +263,13 @@ static int snd_interwave_detect(struct snd_interwave *iwcard,
+ 	rev2 = snd_gf1_look8(gus, SNDRV_GF1_GB_VERSION_NUMBER);
+ 	snd_gf1_write8(gus, SNDRV_GF1_GB_VERSION_NUMBER, rev1);
+ 	spin_unlock_irqrestore(&gus->reg_lock, flags);
+-	snd_printdd("[0x%lx] InterWave check - rev1=0x%x, rev2=0x%x\n", gus->gf1.port, rev1, rev2);
++	dev_dbg(gus->card->dev,
++		"[0x%lx] InterWave check - rev1=0x%x, rev2=0x%x\n",
++		gus->gf1.port, rev1, rev2);
+ 	if ((rev1 & 0xf0) == (rev2 & 0xf0) &&
+ 	    (rev1 & 0x0f) != (rev2 & 0x0f)) {
+-		snd_printdd("[0x%lx] InterWave check - passed\n", gus->gf1.port);
++		dev_dbg(gus->card->dev,
++			"[0x%lx] InterWave check - passed\n", gus->gf1.port);
+ 		gus->interwave = 1;
+ 		strcpy(gus->card->shortname, "AMD InterWave");
+ 		gus->revision = rev1 >> 4;
+@@ -278,7 +279,7 @@ static int snd_interwave_detect(struct snd_interwave *iwcard,
+ 		return snd_interwave_detect_stb(iwcard, gus, dev, rbus);
+ #endif
  	}
- 
--	snd_printk ("hardware version %d.%d\n",
--		    hwv[0], hwv[1]);
-+	dev_info(dev->card->dev, "hardware version %d.%d\n",
-+		 hwv[0], hwv[1]);
- 
- 	return 0;
- 
-@@ -1971,7 +1972,7 @@ wavefront_download_firmware (snd_wavefront_t *dev, char *path)
- 
- 	err = request_firmware(&firmware, path, dev->card->dev);
- 	if (err < 0) {
--		snd_printk(KERN_ERR "firmware (%s) download failed!!!\n", path);
-+		dev_err(dev->card->dev, "firmware (%s) download failed!!!\n", path);
- 		return 1;
- 	}
- 
-@@ -1982,16 +1983,16 @@ wavefront_download_firmware (snd_wavefront_t *dev, char *path)
- 		if (section_length == 0)
- 			break;
- 		if (section_length < 0 || section_length > WF_SECTION_MAX) {
--			snd_printk(KERN_ERR
--				   "invalid firmware section length %d\n",
--				   section_length);
-+			dev_err(dev->card->dev,
-+				"invalid firmware section length %d\n",
-+				section_length);
- 			goto failure;
- 		}
- 		buf++;
- 		len++;
- 
- 		if (firmware->size < len + section_length) {
--			snd_printk(KERN_ERR "firmware section read error.\n");
-+			dev_err(dev->card->dev, "firmware section read error.\n");
- 			goto failure;
- 		}
- 
-@@ -2008,15 +2009,14 @@ wavefront_download_firmware (snd_wavefront_t *dev, char *path)
- 	
- 		/* get ACK */
- 		if (!wavefront_wait(dev, STAT_CAN_READ)) {
--			snd_printk(KERN_ERR "time out for firmware ACK.\n");
-+			dev_err(dev->card->dev, "time out for firmware ACK.\n");
- 			goto failure;
- 		}
- 		err = inb(dev->data_port);
- 		if (err != WF_ACK) {
--			snd_printk(KERN_ERR
--				   "download of section #%d not "
--				   "acknowledged, ack = 0x%x\n",
--				   section_cnt_downloaded + 1, err);
-+			dev_err(dev->card->dev,
-+				"download of section #%d not acknowledged, ack = 0x%x\n",
-+				section_cnt_downloaded + 1, err);
- 			goto failure;
- 		}
- 
-@@ -2028,7 +2028,7 @@ wavefront_download_firmware (snd_wavefront_t *dev, char *path)
- 
-  failure:
- 	release_firmware(firmware);
--	snd_printk(KERN_ERR "firmware download failed!!!\n");
-+	dev_err(dev->card->dev, "firmware download failed!!!\n");
- 	return 1;
+-	snd_printdd("[0x%lx] InterWave check - failed\n", gus->gf1.port);
++	dev_dbg(gus->card->dev, "[0x%lx] InterWave check - failed\n", gus->gf1.port);
+ 	return -ENODEV;
  }
  
-@@ -2040,7 +2040,7 @@ wavefront_do_reset (snd_wavefront_t *dev)
- 	char voices[1];
- 
- 	if (wavefront_reset_to_cleanliness (dev)) {
--		snd_printk ("hw reset failed.\n");
-+		dev_err(dev->card->dev, "hw reset failed.\n");
- 		goto gone_bad;
- 	}
- 
-@@ -2064,7 +2064,7 @@ wavefront_do_reset (snd_wavefront_t *dev)
- 						  (osrun_time*HZ));
- 
- 		if (!dev->irq_ok) {
--			snd_printk ("no post-OS interrupt.\n");
-+			dev_err(dev->card->dev, "no post-OS interrupt.\n");
- 			goto gone_bad;
+@@ -327,7 +328,7 @@ static void snd_interwave_bank_sizes(struct snd_gus_card *gus, int *sizes)
+ 			snd_gf1_poke(gus, local, d);
+ 			snd_gf1_poke(gus, local + 1, d + 1);
+ #if 0
+-			printk(KERN_DEBUG "d = 0x%x, local = 0x%x, "
++			dev_dbg(gus->card->dev, "d = 0x%x, local = 0x%x, "
+ 			       "local + 1 = 0x%x, idx << 22 = 0x%x\n",
+ 			       d,
+ 			       snd_gf1_peek(gus, local),
+@@ -342,7 +343,7 @@ static void snd_interwave_bank_sizes(struct snd_gus_card *gus, int *sizes)
  		}
- 		
-@@ -2074,7 +2074,7 @@ wavefront_do_reset (snd_wavefront_t *dev)
- 						  dev->data_port, (10*HZ));
- 		
- 		if (!dev->irq_ok) {
--			snd_printk ("no post-OS interrupt(2).\n");
-+			dev_err(dev->card->dev, "no post-OS interrupt(2).\n");
- 			goto gone_bad;
- 		}
- 
-@@ -2094,20 +2094,20 @@ wavefront_do_reset (snd_wavefront_t *dev)
- 	if (dev->freemem < 0)
- 		goto gone_bad;
- 		
--	snd_printk ("available DRAM %dk\n", dev->freemem / 1024);
-+	dev_info(dev->card->dev, "available DRAM %dk\n", dev->freemem / 1024);
- 
- 	if (wavefront_write (dev, 0xf0) ||
- 	    wavefront_write (dev, 1) ||
- 	    (wavefront_read (dev) < 0)) {
- 		dev->debug = 0;
--		snd_printk ("MPU emulation mode not set.\n");
-+		dev_err(dev->card->dev, "MPU emulation mode not set.\n");
- 		goto gone_bad;
  	}
+ #if 0
+-	printk(KERN_DEBUG "sizes: %i %i %i %i\n",
++	dev_dbg(gus->card->dev, "sizes: %i %i %i %i\n",
+ 	       sizes[0], sizes[1], sizes[2], sizes[3]);
+ #endif
+ }
+@@ -397,12 +398,12 @@ static void snd_interwave_detect_memory(struct snd_gus_card *gus)
+ 		lmct = (psizes[3] << 24) | (psizes[2] << 16) |
+ 		    (psizes[1] << 8) | psizes[0];
+ #if 0
+-		printk(KERN_DEBUG "lmct = 0x%08x\n", lmct);
++		dev_dbg(gus->card->dev, "lmct = 0x%08x\n", lmct);
+ #endif
+ 		for (i = 0; i < ARRAY_SIZE(lmc); i++)
+ 			if (lmct == lmc[i]) {
+ #if 0
+-				printk(KERN_DEBUG "found !!! %i\n", i);
++				dev_dbg(gus->card->dev, "found !!! %i\n", i);
+ #endif
+ 				snd_gf1_write16(gus, SNDRV_GF1_GW_MEMORY_CONFIG, (snd_gf1_look16(gus, SNDRV_GF1_GW_MEMORY_CONFIG) & 0xfff0) | i);
+ 				snd_interwave_bank_sizes(gus, psizes);
+@@ -566,12 +567,12 @@ static int snd_interwave_pnp(int dev, struct snd_interwave *iwcard,
  
- 	voices[0] = 32;
- 
- 	if (snd_wavefront_cmd (dev, WFC_SET_NVOICES, NULL, voices)) {
--		snd_printk ("cannot set number of voices to 32.\n");
-+		dev_err(dev->card->dev, "cannot set number of voices to 32.\n");
- 		goto gone_bad;
+ 	err = pnp_activate_dev(pdev);
+ 	if (err < 0) {
+-		snd_printk(KERN_ERR "InterWave PnP configure failure (out of resources?)\n");
++		dev_err(&pdev->dev, "InterWave PnP configure failure (out of resources?)\n");
+ 		return err;
  	}
- 
-@@ -2187,8 +2187,8 @@ snd_wavefront_detect (snd_wavefront_card_t *card)
- 		dev->fw_version[0] = rbuf[0];
- 		dev->fw_version[1] = rbuf[1];
- 
--		snd_printk ("firmware %d.%d already loaded.\n",
--			    rbuf[0], rbuf[1]);
-+		dev_info(dev->card->dev, "firmware %d.%d already loaded.\n",
-+			 rbuf[0], rbuf[1]);
- 
- 		/* check that a command actually works */
-       
-@@ -2197,22 +2197,24 @@ snd_wavefront_detect (snd_wavefront_card_t *card)
- 			dev->hw_version[0] = rbuf[0];
- 			dev->hw_version[1] = rbuf[1];
- 		} else {
--			snd_printk ("not raw, but no "
--				    "hardware version!\n");
-+			dev_err(dev->card->dev,
-+				"not raw, but no hardware version!\n");
- 			return -1;
- 		}
- 
- 		if (!wf_raw) {
- 			return 0;
- 		} else {
--			snd_printk ("reloading firmware as you requested.\n");
-+			dev_info(dev->card->dev,
-+				 "reloading firmware as you requested.\n");
- 			dev->israw = 1;
- 		}
- 
- 	} else {
- 
- 		dev->israw = 1;
--		snd_printk ("no response to firmware probe, assume raw.\n");
-+		dev_info(dev->card->dev,
-+			 "no response to firmware probe, assume raw.\n");
- 
+ 	if (pnp_port_start(pdev, 0) + 0x100 != pnp_port_start(pdev, 1) ||
+ 	    pnp_port_start(pdev, 0) + 0x10c != pnp_port_start(pdev, 2)) {
+-		snd_printk(KERN_ERR "PnP configure failure (wrong ports)\n");
++		dev_err(&pdev->dev, "PnP configure failure (wrong ports)\n");
+ 		return -ENOENT;
  	}
+ 	port[dev] = pnp_port_start(pdev, 0);
+@@ -579,22 +580,26 @@ static int snd_interwave_pnp(int dev, struct snd_interwave *iwcard,
+ 	if (dma2[dev] >= 0)
+ 		dma2[dev] = pnp_dma(pdev, 1);
+ 	irq[dev] = pnp_irq(pdev, 0);
+-	snd_printdd("isapnp IW: sb port=0x%llx, gf1 port=0x%llx, codec port=0x%llx\n",
+-			(unsigned long long)pnp_port_start(pdev, 0),
+-			(unsigned long long)pnp_port_start(pdev, 1),
+-			(unsigned long long)pnp_port_start(pdev, 2));
+-	snd_printdd("isapnp IW: dma1=%i, dma2=%i, irq=%i\n", dma1[dev], dma2[dev], irq[dev]);
++	dev_dbg(&pdev->dev,
++		"isapnp IW: sb port=0x%llx, gf1 port=0x%llx, codec port=0x%llx\n",
++		(unsigned long long)pnp_port_start(pdev, 0),
++		(unsigned long long)pnp_port_start(pdev, 1),
++		(unsigned long long)pnp_port_start(pdev, 2));
++	dev_dbg(&pdev->dev,
++		"isapnp IW: dma1=%i, dma2=%i, irq=%i\n",
++		dma1[dev], dma2[dev], irq[dev]);
+ #ifdef SNDRV_STB
+ 	/* Tone Control initialization */
+ 	pdev = iwcard->devtc;
  
+ 	err = pnp_activate_dev(pdev);
+ 	if (err < 0) {
+-		snd_printk(KERN_ERR "InterWave ToneControl PnP configure failure (out of resources?)\n");
++		dev_err(&pdev->dev,
++			"InterWave ToneControl PnP configure failure (out of resources?)\n");
+ 		return err;
+ 	}
+ 	port_tc[dev] = pnp_port_start(pdev, 0);
+-	snd_printdd("isapnp IW: tone control port=0x%lx\n", port_tc[dev]);
++	dev_dbg(&pdev->dev, "isapnp IW: tone control port=0x%lx\n", port_tc[dev]);
+ #endif
+ 	return 0;
+ }
+@@ -660,7 +665,7 @@ static int snd_interwave_probe(struct snd_card *card, int dev,
+ 
+ 	if (devm_request_irq(card->dev, xirq, snd_interwave_interrupt, 0,
+ 			     "InterWave", iwcard)) {
+-		snd_printk(KERN_ERR PFX "unable to grab IRQ %d\n", xirq);
++		dev_err(card->dev, "unable to grab IRQ %d\n", xirq);
+ 		return -EBUSY;
+ 	}
+ 	iwcard->irq = xirq;
+@@ -780,21 +785,21 @@ static int snd_interwave_isa_probe(struct device *pdev,
+ 	if (irq[dev] == SNDRV_AUTO_IRQ) {
+ 		irq[dev] = snd_legacy_find_free_irq(possible_irqs);
+ 		if (irq[dev] < 0) {
+-			snd_printk(KERN_ERR PFX "unable to find a free IRQ\n");
++			dev_err(pdev, "unable to find a free IRQ\n");
+ 			return -EBUSY;
+ 		}
+ 	}
+ 	if (dma1[dev] == SNDRV_AUTO_DMA) {
+ 		dma1[dev] = snd_legacy_find_free_dma(possible_dmas);
+ 		if (dma1[dev] < 0) {
+-			snd_printk(KERN_ERR PFX "unable to find a free DMA1\n");
++			dev_err(pdev, "unable to find a free DMA1\n");
+ 			return -EBUSY;
+ 		}
+ 	}
+ 	if (dma2[dev] == SNDRV_AUTO_DMA) {
+ 		dma2[dev] = snd_legacy_find_free_dma(possible_dmas);
+ 		if (dma2[dev] < 0) {
+-			snd_printk(KERN_ERR PFX "unable to find a free DMA2\n");
++			dev_err(pdev, "unable to find a free DMA2\n");
+ 			return -EBUSY;
+ 		}
+ 	}
 -- 
 2.43.0
 
