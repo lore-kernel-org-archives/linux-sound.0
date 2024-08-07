@@ -1,178 +1,166 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2063.outbound.protection.outlook.com [40.107.237.63])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F191AE051;
-	Wed,  7 Aug 2024 06:19:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.63
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723011590; cv=fail; b=TO3mK3IQ8JN0c9xJZElLzb6qAnzC9mGJNx7uPzpQ+4EvcYh6Z6JP1yjJEhg5Li8Me+m4rG0/7CM7+lEDKy+vkqIeZ9uxj8wQb3JFjQsB5VUD3uHRIwSMdZGlgWyJmN674WQiU+3dh/G9iZaTSP8aCAHrUEcmn2NrXPgcg8yfgQ8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723011590; c=relaxed/simple;
-	bh=btxL+X1g0tC80zz3l1W+jRfLXbYPaYlCqnAQ6WMKApE=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=QrJxVyM/t+ryZxrg+e7Kng5G5g3zbiZYQtKOLpCe+USmKilwj387VMlelo1npPbLYRKhxxEdmYdcUHtSBBc7xsgxnuLL93TPVOx0ErMphxylVgkapLP1p5Ci8MP6a8pm7sQ7v7FAdzENOn8A/da5g5gs8fBbwOm3upA6AcdcZhk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=grCCB0go; arc=fail smtp.client-ip=40.107.237.63
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC1E1917F1;
+	Wed,  7 Aug 2024 08:03:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723017791; cv=none; b=b5T9Zz3IVmKLmkubeBpGPX3tjcfA7w7YnKiVHq0y/j9wtHP/8amIXIApMw7rOYS2UC+5yCKUoo3OP04qRVAxNV8OnsOMwMZBE4MnANhNEaid3NGtJLpPpyRP6ag0la5sRE6zOWXAT3xjBJbJsVUUhdC7RpltPfhrSZ6KhhTSDQc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1723017791; c=relaxed/simple;
+	bh=QLoeyfbr6ACoE9T0you1YuvKuNhANsEAcuxwVoYWnQw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=f8DzQ/u5BYLqv1aL7fxk9ZUfgksibVBNIvmalTvDxkd6HMiTdVqm6h1lAUxxUI+emQ+2xSos91hiHXSOSPPaMsvIrNZSdet6l/ncGn341XKd8QGLzBVOkLiqQOmoJ+K7l8PEjzO1/i+uzjOAu5rki/21JieMYkZRRZZTWUpZr5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AXOjVuXY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="grCCB0go"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tk/HTnRYfKkQQxm4NocvvJL91WKBqzjjMwBILX9TFRfuVPCVSXNayL7YEs0n7GnmzmYYETchzQZpNu5v/zAJE0hYwjZDWLwZs+CU5TAszaAYtp/uDftxQxgEN2FNczqbn/FLkn5uQcYU2sg7mwPdwsWq+KLtMCi8fYzySWu0Epbyx6Mov6xoYWXoguKbKj7Jpd0QEtwyf5lT2WwyX7J5fWC6H40ykWBVj94hAj4RCh0CXeMEp8NQnEegqfsC2xM0sY9yJQHslI8UoOyNWrIfvVXlAlRJdffDr2FyX29L3xUh8hIPDQCqRVs+ev+oKX8M19MbtIZk6K2H70ze5nFIwQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=btxL+X1g0tC80zz3l1W+jRfLXbYPaYlCqnAQ6WMKApE=;
- b=IoPytwPEagytc2RCu+vr85bDqX8HKLsYaVa7+FJSnZHxp9d1bipBOchZRxpJ8pWcmkEv1L5f324G3pNKL8xJaGP9+tMvw3AFs5NLeyN+Uh+IXSK+PRKVVQBqkXwyhSJEjhABAYLT+UW8qxVBpaZ+hNEajpHU19msMpoY9mHg1a+0eFaqqd8z1oLB+/4XgM7MxqnbTlEUh0cOFAUkoiQ8fWTLRflRztdBZUeUGA5Icjpyly5kaQv4Z3EaEvRd3GnAjQUSp5caZ8C0h7qe2JnYJoYgrodH+9weGq1YFE3/kfeZf7SChovC0/s3F/38EJdiEXJy4E0CEAKFmXP+bK71TQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=btxL+X1g0tC80zz3l1W+jRfLXbYPaYlCqnAQ6WMKApE=;
- b=grCCB0gorJMUA+qPNPt5fw1j+Lb0XOlJDE4HoP+uxvkq99EIMBiAqHGFu0z3SKrd3i0OF8ZHW0Fl6WtCqeprVVnQpXXI4i4ctlA7bDJUItVAPNpBwWNWDD3CrLPYUIFGYXYeo+oCSjnaILi5C6r6hOEFgp51s09XQpR/vAV540I=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB4123.namprd12.prod.outlook.com (2603:10b6:5:21f::23)
- by CH3PR12MB9454.namprd12.prod.outlook.com (2603:10b6:610:1c7::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.27; Wed, 7 Aug
- 2024 06:19:45 +0000
-Received: from DM6PR12MB4123.namprd12.prod.outlook.com
- ([fe80::512d:6caa:552a:7ebf]) by DM6PR12MB4123.namprd12.prod.outlook.com
- ([fe80::512d:6caa:552a:7ebf%4]) with mapi id 15.20.7849.008; Wed, 7 Aug 2024
- 06:19:45 +0000
-Message-ID: <cb7140d4-5a86-4948-a374-07a31637b18a@amd.com>
-Date: Wed, 7 Aug 2024 11:49:35 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: amd: acp: remove MODULE_ALIAS for SoundWire machine
- driver
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzk@kernel.org>, broonie@kernel.org
-Cc: alsa-devel@alsa-project.org, Basavaraj.Hiregoudar@amd.com,
- Sunil-kumar.Dommati@amd.com, venkataprasad.potturu@amd.com,
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Bard Liao <yung-chuan.liao@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..."
- <linux-sound@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-References: <20240807050846.1616725-1-Vijendar.Mukunda@amd.com>
- <7078532f-ac07-48e7-8123-2577b7216a1e@kernel.org>
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <7078532f-ac07-48e7-8123-2577b7216a1e@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN2PR01CA0090.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:23::35) To DM6PR12MB4123.namprd12.prod.outlook.com
- (2603:10b6:5:21f::23)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AXOjVuXY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3FC0C32782;
+	Wed,  7 Aug 2024 08:03:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723017789;
+	bh=QLoeyfbr6ACoE9T0you1YuvKuNhANsEAcuxwVoYWnQw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=AXOjVuXYUNFqaeafp3VLK4e5ZPIAfDLvgZIYrA7Mt8fAJo3jQzegObONgXwcdS504
+	 iDZrwFTpzohJB6pikcszN3rN95wLSp3gGGnEtr9WnMZYXHa5os/kluO3yM6nKIHUlp
+	 tqscp/9scfBWR42ItGSCHZzOAzSy35UGZ4lgvlHooW90orlp9TLtA53PqKuxcL6uDf
+	 N0odeqfavQoQchnVoP4fpZdqb/DPTfPE7UHL8e5ko5B9qfR7ATefIH2ea2oBCNXbbU
+	 5ILpVw9OluXJTyZugacWS0++LFu5XsX6Dzrs0sldwnHMysls9a08e8/WxbOP+sdu/3
+	 M0991xP8mOPcw==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Brent Lu <brent.lu@intel.com>,
+	sound-open-firmware@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH] sound: sof: ioc4-topology: avoid extra dai_params copy
+Date: Wed,  7 Aug 2024 10:02:27 +0200
+Message-Id: <20240807080302.2372297-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4123:EE_|CH3PR12MB9454:EE_
-X-MS-Office365-Filtering-Correlation-Id: da56600f-e060-4708-32ea-08dcb6a8ee4e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?QitXY01RQzJUTjI2V3BwN3VNWjM1WW1SaGZLNlFpaXAvaCs4azhaSWpyVE5E?=
- =?utf-8?B?RXVzWjlJOXpQWVlhcWtTRjVtbDQrbzZaMkxjSHdpZ2YvclpsSmFCaXVPQXV3?=
- =?utf-8?B?MVNOQkJBaHRha25td2YyWXlSZDdRVlljUXJZVHRTMHJOK2pBOUxpSGhydkk3?=
- =?utf-8?B?Z2RSRmQ3SjlicTErdUw2bG5JZzRxeWZ1Z0NpRTRXM1pxd0hVL3pQNkdBSjBq?=
- =?utf-8?B?VUNYeXRSQm5mS21vS0dwQmtkaVpxWUNVV0hVQm1rWlZBUUhaQmpNajRycita?=
- =?utf-8?B?WVFRS00vaFU4anIzdXBBYkpCNVNhN21oMERPVmRuZXRHa1ZGa3V5Q0dwVXVJ?=
- =?utf-8?B?SGhuT0ZVTFlwODMyTDlUaWN0TzZ3ZDJnNDJSTnY2OXZUMnpaR1V0ZXZsclBX?=
- =?utf-8?B?cndRdG04TWlIS243RDhyVHBCVVJXUkZCaHhWRVRsM2wwZWlkTnN4M2p4dFVB?=
- =?utf-8?B?bXllcWc1akRNZkRnNXhvTG1LbzBqOEI4NHJmeHd3V2g4NG55aExOc2F6TmIz?=
- =?utf-8?B?SFdnaTkxSCtTWFcwZVhiRUhBeWRUaVJCY25KMnljUHpEZzFCRlYvZFZLNmxo?=
- =?utf-8?B?OWdGOG93eDUvMjQ0a0VYaWdqVWw1OXAvZi9BVzdmU3JKNGd0NlRZU0RpSW5n?=
- =?utf-8?B?MWhHMDZBejI5TTZoUmkwaXhLblJFRUg1SDJOV1ZBbS94WmRwRDR0U3ZKWnEw?=
- =?utf-8?B?Yys2eHQzeFlyL1Fqd2k3ek5LTTVrV0lVUEFWK3Y1QVh1Y3Z1ZVB2YWlMMytl?=
- =?utf-8?B?T3AvRkRJSXJEZm5aQzFJT3JCQnZONmRVK01pN0hCRGZFTXM2aVg4M2dtekZJ?=
- =?utf-8?B?SllDSkwrc1FRMUpvQVBCTXNkNmc2dXVyNEE0QnliTmgxWXZzUE1MZ2JzTE1K?=
- =?utf-8?B?WVcyblpqOW1yWmxiQng1c0M2MUN2TGM0dVFrZjZUdHZoN2diQXpqd3d0WlNj?=
- =?utf-8?B?N2FWcnl4ZmlPeHJhK3lMT2J1aHFWWm9IdlljNHE5R2E4SHVrSVRybURKRnho?=
- =?utf-8?B?a3MvRXpSSDFRdUpabERPcExPTWJQZXZGRFNDc2RXd2VvQ2lQSmloRzNvKzhq?=
- =?utf-8?B?NjVRSi80eGg5L0dKcDVmQzYvT0MxdmJIUkxGZDZFVXQ1ZkEzZllwN3hhOWZL?=
- =?utf-8?B?VFhWRldZWXRzckdCN2c1TFJpTWNONFZDK0dQemxjakhpa0lBenV2QXk4QlpI?=
- =?utf-8?B?RXFUYjJCUUs0cEJETElPd2V4ZUpzT2xVaEZMQ0dhVHlmMFFLY29NZmpjcXhh?=
- =?utf-8?B?Uit5SkRSTlFRUGZ6b0lIQ3Z6TjRoS1h3ekhyZ3llb0ZFcEFuRml6ZmdyR3dR?=
- =?utf-8?B?MEpyaTZ3Wm5vMEVnT2M2SXVUcE5ueks0OStoQTl2K2hKMmJMVTZaUy8wV1Uz?=
- =?utf-8?B?eFA4aDE0aGMxUEF5N1hYcVBlZWZVLzNtMWpiYmdIWTRxWVlZMWFST1VXNTMz?=
- =?utf-8?B?SFJSQmdVZDgrZGdHOXFGdlFEQ09GSWlOL3dQSzUyNFNsS2RZdDZBZEV3S1ps?=
- =?utf-8?B?Tm1PQ2NaVUtET25zeWNvRmkrMzltenRVeC9DM1crUXNYRVlVVUx5dXF6L2kx?=
- =?utf-8?B?Tkt2bTZBSmpXWHMwcGtHTmVpWUZYWkVWcmZ4UGJwYlR0TjV0SG52NTZLTm40?=
- =?utf-8?B?cUpzR0NmRHhGaFcrQUwyUWd2LzB4eGVGUFF2K0lZUncwZ1g5c1dUTk5pQlMv?=
- =?utf-8?B?M3lQQUp2akNNVG1COWFtYkZWa01xTVlXZzNveUpYSnJubm11MGJ5SVlVMEda?=
- =?utf-8?B?UVRTdlRQU2VJOURqTXlZWmI5ckR6STNLbzhmaWJGYlhyYjRabEhZYndmemcv?=
- =?utf-8?B?cGxaMGNFa3NOaVM5c2pXUT09?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4123.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bi93OG5NRGp0TVRaZjZGMGtibkZ6cGUwa3pXZXNBbjZNamxGbkp5Nm9XR3dM?=
- =?utf-8?B?eGgvSDlGYmpmNm9GVVhLNmVyaWx4UU50TUpZVUJ3eXpLQ0dpNHBTU2VMMzEy?=
- =?utf-8?B?UzlZQSsxZndXRTE1bW5iRk5wSE5Td0M4VndTQ1JvUTRSR1pvcEp3T1RNR1gx?=
- =?utf-8?B?M0k5aUNKbXYwZ3ZSSEhVOC9pTHFEOWtKWFNBZDBjTkpHQTJ6RnQzZVhoNWxF?=
- =?utf-8?B?dHY3RkIzazdjaWRTUFdjenZ2UDlhcHFlcURjMmxRN1Bydkh6bXNWbCt2V0xm?=
- =?utf-8?B?TVlWampDQ2NrOTJCd21qL2RDRjY0bkN1TFZqcjl3SXg2dEtnV0tURUZzcTZl?=
- =?utf-8?B?S2Evbk0xT0srQlJWYWVucjNicTQrY3h4ZThFZzBUQUpLamNsb2xMZHZ6MEhV?=
- =?utf-8?B?VHRNY2dPTFVENE5lN2c4Vld2QXRxR1JDWkRjcFBtVHZnT3ZUelN2L0RLNjI1?=
- =?utf-8?B?a0JQQTBSbEwyWDNEWWdvd2k1aGtXTmFoQnF6TUFPNTB2Sm9CUjlqd0xlTDNv?=
- =?utf-8?B?K1JNakRrRVRoRDZtY1hBVEZIOVZ3cXBIZkRNTVNCYlMzYWNLMHNTeWdSTk1M?=
- =?utf-8?B?YlMxbm1tdi9CZ0FzV09HZ2pOTDZ2UmdkRXlnVjk4STg3WDNCZENIdXdWMHFH?=
- =?utf-8?B?UU9sb1Y3YlpKWmY0UENxdWxQemhBblk5R1dMdjZuNzlXL3Y3VDFEZXkydnlq?=
- =?utf-8?B?ZGdLNFl6S0tKMlExOUxxRW9vVXdyTDg0THkzRTNHWDF1WTVueVBZc0dCRk54?=
- =?utf-8?B?NjhvcGJ2akwrMzczaDZzRjcxTUVnd1BKZFdkUlk3TkZXR3FjMk9DYkJ1dTRs?=
- =?utf-8?B?bDNnS1pGYk55MTN0MCt4N2R5NkRnM3A4KzFuaDJjWVp0eklYRVVEOStLTXp4?=
- =?utf-8?B?MGJUcUxIN3hEN251UWxxSlRwRHVIZDVMTVFCdVRsOUJrbTZqb3E5b1dPcUJB?=
- =?utf-8?B?Q0xMT3pucDJwOFJTbDRlejYwdlZtMjZjS0J0ZzU0YUtUZDhEMkNhMTB0aE54?=
- =?utf-8?B?M3JTdnp3TWZVYjFOazkyaEpUTWMwT0svMWZnang1T2VvYkkzU1FYOUdkSnNy?=
- =?utf-8?B?Wms4MDhlbXpUajBQRS9abmNEUmtiVGEwT2RHVTR2V1R1a3A1anpJUnN5aG12?=
- =?utf-8?B?R0VVRVA2M08rbis2b00rVVpwa25zaStRTnV3WmY3TXkrTWNWdFRzZnYyb1Ru?=
- =?utf-8?B?alhjMUQxdG05TmxrS3hPak1RR0RGQ0hUalhkaytXMkFub0xYejBDa2c5UC8r?=
- =?utf-8?B?OUdhL2llR0VUUjZVM3RONUQ3NnhMdWhDaG5UaEdCNjB2SHc5ZXE0Lzhkb0Iv?=
- =?utf-8?B?Sng4QVBmM09GNFp3WWpVRTR5bExJTGswVHJIM2xwY3NCRytJaEVOd3RVOTlE?=
- =?utf-8?B?VTY1VHVrWjB0S0toZ3F6RGZGTUJkekNDK1g1dlkveWFhY1dSOGpnejE0cHVs?=
- =?utf-8?B?QzZZeVdoVnd3YnNVWHBROGxReDc2RURuUXgwK1NXMnJ6ZEE1MXI1Y1BaSzZk?=
- =?utf-8?B?Y2diVmZtaEVFRTFMZUN4Zk9iK1ZvSzZPSG15U0JlWVJtODVtUk4zSXBqNUtD?=
- =?utf-8?B?SVpHWVR4ekUrMVVVaWRha3RRZHBJMnlWbEtIMm40N2pxcXhDbUpIdDVXVWFS?=
- =?utf-8?B?T1VBTGE3UDNlVHAyZGJqSEZleHh0UEZPNE1TTVlld0FoVWRpMnNPN2pBNVhn?=
- =?utf-8?B?ZGNNdzJ3OVNXMGQycEhlN0g2T3djMStmWmtCS2RYS0g5a2hteHVBdUFLWEhy?=
- =?utf-8?B?M1pjeENaekR1aC90OTVYUXQyS3huc1pvdndISmF3eEJGVlFma1FpRGpZNjBZ?=
- =?utf-8?B?ZGNxY3lkWU1SeDJqcGg3TC9SWENSTlJXY0NEa1UxeTgvMzdBSUROMGNBb256?=
- =?utf-8?B?djk5NElsaEMzWU1CRE1odi9pZXo1RzZITHRRb28wQjRrUjhLY2k1NlBUR2xn?=
- =?utf-8?B?NitDNmJuMlNXN05mOEZXdHhjajVlbmUyVmdjcDJNeHFpNDBnSnZEdlRTcE90?=
- =?utf-8?B?SXpWMUNQb3pwUTJQSDYyeGxhM1pDMU9xNFI5ZnZsVWhwc1dmWlBYSVQwdTNr?=
- =?utf-8?B?TFVwOUQ0NXVraEdxUS9ML1ZXQklxUy9sSFFaYm5GZ2d1VDBIeEdzcG1PUXpj?=
- =?utf-8?Q?Oj6aT2aE5powUiIveGPfEyn/S?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: da56600f-e060-4708-32ea-08dcb6a8ee4e
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4123.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2024 06:19:45.1731
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dZvsyfbIGXAyX5WkwNPiYGagDTUZvRB431Z/ifGIwvhkC4lBeIt3mTTgPxBzQWUXlzETnpZf5W9jhOggVdSFNQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9454
+Content-Transfer-Encoding: 8bit
 
-On 07/08/24 11:38, Krzysztof Kozlowski wrote:
-> On 07/08/2024 07:08, Vijendar Mukunda wrote:
->> As module device table added for AMD SoundWire machine driver MODULE_ALIAS
->> is not required. Remove MODULE_ALIAS for AMD SoundWire machine driver.
->>
->> Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-> Provide credits to people...
-> Suggested-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-It's a miss on my side. Forgot to add suggested-by.
->
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->
-> Best regards,
-> Krzysztof
->
+From: Arnd Bergmann <arnd@arndb.de>
+
+The snd_pcm_hw_params structure is really too large to fit on the
+stack. Because of the way that clang inlines functions, it ends up
+twice in one function, which exceeds the 1024 byte limit for 32-bit
+architecutes:
+
+sound/soc/sof/ipc4-topology.c:1700:1: error: stack frame size (1304) exceeds limit (1024) in 'sof_ipc4_prepare_copier_module' [-Werror,-Wframe-larger-than]
+sof_ipc4_prepare_copier_module(struct snd_sof_widget *swidget,
+
+From what I can tell, this was unintentional, as both
+sof_ipc4_prepare_dai_copier() and sof_ipc4_prepare_copier_module() make a
+copy for the same purpose, but copying it once has the exact same effect.
+
+Remove the extra copy and change the direct struct assignment to
+an explicit memcpy() call to make it clearer to the reader that this
+is what happens. Note that gcc treats struct assignment as a memcpy()
+that may be inlined anyway, so the resulting object code is the same.
+
+Fixes: f9209644ae76 ("ASoC: SOF: ipc4-topology: Correct DAI copier config and NHLT blob request")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ sound/soc/sof/ipc4-topology.c | 19 +++++++------------
+ 1 file changed, 7 insertions(+), 12 deletions(-)
+
+diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
+index 87be7f16e8c2..77f6850010f6 100644
+--- a/sound/soc/sof/ipc4-topology.c
++++ b/sound/soc/sof/ipc4-topology.c
+@@ -1651,7 +1651,6 @@ sof_ipc4_prepare_dai_copier(struct snd_sof_dev *sdev, struct snd_sof_dai *dai,
+ 			    struct snd_pcm_hw_params *params, int dir)
+ {
+ 	struct sof_ipc4_available_audio_format *available_fmt;
+-	struct snd_pcm_hw_params dai_params = *params;
+ 	struct sof_ipc4_copier_data *copier_data;
+ 	struct sof_ipc4_pin_format *pin_fmts;
+ 	struct sof_ipc4_copier *ipc4_copier;
+@@ -1676,7 +1675,7 @@ sof_ipc4_prepare_dai_copier(struct snd_sof_dev *sdev, struct snd_sof_dai *dai,
+ 		num_pin_fmts = available_fmt->num_input_formats;
+ 	}
+ 
+-	ret = sof_ipc4_adjust_params_to_dai_format(sdev, &dai_params, pin_fmts,
++	ret = sof_ipc4_adjust_params_to_dai_format(sdev, params, pin_fmts,
+ 						   num_pin_fmts);
+ 	if (ret)
+ 		return ret;
+@@ -1684,15 +1683,11 @@ sof_ipc4_prepare_dai_copier(struct snd_sof_dev *sdev, struct snd_sof_dai *dai,
+ 	single_bitdepth = sof_ipc4_copier_is_single_bitdepth(sdev, pin_fmts,
+ 							     num_pin_fmts);
+ 	ret = snd_sof_get_nhlt_endpoint_data(sdev, dai, single_bitdepth,
+-					     &dai_params,
++					     params,
+ 					     ipc4_copier->dai_index,
+ 					     ipc4_copier->dai_type, dir,
+ 					     &ipc4_copier->copier_config,
+ 					     &copier_data->gtw_cfg.config_length);
+-	/* Update the params to reflect the changes made in this function */
+-	if (!ret)
+-		*params = dai_params;
+-
+ 	return ret;
+ }
+ 
+@@ -1784,9 +1779,9 @@ sof_ipc4_prepare_copier_module(struct snd_sof_widget *swidget,
+ 		 * for capture.
+ 		 */
+ 		if (dir == SNDRV_PCM_STREAM_PLAYBACK)
+-			ref_params = *fe_params;
++			memcpy(&ref_params, fe_params, sizeof(ref_params));
+ 		else
+-			ref_params = *pipeline_params;
++			memcpy(&ref_params, pipeline_params, sizeof(ref_params));
+ 
+ 		copier_data->gtw_cfg.node_id &= ~SOF_IPC4_NODE_INDEX_MASK;
+ 		copier_data->gtw_cfg.node_id |=
+@@ -1819,7 +1814,7 @@ sof_ipc4_prepare_copier_module(struct snd_sof_widget *swidget,
+ 		 * In case of capture the ref_params returned will be used to
+ 		 * find the input configuration of the copier.
+ 		 */
+-		ref_params = *fe_params;
++		memcpy(&ref_params, fe_params, sizeof(ref_params));
+ 		ret = sof_ipc4_prepare_dai_copier(sdev, dai, &ref_params, dir);
+ 		if (ret < 0)
+ 			return ret;
+@@ -1829,7 +1824,7 @@ sof_ipc4_prepare_copier_module(struct snd_sof_widget *swidget,
+ 		 * input configuration of the copier.
+ 		 */
+ 		if (dir == SNDRV_PCM_STREAM_PLAYBACK)
+-			ref_params = *pipeline_params;
++			memcpy(&ref_params, pipeline_params, sizeof(ref_params));
+ 
+ 		break;
+ 	}
+@@ -1838,7 +1833,7 @@ sof_ipc4_prepare_copier_module(struct snd_sof_widget *swidget,
+ 		ipc4_copier = (struct sof_ipc4_copier *)swidget->private;
+ 		copier_data = &ipc4_copier->data;
+ 		available_fmt = &ipc4_copier->available_fmt;
+-		ref_params = *pipeline_params;
++		memcpy(&ref_params, pipeline_params, sizeof(ref_params));
+ 
+ 		break;
+ 	}
+-- 
+2.39.2
 
