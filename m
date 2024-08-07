@@ -1,83 +1,84 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45631EB497
-	for <linux-sound@vger.kernel.org>; Wed,  7 Aug 2024 13:34:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E0E7200109
+	for <linux-sound@vger.kernel.org>; Wed,  7 Aug 2024 13:34:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723037667; cv=none; b=Ukko69LTJ0hDLaJvHdKgzfFSZ8PZdemWNETA2olTrS3Z8e3iYPt9PQiVi375rJDlgAV875RYrJxRzVhKIhyH+7y3JvXyGjgo9DVdmegvX+XDvayyOioU2BQlI09nCJcgLB6j+TxDehMlf8uiZ3v5GV/At0mbnBvwK1AJqmkXBh0=
+	t=1723037667; cv=none; b=FC7TvCacWBHZLhH+WBaj0NfWqxGcUPevTDnV78+OO4lYUw5HE/NThzASC9yIqh5Em8Nj5JaPzylrW9GPMsWYwXi0FTNwm6H49XaYyI7k94trrh5BPRcgXr739mj0TBPL1Bqy+W/G0K/y5oYJn5Xp7iIq5tcbJoOwF2AVGsQtVHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1723037667; c=relaxed/simple;
-	bh=pghgWMjmr3uNIy9/OTvb8fPBo0pV1ZaG7Ug2zCGQSJs=;
+	bh=B2Mdnljq6b3YFqZHOeeKDn4mWopEo14NEqLF0EAbdas=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=T/S6iCfSMmulHMZa83nhG0H7h1uaO2diqUbNx7CRNJfyNnkk5fkOlib15ErPFyFdLl84x7E3XT3IW0uweBbMIUTZwzH4do77bVdTTJb3AMfbw2fqF/hqWfwMXd3N4VZK1SNUikMlQcUZmCn9Fiq4EYj6oO1otzPaXQCQN6jHqKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=W97AtB+5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=m8Ab9fJl; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SHsttvv0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Ly/fEw3/; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=fAkEfrb1SE7swyq3NVmgUAUHdLpjWHSG3ZSNGOKoFosWvDjGl7zQh/nKGASOZ3O3RlMlBwg4Pz6v5swFzpWu08FzRe/MogahR2o1OLr0H6XR4Tm7qBcv0kNpNhykDCLAtIN7f9CBmpqi+CpW+smKQjiGZbiMkzEX87M1DMFksbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KnobA+dU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=B3jPVnWY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KnobA+dU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=B3jPVnWY; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W97AtB+5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="m8Ab9fJl";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SHsttvv0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ly/fEw3/"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KnobA+dU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="B3jPVnWY";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KnobA+dU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="B3jPVnWY"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id EC97A1FB95;
-	Wed,  7 Aug 2024 13:34:19 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8F0A521D27;
+	Wed,  7 Aug 2024 13:34:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723037660; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1723037661; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hip9yYrnC0jYAkTDHjdlrxG0ktOVCpMbPfxCsnh92mA=;
-	b=W97AtB+5gGxYgC1BfQ4Jw+iq1FZEmDPA+JHOgBIM457WDDBwO4oz84EVuYpkBben43TQfI
-	G2UXUG3x308MXijtkzZwWjajnM4SsDAEgXEB3PwzovMLcGUdjM+fTzQWLIiI4rO0pDsXYs
-	azyrwmHn215o7yuzgoR3EEqxGrfyqQ0=
+	bh=LhQ1XYS0mBFeOy+Oh7kmhFde5KgMRUrXrHezJRrcd28=;
+	b=KnobA+dUGQoAJOzmFlPOBPoE+90ra64Xn98wTWxTayiv9k3S+xKYDOD1FAZ0EhHDz7aqBz
+	rT6PAFmA9tu3act/C0SNo+RJ4ZhyaSAAAdnDmT66MziMs01+gIAO9gWhnFyEADMH49p027
+	6pyK7j5rmS2DKelpHHPKbNmv7sNLFek=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723037660;
+	s=susede2_ed25519; t=1723037661;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hip9yYrnC0jYAkTDHjdlrxG0ktOVCpMbPfxCsnh92mA=;
-	b=m8Ab9fJlazRdLuzUrUfaOBsME1VKV6HrDFKIHXDUEwcGZ5sfURyTEa2g2KOihlu4K+nskv
-	jlVoQNkT6CyKBADg==
-Authentication-Results: smtp-out2.suse.de;
-	none
+	bh=LhQ1XYS0mBFeOy+Oh7kmhFde5KgMRUrXrHezJRrcd28=;
+	b=B3jPVnWYCoa1BOzTiV2bt7AObAT5Km/u2elah4dPPKRuJmhIizIwUXb8gHP/9bqSWNzawt
+	9asrid3w8CilzhBw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=KnobA+dU;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=B3jPVnWY
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723037659; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1723037661; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hip9yYrnC0jYAkTDHjdlrxG0ktOVCpMbPfxCsnh92mA=;
-	b=SHsttvv0rlnfA8oU5m7YbNPxfJfuyJ8HclN50lVCHSZrqACL0lduKyGclNqgb0WB4bGcTI
-	zvOBCGDS4iJHgTQF+HHgiTtxrmRjY0fsBap687ZTKzkLfuLhqk87Rt6hKXj0WjBCOd5RhO
-	FiM7UIkRCaSeFCiY/ZkwRnh03sULIXE=
+	bh=LhQ1XYS0mBFeOy+Oh7kmhFde5KgMRUrXrHezJRrcd28=;
+	b=KnobA+dUGQoAJOzmFlPOBPoE+90ra64Xn98wTWxTayiv9k3S+xKYDOD1FAZ0EhHDz7aqBz
+	rT6PAFmA9tu3act/C0SNo+RJ4ZhyaSAAAdnDmT66MziMs01+gIAO9gWhnFyEADMH49p027
+	6pyK7j5rmS2DKelpHHPKbNmv7sNLFek=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723037659;
+	s=susede2_ed25519; t=1723037661;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hip9yYrnC0jYAkTDHjdlrxG0ktOVCpMbPfxCsnh92mA=;
-	b=Ly/fEw3/hQPtz3QPqZUFjZfkRO3Lgyi3ADtTNSTqP5HBOCCpGcj5ausiyLia9q9pmbMRXD
-	8WvAWlsTFiNCrEDQ==
+	bh=LhQ1XYS0mBFeOy+Oh7kmhFde5KgMRUrXrHezJRrcd28=;
+	b=B3jPVnWYCoa1BOzTiV2bt7AObAT5Km/u2elah4dPPKRuJmhIizIwUXb8gHP/9bqSWNzawt
+	9asrid3w8CilzhBw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D188013B03;
-	Wed,  7 Aug 2024 13:34:19 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 76C5713B03;
+	Wed,  7 Aug 2024 13:34:21 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id qLVDMdt3s2ZpVgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 07 Aug 2024 13:34:19 +0000
+	id 4G/fG913s2ZpVgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 07 Aug 2024 13:34:21 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 24/54] ALSA: es1688: Use standard print API
-Date: Wed,  7 Aug 2024 15:34:14 +0200
-Message-ID: <20240807133452.9424-25-tiwai@suse.de>
+Subject: [PATCH 36/54] ALSA: wss: Use standard print API
+Date: Wed,  7 Aug 2024 15:34:26 +0200
+Message-ID: <20240807133452.9424-37-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240807133452.9424-1-tiwai@suse.de>
 References: <20240807133452.9424-1-tiwai@suse.de>
@@ -88,227 +89,540 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [0.21 / 50.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-0.01 / 50.00];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.19)[-0.942];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_ONE(0.00)[1];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
 	FROM_EQ_ENVFROM(0.00)[];
 	TO_DN_NONE(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[]
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spamd-Bar: /
+X-Rspamd-Queue-Id: 8F0A521D27
+X-Spam-Level: 
+X-Rspamd-Action: no action
 X-Spam-Flag: NO
-X-Spam-Score: 0.21
+X-Spam-Score: -0.01
 
 Use the standard print API with dev_*() instead of the old house-baked
 one.  It gives better information and allows dynamically control of
 debug prints.
 
-For referring to the device, introduce snd_card pointer to struct
-snd_es1688.
-
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- include/sound/es1688.h        |  1 +
- sound/isa/es1688/es1688.c     |  2 +-
- sound/isa/es1688/es1688_lib.c | 55 ++++++++++++++++++-----------------
- 3 files changed, 31 insertions(+), 27 deletions(-)
+ sound/isa/wss/wss_lib.c | 178 ++++++++++++++++++++--------------------
+ 1 file changed, 90 insertions(+), 88 deletions(-)
 
-diff --git a/include/sound/es1688.h b/include/sound/es1688.h
-index 099569c31fbb..425a3717d77a 100644
---- a/include/sound/es1688.h
-+++ b/include/sound/es1688.h
-@@ -17,6 +17,7 @@
- #define ES1688_HW_UNDEF	0x0003
- 
- struct snd_es1688 {
-+	struct snd_card *card;
- 	unsigned long port;		/* port of ESS chip */
- 	struct resource *res_port;
- 	unsigned long mpu_port;		/* MPU-401 port of ESS chip */
-diff --git a/sound/isa/es1688/es1688.c b/sound/isa/es1688/es1688.c
-index 97728bf45474..6a95dfb7600a 100644
---- a/sound/isa/es1688/es1688.c
-+++ b/sound/isa/es1688/es1688.c
-@@ -213,7 +213,7 @@ static int snd_card_es968_pnp(struct snd_card *card, unsigned int n,
- 
- 	error = pnp_activate_dev(pdev);
- 	if (error < 0) {
--		snd_printk(KERN_ERR "ES968 pnp configure failure\n");
-+		dev_err(card->dev, "ES968 pnp configure failure\n");
- 		return error;
- 	}
- 	port[n] = pnp_port_start(pdev, 0);
-diff --git a/sound/isa/es1688/es1688_lib.c b/sound/isa/es1688/es1688_lib.c
-index 8554cb2263c1..c0c230149a75 100644
---- a/sound/isa/es1688/es1688_lib.c
-+++ b/sound/isa/es1688/es1688_lib.c
-@@ -30,9 +30,7 @@ static int snd_es1688_dsp_command(struct snd_es1688 *chip, unsigned char val)
- 			outb(val, ES1688P(chip, COMMAND));
- 			return 1;
- 		}
--#ifdef CONFIG_SND_DEBUG
--	printk(KERN_DEBUG "snd_es1688_dsp_command: timeout (0x%x)\n", val);
--#endif
-+	dev_dbg(chip->card->dev, "%s: timeout (0x%x)\n", __func__, val);
- 	return 0;
+diff --git a/sound/isa/wss/wss_lib.c b/sound/isa/wss/wss_lib.c
+index 026061b55ee9..9c655789574d 100644
+--- a/sound/isa/wss/wss_lib.c
++++ b/sound/isa/wss/wss_lib.c
+@@ -187,15 +187,16 @@ void snd_wss_out(struct snd_wss *chip, unsigned char reg, unsigned char value)
+ 	snd_wss_wait(chip);
+ #ifdef CONFIG_SND_DEBUG
+ 	if (wss_inb(chip, CS4231P(REGSEL)) & CS4231_INIT)
+-		snd_printk(KERN_DEBUG "out: auto calibration time out "
+-			   "- reg = 0x%x, value = 0x%x\n", reg, value);
++		dev_dbg(chip->card->dev,
++			"out: auto calibration time out - reg = 0x%x, value = 0x%x\n",
++			reg, value);
+ #endif
+ 	wss_outb(chip, CS4231P(REGSEL), chip->mce_bit | reg);
+ 	wss_outb(chip, CS4231P(REG), value);
+ 	chip->image[reg] = value;
+ 	mb();
+-	snd_printdd("codec out - reg 0x%x = 0x%x\n",
+-			chip->mce_bit | reg, value);
++	dev_dbg(chip->card->dev, "codec out - reg 0x%x = 0x%x\n",
++		chip->mce_bit | reg, value);
  }
+ EXPORT_SYMBOL(snd_wss_out);
  
-@@ -43,7 +41,8 @@ static int snd_es1688_dsp_get_byte(struct snd_es1688 *chip)
- 	for (i = 1000; i; i--)
- 		if (inb(ES1688P(chip, DATA_AVAIL)) & 0x80)
- 			return inb(ES1688P(chip, READ));
--	snd_printd("es1688 get byte failed: 0x%lx = 0x%x!!!\n", ES1688P(chip, DATA_AVAIL), inb(ES1688P(chip, DATA_AVAIL)));
-+	dev_dbg(chip->card->dev, "es1688 get byte failed: 0x%lx = 0x%x!!!\n",
-+		ES1688P(chip, DATA_AVAIL), inb(ES1688P(chip, DATA_AVAIL)));
- 	return -ENODEV;
+@@ -204,8 +205,8 @@ unsigned char snd_wss_in(struct snd_wss *chip, unsigned char reg)
+ 	snd_wss_wait(chip);
+ #ifdef CONFIG_SND_DEBUG
+ 	if (wss_inb(chip, CS4231P(REGSEL)) & CS4231_INIT)
+-		snd_printk(KERN_DEBUG "in: auto calibration time out "
+-			   "- reg = 0x%x\n", reg);
++		dev_dbg(chip->card->dev,
++			"in: auto calibration time out - reg = 0x%x\n", reg);
+ #endif
+ 	wss_outb(chip, CS4231P(REGSEL), chip->mce_bit | reg);
+ 	mb();
+@@ -222,7 +223,7 @@ void snd_cs4236_ext_out(struct snd_wss *chip, unsigned char reg,
+ 	wss_outb(chip, CS4231P(REG), val);
+ 	chip->eimage[CS4236_REG(reg)] = val;
+ #if 0
+-	printk(KERN_DEBUG "ext out : reg = 0x%x, val = 0x%x\n", reg, val);
++	dev_dbg(chip->card->dev, "ext out : reg = 0x%x, val = 0x%x\n", reg, val);
+ #endif
  }
- 
-@@ -95,7 +94,8 @@ int snd_es1688_reset(struct snd_es1688 *chip)
- 	udelay(30);
- 	for (i = 0; i < 1000 && !(inb(ES1688P(chip, DATA_AVAIL)) & 0x80); i++);
- 	if (inb(ES1688P(chip, READ)) != 0xaa) {
--		snd_printd("ess_reset at 0x%lx: failed!!!\n", chip->port);
-+		dev_dbg(chip->card->dev, "ess_reset at 0x%lx: failed!!!\n",
-+			chip->port);
- 		return -ENODEV;
+ EXPORT_SYMBOL(snd_cs4236_ext_out);
+@@ -238,8 +239,8 @@ unsigned char snd_cs4236_ext_in(struct snd_wss *chip, unsigned char reg)
+ 	{
+ 		unsigned char res;
+ 		res = wss_inb(chip, CS4231P(REG));
+-		printk(KERN_DEBUG "ext in : reg = 0x%x, val = 0x%x\n",
+-		       reg, res);
++		dev_dbg(chip->card->dev, "ext in : reg = 0x%x, val = 0x%x\n",
++			reg, res);
+ 		return res;
  	}
- 	snd_es1688_dsp_command(chip, 0xc6);	/* enable extended mode */
-@@ -127,7 +127,8 @@ static int snd_es1688_probe(struct snd_es1688 *chip)
- 	inb(ES1688P(chip, ENABLE0));	/* ENABLE0 */
+ #endif
+@@ -250,87 +251,87 @@ EXPORT_SYMBOL(snd_cs4236_ext_in);
  
- 	if (snd_es1688_reset(chip) < 0) {
--		snd_printdd("ESS: [0x%lx] reset failed... 0x%x\n", chip->port, inb(ES1688P(chip, READ)));
-+		dev_dbg(chip->card->dev, "ESS: [0x%lx] reset failed... 0x%x\n",
-+			chip->port, inb(ES1688P(chip, READ)));
- 		spin_unlock_irqrestore(&chip->reg_lock, flags);
- 		return -ENODEV;
- 	}
-@@ -145,7 +146,9 @@ static int snd_es1688_probe(struct snd_es1688 *chip)
- 
- 	spin_unlock_irqrestore(&chip->reg_lock, flags);
- 
--	snd_printdd("ESS: [0x%lx] found.. major = 0x%x, minor = 0x%x\n", chip->port, major, minor);
+ static void snd_wss_debug(struct snd_wss *chip)
+ {
+-	printk(KERN_DEBUG
 +	dev_dbg(chip->card->dev,
-+		"ESS: [0x%lx] found.. major = 0x%x, minor = 0x%x\n",
-+		chip->port, major, minor);
- 
- 	chip->version = (major << 8) | minor;
- 	if (!chip->version)
-@@ -153,15 +156,16 @@ static int snd_es1688_probe(struct snd_es1688 *chip)
- 
- 	switch (chip->version & 0xfff0) {
- 	case 0x4880:
--		snd_printk(KERN_ERR "[0x%lx] ESS: AudioDrive ES488 detected, "
--			   "but driver is in another place\n", chip->port);
-+		dev_err(chip->card->dev,
-+			"[0x%lx] ESS: AudioDrive ES488 detected, but driver is in another place\n",
+ 		"CS4231 REGS:      INDEX = 0x%02x  "
+ 		"                 STATUS = 0x%02x\n",
+ 					wss_inb(chip, CS4231P(REGSEL)),
+ 					wss_inb(chip, CS4231P(STATUS)));
+-	printk(KERN_DEBUG
++	dev_dbg(chip->card->dev,
+ 		"  0x00: left input      = 0x%02x  "
+ 		"  0x10: alt 1 (CFIG 2)  = 0x%02x\n",
+ 					snd_wss_in(chip, 0x00),
+ 					snd_wss_in(chip, 0x10));
+-	printk(KERN_DEBUG
++	dev_dbg(chip->card->dev,
+ 		"  0x01: right input     = 0x%02x  "
+ 		"  0x11: alt 2 (CFIG 3)  = 0x%02x\n",
+ 					snd_wss_in(chip, 0x01),
+ 					snd_wss_in(chip, 0x11));
+-	printk(KERN_DEBUG
++	dev_dbg(chip->card->dev,
+ 		"  0x02: GF1 left input  = 0x%02x  "
+ 		"  0x12: left line in    = 0x%02x\n",
+ 					snd_wss_in(chip, 0x02),
+ 					snd_wss_in(chip, 0x12));
+-	printk(KERN_DEBUG
++	dev_dbg(chip->card->dev,
+ 		"  0x03: GF1 right input = 0x%02x  "
+ 		"  0x13: right line in   = 0x%02x\n",
+ 					snd_wss_in(chip, 0x03),
+ 					snd_wss_in(chip, 0x13));
+-	printk(KERN_DEBUG
++	dev_dbg(chip->card->dev,
+ 		"  0x04: CD left input   = 0x%02x  "
+ 		"  0x14: timer low       = 0x%02x\n",
+ 					snd_wss_in(chip, 0x04),
+ 					snd_wss_in(chip, 0x14));
+-	printk(KERN_DEBUG
++	dev_dbg(chip->card->dev,
+ 		"  0x05: CD right input  = 0x%02x  "
+ 		"  0x15: timer high      = 0x%02x\n",
+ 					snd_wss_in(chip, 0x05),
+ 					snd_wss_in(chip, 0x15));
+-	printk(KERN_DEBUG
++	dev_dbg(chip->card->dev,
+ 		"  0x06: left output     = 0x%02x  "
+ 		"  0x16: left MIC (PnP)  = 0x%02x\n",
+ 					snd_wss_in(chip, 0x06),
+ 					snd_wss_in(chip, 0x16));
+-	printk(KERN_DEBUG
++	dev_dbg(chip->card->dev,
+ 		"  0x07: right output    = 0x%02x  "
+ 		"  0x17: right MIC (PnP) = 0x%02x\n",
+ 					snd_wss_in(chip, 0x07),
+ 					snd_wss_in(chip, 0x17));
+-	printk(KERN_DEBUG
++	dev_dbg(chip->card->dev,
+ 		"  0x08: playback format = 0x%02x  "
+ 		"  0x18: IRQ status      = 0x%02x\n",
+ 					snd_wss_in(chip, 0x08),
+ 					snd_wss_in(chip, 0x18));
+-	printk(KERN_DEBUG
++	dev_dbg(chip->card->dev,
+ 		"  0x09: iface (CFIG 1)  = 0x%02x  "
+ 		"  0x19: left line out   = 0x%02x\n",
+ 					snd_wss_in(chip, 0x09),
+ 					snd_wss_in(chip, 0x19));
+-	printk(KERN_DEBUG
++	dev_dbg(chip->card->dev,
+ 		"  0x0a: pin control     = 0x%02x  "
+ 		"  0x1a: mono control    = 0x%02x\n",
+ 					snd_wss_in(chip, 0x0a),
+ 					snd_wss_in(chip, 0x1a));
+-	printk(KERN_DEBUG
++	dev_dbg(chip->card->dev,
+ 		"  0x0b: init & status   = 0x%02x  "
+ 		"  0x1b: right line out  = 0x%02x\n",
+ 					snd_wss_in(chip, 0x0b),
+ 					snd_wss_in(chip, 0x1b));
+-	printk(KERN_DEBUG
++	dev_dbg(chip->card->dev,
+ 		"  0x0c: revision & mode = 0x%02x  "
+ 		"  0x1c: record format   = 0x%02x\n",
+ 					snd_wss_in(chip, 0x0c),
+ 					snd_wss_in(chip, 0x1c));
+-	printk(KERN_DEBUG
++	dev_dbg(chip->card->dev,
+ 		"  0x0d: loopback        = 0x%02x  "
+ 		"  0x1d: var freq (PnP)  = 0x%02x\n",
+ 					snd_wss_in(chip, 0x0d),
+ 					snd_wss_in(chip, 0x1d));
+-	printk(KERN_DEBUG
++	dev_dbg(chip->card->dev,
+ 		"  0x0e: ply upr count   = 0x%02x  "
+ 		"  0x1e: ply lwr count   = 0x%02x\n",
+ 					snd_wss_in(chip, 0x0e),
+ 					snd_wss_in(chip, 0x1e));
+-	printk(KERN_DEBUG
++	dev_dbg(chip->card->dev,
+ 		"  0x0f: rec upr count   = 0x%02x  "
+ 		"  0x1f: rec lwr count   = 0x%02x\n",
+ 					snd_wss_in(chip, 0x0f),
+@@ -365,16 +366,16 @@ void snd_wss_mce_up(struct snd_wss *chip)
+ 	snd_wss_wait(chip);
+ #ifdef CONFIG_SND_DEBUG
+ 	if (wss_inb(chip, CS4231P(REGSEL)) & CS4231_INIT)
+-		snd_printk(KERN_DEBUG
+-			   "mce_up - auto calibration time out (0)\n");
++		dev_dbg(chip->card->dev,
++			"mce_up - auto calibration time out (0)\n");
+ #endif
+ 	spin_lock_irqsave(&chip->reg_lock, flags);
+ 	chip->mce_bit |= CS4231_MCE;
+ 	timeout = wss_inb(chip, CS4231P(REGSEL));
+ 	if (timeout == 0x80)
+-		snd_printk(KERN_DEBUG "mce_up [0x%lx]: "
+-			   "serious init problem - codec still busy\n",
+-			   chip->port);
++		dev_dbg(chip->card->dev,
++			"mce_up [0x%lx]: serious init problem - codec still busy\n",
 +			chip->port);
- 		return -ENODEV;
- 	case 0x6880:
- 		break;
- 	default:
--		snd_printk(KERN_ERR "[0x%lx] ESS: unknown AudioDrive chip "
--			   "with version 0x%x (Jazz16 soundcard?)\n",
--			   chip->port, chip->version);
-+		dev_err(chip->card->dev,
-+			"[0x%lx] ESS: unknown AudioDrive chip with version 0x%x (Jazz16 soundcard?)\n",
-+			chip->port, chip->version);
- 		return -ENODEV;
+ 	if (!(timeout & CS4231_MCE))
+ 		wss_outb(chip, CS4231P(REGSEL),
+ 			 chip->mce_bit | (timeout & 0x1f));
+@@ -393,9 +394,9 @@ void snd_wss_mce_down(struct snd_wss *chip)
+ 
+ #ifdef CONFIG_SND_DEBUG
+ 	if (wss_inb(chip, CS4231P(REGSEL)) & CS4231_INIT)
+-		snd_printk(KERN_DEBUG "mce_down [0x%lx] - "
+-			   "auto calibration time out (0)\n",
+-			   (long)CS4231P(REGSEL));
++		dev_dbg(chip->card->dev,
++			"mce_down [0x%lx] - auto calibration time out (0)\n",
++			(long)CS4231P(REGSEL));
+ #endif
+ 	spin_lock_irqsave(&chip->reg_lock, flags);
+ 	chip->mce_bit &= ~CS4231_MCE;
+@@ -403,9 +404,9 @@ void snd_wss_mce_down(struct snd_wss *chip)
+ 	wss_outb(chip, CS4231P(REGSEL), chip->mce_bit | (timeout & 0x1f));
+ 	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ 	if (timeout == 0x80)
+-		snd_printk(KERN_DEBUG "mce_down [0x%lx]: "
+-			   "serious init problem - codec still busy\n",
+-			   chip->port);
++		dev_dbg(chip->card->dev,
++			"mce_down [0x%lx]: serious init problem - codec still busy\n",
++			chip->port);
+ 	if ((timeout & CS4231_MCE) == 0 || !(chip->hardware & hw_mask))
+ 		return;
+ 
+@@ -416,7 +417,7 @@ void snd_wss_mce_down(struct snd_wss *chip)
+ 	 */
+ 	msleep(1);
+ 
+-	snd_printdd("(1) jiffies = %lu\n", jiffies);
++	dev_dbg(chip->card->dev, "(1) jiffies = %lu\n", jiffies);
+ 
+ 	/* check condition up to 250 ms */
+ 	end_time = jiffies + msecs_to_jiffies(250);
+@@ -424,27 +425,29 @@ void snd_wss_mce_down(struct snd_wss *chip)
+ 		CS4231_CALIB_IN_PROGRESS) {
+ 
+ 		if (time_after(jiffies, end_time)) {
+-			snd_printk(KERN_ERR "mce_down - "
+-					"auto calibration time out (2)\n");
++			dev_err(chip->card->dev,
++				"mce_down - auto calibration time out (2)\n");
+ 			return;
+ 		}
+ 		msleep(1);
  	}
  
-@@ -210,9 +214,6 @@ static int snd_es1688_init(struct snd_es1688 * chip, int enable)
+-	snd_printdd("(2) jiffies = %lu\n", jiffies);
++	dev_dbg(chip->card->dev, "(2) jiffies = %lu\n", jiffies);
+ 
+ 	/* check condition up to 100 ms */
+ 	end_time = jiffies + msecs_to_jiffies(100);
+ 	while (wss_inb(chip, CS4231P(REGSEL)) & CS4231_INIT) {
+ 		if (time_after(jiffies, end_time)) {
+-			snd_printk(KERN_ERR "mce_down - auto calibration time out (3)\n");
++			dev_err(chip->card->dev,
++				"mce_down - auto calibration time out (3)\n");
+ 			return;
+ 		}
+ 		msleep(1);
+ 	}
+ 
+-	snd_printdd("(3) jiffies = %lu\n", jiffies);
+-	snd_printd("mce_down - exit = 0x%x\n", wss_inb(chip, CS4231P(REGSEL)));
++	dev_dbg(chip->card->dev, "(3) jiffies = %lu\n", jiffies);
++	dev_dbg(chip->card->dev, "mce_down - exit = 0x%x\n",
++		wss_inb(chip, CS4231P(REGSEL)));
+ }
+ EXPORT_SYMBOL(snd_wss_mce_down);
+ 
+@@ -543,7 +546,7 @@ static unsigned char snd_wss_get_format(struct snd_wss *chip,
+ 	if (channels > 1)
+ 		rformat |= CS4231_STEREO;
+ #if 0
+-	snd_printk(KERN_DEBUG "get_format: 0x%x (mode=0x%x)\n", format, mode);
++	dev_dbg(chip->card->dev, "get_format: 0x%x (mode=0x%x)\n", format, mode);
+ #endif
+ 	return rformat;
+ }
+@@ -793,7 +796,7 @@ static void snd_wss_init(struct snd_wss *chip)
+ 	snd_wss_mce_down(chip);
+ 
+ #ifdef SNDRV_DEBUG_MCE
+-	snd_printk(KERN_DEBUG "init: (1)\n");
++	dev_dbg(chip->card->dev, "init: (1)\n");
+ #endif
+ 	snd_wss_mce_up(chip);
+ 	spin_lock_irqsave(&chip->reg_lock, flags);
+@@ -808,7 +811,7 @@ static void snd_wss_init(struct snd_wss *chip)
+ 	snd_wss_mce_down(chip);
+ 
+ #ifdef SNDRV_DEBUG_MCE
+-	snd_printk(KERN_DEBUG "init: (2)\n");
++	dev_dbg(chip->card->dev, "init: (2)\n");
+ #endif
+ 
+ 	snd_wss_mce_up(chip);
+@@ -821,8 +824,8 @@ static void snd_wss_init(struct snd_wss *chip)
+ 	snd_wss_mce_down(chip);
+ 
+ #ifdef SNDRV_DEBUG_MCE
+-	snd_printk(KERN_DEBUG "init: (3) - afei = 0x%x\n",
+-		   chip->image[CS4231_ALT_FEATURE_1]);
++	dev_dbg(chip->card->dev, "init: (3) - afei = 0x%x\n",
++		chip->image[CS4231_ALT_FEATURE_1]);
+ #endif
+ 
+ 	spin_lock_irqsave(&chip->reg_lock, flags);
+@@ -838,7 +841,7 @@ static void snd_wss_init(struct snd_wss *chip)
+ 	snd_wss_mce_down(chip);
+ 
+ #ifdef SNDRV_DEBUG_MCE
+-	snd_printk(KERN_DEBUG "init: (4)\n");
++	dev_dbg(chip->card->dev, "init: (4)\n");
+ #endif
+ 
+ 	snd_wss_mce_up(chip);
+@@ -851,7 +854,7 @@ static void snd_wss_init(struct snd_wss *chip)
+ 	snd_wss_calibrate_mute(chip, 0);
+ 
+ #ifdef SNDRV_DEBUG_MCE
+-	snd_printk(KERN_DEBUG "init: (5)\n");
++	dev_dbg(chip->card->dev, "init: (5)\n");
+ #endif
+ }
+ 
+@@ -1256,12 +1259,13 @@ static int snd_wss_probe(struct snd_wss *chip)
+ 					break;	/* this is valid value */
+ 			}
+ 		}
+-		snd_printdd("wss: port = 0x%lx, id = 0x%x\n", chip->port, id);
++		dev_dbg(chip->card->dev, "wss: port = 0x%lx, id = 0x%x\n",
++			chip->port, id);
+ 		if (id != 0x0a)
+ 			return -ENODEV;	/* no valid device found */
+ 
+ 		rev = snd_wss_in(chip, CS4231_VERSION) & 0xe7;
+-		snd_printdd("CS4231: VERSION (I25) = 0x%x\n", rev);
++		dev_dbg(chip->card->dev, "CS4231: VERSION (I25) = 0x%x\n", rev);
+ 		if (rev == 0x80) {
+ 			unsigned char tmp = snd_wss_in(chip, 23);
+ 			snd_wss_out(chip, 23, ~tmp);
+@@ -1280,8 +1284,8 @@ static int snd_wss_probe(struct snd_wss *chip)
+ 		} else if (rev == 0x03) {
+ 			chip->hardware = WSS_HW_CS4236B;
+ 		} else {
+-			snd_printk(KERN_ERR
+-				   "unknown CS chip with version 0x%x\n", rev);
++			dev_err(chip->card->dev,
++				"unknown CS chip with version 0x%x\n", rev);
+ 			return -ENODEV;		/* unknown CS4231 chip? */
+ 		}
+ 	}
+@@ -1340,7 +1344,9 @@ static int snd_wss_probe(struct snd_wss *chip)
+ 			snd_cs4236_ext_out(chip, CS4236_VERSION, 0xff);
+ 			id = snd_cs4236_ext_in(chip, CS4236_VERSION);
+ 			snd_cs4236_ext_out(chip, CS4236_VERSION, rev);
+-			snd_printdd("CS4231: ext version; rev = 0x%x, id = 0x%x\n", rev, id);
++			dev_dbg(chip->card->dev,
++				"CS4231: ext version; rev = 0x%x, id = 0x%x\n",
++				rev, id);
+ 			if ((id & 0x1f) == 0x1d) {	/* CS4235 */
+ 				chip->hardware = WSS_HW_CS4235;
+ 				switch (id >> 5) {
+@@ -1349,10 +1355,9 @@ static int snd_wss_probe(struct snd_wss *chip)
+ 				case 6:
+ 					break;
+ 				default:
+-					snd_printk(KERN_WARNING
+-						"unknown CS4235 chip "
+-						"(enhanced version = 0x%x)\n",
+-						id);
++					dev_warn(chip->card->dev,
++						 "unknown CS4235 chip (enhanced version = 0x%x)\n",
++						 id);
+ 				}
+ 			} else if ((id & 0x1f) == 0x0b) {	/* CS4236/B */
+ 				switch (id >> 5) {
+@@ -1363,10 +1368,9 @@ static int snd_wss_probe(struct snd_wss *chip)
+ 					chip->hardware = WSS_HW_CS4236B;
+ 					break;
+ 				default:
+-					snd_printk(KERN_WARNING
+-						"unknown CS4236 chip "
+-						"(enhanced version = 0x%x)\n",
+-						id);
++					dev_warn(chip->card->dev,
++						 "unknown CS4236 chip (enhanced version = 0x%x)\n",
++						 id);
+ 				}
+ 			} else if ((id & 0x1f) == 0x08) {	/* CS4237B */
+ 				chip->hardware = WSS_HW_CS4237B;
+@@ -1377,10 +1381,9 @@ static int snd_wss_probe(struct snd_wss *chip)
+ 				case 7:
+ 					break;
+ 				default:
+-					snd_printk(KERN_WARNING
+-						"unknown CS4237B chip "
+-						"(enhanced version = 0x%x)\n",
+-						id);
++					dev_warn(chip->card->dev,
++						 "unknown CS4237B chip (enhanced version = 0x%x)\n",
++						 id);
+ 				}
+ 			} else if ((id & 0x1f) == 0x09) {	/* CS4238B */
+ 				chip->hardware = WSS_HW_CS4238B;
+@@ -1390,10 +1393,9 @@ static int snd_wss_probe(struct snd_wss *chip)
+ 				case 7:
+ 					break;
+ 				default:
+-					snd_printk(KERN_WARNING
+-						"unknown CS4238B chip "
+-						"(enhanced version = 0x%x)\n",
+-						id);
++					dev_warn(chip->card->dev,
++						 "unknown CS4238B chip (enhanced version = 0x%x)\n",
++						 id);
+ 				}
+ 			} else if ((id & 0x1f) == 0x1e) {	/* CS4239 */
+ 				chip->hardware = WSS_HW_CS4239;
+@@ -1403,15 +1405,14 @@ static int snd_wss_probe(struct snd_wss *chip)
+ 				case 6:
+ 					break;
+ 				default:
+-					snd_printk(KERN_WARNING
+-						"unknown CS4239 chip "
+-						"(enhanced version = 0x%x)\n",
+-						id);
++					dev_warn(chip->card->dev,
++						 "unknown CS4239 chip (enhanced version = 0x%x)\n",
++						 id);
+ 				}
+ 			} else {
+-				snd_printk(KERN_WARNING
+-					   "unknown CS4236/CS423xB chip "
+-					   "(enhanced version = 0x%x)\n", id);
++				dev_warn(chip->card->dev,
++					 "unknown CS4236/CS423xB chip (enhanced version = 0x%x)\n",
++					 id);
  			}
  		}
  	}
--#if 0
--	snd_printk(KERN_DEBUG "mpu cfg = 0x%x\n", cfg);
--#endif
- 	spin_lock_irqsave(&chip->reg_lock, flags);
- 	snd_es1688_mixer_write(chip, 0x40, cfg);
+@@ -1644,8 +1645,9 @@ static void snd_wss_resume(struct snd_wss *chip)
+ 	wss_outb(chip, CS4231P(REGSEL), chip->mce_bit | (timeout & 0x1f));
  	spin_unlock_irqrestore(&chip->reg_lock, flags);
-@@ -225,9 +226,9 @@ static int snd_es1688_init(struct snd_es1688 * chip, int enable)
- 		cfg = 0xf0;	/* enable only DMA counter interrupt */
- 		irq_bits = irqs[chip->irq & 0x0f];
- 		if (irq_bits < 0) {
--			snd_printk(KERN_ERR "[0x%lx] ESS: bad IRQ %d "
--				   "for ES1688 chip!!\n",
--				   chip->port, chip->irq);
-+			dev_err(chip->card->dev,
-+				"[0x%lx] ESS: bad IRQ %d for ES1688 chip!!\n",
-+				chip->port, chip->irq);
- #if 0
- 			irq_bits = 0;
- 			cfg = 0x10;
-@@ -240,8 +241,9 @@ static int snd_es1688_init(struct snd_es1688 * chip, int enable)
- 		cfg = 0xf0;	/* extended mode DMA enable */
- 		dma = chip->dma8;
- 		if (dma > 3 || dma == 2) {
--			snd_printk(KERN_ERR "[0x%lx] ESS: bad DMA channel %d "
--				   "for ES1688 chip!!\n", chip->port, dma);
-+			dev_err(chip->card->dev,
-+				"[0x%lx] ESS: bad DMA channel %d for ES1688 chip!!\n",
-+				chip->port, dma);
- #if 0
- 			dma_bits = 0;
- 			cfg = 0x00;	/* disable all DMA */
-@@ -326,9 +328,9 @@ static int snd_es1688_trigger(struct snd_es1688 *chip, int cmd, unsigned char va
- 		return -EINVAL;	/* something is wrong */
+ 	if (timeout == 0x80)
+-		snd_printk(KERN_ERR "down [0x%lx]: serious init problem "
+-			   "- codec still busy\n", chip->port);
++		dev_err(chip->card->dev
++			"down [0x%lx]: serious init problem - codec still busy\n",
++			chip->port);
+ 	if ((timeout & CS4231_MCE) == 0 ||
+ 	    !(chip->hardware & (WSS_HW_CS4231_MASK | WSS_HW_CS4232_MASK))) {
+ 		return;
+@@ -1757,7 +1759,7 @@ int snd_wss_create(struct snd_card *card,
+ 
+ 	chip->res_port = devm_request_region(card->dev, port, 4, "WSS");
+ 	if (!chip->res_port) {
+-		snd_printk(KERN_ERR "wss: can't grab port 0x%lx\n", port);
++		dev_err(chip->card->dev, "wss: can't grab port 0x%lx\n", port);
+ 		return -EBUSY;
  	}
+ 	chip->port = port;
+@@ -1765,7 +1767,7 @@ int snd_wss_create(struct snd_card *card,
+ 		chip->res_cport = devm_request_region(card->dev, cport, 8,
+ 						      "CS4232 Control");
+ 		if (!chip->res_cport) {
+-			snd_printk(KERN_ERR
++			dev_err(chip->card->dev,
+ 				"wss: can't grab control port 0x%lx\n", cport);
+ 			return -ENODEV;
+ 		}
+@@ -1774,20 +1776,20 @@ int snd_wss_create(struct snd_card *card,
+ 	if (!(hwshare & WSS_HWSHARE_IRQ))
+ 		if (devm_request_irq(card->dev, irq, snd_wss_interrupt, 0,
+ 				     "WSS", (void *) chip)) {
+-			snd_printk(KERN_ERR "wss: can't grab IRQ %d\n", irq);
++			dev_err(chip->card->dev, "wss: can't grab IRQ %d\n", irq);
+ 			return -EBUSY;
+ 		}
+ 	chip->irq = irq;
+ 	card->sync_irq = chip->irq;
+ 	if (!(hwshare & WSS_HWSHARE_DMA1) &&
+ 	    snd_devm_request_dma(card->dev, dma1, "WSS - 1")) {
+-		snd_printk(KERN_ERR "wss: can't grab DMA1 %d\n", dma1);
++		dev_err(chip->card->dev, "wss: can't grab DMA1 %d\n", dma1);
+ 		return -EBUSY;
+ 	}
+ 	chip->dma1 = dma1;
+ 	if (!(hwshare & WSS_HWSHARE_DMA2) && dma1 != dma2 && dma2 >= 0 &&
+ 	    snd_devm_request_dma(card->dev, dma2, "WSS - 2")) {
+-		snd_printk(KERN_ERR "wss: can't grab DMA2 %d\n", dma2);
++		dev_err(chip->card->dev, "wss: can't grab DMA2 %d\n", dma2);
+ 		return -EBUSY;
+ 	}
+ 	if (dma1 == dma2 || dma2 < 0) {
+@@ -1810,8 +1812,8 @@ int snd_wss_create(struct snd_card *card,
  #if 0
--	printk(KERN_DEBUG "trigger: val = 0x%x, value = 0x%x\n", val, value);
--	printk(KERN_DEBUG "trigger: pointer = 0x%x\n",
--	       snd_dma_pointer(chip->dma8, chip->dma_size));
-+	dev_dbg(chip->card->dev, "trigger: val = 0x%x, value = 0x%x\n", val, value);
-+	dev_dbg(chip->card->dev, "trigger: pointer = 0x%x\n",
-+		snd_dma_pointer(chip->dma8, chip->dma_size));
+ 	if (chip->hardware & WSS_HW_CS4232_MASK) {
+ 		if (chip->res_cport == NULL)
+-			snd_printk(KERN_ERR "CS4232 control port features are "
+-				   "not accessible\n");
++			dev_err(chip->card->dev,
++				"CS4232 control port features are not accessible\n");
+ 	}
  #endif
- 	snd_es1688_write(chip, 0xb8, (val & 0xf0) | value);
- 	spin_unlock(&chip->reg_lock);
-@@ -620,20 +622,21 @@ int snd_es1688_create(struct snd_card *card,
  
- 	if (chip == NULL)
- 		return -ENOMEM;
-+	chip->card = card;
- 	chip->irq = -1;
- 	chip->dma8 = -1;
- 	chip->hardware = ES1688_HW_UNDEF;
- 	
- 	chip->res_port = request_region(port + 4, 12, "ES1688");
- 	if (chip->res_port == NULL) {
--		snd_printk(KERN_ERR "es1688: can't grab port 0x%lx\n", port + 4);
-+		dev_err(card->dev, "es1688: can't grab port 0x%lx\n", port + 4);
- 		err = -EBUSY;
- 		goto exit;
- 	}
- 
- 	err = request_irq(irq, snd_es1688_interrupt, 0, "ES1688", (void *) chip);
- 	if (err < 0) {
--		snd_printk(KERN_ERR "es1688: can't grab IRQ %d\n", irq);
-+		dev_err(card->dev, "es1688: can't grab IRQ %d\n", irq);
- 		goto exit;
- 	}
- 
-@@ -642,7 +645,7 @@ int snd_es1688_create(struct snd_card *card,
- 	err = request_dma(dma8, "ES1688");
- 
- 	if (err < 0) {
--		snd_printk(KERN_ERR "es1688: can't grab DMA8 %d\n", dma8);
-+		dev_err(card->dev, "es1688: can't grab DMA8 %d\n", dma8);
- 		goto exit;
- 	}
- 	chip->dma8 = dma8;
 -- 
 2.43.0
 
