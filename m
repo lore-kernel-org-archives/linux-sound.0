@@ -1,84 +1,84 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E54B1E6741
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C101E673D
 	for <linux-sound@vger.kernel.org>; Wed,  7 Aug 2024 13:34:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723037661; cv=none; b=NCeM0Ru+CY9iXSbhBX2i1Bu2x3Xukk1tjocafswuq5Ic9DKt2D9V5YcAr7mHc41eaErDo4jkLcCn9btYAUkIeEIC1YcsjAkL7XtfT1CAsmXw0st0VS4Pej47SssomVgbm570JdPkgzwJIlrVm6JhK0f+GxfPHQpln2wkmvSSqVs=
+	t=1723037661; cv=none; b=NCsloWkqOoY1hbXZL/SCJPPUjioS0r2xPCWx3HT5AnzodMFaG0bqyPo/YTiON5nQFIXbDogWRkRMAxBEoHT4qqq94wGrm1MCRR9kDrvrhJMzP8vk1qa8YpVP+Wvl8PxOyQ/ed2+S84DiwghBIGZG9Ikfh0PtnxVA7XSFRMsQKYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1723037661; c=relaxed/simple;
-	bh=KQCnKUtBonyNeRnOl1I4CgL8wKjOxDyRZqj1P/vNpio=;
+	bh=THgLEZpqbCchsQtbXmlpNfZNC5sSobddesVYT9GTIyQ=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Fm8b9Nk2Fk+i0g1knRdeBA1g0GjFtca2DSPypnvwP2VxLfMHcAiT820rvOZ1w9WF0tlfeqMfSiAqy99Gw62hacQTYIFAI+3SExLUw+lLt5fdnebAbBwa0Z/uRUSihll9GNCdSMESzMV14sug960DPhqWXXpqoPluKrBJUkMFvxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FyUX+wyr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zgL1Iu+8; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FyUX+wyr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zgL1Iu+8; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=if1YyZbVcTVXyWAlOnby//H78FcTdwUHXdI+wO5S7uISUBC4cQhDE31CZZAzT+iMfT+guiRy/f62w+XNfWDTE3zBquwWMXiEDzXfjUMdgeA87qawIRwxZKxzAhTGpyYDnmT9YRnRH/6mruFUsc8wofB+F1otgMIN9qFu6Ub5COw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YsaUhdSk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=C0lSRtf6; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YsaUhdSk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=C0lSRtf6; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FyUX+wyr";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zgL1Iu+8";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FyUX+wyr";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zgL1Iu+8"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YsaUhdSk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="C0lSRtf6";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YsaUhdSk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="C0lSRtf6"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C7C5A21D19;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A9AF91FB58;
 	Wed,  7 Aug 2024 13:34:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1723037657; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2kc68XYuKxv8o5xhcFtty2I6Kf53cAQxT9m57Xpuk6w=;
-	b=FyUX+wyrPqMv5VHdzqcP0fVczx/iqSvZFuzMda2NS9DeDn1+Czaud9gzLY/VsWTf/RLjnv
-	+ooHVPLb80vs05bWBAj8FLl6QkWIi7wc1U7xNMQ0520Bsos5TEulHNolljbbYysS9pHa0K
-	SGjNRmfedEBrrrulTFwydvE4wDgsRKo=
+	bh=dGgcCztPHQd4UtGcNJRqgGt4msFnk/ksbWjvwAJpV0Y=;
+	b=YsaUhdSkIq0EKnvZFCZdVJfFaG7vFOTi78xn1pGxmsqGlSfrkypRdlFC3pb2k4KaFobOVX
+	4akpEysfmNLzhxL9u+aV6NRXaEFJmfELsTQxFm8o9xoQqjpbT3YFWun4HGkzxSFXrkLf06
+	pljSfq8dAFSu6cFwl9X0eIm384S0q9k=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1723037657;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2kc68XYuKxv8o5xhcFtty2I6Kf53cAQxT9m57Xpuk6w=;
-	b=zgL1Iu+8AAljoPryzqNdESvjSiOOgxQ78SXuKNxUtfTp202u30rnGrPdoMWqSV5QdV8cMU
-	8ohscNvJLI4+CqDg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=FyUX+wyr;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=zgL1Iu+8
+	bh=dGgcCztPHQd4UtGcNJRqgGt4msFnk/ksbWjvwAJpV0Y=;
+	b=C0lSRtf67UiKdh3PekDylnvaWzVFEb9spuNlk4XYoZgmVeaeGRrQHwtPKvHqCBAX1mUV/U
+	AU2VnLAqI1ClooAQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=YsaUhdSk;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=C0lSRtf6
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1723037657; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2kc68XYuKxv8o5xhcFtty2I6Kf53cAQxT9m57Xpuk6w=;
-	b=FyUX+wyrPqMv5VHdzqcP0fVczx/iqSvZFuzMda2NS9DeDn1+Czaud9gzLY/VsWTf/RLjnv
-	+ooHVPLb80vs05bWBAj8FLl6QkWIi7wc1U7xNMQ0520Bsos5TEulHNolljbbYysS9pHa0K
-	SGjNRmfedEBrrrulTFwydvE4wDgsRKo=
+	bh=dGgcCztPHQd4UtGcNJRqgGt4msFnk/ksbWjvwAJpV0Y=;
+	b=YsaUhdSkIq0EKnvZFCZdVJfFaG7vFOTi78xn1pGxmsqGlSfrkypRdlFC3pb2k4KaFobOVX
+	4akpEysfmNLzhxL9u+aV6NRXaEFJmfELsTQxFm8o9xoQqjpbT3YFWun4HGkzxSFXrkLf06
+	pljSfq8dAFSu6cFwl9X0eIm384S0q9k=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1723037657;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2kc68XYuKxv8o5xhcFtty2I6Kf53cAQxT9m57Xpuk6w=;
-	b=zgL1Iu+8AAljoPryzqNdESvjSiOOgxQ78SXuKNxUtfTp202u30rnGrPdoMWqSV5QdV8cMU
-	8ohscNvJLI4+CqDg==
+	bh=dGgcCztPHQd4UtGcNJRqgGt4msFnk/ksbWjvwAJpV0Y=;
+	b=C0lSRtf67UiKdh3PekDylnvaWzVFEb9spuNlk4XYoZgmVeaeGRrQHwtPKvHqCBAX1mUV/U
+	AU2VnLAqI1ClooAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AEE8A13B06;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 900CF13B05;
 	Wed,  7 Aug 2024 13:34:17 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sE2SKdl3s2ZpVgAAD6G6ig
+	id cHIKItl3s2ZpVgAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Wed, 07 Aug 2024 13:34:17 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 08/54] ALSA: serial-u16550: Use standard print API
-Date: Wed,  7 Aug 2024 15:33:58 +0200
-Message-ID: <20240807133452.9424-9-tiwai@suse.de>
+Subject: [PATCH 07/54] ALSA: opl4: Use standard print API
+Date: Wed,  7 Aug 2024 15:33:57 +0200
+Message-ID: <20240807133452.9424-8-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240807133452.9424-1-tiwai@suse.de>
 References: <20240807133452.9424-1-tiwai@suse.de>
@@ -93,7 +93,7 @@ X-Spam-Level:
 X-Rspamd-Action: no action
 X-Spam-Score: -3.01
 X-Spam-Flag: NO
-X-Rspamd-Queue-Id: C7C5A21D19
+X-Rspamd-Queue-Id: A9AF91FB58
 X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
@@ -129,110 +129,63 @@ debug prints.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/drivers/serial-u16550.c | 41 ++++++++++++++++++-----------------
- 1 file changed, 21 insertions(+), 20 deletions(-)
+ sound/drivers/opl4/opl4_lib.c | 8 ++++----
+ sound/drivers/opl4/yrw801.c   | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/sound/drivers/serial-u16550.c b/sound/drivers/serial-u16550.c
-index 3cbc7a4adcb4..f66e01624c68 100644
---- a/sound/drivers/serial-u16550.c
-+++ b/sound/drivers/serial-u16550.c
-@@ -224,9 +224,9 @@ static void snd_uart16550_io_loop(struct snd_uart16550 * uart)
- 			snd_rawmidi_receive(uart->midi_input[substream], &c, 1);
+diff --git a/sound/drivers/opl4/opl4_lib.c b/sound/drivers/opl4/opl4_lib.c
+index 035645eb5e8d..8fa61596875a 100644
+--- a/sound/drivers/opl4/opl4_lib.c
++++ b/sound/drivers/opl4/opl4_lib.c
+@@ -114,7 +114,7 @@ static int snd_opl4_detect(struct snd_opl4 *opl4)
+ 	snd_opl4_enable_opl4(opl4);
  
- 		if (status & UART_LSR_OE)
--			snd_printk(KERN_WARNING
--				   "%s: Overrun on device at 0x%lx\n",
--			       uart->rmidi->name, uart->base);
-+			dev_warn(uart->card->dev,
-+				 "%s: Overrun on device at 0x%lx\n",
-+				 uart->rmidi->name, uart->base);
- 	}
+ 	id1 = snd_opl4_read(opl4, OPL4_REG_MEMORY_CONFIGURATION);
+-	snd_printdd("OPL4[02]=%02x\n", id1);
++	dev_dbg(opl4->card->dev, "OPL4[02]=%02x\n", id1);
+ 	switch (id1 & OPL4_DEVICE_ID_MASK) {
+ 	case 0x20:
+ 		opl4->hardware = OPL3_HW_OPL4;
+@@ -130,7 +130,7 @@ static int snd_opl4_detect(struct snd_opl4 *opl4)
+ 	snd_opl4_write(opl4, OPL4_REG_MIX_CONTROL_PCM, 0xff);
+ 	id1 = snd_opl4_read(opl4, OPL4_REG_MIX_CONTROL_FM);
+ 	id2 = snd_opl4_read(opl4, OPL4_REG_MIX_CONTROL_PCM);
+-	snd_printdd("OPL4 id1=%02x id2=%02x\n", id1, id2);
++	dev_dbg(opl4->card->dev, "OPL4 id1=%02x id2=%02x\n", id1, id2);
+        	if (id1 != 0x00 || id2 != 0xff)
+ 		return -ENODEV;
  
- 	/* remember the last stream */
-@@ -323,7 +323,8 @@ static int snd_uart16550_detect(struct snd_uart16550 *uart)
- 	}
- 
- 	if (!devm_request_region(uart->card->dev, io_base, 8, "Serial MIDI")) {
--		snd_printk(KERN_ERR "u16550: can't grab port 0x%lx\n", io_base);
-+		dev_err(uart->card->dev,
-+			"u16550: can't grab port 0x%lx\n", io_base);
+@@ -200,7 +200,7 @@ int snd_opl4_create(struct snd_card *card,
+ 	opl4->res_fm_port = request_region(fm_port, 8, "OPL4 FM");
+ 	opl4->res_pcm_port = request_region(pcm_port, 8, "OPL4 PCM/MIX");
+ 	if (!opl4->res_fm_port || !opl4->res_pcm_port) {
+-		snd_printk(KERN_ERR "opl4: can't grab ports 0x%lx, 0x%lx\n", fm_port, pcm_port);
++		dev_err(card->dev, "opl4: can't grab ports 0x%lx, 0x%lx\n", fm_port, pcm_port);
+ 		snd_opl4_free(opl4);
  		return -EBUSY;
  	}
- 
-@@ -619,9 +620,9 @@ static int snd_uart16550_output_byte(struct snd_uart16550 *uart,
- 		}
- 	} else {
- 		if (!snd_uart16550_write_buffer(uart, midi_byte)) {
--			snd_printk(KERN_WARNING
--				   "%s: Buffer overrun on device at 0x%lx\n",
--				   uart->rmidi->name, uart->base);
-+			dev_warn(uart->card->dev,
-+				 "%s: Buffer overrun on device at 0x%lx\n",
-+				 uart->rmidi->name, uart->base);
- 			return 0;
- 		}
+@@ -214,7 +214,7 @@ int snd_opl4_create(struct snd_card *card,
+ 	err = snd_opl4_detect(opl4);
+ 	if (err < 0) {
+ 		snd_opl4_free(opl4);
+-		snd_printd("OPL4 chip not detected at %#lx/%#lx\n", fm_port, pcm_port);
++		dev_dbg(card->dev, "OPL4 chip not detected at %#lx/%#lx\n", fm_port, pcm_port);
+ 		return err;
  	}
-@@ -775,15 +776,15 @@ static int snd_uart16550_create(struct snd_card *card,
  
- 	err = snd_uart16550_detect(uart);
- 	if (err <= 0) {
--		printk(KERN_ERR "no UART detected at 0x%lx\n", iobase);
-+		dev_err(card->dev, "no UART detected at 0x%lx\n", iobase);
+diff --git a/sound/drivers/opl4/yrw801.c b/sound/drivers/opl4/yrw801.c
+index 6c335492d082..9e464b84b905 100644
+--- a/sound/drivers/opl4/yrw801.c
++++ b/sound/drivers/opl4/yrw801.c
+@@ -43,7 +43,7 @@ int snd_yrw801_detect(struct snd_opl4 *opl4)
+ 	snd_opl4_read_memory(opl4, buf, 0x1ffffe, 2);
+ 	if (buf[0] != 0x01)
  		return -ENODEV;
- 	}
+-	snd_printdd("YRW801 ROM version %02x.%02x\n", buf[0], buf[1]);
++	dev_dbg(opl4->card->dev, "YRW801 ROM version %02x.%02x\n", buf[0], buf[1]);
+ 	return 0;
+ }
  
- 	if (irq >= 0 && irq != SNDRV_AUTO_IRQ) {
- 		if (devm_request_irq(card->dev, irq, snd_uart16550_interrupt,
- 				     0, "Serial MIDI", uart)) {
--			snd_printk(KERN_WARNING
--				   "irq %d busy. Using Polling.\n", irq);
-+			dev_warn(card->dev,
-+				 "irq %d busy. Using Polling.\n", irq);
- 		} else {
- 			uart->irq = irq;
- 		}
-@@ -879,23 +880,23 @@ static int snd_serial_probe(struct platform_device *devptr)
- 	case SNDRV_SERIAL_GENERIC:
- 		break;
- 	default:
--		snd_printk(KERN_ERR
--			   "Adaptor type is out of range 0-%d (%d)\n",
--			   SNDRV_SERIAL_MAX_ADAPTOR, adaptor[dev]);
-+		dev_err(&devptr->dev,
-+			"Adaptor type is out of range 0-%d (%d)\n",
-+			SNDRV_SERIAL_MAX_ADAPTOR, adaptor[dev]);
- 		return -ENODEV;
- 	}
- 
- 	if (outs[dev] < 1 || outs[dev] > SNDRV_SERIAL_MAX_OUTS) {
--		snd_printk(KERN_ERR
--			   "Count of outputs is out of range 1-%d (%d)\n",
--			   SNDRV_SERIAL_MAX_OUTS, outs[dev]);
-+		dev_err(&devptr->dev,
-+			"Count of outputs is out of range 1-%d (%d)\n",
-+			SNDRV_SERIAL_MAX_OUTS, outs[dev]);
- 		return -ENODEV;
- 	}
- 
- 	if (ins[dev] < 1 || ins[dev] > SNDRV_SERIAL_MAX_INS) {
--		snd_printk(KERN_ERR
--			   "Count of inputs is out of range 1-%d (%d)\n",
--			   SNDRV_SERIAL_MAX_INS, ins[dev]);
-+		dev_err(&devptr->dev,
-+			"Count of inputs is out of range 1-%d (%d)\n",
-+			SNDRV_SERIAL_MAX_INS, ins[dev]);
- 		return -ENODEV;
- 	}
- 
-@@ -975,7 +976,7 @@ static int __init alsa_card_serial_init(void)
- 	}
- 	if (! cards) {
- #ifdef MODULE
--		printk(KERN_ERR "serial midi soundcard not found or device busy\n");
-+		pr_err("serial midi soundcard not found or device busy\n");
- #endif
- 		snd_serial_unregister_all();
- 		return -ENODEV;
 -- 
 2.43.0
 
