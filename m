@@ -1,83 +1,83 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A31CC200138
-	for <linux-sound@vger.kernel.org>; Wed,  7 Aug 2024 13:34:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C49991EA0D6
+	for <linux-sound@vger.kernel.org>; Wed,  7 Aug 2024 13:34:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723037669; cv=none; b=F/YluMSAtw0EVGfE6tZDPdn0BK60sNTEH6fIGlb/i9G3F1mli3KIIgKV5s93Km6G763IM+XewtPxVuHIMYNXVZ6g4yEUMQosIJDjYQ7ORU4yyg58C/BDXIuaQ43IPNoKa/pjzrJRAPc5FSIgfUfZPQT67It7L1+GV9erPKdYrE4=
+	t=1723037669; cv=none; b=eAZv/Vvuo4AuPceB/kfFrg6uI/K02z6JYVhSyE3AuGEfEMlk/XMxEFWHh4aMcsw2fmSJ2qRSMHKinA70KucISIaLZad6Cd4+VtqY5wxNb8tWN3HLi9sCiAboYcw5/jC2UpvIri3Wmcxlec/WekKA/WVEoClCHxyDO9lnj9ChcBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1723037669; c=relaxed/simple;
-	bh=AZxDzQKwxZ8QXe+yQ5SOwNeQDV1UW3lQDcEhBk6bL7I=;
+	bh=zZ9NUkKU5tiiVumcqCqlOpu344UaQ3Zpoiqj82tG08s=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ruGC4ftbDuIZ2dN7TegdyreDITbuECgCJxCUCQS4C454Vh/7+ftL/lj883iboc3m4tidOdFrb9yZWfo6wLHHGeVGa0CpUXBj32iNW7B4h6yoe2T73pj4/DUflN6qeEOVq+Ev2C0QdQ3GDRCe+wzo0GZsxCnYHDoMgyGrtHU+BUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WNJUL4kA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9SQCBdkk; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WNJUL4kA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9SQCBdkk; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=kE+IBJAVA7FYTiBVyIcJIn5YChuEGH05omy6oMz2ZZ8lyCgGwzSUcpb8NWyiPI48wEObrev5+Bs7LQHxVxCShWCh1RtqNHtJpRPvBhEpFliAZZ49gWYsF0a7k3tezuC23gG4u5Q5pJHPVE+DRzXqHMafcaQbzEwRiop01mIZvI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TYXOFWYN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JVB210pl; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TYXOFWYN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JVB210pl; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WNJUL4kA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9SQCBdkk";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WNJUL4kA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9SQCBdkk"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TYXOFWYN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JVB210pl";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TYXOFWYN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JVB210pl"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 35BB41FB9C;
-	Wed,  7 Aug 2024 13:34:21 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 92BFE21D1A;
+	Wed,  7 Aug 2024 13:34:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723037661; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1723037662; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VDCav1m4d3vh2gTPlXzpIrulaFfoQxqMEQJQ6PC8fLI=;
-	b=WNJUL4kA8gFN1U3B4Ihyur23nNSpShG3xmYWYt1DaGuOI/AAfD6wnNeZFmCJD9z6FWsyfy
-	sbwVGxoLP5sPqDg0KD8OtI2HF5ifH7jpvWDyRMV8kA26TNFz1ucC0Dqu+TBTOBiOvvMneT
-	5fZt4QSylfdWlOkc/doLCj0BShBDcso=
+	bh=i8zTLDPe/MQZvZ0z3vm6E5gXZsgZV9HvIe2hz126XQU=;
+	b=TYXOFWYNU7XIFOl3nqQE5AMlURgDAotQ2kQAhAiNwOnyHbh2Ox2etrvWVM6vxmh05UcrJM
+	HBYME2f/yQHSrYCHU6LEjPAtXqbAkoBUmNEQ6E6eF6FjX+dBmgSIR7KQTLqymuOir1wu00
+	pIRNMc7SWnFm6/cd5H6tzmcNdpZ0K6o=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723037661;
+	s=susede2_ed25519; t=1723037662;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VDCav1m4d3vh2gTPlXzpIrulaFfoQxqMEQJQ6PC8fLI=;
-	b=9SQCBdkkGO+bB5rYSeE86ta/lKIbMlISaTxFSkTcyyRGQtwbG7MG311qypvjkM+TMrxH6N
-	cm1t7vQ1IAaGSpCw==
-Authentication-Results: smtp-out2.suse.de;
+	bh=i8zTLDPe/MQZvZ0z3vm6E5gXZsgZV9HvIe2hz126XQU=;
+	b=JVB210pldLbImXS1YgRzDtWUoKI8BhQLjRPnNBbklqyKpOGFIvmJH51UkkfaDnYzefYGMR
+	AP7h+udXDHnqFmAQ==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723037661; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1723037662; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VDCav1m4d3vh2gTPlXzpIrulaFfoQxqMEQJQ6PC8fLI=;
-	b=WNJUL4kA8gFN1U3B4Ihyur23nNSpShG3xmYWYt1DaGuOI/AAfD6wnNeZFmCJD9z6FWsyfy
-	sbwVGxoLP5sPqDg0KD8OtI2HF5ifH7jpvWDyRMV8kA26TNFz1ucC0Dqu+TBTOBiOvvMneT
-	5fZt4QSylfdWlOkc/doLCj0BShBDcso=
+	bh=i8zTLDPe/MQZvZ0z3vm6E5gXZsgZV9HvIe2hz126XQU=;
+	b=TYXOFWYNU7XIFOl3nqQE5AMlURgDAotQ2kQAhAiNwOnyHbh2Ox2etrvWVM6vxmh05UcrJM
+	HBYME2f/yQHSrYCHU6LEjPAtXqbAkoBUmNEQ6E6eF6FjX+dBmgSIR7KQTLqymuOir1wu00
+	pIRNMc7SWnFm6/cd5H6tzmcNdpZ0K6o=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723037661;
+	s=susede2_ed25519; t=1723037662;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VDCav1m4d3vh2gTPlXzpIrulaFfoQxqMEQJQ6PC8fLI=;
-	b=9SQCBdkkGO+bB5rYSeE86ta/lKIbMlISaTxFSkTcyyRGQtwbG7MG311qypvjkM+TMrxH6N
-	cm1t7vQ1IAaGSpCw==
+	bh=i8zTLDPe/MQZvZ0z3vm6E5gXZsgZV9HvIe2hz126XQU=;
+	b=JVB210pldLbImXS1YgRzDtWUoKI8BhQLjRPnNBbklqyKpOGFIvmJH51UkkfaDnYzefYGMR
+	AP7h+udXDHnqFmAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1DC0913A7D;
-	Wed,  7 Aug 2024 13:34:21 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7AB9A13B03;
+	Wed,  7 Aug 2024 13:34:22 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id uJcYBt13s2ZpVgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 07 Aug 2024 13:34:21 +0000
+	id 8KLXHN53s2ZpVgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 07 Aug 2024 13:34:22 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 33/54] ALSA: sc6000: Use standard print API
-Date: Wed,  7 Aug 2024 15:34:23 +0200
-Message-ID: <20240807133452.9424-34-tiwai@suse.de>
+Subject: [PATCH 44/54] ALSA: usx2y: Use standard print API
+Date: Wed,  7 Aug 2024 15:34:34 +0200
+Message-ID: <20240807133452.9424-45-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240807133452.9424-1-tiwai@suse.de>
 References: <20240807133452.9424-1-tiwai@suse.de>
@@ -88,467 +88,959 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.79 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
+X-Spam-Level: 
+X-Spamd-Result: default: False [0.20 / 50.00];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.19)[-0.942];
+	NEURAL_HAM_SHORT(-0.20)[-0.992];
 	MIME_GOOD(-0.10)[text/plain];
 	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
 	ARC_NA(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo];
-	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
 	TO_DN_NONE(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
 	RCVD_TLS_ALL(0.00)[]
-X-Spam-Score: -2.79
 X-Spam-Flag: NO
-X-Spam-Level: 
+X-Spam-Score: 0.20
 
 Use the standard print API with dev_*() instead of the old house-baked
 one.  It gives better information and allows dynamically control of
 debug prints.
 
-Some functions are changed to receive a device pointer to be passed to
-dev_*() calls.
+Some superfluous debug prints are dropped, and some ambiguous messages
+are slightly rephrased.  The sk.dev pointer is set properly for
+allowing to call dev_*() functions, too.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/isa/sc6000.c | 177 +++++++++++++++++++++++----------------------
- 1 file changed, 90 insertions(+), 87 deletions(-)
+ sound/usb/usx2y/us122l.c        | 45 ++++++----------
+ sound/usb/usx2y/usX2Yhwdep.c    | 25 +++------
+ sound/usb/usx2y/usb_stream.c    | 92 +++++++++++++++------------------
+ sound/usb/usx2y/usb_stream.h    |  1 +
+ sound/usb/usx2y/usbusx2y.c      |  7 ++-
+ sound/usb/usx2y/usbusx2yaudio.c | 67 ++++++++++++++----------
+ sound/usb/usx2y/usx2yhwdeppcm.c | 54 ++++++++++---------
+ 7 files changed, 141 insertions(+), 150 deletions(-)
 
-diff --git a/sound/isa/sc6000.c b/sound/isa/sc6000.c
-index 60398fced046..3115c32b4061 100644
---- a/sound/isa/sc6000.c
-+++ b/sound/isa/sc6000.c
-@@ -204,7 +204,7 @@ static int sc6000_read(char __iomem *vport)
+diff --git a/sound/usb/usx2y/us122l.c b/sound/usb/usx2y/us122l.c
+index 709ccad972e2..1be0e980feb9 100644
+--- a/sound/usb/usx2y/us122l.c
++++ b/sound/usb/usx2y/us122l.c
+@@ -84,12 +84,9 @@ static int us144_create_usbmidi(struct snd_card *card)
  
+ static void pt_info_set(struct usb_device *dev, u8 v)
+ {
+-	int ret;
+-
+-	ret = usb_control_msg_send(dev, 0, 'I',
+-				   USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
+-				   v, 0, NULL, 0, 1000, GFP_NOIO);
+-	snd_printdd(KERN_DEBUG "%i\n", ret);
++	usb_control_msg_send(dev, 0, 'I',
++			     USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
++			     v, 0, NULL, 0, 1000, GFP_NOIO);
  }
  
--static int sc6000_write(char __iomem *vport, int cmd)
-+static int sc6000_write(struct device *devptr, char __iomem *vport, int cmd)
- {
- 	unsigned char val;
- 	int loop = 500000;
-@@ -221,18 +221,19 @@ static int sc6000_write(char __iomem *vport, int cmd)
- 		cpu_relax();
- 	} while (loop--);
+ static void usb_stream_hwdep_vm_open(struct vm_area_struct *area)
+@@ -97,7 +94,6 @@ static void usb_stream_hwdep_vm_open(struct vm_area_struct *area)
+ 	struct us122l *us122l = area->vm_private_data;
  
--	snd_printk(KERN_ERR "DSP Command (0x%x) timeout.\n", cmd);
-+	dev_err(devptr, "DSP Command (0x%x) timeout.\n", cmd);
- 
- 	return -EIO;
+ 	atomic_inc(&us122l->mmap_count);
+-	snd_printdd(KERN_DEBUG "%i\n", atomic_read(&us122l->mmap_count));
  }
  
--static int sc6000_dsp_get_answer(char __iomem *vport, int command,
-+static int sc6000_dsp_get_answer(struct device *devptr,
-+				 char __iomem *vport, int command,
- 				 char *data, int data_len)
- {
- 	int len = 0;
+ static vm_fault_t usb_stream_hwdep_vm_fault(struct vm_fault *vmf)
+@@ -141,7 +137,6 @@ static void usb_stream_hwdep_vm_close(struct vm_area_struct *area)
+ 	struct us122l *us122l = area->vm_private_data;
  
--	if (sc6000_write(vport, command)) {
--		snd_printk(KERN_ERR "CMD 0x%x: failed!\n", command);
-+	if (sc6000_write(devptr, vport, command)) {
-+		dev_err(devptr, "CMD 0x%x: failed!\n", command);
- 		return -EIO;
- 	}
- 
-@@ -265,82 +266,86 @@ static int sc6000_dsp_reset(char __iomem *vport)
+ 	atomic_dec(&us122l->mmap_count);
+-	snd_printdd(KERN_DEBUG "%i\n", atomic_read(&us122l->mmap_count));
  }
  
- /* detection and initialization */
--static int sc6000_hw_cfg_write(char __iomem *vport, const int *cfg)
-+static int sc6000_hw_cfg_write(struct device *devptr,
-+			       char __iomem *vport, const int *cfg)
- {
--	if (sc6000_write(vport, COMMAND_6C) < 0) {
--		snd_printk(KERN_WARNING "CMD 0x%x: failed!\n", COMMAND_6C);
-+	if (sc6000_write(devptr, vport, COMMAND_6C) < 0) {
-+		dev_warn(devptr, "CMD 0x%x: failed!\n", COMMAND_6C);
- 		return -EIO;
- 	}
--	if (sc6000_write(vport, COMMAND_5C) < 0) {
--		snd_printk(KERN_ERR "CMD 0x%x: failed!\n", COMMAND_5C);
-+	if (sc6000_write(devptr, vport, COMMAND_5C) < 0) {
-+		dev_err(devptr, "CMD 0x%x: failed!\n", COMMAND_5C);
- 		return -EIO;
- 	}
--	if (sc6000_write(vport, cfg[0]) < 0) {
--		snd_printk(KERN_ERR "DATA 0x%x: failed!\n", cfg[0]);
-+	if (sc6000_write(devptr, vport, cfg[0]) < 0) {
-+		dev_err(devptr, "DATA 0x%x: failed!\n", cfg[0]);
- 		return -EIO;
- 	}
--	if (sc6000_write(vport, cfg[1]) < 0) {
--		snd_printk(KERN_ERR "DATA 0x%x: failed!\n", cfg[1]);
-+	if (sc6000_write(devptr, vport, cfg[1]) < 0) {
-+		dev_err(devptr, "DATA 0x%x: failed!\n", cfg[1]);
- 		return -EIO;
- 	}
--	if (sc6000_write(vport, COMMAND_C5) < 0) {
--		snd_printk(KERN_ERR "CMD 0x%x: failed!\n", COMMAND_C5);
-+	if (sc6000_write(devptr, vport, COMMAND_C5) < 0) {
-+		dev_err(devptr, "CMD 0x%x: failed!\n", COMMAND_C5);
- 		return -EIO;
- 	}
+ static const struct vm_operations_struct usb_stream_hwdep_vm_ops = {
+@@ -155,7 +150,6 @@ static int usb_stream_hwdep_open(struct snd_hwdep *hw, struct file *file)
+ 	struct us122l	*us122l = hw->private_data;
+ 	struct usb_interface *iface;
  
- 	return 0;
+-	snd_printdd(KERN_DEBUG "%p %p\n", hw, file);
+ 	if (hw->used >= 2)
+ 		return -EBUSY;
+ 
+@@ -176,8 +170,6 @@ static int usb_stream_hwdep_release(struct snd_hwdep *hw, struct file *file)
+ 	struct us122l	*us122l = hw->private_data;
+ 	struct usb_interface *iface;
+ 
+-	snd_printdd(KERN_DEBUG "%p %p\n", hw, file);
+-
+ 	if (us122l->is_us144) {
+ 		iface = usb_ifnum_to_if(us122l->dev, 0);
+ 		usb_autopm_put_interface(iface);
+@@ -213,12 +205,10 @@ static int usb_stream_hwdep_mmap(struct snd_hwdep *hw,
+ 		err = -EPERM;
+ 		goto out;
+ 	}
+-	snd_printdd(KERN_DEBUG "%lu %u\n", size,
+-		    read ? s->read_size : s->write_size);
+ 	/* if userspace tries to mmap beyond end of our buffer, fail */
+ 	if (size > PAGE_ALIGN(read ? s->read_size : s->write_size)) {
+-		snd_printk(KERN_WARNING "%lu > %u\n", size,
+-			   read ? s->read_size : s->write_size);
++		dev_warn(hw->card->dev, "%s: size %lu > %u\n", __func__,
++			 size, read ? s->read_size : s->write_size);
+ 		err = -EINVAL;
+ 		goto out;
+ 	}
+@@ -289,8 +279,8 @@ static int us122l_set_sample_rate(struct usb_device *dev, int rate)
+ 				   UAC_EP_CS_ATTR_SAMPLE_RATE << 8, ep, data, 3,
+ 				   1000, GFP_NOIO);
+ 	if (err)
+-		snd_printk(KERN_ERR "%d: cannot set freq %d to ep 0x%x\n",
+-			   dev->devnum, rate, ep);
++		dev_err(&dev->dev, "%d: cannot set freq %d to ep 0x%x\n",
++			dev->devnum, rate, ep);
+ 	return err;
  }
  
--static int sc6000_cfg_write(char __iomem *vport, unsigned char softcfg)
-+static int sc6000_cfg_write(struct device *devptr,
-+			    char __iomem *vport, unsigned char softcfg)
- {
- 
--	if (sc6000_write(vport, WRITE_MDIRQ_CFG)) {
--		snd_printk(KERN_ERR "CMD 0x%x: failed!\n", WRITE_MDIRQ_CFG);
-+	if (sc6000_write(devptr, vport, WRITE_MDIRQ_CFG)) {
-+		dev_err(devptr, "CMD 0x%x: failed!\n", WRITE_MDIRQ_CFG);
- 		return -EIO;
- 	}
--	if (sc6000_write(vport, softcfg)) {
--		snd_printk(KERN_ERR "sc6000_cfg_write: failed!\n");
-+	if (sc6000_write(devptr, vport, softcfg)) {
-+		dev_err(devptr, "%s: failed!\n", __func__);
- 		return -EIO;
- 	}
- 	return 0;
- }
- 
--static int sc6000_setup_board(char __iomem *vport, int config)
-+static int sc6000_setup_board(struct device *devptr,
-+			      char __iomem *vport, int config)
- {
- 	int loop = 10;
- 
- 	do {
--		if (sc6000_write(vport, COMMAND_88)) {
--			snd_printk(KERN_ERR "CMD 0x%x: failed!\n",
--				   COMMAND_88);
-+		if (sc6000_write(devptr, vport, COMMAND_88)) {
-+			dev_err(devptr, "CMD 0x%x: failed!\n",
-+				COMMAND_88);
- 			return -EIO;
- 		}
- 	} while ((sc6000_wait_data(vport) < 0) && loop--);
- 
- 	if (sc6000_read(vport) < 0) {
--		snd_printk(KERN_ERR "sc6000_read after CMD 0x%x: failed\n",
--			   COMMAND_88);
-+		dev_err(devptr, "sc6000_read after CMD 0x%x: failed\n",
-+			COMMAND_88);
- 		return -EIO;
- 	}
- 
--	if (sc6000_cfg_write(vport, config))
-+	if (sc6000_cfg_write(devptr, vport, config))
- 		return -ENODEV;
- 
- 	return 0;
- }
- 
--static int sc6000_init_mss(char __iomem *vport, int config,
-+static int sc6000_init_mss(struct device *devptr,
-+			   char __iomem *vport, int config,
- 			   char __iomem *vmss_port, int mss_config)
- {
--	if (sc6000_write(vport, DSP_INIT_MSS)) {
--		snd_printk(KERN_ERR "sc6000_init_mss [0x%x]: failed!\n",
--			   DSP_INIT_MSS);
-+	if (sc6000_write(devptr, vport, DSP_INIT_MSS)) {
-+		dev_err(devptr, "%s [0x%x]: failed!\n", __func__,
-+			DSP_INIT_MSS);
- 		return -EIO;
- 	}
- 
- 	msleep(10);
- 
--	if (sc6000_cfg_write(vport, config))
-+	if (sc6000_cfg_write(devptr, vport, config))
- 		return -EIO;
- 
- 	iowrite8(mss_config, vmss_port);
-@@ -348,7 +353,8 @@ static int sc6000_init_mss(char __iomem *vport, int config,
- 	return 0;
- }
- 
--static void sc6000_hw_cfg_encode(char __iomem *vport, int *cfg,
-+static void sc6000_hw_cfg_encode(struct device *devptr,
-+				 char __iomem *vport, int *cfg,
- 				 long xport, long xmpu,
- 				 long xmss_port, int joystick)
- {
-@@ -367,10 +373,11 @@ static void sc6000_hw_cfg_encode(char __iomem *vport, int *cfg,
- 		cfg[0] |= 0x02;
- 	cfg[1] |= 0x80;		/* enable WSS system */
- 	cfg[1] &= ~0x40;	/* disable IDE */
--	snd_printd("hw cfg %x, %x\n", cfg[0], cfg[1]);
-+	dev_dbg(devptr, "hw cfg %x, %x\n", cfg[0], cfg[1]);
- }
- 
--static int sc6000_init_board(char __iomem *vport,
-+static int sc6000_init_board(struct device *devptr,
-+			     char __iomem *vport,
- 			     char __iomem *vmss_port, int dev)
- {
- 	char answer[15];
-@@ -384,14 +391,14 @@ static int sc6000_init_board(char __iomem *vport,
- 
- 	err = sc6000_dsp_reset(vport);
+@@ -326,13 +316,13 @@ static bool us122l_start(struct us122l *us122l,
+ 	err = us122l_set_sample_rate(us122l->dev, rate);
  	if (err < 0) {
--		snd_printk(KERN_ERR "sc6000_dsp_reset: failed!\n");
-+		dev_err(devptr, "sc6000_dsp_reset: failed!\n");
+ 		us122l_stop(us122l);
+-		snd_printk(KERN_ERR "us122l_set_sample_rate error\n");
++		dev_err(&us122l->dev->dev, "us122l_set_sample_rate error\n");
+ 		goto out;
+ 	}
+ 	err = usb_stream_start(&us122l->sk);
+ 	if (err < 0) {
+ 		us122l_stop(us122l);
+-		snd_printk(KERN_ERR "%s error %i\n", __func__, err);
++		dev_err(&us122l->dev->dev, "%s error %i\n", __func__, err);
+ 		goto out;
+ 	}
+ 	list_for_each(p, &us122l->midi_list)
+@@ -445,13 +435,13 @@ static bool us122l_create_card(struct snd_card *card)
+ 	if (us122l->is_us144) {
+ 		err = usb_set_interface(us122l->dev, 0, 1);
+ 		if (err) {
+-			snd_printk(KERN_ERR "usb_set_interface error\n");
++			dev_err(card->dev, "usb_set_interface error\n");
+ 			return false;
+ 		}
+ 	}
+ 	err = usb_set_interface(us122l->dev, 1, 1);
+ 	if (err) {
+-		snd_printk(KERN_ERR "usb_set_interface error\n");
++		dev_err(card->dev, "usb_set_interface error\n");
+ 		return false;
+ 	}
+ 
+@@ -466,7 +456,7 @@ static bool us122l_create_card(struct snd_card *card)
+ 	else
+ 		err = us122l_create_usbmidi(card);
+ 	if (err < 0) {
+-		snd_printk(KERN_ERR "us122l_create_usbmidi error %i\n", err);
++		dev_err(card->dev, "us122l_create_usbmidi error %i\n", err);
+ 		goto stop;
+ 	}
+ 	err = usb_stream_hwdep_new(card);
+@@ -517,6 +507,7 @@ static int usx2y_create_card(struct usb_device *device,
+ 	card->private_free = snd_us122l_free;
+ 	US122L(card)->dev = device;
+ 	mutex_init(&US122L(card)->mutex);
++	US122L(card)->sk.dev = device;
+ 	init_waitqueue_head(&US122L(card)->sk.sleep);
+ 	US122L(card)->is_us144 = flags & US122L_FLAG_US144;
+ 	INIT_LIST_HEAD(&US122L(card)->midi_list);
+@@ -572,12 +563,10 @@ static int snd_us122l_probe(struct usb_interface *intf,
+ 
+ 	if (id->driver_info & US122L_FLAG_US144 &&
+ 			device->speed == USB_SPEED_HIGH) {
+-		snd_printk(KERN_ERR "disable ehci-hcd to run US-144\n");
++		dev_err(&device->dev, "disable ehci-hcd to run US-144\n");
+ 		return -ENODEV;
+ 	}
+ 
+-	snd_printdd(KERN_DEBUG"%p:%i\n",
+-		    intf, intf->cur_altsetting->desc.bInterfaceNumber);
+ 	if (intf->cur_altsetting->desc.bInterfaceNumber != 1)
+ 		return 0;
+ 
+@@ -668,13 +657,13 @@ static int snd_us122l_resume(struct usb_interface *intf)
+ 	if (us122l->is_us144) {
+ 		err = usb_set_interface(us122l->dev, 0, 1);
+ 		if (err) {
+-			snd_printk(KERN_ERR "usb_set_interface error\n");
++			dev_err(&us122l->dev->dev, "usb_set_interface error\n");
+ 			goto unlock;
+ 		}
+ 	}
+ 	err = usb_set_interface(us122l->dev, 1, 1);
+ 	if (err) {
+-		snd_printk(KERN_ERR "usb_set_interface error\n");
++		dev_err(&us122l->dev->dev, "usb_set_interface error\n");
+ 		goto unlock;
+ 	}
+ 
+@@ -684,7 +673,7 @@ static int snd_us122l_resume(struct usb_interface *intf)
+ 	err = us122l_set_sample_rate(us122l->dev,
+ 				     us122l->sk.s->cfg.sample_rate);
+ 	if (err < 0) {
+-		snd_printk(KERN_ERR "us122l_set_sample_rate error\n");
++		dev_err(&us122l->dev->dev, "us122l_set_sample_rate error\n");
+ 		goto unlock;
+ 	}
+ 	err = usb_stream_start(&us122l->sk);
+diff --git a/sound/usb/usx2y/usX2Yhwdep.c b/sound/usb/usx2y/usX2Yhwdep.c
+index 4937ede0b5d7..9fd6a86cc08e 100644
+--- a/sound/usb/usx2y/usX2Yhwdep.c
++++ b/sound/usb/usx2y/usX2Yhwdep.c
+@@ -24,19 +24,12 @@ static vm_fault_t snd_us428ctls_vm_fault(struct vm_fault *vmf)
+ 	struct page *page;
+ 	void *vaddr;
+ 
+-	snd_printdd("ENTER, start %lXh, pgoff %ld\n",
+-		   vmf->vma->vm_start,
+-		   vmf->pgoff);
+-
+ 	offset = vmf->pgoff << PAGE_SHIFT;
+ 	vaddr = (char *)((struct usx2ydev *)vmf->vma->vm_private_data)->us428ctls_sharedmem + offset;
+ 	page = virt_to_page(vaddr);
+ 	get_page(page);
+ 	vmf->page = page;
+ 
+-	snd_printdd("vaddr=%p made us428ctls_vm_fault() page %p\n",
+-		    vaddr, page);
+-
+ 	return 0;
+ }
+ 
+@@ -56,7 +49,8 @@ static int snd_us428ctls_mmap(struct snd_hwdep *hw, struct file *filp, struct vm
+ 
+ 	/* if userspace tries to mmap beyond end of our buffer, fail */
+ 	if (size > US428_SHAREDMEM_PAGES) {
+-		snd_printd("%lu > %lu\n", size, (unsigned long)US428_SHAREDMEM_PAGES);
++		dev_dbg(hw->card->dev, "%s: mmap size %lu > %lu\n", __func__,
++			size, (unsigned long)US428_SHAREDMEM_PAGES);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -150,7 +144,6 @@ static int usx2y_create_usbmidi(struct snd_card *card)
+ 		le16_to_cpu(dev->descriptor.idProduct) == USB_ID_US428 ?
+ 		&quirk_2 : &quirk_1;
+ 
+-	snd_printdd("%s\n", __func__);
+ 	return snd_usbmidi_create(card, iface, &usx2y(card)->midi_list, quirk);
+ }
+ 
+@@ -160,7 +153,8 @@ static int usx2y_create_alsa_devices(struct snd_card *card)
+ 
+ 	err = usx2y_create_usbmidi(card);
+ 	if (err < 0) {
+-		snd_printk(KERN_ERR "%s: usx2y_create_usbmidi error %i\n", __func__, err);
++		dev_err(card->dev, "%s: usx2y_create_usbmidi error %i\n",
++			__func__, err);
  		return err;
  	}
+ 	err = usx2y_audio_create(card);
+@@ -183,15 +177,13 @@ static int snd_usx2y_hwdep_dsp_load(struct snd_hwdep *hw,
+ 	int lret, err;
+ 	char *buf;
  
- 	memset(answer, 0, sizeof(answer));
--	err = sc6000_dsp_get_answer(vport, GET_DSP_COPYRIGHT, answer, 15);
-+	err = sc6000_dsp_get_answer(devptr, vport, GET_DSP_COPYRIGHT, answer, 15);
- 	if (err <= 0) {
--		snd_printk(KERN_ERR "sc6000_dsp_copyright: failed!\n");
-+		dev_err(devptr, "sc6000_dsp_copyright: failed!\n");
- 		return -ENODEV;
+-	snd_printdd("dsp_load %s\n", dsp->name);
+-
+ 	buf = memdup_user(dsp->image, dsp->length);
+ 	if (IS_ERR(buf))
+ 		return PTR_ERR(buf);
+ 
+ 	err = usb_set_interface(dev, 0, 1);
+ 	if (err)
+-		snd_printk(KERN_ERR "usb_set_interface error\n");
++		dev_err(&dev->dev, "usb_set_interface error\n");
+ 	else
+ 		err = usb_bulk_msg(dev, usb_sndbulkpipe(dev, 2), buf, dsp->length, &lret, 6000);
+ 	kfree(buf);
+@@ -201,21 +193,20 @@ static int snd_usx2y_hwdep_dsp_load(struct snd_hwdep *hw,
+ 		msleep(250);				// give the device some time
+ 		err = usx2y_async_seq04_init(priv);
+ 		if (err) {
+-			snd_printk(KERN_ERR "usx2y_async_seq04_init error\n");
++			dev_err(&dev->dev, "usx2y_async_seq04_init error\n");
+ 			return err;
+ 		}
+ 		err = usx2y_in04_init(priv);
+ 		if (err) {
+-			snd_printk(KERN_ERR "usx2y_in04_init error\n");
++			dev_err(&dev->dev, "usx2y_in04_init error\n");
+ 			return err;
+ 		}
+ 		err = usx2y_create_alsa_devices(hw->card);
+ 		if (err) {
+-			snd_printk(KERN_ERR "usx2y_create_alsa_devices error %i\n", err);
++			dev_err(&dev->dev, "usx2y_create_alsa_devices error %i\n", err);
+ 			return err;
+ 		}
+ 		priv->chip_status |= USX2Y_STAT_CHIP_INIT;
+-		snd_printdd("%s: alsa all started\n", hw->name);
  	}
- 	/*
-@@ -399,52 +406,52 @@ static int sc6000_init_board(char __iomem *vport,
- 	 * if we have something different, we have to be warned.
+ 	return err;
+ }
+diff --git a/sound/usb/usx2y/usb_stream.c b/sound/usb/usx2y/usb_stream.c
+index a4d32e8a1d36..66ea610aa433 100644
+--- a/sound/usb/usx2y/usb_stream.c
++++ b/sound/usb/usx2y/usb_stream.c
+@@ -34,14 +34,11 @@ static void playback_prep_freqn(struct usb_stream_kernel *sk, struct urb *urb)
+ 		urb->iso_frame_desc[pack].length = l;
+ 		lb += l;
+ 	}
+-	snd_printdd(KERN_DEBUG "%i\n", lb);
+ 
+ check:
+ 	urb->number_of_packets = pack;
+ 	urb->transfer_buffer_length = lb;
+ 	s->idle_outsize += lb - s->period_size;
+-	snd_printdd(KERN_DEBUG "idle=%i ul=%i ps=%i\n", s->idle_outsize,
+-		    lb, s->period_size);
+ }
+ 
+ static int init_pipe_urbs(struct usb_stream_kernel *sk,
+@@ -191,14 +188,14 @@ struct usb_stream *usb_stream_new(struct usb_stream_kernel *sk,
+ 	write_size = max_packsize * packets * USB_STREAM_URBDEPTH;
+ 
+ 	if (read_size >= 256*PAGE_SIZE || write_size >= 256*PAGE_SIZE) {
+-		snd_printk(KERN_WARNING "a size exceeds 128*PAGE_SIZE\n");
++		dev_warn(&dev->dev, "%s: a size exceeds 128*PAGE_SIZE\n", __func__);
+ 		goto out;
+ 	}
+ 
+ 	sk->s = alloc_pages_exact(read_size,
+ 				  GFP_KERNEL | __GFP_ZERO | __GFP_NOWARN);
+ 	if (!sk->s) {
+-		pr_warn("us122l: couldn't allocate read buffer\n");
++		dev_warn(&dev->dev, "us122l: couldn't allocate read buffer\n");
+ 		goto out;
+ 	}
+ 	sk->s->cfg.version = USB_STREAM_INTERFACE_VERSION;
+@@ -217,7 +214,7 @@ struct usb_stream *usb_stream_new(struct usb_stream_kernel *sk,
+ 	sk->write_page = alloc_pages_exact(write_size,
+ 					   GFP_KERNEL | __GFP_ZERO | __GFP_NOWARN);
+ 	if (!sk->write_page) {
+-		pr_warn("us122l: couldn't allocate write buffer\n");
++		dev_warn(&dev->dev, "us122l: couldn't allocate write buffer\n");
+ 		usb_stream_free(sk);
+ 		return NULL;
+ 	}
+@@ -246,7 +243,8 @@ static bool balance_check(struct usb_stream_kernel *sk, struct urb *urb)
+ 
+ 	if (unlikely(urb->status)) {
+ 		if (urb->status != -ESHUTDOWN && urb->status != -ENOENT)
+-			snd_printk(KERN_WARNING "status=%i\n", urb->status);
++			dev_warn(&sk->dev->dev, "%s: status=%i\n", __func__,
++				 urb->status);
+ 		sk->iso_frame_balance = 0x7FFFFFFF;
+ 		return false;
+ 	}
+@@ -318,17 +316,18 @@ static int usb_stream_prepare_playback(struct usb_stream_kernel *sk,
+ check_ok:
+ 	s->sync_packet -= inurb->number_of_packets;
+ 	if (unlikely(s->sync_packet < -2 || s->sync_packet > 0)) {
+-		snd_printk(KERN_WARNING "invalid sync_packet = %i;"
+-			   " p=%i nop=%i %i %x %x %x > %x\n",
+-			   s->sync_packet, p, inurb->number_of_packets,
+-			   s->idle_outsize + lb + l,
+-			   s->idle_outsize, lb,  l,
+-			   s->period_size);
++		dev_warn(&sk->dev->dev,
++			 "%s: invalid sync_packet = %i; p=%i nop=%i %i %x %x %x > %x\n",
++			 __func__,
++			 s->sync_packet, p, inurb->number_of_packets,
++			 s->idle_outsize + lb + l,
++			 s->idle_outsize, lb,  l,
++			 s->period_size);
+ 		return -1;
+ 	}
+ 	if (unlikely(lb % s->cfg.frame_size)) {
+-		snd_printk(KERN_WARNING"invalid outsize = %i\n",
+-			   lb);
++		dev_warn(&sk->dev->dev, "%s: invalid outsize = %i\n",
++			 __func__, lb);
+ 		return -1;
+ 	}
+ 	s->idle_outsize += lb - s->period_size;
+@@ -337,7 +336,7 @@ static int usb_stream_prepare_playback(struct usb_stream_kernel *sk,
+ 	if (s->idle_outsize <= 0)
+ 		return 0;
+ 
+-	snd_printk(KERN_WARNING "idle=%i\n", s->idle_outsize);
++	dev_warn(&sk->dev->dev, "%s: idle=%i\n", __func__, s->idle_outsize);
+ 	return -1;
+ }
+ 
+@@ -377,7 +376,7 @@ static int submit_urbs(struct usb_stream_kernel *sk,
+ 	return 0;
+ 
+ report_failure:
+-	snd_printk(KERN_ERR "%i\n", err);
++	dev_err(&sk->dev->dev, "%s error: %i\n", __func__, err);
+ 	return err;
+ }
+ 
+@@ -424,8 +423,8 @@ static void loop_back(struct usb_stream *s)
+ 	}
+ 	if (iu == sk->completed_inurb) {
+ 		if (l != s->period_size)
+-			printk(KERN_DEBUG"%s:%i %i\n", __func__, __LINE__,
+-			       l/(int)s->cfg.frame_size);
++			dev_dbg(&sk->dev->dev, "%s:%i %i\n", __func__, __LINE__,
++				l/(int)s->cfg.frame_size);
+ 
+ 		return;
+ 	}
+@@ -460,8 +459,8 @@ static void stream_idle(struct usb_stream_kernel *sk,
+ 
+ 		l = id[p].actual_length;
+ 		if (unlikely(l == 0 || id[p].status)) {
+-			snd_printk(KERN_WARNING "underrun, status=%u\n",
+-				   id[p].status);
++			dev_warn(&sk->dev->dev, "%s: underrun, status=%u\n",
++				 __func__, id[p].status);
+ 			goto err_out;
+ 		}
+ 		s->inpacket_head++;
+@@ -482,8 +481,8 @@ static void stream_idle(struct usb_stream_kernel *sk,
+ 	}
+ 	s->idle_insize += urb_size - s->period_size;
+ 	if (s->idle_insize < 0) {
+-		snd_printk(KERN_WARNING "%i\n",
+-			   (s->idle_insize)/(int)s->cfg.frame_size);
++		dev_warn(&sk->dev->dev, "%s error: %i\n", __func__,
++			 (s->idle_insize)/(int)s->cfg.frame_size);
+ 		goto err_out;
+ 	}
+ 	s->insize_done += urb_size;
+@@ -558,19 +557,15 @@ static void stream_start(struct usb_stream_kernel *sk,
+ 			min_frames += frames_per_packet;
+ 			diff = urb_size -
+ 				(min_frames >> 8) * s->cfg.frame_size;
+-			if (diff < max_diff) {
+-				snd_printdd(KERN_DEBUG "%i %i %i %i\n",
+-					    s->insize_done,
+-					    urb_size / (int)s->cfg.frame_size,
+-					    inurb->number_of_packets, diff);
++			if (diff < max_diff)
+ 				max_diff = diff;
+-			}
+ 		}
+ 		s->idle_insize -= max_diff - max_diff_0;
+ 		s->idle_insize += urb_size - s->period_size;
+ 		if (s->idle_insize < 0) {
+-			snd_printk(KERN_WARNING "%i %i %i\n",
+-				   s->idle_insize, urb_size, s->period_size);
++			dev_warn(&sk->dev->dev, "%s idle_insize: %i %i %i\n",
++				 __func__,
++				 s->idle_insize, urb_size, s->period_size);
+ 			return;
+ 		} else if (s->idle_insize == 0) {
+ 			s->next_inpacket_split =
+@@ -620,7 +615,7 @@ static void i_capture_start(struct urb *urb)
+ 	int empty = 0;
+ 
+ 	if (urb->status) {
+-		snd_printk(KERN_WARNING "status=%i\n", urb->status);
++		dev_warn(&sk->dev->dev, "%s: status=%i\n", __func__, urb->status);
+ 		return;
+ 	}
+ 
+@@ -630,7 +625,7 @@ static void i_capture_start(struct urb *urb)
+ 		if (l < s->cfg.frame_size) {
+ 			++empty;
+ 			if (s->state >= usb_stream_sync0) {
+-				snd_printk(KERN_WARNING "%i\n", l);
++				dev_warn(&sk->dev->dev, "%s: length %i\n", __func__, l);
+ 				return;
+ 			}
+ 		}
+@@ -642,8 +637,8 @@ static void i_capture_start(struct urb *urb)
+ 	}
+ #ifdef SHOW_EMPTY
+ 	if (empty) {
+-		printk(KERN_DEBUG"%s:%i: %i", __func__, __LINE__,
+-		       urb->iso_frame_desc[0].actual_length);
++		dev_dbg(&sk->dev->dev, "%s:%i: %i", __func__, __LINE__,
++			urb->iso_frame_desc[0].actual_length);
+ 		for (pack = 1; pack < urb->number_of_packets; ++pack) {
+ 			int l = urb->iso_frame_desc[pack].actual_length;
+ 
+@@ -710,38 +705,38 @@ int usb_stream_start(struct usb_stream_kernel *sk)
+ 		}
+ 		err = usb_submit_urb(inurb, GFP_ATOMIC);
+ 		if (err < 0) {
+-			snd_printk(KERN_ERR
+-				   "usb_submit_urb(sk->inurb[%i]) returned %i\n",
+-				   u, err);
++			dev_err(&sk->dev->dev,
++				"%s: usb_submit_urb(sk->inurb[%i]) returned %i\n",
++				__func__, u, err);
+ 			return err;
+ 		}
+ 		err = usb_submit_urb(outurb, GFP_ATOMIC);
+ 		if (err < 0) {
+-			snd_printk(KERN_ERR
+-				   "usb_submit_urb(sk->outurb[%i]) returned %i\n",
+-				   u, err);
++			dev_err(&sk->dev->dev,
++				"%s: usb_submit_urb(sk->outurb[%i]) returned %i\n",
++				__func__, u, err);
+ 			return err;
+ 		}
+ 
+ 		if (inurb->start_frame != outurb->start_frame) {
+-			snd_printd(KERN_DEBUG
+-				   "u[%i] start_frames differ in:%u out:%u\n",
+-				   u, inurb->start_frame, outurb->start_frame);
++			dev_dbg(&sk->dev->dev,
++				"%s: u[%i] start_frames differ in:%u out:%u\n",
++				__func__, u, inurb->start_frame, outurb->start_frame);
+ 			goto check_retry;
+ 		}
+ 	}
+-	snd_printdd(KERN_DEBUG "%i %i\n", frame, iters);
+ 	try = 0;
+ check_retry:
+ 	if (try) {
+ 		usb_stream_stop(sk);
+ 		if (try < 5) {
+ 			msleep(1500);
+-			snd_printd(KERN_DEBUG "goto dotry;\n");
++			dev_dbg(&sk->dev->dev, "goto dotry;\n");
+ 			goto dotry;
+ 		}
+-		snd_printk(KERN_WARNING
+-			   "couldn't start all urbs on the same start_frame.\n");
++		dev_warn(&sk->dev->dev,
++			 "%s: couldn't start all urbs on the same start_frame.\n",
++			 __func__);
+ 		return -EFAULT;
+ 	}
+ 
+@@ -755,7 +750,6 @@ int usb_stream_start(struct usb_stream_kernel *sk)
+ 		int wait_ms = 3000;
+ 
+ 		while (s->state != usb_stream_ready && wait_ms > 0) {
+-			snd_printdd(KERN_DEBUG "%i\n", s->state);
+ 			msleep(200);
+ 			wait_ms -= 200;
+ 		}
+diff --git a/sound/usb/usx2y/usb_stream.h b/sound/usb/usx2y/usb_stream.h
+index 73e57b341adc..2ed10add49f1 100644
+--- a/sound/usb/usx2y/usb_stream.h
++++ b/sound/usb/usx2y/usb_stream.h
+@@ -9,6 +9,7 @@
+ 
+ struct usb_stream_kernel {
+ 	struct usb_stream *s;
++	struct usb_device *dev;
+ 
+ 	void *write_page;
+ 
+diff --git a/sound/usb/usx2y/usbusx2y.c b/sound/usb/usx2y/usbusx2y.c
+index 52f4e6652407..2f9cede242b3 100644
+--- a/sound/usb/usx2y/usbusx2y.c
++++ b/sound/usb/usx2y/usbusx2y.c
+@@ -163,7 +163,7 @@ static void i_usx2y_out04_int(struct urb *urb)
+ 
+ 		for (i = 0; i < 10 && usx2y->as04.urb[i] != urb; i++)
+ 			;
+-		snd_printdd("%s urb %i status=%i\n", __func__, i, urb->status);
++		dev_dbg(&urb->dev->dev, "%s urb %i status=%i\n", __func__, i, urb->status);
+ 	}
+ #endif
+ }
+@@ -179,11 +179,10 @@ static void i_usx2y_in04_int(struct urb *urb)
+ 	usx2y->in04_int_calls++;
+ 
+ 	if (urb->status) {
+-		snd_printdd("Interrupt Pipe 4 came back with status=%i\n", urb->status);
++		dev_dbg(&urb->dev->dev, "Interrupt Pipe 4 came back with status=%i\n", urb->status);
+ 		return;
+ 	}
+ 
+-	//	printk("%i:0x%02X ", 8, (int)((unsigned char*)usx2y->in04_buf)[8]); Master volume shows 0 here if fader is at max during boot ?!?
+ 	if (us428ctls) {
+ 		diff = -1;
+ 		if (us428ctls->ctl_snapshot_last == -2) {
+@@ -239,7 +238,7 @@ static void i_usx2y_in04_int(struct urb *urb)
+ 	}
+ 
+ 	if (err)
+-		snd_printk(KERN_ERR "in04_int() usb_submit_urb err=%i\n", err);
++		dev_err(&urb->dev->dev, "in04_int() usb_submit_urb err=%i\n", err);
+ 
+ 	urb->dev = usx2y->dev;
+ 	usb_submit_urb(urb, GFP_ATOMIC);
+diff --git a/sound/usb/usx2y/usbusx2yaudio.c b/sound/usb/usx2y/usbusx2yaudio.c
+index ca7888495a9f..f540f46a0b14 100644
+--- a/sound/usb/usx2y/usbusx2yaudio.c
++++ b/sound/usb/usx2y/usbusx2yaudio.c
+@@ -67,14 +67,15 @@ static int usx2y_urb_capt_retire(struct snd_usx2y_substream *subs)
+ 	for (i = 0; i < nr_of_packs(); i++) {
+ 		cp = (unsigned char *)urb->transfer_buffer + urb->iso_frame_desc[i].offset;
+ 		if (urb->iso_frame_desc[i].status) { /* active? hmm, skip this */
+-			snd_printk(KERN_ERR
+-				   "active frame status %i. Most probably some hardware problem.\n",
+-				   urb->iso_frame_desc[i].status);
++			dev_err(&usx2y->dev->dev,
++				"%s: active frame status %i. Most probably some hardware problem.\n",
++				__func__,
++				urb->iso_frame_desc[i].status);
+ 			return urb->iso_frame_desc[i].status;
+ 		}
+ 		len = urb->iso_frame_desc[i].actual_length / usx2y->stride;
+ 		if (!len) {
+-			snd_printd("0 == len ERROR!\n");
++			dev_dbg(&usx2y->dev->dev, "%s: 0 == len ERROR!\n", __func__);
+ 			continue;
+ 		}
+ 
+@@ -128,7 +129,8 @@ static int usx2y_urb_play_prepare(struct snd_usx2y_substream *subs,
+ 		counts = cap_urb->iso_frame_desc[pack].actual_length / usx2y->stride;
+ 		count += counts;
+ 		if (counts < 43 || counts > 50) {
+-			snd_printk(KERN_ERR "should not be here with counts=%i\n", counts);
++			dev_err(&usx2y->dev->dev, "%s: should not be here with counts=%i\n",
++				__func__, counts);
+ 			return -EPIPE;
+ 		}
+ 		/* set up descriptor */
+@@ -196,7 +198,8 @@ static int usx2y_urb_submit(struct snd_usx2y_substream *subs, struct urb *urb, i
+ 	urb->dev = subs->usx2y->dev; /* we need to set this at each time */
+ 	err = usb_submit_urb(urb, GFP_ATOMIC);
+ 	if (err < 0) {
+-		snd_printk(KERN_ERR "usb_submit_urb() returned %i\n", err);
++		dev_err(&urb->dev->dev, "%s: usb_submit_urb() returned %i\n",
++			__func__, err);
+ 		return err;
+ 	}
+ 	return 0;
+@@ -264,7 +267,8 @@ static void usx2y_clients_stop(struct usx2ydev *usx2y)
+ 	for (s = 0; s < 4; s++) {
+ 		subs = usx2y->subs[s];
+ 		if (subs) {
+-			snd_printdd("%i %p state=%i\n", s, subs, atomic_read(&subs->state));
++			dev_dbg(&usx2y->dev->dev, "%s: %i %p state=%i\n",
++				__func__, s, subs, atomic_read(&subs->state));
+ 			atomic_set(&subs->state, STATE_STOPPED);
+ 		}
+ 	}
+@@ -276,8 +280,9 @@ static void usx2y_clients_stop(struct usx2ydev *usx2y)
+ 			for (u = 0; u < NRURBS; u++) {
+ 				urb = subs->urb[u];
+ 				if (urb)
+-					snd_printdd("%i status=%i start_frame=%i\n",
+-						    u, urb->status, urb->start_frame);
++					dev_dbg(&usx2y->dev->dev,
++						"%s: %i status=%i start_frame=%i\n",
++						__func__, u, urb->status, urb->start_frame);
+ 			}
+ 		}
+ 	}
+@@ -288,7 +293,8 @@ static void usx2y_clients_stop(struct usx2ydev *usx2y)
+ static void usx2y_error_urb_status(struct usx2ydev *usx2y,
+ 				   struct snd_usx2y_substream *subs, struct urb *urb)
+ {
+-	snd_printk(KERN_ERR "ep=%i stalled with status=%i\n", subs->endpoint, urb->status);
++	dev_err(&usx2y->dev->dev, "%s: ep=%i stalled with status=%i\n",
++		__func__, subs->endpoint, urb->status);
+ 	urb->status = 0;
+ 	usx2y_clients_stop(usx2y);
+ }
+@@ -300,10 +306,12 @@ static void i_usx2y_urb_complete(struct urb *urb)
+ 	struct snd_usx2y_substream *capsubs, *playbacksubs;
+ 
+ 	if (unlikely(atomic_read(&subs->state) < STATE_PREPARED)) {
+-		snd_printdd("hcd_frame=%i ep=%i%s status=%i start_frame=%i\n",
+-			    usb_get_current_frame_number(usx2y->dev),
+-			    subs->endpoint, usb_pipein(urb->pipe) ? "in" : "out",
+-			    urb->status, urb->start_frame);
++		dev_dbg(&usx2y->dev->dev,
++			"%s: hcd_frame=%i ep=%i%s status=%i start_frame=%i\n",
++			__func__,
++			usb_get_current_frame_number(usx2y->dev),
++			subs->endpoint, usb_pipein(urb->pipe) ? "in" : "out",
++			urb->status, urb->start_frame);
+ 		return;
+ 	}
+ 	if (unlikely(urb->status)) {
+@@ -323,7 +331,6 @@ static void i_usx2y_urb_complete(struct urb *urb)
+ 		if (!usx2y_usbframe_complete(capsubs, playbacksubs, urb->start_frame)) {
+ 			usx2y->wait_iso_frame += nr_of_packs();
+ 		} else {
+-			snd_printdd("\n");
+ 			usx2y_clients_stop(usx2y);
+ 		}
+ 	}
+@@ -373,8 +380,9 @@ static void i_usx2y_subs_startup(struct urb *urb)
+ 
+ static void usx2y_subs_prepare(struct snd_usx2y_substream *subs)
+ {
+-	snd_printdd("usx2y_substream_prepare(%p) ep=%i urb0=%p urb1=%p\n",
+-		    subs, subs->endpoint, subs->urb[0], subs->urb[1]);
++	dev_dbg(&subs->usx2y->dev->dev,
++		"%s(%p) ep=%i urb0=%p urb1=%p\n",
++		__func__, subs, subs->endpoint, subs->urb[0], subs->urb[1]);
+ 	/* reset the pointer */
+ 	subs->hwptr = 0;
+ 	subs->hwptr_done = 0;
+@@ -399,7 +407,7 @@ static void usx2y_urbs_release(struct snd_usx2y_substream *subs)
+ {
+ 	int i;
+ 
+-	snd_printdd("%s %i\n", __func__, subs->endpoint);
++	dev_dbg(&subs->usx2y->dev->dev, "%s %i\n", __func__, subs->endpoint);
+ 	for (i = 0; i < NRURBS; i++)
+ 		usx2y_urb_release(subs->urb + i,
+ 				  subs != subs->usx2y->subs[SNDRV_PCM_STREAM_PLAYBACK]);
+@@ -505,7 +513,8 @@ static int usx2y_urbs_start(struct snd_usx2y_substream *subs)
+ 			urb->transfer_buffer_length = subs->maxpacksize * nr_of_packs();
+ 			err = usb_submit_urb(urb, GFP_ATOMIC);
+ 			if (err < 0) {
+-				snd_printk(KERN_ERR "cannot submit datapipe for urb %d, err = %d\n", i, err);
++				dev_err(&urb->dev->dev, "%s: cannot submit datapipe for urb %d, err = %d\n",
++					__func__, i, err);
+ 				err = -EPIPE;
+ 				goto cleanup;
+ 			} else {
+@@ -550,17 +559,16 @@ static int snd_usx2y_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
+ 
+ 	switch (cmd) {
+ 	case SNDRV_PCM_TRIGGER_START:
+-		snd_printdd("%s(START)\n", __func__);
++		dev_dbg(&subs->usx2y->dev->dev, "%s(START)\n", __func__);
+ 		if (atomic_read(&subs->state) == STATE_PREPARED &&
+ 		    atomic_read(&subs->usx2y->subs[SNDRV_PCM_STREAM_CAPTURE]->state) >= STATE_PREPARED) {
+ 			atomic_set(&subs->state, STATE_PRERUNNING);
+ 		} else {
+-			snd_printdd("\n");
+ 			return -EPIPE;
+ 		}
+ 		break;
+ 	case SNDRV_PCM_TRIGGER_STOP:
+-		snd_printdd("%s(STOP)\n", __func__);
++		dev_dbg(&subs->usx2y->dev->dev, "%s(STOP)\n", __func__);
+ 		if (atomic_read(&subs->state) >= STATE_PRERUNNING)
+ 			atomic_set(&subs->state, STATE_PREPARED);
+ 		break;
+@@ -661,7 +669,8 @@ static void i_usx2y_04int(struct urb *urb)
+ 	struct usx2ydev *usx2y = urb->context;
+ 
+ 	if (urb->status)
+-		snd_printk(KERN_ERR "snd_usx2y_04int() urb->status=%i\n", urb->status);
++		dev_err(&urb->dev->dev, "%s() urb->status=%i\n",
++			__func__, urb->status);
+ 	if (!--usx2y->us04->len)
+ 		wake_up(&usx2y->in04_wait_queue);
+ }
+@@ -751,7 +760,8 @@ static int usx2y_format_set(struct usx2ydev *usx2y, snd_pcm_format_t format)
+ 	usb_kill_urb(usx2y->in04_urb);
+ 	err = usb_set_interface(usx2y->dev, 0, alternate);
+ 	if (err) {
+-		snd_printk(KERN_ERR "usb_set_interface error\n");
++		dev_err(&usx2y->dev->dev, "%s: usb_set_interface error\n",
++			__func__);
+ 		return err;
+ 	}
+ 	usx2y->in04_urb->dev = usx2y->dev;
+@@ -778,7 +788,7 @@ static int snd_usx2y_pcm_hw_params(struct snd_pcm_substream *substream,
+ 	int i;
+ 
+ 	mutex_lock(&usx2y(card)->pcm_mutex);
+-	snd_printdd("snd_usx2y_hw_params(%p, %p)\n", substream, hw_params);
++	dev_dbg(&dev->dev->dev, "%s(%p, %p)\n", __func__, substream, hw_params);
+ 	/* all pcm substreams off one usx2y have to operate at the same
+ 	 * rate & format
  	 */
- 	if (strncmp("SC-6000", answer, 7))
--		snd_printk(KERN_WARNING "Warning: non SC-6000 audio card!\n");
-+		dev_warn(devptr, "Warning: non SC-6000 audio card!\n");
+@@ -814,7 +824,7 @@ static int snd_usx2y_pcm_hw_free(struct snd_pcm_substream *substream)
+ 	struct snd_usx2y_substream *cap_subs, *playback_subs;
  
--	if (sc6000_dsp_get_answer(vport, GET_DSP_VERSION, version, 2) < 2) {
--		snd_printk(KERN_ERR "sc6000_dsp_version: failed!\n");
-+	if (sc6000_dsp_get_answer(devptr, vport, GET_DSP_VERSION, version, 2) < 2) {
-+		dev_err(devptr, "sc6000_dsp_version: failed!\n");
- 		return -ENODEV;
- 	}
--	printk(KERN_INFO PFX "Detected model: %s, DSP version %d.%d\n",
-+	dev_info(devptr, "Detected model: %s, DSP version %d.%d\n",
- 		answer, version[0], version[1]);
+ 	mutex_lock(&subs->usx2y->pcm_mutex);
+-	snd_printdd("snd_usx2y_hw_free(%p)\n", substream);
++	dev_dbg(&subs->usx2y->dev->dev, "%s(%p)\n", __func__, substream);
  
- 	/* set configuration */
--	sc6000_write(vport, COMMAND_5C);
-+	sc6000_write(devptr, vport, COMMAND_5C);
- 	if (sc6000_read(vport) < 0)
- 		old = 1;
+ 	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
+ 		cap_subs = subs->usx2y->subs[SNDRV_PCM_STREAM_CAPTURE];
+@@ -850,7 +860,7 @@ static int snd_usx2y_pcm_prepare(struct snd_pcm_substream *substream)
+ 	struct snd_usx2y_substream *capsubs = subs->usx2y->subs[SNDRV_PCM_STREAM_CAPTURE];
+ 	int err = 0;
  
- 	if (!old) {
- 		int cfg[2];
--		sc6000_hw_cfg_encode(vport, &cfg[0], port[dev], mpu_port[dev],
-+		sc6000_hw_cfg_encode(devptr,
-+				     vport, &cfg[0], port[dev], mpu_port[dev],
- 				     mss_port[dev], joystick[dev]);
--		if (sc6000_hw_cfg_write(vport, cfg) < 0) {
--			snd_printk(KERN_ERR "sc6000_hw_cfg_write: failed!\n");
-+		if (sc6000_hw_cfg_write(devptr, vport, cfg) < 0) {
-+			dev_err(devptr, "sc6000_hw_cfg_write: failed!\n");
- 			return -EIO;
+-	snd_printdd("%s(%p)\n", __func__, substream);
++	dev_dbg(&usx2y->dev->dev, "%s(%p)\n", __func__, substream);
+ 
+ 	mutex_lock(&usx2y->pcm_mutex);
+ 	usx2y_subs_prepare(subs);
+@@ -867,7 +877,8 @@ static int snd_usx2y_pcm_prepare(struct snd_pcm_substream *substream)
+ 			if (err < 0)
+ 				goto up_prepare_mutex;
  		}
- 	}
--	err = sc6000_setup_board(vport, config);
-+	err = sc6000_setup_board(devptr, vport, config);
- 	if (err < 0) {
--		snd_printk(KERN_ERR "sc6000_setup_board: failed!\n");
-+		dev_err(devptr, "sc6000_setup_board: failed!\n");
- 		return -ENODEV;
- 	}
- 
- 	sc6000_dsp_reset(vport);
- 
- 	if (!old) {
--		sc6000_write(vport, COMMAND_60);
--		sc6000_write(vport, 0x02);
-+		sc6000_write(devptr, vport, COMMAND_60);
-+		sc6000_write(devptr, vport, 0x02);
- 		sc6000_dsp_reset(vport);
- 	}
- 
--	err = sc6000_setup_board(vport, config);
-+	err = sc6000_setup_board(devptr, vport, config);
- 	if (err < 0) {
--		snd_printk(KERN_ERR "sc6000_setup_board: failed!\n");
-+		dev_err(devptr, "sc6000_setup_board: failed!\n");
- 		return -ENODEV;
- 	}
--	err = sc6000_init_mss(vport, config, vmss_port, mss_config);
-+	err = sc6000_init_mss(devptr, vport, config, vmss_port, mss_config);
- 	if (err < 0) {
--		snd_printk(KERN_ERR "Cannot initialize "
--			   "Microsoft Sound System mode.\n");
-+		dev_err(devptr, "Cannot initialize Microsoft Sound System mode.\n");
- 		return -ENODEV;
- 	}
- 
-@@ -491,39 +498,39 @@ static int snd_sc6000_match(struct device *devptr, unsigned int dev)
- 	if (!enable[dev])
- 		return 0;
- 	if (port[dev] == SNDRV_AUTO_PORT) {
--		printk(KERN_ERR PFX "specify IO port\n");
-+		dev_err(devptr, "specify IO port\n");
- 		return 0;
- 	}
- 	if (mss_port[dev] == SNDRV_AUTO_PORT) {
--		printk(KERN_ERR PFX "specify MSS port\n");
-+		dev_err(devptr, "specify MSS port\n");
- 		return 0;
- 	}
- 	if (port[dev] != 0x220 && port[dev] != 0x240) {
--		printk(KERN_ERR PFX "Port must be 0x220 or 0x240\n");
-+		dev_err(devptr, "Port must be 0x220 or 0x240\n");
- 		return 0;
- 	}
- 	if (mss_port[dev] != 0x530 && mss_port[dev] != 0xe80) {
--		printk(KERN_ERR PFX "MSS port must be 0x530 or 0xe80\n");
-+		dev_err(devptr, "MSS port must be 0x530 or 0xe80\n");
- 		return 0;
- 	}
- 	if (irq[dev] != SNDRV_AUTO_IRQ && !sc6000_irq_to_softcfg(irq[dev])) {
--		printk(KERN_ERR PFX "invalid IRQ %d\n", irq[dev]);
-+		dev_err(devptr, "invalid IRQ %d\n", irq[dev]);
- 		return 0;
- 	}
- 	if (dma[dev] != SNDRV_AUTO_DMA && !sc6000_dma_to_softcfg(dma[dev])) {
--		printk(KERN_ERR PFX "invalid DMA %d\n", dma[dev]);
-+		dev_err(devptr, "invalid DMA %d\n", dma[dev]);
- 		return 0;
- 	}
- 	if (mpu_port[dev] != SNDRV_AUTO_PORT &&
- 	    (mpu_port[dev] & ~0x30L) != 0x300) {
--		printk(KERN_ERR PFX "invalid MPU-401 port %lx\n",
-+		dev_err(devptr, "invalid MPU-401 port %lx\n",
- 			mpu_port[dev]);
- 		return 0;
- 	}
- 	if (mpu_port[dev] != SNDRV_AUTO_PORT &&
- 	    mpu_irq[dev] != SNDRV_AUTO_IRQ && mpu_irq[dev] != 0 &&
- 	    !sc6000_mpu_irq_to_softcfg(mpu_irq[dev])) {
--		printk(KERN_ERR PFX "invalid MPU-401 IRQ %d\n", mpu_irq[dev]);
-+		dev_err(devptr, "invalid MPU-401 IRQ %d\n", mpu_irq[dev]);
- 		return 0;
- 	}
- 	return 1;
-@@ -534,7 +541,7 @@ static void snd_sc6000_free(struct snd_card *card)
- 	char __iomem *vport = (char __force __iomem *)card->private_data;
- 
- 	if (vport)
--		sc6000_setup_board(vport, 0);
-+		sc6000_setup_board(card->dev, vport, 0);
- }
- 
- static int __snd_sc6000_probe(struct device *devptr, unsigned int dev)
-@@ -558,7 +565,7 @@ static int __snd_sc6000_probe(struct device *devptr, unsigned int dev)
- 	if (xirq == SNDRV_AUTO_IRQ) {
- 		xirq = snd_legacy_find_free_irq(possible_irqs);
- 		if (xirq < 0) {
--			snd_printk(KERN_ERR PFX "unable to find a free IRQ\n");
-+			dev_err(devptr, "unable to find a free IRQ\n");
- 			return -EBUSY;
- 		}
- 	}
-@@ -566,42 +573,39 @@ static int __snd_sc6000_probe(struct device *devptr, unsigned int dev)
- 	if (xdma == SNDRV_AUTO_DMA) {
- 		xdma = snd_legacy_find_free_dma(possible_dmas);
- 		if (xdma < 0) {
--			snd_printk(KERN_ERR PFX "unable to find a free DMA\n");
-+			dev_err(devptr, "unable to find a free DMA\n");
- 			return -EBUSY;
- 		}
- 	}
- 
- 	if (!devm_request_region(devptr, port[dev], 0x10, DRV_NAME)) {
--		snd_printk(KERN_ERR PFX
--			   "I/O port region is already in use.\n");
-+		dev_err(devptr, "I/O port region is already in use.\n");
- 		return -EBUSY;
- 	}
- 	vport = devm_ioport_map(devptr, port[dev], 0x10);
- 	if (!vport) {
--		snd_printk(KERN_ERR PFX
--			   "I/O port cannot be iomapped.\n");
-+		dev_err(devptr, "I/O port cannot be iomapped.\n");
- 		return -EBUSY;
- 	}
- 	card->private_data = (void __force *)vport;
- 
- 	/* to make it marked as used */
- 	if (!devm_request_region(devptr, mss_port[dev], 4, DRV_NAME)) {
--		snd_printk(KERN_ERR PFX
--			   "SC-6000 port I/O port region is already in use.\n");
-+		dev_err(devptr,
-+			"SC-6000 port I/O port region is already in use.\n");
- 		return -EBUSY;
- 	}
- 	vmss_port = devm_ioport_map(devptr, mss_port[dev], 4);
- 	if (!vmss_port) {
--		snd_printk(KERN_ERR PFX
--			   "MSS port I/O cannot be iomapped.\n");
-+		dev_err(devptr, "MSS port I/O cannot be iomapped.\n");
- 		return -EBUSY;
- 	}
- 
--	snd_printd("Initializing BASE[0x%lx] IRQ[%d] DMA[%d] MIRQ[%d]\n",
--		   port[dev], xirq, xdma,
--		   mpu_irq[dev] == SNDRV_AUTO_IRQ ? 0 : mpu_irq[dev]);
-+	dev_dbg(devptr, "Initializing BASE[0x%lx] IRQ[%d] DMA[%d] MIRQ[%d]\n",
-+		port[dev], xirq, xdma,
-+		mpu_irq[dev] == SNDRV_AUTO_IRQ ? 0 : mpu_irq[dev]);
- 
--	err = sc6000_init_board(vport, vmss_port, dev);
-+	err = sc6000_init_board(devptr, vport, vmss_port, dev);
- 	if (err < 0)
- 		return err;
- 	card->private_free = snd_sc6000_free;
-@@ -613,25 +617,24 @@ static int __snd_sc6000_probe(struct device *devptr, unsigned int dev)
- 
- 	err = snd_wss_pcm(chip, 0);
- 	if (err < 0) {
--		snd_printk(KERN_ERR PFX
--			   "error creating new WSS PCM device\n");
-+		dev_err(devptr, "error creating new WSS PCM device\n");
- 		return err;
- 	}
- 	err = snd_wss_mixer(chip);
- 	if (err < 0) {
--		snd_printk(KERN_ERR PFX "error creating new WSS mixer\n");
-+		dev_err(devptr, "error creating new WSS mixer\n");
- 		return err;
- 	}
- 	err = snd_sc6000_mixer(chip);
- 	if (err < 0) {
--		snd_printk(KERN_ERR PFX "the mixer rewrite failed\n");
-+		dev_err(devptr, "the mixer rewrite failed\n");
- 		return err;
- 	}
- 	if (snd_opl3_create(card,
- 			    0x388, 0x388 + 2,
- 			    OPL3_HW_AUTO, 0, &opl3) < 0) {
--		snd_printk(KERN_ERR PFX "no OPL device at 0x%x-0x%x ?\n",
--			   0x388, 0x388 + 2);
-+		dev_err(devptr, "no OPL device at 0x%x-0x%x ?\n",
-+			0x388, 0x388 + 2);
- 	} else {
- 		err = snd_opl3_hwdep_new(opl3, 0, 1, NULL);
+-		snd_printdd("starting capture pipe for %s\n", subs == capsubs ? "self" : "playpipe");
++		dev_dbg(&usx2y->dev->dev, "%s: starting capture pipe for %s\n",
++			__func__, subs == capsubs ? "self" : "playpipe");
+ 		err = usx2y_urbs_start(capsubs);
  		if (err < 0)
-@@ -645,8 +648,8 @@ static int __snd_sc6000_probe(struct device *devptr, unsigned int dev)
- 					MPU401_HW_MPU401,
- 					mpu_port[dev], 0,
- 					mpu_irq[dev], NULL) < 0)
--			snd_printk(KERN_ERR "no MPU-401 device at 0x%lx ?\n",
--					mpu_port[dev]);
-+			dev_err(devptr, "no MPU-401 device at 0x%lx ?\n",
-+				mpu_port[dev]);
+ 			goto up_prepare_mutex;
+diff --git a/sound/usb/usx2y/usx2yhwdeppcm.c b/sound/usb/usx2y/usx2yhwdeppcm.c
+index 36f2e31168fb..1b1496adb47e 100644
+--- a/sound/usb/usx2y/usx2yhwdeppcm.c
++++ b/sound/usb/usx2y/usx2yhwdeppcm.c
+@@ -59,13 +59,13 @@ static int usx2y_usbpcm_urb_capt_retire(struct snd_usx2y_substream *subs)
+ 		if (head >= ARRAY_SIZE(usx2y->hwdep_pcm_shm->captured_iso))
+ 			head = 0;
+ 		usx2y->hwdep_pcm_shm->capture_iso_start = head;
+-		snd_printdd("cap start %i\n", head);
++		dev_dbg(&usx2y->dev->dev, "cap start %i\n", head);
+ 	}
+ 	for (i = 0; i < nr_of_packs(); i++) {
+ 		if (urb->iso_frame_desc[i].status) { /* active? hmm, skip this */
+-			snd_printk(KERN_ERR
+-				   "active frame status %i. Most probably some hardware problem.\n",
+-				   urb->iso_frame_desc[i].status);
++			dev_err(&usx2y->dev->dev,
++				"active frame status %i. Most probably some hardware problem.\n",
++				urb->iso_frame_desc[i].status);
+ 			return urb->iso_frame_desc[i].status;
+ 		}
+ 		lens += urb->iso_frame_desc[i].actual_length / usx2y->stride;
+@@ -120,7 +120,7 @@ static int usx2y_hwdep_urb_play_prepare(struct snd_usx2y_substream *subs,
+ 		/* calculate the size of a packet */
+ 		counts = shm->captured_iso[shm->playback_iso_head].length / usx2y->stride;
+ 		if (counts < 43 || counts > 50) {
+-			snd_printk(KERN_ERR "should not be here with counts=%i\n", counts);
++			dev_err(&usx2y->dev->dev, "should not be here with counts=%i\n", counts);
+ 			return -EPIPE;
+ 		}
+ 		/* set up descriptor */
+@@ -234,10 +234,11 @@ static void i_usx2y_usbpcm_urb_complete(struct urb *urb)
+ 	struct snd_usx2y_substream *capsubs, *capsubs2, *playbacksubs;
+ 
+ 	if (unlikely(atomic_read(&subs->state) < STATE_PREPARED)) {
+-		snd_printdd("hcd_frame=%i ep=%i%s status=%i start_frame=%i\n",
+-			    usb_get_current_frame_number(usx2y->dev),
+-			    subs->endpoint, usb_pipein(urb->pipe) ? "in" : "out",
+-			    urb->status, urb->start_frame);
++		dev_dbg(&usx2y->dev->dev,
++			"hcd_frame=%i ep=%i%s status=%i start_frame=%i\n",
++			usb_get_current_frame_number(usx2y->dev),
++			subs->endpoint, usb_pipein(urb->pipe) ? "in" : "out",
++			urb->status, urb->start_frame);
+ 		return;
+ 	}
+ 	if (unlikely(urb->status)) {
+@@ -255,7 +256,6 @@ static void i_usx2y_usbpcm_urb_complete(struct urb *urb)
+ 		if (!usx2y_usbpcm_usbframe_complete(capsubs, capsubs2, playbacksubs, urb->start_frame)) {
+ 			usx2y->wait_iso_frame += nr_of_packs();
+ 		} else {
+-			snd_printdd("\n");
+ 			usx2y_clients_stop(usx2y);
+ 		}
+ 	}
+@@ -275,7 +275,8 @@ static void usx2y_usbpcm_urbs_release(struct snd_usx2y_substream *subs)
+ {
+ 	int i;
+ 
+-	snd_printdd("snd_usx2y_urbs_release() %i\n", subs->endpoint);
++	dev_dbg(&subs->usx2y->dev->dev,
++		"snd_usx2y_urbs_release() %i\n", subs->endpoint);
+ 	for (i = 0; i < NRURBS; i++)
+ 		usx2y_hwdep_urb_release(subs->urb + i);
+ }
+@@ -365,7 +366,7 @@ static int snd_usx2y_usbpcm_hw_free(struct snd_pcm_substream *substream)
+ 	struct snd_usx2y_substream *cap_subs2;
+ 
+ 	mutex_lock(&subs->usx2y->pcm_mutex);
+-	snd_printdd("%s(%p)\n", __func__, substream);
++	dev_dbg(&subs->usx2y->dev->dev, "%s(%p)\n", __func__, substream);
+ 
+ 	cap_subs2 = subs->usx2y->subs[SNDRV_PCM_STREAM_CAPTURE + 2];
+ 	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
+@@ -456,11 +457,12 @@ static int usx2y_usbpcm_urbs_start(struct snd_usx2y_substream *subs)
+ 				urb->transfer_buffer_length = subs->maxpacksize * nr_of_packs();
+ 				err = usb_submit_urb(urb, GFP_KERNEL);
+ 				if (err < 0) {
+-					snd_printk(KERN_ERR "cannot usb_submit_urb() for urb %d, err = %d\n", u, err);
++					dev_err(&urb->dev->dev,
++						"cannot usb_submit_urb() for urb %d, err = %d\n",
++						u, err);
+ 					err = -EPIPE;
+ 					goto cleanup;
+ 				}  else {
+-					snd_printdd("%i\n", urb->start_frame);
+ 					if (!u)
+ 						usx2y->wait_iso_frame = urb->start_frame;
+ 				}
+@@ -500,7 +502,7 @@ static int snd_usx2y_usbpcm_prepare(struct snd_pcm_substream *substream)
+ 	struct snd_usx2y_substream *capsubs = subs->usx2y->subs[SNDRV_PCM_STREAM_CAPTURE];
+ 	int err = 0;
+ 
+-	snd_printdd("snd_usx2y_pcm_prepare(%p)\n", substream);
++	dev_dbg(&usx2y->dev->dev, "snd_usx2y_pcm_prepare(%p)\n", substream);
+ 
+ 	mutex_lock(&usx2y->pcm_mutex);
+ 
+@@ -528,8 +530,9 @@ static int snd_usx2y_usbpcm_prepare(struct snd_pcm_substream *substream)
+ 			if (err < 0)
+ 				goto up_prepare_mutex;
+ 		}
+-		snd_printdd("starting capture pipe for %s\n", subs == capsubs ?
+-			    "self" : "playpipe");
++		dev_dbg(&usx2y->dev->dev,
++			"starting capture pipe for %s\n", subs == capsubs ?
++			"self" : "playpipe");
+ 		err = usx2y_usbpcm_urbs_start(capsubs);
+ 		if (err < 0)
+ 			goto up_prepare_mutex;
+@@ -540,9 +543,10 @@ static int snd_usx2y_usbpcm_prepare(struct snd_pcm_substream *substream)
+ 		if (atomic_read(&subs->state) < STATE_PREPARED) {
+ 			while (usx2y_iso_frames_per_buffer(runtime, usx2y) >
+ 			       usx2y->hwdep_pcm_shm->captured_iso_frames) {
+-				snd_printdd("Wait: iso_frames_per_buffer=%i,captured_iso_frames=%i\n",
+-					    usx2y_iso_frames_per_buffer(runtime, usx2y),
+-					    usx2y->hwdep_pcm_shm->captured_iso_frames);
++				dev_dbg(&usx2y->dev->dev,
++					"Wait: iso_frames_per_buffer=%i,captured_iso_frames=%i\n",
++					usx2y_iso_frames_per_buffer(runtime, usx2y),
++					usx2y->hwdep_pcm_shm->captured_iso_frames);
+ 				if (msleep_interruptible(10)) {
+ 					err = -ERESTARTSYS;
+ 					goto up_prepare_mutex;
+@@ -552,9 +556,10 @@ static int snd_usx2y_usbpcm_prepare(struct snd_pcm_substream *substream)
+ 			if (err < 0)
+ 				goto up_prepare_mutex;
+ 		}
+-		snd_printdd("Ready: iso_frames_per_buffer=%i,captured_iso_frames=%i\n",
+-			    usx2y_iso_frames_per_buffer(runtime, usx2y),
+-			    usx2y->hwdep_pcm_shm->captured_iso_frames);
++		dev_dbg(&usx2y->dev->dev,
++			"Ready: iso_frames_per_buffer=%i,captured_iso_frames=%i\n",
++			usx2y_iso_frames_per_buffer(runtime, usx2y),
++			usx2y->hwdep_pcm_shm->captured_iso_frames);
+ 	} else {
+ 		usx2y->hwdep_pcm_shm->capture_iso_start = -1;
+ 	}
+@@ -698,7 +703,8 @@ static int snd_usx2y_hwdep_pcm_mmap(struct snd_hwdep *hw, struct file *filp, str
+ 
+ 	/* if userspace tries to mmap beyond end of our buffer, fail */
+ 	if (size > USX2Y_HWDEP_PCM_PAGES) {
+-		snd_printd("%lu > %lu\n", size, (unsigned long)USX2Y_HWDEP_PCM_PAGES);
++		dev_dbg(hw->card->dev, "%s: %lu > %lu\n", __func__,
++			size, (unsigned long)USX2Y_HWDEP_PCM_PAGES);
+ 		return -EINVAL;
  	}
  
- 	strcpy(card->driver, DRV_NAME);
 -- 
 2.43.0
 
