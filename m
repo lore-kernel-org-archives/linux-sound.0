@@ -1,129 +1,172 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15525189BA4
-	for <linux-sound@vger.kernel.org>; Thu,  8 Aug 2024 09:14:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 129F12575F;
+	Thu,  8 Aug 2024 09:18:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723108487; cv=none; b=fIfc8YEDFmd15c4cgNy2v9zyuNiihkc7rt/y0c8FD7GXvbzG9ecM2btOsns5WBMvu2BxYBucPdBhED0GNQUEnGeEYmTuIJL69G2Q9VvSIoaXcIysS4kO8lC5kWgApgSAEdpj3jZYAOxpz88Wsxke2kErVLdKlm+u18OEs70IZ1E=
+	t=1723108687; cv=none; b=MGnxBbNpugtZbcHeJFrVbSE34AqALsSPBpxeWefUSha1pQJ6FVWGa5Pc+yoO3X9kMFin4rP2DoMAuJ362aedNvfcqHSNglR0rSgKcp5LMdPhzI78bAI0WHkjyzMtJRTwcp8U68Hq0NARbpgLj/98IbhiJ7NuQCNL3nGQlAb/i8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723108487; c=relaxed/simple;
-	bh=rM7shvxFm3efmEKEJURWpl47fzFAgbrCX43b9Lfoncs=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=pgxFzCdoQHqfVvNsTPJCb9WoqpMCU5Z1qWaIEj0jQCHcqVjoF3D36TbE8cY3RX8hP1pnadaQf9yJA9zJPt2904S/MnvZUVV/VUsOFQ8mEtzGS8VvINM2i6H5ARcXCHol3GM00nrf24ulIZoRT7WmQe5sqJLxdpyutRySyJTLRjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YGdQ8fjK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=udb7/l3E; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YGdQ8fjK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=udb7/l3E; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1723108687; c=relaxed/simple;
+	bh=Dn37q0zxK+IzrlVlGi41Gx+dbyz8wiLjnCD5TZ2BVHM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Kc8jWWPSYIopwQK3Yyl4vbTPisn/EaDpDsuJAgTmPwJGXtYx6nR9ytdqOyjjyZDOTNgr8LPCQO4CKSVu9i0uvomBMcBWlLtontZhcu//BtPm9Vaje7yz+qJE5KZVBp2uWfM50wRV5euXuSuTm3AkYBYXjeoeniHMi9HWi8HSRK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jIbSMyXI; arc=none smtp.client-ip=209.85.166.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YGdQ8fjK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="udb7/l3E";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YGdQ8fjK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="udb7/l3E"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 56BA21F388;
-	Thu,  8 Aug 2024 09:14:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723108484; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=0bmDfcOgXhBXrnJwc7Ej5fy1W7TNoLpGjjitANT4uCE=;
-	b=YGdQ8fjKeOAl35bHfUCApLu+1pkNztJ+orGwnfkr8i+23HiLbGMhCcMqHOB0/8UWgTAwXT
-	pi0k8AwBxzv5QAvCuSLw6CXVb3Okg7n/cYuddF0XU4NKIhg4h4vPP70eOiXPEpL4oVIzrf
-	7HKEpp+l8jsg3xT+ANWQTbLI04V9rWY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723108484;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=0bmDfcOgXhBXrnJwc7Ej5fy1W7TNoLpGjjitANT4uCE=;
-	b=udb7/l3EgfyCSbbMs2uBonM/447IZhRDJbUZNesuHIUFLl7oRLrL2H7AwWSu8RU9IM2aMz
-	2Ptc+AIuoR3eX9DA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723108484; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=0bmDfcOgXhBXrnJwc7Ej5fy1W7TNoLpGjjitANT4uCE=;
-	b=YGdQ8fjKeOAl35bHfUCApLu+1pkNztJ+orGwnfkr8i+23HiLbGMhCcMqHOB0/8UWgTAwXT
-	pi0k8AwBxzv5QAvCuSLw6CXVb3Okg7n/cYuddF0XU4NKIhg4h4vPP70eOiXPEpL4oVIzrf
-	7HKEpp+l8jsg3xT+ANWQTbLI04V9rWY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723108484;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=0bmDfcOgXhBXrnJwc7Ej5fy1W7TNoLpGjjitANT4uCE=;
-	b=udb7/l3EgfyCSbbMs2uBonM/447IZhRDJbUZNesuHIUFLl7oRLrL2H7AwWSu8RU9IM2aMz
-	2Ptc+AIuoR3eX9DA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3291013876;
-	Thu,  8 Aug 2024 09:14:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 8EkXC4SMtGahHwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 08 Aug 2024 09:14:44 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: usb-audio: Check shutdown at endpoint_set_interface()
-Date: Thu,  8 Aug 2024 11:15:21 +0200
-Message-ID: <20240808091522.31415-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jIbSMyXI"
+Received: by mail-io1-f53.google.com with SMTP id ca18e2360f4ac-81f921c40a0so26262839f.0;
+        Thu, 08 Aug 2024 02:18:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1723108685; x=1723713485; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=REVFtsd7kP8SZQgw0r+/fGQwfeWNPXAh6Qw7M45oeOc=;
+        b=jIbSMyXIGU5RvPhZKuzSFpibEPXM8QtwsJ1zUTPmCSNBR7dCNrBYWhRgMt0DC6b9R6
+         SmFzjcSXN+Ll2ooAW1/zm1lYdrzRxxWfMLfJuJ8mG2sRkt1qm/b+BxaDVlNad953lnkL
+         GpQKtVuMkSl0/ejZR93DvOaFW56kp/y5Uv6zxDHbouohZR90B6hkyu5Q6JwL25jyWXhv
+         N9R+/g16O4X2sgyFKHXjurwDZcZlLQVzRzrUG9wd0Pu/GbGmtOk69JRIhSpKQ+BzYe9r
+         JHuaPhXlu0vNx2GCkd0P5YJ4FoiI9AQ3n5rADIbSEqLLssNYsh4L9j2C1/egtVqiKnbH
+         w9rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723108685; x=1723713485;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=REVFtsd7kP8SZQgw0r+/fGQwfeWNPXAh6Qw7M45oeOc=;
+        b=nqNY+lUzf0rCQCt0142JSvkbZlanYvyjCLTh7hPHDM/3QLMjvNqoaM65rVhXEa2k2g
+         We7w7xFtBk/OcamrekvHeDy80QZT1GxzDMmmB9ooQuCJq4RpDtpEyUUILfwtKBs9Fzr7
+         mxaXh1b2vfxdLZkF8Jj9HsWW+xv9AOvFh5qeYpfoV/9/YvUxSpMHeUKmkcjCdvanoEwT
+         ZcTnA2cxjMJAOy7VETj9xogKhmiRrg8sMp+twhNBVUZQ9/cxev88oPDUrxhsrWLlyuPh
+         LYTPAmInqoUnbwe97M4hrSowJ3iV5Pv1/CS/OdDmnOCkrf+Np/Lfj3QDFH0uaGWYWJo3
+         ey/g==
+X-Forwarded-Encrypted: i=1; AJvYcCUxAI5+ZrPhErVnMcRjOb2eUgs14qGXUzOg5Bs2MnDPJeIt1AMa2k0lNAWWSsaZ7WYq4Nb+5DqM04AfiFbL2io8O/5L439dD1AYqfBgd+1y5W+JS+9IGJLivsL/TcdQwZ80XvwX4MUx3Ag=
+X-Gm-Message-State: AOJu0Yz6GNsgnZBIlX5hdkAPoEDvI+Pg/GZbERMGNbLt8HlV7Q3ck8XC
+	FDJj69LtQ8JkWUCKT9nLPlhTb6KLZMQo7z3ayv3yJ+5YPm1xEC7e9rIqtF3radFFMWEyCNHvcTf
+	CYehf+ooUwtB/UczMs3R0edUhBL8=
+X-Google-Smtp-Source: AGHT+IEjn7a01cBmdtTZmS2Jngj4iwhQXD0sAvy+xjfVRnfVk+u+mV1GNclk46ZWlpryZJLGRifYGzNADxyjfJHrItA=
+X-Received: by 2002:a05:6e02:154c:b0:397:2918:6f52 with SMTP id
+ e9e14a558f8ab-39b5ed4a0e4mr12415825ab.25.1723108684958; Thu, 08 Aug 2024
+ 02:18:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Score: -2.80
-X-Spam-Flag: NO
-X-Spam-Level: 
+References: <1722940003-20126-1-git-send-email-shengjiu.wang@nxp.com>
+ <1722940003-20126-2-git-send-email-shengjiu.wang@nxp.com> <e89a56bf-c377-43d8-bba8-6a09e571ed64@linux.intel.com>
+In-Reply-To: <e89a56bf-c377-43d8-bba8-6a09e571ed64@linux.intel.com>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Thu, 8 Aug 2024 17:17:53 +0800
+Message-ID: <CAA+D8AN9JXJr-BZf8aY7d4rB6M60pXS_DG=qv=P6=2r1A18ATA@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/6] ALSA: compress: add Sample Rate Converter codec support
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, vkoul@kernel.org, perex@perex.cz, tiwai@suse.com, 
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
+	linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The call of usb_set_interface() and a delay are superfluous when the
-device has been already disconnected.  Add a disconnection check
-before doing it.
+On Tue, Aug 6, 2024 at 7:25=E2=80=AFPM Pierre-Louis Bossart
+<pierre-louis.bossart@linux.intel.com> wrote:
+>
+>
+>
+> On 8/6/24 12:26, Shengjiu Wang wrote:
+> > Add Sample Rate Converter(SRC) codec support, define the output
+> > format and rate for SRC.
+> >
+> > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> > ---
+> >  include/uapi/sound/compress_offload.h | 2 ++
+> >  include/uapi/sound/compress_params.h  | 9 ++++++++-
+> >  2 files changed, 10 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/include/uapi/sound/compress_offload.h b/include/uapi/sound=
+/compress_offload.h
+> > index 98772b0cbcb7..8b2b72f94e26 100644
+> > --- a/include/uapi/sound/compress_offload.h
+> > +++ b/include/uapi/sound/compress_offload.h
+> > @@ -112,10 +112,12 @@ struct snd_compr_codec_caps {
+> >   * end of the track
+> >   * @SNDRV_COMPRESS_ENCODER_DELAY: no of samples inserted by the encode=
+r at the
+> >   * beginning of the track
+> > + * @SNDRV_COMPRESS_SRC_RATIO_MOD: Resampling Ratio Modifier for sample=
+ rate converter
+> >   */
+> >  enum sndrv_compress_encoder {
+> >       SNDRV_COMPRESS_ENCODER_PADDING =3D 1,
+> >       SNDRV_COMPRESS_ENCODER_DELAY =3D 2,
+> > +     SNDRV_COMPRESS_SRC_RATIO_MOD =3D 3,
+> >  };
+>
+> this sounds wrong to me. The sample rate converter is not an "encoder",
+> and the properties for padding/delay are totally specific to an encoder
+> function.
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/usb/endpoint.c | 3 +++
- 1 file changed, 3 insertions(+)
+There is only decoder and encoder definition for compress,  I know
+it is difficult to add SRC to encoder or decoder classification,
+SRC is a Post Processing.  I hope you can have a recommandation.
 
-diff --git a/sound/usb/endpoint.c b/sound/usb/endpoint.c
-index 8f65349a06d3..568099467dbb 100644
---- a/sound/usb/endpoint.c
-+++ b/sound/usb/endpoint.c
-@@ -921,6 +921,9 @@ static int endpoint_set_interface(struct snd_usb_audio *chip,
- 
- 	if (ep->iface_ref->altset == altset)
- 		return 0;
-+	/* already disconnected? */
-+	if (unlikely(atomic_read(&chip->shutdown)))
-+		return -ENODEV;
- 
- 	usb_audio_dbg(chip, "Setting usb interface %d:%d for EP 0x%x\n",
- 		      ep->iface, altset, ep->ep_num);
--- 
-2.43.0
+Thanks.
 
+Best regards
+Shengjiu Wang
+
+>
+> The other point is that I am not sure how standard this ratio_mod
+> parameter is. This could be totally specific to a specific
+> implementation, and another ASRC might have different parameters.
+>
+> >
+> >  /**
+> > diff --git a/include/uapi/sound/compress_params.h b/include/uapi/sound/=
+compress_params.h
+> > index ddc77322d571..0843773ea6b4 100644
+> > --- a/include/uapi/sound/compress_params.h
+> > +++ b/include/uapi/sound/compress_params.h
+> > @@ -43,7 +43,8 @@
+> >  #define SND_AUDIOCODEC_BESPOKE               ((__u32) 0x0000000E)
+> >  #define SND_AUDIOCODEC_ALAC                  ((__u32) 0x0000000F)
+> >  #define SND_AUDIOCODEC_APE                   ((__u32) 0x00000010)
+> > -#define SND_AUDIOCODEC_MAX                   SND_AUDIOCODEC_APE
+> > +#define SND_AUDIOCODEC_SRC                   ((__u32) 0x00000011)
+> > +#define SND_AUDIOCODEC_MAX                   SND_AUDIOCODEC_SRC
+>
+> I am not sure this is wise to change such definitions?
+> >
+> >  /*
+> >   * Profile and modes are listed with bit masks. This allows for a
+> > @@ -324,6 +325,11 @@ struct snd_dec_ape {
+> >       __u32 seek_table_present;
+> >  } __attribute__((packed, aligned(4)));
+> >
+> > +struct snd_dec_src {
+> > +     __u32 format_out;
+> > +     __u32 rate_out;
+> > +} __attribute__((packed, aligned(4)));
+>
+> Again I am not sure how standard those parameters are, and even if they
+> were if their representation is reusable.
+>
+> And the compressed API has a good split between encoders and decoders, I
+> am not sure how an SRC can be classified as either.
+>
+> >  union snd_codec_options {
+> >       struct snd_enc_wma wma;
+> >       struct snd_enc_vorbis vorbis;
+> > @@ -334,6 +340,7 @@ union snd_codec_options {
+> >       struct snd_dec_wma wma_d;
+> >       struct snd_dec_alac alac_d;
+> >       struct snd_dec_ape ape_d;
+> > +     struct snd_dec_src src;
+> >  } __attribute__((packed, aligned(4)));
+> >
+> >  /** struct snd_codec_desc - description of codec capabilities
+>
