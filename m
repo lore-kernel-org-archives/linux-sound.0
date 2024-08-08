@@ -1,46 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA82A15B561;
-	Thu,  8 Aug 2024 21:47:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D04FA15FA63
+	for <linux-sound@vger.kernel.org>; Thu,  8 Aug 2024 21:47:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723153622; cv=none; b=iwtkWG3rmCo1gz4FkUSMOehKQnSzvkv11M9qRDWiffnZlN9ZtQKUan22e/CZFc14/dJ3TzSAt/XgnqgKGJYTkZrpPvDFbk1sZf5xRvc6mQhopUsxAMKO0SwRgG+/gM8KKFaK7mOl/y3Cu1tXh4gohtGxHogFh8pHZIQHFvz+lFM=
+	t=1723153623; cv=none; b=CUhwRb/i7y3lNULiXWvk7b8aW3KM9a3jLcbWvrGSp2MF+lj7tJQx9kK/HQPtsCBaTwu92X6QRHOh0L9C5x37soQQPmN6BxSLyhQp7/Q9XuiMv/WiUfYonlvHBABxt2SAKVnXehv7bQwsApeHgU8pyR50oOXiLUxZsWLBT2AHfrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723153622; c=relaxed/simple;
-	bh=4qDVAjJfZJck66hTltxpHpYd6rfa84s00JWu0atPoDU=;
+	s=arc-20240116; t=1723153623; c=relaxed/simple;
+	bh=JmfM5c6oCUSl9e79v4ov9hn0NOvb0UND8aLM7fldPFc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=GE8EnyG3T+rgSwL4IwuqLYvXPqxaPr0ygygZilpYte6CVkXbYRUF9uJ2OWPbMPyguFPkCkMNkAsYn9Y6WjF+PIvBcq/rh9bZP4hsipx9Y9rQvTyPTp35P/P/higzOmO9IhdhckRrBav/TnRlTbYBjyJQwt8t0vbBMEBwlXc6Lcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XnDsAlGR; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Avw2gV+OqH9xtLTVT4sltcoqmKsU0O+99OYA4XnaUuzfNH/1qdlAsiylEqRQoY6ecZ2CTYP5dz7OFW7jXAqzWyoI3aKUuNrV3Q35UHA8cvPWfcdu6RSyni2A5ZqnWybxvjNSwTpFJK0OhhSNgICSvC4G9XnarnbHQBMwBcw7Zw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Eg2s7y3m; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XnDsAlGR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B62D5C4AF0C;
-	Thu,  8 Aug 2024 21:46:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Eg2s7y3m"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C09BC4AF0D;
+	Thu,  8 Aug 2024 21:47:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723153621;
-	bh=4qDVAjJfZJck66hTltxpHpYd6rfa84s00JWu0atPoDU=;
+	s=k20201202; t=1723153623;
+	bh=JmfM5c6oCUSl9e79v4ov9hn0NOvb0UND8aLM7fldPFc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=XnDsAlGRPM/2ZTTer/eUU69MDS2XWj6RVEI/S2Q5jVPCjGHSADI7izX3KPyJrLWPf
-	 nd5QNC2584o8dsyCcGgRkam5I67qT6G2zO4qE4BwNfa1/lyeGvA+jz14R2QGR/GTaJ
-	 M0GoOrne1v5aDNz3YZzz8tKt9MOyBQ+HxhUKcI1cbwIG3jxQfZmVfVZhe4pk+zGcGj
-	 Et88J0b1EsujTi4sDFvKoLWV+1UaV7LLKrz3qvHuZckWLGKKH8mGerXntDmbUhxRVT
-	 nGsCbGcI8ENlfRl2bx0l64ZtJVad85d2R8SvT6EBqvM0TdU2zGyh3fdyws44iHV7OC
-	 /9+0fKuTDjpkA==
+	b=Eg2s7y3m6lxP0x8KzprLI5DFw4zb/FGgqkm8dIn3J/XgrSW4H4VQl01bn8/FxiBgI
+	 LNqaEdKkmpck4Z4iacPxUNr3B3045z6jvJ+Cv28fJeX5ccLk8FWRqC9J/LEmkhXKpv
+	 c6XalsVQJd4zyqznXxfQZIUeh5LOmJr2UP8P/TfhVr6/wwb0aPfIsYTIJpbRwY85Z/
+	 UMBhsm6d8htmjdZVItqqeaFWJHyvoTB2NyWfMdX6ygw1HnYLZgh0OYEwICjr+TsnNE
+	 lOplTDa71/82jNK/Pug2iDbmkNIGAtOLBDQ7oVkqc05H3jOdKIvaPSwO7DbseYTWoF
+	 uiqQkdmoAeniQ==
 From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org, 
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Alexey Klimov <alexey.klimov@linaro.org>
-In-Reply-To: <20240806114931.40090-1-krzysztof.kozlowski@linaro.org>
-References: <20240806114931.40090-1-krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 1/4] ASoC: dt-bindings: qcom,wcd937x: Correct reset
- GPIO polarity in example
-Message-Id: <172315361817.480667.1573735001583504478.b4-ty@kernel.org>
-Date: Thu, 08 Aug 2024 22:46:58 +0100
+To: =?utf-8?q?Krzysztof_St=C4=99pniak?= <kfs.szk@gmail.com>
+Cc: Mario Limonciello <mario.limonciello@amd.com>, 
+ linux-sound@vger.kernel.org
+In-Reply-To: <20240807001219.1147-1-kfs.szk@gmail.com>
+References: <20240807001219.1147-1-kfs.szk@gmail.com>
+Subject: Re: [PATCH] ASoC: amd: yc: Support mic on Lenovo Thinkpad E14 Gen
+ 6
+Message-Id: <172315362254.480667.13308096985830701317.b4-ty@kernel.org>
+Date: Thu, 08 Aug 2024 22:47:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,13 +43,12 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.15-dev-37811
 
-On Tue, 06 Aug 2024 13:49:28 +0200, Krzysztof Kozlowski wrote:
-> The reset GPIO of WCD9370/WCD9375 is active low and that's how it is
-> routed on typical boards, so correct the example DTS to use expected
-> polarity.
+On Wed, 07 Aug 2024 02:12:19 +0200, Krzysztof Stępniak wrote:
+> Lenovo Thinkpad E14 Gen 6 (model type 21M3)
+> needs a quirk entry for internal mic to work.
 > 
 > 
 
@@ -64,14 +58,8 @@ Applied to
 
 Thanks!
 
-[1/4] ASoC: dt-bindings: qcom,wcd937x: Correct reset GPIO polarity in example
-      commit: 2f3e2c9eaafc272266344d777f8de44f8632e247
-[2/4] ASoC: dt-bindings: qcom,wcd934x: Correct reset GPIO polarity in example
-      commit: 55922275702e112652d314a9b6a6ca31d4b7252e
-[3/4] ASoC: dt-bindings: qcom,wcd938x: Correct reset GPIO polarity in example
-      commit: 871f1a16fa3506487de24b05d68be45e9185e77a
-[4/4] ASoC: dt-bindings: qcom,wcd939x: Correct reset GPIO polarity in example
-      commit: 81f88fddef9cddae6b4e5d9359022c7a2a3e3b6a
+[1/1] ASoC: amd: yc: Support mic on Lenovo Thinkpad E14 Gen 6
+      commit: 23a58b782f864951485d7a0018549729e007cb43
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
