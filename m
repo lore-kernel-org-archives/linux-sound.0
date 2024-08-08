@@ -1,354 +1,138 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8E4633F7
-	for <linux-sound@vger.kernel.org>; Thu,  8 Aug 2024 05:39:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D8EB18757C;
+	Thu,  8 Aug 2024 06:39:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723095574; cv=none; b=WN+j2zF9sBBD9zY1XRqW0vf2YMNHxEaaO4EtX1osBz9+CjNr7WM11f3dM8MzXzCDRA58ZiWS/fRRSjG6kWDy2HbA3KVUWkzvPBsmeBduA0SJLs6etxJYuJLVYrJ/vE+oK4ajeTZ3YsOfaHmMXFKAOkMjzFUkXLgDPQoJ8qYjgIM=
+	t=1723099145; cv=none; b=df0GD+/TV5yCZuckOWfewCjPiL3knFXr0GLhG++lsNZOexTSUA0JO6TRWhdDV6E1C4Y+jzOaQDJB229fSde4+/G5zmssKAn5PKGnjlt70iv0/KYQtF0cIyAx5ooiW12I3zuy53fETUOEIck/LLjuxaORbYG+XWL1l6FvrTBSR0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723095574; c=relaxed/simple;
-	bh=+4bjkO+fspaJI9TTKxO/SLaKzeMDrAjonbRbv9TMfpE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FWOk4xFM6X3ToF/aEy3YM7UPku6n0nplptGAjpFUv1IsXVRolZnOamWb8e0bMJcqmFeE8rzM9thh2t0ZjXsCmJcngpWTeS7uKMY7nXi/CbYdrdxC6Tb9QxiQi/9cdNKRc2Np9np1Lph8oHY+dj3eCxrXI8DAWQyjkCCUXe7uz2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=m0tzhKf2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VuTewyK8; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=m0tzhKf2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VuTewyK8; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1723099145; c=relaxed/simple;
+	bh=SXc+RIV+mGqbi5Wc2DChC/F8rYRwoBV3CjsJ2SNjkTM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:Cc:
+	 In-Reply-To:Content-Type; b=crcBlAEmU4Srgx2LZn90pqxiqY6/cA/HWLZ2tyiu49XEu92I7BwdF/HfjZ2M3VxTl5GLpHM5BrpGo4mKXJP9T1y5aAcDFuXlewfEtspWw8AxKJUftd6027JxyC3R+SDkikJLCPBIHlIukmvmNTa98QcHZ8psYdAq7oSlL+4vR9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=IYmaDoht; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="m0tzhKf2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VuTewyK8";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="m0tzhKf2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VuTewyK8"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B50E11FBAA;
-	Thu,  8 Aug 2024 05:39:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723095568; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=INuVOAP7xraIxh870I7UZyPZu0tEy9/oAXc5CwnrA6g=;
-	b=m0tzhKf2I4c954DcE47kPjY/YY5kqjEkhfIOmKclt/lhAg74xF72879OvzJgw03DRj2h7y
-	J5ZJCOCiXqEV0MkbhePJOBnemCqGjOdS0ck8LHBzx6TOHTW36knyip6xXzoxbGUx/KTTbd
-	u9bzxGzd1KAKnsfIvlBhViOgAmto6zs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723095568;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=INuVOAP7xraIxh870I7UZyPZu0tEy9/oAXc5CwnrA6g=;
-	b=VuTewyK8MfiUnqrn37OkS2wsnybIaj+s/bQK/eBrudzjFeJxvf7V8udPpN6Ls+tIOvX09x
-	z9TBIo7dPxIxLYBQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723095568; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=INuVOAP7xraIxh870I7UZyPZu0tEy9/oAXc5CwnrA6g=;
-	b=m0tzhKf2I4c954DcE47kPjY/YY5kqjEkhfIOmKclt/lhAg74xF72879OvzJgw03DRj2h7y
-	J5ZJCOCiXqEV0MkbhePJOBnemCqGjOdS0ck8LHBzx6TOHTW36knyip6xXzoxbGUx/KTTbd
-	u9bzxGzd1KAKnsfIvlBhViOgAmto6zs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723095568;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=INuVOAP7xraIxh870I7UZyPZu0tEy9/oAXc5CwnrA6g=;
-	b=VuTewyK8MfiUnqrn37OkS2wsnybIaj+s/bQK/eBrudzjFeJxvf7V8udPpN6Ls+tIOvX09x
-	z9TBIo7dPxIxLYBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 924A813770;
-	Thu,  8 Aug 2024 05:39:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id G9wOIhBatGb4XgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 08 Aug 2024 05:39:28 +0000
-Date: Thu, 08 Aug 2024 07:40:07 +0200
-Message-ID: <875xsb6094.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Stefan Stistrup <sstistrup@gmail.com>
-Cc: linux-sound@vger.kernel.org,
-	tiwai@suse.de
-Subject: Re: [PATCH v2] ALSA: usb-audio: Add input gain and master output mixer elements for RME Babyface Pro
-In-Reply-To: <20240807191121.68614-1-sstistrup@gmail.com>
-References: <20240807191121.68614-1-sstistrup@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="IYmaDoht"
+Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D2736581;
+	Thu,  8 Aug 2024 08:38:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1723099088;
+	bh=SXc+RIV+mGqbi5Wc2DChC/F8rYRwoBV3CjsJ2SNjkTM=;
+	h=Date:Subject:To:References:From:Cc:In-Reply-To:From;
+	b=IYmaDoht6VFBbthGtcniI8e0qMGDdUw72V0U/iSeZtL+wPHp6IyGJFgvjG+cNUkl/
+	 lmMTL4grr7qeMi+zXL6AXCkzEUvqDZJuYgDkuKG+nyE8verzjkZ/2+DdmVzX3VGQRF
+	 AI01OxJesl3eGWq9M9+fQg2Ox5yxX4wWldNO404E=
+Message-ID: <5c430d9c-0221-491f-94ac-b632fdec7682@ideasonboard.com>
+Date: Thu, 8 Aug 2024 09:38:56 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-0.30 / 50.00];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_THREE(0.00)[3];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_DN_SOME(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -0.30
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/9] ASoC: test-component: use new of_graph functions
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+References: <87mslqw8mj.wl-kuninori.morimoto.gx@renesas.com>
+ <87ikwew8li.wl-kuninori.morimoto.gx@renesas.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Mark Brown <broonie@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>,
+ Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
+ Takashi Iwai <tiwai@suse.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-sound@vger.kernel.org
+In-Reply-To: <87ikwew8li.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, 07 Aug 2024 21:11:21 +0200,
-Stefan Stistrup wrote:
-> 
-> Add missing input gain and master output mixer controls for RME Babyface Pro
-> 
-> This patch implements:
-> 
-> 1. Input gain controls for 2 mic and 2 line inputs
-> 2. Master output volume controls for all 12 output channels
-> 
-> These additions allow for more complete control of the Babyface Pro under Linux.
-> 
-> Signed-off-by: Stefan Stistrup <sstistrup@gmail.com>
+On 06/08/2024 07:58, Kuninori Morimoto wrote:
+> Current test-component.c is using for_each_endpoint_of_node()
+> for parsing, but it should use "port" base loop instead of "endpoint",
+> because properties are "port" base, instead of "endpoint".
+
+The subject of the patch makes this sound like it's just using new 
+helper functions, but the description makes me think this is a bug fix.
+
+I think it would be good to mention what are the symptoms of the bug.
+
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 > ---
-> Changes in v2:
->  - Check invalid negative values in snd_bbfpro_gain_put
->  - Coding style fixes, blank line in snd_bbfpro_gain_update and checkpatch.pl errors
+>   sound/soc/generic/test-component.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/sound/soc/generic/test-component.c b/sound/soc/generic/test-component.c
+> index e9e5e235a8a6..6f75da9f86e6 100644
+> --- a/sound/soc/generic/test-component.c
+> +++ b/sound/soc/generic/test-component.c
+> @@ -600,7 +600,7 @@ static int test_driver_probe(struct platform_device *pdev)
+>   	}
+>   
+>   	i = 0;
+> -	for_each_endpoint_of_node(node, ep) {
+> +	for_each_of_graph_port(node, ep) {
 
-There are a few other errors and warnings detected by checkpatch.pl.
-Please fix those and resubmit.
+"ep" is endpoint, so the variable name should also be changed (even if 
+it's not used).
 
+>   		snprintf(dname[i].name, TEST_NAME_LEN, "%s.%d", node->name, i);
+>   		ddriv[i].name = dname[i].name;
+>   
 
-thanks,
+  Tomi
 
-Takashi
-
-> 
->  sound/usb/mixer_quirks.c | 164 ++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 163 insertions(+), 1 deletion(-)
-> 
-> diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-> index 065a4be0d771..4c050110004b 100644
-> --- a/sound/usb/mixer_quirks.c
-> +++ b/sound/usb/mixer_quirks.c
-> @@ -2541,14 +2541,23 @@ enum {
->  #define SND_BBFPRO_CTL_REG2_PAD_AN1 4
->  #define SND_BBFPRO_CTL_REG2_PAD_AN2 5
-> 
-> -#define SND_BBFPRO_MIXER_IDX_MASK 0x1ff
-> +#define SND_BBFPRO_MIXER_MAIN_OUT_CH_OFFSET 992
-> +#define SND_BBFPRO_MIXER_IDX_MASK 0x3ff
->  #define SND_BBFPRO_MIXER_VAL_MASK 0x3ffff
->  #define SND_BBFPRO_MIXER_VAL_SHIFT 9
->  #define SND_BBFPRO_MIXER_VAL_MIN 0 // -inf
->  #define SND_BBFPRO_MIXER_VAL_MAX 65536 // +6dB
-> 
-> +#define SND_BBFPRO_GAIN_CHANNEL_MASK 0x03
-> +#define SND_BBFPRO_GAIN_CHANNEL_SHIFT 7
-> +#define SND_BBFPRO_GAIN_VAL_MASK 0x7f
-> +#define SND_BBFPRO_GAIN_VAL_MIN 0
-> +#define SND_BBFPRO_GAIN_VAL_MIC_MAX 65
-> +#define SND_BBFPRO_GAIN_VAL_LINE_MAX 18 // 9db in 0.5db incraments
-> +
->  #define SND_BBFPRO_USBREQ_CTL_REG1 0x10
->  #define SND_BBFPRO_USBREQ_CTL_REG2 0x17
-> +#define SND_BBFPRO_USBREQ_GAIN 0x1a
->  #define SND_BBFPRO_USBREQ_MIXER 0x12
-> 
->  static int snd_bbfpro_ctl_update(struct usb_mixer_interface *mixer, u8 reg,
-> @@ -2695,6 +2704,115 @@ static int snd_bbfpro_ctl_resume(struct usb_mixer_elem_list *list)
->  	return snd_bbfpro_ctl_update(list->mixer, reg, idx, value);
->  }
-> 
-> +static int snd_bbfpro_gain_update(struct usb_mixer_interface *mixer,
-> +				  u8 channel, u8 gain)
-> +{
-> +	int err;
-> +	struct snd_usb_audio *chip = mixer->chip;
-> +
-> +	if (channel < 2) {
-> +		// XLR preamp: 3-bit fine, 5-bit coarse; special case >60
-> +		if (gain < 60)
-> +			gain = ((gain % 3) << 5) | (gain / 3);
-> +		else
-> +			gain = ((gain % 6) << 5) | (60 / 3);
-> +	}
-> +
-> +	err = snd_usb_lock_shutdown(chip);
-> +	if (err < 0)
-> +		return err;
-> +
-> +	err = snd_usb_ctl_msg(chip->dev,
-> +				usb_sndctrlpipe(chip->dev, 0),
-> +				SND_BBFPRO_USBREQ_GAIN,
-> +				USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
-> +				gain, channel, NULL, 0);
-> +
-> +	snd_usb_unlock_shutdown(chip);
-> +	return err;
-> +}
-> +
-> +static int snd_bbfpro_gain_get(struct snd_kcontrol *kcontrol,
-> +                               struct snd_ctl_elem_value *ucontrol)
-> +{
-> +	int value = kcontrol->private_value & SND_BBFPRO_GAIN_VAL_MASK;
-> +	ucontrol->value.integer.value[0] = value;
-> +	return 0;
-> +}
-> +
-> +static int snd_bbfpro_gain_info(struct snd_kcontrol *kcontrol,
-> +                                struct snd_ctl_elem_info *uinfo)
-> +{
-> +	int pv, channel;
-> +
-> +	pv = kcontrol->private_value;
-> +	channel = (pv >> SND_BBFPRO_GAIN_CHANNEL_SHIFT) &
-> +		  SND_BBFPRO_GAIN_CHANNEL_MASK;
-> +
-> +	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
-> +	uinfo->count = 1;
-> +	uinfo->value.integer.min = SND_BBFPRO_GAIN_VAL_MIN;
-> +
-> +	if (channel < 2) {
-> +		uinfo->value.integer.max = SND_BBFPRO_GAIN_VAL_MIC_MAX;
-> +	} else {
-> +		uinfo->value.integer.max = SND_BBFPRO_GAIN_VAL_LINE_MAX;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int snd_bbfpro_gain_put(struct snd_kcontrol *kcontrol,
-> +                               struct snd_ctl_elem_value *ucontrol)
-> +{
-> +	int pv, channel, old_value, value, err;
-> +
-> +	struct usb_mixer_elem_list *list = snd_kcontrol_chip(kcontrol);
-> +	struct usb_mixer_interface *mixer = list->mixer;
-> +
-> +	pv = kcontrol->private_value;
-> +	channel = (pv >> SND_BBFPRO_GAIN_CHANNEL_SHIFT) &
-> +		  SND_BBFPRO_GAIN_CHANNEL_MASK;
-> +	old_value = pv & SND_BBFPRO_GAIN_VAL_MASK;
-> +	value = ucontrol->value.integer.value[0];
-> +
-> +	if (value < SND_BBFPRO_GAIN_VAL_MIN)
-> +		return -EINVAL;
-> +
-> +	if (channel < 2) {
-> +		if (value > SND_BBFPRO_GAIN_VAL_MIC_MAX)
-> +			return -EINVAL;
-> +	} else {
-> +		if (value > SND_BBFPRO_GAIN_VAL_LINE_MAX)
-> +			return -EINVAL;
-> +	}
-> +
-> +	if (value == old_value)
-> +		return 0;
-> +
-> +	err = snd_bbfpro_gain_update(mixer, channel, value);
-> +	if (err < 0)
-> +		return err;
-> +
-> +	kcontrol->private_value =
-> +		  (channel << SND_BBFPRO_GAIN_CHANNEL_SHIFT) | value;
-> +	return 1;
-> +}
-> +
-> +static int snd_bbfpro_gain_resume(struct usb_mixer_elem_list *list)
-> +{
-> +	int pv, channel, value;
-> +
-> +	struct snd_kcontrol *kctl = list->kctl;
-> +
-> +	pv = kctl->private_value;
-> +	channel = (pv >> SND_BBFPRO_GAIN_CHANNEL_SHIFT) &
-> +		  SND_BBFPRO_GAIN_CHANNEL_MASK;
-> +	value = pv & SND_BBFPRO_GAIN_VAL_MASK;
-> +
-> +	return snd_bbfpro_gain_update(list->mixer, channel, value);
-> +}
-> +
->  static int snd_bbfpro_vol_update(struct usb_mixer_interface *mixer, u16 index,
->  				 u32 value)
->  {
-> @@ -2790,6 +2908,15 @@ static const struct snd_kcontrol_new snd_bbfpro_ctl_control = {
->  	.put = snd_bbfpro_ctl_put
->  };
-> 
-> +static const struct snd_kcontrol_new snd_bbfpro_gain_control = {
-> +	.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-> +	.access = SNDRV_CTL_ELEM_ACCESS_READWRITE,
-> +	.index = 0,
-> +	.info = snd_bbfpro_gain_info,
-> +	.get = snd_bbfpro_gain_get,
-> +	.put = snd_bbfpro_gain_put
-> +};
-> +
->  static const struct snd_kcontrol_new snd_bbfpro_vol_control = {
->  	.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
->  	.access = SNDRV_CTL_ELEM_ACCESS_READWRITE,
-> @@ -2813,6 +2940,18 @@ static int snd_bbfpro_ctl_add(struct usb_mixer_interface *mixer, u8 reg,
->  		&knew, NULL);
->  }
-> 
-> +static int snd_bbfpro_gain_add(struct usb_mixer_interface *mixer, u8 channel,
-> +                               char *name)
-> +{
-> +	struct snd_kcontrol_new knew = snd_bbfpro_gain_control;
-> +
-> +	knew.name = name;
-> +	knew.private_value = channel << SND_BBFPRO_GAIN_CHANNEL_SHIFT;
-> +
-> +	return add_single_ctl_with_resume(mixer, 0, snd_bbfpro_gain_resume,
-> +		&knew, NULL);
-> +}
-> +
->  static int snd_bbfpro_vol_add(struct usb_mixer_interface *mixer, u16 index,
->  			      char *name)
->  {
-> @@ -2860,6 +2999,29 @@ static int snd_bbfpro_controls_create(struct usb_mixer_interface *mixer)
->  		}
->  	}
-> 
-> +	// Main out volume
-> +	for (i = 0 ; i < 12 ; ++i) {
-> +		snprintf(name, sizeof(name), "Main-Out %s", output[i]);
-> +		// Main outs are offset to 992
-> +		err = snd_bbfpro_vol_add(mixer,
-> +					 i + SND_BBFPRO_MIXER_MAIN_OUT_CH_OFFSET,
-> +					 name);
-> +		if (err < 0)
-> +			return err;
-> +	}
-> +
-> +	// Input gain
-> +	for (i = 0 ; i < 4 ; ++i) {
-> +		if (i < 2) {
-> +			snprintf(name, sizeof(name), "Mic-%s Gain", input[i]);
-> +		} else {
-> +			snprintf(name, sizeof(name), "Line-%s Gain", input[i]);
-> +		}
-> +		err = snd_bbfpro_gain_add(mixer, i, name);
-> +		if (err < 0)
-> +			return err;
-> +	}
-> +
->  	// Control Reg 1
->  	err = snd_bbfpro_ctl_add(mixer, SND_BBFPRO_CTL_REG1,
->  				 SND_BBFPRO_CTL_REG1_CLK_OPTICAL,
-> --
-> 2.45.2
-> 
