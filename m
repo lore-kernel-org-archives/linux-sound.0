@@ -1,138 +1,883 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D8EB18757C;
-	Thu,  8 Aug 2024 06:39:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F21A618785A
+	for <linux-sound@vger.kernel.org>; Thu,  8 Aug 2024 06:42:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723099145; cv=none; b=df0GD+/TV5yCZuckOWfewCjPiL3knFXr0GLhG++lsNZOexTSUA0JO6TRWhdDV6E1C4Y+jzOaQDJB229fSde4+/G5zmssKAn5PKGnjlt70iv0/KYQtF0cIyAx5ooiW12I3zuy53fETUOEIck/LLjuxaORbYG+XWL1l6FvrTBSR0c=
+	t=1723099357; cv=none; b=P6jEqoX8j2fSZ3uSZ+PIs8u6lyWSY0iFpoDBbExzOibk9GGRQ1UoITwosE/GesTVwBGNa+wELNFXujilKLCp2Xc3qXXD/LMlySxMibK3vc22X4pGkBhP8oMsV+PfaWf9zICNcr1rmxUo145PIWAPJ2Vl2Rtq4F5mrVjG9Oy4JmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723099145; c=relaxed/simple;
-	bh=SXc+RIV+mGqbi5Wc2DChC/F8rYRwoBV3CjsJ2SNjkTM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:Cc:
-	 In-Reply-To:Content-Type; b=crcBlAEmU4Srgx2LZn90pqxiqY6/cA/HWLZ2tyiu49XEu92I7BwdF/HfjZ2M3VxTl5GLpHM5BrpGo4mKXJP9T1y5aAcDFuXlewfEtspWw8AxKJUftd6027JxyC3R+SDkikJLCPBIHlIukmvmNTa98QcHZ8psYdAq7oSlL+4vR9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=IYmaDoht; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1723099357; c=relaxed/simple;
+	bh=q4TX/VZBdenXW5XRxCn37Vs27TneYSFN/iwOUv6TpmE=;
+	h=Date:Message-ID:From:To:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TfIXhd1dbm8kMvqCKn1UkAu4xutsYpE+8cY32Ujfm8Ytk5FFJfsEYJmq52/CfVZJnQYq+fZAEXvjl7izrjumZQUujI3OZMe9VQ1W4qsFgugyKEkjotzK5+mcScyQxq62aHDdHHIFYpLioxuOiZ/N8Z5ZhfiUuORCb4LOAQmK9JY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rm50oOmz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=h4q17cSM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rm50oOmz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=h4q17cSM; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="IYmaDoht"
-Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D2736581;
-	Thu,  8 Aug 2024 08:38:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1723099088;
-	bh=SXc+RIV+mGqbi5Wc2DChC/F8rYRwoBV3CjsJ2SNjkTM=;
-	h=Date:Subject:To:References:From:Cc:In-Reply-To:From;
-	b=IYmaDoht6VFBbthGtcniI8e0qMGDdUw72V0U/iSeZtL+wPHp6IyGJFgvjG+cNUkl/
-	 lmMTL4grr7qeMi+zXL6AXCkzEUvqDZJuYgDkuKG+nyE8verzjkZ/2+DdmVzX3VGQRF
-	 AI01OxJesl3eGWq9M9+fQg2Ox5yxX4wWldNO404E=
-Message-ID: <5c430d9c-0221-491f-94ac-b632fdec7682@ideasonboard.com>
-Date: Thu, 8 Aug 2024 09:38:56 +0300
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rm50oOmz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="h4q17cSM";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rm50oOmz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="h4q17cSM"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 12ED621B6D
+	for <linux-sound@vger.kernel.org>; Thu,  8 Aug 2024 06:42:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1723099353; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NPaoSr0G5UN2JJOHCQHxHOQO0SHFqVbi9eyWAXx9z0o=;
+	b=rm50oOmzNUSVpbXQI3nxY1Pzqzlc/BFyO54PW24FPw9PQSZtI5yugUD5FxkOoxRoRg2dac
+	+nK+vZZ1uM3plAaVQt/nqKnOghjUTYPzo4abRv6I4bq3RHYaVppPHyR23WLp/T6MtZ/hxI
+	drfpirdfofPt8AEIwI18ITbCNGrvJk0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1723099353;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NPaoSr0G5UN2JJOHCQHxHOQO0SHFqVbi9eyWAXx9z0o=;
+	b=h4q17cSMNPD3RxRZ4IeG7jOk/MJwzt+NbfgjTs82QXjFbYBoGBmlav7AuWcA3vK27yw0St
+	wsWytmNqvpBZWQDA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1723099353; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NPaoSr0G5UN2JJOHCQHxHOQO0SHFqVbi9eyWAXx9z0o=;
+	b=rm50oOmzNUSVpbXQI3nxY1Pzqzlc/BFyO54PW24FPw9PQSZtI5yugUD5FxkOoxRoRg2dac
+	+nK+vZZ1uM3plAaVQt/nqKnOghjUTYPzo4abRv6I4bq3RHYaVppPHyR23WLp/T6MtZ/hxI
+	drfpirdfofPt8AEIwI18ITbCNGrvJk0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1723099353;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NPaoSr0G5UN2JJOHCQHxHOQO0SHFqVbi9eyWAXx9z0o=;
+	b=h4q17cSMNPD3RxRZ4IeG7jOk/MJwzt+NbfgjTs82QXjFbYBoGBmlav7AuWcA3vK27yw0St
+	wsWytmNqvpBZWQDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E9D7813946
+	for <linux-sound@vger.kernel.org>; Thu,  8 Aug 2024 06:42:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id x4hAN9hotGasbwAAD6G6ig
+	(envelope-from <tiwai@suse.de>)
+	for <linux-sound@vger.kernel.org>; Thu, 08 Aug 2024 06:42:32 +0000
+Date: Thu, 08 Aug 2024 08:43:11 +0200
+Message-ID: <87wmkr4irk.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: Re: [PATCH 27/54] ALSA: msnd: Use standard print API
+In-Reply-To: <20240807133452.9424-28-tiwai@suse.de>
+References: <20240807133452.9424-1-tiwai@suse.de>
+	<20240807133452.9424-28-tiwai@suse.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/9] ASoC: test-component: use new of_graph functions
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-References: <87mslqw8mj.wl-kuninori.morimoto.gx@renesas.com>
- <87ikwew8li.wl-kuninori.morimoto.gx@renesas.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Mark Brown <broonie@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>,
- Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
- Takashi Iwai <tiwai@suse.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
- linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-sound@vger.kernel.org
-In-Reply-To: <87ikwew8li.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	PREVIOUSLY_DELIVERED(0.00)[linux-sound@vger.kernel.org];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email]
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On 06/08/2024 07:58, Kuninori Morimoto wrote:
-> Current test-component.c is using for_each_endpoint_of_node()
-> for parsing, but it should use "port" base loop instead of "endpoint",
-> because properties are "port" base, instead of "endpoint".
-
-The subject of the patch makes this sound like it's just using new 
-helper functions, but the description makes me think this is a bug fix.
-
-I think it would be good to mention what are the symptoms of the bug.
-
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->   sound/soc/generic/test-component.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, 07 Aug 2024 15:34:17 +0200,
+Takashi Iwai wrote:
 > 
-> diff --git a/sound/soc/generic/test-component.c b/sound/soc/generic/test-component.c
-> index e9e5e235a8a6..6f75da9f86e6 100644
-> --- a/sound/soc/generic/test-component.c
-> +++ b/sound/soc/generic/test-component.c
-> @@ -600,7 +600,7 @@ static int test_driver_probe(struct platform_device *pdev)
->   	}
->   
->   	i = 0;
-> -	for_each_endpoint_of_node(node, ep) {
-> +	for_each_of_graph_port(node, ep) {
+> Use the standard print API with dev_*() instead of the old house-baked
+> one.  It gives better information and allows dynamically control of
+> debug prints.
+> 
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
 
-"ep" is endpoint, so the variable name should also be changed (even if 
-it's not used).
+There was one place I forgot to refresh.
+The corrected patch is below.
 
->   		snprintf(dname[i].name, TEST_NAME_LEN, "%s.%d", node->name, i);
->   		ddriv[i].name = dname[i].name;
->   
 
-  Tomi
+Takashi
+
+-- 8< --
+From: Takashi Iwai <tiwai@suse.de>
+Subject: [PATCH v2] ALSA: msnd: Use standard print API
+
+Use the standard print API with dev_*() instead of the old house-baked
+one.  It gives better information and allows dynamically control of
+debug prints.
+
+Reviewed-by: Jaroslav Kysela <perex@perex.cz>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Link: https://patch.msgid.link/20240807133452.9424-28-tiwai@suse.de
+---
+ sound/isa/msnd/msnd.c          |  46 ++++-----
+ sound/isa/msnd/msnd_midi.c     |   4 -
+ sound/isa/msnd/msnd_pinnacle.c | 184 +++++++++++++++++----------------
+ 3 files changed, 112 insertions(+), 122 deletions(-)
+
+diff --git a/sound/isa/msnd/msnd.c b/sound/isa/msnd/msnd.c
+index c3fd1eb301bb..69c515421dd8 100644
+--- a/sound/isa/msnd/msnd.c
++++ b/sound/isa/msnd/msnd.c
+@@ -86,7 +86,7 @@ int snd_msnd_send_dsp_cmd(struct snd_msnd *dev, u8 cmd)
+ 	}
+ 	spin_unlock_irqrestore(&dev->lock, flags);
+ 
+-	snd_printd(KERN_ERR LOGNAME ": Send DSP command timeout\n");
++	dev_dbg(dev->card->dev, LOGNAME ": Send DSP command timeout\n");
+ 
+ 	return -EIO;
+ }
+@@ -104,7 +104,7 @@ int snd_msnd_send_word(struct snd_msnd *dev, unsigned char high,
+ 		return 0;
+ 	}
+ 
+-	snd_printd(KERN_ERR LOGNAME ": Send host word timeout\n");
++	dev_dbg(dev->card->dev, LOGNAME ": Send host word timeout\n");
+ 
+ 	return -EIO;
+ }
+@@ -115,7 +115,7 @@ int snd_msnd_upload_host(struct snd_msnd *dev, const u8 *bin, int len)
+ 	int i;
+ 
+ 	if (len % 3 != 0) {
+-		snd_printk(KERN_ERR LOGNAME
++		dev_err(dev->card->dev, LOGNAME
+ 			   ": Upload host data not multiple of 3!\n");
+ 		return -EINVAL;
+ 	}
+@@ -138,7 +138,7 @@ int snd_msnd_enable_irq(struct snd_msnd *dev)
+ 	if (dev->irq_ref++)
+ 		return 0;
+ 
+-	snd_printdd(LOGNAME ": Enabling IRQ\n");
++	dev_dbg(dev->card->dev, LOGNAME ": Enabling IRQ\n");
+ 
+ 	spin_lock_irqsave(&dev->lock, flags);
+ 	if (snd_msnd_wait_TXDE(dev) == 0) {
+@@ -156,7 +156,7 @@ int snd_msnd_enable_irq(struct snd_msnd *dev)
+ 	}
+ 	spin_unlock_irqrestore(&dev->lock, flags);
+ 
+-	snd_printd(KERN_ERR LOGNAME ": Enable IRQ failed\n");
++	dev_dbg(dev->card->dev, LOGNAME ": Enable IRQ failed\n");
+ 
+ 	return -EIO;
+ }
+@@ -170,10 +170,10 @@ int snd_msnd_disable_irq(struct snd_msnd *dev)
+ 		return 0;
+ 
+ 	if (dev->irq_ref < 0)
+-		snd_printd(KERN_WARNING LOGNAME ": IRQ ref count is %d\n",
+-			   dev->irq_ref);
++		dev_dbg(dev->card->dev, LOGNAME ": IRQ ref count is %d\n",
++			dev->irq_ref);
+ 
+-	snd_printdd(LOGNAME ": Disabling IRQ\n");
++	dev_dbg(dev->card->dev, LOGNAME ": Disabling IRQ\n");
+ 
+ 	spin_lock_irqsave(&dev->lock, flags);
+ 	if (snd_msnd_wait_TXDE(dev) == 0) {
+@@ -186,7 +186,7 @@ int snd_msnd_disable_irq(struct snd_msnd *dev)
+ 	}
+ 	spin_unlock_irqrestore(&dev->lock, flags);
+ 
+-	snd_printd(KERN_ERR LOGNAME ": Disable IRQ failed\n");
++	dev_dbg(dev->card->dev, LOGNAME ": Disable IRQ failed\n");
+ 
+ 	return -EIO;
+ }
+@@ -220,8 +220,8 @@ void snd_msnd_dsp_halt(struct snd_msnd *chip, struct file *file)
+ 		snd_msnd_send_dsp_cmd(chip, HDEX_RECORD_STOP);
+ 		snd_msnd_disable_irq(chip);
+ 		if (file) {
+-			snd_printd(KERN_INFO LOGNAME
+-				   ": Stopping read for %p\n", file);
++			dev_dbg(chip->card->dev, LOGNAME
++				": Stopping read for %p\n", file);
+ 			chip->mode &= ~FMODE_READ;
+ 		}
+ 		clear_bit(F_AUDIO_READ_INUSE, &chip->flags);
+@@ -233,8 +233,8 @@ void snd_msnd_dsp_halt(struct snd_msnd *chip, struct file *file)
+ 		}
+ 		snd_msnd_disable_irq(chip);
+ 		if (file) {
+-			snd_printd(KERN_INFO
+-				   LOGNAME ": Stopping write for %p\n", file);
++			dev_dbg(chip->card->dev,
++				LOGNAME ": Stopping write for %p\n", file);
+ 			chip->mode &= ~FMODE_WRITE;
+ 		}
+ 		clear_bit(F_AUDIO_WRITE_INUSE, &chip->flags);
+@@ -329,12 +329,6 @@ int snd_msnd_DAPQ(struct snd_msnd *chip, int start)
+ 		++nbanks;
+ 
+ 		/* Then advance the tail */
+-		/*
+-		if (protect)
+-			snd_printd(KERN_INFO "B %X %lX\n",
+-				   bank_num, xtime.tv_usec);
+-		*/
+-
+ 		DAPQ_tail = (++bank_num % 3) * PCTODSP_OFFSET(DAQDS__size);
+ 		writew(DAPQ_tail, chip->DAPQ + JQS_wTail);
+ 		/* Tell the DSP to play the bank */
+@@ -343,10 +337,6 @@ int snd_msnd_DAPQ(struct snd_msnd *chip, int start)
+ 			if (2 == bank_num)
+ 				break;
+ 	}
+-	/*
+-	if (protect)
+-		snd_printd(KERN_INFO "%lX\n", xtime.tv_usec);
+-	*/
+ 	/* spin_unlock_irqrestore(&chip->lock, flags); not necessary */
+ 	return nbanks;
+ }
+@@ -406,7 +396,7 @@ static void snd_msnd_capture_reset_queue(struct snd_msnd *chip,
+ #endif
+ 
+ 	chip->capturePeriodBytes = pcm_count;
+-	snd_printdd("snd_msnd_capture_reset_queue() %i\n", pcm_count);
++	dev_dbg(chip->card->dev, "%s() %i\n", __func__, pcm_count);
+ 
+ 	pDAQ = chip->mappedbase + DARQ_DATA_BUFF;
+ 
+@@ -533,21 +523,21 @@ static int snd_msnd_playback_trigger(struct snd_pcm_substream *substream,
+ 	int	result = 0;
+ 
+ 	if (cmd == SNDRV_PCM_TRIGGER_START) {
+-		snd_printdd("snd_msnd_playback_trigger(START)\n");
++		dev_dbg(chip->card->dev, "%s(START)\n", __func__);
+ 		chip->banksPlayed = 0;
+ 		set_bit(F_WRITING, &chip->flags);
+ 		snd_msnd_DAPQ(chip, 1);
+ 	} else if (cmd == SNDRV_PCM_TRIGGER_STOP) {
+-		snd_printdd("snd_msnd_playback_trigger(STop)\n");
++		dev_dbg(chip->card->dev, "%s(STOP)\n", __func__);
+ 		/* interrupt diagnostic, comment this out later */
+ 		clear_bit(F_WRITING, &chip->flags);
+ 		snd_msnd_send_dsp_cmd(chip, HDEX_PLAY_STOP);
+ 	} else {
+-		snd_printd(KERN_ERR "snd_msnd_playback_trigger(?????)\n");
++		dev_dbg(chip->card->dev, "%s(?????)\n", __func__);
+ 		result = -EINVAL;
+ 	}
+ 
+-	snd_printdd("snd_msnd_playback_trigger() ENDE\n");
++	dev_dbg(chip->card->dev, "%s() ENDE\n", __func__);
+ 	return result;
+ }
+ 
+diff --git a/sound/isa/msnd/msnd_midi.c b/sound/isa/msnd/msnd_midi.c
+index 7c61caaf99ad..3ffc8758bec2 100644
+--- a/sound/isa/msnd/msnd_midi.c
++++ b/sound/isa/msnd/msnd_midi.c
+@@ -42,8 +42,6 @@ static int snd_msndmidi_input_open(struct snd_rawmidi_substream *substream)
+ {
+ 	struct snd_msndmidi *mpu;
+ 
+-	snd_printdd("snd_msndmidi_input_open()\n");
+-
+ 	mpu = substream->rmidi->private_data;
+ 
+ 	mpu->substream_input = substream;
+@@ -84,8 +82,6 @@ static void snd_msndmidi_input_trigger(struct snd_rawmidi_substream *substream,
+ 	unsigned long flags;
+ 	struct snd_msndmidi *mpu;
+ 
+-	snd_printdd("snd_msndmidi_input_trigger(, %i)\n", up);
+-
+ 	mpu = substream->rmidi->private_data;
+ 	spin_lock_irqsave(&mpu->input_lock, flags);
+ 	if (up) {
+diff --git a/sound/isa/msnd/msnd_pinnacle.c b/sound/isa/msnd/msnd_pinnacle.c
+index 4433a92f08e7..635403301a15 100644
+--- a/sound/isa/msnd/msnd_pinnacle.c
++++ b/sound/isa/msnd/msnd_pinnacle.c
+@@ -81,11 +81,12 @@ static void snd_msnd_eval_dsp_msg(struct snd_msnd *chip, u16 wMessage)
+ 	switch (HIBYTE(wMessage)) {
+ 	case HIMT_PLAY_DONE: {
+ 		if (chip->banksPlayed < 3)
+-			snd_printdd("%08X: HIMT_PLAY_DONE: %i\n",
++			dev_dbg(chip->card->dev, "%08X: HIMT_PLAY_DONE: %i\n",
+ 				(unsigned)jiffies, LOBYTE(wMessage));
+ 
+ 		if (chip->last_playbank == LOBYTE(wMessage)) {
+-			snd_printdd("chip.last_playbank == LOBYTE(wMessage)\n");
++			dev_dbg(chip->card->dev,
++				"chip.last_playbank == LOBYTE(wMessage)\n");
+ 			break;
+ 		}
+ 		chip->banksPlayed++;
+@@ -121,21 +122,22 @@ static void snd_msnd_eval_dsp_msg(struct snd_msnd *chip, u16 wMessage)
+ 		case HIDSP_PLAY_UNDER:
+ #endif
+ 		case HIDSP_INT_PLAY_UNDER:
+-			snd_printd(KERN_WARNING LOGNAME ": Play underflow %i\n",
++			dev_dbg(chip->card->dev,
++				LOGNAME ": Play underflow %i\n",
+ 				chip->banksPlayed);
+ 			if (chip->banksPlayed > 2)
+ 				clear_bit(F_WRITING, &chip->flags);
+ 			break;
+ 
+ 		case HIDSP_INT_RECORD_OVER:
+-			snd_printd(KERN_WARNING LOGNAME ": Record overflow\n");
++			dev_dbg(chip->card->dev, LOGNAME ": Record overflow\n");
+ 			clear_bit(F_READING, &chip->flags);
+ 			break;
+ 
+ 		default:
+-			snd_printd(KERN_WARNING LOGNAME
+-				   ": DSP message %d 0x%02x\n",
+-				   LOBYTE(wMessage), LOBYTE(wMessage));
++			dev_dbg(chip->card->dev, LOGNAME
++				": DSP message %d 0x%02x\n",
++				LOBYTE(wMessage), LOBYTE(wMessage));
+ 			break;
+ 		}
+ 		break;
+@@ -146,8 +148,8 @@ static void snd_msnd_eval_dsp_msg(struct snd_msnd *chip, u16 wMessage)
+ 		break;
+ 
+ 	default:
+-		snd_printd(KERN_WARNING LOGNAME ": HIMT message %d 0x%02x\n",
+-			   HIBYTE(wMessage), HIBYTE(wMessage));
++		dev_dbg(chip->card->dev, LOGNAME ": HIMT message %d 0x%02x\n",
++			HIBYTE(wMessage), HIBYTE(wMessage));
+ 		break;
+ 	}
+ }
+@@ -180,8 +182,9 @@ static irqreturn_t snd_msnd_interrupt(int irq, void *dev_id)
+ }
+ 
+ 
+-static int snd_msnd_reset_dsp(long io, unsigned char *info)
++static int snd_msnd_reset_dsp(struct snd_msnd *chip, unsigned char *info)
+ {
++	long io = chip->io;
+ 	int timeout = 100;
+ 
+ 	outb(HPDSPRESET_ON, io + HP_DSPR);
+@@ -197,7 +200,7 @@ static int snd_msnd_reset_dsp(long io, unsigned char *info)
+ 			return 0;
+ 		msleep(1);
+ 	}
+-	snd_printk(KERN_ERR LOGNAME ": Cannot reset DSP\n");
++	dev_err(chip->card->dev, LOGNAME ": Cannot reset DSP\n");
+ 
+ 	return -EIO;
+ }
+@@ -213,11 +216,11 @@ static int snd_msnd_probe(struct snd_card *card)
+ #endif
+ 
+ 	if (!request_region(chip->io, DSP_NUMIO, "probing")) {
+-		snd_printk(KERN_ERR LOGNAME ": I/O port conflict\n");
++		dev_err(card->dev, LOGNAME ": I/O port conflict\n");
+ 		return -ENODEV;
+ 	}
+ 
+-	if (snd_msnd_reset_dsp(chip->io, &info) < 0) {
++	if (snd_msnd_reset_dsp(chip, &info) < 0) {
+ 		release_region(chip->io, DSP_NUMIO);
+ 		return -ENODEV;
+ 	}
+@@ -225,7 +228,7 @@ static int snd_msnd_probe(struct snd_card *card)
+ #ifdef MSND_CLASSIC
+ 	strcpy(card->shortname, "Classic/Tahiti/Monterey");
+ 	strcpy(card->longname, "Turtle Beach Multisound");
+-	printk(KERN_INFO LOGNAME ": %s, "
++	dev_info(card->dev, LOGNAME ": %s, "
+ 	       "I/O 0x%lx-0x%lx, IRQ %d, memory mapped to 0x%lX-0x%lX\n",
+ 	       card->shortname,
+ 	       chip->io, chip->io + DSP_NUMIO - 1,
+@@ -285,7 +288,7 @@ static int snd_msnd_probe(struct snd_card *card)
+ 		break;
+ 	}
+ 	strcpy(card->longname, "Turtle Beach Multisound Pinnacle");
+-	printk(KERN_INFO LOGNAME ": %s revision %s, Xilinx version %s, "
++	dev_info(card->dev, LOGNAME ": %s revision %s, Xilinx version %s, "
+ 	       "I/O 0x%lx-0x%lx, IRQ %d, memory mapped to 0x%lX-0x%lX\n",
+ 	       card->shortname,
+ 	       rev, xv,
+@@ -377,22 +380,22 @@ static int upload_dsp_code(struct snd_card *card)
+ 
+ 	err = request_firmware(&init_fw, INITCODEFILE, card->dev);
+ 	if (err < 0) {
+-		printk(KERN_ERR LOGNAME ": Error loading " INITCODEFILE);
++		dev_err(card->dev, LOGNAME ": Error loading " INITCODEFILE);
+ 		goto cleanup1;
+ 	}
+ 	err = request_firmware(&perm_fw, PERMCODEFILE, card->dev);
+ 	if (err < 0) {
+-		printk(KERN_ERR LOGNAME ": Error loading " PERMCODEFILE);
++		dev_err(card->dev, LOGNAME ": Error loading " PERMCODEFILE);
+ 		goto cleanup;
+ 	}
+ 
+ 	memcpy_toio(chip->mappedbase, perm_fw->data, perm_fw->size);
+ 	if (snd_msnd_upload_host(chip, init_fw->data, init_fw->size) < 0) {
+-		printk(KERN_WARNING LOGNAME ": Error uploading to DSP\n");
++		dev_warn(card->dev, LOGNAME ": Error uploading to DSP\n");
+ 		err = -ENODEV;
+ 		goto cleanup;
+ 	}
+-	printk(KERN_INFO LOGNAME ": DSP firmware uploaded\n");
++	dev_info(card->dev, LOGNAME ": DSP firmware uploaded\n");
+ 	err = 0;
+ 
+ cleanup:
+@@ -425,17 +428,17 @@ static int snd_msnd_initialize(struct snd_card *card)
+ #endif
+ 	err = snd_msnd_init_sma(chip);
+ 	if (err < 0) {
+-		printk(KERN_WARNING LOGNAME ": Cannot initialize SMA\n");
++		dev_warn(card->dev, LOGNAME ": Cannot initialize SMA\n");
+ 		return err;
+ 	}
+ 
+-	err = snd_msnd_reset_dsp(chip->io, NULL);
++	err = snd_msnd_reset_dsp(chip, NULL);
+ 	if (err < 0)
+ 		return err;
+ 
+ 	err = upload_dsp_code(card);
+ 	if (err < 0) {
+-		printk(KERN_WARNING LOGNAME ": Cannot upload DSP code\n");
++		dev_warn(card->dev, LOGNAME ": Cannot upload DSP code\n");
+ 		return err;
+ 	}
+ 
+@@ -444,7 +447,7 @@ static int snd_msnd_initialize(struct snd_card *card)
+ 	while (readw(chip->mappedbase)) {
+ 		msleep(1);
+ 		if (!timeout--) {
+-			snd_printd(KERN_ERR LOGNAME ": DSP reset timeout\n");
++			dev_err(card->dev, LOGNAME ": DSP reset timeout\n");
+ 			return -EIO;
+ 		}
+ 	}
+@@ -466,7 +469,7 @@ static int snd_msnd_dsp_full_reset(struct snd_card *card)
+ 
+ 	rv = snd_msnd_initialize(card);
+ 	if (rv)
+-		printk(KERN_WARNING LOGNAME ": DSP reset failed\n");
++		dev_warn(card->dev, LOGNAME ": DSP reset failed\n");
+ 	snd_msndmix_force_recsrc(chip, 0);
+ 	clear_bit(F_RESETTING, &chip->flags);
+ 	return rv;
+@@ -483,7 +486,7 @@ static int snd_msnd_send_dsp_cmd_chk(struct snd_msnd *chip, u8 cmd)
+ 
+ static int snd_msnd_calibrate_adc(struct snd_msnd *chip, u16 srate)
+ {
+-	snd_printdd("snd_msnd_calibrate_adc(%i)\n", srate);
++	dev_dbg(chip->card->dev, "snd_msnd_calibrate_adc(%i)\n", srate);
+ 	writew(srate, chip->SMA + SMA_wCalFreqAtoD);
+ 	if (chip->calibrate_signal == 0)
+ 		writew(readw(chip->SMA + SMA_wCurrHostStatusFlags)
+@@ -496,7 +499,7 @@ static int snd_msnd_calibrate_adc(struct snd_msnd *chip, u16 srate)
+ 		schedule_timeout_interruptible(msecs_to_jiffies(333));
+ 		return 0;
+ 	}
+-	printk(KERN_WARNING LOGNAME ": ADC calibration failed\n");
++	dev_warn(chip->card->dev, LOGNAME ": ADC calibration failed\n");
+ 	return -EIO;
+ }
+ 
+@@ -527,7 +530,7 @@ static int snd_msnd_attach(struct snd_card *card)
+ 	err = devm_request_irq(card->dev, chip->irq, snd_msnd_interrupt, 0,
+ 			       card->shortname, chip);
+ 	if (err < 0) {
+-		printk(KERN_ERR LOGNAME ": Couldn't grab IRQ %d\n", chip->irq);
++		dev_err(card->dev, LOGNAME ": Couldn't grab IRQ %d\n", chip->irq);
+ 		return err;
+ 	}
+ 	card->sync_irq = chip->irq;
+@@ -537,14 +540,14 @@ static int snd_msnd_attach(struct snd_card *card)
+ 
+ 	if (!devm_request_mem_region(card->dev, chip->base, BUFFSIZE,
+ 				     card->shortname)) {
+-		printk(KERN_ERR LOGNAME
++		dev_err(card->dev, LOGNAME
+ 			": unable to grab memory region 0x%lx-0x%lx\n",
+ 			chip->base, chip->base + BUFFSIZE - 1);
+ 		return -EBUSY;
+ 	}
+ 	chip->mappedbase = devm_ioremap(card->dev, chip->base, 0x8000);
+ 	if (!chip->mappedbase) {
+-		printk(KERN_ERR LOGNAME
++		dev_err(card->dev, LOGNAME
+ 			": unable to map memory region 0x%lx-0x%lx\n",
+ 			chip->base, chip->base + BUFFSIZE - 1);
+ 		return -EIO;
+@@ -556,13 +559,13 @@ static int snd_msnd_attach(struct snd_card *card)
+ 
+ 	err = snd_msnd_pcm(card, 0);
+ 	if (err < 0) {
+-		printk(KERN_ERR LOGNAME ": error creating new PCM device\n");
++		dev_err(card->dev, LOGNAME ": error creating new PCM device\n");
+ 		return err;
+ 	}
+ 
+ 	err = snd_msndmix_new(card);
+ 	if (err < 0) {
+-		printk(KERN_ERR LOGNAME ": error creating new Mixer device\n");
++		dev_err(card->dev, LOGNAME ": error creating new Mixer device\n");
+ 		return err;
+ 	}
+ 
+@@ -577,7 +580,7 @@ static int snd_msnd_attach(struct snd_card *card)
+ 					  mpu_irq[0],
+ 					  &chip->rmidi);
+ 		if (err < 0) {
+-			printk(KERN_ERR LOGNAME
++			dev_err(card->dev, LOGNAME
+ 				": error creating new Midi device\n");
+ 			return err;
+ 		}
+@@ -604,103 +607,104 @@ static int snd_msnd_attach(struct snd_card *card)
+ 
+ /* Pinnacle/Fiji Logical Device Configuration */
+ 
+-static int snd_msnd_write_cfg(int cfg, int reg, int value)
++static int snd_msnd_write_cfg(struct snd_msnd *chip, int cfg, int reg, int value)
+ {
+ 	outb(reg, cfg);
+ 	outb(value, cfg + 1);
+ 	if (value != inb(cfg + 1)) {
+-		printk(KERN_ERR LOGNAME ": snd_msnd_write_cfg: I/O error\n");
++		dev_err(chip->card->dev, LOGNAME ": %s: I/O error\n", __func__);
+ 		return -EIO;
+ 	}
+ 	return 0;
+ }
+ 
+-static int snd_msnd_write_cfg_io0(int cfg, int num, u16 io)
++static int snd_msnd_write_cfg_io0(struct snd_msnd *chip, int cfg, int num, u16 io)
+ {
+-	if (snd_msnd_write_cfg(cfg, IREG_LOGDEVICE, num))
++	if (snd_msnd_write_cfg(chip, cfg, IREG_LOGDEVICE, num))
+ 		return -EIO;
+-	if (snd_msnd_write_cfg(cfg, IREG_IO0_BASEHI, HIBYTE(io)))
++	if (snd_msnd_write_cfg(chip, cfg, IREG_IO0_BASEHI, HIBYTE(io)))
+ 		return -EIO;
+-	if (snd_msnd_write_cfg(cfg, IREG_IO0_BASELO, LOBYTE(io)))
++	if (snd_msnd_write_cfg(chip, cfg, IREG_IO0_BASELO, LOBYTE(io)))
+ 		return -EIO;
+ 	return 0;
+ }
+ 
+-static int snd_msnd_write_cfg_io1(int cfg, int num, u16 io)
++static int snd_msnd_write_cfg_io1(struct snd_msnd *chip, int cfg, int num, u16 io)
+ {
+-	if (snd_msnd_write_cfg(cfg, IREG_LOGDEVICE, num))
++	if (snd_msnd_write_cfg(chip, cfg, IREG_LOGDEVICE, num))
+ 		return -EIO;
+-	if (snd_msnd_write_cfg(cfg, IREG_IO1_BASEHI, HIBYTE(io)))
++	if (snd_msnd_write_cfg(chip, cfg, IREG_IO1_BASEHI, HIBYTE(io)))
+ 		return -EIO;
+-	if (snd_msnd_write_cfg(cfg, IREG_IO1_BASELO, LOBYTE(io)))
++	if (snd_msnd_write_cfg(chip, cfg, IREG_IO1_BASELO, LOBYTE(io)))
+ 		return -EIO;
+ 	return 0;
+ }
+ 
+-static int snd_msnd_write_cfg_irq(int cfg, int num, u16 irq)
++static int snd_msnd_write_cfg_irq(struct snd_msnd *chip, int cfg, int num, u16 irq)
+ {
+-	if (snd_msnd_write_cfg(cfg, IREG_LOGDEVICE, num))
++	if (snd_msnd_write_cfg(chip, cfg, IREG_LOGDEVICE, num))
+ 		return -EIO;
+-	if (snd_msnd_write_cfg(cfg, IREG_IRQ_NUMBER, LOBYTE(irq)))
++	if (snd_msnd_write_cfg(chip, cfg, IREG_IRQ_NUMBER, LOBYTE(irq)))
+ 		return -EIO;
+-	if (snd_msnd_write_cfg(cfg, IREG_IRQ_TYPE, IRQTYPE_EDGE))
++	if (snd_msnd_write_cfg(chip, cfg, IREG_IRQ_TYPE, IRQTYPE_EDGE))
+ 		return -EIO;
+ 	return 0;
+ }
+ 
+-static int snd_msnd_write_cfg_mem(int cfg, int num, int mem)
++static int snd_msnd_write_cfg_mem(struct snd_msnd *chip, int cfg, int num, int mem)
+ {
+ 	u16 wmem;
+ 
+ 	mem >>= 8;
+ 	wmem = (u16)(mem & 0xfff);
+-	if (snd_msnd_write_cfg(cfg, IREG_LOGDEVICE, num))
++	if (snd_msnd_write_cfg(chip, cfg, IREG_LOGDEVICE, num))
+ 		return -EIO;
+-	if (snd_msnd_write_cfg(cfg, IREG_MEMBASEHI, HIBYTE(wmem)))
++	if (snd_msnd_write_cfg(chip, cfg, IREG_MEMBASEHI, HIBYTE(wmem)))
+ 		return -EIO;
+-	if (snd_msnd_write_cfg(cfg, IREG_MEMBASELO, LOBYTE(wmem)))
++	if (snd_msnd_write_cfg(chip, cfg, IREG_MEMBASELO, LOBYTE(wmem)))
+ 		return -EIO;
+-	if (wmem && snd_msnd_write_cfg(cfg, IREG_MEMCONTROL,
++	if (wmem && snd_msnd_write_cfg(chip, cfg, IREG_MEMCONTROL,
+ 				       MEMTYPE_HIADDR | MEMTYPE_16BIT))
+ 		return -EIO;
+ 	return 0;
+ }
+ 
+-static int snd_msnd_activate_logical(int cfg, int num)
++static int snd_msnd_activate_logical(struct snd_msnd *chip, int cfg, int num)
+ {
+-	if (snd_msnd_write_cfg(cfg, IREG_LOGDEVICE, num))
++	if (snd_msnd_write_cfg(chip, cfg, IREG_LOGDEVICE, num))
+ 		return -EIO;
+-	if (snd_msnd_write_cfg(cfg, IREG_ACTIVATE, LD_ACTIVATE))
++	if (snd_msnd_write_cfg(chip, cfg, IREG_ACTIVATE, LD_ACTIVATE))
+ 		return -EIO;
+ 	return 0;
+ }
+ 
+-static int snd_msnd_write_cfg_logical(int cfg, int num, u16 io0,
++static int snd_msnd_write_cfg_logical(struct snd_msnd *chip,
++				      int cfg, int num, u16 io0,
+ 				      u16 io1, u16 irq, int mem)
+ {
+-	if (snd_msnd_write_cfg(cfg, IREG_LOGDEVICE, num))
++	if (snd_msnd_write_cfg(chip, cfg, IREG_LOGDEVICE, num))
+ 		return -EIO;
+-	if (snd_msnd_write_cfg_io0(cfg, num, io0))
++	if (snd_msnd_write_cfg_io0(chip, cfg, num, io0))
+ 		return -EIO;
+-	if (snd_msnd_write_cfg_io1(cfg, num, io1))
++	if (snd_msnd_write_cfg_io1(chip, cfg, num, io1))
+ 		return -EIO;
+-	if (snd_msnd_write_cfg_irq(cfg, num, irq))
++	if (snd_msnd_write_cfg_irq(chip, cfg, num, irq))
+ 		return -EIO;
+-	if (snd_msnd_write_cfg_mem(cfg, num, mem))
++	if (snd_msnd_write_cfg_mem(chip, cfg, num, mem))
+ 		return -EIO;
+-	if (snd_msnd_activate_logical(cfg, num))
++	if (snd_msnd_activate_logical(chip, cfg, num))
+ 		return -EIO;
+ 	return 0;
+ }
+ 
+-static int snd_msnd_pinnacle_cfg_reset(int cfg)
++static int snd_msnd_pinnacle_cfg_reset(struct snd_msnd *chip, int cfg)
+ {
+ 	int i;
+ 
+ 	/* Reset devices if told to */
+-	printk(KERN_INFO LOGNAME ": Resetting all devices\n");
++	dev_info(chip->card->dev, LOGNAME ": Resetting all devices\n");
+ 	for (i = 0; i < 4; ++i)
+-		if (snd_msnd_write_cfg_logical(cfg, i, 0, 0, 0, 0))
++		if (snd_msnd_write_cfg_logical(chip, cfg, i, 0, 0, 0, 0))
+ 			return -EIO;
+ 
+ 	return 0;
+@@ -779,7 +783,7 @@ static int snd_msnd_isa_match(struct device *pdev, unsigned int i)
+ 		return 0;
+ 
+ 	if (irq[i] == SNDRV_AUTO_PORT || mem[i] == SNDRV_AUTO_PORT) {
+-		printk(KERN_WARNING LOGNAME ": io, irq and mem must be set\n");
++		dev_warn(pdev, LOGNAME ": io, irq and mem must be set\n");
+ 		return 0;
+ 	}
+ 
+@@ -792,14 +796,14 @@ static int snd_msnd_isa_match(struct device *pdev, unsigned int i)
+ 	      io[i] == 0x220 ||
+ 	      io[i] == 0x210 ||
+ 	      io[i] == 0x3e0)) {
+-		printk(KERN_ERR LOGNAME ": \"io\" - DSP I/O base must be set "
++		dev_err(pdev, LOGNAME ": \"io\" - DSP I/O base must be set "
+ 			" to 0x210, 0x220, 0x230, 0x240, 0x250, 0x260, 0x290, "
+ 			"or 0x3E0\n");
+ 		return 0;
+ 	}
+ #else
+ 	if (io[i] < 0x100 || io[i] > 0x3e0 || (io[i] % 0x10) != 0) {
+-		printk(KERN_ERR LOGNAME
++		dev_err(pdev, LOGNAME
+ 			": \"io\" - DSP I/O base must within the range 0x100 "
+ 			"to 0x3E0 and must be evenly divisible by 0x10\n");
+ 		return 0;
+@@ -812,7 +816,7 @@ static int snd_msnd_isa_match(struct device *pdev, unsigned int i)
+ 	      irq[i] == 10 ||
+ 	      irq[i] == 11 ||
+ 	      irq[i] == 12)) {
+-		printk(KERN_ERR LOGNAME
++		dev_err(pdev, LOGNAME
+ 			": \"irq\" - must be set to 5, 7, 9, 10, 11 or 12\n");
+ 		return 0;
+ 	}
+@@ -823,7 +827,7 @@ static int snd_msnd_isa_match(struct device *pdev, unsigned int i)
+ 	      mem[i] == 0xd8000 ||
+ 	      mem[i] == 0xe0000 ||
+ 	      mem[i] == 0xe8000)) {
+-		printk(KERN_ERR LOGNAME ": \"mem\" - must be set to "
++		dev_err(pdev, LOGNAME ": \"mem\" - must be set to "
+ 		       "0xb0000, 0xc8000, 0xd0000, 0xd8000, 0xe0000 or "
+ 		       "0xe8000\n");
+ 		return 0;
+@@ -831,9 +835,9 @@ static int snd_msnd_isa_match(struct device *pdev, unsigned int i)
+ 
+ #ifndef MSND_CLASSIC
+ 	if (cfg[i] == SNDRV_AUTO_PORT) {
+-		printk(KERN_INFO LOGNAME ": Assuming PnP mode\n");
++		dev_info(pdev, LOGNAME ": Assuming PnP mode\n");
+ 	} else if (cfg[i] != 0x250 && cfg[i] != 0x260 && cfg[i] != 0x270) {
+-		printk(KERN_INFO LOGNAME
++		dev_info(pdev, LOGNAME
+ 			": Config port must be 0x250, 0x260 or 0x270 "
+ 			"(or unspecified for PnP mode)\n");
+ 		return 0;
+@@ -854,7 +858,7 @@ static int snd_msnd_isa_probe(struct device *pdev, unsigned int idx)
+ 	    || cfg[idx] == SNDRV_AUTO_PORT
+ #endif
+ 	    ) {
+-		printk(KERN_INFO LOGNAME ": Assuming PnP mode\n");
++		dev_info(pdev, LOGNAME ": Assuming PnP mode\n");
+ 		return -ENODEV;
+ 	}
+ 
+@@ -897,21 +901,21 @@ static int snd_msnd_isa_probe(struct device *pdev, unsigned int idx)
+ 		chip->memid = HPMEM_E800; break;
+ 	}
+ #else
+-	printk(KERN_INFO LOGNAME ": Non-PnP mode: configuring at port 0x%lx\n",
+-			cfg[idx]);
++	dev_info(pdev, LOGNAME ": Non-PnP mode: configuring at port 0x%lx\n",
++		 cfg[idx]);
+ 
+ 	if (!devm_request_region(card->dev, cfg[idx], 2,
+ 				 "Pinnacle/Fiji Config")) {
+-		printk(KERN_ERR LOGNAME ": Config port 0x%lx conflict\n",
+-			   cfg[idx]);
++		dev_err(pdev, LOGNAME ": Config port 0x%lx conflict\n",
++			cfg[idx]);
+ 		return -EIO;
+ 	}
+ 	if (reset[idx])
+-		if (snd_msnd_pinnacle_cfg_reset(cfg[idx]))
++		if (snd_msnd_pinnacle_cfg_reset(chip, cfg[idx]))
+ 			return -EIO;
+ 
+ 	/* DSP */
+-	err = snd_msnd_write_cfg_logical(cfg[idx], 0,
++	err = snd_msnd_write_cfg_logical(chip, cfg[idx], 0,
+ 					 io[idx], 0,
+ 					 irq[idx], mem[idx]);
+ 
+@@ -923,10 +927,10 @@ static int snd_msnd_isa_probe(struct device *pdev, unsigned int idx)
+ 	/* MPU */
+ 	if (mpu_io[idx] != SNDRV_AUTO_PORT
+ 	    && mpu_irq[idx] != SNDRV_AUTO_IRQ) {
+-		printk(KERN_INFO LOGNAME
++		dev_info(pdev, LOGNAME
+ 		       ": Configuring MPU to I/O 0x%lx IRQ %d\n",
+ 		       mpu_io[idx], mpu_irq[idx]);
+-		err = snd_msnd_write_cfg_logical(cfg[idx], 1,
++		err = snd_msnd_write_cfg_logical(chip, cfg[idx], 1,
+ 						 mpu_io[idx], 0,
+ 						 mpu_irq[idx], 0);
+ 
+@@ -938,10 +942,10 @@ static int snd_msnd_isa_probe(struct device *pdev, unsigned int idx)
+ 	if (ide_io0[idx] != SNDRV_AUTO_PORT
+ 	    && ide_io1[idx] != SNDRV_AUTO_PORT
+ 	    && ide_irq[idx] != SNDRV_AUTO_IRQ) {
+-		printk(KERN_INFO LOGNAME
++		dev_info(pdev, LOGNAME
+ 		       ": Configuring IDE to I/O 0x%lx, 0x%lx IRQ %d\n",
+ 		       ide_io0[idx], ide_io1[idx], ide_irq[idx]);
+-		err = snd_msnd_write_cfg_logical(cfg[idx], 2,
++		err = snd_msnd_write_cfg_logical(chip, cfg[idx], 2,
+ 						 ide_io0[idx], ide_io1[idx],
+ 						 ide_irq[idx], 0);
+ 
+@@ -951,10 +955,10 @@ static int snd_msnd_isa_probe(struct device *pdev, unsigned int idx)
+ 
+ 	/* Joystick */
+ 	if (joystick_io[idx] != SNDRV_AUTO_PORT) {
+-		printk(KERN_INFO LOGNAME
++		dev_info(pdev, LOGNAME
+ 		       ": Configuring joystick to I/O 0x%lx\n",
+ 		       joystick_io[idx]);
+-		err = snd_msnd_write_cfg_logical(cfg[idx], 3,
++		err = snd_msnd_write_cfg_logical(chip, cfg[idx], 3,
+ 						 joystick_io[idx], 0,
+ 						 0, 0);
+ 
+@@ -989,13 +993,13 @@ static int snd_msnd_isa_probe(struct device *pdev, unsigned int idx)
+ 	spin_lock_init(&chip->lock);
+ 	err = snd_msnd_probe(card);
+ 	if (err < 0) {
+-		printk(KERN_ERR LOGNAME ": Probe failed\n");
++		dev_err(pdev, LOGNAME ": Probe failed\n");
+ 		return err;
+ 	}
+ 
+ 	err = snd_msnd_attach(card);
+ 	if (err < 0) {
+-		printk(KERN_ERR LOGNAME ": Attach failed\n");
++		dev_err(pdev, LOGNAME ": Attach failed\n");
+ 		return err;
+ 	}
+ 	dev_set_drvdata(pdev, card);
+@@ -1042,12 +1046,12 @@ static int snd_msnd_pnp_detect(struct pnp_card_link *pcard,
+ 		return -ENODEV;
+ 
+ 	if (!pnp_is_active(pnp_dev) && pnp_activate_dev(pnp_dev) < 0) {
+-		printk(KERN_INFO "msnd_pinnacle: device is inactive\n");
++		dev_info(&pcard->card->dev, "msnd_pinnacle: device is inactive\n");
+ 		return -EBUSY;
+ 	}
+ 
+ 	if (!pnp_is_active(mpu_dev) && pnp_activate_dev(mpu_dev) < 0) {
+-		printk(KERN_INFO "msnd_pinnacle: MPU device is inactive\n");
++		dev_info(&pcard->card->dev, "msnd_pinnacle: MPU device is inactive\n");
+ 		return -EBUSY;
+ 	}
+ 
+@@ -1098,13 +1102,13 @@ static int snd_msnd_pnp_detect(struct pnp_card_link *pcard,
+ 	spin_lock_init(&chip->lock);
+ 	ret = snd_msnd_probe(card);
+ 	if (ret < 0) {
+-		printk(KERN_ERR LOGNAME ": Probe failed\n");
++		dev_err(&pcard->card->dev, LOGNAME ": Probe failed\n");
+ 		return ret;
+ 	}
+ 
+ 	ret = snd_msnd_attach(card);
+ 	if (ret < 0) {
+-		printk(KERN_ERR LOGNAME ": Attach failed\n");
++		dev_err(&pcard->card->dev, LOGNAME ": Attach failed\n");
+ 		return ret;
+ 	}
+ 
+-- 
+2.43.0
 
