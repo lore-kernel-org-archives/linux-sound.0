@@ -1,43 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A708215A85F;
-	Thu,  8 Aug 2024 21:46:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F8715EFB8
+	for <linux-sound@vger.kernel.org>; Thu,  8 Aug 2024 21:46:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723153615; cv=none; b=CTOC5hWE5tJmZK/X1Qns9HGDjcZP5Z997nCMfKLE7cE3qYKlIy+9HGpOFWCGRTRxCcOtT49A0cwNW06t1zu2qj6RAe6XMdgHYPbgBIguUxP0Uom64miaxbySiXGr7CNJfCk2Qxz8SRqlmC88kb1hIylQt5okercvBnATR5Wz3Es=
+	t=1723153617; cv=none; b=AAfvGWJ/5lvVG37vxEJguTyMfaRTZJVexJ9mAL8bxNDiaDIgffQ2jY95i1WN9elvSSemJG5smuVqmuqxv5bz15hnUPtagwDBRUWSaCNr9fDvfXAF41x1BSQTi4KHxW6vHpzdOqMn0ihUSHRi0Dyo/+q7BY1G0gPPxFjrJGo7988=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723153615; c=relaxed/simple;
-	bh=qtAK0UeXQRcCnP7Y+pZwRW9Qdm29Lj43pKM6k3a4U4I=;
+	s=arc-20240116; t=1723153617; c=relaxed/simple;
+	bh=BhVaztnW/S7Im7LbFReUE6Rr/BpMPr9gX9+KMfXFG/I=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=DXbhTzW2NPjhSekLtcnVmVAeIXOo9jF6wuf5+B2035CZNBO5hznsHa3MUVubQJT7jQl0S8YAqs5S/+V0iYJPHHKAITwltlX7YR9AUCn3GIRWKNuY/bToL3quTrOHWnlnxaNLPUngNXpdZV1DvMvuk8redHgYStdBMYn7v6kFmHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GB7iBy2z; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Rj+UMumZ0G8FGqPozaguxtjUeaRgyvDK32BHZA7QitKqDIUDE6nKo90mjlge0lYuAfZ7iXWEL5PSi/bSmdb4RylPW+DA8hG2gEcdYbFTa2UosdtQabFT40iCOlTE30sW4G5o6YDOAQp9aKIyjnY6dUNlS5+KH7Frdi7AYBhEZzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W/EYesnv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GB7iBy2z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3CBAC4AF0C;
-	Thu,  8 Aug 2024 21:46:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W/EYesnv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D32AAC32782;
+	Thu,  8 Aug 2024 21:46:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723153615;
-	bh=qtAK0UeXQRcCnP7Y+pZwRW9Qdm29Lj43pKM6k3a4U4I=;
+	s=k20201202; t=1723153617;
+	bh=BhVaztnW/S7Im7LbFReUE6Rr/BpMPr9gX9+KMfXFG/I=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=GB7iBy2zOeWDJaLuvF3/XzjgSBufy8srdgMk7h+UCiYbiGidb8LtqyFWVikrd2AAA
-	 4DehsFUaMiOS+XE2iIKdMzJlQCpszYg29ZvL7bYlPL+yg60MayHfVaP5+CUrfotPKy
-	 17fXirqE5RtqZ9kJ3SBgYP8YHxZqGDarp5fbh96B+7miSyNiALUNG4oYrNZzH/aEw8
-	 CNM2M1Lcta0NGOQ2PxMSPsOX6qiti92Usx4mRsf+6+xWmxEtEHyVJrsJkKOxUX5/ln
-	 J6N79l2h0fueSsEmkv34gxldPIeqbv9McxUZw+UuhlyLV5NFsX0PFBx4CjGqdD8+Dq
-	 VBTlcWCqmbtUw==
+	b=W/EYesnvWYZbyJByrE+rK/ivwcQsXH/gkU/QssNSwDxHRxz4GFkP8Npzk5oORiT/m
+	 p5pt13U1gwpdCgEnDw7n++jhfQLkCN2Oju1o7jxY5zvaBt7omo/c59zACU5l8Tmpiz
+	 +B5h5qM0+3IzKf6ZESQoC79aIderWtl+dHXuZ2ofwJvxUSuhbQrTSBSWLKMMw60MTf
+	 1Bl6eUXYdEv1V73/94MQHAyRyn3rkspixTEGXf9FHQ+UFY4q/m8EvMlkF+DatIg+n8
+	 9BNSZh85P8k4Bn91zZ/+ujIVTdRF8pdoCL3xvYYsKk5byXSzLgOKOUD+lffxCpkiYM
+	 8hu6+4x2PQRCQ==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Shenghao Ding <shenghao-ding@ti.com>, 
- Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
- Linus Walleij <linus.walleij@linaro.org>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Shenghao Ding <13916275206@139.com>, alsa-devel@alsa-project.org
-In-Reply-To: <20240807-asoc-tas-gpios-v2-0-bd0f2705d58b@linaro.org>
-References: <20240807-asoc-tas-gpios-v2-0-bd0f2705d58b@linaro.org>
-Subject: Re: [PATCH v2 0/3] ASoC: tas*: Fix up GPIO usage
-Message-Id: <172315361213.480667.14057947911720144793.b4-ty@kernel.org>
-Date: Thu, 08 Aug 2024 22:46:52 +0100
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org, 
+ Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <20240807170249.16490-1-tiwai@suse.de>
+References: <20240807170249.16490-1-tiwai@suse.de>
+Subject: Re: [PATCH] ASoC: amd: yc: Add quirk entry for OMEN by HP Gaming
+ Laptop 16-n0xxx
+Message-Id: <172315361627.480667.6274977955944517576.b4-ty@kernel.org>
+Date: Thu, 08 Aug 2024 22:46:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,17 +46,11 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-37811
 
-On Wed, 07 Aug 2024 17:02:31 +0200, Linus Walleij wrote:
-> The TI TAS drivers use some legacy GPIO code and headers,
-> this series fixes it up.
+On Wed, 07 Aug 2024 19:02:27 +0200, Takashi Iwai wrote:
+> Fix the missing mic on OMEN by HP Gaming Laptop 16-n0xxx by adding the
+> quirk entry with the board ID 8A44.
 > 
-> The TAS2781 is a special case since it adds a handful of
-> lines of deviating code to reconfigure a GPIO line for
-> IRQ mode and then never actually use the IRQ obtained in
-> the code. Is the line used by autonomous hardware? I'm
-> puzzled by this.
 > 
-> [...]
 
 Applied to
 
@@ -66,12 +58,8 @@ Applied to
 
 Thanks!
 
-[1/3] ASoC: tas2781-i2c: Drop weird GPIO code
-      commit: c2c0b67dca3cb3b3cea0dd60075a1c5ba77e2fcd
-[2/3] ASoC: tas2781-i2c: Get the right GPIO line
-      commit: 1c4b509edad15192bfb64c81d3c305bbae8070db
-[3/3] ASoC: tas*: Drop unused GPIO includes
-      commit: caab9a1cbb9a9fca24ceabeef57b3764d861ad32
+[1/1] ASoC: amd: yc: Add quirk entry for OMEN by HP Gaming Laptop 16-n0xxx
+      commit: 6675e76a5c441b52b1b983ebb714122087020ebe
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
