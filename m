@@ -1,77 +1,75 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2061.outbound.protection.outlook.com [40.107.94.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B331922FD;
-	Thu,  8 Aug 2024 16:58:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.61
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723136341; cv=fail; b=ELObwFYNHBFptoh2x3rqwc3aWHzLBGmSkIqzbUFH7psov7bNCE9OrZde2l/yaZRPFal932gPL1KhrdtbzvFw4Sj9tW/Th+ZsM9IZO1tC61i0VHbQv8Og+256eWHYfGAPzPaS8wTLPthjJh1r9CWAfER2WRHlnNKG7mN3HFLpDmQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723136341; c=relaxed/simple;
-	bh=QxszdzAXMtanwDxUmQhoRcJ8Iy1ocp7vJQhlv0/g38U=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ChwRg9JtG4+VmtGHTbJSG6KJXEUknmUwMyYmAsB8b7wS1M3ipWZc0qI7ozFPwhIPafHPQ/KqAQkigXmgM2TNDB2kUsQ8acLi/epW251sVDakiulatfPYL0cZlpR1XRukXzSZ5a9UpdHRzQKYSR5QP50n+/hHbGZ+QJ4zGlQrmGA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=PASi9naL; arc=fail smtp.client-ip=40.107.94.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88ACD140369
+	for <linux-sound@vger.kernel.org>; Thu,  8 Aug 2024 18:22:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723141355; cv=none; b=bopmob3pGjCOCukcRzPFN1HMzfTQ8ofmmUYSEDfce1oR6nQhUy1wkIbBt8LjxKmUHUCQ0odTmIS0z/z9LfevRF1V/E727hkwBiT79mxtH/HLJqMY0BTS2valz1Cxdv55rgARPMhB5LSE2g2KaCtqgbmpAsxqmyiVU+XYqjMyK3U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1723141355; c=relaxed/simple;
+	bh=xbnIuYYxz3ljTKjsrKGCGK5SYzh86yoU0GEIVbl4xEM=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=kjiarJW9LN8NYw1+yJObBHIwepPz3rgGnphnJB5+N0skQC2uhYIx6xybl6chkBN2i/w58YRQS0vbdkzjYcbbPHCIOUlB8jKHbe5pNd3EdTzbjYss/R12ZZhGSK7F7lWDJSOb5I9N5oUvqOe0pyjOKVBM+S8XDlgF6x8DqVGUsiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=N06RwiJd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pNuVh+hP; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=N06RwiJd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pNuVh+hP; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="PASi9naL"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=I9jesXCd/OAnw5Tb/v1WX3Hz3ftweFEglKlvI2gipJMbY9zsy1JJkEg2GWbt7ZBccXWkVlr8T1ZiQ8HR6WOM8WikKqsBufiFS+SZAtMOi5q8BXDJe+yTwzxC8wvzVFQxhYve+eb7ymLMLkYhRQ+5WXouUf7976PJdnomT6YKQn11U/LvQLj/oVbloJT75KLs/4BdKghvu6+b73vaXiHZy5pW0gt07FQB5ka8lXuezFibVXO38xuhrqEDo3bQFd0aRb0jv2OLUp+TD83i9HADcm6DuIVmY+2iWWhCPHzis5G4spX5oTJlf0YtqbH5Eu/2FdIoPGW3A4zD0hNN1uecfQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UBNfv35Z9aYp/a4IbdRFX7G0RUSMVnZLZzGXQqLX6hc=;
- b=owLgg+L38fRRozt6fa01f4HgX48zBlN1lKTU61F6k+eb3sYJcR+M+FHHjLDw8ByQjtKxJihcddHdmlPedvO3UtDi0QpWZ75ryln5DQrmjDZUenaFoHO9BP33DIFxZj1ImaLp5Au23LSUxxOl6vKk9MacxYnKt7/HE6nOy65D9WcUlworHMYU8o94vxkWznQtjDK2f4qgqkOHiUufSEXPQXdxThM+Ri4y7BU2bCGsggWC7VMyxwwAlANmScNBF7D4wjYMukZUqAi08Zr4RZrh1DD7vaJ7oJ4NmaHl2gOPPRSdW+F7yORFWiIb/d4+JYc21jRMJBKe8S6DBXD48gtBRw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UBNfv35Z9aYp/a4IbdRFX7G0RUSMVnZLZzGXQqLX6hc=;
- b=PASi9naLVukdrDSW+TQ3pkJw1UGXT9UPnrx+8fIZBFD9doMQJU5UXWuzqRdfVwNewnu6zKBQ6EIJlk8uu8th/yo8vdysAd5z7WS3WvfHM3LrXWMkxlKl0WT7cVsaMB+OdxL7WU0HLmRG6VbhuI186w3vIlTh9ZyS7CbRD10KyBY=
-Received: from CY5PR19CA0052.namprd19.prod.outlook.com (2603:10b6:930:1a::17)
- by PH0PR12MB5631.namprd12.prod.outlook.com (2603:10b6:510:144::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.22; Thu, 8 Aug
- 2024 16:58:54 +0000
-Received: from CH1PEPF0000AD82.namprd04.prod.outlook.com
- (2603:10b6:930:1a:cafe::c6) by CY5PR19CA0052.outlook.office365.com
- (2603:10b6:930:1a::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.15 via Frontend
- Transport; Thu, 8 Aug 2024 16:58:54 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CH1PEPF0000AD82.mail.protection.outlook.com (10.167.244.91) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7849.8 via Frontend Transport; Thu, 8 Aug 2024 16:58:54 +0000
-Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
- SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 8 Aug 2024 11:58:48 -0500
-From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-To: <broonie@kernel.org>
-CC: <alsa-devel@alsa-project.org>, <sound-open-firmware@alsa-project.org>,
-	<linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-	<pierre-louis.bossart@linux.intel.com>, <yung-chuan.liao@linux.intel.com>,
-	<ranjani.sridharan@linux.intel.com>, <perex@perex.cz>, <tiwai@suse.com>,
-	<lgirdwood@gmail.com>, <kai.vehmanen@linux.intel.com>,
-	<daniel.baluta@nxp.com>, <Basavaraj.Hiregoudar@amd.com>,
-	<Sunil-kumar.Dommati@amd.com>, <venkataprasad.potturu@amd.com>,
-	<cristian.ciocaltea@collabora.com>, Vijendar Mukunda
-	<Vijendar.Mukunda@amd.com>
-Subject: [PATCH RESEND 8/8] ASoC: amd: acp: Convert comma to semicolon
-Date: Thu, 8 Aug 2024 22:27:53 +0530
-Message-ID: <20240808165753.3414464-9-Vijendar.Mukunda@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240808165753.3414464-1-Vijendar.Mukunda@amd.com>
-References: <20240808165753.3414464-1-Vijendar.Mukunda@amd.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="N06RwiJd";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pNuVh+hP";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="N06RwiJd";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pNuVh+hP"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 89A4921D98;
+	Thu,  8 Aug 2024 18:22:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1723141351; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Uyar/R+L8VZnKUv0UulPPBllCQgJ/LCtVDskpu1iD6A=;
+	b=N06RwiJdZnPmhbbLOS8oLGKL/kcX5R3KNPj9AVY9eSclAHfBPzrZ836Mr4wRyeqdUp6gjH
+	3gegJK5THScEPyXMecpt7v/FmLDTrAWyJRd32GD3ieYRbSnGDwXWwJ6gVfzhtk7cUK8xGq
+	hfRvi44IMcCYT39UcxuPqm6Wyw0Bbnc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1723141351;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Uyar/R+L8VZnKUv0UulPPBllCQgJ/LCtVDskpu1iD6A=;
+	b=pNuVh+hPBRsetzgZgTDf1RHCkSm1dQMsoINMOdVXgttUCIkx4J78o5bm1DneQ88o1xEVqh
+	9ddXyP/U8hxDaoCQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1723141351; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Uyar/R+L8VZnKUv0UulPPBllCQgJ/LCtVDskpu1iD6A=;
+	b=N06RwiJdZnPmhbbLOS8oLGKL/kcX5R3KNPj9AVY9eSclAHfBPzrZ836Mr4wRyeqdUp6gjH
+	3gegJK5THScEPyXMecpt7v/FmLDTrAWyJRd32GD3ieYRbSnGDwXWwJ6gVfzhtk7cUK8xGq
+	hfRvi44IMcCYT39UcxuPqm6Wyw0Bbnc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1723141351;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Uyar/R+L8VZnKUv0UulPPBllCQgJ/LCtVDskpu1iD6A=;
+	b=pNuVh+hPBRsetzgZgTDf1RHCkSm1dQMsoINMOdVXgttUCIkx4J78o5bm1DneQ88o1xEVqh
+	9ddXyP/U8hxDaoCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 701CE13876;
+	Thu,  8 Aug 2024 18:22:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id cU0iGucMtWZ5TgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 08 Aug 2024 18:22:31 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: vxpocket: Fix a typo at conversion to dev_*()
+Date: Thu,  8 Aug 2024 20:23:07 +0200
+Message-ID: <20240808182308.28418-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -79,83 +77,55 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD82:EE_|PH0PR12MB5631:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6aaa1210-e87e-4d39-dfa8-08dcb7cb62c8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|1800799024|376014|7416014|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?LUo2iKPYpf9PrHo19/aMjymkQkT9Q6+peoswE2IJ8fg4M8V4eDQerq0MltCh?=
- =?us-ascii?Q?vsY+hdoJDtWYxXKlOpSEj7r7Hi+t1CGFU1lVP4//yY2ajkMZDwjgiL/0yBV2?=
- =?us-ascii?Q?wx+FcG5GzEmGz67jDCzALcrhl2ZKlBphD7aIsUOHwJDLOc4T79CL5lAPyBhd?=
- =?us-ascii?Q?0sQbKlq1KKsW0kkOYsGvNTZuCpSxTx9vlcLF+zvNVylYIE5HZefjOU6Q0If1?=
- =?us-ascii?Q?niaOdFCJTXiIvFJjpgCyg4LtXK9W9jk67istrThBguyy+XTfaitYqRwf6VQW?=
- =?us-ascii?Q?e/6NoUuh8AImEeudQPjvtN4pszj6/ZM16XrbxpyoAD766OMn8i1svjDFkDo+?=
- =?us-ascii?Q?5pI7BeoBjszPn9N0mt/aT4SELe+xHVcULitygYZmLTkK2ipIucHx4oA1DY9l?=
- =?us-ascii?Q?EDi7VOcFy6UK2Z1ziLgWWe2zkf3MCnx04sTR1oTINUQdFBC/V5SCAg7yhzKJ?=
- =?us-ascii?Q?Pq6zrFAhksh/wHfNELSStw7C9trQa/Y/KCExcOyx3KJOPav2liWohM8Wrcd7?=
- =?us-ascii?Q?xqOtrAn/p5MW07e3E7O1M1yu4lv76qA86SiPsyg/39vI8EQPN/YyJnfW080h?=
- =?us-ascii?Q?wGb4DkvjVRjONtVDzBGm+jmrWayxrSkIt62hwxO/kSAbEIQAHdUQwzDqB+BE?=
- =?us-ascii?Q?L9R8ZqewIwh5sl85IUrFqdxgXi09fbOjiaMmbvIQFG4BGU3FWowjmlaWRVvt?=
- =?us-ascii?Q?XjHWI4RebYxWDF8TWx2G04UcGayEPvwT38msZjbS4S1KKjFK/1VErZLUWv0M?=
- =?us-ascii?Q?YFt7wMRM4oT6RYlblzTG9VJqho08/9OMdMhoreZNmXCN3fNXlj878dj2zv6B?=
- =?us-ascii?Q?cCJpxiwmOjFHCvTyQ+cZxwfjvJ0h485ohpYuCsN28+8cvYq0HvOLETW0Y/4U?=
- =?us-ascii?Q?QfeV0QPvM3YdHOnVBMsp16K0c8m21BUdXTQaG3/FzM6isgWJ2cp3Nd/2OMv3?=
- =?us-ascii?Q?KNOV9nJ5sR3rAsmqhc6t4HODWe8FhcFOV3ifk/WQj+/pZzwe2qqVT3SKTLpD?=
- =?us-ascii?Q?0AOKWLEumcgckRcYHRgrMW7xR9pk9gezyyeUb6XaMsOzSZA7RIV5xFheEge7?=
- =?us-ascii?Q?K+ti53zNL2QoZVZ9Zfjh063tZ64S1Y5SzP0n9P4CNj+tgZOA2mybyXiUrxQ9?=
- =?us-ascii?Q?h5NDzX/hMqYDW0921y7YPRyep9KZTZyVaWrmHzpUgKgVMGjh4cdRbfbAo6ev?=
- =?us-ascii?Q?LGXtD7LWIKcCjNhx+5GHQxczmulbn2Gm8mJou8QLVKoNahV05F6wroSgGMoK?=
- =?us-ascii?Q?Btzi7L6JxJXS7KQxduiS3W4l5DitNP1dSGZNiVGWJCKI85/oTFnEYHSMKbnx?=
- =?us-ascii?Q?cQ0VJ5/lZxPE8QQFcZT209+JSxLRWMXEz7uTuRbXFhLFTHiiK0XzKbMrsKUN?=
- =?us-ascii?Q?/XzcgEk3/DGq+AUX/hJ2BGOntbczzy4LvgLJaa1GWEaKLyfks76JXHQHdr4b?=
- =?us-ascii?Q?jsW1dl7eHXWUmTx0bM5E98ZJowKM1KxN?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(376014)(7416014)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2024 16:58:54.2406
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6aaa1210-e87e-4d39-dfa8-08dcb7cb62c8
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH1PEPF0000AD82.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB5631
+X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	URIBL_BLOCKED(0.00)[suse.de:email,intel.com:email,imap1.dmz-prg2.suse.org:helo];
+	RCPT_COUNT_ONE(0.00)[1];
+	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,imap1.dmz-prg2.suse.org:helo,suse.de:email]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-Replace a comma between expression statements by a semicolon.
+There was a typo in the previous conversion to dev_*() that caused a
+build error.  Fix it.
 
-Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Fixes: 2acbb5e57230 ("ALSA: vxpocket: Use standard print API")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202408090110.t0mWbTyh-lkp@intel.com/
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/soc/amd/acp/acp-sdw-sof-mach.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ sound/pcmcia/vx/vxpocket.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/amd/acp/acp-sdw-sof-mach.c b/sound/soc/amd/acp/acp-sdw-sof-mach.c
-index 3419675e45a9..0995b40d15f3 100644
---- a/sound/soc/amd/acp/acp-sdw-sof-mach.c
-+++ b/sound/soc/amd/acp/acp-sdw-sof-mach.c
-@@ -657,9 +657,9 @@ static int mc_probe(struct platform_device *pdev)
- 	ctx->private = amd_ctx;
- 	card = &ctx->card;
- 	card->dev = &pdev->dev;
--	card->name = "amd-soundwire",
--	card->owner = THIS_MODULE,
--	card->late_probe = asoc_sdw_card_late_probe,
-+	card->name = "amd-soundwire";
-+	card->owner = THIS_MODULE;
-+	card->late_probe = asoc_sdw_card_late_probe;
- 
- 	snd_soc_card_set_drvdata(card, ctx);
+diff --git a/sound/pcmcia/vx/vxpocket.c b/sound/pcmcia/vx/vxpocket.c
+index 5f72c73eac85..d2d5f64d63b4 100644
+--- a/sound/pcmcia/vx/vxpocket.c
++++ b/sound/pcmcia/vx/vxpocket.c
+@@ -268,7 +268,7 @@ static int vxpocket_probe(struct pcmcia_device *p_dev)
+ 	err = snd_card_new(&p_dev->dev, index[i], id[i], THIS_MODULE,
+ 			   0, &card);
+ 	if (err < 0) {
+-		dev_err(&pdev->dev, "vxpocket: cannot create a card instance\n");
++		dev_err(&p_dev->dev, "vxpocket: cannot create a card instance\n");
+ 		return err;
+ 	}
  
 -- 
-2.34.1
+2.43.0
 
