@@ -1,131 +1,112 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88ACD140369
-	for <linux-sound@vger.kernel.org>; Thu,  8 Aug 2024 18:22:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9880433AD;
+	Thu,  8 Aug 2024 19:32:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723141355; cv=none; b=bopmob3pGjCOCukcRzPFN1HMzfTQ8ofmmUYSEDfce1oR6nQhUy1wkIbBt8LjxKmUHUCQ0odTmIS0z/z9LfevRF1V/E727hkwBiT79mxtH/HLJqMY0BTS2valz1Cxdv55rgARPMhB5LSE2g2KaCtqgbmpAsxqmyiVU+XYqjMyK3U=
+	t=1723145538; cv=none; b=P5HCMp7Kq9/yajwecR0tDjxhuW7OT7aqTNXh0ntNO+fF6ev38rSKsb89jJOxQaiY7oyeFjKASOuCXeQOs7tIKRI2Xzk0+HDwQ10yIeEWdA/HDyWCypFkanWSiiMvJTkU1E9iWXbcRheUo5SZBZDPR/uvNp/o7j8nRbFfTYfrSGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723141355; c=relaxed/simple;
-	bh=xbnIuYYxz3ljTKjsrKGCGK5SYzh86yoU0GEIVbl4xEM=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=kjiarJW9LN8NYw1+yJObBHIwepPz3rgGnphnJB5+N0skQC2uhYIx6xybl6chkBN2i/w58YRQS0vbdkzjYcbbPHCIOUlB8jKHbe5pNd3EdTzbjYss/R12ZZhGSK7F7lWDJSOb5I9N5oUvqOe0pyjOKVBM+S8XDlgF6x8DqVGUsiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=N06RwiJd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pNuVh+hP; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=N06RwiJd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pNuVh+hP; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1723145538; c=relaxed/simple;
+	bh=SzKzmpEu7GnyJJQGPutFmsrQXVrxKt8Z6WX3Zjdg/EI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kr5aKl8k0vhUqZP7GiBoWUlgyuZ5KB26ksdXG3th8p3X2SGEsAffXwwUTqhC0bs5oy177ve2Lpyw1bGDwNPMAmFcouiDISoXJIjBbvMHc8pyVPo/XOiZ/krCBbdqXDjlAE3nCOdZHVBnVTuoks7OGJbW9D1qFi8fxXmtwlIv4TQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qbqh5C4Z; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="N06RwiJd";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pNuVh+hP";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="N06RwiJd";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pNuVh+hP"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 89A4921D98;
-	Thu,  8 Aug 2024 18:22:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723141351; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=Uyar/R+L8VZnKUv0UulPPBllCQgJ/LCtVDskpu1iD6A=;
-	b=N06RwiJdZnPmhbbLOS8oLGKL/kcX5R3KNPj9AVY9eSclAHfBPzrZ836Mr4wRyeqdUp6gjH
-	3gegJK5THScEPyXMecpt7v/FmLDTrAWyJRd32GD3ieYRbSnGDwXWwJ6gVfzhtk7cUK8xGq
-	hfRvi44IMcCYT39UcxuPqm6Wyw0Bbnc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723141351;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=Uyar/R+L8VZnKUv0UulPPBllCQgJ/LCtVDskpu1iD6A=;
-	b=pNuVh+hPBRsetzgZgTDf1RHCkSm1dQMsoINMOdVXgttUCIkx4J78o5bm1DneQ88o1xEVqh
-	9ddXyP/U8hxDaoCQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723141351; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=Uyar/R+L8VZnKUv0UulPPBllCQgJ/LCtVDskpu1iD6A=;
-	b=N06RwiJdZnPmhbbLOS8oLGKL/kcX5R3KNPj9AVY9eSclAHfBPzrZ836Mr4wRyeqdUp6gjH
-	3gegJK5THScEPyXMecpt7v/FmLDTrAWyJRd32GD3ieYRbSnGDwXWwJ6gVfzhtk7cUK8xGq
-	hfRvi44IMcCYT39UcxuPqm6Wyw0Bbnc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723141351;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=Uyar/R+L8VZnKUv0UulPPBllCQgJ/LCtVDskpu1iD6A=;
-	b=pNuVh+hPBRsetzgZgTDf1RHCkSm1dQMsoINMOdVXgttUCIkx4J78o5bm1DneQ88o1xEVqh
-	9ddXyP/U8hxDaoCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 701CE13876;
-	Thu,  8 Aug 2024 18:22:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id cU0iGucMtWZ5TgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 08 Aug 2024 18:22:31 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: vxpocket: Fix a typo at conversion to dev_*()
-Date: Thu,  8 Aug 2024 20:23:07 +0200
-Message-ID: <20240808182308.28418-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qbqh5C4Z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5137EC32782;
+	Thu,  8 Aug 2024 19:32:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723145538;
+	bh=SzKzmpEu7GnyJJQGPutFmsrQXVrxKt8Z6WX3Zjdg/EI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Qbqh5C4ZwsxZP9LipKvN64N8kS2kOIxptu0Bso46LZaQ6M3u7nUcOICyyUraYbPT2
+	 srH4O//m3c70G+OxwFOB4uoOmdFTooKkuTG7tjY8dXXNApoT0IXf3xKJz0eyjqfkmm
+	 gwqmdeqo5uCYLX99r7oJXEqLjZUWJQEdnEX/Flfr0qJNt9/gWNjeo1pgk3aCQxH86L
+	 CPc3kHHNQBLwtjVCVyQAsI9Cncs60nPky6pb41/mjpoTd7zWFuZT52VTE3igKjYBeH
+	 lAZ3uDg2TUG0m/0L4ZN/PahT4j95dVChveOilldY2b+CLKU3OWYDfKligcTcbQKmEW
+	 rOw1tOQmI1djA==
+Date: Thu, 8 Aug 2024 20:32:11 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Cc: alsa-devel@alsa-project.org, Basavaraj.Hiregoudar@amd.com,
+	Sunil-kumar.Dommati@amd.com, venkataprasad.potturu@amd.com,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	"moderated list:SOUND - SOUND OPEN FIRMWARE (SOF) DRIVERS" <sound-open-firmware@alsa-project.org>,
+	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 2/8] ASoC: SOF: amd: fix for acp error reason registers
+ wrong offset
+Message-ID: <ZrUdOyGiFRH0sRlt@finisterre.sirena.org.uk>
+References: <20240807051341.1616925-1-Vijendar.Mukunda@amd.com>
+ <20240807051341.1616925-2-Vijendar.Mukunda@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.997];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	URIBL_BLOCKED(0.00)[suse.de:email,intel.com:email,imap1.dmz-prg2.suse.org:helo];
-	RCPT_COUNT_ONE(0.00)[1];
-	ARC_NA(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,imap1.dmz-prg2.suse.org:helo,suse.de:email]
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="M8Dce5wO5cfW5jxQ"
+Content-Disposition: inline
+In-Reply-To: <20240807051341.1616925-2-Vijendar.Mukunda@amd.com>
+X-Cookie: optimist, n:
 
-There was a typo in the previous conversion to dev_*() that caused a
-build error.  Fix it.
 
-Fixes: 2acbb5e57230 ("ALSA: vxpocket: Use standard print API")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202408090110.t0mWbTyh-lkp@intel.com/
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/pcmcia/vx/vxpocket.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--M8Dce5wO5cfW5jxQ
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/sound/pcmcia/vx/vxpocket.c b/sound/pcmcia/vx/vxpocket.c
-index 5f72c73eac85..d2d5f64d63b4 100644
---- a/sound/pcmcia/vx/vxpocket.c
-+++ b/sound/pcmcia/vx/vxpocket.c
-@@ -268,7 +268,7 @@ static int vxpocket_probe(struct pcmcia_device *p_dev)
- 	err = snd_card_new(&p_dev->dev, index[i], id[i], THIS_MODULE,
- 			   0, &card);
- 	if (err < 0) {
--		dev_err(&pdev->dev, "vxpocket: cannot create a card instance\n");
-+		dev_err(&p_dev->dev, "vxpocket: cannot create a card instance\n");
- 		return err;
- 	}
- 
--- 
-2.43.0
+On Wed, Aug 07, 2024 at 10:43:14AM +0530, Vijendar Mukunda wrote:
+> Fix the incorrect register offsets for acp error reason registers.
+> Add 'acp_sw0_i2s_err_reason' as register field in acp descriptor structure
+> and update the value based on the acp variant.
+> ACP_SW1_ERROR_REASON register was added from Rembrandt platform onwards.
+> Add conditional check for the same.
+>=20
+> Fixes: 96eb81851012 ("ASoC: SOF: amd: add interrupt handling for SoundWir=
+e manager devices")
 
+This breaks an x86 allmodconfig build:
+
+/build/stage/linux/sound/soc/sof/amd/acp.c: In function =E2=80=98acp_irq_ha=
+ndler=E2=80=99:
+/build/stage/linux/sound/soc/sof/amd/acp.c:407:26: error: =E2=80=98struct a=
+cp_dev_data=E2=80=99 h
+as no member named =E2=80=98pci_rev=E2=80=99
+  407 |                 if (adata->pci_rev >=3D ACP_RMB_PCI_ID)
+      |                          ^~
+/build/stage/linux/sound/soc/sof/amd/acp.c: In function =E2=80=98acp_power_=
+on=E2=80=99:
+/build/stage/linux/sound/soc/sof/amd/acp.c:444:22: error: =E2=80=98struct a=
+cp_dev_data=E2=80=99 h
+as no member named =E2=80=98pci_rev=E2=80=99
+  444 |         switch (adata->pci_rev) {
+      |                      ^~
+
+--M8Dce5wO5cfW5jxQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAma1HTgACgkQJNaLcl1U
+h9Abvwf/VL1PihLf4mO0zdcK8agYvT3wWBXvBRWJ2sWWWiQbqgRYQdtAXdv5Lhlp
+2y6m04AYARrGfqpZsTE74rXardMdxN7n7lyRj40LTENvPX/iSVh/94fe3Jw+fhfz
+SAOgKy7E+7iBA2IMXTQLU0nbx0OkdFOkezZVU+YKAkIunFyDMLfrn/Ujr5tBUs34
+b2tzZvFKDM7VYS/mEiFC42O3w3gscUye8RWA71Y1dsZEOa2C3D6lt2Uq32r/N4iT
+K86GAsqPJJgGNS/GLxBWQdy2xluWn3zUPl60EYJ2bJMH/b26bctPkI4ABPzq/srY
+UPyW4h7DsiWcY5Yp0GftrmXkYuB7cQ==
+=SGMn
+-----END PGP SIGNATURE-----
+
+--M8Dce5wO5cfW5jxQ--
