@@ -1,74 +1,74 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0907F189B95
-	for <linux-sound@vger.kernel.org>; Thu,  8 Aug 2024 09:14:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15525189BA4
+	for <linux-sound@vger.kernel.org>; Thu,  8 Aug 2024 09:14:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723108480; cv=none; b=ZNCT5Edon+IS60MfW15GhhBJsrxvAzpyIXp1bkrNx2BkLZyr5622rTVoZfWg6Q/u1zzxUEwso/wj2L6Atmmfk/F4SR871mWr6CCLOKOzSraXMkwl7aijDHNW3/oBcQcF2BaRMXYxxo9NlI9u5HlJV+aMV1L8x3ErJVVoa2eaQyc=
+	t=1723108487; cv=none; b=fIfc8YEDFmd15c4cgNy2v9zyuNiihkc7rt/y0c8FD7GXvbzG9ecM2btOsns5WBMvu2BxYBucPdBhED0GNQUEnGeEYmTuIJL69G2Q9VvSIoaXcIysS4kO8lC5kWgApgSAEdpj3jZYAOxpz88Wsxke2kErVLdKlm+u18OEs70IZ1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723108480; c=relaxed/simple;
-	bh=rL8jXX/Idhx10vXTGrWdrWbqdlxNBrXWGYEZL/HTDwo=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=t3f49DYfBKOcLV7TkLlClfIA1NTJsFa9xBC7gTTpwIOJzDp/w1RTUFGRvjQEcNgcLnO8rQEfRTEdW4AjRF7/fXo+XmGunqpyRZQZJED7M3GU7N5eQ+D6sgsOgEK7yVVeApRzG637nMMBZTx9la8/sOTPcOLtWhOAjtQrzm9kIuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ak4QZTpy; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=NDClarkZ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NvoIZWu0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WrUGXa0L; arc=none smtp.client-ip=195.135.223.130
+	s=arc-20240116; t=1723108487; c=relaxed/simple;
+	bh=rM7shvxFm3efmEKEJURWpl47fzFAgbrCX43b9Lfoncs=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=pgxFzCdoQHqfVvNsTPJCb9WoqpMCU5Z1qWaIEj0jQCHcqVjoF3D36TbE8cY3RX8hP1pnadaQf9yJA9zJPt2904S/MnvZUVV/VUsOFQ8mEtzGS8VvINM2i6H5ARcXCHol3GM00nrf24ulIZoRT7WmQe5sqJLxdpyutRySyJTLRjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YGdQ8fjK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=udb7/l3E; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YGdQ8fjK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=udb7/l3E; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ak4QZTpy";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NDClarkZ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NvoIZWu0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WrUGXa0L"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YGdQ8fjK";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="udb7/l3E";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YGdQ8fjK";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="udb7/l3E"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 5C5C821B71;
-	Thu,  8 Aug 2024 09:14:36 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 56BA21F388;
+	Thu,  8 Aug 2024 09:14:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723108477; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1723108484; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=gWU5i2vEbk1cGtc2ysfJqBdmlkvIxJwGbH6k9t3h/Ko=;
-	b=ak4QZTpyu5aNkMZc7b/+p1nVgtR/vXBO2fYirw14rzb+xHRkWLqN1+pPBXVTfSKx3vOEhl
-	Tgl01YSmsw5bsk5Cyf94mT7GywCTXWYmzaNlgA+Z1h1KJJWfzDfhoEXGbJ3jUkbJ5ykx3V
-	sKS2va1WeOfBgwShSDhthSfiCy5ldBs=
+	bh=0bmDfcOgXhBXrnJwc7Ej5fy1W7TNoLpGjjitANT4uCE=;
+	b=YGdQ8fjKeOAl35bHfUCApLu+1pkNztJ+orGwnfkr8i+23HiLbGMhCcMqHOB0/8UWgTAwXT
+	pi0k8AwBxzv5QAvCuSLw6CXVb3Okg7n/cYuddF0XU4NKIhg4h4vPP70eOiXPEpL4oVIzrf
+	7HKEpp+l8jsg3xT+ANWQTbLI04V9rWY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723108477;
+	s=susede2_ed25519; t=1723108484;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=gWU5i2vEbk1cGtc2ysfJqBdmlkvIxJwGbH6k9t3h/Ko=;
-	b=NDClarkZqZwmk7JG8qykQs7z5/FSzc9bQNjKaaxlhbc62APie980uqgrsaGQBnSx+X1nFL
-	CU/1OTuySHujxNAQ==
-Authentication-Results: smtp-out1.suse.de;
+	bh=0bmDfcOgXhBXrnJwc7Ej5fy1W7TNoLpGjjitANT4uCE=;
+	b=udb7/l3EgfyCSbbMs2uBonM/447IZhRDJbUZNesuHIUFLl7oRLrL2H7AwWSu8RU9IM2aMz
+	2Ptc+AIuoR3eX9DA==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723108476; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1723108484; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=gWU5i2vEbk1cGtc2ysfJqBdmlkvIxJwGbH6k9t3h/Ko=;
-	b=NvoIZWu00dkiOzte2qTpIHIN9a1bJyHJjU46JwXa2KttPlTj4w9USR3hmQc6zW3LeJhUkM
-	JHXzAZEgs7Fe4KUZBaPAgD37zY+h/CgecZ/mpjh1ba2gY5yIxyNOnH0GH61FnSOsbjZEWG
-	b2wc9BMpro6bnLpsFvDA7Av19nkaDQo=
+	bh=0bmDfcOgXhBXrnJwc7Ej5fy1W7TNoLpGjjitANT4uCE=;
+	b=YGdQ8fjKeOAl35bHfUCApLu+1pkNztJ+orGwnfkr8i+23HiLbGMhCcMqHOB0/8UWgTAwXT
+	pi0k8AwBxzv5QAvCuSLw6CXVb3Okg7n/cYuddF0XU4NKIhg4h4vPP70eOiXPEpL4oVIzrf
+	7HKEpp+l8jsg3xT+ANWQTbLI04V9rWY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723108476;
+	s=susede2_ed25519; t=1723108484;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=gWU5i2vEbk1cGtc2ysfJqBdmlkvIxJwGbH6k9t3h/Ko=;
-	b=WrUGXa0LfKkP7kbeEuFfIa7l7AmthqXaFwV1vW3ah+apJJfazuu3Qf7knCL8ZLLfPPpRSd
-	0FNFLyFyKeyIzIAg==
+	bh=0bmDfcOgXhBXrnJwc7Ej5fy1W7TNoLpGjjitANT4uCE=;
+	b=udb7/l3EgfyCSbbMs2uBonM/447IZhRDJbUZNesuHIUFLl7oRLrL2H7AwWSu8RU9IM2aMz
+	2Ptc+AIuoR3eX9DA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 434AD13876;
-	Thu,  8 Aug 2024 09:14:36 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3291013876;
+	Thu,  8 Aug 2024 09:14:44 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id fqATD3yMtGaVHwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 08 Aug 2024 09:14:36 +0000
+	id 8EkXC4SMtGahHwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 08 Aug 2024 09:14:44 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: hdsp: Break infinite MIDI input flush loop
-Date: Thu,  8 Aug 2024 11:15:12 +0200
-Message-ID: <20240808091513.31380-1-tiwai@suse.de>
+Subject: [PATCH] ALSA: usb-audio: Check shutdown at endpoint_set_interface()
+Date: Thu,  8 Aug 2024 11:15:21 +0200
+Message-ID: <20240808091522.31415-1-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -78,75 +78,52 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
+	BAYES_HAM(-3.00)[99.99%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
 	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email];
+	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_NONE(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
 X-Spam-Score: -2.80
 X-Spam-Flag: NO
 X-Spam-Level: 
 
-The current MIDI input flush on HDSP and HDSPM drivers relies on the
-hardware reporting the right value.  If the hardware doesn't give the
-proper value but returns -1, it may be stuck at an infinite loop.
-
-Add a counter and break if the loop is unexpectedly too long.
+The call of usb_set_interface() and a delay are superfluous when the
+device has been already disconnected.  Add a disconnection check
+before doing it.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/pci/rme9652/hdsp.c  | 6 ++++--
- sound/pci/rme9652/hdspm.c | 6 ++++--
- 2 files changed, 8 insertions(+), 4 deletions(-)
+ sound/usb/endpoint.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/sound/pci/rme9652/hdsp.c b/sound/pci/rme9652/hdsp.c
-index e7d1b43471a2..713ca262a0e9 100644
---- a/sound/pci/rme9652/hdsp.c
-+++ b/sound/pci/rme9652/hdsp.c
-@@ -1298,8 +1298,10 @@ static int snd_hdsp_midi_output_possible (struct hdsp *hdsp, int id)
+diff --git a/sound/usb/endpoint.c b/sound/usb/endpoint.c
+index 8f65349a06d3..568099467dbb 100644
+--- a/sound/usb/endpoint.c
++++ b/sound/usb/endpoint.c
+@@ -921,6 +921,9 @@ static int endpoint_set_interface(struct snd_usb_audio *chip,
  
- static void snd_hdsp_flush_midi_input (struct hdsp *hdsp, int id)
- {
--	while (snd_hdsp_midi_input_available (hdsp, id))
--		snd_hdsp_midi_read_byte (hdsp, id);
-+	int count = 256;
-+
-+	while (snd_hdsp_midi_input_available(hdsp, id) && --count)
-+		snd_hdsp_midi_read_byte(hdsp, id);
- }
+ 	if (ep->iface_ref->altset == altset)
+ 		return 0;
++	/* already disconnected? */
++	if (unlikely(atomic_read(&chip->shutdown)))
++		return -ENODEV;
  
- static int snd_hdsp_midi_output_write (struct hdsp_midi *hmidi)
-diff --git a/sound/pci/rme9652/hdspm.c b/sound/pci/rme9652/hdspm.c
-index 56d335f0e196..c3f930a8f78d 100644
---- a/sound/pci/rme9652/hdspm.c
-+++ b/sound/pci/rme9652/hdspm.c
-@@ -1838,8 +1838,10 @@ static inline int snd_hdspm_midi_output_possible (struct hdspm *hdspm, int id)
- 
- static void snd_hdspm_flush_midi_input(struct hdspm *hdspm, int id)
- {
--	while (snd_hdspm_midi_input_available (hdspm, id))
--		snd_hdspm_midi_read_byte (hdspm, id);
-+	int count = 256;
-+
-+	while (snd_hdspm_midi_input_available(hdspm, id) && --count)
-+		snd_hdspm_midi_read_byte(hdspm, id);
- }
- 
- static int snd_hdspm_midi_output_write (struct hdspm_midi *hmidi)
+ 	usb_audio_dbg(chip, "Setting usb interface %d:%d for EP 0x%x\n",
+ 		      ep->iface, altset, ep->ep_num);
 -- 
 2.43.0
 
