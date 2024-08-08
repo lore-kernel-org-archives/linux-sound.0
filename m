@@ -1,116 +1,223 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 316A413FD86
-	for <linux-sound@vger.kernel.org>; Thu,  8 Aug 2024 13:49:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E292B674;
+	Thu,  8 Aug 2024 14:54:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723124954; cv=none; b=oAZ4aHOFsiIC1gntDbskCcfVEg6VfUN3+w9GCs7mxZbJDk8Mzy8H4LSec4UFv9twfH7jE1qDW09roOy6qd3xHGBtnd0TgXL/E2LZjwh7CxVwbUosQZfyplgNG87/jOjPwudJJQTzedOUYSDkqBUCXb8pT+TXrShRkwKhJ7DuZ+U=
+	t=1723128858; cv=none; b=KJxdEIvP6QaEjCOzEE8H7m6fW6qd4vFaIogdAexHXuk8lroAdStPQ1g4U1+C5qdibeR0h3URpuoLBrj9NyXc/zOGoPc479thHslEF7iUS2KKoZ69uuv5mIuzcm0D1KfpgzQ7RdT5OlD0u0DpiaEO6/KQ+79FHi56bcCmvZGoGes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723124954; c=relaxed/simple;
-	bh=oHdPwKkQME8bYOR30ePg4GS9XEv348EDstUr6EWkBh4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aVgHeFHOAl9jsDHH+TvkYkt/JMl8+J2PLSLxF9r4XMRi1ql8WTfPUPAf/GWW7RkN0vCW9TrXUKWa8BZqu1SefWPlAE9yca2Wi5jMPodfDcGUaWg/kxFpH60I7/mRs5OKkQheQmRRW2A8DFuVHe56GEHnsJZjRBfyaKO+t56GZNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=KpgQ6Ujs; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1723128858; c=relaxed/simple;
+	bh=r985UfwqL1h8K9aokwCyDd3V5rJtD93Nf43KfmOuQsk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cjsQ22HRNf1c/VovRMwLEHOOXGbOEwDtiaVRpt6xkHOm98sogaAKG99XPT2hASlV426fUCYEUAguS6w23TDdl9YzIFkFPby05L0zIxO4lSxuDpHOB07Jhw45BIDswzYTjFalPCGC0EA5gXyjqk2HJwO4xXOelvlfE6tt5OsH5M0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=StbB78cD; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="KpgQ6Ujs"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-428178fc07eso6539555e9.3
-        for <linux-sound@vger.kernel.org>; Thu, 08 Aug 2024 06:49:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1723124949; x=1723729749; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Oc2kb4MfKvFjP/ZDE0bQ/8gyXH0Djs1sAmNuVFX31oE=;
-        b=KpgQ6UjsBX8KIyVZmMIvMpgbegJi29G6gp6IKRdTkgAaNhddQLE9AMpYJ+FYs9TTnl
-         LszS05B4tGwq77Lrg1PE2U2CKOj3pcircVdR5cmfnX0D/I9kHOc6WQcHhhHG9g5HdWrA
-         WMNwNbHIS3Eo2TO5VNwE6dgXAJoxg7QeOos++IuQhq8OgZx5hD2H2tlu4DhqJQs+M1Dk
-         GGBvetaZMJ+FJCmWP06TIRnD95uo+Jsj7utOnO/5jSRBkpJfecgacYLnRaYxU0TQN5eN
-         TDE7RAnAlO61cBBsdMy6xHwFeeivEKqNsMLwPE5e9XzLQ6ctyuoAyL/Vlz/V0m4NLKR9
-         yV6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723124949; x=1723729749;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Oc2kb4MfKvFjP/ZDE0bQ/8gyXH0Djs1sAmNuVFX31oE=;
-        b=YcZ4h1UDt4ejpae8wpy1/XAgJ3zfSc91LiBm3nJCOFyVR8Dgo20P2zM+Xh0gE15c5a
-         EyyI5JxVGr5Ryo/3KfNn55BIxF4KwD5EmK4brZOQcMw+cy8OdzxmJX/qkbi5e4oZFFDv
-         xMPFLqX5+NAR41SQAqSaHy+372sPHs1bo0qT2xXIsmb9bTsnwUiqsfLgyeuamXX6vjI2
-         kgtjqAMAVjGgjFnhHqjDzBIo0HMs9CWAzp26ceNchCCpQB8O5L74mlHczrsW67VsWFsK
-         H+XBb0v4ulRgp5yyVfmFBX4eIBcL0DNV3MrqIcIzdkwlYyzY3bTz5aq9jxXgHL71mIgs
-         5PBA==
-X-Forwarded-Encrypted: i=1; AJvYcCW5Dv2Zo2gOljyOqnbiK5HNx9eCeaVlG+0xHuTFjeOwVTed6vbhFILRsJxgSDs4gCl0id66giyO6TwjqZeX2NHsUg5oFScfLWEAyoE=
-X-Gm-Message-State: AOJu0YzGG26Blwk4Ma3ROzjF8YlhVHtOSHUO3MH70zsEDLOal3GUBtmc
-	R/HANYHAMLMix2cRXl9siExt4p64+7wpU8++m62U+PEwdZiPHTfhtgmizn/eNbg=
-X-Google-Smtp-Source: AGHT+IGwNL0A36cUPhEaS/8r+wLSddqefAckjIQj+NsXha0hO1eaMKAfQzEMYgvHPb0aqA3AIXNXag==
-X-Received: by 2002:adf:e782:0:b0:368:3751:de3 with SMTP id ffacd0b85a97d-36d274ed73cmr1472917f8f.31.1723124949209;
-        Thu, 08 Aug 2024 06:49:09 -0700 (PDT)
-Received: from toaster.lan ([2a01:e0a:3c5:5fb1:13e0:cfeb:f041:89ed])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-36d271572cdsm2037735f8f.1.2024.08.08.06.49.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Aug 2024 06:49:08 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Daniel Mack <zonque@gmail.com>
-Cc: Jerome Brunet <jbrunet@baylibre.com>,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: snd-usb-caiaq: use snd_pcm_rate_to_rate_bit
-Date: Thu,  8 Aug 2024 15:48:54 +0200
-Message-ID: <20240808134857.86749-1-jbrunet@baylibre.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="StbB78cD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723128858; x=1754664858;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=r985UfwqL1h8K9aokwCyDd3V5rJtD93Nf43KfmOuQsk=;
+  b=StbB78cDyGwI3l3Zg+JuJWei9kxLJIzF88h89xtNkxw8c+0UFtveJLQm
+   QO6+4JcevlFXNi9aI87bW+k0uXejFDvNVM6429ECyyCU0PcmcVNbfMZ5g
+   wSBySy3/yFp0v4qQlejNLqAUjqaHDpEG+9xstDilUdsHFwaY/XiRGgvRS
+   3c/3hmeT1ej3PupImHdtXEQ6oHjQcmc8cp17Yd8QdHDcCjz0dgJSF97lD
+   HygUizzRoaMXN+JbX4e6J6tFdJRcttCeOfSyxugdakRiqP5VW3Rwdqu7h
+   CHAyoK+m+a3JoZciEitN+N60xFtyl+6zOeWBOfKMJLvH5TLuDKboWBMwk
+   w==;
+X-CSE-ConnectionGUID: POAV5kFsQHOi7fyEr9oiOA==
+X-CSE-MsgGUID: YYEwmt0GQQOpdjIVuOXN8A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11158"; a="21427405"
+X-IronPort-AV: E=Sophos;i="6.09,273,1716274800"; 
+   d="scan'208";a="21427405"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2024 07:54:16 -0700
+X-CSE-ConnectionGUID: vAjEFa4ERGyjqZz2qHyCrg==
+X-CSE-MsgGUID: IlJ73vWWTuWjDaL6uohR8g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,273,1716274800"; 
+   d="scan'208";a="57486370"
+Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.8.107]) ([10.94.8.107])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2024 07:54:11 -0700
+Message-ID: <e5cd1a9d-0a16-4c80-b9b9-1c63b8e818cc@linux.intel.com>
+Date: Thu, 8 Aug 2024 16:54:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Patchwork-Bot: notify
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v24 23/34] ALSA: usb-audio: Prevent starting of audio
+ stream if in use
+Content-Language: en-US
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+ mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+ corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
+ Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, tiwai@suse.com,
+ gregkh@linuxfoundation.org, robh@kernel.org
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+ alsa-devel@alsa-project.org
+References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
+ <20240801011730.4797-24-quic_wcheng@quicinc.com>
+ <186ae30f-678c-423a-a56f-74510a184f99@linux.intel.com>
+ <43e9850c-3e34-4582-aadd-4a6dcbd3ce8d@quicinc.com>
+ <c3b6ac24-6359-4809-83d9-ac62ec64b396@linux.intel.com>
+ <24a224a2-0600-4ee2-989e-02224ef849ba@linux.intel.com>
+From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+In-Reply-To: <24a224a2-0600-4ee2-989e-02224ef849ba@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Use snd_pcm_rate_to_rate_bit() helper provided by Alsa instead
-re-implementing it. This reduce code duplication and helps when
-changing some Alsa definition is necessary.
+On 8/8/2024 2:36 PM, Pierre-Louis Bossart wrote:
+> 
+> 
+> On 8/8/24 14:11, Amadeusz Sławiński wrote:
+>> On 8/8/2024 3:19 AM, Wesley Cheng wrote:
+>>> Hi Amadeusz,
+>>>
+>>> On 8/6/2024 7:51 AM, Amadeusz Sławiński wrote:
+>>>> On 8/1/2024 3:17 AM, Wesley Cheng wrote:
+>>>>> With USB audio offloading, an audio session is started from the ASoC
+>>>>> platform sound card and PCM devices.  Likewise, the USB SND path is
+>>>>> still
+>>>>> readily available for use, in case the non-offload path is desired.  In
+>>>>> order to prevent the two entities from attempting to use the USB bus,
+>>>>> introduce a flag that determines when either paths are in use.
+>>>>>
+>>>>
+>>>> How can this happen? Can you provide some example with list of
+>>>> devices and which one should block the other? If I recall correctly
+>>>> devices are already exclusive unless you support substreams which
+>>>> ASoC does not at the moment.
+>>>>
+>>>   From past discussions, I think so far everyone is on board with the
+>>> idea of having both the USB sound card and PCM devices exist in
+>>> conjunction w/ the USB offload path, which is going to be done over
+>>> the ASoC platform card.  So for example,
+>>>
+>>
+>> Sorry, I must have missed that and examples in documentation could
+>> probably be a bit better, it is bit late at patchset 24 that I
+>> understood about this now. And is part of a reason why I was confused
+>> about kcontrol implementation.
+>>
+>>> / # cat /proc/asound/cards
+>>>    0 [SM8250MTPWCD938]: sm8250 - SM8250-MTP-WCD9380-WSA8810-VA-D
+>>>                         SM8250-MTP-WCD9380-WSA8810-VA-DMIC
+>>>    1 [C320M          ]: USB-Audio - Plantronics C320-M
+>>>                         Plantronics Plantronics C320-M at usb-xhci-
+>>> hcd.1.auto-1.2, full speed
+>>>
+>>> This device currently has the following sound cards within the system:
+>>>
+>>> - card#0 - ASoC platform card: handles USB offload, speaker, etc...
+>>>
+>>> - card#1 - USB SND card: card created for interacting with the
+>>> connected USB device.
+>>>
+>>> So now, with USB offloading in the picture, there are basically two
+>>> paths that can start attempting to utilize the same USB device
+>>> endpoints.  Let's keep it simple and assume the device only has one
+>>> playback substream (which means only one PCM device)
+>>>
+>>> /proc/asound/card1 # cat stream0
+>>> Plantronics Plantronics C320-M at usb-xhci-hcd.1.auto-1.2, full
+>>> speed : USB Audio
+>>>
+>>> Playback:
+>>>     Status: Stop
+>>>     Interface 2
+>>>       Altset 1
+>>>       Format: S16_LE
+>>>       Channels: 2
+>>>       Endpoint: 0x01 (1 OUT) (ADAPTIVE)
+>>>       Rates: 8000, 16000, 24000, 32000, 44100, 48000
+>>>       Bits: 16
+>>>       Channel map: FL FR
+>>>
+>>> So the patch here will prevent transfers from happening from both the
+>>> offload path and directly over the USB SND PCM device, which
+>>> correlates to the following paths:
+>>>
+>>> - offload: card#0 pcm#0
+>>>
+>>> - USB SND: card#1 pcm#0
+>>
+>> Well, it's one way to do that.
+>>
+>> Personally I would just reuse USB FEs and when opening one check if it
+>> can be offloaded:
+>> * check if someone disabled Offload on FE
+>> * check if it is connected to HW that can do Offload at all
+>> * check if Offload streams are available on backing HW
+>> * check if audio formats are supported by above HW
+>> * do any other checks that may be needed
+>> and then just redirect FE setup to relevant driver doing offload if
+>> able, otherwise just go standard path.
+> 
+> How would userspace know which 'USB FE' to use?
+> 
 
-Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
----
- sound/usb/caiaq/audio.c | 13 +------------
- 1 file changed, 1 insertion(+), 12 deletions(-)
+That's my point, the same one as it would use doing normal 
+playback/capture on systems which don't have Offload.
 
-diff --git a/sound/usb/caiaq/audio.c b/sound/usb/caiaq/audio.c
-index 4981753652a7..e62a4ea1d19c 100644
---- a/sound/usb/caiaq/audio.c
-+++ b/sound/usb/caiaq/audio.c
-@@ -174,14 +174,6 @@ static int snd_usb_caiaq_pcm_hw_free(struct snd_pcm_substream *sub)
- 	return 0;
- }
- 
--/* this should probably go upstream */
--#if SNDRV_PCM_RATE_5512 != 1 << 0 || SNDRV_PCM_RATE_192000 != 1 << 12
--#error "Change this table"
--#endif
--
--static const unsigned int rates[] = { 5512, 8000, 11025, 16000, 22050, 32000, 44100,
--				48000, 64000, 88200, 96000, 176400, 192000 };
--
- static int snd_usb_caiaq_pcm_prepare(struct snd_pcm_substream *substream)
- {
- 	int bytes_per_sample, bpp, ret, i;
-@@ -233,10 +225,7 @@ static int snd_usb_caiaq_pcm_prepare(struct snd_pcm_substream *substream)
- 
- 	/* the first client that opens a stream defines the sample rate
- 	 * setting for all subsequent calls, until the last client closed. */
--	for (i=0; i < ARRAY_SIZE(rates); i++)
--		if (runtime->rate == rates[i])
--			cdev->pcm_info.rates = 1 << i;
--
-+	cdev->pcm_info.rates = snd_pcm_rate_to_rate_bit(runtime->rate);
- 	snd_pcm_limit_hw_rates(runtime);
- 
- 	bytes_per_sample = BYTES_PER_SAMPLE;
--- 
-2.43.0
+If I attach USB Headphones, as a user my expectation would be to use 
+playback FE on USB card it exposes, not to spend time setting some 
+controls and telling it to use some FE from other card.
+
+With current design there are _two_ separate FEs, on _two_ separate 
+cards, which are linked by kcontrol and which block each other. I'm 
+rather confused how basic userspace application knows which one to use 
+in this case. (By now of course I know that it needs to read kcontrol to 
+see if and where it is offloaded and then open the FE on the card, but 
+in my opinion it is unnecessarily convoluted.)
+
+> The discovery and mapping between cards and devices is the main problem.
+> 
+
+And "offloading" decision to the user/sound server/HAL doesn't help in 
+my opinion.
+
+> It's much simpler to start from a generic "USB-Audio" card, and check if
+> the functionality exposed by one PCM device is offloaded to another
+> ASoC-based card. Then all the interaction can start with this offloaded
+> device without any guesswork on the mapping between cards/devices.
+> 
+
+That's the point, currently there needs to be some guesswork involved, 
+because you need to check kcontrols to see if the endpoint can be 
+offloaded and open the other FE it points at, instead of directly 
+opening the one you usually would, and having it Offloaded by kernel. It 
+is adding more work on userspace side, which will require special 
+handling to work correctly.
+
+> The point is that the USB-Audio card will always be there, whereas those
+> ASoC cards will have different names and implementation restrictions. In
+> the example we have here, if you want to capture audio you *have* to use
+> the USB-Audio card.
+> 
+
+Yes and with the description above it would be just one of the checks 
+after which it would decide that it can't do Offload on capture path and 
+open it in standard way, I see no problem?
+
+> In other words, it's just an endianness type of debate with no clear
+> difference between solutions and a matter of personal preference. The
+> reality is that there's a clear asymmetrical pattern. The USB-Audio card
+> is always present and usable, the ASoC offloaded cards are only present
+> in specific implementations and only usable if conditions are met.
+
+In my opinion even if it is specific use case, there is no reason to 
+make it more complicated than it needs to be. From my point of view 
+problem with current design is that instead of being mostly transparent 
+to userspace (when it could be), it adds more work for it.
 
