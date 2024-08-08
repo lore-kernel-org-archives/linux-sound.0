@@ -1,48 +1,56 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 163852F23;
-	Thu,  8 Aug 2024 19:47:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDA3D155A59
+	for <linux-sound@vger.kernel.org>; Thu,  8 Aug 2024 20:20:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723146470; cv=none; b=UJIaPYPVRcxaZ88wVS8k7qRzlYndjRoQYq5Q9Z74mZ1NNaSUae+4BrsVPtfYfcmqU1P/F6lcPY0xjt1MIc4t8JYxQVp6dnbevHb4bd+Z8ygwnrGgwsBHfx57A/3+dnoJm+krFl28/LN7XQMvpD01f/dcHrFkzvUt7YxCuxVtRzk=
+	t=1723148425; cv=none; b=bY3O1E8jtoSZpCtK+LX3NYd4I0vh0JTv7qhjwn/+OvpZ+otk6qnQjq0PpvLt9a/CJqmhgzUjv1WCM/iPJdClB3DfEuZNhtezKLWoB95wPFesGfnVWJjL6XW3MJNt6f1fq/x3yGvaCzIistYiZT/OXtvxISrjaRksE/V6pVLoGX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723146470; c=relaxed/simple;
-	bh=k7ul0/j8TS7mfjggsBFF5jrVcxlu1jhMPaAa/bNdtHI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Yd4DM9EWLZyUs60ghN4eAZc1fKNoHPaFWLbOi421JyB42LQPSpWkHi+y/Oj2o/3cG4QiFVn67YFZ6n1+Zr0wIswOnJMfe3dremih9yukK00Nc9vGsWEK3jaNPFu4zx3k29Hh5PVq/VPFYqqJ3LSDh70ogdQNIw7VzplPu6fwJqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=jROdtspL; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1723148425; c=relaxed/simple;
+	bh=I8tXjScfs6SfIGBVAqBjUPUpXxLI8X5aEotWs/mSdR8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bZ7+7SvxvyzE4HZtBGmqWpjA8ekhgH1ll4C67jhN5tIHZPJasKoMjtw/FwvivC9eOMpjWZ9+BEOVvGv5A29uNcc106zFfx+CvWSUmdeXBKvC3B59w1tKKVykAxFBF4JqTZhErl/FCpj7Q1MNJ464knOkfH4mFmNC4G9d73MAshw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=PcFcxTCw; arc=none smtp.client-ip=209.85.166.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="jROdtspL"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47894XJ8007960;
-	Thu, 8 Aug 2024 19:47:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	k7ul0/j8TS7mfjggsBFF5jrVcxlu1jhMPaAa/bNdtHI=; b=jROdtspLhY9CdpPI
-	kneaiF4XII7PPwYayivSpG5xKaa+IUPAOO5GNejwyz1k56op4q/dQ0LD6Y02fVBT
-	Ap3g5Iuz80oVJEcZg/9lHBSDeF3nFROUVH+TUxlTcoeHpsVFjoN5Bal2uYqLS+gM
-	Z/dyYsFIVqkQXAfxWTRAlZmYnC38Y6PbJIFvA8EAMwAQEr9qWCAU/kNXdK9/zhpf
-	IfRgT5zKsDEmxioDR6t145Zd8TAdnAmZe7KUpHCXGbH/oWj9PP3/1LOQ1GgEWjpN
-	pEMEpu5Ynx8DvaezucZgD+R6xZ38pgpPw+4G/RxTzIpmTmahNr1hETUO21KFZ/VI
-	Ac3lWg==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40vfy5b6v2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 08 Aug 2024 19:47:23 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 478JlMMg027917
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 8 Aug 2024 19:47:22 GMT
-Received: from [10.71.113.127] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 8 Aug 2024
- 12:47:21 -0700
-Message-ID: <ed17a6ac-ff9b-4b1d-9275-ebfb62979a34@quicinc.com>
-Date: Thu, 8 Aug 2024 12:47:21 -0700
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="PcFcxTCw"
+Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-39b2cead848so588535ab.0
+        for <linux-sound@vger.kernel.org>; Thu, 08 Aug 2024 13:20:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1723148422; x=1723753222; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QfQLxAkKJO0OxN3PoS9gfcknEgVgOQSzt4mX6LsWfm0=;
+        b=PcFcxTCwrhV66d4QWXs78cB/g8PLFxqohmvRsKq2yvWs5ANyMMfScdXdr6Gm5uKzQl
+         qwN8ADwovIu3wuNKzlZQhTMt1ypJ8O3YCKHbRVe0m6o4VSYVBiGkmfq4o0DYGMva5/er
+         baOinfv0LhQvvQpMdNlWfhzqzxoYtjJJyJXa0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723148422; x=1723753222;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QfQLxAkKJO0OxN3PoS9gfcknEgVgOQSzt4mX6LsWfm0=;
+        b=evhrfdRps9WPH5hUGQR5/No+e7f5DLnSS54Ha2xMBT/7H/g0rpsWqImLJuK5XWgxl0
+         ErYbPg21/sWhAMWAhCwDIlBbE0JWnxDWoOZk5IEAT+cpVUNgFmkQVNQ7zDlSWcUkupRH
+         7EXyNbCx1koLuJQWplJn5G5y2ZfSx+WMMReoldPlxwiHGPUoGn8SC61zTem77R7MEVNu
+         VSFtiP2ch8AkbNhDh/ZrJGTNga5YhsbMFUlepK7ignlYh6mB9ltdWkNyQkzJiK9ExVe0
+         Yoc3+i5wD6mZALzyLY+Oie8WOHbVybuSbDm1QdIAEKTK0sIrz5Rh5hH7RXB9X0q1DHn0
+         Axmg==
+X-Forwarded-Encrypted: i=1; AJvYcCUmAJGYBtUP10XsQc3ABf9x9sHmGybHohr9v0KMr2LKJg4UDcC1mKV4m7rb9roo3ON4iWyc54N0hWyVn0qmfbbvXAJ+XXHmjJAQBZg=
+X-Gm-Message-State: AOJu0Yx7dVgLtQZpPj7OZCqwNeC27qI3W8eTvdnSBMXh+9XtTJtIvfsa
+	N+13iA4i1eArjAsPs5Uv5HztS8AmoN0iP2gwHCkhAdnAJ6Q7J0CmvGOKKRxt2uc=
+X-Google-Smtp-Source: AGHT+IFz2Q8BNZhb/hkrGYq+MEEYJykLer5kY5z3ptVsISOpOwy8Tnb8XprZ34ZhF4rcXiEOjQWgxA==
+X-Received: by 2002:a05:6e02:1aa2:b0:39a:eac8:9be8 with SMTP id e9e14a558f8ab-39b5ec71b5amr23752905ab.1.1723148422046;
+        Thu, 08 Aug 2024 13:20:22 -0700 (PDT)
+Received: from [192.168.1.128] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-39b20ae34d0sm56676835ab.56.2024.08.08.13.20.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Aug 2024 13:20:21 -0700 (PDT)
+Message-ID: <83d4e1a3-73fc-4634-b133-82b9e883b98b@linuxfoundation.org>
+Date: Thu, 8 Aug 2024 14:20:21 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,180 +58,64 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v24 23/34] ALSA: usb-audio: Prevent starting of audio
- stream if in use
-To: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
-	<amadeuszx.slawinski@linux.intel.com>,
-        Pierre-Louis Bossart
-	<pierre-louis.bossart@linux.intel.com>,
-        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <broonie@kernel.org>, <lgirdwood@gmail.com>, <krzk+dt@kernel.org>,
-        <Thinh.Nguyen@synopsys.com>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
-        <gregkh@linuxfoundation.org>, <robh@kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>
-References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
- <20240801011730.4797-24-quic_wcheng@quicinc.com>
- <186ae30f-678c-423a-a56f-74510a184f99@linux.intel.com>
- <43e9850c-3e34-4582-aadd-4a6dcbd3ce8d@quicinc.com>
- <c3b6ac24-6359-4809-83d9-ac62ec64b396@linux.intel.com>
- <24a224a2-0600-4ee2-989e-02224ef849ba@linux.intel.com>
- <e5cd1a9d-0a16-4c80-b9b9-1c63b8e818cc@linux.intel.com>
+Subject: Re: [PATCH] selftests/alsa/Makefile: fix relative rpath usage
+To: Eugene Syromiatnikov <esyr@redhat.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: Artem Savkov <asavkov@redhat.com>, linux-sound@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20240808145639.GA20510@asgard.redhat.com>
 Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <e5cd1a9d-0a16-4c80-b9b9-1c63b8e818cc@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: sZ3EWb4BY250xogQoumQmdBT50dEBlro
-X-Proofpoint-ORIG-GUID: sZ3EWb4BY250xogQoumQmdBT50dEBlro
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-08_19,2024-08-07_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 malwarescore=0
- adultscore=0 clxscore=1015 priorityscore=1501 lowpriorityscore=0
- impostorscore=0 spamscore=0 phishscore=0 bulkscore=0 mlxlogscore=999
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2408080140
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20240808145639.GA20510@asgard.redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+On 8/8/24 08:57, Eugene Syromiatnikov wrote:
+> The relative RPATH ("./") supplied to linker options in CFLAGS is resolved
+> relative to current working directory and not the executable directory,
+> which will lead in incorrect resolution when the test executables are run
+> from elsewhere.  Changing it to $ORIGIN makes it resolve relative
+> to the directory in which the executables reside, which is supposedly
+> the desired behaviour.
+> 
+> Discovered by the check-rpaths script[1][2] that checks for insecure
+> RPATH/RUNPATH[3], such as relative directories, during an attempt
+> to package BPF selftests for later use in CI:
+> 
+>      ERROR   0004: file '/usr/libexec/kselftests/bpf/urandom_read' contains an insecure runpath '.' in [.]
+> 
+> [1] https://github.com/rpm-software-management/rpm/blob/master/scripts/check-rpaths
+> [2] https://github.com/rpm-software-management/rpm/blob/master/scripts/check-rpaths-worker
+> [3] https://cwe.mitre.org/data/definitions/426.html
+> 
+> Signed-off-by: Eugene Syromiatnikov <esyr@redhat.com>
+> ---
+>   tools/testing/selftests/alsa/Makefile | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/tools/testing/selftests/alsa/Makefile b/tools/testing/selftests/alsa/Makefile
+> index c1ce39874e2b..0f204da9ea8e 100644
+> --- a/tools/testing/selftests/alsa/Makefile
+> +++ b/tools/testing/selftests/alsa/Makefile
+> @@ -6,7 +6,7 @@ LDLIBS += $(shell pkg-config --libs alsa)
+>   ifeq ($(LDLIBS),)
+>   LDLIBS += -lasound
+>   endif
+> -CFLAGS += -L$(OUTPUT) -Wl,-rpath=./
+> +CFLAGS += -L$(OUTPUT) -Wl,-rpath=\$$ORIGIN/
+>   
+>   LDLIBS+=-lpthread
+>   
+
+Wouldn't make sense to fix fix this in selftests main Makefile
+instead of changing the all the test makefiles
+
+Same comment on all other files. It would be easier to send
+these as series - please mentioned the tests run as well
+after this change.
+
+thanks,
+-- Shuah
 
 
-On 8/8/2024 7:54 AM, Amadeusz Sławiński wrote:
-> On 8/8/2024 2:36 PM, Pierre-Louis Bossart wrote:
->>
->>
->> On 8/8/24 14:11, Amadeusz Sławiński wrote:
->>> On 8/8/2024 3:19 AM, Wesley Cheng wrote:
->>>> Hi Amadeusz,
->>>>
->>>> On 8/6/2024 7:51 AM, Amadeusz Sławiński wrote:
->>>>> On 8/1/2024 3:17 AM, Wesley Cheng wrote:
->>>>>> With USB audio offloading, an audio session is started from the ASoC
->>>>>> platform sound card and PCM devices.  Likewise, the USB SND path is
->>>>>> still
->>>>>> readily available for use, in case the non-offload path is desired.  In
->>>>>> order to prevent the two entities from attempting to use the USB bus,
->>>>>> introduce a flag that determines when either paths are in use.
->>>>>>
->>>>>
->>>>> How can this happen? Can you provide some example with list of
->>>>> devices and which one should block the other? If I recall correctly
->>>>> devices are already exclusive unless you support substreams which
->>>>> ASoC does not at the moment.
->>>>>
->>>>   From past discussions, I think so far everyone is on board with the
->>>> idea of having both the USB sound card and PCM devices exist in
->>>> conjunction w/ the USB offload path, which is going to be done over
->>>> the ASoC platform card.  So for example,
->>>>
->>>
->>> Sorry, I must have missed that and examples in documentation could
->>> probably be a bit better, it is bit late at patchset 24 that I
->>> understood about this now. And is part of a reason why I was confused
->>> about kcontrol implementation.
->>>
->>>> / # cat /proc/asound/cards
->>>>    0 [SM8250MTPWCD938]: sm8250 - SM8250-MTP-WCD9380-WSA8810-VA-D
->>>>                         SM8250-MTP-WCD9380-WSA8810-VA-DMIC
->>>>    1 [C320M          ]: USB-Audio - Plantronics C320-M
->>>>                         Plantronics Plantronics C320-M at usb-xhci-
->>>> hcd.1.auto-1.2, full speed
->>>>
->>>> This device currently has the following sound cards within the system:
->>>>
->>>> - card#0 - ASoC platform card: handles USB offload, speaker, etc...
->>>>
->>>> - card#1 - USB SND card: card created for interacting with the
->>>> connected USB device.
->>>>
->>>> So now, with USB offloading in the picture, there are basically two
->>>> paths that can start attempting to utilize the same USB device
->>>> endpoints.  Let's keep it simple and assume the device only has one
->>>> playback substream (which means only one PCM device)
->>>>
->>>> /proc/asound/card1 # cat stream0
->>>> Plantronics Plantronics C320-M at usb-xhci-hcd.1.auto-1.2, full
->>>> speed : USB Audio
->>>>
->>>> Playback:
->>>>     Status: Stop
->>>>     Interface 2
->>>>       Altset 1
->>>>       Format: S16_LE
->>>>       Channels: 2
->>>>       Endpoint: 0x01 (1 OUT) (ADAPTIVE)
->>>>       Rates: 8000, 16000, 24000, 32000, 44100, 48000
->>>>       Bits: 16
->>>>       Channel map: FL FR
->>>>
->>>> So the patch here will prevent transfers from happening from both the
->>>> offload path and directly over the USB SND PCM device, which
->>>> correlates to the following paths:
->>>>
->>>> - offload: card#0 pcm#0
->>>>
->>>> - USB SND: card#1 pcm#0
->>>
->>> Well, it's one way to do that.
->>>
->>> Personally I would just reuse USB FEs and when opening one check if it
->>> can be offloaded:
->>> * check if someone disabled Offload on FE
->>> * check if it is connected to HW that can do Offload at all
->>> * check if Offload streams are available on backing HW
->>> * check if audio formats are supported by above HW
->>> * do any other checks that may be needed
->>> and then just redirect FE setup to relevant driver doing offload if
->>> able, otherwise just go standard path.
->>
->> How would userspace know which 'USB FE' to use?
->>
->
-> That's my point, the same one as it would use doing normal playback/capture on systems which don't have Offload.
->
-> If I attach USB Headphones, as a user my expectation would be to use playback FE on USB card it exposes, not to spend time setting some controls and telling it to use some FE from other card.
->
-IMO I think the user should have the ability to choose whether or not to enable the offload path, since there are a lot of different USB audio devices in the market.  Obviously, the audio DSP will try its best to support every device we check for, but there might be a few outliers that may behave differently.  In addition, the code complexity that would be involved in bridging the PCM device exposed by USB SND into ASoC will be much more invasive to SND core code.  At least as of now, if the offload code is added, and userspace doesn't know anything about it, then the default USB SND path is taken and that won't break any current userspace applications.
-
-Now, if we go and add some kernel based offload routing, and forcing that onto every userspace application, and we break that use case, that would be a problem.  In the end, I think if userspace wants to enable offloading they should need to have some changes implemented to account for it.  In discussions with Pierre, maybe enabling the offload path can be on a policy based condition, such as a "low power/power aware" audio path, and not something that is always enabled.
-
-Thanks
-
-Wesley Cheng
-
-> With current design there are _two_ separate FEs, on _two_ separate cards, which are linked by kcontrol and which block each other. I'm rather confused how basic userspace application knows which one to use in this case. (By now of course I know that it needs to read kcontrol to see if and where it is offloaded and then open the FE on the card, but in my opinion it is unnecessarily convoluted.)
->
->> The discovery and mapping between cards and devices is the main problem.
->>
->
-> And "offloading" decision to the user/sound server/HAL doesn't help in my opinion.
->
->> It's much simpler to start from a generic "USB-Audio" card, and check if
->> the functionality exposed by one PCM device is offloaded to another
->> ASoC-based card. Then all the interaction can start with this offloaded
->> device without any guesswork on the mapping between cards/devices.
->>
->
-> That's the point, currently there needs to be some guesswork involved, because you need to check kcontrols to see if the endpoint can be offloaded and open the other FE it points at, instead of directly opening the one you usually would, and having it Offloaded by kernel. It is adding more work on userspace side, which will require special handling to work correctly.
->
->> The point is that the USB-Audio card will always be there, whereas those
->> ASoC cards will have different names and implementation restrictions. In
->> the example we have here, if you want to capture audio you *have* to use
->> the USB-Audio card.
->>
->
-> Yes and with the description above it would be just one of the checks after which it would decide that it can't do Offload on capture path and open it in standard way, I see no problem?
->
->> In other words, it's just an endianness type of debate with no clear
->> difference between solutions and a matter of personal preference. The
->> reality is that there's a clear asymmetrical pattern. The USB-Audio card
->> is always present and usable, the ASoC offloaded cards are only present
->> in specific implementations and only usable if conditions are met.
->
-> In my opinion even if it is specific use case, there is no reason to make it more complicated than it needs to be. From my point of view problem with current design is that instead of being mostly transparent to userspace (when it could be), it adds more work for it.
->
