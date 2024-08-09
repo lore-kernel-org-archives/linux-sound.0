@@ -1,93 +1,110 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C400178367;
-	Fri,  9 Aug 2024 07:33:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FBF916D315;
+	Fri,  9 Aug 2024 07:35:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723188837; cv=none; b=R1ptmj+bH/P/QU+c1ZjxuBZKuIGMHfzrrAvsMA+M4K0afYRaIGTjGA8HytauxPzYg5JSjhvaCDdQ4dY0qwRchginrry/cyB3+BQbqAy/mUjfhhvO2IrzkQEWVFgNKkIU4Wiv9e1QXQnOI1Q3t1hD9YPW21VZPZPVe3w+i1jskhE=
+	t=1723188949; cv=none; b=aNlEL/h0CsDlGyS4O92mtGzoymg5GGA8ziVURMPoMEtCXADJP9DZIXWTtT9T/8G9HhNzWc0CSbh9YS4LNwHoB2Hu6lE+VGst9XCAcEBdHYnA6YiVO1JGXNonP1JXQKejLYmoIIScgnGeYMlBvXH3KhszyoahdPhQq3DU5ii1610=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723188837; c=relaxed/simple;
-	bh=MKkruNKNh4Cg9ReIgGScwKqxFuJeRLtS5G6RkOok3Fw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=jMsYcVNg/uMW9s7FvM6T/rHJ+jLfeiZlTcP+TZEyacgyU0hix3Zx31KYqPeAiJUttugiL/iA41aTiKYOW9xoAYHrwio7R/t9cL4oHta3jF/l6MKgOAVRqrLiMnRCpTBXP4fW68mmR8GN0yubDHDQ2ka6+67rj7hRPmCUi9vpDMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QEFpYwQv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723188949; c=relaxed/simple;
+	bh=1QQ6IERaVvmQgZYfk/xYBeo9a86+7mGsf8Ey/jbzXQ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F8NYgATU1nqzPT9dTGk5xWcewv6HADSWIN8acJOwwm6WaYqlMWzy75POQ6hXWN4LeBc61u/mZeiedCc4yKjnELDB71E8NWKY16KAtyOxNk/Bh1Z733/GeiR3JXD8GYPIvl92TVaD5TffvgI7ssUkGMpBqZuXwvGVLvgqHqAZhv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ANIuIKC4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QEFpYwQv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE99EC4AF17;
-	Fri,  9 Aug 2024 07:33:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ANIuIKC4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1F67C32782;
+	Fri,  9 Aug 2024 07:35:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723188837;
-	bh=MKkruNKNh4Cg9ReIgGScwKqxFuJeRLtS5G6RkOok3Fw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=QEFpYwQvYQ1L0WYxxq/s7qQXEI3q25gBMZFmlCKbsg281NUSyb15H0qlzisr/Ibz2
-	 s2TWdXvOIrkwrMEafegpg1b1d7ogihi3hbJgV+bSQ6BD2MLUAk4EFRw9UJ310umgZ5
-	 /ZLBHNOA4huDgkWcPCk6gHKLe3gq6+ojGJO/KcW3YVZZ1J5geYaLebAMiY5gfmcxuP
-	 7s9dB1VNxnamt1sWz7fonCis3KAj1mLPn7hbDKLy+VlaSaPbh9jgbva+MhRe8Pyyoa
-	 Xkxdvbnq61eeVmG8jrZpQf/NFYJ2shUuVjpJi9q1K4+UHNfWHXHNzlKPTrBDYgJbOS
-	 SJlzuCTObHwfA==
+	s=k20201202; t=1723188948;
+	bh=1QQ6IERaVvmQgZYfk/xYBeo9a86+7mGsf8Ey/jbzXQ4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ANIuIKC44kb6rGZ2+BWwRs1fobAope6oTe2TR7eZVrvbX7dln1qyRVxRQKEsfbkrh
+	 uwriJwOtabpfS9B0tJrWQn1FcHKN3ttkKaRVh+2mSZ4kSB6X7kuvbEMSai2CkabR62
+	 ux2cXvV/DaG8/+vCDJu3qff1flOWYJSyBe7B7/RYUrZYCFJQogCIIqMxhXRkTg7CL0
+	 Xcujy+YV88lBR3Q1z6YyEykvS/oTBx7dBPTqFFmW8iBYtNnB5CKSok2KZ3RfzIQjTc
+	 fXg4+nWPdLP7tHpV3f/ATUGx985XAwj7U+f0fDwbpN7iaoTPgIDTyHQRZ596jTYLRr
+	 KbbiBQT9dnY/w==
+Date: Fri, 9 Aug 2024 08:35:42 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Banajit Goswami <bgoswami@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org
-In-Reply-To: <20240803-codec-version-v1-0-bc29baa5e417@linaro.org>
-References: <20240803-codec-version-v1-0-bc29baa5e417@linaro.org>
-Subject: Re: [PATCH 0/2] ASoC: codecs: warn on unknown codec version
-Message-Id: <172318883316.484675.7690867442520809785.b4-ty@kernel.org>
-Date: Fri, 09 Aug 2024 08:33:53 +0100
+To: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
+Cc: alsa-devel@alsa-project.org, Basavaraj.Hiregoudar@amd.com,
+	Sunil-kumar.Dommati@amd.com, venkataprasad.potturu@amd.com,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	"moderated list:SOUND - SOUND OPEN FIRMWARE (SOF) DRIVERS" <sound-open-firmware@alsa-project.org>,
+	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 2/8] ASoC: SOF: amd: fix for acp error reason registers
+ wrong offset
+Message-ID: <ZrXGzmhgyIJ9ID6I@finisterre.sirena.org.uk>
+References: <20240807051341.1616925-1-Vijendar.Mukunda@amd.com>
+ <20240807051341.1616925-2-Vijendar.Mukunda@amd.com>
+ <ZrUdOyGiFRH0sRlt@finisterre.sirena.org.uk>
+ <a6a0c975-728b-4379-b074-b88ac928c58b@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-37811
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="oZGvFgiQ7XPpJzCg"
+Content-Disposition: inline
+In-Reply-To: <a6a0c975-728b-4379-b074-b88ac928c58b@amd.com>
+X-Cookie: Your love life will be... interesting.
 
-On Sat, 03 Aug 2024 13:41:39 +0300, Dmitry Baryshkov wrote:
-> While debugging broken audio issues on some of Qualcomm platforms I
-> stumbled upon the kernel not providing the actual error information.
-> It prints an error from the wsa_macro driver, but the actual issue is in
-> the VA macro driver. Add error message to point to the actual error
-> location.
-> 
-> va_macro 3370000.codec: Unknown VA Codec version, ID: 00 / 0f / 00
-> wsa_macro 3240000.codec: Unsupported Codec version (0)
-> 
-> [...]
 
-Applied to
+--oZGvFgiQ7XPpJzCg
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Fri, Aug 09, 2024 at 07:30:54AM +0530, Mukunda,Vijendar wrote:
+> On 09/08/24 01:02, Mark Brown wrote:
 
-Thanks!
+> > /build/stage/linux/sound/soc/sof/amd/acp.c: In function =E2=80=98acp_ir=
+q_handler=E2=80=99:
+> > /build/stage/linux/sound/soc/sof/amd/acp.c:407:26: error: =E2=80=98stru=
+ct acp_dev_data=E2=80=99 h
+> > as no member named =E2=80=98pci_rev=E2=80=99
+> >   407 |                 if (adata->pci_rev >=3D ACP_RMB_PCI_ID)
+> >       |                          ^~
 
-[1/2] ASoC: codecs: lpass-macro: fix version strings returned for 1.x codecs
-      commit: 49f6202ce991742f451fc724f03d0c17460d06cd
-[2/2] ASoC: codecs: lpass-va-macro: warn on unknown version
-      commit: a9a7a2d80790d06cd32c535e2e7b10f72ce592e7
+> This patch is part of https://github.com/thesofproject/linux/pull/5103
+> which got successfully merged into sof github without any build errors.
+> This patch is dependent on
+> Link: https://patch.msgid.link/20240801111821.18076-10-Vijendar.Mukunda@a=
+md.com
+> which got already merged in to ASoC tree for-next base.
+> It shouldn't cause build error if the dependent patch already merged.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Are the patches it depends on actually before it in the patch series?
+We want the resulting git tree to be bisectable, that means testing each
+commit not just the final result.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+--oZGvFgiQ7XPpJzCg
+Content-Type: application/pgp-signature; name="signature.asc"
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+-----BEGIN PGP SIGNATURE-----
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAma1xs0ACgkQJNaLcl1U
+h9D8Awf+Idi79Uow4rDHeevyxUJtVFJXMcuUJIjmkUD4+D/O9De7gvSHEszmIGbL
+J8DQrDQ6PJhXBSEcdGojOFP4EB5zXiX3f4pt3rY+Fi2D7ek4A+kjdG8UFrpeX4qQ
+WBQP1ycUxZSV0JI7+a0pBVoo+Zr0tAcn4Rar29VXRKFH4ZD1JCUIKsRf6Db1JZRt
+hgJf41uLg5siRcgrouiVrJeqiL0SvsK2IWbINNbbJ4xc52YDjLs0H8+ux0MCh+/E
+h2Hd3q7THZibHlVEuBO+v6h6e86dR6k+X05Ou5uPgGeygR88Mm+3NQb47SXIj28K
+l56vUzz42Bjtmk0dQLonssYugDtOyg==
+=iQRN
+-----END PGP SIGNATURE-----
 
-Thanks,
-Mark
-
+--oZGvFgiQ7XPpJzCg--
