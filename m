@@ -1,98 +1,140 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 181C5198E9E;
-	Fri,  9 Aug 2024 15:36:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0FD2F26
+	for <linux-sound@vger.kernel.org>; Fri,  9 Aug 2024 17:01:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723217769; cv=none; b=F10jQ7J2es9u+6bsYyr+pxZkhQLrcFm7muGsArfhRhmIyccvTfdFNjv+YlZJwPrCsWENU1sffY08AlBYE73ScmyInMaZ/V+7tduty31brd6WNUdpWtq9u2UwFrt9yuOjtWtqpq1nozSeq4FrpxRb1pB8L75U88zist6hBNuYd3Q=
+	t=1723222912; cv=none; b=H3kAR0dS17IBvs3wdHKCZfvumwN1Rudlit9okA1PjTLFpHbmqP1ZSVnWxpjSfrdG6Gjpwkh5TVVt6Bf00PPXoOGLdk1thBb6WS2JThvJ/qxADswQ9aex/C0wHbmpJoXiudbD0DVmUw+vlE0Q++4b8e3q20XvKYZRQf2BQlw6rdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723217769; c=relaxed/simple;
-	bh=XKjRCrFGN0RVKhg16Q7VjOrhB2ff2JpGqpBwndpZaY8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tQGD2ilUHctjOLGGipI8qBwy0JbzxTrguTPiV/F6e+BffLYXLeGrkLWT4fshWmUU6zTQAIQHOAqY6ww93lfiZEW3M37ypnm7P1MUTL3wW+BAFkqi7J2zVkI/o9XpAee3G0gYwaDZfx/T/zLxsnF3DVeROSZ1zWEMkaccn41TVEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g9koeSnB; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1723222912; c=relaxed/simple;
+	bh=kO+4Qg2Kos2wHUaffFnXRBuCVtxo8Uf72SitEfqHUNg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=l5qdB00WeOWGzjxby/qTEhY12MlN6XqU5GM2VwIqkDYuMtbd2AVwtPzyJ03xc+NzL/m5G1A0oN3yILINhgQ+kplmPO70VCZYDTINcTsbzf96FDNmQhpb4UcYRLosLcRRqHdKIHoGAkk8nKwlx0ymeLPtvDUuzO8ukAjvRlgEYTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=fyZecz6t; arc=none smtp.client-ip=209.85.166.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g9koeSnB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723217768; x=1754753768;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XKjRCrFGN0RVKhg16Q7VjOrhB2ff2JpGqpBwndpZaY8=;
-  b=g9koeSnB4cLcbXdqihhDrLJJvxpdn20c+wla2vwcldnxSNd36EOl8Xym
-   98SVQTm9EEuqDWd0eCbCdHMo4wcqDoi/K0PqT1Vl9dKDK69G5NFKrsje6
-   pUdV5aGtY8GANnOq7+2wQ/2wgB8qKErKgEpXPcnPI6Jy/k6g+qyGtibh9
-   GT9Sd6Ur3YeKyz5Md31lP0Y/eiin/IXvE+7WVER2baf+/q7RmhbOeCg7E
-   h49g1st6iY4qTlw5NjA8uTqcW/1VrvT4zmeuOdaDxh0odR5JnK+kBZv3e
-   w8o4RvVjppyiVhdlrws4iMKlQmu3b2pFozrW+ouG6Y3mgk/4CqZwVPdT1
-   w==;
-X-CSE-ConnectionGUID: NA7BSn8RSveV6KyEajy7RA==
-X-CSE-MsgGUID: PYhHkLqnTOmqb7IK2DPu+A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11159"; a="21371407"
-X-IronPort-AV: E=Sophos;i="6.09,276,1716274800"; 
-   d="scan'208";a="21371407"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2024 08:36:07 -0700
-X-CSE-ConnectionGUID: rCcCV99ERYaSNjnNtrctYQ==
-X-CSE-MsgGUID: D+/jrABGTjqg89dutHRqOA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,276,1716274800"; 
-   d="scan'208";a="62549899"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2024 08:36:05 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1scRer-0000000DSVV-1vrv;
-	Fri, 09 Aug 2024 18:36:01 +0300
-Date: Fri, 9 Aug 2024 18:36:01 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
-	ckeepax@opensource.cirrus.com, heiko@sntech.de, robh@kernel.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	shengjiu.wang@gmail.com
-Subject: Re: [PATCH] ASoC: ak4458: remove "reset-gpios" property handler
-Message-ID: <ZrY3YZrvsua5DErC@smile.fi.intel.com>
-References: <1720009575-11677-1-git-send-email-shengjiu.wang@nxp.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fyZecz6t"
+Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-81f8ac6b908so6454839f.1
+        for <linux-sound@vger.kernel.org>; Fri, 09 Aug 2024 10:01:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1723222909; x=1723827709; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cDDjHGtk+i/sBtfC6S1Ya7WBwtIwzRoHly+Mr+MUcXc=;
+        b=fyZecz6txWfWabkJ5SO8+fnoemqimtdBt2U84K9lxPKxAUN4ueK4cxRavlcFHAfud/
+         0PPAlBbmbj3PdhdfJ04l5nL664pBkc2OM5PEhSm7AtUqh+TGBZYmwN2WKk74Vmp97Fkd
+         NLrs2gAFDEcZvqzqN6f4a1cwUREZaXO5zsgSc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723222909; x=1723827709;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cDDjHGtk+i/sBtfC6S1Ya7WBwtIwzRoHly+Mr+MUcXc=;
+        b=TDfc7PJJiFsnyVysxq5O5KqwG/5YWbSy8czzBDTu1LmuQn24yq9V0zCELSEm5arzHz
+         wrQ35DiW8bLJCdCPE/Fg39yZ5UTQ5tJZTyQLAZXYEpGkRNFA6je1Rypslh0CSSwRXAvH
+         D7UJIT8+UbgjT20Sew5koFc/A/T5dK4xXBev4wSFToCaIsHhjp6GV9xNV7kFGQhdmLYD
+         2sDrpjy5VxF5nVhUJFDY1CjOCyFB0o4pRw4cFqIEZBD3WhoA0zGpsn5pwC0xNQaWgwDy
+         W2yvefrjFeCFcwv74KwxxKEsJb4t4/2I9MruKBdctRXD5/I/S85JO42eBAlT/WE0aOBR
+         mNfg==
+X-Forwarded-Encrypted: i=1; AJvYcCUWsyb1QaXVrnE7Z5JdNdpDN1yp8DDNr10sTTWyqx6OCycNyODVrDMBYG55B3SzX7Xziqvh6y9fb2UqZQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGKHrd2U+2S16xrRdJDxoElzDe0rjcJGZ87gqfBwtn+Vz7qVMW
+	EerJQuGwRiMmnxLO/L2o9k3hwWJTVC7GWnLCwqeNg07z9ypMYAioGOgY9RBwBW0=
+X-Google-Smtp-Source: AGHT+IEVM26zTJDnq4KUOavT/txNlVM1PwFY7bjzhsFY01vmETUlAlxZW29W+mujXaC/jkXCKqSlMA==
+X-Received: by 2002:a5d:9755:0:b0:822:3c35:5fc0 with SMTP id ca18e2360f4ac-8225ee4d6a1mr150211739f.3.1723222909444;
+        Fri, 09 Aug 2024 10:01:49 -0700 (PDT)
+Received: from [192.168.1.128] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4ca769105cbsm9501173.27.2024.08.09.10.01.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 Aug 2024 10:01:49 -0700 (PDT)
+Message-ID: <41cb60af-3175-42ab-896f-b890e51cde0d@linuxfoundation.org>
+Date: Fri, 9 Aug 2024 11:01:48 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1720009575-11677-1-git-send-email-shengjiu.wang@nxp.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] selftests/alsa/Makefile: fix relative rpath usage
+To: Eugene Syromiatnikov <esyr@redhat.com>
+Cc: Artem Savkov <asavkov@redhat.com>, linux-sound@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+ bpf@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
+References: <20240808145639.GA20510@asgard.redhat.com>
+ <83d4e1a3-73fc-4634-b133-82b9e883b98b@linuxfoundation.org>
+ <20240809010044.GA28665@asgard.redhat.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20240809010044.GA28665@asgard.redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 03, 2024 at 08:26:15PM +0800, Shengjiu Wang wrote:
-> commit c721f189e89c0 ("reset: Instantiate reset GPIO controller for
-> shared reset-gpios") check if there is no "resets" property
-> will fallback to "reset-gpios".
+On 8/8/24 19:00, Eugene Syromiatnikov wrote:
+> On Thu, Aug 08, 2024 at 02:20:21PM -0600, Shuah Khan wrote:
+>> Wouldn't make sense to fix fix this in selftests main Makefile
+>> instead of changing the all the test makefiles
 > 
-> So don't need to handle "reset-gpios" separately in the driver,
-> the "reset-gpios" handler is duplicated with "resets" control handler,
-> remove it.
+> As of now, the usage of rpath is localised, so it is relatively easy
+> to evaluate the effect/prudence of such a change;  I am not so confident
+> in imposing rpath on all of the selftests (and, if doing so, I would
+> rather opt for runpath, to leave out an ability to override the search
+> path via LD_LIBRARY_PATH, if such need arises);  in that case it is possibly
+> also worth to add -L$(OUTPUT) to the CFLAGS as well, as the compile-time
+> counterpart.  But, again, I was trying to avoid the task of evaluating
+> the possible side effects of such a change, considering the variability
+> in environments and setups selftests are run.
 
-...
+Okay.
 
-> -	if (ak4458->reset_gpiod) {
-> -		gpiod_set_value_cansleep(ak4458->reset_gpiod, active);
-> -		usleep_range(1000, 2000);
-> -	} else if (!IS_ERR_OR_NULL(ak4458->reset)) {
-> +	if (!IS_ERR_OR_NULL(ak4458->reset)) {
+> 
+>> Same comment on all other files.
+> 
+>> It would be easier to send these as series
+> 
+> I hesitated to do so due to the fact that different selftests are seemingly
+> maintained by different people.
 
-_OR_NULL is redundant.
+You can cc everybody on the cover-letter explaining the change
+and the individual patches can be sent selectively.
 
->  		if (active)
->  			reset_control_assert(ak4458->reset);
->  		else
+This is a kind of change it would be good to go as a series so
+it will be easier for reviewers.
 
--- 
-With Best Regards,
-Andy Shevchenko
+I had to comment on all 3 patches you sent - instead I could have
+sent one reply to the cover letter. It makes it so much easier for
+people to follow the discussion and add to it.
+
+> 
+>> please mentioned the tests run as well after this change.
+> 
+> I have checked the ldd output after the change remained the same (and that ldd
+> is able to find the libraries used when run outside the directory the tests
+> reside in) and did a cursory check of the results of the run of the affected
+> tests
+
+Please mention that then in the change log.
+
+I applied this patch and ran alsa test without any issues. You
+could do the same with:
+
+make kselftest TARGETS=alsa
+
+(but not so sure about the BPF selftests, as they don't compile as-is
+> due to numerous "incompatible pointer types" warnings that are forced
+> into errors by -Werror and the fact that it hanged the machine I tried
+> to run them on).
+> 
+
+I see a bpf patch from you in the inbox - if you mention the issues bpf
+people might be able to help you.
+
+I am not replying to your other patches. Take these as comments on others
+as well.
+
+thanks,
+-- Shuah
 
 
