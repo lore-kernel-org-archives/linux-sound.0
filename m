@@ -1,87 +1,74 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F7971922DB
-	for <linux-sound@vger.kernel.org>; Fri,  9 Aug 2024 10:42:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDBAD191F73
+	for <linux-sound@vger.kernel.org>; Fri,  9 Aug 2024 11:01:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723200122; cv=none; b=Y+4EqtReptvpu5OC5xkwhHLYaj+JcxFh9sVPX3SPEUNsddV1OD/ag2U+eSfs7oqUyQlhQHZSV0fMu4WRAs7OpfLI/Oa9qc0UZiR2AzsWhDH9qQQ8/w2T8xE4OGnCTkRbsjDvCaNByBbzlUQOWcdmZIQKgvYq3nY/Wlp3u3KsX+Y=
+	t=1723201292; cv=none; b=EiobpVhud+zeNHXcwK15ivxj6MaYLtxLB0ODMQKa72PalBPzaPKywQLI6oGzpQEu3UUmfuCpjesSuygFbpyTjf//EwpK4p/sxkVeVnJH3LESRmN8hYy1n38d9KgP8yfBjywoLeX116f07vXau40U7C+2wlRl79e4EvaVTh34UKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723200122; c=relaxed/simple;
-	bh=mKouGCbz92nX4nkhiyBBIwaMOMkGq6gDGLZb44waDSI=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GUbtfE1DPPkZHfqav2Bilw8+mnBqJhpWE6y8a73DlPSae1dAQNvCTRfOBbHUyua4yePvZtjmKRuE5CJInBv8tFZmhgHWFe6PM5kNyKA+rQ6eY6MpQqyoZgtqzpee4nDKKDNeECi8bDubf/fpFv40Csz/rSkuzLISGA9iDrSY9RE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EnFoWgxW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FMqHy/tc; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EnFoWgxW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FMqHy/tc; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1723201292; c=relaxed/simple;
+	bh=MUOJttNLDDkaf3vn9kxvM207x74kpVe47iGW1tUIkIQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iseWBsR6VU066wO6dXNJ8H1jqIuAuwa6nCGLAfmC/ouN+9mM7NBCRuR3MivC/byG+h1m/4A76jG1Uvu11qngtkr4bk2vfmQt6QgeBoWa99iPJIkAreLIRl58GlDO9Qyx9SWFy/SU6XymdB/+1o2G/fyvkeMT9XSzgFskRXj7sRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WoOD8p75; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EnFoWgxW";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FMqHy/tc";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EnFoWgxW";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FMqHy/tc"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8519221F1F;
-	Fri,  9 Aug 2024 10:41:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723200118; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=o3ypoaWBbnHz34smua89tejVbEshRU5h6sktQrLBgsk=;
-	b=EnFoWgxWOzJd4AOv3OBnuGKmlZvbgYnfARUaNt39+mWJ9X26NEuik7JqElIc7nuQQs8LVx
-	k6xLuCQvquSmE+iOoxCLuzwJjl8r8RzXNROY81fvuNJ2a76JaPeouIgPvPKjQA7bsJcDrq
-	rto5mq+NhJAkyqexK8MHM1+d+pZlm9c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723200118;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=o3ypoaWBbnHz34smua89tejVbEshRU5h6sktQrLBgsk=;
-	b=FMqHy/tcEDuFUee6GTjwDP9+jOMUMO6lLNsaDs+8T/ZB08I8Q1pIrMUmJAXKudom9I1Ete
-	347kictt4ERYWpAw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=EnFoWgxW;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="FMqHy/tc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723200118; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=o3ypoaWBbnHz34smua89tejVbEshRU5h6sktQrLBgsk=;
-	b=EnFoWgxWOzJd4AOv3OBnuGKmlZvbgYnfARUaNt39+mWJ9X26NEuik7JqElIc7nuQQs8LVx
-	k6xLuCQvquSmE+iOoxCLuzwJjl8r8RzXNROY81fvuNJ2a76JaPeouIgPvPKjQA7bsJcDrq
-	rto5mq+NhJAkyqexK8MHM1+d+pZlm9c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723200118;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=o3ypoaWBbnHz34smua89tejVbEshRU5h6sktQrLBgsk=;
-	b=FMqHy/tcEDuFUee6GTjwDP9+jOMUMO6lLNsaDs+8T/ZB08I8Q1pIrMUmJAXKudom9I1Ete
-	347kictt4ERYWpAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6B2841379A;
-	Fri,  9 Aug 2024 10:41:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id KB3oGHbytWaqTAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 09 Aug 2024 10:41:58 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH v2 2/3] ALSA: control: Optimize locking for look-up
-Date: Fri,  9 Aug 2024 12:42:30 +0200
-Message-ID: <20240809104234.8488-3-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WoOD8p75"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3687f8fcab5so949557f8f.3
+        for <linux-sound@vger.kernel.org>; Fri, 09 Aug 2024 04:01:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1723201288; x=1723806088; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/682q/IgmSx1ugjwpcrW1fYYFoT2Yei89ggcZ5WWfo8=;
+        b=WoOD8p75yvavw9AdQB54DgMP5yWrgyHu3FyY6ulR1EHJ86fu9b4J+TzkI510Vii6Io
+         +927POzYWALqqDv4wHeUyxeF2wPgEGMu3y5fHWVrox84xuHBOIUERhUG1yKitlE52HNW
+         32XcFlujcOEX2+uYqTxSQmZR/mAejrFwNIV+Kfdwbu7My4vpnmQliI1MmUYbyCt1A/zp
+         70JXD2kdp2yjAo5IPQ+OWlPYrV6tbKOmWxUJiGoeSjXkn2UCqMNHqNVG+VMDAYJZyEWR
+         TVg0xBlVS/usCMH+OGJ8Vlsrofe9B92FXAHww14b2KIxwbo8huLp59tQrISqy/uyo1Sk
+         cqmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723201288; x=1723806088;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/682q/IgmSx1ugjwpcrW1fYYFoT2Yei89ggcZ5WWfo8=;
+        b=ExwXDVjfR8VJHZmW2kce25PjBZGxZuTU+1MgN4pXS2rAvaFUQtHApM7hg33w1+x+6X
+         NdmIThfBZj/MRoFRODneg1bRMkJVldVjEw93NFKnaHMP1M/amUcBRc25PzDd8WMMPjNT
+         sW7Dc2Lz8LygS1j6lJDhcKuQTJY4kiKERBXV8FG41H6Y3dTbFTv3esJvoyrdmWI0mJES
+         htI8ZqkmvjYbZaTUf2B3btWLji50/06aa0CJWtLC6EEpYdWS76YBQQuLDcnTmYCxgWOg
+         3OjIHnXiUn4fOB0mXZ3cBdaxK94KZw6Z5k61mhO2KiUult0UTwmwptWdFlMNTs6WzQ4l
+         g6Ig==
+X-Forwarded-Encrypted: i=1; AJvYcCU3AtXipdSsICI1aRLbokzc+oHZZLe98+7Yc/e4SRFhiWmVB5GmikfKLtwNlfP19UsFo5VcrNBbn5bdVx6epBjRMdCpe3wC1s/EVPE=
+X-Gm-Message-State: AOJu0Yx4xyTI90IZDM7QVV2CgOtCV3jEtVy6Z6uVwFGH2T0jfWx/PP2X
+	1SW11YZ10EXQE0XuyBGLUX+HAOfX/BbU2ksBCIHxIYuga52pRB9vUn63hEoTySY=
+X-Google-Smtp-Source: AGHT+IEMw0S9h0YIYl4LyxIuHNAP7T9PX2ZjGuz2Ky4aelpGhhnCl3Hs3qzr8diKaTFhAHA9AO9+OA==
+X-Received: by 2002:a5d:5f91:0:b0:367:8a84:7427 with SMTP id ffacd0b85a97d-36d5de93557mr1073255f8f.2.1723201288119;
+        Fri, 09 Aug 2024 04:01:28 -0700 (PDT)
+Received: from krzk-bin.. ([178.197.219.137])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36d340acfdasm1815992f8f.13.2024.08.09.04.01.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Aug 2024 04:01:27 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	alsa-devel@alsa-project.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v3] ASoC: codecs: wsa884x: Implement temperature reading and hwmon
+Date: Fri,  9 Aug 2024 13:01:22 +0200
+Message-ID: <20240809110122.137761-1-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240809104234.8488-1-tiwai@suse.de>
-References: <20240809104234.8488-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -89,473 +76,302 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -5.01
-X-Rspamd-Queue-Id: 8519221F1F
-X-Spamd-Result: default: False [-5.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:email];
-	TO_DN_NONE(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Spam-Flag: NO
 
-For a fast look-up of a control element via either numid or name
-matching (enabled via CONFIG_SND_CTL_FAST_LOOKUP), a locking isn't
-needed at all thanks to Xarray.  OTOH, the locking is still needed for
-a slow linked-list traversal, and that's rather a rare case.
+Read temperature of the speaker and expose it via hwmon interface, which
+will be later used during calibration of speaker protection algorithms.
 
-In this patch, we reduce the use of locking at snd_ctl_find_*() API
-functions, and switch from controls_rwsem to controls_rwlock for
-avoiding unnecessary lock inversions.  This also resulted in a nice
-cleanup, as *_unlocked() version of snd_ctl_find_*() APIs can be
-dropped.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-snd_ctl_find_id_mixer_unlocked() is still left just as an alias of
-snd_ctl_find_id_mixer(), since soc-card.c has a wrapper and there are
-several users.  Once after converting there, we can remove it later.
-
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- include/sound/control.h     |  22 +-----
- include/sound/core.h        |   2 +-
- sound/core/control.c        | 141 ++++++++++++++----------------------
- sound/core/control_compat.c |   2 +-
- sound/core/control_led.c    |   2 +-
- sound/core/oss/mixer_oss.c  |  10 +--
- 6 files changed, 64 insertions(+), 115 deletions(-)
 
-diff --git a/include/sound/control.h b/include/sound/control.h
-index c1659036c4a7..4851a86c72ef 100644
---- a/include/sound/control.h
-+++ b/include/sound/control.h
-@@ -140,9 +140,7 @@ int snd_ctl_remove_id(struct snd_card * card, struct snd_ctl_elem_id *id);
- int snd_ctl_rename_id(struct snd_card * card, struct snd_ctl_elem_id *src_id, struct snd_ctl_elem_id *dst_id);
- void snd_ctl_rename(struct snd_card *card, struct snd_kcontrol *kctl, const char *name);
- int snd_ctl_activate_id(struct snd_card *card, struct snd_ctl_elem_id *id, int active);
--struct snd_kcontrol *snd_ctl_find_numid_locked(struct snd_card *card, unsigned int numid);
- struct snd_kcontrol *snd_ctl_find_numid(struct snd_card *card, unsigned int numid);
--struct snd_kcontrol *snd_ctl_find_id_locked(struct snd_card *card, const struct snd_ctl_elem_id *id);
- struct snd_kcontrol *snd_ctl_find_id(struct snd_card *card, const struct snd_ctl_elem_id *id);
+Changes in v3:
+1. Replace Kconfig HWMON dependency in favor of
+   IS_REACHABLE(CONFIG_HWMON) which solves Kernel Test Robot warning for
+   !HWMON and HWMON=y && WSA884x=m
+
+Changes in v2:
+1. Add missing dependency on HWMON for y!=m builds (Kernel Test Robot
+   report: undefined reference to
+   `devm_hwmon_device_register_with_info').
+---
+ sound/soc/codecs/wsa884x.c | 201 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 201 insertions(+)
+
+diff --git a/sound/soc/codecs/wsa884x.c b/sound/soc/codecs/wsa884x.c
+index 8db1380d1f10..86df5152c547 100644
+--- a/sound/soc/codecs/wsa884x.c
++++ b/sound/soc/codecs/wsa884x.c
+@@ -5,11 +5,14 @@
+  */
  
- /**
-@@ -167,27 +165,11 @@ snd_ctl_find_id_mixer(struct snd_card *card, const char *name)
- 	return snd_ctl_find_id(card, &id);
- }
+ #include <linux/bitfield.h>
++#include <linux/cleanup.h>
+ #include <linux/device.h>
+ #include <linux/gpio/consumer.h>
++#include <linux/hwmon.h>
+ #include <linux/init.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
++#include <linux/mutex.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/regmap.h>
+ #include <linux/regulator/consumer.h>
+@@ -301,8 +304,28 @@
+ #define WSA884X_PA_FSM_MSK1		(WSA884X_DIG_CTRL0_BASE + 0x3b)
+ #define WSA884X_PA_FSM_BYP_CTL		(WSA884X_DIG_CTRL0_BASE + 0x3c)
+ #define WSA884X_PA_FSM_BYP0		(WSA884X_DIG_CTRL0_BASE + 0x3d)
++#define WSA884X_PA_FSM_BYP0_DC_CAL_EN_MASK		0x01
++#define WSA884X_PA_FSM_BYP0_DC_CAL_EN_SHIFT		0
++#define WSA884X_PA_FSM_BYP0_CLK_WD_EN_MASK		0x02
++#define WSA884X_PA_FSM_BYP0_CLK_WD_EN_SHIFT		1
++#define WSA884X_PA_FSM_BYP0_BG_EN_MASK			0x04
++#define WSA884X_PA_FSM_BYP0_BG_EN_SHIFT			2
++#define WSA884X_PA_FSM_BYP0_BOOST_EN_MASK		0x08
++#define WSA884X_PA_FSM_BYP0_BOOST_EN_SHIFT		3
++#define WSA884X_PA_FSM_BYP0_PA_EN_MASK			0x10
++#define WSA884X_PA_FSM_BYP0_PA_EN_SHIFT			4
++#define WSA884X_PA_FSM_BYP0_D_UNMUTE_MASK		0x20
++#define WSA884X_PA_FSM_BYP0_D_UNMUTE_SHIFT		5
++#define WSA884X_PA_FSM_BYP0_SPKR_PROT_EN_MASK		0x40
++#define WSA884X_PA_FSM_BYP0_SPKR_PROT_EN_SHIFT		6
++#define WSA884X_PA_FSM_BYP0_TSADC_EN_MASK		0x80
++#define WSA884X_PA_FSM_BYP0_TSADC_EN_SHIFT		7
+ #define WSA884X_PA_FSM_BYP1		(WSA884X_DIG_CTRL0_BASE + 0x3e)
+ #define WSA884X_TADC_VALUE_CTL		(WSA884X_DIG_CTRL0_BASE + 0x50)
++#define WSA884X_TADC_VALUE_CTL_TEMP_VALUE_RD_EN_MASK	0x01
++#define WSA884X_TADC_VALUE_CTL_TEMP_VALUE_RD_EN_SHIFT	0
++#define WSA884X_TADC_VALUE_CTL_VBAT_VALUE_RD_EN_MASK	0x02
++#define WSA884X_TADC_VALUE_CTL_VBAT_VALUE_RD_EN_SHIFT	1
+ #define WSA884X_TEMP_DETECT_CTL		(WSA884X_DIG_CTRL0_BASE + 0x51)
+ #define WSA884X_TEMP_DIN_MSB		(WSA884X_DIG_CTRL0_BASE + 0x52)
+ #define WSA884X_TEMP_DIN_LSB		(WSA884X_DIG_CTRL0_BASE + 0x53)
+@@ -691,6 +714,17 @@
+ 		SNDRV_PCM_FMTBIT_S24_LE |\
+ 		SNDRV_PCM_FMTBIT_S24_3LE | SNDRV_PCM_FMTBIT_S32_LE)
  
--/**
-- * snd_ctl_find_id_mixer_locked - find the control instance with the given name string
-- * @card: the card instance
-- * @name: the name string
-- *
-- * Finds the control instance with the given name and
-- * @SNDRV_CTL_ELEM_IFACE_MIXER. Other fields are set to zero.
-- *
-- * This is merely a wrapper to snd_ctl_find_id_locked().
-- * The caller must down card->controls_rwsem before calling this function.
-- *
-- * Return: The pointer of the instance if found, or %NULL if not.
-- */
-+/* to be removed */
- static inline struct snd_kcontrol *
- snd_ctl_find_id_mixer_locked(struct snd_card *card, const char *name)
++/* Two-point trimming for temperature calibration */
++#define WSA884X_T1_TEMP			-10L
++#define WSA884X_T2_TEMP			150L
++
++/*
++ * Device will report senseless data in many cases, so discard any measurements
++ * outside of valid range.
++ */
++#define WSA884X_LOW_TEMP_THRESHOLD	5
++#define WSA884X_HIGH_TEMP_THRESHOLD	45
++
+ struct wsa884x_priv {
+ 	struct regmap *regmap;
+ 	struct device *dev;
+@@ -706,6 +740,13 @@ struct wsa884x_priv {
+ 	int active_ports;
+ 	int dev_mode;
+ 	bool hw_init;
++	/*
++	 * Protects temperature reading code (related to speaker protection) and
++	 * fields: temperature and pa_on.
++	 */
++	struct mutex sp_lock;
++	unsigned int temperature;
++	bool pa_on;
+ };
+ 
+ enum {
+@@ -1660,6 +1701,10 @@ static int wsa884x_spkr_event(struct snd_soc_dapm_widget *w,
+ 
+ 	switch (event) {
+ 	case SND_SOC_DAPM_POST_PMU:
++		mutex_lock(&wsa884x->sp_lock);
++		wsa884x->pa_on = true;
++		mutex_unlock(&wsa884x->sp_lock);
++
+ 		wsa884x_spkr_post_pmu(component, wsa884x);
+ 
+ 		snd_soc_component_write_field(component, WSA884X_PDM_WD_CTL,
+@@ -1671,6 +1716,10 @@ static int wsa884x_spkr_event(struct snd_soc_dapm_widget *w,
+ 		snd_soc_component_write_field(component, WSA884X_PDM_WD_CTL,
+ 					      WSA884X_PDM_WD_CTL_PDM_WD_EN_MASK,
+ 					      0x0);
++
++		mutex_lock(&wsa884x->sp_lock);
++		wsa884x->pa_on = false;
++		mutex_unlock(&wsa884x->sp_lock);
+ 		break;
+ 	}
+ 
+@@ -1810,6 +1859,144 @@ static struct snd_soc_dai_driver wsa884x_dais[] = {
+ 	},
+ };
+ 
++static int wsa884x_get_temp(struct wsa884x_priv *wsa884x, long *temp)
++{
++	unsigned int d1_msb = 0, d1_lsb = 0, d2_msb = 0, d2_lsb = 0;
++	unsigned int dmeas_msb = 0, dmeas_lsb = 0;
++	int d1, d2, dmeas;
++	unsigned int mask;
++	long val;
++	int ret;
++
++	guard(mutex)(&wsa884x->sp_lock);
++
++	if (wsa884x->pa_on) {
++		/*
++		 * Reading temperature is possible only when Power Amplifier is
++		 * off. Report last cached data.
++		 */
++		*temp = wsa884x->temperature;
++		return 0;
++	}
++
++	ret = pm_runtime_resume_and_get(wsa884x->dev);
++	if (ret < 0)
++		return ret;
++
++	mask = WSA884X_PA_FSM_BYP0_DC_CAL_EN_MASK |
++	       WSA884X_PA_FSM_BYP0_CLK_WD_EN_MASK |
++	       WSA884X_PA_FSM_BYP0_BG_EN_MASK |
++	       WSA884X_PA_FSM_BYP0_D_UNMUTE_MASK |
++	       WSA884X_PA_FSM_BYP0_SPKR_PROT_EN_MASK |
++	       WSA884X_PA_FSM_BYP0_TSADC_EN_MASK;
++	/*
++	 * Here and further do not care about read or update failures.
++	 * For example, before turning on Power Amplifier for the first
++	 * time, reading WSA884X_TEMP_DIN_MSB will always return 0.
++	 * Instead, check if returned value is within reasonable
++	 * thresholds.
++	 */
++	regmap_update_bits(wsa884x->regmap, WSA884X_PA_FSM_BYP0, mask, mask);
++
++	regmap_update_bits(wsa884x->regmap, WSA884X_TADC_VALUE_CTL,
++			   WSA884X_TADC_VALUE_CTL_TEMP_VALUE_RD_EN_MASK,
++			   FIELD_PREP(WSA884X_TADC_VALUE_CTL_TEMP_VALUE_RD_EN_MASK, 0x0));
++
++	regmap_read(wsa884x->regmap, WSA884X_TEMP_DIN_MSB, &dmeas_msb);
++	regmap_read(wsa884x->regmap, WSA884X_TEMP_DIN_LSB, &dmeas_lsb);
++
++	regmap_update_bits(wsa884x->regmap, WSA884X_TADC_VALUE_CTL,
++			   WSA884X_TADC_VALUE_CTL_TEMP_VALUE_RD_EN_MASK,
++			   FIELD_PREP(WSA884X_TADC_VALUE_CTL_TEMP_VALUE_RD_EN_MASK, 0x1));
++
++	regmap_read(wsa884x->regmap, WSA884X_OTP_REG_1, &d1_msb);
++	regmap_read(wsa884x->regmap, WSA884X_OTP_REG_2, &d1_lsb);
++	regmap_read(wsa884x->regmap, WSA884X_OTP_REG_3, &d2_msb);
++	regmap_read(wsa884x->regmap, WSA884X_OTP_REG_4, &d2_lsb);
++
++	regmap_update_bits(wsa884x->regmap, WSA884X_PA_FSM_BYP0, mask, 0x0);
++
++	dmeas = (((dmeas_msb & 0xff) << 0x8) | (dmeas_lsb & 0xff)) >> 0x6;
++	d1 = (((d1_msb & 0xff) << 0x8) | (d1_lsb & 0xff)) >> 0x6;
++	d2 = (((d2_msb & 0xff) << 0x8) | (d2_lsb & 0xff)) >> 0x6;
++
++	if (d1 == d2) {
++		/* Incorrect data in OTP? */
++		ret = -EINVAL;
++		goto out;
++	}
++
++	val = WSA884X_T1_TEMP + (((dmeas - d1) * (WSA884X_T2_TEMP - WSA884X_T1_TEMP))/(d2 - d1));
++
++	dev_dbg(wsa884x->dev, "Measured temp %ld (dmeas=%d, d1=%d, d2=%d)\n",
++		val, dmeas, d1, d2);
++
++	if ((val > WSA884X_LOW_TEMP_THRESHOLD) &&
++	    (val < WSA884X_HIGH_TEMP_THRESHOLD)) {
++		wsa884x->temperature = val;
++		*temp = val;
++		ret = 0;
++	} else {
++		ret = -EAGAIN;
++	}
++
++out:
++	pm_runtime_mark_last_busy(wsa884x->dev);
++	pm_runtime_put_autosuspend(wsa884x->dev);
++
++	return ret;
++}
++
++static umode_t wsa884x_hwmon_is_visible(const void *data,
++					enum hwmon_sensor_types type, u32 attr,
++					int channel)
++{
++	if (type != hwmon_temp)
++		return 0;
++
++	switch (attr) {
++	case hwmon_temp_input:
++		return 0444;
++	default:
++		break;
++	}
++
++	return 0;
++}
++
++static int wsa884x_hwmon_read(struct device *dev,
++			      enum hwmon_sensor_types type,
++			      u32 attr, int channel, long *temp)
++{
++	int ret;
++
++	switch (attr) {
++	case hwmon_temp_input:
++		ret = wsa884x_get_temp(dev_get_drvdata(dev), temp);
++		break;
++	default:
++		ret = -EOPNOTSUPP;
++		break;
++	}
++
++	return ret;
++}
++
++static const struct hwmon_channel_info *const wsa884x_hwmon_info[] = {
++	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT),
++	NULL
++};
++
++static const struct hwmon_ops wsa884x_hwmon_ops = {
++	.is_visible	= wsa884x_hwmon_is_visible,
++	.read		= wsa884x_hwmon_read,
++};
++
++static const struct hwmon_chip_info wsa884x_hwmon_chip_info = {
++	.ops	= &wsa884x_hwmon_ops,
++	.info	= wsa884x_hwmon_info,
++};
++
+ static void wsa884x_reset_powerdown(void *data)
  {
--	struct snd_ctl_elem_id id = {};
--
--	id.iface = SNDRV_CTL_ELEM_IFACE_MIXER;
--	strscpy(id.name, name, sizeof(id.name));
--	return snd_ctl_find_id_locked(card, &id);
-+	return snd_ctl_find_id_mixer(card, name);
- }
- 
- int snd_ctl_create(struct snd_card *card);
-diff --git a/include/sound/core.h b/include/sound/core.h
-index 55607e91d5fd..5c418ab24aa4 100644
---- a/include/sound/core.h
-+++ b/include/sound/core.h
-@@ -99,7 +99,7 @@ struct snd_card {
- 	struct device *ctl_dev;		/* control device */
- 	unsigned int last_numid;	/* last used numeric ID */
- 	struct rw_semaphore controls_rwsem;	/* controls lock (list and values) */
--	rwlock_t controls_rwlock;	/* lock for ctl_files list */
-+	rwlock_t controls_rwlock;	/* lock for lookup and ctl_files list */
- 	int controls_count;		/* count of all controls */
- 	size_t user_ctl_alloc_size;	// current memory allocation by user controls.
- 	struct list_head controls;	/* all controls for this card */
-diff --git a/sound/core/control.c b/sound/core/control.c
-index 7c4410d1eeeb..38728b00f59c 100644
---- a/sound/core/control.c
-+++ b/sound/core/control.c
-@@ -470,7 +470,7 @@ static int __snd_ctl_add_replace(struct snd_card *card,
- 	if (id.index > UINT_MAX - kcontrol->count)
- 		return -EINVAL;
- 
--	old = snd_ctl_find_id_locked(card, &id);
-+	old = snd_ctl_find_id(card, &id);
- 	if (!old) {
- 		if (mode == CTL_REPLACE)
- 			return -EINVAL;
-@@ -491,10 +491,12 @@ static int __snd_ctl_add_replace(struct snd_card *card,
- 	if (snd_ctl_find_hole(card, kcontrol->count) < 0)
+ 	struct wsa884x_priv *wsa884x = data;
+@@ -1866,6 +2053,8 @@ static int wsa884x_probe(struct sdw_slave *pdev,
+ 	if (!wsa884x)
  		return -ENOMEM;
  
--	list_add_tail(&kcontrol->list, &card->controls);
--	card->controls_count += kcontrol->count;
--	kcontrol->id.numid = card->last_numid + 1;
--	card->last_numid += kcontrol->count;
-+	scoped_guard(write_lock_irq, &card->controls_rwlock) {
-+		list_add_tail(&kcontrol->list, &card->controls);
-+		card->controls_count += kcontrol->count;
-+		kcontrol->id.numid = card->last_numid + 1;
-+		card->last_numid += kcontrol->count;
-+	}
++	mutex_init(&wsa884x->sp_lock);
++
+ 	for (i = 0; i < WSA884X_SUPPLIES_NUM; i++)
+ 		wsa884x->supplies[i].supply = wsa884x_supply_name[i];
  
- 	add_hash_entries(card, kcontrol);
+@@ -1923,6 +2112,18 @@ static int wsa884x_probe(struct sdw_slave *pdev,
+ 	regcache_cache_only(wsa884x->regmap, true);
+ 	wsa884x->hw_init = true;
  
-@@ -579,12 +581,15 @@ static int __snd_ctl_remove(struct snd_card *card,
- 
- 	if (snd_BUG_ON(!card || !kcontrol))
- 		return -EINVAL;
--	list_del(&kcontrol->list);
- 
- 	if (remove_hash)
- 		remove_hash_entries(card, kcontrol);
- 
--	card->controls_count -= kcontrol->count;
-+	scoped_guard(write_lock_irq, &card->controls_rwlock) {
-+		list_del(&kcontrol->list);
-+		card->controls_count -= kcontrol->count;
++	if (IS_REACHABLE(CONFIG_HWMON)) {
++		struct device *hwmon;
++
++		hwmon = devm_hwmon_device_register_with_info(dev, "wsa884x",
++							     wsa884x,
++							     &wsa884x_hwmon_chip_info,
++							     NULL);
++		if (IS_ERR(hwmon))
++			return dev_err_probe(dev, PTR_ERR(hwmon),
++					     "Failed to register hwmon sensor\n");
 +	}
 +
- 	for (idx = 0; idx < kcontrol->count; idx++)
- 		snd_ctl_notify_one(card, SNDRV_CTL_EVENT_MASK_REMOVE, kcontrol, idx);
- 	snd_ctl_free_one(kcontrol);
-@@ -634,7 +639,7 @@ int snd_ctl_remove_id(struct snd_card *card, struct snd_ctl_elem_id *id)
- 	struct snd_kcontrol *kctl;
- 
- 	guard(rwsem_write)(&card->controls_rwsem);
--	kctl = snd_ctl_find_id_locked(card, id);
-+	kctl = snd_ctl_find_id(card, id);
- 	if (kctl == NULL)
- 		return -ENOENT;
- 	return snd_ctl_remove_locked(card, kctl);
-@@ -659,7 +664,7 @@ static int snd_ctl_remove_user_ctl(struct snd_ctl_file * file,
- 	int idx;
- 
- 	guard(rwsem_write)(&card->controls_rwsem);
--	kctl = snd_ctl_find_id_locked(card, id);
-+	kctl = snd_ctl_find_id(card, id);
- 	if (kctl == NULL)
- 		return -ENOENT;
- 	if (!(kctl->vd[0].access & SNDRV_CTL_ELEM_ACCESS_USER))
-@@ -691,7 +696,7 @@ int snd_ctl_activate_id(struct snd_card *card, struct snd_ctl_elem_id *id,
- 	int ret;
- 
- 	down_write(&card->controls_rwsem);
--	kctl = snd_ctl_find_id_locked(card, id);
-+	kctl = snd_ctl_find_id(card, id);
- 	if (kctl == NULL) {
- 		ret = -ENOENT;
- 		goto unlock;
-@@ -745,7 +750,7 @@ int snd_ctl_rename_id(struct snd_card *card, struct snd_ctl_elem_id *src_id,
- 	int saved_numid;
- 
- 	guard(rwsem_write)(&card->controls_rwsem);
--	kctl = snd_ctl_find_id_locked(card, src_id);
-+	kctl = snd_ctl_find_id(card, src_id);
- 	if (kctl == NULL)
- 		return -ENOENT;
- 	saved_numid = kctl->id.numid;
-@@ -787,6 +792,7 @@ snd_ctl_find_numid_slow(struct snd_card *card, unsigned int numid)
- {
- 	struct snd_kcontrol *kctl;
- 
-+	guard(read_lock_irqsave)(&card->controls_rwlock);
- 	list_for_each_entry(kctl, &card->controls, list) {
- 		if (kctl->id.numid <= numid && kctl->id.numid + kctl->count > numid)
- 			return kctl;
-@@ -795,32 +801,6 @@ snd_ctl_find_numid_slow(struct snd_card *card, unsigned int numid)
- }
- #endif /* !CONFIG_SND_CTL_FAST_LOOKUP */
- 
--/**
-- * snd_ctl_find_numid_locked - find the control instance with the given number-id
-- * @card: the card instance
-- * @numid: the number-id to search
-- *
-- * Finds the control instance with the given number-id from the card.
-- *
-- * The caller must down card->controls_rwsem before calling this function
-- * (if the race condition can happen).
-- *
-- * Return: The pointer of the instance if found, or %NULL if not.
-- */
--struct snd_kcontrol *
--snd_ctl_find_numid_locked(struct snd_card *card, unsigned int numid)
--{
--	if (snd_BUG_ON(!card || !numid))
--		return NULL;
--	lockdep_assert_held(&card->controls_rwsem);
--#ifdef CONFIG_SND_CTL_FAST_LOOKUP
--	return xa_load(&card->ctl_numids, numid);
--#else
--	return snd_ctl_find_numid_slow(card, numid);
--#endif
--}
--EXPORT_SYMBOL(snd_ctl_find_numid_locked);
--
- /**
-  * snd_ctl_find_numid - find the control instance with the given number-id
-  * @card: the card instance
-@@ -830,54 +810,22 @@ EXPORT_SYMBOL(snd_ctl_find_numid_locked);
-  *
-  * Return: The pointer of the instance if found, or %NULL if not.
-  *
-- * Note that this function takes card->controls_rwsem lock internally.
-+ * Note that this function takes card->controls_rwlock lock internally.
-  */
- struct snd_kcontrol *snd_ctl_find_numid(struct snd_card *card,
- 					unsigned int numid)
- {
--	guard(rwsem_read)(&card->controls_rwsem);
--	return snd_ctl_find_numid_locked(card, numid);
-+	if (snd_BUG_ON(!card || !numid))
-+		return NULL;
-+
-+#ifdef CONFIG_SND_CTL_FAST_LOOKUP
-+	return xa_load(&card->ctl_numids, numid);
-+#else
-+	return snd_ctl_find_numid_slow(card, numid);
-+#endif
- }
- EXPORT_SYMBOL(snd_ctl_find_numid);
- 
--/**
-- * snd_ctl_find_id_locked - find the control instance with the given id
-- * @card: the card instance
-- * @id: the id to search
-- *
-- * Finds the control instance with the given id from the card.
-- *
-- * The caller must down card->controls_rwsem before calling this function
-- * (if the race condition can happen).
-- *
-- * Return: The pointer of the instance if found, or %NULL if not.
-- */
--struct snd_kcontrol *snd_ctl_find_id_locked(struct snd_card *card,
--					    const struct snd_ctl_elem_id *id)
--{
--	struct snd_kcontrol *kctl;
--
--	if (snd_BUG_ON(!card || !id))
--		return NULL;
--	lockdep_assert_held(&card->controls_rwsem);
--	if (id->numid != 0)
--		return snd_ctl_find_numid_locked(card, id->numid);
--#ifdef CONFIG_SND_CTL_FAST_LOOKUP
--	kctl = xa_load(&card->ctl_hash, get_ctl_id_hash(id));
--	if (kctl && elem_id_matches(kctl, id))
--		return kctl;
--	if (!card->ctl_hash_collision)
--		return NULL; /* we can rely on only hash table */
--#endif
--	/* no matching in hash table - try all as the last resort */
--	list_for_each_entry(kctl, &card->controls, list)
--		if (elem_id_matches(kctl, id))
--			return kctl;
--
--	return NULL;
--}
--EXPORT_SYMBOL(snd_ctl_find_id_locked);
--
- /**
-  * snd_ctl_find_id - find the control instance with the given id
-  * @card: the card instance
-@@ -887,13 +835,32 @@ EXPORT_SYMBOL(snd_ctl_find_id_locked);
-  *
-  * Return: The pointer of the instance if found, or %NULL if not.
-  *
-- * Note that this function takes card->controls_rwsem lock internally.
-+ * Note that this function takes card->controls_rwlock lock internally.
-  */
- struct snd_kcontrol *snd_ctl_find_id(struct snd_card *card,
- 				     const struct snd_ctl_elem_id *id)
- {
--	guard(rwsem_read)(&card->controls_rwsem);
--	return snd_ctl_find_id_locked(card, id);
-+	struct snd_kcontrol *kctl;
-+
-+	if (snd_BUG_ON(!card || !id))
-+		return NULL;
-+
-+	if (id->numid != 0)
-+		return snd_ctl_find_numid(card, id->numid);
-+#ifdef CONFIG_SND_CTL_FAST_LOOKUP
-+	kctl = xa_load(&card->ctl_hash, get_ctl_id_hash(id));
-+	if (kctl && elem_id_matches(kctl, id))
-+		return kctl;
-+	if (!card->ctl_hash_collision)
-+		return NULL; /* we can rely on only hash table */
-+#endif
-+	/* no matching in hash table - try all as the last resort */
-+	guard(read_lock_irqsave)(&card->controls_rwlock);
-+	list_for_each_entry(kctl, &card->controls, list)
-+		if (elem_id_matches(kctl, id))
-+			return kctl;
-+
-+	return NULL;
- }
- EXPORT_SYMBOL(snd_ctl_find_id);
- 
-@@ -1199,7 +1166,7 @@ static int snd_ctl_elem_info(struct snd_ctl_file *ctl,
- 	struct snd_kcontrol *kctl;
- 
- 	guard(rwsem_read)(&card->controls_rwsem);
--	kctl = snd_ctl_find_id_locked(card, &info->id);
-+	kctl = snd_ctl_find_id(card, &info->id);
- 	if (!kctl)
- 		return -ENOENT;
- 	return __snd_ctl_elem_info(card, kctl, info, ctl);
-@@ -1235,7 +1202,7 @@ static int snd_ctl_elem_read(struct snd_card *card,
- 	int ret;
- 
- 	guard(rwsem_read)(&card->controls_rwsem);
--	kctl = snd_ctl_find_id_locked(card, &control->id);
-+	kctl = snd_ctl_find_id(card, &control->id);
- 	if (!kctl)
- 		return -ENOENT;
- 
-@@ -1303,7 +1270,7 @@ static int snd_ctl_elem_write(struct snd_card *card, struct snd_ctl_file *file,
- 	int result;
- 
- 	down_write(&card->controls_rwsem);
--	kctl = snd_ctl_find_id_locked(card, &control->id);
-+	kctl = snd_ctl_find_id(card, &control->id);
- 	if (kctl == NULL) {
- 		up_write(&card->controls_rwsem);
- 		return -ENOENT;
-@@ -1381,7 +1348,7 @@ static int snd_ctl_elem_lock(struct snd_ctl_file *file,
- 	if (copy_from_user(&id, _id, sizeof(id)))
- 		return -EFAULT;
- 	guard(rwsem_write)(&card->controls_rwsem);
--	kctl = snd_ctl_find_id_locked(card, &id);
-+	kctl = snd_ctl_find_id(card, &id);
- 	if (!kctl)
- 		return -ENOENT;
- 	vd = &kctl->vd[snd_ctl_get_ioff(kctl, &id)];
-@@ -1402,7 +1369,7 @@ static int snd_ctl_elem_unlock(struct snd_ctl_file *file,
- 	if (copy_from_user(&id, _id, sizeof(id)))
- 		return -EFAULT;
- 	guard(rwsem_write)(&card->controls_rwsem);
--	kctl = snd_ctl_find_id_locked(card, &id);
-+	kctl = snd_ctl_find_id(card, &id);
- 	if (!kctl)
- 		return -ENOENT;
- 	vd = &kctl->vd[snd_ctl_get_ioff(kctl, &id)];
-@@ -1903,7 +1870,7 @@ static int snd_ctl_tlv_ioctl(struct snd_ctl_file *file,
- 	container_size = header.length;
- 	container = buf->tlv;
- 
--	kctl = snd_ctl_find_numid_locked(file->card, header.numid);
-+	kctl = snd_ctl_find_numid(file->card, header.numid);
- 	if (kctl == NULL)
- 		return -ENOENT;
- 
-diff --git a/sound/core/control_compat.c b/sound/core/control_compat.c
-index 934bb945e702..401c12e62816 100644
---- a/sound/core/control_compat.c
-+++ b/sound/core/control_compat.c
-@@ -168,7 +168,7 @@ static int get_ctl_type(struct snd_card *card, struct snd_ctl_elem_id *id,
- 	int err;
- 
- 	guard(rwsem_read)(&card->controls_rwsem);
--	kctl = snd_ctl_find_id_locked(card, id);
-+	kctl = snd_ctl_find_id(card, id);
- 	if (!kctl)
- 		return -ENOENT;
- 	info = kzalloc(sizeof(*info), GFP_KERNEL);
-diff --git a/sound/core/control_led.c b/sound/core/control_led.c
-index 804805a95e2f..14eb3e6cc94c 100644
---- a/sound/core/control_led.c
-+++ b/sound/core/control_led.c
-@@ -254,7 +254,7 @@ static int snd_ctl_led_set_id(int card_number, struct snd_ctl_elem_id *id,
- 	if (!card)
- 		return -ENXIO;
- 	guard(rwsem_write)(&card->controls_rwsem);
--	kctl = snd_ctl_find_id_locked(card, id);
-+	kctl = snd_ctl_find_id(card, id);
- 	if (!kctl)
- 		return -ENOENT;
- 	ioff = snd_ctl_get_ioff(kctl, id);
-diff --git a/sound/core/oss/mixer_oss.c b/sound/core/oss/mixer_oss.c
-index 6a0508093ea6..33bf9a220ada 100644
---- a/sound/core/oss/mixer_oss.c
-+++ b/sound/core/oss/mixer_oss.c
-@@ -510,7 +510,7 @@ static struct snd_kcontrol *snd_mixer_oss_test_id(struct snd_mixer_oss *mixer, c
- 	id.iface = SNDRV_CTL_ELEM_IFACE_MIXER;
- 	strscpy(id.name, name, sizeof(id.name));
- 	id.index = index;
--	return snd_ctl_find_id_locked(card, &id);
-+	return snd_ctl_find_id(card, &id);
- }
- 
- static void snd_mixer_oss_get_volume1_vol(struct snd_mixer_oss_file *fmixer,
-@@ -526,7 +526,7 @@ static void snd_mixer_oss_get_volume1_vol(struct snd_mixer_oss_file *fmixer,
- 	if (numid == ID_UNKNOWN)
- 		return;
- 	guard(rwsem_read)(&card->controls_rwsem);
--	kctl = snd_ctl_find_numid_locked(card, numid);
-+	kctl = snd_ctl_find_numid(card, numid);
- 	if (!kctl)
- 		return;
- 	uinfo = kzalloc(sizeof(*uinfo), GFP_KERNEL);
-@@ -559,7 +559,7 @@ static void snd_mixer_oss_get_volume1_sw(struct snd_mixer_oss_file *fmixer,
- 	if (numid == ID_UNKNOWN)
- 		return;
- 	guard(rwsem_read)(&card->controls_rwsem);
--	kctl = snd_ctl_find_numid_locked(card, numid);
-+	kctl = snd_ctl_find_numid(card, numid);
- 	if (!kctl)
- 		return;
- 	uinfo = kzalloc(sizeof(*uinfo), GFP_KERNEL);
-@@ -619,7 +619,7 @@ static void snd_mixer_oss_put_volume1_vol(struct snd_mixer_oss_file *fmixer,
- 	if (numid == ID_UNKNOWN)
- 		return;
- 	guard(rwsem_read)(&card->controls_rwsem);
--	kctl = snd_ctl_find_numid_locked(card, numid);
-+	kctl = snd_ctl_find_numid(card, numid);
- 	if (!kctl)
- 		return;
- 	uinfo = kzalloc(sizeof(*uinfo), GFP_KERNEL);
-@@ -656,7 +656,7 @@ static void snd_mixer_oss_put_volume1_sw(struct snd_mixer_oss_file *fmixer,
- 	if (numid == ID_UNKNOWN)
- 		return;
- 	guard(rwsem_read)(&card->controls_rwsem);
--	kctl = snd_ctl_find_numid_locked(card, numid);
-+	kctl = snd_ctl_find_numid(card, numid);
- 	if (!kctl)
- 		return;
- 	uinfo = kzalloc(sizeof(*uinfo), GFP_KERNEL);
+ 	pm_runtime_set_autosuspend_delay(dev, 3000);
+ 	pm_runtime_use_autosuspend(dev);
+ 	pm_runtime_mark_last_busy(dev);
 -- 
 2.43.0
 
