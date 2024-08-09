@@ -1,50 +1,33 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADABF17BA2;
-	Fri,  9 Aug 2024 07:25:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F3E542A80;
+	Fri,  9 Aug 2024 07:29:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723188354; cv=none; b=i3U47UCsllP1BJ8g4QpyBUETuDQe6BgDLosbYRuC/2vEFrIyVSzYr6n4XubZA+N1IJUw1T2TiGZatkEH05aCFnAVpqq1iLDdmSalFyWoRPXpO/dJJXqy5CADO7tglfjhRxg9fqGNMm0rANIxkI3f1xJ5N3FwRAnOGFBUk1jfb6E=
+	t=1723188584; cv=none; b=aPqrNDpx6RvjMAtHr/o5cY3Rcy8aLuNRRfWDDszebHyltbzrJsXWQK+rCUClMd3J5ibINV/DisF0w5KsUnDJm7h8Xp5nSEaUmDEz4q3cOiis+PkziU2S54cD1L9MYH/KMRxWBKfJeZwmeZED1E0FIOcpmgw7LIVX6bklhPokzBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723188354; c=relaxed/simple;
-	bh=EZEmD9DuOTren8Yb/4Eh1tc1aNVW50mWaRZilWNBwi8=;
+	s=arc-20240116; t=1723188584; c=relaxed/simple;
+	bh=pJExY8JuoT2UlHfNzoCGEXQt2m/C5XWNhIXgTbXX84E=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NEG07Nfq5vM0Et8yKcXCfDtTyl2TO8rVGmghuteRZRnYM6zgORi3DHj/USnO1stJQnZ95r4gOgbgFDIsTAzcfI5CEiW1u/q1C4hGRVhZDFCxrzvt57+WH9Y7wRTuVDPDe5OtJZyWQ0ACXqnyXJQhW6FEcgxf00+gpz0NXwZUxok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZnoqGaTt; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 In-Reply-To:Content-Type; b=GLsLle3CXeGWmKwmvYYqXVdEusXZOcSbiTM6Q5ztWP4971OyvWqYjOIaTuojM0/Phdz7+RDZ5px7P+FCiftTMvOoExMoGGOEr/sFpvi7q4u5f7A9mp17xZR3RPT76/j7J1LdpJW7qDXo6pj25ZZzUAPeHjhCWrZOrvUs7qoNTco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FzUf6ozN; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZnoqGaTt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723188353; x=1754724353;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=EZEmD9DuOTren8Yb/4Eh1tc1aNVW50mWaRZilWNBwi8=;
-  b=ZnoqGaTtjGtUd5gmI4nWPbFReVVHQ87IWDqJVfnw5TmhXVGYCv8r3/2p
-   bOl1kVonHYKQRtjZUkUqsv+sJCqSHiy0l15kDGtHbydNlIYZyG8JbA9nK
-   rqtetjrdV8ma4zI5os2wIbRqof6W+ZgEkE/5Q8Qm4/o6xROanWL4/TVTM
-   oAU1nJULPK9a7gpItxZxaXFpanT3GK14EtiVIHJYdYCMfXx97BkkN9acz
-   8y0QXfaUHBb7Vx/HaljtFvM5aZxoiwrV4W+aAAlIqOybejtwuy3IkkkUH
-   wLkHahxxCMUrYfJpWJuqNUj+tQ/4iRmt6Gtg+nIv5r3WfCq6FTz32mhZE
-   Q==;
-X-CSE-ConnectionGUID: XPrf7eUnRGOPBCAAOsi5qw==
-X-CSE-MsgGUID: Qf/c3uZeQ5GhHYHp0vw3UA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11158"; a="12929860"
-X-IronPort-AV: E=Sophos;i="6.09,275,1716274800"; 
-   d="scan'208";a="12929860"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2024 00:25:50 -0700
-X-CSE-ConnectionGUID: gLUemNmQTBu18Mf1kZVGHQ==
-X-CSE-MsgGUID: Q8VA64rwRrKZxNZdPwAWKA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,275,1716274800"; 
-   d="scan'208";a="57360819"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO [10.245.246.249]) ([10.245.246.249])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2024 00:25:45 -0700
-Message-ID: <ed1192e0-00e7-4739-a687-c96dc2d62898@linux.intel.com>
-Date: Fri, 9 Aug 2024 09:19:58 +0200
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FzUf6ozN"
+Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 16441581;
+	Fri,  9 Aug 2024 09:28:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1723188525;
+	bh=pJExY8JuoT2UlHfNzoCGEXQt2m/C5XWNhIXgTbXX84E=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=FzUf6ozNJ6rkt7GYGRjfom5in496Fc29tRe3ohxxhstp3/71xDwRJfATxou5nFmAr
+	 0Y+iwfYw5ndHgx/xgSm2tpEkXZBhpCySI2UtM5M291lpyNnwnkgUFoViujhsRtWew6
+	 mPp4BhNiU68KLHD5r6Av72NtT/X3e7/AoqgMuXJo=
+Message-ID: <7b5db9c1-5cba-48c8-ae77-f224b7b4834f@ideasonboard.com>
+Date: Fri, 9 Aug 2024 10:29:34 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,121 +35,394 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 1/6] ALSA: compress: add Sample Rate Converter codec
- support
-To: Jaroslav Kysela <perex@perex.cz>, Shengjiu Wang <shengjiu.wang@gmail.com>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, vkoul@kernel.org, tiwai@suse.com,
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, festevam@gmail.com,
- nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
- linuxppc-dev@lists.ozlabs.org
-References: <1722940003-20126-1-git-send-email-shengjiu.wang@nxp.com>
- <1722940003-20126-2-git-send-email-shengjiu.wang@nxp.com>
- <e89a56bf-c377-43d8-bba8-6a09e571ed64@linux.intel.com>
- <CAA+D8AN9JXJr-BZf8aY7d4rB6M60pXS_DG=qv=P6=2r1A18ATA@mail.gmail.com>
- <ffa85004-8d86-4168-b278-afd24d79f9d8@linux.intel.com>
- <116041ee-7139-4b77-89be-3a68f699c01b@perex.cz>
- <930bb152-860a-4ec5-9ef0-1c96f554f365@linux.intel.com>
- <c9039808-cd04-452d-9f6c-f91811088456@perex.cz>
+Subject: Re: [PATCH 1/9] of: property: add of_graph_get_next_port()
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Mark Brown <broonie@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>,
+ Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
+ Takashi Iwai <tiwai@suse.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-sound@vger.kernel.org
+References: <87mslqw8mj.wl-kuninori.morimoto.gx@renesas.com>
+ <87le1aw8lw.wl-kuninori.morimoto.gx@renesas.com>
+ <ca216286-b09a-4faf-8221-c88c21f4de0c@ideasonboard.com>
+ <87a5hm8n0k.wl-kuninori.morimoto.gx@renesas.com>
 Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <c9039808-cd04-452d-9f6c-f91811088456@perex.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <87a5hm8n0k.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+Hi,
 
->>>> Then there's the issue of parameters, we chose to only add parameters
->>>> for standard encoders/decoders. Post-processing is highly specific and
->>>> the parameter definitions varies from one implementation to another -
->>>> and usually parameters are handled in an opaque way with binary
->>>> controls. This is best handled with a UUID that needs to be known only
->>>> to applications and low-level firmware/hardware, the kernel code should
->>>> not have to be modified for each and every processing and to add new
->>>> parameters. It just does not scale and it's unmaintainable.
->>>>
->>>> At the very least if you really want to use this compress API,
->>>> extend it
->>>> to use a non-descript "UUID-defined" type and an opaque set of
->>>> parameters with this UUID passed in a header.
->>>
->>> We don't need to use UUID-defined scheme for simple (A)SRC
->>> implementation. As I noted, the specific runtime controls may use
->>> existing ALSA control API.
->>
->> "Simple (A)SRC" is an oxymoron. There are multiple ways to define the
->> performance, and how the drift estimator is handled. There's nothing
->> simple if you look under the hood. The SOF implementation has for
->> example those parameters:
->>
->> uint32_t source_rate;           /**< Define fixed source rate or */
->>                 /**< use 0 to indicate need to get */
->>                 /**< the rate from stream */
->> uint32_t sink_rate;             /**< Define fixed sink rate or */
->>                 /**< use 0 to indicate need to get */
->>                 /**< the rate from stream */
->> uint32_t asynchronous_mode;     /**< synchronous 0, asynchronous 1 */
->>                 /**< When 1 the ASRC tracks and */
->>                 /**< compensates for drift. */
->> uint32_t operation_mode;        /**< push 0, pull 1, In push mode the */
->>                 /**< ASRC consumes a defined number */
->>                 /**< of frames at input, with varying */
->>                 /**< number of frames at output. */
->>                 /**< In pull mode the ASRC outputs */
->>                 /**< a defined number of frames while */
->>                 /**< number of input frames varies. */
->>
->> They are clearly different from what is suggested above with a 'ratio-
->> mod'.
+On 09/08/2024 05:10, Kuninori Morimoto wrote:
 > 
-> I don't think so. The proposed (A)SRC for compress-accel is just one
-> case for the above configs where the input is known and output is
-> controlled by the requested rate. The I/O mechanism is abstracted enough
-> in this case and the driver/hardware/firmware must follow it.
-
-ASRC is usually added when the nominal rates are known but the clock
-sources differ and the drift needs to be estimated at run-time and the
-coefficients or interpolation modified dynamically
-
-If the ratio is known exactly and there's no clock drift, then it's a
-different problem where the filter coefficients are constant.
-
->> Same if you have a 'simple EQ'. there are dozens of ways to implement
->> the functionality with FIR, IIR or a combination of the two, and
->> multiple bands.
->>
->> The point is that you have to think upfront about a generic way to pass
->> parameters. We didn't have to do it for encoders/decoders because we
->> only catered to well-documented standard solutions only. By choosing to
->> support PCM processing, a new can of worms is now open.
->>
->> I repeat: please do not make the mistake of listing all processing with
->> an enum and a new structure for parameters every time someone needs a
->> specific transform in their pipeline. We made that mistake with SOF and
->> had to backtrack rather quickly. The only way to scale is an identifier
->> that is NOT included in the kernel code but is known to higher and
->> lower-levels only.
+> Hi Tomi
 > 
-> There are two ways - black box (UUID - as you suggested) - or well
-> defined purpose (abstraction). For your example 'simple EQ', the
-> parameters should be the band (frequency range) volume values. It's
-> abstract and the real filters (resp. implementation) used behind may
-> depend on the hardware/driver capabilities.
+> Thank you for your review
+> 
+> 
+>>> +/**
+>>> + * of_graph_get_next_ports() - get next ports node.
+>>> + * @parent: pointer to the parent device node
+>>> + * @ports: current ports node, or NULL to get first
+>>> + *
+>>> + * Return: A 'ports' node pointer with refcount incremented. Refcount
+>>> + * of the passed @prev node is decremented.
+>>
+>> No "prev" argument in the code.
+>>
+>> The of_graph_get_next_endpoint() function uses "previous" as the
+>> argument name (well, the function declaration uses "previous", the
+>> implementation uses "prev"...), and I would use the same naming here.
+>>
+>> Also of_graph_get_next_endpoint() talks about "previous endpoint node",
+>> whereas here it's "current ports node". I'd use the same style here, so
+>> "previous ports node".
+>>
+>> The same comments for the of_graph_get_next_port().
+> 
+> OK, thanks. Will fix in v2
+> 
+>>> +struct device_node *of_graph_get_next_ports(struct device_node *parent,
+>>> +					    struct device_node *ports)
+>>> +{
+>>> +	if (!parent)
+>>> +		return NULL;
+>>> +
+>>> +	if (!ports) {
+>>> +		ports = of_get_child_by_name(parent, "ports");
+>>> +
+>>> +		/* use parent as its ports of this device if it not exist */
+>>
+>> I think this needs to be described in the kernel doc. I understand the
+>> need for this, but it's somewhat counter-intuitive that this returns the
+>> parent node if there are no ports nodes, so it must be highlighted in
+>> the documentation.
+>>
+>> I wonder if a bit more complexity here would be good... I think here we
+>> could:
+>>
+>> - If there are no 'ports' nodes in the parent, but there is a 'port'
+>> node in the parent, return the parent node
+>> - If there are no 'ports' nor 'port' nodes in the parent, return NULL
+> 
+> Thanks, but unfortunately, get_next_ports() checks only "ports" and
+> doesn't check whether it has "port" node or not.
 
-Indeed there is a possibility that the parameters are high-level, but
-that would require firmware or hardware to be able to generate actual
-coefficients from those parameters. That usually requires some advanced
-math which isn't necessarily obvious to implement with fixed-point hardware.
+Yes, my point was if the check should be added. My reasoning is:
 
-> From my view, the really special cases may be handled as black box, but
-> others like (A)SRC should follow some well-defined abstraction IMHO to
-> not force user space to handle all special cases.
+If we have this, of_graph_get_next_ports() returns the ports@0, and that 
+makes sense:
 
-I am not against the high-level abstractions, e.g. along the lines of
-what Android defined:
-https://developer.android.com/reference/android/media/audiofx/AudioEffect
+parent {
+	ports@0 {
+		port@0 { };
+	};
+};
 
-That's not sufficient however, we also need to make sure there's an
-ability to provide pre-computed coefficients in an opaque manner for
-processing that doesn't fit in the well-defined cases. In practice there
-are very few 3rd party IP that fits in well-defined cases, everyone has
-secret-sauce parameters and options.
+If we have this, of_graph_get_next_ports() returns the parent, and 
+that's a bit surprising, but I can see the need, and it just needs to be 
+documented:
+
+parent {
+	port { };
+};
+
+But if we have this, does it make sense that of_graph_get_next_ports() 
+returns the parent, or should it return NULL:
+
+parent {
+	/* No ports or port */
+};
+
+> So correct comment here is maybe...
+> 
+> 	If "parent" doesn't have "ports", it returns "parent" itself as "ports"
+> 
+> I will add it on v2
+> 
+>>> +/**
+>>> + * of_graph_get_next_port() - get next port node.
+>>> + * @parent: pointer to the parent device node
+>>> + * @port: current port node, or NULL to get first
+>>> + *
+>>> + * Return: A 'port' node pointer with refcount incremented. Refcount
+>>> + * of the passed @prev node is decremented.
+>>> + */
+>>> +struct device_node *of_graph_get_next_port(struct device_node *parent,
+>>> +					   struct device_node *port)
+>>> +{
+>>> +	if (!parent)
+>>> +		return NULL;
+>>> +
+>>> +	if (!port) {
+>>> +		struct device_node *ports __free(device_node) =
+>>> +			of_graph_get_next_ports(parent, NULL);
+>>> +
+>>> +		return of_get_child_by_name(ports, "port");
+>>> +	}
+>>> +
+>>> +	do {
+>>> +		port = of_get_next_child(parent, port);
+>>> +		if (!port)
+>>> +			break;
+>>> +	} while (!of_node_name_eq(port, "port"));
+>>> +
+>>> +	return port;
+>>> +}
+>>
+>> Hmm... So if I call this with of_graph_get_next_port(dev_node, NULL)
+>> (dev_node being the device node of the device), it'll give me the first
+>> port in the first ports node, or the first port in the dev_node if there
+>> are no ports nodes?
+> 
+> Yes
+> 
+>> And if I then continue iterating with of_graph_get_next_port(dev_node,
+>> prev_port)... The call will return NULL if the dev_node contains "ports"
+>> node (because the dev_node does not contain any "port" nodes)?
+>>
+>> So if I understand right, of_graph_get_next_port() must always be called
+>> with a parent that contains port nodes. Sometimes that's the device's
+>> node (if there's just one port) and sometimes that's ports node. If it's
+>> called with a parent that contains ports node, it will not work correctly.
+>>
+>> If the above is right, then should this just return
+>> "of_get_child_by_name(parent, "port")" if !port, instead of calling
+>> of_graph_get_next_ports()?
+> 
+> Hmm ?  Do you mean you want access to ports@1 memeber port after ports@0 ?
+> I have tested below in my test environment
+> 
+> 	parent {
+> (X)		ports@0 {
+> (A)			port@0 { };
+> (B)			port@1 { };
+> 		};
+> (Y)		ports@1 {
+> (C)			port@0 { };
+> 		};
+> 	};
+> 
+> In this case, if you call get_next_port() with parent,
+> you can get ports@0 member port.
+> 
+> 	/* use "paramet" and use "ports@0" are same result */
+> 
+> 	// use parent
+> 	port = of_graph_get_next_port(parent, NULL); // (A)
+> 	port = of_graph_get_next_port(parent, port); // (B)
+> 	port = of_graph_get_next_port(parent, port); // NULl
+> 
+> 	// use ports@0
+> 	ports = of_graph_get_next_ports(parent, NULL); // (X)
+> 	port  = of_graph_get_next_port(ports, NULL);   // (A)
+> 	port  = of_graph_get_next_port(ports, port);   // (B)
+> 	port  = of_graph_get_next_port(ports, port);   // NULl
+> 
+> If you want to get ports@1 member port, you need to use ports@1.
+> 
+> 	// use ports@1
+> 	ports = of_graph_get_next_ports(parent, NULL);  // (X)
+> 	ports = of_graph_get_next_ports(parent, ports); // (Y)
+> 	port  = of_graph_get_next_port(ports, NULL);    // (C)
+> 
+> I have confirmed in my test environment.
+> But please double check it. Is this clear for you ?
+
+Ah, I see now. I was expecting of_get_next_child() to return children of 
+'parent', but that's actually not the case.
+
+So when you call:
+
+	port = of_graph_get_next_port(parent, NULL); // (A)
+
+the function will call 'ports = of_graph_get_next_ports(parent, NULL)' 
+(ports is (X)) and then return of_get_child_by_name(ports, "port") 
+(which is (A)). This is fine.
+
+	port = of_graph_get_next_port(parent, port); // (B)
+
+Here the function will call 'port = of_get_next_child(parent, port)', 
+where parent is the parent node, and port is (A). The problem is, (A) is 
+not a child of the parent. This seems to work, as of_get_next_child() 
+does not use the 'parent' for anything if 'port' is given, instead if 
+just gives the next sibling of 'port'.
+
+	port = of_graph_get_next_port(parent, port); // NULl
+
+And now when the function calls of_get_next_child(parent, port), it does 
+not give the next child of parent, but instead NULL because 'port' has 
+no more siblings.
+
+The documentation for of_get_next_child() doesn't mention if calling 
+of_get_next_child(parent, child) is valid when the given child is 
+actually not a child of the parent. The doc says that 'prev' parameter 
+should be "previous child of the parent node", which is not the case 
+here. So using it like this does not sound right to me.
+
+And just looking at the behavior of:
+
+ > 	port = of_graph_get_next_port(parent, NULL); // (A)
+ > 	port = of_graph_get_next_port(parent, port); // (B)
+ > 	port = of_graph_get_next_port(parent, port); // NULl
+
+it does not feel right. Why does of_graph_get_next_port() return only 
+the ports of ports@0? I think it should either return nothing, as there 
+are no 'port' nodes in the parent, or it should return all the port 
+nodes from all the ports nodes.
+
+Can we just drop the use of of_graph_get_next_ports() from 
+of_graph_get_next_port()? In other words, make of_graph_get_next_port() 
+iterate the 'port' nodes strictly only in the given parent node.
+
+I think we have the same problem in of_graph_get_next_ports(). If we have:
+
+parent {
+	port { };
+};
+
+And we do:
+
+ports = of_graph_get_next_ports(parent, NULL)
+
+The returned 'ports' is actually the 'parent'. If we then call:
+
+ports = of_graph_get_next_ports(parent, ports)
+
+we are effectively calling of_graph_get_next_ports(parent, parent). This 
+results in of_get_next_child(parent, parent). of_get_next_child() will 
+return the next sibling of parent (so, perhaps, a node for some 
+unrelated device). It then checks if the name of that node is 'ports'. 
+So, while unlikely, if we have:
+
+bus {
+	/* our display device */
+	display {
+		port { };
+	};
+
+	/* some odd ports device */
+	ports {
+	};
+};
+
+and you use of_graph_get_next_ports() for display, you'll end up getting 
+the 'ports' node.
+
+I have to say, I feel that making the 'ports' node optional in the graph 
+DT bindings was a mistake, but nothing we can do about that...
+
+Can you try adding "WARN_ON(node && prev && node != prev->parent)" to 
+of_get_next_child()?
+
+>> Or maybe I'm just getting confused here. But in any case, I think it
+>> would be very good to describe the behavior on the kernel doc for the
+>> different ports/port structure cases (also for
+>> of_graph_get_next_ports()), and be clear on what the parameters can be,
+>> i.e. what kind of device nodes can be given as parent, and how the
+>> function iterates over the ports.
+> 
+> OK, will do in v2
+> 
+>>> + * @np: pointer to the parent device node
+>>> + *
+>>> + * Return: count of port of this device node
+>>> + */
+>>> +unsigned int of_graph_get_port_count(struct device_node *np)
+>>> +{
+>>> +	struct device_node *port = NULL;
+>>> +	int num = 0;
+>>> +
+>>> +	for_each_of_graph_port(np, port)
+>>> +		num++;
+>>> +
+>>> +	return num;
+>>> +}
+>>
+>> I my analysis above is right, calling of_graph_get_port_count(dev_node)
+>> will return 1, if the dev_node contains "ports" node which contains one
+>> or more "port" nodes.
+> 
+> In my test, it will be..
+> 
+> 	parent {
+> 		ports@0 {
+> 			port@0 { };
+> 			port@1 { };
+> 		};
+> 		ports@1 {
+> 			port@0 { };
+> 		};
+> 	};
+> 
+> 	of_graph_get_port_count(parent); // 2 = number of ports@0
+
+I think the above is a bit surprising, and in my opinion points that 
+there is a problem. Why does using 'parent' equate to only using 
+'ports@0'? Again, I would expect either to get 0 (as there are no 'port' 
+nodes in parent, or 3.
+
+> 	of_graph_get_port_count(ports0); // 2 = number of ports@0
+> 	of_graph_get_port_count(ports1); // 1 = number of ports@1
+> 
+> 
+> Thank you for your help !!
+> 
+> Best regards
+> ---
+> Kuninori Morimoto
+
+  Tomi
+
