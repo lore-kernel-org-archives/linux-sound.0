@@ -1,110 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FBF916D315;
-	Fri,  9 Aug 2024 07:35:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD844178374
+	for <linux-sound@vger.kernel.org>; Fri,  9 Aug 2024 07:38:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723188949; cv=none; b=aNlEL/h0CsDlGyS4O92mtGzoymg5GGA8ziVURMPoMEtCXADJP9DZIXWTtT9T/8G9HhNzWc0CSbh9YS4LNwHoB2Hu6lE+VGst9XCAcEBdHYnA6YiVO1JGXNonP1JXQKejLYmoIIScgnGeYMlBvXH3KhszyoahdPhQq3DU5ii1610=
+	t=1723189131; cv=none; b=puor8XBuwNXRPqXwwyJGCGrKd0FOymMvOGAn8v/WUjQE2zzQmzKlYD9yk+8+siqJe+RbT0B42XEMm8R4KzEVXPy5zaK9Ea3033ikOsbX75/RB6xyCszFCU5a9Ib8BhLonz7AuBqP4Zm0xvUD8oZirqeGdnHkj/xQUyebHD6de/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723188949; c=relaxed/simple;
-	bh=1QQ6IERaVvmQgZYfk/xYBeo9a86+7mGsf8Ey/jbzXQ4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F8NYgATU1nqzPT9dTGk5xWcewv6HADSWIN8acJOwwm6WaYqlMWzy75POQ6hXWN4LeBc61u/mZeiedCc4yKjnELDB71E8NWKY16KAtyOxNk/Bh1Z733/GeiR3JXD8GYPIvl92TVaD5TffvgI7ssUkGMpBqZuXwvGVLvgqHqAZhv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ANIuIKC4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723189131; c=relaxed/simple;
+	bh=sQ0OABIkAQP60E6wrjZJyxI9WwqK0Aysu70B42xsYjc=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=gdba2WUTdWpQnwFqCfnF9bBNZp6z7nKK52E0T/ViZ92LgjJ9KwiyOzCcA7j0DIS1xg1OWvYlMpF41aenNAKoEGP2nJ+ht7nx9mHUbHs5Fqby7G62C7atkD3uLtPjM0qJK5aOVEcyz7bIht4uKFEAfuh86JgJIrLtYgwLdABBqQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=aIHxreeW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=crwkcgCL; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Rvd+5nW0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=p0Qp4LSm; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ANIuIKC4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1F67C32782;
-	Fri,  9 Aug 2024 07:35:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723188948;
-	bh=1QQ6IERaVvmQgZYfk/xYBeo9a86+7mGsf8Ey/jbzXQ4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ANIuIKC44kb6rGZ2+BWwRs1fobAope6oTe2TR7eZVrvbX7dln1qyRVxRQKEsfbkrh
-	 uwriJwOtabpfS9B0tJrWQn1FcHKN3ttkKaRVh+2mSZ4kSB6X7kuvbEMSai2CkabR62
-	 ux2cXvV/DaG8/+vCDJu3qff1flOWYJSyBe7B7/RYUrZYCFJQogCIIqMxhXRkTg7CL0
-	 Xcujy+YV88lBR3Q1z6YyEykvS/oTBx7dBPTqFFmW8iBYtNnB5CKSok2KZ3RfzIQjTc
-	 fXg4+nWPdLP7tHpV3f/ATUGx985XAwj7U+f0fDwbpN7iaoTPgIDTyHQRZ596jTYLRr
-	 KbbiBQT9dnY/w==
-Date: Fri, 9 Aug 2024 08:35:42 +0100
-From: Mark Brown <broonie@kernel.org>
-To: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-Cc: alsa-devel@alsa-project.org, Basavaraj.Hiregoudar@amd.com,
-	Sunil-kumar.Dommati@amd.com, venkataprasad.potturu@amd.com,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	"moderated list:SOUND - SOUND OPEN FIRMWARE (SOF) DRIVERS" <sound-open-firmware@alsa-project.org>,
-	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/8] ASoC: SOF: amd: fix for acp error reason registers
- wrong offset
-Message-ID: <ZrXGzmhgyIJ9ID6I@finisterre.sirena.org.uk>
-References: <20240807051341.1616925-1-Vijendar.Mukunda@amd.com>
- <20240807051341.1616925-2-Vijendar.Mukunda@amd.com>
- <ZrUdOyGiFRH0sRlt@finisterre.sirena.org.uk>
- <a6a0c975-728b-4379-b074-b88ac928c58b@amd.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="aIHxreeW";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="crwkcgCL";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Rvd+5nW0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="p0Qp4LSm"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E32BB1FF18;
+	Fri,  9 Aug 2024 07:38:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1723189127; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=2d+olvftG6F6K/BckjXKnNY9rKTPJWZsUUjEg9wfgYg=;
+	b=aIHxreeWl9QgiotrqfNiRBeFxxNFC4Xor+hKHOrufp6iezkGOyU6m3Olg0DHqAvWdUzQu1
+	U5oVu+c1umML1S/LTGqSsdXWutWGOBXBHM8cEA3Ze1e5/EQvTDvXw05pcDV/Y2NZ3hjT55
+	jFSb0CaFPNqRxLkO+9pwV1LtB1GiSsc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1723189127;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=2d+olvftG6F6K/BckjXKnNY9rKTPJWZsUUjEg9wfgYg=;
+	b=crwkcgCLwstvoQr91MsycPdxxbgQr4Z22k61di8mPrYUq89jhRWzvPPCsnxOP4Tougs+R1
+	0UoZgNRWvHD2r5Ag==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Rvd+5nW0;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=p0Qp4LSm
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1723189126; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=2d+olvftG6F6K/BckjXKnNY9rKTPJWZsUUjEg9wfgYg=;
+	b=Rvd+5nW0mVweefwETpTfMOx5b7qEjxIBI+ol9lgZAGGHlVjuxugY2Elk++aAAMs/BJn3TC
+	48Ev3IF4t/hu8aPy8fUeLLZk8sHMSpu1toGtx9reTo6UMgTkibrOPF4ngwEx1S3P8kVwke
+	OaijXNT2n2k03h2qfzxFgnzWCrUoV2I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1723189126;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=2d+olvftG6F6K/BckjXKnNY9rKTPJWZsUUjEg9wfgYg=;
+	b=p0Qp4LSmG8w9YSSrYWoFi0GH89Tvcq+zuZppjVCoIWQ7fRljXSuFJtvED+0b90WBq73xDK
+	HSYn+taxxc9Tn+DQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C86001379A;
+	Fri,  9 Aug 2024 07:38:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id soCtL4bHtWaEFQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 09 Aug 2024 07:38:46 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: sparc: Fix a typo at dev_*() conversion
+Date: Fri,  9 Aug 2024 09:39:21 +0200
+Message-ID: <20240809073923.3735-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="oZGvFgiQ7XPpJzCg"
-Content-Disposition: inline
-In-Reply-To: <a6a0c975-728b-4379-b074-b88ac928c58b@amd.com>
-X-Cookie: Your love life will be... interesting.
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_ONE(0.00)[1];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -2.01
+X-Rspamd-Queue-Id: E32BB1FF18
 
+There was a stupid typo left that broke the build.  Fix it.
 
---oZGvFgiQ7XPpJzCg
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fixes: d41abde89483 ("ALSA: sparc: Use standard print API")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202408090648.J2EAijjH-lkp@intel.com/
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/sparc/cs4231.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Fri, Aug 09, 2024 at 07:30:54AM +0530, Mukunda,Vijendar wrote:
-> On 09/08/24 01:02, Mark Brown wrote:
+diff --git a/sound/sparc/cs4231.c b/sound/sparc/cs4231.c
+index 5f39b7847d31..a1339f9ef12a 100644
+--- a/sound/sparc/cs4231.c
++++ b/sound/sparc/cs4231.c
+@@ -2015,7 +2015,7 @@ static int snd_cs4231_ebus_create(struct snd_card *card,
+ 
+ 	if (ebus_dma_register(&chip->p_dma.ebus_info)) {
+ 		snd_cs4231_ebus_free(chip);
+-		dev_dbg(chpi->card->dev,
++		dev_dbg(chip->card->dev,
+ 			"cs4231-%d: Unable to register EBUS play DMA\n",
+ 			dev);
+ 		return -EBUSY;
+-- 
+2.43.0
 
-> > /build/stage/linux/sound/soc/sof/amd/acp.c: In function =E2=80=98acp_ir=
-q_handler=E2=80=99:
-> > /build/stage/linux/sound/soc/sof/amd/acp.c:407:26: error: =E2=80=98stru=
-ct acp_dev_data=E2=80=99 h
-> > as no member named =E2=80=98pci_rev=E2=80=99
-> >   407 |                 if (adata->pci_rev >=3D ACP_RMB_PCI_ID)
-> >       |                          ^~
-
-> This patch is part of https://github.com/thesofproject/linux/pull/5103
-> which got successfully merged into sof github without any build errors.
-> This patch is dependent on
-> Link: https://patch.msgid.link/20240801111821.18076-10-Vijendar.Mukunda@a=
-md.com
-> which got already merged in to ASoC tree for-next base.
-> It shouldn't cause build error if the dependent patch already merged.
-
-Are the patches it depends on actually before it in the patch series?
-We want the resulting git tree to be bisectable, that means testing each
-commit not just the final result.
-
---oZGvFgiQ7XPpJzCg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAma1xs0ACgkQJNaLcl1U
-h9D8Awf+Idi79Uow4rDHeevyxUJtVFJXMcuUJIjmkUD4+D/O9De7gvSHEszmIGbL
-J8DQrDQ6PJhXBSEcdGojOFP4EB5zXiX3f4pt3rY+Fi2D7ek4A+kjdG8UFrpeX4qQ
-WBQP1ycUxZSV0JI7+a0pBVoo+Zr0tAcn4Rar29VXRKFH4ZD1JCUIKsRf6Db1JZRt
-hgJf41uLg5siRcgrouiVrJeqiL0SvsK2IWbINNbbJ4xc52YDjLs0H8+ux0MCh+/E
-h2Hd3q7THZibHlVEuBO+v6h6e86dR6k+X05Ou5uPgGeygR88Mm+3NQb47SXIj28K
-l56vUzz42Bjtmk0dQLonssYugDtOyg==
-=iQRN
------END PGP SIGNATURE-----
-
---oZGvFgiQ7XPpJzCg--
