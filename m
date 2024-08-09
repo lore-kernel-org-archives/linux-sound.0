@@ -1,103 +1,139 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A25342F2A
-	for <linux-sound@vger.kernel.org>; Fri,  9 Aug 2024 07:46:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1553918C341
+	for <linux-sound@vger.kernel.org>; Fri,  9 Aug 2024 07:56:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723189612; cv=none; b=ACrd6Z/jjnqQomBj8bChZ9WbxXqIo34WJPZh0a4xKQF4Rt5tEujhj3NBq92g3jlwohKoHi6ivqaYHI8DY8vcDEC04apnkRdoh2HFYdQSMVhiI7SsPleIhyaIHQIwTeXEpOiyWSds8EU+W2N+SAPo/zTwWg2XBbsdbwW9bLESteU=
+	t=1723190186; cv=none; b=Qx2wUR7QSD/IFn+d4BJKtwKUCEgtX+9LNNIUyZkXvps++VNBT+vKdhwRCvnqoi7J4K2QIJpidzaNThKB4tjv4eo5xDRGdgbEMbpUsjSiLJK2Rx3DbuucPKWm7gGRqeqzknVK1yYmGk7ITkvvSeGKPc73Dzyg51wGy54ckLLZ3Gc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723189612; c=relaxed/simple;
-	bh=yE/j6LwbATd3WDdJI5LQMHP4eVu5OlIY1oGiBy7ivI8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=sQSxbXHunZJX4eEvgVXuK9FaRFes+QEKf0spe1EY2qoUDA7JDaJxWhqt3fsXRUhgzRATw+IpJZMnR0oPqG8hpbxCyNxyGW5uD2D/8YVeFYF+D6NJ4MP68y89srA+BF9G8bODoHrf1PuxRNMJFRRtcvtcSBXh2yFO5+S2SuZ1djE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=oMKzhsOa; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1723190186; c=relaxed/simple;
+	bh=fTuh6JVy1EFxAjI7n3vU5i91OsVVDDj/U5PirwltkdM=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=AqfI0+plFEo3uMim5RVBXamA0HPLaW8gGBqIfYLlQv1+B3Vqe0veIyZA1w9UH1vUAUMpElWIv34KKw1q5BXXBcL8uUFqAcdxiqlhZhJsAGbY3UArQeyloeGv1J3fkDlzCkNHOcvakTQfgQUrjRtkVKMrI3d0p55DKQbMRZ1iLbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wpz/PdOL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RaAYsLaf; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tQpzF47c; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cmpvMxAl; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="oMKzhsOa"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-52f04b4abdcso2490812e87.2
-        for <linux-sound@vger.kernel.org>; Fri, 09 Aug 2024 00:46:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1723189607; x=1723794407; darn=vger.kernel.org;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IXOZbpBdtAtASbi5mwiMcBD80AMiez6TY4CZLJc+Zgk=;
-        b=oMKzhsOa7rsccyZ/jiBI1M1FsF4GaEJKZFfxPQKvVQLtFYx3LnDZXQz8IkDM+odJME
-         /Jdjj3r6Vz508HFw6dBviL4OdSIaTm/Ty/ndd0S9FVLZUcFNT5/93kSZEZgkpFiHiLxA
-         YyA+D74HflkoxtGyohejSd1Zfrbi7oZwrrxclkR//4e0YZEtjwmOE6IwkTvtLkGjl+bg
-         c+z0yBoJ1lx1ZtvsQoGjX1w2sBYYNQHHQ+v8i6ChHWPPHE2wXpTnmiclkDui+P+kSMS0
-         yuxnQBCZnWW+E1XgnMbDX/E1Rs7PWTkrzEYxz6n9T7g7+AGwUInv408JTpvMJgo7LH3u
-         9l6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723189607; x=1723794407;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IXOZbpBdtAtASbi5mwiMcBD80AMiez6TY4CZLJc+Zgk=;
-        b=LEpKnv365QUGN31JFwtyfzDUspTfTdBSXJcdY9hVjSNy4Le6UGOEr22Aj1/5Eul0eJ
-         25Btzo156VFdsMYUcM6Rxclc8Ro9M8uT+MRdlqLbtJ0Z9IXcfr2BXIC8lka71nqWjNn1
-         YghX+2MUTcc16jEnu/TX+Q+Qk5V3XSa19uwdumJC3KMGb9CwZiSSOJ8AhNeppvhX+F0p
-         3mHrxwltkbSABoGs0SaoIbuZXrihAibC3+KU6aaTEqNa1Yn/WI9wegtqM8zEDFuBdl6F
-         PlKvZLf9TbKxj8ZsyvFZubkED1LOUEeDeBtUVEaxLjUqRWiLn5f1PigRt+JZCkjh7QPO
-         NmxA==
-X-Gm-Message-State: AOJu0Yz56Xa/OrE8fvZvmbzocWEvw0hpQSnyd+96WnaDpGtY8un+/4x5
-	QN/wsiqe8Jn9jbrFTaDgkPu4KGwyoYhPOfd1hPNQSscMIypdxwphzCbqio5TU/tkiPDXy85fY7D
-	t
-X-Google-Smtp-Source: AGHT+IHGDOhn6GL00I9MsL6+ajMXfYmWpgD+pLaKwS8k8pw2adPNJimpdh8Z0WZVyOX//c2+COOJlQ==
-X-Received: by 2002:a05:6512:ac6:b0:530:ae4f:337a with SMTP id 2adb3069b0e04-530ee96f414mr548027e87.3.1723189606284;
-        Fri, 09 Aug 2024 00:46:46 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:f0cb:cecc:348d:4d08])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4290c72d551sm64038395e9.2.2024.08.09.00.46.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Aug 2024 00:46:45 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ALSA: caiaq: Fix unused variable warning
-In-Reply-To: <20240809074254.5290-1-tiwai@suse.de> (Takashi Iwai's message of
-	"Fri, 9 Aug 2024 09:42:51 +0200")
-References: <20240809074254.5290-1-tiwai@suse.de>
-Date: Fri, 09 Aug 2024 09:46:45 +0200
-Message-ID: <1jh6buxhne.fsf@starbuckisacylon.baylibre.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wpz/PdOL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RaAYsLaf";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tQpzF47c";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cmpvMxAl"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id F147721DC2;
+	Fri,  9 Aug 2024 07:56:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1723190183; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=CTWHt9+HanYggxpCst1yVPLE8QDyJezqm4n/lpiQLVs=;
+	b=wpz/PdOLFfjgmqy0dq4R2WdvdyP6jKmYJ1bkS57sIO77zLMx9ryNkzrZ63FhQ7/aRMrqoh
+	xxjhvbJJlUsHtsxH9twlB7ExJUkfv2TE5NLW7Lr6ILN1NsdXgtkQxvLQ0xKsoYKiP/8Ztg
+	JSrvVASEzr3TjgY0JG47IY0vM6ofVEA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1723190183;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=CTWHt9+HanYggxpCst1yVPLE8QDyJezqm4n/lpiQLVs=;
+	b=RaAYsLafMl/NRwh1l8IPdft57jX6Qv2UONPs5JbEJTYYgVleVdpfYT5RbuBrSLw8UpOHoX
+	QQzAaTzxfaMZ1jBA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1723190182; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=CTWHt9+HanYggxpCst1yVPLE8QDyJezqm4n/lpiQLVs=;
+	b=tQpzF47cRaCub3Bil7gKarx5a+Ef9b1arMJcAxz5vw6FEjpOIrOKuArE1OgbDFuyiKDuDb
+	jp1z90NRicWQU7I1sA5LwFTF8zmoCLN+vnceb8H0itoNzhj00jSDOMeUczmVHmlZMZiOaK
+	iFcFRDShmK46bt0Fo8Bjcc3F+ZMXyug=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1723190182;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=CTWHt9+HanYggxpCst1yVPLE8QDyJezqm4n/lpiQLVs=;
+	b=cmpvMxAl+Dnt/tN73n5p3GvfAlKPGhX2S1M836xCKXUBF4elQWAw1ty8kIXi8hbZEC+hbW
+	PLKm+oTGp7uLfrDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D4E161379A;
+	Fri,  9 Aug 2024 07:56:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 6VysMqbLtWZnGgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 09 Aug 2024 07:56:22 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: usx2y: Drop no longer used variable
+Date: Fri,  9 Aug 2024 09:56:59 +0200
+Message-ID: <20240809075700.7320-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [0.20 / 50.00];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,intel.com:email,suse.de:email];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Flag: NO
+X-Spam-Score: 0.20
 
-On Fri 09 Aug 2024 at 09:42, Takashi Iwai <tiwai@suse.de> wrote:
+The recent conversion to the standard print API included some cleanups
+and that changed the code no longer referring to a variable iters at
+usb_stream_start().  This caused a compiler warning in the end.
+Let's drop the unused variable.
 
-> The recent cleanup of caiaq driver forgot to remove the unused loop
-> variable:
-> sound/usb/caiaq/audio.c: In function 'snd_usb_caiaq_pcm_prepare':
-> sound/usb/caiaq/audio.c:179:41: error: unused variable 'i' [-Werror=unused-variable]
->
-> Fixes: e95b9f7f2ee0 ("ALSA: snd-usb-caiaq: use snd_pcm_rate_to_rate_bit")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Closes: https://lore.kernel.org/20240809112252.5af8025f@canb.auug.org.au
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Fixes: f8466d91f36d ("ALSA: usx2y: Use standard print API")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202408090249.8LE9qrae-lkp@intel.com/
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/usb/usx2y/usb_stream.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Urgh, sorry about that. Thanks for taking care of it.
-
-> ---
->  sound/usb/caiaq/audio.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/sound/usb/caiaq/audio.c b/sound/usb/caiaq/audio.c
-> index e62a4ea1d19c..772c0ecb7077 100644
-> --- a/sound/usb/caiaq/audio.c
-> +++ b/sound/usb/caiaq/audio.c
-> @@ -176,7 +176,7 @@ static int snd_usb_caiaq_pcm_hw_free(struct snd_pcm_substream *sub)
->  
->  static int snd_usb_caiaq_pcm_prepare(struct snd_pcm_substream *substream)
->  {
-> -	int bytes_per_sample, bpp, ret, i;
-> +	int bytes_per_sample, bpp, ret;
->  	int index = substream->number;
->  	struct snd_usb_caiaqdev *cdev = snd_pcm_substream_chip(substream);
->  	struct snd_pcm_runtime *runtime = substream->runtime;
-
+diff --git a/sound/usb/usx2y/usb_stream.c b/sound/usb/usx2y/usb_stream.c
+index 66ea610aa433..3122cf653273 100644
+--- a/sound/usb/usx2y/usb_stream.c
++++ b/sound/usb/usx2y/usb_stream.c
+@@ -665,7 +665,7 @@ static void i_playback_start(struct urb *urb)
+ int usb_stream_start(struct usb_stream_kernel *sk)
+ {
+ 	struct usb_stream *s = sk->s;
+-	int frame = 0, iters = 0;
++	int frame = 0;
+ 	int u, err;
+ 	int try = 0;
+ 
+@@ -700,7 +700,6 @@ int usb_stream_start(struct usb_stream_kernel *sk)
+ 			frame = usb_get_current_frame_number(dev);
+ 			do {
+ 				now = usb_get_current_frame_number(dev);
+-				++iters;
+ 			} while (now > -1 && now == frame);
+ 		}
+ 		err = usb_submit_urb(inurb, GFP_ATOMIC);
 -- 
-Jerome
+2.43.0
+
