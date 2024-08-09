@@ -1,63 +1,160 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71EBBA41;
-	Fri,  9 Aug 2024 17:31:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5107D14F123
+	for <linux-sound@vger.kernel.org>; Fri,  9 Aug 2024 18:53:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723224675; cv=none; b=OxZhqT57H8C66GwmOW4qnLWtTBHyJJzhBB0kzSo4ntpW439rVZz5P+vy3eMvFQVDb7Dk7ewIuTy87odW8joKCz6nIFBbEahZPnwiE6SBtJYjwsAledu7iV36RVqmEJENxMSVWLMG//SmO3qhzAtpg8BWI2RPmVBo6sEUCTLVyxA=
+	t=1723229614; cv=none; b=GqCbJ+viYgR6N8d+h2Vwg8VHVIiCYYT+DU+hakleDj2Xql5otdQMQ5c6ERKNbdH+V38yr/GvwgDCmCLa6eRAm+g2CgpVgrbx8WsEabkhD7uHZmViVTMl0kkLACyd4aDmcrlk7/v56JaKvqjYmxPeTwmbMV0wia4sf1WzWR7iFWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723224675; c=relaxed/simple;
-	bh=QRuvaosOhAa+BOFHbay8mCENTDT2+MAB2VbQfAfkK0g=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=l/0dOxyvUAAw65UDYj0fyxWEYd3QOzn5tU7oZShpDFTfGfRy2AxxdwkmCjUEVGTdoCkwR2Li964jemJkWZXrE1Hv4cLG2l8EUc+ZuXm9a9eOlbscSxm1a04BuCdftLH6EkbwKOKW6xmU0RLD5vVBCNyoRNSvRKN3f3dhS3Nny5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r1/FC6fA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723229614; c=relaxed/simple;
+	bh=kQRoSA92hYDyVhwG0YjQLYfA8ChI4kIlBvhbXyQNZzc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bvcWNqAHbYD/X+CriXxk/sxxa+8+vQkXXC1M3wxNhO1eVsvlr/WcQ9KjlMbxG2TA7VfquPkDdcOjjVGQCHTGqKVN+8y1584BczC7k+KB/j161TWyAY76l9Ef4KO7Byi28J3cvollg2Iq7XKD7MRCDFbK0SmzshBd/O3QLf8pe4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ExrzfYK9; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r1/FC6fA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F5BFC32782;
-	Fri,  9 Aug 2024 17:31:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723224675;
-	bh=QRuvaosOhAa+BOFHbay8mCENTDT2+MAB2VbQfAfkK0g=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=r1/FC6fA8iuF2mvKCy0TjivgSoPhIQyhmfT2wddMQp8ru24LfDJJUWbpIIDB4D8hR
-	 n11GUDMazDsunMy0T6JOWXnBRdHix+RSuyk8usfy79kmsYqkCw9BoIia+4m+VOg79R
-	 miqsgDeIYPXij0Mo0VJGf86TrhQAw+YHJ09LMR4+6nVJZ/+SvQiPhIILxDPJzSu/wl
-	 lb5euSnxmP7XzLuR6vIisMQFtIYqtFv4YvUHpG4CjSjmjtlEPI8hRGInFIsCYsga27
-	 mfGhna7CHwJxbtj2AVYj3+YIQjn7WzuzzeF0T1lxNX6zjKyn++P3pZwycdsvITh7j7
-	 XVDFRLe4gDLkg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 71733382333D;
-	Fri,  9 Aug 2024 17:31:15 +0000 (UTC)
-Subject: Re: [GIT PULL] sound fixes for 6.11-rc3
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <87ikw9n9nc.wl-tiwai@suse.de>
-References: <87ikw9n9nc.wl-tiwai@suse.de>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87ikw9n9nc.wl-tiwai@suse.de>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.11-rc3
-X-PR-Tracked-Commit-Id: d3e82ced462b4ed956504b62603a11d52a599f99
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 377773dd6be500d17b94de08271ff9ed643554f1
-Message-Id: <172322467401.3855220.17975493456338306114.pr-tracker-bot@kernel.org>
-Date: Fri, 09 Aug 2024 17:31:14 +0000
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ExrzfYK9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1723229612;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9Q0TdrPMBWPxQ8cg3/oqyzMEtJu5iYD7aWaTXlS9y5o=;
+	b=ExrzfYK9P/U0ljGgHZfG1Z+9g9v9wNSN/I516ZXj5BvafMfq9tHVyvWeClr5oZbljlAZ1h
+	K6TNymsMqvyxe/YdCWNL4fep0ZDDGlihe798GR34XnKTNsqXveQWJEU+wQaHQLx1sLDPLV
+	gasjRY7M7LgqPOffULdt9O6Q3hoxerM=
+Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
+ [209.85.217.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-414-Dv9a3C9nNEmZewHJABqv2w-1; Fri, 09 Aug 2024 14:53:31 -0400
+X-MC-Unique: Dv9a3C9nNEmZewHJABqv2w-1
+Received: by mail-vs1-f72.google.com with SMTP id ada2fe7eead31-493c73a971cso1129063137.0
+        for <linux-sound@vger.kernel.org>; Fri, 09 Aug 2024 11:53:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723229610; x=1723834410;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9Q0TdrPMBWPxQ8cg3/oqyzMEtJu5iYD7aWaTXlS9y5o=;
+        b=DkQK8uQ3mU4vxfqsilkx7Xv1l/mHCReYrhfABH764tLcohM1KQmq/RSFvwivU+UOqU
+         3KIE1yZVPj5+zSFrMFWFZUmG4QyzHrV3l4vzmuTnELzma25lbBR+qKhjOsmucdS2yGhl
+         GSd7+ZJ/whLMZvke4LBVtSKID0Iv+b2cdr9VgSh+TLX83WV4EREEnsmbHHrrMR34L/lq
+         mKEmeCOAfNfJ51xEWvnjceMRRd6WISIGdvObXX2L8kOYQWOMU7Jqe94NzD0T06g5eI8o
+         Wc2MbDG+o+TneFE2O/vNy1aq+3dqrT2kvtHgJgfF8dwjvgv7bRlkfEY9x6Gf4dk9yhJQ
+         1FzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVamn+jC/rvHIg44a3DmyFCrS8apKFC6p1HtO0ZVBGrIiPmtf0czh5QYdnD5Ghlk8b2XcwC05zcOOSXZhtuNGf79WfOOMIlb6XJ+j8=
+X-Gm-Message-State: AOJu0YyBn7UZayPRv3IwbSKdzlP8wHQlvHAQTZiH2777YmCJr9vO1vy9
+	qlrRulSQYtqCsLDP1Gmg8eW4S7kocewDXDk5MhFmKEWvinmNjvA2g2Uf58ICmgIAqE0avqHfOcs
+	w10AdJjrPev3BK+VdRtOQe56IO0+WHJ39YpSfnfTg6tOU9Xbt88aSidbkDRx257b3e7yiZR0wTW
+	Aw2vJnsHZ0PWgpDPAyz1EkbnAcrR0onU7e3uY=
+X-Received: by 2002:a05:6102:38c7:b0:493:effa:f13c with SMTP id ada2fe7eead31-495d85836d7mr3406275137.19.1723229610639;
+        Fri, 09 Aug 2024 11:53:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFXMG38O6bXHYSFXkgdhixdY/LL01zjfldoTMjmv76wCz3f6Z9SfwN5XHBpdXER9i7WZ/NwgNIWKqdEzG7NnVE=
+X-Received: by 2002:a05:6102:38c7:b0:493:effa:f13c with SMTP id
+ ada2fe7eead31-495d85836d7mr3406261137.19.1723229610341; Fri, 09 Aug 2024
+ 11:53:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20240808145639.GA20510@asgard.redhat.com> <83d4e1a3-73fc-4634-b133-82b9e883b98b@linuxfoundation.org>
+ <20240809010044.GA28665@asgard.redhat.com> <41cb60af-3175-42ab-896f-b890e51cde0d@linuxfoundation.org>
+In-Reply-To: <41cb60af-3175-42ab-896f-b890e51cde0d@linuxfoundation.org>
+From: Eugene Syromiatnikov <esyromia@redhat.com>
+Date: Fri, 9 Aug 2024 20:53:19 +0200
+Message-ID: <CAKiVLCJK+D7nwSm0rVfL5qh6751SdX-DNHw=rD8OKfcSF767cw@mail.gmail.com>
+Subject: Re: [PATCH] selftests/alsa/Makefile: fix relative rpath usage
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: Eugene Syromiatnikov <esyr@redhat.com>, Artem Savkov <asavkov@redhat.com>, linux-sound@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	bpf@vger.kernel.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-The pull request you sent on Fri, 09 Aug 2024 14:49:43 +0200:
+On Fri, 9 Aug 2024 at 19:01, Shuah Khan <skhan@linuxfoundation.org> wrote:
+>
+> On 8/8/24 19:00, Eugene Syromiatnikov wrote:
+> > On Thu, Aug 08, 2024 at 02:20:21PM -0600, Shuah Khan wrote:
+> >> Wouldn't make sense to fix fix this in selftests main Makefile
+> >> instead of changing the all the test makefiles
+> >
+> > As of now, the usage of rpath is localised, so it is relatively easy
+> > to evaluate the effect/prudence of such a change;  I am not so confident
+> > in imposing rpath on all of the selftests (and, if doing so, I would
+> > rather opt for runpath, to leave out an ability to override the search
+> > path via LD_LIBRARY_PATH, if such need arises);  in that case it is possibly
+> > also worth to add -L$(OUTPUT) to the CFLAGS as well, as the compile-time
+> > counterpart.  But, again, I was trying to avoid the task of evaluating
+> > the possible side effects of such a change, considering the variability
+> > in environments and setups selftests are run.
+>
+> Okay.
+>
+> >
+> >> Same comment on all other files.
+> >
+> >> It would be easier to send these as series
+> >
+> > I hesitated to do so due to the fact that different selftests are seemingly
+> > maintained by different people.
+>
+> You can cc everybody on the cover-letter explaining the change
+> and the individual patches can be sent selectively.
+>
+> This is a kind of change it would be good to go as a series so
+> it will be easier for reviewers.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.11-rc3
+I see, thank you for the explanation.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/377773dd6be500d17b94de08271ff9ed643554f1
+Right now I am working on the variant of the patch that consolidates
+the -L/-rpath flags in lib.mk, do you think it will be of use to have
+some opt-in/opt-out mechanism, or just impose them unconditionally,
+similarly to -D_GNU_SOURCE? So far I don't see any issues with either
+building or running the tests, but I can imagine it might be necessary
+to avoid such flags in some cases.
 
-Thank you!
+> I had to comment on all 3 patches you sent - instead I could have
+> sent one reply to the cover letter. It makes it so much easier for
+> people to follow the discussion and add to it.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+My apologies.
+
+> >> please mentioned the tests run as well after this change.
+> >
+> > I have checked the ldd output after the change remained the same (and that ldd
+> > is able to find the libraries used when run outside the directory the tests
+> > reside in) and did a cursory check of the results of the run of the affected
+> > tests
+>
+> Please mention that then in the change log.
+>
+> I applied this patch and ran alsa test without any issues. You
+> could do the same with:
+>
+> make kselftest TARGETS=alsa
+
+Thanks, will do.
+
+> (but not so sure about the BPF selftests, as they don't compile as-is
+> > due to numerous "incompatible pointer types" warnings that are forced
+> > into errors by -Werror and the fact that it hanged the machine I tried
+> > to run them on).
+> >
+>
+> I see a bpf patch from you in the inbox - if you mention the issues bpf
+> people might be able to help you.
+
+Right, I am in the process of condensing my issues into patches or at
+least useful bug reports.
+
+> I am not replying to your other patches. Take these as comments on others
+> as well.
+>
+> thanks,
+> -- Shuah
+
