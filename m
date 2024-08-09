@@ -1,175 +1,127 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FE5112FB34;
-	Fri,  9 Aug 2024 08:42:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6FDBA41;
+	Fri,  9 Aug 2024 09:09:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723192922; cv=none; b=paCNUK9E9p+ocU6Mj42TlHb1oOK34dl7vaImLZ4xQy75P2HEHxO5hKNzaHOLfPw2hQwDhw8ZnTznVKnwOnzj5VyS4RNuD/Ct84FeTidzuA06HEs+PxnoBAdhhsinapBJqpNucVWingslELHQJv1v/RVcnK8+80Q7PSnU0vtNzfE=
+	t=1723194553; cv=none; b=RGjErrW6w1rxPVJei+zr5mElvjr22mOeJMoaPCOlMLpF4lXEw2N4Sr/T05OUrHR1FgFAi8H1hbyt4ZcWy+v5UBwjg5g3PZy3duF18S6wXrtqGWy4dAt/QkQRP134dJ0/wCTc3ZVtKCHkDwkNMkftb8P+zHuSMJz64m43WXMCHaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723192922; c=relaxed/simple;
-	bh=Lsrix0a9mPAkh++sDpeUPRDGIMXvv+WDXlhgbmW2LXY=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jWFvCkQ8EuU/prXQy9IW8Mh87eu+rArwQZ3yXAb51Qj3ncvLeqjJRW0EDLU3D4fgxQYe081yRNkZ3hzEz76CXMQwwudKx8VdPCUlBYVc6Ng70rtrT5rTKko+OOXQvHFMqKrCP953CzEWZ+RpYsxBOhTFPkmrUjrWr5lYyf5tFQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZYekwGaQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wcRnPAI2; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZYekwGaQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wcRnPAI2; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1723194553; c=relaxed/simple;
+	bh=8F+U+x1mvFtKL4/ZAPGlrPvUP/5LUuIcLNeEnc7No3s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ye0Tjy/B4Fcmpx5u8GyZfv2pi+VlpcqqX28mr+7qQ8zB0qSlcwdo3JI+1McdtqCt6bvoZWD762eitoAxJ94IJLVWckIVq3quHdvWrQ0rNyABOtSAKexnf7gZ/Rhh7Sg3P8j82JTX8rya/hkpzWF1Uk9IlZhWsACmdgjEKxEAbG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KNJ4Qv8i; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZYekwGaQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wcRnPAI2";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZYekwGaQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wcRnPAI2"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B397D21EF6;
-	Fri,  9 Aug 2024 08:41:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723192918; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BRiurSnhbX0Q0d4QpIJcDdBXPtjc29Jx8x6UeMt8HO8=;
-	b=ZYekwGaQc3Pn2w66kA9qJvI12iyHfEtvTHrOJU6CDDld4uuFOXjIBl6DtqYpr+iE+2rEab
-	pgekBwbAhr7obK8ktk0hyP7wJJAw7JBZjtuP9BxVZSRP/gFKSCByKlSiyV8EeerucZ2Zji
-	wr3+1o0TSOgXodUlu7BjMk1OikBV98M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723192918;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BRiurSnhbX0Q0d4QpIJcDdBXPtjc29Jx8x6UeMt8HO8=;
-	b=wcRnPAI2xdlVPfQpoRqCgJsmawCUrh34oCFGWkOnB8GkjT0e8KcLlysiuqDio0+bYCjFpj
-	Go3QCpi5WE6XaBDg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ZYekwGaQ;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=wcRnPAI2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723192918; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BRiurSnhbX0Q0d4QpIJcDdBXPtjc29Jx8x6UeMt8HO8=;
-	b=ZYekwGaQc3Pn2w66kA9qJvI12iyHfEtvTHrOJU6CDDld4uuFOXjIBl6DtqYpr+iE+2rEab
-	pgekBwbAhr7obK8ktk0hyP7wJJAw7JBZjtuP9BxVZSRP/gFKSCByKlSiyV8EeerucZ2Zji
-	wr3+1o0TSOgXodUlu7BjMk1OikBV98M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723192918;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BRiurSnhbX0Q0d4QpIJcDdBXPtjc29Jx8x6UeMt8HO8=;
-	b=wcRnPAI2xdlVPfQpoRqCgJsmawCUrh34oCFGWkOnB8GkjT0e8KcLlysiuqDio0+bYCjFpj
-	Go3QCpi5WE6XaBDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7569213A7D;
-	Fri,  9 Aug 2024 08:41:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id xtA5G1bWtWZ6KAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 09 Aug 2024 08:41:58 +0000
-Date: Fri, 09 Aug 2024 10:42:37 +0200
-Message-ID: <87seve6q9u.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
- <amadeuszx.slawinski@linux.intel.com>,	Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,	Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] ALSA: pcm: add support for 128kHz sample rate
-In-Reply-To: <1jcymixfou.fsf@starbuckisacylon.baylibre.com>
-References: <20240628122429.2018059-1-jbrunet@baylibre.com>
-	<20240628122429.2018059-2-jbrunet@baylibre.com>
-	<326792b9-e706-4ab0-a1e8-cc48943e357d@linux.intel.com>
-	<874j99434a.wl-tiwai@suse.de>
-	<1j4j90hurv.fsf@starbuckisacylon.baylibre.com>
-	<87ed84rnk7.wl-tiwai@suse.de>
-	<1jcymixfou.fsf@starbuckisacylon.baylibre.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KNJ4Qv8i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E68FAC32782;
+	Fri,  9 Aug 2024 09:09:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723194553;
+	bh=8F+U+x1mvFtKL4/ZAPGlrPvUP/5LUuIcLNeEnc7No3s=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=KNJ4Qv8is7P0Tc27wX2TJEyR+S2Avy1xlpIih6PMXp5pbZf1irVNP2qx/RkIZvdX+
+	 Shpq00WOWo6ZOa1sDUZ6mU1sMwqRRjnAzr6UMB2s5UTAqLK0N79ichMOVpsaZ2h/9/
+	 OIhFTcbU+9pGUauofjnNO13fjFYpztuUznSg7HU7gpd2AUDdwf5MLftHMvQgQpSO+6
+	 a0eLlzAOxUCHYZQE60l1L+7sTkio35/YnQx+TOEOS2uNvhSLeuGpXTytzCG37xUcdk
+	 tgONcWa2ug1ckPKQHPvH/4P+/RfLyq8mKwzstGZ3BLOn2dAqg79K5h6KNwcZLySjbS
+	 GDk94Mfi6k/7w==
+Message-ID: <e8a24709-de96-4d09-ba00-1e084a656c68@kernel.org>
+Date: Fri, 9 Aug 2024 11:09:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,gmail.com,suse.com,perex.cz,alsa-project.org,vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -2.51
-X-Rspamd-Queue-Id: B397D21EF6
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] ASoC: dt-bindings: qcom,sm8250: Add generic QCM6490
+ sound card
+To: Luca Weiss <luca.weiss@fairphone.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+ alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240809-fp5-dp-sound-v1-0-d7ba2c24f6b9@fairphone.com>
+ <20240809-fp5-dp-sound-v1-1-d7ba2c24f6b9@fairphone.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240809-fp5-dp-sound-v1-1-d7ba2c24f6b9@fairphone.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, 09 Aug 2024 10:29:05 +0200,
-Jerome Brunet wrote:
+On 09/08/2024 10:33, Luca Weiss wrote:
+> Document the bindings for the Qualcomm QCM6490 sound card.
 > 
+> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+> ---
+>  Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> >> 
-> >> Apart from the problem reported in sound/usb/caiaq/audio.c, is there
-> >> another clean up expected ?
-> >
-> > The change for caiaq/audio.c is rather a "fix" :)
-> > As a cleanup, I meant, whether this extension can be applied to the
-> > other existing drivers that already use 128kHz with RATE_KNOT and an
-> > extra list.
-> 
-> Grepping in sound/ for 128000, I've found only 3 files which could
-> benefit from solely adding 128kHz to the defined rates:
-> 
-> * sound/pci/cmipci.c
-> * sound/pci/rme9652/hdsp.c
-> * sound/pci/rme9652/hdspm.c
-> 
-> The rest are unsing other rates which require the use of RATE_KNOT.
-> The most regular rates being 12kHz and 24kHz. Adding those as well could
-> help in:
-> 
-> * sound/soc/codecs/adau1977.c
-> * sound/soc/fsl/fsl_asrc.c
-> * sound/soc/fsl/fsl_easrc.c
-> * sound/soc/intel/avs/pcm.c
-> 
-> I admit that's a fairly low number of drivers, maybe it is not worth it
-> at this stage.
-> 
-> Takashi, Mark, what is your preference ? Should I:
->  * tweak the spdif codec to use RATE_KNOT ?
->  * add just 128kHz, fixing the 3 file above ?
->  * add 12 and 24kHz as well ?
-> 
-> I don't really mind one way or the other.
+> diff --git a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+> index c9076dcd44c1..0a31be6d917f 100644
+> --- a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+> +++ b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+> @@ -31,6 +31,7 @@ properties:
+>            - qcom,apq8096-sndcard
+>            - qcom,msm8916-qdsp6-sndcard
+>            - qcom,qcm6490-idp-sndcard
+> +          - qcom,qcm6490-sndcard
 
-If there are multiple instances, it's fine to extend the standards.
-Then we can clean up them as well.
+I think it would be better to make it a board-compatible and also
+followed by qcom,qcm6490-idp-sndcard fallback, thus no need for driver
+changes.
 
+Best regards,
+Krzysztof
 
-thanks,
-
-Takashi
