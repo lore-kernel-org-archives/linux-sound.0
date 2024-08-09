@@ -1,140 +1,63 @@
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0FD2F26
-	for <linux-sound@vger.kernel.org>; Fri,  9 Aug 2024 17:01:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71EBBA41;
+	Fri,  9 Aug 2024 17:31:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723222912; cv=none; b=H3kAR0dS17IBvs3wdHKCZfvumwN1Rudlit9okA1PjTLFpHbmqP1ZSVnWxpjSfrdG6Gjpwkh5TVVt6Bf00PPXoOGLdk1thBb6WS2JThvJ/qxADswQ9aex/C0wHbmpJoXiudbD0DVmUw+vlE0Q++4b8e3q20XvKYZRQf2BQlw6rdU=
+	t=1723224675; cv=none; b=OxZhqT57H8C66GwmOW4qnLWtTBHyJJzhBB0kzSo4ntpW439rVZz5P+vy3eMvFQVDb7Dk7ewIuTy87odW8joKCz6nIFBbEahZPnwiE6SBtJYjwsAledu7iV36RVqmEJENxMSVWLMG//SmO3qhzAtpg8BWI2RPmVBo6sEUCTLVyxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723222912; c=relaxed/simple;
-	bh=kO+4Qg2Kos2wHUaffFnXRBuCVtxo8Uf72SitEfqHUNg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=l5qdB00WeOWGzjxby/qTEhY12MlN6XqU5GM2VwIqkDYuMtbd2AVwtPzyJ03xc+NzL/m5G1A0oN3yILINhgQ+kplmPO70VCZYDTINcTsbzf96FDNmQhpb4UcYRLosLcRRqHdKIHoGAkk8nKwlx0ymeLPtvDUuzO8ukAjvRlgEYTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=fyZecz6t; arc=none smtp.client-ip=209.85.166.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1723224675; c=relaxed/simple;
+	bh=QRuvaosOhAa+BOFHbay8mCENTDT2+MAB2VbQfAfkK0g=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=l/0dOxyvUAAw65UDYj0fyxWEYd3QOzn5tU7oZShpDFTfGfRy2AxxdwkmCjUEVGTdoCkwR2Li964jemJkWZXrE1Hv4cLG2l8EUc+ZuXm9a9eOlbscSxm1a04BuCdftLH6EkbwKOKW6xmU0RLD5vVBCNyoRNSvRKN3f3dhS3Nny5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r1/FC6fA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fyZecz6t"
-Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-81f8ac6b908so6454839f.1
-        for <linux-sound@vger.kernel.org>; Fri, 09 Aug 2024 10:01:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1723222909; x=1723827709; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cDDjHGtk+i/sBtfC6S1Ya7WBwtIwzRoHly+Mr+MUcXc=;
-        b=fyZecz6txWfWabkJ5SO8+fnoemqimtdBt2U84K9lxPKxAUN4ueK4cxRavlcFHAfud/
-         0PPAlBbmbj3PdhdfJ04l5nL664pBkc2OM5PEhSm7AtUqh+TGBZYmwN2WKk74Vmp97Fkd
-         NLrs2gAFDEcZvqzqN6f4a1cwUREZaXO5zsgSc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723222909; x=1723827709;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cDDjHGtk+i/sBtfC6S1Ya7WBwtIwzRoHly+Mr+MUcXc=;
-        b=TDfc7PJJiFsnyVysxq5O5KqwG/5YWbSy8czzBDTu1LmuQn24yq9V0zCELSEm5arzHz
-         wrQ35DiW8bLJCdCPE/Fg39yZ5UTQ5tJZTyQLAZXYEpGkRNFA6je1Rypslh0CSSwRXAvH
-         D7UJIT8+UbgjT20Sew5koFc/A/T5dK4xXBev4wSFToCaIsHhjp6GV9xNV7kFGQhdmLYD
-         2sDrpjy5VxF5nVhUJFDY1CjOCyFB0o4pRw4cFqIEZBD3WhoA0zGpsn5pwC0xNQaWgwDy
-         W2yvefrjFeCFcwv74KwxxKEsJb4t4/2I9MruKBdctRXD5/I/S85JO42eBAlT/WE0aOBR
-         mNfg==
-X-Forwarded-Encrypted: i=1; AJvYcCUWsyb1QaXVrnE7Z5JdNdpDN1yp8DDNr10sTTWyqx6OCycNyODVrDMBYG55B3SzX7Xziqvh6y9fb2UqZQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGKHrd2U+2S16xrRdJDxoElzDe0rjcJGZ87gqfBwtn+Vz7qVMW
-	EerJQuGwRiMmnxLO/L2o9k3hwWJTVC7GWnLCwqeNg07z9ypMYAioGOgY9RBwBW0=
-X-Google-Smtp-Source: AGHT+IEVM26zTJDnq4KUOavT/txNlVM1PwFY7bjzhsFY01vmETUlAlxZW29W+mujXaC/jkXCKqSlMA==
-X-Received: by 2002:a5d:9755:0:b0:822:3c35:5fc0 with SMTP id ca18e2360f4ac-8225ee4d6a1mr150211739f.3.1723222909444;
-        Fri, 09 Aug 2024 10:01:49 -0700 (PDT)
-Received: from [192.168.1.128] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4ca769105cbsm9501173.27.2024.08.09.10.01.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Aug 2024 10:01:49 -0700 (PDT)
-Message-ID: <41cb60af-3175-42ab-896f-b890e51cde0d@linuxfoundation.org>
-Date: Fri, 9 Aug 2024 11:01:48 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r1/FC6fA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F5BFC32782;
+	Fri,  9 Aug 2024 17:31:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723224675;
+	bh=QRuvaosOhAa+BOFHbay8mCENTDT2+MAB2VbQfAfkK0g=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=r1/FC6fA8iuF2mvKCy0TjivgSoPhIQyhmfT2wddMQp8ru24LfDJJUWbpIIDB4D8hR
+	 n11GUDMazDsunMy0T6JOWXnBRdHix+RSuyk8usfy79kmsYqkCw9BoIia+4m+VOg79R
+	 miqsgDeIYPXij0Mo0VJGf86TrhQAw+YHJ09LMR4+6nVJZ/+SvQiPhIILxDPJzSu/wl
+	 lb5euSnxmP7XzLuR6vIisMQFtIYqtFv4YvUHpG4CjSjmjtlEPI8hRGInFIsCYsga27
+	 mfGhna7CHwJxbtj2AVYj3+YIQjn7WzuzzeF0T1lxNX6zjKyn++P3pZwycdsvITh7j7
+	 XVDFRLe4gDLkg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 71733382333D;
+	Fri,  9 Aug 2024 17:31:15 +0000 (UTC)
+Subject: Re: [GIT PULL] sound fixes for 6.11-rc3
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <87ikw9n9nc.wl-tiwai@suse.de>
+References: <87ikw9n9nc.wl-tiwai@suse.de>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87ikw9n9nc.wl-tiwai@suse.de>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.11-rc3
+X-PR-Tracked-Commit-Id: d3e82ced462b4ed956504b62603a11d52a599f99
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 377773dd6be500d17b94de08271ff9ed643554f1
+Message-Id: <172322467401.3855220.17975493456338306114.pr-tracker-bot@kernel.org>
+Date: Fri, 09 Aug 2024 17:31:14 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] selftests/alsa/Makefile: fix relative rpath usage
-To: Eugene Syromiatnikov <esyr@redhat.com>
-Cc: Artem Savkov <asavkov@redhat.com>, linux-sound@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
- bpf@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <20240808145639.GA20510@asgard.redhat.com>
- <83d4e1a3-73fc-4634-b133-82b9e883b98b@linuxfoundation.org>
- <20240809010044.GA28665@asgard.redhat.com>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20240809010044.GA28665@asgard.redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 8/8/24 19:00, Eugene Syromiatnikov wrote:
-> On Thu, Aug 08, 2024 at 02:20:21PM -0600, Shuah Khan wrote:
->> Wouldn't make sense to fix fix this in selftests main Makefile
->> instead of changing the all the test makefiles
-> 
-> As of now, the usage of rpath is localised, so it is relatively easy
-> to evaluate the effect/prudence of such a change;  I am not so confident
-> in imposing rpath on all of the selftests (and, if doing so, I would
-> rather opt for runpath, to leave out an ability to override the search
-> path via LD_LIBRARY_PATH, if such need arises);  in that case it is possibly
-> also worth to add -L$(OUTPUT) to the CFLAGS as well, as the compile-time
-> counterpart.  But, again, I was trying to avoid the task of evaluating
-> the possible side effects of such a change, considering the variability
-> in environments and setups selftests are run.
+The pull request you sent on Fri, 09 Aug 2024 14:49:43 +0200:
 
-Okay.
+> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.11-rc3
 
-> 
->> Same comment on all other files.
-> 
->> It would be easier to send these as series
-> 
-> I hesitated to do so due to the fact that different selftests are seemingly
-> maintained by different people.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/377773dd6be500d17b94de08271ff9ed643554f1
 
-You can cc everybody on the cover-letter explaining the change
-and the individual patches can be sent selectively.
+Thank you!
 
-This is a kind of change it would be good to go as a series so
-it will be easier for reviewers.
-
-I had to comment on all 3 patches you sent - instead I could have
-sent one reply to the cover letter. It makes it so much easier for
-people to follow the discussion and add to it.
-
-> 
->> please mentioned the tests run as well after this change.
-> 
-> I have checked the ldd output after the change remained the same (and that ldd
-> is able to find the libraries used when run outside the directory the tests
-> reside in) and did a cursory check of the results of the run of the affected
-> tests
-
-Please mention that then in the change log.
-
-I applied this patch and ran alsa test without any issues. You
-could do the same with:
-
-make kselftest TARGETS=alsa
-
-(but not so sure about the BPF selftests, as they don't compile as-is
-> due to numerous "incompatible pointer types" warnings that are forced
-> into errors by -Werror and the fact that it hanged the machine I tried
-> to run them on).
-> 
-
-I see a bpf patch from you in the inbox - if you mention the issues bpf
-people might be able to help you.
-
-I am not replying to your other patches. Take these as comments on others
-as well.
-
-thanks,
--- Shuah
-
-
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
