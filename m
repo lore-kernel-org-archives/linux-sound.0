@@ -1,83 +1,101 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8A4B14C582
-	for <linux-sound@vger.kernel.org>; Sat, 10 Aug 2024 08:40:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C842D14A619;
+	Sat, 10 Aug 2024 08:44:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723279207; cv=none; b=mJdxAffIRKpCb9a5oBCbUhxmjn9j++5bPuwAneehR1eRpOJAKaPljBxLFHsCEDJcnt3mZOW09XF0KKO2/LXcH3KwGsj+UD9HrotmsunZCHyYq0Id+fjFn0sp8+2212sEMwNj9WjUQ/rxJ8PtCs/Dtk8lyyH2ITB7uX53TB7d1Ao=
+	t=1723279485; cv=none; b=LPrgh8dwax4JYteMmxhAmLnfWztNrgeSqVWDVMax1HBxK11Fzi2M8U1oKYhiXyi1OztkQqmn/dvlKtrmjS1ptsrEdLUB0hvnkQ4Us+S4hmp+f1/m/6xGZWQWOBviWCP0dknFtGNzoIQTvqtt1PDgRuIix/GPZGD6CB3wwwF7vHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723279207; c=relaxed/simple;
-	bh=VVSco3vYS8WWrGbnthVzRi0qDvUix1WgC7S3UJNFm0A=;
+	s=arc-20240116; t=1723279485; c=relaxed/simple;
+	bh=c/RwEOaUSKi72KfqmIBZa825Bnw3eHT31tA7kOS3oH0=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ttNPiCjLhpTQ+PFsyY3p+8GmURk65GEuCCWinhf3CPrb4Yfkjm28QKqHBfzdPadSh38M129Zei8+BI7Szdr9u92s6MRwNyC4D6lIpCVme8S3odgB3TQYx1CtSTAR3AlbTZZdZrh+D0//jZoUFHPwe5CHooD/m5oGBFeWTFOTCXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HAxoN83Q; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3277D2WZ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HAxoN83Q; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3277D2WZ; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=afxXS17r0UgSM4b0BvWj+VPBBhw7L73ZLsR1ITdrveV2an1SKpEU/w5VXpkidtESHgpTnK8rv3KIQnonFSQhpu2wQulitBC6WmMUa+QJtMhQ103xnqUAQTN5f+wDAjYJEMxxhkThhTEHo6fGnAOpZgdflYeff/ZPU3/Z9wTtKhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RxQTC84H; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=L9SKZ51N; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RxQTC84H; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=L9SKZ51N; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HAxoN83Q";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3277D2WZ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HAxoN83Q";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3277D2WZ"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RxQTC84H";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="L9SKZ51N";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RxQTC84H";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="L9SKZ51N"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id F3B8E220E0;
-	Sat, 10 Aug 2024 08:40:02 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BE70B22190;
+	Sat, 10 Aug 2024 08:44:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723279203; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1723279481; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kZnSAma0caL6cylESrM2iYGcbCAcUFjrE1NFH/ED2UM=;
-	b=HAxoN83QvWMWOR+xXfJ6SJjTij0kd52+QN+ylf71E7a1+f02c4jb/deWSAZq7enRmoxc68
-	GBDF4JfjMF075NIISlUXO1Y6WvT8/mXqPmCyIUi+QfQC4Zn5s4f31TWuRA+IEIBaqQlUJu
-	RC52gvSEOC1hC2qiwyX4IZc0ul3sR/Y=
+	bh=KxsbgKosTuzCKczBe+icPm36tufV1HnIqOg/8PB14oM=;
+	b=RxQTC84HcXmhzwzzN4gobnLun34okD6A3xUEeNboNuEsaS5tFmh3VEqLZrtopkp9rmMVoo
+	QYKhW+kHLVyzQY337QPCusCBEHD7hX/W0tJbgLwJXxuSI221zO1Q8Y1NO3GGzn9tojZNHv
+	H+Xr5dXAAR7cMO3P55voaWI9Fadevfg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723279203;
+	s=susede2_ed25519; t=1723279481;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kZnSAma0caL6cylESrM2iYGcbCAcUFjrE1NFH/ED2UM=;
-	b=3277D2WZBvZMaMAxkh35mZ9qWxA1OEl/t/PwLtmxAZTe2X4aSP+rS4ZOfLI4ZCW0RTXb87
-	gDYTIJweR2CG6jDw==
+	bh=KxsbgKosTuzCKczBe+icPm36tufV1HnIqOg/8PB14oM=;
+	b=L9SKZ51NdjMHhH087N0BgdqmAwZCJ/xAiL/z711h/wiD5r0j4tPS6DFZo7dUYytYIHjPdX
+	vL0992pcTgbVrsAw==
 Authentication-Results: smtp-out1.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=RxQTC84H;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=L9SKZ51N
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723279203; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1723279481; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kZnSAma0caL6cylESrM2iYGcbCAcUFjrE1NFH/ED2UM=;
-	b=HAxoN83QvWMWOR+xXfJ6SJjTij0kd52+QN+ylf71E7a1+f02c4jb/deWSAZq7enRmoxc68
-	GBDF4JfjMF075NIISlUXO1Y6WvT8/mXqPmCyIUi+QfQC4Zn5s4f31TWuRA+IEIBaqQlUJu
-	RC52gvSEOC1hC2qiwyX4IZc0ul3sR/Y=
+	bh=KxsbgKosTuzCKczBe+icPm36tufV1HnIqOg/8PB14oM=;
+	b=RxQTC84HcXmhzwzzN4gobnLun34okD6A3xUEeNboNuEsaS5tFmh3VEqLZrtopkp9rmMVoo
+	QYKhW+kHLVyzQY337QPCusCBEHD7hX/W0tJbgLwJXxuSI221zO1Q8Y1NO3GGzn9tojZNHv
+	H+Xr5dXAAR7cMO3P55voaWI9Fadevfg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723279203;
+	s=susede2_ed25519; t=1723279481;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kZnSAma0caL6cylESrM2iYGcbCAcUFjrE1NFH/ED2UM=;
-	b=3277D2WZBvZMaMAxkh35mZ9qWxA1OEl/t/PwLtmxAZTe2X4aSP+rS4ZOfLI4ZCW0RTXb87
-	gDYTIJweR2CG6jDw==
+	bh=KxsbgKosTuzCKczBe+icPm36tufV1HnIqOg/8PB14oM=;
+	b=L9SKZ51NdjMHhH087N0BgdqmAwZCJ/xAiL/z711h/wiD5r0j4tPS6DFZo7dUYytYIHjPdX
+	vL0992pcTgbVrsAw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CD6C313704;
-	Sat, 10 Aug 2024 08:40:02 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6274113704;
+	Sat, 10 Aug 2024 08:44:41 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id UDYLMGInt2Z4JAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 10 Aug 2024 08:40:02 +0000
-Date: Sat, 10 Aug 2024 10:40:42 +0200
-Message-ID: <87bk20lqid.wl-tiwai@suse.de>
+	id X4bcFnkot2arJQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 10 Aug 2024 08:44:41 +0000
+Date: Sat, 10 Aug 2024 10:45:21 +0200
+Message-ID: <878qx4lqam.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Stefan Stistrup <sstistrup@gmail.com>
-Cc: linux-sound@vger.kernel.org,
-	tiwai@suse.de
-Subject: Re: [PATCH v3] ALSA: usb-audio: Add input gain and master output mixer elements for RME Babyface Pro
-In-Reply-To: <20240809204922.20112-1-sstistrup@gmail.com>
-References: <20240809204922.20112-1-sstistrup@gmail.com>
+To: =?GB2312?B?uvrBrMfa?= <hulianqin@vivo.com>
+Cc: "perex@perex.cz" <perex@perex.cz>,
+	"tiwai@suse.com" <tiwai@suse.com>,
+	"mbarriolinares@gmail.com" <mbarriolinares@gmail.com>,
+	"wangdicheng@kylinos.cn" <wangdicheng@kylinos.cn>,
+	"sean@mess.org"
+	<sean@mess.org>,
+	"alexander@tsoy.me" <alexander@tsoy.me>,
+	"xristos.thes@gmail.com" <xristos.thes@gmail.com>,
+	"knuesel@gmail.com"
+	<knuesel@gmail.com>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	opensource.kernel <opensource.kernel@vivo.com>,
+	"akpm@linux-foundation.org"
+	<akpm@linux-foundation.org>
+Subject: Re: [PATCH] ALSA: usb-audio: Add delay quirk for VIVO USB-C-XE710 HEADSET
+In-Reply-To: <PUZPR06MB6224FEB85F27A5AB7A59A1BCD2BA2@PUZPR06MB6224.apcprd06.prod.outlook.com>
+References: <PUZPR06MB6224FEB85F27A5AB7A59A1BCD2BA2@PUZPR06MB6224.apcprd06.prod.outlook.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -85,56 +103,74 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-0.30 / 50.00];
-	MID_CONTAINS_FROM(1.00)[];
+Content-Type: text/plain; charset=GB2312
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -4.01
+X-Rspamd-Queue-Id: BE70B22190
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MX_GOOD(-0.01)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,gmail.com,kylinos.cn,mess.org,tsoy.me,vger.kernel.org,vivo.com,linux-foundation.org];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Level: 
 X-Spam-Flag: NO
-X-Spam-Score: -0.30
 
-On Fri, 09 Aug 2024 22:49:22 +0200,
-Stefan Stistrup wrote:
+On Fri, 09 Aug 2024 12:38:52 +0200,
+ºúÁ¬ÇÚ wrote:
 > 
-> Add missing input gain and master output mixer controls for 
-> RME Babyface Pro.
+> From: Lianqin Hu <hulianqin@vivo.com>
 > 
-> This patch implements:
+> Audio control requests that sets sampling frequency sometimes fail on
+> this card. Adding delay between control messages eliminates that problem.
 > 
-> 1. Input gain controls for 2 mic and 2 line inputs
-> 2. Master output volume controls for all 12 output channels
-> 
-> These additions allow for more complete control of the Babyface Pro under
-> Linux.
-> 
-> Signed-off-by: Stefan Stistrup <sstistrup@gmail.com>
+> Signed-off-by: Lianqin Hu <hulianqin@vivo.com>
 > ---
-> Changes in v3:
->  - Use checkpatch.pl without -f flag.
->  - Fix remaining style issues from checkpatch.pl
+>  sound/usb/quirks.c | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> Changes in v2:
->  - Check invalid negative values in snd_bbfpro_gain_put
->  - Remove blank line in snd_bbfpro_gain_update and fix checkpatch.pl errors
+> diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+> index ea063a14cdd8..4c7f0f9d15de 100644
+> --- a/sound/usb/quirks.c
+> +++ b/sound/usb/quirks.c
+> @@ -2119,6 +2119,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+>  		   QUIRK_FLAG_GENERIC_IMPLICIT_FB),
+>  	DEVICE_FLG(0x07fd, 0x000b, /* MOTU M Series 2nd hardware revision */
+>  		   QUIRK_FLAG_CTL_MSG_DELAY_1M),
+> +	DEVICE_FLG(0x2d95, 0x8021, /* VIVO USB-C-XE710 HEADSET */
+> +		   QUIRK_FLAG_CTL_MSG_DELAY_1M),
+>  	DEVICE_FLG(0x08bb, 0x2702, /* LineX FM Transmitter */
+>  		   QUIRK_FLAG_IGNORE_CTL_ERROR),
+>  	DEVICE_FLG(0x0951, 0x16ad, /* Kingston HyperX */
 
-Thanks, applied now to for-next branch.
+The quirk table entry is sorted in the ID number order.
+Could you try to put the new entry at the right position?
 
+
+thanks,
 
 Takashi
