@@ -1,93 +1,97 @@
-Received: from ahti.lucaweiss.eu (ahti.lucaweiss.eu [128.199.32.197])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7CF81BDC3;
-	Sat, 10 Aug 2024 13:37:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=128.199.32.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C41022F19;
+	Sat, 10 Aug 2024 15:10:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723297052; cv=none; b=KFJPXdQTt5L+M7Lq1iV+HkHfrvA3wvsX6OjEHdWSl5uWfO6F18RRJLpE7XBPrGT691AsbXn194PDAXXvNgBE+yVCTUeDz8GRRm4CGnZFL16Bnm5E9XvCOmwo1RUcoN/gccDpx06wbDxIpue9Qhx9FM9aXT3ENyoqfgWcnfFRNc4=
+	t=1723302645; cv=none; b=b8Q2bpKsJgkOrSkQ8Q63xnFRffbrAj28o8myAiKJUuQOdry/SvNeywoYSd8Oqujw/fsnCC1VnltIM4jjRNfgVKR8w5eVyvLo7X3TLvsr/Vos7kuOVcvFWc/ijre9vGocHtWKKM19cerkUFzqP5Cr92hOaGYLkXw0c8gTeDs/Tx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723297052; c=relaxed/simple;
-	bh=FoMGXcxzmZi6fsVLQcG2de1o9CKISWaGNCi1QFogghg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ww1HKTfmbpOyIpyP2TTtUSjTXT3Pci3RDR2b27nh5OBovDkHM9HY6ry8aShTVfBmDo6V0XCn4+i8w1sCXQlkHs7sNIKNitelgX23TR462lkCaQESJcGKg4EwiRXxLy9la2KUjm3KRbTZ2eQJQ0YzN8HoxifUmeDXrifZSGB0y7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=lucaweiss.eu; spf=pass smtp.mailfrom=lucaweiss.eu; dkim=pass (1024-bit key) header.d=lucaweiss.eu header.i=@lucaweiss.eu header.b=NMm4nnLS; arc=none smtp.client-ip=128.199.32.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=lucaweiss.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lucaweiss.eu
+	s=arc-20240116; t=1723302645; c=relaxed/simple;
+	bh=JWCgYbzf+h1KKPwP8jzN/aLLpgY4lR1Jk1TknmNYx+Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XO0FvfXycoyfoblGR6ye5wdyI6ikF6VGOKM/drhKl78o/M5YIWq0e3WufVZcBnFJ/QkW4GXQyPWrMtRmWsXbMCBXuflTU96u4Z0r2ZSMxeOU1EwrZ3ZMuyT/wl5a3BIhwCgpBvM5yBOIQE/Rz2nagYxr9OkF/ctjzBkd7wZp5Gw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W/9e4t3p; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lucaweiss.eu header.i=@lucaweiss.eu header.b="NMm4nnLS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lucaweiss.eu; s=s1;
-	t=1723296602; bh=FoMGXcxzmZi6fsVLQcG2de1o9CKISWaGNCi1QFogghg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=NMm4nnLSuRckPGTr6LEmABPa7lLHILGmiOC4ai/zz/aq8AOWf38e31cnej5cgkBKj
-	 FRD0HANPayEpxa5OFHMTYrqOAm56dN9iAVyj6OC4wwpIFg1jElKc64tTbo+9j3o+E9
-	 S64Gpfq1vuG8yk+Qr9GGeVyE1NidNgmFhtdYUPZM=
-From: Luca Weiss <luca@lucaweiss.eu>
-To: Luca Weiss <luca.weiss@fairphone.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, ~postmarketos/upstreaming@lists.sr.ht
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
- alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Konrad Dybcio <konradybcio@kernel.org>
-Subject:
- Re: [PATCH 0/3] Add DisplayPort sound support for Fairphone 5 smartphone
-Date: Sat, 10 Aug 2024 15:30:01 +0200
-Message-ID: <2741308.mvXUDI8C0e@g550jk>
-In-Reply-To: <192e3c22-fd63-4891-86b2-89a3383ab76d@kernel.org>
-References:
- <20240809-fp5-dp-sound-v1-0-d7ba2c24f6b9@fairphone.com>
- <192e3c22-fd63-4891-86b2-89a3383ab76d@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W/9e4t3p"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-52ef95ec938so3023975e87.3;
+        Sat, 10 Aug 2024 08:10:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1723302642; x=1723907442; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZBI9gWTu2lk3Xag4H2X6YcQpeUA1X2ClW7QmG/3ro88=;
+        b=W/9e4t3p8SP0pSw63wrm4PjPVkxSNXWaeiEp+qH5PLtRzvfY8jE0qBTXoaQx3kI9hj
+         plVgmyVC7Oh4QQzalgp5LaK5JFqcjAYYp47YzDS9TNx+Q7Jpkz7Rnx9DFnS9jcdBUDRK
+         EewTZXvmRMXYaluIi0l8ZccjtCP89wJe6Qeo3zVUylVuX/7xZzKYVZmBpVJpXsyVyf8+
+         PjCazQ3kRcGx0w8Sj2rb/rhnow+lNMM3/HJHmDe6+eSLKrh0JfovkcGnTZqLUgbHaQ67
+         GUGuYt2vECdi74ayaOB9JXt8cCjP9kywd75YdXlwiiS6gKd8r6B40ZsIgZYcJEA8T8a4
+         cl5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723302642; x=1723907442;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZBI9gWTu2lk3Xag4H2X6YcQpeUA1X2ClW7QmG/3ro88=;
+        b=nAWKMT5u/pb5aTvxrBSNoBjuPLoXQdm4j05e2cRgFDZdovi2JCV4wJNoOl9RH4v8bf
+         eR1TisQt++F5LfNXDEfoJ2M6S5gxgJnK3+xFPEVeQo9RRs4VAsbE/lNM+hZjCz6vqQxO
+         fXBmiNtvi+s3Wm2M+flEuxCEAkfl7HOb/LB+68JO46EZR78YXTRiEpBiGpUqu+K9fHAm
+         RKLEWtPksNu82GauDUxHd+mDEAjdmgcT0Pu493aVJQoFHfdc6A93K3WhbeEUen44ziKl
+         4Xwti6fBX2457jJwY8hsHAXU9bC8fuDvaJSAigMO3sueST2rAyN8XJeeffQfuzSa+XMa
+         srCA==
+X-Forwarded-Encrypted: i=1; AJvYcCXsOl6ny7krdsRhkeAwtEhGKL8E5Y5Wc4PqxcyKs2ed9EybGaZbCxWlfRjV0Vw5ZrRT/Oy12fUaB1TtXHJz6AdpSZT044E+HCl+1es=
+X-Gm-Message-State: AOJu0Yyhr6vsAj+usJNwmQHAnEBgH8qNfa24MhYWdgHwYX3PSR+Iow8y
+	cXgK1NqlOJ23t1/7/utVtNZp+kocopU03BSyHfn9jIu0BJC3FMqn3OEhKWdnYIM=
+X-Google-Smtp-Source: AGHT+IG5TCKE40kUt0P1iLobUZSwuoIzdW9hTggtrrcpLNOFXb9xiL0/DtrNIHgMemtHLgb24LWEEQ==
+X-Received: by 2002:a05:6512:b29:b0:52c:daa7:8975 with SMTP id 2adb3069b0e04-530ee9741d2mr3494982e87.18.1723302641513;
+        Sat, 10 Aug 2024 08:10:41 -0700 (PDT)
+Received: from localhost.localdomain ([83.121.134.138])
+        by smtp.googlemail.com with ESMTPSA id 2adb3069b0e04-53200eb4d07sm236304e87.41.2024.08.10.08.10.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Aug 2024 08:10:40 -0700 (PDT)
+From: Parsa Poorshikhian <parsa.poorsh@gmail.com>
+To: linux-kernel@vger.kernel.org
+Cc: Parsa Poorshikhian <parsa.poorsh@gmail.com>,
+	linux-sound@vger.kernel.org,
+	tiwai@suse.com,
+	kailang@realtek.com
+Subject: [PATCH] ALSA: hda/realtek: Fix noise from speakers on Lenovo IdeaPad 3 15IAU7
+Date: Sat, 10 Aug 2024 18:39:06 +0330
+Message-ID: <20240810150939.330693-1-parsa.poorsh@gmail.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Samstag, 10. August 2024 14:35:00 MESZ Konrad Dybcio wrote:
-> On 9.08.2024 10:33 AM, Luca Weiss wrote:
-> > Add the necessary sound card bits and some dts additions to enable sound
-> > over DisplayPort-over-USB-C, e.g. to a connected TV or monitor.
-> > 
-> > The UCM files can be found here:
-> > https://gitlab.com/postmarketOS/pmaports/-/tree/master/device/testing/
-device-fairphone-fp5/ucm
-> > 
-> > Two extra notes:
-> > 
-> > 1. I don't quite understand whether the sound driver should have
-> >    SoC-specific compatible or device-specific compatible. Some earlier
-> >    patches by another author for a QCM6490 board and a QCS6490 board use
-> >    device-specific compatible - but from what I can tell this is not how
-> >    it's generally done for other sound drivers?
-> > 
-> > 2. Unfortunately DisplayPort enablement itself for Fairphone 5 is not
-> >    upstream yet. This is blocked by DSI display bringup upstream which
-> >    is blocked by DSC 1:1:1 not being supported upstream yet and just
-> >    working with a hacky patch. Nevertheless, DisplayPort audio was
-> >    validated working with no additional sound-related changes so once
-> >    DisplayPort gets enabled, sound should also just work upstream.
-> 
-> You can enable DP and keep DSI disabled for the time being
+Fixes: 70794b9563fe ("ALSA: hda/realtek: Add more codec ID to no shutup pins list")
+Fix noise from speakers connected to AUX port when no sound is playing.
+The problem occurs because the `alc_shutup_pins` function includes
+a 0x10ec0257 vendor ID, which causes noise on Lenovo IdeaPad 3 15IAU7 with
+Realtek ALC257 codec when no sound is playing.
+Removing this vendor ID from the function fixes the bug.
 
-I need to enable dispcc for DP which breaks simple-fb from my testing?
+Signed-off-by: Parsa Poorshikhian <parsa.poorsh@gmail.com>
+---
+ sound/pci/hda/patch_realtek.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Maybe I can figure out the correct clocks and power domains to put into the 
-simple-fb node? Do you think that would work and be sufficient to make both 
-simple-fb and DP work?
-
-> 
-> Konrad
-> 
-
-
-
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index e2dbcf8f5bcf..7b593642da99 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -583,7 +583,6 @@ static void alc_shutup_pins(struct hda_codec *codec)
+ 	switch (codec->core.vendor_id) {
+ 	case 0x10ec0236:
+ 	case 0x10ec0256:
+-	case 0x10ec0257:
+ 	case 0x19e58326:
+ 	case 0x10ec0283:
+ 	case 0x10ec0285:
+-- 
+2.45.2
 
