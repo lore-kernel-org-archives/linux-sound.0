@@ -1,365 +1,154 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B33200CB;
-	Sun, 11 Aug 2024 17:13:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9561B14D2A8
+	for <linux-sound@vger.kernel.org>; Sun, 11 Aug 2024 18:17:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723396390; cv=none; b=psjaaYNIgIQcFI5UskgQHiPnv8e+Lk2Pa+jt/+kdj8Y2rDOUqHRp38vI3/lm6aaDt8eMFyzlJtjyDUmVa1FHutmWVM9IocQ7Y6UnuS7sVtLDUGbzKr9zLsINzwJiIJvsbu7kwINUCbwF66pc/k0njEmwlBic9mI6MGHFGX/unHQ=
+	t=1723400242; cv=none; b=V9rLDV87wXzK1COpipUu6gOV/68c0sYTjzfz3fnDw50onb5T5i470mdnR3qCOJUIcoH+uc1+u72xmDNKF7BAhFfbPGQBfKxho+adBtL+GEon7xPMVg/P+XP3sIwzsoBKz95U4/pt9YBalZXSfFhh7wpeG3/DCdCO6mblReKML/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723396390; c=relaxed/simple;
-	bh=+aZawo+zbB9UW0l4nI0hEBDnJJlZYwKtU3xpBFzC+vg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QwOcXcNqjjODbKNXLWqtoPylCesP/4PfBkv3B6soJh1z0uVowEULZm8jzuD4M3bc3Fc5Tz3ygqVY6JCbDdd/4BZkBgvSewUDfAWiaL22uGDQupwan1K95uQiXJADbAE0xUQN7kCyP7l3x5FknbCZJE58LW4If+UwzfSy912eYGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vTB7zFwg; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1723400242; c=relaxed/simple;
+	bh=QEqX6jTyd8mtDAP045rVWWxtAM7yNW08id9PkOM91fs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=OcdHvjWK60d4Fv2JEEHx6gEEvczB50Lxz8dnJ1/NM4T2vnTKnP083rFMkIvlto/b/zn4Rm3bOmoOtxcTw27XVe/7ljQ4RZmif+XACwSmypx854CgQQ8SvP0SJZ0wK4M4AGxo21TseqiWYnwFGw6P5VRRNaOZBEd4aGtdptJSBms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ptP6Q0uf; arc=none smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vTB7zFwg"
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EE39545A;
-	Sun, 11 Aug 2024 19:02:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1723395765;
-	bh=+aZawo+zbB9UW0l4nI0hEBDnJJlZYwKtU3xpBFzC+vg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vTB7zFwgJvi8Urijb4zBWai/np9fTsS9pi/uBkxCg1kcdXLAAagKy/2gkO+p2zIe5
-	 Sbatm5V+DVF471H7m5s/Dazapte9WYqwldt0n3xPVMO3fpvMcGyTrDZpQnGquRVeTR
-	 3Gl4IWPCFBzsEnp46GWzJoG0O4ebP93i2lHgwfzc=
-Date: Sun, 11 Aug 2024 20:03:16 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-sound@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH v2 1/9] of: property: add of_graph_get_next_port()
-Message-ID: <20240811170316.GL2270@pendragon.ideasonboard.com>
-References: <875xsa8gws.wl-kuninori.morimoto.gx@renesas.com>
- <874j7u8gw2.wl-kuninori.morimoto.gx@renesas.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ptP6Q0uf"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2f1870c355cso35663461fa.1
+        for <linux-sound@vger.kernel.org>; Sun, 11 Aug 2024 11:17:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1723400239; x=1724005039; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YwPrNBUvnU4mbdftoy187GtvdUrZHe6TFCVGlwNgbXc=;
+        b=ptP6Q0ufMV5KBIVvEhoH+3oFFr9H7V05gPH/7T43vjvu8l+NXSvqZ545W9wS8Xb19D
+         yydqgsX1YqvELQLEJPlOYeIxdHNp3tnkjEpRaJibiHK3eA6g3QYletkD3CRENB+dTQXb
+         YPxYXSmnK3LIKhIuwxTLZUlwRjaPILd+K/xHJNiSfDM2bYgfSnNXdjUpn9O26RSER5cO
+         ABsEzMiiMMZTN1RmJbXJtrnkVzQoYpXEdS9M4JqX4RumZFLaMk5DsGjoTS2pJbGLM2hk
+         pOt6NFMjJKISN2xPWI3if6porTl56zz3IySmoiI1o/AY0BHwxAllQhiuaREBFQda3I9N
+         AKVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723400239; x=1724005039;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YwPrNBUvnU4mbdftoy187GtvdUrZHe6TFCVGlwNgbXc=;
+        b=JG9coZPE1D9hnL7/X9CH6b+Dst5me18uGoTwBryHHJO9K+NXuFUkPc4Ey06u0GDDMz
+         AtLxdPX0R9zHX1Vpc1vtYHBLsCKhtzgTgGEC5igT4MB+SH1P4lTbtM5XDMsDCzSA+xoH
+         GmPzyDJH9TAERssrSl81FHjCgwLcxQBxqw+RtQrUVWQFmvvClUbogdl7+nYxYaKjJsyY
+         Frz7AzY5A5aDMtIXo7m28/BYw7CiUZFCVT8YECFCUsKz4A4Dq2rTIOOlMX1zhWzJuqnn
+         kwXcZGY+53FoPjD691g9CHwubTz+PWL+/qUHltJgq7GNGt1epKa25g/5LJbmWUY4JOO3
+         +LYA==
+X-Forwarded-Encrypted: i=1; AJvYcCVcSmCHlRLBxuJUTWIqy6P8EPtK6soI6Sl/uKBkLK7a5p8RVp2XFwd4mh5lEe7/RPf1iRhWFRlSk9I7Es+zL2OJ0lJx1gzydPoXPcE=
+X-Gm-Message-State: AOJu0YyDAgrIPxhPd8LZ3FKNb2Hp9bpyC5BH43Ti2TVRCqmsxHDd2H+o
+	k+qHaPpwH/7hbo76NWzllIj6m5IYwAGGYPydZLtPHt0JDG6ajFN59LdDDx85C4M=
+X-Google-Smtp-Source: AGHT+IGL8dYrPpIhxDmqwnFdq5fwLCKAJWl59JNXZWtvR62sQOT8VXO5t1ROG/0yftq11lxeIELW0Q==
+X-Received: by 2002:a2e:88c2:0:b0:2f1:5c89:c875 with SMTP id 38308e7fff4ca-2f1a6c687d4mr43015351fa.26.1723400238328;
+        Sun, 11 Aug 2024 11:17:18 -0700 (PDT)
+Received: from [127.0.1.1] ([178.197.219.137])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5bd1a6032c1sm1610593a12.92.2024.08.11.11.17.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Aug 2024 11:17:17 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 0/6] dt-bindings: add serial-peripheral-props.yaml
+Date: Sun, 11 Aug 2024 20:17:03 +0200
+Message-Id: <20240811-dt-bindings-serial-peripheral-props-v1-0-1dba258b7492@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <874j7u8gw2.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAB8AuWYC/x2NQQqAMAwEvyI5G2iLYPUr4kFt1IDUkogI4t+tn
+ nbnMLs3KAmTQlvcIHSy8h4z2LKAaR3iQsghMzjjKuOtxXDgyDFwXBQ/d9gw5UgryVdlT4qVbcj
+ P3pOrDeSlJDTz9b90/fO8b4n4MnUAAAA=
+To: Rob Herring <robh@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jiri Slaby <jirislaby@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Marcel Holtmann <marcel@holtmann.org>, 
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, Johan Hovold <johan@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Daniel Kaehn <kaehndan@gmail.com>
+Cc: linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
+ netdev@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2242;
+ i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
+ bh=QEqX6jTyd8mtDAP045rVWWxtAM7yNW08id9PkOM91fs=;
+ b=kA0DAAoBwTdm5oaLg9cByyZiAGa5ACKhowuFQWEQGWLBZ65ihEcm7sWDm5sILJ0QDnLhNFcNn
+ okCMwQAAQoAHRYhBN3SYig9ERsjO264qME3ZuaGi4PXBQJmuQAiAAoJEME3ZuaGi4PXOQQP/Rf3
+ 0FQ0xAoCgS7Rg5Leu6TCRvJx00s5hvLY/OatLg1j6RJ09EPW4CjZCHUkNAsii1fmw6D36YOIxGn
+ yANtN0FjOqIRKi86b/M/Ew+30nEv9+heFkhedxy5+qeKfgB37PVf4e1xJ+YzAjp+GEcCioB4akh
+ qF0Q71VKHz8pCuK+0r18ceZ4ltmTvUWDlRPz/U0gIsv/ey/X+AeDwLUJH+/3OurVOzt/l759wH+
+ k9vny+3L2RAnKnYCJ78J9h9cZHns7SCJzjLYXahWfyKIHWAhkKq9n1dw4YcBuTBIvMRy5zDRFNx
+ YrhPRKGeCtFT3dwngVMuRLm7pzBWJ49NPLnT3oh3olQ+xyW6lx8fSyMRPBbM11cam2MlRbLfQe2
+ Ckj4G2tML2zwirNyyxMFh/runDKcakRCwTmx/+1ixutFkxKWHisMKz8hYuR6Tfi/g3PBvYzxhqo
+ //11FD/jMibRLb2pdBuj8ZnU4En6gKb4zn3UkXR0d0+dozzXGe6MUwGRrepM2nMAJCsc/ss4G1U
+ 9nzaAN5EC7bfkVBiTUswgxlr6FLmQCfdZfRP7spBixaxXYXmTc3CHC3oajHfeaTzBIEJhKG4hbH
+ QdW7lvHeGcMv43NdDPCaitsgL9WiDAevkhH90YumKd9T+i528h/dtRnT8NFyoZ5LBM2snf73M4y
+ 2qY7d
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
+ fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-Hi Morimoto-san,
+Hi,
 
-(CC'ing Sakari)
+Add serial-peripheral-props.yaml for devices being connected over
+serial/UART.
 
-Thank you for the patch.
+Maybe the schema should be rather called serial-common-props.yaml? Or
+serial-device-common-props.yaml?
 
-On Fri, Aug 09, 2024 at 04:22:22AM +0000, Kuninori Morimoto wrote:
-> We have endpoint base functions
-> 	- of_graph_get_next_device_endpoint()
-> 	- of_graph_get_device_endpoint_count()
-> 	- for_each_of_graph_device_endpoint()
-> 
-> Here, for_each_of_graph_device_endpoint() loop finds each endpoints
-> 
-> 	ports {
-> 		port@0 {
-> (1)			endpoint {...};
-> 		};
-> 		port@1 {
-> (2)			endpoint {...};
-> 		};
-> 		...
-> 	};
-> 
-> In above case, it finds endpoint as (1) -> (2) -> ...
-> 
-> Basically, user/driver knows which port is used for what, but not in
-> all cases. For example on flexible/generic driver case, how many ports
-> are used is not fixed.
-> 
-> For example Sound Generic Card driver which is used from many venders
-> can't know how many ports are used. Because the driver is very
-> flexible/generic, it is impossible to know how many ports are used,
-> it depends on each vender SoC and/or its used board.
-> 
-> And more, the port can have multi endpoints. For example Generic Sound
-> Card case, it supports many type of connection between CPU / Codec, and
-> some of them uses multi endpoint in one port.
-> Then, Generic Sound Card want to handle each connection via "port"
-> instead of "endpoint".
-> But, it is very difficult to handle each "port" via
-> for_each_of_graph_device_endpoint(). Getting "port" by using
-> of_get_parent() from "endpoint" doesn't work. see below.
-> 
-> 	ports {
-> 		port@0 {
-> (1)			endpoint@0 {...};
-> (2)			endpoint@1 {...};
-> 		};
-> 		port@1 {
-> (3)			endpoint {...};
-> 		};
-> 		...
-> 	};
-> 
-> In the same time, same reason, we want to handle "ports" same as "port".
-> 
-> 	node {
-> =>		ports@0 {
-> 			port@0 {
-> 				endpoint@0 {...};
-> 				endpoint@1 {...};
-> 				...
-> 			};
-> 			port@1 {
-> 				endpoint@0 {...};
-> 				endpoint@1 {...};
-> 				...
-> 			};
-> 			...
-> 		};
-> =>		ports@1 {
-> 			...
-> 		};
-> 	};
-> 
-> Add "ports" / "port" base functions.
-> For above case, we can use
-> 
-> 	for_each_of_graph_ports(node, ports) {
-> 		for_each_of_graph_port(ports, port) {
-> 			...
-> 		}
-> 	}
-> 
-> This loop works in case of "node" doesn't have "ports" also.
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->  drivers/of/property.c    | 88 ++++++++++++++++++++++++++++++++++++++++
->  include/linux/of_graph.h | 46 +++++++++++++++++++++
->  2 files changed, 134 insertions(+)
-> 
-> diff --git a/drivers/of/property.c b/drivers/of/property.c
-> index 164d77cb9445..e4d5dfe70104 100644
-> --- a/drivers/of/property.c
-> +++ b/drivers/of/property.c
-> @@ -625,6 +625,76 @@ struct device_node *of_graph_get_port_by_id(struct device_node *parent, u32 id)
->  }
->  EXPORT_SYMBOL(of_graph_get_port_by_id);
->  
-> +/**
-> + * of_graph_get_next_ports() - get next ports node.
-> + * @parent: pointer to the parent device node
-> + * @prev: previous ports node, or NULL to get first
-> + *
-> + * If "parent" node doesn't have "ports" node, it returns "parent" node itself as "ports" node.
-> + *
-> + * Return: A 'ports' node pointer with refcount incremented. Refcount
-> + * of the passed @prev node is decremented.
-> + */
-> +struct device_node *of_graph_get_next_ports(struct device_node *parent,
-> +					    struct device_node *prev)
-> +{
-> +	if (!parent)
-> +		return NULL;
-> +
-> +	if (!prev) {
-> +		prev = of_get_child_by_name(parent, "ports");
-> +
-> +		/* use parent as its ports of this device if it not exist */
-> +		if (!prev)
-> +			prev = of_node_get(parent);
-> +
-> +		return prev;
-> +	}
-> +
-> +	do {
-> +		prev = of_get_next_child(parent, prev);
-> +		if (!prev)
-> +			break;
-> +	} while (!of_node_name_eq(prev, "ports"));
-> +
-> +	return prev;
-> +}
-> +EXPORT_SYMBOL(of_graph_get_next_ports);
+Dependencies/merging - Devicetree tree?
+=======================================
+Entire patchset should be taken via one tree, preferably Rob's
+Devicetree because of context/hunk dependencies and dependency on
+introduced serial-peripheral-props.yaml file.
 
-Having multiple "ports" nodes in a device node is not something I've
-ever seen before. There may be use cases, but how widespread are they ?
-I would prefer handling this in driver code instead of creating a helper
-function if the use case is rare.
+Best regards,
+Krzysztof
 
-> +
-> +/**
-> + * of_graph_get_next_port() - get next port node.
-> + * @parent: pointer to the parent device node, or parent ports node
-> + * @prev: previous port node, or NULL to get first
-> + *
-> + * Parent device node can be used as @parent whether device node has ports node or not.
-> + * It will work same as ports@0 node.
-> + *
-> + * Return: A 'port' node pointer with refcount incremented. Refcount
-> + * of the passed @prev node is decremented.
-> + */
-> +struct device_node *of_graph_get_next_port(struct device_node *parent,
-> +					   struct device_node *prev)
-> +{
-> +	if (!parent)
-> +		return NULL;
-> +
-> +	if (!prev) {
-> +		struct device_node *ports __free(device_node) =
-> +			of_graph_get_next_ports(parent, NULL);
+---
+Krzysztof Kozlowski (6):
+      dt-bindings: serial: add missing "additionalProperties" on child nodes
+      dt-bindings: serial: add common properties schema for UART children
+      dt-bindings: bluetooth: move Bluetooth bindings to dedicated directory
+      dt-bindings: gnss: reference serial-peripheral-props.yaml
+      dt-bindings: bluetooth: reference serial-peripheral-props.yaml
+      ASoC: dt-bindings: serial-midi: reference serial-peripheral-props.yaml
 
-This also makes me quite uncomfortable. Iterating over all ports of a
-device node that contains multiple "ports" children seems an ill-defined
-use case.
+ .../devicetree/bindings/gnss/brcm,bcm4751.yaml     |  1 +
+ .../devicetree/bindings/gnss/gnss-common.yaml      |  5 ---
+ .../devicetree/bindings/gnss/mediatek.yaml         |  1 +
+ .../devicetree/bindings/gnss/sirfstar.yaml         |  1 +
+ .../devicetree/bindings/gnss/u-blox,neo-6m.yaml    |  1 +
+ .../brcm,bluetooth.yaml}                           | 33 +++++++++--------
+ .../marvell,88w8897.yaml}                          |  6 ++--
+ .../mediatek,bluetooth.txt}                        |  0
+ .../nokia,h4p-bluetooth.txt}                       |  0
+ .../bindings/net/bluetooth/qualcomm-bluetooth.yaml |  4 +--
+ .../realtek,bluetooth.yaml}                        |  5 ++-
+ .../bindings/net/{ => bluetooth}/ti,bluetooth.yaml |  5 ++-
+ .../bindings/serial/serial-peripheral-props.yaml   | 41 ++++++++++++++++++++++
+ .../devicetree/bindings/serial/serial.yaml         | 24 ++-----------
+ .../devicetree/bindings/sound/serial-midi.yaml     |  3 ++
+ MAINTAINERS                                        |  2 +-
+ 16 files changed, 80 insertions(+), 52 deletions(-)
+---
+base-commit: 8626c4826dd708e05ba457c44493d575d75d375c
+change-id: 20240811-dt-bindings-serial-peripheral-props-419e8f88e270
 
-> +
-> +		return of_get_child_by_name(ports, "port");
-> +	}
-> +
-> +	do {
-> +		prev = of_get_next_child(parent, prev);
-> +		if (!prev)
-> +			break;
-> +	} while (!of_node_name_eq(prev, "port"));
-> +
-> +	return prev;
-> +}
-> +EXPORT_SYMBOL(of_graph_get_next_port);
-> +
->  /**
->   * of_graph_get_next_endpoint() - get next endpoint node
->   * @parent: pointer to the parent device node
-> @@ -823,6 +893,24 @@ unsigned int of_graph_get_endpoint_count(const struct device_node *np)
->  }
->  EXPORT_SYMBOL(of_graph_get_endpoint_count);
->  
-> +/**
-> + * of_graph_get_port_count() - get the number of port in a device node
-> + * @np: pointer to the parent device node
-> + *
-> + * Return: count of port of this device node
-> + */
-> +unsigned int of_graph_get_port_count(struct device_node *np)
-> +{
-> +	struct device_node *port = NULL;
-> +	int num = 0;
-
-As the counter can never be negative, you can make this an unsigned int.
-
-> +
-> +	for_each_of_graph_port(np, port)
-> +		num++;
-> +
-> +	return num;
-> +}
-> +EXPORT_SYMBOL(of_graph_get_port_count);
-> +
->  /**
->   * of_graph_get_remote_node() - get remote parent device_node for given port/endpoint
->   * @node: pointer to parent device_node containing graph port/endpoint
-> diff --git a/include/linux/of_graph.h b/include/linux/of_graph.h
-> index a4bea62bfa29..a6b91577700a 100644
-> --- a/include/linux/of_graph.h
-> +++ b/include/linux/of_graph.h
-> @@ -37,14 +37,41 @@ struct of_endpoint {
->  	for (child = of_graph_get_next_endpoint(parent, NULL); child != NULL; \
->  	     child = of_graph_get_next_endpoint(parent, child))
->  
-> +/**
-> + * for_each_of_graph_ports - iterate over every ports in a device node
-> + * @parent: parent device node containing ports
-> + * @child: loop variable pointing to the current ports node
-> + *
-> + * When breaking out of the loop, of_node_put(child) has to be called manually.
-> + */
-> +#define for_each_of_graph_ports(parent, child)				\
-> +	for (child = of_graph_get_next_ports(parent, NULL); child != NULL; \
-> +	     child = of_graph_get_next_ports(parent, child))
-> +
-> +/**
-> + * for_each_of_graph_port - iterate over every port in a device or ports node
-> + * @parent: parent device or ports node containing port
-> + * @child: loop variable pointing to the current port node
-> + *
-> + * When breaking out of the loop, of_node_put(child) has to be called manually.
-> + */
-> +#define for_each_of_graph_port(parent, child)			\
-> +	for (child = of_graph_get_next_port(parent, NULL); child != NULL; \
-> +	     child = of_graph_get_next_port(parent, child))
-
-I think I've proposed something similar a looooong time ago, and was
-told that iterating over ports is not something that drivers should do.
-The situation may have changed since though.
-
-Sakari, any opinion on this ?
-
-> +
->  #ifdef CONFIG_OF
->  bool of_graph_is_present(const struct device_node *node);
->  int of_graph_parse_endpoint(const struct device_node *node,
->  				struct of_endpoint *endpoint);
->  unsigned int of_graph_get_endpoint_count(const struct device_node *np);
-> +unsigned int of_graph_get_port_count(struct device_node *np);
->  struct device_node *of_graph_get_port_by_id(struct device_node *node, u32 id);
->  struct device_node *of_graph_get_next_endpoint(const struct device_node *parent,
->  					struct device_node *previous);
-> +struct device_node *of_graph_get_next_ports(struct device_node *parent,
-> +					    struct device_node *ports);
-> +struct device_node *of_graph_get_next_port(struct device_node *parent,
-> +					   struct device_node *port);
->  struct device_node *of_graph_get_endpoint_by_regs(
->  		const struct device_node *parent, int port_reg, int reg);
->  struct device_node *of_graph_get_remote_endpoint(
-> @@ -73,6 +100,11 @@ static inline unsigned int of_graph_get_endpoint_count(const struct device_node
->  	return 0;
->  }
->  
-> +static inline unsigned int of_graph_get_port_count(struct device_node *np)
-> +{
-> +	return 0;
-> +}
-> +
->  static inline struct device_node *of_graph_get_port_by_id(
->  					struct device_node *node, u32 id)
->  {
-> @@ -86,6 +118,20 @@ static inline struct device_node *of_graph_get_next_endpoint(
->  	return NULL;
->  }
->  
-> +static inline struct device_node *of_graph_get_next_ports(
-> +					struct device_node *parent,
-> +					struct device_node *previous)
-> +{
-> +	return NULL;
-> +}
-> +
-> +static inline struct device_node *of_graph_get_next_port(
-> +					struct device_node *parent,
-> +					struct device_node *previous)
-> +{
-> +	return NULL;
-> +}
-> +
->  static inline struct device_node *of_graph_get_endpoint_by_regs(
->  		const struct device_node *parent, int port_reg, int reg)
->  {
-
+Best regards,
 -- 
-Regards,
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Laurent Pinchart
