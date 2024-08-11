@@ -1,137 +1,153 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD2E16BE07
-	for <linux-sound@vger.kernel.org>; Sun, 11 Aug 2024 18:17:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD220158529;
+	Sun, 11 Aug 2024 20:23:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723400253; cv=none; b=mB8bs5qYKsAQggr+qipo3B18cnpxNdVV1ge5rc5HlVGw5p+VbIaPdeajTA9cn5thJ+zMjcZxWd0lVSAG5IRq2Lqt3lz4lKCexRSfIUJg0Yb9r9kKoyUufrkvrZFuoBrdUOoz2ZWudxZ27wcQdHlfiOOyX6T9vBkT0CjxwU5czqU=
+	t=1723407824; cv=none; b=QN5KYuzzFcvYbzPqDPuWUClo9YFwHlspJSYBaWDIwtZ26/Hs/EfJ7VcV1H9d+gNm1QUPktotGST7ue8Pjsn36sYoUHqpUFBgzsmPxtfZPQ2eLyyAPtowkKYz7WS9BIs4JZYM68L5xr9Wxutbopar2uR9LP+Y89LIUMU8bHmNQbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723400253; c=relaxed/simple;
-	bh=i+lTvqxiMRXFw4pW4fXIUgAA4bXjhigtS13EAIn2h9I=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=JRHgF1tYZNE8dfpOEQhWWtZ5Iv1/uDwdqoVVITpHLe3TCcYAnGHBA3pTo7Af7H42UN2y/OkTh+MCE3t+NiReXvyS6yEKjA6cCMpdvHQSe95X7sL22mi0Xha9VqIMrnf9QkQyCtSVxy/UIJd57vgAGnwj4B6yB4bj2QAOBb15Q/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CdEnF589; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1723407824; c=relaxed/simple;
+	bh=MPiMKSoZeosakybH2aURFkagWI7uL0lgDyo8mZHR2JI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=U5ULPj9DKfAi05UGDKt/9XYai38ez7dB/VkpKg5h44tQzqVZPVOucl5HE70fq20FcO494nGZgsM6bautnZxqO/ldEXlbPFhRJbyv25diW3zTO4xip8vB5Nh2wruCdfPB/F0sD72KPSmcZ0RTtHI9HrvKWSJFMEOAnTqBFPU2l1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JrMzbyQe; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CdEnF589"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5bd13ea7604so1614769a12.1
-        for <linux-sound@vger.kernel.org>; Sun, 11 Aug 2024 11:17:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JrMzbyQe"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-428098e2b3bso4713685e9.3;
+        Sun, 11 Aug 2024 13:23:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723400250; x=1724005050; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JvbZ+8SyXPbkfWIxq8fFFxIwmoC4vttG1Fog7o3RX+I=;
-        b=CdEnF589n0JAAIAH4FERLOqOO51a1AKViW45tAa+pSmCCxJCxAkiT0tjGHDSKw//LC
-         9wdaCf9pKzlR+nvEyggzqxq4wt0KbEZfvxqC9ogCaAVaj/SRrTjvFhbRnlX9u02avHAw
-         1on6ndsMpiCADolJ9sgSq9CI5UXB0M5CQN/FNmHHofNCGTk5Ar9nb/2WWeTxmR1lHmgT
-         dw4AZ777rvsJ2ALtjNdMMCMHZbbkVxt0CipQeYSSyJ2hKLVddQEaTcXv08CNC+HHhpts
-         EMYKQUimIy36ASi9FFMpYgKgi99whST1BGvyssVc6G/KBddRZWvUWYwOglqd72viNbmn
-         cwxA==
+        d=gmail.com; s=20230601; t=1723407821; x=1724012621; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MWE5xyAUeQcXJJ3bA6JVUD9msyw5uchmR9stcH8e+z0=;
+        b=JrMzbyQeGz5A6jutSGBkAFMl3reLhTX/5S7NRrgfBhHgVMmdoDlVDz1O+aXJazOmy0
+         mZ2kgakqwqnsgoQ7594+Yj8zxfZphNJ4ewJzI4k2V/eImU9LXKF1CzzCeuxy5/Xv/m8B
+         Bs2IGxrpccNDpi7ZoIzU3vLw3VZfEGy1l8TM0Q5L9xkzSXtz+ejaSJUPE5n9vJQ7gwHN
+         lv3800XQ4CN+MMiw/NtzEWwGiDMYUyLtn7QHhJD1dtky62ZlEbJqtn9iICekYwaQtpMA
+         1vXMqNfgwQ06vRuNGroYQvMYPFHwVEwQ+Q8OnQ6swUlLKs7WNN6PyNus7XYJ+mtT8jcO
+         1Syw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723400250; x=1724005050;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JvbZ+8SyXPbkfWIxq8fFFxIwmoC4vttG1Fog7o3RX+I=;
-        b=XKuffm4alepOsIRPQgp0yNUW6BypIY7TgG3qWsxWuBR3M0vcGdBmDUt9y5E9UJmGcH
-         WwPKKv7QLoBy2Z0fojQ1ACWOpZc/KGUd60MJNebI5PrO/wB5lW2dTaqr8SvDsDGW6WaN
-         BsLfL9uWSynhmjsZCs4gkLz0WiI7eAaaOYtiaQHGIh4he5oVbyL6rcwSD8bDOeJnyU1Z
-         PhC7u2e3/tDinVDpm59MSOlJJnzV7GTUTeZ1cM/8TVLe/YGy9MsiWVtKipi2mr8A58fS
-         oWmLHZzde7hHGi6HVO1yfoFZCQVjN4ja7NaEgqqHbbYK9a0viJy/JMq5xoDX9F0oi9EW
-         zXfg==
-X-Forwarded-Encrypted: i=1; AJvYcCVngoXpF0m4BVLxqMcQAlJsTc5sC6nBFfZc1+QfJYWxFzc6qVyVwziy0rKwlyTKXSG7it8HvtVcYqzqEaZFP8s6LxXmtTzJ1DthbL4=
-X-Gm-Message-State: AOJu0YzghnW7px1jv3mmmMHgjVoRg6DcrzcxY+wt7hHqJRpuIQ0kDdAp
-	W8dW83AH69nK7QoSQguqceHp38gprW0tH6jBLXVPZyeLGAw2mzFpZHavjwf5VuI=
-X-Google-Smtp-Source: AGHT+IF845o0XSP5n/BwrlmriZw7Zb6P6jQ3BpfatLkLOENLMyaMOLi7UlDJBP7b5+N/eNUzZ5p81w==
-X-Received: by 2002:a05:6402:458f:b0:5a1:c40a:3a81 with SMTP id 4fb4d7f45d1cf-5bd0a6603a2mr3481173a12.35.1723400249713;
-        Sun, 11 Aug 2024 11:17:29 -0700 (PDT)
-Received: from [127.0.1.1] ([178.197.219.137])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5bd1a6032c1sm1610593a12.92.2024.08.11.11.17.27
+        d=1e100.net; s=20230601; t=1723407821; x=1724012621;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MWE5xyAUeQcXJJ3bA6JVUD9msyw5uchmR9stcH8e+z0=;
+        b=TzRsAMPoLhByi6fOwQrgfviJuB/n75XPlAbYTnht1Mh6OcYINsewJ+IogXxO+tWLwv
+         LkyYj2xavMlWVJKHO06NVYoglSs7ftNv0ikMCSM51jgP1kiuNV979VKxZdQBuKXUM8aQ
+         5UOWFnMkwJz4eY9oZtZqS/aU9DjI3wqUHo24iF2mHvym4kfPX54aZwXcdLQzDvDfcjO1
+         u6DnGFMaROy/Eu+YpDjQw7s2WoUZ4EtCQ6WIYIUJqYUZqo261J0edwyRPTKmi1RaBm5e
+         YmgI/mDSpy2DmQebtsA4kfrD3TX8B1bz10QQw5N1lWezfjhcmqmEmdaZQOYEeMy6rDeD
+         2Cng==
+X-Forwarded-Encrypted: i=1; AJvYcCV3/34FXAq2Oql8VGy7QrEfbVSTg+OXM/ycxkKAnEoBiRaB7u3aerYC1CV6u8iKl4xImOKkvvLQxDniGVsXsSBMMZzHJaLFHrTZ6C6DmCgBebcZ6+rEKkjVFDTfzcG2cg2q/EGcFY0gzG1LGE1Xwa1FEfZsx4wTbqq+UU/+PlDWJVjV0hjJhTlpi/+CFmokv/HEHGY8MvPskBcjj7uV0jRGzXiK95M=
+X-Gm-Message-State: AOJu0YyQB93gVyijuUatoWvLMn/k+Mx6yq7jeVZ1YuZHm6s06ZLnkgKg
+	VrIBdaUgxNSaYi5JHbto24untTQIY4jIjwE31kqWqoBn7g5s6+ey
+X-Google-Smtp-Source: AGHT+IFNSQXPYQ8clX3x0+E4DCc1n8ScEo458gp2OLRmqqwHHQoLRVsTZB0rtltcHSbj0Hgmv/3qiA==
+X-Received: by 2002:a5d:64a1:0:b0:36b:b2a1:ef74 with SMTP id ffacd0b85a97d-36d60355417mr3738140f8f.8.1723407820773;
+        Sun, 11 Aug 2024 13:23:40 -0700 (PDT)
+Received: from ivan-HLYL-WXX9.. ([2a01:4b00:d20e:7300:24a1:28fd:3a06:5636])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36e4ebd31edsm5553305f8f.98.2024.08.11.13.23.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Aug 2024 11:17:29 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Sun, 11 Aug 2024 20:17:09 +0200
-Subject: [PATCH 6/6] ASoC: dt-bindings: serial-midi: reference
- serial-peripheral-props.yaml
+        Sun, 11 Aug 2024 13:23:40 -0700 (PDT)
+From: Ivan Orlov <ivan.orlov0322@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com,
+	corbet@lwn.net,
+	broonie@kernel.org,
+	shuah@kernel.org
+Cc: Ivan Orlov <ivan.orlov0322@gmail.com>,
+	linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	christophe.jaillet@wanadoo.fr,
+	aholzinger@gmx.de
+Subject: [PATCH v4 0/4] Introduce userspace-driven ALSA timers
+Date: Sun, 11 Aug 2024 21:23:33 +0100
+Message-Id: <20240811202337.48381-1-ivan.orlov0322@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240811-dt-bindings-serial-peripheral-props-v1-6-1dba258b7492@linaro.org>
-References: <20240811-dt-bindings-serial-peripheral-props-v1-0-1dba258b7492@linaro.org>
-In-Reply-To: <20240811-dt-bindings-serial-peripheral-props-v1-0-1dba258b7492@linaro.org>
-To: Rob Herring <robh@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jiri Slaby <jirislaby@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Marcel Holtmann <marcel@holtmann.org>, 
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Linus Walleij <linus.walleij@linaro.org>, Johan Hovold <johan@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Daniel Kaehn <kaehndan@gmail.com>
-Cc: linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
- netdev@vger.kernel.org, linux-mediatek@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1136;
- i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=i+lTvqxiMRXFw4pW4fXIUgAA4bXjhigtS13EAIn2h9I=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmuQArOhpNatW52wzJpXmws0fDjOokzOoUe8LaC
- lsqDe/iqmyJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZrkAKwAKCRDBN2bmhouD
- 10kpD/9SOhRnOR0/feUFtJ3/1bim82Fw4+7IumOZPA7eiWKJANvWp2lMdImnWInzmSwBhyQreJX
- CcZOcbd29+X1YgRQFNNxf6PkQ444aPBNpCmUggJxXS1hYJZF6HWHMIQtlr3FelO4SHIF4QJdMEh
- exRB43qX03biWL0S+zQcNW9/WOmyfmOqJkzjrW3yohC2VGvgqpMw98+8+wpX4EIE34vvu3Hk9ta
- Dgh9Ho9WU79eqWzdn7C8aawEviq3Hbn7o7SRJX43kVaAy0KHVYOLTrWQQrVd22AVwBxm2JFtEB0
- 752kvhWQRzIlOL5PEvcbg0sxnIMtixrhBPw/JZfOrnzdSJ3R5BCn1D5p1GCTPzCjBY+xJBFUDjQ
- SaTdfn+xLdc6HYz1XPQgRyypy5RTUxaqAYe9Nd5dGGgKmm1ihWw5W4W8o/C7Ko3cTAR/GJsBxOI
- PDixnjajQVDH9z6sgoDoifPyYwrLxfvWMhzWjZATVFw7x3f03Z6SIjKq/+6ScEuYaVp6qfMbKpb
- Rgo0ayBhAXShHODYAWm3U8uXrSTWMY+b1EaCNxbxB/ZSk1pmOkbcxl50h7/CfqDMq8Mrv4xMobm
- t3YbsVbWF6YCTxKpBDShzvOXWpp5ULhSQ/Y2dLnrqsQStlcfK/ZVJaPQyinHcyCcJG0LUhlfuxN
- b7/go1JyGYOp9xA==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
- fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Transfer-Encoding: 8bit
 
-Reference common serial properties schema (for children of UART
-controllers) to bring common definition of "current-speed" and
-"max-speed" properties.
+There are multiple possible timer sources which could be useful for
+the sound stream synchronization: hrtimers, hardware clocks (e.g. PTP),
+timer wheels (jiffies). Currently, using one of them to synchronize
+the audio stream of snd-aloop module would require writing a
+kernel-space driver which exports an ALSA timer through the
+snd_timer interface.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+However, it is not really convenient for application developers, who may
+want to define their custom timer sources for audio synchronization.
 
----
+For instance, we could have a network application which receives frames
+and sends them to snd-aloop pcm device, and another application
+listening on the other end of snd-aloop. It makes sense to transfer a
+new period of data only when certain amount of frames is received
+through the network, but definitely not when a certain amount of jiffies
+on a local system elapses. Since all of the devices are purely virtual
+it won't introduce any glitches and will help the application developers
+to avoid using sample-rate conversion.
 
-This patch should probably go via Rob's Devicetree tree.  It depends on
-the serial patch adding serial-peripheral-props.yaml.
----
- Documentation/devicetree/bindings/sound/serial-midi.yaml | 3 +++
- 1 file changed, 3 insertions(+)
+This patch series introduces userspace-driven ALSA timers: virtual
+timers which are created and controlled from userspace. The timer can
+be created from the userspace using the new ioctl SNDRV_TIMER_IOCTL_CREATE.
+After creating a timer, it becomes available for use system-wide, so it
+can be passed to snd-aloop as a timer source (timer_source parameter
+would be "-1.SNDRV_TIMER_GLOBAL_UDRIVEN.{timer_id}"). When the userspace
+app decides to trigger a timer, it calls another ioctl
+SNDRV_TIMER_IOCTL_TRIGGER on the file descriptor of a timer. It
+initiates a transfer of a new period of data.
 
-diff --git a/Documentation/devicetree/bindings/sound/serial-midi.yaml b/Documentation/devicetree/bindings/sound/serial-midi.yaml
-index f6a807329a5a..3b2f6dd5bffa 100644
---- a/Documentation/devicetree/bindings/sound/serial-midi.yaml
-+++ b/Documentation/devicetree/bindings/sound/serial-midi.yaml
-@@ -22,6 +22,9 @@ description:
-   configure the clocks of the parent serial device so that a requested baud of 38.4 kBaud
-   results in the standard MIDI baud rate, and set the 'current-speed' property to 38400 (default)
- 
-+allOf:
-+  - $ref: /schemas/serial/serial-peripheral-props.yaml#
-+
- properties:
-   compatible:
-     const: serial-midi
+Userspace-driven timers are associated with file descriptors. If the
+application wishes to destroy the timer, it can simply release the file
+descriptor of a virtual timer.
+
+I believe introducing new ioctl calls is quite inconvenient (as we have
+a limited amount of them), but other possible ways of app <-> kernel
+communication (like virtual FS) seem completely inappropriate for this
+task (but I'd love to discuss alternative solutions).
+
+This patch series also updates the snd-aloop module so the global timers
+can be used as a timer_source for it (it allows using userspace-driven
+timers as timer source).
+
+V1 -> V2:
+- Fix some problems found by Christophe Jaillet
+<christophe.jaillet@wanadoo.fr>
+V2 -> V3:
+- Add improvements suggested by Takashi Iwai <tiwai@suse.de>
+V3 -> V4:
+- Address comments from Jaroslav Kysela <perex@perex.cz> and Mark Brown
+<broonie@kernel.org>
+
+Please, find the patch-specific changelog in the following patches.
+
+Ivan Orlov (4):
+  ALSA: aloop: Allow using global timers
+  Docs/sound: Add documentation for userspace-driven ALSA timers
+  ALSA: timer: Introduce virtual userspace-driven timers
+  selftests: ALSA: Cover userspace-driven timers with test
+
+ Documentation/sound/index.rst               |   1 +
+ Documentation/sound/utimers.rst             | 125 ++++++++++++
+ include/uapi/sound/asound.h                 |  16 +-
+ sound/core/Kconfig                          |  10 +
+ sound/core/timer.c                          | 210 ++++++++++++++++++++
+ sound/drivers/aloop.c                       |   2 +
+ tools/testing/selftests/alsa/Makefile       |   4 +-
+ tools/testing/selftests/alsa/global-timer.c |  87 ++++++++
+ tools/testing/selftests/alsa/utimer-test.c  | 164 +++++++++++++++
+ 9 files changed, 616 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/sound/utimers.rst
+ create mode 100644 tools/testing/selftests/alsa/global-timer.c
+ create mode 100644 tools/testing/selftests/alsa/utimer-test.c
 
 -- 
-2.43.0
+2.34.1
 
