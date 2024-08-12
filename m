@@ -1,149 +1,72 @@
-Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3916F33C7;
-	Mon, 12 Aug 2024 10:24:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C609E16EC16;
+	Mon, 12 Aug 2024 10:24:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723458266; cv=none; b=AfM9p51zo34u1hQFY0NH4nIZ7tpQIVAXjB21Ku7YOIB2bBicw543+xFgoEFOONC5nYmIa6YvnLHgn1JFer95K+MeFoUNlfrAJgRmEkm0vgCjZKMMSi6hsT47rKEsgELfl18evTD3x6VlapT2SXEE3VVGik7a0ktZNNxxEL4AFrY=
+	t=1723458282; cv=none; b=Z+a6CNBsYxGfNPKdNs1iYY1TnFAo/H6XYlCR/fYbtTHnwGu54BmOFKhrjHaUqHx2Isq94x/CJsmqH78k7zVqvtTcOJ/fBsHNrgM5WnDjblb9U8t3efOC2Ojd8bUtIytgWq+pP+jfl68HKZ9AwVXj8vFaLH8aA53DzLY/PTF6Xwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723458266; c=relaxed/simple;
-	bh=53diBSJIt3VJL8ICb+KbhOnHfQVqCPJkKKJXnKOXMfw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SdfTzOuEi5GvCXUg98qDDJJRiUzB0XyWfX/jfk3JRzkOPBcCyN94zaIPSPe93foWJO3j7VkTKtm2kEUs2u1Lfz3mz0LdhRqUawt8l03zxjfetpCzpBb8TsH6LtttG555vIpCRRj4ypCKpleCbkn8pBAPOpCJS4i7ogYXPvg8BJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=addhs0DY; arc=none smtp.client-ip=209.85.166.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1723458282; c=relaxed/simple;
+	bh=+cVxtBneiG5GQqDahZath/rPvSDoru3swRCQjqvU6Rg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZcsoQzqUZogHp+6SFQ/1oxWwTEXm+tHNWQaovxJD4XJQrp13fjaZMgabiAUmrhn6IajCQ8iE4l9KMVyMdBS67htzQ/BdMEJ5HtyrBtEv5sN1A1nCI0Nj6+p40cmtL9b/0dS+UXlc+r7K4kZbieAus5EwfZAB4BAKXihMskwX8gw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=cPjC/vwO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="addhs0DY"
-Received: by mail-il1-f171.google.com with SMTP id e9e14a558f8ab-39b38295008so12773875ab.2;
-        Mon, 12 Aug 2024 03:24:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723458263; x=1724063063; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mPC3vtsqYn5XJUeqo67iJn2rVnzxW9E5GvxuWYZUQ5I=;
-        b=addhs0DYABvI6ux0k698eLxtJiUZyZrjMDS2KDQp1q4BVfRJwK89ydinbjf1EwnBAI
-         VDwNLhxZWUxUWqLjoEeLIugl4yjuHPqSQjgLu+DpzRPaDYSb/+FRxbpLWml3V7r9pStI
-         ABT/j/gG1pv40wWUB2H2IvZX4BY0A6Ds3qOFeLKs4vOB+KVJJ2R2o3zzPTJ1uSGj7nJs
-         V0TrCnkRs7QXWKANadDjH2dAZyi3eGfwGmWzevz7Pfu2unggcaWmMRs+l+YXqjoeqPPt
-         3JNK/aN1o80cEEMwnTMcM11GOkPpkiuN7YdOLrVJ55TMXHaIb5IJzTQquInDvEO0H/z0
-         XlAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723458263; x=1724063063;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mPC3vtsqYn5XJUeqo67iJn2rVnzxW9E5GvxuWYZUQ5I=;
-        b=D60z2C1bKynPE3a13ZcVtlNJi/3JPUIp2SrSejJwbnG/3ft10d5duJFiVUru7Ioc4A
-         GGSGGvD2kOPGWCqIP9//4PDO02cP2LC7qeGQQOoMv9AWqBRKRecM/cWJr+7L6YT5WCNN
-         k78WhwygrU+qESM93P0V1KXG8fY5kACGJGg7n5CY5ZYOSayJR8Itp5PGAYihzCAQwXEf
-         X5ROLh8nzQf24cDcpEm1hj+c7kXafoWPKgD33jSgXVE4/XdYaSXcp/OTxCclq5piuOBB
-         +3EJyxrqhDxr4T/UYCL39Hiam9uJiYLOHH+mohXEiGG9PVI8J044U0IwiQsMHqLX8NGJ
-         Q7mg==
-X-Forwarded-Encrypted: i=1; AJvYcCUzCtfPg0lF3TUbUNV7OM+S2ZSzGlXkGmUQEB3+OIqQr9BeJbIuWUq6jqzf048jXIZmxJMu2LBgoOl0RZJJhy77ohHSCAb+RYPEG2S98dWEwXnUUKRA7D3O47LrigpWdwMzX+Oq4D4WJt0=
-X-Gm-Message-State: AOJu0YyJAAo6YPnEncJ/tQXjlvwmPe8YZpHgf9XZbcYDlyfvNNB5K3AX
-	qJQ53Ar5VwOwIvA4LwnbzC7ILoXgCJIVySlDAirSayyY/mQE9F6xFfGyEAFcDO4/8L7qM5HoKSo
-	NMK/IkFcrmgY8RAzFODy768ZlBjQ=
-X-Google-Smtp-Source: AGHT+IHdQ3RNrczHyEp+b16RjNhnMCOeSegrx7nTq50uxdHKAwi7ql6H7scu59mGUC+Dyrjh2BuMJ/sg9salc/H/EqI=
-X-Received: by 2002:a05:6e02:1a04:b0:397:2dcd:80e5 with SMTP id
- e9e14a558f8ab-39b7a463914mr85661235ab.27.1723458263144; Mon, 12 Aug 2024
- 03:24:23 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="cPjC/vwO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABDB0C32782;
+	Mon, 12 Aug 2024 10:24:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1723458282;
+	bh=+cVxtBneiG5GQqDahZath/rPvSDoru3swRCQjqvU6Rg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cPjC/vwOU70CRZg8jZYlnOFDuG8J2sg6HRwJZ8seRgE25CTFEdkpvbwWWrdGxhZg4
+	 qQdiwyGLZphu3l5QYx1FjgIy+IzUkvgOLh+Z3wNm0wk3pZtrJlRVfJVuCFrOl/GgeB
+	 3RNscbtLoBnP4W5FIzdcwhdU90Zl/IvUoJ2fVuM4=
+Date: Mon, 12 Aug 2024 12:24:39 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Thorsten Leemhuis <regressions@leemhuis.info>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
+	Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>,
+	=?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>, lgirdwood@gmail.com,
+	perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
+	Linux kernel regressions list <regressions@lists.linux.dev>,
+	Vitaly Chikunov <vt@altlinux.org>, stable@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 6.9 17/40] ASoC: topology: Fix route memory
+ corruption
+Message-ID: <2024081204-delirious-nursery-f950@gregkh>
+References: <czx7na7qfoacihuxcalowdosncubkqatf7gkd3snrb63wvpsdb@mncryvo4iiep>
+ <14e54a89-5c62-41b2-8205-d69ddf75e7c7@linux.intel.com>
+ <e95a876a-b4b4-4a9d-9608-ec27a9db3e0c@leemhuis.info>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <1722940003-20126-1-git-send-email-shengjiu.wang@nxp.com>
- <1722940003-20126-2-git-send-email-shengjiu.wang@nxp.com> <e89a56bf-c377-43d8-bba8-6a09e571ed64@linux.intel.com>
- <CAA+D8AN9JXJr-BZf8aY7d4rB6M60pXS_DG=qv=P6=2r1A18ATA@mail.gmail.com>
- <ffa85004-8d86-4168-b278-afd24d79f9d8@linux.intel.com> <116041ee-7139-4b77-89be-3a68f699c01b@perex.cz>
- <930bb152-860a-4ec5-9ef0-1c96f554f365@linux.intel.com> <c9039808-cd04-452d-9f6c-f91811088456@perex.cz>
- <ed1192e0-00e7-4739-a687-c96dc2d62898@linux.intel.com> <CAA+D8AMOh=G7W5-dYw_=Xx-s0PqEu2suKYorscoWku86Rn-=+A@mail.gmail.com>
- <542d47c5-7ce3-4c17-8c0a-3a2b2a9e6c6a@linux.intel.com> <c3b8f7b8-fc5e-4285-bee8-7edd448a405d@perex.cz>
-In-Reply-To: <c3b8f7b8-fc5e-4285-bee8-7edd448a405d@perex.cz>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Mon, 12 Aug 2024 18:24:11 +0800
-Message-ID: <CAA+D8ANg7C7vuxU44mAG8EnmcZjB_te5N_=4M4v_-Q9ZyPZ49g@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/6] ALSA: compress: add Sample Rate Converter codec support
-To: Jaroslav Kysela <perex@perex.cz>
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
-	Shengjiu Wang <shengjiu.wang@nxp.com>, vkoul@kernel.org, tiwai@suse.com, 
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, festevam@gmail.com, 
-	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
-	linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e95a876a-b4b4-4a9d-9608-ec27a9db3e0c@leemhuis.info>
 
-On Fri, Aug 9, 2024 at 10:01=E2=80=AFPM Jaroslav Kysela <perex@perex.cz> wr=
-ote:
->
-> On 09. 08. 24 14:52, Pierre-Louis Bossart wrote:
->
-> >> And metadata
-> >> ioctl can be called many times which can meet the ratio modifier
-> >> requirement (ratio may be drift on the fly)
-> >
-> > Interesting, that's yet another way of handling the drift with userspac=
-e
-> > modifying the ratio dynamically. That's different to what I've seen bef=
-ore.
->
-> Note that the "timing" is managed by the user space with this scheme.
->
-> >> And compress API uses codec as the unit for capability query and
-> >> parameter setting,  So I think need to define "SND_AUDIOCODEC_SRC'
-> >> and 'struct snd_dec_src',  for the 'snd_dec_src' just defined output
-> >> format and output rate, channels definition just reuse the snd_codec.c=
-h_in.
-> >
-> > The capability query is an interesting point as well, it's not clear ho=
-w
-> > to expose to userspace what this specific implementation can do, while
-> > at the same time *requiring* userpace to update the ratio dynamically.
-> > For something like this to work, userspace needs to have pre-existing
-> > information on how the SRC works.
->
-> Yes, it's about abstraction. The user space wants to push data, read data=
- back
-> converted to the target rate and eventually modify the drift using a cont=
-rol
-> managing clocks using own way. We can eventually assume, that if this con=
-trol
-> does not exist, the drift cannot be controlled. Also, nice thing is that =
-the
-> control has min and max values (range), so driver can specify the drift r=
-ange,
-> too.
->
-> And again, look to "PCM Rate Shift 100000" control implementation in
-> sound/drivers/aloop.c. It would be nice to have the base offset for the
-> shift/drift/pitch value standardized.
+On Mon, Aug 12, 2024 at 11:53:17AM +0200, Thorsten Leemhuis wrote:
+> Hi, top-posting for once, to make this easily accessible to everyone.
+> 
+> Greg, Sasha, to me it looks like something fell through the cracks.
+> Pierre-Louis afaics about a week ago asked (see the quote below) to
+> revert 97ab304ecd95c0 ("ASoC: topology: Fix references to freed memory")
+> [v6.10-rc6, v6.9.11, v6.6.42, v6.1.101] from the stable branches *or*
+> pick up b9dd212b14d27a ("ASoC: topology: Fix route memory corruption").
 
-Thanks.
+Commit b9dd212b14d27a is a merge commit, nothing that we can take at all
+here, sorry.
 
-But the ASRC driver I implemented is different, I just register one sound
-card, one device/subdevice.  but the ASRC hardware support 4 instances
-together, so user can open the card device 4 times to create 4 instances
-then the controls can only bind with compress streams.
+> But nothing like that has happened yet and I can't see any of those
+> resolutions in the 6.6 queue.
 
-I think I can remove the 'SNDRV_COMPRESS_SRC_RATIO_MOD',
-Only define a private type for driver,  which means only the ASRC driver
-and its user application know the type.
+Again, I can't take a merge commit :(
 
-For the change in 'include/uapi/sound/compress_params.h",  should I
-keep them,  is there any other suggestion for them?
+thanks,
 
-Best regards
-Shengjiu Wang
-
->
->                                         Jaroslav
->
-> --
-> Jaroslav Kysela <perex@perex.cz>
-> Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
->
+greg k-h
