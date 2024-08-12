@@ -1,148 +1,102 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 728BA1DFFD;
-	Mon, 12 Aug 2024 04:54:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0071509BF
+	for <linux-sound@vger.kernel.org>; Mon, 12 Aug 2024 06:53:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723438449; cv=none; b=aLtFkM6YeEenbvH7FV5VObEUik9DrQu4wZbizENzeTyKTY4I3tlmu5DxzIoPYme0A04pEGPS/9ehi6oiKrZfG43bchsXa3mccTYjlUxIbEeFKF4XzdP+qYwSWqz0XKbZolK/TeJAG4+zhwRGcUq0wbrkzRtk4P05zj6j9pPoO9M=
+	t=1723445613; cv=none; b=q51QAqYtfMCqaMQCHEIO5NejIHLaY5N+oStZk77mhozPlOxN3cHukFTpThburCY0liizuq6kW584wRSlLRtrp4GFBHJMxaJLh4G4x7pSFEIbhR2+AfFScG3x9T+Vzt7c+z6VQdOEhTJHoqGQhNFgupmGB6kOMIMICe49RKh1zmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723438449; c=relaxed/simple;
-	bh=7+jVABBsNbizGOQnYnTrHTlhtmzfjykh6P6vndW5SQs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lLTH+ougcODKK582UnBfVNh5HN/w057u0AQUJsuGwdOW0ZE0ruk02qbxImOeATTFKXpAnkuCEu1UkM1erdI0ghmHzo3at+4wyB2byZxmd83DVh/FuNB1keUmM8HdyrooI8jYJK/A3gN5Q8WT6zPjOJe/DaIJqHOpZJKwdFuT+dY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nAFX+O+m; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1723445613; c=relaxed/simple;
+	bh=mSFle22zJAezmirEZH6fkQtA1YJrvNYI2iXiEOQwbhQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VXbWQXtxiPA+JB/13qeaXnKXtPO/sSvfV1uuk3BL/rdcVJXcOlsPE58HGvh9ePnHCgOCt0n/zAwdi73pxjxFNpMNmhYVtp6wih8gG+2Caj3czK9slaO5joTOvm/SbwG544L+fR79Qu/hM08/wHYgmNwPOmUdfIBBdzt75NT6sDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=TOSj3KL8; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nAFX+O+m"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-70d1cbbeeaeso2769525b3a.0;
-        Sun, 11 Aug 2024 21:54:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723438447; x=1724043247; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ySHO6O2H5qje2VBKy2Synv/wXJFARS3WfeCV+1C16pQ=;
-        b=nAFX+O+mFO6i480R29KKChOK6CheB2OQMvp30ZTEvIJIpET9tYrW67l1smMphWi1L0
-         0n5l4YlvN0AUGxbjHmJLGw03fyUdvWhNB/jX695ipnXZAtug5Rk4pGHLtkKj1iJtj75u
-         tODF6yatJHpevbTRgspCOEhWj48hTnolE9BGPcKUargfmbSUOqJsvI8vbzkj32xyrHAr
-         2y5iPT23HDMUCm6A7cmARmBPTjvmxMMokwlXjZmF9p0YWAm75Ov7rnJHpy0YHrzqhDq9
-         8qXog9uo2v5Z5UVA8G+LVXkroD+yqi1fGkMIu98fOiIBJM2JXMALaQ3aMXWjUjKbjem9
-         leIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723438447; x=1724043247;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ySHO6O2H5qje2VBKy2Synv/wXJFARS3WfeCV+1C16pQ=;
-        b=v4YSofFGvrl4pDJouoB4unwXXsXqFn0wfef3HSKE6k08xmj3lV2/kFm5lS5uXQ8149
-         hHNQ5lD5HHG0JRPS8rMHKdRCqkXOC12VXOTtMmnWL0yJ7A6r6Sz/L1sA35FlLBX55/wf
-         DC/+Lw72sENqIv1YkzYxXWOce2IMOhc+9qbhPKnDhHsdDP2yOt1XQB30dLK4Jw4NiVOG
-         klQ7L6232ep1FY/GrlEptun03WJhZd6f4tShP0Sw3Od1ZaeZ+6oLjwQYoj4B34W1tSTN
-         rPVYDCKHURAytQjz5xol5SXq/XJygr8rzmp4UUk2jgsJmpEUSIc4rIRCOjOKWvf6Lj5D
-         Aifw==
-X-Forwarded-Encrypted: i=1; AJvYcCV22dGFcZYzcTD1WVkRbG1Tgw9UVVgMstCY8WeNXorUzJ7sOyFpdQlWjMuDt4mCWlul20CO3xsf/ozd5ubeEk6hBLvWbodWa0MASioq/DjQ8BItEi3qmTkalhLiVDgNwyc0uRL5TUr2e8g=
-X-Gm-Message-State: AOJu0YwSDWC+AUquhkkNsqKOs0XeUass5Mfhc/jVXCOIKp+Iw7hPZlHz
-	NrGLZwCKUmkafsCTCP7LUok6Dpsgq+xfTGDgq+rYND2iuYgw5KRt
-X-Google-Smtp-Source: AGHT+IEIkhd5ULm8pjy0oWMQmysodM2aF4d/rg/YAnViabCyPKOCQwwX1ciUj9E5aL49vpuif3TNlA==
-X-Received: by 2002:a05:6a00:21c9:b0:706:6bf8:bd2 with SMTP id d2e1a72fcca58-710dc899ea3mr7338886b3a.21.1723438446505;
-        Sun, 11 Aug 2024 21:54:06 -0700 (PDT)
-Received: from nobara-Desktop-pc.. (syn-076-167-168-058.res.spectrum.com. [76.167.168.58])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-710e5873b06sm3227939b3a.10.2024.08.11.21.54.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Aug 2024 21:54:06 -0700 (PDT)
-From: Jonathan LoBue <jlobue10@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: shenghao-ding@ti.com,
-	kailang@realtek.com,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	derekjohn.clark@gmail.com,
-	luke@ljones.dev,
-	benato.denis96@gmail.com,
-	Jonathan LoBue <jlobue10@gmail.com>,
-	Kyle Gospodnetich <me@kylegospodneti.ch>,
-	Jan Drogehoff <sentrycraft123@gmail.com>,
-	Antheas Kapenekakis <lkml@antheas.dev>,
-	Richard Alvarez <alvarez.richard@gmail.com>,
-	Miles Montierth <cyber_dopamine@intheblackmedia.com>
-Subject: [PATCH] ALSA: hda/realtek: tas2781: Fix ROG ALLY X audio
-Date: Sun, 11 Aug 2024 21:53:25 -0700
-Message-ID: <20240812045325.47736-1-jlobue10@gmail.com>
-X-Mailer: git-send-email 2.46.0
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="TOSj3KL8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=mSFl
+	e22zJAezmirEZH6fkQtA1YJrvNYI2iXiEOQwbhQ=; b=TOSj3KL8YpMybYhlA8Ng
+	gO01v92xPNf1KiGHE1uV4XKY9f2D63KgjBPUsrwhQY7L9ol+SrzqkQdB+hTKz7gR
+	oW/WvSC7E3syHLgKJYioYnm156/5sEMtpXe7uc5BN7ZAyomrgfwKtnPLtzl5ACYr
+	goSpGBXqjV6v+3FDJYlPHI2hJcv+WOsN/DD/nd1jZZSdGnaotraN0rG+jeMvuUq4
+	DIY+MZbI9XLmbgk9r7+HY7kMM36zW6JRy9HBDT1TQofI5SIM87zxtKzPAkdtEyli
+	p1UHl5gGKhNoIxyWFt7DP+PRm4XYnKddyTwqoWZ4WQXof4hBs1JF9Brux0Mm230v
+	pQ==
+Received: (qmail 1277415 invoked from network); 12 Aug 2024 08:53:21 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Aug 2024 08:53:21 +0200
+X-UD-Smtp-Session: l3s3148p1@K+LV8nYf5p4ujnvj
+Date: Mon, 12 Aug 2024 08:53:20 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Mark Brown <broonie@kernel.org>, tiwai@suse.com,
+	mika.westerberg@linux.intel.com, linux-sound@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+Subject: Re: [PATCH v2 0/3] ALSA: Add support for new HP G12 laptops
+Message-ID: <ZrmxYB4zsOpOP2eG@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Takashi Iwai <tiwai@suse.de>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Mark Brown <broonie@kernel.org>, tiwai@suse.com,
+	mika.westerberg@linux.intel.com, linux-sound@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+References: <20240802152215.20831-1-rf@opensource.cirrus.com>
+ <8734njl7my.wl-tiwai@suse.de>
+ <554660e1-01ea-4bb4-877f-fd8deb527ce7@opensource.cirrus.com>
+ <87frrhaofs.wl-tiwai@suse.de>
+ <ZrIJBUJfgiKPCKXv@shikoro>
+ <87bk25anep.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="yDi4V8Q0uGeRFZzk"
+Content-Disposition: inline
+In-Reply-To: <87bk25anep.wl-tiwai@suse.de>
 
-This patch enables the TI TAS2781 amplifier SoC for the ASUS ROG ALLY X.
-This is a design change from the original ASUS ROG ALLY, creating the need
-for this patch. All other Realtek Codec settings seem to be re-used from
-the original ROG ALLY design (on the ROG ALLY X). This patch maintains the
-previous settings for the Realtek codec portion, but enables the I2C
-binding for the TI TAS2781 amplifier (instead of the Cirrus CS35L41 amp
-used on the original ASUS ROG ALLY).
 
-One other requirement must be met for audio to work on the ASUS ROG ALLY X.
-A proper firmware file in the correct location with a proper symlink. We
-had reached out to TI engineers and confirmed that the firmware found in
-the Windows' driver package has a GPL license. Bazzite Github is hosting
-this firmware file for now until proper linux-firmware upstreaming can
-occur. https://github.com/ublue-os/bazzite
+--yDi4V8Q0uGeRFZzk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This firmware file should be placed in
-/usr/lib/firmware/ti/tas2781/TAS2XXX1EB3.bin with a symlink to it from
-/usr/lib/firmware/TAS2XXX1EB3.bin
 
-Co-developed by: Kyle Gospodnetich <me@kylegospodneti.ch>
-Signed-off-by: Kyle Gospodnetich <me@kylegospodneti.ch>
-Co-developed by: Jan Drogehoff <sentrycraft123@gmail.com>
-Signed-off-by: Jan Drogehoff <sentrycraft123@gmail.com>
-Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
-Tested-by: Richard Alvarez <alvarez.richard@gmail.com>
-Tested-by: Miles Montierth <cyber_dopamine@intheblackmedia.com>
-Signed-off-by: Jonathan LoBue <jlobue10@gmail.com>
----
- sound/pci/hda/patch_realtek.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+> > Yes, you can pull i2c/for-current. Maybe I can also retrofit an
+> > immutable branch for you. I'd think, though, that it is easiest to wait
+> > for 6.11-rc3 which will include the I2C part of this series. Or?
+>=20
+> Yeah, it's fine, I can wait for 6.11-rc3.
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 480e82df7a4c..9bc39c2ee6b9 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -7410,6 +7410,7 @@ enum {
- 	ALC285_FIXUP_THINKPAD_X1_GEN7,
- 	ALC285_FIXUP_THINKPAD_HEADSET_JACK,
- 	ALC294_FIXUP_ASUS_ALLY,
-+	ALC294_FIXUP_ASUS_ALLY_X,
- 	ALC294_FIXUP_ASUS_ALLY_PINS,
- 	ALC294_FIXUP_ASUS_ALLY_VERBS,
- 	ALC294_FIXUP_ASUS_ALLY_SPEAKER,
-@@ -8877,6 +8878,12 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.chained = true,
- 		.chain_id = ALC294_FIXUP_ASUS_ALLY_PINS
- 	},
-+	[ALC294_FIXUP_ASUS_ALLY_X] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = tas2781_fixup_i2c,
-+		.chained = true,
-+		.chain_id = ALC294_FIXUP_ASUS_ALLY_PINS
-+	},
- 	[ALC294_FIXUP_ASUS_ALLY_PINS] = {
- 		.type = HDA_FIXUP_PINS,
- 		.v.pins = (const struct hda_pintbl[]) {
-@@ -10313,6 +10320,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x1740, "ASUS UX430UA", ALC295_FIXUP_ASUS_DACS),
- 	SND_PCI_QUIRK(0x1043, 0x17d1, "ASUS UX431FL", ALC294_FIXUP_ASUS_DUAL_SPK),
- 	SND_PCI_QUIRK(0x1043, 0x17f3, "ROG Ally NR2301L/X", ALC294_FIXUP_ASUS_ALLY),
-+	SND_PCI_QUIRK(0x1043, 0x1eb3, "ROG Ally X RC72LA", ALC294_FIXUP_ASUS_ALLY_X),
- 	SND_PCI_QUIRK(0x1043, 0x1863, "ASUS UX6404VI/VV", ALC245_FIXUP_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1043, 0x1881, "ASUS Zephyrus S/M", ALC294_FIXUP_ASUS_GX502_PINS),
- 	SND_PCI_QUIRK(0x1043, 0x18b1, "Asus MJ401TA", ALC256_FIXUP_ASUS_HEADSET_MIC),
--- 
-2.46.0
+Done. Said commit is included in rc3 now. Thanks, guys!
 
+
+--yDi4V8Q0uGeRFZzk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAma5sV0ACgkQFA3kzBSg
+Kbbb+w//RAEp9yLwe6ViYFzkpfdFgGrnw3kMDuG2vnzj7HvCKIKHQnbPwPQVI/W6
+LDPR522tlQUOcWBrk359zh0ERVEY1mQV0kL7zdJ/Hz1PaU3QnhlmZa2XZXTWD12h
+Zg4sCwF26/ESwHEOUkODWsE9m6tqVZcJdStA1nG3GJEUJ/KZ1j8L9ZGTEyZASCge
+Nt9MbdqtFMZKiW3jkpyge8J5zpVkxkgoeOPqO5af68wNJZoBvCBO3NgUW6FwfRpJ
+PWGeOhLML0ubuafHnIjHC8oCkC+pwIhXQBuowHwdQwas/G8vU+Sg4/EWtFRCqVD4
+o1N5LLvhJmV/lbNYKeNlikM/wpWXQcvRmmnDXy47Hj7Yk8NdwuSlN6kgPpXLB9DJ
+sxX8te2EACW5h9LTqrTC+Q0Q0dCn3qFTrKwBn0vhivrN5sIPxcLCN9Wdz58kVgMv
+hgzhXeGxbc3TjUmvj5CXknSYHglwCSRUrFkk8gTfylEESzaYuPHqMvC9V26PmSs3
+e0y/EvLfbjKqs7SjV+ShEOeTaKZLmekPv+3/2qB3XT1pGkDjOPsQ2xeF34FocJ1X
+Bzaa9qWaPOf+4VRpeP6VLeSe4UwARu3UG9SSkCd57S+RH7E+/oukoiCZE/iTli66
+lU32n1YefCTO2M1rG4Y+1/mv5q7GuHfL2JzU3SB3GlDxfWO7PaU=
+=nJ+E
+-----END PGP SIGNATURE-----
+
+--yDi4V8Q0uGeRFZzk--
