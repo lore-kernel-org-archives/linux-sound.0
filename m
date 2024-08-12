@@ -1,47 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C4F516D4FC
-	for <linux-sound@vger.kernel.org>; Mon, 12 Aug 2024 09:42:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8670816DC2D
+	for <linux-sound@vger.kernel.org>; Mon, 12 Aug 2024 09:42:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723455755; cv=none; b=qqx4d2Uy0uyql9O6HqGIy2aIhYuvfegntn6owxGZjLo4+s/db+2gDxHtVfdJbmMLmUlsru4vcUnw7hwU9ASwddNL5i3I9mZ/qQ8EeJPw8KqZZgUJ02W1N0V/6BRMhyZXM8iw3xA9dsSbPauVm4JvNPm9L5yVX2Iccz5/4NPMP/k=
+	t=1723455760; cv=none; b=K3JR8E2tGtkO8oQwJ+eYvpug1BETXfh3QBG3cFQtPP4sURQqLAFKYjiQT7yX3rJtlmtNp2qVM6ySmHGLM5Zvgcx4kjnq0PReMCvrq8n4hy6I0ERuspJUqPOZwlBRBGifrnYPDo9N6y/61wnsRDBiYvp8AOMciPmOcv689EjFulk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723455755; c=relaxed/simple;
-	bh=RArZw0Cl2wd3Zm4nJabLOCL+sTCdFJRSYapD47EjPUk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sZFhQDNFu++TOb8mcc4EUVeYwLGt0CEn8+aFPgpm8tp+79sFRUAZh0cLu/QHgqU3U0nzuKKX6lXx+Ywf1Rg0qs49Ae6lnQeaoSTz5udBJNoGYUySCIne2kYEPKljXoOkXl695V9vFJlxrmlt2yyaxqsLG3JYd13pCksIvCTfcfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FfVlqQxs; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1723455760; c=relaxed/simple;
+	bh=4n95epjkk1Jj88i4P8lWbB3fmW7WO1oP/Eqckur2FFE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=A/z9aKbVWHgWxOpvQukJXdcE2fxlCDdZSVO/lwx7ISBhEkH3hOXCkkACzKS0Ee2Vn/IR4dl7Qwaspooj86YT2kbQmAZfEcBo9bus3HAOzrkAfn0vED5S7H7IpSwqkgs4xeyOsUEtxAR/laIW5HybMHJtbiFcV+uugLhqkv5lZKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FjxtWDSF; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FfVlqQxs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FjxtWDSF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723455752; x=1754991752;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=RArZw0Cl2wd3Zm4nJabLOCL+sTCdFJRSYapD47EjPUk=;
-  b=FfVlqQxs7CgIMS6pfBvQI37R9Q/8ymTQU0pCPBZHYrQgHmf01tEtur+k
-   NOaMso4Hb8Uz1O2j+5utjHM8n24g4ApYzvkUz9jLb07kZbyRwNYfx8FIl
-   9YcH8HydjZpRJpaLLWLV8e/uUPdPg+6j2zTQBHpmEmTo9N5iHgRHYuEd4
-   NSv4xtH2+HUEFPSRTRsXqn1oN95SVm+1XujVNud+qhhghf+/bYGEIpbZW
-   nZOVJpE5YaPIVcT6Q05bevB6hFge6GXHaFzhnsGkf5NxOT1ksLE/mEBqY
-   R89X3o92r9evhPTAAlm1TfdkSKs9JjzwWj5VagduZyck5OTBDLKVdfyS4
-   w==;
-X-CSE-ConnectionGUID: Jha2eNA8RlWSjcuFbefy4A==
-X-CSE-MsgGUID: vd0CVJD3S96/p3AIrn4YIQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11161"; a="21364804"
+  t=1723455755; x=1754991755;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=4n95epjkk1Jj88i4P8lWbB3fmW7WO1oP/Eqckur2FFE=;
+  b=FjxtWDSFYl1/7xC79/MpkZjkhMr8MbaWKD8zZfheLxvOFbzveP+IlgfQ
+   IvGY4wQtJwmofNrnDPhei0hNalU6vgwfECdPnRYp9SChb7Y6gotAMOFOC
+   ELDRmjoszOZSdfC+WBKTqI4HAXsYvxEoWKkWzR4RUm2BfrfBGS0PeASvB
+   EBCY62A9KU/QxmDQqesrOwfElzWbnpDqoITQGHQfnlHhzlKRQzX8XKu+p
+   YQmMAfYxbAY1p0Z6Sn1o+CsLCAHmLa3ivRd4jTlAOt7QQegNJmhfoVS/4
+   GGS8O0AmcB3SQWwIt0jkdzEg24JUIMmtGtwpAzjpxInwL5hF7qhG1/XZZ
+   Q==;
+X-CSE-ConnectionGUID: W0NiISMKTLyOBUV5CiriEg==
+X-CSE-MsgGUID: C4Plu5fHR+C4md7x0M4bpQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11161"; a="21364808"
 X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; 
-   d="scan'208";a="21364804"
+   d="scan'208";a="21364808"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2024 02:42:32 -0700
-X-CSE-ConnectionGUID: dwqq3qCWTiqw1ELQZeE9lA==
-X-CSE-MsgGUID: S1qeHXdeQmqr9ylLCmvxvQ==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2024 02:42:35 -0700
+X-CSE-ConnectionGUID: ah42GgFbSvGMI+teP6mCTw==
+X-CSE-MsgGUID: AK9+iR5eQJyaUlA4DGQ6/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; 
-   d="scan'208";a="63056789"
+   d="scan'208";a="63056810"
 Received: from crojewsk-ctrl.igk.intel.com ([10.102.9.28])
-  by orviesa005.jf.intel.com with ESMTP; 12 Aug 2024 02:42:29 -0700
+  by orviesa005.jf.intel.com with ESMTP; 12 Aug 2024 02:42:32 -0700
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: alsa-devel@alsa-project.org,
@@ -55,10 +56,12 @@ Cc: alsa-devel@alsa-project.org,
 	cujomalainey@chromium.org,
 	lmajczak@google.com,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 00/12] ASoC: Intel: Remove skylake driver
-Date: Mon, 12 Aug 2024 11:43:16 +0200
-Message-Id: <20240812094328.842661-1-cezary.rojewski@intel.com>
+Subject: [PATCH 01/12] ASoC: Intel: Remove bxt_rt298 board driver
+Date: Mon, 12 Aug 2024 11:43:17 +0200
+Message-Id: <20240812094328.842661-2-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240812094328.842661-1-cezary.rojewski@intel.com>
+References: <20240812094328.842661-1-cezary.rojewski@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -67,120 +70,740 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A spiritual successor to haswell/baytrail removal series [1].
+The driver has no users.
 
-The avs-driver found in sound/soc/intel/avs is a direct replacement to
-the existing skylake-driver. It covers all features supported by it and
-more and aligns with the recommended flows and requirements based on
-Windows driver equivalent.
+Succeeded by:
+- avs_rt298 (./intel/avs/boards/rt298.c)
 
-The skylake-driver related UAPI has been removed with "ASoC: Drop
-soc-topology ABI v4 support" [2].
-
-For the official kernel tree the deprecation begun with v6.0. Most
-skylake-drivers users moved to avs- or SOF-driver when AudioDSP
-capabilities are available on the platform or to snd-hda-intel
-(sound/pci/hda) when such capabilities are not.
-
-For the supported trees the deprecation begun with v5.4 with v5.15 being
-the first where the skylake-driver is disabled entirely.
-
-All machine board drivers that consume this DSP driver have their
-replacements present within sound/soc/intel/avs/boards/ directory.
-
-[1]: https://lore.kernel.org/alsa-devel/20201006064907.16277-1-cezary.rojewski@intel.com/
-[2]: https://lore.kernel.org/alsa-devel/20240403091629.647267-1-cezary.rojewski@intel.com/
-
-
-Cezary Rojewski (12):
-  ASoC: Intel: Remove bxt_rt298 board driver
-  ASoC: Intel: Remove bxt_da7219_max98357a board driver
-  ASoC: Intel: Remove kbl_rt5663_rt5514_max98927 board driver
-  ASoC: Intel: Remove kbl_rt5663_max98927 board driver
-  ASoC: Intel: Remove kbl_rt5660 board driver
-  ASoC: Intel: Remove kbl_da7219_max98927 board driver
-  ASoC: Intel: Remove kbl_da7219_max98357a board driver
-  ASoC: Intel: Remove skl_rt286 board driver
-  ASoC: Intel: Remove skl_nau88l25_ssm4567 board driver
-  ASoC: Intel: Remove skl_nau88l25_max98357a board driver
-  ASoC: Intel: Remove skylake driver
-  ASoC: Intel: avs: Enable by default for all SST configurations
-
- sound/soc/intel/Kconfig                       |  120 -
- sound/soc/intel/Makefile                      |    1 -
- sound/soc/intel/avs/core.c                    |    8 +-
- sound/soc/intel/boards/Kconfig                |  152 +-
- sound/soc/intel/boards/Makefile               |   20 -
- sound/soc/intel/boards/bxt_da7219_max98357a.c |  720 ----
- sound/soc/intel/boards/bxt_rt298.c            |  670 ---
- sound/soc/intel/boards/kbl_da7219_max98357a.c |  688 ----
- sound/soc/intel/boards/kbl_da7219_max98927.c  | 1175 ------
- sound/soc/intel/boards/kbl_rt5660.c           |  567 ---
- sound/soc/intel/boards/kbl_rt5663_max98927.c  | 1073 -----
- .../intel/boards/kbl_rt5663_rt5514_max98927.c |  869 ----
- .../soc/intel/boards/skl_nau88l25_max98357a.c |  704 ----
- sound/soc/intel/boards/skl_nau88l25_ssm4567.c |  751 ----
- sound/soc/intel/boards/skl_rt286.c            |  568 ---
- sound/soc/intel/skylake/Makefile              |   15 -
- sound/soc/intel/skylake/bxt-sst.c             |  629 ---
- sound/soc/intel/skylake/cnl-sst-dsp.c         |  266 --
- sound/soc/intel/skylake/cnl-sst-dsp.h         |  103 -
- sound/soc/intel/skylake/cnl-sst.c             |  508 ---
- sound/soc/intel/skylake/skl-debug.c           |  248 --
- sound/soc/intel/skylake/skl-i2s.h             |   87 -
- sound/soc/intel/skylake/skl-messages.c        | 1419 -------
- sound/soc/intel/skylake/skl-nhlt.c            |  269 --
- sound/soc/intel/skylake/skl-pcm.c             | 1507 -------
- sound/soc/intel/skylake/skl-ssp-clk.c         |  428 --
- sound/soc/intel/skylake/skl-ssp-clk.h         |  108 -
- sound/soc/intel/skylake/skl-sst-cldma.c       |  373 --
- sound/soc/intel/skylake/skl-sst-cldma.h       |  243 --
- sound/soc/intel/skylake/skl-sst-dsp.c         |  462 ---
- sound/soc/intel/skylake/skl-sst-dsp.h         |  256 --
- sound/soc/intel/skylake/skl-sst-ipc.c         | 1071 -----
- sound/soc/intel/skylake/skl-sst-ipc.h         |  169 -
- sound/soc/intel/skylake/skl-sst-utils.c       |  425 --
- sound/soc/intel/skylake/skl-sst.c             |  599 ---
- sound/soc/intel/skylake/skl-topology.c        | 3605 -----------------
- sound/soc/intel/skylake/skl-topology.h        |  524 ---
- sound/soc/intel/skylake/skl.c                 | 1177 ------
- sound/soc/intel/skylake/skl.h                 |  207 -
- 39 files changed, 9 insertions(+), 22775 deletions(-)
- delete mode 100644 sound/soc/intel/boards/bxt_da7219_max98357a.c
+Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
+---
+ sound/soc/intel/boards/Kconfig     |  14 -
+ sound/soc/intel/boards/Makefile    |   2 -
+ sound/soc/intel/boards/bxt_rt298.c | 670 -----------------------------
+ 3 files changed, 686 deletions(-)
  delete mode 100644 sound/soc/intel/boards/bxt_rt298.c
- delete mode 100644 sound/soc/intel/boards/kbl_da7219_max98357a.c
- delete mode 100644 sound/soc/intel/boards/kbl_da7219_max98927.c
- delete mode 100644 sound/soc/intel/boards/kbl_rt5660.c
- delete mode 100644 sound/soc/intel/boards/kbl_rt5663_max98927.c
- delete mode 100644 sound/soc/intel/boards/kbl_rt5663_rt5514_max98927.c
- delete mode 100644 sound/soc/intel/boards/skl_nau88l25_max98357a.c
- delete mode 100644 sound/soc/intel/boards/skl_nau88l25_ssm4567.c
- delete mode 100644 sound/soc/intel/boards/skl_rt286.c
- delete mode 100644 sound/soc/intel/skylake/Makefile
- delete mode 100644 sound/soc/intel/skylake/bxt-sst.c
- delete mode 100644 sound/soc/intel/skylake/cnl-sst-dsp.c
- delete mode 100644 sound/soc/intel/skylake/cnl-sst-dsp.h
- delete mode 100644 sound/soc/intel/skylake/cnl-sst.c
- delete mode 100644 sound/soc/intel/skylake/skl-debug.c
- delete mode 100644 sound/soc/intel/skylake/skl-i2s.h
- delete mode 100644 sound/soc/intel/skylake/skl-messages.c
- delete mode 100644 sound/soc/intel/skylake/skl-nhlt.c
- delete mode 100644 sound/soc/intel/skylake/skl-pcm.c
- delete mode 100644 sound/soc/intel/skylake/skl-ssp-clk.c
- delete mode 100644 sound/soc/intel/skylake/skl-ssp-clk.h
- delete mode 100644 sound/soc/intel/skylake/skl-sst-cldma.c
- delete mode 100644 sound/soc/intel/skylake/skl-sst-cldma.h
- delete mode 100644 sound/soc/intel/skylake/skl-sst-dsp.c
- delete mode 100644 sound/soc/intel/skylake/skl-sst-dsp.h
- delete mode 100644 sound/soc/intel/skylake/skl-sst-ipc.c
- delete mode 100644 sound/soc/intel/skylake/skl-sst-ipc.h
- delete mode 100644 sound/soc/intel/skylake/skl-sst-utils.c
- delete mode 100644 sound/soc/intel/skylake/skl-sst.c
- delete mode 100644 sound/soc/intel/skylake/skl-topology.c
- delete mode 100644 sound/soc/intel/skylake/skl-topology.h
- delete mode 100644 sound/soc/intel/skylake/skl.c
- delete mode 100644 sound/soc/intel/skylake/skl.h
 
+diff --git a/sound/soc/intel/boards/Kconfig b/sound/soc/intel/boards/Kconfig
+index 3d59d6982763..0892f2c19ade 100644
+--- a/sound/soc/intel/boards/Kconfig
++++ b/sound/soc/intel/boards/Kconfig
+@@ -319,20 +319,6 @@ config SND_SOC_INTEL_BXT_DA7219_MAX98357A_MACH
+ 	   Say Y or m if you have such a device. This is a recommended option.
+ 	   If unsure select "N".
+ 
+-config SND_SOC_INTEL_BXT_RT298_MACH
+-	tristate "Broxton with RT298 I2S mode"
+-	depends on I2C && ACPI
+-	depends on MFD_INTEL_LPSS || COMPILE_TEST
+-	select SND_SOC_RT298
+-	select SND_SOC_DMIC
+-	select SND_SOC_HDAC_HDMI
+-	select SND_SOC_INTEL_HDA_DSP_COMMON
+-	help
+-	   This adds support for ASoC machine driver for Broxton platforms
+-	   with RT286 I2S audio codec.
+-	   Say Y or m if you have such a device. This is a recommended option.
+-	   If unsure select "N".
+-
+ endif ## SND_SOC_INTEL_APL
+ 
+ if SND_SOC_SOF_APOLLOLAKE
+diff --git a/sound/soc/intel/boards/Makefile b/sound/soc/intel/boards/Makefile
+index 5bd8dc2d166a..ae758a8aa61d 100644
+--- a/sound/soc/intel/boards/Makefile
++++ b/sound/soc/intel/boards/Makefile
+@@ -4,7 +4,6 @@ snd-soc-sst-bdw-rt5650-mach-y := bdw-rt5650.o
+ snd-soc-sst-bdw-rt5677-mach-y := bdw-rt5677.o
+ snd-soc-bdw-rt286-y := bdw_rt286.o
+ snd-soc-sst-bxt-da7219_max98357a-y := bxt_da7219_max98357a.o
+-snd-soc-sst-bxt-rt298-y := bxt_rt298.o
+ snd-soc-sst-sof-pcm512x-y := sof_pcm512x.o
+ snd-soc-sst-sof-wm8804-y := sof_wm8804.o
+ snd-soc-sst-bytcr-rt5640-y := bytcr_rt5640.o
+@@ -43,7 +42,6 @@ obj-$(CONFIG_SND_SOC_INTEL_SOF_NAU8825_MACH) += snd-soc-sof_nau8825.o
+ obj-$(CONFIG_SND_SOC_INTEL_SOF_DA7219_MACH) += snd-soc-sof_da7219.o
+ obj-$(CONFIG_SND_SOC_INTEL_HASWELL_MACH) += snd-soc-hsw-rt5640.o
+ obj-$(CONFIG_SND_SOC_INTEL_BXT_DA7219_MAX98357A_MACH) += snd-soc-sst-bxt-da7219_max98357a.o
+-obj-$(CONFIG_SND_SOC_INTEL_BXT_RT298_MACH) += snd-soc-sst-bxt-rt298.o
+ obj-$(CONFIG_SND_SOC_INTEL_SOF_PCM512x_MACH) += snd-soc-sst-sof-pcm512x.o
+ obj-$(CONFIG_SND_SOC_INTEL_SOF_WM8804_MACH) += snd-soc-sst-sof-wm8804.o
+ obj-$(CONFIG_SND_SOC_INTEL_BROADWELL_MACH) += snd-soc-bdw-rt286.o
+diff --git a/sound/soc/intel/boards/bxt_rt298.c b/sound/soc/intel/boards/bxt_rt298.c
+deleted file mode 100644
+index dce6a2086f2a..000000000000
+--- a/sound/soc/intel/boards/bxt_rt298.c
++++ /dev/null
+@@ -1,670 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
+-/*
+- * Intel Broxton-P I2S Machine Driver
+- *
+- * Copyright (C) 2014-2016, Intel Corporation
+- *
+- * Modified from:
+- *   Intel Skylake I2S Machine driver
+- */
+-
+-#include <linux/module.h>
+-#include <linux/platform_device.h>
+-#include <sound/core.h>
+-#include <sound/pcm.h>
+-#include <sound/soc.h>
+-#include <sound/soc-acpi.h>
+-#include <sound/jack.h>
+-#include <sound/pcm_params.h>
+-#include "../../codecs/hdac_hdmi.h"
+-#include "../../codecs/rt298.h"
+-#include "hda_dsp_common.h"
+-
+-/* Headset jack detection DAPM pins */
+-static struct snd_soc_jack broxton_headset;
+-static struct snd_soc_jack broxton_hdmi[3];
+-
+-struct bxt_hdmi_pcm {
+-	struct list_head head;
+-	struct snd_soc_dai *codec_dai;
+-	int device;
+-};
+-
+-struct bxt_rt286_private {
+-	struct list_head hdmi_pcm_list;
+-	bool common_hdmi_codec_drv;
+-};
+-
+-enum {
+-	BXT_DPCM_AUDIO_PB = 0,
+-	BXT_DPCM_AUDIO_CP,
+-	BXT_DPCM_AUDIO_REF_CP,
+-	BXT_DPCM_AUDIO_DMIC_CP,
+-	BXT_DPCM_AUDIO_HDMI1_PB,
+-	BXT_DPCM_AUDIO_HDMI2_PB,
+-	BXT_DPCM_AUDIO_HDMI3_PB,
+-};
+-
+-static struct snd_soc_jack_pin broxton_headset_pins[] = {
+-	{
+-		.pin = "Mic Jack",
+-		.mask = SND_JACK_MICROPHONE,
+-	},
+-	{
+-		.pin = "Headphone Jack",
+-		.mask = SND_JACK_HEADPHONE,
+-	},
+-};
+-
+-static const struct snd_kcontrol_new broxton_controls[] = {
+-	SOC_DAPM_PIN_SWITCH("Speaker"),
+-	SOC_DAPM_PIN_SWITCH("Headphone Jack"),
+-	SOC_DAPM_PIN_SWITCH("Mic Jack"),
+-};
+-
+-static const struct snd_soc_dapm_widget broxton_widgets[] = {
+-	SND_SOC_DAPM_HP("Headphone Jack", NULL),
+-	SND_SOC_DAPM_SPK("Speaker", NULL),
+-	SND_SOC_DAPM_MIC("Mic Jack", NULL),
+-	SND_SOC_DAPM_MIC("DMIC2", NULL),
+-	SND_SOC_DAPM_MIC("SoC DMIC", NULL),
+-	SND_SOC_DAPM_SPK("HDMI1", NULL),
+-	SND_SOC_DAPM_SPK("HDMI2", NULL),
+-	SND_SOC_DAPM_SPK("HDMI3", NULL),
+-};
+-
+-static const struct snd_soc_dapm_route broxton_rt298_map[] = {
+-	/* speaker */
+-	{"Speaker", NULL, "SPOR"},
+-	{"Speaker", NULL, "SPOL"},
+-
+-	/* HP jack connectors - unknown if we have jack detect */
+-	{"Headphone Jack", NULL, "HPO Pin"},
+-
+-	/* other jacks */
+-	{"MIC1", NULL, "Mic Jack"},
+-
+-	/* digital mics */
+-	{"DMIC1 Pin", NULL, "DMIC2"},
+-	{"DMic", NULL, "SoC DMIC"},
+-
+-	{"HDMI1", NULL, "hif5-0 Output"},
+-	{"HDMI2", NULL, "hif6-0 Output"},
+-	{"HDMI2", NULL, "hif7-0 Output"},
+-
+-	/* CODEC BE connections */
+-	{ "AIF1 Playback", NULL, "ssp5 Tx"},
+-	{ "ssp5 Tx", NULL, "codec0_out"},
+-	{ "ssp5 Tx", NULL, "codec1_out"},
+-
+-	{ "codec0_in", NULL, "ssp5 Rx" },
+-	{ "ssp5 Rx", NULL, "AIF1 Capture" },
+-
+-	{ "dmic01_hifi", NULL, "DMIC01 Rx" },
+-	{ "DMIC01 Rx", NULL, "Capture" },
+-
+-	{ "hifi3", NULL, "iDisp3 Tx"},
+-	{ "iDisp3 Tx", NULL, "iDisp3_out"},
+-	{ "hifi2", NULL, "iDisp2 Tx"},
+-	{ "iDisp2 Tx", NULL, "iDisp2_out"},
+-	{ "hifi1", NULL, "iDisp1 Tx"},
+-	{ "iDisp1 Tx", NULL, "iDisp1_out"},
+-};
+-
+-static const struct snd_soc_dapm_route geminilake_rt298_map[] = {
+-	/* speaker */
+-	{"Speaker", NULL, "SPOR"},
+-	{"Speaker", NULL, "SPOL"},
+-
+-	/* HP jack connectors - unknown if we have jack detect */
+-	{"Headphone Jack", NULL, "HPO Pin"},
+-
+-	/* other jacks */
+-	{"MIC1", NULL, "Mic Jack"},
+-
+-	/* digital mics */
+-	{"DMIC1 Pin", NULL, "DMIC2"},
+-	{"DMic", NULL, "SoC DMIC"},
+-
+-	{"HDMI1", NULL, "hif5-0 Output"},
+-	{"HDMI2", NULL, "hif6-0 Output"},
+-	{"HDMI2", NULL, "hif7-0 Output"},
+-
+-	/* CODEC BE connections */
+-	{ "AIF1 Playback", NULL, "ssp2 Tx"},
+-	{ "ssp2 Tx", NULL, "codec0_out"},
+-	{ "ssp2 Tx", NULL, "codec1_out"},
+-
+-	{ "codec0_in", NULL, "ssp2 Rx" },
+-	{ "ssp2 Rx", NULL, "AIF1 Capture" },
+-
+-	{ "dmic01_hifi", NULL, "DMIC01 Rx" },
+-	{ "DMIC01 Rx", NULL, "Capture" },
+-
+-	{ "dmic_voice", NULL, "DMIC16k Rx" },
+-	{ "DMIC16k Rx", NULL, "Capture" },
+-
+-	{ "hifi3", NULL, "iDisp3 Tx"},
+-	{ "iDisp3 Tx", NULL, "iDisp3_out"},
+-	{ "hifi2", NULL, "iDisp2 Tx"},
+-	{ "iDisp2 Tx", NULL, "iDisp2_out"},
+-	{ "hifi1", NULL, "iDisp1 Tx"},
+-	{ "iDisp1 Tx", NULL, "iDisp1_out"},
+-};
+-
+-static int broxton_rt298_fe_init(struct snd_soc_pcm_runtime *rtd)
+-{
+-	struct snd_soc_dapm_context *dapm;
+-	struct snd_soc_component *component = snd_soc_rtd_to_cpu(rtd, 0)->component;
+-
+-	dapm = snd_soc_component_get_dapm(component);
+-	snd_soc_dapm_ignore_suspend(dapm, "Reference Capture");
+-
+-	return 0;
+-}
+-
+-static int broxton_rt298_codec_init(struct snd_soc_pcm_runtime *rtd)
+-{
+-	struct snd_soc_component *component = snd_soc_rtd_to_codec(rtd, 0)->component;
+-	int ret = 0;
+-
+-	ret = snd_soc_card_jack_new_pins(rtd->card, "Headset",
+-		SND_JACK_HEADSET | SND_JACK_BTN_0,
+-		&broxton_headset,
+-		broxton_headset_pins, ARRAY_SIZE(broxton_headset_pins));
+-
+-	if (ret)
+-		return ret;
+-
+-	snd_soc_component_set_jack(component, &broxton_headset, NULL);
+-
+-	snd_soc_dapm_ignore_suspend(&rtd->card->dapm, "SoC DMIC");
+-
+-	return 0;
+-}
+-
+-static int broxton_hdmi_init(struct snd_soc_pcm_runtime *rtd)
+-{
+-	struct bxt_rt286_private *ctx = snd_soc_card_get_drvdata(rtd->card);
+-	struct snd_soc_dai *dai = snd_soc_rtd_to_codec(rtd, 0);
+-	struct bxt_hdmi_pcm *pcm;
+-
+-	pcm = devm_kzalloc(rtd->card->dev, sizeof(*pcm), GFP_KERNEL);
+-	if (!pcm)
+-		return -ENOMEM;
+-
+-	pcm->device = BXT_DPCM_AUDIO_HDMI1_PB + dai->id;
+-	pcm->codec_dai = dai;
+-
+-	list_add_tail(&pcm->head, &ctx->hdmi_pcm_list);
+-
+-	return 0;
+-}
+-
+-static int broxton_ssp5_fixup(struct snd_soc_pcm_runtime *rtd,
+-			struct snd_pcm_hw_params *params)
+-{
+-	struct snd_interval *rate = hw_param_interval(params,
+-					SNDRV_PCM_HW_PARAM_RATE);
+-	struct snd_interval *chan = hw_param_interval(params,
+-					SNDRV_PCM_HW_PARAM_CHANNELS);
+-	struct snd_mask *fmt = hw_param_mask(params, SNDRV_PCM_HW_PARAM_FORMAT);
+-
+-	/* The ADSP will convert the FE rate to 48k, stereo */
+-	rate->min = rate->max = 48000;
+-	chan->min = chan->max = 2;
+-
+-	/* set SSP5 to 24 bit */
+-	snd_mask_none(fmt);
+-	snd_mask_set_format(fmt, SNDRV_PCM_FORMAT_S24_LE);
+-
+-	return 0;
+-}
+-
+-static int broxton_rt298_hw_params(struct snd_pcm_substream *substream,
+-	struct snd_pcm_hw_params *params)
+-{
+-	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+-	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
+-	int ret;
+-
+-	ret = snd_soc_dai_set_sysclk(codec_dai, RT298_SCLK_S_PLL,
+-					19200000, SND_SOC_CLOCK_IN);
+-	if (ret < 0) {
+-		dev_err(rtd->dev, "can't set codec sysclk configuration\n");
+-		return ret;
+-	}
+-
+-	return ret;
+-}
+-
+-static const struct snd_soc_ops broxton_rt298_ops = {
+-	.hw_params = broxton_rt298_hw_params,
+-};
+-
+-static const unsigned int rates[] = {
+-	48000,
+-};
+-
+-static const struct snd_pcm_hw_constraint_list constraints_rates = {
+-	.count = ARRAY_SIZE(rates),
+-	.list  = rates,
+-	.mask = 0,
+-};
+-
+-static int broxton_dmic_fixup(struct snd_soc_pcm_runtime *rtd,
+-				struct snd_pcm_hw_params *params)
+-{
+-	struct snd_interval *chan = hw_param_interval(params,
+-						SNDRV_PCM_HW_PARAM_CHANNELS);
+-	chan->min = chan->max = 4;
+-
+-	return 0;
+-}
+-
+-static const unsigned int channels_dmic[] = {
+-	1, 2, 3, 4,
+-};
+-
+-static const struct snd_pcm_hw_constraint_list constraints_dmic_channels = {
+-	.count = ARRAY_SIZE(channels_dmic),
+-	.list = channels_dmic,
+-	.mask = 0,
+-};
+-
+-static int broxton_dmic_startup(struct snd_pcm_substream *substream)
+-{
+-	struct snd_pcm_runtime *runtime = substream->runtime;
+-
+-	runtime->hw.channels_max = 4;
+-	snd_pcm_hw_constraint_list(runtime, 0, SNDRV_PCM_HW_PARAM_CHANNELS,
+-					&constraints_dmic_channels);
+-
+-	return snd_pcm_hw_constraint_list(substream->runtime, 0,
+-				SNDRV_PCM_HW_PARAM_RATE, &constraints_rates);
+-}
+-
+-static const struct snd_soc_ops broxton_dmic_ops = {
+-	.startup = broxton_dmic_startup,
+-};
+-
+-static const unsigned int channels[] = {
+-	2,
+-};
+-
+-static const struct snd_pcm_hw_constraint_list constraints_channels = {
+-	.count = ARRAY_SIZE(channels),
+-	.list = channels,
+-	.mask = 0,
+-};
+-
+-static int bxt_fe_startup(struct snd_pcm_substream *substream)
+-{
+-	struct snd_pcm_runtime *runtime = substream->runtime;
+-
+-	/*
+-	 * on this platform for PCM device we support:
+-	 *      48Khz
+-	 *      stereo
+-	 *	16-bit audio
+-	 */
+-
+-	runtime->hw.channels_max = 2;
+-	snd_pcm_hw_constraint_list(runtime, 0, SNDRV_PCM_HW_PARAM_CHANNELS,
+-				&constraints_channels);
+-
+-	runtime->hw.formats = SNDRV_PCM_FMTBIT_S16_LE;
+-	snd_pcm_hw_constraint_msbits(runtime, 0, 16, 16);
+-	snd_pcm_hw_constraint_list(runtime, 0,
+-				SNDRV_PCM_HW_PARAM_RATE, &constraints_rates);
+-
+-	return 0;
+-}
+-
+-static const struct snd_soc_ops broxton_rt286_fe_ops = {
+-	.startup = bxt_fe_startup,
+-};
+-
+-SND_SOC_DAILINK_DEF(dummy,
+-	DAILINK_COMP_ARRAY(COMP_DUMMY()));
+-
+-SND_SOC_DAILINK_DEF(system,
+-	DAILINK_COMP_ARRAY(COMP_CPU("System Pin")));
+-
+-SND_SOC_DAILINK_DEF(reference,
+-	DAILINK_COMP_ARRAY(COMP_CPU("Reference Pin")));
+-
+-SND_SOC_DAILINK_DEF(dmic,
+-	DAILINK_COMP_ARRAY(COMP_CPU("DMIC Pin")));
+-
+-SND_SOC_DAILINK_DEF(hdmi1,
+-	DAILINK_COMP_ARRAY(COMP_CPU("HDMI1 Pin")));
+-
+-SND_SOC_DAILINK_DEF(hdmi2,
+-	DAILINK_COMP_ARRAY(COMP_CPU("HDMI2 Pin")));
+-
+-SND_SOC_DAILINK_DEF(hdmi3,
+-	DAILINK_COMP_ARRAY(COMP_CPU("HDMI3 Pin")));
+-
+-SND_SOC_DAILINK_DEF(ssp5_pin,
+-	DAILINK_COMP_ARRAY(COMP_CPU("SSP5 Pin")));
+-SND_SOC_DAILINK_DEF(ssp5_codec,
+-	DAILINK_COMP_ARRAY(COMP_CODEC("i2c-INT343A:00",
+-				      "rt298-aif1")));
+-
+-SND_SOC_DAILINK_DEF(dmic_pin,
+-	DAILINK_COMP_ARRAY(COMP_CPU("DMIC01 Pin")));
+-
+-SND_SOC_DAILINK_DEF(dmic_codec,
+-	DAILINK_COMP_ARRAY(COMP_CODEC("dmic-codec",
+-				      "dmic-hifi")));
+-
+-SND_SOC_DAILINK_DEF(dmic16k,
+-	DAILINK_COMP_ARRAY(COMP_CPU("DMIC16k Pin")));
+-
+-SND_SOC_DAILINK_DEF(idisp1_pin,
+-	DAILINK_COMP_ARRAY(COMP_CPU("iDisp1 Pin")));
+-SND_SOC_DAILINK_DEF(idisp1_codec,
+-	DAILINK_COMP_ARRAY(COMP_CODEC("ehdaudio0D2",
+-				      "intel-hdmi-hifi1")));
+-
+-SND_SOC_DAILINK_DEF(idisp2_pin,
+-	DAILINK_COMP_ARRAY(COMP_CPU("iDisp2 Pin")));
+-SND_SOC_DAILINK_DEF(idisp2_codec,
+-	DAILINK_COMP_ARRAY(COMP_CODEC("ehdaudio0D2",
+-				      "intel-hdmi-hifi2")));
+-
+-SND_SOC_DAILINK_DEF(idisp3_pin,
+-	DAILINK_COMP_ARRAY(COMP_CPU("iDisp3 Pin")));
+-SND_SOC_DAILINK_DEF(idisp3_codec,
+-	DAILINK_COMP_ARRAY(COMP_CODEC("ehdaudio0D2",
+-				      "intel-hdmi-hifi3")));
+-
+-SND_SOC_DAILINK_DEF(platform,
+-	DAILINK_COMP_ARRAY(COMP_PLATFORM("0000:00:0e.0")));
+-
+-/* broxton digital audio interface glue - connects codec <--> CPU */
+-static struct snd_soc_dai_link broxton_rt298_dais[] = {
+-	/* Front End DAI links */
+-	[BXT_DPCM_AUDIO_PB] =
+-	{
+-		.name = "Bxt Audio Port",
+-		.stream_name = "Audio",
+-		.nonatomic = 1,
+-		.dynamic = 1,
+-		.init = broxton_rt298_fe_init,
+-		.trigger = {SND_SOC_DPCM_TRIGGER_POST, SND_SOC_DPCM_TRIGGER_POST},
+-		.dpcm_playback = 1,
+-		.ops = &broxton_rt286_fe_ops,
+-		SND_SOC_DAILINK_REG(system, dummy, platform),
+-	},
+-	[BXT_DPCM_AUDIO_CP] =
+-	{
+-		.name = "Bxt Audio Capture Port",
+-		.stream_name = "Audio Record",
+-		.nonatomic = 1,
+-		.dynamic = 1,
+-		.trigger = {SND_SOC_DPCM_TRIGGER_POST, SND_SOC_DPCM_TRIGGER_POST},
+-		.dpcm_capture = 1,
+-		.ops = &broxton_rt286_fe_ops,
+-		SND_SOC_DAILINK_REG(system, dummy, platform),
+-	},
+-	[BXT_DPCM_AUDIO_REF_CP] =
+-	{
+-		.name = "Bxt Audio Reference cap",
+-		.stream_name = "refcap",
+-		.init = NULL,
+-		.dpcm_capture = 1,
+-		.nonatomic = 1,
+-		.dynamic = 1,
+-		SND_SOC_DAILINK_REG(reference, dummy, platform),
+-	},
+-	[BXT_DPCM_AUDIO_DMIC_CP] =
+-	{
+-		.name = "Bxt Audio DMIC cap",
+-		.stream_name = "dmiccap",
+-		.init = NULL,
+-		.dpcm_capture = 1,
+-		.nonatomic = 1,
+-		.dynamic = 1,
+-		.ops = &broxton_dmic_ops,
+-		SND_SOC_DAILINK_REG(dmic, dummy, platform),
+-	},
+-	[BXT_DPCM_AUDIO_HDMI1_PB] =
+-	{
+-		.name = "Bxt HDMI Port1",
+-		.stream_name = "Hdmi1",
+-		.dpcm_playback = 1,
+-		.init = NULL,
+-		.nonatomic = 1,
+-		.dynamic = 1,
+-		SND_SOC_DAILINK_REG(hdmi1, dummy, platform),
+-	},
+-	[BXT_DPCM_AUDIO_HDMI2_PB] =
+-	{
+-		.name = "Bxt HDMI Port2",
+-		.stream_name = "Hdmi2",
+-		.dpcm_playback = 1,
+-		.init = NULL,
+-		.nonatomic = 1,
+-		.dynamic = 1,
+-		SND_SOC_DAILINK_REG(hdmi2, dummy, platform),
+-	},
+-	[BXT_DPCM_AUDIO_HDMI3_PB] =
+-	{
+-		.name = "Bxt HDMI Port3",
+-		.stream_name = "Hdmi3",
+-		.dpcm_playback = 1,
+-		.init = NULL,
+-		.nonatomic = 1,
+-		.dynamic = 1,
+-		SND_SOC_DAILINK_REG(hdmi3, dummy, platform),
+-	},
+-	/* Back End DAI links */
+-	{
+-		/* SSP5 - Codec */
+-		.name = "SSP5-Codec",
+-		.id = 0,
+-		.no_pcm = 1,
+-		.init = broxton_rt298_codec_init,
+-		.dai_fmt = SND_SOC_DAIFMT_DSP_A | SND_SOC_DAIFMT_NB_NF |
+-						SND_SOC_DAIFMT_CBC_CFC,
+-		.ignore_pmdown_time = 1,
+-		.be_hw_params_fixup = broxton_ssp5_fixup,
+-		.ops = &broxton_rt298_ops,
+-		.dpcm_playback = 1,
+-		.dpcm_capture = 1,
+-		SND_SOC_DAILINK_REG(ssp5_pin, ssp5_codec, platform),
+-	},
+-	{
+-		.name = "dmic01",
+-		.id = 1,
+-		.be_hw_params_fixup = broxton_dmic_fixup,
+-		.ignore_suspend = 1,
+-		.dpcm_capture = 1,
+-		.no_pcm = 1,
+-		SND_SOC_DAILINK_REG(dmic_pin, dmic_codec, platform),
+-	},
+-	{
+-		.name = "dmic16k",
+-		.id = 2,
+-		.be_hw_params_fixup = broxton_dmic_fixup,
+-		.ignore_suspend = 1,
+-		.dpcm_capture = 1,
+-		.no_pcm = 1,
+-		SND_SOC_DAILINK_REG(dmic16k, dmic_codec, platform),
+-	},
+-	{
+-		.name = "iDisp1",
+-		.id = 3,
+-		.init = broxton_hdmi_init,
+-		.dpcm_playback = 1,
+-		.no_pcm = 1,
+-		SND_SOC_DAILINK_REG(idisp1_pin, idisp1_codec, platform),
+-	},
+-	{
+-		.name = "iDisp2",
+-		.id = 4,
+-		.init = broxton_hdmi_init,
+-		.dpcm_playback = 1,
+-		.no_pcm = 1,
+-		SND_SOC_DAILINK_REG(idisp2_pin, idisp2_codec, platform),
+-	},
+-	{
+-		.name = "iDisp3",
+-		.id = 5,
+-		.init = broxton_hdmi_init,
+-		.dpcm_playback = 1,
+-		.no_pcm = 1,
+-		SND_SOC_DAILINK_REG(idisp3_pin, idisp3_codec, platform),
+-	},
+-};
+-
+-#define NAME_SIZE	32
+-static int bxt_card_late_probe(struct snd_soc_card *card)
+-{
+-	struct bxt_rt286_private *ctx = snd_soc_card_get_drvdata(card);
+-	struct bxt_hdmi_pcm *pcm;
+-	struct snd_soc_component *component = NULL;
+-	int err, i = 0;
+-	char jack_name[NAME_SIZE];
+-
+-	if (list_empty(&ctx->hdmi_pcm_list))
+-		return -EINVAL;
+-
+-	if (ctx->common_hdmi_codec_drv) {
+-		pcm = list_first_entry(&ctx->hdmi_pcm_list, struct bxt_hdmi_pcm,
+-				       head);
+-		component = pcm->codec_dai->component;
+-		return hda_dsp_hdmi_build_controls(card, component);
+-	}
+-
+-	list_for_each_entry(pcm, &ctx->hdmi_pcm_list, head) {
+-		component = pcm->codec_dai->component;
+-		snprintf(jack_name, sizeof(jack_name),
+-			"HDMI/DP, pcm=%d Jack", pcm->device);
+-		err = snd_soc_card_jack_new(card, jack_name,
+-					SND_JACK_AVOUT, &broxton_hdmi[i]);
+-
+-		if (err)
+-			return err;
+-
+-		err = hdac_hdmi_jack_init(pcm->codec_dai, pcm->device,
+-						&broxton_hdmi[i]);
+-		if (err < 0)
+-			return err;
+-
+-		i++;
+-	}
+-
+-	return hdac_hdmi_jack_port_init(component, &card->dapm);
+-}
+-
+-
+-/* broxton audio machine driver for SPT + RT298S */
+-static struct snd_soc_card broxton_rt298 = {
+-	.name = "broxton-rt298",
+-	.owner = THIS_MODULE,
+-	.dai_link = broxton_rt298_dais,
+-	.num_links = ARRAY_SIZE(broxton_rt298_dais),
+-	.controls = broxton_controls,
+-	.num_controls = ARRAY_SIZE(broxton_controls),
+-	.dapm_widgets = broxton_widgets,
+-	.num_dapm_widgets = ARRAY_SIZE(broxton_widgets),
+-	.dapm_routes = broxton_rt298_map,
+-	.num_dapm_routes = ARRAY_SIZE(broxton_rt298_map),
+-	.fully_routed = true,
+-	.disable_route_checks = true,
+-	.late_probe = bxt_card_late_probe,
+-
+-};
+-
+-static struct snd_soc_card geminilake_rt298 = {
+-	.name = "geminilake-rt298",
+-	.owner = THIS_MODULE,
+-	.dai_link = broxton_rt298_dais,
+-	.num_links = ARRAY_SIZE(broxton_rt298_dais),
+-	.controls = broxton_controls,
+-	.num_controls = ARRAY_SIZE(broxton_controls),
+-	.dapm_widgets = broxton_widgets,
+-	.num_dapm_widgets = ARRAY_SIZE(broxton_widgets),
+-	.dapm_routes = geminilake_rt298_map,
+-	.num_dapm_routes = ARRAY_SIZE(geminilake_rt298_map),
+-	.fully_routed = true,
+-	.late_probe = bxt_card_late_probe,
+-};
+-
+-static int broxton_audio_probe(struct platform_device *pdev)
+-{
+-	struct bxt_rt286_private *ctx;
+-	struct snd_soc_card *card =
+-			(struct snd_soc_card *)pdev->id_entry->driver_data;
+-	struct snd_soc_acpi_mach *mach;
+-	const char *platform_name;
+-	int ret;
+-	int i;
+-
+-	for (i = 0; i < ARRAY_SIZE(broxton_rt298_dais); i++) {
+-		if (card->dai_link[i].codecs->name &&
+-		    !strncmp(card->dai_link[i].codecs->name, "i2c-INT343A:00",
+-			     I2C_NAME_SIZE)) {
+-			if (!strncmp(card->name, "broxton-rt298",
+-				     PLATFORM_NAME_SIZE)) {
+-				card->dai_link[i].name = "SSP5-Codec";
+-				card->dai_link[i].cpus->dai_name = "SSP5 Pin";
+-			} else if (!strncmp(card->name, "geminilake-rt298",
+-					    PLATFORM_NAME_SIZE)) {
+-				card->dai_link[i].name = "SSP2-Codec";
+-				card->dai_link[i].cpus->dai_name = "SSP2 Pin";
+-			}
+-		}
+-	}
+-
+-	ctx = devm_kzalloc(&pdev->dev, sizeof(*ctx), GFP_KERNEL);
+-	if (!ctx)
+-		return -ENOMEM;
+-
+-	INIT_LIST_HEAD(&ctx->hdmi_pcm_list);
+-
+-	card->dev = &pdev->dev;
+-	snd_soc_card_set_drvdata(card, ctx);
+-
+-	/* override platform name, if required */
+-	mach = pdev->dev.platform_data;
+-	platform_name = mach->mach_params.platform;
+-
+-	ret = snd_soc_fixup_dai_links_platform_name(card,
+-						    platform_name);
+-	if (ret)
+-		return ret;
+-
+-	ctx->common_hdmi_codec_drv = mach->mach_params.common_hdmi_codec_drv;
+-
+-	return devm_snd_soc_register_card(&pdev->dev, card);
+-}
+-
+-static const struct platform_device_id bxt_board_ids[] = {
+-	{ .name = "bxt_alc298s_i2s", .driver_data =
+-				(unsigned long)&broxton_rt298 },
+-	{ .name = "glk_alc298s_i2s", .driver_data =
+-				(unsigned long)&geminilake_rt298 },
+-	{}
+-};
+-MODULE_DEVICE_TABLE(platform, bxt_board_ids);
+-
+-static struct platform_driver broxton_audio = {
+-	.probe = broxton_audio_probe,
+-	.driver = {
+-		.name = "bxt_alc298s_i2s",
+-		.pm = &snd_soc_pm_ops,
+-	},
+-	.id_table = bxt_board_ids,
+-};
+-module_platform_driver(broxton_audio)
+-
+-/* Module information */
+-MODULE_AUTHOR("Ramesh Babu <Ramesh.Babu@intel.com>");
+-MODULE_AUTHOR("Senthilnathan Veppur <senthilnathanx.veppur@intel.com>");
+-MODULE_DESCRIPTION("Intel SST Audio for Broxton");
+-MODULE_LICENSE("GPL v2");
+-MODULE_IMPORT_NS(SND_SOC_INTEL_HDA_DSP_COMMON);
 -- 
 2.25.1
 
