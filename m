@@ -1,197 +1,175 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E157C17D375;
-	Mon, 12 Aug 2024 14:18:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB3D4174EEB;
+	Mon, 12 Aug 2024 14:20:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723472285; cv=none; b=O1EPP4GfijQqgDZqTvn1v7U6TqAeftB6dRz7zkKHriOyhxkHSGpl1qYF5brAAYeV1V3cFLcZZFLvTmfI37INYITQALdtcHSA1JPLuyIoctSKJivWhkgKYhllD4BeRTdfKeMAbDrczwDH2tZmU+QLFI2XZgpW+I/g3ueodiSSdMg=
+	t=1723472461; cv=none; b=aFs0McZ/Z9gmLz4sXeRBHCMOnCPq/QX/dhc88L/slkKJU/j84kPxIuj/WCjANkTtmNGrkgAOp7PQFwMy47Oy3rdQBeFEb887RXtlqJeH1dGrJ5bXnLmSB5bCWzDLg/Kmx900ma0+q5NU/WoCHQxRqAwbd5fHj25abZDqvZbr/lU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723472285; c=relaxed/simple;
-	bh=0IMl1bfeC+mpvUnmjhOlZzM90nLDudJOkCgz/deavQ0=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=g4PxMQ/6r+Q0GZHFVhEbjXemz2eY6CVigXR1IKmL2xLcNTLznAtYn+lNric0H220/BDAY+LzAQgY+65YnZ3ZnQ+Y8iw66OoB21S4WXIS5nDRZo0HjqsDV7thM4noEyRmuSv5l80oRb7wTB0IXM1r2GnvsY8lOSo5DX+Zg/LsPOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=taJArure; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yoR3bJ7j; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=taJArure; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yoR3bJ7j; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1723472461; c=relaxed/simple;
+	bh=+MbbcfrMLqxGuRzQ4dcWA1k4c9SrYKs271WzS35qTX4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FD+TQ8EXYWjtBf0NoeSLo0FozQ5JkjFgCkV/6J3fg6e7jonX9OF5QPO+YzpIExioflZqfqlrt90cFGFGwZ7sdTQw5QirDc+uPTYi9NO9Ww+J2LjYWw9BG1Ypa8u1uuYOBuLEcPbGAAIC89PvAA4Hg9BUWKp6q3BXE/bwy6+Z0lQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Uf6CeqtJ; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=mf/3373t; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="taJArure";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yoR3bJ7j";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="taJArure";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yoR3bJ7j"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Uf6CeqtJ";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="mf/3373t"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A1ACF22547;
-	Mon, 12 Aug 2024 14:18:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723472281; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tgwrbRvcmyrz9rnkkW28Z20g/Fi7G3YkQ8cEUO+uRTg=;
-	b=taJArureUKGscNxgLXv/mmNnlswnRC6YNSD7uLTmGBNBFE1tpuQyQnOtJ7A2r4ewBxZKEo
-	jgtape4w3JCuru8zokmZisyyh8sNluzhXHijwp7MG2B+orVGmdiI69CmqEwRlyeA+YT2TM
-	jSJGB0ZZURW+dcPo5GYxiOH2Lo5Sf7I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723472281;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tgwrbRvcmyrz9rnkkW28Z20g/Fi7G3YkQ8cEUO+uRTg=;
-	b=yoR3bJ7jBNUOJyC+D5ybLZSvsgONrXsLm1cFzj3DZVjoVPmuvj/CrtNyZextvifHxwJkaX
-	oTgpWQSTMjEVM4Cw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=taJArure;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=yoR3bJ7j
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723472281; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tgwrbRvcmyrz9rnkkW28Z20g/Fi7G3YkQ8cEUO+uRTg=;
-	b=taJArureUKGscNxgLXv/mmNnlswnRC6YNSD7uLTmGBNBFE1tpuQyQnOtJ7A2r4ewBxZKEo
-	jgtape4w3JCuru8zokmZisyyh8sNluzhXHijwp7MG2B+orVGmdiI69CmqEwRlyeA+YT2TM
-	jSJGB0ZZURW+dcPo5GYxiOH2Lo5Sf7I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723472281;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tgwrbRvcmyrz9rnkkW28Z20g/Fi7G3YkQ8cEUO+uRTg=;
-	b=yoR3bJ7jBNUOJyC+D5ybLZSvsgONrXsLm1cFzj3DZVjoVPmuvj/CrtNyZextvifHxwJkaX
-	oTgpWQSTMjEVM4Cw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1714713A23;
-	Mon, 12 Aug 2024 14:18:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Ix75A5kZumaaDQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 12 Aug 2024 14:18:01 +0000
-Date: Mon, 12 Aug 2024 16:18:40 +0200
-Message-ID: <87wmklddtr.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Karol Kosik <k.kosik@outlook.com>
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4WjGry4BYVz9sGk;
+	Mon, 12 Aug 2024 16:20:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1723472450;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=xxdGD0QtojEv+8rigNDDQghjl+1l/EvJu5EhLkkyQMg=;
+	b=Uf6CeqtJkIbCvTUVXtV8n63a1f6aKENwgUc7ZUTSzbBrEWI3BKpiq/+nsjcQva4wFIdkD2
+	XJBZlcvqp7KR1zQhXxTkIaJng5JMGf06mmqWzu+x4ffIhY9PBvRPxCqF0sdN2BNuHSrqfV
+	OBDW2WpQUNvwx7y3R7vJ/QvyaYrMD698iga+4o06zh2x0Nv3mp6sqShdKVoHwA3U+LXGz+
+	6Srnm5vG3lZ89nSbf+GG7rmGtj+6e0Qp8iDxZPDOER/LHXV1vmQV9UQcWNvjWjqnXaDF6t
+	eqSRscUyjVf5ZmPlO+Sm409C/2qKKYsi3pNmLY5oKzuXU2SnoMsGn7MHssnNsA==
+From: Zeno Endemann <zeno.endemann@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1723472448;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=xxdGD0QtojEv+8rigNDDQghjl+1l/EvJu5EhLkkyQMg=;
+	b=mf/3373tIOn0Y0H8K9ZBqVHS8AW/369eARDLWjvuCTBQHK+2XSQ0FpPWfE1cpbY6A1oYIR
+	GU2OzOurZSWLJo+0e8QPgHC28qGp/71J3NB9NBuJ2NmINy8eNWRmox3KAG0e9bkK8nT6aM
+	pO4Uc66IwEY2b2P/06DOaaQaBSxW6GLvsyd3wVsQoayKmzK6Lh9OWdfs0ODN+Zgk9cNcft
+	PnrM7H/MxIyPOE42BpjqPgUcpE8wYpGOA4GfRUTcuBxHJaWpraCAbUohRAUuMVNA2khTat
+	FZ+EKmH0qjNjdFRqG6czGoq7TB4LJ669db5WEH+tQumRUfjfO/ATSv3S9MzJBQ==
+To: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
 Cc: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	"Steven 'Steve' Kendall" <skend@chromium.org>,
-	Alexander Tsoy <alexander@tsoy.me>,
-	wangdicheng <wangdicheng@kylinos.cn>,
-	Kenny Levinsen <kl@kl.wtf>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Pavel Hofman <pavel.hofman@ivitera.com>,
+	David Howells <dhowells@redhat.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
 	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Christos Skevis <xristos.thes@gmail.com>,
-	"Geoffrey D. Bennett" <g@b4.vu>,
-	Sarah Grant <s@srd.tw>,
-	Stefan Stistrup <sstistrup@gmail.com>,
-	Johan Carlsson <johan.carlsson@teenage.engineering>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ALSA: usb-audio: Support multiple control interfaces
-In-Reply-To: <AS8P190MB1285893F4735C8B32AD3886BEC852@AS8P190MB1285.EURP190.PROD.OUTLOOK.COM>
-References: <87plqfjwdl.wl-tiwai@suse.de>
-	<AS8P190MB1285893F4735C8B32AD3886BEC852@AS8P190MB1285.EURP190.PROD.OUTLOOK.COM>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Zeno Endemann <zeno.endemann@mailbox.org>
+Subject: [PATCH] ALSA: core: Remove trigger_tstamp_latched
+Date: Mon, 12 Aug 2024 16:20:29 +0200
+Message-ID: <20240812142029.46608-1-zeno.endemann@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: A1ACF22547
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FREEMAIL_TO(0.00)[outlook.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,outlook.com];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,chromium.org,tsoy.me,kylinos.cn,kl.wtf,linux.intel.com,gmail.com,b4.vu,srd.tw,teenage.engineering,vger.kernel.org];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	TAGGED_RCPT(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Spam-Score: -4.01
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: j3ju3hp3jo5mzypasahn9bz3drinxo6y
+X-MBO-RS-ID: 2a011dac8191284ba64
 
-On Mon, 12 Aug 2024 02:29:56 +0200,
-Karol Kosik wrote:
-> 
-> Registering Numark Party Mix II fails with error 'bogus bTerminalLink 1'.
-> The problem stems from the driver not being able to find input/output
-> terminals required to configure audio streaming. The information about
-> those terminals is stored in AudioControl Interface. Numark device
-> contains 2 AudioControl Interfaces and the driver checks only one of them.
-> 
-> According to the USB standard, a device can have multiple audio functions,
-> each represented by Audio Interface Collection. Every audio function is
-> considered to be closed box and will contain unique AudioControl Interface
-> and zero or more AudioStreaming and MIDIStreaming Interfaces.
-> 
-> The Numark device adheres to the standard and defines two audio functions:
-> - MIDIStreaming function
-> - AudioStreaming function
-> It starts with MIDI function, followed by the audio function. The driver
-> saves the first AudioControl Interface in `snd_usb_audio` structure
-> associated with the entire device. It then attempts to use this interface
-> to query for terminals and clocks. However, this fails because the correct
-> information is stored in the second AudioControl Interface, defined in the
-> second Audio Interface Collection.
-> 
-> This patch introduces a structure holding association between each
-> MIDI/Audio Interface and its corresponding AudioControl Interface,
-> instead of relying on AudioControl Interface defined for the entire
-> device. This structure is populated during usb probing phase and leveraged
-> later when querying for terminals and when sending USB requests.
-> 
-> Alternative solutions considered include:
-> - defining a quirk for Numark where the order of interface is manually
-> changed, or terminals are hardcoded in the driver. This solution would
-> have fixed only this model, though it seems that device is USB compliant,
-> and it also seems that other devices from this company may be affected.
-> What's more, it looks like products from other manufacturers have similar
-> problems, i.e. Rane One DJ console
-> - keeping a list of all AudioControl Interfaces and querying all of them
-> to find required information. That would have solved my problem and have
-> low probability of breaking other devices, as we would always start with
-> the same logic of querying first AudioControl Interface. This solution
-> would not have followed the standard though.
-> 
-> This patch preserves the `snd_usb_audio.ctrl_intf` variable, which holds
-> the first AudioControl Interface, and uses it as a fallback when some
-> interfaces are not parsed correctly and lack an associated AudioControl
-> Interface, i.e., when configured via quirks.
-> 
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=217865
-> 
-> Signed-off-by: Karol Kosik <k.kosik@outlook.com>
+The trigger_tstamp_latched hook was introduced to allow drivers to
+provide their own trigger timestamp instead of the default generated
+one for higher accuracy. This makes sense in theory, but in practice
+the only place that uses this is the hda core, and:
 
-Applied now to for-next branch.  Thanks!
+* The custom timestamp there does not seem to be a meaningful
+  improvement over the default one; There is virtually no code in
+  between them, so I measured only a difference of around 300ns in a
+  KVM VM with ich9-intel-hda device.
+* It is also bugged as it does not set a timestamp when the stream
+  stops.
+* It creates a pitfall for hda driver writers; Calling
+  snd_hdac_stream_timecounter_init implicitly makes them responsible
+  for generating these timestamps.
 
+Since there is no real good use of this facility, I propose to remove
+it.
 
-Takashi
+I reported the bug initially on github (see below), there one can also
+find a reproducer userspace app, as well as some other potential ways
+to fix this issue, in case this removal is not accepted.
+
+Cc'ing the Intel ASoC maintainers, as the skl-pcm.c is using the
+snd_hdac_stream_timecounter_init function this patch modifies.
+
+Closes: https://github.com/alsa-project/alsa-lib/issues/387
+Signed-off-by: Zeno Endemann <zeno.endemann@mailbox.org>
+---
+ include/sound/pcm.h     | 1 -
+ sound/core/pcm_native.c | 4 +---
+ sound/hda/hdac_stream.c | 6 ------
+ 3 files changed, 1 insertion(+), 10 deletions(-)
+
+diff --git a/include/sound/pcm.h b/include/sound/pcm.h
+index ac8f3aef9205..3539af9f733e 100644
+--- a/include/sound/pcm.h
++++ b/include/sound/pcm.h
+@@ -361,7 +361,6 @@ struct snd_pcm_runtime {
+ 	snd_pcm_state_t suspended_state; /* suspended stream state */
+ 	struct snd_pcm_substream *trigger_master;
+ 	struct timespec64 trigger_tstamp;	/* trigger timestamp */
+-	bool trigger_tstamp_latched;     /* trigger timestamp latched in low-level driver/hardware */
+ 	int overrange;
+ 	snd_pcm_uframes_t avail_max;
+ 	snd_pcm_uframes_t hw_ptr_base;	/* Position at buffer restart */
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+index 4057f9f10aee..ced5bd2d7ebb 100644
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -1194,8 +1194,7 @@ static void snd_pcm_trigger_tstamp(struct snd_pcm_substream *substream)
+ 	if (runtime->trigger_master == NULL)
+ 		return;
+ 	if (runtime->trigger_master == substream) {
+-		if (!runtime->trigger_tstamp_latched)
+-			snd_pcm_gettime(runtime, &runtime->trigger_tstamp);
++		snd_pcm_gettime(runtime, &runtime->trigger_tstamp);
+ 	} else {
+ 		snd_pcm_trigger_tstamp(runtime->trigger_master);
+ 		runtime->trigger_tstamp = runtime->trigger_master->runtime->trigger_tstamp;
+@@ -1422,7 +1421,6 @@ static int snd_pcm_pre_start(struct snd_pcm_substream *substream,
+ 	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK &&
+ 	    !snd_pcm_playback_data(substream))
+ 		return -EPIPE;
+-	runtime->trigger_tstamp_latched = false;
+ 	runtime->trigger_master = substream;
+ 	return 0;
+ }
+diff --git a/sound/hda/hdac_stream.c b/sound/hda/hdac_stream.c
+index b53de020309f..271d42b765fc 100644
+--- a/sound/hda/hdac_stream.c
++++ b/sound/hda/hdac_stream.c
+@@ -660,14 +660,11 @@ static void azx_timecounter_init(struct hdac_stream *azx_dev,
+  *
+  * Initializes the time counter of streams marked by the bit flags (each
+  * bit corresponds to the stream index).
+- * The trigger timestamp of PCM substream assigned to the given stream is
+- * updated accordingly, too.
+  */
+ void snd_hdac_stream_timecounter_init(struct hdac_stream *azx_dev,
+ 				      unsigned int streams)
+ {
+ 	struct hdac_bus *bus = azx_dev->bus;
+-	struct snd_pcm_runtime *runtime = azx_dev->substream->runtime;
+ 	struct hdac_stream *s;
+ 	bool inited = false;
+ 	u64 cycle_last = 0;
+@@ -681,9 +678,6 @@ void snd_hdac_stream_timecounter_init(struct hdac_stream *azx_dev,
+ 			}
+ 		}
+ 	}
+-
+-	snd_pcm_gettime(runtime, &runtime->trigger_tstamp);
+-	runtime->trigger_tstamp_latched = true;
+ }
+ EXPORT_SYMBOL_GPL(snd_hdac_stream_timecounter_init);
+ 
+-- 
+2.46.0
+
