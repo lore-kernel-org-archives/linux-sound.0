@@ -1,59 +1,37 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBBB416D4DE
-	for <linux-sound@vger.kernel.org>; Mon, 12 Aug 2024 09:46:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFF8A16DEDF;
+	Mon, 12 Aug 2024 09:53:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723455964; cv=none; b=mYYji+6mO6wMmgodAawJ23m2iqzsLe8kUZxuthbh7XNjT9zM+RtjpC6JKZgxd9RN9P2o/SM6VnAxQPL6eWkSZ+aJdNqlmUxKQAIj2GOL2xb2OSozWfv/J1Ri665Y3E5riHgfBJQ3HtQ26TJIwT131WbUPoL6cuKIMg1EIXYnXgE=
+	t=1723456404; cv=none; b=K5uNuB5T93W9R/THKh89zxrIJI6PaV5Z3XFIdpr2zE4mERyYxQpGssz097j3PwEX3Bt7JGOEqScBYZ+EqI9pknEn//YMYtzad7mJYESSeyczXbhnzQnNnvex2m/RXV+wuFv5Zh50ELqQt+nVphHNQWWsoEUUBI0AWcnt5VwvJvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723455964; c=relaxed/simple;
-	bh=JttXyWvNBrLovswX1EnPaJPxm1PSVZ+ohR3t2TiKVsQ=;
+	s=arc-20240116; t=1723456404; c=relaxed/simple;
+	bh=ZTIK9p1LZSXettsRRTxYj2K5vgDymhfTgQ4CCuduHPY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VobdPXXeayOE453lZqerxWhvCijqx58kQKBS1Khdlbsi88937/QoloZwepb9wkrimW8CRzuzCvyNvN09GmfUEPPf9AHY8l1s83WqMxz+yS39gS4Ac4G3CDM26yklXjM5SdDD5W+kiRP41caQDcxvSC2NgyM6sf2fDGQ4iPnBENg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Mc4Jjq6C; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 In-Reply-To:Content-Type; b=NO3KlQzgZ5iYidMVommurMTqh2WQaygvG1qQxXt8i7SlzHkJ0tZZdYNlm3i85BU24m7z2BTKUIjUw+ibgKQ6m8v+k9gLCwPp0FM8Ol0RSROjFvrRAQNDl4plDA9KZ73n+rDJh12XtiYc47+8iq0cgOvH0UlSPHA8M/9RVQwFZHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=Kv7cL/Sc; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Mc4Jjq6C"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5b01af9b0c9so4313755a12.3
-        for <linux-sound@vger.kernel.org>; Mon, 12 Aug 2024 02:46:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723455961; x=1724060761; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JttXyWvNBrLovswX1EnPaJPxm1PSVZ+ohR3t2TiKVsQ=;
-        b=Mc4Jjq6CfTFem157MsUIbSwlDgogqRFbQP/swk6XmGsMwl4Oa98ZjlZiSS535k22FC
-         Stz7ycnUmt6EcLxVdtsJdpkMkPNiq90j5Mt1jZeT1Yi00wJIYwphhaYIHRf67g5So9d/
-         I+O0pqOh6xyEMmTev2UZgx6AHj5rDgC9eEbygz1EP4EX8Z4Lx7yUH/on3MmPdMkBZ/Fq
-         kUVIZ2GOnS0mbKPpYBbMALQqnJhR1m2roDKY99DzaDyvM3z7sZr6Jw/4gWNUVyioD3rz
-         eDxTYunU1DdIci6k8jVuXIMvUz9MvaL6+63FFzHnT0WsKYPyAMfFoIPLSdXGLbboPph+
-         ebxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723455961; x=1724060761;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JttXyWvNBrLovswX1EnPaJPxm1PSVZ+ohR3t2TiKVsQ=;
-        b=nnOmCIQXUYeAIAbkRRQ9nTHliV5jc0YgsVff3c222hJo2J3fOAWiTsQzBwt+qQZGD1
-         /g9omWxZdv+bzItwN/J9fQgwNqqOnMPR1+ZJ1hCKbAyiNRdlEvpG8n5HdlLJs74j1vAD
-         PtxXEWAOo5VmIxO+D5xeGmPYhQ61xwECCCFHFw41Yb3FD1vmS/OFQx2USLC0peR9iBUJ
-         eosolDT+XUsT2Zhf+Cd0Wr2oIPiRG/8J24o/TYE9wgZtv2iLDP/pAHQeKlDuTlyI4ScU
-         FpSM2F/NqfR83m9qr/UDMa6GXDSJ1F5xV8hXdLlsnGFUL2vNyTxwSq5yA6BOra06kw2k
-         zlug==
-X-Forwarded-Encrypted: i=1; AJvYcCXP8s1WVL2AyOxdMs+i7wSoTLsglJoPDqMye8aJoojl3CB55CJgEPqiDJ7PI7pwsx1w+nS9KR3L1+8org==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyOtmmBIEa/P3AmSkFKX/rAypYDsBi9g9+iH2dUJxbUnewr0SVy
-	11i23mIHDjLkOfeYGKrZnedbyd6fb0DD8PRrM+xocQEvkUzdBAAQu8xZSWe7M7Q=
-X-Google-Smtp-Source: AGHT+IGaHEWZkOKxfoZJQYtrgry1CYeTIzGR/wr2t1cep4NpltsL9e4x6ljRA9qjxohlOrRIpWZzRw==
-X-Received: by 2002:a05:6402:2346:b0:5a1:40d9:6a46 with SMTP id 4fb4d7f45d1cf-5bd0a6b4bf9mr6210531a12.36.1723455961053;
-        Mon, 12 Aug 2024 02:46:01 -0700 (PDT)
-Received: from [192.168.0.157] ([82.76.204.48])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5bd1a5e04e1sm1967189a12.77.2024.08.12.02.45.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Aug 2024 02:46:00 -0700 (PDT)
-Message-ID: <b96f483e-314e-4e47-af58-ddb078dd6df3@linaro.org>
-Date: Mon, 12 Aug 2024 10:45:58 +0100
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="Kv7cL/Sc"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=kQSeuyy/syznTgBKr11NB5llJx+aGsX2WTrimtcmwWo=; t=1723456402;
+	x=1723888402; b=Kv7cL/ScB6tS39L4YKtU5oTIg4ztxd9wCWZZdD6H9Xxjr+8HgYiUsDj1k4/rd
+	jQ1U9qgUb1wFBwAYAFT+PgRkoZogHakFWoEFQvJFGDetPmYQt3J6tsol8efZwoO9T45hDmMu9EgjA
+	M9fkWvmzd9XjW7iEdtPv1FblvXkUHcmsamjRfVO6IC9JLCzUM/gWkqCHvQlU6GSXJyM/Um2Bh+NjS
+	2r+7HeSjECjq2hRTtd7IJSo9t1LZoCYBL/tDu8dKhBd2y0n4XForIg0FxfxRLoNf8bKSIhMTvSjdQ
+	yTSXUJuyM9FThyfaVFmObNtSVTTKlM9CS86OBklZ2WV9aDEGXA==;
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1sdRjq-0003eb-LX; Mon, 12 Aug 2024 11:53:18 +0200
+Message-ID: <e95a876a-b4b4-4a9d-9608-ec27a9db3e0c@leemhuis.info>
+Date: Mon, 12 Aug 2024 11:53:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,74 +39,138 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 07/10] mtd: spi-nor: Add stacked memories support in
- spi-nor
-To: Miquel Raynal <miquel.raynal@bootlin.com>,
- "Mahapatra, Amit Kumar" <amit.kumar-mahapatra@amd.com>
-Cc: "broonie@kernel.org" <broonie@kernel.org>,
- "pratyush@kernel.org" <pratyush@kernel.org>, "richard@nod.at"
- <richard@nod.at>, "vigneshr@ti.com" <vigneshr@ti.com>,
- "sbinding@opensource.cirrus.com" <sbinding@opensource.cirrus.com>,
- "lee@kernel.org" <lee@kernel.org>,
- "james.schulman@cirrus.com" <james.schulman@cirrus.com>,
- "david.rhodes@cirrus.com" <david.rhodes@cirrus.com>,
- "rf@opensource.cirrus.com" <rf@opensource.cirrus.com>,
- "perex@perex.cz" <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>,
- "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "michael@walle.cc" <michael@walle.cc>,
- "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
- "nicolas.ferre@microchip.com" <nicolas.ferre@microchip.com>,
- "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
- "claudiu.beznea@tuxon.dev" <claudiu.beznea@tuxon.dev>,
- "Simek, Michal" <michal.simek@amd.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
- "patches@opensource.cirrus.com" <patches@opensource.cirrus.com>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "git (AMD-Xilinx)" <git@amd.com>,
- "amitrkcian2002@gmail.com" <amitrkcian2002@gmail.com>,
- Conor Dooley <conor.dooley@microchip.com>,
- "beanhuo@micron.com" <beanhuo@micron.com>
-References: <20231125092137.2948-1-amit.kumar-mahapatra@amd.com>
- <BN7PR12MB28029EB1A7D09882878499A2DC8FA@BN7PR12MB2802.namprd12.prod.outlook.com>
- <c3fa1e04-92ed-48ab-a509-98e43abd5cd6@linaro.org>
- <BN7PR12MB2802E87F1A6CD22D904CAEACDC93A@BN7PR12MB2802.namprd12.prod.outlook.com>
- <b3d3c457-a43b-478a-85b3-52558227d139@linaro.org>
- <BN7PR12MB28027E62D66460A374E3CFEADC93A@BN7PR12MB2802.namprd12.prod.outlook.com>
- <e212f9fa-83c5-4b9e-8636-c8c6183096ab@linaro.org>
- <BN7PR12MB280237CDD7BB148479932874DC93A@BN7PR12MB2802.namprd12.prod.outlook.com>
- <576d56ed-d24b-40f9-9ae4-a02c50eea2ab@linaro.org>
- <BN7PR12MB2802F288C6A6B1580CF07959DC95A@BN7PR12MB2802.namprd12.prod.outlook.com>
- <c6f209c8-47da-4881-921d-683464b9ddd5@linaro.org>
- <9cdb7f8b-e64f-46f6-94cb-194a25a42ccd@linaro.org>
- <BN7PR12MB28028B63E69134094D50F3E4DC2A2@BN7PR12MB2802.namprd12.prod.outlook.com>
- <IA0PR12MB769944254171C39FF4171B52DCB42@IA0PR12MB7699.namprd12.prod.outlook.com>
- <20240812103812.72763f69@xps-13>
-Content-Language: en-US
-From: Tudor Ambarus <tudor.ambarus@linaro.org>
-In-Reply-To: <20240812103812.72763f69@xps-13>
+Subject: Re: [PATCH AUTOSEL 6.9 17/40] ASoC: topology: Fix route memory
+ corruption
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Sasha Levin <sashal@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>,
+ =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
+ Mark Brown <broonie@kernel.org>, lgirdwood@gmail.com, perex@perex.cz,
+ tiwai@suse.com, linux-sound@vger.kernel.org,
+ Linux kernel regressions list <regressions@lists.linux.dev>,
+ Vitaly Chikunov <vt@altlinux.org>, stable@vger.kernel.org
+References: <czx7na7qfoacihuxcalowdosncubkqatf7gkd3snrb63wvpsdb@mncryvo4iiep>
+ <14e54a89-5c62-41b2-8205-d69ddf75e7c7@linux.intel.com>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+Content-Language: en-US, de-DE
+In-Reply-To: <14e54a89-5c62-41b2-8205-d69ddf75e7c7@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1723456402;bac64d84;
+X-HE-SMSGID: 1sdRjq-0003eb-LX
 
-Hiya,
+Hi, top-posting for once, to make this easily accessible to everyone.
 
-Amit, the thread becomes unreadable, better start a new one describing
-what you plan to do.
+Greg, Sasha, to me it looks like something fell through the cracks.
+Pierre-Louis afaics about a week ago asked (see the quote below) to
+revert 97ab304ecd95c0 ("ASoC: topology: Fix references to freed memory")
+[v6.10-rc6, v6.9.11, v6.6.42, v6.1.101] from the stable branches *or*
+pick up b9dd212b14d27a ("ASoC: topology: Fix route memory corruption").
+But nothing like that has happened yet and I can't see any of those
+resolutions in the 6.6 queue.
 
-On 8/12/24 9:38 AM, Miquel Raynal wrote:
-> For now I don't think you need a totally generic implementation. As
-> long as there is only one controller supporting these modes, I'd say
-> this is not super relevant.
+Side note: I have a very strong feeling that I'm missing or
+misunderstood something, but I decided to send this mail despite this...
+If something like that was the case: apologies in advance.
 
+Ciao, Thorsten
 
-Miquel,
-
-Microchip supports a twin quad mode too, and micron has some flashes
-with similar architecture, see:
-
-https://lore.kernel.org/linux-mtd/20231125092137.2948-1-amit.kumar-mahapatra@amd.com/T/#mbe999dde1d29371183aa53089ef6f0087d6902a7
-
-We shall consider them from the beginning. I guess we need to read
-everything all over again.
+On 05.08.24 19:09, Pierre-Louis Bossart wrote:
+> On 8/5/24 18:17, Vitaly Chikunov wrote:
+>> Sasha, Greg,
+>>
+>> On Tue, Jul 09, 2024 at 12:18:57PM GMT, Sasha Levin wrote:
+>>> From: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+>>>
+>>> [ Upstream commit 0298f51652be47b79780833e0b63194e1231fa34 ]
+>>>
+>>> It was reported that recent fix for memory corruption during topology
+>>> load, causes corruption in other cases. Instead of being overeager with
+>>> checking topology, assume that it is properly formatted and just
+>>> duplicate strings.
+>>
+>> Can this backport actually be applied to the 6.9/6.6/6.1 stable branches?
+>>
+>> I have multiple bug reports about sound not working and memory
+>> corruption on some laptops (for example ICL RAYbook Si1516). See for
+>> example bug reports[1][2], and the fix discussion [3].
+>>
+>> dmesg messages from Lenovo ThinkBook 13 gen 1:
+>>
+>>
+>>   [ 3.555191] sof-audio-pci-intel-cnl 0000:00:1f.3: Firmware info: version 2:2:0-57864
+>>   [ 3.555206] sof-audio-pci-intel-cnl 0000:00:1f.3: Firmware: ABI 3:22:1 Kernel ABI 3:23:0
+>>   [ 3.574043] sof-audio-pci-intel-cnl 0000:00:1f.3: Topology: ABI 3:22:1 Kernel ABI 3:23:0
+>>   [ 3.575180] sof-audio-pci-intel-cnl 0000:00:1f.3: error: sink MIXER1.0> not found
+>>   [ 3.575772] sof-audio-pci-intel-cnl 0000:00:1f.3: error: tplg component load failed -22
+>>   [ 3.575793] sof-audio-pci-intel-cnl 0000:00:1f.3: error: failed to load DSP topology -22
+>>   [ 3.575801] sof-audio-pci-intel-cnl 0000:00:1f.3: ASoC: error at snd_soc_component_probe on 0000:00:1f.3: -22
+>>
+>> Error messages from other boots showing memory corruption:
+>>
+>>   [ 3.904397] sof-audio-pci-intel-cnl 0000:00:1f.3: error: sink PCM0C03-std-def-alt0.p11@jh\x86Ŝ\xff\xff@\xc8\xff\x82Ŝ\xff\xff`P\x82\xbb\xff\xff\xff\xff\x94$A\xbc\xff\xff\xff\xff\x06 not found
+>>   [ 3.966777] sof-audio-pci-intel-cnl 0000:00:1f.3: error: sink PGA1.0\x01 not found
+>>   [ 3.899748] sof-audio-pci-intel-cnl 0000:00:1f.3: error: source BUF2.0 not found
+>>   [ 3.975359] sof-audio-pci-intel-cnl 0000:00:1f.3: error: source PCM0P\x01pcsc-lite.conf not found
+>>   [ 7.275851] sof-audio-pci-intel-tgl 0000:00:1f.3: error: source HDA1.IN/0123456789:;<=>? not found
+>>
+>> [1] https://github.com/thesofproject/sof/issues/9339
+>> [2] https://github.com/thesofproject/sof/issues/9341
+>> [3] https://lore.kernel.org/linux-sound/171812236450.201359.3019210915105428447.b4-ty@kernel.org/T/#m8c4bd5abf453960fde6f826c4b7f84881da63e9d
+> 
+> Agree, the commit "ASoC: topology: Fix references to freed memory"
+> [ Upstream commit 97ab304ecd95c0b1703ff8c8c3956dc6e2afe8e1 ]
+> should not have landed on any -stable branch. It should be reverted or
+> this follow-up fix be applied.
+> 
+>>
+>> Thanks,
+>>
+>>>
+>>> Reported-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+>>> Closes: https://lore.kernel.org/linux-sound/171812236450.201359.3019210915105428447.b4-ty@kernel.org/T/#m8c4bd5abf453960fde6f826c4b7f84881da63e9d
+>>> Suggested-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+>>> Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+>>> Link: https://lore.kernel.org/r/20240613090126.841189-1-amadeuszx.slawinski@linux.intel.com
+>>> Signed-off-by: Mark Brown <broonie@kernel.org>
+>>> Signed-off-by: Sasha Levin <sashal@kernel.org>
+>>> ---
+>>>  sound/soc/soc-topology.c | 12 +++---------
+>>>  1 file changed, 3 insertions(+), 9 deletions(-)
+>>>
+>>> diff --git a/sound/soc/soc-topology.c b/sound/soc/soc-topology.c
+>>> index 52752e0a5dc27..27aba69894b17 100644
+>>> --- a/sound/soc/soc-topology.c
+>>> +++ b/sound/soc/soc-topology.c
+>>> @@ -1052,21 +1052,15 @@ static int soc_tplg_dapm_graph_elems_load(struct soc_tplg *tplg,
+>>>  			break;
+>>>  		}
+>>>  
+>>> -		route->source = devm_kmemdup(tplg->dev, elem->source,
+>>> -					     min(strlen(elem->source), maxlen),
+>>> -					     GFP_KERNEL);
+>>> -		route->sink = devm_kmemdup(tplg->dev, elem->sink,
+>>> -					   min(strlen(elem->sink), maxlen),
+>>> -					   GFP_KERNEL);
+>>> +		route->source = devm_kstrdup(tplg->dev, elem->source, GFP_KERNEL);
+>>> +		route->sink = devm_kstrdup(tplg->dev, elem->sink, GFP_KERNEL);
+>>>  		if (!route->source || !route->sink) {
+>>>  			ret = -ENOMEM;
+>>>  			break;
+>>>  		}
+>>>  
+>>>  		if (strnlen(elem->control, maxlen) != 0) {
+>>> -			route->control = devm_kmemdup(tplg->dev, elem->control,
+>>> -						      min(strlen(elem->control), maxlen),
+>>> -						      GFP_KERNEL);
+>>> +			route->control = devm_kstrdup(tplg->dev, elem->control, GFP_KERNEL);
+>>>  			if (!route->control) {
+>>>  				ret = -ENOMEM;
+>>>  				break;
+>>> -- 
+>>> 2.43.0
+>>>
+> 
