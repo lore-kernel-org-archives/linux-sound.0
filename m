@@ -1,180 +1,110 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE6AE5FBB7;
-	Mon, 12 Aug 2024 07:26:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAF6C15098A;
+	Mon, 12 Aug 2024 07:29:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723447571; cv=none; b=qT1dYI5K5N/kskNUzwIrS9lTdaXRssxsrDlQPqb5qS3akK810phTAOVOdwFzCuArAAeRUaRcn8AonDzffrHojzeVUeDXRFabrCQwJt60nMp90PRoDkov3V8X/jSY7RN2E/Eh/hR7kAwz/BWPaq7tEKGxsc7y45AKP+m53g5EQyU=
+	t=1723447791; cv=none; b=oMSQ4ikgcz+flHoqtFg557VbRP7OgT0H9lX09O7/FeXxiqS0A4lwbCbBMe5Zf4prfwGx4wSAD4ec4xCNzmiu+PvY70PH6IqHqD5ldbURnOHbb96vs/yGA1HJ2yFVNen4WkS+/Li6IkzteqMDIJse3oArT02HelOJIh+H49e29WM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723447571; c=relaxed/simple;
-	bh=e4iG/Rv2hmbafwDzq0zo4JgOtrUeSZzZPoEnbxQKspw=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Smm5L76j0LhFrNf9Umku52GAhYjRS4Izq04kYPc65MYvXuNMXGLKaq1t4epb/3hHgjxVm5mc9KC2RrUqVDk+wa3dxCaTlBZYVdt0wKKaf8AJDq56CtqUONa5t9S+SPq/GMA+1JU6z3mQ+t5C/uNlSNvAnqKc/9MJ2a7g6dMJVoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nxdPnQJL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=tHALmea+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nxdPnQJL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=tHALmea+; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1723447791; c=relaxed/simple;
+	bh=Oafu0WWZyssl+BW+Fc+4njgLE2C72ugrKSjldnyJ7kY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DpNNucsU750x+ybYr7QpRxfntsluRPZ+HO/RhhSHYRLEk50CR5/pgFKapZcD7zw8lZSvWn3AyeqZWCfjKVRnDkQ7yIJYSaEFojDj8sb1GYh3C7f/V0WVqMyIbC/rxy/UCG1ipGjBwP7AXmK/WSx+sazOdh3mJsG3UvF9Lo5APiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=WEDU8dF6; arc=none smtp.client-ip=217.70.183.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nxdPnQJL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tHALmea+";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nxdPnQJL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tHALmea+"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7CE532022C;
-	Mon, 12 Aug 2024 07:26:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723447566; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="WEDU8dF6"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id B0A1D240003;
+	Mon, 12 Aug 2024 07:29:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1723447780;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6XPo09EObUeV+exTTCamgWy1ozO+qtvAX7oaVDoIEGY=;
-	b=nxdPnQJLeSibhsbzX61UBYq6xMRjEGLrVs1gtqlMODk09dSjOcuqq7ryf0ntum+l+0k0kK
-	4IfuaLGR8uzK+xZ7nGuGgDD0NGyfS0Qr6+AGrsbmG+tOoRI3rMj5rl2iIpT6FpgywPHBvA
-	0MX3h4hMWfGpuyHyn5hPTZowM4JOcyA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723447566;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6XPo09EObUeV+exTTCamgWy1ozO+qtvAX7oaVDoIEGY=;
-	b=tHALmea+jAACss2DZPv4BPnTKhr3LP5HsbbYZUUUbuxBSXhb3tLaiM4i5sOSjf7zcmusK2
-	TOluQBarsNrqoBBA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=nxdPnQJL;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=tHALmea+
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723447566; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6XPo09EObUeV+exTTCamgWy1ozO+qtvAX7oaVDoIEGY=;
-	b=nxdPnQJLeSibhsbzX61UBYq6xMRjEGLrVs1gtqlMODk09dSjOcuqq7ryf0ntum+l+0k0kK
-	4IfuaLGR8uzK+xZ7nGuGgDD0NGyfS0Qr6+AGrsbmG+tOoRI3rMj5rl2iIpT6FpgywPHBvA
-	0MX3h4hMWfGpuyHyn5hPTZowM4JOcyA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723447566;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6XPo09EObUeV+exTTCamgWy1ozO+qtvAX7oaVDoIEGY=;
-	b=tHALmea+jAACss2DZPv4BPnTKhr3LP5HsbbYZUUUbuxBSXhb3tLaiM4i5sOSjf7zcmusK2
-	TOluQBarsNrqoBBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1DCD5137BA;
-	Mon, 12 Aug 2024 07:26:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id WZcRBg65uWZRDQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 12 Aug 2024 07:26:06 +0000
-Date: Mon, 12 Aug 2024 09:26:46 +0200
-Message-ID: <87frra2ocp.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Jonathan LoBue <jlobue10@gmail.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	shenghao-ding@ti.com,
-	kailang@realtek.com,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	derekjohn.clark@gmail.com,
-	luke@ljones.dev,
-	benato.denis96@gmail.com,
-	Kyle Gospodnetich <me@kylegospodneti.ch>,
-	Jan Drogehoff <sentrycraft123@gmail.com>,
-	Antheas Kapenekakis <lkml@antheas.dev>,
-	Richard Alvarez <alvarez.richard@gmail.com>,
-	Miles Montierth <cyber_dopamine@intheblackmedia.com>
-Subject: Re: [PATCH] ALSA: hda/realtek: tas2781: Fix ROG ALLY X audio
-In-Reply-To: <20240812045325.47736-1-jlobue10@gmail.com>
-References: <20240812045325.47736-1-jlobue10@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	bh=Oafu0WWZyssl+BW+Fc+4njgLE2C72ugrKSjldnyJ7kY=;
+	b=WEDU8dF6RenmlSwiIq9vVp2pzFbsWxnkYCVxQLUKOYDBbFEFoQGMFFmc91lP0KUuHn4IDj
+	8XZTuv2pMuqtdRDxi7wQ1OWVe02fI7Y2og656C23HlxDJpBXvxbubDNKYrIyi9lKoFZM4J
+	9RoNxQ3bQlACBJEdCZvWEAkE6JfvLHRprKtow+JhVL/pMnA7NHqpl5er3BUf67rPBZ8yHy
+	ovTZBKJ5F7SOsq66sVHnBsc0WF2noadJJSxD5+u2nNQJWt74CI6PLVOsvEzLiFzGsjZ7i5
+	PILpt3F8Ui7nDkyVYvKrltfc3/+wgSa7Rt9w8NklTYmY+iSd5tZ2352tYgL7mw==
+Date: Mon, 12 Aug 2024 09:29:37 +0200
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: "Michael Walle" <michael@walle.cc>
+Cc: "Michal Simek" <michal.simek@amd.com>, "Mahapatra, Amit Kumar"
+ <amit.kumar-mahapatra@amd.com>, "Tudor Ambarus" <tudor.ambarus@linaro.org>,
+ "broonie@kernel.org" <broonie@kernel.org>, "pratyush@kernel.org"
+ <pratyush@kernel.org>, "richard@nod.at" <richard@nod.at>, "vigneshr@ti.com"
+ <vigneshr@ti.com>, "sbinding@opensource.cirrus.com"
+ <sbinding@opensource.cirrus.com>, "lee@kernel.org" <lee@kernel.org>,
+ "james.schulman@cirrus.com" <james.schulman@cirrus.com>,
+ "david.rhodes@cirrus.com" <david.rhodes@cirrus.com>,
+ "rf@opensource.cirrus.com" <rf@opensource.cirrus.com>, "perex@perex.cz"
+ <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>,
+ "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
+ "nicolas.ferre@microchip.com" <nicolas.ferre@microchip.com>,
+ "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
+ "claudiu.beznea@tuxon.dev" <claudiu.beznea@tuxon.dev>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "alsa-devel@alsa-project.org"
+ <alsa-devel@alsa-project.org>, "patches@opensource.cirrus.com"
+ <patches@opensource.cirrus.com>, "linux-sound@vger.kernel.org"
+ <linux-sound@vger.kernel.org>, "git (AMD-Xilinx)" <git@amd.com>,
+ "amitrkcian2002@gmail.com" <amitrkcian2002@gmail.com>, "Conor Dooley"
+ <conor.dooley@microchip.com>, "beanhuo@micron.com" <beanhuo@micron.com>
+Subject: Re: [PATCH v11 07/10] mtd: spi-nor: Add stacked memories support in
+ spi-nor
+Message-ID: <20240812092937.2bd5c85a@xps-13>
+In-Reply-To: <D33S9T73M6ND.G7CCJ4PDVYQU@walle.cc>
+References: <20231125092137.2948-1-amit.kumar-mahapatra@amd.com>
+	<b3d3c457-a43b-478a-85b3-52558227d139@linaro.org>
+	<BN7PR12MB28027E62D66460A374E3CFEADC93A@BN7PR12MB2802.namprd12.prod.outlook.com>
+	<e212f9fa-83c5-4b9e-8636-c8c6183096ab@linaro.org>
+	<BN7PR12MB280237CDD7BB148479932874DC93A@BN7PR12MB2802.namprd12.prod.outlook.com>
+	<576d56ed-d24b-40f9-9ae4-a02c50eea2ab@linaro.org>
+	<BN7PR12MB2802F288C6A6B1580CF07959DC95A@BN7PR12MB2802.namprd12.prod.outlook.com>
+	<c6f209c8-47da-4881-921d-683464b9ddd5@linaro.org>
+	<9cdb7f8b-e64f-46f6-94cb-194a25a42ccd@linaro.org>
+	<BN7PR12MB28028B63E69134094D50F3E4DC2A2@BN7PR12MB2802.namprd12.prod.outlook.com>
+	<IA0PR12MB769944254171C39FF4171B52DCB42@IA0PR12MB7699.namprd12.prod.outlook.com>
+	<D2ZHJ765LUGP.2KTA46P1BL75X@walle.cc>
+	<e1587f61-f765-4a22-b06e-71387cc49c4d@amd.com>
+	<D33M26RLVLHF.3Q5YARPBNSBOY@walle.cc>
+	<9fb60743-3e89-49fa-a399-3cf2607a7e41@amd.com>
+	<D33S9T73M6ND.G7CCJ4PDVYQU@walle.cc>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-1.01 / 50.00];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,ti.com,realtek.com,alsa-project.org,vger.kernel.org,gmail.com,ljones.dev,kylegospodneti.ch,antheas.dev,intheblackmedia.com];
-	RCVD_TLS_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TAGGED_RCPT(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -1.01
-X-Rspamd-Queue-Id: 7CE532022C
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: miquel.raynal@bootlin.com
 
-On Mon, 12 Aug 2024 06:53:25 +0200,
-Jonathan LoBue wrote:
-> 
-> This patch enables the TI TAS2781 amplifier SoC for the ASUS ROG ALLY X.
-> This is a design change from the original ASUS ROG ALLY, creating the need
-> for this patch. All other Realtek Codec settings seem to be re-used from
-> the original ROG ALLY design (on the ROG ALLY X). This patch maintains the
-> previous settings for the Realtek codec portion, but enables the I2C
-> binding for the TI TAS2781 amplifier (instead of the Cirrus CS35L41 amp
-> used on the original ASUS ROG ALLY).
-> 
-> One other requirement must be met for audio to work on the ASUS ROG ALLY X.
-> A proper firmware file in the correct location with a proper symlink. We
-> had reached out to TI engineers and confirmed that the firmware found in
-> the Windows' driver package has a GPL license. Bazzite Github is hosting
-> this firmware file for now until proper linux-firmware upstreaming can
-> occur. https://github.com/ublue-os/bazzite
-> 
-> This firmware file should be placed in
-> /usr/lib/firmware/ti/tas2781/TAS2XXX1EB3.bin with a symlink to it from
-> /usr/lib/firmware/TAS2XXX1EB3.bin
-> 
-> Co-developed by: Kyle Gospodnetich <me@kylegospodneti.ch>
-> Signed-off-by: Kyle Gospodnetich <me@kylegospodneti.ch>
-> Co-developed by: Jan Drogehoff <sentrycraft123@gmail.com>
-> Signed-off-by: Jan Drogehoff <sentrycraft123@gmail.com>
-> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
-> Tested-by: Richard Alvarez <alvarez.richard@gmail.com>
-> Tested-by: Miles Montierth <cyber_dopamine@intheblackmedia.com>
-> Signed-off-by: Jonathan LoBue <jlobue10@gmail.com>
+Hi Michael,
 
-Applied to for-next branch.
+> > > The first round of patches were really invasive regarding the core
+> > > code. So if there is a clean layering approach which can be enabled
+> > > as a module and you are maintaining it I'm fine with that (even if
+> > > the core code needs some changes then like hooks or so, not sure). =20
+> >
+> > That discussion started with Miquel some years ago when he was trying t=
+o to=20
+> > solve description in DT which is merged for a while in the kernel. =20
+>=20
+> What's your point here? From what I can tell the DT binding is wrong
+> and needs to be reworked anyway.
 
-Meanwhile, could you ask TI guys to include the missing firmware files
-in linux-firmware git tree, too?
+I'm sorry I'm now catching up, can you point at the thread explaining
+what is wrong in the bindings? I didn't find where this was detailed. Or
+otherwise summarize quickly what needs to change?
 
-
-thanks,
-
-Takashi
+Thanks!
+Miqu=C3=A8l
