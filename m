@@ -1,63 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 065E018733D
-	for <linux-sound@vger.kernel.org>; Mon, 12 Aug 2024 16:15:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39746187553
+	for <linux-sound@vger.kernel.org>; Mon, 12 Aug 2024 16:57:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723479311; cv=none; b=h/I4d20Z2WUbjLh2vqIAAkrXv/JcodsmAEJwbENfnrHx7ju9LxxISocmQtQBmmgotGZ5GFqkU+rcp8LLZsRPcT13o5HMhjZ8Pm0JWPX/VCXLG1pMh8G98fBh1YKVeCJNh/ggsOnCFVJPVSIB+cKeJxDeicVKyJ0G7EBN5pJJSwc=
+	t=1723481835; cv=none; b=UFKGKbepnS9bRaJQ+nPnBzrS/H+9m9us70ycbxq7U5ZfIQHtP17x1Xn1rzXMpFB0EC3E6qKfz1wY89dQUcOtCe2Ph+2EQHH35Nu7vUfoedtuQdY7DfuZVaaIXpkXEl19bYhVa1z6XYomWiL3CIomclaBzTGKu8UQ7+8bkjf7Ttk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723479311; c=relaxed/simple;
-	bh=C+REZLQz14gUYtQxBQ4k0O1BXwqSNt7VLHOsQU2J85Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OwCjJETIDOxVmV7JlBEAy4VHT7FZEAFiF1wBOsdLs9vu2/tcbXKwnbMN36wjOmEJ6KUAaEB1c8z21XQkn1qJB5J1MF4EW5U4s7jQaXiU9Tj25i1cI+D/Xi42vKPWo96d7vPGjGDGThnx8rfdWmmAdTsFGFaDtvTth+E12eM78M8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e94xp09h; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1723481835; c=relaxed/simple;
+	bh=c61g+eokL94Qx6PmzIigqTzXiW/8xkkklC7HZgSgM7I=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lmfAUszlTIxjd8cJ4E+HikLFVzEed18QYQz/r/jCeh47zA+4iEuZUKIflNz8oY0ZxDmYl7ZoGPqv16rinI3xKhqvnMpTlbCJ3p/pRIaePF6bCWkO+Un+WZxUPfaRbVq0ksk1k6Vspmcbj260sXm2WJ6uIio6cjCpOWN8EfJx07Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=G+yRwvId; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e94xp09h"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723479310; x=1755015310;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=C+REZLQz14gUYtQxBQ4k0O1BXwqSNt7VLHOsQU2J85Q=;
-  b=e94xp09hq515z1QzcPlYAAvGg8OULTf2lvIW3+OzM/3e2HA+DEJE8wEC
-   uckg0kd3RPzGrHmbZ1/qK5Z+Fy7GxGBRyVD8hT3Eh28AGgAdWzTL/h/kN
-   +G8VsJs5h4805doxXv28nrM7yq+bOcRSqRF9hhJw4589st3Jo2PMJ6iHH
-   p7M2dPONxaZm4ibD7aByFFUIhlMtDAaBi/Hb3NM5mmIEp4viCc9BaV+JB
-   /FrXjTq1rVwSZP7qOZC6P/3A/bodUlwseEkNXBrT95GEUTXYA1wTuPYWJ
-   j3duf8ggE7sZKh6xmcENhZ3wZvB3MmMS6hry15ZXQVmD1N0siEdJazzHc
-   g==;
-X-CSE-ConnectionGUID: jl7USobITg6fPFxIeBJQnQ==
-X-CSE-MsgGUID: wfMB+LVXSqq+KjjQG3WMEw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="32989736"
-X-IronPort-AV: E=Sophos;i="6.09,283,1716274800"; 
-   d="scan'208";a="32989736"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2024 09:15:09 -0700
-X-CSE-ConnectionGUID: pwoS+pHUSRy6bZDQeJILNw==
-X-CSE-MsgGUID: 4hPne9QIRm6PtY6nbvIJQw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,283,1716274800"; 
-   d="scan'208";a="63173826"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2024 09:15:06 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1sdXhG-0000000EPIo-2JWP;
-	Mon, 12 Aug 2024 19:15:02 +0300
-Date: Mon, 12 Aug 2024 19:15:02 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: broonie@kernel.org, alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org, tiwai@suse.com, perex@perex.cz,
-	amadeuszx.slawinski@linux.intel.com,
-	pierre-louis.bossart@linux.intel.com, hdegoede@redhat.com,
-	cujomalainey@chromium.org, lmajczak@google.com
-Subject: Re: [PATCH 00/12] ASoC: Intel: Remove skylake driver
-Message-ID: <Zro1Bslw-L2FfC0c@smile.fi.intel.com>
-References: <20240812094328.842661-1-cezary.rojewski@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="G+yRwvId"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1723481831;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=T0qjEw70ZHVOEFltGvRQMTUfl+Sufy34ZqZlbYPxUE8=;
+	b=G+yRwvIdA1UIdMCL6F15WEDIpVInEiEmpXg1CGYHQti3r3o6t2VWYU1OUkEdGfNZakGmPB
+	WkskalSEsLLwrTGspsHbkwyf67zwwRCR9tx/RPmuV4exobCt7rZ04rw52WQ/uhaoupDKnO
+	dWYXRg9bKPl/qMLdmapLA0BbFQg/52M=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-67-MFje33fIN-i5JGz0tdODdQ-1; Mon,
+ 12 Aug 2024 12:57:07 -0400
+X-MC-Unique: MFje33fIN-i5JGz0tdODdQ-1
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 694CE1944EBC;
+	Mon, 12 Aug 2024 16:57:03 +0000 (UTC)
+Received: from asgard.redhat.com (unknown [10.45.242.9])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 097CB1955BCB;
+	Mon, 12 Aug 2024 16:56:53 +0000 (UTC)
+Date: Mon, 12 Aug 2024 18:56:50 +0200
+From: Eugene Syromiatnikov <esyr@redhat.com>
+To: linux-kselftest@vger.kernel.org
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Mark Brown <broonie@kernel.org>, Shuah Khan <shuah@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Mykola Lysenko <mykolal@fb.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, bpf@vger.kernel.org
+Subject: [PATCH v2] selftests: fix relative rpath usage
+Message-ID: <20240812165650.GA5102@asgard.redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -66,37 +69,175 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240812094328.842661-1-cezary.rojewski@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.23 (2014-03-12)
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-On Mon, Aug 12, 2024 at 11:43:16AM +0200, Cezary Rojewski wrote:
-> A spiritual successor to haswell/baytrail removal series [1].
-> 
-> The avs-driver found in sound/soc/intel/avs is a direct replacement to
-> the existing skylake-driver. It covers all features supported by it and
-> more and aligns with the recommended flows and requirements based on
-> Windows driver equivalent.
-> 
-> The skylake-driver related UAPI has been removed with "ASoC: Drop
-> soc-topology ABI v4 support" [2].
-> 
-> For the official kernel tree the deprecation begun with v6.0. Most
-> skylake-drivers users moved to avs- or SOF-driver when AudioDSP
-> capabilities are available on the platform or to snd-hda-intel
-> (sound/pci/hda) when such capabilities are not.
-> 
-> For the supported trees the deprecation begun with v5.4 with v5.15 being
-> the first where the skylake-driver is disabled entirely.
-> 
-> All machine board drivers that consume this DSP driver have their
-> replacements present within sound/soc/intel/avs/boards/ directory.
+The relative RPATH ("./") supplied to linker options in CFLAGS is resolved
+relative to current working directory and not the executable directory,
+which will lead in incorrect resolution when the test executables are run
+from elsewhere.  Changing it to $ORIGIN makes it resolve relative
+to the directory in which the executables reside, which is supposedly
+the desired behaviour.  This patch also moves these CFLAGS to lib.mk,
+so the RPATH is provided for all selftest binaries, which is arguably
+a useful default.
 
-I like the idea of having better and unified equivalent!
-FWIW,
-Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Comparison of
 
+    find -type f -perm /111 -print0 | sort -z | xargs -0 ldd 2>&1 | sed 's/([^)]*)//'
+
+output before and after the change shows that only the binaries that
+previously used RPATH of "," are affected and that the linker now able
+to find the used dynamic libraries when the executable invoked outside
+directory it resides in:
+
+    $ diff -U 0 old_ldd new_ldd
+    --- old_ldd     2024-08-12 08:00:16.093535910 -0400
+    +++ new_ldd     2024-08-09 09:58:22.657883491 -0400
+    @@ -10 +10 @@
+    -       libatest.so => not found
+    +       libatest.so => /home/build/linux/tools/testing/selftests/./alsa/libatest.so
+    @@ -17 +17 @@
+    -       libatest.so => not found
+    +       libatest.so => /home/build/linux/tools/testing/selftests/./alsa/libatest.so
+    @@ -24 +24 @@
+    -       libatest.so => not found
+    +       libatest.so => /home/build/linux/tools/testing/selftests/./alsa/libatest.so
+    @@ -119 +119 @@
+    -       liburandom_read.so => not found
+    +       liburandom_read.so => /home/build/linux/tools/testing/selftests/./bpf/no_alu32/liburandom_read.so
+    @@ -445 +445 @@
+    -       liburandom_read.so => not found
+    +       liburandom_read.so => /home/build/linux/tools/testing/selftests/./bpf/liburandom_read.so
+    @@ -3321 +3321 @@
+    -       librseq.so => not found
+    +       librseq.so => /home/build/linux/tools/testing/selftests/./rseq/librseq.so
+    @@ -3326 +3326 @@
+    -       librseq.so => not found
+    +       librseq.so => /home/build/linux/tools/testing/selftests/./rseq/librseq.so
+    @@ -3331 +3331 @@
+    -       librseq.so => not found
+    +       librseq.so => /home/build/linux/tools/testing/selftests/./rseq/librseq.so
+    @@ -3340 +3340 @@
+    -       librseq.so => not found
+    +       librseq.so => /home/build/linux/tools/testing/selftests/./rseq/librseq.so
+    @@ -3345 +3345 @@
+    -       librseq.so => not found
+    +       librseq.so => /home/build/linux/tools/testing/selftests/./rseq/librseq.so
+    @@ -3350 +3350 @@
+    -       librseq.so => not found
+    +       librseq.so => /home/build/linux/tools/testing/selftests/./rseq/librseq.so
+    @@ -3355 +3355 @@
+    -       librseq.so => not found
+    +       librseq.so => /home/build/linux/tools/testing/selftests/./rseq/librseq.so
+    @@ -3360 +3360 @@
+    -       librseq.so => not found
+    +       librseq.so => /home/build/linux/tools/testing/selftests/./rseq/librseq.so
+    @@ -3365 +3365 @@
+    -       librseq.so => not found
+    +       librseq.so => /home/build/linux/tools/testing/selftests/./rseq/librseq.so
+
+Some minimal testing is done to verify that it does not affect the
+tests: alsa, rseq, and sched (which also had the RPATH tag but didn't
+actually link against any locally built libraries) selftests are run
+successfully before and after the change;  for the rest
+of the selftests, there was no regression observed as well.
+
+Discovered by the check-rpaths script[1][2] that checks for insecure
+RPATH/RUNPATH[3], such as relative directories, during an attempt
+to package BPF selftests for later use in CI:
+
+    ERROR   0004: file '/usr/libexec/kselftests/bpf/urandom_read' contains an insecure runpath '.' in [.]
+
+[1] https://github.com/rpm-software-management/rpm/blob/master/scripts/check-rpaths
+[2] https://github.com/rpm-software-management/rpm/blob/master/scripts/check-rpaths-worker
+[3] https://cwe.mitre.org/data/definitions/426.html
+
+Signed-off-by: Eugene Syromiatnikov <esyr@redhat.com>
+---
+v2:
+  - Consolidated the updated -L/-Wl,-rpath setting into lib.mk
+  - Described the testing done in the commit message
+v1: https://lore.kernel.org/lkml/20240808145639.GA20510@asgard.redhat.com/
+    https://lore.kernel.org/lkml/20240808151335.GA5495@asgard.redhat.com/
+    https://lore.kernel.org/lkml/20240808151621.GA10025@asgard.redhat.com/
+    https://lore.kernel.org/lkml/20240808151621.GA10025@asgard.redhat.com/
+---
+ tools/testing/selftests/alsa/Makefile  | 1 -
+ tools/testing/selftests/bpf/Makefile   | 5 ++---
+ tools/testing/selftests/lib.mk         | 3 +++
+ tools/testing/selftests/rseq/Makefile  | 2 +-
+ tools/testing/selftests/sched/Makefile | 3 +--
+ 5 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/tools/testing/selftests/alsa/Makefile b/tools/testing/selftests/alsa/Makefile
+index c1ce39874e2b..68a1651360e5 100644
+--- a/tools/testing/selftests/alsa/Makefile
++++ b/tools/testing/selftests/alsa/Makefile
+@@ -6,7 +6,6 @@ LDLIBS += $(shell pkg-config --libs alsa)
+ ifeq ($(LDLIBS),)
+ LDLIBS += -lasound
+ endif
+-CFLAGS += -L$(OUTPUT) -Wl,-rpath=./
+ 
+ LDLIBS+=-lpthread
+ 
+diff --git a/tools/testing/selftests/bpf/Makefile b/tools/testing/selftests/bpf/Makefile
+index 81d4757ecd4c..a152c12b8a3b 100644
+--- a/tools/testing/selftests/bpf/Makefile
++++ b/tools/testing/selftests/bpf/Makefile
+@@ -239,9 +239,8 @@ $(OUTPUT)/urandom_read: urandom_read.c urandom_read_aux.c $(OUTPUT)/liburandom_r
+ 	$(call msg,BINARY,,$@)
+ 	$(Q)$(CLANG) $(CLANG_TARGET_ARCH) \
+ 		     $(filter-out -static,$(CFLAGS) $(LDFLAGS)) $(filter %.c,$^) \
+-		     -lurandom_read $(filter-out -static,$(LDLIBS)) -L$(OUTPUT) \
+-		     -fuse-ld=$(LLD) -Wl,-znoseparate-code -Wl,--build-id=sha1 \
+-		     -Wl,-rpath=. -o $@
++		     -lurandom_read $(filter-out -static,$(LDLIBS)) \
++		     -fuse-ld=$(LLD) -Wl,-znoseparate-code -Wl,--build-id=sha1 -o $@
+ 
+ $(OUTPUT)/sign-file: ../../../../scripts/sign-file.c
+ 	$(call msg,SIGN-FILE,,$@)
+diff --git a/tools/testing/selftests/lib.mk b/tools/testing/selftests/lib.mk
+index d6edcfcb5be8..d75a20bb569c 100644
+--- a/tools/testing/selftests/lib.mk
++++ b/tools/testing/selftests/lib.mk
+@@ -199,6 +199,9 @@ clean: $(if $(TEST_GEN_MODS_DIR),clean_mods_dir)
+ # Build with _GNU_SOURCE by default
+ CFLAGS += -D_GNU_SOURCE=
+ 
++# Simplify usage of libraries built alongside the test executables
++CFLAGS += -L$(OUTPUT) -Wl,-rpath=\$$ORIGIN/
++
+ # Enables to extend CFLAGS and LDFLAGS from command line, e.g.
+ # make USERCFLAGS=-Werror USERLDFLAGS=-static
+ CFLAGS += $(USERCFLAGS)
+diff --git a/tools/testing/selftests/rseq/Makefile b/tools/testing/selftests/rseq/Makefile
+index 5a3432fceb58..887b45d4a675 100644
+--- a/tools/testing/selftests/rseq/Makefile
++++ b/tools/testing/selftests/rseq/Makefile
+@@ -6,7 +6,7 @@ endif
+ 
+ top_srcdir = ../../../..
+ 
+-CFLAGS += -O2 -Wall -g -I./ $(KHDR_INCLUDES) -L$(OUTPUT) -Wl,-rpath=./ \
++CFLAGS += -O2 -Wall -g -I./ $(KHDR_INCLUDES) \
+ 	  $(CLANG_FLAGS) -I$(top_srcdir)/tools/include
+ LDLIBS += -lpthread -ldl
+ 
+diff --git a/tools/testing/selftests/sched/Makefile b/tools/testing/selftests/sched/Makefile
+index 099ee9213557..0e4581ded9d6 100644
+--- a/tools/testing/selftests/sched/Makefile
++++ b/tools/testing/selftests/sched/Makefile
+@@ -4,8 +4,7 @@ ifneq ($(shell $(CC) --version 2>&1 | head -n 1 | grep clang),)
+ CLANG_FLAGS += -no-integrated-as
+ endif
+ 
+-CFLAGS += -O2 -Wall -g -I./ $(KHDR_INCLUDES) -Wl,-rpath=./ \
+-	  $(CLANG_FLAGS)
++CFLAGS += -O2 -Wall -g -I./ $(KHDR_INCLUDES) $(CLANG_FLAGS)
+ LDLIBS += -lpthread
+ 
+ TEST_GEN_FILES := cs_prctl_test
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.28.0
 
