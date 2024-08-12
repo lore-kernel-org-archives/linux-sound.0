@@ -1,186 +1,269 @@
-Received: from HK2PR02CU002.outbound.protection.outlook.com (mail-eastasiaazon11010027.outbound.protection.outlook.com [52.101.128.27])
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4A6A1547DF;
-	Mon, 12 Aug 2024 08:18:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.128.27
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723450742; cv=fail; b=ksWUyHfg3bqWBvkIEe9vo2VzeAAGwVMLk1l47zqgMcho5rqdFD030Dj0rErLmlWHSCzL2BsIQzK0myOfqKybByrp0gjZbRcZpYGJ8jtjYS9ZpmsJc8RoLgma34781TwWaRAN2ay0JeBWHYaEt3MBmG/eRkAIZPIWV4Q407K8fyY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723450742; c=relaxed/simple;
-	bh=asZ9BAlPBDdViaCyidGSN7EOzoa5qG9rkDwxenrpY4k=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=EQYGLVLKbH8mWVu9QNNIgB0M1d6cr1VFosTfjg27yhi4ssueHoiWzrV6lbJGvh9Il+UKztNFEUIkyqRHwt+HdRMKAsyHAwzKOPywaAxyKGNcRifcoXFFzVclaUYYEVb9GTVB7ASLf5blat4vFBIaV2NlZGLjDnK+8jxSsJHHp5Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=TUsV3wft; arc=fail smtp.client-ip=52.101.128.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A64B14D599;
+	Mon, 12 Aug 2024 08:38:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723451907; cv=none; b=q1gC9jiJdQ7RlyWf7lLW7nHtJa9SDjbgr6ReT/dP6GbcNhOC2VU0jocRqmBhGql+BJ9ej+ZHY7wpn9MhxRKjarOlTkTSCSALssXEUvw3MP/tjsFaH3ifI5QZ9bW1omM8v27PmtapV5ApFo23Gn0ITuLFF1QzbRDnTSBJCAjp1ZU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1723451907; c=relaxed/simple;
+	bh=C39qRErPUQkJNzW9w7SV07Iow5wNuuOXfmuMigKGNYA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=i39c7jR62SLQe+da6HP8AXqhpnhHi2F+IFNFlPsyejk8y4IMEu5JqtMfzQhZIGEQKKyayPQmD7xNyhZmtw5m2qLuZPg0V7hpYXHnXVrrePVHQO86IisZYLt4dI2uL5u3F5612R+G1Xzz2DETleberqjvpMBKlrFnLOLuGTx/mEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=c6AlCNyi; arc=none smtp.client-ip=217.70.183.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="TUsV3wft"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XyGjuJSM38VwrapL6rUyOPDWalQfIa/zLwlV9xfuT36xsURgxXhQcq1Cvr3vrf6HIMzBXjK/4N1kqH4NimAIUVgP4Eiv7a5re1p0wqn6BuZbABWX2r7f7Vm3AKm45vi54Als0fdNXyQbgODhgjx3O3IeJOJqAlTuadiyi0l6UuJB6Ve6rS9Qm/aSNKmaBbzk9LWQz0NS3Pg1EMA8RazORAZOJguLeoTIMg6GThxE3tfa58g0hWCjOGI1FrfahGZBQpJQ6lTuKMVL4QZoS5eRl12LvgBBdhANQdRA8z2P56dxLRN1cHfJYXkHGVCty5L73iOkD3q9XT47o239Hzin7A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=asZ9BAlPBDdViaCyidGSN7EOzoa5qG9rkDwxenrpY4k=;
- b=ww/zLB2NmqE8sEJzE6z1nvBSHgRNl3nIqx35NOy24bgBLYmNbTxvbEQxHZaX/gArYGvpw05YyVFiEdSOd20E4iQLOE81qd4L8KhMpJBURRpWIImK2FboV+ZJBbYlfmeOsBQL1iayWed9KNwsoNdlm+ljWUI3i7q9VU7cYfBTAY9HzudRgnbPyRG8e4ZnpB8zzNzMzyS+96fc8a/nzlmUqUR+KJ7NGAfQQ3HuTsylMeciIkOeLQcQBApdNgz9PceQxol3622VWXFtNFe7qsfmWJ9OVbd8/SMRv8aS38CrfO/MvbMPJR+3Mfh0Cfh4YiOx3Oa31AYxyR3iw7AgDfP5Lg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=asZ9BAlPBDdViaCyidGSN7EOzoa5qG9rkDwxenrpY4k=;
- b=TUsV3wft0sS5Hnv9ZbZodgZ6LiODNnqzw3eC7fF9TIy6kgscFAZbUE0M9kHAPykVQsDSyNooqu3tAXCLsz1uar3KgB0vjejzgy1b+iODi3ch3fgWiLQ5MDUbjMW0bwsyBNwyT6a0fBSzC5P5ESPE4dQ65mC/bcMgpjsbCt9ZT0wqpAs5sytVl4cLxUXjCdplT5tEahISYSAqFhabwzLIL+oTFrpQDItw6cnSFdSpbiAa3L3AL7Qn6vUA1o1Br29hymbFiUHUrWln6wFf5rVpP6274v4xzxRNncCer1Gq51GP7y+4IP96lUl/KCfsbnRsj0lN/3SVpPedK0vezBSS5g==
-Received: from TYUPR06MB6217.apcprd06.prod.outlook.com (2603:1096:400:358::7)
- by SEYPR06MB6249.apcprd06.prod.outlook.com (2603:1096:101:de::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.20; Mon, 12 Aug
- 2024 08:18:51 +0000
-Received: from TYUPR06MB6217.apcprd06.prod.outlook.com
- ([fe80::c18d:f7c6:7590:64fe]) by TYUPR06MB6217.apcprd06.prod.outlook.com
- ([fe80::c18d:f7c6:7590:64fe%4]) with mapi id 15.20.7849.019; Mon, 12 Aug 2024
- 08:18:50 +0000
-From: =?gb2312?B?uvrBrMfa?= <hulianqin@vivo.com>
-To: Takashi Iwai <tiwai@suse.de>
-CC: "perex@perex.cz" <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>,
-	"mbarriolinares@gmail.com" <mbarriolinares@gmail.com>,
-	"wangdicheng@kylinos.cn" <wangdicheng@kylinos.cn>, "sean@mess.org"
-	<sean@mess.org>, "alexander@tsoy.me" <alexander@tsoy.me>,
-	"xristos.thes@gmail.com" <xristos.thes@gmail.com>, "knuesel@gmail.com"
-	<knuesel@gmail.com>, "linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, opensource.kernel
-	<opensource.kernel@vivo.com>, "akpm@linux-foundation.org"
-	<akpm@linux-foundation.org>
-Subject: Re: [PATCH v1] ALSA: usb-audio: Add delay quirk for VIVO USB-C-XE710
- HEADSET
-Thread-Topic: [PATCH v1] ALSA: usb-audio: Add delay quirk for VIVO USB-C-XE710
- HEADSET
-Thread-Index: AdrskDuj+tueDEmdT8O97cajpGGO0A==
-Date: Mon, 12 Aug 2024 08:18:50 +0000
-Message-ID:
- <TYUPR06MB62176817F2096C7448636F59D2852@TYUPR06MB6217.apcprd06.prod.outlook.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYUPR06MB6217:EE_|SEYPR06MB6249:EE_
-x-ms-office365-filtering-correlation-id: 1991f84b-ad85-4696-f7fd-08dcbaa765a5
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|7416014|376014|1800799024|38070700018;
-x-microsoft-antispam-message-info:
- =?gb2312?B?RlF0QzVwd29Ob2p5aHIzT0g5TUZDUTI1SEQ4N3ZqaW9xWkNvWE1nb3lKdlk3?=
- =?gb2312?B?b0VyL3ZYbDI2ZXFzOGpGeCtEeHBmWjB4eUZUeUR5bkhBUUx1RFpzbExRelNq?=
- =?gb2312?B?eHRzMnpUeHdicmR5RVBGNnp0cE9CemVQTndQeHl5YVJCNnRJSDFPVDAxdkE1?=
- =?gb2312?B?N0lFTWFESkFTUFVIV1JXYmNXZFFQRWhjaEp0ZktuaGVjaTNZTjJMNm41cG1n?=
- =?gb2312?B?dHg1RnpadTJiZCtvRGNGWG1mT0wvYko0M240c0FzTXMreVRPZ0NUQWM1MEVL?=
- =?gb2312?B?TllLZm1ITGo4OVdSVTBWTUFwcWxkODhsaXg3Q24yRVl4U0xFbHV2THBLTlpI?=
- =?gb2312?B?MUJwRUtZRElNZkZ5OG9DMWJwUVdxYkt3bVhNTkV3elR4TGpVZ0RGVzdjaGN3?=
- =?gb2312?B?NTNCZXpWMXhyMG9tN2ovaU5OSXlGZUNRYXZudWR5U21rR1lkaGIyRm1LRTVS?=
- =?gb2312?B?NmpRbWVVc0lvTmxuZEpSbGtmZVRwNVMrZVcxNitwWE04SFJUN3NSUmVDb1BB?=
- =?gb2312?B?U05HRkpPN2tiTjk1UjVzYWJRM0R4SmFhN2hjOWkvQjVrMVo1d1lubWRRczF5?=
- =?gb2312?B?OGpGL1liRjN1REc3M2RHVm9iQXVObkk4VHJOYWNYRmR5UW5FcndWZ0FqNGZQ?=
- =?gb2312?B?UnNlNzh1QitXOWRFZmo1enBHakVBcDdUcGI1RVovU3Q0bkxGenJKUldHTmRl?=
- =?gb2312?B?eU4yTUZsSHJPV1BiSDdRdkJaMmhmdW1Udzh2b0VuWG1VcW0vUDhTNTVtOElw?=
- =?gb2312?B?akFwN3BJdHVIQVdZT3RWUkhWTXFKQUNiY0UwclpzTytEdytYSVdYeTZzSzlp?=
- =?gb2312?B?RmRHc25BWS9IWXlYTHgrWlVkai9pbmVIajdRUHgyUGhyVnlCSTlmUHdpSFpz?=
- =?gb2312?B?V2ZkVDdKS2ZsSWM2OVZQSElST1NpaVh0TEgyeE9LcnZRSjZsL29lM1FQMzBF?=
- =?gb2312?B?NEl5QlZwTGUwd0l2YWR4WU1LaXUwY0xzdGJ3ZXRuT3U2ZHNYaVQrZms5K3BL?=
- =?gb2312?B?VzU5QUF0aTh1bTdSV1B0R1dqbTNmQVU0K2JDZ0hCR0xJWWtJUnZvQitEc3c3?=
- =?gb2312?B?enRkQTY5RUJrRE9POW9MNzdMa3ZmVjlmQW94U2tTMnVjdnp1bEtRZUxoRmEv?=
- =?gb2312?B?RGFPTXk2WkI3NmlhWktjVENNVE83SVVZbEhOR2VkN2JDWkduYVd2OHo1bzhK?=
- =?gb2312?B?QURFa2RTd0RWekcvZzFpd0t1dUtER3RsTG9Oc1NTeDNrRlp5UndaOU1wSmJJ?=
- =?gb2312?B?bmtxWWJadWY4SHZoMmVnR0wrWWNHZWdFcktBc2kvUUc0WWxadFJBS3hjSGNq?=
- =?gb2312?B?dGhLOUk2UXFpcllpNkFVQkhWMEMxVFVTSEFySXBLRmd5RFd6c2ZDUFFCcWJz?=
- =?gb2312?B?cWtZOEh5S3cvSk9HS3RhaW5Pb2dqcXl4T2M1NzZSMWdHK1hFd05XaTFWZStn?=
- =?gb2312?B?MlJGUmVoUkVQd1Q3cmJPMGVsR3N4azhCMmdjNTM0L2J0SnFCMjZOekd4SGgv?=
- =?gb2312?B?NklYNHhzK242WTFXQmgrWlBpY2hsMTh0c1RQQkVvbmZOa1hVZkxpeE5RcTYv?=
- =?gb2312?B?L0RnOTJJWGJxamFlUjE0Vk5EaGNVZURhVk5MUm9obDZGbEVnWkV3VElTbnVh?=
- =?gb2312?B?VlZ1QzFoMVczc0FuVjN2UFZOQmpRb3dDK254QUNjWUgxd3dXUGtzVkl2L3V2?=
- =?gb2312?B?WnY1cjllY0ptZVhzYjFMMGdzdUxiV2Vxb1RkWGpFY2xHbVE1SmcvdTZ6eDBv?=
- =?gb2312?B?KzJiVE0xN0N2bEJtbTVIZm1ZT01zMGVDREJqR2RYUjJCWENEa0VRVFVzZFlh?=
- =?gb2312?B?Y2FyMmw3cDFvZ3E3V0FyS2U5VVNnYWV2UzYxbEJlU1JMVHpVZ3o5S2xwVVJK?=
- =?gb2312?B?SWE5c3dyQUI3d1d1OGJtTXo2ZGt1WWY2NDhUOW5ydVU4MXc9PQ==?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYUPR06MB6217.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?gb2312?B?bVVFbDRmaVBiU2JDOHN4KzlhWkZhV1JrbDl1UCsxZ0VsanBnS3NkYnFlb0h1?=
- =?gb2312?B?SEJ3S0NjYzN1alRDVWhqV01DQnYzeVR2bVUvS2QwelBnYURYR29sSnp3bSsr?=
- =?gb2312?B?TnlFWEZSTWtsRFNGSXlOWERESTI4YVl2cXMrdFZxeVQvalNvNkpCWWdDV0J6?=
- =?gb2312?B?RHQrbWU2NWpzV2pRQlNEbTBJWlJyMmZocC9ZZnlOUnZnZ1FjRFFaU0EveFFn?=
- =?gb2312?B?RnlNTmNVQjlRVU51a290NE9XZGNhVVZBSXdYWVVFbmpWNTBSekFZUVczOFA1?=
- =?gb2312?B?NmprZ1VnWGVOYUl0WERPNTdQMllTTENTaXRhNGJZaDNUdHlqZkV1cEszOUdn?=
- =?gb2312?B?TXNNM3hnRnYrTTdXUHF0K0xKaGVWN0JlMmVKRTY4OGQ2NmhBai96YVF6dnRq?=
- =?gb2312?B?ZzhYYVFVYWFOYTJyNmNGWi9RVW5HZEVpRHRvVDdtbHhxdlE4UThpRTd0V1dG?=
- =?gb2312?B?YjBNMW1YY2pjQW0vR2JXbWZtUFR3bmhLSGk0U0trbytTSVgxc1VYeDA5T2s0?=
- =?gb2312?B?dlozWi9EREZWcHQvZlVGaSt0OTFoM1VTWCtSNDZBRkg3Y21NZ25Zdi9DRkhC?=
- =?gb2312?B?Q3o5Nk9OM29NR0oxUlM1K2lHaTE0OHR1bnF3dUFoTE5icXFPbE1GZFd3dGxI?=
- =?gb2312?B?VWRMTWNHcVN4N2VNb3IxUFllUDBpekdqTUpOTm5XTHF0RmROak5GcjNIZmtU?=
- =?gb2312?B?dWEvdFcza2NnOVJCMkJ4UWJsRXNMc3BIaVQyLy9Yc2UvU0J3RnpGWEJuQ01C?=
- =?gb2312?B?NFlCWHByZlVXQkZsQjJxenYwdFQ0MkF6ZHZtc3I1dXJpSFhCcW94bzdIbVhH?=
- =?gb2312?B?RUEyYVp5L2xETGpjd3VtZWJ0QjZ3enRZQjBDVFY4VFpKWEpsSVZkZ3BiMkpG?=
- =?gb2312?B?aVk4OWtpeThPQmNvbHN0OXN1QzRiYU05MTE3emxkbzQ4UVBUam5iVHFSUmhL?=
- =?gb2312?B?ME1UbUNVdGxLZGliWVdKMUpwMmFiSUtGZ3VIWnBicFVrYWNqSkJiVzNicVBx?=
- =?gb2312?B?UU8yYXF5WDUwcitUaVpqNTVXTzlWYVplQm9pcTMvT2tvUDczQm9iaHZZZ29I?=
- =?gb2312?B?NTF0d3BMUnRWS2hMbXJGbTVTZ083V2tKa1cxem5FUlp6OVIydDJXenJPUG5Y?=
- =?gb2312?B?RFBSVUFGNG1nQXc1RlRzdzJiYm5SZ01neDkvUWtXaW5ScDhHazFlbk9Fd2ht?=
- =?gb2312?B?b0ozUUlGT1VxcWYyZEpHSVdySmdsMUcxSk1QWi9JZ0IzTTI0UmpsSlEyekRM?=
- =?gb2312?B?OXcxMVdUdzZTRUNSUDJtODkzTDA5WWk0YXY3Znk5djhaRXBiS0QybkdHYmsw?=
- =?gb2312?B?VHF3N0gxV3hBQ21ndEliWEt2emVtZkNkT2NPZUhTL2E2UnJNZERsME5YUUM0?=
- =?gb2312?B?bG9heHBIb2pMUDE0WGN1bGk0SjdDTlVDMlc3TWlRUCtLa0ZubVJYY2NtZHdR?=
- =?gb2312?B?T01vTzdIL204N0cwcG5EUWMycUR1WVp5cGFXMXVad0NJYXF0YW9SWTJBZDJz?=
- =?gb2312?B?ZFFpRkhEczRsaVJtMjdZd3ZLbDdkNlM0U2RrMlNVZHRUWGVYaDNqLzlYVHd2?=
- =?gb2312?B?OEpBRzBYdFdBTG1hb2krNDgrZUZTeTkrMHdtc3YyWVpmcWRQY0g2bFhYb2cz?=
- =?gb2312?B?THAzemt3RTlXNmFmSjhOclladXJweWpzTTA0TVRIbDNyR2ZONkF5MkVaQzNK?=
- =?gb2312?B?YmduL0RqVDZKNXFSUVA2VEhOclRicXpJVVdKQmdEQnpUSVB3ZndmekpGZEN5?=
- =?gb2312?B?RytlL25QWXZiSUJ6ZThUVE00UVFIMEVEM0VGRTVtamN6MUJkTU9EYnhCMVp5?=
- =?gb2312?B?c05qRmRkQmxSSmgvYVNldE5jci8rWm5pU3BuYUlwOU14bXVwaXFUOG1KY0ov?=
- =?gb2312?B?VWFNalRkd1ZlaXlzUWEzRzd5bDIzTVhvTTlKMXFPV1hLcGFzWVMxdEV1UTZF?=
- =?gb2312?B?R1ZJeG5nT2V4TmJOeW9aeGJhOFFIU0x2ZWprZTRyZTd1cFAyQTVVa21pblU1?=
- =?gb2312?B?L3ZKbU9WeFVPSUluWmhjWDUzTWVjRzdyYVVidGRPTmRYbUp3RVFJajlBT2Vt?=
- =?gb2312?B?Q1RudGtQUTdkN1EzRUF1OFBlUGhwZDA5ZGZ2L1lzRGNQekx0RThIV0tubWZN?=
- =?gb2312?Q?UeSw=3D?=
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="c6AlCNyi"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 9CA3DC0007;
+	Mon, 12 Aug 2024 08:38:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1723451896;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Wpp+yPNEBFJMfjQq3cL+mUf+1IBUOb95UB4rmwmrlsY=;
+	b=c6AlCNyiO8HVav7lY582H4/RuX+O01sHF3FNBasOHB+VazJm8ydFO5xcwvZJ6d0jkuT1+i
+	Sv6Jmq7TiB6stzxv6fHQQa+YoLJwE6CB0pLKjHXsxJutvIaUi3XWsYO0U/WLuaOQKhRMaj
+	oYCvTZD9GQ24ua+nUP3gCpF3C6okHJvfQouuv+Um04e3FbRgfLwABTZb1Gz3Bv7n8iXw03
+	x9Asn7ip/Md3h2Z5s2eWCP8HOY68mRsa/1Af21B9Pn6tV6LjyvoVyXtr2k+qyIVZjDyrqX
+	hZ95LcD6Gu/o+tPGUr5jmWRM7yJB3Z7WuAv3A3Gh79rQQk5Q9dDD2WZqwYr7Vg==
+Date: Mon, 12 Aug 2024 10:38:12 +0200
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: "Mahapatra, Amit Kumar" <amit.kumar-mahapatra@amd.com>
+Cc: Tudor Ambarus <tudor.ambarus@linaro.org>, "broonie@kernel.org"
+ <broonie@kernel.org>, "pratyush@kernel.org" <pratyush@kernel.org>,
+ "richard@nod.at" <richard@nod.at>, "vigneshr@ti.com" <vigneshr@ti.com>,
+ "sbinding@opensource.cirrus.com" <sbinding@opensource.cirrus.com>,
+ "lee@kernel.org" <lee@kernel.org>, "james.schulman@cirrus.com"
+ <james.schulman@cirrus.com>, "david.rhodes@cirrus.com"
+ <david.rhodes@cirrus.com>, "rf@opensource.cirrus.com"
+ <rf@opensource.cirrus.com>, "perex@perex.cz" <perex@perex.cz>,
+ "tiwai@suse.com" <tiwai@suse.com>, "linux-spi@vger.kernel.org"
+ <linux-spi@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "michael@walle.cc" <michael@walle.cc>,
+ "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
+ "nicolas.ferre@microchip.com" <nicolas.ferre@microchip.com>,
+ "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
+ "claudiu.beznea@tuxon.dev" <claudiu.beznea@tuxon.dev>, "Simek, Michal"
+ <michal.simek@amd.com>, "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "alsa-devel@alsa-project.org"
+ <alsa-devel@alsa-project.org>, "patches@opensource.cirrus.com"
+ <patches@opensource.cirrus.com>, "linux-sound@vger.kernel.org"
+ <linux-sound@vger.kernel.org>, "git (AMD-Xilinx)" <git@amd.com>,
+ "amitrkcian2002@gmail.com" <amitrkcian2002@gmail.com>, Conor Dooley
+ <conor.dooley@microchip.com>, "beanhuo@micron.com" <beanhuo@micron.com>
+Subject: Re: [PATCH v11 07/10] mtd: spi-nor: Add stacked memories support in
+ spi-nor
+Message-ID: <20240812103812.72763f69@xps-13>
+In-Reply-To: <IA0PR12MB769944254171C39FF4171B52DCB42@IA0PR12MB7699.namprd12.prod.outlook.com>
+References: <20231125092137.2948-1-amit.kumar-mahapatra@amd.com>
+	<BN7PR12MB28029EB1A7D09882878499A2DC8FA@BN7PR12MB2802.namprd12.prod.outlook.com>
+	<c3fa1e04-92ed-48ab-a509-98e43abd5cd6@linaro.org>
+	<BN7PR12MB2802E87F1A6CD22D904CAEACDC93A@BN7PR12MB2802.namprd12.prod.outlook.com>
+	<b3d3c457-a43b-478a-85b3-52558227d139@linaro.org>
+	<BN7PR12MB28027E62D66460A374E3CFEADC93A@BN7PR12MB2802.namprd12.prod.outlook.com>
+	<e212f9fa-83c5-4b9e-8636-c8c6183096ab@linaro.org>
+	<BN7PR12MB280237CDD7BB148479932874DC93A@BN7PR12MB2802.namprd12.prod.outlook.com>
+	<576d56ed-d24b-40f9-9ae4-a02c50eea2ab@linaro.org>
+	<BN7PR12MB2802F288C6A6B1580CF07959DC95A@BN7PR12MB2802.namprd12.prod.outlook.com>
+	<c6f209c8-47da-4881-921d-683464b9ddd5@linaro.org>
+	<9cdb7f8b-e64f-46f6-94cb-194a25a42ccd@linaro.org>
+	<BN7PR12MB28028B63E69134094D50F3E4DC2A2@BN7PR12MB2802.namprd12.prod.outlook.com>
+	<IA0PR12MB769944254171C39FF4171B52DCB42@IA0PR12MB7699.namprd12.prod.outlook.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYUPR06MB6217.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1991f84b-ad85-4696-f7fd-08dcbaa765a5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Aug 2024 08:18:50.7018
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: XrY7BP0MmaDIHO9WGb9fAFjGBGBAp0Z1heRp5KVo7B121LSz0chO11D2FBlKLKxWye1y2qp63P+n9itcpSi68w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB6249
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: miquel.raynal@bootlin.com
 
-SGVsbG8gIGxpbnV4IGNvbW11bml0eSBleHBlcnQ6DQoNCiAgT0suDQoNClRoYW5rcw0KDQotLS0t
-LdPKvP7Urbz+LS0tLS0NCreivP7IyzogVGFrYXNoaSBJd2FpIDx0aXdhaUBzdXNlLmRlPiANCrei
-y83KsbzkOiAyMDI0xOo41MIxMsjVIDE1OjIzDQrK1bz+yMs6ILr6wazH2iA8aHVsaWFucWluQHZp
-dm8uY29tPg0Ks63LzTogcGVyZXhAcGVyZXguY3o7IHRpd2FpQHN1c2UuY29tOyBtYmFycmlvbGlu
-YXJlc0BnbWFpbC5jb207IHdhbmdkaWNoZW5nQGt5bGlub3MuY247IHNlYW5AbWVzcy5vcmc7IGFs
-ZXhhbmRlckB0c295Lm1lOyB4cmlzdG9zLnRoZXNAZ21haWwuY29tOyBrbnVlc2VsQGdtYWlsLmNv
-bTsgbGludXgtc291bmRAdmdlci5rZXJuZWwub3JnOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwu
-b3JnOyBvcGVuc291cmNlLmtlcm5lbCA8b3BlbnNvdXJjZS5rZXJuZWxAdml2by5jb20+OyBha3Bt
-QGxpbnV4LWZvdW5kYXRpb24ub3JnDQrW98ziOiBSZTogW1BBVENIIHYxXSBBTFNBOiB1c2ItYXVk
-aW86IEFkZCBkZWxheSBxdWlyayBmb3IgVklWTyBVU0ItQy1YRTcxMCBIRUFEU0VUDQoNCltZb3Ug
-ZG9uJ3Qgb2Z0ZW4gZ2V0IGVtYWlsIGZyb20gdGl3YWlAc3VzZS5kZS4gTGVhcm4gd2h5IHRoaXMg
-aXMgaW1wb3J0YW50IGF0IGh0dHBzOi8vYWthLm1zL0xlYXJuQWJvdXRTZW5kZXJJZGVudGlmaWNh
-dGlvbiBdDQoNCk9uIFN1biwgMTEgQXVnIDIwMjQgMTA6MzA6MTEgKzAyMDAsDQq6+sGsx9ogd3Jv
-dGU6DQo+DQo+IEZyb206IExpYW5xaW4gSHUgPGh1bGlhbnFpbkB2aXZvLmNvbT4NCj4NCj4gQXVk
-aW8gY29udHJvbCByZXF1ZXN0cyB0aGF0IHNldHMgc2FtcGxpbmcgZnJlcXVlbmN5IHNvbWV0aW1l
-cyBmYWlsIG9uIA0KPiB0aGlzIGNhcmQuIEFkZGluZyBkZWxheSBiZXR3ZWVuIGNvbnRyb2wgbWVz
-c2FnZXMgZWxpbWluYXRlcyB0aGF0IHByb2JsZW0uDQo+DQo+IFNpZ25lZC1vZmYtYnk6IExpYW5x
-aW4gSHUgPGh1bGlhbnFpbkB2aXZvLmNvbT4NCj4gLS0tDQo+IHYxOg0KPiAgIC0gTW9kaWZ5IHRo
-ZSBjb2RlIHBvc2l0aW9uIGFuZCBzb3J0IGJ5IElEDQoNClRoYW5rcywgYXBwbGllZCB0byBmb3It
-bGludXMgYnJhbmNoIG5vdy4NCg0KDQpUYWthc2hpDQo=
+Hi,
+
+> Hello Everyone,
+>=20
+> I would like to propose another approach for handling stacked and=20
+> parallel connection modes and would appreciate your thoughts on it.=20
+> But before that, here is some background on what we are trying to achieve.
+>=20
+> The AMD QSPI controller supports two advanced connection modes(Stacked an=
+d=20
+> Dual Parallel) which allow the controller to treat two different flashes=
+=20
+> as one storage.
+>=20
+> Stacked:
+> Flashes share the same SPI bus, but different CS line, controller asserts=
+=20
+> the CS of the flash to which it needs to communicate.
+>=20
+> Dual Parallel:
+> Both the flashes have their separate SPI bus CS of both the flashes will=
+=20
+> be asserted/de-asserted at the same time. In this mode data will be split=
+=20
+> across both the flashes by enabling the STRIPE setting in the controller.=
+=20
+> If STRIPE is not enabled, then same data will be sent to both the devices.
+>=20
+> For more information on the modes please feel free to go through the=20
+> controller flash interface below
+> https://docs.amd.com/r/en-US/am011-versal-acap-trm/QSPI-Flash-Device-Inte=
+rface
+>=20
+> Mirochip QSPI controller also supports "Dual Parallel 8-bit IO mode", but=
+=20
+> they call it "Twin Quad Mode".
+> https://ww1.microchip.com/downloads/aemDocuments/documents/MPU32/ProductD=
+ocuments/DataSheets/SAMA7G5-Series-Data-Sheet-DS60001765.pdf
+>=20
+> DT binding changes were added through the following commits:
+> https://github.com/torvalds/linux/commit/f89504300e94524d5d5846ff8b728592=
+ac72cec4
+> https://github.com/torvalds/linux/commit/eba5368503b4291db7819512600fa014=
+ea17c5a8
+> https://github.com/torvalds/linux/commit/e2edd1b64f1c79e8abda365149ed62a2=
+a9a494b4
+>=20
+> SPI core changes were adds through the following commit:
+> https://github.com/torvalds/linux/commit/4d8ff6b0991d5e86b17b235fc46ec62e=
+9195cb9b
+>=20
+> Based on the inputs/suggestions from Tudor, i am planning to add a new=20
+> layer between the SPI-NOR and MTD layers to support stacked and parallel=
+=20
+> configurations. This new layer will be part of the spi-nor and located in=
+=20
+> mtd/spi-nor/
+
+For now I don't think you need a totally generic implementation. As
+long as there is only one controller supporting these modes, I'd say
+this is not super relevant.
+
+> This layer would perform the following tasks:
+>  - During probing, store information from all the connected flashes,=20
+>    whether in stacked or parallel mode, and present it as a single device=
+=20
+>    to the MTD layer.
+>  - Register callbacks through this new layer instead of spi-nor/core.c an=
+d=20
+>    handle MTD device registration.
+>  - In stacked mode, select the appropriate spi-nor flash based on the=20
+>    address provided by the MTD layer during flash operations.
+>  - Manage flash crossover operations in stacked mode.
+>  - Ensure both connected flashes are identical in parallel mode.
+>  - Handle odd byte count requests from the MTD layer during flash=20
+>    operations in parallel mode.
+>=20
+> For implementing this the current DT binding need to be updated as=20
+> follows.
+
+So you want to go back to step 1 and redefine bindings? Is that worth?
+
+> stacked-memories DT changes:
+>  - Flash size information can be retrieved directly from the flash, so it=
+=20
+>    has been removed from the DT binding.
+>  - Each stacked flash will have its own flash node. This approach allows=
+=20
+>    flashes of different makes and sizes to be stacked together, as each=20
+>    flash will be probed individually.
+
+And how will you define partitions crossing device boundaries? I
+believe this constraint has been totally forgotten in this proposal.
+The whole idea of stacking two devices this way was to simplify the
+user's life with a single device exposed and the controller handling
+itself the CS changes. That is precisely what the current binding do.
+The final goal being to double your storage transparently. If your goal
+was to put two chips aside, then none of this was actually needed. If
+you don't care about that anymore, then all the energy put into
+discussing the bindings initially was useless and a controller property
+could also have made the trick.
+
+>  - The stacked-memories DT bindings will contain the phandles of the flas=
+h=20
+>    nodes connected in stacked mode.
+>=20
+> spi@0 {
+>  =20
+>   flash@0 {
+>     compatible =3D "jedec,spi-nor"
+>     reg =3D <0x00>;
+>     stacked-memories =3D <&flash@0 &flash@1>;
+>     spi-max-frequency =3D <50000000>;
+>     ...
+>               partition@0 {=20
+>         label =3D "qspi-0";
+>         reg =3D <0x0 0xf00000>;
+>     };
+>                        =20
+>=20
+>   }
+>  =20
+>   flash@1 {
+>     compatible =3D "jedec,spi-nor"
+>               reg =3D <0x01>;
+>     spi-max-frequency =3D <50000000>;
+>     ...
+>               partition@0 {=20
+>         label =3D "qspi-1";
+>         reg =3D <0x0 0x800000>;
+>     };
+>   }
+> }
+>=20
+> parallel-memories DT changes:
+>  - Flash size information can be retrieved directly from the flash, so it=
+=20
+>    has been removed from the DT binding.
+>  - Each flash connected in parallel mode will have its own flash node.=20
+>    This allows us to verify that both flashes connected in parallel are=20
+>    identical, as each flash node will be probed separately.
+
+Well, you don't have to verify that. It's a basic hardware design
+constraint for using this mode.
+
+Otherwise same comment as above, this description doesn't allow
+correct partitioning and that was one of the main constraints back when
+we discussed these needs.
+
+>  - The parallel-memories DT bindings will contain the phandles of the=20
+>    flash nodes connected in parallel.
+>=20
+> spi@0 {
+>  =20
+>   flash@0 {
+>     compatible =3D "jedec,spi-nor"
+>     reg =3D <0x00>;
+>     parallel-memories =3D <&flash@0 &flash@1>;
+>     spi-max-frequency =3D <50000000>;
+>     ...
+>               partition@0 {=20
+>         label =3D "qspi-0";
+>         reg =3D <0x0 0xf00000>;
+>     };
+>                        =20
+>=20
+>   }
+>  =20
+>   flash@1 {
+>     compatible =3D "jedec,spi-nor"
+>               reg =3D <0x01>;
+>     spi-max-frequency =3D <50000000>;
+>     ...
+>               partition@0 {=20
+>         label =3D "qspi-1";
+>         reg =3D <0x0 0x800000>;
+>     };
+>   }
+> }
+
+Thanks,
+Miqu=C3=A8l
