@@ -1,770 +1,211 @@
-Received: from EUR03-AM7-obe.outbound.protection.outlook.com (mail-am7eur03olkn2073.outbound.protection.outlook.com [40.92.59.73])
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2075.outbound.protection.outlook.com [40.107.102.75])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA83D1114;
-	Mon, 12 Aug 2024 00:30:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.59.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCECD37B;
+	Mon, 12 Aug 2024 04:34:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.102.75
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723422642; cv=fail; b=Dqxknfh9LrqhQqb89lL4iRXLnx8QnevkrUaVrPgQ8ZRwUFWpF5sfikteno7btMgbEd01LXuBoPtIYhv3EGxR9rOy6bYdtuz/o41LZITsoeYUBNmTBSVw3kPihgDi/upV9UKrJc9mURuuvGE2LJIiW5Jqfzbuaw75cDHLAI4RrjI=
+	t=1723437279; cv=fail; b=T4af2QSfHTolwA7ErsdgA228dCFOieHYGnWRyl2v6fWGe9rWWSELjU31pwtsdt3bXH1jnJQUx1cO6ztqooDPSnTIFpeV4xS7tYademeZBGYfkG4kbLmVrs1wRlLdMBE5jewLjvewDLWxOpcShy4jrr3q2V8dozWSWKUpneiSvXY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723422642; c=relaxed/simple;
-	bh=MsVEVRQcLaDCwAkPHtuJtb0wytt3TltJ2xQkxlKJdLw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=KSQKAWqXTiD+8ZF4iXrZliL9c19aqKWLR6N36chXytNh334Cc+6Q7mXvyZnPVqkuIH0Z1Hsg32DkFCNN8MkPhZxJeI0CBZv+Ohi5QOrxnZggCYVF3Ecs+197Yzhr8iQLPjj/do5UY1xBkrRGCzxaCUTYkJjoH+gqj7GXku5nYJ4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=R9HRRnNJ; arc=fail smtp.client-ip=40.92.59.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	s=arc-20240116; t=1723437279; c=relaxed/simple;
+	bh=V+S6z4rLcjDjsV7McO+rZrCXJO56Ka7y969S9C03cKg=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=I+W2t0HARe1h0rJWuDSa+rPvXMKH/TmgsARR96BulWYzfw6nxllIPgO8HQX+H3DoR39bJieThpeANq8TNsCYJsqRsprlHhkkM08vLkE3j/tL3slOLbq+tmmlHf8EiMknxGyJI2FUYSiLHfB8JzzvdGYOm3ko6Awh7ITUXelaOo0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=UN+LJ5cw; arc=fail smtp.client-ip=40.107.102.75
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="R9HRRnNJ"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="UN+LJ5cw"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xtLppUYgjOcgC0SdGxr0tXGCImqBuZaVlPTrehCqn4CK5hqweXQPf/cY/FLVAI9lksnZq2PiZ8+YGjZW3KIiOh0se1bg7KQxdHpNMwJoYHbPK1QusB/cfxdGYgGy5CQebV9rFJCqRwlOgNs3jH/35PnBOu5nfBHC/xs4ftDzwBLdgFuYdQL1lcBYOIk9y5z+945IIlw/igpAZiOSOMatz+iqCUmXPqrXcnkrYO8D1pys3OmW7NOP8Ncx5xNMj5vE317AxUKjhAaaHgHOlbylKQiCRVIKoQXT6XBkOZXx+HBdtxNHnHPG4WvPpWr/diqvbKKsmzQhPoD4wyjmFItmMw==
+ b=E6gF5+eu5EfvX7eDeYdYx7aijP3LJ0PP7OCDjJgvMtS4FGWo5fK3Hf0Si662jQGgvgnOknTMJ72JrrEaqk6x6b6mQvjitVuOXNkebKEYREvNvDsgXACMjZLjsYnC3FfMmTvgsNoJcmgDBKFhfYDbgXKfmWAEWrBGlgkhlLtjltvmBZ6qHPB6nReXVTndX9M1k08he9G1t56x7wlz4emyjogMX13XWbOVWp1yqwTVET4DyD0C+tq8sF2Yy6pQ9EmmlfQV0Ul2zssQqZMfnGZDjmaJ/XHwqjwSm/9/4JGH6gj8SsawHG0rWKecN8NlJM3HZQjyW1PVtMMWbqFrcvHVWA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JAU4lu16TIDrt+GMNxujr5vaNeVAnV2EVBdtGws+4LI=;
- b=j2EexkVAQ+qUMNqSa8T/x/q5Q0/hKQairoA9qLbAFCrvOhTBrOI/d4gzYrzR+vfsQx4VuDzWLzkBbG+kQXdzXuBnjx+50BNTM2gvMNEL1KgHtbOHg91ebk4S7CG6WoqZMLWKc1wcOXWjSAoAP/+iI7Z28xiz7kjEdwOCIG5XIXU1A0ZDWOP/DfHgFJzAF63A2HNCZ1Dtx0I0k6eLHF+gjTjj4Bmd6/Zu2Kz6CJyjbEWNdzcdJWK4k0LDlsvYMHdnWdH/cYCEUBsIkcdUwYptPGVOLZ4z2KBPI6fSPc8NRJ6Uyi+D+TIIO/Q8Xvt39w8muqv+8qoUPD5DOTpX0IK/UA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
+ bh=nzyH2Hni2gWEjr3D/5t1ULn3T0UtJ6qrhEpo634w7cQ=;
+ b=EgizGwOpRbkdBjdsonNPgbZe83c8/ZY6Pv8prwHHFG7GuNyLH+myMj3uM0TjF1O0WnpvIySpSd/q+p2SLQ8zFlDbAScj+hm/vTFn+vG3wMBHpPLAb8SaXKNOGVnDUbl6mzQCoSt3CJvGBskYcvHSB4vAK7/MOCbVZEz1uxztvxq4ay+HLJLnkGsyKwqq8nbeet+iR4Oz94oUU5nME2xZN2hhgm3cYwSwyr7xAyv32jQm1sS2lIfWzuYCkIV+EduU6saqEb4qdDTK1TeL9KQDHITpWbjdQg43VqYhvYxVu5HKxMc/T9ztQdBiRCPhohE3kBPzjAVnoLBNO3s/AxbmNA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JAU4lu16TIDrt+GMNxujr5vaNeVAnV2EVBdtGws+4LI=;
- b=R9HRRnNJJ8H8YwqLdyWdCu5APDFnhJTWenSVEH79OtGrBrMJ5O1e4iueud8L2IEswwPukWYZX8Xo/1w/KQtiY6N5TR6dV5I3WBEWBbLpmNTcTZLMy6XN8kwnAi1ZG6KEEapP09U3ylLNgDUK74sQtEIT18ogrrxHnBVYLM199/uaAr66V1wE7eHktfjAvixls+goN/kFfQjY+pvYwTM3BF0EpkiLhm4VMCjRtqCGOiVfQtI2sajW+qlbHrQIIfZa3iNNkF8bKKBeW7URQWzoKtO4gzCXrq+3mX3DEAUgvqa8bE+h3fBYMbM5G7P7rx4CNMN0Gv1/MKmLMgYwrK7igQ==
-Received: from AS8P190MB1285.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:2e0::21)
- by DU0P190MB2027.EURP190.PROD.OUTLOOK.COM (2603:10a6:10:3b4::16) with
+ bh=nzyH2Hni2gWEjr3D/5t1ULn3T0UtJ6qrhEpo634w7cQ=;
+ b=UN+LJ5cwRhKIOfYxnbpgEq5+6xXpN3wXrmDBNIKur4n4jUOY0mKx4F8g+74DbsUv5LPfNLlH0dhPEmU7g3gRQDDPbaLHrUpM/3b2aKMEehOVUHcFHr0mZR6uieOPD3myZMEz3zRCKETUUdRA5gTfQIG6eFld/GbS9MpzPVsjBa4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB4123.namprd12.prod.outlook.com (2603:10b6:5:21f::23)
+ by CH2PR12MB4248.namprd12.prod.outlook.com (2603:10b6:610:7a::23) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.20; Mon, 12 Aug
- 2024 00:30:35 +0000
-Received: from AS8P190MB1285.EURP190.PROD.OUTLOOK.COM
- ([fe80::5307:a61:337b:f3fb]) by AS8P190MB1285.EURP190.PROD.OUTLOOK.COM
- ([fe80::5307:a61:337b:f3fb%5]) with mapi id 15.20.7849.019; Mon, 12 Aug 2024
- 00:30:35 +0000
-From: Karol Kosik <k.kosik@outlook.com>
-To:
-Cc: Karol Kosik <k.kosik@outlook.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	"Steven 'Steve' Kendall" <skend@chromium.org>,
-	Alexander Tsoy <alexander@tsoy.me>,
-	wangdicheng <wangdicheng@kylinos.cn>,
-	Kenny Levinsen <kl@kl.wtf>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Christos Skevis <xristos.thes@gmail.com>,
-	"Geoffrey D. Bennett" <g@b4.vu>,
-	Sarah Grant <s@srd.tw>,
-	Stefan Stistrup <sstistrup@gmail.com>,
-	Johan Carlsson <johan.carlsson@teenage.engineering>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] ALSA: usb-audio: Support multiple control interfaces
-Date: Sun, 11 Aug 2024 17:29:56 -0700
-Message-ID:
- <AS8P190MB1285893F4735C8B32AD3886BEC852@AS8P190MB1285.EURP190.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <87plqfjwdl.wl-tiwai@suse.de>
-References: <87plqfjwdl.wl-tiwai@suse.de>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN: [lVUNBPkzmnbG0+wlu5ULsnjUala456Nq]
-X-ClientProxiedBy: MN2PR20CA0032.namprd20.prod.outlook.com
- (2603:10b6:208:e8::45) To AS8P190MB1285.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:20b:2e0::21)
-X-Microsoft-Original-Message-ID: <20240812003008.239853-1-k.kosik@outlook.com>
+ 2024 04:34:35 +0000
+Received: from DM6PR12MB4123.namprd12.prod.outlook.com
+ ([fe80::512d:6caa:552a:7ebf]) by DM6PR12MB4123.namprd12.prod.outlook.com
+ ([fe80::512d:6caa:552a:7ebf%4]) with mapi id 15.20.7849.019; Mon, 12 Aug 2024
+ 04:34:35 +0000
+Message-ID: <d4efa03d-97bd-4ade-8cbf-e51bc74071d0@amd.com>
+Date: Mon, 12 Aug 2024 10:04:24 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/8] ASoC: SOF: amd: fix for acp error reason registers
+ wrong offset
+Content-Language: en-US
+To: Mark Brown <broonie@kernel.org>
+Cc: alsa-devel@alsa-project.org, Basavaraj.Hiregoudar@amd.com,
+ Sunil-kumar.Dommati@amd.com, venkataprasad.potturu@amd.com,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, Jaroslav Kysela
+ <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ "moderated list:SOUND - SOUND OPEN FIRMWARE (SOF) DRIVERS"
+ <sound-open-firmware@alsa-project.org>,
+ "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..."
+ <linux-sound@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+References: <20240807051341.1616925-1-Vijendar.Mukunda@amd.com>
+ <20240807051341.1616925-2-Vijendar.Mukunda@amd.com>
+ <ZrUdOyGiFRH0sRlt@finisterre.sirena.org.uk>
+ <a6a0c975-728b-4379-b074-b88ac928c58b@amd.com>
+ <ZrXGzmhgyIJ9ID6I@finisterre.sirena.org.uk>
+ <adeb6cf8-1fb6-4bf7-8d36-504b22c366be@amd.com>
+ <Zrall8SwKewe2_hJ@finisterre.sirena.org.uk>
+From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
+In-Reply-To: <Zrall8SwKewe2_hJ@finisterre.sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN2PEPF000001AE.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c04::a) To DM6PR12MB4123.namprd12.prod.outlook.com
+ (2603:10b6:5:21f::23)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8P190MB1285:EE_|DU0P190MB2027:EE_
-X-MS-Office365-Filtering-Correlation-Id: d43f2020-42f2-4d08-5d9d-08dcba65fb6f
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|461199028|15080799003|19110799003|5072599009|8060799006|440099028|4302099013|3412199025|1602099012|1710799026;
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4123:EE_|CH2PR12MB4248:EE_
+X-MS-Office365-Filtering-Correlation-Id: e1e85147-d602-4b8b-eaec-08dcba88117b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	waD91Xw4Ge5SQq/1893P3P/Xndy+Fqbg301Y+dr7VbYRI2+h71FwQNFqKBE34K0J50nkSLYfbK4eklv9JvTk+LTUTx4wfwx3+a45UcPp+U9Ntdn7tRBGR7miJDyrUV7bz6TvCF5bYpzzIL0gJ6REFDIXxideGiAD41caGc4minQVMMwYvmu41b7c4eUyICceE3OC2egUwZ+LqR8k09NJg4KzBLMJBG21Kbp9cwHwC0gfmn9WYrzKRefIG5O1keJoUiI7UsM3Gr+cQmE3JobEEHiYteVuv8/RIicUeLNzvZ06YdkpeaNw/tk/F2eWvUeP4fC4ZQFzm7wRAkkQXhffrt2VAaAOobQiYliC2BZZVtau4bitk48hCV1bkbdb4PncwJWxevZygNCf+MhqrfKPvGJOD1pr9Upq7uaaKJG9DB3nmOkFLPZ0Iuxjge+MR6VzfRlBlMohOb4eauzyK72xfelNaojpikA7hNUfZYMK3LrHeTGgVsZqpVNVBKZkfyCDIe/dbPN6aazcZyg3b0pOZ4UejFklJktvua8WfPqre1l312NpIASB6DLqa0rhgWpgm5NV5GPJFboOaxqVZE0aFhLXoGOM6SqtaG7mtBaon6BsgdBJBnV41XuQbE0MQ+J5IxM7j5fQNM8vp8yAbPxTevfMgZBw/8WarNaqsfKXA09MVJhzg0OY1EwTF+KUkHWjOQuQxOoyxIYnruIP4K9hEmMMFyQKIr8m8s2mqxBKd57rN090jBihfHZFjdeWWSwCeYNmtHH23XF6xq0cJh04rQLMuf6T5F1OBKVXWh/VME9510hxS3qUyyAnLvmLMuOrUubAVGJ2Qnuy+bsIuqZKIQ==
+	=?utf-8?B?MFNWWExpOXJMWDlpY0VpRSs0ZHh2Y0J3TFYvMHM5aG5aVENXTHk4aDg1bnlY?=
+ =?utf-8?B?V1FuV29oYlVzQTlIWFNWbm5XeTNKMFNlRzE0TnBjMmJhQTE5bll3K3pnNDlo?=
+ =?utf-8?B?WlJkV05VZTdHRmJTK2lLYkp0WDBwYkJyMDRSS1QrK1ZXSUJobHFtbEsvdlR6?=
+ =?utf-8?B?aktvOWNyRlJwT2lTUzJVdUN1ZldrQmRvS1JRbDlhdEY5UVQxYzMxK3Q5am50?=
+ =?utf-8?B?ZElsMU1XbnFmMVBQL3N2NVIrQ3lLMm1SZE56dENXeExUcVNVeDVqQUZIMlhD?=
+ =?utf-8?B?dWlLNVdkRUJHS2d1aUM3MHo2bVBQbVk3M3VEbmZIY0xIbnJqOWtIeVJtdDRz?=
+ =?utf-8?B?TkNMUGwwZEFiZzQyaEZWb1ZWU1kydWtpUndEdDhLUzRaY3ZRdDBjSTdCYTF5?=
+ =?utf-8?B?Z0dkUjdFeStmZytsblVHOGZmVDcyK3VzT3RBaWc1NVJ4RUgxSEd5SlNONzVo?=
+ =?utf-8?B?MmRKUUxIWGgrM2M3SThFa0NzenVWYzlGR1BFempWTVlqQ2RMeEFmL3A4enNC?=
+ =?utf-8?B?NUdzVVpIVTd3QlpXZVYzR0dNY0pONzl3TFFCd2RHZ1krZnRZOWZPTUhsWmV5?=
+ =?utf-8?B?c1dibndXdEpzT3hCVEJ1OHF5K2I3ZkZUSTZsUVZPRjdmSVFKdVUybmgzWndG?=
+ =?utf-8?B?N3RlYmZKc1B5VE1NejQ4TzYvaXh3djNhMlBYRTY2OGR4TGpTVTVKMVA4YW1H?=
+ =?utf-8?B?bFNXb0xqZEkzZzFvOWl0aTRhU0pCY24zUnkyejR3TDVSYnV5WDdINjV4clZu?=
+ =?utf-8?B?SG4yN3BaMzAySEhtVW1uaUlZcmVodFhmSzN5dTBNQnRvTldmVFk3b0lFVDQ4?=
+ =?utf-8?B?Vzl5K1ZoaDJYY1lPNmk0blZzNHRsVVhpV1lqamN3WnpPMlNja1ZmaVh5UmpV?=
+ =?utf-8?B?UWNjdDJrbElOSERlaSszZkZkeS9LdkVBakxCT2ZjclJJTTAxZDdRWDMzQmk4?=
+ =?utf-8?B?bFI0eEtYZlUzK1hoc0kvZWQrNXJTdVFiN29PR0JVbnk2N3lCMnUvVkVnbENm?=
+ =?utf-8?B?YlI1Q0VieDRwNmNndkFKWlBMWjhVZ3pwS1JYN083R2dmWloxeEZDSjVWMlZD?=
+ =?utf-8?B?TGVpQkh3bnBtbnducXNWNzhRRHMrNDRJd3NMK2VHWXFWdmFNVnc0M1ZVU0li?=
+ =?utf-8?B?eDlocm8wQ3VsY2d5RkdZc2hsVExiS01KZUpkVSt2RnNOOG41RzE5MUVuckIw?=
+ =?utf-8?B?Z2RxSCtnd1NlK0poSERDSXBDMFlZLzNzRGRRanhIaFpKa2hpckxvNnYzWFhK?=
+ =?utf-8?B?bFdOajB6aHhTRUg2bzgrbklNODJSNEdna3dyZ2RKb1BUaTN6SkFHQ2t4UUdY?=
+ =?utf-8?B?eWJRNGxQcmsyOXExNTZwWUQ0M1VHaEprM1UzcmNtTXF3LzU3T3lvTUtrZ0tX?=
+ =?utf-8?B?NXVKZVk4bDJZcTE1MjlJT0E5eS9RQjdobFVEOFI3Y3QrMHY2U0ZEQ1k3d3lZ?=
+ =?utf-8?B?Tnh4bHFhcVJIZ1VsZnhzY2FUOXc0azNmQ1hNZjIvbkwwQ1hHVVNYNE54VFkv?=
+ =?utf-8?B?SW5TSjd5YSt5N0RwKzZpa2g0aHlOY2pNT3NoQWhBaTJQUk9PN1ZIb3N1SEJ2?=
+ =?utf-8?B?ZjVMU01TMHpQUCszNk1ZTW5HRG11WFRkVUpCKy9nTVV1aE5sdTZtNHpFSFoz?=
+ =?utf-8?B?dW5JbW5yb0paMGR4WUhKZDBsNzdEMEhqbDJPYzRrN1RlMEdDM2xxRStUdlpz?=
+ =?utf-8?B?MXk0VnRMT0FMOTg1aGkzYitHUElqRWN0L0xQY0VtN1pXVlN6eDhRME5ITlFw?=
+ =?utf-8?B?TktIZGZFZEd0RDRnUHQ2WEtmSWpUWUJhWlpYMktmREx5MjRScHFIaTh5cDBB?=
+ =?utf-8?B?SlJVc3RjR0YzMSsxVVVSdz09?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4123.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?TAT9swPE2NkvZ/g14RWoMS/fgnJfrdq3+XPtq4EhwpBtDDg2+PySMoXPNU/B?=
- =?us-ascii?Q?7taFpY4yzvzEQhrx9TZeoMc5E5Y9WBWtvkLVYvXfHLo5LBVvpE5o4yDqokzv?=
- =?us-ascii?Q?bn2UxVlBM0HeqUAF6ijiY6I8vmyo44cPedKLH/qeQOh5HGTJtPvz2C266vSY?=
- =?us-ascii?Q?JvyK6jWX+cr6aIUJdBo60MJQhZ8xtYDp958EiFt3Yf8V4mUTpe4JVYttAJdT?=
- =?us-ascii?Q?OFRoZMI3CKEbyMUEYtE8TYFTuNhfw3/9QaPRApmEkRRQKXvMoc+6Ghf5M5RC?=
- =?us-ascii?Q?nfPbpQJun4FvXlevFcW57KIhswGqzY2osZapvMgLD6Kyey6Ou+cWb6azIJmz?=
- =?us-ascii?Q?P91ZtYr1YVsVLXcT4CCuSuNMBwVV9VX7gMJ0Svio/JrQvRNSwRG0uQ2sDwKB?=
- =?us-ascii?Q?vD0SYS+7lZrn1VjuFW6+6NqQrZCxpFjc7fDzLJSi/MUnRzTt9DrqpznR5WKA?=
- =?us-ascii?Q?iOF8xzIhn3tnuv+wo3tCMUa3C6hlVHkOa7BGkmAO/L+7M1A8qwVmHFMqNka1?=
- =?us-ascii?Q?Cqrk/ANV1UFdx+YiosLHXMMJyoetjpFrpvQcWTDf/3uE7oylj4fmKRV9MlJ+?=
- =?us-ascii?Q?H0DJaHQz5BVkYBUvgl7q5c8OYmHP/k280jUny1e/3wKNIW7/5Fe8qAP4iTB/?=
- =?us-ascii?Q?TjTB0xc+t3RaNQzMsRkHoIdgSnkDMerlnx2Ghs4WX/u6JipIfXb1VLy3bgcN?=
- =?us-ascii?Q?6w2p+gMvWllVkinathcPOqiTP2jUwp41DcQ7/0uTJB/nE460TKhnvuKAoA42?=
- =?us-ascii?Q?6/ojCV6DBwTrPQIPvw3Mduotml2OEefewHYDSisV2e/EDdVnDq+lIx2Awwyp?=
- =?us-ascii?Q?bZPareSbi7/Nk5y/PrqtRyfk2qgTpRYc9zOyd8UpjRskKdXuioSjPMErxGBI?=
- =?us-ascii?Q?O3ki1P4FirwoRXeQeVuxn+g3eAZvBbtLuSBSClFqkMSKdM91LLFsYNYCufcl?=
- =?us-ascii?Q?COW0XsMdD0ajTL9vWayVj5fO7uixA09NlYOTloLrO1LCqHEgEYErjGgMrr4V?=
- =?us-ascii?Q?5XfZsQmNPatwVO6LEPcGqdLfBc9at8juD6Cbd6P9CzGw4PD4Gy0vkjz9Wu2y?=
- =?us-ascii?Q?T2iDbYu3eqK02AwWULnLNiQ5uURhvfi1l4dxF/bI9ou3LgG4cbpdQEahvsC/?=
- =?us-ascii?Q?by/6xzSwjSiUU33EJrfQYRPjtU8KoswYn2ueo/n2UxWCYLTW+SFOitO7fY+7?=
- =?us-ascii?Q?V/ldu2t5OfN8TmeRGqswH8f1xYoMU15eXglXg2+CVkszdfSOotaSRm+Z4fY?=
- =?us-ascii?Q?=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d43f2020-42f2-4d08-5d9d-08dcba65fb6f
-X-MS-Exchange-CrossTenant-AuthSource: AS8P190MB1285.EURP190.PROD.OUTLOOK.COM
+	=?utf-8?B?ZVIyeXVpZ2dUaTNvWjFwMFBYMjVPdnBkS3BvdU1vcTc1Z2toL0dnS2xuSlhU?=
+ =?utf-8?B?aCtmZHV3ZzN4VUw4cG9NUHQrbGU4Y3V3NERqVWo1R29yaFNBUTdUaGpEZnU1?=
+ =?utf-8?B?bEJrQXdxenRMbmNFcTVJdE1yT1U2emhiZHh5UHQxSHJVNXd2MnNKVmlCUHdw?=
+ =?utf-8?B?d3Y5akxONVlGbkh3SXdHd0o3RUhWRGRVaUszQkZqTXNRNzlwOFFtRGVORytD?=
+ =?utf-8?B?bWpWaXZHWFladlJzdlIzaWkvd20rOWs2SzlpSkp5QVRxYnUwTDJRWENvWlo4?=
+ =?utf-8?B?ME9Zb3JaM1BOZGV3WUN6VFhPaUptUkhtK0pYemV6Ukgwc1VlRTh2bmQ2UUpG?=
+ =?utf-8?B?Q0UzODZUTW1qNnpjWVVmSCtEVS8zV09EenFvK1ZtMWlrWGdyVEg2WUtsQndQ?=
+ =?utf-8?B?TFFtYjIxcHBuYzh2YWpzL0RwRW5GVFlxak9XUGttL1pJR3VINzEvcUQwOStv?=
+ =?utf-8?B?ZmlaYkEvMHk0RGJ0bXQrK0QzRWpBOVNHTEtpVW5NN2FRTkhXb0J4VFZaVWlJ?=
+ =?utf-8?B?NTlrZGoyVlpZUnF5akVvemRSdTN3c0ZuUXJUWElVTUpJY25Bd0pyd1JyK044?=
+ =?utf-8?B?UVNxQkxhOStneGZMeXN6UzM4d2V3UzEyMktYU21zbHJBTzJBNSthWi9GNzdE?=
+ =?utf-8?B?T2k2UE9NTExwU0NEeWV6TS9Xa3Fad2FBcVh5NmpvRW16MXlRdThONXFTaTJn?=
+ =?utf-8?B?UXZBR1AyZDlJeXR5QVptNHdwMlI0Z2ZKM2l5ZURqV3grZWpHWW9pdlhkQ01R?=
+ =?utf-8?B?ekdXVjV0WmF4ZC96R0prVVhObVN2VkdpTVppR3FkTVJSM1FMcnAxL1ByOUZw?=
+ =?utf-8?B?UmQ5cDUxWmpUSThrdjIvUGk4YlJwbGhSM0d1MWNKUHZGL21XcWVZdWd2d3Nx?=
+ =?utf-8?B?WjBKNGxyU3lKdWovd2V4ZXVMYU9PWjJvVTZ6ZnYwVjY3Z0NSMEdmL2YzamlS?=
+ =?utf-8?B?UmhSaWJZU0FJN0l0T3dOVzB0YnRxYWJkRmFLOVRCTDczL2x6djVWdDk5czFR?=
+ =?utf-8?B?SS85YTVKREQrdWU3NGptWHhBNExvQnlhenZ3L0JiOVhFcnluVjg5NzlmeS9X?=
+ =?utf-8?B?NmViTm8wWTQ5WHphR2F0eWV1WGMySnZreW8ya3B0aHZoWEpib0JyZTRKTXBB?=
+ =?utf-8?B?ZjdOSHJMOVg3VnR0TlJzYUFPSTVPcGM2WThDUWlXVGxFaEphYU9vMW1YeUFy?=
+ =?utf-8?B?dTVYWlVzK0VJZ1VxYmN4YVVHbWppcEVUeHA0YnlYL1N6R0kzNmx6ZC9mRWZJ?=
+ =?utf-8?B?L3dtSkttSC9oeFVQdHRFSWhNbnU2Sk1hemNBUkN6a1R3a2Ivc0VoYjBMN2R6?=
+ =?utf-8?B?cndBbTk0OEdqYU82N0ZMVndHZU5IRTMzcGZRVHpmTFpBb3VrU1dRaXdoa3Vk?=
+ =?utf-8?B?WjRFYmFCNEJhMFlFcWZIems2b2tzTmtlWGVKNEM1bWhQMi84ZCtmNFhFS1dB?=
+ =?utf-8?B?NXo3VE53aFJEbGFiaCtaRlB1YTNKSjFkQW1LVmNqN0JqSmNHQWNmZ1llcVIr?=
+ =?utf-8?B?ckxHcFVIdm4vc2lMYWVFQnZDb3BGM1FUWFpvZS9qeXFYQ0ZlY0VuZ2VPa3NL?=
+ =?utf-8?B?QkpsQ2crUmpTRDUxT2NubGtzL0hlQXpaMDNWOExnNHN6QStxTVdBa0wrM1k1?=
+ =?utf-8?B?dktaVXIwdmxQaTNnaHlXaEN5U1A1ci9Pd2tNSk5jd3hxd2tNSWNtWXBxMUV2?=
+ =?utf-8?B?SVJPeUh3RFpLVkZidTNwT2wyY25MNlB3VjgxOWwxaHl0eHBkNWYvZHh5Skdy?=
+ =?utf-8?B?NHBzaDcxeEpTcmpTM0s2bFU2ajNNMDJkd05GaWJaZ2xqeTZxQ2VhcmdWNm8v?=
+ =?utf-8?B?ZGdWOFM2VkI3OTJpQk9jUU9GSDVGSjVPRnJMWjdIbk92N1JpbVN6S2VRU2FP?=
+ =?utf-8?B?TGVTT3RTbkxJWjhyM0xyaW9pR25uZFZhTDkxc1BvYWdGcmR4S205eGVBTVhk?=
+ =?utf-8?B?RkM4Ryt4UVhnUkxxbTNKUmNxUlpnd0N4YnRFU09mdmxySXE5Z2RYT2Q5MVBC?=
+ =?utf-8?B?bWJrelpVQzIxdHJYNjBpYThNcU5rb2FGR2ZDbFNOM0QwM0lHM3UwWVh3bjd0?=
+ =?utf-8?B?bThMeWtveXM4ZjZLT3hueHVFTFdXRnRWcVcvUHRpUlUyV2M0MnRDdVZMUThT?=
+ =?utf-8?Q?U0dRIDxPHxlWmk6RKCmFuZ6D0?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e1e85147-d602-4b8b-eaec-08dcba88117b
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4123.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2024 00:30:35.5348
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2024 04:34:35.2551
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0P190MB2027
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fwhWj/bD6YoxSsXMISTx7hDHnGoDGtPtdm98U0oM8b3YJNB2H8cYWw6MZspACFN8wSPQHO1pQBjo+9KYoLb6HA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4248
 
-Registering Numark Party Mix II fails with error 'bogus bTerminalLink 1'.
-The problem stems from the driver not being able to find input/output
-terminals required to configure audio streaming. The information about
-those terminals is stored in AudioControl Interface. Numark device
-contains 2 AudioControl Interfaces and the driver checks only one of them.
-
-According to the USB standard, a device can have multiple audio functions,
-each represented by Audio Interface Collection. Every audio function is
-considered to be closed box and will contain unique AudioControl Interface
-and zero or more AudioStreaming and MIDIStreaming Interfaces.
-
-The Numark device adheres to the standard and defines two audio functions:
-- MIDIStreaming function
-- AudioStreaming function
-It starts with MIDI function, followed by the audio function. The driver
-saves the first AudioControl Interface in `snd_usb_audio` structure
-associated with the entire device. It then attempts to use this interface
-to query for terminals and clocks. However, this fails because the correct
-information is stored in the second AudioControl Interface, defined in the
-second Audio Interface Collection.
-
-This patch introduces a structure holding association between each
-MIDI/Audio Interface and its corresponding AudioControl Interface,
-instead of relying on AudioControl Interface defined for the entire
-device. This structure is populated during usb probing phase and leveraged
-later when querying for terminals and when sending USB requests.
-
-Alternative solutions considered include:
-- defining a quirk for Numark where the order of interface is manually
-changed, or terminals are hardcoded in the driver. This solution would
-have fixed only this model, though it seems that device is USB compliant,
-and it also seems that other devices from this company may be affected.
-What's more, it looks like products from other manufacturers have similar
-problems, i.e. Rane One DJ console
-- keeping a list of all AudioControl Interfaces and querying all of them
-to find required information. That would have solved my problem and have
-low probability of breaking other devices, as we would always start with
-the same logic of querying first AudioControl Interface. This solution
-would not have followed the standard though.
-
-This patch preserves the `snd_usb_audio.ctrl_intf` variable, which holds
-the first AudioControl Interface, and uses it as a fallback when some
-interfaces are not parsed correctly and lack an associated AudioControl
-Interface, i.e., when configured via quirks.
-
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=217865
-
-Signed-off-by: Karol Kosik <k.kosik@outlook.com>
----
- sound/usb/card.c           |  2 ++
- sound/usb/clock.c          | 62 ++++++++++++++++++++++++--------------
- sound/usb/format.c         |  6 ++--
- sound/usb/helper.c         | 34 +++++++++++++++++++++
- sound/usb/helper.h         | 10 ++++--
- sound/usb/mixer.c          |  2 +-
- sound/usb/mixer_quirks.c   | 17 ++++++-----
- sound/usb/mixer_scarlett.c |  4 +--
- sound/usb/power.c          |  3 +-
- sound/usb/power.h          |  1 +
- sound/usb/stream.c         | 21 ++++++++-----
- sound/usb/usbaudio.h       | 12 ++++++++
- 12 files changed, 127 insertions(+), 47 deletions(-)
-
-diff --git a/sound/usb/card.c b/sound/usb/card.c
-index bdb04fa37a71..778de9244f1e 100644
---- a/sound/usb/card.c
-+++ b/sound/usb/card.c
-@@ -206,6 +206,8 @@ static int snd_usb_create_stream(struct snd_usb_audio *chip, int ctrlif, int int
- 		return -EINVAL;
- 	}
- 
-+	snd_usb_add_ctrl_interface_link(chip, interface, ctrlif);
-+
- 	if (! snd_usb_parse_audio_interface(chip, interface)) {
- 		usb_set_interface(dev, interface, 0); /* reset the current interface */
- 		return usb_driver_claim_interface(&usb_audio_driver, iface,
-diff --git a/sound/usb/clock.c b/sound/usb/clock.c
-index 60fcb872a80b..8f85200292f3 100644
---- a/sound/usb/clock.c
-+++ b/sound/usb/clock.c
-@@ -76,11 +76,14 @@ static bool validate_clock_multiplier(void *p, int id, int proto)
- }
- 
- #define DEFINE_FIND_HELPER(name, obj, validator, type2, type3)		\
--static obj *name(struct snd_usb_audio *chip, int id, int proto)	\
-+static obj *name(struct snd_usb_audio *chip, int id,	\
-+				const struct audioformat *fmt)	\
- {									\
--	return find_uac_clock_desc(chip->ctrl_intf, id, validator,	\
--				   proto == UAC_VERSION_3 ? (type3) : (type2), \
--				   proto);				\
-+	struct usb_host_interface *ctrl_intf =	\
-+		snd_usb_find_ctrl_interface(chip, fmt->iface); \
-+	return find_uac_clock_desc(ctrl_intf, id, validator,	\
-+				   fmt->protocol == UAC_VERSION_3 ? (type3) : (type2), \
-+				   fmt->protocol);				\
- }
- 
- DEFINE_FIND_HELPER(snd_usb_find_clock_source,
-@@ -93,16 +96,19 @@ DEFINE_FIND_HELPER(snd_usb_find_clock_multiplier,
- 		   union uac23_clock_multiplier_desc, validate_clock_multiplier,
- 		   UAC2_CLOCK_MULTIPLIER, UAC3_CLOCK_MULTIPLIER);
- 
--static int uac_clock_selector_get_val(struct snd_usb_audio *chip, int selector_id)
-+static int uac_clock_selector_get_val(struct snd_usb_audio *chip,
-+				int selector_id, int iface_no)
- {
-+	struct usb_host_interface *ctrl_intf;
- 	unsigned char buf;
- 	int ret;
- 
-+	ctrl_intf = snd_usb_find_ctrl_interface(chip, iface_no);
- 	ret = snd_usb_ctl_msg(chip->dev, usb_rcvctrlpipe(chip->dev, 0),
- 			      UAC2_CS_CUR,
- 			      USB_RECIP_INTERFACE | USB_TYPE_CLASS | USB_DIR_IN,
- 			      UAC2_CX_CLOCK_SELECTOR << 8,
--			      snd_usb_ctrl_intf(chip) | (selector_id << 8),
-+			      snd_usb_ctrl_intf(ctrl_intf) | (selector_id << 8),
- 			      &buf, sizeof(buf));
- 
- 	if (ret < 0)
-@@ -111,16 +117,18 @@ static int uac_clock_selector_get_val(struct snd_usb_audio *chip, int selector_i
- 	return buf;
- }
- 
--static int uac_clock_selector_set_val(struct snd_usb_audio *chip, int selector_id,
--					unsigned char pin)
-+static int uac_clock_selector_set_val(struct snd_usb_audio *chip,
-+					int selector_id, unsigned char pin, int iface_no)
- {
-+	struct usb_host_interface *ctrl_intf;
- 	int ret;
- 
-+	ctrl_intf = snd_usb_find_ctrl_interface(chip, iface_no);
- 	ret = snd_usb_ctl_msg(chip->dev, usb_sndctrlpipe(chip->dev, 0),
- 			      UAC2_CS_CUR,
- 			      USB_RECIP_INTERFACE | USB_TYPE_CLASS | USB_DIR_OUT,
- 			      UAC2_CX_CLOCK_SELECTOR << 8,
--			      snd_usb_ctrl_intf(chip) | (selector_id << 8),
-+			      snd_usb_ctrl_intf(ctrl_intf) | (selector_id << 8),
- 			      &pin, sizeof(pin));
- 	if (ret < 0)
- 		return ret;
-@@ -132,7 +140,7 @@ static int uac_clock_selector_set_val(struct snd_usb_audio *chip, int selector_i
- 		return -EINVAL;
- 	}
- 
--	ret = uac_clock_selector_get_val(chip, selector_id);
-+	ret = uac_clock_selector_get_val(chip, selector_id, iface_no);
- 	if (ret < 0)
- 		return ret;
- 
-@@ -155,8 +163,10 @@ static bool uac_clock_source_is_valid_quirk(struct snd_usb_audio *chip,
- 	unsigned char data;
- 	struct usb_device *dev = chip->dev;
- 	union uac23_clock_source_desc *cs_desc;
-+	struct usb_host_interface *ctrl_intf;
- 
--	cs_desc = snd_usb_find_clock_source(chip, source_id, fmt->protocol);
-+	ctrl_intf = snd_usb_find_ctrl_interface(chip, fmt->iface);
-+	cs_desc = snd_usb_find_clock_source(chip, source_id, fmt);
- 	if (!cs_desc)
- 		return false;
- 
-@@ -191,7 +201,7 @@ static bool uac_clock_source_is_valid_quirk(struct snd_usb_audio *chip,
- 			err = snd_usb_ctl_msg(dev, usb_rcvctrlpipe(dev, 0), UAC2_CS_CUR,
- 					      USB_TYPE_CLASS | USB_RECIP_INTERFACE | USB_DIR_IN,
- 					      UAC2_CS_CONTROL_CLOCK_VALID << 8,
--					      snd_usb_ctrl_intf(chip) | (source_id << 8),
-+					      snd_usb_ctrl_intf(ctrl_intf) | (source_id << 8),
- 					      &data, sizeof(data));
- 			if (err < 0) {
- 				dev_warn(&dev->dev,
-@@ -217,8 +227,10 @@ static bool uac_clock_source_is_valid(struct snd_usb_audio *chip,
- 	struct usb_device *dev = chip->dev;
- 	u32 bmControls;
- 	union uac23_clock_source_desc *cs_desc;
-+	struct usb_host_interface *ctrl_intf;
- 
--	cs_desc = snd_usb_find_clock_source(chip, source_id, fmt->protocol);
-+	ctrl_intf = snd_usb_find_ctrl_interface(chip, fmt->iface);
-+	cs_desc = snd_usb_find_clock_source(chip, source_id, fmt);
- 	if (!cs_desc)
- 		return false;
- 
-@@ -235,7 +247,7 @@ static bool uac_clock_source_is_valid(struct snd_usb_audio *chip,
- 	err = snd_usb_ctl_msg(dev, usb_rcvctrlpipe(dev, 0), UAC2_CS_CUR,
- 			      USB_TYPE_CLASS | USB_RECIP_INTERFACE | USB_DIR_IN,
- 			      UAC2_CS_CONTROL_CLOCK_VALID << 8,
--			      snd_usb_ctrl_intf(chip) | (source_id << 8),
-+			      snd_usb_ctrl_intf(ctrl_intf) | (source_id << 8),
- 			      &data, sizeof(data));
- 
- 	if (err < 0) {
-@@ -274,7 +286,7 @@ static int __uac_clock_find_source(struct snd_usb_audio *chip,
- 	}
- 
- 	/* first, see if the ID we're looking at is a clock source already */
--	source = snd_usb_find_clock_source(chip, entity_id, proto);
-+	source = snd_usb_find_clock_source(chip, entity_id, fmt);
- 	if (source) {
- 		entity_id = GET_VAL(source, proto, bClockID);
- 		if (validate && !uac_clock_source_is_valid(chip, fmt,
-@@ -287,7 +299,7 @@ static int __uac_clock_find_source(struct snd_usb_audio *chip,
- 		return entity_id;
- 	}
- 
--	selector = snd_usb_find_clock_selector(chip, entity_id, proto);
-+	selector = snd_usb_find_clock_selector(chip, entity_id, fmt);
- 	if (selector) {
- 		pins = GET_VAL(selector, proto, bNrInPins);
- 		clock_id = GET_VAL(selector, proto, bClockID);
-@@ -317,7 +329,7 @@ static int __uac_clock_find_source(struct snd_usb_audio *chip,
- 
- 		/* the entity ID we are looking at is a selector.
- 		 * find out what it currently selects */
--		ret = uac_clock_selector_get_val(chip, clock_id);
-+		ret = uac_clock_selector_get_val(chip, clock_id, fmt->iface);
- 		if (ret < 0) {
- 			if (!chip->autoclock)
- 				return ret;
-@@ -346,7 +358,7 @@ static int __uac_clock_find_source(struct snd_usb_audio *chip,
- 			if (chip->quirk_flags & QUIRK_FLAG_SKIP_CLOCK_SELECTOR ||
- 			    !writeable)
- 				return ret;
--			err = uac_clock_selector_set_val(chip, entity_id, cur);
-+			err = uac_clock_selector_set_val(chip, entity_id, cur, fmt->iface);
- 			if (err < 0) {
- 				if (pins == 1) {
- 					usb_audio_dbg(chip,
-@@ -377,7 +389,7 @@ static int __uac_clock_find_source(struct snd_usb_audio *chip,
- 			if (ret < 0)
- 				continue;
- 
--			err = uac_clock_selector_set_val(chip, entity_id, i);
-+			err = uac_clock_selector_set_val(chip, entity_id, i, fmt->iface);
- 			if (err < 0)
- 				continue;
- 
-@@ -391,7 +403,7 @@ static int __uac_clock_find_source(struct snd_usb_audio *chip,
- 	}
- 
- 	/* FIXME: multipliers only act as pass-thru element for now */
--	multiplier = snd_usb_find_clock_multiplier(chip, entity_id, proto);
-+	multiplier = snd_usb_find_clock_multiplier(chip, entity_id, fmt);
- 	if (multiplier)
- 		return __uac_clock_find_source(chip, fmt,
- 					       GET_VAL(multiplier, proto, bCSourceID),
-@@ -491,11 +503,13 @@ static int get_sample_rate_v2v3(struct snd_usb_audio *chip, int iface,
- 	struct usb_device *dev = chip->dev;
- 	__le32 data;
- 	int err;
-+	struct usb_host_interface *ctrl_intf;
- 
-+	ctrl_intf = snd_usb_find_ctrl_interface(chip, iface);
- 	err = snd_usb_ctl_msg(dev, usb_rcvctrlpipe(dev, 0), UAC2_CS_CUR,
- 			      USB_TYPE_CLASS | USB_RECIP_INTERFACE | USB_DIR_IN,
- 			      UAC2_CS_CONTROL_SAM_FREQ << 8,
--			      snd_usb_ctrl_intf(chip) | (clock << 8),
-+			      snd_usb_ctrl_intf(ctrl_intf) | (clock << 8),
- 			      &data, sizeof(data));
- 	if (err < 0) {
- 		dev_warn(&dev->dev, "%d:%d: cannot get freq (v2/v3): err %d\n",
-@@ -524,8 +538,10 @@ int snd_usb_set_sample_rate_v2v3(struct snd_usb_audio *chip,
- 	__le32 data;
- 	int err;
- 	union uac23_clock_source_desc *cs_desc;
-+	struct usb_host_interface *ctrl_intf;
- 
--	cs_desc = snd_usb_find_clock_source(chip, clock, fmt->protocol);
-+	ctrl_intf = snd_usb_find_ctrl_interface(chip, fmt->iface);
-+	cs_desc = snd_usb_find_clock_source(chip, clock, fmt);
- 
- 	if (!cs_desc)
- 		return 0;
-@@ -544,7 +560,7 @@ int snd_usb_set_sample_rate_v2v3(struct snd_usb_audio *chip,
- 	err = snd_usb_ctl_msg(chip->dev, usb_sndctrlpipe(chip->dev, 0), UAC2_CS_CUR,
- 			      USB_TYPE_CLASS | USB_RECIP_INTERFACE | USB_DIR_OUT,
- 			      UAC2_CS_CONTROL_SAM_FREQ << 8,
--			      snd_usb_ctrl_intf(chip) | (clock << 8),
-+			      snd_usb_ctrl_intf(ctrl_intf) | (clock << 8),
- 			      &data, sizeof(data));
- 	if (err < 0)
- 		return err;
-diff --git a/sound/usb/format.c b/sound/usb/format.c
-index 1bb6a455a1b4..0cbf1d4fbe6e 100644
---- a/sound/usb/format.c
-+++ b/sound/usb/format.c
-@@ -545,7 +545,9 @@ static int parse_audio_format_rates_v2v3(struct snd_usb_audio *chip,
- 	unsigned char tmp[2], *data;
- 	int nr_triplets, data_size, ret = 0, ret_l6;
- 	int clock = snd_usb_clock_find_source(chip, fp, false);
-+	struct usb_host_interface *ctrl_intf;
- 
-+	ctrl_intf = snd_usb_find_ctrl_interface(chip, fp->iface);
- 	if (clock < 0) {
- 		dev_err(&dev->dev,
- 			"%s(): unable to find clock source (clock %d)\n",
-@@ -557,7 +559,7 @@ static int parse_audio_format_rates_v2v3(struct snd_usb_audio *chip,
- 	ret = snd_usb_ctl_msg(dev, usb_rcvctrlpipe(dev, 0), UAC2_CS_RANGE,
- 			      USB_TYPE_CLASS | USB_RECIP_INTERFACE | USB_DIR_IN,
- 			      UAC2_CS_CONTROL_SAM_FREQ << 8,
--			      snd_usb_ctrl_intf(chip) | (clock << 8),
-+			      snd_usb_ctrl_intf(ctrl_intf) | (clock << 8),
- 			      tmp, sizeof(tmp));
- 
- 	if (ret < 0) {
-@@ -592,7 +594,7 @@ static int parse_audio_format_rates_v2v3(struct snd_usb_audio *chip,
- 	ret = snd_usb_ctl_msg(dev, usb_rcvctrlpipe(dev, 0), UAC2_CS_RANGE,
- 			      USB_TYPE_CLASS | USB_RECIP_INTERFACE | USB_DIR_IN,
- 			      UAC2_CS_CONTROL_SAM_FREQ << 8,
--			      snd_usb_ctrl_intf(chip) | (clock << 8),
-+			      snd_usb_ctrl_intf(ctrl_intf) | (clock << 8),
- 			      data, data_size);
- 
- 	if (ret < 0) {
-diff --git a/sound/usb/helper.c b/sound/usb/helper.c
-index bf80e55d013a..72b671fb2c84 100644
---- a/sound/usb/helper.c
-+++ b/sound/usb/helper.c
-@@ -130,3 +130,37 @@ snd_usb_get_host_interface(struct snd_usb_audio *chip, int ifnum, int altsetting
- 		return NULL;
- 	return usb_altnum_to_altsetting(iface, altsetting);
- }
-+
-+int snd_usb_add_ctrl_interface_link(struct snd_usb_audio *chip, int ifnum,
-+		int ctrlif)
-+{
-+	struct usb_device *dev = chip->dev;
-+	struct usb_host_interface *host_iface;
-+
-+	if (chip->num_intf_to_ctrl >= MAX_CARD_INTERFACES) {
-+		dev_info(&dev->dev, "Too many interfaces assigned to the single USB-audio card\n");
-+		return -EINVAL;
-+	}
-+
-+	/* find audiocontrol interface */
-+	host_iface = &usb_ifnum_to_if(dev, ctrlif)->altsetting[0];
-+
-+	chip->intf_to_ctrl[chip->num_intf_to_ctrl].interface = ifnum;
-+	chip->intf_to_ctrl[chip->num_intf_to_ctrl].ctrl_intf = host_iface;
-+	chip->num_intf_to_ctrl++;
-+
-+	return 0;
-+}
-+
-+struct usb_host_interface *snd_usb_find_ctrl_interface(struct snd_usb_audio *chip,
-+							int ifnum)
-+{
-+	int i;
-+
-+	for (i = 0; i < chip->num_intf_to_ctrl; ++i)
-+		if (chip->intf_to_ctrl[i].interface == ifnum)
-+			return chip->intf_to_ctrl[i].ctrl_intf;
-+
-+	/* Fallback to first audiocontrol interface */
-+	return chip->ctrl_intf;
-+}
-diff --git a/sound/usb/helper.h b/sound/usb/helper.h
-index e2b51ec96ec6..0372e050b3dc 100644
---- a/sound/usb/helper.h
-+++ b/sound/usb/helper.h
-@@ -17,6 +17,12 @@ unsigned char snd_usb_parse_datainterval(struct snd_usb_audio *chip,
- struct usb_host_interface *
- snd_usb_get_host_interface(struct snd_usb_audio *chip, int ifnum, int altsetting);
- 
-+int snd_usb_add_ctrl_interface_link(struct snd_usb_audio *chip, int ifnum,
-+		int ctrlif);
-+
-+struct usb_host_interface *snd_usb_find_ctrl_interface(struct snd_usb_audio *chip,
-+								int ifnum);
-+
- /*
-  * retrieve usb_interface descriptor from the host interface
-  * (conditional for compatibility with the older API)
-@@ -28,9 +34,9 @@ snd_usb_get_host_interface(struct snd_usb_audio *chip, int ifnum, int altsetting
- 
- #define snd_usb_get_speed(dev) ((dev)->speed)
- 
--static inline int snd_usb_ctrl_intf(struct snd_usb_audio *chip)
-+static inline int snd_usb_ctrl_intf(struct usb_host_interface *ctrl_intf)
- {
--	return get_iface_desc(chip->ctrl_intf)->bInterfaceNumber;
-+	return get_iface_desc(ctrl_intf)->bInterfaceNumber;
- }
- 
- /* in validate.c */
-diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-index 2d27d729c3be..9945ae55b0d0 100644
---- a/sound/usb/mixer.c
-+++ b/sound/usb/mixer.c
-@@ -728,7 +728,7 @@ static int get_cluster_channels_v3(struct mixer_build *state, unsigned int clust
- 			UAC3_CS_REQ_HIGH_CAPABILITY_DESCRIPTOR,
- 			USB_RECIP_INTERFACE | USB_TYPE_CLASS | USB_DIR_IN,
- 			cluster_id,
--			snd_usb_ctrl_intf(state->chip),
-+			snd_usb_ctrl_intf(state->mixer->hostif),
- 			&c_header, sizeof(c_header));
- 	if (err < 0)
- 		goto error;
-diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-index d56e76fd5cbe..5d6792f51f4c 100644
---- a/sound/usb/mixer_quirks.c
-+++ b/sound/usb/mixer_quirks.c
-@@ -1043,7 +1043,7 @@ static int snd_ftu_eff_switch_init(struct usb_mixer_interface *mixer,
- 	err = snd_usb_ctl_msg(dev, usb_rcvctrlpipe(dev, 0), UAC_GET_CUR,
- 			      USB_RECIP_INTERFACE | USB_TYPE_CLASS | USB_DIR_IN,
- 			      pval & 0xff00,
--			      snd_usb_ctrl_intf(mixer->chip) | ((pval & 0xff) << 8),
-+			      snd_usb_ctrl_intf(mixer->hostif) | ((pval & 0xff) << 8),
- 			      value, 2);
- 	if (err < 0)
- 		return err;
-@@ -1077,7 +1077,7 @@ static int snd_ftu_eff_switch_update(struct usb_mixer_elem_list *list)
- 			      UAC_SET_CUR,
- 			      USB_RECIP_INTERFACE | USB_TYPE_CLASS | USB_DIR_OUT,
- 			      pval & 0xff00,
--			      snd_usb_ctrl_intf(chip) | ((pval & 0xff) << 8),
-+			      snd_usb_ctrl_intf(list->mixer->hostif) | ((pval & 0xff) << 8),
- 			      value, 2);
- 	snd_usb_unlock_shutdown(chip);
- 	return err;
-@@ -2115,24 +2115,25 @@ static int dell_dock_mixer_create(struct usb_mixer_interface *mixer)
- 	return 0;
- }
- 
--static void dell_dock_init_vol(struct snd_usb_audio *chip, int ch, int id)
-+static void dell_dock_init_vol(struct usb_mixer_interface *mixer, int ch, int id)
- {
-+	struct snd_usb_audio *chip = mixer->chip;
- 	u16 buf = 0;
- 
- 	snd_usb_ctl_msg(chip->dev, usb_sndctrlpipe(chip->dev, 0), UAC_SET_CUR,
- 			USB_RECIP_INTERFACE | USB_TYPE_CLASS | USB_DIR_OUT,
- 			(UAC_FU_VOLUME << 8) | ch,
--			snd_usb_ctrl_intf(chip) | (id << 8),
-+			snd_usb_ctrl_intf(mixer->hostif) | (id << 8),
- 			&buf, 2);
- }
- 
- static int dell_dock_mixer_init(struct usb_mixer_interface *mixer)
- {
- 	/* fix to 0dB playback volumes */
--	dell_dock_init_vol(mixer->chip, 1, 16);
--	dell_dock_init_vol(mixer->chip, 2, 16);
--	dell_dock_init_vol(mixer->chip, 1, 19);
--	dell_dock_init_vol(mixer->chip, 2, 19);
-+	dell_dock_init_vol(mixer, 1, 16);
-+	dell_dock_init_vol(mixer, 2, 16);
-+	dell_dock_init_vol(mixer, 1, 19);
-+	dell_dock_init_vol(mixer, 2, 19);
- 	return 0;
- }
- 
-diff --git a/sound/usb/mixer_scarlett.c b/sound/usb/mixer_scarlett.c
-index 0d6e4f15bf77..ff548041679b 100644
---- a/sound/usb/mixer_scarlett.c
-+++ b/sound/usb/mixer_scarlett.c
-@@ -460,7 +460,7 @@ static int scarlett_ctl_meter_get(struct snd_kcontrol *kctl,
- 	struct snd_usb_audio *chip = elem->head.mixer->chip;
- 	unsigned char buf[2 * MAX_CHANNELS] = {0, };
- 	int wValue = (elem->control << 8) | elem->idx_off;
--	int idx = snd_usb_ctrl_intf(chip) | (elem->head.id << 8);
-+	int idx = snd_usb_ctrl_intf(elem->head.mixer->hostif) | (elem->head.id << 8);
- 	int err;
- 
- 	err = snd_usb_ctl_msg(chip->dev,
-@@ -1002,7 +1002,7 @@ int snd_scarlett_controls_create(struct usb_mixer_interface *mixer)
- 	err = snd_usb_ctl_msg(mixer->chip->dev,
- 		usb_sndctrlpipe(mixer->chip->dev, 0), UAC2_CS_CUR,
- 		USB_RECIP_INTERFACE | USB_TYPE_CLASS |
--		USB_DIR_OUT, 0x0100, snd_usb_ctrl_intf(mixer->chip) |
-+		USB_DIR_OUT, 0x0100, snd_usb_ctrl_intf(mixer->hostif) |
- 		(0x29 << 8), sample_rate_buffer, 4);
- 	if (err < 0)
- 		return err;
-diff --git a/sound/usb/power.c b/sound/usb/power.c
-index 606a2cb23eab..66bd4daa68fd 100644
---- a/sound/usb/power.c
-+++ b/sound/usb/power.c
-@@ -40,6 +40,7 @@ snd_usb_find_power_domain(struct usb_host_interface *ctrl_iface,
- 					le16_to_cpu(pd_desc->waRecoveryTime1);
- 				pd->pd_d2d0_rec =
- 					le16_to_cpu(pd_desc->waRecoveryTime2);
-+				pd->ctrl_iface = ctrl_iface;
- 				return pd;
- 			}
- 		}
-@@ -57,7 +58,7 @@ int snd_usb_power_domain_set(struct snd_usb_audio *chip,
- 	unsigned char current_state;
- 	int err, idx;
- 
--	idx = snd_usb_ctrl_intf(chip) | (pd->pd_id << 8);
-+	idx = snd_usb_ctrl_intf(pd->ctrl_iface) | (pd->pd_id << 8);
- 
- 	err = snd_usb_ctl_msg(chip->dev, usb_rcvctrlpipe(chip->dev, 0),
- 			      UAC2_CS_CUR,
-diff --git a/sound/usb/power.h b/sound/usb/power.h
-index 396e3e51440a..1fa92ad0ca92 100644
---- a/sound/usb/power.h
-+++ b/sound/usb/power.h
-@@ -6,6 +6,7 @@ struct snd_usb_power_domain {
- 	int pd_id;              /* UAC3 Power Domain ID */
- 	int pd_d1d0_rec;        /* D1 to D0 recovery time */
- 	int pd_d2d0_rec;        /* D2 to D0 recovery time */
-+	struct usb_host_interface *ctrl_iface; /* Control interface */
- };
- 
- enum {
-diff --git a/sound/usb/stream.c b/sound/usb/stream.c
-index e14c725acebf..d70c140813d6 100644
---- a/sound/usb/stream.c
-+++ b/sound/usb/stream.c
-@@ -713,10 +713,13 @@ snd_usb_get_audioformat_uac12(struct snd_usb_audio *chip,
- 	struct usb_device *dev = chip->dev;
- 	struct uac_format_type_i_continuous_descriptor *fmt;
- 	unsigned int num_channels = 0, chconfig = 0;
-+	struct usb_host_interface *ctrl_intf;
- 	struct audioformat *fp;
- 	int clock = 0;
- 	u64 format;
- 
-+	ctrl_intf = snd_usb_find_ctrl_interface(chip, iface_no);
-+
- 	/* get audio formats */
- 	if (protocol == UAC_VERSION_1) {
- 		struct uac1_as_header_descriptor *as =
-@@ -740,7 +743,7 @@ snd_usb_get_audioformat_uac12(struct snd_usb_audio *chip,
- 
- 		format = le16_to_cpu(as->wFormatTag); /* remember the format value */
- 
--		iterm = snd_usb_find_input_terminal_descriptor(chip->ctrl_intf,
-+		iterm = snd_usb_find_input_terminal_descriptor(ctrl_intf,
- 							       as->bTerminalLink,
- 							       protocol);
- 		if (iterm) {
-@@ -776,7 +779,7 @@ snd_usb_get_audioformat_uac12(struct snd_usb_audio *chip,
- 		 * lookup the terminal associated to this interface
- 		 * to extract the clock
- 		 */
--		input_term = snd_usb_find_input_terminal_descriptor(chip->ctrl_intf,
-+		input_term = snd_usb_find_input_terminal_descriptor(ctrl_intf,
- 								    as->bTerminalLink,
- 								    protocol);
- 		if (input_term) {
-@@ -786,7 +789,7 @@ snd_usb_get_audioformat_uac12(struct snd_usb_audio *chip,
- 			goto found_clock;
- 		}
- 
--		output_term = snd_usb_find_output_terminal_descriptor(chip->ctrl_intf,
-+		output_term = snd_usb_find_output_terminal_descriptor(ctrl_intf,
- 								      as->bTerminalLink,
- 								      protocol);
- 		if (output_term) {
-@@ -870,6 +873,7 @@ snd_usb_get_audioformat_uac3(struct snd_usb_audio *chip,
- 	struct uac3_cluster_header_descriptor *cluster;
- 	struct uac3_as_header_descriptor *as = NULL;
- 	struct uac3_hc_descriptor_header hc_header;
-+	struct usb_host_interface *ctrl_intf;
- 	struct snd_pcm_chmap_elem *chmap;
- 	struct snd_usb_power_domain *pd;
- 	unsigned char badd_profile;
-@@ -881,6 +885,7 @@ snd_usb_get_audioformat_uac3(struct snd_usb_audio *chip,
- 	int err;
- 
- 	badd_profile = chip->badd_profile;
-+	ctrl_intf = snd_usb_find_ctrl_interface(chip, iface_no);
- 
- 	if (badd_profile >= UAC3_FUNCTION_SUBCLASS_GENERIC_IO) {
- 		unsigned int maxpacksize =
-@@ -966,7 +971,7 @@ snd_usb_get_audioformat_uac3(struct snd_usb_audio *chip,
- 			UAC3_CS_REQ_HIGH_CAPABILITY_DESCRIPTOR,
- 			USB_RECIP_INTERFACE | USB_TYPE_CLASS | USB_DIR_IN,
- 			cluster_id,
--			snd_usb_ctrl_intf(chip),
-+			snd_usb_ctrl_intf(ctrl_intf),
- 			&hc_header, sizeof(hc_header));
- 	if (err < 0)
- 		return ERR_PTR(err);
-@@ -990,7 +995,7 @@ snd_usb_get_audioformat_uac3(struct snd_usb_audio *chip,
- 			UAC3_CS_REQ_HIGH_CAPABILITY_DESCRIPTOR,
- 			USB_RECIP_INTERFACE | USB_TYPE_CLASS | USB_DIR_IN,
- 			cluster_id,
--			snd_usb_ctrl_intf(chip),
-+			snd_usb_ctrl_intf(ctrl_intf),
- 			cluster, wLength);
- 	if (err < 0) {
- 		kfree(cluster);
-@@ -1011,7 +1016,7 @@ snd_usb_get_audioformat_uac3(struct snd_usb_audio *chip,
- 	 * lookup the terminal associated to this interface
- 	 * to extract the clock
- 	 */
--	input_term = snd_usb_find_input_terminal_descriptor(chip->ctrl_intf,
-+	input_term = snd_usb_find_input_terminal_descriptor(ctrl_intf,
- 							    as->bTerminalLink,
- 							    UAC_VERSION_3);
- 	if (input_term) {
-@@ -1019,7 +1024,7 @@ snd_usb_get_audioformat_uac3(struct snd_usb_audio *chip,
- 		goto found_clock;
- 	}
- 
--	output_term = snd_usb_find_output_terminal_descriptor(chip->ctrl_intf,
-+	output_term = snd_usb_find_output_terminal_descriptor(ctrl_intf,
- 							      as->bTerminalLink,
- 							      UAC_VERSION_3);
- 	if (output_term) {
-@@ -1068,7 +1073,7 @@ snd_usb_get_audioformat_uac3(struct snd_usb_audio *chip,
- 							       UAC_VERSION_3,
- 							       iface_no);
- 
--		pd = snd_usb_find_power_domain(chip->ctrl_intf,
-+		pd = snd_usb_find_power_domain(ctrl_intf,
- 					       as->bTerminalLink);
- 
- 		/* ok, let's parse further... */
-diff --git a/sound/usb/usbaudio.h b/sound/usb/usbaudio.h
-index 43d4029edab4..b0f042c99608 100644
---- a/sound/usb/usbaudio.h
-+++ b/sound/usb/usbaudio.h
-@@ -21,6 +21,15 @@ struct media_intf_devnode;
- 
- #define MAX_CARD_INTERFACES	16
- 
-+/*
-+ * Structure holding assosiation between Audio Control Interface
-+ * and given Streaming or Midi Interface.
-+ */
-+struct snd_intf_to_ctrl {
-+	u8 interface;
-+	struct usb_host_interface *ctrl_intf;
-+};
-+
- struct snd_usb_audio {
- 	int index;
- 	struct usb_device *dev;
-@@ -63,6 +72,9 @@ struct snd_usb_audio {
- 	struct usb_host_interface *ctrl_intf;	/* the audio control interface */
- 	struct media_device *media_dev;
- 	struct media_intf_devnode *ctl_intf_media_devnode;
-+
-+	unsigned int num_intf_to_ctrl;
-+	struct snd_intf_to_ctrl intf_to_ctrl[MAX_CARD_INTERFACES];
- };
- 
- #define USB_AUDIO_IFACE_UNUSED	((void *)-1L)
--- 
-2.34.1
+On 10/08/24 04:56, Mark Brown wrote:
+> On Fri, Aug 09, 2024 at 01:49:37PM +0530, Mukunda,Vijendar wrote:
+>> On 09/08/24 13:05, Mark Brown wrote:
+>>> We want the resulting git tree to be bisectable, that means testing each
+>>> commit not just the final result.
+>> This patch series is prepared on top of
+>> 20240801111821.18076-1-Vijendar.Mukunda@amd.com
+>> which are incremental changes and also has dependency.
+> For the benefit of those playing at home that's "ASoC: intel/sdw_utils:
+> move dai id common macros" which is in -next as 8f87e292a34813e.  It's
+> not great to base a fix for something that's in Linus' tree like this
+> one which has:
+>
+>    Fixes: 96eb81851012 ("ASoC: SOF: amd: add interrupt handling for SoundWire manager devices")
+>
+> in it, and any such dependency really needs to get called out in the
+> cover letter if it exists.  
+Agreed. Will mention the patch dependency in the cover letter and
+resend the patch series.
+>
+> In general you should expect bug fixes to be applied for Linus' tree by
+> default, especially if they're tagged as fixing a particular commit in
+> there.  That means no dependencies on anything that's already in -next
+> unless explicitly called out, and if the thing in -next is just a
+> cleanup or refactoring then generally it's best to just do the fix for
+> Linus' tree and then separately merge it up to -next and integrate with
+> whtaever cleanup/refactoring is going on there.
+>
+> Please include human readable descriptions of things like commits and
+> issues being discussed in e-mail in your mails, this makes them much
+> easier for humans to read especially when they have no internet access.
+> I do frequently catch up on my mail on flights or while otherwise
+> travelling so this is even more pressing for me than just being about
+> making things a bit easier to read.
 
