@@ -1,125 +1,186 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9736A16BE0C;
-	Mon, 12 Aug 2024 08:40:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C4F516D4FC
+	for <linux-sound@vger.kernel.org>; Mon, 12 Aug 2024 09:42:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723452011; cv=none; b=u+avRWsW2eWYiwZqNxVvF3kq2ykFj7q/0PnTVNwuJrH7syMwb1GiLqXPSMA/0psz9tiv9O0wxsdp+0zqcuqKYitweZY43bKofxZcZrMNVaWIn0zqLNwIHyjStpR6PTs7cpUxAh76m+BUjdmv5TaR7FgCT1K/7rTIQU4owd6LUK4=
+	t=1723455755; cv=none; b=qqx4d2Uy0uyql9O6HqGIy2aIhYuvfegntn6owxGZjLo4+s/db+2gDxHtVfdJbmMLmUlsru4vcUnw7hwU9ASwddNL5i3I9mZ/qQ8EeJPw8KqZZgUJ02W1N0V/6BRMhyZXM8iw3xA9dsSbPauVm4JvNPm9L5yVX2Iccz5/4NPMP/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723452011; c=relaxed/simple;
-	bh=DmoRqVAVIIzX9czb1SfLwMPylTd8uefceb4XEeX2UBw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZgC5o3KmGrOi0KPglXuZMmUmbj6R5Ve2ZjsLJmQ/Iaxv8SOqIbLoB8EjoIbYYVAEpAP7UZSjdqk6xCUSV2RRbr+dT+UNRqIRbkWe6yLFsW9btI/ZI5jJYMyxQgAPHWf3Q455QXMyxT39GDIO2b4+vE7KcYTD5+RYLZZs3werQtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Ne2p68+A; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1723455755; c=relaxed/simple;
+	bh=RArZw0Cl2wd3Zm4nJabLOCL+sTCdFJRSYapD47EjPUk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sZFhQDNFu++TOb8mcc4EUVeYwLGt0CEn8+aFPgpm8tp+79sFRUAZh0cLu/QHgqU3U0nzuKKX6lXx+Ywf1Rg0qs49Ae6lnQeaoSTz5udBJNoGYUySCIne2kYEPKljXoOkXl695V9vFJlxrmlt2yyaxqsLG3JYd13pCksIvCTfcfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FfVlqQxs; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Ne2p68+A"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 3F827FF80F;
-	Mon, 12 Aug 2024 08:39:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1723452001;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jHAG+jr6VS671kkd3H78pc9Iro9nLTf+bq+1ySK8OnU=;
-	b=Ne2p68+A/GgfP/80JnUELAHEfVOaVX9dUSegNx2U92Hm4Z+Z1tahbt/l3m/yDi/8Rg3yrX
-	VPhiQlymu6tf5Dd62mTznTv+B41O9S6hXO3soybZzLuPwJ4avLyz0uieM4UcQ/O+XsXBDW
-	29n/W0lXXeEP6UOG4OOrY/EoJ/lavU6/A3xZj/SvNZlHe2kGmzkKt7WvUu9C0vZwWi7mZJ
-	SsBl6rAFh+4ke/YlSof6m/uMVG705rrGJidSAzD8lHx3VZJYI/1DsO/1Tel3tjlnVtyEtB
-	cPR6vqhZKGqWUlu+ynuxR3hEd5mx9dPoGK7cwHxuIr8iqMJGW/9C1nblAWRxZw==
-Date: Mon, 12 Aug 2024 10:39:57 +0200
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: "Michael Walle" <michael@walle.cc>
-Cc: "Michal Simek" <michal.simek@amd.com>, "Mahapatra, Amit Kumar"
- <amit.kumar-mahapatra@amd.com>, "Tudor Ambarus" <tudor.ambarus@linaro.org>,
- "broonie@kernel.org" <broonie@kernel.org>, "pratyush@kernel.org"
- <pratyush@kernel.org>, "richard@nod.at" <richard@nod.at>, "vigneshr@ti.com"
- <vigneshr@ti.com>, "sbinding@opensource.cirrus.com"
- <sbinding@opensource.cirrus.com>, "lee@kernel.org" <lee@kernel.org>,
- "james.schulman@cirrus.com" <james.schulman@cirrus.com>,
- "david.rhodes@cirrus.com" <david.rhodes@cirrus.com>,
- "rf@opensource.cirrus.com" <rf@opensource.cirrus.com>, "perex@perex.cz"
- <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>,
- "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
- "nicolas.ferre@microchip.com" <nicolas.ferre@microchip.com>,
- "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
- "claudiu.beznea@tuxon.dev" <claudiu.beznea@tuxon.dev>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "alsa-devel@alsa-project.org"
- <alsa-devel@alsa-project.org>, "patches@opensource.cirrus.com"
- <patches@opensource.cirrus.com>, "linux-sound@vger.kernel.org"
- <linux-sound@vger.kernel.org>, "git (AMD-Xilinx)" <git@amd.com>,
- "amitrkcian2002@gmail.com" <amitrkcian2002@gmail.com>, "Conor Dooley"
- <conor.dooley@microchip.com>, "beanhuo@micron.com" <beanhuo@micron.com>
-Subject: Re: [PATCH v11 07/10] mtd: spi-nor: Add stacked memories support in
- spi-nor
-Message-ID: <20240812103957.04a1ef55@xps-13>
-In-Reply-To: <D3DREP874QG7.2UOSZSBI3BRQY@walle.cc>
-References: <20231125092137.2948-1-amit.kumar-mahapatra@amd.com>
-	<BN7PR12MB28027E62D66460A374E3CFEADC93A@BN7PR12MB2802.namprd12.prod.outlook.com>
-	<e212f9fa-83c5-4b9e-8636-c8c6183096ab@linaro.org>
-	<BN7PR12MB280237CDD7BB148479932874DC93A@BN7PR12MB2802.namprd12.prod.outlook.com>
-	<576d56ed-d24b-40f9-9ae4-a02c50eea2ab@linaro.org>
-	<BN7PR12MB2802F288C6A6B1580CF07959DC95A@BN7PR12MB2802.namprd12.prod.outlook.com>
-	<c6f209c8-47da-4881-921d-683464b9ddd5@linaro.org>
-	<9cdb7f8b-e64f-46f6-94cb-194a25a42ccd@linaro.org>
-	<BN7PR12MB28028B63E69134094D50F3E4DC2A2@BN7PR12MB2802.namprd12.prod.outlook.com>
-	<IA0PR12MB769944254171C39FF4171B52DCB42@IA0PR12MB7699.namprd12.prod.outlook.com>
-	<D2ZHJ765LUGP.2KTA46P1BL75X@walle.cc>
-	<e1587f61-f765-4a22-b06e-71387cc49c4d@amd.com>
-	<D33M26RLVLHF.3Q5YARPBNSBOY@walle.cc>
-	<9fb60743-3e89-49fa-a399-3cf2607a7e41@amd.com>
-	<D33S9T73M6ND.G7CCJ4PDVYQU@walle.cc>
-	<20240812092937.2bd5c85a@xps-13>
-	<D3DREP874QG7.2UOSZSBI3BRQY@walle.cc>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FfVlqQxs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723455752; x=1754991752;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=RArZw0Cl2wd3Zm4nJabLOCL+sTCdFJRSYapD47EjPUk=;
+  b=FfVlqQxs7CgIMS6pfBvQI37R9Q/8ymTQU0pCPBZHYrQgHmf01tEtur+k
+   NOaMso4Hb8Uz1O2j+5utjHM8n24g4ApYzvkUz9jLb07kZbyRwNYfx8FIl
+   9YcH8HydjZpRJpaLLWLV8e/uUPdPg+6j2zTQBHpmEmTo9N5iHgRHYuEd4
+   NSv4xtH2+HUEFPSRTRsXqn1oN95SVm+1XujVNud+qhhghf+/bYGEIpbZW
+   nZOVJpE5YaPIVcT6Q05bevB6hFge6GXHaFzhnsGkf5NxOT1ksLE/mEBqY
+   R89X3o92r9evhPTAAlm1TfdkSKs9JjzwWj5VagduZyck5OTBDLKVdfyS4
+   w==;
+X-CSE-ConnectionGUID: Jha2eNA8RlWSjcuFbefy4A==
+X-CSE-MsgGUID: vd0CVJD3S96/p3AIrn4YIQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11161"; a="21364804"
+X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; 
+   d="scan'208";a="21364804"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2024 02:42:32 -0700
+X-CSE-ConnectionGUID: dwqq3qCWTiqw1ELQZeE9lA==
+X-CSE-MsgGUID: S1qeHXdeQmqr9ylLCmvxvQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; 
+   d="scan'208";a="63056789"
+Received: from crojewsk-ctrl.igk.intel.com ([10.102.9.28])
+  by orviesa005.jf.intel.com with ESMTP; 12 Aug 2024 02:42:29 -0700
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+To: broonie@kernel.org
+Cc: alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	tiwai@suse.com,
+	perex@perex.cz,
+	amadeuszx.slawinski@linux.intel.com,
+	pierre-louis.bossart@linux.intel.com,
+	hdegoede@redhat.com,
+	andriy.shevchenko@linux.intel.com,
+	cujomalainey@chromium.org,
+	lmajczak@google.com,
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: [PATCH 00/12] ASoC: Intel: Remove skylake driver
+Date: Mon, 12 Aug 2024 11:43:16 +0200
+Message-Id: <20240812094328.842661-1-cezary.rojewski@intel.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
+Content-Transfer-Encoding: 8bit
 
-Hi Michael,
+A spiritual successor to haswell/baytrail removal series [1].
 
-michael@walle.cc wrote on Mon, 12 Aug 2024 09:37:06 +0200:
+The avs-driver found in sound/soc/intel/avs is a direct replacement to
+the existing skylake-driver. It covers all features supported by it and
+more and aligns with the recommended flows and requirements based on
+Windows driver equivalent.
 
-> Hi,
->=20
-> > > > > The first round of patches were really invasive regarding the core
-> > > > > code. So if there is a clean layering approach which can be enabl=
-ed
-> > > > > as a module and you are maintaining it I'm fine with that (even if
-> > > > > the core code needs some changes then like hooks or so, not sure)=
-.   =20
-> > > >
-> > > > That discussion started with Miquel some years ago when he was tryi=
-ng to to=20
-> > > > solve description in DT which is merged for a while in the kernel. =
-  =20
-> > >=20
-> > > What's your point here? From what I can tell the DT binding is wrong
-> > > and needs to be reworked anyway. =20
-> >
-> > I'm sorry I'm now catching up, can you point at the thread explaining
-> > what is wrong in the bindings? I didn't find where this was detailed. Or
-> > otherwise summarize quickly what needs to change? =20
->=20
-> Somewhere in this mega thread Tudor had some remarks about the
-> bindings. Amit also mentioned it here:
->=20
-> https://lore.kernel.org/r/IA0PR12MB769944254171C39FF4171B52DCB42@IA0PR12M=
-B7699.namprd12.prod.outlook.com/
+The skylake-driver related UAPI has been removed with "ASoC: Drop
+soc-topology ABI v4 support" [2].
 
-Great. I jumped-in there. Thanks!
+For the official kernel tree the deprecation begun with v6.0. Most
+skylake-drivers users moved to avs- or SOF-driver when AudioDSP
+capabilities are available on the platform or to snd-hda-intel
+(sound/pci/hda) when such capabilities are not.
 
-Miqu=C3=A8l
+For the supported trees the deprecation begun with v5.4 with v5.15 being
+the first where the skylake-driver is disabled entirely.
+
+All machine board drivers that consume this DSP driver have their
+replacements present within sound/soc/intel/avs/boards/ directory.
+
+[1]: https://lore.kernel.org/alsa-devel/20201006064907.16277-1-cezary.rojewski@intel.com/
+[2]: https://lore.kernel.org/alsa-devel/20240403091629.647267-1-cezary.rojewski@intel.com/
+
+
+Cezary Rojewski (12):
+  ASoC: Intel: Remove bxt_rt298 board driver
+  ASoC: Intel: Remove bxt_da7219_max98357a board driver
+  ASoC: Intel: Remove kbl_rt5663_rt5514_max98927 board driver
+  ASoC: Intel: Remove kbl_rt5663_max98927 board driver
+  ASoC: Intel: Remove kbl_rt5660 board driver
+  ASoC: Intel: Remove kbl_da7219_max98927 board driver
+  ASoC: Intel: Remove kbl_da7219_max98357a board driver
+  ASoC: Intel: Remove skl_rt286 board driver
+  ASoC: Intel: Remove skl_nau88l25_ssm4567 board driver
+  ASoC: Intel: Remove skl_nau88l25_max98357a board driver
+  ASoC: Intel: Remove skylake driver
+  ASoC: Intel: avs: Enable by default for all SST configurations
+
+ sound/soc/intel/Kconfig                       |  120 -
+ sound/soc/intel/Makefile                      |    1 -
+ sound/soc/intel/avs/core.c                    |    8 +-
+ sound/soc/intel/boards/Kconfig                |  152 +-
+ sound/soc/intel/boards/Makefile               |   20 -
+ sound/soc/intel/boards/bxt_da7219_max98357a.c |  720 ----
+ sound/soc/intel/boards/bxt_rt298.c            |  670 ---
+ sound/soc/intel/boards/kbl_da7219_max98357a.c |  688 ----
+ sound/soc/intel/boards/kbl_da7219_max98927.c  | 1175 ------
+ sound/soc/intel/boards/kbl_rt5660.c           |  567 ---
+ sound/soc/intel/boards/kbl_rt5663_max98927.c  | 1073 -----
+ .../intel/boards/kbl_rt5663_rt5514_max98927.c |  869 ----
+ .../soc/intel/boards/skl_nau88l25_max98357a.c |  704 ----
+ sound/soc/intel/boards/skl_nau88l25_ssm4567.c |  751 ----
+ sound/soc/intel/boards/skl_rt286.c            |  568 ---
+ sound/soc/intel/skylake/Makefile              |   15 -
+ sound/soc/intel/skylake/bxt-sst.c             |  629 ---
+ sound/soc/intel/skylake/cnl-sst-dsp.c         |  266 --
+ sound/soc/intel/skylake/cnl-sst-dsp.h         |  103 -
+ sound/soc/intel/skylake/cnl-sst.c             |  508 ---
+ sound/soc/intel/skylake/skl-debug.c           |  248 --
+ sound/soc/intel/skylake/skl-i2s.h             |   87 -
+ sound/soc/intel/skylake/skl-messages.c        | 1419 -------
+ sound/soc/intel/skylake/skl-nhlt.c            |  269 --
+ sound/soc/intel/skylake/skl-pcm.c             | 1507 -------
+ sound/soc/intel/skylake/skl-ssp-clk.c         |  428 --
+ sound/soc/intel/skylake/skl-ssp-clk.h         |  108 -
+ sound/soc/intel/skylake/skl-sst-cldma.c       |  373 --
+ sound/soc/intel/skylake/skl-sst-cldma.h       |  243 --
+ sound/soc/intel/skylake/skl-sst-dsp.c         |  462 ---
+ sound/soc/intel/skylake/skl-sst-dsp.h         |  256 --
+ sound/soc/intel/skylake/skl-sst-ipc.c         | 1071 -----
+ sound/soc/intel/skylake/skl-sst-ipc.h         |  169 -
+ sound/soc/intel/skylake/skl-sst-utils.c       |  425 --
+ sound/soc/intel/skylake/skl-sst.c             |  599 ---
+ sound/soc/intel/skylake/skl-topology.c        | 3605 -----------------
+ sound/soc/intel/skylake/skl-topology.h        |  524 ---
+ sound/soc/intel/skylake/skl.c                 | 1177 ------
+ sound/soc/intel/skylake/skl.h                 |  207 -
+ 39 files changed, 9 insertions(+), 22775 deletions(-)
+ delete mode 100644 sound/soc/intel/boards/bxt_da7219_max98357a.c
+ delete mode 100644 sound/soc/intel/boards/bxt_rt298.c
+ delete mode 100644 sound/soc/intel/boards/kbl_da7219_max98357a.c
+ delete mode 100644 sound/soc/intel/boards/kbl_da7219_max98927.c
+ delete mode 100644 sound/soc/intel/boards/kbl_rt5660.c
+ delete mode 100644 sound/soc/intel/boards/kbl_rt5663_max98927.c
+ delete mode 100644 sound/soc/intel/boards/kbl_rt5663_rt5514_max98927.c
+ delete mode 100644 sound/soc/intel/boards/skl_nau88l25_max98357a.c
+ delete mode 100644 sound/soc/intel/boards/skl_nau88l25_ssm4567.c
+ delete mode 100644 sound/soc/intel/boards/skl_rt286.c
+ delete mode 100644 sound/soc/intel/skylake/Makefile
+ delete mode 100644 sound/soc/intel/skylake/bxt-sst.c
+ delete mode 100644 sound/soc/intel/skylake/cnl-sst-dsp.c
+ delete mode 100644 sound/soc/intel/skylake/cnl-sst-dsp.h
+ delete mode 100644 sound/soc/intel/skylake/cnl-sst.c
+ delete mode 100644 sound/soc/intel/skylake/skl-debug.c
+ delete mode 100644 sound/soc/intel/skylake/skl-i2s.h
+ delete mode 100644 sound/soc/intel/skylake/skl-messages.c
+ delete mode 100644 sound/soc/intel/skylake/skl-nhlt.c
+ delete mode 100644 sound/soc/intel/skylake/skl-pcm.c
+ delete mode 100644 sound/soc/intel/skylake/skl-ssp-clk.c
+ delete mode 100644 sound/soc/intel/skylake/skl-ssp-clk.h
+ delete mode 100644 sound/soc/intel/skylake/skl-sst-cldma.c
+ delete mode 100644 sound/soc/intel/skylake/skl-sst-cldma.h
+ delete mode 100644 sound/soc/intel/skylake/skl-sst-dsp.c
+ delete mode 100644 sound/soc/intel/skylake/skl-sst-dsp.h
+ delete mode 100644 sound/soc/intel/skylake/skl-sst-ipc.c
+ delete mode 100644 sound/soc/intel/skylake/skl-sst-ipc.h
+ delete mode 100644 sound/soc/intel/skylake/skl-sst-utils.c
+ delete mode 100644 sound/soc/intel/skylake/skl-sst.c
+ delete mode 100644 sound/soc/intel/skylake/skl-topology.c
+ delete mode 100644 sound/soc/intel/skylake/skl-topology.h
+ delete mode 100644 sound/soc/intel/skylake/skl.c
+ delete mode 100644 sound/soc/intel/skylake/skl.h
+
+-- 
+2.25.1
+
