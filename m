@@ -1,122 +1,128 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE003168488;
-	Mon, 12 Aug 2024 21:05:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA1A2170A0C
+	for <linux-sound@vger.kernel.org>; Mon, 12 Aug 2024 23:03:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723496727; cv=none; b=QpstNCGN7gDg2+vC3u7YvtdnOKGEpJuJBXbVdUkPWyxU3BzSD0Y0VSUE58vYMuyT0Yzb7/BJWnc3jA1hTJzNsaoBqUZzriq99fHb0yrygj89PVT7F/9PBvbrmycquzMKhHewOzH9N6DQbEeMGIIbdnYs796aejgBbMgfviAd14s=
+	t=1723503836; cv=none; b=slWTCAFsNonyF759n+BKw25YE7S0HkkmCPt6AcbWUYoszLfRzVua/WPeRiCAiEhDaXb7uks0Ma7qXTK5lqJ4ihH05FG+bvRT4x+9BbZdnSi9vxWKwqS/Eyf6fr1eYqjnsKb8jfwBgkxz6hfoAMTEYjEDs/mwOxyWYqIvdag7JBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723496727; c=relaxed/simple;
-	bh=SsXRmHgGJem89i8pNPhft9ydb31kePHL1GxGga6LJAc=;
+	s=arc-20240116; t=1723503836; c=relaxed/simple;
+	bh=YBiLFaPZjjaRkrtUK9kyWuh07zpn3P9QXmFySdar89E=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qKTSgAKLDxWk30CUp1w5Vp9C75KFgRlbVLQFk67Osv0ElBT2VcSdGfI6k5R68qPrVfWzT0FZ4vrQR0Kq0ut3BwfMJhSUOhnHyQ+kZZAW9Irbv01n5yfvp+t8xyJoPzrR+jRpFDQzs5Q7uFmsWI8JGP0llqZyRx/SaLrspCkJOII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=AuSBj3yA; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	 In-Reply-To:Content-Type; b=gN8ab5Vg5cpVFM7eWPJjjd+OOkyxVxXGAbZiUmQa6dc197lCfRo/Ah1eGeQRjfrQwFLpRzD8l6raXL2SREL21me5EujmXNAJt58wltvGk6/lg+UYiyqyCgaj856mCPTTAEywQDaAH0CPrrJZI2Unx8MjvTSmaU2os81/GuPWiXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=iAFebA4Y; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="AuSBj3yA"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4WjRqg6TLtz9snv;
-	Mon, 12 Aug 2024 23:05:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1723496719;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3QCIUdDSk7frtnt3g6xVWqSWfjLm42IUZdkBb53/lcU=;
-	b=AuSBj3yA06Ts1CaVwT26+hxIS3vM27ugE7kwgyOrFSbv9D+8yCFswTnvZkbBO5Hfc58Mf8
-	WLlXN3w5B16/CMbe8Z9vA4+HhnUWrNCLOA+TeXQUDQs2CKI8vOt50sRptcNNS7LZfL5qTd
-	Bh00gy3b/BAlpxKHXQOGm+wCEbsiyT1kC+MNT4jjI6/IprtbXX+tx0K2YlqXgjDj8VIJwI
-	jNp/BU0w2MnIpjbyvEIbQSGdMHk1ketZLtGmIWgLoEptbPh+A3Y/p29s7QBNuk1In4AcIr
-	gGCBpkHaX4zRmg1BCb9SQrMyxpkAkik7opZm62YjFaik4UUmlZqTW3C32y03UQ==
-Message-ID: <3e9cd14b-7355-4fde-b0c1-39d40467e63c@mailbox.org>
-Date: Mon, 12 Aug 2024 23:05:16 +0200
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="iAFebA4Y"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-7c3d8105646so216299a12.2
+        for <linux-sound@vger.kernel.org>; Mon, 12 Aug 2024 16:03:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1723503834; x=1724108634; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QEKpiUP3xwZoC0DTSabt4UIs6f5YDF2qKl4QrqSYpJI=;
+        b=iAFebA4YYfeUXURbdde47vTzC30mCbtVUlfCyD9cbim8LJsHWd8fOCXs6/WRZ5OkgA
+         XXppdgnhG34TUyNxD5mg/fsIIrIzLHyDhqDUdjDI8aGEO8z33tiYOWvYp6FcwbkPTLiy
+         K8EW73r6iIDo6w9pvU3nTOZGYEWQ26gI4yZE4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723503834; x=1724108634;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QEKpiUP3xwZoC0DTSabt4UIs6f5YDF2qKl4QrqSYpJI=;
+        b=Azij+bJgte2THU8/CtSKjgonIRkjbk2QmeWQyMqrNfLmzn7LzBrXK/J/iAWdF/Ohz3
+         NhhkFQFUeVo4x6AQAnmHO0hD1cmFSJTSVT+G9aZru6o7kJPpmbnhcusDnWiyUBsWQ+WA
+         BcxdglWL40UH/g9sRY8yKZkTlnjhaao2//yXMwt/qRfIBF1uiZmj2cIRXJ1WjorgDvFo
+         SHRXYdhXU8GsTH1yjJx9I1l7A/zrl/FeI02j6R6GZ0+xtHRKv+zrAmN0v5Yin0g+HUE2
+         zvjhNxaOIdJALE2V8dyqoOg6sdGBfHKBaEvMWP66Y3nA2wb1V82CpQrh/b7SxrPoDcND
+         Jn5g==
+X-Forwarded-Encrypted: i=1; AJvYcCU7rvHsXzXoUF3FkVVksPOTu+IIRgFW+MSgEUQpvo2q27ht9v/idDe0kzl3WtUnH/tb2mQlhZ6ZQbykIg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9B0eA5+ZL2CkM9xyS7OG5GIWRGTYQvXNQeRpxJ35f4W/edlRz
+	sLV+VmAsP2VwjzksWZ25H5CFnaXGWooxyB4//lroXdT7AWk8gPkt8mjLO9RXoqA=
+X-Google-Smtp-Source: AGHT+IGb+9VJLkJYuRsUl48a3JmkbNs0x0SRG38sB9+apl0xp9rPYfz/uXrpREF3TxW5/mERjhINag==
+X-Received: by 2002:a05:6a20:431e:b0:1c4:b62f:fec7 with SMTP id adf61e73a8af0-1c8ddfc652dmr266014637.9.1723503833885;
+        Mon, 12 Aug 2024 16:03:53 -0700 (PDT)
+Received: from [10.229.70.3] (p525182-ipngn902koufu.yamanashi.ocn.ne.jp. [61.207.159.182])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7c697a06af5sm211486a12.45.2024.08.12.16.03.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Aug 2024 16:03:53 -0700 (PDT)
+Message-ID: <3667e585-ecaa-4664-9e6e-75dc9de928e8@linuxfoundation.org>
+Date: Mon, 12 Aug 2024 17:03:45 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] ALSA: core: Remove trigger_tstamp_latched
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] selftests: fix relative rpath usage
+To: Eugene Syromiatnikov <esyr@redhat.com>, linux-kselftest@vger.kernel.org
 Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Cezary Rojewski <cezary.rojewski@intel.com>,
- Christian Brauner <brauner@kernel.org>, Mark Brown <broonie@kernel.org>,
- Pavel Hofman <pavel.hofman@ivitera.com>, David Howells
- <dhowells@redhat.com>, Liam Girdwood <liam.r.girdwood@linux.intel.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>
-References: <20240812142029.46608-1-zeno.endemann@mailbox.org>
- <dec71400-81f1-4ca6-9010-94b55ecdaafa@linux.intel.com>
+ Mark Brown <broonie@kernel.org>, Shuah Khan <shuah@kernel.org>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
+ <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>,
+ Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Mykola Lysenko <mykolal@fb.com>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Peter Zijlstra <peterz@infradead.org>, "Paul E. McKenney"
+ <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ bpf@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
+References: <20240812165650.GA5102@asgard.redhat.com>
 Content-Language: en-US
-From: Zeno Endemann <zeno.endemann@mailbox.org>
-In-Reply-To: <dec71400-81f1-4ca6-9010-94b55ecdaafa@linux.intel.com>
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20240812165650.GA5102@asgard.redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: osir8xq189qno4cqyetzsk9bwspdt8tp
-X-MBO-RS-ID: 48fa6584647c2bfafec
 
-Pierre-Louis Bossart wrote on 12.08.24 19:25:
->> * The custom timestamp there does not seem to be a meaningful
->>    improvement over the default one; There is virtually no code in
->>    between them, so I measured only a difference of around 300ns in a
->>    KVM VM with ich9-intel-hda device.
+On 8/12/24 10:56, Eugene Syromiatnikov wrote:
+> The relative RPATH ("./") supplied to linker options in CFLAGS is resolved
+> relative to current working directory and not the executable directory,
+> which will lead in incorrect resolution when the test executables are run
+> from elsewhere.  Changing it to $ORIGIN makes it resolve relative
+> to the directory in which the executables reside, which is supposedly
+> the desired behaviour.  This patch also moves these CFLAGS to lib.mk,
+> so the RPATH is provided for all selftest binaries, which is arguably
+> a useful default.
+
+Can you elaborate on the erros you would see if this isn't fixed? I understand
+that check-rpaths tool - howebver I would like to know how it manifests and
+how would you reproduce this problem while running selftests?
+
+
+> Discovered by the check-rpaths script[1][2] that checks for insecure
+> RPATH/RUNPATH[3], such as relative directories, during an attempt
+> to package BPF selftests for later use in CI:
 > 
-> Humm, you're analyzing timestamps with a VM and a rather old device?
-> ICH9 support was added in 2014, some ten years ago. The timestamping
-> stuff is only improved with SKL+.
-
-With more modern hardware on bare metal I would assume this difference to
-the default timestamp to be even smaller. I am not a hardware guy, so
-correct me if I'm wrong, but I would think that the unknown timing delays
-of the IO operations and internal audio hardware are orders of magnitude
-larger than even 300ns, making this improvement drown in the noise. Do you
-have some measurements of the differences with modern hardware?
-
-Besides, the only improvement here is that the timestamp is taken slightly
-earlier, nothing fancy as far as I can tell. It seems a bit odd to me that
-the hda core is the only one that cares for this.
-
-Finally, I cannot imagine what audio application needs sub-microsecond
-accuracy for the trigger timestamps. That is less than a single audio frame
-even for silly sample rates. Is this intended for some scientific use case?
-For regular audio apps I'd think most do not even care that much for the
-trigger timestamps and rather use the hw-pointer-update timestamps anyway,
-to prevent clock drifts. In my case I use only the stop trigger timestamp
-to estimate at which sample position a snd_pcm_drop happened, and don't use
-the start timestamp at all.
-
-But these are just my possibly narrow views on this. If you really have
-valid use cases for those improved timestamps I won't insist on removing it.
-In fact I'd be rather interested to know if you can point me to an
-application that makes use of this.
-
-
+>      ERROR   0004: file '/usr/libexec/kselftests/bpf/urandom_read' contains an insecure runpath '.' in [.]
 > 
->> * It creates a pitfall for hda driver writers; Calling
->>    snd_hdac_stream_timecounter_init implicitly makes them responsible
->>    for generating these timestamps.
+> [1] https://github.com/rpm-software-management/rpm/blob/master/scripts/check-rpaths
+> [2] https://github.com/rpm-software-management/rpm/blob/master/scripts/check-rpaths-worker
+> [3] https://cwe.mitre.org/data/definitions/426.html
 > 
-> That's the point, let those drivers generate a better timestamp if they
-> can. Not sure what the problem is?
+> Signed-off-by: Eugene Syromiatnikov <esyr@redhat.com>
+> ---
+> v2:
+>    - Consolidated the updated -L/-Wl,-rpath setting into lib.mk
+>    - Described the testing done in the commit message
+> v1: https://lore.kernel.org/lkml/20240808145639.GA20510@asgard.redhat.com/
+>      https://lore.kernel.org/lkml/20240808151335.GA5495@asgard.redhat.com/
+>      https://lore.kernel.org/lkml/20240808151621.GA10025@asgard.redhat.com/
+>      https://lore.kernel.org/lkml/20240808151621.GA10025@asgard.redhat.com/
+> ---
+>   tools/testing/selftests/alsa/Makefile  | 1 -
+>   tools/testing/selftests/bpf/Makefile   | 5 ++---
+>   tools/testing/selftests/lib.mk         | 3 +++
+>   tools/testing/selftests/rseq/Makefile  | 2 +-
+>   tools/testing/selftests/sched/Makefile | 3 +--
+>   5 files changed, 7 insertions(+), 7 deletions(-)
 
-This is more of an API issue. At least to me it seems bad to sneakily enable
-this flag in snd_hdac_stream_timecounter_init. The documentation of it does
-not make it clear that after calling it the driver is responsible for the
-timestamps. Now I am admittedly not that deep into this code, so there may
-be a reason, but again at least to an "outsider" like me it is quite unclear
-why initializing the time counter also means the driver now has to manage the
-trigger timestamps.
-
-If you really want this functionality to stay, maybe it would be better to
-move that out of snd_hdac_stream_timecounter_init and just make every driver
-that wants to manage them raise the flag explicitly themselves.
+thanks,
+-- Shuah
 
