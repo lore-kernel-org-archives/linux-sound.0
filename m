@@ -1,60 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF6871804F;
-	Mon, 12 Aug 2024 17:26:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE003168488;
+	Mon, 12 Aug 2024 21:05:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723483591; cv=none; b=PwrhU/UGX6M1OYxOSShFwU4d/05OaKyqP2IJpY5hgKLdsJ+yktz6MYzTXl5HAHkOEgu5UDC+dDmj0oOqJRFGBW16Z/JgFcPH4W2UIVj1avhn7Ia4rDiwLXIiDCbYUtKnAaSIhGTVikPcrKImS5ya3dCQvge+9hksH9tjskK4VRQ=
+	t=1723496727; cv=none; b=QpstNCGN7gDg2+vC3u7YvtdnOKGEpJuJBXbVdUkPWyxU3BzSD0Y0VSUE58vYMuyT0Yzb7/BJWnc3jA1hTJzNsaoBqUZzriq99fHb0yrygj89PVT7F/9PBvbrmycquzMKhHewOzH9N6DQbEeMGIIbdnYs796aejgBbMgfviAd14s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723483591; c=relaxed/simple;
-	bh=XSxPXOdw1N5KjOGfiApKGwRDQACkIeeh7PrfV/WAWMM=;
+	s=arc-20240116; t=1723496727; c=relaxed/simple;
+	bh=SsXRmHgGJem89i8pNPhft9ydb31kePHL1GxGga6LJAc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aWna5KMTynGdr7vQ43Hd/kzM7oxhRQY8mbNvjIE9J7zwLTBOYDHUMV/IcaWhcY3nysOdPG80Ldbt8rEIDZfRB6gngdDKCiYp9z9EES6lMXq6ry/XOZv6BCZNXKfbS6O/dgnu3XjXE6df5l8uo8Y8aewpyYRgy6jvAWeVptmFESQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CdUGvUZB; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 In-Reply-To:Content-Type; b=qKTSgAKLDxWk30CUp1w5Vp9C75KFgRlbVLQFk67Osv0ElBT2VcSdGfI6k5R68qPrVfWzT0FZ4vrQR0Kq0ut3BwfMJhSUOhnHyQ+kZZAW9Irbv01n5yfvp+t8xyJoPzrR+jRpFDQzs5Q7uFmsWI8JGP0llqZyRx/SaLrspCkJOII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=AuSBj3yA; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CdUGvUZB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723483590; x=1755019590;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=XSxPXOdw1N5KjOGfiApKGwRDQACkIeeh7PrfV/WAWMM=;
-  b=CdUGvUZBzIkzkp8DfzaO5VhlNnxxEazjDBXts1HV+ERFlH+R2f0zh5JI
-   x58uWgU12FTnqlFRSAwgBP1/HtioqunpQFPRL1WK7Tc+1kUVoZn2H9hq7
-   ySkci6pLVj1UsI0K4Dhv14SD3xegXZ9z3bE51yArWsV8XLzQvMqdx0vC2
-   XZpnEiGZJ2oilzOvYU525qio9+DiP9NrT+88fR92hk76jgJvO9kq3M3it
-   tCEVeTuwHSDhUKoDbDzI6wzv6mrmAJxRKQdQRwyQFr+tA6fmDvpxUabV3
-   MMqldY1KdOCe/fZ0XMKCLGdcyvPzuLnGCru5aHUdSGcYe3mRn9VqlI/NM
-   Q==;
-X-CSE-ConnectionGUID: eso20W9xR2KZgYMWG1MhKg==
-X-CSE-MsgGUID: UN5tQtlERlKwYi7CwChndw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="24515020"
-X-IronPort-AV: E=Sophos;i="6.09,283,1716274800"; 
-   d="scan'208";a="24515020"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2024 10:25:56 -0700
-X-CSE-ConnectionGUID: zH0TF5PFT8qxt1LXy805ZA==
-X-CSE-MsgGUID: zCD7fNyeSFGYUsIOW0OFpw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,283,1716274800"; 
-   d="scan'208";a="89159495"
-Received: from cpetruta-mobl1.ger.corp.intel.com (HELO [10.245.246.115]) ([10.245.246.115])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2024 10:25:52 -0700
-Message-ID: <dec71400-81f1-4ca6-9010-94b55ecdaafa@linux.intel.com>
-Date: Mon, 12 Aug 2024 19:25:49 +0200
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="AuSBj3yA"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4WjRqg6TLtz9snv;
+	Mon, 12 Aug 2024 23:05:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1723496719;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3QCIUdDSk7frtnt3g6xVWqSWfjLm42IUZdkBb53/lcU=;
+	b=AuSBj3yA06Ts1CaVwT26+hxIS3vM27ugE7kwgyOrFSbv9D+8yCFswTnvZkbBO5Hfc58Mf8
+	WLlXN3w5B16/CMbe8Z9vA4+HhnUWrNCLOA+TeXQUDQs2CKI8vOt50sRptcNNS7LZfL5qTd
+	Bh00gy3b/BAlpxKHXQOGm+wCEbsiyT1kC+MNT4jjI6/IprtbXX+tx0K2YlqXgjDj8VIJwI
+	jNp/BU0w2MnIpjbyvEIbQSGdMHk1ketZLtGmIWgLoEptbPh+A3Y/p29s7QBNuk1In4AcIr
+	gGCBpkHaX4zRmg1BCb9SQrMyxpkAkik7opZm62YjFaik4UUmlZqTW3C32y03UQ==
+Message-ID: <3e9cd14b-7355-4fde-b0c1-39d40467e63c@mailbox.org>
+Date: Mon, 12 Aug 2024 23:05:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] ALSA: core: Remove trigger_tstamp_latched
-To: Zeno Endemann <zeno.endemann@mailbox.org>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
  Cezary Rojewski <cezary.rojewski@intel.com>,
  Christian Brauner <brauner@kernel.org>, Mark Brown <broonie@kernel.org>,
@@ -65,125 +55,68 @@ Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
  Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
  Kai Vehmanen <kai.vehmanen@linux.intel.com>
 References: <20240812142029.46608-1-zeno.endemann@mailbox.org>
+ <dec71400-81f1-4ca6-9010-94b55ecdaafa@linux.intel.com>
 Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <20240812142029.46608-1-zeno.endemann@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
+From: Zeno Endemann <zeno.endemann@mailbox.org>
+In-Reply-To: <dec71400-81f1-4ca6-9010-94b55ecdaafa@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: osir8xq189qno4cqyetzsk9bwspdt8tp
+X-MBO-RS-ID: 48fa6584647c2bfafec
 
-
-
-On 8/12/24 16:20, Zeno Endemann wrote:
-> The trigger_tstamp_latched hook was introduced to allow drivers to
-> provide their own trigger timestamp instead of the default generated
-> one for higher accuracy. This makes sense in theory, but in practice
-> the only place that uses this is the hda core, and:
+Pierre-Louis Bossart wrote on 12.08.24 19:25:
+>> * The custom timestamp there does not seem to be a meaningful
+>>    improvement over the default one; There is virtually no code in
+>>    between them, so I measured only a difference of around 300ns in a
+>>    KVM VM with ich9-intel-hda device.
 > 
-> * The custom timestamp there does not seem to be a meaningful
->   improvement over the default one; There is virtually no code in
->   between them, so I measured only a difference of around 300ns in a
->   KVM VM with ich9-intel-hda device.
+> Humm, you're analyzing timestamps with a VM and a rather old device?
+> ICH9 support was added in 2014, some ten years ago. The timestamping
+> stuff is only improved with SKL+.
 
-Humm, you're analyzing timestamps with a VM and a rather old device?
-ICH9 support was added in 2014, some ten years ago. The timestamping
-stuff is only improved with SKL+.
+With more modern hardware on bare metal I would assume this difference to
+the default timestamp to be even smaller. I am not a hardware guy, so
+correct me if I'm wrong, but I would think that the unknown timing delays
+of the IO operations and internal audio hardware are orders of magnitude
+larger than even 300ns, making this improvement drown in the noise. Do you
+have some measurements of the differences with modern hardware?
+
+Besides, the only improvement here is that the timestamp is taken slightly
+earlier, nothing fancy as far as I can tell. It seems a bit odd to me that
+the hda core is the only one that cares for this.
+
+Finally, I cannot imagine what audio application needs sub-microsecond
+accuracy for the trigger timestamps. That is less than a single audio frame
+even for silly sample rates. Is this intended for some scientific use case?
+For regular audio apps I'd think most do not even care that much for the
+trigger timestamps and rather use the hw-pointer-update timestamps anyway,
+to prevent clock drifts. In my case I use only the stop trigger timestamp
+to estimate at which sample position a snd_pcm_drop happened, and don't use
+the start timestamp at all.
+
+But these are just my possibly narrow views on this. If you really have
+valid use cases for those improved timestamps I won't insist on removing it.
+In fact I'd be rather interested to know if you can point me to an
+application that makes use of this.
 
 
-> * It is also bugged as it does not set a timestamp when the stream
->   stops.
-
-That's quite possible, the main point was to get accurate timestamps on
-start and during playback.
-https://github.com/alsa-project/alsa-lib/issues/387 maybe be a valid
-issue, we never looked at the sequence with a drop.
-
-
-> * It creates a pitfall for hda driver writers; Calling
->   snd_hdac_stream_timecounter_init implicitly makes them responsible
->   for generating these timestamps.
-
-That's the point, let those drivers generate a better timestamp if they
-can. Not sure what the problem is?
-
-> Since there is no real good use of this facility, I propose to remove
-> it.
 > 
-> I reported the bug initially on github (see below), there one can also
-> find a reproducer userspace app, as well as some other potential ways
-> to fix this issue, in case this removal is not accepted.
+>> * It creates a pitfall for hda driver writers; Calling
+>>    snd_hdac_stream_timecounter_init implicitly makes them responsible
+>>    for generating these timestamps.
 > 
-> Cc'ing the Intel ASoC maintainers, as the skl-pcm.c is using the
-> snd_hdac_stream_timecounter_init function this patch modifies.
-> 
-> Closes: https://github.com/alsa-project/alsa-lib/issues/387
-> Signed-off-by: Zeno Endemann <zeno.endemann@mailbox.org>
-> ---
->  include/sound/pcm.h     | 1 -
->  sound/core/pcm_native.c | 4 +---
->  sound/hda/hdac_stream.c | 6 ------
->  3 files changed, 1 insertion(+), 10 deletions(-)
-> 
-> diff --git a/include/sound/pcm.h b/include/sound/pcm.h
-> index ac8f3aef9205..3539af9f733e 100644
-> --- a/include/sound/pcm.h
-> +++ b/include/sound/pcm.h
-> @@ -361,7 +361,6 @@ struct snd_pcm_runtime {
->  	snd_pcm_state_t suspended_state; /* suspended stream state */
->  	struct snd_pcm_substream *trigger_master;
->  	struct timespec64 trigger_tstamp;	/* trigger timestamp */
-> -	bool trigger_tstamp_latched;     /* trigger timestamp latched in low-level driver/hardware */
->  	int overrange;
->  	snd_pcm_uframes_t avail_max;
->  	snd_pcm_uframes_t hw_ptr_base;	/* Position at buffer restart */
-> diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-> index 4057f9f10aee..ced5bd2d7ebb 100644
-> --- a/sound/core/pcm_native.c
-> +++ b/sound/core/pcm_native.c
-> @@ -1194,8 +1194,7 @@ static void snd_pcm_trigger_tstamp(struct snd_pcm_substream *substream)
->  	if (runtime->trigger_master == NULL)
->  		return;
->  	if (runtime->trigger_master == substream) {
-> -		if (!runtime->trigger_tstamp_latched)
-> -			snd_pcm_gettime(runtime, &runtime->trigger_tstamp);
-> +		snd_pcm_gettime(runtime, &runtime->trigger_tstamp);
->  	} else {
->  		snd_pcm_trigger_tstamp(runtime->trigger_master);
->  		runtime->trigger_tstamp = runtime->trigger_master->runtime->trigger_tstamp;
-> @@ -1422,7 +1421,6 @@ static int snd_pcm_pre_start(struct snd_pcm_substream *substream,
->  	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK &&
->  	    !snd_pcm_playback_data(substream))
->  		return -EPIPE;
-> -	runtime->trigger_tstamp_latched = false;
->  	runtime->trigger_master = substream;
->  	return 0;
->  }
-> diff --git a/sound/hda/hdac_stream.c b/sound/hda/hdac_stream.c
-> index b53de020309f..271d42b765fc 100644
-> --- a/sound/hda/hdac_stream.c
-> +++ b/sound/hda/hdac_stream.c
-> @@ -660,14 +660,11 @@ static void azx_timecounter_init(struct hdac_stream *azx_dev,
->   *
->   * Initializes the time counter of streams marked by the bit flags (each
->   * bit corresponds to the stream index).
-> - * The trigger timestamp of PCM substream assigned to the given stream is
-> - * updated accordingly, too.
->   */
->  void snd_hdac_stream_timecounter_init(struct hdac_stream *azx_dev,
->  				      unsigned int streams)
->  {
->  	struct hdac_bus *bus = azx_dev->bus;
-> -	struct snd_pcm_runtime *runtime = azx_dev->substream->runtime;
->  	struct hdac_stream *s;
->  	bool inited = false;
->  	u64 cycle_last = 0;
-> @@ -681,9 +678,6 @@ void snd_hdac_stream_timecounter_init(struct hdac_stream *azx_dev,
->  			}
->  		}
->  	}
-> -
-> -	snd_pcm_gettime(runtime, &runtime->trigger_tstamp);
-> -	runtime->trigger_tstamp_latched = true;
->  }
->  EXPORT_SYMBOL_GPL(snd_hdac_stream_timecounter_init);
->  
+> That's the point, let those drivers generate a better timestamp if they
+> can. Not sure what the problem is?
+
+This is more of an API issue. At least to me it seems bad to sneakily enable
+this flag in snd_hdac_stream_timecounter_init. The documentation of it does
+not make it clear that after calling it the driver is responsible for the
+timestamps. Now I am admittedly not that deep into this code, so there may
+be a reason, but again at least to an "outsider" like me it is quite unclear
+why initializing the time counter also means the driver now has to manage the
+trigger timestamps.
+
+If you really want this functionality to stay, maybe it would be better to
+move that out of snd_hdac_stream_timecounter_init and just make every driver
+that wants to manage them raise the flag explicitly themselves.
 
