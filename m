@@ -1,211 +1,148 @@
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2075.outbound.protection.outlook.com [40.107.102.75])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCECD37B;
-	Mon, 12 Aug 2024 04:34:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.102.75
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723437279; cv=fail; b=T4af2QSfHTolwA7ErsdgA228dCFOieHYGnWRyl2v6fWGe9rWWSELjU31pwtsdt3bXH1jnJQUx1cO6ztqooDPSnTIFpeV4xS7tYademeZBGYfkG4kbLmVrs1wRlLdMBE5jewLjvewDLWxOpcShy4jrr3q2V8dozWSWKUpneiSvXY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723437279; c=relaxed/simple;
-	bh=V+S6z4rLcjDjsV7McO+rZrCXJO56Ka7y969S9C03cKg=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=I+W2t0HARe1h0rJWuDSa+rPvXMKH/TmgsARR96BulWYzfw6nxllIPgO8HQX+H3DoR39bJieThpeANq8TNsCYJsqRsprlHhkkM08vLkE3j/tL3slOLbq+tmmlHf8EiMknxGyJI2FUYSiLHfB8JzzvdGYOm3ko6Awh7ITUXelaOo0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=UN+LJ5cw; arc=fail smtp.client-ip=40.107.102.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 728BA1DFFD;
+	Mon, 12 Aug 2024 04:54:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723438449; cv=none; b=aLtFkM6YeEenbvH7FV5VObEUik9DrQu4wZbizENzeTyKTY4I3tlmu5DxzIoPYme0A04pEGPS/9ehi6oiKrZfG43bchsXa3mccTYjlUxIbEeFKF4XzdP+qYwSWqz0XKbZolK/TeJAG4+zhwRGcUq0wbrkzRtk4P05zj6j9pPoO9M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1723438449; c=relaxed/simple;
+	bh=7+jVABBsNbizGOQnYnTrHTlhtmzfjykh6P6vndW5SQs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lLTH+ougcODKK582UnBfVNh5HN/w057u0AQUJsuGwdOW0ZE0ruk02qbxImOeATTFKXpAnkuCEu1UkM1erdI0ghmHzo3at+4wyB2byZxmd83DVh/FuNB1keUmM8HdyrooI8jYJK/A3gN5Q8WT6zPjOJe/DaIJqHOpZJKwdFuT+dY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nAFX+O+m; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="UN+LJ5cw"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=E6gF5+eu5EfvX7eDeYdYx7aijP3LJ0PP7OCDjJgvMtS4FGWo5fK3Hf0Si662jQGgvgnOknTMJ72JrrEaqk6x6b6mQvjitVuOXNkebKEYREvNvDsgXACMjZLjsYnC3FfMmTvgsNoJcmgDBKFhfYDbgXKfmWAEWrBGlgkhlLtjltvmBZ6qHPB6nReXVTndX9M1k08he9G1t56x7wlz4emyjogMX13XWbOVWp1yqwTVET4DyD0C+tq8sF2Yy6pQ9EmmlfQV0Ul2zssQqZMfnGZDjmaJ/XHwqjwSm/9/4JGH6gj8SsawHG0rWKecN8NlJM3HZQjyW1PVtMMWbqFrcvHVWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nzyH2Hni2gWEjr3D/5t1ULn3T0UtJ6qrhEpo634w7cQ=;
- b=EgizGwOpRbkdBjdsonNPgbZe83c8/ZY6Pv8prwHHFG7GuNyLH+myMj3uM0TjF1O0WnpvIySpSd/q+p2SLQ8zFlDbAScj+hm/vTFn+vG3wMBHpPLAb8SaXKNOGVnDUbl6mzQCoSt3CJvGBskYcvHSB4vAK7/MOCbVZEz1uxztvxq4ay+HLJLnkGsyKwqq8nbeet+iR4Oz94oUU5nME2xZN2hhgm3cYwSwyr7xAyv32jQm1sS2lIfWzuYCkIV+EduU6saqEb4qdDTK1TeL9KQDHITpWbjdQg43VqYhvYxVu5HKxMc/T9ztQdBiRCPhohE3kBPzjAVnoLBNO3s/AxbmNA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nzyH2Hni2gWEjr3D/5t1ULn3T0UtJ6qrhEpo634w7cQ=;
- b=UN+LJ5cwRhKIOfYxnbpgEq5+6xXpN3wXrmDBNIKur4n4jUOY0mKx4F8g+74DbsUv5LPfNLlH0dhPEmU7g3gRQDDPbaLHrUpM/3b2aKMEehOVUHcFHr0mZR6uieOPD3myZMEz3zRCKETUUdRA5gTfQIG6eFld/GbS9MpzPVsjBa4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB4123.namprd12.prod.outlook.com (2603:10b6:5:21f::23)
- by CH2PR12MB4248.namprd12.prod.outlook.com (2603:10b6:610:7a::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.20; Mon, 12 Aug
- 2024 04:34:35 +0000
-Received: from DM6PR12MB4123.namprd12.prod.outlook.com
- ([fe80::512d:6caa:552a:7ebf]) by DM6PR12MB4123.namprd12.prod.outlook.com
- ([fe80::512d:6caa:552a:7ebf%4]) with mapi id 15.20.7849.019; Mon, 12 Aug 2024
- 04:34:35 +0000
-Message-ID: <d4efa03d-97bd-4ade-8cbf-e51bc74071d0@amd.com>
-Date: Mon, 12 Aug 2024 10:04:24 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/8] ASoC: SOF: amd: fix for acp error reason registers
- wrong offset
-Content-Language: en-US
-To: Mark Brown <broonie@kernel.org>
-Cc: alsa-devel@alsa-project.org, Basavaraj.Hiregoudar@amd.com,
- Sunil-kumar.Dommati@amd.com, venkataprasad.potturu@amd.com,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, Jaroslav Kysela
- <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- "moderated list:SOUND - SOUND OPEN FIRMWARE (SOF) DRIVERS"
- <sound-open-firmware@alsa-project.org>,
- "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..."
- <linux-sound@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-References: <20240807051341.1616925-1-Vijendar.Mukunda@amd.com>
- <20240807051341.1616925-2-Vijendar.Mukunda@amd.com>
- <ZrUdOyGiFRH0sRlt@finisterre.sirena.org.uk>
- <a6a0c975-728b-4379-b074-b88ac928c58b@amd.com>
- <ZrXGzmhgyIJ9ID6I@finisterre.sirena.org.uk>
- <adeb6cf8-1fb6-4bf7-8d36-504b22c366be@amd.com>
- <Zrall8SwKewe2_hJ@finisterre.sirena.org.uk>
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <Zrall8SwKewe2_hJ@finisterre.sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN2PEPF000001AE.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c04::a) To DM6PR12MB4123.namprd12.prod.outlook.com
- (2603:10b6:5:21f::23)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nAFX+O+m"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-70d1cbbeeaeso2769525b3a.0;
+        Sun, 11 Aug 2024 21:54:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1723438447; x=1724043247; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ySHO6O2H5qje2VBKy2Synv/wXJFARS3WfeCV+1C16pQ=;
+        b=nAFX+O+mFO6i480R29KKChOK6CheB2OQMvp30ZTEvIJIpET9tYrW67l1smMphWi1L0
+         0n5l4YlvN0AUGxbjHmJLGw03fyUdvWhNB/jX695ipnXZAtug5Rk4pGHLtkKj1iJtj75u
+         tODF6yatJHpevbTRgspCOEhWj48hTnolE9BGPcKUargfmbSUOqJsvI8vbzkj32xyrHAr
+         2y5iPT23HDMUCm6A7cmARmBPTjvmxMMokwlXjZmF9p0YWAm75Ov7rnJHpy0YHrzqhDq9
+         8qXog9uo2v5Z5UVA8G+LVXkroD+yqi1fGkMIu98fOiIBJM2JXMALaQ3aMXWjUjKbjem9
+         leIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723438447; x=1724043247;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ySHO6O2H5qje2VBKy2Synv/wXJFARS3WfeCV+1C16pQ=;
+        b=v4YSofFGvrl4pDJouoB4unwXXsXqFn0wfef3HSKE6k08xmj3lV2/kFm5lS5uXQ8149
+         hHNQ5lD5HHG0JRPS8rMHKdRCqkXOC12VXOTtMmnWL0yJ7A6r6Sz/L1sA35FlLBX55/wf
+         DC/+Lw72sENqIv1YkzYxXWOce2IMOhc+9qbhPKnDhHsdDP2yOt1XQB30dLK4Jw4NiVOG
+         klQ7L6232ep1FY/GrlEptun03WJhZd6f4tShP0Sw3Od1ZaeZ+6oLjwQYoj4B34W1tSTN
+         rPVYDCKHURAytQjz5xol5SXq/XJygr8rzmp4UUk2jgsJmpEUSIc4rIRCOjOKWvf6Lj5D
+         Aifw==
+X-Forwarded-Encrypted: i=1; AJvYcCV22dGFcZYzcTD1WVkRbG1Tgw9UVVgMstCY8WeNXorUzJ7sOyFpdQlWjMuDt4mCWlul20CO3xsf/ozd5ubeEk6hBLvWbodWa0MASioq/DjQ8BItEi3qmTkalhLiVDgNwyc0uRL5TUr2e8g=
+X-Gm-Message-State: AOJu0YwSDWC+AUquhkkNsqKOs0XeUass5Mfhc/jVXCOIKp+Iw7hPZlHz
+	NrGLZwCKUmkafsCTCP7LUok6Dpsgq+xfTGDgq+rYND2iuYgw5KRt
+X-Google-Smtp-Source: AGHT+IEIkhd5ULm8pjy0oWMQmysodM2aF4d/rg/YAnViabCyPKOCQwwX1ciUj9E5aL49vpuif3TNlA==
+X-Received: by 2002:a05:6a00:21c9:b0:706:6bf8:bd2 with SMTP id d2e1a72fcca58-710dc899ea3mr7338886b3a.21.1723438446505;
+        Sun, 11 Aug 2024 21:54:06 -0700 (PDT)
+Received: from nobara-Desktop-pc.. (syn-076-167-168-058.res.spectrum.com. [76.167.168.58])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-710e5873b06sm3227939b3a.10.2024.08.11.21.54.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Aug 2024 21:54:06 -0700 (PDT)
+From: Jonathan LoBue <jlobue10@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: shenghao-ding@ti.com,
+	kailang@realtek.com,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	derekjohn.clark@gmail.com,
+	luke@ljones.dev,
+	benato.denis96@gmail.com,
+	Jonathan LoBue <jlobue10@gmail.com>,
+	Kyle Gospodnetich <me@kylegospodneti.ch>,
+	Jan Drogehoff <sentrycraft123@gmail.com>,
+	Antheas Kapenekakis <lkml@antheas.dev>,
+	Richard Alvarez <alvarez.richard@gmail.com>,
+	Miles Montierth <cyber_dopamine@intheblackmedia.com>
+Subject: [PATCH] ALSA: hda/realtek: tas2781: Fix ROG ALLY X audio
+Date: Sun, 11 Aug 2024 21:53:25 -0700
+Message-ID: <20240812045325.47736-1-jlobue10@gmail.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4123:EE_|CH2PR12MB4248:EE_
-X-MS-Office365-Filtering-Correlation-Id: e1e85147-d602-4b8b-eaec-08dcba88117b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?MFNWWExpOXJMWDlpY0VpRSs0ZHh2Y0J3TFYvMHM5aG5aVENXTHk4aDg1bnlY?=
- =?utf-8?B?V1FuV29oYlVzQTlIWFNWbm5XeTNKMFNlRzE0TnBjMmJhQTE5bll3K3pnNDlo?=
- =?utf-8?B?WlJkV05VZTdHRmJTK2lLYkp0WDBwYkJyMDRSS1QrK1ZXSUJobHFtbEsvdlR6?=
- =?utf-8?B?aktvOWNyRlJwT2lTUzJVdUN1ZldrQmRvS1JRbDlhdEY5UVQxYzMxK3Q5am50?=
- =?utf-8?B?ZElsMU1XbnFmMVBQL3N2NVIrQ3lLMm1SZE56dENXeExUcVNVeDVqQUZIMlhD?=
- =?utf-8?B?dWlLNVdkRUJHS2d1aUM3MHo2bVBQbVk3M3VEbmZIY0xIbnJqOWtIeVJtdDRz?=
- =?utf-8?B?TkNMUGwwZEFiZzQyaEZWb1ZWU1kydWtpUndEdDhLUzRaY3ZRdDBjSTdCYTF5?=
- =?utf-8?B?Z0dkUjdFeStmZytsblVHOGZmVDcyK3VzT3RBaWc1NVJ4RUgxSEd5SlNONzVo?=
- =?utf-8?B?MmRKUUxIWGgrM2M3SThFa0NzenVWYzlGR1BFempWTVlqQ2RMeEFmL3A4enNC?=
- =?utf-8?B?NUdzVVpIVTd3QlpXZVYzR0dNY0pONzl3TFFCd2RHZ1krZnRZOWZPTUhsWmV5?=
- =?utf-8?B?c1dibndXdEpzT3hCVEJ1OHF5K2I3ZkZUSTZsUVZPRjdmSVFKdVUybmgzWndG?=
- =?utf-8?B?N3RlYmZKc1B5VE1NejQ4TzYvaXh3djNhMlBYRTY2OGR4TGpTVTVKMVA4YW1H?=
- =?utf-8?B?bFNXb0xqZEkzZzFvOWl0aTRhU0pCY24zUnkyejR3TDVSYnV5WDdINjV4clZu?=
- =?utf-8?B?SG4yN3BaMzAySEhtVW1uaUlZcmVodFhmSzN5dTBNQnRvTldmVFk3b0lFVDQ4?=
- =?utf-8?B?Vzl5K1ZoaDJYY1lPNmk0blZzNHRsVVhpV1lqamN3WnpPMlNja1ZmaVh5UmpV?=
- =?utf-8?B?UWNjdDJrbElOSERlaSszZkZkeS9LdkVBakxCT2ZjclJJTTAxZDdRWDMzQmk4?=
- =?utf-8?B?bFI0eEtYZlUzK1hoc0kvZWQrNXJTdVFiN29PR0JVbnk2N3lCMnUvVkVnbENm?=
- =?utf-8?B?YlI1Q0VieDRwNmNndkFKWlBMWjhVZ3pwS1JYN083R2dmWloxeEZDSjVWMlZD?=
- =?utf-8?B?TGVpQkh3bnBtbnducXNWNzhRRHMrNDRJd3NMK2VHWXFWdmFNVnc0M1ZVU0li?=
- =?utf-8?B?eDlocm8wQ3VsY2d5RkdZc2hsVExiS01KZUpkVSt2RnNOOG41RzE5MUVuckIw?=
- =?utf-8?B?Z2RxSCtnd1NlK0poSERDSXBDMFlZLzNzRGRRanhIaFpKa2hpckxvNnYzWFhK?=
- =?utf-8?B?bFdOajB6aHhTRUg2bzgrbklNODJSNEdna3dyZ2RKb1BUaTN6SkFHQ2t4UUdY?=
- =?utf-8?B?eWJRNGxQcmsyOXExNTZwWUQ0M1VHaEprM1UzcmNtTXF3LzU3T3lvTUtrZ0tX?=
- =?utf-8?B?NXVKZVk4bDJZcTE1MjlJT0E5eS9RQjdobFVEOFI3Y3QrMHY2U0ZEQ1k3d3lZ?=
- =?utf-8?B?Tnh4bHFhcVJIZ1VsZnhzY2FUOXc0azNmQ1hNZjIvbkwwQ1hHVVNYNE54VFkv?=
- =?utf-8?B?SW5TSjd5YSt5N0RwKzZpa2g0aHlOY2pNT3NoQWhBaTJQUk9PN1ZIb3N1SEJ2?=
- =?utf-8?B?ZjVMU01TMHpQUCszNk1ZTW5HRG11WFRkVUpCKy9nTVV1aE5sdTZtNHpFSFoz?=
- =?utf-8?B?dW5JbW5yb0paMGR4WUhKZDBsNzdEMEhqbDJPYzRrN1RlMEdDM2xxRStUdlpz?=
- =?utf-8?B?MXk0VnRMT0FMOTg1aGkzYitHUElqRWN0L0xQY0VtN1pXVlN6eDhRME5ITlFw?=
- =?utf-8?B?TktIZGZFZEd0RDRnUHQ2WEtmSWpUWUJhWlpYMktmREx5MjRScHFIaTh5cDBB?=
- =?utf-8?B?SlJVc3RjR0YzMSsxVVVSdz09?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4123.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ZVIyeXVpZ2dUaTNvWjFwMFBYMjVPdnBkS3BvdU1vcTc1Z2toL0dnS2xuSlhU?=
- =?utf-8?B?aCtmZHV3ZzN4VUw4cG9NUHQrbGU4Y3V3NERqVWo1R29yaFNBUTdUaGpEZnU1?=
- =?utf-8?B?bEJrQXdxenRMbmNFcTVJdE1yT1U2emhiZHh5UHQxSHJVNXd2MnNKVmlCUHdw?=
- =?utf-8?B?d3Y5akxONVlGbkh3SXdHd0o3RUhWRGRVaUszQkZqTXNRNzlwOFFtRGVORytD?=
- =?utf-8?B?bWpWaXZHWFladlJzdlIzaWkvd20rOWs2SzlpSkp5QVRxYnUwTDJRWENvWlo4?=
- =?utf-8?B?ME9Zb3JaM1BOZGV3WUN6VFhPaUptUkhtK0pYemV6Ukgwc1VlRTh2bmQ2UUpG?=
- =?utf-8?B?Q0UzODZUTW1qNnpjWVVmSCtEVS8zV09EenFvK1ZtMWlrWGdyVEg2WUtsQndQ?=
- =?utf-8?B?TFFtYjIxcHBuYzh2YWpzL0RwRW5GVFlxak9XUGttL1pJR3VINzEvcUQwOStv?=
- =?utf-8?B?ZmlaYkEvMHk0RGJ0bXQrK0QzRWpBOVNHTEtpVW5NN2FRTkhXb0J4VFZaVWlJ?=
- =?utf-8?B?NTlrZGoyVlpZUnF5akVvemRSdTN3c0ZuUXJUWElVTUpJY25Bd0pyd1JyK044?=
- =?utf-8?B?UVNxQkxhOStneGZMeXN6UzM4d2V3UzEyMktYU21zbHJBTzJBNSthWi9GNzdE?=
- =?utf-8?B?T2k2UE9NTExwU0NEeWV6TS9Xa3Fad2FBcVh5NmpvRW16MXlRdThONXFTaTJn?=
- =?utf-8?B?UXZBR1AyZDlJeXR5QVptNHdwMlI0Z2ZKM2l5ZURqV3grZWpHWW9pdlhkQ01R?=
- =?utf-8?B?ekdXVjV0WmF4ZC96R0prVVhObVN2VkdpTVppR3FkTVJSM1FMcnAxL1ByOUZw?=
- =?utf-8?B?UmQ5cDUxWmpUSThrdjIvUGk4YlJwbGhSM0d1MWNKUHZGL21XcWVZdWd2d3Nx?=
- =?utf-8?B?WjBKNGxyU3lKdWovd2V4ZXVMYU9PWjJvVTZ6ZnYwVjY3Z0NSMEdmL2YzamlS?=
- =?utf-8?B?UmhSaWJZU0FJN0l0T3dOVzB0YnRxYWJkRmFLOVRCTDczL2x6djVWdDk5czFR?=
- =?utf-8?B?SS85YTVKREQrdWU3NGptWHhBNExvQnlhenZ3L0JiOVhFcnluVjg5NzlmeS9X?=
- =?utf-8?B?NmViTm8wWTQ5WHphR2F0eWV1WGMySnZreW8ya3B0aHZoWEpib0JyZTRKTXBB?=
- =?utf-8?B?ZjdOSHJMOVg3VnR0TlJzYUFPSTVPcGM2WThDUWlXVGxFaEphYU9vMW1YeUFy?=
- =?utf-8?B?dTVYWlVzK0VJZ1VxYmN4YVVHbWppcEVUeHA0YnlYL1N6R0kzNmx6ZC9mRWZJ?=
- =?utf-8?B?L3dtSkttSC9oeFVQdHRFSWhNbnU2Sk1hemNBUkN6a1R3a2Ivc0VoYjBMN2R6?=
- =?utf-8?B?cndBbTk0OEdqYU82N0ZMVndHZU5IRTMzcGZRVHpmTFpBb3VrU1dRaXdoa3Vk?=
- =?utf-8?B?WjRFYmFCNEJhMFlFcWZIems2b2tzTmtlWGVKNEM1bWhQMi84ZCtmNFhFS1dB?=
- =?utf-8?B?NXo3VE53aFJEbGFiaCtaRlB1YTNKSjFkQW1LVmNqN0JqSmNHQWNmZ1llcVIr?=
- =?utf-8?B?ckxHcFVIdm4vc2lMYWVFQnZDb3BGM1FUWFpvZS9qeXFYQ0ZlY0VuZ2VPa3NL?=
- =?utf-8?B?QkpsQ2crUmpTRDUxT2NubGtzL0hlQXpaMDNWOExnNHN6QStxTVdBa0wrM1k1?=
- =?utf-8?B?dktaVXIwdmxQaTNnaHlXaEN5U1A1ci9Pd2tNSk5jd3hxd2tNSWNtWXBxMUV2?=
- =?utf-8?B?SVJPeUh3RFpLVkZidTNwT2wyY25MNlB3VjgxOWwxaHl0eHBkNWYvZHh5Skdy?=
- =?utf-8?B?NHBzaDcxeEpTcmpTM0s2bFU2ajNNMDJkd05GaWJaZ2xqeTZxQ2VhcmdWNm8v?=
- =?utf-8?B?ZGdWOFM2VkI3OTJpQk9jUU9GSDVGSjVPRnJMWjdIbk92N1JpbVN6S2VRU2FP?=
- =?utf-8?B?TGVTT3RTbkxJWjhyM0xyaW9pR25uZFZhTDkxc1BvYWdGcmR4S205eGVBTVhk?=
- =?utf-8?B?RkM4Ryt4UVhnUkxxbTNKUmNxUlpnd0N4YnRFU09mdmxySXE5Z2RYT2Q5MVBC?=
- =?utf-8?B?bWJrelpVQzIxdHJYNjBpYThNcU5rb2FGR2ZDbFNOM0QwM0lHM3UwWVh3bjd0?=
- =?utf-8?B?bThMeWtveXM4ZjZLT3hueHVFTFdXRnRWcVcvUHRpUlUyV2M0MnRDdVZMUThT?=
- =?utf-8?Q?U0dRIDxPHxlWmk6RKCmFuZ6D0?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e1e85147-d602-4b8b-eaec-08dcba88117b
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4123.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2024 04:34:35.2551
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fwhWj/bD6YoxSsXMISTx7hDHnGoDGtPtdm98U0oM8b3YJNB2H8cYWw6MZspACFN8wSPQHO1pQBjo+9KYoLb6HA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4248
+Content-Transfer-Encoding: 8bit
 
-On 10/08/24 04:56, Mark Brown wrote:
-> On Fri, Aug 09, 2024 at 01:49:37PM +0530, Mukunda,Vijendar wrote:
->> On 09/08/24 13:05, Mark Brown wrote:
->>> We want the resulting git tree to be bisectable, that means testing each
->>> commit not just the final result.
->> This patch series is prepared on top of
->> 20240801111821.18076-1-Vijendar.Mukunda@amd.com
->> which are incremental changes and also has dependency.
-> For the benefit of those playing at home that's "ASoC: intel/sdw_utils:
-> move dai id common macros" which is in -next as 8f87e292a34813e.  It's
-> not great to base a fix for something that's in Linus' tree like this
-> one which has:
->
->    Fixes: 96eb81851012 ("ASoC: SOF: amd: add interrupt handling for SoundWire manager devices")
->
-> in it, and any such dependency really needs to get called out in the
-> cover letter if it exists.  
-Agreed. Will mention the patch dependency in the cover letter and
-resend the patch series.
->
-> In general you should expect bug fixes to be applied for Linus' tree by
-> default, especially if they're tagged as fixing a particular commit in
-> there.  That means no dependencies on anything that's already in -next
-> unless explicitly called out, and if the thing in -next is just a
-> cleanup or refactoring then generally it's best to just do the fix for
-> Linus' tree and then separately merge it up to -next and integrate with
-> whtaever cleanup/refactoring is going on there.
->
-> Please include human readable descriptions of things like commits and
-> issues being discussed in e-mail in your mails, this makes them much
-> easier for humans to read especially when they have no internet access.
-> I do frequently catch up on my mail on flights or while otherwise
-> travelling so this is even more pressing for me than just being about
-> making things a bit easier to read.
+This patch enables the TI TAS2781 amplifier SoC for the ASUS ROG ALLY X.
+This is a design change from the original ASUS ROG ALLY, creating the need
+for this patch. All other Realtek Codec settings seem to be re-used from
+the original ROG ALLY design (on the ROG ALLY X). This patch maintains the
+previous settings for the Realtek codec portion, but enables the I2C
+binding for the TI TAS2781 amplifier (instead of the Cirrus CS35L41 amp
+used on the original ASUS ROG ALLY).
+
+One other requirement must be met for audio to work on the ASUS ROG ALLY X.
+A proper firmware file in the correct location with a proper symlink. We
+had reached out to TI engineers and confirmed that the firmware found in
+the Windows' driver package has a GPL license. Bazzite Github is hosting
+this firmware file for now until proper linux-firmware upstreaming can
+occur. https://github.com/ublue-os/bazzite
+
+This firmware file should be placed in
+/usr/lib/firmware/ti/tas2781/TAS2XXX1EB3.bin with a symlink to it from
+/usr/lib/firmware/TAS2XXX1EB3.bin
+
+Co-developed by: Kyle Gospodnetich <me@kylegospodneti.ch>
+Signed-off-by: Kyle Gospodnetich <me@kylegospodneti.ch>
+Co-developed by: Jan Drogehoff <sentrycraft123@gmail.com>
+Signed-off-by: Jan Drogehoff <sentrycraft123@gmail.com>
+Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+Tested-by: Richard Alvarez <alvarez.richard@gmail.com>
+Tested-by: Miles Montierth <cyber_dopamine@intheblackmedia.com>
+Signed-off-by: Jonathan LoBue <jlobue10@gmail.com>
+---
+ sound/pci/hda/patch_realtek.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 480e82df7a4c..9bc39c2ee6b9 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -7410,6 +7410,7 @@ enum {
+ 	ALC285_FIXUP_THINKPAD_X1_GEN7,
+ 	ALC285_FIXUP_THINKPAD_HEADSET_JACK,
+ 	ALC294_FIXUP_ASUS_ALLY,
++	ALC294_FIXUP_ASUS_ALLY_X,
+ 	ALC294_FIXUP_ASUS_ALLY_PINS,
+ 	ALC294_FIXUP_ASUS_ALLY_VERBS,
+ 	ALC294_FIXUP_ASUS_ALLY_SPEAKER,
+@@ -8877,6 +8878,12 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.chained = true,
+ 		.chain_id = ALC294_FIXUP_ASUS_ALLY_PINS
+ 	},
++	[ALC294_FIXUP_ASUS_ALLY_X] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = tas2781_fixup_i2c,
++		.chained = true,
++		.chain_id = ALC294_FIXUP_ASUS_ALLY_PINS
++	},
+ 	[ALC294_FIXUP_ASUS_ALLY_PINS] = {
+ 		.type = HDA_FIXUP_PINS,
+ 		.v.pins = (const struct hda_pintbl[]) {
+@@ -10313,6 +10320,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1043, 0x1740, "ASUS UX430UA", ALC295_FIXUP_ASUS_DACS),
+ 	SND_PCI_QUIRK(0x1043, 0x17d1, "ASUS UX431FL", ALC294_FIXUP_ASUS_DUAL_SPK),
+ 	SND_PCI_QUIRK(0x1043, 0x17f3, "ROG Ally NR2301L/X", ALC294_FIXUP_ASUS_ALLY),
++	SND_PCI_QUIRK(0x1043, 0x1eb3, "ROG Ally X RC72LA", ALC294_FIXUP_ASUS_ALLY_X),
+ 	SND_PCI_QUIRK(0x1043, 0x1863, "ASUS UX6404VI/VV", ALC245_FIXUP_CS35L41_SPI_2),
+ 	SND_PCI_QUIRK(0x1043, 0x1881, "ASUS Zephyrus S/M", ALC294_FIXUP_ASUS_GX502_PINS),
+ 	SND_PCI_QUIRK(0x1043, 0x18b1, "Asus MJ401TA", ALC256_FIXUP_ASUS_HEADSET_MIC),
+-- 
+2.46.0
 
