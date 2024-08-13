@@ -1,87 +1,91 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B82D717B427
-	for <linux-sound@vger.kernel.org>; Tue, 13 Aug 2024 09:03:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 955B41487F9;
+	Tue, 13 Aug 2024 09:08:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723539838; cv=none; b=ch/82Fh7uCPqFgicvMCtuxWG3bCt7rBV8B7LVc0vfi+63zuzaVYCozpbWjzL5cTRocCsRvOsApOwPEZamqPBIV0l0Bh9i18cLg8BquzQhrFEv+ER2dt0UMCkVB9v80plXf1ofjKQNXTWiUdOOwttGd5gdpm/MdHY1LX0pNloIos=
+	t=1723540114; cv=none; b=TYr9e+GIOW/q2KHkTdg/By3hQd1Ynw1qhkyu6KaNudYuJ2fuatRAjJsky+SFNn5WUCyvyLp5VzpUXX47Y1ACBUg+s823CwSjXYpd24CYChdM2DMp8onJ0uASZK9P/W/nJdR3oDLjTYFvJAqXCi33UttdKl60IEiUngLsVcqRWFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723539838; c=relaxed/simple;
-	bh=Ve4jbSU7S9ExZbxJjtrrBtClvd5I5lhR/E8IhWEXAFc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qX+79NQOIkIMJHeUVo+929zrxr51VmZ2CAsRpcZofiVnaoy+nUH7obky64quaSxKFEHleRqraEH4+9Men6sSdZSj4Tpikc9h/H+a2DGfgdB3u5ThhPw6UZdn1+q4WtWBtBQt9j8ansYFDRmBWOEAhFTNL0b/O9YOIk3BOy6NgrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ONGFam6b; arc=none smtp.client-ip=209.85.208.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1723540114; c=relaxed/simple;
+	bh=/84SsMkop9pAE0/ilDwpDyknfZaT20JA0YwOVXiSX6w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZwlZcdxLQzl1HF7jjDGLtwmyqVdbedbpVxdxhIDUTOTmRrQH6ctu42pOSXcpbt++z/3tQN0FolWp0tvlg1ZVuDZRPLOqNcA3gZ9Lu8EXZ1GTBX5GQ3xDm/pnK+h+C9BYDcD2rJpwugqHp2M7OPcWqmF6Mq6Ly4AfX4txKlg/5TM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gX1FSwZp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ONGFam6b"
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2f01e9f53e3so82070931fa.1
-        for <linux-sound@vger.kernel.org>; Tue, 13 Aug 2024 02:03:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1723539834; x=1724144634; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ve4jbSU7S9ExZbxJjtrrBtClvd5I5lhR/E8IhWEXAFc=;
-        b=ONGFam6bA0iGA9MQv5hJOKYPZaL7w8lImm/rEfITGq291/kZhx4qFQnDwCWRJLuQQt
-         1eVN3RHKeEQfGAoZe2SSeVsFYcFaJFJXyyOXCAYC/U8GPEsKSu9h0Pzo0Yl+HfAGJGUk
-         wvf81LRQ8vP5o36JImmBcvGphC7nXgn2PAmoE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723539834; x=1724144634;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ve4jbSU7S9ExZbxJjtrrBtClvd5I5lhR/E8IhWEXAFc=;
-        b=djV1RJtZGOfpZzvx+iGqQK6WYqziTuFNcjECW4uLGV+7kFQco4xowDkfUAwnD/JiVY
-         kkGUVtvj+E9FZqKs+DDNUswzOXy8CFPI1swkl7XTK8mHmTafWDsT59dmU1K/XCckFTLg
-         BHPE5K5LsJrm2eFVV7j8jLVOUX8y7MjTGxi6h/ctewsZ5s+LaPRNfrmnAl3emUE9GG7h
-         k1jRzgCRFsBXTcKsS4faGYIyk0WohuLTAb0aABOL3vzJVxsiBjlYckcZGgemCyKLocMh
-         q6UQlxY1FNs3h8+9UhiEPpBAsGCi6MSjoDGoPtbS3Usqed9H3sm8TWTm4VGb3RqIelYA
-         GCDw==
-X-Forwarded-Encrypted: i=1; AJvYcCXkrXyNVBeptmEjO9bghKWIgW2M7aZIFurHvbvaJZY38V5EsKIVlu2oe9qlu1a0EZ1aOUc6Z5n+lCKoE4VMy+cHwzZERC/0uJCzTYI=
-X-Gm-Message-State: AOJu0YzWvosfKpiJLs4SLWB9smvd97Wv8ky3kRk7/10fpp5ICgFMcaMv
-	1JtwmlFcHHacDloatFXtGFvIbf1sgONCgBHCKz+zAsS/rr3PrMVW0N5tlsuLdf69HBq2sy/KtSd
-	as/zGNLBd3IBbZruLjlzy4dSp/2ujDlixOoy2
-X-Google-Smtp-Source: AGHT+IG7NaoKLkQNmaW+Q8ybfg+2Fkm3g2gdZmqPP65jKw5bs2Y5MuNgZOgxthLiif5iORngSqZhzj93hj3oIkVu1A0=
-X-Received: by 2002:a2e:3c14:0:b0:2f0:27da:6864 with SMTP id
- 38308e7fff4ca-2f2b7150009mr22309211fa.17.1723539833287; Tue, 13 Aug 2024
- 02:03:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gX1FSwZp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A85F9C4AF0B;
+	Tue, 13 Aug 2024 09:08:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723540114;
+	bh=/84SsMkop9pAE0/ilDwpDyknfZaT20JA0YwOVXiSX6w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gX1FSwZpLAoQiq7Nbnrxyyokw7CW7ZTEQHaDUQRGDUl5qKBTtXJxLpT9wtd09AvBq
+	 UHd3Dq54pS4gNOPk5vU6g4n0yDl7t2yXJAYYNkE7iRQUp2KnK9QDbWz72pRHlntEOs
+	 K/UcQRTu7dxShMeqHUHwU+0vPg+LO7HkuuXZpX4jEMBRYK7SgENb18Pg1eMbhqUD6x
+	 XiT/vlCsm+hCu96xcWKzuPN8y3LmrK/5uhkx907zDvzGNvzJ9mEtmaJPEwKDna0qck
+	 +FAdA/1VoiT5MQny88gQIWDGrmJYu93PlwcDLbYsTvaw4+vFxgqG2K8e8dW4jyaUuG
+	 LRFDX89gzEX1g==
+Date: Tue, 13 Aug 2024 10:08:24 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+	Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Michal Simek <michal.simek@amd.com>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 3/9] ASoC: test-component: use new of_graph functions
+Message-ID: <28f4e558-734b-4c0f-b1d5-82f31679fb51@sirena.org.uk>
+References: <875xsa8gws.wl-kuninori.morimoto.gx@renesas.com>
+ <871q2y8gvl.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240809135627.544429-1-jakiela@google.com>
-In-Reply-To: <20240809135627.544429-1-jakiela@google.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Tue, 13 Aug 2024 17:03:42 +0800
-Message-ID: <CAGXv+5FpYxyANqp+uMoJP4my7e_yjSS7eFOodG-UuGG6eHCj-A@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: SOF: mediatek: Add missing board compatible
-To: =?UTF-8?Q?Albert_Jakie=C5=82a?= <jakiela@google.com>
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
-	Bard Liao <yung-chuan.liao@linux.intel.com>, 
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, Daniel Baluta <daniel.baluta@nxp.com>, 
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Trevor Wu <trevor.wu@mediatek.com>, 
-	sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="UvXpPTbsvywwXUHF"
+Content-Disposition: inline
+In-Reply-To: <871q2y8gvl.wl-kuninori.morimoto.gx@renesas.com>
+X-Cookie: Say no, then negotiate.
 
-On Fri, Aug 9, 2024 at 9:57=E2=80=AFPM Albert Jakie=C5=82a <jakiela@google.=
-com> wrote:
->
-> Add Google Dojo compatible.
->
-> Signed-off-by: Albert Jakie=C5=82a <jakiela@google.com>
 
-Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+--UvXpPTbsvywwXUHF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Fri, Aug 09, 2024 at 04:22:38AM +0000, Kuninori Morimoto wrote:
+> Current test-component.c is using for_each_endpoint_of_node()
+> for parsing "port", because there was no "port" base loop before.
+> It has been assuming 1 port has 1 endpoint here.
+
+Acked-by: Mark Brown <broonie@kernel.org>
+
+--UvXpPTbsvywwXUHF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAma7IocACgkQJNaLcl1U
+h9DL6wf/ccEnzGM5bE26J7HDrPiqIE/eCaPdxcacYmLMDYiMwI+/oImLFkpoyrkQ
+BNR0YqfzZSwo1UdmG+p5uFw/qtup8HRTuQUPrttDzkDtWSfVdqLmnFfFas/ELxrs
+V3NIGf5hnbULmlch/N8y61Eqe9SSn5S43JxYDiNdd2KlE5U4tiNum4zcM292hIpL
+mlaiQCyI9Fcp2HaZEVStyyMAItpHZfXeFqYtKJS9gk8ddu6shM/AoO9DOdZ4CMb7
+wggffLNrdtHaviAvgdPDs3DHhNq0m4RIwyLvITG5LMgXmBc6i5Eianf5ZErNRqnV
+Zjh41pWBLTPVXSPaYRS1qnP5f7ku1g==
+=ODw5
+-----END PGP SIGNATURE-----
+
+--UvXpPTbsvywwXUHF--
