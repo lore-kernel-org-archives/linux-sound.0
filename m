@@ -1,164 +1,257 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2069.outbound.protection.outlook.com [40.107.244.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DFD947F5B;
-	Tue, 13 Aug 2024 08:04:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723536277; cv=none; b=P4Uo3mlp4kcd5O84RiZqTk2OgKxoHw31JSlkwZ6ZAWWBdaaYd67w+GsWtcOuQgBwwIatJGgsNHiucpXB/fxenbosWMh/cNtF9Z+OuZAksPYi1FdGtKQo0U/i3tKtS/FGYxkEmZLvBm3rOqE4KqY41JJKoRqUHdCsPM41NfxZJp8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723536277; c=relaxed/simple;
-	bh=JC8F9MenAO232MVenNnZ4VY3gB8G8oxP97lA62o927A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JOj695J4jRaVu8F5pN0CeJNv21r2dXNJ1DjB/uRyTAthulpmIwAwaiSZi9kZOjg1e+XN71HLTG6LvKtvQpd/G3DP8y9V+X+QjAgavWHJMCotL3Q71dH8fNcuzdw3Ae39e9dlTcBrh/95Zofik8R6TVFggM0LpKbSqUDLyNKXxXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d4NxsVh3; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B52225AF;
+	Tue, 13 Aug 2024 08:09:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.69
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723536558; cv=fail; b=hNGMRx5ViPxbfuS43DnD0PqdB8OJlF84cv81L4rBM/XlT6mjkteppMzM5KZbbLpoF91O/Y90FDJtE0fmRaYvFRj04s1j9NUzMbC+mQ6tDmpRWAUx45wU59tmEQKq5iSlxAqG6PZHVgbYrQgs6vvGpQH+5CRoaoi9pg/V0pUxGdg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1723536558; c=relaxed/simple;
+	bh=y6sRrVgJw7sU2EYUbak61jaRDjCZaYVVDPC+7eUkx04=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JwN8i/6daR4NetDztHZ/EBJ8zcFEcxCNZ9EX5MxQF85yUDJ67F7E/cWM4nCwtwp+O5N0SEILERLsQZhJSt+3IRiNB/IJhleGpTWJ4QP/bIfiD0KpVKtpQgw/KgNJYD/yUKQqpDaXS7jGUkUWbsgwz1a2cTaQEseUU9EeJDZxpAY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=G6J+v/b5; arc=fail smtp.client-ip=40.107.244.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d4NxsVh3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723536275; x=1755072275;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=JC8F9MenAO232MVenNnZ4VY3gB8G8oxP97lA62o927A=;
-  b=d4NxsVh3mrpIKfnTs0LseUGanv3hVUgaHqIpaHHQB1M32coAo4epEO9+
-   6ewvACudMG+rXJD1dFEXURD4I9c0yGTssBPaqAtBNk1xhWFH7DL1RQiLF
-   sMEWd96o28yvo1wouy/AVs8V0ZpcireXJF3MQV2632iV56PzY78uEEqK/
-   cQAuKrCetiNXC2vLziesw/Z0DXHq7SDxiotM7Vh/cwwFMw7U8clHIREnZ
-   ANSrdnpFxaFzH9b5Jy7LMyv+cVjz6rXnlPoQqrHKoohcR90UQd9JS88u0
-   LpvwSKHzmO90FNSE9B3uBnLkx62cW84AStwaZ0j8OnnWfKpq+MA6TCL1P
-   Q==;
-X-CSE-ConnectionGUID: /dG1uinwSNuvwAJ/CrHfcQ==
-X-CSE-MsgGUID: uC41bXbZQvOZ6I8OzPBAbQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="25547394"
-X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
-   d="scan'208";a="25547394"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2024 01:04:35 -0700
-X-CSE-ConnectionGUID: 4DiBFBvhQJ+vuxbfoCU47A==
-X-CSE-MsgGUID: kNBid03SRT+3sjhsMUTmIw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
-   d="scan'208";a="62748123"
-Received: from cpetruta-mobl1.ger.corp.intel.com (HELO [10.245.246.236]) ([10.245.246.236])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2024 01:04:31 -0700
-Message-ID: <8c71ea3d-5c97-423e-a270-3184c16e1603@linux.intel.com>
-Date: Tue, 13 Aug 2024 10:04:28 +0200
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="G6J+v/b5"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tgWmy3IbegshzOb3JKzfbMgGvUr1qXGPFvzdBt3tMW+kDbtbJpKCYslLG/sJ+EPZviL8ETZ0NUpdc9ffsw+KozqHLrA8Gs+ZJWUWE5Ozv0uP2Q73KSyUt3BHC/SzGvqIRTRkQu7vT5uTofP/n/RDFaEQGpWR2Cx1hp6PbsUAKKqMAf6rtlkz4/pKMAxtapQWuXRnNEMUz/M4xFiSz0YP3gNcNXb34IrkoLr1MTnkpG+jpMJVj1ji2+KYc7Cey5w3ZRYcJDB/au/sbeIK2oy3JUv5lqmH618/kfFLtI9H9g3Sm0IMvbSHE4dFaMSNiaI1sGKVT9PWU58FtwyrgUzv+g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=j6Pbe56QNxBS/cBGsiUUw5oW4rhnRgQ3Rp5tF6z9TRA=;
+ b=I1GWzhHOK2RRNRJ3Kn1CKdLfT0STEpKC2tKSWa4xZPb/rxJbhPiryQYfBPnzKvxSeXHdmPDZlh9b/TsWte4czLE0ZOzTcYttpvIY++3OeRmonD2KK+OFS1EoJ4p+Ryv2B0uEb7p7EviFm9E6zeC6eBRXSpxGDhcZZ6nQj44XurrFafWNhWZCObI2ofcqnD8u0nf10eH/K6T8b7l+jnUnDWifzPXtA1iNvkrU2lWVinqKNLsLLNvc/G/5NV6pVGduNaFCVLVhhYqirv0GPTFMUJC0QAxW9jH3V2/oQ7M3v+0qwbLOr2m8656ijsLMPaOAIMTTCLDEyj3Le1KviFiVTw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=j6Pbe56QNxBS/cBGsiUUw5oW4rhnRgQ3Rp5tF6z9TRA=;
+ b=G6J+v/b5qvvCroVNbHonUY0ebLrCvA5H9gysD37T33m7mRGJ6FlL6G2ZGgxovpVUvtCtGFP95Y8R8vDrFXQpxlVOIKQDG7XQ2QrJRgNtamp5FzUKRnYcYEeR3jair+YqFw4033l/8AEmzLG+aSe57/ZchEb9ldD2sVFXF470El8=
+Received: from CH5PR04CA0002.namprd04.prod.outlook.com (2603:10b6:610:1f4::20)
+ by CY5PR12MB6323.namprd12.prod.outlook.com (2603:10b6:930:20::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.23; Tue, 13 Aug
+ 2024 08:09:09 +0000
+Received: from CH1PEPF0000A349.namprd04.prod.outlook.com
+ (2603:10b6:610:1f4:cafe::39) by CH5PR04CA0002.outlook.office365.com
+ (2603:10b6:610:1f4::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.22 via Frontend
+ Transport; Tue, 13 Aug 2024 08:09:09 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CH1PEPF0000A349.mail.protection.outlook.com (10.167.244.9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7849.8 via Frontend Transport; Tue, 13 Aug 2024 08:09:08 +0000
+Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 13 Aug 2024 03:09:02 -0500
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <broonie@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <Sunil-kumar.Dommati@amd.com>,
+	<Basavaraj.Hiregoudar@amd.com>, <venkataprasad.potturu@amd.com>,
+	<Syed.SabaKareem@amd.com>, <lgirdwood@gmail.com>, <perex@perex.cz>,
+	<tiwai@suse.com>, <sound-open-firmware@alsa-project.org>,
+	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Vijendar
+ Mukunda" <Vijendar.Mukunda@amd.com>
+Subject: [PATCH] ASoC: amd: acp: add legacy driver support for ACP7.1 based platforms
+Date: Tue, 13 Aug 2024 13:38:50 +0530
+Message-ID: <20240813080850.3107409-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: core: Remove trigger_tstamp_latched
-To: Zeno Endemann <zeno.endemann@mailbox.org>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Cezary Rojewski <cezary.rojewski@intel.com>,
- Christian Brauner <brauner@kernel.org>, Mark Brown <broonie@kernel.org>,
- Pavel Hofman <pavel.hofman@ivitera.com>, David Howells
- <dhowells@redhat.com>, Liam Girdwood <liam.r.girdwood@linux.intel.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>
-References: <20240812142029.46608-1-zeno.endemann@mailbox.org>
- <dec71400-81f1-4ca6-9010-94b55ecdaafa@linux.intel.com>
- <3e9cd14b-7355-4fde-b0c1-39d40467e63c@mailbox.org>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <3e9cd14b-7355-4fde-b0c1-39d40467e63c@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH1PEPF0000A349:EE_|CY5PR12MB6323:EE_
+X-MS-Office365-Filtering-Correlation-Id: 429ea2d8-5b2b-4988-5f7a-08dcbb6f354b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|82310400026|376014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?0ik/h+BkmRd6jBZrkQStcb3hGILmhS85HthD0g3OPEM6REMBKF/tXCZZuU8K?=
+ =?us-ascii?Q?01NK9cG5lfuoP9rtHDtU6AjtAONkA0KMsjD0sny+6fJOWXwXQfimGFZfVtIs?=
+ =?us-ascii?Q?iH0XDsBC9TyDoIYtSxo47bT3gKhrfJqrECK+44jlY0CkH7WrGZ7Tq71m7YG9?=
+ =?us-ascii?Q?t1xe8SmKUepssFyNzDAWGYNirxkOwPmtYZmYAnc9skgD0XHACOQ0HrWaYdSu?=
+ =?us-ascii?Q?pK/HsSFzZp3nojft43yJlELkVwQJY8GY/WnPSPiG06f5GSWnSl7ABlea9+QH?=
+ =?us-ascii?Q?pQExKOtV0kJ0CL/8Jx6NW5eNxyq185HAjQ4aPiAGO65dZaHiQY6lOI38PKRC?=
+ =?us-ascii?Q?OEoinqPDLv4JwwnoFkpPBiPI4FWGRQ7zNfjRqIF2otuj7bkS9+gb17JNczDd?=
+ =?us-ascii?Q?gKZd29WUmJjUtddqPkg19MeNFakQMeLp16dnxoMqQd81TUSKkB31gleTY/As?=
+ =?us-ascii?Q?HXgEEA9EEKU+l+D97oe4oYuCc7RqHDfa6C8IDDjLD/D6wjU36eZhQ/nnb5xR?=
+ =?us-ascii?Q?X34D3hd06MYneB3RQX59uxnWvbvvjA2J0OFLfBifLsZvEIxva/8npw9Akh3D?=
+ =?us-ascii?Q?G7+gv5NjP96oDU3p6n3cztN9EY++rw+kXpe9ini/PIj3CMCZ1cF/NHcRvhhY?=
+ =?us-ascii?Q?y3ZeBSnYliNtuvNdQqRYJTuoVQc1qT0L6RbVjwBns/HWnuPQXB0DhlB87NBi?=
+ =?us-ascii?Q?MteUN4vV8Y9+mvv+kVIHIpaGHBGIJoTYCnt6Rp7K/IyxNSo74EGt7ZMzVSL0?=
+ =?us-ascii?Q?y3/nF9EcI5wpgxgxEAb3vNsNYyiULQMt0c7AEMuhO+ohCkWCl64sh5aXCQ8+?=
+ =?us-ascii?Q?h3k0mPHz/fmg80Qvod6JXc82gdCK/WZYJiSJJ6rqyp/2tBQksqTt4zkvji15?=
+ =?us-ascii?Q?/BnQQbr2LnOSDEuci2X0J8enqaSf1NuLRY5bVHzU1zYpPP+jkeKZIKf5HWMJ?=
+ =?us-ascii?Q?+aMA926UDSt0IrHCA66hkEbimTftZH8i6MMSyvcsW8Lzawb8dt4wyuJRBUdK?=
+ =?us-ascii?Q?VRuU7nLup8PIPH/lIhH36eRU0iCiBddY5r0BJgOA2slkh8R+Wtb6VOAZEl91?=
+ =?us-ascii?Q?Ppp/mFIzTJ7uxW0UEVBWHdA2xxEVZ52SvK7ybRqWw2uSJbEAv09HGLt48BBc?=
+ =?us-ascii?Q?YrHu8Bh8tz0Qe4l246X8RbF6AueMxoEM1lnhaKaaR35qxx3k5cX1rgPQVkRR?=
+ =?us-ascii?Q?vbkMnBjlwGVXs2hpYYE7+8nDOwBglUQyiQcdQIM+n29zUK9GcH2RgAjXPzWG?=
+ =?us-ascii?Q?kbJCYmp57+NzW4l5dA2P7sWzmyUtlr+zn1rSR9oEGcIJH835M9piRW6jSo5Y?=
+ =?us-ascii?Q?+0gAuzrHk5p6XxPk+8TVtm+sGGXVXbUfB3in2UesXVG/7ucM8Df8+/yX9A6Z?=
+ =?us-ascii?Q?HQUO2S9twEIOS2foO9PbMMPrXZ4UMBz0zVNcrl/KfZ6Rw0Tr3jhTtgCeZ66Y?=
+ =?us-ascii?Q?Cr7FYPt4X2BQ9AZG+VBo90/kHjlUraBR?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2024 08:09:08.8726
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 429ea2d8-5b2b-4988-5f7a-08dcbb6f354b
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH1PEPF0000A349.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6323
 
+Add acp pci driver and machine driver changes for ACP7.1 based platforms
+for legacy stack.
 
+Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+---
+ sound/soc/amd/acp/acp-legacy-common.c |  7 ++++---
+ sound/soc/amd/acp/acp-mach-common.c   |  2 +-
+ sound/soc/amd/acp/acp-mach.h          |  1 +
+ sound/soc/amd/acp/acp-pci.c           |  4 ++++
+ sound/soc/amd/acp/acp70.c             | 12 ++++++++++--
+ sound/soc/amd/acp/amd.h               |  1 +
+ 6 files changed, 21 insertions(+), 6 deletions(-)
 
-On 8/12/24 23:05, Zeno Endemann wrote:
-> Pierre-Louis Bossart wrote on 12.08.24 19:25:
->>> * The custom timestamp there does not seem to be a meaningful
->>>    improvement over the default one; There is virtually no code in
->>>    between them, so I measured only a difference of around 300ns in a
->>>    KVM VM with ich9-intel-hda device.
->>
->> Humm, you're analyzing timestamps with a VM and a rather old device?
->> ICH9 support was added in 2014, some ten years ago. The timestamping
->> stuff is only improved with SKL+.
-> 
-> With more modern hardware on bare metal I would assume this difference to
-> the default timestamp to be even smaller. I am not a hardware guy, so
-> correct me if I'm wrong, but I would think that the unknown timing delays
-> of the IO operations and internal audio hardware are orders of magnitude
-> larger than even 300ns, making this improvement drown in the noise. Do you
-> have some measurements of the differences with modern hardware?
-> 
-> Besides, the only improvement here is that the timestamp is taken slightly
-> earlier, nothing fancy as far as I can tell. It seems a bit odd to me that
-> the hda core is the only one that cares for this.
-
-The timestamping is not limited to HDaudio, it just turns out that only
-Intel upstreamed the solution.
-
-> Finally, I cannot imagine what audio application needs sub-microsecond
-> accuracy for the trigger timestamps. That is less than a single audio frame
-> even for silly sample rates. Is this intended for some scientific use case?
-> For regular audio apps I'd think most do not even care that much for the
-> trigger timestamps and rather use the hw-pointer-update timestamps anyway,
-> to prevent clock drifts. In my case I use only the stop trigger timestamp
-> to estimate at which sample position a snd_pcm_drop happened, and don't use
-> the start timestamp at all.
-> 
-> But these are just my possibly narrow views on this. If you really have
-> valid use cases for those improved timestamps I won't insist on removing
-> it.
-> In fact I'd be rather interested to know if you can point me to an
-> application that makes use of this.
-
-by focusing on the trigger timestamp I think you're looking at the wrong
-side of the problem. The timestamping is improved by using the same
-hardware counter for the trigger AND regular timestamp during
-playback/capture. If you look at a hardware counter during
-playback/capture but the start position is recorded with another method,
-would you agree that there's a systematic non-reproducible offset at
-each run? You want the trigger and regular timestamps to be measured in
-the same way to avoid measurement differences.
-
->>> * It creates a pitfall for hda driver writers; Calling
->>>    snd_hdac_stream_timecounter_init implicitly makes them responsible
->>>    for generating these timestamps.
->>
->> That's the point, let those drivers generate a better timestamp if they
->> can. Not sure what the problem is?
-> 
-> This is more of an API issue. At least to me it seems bad to sneakily
-> enable
-> this flag in snd_hdac_stream_timecounter_init. The documentation of it does
-> not make it clear that after calling it the driver is responsible for the
-> timestamps. Now I am admittedly not that deep into this code, so there may
-> be a reason, but again at least to an "outsider" like me it is quite
-> unclear
-> why initializing the time counter also means the driver now has to
-> manage the
-> trigger timestamps.
-> 
-> If you really want this functionality to stay, maybe it would be better to
-> move that out of snd_hdac_stream_timecounter_init and just make every
-> driver
-> that wants to manage them raise the flag explicitly themselves.
-
-Not every hardware provides a counter than can be used for precise
-timestamping, so there's no practical way to require that all solutions
-use the same API. USB has e.g. no such counter, the only thing you'll
-get is a 1ms counter which isn't great.
-
-I would also refer you to the different types of timestamps that can be
-taken, the wallclock counter is the simple case but there's also a
-capability to get an atomic snapshop for precise measurements.
-
-I will not disagree that most applications do not need precise
-timestamping, but if you want to try to enable time-of-flight
-measurements for presence or gesture detection you will need higher
-sampling rates and micro-second level accuracy.
-
+diff --git a/sound/soc/amd/acp/acp-legacy-common.c b/sound/soc/amd/acp/acp-legacy-common.c
+index 04bd605fdce3..3cc083fac837 100644
+--- a/sound/soc/amd/acp/acp-legacy-common.c
++++ b/sound/soc/amd/acp/acp-legacy-common.c
+@@ -270,6 +270,7 @@ static int acp_power_on(struct acp_chip_info *chip)
+ 		acp_pgfsm_ctrl_reg = ACP63_PGFSM_CONTROL;
+ 		break;
+ 	case ACP70_DEV:
++	case ACP71_DEV:
+ 		acp_pgfsm_stat_reg = ACP70_PGFSM_STATUS;
+ 		acp_pgfsm_ctrl_reg = ACP70_PGFSM_CONTROL;
+ 		break;
+@@ -336,10 +337,9 @@ int acp_deinit(struct acp_chip_info *chip)
+ 	if (ret)
+ 		return ret;
+ 
+-	if (chip->acp_rev != ACP70_DEV)
++	if (chip->acp_rev < ACP70_DEV)
+ 		writel(0, chip->base + ACP_CONTROL);
+-
+-	if (chip->acp_rev >= ACP70_DEV)
++	else
+ 		writel(0x01, chip->base + ACP_ZSC_DSP_CTRL);
+ 	return 0;
+ }
+@@ -461,6 +461,7 @@ void check_acp_config(struct pci_dev *pci, struct acp_chip_info *chip)
+ 		check_acp6x_config(chip);
+ 		break;
+ 	case ACP70_DEV:
++	case ACP71_DEV:
+ 		pdm_addr = ACP70_PDM_ADDR;
+ 		check_acp70_config(chip);
+ 		break;
+diff --git a/sound/soc/amd/acp/acp-mach-common.c b/sound/soc/amd/acp/acp-mach-common.c
+index a36300a4ed8a..e9ff4815c12c 100644
+--- a/sound/soc/amd/acp/acp-mach-common.c
++++ b/sound/soc/amd/acp/acp-mach-common.c
+@@ -1766,7 +1766,7 @@ int acp_legacy_dai_links_create(struct snd_soc_card *card)
+ 		} else if (drv_data->platform == ACP63) {
+ 			links[i].platforms = platform_acp63_component;
+ 			links[i].num_platforms = ARRAY_SIZE(platform_acp63_component);
+-		} else if (drv_data->platform == ACP70) {
++		} else if ((drv_data->platform == ACP70) || (drv_data->platform == ACP71)) {
+ 			links[i].platforms = platform_acp70_component;
+ 			links[i].num_platforms = ARRAY_SIZE(platform_acp70_component);
+ 		} else {
+diff --git a/sound/soc/amd/acp/acp-mach.h b/sound/soc/amd/acp/acp-mach.h
+index a48546d8d407..93d9e3886b7e 100644
+--- a/sound/soc/amd/acp/acp-mach.h
++++ b/sound/soc/amd/acp/acp-mach.h
+@@ -56,6 +56,7 @@ enum platform_end_point {
+ 	REMBRANDT,
+ 	ACP63,
+ 	ACP70,
++	ACP71,
+ };
+ 
+ struct acp_mach_ops {
+diff --git a/sound/soc/amd/acp/acp-pci.c b/sound/soc/amd/acp/acp-pci.c
+index b0304b813cad..f7450a5bd103 100644
+--- a/sound/soc/amd/acp/acp-pci.c
++++ b/sound/soc/amd/acp/acp-pci.c
+@@ -95,6 +95,10 @@ static int acp_pci_probe(struct pci_dev *pci, const struct pci_device_id *pci_id
+ 		chip->name = "acp_asoc_acp70";
+ 		chip->acp_rev = ACP70_DEV;
+ 		break;
++	case 0x71:
++		chip->name = "acp_asoc_acp70";
++		chip->acp_rev = ACP71_DEV;
++		break;
+ 	default:
+ 		dev_err(dev, "Unsupported device revision:0x%x\n", pci->revision);
+ 		ret = -EINVAL;
+diff --git a/sound/soc/amd/acp/acp70.c b/sound/soc/amd/acp/acp70.c
+index a2cbdcca4313..81636faa22cd 100644
+--- a/sound/soc/amd/acp/acp70.c
++++ b/sound/soc/amd/acp/acp70.c
+@@ -147,7 +147,11 @@ static int acp_acp70_audio_probe(struct platform_device *pdev)
+ 		return -ENODEV;
+ 	}
+ 
+-	if (chip->acp_rev != ACP70_DEV) {
++	switch (chip->acp_rev) {
++	case ACP70_DEV:
++	case ACP71_DEV:
++		break;
++	default:
+ 		dev_err(&pdev->dev, "Un-supported ACP Revision %d\n", chip->acp_rev);
+ 		return -ENODEV;
+ 	}
+@@ -178,7 +182,11 @@ static int acp_acp70_audio_probe(struct platform_device *pdev)
+ 	adata->num_dai = ARRAY_SIZE(acp70_dai);
+ 	adata->rsrc = &rsrc;
+ 	adata->machines = snd_soc_acpi_amd_acp70_acp_machines;
+-	adata->platform = ACP70;
++	if (chip->acp_rev == ACP70_DEV)
++		adata->platform = ACP70;
++	else
++		adata->platform = ACP71;
++
+ 	adata->flag = chip->flag;
+ 	acp_machine_select(adata);
+ 
+diff --git a/sound/soc/amd/acp/amd.h b/sound/soc/amd/acp/amd.h
+index c095a34a7229..4f0cd7dd04e5 100644
+--- a/sound/soc/amd/acp/amd.h
++++ b/sound/soc/amd/acp/amd.h
+@@ -22,6 +22,7 @@
+ #define ACP6X_DEV			6
+ #define ACP63_DEV			0x63
+ #define ACP70_DEV			0x70
++#define ACP71_DEV			0x71
+ 
+ #define DMIC_INSTANCE			0x00
+ #define I2S_SP_INSTANCE			0x01
+-- 
+2.34.1
 
