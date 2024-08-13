@@ -1,108 +1,130 @@
-Received: from mout.web.de (mout.web.de [217.72.192.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C46EE1990BB;
-	Tue, 13 Aug 2024 11:36:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10EBD170A2B;
+	Tue, 13 Aug 2024 11:43:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723549000; cv=none; b=agMYt1d6mdwnpnztPiPNANXwrr/h1gzq6VFi3hU+/Tpd+cVx59IXxJJyAt/r08SjC+bGW+ANTTNoz+V0WqFDqm0Hwdw5B+d9sZ1QTUgN6mHV+hV8aOQrWZfv5JVIAOZ4Ii2+mmQfuA2rKi89nUHFFVPbmAXHHAZ9FUrabjdhmk4=
+	t=1723549392; cv=none; b=qykxC/dd1UcD421TpPCHJkAtmTx29/EUmn9JFox+5m5djpVPbf0ZSzk+oWekDaVYhIZrzuN1Yk8R3bphi58+ABDFbO7ah3C6woTGmOArCou6rpObVYaeOWlOQsxByLyJKsxkz9/45eK7SZ+gH7PO5yYVUWeOBSG7DJkkfdn+D9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723549000; c=relaxed/simple;
-	bh=m0IRIH3EcHV+TrlopED/cgfzuE9mKP8Dk1cqfwP22DI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HbFFyBI+JG+13+WLylCTiLjnoO9iBMBWjc9DmmAzMewRuH/fNdYR944JfsOxSJFMYCI2AHLZlBGBbj/I5zlHX2JFtei90eyCv9tecyT9a48PIhshaUNOGmQGL3+zY9//W8WUYXJDu5no6EpnaCH0jFo9k8qrc5nwI9dYHCGD32U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=f7OWM8Of; arc=none smtp.client-ip=217.72.192.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1723549392; c=relaxed/simple;
+	bh=pjUfrEENcwPiuW1gXWM710zyRSsutznZkJKROw7R1o8=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OnGYEGxw1lMpVqjOALXkQakg3AvoSbeZrquvwayRnOep0kYOjG5CIUxUunKK/lOTNcy0kBIJWRxuKKGxRoc8yNL65p9vPaV7vITfuvH3mtTegydGEHBSUDLK+NxktLNhAMz9DxJIi/upaZ9JMlXL5P/46bx5T/SqPC7aVoUpdv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fiCN1956; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=aWDHmumI; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iz6DxFO+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JHCU7YQO; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="f7OWM8Of"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1723548958; x=1724153758; i=markus.elfring@web.de;
-	bh=7ipYMxPYpOpnW1gNYkqI1PmfHkw0HS0KWT1PkmtvSwo=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=f7OWM8Of+xF6FVyJpYuyCeMxI/59mdOFOzAIm920XKpojmgLqVyhhPXdNruVkjCM
-	 czoreeYUNWtPfMTScgjOC7IPYCpBPgMucDOekzE1c6rQeMV4I6XoGmCp1fA4XkaMb
-	 CasImxN2ZNbJBBfKL48/EmISnKFfvEYFuy35k16rlE20sLzAuPBzL7ipfqbAbdtK4
-	 yJ0ABWOKh1UbL1YTPgkwUaQYmK04aZVW4DSoMbEq2OBD0j36MOjagExn+r8Iq/TZH
-	 zJSndhrzttT67QvpWIFTjaxzsgf201H5/mS5Je+iYJAlfaEpedFPOeSw2v/jIAeDe
-	 9+n8wyZHrHDX1rGYOw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.90.95]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MHEbq-1sQgfe0hZA-00GRu0; Tue, 13
- Aug 2024 13:35:58 +0200
-Message-ID: <ac7efdcd-cc79-4984-8b36-50898243afa5@web.de>
-Date: Tue, 13 Aug 2024 13:35:55 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fiCN1956";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aWDHmumI";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iz6DxFO+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JHCU7YQO"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E4DEE227A1;
+	Tue, 13 Aug 2024 11:43:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1723549389; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hyhXYO2osn1IltdLcMAc23cZGDHEk3jzE+nzBzn+GDU=;
+	b=fiCN19565Qx1VSqMY3NU3oGaDboK4WMsqd0cMyY0zj4awButn3o4sW19YqtyP4jnyWFLn5
+	nnHKY/gRgaWfk0XJ8QKY2Ouygk21GsFMPuCYfUOaXvAYymzQFbnm+14GeyGcfYkH3praeW
+	HcNRdnnxumb4q4siY2ccIwsnVVhTh9k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1723549389;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hyhXYO2osn1IltdLcMAc23cZGDHEk3jzE+nzBzn+GDU=;
+	b=aWDHmumIq+Opn/9js5XTCoHB2g5u5xXSpYKhLNW35qkp/6xnRb4SkMWXOhE3joFyHNG2XO
+	Jt3zqhqJOq/H0uCA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1723549387; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hyhXYO2osn1IltdLcMAc23cZGDHEk3jzE+nzBzn+GDU=;
+	b=iz6DxFO+HoJwOsKmBRRGP1rbhrPYIt1XTB8TujjiOCkjkAY4zoiJPRLNEbq10+oNsCuTo7
+	PwD7MP8eJ//44kx2DRr7oRfXkrC45NK2sdvLD9YgPCmDWQqdgmrm9OfJaEPi/5zPQ87MV0
+	N4wfDhlycX+WdT6pGsPP3aEwIli6ykQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1723549387;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hyhXYO2osn1IltdLcMAc23cZGDHEk3jzE+nzBzn+GDU=;
+	b=JHCU7YQOcjSUu1tkgKer3oiB/OuC09UZafAtKAYdYuHvXlu1wgg+568BdETGCWVyxDJ2cZ
+	qnUUFuTSTCH5vODQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C605013ABD;
+	Tue, 13 Aug 2024 11:43:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id VwbDL8tGu2Y4cgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 13 Aug 2024 11:43:07 +0000
+Date: Tue, 13 Aug 2024 13:43:44 +0200
+Message-ID: <87le10myvj.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: <tiwai@suse.com>,
+	<linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>,
+	<patches@opensource.cirrus.com>
+Subject: Re: [PATCH] ALSA: hda: cs35l41: Remove redundant call to hda_cs_dsp_control_remove()
+In-Reply-To: <20240813113209.648-1-rf@opensource.cirrus.com>
+References: <20240813113209.648-1-rf@opensource.cirrus.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 1/2] ASoC: SOF: amd: move iram-dram fence register
- programming sequence
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, linux-sound@vger.kernel.org,
- alsa-devel@alsa-project.org, sound-open-firmware@alsa-project.org,
- Mark Brown <broonie@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Basavaraj Hiregoudar <Basavaraj.Hiregoudar@amd.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Sunil-kumar Dommati <Sunil-kumar.Dommati@amd.com>,
- Takashi Iwai <tiwai@suse.com>,
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
-References: <20240813105944.3126903-1-Vijendar.Mukunda@amd.com>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240813105944.3126903-1-Vijendar.Mukunda@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:szcAT5i8Xj0bcGbc849dlKmiLBUMBuWPDXT4XBTxmCtSxx/JcGM
- 28ppT0+5oNUnrvkidj84Gy1Z41vVjn9s9QxjU+uL4m4B1OKpyJT/yECkIV0Oc6m7lyQ9gVW
- +iu9AGuUD6MOJdPeJ4bgWxzpXCt31CQ0u2/u9wayD5mckgWnnwqFTi2lfa25P4zKzJ00O5u
- a1J5UaAJJS9Dl7VjeQG0w==
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.991];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,cirrus.com:email]
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:l/qmwRXuIKA=;fd1eSuvXq/XoLU2WIflqWfTlHop
- +qFsCVvb3Ug0rgCmpuEYpNl69wRLghI7eqG3tEZVPUmxafWEL41MNMpO6rzSUVRnsH2oZGNov
- U5vuZuVqVc4tlvN5lnQmMDK2O/9FiQP3A9dpcFwETiRgea6feKH/SSCD9Oaa7VNMQYsmzOw/w
- U0Bji2Z+gXD5iN65YJqJufbPHKDkBn9MfwIZpWpg5ddh2yL8IfIrC9hnECCoLUwwzFX3guIbj
- aHM7dxAYl7MV9NvXUBf3ayUfv2llox0hGZbZ+J1qdOwto1hJac9oktVRpSawsCeTyGDVwFvQV
- 40CEdXirF/ecyn+olP/e4mHkegGdSKP8HO+Cg/LgiGDyPpvDXyhZB6imBgpxsvXxEIhcRDBI6
- JDqpKLb871i5gm/FOeV+IUIG4b7TPbRJZ31eglPGCKVsyk6h1BoWIAJwLRTw37XM3qg5/2sdJ
- RUTTpFZjpxG8E0ZicSuObzKCMHnPaCvX3J0+aKfARdtTgCm96mJhN8MmCfO/GWaa3Wcz5/Ezt
- ZjPZ3wnf0HzK7/yauizTYXOsZ/wu96xy1TNm2KzKJ4dGdBOHANdnDUOROeMhxXb2QytBqotrK
- Peyi4D80uRENXhAFeitGHbZK7W0AHh0IVvzudmPiRLrYZiTEhdAt5+QD9F+Mosj3Y+DVFYJNl
- gLqcV4A2lNKHKHeesmBagkg0+hIEKz01aRH21yPgmT+oyYBJpS3NOb/zD9qh/r8BRQ2UZcs+e
- XffgE0GTuf9905UeVWAVktvbyiSLmKnwUZfpEW2ywhUVuhC9xa8WQvbNlkmKP8dBMWLcZcuAN
- 7vfkAk9kJazY/FmSus+XVuYA==
+X-Spam-Level: 
 
-> The existing code modifies IRAM and DRAM size after sha dma start =E2=80=
-=A6
+On Tue, 13 Aug 2024 13:32:09 +0200,
+Richard Fitzgerald wrote:
+> 
+> The driver doesn't create any ALSA controls for firmware controls, so it
+> shouldn't be calling hda_cs_dsp_control_remove().
+> 
+> commit 312c04cee408 ("ALSA: hda: cs35l41: Stop creating ALSA Controls for
+> firmware coefficients") removed the call to hda_cs_dsp_add_controls() but
+> didn't remove the call for destroying those controls.
+> 
+> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+> Fixes: 312c04cee408 ("ALSA: hda: cs35l41: Stop creating ALSA Controls for firmware coefficients")
 
-                                                      SHA DMA?
+Applied now.  Thanks.
 
 
-=E2=80=A6
-> sha dma failure =E2=80=A6
-
-  SHA DMA?
-
-
-> IRAM size. To fix this issue, Move the iram-dram fence register sequence
-
-
-             Thus move the IRAM-DRAM =E2=80=A6?
-
-
-How do you think about to offer cover letters for patch series?
-
-Regards,
-Markus
+Takashi
