@@ -1,201 +1,160 @@
-Received: from SEVP216CU002.outbound.protection.outlook.com (mail-koreacentralazon11022096.outbound.protection.outlook.com [40.107.43.96])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC88143AB0;
-	Tue, 13 Aug 2024 06:40:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.43.96
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723531234; cv=fail; b=eowKK4kuw4s/IEnZMv6KPdiMNpS5bChXFlekHG3r3JiI5TeRO1lUcHPLHhNUaNnWzpYpUB1AbcCRkZufMMR5uaKFwRnfZYPD/oSSatZPOLgR7OO3Z8HyIw0iww0QYL8H48OwwV8lDHF0ouEvD1GDM5VmehXmnuvOEg0xWQR1Qzw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723531234; c=relaxed/simple;
-	bh=gYRIEASo1PG8yRMYyfdm5ENU4NqloV+uehcVUrchfjk=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=C7EvdAR6jgcXCD6zVADTWDv0emzKmZN2fI6+7mBrGwTP9oBXUzUHzSl8VgFRfVd7HVZMNYASy+4nLpaZOKmEJAE5I+Unl1/NjegPMicFqRZPmsx6yHLIgXYp62iPyrw8kOHWpW8fI6Lr9arlu43woCeCrBJjgm7hiwifxYArWzk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=irondevice.com; spf=pass smtp.mailfrom=irondevice.com; arc=fail smtp.client-ip=40.107.43.96
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=irondevice.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irondevice.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hfOc4VXkFDQydyvomKvUkmH9CsgH+zvKkLC3vWgolT2ahIaw+9SgumTXM7tuJWQKYqvXW0L5wqrytQLGder9s+Lipa89Lpo3P3oOFHCfemHH87hBRubnlXtPmCeeLtv02N/SouZzwgZOXhIx1mCrQBKHLBD1kSh1gxLlsxan8A4DEI/0OVUCqYzFJBrSJ5gIYL/XgW1A5hvxbYEO69AwBj2GMzDOS2DDBxeoKHshI5oSybwsFMa39aIAif9o8B9mwv/hLgqTxIkhjgEnJPmnQp7zhheGVyLkQCh6JaL08A2UupfF8X7JCBgqNlQy8AfrqYxRrDPd2a+reLQv0f4XgA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gYRIEASo1PG8yRMYyfdm5ENU4NqloV+uehcVUrchfjk=;
- b=GjB+D+BrV74iNQhYVzfZYdBk/bDOxBSXPKiMmTjPJ2Sil9Vd/1D9JK0a4uNczx/W6tdZIl3mXhieCUbwFL3OefxWoPyLFsUKg5zbcs8uUVZAL/AnRN3QPoCGeHhBlwVabao5/WaFxqqjSt6kOvc/qFtmGVOWFA1gEhuQramyj1SPIxVrhYj6CY0ZwP6/c9yw+vbtyzIGXOQyUQy8HnC2yLEKOHuUpMxb+Z/4MqVAQhWfO4jml2g+CxJ4f8v/N7NvdcDsOdtKy8eQl8YBNcM5Ntmbqrzd+H4I26pxKRti5v97HRI7yA516QjEuqSWdJGux5wnbzA+jCgwLtqSa5YEUw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=irondevice.com; dmarc=pass action=none
- header.from=irondevice.com; dkim=pass header.d=irondevice.com; arc=none
-Received: from SL2P216MB2337.KORP216.PROD.OUTLOOK.COM (2603:1096:101:14c::11)
- by PU4P216MB1977.KORP216.PROD.OUTLOOK.COM (2603:1096:301:10a::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.22; Tue, 13 Aug
- 2024 06:40:27 +0000
-Received: from SL2P216MB2337.KORP216.PROD.OUTLOOK.COM
- ([fe80::7e8d:9550:c46b:2756]) by SL2P216MB2337.KORP216.PROD.OUTLOOK.COM
- ([fe80::7e8d:9550:c46b:2756%3]) with mapi id 15.20.7849.021; Tue, 13 Aug 2024
- 06:40:27 +0000
-From: Ki-Seok Jo <kiseok.jo@irondevice.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Liam Girdwood
-	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela
-	<perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-CC: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: RE: [PATCH 1/2] ASoC: sma1307: Add driver for Iron Device SMA1307
-Thread-Topic: [PATCH 1/2] ASoC: sma1307: Add driver for Iron Device SMA1307
-Thread-Index: AQHa7SwpBvKEAIyrBkSqNtvSW565RbIkr4UAgAAGAkA=
-Date: Tue, 13 Aug 2024 06:40:27 +0000
-Message-ID:
- <SL2P216MB2337A011D4CFF786759E2C988C862@SL2P216MB2337.KORP216.PROD.OUTLOOK.COM>
-References: <20240813025436.52410-1-kiseok.jo@irondevice.com>
- <20240813025436.52410-2-kiseok.jo@irondevice.com>
- <42311e08-44b0-4c00-a540-daf172be4eb1@kernel.org>
-In-Reply-To: <42311e08-44b0-4c00-a540-daf172be4eb1@kernel.org>
-Accept-Language: ko-KR, en-US
-Content-Language: ko-KR
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=irondevice.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SL2P216MB2337:EE_|PU4P216MB1977:EE_
-x-ms-office365-filtering-correlation-id: d55eda9b-0bd3-4edf-4b97-08dcbb62d175
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700018;
-x-microsoft-antispam-message-info:
- =?utf-8?B?TzRwTGUrU0lYZWJ6MEJJYzRxN3FXeVpPR1B6cWRXdWNXKytoYXFMSFE4QkU4?=
- =?utf-8?B?SzVzZy9TRGZrQmNrQXpoTXo0K2ZPTlFLQUM3NHZzUFRNajJVYmxQNmJlOGYy?=
- =?utf-8?B?elozOGdobWx0Vm9ySHRQT3VRc1V0WktvQXlrUlVnaUkyWVVmT1NWYnBGd2sy?=
- =?utf-8?B?M1NjUmdXRWJMOFlJTkdCZnBsb1hzbk11WkFlTDVDY0VPaGRMejYxblZ3cUVv?=
- =?utf-8?B?cFlJYzVFREhsWlQ4RFJmeWVDdzlla1ZYUjk3OVUwWEIxSDZrb2tYUTFXa2Q3?=
- =?utf-8?B?TmlvdWszbEljVlVVWENhbUh6L2d5YjhQUHpPbEhVZlg2ci9pY3A1OWdOWHpw?=
- =?utf-8?B?ZFNKTVB5RTZCa01EMnpuRmMybElWZG1kWDM5NlYxWGpITExVM0swaDBBWGcz?=
- =?utf-8?B?aUlid1dnY3ZtMytPNHBLTkRINUMzVjZKdGEvUVo3Y2FWT1p3SFZqUlh5VHlK?=
- =?utf-8?B?WEZYMHg5Wkh4eTFMSkdIWnJZcitRRko4dVgxMVpycUZFcW5uQ0EvaHpGZzlw?=
- =?utf-8?B?bDVnbFlIcHJvQThPUVdxS3M5SnJERmJ2akg0WmY3UGZ3Qi9xR3cvUHdQNlpj?=
- =?utf-8?B?RjhMUlV0ajArODRXQTlYSG5YdWptMVZsc3J5dnFOdzV4MDJwMTlJbzZOYkFV?=
- =?utf-8?B?SHN4dW0way8waXZIbGZ6cGRla25QUExSNTFLeGNrVmlaWWxFTGdBSC9VWjQz?=
- =?utf-8?B?WmZMbSt3VXVUMTl1OGNyR1FBbFFSZGhZbjlaTytPQ1BueExGNXRnWkMyNlZN?=
- =?utf-8?B?TGNNaGtCa0d3ZVFWMm1jblFRaisvU3B5MDAwd2pLRW9aV2Z3d2JvTGtKM1pP?=
- =?utf-8?B?bmRqcUZZdlB2QnRFVkFUUkNSeE1Ha0l2dEhLMXlBWXFUUTlkNHFxZWx0TTFZ?=
- =?utf-8?B?WWMweDRKekZVYnQ1REl5TEgrVGhkRnJRaEF5cjlaTnByMzRhOFkvdXUycHgy?=
- =?utf-8?B?MG5mK0JNYWM1N3pERHkyR2g4bFVTT3dsMFAwZXU2YmREbVZQWTRqWno3dlk2?=
- =?utf-8?B?QnJ1Qmc5Q3hyU0NVNWVWQ0FIRVVhQXZ6MlNHVy94UXBPNENCd0l1WWM0OVdD?=
- =?utf-8?B?RUNoeFhoTXZrMk5IdjdHVFl2ZkFibTluSlFkQ05scnppZFF6NjAxcG9xc0oy?=
- =?utf-8?B?VXNVWmFMQThEaVN3cGFoN0ZUMFU3aVdhaGpvbStNZmxZaURwS0c2SDFsTENP?=
- =?utf-8?B?UlpjVVlXZVdFZjlXdFRVdHBLTkd6cnMwVzFkd2RnUVhtT1VtMktsZm12Zkxw?=
- =?utf-8?B?ZFI4V1l3S2lFNHNxWW54cU5maEJlUHdUN3VvR3RhSjg2d2F0L1Bac0Zpcm5o?=
- =?utf-8?B?UTh3aHNyWEJBbHJIRWdFQUxCb2pzR0hiT0I4TWRtdWNpNXQxd2lzUmtNLzIx?=
- =?utf-8?B?WmVvYlBqNGFUT3RYWVlheGwxd1JwcFdDZHdOSlRJSU5yKzg5VTF0Wm8zUDhn?=
- =?utf-8?B?OExqcEdIQW9HNEVpR0tremEvdXNrb0hvOUlTaDY5aWpGN2pFU3JnTWVlaEVZ?=
- =?utf-8?B?N0hDSFNRQkxOYzRveGs3Q1ovWkpWaXR0eDFWVXlrTkFPamNpZEdhUGpJZm8w?=
- =?utf-8?B?a2tsZE8zdkVYKzM0TnMyOEliYTdtbXl5Q3Z6d3BYeGcrTTRpd3MxOVhIOG12?=
- =?utf-8?B?cEJhUlpOVGVJdzdCdi8zUDFaTDhSUFNEVlFndHdqaitVNlZpRWtVeVVVdWtj?=
- =?utf-8?B?azZyaFYwU1dYK0lpb2xKZW5vTmRaMFBDbEMyaExGbmVxYlZZcTh2MVZNT3Fz?=
- =?utf-8?B?bERzTmFpOXZnMUZFcWRyQUpGUWE2WjQvTGtLaVBKV2UxZDAzV1YyUERqQTZs?=
- =?utf-8?B?WmROYTNhQXpoMmJtR2JPeW5QL2kwTnRBUWpOczR6Kys3SS9xMjNNQjBuWGRq?=
- =?utf-8?B?YjZjNDV2UUlSaVh4SGYzSVl4QTcraGtBR1ZRdlpJQ2U0TFE9PQ==?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:ko;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SL2P216MB2337.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?MHQ1Nk8vczA2ZEFmV2xoam9tQ0tlY3V5TVNqcFpReE5oMUpxTGdQMWR1ZVBQ?=
- =?utf-8?B?UDQ2enVubEdYMjJ0VGdXVEpmWURXNWlqblBUck5WV1ZIVTZSTWJLSWxLRm03?=
- =?utf-8?B?eENhUklmQ1F6RlVYbXBNRWNQK3h3SHBtWWIzOTBZN3JwZHNrN0YwS3ZrUlBG?=
- =?utf-8?B?WEtGeE1aUVRENUZtMGZ2OTFncUJHYmxDSzR6Z0ZNMkxZQ2VlYUR4TmRyZ3cz?=
- =?utf-8?B?aS9YTDRpVnpqK09EeDMzTjh2WS9KeWtMOGxYWllCRDVsRW50bkxycUMzR2ZU?=
- =?utf-8?B?SXl5UW9GRUg5SE5NM2Q5MEtnSWtWcWNHLzJSNkNiTktaRVRUeHBnQ1VFT0VD?=
- =?utf-8?B?eFBWTDRGVnlhclI1enlCbExVNEJ6OEVMN2FXUiswQlJJMXl3enQwd1MzclNZ?=
- =?utf-8?B?K0s1ajFGdHNSTjF6OGZzazc5UEphMnltcEIxTUlyRk1UQkZwMUVOdG8vUDRl?=
- =?utf-8?B?bHgrY3FRRHFleWRjcXZlV0dhMm5ZK21WL2FKeVdvdVZPSTFSK1pMeXg5RWlZ?=
- =?utf-8?B?czdIKzNkWU51SmViTjVPR1ZHZmp4NG8rcFlGQk8zOSt4bFV5T0JHb05nUHBC?=
- =?utf-8?B?RGZoMzJZLzIweFhJUFVqUURqOGpFVWd2dmNrUzVsSEVJWTNQZVRubVlzZXQx?=
- =?utf-8?B?Q2hESG10aFBlK3FQNTh2M1VPMVh2S3JYSmR4YXNMcldZSWFPeEp0aHdTdzYz?=
- =?utf-8?B?dTdPcTJmRndOelZ1Y25FbWJtdmdJZXg2dTdLWUJyRXJ6MWNKN2xLRWw5bU5o?=
- =?utf-8?B?UmFQTDRYbHZwc0k2QUVSSGFMSWZGY1hDSitiZkNqTmFZN3F0SjZSU1V0b0RJ?=
- =?utf-8?B?a2hxd2JONWlHams3MFRjOGhUMU5panVVS1ZUZTUxYkpsZGdtS0p5b24vMHE1?=
- =?utf-8?B?YlBndVVpMExjMkhyTFFrWGtDTDdJSUYvTkxkanQzZ2tRSGgwcGJ4cUU3NEZP?=
- =?utf-8?B?ZldZLy9rMlNyWFJMU3J3b1FmcHJhWGVqRW9hZ1VSSXd4WWxrMkE0akdDZmtm?=
- =?utf-8?B?Mm5QZU5aNkFFeGF2RE5KOE50ZURVLytnUmxJR2tkU0xtamxGeUpacldEaHhJ?=
- =?utf-8?B?QlhpV0tvMy9qVzBlUENRWlIxYmFTTkhrQ29NWkU3SUdqNC9qdUxCR0pvWlly?=
- =?utf-8?B?TnZ4cHZWN2NIazJ2c3ZlWjMzTXI1ckNDRFBPTk5Qa0I4b3ZCZHpMZmRnbkNu?=
- =?utf-8?B?SEVkNk5pS1lyNTQ1dXI2ZjhSQmJGVFByWFdxSHdhZ08rek9CQUZXVHdnNnlU?=
- =?utf-8?B?WFNQbjljekJuMkt5eGdsZ2hYaXpLNWFybDRmaW9weXd0VEZ1TjJja0FHMG0y?=
- =?utf-8?B?L0xiVEZKajRERGNTdlBYMXFNWmEwb1lpOTVYNTluM2RKRFY4S1RxaTBKR25Q?=
- =?utf-8?B?U1hQa243S1lXdC9Ca2ZhN01HbGZRUXUrSERNVWp6YXZCNjE3cUhmNUhvQmty?=
- =?utf-8?B?b0duRjdoNkRHamhxekdIVk9lY0luTTVOZjlQaVMwcEFjZGpjWmxIUWJ2b1NW?=
- =?utf-8?B?SkN4aXdFeFc1TU1lMUw4RjhBd05WcisxN1dvTFoyRkd3SkI1RGpIYXdXa3JP?=
- =?utf-8?B?cjQwMFp4TXBKNlp6elhzNTFoNkkzcGRWMVZkMzdYbUhCbjU0aEdxeitjb0FJ?=
- =?utf-8?B?dWU0RGZyTTlQTExrVERFaDlIOXJGM2NCSkliR0pDL21ma3ltd1luUlJIeU5K?=
- =?utf-8?B?QVFmVXBabGxhSytrOFcwNVBGYjZXTjdwbENxMElsTDU1MEg2TjFpbkdwdFBl?=
- =?utf-8?B?SGZjSEIwSEQyR0gvWUZYMTRwWVZNdnNDelAvSWttdHJIZFJFRitjOXVCLzhq?=
- =?utf-8?B?UWJkeWExb2VLbHpXZ2M1a1RtOFQrZzlQdUJmczNudFJ2VWxqb3lPRlBDZWZG?=
- =?utf-8?B?eTNQVVI1SVBxcHdCa21IVHBwQnEvbkwrN3lFUzdNaEVyVGF1VVQvSmRjT1h0?=
- =?utf-8?B?ODNnb0c1MmdsYWtXcUlLc1JzUjllbHc0NzMreVNBdm9hNDNSMk1KUElhcUlk?=
- =?utf-8?B?bGZrbkRrbnJPK0xXTzdkdUY0SE5IandsNE5hUFFPSWxnSUFweGlTTklZbm9h?=
- =?utf-8?B?MkVwWWRTM2VVRzNsc2lXZ3dqZ0x3VVE5YkVoYWxZSlc5YnlUcHc2Q2hsZ0xO?=
- =?utf-8?Q?MhpvEU4bOztUSkyhwieq9+HaB?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 413493BBC5;
+	Tue, 13 Aug 2024 06:43:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723531417; cv=none; b=Qr/p+UpYcQPx9ar71mW4bUxqdK/2J4d0dMhXFGQAgQJfF1YprPQFCGXGR0WEf1IL2/vpQobZq7zAQG0pJbpQi9ElMALejIW2dA9BFLt0WtLB09lJ/Vu4iA+BVeqUhhcNJGxLQEsONBRkmEVWqyYrjyv1OhHK2gEKss1UBLtt2/0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1723531417; c=relaxed/simple;
+	bh=n3Q8ujzM+BHuw1uUmaBoWsUnALIPKIcP+FK0TnsEwyY=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=eXgc4767HRIkKpqBS86HYgoKIjrA38GqLV3uQUEdDAX4IIE8JviDzJ2FtnJoj5N1BMalx8G9kJ35hywZtPyamlVYG/8tGb+GS4vUzIp3Ka2XqZJPBXtZx4Hi68Vz9OP4aevLxlwpLiOaOAkuIlEjd8Ao7ThvnTAtlfpZ/wM9DSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=u2vC9BMS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=85s1Hz1L; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=u2vC9BMS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=85s1Hz1L; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="u2vC9BMS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="85s1Hz1L";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="u2vC9BMS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="85s1Hz1L"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3D03522721;
+	Tue, 13 Aug 2024 06:43:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1723531413; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Zzt+7PwpiA7+5DBqZif280/U0cpF6Vg2+xMwnhvF+qA=;
+	b=u2vC9BMS+kyBs5HvI0m8zbMu9dXNHuVHyruhNpnKIAOY/RIbtQhz1ZcmJV+hd3FAU2BA7X
+	2u44AYQVhUIq4xP1dl36tksUbGSsDZ81o8RuIE0rDY0fV9Yro4Cc8+/OaCVsfJTtb/YhN0
+	lldOvU5iKo+ZbCDWNs6G99mOnm4IX9E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1723531413;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Zzt+7PwpiA7+5DBqZif280/U0cpF6Vg2+xMwnhvF+qA=;
+	b=85s1Hz1L2x1fkCnxxUusqZa4QB1MdMihCMvX+zu/aKSPbg+Vh72Fy25eeUCpweKmTypCI3
+	WaU5oPP8prBuJFBA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=u2vC9BMS;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=85s1Hz1L
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1723531413; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Zzt+7PwpiA7+5DBqZif280/U0cpF6Vg2+xMwnhvF+qA=;
+	b=u2vC9BMS+kyBs5HvI0m8zbMu9dXNHuVHyruhNpnKIAOY/RIbtQhz1ZcmJV+hd3FAU2BA7X
+	2u44AYQVhUIq4xP1dl36tksUbGSsDZ81o8RuIE0rDY0fV9Yro4Cc8+/OaCVsfJTtb/YhN0
+	lldOvU5iKo+ZbCDWNs6G99mOnm4IX9E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1723531413;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Zzt+7PwpiA7+5DBqZif280/U0cpF6Vg2+xMwnhvF+qA=;
+	b=85s1Hz1L2x1fkCnxxUusqZa4QB1MdMihCMvX+zu/aKSPbg+Vh72Fy25eeUCpweKmTypCI3
+	WaU5oPP8prBuJFBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0971913983;
+	Tue, 13 Aug 2024 06:43:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id dwyQAJUAu2aaFQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 13 Aug 2024 06:43:33 +0000
+Date: Tue, 13 Aug 2024 08:44:13 +0200
+Message-ID: <87ed6sdirm.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Juan =?ISO-8859-1?Q?Jos=E9?= Arboleda <soyjuanarbol@gmail.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Subject: Re: [PATCH 1/2] ALSA: usb-audio: Support Yamaha P-125 quirk entry
+In-Reply-To: <64d6f88a8f978fa6fa090e9c81ed2a834bf21308.1723518816.git.soyjuanarbol@gmail.com>
+References: <cover.1723518816.git.soyjuanarbol@gmail.com>
+	<64d6f88a8f978fa6fa090e9c81ed2a834bf21308.1723518816.git.soyjuanarbol@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-OriginatorOrg: irondevice.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SL2P216MB2337.KORP216.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: d55eda9b-0bd3-4edf-4b97-08dcbb62d175
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Aug 2024 06:40:27.4848
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b4849faa-3337-494e-a76a-cb25a3b3d7d1
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ID2CkADv6atUCiKcF8eR2BXUNvAG7yNY46zmOlUEM4o7iNR5XXOKsLk4BIKtkNek7ndIlK/cgEJWg31U0ddqYmWteU45QkLEx5P4LSEvSog=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PU4P216MB1977
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -5.51
+X-Rspamd-Queue-Id: 3D03522721
+X-Spamd-Result: default: False [-5.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-DQoNCj4gPiArc3RhdGljIGludCBzbWExMzA3X3Jlc2V0X2dldChzdHJ1Y3Qgc25kX2tjb250cm9s
-ICprY29udHJvbCwNCj4gPiArCQkJICAgICBzdHJ1Y3Qgc25kX2N0bF9lbGVtX3ZhbHVlICp1Y29u
-dHJvbCkgew0KPiA+ICsJc3RydWN0IHNuZF9zb2NfY29tcG9uZW50ICpjb21wb25lbnQgPQ0KPiA+
-ICsJICAgIHNuZF9zb2Nfa2NvbnRyb2xfY29tcG9uZW50KGtjb250cm9sKTsNCj4gPiArCXN0cnVj
-dCBzbWExMzA3X3ByaXYgKnNtYTEzMDcgPSANCj4gPiArc25kX3NvY19jb21wb25lbnRfZ2V0X2Ry
-dmRhdGEoY29tcG9uZW50KTsNCj4gPiArDQo+ID4gKwl1Y29udHJvbC0+dmFsdWUuaW50ZWdlci52
-YWx1ZVswXSA9IChpbnQpc21hMTMwNy0+cmVzZXQ7DQo+ID4gKwlkZXZfZGJnKHNtYTEzMDctPmRl
-diwgIiVzOiAgcmVhZHlcbiIsIF9fZnVuY19fKTsNCg0KPiBEcm9wIGFsbCBzdWNoIHNpbXBsZSBm
-dW5jdGlvbiBzdWNjZXNzIG1lc3NhZ2VzLg0KDQpFdmVuIHRob3VnaCB0aGUgbG9ncyB3ZXJlIHNl
-dCB1c2luZyBkZXZfZGJnLCBpcyB0aGVyZSBzdGlsbCBhbiBpc3N1ZT8NCg0KDQo+ID4gKw0KPiA+
-ICsJcmV0dXJuIHRydWU7DQo+ID4gK30NCj4gPiArDQo+ID4gK3N0YXRpYyBpbnQgc21hMTMwN19i
-aW5hcnlfbW9kZV9nZXQoc3RydWN0IHNuZF9rY29udHJvbCAqa2NvbnRyb2wsDQo+ID4gKwkJCQkg
-ICBzdHJ1Y3Qgc25kX2N0bF9lbGVtX3ZhbHVlICp1Y29udHJvbCkgew0KPiA+ICsJc3RydWN0IHNt
-YTEzMDdfcHJpdiAqc21hMTMwNyA9IHNuZF9rY29udHJvbF9jaGlwKGtjb250cm9sKTsNCj4gPiAr
-DQo+ID4gKwl1Y29udHJvbC0+dmFsdWUuZW51bWVyYXRlZC5pdGVtWzBdID0gKHVuc2lnbmVkIA0K
-PiA+ICtpbnQpc21hMTMwNy0+YmluYXJ5X21vZGU7DQo+ID4gKw0KPiA+ICsJZGV2X2RiZyhzbWEx
-MzA3LT5kZXYsDQo+ID4gKwkJICIlczogYmluYXJ5IG1vZGUgaXMgJXNcbiIsDQo+ID4gKwkJIF9f
-ZnVuY19fLCBzbWExMzA3X2JpbmFyeV9tb2RlX3RleHRbc21hMTMwNy0+YmluYXJ5X21vZGVdKTsN
-Cg0KPiBXaHkgZG8geW91IGRlYnVnIGV2ZXJ5IHNvdW5kLUFQSSBjYWxsPw0KDQpJIGFkZGVkIGl0
-IGZvciBkZWJ1Z2dpbmcgcHVycG9zZXMgdG8gdmVyaWZ5IHdoZW4gYW5kIGlmIGl0IGlzIGNhbGxl
-ZCBkdXJpbmcgYWN0dWFsIG9wZXJhdGlvbi4gSXMgaXQgYSBwcm9ibGVtIGlmIGl0IGlzIG9ubHkg
-Y2FsbGVkIGluIGRlYnVnIG1vZGU/DQoNCj4gPiArDQo+ID4gK3N0YXRpYyB2b2lkIHNtYTEzMDdf
-c2V0dGluZ19sb2FkZWQoc3RydWN0IHNtYTEzMDdfcHJpdiAqc21hMTMwNywgY2hhciANCj4gPiAr
-KmZpbGUpDQoNCj4gVGhpcyB3YXMgbmV2ZXIgcHJvcGVybHkgYnVpbGQgYW5kIHRlc3RlZC4gVGhh
-dCdzIGEgc3RyaW5nLCBidXQgeW91IHBhc3MgaGVyZSAnc3RydWN0IHNtYTEzMDdfc2V0dGluZ19m
-aWxlJy4NCg0KPiBEbyBub3Qgc2VuZCBjb2RlIHdoaWNoIGRvZXMgbm90IHBhc3MgVz0xIGJ1aWxk
-cywgc21hdGNoIGFuZCBzcGFyc2UgY2hlY2tzLg0KDQo+ID4gQWxzbywgdGhhZ3QncyBhIGNvbnN0
-IGNoYXIgKi4NCg0KSSBwZXJmb3JtZWQgc3RhdGljIGFuYWx5c2lzIHdpdGggdGhlIEM9MiBvcHRp
-b24sIGJ1dCBJIHdpbGwgY2hlY2sgdXNpbmcgdGhlIFc9MSBvcHRpb24uDQoNClRoaXMgZnVuY3Rp
-b24gaXMgY29uZmlndXJlZCB0byBub3Qgb3BlcmF0ZSBpZiB0aGUgZmlsZSBpcyBtaXNzaW5nLiBU
-eXBpY2FsbHksIGl0IHdpbGwgbm90IGZ1bmN0aW9uIHdpdGhvdXQgdGhlIGZpbGUsIGJ1dCBpdCBj
-YW4gYmUgdXNlZCBpZiBJIHByb3ZpZGUgdGhlIGZpbGUgYXMgbmVlZGVkLiBTaG91bGQgc3VjaCBh
-IGZ1bmN0aW9uIGJlIGF2b2lkZWQ/DQoNCj4gPiArDQo+ID4gKwlzbWExMzA3LT5hdHRyX2dycCA9
-ICZzbWExMzA3X2F0dHJfZ3JvdXA7DQo+ID4gKwlyZXQgPSBzeXNmc19jcmVhdGVfZ3JvdXAoc21h
-MTMwNy0+a29iaiwgc21hMTMwNy0+YXR0cl9ncnApOw0KDQo+IFlvdSBuZWVkIHRvIGRvY3VtZW50
-IHN5c2ZzIEFCSS4NCg0KSSB3YXMgdW5hd2FyZSB0aGF0IGRvY3VtZW50YXRpb24gZm9yIHN5c2Zz
-IHdhcyByZXF1aXJlZC4gSSB3aWxsIHJlYWQgRG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9zeXNm
-cy1ydWxlcy5yc3QgYW5kIHdvcmsgb24gY3JlYXRpbmcgdGhlIGRvY3VtZW50YXRpb24uIEFkZGl0
-aW9uYWxseSwgSSB3b3VsZCBhcHByZWNpYXRlIGFueSBmdXJ0aGVyIGluZm9ybWF0aW9uIHlvdSBj
-YW4gcHJvdmlkZS4NCg0KVGhhbmsgeW91IGZvciB5b3VyIGhlbHAuIEkgd2lsbCBwcm9jZWVkIHdp
-dGggdGhlIGRvY3VtZW50YXRpb24gc3RlcCBieSBzdGVwLiBDb3VsZCB5b3UgcHJvdmlkZSBtb3Jl
-IGluZm9ybWF0aW9uIGFib3V0IHNwYXJzZT8gSSB0cmllZCB1c2luZyBpdCBidXQgZW5jb3VudGVy
-ZWQgZGlmZmljdWx0aWVzLCBzbyBJIG9ubHkgcHJvY2VlZGVkIHdpdGggdGhlIEM9MiBvcHRpb24u
-DQoNCkJlc3QgcmVnYXJkcywNCktpc2VvayBKbw0KDQo=
+On Tue, 13 Aug 2024 05:31:27 +0200,
+Juan José Arboleda wrote:
+> 
+> This patch adds a USB quirk for the Yamaha P-125 digital piano.
+> 
+> Signed-off-by: Juan José Arboleda <soyjuanarbol@gmail.com>
+> ---
+>  sound/usb/quirks-table.h | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
+> index f13a8d63a019..24e6f68e2f1e 100644
+> --- a/sound/usb/quirks-table.h
+> +++ b/sound/usb/quirks-table.h
+> @@ -239,6 +239,7 @@ YAMAHA_DEVICE(0x1030, "PSR-295/293"),
+>  YAMAHA_DEVICE(0x1031, "DGX-205/203"),
+>  YAMAHA_DEVICE(0x1032, "DGX-305"),
+>  YAMAHA_DEVICE(0x1033, "DGX-505"),
+> +YAMAHA_DEVICE(0x1718, "P-125"),
+>  YAMAHA_DEVICE(0x1034, NULL),
+>  YAMAHA_DEVICE(0x1035, NULL),
+>  YAMAHA_DEVICE(0x1036, NULL),
+
+The entries for Yamaha are sorted in the device ID order.
+Please try to put at the right place.
+
+
+thanks,
+
+Takashi
