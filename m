@@ -1,94 +1,108 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from mout.web.de (mout.web.de [217.72.192.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 728191990D2;
-	Tue, 13 Aug 2024 11:32:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C46EE1990BB;
+	Tue, 13 Aug 2024 11:36:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723548737; cv=none; b=KNdREsdNdO0Vtek0FiOUAjHP5wonpqty07S8QTi0CXw/GjGDcMVR7VaH06H31uuOB6hdfRPy+Iv+I/yAUIV07xjeryXd4fChALowopUQEqzei+spJaLFQZfKF7ozlGI02FWdYEUeF+8TNGfwbt1kuntkBotCLwVeAljQ2eiax2g=
+	t=1723549000; cv=none; b=agMYt1d6mdwnpnztPiPNANXwrr/h1gzq6VFi3hU+/Tpd+cVx59IXxJJyAt/r08SjC+bGW+ANTTNoz+V0WqFDqm0Hwdw5B+d9sZ1QTUgN6mHV+hV8aOQrWZfv5JVIAOZ4Ii2+mmQfuA2rKi89nUHFFVPbmAXHHAZ9FUrabjdhmk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723548737; c=relaxed/simple;
-	bh=tMnQOJChe9KXLcZG5XFMABHUyzPRb5t0/FS7qg6VR3A=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=G1WRCfhMxZBIWu9B16sKHMn5YRB+GyjKQQ0B52O+J01EUKDQUK8RZyEMxdM4xLPt1YLHgFN5L4WDIENResctG8K5lx4gIJ4FeAXYiyV8jCm1juZLqwPOKnPHdOAftfdnsfgdYr3ifJGcXGzcz0lu5zSjVMTyjavv43PlEHWE3uA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=HmH4etQt; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1723549000; c=relaxed/simple;
+	bh=m0IRIH3EcHV+TrlopED/cgfzuE9mKP8Dk1cqfwP22DI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HbFFyBI+JG+13+WLylCTiLjnoO9iBMBWjc9DmmAzMewRuH/fNdYR944JfsOxSJFMYCI2AHLZlBGBbj/I5zlHX2JFtei90eyCv9tecyT9a48PIhshaUNOGmQGL3+zY9//W8WUYXJDu5no6EpnaCH0jFo9k8qrc5nwI9dYHCGD32U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=f7OWM8Of; arc=none smtp.client-ip=217.72.192.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="HmH4etQt"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47D2TvUh023256;
-	Tue, 13 Aug 2024 06:32:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=u68SVm+ii+JgiV4O
-	dRIuHVByVWx9R++flkNsbG3/me0=; b=HmH4etQtR7T5gdj9Pi5S/le4r7rdZYsh
-	hZluyda6kGT/jXnNfLzrER2pqTtvhj731RlH3/wjgAtM6aOmaTQPsTNtuDx0+KKr
-	kMkN1YQY5ECCDcTdZBwNt2qVDadJGvukNEoQt2WSv6jHlioQDRkaiY5pYrXhPgSe
-	d1YZSKcDabNPgaoJ8zz+IuZBjbKnOVZdZhNzwEkn7AQUPi4zNa+8V7w1wEiiDmTF
-	N2e2BHYWOGjQjG/8B6OIJKD0q+VLt4kPL/vyMCm/K1/2p52igC4M8J9Htrz6XuEW
-	n190aoBNz9xLGgA4HuaQGhvTuL66CZ4q75hXMK3FG8+jEmKmQPFZ3w==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 40x5kwk4x9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 13 Aug 2024 06:32:13 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 13 Aug
- 2024 12:32:11 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Tue, 13 Aug 2024 12:32:11 +0100
-Received: from EDIN4L06LR3.ad.cirrus.com (EDIN4L06LR3.ad.cirrus.com [198.61.68.170])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 0DE1B820241;
-	Tue, 13 Aug 2024 11:32:11 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: <tiwai@suse.com>
-CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <patches@opensource.cirrus.com>,
-        Richard Fitzgerald
-	<rf@opensource.cirrus.com>
-Subject: [PATCH] ALSA: hda: cs35l41: Remove redundant call to hda_cs_dsp_control_remove()
-Date: Tue, 13 Aug 2024 12:32:09 +0100
-Message-ID: <20240813113209.648-1-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="f7OWM8Of"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1723548958; x=1724153758; i=markus.elfring@web.de;
+	bh=7ipYMxPYpOpnW1gNYkqI1PmfHkw0HS0KWT1PkmtvSwo=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=f7OWM8Of+xF6FVyJpYuyCeMxI/59mdOFOzAIm920XKpojmgLqVyhhPXdNruVkjCM
+	 czoreeYUNWtPfMTScgjOC7IPYCpBPgMucDOekzE1c6rQeMV4I6XoGmCp1fA4XkaMb
+	 CasImxN2ZNbJBBfKL48/EmISnKFfvEYFuy35k16rlE20sLzAuPBzL7ipfqbAbdtK4
+	 yJ0ABWOKh1UbL1YTPgkwUaQYmK04aZVW4DSoMbEq2OBD0j36MOjagExn+r8Iq/TZH
+	 zJSndhrzttT67QvpWIFTjaxzsgf201H5/mS5Je+iYJAlfaEpedFPOeSw2v/jIAeDe
+	 9+n8wyZHrHDX1rGYOw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.90.95]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MHEbq-1sQgfe0hZA-00GRu0; Tue, 13
+ Aug 2024 13:35:58 +0200
+Message-ID: <ac7efdcd-cc79-4984-8b36-50898243afa5@web.de>
+Date: Tue, 13 Aug 2024 13:35:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: t_Zww_c1c2Mbx_mH0l6kBsmQPA3rfHTs
-X-Proofpoint-GUID: t_Zww_c1c2Mbx_mH0l6kBsmQPA3rfHTs
-X-Proofpoint-Spam-Reason: safe
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2 1/2] ASoC: SOF: amd: move iram-dram fence register
+ programming sequence
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, linux-sound@vger.kernel.org,
+ alsa-devel@alsa-project.org, sound-open-firmware@alsa-project.org,
+ Mark Brown <broonie@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Basavaraj Hiregoudar <Basavaraj.Hiregoudar@amd.com>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Sunil-kumar Dommati <Sunil-kumar.Dommati@amd.com>,
+ Takashi Iwai <tiwai@suse.com>,
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+References: <20240813105944.3126903-1-Vijendar.Mukunda@amd.com>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240813105944.3126903-1-Vijendar.Mukunda@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:szcAT5i8Xj0bcGbc849dlKmiLBUMBuWPDXT4XBTxmCtSxx/JcGM
+ 28ppT0+5oNUnrvkidj84Gy1Z41vVjn9s9QxjU+uL4m4B1OKpyJT/yECkIV0Oc6m7lyQ9gVW
+ +iu9AGuUD6MOJdPeJ4bgWxzpXCt31CQ0u2/u9wayD5mckgWnnwqFTi2lfa25P4zKzJ00O5u
+ a1J5UaAJJS9Dl7VjeQG0w==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:l/qmwRXuIKA=;fd1eSuvXq/XoLU2WIflqWfTlHop
+ +qFsCVvb3Ug0rgCmpuEYpNl69wRLghI7eqG3tEZVPUmxafWEL41MNMpO6rzSUVRnsH2oZGNov
+ U5vuZuVqVc4tlvN5lnQmMDK2O/9FiQP3A9dpcFwETiRgea6feKH/SSCD9Oaa7VNMQYsmzOw/w
+ U0Bji2Z+gXD5iN65YJqJufbPHKDkBn9MfwIZpWpg5ddh2yL8IfIrC9hnECCoLUwwzFX3guIbj
+ aHM7dxAYl7MV9NvXUBf3ayUfv2llox0hGZbZ+J1qdOwto1hJac9oktVRpSawsCeTyGDVwFvQV
+ 40CEdXirF/ecyn+olP/e4mHkegGdSKP8HO+Cg/LgiGDyPpvDXyhZB6imBgpxsvXxEIhcRDBI6
+ JDqpKLb871i5gm/FOeV+IUIG4b7TPbRJZ31eglPGCKVsyk6h1BoWIAJwLRTw37XM3qg5/2sdJ
+ RUTTpFZjpxG8E0ZicSuObzKCMHnPaCvX3J0+aKfARdtTgCm96mJhN8MmCfO/GWaa3Wcz5/Ezt
+ ZjPZ3wnf0HzK7/yauizTYXOsZ/wu96xy1TNm2KzKJ4dGdBOHANdnDUOROeMhxXb2QytBqotrK
+ Peyi4D80uRENXhAFeitGHbZK7W0AHh0IVvzudmPiRLrYZiTEhdAt5+QD9F+Mosj3Y+DVFYJNl
+ gLqcV4A2lNKHKHeesmBagkg0+hIEKz01aRH21yPgmT+oyYBJpS3NOb/zD9qh/r8BRQ2UZcs+e
+ XffgE0GTuf9905UeVWAVktvbyiSLmKnwUZfpEW2ywhUVuhC9xa8WQvbNlkmKP8dBMWLcZcuAN
+ 7vfkAk9kJazY/FmSus+XVuYA==
 
-The driver doesn't create any ALSA controls for firmware controls, so it
-shouldn't be calling hda_cs_dsp_control_remove().
+> The existing code modifies IRAM and DRAM size after sha dma start =E2=80=
+=A6
 
-commit 312c04cee408 ("ALSA: hda: cs35l41: Stop creating ALSA Controls for
-firmware coefficients") removed the call to hda_cs_dsp_add_controls() but
-didn't remove the call for destroying those controls.
+                                                      SHA DMA?
 
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-Fixes: 312c04cee408 ("ALSA: hda: cs35l41: Stop creating ALSA Controls for firmware coefficients")
----
- sound/pci/hda/cs35l41_hda.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/pci/hda/cs35l41_hda.c b/sound/pci/hda/cs35l41_hda.c
-index 3a92e98da72d..d68bf7591d90 100644
---- a/sound/pci/hda/cs35l41_hda.c
-+++ b/sound/pci/hda/cs35l41_hda.c
-@@ -134,7 +134,7 @@ static const struct reg_sequence cs35l41_hda_mute[] = {
- };
- 
- static const struct cs_dsp_client_ops client_ops = {
--	.control_remove = hda_cs_dsp_control_remove,
-+	/* cs_dsp requires the client to provide this even if it is empty */
- };
- 
- static int cs35l41_request_tuning_param_file(struct cs35l41_hda *cs35l41, char *tuning_filename,
--- 
-2.39.2
+=E2=80=A6
+> sha dma failure =E2=80=A6
 
+  SHA DMA?
+
+
+> IRAM size. To fix this issue, Move the iram-dram fence register sequence
+
+
+             Thus move the IRAM-DRAM =E2=80=A6?
+
+
+How do you think about to offer cover letters for patch series?
+
+Regards,
+Markus
