@@ -1,59 +1,40 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C7024C81;
-	Tue, 13 Aug 2024 07:03:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E725A61FDA;
+	Tue, 13 Aug 2024 07:34:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723532594; cv=none; b=Pnl2Vs1cJkW3I6M+R4y/vh24achqnWXAYrKkL4ugeyaAAxCxuLihh0UQ1shMfX287tohJKY+C1rybEa8nE1WWHDxBFZEIxjLoz+m1BZlu/rAtLQYkbqFlGodmPjt7jGYa4WVamLJL2GVcqUTUwbTzRtWAEaATgBmehNFdgcbeG8=
+	t=1723534471; cv=none; b=MGrBco3VX6JS+/XkivLLKL4NRJlJzx2rg0Ne95h7JcGaorTnd3zM1yvQ7D/e0L4ZRyr7euLaWsDFDRjRyLzxYh92GYmkCbNQg4+F9lCBiEafzgDthPDWKRwdEKS1yYoD/M2031K4UuRpBnuuVNmZDmtEbw2lTRCUs9ZAGKec4fM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723532594; c=relaxed/simple;
-	bh=dTbZzkcHiIl7NTbNr43zH/Q3LxjRB6jnEClIJdvOAc4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qTkJYIevSR2flFQ0aWuM/L0wTcdu2v4p7ooa2q3NsOj9qZXFuQOmGzsUZVqPqkRT352ydSHQbxu/4E3al6uxkpwz73yJp8I3wzKAm3MomfTuJMaC70ZFY2H9J+HRooxst59mNbGthmHffhdv7CYpo95m9e7RMfx6mEQjgGntNzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lqZn3uf9; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1723534471; c=relaxed/simple;
+	bh=mU38cC/LNwgzPmTxkcy7GpXw8inn9Lq9sOxBxqRIzGg=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=hEWB++bh0c0OPnSKD/KPWF+vFIvtnT9S+KJBayD9dMSsHtCaV2qqeDErRj8NHicDolEwIRIeJo+gR/y0i0kiw48+1e2istyIASF3OJToYgVX4UW1bDAyshNx9fyIBH+hlfsWF82xW9luIRNi19Pp5an7+qj+jN0gUeElKz99PeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=tebG8Yjf; arc=none smtp.client-ip=212.227.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lqZn3uf9"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4280921baa2so6080715e9.2;
-        Tue, 13 Aug 2024 00:03:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723532592; x=1724137392; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fIOwaxibfjy8pBTYozQ1M2vGi8fc4Fhd8E64F9TTN1c=;
-        b=lqZn3uf9No77Lcl/HaWu9SM/hQlLxUzMqCy3F1d72B/iOaFF8ecRdNbdfR+CkrLzjD
-         h8nqBtGbBTuct8Mgqk9dm4a40UkYs0RZBipF23sPbLpvqPtxCDLLQ/R1VIj1IHaETmM5
-         1GZJvq2IWy+TJXHw4f9ZWQ+V/G1uORMa2ROYSQf5bMO25ZOmFNIChb2WruuW0h+Foyk9
-         CdmuGgQ+6FKLMvl4e7jwQ8go9nUNAwCx08/YDwZEKkCeJmimwhtTXwxpLpi9nFkWaDxf
-         5f6qkEuudBipfB1lXPHznx95oJEVWczOHTDixYjK1LnKVXfw2t+2UZpi7UKufHf9jou6
-         b/lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723532592; x=1724137392;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fIOwaxibfjy8pBTYozQ1M2vGi8fc4Fhd8E64F9TTN1c=;
-        b=A5sjc/roDlGfcX/msWRGM80TtxG/w/iIO9ZXoezVIYPvRVe8VQDpR+YtgcRKDVrr8V
-         g85apelAfph7mfgUp8h1CThyRBxdix0nTrVY6NNPTWLctxyw9vC3vJr41+yWTICAD+wh
-         CCZXnutZGcT+7eWMUNdkQxzJIbjivoBZf0ZmG4dUEhWRY5WbA1mJaKa6PVZfBSC+xLVC
-         Q0YTU1pct50EJuDgeO2ICZvuA0LajidMSeyXPuwNe1kPKfTUwwx2UrMqynTMiCRipXs8
-         Jlb6WGSYKPUWg51Kiprw0hlS9CgZzQAPqCCJBu47IIATqBIE4jd17c7FPa0UnEYboAbq
-         1p9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV6ZN/ZsEA+WZmXrHvbcmF3J4RWXwqkFeF3OvtB+2I50YGYtjrrOOABAsa1DI1IrBtV3g2JGbY4fl9sPZ+8brhFeUVcGpoZS7+kJDVpSb6acAPVqijeIup7uJrqM5MADLop0akzcHzEiag4p4MWGFRkVTNRYBcZNRbBHaKQuhwLUS89WHW7vYr2UONNUOriZwRzinvuZmvZu5T9pRfyK+8IlACv6Ag=
-X-Gm-Message-State: AOJu0YwcPabRvynW2Y38AhIxpFsin8rXg6ELgCH1kXKsK65yDymVoUce
-	uIFjp2LH6po730fkF01BdXxCKWD7hJAZo+Dmx+M37LO1o4kQAnxp
-X-Google-Smtp-Source: AGHT+IFT7bLnTaW+ZuudccrGn/oo/3z70x/uR+WhXxRNGyeNLZQD80eh8G9IROEtYFJM2/ZFfGELGQ==
-X-Received: by 2002:a05:600c:1c16:b0:426:6cd1:d116 with SMTP id 5b1f17b1804b1-429d760e0e5mr5749905e9.3.1723532591311;
-        Tue, 13 Aug 2024 00:03:11 -0700 (PDT)
-Received: from ?IPV6:2a01:4b00:d20e:7300:6db6:f2bf:8865:5d31? ([2a01:4b00:d20e:7300:6db6:f2bf:8865:5d31])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429c751a554sm130564965e9.22.2024.08.13.00.03.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Aug 2024 00:03:10 -0700 (PDT)
-Message-ID: <93b5b1ce-8b40-473d-a2c4-2b1d2612cd67@gmail.com>
-Date: Tue, 13 Aug 2024 08:03:10 +0100
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="tebG8Yjf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1723534431; x=1724139231; i=markus.elfring@web.de;
+	bh=mU38cC/LNwgzPmTxkcy7GpXw8inn9Lq9sOxBxqRIzGg=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=tebG8Yjftsbl3IF0TEFclqSqrb2UEraeT45CmxN6iRDtIan/tesDmlY0ypVX9H8O
+	 e/VXPtLo0gGUvvklh3xJJ5nH4BemydyVfA7D2mA+30CpjczQPOxDS4x4I2nSe5U5E
+	 BUh2SoKMsv+tWbvhGRTM0ixwCHh8r9aX82JMY7EOwCBJa13vt8IILY3FrfeAvuRgB
+	 Io7AxlucJ27nT35u6xAKnT7J9XMxZoMRtG9H1/3p3LUXTx5orH4b6Z05I27CEuWoV
+	 2KSGC2OCoVpjIRikArEvQM2kO/7ZdbzqpXCqUa30LEH8fdNw/QEdSdVQppA5Lok5O
+	 rbBRADEk4ckAd0jTKw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.90.95]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MYu1C-1siIGd2PTM-00XyiM; Tue, 13
+ Aug 2024 09:33:51 +0200
+Message-ID: <fb45abbe-6cd7-430f-a828-bcf8667a87f7@web.de>
+Date: Tue, 13 Aug 2024 09:33:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,58 +42,56 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/4] ALSA: timer: Introduce virtual userspace-driven
- timers
-To: Takashi Iwai <tiwai@suse.de>
-Cc: perex@perex.cz, tiwai@suse.com, corbet@lwn.net, broonie@kernel.org,
- shuah@kernel.org, linux-kselftest@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, christophe.jaillet@wanadoo.fr,
- aholzinger@gmx.de
-References: <20240811202337.48381-1-ivan.orlov0322@gmail.com>
- <20240811202337.48381-4-ivan.orlov0322@gmail.com>
- <87ikw5c644.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Ivan Orlov <ivan.orlov0322@gmail.com>
-In-Reply-To: <87ikw5c644.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, linux-sound@vger.kernel.org,
+ alsa-devel@alsa-project.org, sound-open-firmware@alsa-project.org,
+ Mark Brown <broonie@kernel.org>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Basavaraj Hiregoudar <Basavaraj.Hiregoudar@amd.com>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>, Jaroslav Kysela <perex@perex.cz>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Sunil-kumar Dommati <Sunil-kumar.Dommati@amd.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Takashi Iwai <tiwai@suse.com>,
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+References: <20240807051341.1616925-1-Vijendar.Mukunda@amd.com>
+Subject: Re: [PATCH 1/8] ASoC: SOF: amd: Fix for incorrect acp error satus
+ register offset
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240807051341.1616925-1-Vijendar.Mukunda@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:QXjrDwQD05SSALKfEGxtJqBs/HinYxwdtF6/Ipy0yvvNpHL8MU/
+ OdEarN41T+2waA1pWjJgs9oRbQ2lBt1rHH848rr2nxOjCjGJTVyTJuxcHqDew/UhbVt83Xz
+ yDRxO0giqTxP4HfRQD58gp4tL/KPfFulVqNlztpjOUTdF+nvrMl4j3FNocmySH/lM6NIS8S
+ ck/1thdaJ0wzkrVzLP3Ow==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:wfBjWxf42kE=;dwBdLLCOghN1zXaw0AYkTP79JET
+ 6I89tFsZazzv/E32KxErl2JLPCbVJYu5CQoMwx9pEahjypZapg+eWdDJJAN5Rr0YoQod84uSL
+ uBMD58o6gdKtlE5SuZC9M+5OQMdgfYpXOdhw1XbJAdheXBs39hCUUL/E45sSfXC31jvmSFf0Y
+ wVXLMCYgcndSea0oC7DU00qedHMTXg99wQSSlkZHIU9TkOZ3AbS0s8AZRYKA0DFQoTbFGUNgT
+ SbM+S5kMdpAo0xRnfRADCaxxGwQ4LTuiWO8aqdSTf0sFxB8BICx35kSCAVwn6EU/PQ2jDbmgy
+ zxgu5wziQpXfB19ZlWCE3gmC0T6tt4Y7+2Lc7UzLTnSYbUwW0mvMMLsTI7KHl1V5Xhnd9ZF4b
+ UboqLulsMuumlgxOIGRTPXAfk65KzSAdvz70/210TaE/8BfQ9TIk8D9XqPOtkZkLNnLvnmy7N
+ H8Mi5nK8s9FsD5qeDmzD2Q6r0Ye8er99FgXBuWclqAH4F6x8i9kAtaXMASk2CmfUZP+mg0G1/
+ +fcHTBhQecy8y27LehxwnKFPG8BNgx1gh7sYtWMu2jRHadaH6hZwdT32teM0WmiCDIjcKAMAF
+ YeNFvgLFnItBTMQUPo3uZsuB1NFKWVpmH//BPc6N+x5mbxq7Xfzp5mAS6gO1mGsOQmgvHWAbG
+ TfEsDMId42VGX4NhT7Y0mCG/EZYSVE4zOa++ECnx/sediocyJCcuM6ne9gmnvS3VkIeDZWtld
+ Ai/rGwWtR33KJYUKBYeA0WqZuO2JcD9KsrtRTTW1UuqDqMTOCbb0lE87Nb96jLmc8+TzdgjBC
+ D2I7MlKhFCe/SAZ+xlvyFfUg==
 
-On 8/13/24 07:02, Takashi Iwai wrote:
-> On Sun, 11 Aug 2024 22:23:36 +0200,
-> Ivan Orlov wrote:
->> +static int snd_utimer_ioctl_create(struct file *file,
->> +				   struct snd_timer_uinfo __user *_utimer_info)
->> +{
->> +	struct snd_utimer *utimer;
->> +	struct snd_timer_uinfo *utimer_info __free(kfree) = NULL;
->> +	int err;
->> +
->> +	utimer_info = memdup_user(_utimer_info, sizeof(*utimer_info));
->> +	if (IS_ERR(utimer_info))
->> +		return PTR_ERR(no_free_ptr(utimer_info));
->> +
->> +	err = snd_utimer_create(utimer_info, &utimer);
->> +	if (err < 0)
->> +		return err;
->> +
->> +	utimer_info->id = utimer->id;
->> +
->> +	err = copy_to_user(_utimer_info, utimer_info, sizeof(*utimer_info));
->> +	if (err) {
->> +		snd_utimer_free(utimer);
->> +		return -EFAULT;
->> +	}
->> +
->> +	return anon_inode_getfd(utimer->name, &snd_utimer_fops, utimer, O_RDWR | O_CLOEXEC);
-> 
-> Wouldn't utimer be left unfreed if this returns an error?
-> 
+> Adding 'dsp_intr_base' to ACP error status register offset in irq handle=
+r
+=E2=80=A6
 
-Hi Takashi,
+Please avoid typos in the summary phrase.
 
-Ah, yes, it will... :( Thanks!
-
--- 
-Kind regards,
-Ivan Orlov
+Regards,
+Markus
