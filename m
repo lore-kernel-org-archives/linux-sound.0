@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98D040BE3;
-	Tue, 13 Aug 2024 06:48:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D153F9F9;
+	Tue, 13 Aug 2024 06:48:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723531710; cv=none; b=RqZr1endf8wEMui1RQ2ZYlQ93dCoJgoV/AV+XNMmn6fkxNzhpCNGrnVDPv2W1il2/8dw+hAH2uKiB4YKvg5ymLCmpH7mt0Ja0sR2uAb+EilaYOzQ/Qz2OZqtRyB2wHzC42bLZD+OUC8c+vGz3xeiKZi5fUS/iGsxFHEa95BKXu4=
+	t=1723531726; cv=none; b=iqTqg5lS2xLU9aQBKDr3P1Cox6yMafgK+62CEq8jXUKoFsIlWXO+02sXdGgeBBhqTJEMttG1JKPy2yTQiuU8+fl2s9HbOeYXmUvYPjuAOKiIqmR0p+A3cZ1Vt1ZsnirkB3siR2N8/7w2vlY/xeHRtCFgkbhi4M3q7EUY7mHwIEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723531710; c=relaxed/simple;
-	bh=iCZiCwtRsRSzu+6HOIiipboOpFCrwsZfm6lxtXFjzWI=;
+	s=arc-20240116; t=1723531726; c=relaxed/simple;
+	bh=R4N3idk2fr51n2Ysp1ZJvB7OoNsVjtmm9+5kWMMUGGw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZTSdkSHbq6/w/3X1VCrEs2Ms76M910otse/OY4vCqZZLgiGLEY1/o41725oebibx9A6Dz9kwyIXtRvJEbhAzA6F76mgtB7n1tRSQeUy3q9upKtdJ+rgV03lWsvqHeE3R2i4F8hgh+oz9y4ziVmOzac4MhwRJHOw4I7AZq/ECWw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gmDVXe/u; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=UhNouVubqxOXe4wgdq6W+L/CIqCFtqJXH2bDribe5m13su8ENcOhzuFo1A3kxtF4JU7dJGEIrzlqentOcrl+lEyFbgpM/rhVEmYPXpdxaT8bzeIGHwifcrAgiOPW6KlsVSxOOG8Gresl6VNRjaYnlq6cBS/MzwzmFAr16RrnT3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=puLQ0j5H; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gmDVXe/u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6205C4AF0B;
-	Tue, 13 Aug 2024 06:48:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="puLQ0j5H"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1750BC4AF0B;
+	Tue, 13 Aug 2024 06:48:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723531709;
-	bh=iCZiCwtRsRSzu+6HOIiipboOpFCrwsZfm6lxtXFjzWI=;
+	s=k20201202; t=1723531726;
+	bh=R4N3idk2fr51n2Ysp1ZJvB7OoNsVjtmm9+5kWMMUGGw=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=gmDVXe/u4YJ5sKxw4eMVjEPg9Il2q7u8LjzKG27RbUHikRFpdti7S/dAedVDJj5sy
-	 Cfj8UfAWhw92cdOYTOX2BLrApB6RZAR/N8woNop8VpcWXkPhxe2r0xT95uKpW7I2YJ
-	 /3t72VUcb8RkiWIZe9nQTECxzPJchdkNmjyS/eqb10W3/JNQfUH1mux4TNlniZ+XTP
-	 lWeoaUJoiMicF0xPcjOd4pJd5abG6ssh35UAckxT2nAeHp28UifApBUfVtfuqAAztq
-	 q8Axu6nZka7SxEKrFaKA0/awHszhpPcFDKiZqrURcTcQtjQ+XINTGKBfjgeQMtaERl
-	 BwGvGoi22gQ5A==
-Message-ID: <5094cee1-d5f7-4ffe-9297-d865dd6949c8@kernel.org>
-Date: Tue, 13 Aug 2024 08:48:22 +0200
+	b=puLQ0j5HiQMaBgSHU7ylgTLgQtucGjEcdCGG+G2mRBzq8fSBY6LKbmkMBtg/YXzXc
+	 GyhaxChBQ3/mtn/oVRi7G20Cbh2/28jx25PvRSbYKFstKjSlpDMdykoSObBTaCyJ6w
+	 VPYhnTDWeEEK19Pgr2rYu6S3kX0OjAOP5E/ZwxZL7NWSlHi7MhqSCK4bncy3VO3ejn
+	 YenK1IhrvMDmmhCD+mIjq/3odYugTZ/2eExHayHU4c9LepHhwfwDjFMydKiZugDU8g
+	 Rqj6tkmfpvbq3UrGO4l22Ve4fZCTrJywm6xaDpnoWdHQsDxyf2RH7HmI+je3dUkcOD
+	 0x1/WRiKRfvzw==
+Message-ID: <3eceaca8-9c12-42b3-8470-5862a9e908b3@kernel.org>
+Date: Tue, 13 Aug 2024 08:48:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,13 +35,15 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] Add a driver for the Iron Device SMA1307 Amp
+Subject: Re: [PATCH 2/2] ASoC: sma1307: Add bindings for Iron Device SMA1307
+ amplifier
 To: Kiseok Jo <kiseok.jo@irondevice.com>, Liam Girdwood
  <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
 Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
  devicetree@vger.kernel.org
 References: <20240813052609.56527-1-kiseok.jo@irondevice.com>
+ <20240813052609.56527-3-kiseok.jo@irondevice.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -87,21 +89,16 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240813052609.56527-1-kiseok.jo@irondevice.com>
+In-Reply-To: <20240813052609.56527-3-kiseok.jo@irondevice.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 13/08/2024 07:26, Kiseok Jo wrote:
-> This adds basic audio support for the Iron Device SMA1307 amplifier
-> 
-> Kiseok Jo (2):
->   ASoC: sma1307: Add driver for Iron Device SMA1307
->   ASoC: sma1307: Add bindings for Iron Device SMA1307 amplifier
+> Signed-off-by: Kiseok Jo <kiseok.jo@irondevice.com>
+> ---
+>  .../bindings/sound/irondevice,sma1307.yaml    | 67 +++++++++++++++++++
 
-Why do you send the same stuff second time, without addressing feedback?
-
-No, please version your patches, provide changelog, respond to comments
-and then send a v3 with all above.
+I do not see improvements.
 
 Best regards,
 Krzysztof
