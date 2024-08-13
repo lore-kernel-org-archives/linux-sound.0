@@ -1,160 +1,108 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 413493BBC5;
-	Tue, 13 Aug 2024 06:43:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98D040BE3;
+	Tue, 13 Aug 2024 06:48:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723531417; cv=none; b=Qr/p+UpYcQPx9ar71mW4bUxqdK/2J4d0dMhXFGQAgQJfF1YprPQFCGXGR0WEf1IL2/vpQobZq7zAQG0pJbpQi9ElMALejIW2dA9BFLt0WtLB09lJ/Vu4iA+BVeqUhhcNJGxLQEsONBRkmEVWqyYrjyv1OhHK2gEKss1UBLtt2/0=
+	t=1723531710; cv=none; b=RqZr1endf8wEMui1RQ2ZYlQ93dCoJgoV/AV+XNMmn6fkxNzhpCNGrnVDPv2W1il2/8dw+hAH2uKiB4YKvg5ymLCmpH7mt0Ja0sR2uAb+EilaYOzQ/Qz2OZqtRyB2wHzC42bLZD+OUC8c+vGz3xeiKZi5fUS/iGsxFHEa95BKXu4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723531417; c=relaxed/simple;
-	bh=n3Q8ujzM+BHuw1uUmaBoWsUnALIPKIcP+FK0TnsEwyY=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eXgc4767HRIkKpqBS86HYgoKIjrA38GqLV3uQUEdDAX4IIE8JviDzJ2FtnJoj5N1BMalx8G9kJ35hywZtPyamlVYG/8tGb+GS4vUzIp3Ka2XqZJPBXtZx4Hi68Vz9OP4aevLxlwpLiOaOAkuIlEjd8Ao7ThvnTAtlfpZ/wM9DSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=u2vC9BMS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=85s1Hz1L; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=u2vC9BMS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=85s1Hz1L; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1723531710; c=relaxed/simple;
+	bh=iCZiCwtRsRSzu+6HOIiipboOpFCrwsZfm6lxtXFjzWI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZTSdkSHbq6/w/3X1VCrEs2Ms76M910otse/OY4vCqZZLgiGLEY1/o41725oebibx9A6Dz9kwyIXtRvJEbhAzA6F76mgtB7n1tRSQeUy3q9upKtdJ+rgV03lWsvqHeE3R2i4F8hgh+oz9y4ziVmOzac4MhwRJHOw4I7AZq/ECWw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gmDVXe/u; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="u2vC9BMS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="85s1Hz1L";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="u2vC9BMS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="85s1Hz1L"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3D03522721;
-	Tue, 13 Aug 2024 06:43:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723531413; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Zzt+7PwpiA7+5DBqZif280/U0cpF6Vg2+xMwnhvF+qA=;
-	b=u2vC9BMS+kyBs5HvI0m8zbMu9dXNHuVHyruhNpnKIAOY/RIbtQhz1ZcmJV+hd3FAU2BA7X
-	2u44AYQVhUIq4xP1dl36tksUbGSsDZ81o8RuIE0rDY0fV9Yro4Cc8+/OaCVsfJTtb/YhN0
-	lldOvU5iKo+ZbCDWNs6G99mOnm4IX9E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723531413;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Zzt+7PwpiA7+5DBqZif280/U0cpF6Vg2+xMwnhvF+qA=;
-	b=85s1Hz1L2x1fkCnxxUusqZa4QB1MdMihCMvX+zu/aKSPbg+Vh72Fy25eeUCpweKmTypCI3
-	WaU5oPP8prBuJFBA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=u2vC9BMS;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=85s1Hz1L
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723531413; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Zzt+7PwpiA7+5DBqZif280/U0cpF6Vg2+xMwnhvF+qA=;
-	b=u2vC9BMS+kyBs5HvI0m8zbMu9dXNHuVHyruhNpnKIAOY/RIbtQhz1ZcmJV+hd3FAU2BA7X
-	2u44AYQVhUIq4xP1dl36tksUbGSsDZ81o8RuIE0rDY0fV9Yro4Cc8+/OaCVsfJTtb/YhN0
-	lldOvU5iKo+ZbCDWNs6G99mOnm4IX9E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723531413;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Zzt+7PwpiA7+5DBqZif280/U0cpF6Vg2+xMwnhvF+qA=;
-	b=85s1Hz1L2x1fkCnxxUusqZa4QB1MdMihCMvX+zu/aKSPbg+Vh72Fy25eeUCpweKmTypCI3
-	WaU5oPP8prBuJFBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0971913983;
-	Tue, 13 Aug 2024 06:43:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id dwyQAJUAu2aaFQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 13 Aug 2024 06:43:33 +0000
-Date: Tue, 13 Aug 2024 08:44:13 +0200
-Message-ID: <87ed6sdirm.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Juan =?ISO-8859-1?Q?Jos=E9?= Arboleda <soyjuanarbol@gmail.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Subject: Re: [PATCH 1/2] ALSA: usb-audio: Support Yamaha P-125 quirk entry
-In-Reply-To: <64d6f88a8f978fa6fa090e9c81ed2a834bf21308.1723518816.git.soyjuanarbol@gmail.com>
-References: <cover.1723518816.git.soyjuanarbol@gmail.com>
-	<64d6f88a8f978fa6fa090e9c81ed2a834bf21308.1723518816.git.soyjuanarbol@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gmDVXe/u"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6205C4AF0B;
+	Tue, 13 Aug 2024 06:48:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723531709;
+	bh=iCZiCwtRsRSzu+6HOIiipboOpFCrwsZfm6lxtXFjzWI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=gmDVXe/u4YJ5sKxw4eMVjEPg9Il2q7u8LjzKG27RbUHikRFpdti7S/dAedVDJj5sy
+	 Cfj8UfAWhw92cdOYTOX2BLrApB6RZAR/N8woNop8VpcWXkPhxe2r0xT95uKpW7I2YJ
+	 /3t72VUcb8RkiWIZe9nQTECxzPJchdkNmjyS/eqb10W3/JNQfUH1mux4TNlniZ+XTP
+	 lWeoaUJoiMicF0xPcjOd4pJd5abG6ssh35UAckxT2nAeHp28UifApBUfVtfuqAAztq
+	 q8Axu6nZka7SxEKrFaKA0/awHszhpPcFDKiZqrURcTcQtjQ+XINTGKBfjgeQMtaERl
+	 BwGvGoi22gQ5A==
+Message-ID: <5094cee1-d5f7-4ffe-9297-d865dd6949c8@kernel.org>
+Date: Tue, 13 Aug 2024 08:48:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -5.51
-X-Rspamd-Queue-Id: 3D03522721
-X-Spamd-Result: default: False [-5.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Spam-Flag: NO
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] Add a driver for the Iron Device SMA1307 Amp
+To: Kiseok Jo <kiseok.jo@irondevice.com>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20240813052609.56527-1-kiseok.jo@irondevice.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240813052609.56527-1-kiseok.jo@irondevice.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, 13 Aug 2024 05:31:27 +0200,
-Juan José Arboleda wrote:
+On 13/08/2024 07:26, Kiseok Jo wrote:
+> This adds basic audio support for the Iron Device SMA1307 amplifier
 > 
-> This patch adds a USB quirk for the Yamaha P-125 digital piano.
-> 
-> Signed-off-by: Juan José Arboleda <soyjuanarbol@gmail.com>
-> ---
->  sound/usb/quirks-table.h | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
-> index f13a8d63a019..24e6f68e2f1e 100644
-> --- a/sound/usb/quirks-table.h
-> +++ b/sound/usb/quirks-table.h
-> @@ -239,6 +239,7 @@ YAMAHA_DEVICE(0x1030, "PSR-295/293"),
->  YAMAHA_DEVICE(0x1031, "DGX-205/203"),
->  YAMAHA_DEVICE(0x1032, "DGX-305"),
->  YAMAHA_DEVICE(0x1033, "DGX-505"),
-> +YAMAHA_DEVICE(0x1718, "P-125"),
->  YAMAHA_DEVICE(0x1034, NULL),
->  YAMAHA_DEVICE(0x1035, NULL),
->  YAMAHA_DEVICE(0x1036, NULL),
+> Kiseok Jo (2):
+>   ASoC: sma1307: Add driver for Iron Device SMA1307
+>   ASoC: sma1307: Add bindings for Iron Device SMA1307 amplifier
 
-The entries for Yamaha are sorted in the device ID order.
-Please try to put at the right place.
+Why do you send the same stuff second time, without addressing feedback?
 
+No, please version your patches, provide changelog, respond to comments
+and then send a v3 with all above.
 
-thanks,
+Best regards,
+Krzysztof
 
-Takashi
