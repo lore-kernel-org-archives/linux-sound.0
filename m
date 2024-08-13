@@ -1,134 +1,94 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 266F82233A;
-	Tue, 13 Aug 2024 11:20:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 728191990D2;
+	Tue, 13 Aug 2024 11:32:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723548061; cv=none; b=Upcn2NBcnw8Vpf68wvwIq5Fq0qNeY7tFQCKgsUD2E3BSrHJwfCyMDyps118UWajD7mpkrNcodk54SgBrr90YRjqrNminGHpvD0vZRLqGu4qOslTzm4Pyxa8s6MVlpDeZokyX7yELl5zhlt8ESxIeYGmtvwRrRRs0y4SXCvH/Hso=
+	t=1723548737; cv=none; b=KNdREsdNdO0Vtek0FiOUAjHP5wonpqty07S8QTi0CXw/GjGDcMVR7VaH06H31uuOB6hdfRPy+Iv+I/yAUIV07xjeryXd4fChALowopUQEqzei+spJaLFQZfKF7ozlGI02FWdYEUeF+8TNGfwbt1kuntkBotCLwVeAljQ2eiax2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723548061; c=relaxed/simple;
-	bh=3kJOXslTf0aT+y2O+2l2OOiTEJwmT65z1bNrv99Nq9s=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ulMuLub39iYUGKWsbIbgPTtCaMCTO552kn+CoMR3c40RmhICXVDo3/CdHeGe+y6guU0kQDy9mQAAr1cAjDpoqKnkcQAYNAmKx71B7XDcH/DXaUJW/af6N1R8ggnTdcl+hPVHTtorakE356CsKNjCbFYr8VFHKxNFg6ZG1nlI3gI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2CQbTlAl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=oh4EH4+j; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2CQbTlAl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=oh4EH4+j; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1723548737; c=relaxed/simple;
+	bh=tMnQOJChe9KXLcZG5XFMABHUyzPRb5t0/FS7qg6VR3A=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=G1WRCfhMxZBIWu9B16sKHMn5YRB+GyjKQQ0B52O+J01EUKDQUK8RZyEMxdM4xLPt1YLHgFN5L4WDIENResctG8K5lx4gIJ4FeAXYiyV8jCm1juZLqwPOKnPHdOAftfdnsfgdYr3ifJGcXGzcz0lu5zSjVMTyjavv43PlEHWE3uA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=HmH4etQt; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2CQbTlAl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oh4EH4+j";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2CQbTlAl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oh4EH4+j"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2AB4C2039B;
-	Tue, 13 Aug 2024 11:20:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723548058; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6m7/XcMcRcJ2DPL8Wpalx9jcjHcF/xwnDFNwr9fCKo4=;
-	b=2CQbTlAlFEdWiz9og2n2OIFbZuv2d573yVJ7MEuZ/VHnZ8n7DHa2hxwzauv7lBGoFG0CF7
-	yo4NRpLV3o7UiKNdPj4/FWSOLCpH65CkQNnSRcAy22+xq/vI7ApDZh+8ZAbCSkq2WpVAX4
-	eCuALIWoGlUkL5o57A8rHquTcHJTu1g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723548058;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6m7/XcMcRcJ2DPL8Wpalx9jcjHcF/xwnDFNwr9fCKo4=;
-	b=oh4EH4+j6ObPB1S6yEb0glJr7IX3uHW4yiQlc6V2e5QC1DEXbaLRc9LT7MklLwz4l/Q4ll
-	gONgVsdOoOox62CA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723548058; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6m7/XcMcRcJ2DPL8Wpalx9jcjHcF/xwnDFNwr9fCKo4=;
-	b=2CQbTlAlFEdWiz9og2n2OIFbZuv2d573yVJ7MEuZ/VHnZ8n7DHa2hxwzauv7lBGoFG0CF7
-	yo4NRpLV3o7UiKNdPj4/FWSOLCpH65CkQNnSRcAy22+xq/vI7ApDZh+8ZAbCSkq2WpVAX4
-	eCuALIWoGlUkL5o57A8rHquTcHJTu1g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723548058;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6m7/XcMcRcJ2DPL8Wpalx9jcjHcF/xwnDFNwr9fCKo4=;
-	b=oh4EH4+j6ObPB1S6yEb0glJr7IX3uHW4yiQlc6V2e5QC1DEXbaLRc9LT7MklLwz4l/Q4ll
-	gONgVsdOoOox62CA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0808113ABD;
-	Tue, 13 Aug 2024 11:20:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id vnxeAZpBu2aUawAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 13 Aug 2024 11:20:58 +0000
-Date: Tue, 13 Aug 2024 13:21:30 +0200
-Message-ID: <87o75wmzwl.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: <tiwai@suse.com>,
-	<linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>,
-	<patches@opensource.cirrus.com>
-Subject: Re: [PATCH] ALSA: hda: cs35l56: Remove redundant call to hda_cs_dsp_control_remove()
-In-Reply-To: <20240813110750.2814-1-rf@opensource.cirrus.com>
-References: <20240813110750.2814-1-rf@opensource.cirrus.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="HmH4etQt"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47D2TvUh023256;
+	Tue, 13 Aug 2024 06:32:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=u68SVm+ii+JgiV4O
+	dRIuHVByVWx9R++flkNsbG3/me0=; b=HmH4etQtR7T5gdj9Pi5S/le4r7rdZYsh
+	hZluyda6kGT/jXnNfLzrER2pqTtvhj731RlH3/wjgAtM6aOmaTQPsTNtuDx0+KKr
+	kMkN1YQY5ECCDcTdZBwNt2qVDadJGvukNEoQt2WSv6jHlioQDRkaiY5pYrXhPgSe
+	d1YZSKcDabNPgaoJ8zz+IuZBjbKnOVZdZhNzwEkn7AQUPi4zNa+8V7w1wEiiDmTF
+	N2e2BHYWOGjQjG/8B6OIJKD0q+VLt4kPL/vyMCm/K1/2p52igC4M8J9Htrz6XuEW
+	n190aoBNz9xLGgA4HuaQGhvTuL66CZ4q75hXMK3FG8+jEmKmQPFZ3w==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 40x5kwk4x9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 13 Aug 2024 06:32:13 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 13 Aug
+ 2024 12:32:11 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Tue, 13 Aug 2024 12:32:11 +0100
+Received: from EDIN4L06LR3.ad.cirrus.com (EDIN4L06LR3.ad.cirrus.com [198.61.68.170])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 0DE1B820241;
+	Tue, 13 Aug 2024 11:32:11 +0000 (UTC)
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+To: <tiwai@suse.com>
+CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <patches@opensource.cirrus.com>,
+        Richard Fitzgerald
+	<rf@opensource.cirrus.com>
+Subject: [PATCH] ALSA: hda: cs35l41: Remove redundant call to hda_cs_dsp_control_remove()
+Date: Tue, 13 Aug 2024 12:32:09 +0100
+Message-ID: <20240813113209.648-1-rf@opensource.cirrus.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: t_Zww_c1c2Mbx_mH0l6kBsmQPA3rfHTs
+X-Proofpoint-GUID: t_Zww_c1c2Mbx_mH0l6kBsmQPA3rfHTs
+X-Proofpoint-Spam-Reason: safe
 
-On Tue, 13 Aug 2024 13:07:50 +0200,
-Richard Fitzgerald wrote:
-> 
-> The driver doesn't create any ALSA controls for firmware controls, so it
-> shouldn't be calling hda_cs_dsp_control_remove().
-> 
-> commit 34e1b1bb7324 ("ALSA: hda: cs35l56: Stop creating ALSA controls for
-> firmware coefficients") removed the call to hda_cs_dsp_add_controls() but
-> didn't remove the call for destroying those controls.
-> 
-> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-> Fixes: 34e1b1bb7324 ("ALSA: hda: cs35l56: Stop creating ALSA controls for firmware coefficients")
+The driver doesn't create any ALSA controls for firmware controls, so it
+shouldn't be calling hda_cs_dsp_control_remove().
 
-Applied now.
+commit 312c04cee408 ("ALSA: hda: cs35l41: Stop creating ALSA Controls for
+firmware coefficients") removed the call to hda_cs_dsp_add_controls() but
+didn't remove the call for destroying those controls.
 
-I suppose you'll submit the fix for cs35l41, too?
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+Fixes: 312c04cee408 ("ALSA: hda: cs35l41: Stop creating ALSA Controls for firmware coefficients")
+---
+ sound/pci/hda/cs35l41_hda.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/sound/pci/hda/cs35l41_hda.c b/sound/pci/hda/cs35l41_hda.c
+index 3a92e98da72d..d68bf7591d90 100644
+--- a/sound/pci/hda/cs35l41_hda.c
++++ b/sound/pci/hda/cs35l41_hda.c
+@@ -134,7 +134,7 @@ static const struct reg_sequence cs35l41_hda_mute[] = {
+ };
+ 
+ static const struct cs_dsp_client_ops client_ops = {
+-	.control_remove = hda_cs_dsp_control_remove,
++	/* cs_dsp requires the client to provide this even if it is empty */
+ };
+ 
+ static int cs35l41_request_tuning_param_file(struct cs35l41_hda *cs35l41, char *tuning_filename,
+-- 
+2.39.2
 
-thanks,
-
-Takashi
