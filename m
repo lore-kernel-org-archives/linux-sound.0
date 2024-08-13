@@ -1,101 +1,86 @@
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54BF41A08A6;
-	Tue, 13 Aug 2024 15:56:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C6061A38D1;
+	Tue, 13 Aug 2024 16:04:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723564613; cv=none; b=ejJcSD+H+QKMEg9lBizwAMoVyXngR7FSkERSIY3nVzWz05vndyzYYnkLOHGOicXFFGQKXGt4yRKeRGVA65dA0i4sGlvzIVmTPGAo8SUjZ/pPF1HqQ+1ueBg87QaTKfH7Kaz7vCcO5EHOekPZk+x8wq4nQKASq9xwiLvDKeQ17ec=
+	t=1723565050; cv=none; b=NtoU0Od0m3EOqhLtgFW7EqB+VZr8KUkUsOjMANJASdWWSl2Xkc0ZDjqEkkD5N6iTCPXgVh78Z9n5ts/4DDkKyaR8Eov+p5EbH1dljdSaZMHdUk8XiOQYvNNHrVUVr7HMtpuvoGlxk2pA0EKogzfvtkOybsPJgWltn8r1M237V3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723564613; c=relaxed/simple;
-	bh=ngc1hLOMkQFWBcGLsLCn+/86MLQuNCme09RUqmCXKe4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=awRzDZnBhe0fSppZYX/iVSPe9pJYrKA7dS6dlWjrBA806oFUUBK61zfMj6Yo1DobJfSQQMkiqcDxLo0DfnOkDx3iclCB16uyBwXjuFxagO5k4QnpAjGlgcA/LX0De0mG8vv+CNNfFEfojLV27P4jefSARiu1lvoMucrQoRN6R38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EBya9z8z; arc=none smtp.client-ip=209.85.217.41
+	s=arc-20240116; t=1723565050; c=relaxed/simple;
+	bh=5cqz+U2dSCO5RIgpZA60qfXiuozL0+d/KSZQXgLtsZ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AfhB+DPdNPkgDTiYpe3mJuw+HEb1s0w2ZKaIEREWjc2PZ5m5uACJkBj0v952CdzyKtVyRiAIa6UsorEToK9JnlD6cd8n1ReC4jmJojDbvx/qOS2ku5LKpUn/hWMsqtKhEye+SHMN3v4Lij88qgsQiaZFn311Ob/rBCPMJalEhp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kHl01uIb; arc=none smtp.client-ip=209.85.210.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EBya9z8z"
-Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-49294bbd279so2353620137.0;
-        Tue, 13 Aug 2024 08:56:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kHl01uIb"
+Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7093b53f315so1705404a34.2;
+        Tue, 13 Aug 2024 09:04:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723564611; x=1724169411; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BIk7K7uDNXRgkjiz9GrUCqEfmLUY/1vRneZ0qMbh0tA=;
-        b=EBya9z8zLxyKIhlKpP+spT0t1Xy3NzRIfX9JoRH23/zYiFXawzF/vIDX/W9qQ2qlyP
-         Zck08ip2WPYWdLSVBkfpP9V7maNPqu5HJSWR8uonSb9GhLy3g4SpP9ig8mUSxni6ch4Q
-         oMCfalYV3exGDyPtBvbg4ZrA7eWonWQfFHZS+KhKKU7QcQVvs9C3/42+2KWVnQpP/oio
-         Dwycwl/FPxEtcuToUQa5HukCUNCvqDGG67e6S2Ug8TZUriWGeW8tierCKyWyqSr9u9F0
-         JlIfqrbyjzRwXBiYWL//bzyjBJtYLPyvvOd+oxM1yh5sNqqywf96nNWr1xvlturYtcnD
-         bOrg==
+        d=gmail.com; s=20230601; t=1723565048; x=1724169848; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=InXjJdicHEAyZ6AXDj018w81VOGiDcYouJtZixUTap0=;
+        b=kHl01uIbWJg6gjyOm/wJlvbGwkqt37xWs30k2ZV8zlKTVAs/YnQeLUZEZsfFbA5gLa
+         LIWhL6efMK/SJv12eSm1UKnpry4xd657miU1HWblnybk+CN7ojR9hyIPHJf7tZi7rogq
+         MavbUUv4/fTajT9U3apo8Z3pA4lXNC3QWAXBKuXCWx4nbV2eK7smMn2WKxZd4Xb2oGay
+         OHo6SNPyzE3R95U7HgS9+5tZHXktVCZy5T8+TfInFQCp0myufu9t/9sdDPLzIupwFEDr
+         /BcvtPFoPAdrAjb6meRC8+FXoVD6hhC1fCh4ZcvMIayi3E4t/cnlKKvEjT7b/fYaU1nL
+         GH5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723564611; x=1724169411;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BIk7K7uDNXRgkjiz9GrUCqEfmLUY/1vRneZ0qMbh0tA=;
-        b=aw94IhhL3pCsFV2pKLqSugOtcFfzuXWv+YVwdDAP3pRwlhdfwFA+Y0UYDI3hkZY+Hy
-         cdl6q3WlZewPFSEFRFuYxKNH3RXVP/+vfMc0XROQx8ayI6637np36RiCNfjt1LF6Zm/7
-         23dVlqalEiEHZ/upkHbMGV6+WpzwsIkLBNZ/+/+4xn4UaWPsIXvMoCQCYyhtWll5CvJp
-         tvkdqhttLzJnRKjmvbJP41YzafS32F8ymvFn+JIR2ZTM/hP1l+ytNlXqGB65w38Qwao6
-         8DzBYYcx8jjQkQxTR2JJPNnyeX8LwwSAQN1yiEMRHJUqiX7jXsKMA2X0ss4Qo+2y7xqS
-         QpPw==
-X-Forwarded-Encrypted: i=1; AJvYcCWhrcAGmdufBiI9uWFskbhO/BRllFzpXkZks+YLTHxlg8vPdXTBvfNL/Q9aerlQYcvTOWcoyr8rSHGROb95fY4PX6ee2NlsJ7OB1z3m
-X-Gm-Message-State: AOJu0Yw6Ms11kQhSrdpvhIAV3/He9qLMk1d2tf38bepbE6cgPcysrPdu
-	KWEPKlBoJsdyyJqU4J1Q/9hc/Okgid1vo7xEal5TcW/M6OytiV+BowOdeSDU
-X-Google-Smtp-Source: AGHT+IGNH6iBSXfO0StwAXfg50vBUBsYFAR6PIRZfKq+usqod4RU29+6tWbpTj4SvrdW0RikylD4LA==
-X-Received: by 2002:a05:6102:5127:b0:48f:db3d:593e with SMTP id ada2fe7eead31-4975990e708mr168236137.14.1723564611095;
-        Tue, 13 Aug 2024 08:56:51 -0700 (PDT)
-Received: from fedora.. ([2800:e6:4001:fca7:b7e8:4418:a953:72f2])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-49709fa31f7sm1089283137.26.2024.08.13.08.56.50
+        d=1e100.net; s=20230601; t=1723565048; x=1724169848;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=InXjJdicHEAyZ6AXDj018w81VOGiDcYouJtZixUTap0=;
+        b=aVbe03vgnvh36ZYndg0UP7zpthDckOq7G3z2uxs4JgOlJG7Qf7ZHSg8IL7d4yx4ikH
+         h0BpP3VE7mvlfIhMfc9aqfzMZ6b8TF06e+l9a8viTLuoyQCaRx2Cmz5H+slJr3fjZZx5
+         IIHMYMGirv3pbCBN6W+1vZnhAH3BVJ2Fw6/tDO8kZfUDnwBp3Upw3bQL5YK9hCCY3l+w
+         I319siJfrbXzlqC4Bx79RRmFY0u0eVqSBJ+CzGqe48IqDpm8C5mhNf72WOlMHJRFxi+e
+         Isfa70erb9xFMKGa2QA2JnhOEbGJPFj0MtQIxgFLcZyJ+cFmloX03X9plg3cvjKxLAGw
+         yojA==
+X-Forwarded-Encrypted: i=1; AJvYcCXbaRWVvOSxoJmJM5PThxw53eLiZWdu15EztlTjeJSycQ9ANQDwnMbsWHHxnMic28K2rD42EqMeYQgvHS5sx/tqW8yjEUOVf6CHl+GY
+X-Gm-Message-State: AOJu0YzaoGGP2E/NmWOdV7xwhV40kC72f5tZ0I/Clm68MqtdpysVzHBt
+	O2G/oYv7F7pakWnXW5lozbc0eLUCtrjpOUOPPe0LhrNvWX49yJXHOaTPMovB
+X-Google-Smtp-Source: AGHT+IE4ZVEBWwqA/bEIQ3p27SoDuLrN4oR8SOmYdbP/aTFUhGVIzMR7dbLnzzBAHv6wUkLv4JlH7g==
+X-Received: by 2002:a05:6218:260f:b0:1ac:65e9:1678 with SMTP id e5c5f4694b2df-1b19d2e7e18mr520754255d.22.1723565048013;
+        Tue, 13 Aug 2024 09:04:08 -0700 (PDT)
+Received: from fedora ([2800:e6:4001:fca7:b7e8:4418:a953:72f2])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-841367e2f87sm1016478241.34.2024.08.13.09.04.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Aug 2024 08:56:50 -0700 (PDT)
-From: =?UTF-8?q?Juan=20Jos=C3=A9=20Arboleda?= <soyjuanarbol@gmail.com>
-To: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	=?UTF-8?q?Juan=20Jos=C3=A9=20Arboleda?= <soyjuanarbol@gmail.com>
-Subject: [PATCH v2] ALSA: usb-audio: Support Yamaha P-125 quirk entry
-Date: Tue, 13 Aug 2024 10:56:53 -0500
-Message-ID: <20240813155653.35203-1-soyjuanarbol@gmail.com>
-X-Mailer: git-send-email 2.46.0
+        Tue, 13 Aug 2024 09:04:07 -0700 (PDT)
+Date: Tue, 13 Aug 2024 11:04:11 -0500
+From: Juan =?iso-8859-1?Q?Jos=E9?= Arboleda <soyjuanarbol@gmail.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] ALSA: usb-audio: reduce checkpatch issues in
+ quirks-table.h
+Message-ID: <ZruD-9ccJL6tlBM1@fedora>
+References: <cover.1723518816.git.soyjuanarbol@gmail.com>
+ <6dabfd5c05c04b0e4fc00a708cc65d691af4e267.1723518816.git.soyjuanarbol@gmail.com>
+ <87cymcdi62.wl-tiwai@suse.de>
+ <87sev8l97e.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87sev8l97e.wl-tiwai@suse.de>
 
-This patch adds a USB quirk for the Yamaha P-125 digital piano.
+> > Honestly speaking, I don't find it's much improvement from the code
+> > readability POV.  (And you don't have to "correct" the spaces in
+> > comment lines :)
 
-Signed-off-by: Juan José Arboleda <soyjuanarbol@gmail.com>
----
-Hey! Thanks for taking the time to review my patch.
+> FWIW, the patches below are what I had in my mind.
 
-Attending your sorting by id suggestion, I've moved the P-125 to the
-bottom.
+Right. Your patchset makes way more sense when you read the codebase.
+As you already made the code better, I dropped the patch for the
+"cleanup" and, left only the support for Yamaha P-125 patch.
 
 Regards,
 -Juan
----
- sound/usb/quirks-table.h | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
-index f13a8d63a019..24e6f68e2f1e 100644
---- a/sound/usb/quirks-table.h
-+++ b/sound/usb/quirks-table.h
-@@ -239,6 +239,7 @@ YAMAHA_DEVICE(0x1030, "PSR-295/293"),
- YAMAHA_DEVICE(0x1031, "DGX-205/203"),
- YAMAHA_DEVICE(0x1032, "DGX-305"),
- YAMAHA_DEVICE(0x1033, "DGX-505"),
-+YAMAHA_DEVICE(0x1718, "P-125"),
- YAMAHA_DEVICE(0x1034, NULL),
- YAMAHA_DEVICE(0x1035, NULL),
- YAMAHA_DEVICE(0x1036, NULL),
--- 
-2.46.0
-
