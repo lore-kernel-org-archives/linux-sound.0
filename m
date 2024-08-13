@@ -1,191 +1,158 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2079.outbound.protection.outlook.com [40.107.244.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69E91991C6;
-	Tue, 13 Aug 2024 11:46:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.79
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723549599; cv=fail; b=UDZz1He0yyxULZ+IQ3cmdJyBo/gl463u0UF0/5wCJPHqX5kvykiFBoFkSlFs9eJFE/Va+MT1qsEwFAhimQ7MXuLfTNcQMJKuOiw2GWh+tujx6EvkLjVvA52/9Mr28peNpnizqAeQSCaQSqKXoVcCaTM4OKCbzDNWCvNZtlqRiSI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723549599; c=relaxed/simple;
-	bh=ydZH0vv0cdMKBWTFOVgfra/dkByRh8/lJw6FaMAIB+Q=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=dBdnZ7665iLC8BMNxzhK6Y/03/BHALV2KMi6V5jz692RfphscwAG5dIYj1WXSqoy7U5cyPWCae+0axRRoBJwksDWoOtHu3dd89aO04oMiecPye4uINy3GSX9H/1M1LSOkUsf9QDn3pJRUCxAX3KHG1qDXg2mGE/zC4Os22QdGJo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=oNJmBVbQ; arc=fail smtp.client-ip=40.107.244.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D12198E71;
+	Tue, 13 Aug 2024 12:09:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723550960; cv=none; b=H22w5dX3GlT1BBSBuend7dSaqB8K2TIKtUHXXxTSJ2etnEkNw5EvblT75Pg/6dWHoRVBlqCcuYh6Wz+mJxa69al8P+gbD4nK0dCne9UOvYgOGl4erf7Q2Wy5U9+zrzCzc6wex3nKbv1hee84usXOQ0UadNK6FR3mv/HxlRzonGc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1723550960; c=relaxed/simple;
+	bh=dVKFCnEHQj907r8w6DUNC/hFfSLgWVedEBIn+MI3g3Y=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GNpTMwpwyjHUXTieavYdP50eYFL4CFOeV0LXbc/RbFzAEij7srNfEO2wNagVv7jbv30jMa6gijYRAZsZBR/0RcuQSCbvvhYFFvwEgNU/T0kz0jhQqw25FsiYe9QHIz+pyr3Q8hhOR1IRLwP2WkQgumaYep5S1Da4G1MPdEaOsT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GdekcDFO; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="oNJmBVbQ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=So3xaeGTZEE6XoPIymiSqtIJ/fq+2VCRqPGx5O+7blBRcr8feZD2n3VraBla2eNVFuDfKOWV5PFp8mzcoD2MMcSMYJb9GvmboLrq7rUvYXh1bd95ecwsaQQmZYQnw7hFL7PNjuNvxEg8+bL3BkI0Hb/s4jhD8o4Md4u3f9f9Z+EXOb6Giv6CrQd/KodXp8mg2Jr12TiPUF+0/2Ukc4inR/Sn0O85sveZR96T0VQxpzzZBgUcaFM17pHXn8yMblvgDZrj179rdp4giPopo8+U8U4oaQ8qfuXG4G+H+3EHxmY4K6lAr4B6kc0Nt+qIqLYhcsuWwYGMM0Be7oheBb4hcg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yClQKGRVnY4id6CROoivBgMOYFvzz2jj3rUpTbJhjfY=;
- b=O8potbgo120nHVDJDvEAyc9HZkbRMBuZP48I7y9OrYILU8GsOASaACBbIOAcNmNoBGqNX1FFc5t30LRyMJOZKaCDwmjypsSJhGA4E3cPHdQnA3Vhpjt2x5EJENC34v3iyEEKGVtbj/W2oaKQAECuMHUU/zEkdtLvgIT86N3gAuYQUXPbgyin4ZYOfuIkJxzSeJskYi+BI3MdV+7AI5lLLxloZ24OmP8h1XNc6XOtos094LC9RmgikdByrlXXa5plwqdVCAlniQegfDGXH59wwTXbWhBVBtIlxE9a9rgorgXORjqfnre+MDG46REqkVU/YF8reZWm1oYCBxqrOf5bSQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yClQKGRVnY4id6CROoivBgMOYFvzz2jj3rUpTbJhjfY=;
- b=oNJmBVbQua2U1cjLuh/XLdGPrtpYPzAX/uUBIEaWJcob1ElPDxdaiPQYCbTc5FpLFfe0qHhvSmSMossNo7BQEDcoPBfTwU0B41Gfv++DRiNt/FHKqp2zTtXnesxE2MU+a+opMuMYKnMx83krBR9nHyZJxqoJXMMoeNW4kCCi+2A=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB4123.namprd12.prod.outlook.com (2603:10b6:5:21f::23)
- by SN7PR12MB6888.namprd12.prod.outlook.com (2603:10b6:806:260::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.20; Tue, 13 Aug
- 2024 11:46:35 +0000
-Received: from DM6PR12MB4123.namprd12.prod.outlook.com
- ([fe80::512d:6caa:552a:7ebf]) by DM6PR12MB4123.namprd12.prod.outlook.com
- ([fe80::512d:6caa:552a:7ebf%4]) with mapi id 15.20.7849.021; Tue, 13 Aug 2024
- 11:46:35 +0000
-Message-ID: <0e8afd21-60f8-4a8a-aaa6-e148d4571908@amd.com>
-Date: Tue, 13 Aug 2024 17:16:24 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 1/2] ASoC: SOF: amd: move iram-dram fence register
- programming sequence
-Content-Language: en-US
-To: Markus Elfring <Markus.Elfring@web.de>, linux-sound@vger.kernel.org,
- alsa-devel@alsa-project.org, sound-open-firmware@alsa-project.org,
- Mark Brown <broonie@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Basavaraj Hiregoudar <Basavaraj.Hiregoudar@amd.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Sunil-kumar Dommati <Sunil-kumar.Dommati@amd.com>,
- Takashi Iwai <tiwai@suse.com>,
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
-References: <20240813105944.3126903-1-Vijendar.Mukunda@amd.com>
- <ac7efdcd-cc79-4984-8b36-50898243afa5@web.de>
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <ac7efdcd-cc79-4984-8b36-50898243afa5@web.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN1PEPF000067F7.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c04::2e) To DM6PR12MB4123.namprd12.prod.outlook.com
- (2603:10b6:5:21f::23)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GdekcDFO"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4280ef642fbso6104615e9.1;
+        Tue, 13 Aug 2024 05:09:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1723550957; x=1724155757; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=95nZPeNDVusw7hJQ2/3QSrV1/eH9G+qFzPCkFd7zD+U=;
+        b=GdekcDFOvFjTMJfuamLhI2C++oQ1buBAGQIyUI2vPm0R+VN7vVT58R4M2tMUfNhEiL
+         rowam3tjuyrk6HGisuGCrcMDsdGfBJiNwZMv40wrKcM/I4X6/yjioB8LP781d73OBtws
+         9hsSITgEfWOxvd7ayBFvOpGebHe6cKigkhKZTO5GUh1EtzF851KkrSPrOEO0VFXZj+Dq
+         ZcMhJ/IeMMj6FknETiomkSPZNsuVj6J1Qh/9BbIBK5cPrDSjnTVcoiN/vVMB1t/6De9b
+         TGM96t2GIqLUVAMrMDJHI03Be3my5bfWxQMfKzhnD257lp6qMqkGC1pxa3PDprGP8X5v
+         JspA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723550957; x=1724155757;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=95nZPeNDVusw7hJQ2/3QSrV1/eH9G+qFzPCkFd7zD+U=;
+        b=XAtJhcc0w+0ER79GJcJa91fOc42A7McGlGE5JK370HFzFNvoVap6bRXvgXxO0Q7be1
+         OkUoFSa68Q1T/HFIMJ62CKVsildFnGxpaezir3vsUYeHW10C5RiVBTyOHI8RLiQ7qV+d
+         ujUon+FCh8aKxDjCGKXVa7l4rJr+27qZGvij4sYKae7hLxYUSX9bJYICe3LG4mXcuw4N
+         ZD0nVGDPfCV+gTZetq34eLyAkzerV1UBQ505nf9tvunwJUUqhyrSU8poJukogpOqGQ5q
+         ZcCrHi1o+snlM3wTdACPSRrbKsxEYZ7B21BcdDTDrpV3oBELD1++7JzZNE4TG2ZEkpxm
+         Y6KA==
+X-Forwarded-Encrypted: i=1; AJvYcCXKOT5aXEca+Dsvw7czgkfHzOu6rrCi+fogWIxo3cHhkXq4/uAJbcv1TYBwQIgZCVsXrcunccCPZRc6bfgQRukOJyM0gVZSJQQieTV9SzecZheycviKWFjiaKduVIGgOShs9rTsjkVvsi9rmA6hea07GwhVHnYo0aiHhqLCGLf+iSHKNyACRW0q56TcfbZvM4NVrfMbamHOgZK/QeU3whHpnx1CBkE=
+X-Gm-Message-State: AOJu0YynGo2qLoubOfzxPqAyDdYYwJgPp9Wmg+cb/0qiL/rjRfkcd2vM
+	w42PQAqYpu48zWOC2hbnfRJOQ+ePe1X8rALjomVEEZLUiKara1Q23n9cxg==
+X-Google-Smtp-Source: AGHT+IEeFZAjMrRFLpsu92UAlKILN8B22ultw43i95rDRVfs5PROELoxXFmSuEpUHo+HUo+RNgW2qw==
+X-Received: by 2002:a5d:6d8d:0:b0:366:eb60:bcf2 with SMTP id ffacd0b85a97d-3716fbf30d6mr906591f8f.4.1723550956592;
+        Tue, 13 Aug 2024 05:09:16 -0700 (PDT)
+Received: from ivan-HLYL-WXX9.. ([2a01:4b00:d20e:7300:6db6:f2bf:8865:5d31])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36e4e51eb52sm10204590f8f.74.2024.08.13.05.09.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Aug 2024 05:09:16 -0700 (PDT)
+From: Ivan Orlov <ivan.orlov0322@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com,
+	corbet@lwn.net,
+	broonie@kernel.org,
+	shuah@kernel.org
+Cc: Ivan Orlov <ivan.orlov0322@gmail.com>,
+	linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	christophe.jaillet@wanadoo.fr,
+	aholzinger@gmx.de
+Subject: [PATCH v5 0/4] Introduce userspace-driven ALSA timers
+Date: Tue, 13 Aug 2024 13:06:57 +0100
+Message-Id: <20240813120701.171743-1-ivan.orlov0322@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4123:EE_|SN7PR12MB6888:EE_
-X-MS-Office365-Filtering-Correlation-Id: d0f70f0f-b1a7-4b40-b400-08dcbb8d9551
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?N2t5Vk1LcEZySXllWjRCeDNpSG9ITzdEZnpsazBpRDltSkdtRHhTYnBSczI0?=
- =?utf-8?B?cklTcFpubmVoN3RYNCs4a0ViQWhaY1VITTJEQUk2ME1DNzJ3cUVGTmZCb3pu?=
- =?utf-8?B?Y054bTNPaFNCWDIwa1d6UWtmYXdwT1dPa2doVWY2MWNkOHdvSDN4WlR3TElD?=
- =?utf-8?B?Y1B1UUFJTFU1TzJUUHhSWkp0RUZCOEFOb0R6dmRpRkVPMVp5Njl4U1k3cHFs?=
- =?utf-8?B?K1IwOHF6ejdWT1hjaXFBSUc0aVRSMEowLzR6VWxMNW56RGpSQnZ6bGhCSEVl?=
- =?utf-8?B?enBOTjlBZmNudHc3TnBIb2NIZkcvRFlWaUZYbnR6U3JYV1ovbXI2Q21DWFM0?=
- =?utf-8?B?RjE4RVc3S1U5QmNzemRvRCtGcU1qS1VtQnZnay9ydVVVOXEzSjRwcUJNbzVq?=
- =?utf-8?B?MEYzdGMvQm1Jby9kazQwTzFYeUIwUkpoYnpFa1VsWUtWcStCS2VPTHFzWU1I?=
- =?utf-8?B?Vi9WMCtzTTNRSHhLbHJVYXR0bXp2bDVlZGp0S1lGODNNL1ZORDBjMDNBdndz?=
- =?utf-8?B?R1UvbC9wdUpQOEo3ZlRBV0E5R1JPanNxL2Z4MGp5b2pBZGdSUFJZVTZzSmF2?=
- =?utf-8?B?cGxtMkJFdGxVT0lhZ3lpcThObTNadzBXTUxmbkFURUpiRHZ3SldIYUZ5aTc2?=
- =?utf-8?B?WlNjcnBJSWx1VmJhY0ZrQndkSzFPejRvVy9QUDhxc0FFY0N5dXUvSlpEYlFy?=
- =?utf-8?B?ckQ1SGdmSFV1YjJtTXBlcDhTQlRPVkliREVqUFBHRXNJQ3dBSDhmVjRiMHpW?=
- =?utf-8?B?VmlhY2EwTzZqWWMwbmQxS0JjZ3B4cmFlTmRpb2R5M1NyVklpVFN1V3pKZmdq?=
- =?utf-8?B?elhpR3AzdjkxeWlhUjNCY3FHQ2s3U0grSyt4eDlJZXZPeE1DRHF3RjYzZ3F5?=
- =?utf-8?B?UDBmMU80aVF4cEkrRGd5YVhiRmlDL0g1TDBxRnZCbzJZbWVEeDU3dVM1dFdT?=
- =?utf-8?B?TTdKUmRUWlN1VFRjSUJIeE5mY2kxSmVmY2JCMEdZY2ZWRzNMZmZWL2Z4Ny9p?=
- =?utf-8?B?RVVlZkZYcmEzNlFzTTBmekZCQkYwa3VHWnFCT2VrQVZnbEIrYjA1YURrd1pv?=
- =?utf-8?B?dDIvYStNRjNiYyt5LzhYcjNvRDQ0SStNU2h0cy9vTW5tZTFJbEtNT0NPRm0x?=
- =?utf-8?B?dW8zTyt5NG5GMXUrS2o4Y3dHc2hhY3o2WWlQV3o4YXZaTzRTZCtxWVhicHlG?=
- =?utf-8?B?Uy91THQ5SzRLRm9vZ0hXOWlUdEhQVTNwUHBXTjc1R1VtaDJIZVVUY01sM3hP?=
- =?utf-8?B?dHZqUFJmZ3d1NXpTZUo1b2p6NWtNeHhZdjV5WTJmUTlBcG5nMElRQWxpTDdC?=
- =?utf-8?B?elhvWDFYU05pRjl6ZkNZWFpDL1hJRitsTllRTkFoZXJuZUprVW96TnVnVG9V?=
- =?utf-8?B?WFpaaldYKzdwYnNiaVgwcGV6MEphNVIwc2tDRXJ2dlVnc05mWWlpZjZlR1VN?=
- =?utf-8?B?WkFxbmxKd241c2ZvbEVpUTlhdGttbTFCZDIwd0ZvY0d1WTk0Und6di9wQTQ4?=
- =?utf-8?B?cEdTcXJZeEx5NTJvbmRYUkFvQnR3OXZvUG1PcXdiSnBJN0VlazVTWUdjd0NF?=
- =?utf-8?B?UmdnYTlDc2ltaWRoYlVodEtPcEZlWkEvVVV1bXYvdzBwdE9LaDMrVXg3enIy?=
- =?utf-8?B?MTlpeUNqZ01xb1ovMVRGd1I4cFNabUFuZzBuaTJCaFd2RGlxWW5yYStxOWJI?=
- =?utf-8?B?b2pJYVV6S0tRYnMxeHpHdnBzdjk2QW4rM2xWN0R6V2V5aUhEUlZ0Nis1eXcw?=
- =?utf-8?B?QTBYSTlieXhSeG40VnM5ajFwRUtKYldTTzh0eURrK2U0bTAxY3NkdWdzYW1R?=
- =?utf-8?B?UUNxbUdGUVIzWkwrTXByUT09?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4123.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?VWY1bDJhVjBOSmUwSGgyYmxpUFQwbXR6NkFENVZ4NE5TcW8vYzBUUDd6RXdu?=
- =?utf-8?B?b241eFpaNFhQcTc3ajlTb0tnTlhadUNGQmNrdWtUdEVaRGR2RTJrd1Z1OEJ4?=
- =?utf-8?B?bm82RVpIelVnTmZFMkJhLzRETmUyWUM2SzVjU2JWQ3d4RTNZdHdGMnF4d2JM?=
- =?utf-8?B?K0dPM01XcFlzVjArOFg4SmQ3T3Q4MHJnSVczb2wyVVhkU2hKYWhDZG53V2JD?=
- =?utf-8?B?a1diYkZpcVdmTHRQK1FyVGg0dno2VStjYjVJQmlmaGh3RXgwam92K01xbmJJ?=
- =?utf-8?B?eHAraWUwSXhkQldYaThOaExnRTZZeGo0THcreEJMVGhwTTdSaU9sKzB4eWhh?=
- =?utf-8?B?M25memhyVlF5bGEzV3Fyb080WU9EdytEdUJGcTU3ekxrM1BGQ1V3NmJMeFl2?=
- =?utf-8?B?WjY1emM3b0wzVmRkcFpCUGtlVFBmSmlVODM0V2lnK05ETDVRZVZ4dWpDNm9k?=
- =?utf-8?B?NW1zWThuVDVyeXZSL3pQOCtCRHJ1MUFoeHBsYTFsVmtLTzJoM2NSZS9MR2Y2?=
- =?utf-8?B?NHRZNFJINkdmT1BMUEduVU9TNEIxNFZhVkpYZVpOalMvZ1g2TE1WQXVlY2R3?=
- =?utf-8?B?Y2FvT3F1RVBIaG1ZOVduV1RqdFJIRy9iVXZzN3JUTk9QV25YYkVLNm4rU1dQ?=
- =?utf-8?B?Rk1yWUx5SWhpd3VuNFFTOFRXUmdzRGRUMSt5ZW1zL0Nld1NuMys5dkJSNjRx?=
- =?utf-8?B?c3BpZFc4THFPRkJQaDdJNFBrWnEzWmV0bEx1MjJtZ0l0YjdIVDNuNDJraGRV?=
- =?utf-8?B?Y0JGKzE5WFhKb3F3S0crUXhaNzY4U0pNVTQwMHhYekkvSHUvVngySHkrNmpT?=
- =?utf-8?B?UkZvbXFNUUJZS1RkQndIK2VzUW53VTdTQVlIdHc3S3NNWkQwRWd1ZnQ1cDRB?=
- =?utf-8?B?cWpxTVM3OEpYajNnY05POWtZdjNCdE5hV0FLSXd5VnlHSlEydmxLV1crL3ky?=
- =?utf-8?B?ekxBMjE5R2h3UWZWU01wQkhPd1NYM1FnS2ZuazRzQnBsb0pMSHk2WG4yNGI0?=
- =?utf-8?B?VnRZYW1QM0lBNTBMRXpTVnNjdVN5amNpOUdOQjJONWlVQ2h6TzdKV2RyQ0Jw?=
- =?utf-8?B?dUlYRGhOcG54NWJDVVdiTG5WL05XQms1L2crWmt6SEJaaUhOZEo1bEVTOHJ0?=
- =?utf-8?B?aGFsRi9TR09CanpwUWtmSEQyYmtGZm1Sblc3NTFhSHVWUWh3TkhkOWpFVEt5?=
- =?utf-8?B?K1k0OG8xNzBTOTh0UStzKzJ1a0dmZDI1UFJTZjh1ZkFra1dsUDdCenkraXlR?=
- =?utf-8?B?cnB2OC9ONExEN1hkWjYybGJaVkhvdlRKNlZ0RzBMMkNHMU90cGl6QXM2Nkww?=
- =?utf-8?B?SndLckNJTXk3ei9VemdCcU9Tbm91MENoaWowVHozdWhBTDR0NzRIZ01DL201?=
- =?utf-8?B?ZWtIbjBUcjB5RkVORWtQd21GS3R5UVNaOU1pMnNkWTNiNGVEa3FveUFkMW1J?=
- =?utf-8?B?KytEY282TDRUak95L3hUVTZ4SmVjUFFjSkRBbkpCVzcyUVFBWTE3MnNLUitL?=
- =?utf-8?B?NjYzZ001c0p5OGI5OEJtSWhhTXVoMDdrcHN4dWE4SmZVVVlTM0J6ZnZ5Umdu?=
- =?utf-8?B?L2xkcGxBTitvZUd1cDMwZWxMOWVvVDlTa2p1c21VbU93VitUVW5GQzlvRk8z?=
- =?utf-8?B?cGN5aXc0NzJrU1ZKMjFHZHVUWjRxd2ZJUUtOYVk1Y0NTNXdVOUhEbjdUWjA1?=
- =?utf-8?B?L0NFM0xmM0lEZVhENGRLSE9yenMxQlh1YjZnbytkNUNZSnJGaTRudFp6Z0VR?=
- =?utf-8?B?M1NPTU9sSGoyaGFjdmVROUljQ2k0b3hzb1NOT2U1UnVSbC9LRTJ5RFZ0Q3hB?=
- =?utf-8?B?eFA1dzZ1Mm5JYnNLZ0ZjUUpCZ0Q5bHhhRDZtQStqOHF2cmplYmM1VWl2cXEv?=
- =?utf-8?B?SVU5TXI3ZmxjL0hKa054MDJYWHhIYnkvWWd6V3BTd1VBZVdpMlI3TUFsc25E?=
- =?utf-8?B?TFNqSlgvc1plOE9CeEhUZ29POFFmWjBBckhnNWg0ZDRzdzFXMmpDVG5PM2Fj?=
- =?utf-8?B?c0gxVE5WaDdCekdZZ0lQTlRiVkxITjQ1ajhQWERIZHFjSEZhdFZFSXlYMXRQ?=
- =?utf-8?B?TXZrN3VtREJISzZ5SVBSdUxyaDRSUUhSbjU0ZDN2dXpmUS8zbXA0VWN3bDlC?=
- =?utf-8?Q?hi2cNWNlMvarYB7oLhHI8L98e?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d0f70f0f-b1a7-4b40-b400-08dcbb8d9551
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4123.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2024 11:46:35.3345
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: F/9E2QVWZbzHcEYIF56afgXlUmC/WI4FU5+Xum2FuJc/9iZT0uf6Vmav5dcegJkoRe9Z3sIfXBL7551V2byPNg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6888
+Content-Transfer-Encoding: 8bit
 
-On 13/08/24 17:05, Markus Elfring wrote:
->> The existing code modifies IRAM and DRAM size after sha dma start …
->                                                       SHA DMA?
->
->
-> …
->> sha dma failure …
->   SHA DMA?
-I think above one seems to be okay.
->
->> IRAM size. To fix this issue, Move the iram-dram fence register sequence
->
->              Thus move the IRAM-DRAM …?
- I think above one seems to be okay.
->
->
-> How do you think about to offer cover letters for patch series?
- As these are individual fixes, I don't think a cover letter should
-be included in the patch series.
->
-> Regards,
-> Markus
+There are multiple possible timer sources which could be useful for
+the sound stream synchronization: hrtimers, hardware clocks (e.g. PTP),
+timer wheels (jiffies). Currently, using one of them to synchronize
+the audio stream of snd-aloop module would require writing a
+kernel-space driver which exports an ALSA timer through the
+snd_timer interface.
+
+However, it is not really convenient for application developers, who may
+want to define their custom timer sources for audio synchronization.
+
+For instance, we could have a network application which receives frames
+and sends them to snd-aloop pcm device, and another application
+listening on the other end of snd-aloop. It makes sense to transfer a
+new period of data only when certain amount of frames is received
+through the network, but definitely not when a certain amount of jiffies
+on a local system elapses. Since all of the devices are purely virtual
+it won't introduce any glitches and will help the application developers
+to avoid using sample-rate conversion.
+
+This patch series introduces userspace-driven ALSA timers: virtual
+timers which are created and controlled from userspace. The timer can
+be created from the userspace using the new ioctl SNDRV_TIMER_IOCTL_CREATE.
+After creating a timer, it becomes available for use system-wide, so it
+can be passed to snd-aloop as a timer source (timer_source parameter
+would be "-1.SNDRV_TIMER_GLOBAL_UDRIVEN.{timer_id}"). When the userspace
+app decides to trigger a timer, it calls another ioctl
+SNDRV_TIMER_IOCTL_TRIGGER on the file descriptor of a timer. It
+initiates a transfer of a new period of data.
+
+Userspace-driven timers are associated with file descriptors. If the
+application wishes to destroy the timer, it can simply release the file
+descriptor of a virtual timer.
+
+I believe introducing new ioctl calls is quite inconvenient (as we have
+a limited amount of them), but other possible ways of app <-> kernel
+communication (like virtual FS) seem completely inappropriate for this
+task (but I'd love to discuss alternative solutions).
+
+This patch series also updates the snd-aloop module so the global timers
+can be used as a timer_source for it (it allows using userspace-driven
+timers as timer source).
+
+V1 -> V2:
+- Fix some problems found by Christophe Jaillet
+<christophe.jaillet@wanadoo.fr>
+V2 -> V3:
+- Add improvements suggested by Takashi Iwai <tiwai@suse.de>
+V3 -> V4:
+- Address comments from Jaroslav Kysela <perex@perex.cz> and Mark Brown
+<broonie@kernel.org>
+V4 -> V5:
+- Add missing error processing noticed by Takashi Iwai <tiwai@suse.de>
+- Return timer file descriptor as part of the snd_timer_uinfo structure.
+This is a more standard way of using ioctl interface, where the return
+value of the ioctl is either 0 or an error code.
+
+Please, find the patch-specific changelog in the following patches.
+
+Ivan Orlov (4):
+  ALSA: aloop: Allow using global timers
+  Docs/sound: Add documentation for userspace-driven ALSA timers
+  ALSA: timer: Introduce virtual userspace-driven timers
+  selftests: ALSA: Cover userspace-driven timers with test
+
+ Documentation/sound/index.rst               |   1 +
+ Documentation/sound/utimers.rst             | 126 +++++++++++
+ include/uapi/sound/asound.h                 |  17 +-
+ sound/core/Kconfig                          |  10 +
+ sound/core/timer.c                          | 225 ++++++++++++++++++++
+ sound/drivers/aloop.c                       |   2 +
+ tools/testing/selftests/alsa/Makefile       |   4 +-
+ tools/testing/selftests/alsa/global-timer.c |  87 ++++++++
+ tools/testing/selftests/alsa/utimer-test.c  | 164 ++++++++++++++
+ 9 files changed, 633 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/sound/utimers.rst
+ create mode 100644 tools/testing/selftests/alsa/global-timer.c
+ create mode 100644 tools/testing/selftests/alsa/utimer-test.c
+
+-- 
+2.34.1
 
