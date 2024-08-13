@@ -1,47 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFD8B18B499;
-	Tue, 13 Aug 2024 14:53:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAE9A1A0B13;
+	Tue, 13 Aug 2024 15:19:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723560783; cv=none; b=JO+M3ZJIlpQ1l8Q9JU6+TKKeJNpMxQH0Hwe53xqO3JkmWBk76zwlkOmcMpZg5qhPH+Yl8W22qOlpWLerFe2ZwLdfcD/vf32uLeS90c9oZkD1cRfaUFo4O1P5Gu1AxiNv9IZIuEpBkKcWF/Bi2ZBWZA+QK7/aD+zT03D/k34pIXI=
+	t=1723562374; cv=none; b=hx7RAyjEDfYJ39Vv2DwUxNNpnO88OhH5pHrf5k5QMymM2f7DLw0yoUteGsfvZgVyvW9boajfAkTX/4l7aihNIV+IFyJ5zuWt3quHBgX+mAzBNbvqJ6mmrB+5bLMxcCQ6TAcfEawAlw5XEeCERVeupT+tXv0NImJ+Nb0tb9GJmDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723560783; c=relaxed/simple;
-	bh=/cDaT9MMZ7PXAGsvzduJNxiq9wgQt4bUH8UgICoMreY=;
+	s=arc-20240116; t=1723562374; c=relaxed/simple;
+	bh=IjWYqvVozMU5xDb4PvFiGRW9tuYNkqmyRRFkJ2XA9nE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=eNd90LrJ6l0w8aVBpsAeGxSTLvisaw3KvYn6ytbwlwCMI7rWyDCl91WD7Rl1YlYf7n1gxeJF4hFKx4Dw+5BS4F+NZE8L30iTtZItkwPbw63QK85n0FAPT/qClIMfRnadTQF2xrO+3/LDidamjK9AMg5frNNxkdr5mLzFRcUffDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p1iQzcJY; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=V3UMU83zDbvSycEndxpU1MC3NY7BC/9+kkLyF1o4X9QB28FDceiKbwjjhZY8ntLmONMcQwkvOENRSoqIGAlbTFe2ECqYUaQByb/NxoXvpHCuLQ8eX1fe1YVu4o1+VhX8L05avnUMliokiy9VwyOoK0P9RGio/zqPdB3TBHoUio4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=urTqw7Fx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p1iQzcJY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E4F5C4AF11;
-	Tue, 13 Aug 2024 14:52:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="urTqw7Fx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D2F6C4AF19;
+	Tue, 13 Aug 2024 15:19:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723560783;
-	bh=/cDaT9MMZ7PXAGsvzduJNxiq9wgQt4bUH8UgICoMreY=;
+	s=k20201202; t=1723562373;
+	bh=IjWYqvVozMU5xDb4PvFiGRW9tuYNkqmyRRFkJ2XA9nE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=p1iQzcJYssZzZcK91NoTPOY5o0F0yzRU9O4/B1TcXOkx9PlrxWGIPAFAMdjRFlHAs
-	 RTHqCr1REzfRgMPUgElmvU50Hycmv5I5iX7+JMJy2K0ybLQFv0uzYE08d5PUdqcayv
-	 TMTcHltSBt6Y+/MH4KxKwLQD+ahYlsseo0sCM63IrxIYSHYzGMRgyOGoRiQOurA6ey
-	 wtoHI3lt1Uz/TbcO/uBCjPywPuorpcY3LqZP6exZqMIkKDefrSZYOO3xXo/lTo8OQ1
-	 a/ifJyopkUzV2UDWlUUDMrA8gvwmUaKaTMW3r6S/oZ5riGoSNq8fIa/7BFxBaqWgXG
-	 lmIGuv44dqdcg==
+	b=urTqw7Fx3BrW36RwafkTtFLwboqOd8JmA+uleBl5yfSLbyapeVyeqXh9yHQobaZ1f
+	 tK9BQBwCk21H0M4rC4il842m/GbJo3ayEpSE+U5Wku7PwTYfNNlWvQCYhlWr5ZcoLM
+	 gyluLp7NjnuVtc/yRlCrGVxOqJ17O78NRxWXhBszyD61XwRZkOEwzrpGvaFKObERUB
+	 1j16KIWTr9y4o8FOYbLdDLeylZfWMPbzrLqU+2K3ka5tIqA+pjcjg8WN4RRQv3TCab
+	 tNagbceOOkFmHfAyJzFfaDr9Gw57W5A24FuTsnscYLcw8LRQ30A+/twSYmn1pqkIn3
+	 yYkc0xcIMfAbA==
 From: Mark Brown <broonie@kernel.org>
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Cc: alsa-devel@alsa-project.org, Sunil-kumar.Dommati@amd.com, 
- Basavaraj.Hiregoudar@amd.com, venkataprasad.potturu@amd.com, 
- pierre-louis.bossart@linux.intel.com, lgirdwood@gmail.com, 
- yung-chuan.liao@linux.intel.com, peter.ujfalusi@linux.intel.com, 
- ranjani.sridharan@linux.intel.com, perex@perex.cz, tiwai@suse.com, 
- cristian.ciocaltea@collabora.com, Markus.Elfring@web.de, 
- sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20240813105944.3126903-1-Vijendar.Mukunda@amd.com>
-References: <20240813105944.3126903-1-Vijendar.Mukunda@amd.com>
-Subject: Re: [PATCH V2 1/2] ASoC: SOF: amd: move iram-dram fence register
- programming sequence
-Message-Id: <172356077984.62411.5834566001022810605.b4-ty@kernel.org>
-Date: Tue, 13 Aug 2024 15:52:59 +0100
+To: David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, 
+ alsa-devel@alsa-project.org, patches@opensource.cirrus.com, 
+ linux-sound@vger.kernel.org
+In-Reply-To: <5b906a0cc9b7be15d0d6310069f54254a75ea767.1722951770.git.christophe.jaillet@wanadoo.fr>
+References: <5b906a0cc9b7be15d0d6310069f54254a75ea767.1722951770.git.christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH] ASoC: cs43130: Constify struct reg_sequence and
+ reg_sequences
+Message-Id: <172356237111.72636.8665526019609243174.b4-ty@kernel.org>
+Date: Tue, 13 Aug 2024 16:19:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,13 +51,18 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-37811
 
-On Tue, 13 Aug 2024 16:29:43 +0530, Vijendar Mukunda wrote:
-> The existing code modifies IRAM and DRAM size after sha dma start for
-> vangogh platform. The problem with this sequence is that it might cause
-> sha dma failure when firmware code binary size is greater than the default
-> IRAM size. To fix this issue, Move the iram-dram fence register sequence
-> prior to sha dma start.
+On Tue, 06 Aug 2024 15:43:00 +0200, Christophe JAILLET wrote:
+> 'struct reg_sequence' and 'struct reg_sequences' are not modified in this
+> drivers.
 > 
+> Constifying these structures moves some data to a read-only section, so
+> increase overall security.
+> 
+> On a x86_64, with allmodconfig:
+> Before:
+> ======
+>    text	   data	    bss	    dec	    hex	filename
+>   54409	   7881	     64	  62354	   f392	sound/soc/codecs/cs43130.o
 > 
 > [...]
 
@@ -68,10 +72,8 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: SOF: amd: move iram-dram fence register programming sequence
-      commit: c56ba3e44784527fd6efe5eb7a4fa6c9f6969a58
-[2/2] ASoC: SOF: amd: Fix for incorrect acp error register offsets
-      commit: 897e91e995b338002b00454fd0018af26a098148
+[1/1] ASoC: cs43130: Constify struct reg_sequence and reg_sequences
+      commit: 86297bb30ae094e14a3a6c62b870a2f301a180a2
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
