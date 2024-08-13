@@ -1,103 +1,106 @@
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF3D41A0709;
-	Tue, 13 Aug 2024 16:10:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DD80370
+	for <linux-sound@vger.kernel.org>; Tue, 13 Aug 2024 16:34:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723565455; cv=none; b=CpNjcaT4ZywP0aeZ0hNwMMlKCmUpB9HSeoyS02xamhjwgnk47uCZIfG0HndF2M4wgCGpujenw8MW5Lw8QsQQNBjgx872a/ZiFTobccfEXDuyNvglTwgtGUp0AzLplPNQBb9/QiX87YClYC3XDoHDKH+/b90op+LpQl8rLBGDWxg=
+	t=1723566852; cv=none; b=q+nnLhvOc667R9qbpRSfP5fSDHUXlRGEEbrcC6Y+l8nn/RIvuybhYyUKrTclga/BC7gavW53UCkX2pOdidCBN0iNsT+XgFPyksQlQqNFzAS0rouHvf9mx6EXdvHhD3h/5EgkRAqaHSlf3izmY5u0s61AHtZC67N+483OdkwER7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723565455; c=relaxed/simple;
-	bh=v7ndlf8rGJH2AMQnD6DjRDLEm+mmv6/JnXt+FpXGG30=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Z1rI/7UWU/DOkMcml4QIc4GtoQModaBPqpD95CPiZ73m9bZGtQxyDiz4Zp9vUaAccU7F+urbZhJZ3rsMBi/+fpoJw/YT8aEe8ZZNhCIwBXxAeWrRpXOGSvnXBXUCrR8YdsqRdx7g1AwezoNE/W0hCAFGKaiT752Qc4aEcI72gfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NexbOm3/; arc=none smtp.client-ip=209.85.167.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1723566852; c=relaxed/simple;
+	bh=s9FhjpgJBV7aZ0bh7A229jvkNpOcRXx9yhDFIcvqw0A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y6cXl0hXaDenGAV+rU3TtRkp0PZV3e5z7leo5omwv4grSedYARPFjxi5DfAjCNDrgiCZfBjam7xm0NtFH1/pBpHYsyid0dNrfq+rsK9iRFqjNObId/pedWXOqANJauGnUZCSvWvWOtko8jNN9ePLKarp+0159nz1s4pOzS6He2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NT/envxD; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NexbOm3/"
-Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3db2315d7ceso3345948b6e.1;
-        Tue, 13 Aug 2024 09:10:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723565453; x=1724170253; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=F1ItDKknhypftn5aMxxhUDKlZ20vPD5JiPeIzkuMvB0=;
-        b=NexbOm3/nR9BNJPalId7hL7ZFIpKS1jcSYCeJfC3Vx+IIV+jJFGi7h8wQu1RtNK9v1
-         c9TVD9fYRvE1xQALZiritZ4z8NS5n6uQHpoBkm/y9ArfKjasvv+6ISyyDuaQewP3Yv/P
-         43o64fgDWySmVh07ORGpRKv8gd+WRTA/4IixcwsZulD9a3TUU66ELLy3Yxp+CGv7CaJC
-         5IZoECrV6F/LcugFC2BAFNN9y+TWO3SJqvidESNLSEYmHOMoTL7cpRP8HwKjVBAxtEDr
-         S6XAV9X/vT8hZXY9cqzWw7A2pKD8XRBtQZXd5siX+IgahoGxafJLYtmBVAnmj8TdWmOx
-         BvfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723565453; x=1724170253;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=F1ItDKknhypftn5aMxxhUDKlZ20vPD5JiPeIzkuMvB0=;
-        b=U1YYIxMj/gGaE86XCSpj+AjPNT4S0fa6EHInFI9VSxkF8Ff/dUDFXDWwtQDkBZjTNy
-         afRcFp2moWdzGcYmA8S4hMnvf8J1+qXjgSBCXo/ZlieyY/3Pe4axkcMn6IhQKkz/l3tK
-         iJ/m6mWx/PPi5wa6SXkh5v1lUnxNfQSKDipI+fxLCCJBD4v6x5YFX2hY6za/UzTQtJ3Y
-         1wkMuRdgDhWJeBA3XnKJclm2kne4tls3KeBjpCOHBZ8if4qYntz6WRcqr9V81TGh7Qx3
-         ibmVK7iml2GCWR5Wvpq12qEHin2kblg3hfR5o2i1PTgnz5CjzA6Gi7iBqZ3trVj20Quk
-         MRdw==
-X-Forwarded-Encrypted: i=1; AJvYcCUl2SYpyB7rd7BAp9zREa5Z61iLAGPMKacnFj+5TB0qeyYwmB8FLksC1pFj24MAhpAG5TH3zu3rsafDaxMwHDqmJI8MLumUXoYO3zQl
-X-Gm-Message-State: AOJu0YxaSCYqtbDNWMPv4H3tbFDf643dCwLjHtvxITGEYw+PG5Pqq/kU
-	MYHlVJshgaw3ZykiEOw2fMR1GM8+Pkaqw+13DMgP9lKlX9SsX72BKcLyjGky
-X-Google-Smtp-Source: AGHT+IE6h64K92eu87EKVNu/gVKkMsME55kMAwBdkjr/XSCYVrUyORzK94QcURJR3i67akT23qyV/Q==
-X-Received: by 2002:a05:6808:16ac:b0:3db:15ed:2a21 with SMTP id 5614622812f47-3dd1ee075c7mr4761864b6e.16.1723565452797;
-        Tue, 13 Aug 2024 09:10:52 -0700 (PDT)
-Received: from fedora.. ([2800:e6:4001:fca7:b7e8:4418:a953:72f2])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-4f91f2b9179sm969978e0c.5.2024.08.13.09.10.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Aug 2024 09:10:52 -0700 (PDT)
-From: =?UTF-8?q?Juan=20Jos=C3=A9=20Arboleda?= <soyjuanarbol@gmail.com>
-To: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: tiwai@suse.com,
-	=?UTF-8?q?Juan=20Jos=C3=A9=20Arboleda?= <soyjuanarbol@gmail.com>
-Subject: [PATCH v3] ALSA: usb-audio: Support Yamaha P-125 quirk entry
-Date: Tue, 13 Aug 2024 11:10:53 -0500
-Message-ID: <20240813161053.70256-1-soyjuanarbol@gmail.com>
-X-Mailer: git-send-email 2.46.0
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NT/envxD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1723566849;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Nq8/RpUOFyMdFBwvGw/awyKLLWWIuDz647gTnyiHsrc=;
+	b=NT/envxDGewvDTDE5CkcwT7Ew/7CFomioea4Dpd7DxGCyTzY4N/YReIRmjqzT1W01asLDz
+	KCPV5m2dQZIhzCNw1ohg18P2Vo89v4CH69te70PQnrJqSL2wvusAOfGvV7F6EOS4z01Wdj
+	zlWEf9wN8dhMU5D5uLbE3SkN83q/GY0=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-310-g2DMM72jOnSloMrjUOyFGg-1; Tue,
+ 13 Aug 2024 12:34:06 -0400
+X-MC-Unique: g2DMM72jOnSloMrjUOyFGg-1
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D605F18EA948;
+	Tue, 13 Aug 2024 16:34:01 +0000 (UTC)
+Received: from asgard.redhat.com (unknown [10.45.242.18])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8E0D419560AA;
+	Tue, 13 Aug 2024 16:33:51 +0000 (UTC)
+Date: Tue, 13 Aug 2024 18:33:48 +0200
+From: Eugene Syromiatnikov <esyr@redhat.com>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-kselftest@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>,
+	Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Mykola Lysenko <mykolal@fb.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+	Artem Savkov <asavkov@redhat.com>
+Subject: Re: [PATCH v2] selftests: fix relative rpath usage
+Message-ID: <20240813163348.GA30739@asgard.redhat.com>
+References: <20240812165650.GA5102@asgard.redhat.com>
+ <3667e585-ecaa-4664-9e6e-75dc9de928e8@linuxfoundation.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3667e585-ecaa-4664-9e6e-75dc9de928e8@linuxfoundation.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-This patch adds a USB quirk for the Yamaha P-125 digital piano.
+On Mon, Aug 12, 2024 at 05:03:45PM -0600, Shuah Khan wrote:
+> On 8/12/24 10:56, Eugene Syromiatnikov wrote:
+> >The relative RPATH ("./") supplied to linker options in CFLAGS is resolved
+> >relative to current working directory and not the executable directory,
+> >which will lead in incorrect resolution when the test executables are run
+> >from elsewhere.  Changing it to $ORIGIN makes it resolve relative
+> >to the directory in which the executables reside, which is supposedly
+> >the desired behaviour.  This patch also moves these CFLAGS to lib.mk,
+> >so the RPATH is provided for all selftest binaries, which is arguably
+> >a useful default.
+> 
+> Can you elaborate on the erros you would see if this isn't fixed? I understand
+> that check-rpaths tool - howebver I would like to know how it manifests and
 
-Signed-off-by: Juan José Arboleda <soyjuanarbol@gmail.com>
----
-Hey! Thanks for taking the time to review my patch.
+One would be unable to execute the test binaries that require additional
+locally built dynamic libraries outside the directories in which they reside:
 
-I had a little mistake in V2, I forgot to stage my new diff for
-amending. Sorry
+    [build@builder selftests]$ alsa/mixer-test
+    alsa/mixer-test: error while loading shared libraries: libatest.so: cannot open shared object file: No such file or directory
 
-Attending your sorting by id suggestion, I've moved the P-125 to the
-bottom.
+> how would you reproduce this problem while running selftests?
 
-Regards,
--Juan
----
- sound/usb/quirks-table.h | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
-index f13a8d63a019..aaa6a515d0f8 100644
---- a/sound/usb/quirks-table.h
-+++ b/sound/usb/quirks-table.h
-@@ -273,6 +273,7 @@ YAMAHA_DEVICE(0x105a, NULL),
- YAMAHA_DEVICE(0x105b, NULL),
- YAMAHA_DEVICE(0x105c, NULL),
- YAMAHA_DEVICE(0x105d, NULL),
-+YAMAHA_DEVICE(0x1718, "P-125"),
- {
- 	USB_DEVICE(0x0499, 0x1503),
- 	.driver_info = (unsigned long) & (const struct snd_usb_audio_quirk) {
--- 
-2.46.0
+This usually doesn't come up in a regular selftests usage so far, as they
+are usually run via make, and make descends into specific test directories
+to execute make the respective make targets there, triggering the execution
+of the specific test bineries.
 
