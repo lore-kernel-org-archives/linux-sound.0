@@ -1,68 +1,86 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E6E1B8EB4;
-	Wed, 14 Aug 2024 17:55:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BDA7210FB;
+	Wed, 14 Aug 2024 20:56:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723658116; cv=none; b=c0CFTfUNKsKh32DJLRDaKn8WcImS/lmpg0aIQO5kQIN2iBayGuWcpcWfrcw/ogKgzkIBm9V+NeDj4AgvrCD45A/tqR05tJGfyQ1kYBYPGnkAODSc3u1MQn1hkZ744s6ywskljiFgTITSthsCfVD2rseX83+g/YduC7s+nM+Ghkg=
+	t=1723668986; cv=none; b=GRDtZGpERktr/4kb8fSObhj8QjgY3JAS1pLYsCyqjP/Ajrj20tFMxUI/6XRsYp9gehnmdSrFO843bR5knez3dyzKUGmfpmNtrLEPh4FVvW2KO0oWGCd8q0E7HZ8uhk0fjCjVh8aPTJsR6DRl7RFWY3SXGXQn35ktu/vwe8gDDvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723658116; c=relaxed/simple;
-	bh=4u34LfFjV5jM2GYYXrlW7ZaS3ZVv+MHfwtakKnz4rS8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r2wXSAtnRoWs2uIU+B0RfG0cnWcd9pYH/Uj0EZIMJNahmtjv+kgzX0vXgNUvGQZobISsADkaYY6hMTW1z1LddxeaCVoBEkvw0KT8kBXrXK2l/7kI8w8pa4M0VlBqPzMulYJpjh2QP13NU9+UEw9tWIeS27a9U6Vnq8PCD+uD318=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ZdT/skdD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723668986; c=relaxed/simple;
+	bh=ToKZGCbRFgMoTJWEPcWJCk1aKa6A1fV+A+HwVlMNNNE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=nSB9ekIPvEDMpeiNrJLg5aM0Sq+an2LwOal5cqxjqSSbooYrYu491hg5VX8ClTjjBmIuiAnfqW9qLQUJOVuDwWWwDicoz74E3xzqyJtP9kmQtj5rTktUUv3L20XJ0pl7VG35VzSRRJJ/tl03iTTgHdSEUBlUQpE86gNdCwk34XE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oBmGe4RC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZdT/skdD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E046EC116B1;
-	Wed, 14 Aug 2024 17:55:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1723658115;
-	bh=4u34LfFjV5jM2GYYXrlW7ZaS3ZVv+MHfwtakKnz4rS8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZdT/skdDW0Tc1I1r4xCJD8oCj0VwBij8xecbXBETAJoMvLk4d36l6dT0WEYPrJMaE
-	 6RUZOa16lgMNUjik/HMwaXIWnB20JMsoSIVwKwSCn3+6//gkdREp/cebfyGeDYyHta
-	 hsaZnxXKb646GTO+q6WQ09Ktum13s0vGMVajC2IA=
-Date: Wed, 14 Aug 2024 19:55:12 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>
-Cc: stable@vger.kernel.org, Sasha Levin <sashal@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
-	Linux kernel regressions list <regressions@lists.linux.dev>,
-	tiwai@suse.com, perex@perex.cz, lgirdwood@gmail.com,
-	=?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Thorsten Leemhuis <regressions@leemhuis.info>,
-	Vitaly Chikunov <vt@altlinux.org>, Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH for stable v2 0/2] ASoC: topology: Fix loading topology
- issue
-Message-ID: <2024081442-thimble-widget-e370@gregkh>
-References: <20240814154749.2723275-1-amadeuszx.slawinski@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oBmGe4RC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22D71C116B1;
+	Wed, 14 Aug 2024 20:56:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723668986;
+	bh=ToKZGCbRFgMoTJWEPcWJCk1aKa6A1fV+A+HwVlMNNNE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=oBmGe4RCevhmKPnTxa+UmErKVrFo/QP9KBanRlk2ru/mgYd/H4PIfcCz6LY/ZtFoD
+	 QlQwUSqU7yYvUMrNLu89fP6RVH7xlMqKqycjrmDQizexYBCosWFUqxpMmHRLoUYve0
+	 52B+hvobMG1jRrK1LkuVjd6gH+EFViBsqbYINDAZEkdmWNLMra5yMkkpFoR03ZUiom
+	 k+CCtUhs0+/cW/BvqDvH5juPDowJLuPGdsrUibVh+eH9DM54ZYNv3wOBQ0bdKLIGQf
+	 ysAKu3QjVRKjXfXvGaOEYxShgGikq66WShutdrL1A0EHW0ldLYHG/5FWIuHkxifzj3
+	 XxCsXSuRXcY2w==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Prasad Kumpatla <quic_pkumpatl@quicinc.com>, 
+ Mohammad Rafi Shaik <quic_mohs@quicinc.com>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: stable@vger.kernel.org, Alexey Klimov <alexey.klimov@linaro.org>
+In-Reply-To: <20240806114913.40022-1-krzysztof.kozlowski@linaro.org>
+References: <20240806114913.40022-1-krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH] ASoC: codecs: wcd937x: Fix missing de-assert of reset
+ GPIO
+Message-Id: <172366898385.334805.11696453398895382213.b4-ty@kernel.org>
+Date: Wed, 14 Aug 2024 21:56:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240814154749.2723275-1-amadeuszx.slawinski@linux.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-37811
 
-On Wed, Aug 14, 2024 at 05:47:47PM +0200, Amadeusz Sławiński wrote:
-> Commit 97ab304ecd95 ("ASoC: topology: Fix references to freed memory")
-> is a problematic fix for issue in topology loading code, which was
-> cherry-picked to stable. It was later corrected in
-> 0298f51652be ("ASoC: topology: Fix route memory corruption"), however to
-> apply cleanly e0e7bc2cbee9 ("ASoC: topology: Clean up route loading")
-> also needs to be applied.
+On Tue, 06 Aug 2024 13:49:13 +0200, Krzysztof Kozlowski wrote:
+> The device never comes online from a reset/shutdown state, because the
+> driver de-asserts reset GPIO when requesting it but then, at the end of
+> probe() through wcd937x_reset(), leaves it asserted.
 > 
-> Link: https://lore.kernel.org/linux-sound/ZrwUCnrtKQ61LWFS@sashalap/T/#mbfd273adf86fe93b208721f1437d36e5d2a9aa19
 > 
-> Should be applied to stable 6.1, 6.6, 6.9.
 
-6.9 is long end-of-life (as shown on the front page of kernel.org.)
+Applied to
 
-Patches queued up to 6.1 and 6.6 now, thanks.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-greg k-h
+Thanks!
+
+[1/1] ASoC: codecs: wcd937x: Fix missing de-assert of reset GPIO
+      commit: 2251db28edcc70b7ee8a8c6bcbaecf752b3ea5ec
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
