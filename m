@@ -1,95 +1,98 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AACC71B3F20
-	for <linux-sound@vger.kernel.org>; Wed, 14 Aug 2024 15:41:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFBE71B8E8B;
+	Wed, 14 Aug 2024 15:47:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723650086; cv=none; b=dGI6KdmJSZofAN+I5CvBXUwh4TLpsVje2mHbE/ORKmZBo6OSmeVa6WH5LMa9xVebc8RwcRufMu896PWD4eH5Iy1OnGXoWI9bxmrVtmUUWgwEjfZYsR+xG808neDpihjx1XuGpJi4wFauqM77dAuNDG3Ph8yG//ClDiVuoDOFqk8=
+	t=1723650433; cv=none; b=gaJFSQ/MgSBnNRp6G6fmKZdUrLFb0YWCSfFeUiqEYjVPk12++aByvg/glsqwAkdIYMeWbVtQxNUOsol869OLc6dGOtKf1jJk1e6u7I8be0fbNaa2nTNxNFCxonsw1SP0cOiICt27EXXK666idAJj0vsosIVQPUSUYxGieD+TPks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723650086; c=relaxed/simple;
-	bh=NgaDpG6DTfA0N471gKketQJKffFKRH0SRwAgGTqaFaE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f5DXEQHyN/stIfVmhPMMpeqPmmNBsDVZwusq4S7EEpolf7sUTnDW6C3l6erg4TBNoJx53pdve2ijukSJAc2f17V+ozv6TnfP3m+up4mkTiiPBqlP/OJEpAZW+fVRXzYg0K7vC2qggSnNHxd1RCR9Odm964xIhpa+EuKi/TDE1wY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=OJq/c22m; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1723650433; c=relaxed/simple;
+	bh=CbEh9vZsDIkvt9w/RJG8miSMP2IpSdBMNNw0Z+T+ZdQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=hKx6+PgN3R79drdRyqyew51wjwJ/BwMsOGrhFhN7HX3eMMnQue/oVJXaKX7qmdki10BLYelFXKTrdupv3ZUI00XOBOygNcpeLR9AHA4HPPr5YeWQLilF0wPgr8UYL8riSvuqZstnLVtbBkrQvQOkQ+MmwRv1hpIvo/9UJH6pP/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ge4ULKRh; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="OJq/c22m"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=NgaD
-	pG6DTfA0N471gKketQJKffFKRH0SRwAgGTqaFaE=; b=OJq/c22mtHWsUw8E+B/R
-	yezmS+dts9K0n2vw4eOjYNPYvS2aUDkap+1pttF5c7HRIB9SSle1fCQeXI3RQgSo
-	5VsbKZ4pt+PT+hPgX+x0HcfSnhlX3Iec/vP+wLd/COxv7EZPaYOFx2BLngRGM1lG
-	QV5+vQIP9xv+Ehk2+r+42b23SOB0d34qE5OZaVM1ett5T+g0tO0+cs/5KE43nddC
-	HcnrvOM9q4X6KC8NnzkwXM65Lt/OXAzt0XEe5p6nqMxAQUWc5mco7LyUt0I+1vNq
-	e5z6kUdVW7R4aVzCqY1hX65X32B9sHpzTNPozjkhPBTLnzb714ps2IuQu04QbBzn
-	ig==
-Received: (qmail 2030307 invoked from network); 14 Aug 2024 17:41:19 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Aug 2024 17:41:19 +0200
-X-UD-Smtp-Session: l3s3148p1@Gma3jqYfToFehhrc
-Date: Wed, 14 Aug 2024 17:41:19 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Richard Fitzgerald <rf@opensource.cirrus.com>, tiwai@suse.com,
-	linux-sound@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] i2c: Use IS_REACHABLE() for substituting empty ACPI
- functions
-Message-ID: <ZrzQH8F22tQWOH-Q@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Takashi Iwai <tiwai@suse.de>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>, tiwai@suse.com,
-	linux-sound@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
-	kernel test robot <lkp@intel.com>
-References: <20240814121649.261693-1-rf@opensource.cirrus.com>
- <87mslfjk3n.wl-tiwai@suse.de>
- <Zry4eIOLOTwaYdaC@ninjato>
- <87ikw3jizv.wl-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ge4ULKRh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723650432; x=1755186432;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=CbEh9vZsDIkvt9w/RJG8miSMP2IpSdBMNNw0Z+T+ZdQ=;
+  b=ge4ULKRhHEysgANy0pQCyrNzr9CWFF/xv0JdMdngXjOppQ2vrtyJqZZd
+   r/7HPpLipj2gqSHpY0IrEpDHU3kIb0X9+yEZFyxZh07cVlvXSzbFCPH7Z
+   1ZYBpCoIqC0BQRHnrTtc1HdxTovQeFM8lMBxMPOFrq+bc76nDok0GFqF/
+   MPREztIV0lj9TIgRqPqHOC/rK7bYhji8q8Mgim65Ux5+sh/Bg/TWHgf0N
+   vNsom74zoD3qrZRVmJzhkIgno9WTlJdz7zQ3ctWdnYdtzcYauZ/oIaY0n
+   V0VW89mYdl6PSlGgmgCw1fwPr3ccdBYHoEdJn2yzGSD4g8DHxtS1TxuEP
+   g==;
+X-CSE-ConnectionGUID: NFVANyKMSriEk2Nx7mz/Yw==
+X-CSE-MsgGUID: g0QRuBFuSHmFheC+dmK7Vw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11164"; a="47279481"
+X-IronPort-AV: E=Sophos;i="6.10,146,1719903600"; 
+   d="scan'208";a="47279481"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2024 08:46:58 -0700
+X-CSE-ConnectionGUID: nkE4UlE0QZCydyjUw8BQRw==
+X-CSE-MsgGUID: W2wVLuKMQZmrfa/wcWgPog==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,146,1719903600"; 
+   d="scan'208";a="58936548"
+Received: from dev2.igk.intel.com ([10.237.148.94])
+  by orviesa010.jf.intel.com with ESMTP; 14 Aug 2024 08:46:55 -0700
+From: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
+To: stable@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Cc: Linux kernel regressions list <regressions@lists.linux.dev>,
+	tiwai@suse.com,
+	perex@perex.cz,
+	lgirdwood@gmail.com,
+	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Thorsten Leemhuis <regressions@leemhuis.info>,
+	Vitaly Chikunov <vt@altlinux.org>,
+	Mark Brown <broonie@kernel.org>,
+	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
+Subject: [PATCH for stable v2 0/2] ASoC: topology: Fix loading topology issue
+Date: Wed, 14 Aug 2024 17:47:47 +0200
+Message-Id: <20240814154749.2723275-1-amadeuszx.slawinski@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="SvPW87wNirmHn1I2"
-Content-Disposition: inline
-In-Reply-To: <87ikw3jizv.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Commit 97ab304ecd95 ("ASoC: topology: Fix references to freed memory")
+is a problematic fix for issue in topology loading code, which was
+cherry-picked to stable. It was later corrected in
+0298f51652be ("ASoC: topology: Fix route memory corruption"), however to
+apply cleanly e0e7bc2cbee9 ("ASoC: topology: Clean up route loading")
+also needs to be applied.
 
---SvPW87wNirmHn1I2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Link: https://lore.kernel.org/linux-sound/ZrwUCnrtKQ61LWFS@sashalap/T/#mbfd273adf86fe93b208721f1437d36e5d2a9aa19
 
+Should be applied to stable 6.1, 6.6, 6.9.
 
-> It was a preliminary fix for the change I recently put after the rc3
-> release, and now it surfaced.
+v2:
+ - Mention base commit
+ - Sign-off patches again, as those are cherrypicks
 
-Ah, that's an explanation. Thanks!
+Amadeusz Sławiński (2):
+  ASoC: topology: Clean up route loading
+  ASoC: topology: Fix route memory corruption
 
+ sound/soc/soc-topology.c | 32 ++++++++------------------------
+ 1 file changed, 8 insertions(+), 24 deletions(-)
 
---SvPW87wNirmHn1I2
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+2.34.1
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAma80BsACgkQFA3kzBSg
-Kba7AQ/6A41xPlTYz0zKa9qB9fP8o9xD62VW2fF4HImhtNQvaoG/pqr9sTDNVyrf
-SdDfHQFd6eGTI07CWPeX6636W5guAQGvabGiewvmJsZsSEWKIqan3co+mCTDsjhs
-6BrgfvC5WDPyDLfhR/CThWLXFtInm9ZfN6e8SLfblsx+pDijAs8XBAhTwxKNmRSr
-cddpkYqK21iWAYHfNZQwhbZDoaEXblBZk6WHf+7BsHYlgjNbMZQfHVoMg5NLr0dS
-lO/NHqRy3DjyZQgatMPhrrL9+kCpG/Qb9va8AnJoo611LSHFa3vNoV8qfF995VGY
-Lw1xJ1eFsNtEeSdzpBryvY2tilpd4HaNLTltg7RG6VCVm/a2HuCfeWcFUy5ej1gB
-E52v0yE9ZVFSSD1jFV106O1XwMH3ga0u0tvcNDUFxrxyF8cHSt92iCdXn3+mDiow
-RMWsYS9lREMWqqG7RmL2MiNVVqbagAs19p/CV6v0jcK3Bt5zgn8HOOe793iP3fj1
-ZlX6ZiWVlYdBeiE49kjjA64hDbfuXDipMdjesExJ4TAWmLQ0dCGnnBEoi5yalgrC
-snaaMycv+FHtuTHXzZAy9DJSri7qDsBq4AuUDEzGUPahO2uNRRG3v4hSqu/NhnH/
-K/vaJC9MU5S7YxLTVeboCW9ClGynwg/vKAK364XayQqHKX+7Nb8=
-=5UOY
------END PGP SIGNATURE-----
-
---SvPW87wNirmHn1I2--
