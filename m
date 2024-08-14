@@ -1,190 +1,266 @@
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SEVP216CU002.outbound.protection.outlook.com (mail-koreacentralazon11022111.outbound.protection.outlook.com [40.107.43.111])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94B01381BE;
-	Wed, 14 Aug 2024 02:22:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723602170; cv=none; b=nqQFMxxbResZj61VtvVb6e4LV7osaYBGkZBbu2BAFnY4dEE0C1Afc0HQ2Hy8UFep9cmqoCqa21q3jsYJ0rZs8H+xGX/hlhe8NQp7rOytrpwkhfJDrWCz9HAledzvKaaJv495qAtUSH+BAfbaenzLF2XTot9GKLtMPGX3Yu7GqSE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723602170; c=relaxed/simple;
-	bh=oEPhdZKTVMMMYtu4Nx5jQ4/hJEvXTQ1pwlI8w6rCBJA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FnQNbI+8QL32GqANHEemqXlN8bSwcbsxueHDifKTIZBgfgMQx3RjVjIVOsloVBdqv6Vnk8teAdybgAJXbyUpICz/5wQZtaSbhbwVCMHHUElqPv50TNwmlEXAkPsAl0XiKYSBFCE+MdTW3h4Tg/lfyeEuZCHKcV8aWuk4X8j/3ss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J5SIRpUH; arc=none smtp.client-ip=209.85.166.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J5SIRpUH"
-Received: by mail-il1-f177.google.com with SMTP id e9e14a558f8ab-39b3e127748so26587705ab.0;
-        Tue, 13 Aug 2024 19:22:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723602167; x=1724206967; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=89JHmaWrb++n3w64WkT++R6JNihPGry7EvRTcS8lWyw=;
-        b=J5SIRpUHWJGbTZB7VKHyVrgnitAcGR+Q7eCSQezToo6jhJihPlUFBCi1hHVExtlFMb
-         5PSQWcVZwKjOhUFJwQm0qrJMDAssJawYH+QjrS5LZqmlbLiWbKe/QrhdjVKR7gs1h/hO
-         OaQKfUbPTgy1xlhQgXHw+8xpjRmGYCsroTWqHnXmn/qgnmoWefBm0naBgXv9nE1I86n7
-         LA3apzadqYMCOhEdOJwhtpvqoviW9jmmOodKo+QzZIhtLnGB+q3i18tU4bQ4VAlGH63o
-         O4EOdTalI3luEI/e6HgVv9RbxHOyKwF0O+7HuwOSZZpDHuRxWdiajG0oTEcwlQbIFbDa
-         kPLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723602167; x=1724206967;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=89JHmaWrb++n3w64WkT++R6JNihPGry7EvRTcS8lWyw=;
-        b=sglCqvAyKbWJOwWt4UWGaHKdA+giTbrWEaf2oWY/9dCmmaoVivtP1yxXsd+64JgfKb
-         zH0i+EVQylIwiuZxP7hnbMdM+U9l9xNcx11aYevTLci8s7rV8d1MnSlq7XxFmkiiN+3g
-         c3/GnhrEno+hWknzUjcRpB8UPJ36k/LFp9dVuqv8+yyM2AtwYvgwFpD2tAICkCF9Pg4p
-         lsYzqi3r/nFfqoCJzPGZOe3/ctGmM97QeW7ABeOJL4rZwrIQreCe7j6s1eUXlJc9GbDq
-         6LpPUK6IzORqg2W+WFGEbtddjXa4nxsSJ1ut7xZbUjcmk7pf/1goRxNxw9PQw0IbcPAc
-         rK9w==
-X-Forwarded-Encrypted: i=1; AJvYcCWt4iKNxn8XKwMDFQ+QMcF9ocMYXJZPT+oJozYucit5vh/YFc0xL5/1xfWvO7qkFivV9BqDfHxFSD0dfuG1QBf/SvAIu5Zzx6F9k9izHjzUq9AUCLNmZUa38qJ0On8ce6ORUKK4aQ2i9Fc=
-X-Gm-Message-State: AOJu0Yywi0GFMfg/adCb1RX9+X73zLTzVbRr8mZ9G4aRAO5fRhKjdIoQ
-	/L63ETE3o9UION8MoHUB/DwyjRqL7417TcAWnN2z3gZW7HCuGsZuipAIwkfYMeBcaBFoEozV7sw
-	/qDjj+z38VlgKSulMMUC1n6WfXXM=
-X-Google-Smtp-Source: AGHT+IFPVUkZK6h4SS7dzEMo826uVZIEi+fljxMmUw43807CP8vAA2UHQF5gxQfwfaTavdVKDSVhT479wlqQfJ6aRnI=
-X-Received: by 2002:a05:6e02:1d9d:b0:397:c5da:dc02 with SMTP id
- e9e14a558f8ab-39d12484a08mr20645625ab.4.1723602167332; Tue, 13 Aug 2024
- 19:22:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEF6C6F2FA
+	for <linux-sound@vger.kernel.org>; Wed, 14 Aug 2024 05:54:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.43.111
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723614866; cv=fail; b=N+pRC/GuQSd7X/XmfK5sqjTMVNnddRIQD007LlmAptbfeF8fDewVJG1K1+HlrYMK+mXUwupXpHHNFTw/cnCOi5BLnGNpVD133QKIN3a0IzzdWLh8valBIn3MVn/sG3ZYCxWUmRuXgC04pWsIerNZw6/AvIjE7eSDAsiIRjya65U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1723614866; c=relaxed/simple;
+	bh=5CAD3JgO4EFbDAfJ6UF2ZWI1MGrOViE8WOlLE8VtqaI=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=cajFjv389L7QB4SCj4dyFAiDKo/mczP4WVlvX7UApMrmeCCJ5/gDCjdojcds5+Qng+UrKr3eo8yvXvQnBx0NdCN8TPLkOqsa4pxbLQWyYGXKpr+QIAvNhqPcmfhy9hDfUqXhZ6j8/89uxBHQNhMco24z+/VCgx5YnNNTBANSzeQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=irondevice.com; spf=pass smtp.mailfrom=irondevice.com; arc=fail smtp.client-ip=40.107.43.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=irondevice.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irondevice.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=e8QLchXfBjr5tVz/Tw086O6WkRe8Sa/Q0X8LQn7XM4gNZtR9YdRorNoWJ6gnPExgVAnRcmGSFq7hgKsAk5GzBPfHD5Cre4LJYrhhHc5hwHcabtKFqzH0igGAKdeM3EaBUIRKc6fB/+vApSihb2N2lLtpkNxmZ+xe4vINZluyR+v0gQZq+iT98FI6ip8T1Q8uDFLArn1/4ys0kEd9UgH8TmPjQQzxT3hqSP7jbpWPC3F4eiLFBvDY1hM7bMhHuo6TWNBgaZKbu4L3BZgdSNRu+Rv4Bpm/+uipF3/64AV+iPubtFVWLZJI59Zw5tVS0k56tuucbwhsp5mMTKFAWNf+Sg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=A0iwd5MKoRvScN9ojWhJmSBic9B9Ylh6TCdIYlRIPuE=;
+ b=UhjvQf2imGUNUpWi/B6BSP+t3WftyMZo9Y9QPlu8K2o2L2ZHWlo4X6VY65y41Ocbv8FFYxJ8+xc7l/nTsSbgi9kt2Ufb6rvB8TAzge6mOegveC/4ZQyYINvmeFdjRTddbsCpw/OfKzHWRi2Sg73lwoxR56mX3mkphbOdcxLZHOhcGIANetnrhlNqNVi9Dovil0JjKL9P+ItZ+hC2+zQwaE6yRvMcCWrT8+cWH7lKPJwEwiLwY/o5a6GRWNrqexr1oJ5WPPh3ZHYqbRYsrxtN3invpZ02tzQnvBKXpbIYO8EXANrBCGNRYaawmzfuiJNek1RUOZw3DniwQnP5kT1dOw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=irondevice.com; dmarc=pass action=none
+ header.from=irondevice.com; dkim=pass header.d=irondevice.com; arc=none
+Received: from SL2P216MB2337.KORP216.PROD.OUTLOOK.COM (2603:1096:101:14c::11)
+ by PU4P216MB1517.KORP216.PROD.OUTLOOK.COM (2603:1096:301:cc::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.16; Wed, 14 Aug
+ 2024 05:54:19 +0000
+Received: from SL2P216MB2337.KORP216.PROD.OUTLOOK.COM
+ ([fe80::7e8d:9550:c46b:2756]) by SL2P216MB2337.KORP216.PROD.OUTLOOK.COM
+ ([fe80::7e8d:9550:c46b:2756%3]) with mapi id 15.20.7849.021; Wed, 14 Aug 2024
+ 05:54:19 +0000
+From: Ki-Seok Jo <kiseok.jo@irondevice.com>
+To: Mark Brown <broonie@kernel.org>
+CC: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, "alsa-devel@alsa-project.org"
+	<alsa-devel@alsa-project.org>, "linux-sound@vger.kernel.org"
+	<linux-sound@vger.kernel.org>
+Subject: FW: [PATCH 1/2] ASoC: sma1307: Add driver for Iron Device SMA1307
+Thread-Topic: [PATCH 1/2] ASoC: sma1307: Add driver for Iron Device SMA1307
+Thread-Index: AQHa7UFTFpcIr/dvqEW6ASLb2MRYD7IlQpeAgADxGEA=
+Date: Wed, 14 Aug 2024 05:54:19 +0000
+Message-ID:
+ <SL2P216MB233758C3649FAF0ACDCCB8898C872@SL2P216MB2337.KORP216.PROD.OUTLOOK.COM>
+References: <20240813052609.56527-1-kiseok.jo@irondevice.com>
+ <20240813052609.56527-2-kiseok.jo@irondevice.com>
+ <66113ea5-11a7-41a9-8e28-af0394d7ded7@sirena.org.uk>
+In-Reply-To: <66113ea5-11a7-41a9-8e28-af0394d7ded7@sirena.org.uk>
+Accept-Language: ko-KR, en-US
+Content-Language: ko-KR
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=irondevice.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SL2P216MB2337:EE_|PU4P216MB1517:EE_
+x-ms-office365-filtering-correlation-id: f8cb6304-c938-4e50-9a10-08dcbc2589e5
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|38070700018;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?gHuoZneUga4bQJI+dbD+JZGYG2cyTK4tzAvGvnBw0iBadgF8lYJJGqEkKy3l?=
+ =?us-ascii?Q?trmgGU7PLmt5LOGMSyk6WA8XJcOARV3yng5fNqYN70KKv6C/G0eJ2z2azalB?=
+ =?us-ascii?Q?H+TZzY1riG31xzy64FUyBk+qv0+I/ZcgDQsJV0dpW1qSDRfVGbb/EJ5oOVbd?=
+ =?us-ascii?Q?dMDzGcHG/jOGn/RB9zAW4Kq/aQngijj4sCw7TDhh6sXkBLKxve+ESK9q9JBL?=
+ =?us-ascii?Q?zC6rgkdXhUs8hqh2ZM0HoPrcFdc+n2n3ICBpvkOqKJJvpEZC2pQl6vr9eVRl?=
+ =?us-ascii?Q?tSChLUDupq4EbnkTGpuX/u99VW2nu6Bn9RDmpXTThEzVyx2btH8unbLNt4nC?=
+ =?us-ascii?Q?JeHm9qwyAetXJtuncoLEkeY/vmU5gQ3BU80+uCSHq0VNz75dmJHRtT4p1Kn6?=
+ =?us-ascii?Q?31fahPDvcxC3osuyuT/9VKghDm8dfMnyuJYarO+nV417/89RI/vFJPMGUtv5?=
+ =?us-ascii?Q?n1CASLSzAxfDBoIZDsWr8KgDCz6TyjsYaEU/fsRv6un+2WxYjaAXPzcv8VPE?=
+ =?us-ascii?Q?4Lv4759yCCVi0rRufAfq1hGyJvGYuCjtfni7nKf7J+qfG4iL00LaP9Jy0i11?=
+ =?us-ascii?Q?xBN8VcY6RPSRebBegmjKVGvX6fpUKq4/PVg2rvsa3KDqBfM+KU/EwMuaoMxq?=
+ =?us-ascii?Q?cV87DrEZFdLViJUyYYyA35bYpG6rxKiAF/0iNoh87HEWhkxEUC2Uph3Ib1eD?=
+ =?us-ascii?Q?6ApW6b89nB3KsI8a4R2Cc/mQoTYQDoVpZHMefYJiHTqzYAymEalR3L7aBe5W?=
+ =?us-ascii?Q?ywo6PwI/GWabFSFBsOaF7HGvoSjS2wgxxUZjJP1eG80rPDktFc2V4K3OW1fi?=
+ =?us-ascii?Q?esj4rVEiSV7PXYzBKnR8vfAwLVspNMbbmdXNUxMP8nPwgHdDBdKNpni2zrgH?=
+ =?us-ascii?Q?dlFE0EbDx4GoOZS0ydzaW0qIac4jRxMLnahM9/1ud6YbCgl3mwdLJr9UTyyx?=
+ =?us-ascii?Q?igiHbBidyOZYcUFG75DhDoov7//ziwMVsf3GUTkkBOOlfwLa4IWTzolM4Q2U?=
+ =?us-ascii?Q?OaMwZ1Fvf47OQPq4ETYgY+Gm9wB8Cl9j6WpVOvRqrSuSymbZs8/f6kzgwQiW?=
+ =?us-ascii?Q?6T0gYVJprQM3/r57hOuCw8wlm+EZXIV2NTY71KnH6LT6WDhb0HOyDC+5/i+k?=
+ =?us-ascii?Q?XuE9idIuubibMblkHZyxSCSaRI+nI0BPysV5luEmE1foEwM/BzdWls460rio?=
+ =?us-ascii?Q?UKW6L0AUJ2CD9VeJibMapHgeeGu9QU6uO8sWw0M0+d7cRaYGkCd5e0Kr63en?=
+ =?us-ascii?Q?scAAfb85Nn5Y6r/MjC7eymQFZphklkzLveEjn5KRTaLFHdyaqrp8auSQ2OjQ?=
+ =?us-ascii?Q?dFpAAote/ftrYcCgjxbbQNSdBXdvmf3ADbo55cNM5YL9EvTmkCHnM2rAjrKW?=
+ =?us-ascii?Q?c78vFl7Spxt+RLB5szKn0TMx/4f+AgZutfWPbw9B7MkbgAb+zQ=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SL2P216MB2337.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700018);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?1saRXQsMB1SU8vsIf6fVmpuxZ6M8DS35zYX3iJIQFxGi9kQULlauckaBxGQw?=
+ =?us-ascii?Q?kWSVxiHX08s64U4gFORCGHAkdcanYvjo1YBnUJvzfC8YXyMLNr2jgL/Mgs1L?=
+ =?us-ascii?Q?5wY8maDrIdvJv9nAwO6SbUIZxzUsNaLsvV4zpRTSs5z2JXoICWnR8jfq0Weu?=
+ =?us-ascii?Q?iasay1B8i5kVRj1QhzcDC4SyWVqES6VDWu60tyocVR4jfkLUBtc3pmjN7bFw?=
+ =?us-ascii?Q?PQvotDiRHsosUjvWWj7KxCwN6sz0XiDw3jJP948CfbHIzyq7+FOq3VwY54Vu?=
+ =?us-ascii?Q?OCU2DeSHIA+m8w+dXSjmkYxxRgDmy0mBPwaXHXHNp5IkQjAUbrlX72bNgqPg?=
+ =?us-ascii?Q?Jr7Vj+Ys0BnThD6OgIGmgpen/LdiYAf9QteWffwy/LQ5cOIusjYctFPuaPze?=
+ =?us-ascii?Q?k+otU/tDEMz44CaG9RYpiKrWvZb3kxLwjWaIFMuvEgvETyMBrSEvTIO+2jN2?=
+ =?us-ascii?Q?QIap9w2aazWCjgyRd52J0diOzt+j05e1w70ziG+xS5jTfWrQ3Aob8U2Wtj3R?=
+ =?us-ascii?Q?0Q01QI8G7GxtSfZ7271cB0xdJzR6OByyqT8hYpEdOfRP4j1FgMuzMysUhjqC?=
+ =?us-ascii?Q?0FV17rLnQLtOLVB+yRJJDzhG9WF1gAtoWAcTXupphj0AIhGr2BVgLqHANB26?=
+ =?us-ascii?Q?wnsr1xhOQ3lTDolQ2s75NzW2SGe2poJida0nQzg+f7tMNoBwkjfdslIo1mfM?=
+ =?us-ascii?Q?ZXNzVP/hRShQ+9j/tfX0fvLWh6Q21GKAF5zVsvTagy0zLLXikU3rSHPbE0KN?=
+ =?us-ascii?Q?ZfdAUX1jWsLIDbatW23NNoEY8phtVpYasn5z8hsiFFTbt53Gb0sqBzQ06UGQ?=
+ =?us-ascii?Q?bB911ic4YcUpO3ZCQGGwdjYWkJ0FWfTJtFS4qLxwIhmPF2hcuImhfguSNcpQ?=
+ =?us-ascii?Q?f7KlY8YfiKRUfNGTpzbACQMdanD8181xlGOBj19jdOvZt0kXbdGHSOpsocWo?=
+ =?us-ascii?Q?fZ9Ny5eLX2DjP9gX1IWWZvo/ixBGuiUdatMdYJlSobvLvK1khNxxybuN9A9s?=
+ =?us-ascii?Q?/SvwPVVl+ufp25sGr3IqZB/bP198M3Qs4JDUFJDekSUh7Tz2XfFsdqrwUOEF?=
+ =?us-ascii?Q?2qx6R1I01ydQrXv8zevmkcrKS/NwxmTEgwhkAxBwIQO2arS9MO1N2G56lq3Q?=
+ =?us-ascii?Q?97GB1OLVSVt3p98v0eHLmWnPCNYltnS7tKCi5EmpfvolliGca+mH9XExT0b8?=
+ =?us-ascii?Q?Wu1gCYl/HSjModtR3eylFghmZeWCh0ocZeYTnUcqeW4xoA6ftJCfcle3n56L?=
+ =?us-ascii?Q?u0GoyfsN51+v7KVgnXulOOMWT2oLNxICz0F0PZ7oxyxPsYRaZwjyTnA2puNx?=
+ =?us-ascii?Q?o/vLv08Uk57lyP+V/JBeIHeYhL+RZV7yxaB7R+f/9LjHwQcVQ+K4n6UUn4S6?=
+ =?us-ascii?Q?HgvgMofU0M0gSnu9+SDGSVDicP4cnCGc4wYZYLdDvfcfOSfB9zTsnUzJy5we?=
+ =?us-ascii?Q?pBaWTVXAQVNbGIB4DqMob6s+dxQ3kQuK6CcrD5aAXuOtE3+xu2VL4cBkjDAD?=
+ =?us-ascii?Q?VqGwWGg5GlxnFpwXKKjX6d3gbcwde7Qsb8DnsiOhQfJK453dLUv8/OfpMM0A?=
+ =?us-ascii?Q?cgEKseq/pWTgmPQd+0hKRHWVidbSSeqPGjyl/qeG?=
+Content-Type: multipart/mixed;
+	boundary="_002_SL2P216MB233758C3649FAF0ACDCCB8898C872SL2P216MB2337KORP_"
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <1722940003-20126-1-git-send-email-shengjiu.wang@nxp.com>
- <1722940003-20126-2-git-send-email-shengjiu.wang@nxp.com> <e89a56bf-c377-43d8-bba8-6a09e571ed64@linux.intel.com>
- <CAA+D8AN9JXJr-BZf8aY7d4rB6M60pXS_DG=qv=P6=2r1A18ATA@mail.gmail.com>
- <ffa85004-8d86-4168-b278-afd24d79f9d8@linux.intel.com> <116041ee-7139-4b77-89be-3a68f699c01b@perex.cz>
- <930bb152-860a-4ec5-9ef0-1c96f554f365@linux.intel.com> <c9039808-cd04-452d-9f6c-f91811088456@perex.cz>
- <ed1192e0-00e7-4739-a687-c96dc2d62898@linux.intel.com> <CAA+D8AMOh=G7W5-dYw_=Xx-s0PqEu2suKYorscoWku86Rn-=+A@mail.gmail.com>
- <542d47c5-7ce3-4c17-8c0a-3a2b2a9e6c6a@linux.intel.com> <c3b8f7b8-fc5e-4285-bee8-7edd448a405d@perex.cz>
- <CAA+D8ANg7C7vuxU44mAG8EnmcZjB_te5N_=4M4v_-Q9ZyPZ49g@mail.gmail.com>
- <2be4303e-58e1-4ad7-92cf-f06fa6fa0f08@perex.cz> <7dc039db-ecce-4650-8eb7-96d0cfde09a2@linux.intel.com>
-In-Reply-To: <7dc039db-ecce-4650-8eb7-96d0cfde09a2@linux.intel.com>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Wed, 14 Aug 2024 10:22:35 +0800
-Message-ID: <CAA+D8AMv=tHV3b-Rfo9Pjqs0bX5SVschD=WD06qxjJOk5zQmiQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/6] ALSA: compress: add Sample Rate Converter codec support
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Shengjiu Wang <shengjiu.wang@nxp.com>, vkoul@kernel.org, 
-	tiwai@suse.com, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, festevam@gmail.com, 
-	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
-	linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: irondevice.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SL2P216MB2337.KORP216.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: f8cb6304-c938-4e50-9a10-08dcbc2589e5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Aug 2024 05:54:19.2746
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b4849faa-3337-494e-a76a-cb25a3b3d7d1
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: rC075xN7etjZIutcc7tD5dganjpKo2JuqYJqLp02Rk+zlKiZ3R5LD+HqkdYfzcyMRQayuGlmx/9dwtYAA8ZdNBV/QoIoDm8sMWRtWG1bFKY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PU4P216MB1517
+
+--_002_SL2P216MB233758C3649FAF0ACDCCB8898C872SL2P216MB2337KORP_
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 12, 2024 at 9:44=E2=80=AFPM Pierre-Louis Bossart
-<pierre-louis.bossart@linux.intel.com> wrote:
->
->
->
-> On 8/12/24 15:31, Jaroslav Kysela wrote:
-> > On 12. 08. 24 12:24, Shengjiu Wang wrote:
-> >> On Fri, Aug 9, 2024 at 10:01=E2=80=AFPM Jaroslav Kysela <perex@perex.c=
-z> wrote:
-> >>>
-> >>> On 09. 08. 24 14:52, Pierre-Louis Bossart wrote:
-> >>>
-> >>>>> And metadata
-> >>>>> ioctl can be called many times which can meet the ratio modifier
-> >>>>> requirement (ratio may be drift on the fly)
-> >>>>
-> >>>> Interesting, that's yet another way of handling the drift with
-> >>>> userspace
-> >>>> modifying the ratio dynamically. That's different to what I've seen
-> >>>> before.
-> >>>
-> >>> Note that the "timing" is managed by the user space with this scheme.
-> >>>
-> >>>>> And compress API uses codec as the unit for capability query and
-> >>>>> parameter setting,  So I think need to define "SND_AUDIOCODEC_SRC'
-> >>>>> and 'struct snd_dec_src',  for the 'snd_dec_src' just defined outpu=
-t
-> >>>>> format and output rate, channels definition just reuse the
-> >>>>> snd_codec.ch_in.
-> >>>>
-> >>>> The capability query is an interesting point as well, it's not clear
-> >>>> how
-> >>>> to expose to userspace what this specific implementation can do, whi=
-le
-> >>>> at the same time *requiring* userpace to update the ratio dynamicall=
-y.
-> >>>> For something like this to work, userspace needs to have pre-existin=
-g
-> >>>> information on how the SRC works.
-> >>>
-> >>> Yes, it's about abstraction. The user space wants to push data, read
-> >>> data back
-> >>> converted to the target rate and eventually modify the drift using a
-> >>> control
-> >>> managing clocks using own way. We can eventually assume, that if this
-> >>> control
-> >>> does not exist, the drift cannot be controlled. Also, nice thing is
-> >>> that the
-> >>> control has min and max values (range), so driver can specify the
-> >>> drift range,
-> >>> too.
-> >>>
-> >>> And again, look to "PCM Rate Shift 100000" control implementation in
-> >>> sound/drivers/aloop.c. It would be nice to have the base offset for t=
-he
-> >>> shift/drift/pitch value standardized.
-> >>
-> >> Thanks.
-> >>
-> >> But the ASRC driver I implemented is different, I just register one so=
-und
-> >> card, one device/subdevice.  but the ASRC hardware support 4 instances
-> >> together, so user can open the card device 4 times to create 4 instanc=
-es
-> >> then the controls can only bind with compress streams.
-> >
-> > It's just a reason to add the subdevice code for the compress offload
-> > layer like we have in other APIs for overall consistency. I'll try to
-> > work on this.
->
-> I thought this was supported already? I remember there was a request to
-> enable more than one compressed stream for enhanced cross-fade support
-> with different formats? That isn't supported with the single-device +
-> PARTIAL_DRAIN method.
->
-> Vinod?
->
-> >> I think I can remove the 'SNDRV_COMPRESS_SRC_RATIO_MOD',
-> >
-> > Yes.
-> >
-> >> Only define a private type for driver,  which means only the ASRC driv=
-er
-> >> and its user application know the type.
-> >
-> > The control API should be used for this IMHO.
->
-> Agree, this would be a 'clean' split where the compress API is used for
-> the data parts and the control parts used otherwise to alter the ratio
-> or whatever else is needed.
->
-> >> For the change in 'include/uapi/sound/compress_params.h",  should I
-> >> keep them,  is there any other suggestion for them?
->
-> You can add the SRC type but if you use a control for the parameters you
-> don't need to add anything for the encoder options, do you?
->
+Thank you for your kind assistance!
 
-Yes, to go further, I think we can use SND_AUDIOCODEC_PCM, then
-the SRC type will be dropped.
+I will carefully review the information you provided and send it back to yo=
+u.
 
-But my understanding of the control means the .set_metadata() API, right?
-As I said, the output rate, output format, and ratio modifier are applied t=
-o
-the instances of ASRC,  which is the snd_compr_stream in driver.
-so only the .set_metadata() API can be used for these purposes.
+I have responded to a few points; could you please review them?"
 
-Best regards
-Shengjiu Wang
+Thank you!
+
+>=20
+> > +		return false;
+> > +	}
+> > +	sma1307_regmap_update_bits(sma1307, SMA1307_00_SYSTEM_CTRL,
+> > +				   SMA1307_RESET_MASK, SMA1307_RESET_ON);
+> > +	sma1307_reset(component);
+>=20
+> This is a very unusual thing to support - what's the motivation for it?
+> If we were going to support it then we'd need to handle what happens to
+> the controls, either generating events saying where they've changed or
+> rsyncing existing values.
+
+The 'sma1307_reset' function is responsible for configuring the amplifier t=
+o operate properly.
+Sometimes users may want to reset the mixer control to its initial state af=
+ter having used it.
+I have added a reset control for this purpose.
+Will it be problematic to initialize the chip values and return it to a usa=
+ble state?
+
+
+> > +static int sma1307_register_read(struct snd_kcontrol *kcontrol,
+> > +				 struct snd_ctl_elem_value *ucontrol) {
+>=20
+> > +	ret =3D sma1307_regmap_read(sma1307, reg, &val);
+> > +	if (ret < 0)
+> > +		return -EINVAL;
+> > +
+> > +	ucontrol->value.bytes.data[1] =3D val;
+>=20
+> We generally wouldn't offer controls like this, and since regmap has
+> debugfs support we already have facilities for looking at the current
+> device state.
+> > +static int sma1307_register_write(struct snd_kcontrol *kcontrol,
+> > +				  struct snd_ctl_elem_value *ucontrol) {
+>=20
+> Again, this seems better provided by the regmap debugging features.
+
+Occasionally, regmap writes are restricted in debugfs, so I added it.
+(Reading is still allowed, so a read function shouldn't be necessary.)
+
+
+> > +	/* HEADER */
+> > +	sma1307->set.header_size =3D SMA1307_SETTING_HEADER_SIZE;
+> > +	sma1307->set.checksum =3D data[sma1307->set.header_size - 2];
+> > +	sma1307->set.num_mode =3D data[sma1307->set.header_size - 1];
+>=20
+> We didn't verify that the firmware is big enough to contain the header (e=
+g,
+> if there's some filesystem corruption) or any of the other sizes or count=
+s.
+The file format is fixed.
+The size isn't very large, but up to what extent is it acceptable?
+The header size is predefined, and the header contains the file size value.
+
+
+>=20
+> > +	/* Register Initial Value Setting */
+> > +	switch (sma1307->amp_set) {
+> > +	case SMA1307_DEFAULT_SET:
+> > +		sma1307_set_default(component);
+> > +		break;
+>=20
+> Why aren't we just using the chip defaults here?
+
+The values input to this function are the default values for the chip to op=
+erate.
+The chip won't function with just power applied; it requires specific value=
+s to be provided to operate.
+
+
+> > +	case SMA1307_BINARY_FILE_SET:
+> > +		sma1307_setting_loaded(sma1307, setting_file);
+> > +		if (sma1307->set.status) {
+> > +			sma1307_set_binary(component);
+> > +		} else {
+> > +			sma1307->force_mute_status =3D true;
+> > +			sma1307_set_default(component);
+> > +		}
+> > +		break;
+>=20
+> What's this for?  Usually any default setup would just be done through th=
+e
+> usual control interface.
+
+Generally, the amplifier operates correctly with default settings.
+Occasionally, when users want different output levels, we provide a binary =
+file to adjust the settings.
+
+Since the settings may vary depending on the speakers used and other extern=
+al factors, and because these settings cannot be adjusted by the user, the =
+purpose is to provide a configuration file upon request.
+
+
+
+--_002_SL2P216MB233758C3649FAF0ACDCCB8898C872SL2P216MB2337KORP_
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: signature.asc
+Content-Disposition: attachment; filename="signature.asc"; size=499;
+	creation-date="Wed, 14 Aug 2024 05:54:18 GMT";
+	modification-date="Wed, 14 Aug 2024 05:54:19 GMT"
+Content-Transfer-Encoding: base64
+
+LS0tLS1CRUdJTiBQR1AgU0lHTkFUVVJFLS0tLS0NCg0KaVFFekJBQUJDZ0FkRmlFRXJlWm9xbWRY
+R0xXZjRwL3FKTmFMY2wxVWg5QUZBbWE3Y0FzQUNna1FKTmFMY2wxVQ0KaDlEeDJRZ0FoVnVmbHA2
+UTZaMDRvYVNsb0xBcjIrUUJkM3ZWSkQ1QkNlK1AwQUxmU0ZuVng5Nk5FZHhIZFJjRA0KRzBuOUdU
+bkw0bG51a1FGVjVGbTZCQXpsbm5TYjZ5TUlzUVFEOEJpT3RGei9WVVQzMDIzVUsrTXBhelpZeHhN
+SQ0KU1NqMEMwSTQyUVBna2ZJdEgxUGpVMlBsV0hUVENpR1cvVFpTbGIyMlVoc3hMaWNOQS8zYk8r
+YXN4MW9aR1pJTg0KYkdRbm5uYTNzVDFDdUNsYm9iV3ozRUoyb3ZBNlpLc0NnblZmaHcrOXc1NC9w
+Y215SWtXYjVHU2JMY2RLbm90cw0KcTVET2E2c29ZbHplOVlrcUxSeWN3SndpMlhIY1FvYzI5NkEy
+SzI1ZzNjOU5oZkVYYWxrZ2xPRUpMSThVNUN6Sw0KbHhaY1F0eGROM3JnSmpyRTVaZWd0VzNDRWNO
+cUFRPT0NCj1UWng3DQotLS0tLUVORCBQR1AgU0lHTkFUVVJFLS0tLS0NCg==
+
+--_002_SL2P216MB233758C3649FAF0ACDCCB8898C872SL2P216MB2337KORP_--
