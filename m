@@ -1,96 +1,78 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2317714BFA8;
-	Wed, 14 Aug 2024 02:15:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89C362943F;
+	Wed, 14 Aug 2024 02:18:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723601740; cv=none; b=bbkeKrZCqb9a4khrRlb5MhbvZIwDQ7hE9u6Sz7EUpqHHeHVqR4VXljyz+nFa8gK4rbUMvJtk2YaTBc6LZGi9ymypvvAgLwAkq6UmyDhXc5of+g9GhgjnKFeN6NmZGwBBFevn8a9nQ36nYLUxWiK52eiJ3s+rPtOU2aTcK6Vj/vw=
+	t=1723601932; cv=none; b=vCt68/IUhtrgokCrozd4cFjdy7JIV9oO9q5YkZZkaTLFZAbVEasjLymoqHURvm7bgHTdJAzEUwWmfwWGffiDEr7lbdBx0MViPFN97k98aYqsMqEt/8MmHr/dXS2agj4LGUG/EIqBIMhvGfug6bR0JvlJkCEUdkg2bTJTmDLw6R4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723601740; c=relaxed/simple;
-	bh=vqpGVm8dGbEXlxnCRI/pCgKM30W1bYi0qYfwZYVyTN0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=m/wh9ii5blFNnsh3ciIhnem6Gn8xRAHgMNfKz3NIs4Lelx27QMPmA50k1fom9QKGCYmjwW8w+67RjdYz0jrvr8GzDpE189mdmowofIz766Hzl0fJgLE6yViNz6lgj0gh2yUaIVq77IitAWgL4K9aISTtZXCDpZmXdJS5mWL/T3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LUpjmb07; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723601932; c=relaxed/simple;
+	bh=SYXpdKKAIUAaMVyIUQOLGHSUglp33AepZ89w18ifSmg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cRjDwnLxPjryD0kkMyIXunmdsswLc9Loh7qOJk6AZoHhi7sOgGq/sU7twUrFAYfqaDczFQnsJbqAVs6x+dfuQ0sWOJXNv5DiqEj3tfjMjbc1Kkxh96154k3QPl64Dvb7MkAlNhyXHE8zfdq8/M+wIX14nWAfkPkQUEa6WjY+/m8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vD/hBeC/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LUpjmb07"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FE40C4AF0C;
-	Wed, 14 Aug 2024 02:15:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vD/hBeC/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCE16C32782;
+	Wed, 14 Aug 2024 02:18:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723601739;
-	bh=vqpGVm8dGbEXlxnCRI/pCgKM30W1bYi0qYfwZYVyTN0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=LUpjmb07wdL7ccA/xL7Nddm3bm3ypKZ0KSUEwDtyo+7NNheo5jxSk8O6d52tfqbOl
-	 YyWAuj6gd8/h7yxminGhNmYZepsMQqxxN3wcMRjDaqwOFC7BzkuKYezIaK5bOL1EcK
-	 Rw0ZrvgoStuyoFs2U2Iza/Tl0b1zd/B1aZ/nsND/skC2NBcuRjAGdLXtPmMhLlW9i+
-	 KyWrYmbX1lpEEGn13YTpZAuw00KP80vachEEMQ7ibSMiUhOY5tDQf5EQc1PyGlxYaD
-	 czIUOvcfl7GKIGBXW/7xqzTF/8iBE9QnD3JC5mV/DihPej2ttksYZy6kK+iltoD46e
-	 ehVBlKCohL3jQ==
+	s=k20201202; t=1723601932;
+	bh=SYXpdKKAIUAaMVyIUQOLGHSUglp33AepZ89w18ifSmg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vD/hBeC/kQYwGGdgwg2F1siBMH5FbFMAmwb0EfwSIAEcMQdWalSE1LVApkJABpQjT
+	 N+jdTQNNs41B/zxCzu0axloV0m+o3N/vtrNg8cSo6xapJu4xAJ+A5zE9xrZupZ3amE
+	 woHpZKWblgCFgQ+DG5r85KaskKbqptgwXHMB6ZC140DPEWqKiaQHSSZulKjthmvUsy
+	 Gxi7o/sGvczwtu8KD2tsLU0lj6O/p4xB0oMmpsLoJV6lSFlZKgEe9R8qFxC+v1VxIc
+	 4tiBoW1TJbS/vYiJEuCRXxJlELk3sTdCZZvhBN2eHM2NJkypx14CymvGSW9+GjdBPy
+	 p8guwfOB7Vm7g==
+Date: Tue, 13 Aug 2024 22:18:50 -0400
 From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: =?UTF-8?q?Krzysztof=20St=C4=99pniak?= <kfs.szk@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	mario.limonciello@amd.com,
-	end.to.start@mail.ru,
-	me@jwang.link,
-	git@augustwikerfors.se,
-	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 4/4] ASoC: amd: yc: Support mic on Lenovo Thinkpad E14 Gen 6
-Date: Tue, 13 Aug 2024 22:15:30 -0400
-Message-ID: <20240814021532.4130407-4-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240814021532.4130407-1-sashal@kernel.org>
-References: <20240814021532.4130407-1-sashal@kernel.org>
+To: Thorsten Leemhuis <regressions@leemhuis.info>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org,
+	Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>,
+	=?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>, lgirdwood@gmail.com,
+	perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
+	Linux kernel regressions list <regressions@lists.linux.dev>,
+	Vitaly Chikunov <vt@altlinux.org>, stable@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 6.9 17/40] ASoC: topology: Fix route memory
+ corruption
+Message-ID: <ZrwUCnrtKQ61LWFS@sashalap>
+References: <czx7na7qfoacihuxcalowdosncubkqatf7gkd3snrb63wvpsdb@mncryvo4iiep>
+ <14e54a89-5c62-41b2-8205-d69ddf75e7c7@linux.intel.com>
+ <e95a876a-b4b4-4a9d-9608-ec27a9db3e0c@leemhuis.info>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.104
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <e95a876a-b4b4-4a9d-9608-ec27a9db3e0c@leemhuis.info>
 
-From: Krzysztof Stępniak <kfs.szk@gmail.com>
+On Mon, Aug 12, 2024 at 11:53:17AM +0200, Thorsten Leemhuis wrote:
+>Hi, top-posting for once, to make this easily accessible to everyone.
+>
+>Greg, Sasha, to me it looks like something fell through the cracks.
+>Pierre-Louis afaics about a week ago asked (see the quote below) to
+>revert 97ab304ecd95c0 ("ASoC: topology: Fix references to freed memory")
+>[v6.10-rc6, v6.9.11, v6.6.42, v6.1.101] from the stable branches *or*
+>pick up b9dd212b14d27a ("ASoC: topology: Fix route memory corruption").
+>But nothing like that has happened yet and I can't see any of those
+>resolutions in the 6.6 queue.
+>
+>Side note: I have a very strong feeling that I'm missing or
+>misunderstood something, but I decided to send this mail despite this...
+>If something like that was the case: apologies in advance.
 
-[ Upstream commit 23a58b782f864951485d7a0018549729e007cb43 ]
+For AUTOSEL mails, I only end up looking at the threads when I'm about
+to actually queue those commits up into the stable-queue, which is what
+happened here.
 
-Lenovo Thinkpad E14 Gen 6 (model type 21M3)
-needs a quirk entry for internal mic to work.
-
-Signed-off-by: Krzysztof Stępniak <kfs.szk@gmail.com>
-Link: https://patch.msgid.link/20240807001219.1147-1-kfs.szk@gmail.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index c438fccac8e98..d88d02fac6728 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -220,6 +220,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "21J6"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "21M3"),
-+		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
 -- 
-2.43.0
-
+Thanks,
+Sasha
