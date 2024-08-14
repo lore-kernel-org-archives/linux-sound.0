@@ -1,150 +1,107 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8630C1AC44E;
-	Wed, 14 Aug 2024 12:09:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F13D1AED49;
+	Wed, 14 Aug 2024 12:17:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723637345; cv=none; b=J84UMTdLflWshWylV3d6gS8wIICHJ/jOkEKR7+tsM4vMchmD4baWjtuDqEP5VP8/JzdVRo6BmwqfI+dcT2hjesSaezbSn6rYUMuqvBcIfcvPt9hDqN4xllPupjMXU2paT102hZ1IwQMHlEo9T9aGOvVdcAgUiJvWwH27v7E9QTs=
+	t=1723637826; cv=none; b=NPqMxPEBRCKjGfhC4L+t07mIB6FjgAYAL/wUic6JXhUz19mGqLaW7uGYla0RbTAHzAmHdoQAztrQ2GohUCpCJT0KxH46dPfkjoI1qB1S7v2XzsolIgbX36KSykmXgvwv2J5IjgdxLJr1Xr43Ry9jiGAMLwrZHh1wPsQey9gnQLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723637345; c=relaxed/simple;
-	bh=zr8orGslI/q92JWipAmtiu3y5TznN52mC6/AGAEi5LA=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sWHiGGCPHIUmr8srlt0bF2vYEWxe5RC3hlX/oWAlhaaUa9k+Q+9RLEyak3HaXPNgIN2P+gizhtaT1DGPx8N2hXJXZ8H/lomWPeRcgkcVgz68HZpT8EK+AseLdyPrM9dyBQkFRWnYq6mn84+TKFl0S/NVV5XDKrCnvCdTSGgOhy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MsnJ1lo8; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XNZgkjj8; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MsnJ1lo8; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XNZgkjj8; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1723637826; c=relaxed/simple;
+	bh=cQ6zoQsOcpFLXMWi3hosEVA+UT+cA/CHR4exBfpLGMA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dermAkfkuc3FkLYEO2xVKMLi6vlxalGULZjMuKliI24lBE4IkggJUzL5ZUEYKh34PugmUN/QmsfNDaGhPV3zyn7Cn5WZz43CSohg9x52al0kBN5bG8NE1y6zoSpgfZPJghG3qlbO2c1ZJ5yfYFVRwTJhfLOdlNGbTdavnfy2AZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=CKn8KUP+; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MsnJ1lo8";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XNZgkjj8";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MsnJ1lo8";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XNZgkjj8"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6E9302279F;
-	Wed, 14 Aug 2024 12:09:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723637340; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4A+Kh5HoW9r9fmuGW4MDEGLJIW3jMEkAN+BzmrGgoYs=;
-	b=MsnJ1lo81sNlfy7nB+yFwR9B6oaNAC9bNQ/Q4IKgeB+wPkLps7c/EqaxPDCkX5kaM4yZ4w
-	bRMFMSEa86/JaI25bJRRPsB9RhArM7mBjcpRzN664/YNBzywvfCHZS9z34vHweFbWd+kM2
-	MlXWA+efJ0EFx8oR9vQY1/P2Pz3WFBo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723637340;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4A+Kh5HoW9r9fmuGW4MDEGLJIW3jMEkAN+BzmrGgoYs=;
-	b=XNZgkjj8sQO2lrxfvdoKf9tCJBNabEDk/OHu7Aw83X5FbOeIwb1YrobqRz8w17yLkvlqOh
-	G+PJ7FS6Id1DKRCQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=MsnJ1lo8;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=XNZgkjj8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723637340; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4A+Kh5HoW9r9fmuGW4MDEGLJIW3jMEkAN+BzmrGgoYs=;
-	b=MsnJ1lo81sNlfy7nB+yFwR9B6oaNAC9bNQ/Q4IKgeB+wPkLps7c/EqaxPDCkX5kaM4yZ4w
-	bRMFMSEa86/JaI25bJRRPsB9RhArM7mBjcpRzN664/YNBzywvfCHZS9z34vHweFbWd+kM2
-	MlXWA+efJ0EFx8oR9vQY1/P2Pz3WFBo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723637340;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4A+Kh5HoW9r9fmuGW4MDEGLJIW3jMEkAN+BzmrGgoYs=;
-	b=XNZgkjj8sQO2lrxfvdoKf9tCJBNabEDk/OHu7Aw83X5FbOeIwb1YrobqRz8w17yLkvlqOh
-	G+PJ7FS6Id1DKRCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 476B8139B9;
-	Wed, 14 Aug 2024 12:09:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id p5bgD1yevGbHJgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 14 Aug 2024 12:09:00 +0000
-Date: Wed, 14 Aug 2024 14:09:40 +0200
-Message-ID: <87v803jofv.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Juan =?ISO-8859-1?Q?Jos=E9?= Arboleda <soyjuanarbol@gmail.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	tiwai@suse.com
-Subject: Re: [PATCH v3] ALSA: usb-audio: Support Yamaha P-125 quirk entry
-In-Reply-To: <20240813161053.70256-1-soyjuanarbol@gmail.com>
-References: <20240813161053.70256-1-soyjuanarbol@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="CKn8KUP+"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47E5j9hf020215;
+	Wed, 14 Aug 2024 07:16:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=fpfGa+ZFwQoEjVp1
+	ybtTfwxTGsyWbIL6bk/kfKNVhL8=; b=CKn8KUP+AwqpsJ/LJQpMz0cnBWeNsZ2w
+	Vwe+Fm9NYAwl4kaq0uAN/+AuCy03G9PsTg2HsNGRhFCpHbHOv7EcKSn8RUA1vgpA
+	FHhRFVjifJAk4MwWBXLpKoBnvXHem687uguOQ1/9YfnB3nDRiuH4qQgSN/182dGs
+	vOkBUWjC6RI95DBXDBkxMRB87HeIVjA+FLJk2fk5nfpRYP5eaUdxwhnSbGBoP1Vf
+	WRFiWewCnVgSwjo4OiBxCCWLEjcP+W8N7DgnDt8kVg2bZTSp7pJ4BUQ67OrpCzl7
+	DjzOMzGVbkCa0cVHSHXgjIfcVToIvLBQF+gZFMI51j9ix+NvVK7vzg==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 40x5kwmgna-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 Aug 2024 07:16:52 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 14 Aug
+ 2024 13:16:50 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Wed, 14 Aug 2024 13:16:49 +0100
+Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id D32A5820241;
+	Wed, 14 Aug 2024 12:16:49 +0000 (UTC)
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+To: <wsa+renesas@sang-engineering.com>, <tiwai@suse.com>
+CC: <linux-sound@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
+        "kernel test
+ robot" <lkp@intel.com>
+Subject: [PATCH] i2c: Use IS_REACHABLE() for substituting empty ACPI functions
+Date: Wed, 14 Aug 2024 13:16:49 +0100
+Message-ID: <20240814121649.261693-1-rf@opensource.cirrus.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Spam-Score: -5.51
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-5.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCPT_COUNT_THREE(0.00)[4];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim]
-X-Rspamd-Queue-Id: 6E9302279F
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: zi_FY9r6dSfo3Z4GJql1AaNhbCkCdX64
+X-Proofpoint-GUID: zi_FY9r6dSfo3Z4GJql1AaNhbCkCdX64
+X-Proofpoint-Spam-Reason: safe
 
-On Tue, 13 Aug 2024 18:10:53 +0200,
-Juan José Arboleda wrote:
-> 
-> This patch adds a USB quirk for the Yamaha P-125 digital piano.
-> 
-> Signed-off-by: Juan José Arboleda <soyjuanarbol@gmail.com>
-> ---
-> Hey! Thanks for taking the time to review my patch.
-> 
-> I had a little mistake in V2, I forgot to stage my new diff for
-> amending. Sorry
-> 
-> Attending your sorting by id suggestion, I've moved the P-125 to the
-> bottom.
+Replace IS_ENABLED() with IS_REACHABLE() to substitute empty stubs for:
+    i2c_acpi_get_i2c_resource()
+    i2c_acpi_client_count()
+    i2c_acpi_find_bus_speed()
+    i2c_acpi_new_device_by_fwnode()
+    i2c_adapter *i2c_acpi_find_adapter_by_handle()
+    i2c_acpi_waive_d0_probe()
 
-Thanks, applied now to for-linus branch.
+commit f17c06c6608a ("i2c: Fix conditional for substituting empty ACPI
+functions") partially fixed this conditional to depend on CONFIG_I2C,
+but used IS_ENABLED(), which is wrong since CONFIG_I2C is tristate.
 
+CONFIG_ACPI is boolean but let's also change it to use IS_REACHABLE()
+to future-proof it against becoming tristate.
 
-Takashi
+Somehow despite testing various combinations of CONFIG_I2C and CONFIG_ACPI
+we missed the combination CONFIG_I2C=m, CONFIG_ACPI=y.
+
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+Fixes: f17c06c6608a ("i2c: Fix conditional for substituting empty ACPI functions")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202408141333.gYnaitcV-lkp@intel.com/
+---
+ include/linux/i2c.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/linux/i2c.h b/include/linux/i2c.h
+index 7eedd0c662da..377def497298 100644
+--- a/include/linux/i2c.h
++++ b/include/linux/i2c.h
+@@ -1066,7 +1066,7 @@ static inline int of_i2c_get_board_info(struct device *dev,
+ struct acpi_resource;
+ struct acpi_resource_i2c_serialbus;
+ 
+-#if IS_ENABLED(CONFIG_ACPI) && IS_ENABLED(CONFIG_I2C)
++#if IS_REACHABLE(CONFIG_ACPI) && IS_REACHABLE(CONFIG_I2C)
+ bool i2c_acpi_get_i2c_resource(struct acpi_resource *ares,
+ 			       struct acpi_resource_i2c_serialbus **i2c);
+ int i2c_acpi_client_count(struct acpi_device *adev);
+-- 
+2.39.2
+
