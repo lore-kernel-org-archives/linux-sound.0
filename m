@@ -1,137 +1,112 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A36131A01C8
-	for <linux-sound@vger.kernel.org>; Wed, 14 Aug 2024 10:04:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2B823D552;
+	Wed, 14 Aug 2024 10:33:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723629865; cv=none; b=qt0WeANagfXxoNeqNAM2ojTvMDVSXwJb96k1SQhfTKvHJQI8bdWFPHRl3ew2C1kwd8c6zeLG5gXRuoO3bfu/2nwNrcokbjZ0RENrFKc3sAl4WZ6Ms8ex73T+QbSc4dKM/7cI/6F6ryv8KZv6t9K25afjn1aeg5uJeVU0oFRXRzM=
+	t=1723631610; cv=none; b=dmGIueS1Xd8VS9BxzXuji5fVpXbCOMSOX0Up+zW4pO/pC/uTus59VkaKXnoyA4bE4HuNiWzJjk2jP0sn2Gar0VKkbhmnCK3jJxSkfOqc0fumcInS3LGvCkM6gxX4lc1rl5koU5CXjGXlES7eKOvfpsQwyVGncgmpbqNSAZGvEU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723629865; c=relaxed/simple;
-	bh=PbAfyLIPFtCMlJ3sMuiTLghkYsHaaeMC0f691sPOLD8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=m52bBV4X4opk4H/RrmJEghchdjQFgubG53L2BceJ30ys67Uq0uNZ7pfei6by+4UBh+6MjdPC40n0xwOkg7H2sNttpmDTEaB6BKxNkyjn9BvGP3tuavdN+b9NYS7DiKWFC4own7fPSGgg4BKEjIA8qa4VC8Xmn75RWss9FK1mOdg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=c7PVJjS6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fihG1QmM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=c7PVJjS6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fihG1QmM; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1723631610; c=relaxed/simple;
+	bh=KpPZgmHtH/1QMwBxAjeLq+Z4Flu+D6NzLewjyw97fjM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t44uflWzFHC787QGWx1EyQLi58yMjPX4BqtFTZLa6hT3Cny2NKFgUEnSVQNPgiHRD4Bf9IpIQJltexRf1AdimLFeW5USSbOrmcwN7gqhk6wCoOj0gY1K/5q0/vg+5OwhXKbYg1mQxyzmG6inZ2v7a6mR8yHTEMuKSvZxMVWvuYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FIOyxwbf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="c7PVJjS6";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fihG1QmM";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="c7PVJjS6";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fihG1QmM"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C3B032256D;
-	Wed, 14 Aug 2024 10:04:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723629861; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=64woSCB94M0fVS40IY5IvkqFVWGDFP0zDjhNnflfWRo=;
-	b=c7PVJjS6cxQ+7fZnLdSuISiuO5SNj5xl3z0SLK1tn+xKfQnsQqiYAhWShL9FRU74x33dsu
-	bcMlSu/eBGlSdSEtNVZva6QlFLYzspczZol681OLEgsbng6g0FulEeO8G7dQMyxzfZPXN6
-	KAZyBccHKXpzgF6jcQMGh802Uo8skUQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723629861;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=64woSCB94M0fVS40IY5IvkqFVWGDFP0zDjhNnflfWRo=;
-	b=fihG1QmMQCi/7hjvW/gL+EHsWCt3dRawM45nLzLz4PVjlJ1q08YOIhvdWzX8YGPZBHQFVR
-	3MVk3Gv6EjXbvfDA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723629861; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=64woSCB94M0fVS40IY5IvkqFVWGDFP0zDjhNnflfWRo=;
-	b=c7PVJjS6cxQ+7fZnLdSuISiuO5SNj5xl3z0SLK1tn+xKfQnsQqiYAhWShL9FRU74x33dsu
-	bcMlSu/eBGlSdSEtNVZva6QlFLYzspczZol681OLEgsbng6g0FulEeO8G7dQMyxzfZPXN6
-	KAZyBccHKXpzgF6jcQMGh802Uo8skUQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723629861;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=64woSCB94M0fVS40IY5IvkqFVWGDFP0zDjhNnflfWRo=;
-	b=fihG1QmMQCi/7hjvW/gL+EHsWCt3dRawM45nLzLz4PVjlJ1q08YOIhvdWzX8YGPZBHQFVR
-	3MVk3Gv6EjXbvfDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A3811139B9;
-	Wed, 14 Aug 2024 10:04:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id vVqYJiWBvGbJfwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 14 Aug 2024 10:04:21 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Cc: Baojun Xu <baojun.xu@ti.com>
-Subject: [PATCH] ALSA: hda/tas2781: Use correct endian conversion
-Date: Wed, 14 Aug 2024 12:04:59 +0200
-Message-ID: <20240814100500.1944-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FIOyxwbf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD3D5C32786;
+	Wed, 14 Aug 2024 10:33:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723631609;
+	bh=KpPZgmHtH/1QMwBxAjeLq+Z4Flu+D6NzLewjyw97fjM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FIOyxwbfv56q4xNyWm9Y0/+kYJlFBDXXn01sT/qSWopRKDfyPzjiiGam0l1ST408Y
+	 tpwRAyeYiU8y23EvPkhCxNt22mKpJWgLmL+HVY+MFw+cNgNFzoXOoGf7zTwhBYyl0x
+	 ASWUnLOCOxqhf/Z/KJmpl872A9XUqj2L8gz2IltLdb8sn1Lsw9alkagzFk+AOiFoeg
+	 amLdXDGVmVtnjBr6w9WJ6DlIPE3oJwHBKbkywpEOLVBKi51pYGkSR7Y+CgPljVgaAg
+	 3cOLQrrtEAqfiRx9tPBFjN8paWKzCeQML6jyjK4tH1WJuzyFz7wOI00jq2c4lLp920
+	 09bLRiuHqeA5A==
+Date: Wed, 14 Aug 2024 11:33:23 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Vitaly Chikunov <vt@altlinux.org>
+Cc: Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	stable@vger.kernel.org,
+	Thorsten Leemhuis <regressions@leemhuis.info>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
+	=?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	Linux kernel regressions list <regressions@lists.linux.dev>
+Subject: Re: [PATCH AUTOSEL 6.9 17/40] ASoC: topology: Fix route memory
+ corruption
+Message-ID: <e7b0597c-72d8-4cb6-bcec-19e29c1b864e@sirena.org.uk>
+References: <czx7na7qfoacihuxcalowdosncubkqatf7gkd3snrb63wvpsdb@mncryvo4iiep>
+ <14e54a89-5c62-41b2-8205-d69ddf75e7c7@linux.intel.com>
+ <e95a876a-b4b4-4a9d-9608-ec27a9db3e0c@leemhuis.info>
+ <210a825d-ace3-4873-ba72-2c15347f9812@linux.intel.com>
+ <2024081225-finally-grandma-011d@gregkh>
+ <20240812103842.p7mcx7iyb5oyj7ly@altlinux.org>
+ <2024081227-wrangle-overlabor-cf31@gregkh>
+ <53ab1511-b79c-4378-b2b5-ea9e19e8f65b@linux.intel.com>
+ <20240814000053.posrfbgoic2yzpsk@altlinux.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo,intel.com:email];
-	RCVD_TLS_ALL(0.00)[]
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="A8cRzxVvx8vzJbx5"
+Content-Disposition: inline
+In-Reply-To: <20240814000053.posrfbgoic2yzpsk@altlinux.org>
+X-Cookie: The second best policy is dishonesty.
 
-The data conversion is done rather by a wrong function.  We convert to
-BE32, not from BE32.  Although the end result must be same, this was
-complained by the compiler.
 
-Fix the code again and align with another similar function
-tas2563_apply_calib() that does already right.
+--A8cRzxVvx8vzJbx5
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: 3beddef84d90 ("ALSA: hda/tas2781: fix wrong calibrated data order")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202408141630.DiDUB8Z4-lkp@intel.com/
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/pci/hda/tas2781_hda_i2c.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Wed, Aug 14, 2024 at 03:00:53AM +0300, Vitaly Chikunov wrote:
+> On Tue, Aug 13, 2024 at 04:42:04PM +0200, Amadeusz S=C5=82awi=C5=84ski wr=
+ote:
 
-diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_i2c.c
-index 7dbfc92d9d55..89d8235537cd 100644
---- a/sound/pci/hda/tas2781_hda_i2c.c
-+++ b/sound/pci/hda/tas2781_hda_i2c.c
-@@ -527,8 +527,8 @@ static void tas2781_apply_calib(struct tasdevice_priv *tas_priv)
- 
- 	for (i = 0; i < tas_priv->ndev; i++) {
- 		for (j = 0; j < CALIB_MAX; j++) {
--			data = get_unaligned_be32(
--				&tas_priv->cali_data.data[offset]);
-+			data = cpu_to_be32(
-+				*(uint32_t *)&tas_priv->cali_data.data[offset]);
- 			rc = tasdevice_dev_bulk_write(tas_priv, i,
- 				TASDEVICE_REG(0, page_array[j], rgno_array[j]),
- 				(unsigned char *)&data, 4);
--- 
-2.43.0
+> > Should this be cherry-pick of both (they should apply cleanly):
+> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/comm=
+it/sound/soc/soc-topology.c?id=3De0e7bc2cbee93778c4ad7d9a792d425ffb5af6f7
+> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/comm=
+it/sound/soc/soc-topology.c?id=3D0298f51652be47b79780833e0b63194e1231fa34
+> > or just the second one adjusted to apply for stable trees?
 
+> I think having commit with memory corruption fix is more important to
+> stable kernels than not having the code cleanup commit. So, I would
+> suggest stable policy to be changed a bit, and minor commits like this
+> code cleanup, be allowed in stable if they are dependence of bug fixing
+> commits.
+
+> Additionally, these neutral commits just make stable trees become closer
+> to mainline trees (which allows more bug fix commits to be applied
+> cleanly).
+
+The reason I nacked the cleanup commit was just that there was no
+indication that it was a dependency or anything, it just looked like
+standard stuff with not reviewing bot output.
+
+--A8cRzxVvx8vzJbx5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAma8h/IACgkQJNaLcl1U
+h9DnQQf/TKq4Vc8SiV/EVDnt3MX1aX8RSRj02uCVscH5YRFRhBZJtQouANZy90Hm
+igbypwI3awsWw/rrq8OnSLz2LY118/SIYIlJ3Ha6pgrnUoJd4xTsOCLOBN24SyaS
++nXeD6jFATJpR9JmqhVkM2jqrK9dbtWpRt/f9OxZW2AzRU+EVRdvTLYooUI3WzOD
+rhVIC1NCVhLOOWbwr9RHpz6iTUMgJpnFu3lgp/dfJ6cTNN8ZPTgtb1FJGJbDDfkH
+2qntUSTLYMix3C52VfaPAlrDj+8foF81PXQx1XnDfWyrQ90AdIZNoLZiFjOdh31t
+LEN4cmQnh10Ath7r3PLvvrdR+OK5Sw==
+=SCAF
+-----END PGP SIGNATURE-----
+
+--A8cRzxVvx8vzJbx5--
