@@ -1,126 +1,125 @@
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 460F11AE851;
-	Wed, 14 Aug 2024 11:12:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A244C1AE874
+	for <linux-sound@vger.kernel.org>; Wed, 14 Aug 2024 11:14:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723633949; cv=none; b=P1/17OVwdXB3jrsKwZn+3be8bsJsb3JWKrIzTiuwpavbKtgg2mvt9vkxvllIiho4MR9z8vmD2A3Y789AtSwngqrAEXqzyXqbv8csvyAQmrWvWF55nJo16V8mrtf1r3sNK6gVvyHdEIty62KcsYONFjhU3XaDP6Co9ZrSfFI1Njo=
+	t=1723634062; cv=none; b=KutdqXEhuTN8g49iJzPEY+L2HUQ5gSnJ9ig4hvEPclqjLotEx+G6qAD4iX4P+J5Fi/8XcxRdECIRUWK2vAyj04G/ffOdlr9iHNttvVvRrw8cP/iNkGgRM91N+e7ANxlxVRXZH9GHsf424dTW6FvDokEq1UE4efKOb+aBeRBl+P0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723633949; c=relaxed/simple;
-	bh=/jlXwub/VVgwOLNXo3NHY827Q79tOts0INn1SM8RMmk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cA56IveAEuvs5y8gciumnU6u+rIrPwLAisobUCbPTcmK25GHfzfxAZIVxS+4v74COfcMXn2ouwh7wBWI/M8smYy/KaCSGZXsX0RdMrvN6kPqc6KiLdjf+J2vQocgDjBB9u3XBZHr6ABE4D2oDeRttaQCNzPWK9icZgb4gMo7Q6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YyzzIrM1; arc=none smtp.client-ip=209.85.166.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1723634062; c=relaxed/simple;
+	bh=TmoMJ6fBO+2ujDKfbDp+SvGtxKOPCAMH9eaWcdmMp90=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dyGvE4q4hOMtVXz0RBn6KLXQrj4qDbx9xhxeZiEj69EqjDl4c/nnzccssKLpsMsQVdLjEYKs6plO4EK+XhMd0SOfHYJDSs0igfaZkHYl+TxP9aPsTm+/WM6ArtrFTkc+08+Ots98keW1FFWS7TFmYUb4WkMWS/KDLzIXeP8nmZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=bjei94dI; arc=none smtp.client-ip=209.85.167.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YyzzIrM1"
-Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-39b3e127748so27861945ab.0;
-        Wed, 14 Aug 2024 04:12:27 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="bjei94dI"
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3db111a08c3so510369b6e.2
+        for <linux-sound@vger.kernel.org>; Wed, 14 Aug 2024 04:14:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723633947; x=1724238747; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wF+jCqkozllmCMkDBC4WnutIDupaU5S+6zMucrtIowA=;
-        b=YyzzIrM1Rv9Ksru9dCLHgm1h9sd0+ah5S3L7tAFLAT9y5A4IY3fPurxvY8LtJ4Dk7n
-         /pWFw6Q3o5Ht3p5WJ97kT1HH78vFW2A954COM6QUAPlILC58xLdmNTUHksDKrxtLN1Ve
-         Vb+aswUNo9yp4wSLyTNICmu/GuHgvdtDNGNQJJJbXMH+rfa/nlunrG2ZeA6mo6t56ggm
-         tRBsLJjGtQFzK1PX3oGHSwf3GOh+4JlB39pnOXNdc56zv/GTn46IuRNQ2wHq1D1F5Ko5
-         ILmZT6v/K3tHqy6I7v7Rr9clzORel4iyWPn+q8+w22ntwqGoZrEn9ahf+VHG6OhZub9u
-         gflQ==
+        d=linuxfoundation.org; s=google; t=1723634059; x=1724238859; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FKXOpaQjYZ23IPY7QFGKRm5V8t0HdIQpPj2kQ936F8Q=;
+        b=bjei94dIzvSaYyLy2cef+/JkedIUo7tMCAW1GPcsu+xIgmsr+QAW7rrEwZuXw1X/RB
+         8QhzhQ5CGMvlWex0QIkaKbKwnmxBYAAYvn4Za2IjZvoHK04HwnkgRLw0UFzEClTxv7C7
+         yw/ZOUvZT+Q32qYvFcddH3xrtYxWrsP6f1gVc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723633947; x=1724238747;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wF+jCqkozllmCMkDBC4WnutIDupaU5S+6zMucrtIowA=;
-        b=SbbjFdQXa3H8bGcci56glnSPAqKR8Ep+EQ319ORTHYLTs+xwmAjNqZaBWkE74zA3cO
-         WBOzmmwNj0C9J7yNKX44VU+g130ihvdt0lfZ2pHLWZn6upnwSvnYH3ZJQENXLCa2/O9f
-         pkXsb/e596EqA6192uzIeAVmruR5QY7GWWNuq3Z4FQEXFVKHq3Mcla2m29xXd2cSkIPX
-         bgLAiOWaxnanECPX+i9dDRdfizlIhlfwRtRIcuYyS3fRuWL8iTvT3htb4ZVdh0Qdmx0A
-         UIKuniflL58R5bRPTeB04WJsLYFHx9e1Ozz3xmf0C4mq+/xvL3U+T1sWbTzAUNz2R8o7
-         91sg==
-X-Forwarded-Encrypted: i=1; AJvYcCVT7eSRJ/Wb02qvYbXfW7x+OA3ytMq4Xc/xFMcOFFFaTKbZFNnYgc+D0Nb17AO3SoGurBbgCUt+zfRdrOokmtu62PF9Yt4dfrG3J6GqK/gvg78NoXim3H7AdZwu77+kya0qRDYXMka72e0=
-X-Gm-Message-State: AOJu0Yy3ojdkzygQguQuPFtvZMa5dIT2EcAuq3XJI9Yejeu3xtVA0tMl
-	XX9NOYqzmLmmnwr4fYmp0gWMnOCqTD6LlJnIeB6TtzxiTg+bsiGrebR1hdcl2TEgTlf1sSGQfl1
-	wHP8ebBTngjYSFq+gziWCuO0Tnww=
-X-Google-Smtp-Source: AGHT+IG23mxNg9sYomPIR65C+wkvcVf1Nh6cR3dMcXd5IewSmI8C/wXzw+Jopbl3+u3Bq8STYJPegmialAMApjmL47Q=
-X-Received: by 2002:a05:6e02:20cf:b0:39b:3205:6b93 with SMTP id
- e9e14a558f8ab-39d12520b17mr29843795ab.28.1723633947217; Wed, 14 Aug 2024
- 04:12:27 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1723634059; x=1724238859;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FKXOpaQjYZ23IPY7QFGKRm5V8t0HdIQpPj2kQ936F8Q=;
+        b=JE36zIVG2lAbviOAVh0zDo1LzQNvWYIN5s8m5J4sJOpmHDINFwFuorD7HJXH4mSzQl
+         KJQjkQQ4HFqq5mYMPtcgSkptsgWNgA3BB5d7WGyWXCE3V++5FAFylCBR0mNEazp3dsVn
+         inwAgBYWgvavimkUcPF+V41xPlA2JpovNrG1UgP/FLKV2qVaLKuofEBr/lXHmM2t+ac8
+         KrLbZlo5pXuvOO/ZeBHn6VxTyZB8iKqb1w6c22AmarLUv11n1o3GcZp6EceHVTGrKpkj
+         GeN4fB6EqI1eKICaDKRSKwQNJ0VpX5N8pmtwkwn76kuR0SuhWEg5gjXQeyN9btE6rSu7
+         EzxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWDWotp8gocGBVyDc17O0uImh5RYozG439zOuo4wtrr7ULAgnf6qImb7p/7vtz+KBnwap+HbiJvRwXXTImKD5cqITmq+BApzdV1xW0=
+X-Gm-Message-State: AOJu0YwTQhCHjVUxly0aVPo+463tGZADxSlqClzqmNV3ogw5MUClbJ4v
+	iLqaDaJg0XymECJyU9GU5UZ8mbgZ/oEq1+ObJUUdbkMnbQ3mowLBFncbsbhwTQU=
+X-Google-Smtp-Source: AGHT+IGU44jZ8rYe+yb/lWQqYJ9ZuIfKYis6ezIFOdZQVRqvwL8o7Dssf+jOnx1O7fDJ7mXMGVBZtw==
+X-Received: by 2002:a05:6870:2195:b0:260:f1c4:2fdc with SMTP id 586e51a60fabf-26fe5cfc907mr1531281fac.9.1723634059588;
+        Wed, 14 Aug 2024 04:14:19 -0700 (PDT)
+Received: from [192.168.104.75] ([223.118.51.114])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-710e5a8c454sm7125527b3a.180.2024.08.14.04.14.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Aug 2024 04:14:19 -0700 (PDT)
+Message-ID: <c946c5c4-366a-4772-81d9-dc5984777cfd@linuxfoundation.org>
+Date: Wed, 14 Aug 2024 05:14:08 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <1722940003-20126-1-git-send-email-shengjiu.wang@nxp.com>
- <1722940003-20126-2-git-send-email-shengjiu.wang@nxp.com> <e89a56bf-c377-43d8-bba8-6a09e571ed64@linux.intel.com>
- <CAA+D8AN9JXJr-BZf8aY7d4rB6M60pXS_DG=qv=P6=2r1A18ATA@mail.gmail.com>
- <ffa85004-8d86-4168-b278-afd24d79f9d8@linux.intel.com> <116041ee-7139-4b77-89be-3a68f699c01b@perex.cz>
- <930bb152-860a-4ec5-9ef0-1c96f554f365@linux.intel.com> <c9039808-cd04-452d-9f6c-f91811088456@perex.cz>
- <ed1192e0-00e7-4739-a687-c96dc2d62898@linux.intel.com> <CAA+D8AMOh=G7W5-dYw_=Xx-s0PqEu2suKYorscoWku86Rn-=+A@mail.gmail.com>
- <542d47c5-7ce3-4c17-8c0a-3a2b2a9e6c6a@linux.intel.com> <c3b8f7b8-fc5e-4285-bee8-7edd448a405d@perex.cz>
- <CAA+D8ANg7C7vuxU44mAG8EnmcZjB_te5N_=4M4v_-Q9ZyPZ49g@mail.gmail.com>
- <2be4303e-58e1-4ad7-92cf-f06fa6fa0f08@perex.cz> <7dc039db-ecce-4650-8eb7-96d0cfde09a2@linux.intel.com>
- <CAA+D8AMv=tHV3b-Rfo9Pjqs0bX5SVschD=WD06qxjJOk5zQmiQ@mail.gmail.com> <3cdb2041-59d4-4d43-ac4d-39d7f9640cef@linux.intel.com>
-In-Reply-To: <3cdb2041-59d4-4d43-ac4d-39d7f9640cef@linux.intel.com>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Wed, 14 Aug 2024 19:12:16 +0800
-Message-ID: <CAA+D8APSrH_pum6Cm0YxDzWMs4Roi=h1hkBjPMfXocXt7z4oVA@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/6] ALSA: compress: add Sample Rate Converter codec support
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Shengjiu Wang <shengjiu.wang@nxp.com>, vkoul@kernel.org, 
-	tiwai@suse.com, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, festevam@gmail.com, 
-	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
-	linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] selftests: fix relative rpath usage
+To: Eugene Syromiatnikov <esyr@redhat.com>
+Cc: linux-kselftest@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>,
+ Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Mykola Lysenko <mykolal@fb.com>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Peter Zijlstra <peterz@infradead.org>, "Paul E. McKenney"
+ <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ bpf@vger.kernel.org, Artem Savkov <asavkov@redhat.com>,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20240812165650.GA5102@asgard.redhat.com>
+ <3667e585-ecaa-4664-9e6e-75dc9de928e8@linuxfoundation.org>
+ <20240813163348.GA30739@asgard.redhat.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20240813163348.GA30739@asgard.redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 14, 2024 at 5:40=E2=80=AFPM Pierre-Louis Bossart
-<pierre-louis.bossart@linux.intel.com> wrote:
->
->
-> > Yes, to go further, I think we can use SND_AUDIOCODEC_PCM, then
-> > the SRC type will be dropped.
->
-> sounds good.
->
-> > But my understanding of the control means the .set_metadata() API, righ=
-t?
-> > As I said, the output rate, output format, and ratio modifier are appli=
-ed to
-> > the instances of ASRC,  which is the snd_compr_stream in driver.
-> > so only the .set_metadata() API can be used for these purposes.
->
-> Humm, this is more controversial.
->
-> The term 'metadata' really referred to known information present in
-> headers or additional ID3 tags and not in the compressed file itself.
-> The .set_metadata was assumed to be called ONCE before decoding.
->
-> But here you have a need to update the ratio modifier on a regular basis
-> to compensate for the drift. This isn't what this specific callback was
-> designed for. We could change and allow this callback to be used
-> multiple times, but then this could create problems for existing
-> implementations which cannot deal with modified metadata on the fly.
+On 8/13/24 10:33, Eugene Syromiatnikov wrote:
+> On Mon, Aug 12, 2024 at 05:03:45PM -0600, Shuah Khan wrote:
+>> On 8/12/24 10:56, Eugene Syromiatnikov wrote:
+>>> The relative RPATH ("./") supplied to linker options in CFLAGS is resolved
+>>> relative to current working directory and not the executable directory,
+>>> which will lead in incorrect resolution when the test executables are run
+>> >from elsewhere.  Changing it to $ORIGIN makes it resolve relative
+>>> to the directory in which the executables reside, which is supposedly
+>>> the desired behaviour.  This patch also moves these CFLAGS to lib.mk,
+>>> so the RPATH is provided for all selftest binaries, which is arguably
+>>> a useful default.
+>>
+>> Can you elaborate on the erros you would see if this isn't fixed? I understand
+>> that check-rpaths tool - howebver I would like to know how it manifests and
+> 
+> One would be unable to execute the test binaries that require additional
+> locally built dynamic libraries outside the directories in which they reside:
+> 
+>      [build@builder selftests]$ alsa/mixer-test
+>      alsa/mixer-test: error while loading shared libraries: libatest.so: cannot open shared object file: No such file or directory
+> 
+>> how would you reproduce this problem while running selftests?
+> 
+> This usually doesn't come up in a regular selftests usage so far, as they
+> are usually run via make, and make descends into specific test directories
+> to execute make the respective make targets there, triggering the execution
+> of the specific test bineries.
+> 
 
-.set_metadata can be called multi times now, no need to change currently.
+Right. selftests are run usually via make and when they are installed run through
+a script which descends into specific test directories where the tests are installed.
 
->
-> And then there's the problem of defining a 'key' for the metadata. the
-> definition of the key is a u32, so there's plenty of space for different
-> implementations, but a collision is possible. We'd need an agreement on
-> how to allocate keys to different solutions without changing the header
-> file for every implementation.
+Unless we see the problem using kselftest use-case, there is no reason the make changes.
+Sorry I am not going be taking these patches.
 
-Can we define a private space for each case?   For example the key larger
-than 0x80000000 is private, each driver can define it by themself?
+thanks,
+-- Shuah
 
->
-> It sounds like we'd need a 'runtime params' callback - unless there's a
-> better trick to tie the control and compress layers?
->
