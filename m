@@ -1,107 +1,127 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F13D1AED49;
-	Wed, 14 Aug 2024 12:17:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E9B01B0111
+	for <linux-sound@vger.kernel.org>; Wed, 14 Aug 2024 12:25:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723637826; cv=none; b=NPqMxPEBRCKjGfhC4L+t07mIB6FjgAYAL/wUic6JXhUz19mGqLaW7uGYla0RbTAHzAmHdoQAztrQ2GohUCpCJT0KxH46dPfkjoI1qB1S7v2XzsolIgbX36KSykmXgvwv2J5IjgdxLJr1Xr43Ry9jiGAMLwrZHh1wPsQey9gnQLU=
+	t=1723638338; cv=none; b=JsGG1byDjZTqkM99aXIIo6mWj0icm85NWHBtqTz0a/WOB12Zh3n27o230DsnYoFz1z3CT+QJTPuVg4uYEuKQz9Pq1BjmCZ1PWhQaXiWT6qGFGWb+odz17MsIZxjk4juQBC5Wuz2DKJt3PUXmaPRNtideRS/edaZq5XQdk+bqwc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723637826; c=relaxed/simple;
-	bh=cQ6zoQsOcpFLXMWi3hosEVA+UT+cA/CHR4exBfpLGMA=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dermAkfkuc3FkLYEO2xVKMLi6vlxalGULZjMuKliI24lBE4IkggJUzL5ZUEYKh34PugmUN/QmsfNDaGhPV3zyn7Cn5WZz43CSohg9x52al0kBN5bG8NE1y6zoSpgfZPJghG3qlbO2c1ZJ5yfYFVRwTJhfLOdlNGbTdavnfy2AZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=CKn8KUP+; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1723638338; c=relaxed/simple;
+	bh=fX0oLWQmmDLVQc37rhgERLHDmug4NM7ThPA89I0mRAQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RdZ+WFeyMFMWnGzUr/GG4LTHz1S38BHNq80hWmX3np91GdyMIVoQghwV2bCTlTuik5uoL7heADEKHJ4Ex9+i3ZlnDOdSYGrSjtP9U+eOi7KA9SUv6JsdWEpa9yMCnvyk2lf7JEwvUcsO+m8yk8TlvB7yHlmMDHH+E/te3jdI5HE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SiSZwyor; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="CKn8KUP+"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47E5j9hf020215;
-	Wed, 14 Aug 2024 07:16:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=fpfGa+ZFwQoEjVp1
-	ybtTfwxTGsyWbIL6bk/kfKNVhL8=; b=CKn8KUP+AwqpsJ/LJQpMz0cnBWeNsZ2w
-	Vwe+Fm9NYAwl4kaq0uAN/+AuCy03G9PsTg2HsNGRhFCpHbHOv7EcKSn8RUA1vgpA
-	FHhRFVjifJAk4MwWBXLpKoBnvXHem687uguOQ1/9YfnB3nDRiuH4qQgSN/182dGs
-	vOkBUWjC6RI95DBXDBkxMRB87HeIVjA+FLJk2fk5nfpRYP5eaUdxwhnSbGBoP1Vf
-	WRFiWewCnVgSwjo4OiBxCCWLEjcP+W8N7DgnDt8kVg2bZTSp7pJ4BUQ67OrpCzl7
-	DjzOMzGVbkCa0cVHSHXgjIfcVToIvLBQF+gZFMI51j9ix+NvVK7vzg==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 40x5kwmgna-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 14 Aug 2024 07:16:52 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 14 Aug
- 2024 13:16:50 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Wed, 14 Aug 2024 13:16:49 +0100
-Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id D32A5820241;
-	Wed, 14 Aug 2024 12:16:49 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: <wsa+renesas@sang-engineering.com>, <tiwai@suse.com>
-CC: <linux-sound@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        "kernel test
- robot" <lkp@intel.com>
-Subject: [PATCH] i2c: Use IS_REACHABLE() for substituting empty ACPI functions
-Date: Wed, 14 Aug 2024 13:16:49 +0100
-Message-ID: <20240814121649.261693-1-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SiSZwyor"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1723638336;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=svBUuEs8/JFesMl5FGn0p7w8fnS4q4NfMpbFkx3+AVA=;
+	b=SiSZwyorMR3r1EOUYuONCaBJM/MD2LvOuUzQfzENLc1ARBX8P9VC9XX0Aqt6ejLw3ErPIr
+	CiW2Att+2Z7Hfoj1NadlE53hN8D7NQ9GY5b+gRJb4COh3zbiIySoKXq9V7St+ROOWD3/zq
+	BXG2otlVn15oTxn8F6YqQTxxqC6LJ4A=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-130-GFhNPb5-Pr2UdJg0tYyZRw-1; Wed,
+ 14 Aug 2024 08:25:33 -0400
+X-MC-Unique: GFhNPb5-Pr2UdJg0tYyZRw-1
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BD18C197702C;
+	Wed, 14 Aug 2024 12:25:28 +0000 (UTC)
+Received: from asgard.redhat.com (unknown [10.45.242.6])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 38E991955F66;
+	Wed, 14 Aug 2024 12:25:17 +0000 (UTC)
+Date: Wed, 14 Aug 2024 14:25:13 +0200
+From: Eugene Syromiatnikov <esyr@redhat.com>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-kselftest@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>,
+	Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Mykola Lysenko <mykolal@fb.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+	Artem Savkov <asavkov@redhat.com>
+Subject: Re: [PATCH v2] selftests: fix relative rpath usage
+Message-ID: <20240814122513.GA18728@asgard.redhat.com>
+References: <20240812165650.GA5102@asgard.redhat.com>
+ <3667e585-ecaa-4664-9e6e-75dc9de928e8@linuxfoundation.org>
+ <20240813163348.GA30739@asgard.redhat.com>
+ <c946c5c4-366a-4772-81d9-dc5984777cfd@linuxfoundation.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: zi_FY9r6dSfo3Z4GJql1AaNhbCkCdX64
-X-Proofpoint-GUID: zi_FY9r6dSfo3Z4GJql1AaNhbCkCdX64
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c946c5c4-366a-4772-81d9-dc5984777cfd@linuxfoundation.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-Replace IS_ENABLED() with IS_REACHABLE() to substitute empty stubs for:
-    i2c_acpi_get_i2c_resource()
-    i2c_acpi_client_count()
-    i2c_acpi_find_bus_speed()
-    i2c_acpi_new_device_by_fwnode()
-    i2c_adapter *i2c_acpi_find_adapter_by_handle()
-    i2c_acpi_waive_d0_probe()
+On Wed, Aug 14, 2024 at 05:14:08AM -0600, Shuah Khan wrote:
+> On 8/13/24 10:33, Eugene Syromiatnikov wrote:
+> >On Mon, Aug 12, 2024 at 05:03:45PM -0600, Shuah Khan wrote:
+> >>On 8/12/24 10:56, Eugene Syromiatnikov wrote:
+> >>>The relative RPATH ("./") supplied to linker options in CFLAGS is resolved
+> >>>relative to current working directory and not the executable directory,
+> >>>which will lead in incorrect resolution when the test executables are run
+> >>>from elsewhere.  Changing it to $ORIGIN makes it resolve relative
+> >>>to the directory in which the executables reside, which is supposedly
+> >>>the desired behaviour.  This patch also moves these CFLAGS to lib.mk,
+> >>>so the RPATH is provided for all selftest binaries, which is arguably
+> >>>a useful default.
+> >>
+> >>Can you elaborate on the erros you would see if this isn't fixed? I understand
+> >>that check-rpaths tool - howebver I would like to know how it manifests and
+> >
+> >One would be unable to execute the test binaries that require additional
+> >locally built dynamic libraries outside the directories in which they reside:
+> >
+> >     [build@builder selftests]$ alsa/mixer-test
+> >     alsa/mixer-test: error while loading shared libraries: libatest.so: cannot open shared object file: No such file or directory
+> >
+> >>how would you reproduce this problem while running selftests?
+> >
+> >This usually doesn't come up in a regular selftests usage so far, as they
+> >are usually run via make, and make descends into specific test directories
+> >to execute make the respective make targets there, triggering the execution
+> >of the specific test bineries.
+> >
+> 
+> Right. selftests are run usually via make and when they are installed run through
+> a script which descends into specific test directories where the tests are installed.
+> 
+> Unless we see the problem using kselftest use-case, there is no reason the make changes.
 
-commit f17c06c6608a ("i2c: Fix conditional for substituting empty ACPI
-functions") partially fixed this conditional to depend on CONFIG_I2C,
-but used IS_ENABLED(), which is wrong since CONFIG_I2C is tristate.
+The reason has been outlined in the commit message: relative paths in
+RPATH/RUNPATH are incorrect and ought to be fixed.
 
-CONFIG_ACPI is boolean but let's also change it to use IS_REACHABLE()
-to future-proof it against becoming tristate.
+> Sorry I am not going be taking these patches.
 
-Somehow despite testing various combinations of CONFIG_I2C and CONFIG_ACPI
-we missed the combination CONFIG_I2C=m, CONFIG_ACPI=y.
+I see, by the same token, kernel maintainers reject any patches that fix
+compilation/build warnings, I guess.
 
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-Fixes: f17c06c6608a ("i2c: Fix conditional for substituting empty ACPI functions")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202408141333.gYnaitcV-lkp@intel.com/
----
- include/linux/i2c.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/include/linux/i2c.h b/include/linux/i2c.h
-index 7eedd0c662da..377def497298 100644
---- a/include/linux/i2c.h
-+++ b/include/linux/i2c.h
-@@ -1066,7 +1066,7 @@ static inline int of_i2c_get_board_info(struct device *dev,
- struct acpi_resource;
- struct acpi_resource_i2c_serialbus;
- 
--#if IS_ENABLED(CONFIG_ACPI) && IS_ENABLED(CONFIG_I2C)
-+#if IS_REACHABLE(CONFIG_ACPI) && IS_REACHABLE(CONFIG_I2C)
- bool i2c_acpi_get_i2c_resource(struct acpi_resource *ares,
- 			       struct acpi_resource_i2c_serialbus **i2c);
- int i2c_acpi_client_count(struct acpi_device *adev);
--- 
-2.39.2
+> thanks,
+> -- Shuah
 
