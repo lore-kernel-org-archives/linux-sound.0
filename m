@@ -1,112 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2B823D552;
-	Wed, 14 Aug 2024 10:33:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE2C21AED40
+	for <linux-sound@vger.kernel.org>; Wed, 14 Aug 2024 10:59:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723631610; cv=none; b=dmGIueS1Xd8VS9BxzXuji5fVpXbCOMSOX0Up+zW4pO/pC/uTus59VkaKXnoyA4bE4HuNiWzJjk2jP0sn2Gar0VKkbhmnCK3jJxSkfOqc0fumcInS3LGvCkM6gxX4lc1rl5koU5CXjGXlES7eKOvfpsQwyVGncgmpbqNSAZGvEU0=
+	t=1723633178; cv=none; b=IFrYq87BKp2Olh0mVpDX/Cmyh4Pvj9FxgEUqZqkVltNU1FKXoii0bJKzk41PkzbBu5Nr5PqxbLOq7u/MCG8lL/CMYsAzSMCGAOzhSl/VT7fUWopI2mmMqg7zjA747xoAL+py+YRdvJueUM32nBv51kdhRTnqLslOP1yNrzAmdt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723631610; c=relaxed/simple;
-	bh=KpPZgmHtH/1QMwBxAjeLq+Z4Flu+D6NzLewjyw97fjM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t44uflWzFHC787QGWx1EyQLi58yMjPX4BqtFTZLa6hT3Cny2NKFgUEnSVQNPgiHRD4Bf9IpIQJltexRf1AdimLFeW5USSbOrmcwN7gqhk6wCoOj0gY1K/5q0/vg+5OwhXKbYg1mQxyzmG6inZ2v7a6mR8yHTEMuKSvZxMVWvuYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FIOyxwbf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723633178; c=relaxed/simple;
+	bh=+qzqXOCXksMPS4Y1uQDXb+Hw//NwCn9OgHYtA0Pd3gg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Rk6g+r52xMZYRn2cKGrr6K5feTOj8lMzqwn0yIcF9ojDzBSAZOGB5idfSPCFq7Fz7cHtYXfIfFOLEuA/Nt2Ko9O9/eE3cHIdWeXrUyqj1h9xoEfqphM8czzZdnwTNAL72hgSeaNjnLAGF0u5R+ozSbVJm1wpDYLnrWZrc75vq2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=ntHVdeXG; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FIOyxwbf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD3D5C32786;
-	Wed, 14 Aug 2024 10:33:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723631609;
-	bh=KpPZgmHtH/1QMwBxAjeLq+Z4Flu+D6NzLewjyw97fjM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FIOyxwbfv56q4xNyWm9Y0/+kYJlFBDXXn01sT/qSWopRKDfyPzjiiGam0l1ST408Y
-	 tpwRAyeYiU8y23EvPkhCxNt22mKpJWgLmL+HVY+MFw+cNgNFzoXOoGf7zTwhBYyl0x
-	 ASWUnLOCOxqhf/Z/KJmpl872A9XUqj2L8gz2IltLdb8sn1Lsw9alkagzFk+AOiFoeg
-	 amLdXDGVmVtnjBr6w9WJ6DlIPE3oJwHBKbkywpEOLVBKi51pYGkSR7Y+CgPljVgaAg
-	 3cOLQrrtEAqfiRx9tPBFjN8paWKzCeQML6jyjK4tH1WJuzyFz7wOI00jq2c4lLp920
-	 09bLRiuHqeA5A==
-Date: Wed, 14 Aug 2024 11:33:23 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Vitaly Chikunov <vt@altlinux.org>
-Cc: Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	stable@vger.kernel.org,
-	Thorsten Leemhuis <regressions@leemhuis.info>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
-	=?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	Linux kernel regressions list <regressions@lists.linux.dev>
-Subject: Re: [PATCH AUTOSEL 6.9 17/40] ASoC: topology: Fix route memory
- corruption
-Message-ID: <e7b0597c-72d8-4cb6-bcec-19e29c1b864e@sirena.org.uk>
-References: <czx7na7qfoacihuxcalowdosncubkqatf7gkd3snrb63wvpsdb@mncryvo4iiep>
- <14e54a89-5c62-41b2-8205-d69ddf75e7c7@linux.intel.com>
- <e95a876a-b4b4-4a9d-9608-ec27a9db3e0c@leemhuis.info>
- <210a825d-ace3-4873-ba72-2c15347f9812@linux.intel.com>
- <2024081225-finally-grandma-011d@gregkh>
- <20240812103842.p7mcx7iyb5oyj7ly@altlinux.org>
- <2024081227-wrangle-overlabor-cf31@gregkh>
- <53ab1511-b79c-4378-b2b5-ea9e19e8f65b@linux.intel.com>
- <20240814000053.posrfbgoic2yzpsk@altlinux.org>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="ntHVdeXG"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47E5j9ch020215;
+	Wed, 14 Aug 2024 05:59:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=XSwe9riWP+5wqjSrpRpNfYDY6LkOSBAzHkBT0fVjPbM=; b=
+	ntHVdeXGKQQDgFvAgrJd+Ob0laucVJkWfmE8hHYE9VYuQFJpHceRBgyCeOwYJjMW
+	vRJpYCE8OiR92XApWuoGgDp5M5MOq3LI9Dc+lxcy1Ep4q8TWq8EKaPQE6dx/mZ4m
+	XUppVhrlU9jY0hySwn93S/g3Ek2rR7FMlFf9nDlZ+k1E95ADtPOsFdPyI9uY0DAJ
+	X+dPTQyY3Ddn3DoSURIbdVUPPsWGEpktmOR8I876vCvACHvbb90ctoTszhRjhgDS
+	l5vxRlhXHZcxrjP9Pa1qyIKTHNLSqoSassgI3xGoM2xLQPnRpQGrGisxfGEAmWjo
+	8iAhQCQMgSv9BFMRpX7pmg==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 40x5kwmeg9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 Aug 2024 05:59:32 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 14 Aug
+ 2024 11:59:29 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Wed, 14 Aug 2024 11:59:29 +0100
+Received: from [198.90.208.18] (ediswws06.ad.cirrus.com [198.90.208.18])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id CFB55820241;
+	Wed, 14 Aug 2024 10:59:29 +0000 (UTC)
+Message-ID: <5681baf9-af8e-49e1-bf64-fc4ac4e28618@opensource.cirrus.com>
+Date: Wed, 14 Aug 2024 11:59:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="A8cRzxVvx8vzJbx5"
-Content-Disposition: inline
-In-Reply-To: <20240814000053.posrfbgoic2yzpsk@altlinux.org>
-X-Cookie: The second best policy is dishonesty.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [tiwai-sound:for-linus 2/7] ld.lld: error: undefined symbol:
+ i2c_acpi_client_count
+To: Takashi Iwai <tiwai@suse.com>
+CC: <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>,
+        <linux-sound@vger.kernel.org>
+References: <202408141333.gYnaitcV-lkp@intel.com>
+Content-Language: en-GB
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <202408141333.gYnaitcV-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: 8yjg7XDpAv-cXnF9UZcl96ECfaVo-oxD
+X-Proofpoint-GUID: 8yjg7XDpAv-cXnF9UZcl96ECfaVo-oxD
+X-Proofpoint-Spam-Reason: safe
 
+On 14/08/2024 06:08, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-linus
+> head:   8475a1d9bb7acf1cb15842dd24baab0e8ea4e4ff
+> commit: 03c5c350e38d9346b69357d0e52c3c40495c14a0 [2/7] ALSA: hda/realtek: Add support for new HP G12 laptops
+> config: i386-randconfig-013-20240811 (https://download.01.org/0day-ci/archive/20240814/202408141333.gYnaitcV-lkp@intel.com/config)
+> compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240814/202408141333.gYnaitcV-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202408141333.gYnaitcV-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>>> ld.lld: error: undefined symbol: i2c_acpi_client_count
+>     >>> referenced by patch_realtek.c:6891 (sound/pci/hda/patch_realtek.c:6891)
+>     >>>               sound/pci/hda/patch_realtek.o:(cs35lxx_autodet_fixup) in archive vmlinux.a
+> 
 
---A8cRzxVvx8vzJbx5
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Aug 14, 2024 at 03:00:53AM +0300, Vitaly Chikunov wrote:
-> On Tue, Aug 13, 2024 at 04:42:04PM +0200, Amadeusz S=C5=82awi=C5=84ski wr=
-ote:
-
-> > Should this be cherry-pick of both (they should apply cleanly):
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/comm=
-it/sound/soc/soc-topology.c?id=3De0e7bc2cbee93778c4ad7d9a792d425ffb5af6f7
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/comm=
-it/sound/soc/soc-topology.c?id=3D0298f51652be47b79780833e0b63194e1231fa34
-> > or just the second one adjusted to apply for stable trees?
-
-> I think having commit with memory corruption fix is more important to
-> stable kernels than not having the code cleanup commit. So, I would
-> suggest stable policy to be changed a bit, and minor commits like this
-> code cleanup, be allowed in stable if they are dependence of bug fixing
-> commits.
-
-> Additionally, these neutral commits just make stable trees become closer
-> to mainline trees (which allows more bug fix commits to be applied
-> cleanly).
-
-The reason I nacked the cleanup commit was just that there was no
-indication that it was a dependency or anything, it just looked like
-standard stuff with not reviewing bot output.
-
---A8cRzxVvx8vzJbx5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAma8h/IACgkQJNaLcl1U
-h9DnQQf/TKq4Vc8SiV/EVDnt3MX1aX8RSRj02uCVscH5YRFRhBZJtQouANZy90Hm
-igbypwI3awsWw/rrq8OnSLz2LY118/SIYIlJ3Ha6pgrnUoJd4xTsOCLOBN24SyaS
-+nXeD6jFATJpR9JmqhVkM2jqrK9dbtWpRt/f9OxZW2AzRU+EVRdvTLYooUI3WzOD
-rhVIC1NCVhLOOWbwr9RHpz6iTUMgJpnFu3lgp/dfJ6cTNN8ZPTgtb1FJGJbDDfkH
-2qntUSTLYMix3C52VfaPAlrDj+8foF81PXQx1XnDfWyrQ90AdIZNoLZiFjOdh31t
-LEN4cmQnh10Ath7r3PLvvrdR+OK5Sw==
-=SCAF
------END PGP SIGNATURE-----
-
---A8cRzxVvx8vzJbx5--
+I'll be sending a fix for this soon, I'm just testing it.
+Despite our testing of various combinations we missed CONFIG_I2C=m,
+CONFIG_ACPI=y. For reasons I can't explain I thought that CONFIG_I2C
+is a boolean.
