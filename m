@@ -1,52 +1,57 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51C111B373C
-	for <linux-sound@vger.kernel.org>; Wed, 14 Aug 2024 14:00:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B8AE1B29D2;
+	Wed, 14 Aug 2024 14:05:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723644032; cv=none; b=YPnmwC8/rE9mv8wKRk5vtRwr5JkVBc7I0GElhsmfyMvh27jJa3km/ShAUlc1nqbhhrqW6e5umBD9nO2tzfgMqKI8BFrRuUC1N250x5zZmb2yfxAyXnrNELQQo7lMyeIWqrADE/n1IOcui2q8nhVHKZ0VNB/QzPYxF8ztAw87Y44=
+	t=1723644315; cv=none; b=syn3tNWZcTXh0gVxuGYvHKfBuu4iT7DPTrH0kpBs6Ju1iSSGCg8PaJ4SwCcpmJyiK+k99xY1eU+6kEekZcS024Kk8DYxzsJCuMqIlbHWOmx3sg67aaJdffCRYaS52uDldI3aQI5C1E1Z/eUPrPM2RBniaCe8rZfFfJ/fMhsv3mk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723644032; c=relaxed/simple;
-	bh=tHn19Ni1LLbpXwJbilTrZJhHpHLAG9javyo89zYAfVE=;
+	s=arc-20240116; t=1723644315; c=relaxed/simple;
+	bh=rsrPj3HibZ4DCsL9Ic4OQt4Rsa7JTdGV+7CZoZd1B/s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Brra73IysMi8WwJ4c0mJ52NiMO6P8EEbRgdPUQOgO36cUg7W4hc5BmWE6s+Txcr56V1Kw7ZZD37YmPdbkHl4Ppt4VrOVOiAiXyeTiqm9pwDDYRyXi79SyC+qFXdHGnCi8Nu67JaCFEidILmUSic4sMleg7e79199Qmm8dMiybhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=PApIccj3; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jtw8W+5w997ibV//VfDMqGBTASno0/HZAOcl76LKnlrIXTjGWCA3HSUWyF31jQ0NodajoXZc9et06dtmi/Wm09E3ASPbiV90StefQoRz2rdKcz2Crtf7BinUURnB4mKtKKwS3jP8wZKHqPVXYl+p8kntZQ0/jT/xDZtAVrRDxkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oixb9P7I; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="PApIccj3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=tHn1
-	9Ni1LLbpXwJbilTrZJhHpHLAG9javyo89zYAfVE=; b=PApIccj3MofW7UjEhQgK
-	1VcDjYSiIKKDOsrMuH7UUKHw7MMIXVBlxbmrPEa8GoU3ifMVWZ0OWCcb52I46woF
-	zBW9w6HHvD8LXvnBVd9+3+QNMfNYyA5w+f0Tpy99ytOZKCPZP2QRWyhx+FfTd+JT
-	nvIbfcVoQbx3FYIFd2RKaA5bWXfxd4Ec4Af7j1WsZ2qhOSRQ7nsdo6W01mOah6NR
-	qtdBNJ3QVVlx2dkNXaEWVcqywD00/frO1aJt0HOyCfGS22WooOGvjDuEYrphaICo
-	9MEjCVHl5RxSH5XL+LSkremNygmZiBG7eMUHSyAcmvX7x+HpQ/I52Dv80UB1yIJO
-	ng==
-Received: (qmail 2005605 invoked from network); 14 Aug 2024 16:00:25 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Aug 2024 16:00:25 +0200
-X-UD-Smtp-Session: l3s3148p1@HA/aJaUf5oxehhrc
-Date: Wed, 14 Aug 2024 16:00:24 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Richard Fitzgerald <rf@opensource.cirrus.com>, tiwai@suse.com,
-	linux-sound@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] i2c: Use IS_REACHABLE() for substituting empty ACPI
- functions
-Message-ID: <Zry4eIOLOTwaYdaC@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Takashi Iwai <tiwai@suse.de>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>, tiwai@suse.com,
-	linux-sound@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
-	kernel test robot <lkp@intel.com>
-References: <20240814121649.261693-1-rf@opensource.cirrus.com>
- <87mslfjk3n.wl-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oixb9P7I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 941C6C32786;
+	Wed, 14 Aug 2024 14:05:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723644314;
+	bh=rsrPj3HibZ4DCsL9Ic4OQt4Rsa7JTdGV+7CZoZd1B/s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oixb9P7IKMS3/QO3M+v6BsLenBwFo04WV3M2FM4b+PnTBnM+H8LGThWzI2ZaiPrE7
+	 KnT4LaSTN8Kbn7uJ49JPGpPqAKL0lh631pNmnutXfEGcuXmdOA4rpjWCkuWPEMokQi
+	 RdVWgigeciXAaPBIGcO8bVETqszsvXDHmm8iXRlMMpdMixIuPRF2C9V/sIagWgkXJg
+	 fXvbuxQwilJ+8zcimVOxsdl2OCfVzZGJqL0Op6IpfoN2iSy/Tn2aWkun7cfUo3g4bF
+	 iLdGMW7At7uBIBcF1QgTtSnnoddaLSLLq40P7swf55ctf26w506ePlPRSDM1XCw9Wb
+	 4isDAlOl8VI0w==
+Date: Wed, 14 Aug 2024 15:05:06 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Alexandre Mergnat <amergnat@baylibre.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, khilman@baylibre.com,
+	linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, Rob Herring <robh@kernel.org>,
+	Will Deacon <will@kernel.org>, linux-media@vger.kernel.org,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Takashi Iwai <tiwai@suse.com>, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Nicolas Belin <nbelin@baylibre.com>, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Catalin Marinas <catalin.marinas@arm.com>
+Subject: Re: [PATCH v7 00/16] Add audio support for the MediaTek Genio
+ 350-evk board
+Message-ID: <ae9a5147-95a9-4da3-a56a-ecc22f4e8f04@sirena.org.uk>
+References: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
+ <24215f3d-30bf-4379-bb10-c4b183c16b8a@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -54,50 +59,47 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="CnJw5lxH+cnRnBwX"
+	protocol="application/pgp-signature"; boundary="8B/Fc53TUe95dwQa"
 Content-Disposition: inline
-In-Reply-To: <87mslfjk3n.wl-tiwai@suse.de>
+In-Reply-To: <24215f3d-30bf-4379-bb10-c4b183c16b8a@baylibre.com>
+X-Cookie: The second best policy is dishonesty.
 
 
---CnJw5lxH+cnRnBwX
+--8B/Fc53TUe95dwQa
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
+On Wed, Aug 14, 2024 at 10:23:12AM +0200, Alexandre Mergnat wrote:
 
-> > Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-> > Fixes: f17c06c6608a ("i2c: Fix conditional for substituting empty ACPI =
-functions")
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Closes: https://lore.kernel.org/oe-kbuild-all/202408141333.gYnaitcV-lkp=
-@intel.com/
->=20
-> I suppose Wolfram will take this?
->=20
-> Reviewed-by: Takashi Iwai <tiwai@suse.de>
+> Simple gentle ping, the serie seems ready to be applied.
 
-Yes, for rc4. I wonder why buildbot did not spot it for the branch I
-submitted to rc3. Things happen, I guess...
+Please don't send content free pings and please allow a reasonable time
+for review.  People get busy, go on holiday, attend conferences and so=20
+on so unless there is some reason for urgency (like critical bug fixes)
+please allow at least a couple of weeks for review.  If there have been
+review comments then people may be waiting for those to be addressed.
 
+Sending content free pings adds to the mail volume (if they are seen at
+all) which is often the problem and since they can't be reviewed
+directly if something has gone wrong you'll have to resend the patches
+anyway, so sending again is generally a better approach though there are
+some other maintainers who like them - if in doubt look at how patches
+for the subsystem are normally handled.
 
---CnJw5lxH+cnRnBwX
+--8B/Fc53TUe95dwQa
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAma8uHUACgkQFA3kzBSg
-KbYcgQ/+Mf+9Ktg9qabb78lFK/mpsf36EHCsUIjOp2HPOoNGH2WTlHYUSWpfTKEu
-nEbH/lI6l7BTJlv18f2L2u1FhMVYGXIl7O0Zu9/8hNYhhNY6PIRQX9Tdg1EfM+ye
-1KNcCF/0EkXt5/lnycU7XsrpDFy1iwBIk3XbNddYtbD94qyhRKGQl0VeoGlDV2EV
-OKIeWjgcvyhcFRdkKJs/xThwXIk0ltu2vZVbzqT9pweKgfKTXYPbMFW6VmPllBYC
-wZPYSVkh/kSCsF/3fNbxkly+KMQBsdLhIU6VmFN5yu83FCptr5nMY6pMX9JhLA+m
-VwMvhs9ez3dIP3OVbieF5+TNBNYYzED22M4H4A/wN48Rwf9NDFXgzUvEs8Moooi+
-XwygktX0epZwGKVq9oC2wuwMSUvq47/Vf2f9kAhvX3XIwM16LgFKYy01gN1gySd1
-IZaEJH7A0VoRcPa8lobnzSXz3JJAknlrR+J7mu1SolT+J93Lw4FqkrFRnL3a8xKC
-9UblXfqL2Q5hGbuu3u/x24HzBKxXnSO9dk4CzntYT69PmhWjRDhHsPufurbIHbOy
-bGOWY8mfB7gukp1I9esbRAfTzwAPp+PiL+7Vp2Ojq6aEUCb1mvKNKWF4W5WIUsAW
-C0o+MWWRp+5/tlUKrEGsRrcOJSB5FKWQL2nTSMJrMANS51SoHnI=
-=c88m
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAma8uZIACgkQJNaLcl1U
+h9C15Qf/aWN3somXkLeCmkhFfrV7QHTBExyjsMeiPhzPWZtkgtCnWe3qurwNFxJW
+hZepPzW5OTzlmzxUY13O4q1omXjfbfIM5wpYSui2CeaJo15WV+/BxfMEjLwhB942
+fDai25vauENBytYGG0rmb5lW0+92gWHVXdFYjB/Zew6sMd3uNCQNZGsfEVXJD3pU
+U9rb2939laF2Lqbjvr502BhhHEPgiBCx0vsPCVtasNrArpTFfinGw2wYA4ZNRGM3
+IB78TudnvuQHQtt9ytOfos5mN+fv5LxoYO16MMmuhTP753QbXipEJ4wYBKWSSPs1
+JLIAGwiAAXiCyPEMjizKQ3fph09SVg==
+=LwLG
 -----END PGP SIGNATURE-----
 
---CnJw5lxH+cnRnBwX--
+--8B/Fc53TUe95dwQa--
