@@ -1,105 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B8AE1B29D2;
-	Wed, 14 Aug 2024 14:05:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AE3E1B29DF;
+	Wed, 14 Aug 2024 14:06:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723644315; cv=none; b=syn3tNWZcTXh0gVxuGYvHKfBuu4iT7DPTrH0kpBs6Ju1iSSGCg8PaJ4SwCcpmJyiK+k99xY1eU+6kEekZcS024Kk8DYxzsJCuMqIlbHWOmx3sg67aaJdffCRYaS52uDldI3aQI5C1E1Z/eUPrPM2RBniaCe8rZfFfJ/fMhsv3mk=
+	t=1723644370; cv=none; b=QNY+J5Cc3hNPMN7Zh6uI9hc0HSB6y1CNGTm6yVmF6+cvMRUBxd5pkU116zQkdbKrQp907SkXEEN6usYlSbpY1k3F6tHkuCn6OlB/2rJRVI4nSiXv3/lLB2LhmJT/M8Li1P4aww4oBRe2wcvKI3vEfvxb0JS9YEFZKInMOr9/BAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723644315; c=relaxed/simple;
-	bh=rsrPj3HibZ4DCsL9Ic4OQt4Rsa7JTdGV+7CZoZd1B/s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jtw8W+5w997ibV//VfDMqGBTASno0/HZAOcl76LKnlrIXTjGWCA3HSUWyF31jQ0NodajoXZc9et06dtmi/Wm09E3ASPbiV90StefQoRz2rdKcz2Crtf7BinUURnB4mKtKKwS3jP8wZKHqPVXYl+p8kntZQ0/jT/xDZtAVrRDxkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oixb9P7I; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723644370; c=relaxed/simple;
+	bh=hXbD/MNaISTuwz3URmp0i6sywhLG6Vsf/+KsLDYciYk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=kiUNjFQ92UDA4v22qp4Gw5k28Ea4N7BqAg0GA3A4+oEa/thN3ZIt+FWbeN0e/W4qPKr58o9ICueC/1EO5rbn1BosZFDxTA4TVOlaKMhbACDy8IM/gb5uSNwAiesucvQupel7Iu8xVW1/vUqgU7GvrNTWMqp354+DeXSkUqjvYNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gG3IXTHx; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oixb9P7I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 941C6C32786;
-	Wed, 14 Aug 2024 14:05:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723644314;
-	bh=rsrPj3HibZ4DCsL9Ic4OQt4Rsa7JTdGV+7CZoZd1B/s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oixb9P7IKMS3/QO3M+v6BsLenBwFo04WV3M2FM4b+PnTBnM+H8LGThWzI2ZaiPrE7
-	 KnT4LaSTN8Kbn7uJ49JPGpPqAKL0lh631pNmnutXfEGcuXmdOA4rpjWCkuWPEMokQi
-	 RdVWgigeciXAaPBIGcO8bVETqszsvXDHmm8iXRlMMpdMixIuPRF2C9V/sIagWgkXJg
-	 fXvbuxQwilJ+8zcimVOxsdl2OCfVzZGJqL0Op6IpfoN2iSy/Tn2aWkun7cfUo3g4bF
-	 iLdGMW7At7uBIBcF1QgTtSnnoddaLSLLq40P7swf55ctf26w506ePlPRSDM1XCw9Wb
-	 4isDAlOl8VI0w==
-Date: Wed, 14 Aug 2024 15:05:06 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Alexandre Mergnat <amergnat@baylibre.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, khilman@baylibre.com,
-	linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, Rob Herring <robh@kernel.org>,
-	Will Deacon <will@kernel.org>, linux-media@vger.kernel.org,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Takashi Iwai <tiwai@suse.com>, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, Conor Dooley <conor+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Nicolas Belin <nbelin@baylibre.com>, Lee Jones <lee@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Catalin Marinas <catalin.marinas@arm.com>
-Subject: Re: [PATCH v7 00/16] Add audio support for the MediaTek Genio
- 350-evk board
-Message-ID: <ae9a5147-95a9-4da3-a56a-ecc22f4e8f04@sirena.org.uk>
-References: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
- <24215f3d-30bf-4379-bb10-c4b183c16b8a@baylibre.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gG3IXTHx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723644368; x=1755180368;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=hXbD/MNaISTuwz3URmp0i6sywhLG6Vsf/+KsLDYciYk=;
+  b=gG3IXTHxhq4jYf17ewTM3XFbwPTmfxovdRab8UFu7FIxcXWJXx1RjGsI
+   ID9fWItWgCKt1ajl2HXrsJ8y8TnK7j17zX3NjC5jVwv5CjHpmRpiY/zAB
+   raBMEcMo2AO26SmSc+9VU2Af3wRDIjvJ58Sv1p2kS/Vhxtf9mi/JbbmeI
+   hlCCh8/H11nYLYVfb8d1yhpHEIFIE3+AbaTuYbzh7OUTr46pyGgASpsLW
+   dKdr1JLAc71vu8VJ2cYNpZW4iOVvgmyhFKaLj7QWyof50r1YDItM/fzIt
+   u/7edUqVXuNIb+VOJ0fX2TWxDVaovaPnrOmhleQfw8CZO88iMY/b/SlTT
+   A==;
+X-CSE-ConnectionGUID: OJ/CXYWuSpOGmWb1ZGnapQ==
+X-CSE-MsgGUID: aNUXrdhDRfmNaOLt0apc3A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11164"; a="13010061"
+X-IronPort-AV: E=Sophos;i="6.10,146,1719903600"; 
+   d="scan'208";a="13010061"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2024 07:06:07 -0700
+X-CSE-ConnectionGUID: TUucd5uGSj+7BYDcONmK6Q==
+X-CSE-MsgGUID: tw5v2nbrSXuMCYS3yB9cfg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,146,1719903600"; 
+   d="scan'208";a="59305655"
+Received: from dev2.igk.intel.com ([10.237.148.94])
+  by orviesa006.jf.intel.com with ESMTP; 14 Aug 2024 07:06:03 -0700
+From: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
+To: stable@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Cc: Linux kernel regressions list <regressions@lists.linux.dev>,
+	tiwai@suse.com,
+	perex@perex.cz,
+	lgirdwood@gmail.com,
+	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Thorsten Leemhuis <regressions@leemhuis.info>,
+	Vitaly Chikunov <vt@altlinux.org>,
+	Mark Brown <broonie@kernel.org>,
+	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
+Subject: [PATCH for stable 0/2] ASoC: topology: Fix loading topology issue
+Date: Wed, 14 Aug 2024 16:06:55 +0200
+Message-Id: <20240814140657.2369433-1-amadeuszx.slawinski@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="8B/Fc53TUe95dwQa"
-Content-Disposition: inline
-In-Reply-To: <24215f3d-30bf-4379-bb10-c4b183c16b8a@baylibre.com>
-X-Cookie: The second best policy is dishonesty.
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Commit 97ab304ecd95 ("ASoC: topology: Fix references to freed memory")
+is a problematic fix for issue in topology loading code, which was
+cherry-picked to stable. It was later corrected in
+0298f51652be ("ASoC: topology: Fix route memory corruption"), however to
+apply cleanly e0e7bc2cbee9 ("ASoC: topology: Clean up route loading")
+also needs to be applied.
+
+Link: https://lore.kernel.org/linux-sound/ZrwUCnrtKQ61LWFS@sashalap/T/#mbfd273adf86fe93b208721f1437d36e5d2a9aa19
+
+Amadeusz Sławiński (2):
+  ASoC: topology: Clean up route loading
+  ASoC: topology: Fix route memory corruption
+
+ sound/soc/soc-topology.c | 32 ++++++++------------------------
+ 1 file changed, 8 insertions(+), 24 deletions(-)
 
 
---8B/Fc53TUe95dwQa
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+base-commit: 878fbff41def4649a2884e9d33bb423f5a7726b0
+-- 
+2.34.1
 
-On Wed, Aug 14, 2024 at 10:23:12AM +0200, Alexandre Mergnat wrote:
-
-> Simple gentle ping, the serie seems ready to be applied.
-
-Please don't send content free pings and please allow a reasonable time
-for review.  People get busy, go on holiday, attend conferences and so=20
-on so unless there is some reason for urgency (like critical bug fixes)
-please allow at least a couple of weeks for review.  If there have been
-review comments then people may be waiting for those to be addressed.
-
-Sending content free pings adds to the mail volume (if they are seen at
-all) which is often the problem and since they can't be reviewed
-directly if something has gone wrong you'll have to resend the patches
-anyway, so sending again is generally a better approach though there are
-some other maintainers who like them - if in doubt look at how patches
-for the subsystem are normally handled.
-
---8B/Fc53TUe95dwQa
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAma8uZIACgkQJNaLcl1U
-h9C15Qf/aWN3somXkLeCmkhFfrV7QHTBExyjsMeiPhzPWZtkgtCnWe3qurwNFxJW
-hZepPzW5OTzlmzxUY13O4q1omXjfbfIM5wpYSui2CeaJo15WV+/BxfMEjLwhB942
-fDai25vauENBytYGG0rmb5lW0+92gWHVXdFYjB/Zew6sMd3uNCQNZGsfEVXJD3pU
-U9rb2939laF2Lqbjvr502BhhHEPgiBCx0vsPCVtasNrArpTFfinGw2wYA4ZNRGM3
-IB78TudnvuQHQtt9ytOfos5mN+fv5LxoYO16MMmuhTP753QbXipEJ4wYBKWSSPs1
-JLIAGwiAAXiCyPEMjizKQ3fph09SVg==
-=LwLG
------END PGP SIGNATURE-----
-
---8B/Fc53TUe95dwQa--
