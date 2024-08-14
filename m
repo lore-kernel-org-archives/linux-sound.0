@@ -1,116 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 673C013A418;
-	Wed, 14 Aug 2024 09:40:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A36131A01C8
+	for <linux-sound@vger.kernel.org>; Wed, 14 Aug 2024 10:04:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723628427; cv=none; b=mnoTX7hOcmQh//k18gaSO4qBY2OELp4R+tqY8iSp9Ouy8Oz/hBL8ZLROdx/5i+RfchNH45/KeFvvitPdcJuhGj7IklFQ0zHmAPBp2sROOMw9oZBre/SEcLNHleJlBU6++t0ES5j6qiyobdL6mruBEVQnSiRv3xohXYpC9PI9L7U=
+	t=1723629865; cv=none; b=qt0WeANagfXxoNeqNAM2ojTvMDVSXwJb96k1SQhfTKvHJQI8bdWFPHRl3ew2C1kwd8c6zeLG5gXRuoO3bfu/2nwNrcokbjZ0RENrFKc3sAl4WZ6Ms8ex73T+QbSc4dKM/7cI/6F6ryv8KZv6t9K25afjn1aeg5uJeVU0oFRXRzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723628427; c=relaxed/simple;
-	bh=Oqk/yZOBqPAJ0OhO/1w+U3YacKqLDREg7ya+gkJZJJY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OG8pSO8lK5tafk3w3KIr2gGLybRKsfzOjOq4VHIqpbSa/auJNcgw/Jrnud7fqeKUTT7lXu3lEGp7G84qa8Q7BzFXdL7eWFGjpfSx1YG6KxEYdTWE8QiuWihOOLBwMJIWaDuAHOTjePxa9K2EGHeYYxvoC8IdHvQYUWb9ankfWOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h0zYzBZj; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1723629865; c=relaxed/simple;
+	bh=PbAfyLIPFtCMlJ3sMuiTLghkYsHaaeMC0f691sPOLD8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=m52bBV4X4opk4H/RrmJEghchdjQFgubG53L2BceJ30ys67Uq0uNZ7pfei6by+4UBh+6MjdPC40n0xwOkg7H2sNttpmDTEaB6BKxNkyjn9BvGP3tuavdN+b9NYS7DiKWFC4own7fPSGgg4BKEjIA8qa4VC8Xmn75RWss9FK1mOdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=c7PVJjS6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fihG1QmM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=c7PVJjS6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fihG1QmM; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h0zYzBZj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723628426; x=1755164426;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=Oqk/yZOBqPAJ0OhO/1w+U3YacKqLDREg7ya+gkJZJJY=;
-  b=h0zYzBZjydmCvUY1QprEJUOuDwWU42wUJTfD3SFo6fxEx7AZAl26DW9V
-   Y4L74kpbPZlecYgbRPPslV0+iKSH/LHAzZjSAkSSx0Vd2Fb8cySqTxL8Z
-   AzKewHqqfFFHJLTKsvvnM8retey2Rf9vrLOjBDTLe73yhrZQ6SUwbOgwC
-   haw7s67gSV+akB4tJgkhVZsnoBS40j62FukvF7HqVoCrZ5OSSv+/iTgPF
-   2hBv08+2xZssqRiWh1IvNgw8lAV2rLh07nZh+bLa/jnr1GTG5q0lBXOqX
-   YiLb2vnKLqLiXG55IcfAwkxm2T/PgccR5FSMBba2uPnn3SiY35eQ4lZ+W
-   w==;
-X-CSE-ConnectionGUID: 5D0JWrkITFug+gXuWW3Y5g==
-X-CSE-MsgGUID: wA9eMzSwTKqe2EUd4bIpNw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11163"; a="25635381"
-X-IronPort-AV: E=Sophos;i="6.09,288,1716274800"; 
-   d="scan'208";a="25635381"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2024 02:40:25 -0700
-X-CSE-ConnectionGUID: QoDtG2jcQa6/Jw1/h4JPTA==
-X-CSE-MsgGUID: 8/qT9Z0oRlGlDA7pwKz4LQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,288,1716274800"; 
-   d="scan'208";a="58918758"
-Received: from slindbla-desk.ger.corp.intel.com (HELO [10.245.246.67]) ([10.245.246.67])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2024 02:40:20 -0700
-Message-ID: <3cdb2041-59d4-4d43-ac4d-39d7f9640cef@linux.intel.com>
-Date: Wed, 14 Aug 2024 11:40:18 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="c7PVJjS6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fihG1QmM";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="c7PVJjS6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fihG1QmM"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C3B032256D;
+	Wed, 14 Aug 2024 10:04:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1723629861; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=64woSCB94M0fVS40IY5IvkqFVWGDFP0zDjhNnflfWRo=;
+	b=c7PVJjS6cxQ+7fZnLdSuISiuO5SNj5xl3z0SLK1tn+xKfQnsQqiYAhWShL9FRU74x33dsu
+	bcMlSu/eBGlSdSEtNVZva6QlFLYzspczZol681OLEgsbng6g0FulEeO8G7dQMyxzfZPXN6
+	KAZyBccHKXpzgF6jcQMGh802Uo8skUQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1723629861;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=64woSCB94M0fVS40IY5IvkqFVWGDFP0zDjhNnflfWRo=;
+	b=fihG1QmMQCi/7hjvW/gL+EHsWCt3dRawM45nLzLz4PVjlJ1q08YOIhvdWzX8YGPZBHQFVR
+	3MVk3Gv6EjXbvfDA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1723629861; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=64woSCB94M0fVS40IY5IvkqFVWGDFP0zDjhNnflfWRo=;
+	b=c7PVJjS6cxQ+7fZnLdSuISiuO5SNj5xl3z0SLK1tn+xKfQnsQqiYAhWShL9FRU74x33dsu
+	bcMlSu/eBGlSdSEtNVZva6QlFLYzspczZol681OLEgsbng6g0FulEeO8G7dQMyxzfZPXN6
+	KAZyBccHKXpzgF6jcQMGh802Uo8skUQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1723629861;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=64woSCB94M0fVS40IY5IvkqFVWGDFP0zDjhNnflfWRo=;
+	b=fihG1QmMQCi/7hjvW/gL+EHsWCt3dRawM45nLzLz4PVjlJ1q08YOIhvdWzX8YGPZBHQFVR
+	3MVk3Gv6EjXbvfDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A3811139B9;
+	Wed, 14 Aug 2024 10:04:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id vVqYJiWBvGbJfwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 14 Aug 2024 10:04:21 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Cc: Baojun Xu <baojun.xu@ti.com>
+Subject: [PATCH] ALSA: hda/tas2781: Use correct endian conversion
+Date: Wed, 14 Aug 2024 12:04:59 +0200
+Message-ID: <20240814100500.1944-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 1/6] ALSA: compress: add Sample Rate Converter codec
- support
-To: Shengjiu Wang <shengjiu.wang@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Shengjiu Wang <shengjiu.wang@nxp.com>,
- vkoul@kernel.org, tiwai@suse.com, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
- lgirdwood@gmail.com, broonie@kernel.org, linuxppc-dev@lists.ozlabs.org
-References: <1722940003-20126-1-git-send-email-shengjiu.wang@nxp.com>
- <1722940003-20126-2-git-send-email-shengjiu.wang@nxp.com>
- <e89a56bf-c377-43d8-bba8-6a09e571ed64@linux.intel.com>
- <CAA+D8AN9JXJr-BZf8aY7d4rB6M60pXS_DG=qv=P6=2r1A18ATA@mail.gmail.com>
- <ffa85004-8d86-4168-b278-afd24d79f9d8@linux.intel.com>
- <116041ee-7139-4b77-89be-3a68f699c01b@perex.cz>
- <930bb152-860a-4ec5-9ef0-1c96f554f365@linux.intel.com>
- <c9039808-cd04-452d-9f6c-f91811088456@perex.cz>
- <ed1192e0-00e7-4739-a687-c96dc2d62898@linux.intel.com>
- <CAA+D8AMOh=G7W5-dYw_=Xx-s0PqEu2suKYorscoWku86Rn-=+A@mail.gmail.com>
- <542d47c5-7ce3-4c17-8c0a-3a2b2a9e6c6a@linux.intel.com>
- <c3b8f7b8-fc5e-4285-bee8-7edd448a405d@perex.cz>
- <CAA+D8ANg7C7vuxU44mAG8EnmcZjB_te5N_=4M4v_-Q9ZyPZ49g@mail.gmail.com>
- <2be4303e-58e1-4ad7-92cf-f06fa6fa0f08@perex.cz>
- <7dc039db-ecce-4650-8eb7-96d0cfde09a2@linux.intel.com>
- <CAA+D8AMv=tHV3b-Rfo9Pjqs0bX5SVschD=WD06qxjJOk5zQmiQ@mail.gmail.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <CAA+D8AMv=tHV3b-Rfo9Pjqs0bX5SVschD=WD06qxjJOk5zQmiQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -2.80
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCPT_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo,intel.com:email];
+	RCVD_TLS_ALL(0.00)[]
 
+The data conversion is done rather by a wrong function.  We convert to
+BE32, not from BE32.  Although the end result must be same, this was
+complained by the compiler.
 
-> Yes, to go further, I think we can use SND_AUDIOCODEC_PCM, then
-> the SRC type will be dropped.
+Fix the code again and align with another similar function
+tas2563_apply_calib() that does already right.
 
-sounds good.
+Fixes: 3beddef84d90 ("ALSA: hda/tas2781: fix wrong calibrated data order")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202408141630.DiDUB8Z4-lkp@intel.com/
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/pci/hda/tas2781_hda_i2c.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> But my understanding of the control means the .set_metadata() API, right?
-> As I said, the output rate, output format, and ratio modifier are applied to
-> the instances of ASRC,  which is the snd_compr_stream in driver.
-> so only the .set_metadata() API can be used for these purposes.
-
-Humm, this is more controversial.
-
-The term 'metadata' really referred to known information present in
-headers or additional ID3 tags and not in the compressed file itself.
-The .set_metadata was assumed to be called ONCE before decoding.
-
-But here you have a need to update the ratio modifier on a regular basis
-to compensate for the drift. This isn't what this specific callback was
-designed for. We could change and allow this callback to be used
-multiple times, but then this could create problems for existing
-implementations which cannot deal with modified metadata on the fly.
-
-And then there's the problem of defining a 'key' for the metadata. the
-definition of the key is a u32, so there's plenty of space for different
-implementations, but a collision is possible. We'd need an agreement on
-how to allocate keys to different solutions without changing the header
-file for every implementation.
-
-It sounds like we'd need a 'runtime params' callback - unless there's a
-better trick to tie the control and compress layers?
+diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_i2c.c
+index 7dbfc92d9d55..89d8235537cd 100644
+--- a/sound/pci/hda/tas2781_hda_i2c.c
++++ b/sound/pci/hda/tas2781_hda_i2c.c
+@@ -527,8 +527,8 @@ static void tas2781_apply_calib(struct tasdevice_priv *tas_priv)
+ 
+ 	for (i = 0; i < tas_priv->ndev; i++) {
+ 		for (j = 0; j < CALIB_MAX; j++) {
+-			data = get_unaligned_be32(
+-				&tas_priv->cali_data.data[offset]);
++			data = cpu_to_be32(
++				*(uint32_t *)&tas_priv->cali_data.data[offset]);
+ 			rc = tasdevice_dev_bulk_write(tas_priv, i,
+ 				TASDEVICE_REG(0, page_array[j], rgno_array[j]),
+ 				(unsigned char *)&data, 4);
+-- 
+2.43.0
 
