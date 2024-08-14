@@ -1,102 +1,92 @@
-Received: from vmicros1.altlinux.org (vmicros1.altlinux.org [194.107.17.57])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 567AB19E;
-	Wed, 14 Aug 2024 00:00:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.107.17.57
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCAEC849C;
+	Wed, 14 Aug 2024 02:14:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723593663; cv=none; b=Ar3uHtfhn5XJF3+8JOf30zvq/TJgVx5sF+EuQXR2i7S0AmLbNqj8AW6/HtWH39zJcD0BexI/U/LGgBzKyj0i/qxL9OwfsECjhVE3BFvoLBTcHlmYBwZcQrIxtMAyx8JUsG5Tvn3lRon2e0FwrBiPvofqaovNJi5eqmqHxNDmGmg=
+	t=1723601695; cv=none; b=UobwWVwNo+KgCLqVFU47Qi0rfC0s8Iz6kVPkfVpeQ3vTa6lul1ZByx0ESBaQF2EFDMtFqRaO8MaiubiCnyNzGs3tkelJ4ABq5QJfClo0oHznUh2T2Z8X5HA1wgeEij02+yTN+bgEkHp9220mbRluFiwWmLc2GHIyIzu6fbyJlCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723593663; c=relaxed/simple;
-	bh=/jt2KQ3hYUB2qH6NZxlcN8hjxzqNHCvKIia+tiAkrmc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KLabdBJpJXVoxVJvPoyokyOzfr+H2Xqt/6OGBqAJYAYa850n05QWS2nzUsnwQe2fCG/Ibe7XvJHnKsH9Vuu83yzzwla7qUkyHxHL8JSVV8v8UqIVyw4Crhd5UKrKvxV4vUGCq0zvmzskBg4Mec6rZttOFysd79HtLZFlrCjnz8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=194.107.17.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
-Received: from imap.altlinux.org (imap.altlinux.org [194.107.17.38])
-	by vmicros1.altlinux.org (Postfix) with ESMTP id 7C9D172C8CC;
-	Wed, 14 Aug 2024 03:00:53 +0300 (MSK)
-Received: from altlinux.org (sole.flsd.net [185.75.180.6])
-	by imap.altlinux.org (Postfix) with ESMTPSA id 65D5936D0246;
-	Wed, 14 Aug 2024 03:00:53 +0300 (MSK)
-Date: Wed, 14 Aug 2024 03:00:53 +0300
-From: Vitaly Chikunov <vt@altlinux.org>
-To: Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	s=arc-20240116; t=1723601695; c=relaxed/simple;
+	bh=5zU34EoM6DMvuAuNmuBJXg4JRuV8D3pyQIgORZB1PRs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=J3Erx6tKZyO5ab8xITm0EcgCiGNxS/stR5gCcX0ULGu0xZ4JnEHc8ghsvFFfFE3D2QlfsVkWyN2/jLSkSX10Mu8RW3YxaiCfygsssHbsSZx7G05UDLtgImpPW5WXElX1XfehFtNFREepvw0k4uqGk+SiFTJoii+f59nlCy8fX4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gtJweBx/; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gtJweBx/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10ED6C32782;
+	Wed, 14 Aug 2024 02:14:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723601694;
+	bh=5zU34EoM6DMvuAuNmuBJXg4JRuV8D3pyQIgORZB1PRs=;
+	h=From:To:Cc:Subject:Date:From;
+	b=gtJweBx/k4b/Lm+iZaSP4SV/cHBYXdg7IXZzetMA71VbUz/wzl38TyO4H7SvRSeQS
+	 ZCTOulEN6C0eOo3QDwqGk28Aonx1sHBcjkNrTwrClrr+S0OwyaaiIsQcuOEYWxiQPn
+	 pXS/zAwQtOiDKhWPNemVk5FfHk7fZqofh0P/WbtGm7UWK8baqbBst3SGJt9sTqowqa
+	 B3fQAYwo5ic8ORUdVZ+cYZZatT7DloIZ7DIckVRGNwfY2Mpo526kBKzOVgugqd1c9Q
+	 AjUynThHiLMGq6mR2624bu2Ra7uU6epqHFysm5/D0v/C57dptXbTSQNzXtUtyBLl8K
+	 KI+6jSORLoRIA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Thorsten Leemhuis <regressions@leemhuis.info>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
-	=?utf-8?B?UMOpdGVy?= Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>, lgirdwood@gmail.com,
-	perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
-	Linux kernel regressions list <regressions@lists.linux.dev>
-Subject: Re: [PATCH AUTOSEL 6.9 17/40] ASoC: topology: Fix route memory
- corruption
-Message-ID: <20240814000053.posrfbgoic2yzpsk@altlinux.org>
-References: <czx7na7qfoacihuxcalowdosncubkqatf7gkd3snrb63wvpsdb@mncryvo4iiep>
- <14e54a89-5c62-41b2-8205-d69ddf75e7c7@linux.intel.com>
- <e95a876a-b4b4-4a9d-9608-ec27a9db3e0c@leemhuis.info>
- <210a825d-ace3-4873-ba72-2c15347f9812@linux.intel.com>
- <2024081225-finally-grandma-011d@gregkh>
- <20240812103842.p7mcx7iyb5oyj7ly@altlinux.org>
- <2024081227-wrangle-overlabor-cf31@gregkh>
- <53ab1511-b79c-4378-b2b5-ea9e19e8f65b@linux.intel.com>
+Cc: Bruno Ancona <brunoanconasala@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	lgirdwood@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	mario.limonciello@amd.com,
+	me@jwang.link,
+	end.to.start@mail.ru,
+	git@augustwikerfors.se,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.10 01/13] ASoC: amd: yc: Support mic on HP 14-em0002la
+Date: Tue, 13 Aug 2024 22:14:32 -0400
+Message-ID: <20240814021451.4129952-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.10.4
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <53ab1511-b79c-4378-b2b5-ea9e19e8f65b@linux.intel.com>
 
-Greg, Amadeusz,
+From: Bruno Ancona <brunoanconasala@gmail.com>
 
-On Tue, Aug 13, 2024 at 04:42:04PM +0200, Amadeusz Sławiński wrote:
-> On 8/12/2024 4:11 PM, Greg Kroah-Hartman wrote:
-> > On Mon, Aug 12, 2024 at 01:38:42PM +0300, Vitaly Chikunov wrote:
-> > > Greg,
-> > > 
-> > > On Mon, Aug 12, 2024 at 12:25:54PM +0200, Greg Kroah-Hartman wrote:
-> > > > On Mon, Aug 12, 2024 at 12:01:48PM +0200, Amadeusz Sławiński wrote:
-> > > > > I guess that for completeness you need to apply both patches:
-> > > > > 
-> > > > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/sound/soc/soc-topology.c?id=97ab304ecd95c0b1703ff8c8c3956dc6e2afe8e1
-> > > > 
-> > > > This is already in the tree.
-> > > > 
-> > > > > was an incorrect fix which was later fixed by:
-> > > > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/sound/soc/soc-topology.c?id=0298f51652be47b79780833e0b63194e1231fa34
-> > > > 
-> > > > This commit will not apply :(
-> > > 
-> > > It depends upon e0e7bc2cbee9 ("ASoC: topology: Clean up route loading"),
-> > > which was in the same patchset that didn't get applied.
-> > >    https://lore.kernel.org/stable/?q=ASoC%3A+topology%3A+Clean+up+route+loading
-> > > 
-> > > I see, Mark Brown said it's not suitable material for stable kernels
-> > > (since it's code cleanup), and Sasha Levin dropped it, and the dependent
-> > > commit with real fix.
-> > 
-> > Ok, then someone needs to provide a working backport please...
-> > 
-> 
-> Should this be cherry-pick of both (they should apply cleanly):
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/sound/soc/soc-topology.c?id=e0e7bc2cbee93778c4ad7d9a792d425ffb5af6f7
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/sound/soc/soc-topology.c?id=0298f51652be47b79780833e0b63194e1231fa34
-> or just the second one adjusted to apply for stable trees?
+[ Upstream commit c118478665f467e57d06b2354de65974b246b82b ]
 
-I think having commit with memory corruption fix is more important to
-stable kernels than not having the code cleanup commit. So, I would
-suggest stable policy to be changed a bit, and minor commits like this
-code cleanup, be allowed in stable if they are dependence of bug fixing
-commits.
+Add support for the internal microphone for HP 14-em0002la laptop using
+a quirk entry.
 
-Additionally, these neutral commits just make stable trees become closer
-to mainline trees (which allows more bug fix commits to be applied
-cleanly).
+Signed-off-by: Bruno Ancona <brunoanconasala@gmail.com>
+Link: https://patch.msgid.link/20240729045032.223230-1-brunoanconasala@gmail.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Thanks,
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index 36dddf230c2c4..fa0096f2de224 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -423,6 +423,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_BOARD_NAME, "8A3E"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
++			DMI_MATCH(DMI_BOARD_NAME, "8B27"),
++		}
++	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
+-- 
+2.43.0
 
