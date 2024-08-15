@@ -1,45 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF9319AA53;
-	Thu, 15 Aug 2024 13:52:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C33FC1A01AE;
+	Thu, 15 Aug 2024 13:52:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723729948; cv=none; b=RXZ7ZApPJu+zFcewvoxfQxKZ/mzugEMq4dXGz3uE/OTRsmr0kjaplGgfm5kUrJIt6ATvQlJ/mqpJ9z76r6apKFX4d7sv1Z4356oXJKREqq3pZnFD92uGczQ0/aIN295poT9cb7DdlCJk5fu5H7+cHGopzv5+5rmUklI8V/CuqOw=
+	t=1723729949; cv=none; b=lepQTj654cvJ9Bojey6OqZ9ONl5xXgbVWDhurDYD6lo9rYNPDcDkeBvqVaSGw1g7vNVEvWTISpVYxlly40wc4o2GarCtQ/c/1nUSPoXHu7ilRJSMvqxKgVPPkcEzL7efhqs8uTuT751rynpJRlxiwpTk//KxUyaSF3H2NdODor8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723729948; c=relaxed/simple;
-	bh=XuBfDATDcvAiZT5CdLIKzlIJ8W1fzMosWfJyMuCN/pI=;
+	s=arc-20240116; t=1723729949; c=relaxed/simple;
+	bh=ibNntRJVFxbQ+yZWo122ZBUpmjx3d0ByVkW6+HNnPw4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=NFdnx9SfOcf2+02uj+2m2A1E5XNYFNwKikrdBQ2WOsz9IpuuJA+kpo/IUVfYdGfGIQzYZvld3gV2wvw5CLVQYSPCGYGj/vcr4HtkvW+QVFpQDw8+rmVa1zQvoJfMNPUjuW5WDa0fxW2R1t/WZN9Q5QNubWhl98ePxoJ5nJWzzyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZfpdB1Cb; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=LjLfFRkJrTX3qcF+FObfhsj+W+KlqYxahBgPUnhbMj8XsioFi93gJ7YeDKSai0vFeJSflQgy316skKQIstbeVreKDw4MsC7/qYWCFHgTSsUZPmR9IemnSUCfZYTImMwehTsR33jLZKdsAEny3ol1AvZFJh6DLO+V6OeciMOKmgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hbyaF5U9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZfpdB1Cb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0EEFC4AF0C;
-	Thu, 15 Aug 2024 13:52:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hbyaF5U9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5978DC4AF0A;
+	Thu, 15 Aug 2024 13:52:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723729947;
-	bh=XuBfDATDcvAiZT5CdLIKzlIJ8W1fzMosWfJyMuCN/pI=;
+	s=k20201202; t=1723729949;
+	bh=ibNntRJVFxbQ+yZWo122ZBUpmjx3d0ByVkW6+HNnPw4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ZfpdB1Cbz1GsLjrkkdZ2F/nRymjc9Q6cRXrso00Y5VwxvnPM3Bqu6B6wan7OcdTXX
-	 rVCogQGcY6OMGqbYalK9A2lFQ5cb4xMRKjljFOcuu8P5rcIAYYhCk5PpvvAwGoD6Y0
-	 7T1qq8LKF53Mb0ju+nQcWeV+OxiZIgnNxUkmsFg0BrIiDYkVUibf7Zrn5JwXX4V/uF
-	 4VCHsyo5+18tDGESHTXgwNU/6F3u5o+dSi3Fo8xVr7PQ/RhWnDpomYYUg3Dz2A/M8A
-	 fgR4PUBsPHHURaA4rRDv/DoVIHdYA3bAxY6kx7TrjPyJb/Q9iUR6/EugfUidTXsNYX
-	 IlNtycBWIVODg==
+	b=hbyaF5U9yA1cgUxB2kgD+hCbKRRJsKglBhVOCbyBeZ/d5BoG2yE+rSRVkOlwYZ4rU
+	 /mmXMHH2Tcf5ZjvU1YSADTj2ByH4/FSd+RqWnEU6p2h+SOwAlg3TbUXXWek7MWXxKb
+	 j5mv3dKCy2QYad40K2Be9qrY9CQDHBada9i2VcjXe7yxv5eNGuNBHLLVmEvsuP3HTV
+	 8XkauGmmbhj4XMISI68+RiK0BoVC7ZxhyeSYwfor/Of7ym819IRwy+IxKBf/PkoQEB
+	 n8l6c3xA4mfVmj5pXZ7dDNdKNtuAUU57TRrNqKuYxiYocCXcD6L/SNn0iRp5k98KTn
+	 CUwkkZ7GTKznw==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- "yr.yang" <yr.yang@mediatek.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- Project_Global_Chrome_Upstream_Group@mediatek.com
-In-Reply-To: <20240801084326.1472-1-yr.yang@mediatek.com>
-References: <20240801084326.1472-1-yr.yang@mediatek.com>
-Subject: Re: [PATCH v2] ASoC: mediatek: mt8188: Mark AFE_DAC_CON0 register
- as volatile
-Message-Id: <172372994551.42484.5241249306313134145.b4-ty@kernel.org>
-Date: Thu, 15 Aug 2024 14:52:25 +0100
+To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ tangbin <tangbin@cmss.chinamobile.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20240713153428.44858-1-tangbin@cmss.chinamobile.com>
+References: <20240713153428.44858-1-tangbin@cmss.chinamobile.com>
+Subject: Re: [PATCH] ASoC: loongson: Remove useless variable definitions
+Message-Id: <172372994809.42484.2642656660990650698.b4-ty@kernel.org>
+Date: Thu, 15 Aug 2024 14:52:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,15 +45,11 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-37811
 
-On Thu, 01 Aug 2024 16:43:26 +0800, yr.yang wrote:
-> Add AFE Control Register 0 to the volatile_register.
-> AFE_DAC_CON0 can be modified by both the SOF and ALSA drivers.
-> If this register is read and written in cache mode, the cached value
-> might not reflect the actual value when the register is modified by
-> another driver. It can cause playback or capture failures. Therefore,
-> it is necessary to add AFE_DAC_CON0 to the list of volatile registers.
+On Sat, 13 Jul 2024 11:34:28 -0400, tangbin wrote:
+> In the function loongson_pcm_trigger and loongson_pcm_open,
+> the 'ret' is useless, so remove it to simplify code.
 > 
-> [...]
+> 
 
 Applied to
 
@@ -66,8 +57,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: mediatek: mt8188: Mark AFE_DAC_CON0 register as volatile
-      commit: ff9f065318e17a1a97981d9e535fcfc6ce5d5614
+[1/1] ASoC: loongson: Remove useless variable definitions
+      commit: 60b5c173f5542adf020f5235db7fe5e5fa4ae0d8
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
