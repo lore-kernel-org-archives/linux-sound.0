@@ -1,70 +1,109 @@
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82AA51C0DD1;
-	Thu, 15 Aug 2024 09:20:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96410146A6D;
+	Thu, 15 Aug 2024 12:00:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723713649; cv=none; b=SZ4gf0C60NH/seHrzsM1cOtFJ31H7a1rxDA2HCLB1On3CyBwgHRguQ4ey2gDF6wXikK240c57shh6/lMmYKZGdSjfld5VsW83o0uoDdNoAvj5nQ+UcGGzTKypt+/bz1KLSTX5JB0Ru8FDcDSJLYt8EPgaDH83/t2sm+rEC0qqx4=
+	t=1723723225; cv=none; b=ZHhqjkxddCoI9EvSLTjeOoRssxXd0dxgnT8K8eRN1D/IlWfTYrSJMNnQdbvaEe2hD/LZte8zgmKNTm7KCNZ5Fne4e9KIuh3br7CRJRpMQzZUzbx0jni4DgGtPHkRJBOgcOuaMzAPI4dQcfr0BiUKI3xgkcEQZRQlG4TsV9LAljI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723713649; c=relaxed/simple;
-	bh=ST6a5vH7w+QtanmK1XPyD0jNi92XCM4P5LKwPcEWtbA=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=q7FH6VetskDTDXUge141YmfxjjPqlPaMmbLgZpn7AAvrXl6XwDkdCbIxZv8+pYdeNis1mHeWLSObOd8tnn6R84uIXcJE4+iArbUeam7hNd1+brU/3qpWh+KAFnkw9u4HZyIzfpUzQJ0yasuuZjo/PmZrUFpPxCRU16dFryJerxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.252])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Wkzxy49FgzQppJ;
-	Thu, 15 Aug 2024 17:16:06 +0800 (CST)
-Received: from kwepemg500010.china.huawei.com (unknown [7.202.181.71])
-	by mail.maildlp.com (Postfix) with ESMTPS id 043A61800A5;
-	Thu, 15 Aug 2024 17:20:42 +0800 (CST)
-Received: from huawei.com (10.67.174.76) by kwepemg500010.china.huawei.com
- (7.202.181.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 15 Aug
- 2024 17:20:41 +0800
-From: Yuntao Liu <liuyuntao12@huawei.com>
-To: <patches@opensource.cirrus.com>, <linux-kernel@vger.kernel.org>,
-	<linux-sound@vger.kernel.org>
-CC: <tanureal@opensource.cirrus.com>, <tiwai@suse.com>, <perex@perex.cz>,
-	<rf@opensource.cirrus.com>, <david.rhodes@cirrus.com>,
-	<liuyuntao12@huawei.com>
-Subject: [PATCH] ALSA: hda: cs35l41: fix module autoloading
-Date: Thu, 15 Aug 2024 09:13:12 +0000
-Message-ID: <20240815091312.757139-1-liuyuntao12@huawei.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1723723225; c=relaxed/simple;
+	bh=+fvBVhqwVxnnLELp45LxE5B3Ly84i4Yh9U1qnszQeKk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h6gCUfltIp707rn4h+7M1Q+gE4XdEot8BVx31aFK5tOJgjvmF5FRFfHm2++xP2xVuSC9hzaLfjLA2trumaFwXBPk2WknS5PD+PKeZA8H3+wp8Wys47pj7GNRFQQGH+4Ph+t5W8hSZ8cfSiaxmTSyWB1ZtWke1DJHtuunARLMApc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PX5pWGM+; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PX5pWGM+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723723221; x=1755259221;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+fvBVhqwVxnnLELp45LxE5B3Ly84i4Yh9U1qnszQeKk=;
+  b=PX5pWGM+QFn9O/v7OFVKnW+8uyv78fdf71FV1fIM/G9Kh2vNRyiHcvNt
+   LLy0GSuiUwZrKU8VxBnv5hWHqwfLHQhgbc725aA8WoydBNncW3Dep/Imq
+   qDnxjhExJ4kIGGWnEsTY9lVhgECK8r18hSFvzMYFUld19D2R9KS976DgF
+   QvEQx2/v7F1StHJf1xn5OdxUIWi9bVVvzkf+nURt7zISkZdixGaM1BzQt
+   aOaSFvJme2BqItI3b9+83Q9WTnCJWdyttpGFeLbCAvbdP6s9oR5XgyPha
+   xFJzT0MYQaJ5koey/M79UA/FEZ5whXEaJL55TrpcYTAFP6ewh6XRVwDYb
+   A==;
+X-CSE-ConnectionGUID: OxaBiv3wS86nM/2im+SNMw==
+X-CSE-MsgGUID: K+lDSLgFTjSaX2Wu6TXjbg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11164"; a="22135676"
+X-IronPort-AV: E=Sophos;i="6.10,148,1719903600"; 
+   d="scan'208";a="22135676"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2024 05:00:18 -0700
+X-CSE-ConnectionGUID: 9pGFL3JARHqhgTEDSbWx6Q==
+X-CSE-MsgGUID: FzBAoAyVSieqIx8P4Ogn+A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,148,1719903600"; 
+   d="scan'208";a="58960860"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 15 Aug 2024 05:00:15 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1seZ9J-0003Xg-15;
+	Thu, 15 Aug 2024 12:00:13 +0000
+Date: Thu, 15 Aug 2024 20:00:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Frank Li <Frank.Li@nxp.com>, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>, Sebastian Reichel <sre@kernel.org>,
+	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>,
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"moderated list:TEXAS INSTRUMENTS AUDIO (ASoC/HDA) DRIVERS" <alsa-devel@alsa-project.org>
+Cc: oe-kbuild-all@lists.linux.dev, imx@lists.linux.dev
+Subject: Re: [PATCH 1/1] ASoC: dt-bindings: Convert tpa6130a2.txt to yaml
+Message-ID: <202408151906.gY9zpl8b-lkp@intel.com>
+References: <20240814175129.4027097-1-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- kwepemg500010.china.huawei.com (7.202.181.71)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240814175129.4027097-1-Frank.Li@nxp.com>
 
-Add MODULE_DEVICE_TABLE(), so modules could be properly autoloaded
-based on the alias from spi_device_id table.
+Hi Frank,
 
-Fixes: 7b2f3eb492dac ("ALSA: hda: cs35l41: Add support for CS35L41 in HDA systems")
-Signed-off-by: Yuntao Liu <liuyuntao12@huawei.com>
----
- sound/pci/hda/cs35l41_hda_spi.c | 1 +
- 1 file changed, 1 insertion(+)
+kernel test robot noticed the following build warnings:
 
-diff --git a/sound/pci/hda/cs35l41_hda_spi.c b/sound/pci/hda/cs35l41_hda_spi.c
-index b76c0dfd5fef..f8c356ad0d34 100644
---- a/sound/pci/hda/cs35l41_hda_spi.c
-+++ b/sound/pci/hda/cs35l41_hda_spi.c
-@@ -38,6 +38,7 @@ static const struct spi_device_id cs35l41_hda_spi_id[] = {
- 	{ "cs35l41-hda", 0 },
- 	{}
- };
-+MODULE_DEVICE_TABLE(spi, cs35l41_hda_spi_id);
- 
- static const struct acpi_device_id cs35l41_acpi_hda_match[] = {
- 	{ "CSC3551", 0 },
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on robh/for-next linus/master v6.11-rc3 next-20240815]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/ASoC-dt-bindings-Convert-tpa6130a2-txt-to-yaml/20240815-021426
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20240814175129.4027097-1-Frank.Li%40nxp.com
+patch subject: [PATCH 1/1] ASoC: dt-bindings: Convert tpa6130a2.txt to yaml
+reproduce: (https://download.01.org/0day-ci/archive/20240815/202408151906.gY9zpl8b-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408151906.gY9zpl8b-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+   Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/exynos/
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/sound/tpa6130a2.txt
+   Using alabaster theme
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
