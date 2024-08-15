@@ -1,70 +1,71 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D841D19ADAC;
-	Thu, 15 Aug 2024 08:33:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DE4017A932;
+	Thu, 15 Aug 2024 08:57:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723710824; cv=none; b=AgPemc11CiCIGWwp2K+VODnTf93z2Hdx7Eb8iKRyB1/qAnA+SmRaSkNiqoF1BCwaQSHnuRTATfr35LJcMHsTBlo+rSfFeHwpSKvLK14TKc3+I1h97cOlG17VHIQ1OxZONONB4SVThOQIg42yZlz3f0E64qzM1FBWLUIiapCbnOY=
+	t=1723712224; cv=none; b=nYB3KIouoaQ5eMHBHOCXtqsROeMdf0yR1UcI8DvDgRawrYKPrnkfGk9+N+fds2GjD3CzwsETR47zWnJYkpP07BPio0f2Oc53yjMYHODGo2bZ0Xw9TszNbz4PUNPUsTaHf5QM/iihHESk1MuwvaszabBZ71g2m3MEpRMR8u4+vm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723710824; c=relaxed/simple;
-	bh=6us9hoB+KXaOxwEhwckxMnGzhRmLnTauWqGGPmbGrzk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lHPz0nQ4Gmh2Ik1APJAPjtgjr3oSelaXnndUP362fNJRiR2BryB85BId4q3dsOSf/PDmbPA98/R5ED0rVZKxRb7bIyyn8GBpoMq4+HU9Qltx7XRo/cJmX9CjE6DKmAZQ4t7gPnJY+LrIuFqPTjQW8WvaIwfwLdllOaEcbLkwVg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=lGURleej; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="lGURleej"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EABE2C4AF09;
-	Thu, 15 Aug 2024 08:33:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1723710824;
-	bh=6us9hoB+KXaOxwEhwckxMnGzhRmLnTauWqGGPmbGrzk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lGURleejvrRTfr1w4JPAN8VGbEu4hJ19OLPaEj7pMo/sAgaI07E4Ph2ZU5jviYl+H
-	 /OKZu2xiCFxOAAVaQ5H38efaLQmHTZzjx9HsGDlXqSvC8JKWCbK7MhOyJr9wlh2HvE
-	 ks+s5/0icY8mB4CnvLIA6/aJP4oFucy6ZcZY3KR8=
-Date: Thu, 15 Aug 2024 10:33:41 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: stable@vger.kernel.org, linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	Simon Trimmer <simont@opensource.cirrus.com>,
-	Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH for-6.10] ASoC: cs35l56: Patch CS35L56_IRQ1_MASK_18 to
- the default value
-Message-ID: <2024081532-grab-diabolic-cc34@gregkh>
-References: <20240813142216.17922-1-rf@opensource.cirrus.com>
+	s=arc-20240116; t=1723712224; c=relaxed/simple;
+	bh=TjjSoIy4dECBRAWeAlnUcga0CRRquP2poJdfv7k/cQw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=sSfNndDNGf/SKTYVG+VIkYrHuzUE4RK4QmUhzqQxJu1mBwOB+7txFq3mRBxs21lwef2gbWF+vNTWfuc7th504iuUsEXUxTBO+8j8/mJdMXCE3cT7QcQVF1jsi2854xKwzsbdjFmMKzHfm9KX0kWF03yMddnjkxowrmsS3JpsI/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.162.254])
+	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4WkzQT5n8nzQpnV;
+	Thu, 15 Aug 2024 16:52:17 +0800 (CST)
+Received: from kwepemg500010.china.huawei.com (unknown [7.202.181.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 36EFE180106;
+	Thu, 15 Aug 2024 16:56:53 +0800 (CST)
+Received: from huawei.com (10.67.174.76) by kwepemg500010.china.huawei.com
+ (7.202.181.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 15 Aug
+ 2024 16:56:52 +0800
+From: Yuntao Liu <liuyuntao12@huawei.com>
+To: <linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>
+CC: <AjitKumar.Pandey@amd.com>, <Syed.SabaKareem@amd.com>,
+	<alpernebiyasak@gmail.com>, <liuyuntao12@huawei.com>, <posteuca@mutex.one>,
+	<tiwai@suse.com>, <perex@perex.cz>, <broonie@kernel.org>,
+	<lgirdwood@gmail.com>
+Subject: [PATCH] ASoC: amd: acp: fix module autoloading
+Date: Thu, 15 Aug 2024 08:49:23 +0000
+Message-ID: <20240815084923.756476-1-liuyuntao12@huawei.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240813142216.17922-1-rf@opensource.cirrus.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ kwepemg500010.china.huawei.com (7.202.181.71)
 
-On Tue, Aug 13, 2024 at 03:22:16PM +0100, Richard Fitzgerald wrote:
-> From: Simon Trimmer <simont@opensource.cirrus.com>
-> 
-> [ Upstream commit 72776774b55bb59b7b1b09117e915a5030110304 ]
-> 
-> Please apply to 6.10.
-> The upstream patch should have had a Fixes: tag but it was missing.
-> 
-> Device tuning files made with early revision tooling may contain
-> configuration that can unmask IRQ signals that are owned by the host.
-> 
-> Adding a safe default to the regmap patch ensures that the hardware
-> matches the driver expectations.
-> 
-> Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
-> Link: https://patch.msgid.link/20240807142648.46932-1-simont@opensource.cirrus.com
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-> ---
->  sound/soc/codecs/cs35l56-shared.c | 1 +
+Add MODULE_DEVICE_TABLE(), so modules could be properly autoloaded
+based on the alias from platform_device_id table.
 
-Now queued up, thanks.
+Fixes: 9d8a7be88b336 ("ASoC: amd: acp: Add legacy sound card support for Chrome audio")
+Signed-off-by: Yuntao Liu <liuyuntao12@huawei.com>
+---
+ sound/soc/amd/acp/acp-legacy-mach.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-greg k-h
+diff --git a/sound/soc/amd/acp/acp-legacy-mach.c b/sound/soc/amd/acp/acp-legacy-mach.c
+index 47c3b5f167f5..0d529e32e552 100644
+--- a/sound/soc/amd/acp/acp-legacy-mach.c
++++ b/sound/soc/amd/acp/acp-legacy-mach.c
+@@ -227,6 +227,8 @@ static const struct platform_device_id board_ids[] = {
+ 	},
+ 	{ }
+ };
++MODULE_DEVICE_TABLE(platform, board_ids);
++
+ static struct platform_driver acp_asoc_audio = {
+ 	.driver = {
+ 		.pm = &snd_soc_pm_ops,
+-- 
+2.34.1
+
