@@ -1,42 +1,56 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79E83770ED;
-	Thu, 15 Aug 2024 18:40:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F9A1171098;
+	Thu, 15 Aug 2024 20:41:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723747225; cv=none; b=O+Sa3pMWgzClnj6YQ/ZoACgo5+P86ecSUOTOTkWVOSV+abNbHl8Dl3U2wX1CBAcpoWQk+kTX2ZwFWc59mALC1tst5y9DVoSZy0c8sur7zrPQhIT8eAMj3s7BO0W9oPY0sKAnu7Q1h2+dEiSydbkZ2flqdr1JqtRjB2nBYpK30kU=
+	t=1723754500; cv=none; b=OruA8uIf/opIGk8hlM+IouyfzdUpeqr+nchat2SlP96T2i8Xbobm9NYQ8k7RDvOfqt2R6yEnwo26gfN0IepA4NwVDwIhzya38ESyb8C1XYD+CDcU4ddZTNjT6mNwUtyfrUEbigAbg9TvJBRAYKNf7wOY7gLVloxXDS7E9ZHNv1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723747225; c=relaxed/simple;
-	bh=D1ePwj4HA3MeqLcBwpMTSoEjH2UlYSWEiVdqjcDWGCA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=oRSXdfsXn1jHQ+LbrnUelL//40miD1nXsaj5C+K78CZhFBffgbiLBfRrYunViWHLpSYgB9gFzZY4sU7YF07vbbcbTXaTUD+UKgdO8bVJKI98+MZ1wJIoLc6fp3n9sPLeO83ydiaiufSNodjUG+mPIGarsFA4ptW/GlCpcoLmqys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RYqmUYQd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723754500; c=relaxed/simple;
+	bh=99puEiYfn5q/7K01azkENGMe1+O/ZL9Ew0Yw9gh+GPY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=o8RGdD5qUBprLW9fpYpXRD8WoX9VBkFc1Whf7YbZDsjcDp/21vI1LtwVbBDi813m9Qi4PweECHhpQbEV8A/EviL+ylUrbkCUCSCmYpOzYpxUe6qQA4KlXuOUMBkMbt7LWwcTFmPpx5uIah9lrWr1RrPxKqr0Wx6AFn3InR7X1GU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WwtYg+Fr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RYqmUYQd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11825C4AF09;
-	Thu, 15 Aug 2024 18:40:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WwtYg+Fr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30CCBC4AF14;
+	Thu, 15 Aug 2024 20:41:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723747225;
-	bh=D1ePwj4HA3MeqLcBwpMTSoEjH2UlYSWEiVdqjcDWGCA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=RYqmUYQdMMsMpgMi3OfmmzuyeXDSMlBKTGdsqsoeGBoCp+7/YeuHWFXOxdo3YXJ54
-	 9jwCjpUJRq8Si2hu6EYqAWZy7LWphLrNeHgu3CLmcAexDwJHu9k3DmtIZXfnIiNUdO
-	 pHdNj50j342lSjwizToJ8OauFM7iGq5UfucPr8Ob+Hsa1DSj9LqghVIWGpbHWY3QL+
-	 jqnDf/bXufrSApA5juA0bqM1GFabfIaLurlKiL9D/Sweb0WLIBB+PcJ6I3D9oRMTzD
-	 4BIX1B0Ic6YgDWCxM+Rvzxt2270+Wi8rE3RMDcLQIctAwx6GfCOoXlSh/4R6pBDTjX
-	 88szodBzG3q/w==
-From: Mark Brown <broonie@kernel.org>
-To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
- Yuntao Liu <liuyuntao12@huawei.com>
-Cc: AjitKumar.Pandey@amd.com, Syed.SabaKareem@amd.com, 
- alpernebiyasak@gmail.com, posteuca@mutex.one, tiwai@suse.com, 
- perex@perex.cz, lgirdwood@gmail.com
-In-Reply-To: <20240815084923.756476-1-liuyuntao12@huawei.com>
-References: <20240815084923.756476-1-liuyuntao12@huawei.com>
-Subject: Re: [PATCH] ASoC: amd: acp: fix module autoloading
-Message-Id: <172374722278.94796.16026585204554130425.b4-ty@kernel.org>
-Date: Thu, 15 Aug 2024 19:40:22 +0100
+	s=k20201202; t=1723754500;
+	bh=99puEiYfn5q/7K01azkENGMe1+O/ZL9Ew0Yw9gh+GPY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=WwtYg+FrmwJ1+DtOJDq3tvnd71xwf0r16EnhnCSqlvCBkpyEBVsN+xmdEnv50Ngcw
+	 5Bufav1hT6I9bQiDJdtOlhPvGAmjix33qvhrIW15J+dmsdT9owDmux31NiGYIgwTgF
+	 ZwYKnK+14wvp/+vVpgmJ0lvnHMw3xS4Rvy49W/I1yRPowy9jASbPXLVsWM506/+n1k
+	 ayYE29z+4koutxE/Fj3Cirsy8mLBwkQel9Xkbf0nXvjRKI+fDEzNWcK5T80LN96PYX
+	 /7Zi8tbsz+y9vy+9x1elt2otYPZyTFAqly+bpg93Nrq7N/aLTEqlzxGyJCIJJFcOqo
+	 Fx5naxR4U4nAg==
+From: Bjorn Andersson <andersson@kernel.org>
+To: Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	srinivas.kandagatla@linaro.org
+Cc: linux-arm-msm@vger.kernel.org,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Manikantan R <quic_manrav@quicinc.com>
+Subject: Re: (subset) [PATCH v2 0/6] ASoC: codecs: wsa88xx: add support for static port mapping.
+Date: Thu, 15 Aug 2024 15:40:50 -0500
+Message-ID: <172375444802.1011236.13810877795338662540.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240626-port-map-v2-0-6cc1c5608cdd@linaro.org>
+References: <20240626-port-map-v2-0-6cc1c5608cdd@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,40 +58,30 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-37811
+Content-Transfer-Encoding: 8bit
 
-On Thu, 15 Aug 2024 08:49:23 +0000, Yuntao Liu wrote:
-> Add MODULE_DEVICE_TABLE(), so modules could be properly autoloaded
-> based on the alias from platform_device_id table.
+
+On Thu, 27 Jun 2024 15:44:37 +0100, srinivas.kandagatla@linaro.org wrote:
+> Existing way of allocating soundwire master ports on Qualcommm platforms is
+> dynamic, and in linear order starting from 1 to MAX_PORTS.
+> This will work as long as soundwire device ports are 1:1 mapped
+> linearly. However on most Qcom SoCs like SM8550, SM8650, x1e80100, these
+> are NOT mapped in that order.
 > 
+> The result of this is that only one speaker among the pair of speakers
+> is always silent, With recent changes for WSA codec to support codec
+> versions and along with these patches we are able to get all speakers
+> working on these SoCs.
 > 
+> [...]
 
-Applied to
+Applied, thanks!
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+[5/6] arm64: dts: x1e80100-crd: fix wsa soundwire port mapping
+      commit: d374fafd8972895eba01ebd69c993cc7d80c084b
+[6/6] arm64: dts: x1e80100-qcp: fix wsa soundwire port mapping
+      commit: 6e229f9118438af09b4ac6a96313c32f33027e5a
 
-Thanks!
-
-[1/1] ASoC: amd: acp: fix module autoloading
-      commit: 164199615ae230ace4519141285f06766d6d8036
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Best regards,
+-- 
+Bjorn Andersson <andersson@kernel.org>
