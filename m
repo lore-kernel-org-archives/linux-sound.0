@@ -1,189 +1,201 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2070.outbound.protection.outlook.com [40.107.243.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCA1576056;
-	Fri, 16 Aug 2024 02:33:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723775636; cv=none; b=VPtr8JIt+OInbDnHwsVXdTgb36xlZXOF/nllw8reHfg3uex25fW8oJRKO34gXjyv5i2CBa4vi1E0TGdX+AMwLcKA8J9Ci+JNcyGQf47GOQnD4B0G0TPe7qYReVHBvIvR0XokH/Ul/fRBxsMwHqy3Ytv1N7q0klKXfEWHQxhm93Y=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723775636; c=relaxed/simple;
-	bh=Jr4/OGLQnK9gpgUHkut0m6qsxTOqjervLSR11XEpo40=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mtX5yavsBEBYPiK5LXip8QCwiWfPkm4u/QmY7tLRQZtsRhkDXhzZjXOGmHnwVaZlHUq+Pc/myr8D5UJMz+TwCYEtZX22qWp/3z/Jne4fnagPOme24yLAHpB4EtgNWSq5cE5sa/pD12/ervFuDowe/SXOp3jE2o5PY2NBNqtH3/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UqU120tC; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23CA678C76;
+	Fri, 16 Aug 2024 07:03:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.70
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723791830; cv=fail; b=kWGjib7sMQCSavMYivBia+A3tPq2N7ASAVXQ40rH23aIN++vtHtxkmBY1OD0dUOVxVGZGYqLwJ9cxNkAanU4Gatk+l4YMN7LW9Setj++fuUoy+6vvAWBtXVkzeGbfxCmF0fE0+XVprzn+RCYJP/1n1u35jz/dE0YVdqJRuhq3k4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1723791830; c=relaxed/simple;
+	bh=jSL9nMJYuRlFdb8sQpOSPAhBFE+rd2nbvNWdpqe+qvQ=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BgUOywGEMUF8jxfWorGKVZMyrlh/G8lmVfyL2vEqyeXuCUUSR4at2+DmQcRO8d0upDJfyWILCCNV7uK2MnXydpBMK/lLSyVH+QwxfOj3J8LOx0nlLpV0r3LxfIui6yH38qQLOwCgUt+SIngc63ZTLMpb1HVth6XLl9Jh2xlzIIE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=UpXwTMji; arc=fail smtp.client-ip=40.107.243.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UqU120tC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723775635; x=1755311635;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Jr4/OGLQnK9gpgUHkut0m6qsxTOqjervLSR11XEpo40=;
-  b=UqU120tCApfhHCeR/CNrSU4mBxAG/FyAez9E4MANXwsTWnrbGAyI35iz
-   IEQOBskU0nNAfo2CHXJnGo9Ctbhmrj9BF7mNhE4oAz1Wq7gX8xWhKCzj1
-   kum3kD4oNCrUEP22pCySHszCZCW8tDcHWpRAsM6QRS2Z8lql+hi+pTeYs
-   7q2REIkgh5n6cuW4Gw1g7FZ/2qKO403dyWZuJcHFtHTIzOUO8QFeB3zQx
-   y/tD+O0OAqJw/gXDeYtObd+wvVSlk3G/pgq8Vr2EgR6ND4lEc+t224fOT
-   RF42uOI67aWacNHox7OK6mZSIGSaxU2sTA/I6CTAaTJz6ZFDLiS3FmNmM
-   A==;
-X-CSE-ConnectionGUID: AOtKSm/vRHeB13cg8I1/yA==
-X-CSE-MsgGUID: tEMhfP/6TGKXKYwk9gh4Cg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11165"; a="22203581"
-X-IronPort-AV: E=Sophos;i="6.10,150,1719903600"; 
-   d="scan'208";a="22203581"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2024 19:33:54 -0700
-X-CSE-ConnectionGUID: skpkR3DzRfiAirew3dejpg==
-X-CSE-MsgGUID: mKh35jl6R0G9O2rZFFPW2w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,150,1719903600"; 
-   d="scan'208";a="63949220"
-Received: from unknown (HELO yungchua-desk.intel.com) ([10.247.119.176])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2024 19:33:51 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: linux-sound@vger.kernel.org,
-	vkoul@kernel.org
-Cc: vinod.koul@linaro.org,
-	linux-kernel@vger.kernel.org,
-	tiwai@suse.de,
-	broonie@kernel.org,
-	pierre-louis.bossart@linux.intel.com,
-	bard.liao@intel.com
-Subject: [PATCH 3/3] soundwire: intel: add probe-time check on link id
-Date: Fri, 16 Aug 2024 10:33:31 +0800
-Message-ID: <20240816023331.6565-4-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240816023331.6565-1-yung-chuan.liao@linux.intel.com>
-References: <20240816023331.6565-1-yung-chuan.liao@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="UpXwTMji"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QQ8JCE/+4T9jsAPjhgD+WVyfcLYIrdCmMsciqI/ERSj8NYPjh+OpnuC7DmIWaaryFbRVDCfZfFezt1hQk8mkEUrHh0qIaOJOS28eudRboyL6F5ILdo0j4TrV6zTX+kaLDfl7X/8aDvWZjOnFkecB3HLbnoaFdoKGX6JIhUfFrTmITj5/YaI6sMTK6o6X2RoZaSYjdgIK0wRf4nAno8PW3OuLB/OqomS8WIjFas6gPPB+Z/PufFjeLX9ss0c7Ezkrh5VyeXIdHlXiYjavVebh06wAMYMNnk+ET29COM8B0XUinRndqRqnHi61H/cZw5WZsVcqnzJvBBHJVGneEmsLQA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kjFOvJCQJsBjNYzDiMS0+9mMb+lqIJW/BRuYNKoMBbI=;
+ b=jePnGp/pQLu+4eDLivOmxbep7Af/UAu05H20LzbWFkcujiJlm2FB4cuP2Ji9ZC+JPDmGvdvXqAByAn9uU8B/fkSy1Dmg9uKN0aTBt7+SBhZqKZrT52wlI4WtxElAhRiB8LkWPKBK6/JfpIB0V1U9p4/u6Y4OipcLVP9AcVITcpD+imEJdJgCrBZhh4M/XmUf3Zn8pj+LeQ9QwJjIL+hQ1ABY5l2bWs0iRlz//WRQdx4Yo6uowASAulTXMAR1Y1d3s9YVJFHzVmXG7XD2iS0ObJbag8hfnbIOEctxcOBbrbBy4V+8YB6uxbwhuoKdZNJZsXf1TzUSxe8l6TbsSFqW3A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kjFOvJCQJsBjNYzDiMS0+9mMb+lqIJW/BRuYNKoMBbI=;
+ b=UpXwTMjioiyoVdfDBkLfXwBZcEWiYfVY5R6ez3lR/IpmJ5sy6NCMoxKmYs0o0M/nKjTLcrLblNR3RVHHt1TmyiusimPMvhspHEpp7tiJT3Ptq+ZbBP+Fn45LzL3BbqCt8LGgEM1ZTcnjLbG5OEGsHeyMcUDidTrDH7sLUH+s9eg=
+Received: from BL0PR0102CA0066.prod.exchangelabs.com (2603:10b6:208:25::43) by
+ PH7PR12MB5903.namprd12.prod.outlook.com (2603:10b6:510:1d7::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.19; Fri, 16 Aug
+ 2024 07:03:46 +0000
+Received: from BN3PEPF0000B370.namprd21.prod.outlook.com
+ (2603:10b6:208:25:cafe::65) by BL0PR0102CA0066.outlook.office365.com
+ (2603:10b6:208:25::43) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.23 via Frontend
+ Transport; Fri, 16 Aug 2024 07:03:45 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN3PEPF0000B370.mail.protection.outlook.com (10.167.243.167) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7897.4 via Frontend Transport; Fri, 16 Aug 2024 07:03:45 +0000
+Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Fri, 16 Aug 2024 02:03:40 -0500
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <broonie@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <pierre-louis.bossart@linux.intel.com>,
+	<yung-chuan.liao@linux.intel.com>, <ranjani.sridharan@linux.intel.com>,
+	<lgirdwood@gmail.com>, <perex@perex.cz>, <tiwai@suse.com>,
+	<Basavaraj.Hiregoudar@amd.com>, <Sunil-kumar.Dommati@amd.com>,
+	<venkataprasad.potturu@amd.com>, <cristian.ciocaltea@collabora.com>,
+	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Vijendar
+ Mukunda" <Vijendar.Mukunda@amd.com>
+Subject: [PATCH] ASoC: SOF: amd: Fix for acp init sequence
+Date: Fri, 16 Aug 2024 12:33:28 +0530
+Message-ID: <20240816070328.610360-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B370:EE_|PH7PR12MB5903:EE_
+X-MS-Office365-Filtering-Correlation-Id: 35b2329b-3b3d-4ce5-1261-08dcbdc191f8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|1800799024|82310400026|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?IgG5yt2VmKsz+oIF+n3WkUyhSQ4oZNtY1FtPvLsfHK2qswxg3Q4l1xN6Y3PF?=
+ =?us-ascii?Q?93MnZVMYRaJXDaHhMarC0Hlsco+L1P5U6s8QuKYgiOeCu/kMrWhzgwb0beEb?=
+ =?us-ascii?Q?PJfQGlcgADtR6hb7c6IfsSbONr9+ONUmIKsaGkpKZUz678YR6MHIp2GcQHav?=
+ =?us-ascii?Q?CxNuEVZgQXDacV/llHJZRPtw2FNzeWJWDoenzwjwkwDTffMWqIL2Dps5Y9SD?=
+ =?us-ascii?Q?X4cTV8cZXs7MM5cMI7mq9WrqJzvMGPsJWgzLRicSvp+Aq5WicV3LBQxaKRJ1?=
+ =?us-ascii?Q?RnKL7w7EFSQRIz8vVLOgrpnJ/PuciU7HXpElcGeMJFOo0Lj9rwC37tz05+cF?=
+ =?us-ascii?Q?5nzf6ecfHGl/lK0M+bpfLMv+AzJPgtgn5qtCZ+CP32G+uuD7xNeIgZjgduQq?=
+ =?us-ascii?Q?dWPSogQTR0R4cKcZwXL3rOIL7vRifOaNlR9zkVQQvO7WLY3N+Zo9dP7xbtHa?=
+ =?us-ascii?Q?gHvJ9ylY0eQ0PwozG1sAdG+Qyx0JN5DC735h5ZsLtpaZdy72Mmq+BDSMtvC2?=
+ =?us-ascii?Q?Zg9MsvQg/r941iCZn+URiG7lMQq1M+eh6XyOy8NorydLbx/IWhRaA8wQm6tH?=
+ =?us-ascii?Q?KoUMnPYjbCstnGNYHjpwNY2nKyDt3oGwTEIZIkuLNejRd2VM/JOE3cYMNE9x?=
+ =?us-ascii?Q?dt2/AEY0pmmpyYsJaNA01wTFRmSgZ4L9OsUOJAFH4KQ9Pg5Ov+vVASDx8l/7?=
+ =?us-ascii?Q?jnwLXrdAnq9J3bvEtqOd5ibUN/azEtKr0w01Xxkb/kMZizC5dUWMnGEmqkLY?=
+ =?us-ascii?Q?jl4JZ67zZp3Ize/6wLVD1woaiOBXy4FeaDq/J//sIsInHo/FNTO0q5tclb0/?=
+ =?us-ascii?Q?d0fcjt4HcbbjudTa4LPjFFaEzQ/7+aL8SbIwE8IIJr8t2BmMLZhG1QZMVhyp?=
+ =?us-ascii?Q?dsr5mMhdNS+GHYqLgf25HAIAFrZBdI+gRWsytFWasW2+rCIVj4gLJsaYCwZ2?=
+ =?us-ascii?Q?/hoDtPqqxi1aO5d4qkCgMD1SA3KHWK+WtLoCg4Nf/N/dNL0qhSxc3ZUnpsjs?=
+ =?us-ascii?Q?nxBtg3OPZ25PktSXYGQoljrVzwtq1mPp7huLiObuRMe8U5jnB44RvILtv+41?=
+ =?us-ascii?Q?zWn7X2sDM5a/wiIShLVkLGOmgBNOj7bF2jTTa+DGB9Q1LBMr9eqG90zbmAfJ?=
+ =?us-ascii?Q?oDwhVLrPtJmPUW+drMXnW+G5x/sT68DrOeUInxQbPdUHYEbA3R6BDh1MfGAu?=
+ =?us-ascii?Q?yNkNWcZ4h87WWKyI6AqxNmIPcA+JS7VlfFfkZR4NOFRL632xV1NFuv+g52o3?=
+ =?us-ascii?Q?UNheqMRPQM52oHnYzpBdMx4Xp1EXyP+Dn2myaZ5blOUyBC0iQ5sVo12ONFEx?=
+ =?us-ascii?Q?VbXo5j+RFVdtnQ9ab856JJReciZxtd4xhm8BP4elJ0k5bMWW6Y1wsFRK7Th4?=
+ =?us-ascii?Q?SRcKETinKw/mm9KQfEHNfrjKpjBB8pZQtvp3yvf0jQ9SLqn/ZLc9lgFhWNUp?=
+ =?us-ascii?Q?v9+BRb7f4uRIB5OyFGWe2AteEmj7cv/Q?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(82310400026)(376014)(7416014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2024 07:03:45.4434
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 35b2329b-3b3d-4ce5-1261-08dcbdc191f8
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN3PEPF0000B370.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5903
 
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+When ACP is not powered on by default, acp power on sequence explicitly
+invoked by programming pgfsm control mask. The existing implementation
+checks the same PGFSM status mask and programs the same PGFSM control mask
+in all ACP variants which breaks acp power on sequence for ACP6.0 and
+ACP6.3 variants. So to fix this issue, update ACP pgfsm control mask and
+status mask based on acp descriptor rev field, which will vary based on
+acp variant.
 
-In older platforms, the number of links was constant and hard-coded to
-4. Newer platforms can have varying number of links, so we need to add
-a probe-time check to make sure the ACPI-reported information with
-_DSD properties is aligned with hardware capabilities reported in the
-SoundWire LCAP register.
-
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Fixes: 846aef1d7cc0 ("ASoC: SOF: amd: Add Renoir ACP HW support")
+Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 ---
- drivers/soundwire/intel.h           |  7 +++++++
- drivers/soundwire/intel_ace2x.c     | 20 ++++++++++++++++++++
- drivers/soundwire/intel_auxdevice.c | 14 ++++++++++++++
- include/linux/soundwire/sdw_intel.h |  3 +++
- 4 files changed, 44 insertions(+)
+ sound/soc/sof/amd/acp.c | 19 +++++++++++++++++--
+ sound/soc/sof/amd/acp.h |  7 +++++--
+ 2 files changed, 22 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/soundwire/intel.h b/drivers/soundwire/intel.h
-index 68838e843b54..1db4d9d3a3ba 100644
---- a/drivers/soundwire/intel.h
-+++ b/drivers/soundwire/intel.h
-@@ -222,6 +222,13 @@ static inline bool sdw_intel_sync_check_cmdsync_unlocked(struct sdw_intel *sdw)
- 	return false;
- }
+diff --git a/sound/soc/sof/amd/acp.c b/sound/soc/sof/amd/acp.c
+index 35e56d22930f..0f6115c8b005 100644
+--- a/sound/soc/sof/amd/acp.c
++++ b/sound/soc/sof/amd/acp.c
+@@ -433,6 +433,7 @@ static int acp_power_on(struct snd_sof_dev *sdev)
+ 	const struct sof_amd_acp_desc *desc = get_chip_info(sdev->pdata);
+ 	unsigned int base = desc->pgfsm_base;
+ 	unsigned int val;
++	unsigned int acp_pgfsm_status_mask, acp_pgfsm_cntl_mask;
+ 	int ret;
  
-+static inline int sdw_intel_get_link_count(struct sdw_intel *sdw)
-+{
-+	if (SDW_INTEL_CHECK_OPS(sdw, get_link_count))
-+		return SDW_INTEL_OPS(sdw, get_link_count)(sdw);
-+	return 4; /* default on older generations */
-+}
-+
- /* common bus management */
- int intel_start_bus(struct sdw_intel *sdw);
- int intel_start_bus_after_reset(struct sdw_intel *sdw);
-diff --git a/drivers/soundwire/intel_ace2x.c b/drivers/soundwire/intel_ace2x.c
-index 781fe0aefa68..fff312c6968d 100644
---- a/drivers/soundwire/intel_ace2x.c
-+++ b/drivers/soundwire/intel_ace2x.c
-@@ -706,10 +706,30 @@ static void intel_program_sdi(struct sdw_intel *sdw, int dev_num)
- 			__func__, sdw->instance, dev_num);
- }
+ 	val = snd_sof_dsp_read(sdev, ACP_DSP_BAR, base + PGFSM_STATUS_OFFSET);
+@@ -440,9 +441,23 @@ static int acp_power_on(struct snd_sof_dev *sdev)
+ 	if (val == ACP_POWERED_ON)
+ 		return 0;
  
-+static int intel_get_link_count(struct sdw_intel *sdw)
-+{
-+	int ret;
-+
-+	ret = hdac_bus_eml_get_count(sdw->link_res->hbus, true, AZX_REG_ML_LEPTR_ID_SDW);
-+	if (!ret) {
-+		dev_err(sdw->cdns.dev, "%s: could not retrieve link count\n", __func__);
-+		return -ENODEV;
-+	}
-+
-+	if (ret > SDW_INTEL_MAX_LINKS) {
-+		dev_err(sdw->cdns.dev, "%s: link count %d exceed max %d\n", __func__, ret, SDW_INTEL_MAX_LINKS);
+-	if (val & ACP_PGFSM_STATUS_MASK)
++	switch (desc->rev) {
++	case 3:
++	case 5:
++		acp_pgfsm_status_mask = ACP3X_PGFSM_STATUS_MASK;
++		acp_pgfsm_cntl_mask = ACP3X_PGFSM_CNTL_POWER_ON_MASK;
++		break;
++	case 6:
++		acp_pgfsm_status_mask = ACP6X_PGFSM_STATUS_MASK;
++		acp_pgfsm_cntl_mask = ACP6X_PGFSM_CNTL_POWER_ON_MASK;
++		break;
++	default:
 +		return -EINVAL;
 +	}
 +
-+	return ret;
-+}
++	if (val & acp_pgfsm_status_mask)
+ 		snd_sof_dsp_write(sdev, ACP_DSP_BAR, base + PGFSM_CONTROL_OFFSET,
+-				  ACP_PGFSM_CNTL_POWER_ON_MASK);
++				  acp_pgfsm_cntl_mask);
+ 
+ 	ret = snd_sof_dsp_read_poll_timeout(sdev, ACP_DSP_BAR, base + PGFSM_STATUS_OFFSET, val,
+ 					    !val, ACP_REG_POLL_INTERVAL, ACP_REG_POLL_TIMEOUT_US);
+diff --git a/sound/soc/sof/amd/acp.h b/sound/soc/sof/amd/acp.h
+index f6f0fcfeb691..321c40cc6d50 100644
+--- a/sound/soc/sof/amd/acp.h
++++ b/sound/soc/sof/amd/acp.h
+@@ -25,8 +25,11 @@
+ #define ACP_REG_POLL_TIMEOUT_US                 2000
+ #define ACP_DMA_COMPLETE_TIMEOUT_US		5000
+ 
+-#define ACP_PGFSM_CNTL_POWER_ON_MASK		0x01
+-#define ACP_PGFSM_STATUS_MASK			0x03
++#define ACP3X_PGFSM_CNTL_POWER_ON_MASK		0x01
++#define ACP3X_PGFSM_STATUS_MASK			0x03
++#define ACP6X_PGFSM_CNTL_POWER_ON_MASK		0x07
++#define ACP6X_PGFSM_STATUS_MASK			0x0F
 +
- const struct sdw_intel_hw_ops sdw_intel_lnl_hw_ops = {
- 	.debugfs_init = intel_ace2x_debugfs_init,
- 	.debugfs_exit = intel_ace2x_debugfs_exit,
- 
-+	.get_link_count = intel_get_link_count,
-+
- 	.register_dai = intel_register_dai,
- 
- 	.check_clock_stop = intel_check_clock_stop,
-diff --git a/drivers/soundwire/intel_auxdevice.c b/drivers/soundwire/intel_auxdevice.c
-index 8807e01cbf7c..d110f2b587d5 100644
---- a/drivers/soundwire/intel_auxdevice.c
-+++ b/drivers/soundwire/intel_auxdevice.c
-@@ -317,6 +317,20 @@ static int intel_link_probe(struct auxiliary_device *auxdev,
- 	bus->link_id = auxdev->id;
- 	bus->clk_stop_timeout = 1;
- 
-+	/*
-+	 * paranoia check: make sure ACPI-reported number of links is aligned with
-+	 * hardware capabilities.
-+	 */
-+	ret = sdw_intel_get_link_count(sdw);
-+	if (ret < 0) {
-+		dev_err(dev, "%s: sdw_intel_get_link_count failed: %d\n", __func__, ret);
-+		return ret;
-+	}
-+	if (ret <= sdw->instance) {
-+		dev_err(dev, "%s: invalid link id %d, link count %d\n", __func__, auxdev->id, ret);
-+		return -EINVAL;
-+	}
-+
- 	sdw_cdns_probe(cdns);
- 
- 	/* Set ops */
-diff --git a/include/linux/soundwire/sdw_intel.h b/include/linux/soundwire/sdw_intel.h
-index edbe1d4af8f8..37ae69365fe2 100644
---- a/include/linux/soundwire/sdw_intel.h
-+++ b/include/linux/soundwire/sdw_intel.h
-@@ -388,6 +388,7 @@ struct sdw_intel;
- /* struct intel_sdw_hw_ops - SoundWire ops for Intel platforms.
-  * @debugfs_init: initialize all debugfs capabilities
-  * @debugfs_exit: close and cleanup debugfs capabilities
-+ * @get_link_count: fetch link count from hardware registers
-  * @register_dai: read all PDI information and register DAIs
-  * @check_clock_stop: throw error message if clock is not stopped.
-  * @start_bus: normal start
-@@ -412,6 +413,8 @@ struct sdw_intel_hw_ops {
- 	void (*debugfs_init)(struct sdw_intel *sdw);
- 	void (*debugfs_exit)(struct sdw_intel *sdw);
- 
-+	int (*get_link_count)(struct sdw_intel *sdw);
-+
- 	int (*register_dai)(struct sdw_intel *sdw);
- 
- 	void (*check_clock_stop)(struct sdw_intel *sdw);
+ #define ACP_POWERED_ON				0x00
+ #define ACP_ASSERT_RESET			0x01
+ #define ACP_RELEASE_RESET			0x00
 -- 
-2.43.0
+2.34.1
 
