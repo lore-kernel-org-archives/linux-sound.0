@@ -1,63 +1,76 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A7BA1C2315;
-	Fri, 16 Aug 2024 16:32:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0CDB136E21;
+	Fri, 16 Aug 2024 21:35:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723825961; cv=none; b=JbRV9eUyzbzzfHXFej9Sw6yJ0WwwM7wGjg7jY02Hs2J1yzJxMhpI8MKOc53QQyjcpIegGGMWuzDpqx1nHiUPsK+3FwjB+vgMn2fAyfM7fIzzIaSeAvcHdOTnq6Cz78DGmoZOtP1MD/C8643OhGcJp1EtdyoelE2pQjgc1eOxchI=
+	t=1723844125; cv=none; b=tAriICp03eg7osrrzFf6OB0b7K13dWjhZy829IP2XukOG8Tv9o2eKz8xsrtWOp0FID6vUjqY0JbsBFxOSyWBQDhIj4XUQs0dy1r1MxxtpkHpUtU99ki8xpOEvMDQCUadv208+QurY3KMeZL55V9MiWpgJ/oXmWx8F8ZvWpoNnOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723825961; c=relaxed/simple;
-	bh=EyaKVt8Rq1vby01DDZlsf9sxr84aXhphW9EMKl3I6gE=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=DbI8iz2juMOIrRzaH6sARIBOCpRA8Kx7XHksCbpvh60xqc0/Ghe9GLPlQX6t14jDF1zJ+FhqdzmTI+Qypo0yzq0PEphBQLCzuB1tchf4rxB76GTKuGuJnwEwOCMPSTTtaIvwH7/PKgsSBvXIrpCGzi11uHyl07tHLY8nctBX3/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XvMFH7ku; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723844125; c=relaxed/simple;
+	bh=E5pRy/NZev7CQ+5MeoeycTawER7eb3a9BUaFoSbrWzQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XVkd42v4lo9hU68Z12XTT+vWnHtZFf1hnUiy5eGa59a0mBGZxWDbU+NsLSmNnA/LlAXd6fVDozxC7c48cgJTnaqniJH3sQjr8AI8EFkl47m1D4AK7A9Q3w2+nXFyKH4oBIXwcDHkJbKOjAjQYEbgnA//D3bQAdtiTadSZZyWKps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cU+b8xGw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XvMFH7ku"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C80AC4AF13;
-	Fri, 16 Aug 2024 16:32:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cU+b8xGw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 457D4C32782;
+	Fri, 16 Aug 2024 21:35:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723825961;
-	bh=EyaKVt8Rq1vby01DDZlsf9sxr84aXhphW9EMKl3I6gE=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=XvMFH7kuQ9B4HkyD0D10mR12je/GWOlNgDRt/imYBhxsV6gAEJlbK2X7ag6g/XVFz
-	 Yittaf8OiIXbGIF9MvhhZiKdoLoEh7fmvtE5nFWQnrCmahIVDnFv1LCaqTujNWCX+E
-	 Fsnq1b7/3ASTe1U7b4eiL5U0ORwk9HeEx3hJDr0JNK7Z3dOxfYAgb0xBAvKF4c7eo2
-	 432QxlKC19ACz2Md8GC+5FnDfil4OUfTOfJyjw3PbmMAnmRCbZsxB78m5ypoiXQFhc
-	 y4rJsngOlRI/BaZKdICZCkHz3HsObEngKU6yJ0v34DxYOE6c9a8/0JWZaRcV/CWchL
-	 znLTtOsEyGNwg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id AE82C38231F8;
-	Fri, 16 Aug 2024 16:32:41 +0000 (UTC)
-Subject: Re: [GIT PULL] sound fixes for 6.11-rc4
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <87sev43lh1.wl-tiwai@suse.de>
-References: <87sev43lh1.wl-tiwai@suse.de>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87sev43lh1.wl-tiwai@suse.de>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.11-rc4
-X-PR-Tracked-Commit-Id: 829e2a23121fb36ee30ea5145c2a85199f68e2c8
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: d58c542a33e719029ae3fc1343b4cb09c125cb09
-Message-Id: <172382596015.3569819.16954797403646488041.pr-tracker-bot@kernel.org>
-Date: Fri, 16 Aug 2024 16:32:40 +0000
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	s=k20201202; t=1723844123;
+	bh=E5pRy/NZev7CQ+5MeoeycTawER7eb3a9BUaFoSbrWzQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cU+b8xGwPB2wjrNZN58g5rTTZ0K8gy2cVElnvOdNBJS+eRW2cTS6lty9cFaxEA1GE
+	 nvwA8ZyQBoB9dS/JEHAfNUt28/UrQsNEIS2kzi3Al7cI1Ioji8cazLDcD+iPAYZWnO
+	 6h2rmgQwXmGs/xssJ8nxyDCA/zRx1SVbFTtP6WXIDgjH8trJzxo+3p26PbZ5jjF5db
+	 r5P3sixRrT+GaLUTRd2uX+eNfMF9bMLPOh/F/kKCPJ3PKicBeQajp9fkZtNS0CsYOE
+	 LcaAZFcJXdh6W8bSCeUip+QLDhD9hqjKMG4y9TBsEelvDyR/V2v0oXSoSXe66tO1Yf
+	 56BQ2GZJ3jCdA==
+Date: Fri, 16 Aug 2024 15:35:22 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
+	alsa-devel@alsa-project.org, Kevin Lu <kevin-lu@ti.com>,
+	linux-sound@vger.kernel.org,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev, Shenghao Ding <shenghao-ding@ti.com>,
+	Mark Brown <broonie@kernel.org>, Baojun Xu <baojun.xu@ti.com>
+Subject: Re: [PATCH 1/1] ASoC: dt-bindings: convert tlv320aic31xx.txt to yaml
+Message-ID: <172384412184.2291163.5262701563861623648.robh@kernel.org>
+References: <20240814174422.4026100-1-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240814174422.4026100-1-Frank.Li@nxp.com>
 
-The pull request you sent on Fri, 16 Aug 2024 10:44:58 +0200:
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.11-rc4
+On Wed, 14 Aug 2024 13:44:20 -0400, Frank Li wrote:
+> Convert binding doc tlv320aic31xx.txt to yaml format.
+> Additional change:
+> - add i2c node in example.
+> - replace MICBIAS_OFF with MICBIAS_2_0v in example because MICBIAS_OFF have
+> been defined in header file.
+> - add ref to dai-common.yaml.
+> - add #sound-dai-cells.
+> 
+> Fix below warning:
+> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/i2c@30a30000/codec@18:
+> 	failed to match any schema with compatible: ['ti,tlv320dac3100']
+> 
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+>  .../bindings/sound/ti,tlv320dac3100.yaml      | 127 ++++++++++++++++++
+>  .../bindings/sound/tlv320aic31xx.txt          |  77 -----------
+>  2 files changed, 127 insertions(+), 77 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/sound/ti,tlv320dac3100.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/sound/tlv320aic31xx.txt
+> 
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/d58c542a33e719029ae3fc1343b4cb09c125cb09
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
