@@ -1,27 +1,27 @@
 Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3FA1AED38;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3A81AD9E2;
 	Fri, 16 Aug 2024 11:12:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723806778; cv=none; b=EwlrxzIi1gja6VBsGZGB9MA/3E03F23FL2PgoBmx+rqmaJTBoNvEGtV8GD9Kwh0hxOu9gdBTeRBNG3N5f+EkCXO7ZdE1H4l1ct+GGr2O5ZEemlmTofJ4XaoCbyaJ4/QNbIXzITe5q81JUEDk/OrNn8QtW2MClLc3DjuUAqeye1o=
+	t=1723806778; cv=none; b=pgZznDFBLUdSfVSjIWaZuW6ugv61yFmMO3Vma/fDt5qB68IhZeXJDNoQ3ZLRArmCt5BYWCiiSYEKlsPd6OP+hUFGicHkvbvbKuZk9DdAqD+Hp0jmmN47hR1agYlN/kxvdgWBHcnKWs8QibfqRo5ru//KeQWo2TV0KHMR8tDh8Rs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1723806778; c=relaxed/simple;
-	bh=2SMCZU5LBJKXYfuPakXf2C//9G91D9i5Pc7TBGmm3M0=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References; b=PcnBQkG5/dxIYw3jlbCM2GIOWY0sRFXFjg7tPauwJUeUfjaMATEEM9N1tppRnt+9f9PPj8jgzT/261k4LVOjz+d1szbYO5Vq2ypKvA8lPgrrZTRniJBOoZcXs8YaAwW7g5CdVN70aEoBtQtRz7p2cmbvJtpYZgTpURWc+8tnyog=
+	bh=5h6HEePH2xoOdnHNUdWDHF6E8n/HdR37iEtFBS3/PRM=;
+	h=From:To:Subject:Date:Message-Id:In-Reply-To:References; b=YXZTCmw3M62Nx58EpUHHsqcaC8jvv71PWJXLL7x4n66QeglRQO6PaY4L61CITcPxjtvup5jrHtQ6aYUzFMVKh6exsGKMLqVElEpZ+Z+mYZme1MR2AMg1d+E0QQdzWG1AQZ2vwadBsQJ7Jj/zbOwa2chCZPkQh00v818a8Julk64=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Received: from inva020.nxp.com (localhost [127.0.0.1])
-	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id F23A01A1529;
-	Fri, 16 Aug 2024 13:03:17 +0200 (CEST)
+	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id B33561A0DD3;
+	Fri, 16 Aug 2024 13:03:13 +0200 (CEST)
 Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
-	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id A55EA1A1525;
-	Fri, 16 Aug 2024 13:03:17 +0200 (CEST)
+	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 68A2C1A01D1;
+	Fri, 16 Aug 2024 13:03:13 +0200 (CEST)
 Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
-	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 43FBF181D0FD;
-	Fri, 16 Aug 2024 19:03:16 +0800 (+08)
+	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 7865F181D0FF;
+	Fri, 16 Aug 2024 19:03:11 +0800 (+08)
 From: Shengjiu Wang <shengjiu.wang@nxp.com>
 To: vkoul@kernel.org,
 	perex@perex.cz,
@@ -36,9 +36,9 @@ To: vkoul@kernel.org,
 	lgirdwood@gmail.com,
 	broonie@kernel.org,
 	linuxppc-dev@lists.ozlabs.org
-Subject: [RFC PATCH v2 5/6] ASoC: fsl_asrc: register m2m platform device
-Date: Fri, 16 Aug 2024 18:42:38 +0800
-Message-Id: <1723804959-31921-6-git-send-email-shengjiu.wang@nxp.com>
+Subject: [RFC PATCH v2 1/6] ALSA: compress: reserve space in snd_compr_metadata.key for private usage
+Date: Fri, 16 Aug 2024 18:42:34 +0800
+Message-Id: <1723804959-31921-2-git-send-email-shengjiu.wang@nxp.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1723804959-31921-1-git-send-email-shengjiu.wang@nxp.com>
 References: <1723804959-31921-1-git-send-email-shengjiu.wang@nxp.com>
@@ -49,84 +49,28 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 
-Register m2m platform device, that user can
-use M2M feature.
+Reserve the key value which is larger than 0x80000000 for driver
+private usage. Driver may define its own key values which are not
+public in ALSA header
 
 Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
 ---
- sound/soc/fsl/fsl_asrc.c | 37 +++++++++++++++++++++++++++++++++----
- 1 file changed, 33 insertions(+), 4 deletions(-)
+ include/uapi/sound/compress_offload.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/fsl/fsl_asrc.c b/sound/soc/fsl/fsl_asrc.c
-index 01e3af5b1bea..5d88abd905a5 100644
---- a/sound/soc/fsl/fsl_asrc.c
-+++ b/sound/soc/fsl/fsl_asrc.c
-@@ -1381,6 +1381,12 @@ static int fsl_asrc_probe(struct platform_device *pdev)
- 		goto err_pm_get_sync;
- 	}
+diff --git a/include/uapi/sound/compress_offload.h b/include/uapi/sound/compress_offload.h
+index 98772b0cbcb7..7e9190538df2 100644
+--- a/include/uapi/sound/compress_offload.h
++++ b/include/uapi/sound/compress_offload.h
+@@ -120,7 +120,7 @@ enum sndrv_compress_encoder {
  
-+	ret = fsl_asrc_m2m_init(asrc);
-+	if (ret) {
-+		dev_err(&pdev->dev, "failed to init m2m device %d\n", ret);
-+		return ret;
-+	}
-+
- 	return 0;
- 
- err_pm_get_sync:
-@@ -1393,6 +1399,10 @@ static int fsl_asrc_probe(struct platform_device *pdev)
- 
- static void fsl_asrc_remove(struct platform_device *pdev)
- {
-+	struct fsl_asrc *asrc = dev_get_drvdata(&pdev->dev);
-+
-+	fsl_asrc_m2m_exit(asrc);
-+
- 	pm_runtime_disable(&pdev->dev);
- 	if (!pm_runtime_status_suspended(&pdev->dev))
- 		fsl_asrc_runtime_suspend(&pdev->dev);
-@@ -1494,10 +1504,29 @@ static int fsl_asrc_runtime_suspend(struct device *dev)
- 	return 0;
- }
- 
-+static int fsl_asrc_suspend(struct device *dev)
-+{
-+	struct fsl_asrc *asrc = dev_get_drvdata(dev);
-+	int ret;
-+
-+	fsl_asrc_m2m_suspend(asrc);
-+	ret = pm_runtime_force_suspend(dev);
-+	return ret;
-+}
-+
-+static int fsl_asrc_resume(struct device *dev)
-+{
-+	struct fsl_asrc *asrc = dev_get_drvdata(dev);
-+	int ret;
-+
-+	ret = pm_runtime_force_resume(dev);
-+	fsl_asrc_m2m_resume(asrc);
-+	return ret;
-+}
-+
- static const struct dev_pm_ops fsl_asrc_pm = {
--	SET_RUNTIME_PM_OPS(fsl_asrc_runtime_suspend, fsl_asrc_runtime_resume, NULL)
--	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
--				pm_runtime_force_resume)
-+	RUNTIME_PM_OPS(fsl_asrc_runtime_suspend, fsl_asrc_runtime_resume, NULL)
-+	SYSTEM_SLEEP_PM_OPS(fsl_asrc_suspend, fsl_asrc_resume)
- };
- 
- static const struct fsl_asrc_soc_data fsl_asrc_imx35_data = {
-@@ -1535,7 +1564,7 @@ static struct platform_driver fsl_asrc_driver = {
- 	.driver = {
- 		.name = "fsl-asrc",
- 		.of_match_table = fsl_asrc_ids,
--		.pm = &fsl_asrc_pm,
-+		.pm = pm_ptr(&fsl_asrc_pm),
- 	},
- };
- module_platform_driver(fsl_asrc_driver);
+ /**
+  * struct snd_compr_metadata - compressed stream metadata
+- * @key: key id
++ * @key: key id, value larger than 0x80000000 reserved for driver private usage
+  * @value: key value
+  */
+ struct snd_compr_metadata {
 -- 
 2.34.1
 
