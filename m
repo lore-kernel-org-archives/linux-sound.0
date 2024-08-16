@@ -1,89 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE2D81BC9EA;
-	Fri, 16 Aug 2024 15:10:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A7BA1C2315;
+	Fri, 16 Aug 2024 16:32:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723821043; cv=none; b=nWZ6bGTemUdVuUJclszjSbKmIOInBLHJjJS3NQ/8za6vNv09DwQGeAggMyQSuOTqSRfpYxlcJ/c55Gzsta8AnulhnPaugfQdUggm44YKK9em4hhbBUiiGlvTFKppJ3YH+Fb0PklGmDdmrgRQu8kzUl4imARppeS7dbguCt3XhsI=
+	t=1723825961; cv=none; b=JbRV9eUyzbzzfHXFej9Sw6yJ0WwwM7wGjg7jY02Hs2J1yzJxMhpI8MKOc53QQyjcpIegGGMWuzDpqx1nHiUPsK+3FwjB+vgMn2fAyfM7fIzzIaSeAvcHdOTnq6Cz78DGmoZOtP1MD/C8643OhGcJp1EtdyoelE2pQjgc1eOxchI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723821043; c=relaxed/simple;
-	bh=/gWJGAAYEWysus8W/MIeKMY6Sfi3VK0jLdw6jlTOx2Y=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=GW/42jpV4o0V83iyosQzoI3Saroxifj/Jf/whJXzy3RQ8LAZshX6Ic0TfZwem+TSChKVzEIn69PbJXDQx7ZVSXBUx62Bke9E8QPnjEuX3YxHUhsCUV4Zk1yoh/iAFOIqqH1NhGOusx6bG0mnum6mS0C1hKVh4ii07u8OMGaX1wg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oodnuVxp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723825961; c=relaxed/simple;
+	bh=EyaKVt8Rq1vby01DDZlsf9sxr84aXhphW9EMKl3I6gE=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=DbI8iz2juMOIrRzaH6sARIBOCpRA8Kx7XHksCbpvh60xqc0/Ghe9GLPlQX6t14jDF1zJ+FhqdzmTI+Qypo0yzq0PEphBQLCzuB1tchf4rxB76GTKuGuJnwEwOCMPSTTtaIvwH7/PKgsSBvXIrpCGzi11uHyl07tHLY8nctBX3/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XvMFH7ku; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oodnuVxp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3BFEC4AF09;
-	Fri, 16 Aug 2024 15:10:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XvMFH7ku"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C80AC4AF13;
+	Fri, 16 Aug 2024 16:32:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723821043;
-	bh=/gWJGAAYEWysus8W/MIeKMY6Sfi3VK0jLdw6jlTOx2Y=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=oodnuVxpVNOYj+ABas+W/M+19tvVVV+ISJz+iKdFYy9YEApNewhCJ00ZAh/50+lAY
-	 tmlAzPJNOXd/hajPrV8kBc5aE7ylNySspFB1d5OYmagTLhQvqcBSREVbW5uDQ0sm3M
-	 T+uptJTFkwuZU1aqeVoIu+4VSazi9qIq+SZ3GYgTSUTxiOH8bY3snCfEKEHMIJFkHh
-	 3i8mNIQ3Z326OplFFNVWRkFESALBdtGMFKlCoYkLc+0tpdQVoZCCCTc5u63Nj5I4xq
-	 MWAzhARvX0JlhmBuK64ydTWVy01WyU6UNLG4i7+IrlKymkyNHNub+uJupS3zgYcV4D
-	 iVDcBpYk4tD3A==
-From: Mark Brown <broonie@kernel.org>
-To: srinivas.kandagatla@linaro.org
-Cc: perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org, 
- linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, amit.pundir@linaro.org, 
- dmitry.baryshkov@linaro.org, devicetree@vger.kernel.org, robh@kernel.org, 
- krzk+dt@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20240815165320.18836-1-srinivas.kandagatla@linaro.org>
-References: <20240815165320.18836-1-srinivas.kandagatla@linaro.org>
-Subject: Re: [PATCH] ASoC: dt-bindings: qcom,lpass-wsa-macro: correct
- clocks on SM8250
-Message-Id: <172382104064.70235.8442859739541696689.b4-ty@kernel.org>
-Date: Fri, 16 Aug 2024 16:10:40 +0100
+	s=k20201202; t=1723825961;
+	bh=EyaKVt8Rq1vby01DDZlsf9sxr84aXhphW9EMKl3I6gE=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=XvMFH7kuQ9B4HkyD0D10mR12je/GWOlNgDRt/imYBhxsV6gAEJlbK2X7ag6g/XVFz
+	 Yittaf8OiIXbGIF9MvhhZiKdoLoEh7fmvtE5nFWQnrCmahIVDnFv1LCaqTujNWCX+E
+	 Fsnq1b7/3ASTe1U7b4eiL5U0ORwk9HeEx3hJDr0JNK7Z3dOxfYAgb0xBAvKF4c7eo2
+	 432QxlKC19ACz2Md8GC+5FnDfil4OUfTOfJyjw3PbmMAnmRCbZsxB78m5ypoiXQFhc
+	 y4rJsngOlRI/BaZKdICZCkHz3HsObEngKU6yJ0v34DxYOE6c9a8/0JWZaRcV/CWchL
+	 znLTtOsEyGNwg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id AE82C38231F8;
+	Fri, 16 Aug 2024 16:32:41 +0000 (UTC)
+Subject: Re: [GIT PULL] sound fixes for 6.11-rc4
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <87sev43lh1.wl-tiwai@suse.de>
+References: <87sev43lh1.wl-tiwai@suse.de>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87sev43lh1.wl-tiwai@suse.de>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.11-rc4
+X-PR-Tracked-Commit-Id: 829e2a23121fb36ee30ea5145c2a85199f68e2c8
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: d58c542a33e719029ae3fc1343b4cb09c125cb09
+Message-Id: <172382596015.3569819.16954797403646488041.pr-tracker-bot@kernel.org>
+Date: Fri, 16 Aug 2024 16:32:40 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-37811
 
-On Thu, 15 Aug 2024 17:53:20 +0100, srinivas.kandagatla@linaro.org wrote:
-> we seems to have ended up with duplicate clocks for frame-sync on sm8250,
-> it has both va and fsgen which are exactly same things. Remove the redundant
-> va clock and make it align with other SoCs.
-> 
-> Codec driver does not even handle va clock, so remove this from the
-> bindings and examples to avoid any confusion.
-> 
-> [...]
+The pull request you sent on Fri, 16 Aug 2024 10:44:58 +0200:
 
-Applied to
+> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.11-rc4
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/d58c542a33e719029ae3fc1343b4cb09c125cb09
 
-Thanks!
+Thank you!
 
-[1/1] ASoC: dt-bindings: qcom,lpass-wsa-macro: correct clocks on SM8250
-      commit: d08ea4193a72c5e3090240872ff7ed60a70716e6
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
