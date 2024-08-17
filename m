@@ -1,137 +1,140 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1FB18F40;
-	Sat, 17 Aug 2024 14:33:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AE9F83A17
+	for <linux-sound@vger.kernel.org>; Sat, 17 Aug 2024 15:34:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723905203; cv=none; b=JrgI9tE58y4wsnT3+rkff74a2TnyAoC6vJHe+AzHcF1dqaj78DjAqRovBYkO3lClM2QophDwCbYX3ImkqtCJW8EX+72jrekikFNc9Liaj7WXyvsdfnf+nqnhBGZAHgIEbjoW8O3vmWZfBYlhwaiRfzMmrguf+VWk3gO62zNrgss=
+	t=1723908866; cv=none; b=uvCFdnkGpySaA2W5id08H64CcOc+hAzfxDNI21Z2vseBaxCqrGEdHyoP1zxWTvOZe03e2OCri9u8ngFliIdWBkoFpfN4dyQkWltvgU68agpa6rF6SS9CxTnDW09XcVLomWS+TxwlmEWzv8ZHn0OJ4tzI2+ZwBdq5EdQ68wGfNAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723905203; c=relaxed/simple;
-	bh=Dd2hSN40Umb1jQk3NKaLC/vMNlZO8EYr901d+sqxtLY=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=K3YVt4M4ZczTp5oRlcQU5xVLwIyLX7MVEKP4GG3tjjlaqx1De72CeqRf1xqOO5Q0czyVETvCH/xYWKWc28Vzz0kyoQbcc7J9N+2m6YWpyFiNfBIKoRFTwpnrujh9tbE41FKiZ6alesYvAypdjmhfUC18l59lxPh5sLQRrQIVrK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ewOMJnjd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vUQo0VU7; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ewOMJnjd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vUQo0VU7; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1723908866; c=relaxed/simple;
+	bh=4W/Y6BiJMxSnwgO47spVbAk5tyI3nap6YIH8p8Sxih8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ouB7d+UGaAZBQNJW9h3BJWYsX7tRaF/+k3RXj4K/xRQddXPVen7rOMZ4wj/n6zT+HXk6SsVxrG0SDKsF4zj/veWKha2KggZweDkP9YWDsE0tIpulQ4daOCASrrjBKXY1BiGDu5Zw5jHjDT1GJp3wnp7enx1xyjFbl9QE2B8NGog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IUqr1CKi; arc=none smtp.client-ip=209.85.222.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ewOMJnjd";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vUQo0VU7";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ewOMJnjd";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vUQo0VU7"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 08EF922525;
-	Sat, 17 Aug 2024 14:33:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723905200; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KzKGiyBT5DWBz1kLtKqWaET8TXhfyQzBOIdEy+znmS4=;
-	b=ewOMJnjdtmGUnuEXkY2xgdtLR+nA5vBPJS7UgvvsM8kHIW0WWmeebBCSz/69kNXVyki/f8
-	ppWfpujZaKbfn1PgW3C5xNtAFHY3RfnETZMwCNxe2wNycIYwG18HIZpvp/Ey45K6FSlJrU
-	EKScQYBcWoSQWuZGVl9xRV0SAVkYXTs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723905200;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KzKGiyBT5DWBz1kLtKqWaET8TXhfyQzBOIdEy+znmS4=;
-	b=vUQo0VU703YX8ZK8z0kZT6d8TyPBj3D60433WQ5sFhpwNfRSFwId+m7xHn40/GE4+QJIrz
-	mW7gOD12Yl9uoSBg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ewOMJnjd;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=vUQo0VU7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723905200; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KzKGiyBT5DWBz1kLtKqWaET8TXhfyQzBOIdEy+znmS4=;
-	b=ewOMJnjdtmGUnuEXkY2xgdtLR+nA5vBPJS7UgvvsM8kHIW0WWmeebBCSz/69kNXVyki/f8
-	ppWfpujZaKbfn1PgW3C5xNtAFHY3RfnETZMwCNxe2wNycIYwG18HIZpvp/Ey45K6FSlJrU
-	EKScQYBcWoSQWuZGVl9xRV0SAVkYXTs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723905200;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KzKGiyBT5DWBz1kLtKqWaET8TXhfyQzBOIdEy+znmS4=;
-	b=vUQo0VU703YX8ZK8z0kZT6d8TyPBj3D60433WQ5sFhpwNfRSFwId+m7xHn40/GE4+QJIrz
-	mW7gOD12Yl9uoSBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D51071397F;
-	Sat, 17 Aug 2024 14:33:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id I7HHMq+0wGaxWgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 17 Aug 2024 14:33:19 +0000
-Date: Sat, 17 Aug 2024 16:34:01 +0200
-Message-ID: <87le0v1ana.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Yue Haibing <yuehaibing@huawei.com>
-Cc: <perex@perex.cz>,
-	<tiwai@suse.com>,
-	<linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH -next] ALSA: trident: Remove unused declarations
-In-Reply-To: <20240817093527.1120240-1-yuehaibing@huawei.com>
-References: <20240817093527.1120240-1-yuehaibing@huawei.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IUqr1CKi"
+Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-8430fdf256bso301883241.0
+        for <linux-sound@vger.kernel.org>; Sat, 17 Aug 2024 08:34:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1723908862; x=1724513662; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z8eoWHKmZrDuz5TVj5RFNMVS0TvpziubW752S/ws51A=;
+        b=IUqr1CKik/4LSJlesgHFoMQPD6x3PHg1AYphAfW7XdQTEzn5eoHd6HiE2Ci7k/90qK
+         6ERBEd0RZtRUeUYbVxsBnRi4P5qb+rULIe/NOdrn969Qm878hwygyxQu1Cp3GccKysgJ
+         b414ri4v9EMfBo2VBJBYDdAzCXOZad6TI0AJzEE2b+wY6Qrw64IHKPaee6tFqAguBkdK
+         i4JhIkDiu9lLBi1dNn1bfCKeYVX0ndAgXBsY3Ngeg51sXdjxbjYVFaljeLezoPKCxT0j
+         a/d+33QTFog46MwC5NQXQY+0i/KfuJpETP8TILZZzqRF/Mq3eeuJ1nOoQjfjUPcreu+u
+         8ICQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723908862; x=1724513662;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Z8eoWHKmZrDuz5TVj5RFNMVS0TvpziubW752S/ws51A=;
+        b=TG0Af5Xcx5gX4wpBqV9+JoOFU07j5s1l3/nmZRhx07zdrLX2wvvbuqhnd4cEL/bxh2
+         ewc6LNeTYWhk5gM2unl1aPeAOcfy5Tb+oQctY4viWo2aNPI1Yz65qJIQTmq1skLfBvg8
+         OMzo63/g2ws+7TMmtIWStZl9o1UICBuWHDw1akIC2Ss/nckoJbajgF/yGKE0smIBn9L2
+         v28+SXv11amNL7+qlMkaDiyF8mAHeuMby0ubg/fX+lCNO2IYybMKf8R9wS6WBLETferK
+         H/vtdgCo1q7/dFcu8eEkbV79k9KqQKVULIcLFncOgnsps7qP+h83ES39HYlLlbOlFeRp
+         yU1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCU1ySmTgBJwH0HpCF1s7nEdzt6E3a6HqL16fSEspxxcWI4TblTw8v5vi7ha9yvkwHZ7Dyllvyc/7cI21/D49pylOu7HccUxFGmrMyE=
+X-Gm-Message-State: AOJu0Yz/jamXAM4n4nlMkykWYdwXfSULh6FnzebsAHQoKXZdkmwxU0e3
+	ggjHk9PdVr+BKVovX1WX9Zqvyxj8HsxWxAKSxkREMn70evLAcEvM81H7zZiJnGtScgK7ZuEoWr5
+	74FV838OkYrnAOfEc9b0jbLuQJ8K/ObEOEcryRw==
+X-Google-Smtp-Source: AGHT+IGryT/KxWwiBHtKufxRiy8ES1KCnuo4booGpak6/PFr/3xYW4X3k+uP5qw9d5dQpPL/X2iClWn1D103V2/VYxE=
+X-Received: by 2002:a05:6102:304d:b0:48f:8ead:7b7 with SMTP id
+ ada2fe7eead31-4977997fc1fmr7556666137.21.1723908862208; Sat, 17 Aug 2024
+ 08:34:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 08EF922525
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,huawei.com:email]
-X-Spam-Score: -3.51
+MIME-Version: 1.0
+References: <20240816091210.50172-1-srinivas.kandagatla@linaro.org>
+In-Reply-To: <20240816091210.50172-1-srinivas.kandagatla@linaro.org>
+From: Amit Pundir <amit.pundir@linaro.org>
+Date: Sat, 17 Aug 2024 21:03:46 +0530
+Message-ID: <CAMi1Hd1bYgmnL5O946rxVK2k8ygYm1ur2nCe3KNpmYHnvPa+hQ@mail.gmail.com>
+Subject: Re: [PATCH v2] ASoC: codecs: lpass-va-macro: set the default codec
+ version for sm8250
+To: srinivas.kandagatla@linaro.org
+Cc: broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
+	alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	dmitry.baryshkov@linaro.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, 17 Aug 2024 11:35:27 +0200,
-Yue Haibing wrote:
-> 
-> Commit 8bb8b453cb45 ("[ALSA] trident - clean up obsolete synth codes")
-> remove synth functions but leave declarations.
-> And Commit e5723b41abe5 ("[ALSA] Remove sequencer instrument layer")
-> left snd_trident_attach_synthesizer().
-> 
-> Signed-off-by: Yue Haibing <yuehaibing@huawei.com>
+On Fri, 16 Aug 2024 at 14:42, <srinivas.kandagatla@linaro.org> wrote:
+>
+> From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+>
+> sm8250 and sc7280 have lpass codec version 1.0, as these are very old
+> platforms, they do not have a reliable way to get the codec version
+> from core_id registers.
+>
+> On codec versions below 2.0, even though the core_id registers are
+> available to read, the values of these registers are not unique to be
+> able to determine the version of the codec dynamically.
+>
+> Add the version info into of_data, so that driver does not need to use
+> core_id registers to get version number for such situations.
+>
 
-Applied now.  Thanks.
+Thank you Srini for this patch. This (along with the DT patch [1])
+fixes the HDMI audio regression on RB5.
 
+Tested-by: Amit Pundir <amit.pundir@linaro.org>
 
-Takashi
+[1] https://lore.kernel.org/all/20240815170542.20754-1-srinivas.kandagatla@linaro.org/
+
+> Fixes: 378918d59181 ("ASoC: codecs: lpass-macro: add helpers to get codec version")
+> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> ---
+> Changes since v1:
+>         - updated commit text to add more details
+>
+>  sound/soc/codecs/lpass-va-macro.c | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
+>
+> diff --git a/sound/soc/codecs/lpass-va-macro.c b/sound/soc/codecs/lpass-va-macro.c
+> index 8454193ed22a..e95d1f29ef18 100644
+> --- a/sound/soc/codecs/lpass-va-macro.c
+> +++ b/sound/soc/codecs/lpass-va-macro.c
+> @@ -228,11 +228,13 @@ struct va_macro {
+>  struct va_macro_data {
+>         bool has_swr_master;
+>         bool has_npl_clk;
+> +       int version;
+>  };
+>
+>  static const struct va_macro_data sm8250_va_data = {
+>         .has_swr_master = false,
+>         .has_npl_clk = false,
+> +       .version = LPASS_CODEC_VERSION_1_0,
+>  };
+>
+>  static const struct va_macro_data sm8450_va_data = {
+> @@ -1587,7 +1589,14 @@ static int va_macro_probe(struct platform_device *pdev)
+>                         goto err_npl;
+>         }
+>
+> -       va_macro_set_lpass_codec_version(va);
+> +       /**
+> +        * old version of codecs do not have a reliable way to determine the
+> +        * version from registers, get them from soc specific data
+> +        */
+> +       if (data->version)
+> +               lpass_macro_set_codec_version(data->version);
+> +       else /* read version from register */
+> +               va_macro_set_lpass_codec_version(va);
+>
+>         if (va->has_swr_master) {
+>                 /* Set default CLK div to 1 */
+> --
+> 2.25.1
+>
