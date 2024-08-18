@@ -1,99 +1,71 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74F4A12B8B;
-	Sun, 18 Aug 2024 07:23:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74006BA41;
+	Sun, 18 Aug 2024 07:28:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723965817; cv=none; b=bnuOHBMKfNcSiwRdRQK+l+T/2fvYzlE0xjrnchutcd8/eNjUSelPyxKmxuht5urK/b0LkkvL2zvQsFSWQQ4aj5qVai2MQgs7UGSli4+SggTT9t9OCPIN0o+pd2ed4q5fFvmgRezSNUw7QoRoxdht1bXHySyujwI8j2psAPK1RE4=
+	t=1723966137; cv=none; b=ci7rhZ+tGbBaLsfROKzCcgHS6T8smy1KArIALhUX7U9DkdPIZfxokCclftzeFLtAx+nqyPDC7jsCl4lDd3RqGKk0sryEmkY3GvrPeu5HbUgKJx/NpalypVmWhVOKmAn3WbqOKrJI8ZZxxjpf0YHN1ga1iya7PS48Ih84F/K8m6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723965817; c=relaxed/simple;
-	bh=DHAmu4fXPz6F0RDPNtgs02ef096s4MjYv2NyO32nzLc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AD+9du2HX24g/SjwbhsccTDNch0T+mnipnmwDjq7RPLsxVumOFLD2xjTIv+R3nTPYMJ3I31HYqJiyiG2Q7fBEdEXIyULnj2ma95gbYhT6f0V/EtCFgxMa2YFmRRAaHkd/yYdrw9aic3mQNT2iCmCdrxBG+Bznt3NUCC7EvWgn3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XLp8SjfF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723966137; c=relaxed/simple;
+	bh=7kqkLWEy+OLt/Z/7mO7cI3tSA8L9d/Dhl/E63oaEcyk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=swK8IBhMnttlSKPhPJpZA2fPdy4w4UlOIEB/YOluDdnuZCXlsIiw+W1uXUPC1CW1tSYe2O24VG3uPu/7IShBs5y6JPQy/8qgr7jaXErSPo8wx9pnFwzs8u+CGDZnJsSWCR0VgTmPGptI8UYmyd8xlTuPdoRESHr04ncDaZoOmZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ldZ0fAMu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XLp8SjfF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51386C32786;
-	Sun, 18 Aug 2024 07:23:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ldZ0fAMu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58514C32786;
+	Sun, 18 Aug 2024 07:28:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723965816;
-	bh=DHAmu4fXPz6F0RDPNtgs02ef096s4MjYv2NyO32nzLc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XLp8SjfFEK+0/h7cnJLggkev7mXCNK5czCM7bE9auhDeA6FMhRcAXC4yQG3bW24Kk
-	 yeDdcfVmrO+iYVxEQvfJ10/trRvZD1X+M7Int33iXzjyhAGamlmYBNeVoEQIAFfgKZ
-	 xHCBFRP57e0DHUleVGivgTCf2vX0l753iijsUrjmAOgdK3CmHUF6i8Fyl7t0vjBdeW
-	 XHy9t/GxEmExCa8Dv/f3Gsyz5hKb9CRMK+Ov/rXljV44UlD8DKW1jYDyxdPPmjxZ7j
-	 gh2HwxCk3ndOV819Q74sMzUIwWwj313xfubv61YsDHCefoG1i+yiPnUdFboiqc190k
-	 q84tGhGT4Tfww==
-Date: Sun, 18 Aug 2024 12:53:32 +0530
+	s=k20201202; t=1723966137;
+	bh=7kqkLWEy+OLt/Z/7mO7cI3tSA8L9d/Dhl/E63oaEcyk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=ldZ0fAMu89bRiKaMv3hGEAXpg/IFsqaIikDLJl9j8ENMbtBgjLRCTGUdOgnbgQBWQ
+	 3KVggvb03CpBfIrPuNp5A/xWt/xdh9WLVo8OBp5kNp3Ph8qcswOiaEGPX1hgFAsGVo
+	 JAqljn42uWkxdWO/oLgJtg/YzE+FkbMLGErKpVRKjQk4OgHpyOZNPTC4ndxRyW9u5x
+	 2QNC2fWSp6ckNppe5PRiMljsgXGeg0uCQIn8JYQUOW4n1NC/diAo/8aofAOOyABtnj
+	 RWeKsX44g8nDlsJm9Cugumf6dl+F36iXbdV/gjXeU7CfXz6Oydw6lQjbB+/1n1wxt4
+	 48P2qnfIvqATQ==
 From: Vinod Koul <vkoul@kernel.org>
-To: Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com, bard.liao@intel.com
-Subject: Re: [PATCH] soundwire: intel_auxdevice: add kernel parameter for
- mclk divider
-Message-ID: <ZsGhdFm8nYkm5Y5w@vaman>
-References: <20240806083840.24094-1-yung-chuan.liao@linux.intel.com>
+To: linux-sound@vger.kernel.org, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: vinod.koul@linaro.org, linux-kernel@vger.kernel.org, 
+ pierre-louis.bossart@linux.intel.com, bard.liao@intel.com
+In-Reply-To: <20240805114921.88007-1-yung-chuan.liao@linux.intel.com>
+References: <20240805114921.88007-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH] soundwire: cadence: re-check Peripheral status with
+ delayed_work
+Message-Id: <172396613500.999616.5825027141981948673.b4-ty@kernel.org>
+Date: Sun, 18 Aug 2024 12:58:55 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240806083840.24094-1-yung-chuan.liao@linux.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-On 06-08-24, 16:38, Bard Liao wrote:
-> From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+
+On Mon, 05 Aug 2024 19:49:21 +0800, Bard Liao wrote:
+> The SoundWire peripheral enumeration is entirely based on interrupts,
+> more specifically sticky bits tracking state changes.
 > 
-> Add a kernel parameter to work-around discrepancies between hardware
-> and platform firmware, it's not unusual to see e.g. 38.4MHz listed in
-> _DSD properties as the SoundWire clock source, but the hardware may be
-> based on a 19.2 MHz mclk source.
-
-I think this should be documented in kernel-parameters.txt?
-
+> This patch adds a defensive programming check on the actual status
+> reported in PING frames. If for some reason an interrupt was lost or
+> delayed, the delayed work would detect a peripheral change of status
+> after the bus starts.
 > 
-> Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-> Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-> ---
->  drivers/soundwire/intel_auxdevice.c | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/soundwire/intel_auxdevice.c b/drivers/soundwire/intel_auxdevice.c
-> index dff49c5ce5b3..e372195b07b3 100644
-> --- a/drivers/soundwire/intel_auxdevice.c
-> +++ b/drivers/soundwire/intel_auxdevice.c
-> @@ -41,6 +41,10 @@ static int md_flags;
->  module_param_named(sdw_md_flags, md_flags, int, 0444);
->  MODULE_PARM_DESC(sdw_md_flags, "SoundWire Intel Master device flags (0x0 all off)");
->  
-> +static int mclk_divider;
-> +module_param_named(sdw_mclk_divider, mclk_divider, int, 0444);
-> +MODULE_PARM_DESC(sdw_mclk_divider, "SoundWire Intel mclk divider");
-> +
->  struct wake_capable_part {
->  	const u16 mfg_id;
->  	const u16 part_id;
-> @@ -142,8 +146,12 @@ static int sdw_master_read_intel_prop(struct sdw_bus *bus)
->  				 "intel-sdw-ip-clock",
->  				 &prop->mclk_freq);
->  
-> -	/* the values reported by BIOS are the 2x clock, not the bus clock */
-> -	prop->mclk_freq /= 2;
-> +	if (mclk_divider)
-> +		/* use kernel parameter for BIOS or board work-arounds */
-> +		prop->mclk_freq /= mclk_divider;
-> +	else
-> +		/* the values reported by BIOS are the 2x clock, not the bus clock */
-> +		prop->mclk_freq /= 2;
->  
->  	fwnode_property_read_u32(link,
->  				 "intel-quirk-mask",
-> -- 
-> 2.43.0
+> [...]
 
+Applied, thanks!
+
+[1/1] soundwire: cadence: re-check Peripheral status with delayed_work
+      commit: f8c35d61ba01afa76846905c67862cdace7f66b0
+
+Best regards,
 -- 
 ~Vinod
+
+
