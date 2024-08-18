@@ -1,70 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD3C317BBE;
-	Sun, 18 Aug 2024 07:28:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13298168B7;
+	Sun, 18 Aug 2024 07:48:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723966140; cv=none; b=plb9g4Zb5yrhGNTdhthZ5RLLs/xgFoV20WsphW9VRgdnwesF8mElR+l7Wdx/c2zqy8ZC2CfOv2kj+dQIrEJr8D3lkurRc2JsE+u2FuZIC7MJitnUyH/LCYpe581K2Hj6oMRB1+1DdHMXDpJeqIPsZwGQjjlkVrm1wta99gs++qU=
+	t=1723967294; cv=none; b=P9DO3pJ1khiUoPbSzY8vC8pJxcWJmzPZx67Hxm9FOB1vHRrSOBmhq2nl5KcBt03q+YQVq9xwAA7WLoRkZEXZn5eLnh7vNkzChbW/8tN8BG2NmgZJpAFnie9GPKoSxup2yoGsH8o9FUyq8s7wjRE1EOpf53AkvqaRHYlidiGsfRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723966140; c=relaxed/simple;
-	bh=fdiA/nubjDzgaO8d4ynk/avtPhGWva8ZWhFS6UXqLdQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=UjKTlqSHZ9R9u6vXafQZRh4x8pU4b64v9scldjCediD1+IJ8X7aDckTqmAmdq6gIVZ+aBgrvhtjSLPFAgq4KGbZlBA4agXQYIBG5U2XQ9ZN3Tnx4hrtqJUPnXGk7NikOWGE0xGl7GFH5hSHIzKhn+quS4lABDk0jBmzDFVfQGbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G8BUWnIo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723967294; c=relaxed/simple;
+	bh=tHhFfxZzfIHmMVt+pbcC06wUVLu9JX6dcsd/xbm0K8Q=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rW9Dtu7WLECswRmc7AoWQnNSifLmSa4HDIieAxbXcyzKtINjykaU+0e7wNwuJzuOSOQUyKxMd0fFF5CEJYumP1E457EQT0c5xHEcpquWnUgIosSi8PS90TwL/UjMf+k2dkoZaiFm1pM14/5j9QfMrRl6Zx8ecwqPE5N1+YbLDog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BDgt3Up2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dzPgriQl; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1LMtm2a9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=AE9vcJkG; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G8BUWnIo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B227C32786;
-	Sun, 18 Aug 2024 07:28:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723966139;
-	bh=fdiA/nubjDzgaO8d4ynk/avtPhGWva8ZWhFS6UXqLdQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=G8BUWnIo7osb38b0wOzaDc7R5KIJtnRzZNtcZWxBoIYh3VYbgW0NwEttVwDqFx0ed
-	 u3ZeFy3ojVrAWqRcfvYN+NoGkINyeIbnOi5iwHS9Bw49KwfdpO0nBNzYuEfLL0Ls/8
-	 fB05WmGXRq3h9jZwi0diVI05T6hc//bXlkJw4ZXwAu7NouczXrSs1iBe0lE/5+lFio
-	 2AeSM2ItPMoYeY1Vd8/VDDyR0JAfodmdEwVcZigEtlkUGgK6aWw0ZBLbEDiYVO8uJb
-	 N4QYjM7m57mZdnYqAOK1JjdfW+SZAXHeDcNlCLGgIxQbYQbD09QBjztlDk7n30dx68
-	 q/OqsRfU4pYPA==
-From: Vinod Koul <vkoul@kernel.org>
-To: linux-sound@vger.kernel.org, 
- Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: vinod.koul@linaro.org, linux-kernel@vger.kernel.org, 
- pierre-louis.bossart@linux.intel.com, bard.liao@intel.com
-In-Reply-To: <20240805115003.88035-1-yung-chuan.liao@linux.intel.com>
-References: <20240805115003.88035-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH] soundwire: intel_bus_common: enable interrupts before
- exiting reset
-Message-Id: <172396613728.999616.2602960995757572106.b4-ty@kernel.org>
-Date: Sun, 18 Aug 2024 12:58:57 +0530
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BDgt3Up2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dzPgriQl";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1LMtm2a9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AE9vcJkG"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id EDF361FBAF;
+	Sun, 18 Aug 2024 07:48:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1723967290; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KFt+fryGiy5QNhJpernVmvnKt0akeRceLuutIY5Z7Rw=;
+	b=BDgt3Up29G+KbQErme7F3D0slDzGV+fhIIkHwkiikZV442M503Cz83ORnHs4F8zuVVKbUS
+	EP/RmUSZ6jHpe9qkJnkOrm4LKadAYMSWw56eFl38c5hHeIXmn7tqfvjw+gr4LX6KMo9qhG
+	/sva89y/O6p5VAMxn70UTufWPEClH1U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1723967290;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KFt+fryGiy5QNhJpernVmvnKt0akeRceLuutIY5Z7Rw=;
+	b=dzPgriQleAllmP0huwXPJaHuWPRMysAm92xpVRaNEnKT93szpg87ilNg+9xB5vff0jTSiO
+	NRW76IkhnQyPdBDg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1723967289; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KFt+fryGiy5QNhJpernVmvnKt0akeRceLuutIY5Z7Rw=;
+	b=1LMtm2a97q5zjd4ZYdbjzUkzoyaTXwOkKVZ3I06fv1Ln9la49GcPvfahlo9CCb9KU4qHvh
+	aCy4O/hEn5AES5K/Iat6yFXFUaGxocwlJvocIsS1kXYukkCbWH9XA5Wj0vi7ucBfMkiQVG
+	i2a7X4gW4h3kR4lcxu/uJo2CuAH8DN8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1723967289;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KFt+fryGiy5QNhJpernVmvnKt0akeRceLuutIY5Z7Rw=;
+	b=AE9vcJkGXD6ImUA2rVdhwTO1eYR/Mwele/dlx1qkQo/wUFK4KlPG9n7A9tamzJCMRPC43e
+	CZajuebXh3Z5rsAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AB5C5136ED;
+	Sun, 18 Aug 2024 07:48:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 7GtUKDmnwWbIQgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 18 Aug 2024 07:48:09 +0000
+Date: Sun, 18 Aug 2024 09:48:51 +0200
+Message-ID: <87ed6m1db0.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Yuntao Liu <liuyuntao12@huawei.com>
+Cc: <patches@opensource.cirrus.com>,
+	<linux-kernel@vger.kernel.org>,
+	<linux-sound@vger.kernel.org>,
+	<tanureal@opensource.cirrus.com>,
+	<tiwai@suse.com>,
+	<perex@perex.cz>,
+	<rf@opensource.cirrus.com>,
+	<david.rhodes@cirrus.com>
+Subject: Re: [PATCH] ALSA: hda: cs35l41: fix module autoloading
+In-Reply-To: <20240815091312.757139-1-liuyuntao12@huawei.com>
+References: <20240815091312.757139-1-liuyuntao12@huawei.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Score: -3.30
 
-
-On Mon, 05 Aug 2024 19:50:03 +0800, Bard Liao wrote:
-> The existing code enables the Cadence IP interrupts after the bus
-> reset sequence. The problem with this sequence is that it might be
-> pre-empted, giving SoundWire devices time to sync and report as
-> ATTACHED before the interrupts are enabled. In that case, the Cadence
-> IP will not detect a state change and will not throw an interrupt to
-> proceed with the enumeration of a Device0.
+On Thu, 15 Aug 2024 11:13:12 +0200,
+Yuntao Liu wrote:
 > 
-> [...]
+> Add MODULE_DEVICE_TABLE(), so modules could be properly autoloaded
+> based on the alias from spi_device_id table.
+> 
+> Fixes: 7b2f3eb492dac ("ALSA: hda: cs35l41: Add support for CS35L41 in HDA systems")
+> Signed-off-by: Yuntao Liu <liuyuntao12@huawei.com>
 
-Applied, thanks!
-
-[1/1] soundwire: intel_bus_common: enable interrupts before exiting reset
-      commit: 5aedb8d8336b0a0421b58ca27d1b572aa6695b5b
-
-Best regards,
--- 
-~Vinod
+Thanks, applied with a correction Fixes tag (that had 13 bytes SHA
+ID).
 
 
+Takashi
