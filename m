@@ -1,93 +1,106 @@
-Received: from mailtransmit05.runbox.com (mailtransmit05.runbox.com [185.226.149.38])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40E3623AD
-	for <linux-sound@vger.kernel.org>; Sun, 18 Aug 2024 15:30:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.226.149.38
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 348771EB36
+	for <linux-sound@vger.kernel.org>; Sun, 18 Aug 2024 17:30:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723995031; cv=none; b=OzOw7wyiY6h5HciRUvlOnJkRbC28ywU3qYdisve53W7bGrOaZqyKdEtAbida/sKbxzAUaDHHJKwyfQMuslKSmkiQ0NkhzsHTD+c4eP4vURRGkzPZsgisjXqj29zjk9xAlQ5TfP3FMb8bd/xhzEuWGFrEzgg7i/aVbDY1Hwidvzw=
+	t=1724002243; cv=none; b=TsnWabwomi1xUmmMQ7Pw2ExIiOQFHivbKzzqjCIkkR2/jOTUoH1mLmPvZCyoCtxXDL+cRN9XX+zGiFFmevkJdsW8UkAXXgpz+UFJ51mIpMEHgsBi3Akx6qK9iZ1VDKhrtp0f/NRrWtKT+FEXv/7lin/FuCJzup9g2XdxUW8zO78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723995031; c=relaxed/simple;
-	bh=KjQXCQuo2/SVZ5/oAr1OKXDgQptBYfkpv9lqixbmAaU=;
-	h=Content-Type:Content-Disposition:MIME-Version:From:To:CC:Subject:
-	 Date:Message-Id; b=FtRMCndkY+LfOutNpGKafHl3sHL8nCRxVTt2bYrs+jRvbOciS8229AD7nFTZ9vw0HtU3Zaro0FM+nh64IClp/5NczvacQ6EDlgqNF8OTlNNmmB6Cp8LnXXDr6pH6hInKdxAdoSUQHkxClQQIgRfMd3AIHEDQWvBC5Mii/0fAmk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=runbox.com; spf=pass smtp.mailfrom=runbox.com; dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b=rcs+HSNO; arc=none smtp.client-ip=185.226.149.38
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=runbox.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=runbox.com
+	s=arc-20240116; t=1724002243; c=relaxed/simple;
+	bh=eZxyfFWiOMWgxzgfMrHHDe1GsJVaWTRUphozkk0Nczs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mHn0dIc31vP7rjehIay2YvVJaGx/5IxIuFmTYFW4M9doD3DPqzgh/TLxX24FryJeCuLtyT1JxD1XLps2rBuuupRj7uR6GKNDYMrFDI57QEPQ9jgtFDLFpfiYviaEBoBPFJ5ory8n6KgCxIhLuqDj1n/rSE1pqwqkxIxoQjDbuF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eazQ+PWI; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b="rcs+HSNO"
-Received: from mailtransmit02.runbox ([10.9.9.162] helo=aibo.runbox.com)
-	by mailtransmit05.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.93)
-	(envelope-from <john.sweeney@runbox.com>)
-	id 1sfhrE-009S4b-6o
-	for linux-sound@vger.kernel.org; Sun, 18 Aug 2024 17:30:16 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
-	 s=selector1; h=Message-Id:Date:Subject:CC:To:From:MIME-Version:
-	Content-Transfer-Encoding:Content-Type;
-	bh=1uQw0P5+5IuIbhWEFk+Uv9xReAog1P8tz6grrB7PJKM=; b=rcs+HSNOoqr5CuLsiFwMTTOe/0
-	m/w8K3e79NnhwAlOIp6Tvh5upDbi/Y5hcraMfXQLl4DPAtsGTBtPxY7rwG6S38Cz2+zKg3U39nJhR
-	lVrj2LhJev2OFM1bgcf3NEgbVhqNERWR8unFDRzYj5QKzjICq5KzwlncQpPdf+QoIS9RzMQbg6Uf4
-	LzT/X+LgKIUFYjPHHrvxoH+fy/nd7STw37ZvKBC+GxogbqvG/gGntQg86gEYAcgNtC6KeDLvH0ywq
-	5IxE9RUIpnAwE4eCLfcO3Z6MEaE3FhPRCcrxhv7VWy3txDNzgy2QSjmSowc5X/6vBBu2dJROGwzIj
-	5D5lDLWA==;
-Received: from [10.9.9.127] (helo=rmmprod05.runbox)
-	by mailtransmit02.runbox with esmtp (Exim 4.86_2)
-	(envelope-from <john.sweeney@runbox.com>)
-	id 1sfhrD-0001Tj-IZ; Sun, 18 Aug 2024 17:30:15 +0200
-Received: from mail by rmmprod05.runbox with local (Exim 4.86_2)
-	(envelope-from <john.sweeney@runbox.com>)
-	id 1sfhrD-0007TA-HC; Sun, 18 Aug 2024 17:30:15 +0200
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eazQ+PWI"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-42816ca782dso29524265e9.2
+        for <linux-sound@vger.kernel.org>; Sun, 18 Aug 2024 10:30:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1724002240; x=1724607040; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hze/nH6p6tvHNE8D/sjNOf2elLJDjNOnQCuybaofysA=;
+        b=eazQ+PWIYMnmwBlJrfEcOpfLDe5cNo+ULi8K5PlMLs6dh8bU/XEgSatDeCsih1oExg
+         fdD9ThiPlr+Y/x2Z61dAyRAz/pR6UxOv6DC0oygW1Tcunp/F28YH/bqOBCFICde0Cla+
+         N5dE1u/L3CeKQv73AaahpNueMcpJ+YQKoySIxOrgvFDXaFkPoYrVLR8zaRYUKE6iMOrG
+         IdqAO7tfdE3RQA3W/CFwBCR/poE9jeJeUlT0wCNAeR/bLv0O6bcnmHIBm3h6iGH+l/wm
+         t8rfUhE/2sqXxDfLMFVmjfoBMu0MFwuG7X4LdI59oBxXcqfbln/z99Tojf7C3lPwiAWy
+         lAcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724002240; x=1724607040;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hze/nH6p6tvHNE8D/sjNOf2elLJDjNOnQCuybaofysA=;
+        b=DJ9YB7rqC0y1AiJ3FWLMHSuFM95/eFYxOPy6hrM4atfOtNflehKocgLguZ9tjtHsSA
+         l+Lu7OgxCqe97p7CMV4mzP1QHQ/Q+sCs8O2nwloJqFZfqFsukCFoW3TvMftqF2VeA9IG
+         Gyth3lX0R4jCXVBuTOrJMa15OSc0drzKYqww2MOYB2KuBo5s5fxcCk4WczY868AwdywH
+         bElAqNbMz5W8oGaU3dRZn8lNoafl2pxtD13jwmPVOHVYWkin9xB8OLayS8miGidx37lQ
+         dZWo9+5L4c6KXM4/4xHUqs2CBnokzVKj5671u0FFD5mHR+DfaZEgkfvib2Wn//hcpUA5
+         0JqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUQSJxiTdLz8eKoXLRYhlcFzO2C4LlcKJeeUvZxoBltwGOfAUEkU1upg5UYiRioUeVoOYjDk8gKh0Mcl7LJmek8w8ofMPINq+U9HSE=
+X-Gm-Message-State: AOJu0YyOR+fO2hCXUcAlf21Ryy8q09JZ+Tgz9PO+6JQeH+cG1uwkVzeV
+	NKhhaKbjoOeg7p1ir/DFheoug2P+5GVk6LgO3BcgFIyuzveZk0PSWxoZiSC78eg=
+X-Google-Smtp-Source: AGHT+IEHHk1AWmAyr7jcxzOjPyrSWQ9wN+5ntefeNwrp3Cysr3LtJPZ7XWcf0YS+yO+S+WhnHLleiA==
+X-Received: by 2002:a05:600c:4683:b0:428:1694:bd8c with SMTP id 5b1f17b1804b1-42aa8276727mr29780845e9.37.1724002240500;
+        Sun, 18 Aug 2024 10:30:40 -0700 (PDT)
+Received: from krzk-bin.. ([178.197.215.209])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ded1813dsm139020545e9.7.2024.08.18.10.30.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 Aug 2024 10:30:40 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] ASoC: dt-bindings: samsung,odroid: drop stale clocks
+Date: Sun, 18 Aug 2024 19:30:37 +0200
+Message-ID: <20240818173037.122152-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Received: from [Authenticated alias (737163)] by runbox.com with http
- (RMM6); Sun, 18 Aug 2024 15:30:15 GMT
-From: "John Sweeney" <john.sweeney@runbox.com>
-To: "linux-sound" <linux-sound@vger.kernel.org>
-CC: "tiwai" <tiwai@suse.com>, "perex" <perex@perex.cz>
-Subject: PATCH [1/1] ALSA: hda/realtek: Enable mute/micmute LEDs on HP
- Laptop 14-ey0xxx
-Date: Sun, 18 Aug 2024 11:30:15 -0400 (EDT)
-X-RMM-Aliasid: 737163
-X-Mailer: RMM6
-Message-Id: <E1sfhrD-0007TA-HC@rmmprod05.runbox>
+Content-Transfer-Encoding: 8bit
 
-From: John Sweeney <john.sweeney@runbox.com>
+Clocks property was present only to allow usage of assigned-clocks in
+the sound card node, however in upstream DTS the assigned-clocks were
+moved in commit 4afb06afd768 ("ARM: dts: exynos: move assigned-clock*
+properties to i2s0 node in Odroid XU4") to respective I2S nodes.  Linux
+drivers never parsed "clocks" so it can be safely dropped.
 
-ALSA: hda/realtek: Enable mute/micmute LEDs on HP Laptop 14-ey0xxx
-
-HP Pavilion Plus 14-ey0xxx needs existing quirk
-ALC245_FIXUP_HP_X360_MUTE_LEDS to enable its mute/micmute LEDs.
-
-Signed-off-by: John Sweeney <john.sweeney@runbox.com>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
-base-commit 1fb918967b56df3262ee984175816f0acb310501 (HEAD -> master, origi=
-n/master, origin/HEAD)
+ Documentation/devicetree/bindings/sound/samsung,odroid.yaml | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 480e82df7a4c..c8abd830561c 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10228,6 +10228,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[=
-] =3D {
- 	SND_PCI_QUIRK(0x103c, 0x8c15, "HP Spectre x360 2-in-1 Laptop 14-eu0xxx", =
-ALC245_FIXUP_HP_SPECTRE_X360_EU0XXX),
- 	SND_PCI_QUIRK(0x103c, 0x8c16, "HP Spectre 16", ALC287_FIXUP_CS35L41_I2C_2=
-),
- 	SND_PCI_QUIRK(0x103c, 0x8c17, "HP Spectre 16", ALC287_FIXUP_CS35L41_I2C_2=
-),
-+	SND_PCI_QUIRK(0x103c, 0x8c21, "HP Pavilion Plus Laptop 14-ey0XXX", ALC245=
-_FIXUP_HP_X360_MUTE_LEDS),
- 	SND_PCI_QUIRK(0x103c, 0x8c46, "HP EliteBook 830 G11", ALC245_FIXUP_CS35L4=
-1_SPI_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8c47, "HP EliteBook 840 G11", ALC245_FIXUP_CS35L4=
-1_SPI_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8c48, "HP EliteBook 860 G11", ALC245_FIXUP_CS35L4=
-1_SPI_2_HP_GPIO_LED),=
+diff --git a/Documentation/devicetree/bindings/sound/samsung,odroid.yaml b/Documentation/devicetree/bindings/sound/samsung,odroid.yaml
+index b77284e3e26a..c3dea852cc8d 100644
+--- a/Documentation/devicetree/bindings/sound/samsung,odroid.yaml
++++ b/Documentation/devicetree/bindings/sound/samsung,odroid.yaml
+@@ -27,11 +27,6 @@ properties:
+       - const: samsung,odroid-xu4-audio
+         deprecated: true
+ 
+-  assigned-clock-parents: true
+-  assigned-clock-rates: true
+-  assigned-clocks: true
+-  clocks: true
+-
+   cpu:
+     type: object
+     additionalProperties: false
+-- 
+2.43.0
+
