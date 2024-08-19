@@ -1,66 +1,91 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A34A3188010;
-	Mon, 19 Aug 2024 18:28:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F61181B9A;
+	Mon, 19 Aug 2024 18:45:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724092129; cv=none; b=GGPnqqLzXBoy4LxPxIpWL9PmioGyYAY/2qfO5iRPrpzXYa7pAIawYaBn2OJPgRgvHR2Zg4Fym6FVlz9NIPAPjq39AjmwpMiJWRe+lVgpvjTufb7tyJBKIcR34BCBLiGPZJLAIC4CKQrtwjr/xG26zXz0gDkK9/mzN1ZbjAfoP+M=
+	t=1724093125; cv=none; b=GocLKKdQBXU8TH8OvqVxTqwgEel0Zc9440b6zW5NjMtzdwqtNDGxVbjb2fVxXRitoKtYRRHCffeL5zV9r/t9I+3TJUZ8mmUGm96nCP2py+HycqrRI44lZWofPpciBKbT+bcaUFDy4uNE5VDqyM/Bb83T4hKzh/uyy74gtG8QiKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724092129; c=relaxed/simple;
-	bh=P/L3NgyYytfwnB4TlqzeCccYfyAfsEKejKjDYh6MX/Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YrJv8c0+KxUNeQELtBHkj5Wge8g0i7Z1LbZ4Oeliw9eRYBwx0X5Ev5Xf3RY7McXENTazeIk/7mLErUnr/HQTv+acqcV426vFpAeRM7v70qEJ3hDkliZ5eGRUCgOY91Ugii+NFmWXYiTdkmdj8hWjElDnzdtBYnudhI6ht6kVpK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VKzQTHGS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724093125; c=relaxed/simple;
+	bh=gU0/EKnZ0FkuHkxxhgkNiyKt5kHXaxnPAjw+Ang2LMs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=qzrj9W+A7AsFa8DCbxOOR2ygIMBdlbDe2VAXJXNgDm8FYqQMBBdvKRPVBBO6H5Hi4XrFJcevw8A8pcEw/QQoGfsEK582+FlXIZNxzq35WPTPAYCT+Sfglazu5ucKRLNFrh2QRQ/NJS1n8Pz8oHypkAA3A4nuZyL4tVhynZjWi+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hXu2LxOw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VKzQTHGS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA196C32782;
-	Mon, 19 Aug 2024 18:28:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hXu2LxOw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D10BEC32782;
+	Mon, 19 Aug 2024 18:45:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724092129;
-	bh=P/L3NgyYytfwnB4TlqzeCccYfyAfsEKejKjDYh6MX/Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VKzQTHGS2YGCeP0P8MP0bRGqWkR+/F2JGntV29VBmI4XfPMTUZY5lZ6uj7ZNBvaPD
-	 rI032Y/PaqT15K7kKMDPXP5E5w8/S6ohD6U4xgvC/haIp0waXk/ZgGo+rzxUoUFSEW
-	 oaRmGe+66VLkbM4AcPI65pN70FOPfEyE9UOiIX6gFo5df3GqH4m5icj3dIAX0Tllyn
-	 hJ9ABt4cWjNSXnfs50e/dhyUN3AzCVAKgMt9I+52mGTghDfper+Nd8M69Ma40w70AN
-	 r8qXB4YnK+0AEE3DJC1UVbK1de5Oxa8aKcY55QAKYUe1skL0E9zmEAk5wXJmoe+9We
-	 Mts2jeg7PaMzw==
-Date: Mon, 19 Aug 2024 12:28:47 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	alsa-devel@alsa-project.org, Conor Dooley <conor+dt@kernel.org>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>
-Subject: Re: [PATCH] ASoC: dt-bindings: samsung,odroid: drop stale clocks
-Message-ID: <172409212644.2046966.8530485462629543956.robh@kernel.org>
-References: <20240818173037.122152-1-krzysztof.kozlowski@linaro.org>
+	s=k20201202; t=1724093124;
+	bh=gU0/EKnZ0FkuHkxxhgkNiyKt5kHXaxnPAjw+Ang2LMs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=hXu2LxOwp7l//53NucZem7LHWkGWhAaN14DjXkA34y5aMxMkcWlV5TFjJLLp2tC4K
+	 nvPJ3ltQW+kSFScKc4A2VYviqQikEfXyGeiUhG2NaEGCoARB/pfTWr//XSmooCHfwk
+	 /GtkRg8PpfRSpCWErPT54J7fQkFU6S7C/BDP+6f7i9NkhS6Gmtp0lLOznEJLgF661V
+	 mtq8S0Hx18SntGHiCB9mjW4bTyfDcnOYDaMKECq6bmmujDpUOsiz49tQ1sCbZojyL4
+	 KYlpxyu0pU5wtmk/1u5vK90Wy1xLCEofKCHwFsF4S2lBzLdfLQIKbU83eMhpAKvybJ
+	 zWip5I9NT6wyQ==
+From: Mark Brown <broonie@kernel.org>
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, alsa-devel@alsa-project.org, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Frank Li <Frank.Li@nxp.com>
+Cc: imx@lists.linux.dev
+In-Reply-To: <20240814174422.4026100-1-Frank.Li@nxp.com>
+References: <20240814174422.4026100-1-Frank.Li@nxp.com>
+Subject: Re: [PATCH 1/1] ASoC: dt-bindings: convert tlv320aic31xx.txt to
+ yaml
+Message-Id: <172409312157.107250.1290467548898227873.b4-ty@kernel.org>
+Date: Mon, 19 Aug 2024 19:45:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240818173037.122152-1-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-37811
 
-
-On Sun, 18 Aug 2024 19:30:37 +0200, Krzysztof Kozlowski wrote:
-> Clocks property was present only to allow usage of assigned-clocks in
-> the sound card node, however in upstream DTS the assigned-clocks were
-> moved in commit 4afb06afd768 ("ARM: dts: exynos: move assigned-clock*
-> properties to i2s0 node in Odroid XU4") to respective I2S nodes.  Linux
-> drivers never parsed "clocks" so it can be safely dropped.
+On Wed, 14 Aug 2024 13:44:20 -0400, Frank Li wrote:
+> Convert binding doc tlv320aic31xx.txt to yaml format.
+> Additional change:
+> - add i2c node in example.
+> - replace MICBIAS_OFF with MICBIAS_2_0v in example because MICBIAS_OFF have
+> been defined in header file.
+> - add ref to dai-common.yaml.
+> - add #sound-dai-cells.
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  Documentation/devicetree/bindings/sound/samsung,odroid.yaml | 5 -----
->  1 file changed, 5 deletions(-)
-> 
+> [...]
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: dt-bindings: convert tlv320aic31xx.txt to yaml
+      commit: e486feb7b8ec04ec7cd53476acc9e18afd4a6a7d
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
