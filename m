@@ -1,182 +1,128 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8EC16C6A2;
-	Mon, 19 Aug 2024 13:42:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB9A716132F;
+	Mon, 19 Aug 2024 14:05:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724074966; cv=none; b=FUmUGC0K98cqexaGJGh3Gj9c6nLRH4i7FPc8iiRFLoBYiRWxP2ocgHEw1Dkz+n/hW+2HgkkBuAIjUoKuEhyWdyuG0Asx1T8nQajcirh0lXOw47XFazQX7hhoLzTn9DWzZ61l2H1ChUoqWHPxxkmBRBflI8GuVQKHWVo9po9Xeq8=
+	t=1724076338; cv=none; b=BZIAsgt6Z9BhPEiOv/W84R/z1RSX05DEnbpneM9I3/0oMQ/uLSG6TMdPepmgS9Xm9rUyrEnZE2ZM5HkjokO7AxP9UwAFF4Vn72grA+TMpGFD0lpHMm4cWYUcIadKhO17IUKhNMVV/ZVCd5i61axw/W5lie1ngCQVNrtDCt6SVm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724074966; c=relaxed/simple;
-	bh=zZhQNCHQqUbuFv46DFdkcuhDec7qz5oYZt7ws26HwLo=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=a5m5v7X3UYibPKKU55Dx9Wus4l5e8sN1oclUAj8viRZW6IHgoG2gWRnrcA/k56CkZqMRcglKI7laFCfHzqcWj0mRwgpt1R4FAPGYMNMXry//iten09/oHaTJitWpLKj4HIL8JEoM+pZK2RHJGZpfl+BHlYtmdcc7CQQdEWAqSaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=UZVCZcE1; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1724076338; c=relaxed/simple;
+	bh=JjQrXq52ivA3bXvyL6iHny67CLCQUXQgAj4NnLRwNnE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ARbl+Ll20Hv60ZPb5PkQeKhtyzyDDoItvJscXo76grPZPIowCMJ5YWD/NYxD4sfJE56z1ODHAPzRgFzwMJD6KJHmQDoNEl1xX4DVg6r96sbBGp0zFKnpsMu+tjRCVTTOaqgER6LdjsWPiR2b/2gtUygSzg6dK+J3KKk9bZm8a7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=k531YdWB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CffRlm4N; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0qelt+5J; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FMwXPTiF; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="UZVCZcE1"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47J4T6OS006086;
-	Mon, 19 Aug 2024 07:37:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=GZY3gy6uYHYixNHg
-	UGIf4GyFXnY5o/dwMVq6kOQCKx8=; b=UZVCZcE1gBKsYn2+s00d9GXVDqiApmiK
-	DSg2n5r12EiTnWsttagsdUh4cxjiD4mnPACc8E370gn6Y4bLJsjKxnhqqoaZVaOg
-	0JoHwDkIytM9mM/KL3/Oi+Q3mtFZhIbbTuc9bvNldFWmFTCQuBQO4AnHlL4dtyp2
-	i4ZXas/CoEdM9em2VnrahDRXUhxrgOB/NxOTU2tpNO/gNAMWUW6NONvrBn8wC0/r
-	h5FmTFb1skIkL9rArduJwiTEs1GXKSoIuHw/iPsc6qKZcaosZOAEkAib0i8RjdsQ
-	evcw/odX3ca+qboXiz+Xp9WZaSi8HZpxM1W5Cp3ui7QznBQyLdtR5g==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 412r9hsney-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 19 Aug 2024 07:37:50 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 19 Aug
- 2024 13:37:49 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Mon, 19 Aug 2024 13:37:49 +0100
-Received: from lonswws01.ad.cirrus.com (lonswws01.ad.cirrus.com [198.90.188.26])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id C9B3D820249;
-	Mon, 19 Aug 2024 12:37:48 +0000 (UTC)
-From: Simon Trimmer <simont@opensource.cirrus.com>
-To: <tiwai@suse.com>
-CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        "Simon
- Trimmer" <simont@opensource.cirrus.com>
-Subject: [PATCH] ALSA: hda/realtek: Convert existing CS35L56 products to use autodetect fixup function
-Date: Mon, 19 Aug 2024 12:37:36 +0000
-Message-ID: <20240819123736.111946-1-simont@opensource.cirrus.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="k531YdWB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CffRlm4N";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0qelt+5J";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FMwXPTiF"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B691421EFB;
+	Mon, 19 Aug 2024 14:05:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1724076335; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8Hqg0KhQWd4wi8yzEWL33OI6ZQJuDjdv5rNkCZ7m87U=;
+	b=k531YdWBwO0sAbDPea+CoeZpKctIXw5ak2UD1/VdQFzhCG7v9aO27hgEHrq+tfJzYVHzr/
+	TJNrKPe2ecL51do4TrFVVeb0hSuM2PjpZBx7yBxYAz3IlOZ09Hag0O7KwRP6VIaROlSza6
+	TRVYOCQfAtpWyLTmzTt9Eh6MFqq4+bo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1724076335;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8Hqg0KhQWd4wi8yzEWL33OI6ZQJuDjdv5rNkCZ7m87U=;
+	b=CffRlm4NWd5fY2+Nf+JTw5YxqexNJGtA4MO3FCsLQQINa0JjvC/QZ7ulVS4s/1xDSO3YUc
+	fd28mU5hlplNyUAA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1724076333; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8Hqg0KhQWd4wi8yzEWL33OI6ZQJuDjdv5rNkCZ7m87U=;
+	b=0qelt+5JjbHgntX2+MKxTJ5lrrYE3WFgEIk4PmLZ3shyiIAZ/2ujnQ8PavtVotgLYjgObk
+	rlXKfUZe1TsAwg62RO+kEgRHqdq7M+A4hNsI1WrmVXKUdlyed2c9Ko7IOc6BRNZIhYTzq1
+	CjWpiQXHjLOMXgDP8d897pjg5kuKnJ0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1724076333;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8Hqg0KhQWd4wi8yzEWL33OI6ZQJuDjdv5rNkCZ7m87U=;
+	b=FMwXPTiF8axbBQshj3QXAao5sEhOvDn/c57b65XJdmxkcE+1v4C0MK6IBhYBc+1s8+XN7r
+	G5ahrVa4Z4mAdCDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 85EFE1397F;
+	Mon, 19 Aug 2024 14:05:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id HMV1Hy1Rw2ZCAgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 19 Aug 2024 14:05:33 +0000
+Date: Mon, 19 Aug 2024 16:06:15 +0200
+Message-ID: <8734n0vc88.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Simon Trimmer <simont@opensource.cirrus.com>
+Cc: <tiwai@suse.com>,
+	<linux-sound@vger.kernel.org>,
+	<alsa-devel@alsa-project.org>,
+	<linux-kernel@vger.kernel.org>,
+	<patches@opensource.cirrus.com>
+Subject: Re: [PATCH] ALSA: hda/realtek: Convert existing CS35L56 products to use autodetect fixup function
+In-Reply-To: <20240819123736.111946-1-simont@opensource.cirrus.com>
+References: <20240819123736.111946-1-simont@opensource.cirrus.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: yuWMSgkMFm8oFoXO2gdKrHz2IalK0TXn
-X-Proofpoint-ORIG-GUID: yuWMSgkMFm8oFoXO2gdKrHz2IalK0TXn
-X-Proofpoint-Spam-Reason: safe
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.995];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,cirrus.com:email,suse.de:mid]
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
 
-The existing CS35L56 products can make use of the fixup function that
-works out the component binding details so we can remove the fixed
-configuration fixup functions.
+On Mon, 19 Aug 2024 14:37:36 +0200,
+Simon Trimmer wrote:
+> 
+> The existing CS35L56 products can make use of the fixup function that
+> works out the component binding details so we can remove the fixed
+> configuration fixup functions.
+> 
+> Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
 
-Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
----
- sound/pci/hda/patch_realtek.c | 47 +++++------------------------------
- 1 file changed, 6 insertions(+), 41 deletions(-)
+Looks like a nice cleanup.
+Applied to for-next branch now.  Thanks.
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 6d569626f78a..c573183c69a9 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -6970,26 +6970,6 @@ static void alc287_fixup_legion_16ithg6_speakers(struct hda_codec *cdc, const st
- 	comp_generic_fixup(cdc, action, "i2c", "CLSA0101", "-%s:00-cs35l41-hda.%d", 2);
- }
- 
--static void cs35l56_fixup_i2c_two(struct hda_codec *cdc, const struct hda_fixup *fix, int action)
--{
--	comp_generic_fixup(cdc, action, "i2c", "CSC3556", "-%s:00-cs35l56-hda.%d", 2);
--}
--
--static void cs35l56_fixup_i2c_four(struct hda_codec *cdc, const struct hda_fixup *fix, int action)
--{
--	comp_generic_fixup(cdc, action, "i2c", "CSC3556", "-%s:00-cs35l56-hda.%d", 4);
--}
--
--static void cs35l56_fixup_spi_two(struct hda_codec *cdc, const struct hda_fixup *fix, int action)
--{
--	comp_generic_fixup(cdc, action, "spi", "CSC3556", "-%s:00-cs35l56-hda.%d", 2);
--}
--
--static void cs35l56_fixup_spi_four(struct hda_codec *cdc, const struct hda_fixup *fix, int action)
--{
--	comp_generic_fixup(cdc, action, "spi", "CSC3556", "-%s:00-cs35l56-hda.%d", 4);
--}
--
- static void alc285_fixup_asus_ga403u(struct hda_codec *cdc, const struct hda_fixup *fix, int action)
- {
- 	/*
-@@ -6997,7 +6977,7 @@ static void alc285_fixup_asus_ga403u(struct hda_codec *cdc, const struct hda_fix
- 	 * different codecs and the newer GA403U has a ALC285.
- 	 */
- 	if (cdc->core.vendor_id == 0x10ec0285)
--		cs35l56_fixup_i2c_two(cdc, fix, action);
-+		cs35lxx_autodet_fixup(cdc, fix, action);
- 	else
- 		alc_fixup_inv_dmic(cdc, fix, action);
- }
-@@ -7599,9 +7579,6 @@ enum {
- 	ALC256_FIXUP_ACER_SFG16_MICMUTE_LED,
- 	ALC256_FIXUP_HEADPHONE_AMP_VOL,
- 	ALC245_FIXUP_HP_SPECTRE_X360_EU0XXX,
--	ALC285_FIXUP_CS35L56_SPI_2,
--	ALC285_FIXUP_CS35L56_I2C_2,
--	ALC285_FIXUP_CS35L56_I2C_4,
- 	ALC285_FIXUP_ASUS_GA403U,
- 	ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC,
- 	ALC285_FIXUP_ASUS_GA403U_I2C_SPEAKER2_TO_DAC1,
-@@ -9867,7 +9844,7 @@ static const struct hda_fixup alc269_fixups[] = {
- 	},
- 	[ALC245_FIXUP_CS35L56_SPI_4_HP_GPIO_LED] = {
- 		.type = HDA_FIXUP_FUNC,
--		.v.func = cs35l56_fixup_spi_four,
-+		.v.func = cs35lxx_autodet_fixup,
- 		.chained = true,
- 		.chain_id = ALC285_FIXUP_HP_GPIO_LED,
- 	},
-@@ -9883,18 +9860,6 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = alc245_fixup_hp_spectre_x360_eu0xxx,
- 	},
--	[ALC285_FIXUP_CS35L56_SPI_2] = {
--		.type = HDA_FIXUP_FUNC,
--		.v.func = cs35l56_fixup_spi_two,
--	},
--	[ALC285_FIXUP_CS35L56_I2C_2] = {
--		.type = HDA_FIXUP_FUNC,
--		.v.func = cs35l56_fixup_i2c_two,
--	},
--	[ALC285_FIXUP_CS35L56_I2C_4] = {
--		.type = HDA_FIXUP_FUNC,
--		.v.func = cs35l56_fixup_i2c_four,
--	},
- 	[ALC285_FIXUP_ASUS_GA403U] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = alc285_fixup_asus_ga403u,
-@@ -9923,7 +9888,7 @@ static const struct hda_fixup alc269_fixups[] = {
- 			{ }
- 		},
- 		.chained = true,
--		.chain_id = ALC285_FIXUP_CS35L56_SPI_2
-+		.chain_id = ALCXXX_FIXUP_CS35LXX
- 	},
- 	[ALC285_FIXUP_ASUS_GA403U_I2C_SPEAKER2_TO_DAC1] = {
- 		.type = HDA_FIXUP_FUNC,
-@@ -10456,14 +10421,14 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x1d42, "ASUS Zephyrus G14 2022", ALC289_FIXUP_ASUS_GA401),
- 	SND_PCI_QUIRK(0x1043, 0x1d4e, "ASUS TM420", ALC256_FIXUP_ASUS_HPE),
- 	SND_PCI_QUIRK(0x1043, 0x1da2, "ASUS UP6502ZA/ZD", ALC245_FIXUP_CS35L41_SPI_2),
--	SND_PCI_QUIRK(0x1043, 0x1df3, "ASUS UM5606", ALC285_FIXUP_CS35L56_I2C_4),
-+	SND_PCI_QUIRK(0x1043, 0x1df3, "ASUS UM5606", ALCXXX_FIXUP_CS35LXX),
- 	SND_PCI_QUIRK(0x1043, 0x1e02, "ASUS UX3402ZA", ALC245_FIXUP_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1043, 0x1e11, "ASUS Zephyrus G15", ALC289_FIXUP_ASUS_GA502),
- 	SND_PCI_QUIRK(0x1043, 0x1e12, "ASUS UM3402", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x1e51, "ASUS Zephyrus M15", ALC294_FIXUP_ASUS_GU502_PINS),
- 	SND_PCI_QUIRK(0x1043, 0x1e5e, "ASUS ROG Strix G513", ALC294_FIXUP_ASUS_G513_PINS),
--	SND_PCI_QUIRK(0x1043, 0x1e63, "ASUS H7606W", ALC285_FIXUP_CS35L56_I2C_2),
--	SND_PCI_QUIRK(0x1043, 0x1e83, "ASUS GA605W", ALC285_FIXUP_CS35L56_I2C_2),
-+	SND_PCI_QUIRK(0x1043, 0x1e63, "ASUS H7606W", ALCXXX_FIXUP_CS35LXX),
-+	SND_PCI_QUIRK(0x1043, 0x1e83, "ASUS GA605W", ALCXXX_FIXUP_CS35LXX),
- 	SND_PCI_QUIRK(0x1043, 0x1e8e, "ASUS Zephyrus G15", ALC289_FIXUP_ASUS_GA401),
- 	SND_PCI_QUIRK(0x1043, 0x1ed3, "ASUS HN7306W", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x1ee2, "ASUS UM6702RA/RC", ALC287_FIXUP_CS35L41_I2C_2),
--- 
-2.43.0
 
+Takashi
