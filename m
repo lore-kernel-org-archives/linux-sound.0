@@ -1,91 +1,111 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F61181B9A;
-	Mon, 19 Aug 2024 18:45:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC22B1DB45F;
+	Mon, 19 Aug 2024 19:39:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724093125; cv=none; b=GocLKKdQBXU8TH8OvqVxTqwgEel0Zc9440b6zW5NjMtzdwqtNDGxVbjb2fVxXRitoKtYRRHCffeL5zV9r/t9I+3TJUZ8mmUGm96nCP2py+HycqrRI44lZWofPpciBKbT+bcaUFDy4uNE5VDqyM/Bb83T4hKzh/uyy74gtG8QiKI=
+	t=1724096383; cv=none; b=AYlQkfGLv80VEQM/iGU8p6FmlSVxof7BHUROyworHiH0jj2W9rF0ZJWDZVMse3QyyFvWjbzSQ1jrzOh7riabGVxaUVaGb9XoixlunU2cHOq3AgnyvSDcitG9LjYO+ZYdAOU6418lrb4FvZ4+EJLWcqzcG3P/HnkMBn/f9CG+gS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724093125; c=relaxed/simple;
-	bh=gU0/EKnZ0FkuHkxxhgkNiyKt5kHXaxnPAjw+Ang2LMs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=qzrj9W+A7AsFa8DCbxOOR2ygIMBdlbDe2VAXJXNgDm8FYqQMBBdvKRPVBBO6H5Hi4XrFJcevw8A8pcEw/QQoGfsEK582+FlXIZNxzq35WPTPAYCT+Sfglazu5ucKRLNFrh2QRQ/NJS1n8Pz8oHypkAA3A4nuZyL4tVhynZjWi+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hXu2LxOw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724096383; c=relaxed/simple;
+	bh=Nvm/PgOp1CtTfrld3rrYgbfJrfZpStaSgqLXHx2UqMc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IaIZDzdSsGyr4T4EkfMkiQi7ZjV1lLFjC5jqFfz9zQi9m1xcWDLXSidqcFO02Nr0ZWkdDioQCW+wXa+v7Xd2pJtm2FWhDMz1+d7GJaIunrkxLpp49HiXZL6mxXn6yIqrARu7xaRyNbbcCJx8xrNgRwvW4gnRFuhTergGxBXFbeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XulFbR3m; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hXu2LxOw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D10BEC32782;
-	Mon, 19 Aug 2024 18:45:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XulFbR3m"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 358B3C32782;
+	Mon, 19 Aug 2024 19:39:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724093124;
-	bh=gU0/EKnZ0FkuHkxxhgkNiyKt5kHXaxnPAjw+Ang2LMs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=hXu2LxOwp7l//53NucZem7LHWkGWhAaN14DjXkA34y5aMxMkcWlV5TFjJLLp2tC4K
-	 nvPJ3ltQW+kSFScKc4A2VYviqQikEfXyGeiUhG2NaEGCoARB/pfTWr//XSmooCHfwk
-	 /GtkRg8PpfRSpCWErPT54J7fQkFU6S7C/BDP+6f7i9NkhS6Gmtp0lLOznEJLgF661V
-	 mtq8S0Hx18SntGHiCB9mjW4bTyfDcnOYDaMKECq6bmmujDpUOsiz49tQ1sCbZojyL4
-	 KYlpxyu0pU5wtmk/1u5vK90Wy1xLCEofKCHwFsF4S2lBzLdfLQIKbU83eMhpAKvybJ
-	 zWip5I9NT6wyQ==
-From: Mark Brown <broonie@kernel.org>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, alsa-devel@alsa-project.org, 
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Frank Li <Frank.Li@nxp.com>
-Cc: imx@lists.linux.dev
-In-Reply-To: <20240814174422.4026100-1-Frank.Li@nxp.com>
-References: <20240814174422.4026100-1-Frank.Li@nxp.com>
-Subject: Re: [PATCH 1/1] ASoC: dt-bindings: convert tlv320aic31xx.txt to
- yaml
-Message-Id: <172409312157.107250.1290467548898227873.b4-ty@kernel.org>
-Date: Mon, 19 Aug 2024 19:45:21 +0100
+	s=k20201202; t=1724096381;
+	bh=Nvm/PgOp1CtTfrld3rrYgbfJrfZpStaSgqLXHx2UqMc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XulFbR3mkxtGByoAg3Xfj7XL2pAwdpy2gCjkwHZFO8EEGXB5xgy9bXxOunlwGwL4D
+	 3jxGeLaFosIAb5xYnILDYZLVVG3kxe/5L87/Wthx05mI9AjGSaHik2ahGHPLQq3dLE
+	 hH0MqB+5i51jpELdJ2ETl/ALiTqrSRkFSNsCO0bMG5urroZQ50EELBsTFdZ4J6CfL+
+	 oPvD6rntWuXnGO3MLQuGodHpuyCavK+wfHo+LU5J0M6uMY4VPsqAlI/8qPODQosGtT
+	 0X2Vy+nf9uMlgDvRtvEV0FPeWKGMBI8P4AeqocgHiU1vjIfHzzh3Lwsao6ESA91O+f
+	 9R9t9PAlShLww==
+Date: Mon, 19 Aug 2024 14:39:39 -0500
+From: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Johan Hovold <johan@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Daniel Kaehn <kaehndan@gmail.com>,
+	linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+	netdev@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 0/6] dt-bindings: add serial-peripheral-props.yaml
+Message-ID: <20240819193939.GA2371766-robh@kernel.org>
+References: <20240811-dt-bindings-serial-peripheral-props-v1-0-1dba258b7492@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-37811
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240811-dt-bindings-serial-peripheral-props-v1-0-1dba258b7492@linaro.org>
 
-On Wed, 14 Aug 2024 13:44:20 -0400, Frank Li wrote:
-> Convert binding doc tlv320aic31xx.txt to yaml format.
-> Additional change:
-> - add i2c node in example.
-> - replace MICBIAS_OFF with MICBIAS_2_0v in example because MICBIAS_OFF have
-> been defined in header file.
-> - add ref to dai-common.yaml.
-> - add #sound-dai-cells.
+On Sun, Aug 11, 2024 at 08:17:03PM +0200, Krzysztof Kozlowski wrote:
+> Hi,
 > 
-> [...]
+> Add serial-peripheral-props.yaml for devices being connected over
+> serial/UART.
+> 
+> Maybe the schema should be rather called serial-common-props.yaml? Or
+> serial-device-common-props.yaml?
+> 
+> Dependencies/merging - Devicetree tree?
+> =======================================
+> Entire patchset should be taken via one tree, preferably Rob's
+> Devicetree because of context/hunk dependencies and dependency on
+> introduced serial-peripheral-props.yaml file.
+> 
+> Best regards,
+> Krzysztof
+> 
+> ---
+> Krzysztof Kozlowski (6):
+>       dt-bindings: serial: add missing "additionalProperties" on child nodes
+>       dt-bindings: serial: add common properties schema for UART children
+>       dt-bindings: bluetooth: move Bluetooth bindings to dedicated directory
+>       dt-bindings: gnss: reference serial-peripheral-props.yaml
+>       dt-bindings: bluetooth: reference serial-peripheral-props.yaml
+>       ASoC: dt-bindings: serial-midi: reference serial-peripheral-props.yaml
+> 
+>  .../devicetree/bindings/gnss/brcm,bcm4751.yaml     |  1 +
+>  .../devicetree/bindings/gnss/gnss-common.yaml      |  5 ---
+>  .../devicetree/bindings/gnss/mediatek.yaml         |  1 +
+>  .../devicetree/bindings/gnss/sirfstar.yaml         |  1 +
+>  .../devicetree/bindings/gnss/u-blox,neo-6m.yaml    |  1 +
+>  .../brcm,bluetooth.yaml}                           | 33 +++++++++--------
+>  .../marvell,88w8897.yaml}                          |  6 ++--
+>  .../mediatek,bluetooth.txt}                        |  0
+>  .../nokia,h4p-bluetooth.txt}                       |  0
+>  .../bindings/net/bluetooth/qualcomm-bluetooth.yaml |  4 +--
+>  .../realtek,bluetooth.yaml}                        |  5 ++-
+>  .../bindings/net/{ => bluetooth}/ti,bluetooth.yaml |  5 ++-
+>  .../bindings/serial/serial-peripheral-props.yaml   | 41 ++++++++++++++++++++++
+>  .../devicetree/bindings/serial/serial.yaml         | 24 ++-----------
+>  .../devicetree/bindings/sound/serial-midi.yaml     |  3 ++
+>  MAINTAINERS                                        |  2 +-
+>  16 files changed, 80 insertions(+), 52 deletions(-)
 
-Applied to
+Series applied, thanks.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] ASoC: dt-bindings: convert tlv320aic31xx.txt to yaml
-      commit: e486feb7b8ec04ec7cd53476acc9e18afd4a6a7d
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Rob
