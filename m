@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9906314AD3D;
-	Mon, 19 Aug 2024 07:41:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2A514AD3D;
+	Mon, 19 Aug 2024 07:42:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724053318; cv=none; b=k12Tsk0OTnwhn4LHxqWVBKAjWxzUlVmOsBDdnzIdJmlsim0W968adgQsur0kk1RuRFl9TtKX9SoBbJjLSlO7BO2QWzjY4uVg8oH3AOl54STdtJ0ZvCSSyU5KtX2izdsMHyPJve3lDw/Yw51oOwwDxwASPs1CmX5QFFbzYUmYVns=
+	t=1724053323; cv=none; b=dB75/bMQukgPXf4659QRAm9jqwyfa8mSH8F8yXCSCoVySb5qXplNK1atCBy0K3WvCiq1nCE8t5JQ09dFPwZWfWmwbmivruSdeGuGFxq4FSIcxVteeNNGE2XZKnjfrHJst/jjOIlUIpOM0MpYQZoZXtkvtzklmHH6dAPNPEkBDt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724053318; c=relaxed/simple;
-	bh=0K840/msskRjT2q+9Xr4aH29i04ioHV2zfboFzqrkHE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TNRj873UOuBsPkJEUMpkshnAXae/vLlPGOdXLxvtc1u/Hckk3JabSiM/Dlxvugs9CMJ1w6xY8+GrbIIIvE4oQCP3NeKimRXnTHomhQqGX4cXBZpmxHYXceXVxm5ylxKq/QuSQNj6WQkGB6rPQh6dis2f/eu34q1BHrLufdJsVkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OjRFd5pl; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1724053323; c=relaxed/simple;
+	bh=XhaDNYPtumre+DlT/8KrzFiXd1NiecHLNyAbKknf9t4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=T7JzQxgq8civNrQRoWBLO0Tw2DdggBLZMU6lPA/kJJazY5pRIgH0G8b1iT/XOFwEITceJP6xBtsQeCcaD9RcjfcbHDt5sdAIJZ4JO4xhx81Ngxv1JZgdzHZD4wHAf/CY6XdzURW2wR1MalY4lCC0/7ADcgJhsDfgjKimEdNrH3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BLjJ3N/8; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OjRFd5pl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BLjJ3N/8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724053317; x=1755589317;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=0K840/msskRjT2q+9Xr4aH29i04ioHV2zfboFzqrkHE=;
-  b=OjRFd5pl68oeHoeCBvSn01zk+P/MieofPJi7T4bm1QHesxvSwPqj50oL
-   pPGTrz4wom6F9NBzywkp/uYdSL0oCn3xDNLTrNPxh9A2W8F7shPg/gNJ9
-   H96JSKiK8rDp0SUhFv/PNnqzdZXgpY/nH3El21apv6dbgOKihO11CD6Q/
-   BmUi3ghRiRwOQs43AMOXRmGMqhbGtAwo0lE4YKI4V9yssPW191mc8+29R
-   1vSfIjsHYNfAN/35f+6yNr7dHwWCAcmvZKxCPIuGQdTX4TlimJ+KUX9VH
-   OgPqAW9HIutVi6alAM5NEijo+BH01OTfkbuydS4ak2Ddq39qPha0Y4nd1
-   A==;
-X-CSE-ConnectionGUID: 2g3fdWJrRRqjeihwhkk3IQ==
-X-CSE-MsgGUID: H6Uf4sbsQG2t5vHdf8qJ8g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11168"; a="26079133"
+  t=1724053322; x=1755589322;
+  h=message-id:date:mime-version:subject:to:references:from:
+   in-reply-to:content-transfer-encoding;
+  bh=XhaDNYPtumre+DlT/8KrzFiXd1NiecHLNyAbKknf9t4=;
+  b=BLjJ3N/8fWv6uVzXAeYq9m7gK5NTGjbvFHvcYv/6JHstL1Jo4BaoB7iG
+   8BaLJcGUJRDN8PHwlX3sDNM9w4RY+CnPKcmN6xpDYp5O4P6FSD3ajcDJD
+   sowb+nq5MVCgNK2Kce782iJAlT66poKXe7UsdkHiLx31z0kDsRXe/YZYf
+   yQqWhYzyp3mo9NK4ohAH5DpaSAmpKE1Pn56eZoBHiKnHQmpBJrMCsnANb
+   fqdkHqLC+ITCPQZ1zhtmoYeJXO3/ck5CNs4KJCJUp532pLjFoEkijXkia
+   WFDMDB5g7a8JQfdyQV+ku8QfQoHprEMOmc1e43W6V5egMIm+mdwK861TH
+   w==;
+X-CSE-ConnectionGUID: CrmTB1SaR1mEWpTHDZ6www==
+X-CSE-MsgGUID: uNgA+5F8S+uwG/nRM/98aw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11168"; a="26079155"
 X-IronPort-AV: E=Sophos;i="6.10,158,1719903600"; 
-   d="scan'208";a="26079133"
+   d="scan'208";a="26079155"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 00:41:56 -0700
-X-CSE-ConnectionGUID: gqcRluUbTbiWOIuL2nGreg==
-X-CSE-MsgGUID: L+FfEV28SeaeQ1SqYz+WhQ==
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 00:42:02 -0700
+X-CSE-ConnectionGUID: 319Dz4XwQjqHxkKp+UQMeA==
+X-CSE-MsgGUID: PrS+ec61QxCHcWL8Trew/A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,158,1719903600"; 
-   d="scan'208";a="64677103"
+   d="scan'208";a="64677106"
 Received: from slindbla-desk.ger.corp.intel.com (HELO [10.245.246.57]) ([10.245.246.57])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 00:41:50 -0700
-Message-ID: <5695d0ec-af07-4d8e-993f-d435537ea503@linux.intel.com>
-Date: Mon, 19 Aug 2024 08:26:17 +0200
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 00:41:57 -0700
+Message-ID: <6d83cd58-5f02-414b-b627-a0022e071052@linux.intel.com>
+Date: Mon, 19 Aug 2024 08:42:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,85 +52,116 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v24 09/34] ASoC: Add SOC USB APIs for adding an USB
- backend
-To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
- Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, tiwai@suse.com,
- gregkh@linuxfoundation.org, robh@kernel.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
- alsa-devel@alsa-project.org
-References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
- <20240801011730.4797-10-quic_wcheng@quicinc.com>
- <09fde4e6-c3be-484d-a7a5-bd653dc42094@linux.intel.com>
- <f761530c-a49b-4dd5-b01c-97d08931e0ab@quicinc.com>
- <acf4de1d-d551-4539-8353-3c85aa3d965c@linux.intel.com>
- <b323a813-b02e-488b-86f9-06796f9bbf50@quicinc.com>
- <e6e7533c-5665-458e-ba60-7cb843eb27e1@quicinc.com>
+Subject: Re: [RFC PATCH v2 4/6] ASoC: fsl_asrc_m2m: Add memory to memory
+ function
+To: Shengjiu Wang <shengjiu.wang@nxp.com>, vkoul@kernel.org, perex@perex.cz,
+ tiwai@suse.com, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com,
+ festevam@gmail.com, nicoleotsuka@gmail.com, lgirdwood@gmail.com,
+ broonie@kernel.org, linuxppc-dev@lists.ozlabs.org
+References: <1723804959-31921-1-git-send-email-shengjiu.wang@nxp.com>
+ <1723804959-31921-5-git-send-email-shengjiu.wang@nxp.com>
 Content-Language: en-US
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <e6e7533c-5665-458e-ba60-7cb843eb27e1@quicinc.com>
+In-Reply-To: <1723804959-31921-5-git-send-email-shengjiu.wang@nxp.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 
->>>>>> +/**
->>>>>> + * snd_soc_usb_allocate_port() - allocate a SOC USB device
->>>>> USB port?
->>>> Noted, refer to the last comment.
->>>>>> + * @component: USB DPCM backend DAI component
->>>>>> + * @num_streams: number of offloading sessions supported
->>>>> same comment, is this direction-specific or not?
->>>> Depending on what you think about my first comment above, I'll also fix or remove the concept of direction entirely.
->>>>>> + * @data: private data
->>>>>> + *
->>>>>> + * Allocate and initialize a SOC USB device.  This will populate parameters that
->>>>>> + * are used in subsequent sequences.
->>>>>> + *
->>>>>> + */
->>>>>> +struct snd_soc_usb *snd_soc_usb_allocate_port(struct snd_soc_component *component,
->>>>>> +					      int num_streams, void *data)
->>>>>> +{
->>>>>> +	struct snd_soc_usb *usb;
->>>>>> +
->>>>>> +	usb = kzalloc(sizeof(*usb), GFP_KERNEL);
->>>>>> +	if (!usb)
->>>>>> +		return ERR_PTR(-ENOMEM);
->>>>>> +
->>>>>> +	usb->component = component;
->>>>>> +	usb->priv_data = data;
->>>>>> +	usb->num_supported_streams = num_streams;
->>>>>> +
->>>>>> +	return usb;
->>>>>> +}
->>>>>> +EXPORT_SYMBOL_GPL(snd_soc_usb_allocate_port);
->>>>>> +
->>>>>> +/**
->>>>>> + * snd_soc_usb_free_port() - free a SOC USB device
->>>>>> + * @usb: allocated SOC USB device
->>>>>> +
->>>>>> + * Free and remove the SOC USB device from the available list of devices.
->>>>> Now I am lost again on the device:port relationship. I am sure you've
->>>>> explained this before but I forget things and the code isn't
->>>>> self-explanatory.
->>>>>
->>>> Ok, I think the problem is that I'm interchanging the port and device terminology, because from the USB perspective its one device connected to a USB port, so its a one-to-one relation.  Removing that mindset, I think the proper term here would still be "port," because in the end SOC USB is always only servicing a port.  If this is the case, do you have any objections using this terminology in the Q6AFE as well as ASoC?  I will use consistent wording throughout SOC USB if so.
->>> I am not sure USB uses 'port' at all. If by 'port' you meant 'connector'
->>> it's not quite right, USB audio works across hubs.
->>>
->> Remember, this is technically the term used to explain the channel created for ASoC to communicate w/ USB.  If we use a term like "device," USB devices come and go, but this ASoC path won't be unallocated along with the USB device, since it does service/know about all the available USB devices connected to the system. (ie through usb hubs)
->>
-> How about snd_soc_usb_allocate_link()? This is technically allocating the soc-usb structure which is the entity that connects the ASoC to ALSA.
 
-oh, so if this has nothing to do with a USB device proper, it'd be fine
-to use 'port', but explain it in the comments, e.g. something along
-those lines:
+On 8/16/24 12:42, Shengjiu Wang wrote:
+> Implement the ASRC memory to memory function using
+> the compress framework, user can use this function with
+> compress ioctl interface.
+> 
+> Define below private metadata key value for output
+> format, output rate and ratio modifier configuration.
+> ASRC_OUTPUT_FORMAT 0x80000001
+> ASRC_OUTPUT_RATE   0x80000002
+> ASRC_RATIO_MOD     0x80000003
 
-snd_soc_usb_allocate_port() - allocate a soc-usb port for offload support.
+Can the output format/rate change at run-time?
 
-The soc-usb port may be used to stream data with ASoC support to
-different connected USB devices. Plug-unplug events are signaled with a
-notification but don't directly impact the soc-usb alloc/free.
+If no, then these parameters should be moved somewhere else - e.g.
+hw_params or something.
+
+I am still not very clear on the expanding the SET_METADATA ioctl to
+deal with the ratio changes. This isn't linked to the control layer as
+suggested before, and there's no precedent of calling it multiple times
+during streaming.
+
+I also wonder how it was tested since tinycompress does not support this?
+
+
+> +static int fsl_asrc_m2m_fill_codec_caps(struct fsl_asrc *asrc,
+> +					struct snd_compr_codec_caps *codec)
+> +{
+> +	struct fsl_asrc_m2m_cap cap;
+> +	__u32 rates[MAX_NUM_BITRATES];
+> +	snd_pcm_format_t k;
+> +	int i = 0, j = 0;
+> +	int ret;
+> +
+> +	ret = asrc->m2m_get_cap(&cap);
+> +	if (ret)
+> +		return -EINVAL;
+> +
+> +	if (cap.rate_in & SNDRV_PCM_RATE_5512)
+> +		rates[i++] = snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_5512);
+
+this doesn't sound compatible with the patch2 definitions?
+
+cap->rate_in = SNDRV_PCM_RATE_8000_768000;
+
+> +	if (cap.rate_in & SNDRV_PCM_RATE_8000)
+> +		rates[i++] = snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_8000);
+> +	if (cap.rate_in & SNDRV_PCM_RATE_11025)
+> +		rates[i++] = snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_11025);
+> +	if (cap.rate_in & SNDRV_PCM_RATE_16000)
+> +		rates[i++] = snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_16000);
+> +	if (cap.rate_in & SNDRV_PCM_RATE_22050)
+> +		rates[i++] = snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_22050);
+
+missing 24 kHz
+
+> +	if (cap.rate_in & SNDRV_PCM_RATE_32000)
+> +		rates[i++] = snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_32000);
+> +	if (cap.rate_in & SNDRV_PCM_RATE_44100)
+> +		rates[i++] = snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_44100);
+> +	if (cap.rate_in & SNDRV_PCM_RATE_48000)
+> +		rates[i++] = snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_48000);
+
+missing 64kHz
+
+> +	if (cap.rate_in & SNDRV_PCM_RATE_88200)
+> +		rates[i++] = snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_88200);
+> +	if (cap.rate_in & SNDRV_PCM_RATE_96000)
+> +		rates[i++] = snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_96000);
+> +	if (cap.rate_in & SNDRV_PCM_RATE_176400)
+> +		rates[i++] = snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_176400);
+> +	if (cap.rate_in & SNDRV_PCM_RATE_192000)
+> +		rates[i++] = snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_192000);
+> +	if (cap.rate_in & SNDRV_PCM_RATE_352800)
+> +		rates[i++] = snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_352800);
+> +	if (cap.rate_in & SNDRV_PCM_RATE_384000)
+> +		rates[i++] = snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_384000);
+> +	if (cap.rate_in & SNDRV_PCM_RATE_705600)
+> +		rates[i++] = snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_705600);
+> +	if (cap.rate_in & SNDRV_PCM_RATE_768000)
+> +		rates[i++] = snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_768000);
+> +
+> +	pcm_for_each_format(k) {
+> +		if (pcm_format_to_bits(k) & cap.fmt_in) {
+> +			codec->descriptor[j].max_ch = cap.chan_max;
+> +			memcpy(codec->descriptor[j].sample_rates, rates, i * sizeof(__u32));
+> +			codec->descriptor[j].num_sample_rates = i;
+> +			codec->descriptor[j].formats = k;
+> +			j++;
+> +		}
+> +	}
+> +
+> +	codec->codec = SND_AUDIOCODEC_PCM;
+> +	codec->num_descriptors = j;
+> +	return 0;
+
+
