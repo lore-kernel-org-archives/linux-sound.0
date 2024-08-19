@@ -1,128 +1,66 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB9A716132F;
-	Mon, 19 Aug 2024 14:05:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A34A3188010;
+	Mon, 19 Aug 2024 18:28:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724076338; cv=none; b=BZIAsgt6Z9BhPEiOv/W84R/z1RSX05DEnbpneM9I3/0oMQ/uLSG6TMdPepmgS9Xm9rUyrEnZE2ZM5HkjokO7AxP9UwAFF4Vn72grA+TMpGFD0lpHMm4cWYUcIadKhO17IUKhNMVV/ZVCd5i61axw/W5lie1ngCQVNrtDCt6SVm0=
+	t=1724092129; cv=none; b=GGPnqqLzXBoy4LxPxIpWL9PmioGyYAY/2qfO5iRPrpzXYa7pAIawYaBn2OJPgRgvHR2Zg4Fym6FVlz9NIPAPjq39AjmwpMiJWRe+lVgpvjTufb7tyJBKIcR34BCBLiGPZJLAIC4CKQrtwjr/xG26zXz0gDkK9/mzN1ZbjAfoP+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724076338; c=relaxed/simple;
-	bh=JjQrXq52ivA3bXvyL6iHny67CLCQUXQgAj4NnLRwNnE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ARbl+Ll20Hv60ZPb5PkQeKhtyzyDDoItvJscXo76grPZPIowCMJ5YWD/NYxD4sfJE56z1ODHAPzRgFzwMJD6KJHmQDoNEl1xX4DVg6r96sbBGp0zFKnpsMu+tjRCVTTOaqgER6LdjsWPiR2b/2gtUygSzg6dK+J3KKk9bZm8a7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=k531YdWB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CffRlm4N; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0qelt+5J; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FMwXPTiF; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1724092129; c=relaxed/simple;
+	bh=P/L3NgyYytfwnB4TlqzeCccYfyAfsEKejKjDYh6MX/Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YrJv8c0+KxUNeQELtBHkj5Wge8g0i7Z1LbZ4Oeliw9eRYBwx0X5Ev5Xf3RY7McXENTazeIk/7mLErUnr/HQTv+acqcV426vFpAeRM7v70qEJ3hDkliZ5eGRUCgOY91Ugii+NFmWXYiTdkmdj8hWjElDnzdtBYnudhI6ht6kVpK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VKzQTHGS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="k531YdWB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CffRlm4N";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0qelt+5J";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FMwXPTiF"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B691421EFB;
-	Mon, 19 Aug 2024 14:05:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1724076335; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8Hqg0KhQWd4wi8yzEWL33OI6ZQJuDjdv5rNkCZ7m87U=;
-	b=k531YdWBwO0sAbDPea+CoeZpKctIXw5ak2UD1/VdQFzhCG7v9aO27hgEHrq+tfJzYVHzr/
-	TJNrKPe2ecL51do4TrFVVeb0hSuM2PjpZBx7yBxYAz3IlOZ09Hag0O7KwRP6VIaROlSza6
-	TRVYOCQfAtpWyLTmzTt9Eh6MFqq4+bo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1724076335;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8Hqg0KhQWd4wi8yzEWL33OI6ZQJuDjdv5rNkCZ7m87U=;
-	b=CffRlm4NWd5fY2+Nf+JTw5YxqexNJGtA4MO3FCsLQQINa0JjvC/QZ7ulVS4s/1xDSO3YUc
-	fd28mU5hlplNyUAA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1724076333; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8Hqg0KhQWd4wi8yzEWL33OI6ZQJuDjdv5rNkCZ7m87U=;
-	b=0qelt+5JjbHgntX2+MKxTJ5lrrYE3WFgEIk4PmLZ3shyiIAZ/2ujnQ8PavtVotgLYjgObk
-	rlXKfUZe1TsAwg62RO+kEgRHqdq7M+A4hNsI1WrmVXKUdlyed2c9Ko7IOc6BRNZIhYTzq1
-	CjWpiQXHjLOMXgDP8d897pjg5kuKnJ0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1724076333;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8Hqg0KhQWd4wi8yzEWL33OI6ZQJuDjdv5rNkCZ7m87U=;
-	b=FMwXPTiF8axbBQshj3QXAao5sEhOvDn/c57b65XJdmxkcE+1v4C0MK6IBhYBc+1s8+XN7r
-	G5ahrVa4Z4mAdCDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 85EFE1397F;
-	Mon, 19 Aug 2024 14:05:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id HMV1Hy1Rw2ZCAgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 19 Aug 2024 14:05:33 +0000
-Date: Mon, 19 Aug 2024 16:06:15 +0200
-Message-ID: <8734n0vc88.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Simon Trimmer <simont@opensource.cirrus.com>
-Cc: <tiwai@suse.com>,
-	<linux-sound@vger.kernel.org>,
-	<alsa-devel@alsa-project.org>,
-	<linux-kernel@vger.kernel.org>,
-	<patches@opensource.cirrus.com>
-Subject: Re: [PATCH] ALSA: hda/realtek: Convert existing CS35L56 products to use autodetect fixup function
-In-Reply-To: <20240819123736.111946-1-simont@opensource.cirrus.com>
-References: <20240819123736.111946-1-simont@opensource.cirrus.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VKzQTHGS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA196C32782;
+	Mon, 19 Aug 2024 18:28:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724092129;
+	bh=P/L3NgyYytfwnB4TlqzeCccYfyAfsEKejKjDYh6MX/Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VKzQTHGS2YGCeP0P8MP0bRGqWkR+/F2JGntV29VBmI4XfPMTUZY5lZ6uj7ZNBvaPD
+	 rI032Y/PaqT15K7kKMDPXP5E5w8/S6ohD6U4xgvC/haIp0waXk/ZgGo+rzxUoUFSEW
+	 oaRmGe+66VLkbM4AcPI65pN70FOPfEyE9UOiIX6gFo5df3GqH4m5icj3dIAX0Tllyn
+	 hJ9ABt4cWjNSXnfs50e/dhyUN3AzCVAKgMt9I+52mGTghDfper+Nd8M69Ma40w70AN
+	 r8qXB4YnK+0AEE3DJC1UVbK1de5Oxa8aKcY55QAKYUe1skL0E9zmEAk5wXJmoe+9We
+	 Mts2jeg7PaMzw==
+Date: Mon, 19 Aug 2024 12:28:47 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	alsa-devel@alsa-project.org, Conor Dooley <conor+dt@kernel.org>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>
+Subject: Re: [PATCH] ASoC: dt-bindings: samsung,odroid: drop stale clocks
+Message-ID: <172409212644.2046966.8530485462629543956.robh@kernel.org>
+References: <20240818173037.122152-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.995];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,cirrus.com:email,suse.de:mid]
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240818173037.122152-1-krzysztof.kozlowski@linaro.org>
 
-On Mon, 19 Aug 2024 14:37:36 +0200,
-Simon Trimmer wrote:
+
+On Sun, 18 Aug 2024 19:30:37 +0200, Krzysztof Kozlowski wrote:
+> Clocks property was present only to allow usage of assigned-clocks in
+> the sound card node, however in upstream DTS the assigned-clocks were
+> moved in commit 4afb06afd768 ("ARM: dts: exynos: move assigned-clock*
+> properties to i2s0 node in Odroid XU4") to respective I2S nodes.  Linux
+> drivers never parsed "clocks" so it can be safely dropped.
 > 
-> The existing CS35L56 products can make use of the fixup function that
-> works out the component binding details so we can remove the fixed
-> configuration fixup functions.
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  Documentation/devicetree/bindings/sound/samsung,odroid.yaml | 5 -----
+>  1 file changed, 5 deletions(-)
 > 
-> Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
 
-Looks like a nice cleanup.
-Applied to for-next branch now.  Thanks.
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
-
-Takashi
