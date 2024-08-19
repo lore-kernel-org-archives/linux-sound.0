@@ -1,281 +1,209 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2064.outbound.protection.outlook.com [40.107.92.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E140C13C3F2;
-	Mon, 19 Aug 2024 03:28:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0972811CA0;
+	Mon, 19 Aug 2024 06:13:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.64
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724038084; cv=fail; b=ixOxS5Sb5I91Bsc9jUAyyAe/DgegIduMSRp7/3uR56+j2VOre7HWfnD/yjSCwz+QQ1y0uARDG/NJ9WvN3l4gncZ2Rj0MmVR4wHqBDFt8aLBZeb4yb0K5opEZ4OoT8Cpg2rOiopP8xLFNyJeKeMdz7FcqbCz4JgNSzI4OF9XSGCs=
+	t=1724048034; cv=fail; b=PhDMzO1f67e/NNqaYCW355ZDLiz/uj6d6NHzV4wDS6G29HQQkfeTISSBFFl711igN7o5LmQk+1WtbGwhs04+4UGY6X4K6cfOVjhTRtvgFQcM0qlqnkroxGg9dEV9jcuNuGsv4TqwM5m6iNeRJ0MffU60XM03smBXJaWl1+ZXiSk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724038084; c=relaxed/simple;
-	bh=ew76mVRC99aEykIj2qVYJsvDdlSFmeXdSxDRYCCO1jQ=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=bt9w4rmubl7d58ZUflWVP2pCDlulZtiVgMTT9CjbBu1T4OIJH0C2JM4F/yOJhU5IpkCmk3K/+fm7CYPhsxOLbu61R/9jcW2f2S2z2aqsJKCRKFY9ehKztje7GXdyra3m8yU4JwBXsSgclFjztStkVVrCVt9ChatBhXB3JPiSTF4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TB8AUSZm; arc=fail smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1724048034; c=relaxed/simple;
+	bh=T4ECzQLjoNm/Ww6/vGdZQyd6zCYy9Z2BVlVE0QhVi8E=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nE+SL81d5mHLUV7wFeEANH8fwfSZiqCSKSJmFWOYvcvNQDweEvYrlfj4qzTOX2wbEc3bKQoxasfJdTMeiRK+PxNs1mmvrMjW3EpiUWuAeLQIspzupFg+S1msTlFUSC/qjl6bBZLQzFBZmr3pu3SjIrA5J7rWjgrtWtlWFk/8ACM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=p3Z7lZRD; arc=fail smtp.client-ip=40.107.92.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TB8AUSZm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724038082; x=1755574082;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=ew76mVRC99aEykIj2qVYJsvDdlSFmeXdSxDRYCCO1jQ=;
-  b=TB8AUSZmFjyzvN+HJoAStICejyX38EUt/Xg5l03yJTAbknjDV0dnD/Sv
-   3W8W+n2OYupN1gKKpjMel8+gP5C6eQTzYcBm3+Wq2K+Ma2yEJt/aSnM0x
-   OUnPmoCm9FwGDAfj9uQW3qWVxdVAUMaQcRmu2b7rgrEp8YSFQNH1FZqeM
-   Aw9d7XMdEmVVzW2k0oL/q9sxrN6aYsL5pnshbst6b4Jtlgvz/9puo9Dt6
-   ZpWME7GlvmUlgfBIE3C+CqkSynL/nk/Kv88oy5bvJopNq9E/8R9XlkkcL
-   y+8zlas70JAGnIbj9/ZbMFpksawgXnQ5Vw3G6Hsw4nTpH4XfX+u/xm9Bd
-   g==;
-X-CSE-ConnectionGUID: lAT65gGSQlmKqzahMt4QDA==
-X-CSE-MsgGUID: 29OkLr2FRhurDE/Fmn+BMA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11168"; a="22142525"
-X-IronPort-AV: E=Sophos;i="6.10,158,1719903600"; 
-   d="scan'208";a="22142525"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2024 20:28:01 -0700
-X-CSE-ConnectionGUID: EmmYiF/GSNGtWnYDHGyPkw==
-X-CSE-MsgGUID: jqiD3yGaSp+GnZ+TPBpZNQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,158,1719903600"; 
-   d="scan'208";a="60284752"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by fmviesa009.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 18 Aug 2024 20:28:01 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Sun, 18 Aug 2024 20:28:00 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Sun, 18 Aug 2024 20:27:59 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Sun, 18 Aug 2024 20:27:59 -0700
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.47) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Sun, 18 Aug 2024 20:27:59 -0700
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="p3Z7lZRD"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=r88PFE0sk26ckKocd5xu2XjV70iyeccDuekFSQCHtjkydhcad4zz0RdBqt8TIZ4jnV5Dn6y5oqp/EPv0UnjleGZSCMWy6jf99PfKG4fqXGExLbt9OnJnSkURn9rUGmShsxmJVqG/BqsGOcFMNWiXdxbCtLZnIvjcl35anyl8cOvPD/iF3484iJnMtjXA0e3A4TJOZVg44Y6ztu56nRyiF2+BaocbWqiydFG2oH1pquniWzVdMsvoJEL2uLyxsFmM5ZKA3hUKR58/nX+7AYZoBQ4ycFi0rpBsBnO97BBv4YQaDc+a6z2u6s5SKEenoNgPIpBJJfj6vWXdLOKEo7slpg==
+ b=pP9MsYdfbJ3emNv8oB3X5Z3SLpSM65xzwpWfQOBOjmoG6SeagcrFg0f69Nh9CemoGYfheipmgTNVx4e6dcit0ZTwlYUEp+FdVsNCzRZlY2XGBLARtIlfZbGCOLzDL4rPXVYgQEYvSsonVb2J2k4S5pmMMAJKioqMWHUZ850295uGVAHK116F9KrcHaGJsWJcNoEHmh3C1YZ2CsrUqvTGz+iavUiLheeyAw4NpmDx1Aah6Knsb3CyUc59MkfBVm/YP15xRo7PtAsK7hiplFc2MHSGj9n80NFQ5e/BEE6X3sUJDFzAGUSejIGmr2d3CIMKauIQ1wVSe0Wlmj9hjTZXSw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VPeIHcQdL6mul3VQ01T8QGhvxfLEbfdAFY2HwvIQVdo=;
- b=xX0DDsU+RjFklUuXdE8EpgOW+e0y7Bneo8HquOk3hlvj8reZiBqVU7ytZntL1SsUzxPf+Sm/rYNjHgYeoX8tVGur1d+9O5V/3PYob01E9qwtwkv1kQDe19hpG68FDBajWPOXyWZ2LqNe3QbsVu09AVLZLD72cuyG63F390nSiehPw07xfX2Xv5U0P3BXRaw0wP7MDyMxeKPARmN/8NRAX8GWHEOvKw94ljheboxb0fbM8KproEGFAmdlYQvfnTJz5Du6uz2F6aVz6IBPm+NHuUPu+bocr6y8dDgW1B/eipitjsA2OEmzNnNK99a5XRAACs0xbKg0Pyuagq0UBRcQeg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ2PR11MB8424.namprd11.prod.outlook.com (2603:10b6:a03:53e::10)
- by CH3PR11MB7763.namprd11.prod.outlook.com (2603:10b6:610:145::13) with
+ bh=7chqinX2UUHex5v9pq4eYenkRZTwtCWHR4zd4VbToJA=;
+ b=Nu9LOrBFYlcyJNfSnNtgH27A+FmESkEtL9HXKKAuD47Hrq7qpwmkTq8o3brnxKvRW4rYwG3ujAZwYZwoxm9X/zyXIo2qxwgQkYEliHwHJ8Zdh+fDKA5MJmybLycCKCSGUO9v4kLCgYGHPwFVCr01Xeh3CR+qIEubDH3JjcCdNRtPMlqiqKGfLYf1PFdrt8sdIYR+ZG1N9umy8blRlsMdK6deQudGyb+fubgAhHptphAaLvjfj8GzH97H2s3WylL1s2j5EfPR1qaeg4ilpe2Yt0jE6nsXPHmfpZ19HcICvol0NBcf7cDiUNox/zQBb9PwpfvsZ4qCLR2xpPx+PjyZrA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7chqinX2UUHex5v9pq4eYenkRZTwtCWHR4zd4VbToJA=;
+ b=p3Z7lZRDiJ/sOSZY4HHmIeW5rRWh2sHXRHHAEMKo+3nU+vrTvwgalF88nkHA+RoaujBp+U7zje9hnngliEHIe7g3EXBRuYuFxR8f0B9oaILp3thKXPY7K1Jc3G7xZszcAqYhgjmnlC8rCuQYYa6mUWx851c4CVtFRkgFVz39q8E=
+Received: from MW4PR04CA0131.namprd04.prod.outlook.com (2603:10b6:303:84::16)
+ by CY8PR12MB7684.namprd12.prod.outlook.com (2603:10b6:930:87::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.18; Mon, 19 Aug
- 2024 03:27:57 +0000
-Received: from SJ2PR11MB8424.namprd11.prod.outlook.com
- ([fe80::4053:18a0:f95:3b9c]) by SJ2PR11MB8424.namprd11.prod.outlook.com
- ([fe80::4053:18a0:f95:3b9c%5]) with mapi id 15.20.7875.019; Mon, 19 Aug 2024
- 03:27:57 +0000
-From: "Liao, Bard" <bard.liao@intel.com>
-To: Vinod Koul <vkoul@kernel.org>, Bard Liao <yung-chuan.liao@linux.intel.com>
-CC: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"pierre-louis.bossart@linux.intel.com" <pierre-louis.bossart@linux.intel.com>
-Subject: RE: [PATCH] soundwire: add lane field in sdw_port_runtime
-Thread-Topic: [PATCH] soundwire: add lane field in sdw_port_runtime
-Thread-Index: AQHa58c+ez4+gaVN0k+Z1/Bhv6rQVbIsrtGAgAFKUWA=
-Date: Mon, 19 Aug 2024 03:27:57 +0000
-Message-ID: <SJ2PR11MB8424B8BE29B1B40EE2F608DEFF8C2@SJ2PR11MB8424.namprd11.prod.outlook.com>
-References: <20240806060930.10433-1-yung-chuan.liao@linux.intel.com>
- <ZsGg4c7Nc0jiyGgK@vaman>
-In-Reply-To: <ZsGg4c7Nc0jiyGgK@vaman>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ2PR11MB8424:EE_|CH3PR11MB7763:EE_
-x-ms-office365-filtering-correlation-id: b1ffd48d-8333-4499-9a6c-08dcbffeeb52
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?9kqTCW3VDrLm0XtP4HhAh3FcVcdWIKD5nvLrJcl8WADSxYYTavjOGzYSc8uk?=
- =?us-ascii?Q?EnVl2htRWdL1G0bvNwvj+lqjT6LPgu9R9tztQOwKNiK8HJqvG32/NX0a/Cn7?=
- =?us-ascii?Q?B6gR9uSICYoiUUfFAEMHBROEfFLMDoDajjI2GOq4IvELtoJYMOOqulxYZrjz?=
- =?us-ascii?Q?ezA/GoH866L9LmA9fAfmr2nw9l0ihkA2qYPsYjJo/KRYg9DBRPtwyA0yDoMp?=
- =?us-ascii?Q?lHDcD9Bb++wmsAb7FeqzEOSqnVUQrmgoxZvkF7xCebMeV2wJgLmxwbi2IrY+?=
- =?us-ascii?Q?zhpLp0p/TsYNSoAp6zrkjjtsMMbF+8E/2P3eX0g23kV1jbbbdBvMPvRPlZfP?=
- =?us-ascii?Q?vpxDLhIhuPXc8hnp1t8uRxbUsjGbiMlBgVl7GqG7y2sbqRGBn0zjgiTQ6Der?=
- =?us-ascii?Q?OXaBIqL2HjlVK3SYFZe/xeUBBK1/KmV9rPCLHIakJ4k4wQEpcVfe6xIpmlVY?=
- =?us-ascii?Q?HymDcoU/i2XlWYbYf6L47O5lGRv/I2Ab+mWMjjmIXKkO4Gmd+d1TLZy6kDaV?=
- =?us-ascii?Q?sisqJF+snswkk+N4vdPkbRIRPHr2XRukoov3k9SZKQ/F0p3HU7pZjn01k5E6?=
- =?us-ascii?Q?YG1RUIXCw2YBQMCdS6ifHd9LX5RpOmZWeD+k5zUmGmxL9gDEB1AizwCvL1t1?=
- =?us-ascii?Q?IBPlZzxRbjNeesdCBh1ZKt0JdSC9u4C58FVOXo+8xRV6/+x0pmdgejNKmjX9?=
- =?us-ascii?Q?9PXnj3T1aKwtCWwoXtZUbwjSvyblxxE656sxys/aokX5hvrjeQE0WkY/9PY8?=
- =?us-ascii?Q?H/Sdt+A3n5odjvhhS4Zcqmub9b1HES1n6HH88NOToFAO79U78fdYwX/J8Hml?=
- =?us-ascii?Q?HMGEJ7corLO3owmJ8blh5TDgCd2NaLWUTG/UjlORk+VbVurcRoHVMK/UTMde?=
- =?us-ascii?Q?4nwDwivhjxJ5bKlCNr677Rbg4KViH7u5X2tC1wHODxMGS9ltWDyyQ4XgRUQW?=
- =?us-ascii?Q?HwBJkXFGrXG4rr4I7az+QdPVP5CKVvtI+SFo6sza05kcfuFhJ6X3+DWl+9la?=
- =?us-ascii?Q?rCzVP1N99WqP4vAAxFV0S2fS6h3cyec83UUhcmQkqxf0ENwrJLp0Lia7Es4k?=
- =?us-ascii?Q?AENadd6Z4HUkY1wiRxrB0JJM2XQHivkzMkiwlvBzfmQVdAsYNCX+7Ze+9plF?=
- =?us-ascii?Q?uJONkOVstrBFYEHcxjnKhdz+1SqyTi4mLsHqDYfglXInhpu5qYuw8XGMtnjy?=
- =?us-ascii?Q?BlczyWx/qgQiWXNJRqa0helHdWdz2X+tuvp98k43ORt8NQ4E2Rg0s/CldE6+?=
- =?us-ascii?Q?N8dUTpVkj95FoVoqFveVyFRB00enozts3WZxB5eIOXaFk86BnkOSf5xrELxs?=
- =?us-ascii?Q?rWZoTsFytKRWvzhCteAFQgSmAoxjrrtgsQmfH87eCHzDxMgbjl46nboYTmbq?=
- =?us-ascii?Q?cudkoGcZjACt4OvUUB+F98i7JEYiyVfyhvZSD/BQhU1IRX2yoQ=3D=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8424.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?51kmZW15HUTTuP5T5d8PlCaKwCrnPQxJTQ5IJw7oe7ZNv5JKEO0WScxFi4Oq?=
- =?us-ascii?Q?KDnk+k5snn5QKrxhocwHboCok1nIfOG+YYmg7XxU9Oj9nT/CjA7RQglXuN5o?=
- =?us-ascii?Q?hUvAyGivNHTmbWqT5/zmnIvhXCxxrGv326B87ccgKuOxjbgvySYeCyjL9Il2?=
- =?us-ascii?Q?83oNELEOMsgYCDUJveEeVbfnVatDN2xp5Tkls6VWC5xXR/n+qndKtDSWfAIY?=
- =?us-ascii?Q?5yUogMpoYoJSZ2duFWVwgJ102RKtuMbaoBrdJPqqeZpL/MFXXgTC3S5GOz4C?=
- =?us-ascii?Q?H6LJs/La0i3L7ELPYTMAqfmnfCBsqq3Ffx9g/+wBj/WnLrHdDSFDpdnOT4Wf?=
- =?us-ascii?Q?f6078lnaWVWEO8WNUfBLu+ygQ3KCDaHCC2j4yQfZeaRbtDM4vhOxEf2bITZQ?=
- =?us-ascii?Q?/jYfcxfmUQ6dIDJ6bG7dYJKsCw/UggQ/rOJVvfge1IDJGlxjZkMybWzfeqsH?=
- =?us-ascii?Q?F+mehBB7pYro0cmTovdFuM57dbP1XGf5wDxXtESWYMSwzmW5LkCrDf0O9UxR?=
- =?us-ascii?Q?g9l2iMWIM/sfyDZK24AyF9HZ669Y9hr/FwiIhLvFQng7PJJUylFE/lKXr+5r?=
- =?us-ascii?Q?CtjJzIHLiTlPMEWuus/HbcLVzJm9cWcVglldoG6OghFPKpFdkux/tzuLUGUo?=
- =?us-ascii?Q?I1ealBAMyxlAZl/NQXhG/I0S/0NlxFYXiHMcAOQLXerfRkkRblo396awXsfN?=
- =?us-ascii?Q?jBtpKZYYkNJ+/vIsoKkpFKvJa3w+de6UDxhoB7xXpTLu35ZsSpkVkw/wIRiY?=
- =?us-ascii?Q?TnYnLkTNVy3D0PrsTP/PpEJgXxOsGpT9SBvgUSiVmxWmoYQQjdNAE2BgeX1X?=
- =?us-ascii?Q?0/LPifxiW76hFk6LfznVR4iLGHfaZp50/0Zq4dnwkUsqBEWvIkWpZFDai1SZ?=
- =?us-ascii?Q?PdD/+w3i66UNRV9D0T8QKp9hJU6Sx3DmS82WxNdOYnOAtE6jCB1Qcg8x/bcR?=
- =?us-ascii?Q?94Z3Q37BC7dAnEl3LdpTSwiX2hIq7eV0n2o8JOE8+RsrJ04ckqYP6WWJJSOX?=
- =?us-ascii?Q?227wBjDKxV2D2u1hXmj5QvMUtGQahibY7LiknAjsnXde/+IZaNQtSWsmblZJ?=
- =?us-ascii?Q?1bgl3yhKX8pZHST/7R+pe2WPyvGgqui/ae7qppD8brbgCkY5mNBsivJOoQMA?=
- =?us-ascii?Q?BJeenzFTq4nX9jr4G3UbK/Cn+l/xA3QE3Ev5lJ+Wpqwa8/d0Dg8UvKlRRZ+Y?=
- =?us-ascii?Q?YY4j6qAiX2SFpaRoz6HB/IajCFG1f7eLTia01VMX6+r2jm5mR1BonESXfD8g?=
- =?us-ascii?Q?whMBeb1v7pngCdZnn4oLp26c+1cgo1DNcsCvEAcYMYA7k/vp8+AlcEJzbzrS?=
- =?us-ascii?Q?/F2IVFyHYc7+HzZsSK8Jn1JkYCZboDG6yjvTOGJ3XfiKt+dSHz+ZJp4+cC3B?=
- =?us-ascii?Q?eAdlLH0HXy60wmUZrlRhvRA1k2kIEQ9QwNXh2IZIh7RqFmrK5oz2J6+lw+pL?=
- =?us-ascii?Q?kPxAR94cTKMk0+2k+7oY2OM1nH2ZCcuZfdrLsvaK2E0FoAzqvl9L0MSh57D5?=
- =?us-ascii?Q?upKzDiJ9fVC1oE40Br0Iinc1Qmeb3Jpn1egsbk0H4sOc6lux+g952epp2plk?=
- =?us-ascii?Q?9kVVVhN4LC+ef7oYYeA=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.21; Mon, 19 Aug
+ 2024 06:13:48 +0000
+Received: from CO1PEPF000044F8.namprd21.prod.outlook.com
+ (2603:10b6:303:84:cafe::b0) by MW4PR04CA0131.outlook.office365.com
+ (2603:10b6:303:84::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.21 via Frontend
+ Transport; Mon, 19 Aug 2024 06:13:48 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1PEPF000044F8.mail.protection.outlook.com (10.167.241.198) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7897.4 via Frontend Transport; Mon, 19 Aug 2024 06:13:47 +0000
+Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 19 Aug 2024 01:13:42 -0500
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <broonie@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <pierre-louis.bossart@linux.intel.com>,
+	<yung-chuan.liao@linux.intel.com>, <ranjani.sridharan@linux.intel.com>,
+	<lgirdwood@gmail.com>, <perex@perex.cz>, <tiwai@suse.com>,
+	<Basavaraj.Hiregoudar@amd.com>, <Sunil-kumar.Dommati@amd.com>,
+	<venkataprasad.potturu@amd.com>, <cristian.ciocaltea@collabora.com>,
+	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Vijendar
+ Mukunda" <Vijendar.Mukunda@amd.com>
+Subject: [PATCH] ASoC: amd: acp: replace desc->rev check with acp pci revision id
+Date: Mon, 19 Aug 2024 11:43:29 +0530
+Message-ID: <20240819061329.1025189-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8424.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b1ffd48d-8333-4499-9a6c-08dcbffeeb52
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Aug 2024 03:27:57.0343
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000044F8:EE_|CY8PR12MB7684:EE_
+X-MS-Office365-Filtering-Correlation-Id: 28fb3737-263f-480e-52f2-08dcc0161691
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|82310400026|376014|1800799024|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?G417QAG8+X0ozyJjuquHve1HFzhtroWcD1f4Bk9xfkAbdLiyxlsz29641HPw?=
+ =?us-ascii?Q?g8CffcPmH2GmVSBpTq/A9uqAUUebDHXe8H45WzGAAyk0snTEzXNW13leoHhu?=
+ =?us-ascii?Q?1nhbSYhfNrFsLPWf/S1+K/ms3XAl2KIf026V99R54AQIuZSeWwgAsFKm1zhq?=
+ =?us-ascii?Q?HMjTaclX/nIacyCRfuaqoZtKp9fxPB+s/mMgm/g60258tRhhX23aTqtsTGCo?=
+ =?us-ascii?Q?PLImaDX02gof6hTZ+2U7q64plxIJWfe4sMcoUQcuWIs9D8D8x3d9EOLgkJ7Q?=
+ =?us-ascii?Q?IVMj6I0yX4EUh+4659gMv88zQRiSdnb81L5ar+M+dNY9tN1wD3edUcl3XqGM?=
+ =?us-ascii?Q?Wo+ZtTK3FCiUdRciHB3/VZyu9Hxh6b+YWIK8Vjf5kmia/L9r952S0R6ExMV/?=
+ =?us-ascii?Q?70pwDWtaYWuQMn8ss19qfOD5GCyqsea3v1qmLmn6u5UfdOplGX2BjVR25Ksa?=
+ =?us-ascii?Q?ta8EAW5uOPPc0Ney875T8RX4iikZX7yY5pd4OCIY+mow50t4f3pMueags7Fv?=
+ =?us-ascii?Q?BNVPFAaEmEvySzJwUzTOb6p7KfEqy9MJ2P6PKEQMNlkiKesgcXGb02RegcFD?=
+ =?us-ascii?Q?5gdvMFdIxoB9rITKoGIBmwuKkSIAIyon30KkDDRrIhmu1jrZvFolPooI4fu1?=
+ =?us-ascii?Q?D6+TH9YdFjNYyPypEBBhGFDUjUJqfkz0UEHysvFoeEtXc8UgNWMLKZifBcmE?=
+ =?us-ascii?Q?g/OEU03It+CQKuhcFl3QbgIdZDqirU0YdmybKjsaaBwmSM8u8YXCmHHXMS+v?=
+ =?us-ascii?Q?R/v+OdVHs29rYIN7fzBsZieFI/vJMIzl9l038U/Ycpqt4CMRmPXr4pdcZ1G+?=
+ =?us-ascii?Q?cMF/BLYKEk4Tk9k8cgjx7liL5VZSMA1M454DQ7YjTV4pAfrGR1jn6FQfuI1b?=
+ =?us-ascii?Q?szjUaaLihpkN75XH0hJEImHx0zZo52kQUY2y9qqUPTb54TgeuvkDHP6SR8aD?=
+ =?us-ascii?Q?4pmiEWJODvWb6EZeaXSVWlo4H0UdNdEXxPGsWKr5JRpCS1JCJW6NfYJmzW4S?=
+ =?us-ascii?Q?Ib0kycXQx/b2wtaLospDSBbCHHU52OYmztWRrzgsNgMX24Pq148LWhthRtBS?=
+ =?us-ascii?Q?SUKmVxAelSwXLD8Ev81KxmIJm5djIHCcxkROTVtZIMNFtlgVXorqmokDuRVu?=
+ =?us-ascii?Q?f3j2wTxexPYWUKPFV5hkrogcq3P02zMatTmBo2KTeGDCu1h02avx5MBlfSpg?=
+ =?us-ascii?Q?iExrEOVcta467qJ2vj3EX3OTAOd4yXrexaPrguYenP0m4QUCYR61BiVwSdR6?=
+ =?us-ascii?Q?Nr8sMtmOG0bC5QxSkqTVIG36DMsXRatFztaftChGhYvzpggxeJpZ2Qz8zC2I?=
+ =?us-ascii?Q?5VnqD/JY6OvxTb/Baa/hhwgVBziYffT2G1OFFyD1Xmg/Dk7fJMC5lft032ht?=
+ =?us-ascii?Q?Xef5LI3vUboKuIjKjByTP5dkpOwNlDkyg5mDjN+jpw463ZaXmevuxu+AEbOt?=
+ =?us-ascii?Q?CHz57Eb6rkP6y1naaIeqCX2n8NfkoWgd?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(376014)(1800799024)(7416014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2024 06:13:47.8641
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: z3AkLBOxhCvRG34LOuS1xzivK3hqmUxPUtOGDE5K2CcJq73R3kY83MLKCUM8RjZHRiQqxKOCes0O9+08sL742A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7763
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 28fb3737-263f-480e-52f2-08dcc0161691
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CO1PEPF000044F8.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7684
 
+Replace acp descriptor structure member 'rev' check with acp pci revision
+id.
 
+Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+---
+ sound/soc/sof/amd/acp.c | 22 ++++++++++++----------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
 
-> -----Original Message-----
-> From: Vinod Koul <vkoul@kernel.org>
-> Sent: Sunday, August 18, 2024 3:21 PM
-> To: Bard Liao <yung-chuan.liao@linux.intel.com>
-> Cc: linux-sound@vger.kernel.org; linux-kernel@vger.kernel.org; pierre-
-> louis.bossart@linux.intel.com; Liao, Bard <bard.liao@intel.com>
-> Subject: Re: [PATCH] soundwire: add lane field in sdw_port_runtime
->=20
-> On 06-08-24, 14:09, Bard Liao wrote:
-> > Currently, lane_ctrl is always 0. Add a lane field in sdw_port_runtime
-> > to indicate the data lane of the data port.
-> > They are 0 by default.
->=20
-> Use of the lane? also missing setting of lane variable, dont see in this
-> patch so we are passing garbage? It might work as structure is kzalloced
-> but I dont think we should be implicit, programming makes sense
+diff --git a/sound/soc/sof/amd/acp.c b/sound/soc/sof/amd/acp.c
+index 0f6115c8b005..e4d46fdda88b 100644
+--- a/sound/soc/sof/amd/acp.c
++++ b/sound/soc/sof/amd/acp.c
+@@ -236,7 +236,6 @@ int configure_and_run_sha_dma(struct acp_dev_data *adata, void *image_addr,
+ 			      unsigned int image_length)
+ {
+ 	struct snd_sof_dev *sdev = adata->dev;
+-	const struct sof_amd_acp_desc *desc = get_chip_info(sdev->pdata);
+ 	unsigned int tx_count, fw_qualifier, val;
+ 	int ret;
+ 
+@@ -265,8 +264,9 @@ int configure_and_run_sha_dma(struct acp_dev_data *adata, void *image_addr,
+ 	snd_sof_dsp_write(sdev, ACP_DSP_BAR, ACP_SHA_DMA_DESTINATION_ADDR, dest_addr);
+ 	snd_sof_dsp_write(sdev, ACP_DSP_BAR, ACP_SHA_MSG_LENGTH, image_length);
+ 
+-	/* psp_send_cmd only required for vangogh platform (rev - 5) */
+-	if (desc->rev == 5 && !(adata->quirks && adata->quirks->skip_iram_dram_size_mod)) {
++	/* psp_send_cmd only required for vangogh platform */
++	if (adata->pci_rev == ACP_VANGOGH_PCI_ID &&
++	    !(adata->quirks && adata->quirks->skip_iram_dram_size_mod)) {
+ 		/* Modify IRAM and DRAM size */
+ 		ret = psp_send_cmd(adata, MBOX_ACP_IRAM_DRAM_FENCE_COMMAND | IRAM_DRAM_FENCE_2);
+ 		if (ret)
+@@ -285,8 +285,8 @@ int configure_and_run_sha_dma(struct acp_dev_data *adata, void *image_addr,
+ 		return ret;
+ 	}
+ 
+-	/* psp_send_cmd only required for renoir platform (rev - 3) */
+-	if (desc->rev == 3) {
++	/* psp_send_cmd only required for renoir platform*/
++	if (adata->pci_rev == ACP_RN_PCI_ID) {
+ 		ret = psp_send_cmd(adata, MBOX_ACP_SHA_DMA_COMMAND);
+ 		if (ret)
+ 			return ret;
+@@ -405,7 +405,7 @@ static irqreturn_t acp_irq_handler(int irq, void *dev_id)
+ 		snd_sof_dsp_write(sdev, ACP_DSP_BAR, desc->ext_intr_stat, ACP_ERROR_IRQ_MASK);
+ 		snd_sof_dsp_write(sdev, ACP_DSP_BAR, desc->acp_sw0_i2s_err_reason, 0);
+ 		/* ACP_SW1_I2S_ERROR_REASON is newly added register from rmb platform onwards */
+-		if (desc->rev >= 6)
++		if (adata->pci_rev >= ACP_RMB_PCI_ID)
+ 			snd_sof_dsp_write(sdev, ACP_DSP_BAR, ACP_SW1_I2S_ERROR_REASON, 0);
+ 		snd_sof_dsp_write(sdev, ACP_DSP_BAR, desc->acp_error_stat, 0);
+ 		irq_flag = 1;
+@@ -431,6 +431,7 @@ static irqreturn_t acp_irq_handler(int irq, void *dev_id)
+ static int acp_power_on(struct snd_sof_dev *sdev)
+ {
+ 	const struct sof_amd_acp_desc *desc = get_chip_info(sdev->pdata);
++	struct acp_dev_data *adata = sdev->pdata->hw_pdata;
+ 	unsigned int base = desc->pgfsm_base;
+ 	unsigned int val;
+ 	unsigned int acp_pgfsm_status_mask, acp_pgfsm_cntl_mask;
+@@ -441,13 +442,14 @@ static int acp_power_on(struct snd_sof_dev *sdev)
+ 	if (val == ACP_POWERED_ON)
+ 		return 0;
+ 
+-	switch (desc->rev) {
+-	case 3:
+-	case 5:
++	switch (adata->pci_rev) {
++	case ACP_RN_PCI_ID:
++	case ACP_VANGOGH_PCI_ID:
+ 		acp_pgfsm_status_mask = ACP3X_PGFSM_STATUS_MASK;
+ 		acp_pgfsm_cntl_mask = ACP3X_PGFSM_CNTL_POWER_ON_MASK;
+ 		break;
+-	case 6:
++	case ACP_RMB_PCI_ID:
++	case ACP63_PCI_ID:
+ 		acp_pgfsm_status_mask = ACP6X_PGFSM_STATUS_MASK;
+ 		acp_pgfsm_cntl_mask = ACP6X_PGFSM_CNTL_POWER_ON_MASK;
+ 		break;
+-- 
+2.34.1
 
-Yes, p_rt is allocated by 	kzalloc. This patch is a preparation of
-SouldWire multi-lane support. We will set the lane variable in
-the follow-up patch later.
-
->=20
->=20
-> >
-> > Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-> > ---
-> >  drivers/soundwire/amd_manager.c                  | 2 +-
-> >  drivers/soundwire/bus.h                          | 2 ++
-> >  drivers/soundwire/generic_bandwidth_allocation.c | 4 ++--
-> >  3 files changed, 5 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/soundwire/amd_manager.c
-> b/drivers/soundwire/amd_manager.c
-> > index 0d01849c3586..babb580f3124 100644
-> > --- a/drivers/soundwire/amd_manager.c
-> > +++ b/drivers/soundwire/amd_manager.c
-> > @@ -410,7 +410,7 @@ static int amd_sdw_compute_params(struct
-> sdw_bus *bus)
-> >  			sdw_fill_xport_params(&p_rt->transport_params,
-> p_rt->num,
-> >  					      false, SDW_BLK_GRP_CNT_1,
-> sample_int,
-> >  					      port_bo, port_bo >> 8, hstart,
-> hstop,
-> > -					      SDW_BLK_PKG_PER_PORT, 0x0);
-> > +					      SDW_BLK_PKG_PER_PORT, p_rt-
-> >lane);
-> >
-> >  			sdw_fill_port_params(&p_rt->port_params,
-> >  					     p_rt->num, bps,
-> > diff --git a/drivers/soundwire/bus.h b/drivers/soundwire/bus.h
-> > index fda6b24ac2da..ff03b97f1d8b 100644
-> > --- a/drivers/soundwire/bus.h
-> > +++ b/drivers/soundwire/bus.h
-> > @@ -90,6 +90,7 @@ int sdw_find_col_index(int col);
-> >   * @transport_params: Transport parameters
-> >   * @port_params: Port parameters
-> >   * @port_node: List node for Master or Slave port_list
-> > + * @lane: Which lane is used
-> >   *
-> >   * SoundWire spec has no mention of ports for Master interface but the
-> >   * concept is logically extended.
-> > @@ -100,6 +101,7 @@ struct sdw_port_runtime {
-> >  	struct sdw_transport_params transport_params;
-> >  	struct sdw_port_params port_params;
-> >  	struct list_head port_node;
-> > +	unsigned int lane;
-> >  };
-> >
-> >  /**
-> > diff --git a/drivers/soundwire/generic_bandwidth_allocation.c
-> b/drivers/soundwire/generic_bandwidth_allocation.c
-> > index b9316207c3ab..abf9b85daa52 100644
-> > --- a/drivers/soundwire/generic_bandwidth_allocation.c
-> > +++ b/drivers/soundwire/generic_bandwidth_allocation.c
-> > @@ -56,7 +56,7 @@ void sdw_compute_slave_ports(struct
-> sdw_master_runtime *m_rt,
-> >  					      sample_int, port_bo, port_bo >> 8,
-> >  					      t_data->hstart,
-> >  					      t_data->hstop,
-> > -					      SDW_BLK_PKG_PER_PORT, 0x0);
-> > +					      SDW_BLK_PKG_PER_PORT, p_rt-
-> >lane);
-> >
-> >  			sdw_fill_port_params(&p_rt->port_params,
-> >  					     p_rt->num, bps,
-> > @@ -109,7 +109,7 @@ static void sdw_compute_master_ports(struct
-> sdw_master_runtime *m_rt,
-> >  		sdw_fill_xport_params(&p_rt->transport_params, p_rt->num,
-> >  				      false, SDW_BLK_GRP_CNT_1, sample_int,
-> >  				      *port_bo, (*port_bo) >> 8, hstart, hstop,
-> > -				      SDW_BLK_PKG_PER_PORT, 0x0);
-> > +				      SDW_BLK_PKG_PER_PORT, p_rt->lane);
-> >
-> >  		sdw_fill_port_params(&p_rt->port_params,
-> >  				     p_rt->num, bps,
-> > --
-> > 2.43.0
->=20
-> --
-> ~Vinod
