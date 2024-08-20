@@ -1,134 +1,115 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B33918B496;
-	Tue, 20 Aug 2024 09:43:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEC1A18E054
+	for <linux-sound@vger.kernel.org>; Tue, 20 Aug 2024 11:53:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724146988; cv=none; b=TDCDOR896HrvcC3k//fKQPC6RRDz+/xjz7iVDH3U+9aHufp7Dyz2GU5hm4d83xYqRnpfXjnBa+SIkjydbKF4CIZQVmq22No2im6z7mkH5EXJhKbYFkcS2qgNmj2Z54Hsgvqeaa7YhUdeizILTvzowMeWP2IEZEkBG8hIkRWj9/I=
+	t=1724154823; cv=none; b=ibik8wcIGscskU3yv33AxaEKwmruI8AuF1Awn1LkW44FfgyotBWSzoT6+HVyRF6NW0Y47GGjQ1WD0LzEMEkxKYRMylF7E9m4O+eVji9wl6MFq4ahdPRBulKdDBixKx6y5YhUI+CNg2YfF+nE+a3RaOSqd18c1FC5k/6gkOxROQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724146988; c=relaxed/simple;
-	bh=h8yl/bm1b7kGTRT5b2grebCJdkKQrrmEhi2H+FF1qog=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HibnrkyOzSto0Tb9C6sCe1CDubvA44QTIipPisG0BBnjLdXgdf/JbkM1AukivNrZR769PcE48dbClsSAdyW/oCR/uTKVoZy603zcLZNDxiizNpDoT6sxFov7HYNYSfaTus2CzQ4nOoC9ce2qj1YDiJqmj61F/3zxAM7W1D35CWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hZXmPzHU; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1724154823; c=relaxed/simple;
+	bh=TP9TtVQgR6n4hw0qJHDIBA6p/NB82aSLfZbbvJIyc0E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HmpK469cJORKvBJjC9sglLqAjfhIrNTq8/JQqiCOy5U+a0/dXcwIRhwvQGJJg23qf43qCx3NBjaoxRHOVe4CbvZ3M0oaK3q4bbLl3d2ZKyQqk7ljISYXVNQ2SJhcx0kNH+jmdbvO8pasyinkalQlPvt/ZTj0WhSQN9r8cksAeGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=etlVxEdF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hZXmPzHU"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a7a8a4f21aeso640210566b.2;
-        Tue, 20 Aug 2024 02:43:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724146985; x=1724751785; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HB9GJpO2A9Zu27iG4GJBn2lNd3c+yJqVBgrLVTv/JVI=;
-        b=hZXmPzHUwrMYtnNdGVWMzYuTXC2+ldjFWhxwOWqkGZr+ripL2W41O7z7AuX3RMy3qq
-         BGKHRz3YUBTCJyEQArHyHecto1LKyKD631JKrrTuhEpR8jrEvZi+9hxc8vTSxtgKnI6w
-         M4v+t0q0UFqnc2CavEbNcOIrjjUANAC7DpN75I/LIGnoebKuMuGBta9nlwiK/ZxXSCzc
-         nW1W3ezd2YAsOa6XWdnRzDUyy93rpGxORRYiiKjEonaSaPJt3SkruDOu7vuBYiAmuuxg
-         B63w6pKoJQlGT9tJW0pAuWjklqIystn9H2cJgpYxoIWxkKfGgZHiBg4D4ALWwNnnP0LP
-         1kdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724146985; x=1724751785;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HB9GJpO2A9Zu27iG4GJBn2lNd3c+yJqVBgrLVTv/JVI=;
-        b=X38EAWAxvo08vsIqwy04T24lSo5bMo7IuzC8gfELBsCAwgM75wJL46v2lMq62YngkN
-         U2RjSyC9YK98SR5kNOfPrUq5l9NxTwWl4UUu7qLWXhDEBrV3ivhDxzU6OoRvYZZyaohF
-         YoHLpxf4i8E/woYPQ/aXrf1I+ySp1rD2Gka2nSUUmJRRvC9pZapIEiBIcAr4QMGldBl5
-         kPH6y4ZweoEFjTa8t+QVUbGCwMl0mXC3uqzoDvX110ZrY4yJD6SBfSdKKR+0ArM3THtW
-         BT1Ahf+OZFVuNm5/yrq1sw2vD+wiuBWGcM7PzUvjaEJrOMzm1ReZT9ERzXP0chwgcptV
-         SiDg==
-X-Forwarded-Encrypted: i=1; AJvYcCXEViCUgNwjaDSbECzJUdxULLpb0xln1sLWTR/LCC3mYZ6fklqjZd7FifdS5hFLcPMgbpTl5ow8aIlqTwEGPIVJbWeZucMMqmeZOB0mIlCO1eoS5hIyVqNNBGgk5T67EcOeE9utVKc9XK09DgMbZlKQH1j9hC8yVVP2IJbt9H8byxA44dyxfWRq0yLYmaqQ6gP+5ljFXBL9mO+8/pQPiciHlH5PvQ==
-X-Gm-Message-State: AOJu0YwMhb4dkkOYeHy/KQPXc++kPoVY7G0uci2UZSNiFt5wwYfQmL0i
-	KlqwG+QCvZPPUdHT0iJ6Mt6UbSHE/qPgtAGMvq2N3VYzOJAT10tx
-X-Google-Smtp-Source: AGHT+IFPycyN8twdBzjqzi9yYN6HmGfXTYQrId5E5aQm0wwJzJHD7A8ue3GOzlLt4gOz73IDq0PTfw==
-X-Received: by 2002:a17:907:d862:b0:a7a:b781:60ed with SMTP id a640c23a62f3a-a839292f71fmr939833766b.17.1724146984784;
-        Tue, 20 Aug 2024 02:43:04 -0700 (PDT)
-Received: from [192.168.105.194] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a838396ce0asm737786466b.206.2024.08.20.02.43.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Aug 2024 02:43:04 -0700 (PDT)
-Message-ID: <05d2e44c-fa39-4622-ac4f-da9da2f02535@gmail.com>
-Date: Tue, 20 Aug 2024 11:43:00 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="etlVxEdF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8666C4AF0F;
+	Tue, 20 Aug 2024 11:53:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724154823;
+	bh=TP9TtVQgR6n4hw0qJHDIBA6p/NB82aSLfZbbvJIyc0E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=etlVxEdFB3HsVRgybpMy0QxV3pepYuet87GF3D1Fx0AKBdkuJxL8lva5EW1BTOrsg
+	 UvaOhXnJAZ21kg1tu+NoR1jy21KMQhxgduw6LCwc8HeG6Xnd8Wnbd7IkZS2s3fZ/T0
+	 8CEz6gg68p/diAWlIDUBIYWLdmmupTCocA2rN6kYzlghcEw9qVMSnVJ2Ahd/EJ0L/p
+	 dO9f4m1a+bbcO//rYoHMfaBuZB8i/T3EhG4SXTNvekGfixQLgEzcAx2JlJpgYeUD2D
+	 gBcoVsUillohgE5TfB0mwRt5wQ6L6M5P5XNdGAdBV4i+sSzhlgdOIUJTyyr8C5B+Fp
+	 OrgrVnKVtY9tw==
+Date: Tue, 20 Aug 2024 12:53:37 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, tiwai@suse.de,
+	vinod.koul@intel.com, Bard liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	srinivas.kandagatla@linaro.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	vijendar.mukunda@amd.com,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Shuming Fan <shumingf@realtek.com>, Jack Yu <jack.yu@realtek.com>,
+	Oder Chiou <oder_chiou@realtek.com>
+Subject: Re: [RFC PATCH 01/16] Documentation: driver: add SoundWire BRA
+ description
+Message-ID: <09a5b041-62a8-4c85-9885-045079db796f@sirena.org.uk>
+References: <20231207222944.663893-1-pierre-louis.bossart@linux.intel.com>
+ <20231207222944.663893-2-pierre-louis.bossart@linux.intel.com>
+ <38d0c1c9-d60c-4ddd-b2ee-091d1717a377@sirena.org.uk>
+ <be277abb-af6c-470f-8237-17f45bd990b8@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 8/8] ASoC: msm8916-wcd-analog: add lineout output
-To: Adam Skladowski <a39.skl@gmail.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- Stephan Gerhold <stephan@gerhold.net>
-Cc: alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, Vladimir Lypak <vladimir.lypak@gmail.com>
-References: <20240731-msm8953-msm8976-asoc-v3-0-163f23c3a28d@gmail.com>
- <20240731-msm8953-msm8976-asoc-v3-8-163f23c3a28d@gmail.com>
-Content-Language: en-US
-From: Konrad Dybcio <konradybcio@gmail.com>
-In-Reply-To: <20240731-msm8953-msm8976-asoc-v3-8-163f23c3a28d@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="3npxPyIhAGu7xZY0"
+Content-Disposition: inline
+In-Reply-To: <be277abb-af6c-470f-8237-17f45bd990b8@linux.intel.com>
+X-Cookie: You are false data.
 
-On 31.07.2024 5:25 PM, Adam Skladowski wrote:
-> From: Vladimir Lypak <vladimir.lypak@gmail.com>
-> 
-> Add descriptions and controls to toggle lineout output
-> 
-> Signed-off-by: Vladimir Lypak <vladimir.lypak@gmail.com>
-> Signed-off-by: Adam Skladowski <a39.skl@gmail.com>
-> ---
->  sound/soc/codecs/msm8916-wcd-analog.c | 64 +++++++++++++++++++++++++++++++++++
->  1 file changed, 64 insertions(+)
-> 
-> diff --git a/sound/soc/codecs/msm8916-wcd-analog.c b/sound/soc/codecs/msm8916-wcd-analog.c
-> index b9325290c28d..38949556f7d9 100644
-> --- a/sound/soc/codecs/msm8916-wcd-analog.c
-> +++ b/sound/soc/codecs/msm8916-wcd-analog.c
-> @@ -233,6 +233,8 @@
->  #define RX_EAR_CTL_PA_SEL			BIT(7)
->  
->  #define CDC_A_RX_EAR_STATUS		(0xf1A1)
-> +#define CDC_A_RX_LO_DAC_CTL		(0xf1AC)
-> +#define CDC_A_RX_LO_EN_CTL		(0xf1AD)
->  
->  #define CDC_A_SPKR_DAC_CTL		(0xf1B0)
->  #define SPKR_DAC_CTL_DAC_RESET_MASK	BIT(4)
-> @@ -327,6 +329,8 @@ static const struct soc_enum hph_enum = SOC_ENUM_SINGLE_VIRT(
->  static const struct snd_kcontrol_new ear_mux = SOC_DAPM_ENUM("EAR_S", hph_enum);
->  static const struct snd_kcontrol_new hphl_mux = SOC_DAPM_ENUM("HPHL", hph_enum);
->  static const struct snd_kcontrol_new hphr_mux = SOC_DAPM_ENUM("HPHR", hph_enum);
-> +static const struct snd_kcontrol_new lineout_mux = SOC_DAPM_ENUM("LINEOUT",
-> +								 hph_enum);
->  
->  /* ADC2 MUX */
->  static const struct soc_enum adc2_enum = SOC_ENUM_SINGLE_VIRT(
-> @@ -630,6 +634,46 @@ static int pm8916_wcd_analog_enable_adc(struct snd_soc_dapm_widget *w,
->  	return 0;
->  }
->  
-> +static int pm8916_wcd_analog_enable_lineout_dac(struct snd_soc_dapm_widget *w,
-> +					 struct snd_kcontrol *kcontrol,
-> +					 int event)
-> +{
-> +	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
-> +
-> +	switch (event) {
-> +	case SND_SOC_DAPM_PRE_PMU:
-> +		snd_soc_component_update_bits(component, CDC_A_RX_LO_EN_CTL,
-> +				0x20, 0x20);
 
-Using BIT(n) here would be nicer, but this looks reasonable otherwise
+--3npxPyIhAGu7xZY0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Konrad
+On Tue, Aug 20, 2024 at 09:48:05AM +0200, Pierre-Louis Bossart wrote:
+
+> > This feels a lot like it could map onto the regmap async interface, it
+> > would need a bit of a rework (mainly that currently they provide
+> > ordering guarantees with respect to both each other and sync I/O) but
+> > those could be removed with some care) but it's got the "here's a list
+> > of I/O, here's another call to ensure it's all actually happened" thing.
+> > It sounds very much like how I was thinking of the async API when I was
+> > writing it and the initial users.
+
+> > It's this bit that really got me thinking it could fit well into regmap.
+
+> Do I get this right that these async capabilities could be used to
+> enable this faster SoundWire protocol, but the regular regmap_write()
+> could still happen in parallel with these async transfers? This could be
+> useful if e.g. there's a jack detection while downloading firmware for
+> another function.
+
+As far as the regmap core is concerned, yes - with SPI we do wind up
+with ordering but that's because the SPI sync API is a thin wrapper
+around the SPI async API rather than anything regmap does.
+
+> The only thing that would need to be extended is that we'd need
+> additional callbacks to check if the protocol is supported on a given
+> hardware/firmware platform, and if there's no audio stream. In these
+> cases the async writes would be demoted to regular writes. Otherwise the
+> bus would be locked to make sure no reconfiguration takes place while
+> the firmware download happens, and unlocked when the transfer ends.
+
+Those callbacks seem reasonable.  We already do the demotion to sync for
+buses that don't have async, it'd just need to be made dynamic.
+
+--3npxPyIhAGu7xZY0
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbEg8AACgkQJNaLcl1U
+h9BhCwf7BrVu6S4wLOF8+95Z3N2BxswzQnSQX7eYOcdYE04H4zXaORGHKClsnMNM
+4M4so+loGfrKwPojTpGyORyikP4G4G+sxtPCZZ7poNkwtBYc8yFJa/gvP+pUZkfT
+oPyb2QguRJ2jtrvZg3spm1xns7Y6SfNN6XOFRuI8WatCqHvGvweC0QvkjOvIOO7S
+3AuD9DrLyee0bZE9BpVYbrk5dC/xaD44d/Domj8PuGZcIsSdlfrsIw/Bvi2rYhcr
+yk704B0c5K/BgiKxV4WFwWzspSDgZTyvNaaL/fYa4k/TkFRxX/1Rn8KWEeMFjCI/
+UI+vVoLw5Mc+WQIz9veGqInwETZV2g==
+=9A04
+-----END PGP SIGNATURE-----
+
+--3npxPyIhAGu7xZY0--
