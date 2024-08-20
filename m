@@ -1,42 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65DC418FDC4;
-	Tue, 20 Aug 2024 12:44:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AEED19007D
+	for <linux-sound@vger.kernel.org>; Tue, 20 Aug 2024 12:44:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724157854; cv=none; b=FaIkvUPO1fhfx8JEciIYbXE1RPj25nOFaJfTSRYbvh6NjfdcFqfxfezZPF+C+Z4meJDfF9NPkH46Thz3S3DUV30WALFsXh9H86fXlhPT5ed2qTrfV416jfqrmEqUCJMnfry2JNTLdt0XDh75NtmgwXpIYFuJqsXIz9m0RzltB50=
+	t=1724157857; cv=none; b=O66UV5F2YDX0XYaOPlbWolx1tZrpkffu4YLzW/BMf4AkiIgm8MJdzEeGazTnyfP9N/Qoc2ZBoowf9yXEWpW2gvLkVnWb9Ix7YkcVVamahbqbUH3dYtyv6EPJWZXfi5mtAJI/mc9b3405qgwenLnEERG/oojhenVkPXRk+K2OdbY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724157854; c=relaxed/simple;
-	bh=7ps/BUMDikTMh+Z7kKWuV9WchewWaMrcGKoqEcQhIjc=;
+	s=arc-20240116; t=1724157857; c=relaxed/simple;
+	bh=X5AoTVD2yE9lBdfJaMp7zgH0CVmec+oU9/W/US1mxYo=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Q7N5/UjFM/2llcFjvQt6T/lLE2CS+N8H+RpChzVudx64bya96jKq6jVPhZIweZ3qRBgh8iQGhSCv/nD3x9cG3aOZQoAHC8zgdmhmqEbckcOiWXra7XcHnFmyl4s1zAZV1fGCel17O8Puxlao4OkWMmSLs4n1tdtrwymf0qJpS74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j7Qj03Na; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=D3HmGFrxdubM9O1XfPdkuzOl3NwXggBSdC18NknOGhmdwZBylWZdvfCO1lTkXVarqDwGTAeB9ukvNTF+jBKJOXN5oHEmqifR5rSkMR2+dhVjttIl1KsEuZC0u+3QEOIPH2sxnusIstNw0jsHCJ/0rlzn/W0jYbYIbnOSMgeAznc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LGnUwoun; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j7Qj03Na"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4F87C4AF0F;
-	Tue, 20 Aug 2024 12:44:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LGnUwoun"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF5F0C4AF0B;
+	Tue, 20 Aug 2024 12:44:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724157854;
-	bh=7ps/BUMDikTMh+Z7kKWuV9WchewWaMrcGKoqEcQhIjc=;
+	s=k20201202; t=1724157856;
+	bh=X5AoTVD2yE9lBdfJaMp7zgH0CVmec+oU9/W/US1mxYo=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=j7Qj03NaZ78EvTHSHL6Vq5lR/WdAr1K/QorAI7+E0LTxr15cL5QiUJuD4JI5AP1E4
-	 trxHIQ5ENHUprvufVEikhACHIS/bqsQwmYeNkdiwAsWAmKTa/qtakB+reiPFXbfb2k
-	 YY1bI/Q1WxrUpI1UHPG8mGokJgf6nnRMRgUcho264HdXLRyuaN/JqNL8GwtorYgvYI
-	 o+K65LeaLLDYaUEyNpVphOa1E0JPQL0kH6USaaf4W0m/lSyrfFOmLDVd5MHJ+iZRJz
-	 He89D1aYVyGvp2C7SVhECk9Y7W7fHhzTamQ3F7h/Ul4u2Q7g+DSfmOR8CUwAts1p7B
-	 7nL6Xtge74W/w==
+	b=LGnUwounOuvqdN05+yU1aQcTJbE0hT49SS9F7DMKvQpPp5hpPp2FBRhfh/kLt6LMP
+	 VsMAb7iBmXl862jOIQgZvVrP060bqNysRnwUR70OESRk7UQsgVPces+QVOBGRMYKWT
+	 UUnbGpDPWbFiplhLgYCwQf3ka99O0zWo37CNLZVIeuheiMHwjTS/7zujlCcoFQmpTX
+	 v1galI7YaaOYMrFjBOlYnZvCXh3bbRq45Vc+gU7AY9jf8WnRJ/ZN7ELdKjPAgskkvx
+	 r5PbF4YIzAoDwfVCgCCwIhirTTs7x7ybgmqi+wvl9MZ3XMesPSz81zEUVCgF5k75kd
+	 jsPbpzMdiN34w==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, vkoul@kernel.org, 
- Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: vinod.koul@linaro.org, linux-kernel@vger.kernel.org, tiwai@suse.de, 
- pierre-louis.bossart@linux.intel.com, bard.liao@intel.com
-In-Reply-To: <20240819005548.5867-1-yung-chuan.liao@linux.intel.com>
-References: <20240819005548.5867-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH v2 0/3] ALSA/ASoC/SoundWire: Intel: update maximum
- number of links
-Message-Id: <172415785240.39606.6131661518510605412.b4-ty@kernel.org>
-Date: Tue, 20 Aug 2024 13:44:12 +0100
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ tiwai@suse.com, perex@perex.cz, amadeuszx.slawinski@linux.intel.com, 
+ pierre-louis.bossart@linux.intel.com, hdegoede@redhat.com, 
+ andriy.shevchenko@linux.intel.com, cujomalainey@chromium.org, 
+ lmajczak@google.com
+In-Reply-To: <20240814083929.1217319-1-cezary.rojewski@intel.com>
+References: <20240814083929.1217319-1-cezary.rojewski@intel.com>
+Subject: Re: [PATCH v2 00/14] ASoC: Intel: Remove skylake driver
+Message-Id: <172415785444.39606.12714679433175466185.b4-ty@kernel.org>
+Date: Tue, 20 Aug 2024 13:44:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,13 +48,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-37811
 
-On Mon, 19 Aug 2024 08:55:45 +0800, Bard Liao wrote:
-> Intel new platforms can have up to 5 SoundWire links.
-> This series does not apply to SoundWire tree due to recent changes in
-> machine driver. Can we go via ASoC tree with Vinod's Acked-by tag?
+On Wed, 14 Aug 2024 10:39:15 +0200, Cezary Rojewski wrote:
+> A spiritual successor to haswell/baytrail removal series [1].
 > 
-> v2:
->  - Change the patch order as per Vinod's suggestion
+> The avs-driver found in sound/soc/intel/avs is a direct replacement to
+> the existing skylake-driver. It covers all features supported by it and
+> more and aligns with the recommended flows and requirements based on
+> Windows driver equivalent.
 > 
 > [...]
 
@@ -63,12 +64,34 @@ Applied to
 
 Thanks!
 
-[1/3] ALSA/ASoC/SoundWire: Intel: use single definition for SDW_INTEL_MAX_LINKS
-      commit: b27404b2bbf951a11500525dea15681cc970226c
-[2/3] soundwire: intel: add probe-time check on link id
-      commit: d2234596be2192d9c1ae34f8c7534531191bc433
-[3/3] soundwire: intel: increase maximum number of links
-      commit: 1f3662838a05f1ab6af89a417f6f252d91d0806b
+[01/14] ALSA: hda: Move SST device entries to AVS
+        commit: ec7bccd770b628a465458194aeac4408cdcc5ccd
+[02/14] ASoC: Intel: Drop skl_machine_pdata usage
+        commit: cd5c4dd97f35cd7cf772fc8c12738bd971cbb58e
+[03/14] ASoC: Intel: Remove bxt_rt298 board driver
+        commit: 4d61ed7609d8b8fef71f78db6a8ac3221a46ea17
+[04/14] ASoC: Intel: Remove bxt_da7219_max98357a board driver
+        commit: fa07502e01569b39265008bac783a1202a7560e5
+[05/14] ASoC: Intel: Remove kbl_rt5663_rt5514_max98927 board driver
+        commit: a08b5fde945ef8b427d2d29515a806fe571d7639
+[06/14] ASoC: Intel: Remove kbl_rt5663_max98927 board driver
+        commit: 1af24289751253e58850ba572c584f7e6b1caa87
+[07/14] ASoC: Intel: Remove kbl_rt5660 board driver
+        commit: 1a40ef882fee37006243ebf0b4848c7811672fe2
+[08/14] ASoC: Intel: Remove kbl_da7219_max98927 board driver
+        commit: 1daa8dce04619f39d4d8ee43ae2a0cec9ab31897
+[09/14] ASoC: Intel: Remove kbl_da7219_max98357a board driver
+        commit: 15d6966580f3e40fe2f4ecfcde2edd69cc5508e9
+[10/14] ASoC: Intel: Remove skl_rt286 board driver
+        commit: 51d8e9b20db840e78e0d1ff585cf4c8eb4e091b0
+[11/14] ASoC: Intel: Remove skl_nau88l25_ssm4567 board driver
+        commit: 4dbf2f9a725d1370d67f9a3bce2f33e913b57e52
+[12/14] ASoC: Intel: Remove skl_nau88l25_max98357a board driver
+        commit: 6de8dddc56b0577df996212b634f82f6f1fb013c
+[13/14] ASoC: Intel: Remove skylake driver
+        commit: 46e211411113932be1fd31580a03502466648f91
+[14/14] ASoC: Intel: avs: Enable by default for all SST configurations
+        commit: 526139aff1d14c5a2cc0a769c063f439444c61c2
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
