@@ -1,108 +1,86 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAA6518E361
-	for <linux-sound@vger.kernel.org>; Tue, 20 Aug 2024 15:09:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF28F1917CC;
+	Tue, 20 Aug 2024 16:03:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724166556; cv=none; b=DC8UBkzqPUjHz6RlKYOh4KEt+5xMCQgMbJRo7TxJB1u7c6zrz8YRZ9Jik3MgNiQFgRgMpP4etMcHQmiLYMzX6o2jyN6Zd0+CxGmKhkavVpKbOLMj2UuH68pjcm5xGSR9mUwwufT3griovi7mhqVj6ak+W+0jEO8S1WKHoYVjbQs=
+	t=1724169806; cv=none; b=H9r9NAJcOnGXR1X3JgRqXU6xXpHSTqR1W2W2GFzy2paDJLNn6fERM5O430I5YQwAl/sY5DeaF9uu3g5UjrfwK4ODyAyaLnLbWJCHakdayFAEHaY5SD+MQSCRk0mc8aIy8tyBtVIRjv1pAS3G3dOGEvx8aCd2BMCZtCqFSn9XsfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724166556; c=relaxed/simple;
-	bh=KiHywWfuUc+o/StRBaQwmAr/5d75+0UNF/dulRFDC9I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TvXQCM4NJCvMGX95zvxEV1P6l2tSmQTHN87shdbHozoPVRNY8caf5fJ8YO5Qyyr8bR7gOGN6re5ND3QVBR+mExNvBBGOEL9+Pwd2zMUBQfgEd8YnzVWhZFa+W9WmTdjSkbAVUZIzkDhm2wz41F91eu12C38cvOvx1HUERRlzDu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NrBPsUFa; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724169806; c=relaxed/simple;
+	bh=FM/6slYqkUzhEFqy4cFsVFigikMsa3+XDaqNAp6RoJk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Y39Xkq2VwogqyO+9BbL20GxuOpS2omqJmr/+YXxh27rqivSwY/i6xMR/W5p66b8oIJtIvNTJkBXft7A7a9c/au+TyXIrmgoVhRWuYWjKiayYkCmGrAI2rcO2uVKo6+ubTbnMaR1fa32uo6Q4Bc9dJQqckQNkGbRxbaBDyamkqZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TEHVLSqu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NrBPsUFa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF86AC4AF0F;
-	Tue, 20 Aug 2024 15:09:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TEHVLSqu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B025EC4AF0B;
+	Tue, 20 Aug 2024 16:03:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724166556;
-	bh=KiHywWfuUc+o/StRBaQwmAr/5d75+0UNF/dulRFDC9I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NrBPsUFa15qG1SwQRydjwJx6NwTz9RGv34gGpaTiZWei6rlWKMEXJJGEYIAsEYd4e
-	 oH35ZUlYgdioL0w7+JTMISl3Zf38XGwSvW5CU6pOxks4kfS3YETzwu0FxoKXHl3nKp
-	 oWHz1E3QAF8Vjmqtqn2kNJKzTIA6r7hsVdZgYnGFEBj5IvAkRsmtYAo2g73B/kf8/o
-	 xY2ovV3Qh+sMLsgwVHaX8D8uzsE8XHjEj+q1Fk9ce74l2VqXIzFHRDYVhrs/u+fOSi
-	 JXJ1DVx7vW2Rigbp6aUdwkkZVXrpuzDLCTd4AbDrSytcTFbA488ArmGYh3nQv4Trnd
-	 dHZBHge2GcLFA==
-Date: Tue, 20 Aug 2024 16:09:08 +0100
+	s=k20201202; t=1724169806;
+	bh=FM/6slYqkUzhEFqy4cFsVFigikMsa3+XDaqNAp6RoJk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=TEHVLSquwf9Ig5CgXWKGLxZ+TqKYi5Qtp/qj9KwEgmJ2v3G1DbuDsjRF+WrHSGCD8
+	 W5TjO73j3fHSmsgSI02xCD/zgg9U47996m+hCuFFLagBGpz/GY6rjLFq4aVmtuZIhK
+	 Es4JwxSriOx+6kjnYI6X6kVMcDlpFsGIQRX1+ngU53SM7YUXpPm/0X5lHKMKpATl1C
+	 FUnqIFjg1R5b1UmnHeo9S0eDk/OJDgesjitp6PVd1o1ZeO8bqaqpZ2Sec2Be4hQfGv
+	 bzJKHYwQpLK+cPdjBRNcKm9AKGDMRNzXKk4WJJl/m7m6Kl/fsyR7HMPjIMtqsMlVqv
+	 g8eFm0ctdbMVw==
 From: Mark Brown <broonie@kernel.org>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, tiwai@suse.de,
-	vinod.koul@intel.com, Bard liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	srinivas.kandagatla@linaro.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	vijendar.mukunda@amd.com,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Shuming Fan <shumingf@realtek.com>, Jack Yu <jack.yu@realtek.com>,
-	Oder Chiou <oder_chiou@realtek.com>
-Subject: Re: [RFC PATCH 01/16] Documentation: driver: add SoundWire BRA
- description
-Message-ID: <c3f0e732-7118-4868-8b61-a9c288aee1cc@sirena.org.uk>
-References: <20231207222944.663893-1-pierre-louis.bossart@linux.intel.com>
- <20231207222944.663893-2-pierre-louis.bossart@linux.intel.com>
- <38d0c1c9-d60c-4ddd-b2ee-091d1717a377@sirena.org.uk>
- <be277abb-af6c-470f-8237-17f45bd990b8@linux.intel.com>
- <09a5b041-62a8-4c85-9885-045079db796f@sirena.org.uk>
- <fe930297-a6f6-43cb-86cf-d49939dc5090@linux.intel.com>
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Cc: alsa-devel@alsa-project.org, pierre-louis.bossart@linux.intel.com, 
+ yung-chuan.liao@linux.intel.com, ranjani.sridharan@linux.intel.com, 
+ lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com, 
+ venkataprasad.potturu@amd.com, cristian.ciocaltea@collabora.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20240819061329.1025189-1-Vijendar.Mukunda@amd.com>
+References: <20240819061329.1025189-1-Vijendar.Mukunda@amd.com>
+Subject: Re: [PATCH] ASoC: amd: acp: replace desc->rev check with acp pci
+ revision id
+Message-Id: <172416980343.391665.2003933347335223810.b4-ty@kernel.org>
+Date: Tue, 20 Aug 2024 17:03:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="OHDe/+eYMNW5Bw4n"
-Content-Disposition: inline
-In-Reply-To: <fe930297-a6f6-43cb-86cf-d49939dc5090@linux.intel.com>
-X-Cookie: You are false data.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-37811
 
+On Mon, 19 Aug 2024 11:43:29 +0530, Vijendar Mukunda wrote:
+> Replace acp descriptor structure member 'rev' check with acp pci revision
+> id.
+> 
+> 
 
---OHDe/+eYMNW5Bw4n
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to
 
-On Tue, Aug 20, 2024 at 04:58:30PM +0200, Pierre-Louis Bossart wrote:
-> On 8/20/24 13:53, Mark Brown wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-> > As far as the regmap core is concerned, yes - with SPI we do wind up
-> > with ordering but that's because the SPI sync API is a thin wrapper
-> > around the SPI async API rather than anything regmap does.
+Thanks!
 
-> ok. I am struggling a bit to adjust the plumbing that was obviously
-> defined for SPI.
+[1/1] ASoC: amd: acp: replace desc->rev check with acp pci revision id
+      commit: 1004f34d4f4a59aa5508c3b96069759efa738544
 
-> The regmap async_write() doesn't have any wait, but there's a notifier
-> that needs to be called by *something* that waits. I think the SPI layer
-> has a set of kthreads but in our case we could just rely on a a
-> workqueue after 1ms or something and do the wait then for the DMAs to
-> complete and finally call the notifier to wake-up the regmap stuff.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-=46rom the regmap point of view the expectation is that when the caller
-wants to know that all the I/Os have actually happened it should call
-regmap_async_complete() which will do the actual blocking.  regmap
-itself won't autonomously wait for anything, it's up to the caller to do
-that (presumably it will at some point care).
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---OHDe/+eYMNW5Bw4n
-Content-Type: application/pgp-signature; name="signature.asc"
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
------BEGIN PGP SIGNATURE-----
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbEsZMACgkQJNaLcl1U
-h9BTaAf/Sg96OU2OZYHZQtScOCZXaX4NSWY4h4fmi8obkPYGy+sk7iMAyBOU1w0b
-/MvV8GHE53CBkj6mlamTFY/2KwXIvbTXOJ4HPfqqPLBr881d7ywMEfNl23GF3SZx
-qsQNCvRkYr4No+j0YxqDDuNlvgxnhx3UqwH0QRT2Oa0cmQhsI7KH7pT9CUWBUY50
-7vjtSUv5VIglZX8mut4JyaNSkKxeUFo1JDM3F7JN+bR2YzCKJeVTvshQtVbS0Nl+
-1/tfvS+5gzbLbSwQ7yesWgbiYUWpDf+r0yib1GrGl5xdasqNKcbt+5Y5iu6+h/39
-mUQKmtqzE+oHOHGCSOm+LvHNzP1M8g==
-=43Eu
------END PGP SIGNATURE-----
+Thanks,
+Mark
 
---OHDe/+eYMNW5Bw4n--
