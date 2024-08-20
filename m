@@ -1,117 +1,261 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011021.outbound.protection.outlook.com [52.101.125.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C10412E71;
-	Tue, 20 Aug 2024 01:13:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724116432; cv=none; b=jaLqrQusK/8NQdpiIHw2yQvnxtVOBRnE0EoXeIh6EC2eccPsp9POA04SI1+f+l7+cvYrqkTa9k3g3bG8dG8xiO9zE1VswMrmCvrpsYwVn1raXQ364VYXgIe8zXBvVHtbZSmRDL06SVT2k73a86ENWiWMf9+uTAkqufeu1RhRXwo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724116432; c=relaxed/simple;
-	bh=kaBfKsK8W3enPAV3chXtxSm4VlD6KstYlp0RGouhFCY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dRYzyaU15/LakaqjSf1fDLvAxDwZsP3EG3yBxLn16UmvtNXh1zEcZRkEl2tI5qHtIsPpOctpiroMGo7Y9EuKccSqU//t4aNOGmtAHWAJXkTvquyU2rWv1DYB3bP2IJ7PzDqiVNO8bqJgglFLi5R5K8z5LZkfTzy5oHy7oGaSeBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gsKO77Eu; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 621351798F;
+	Tue, 20 Aug 2024 01:36:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.21
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724117809; cv=fail; b=X408cX79hHGIkjmj/VafVvyyhhj+X8LtWkd3sZD71pxCdbukN15HD84u4RpQLZuo3g6KnnhHqxOG9lgf1hyHB19fXnygv4jh60ULU3PNUVcOmICuPibtkrQc9dgjFzjQyLb9/LCfqehbRVST1xxbFDryZ/MPeLKjbw61jFCl18I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724117809; c=relaxed/simple;
+	bh=1mgCJ0QNDPHVgNh+qsumvMj45XJuXjgWi5G/dRvQaEI=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=Lav+w+MmSb/XzZStjAQU+96aUFgBJWAqMbAxI0kFMYCzkFYYMFQe9BhfvurPWp+9NzAXTG92RQ2VnlxpgkJjN6qv++wd4CprJ65af6WKCx7rci9w0jy1bGetuL5YgeYRi68zuHDFFX9r2tae1A8ldMXvHqjITL5znadg2SvzDbg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=ACPQEUOl; arc=fail smtp.client-ip=52.101.125.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gsKO77Eu"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-6bce380eb96so2862032a12.0;
-        Mon, 19 Aug 2024 18:13:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724116431; x=1724721231; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uXmktjdxKs0kqyNvIyHj9YIXp7GC7yWeIp3c/2fZgjE=;
-        b=gsKO77EuxQNH89aw384KgWiZEoh6J7G241TbjNfnldBYbzQK5t2SO6hvO/UL75IyhW
-         DE8w3oY1vVcSdjBRp9p4VjI8zXaVBRDutcvySTCtyu6D10DyZEg1OKoQH3/7OSjcgHuQ
-         LYsmI1fK7QIJGJFqYgfwSxt5+eWBe+hXWQIOTJdB0PtBmLbFwes8wF7YeqB8WQO2Tuql
-         4h60f3RVFfWGcvUERyjetj8nyXdH1lUMFOqiexX5GLBHsxbP1TlUlKCyPboYJ+nYEp+7
-         n88BpkS/+P9yA+BQDQ3Z2a9v7BxfZid57ys0Ux2Jc6oR8na2EKSx+JhILaB60StmPyu0
-         RSdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724116431; x=1724721231;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uXmktjdxKs0kqyNvIyHj9YIXp7GC7yWeIp3c/2fZgjE=;
-        b=ln5o3yW1nlIAmmRnMvs63hDJewT3yG8C0M/Ox3aPcaetnLaOjwDXSv1BIu2OnNL6L+
-         MB0Vv6rYoJE1rMSqit+EVYY09R78Fu0wnLa7I6Z2ghr7w6Oq2O/AnEujAwnFQTnG7YZe
-         usOqfFSd+d6aLN2nNEJR/7oEFu5Dx+UChd1sna3GCq8l8xXIkDZMQ+C9lKRqVPjwxolS
-         eBIsINSwbQZzL5dhwnaZcQj8xrw6G4Zwt0a8uNY4G9SVDSfBlgcb8ECNJNtHgSr+q0lS
-         R4ubir2/EWsxAl2VIc/omever5t/XBaQ9CHBboXFEQ2KmMkX6ZuxeiXmIyauFPX7rqlW
-         K99w==
-X-Forwarded-Encrypted: i=1; AJvYcCX6TSGkMq4Y8HAILg34/IrTj114ktRLKqBUP7Jn2BJK+3tfRslDIAfZBUHjJfCXAXJgw1IOlL1n7ZTSRPc=@vger.kernel.org, AJvYcCXl6pziP2FMoG+TXYHoJdLz0iAqdKBde8DeoQLwuFVtjGD2mucvR7sq8UWCOkVbMOKY+JZZBeheYxaDIII=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxwyC9k0PsUjuqqm6QvVqUaQWrIqi2PjsfNuqX3hrYF5Ovv6cav
-	gtgSwNgQJKpgpo38coxgCWUUGYBYfeR5sErjYbKS5SH44JoqeM04
-X-Google-Smtp-Source: AGHT+IH/rkSGDdxNRnPP4+AkDxOpDtHgn8E4EywUFQaKUcQB1hoKA0tTt8KdYKzZo4MdYKkRvGMwtg==
-X-Received: by 2002:a05:6a20:4920:b0:1c8:ebd2:85a9 with SMTP id adf61e73a8af0-1c905052b10mr8849647637.50.1724116430273;
-        Mon, 19 Aug 2024 18:13:50 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:f80c:1483:bced:7f88])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7127add7df5sm7162170b3a.43.2024.08.19.18.13.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Aug 2024 18:13:49 -0700 (PDT)
-Date: Mon, 19 Aug 2024 18:13:47 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: tas5086: use sleeping variants of gpiod API
-Message-ID: <ZsPty8oNMQk4YTl1@google.com>
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="ACPQEUOl"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FUqddecPG83EOwb6f5j7HjFAxcv7x63siGwZSmYnZlSpnyQ0IGzwd9kya8ODTLLGSC598RI9BtUfE2h1F7AYHoSDqfoUeQEyCo1JfT1Wb06RtmxPAf38UJprgiRDak1EbohxatTX09XaWUuDcpzSUVsmVHakFiP8e03gSenIUd6rSIu03YLQsYBeMC4Ec5hnD5Hu6YwzQGp6Xho++DdMcyiK0PI7UDCsCmq0jGEz0SqLp5tTNUC0/Nt+nE7TJkKwfoWRGhSXcTsr6vmr0KVPw7zrdEFoRYfTV5lJcdJIJYj0jzCzveUPHjxQrYHUNF0jZRiglFuz3JQRp0snpsLcuw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dA18vKKY8K9JbTVtVIkFGRw5M8O06+NHVtNAyhjGHec=;
+ b=PY58vIn/sb36yEj4NZAlo+jzdjPKPNYf8pptnAe4K0juDzR523/jarJLBG4EjfdLI33qDQVofEx4te+mQZUbOy9PJwqxmsElNWhLUzMQD1Q0N3N4UvyjXQrymu3UoN5gp56PLBdQ9aKcoXKqNiAEMLDtiqTI6ysvMzJLZ1vggA3XkCTmVj3ATEIn7iYi8P/Ak6EEJzmmSJpZDu922l2zkLPDZF4+xmxaWW5Btsxkw6nfu3wt85gzR+t4d9Ek57htZ5rJbzq3jVwqkLcnbyp01z1q2uoM0Uzw8HRHhFLfyHn9Jipg5Le52yAXFKqfoah/dT61HZkEwxxfaxnHRfZmXg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dA18vKKY8K9JbTVtVIkFGRw5M8O06+NHVtNAyhjGHec=;
+ b=ACPQEUOln5TbGo/xnwyczqJM21yxYYcC7N9mlHmtOZz8ntocx/ieuGo6A02TotKiELGeMBneHtWi19TSHVKua6nMpYty4O8rzlVOeL83XfDPZg4/OgcqJaeh2rBxWL1W+Zj2F83I8c8h2eKWwCgp3rx7ANvywAguAell0Dc44N8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TYWPR01MB11234.jpnprd01.prod.outlook.com
+ (2603:1096:400:3f2::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.25; Tue, 20 Aug
+ 2024 01:36:42 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.7875.016; Tue, 20 Aug 2024
+ 01:36:42 +0000
+Message-ID: <87zfp8561i.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>,
+	David Airlie <airlied@gmail.com>,
+	Helge Deller <deller@gmx.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Michal Simek <michal.simek@amd.com>,
+	Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-fbdev@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@iki.fi>
+Subject: Re: [PATCH v2 1/9] of: property: add of_graph_get_next_port()
+In-Reply-To: <20240811170316.GL2270@pendragon.ideasonboard.com>
+References: <875xsa8gws.wl-kuninori.morimoto.gx@renesas.com>
+	<874j7u8gw2.wl-kuninori.morimoto.gx@renesas.com>
+	<20240811170316.GL2270@pendragon.ideasonboard.com>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Tue, 20 Aug 2024 01:36:41 +0000
+X-ClientProxiedBy: TYCP286CA0118.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:29c::11) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYWPR01MB11234:EE_
+X-MS-Office365-Filtering-Correlation-Id: bddc8a73-bb94-4fbb-aaa3-08dcc0b88b14
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|52116014|376014|7416014|366016|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?zGNTRb2d4sGq0l8B36S5czE3AjyL3a1Ro87T18qpk/o1VYSPakJAyIBTY4mg?=
+ =?us-ascii?Q?9UyzKJjbMz1eAVwoyCZ93tNCXExUrrv8ceMuRdElCuBk7ao/4APMAbUqSJDS?=
+ =?us-ascii?Q?wEpl4LKFL5lV/NdniZzx9sIevZ4CVcnkMdgiDjnFUHFSRtPaByGK2Gpy3SaB?=
+ =?us-ascii?Q?DkhGEA48N9dZDG339QQCdy+2CHXCS8hE133OPhHsf1X0xtmzf8s00Vu2KGw/?=
+ =?us-ascii?Q?wQHO0Wnbzfb+BTtOXLzzC8xeMuAkFpZxvACvzq3+YsvEbDSyawguuUL8TJAW?=
+ =?us-ascii?Q?SQ57sVKlCYyemuy5HvtqeRcFFJoY+td8sReQmW/GtCWVgJDCUysGc9tuk+3p?=
+ =?us-ascii?Q?aVyBAsA5UpPIhrZ5PsKIzwDr4a+1uECkA4nTNUJAdiEEEBF2rZ7h1p9nNNQq?=
+ =?us-ascii?Q?mOHFH7W5kx7JNfKJWhz9a3gORaEJLIA9GnS+53uNz0JynesHCKRS2gI/9q+Y?=
+ =?us-ascii?Q?NppsLa8oe2yOQxSM3vDir2eUHaV6NlA/kZeF+zpy3VmH2M54qCQS3rmChku9?=
+ =?us-ascii?Q?AuUMD1u0lWO+qzEWGhOqgrwg0bDFCx5gMtjj3Nbo1+MaOS3BVVPtfKOkZPwy?=
+ =?us-ascii?Q?PHLdCJEabybJzO6/r4JD4bjQD0sPG+sp2xDp3gshpPJ8PYItUYYmj9YIZ1nh?=
+ =?us-ascii?Q?BFzlaNlPXRqDnE7aM4Vvhr8zBMTOV/jAR6mFLIavl6BuCi6Su+pPRR81MTCC?=
+ =?us-ascii?Q?0ZAVAFyaMWS0oMbqRIM15/BLMy7JiZYm3MnyE+MQL3X1bQ/Z3VVMs18iRnmv?=
+ =?us-ascii?Q?bWaxFqAnaqxqrZKjFrmuzL2CGcBfAzfIlMweXv0au1otVj0cm8Av34YO9+UQ?=
+ =?us-ascii?Q?ZFtfrziGAfq3ac9nSS9VlMOc4X/lWhDlOSi3xesiwafIEvztwnAtDIWSQkeg?=
+ =?us-ascii?Q?SG5D6FZlOc9keqY0xXgUzV552ZbZsd6H7sGSjADko6e+cAmRpru1uQVbDnnO?=
+ =?us-ascii?Q?Qst10cCl4K9eORzoWxoE5c5wiy7lA0EMM8T43IU42ZtaCwSWT67W9UH8WtD1?=
+ =?us-ascii?Q?ynZ8Aq5/hIJSYaGGOgncCH07ZJDDO1AjYQ+iHNztMB2bgDb/aERyNNlCZ+7Y?=
+ =?us-ascii?Q?ADg/+ZZHk6Cixcktqkb1e3Z9N1SnYwqVJ1dK30NTrTakF/wK89BGoGi+i7LM?=
+ =?us-ascii?Q?4M5IunBDYeL9/s/hc+xDHo3dl31uUVCY4OkM6ez6nsmGC0hJ1dgjV2KAY+DV?=
+ =?us-ascii?Q?5g6TqE3SHnksn7KDLcDLcFnGv2OZBJMHRFLnwbhMU1qR1/kZs+1j6P+6+sfd?=
+ =?us-ascii?Q?5x0DkeYULpvQeF/qPT0rOmIUWPwlQp4/GUXCqDoycTAZY2KtTj4XFj8YW0ye?=
+ =?us-ascii?Q?soIoz5U1iwTySj9mi9/4H/ykoxG93MDFyT4aciBosgrXA6iORsGkFC1BTyTI?=
+ =?us-ascii?Q?i4mEEQzHK86iNGrr8ZGBu4en0m0fw1P/s/2+rqdTrrc0Qm8EJg=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(7416014)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?/3D7JrrKmxsu2Wpgy/hHtkhQjXpu/1OHkUAn2+3ArV8ACdXbIv0p1Ra/l+f/?=
+ =?us-ascii?Q?UyWtKFZ8WxN9LdYAOjpGfkBK60bPRYIt59OxEJK+EwZk9+yV/204r1uPFEQK?=
+ =?us-ascii?Q?3XzejZOLyhF9vCic2D2LAp2utdwUR8yd2EW4argEfsUFnzqn7eqIMwr4AnhI?=
+ =?us-ascii?Q?mUgeRluNdud2OHOgVjdZKj5LkhRRMTnA2dCYKi8sqvIX6s2o29eAz1klROlX?=
+ =?us-ascii?Q?QLQW/iFiRfdSKsOCI2pKELEV1JfaByqwL7JXPkJJInKifw8SmwoH55QRLAtg?=
+ =?us-ascii?Q?rlfTLpXNSFT+zlceB1BjGN4EMCYrbD9jTDqc6ilE+hOhGZB5kG9mFyVN/BX7?=
+ =?us-ascii?Q?m3ezwSIUQw2RGZ6T+CXGmwRtHbu79Nb8bBy8h6s1XOYED8Fn+lXf5DrWXIOM?=
+ =?us-ascii?Q?hzyQU5a+nVjNz8Vfn723YkxBWFjTyS8JLqm6fjn+962L91VY8CqMrL5m7hhZ?=
+ =?us-ascii?Q?VOgOtzAb+royyz24NFg+hFyGb7GcBvhAZCAplm+a/MLO5OP6zlZy0B6yrVVy?=
+ =?us-ascii?Q?o7yUtDDZgDrOx1zXlyosc8JDSZZMo2k3Iy/tJxmzAxZW9s5BtE6qBD9Bs6u5?=
+ =?us-ascii?Q?i+lblLD4/smDw2Y7dRIUuKE/1n+mxrb5GcSPQNaWUSWJB6n/RYGM+Op0MOCl?=
+ =?us-ascii?Q?04QxptBQQ/wBy5xRmQgK/xEaRbK7Ms3bzEbJ/nCMTkVLSVf1ecZicGnEekKP?=
+ =?us-ascii?Q?DMNPlWuYI7YM0QsDXBDq8f6VXQq+IoVXpBEDAmtgdkOrbu0O3UA6JZH4wOU6?=
+ =?us-ascii?Q?YIflwDCmC/iVRPM+wZ9r2wFp7iWGy5UzZDUh06GlZizlEfVdLdU4dxPiJHtY?=
+ =?us-ascii?Q?hnn80KwfG0axIpobT93WKNsan7vFIviDvkkgLHz8t1PMPv7QyDm6ZLQt/pnN?=
+ =?us-ascii?Q?2N8rX/gsjAdgzrlWDPnYiugnVckPOZiU0yV273rqVVAnmUv3ohQaJuvNfEnM?=
+ =?us-ascii?Q?OqRig9uw2Tdc+B+bvYoVjvxwhS8Emez2hrnhiuviP8i628jp1Ho0LNqQ7qOK?=
+ =?us-ascii?Q?nsfdAzEPJCWxyGwWynx3BRjFiL/YJwAf7wPR55/GT1v+wctSMotZsiVQHwrb?=
+ =?us-ascii?Q?UhQg0THAKJZ4Tu0dTde0cxX/SfEhVYv2AGUc+BshlExApTDDS6CcpifCaHZH?=
+ =?us-ascii?Q?z3sYkwFdlS3K7AWqaXAVEeqEF/VqTK0Ha5Vi+hTc4YrRdsYZ6N7a1KR4uQRn?=
+ =?us-ascii?Q?Hnh92iD+ckKYFg5N4N4Pv8SE8I9P26/V2bDRDsrXBAdoqWlfHd4fGdcWZiKo?=
+ =?us-ascii?Q?TffQHk3t9XA4iZCe878SkjzAVfgXv0BWkMa1BtpK0FDMibJtv04lDdx46u1C?=
+ =?us-ascii?Q?drUa/nEOp2NPtejIfV2146cYgOE93vAdAcMon5kSzlLTQiTVymfilcEiKhAZ?=
+ =?us-ascii?Q?t17M5T6SdDrPxZOoYDe8MgAbeQSC8RQnqgC152aM43zCqnVPU3cjZoV3Tuqq?=
+ =?us-ascii?Q?XWAmb8wRXqFDeup/+ihpoDCXi+59+BDsaBAJVy2aUBtJFgE9Z4IREDGv9v9a?=
+ =?us-ascii?Q?i5Tj9DjKniaZAAAKKQlKCcOyuQt4ISrVBHujFoQPu062WtIeatc0c07qx/d1?=
+ =?us-ascii?Q?wJHW3GjND3LtmFBXctCofiHs5T5FNpXcqowfOEVwJ3XiVqZIGgC7eKvIZcMT?=
+ =?us-ascii?Q?ipCV9yAek6zUenZSOdyI/N8=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bddc8a73-bb94-4fbb-aaa3-08dcc0b88b14
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2024 01:36:42.0662
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ivTU8AHtKuKYP6WB+uOZe230uGXTs8eebjYycfQdyV9J4TCUsWcOh6hC4WTwLpvJa5Xf0/G2Fh+kFB2Hpg1FC6flBXAHIbQFoq7/zlk+06TwTxMSN3DyPCJvxaxzt51j
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB11234
 
-The driver does not access reset GPIO in atomic contexts so it is usable
-with GPIOs that may sleep during access. Switch to using
-gpiod_set_value_cansleep().
 
-Also the reset GPIO is configured as output at the time it is acquired,
-there is no need to use gpiod_direction_output() when executing reset
-sequence.
+Hi Laurent
 
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Thank you for the review
+
+> Having multiple "ports" nodes in a device node is not something I've
+> ever seen before. There may be use cases, but how widespread are they ?
+> I would prefer handling this in driver code instead of creating a helper
+> function if the use case is rare.
+
+In Sound, basically 1 CPU device will be 1 Sound Card, but sometimes we
+want to handle 1 CPU device for 2 Sound Cards.
+In such case, it needs multiple "ports".
+
+1 example is
+	(A) arch/arm64/boot/dts/renesas/ulcb-audio-graph-card.dtsi
+	(B) arch/arm64/boot/dts/renesas/ulcb-kf-audio-graph-card.dtsi
+
+We have ULCB board and its expand board (= KingFisher), and both have
+Sound interface. In this case, we want to handle ULCB-Sound as 1st Sound
+Card, and ULCB-KF-Sound as 2nd Sound Card. Before, it was handled as
+1 big Sound Card, but it was not intuitive for user.
+
+Our SoC's ports@0 is used for ULCB-Sound (= A), and ports@1 is used for
+ULCB-KF-Sound (= B) now.
+
+
+> > +struct device_node *of_graph_get_next_port(struct device_node *parent,
+> > +					   struct device_node *prev)
+> > +{
+> > +	if (!parent)
+> > +		return NULL;
+> > +
+> > +	if (!prev) {
+> > +		struct device_node *ports __free(device_node) =
+> > +			of_graph_get_next_ports(parent, NULL);
+> 
+> This also makes me quite uncomfortable. Iterating over all ports of a
+> device node that contains multiple "ports" children seems an ill-defined
+> use case.
+
+This is because having "ports" node is optional. The driver code will be
+pointlessly complicated without above.
+
+Below 2 cases are indicating same things. So driver want to handle these
+by same code.
+
+	/* CASE1 */
+	device {
+		ports {
+			port { ... };
+		};
+	};
+
+	/* CASE2 */
+	device {
+		port { ... };
+	};
+
+	port = of_graph_get_next_port(device, NULL);
+
+
+> > +#define for_each_of_graph_port(parent, child)			\
+> > +	for (child = of_graph_get_next_port(parent, NULL); child != NULL; \
+> > +	     child = of_graph_get_next_port(parent, child))
+> 
+> I think I've proposed something similar a looooong time ago, and was
+> told that iterating over ports is not something that drivers should do.
+> The situation may have changed since though.
+
+I guess you mean checking "endpoint" is enough ?
+But unfortunately, it is not for us.
+
+I guess this is mentioned in git-log, but we have *Generic* Sound Card
+driver which supports many type of Sound connection.
+
+	device {
+		ports {
+			port@0 {
+				endpoint@0 { ... };
+				endpoint@1 { ... };
+			};
+			port@1 {
+				endpoint { ... };
+			};
+		};
+	};
+
+Because it is *Generic* Sound Card driver, it need to know how many
+"port" are used. In this case, using "endpoint" loop is not useful.
+It want to use "port" base loop.
+
+
+Thank you for your help !!
+
+Best regards
 ---
- sound/soc/codecs/tas5086.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
-
-diff --git a/sound/soc/codecs/tas5086.c b/sound/soc/codecs/tas5086.c
-index 4bc1fdd232bb..b97c0e885713 100644
---- a/sound/soc/codecs/tas5086.c
-+++ b/sound/soc/codecs/tas5086.c
-@@ -463,9 +463,9 @@ static void tas5086_reset(struct tas5086_private *priv)
- {
- 	if (priv->reset) {
- 		/* Reset codec - minimum assertion time is 400ns */
--		gpiod_direction_output(priv->reset, 1);
-+		gpiod_set_value_cansleep(priv->reset, 1);
- 		udelay(1);
--		gpiod_set_value(priv->reset, 0);
-+		gpiod_set_value_cansleep(priv->reset, 0);
- 
- 		/* Codec needs ~15ms to wake up */
- 		msleep(15);
-@@ -866,9 +866,10 @@ static void tas5086_remove(struct snd_soc_component *component)
- {
- 	struct tas5086_private *priv = snd_soc_component_get_drvdata(component);
- 
--	if (priv->reset)
-+	if (priv->reset) {
- 		/* Set codec to the reset state */
--		gpiod_set_value(priv->reset, 1);
-+		gpiod_set_value_cansleep(priv->reset, 1);
-+	}
- 
- 	regulator_bulk_disable(ARRAY_SIZE(priv->supplies), priv->supplies);
- };
--- 
-2.46.0.184.g6999bdac58-goog
-
-
--- 
-Dmitry
+Kuninori Morimoto
