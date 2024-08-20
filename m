@@ -1,297 +1,129 @@
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011037.outbound.protection.outlook.com [52.101.125.37])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80BBE28371;
-	Tue, 20 Aug 2024 04:34:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724128448; cv=fail; b=sCKKjhSt0+b94JN5Xgi+E/WrmJRn6UnXFk7aGlfc8u7qC3IdOaHavhYnQxMBBw9a04lRKUBli5RL+wQUBpvC0ti23hEOLixRqt5TdEL2gTFOqcoNdpybjWdpcLe0eXSpfVJiqhv0+qcEI5D2aavd2RBX6aglOamCI60J3+8lzec=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724128448; c=relaxed/simple;
-	bh=dLJN0J5kWLJKotoWolnIDOGoleNQvR8GoB796rJjFI0=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=RKiOcik7gC3PH+E2XbEQBI5CkvAUXr7x5rjFggI9nySx9AGmQkP4XKsQ74Z7hJc2e28V3oZpC6cfF/a7rNoDdgbtr5z7cL142BTR3e8uFjAYv9oBMap/jO1ckqGLnVOtWyJRH8bQSzv+dmNzkj5KJEFd7Q8n8chZJISTZWeANN4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=KEvV0/lv; arc=fail smtp.client-ip=52.101.125.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC2518E35E;
+	Tue, 20 Aug 2024 06:40:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724136008; cv=none; b=GQ00RxMesye1WD8Nzqwit5MOkCY2fMMNJwmLaqgf+vzcYz6kwNM2j1Qdw36f9Ad82yIta9F76nKe5V+7nBgufqrxs0IWQEwkL9npSyGnGdhXCkQ6674uVkxQ2JhuAnOwE9beoAqy3Cc0KZcHeCoe3ROV8FPRpOUfjuMw029bhQM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724136008; c=relaxed/simple;
+	bh=/hHiRcXgLHm4sUaUmn1kvv9aDZlbaGSXQTZLN7Klh8Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Yst4Zwsl5xppStn7ye34550ISEEr59VoeucJul4NMdl40p8g2q6Lm7T8SycuDjuzipTam2JhpDy/7RNK9NwH00o23aKgnifGOxEYUIjWYb13KY3x2fMVSFW1SvN6N+kxdIpoFwFhAFBJiy6UXjJtBQmChp2p1uSsdYRGhwq1WYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hzf3vvLa; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="KEvV0/lv"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=a6+QU58+fQxqfqwSXwsibb2ap3SeWqnXZJYSP8O5frnJzo2LE7+uAD1IGiZBm36M7bfzADnAfKUquvCGPKVlH1MpUb+rAh2OI6FM8zM847vEmXXOWg2D0c8ISHObbpO1hJLN+jJr+CBubZ7CBJzEmdw3d68D/tWgb2DPC64RA2DebPnj6/1XU+EHrqP6gjSYKNxBd4ekEiw8x+toYjH1H/z/M3pvsunDfNssf/jdQYZM96WiYDP5gW0/Ns+g/ft8IHwiYCCntxpw8Tvt2Q1QIMK17WvtwXXv64cEwRBSzx4+EF+tLpU/o8CTjLmUEk+5DXqcbTbUTMQyKTw7ncuKKA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DzljShvW8eEQCPSoi7jJ9KA6lkwk0x3PHF6FTdth6NU=;
- b=dwj30I2k1N1OpLIwtXG/8gPYncRJWY0RHZHPIXyn/T1muwpu1XuoKFCLfdWj+HhthR5eQMR1CV/HhiyNM4hwQ7B1PZdLOCvpQmEsc5bZNXwdjvjyw6R1O1MdlyTF7+cdaHewTMfdCT/byMWsNCDI2eJ5qp5aR0//MykakmIZMKqyo6omW9iCQ81MpDwm51YvcCSF2vJRHaRUrFsOWWf7vjiOXOaf2khTdhYKbmnX/yOgSmzeb69JkfHNmpxmr+aI4ghEoxXrmBBkzh4fYsOdbcLnLRGcM7WhVVy1Uhc+OsGI/EqQJn92blvScOYxkjI5Tfj2QLPALVkplcwCJvWHgw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DzljShvW8eEQCPSoi7jJ9KA6lkwk0x3PHF6FTdth6NU=;
- b=KEvV0/lvdWyNdRJIZk/00BSHtpX2yqS0CxXwFTki4v1ZQsgrBYiVvUNZANUFOjy7QYUPRjGrHGJwyjajjAOEkDnfU1aotOLXl5B/1vaMJcKayIUKuCsiSJI0IpZGavZ/b2sjUfKQ3hKf+cyOmO6x25oHfgmLZCXW3F4SBhH6+ak=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TYWPR01MB11706.jpnprd01.prod.outlook.com
- (2603:1096:400:400::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.20; Tue, 20 Aug
- 2024 04:34:02 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.7875.016; Tue, 20 Aug 2024
- 04:34:02 +0000
-Message-ID: <87y14r6cee.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>,
-	David Airlie <airlied@gmail.com>,
-	Helge Deller <deller@gmx.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-fbdev@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-omap@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 1/9] of: property: add of_graph_get_next_port()
-In-Reply-To: <7b5db9c1-5cba-48c8-ae77-f224b7b4834f@ideasonboard.com>
-References: <87mslqw8mj.wl-kuninori.morimoto.gx@renesas.com>
-	<87le1aw8lw.wl-kuninori.morimoto.gx@renesas.com>
-	<ca216286-b09a-4faf-8221-c88c21f4de0c@ideasonboard.com>
-	<87a5hm8n0k.wl-kuninori.morimoto.gx@renesas.com>
-	<7b5db9c1-5cba-48c8-ae77-f224b7b4834f@ideasonboard.com>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 20 Aug 2024 04:34:01 +0000
-X-ClientProxiedBy: TYCP286CA0083.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:2b3::11) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hzf3vvLa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724136006; x=1755672006;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=/hHiRcXgLHm4sUaUmn1kvv9aDZlbaGSXQTZLN7Klh8Q=;
+  b=hzf3vvLaPyT72YwlfpxPwBNxh6f5vZrIW/KUrDIwGZ0kkTCJoc+iSDVv
+   zMJGvEKw7fRKM8EwYJIom5a3vdB+rU4e+NelGupv1dvQsUfuh62O0B33C
+   KjAnTXzOVQDwxCheG9kWwCbU/mLyvg5Z2exg8yj/OEfZ9Q8o+/BR1orwb
+   qqhYd6UFSCGVLlMsbn9l5gq8lsQzUBudG864F5OwOY1f1RNZFTVGCAhVn
+   vBtHyO6LIKjE9RL9Nk7x29+G1HMXGJSg0XaMhHo9Gb/EqnzSywvqOOcF2
+   KEd7RxUmp/9MG+1jt6gKVYo5G3vhyOpFEqX/HfjyIHNfLeXcbhIR9W3oJ
+   g==;
+X-CSE-ConnectionGUID: CdxFjwjoTfKEp/1GMtWZ7g==
+X-CSE-MsgGUID: yBjM6gz2Q3Kvm1f76jU9Kw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="22297503"
+X-IronPort-AV: E=Sophos;i="6.10,161,1719903600"; 
+   d="scan'208";a="22297503"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 23:40:05 -0700
+X-CSE-ConnectionGUID: BsfZeq6bQjGX4UIBe0hLfA==
+X-CSE-MsgGUID: efE7EHc2Sbe1ViKK24ig2w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,161,1719903600"; 
+   d="scan'208";a="91394800"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO [10.245.246.176]) ([10.245.246.176])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 23:39:59 -0700
+Message-ID: <f507a228-4865-4df5-9215-bc59e330a82f@linux.intel.com>
+Date: Tue, 20 Aug 2024 08:39:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYWPR01MB11706:EE_
-X-MS-Office365-Filtering-Correlation-Id: dfa7cf4f-2096-42d5-f1ad-08dcc0d15121
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|52116014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?qoMIsxPTA1OG/BX+7l0iXVxdz2E+0vh3Vv4/j/EESZlntQHPhlc3oQgXKmve?=
- =?us-ascii?Q?zrivDTook7+DNoLL6cpndfpwuk/pY94D02QNfMmt9B6PO5tnAhRGg6WHt7G5?=
- =?us-ascii?Q?nKAKHy3zyb7AEpdJXlcH5xpL9rFZZRNcf1KCsdv2WfocWJLmZatyJE7QJwix?=
- =?us-ascii?Q?cF/tn2h/QtAmTS44/alPtdsgULbrHgrbcAm4M5Luwe1Sxh511cSNllacr8+c?=
- =?us-ascii?Q?ntDNRepYw3r1L3vIjT/sI6mLJc56XDUXaZCi6r2Pww8sWMJPElgH+hFcxfym?=
- =?us-ascii?Q?UqpoWKro267Vjh2rDI9L17Vrn8RZVWFqT60RVuI2a3cN4Wcn73m4hYBgxV3K?=
- =?us-ascii?Q?KwjXaHBFI575KDGt6GE6K+ePHm3TGJ4j0Z3TppKlkoBNIzs20QXfktZHXRST?=
- =?us-ascii?Q?Y0p/s9AdwpCtTXk06+MtP7bMi2yM7ihNr196c61HU9a/7oPNHENj9sgIzhhP?=
- =?us-ascii?Q?UFIHG6wYlFKcIjWJuBfQiuNb25V/W1f3+P9LFdm7H+lPCT4ebLiisJLDxELT?=
- =?us-ascii?Q?CGsHu1MEsOxfnb9v5KGVTWE6LUnXzp9+jmjJpPJW/6/j5sq4aRyBEWxUCSBq?=
- =?us-ascii?Q?USuNXgNwNwQpy1wWvRCxz5duN89MkpoxNE4HmCDIUlEd/oMsPL1qMFhmISD5?=
- =?us-ascii?Q?aIlXXkaLL1fV4RmlnqC95GaofafwlidBXOyB4L7IgUQQFKdg7wZPWA8gnbjl?=
- =?us-ascii?Q?Xxg8lwmWAyxJT34sAjQHPsQoiNcEh0tl/Q0bnyke1IOwHvzVvUfAC5hTtNHy?=
- =?us-ascii?Q?ehrlGmvPay4JPvlB1vm5HdrXYqMECdr9jUH+pHr1XnehbAtKiinCRGcAwmXS?=
- =?us-ascii?Q?5K2dx2O+l0KKc1ogyVa1GtaNVW7dCO79iuYGChynJVnxKxoCVBl4C19Lq77f?=
- =?us-ascii?Q?XIrVJ2DnWARA+lyxSVyA49vpz039LSjKUAAVVNEyOAlZv06tjxyt0h34xgOO?=
- =?us-ascii?Q?KHOvfWjLHuVnQpT9GMlXKE550bbDY9EYEGL7zXxr0GBLqk3T6a34zJQ9axzx?=
- =?us-ascii?Q?UFn1EBHXgM5OGt2lPT4WBBZC8p02B2BkR4NkMUDb9PEGjYn/+ioXB++IhDJs?=
- =?us-ascii?Q?mL02kjTt1BLY/T7tdTunX/Zr3NcdjhOKFvWUUZxkH7pgfGku3+IZbJw/lecC?=
- =?us-ascii?Q?bgWko2oQJjw6Rut8Hci58B6swV5B9nLfTb2yz52G/sqEWalRfUX1qnk7soxp?=
- =?us-ascii?Q?8kaRGDWCxDY5wUll/dkT4MmNqNXOjgmEazxMvd16pXI73dy5MYJim7QWtfF6?=
- =?us-ascii?Q?/HRn1K745SAz67tUwWFrjYvuNr1X3NbIvI0uuX8lZ+Yp+bPeYE5J7J7/+NrX?=
- =?us-ascii?Q?ABBEwT9rOg9rms2/I9AFS3Z6TLBVlOi9T0WZiV0N4pdlt/7XDHDGY6WL3lGz?=
- =?us-ascii?Q?TgQO0TCAskG426xONg5vbhm3dinFrH9gTE3V5A8pzkC5O6OlVQ=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(52116014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?gqSROLsJ5wpk9rP2Yjd+YBsaLX3Jw7/5MXbIB++vQLf9ipq+288olCbxx0II?=
- =?us-ascii?Q?oFv+nsRRU87j7m68YfWggTiyvvI3AQPn4d9/QYpw1QMnTtpbZpZ//AF03hOC?=
- =?us-ascii?Q?y1Gs7BLUdaarE3GuJLsOBlZ0Sg2Na+xzaEtbczAVwe5g/GvIPq3cXq2jl0st?=
- =?us-ascii?Q?tBuFwV1qRd4WgxxvG1nsy7adpRaCsIxzG9RPL5xH3G5W2IcWSFhp2NEP8Lmm?=
- =?us-ascii?Q?4/owUJQhP7eqIWyunXsTC75KVPXLVZz17hPRvWzjpxxpb/5by7d6AmaaBrKe?=
- =?us-ascii?Q?H+Tlhp8AJoQ/EC8z4y6Aa2/8SbhStXOOVBKtXO4ldQT/nrHv32h+LyckKZvi?=
- =?us-ascii?Q?xZ7+3RqCWbu7IerujmpvWklZ7Rr4sQEArXfPj4n07aAWUyHh2vUxfC+aDd9Y?=
- =?us-ascii?Q?jcDWArj52/hjraprrwLwAs4mNbZG2II2+/lnsER3GR13jNuhMBASizk3Kabt?=
- =?us-ascii?Q?aP2VmtO/FxtKE6iTEBCBGaw00e9dzynhZMuQeiNsIS8N6r5Bwhk2dHKH/Bd7?=
- =?us-ascii?Q?alzHOQMkMhV+OmeF4nB7KCS0QkXFRMJbfg3vMwO7/Q83X8EwtSXNN6eD8m7V?=
- =?us-ascii?Q?R26rAdR1/pfDb1+kptIAIguuzAcpOUGYLpI2FZGHAvnDbQUlOHzMYbDSCSfE?=
- =?us-ascii?Q?fMu7EhoJgGeKoACxkNnNtSVjTnE6eR3xGgGsOD9v8GBPYlxqmVPKm2Lq+q7g?=
- =?us-ascii?Q?cDkUnaoXEONJJQHBej/78NFVzuN2QpniFPH8Btbckde4u+KA88z4ru6ihcvm?=
- =?us-ascii?Q?BFTa/d5L3S2FwhIY7pNDSKrugi14GZX/pn9ptYjFHfLLC1QgtIaScrb0In5D?=
- =?us-ascii?Q?FR9XG04cW9jurKCw8ePW60yCBgqGz2k0x0iTrFb2kahHMSvgIEvcFJNJTKh2?=
- =?us-ascii?Q?3T92/UUDUHpYU/wTf+xUgAzNqI+hAIhaj1fF+3kPTDJl4zxF9LTEzdqHaQz8?=
- =?us-ascii?Q?qJ16ykt+666n0qRIjcKTwVQcH809xkG8aLHWa5xB3QBM5SeEz6SU8Oz0UozZ?=
- =?us-ascii?Q?WjZSzAGoBCkoBL4JMqmhkZ9UWcl9wdSlX+asU6t4Fv64iTR23IRDQdjyOxT+?=
- =?us-ascii?Q?CjWn5SnpS3PPlh1Pr6n/SoRWZcZmbe/yAF2w9q1/gIrITyTehumLTwRCYJjR?=
- =?us-ascii?Q?iV7LZWrG5ZNY16vtX188I9McBjSr7zhXLIcNmCJpfRNQtUUCVOF5jao3bfKS?=
- =?us-ascii?Q?MYGjdlMfXmdbeVgVHTZau2SM0j3IJxItDpk+NUqvILtidu+h25izZsvH1P2+?=
- =?us-ascii?Q?uMpE7on8tk8FQecsIcN4D1xyeRuG/cMlk3GZxOkvbHZorzd4W7edIvRojtUV?=
- =?us-ascii?Q?U1pwRaTZU5gflMdiW7FGLYn2G8iHCaBU8sm6tstFL38oNjfIqCfLWB7CMVCz?=
- =?us-ascii?Q?aJ/siBPVW56KJgZFdBT0T+/Mql8ZEoNd9T3WVUnEguxFeNBbTzPvfTQ1ZGOZ?=
- =?us-ascii?Q?ZOgJqu+zAN8A6dbpuoZI2J66hlAIvkxNtJTx4q+2SP1u+l+GWFJhhoSFGgEk?=
- =?us-ascii?Q?83GhmgIPcnJdHc12TmGW/PD7XcvLdXeJnY8XHvsozWGyMg5M75lMU2FoG7Zw?=
- =?us-ascii?Q?CYxqKKQCVQxtQ4JBMhjmWO6dbBuYaOaXXmuUeONiXiZJQ74Pwh2beffZjswF?=
- =?us-ascii?Q?SICiTm+0ePuD7r1ZUOxjCNg=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dfa7cf4f-2096-42d5-f1ad-08dcc0d15121
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2024 04:34:02.2783
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ixNdywT8ALMNLXcW2tySoDe6mPiG/Tvpw4hvg70OwJYEZDIBNoWudvJeesDG1qbrHxQltEYHZZVabA+uFxI5evL6t1+IQrGQ7ijyNzbmDrB0MDlmBCTRhlKyU1qOUdL+
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB11706
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v24 29/34] ALSA: usb-audio: qcom: Add USB offload route
+ kcontrol
+To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+ mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+ corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
+ Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, tiwai@suse.com,
+ gregkh@linuxfoundation.org, robh@kernel.org
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+ alsa-devel@alsa-project.org
+References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
+ <20240801011730.4797-30-quic_wcheng@quicinc.com>
+ <4d5fe3f8-d7ba-4647-8dd7-22656ec2fde5@linux.intel.com>
+ <58043166-c494-42db-b7d3-575991e43e8b@quicinc.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <58043166-c494-42db-b7d3-575991e43e8b@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
-Hi Tomi
-
-Thank you for the feedback, and sorry for my late responce.
-I was under Summer Vacation
-
-> If we have this, of_graph_get_next_ports() returns the ports@0, and that 
-> makes sense:
+>>> +/**
+>>> + * snd_usb_offload_create_ctl() - Add USB offload bounded mixer
+>>> + * @chip - USB SND chip device
+>>> + *
+>>> + * Creates a sound control for a USB audio device, so that applications can
+>>> + * query for if there is an available USB audio offload path, and which
+>>> + * card is managing it.
+>>> + */
+>>> +int snd_usb_offload_create_ctl(struct snd_usb_audio *chip)
+>>> +{
+>>> +	struct usb_device *udev = chip->dev;
+>>> +	struct snd_kcontrol_new *chip_kctl;
+>>> +	struct snd_usb_stream *as;
+>>> +	char ctl_name[37];
+>>> +	int ret;
+>>> +
+>>> +	list_for_each_entry(as, &chip->pcm_list, list) {
+>>> +		chip_kctl = &snd_usb_offload_mapped_ctl;
+>>> +		chip_kctl->count = 1;
+>>> +		/*
+>>> +		 * Store the associated USB SND card number and PCM index for
+>>> +		 * the kctl.
+>>> +		 */
+>>> +		chip_kctl->private_value = as->pcm_index |
+>>> +					  chip->card->number << 16;
+>>> +		sprintf(ctl_name, "USB Offload Playback Route PCM#%d",
+>>> +			as->pcm_index);
+>>> +		chip_kctl->name = ctl_name;
+>>> +		ret = snd_ctl_add(chip->card, snd_ctl_new1(chip_kctl,
+>>> +				  udev->bus->sysdev));
+>>> +		if (ret < 0)
+>>> +			break;
+>>> +	}
+>>> +
+>>> +	return ret;
+> Hi Pierre,
+>> None of this looks Qualcomm-specific, shouldn't this be part of the
+>> soc_usb framework instead of being added in the qcom/ stuff?
 > 
-> parent {
-> 	ports@0 {
-> 		port@0 { };
-> 	};
-> };
+> Started working on this particular comment, and there are some things that needs to be considered if we moved this into SOC USB:
 > 
-> If we have this, of_graph_get_next_ports() returns the parent, and 
-> that's a bit surprising, but I can see the need, and it just needs to be 
-> documented:
+> 1.  We do save the reference to the USB BE DAI link within the USB DT node, which can be fetched/referenced based on sysdev.  However, I'm not sure if everyone would potentially follow that way.
 > 
-> parent {
-> 	port { };
-> };
-
-Thank you for understanding the situation
-
-> But if we have this, does it make sense that of_graph_get_next_ports() 
-> returns the parent, or should it return NULL:
+> 2.  I tried a few implementations of adding a new SOC USB API, and the argument list was a bit long, because I didn't want to directly reference the usb_chip.
 > 
-> parent {
-> 	/* No ports or port */
-> };
+> Sorry for the delay, but I wanted to give a good stab at implementing this before bringing up the implications.  It is possible, but definitely not as clean as how we have it now IMO.
 
-Yeah, it should return NULL in this case.
-
->  > 	port = of_graph_get_next_port(parent, NULL); // (A)
->  > 	port = of_graph_get_next_port(parent, port); // (B)
->  > 	port = of_graph_get_next_port(parent, port); // NULl
-> 
-> it does not feel right. Why does of_graph_get_next_port() return only 
-> the ports of ports@0? I think it should either return nothing, as there 
-> are no 'port' nodes in the parent, or it should return all the port 
-> nodes from all the ports nodes.
-
-As you also mentioned, having "ports" node is optional, and maybe this is
-the reason you feel uncomfortable on current code, and I can agree about
-it.
-
-If the driver needs to care about multi "ports", it is obvious that the
-driver cares "ports" node.
-
-My opinion is because having "ports" is optional, we want to handle
-"port" with/without "ports" by same function, especially if it doesn't
-need to care about multi "ports".
-
-I think your opinion (= "port" nodes strictly only in the given parent
-node) means driver need to care both with/without "ports" node, but the
-code will be pointlessly complex if it doesn't need to care multi "ports".
-
-> bus {
-> 	/* our display device */
-> 	display {
-> 		port { };
-> 	};
-> 
-> 	/* some odd ports device */
-> 	ports {
-> 	};
-> };
-> 
-> and you use of_graph_get_next_ports() for display, you'll end up getting 
-> the 'ports' node.
-
-This is interesting sample, but feels a little forced.
-If you need to handle display::port, you call
-
-	port = of_graph_get_next_port(display, NULL);
-
-Indeed we will get "ports" node if it calls of_graph_get_next_ports(),
-but it needs to use unrelated parameters, I think ?
-
-	ports = of_graph_get_next_ports(bus, display);
-
-> > 	parent {
-> > 		ports@0 {
-> > 			port@0 { };
-> > 			port@1 { };
-> > 		};
-> > 		ports@1 {
-> > 			port@0 { };
-> > 		};
-> > 	};
-> > 
-> > 	of_graph_get_port_count(parent); // 2 = number of ports@0
-> 
-> I think the above is a bit surprising, and in my opinion points that 
-> there is a problem. Why does using 'parent' equate to only using 
-> 'ports@0'? Again, I would expect either to get 0 (as there are no 'port' 
-> nodes in parent, or 3.
-
-This feature is for the driver which *doesn't* need to care about "ports".
-
-	/* CASE1 */
-	parent {
-		port {...};
-	};
-
-	/* CASE2 */
-	parent {
-		ports {
-			port {...};
-		};
-	};
-
-both case (CASE1/2), we can use
-
-	of_graph_get_port_count(parent);
-
-If the driver need to care multi ports, it should use such code, IMO.
-
-	nr = 0;
-	for_each_of_graph_ports(parent, ports) {
-		nr += of_graph_get_port_count(ports);
-
-But of course we can handle it in v2 patch.
-
-	/* of_graph_get_port_count() cares multi ports inside */
-	of_graph_get_port_count(parent);
-
-Thank you for your help !!
-
-Best regards
----
-Kuninori Morimoto
+My comment was only referring to the location of the code, it's now in
+sound/usb/qcom/mixer_usb_offload.c but does not contain anything
+specific to Qualcomm. I was not asking for any encapsulation inside of
+soc-usb, I was only suggesting a move of the code to a shared helper
+library so that this code can be reused as is and not duplicated if the
+QCOM parts are not compiled in.
