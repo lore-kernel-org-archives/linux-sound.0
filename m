@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC2518E35E;
-	Tue, 20 Aug 2024 06:40:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B401376F1;
+	Tue, 20 Aug 2024 06:59:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724136008; cv=none; b=GQ00RxMesye1WD8Nzqwit5MOkCY2fMMNJwmLaqgf+vzcYz6kwNM2j1Qdw36f9Ad82yIta9F76nKe5V+7nBgufqrxs0IWQEwkL9npSyGnGdhXCkQ6674uVkxQ2JhuAnOwE9beoAqy3Cc0KZcHeCoe3ROV8FPRpOUfjuMw029bhQM=
+	t=1724137153; cv=none; b=EIE1V89gAcV0ZFpGXfowPJ2j7L0uKSsGtKOLfYbWc7X6nt8WGhbBgwCDnZd97yJimwzd8hHHCYs7uB6K8wguWZv0DlXo54EGlhQPOs1ZXELtUuWocFM45laBlfMcOhx6c5sZzIdxhj3NO3w51AX9A08t8DM+/RIlrNwpzbkbTCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724136008; c=relaxed/simple;
-	bh=/hHiRcXgLHm4sUaUmn1kvv9aDZlbaGSXQTZLN7Klh8Q=;
+	s=arc-20240116; t=1724137153; c=relaxed/simple;
+	bh=NcREdHOzn6eEuhanW6i690bjb9VwRs6u8txLft1j9/Q=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Yst4Zwsl5xppStn7ye34550ISEEr59VoeucJul4NMdl40p8g2q6Lm7T8SycuDjuzipTam2JhpDy/7RNK9NwH00o23aKgnifGOxEYUIjWYb13KY3x2fMVSFW1SvN6N+kxdIpoFwFhAFBJiy6UXjJtBQmChp2p1uSsdYRGhwq1WYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hzf3vvLa; arc=none smtp.client-ip=192.198.163.17
+	 In-Reply-To:Content-Type; b=dLuvQOki/CYfZlxpOhBGw9KFkaJ8/AyAAEmvhqV009kI398JgxbeF9I2y5KV6gWUkSn0Yf8QU18vnjMpIsiX74kTZW5WI6tnjg7oFUnozzg4Fkq7e2pLkkQgBRg1BWWl6XO6Dc7ca1p5d4mF3iUaPlSucRj1Iskqb0Z18CtwcR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f4hco5p5; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hzf3vvLa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f4hco5p5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724136006; x=1755672006;
+  t=1724137151; x=1755673151;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=/hHiRcXgLHm4sUaUmn1kvv9aDZlbaGSXQTZLN7Klh8Q=;
-  b=hzf3vvLaPyT72YwlfpxPwBNxh6f5vZrIW/KUrDIwGZ0kkTCJoc+iSDVv
-   zMJGvEKw7fRKM8EwYJIom5a3vdB+rU4e+NelGupv1dvQsUfuh62O0B33C
-   KjAnTXzOVQDwxCheG9kWwCbU/mLyvg5Z2exg8yj/OEfZ9Q8o+/BR1orwb
-   qqhYd6UFSCGVLlMsbn9l5gq8lsQzUBudG864F5OwOY1f1RNZFTVGCAhVn
-   vBtHyO6LIKjE9RL9Nk7x29+G1HMXGJSg0XaMhHo9Gb/EqnzSywvqOOcF2
-   KEd7RxUmp/9MG+1jt6gKVYo5G3vhyOpFEqX/HfjyIHNfLeXcbhIR9W3oJ
+  bh=NcREdHOzn6eEuhanW6i690bjb9VwRs6u8txLft1j9/Q=;
+  b=f4hco5p5N58Yp65E8ogHNBNqDOOMy/FpEE5Zi6kH2gpWZ11ihUXBFn2+
+   ypVpwJrXFH55piL8RZNcxhJRRTDC/ixPzE4iyJmOYv7Wsce1bbJCwwytn
+   qHfHOEUeCRIsxzuWQssNqOlt2QMvtmnG4C4kNShqx8qrsNIJ0z95AJ6d8
+   CtiQ6KeetOlQ2ASG4ES4BPXLQPUXhaqCypa0oEGJMBe7QL3gtrytme9pX
+   es0A8hfbSMrGGHTHtR2A+5rFPmQQzSyAMowP9rWXRUhb1ohz0YXcClOt/
+   97lf1A2qyPL7nVPqVpxQxbFgn96vLxeCptwkbPfsu6UnCIy/4q+TjuauS
    g==;
-X-CSE-ConnectionGUID: CdxFjwjoTfKEp/1GMtWZ7g==
-X-CSE-MsgGUID: yBjM6gz2Q3Kvm1f76jU9Kw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="22297503"
+X-CSE-ConnectionGUID: 0gnHGxVbTzylAv1U2ndF2A==
+X-CSE-MsgGUID: T+3/T0n0S5mpqyMAxWm9aQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="25317853"
 X-IronPort-AV: E=Sophos;i="6.10,161,1719903600"; 
-   d="scan'208";a="22297503"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 23:40:05 -0700
-X-CSE-ConnectionGUID: BsfZeq6bQjGX4UIBe0hLfA==
-X-CSE-MsgGUID: efE7EHc2Sbe1ViKK24ig2w==
+   d="scan'208";a="25317853"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 23:59:10 -0700
+X-CSE-ConnectionGUID: HkwFrFwHTIadBOLDMsLoOQ==
+X-CSE-MsgGUID: kQY+sT18QaiAKg8czy5lKA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,161,1719903600"; 
-   d="scan'208";a="91394800"
+   d="scan'208";a="61179403"
 Received: from fdefranc-mobl3.ger.corp.intel.com (HELO [10.245.246.176]) ([10.245.246.176])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 23:39:59 -0700
-Message-ID: <f507a228-4865-4df5-9215-bc59e330a82f@linux.intel.com>
-Date: Tue, 20 Aug 2024 08:39:56 +0200
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 23:59:07 -0700
+Message-ID: <ceb54a27-144b-40ed-8de5-482f2b0664a0@linux.intel.com>
+Date: Tue, 20 Aug 2024 08:59:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,78 +52,149 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v24 29/34] ALSA: usb-audio: qcom: Add USB offload route
- kcontrol
-To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
- Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, tiwai@suse.com,
- gregkh@linuxfoundation.org, robh@kernel.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
- alsa-devel@alsa-project.org
-References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
- <20240801011730.4797-30-quic_wcheng@quicinc.com>
- <4d5fe3f8-d7ba-4647-8dd7-22656ec2fde5@linux.intel.com>
- <58043166-c494-42db-b7d3-575991e43e8b@quicinc.com>
+Subject: Re: [RFC PATCH v2 4/6] ASoC: fsl_asrc_m2m: Add memory to memory
+ function
+To: Shengjiu Wang <shengjiu.wang@gmail.com>
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, vkoul@kernel.org, perex@perex.cz,
+ tiwai@suse.com, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, festevam@gmail.com,
+ nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
+ linuxppc-dev@lists.ozlabs.org
+References: <1723804959-31921-1-git-send-email-shengjiu.wang@nxp.com>
+ <1723804959-31921-5-git-send-email-shengjiu.wang@nxp.com>
+ <6d83cd58-5f02-414b-b627-a0022e071052@linux.intel.com>
+ <CAA+D8ANDAxS42=9zOLQY_h_ihvJCmaXzE+_iZyxbSuikqt1CBw@mail.gmail.com>
 Content-Language: en-US
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <58043166-c494-42db-b7d3-575991e43e8b@quicinc.com>
+In-Reply-To: <CAA+D8ANDAxS42=9zOLQY_h_ihvJCmaXzE+_iZyxbSuikqt1CBw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 
->>> +/**
->>> + * snd_usb_offload_create_ctl() - Add USB offload bounded mixer
->>> + * @chip - USB SND chip device
->>> + *
->>> + * Creates a sound control for a USB audio device, so that applications can
->>> + * query for if there is an available USB audio offload path, and which
->>> + * card is managing it.
->>> + */
->>> +int snd_usb_offload_create_ctl(struct snd_usb_audio *chip)
->>> +{
->>> +	struct usb_device *udev = chip->dev;
->>> +	struct snd_kcontrol_new *chip_kctl;
->>> +	struct snd_usb_stream *as;
->>> +	char ctl_name[37];
->>> +	int ret;
->>> +
->>> +	list_for_each_entry(as, &chip->pcm_list, list) {
->>> +		chip_kctl = &snd_usb_offload_mapped_ctl;
->>> +		chip_kctl->count = 1;
->>> +		/*
->>> +		 * Store the associated USB SND card number and PCM index for
->>> +		 * the kctl.
->>> +		 */
->>> +		chip_kctl->private_value = as->pcm_index |
->>> +					  chip->card->number << 16;
->>> +		sprintf(ctl_name, "USB Offload Playback Route PCM#%d",
->>> +			as->pcm_index);
->>> +		chip_kctl->name = ctl_name;
->>> +		ret = snd_ctl_add(chip->card, snd_ctl_new1(chip_kctl,
->>> +				  udev->bus->sysdev));
->>> +		if (ret < 0)
->>> +			break;
->>> +	}
->>> +
->>> +	return ret;
-> Hi Pierre,
->> None of this looks Qualcomm-specific, shouldn't this be part of the
->> soc_usb framework instead of being added in the qcom/ stuff?
-> 
-> Started working on this particular comment, and there are some things that needs to be considered if we moved this into SOC USB:
-> 
-> 1.  We do save the reference to the USB BE DAI link within the USB DT node, which can be fetched/referenced based on sysdev.  However, I'm not sure if everyone would potentially follow that way.
-> 
-> 2.  I tried a few implementations of adding a new SOC USB API, and the argument list was a bit long, because I didn't want to directly reference the usb_chip.
-> 
-> Sorry for the delay, but I wanted to give a good stab at implementing this before bringing up the implications.  It is possible, but definitely not as clean as how we have it now IMO.
 
-My comment was only referring to the location of the code, it's now in
-sound/usb/qcom/mixer_usb_offload.c but does not contain anything
-specific to Qualcomm. I was not asking for any encapsulation inside of
-soc-usb, I was only suggesting a move of the code to a shared helper
-library so that this code can be reused as is and not duplicated if the
-QCOM parts are not compiled in.
+On 8/20/24 04:53, Shengjiu Wang wrote:
+> On Mon, Aug 19, 2024 at 3:42 PM Pierre-Louis Bossart
+> <pierre-louis.bossart@linux.intel.com> wrote:
+>>
+>>
+>>
+>> On 8/16/24 12:42, Shengjiu Wang wrote:
+>>> Implement the ASRC memory to memory function using
+>>> the compress framework, user can use this function with
+>>> compress ioctl interface.
+>>>
+>>> Define below private metadata key value for output
+>>> format, output rate and ratio modifier configuration.
+>>> ASRC_OUTPUT_FORMAT 0x80000001
+>>> ASRC_OUTPUT_RATE   0x80000002
+>>> ASRC_RATIO_MOD     0x80000003
+>>
+>> Can the output format/rate change at run-time?
+> 
+> Seldom I think.
+> 
+>>
+>> If no, then these parameters should be moved somewhere else - e.g.
+>> hw_params or something.
+> 
+> This means I will do some changes in compress_params.h, add
+> output format and output rate definition, follow Jaroslav's example
+> right?
+
+yes, having parameters for the PCM case would make sense.
+
+>> I am still not very clear on the expanding the SET_METADATA ioctl to
+>> deal with the ratio changes. This isn't linked to the control layer as
+>> suggested before, and there's no precedent of calling it multiple times
+>> during streaming.
+> 
+> Which control layer? if you means the snd_kcontrol_new?  it is bound
+> with sound card,  but in my case,  I need to the control bind with
+> the snd_compr_stream to support multi streams/instances.
+
+I can only quote Jaroslav's previous answer:
+
+"
+This argument is not valid. The controls are bound to the card, but the
+element identifiers have already iface (interface), device and subdevice
+numbers. We are using controls for PCM devices for example. The binding
+is straight.
+
+Just add SNDRV_CTL_ELEM_IFACE_COMPRESS define and specify the compress
+device number in the 'struct snd_ctl_elem_id'.
+"
+
+>> I also wonder how it was tested since tinycompress does not support this?
+> 
+> I wrote a unit test to test these ASRC M2M functions.
+
+This should be shared IMHO, usually when we add/extend a new interface
+it's best to have a userspace test program that can be used by others.
+
+>>> +static int fsl_asrc_m2m_fill_codec_caps(struct fsl_asrc *asrc,
+>>> +                                     struct snd_compr_codec_caps *codec)
+>>> +{
+>>> +     struct fsl_asrc_m2m_cap cap;
+>>> +     __u32 rates[MAX_NUM_BITRATES];
+>>> +     snd_pcm_format_t k;
+>>> +     int i = 0, j = 0;
+>>> +     int ret;
+>>> +
+>>> +     ret = asrc->m2m_get_cap(&cap);
+>>> +     if (ret)
+>>> +             return -EINVAL;
+>>> +
+>>> +     if (cap.rate_in & SNDRV_PCM_RATE_5512)
+>>> +             rates[i++] = snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_5512);
+>>
+>> this doesn't sound compatible with the patch2 definitions?
+>>
+>> cap->rate_in = SNDRV_PCM_RATE_8000_768000;
+> 
+> This ASRC M2M driver is designed for two kinds of hw ASRC modules.
+> 
+> one cap is : cap->rate_in = SNDRV_PCM_RATE_8000_192000 | SNDRV_PCM_RATE_5512;
+> another is : cap->rate_in = SNDRV_PCM_RATE_8000_768000;
+> they are in patch2 and patch3
+> 
+> 
+>>
+>>> +     if (cap.rate_in & SNDRV_PCM_RATE_8000)
+>>> +             rates[i++] = snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_8000);
+>>> +     if (cap.rate_in & SNDRV_PCM_RATE_11025)
+>>> +             rates[i++] = snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_11025);
+>>> +     if (cap.rate_in & SNDRV_PCM_RATE_16000)
+>>> +             rates[i++] = snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_16000);
+>>> +     if (cap.rate_in & SNDRV_PCM_RATE_22050)
+>>> +             rates[i++] = snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_22050);
+>>
+>> missing 24 kHz
+> 
+> There is no SNDRV_PCM_RATE_24000 in ALSA.
+
+Right, but that doesn't mean 24kHz cannot be supported. We use
+constraints in those cases. see quote from Takashi found with a 2s
+Google search
+
+https://mailman.alsa-project.org/pipermail/alsa-devel/2013-November/069356.html
+
+"
+CONTINUOUS means that any rate between the specified min and max is
+fine, if no min or max is specified any rate is fine. KNOT means there
+are rates supported other than the standard rates defines by ALSA, but
+the other rates are enumerable. You'd typically specify them by
+explicitly listing them all and use a list constraint or you'd use one
+of the ratio constraints.
+"
+
+>>> +     if (cap.rate_in & SNDRV_PCM_RATE_32000)
+>>> +             rates[i++] = snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_32000);
+>>> +     if (cap.rate_in & SNDRV_PCM_RATE_44100)
+>>> +             rates[i++] = snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_44100);
+>>> +     if (cap.rate_in & SNDRV_PCM_RATE_48000)
+>>> +             rates[i++] = snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_48000);
+>>
+>> missing 64kHz
+> 
+> Yes, will add it.
+
