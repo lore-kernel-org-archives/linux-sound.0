@@ -1,87 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AFF9190486;
-	Tue, 20 Aug 2024 14:19:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C483318E37F
+	for <linux-sound@vger.kernel.org>; Tue, 20 Aug 2024 14:58:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724163568; cv=none; b=T1TcVmyI4wi98p8W1Sz1GJc/7pOVbO5XMhd6brI9fD3iAdo8tTinU7j0cuyGqcEXkO8O5hFRwyrJ0e2Zig8EEenFKpa2nLqGGehDBa+6M0YhdXALakkOWC2xfIaESOIFPffPM37ER7uQWIIk9DTzU0WXP55M9sKcWqKLJcN4uJM=
+	t=1724165922; cv=none; b=dNyXVRVWXfPLQS+sFUjwD/NojsbOx5meHcHFh65jhW6FfPbXRi6QnlkjDyRv3F+XCNy3dxiPSlLTLaZeswbqUHigGHYM6TWLBMf+vgMoE5Z0GecvoJxUQWJ5wK4JME2uG0dp4dM+NQ2zlvXKvd0umLaUaTJChiWxX2XsHFb+jHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724163568; c=relaxed/simple;
-	bh=j0JDv1N4HNRsMbjk+DNy4CqAhbFiGVYkfQVCqlomYFM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=cWwRHkdYseHNfOoJeuSAAjyb5ffTLcMHNhKi6SpMe8/OmcLJf5TU1eCOIHLH+jrnRnoXBXslZ0OiIxJkFfisSlxVyB9maAY4TfaIbYwNfYA6J/2fokFmRxkRtExexJ4ZKWFouM6V2NWOwqBpZvM3zgq099VSG1G8NtHvzzsk+FE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KLvfqDMX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724165922; c=relaxed/simple;
+	bh=3nlRWUUx0+APZmAWni+foivbTUtkLG+44ynTv/C+yYk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ed7r8ndwfnsyZ0j0Bhb6dM5T7CWgPas+IDdGLSY4nXtIO3NTSDhz/B+7hoQkfSvWZKc1Xe1RhAXAoXiAwLrQ6JfqbDts0zZeHXDw2OANAxL/E6dEjWibENaEfA0SjJ6wC0bPbHzDR5sik69QY72TT+2tFK7eXbnAF/VW+5uv3WY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ApCAAKi/; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KLvfqDMX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D7B9C4AF10;
-	Tue, 20 Aug 2024 14:19:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724163567;
-	bh=j0JDv1N4HNRsMbjk+DNy4CqAhbFiGVYkfQVCqlomYFM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=KLvfqDMXBT5ucXRxaB/4+wLQlHBvrK2MGmV1Bbw74EMcEAvpVemGf/6POMA+ShvFI
-	 QXARICJ8lr6PPnb5xcNPYJHSB+KhZFJaAvpUQnVjyOJNSuQ560aucjKpdpPwTE+dSD
-	 kVfsRy9E2Tubo1TEu4JCiNVOj98ytOthYOPw+Rvpe2Og9fipCXTCNJnqenrW+MtwVA
-	 n2z8UDx/bgwVpO3hsYqJOszatIwql/qGw88nSthynXZjuiH5s/VIHrxlVkOWS3gVs8
-	 lH0Yp2gumTOHUZ5s6TwJGPbIhNV62J58oPzYhI8DWk5FnzhmF5PxwlvdV0h0KI59e4
-	 LBs+3aATSGngA==
-From: Mark Brown <broonie@kernel.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Linus Walleij <linus.walleij@linaro.org>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <ZsPty8oNMQk4YTl1@google.com>
-References: <ZsPty8oNMQk4YTl1@google.com>
-Subject: Re: [PATCH] ASoC: tas5086: use sleeping variants of gpiod API
-Message-Id: <172416356610.261879.3153828567035739715.b4-ty@kernel.org>
-Date: Tue, 20 Aug 2024 15:19:26 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ApCAAKi/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724165921; x=1755701921;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=3nlRWUUx0+APZmAWni+foivbTUtkLG+44ynTv/C+yYk=;
+  b=ApCAAKi/RM2G7YCsv14KBWZQiG8VXqthNGffBemzZSzkECUhqsh4A5hX
+   2aPc/unEzjlOOwWjNZuVDKilLxxNLHVKXRQAUfh+OLIIcjiWWVHRdAGvY
+   9+J/T81skf9WAdL6TxWDMOTqw/mabIz8t5OQYfXR6A05uPK3s95L9Pof1
+   w6kLjzOszMgozZ2oGVCrJwYOgWFx7Y7pyNu+LtuMcB2yfzfPDlliXosZd
+   8rvzs/nCe1s9a/nHlVQHvqPtV0jyS/2Tci9CTsX3mCnlSOHcck9buIb6L
+   LiJYeom0RsemqDc12mX3J+jz3WI6h7va8wcifq3sBHZdBuLFokkHTfI1b
+   A==;
+X-CSE-ConnectionGUID: kEIA3++KTqmHSTzmUCrvdQ==
+X-CSE-MsgGUID: LfoHl3AdTjqSzvE+Hxr18w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="22328658"
+X-IronPort-AV: E=Sophos;i="6.10,162,1719903600"; 
+   d="scan'208";a="22328658"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2024 07:58:40 -0700
+X-CSE-ConnectionGUID: 03bGcDz6TpGOHvi9j1Qmvw==
+X-CSE-MsgGUID: 4U8UvY+bR0qIOucEK51hSQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,162,1719903600"; 
+   d="scan'208";a="61064699"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO [10.245.246.176]) ([10.245.246.176])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2024 07:58:33 -0700
+Message-ID: <fe930297-a6f6-43cb-86cf-d49939dc5090@linux.intel.com>
+Date: Tue, 20 Aug 2024 16:58:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 01/16] Documentation: driver: add SoundWire BRA
+ description
+To: Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, tiwai@suse.de,
+ vinod.koul@intel.com, Bard liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, srinivas.kandagatla@linaro.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ vijendar.mukunda@amd.com, Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Shuming Fan <shumingf@realtek.com>, Jack Yu <jack.yu@realtek.com>,
+ Oder Chiou <oder_chiou@realtek.com>
+References: <20231207222944.663893-1-pierre-louis.bossart@linux.intel.com>
+ <20231207222944.663893-2-pierre-louis.bossart@linux.intel.com>
+ <38d0c1c9-d60c-4ddd-b2ee-091d1717a377@sirena.org.uk>
+ <be277abb-af6c-470f-8237-17f45bd990b8@linux.intel.com>
+ <09a5b041-62a8-4c85-9885-045079db796f@sirena.org.uk>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <09a5b041-62a8-4c85-9885-045079db796f@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-37811
 
-On Mon, 19 Aug 2024 18:13:47 -0700, Dmitry Torokhov wrote:
-> The driver does not access reset GPIO in atomic contexts so it is usable
-> with GPIOs that may sleep during access. Switch to using
-> gpiod_set_value_cansleep().
+
+
+On 8/20/24 13:53, Mark Brown wrote:
+> On Tue, Aug 20, 2024 at 09:48:05AM +0200, Pierre-Louis Bossart wrote:
 > 
-> Also the reset GPIO is configured as output at the time it is acquired,
-> there is no need to use gpiod_direction_output() when executing reset
-> sequence.
+>>> This feels a lot like it could map onto the regmap async interface, it
+>>> would need a bit of a rework (mainly that currently they provide
+>>> ordering guarantees with respect to both each other and sync I/O) but
+>>> those could be removed with some care) but it's got the "here's a list
+>>> of I/O, here's another call to ensure it's all actually happened" thing.
+>>> It sounds very much like how I was thinking of the async API when I was
+>>> writing it and the initial users.
 > 
-> [...]
+>>> It's this bit that really got me thinking it could fit well into regmap.
+> 
+>> Do I get this right that these async capabilities could be used to
+>> enable this faster SoundWire protocol, but the regular regmap_write()
+>> could still happen in parallel with these async transfers? This could be
+>> useful if e.g. there's a jack detection while downloading firmware for
+>> another function.
+> 
+> As far as the regmap core is concerned, yes - with SPI we do wind up
+> with ordering but that's because the SPI sync API is a thin wrapper
+> around the SPI async API rather than anything regmap does.
 
-Applied to
+ok. I am struggling a bit to adjust the plumbing that was obviously
+defined for SPI.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+The regmap async_write() doesn't have any wait, but there's a notifier
+that needs to be called by *something* that waits. I think the SPI layer
+has a set of kthreads but in our case we could just rely on a a
+workqueue after 1ms or something and do the wait then for the DMAs to
+complete and finally call the notifier to wake-up the regmap stuff.
 
-Thanks!
+>> The only thing that would need to be extended is that we'd need
+>> additional callbacks to check if the protocol is supported on a given
+>> hardware/firmware platform, and if there's no audio stream. In these
+>> cases the async writes would be demoted to regular writes. Otherwise the
+>> bus would be locked to make sure no reconfiguration takes place while
+>> the firmware download happens, and unlocked when the transfer ends.
+> 
+> Those callbacks seem reasonable.  We already do the demotion to sync for
+> buses that don't have async, it'd just need to be made dynamic.
 
-[1/1] ASoC: tas5086: use sleeping variants of gpiod API
-      commit: 5f83ee4b1f0c04a8b4125daab8918606df3dc035
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+sounds good.
 
