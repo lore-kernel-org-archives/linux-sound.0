@@ -1,228 +1,297 @@
-Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011037.outbound.protection.outlook.com [52.101.125.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21914175A6;
-	Tue, 20 Aug 2024 02:53:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724122403; cv=none; b=SKjMyCiI3taSYTXVvMTT7QVDiMDLa6VsA9rw+o1oSoD+hc3mr5H8Ac98RjzFvkfM8E47s6N1hUj0bSIpnEWG1EylhDRFMVx5qiq37VZTcNaHRIzhIvkhlzojlnFbvGGP51EzLGpRXy6oh3WoiOcgMWKNZvQjZuVlHEpXkadS3sk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724122403; c=relaxed/simple;
-	bh=nG26NZ3S/KuNQ2SHcuxORshAwbQgT5QZdIv23N6ZCqw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tEXrynw7GopujN4xcwekAwBit7C9AKZBaKFGJnJjHlExOcQMRuvQVqL1QttfDk5hrjh+fXgZ+JQJzK/SzFdN5YAHEROXHLbns/vvLMHiy5qUQS54RWfWVsV1lWKYYqsvN1uZ/CEcskkV8KNk9c+zLAWwjviY6KHyaZmLRWt0O/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=esl8aNOw; arc=none smtp.client-ip=209.85.166.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80BBE28371;
+	Tue, 20 Aug 2024 04:34:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724128448; cv=fail; b=sCKKjhSt0+b94JN5Xgi+E/WrmJRn6UnXFk7aGlfc8u7qC3IdOaHavhYnQxMBBw9a04lRKUBli5RL+wQUBpvC0ti23hEOLixRqt5TdEL2gTFOqcoNdpybjWdpcLe0eXSpfVJiqhv0+qcEI5D2aavd2RBX6aglOamCI60J3+8lzec=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724128448; c=relaxed/simple;
+	bh=dLJN0J5kWLJKotoWolnIDOGoleNQvR8GoB796rJjFI0=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=RKiOcik7gC3PH+E2XbEQBI5CkvAUXr7x5rjFggI9nySx9AGmQkP4XKsQ74Z7hJc2e28V3oZpC6cfF/a7rNoDdgbtr5z7cL142BTR3e8uFjAYv9oBMap/jO1ckqGLnVOtWyJRH8bQSzv+dmNzkj5KJEFd7Q8n8chZJISTZWeANN4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=KEvV0/lv; arc=fail smtp.client-ip=52.101.125.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="esl8aNOw"
-Received: by mail-il1-f180.google.com with SMTP id e9e14a558f8ab-39d3cd4fa49so7023375ab.1;
-        Mon, 19 Aug 2024 19:53:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724122401; x=1724727201; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fT6vSqFxRxEeg2TyE8vAmieBZnT3qlYo8e/6USKHH/E=;
-        b=esl8aNOwrM9/pGSUK3mT/ImiWMOiKHes5qBFF72189Jvea5obBuc5y9FwLKywxtsm1
-         k86UNLuHMEqAOXQ6vlL4FSqiEnCDpgtfyMOphrIA67pXKkscnwmmOUyQJIVvbVn7OnqW
-         p039d4Iw3qqUHDIimRmTayuOjyoVBzrpq/k48epoZTzT5DBFm8vovQlaRMFlNyvT+RtJ
-         LQVEtSkO2ZHjNX7igCYI7pnH+QAIC/ZI58I1k3AKvted9RlirRjpsPwRJMDyy12z81g+
-         JDV793Gm4Jzj3HmGMzR/HpqAHXRNrsaz2MmZ9ShP3i4Nhv/z4536R5AQWY/VnBjt/cUG
-         8c8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724122401; x=1724727201;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fT6vSqFxRxEeg2TyE8vAmieBZnT3qlYo8e/6USKHH/E=;
-        b=uWUtjTkGf69loTx5zBn43IGJ+Q/dZogyJoQjFDUL5C+Z8HaxJj2tE7vGQuPuATtt+C
-         MUPU86L1J/eLegRy9TfiIiA7ZCScEC3RAviyD6G7/1uqAz6yPsxgalF/7B/mG8vEwKUa
-         loIRcdSy3IXZ7J7wl5ZY/sDDHsdJzOzk40MpvQYTxix0xIcf8aZ7KzORIey4NfbKfdYz
-         T0Xphj3jJfv+0OfgxSwRceR4bxy39a01u4Z8PCJ7kjcnEaqAFYDpHzyZeSdQXBJSxxWf
-         59ejV+VyefzrK+9kKc87B4YGrM2pxYGNt2mb0eseBqZpCOEhVX0V4+7cuCakfZA7kPeH
-         MNpA==
-X-Forwarded-Encrypted: i=1; AJvYcCVEi1OzzzSGdGeAVQc0NsUfXjVNShlftsMeq+jVtCccuiXAzToFJDrB4+YUrEKu5s1fxawCkNCKbc5jCjE=@vger.kernel.org, AJvYcCWMFwHpiDvQeQmL261cifx/FzHbl+HHpOigokys+MZ14BBIrdUGgTSMeyK79+52uApIsWCveA3wVJYPqpQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDsNsyIMd2wiCZmCql+ch8aMmrcZtJxC+Q9jSjb5Lym03wGam6
-	XaV1OL1/xGLcfYIQUaFRD1ztEoln0984qZsEYqq/NmkSQDDrRZUFwjctqu89azL7waz7K8iYztx
-	lhA7jfV8PF9Y9mOm2c1FbUCGLGlw=
-X-Google-Smtp-Source: AGHT+IGl4gRPN5RAOxKXugMK43Dh6VHASCDS5Twf9YsdPNqPWrRzvf3PhVgc7lqQMpYhRDm7MWOvnuVY3lUtLNY/Lo4=
-X-Received: by 2002:a05:6e02:20cb:b0:39d:4d2d:d0de with SMTP id
- e9e14a558f8ab-39d56dd773emr21812545ab.3.1724122401038; Mon, 19 Aug 2024
- 19:53:21 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="KEvV0/lv"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=a6+QU58+fQxqfqwSXwsibb2ap3SeWqnXZJYSP8O5frnJzo2LE7+uAD1IGiZBm36M7bfzADnAfKUquvCGPKVlH1MpUb+rAh2OI6FM8zM847vEmXXOWg2D0c8ISHObbpO1hJLN+jJr+CBubZ7CBJzEmdw3d68D/tWgb2DPC64RA2DebPnj6/1XU+EHrqP6gjSYKNxBd4ekEiw8x+toYjH1H/z/M3pvsunDfNssf/jdQYZM96WiYDP5gW0/Ns+g/ft8IHwiYCCntxpw8Tvt2Q1QIMK17WvtwXXv64cEwRBSzx4+EF+tLpU/o8CTjLmUEk+5DXqcbTbUTMQyKTw7ncuKKA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DzljShvW8eEQCPSoi7jJ9KA6lkwk0x3PHF6FTdth6NU=;
+ b=dwj30I2k1N1OpLIwtXG/8gPYncRJWY0RHZHPIXyn/T1muwpu1XuoKFCLfdWj+HhthR5eQMR1CV/HhiyNM4hwQ7B1PZdLOCvpQmEsc5bZNXwdjvjyw6R1O1MdlyTF7+cdaHewTMfdCT/byMWsNCDI2eJ5qp5aR0//MykakmIZMKqyo6omW9iCQ81MpDwm51YvcCSF2vJRHaRUrFsOWWf7vjiOXOaf2khTdhYKbmnX/yOgSmzeb69JkfHNmpxmr+aI4ghEoxXrmBBkzh4fYsOdbcLnLRGcM7WhVVy1Uhc+OsGI/EqQJn92blvScOYxkjI5Tfj2QLPALVkplcwCJvWHgw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DzljShvW8eEQCPSoi7jJ9KA6lkwk0x3PHF6FTdth6NU=;
+ b=KEvV0/lvdWyNdRJIZk/00BSHtpX2yqS0CxXwFTki4v1ZQsgrBYiVvUNZANUFOjy7QYUPRjGrHGJwyjajjAOEkDnfU1aotOLXl5B/1vaMJcKayIUKuCsiSJI0IpZGavZ/b2sjUfKQ3hKf+cyOmO6x25oHfgmLZCXW3F4SBhH6+ak=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TYWPR01MB11706.jpnprd01.prod.outlook.com
+ (2603:1096:400:400::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.20; Tue, 20 Aug
+ 2024 04:34:02 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.7875.016; Tue, 20 Aug 2024
+ 04:34:02 +0000
+Message-ID: <87y14r6cee.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>,
+	David Airlie <airlied@gmail.com>,
+	Helge Deller <deller@gmx.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Michal Simek <michal.simek@amd.com>,
+	Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-fbdev@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 1/9] of: property: add of_graph_get_next_port()
+In-Reply-To: <7b5db9c1-5cba-48c8-ae77-f224b7b4834f@ideasonboard.com>
+References: <87mslqw8mj.wl-kuninori.morimoto.gx@renesas.com>
+	<87le1aw8lw.wl-kuninori.morimoto.gx@renesas.com>
+	<ca216286-b09a-4faf-8221-c88c21f4de0c@ideasonboard.com>
+	<87a5hm8n0k.wl-kuninori.morimoto.gx@renesas.com>
+	<7b5db9c1-5cba-48c8-ae77-f224b7b4834f@ideasonboard.com>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Tue, 20 Aug 2024 04:34:01 +0000
+X-ClientProxiedBy: TYCP286CA0083.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:2b3::11) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <1723804959-31921-1-git-send-email-shengjiu.wang@nxp.com>
- <1723804959-31921-5-git-send-email-shengjiu.wang@nxp.com> <6d83cd58-5f02-414b-b627-a0022e071052@linux.intel.com>
-In-Reply-To: <6d83cd58-5f02-414b-b627-a0022e071052@linux.intel.com>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Tue, 20 Aug 2024 10:53:10 +0800
-Message-ID: <CAA+D8ANDAxS42=9zOLQY_h_ihvJCmaXzE+_iZyxbSuikqt1CBw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 4/6] ASoC: fsl_asrc_m2m: Add memory to memory function
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, vkoul@kernel.org, perex@perex.cz, tiwai@suse.com, 
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, festevam@gmail.com, 
-	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
-	linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Aug 19, 2024 at 3:42=E2=80=AFPM Pierre-Louis Bossart
-<pierre-louis.bossart@linux.intel.com> wrote:
->
->
->
-> On 8/16/24 12:42, Shengjiu Wang wrote:
-> > Implement the ASRC memory to memory function using
-> > the compress framework, user can use this function with
-> > compress ioctl interface.
-> >
-> > Define below private metadata key value for output
-> > format, output rate and ratio modifier configuration.
-> > ASRC_OUTPUT_FORMAT 0x80000001
-> > ASRC_OUTPUT_RATE   0x80000002
-> > ASRC_RATIO_MOD     0x80000003
->
-> Can the output format/rate change at run-time?
-
-Seldom I think.
-
->
-> If no, then these parameters should be moved somewhere else - e.g.
-> hw_params or something.
-
-This means I will do some changes in compress_params.h, add
-output format and output rate definition, follow Jaroslav's example
-right?
-
-
->
-> I am still not very clear on the expanding the SET_METADATA ioctl to
-> deal with the ratio changes. This isn't linked to the control layer as
-> suggested before, and there's no precedent of calling it multiple times
-> during streaming.
-
-Which control layer? if you means the snd_kcontrol_new?  it is bound
-with sound card,  but in my case,  I need to the control bind with
-the snd_compr_stream to support multi streams/instances.
-
->
-> I also wonder how it was tested since tinycompress does not support this?
-
-I wrote a unit test to test these ASRC M2M functions.
-
->
->
-> > +static int fsl_asrc_m2m_fill_codec_caps(struct fsl_asrc *asrc,
-> > +                                     struct snd_compr_codec_caps *code=
-c)
-> > +{
-> > +     struct fsl_asrc_m2m_cap cap;
-> > +     __u32 rates[MAX_NUM_BITRATES];
-> > +     snd_pcm_format_t k;
-> > +     int i =3D 0, j =3D 0;
-> > +     int ret;
-> > +
-> > +     ret =3D asrc->m2m_get_cap(&cap);
-> > +     if (ret)
-> > +             return -EINVAL;
-> > +
-> > +     if (cap.rate_in & SNDRV_PCM_RATE_5512)
-> > +             rates[i++] =3D snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_55=
-12);
->
-> this doesn't sound compatible with the patch2 definitions?
->
-> cap->rate_in =3D SNDRV_PCM_RATE_8000_768000;
-
-This ASRC M2M driver is designed for two kinds of hw ASRC modules.
-
-one cap is : cap->rate_in =3D SNDRV_PCM_RATE_8000_192000 | SNDRV_PCM_RATE_5=
-512;
-another is : cap->rate_in =3D SNDRV_PCM_RATE_8000_768000;
-they are in patch2 and patch3
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYWPR01MB11706:EE_
+X-MS-Office365-Filtering-Correlation-Id: dfa7cf4f-2096-42d5-f1ad-08dcc0d15121
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|52116014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?qoMIsxPTA1OG/BX+7l0iXVxdz2E+0vh3Vv4/j/EESZlntQHPhlc3oQgXKmve?=
+ =?us-ascii?Q?zrivDTook7+DNoLL6cpndfpwuk/pY94D02QNfMmt9B6PO5tnAhRGg6WHt7G5?=
+ =?us-ascii?Q?nKAKHy3zyb7AEpdJXlcH5xpL9rFZZRNcf1KCsdv2WfocWJLmZatyJE7QJwix?=
+ =?us-ascii?Q?cF/tn2h/QtAmTS44/alPtdsgULbrHgrbcAm4M5Luwe1Sxh511cSNllacr8+c?=
+ =?us-ascii?Q?ntDNRepYw3r1L3vIjT/sI6mLJc56XDUXaZCi6r2Pww8sWMJPElgH+hFcxfym?=
+ =?us-ascii?Q?UqpoWKro267Vjh2rDI9L17Vrn8RZVWFqT60RVuI2a3cN4Wcn73m4hYBgxV3K?=
+ =?us-ascii?Q?KwjXaHBFI575KDGt6GE6K+ePHm3TGJ4j0Z3TppKlkoBNIzs20QXfktZHXRST?=
+ =?us-ascii?Q?Y0p/s9AdwpCtTXk06+MtP7bMi2yM7ihNr196c61HU9a/7oPNHENj9sgIzhhP?=
+ =?us-ascii?Q?UFIHG6wYlFKcIjWJuBfQiuNb25V/W1f3+P9LFdm7H+lPCT4ebLiisJLDxELT?=
+ =?us-ascii?Q?CGsHu1MEsOxfnb9v5KGVTWE6LUnXzp9+jmjJpPJW/6/j5sq4aRyBEWxUCSBq?=
+ =?us-ascii?Q?USuNXgNwNwQpy1wWvRCxz5duN89MkpoxNE4HmCDIUlEd/oMsPL1qMFhmISD5?=
+ =?us-ascii?Q?aIlXXkaLL1fV4RmlnqC95GaofafwlidBXOyB4L7IgUQQFKdg7wZPWA8gnbjl?=
+ =?us-ascii?Q?Xxg8lwmWAyxJT34sAjQHPsQoiNcEh0tl/Q0bnyke1IOwHvzVvUfAC5hTtNHy?=
+ =?us-ascii?Q?ehrlGmvPay4JPvlB1vm5HdrXYqMECdr9jUH+pHr1XnehbAtKiinCRGcAwmXS?=
+ =?us-ascii?Q?5K2dx2O+l0KKc1ogyVa1GtaNVW7dCO79iuYGChynJVnxKxoCVBl4C19Lq77f?=
+ =?us-ascii?Q?XIrVJ2DnWARA+lyxSVyA49vpz039LSjKUAAVVNEyOAlZv06tjxyt0h34xgOO?=
+ =?us-ascii?Q?KHOvfWjLHuVnQpT9GMlXKE550bbDY9EYEGL7zXxr0GBLqk3T6a34zJQ9axzx?=
+ =?us-ascii?Q?UFn1EBHXgM5OGt2lPT4WBBZC8p02B2BkR4NkMUDb9PEGjYn/+ioXB++IhDJs?=
+ =?us-ascii?Q?mL02kjTt1BLY/T7tdTunX/Zr3NcdjhOKFvWUUZxkH7pgfGku3+IZbJw/lecC?=
+ =?us-ascii?Q?bgWko2oQJjw6Rut8Hci58B6swV5B9nLfTb2yz52G/sqEWalRfUX1qnk7soxp?=
+ =?us-ascii?Q?8kaRGDWCxDY5wUll/dkT4MmNqNXOjgmEazxMvd16pXI73dy5MYJim7QWtfF6?=
+ =?us-ascii?Q?/HRn1K745SAz67tUwWFrjYvuNr1X3NbIvI0uuX8lZ+Yp+bPeYE5J7J7/+NrX?=
+ =?us-ascii?Q?ABBEwT9rOg9rms2/I9AFS3Z6TLBVlOi9T0WZiV0N4pdlt/7XDHDGY6WL3lGz?=
+ =?us-ascii?Q?TgQO0TCAskG426xONg5vbhm3dinFrH9gTE3V5A8pzkC5O6OlVQ=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(52116014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?gqSROLsJ5wpk9rP2Yjd+YBsaLX3Jw7/5MXbIB++vQLf9ipq+288olCbxx0II?=
+ =?us-ascii?Q?oFv+nsRRU87j7m68YfWggTiyvvI3AQPn4d9/QYpw1QMnTtpbZpZ//AF03hOC?=
+ =?us-ascii?Q?y1Gs7BLUdaarE3GuJLsOBlZ0Sg2Na+xzaEtbczAVwe5g/GvIPq3cXq2jl0st?=
+ =?us-ascii?Q?tBuFwV1qRd4WgxxvG1nsy7adpRaCsIxzG9RPL5xH3G5W2IcWSFhp2NEP8Lmm?=
+ =?us-ascii?Q?4/owUJQhP7eqIWyunXsTC75KVPXLVZz17hPRvWzjpxxpb/5by7d6AmaaBrKe?=
+ =?us-ascii?Q?H+Tlhp8AJoQ/EC8z4y6Aa2/8SbhStXOOVBKtXO4ldQT/nrHv32h+LyckKZvi?=
+ =?us-ascii?Q?xZ7+3RqCWbu7IerujmpvWklZ7Rr4sQEArXfPj4n07aAWUyHh2vUxfC+aDd9Y?=
+ =?us-ascii?Q?jcDWArj52/hjraprrwLwAs4mNbZG2II2+/lnsER3GR13jNuhMBASizk3Kabt?=
+ =?us-ascii?Q?aP2VmtO/FxtKE6iTEBCBGaw00e9dzynhZMuQeiNsIS8N6r5Bwhk2dHKH/Bd7?=
+ =?us-ascii?Q?alzHOQMkMhV+OmeF4nB7KCS0QkXFRMJbfg3vMwO7/Q83X8EwtSXNN6eD8m7V?=
+ =?us-ascii?Q?R26rAdR1/pfDb1+kptIAIguuzAcpOUGYLpI2FZGHAvnDbQUlOHzMYbDSCSfE?=
+ =?us-ascii?Q?fMu7EhoJgGeKoACxkNnNtSVjTnE6eR3xGgGsOD9v8GBPYlxqmVPKm2Lq+q7g?=
+ =?us-ascii?Q?cDkUnaoXEONJJQHBej/78NFVzuN2QpniFPH8Btbckde4u+KA88z4ru6ihcvm?=
+ =?us-ascii?Q?BFTa/d5L3S2FwhIY7pNDSKrugi14GZX/pn9ptYjFHfLLC1QgtIaScrb0In5D?=
+ =?us-ascii?Q?FR9XG04cW9jurKCw8ePW60yCBgqGz2k0x0iTrFb2kahHMSvgIEvcFJNJTKh2?=
+ =?us-ascii?Q?3T92/UUDUHpYU/wTf+xUgAzNqI+hAIhaj1fF+3kPTDJl4zxF9LTEzdqHaQz8?=
+ =?us-ascii?Q?qJ16ykt+666n0qRIjcKTwVQcH809xkG8aLHWa5xB3QBM5SeEz6SU8Oz0UozZ?=
+ =?us-ascii?Q?WjZSzAGoBCkoBL4JMqmhkZ9UWcl9wdSlX+asU6t4Fv64iTR23IRDQdjyOxT+?=
+ =?us-ascii?Q?CjWn5SnpS3PPlh1Pr6n/SoRWZcZmbe/yAF2w9q1/gIrITyTehumLTwRCYJjR?=
+ =?us-ascii?Q?iV7LZWrG5ZNY16vtX188I9McBjSr7zhXLIcNmCJpfRNQtUUCVOF5jao3bfKS?=
+ =?us-ascii?Q?MYGjdlMfXmdbeVgVHTZau2SM0j3IJxItDpk+NUqvILtidu+h25izZsvH1P2+?=
+ =?us-ascii?Q?uMpE7on8tk8FQecsIcN4D1xyeRuG/cMlk3GZxOkvbHZorzd4W7edIvRojtUV?=
+ =?us-ascii?Q?U1pwRaTZU5gflMdiW7FGLYn2G8iHCaBU8sm6tstFL38oNjfIqCfLWB7CMVCz?=
+ =?us-ascii?Q?aJ/siBPVW56KJgZFdBT0T+/Mql8ZEoNd9T3WVUnEguxFeNBbTzPvfTQ1ZGOZ?=
+ =?us-ascii?Q?ZOgJqu+zAN8A6dbpuoZI2J66hlAIvkxNtJTx4q+2SP1u+l+GWFJhhoSFGgEk?=
+ =?us-ascii?Q?83GhmgIPcnJdHc12TmGW/PD7XcvLdXeJnY8XHvsozWGyMg5M75lMU2FoG7Zw?=
+ =?us-ascii?Q?CYxqKKQCVQxtQ4JBMhjmWO6dbBuYaOaXXmuUeONiXiZJQ74Pwh2beffZjswF?=
+ =?us-ascii?Q?SICiTm+0ePuD7r1ZUOxjCNg=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dfa7cf4f-2096-42d5-f1ad-08dcc0d15121
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2024 04:34:02.2783
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ixNdywT8ALMNLXcW2tySoDe6mPiG/Tvpw4hvg70OwJYEZDIBNoWudvJeesDG1qbrHxQltEYHZZVabA+uFxI5evL6t1+IQrGQ7ijyNzbmDrB0MDlmBCTRhlKyU1qOUdL+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB11706
 
 
->
-> > +     if (cap.rate_in & SNDRV_PCM_RATE_8000)
-> > +             rates[i++] =3D snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_80=
-00);
-> > +     if (cap.rate_in & SNDRV_PCM_RATE_11025)
-> > +             rates[i++] =3D snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_11=
-025);
-> > +     if (cap.rate_in & SNDRV_PCM_RATE_16000)
-> > +             rates[i++] =3D snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_16=
-000);
-> > +     if (cap.rate_in & SNDRV_PCM_RATE_22050)
-> > +             rates[i++] =3D snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_22=
-050);
->
-> missing 24 kHz
+Hi Tomi
 
-There is no SNDRV_PCM_RATE_24000 in ALSA.
+Thank you for the feedback, and sorry for my late responce.
+I was under Summer Vacation
 
->
-> > +     if (cap.rate_in & SNDRV_PCM_RATE_32000)
-> > +             rates[i++] =3D snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_32=
-000);
-> > +     if (cap.rate_in & SNDRV_PCM_RATE_44100)
-> > +             rates[i++] =3D snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_44=
-100);
-> > +     if (cap.rate_in & SNDRV_PCM_RATE_48000)
-> > +             rates[i++] =3D snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_48=
-000);
->
-> missing 64kHz
+> If we have this, of_graph_get_next_ports() returns the ports@0, and that 
+> makes sense:
+> 
+> parent {
+> 	ports@0 {
+> 		port@0 { };
+> 	};
+> };
+> 
+> If we have this, of_graph_get_next_ports() returns the parent, and 
+> that's a bit surprising, but I can see the need, and it just needs to be 
+> documented:
+> 
+> parent {
+> 	port { };
+> };
 
-Yes, will add it.
+Thank you for understanding the situation
+
+> But if we have this, does it make sense that of_graph_get_next_ports() 
+> returns the parent, or should it return NULL:
+> 
+> parent {
+> 	/* No ports or port */
+> };
+
+Yeah, it should return NULL in this case.
+
+>  > 	port = of_graph_get_next_port(parent, NULL); // (A)
+>  > 	port = of_graph_get_next_port(parent, port); // (B)
+>  > 	port = of_graph_get_next_port(parent, port); // NULl
+> 
+> it does not feel right. Why does of_graph_get_next_port() return only 
+> the ports of ports@0? I think it should either return nothing, as there 
+> are no 'port' nodes in the parent, or it should return all the port 
+> nodes from all the ports nodes.
+
+As you also mentioned, having "ports" node is optional, and maybe this is
+the reason you feel uncomfortable on current code, and I can agree about
+it.
+
+If the driver needs to care about multi "ports", it is obvious that the
+driver cares "ports" node.
+
+My opinion is because having "ports" is optional, we want to handle
+"port" with/without "ports" by same function, especially if it doesn't
+need to care about multi "ports".
+
+I think your opinion (= "port" nodes strictly only in the given parent
+node) means driver need to care both with/without "ports" node, but the
+code will be pointlessly complex if it doesn't need to care multi "ports".
+
+> bus {
+> 	/* our display device */
+> 	display {
+> 		port { };
+> 	};
+> 
+> 	/* some odd ports device */
+> 	ports {
+> 	};
+> };
+> 
+> and you use of_graph_get_next_ports() for display, you'll end up getting 
+> the 'ports' node.
+
+This is interesting sample, but feels a little forced.
+If you need to handle display::port, you call
+
+	port = of_graph_get_next_port(display, NULL);
+
+Indeed we will get "ports" node if it calls of_graph_get_next_ports(),
+but it needs to use unrelated parameters, I think ?
+
+	ports = of_graph_get_next_ports(bus, display);
+
+> > 	parent {
+> > 		ports@0 {
+> > 			port@0 { };
+> > 			port@1 { };
+> > 		};
+> > 		ports@1 {
+> > 			port@0 { };
+> > 		};
+> > 	};
+> > 
+> > 	of_graph_get_port_count(parent); // 2 = number of ports@0
+> 
+> I think the above is a bit surprising, and in my opinion points that 
+> there is a problem. Why does using 'parent' equate to only using 
+> 'ports@0'? Again, I would expect either to get 0 (as there are no 'port' 
+> nodes in parent, or 3.
+
+This feature is for the driver which *doesn't* need to care about "ports".
+
+	/* CASE1 */
+	parent {
+		port {...};
+	};
+
+	/* CASE2 */
+	parent {
+		ports {
+			port {...};
+		};
+	};
+
+both case (CASE1/2), we can use
+
+	of_graph_get_port_count(parent);
+
+If the driver need to care multi ports, it should use such code, IMO.
+
+	nr = 0;
+	for_each_of_graph_ports(parent, ports) {
+		nr += of_graph_get_port_count(ports);
+
+But of course we can handle it in v2 patch.
+
+	/* of_graph_get_port_count() cares multi ports inside */
+	of_graph_get_port_count(parent);
+
+Thank you for your help !!
 
 Best regards
-Shengjiu Wang
-
->
-> > +     if (cap.rate_in & SNDRV_PCM_RATE_88200)
-> > +             rates[i++] =3D snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_88=
-200);
-> > +     if (cap.rate_in & SNDRV_PCM_RATE_96000)
-> > +             rates[i++] =3D snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_96=
-000);
-> > +     if (cap.rate_in & SNDRV_PCM_RATE_176400)
-> > +             rates[i++] =3D snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_17=
-6400);
-> > +     if (cap.rate_in & SNDRV_PCM_RATE_192000)
-> > +             rates[i++] =3D snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_19=
-2000);
-> > +     if (cap.rate_in & SNDRV_PCM_RATE_352800)
-> > +             rates[i++] =3D snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_35=
-2800);
-> > +     if (cap.rate_in & SNDRV_PCM_RATE_384000)
-> > +             rates[i++] =3D snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_38=
-4000);
-> > +     if (cap.rate_in & SNDRV_PCM_RATE_705600)
-> > +             rates[i++] =3D snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_70=
-5600);
-> > +     if (cap.rate_in & SNDRV_PCM_RATE_768000)
-> > +             rates[i++] =3D snd_pcm_rate_bit_to_rate(SNDRV_PCM_RATE_76=
-8000);
-> > +
-> > +     pcm_for_each_format(k) {
-> > +             if (pcm_format_to_bits(k) & cap.fmt_in) {
-> > +                     codec->descriptor[j].max_ch =3D cap.chan_max;
-> > +                     memcpy(codec->descriptor[j].sample_rates, rates, =
-i * sizeof(__u32));
-> > +                     codec->descriptor[j].num_sample_rates =3D i;
-> > +                     codec->descriptor[j].formats =3D k;
-> > +                     j++;
-> > +             }
-> > +     }
-> > +
-> > +     codec->codec =3D SND_AUDIOCODEC_PCM;
-> > +     codec->num_descriptors =3D j;
-> > +     return 0;
->
->
+---
+Kuninori Morimoto
