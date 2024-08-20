@@ -1,261 +1,222 @@
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011021.outbound.protection.outlook.com [52.101.125.21])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 621351798F;
-	Tue, 20 Aug 2024 01:36:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.21
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724117809; cv=fail; b=X408cX79hHGIkjmj/VafVvyyhhj+X8LtWkd3sZD71pxCdbukN15HD84u4RpQLZuo3g6KnnhHqxOG9lgf1hyHB19fXnygv4jh60ULU3PNUVcOmICuPibtkrQc9dgjFzjQyLb9/LCfqehbRVST1xxbFDryZ/MPeLKjbw61jFCl18I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724117809; c=relaxed/simple;
-	bh=1mgCJ0QNDPHVgNh+qsumvMj45XJuXjgWi5G/dRvQaEI=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=Lav+w+MmSb/XzZStjAQU+96aUFgBJWAqMbAxI0kFMYCzkFYYMFQe9BhfvurPWp+9NzAXTG92RQ2VnlxpgkJjN6qv++wd4CprJ65af6WKCx7rci9w0jy1bGetuL5YgeYRi68zuHDFFX9r2tae1A8ldMXvHqjITL5znadg2SvzDbg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=ACPQEUOl; arc=fail smtp.client-ip=52.101.125.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F79749622;
+	Tue, 20 Aug 2024 02:34:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724121259; cv=none; b=tEviD8PJhSuJbokAq1eC0BLwsy2qDgOrzaEGEWUzhXWLdM3tTvHQnLEYxVOVp38h62RZ41SLK11TSos5i/OXXgFAWlQODUdSj8T0MQAAbuoyUY7c02nwiyn4PsS4YrhzA7OTU109YZ8arbMciZ/0MYR6JSig9cVOd+2r6dcV/tc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724121259; c=relaxed/simple;
+	bh=EX7m7E4uVFpmQxuytLHn8Izj+uT6XzL1vKALGH1360A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=icS9o40H89OHJ8Bdd22Jg7d2hu8wLeja399HGNwS3MaUyEQVyWFMTjNKYZ+y4GJ+NV3nOIl68ZSNu99CtdUqVj3TnaJ4n0bQwGqg8AVixG4M37OGPnpSR81vZqBNGk0CajRHF0YMC13GXr9yNikIA7o+SrgYAjavrZbK8/xoc0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=dDiqdbHN; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="ACPQEUOl"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FUqddecPG83EOwb6f5j7HjFAxcv7x63siGwZSmYnZlSpnyQ0IGzwd9kya8ODTLLGSC598RI9BtUfE2h1F7AYHoSDqfoUeQEyCo1JfT1Wb06RtmxPAf38UJprgiRDak1EbohxatTX09XaWUuDcpzSUVsmVHakFiP8e03gSenIUd6rSIu03YLQsYBeMC4Ec5hnD5Hu6YwzQGp6Xho++DdMcyiK0PI7UDCsCmq0jGEz0SqLp5tTNUC0/Nt+nE7TJkKwfoWRGhSXcTsr6vmr0KVPw7zrdEFoRYfTV5lJcdJIJYj0jzCzveUPHjxQrYHUNF0jZRiglFuz3JQRp0snpsLcuw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dA18vKKY8K9JbTVtVIkFGRw5M8O06+NHVtNAyhjGHec=;
- b=PY58vIn/sb36yEj4NZAlo+jzdjPKPNYf8pptnAe4K0juDzR523/jarJLBG4EjfdLI33qDQVofEx4te+mQZUbOy9PJwqxmsElNWhLUzMQD1Q0N3N4UvyjXQrymu3UoN5gp56PLBdQ9aKcoXKqNiAEMLDtiqTI6ysvMzJLZ1vggA3XkCTmVj3ATEIn7iYi8P/Ak6EEJzmmSJpZDu922l2zkLPDZF4+xmxaWW5Btsxkw6nfu3wt85gzR+t4d9Ek57htZ5rJbzq3jVwqkLcnbyp01z1q2uoM0Uzw8HRHhFLfyHn9Jipg5Le52yAXFKqfoah/dT61HZkEwxxfaxnHRfZmXg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dA18vKKY8K9JbTVtVIkFGRw5M8O06+NHVtNAyhjGHec=;
- b=ACPQEUOln5TbGo/xnwyczqJM21yxYYcC7N9mlHmtOZz8ntocx/ieuGo6A02TotKiELGeMBneHtWi19TSHVKua6nMpYty4O8rzlVOeL83XfDPZg4/OgcqJaeh2rBxWL1W+Zj2F83I8c8h2eKWwCgp3rx7ANvywAguAell0Dc44N8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TYWPR01MB11234.jpnprd01.prod.outlook.com
- (2603:1096:400:3f2::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.25; Tue, 20 Aug
- 2024 01:36:42 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.7875.016; Tue, 20 Aug 2024
- 01:36:42 +0000
-Message-ID: <87zfp8561i.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>,
-	David Airlie <airlied@gmail.com>,
-	Helge Deller <deller@gmx.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-fbdev@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-omap@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH v2 1/9] of: property: add of_graph_get_next_port()
-In-Reply-To: <20240811170316.GL2270@pendragon.ideasonboard.com>
-References: <875xsa8gws.wl-kuninori.morimoto.gx@renesas.com>
-	<874j7u8gw2.wl-kuninori.morimoto.gx@renesas.com>
-	<20240811170316.GL2270@pendragon.ideasonboard.com>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 20 Aug 2024 01:36:41 +0000
-X-ClientProxiedBy: TYCP286CA0118.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:29c::11) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="dDiqdbHN"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47K2C282012421;
+	Tue, 20 Aug 2024 02:33:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	NdvKqTI0IYHL1eLLYyhx4z9hi6k3a2+Z/kg0NhcHBQQ=; b=dDiqdbHNDfh0A2B2
+	7lcKjF3MXhfcotG6OaBzKeZoe7WZxVfzkm79PzCip8UaoCzPB9YLLlydhq7ZhFOU
+	xhgdFt8cipELYl7AaoRAT7wRs8y4xYjXdNmXVNzcfOK9d6evn2ejqfrfvj6ugDl8
+	jGiFdwxeNPgQs24oWUKuLRULkxucJDdBnJFub23pNnAuoSoa2h6eb0iTwflXrwlY
+	cpysxvpIFaGTZKiJZ06/YUekpzMq16Wq5CD43hniELuKbiuqKhd57R96+mQGr308
+	NYNy7RTmP4oAzOgpI4eMAtuIXsmOcIerUif6sdc/z5y8NguzGWc0RuoWojG/nozR
+	2/dpog==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 414j5701bh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 20 Aug 2024 02:33:50 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47K2Xmw2030765
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 20 Aug 2024 02:33:48 GMT
+Received: from [10.110.70.123] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 19 Aug
+ 2024 19:33:47 -0700
+Message-ID: <58043166-c494-42db-b7d3-575991e43e8b@quicinc.com>
+Date: Mon, 19 Aug 2024 19:33:47 -0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYWPR01MB11234:EE_
-X-MS-Office365-Filtering-Correlation-Id: bddc8a73-bb94-4fbb-aaa3-08dcc0b88b14
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|52116014|376014|7416014|366016|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?zGNTRb2d4sGq0l8B36S5czE3AjyL3a1Ro87T18qpk/o1VYSPakJAyIBTY4mg?=
- =?us-ascii?Q?9UyzKJjbMz1eAVwoyCZ93tNCXExUrrv8ceMuRdElCuBk7ao/4APMAbUqSJDS?=
- =?us-ascii?Q?wEpl4LKFL5lV/NdniZzx9sIevZ4CVcnkMdgiDjnFUHFSRtPaByGK2Gpy3SaB?=
- =?us-ascii?Q?DkhGEA48N9dZDG339QQCdy+2CHXCS8hE133OPhHsf1X0xtmzf8s00Vu2KGw/?=
- =?us-ascii?Q?wQHO0Wnbzfb+BTtOXLzzC8xeMuAkFpZxvACvzq3+YsvEbDSyawguuUL8TJAW?=
- =?us-ascii?Q?SQ57sVKlCYyemuy5HvtqeRcFFJoY+td8sReQmW/GtCWVgJDCUysGc9tuk+3p?=
- =?us-ascii?Q?aVyBAsA5UpPIhrZ5PsKIzwDr4a+1uECkA4nTNUJAdiEEEBF2rZ7h1p9nNNQq?=
- =?us-ascii?Q?mOHFH7W5kx7JNfKJWhz9a3gORaEJLIA9GnS+53uNz0JynesHCKRS2gI/9q+Y?=
- =?us-ascii?Q?NppsLa8oe2yOQxSM3vDir2eUHaV6NlA/kZeF+zpy3VmH2M54qCQS3rmChku9?=
- =?us-ascii?Q?AuUMD1u0lWO+qzEWGhOqgrwg0bDFCx5gMtjj3Nbo1+MaOS3BVVPtfKOkZPwy?=
- =?us-ascii?Q?PHLdCJEabybJzO6/r4JD4bjQD0sPG+sp2xDp3gshpPJ8PYItUYYmj9YIZ1nh?=
- =?us-ascii?Q?BFzlaNlPXRqDnE7aM4Vvhr8zBMTOV/jAR6mFLIavl6BuCi6Su+pPRR81MTCC?=
- =?us-ascii?Q?0ZAVAFyaMWS0oMbqRIM15/BLMy7JiZYm3MnyE+MQL3X1bQ/Z3VVMs18iRnmv?=
- =?us-ascii?Q?bWaxFqAnaqxqrZKjFrmuzL2CGcBfAzfIlMweXv0au1otVj0cm8Av34YO9+UQ?=
- =?us-ascii?Q?ZFtfrziGAfq3ac9nSS9VlMOc4X/lWhDlOSi3xesiwafIEvztwnAtDIWSQkeg?=
- =?us-ascii?Q?SG5D6FZlOc9keqY0xXgUzV552ZbZsd6H7sGSjADko6e+cAmRpru1uQVbDnnO?=
- =?us-ascii?Q?Qst10cCl4K9eORzoWxoE5c5wiy7lA0EMM8T43IU42ZtaCwSWT67W9UH8WtD1?=
- =?us-ascii?Q?ynZ8Aq5/hIJSYaGGOgncCH07ZJDDO1AjYQ+iHNztMB2bgDb/aERyNNlCZ+7Y?=
- =?us-ascii?Q?ADg/+ZZHk6Cixcktqkb1e3Z9N1SnYwqVJ1dK30NTrTakF/wK89BGoGi+i7LM?=
- =?us-ascii?Q?4M5IunBDYeL9/s/hc+xDHo3dl31uUVCY4OkM6ez6nsmGC0hJ1dgjV2KAY+DV?=
- =?us-ascii?Q?5g6TqE3SHnksn7KDLcDLcFnGv2OZBJMHRFLnwbhMU1qR1/kZs+1j6P+6+sfd?=
- =?us-ascii?Q?5x0DkeYULpvQeF/qPT0rOmIUWPwlQp4/GUXCqDoycTAZY2KtTj4XFj8YW0ye?=
- =?us-ascii?Q?soIoz5U1iwTySj9mi9/4H/ykoxG93MDFyT4aciBosgrXA6iORsGkFC1BTyTI?=
- =?us-ascii?Q?i4mEEQzHK86iNGrr8ZGBu4en0m0fw1P/s/2+rqdTrrc0Qm8EJg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(7416014)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?/3D7JrrKmxsu2Wpgy/hHtkhQjXpu/1OHkUAn2+3ArV8ACdXbIv0p1Ra/l+f/?=
- =?us-ascii?Q?UyWtKFZ8WxN9LdYAOjpGfkBK60bPRYIt59OxEJK+EwZk9+yV/204r1uPFEQK?=
- =?us-ascii?Q?3XzejZOLyhF9vCic2D2LAp2utdwUR8yd2EW4argEfsUFnzqn7eqIMwr4AnhI?=
- =?us-ascii?Q?mUgeRluNdud2OHOgVjdZKj5LkhRRMTnA2dCYKi8sqvIX6s2o29eAz1klROlX?=
- =?us-ascii?Q?QLQW/iFiRfdSKsOCI2pKELEV1JfaByqwL7JXPkJJInKifw8SmwoH55QRLAtg?=
- =?us-ascii?Q?rlfTLpXNSFT+zlceB1BjGN4EMCYrbD9jTDqc6ilE+hOhGZB5kG9mFyVN/BX7?=
- =?us-ascii?Q?m3ezwSIUQw2RGZ6T+CXGmwRtHbu79Nb8bBy8h6s1XOYED8Fn+lXf5DrWXIOM?=
- =?us-ascii?Q?hzyQU5a+nVjNz8Vfn723YkxBWFjTyS8JLqm6fjn+962L91VY8CqMrL5m7hhZ?=
- =?us-ascii?Q?VOgOtzAb+royyz24NFg+hFyGb7GcBvhAZCAplm+a/MLO5OP6zlZy0B6yrVVy?=
- =?us-ascii?Q?o7yUtDDZgDrOx1zXlyosc8JDSZZMo2k3Iy/tJxmzAxZW9s5BtE6qBD9Bs6u5?=
- =?us-ascii?Q?i+lblLD4/smDw2Y7dRIUuKE/1n+mxrb5GcSPQNaWUSWJB6n/RYGM+Op0MOCl?=
- =?us-ascii?Q?04QxptBQQ/wBy5xRmQgK/xEaRbK7Ms3bzEbJ/nCMTkVLSVf1ecZicGnEekKP?=
- =?us-ascii?Q?DMNPlWuYI7YM0QsDXBDq8f6VXQq+IoVXpBEDAmtgdkOrbu0O3UA6JZH4wOU6?=
- =?us-ascii?Q?YIflwDCmC/iVRPM+wZ9r2wFp7iWGy5UzZDUh06GlZizlEfVdLdU4dxPiJHtY?=
- =?us-ascii?Q?hnn80KwfG0axIpobT93WKNsan7vFIviDvkkgLHz8t1PMPv7QyDm6ZLQt/pnN?=
- =?us-ascii?Q?2N8rX/gsjAdgzrlWDPnYiugnVckPOZiU0yV273rqVVAnmUv3ohQaJuvNfEnM?=
- =?us-ascii?Q?OqRig9uw2Tdc+B+bvYoVjvxwhS8Emez2hrnhiuviP8i628jp1Ho0LNqQ7qOK?=
- =?us-ascii?Q?nsfdAzEPJCWxyGwWynx3BRjFiL/YJwAf7wPR55/GT1v+wctSMotZsiVQHwrb?=
- =?us-ascii?Q?UhQg0THAKJZ4Tu0dTde0cxX/SfEhVYv2AGUc+BshlExApTDDS6CcpifCaHZH?=
- =?us-ascii?Q?z3sYkwFdlS3K7AWqaXAVEeqEF/VqTK0Ha5Vi+hTc4YrRdsYZ6N7a1KR4uQRn?=
- =?us-ascii?Q?Hnh92iD+ckKYFg5N4N4Pv8SE8I9P26/V2bDRDsrXBAdoqWlfHd4fGdcWZiKo?=
- =?us-ascii?Q?TffQHk3t9XA4iZCe878SkjzAVfgXv0BWkMa1BtpK0FDMibJtv04lDdx46u1C?=
- =?us-ascii?Q?drUa/nEOp2NPtejIfV2146cYgOE93vAdAcMon5kSzlLTQiTVymfilcEiKhAZ?=
- =?us-ascii?Q?t17M5T6SdDrPxZOoYDe8MgAbeQSC8RQnqgC152aM43zCqnVPU3cjZoV3Tuqq?=
- =?us-ascii?Q?XWAmb8wRXqFDeup/+ihpoDCXi+59+BDsaBAJVy2aUBtJFgE9Z4IREDGv9v9a?=
- =?us-ascii?Q?i5Tj9DjKniaZAAAKKQlKCcOyuQt4ISrVBHujFoQPu062WtIeatc0c07qx/d1?=
- =?us-ascii?Q?wJHW3GjND3LtmFBXctCofiHs5T5FNpXcqowfOEVwJ3XiVqZIGgC7eKvIZcMT?=
- =?us-ascii?Q?ipCV9yAek6zUenZSOdyI/N8=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bddc8a73-bb94-4fbb-aaa3-08dcc0b88b14
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2024 01:36:42.0662
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ivTU8AHtKuKYP6WB+uOZe230uGXTs8eebjYycfQdyV9J4TCUsWcOh6hC4WTwLpvJa5Xf0/G2Fh+kFB2Hpg1FC6flBXAHIbQFoq7/zlk+06TwTxMSN3DyPCJvxaxzt51j
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB11234
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v24 29/34] ALSA: usb-audio: qcom: Add USB offload route
+ kcontrol
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <broonie@kernel.org>, <lgirdwood@gmail.com>, <krzk+dt@kernel.org>,
+        <Thinh.Nguyen@synopsys.com>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
+        <gregkh@linuxfoundation.org>, <robh@kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>
+References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
+ <20240801011730.4797-30-quic_wcheng@quicinc.com>
+ <4d5fe3f8-d7ba-4647-8dd7-22656ec2fde5@linux.intel.com>
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <4d5fe3f8-d7ba-4647-8dd7-22656ec2fde5@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: kHPYq0DIRqcezxG483IwCovOPnBE9jat
+X-Proofpoint-GUID: kHPYq0DIRqcezxG483IwCovOPnBE9jat
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-19_16,2024-08-19_03,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
+ priorityscore=1501 clxscore=1015 bulkscore=0 phishscore=0 impostorscore=0
+ adultscore=0 suspectscore=0 mlxscore=0 spamscore=0 lowpriorityscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2408200018
 
+Hi Pierre,
 
-Hi Laurent
+On 8/1/2024 2:02 AM, Pierre-Louis Bossart wrote:
+>
+>> +ifneq ($(CONFIG_SND_USB_QC_OFFLOAD_MIXER),)
+>> +snd-usb-audio-qmi-objs += mixer_usb_offload.o
+>> +endif
+>> \ No newline at end of file
+> add one?
+>
+>> diff --git a/sound/usb/qcom/mixer_usb_offload.c b/sound/usb/qcom/mixer_usb_offload.c
+>> new file mode 100644
+>> index 000000000000..c00770400c67
+>> --- /dev/null
+>> +++ b/sound/usb/qcom/mixer_usb_offload.c
+>> @@ -0,0 +1,101 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+>> + */
+>> +
+>> +#include <linux/usb.h>
+>> +
+>> +#include <sound/core.h>
+>> +#include <sound/control.h>
+>> +#include <sound/soc-usb.h>
+>> +
+>> +#include "../card.h"
+>> +#include "../mixer.h"
+>> +#include "../usbaudio.h"
+>> +
+>> +#include "mixer_usb_offload.h"
+>> +
+>> +#define PCM_IDX(n)  (n & 0xffff)
+>> +#define CARD_IDX(n) (n >> 16)
+>> +
+>> +static int
+>> +snd_usb_offload_route_get(struct snd_kcontrol *kcontrol,
+>> +		      struct snd_ctl_elem_value *ucontrol)
+>> +{
+>> +	struct device *sysdev = snd_kcontrol_chip(kcontrol);
+>> +	int card;
+>> +	int pcm;
+>> +
+>> +	card = soc_usb_get_offload_device(sysdev, CARD_IDX(kcontrol->private_value),
+>> +					  PCM_IDX(kcontrol->private_value),
+>> +					  SND_SOC_USB_KCTL_CARD_ROUTE);
+>> +
+>> +	pcm = soc_usb_get_offload_device(sysdev, CARD_IDX(kcontrol->private_value),
+>> +					 PCM_IDX(kcontrol->private_value),
+>> +					 SND_SOC_USB_KCTL_PCM_ROUTE);
+>> +	if (card < 0 || pcm < 0) {
+>> +		card = -1;
+>> +		pcm = -1;
+>> +	}
+>> +
+>> +	ucontrol->value.integer.value[0] = card;
+>> +	ucontrol->value.integer.value[1] = pcm;
+>> +
+>> +	return 0;
+>> +}
+> see my earlier comment, should those two calls be collapsed to return
+> all the information in one shot?
+>
+>> +
+>> +static int snd_usb_offload_route_info(struct snd_kcontrol *kcontrol,
+>> +			      struct snd_ctl_elem_info *uinfo)
+>> +{
+>> +	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
+>> +	uinfo->count = 2;
+>> +	uinfo->value.integer.min = -1;
+>> +	/* Arbitrary max value, as there is no 'limit' on number of PCM devices */
+>> +	uinfo->value.integer.max = 0xff;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static struct snd_kcontrol_new snd_usb_offload_mapped_ctl = {
+>> +	.iface = SNDRV_CTL_ELEM_IFACE_CARD,
+>> +	.access = SNDRV_CTL_ELEM_ACCESS_READ,
+>> +	.info = snd_usb_offload_route_info,
+>> +	.get = snd_usb_offload_route_get,
+>> +};
+>> +
+>> +/**
+>> + * snd_usb_offload_create_ctl() - Add USB offload bounded mixer
+>> + * @chip - USB SND chip device
+>> + *
+>> + * Creates a sound control for a USB audio device, so that applications can
+>> + * query for if there is an available USB audio offload path, and which
+>> + * card is managing it.
+>> + */
+>> +int snd_usb_offload_create_ctl(struct snd_usb_audio *chip)
+>> +{
+>> +	struct usb_device *udev = chip->dev;
+>> +	struct snd_kcontrol_new *chip_kctl;
+>> +	struct snd_usb_stream *as;
+>> +	char ctl_name[37];
+>> +	int ret;
+>> +
+>> +	list_for_each_entry(as, &chip->pcm_list, list) {
+>> +		chip_kctl = &snd_usb_offload_mapped_ctl;
+>> +		chip_kctl->count = 1;
+>> +		/*
+>> +		 * Store the associated USB SND card number and PCM index for
+>> +		 * the kctl.
+>> +		 */
+>> +		chip_kctl->private_value = as->pcm_index |
+>> +					  chip->card->number << 16;
+>> +		sprintf(ctl_name, "USB Offload Playback Route PCM#%d",
+>> +			as->pcm_index);
+>> +		chip_kctl->name = ctl_name;
+>> +		ret = snd_ctl_add(chip->card, snd_ctl_new1(chip_kctl,
+>> +				  udev->bus->sysdev));
+>> +		if (ret < 0)
+>> +			break;
+>> +	}
+>> +
+>> +	return ret;
+Hi Pierre,
+> None of this looks Qualcomm-specific, shouldn't this be part of the
+> soc_usb framework instead of being added in the qcom/ stuff?
 
-Thank you for the review
+Started working on this particular comment, and there are some things that needs to be considered if we moved this into SOC USB:
 
-> Having multiple "ports" nodes in a device node is not something I've
-> ever seen before. There may be use cases, but how widespread are they ?
-> I would prefer handling this in driver code instead of creating a helper
-> function if the use case is rare.
+1.  We do save the reference to the USB BE DAI link within the USB DT node, which can be fetched/referenced based on sysdev.  However, I'm not sure if everyone would potentially follow that way.
 
-In Sound, basically 1 CPU device will be 1 Sound Card, but sometimes we
-want to handle 1 CPU device for 2 Sound Cards.
-In such case, it needs multiple "ports".
+2.  I tried a few implementations of adding a new SOC USB API, and the argument list was a bit long, because I didn't want to directly reference the usb_chip.
 
-1 example is
-	(A) arch/arm64/boot/dts/renesas/ulcb-audio-graph-card.dtsi
-	(B) arch/arm64/boot/dts/renesas/ulcb-kf-audio-graph-card.dtsi
+Sorry for the delay, but I wanted to give a good stab at implementing this before bringing up the implications.  It is possible, but definitely not as clean as how we have it now IMO.
 
-We have ULCB board and its expand board (= KingFisher), and both have
-Sound interface. In this case, we want to handle ULCB-Sound as 1st Sound
-Card, and ULCB-KF-Sound as 2nd Sound Card. Before, it was handled as
-1 big Sound Card, but it was not intuitive for user.
+Thanks
 
-Our SoC's ports@0 is used for ULCB-Sound (= A), and ports@1 is used for
-ULCB-KF-Sound (= B) now.
+Wesley Cheng
 
-
-> > +struct device_node *of_graph_get_next_port(struct device_node *parent,
-> > +					   struct device_node *prev)
-> > +{
-> > +	if (!parent)
-> > +		return NULL;
-> > +
-> > +	if (!prev) {
-> > +		struct device_node *ports __free(device_node) =
-> > +			of_graph_get_next_ports(parent, NULL);
-> 
-> This also makes me quite uncomfortable. Iterating over all ports of a
-> device node that contains multiple "ports" children seems an ill-defined
-> use case.
-
-This is because having "ports" node is optional. The driver code will be
-pointlessly complicated without above.
-
-Below 2 cases are indicating same things. So driver want to handle these
-by same code.
-
-	/* CASE1 */
-	device {
-		ports {
-			port { ... };
-		};
-	};
-
-	/* CASE2 */
-	device {
-		port { ... };
-	};
-
-	port = of_graph_get_next_port(device, NULL);
-
-
-> > +#define for_each_of_graph_port(parent, child)			\
-> > +	for (child = of_graph_get_next_port(parent, NULL); child != NULL; \
-> > +	     child = of_graph_get_next_port(parent, child))
-> 
-> I think I've proposed something similar a looooong time ago, and was
-> told that iterating over ports is not something that drivers should do.
-> The situation may have changed since though.
-
-I guess you mean checking "endpoint" is enough ?
-But unfortunately, it is not for us.
-
-I guess this is mentioned in git-log, but we have *Generic* Sound Card
-driver which supports many type of Sound connection.
-
-	device {
-		ports {
-			port@0 {
-				endpoint@0 { ... };
-				endpoint@1 { ... };
-			};
-			port@1 {
-				endpoint { ... };
-			};
-		};
-	};
-
-Because it is *Generic* Sound Card driver, it need to know how many
-"port" are used. In this case, using "endpoint" loop is not useful.
-It want to use "port" base loop.
-
-
-Thank you for your help !!
-
-Best regards
----
-Kuninori Morimoto
