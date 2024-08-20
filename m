@@ -1,120 +1,176 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D226518E34F
-	for <linux-sound@vger.kernel.org>; Tue, 20 Aug 2024 07:48:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C70B84D8CF;
+	Tue, 20 Aug 2024 07:52:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724140095; cv=none; b=RB9XGJOvtUIx0K6yocC40MdFypcsgMDmKg647ImN7NrEItrDhvUBTQHVQqmu8Ik9+IsUXtpF5/FQhE1jCtCKoextyOMAls1XtRW6hQPfpLIbizuZtYVnSO/lPn087Cm/x7pff1ZKxGk6Kl+H1UZePHEnJvSWnOE7o+wckIgfNC0=
+	t=1724140354; cv=none; b=nbnSdi1LIkkxnz/5LghKcml7B1IezuYXqjN3xj1OCE9my+CcuUeE/n7k5kjycqn+W73FTvRSO1Nzs/LFy9mrLHWIlN4TYeST/0zwpHc3HRWXXfIW4GMFSep//fHknGNBJ8ho0vT37DLh5RbZ9K6StgSVJF/E9VAhS+7fIEEpvyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724140095; c=relaxed/simple;
-	bh=OrDJAbkTDtrWTESQ58o7M5iBYBRfzxIlIs8+nm7F7Nk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CDG+PHX5of51WKrjpdqxJNhK8HymgSEwci1O/09OtO/5FE76Uhrjtov3ql3hdBHPlBsTz0VbXDzLEGPBCRhkDDhflkt/4LkwYMCXK1twRVYMNuceUEpWoagL9Iv0rf4zqu1Q1uxe53L+UQYOhHkE1BLY6ta8gKaRrksbOj86FB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L+xyxRZu; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1724140354; c=relaxed/simple;
+	bh=t+SS2sYV3XPALotEG8GtBNrD6YUGb7AIiW/aIuUoKwQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=I3weumoJ8rHlqUXdz2Vm0jAw01Y6mHvKLT8YlZBXTM2NsSO2IoAzxfiEGbxNwZi4aRAwjnvu3HCdtL0Z2R2XnzuUipcC7RGZrgWkeYvjidSqfgruyI1oszU8GsiP3ul4WW+wnLG+2b1AmBP2CBsC3g9xOkChvFHHrG839BMLCdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mBRPcSze; arc=none smtp.client-ip=209.85.166.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L+xyxRZu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724140094; x=1755676094;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=OrDJAbkTDtrWTESQ58o7M5iBYBRfzxIlIs8+nm7F7Nk=;
-  b=L+xyxRZuCN/Yit53n0UiOA9vHwgoSfzKwlYoB6qthp587s94/VGcTWl7
-   qoCUHV9a+KTqdxlZcu28FC+d2Jm7hIKUTz6SJuXkfVVz4sTvaGn7l3r17
-   nDoGdYe4/4Vnl6n8Vq/VE+UL6mvq3QuoKu+34w6yYSAZT9kaiVnxRzdgP
-   f9BBdxGfDmIkAEjBDi4l/5qtHGWwHQa6v6NbFh8/bjI8v6l5M2QYQW5H7
-   jFx4SPjGk/jybuNW1/ocIxscE0jhYXcQOfh5tezyZc2yW92+qO1smAi81
-   P+j0EwYo/DTZ3cAabr90CBXLXNEvySenAFnD/hx+dondJZt5g6rAuTwVH
-   Q==;
-X-CSE-ConnectionGUID: UiOhd6CiQD2tLUi4t4zF5g==
-X-CSE-MsgGUID: ZJK9PIujTbaiKQIJHsDOQg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="22391446"
-X-IronPort-AV: E=Sophos;i="6.10,161,1719903600"; 
-   d="scan'208";a="22391446"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2024 00:48:13 -0700
-X-CSE-ConnectionGUID: kINnNrznQD6lCWNpUohnSQ==
-X-CSE-MsgGUID: lmiC27YGQ4+EW+cNKkgN/g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,161,1719903600"; 
-   d="scan'208";a="65467328"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO [10.245.246.176]) ([10.245.246.176])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2024 00:48:08 -0700
-Message-ID: <be277abb-af6c-470f-8237-17f45bd990b8@linux.intel.com>
-Date: Tue, 20 Aug 2024 09:48:05 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mBRPcSze"
+Received: by mail-il1-f182.google.com with SMTP id e9e14a558f8ab-39d3c8bc608so10070375ab.0;
+        Tue, 20 Aug 2024 00:52:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724140351; x=1724745151; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=z2IPnhCGoD3q9tMfApbwEBiQbgRS87uwpXJiohxsSxo=;
+        b=mBRPcSzeQDIicRCi+ZMfa1GuTHmW4aXgr5S1xW39xYUnJPTAhDjfU7P6Xr8FIf8blS
+         +kJnGyAvMN2KiwXcXNTvK8wbIuO8FpyF8rSRioC+qeYcZYALn8LBU5bpHHf7RZeBS17K
+         0y05Fdf1DHcbgJVBN/TsgV050Qs+/dxaGffD5d5gJpLx1RON9H9fiF4W7XfVgx4If+1I
+         ElxsYmeTZZ0hXr8ZOsQ3SVVrsvBYIEZjFUH2seSV/F+cUYgCA7oE3buxf/cyKFHznNY3
+         a6LwgZdIoiDW4hwjRXgtE2ajdZXxEvR/3rJh0EV3QAZ+vHuiWFq2vvtHF3SB6gTMM2t4
+         J2zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724140351; x=1724745151;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=z2IPnhCGoD3q9tMfApbwEBiQbgRS87uwpXJiohxsSxo=;
+        b=kKkxcA2CiXzKT3/uXItxT3uDgzWYQFhtJX+UatiF2e8fMV+7288IW5ZiVQVCOTZ1H6
+         zQXewo2qiudRYTcq/Ngbp8m/iV/y8PX458Ny1bFFNJ2iILOCIr7WBkmrSgCBxoABvL4r
+         y+LlbhuYa+99Wal+yano6bmeYLZ3aw1OEdpRT0/y8jRGWTk65qq3WL2oG8gi17RpkUcm
+         m1wuDCbY68c24F+/fE7EIT4IiRHCRa2WhGDCfmcRe1paZ+879fn9JtWSTr6tcrfJpHPj
+         HgCRwf0gaop/kZKYQh2w0bMqhGTE3t+FH+OzEQHKLVnUgl8K3SPBGBVNf/3t2dsHYjDS
+         thGA==
+X-Forwarded-Encrypted: i=1; AJvYcCU5GM0qeI0CvEsOYKc31YuWjp/xvEQJPCz3VD2J5YwDV7wfcjo4K2I3sthFgvykyYIitk1VGPfKl9xp/IE=@vger.kernel.org, AJvYcCWxCECTHdA956aG0OlZhz0ueDFzjtBRF2p31Fbe5xVeacCF0zOrLmCS6SCK/PHiwJDXAHH5DVj4/EN7TMU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2mCpcNzvhoKjrQljvIacxa96sVYrral57TD4mwKYamhYL0g3B
+	6BizpEAgBTMtRX8Zz18IzLcxPvtqK/t/U3ArSc3rjHaLrITmvEaF5SXAdl95u/tq/yNf/uqar/M
+	oK2jajqZw814ulDqE+wY1A6BjCto=
+X-Google-Smtp-Source: AGHT+IEO2EWDuz6eY2EowaDwGtJ0jIVrmGJxLUqdqJsxC8SyVkLr3sdjBBMTIcU/r8joe3Kel+0mWeYYnFgqJYzgQmc=
+X-Received: by 2002:a05:6e02:1a25:b0:398:36c0:7968 with SMTP id
+ e9e14a558f8ab-39d26ce6426mr141331125ab.6.1724140350868; Tue, 20 Aug 2024
+ 00:52:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 01/16] Documentation: driver: add SoundWire BRA
- description
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, tiwai@suse.de,
- vinod.koul@intel.com, Bard liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, srinivas.kandagatla@linaro.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- vijendar.mukunda@amd.com, Charles Keepax <ckeepax@opensource.cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Shuming Fan <shumingf@realtek.com>, Jack Yu <jack.yu@realtek.com>,
- Oder Chiou <oder_chiou@realtek.com>
-References: <20231207222944.663893-1-pierre-louis.bossart@linux.intel.com>
- <20231207222944.663893-2-pierre-louis.bossart@linux.intel.com>
- <38d0c1c9-d60c-4ddd-b2ee-091d1717a377@sirena.org.uk>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <38d0c1c9-d60c-4ddd-b2ee-091d1717a377@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <1723804959-31921-1-git-send-email-shengjiu.wang@nxp.com>
+ <1723804959-31921-5-git-send-email-shengjiu.wang@nxp.com> <6d83cd58-5f02-414b-b627-a0022e071052@linux.intel.com>
+ <CAA+D8ANDAxS42=9zOLQY_h_ihvJCmaXzE+_iZyxbSuikqt1CBw@mail.gmail.com>
+ <ceb54a27-144b-40ed-8de5-482f2b0664a0@linux.intel.com> <CAA+D8ANqb89UavAXTiHvcHyv9uMt8_MYR9hfBaxEJDPNy5C=-g@mail.gmail.com>
+ <eceafeef-2dba-48aa-b8b3-198b9bb39fb6@perex.cz>
+In-Reply-To: <eceafeef-2dba-48aa-b8b3-198b9bb39fb6@perex.cz>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Tue, 20 Aug 2024 15:52:20 +0800
+Message-ID: <CAA+D8AMOr8=JS7A0DvOEatL79CwwT4De7vDs6H-VDi05AnkjHQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 4/6] ASoC: fsl_asrc_m2m: Add memory to memory function
+To: Jaroslav Kysela <perex@perex.cz>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
+	Shengjiu Wang <shengjiu.wang@nxp.com>, vkoul@kernel.org, tiwai@suse.com, 
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
+	linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Mark,
+On Tue, Aug 20, 2024 at 3:42=E2=80=AFPM Jaroslav Kysela <perex@perex.cz> wr=
+ote:
+>
+> On 20. 08. 24 9:37, Shengjiu Wang wrote:
+> > On Tue, Aug 20, 2024 at 2:59=E2=80=AFPM Pierre-Louis Bossart
+> > <pierre-louis.bossart@linux.intel.com> wrote:
+> >>
+> >>
+> >>
+> >> On 8/20/24 04:53, Shengjiu Wang wrote:
+> >>> On Mon, Aug 19, 2024 at 3:42=E2=80=AFPM Pierre-Louis Bossart
+> >>> <pierre-louis.bossart@linux.intel.com> wrote:
+> >>>>
+> >>>>
+> >>>>
+> >>>> On 8/16/24 12:42, Shengjiu Wang wrote:
+> >>>>> Implement the ASRC memory to memory function using
+> >>>>> the compress framework, user can use this function with
+> >>>>> compress ioctl interface.
+> >>>>>
+> >>>>> Define below private metadata key value for output
+> >>>>> format, output rate and ratio modifier configuration.
+> >>>>> ASRC_OUTPUT_FORMAT 0x80000001
+> >>>>> ASRC_OUTPUT_RATE   0x80000002
+> >>>>> ASRC_RATIO_MOD     0x80000003
+> >>>>
+> >>>> Can the output format/rate change at run-time?
+> >>>
+> >>> Seldom I think.
+> >>>
+> >>>>
+> >>>> If no, then these parameters should be moved somewhere else - e.g.
+> >>>> hw_params or something.
+> >>>
+> >>> This means I will do some changes in compress_params.h, add
+> >>> output format and output rate definition, follow Jaroslav's example
+> >>> right?
+> >>
+> >> yes, having parameters for the PCM case would make sense.
+> >>
+> >>>> I am still not very clear on the expanding the SET_METADATA ioctl to
+> >>>> deal with the ratio changes. This isn't linked to the control layer =
+as
+> >>>> suggested before, and there's no precedent of calling it multiple ti=
+mes
+> >>>> during streaming.
+> >>>
+> >>> Which control layer? if you means the snd_kcontrol_new?  it is bound
+> >>> with sound card,  but in my case,  I need to the control bind with
+> >>> the snd_compr_stream to support multi streams/instances.
+> >>
+> >> I can only quote Jaroslav's previous answer:
+> >>
+> >> "
+> >> This argument is not valid. The controls are bound to the card, but th=
+e
+> >> element identifiers have already iface (interface), device and subdevi=
+ce
+> >> numbers. We are using controls for PCM devices for example. The bindin=
+g
+> >> is straight.
+> >>
+> >> Just add SNDRV_CTL_ELEM_IFACE_COMPRESS define and specify the compress
+> >> device number in the 'struct snd_ctl_elem_id'.
+> >> "
+> >
+> > I don't think it is doable,  or at least I don't know how to do it.
+> >
+> > My case is just one card/one device/one subdevice.  can't use it to
+> > distinguish multi streams.
+>
+> I already wrote that the compress core code should be extended to support
+> subdevices like other ALSA APIs. I'll work on it. For now, just add suppo=
+rt
+> for one converter.
 
->> +One possible strategy to speed-up all initialization tasks would be to
->> +start a BRA transfer for firmware download, then deal with all the
->> +"regular" read/writes in parallel with the command channel, and last
->> +to wait for the BRA transfers to complete. This would allow for a
->> +degree of overlap instead of a purely sequential solution. As a
->> +results, the BRA API must support async transfers and expose a
->> +separate wait function.
-> 
-> This feels a lot like it could map onto the regmap async interface, it
-> would need a bit of a rework (mainly that currently they provide
-> ordering guarantees with respect to both each other and sync I/O) but
-> those could be removed with some care) but it's got the "here's a list
-> of I/O, here's another call to ensure it's all actually happened" thing.
-> It sounds very much like how I was thinking of the async API when I was
-> writing it and the initial users.
-> 
-> It's this bit that really got me thinking it could fit well into regmap.
+Thanks.
 
-I am now revisiting this entire patchset to try to enable firmware
-downloads with this SoundWire BPT/BRA protocol. I re-looked at
-regmap_raw_write_async()/regmap_async_complete() and they seem to map
-well with my initial write/wait_async proposal.
+What does this subdevices mean?  Is it equal to the compress streams?
 
-Do I get this right that these async capabilities could be used to
-enable this faster SoundWire protocol, but the regular regmap_write()
-could still happen in parallel with these async transfers? This could be
-useful if e.g. there's a jack detection while downloading firmware for
-another function.
+When I call snd_compr_ops.open(),  it means to create an instance, the inst=
+ance
+is created at runtime (call open()), not created when the sound card is cre=
+ated.
 
-I don't see any locking that would prevent such a dual operation - with
-the caveat that it would be up to the codec driver to make sure they
-don't try to access the same register with the two modes of operation.
+Best regards
+Shengjiu Wang
 
-The only thing that would need to be extended is that we'd need
-additional callbacks to check if the protocol is supported on a given
-hardware/firmware platform, and if there's no audio stream. In these
-cases the async writes would be demoted to regular writes. Otherwise the
-bus would be locked to make sure no reconfiguration takes place while
-the firmware download happens, and unlocked when the transfer ends.
 
-Thanks for your help on all this,
--Pierre
+
+
+>
+>                                         Jaroslav
+>
+> --
+> Jaroslav Kysela <perex@perex.cz>
+> Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+>
