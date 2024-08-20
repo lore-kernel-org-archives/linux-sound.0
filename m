@@ -1,75 +1,98 @@
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14C2F1B9B41;
-	Tue, 20 Aug 2024 16:44:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB8021922D3;
+	Tue, 20 Aug 2024 17:04:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724172258; cv=none; b=bMgZViuaXf+zohz8aDJbAJ3Zj8vZxSr2uzmdr5NIDPw1zA+vc7wRgGxXRHI9M65RTJ+ojaSTZMrnb5UQQwwWQB1j+F1HS3LwFfsHjiAjN4IbRL0x+AWWI66WnvknJJEkFhUNgcwI1V5oj5HXe8GFyOIXYK6YuJCTAp5oN1ezDts=
+	t=1724173461; cv=none; b=s/exacOuWkNSc6NHUWRe8nzAPHd+xjl2xuaE8x9V8nhsjZxio3CU1x19lCnlp33LAJRo2C34naAvX2SQcg/D3zxyONmxMw64r5zv+HLdKCTsr/drjpfloADgfmjgXsCR4pqnRLUm7Y0EhqMTT/GTf06m3pXpKGO3PiLPP/H2gpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724172258; c=relaxed/simple;
-	bh=O1p9LvQGbtFvwMLibvEBtjINbWw270uIIfhcM7eBuCY=;
-	h=Date:From:To:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Jnfn0jtM+rpcdJKfdf767TuY6gd1aoOcg9oNyeTGzYGRt5cjBic4sNCCKizu6S4F9steX+EY0ValBFfp+L0tdOnLCitIrA7yj9h+x1/LQn4jHekOw2NeLc6MuR/HF/Wfw/NAHdRirX8UDnfw0BBX8xKW1Q21iDtXVY5gmYpW4Hs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=iXg327zj; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1724173461; c=relaxed/simple;
+	bh=rhCBflYnsE+VlN0qMJCYvnpElVO5XXvwydRVbxjg9f0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZvLvJ5FLcvOW3QPzmTRt0PgwB7akxOE5IKR5SH/MjPVZUxr05dQ/USYLY9i6PD6FgUhdaDbts9uSYxaVFO4IRY8SCjXMm0AEfPQITq6HIZurB5QERj5lHmaWhnz2ckSeP4bpIIwaImEKpXE2YNi0K77C166NaG8VCOk+I8+JfH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BPmy9uwe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="iXg327zj"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C64D36000B;
-	Tue, 20 Aug 2024 16:44:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1724172248;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j9OoHq23PmUaSOSpacyNRfCHF/KEU3ZyZZHMK0w8D/0=;
-	b=iXg327zjs7JVMT4dPtalpS42ZT+hjXK4STku+FH207yNyRKAabT6QDoKWPawgoSbcu2JLz
-	1bI71B9sWpan0OPM2um4cLl8OOViR795sg/GhlKlDTXNUcoFrukEx/vjMHOnXebdXsdHt8
-	rZ4SLNf4PkQztScEaRyqrLUv5tT0LNUtEsQWg07BrnPY70/F8Xt79WyHif2NuMsesJ6vgr
-	Cb1OESY+36QG0yx/P9U7fdxqL2qOUCP2L9IPx1pV/539oORezdeIRu0W2cl/Iov/AimZFl
-	w/PNxz34jJB1mSG8vvhYfPV8JfBmjCxxy3hn2toDE3ir/tPiHTsdDLVM0sUA+Q==
-Date: Tue, 20 Aug 2024 18:44:06 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Mark Brown <broonie@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BPmy9uwe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 233A2C4AF0F;
+	Tue, 20 Aug 2024 17:04:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724173461;
+	bh=rhCBflYnsE+VlN0qMJCYvnpElVO5XXvwydRVbxjg9f0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BPmy9uwe4OFWQwhK72xhU//2sRb1bhArPDmTwvqjQxW1wgOXLKLOCwkWYTyJjtrWZ
+	 HJgOf8qRbZmV/zWDaGH4fKgIYbC85rJGIP/5xhrxhV2zqCslBFCbqYflioirOhxNN9
+	 j+Y70SGYBNWCRbxa68CZZcO3Lzr9owsleGUMng7+/rXunBpiVc520tBWMzHtvp7HJW
+	 aWb7GgaXvSaz4B+wL0RJ8EXcpHWp5VpC0hJJouShTsf+Qm0AVpf2rFIaoaqLJcEV4S
+	 NyJx5yhkARySLlVlXbazuD2YX7Y8vBhCTc5BvbypZiqabPq4Aw0hlU4d32lvCMoSzQ
+	 +GQM+SuBM8jVw==
+Date: Tue, 20 Aug 2024 18:04:17 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 0/3] ASoC: dapm-graph: add component on/off and route
  names to graph
-Message-ID: <20240820184406.6ff2654e@booty>
-In-Reply-To: <20240607-dapm-graph-v1-0-bb302970d055@bootlin.com>
+Message-ID: <c4e2580f-1675-48b0-b59f-a076eced7675@sirena.org.uk>
 References: <20240607-dapm-graph-v1-0-bb302970d055@bootlin.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+ <20240820184406.6ff2654e@booty>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="GTj5jUgnIgrntciP"
+Content-Disposition: inline
+In-Reply-To: <20240820184406.6ff2654e@booty>
+X-Cookie: You are false data.
 
-Hi Mark, All,
 
-On Fri, 07 Jun 2024 09:41:50 +0200
-Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+--GTj5jUgnIgrntciP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> This small series adds some improvements to dapm-graph in order to produce
-> a more correct and informative graph.
-> 
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+On Tue, Aug 20, 2024 at 06:44:06PM +0200, Luca Ceresoli wrote:
+> On Fri, 07 Jun 2024 09:41:50 +0200
+> Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
 
-Gentle ping about this series.
+> > This small series adds some improvements to dapm-graph in order to prod=
+uce
+> > a more correct and informative graph.
 
-It applies and works fine on current master.
+> Gentle ping about this series.
 
-Luca
+> It applies and works fine on current master.
 
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Please don't send content free pings and please allow a reasonable time
+for review.  People get busy, go on holiday, attend conferences and so=20
+on so unless there is some reason for urgency (like critical bug fixes)
+please allow at least a couple of weeks for review.  If there have been
+review comments then people may be waiting for those to be addressed.
+
+Sending content free pings adds to the mail volume (if they are seen at
+all) which is often the problem and since they can't be reviewed
+directly if something has gone wrong you'll have to resend the patches
+anyway, so sending again is generally a better approach though there are
+some other maintainers who like them - if in doubt look at how patches
+for the subsystem are normally handled.
+
+--GTj5jUgnIgrntciP
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbEzJAACgkQJNaLcl1U
+h9Dwwgf/f9R+9cMsCsCkNmxM5xmsdD4DzyAvnr4d0MeWlRgJzW48jnRTTmqP4PT0
+dDV1tH/4ey0Gpbb0OAKPrO8tjKCC5nH8LrGuW7loYi1gR/TpLhICcZHVUmzzoDyZ
+nb7gwX33X+6kDHdP9wn2B9qFLp6LjGEGEcMKbm5v5U8TAwS3zoyCS4WXsI66pjPq
+Jroo9WKIoBsww8/cTv0BxlbjCC4zJlwHLTy6zkMK/QOVxDbmS79ZT6vMMkKzaQMe
+jyVYU0JqzAFAF27zPiQO0mHW69nQuenykpAWEtkrz0OQuEbs0bYgPODamjXZg9pi
+4GPuSJJpRwmY4qjXt83LlBi890lqYw==
+=N0+b
+-----END PGP SIGNATURE-----
+
+--GTj5jUgnIgrntciP--
