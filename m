@@ -1,115 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh7-smtp.messagingengine.com (fhigh7-smtp.messagingengine.com [103.168.172.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEC1A18E054
-	for <linux-sound@vger.kernel.org>; Tue, 20 Aug 2024 11:53:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7328D12D766
+	for <linux-sound@vger.kernel.org>; Tue, 20 Aug 2024 12:24:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724154823; cv=none; b=ibik8wcIGscskU3yv33AxaEKwmruI8AuF1Awn1LkW44FfgyotBWSzoT6+HVyRF6NW0Y47GGjQ1WD0LzEMEkxKYRMylF7E9m4O+eVji9wl6MFq4ahdPRBulKdDBixKx6y5YhUI+CNg2YfF+nE+a3RaOSqd18c1FC5k/6gkOxROQs=
+	t=1724156664; cv=none; b=T+1qHGJshmeriISk5fBQTVkR1p3d/Iyw1kdlu9O06HlodTmx0Q03+LFGYS/tJdf9NguUHaGhpPZBSpHAQP3EBhn0QaMohvkYN1t9b+vEG/P9yqmX9V+xEZIaA9bqE71Upo4/duGRFNMNMiq6Kz9FsClV59CFlf+Qjj+k69t5zqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724154823; c=relaxed/simple;
-	bh=TP9TtVQgR6n4hw0qJHDIBA6p/NB82aSLfZbbvJIyc0E=;
+	s=arc-20240116; t=1724156664; c=relaxed/simple;
+	bh=gB/qpTik6peKajUtgSyTNaIHZfSSkv4bwYe6mPLY8gA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HmpK469cJORKvBJjC9sglLqAjfhIrNTq8/JQqiCOy5U+a0/dXcwIRhwvQGJJg23qf43qCx3NBjaoxRHOVe4CbvZ3M0oaK3q4bbLl3d2ZKyQqk7ljISYXVNQ2SJhcx0kNH+jmdbvO8pasyinkalQlPvt/ZTj0WhSQN9r8cksAeGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=etlVxEdF; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=BNE2OU3qR7QWN/7UVMTASwuirVesIrLKmnVS3ucuvCfarTq6KVX0Ab2/sQsF1kMBGA7ftW/pSjknsL7GMPmj2ygd03WTYyDQVwvDgC48UWHEu3tiUrKfr23hB3XQXUQMx0ZbnpIaUnDQH5ApI8pbRsetYl55sSBQjp6/cxLS3Hc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=DHBlGvPl; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=dKCsXqE4; arc=none smtp.client-ip=103.168.172.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="etlVxEdF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8666C4AF0F;
-	Tue, 20 Aug 2024 11:53:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724154823;
-	bh=TP9TtVQgR6n4hw0qJHDIBA6p/NB82aSLfZbbvJIyc0E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=etlVxEdFB3HsVRgybpMy0QxV3pepYuet87GF3D1Fx0AKBdkuJxL8lva5EW1BTOrsg
-	 UvaOhXnJAZ21kg1tu+NoR1jy21KMQhxgduw6LCwc8HeG6Xnd8Wnbd7IkZS2s3fZ/T0
-	 8CEz6gg68p/diAWlIDUBIYWLdmmupTCocA2rN6kYzlghcEw9qVMSnVJ2Ahd/EJ0L/p
-	 dO9f4m1a+bbcO//rYoHMfaBuZB8i/T3EhG4SXTNvekGfixQLgEzcAx2JlJpgYeUD2D
-	 gBcoVsUillohgE5TfB0mwRt5wQ6L6M5P5XNdGAdBV4i+sSzhlgdOIUJTyyr8C5B+Fp
-	 OrgrVnKVtY9tw==
-Date: Tue, 20 Aug 2024 12:53:37 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, tiwai@suse.de,
-	vinod.koul@intel.com, Bard liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	srinivas.kandagatla@linaro.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	vijendar.mukunda@amd.com,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Shuming Fan <shumingf@realtek.com>, Jack Yu <jack.yu@realtek.com>,
-	Oder Chiou <oder_chiou@realtek.com>
-Subject: Re: [RFC PATCH 01/16] Documentation: driver: add SoundWire BRA
- description
-Message-ID: <09a5b041-62a8-4c85-9885-045079db796f@sirena.org.uk>
-References: <20231207222944.663893-1-pierre-louis.bossart@linux.intel.com>
- <20231207222944.663893-2-pierre-louis.bossart@linux.intel.com>
- <38d0c1c9-d60c-4ddd-b2ee-091d1717a377@sirena.org.uk>
- <be277abb-af6c-470f-8237-17f45bd990b8@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="DHBlGvPl";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="dKCsXqE4"
+Received: from phl-compute-01.internal (phl-compute-01.nyi.internal [10.202.2.41])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id 89C431151B50;
+	Tue, 20 Aug 2024 08:24:21 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Tue, 20 Aug 2024 08:24:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm1; t=1724156661; x=
+	1724243061; bh=a6zHW584Nt6I4NvQjIKpv2LAbK25vNr4J6/juyl2XvI=; b=D
+	HBlGvPljnajsE2TZPOhVgHhFHjQ5hLd480/4ha2NXfEajJXKzgd+yTLKTP8h74qu
+	bAPh7+vNUuaNRKPernqUyMvPuzZmiFur7n+xNFYcvN0FerBnr85ldvHUlA6RE7hi
+	nnRK4aj8sAvmOS9Pl+Z1ctQkA3w54dluWCU/3reka+ffLxjLKd/phB2DPBOhmboG
+	KwjMmmtCXILkK1m5qrvUw0XEw+a7+YN0YvX7ELj1cxSIZ4EZUHzrcawthkL7NB3P
+	rHRnvjwazsntWoqObl2uqlLoDuPErMtTpXQF9faNa2OPys898EXMtgTSQ3xp/BNN
+	ZDZB5L7CqB/qgd4j1vw7A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1724156661; x=1724243061; bh=a6zHW584Nt6I4NvQjIKpv2LAbK25
+	vNr4J6/juyl2XvI=; b=dKCsXqE4mgqbBiYs4L6avpVuatUuAXarNY81sT6eCemI
+	8HREdw5kvZ2UbiBQmFeW2uOvH62fIiDQUqnoVFZk5slx7JX0bf19hWUaeuZye6cK
+	EYZvzEqX+p/TAVWU2/4v78jB+OchLVJYcU/RtkQ5wyNDqL0h70dtpcimdJHpxJt4
+	CxWtcn2WNzo6XH1ghRU+Sxz3bAAxdsYM/82+IxmX+wsb3HHJrUhjOL5SZx9X49SR
+	DjVh54slhIZmhRrih/yo3ecFakyvwnwqg1nSr2I4Q7AQHmY1saMVD4wnj7fnGn52
+	ddqj4EEmOIlcQFHlt6GRgdyDGiLMwuRhfHKRsoIaAg==
+X-ME-Sender: <xms:9YrEZj-lx2HhCyjkUusKSq_uNPvR9A4rOeqvEi5NdYE2UsbowtnvQg>
+    <xme:9YrEZvsRgkDhId5unwr6Lt6cDFjddkBW3n2FyLVZ8JudZuf6g-0qB6s9a2nNOIrjf
+    oxqv9K1sCtBP0WOCj4>
+X-ME-Received: <xmr:9YrEZhCCTYgrtoTA-0KA_-ER0T7C916cVQ4l3xp6VXBxwarUvYZGlCiGfpYjs4Pf3AC3QjxwZ86tLstTSUBnxWtBQnvx2rZ_JR3H>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudduiedghedtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvve
+    fukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefvrghkrghshhhiucfurghkrghm
+    ohhtohcuoehoqdhtrghkrghshhhisehsrghkrghmohgttghhihdrjhhpqeenucggtffrrg
+    htthgvrhhnpeehhffhteetgfekvdeiueffveevueeftdelhfejieeitedvleeftdfgfeeu
+    udekueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hoqdhtrghkrghshhhisehsrghkrghmohgttghhihdrjhhppdhnsggprhgtphhtthhopeeg
+    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegvughmuhhnugdrrhgrihhlvgesph
+    hrohhtohhnrdhmvgdprhgtphhtthhopegrlhhsrgdquggvvhgvlhesrghlshgrqdhprhho
+    jhgvtghtrdhorhhgpdhrtghpthhtoheprhgvghhrvghsshhiohhnsheslhhishhtshdrlh
+    hinhhugidruggvvhdprhgtphhtthhopehlihhnuhigqdhsohhunhgusehvghgvrhdrkhgv
+    rhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:9YrEZvcsfreCJPbrha42AE7R_ik2lGijWQvOZnzaVi2gSpx8cKUFkQ>
+    <xmx:9YrEZoPTFl88xo2rKYVUX-4iY5OfHsuVl5FMOVmua_EpjHEOvxXSVA>
+    <xmx:9YrEZhldahYcI9D6UkuZLKCTLSABDaAZF0l-6GVLsZS6KK1UbflXGQ>
+    <xmx:9YrEZiurlw7hgaKrKlWbrNTWDd8u0rbxVGNsIV0RS-eAmT9sP7RdRQ>
+    <xmx:9YrEZlpUBdxJ3dnx2E4tdhJI_xUHw0L3X7omhMe9ASchVsYm7O5sCjO->
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 20 Aug 2024 08:24:19 -0400 (EDT)
+Date: Tue, 20 Aug 2024 21:24:16 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: "edmund.raile" <edmund.raile@proton.me>
+Cc: alsa-devel@alsa-project.org, regressions@lists.linux.dev,
+	linux-sound@vger.kernel.org
+Subject: Re: [REGRESSION] ALSA: firewire-lib: heavy digital distortion with
+ Fireface 800
+Message-ID: <20240820122416.GA26397@workstation.local>
+Mail-Followup-To: "edmund.raile" <edmund.raile@proton.me>,
+	alsa-devel@alsa-project.org, regressions@lists.linux.dev,
+	linux-sound@vger.kernel.org
+References: <n4jdkizinqfoztqn2cwv7uqqqnvkyu2xk32qebazqznh74b3d3@r23skt4k7mqe>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3npxPyIhAGu7xZY0"
-Content-Disposition: inline
-In-Reply-To: <be277abb-af6c-470f-8237-17f45bd990b8@linux.intel.com>
-X-Cookie: You are false data.
-
-
---3npxPyIhAGu7xZY0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <n4jdkizinqfoztqn2cwv7uqqqnvkyu2xk32qebazqznh74b3d3@r23skt4k7mqe>
 
-On Tue, Aug 20, 2024 at 09:48:05AM +0200, Pierre-Louis Bossart wrote:
+On Thu, Jul 18, 2024 at 12:29:48PM +0000, edmund.raile wrote:
+> Between the kernel releases 6.9.9 and 6.10.0, something changed that causes
+> heavy digital distortion on playback from at least ALSA and PipeWire.
+> The rhythm of the music is discernable in the output, so it isn't just
+> random noise.
+> It sounds a bit like bitcrushing, but not quite.
+> The generated overtones appear to be dependet on the sample rate.
+> 
+> I am sorry I can not be more specific, there are no kernel messages this time.
+> 
+> As Mr. Sakamoto recently committed all these changes to firewire he might
+> be able to identify the issue easily, which is why I'd like to ask him to
+> look into it.
+> 
+> Kind regards,
+> Edmund Raile.
+> 
+> #regzbot introduced: v6.9.9..v6.10
 
-> > This feels a lot like it could map onto the regmap async interface, it
-> > would need a bit of a rework (mainly that currently they provide
-> > ordering guarantees with respect to both each other and sync I/O) but
-> > those could be removed with some care) but it's got the "here's a list
-> > of I/O, here's another call to ensure it's all actually happened" thing.
-> > It sounds very much like how I was thinking of the async API when I was
-> > writing it and the initial users.
+Fixes included in:
+* 6.11-rc2
+* 6.10.4
+* 6.6.45
+* 6.1.104
+* 5.15.165
 
-> > It's this bit that really got me thinking it could fit well into regmap.
 
-> Do I get this right that these async capabilities could be used to
-> enable this faster SoundWire protocol, but the regular regmap_write()
-> could still happen in parallel with these async transfers? This could be
-> useful if e.g. there's a jack detection while downloading firmware for
-> another function.
+Thanks
 
-As far as the regmap core is concerned, yes - with SPI we do wind up
-with ordering but that's because the SPI sync API is a thin wrapper
-around the SPI async API rather than anything regmap does.
-
-> The only thing that would need to be extended is that we'd need
-> additional callbacks to check if the protocol is supported on a given
-> hardware/firmware platform, and if there's no audio stream. In these
-> cases the async writes would be demoted to regular writes. Otherwise the
-> bus would be locked to make sure no reconfiguration takes place while
-> the firmware download happens, and unlocked when the transfer ends.
-
-Those callbacks seem reasonable.  We already do the demotion to sync for
-buses that don't have async, it'd just need to be made dynamic.
-
---3npxPyIhAGu7xZY0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbEg8AACgkQJNaLcl1U
-h9BhCwf7BrVu6S4wLOF8+95Z3N2BxswzQnSQX7eYOcdYE04H4zXaORGHKClsnMNM
-4M4so+loGfrKwPojTpGyORyikP4G4G+sxtPCZZ7poNkwtBYc8yFJa/gvP+pUZkfT
-oPyb2QguRJ2jtrvZg3spm1xns7Y6SfNN6XOFRuI8WatCqHvGvweC0QvkjOvIOO7S
-3AuD9DrLyee0bZE9BpVYbrk5dC/xaD44d/Domj8PuGZcIsSdlfrsIw/Bvi2rYhcr
-yk704B0c5K/BgiKxV4WFwWzspSDgZTyvNaaL/fYa4k/TkFRxX/1Rn8KWEeMFjCI/
-UI+vVoLw5Mc+WQIz9veGqInwETZV2g==
-=9A04
------END PGP SIGNATURE-----
-
---3npxPyIhAGu7xZY0--
+Takashi Sakamoto
