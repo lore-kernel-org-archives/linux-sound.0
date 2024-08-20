@@ -1,92 +1,117 @@
-Received: from forward103a.mail.yandex.net (forward103a.mail.yandex.net [178.154.239.86])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9650515B54A;
-	Mon, 19 Aug 2024 21:13:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C10412E71;
+	Tue, 20 Aug 2024 01:13:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724101992; cv=none; b=p1Wzi2B/wb54a3WLIzUSHUdLu8pG9y748h+07QNYZT4wYeg9BKKtN1dEXL5dH8/3kybgF65qtmIlAlv84jL2P6r2IOOh1b12VcIUhhmX1Bn7qcGzt5YMMBWEri6Hzvn0QvkSbHUk1yLlaUpJpMrkk2uPynglfzbBXWpni32ggHY=
+	t=1724116432; cv=none; b=jaLqrQusK/8NQdpiIHw2yQvnxtVOBRnE0EoXeIh6EC2eccPsp9POA04SI1+f+l7+cvYrqkTa9k3g3bG8dG8xiO9zE1VswMrmCvrpsYwVn1raXQ364VYXgIe8zXBvVHtbZSmRDL06SVT2k73a86ENWiWMf9+uTAkqufeu1RhRXwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724101992; c=relaxed/simple;
-	bh=8q0WH81KOzQ0VnX3CzGiCxpYkfMgPsiVafwJsIeA5Tw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:MIME-Version:
-	 Content-Type; b=mzVSiZzQPfA7o6YJMd8SkeXZDtRBcFs4EXfEI4DAmV0kaaXtdmkunkGewMU9O/jzU+tVyLI337ZxDt0tRDMW7C9V6K+Y1Ji2Dl5ehnhC+c015heAwVoQaVY1NrklGwcH3h5ZfYbD37NgXE7tgPCsmWm0kXa0FDX/fkNDaVQFwIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=travitia.xyz; spf=none smtp.mailfrom=travitia.xyz; arc=none smtp.client-ip=178.154.239.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=travitia.xyz
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=travitia.xyz
-Received: from mail-nwsmtp-smtp-production-main-55.vla.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-55.vla.yp-c.yandex.net [IPv6:2a02:6b8:c0f:604:0:640:5e0e:0])
-	by forward103a.mail.yandex.net (Yandex) with ESMTPS id 9705A608FD;
-	Tue, 20 Aug 2024 00:13:08 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-55.vla.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id 4DUofCX6WeA0-gWrBvOJJ;
-	Tue, 20 Aug 2024 00:13:07 +0300
-X-Yandex-Fwd: 1
-Authentication-Results: mail-nwsmtp-smtp-production-main-55.vla.yp-c.yandex.net; dkim=pass
-From: Jens Reidel <adrian@travitia.xyz>
-To: krzysztof.kozlowski@linaro.org
-Cc: adrian@travitia.xyz, broonie@kernel.org, ckeepax@opensource.cirrus.com,
- lgirdwood@gmail.com, linus.walleij@linaro.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, linux@mainlining.org, perex@perex.cz,
- pierre-louis.bossart@linux.intel.com, quic_srivasam@quicinc.com,
- rf@opensource.cirrus.com, srinivas.kandagatla@linaro.org, tiwai@suse.com,
- ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: Re: Missing documentation for Audioreach topology files
-Date: Mon, 19 Aug 2024 23:13:04 +0200
-Message-ID: <4618258.LvFx2qVVIh@ceres>
-In-Reply-To: <f4a9c58e-a7cb-4786-9293-85e1a3f538ad@linaro.org>
+	s=arc-20240116; t=1724116432; c=relaxed/simple;
+	bh=kaBfKsK8W3enPAV3chXtxSm4VlD6KstYlp0RGouhFCY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dRYzyaU15/LakaqjSf1fDLvAxDwZsP3EG3yBxLn16UmvtNXh1zEcZRkEl2tI5qHtIsPpOctpiroMGo7Y9EuKccSqU//t4aNOGmtAHWAJXkTvquyU2rWv1DYB3bP2IJ7PzDqiVNO8bqJgglFLi5R5K8z5LZkfTzy5oHy7oGaSeBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gsKO77Eu; arc=none smtp.client-ip=209.85.215.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gsKO77Eu"
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-6bce380eb96so2862032a12.0;
+        Mon, 19 Aug 2024 18:13:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724116431; x=1724721231; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=uXmktjdxKs0kqyNvIyHj9YIXp7GC7yWeIp3c/2fZgjE=;
+        b=gsKO77EuxQNH89aw384KgWiZEoh6J7G241TbjNfnldBYbzQK5t2SO6hvO/UL75IyhW
+         DE8w3oY1vVcSdjBRp9p4VjI8zXaVBRDutcvySTCtyu6D10DyZEg1OKoQH3/7OSjcgHuQ
+         LYsmI1fK7QIJGJFqYgfwSxt5+eWBe+hXWQIOTJdB0PtBmLbFwes8wF7YeqB8WQO2Tuql
+         4h60f3RVFfWGcvUERyjetj8nyXdH1lUMFOqiexX5GLBHsxbP1TlUlKCyPboYJ+nYEp+7
+         n88BpkS/+P9yA+BQDQ3Z2a9v7BxfZid57ys0Ux2Jc6oR8na2EKSx+JhILaB60StmPyu0
+         RSdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724116431; x=1724721231;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uXmktjdxKs0kqyNvIyHj9YIXp7GC7yWeIp3c/2fZgjE=;
+        b=ln5o3yW1nlIAmmRnMvs63hDJewT3yG8C0M/Ox3aPcaetnLaOjwDXSv1BIu2OnNL6L+
+         MB0Vv6rYoJE1rMSqit+EVYY09R78Fu0wnLa7I6Z2ghr7w6Oq2O/AnEujAwnFQTnG7YZe
+         usOqfFSd+d6aLN2nNEJR/7oEFu5Dx+UChd1sna3GCq8l8xXIkDZMQ+C9lKRqVPjwxolS
+         eBIsINSwbQZzL5dhwnaZcQj8xrw6G4Zwt0a8uNY4G9SVDSfBlgcb8ECNJNtHgSr+q0lS
+         R4ubir2/EWsxAl2VIc/omever5t/XBaQ9CHBboXFEQ2KmMkX6ZuxeiXmIyauFPX7rqlW
+         K99w==
+X-Forwarded-Encrypted: i=1; AJvYcCX6TSGkMq4Y8HAILg34/IrTj114ktRLKqBUP7Jn2BJK+3tfRslDIAfZBUHjJfCXAXJgw1IOlL1n7ZTSRPc=@vger.kernel.org, AJvYcCXl6pziP2FMoG+TXYHoJdLz0iAqdKBde8DeoQLwuFVtjGD2mucvR7sq8UWCOkVbMOKY+JZZBeheYxaDIII=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxwyC9k0PsUjuqqm6QvVqUaQWrIqi2PjsfNuqX3hrYF5Ovv6cav
+	gtgSwNgQJKpgpo38coxgCWUUGYBYfeR5sErjYbKS5SH44JoqeM04
+X-Google-Smtp-Source: AGHT+IH/rkSGDdxNRnPP4+AkDxOpDtHgn8E4EywUFQaKUcQB1hoKA0tTt8KdYKzZo4MdYKkRvGMwtg==
+X-Received: by 2002:a05:6a20:4920:b0:1c8:ebd2:85a9 with SMTP id adf61e73a8af0-1c905052b10mr8849647637.50.1724116430273;
+        Mon, 19 Aug 2024 18:13:50 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:f80c:1483:bced:7f88])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7127add7df5sm7162170b3a.43.2024.08.19.18.13.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Aug 2024 18:13:49 -0700 (PDT)
+Date: Mon, 19 Aug 2024 18:13:47 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: tas5086: use sleeping variants of gpiod API
+Message-ID: <ZsPty8oNMQk4YTl1@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> On 19/08/2024 22:53, Jens Reidel wrote:
-> > Hi everyone,
-> > 
-> > I am currently bringing up Xiaomi SM8450/SM8475 mobile phones and have a
-> > few working well enough to try and get the WCD and audio in general
-> > working. All is fine, until this:
-> > 
-> > [   35.366229] qcom-apm gprsvc:service:2:1: Direct firmware load for qcom/
-> > sm8450/Xiaomi 12-tplg.bin failed with error -2
-> > [   35.366244] qcom-apm gprsvc:service:2:1: tplg firmware loading
-> > qcom/sm8450/ Xiaomi 12-tplg.bin failed -2
-> > [   35.366250] qcom-apm gprsvc:service:2:1: ASoC: error at
-> > snd_soc_component_probe on gprsvc:service:2:1: -2
-> > 
-> > After searching around a bit, I stumbled across this Linaro repository:
-> > https://git.codelinaro.org/linaro/qcomlt/audioreach-topology
-> > Apparently you're supposed to write the topology in a M4-preprocessed file
-> > that gets turned into an ALSA UCM topology config and then compiled with
-> > alsatplg. However, there is zero documentation on the preprocessor macros
-> > and how you're actually supposed to write the topology file. Am I missing
-> > something or is there no public documentation and tooling for how to use
-> > this kernel interface?
-> 
-> Hi Jens,
-> 
-> I am not aware of any documentation related to audioreach topology. I
-> used existing code as example/starting point and then with learning of
-> internals and digging I managed to get some grasp, but it was all
-> without any docs.
-> 
-> If your platform uses reference Qualcomm components, like WSA speakers
-> on Soundwire bus, then most likely you can re-use HDK8450 topology or
-> anything newer.
-> 
-> Best regards,
-> Krzysztof
+The driver does not access reset GPIO in atomic contexts so it is usable
+with GPIOs that may sleep during access. Switch to using
+gpiod_set_value_cansleep().
 
-Hi Krzysztof,
+Also the reset GPIO is configured as output at the time it is acquired,
+there is no need to use gpiod_direction_output() when executing reset
+sequence.
 
-Thank you for the quick reply. On all Xiaomi devices of this generation, the 
-speaker amplifiers are connected via I2C (they are mostly cs35l41, some cs35l43 
-and awinic parts). The audio topology therefore probably differs a fair bit 
-from HDK8450.
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ sound/soc/codecs/tas5086.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-Best regards,
-Jens
+diff --git a/sound/soc/codecs/tas5086.c b/sound/soc/codecs/tas5086.c
+index 4bc1fdd232bb..b97c0e885713 100644
+--- a/sound/soc/codecs/tas5086.c
++++ b/sound/soc/codecs/tas5086.c
+@@ -463,9 +463,9 @@ static void tas5086_reset(struct tas5086_private *priv)
+ {
+ 	if (priv->reset) {
+ 		/* Reset codec - minimum assertion time is 400ns */
+-		gpiod_direction_output(priv->reset, 1);
++		gpiod_set_value_cansleep(priv->reset, 1);
+ 		udelay(1);
+-		gpiod_set_value(priv->reset, 0);
++		gpiod_set_value_cansleep(priv->reset, 0);
+ 
+ 		/* Codec needs ~15ms to wake up */
+ 		msleep(15);
+@@ -866,9 +866,10 @@ static void tas5086_remove(struct snd_soc_component *component)
+ {
+ 	struct tas5086_private *priv = snd_soc_component_get_drvdata(component);
+ 
+-	if (priv->reset)
++	if (priv->reset) {
+ 		/* Set codec to the reset state */
+-		gpiod_set_value(priv->reset, 1);
++		gpiod_set_value_cansleep(priv->reset, 1);
++	}
+ 
+ 	regulator_bulk_disable(ARRAY_SIZE(priv->supplies), priv->supplies);
+ };
+-- 
+2.46.0.184.g6999bdac58-goog
 
 
+-- 
+Dmitry
