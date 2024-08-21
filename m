@@ -1,158 +1,131 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06171192D6A;
-	Wed, 21 Aug 2024 07:02:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FB2A1A2857;
+	Wed, 21 Aug 2024 07:11:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724223767; cv=none; b=qKDsCipmg2z7Hn7pCJRYxz0mA6fCwkglbpV7UWvRJamgNFxazpbRRbS1sMLdmXgs808SDePHDjS8/Zh4UK14R2TFU4qlPUZ+cRLAxiwyJxGGZc8VPD7rD+qLTVlxG+7JIohO6ipNxNrZzyNGcTusDkCIqpCFVId+feerN7KXmVU=
+	t=1724224288; cv=none; b=iMZmT8RRfXu0MFiDhi2wicdSoTLwZ+nUT288fX66fJ7PzbHgKkJ+k/H/fu76PqbBWsBd8M5SPoHMTdc/vg8tur77+WLgdYVu4d9PsbfLaJiW+NdRUdV/yHCL+Foe1cQIXUrU/1U1tUdqB1q3e+ubkZKlZ4/v1CcKRaggxeQOBnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724223767; c=relaxed/simple;
-	bh=8rUm72MnGLmHQNl/Pyxx0EYzyXtHSorMLOIHmsjfdMk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HxwHumIdFonq2SoDL71KjbqDo4KV4j2brhRkBDHnS2kOLANbgSkGwvEtD2EVE+OFb0aX6X2GFibJjKt4v5gfJyxxTeNxQhI5uaO9+kxw2WgwW/FmsbFRAWZXb1EGonXsFv7QGuuBIgHSfK6KFS+vO48u/9p5TQVX6ufYC1BZ6Ko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YY1g8XpH; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1724224288; c=relaxed/simple;
+	bh=NZjH4uZaW1H6fHzTuS0UFwh6dLwoqwxPmN2hIUNCSJE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uEkrX0LDVCQHg3jFOMdI89jxkvIP6IpbtVvdQQ2HhQaXiEm6nQmOTYxdAM5RLyl+WyccOLOzCS6k2AX47pTrjhyT7Sp9/71b6zDX5yNU0EGgZZgE0mBJqSndxCsG80ZmDPdxLL/obT8riHFf9vSEPkVMOEAfwmgKAxkAHgy4ENU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=eKir8DRC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fG7tpIC0; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=eKir8DRC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fG7tpIC0; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YY1g8XpH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724223766; x=1755759766;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=8rUm72MnGLmHQNl/Pyxx0EYzyXtHSorMLOIHmsjfdMk=;
-  b=YY1g8XpHLdE595GK51tnrBrNO/HM5rr8j+FEc1APx3Ifcx+tH0VLnkr1
-   PWovQjs+6o5WGEgDTCnMkBUbIXUe+K4/x3cEdjntn+ibtEiW0AoyemxgU
-   kHtXkELsiWDlcD0aCUIz23Lht+MYyuVDjBdDOwfXqQYBnhSXrC94v9f0O
-   LANXScKrbZEnTtolgYBfj7vAL5PfbWR0ISOKVPA4BxzlOjoDbQ6dL6ArF
-   s8C+drAMjOY59JRwxRCvtmMFGsT2uDFpfJyD+eDX2eirm6xqmjXgVhsE0
-   +ZzYnIABT4XV7xVVbp1ejs+/k3cw8H3x5ZMvYV/gsk61a5h0XSLfmntfz
-   A==;
-X-CSE-ConnectionGUID: Hhs8JmD/QsW33kpH3E9nCw==
-X-CSE-MsgGUID: DGFSXacyTGqSOOjiLVDqZA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="22706002"
-X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; 
-   d="scan'208";a="22706002"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 00:02:46 -0700
-X-CSE-ConnectionGUID: r7X2J0LrR8ub329AoQ8R8g==
-X-CSE-MsgGUID: fYBNYWdMTGy2tKnZxPcjmg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; 
-   d="scan'208";a="65871786"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO [10.245.246.16]) ([10.245.246.16])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 00:02:39 -0700
-Message-ID: <7b3421f5-8d57-4138-9456-1bf0eb4662c0@linux.intel.com>
-Date: Wed, 21 Aug 2024 09:02:37 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eKir8DRC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fG7tpIC0";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eKir8DRC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fG7tpIC0"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CF6AF21F8F;
+	Wed, 21 Aug 2024 07:11:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1724224277; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TCLVOPeh+8Qu1riV+de82s9/4W58qAkfUcb2ksUW10s=;
+	b=eKir8DRC3m7a3HQfbUI5AeeSMbt3ecq2ztPISVFBnbM+nj27ZOBXBsjaqxfqe98uk9E+P3
+	o45JxNvqCbQNdBpwr8G3Wvlxl/IBIGBOWRx0sR2sgxCzY6M8t+awjx5piDBD+1T+AgVWgT
+	kkj7hpnqEi8/jQh9Lbepa/WpxmbHBmU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1724224277;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TCLVOPeh+8Qu1riV+de82s9/4W58qAkfUcb2ksUW10s=;
+	b=fG7tpIC0RtizhfgZ6qbmyG4TmYa2LrrTZ/kE5ikaMssaVzMFXP999oktNyOqdbtiq7CG3H
+	qCD495DAbwEUoTCA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1724224277; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TCLVOPeh+8Qu1riV+de82s9/4W58qAkfUcb2ksUW10s=;
+	b=eKir8DRC3m7a3HQfbUI5AeeSMbt3ecq2ztPISVFBnbM+nj27ZOBXBsjaqxfqe98uk9E+P3
+	o45JxNvqCbQNdBpwr8G3Wvlxl/IBIGBOWRx0sR2sgxCzY6M8t+awjx5piDBD+1T+AgVWgT
+	kkj7hpnqEi8/jQh9Lbepa/WpxmbHBmU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1724224277;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TCLVOPeh+8Qu1riV+de82s9/4W58qAkfUcb2ksUW10s=;
+	b=fG7tpIC0RtizhfgZ6qbmyG4TmYa2LrrTZ/kE5ikaMssaVzMFXP999oktNyOqdbtiq7CG3H
+	qCD495DAbwEUoTCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A0FEC13770;
+	Wed, 21 Aug 2024 07:11:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id LpDFJRWTxWatJwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 21 Aug 2024 07:11:17 +0000
+Date: Wed, 21 Aug 2024 09:11:59 +0200
+Message-ID: <87le0qqri8.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: soxiebing <soxiebing@163.com>
+Cc: tiwai@suse.de,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	songxiebing <songxiebing@kylinos.cn>
+Subject: Re: [PATCH v1] ALSA: hda: fix snd_hda_bus_reset when single_cmd is not supported
+In-Reply-To: <20240821014238.338864-1-soxiebing@163.com>
+References: <20240821014238.338864-1-soxiebing@163.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v24 29/34] ALSA: usb-audio: qcom: Add USB offload route
- kcontrol
-To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
- Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, tiwai@suse.com,
- gregkh@linuxfoundation.org, robh@kernel.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
- alsa-devel@alsa-project.org
-References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
- <20240801011730.4797-30-quic_wcheng@quicinc.com>
- <4d5fe3f8-d7ba-4647-8dd7-22656ec2fde5@linux.intel.com>
- <58043166-c494-42db-b7d3-575991e43e8b@quicinc.com>
- <f507a228-4865-4df5-9215-bc59e330a82f@linux.intel.com>
- <88d5ed6f-1429-4381-8014-d5824ec7866e@quicinc.com>
- <56ebd11e-9522-406b-9ca4-5e284eaac409@quicinc.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <56ebd11e-9522-406b-9ca4-5e284eaac409@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[163.com];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[163.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_TLS_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-
-
-
->>>>>> +/**
->>>>>> + * snd_usb_offload_create_ctl() - Add USB offload bounded mixer
->>>>>> + * @chip - USB SND chip device
->>>>>> + *
->>>>>> + * Creates a sound control for a USB audio device, so that applications can
->>>>>> + * query for if there is an available USB audio offload path, and which
->>>>>> + * card is managing it.
->>>>>> + */
->>>>>> +int snd_usb_offload_create_ctl(struct snd_usb_audio *chip)
->>>>>> +{
->>>>>> +	struct usb_device *udev = chip->dev;
->>>>>> +	struct snd_kcontrol_new *chip_kctl;
->>>>>> +	struct snd_usb_stream *as;
->>>>>> +	char ctl_name[37];
->>>>>> +	int ret;
->>>>>> +
->>>>>> +	list_for_each_entry(as, &chip->pcm_list, list) {
->>>>>> +		chip_kctl = &snd_usb_offload_mapped_ctl;
->>>>>> +		chip_kctl->count = 1;
->>>>>> +		/*
->>>>>> +		 * Store the associated USB SND card number and PCM index for
->>>>>> +		 * the kctl.
->>>>>> +		 */
->>>>>> +		chip_kctl->private_value = as->pcm_index |
->>>>>> +					  chip->card->number << 16;
->>>>>> +		sprintf(ctl_name, "USB Offload Playback Route PCM#%d",
->>>>>> +			as->pcm_index);
->>>>>> +		chip_kctl->name = ctl_name;
->>>>>> +		ret = snd_ctl_add(chip->card, snd_ctl_new1(chip_kctl,
->>>>>> +				  udev->bus->sysdev));
->>>>>> +		if (ret < 0)
->>>>>> +			break;
->>>>>> +	}
->>>>>> +
->>>>>> +	return ret;
->>>> Hi Pierre,
->>>>> None of this looks Qualcomm-specific, shouldn't this be part of the
->>>>> soc_usb framework instead of being added in the qcom/ stuff?
->>>> Started working on this particular comment, and there are some things that needs to be considered if we moved this into SOC USB:
->>>>
->>>> 1.  We do save the reference to the USB BE DAI link within the USB DT node, which can be fetched/referenced based on sysdev.  However, I'm not sure if everyone would potentially follow that way.
->>>>
->>>> 2.  I tried a few implementations of adding a new SOC USB API, and the argument list was a bit long, because I didn't want to directly reference the usb_chip.
->>>>
->>>> Sorry for the delay, but I wanted to give a good stab at implementing this before bringing up the implications.  It is possible, but definitely not as clean as how we have it now IMO.
->>> My comment was only referring to the location of the code, it's now in
->>> sound/usb/qcom/mixer_usb_offload.c but does not contain anything
->>> specific to Qualcomm. I was not asking for any encapsulation inside of
->>> soc-usb, I was only suggesting a move of the code to a shared helper
->>> library so that this code can be reused as is and not duplicated if the
->>> QCOM parts are not compiled in.
->> Ah, great, thanks for the clarification.  Let me take a look with that perspective.
->>
-> Going back on the history behind moving it into qcom/ was based off feedback that Takashi pointed out in v14[1].  It was mainly due to the fact that we would be adding another hard dependency between USB SND and the offloading components.  Hence the reason for moving it to within the QCOM offloading package. 
+On Wed, 21 Aug 2024 03:42:38 +0200,
+soxiebing wrote:
 > 
-> Thanks
+> From: songxiebing <songxiebing@kylinos.cn>
 > 
-> Wesley Cheng
+> When an azx_get_desponse timeout occurs, ensure that bus_reset
+> can be used when fallback_to_single_cmd is not supported.
 > 
-> [1]: https://lore.kernel.org/linux-usb/87y1bt2acg.wl-tiwai@suse.de/
+> Signed-off-by: songxiebing <songxiebing@kylinos.cn>
 
-I don't see anything wrong with the initial proposal
-
-
- +config SND_USB_OFFLOAD_MIXER
- +	bool
- +
-  config SND_USB_AUDIO_QMI
-  	tristate "Qualcomm Audio Offload driver"
-  	depends on QCOM_QMI_HELPERS && SND_USB_AUDIO && USB_XHCI_SIDEBAND
-  	select SND_PCM
- +	select SND_USB_OFFLOAD_MIXER
+Why do you need to change?  Does it fix any real problem you faced?
 
 
-That would allows the SND_USB_OFFLOAD_MIXER to be build as a module, and
-it would allow other non-QCON solutions to use the module.
-Maybe just make it a tristate?
+thanks,
+
+Takashi
