@@ -1,109 +1,158 @@
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8CF6192D63
-	for <linux-sound@vger.kernel.org>; Wed, 21 Aug 2024 07:00:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.190
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06171192D6A;
+	Wed, 21 Aug 2024 07:02:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724223653; cv=none; b=AOop/hsQBUxv9r4nAuaJzyjDQV1V+mCjanjFvyldHtGHZwupXLhqe4hL4SOrVBI0oZFGuQB/Ddi2/jt+XIJBj82jBIBIR5shRB3fo2hE9vmoPYd1wUuPAhJnLfmyyDRkKyUgaEKC7A0dGl1LstZhbyC99suMKrWRFcBcTDsHAhI=
+	t=1724223767; cv=none; b=qKDsCipmg2z7Hn7pCJRYxz0mA6fCwkglbpV7UWvRJamgNFxazpbRRbS1sMLdmXgs808SDePHDjS8/Zh4UK14R2TFU4qlPUZ+cRLAxiwyJxGGZc8VPD7rD+qLTVlxG+7JIohO6ipNxNrZzyNGcTusDkCIqpCFVId+feerN7KXmVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724223653; c=relaxed/simple;
-	bh=Efohe42vAuAor80qMzZo3RBzR9BzV0xqithNlsU6+lk=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kMwsH+yWZb44M7drH7NJ/GFLx5C45+/RdKcI6/8hWaPHhp1BH+AXLG5CV61XHY+8s1yUuY+/Zd6hyjuHN4FEMI7bEk2PRc/5BT/9Rr575nbyQJTjHAc4YO1CAr98PalaPyp8H5RoUPDM3FFv0nGQF9Z8KRDVt7g6XlHn3s7halc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.190
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.162.112])
-	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4WpcYf0nkmz20m68;
-	Wed, 21 Aug 2024 14:56:06 +0800 (CST)
-Received: from dggpeml500022.china.huawei.com (unknown [7.185.36.66])
-	by mail.maildlp.com (Postfix) with ESMTPS id 968A91401F3;
-	Wed, 21 Aug 2024 15:00:47 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by dggpeml500022.china.huawei.com
- (7.185.36.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 21 Aug
- 2024 15:00:47 +0800
-From: Hongbo Li <lihongbo22@huawei.com>
-To: <peter.ujfalusi@gmail.com>, <lgirdwood@gmail.com>, <broonie@kernel.org>,
-	<perex@perex.cz>, <tiwai@suse.com>
-CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
-	<lihongbo22@huawei.com>
-Subject: [PATCH -next 3/5] sound/soc remove unused substream in macro soc_dai_mark_pop
-Date: Wed, 21 Aug 2024 15:08:13 +0800
-Message-ID: <20240821070815.2326534-4-lihongbo22@huawei.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240821070815.2326534-1-lihongbo22@huawei.com>
-References: <20240821070815.2326534-1-lihongbo22@huawei.com>
+	s=arc-20240116; t=1724223767; c=relaxed/simple;
+	bh=8rUm72MnGLmHQNl/Pyxx0EYzyXtHSorMLOIHmsjfdMk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HxwHumIdFonq2SoDL71KjbqDo4KV4j2brhRkBDHnS2kOLANbgSkGwvEtD2EVE+OFb0aX6X2GFibJjKt4v5gfJyxxTeNxQhI5uaO9+kxw2WgwW/FmsbFRAWZXb1EGonXsFv7QGuuBIgHSfK6KFS+vO48u/9p5TQVX6ufYC1BZ6Ko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YY1g8XpH; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YY1g8XpH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724223766; x=1755759766;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=8rUm72MnGLmHQNl/Pyxx0EYzyXtHSorMLOIHmsjfdMk=;
+  b=YY1g8XpHLdE595GK51tnrBrNO/HM5rr8j+FEc1APx3Ifcx+tH0VLnkr1
+   PWovQjs+6o5WGEgDTCnMkBUbIXUe+K4/x3cEdjntn+ibtEiW0AoyemxgU
+   kHtXkELsiWDlcD0aCUIz23Lht+MYyuVDjBdDOwfXqQYBnhSXrC94v9f0O
+   LANXScKrbZEnTtolgYBfj7vAL5PfbWR0ISOKVPA4BxzlOjoDbQ6dL6ArF
+   s8C+drAMjOY59JRwxRCvtmMFGsT2uDFpfJyD+eDX2eirm6xqmjXgVhsE0
+   +ZzYnIABT4XV7xVVbp1ejs+/k3cw8H3x5ZMvYV/gsk61a5h0XSLfmntfz
+   A==;
+X-CSE-ConnectionGUID: Hhs8JmD/QsW33kpH3E9nCw==
+X-CSE-MsgGUID: DGFSXacyTGqSOOjiLVDqZA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="22706002"
+X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; 
+   d="scan'208";a="22706002"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 00:02:46 -0700
+X-CSE-ConnectionGUID: r7X2J0LrR8ub329AoQ8R8g==
+X-CSE-MsgGUID: fYBNYWdMTGy2tKnZxPcjmg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; 
+   d="scan'208";a="65871786"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO [10.245.246.16]) ([10.245.246.16])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 00:02:39 -0700
+Message-ID: <7b3421f5-8d57-4138-9456-1bf0eb4662c0@linux.intel.com>
+Date: Wed, 21 Aug 2024 09:02:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v24 29/34] ALSA: usb-audio: qcom: Add USB offload route
+ kcontrol
+To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+ mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+ corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
+ Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, tiwai@suse.com,
+ gregkh@linuxfoundation.org, robh@kernel.org
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+ alsa-devel@alsa-project.org
+References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
+ <20240801011730.4797-30-quic_wcheng@quicinc.com>
+ <4d5fe3f8-d7ba-4647-8dd7-22656ec2fde5@linux.intel.com>
+ <58043166-c494-42db-b7d3-575991e43e8b@quicinc.com>
+ <f507a228-4865-4df5-9215-bc59e330a82f@linux.intel.com>
+ <88d5ed6f-1429-4381-8014-d5824ec7866e@quicinc.com>
+ <56ebd11e-9522-406b-9ca4-5e284eaac409@quicinc.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <56ebd11e-9522-406b-9ca4-5e284eaac409@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpeml500022.china.huawei.com (7.185.36.66)
 
-The soc_dai_mark_pop don't need substream, and also
-substream is not used in this macro, so we can remove it.
-This is detected by macro_checker.py script.
 
-Signed-off-by: Hongbo Li <lihongbo22@huawei.com>
----
- sound/soc/soc-dai.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/sound/soc/soc-dai.c b/sound/soc/soc-dai.c
-index 302ca753a1f3..4000385e0863 100644
---- a/sound/soc/soc-dai.c
-+++ b/sound/soc/soc-dai.c
-@@ -37,7 +37,7 @@ static inline int _soc_dai_ret(const struct snd_soc_dai *dai,
-  * In such case, we can update these macros.
-  */
- #define soc_dai_mark_push(dai, substream, tgt)	((dai)->mark_##tgt = substream)
--#define soc_dai_mark_pop(dai, substream, tgt)	((dai)->mark_##tgt = NULL)
-+#define soc_dai_mark_pop(dai, tgt)	((dai)->mark_##tgt = NULL)
- #define soc_dai_mark_match(dai, substream, tgt)	((dai)->mark_##tgt == substream)
- 
- /**
-@@ -416,7 +416,7 @@ void snd_soc_dai_hw_free(struct snd_soc_dai *dai,
- 		dai->driver->ops->hw_free(substream, dai);
- 
- 	/* remove marked substream */
--	soc_dai_mark_pop(dai, substream, hw_params);
-+	soc_dai_mark_pop(dai, hw_params);
- }
- 
- int snd_soc_dai_startup(struct snd_soc_dai *dai,
-@@ -453,7 +453,7 @@ void snd_soc_dai_shutdown(struct snd_soc_dai *dai,
- 		dai->driver->ops->shutdown(substream, dai);
- 
- 	/* remove marked substream */
--	soc_dai_mark_pop(dai, substream, startup);
-+	soc_dai_mark_pop(dai, startup);
- }
- 
- int snd_soc_dai_compress_new(struct snd_soc_dai *dai,
-@@ -678,7 +678,7 @@ int snd_soc_pcm_dai_trigger(struct snd_pcm_substream *substream,
- 			r = soc_dai_trigger(dai, substream, cmd);
- 			if (r < 0)
- 				ret = r; /* use last ret */
--			soc_dai_mark_pop(dai, substream, trigger);
-+			soc_dai_mark_pop(dai, trigger);
- 		}
- 	}
- 
-@@ -742,7 +742,7 @@ void snd_soc_dai_compr_shutdown(struct snd_soc_dai *dai,
- 		dai->driver->cops->shutdown(cstream, dai);
- 
- 	/* remove marked cstream */
--	soc_dai_mark_pop(dai, cstream, compr_startup);
-+	soc_dai_mark_pop(dai, compr_startup);
- }
- EXPORT_SYMBOL_GPL(snd_soc_dai_compr_shutdown);
- 
--- 
-2.34.1
 
+>>>>>> +/**
+>>>>>> + * snd_usb_offload_create_ctl() - Add USB offload bounded mixer
+>>>>>> + * @chip - USB SND chip device
+>>>>>> + *
+>>>>>> + * Creates a sound control for a USB audio device, so that applications can
+>>>>>> + * query for if there is an available USB audio offload path, and which
+>>>>>> + * card is managing it.
+>>>>>> + */
+>>>>>> +int snd_usb_offload_create_ctl(struct snd_usb_audio *chip)
+>>>>>> +{
+>>>>>> +	struct usb_device *udev = chip->dev;
+>>>>>> +	struct snd_kcontrol_new *chip_kctl;
+>>>>>> +	struct snd_usb_stream *as;
+>>>>>> +	char ctl_name[37];
+>>>>>> +	int ret;
+>>>>>> +
+>>>>>> +	list_for_each_entry(as, &chip->pcm_list, list) {
+>>>>>> +		chip_kctl = &snd_usb_offload_mapped_ctl;
+>>>>>> +		chip_kctl->count = 1;
+>>>>>> +		/*
+>>>>>> +		 * Store the associated USB SND card number and PCM index for
+>>>>>> +		 * the kctl.
+>>>>>> +		 */
+>>>>>> +		chip_kctl->private_value = as->pcm_index |
+>>>>>> +					  chip->card->number << 16;
+>>>>>> +		sprintf(ctl_name, "USB Offload Playback Route PCM#%d",
+>>>>>> +			as->pcm_index);
+>>>>>> +		chip_kctl->name = ctl_name;
+>>>>>> +		ret = snd_ctl_add(chip->card, snd_ctl_new1(chip_kctl,
+>>>>>> +				  udev->bus->sysdev));
+>>>>>> +		if (ret < 0)
+>>>>>> +			break;
+>>>>>> +	}
+>>>>>> +
+>>>>>> +	return ret;
+>>>> Hi Pierre,
+>>>>> None of this looks Qualcomm-specific, shouldn't this be part of the
+>>>>> soc_usb framework instead of being added in the qcom/ stuff?
+>>>> Started working on this particular comment, and there are some things that needs to be considered if we moved this into SOC USB:
+>>>>
+>>>> 1.  We do save the reference to the USB BE DAI link within the USB DT node, which can be fetched/referenced based on sysdev.  However, I'm not sure if everyone would potentially follow that way.
+>>>>
+>>>> 2.  I tried a few implementations of adding a new SOC USB API, and the argument list was a bit long, because I didn't want to directly reference the usb_chip.
+>>>>
+>>>> Sorry for the delay, but I wanted to give a good stab at implementing this before bringing up the implications.  It is possible, but definitely not as clean as how we have it now IMO.
+>>> My comment was only referring to the location of the code, it's now in
+>>> sound/usb/qcom/mixer_usb_offload.c but does not contain anything
+>>> specific to Qualcomm. I was not asking for any encapsulation inside of
+>>> soc-usb, I was only suggesting a move of the code to a shared helper
+>>> library so that this code can be reused as is and not duplicated if the
+>>> QCOM parts are not compiled in.
+>> Ah, great, thanks for the clarification.  Let me take a look with that perspective.
+>>
+> Going back on the history behind moving it into qcom/ was based off feedback that Takashi pointed out in v14[1].  It was mainly due to the fact that we would be adding another hard dependency between USB SND and the offloading components.  Hence the reason for moving it to within the QCOM offloading package. 
+> 
+> Thanks
+> 
+> Wesley Cheng
+> 
+> [1]: https://lore.kernel.org/linux-usb/87y1bt2acg.wl-tiwai@suse.de/
+
+I don't see anything wrong with the initial proposal
+
+
+ +config SND_USB_OFFLOAD_MIXER
+ +	bool
+ +
+  config SND_USB_AUDIO_QMI
+  	tristate "Qualcomm Audio Offload driver"
+  	depends on QCOM_QMI_HELPERS && SND_USB_AUDIO && USB_XHCI_SIDEBAND
+  	select SND_PCM
+ +	select SND_USB_OFFLOAD_MIXER
+
+
+That would allows the SND_USB_OFFLOAD_MIXER to be build as a module, and
+it would allow other non-QCON solutions to use the module.
+Maybe just make it a tristate?
