@@ -1,130 +1,86 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E7BB1531F7;
-	Wed, 21 Aug 2024 13:23:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E46915B54B
+	for <linux-sound@vger.kernel.org>; Wed, 21 Aug 2024 13:29:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724246619; cv=none; b=WOk60WqpVf+tIOtTXimsppffZT1tnJvG3c7W+whuZuIcxToCgc5/AvqxPquPdNKUTOheI1Rmdegem3jCoPQE8lis89ZOrueh2pjAKQYJMwQ1DNkExqGQQL6Zo4WRoxu9q6lEbwN6aR4KCIPGfmUnKCzhxZ7XosBr4XLsppyR5R8=
+	t=1724246984; cv=none; b=UyWpEOSabZ4FWHKxPkYuwGlxRpT9aGAejlz6l7Hdkc4WjEiukS9hvbiuXDcPAvIf/oGSsPPuTrrPRen4sxI5lqaPCDGg1mVgpAZuFFPvEXw9tm30nXU129H7KNL45ZAH1HvXlBNBvrayb/IRKX9OcwMlJ675hapYO/3WCv9pnCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724246619; c=relaxed/simple;
-	bh=KFtZZeysOpPwQD8LLbTxJARdZc2ToQqHVD6VrZ17nEA=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=a1/ANZfKfXdjunGO3qdE1KvhYzhsIu/BiYd8xeovBsHg/baijGkh1A75MAtEj2msaofTXCwwI/a4kI/wcbLRieOPuzM6uJSQ8Rk3lw1EL0yAsrZHIFU3yKEPsJnMKIilShsOEWSH9/Elu9dV7b56TLD/D/voCvdJYtxyFyHnE2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=W7+IgBwk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=isDNqMZ2; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=W7+IgBwk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=isDNqMZ2; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1724246984; c=relaxed/simple;
+	bh=PHEgJRzZWXxa0vJ9q2HDbh2E4kBF0yeXkkNwmxw9YPc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OHiWka0pgV/soF0/vQu0bAUDJMh8otFbdGHNA0LcV7m4S+aQ6jxFVrePlJ3j28TRjY2tznTUXHZAVp37d98CuT7FZDDBG9fYqaUwkz4BgZOvfPIUIJqLuPbpdcB9D/kU8h5F23xmOR+3kSRqetyuaxOIfqc6imfcChURJkGqV3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=exVdUVgB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W7+IgBwk";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="isDNqMZ2";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W7+IgBwk";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="isDNqMZ2"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2604A20082;
-	Wed, 21 Aug 2024 13:23:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1724246610; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8ENyx53nwWY4QDIHm9+/8SrdUl3xu7tCqIX8WtYMFeg=;
-	b=W7+IgBwkgv+pf7apqqu60mFHZD2WCnlgk1xkN4QHSggmcDxlyQ10n2H5SAXokoNQAd9vyZ
-	4rargG0+fSsA9xQJm4gyo0dkkCDKtpQAZ1ShnANxd4hHYcBOvkxPz5UBPrAkUdXuCxzU0F
-	ud/FZAnXxa3BrNxGkF1o+CJFXeMx5WI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1724246610;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8ENyx53nwWY4QDIHm9+/8SrdUl3xu7tCqIX8WtYMFeg=;
-	b=isDNqMZ2ZRuobvL9j6iy2g81VHSDrT8xBoepg16Blm0aapznOVp4REZuBnGBfOqtKKjlcJ
-	1DXcb2HvX1+oIvDg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1724246610; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8ENyx53nwWY4QDIHm9+/8SrdUl3xu7tCqIX8WtYMFeg=;
-	b=W7+IgBwkgv+pf7apqqu60mFHZD2WCnlgk1xkN4QHSggmcDxlyQ10n2H5SAXokoNQAd9vyZ
-	4rargG0+fSsA9xQJm4gyo0dkkCDKtpQAZ1ShnANxd4hHYcBOvkxPz5UBPrAkUdXuCxzU0F
-	ud/FZAnXxa3BrNxGkF1o+CJFXeMx5WI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1724246610;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8ENyx53nwWY4QDIHm9+/8SrdUl3xu7tCqIX8WtYMFeg=;
-	b=isDNqMZ2ZRuobvL9j6iy2g81VHSDrT8xBoepg16Blm0aapznOVp4REZuBnGBfOqtKKjlcJ
-	1DXcb2HvX1+oIvDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E9F7013770;
-	Wed, 21 Aug 2024 13:23:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id kpnYN1HqxWZbIAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 21 Aug 2024 13:23:29 +0000
-Date: Wed, 21 Aug 2024 15:24:12 +0200
-Message-ID: <87r0aiovpf.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Simon Trimmer <simont@opensource.cirrus.com>
-Cc: <tiwai@suse.com>,
-	<linux-sound@vger.kernel.org>,
-	<alsa-devel@alsa-project.org>,
-	<linux-kernel@vger.kernel.org>,
-	<patches@opensource.cirrus.com>
-Subject: Re: [PATCH] ALSA: hda: cs35l56: Don't use the device index as a calibration index
-In-Reply-To: <20240821124711.44325-1-simont@opensource.cirrus.com>
-References: <20240821124711.44325-1-simont@opensource.cirrus.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="exVdUVgB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7604C32782;
+	Wed, 21 Aug 2024 13:29:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724246983;
+	bh=PHEgJRzZWXxa0vJ9q2HDbh2E4kBF0yeXkkNwmxw9YPc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=exVdUVgBZJCguB0y8vfCbLUyN6MuxhtZIRRMuP2QuK7wVDd1OGywaxkNCrkSP3Y2N
+	 FDFTIvnBWXA3G2+UpvIS/9X1UssugL4rmReg4WYfOJ2b61mHImNKKA69QXWyd0TSuz
+	 RNbxnJIIpNsWwPT5qaSOxDudepsSIOfYuErHAQ23F1hcWPt8fWdKit/lBkaAMa4GBd
+	 4mTZW34X+KAo4+kQd/GQEzJ1EniyvHI+RHAYlbQSM1c4ATzZjZSQTbE327rU4NtYo+
+	 +D3oEoToz8h4aYddPzbzRqX2gSjQXMarNJa3lRIb4OlrbuRUWVDFdIiYJ7Q00Y8axl
+	 eLcNAUH+QgDQQ==
+Date: Wed, 21 Aug 2024 14:29:38 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Hongbo Li <lihongbo22@huawei.com>
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH -next 0/2] allow modules autoloading
+Message-ID: <8426ce31-f877-4b9f-af41-55ab479f0524@sirena.org.uk>
+References: <20240821061955.2273782-1-lihongbo22@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.98%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Level: 
-
-On Wed, 21 Aug 2024 14:47:11 +0200,
-Simon Trimmer wrote:
-> 
-> The HDA driver cannot assume that the order that the devices are
-> specified in the cirrus,dev-index matches the order of calibration
-> entries.
-> 
-> Only a calibration entry with a matching silicon id will be used.
-> 
-> Fixes: cfa43aaa7948 ("ALSA: hda: cs35l56: Apply amp calibration from EFI data")
-> Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
-
-Thanks, applied now.
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="q5I2aYscS/sJbLBN"
+Content-Disposition: inline
+In-Reply-To: <20240821061955.2273782-1-lihongbo22@huawei.com>
+X-Cookie: You are false data.
 
 
-Takashi
+--q5I2aYscS/sJbLBN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Aug 21, 2024 at 02:19:53PM +0800, Hongbo Li wrote:
+> Add macro MODULE_DEVICE_TABLE, so modules could be properly
+> autoloaded based on the alias from of_device_id table.
+
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
+
+As documented in submitting-patches.rst please send patches to the=20
+maintainers for the code you would like to change.  The normal kernel
+workflow is that people apply patches from their inboxes, if they aren't
+copied they are likely to not see the patch at all and it is much more
+difficult to apply patches.
+
+--q5I2aYscS/sJbLBN
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbF68IACgkQJNaLcl1U
+h9AYWwf+NtRfhWaEnCbdq+GADp/LFXav13rAIA7CvWIay/Z/ThZX9SCYMrsrLfnI
+fyrYjIzbJ2b5fQ0Q8CBYCehgy4rI+KOs3SnjDVC3xew+ZI1aZPi6K7Fpw8e/Ilj0
+/SvDzr3itULOqDUlHYbNA+fwOetPovuLgvQoSZSZwkBe8yzyfUMehBYLvErRJznB
+wX+aBLhUpMsdnDiaTpT8QKk2cQGIdammX38pgeRUc50t4IwxZ847gg62GMA2Sjkj
+JpzahiEvh+psWx6wLj2PNP3WdzMkzr3vqY29vxhKXBkL0G6A/AH/Jv3eLaomgTFR
+BIvyW8qx8p7q/Xmh/Ig2tJEJKPvNTw==
+=6kpd
+-----END PGP SIGNATURE-----
+
+--q5I2aYscS/sJbLBN--
