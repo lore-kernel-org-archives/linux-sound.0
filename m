@@ -1,98 +1,87 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFBC61B2EC0;
-	Wed, 21 Aug 2024 17:10:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A15D41B2503
+	for <linux-sound@vger.kernel.org>; Wed, 21 Aug 2024 18:42:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724260219; cv=none; b=qP1NjtUHhMx8/D6e3V3LvMRgJeQoI5tIK3srRCBatBPSvLT/3uYElyN04CKvNjh/6UlAN46SqwyCKn8FbZjzZgGOz5tdYgQo/qTIHNalIpDrJq3agZkEZW04L7wB2vD585l7igpnNIkZCsRLcp+4nzFPxd26QmCW+/RDUQzNroc=
+	t=1724265767; cv=none; b=eX5ark3QVayYUMkTnFbhpcs2cZ7TkdT7h4kp2myAD8JVoO9sftxIueWscE5FDilGErRWIxLLayZ9p3sS0dHK+8U3Ag7YAqdr2dFT9Dq7qGaKpOcJi138ZJJxfHL1mFk/i8Ok7ffFFqnpEKA9Y3ugYD0O8WxBwSPKOrc/m9D8k/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724260219; c=relaxed/simple;
-	bh=2iYKg7B35VX4ROXuHTDfvp25GRt1pRM+50E69HvlLWo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uZnP1egHL5tu7WHqvu6zvknCDWkQNhdtaj6k297lryE/X1r7gnS8dP35PgUkvrAHI+csf0ef4wp4rGSuH6fGAMI8F+AaRjGha3G8zIPtcPZgL7ne4Vs7qloSgW08lgph+qEQIZanlKeBybnx+tDMEDEB/JUN4fqlX2sbqojfDME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EVSK6b3R; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724265767; c=relaxed/simple;
+	bh=7y5qiN/fEqaTyUgj31oGiDU+qH4+TDYljn2LDHdyK8A=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ljq+7lMSS16hcy/6ZkG71f4kyQ2aUvC5J7qzT3ncA30k8QN6YJVYUaTfvMQ4zVbHz6L7lGCkDpqTzi0ZZ6aBP0Iir+QCFLPTM5Mz/FmeqK0Qxzu0gFzHzwhTM9y7w+j2S3EfDsv+4T5x9xXr+r843kYlyfIQyRLuRu0xr1kQqnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L+qSxbE1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EVSK6b3R"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2EECC32781;
-	Wed, 21 Aug 2024 17:10:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L+qSxbE1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3529EC32781;
+	Wed, 21 Aug 2024 18:42:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724260219;
-	bh=2iYKg7B35VX4ROXuHTDfvp25GRt1pRM+50E69HvlLWo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EVSK6b3Ryb0vUQ0tFajKQhvx7Tjep1K0DIr6imjlW9elGILeO+dapTs2tYjCmK3yv
-	 u+igXovATVP9+0O9jlI6nDeaqg+4QYM1VHdejn3oxbn0UfNhQ2i5+vTIxb9AfOqXSj
-	 fEr+mgXxnC+VbPseGq0WxDENLRqOT/w9qkT+hCmnNbEgdoL0Eok4u2gwU0XxcAdWrv
-	 uVJA2v7g/Wq3KhX63ENesEhzsTgOiQfmhMLDezxXKsNSXqrZVqrvt34Gf/5CPpzM8r
-	 ZJSWega/Q80EyCrqHUj88E18ciE1P6NansCUgbSos4pPIjF1xr7SXPtcLCZr+64mlY
-	 TZnsOxo6cv9WA==
-Date: Wed, 21 Aug 2024 18:10:15 +0100
+	s=k20201202; t=1724265767;
+	bh=7y5qiN/fEqaTyUgj31oGiDU+qH4+TDYljn2LDHdyK8A=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=L+qSxbE1CYCz4+eCXAyEThVZHGfl408b8otx6Im1yVsbVWBK3cQjVLNtccvQElMG8
+	 Hj1SLT4NcrATTMGB3DBNV+6QAEIjLLYo3IELzZEt/UJxpFqzHUl1/ktmA2QvLvc1TA
+	 6ZmcszMqllUdnSqDbjhyUDcCLqlUKk8jX+TJpcJWeCzkASSsbOL31qCXDy5XynIqOb
+	 6D4GIy7mob5A7ZGijRE0dLRr5GDZ6NWnaUHZOmp7v4+w18la39KchzIFhFMs1NRwxZ
+	 +s+1oJiPlr2bCb2/r1ZhTXGRkHghUK0Cc24yrl5YTETuI3EUUA/QPtnQBpggJWtmDi
+	 CY5pmBnNlONGg==
 From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH] ASoC: cs-amp-lib: Ignore empty UEFI calibration entries
-Message-ID: <9361e81c-eceb-4c78-ba76-925449ac7215@sirena.org.uk>
-References: <20240821100221.99699-1-rf@opensource.cirrus.com>
+To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ Hongbo Li <lihongbo22@huawei.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20240821061955.2273782-1-lihongbo22@huawei.com>
+References: <20240821061955.2273782-1-lihongbo22@huawei.com>
+Subject: Re: [PATCH -next 0/2] allow modules autoloading
+Message-Id: <172426576594.1741722.16905114053596153030.b4-ty@kernel.org>
+Date: Wed, 21 Aug 2024 19:42:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="gwfNk6g9kt846Tkb"
-Content-Disposition: inline
-In-Reply-To: <20240821100221.99699-1-rf@opensource.cirrus.com>
-X-Cookie: teamwork, n.:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-37811
 
+On Wed, 21 Aug 2024 14:19:53 +0800, Hongbo Li wrote:
+> Add macro MODULE_DEVICE_TABLE, so modules could be properly
+> autoloaded based on the alias from of_device_id table.
+> 
+> Hongbo Li (2):
+>   sound/soc: allow module autoloading for table db1200_pids
+>   sound/soc: allow module autoloading for table board_ids
+> 
+> [...]
 
---gwfNk6g9kt846Tkb
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to
 
-On Wed, Aug 21, 2024 at 11:02:21AM +0100, Richard Fitzgerald wrote:
-> If the timestamp of a calibration entry is 0 it is an unused entry and
-> must be ignored.
->=20
-> Some end-products reserve EFI space for calibration entries by shipping
-> with a zero-filled EFI file. When searching the file for calibration
-> data the driver must skip the empty entries. The timestamp of a valid
-> entry is always non-zero.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-This breaks the build if I apply it on either for-6.11 or for-6.12:
+Thanks!
 
-In file included from /build/stage/linux/sound/soc/codecs/cs-amp-lib-test.c=
-:8:
-/build/stage/linux/sound/soc/codecs/cs-amp-lib-test.c: In function =E2=80=
-=98cs_amp_lib_test_get_efi_cal_by_uid_test=E2=80=99:
-/build/stage/linux/sound/soc/codecs/cs-amp-lib-test.c:224:50: error: subscr=
-ipted value is neither array nor pointer nor vector
-  224 |         KUNIT_EXPECT_EQ(test, result_data.calTime[0],
-      |                                                  ^
-/build/stage/linux/include/kunit/test.h:724:22: note: in definition of macr=
-o =E2=80=98KUNIT_BASE_BINARY_ASSERTION=E2=80=99
-  724 |         const typeof(left) __left =3D (left);                      =
-              \
-      |                      ^~~~
+[1/2] sound/soc: allow module autoloading for table db1200_pids
+      commit: 0e9fdab1e8df490354562187cdbb8dec643eae2c
+[2/2] sound/soc: allow module autoloading for table board_ids
+      commit: 5f7c98b7519a3a847d9182bd99d57ea250032ca1
 
-(with lots more errors) - I'm guessins some missing dependency
-somewhere?
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
---gwfNk6g9kt846Tkb
-Content-Type: application/pgp-signature; name="signature.asc"
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
------BEGIN PGP SIGNATURE-----
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbGH3cACgkQJNaLcl1U
-h9C6LQf8DvlrwOiWUQWzkeNrNV00322Fjkh0QgTnyofIHxANij9AkpIPTfuRUd6U
-wAKXwlDYknfxpksFOdh4eqg6fA43fzCIagCBjGx3Na0cB3vJPHGF+58O1RU6/y3y
-eum5ohFG7af5CdRP6nLQLwvB02Z/o145eiNR0Mdc1AR+AVd3Oa7cM7lvUy+PnVlQ
-SZyvkRnHaM9yd+QmqkxYpVmkXqW4TiDpmHB58mdWzQSR3M6Upmrcs5g6NTCJRGCw
-P6E9ZbPj7pug9O9j4l5Ru/7M2ZQSfSRrb1O3Ebd+Ixu0LkE+rSc2bjxlcIG1RdFM
-QGy4hCWNdprXm8aCmPxwv5j1iY8EkQ==
-=AwKK
------END PGP SIGNATURE-----
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
---gwfNk6g9kt846Tkb--
+Thanks,
+Mark
+
