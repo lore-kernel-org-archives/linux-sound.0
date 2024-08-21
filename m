@@ -1,131 +1,109 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FB2A1A2857;
-	Wed, 21 Aug 2024 07:11:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF6BE1BF7E5;
+	Wed, 21 Aug 2024 08:17:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724224288; cv=none; b=iMZmT8RRfXu0MFiDhi2wicdSoTLwZ+nUT288fX66fJ7PzbHgKkJ+k/H/fu76PqbBWsBd8M5SPoHMTdc/vg8tur77+WLgdYVu4d9PsbfLaJiW+NdRUdV/yHCL+Foe1cQIXUrU/1U1tUdqB1q3e+ubkZKlZ4/v1CcKRaggxeQOBnQ=
+	t=1724228273; cv=none; b=WNiPgeGoX/Wr9vXH+hyfr4SEGUvkTVHTtKZGwJM2i84gZc96K58HwOHgxVHVBe6jd1QySnseICvDavXHPYajYpHrPu+5yBf3CHpPTMHeuO9WdZs9P697lAMY5ztjUjH6LM+p2gM5F1XOWD8KTRl7nwpWacUhfMZy6N5oc08DFSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724224288; c=relaxed/simple;
-	bh=NZjH4uZaW1H6fHzTuS0UFwh6dLwoqwxPmN2hIUNCSJE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uEkrX0LDVCQHg3jFOMdI89jxkvIP6IpbtVvdQQ2HhQaXiEm6nQmOTYxdAM5RLyl+WyccOLOzCS6k2AX47pTrjhyT7Sp9/71b6zDX5yNU0EGgZZgE0mBJqSndxCsG80ZmDPdxLL/obT8riHFf9vSEPkVMOEAfwmgKAxkAHgy4ENU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=eKir8DRC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fG7tpIC0; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=eKir8DRC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fG7tpIC0; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1724228273; c=relaxed/simple;
+	bh=SiXnudrqxGcGZ9uRY2HLczMD+fLZgK2Vw2xVjHIfqIA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TzHFZBTCGcLpOuv/lwkBat7knRj6fQTGehRdQdxtnY9DPMASGtya4owEfwWXUMs4Kz3jXJSPEUTWsX+v4I+dP2c2++A+dFTUMvnnUpDsFUN+tRPfKXoCyxaUyAVUSqQxavAqj4IEjWDmOZo06vn8lQRAyFKQh3Es2zA8wYWZlgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=VW3PCy/y; arc=none smtp.client-ip=217.70.183.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eKir8DRC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fG7tpIC0";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eKir8DRC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fG7tpIC0"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CF6AF21F8F;
-	Wed, 21 Aug 2024 07:11:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1724224277; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="VW3PCy/y"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 76019240006;
+	Wed, 21 Aug 2024 08:17:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1724228269;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TCLVOPeh+8Qu1riV+de82s9/4W58qAkfUcb2ksUW10s=;
-	b=eKir8DRC3m7a3HQfbUI5AeeSMbt3ecq2ztPISVFBnbM+nj27ZOBXBsjaqxfqe98uk9E+P3
-	o45JxNvqCbQNdBpwr8G3Wvlxl/IBIGBOWRx0sR2sgxCzY6M8t+awjx5piDBD+1T+AgVWgT
-	kkj7hpnqEi8/jQh9Lbepa/WpxmbHBmU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1724224277;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TCLVOPeh+8Qu1riV+de82s9/4W58qAkfUcb2ksUW10s=;
-	b=fG7tpIC0RtizhfgZ6qbmyG4TmYa2LrrTZ/kE5ikaMssaVzMFXP999oktNyOqdbtiq7CG3H
-	qCD495DAbwEUoTCA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1724224277; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TCLVOPeh+8Qu1riV+de82s9/4W58qAkfUcb2ksUW10s=;
-	b=eKir8DRC3m7a3HQfbUI5AeeSMbt3ecq2ztPISVFBnbM+nj27ZOBXBsjaqxfqe98uk9E+P3
-	o45JxNvqCbQNdBpwr8G3Wvlxl/IBIGBOWRx0sR2sgxCzY6M8t+awjx5piDBD+1T+AgVWgT
-	kkj7hpnqEi8/jQh9Lbepa/WpxmbHBmU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1724224277;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TCLVOPeh+8Qu1riV+de82s9/4W58qAkfUcb2ksUW10s=;
-	b=fG7tpIC0RtizhfgZ6qbmyG4TmYa2LrrTZ/kE5ikaMssaVzMFXP999oktNyOqdbtiq7CG3H
-	qCD495DAbwEUoTCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A0FEC13770;
-	Wed, 21 Aug 2024 07:11:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id LpDFJRWTxWatJwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 21 Aug 2024 07:11:17 +0000
-Date: Wed, 21 Aug 2024 09:11:59 +0200
-Message-ID: <87le0qqri8.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: soxiebing <soxiebing@163.com>
-Cc: tiwai@suse.de,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	songxiebing <songxiebing@kylinos.cn>
-Subject: Re: [PATCH v1] ALSA: hda: fix snd_hda_bus_reset when single_cmd is not supported
-In-Reply-To: <20240821014238.338864-1-soxiebing@163.com>
-References: <20240821014238.338864-1-soxiebing@163.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	bh=zqbiiqxlYs51ofSD3CmT+SDgh/1VJcOXrFW12DENkpg=;
+	b=VW3PCy/yY3K393XGNPsYd4SK7pH4Qiz8kIx8+IEDY0n4XTEMgeug33RiUT4g+dabGKmrzz
+	CxNfS3THeZUWs5k//A2N28S8ayumVgI8GHjJOuI2+/+9nyLuan31vlx0Fs19TBJgtOs+xk
+	iTjIMeEOWQ/u+F68/Uq3i/B3qwoLgUOYqM9qK1mXKo7vRhVhWx15xsP5abAASxvHqKfywx
+	vRRKNnEwAxjImw9Ckcn0agSTdWY0eVglOF90E5DcsxDxsn2OxjcddnlYyZvldO4/25OYxs
+	ORB7Qme3FVgiIV0sdEuFaENnOFQHbcJYbYhp8RrQAeCHr3ix+J2d1+KZkm+rxQ==
+Date: Wed, 21 Aug 2024 10:17:48 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] ASoC: dapm-graph: add component on/off and route
+ names to graph
+Message-ID: <20240821101748.41799c5a@booty>
+In-Reply-To: <c4e2580f-1675-48b0-b59f-a076eced7675@sirena.org.uk>
+References: <20240607-dapm-graph-v1-0-bb302970d055@bootlin.com>
+ <20240820184406.6ff2654e@booty>
+ <c4e2580f-1675-48b0-b59f-a076eced7675@sirena.org.uk>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[163.com];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[163.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-On Wed, 21 Aug 2024 03:42:38 +0200,
-soxiebing wrote:
+Hello Mark,
+
+On Tue, 20 Aug 2024 18:04:17 +0100
+Mark Brown <broonie@kernel.org> wrote:
+
+> On Tue, Aug 20, 2024 at 06:44:06PM +0200, Luca Ceresoli wrote:
+> > On Fri, 07 Jun 2024 09:41:50 +0200
+> > Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:  
 > 
-> From: songxiebing <songxiebing@kylinos.cn>
+> > > This small series adds some improvements to dapm-graph in order to produce
+> > > a more correct and informative graph.  
 > 
-> When an azx_get_desponse timeout occurs, ensure that bus_reset
-> can be used when fallback_to_single_cmd is not supported.
+> > Gentle ping about this series.  
 > 
-> Signed-off-by: songxiebing <songxiebing@kylinos.cn>
+> > It applies and works fine on current master.  
+> 
+> Please don't send content free pings and please allow a reasonable time
+> for review.  People get busy, go on holiday, attend conferences and so 
+> on so unless there is some reason for urgency (like critical bug fixes)
+> please allow at least a couple of weeks for review.  If there have been
+> review comments then people may be waiting for those to be addressed.
 
-Why do you need to change?  Does it fix any real problem you faced?
+I'm sorry about the noise. I thought it was worth in this case because:
 
+ * this series has been sent 2.5 months ago
+ * there was no reply at all
+ * AFAIK and according to MAINTAINERS there is no patchwork catching
+   tools/sound/
 
-thanks,
+So it was looking much more like something gone into oblivion than
+being on someone's TODO list.
 
-Takashi
+> Sending content free pings adds to the mail volume (if they are seen at
+> all) which is often the problem and since they can't be reviewed
+> directly if something has gone wrong you'll have to resend the patches
+> anyway, so sending again is generally a better approach though there are
+> some other maintainers who like them - if in doubt look at how patches
+> for the subsystem are normally handled.
+
+Apologies, my fault for not having checked the archives. Note taken.
+
+After doing so now however, I must say that while counting the resends
+is easy, counting the pings in a somewhat reliable way is very time
+consuming. It would be nice to have this info in a more reachable way
+(MAINTAINERS?).
+
+Luca
+
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
