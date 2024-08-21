@@ -1,120 +1,102 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D04D1547D4
-	for <linux-sound@vger.kernel.org>; Wed, 21 Aug 2024 11:35:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6472019259A;
+	Wed, 21 Aug 2024 11:49:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724240164; cv=none; b=HkzSvv2xw98nkJe1Gnp7YbmlfeMfhCzj9d8nBaUNot7/5qMKU1i+D/lCpIfVHyL/FhF9tDhjf0KQ0dlzxOzCEjsEo+KiyyIR0JEsQ3TVQhAR05HZEPH/owZYLt5eyF9QCmrYAknMrh49+VTfFGCk8EacP/37/TtHCKCPe4yqvrM=
+	t=1724240973; cv=none; b=gNYpUCuq525ITb47KVVmTwPPlcOAI9NL2bKmJqM6nDYhe8n30dQrnxg26wKc0w43vIrD5elhF87YM8wmzsxF06GALLOLmFC8AqQ5sS0j1tJItJ4v99Uk2RGZk6hhWeUxVMY8FbcFdNBiGsM/f98NjfUoCPVoZQ0eR4z4wbPdFkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724240164; c=relaxed/simple;
-	bh=RauXIEjss/Kt/fbkR5BWfdjC6E9o+1Ud5Sis4BLRdcA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Wl8RlTvWIJOyyYsSMggRtkd2AM0ZQCqw5zuXCVASLDJ1JjejH9UyhRoeMxb1DFSsoOLRc6dkAMR9DsW8IwCRUqUNBRugo1NvLuWBtzGEoGrAFhaMi44eH5UvL1Yr6MsCdIoJoY4q15RdtmoE9mSMNxA/2usH7XPXZRV1gdHf13I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=m41pYc11; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	s=arc-20240116; t=1724240973; c=relaxed/simple;
+	bh=ZNOIiksq+oIvdQ6nChxSzgVj3WAtiicwlWk2MzXMfF8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=ftiVi/HZszCEfxRnlvxP4rOJ02tgxbOd4gR7Lkbsrmkiv4Z7TiJfM9Wn2bpsqNW8k0ueq6uYYZB7zdUOkWS+ct3b88hgAJ6mZ8rKL2SYUvqP3SJ+uFxTFwnvH0ZpB+R2Ef/F6FYmva8v8yxs0w9YAhETcaOmZgZ5egrRXWYOT7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=On+GWy28; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="m41pYc11"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 8C6272EA9;
-	Wed, 21 Aug 2024 13:35:51 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 8C6272EA9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1724240151; bh=2gLd3JzeaacBgyFQP/Whb1BnNyRV/OW09p49OxqOoPc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=m41pYc11RGu2Hqmr98BSqjUkPFsCSyUqLbTl1DZ6E69F+7ENbWH4BF+el2/hj3tdy
-	 LmRIRNCszevfdZxK8gxoKuo335d2RQ+2gCyjGvAh8RqbE+Hu2m0SvVX6AIwvblro9e
-	 ntuPJYcfxppMOXachVOytQhXMIZ6Co6e36Q0/ehU=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Wed, 21 Aug 2024 13:35:43 +0200 (CEST)
-Message-ID: <bfa97823-d638-41aa-b972-0efd00a6091a@perex.cz>
-Date: Wed, 21 Aug 2024 13:35:42 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="On+GWy28"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-533462b9428so2109285e87.3;
+        Wed, 21 Aug 2024 04:49:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724240969; x=1724845769; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MuMMiFy/GV/lo8qvjkEdntUASLQW+h7BP1y0eXqQ2Fk=;
+        b=On+GWy28spkefp1kxyhb8ci3UmCdA7uos/e34JEbPlNGvO3VibxHnV+QPRdeAlbD8j
+         ujuKRVZvwupv4RpaaI7W0TOaE6rFL6mX8FXWWcYYpAgvBAsEAFcKH1mZiJOxq8fRxd9I
+         +P/LsOvU0/Xhf6P1luQmum5VNsuI4RSY7INNllf72AYSEFaWma9H/ynbVWW3nnuO8X9o
+         bqEPsmIB0eVIvwATgUaGhf0EThrCEOKdek/8DUStVU0neXDbBB6ffIcacP2ZIdOoWw7w
+         kkgKYVPxanqLzoXctLYNrkpYk+BUfxFr9K9Gp2DKJTmBhSZg+0lK7pJiLRMS5e30lGte
+         Lk7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724240969; x=1724845769;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MuMMiFy/GV/lo8qvjkEdntUASLQW+h7BP1y0eXqQ2Fk=;
+        b=nd+mDTOrn9m78YGvOOAswY69Tu1S5pxRlwgOldPDS2YpSWpD3+JrAXYkIqZHogzGk3
+         kXnj+mKBwhqAM3k9O+7jyOyyeQXq2WhEI2c+GE1MweFYoihVdlDQpgU4pObw6CPYuc1J
+         5kU7lVBde5zhMMqucWnd5RTVKDPL5r+DvoPT+XpTLTTwXvb3iNVDaqipGn5+nSXUNFmw
+         Bwr1JWT5bxE0Sdw37QHcnRl+P3ADpdckOOUxyLbQsLg7RzJ7vfT40BtDK0QjLgYncqhL
+         6OQ9gGHzadPfJOSmDrT5HuBCC4gfk+8Kw5dN9vQ2Vj7YMYmBLEOcB6yOHXjva5oTOkjP
+         Y/Ew==
+X-Forwarded-Encrypted: i=1; AJvYcCUgcabg/EhPBeDCUL/rAXl+7WcqBmGDckc2tj1KHOacjEbYCG0udaixAgyqS9SbVxw0ecsLlLO9E1ilGfcr@vger.kernel.org, AJvYcCXaeL4AWosMUnOld6EXa8NXyqv04RtoqGb+CgK2OC+D/ORo30mLA9BEun6WB+Orxik+rgc/GFg3xDwhBn4=@vger.kernel.org, AJvYcCXmdVyXlfBm4J0ctPZv8TCPMS/wDyfxOxiRj9daMym4DevyEF/u3/N8WhBpSnex0KpZ0NC19coB4hf1nPYw@vger.kernel.org
+X-Gm-Message-State: AOJu0YwxPRb+xVEZwhCMZecZSTsANDymhU5og8haLnEeC88sqekyi/mE
+	WkVShB6SOdvzLxElA6iBulzCURiEZO1/L2LEQAv/Ew+EA6zJTjsz
+X-Google-Smtp-Source: AGHT+IERUWWgK3HBz7H/4+znx84XAekugvyQB1GyHzWt3CJXUdgvULEOKqQjl6jNQIER3p0yxeZlVg==
+X-Received: by 2002:a05:6512:1256:b0:533:324a:9df6 with SMTP id 2adb3069b0e04-533485928cdmr2036535e87.29.1724240969163;
+        Wed, 21 Aug 2024 04:49:29 -0700 (PDT)
+Received: from localhost (craw-09-b2-v4wan-169726-cust2117.vm24.cable.virginm.net. [92.238.24.70])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a86702ad43fsm89820966b.136.2024.08.21.04.49.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Aug 2024 04:49:28 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: codecs: wcd934x: make read-only array minCode_param static const
+Date: Wed, 21 Aug 2024 12:49:27 +0100
+Message-Id: <20240821114927.520193-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] [RFC] ASoC: Conditional PCM support
-To: Cezary Rojewski <cezary.rojewski@intel.com>, broonie@kernel.org
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, tiwai@suse.com,
- amadeuszx.slawinski@linux.intel.com, pierre-louis.bossart@linux.intel.com,
- hdegoede@redhat.com
-References: <20240821101816.1494541-1-cezary.rojewski@intel.com>
-From: Jaroslav Kysela <perex@perex.cz>
-Content-Language: en-US
-Autocrypt: addr=perex@perex.cz; keydata=
- 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
-In-Reply-To: <20240821101816.1494541-1-cezary.rojewski@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On 21. 08. 24 12:18, Cezary Rojewski wrote:
-> Conditional PCM (condpcm) helps facilitate modern audio usecases such as
-> Echo Cancellations and Noise Reduction. These are not invoked by the
-> means of userspace application opening an endpoint (FrontEnd) but are a
-> "side effect" of selected PCMs running simultaneously e.g.: if both
-> Speaker (source) and Microphone Array (sink) are running, reference
-> data from the Speaker and take it into account when processing capture
-> for better voice command detection ratio.
-> 
-> Which PCMs are needed for given conditional PCM to be spawned is
-> determinated by the driver when registering the condpcm.
+Don't populate the read-only array minCode_param on the stack at
+run time, instead make it static const.
 
-Perhaps the naming may be changed to "sidepcm" or "monitorpcm"/"monpcm". It 
-looks better in my eyes.
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ sound/soc/codecs/wcd934x.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-					Jaroslav
-
+diff --git a/sound/soc/codecs/wcd934x.c b/sound/soc/codecs/wcd934x.c
+index 291d0c80a6fc..910852eb9698 100644
+--- a/sound/soc/codecs/wcd934x.c
++++ b/sound/soc/codecs/wcd934x.c
+@@ -2643,8 +2643,8 @@ static void wcd934x_mbhc_get_result_params(struct wcd934x_codec *wcd934x,
+ 	s16 c1;
+ 	s32 x1, d1;
+ 	int32_t denom;
+-	int minCode_param[] = {
+-			3277, 1639, 820, 410, 205, 103, 52, 26
++	static const int minCode_param[] = {
++		3277, 1639, 820, 410, 205, 103, 52, 26
+ 	};
+ 
+ 	regmap_update_bits(wcd934x->regmap, WCD934X_ANA_MBHC_ZDET, 0x20, 0x20);
 -- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+2.39.2
 
