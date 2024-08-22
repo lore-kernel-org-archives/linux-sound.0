@@ -1,132 +1,105 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC33F1AAE36
-	for <linux-sound@vger.kernel.org>; Thu, 22 Aug 2024 12:11:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A469F1E4B0;
+	Thu, 22 Aug 2024 12:34:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724328704; cv=none; b=MsvEl58GONZHRTeWDCd0x5793dmLTtiPW80bTDDaXr9hKfdN27jX++5E0VhFjaERrgrcyRTQp5nUL+J50a7iQfv6sOtEvKxd3MbKvE5BtuJHz/RmINEcLpYssgxlqsCQ/fvGRJrYritkIPdS+zmFJGYJ+l2Aa65+SaEd/PSR2ks=
+	t=1724330073; cv=none; b=cs9/JICZoBu5XfiWQI5myMGHp9F2eUbpL3AGmLF67C/sQSAqzIPNSK32HKvHLsz0h/VSmsFS1dUVq/UJx1/z5TPsMDBnJEoBXXQ1ngRkx7qCoLzQCWRLbYK54BrX+QWTYYfL149zPrpgu8xe0ftOWN7ADIIhA8LZE6YJV9qOYC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724328704; c=relaxed/simple;
-	bh=6bwXf/4AgzEicEQPinyElUwNGYc5AEniUJWlOIl3kvg=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=b6l2OiCW9HIMwWNGvBO4w/j51x4wiiTHOC3a1vJDRBelGqXNhUF0qMJ7e+SULLvJcjxcWAMbcnb4qWX6etPWpc/yJYiRaglEfButSoyBAVv63+DirP/R+WvC4wrgosD/UpI2ayncCPFx+NKNgvHBV/7BwQwAaGWaSwdgo8wzbw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.162.254])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4WqMSx6950zhYBp;
-	Thu, 22 Aug 2024 20:09:37 +0800 (CST)
-Received: from kwepemf500003.china.huawei.com (unknown [7.202.181.241])
-	by mail.maildlp.com (Postfix) with ESMTPS id E3BB718010A;
-	Thu, 22 Aug 2024 20:11:38 +0800 (CST)
-Received: from huawei.com (10.175.112.208) by kwepemf500003.china.huawei.com
- (7.202.181.241) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 22 Aug
- 2024 20:11:38 +0800
-From: Zhang Zekun <zhangzekun11@huawei.com>
-To: <lgirdwood@gmail.com>, <broonie@kernel.org>, <perex@perex.cz>,
-	<tiwai@suse.com>, <linux-sound@vger.kernel.org>
-CC: <zhangzekun11@huawei.com>
-Subject: [PATCH] ASoC: simple-card: Use scoped of_node_put() to simplify code logic
-Date: Thu, 22 Aug 2024 19:58:31 +0800
-Message-ID: <20240822115831.20000-1-zhangzekun11@huawei.com>
-X-Mailer: git-send-email 2.17.1
+	s=arc-20240116; t=1724330073; c=relaxed/simple;
+	bh=3t8k4IPYRftT6nZ8UX7GzF4RhagPZ3in+/Up5WFzFM8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tF0EKBMbxFJZMQozro8y1ScL7mxXkxB7Sj6TIvOoOGjxXPxwVvbf6uT3Cykv5RbWqCuQpkOmWNmiCX9yCWcwUbXpvNRACbB2+ceVgigj3C1mhQXektaloZiA+3FgdXSigIjJrOEUteK2kqmsoEOfijxO/BYI1HxCMwPo3IqSd0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=X8qU7jXY; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="X8qU7jXY"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47LNl4nZ025114;
+	Thu, 22 Aug 2024 06:57:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=Ek+bakmG4WGbqKlO
+	WEEBoQdUCTBQawtInzbF4OKh30E=; b=X8qU7jXY0JBX6Z9n1ExbYLjOi3tLUBla
+	pKpyyg2apofFaFKrj2/rx9oERt3u1QgYUz3OgWhBFOvPCstAHjLH1UxwNiV/KFh4
+	MqsR20YoUIrQRgT33Mk8PbBjjyDwzxAUsefDOyMIZteAofoQFGNuTqf0NvY+Nav4
+	wmBAskDIcFMQkISzYQr/uwAhEltndSOeopKQKyILOoqCL6wqv2XDL8aSOLVbRaxv
+	V553ylPPHNKqU3vgFJrEdesmjqzc1TBcSE41lJuCiarfrI6lpPn6FKAVqGe6p6JK
+	GgaWVMz9spk9tSjAom3dmPlpnMMA7IrcB98rJwMl+5NiC3etMMUSSA==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 412s8x5pa3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 22 Aug 2024 06:57:27 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 22 Aug
+ 2024 12:57:25 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Thu, 22 Aug 2024 12:57:25 +0100
+Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 759DA820244;
+	Thu, 22 Aug 2024 11:57:25 +0000 (UTC)
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+To: <broonie@kernel.org>
+CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <patches@opensource.cirrus.com>
+Subject: [PATCH] ASoC: cs-amp-lib-test: Force test calibration blob entries to be valid
+Date: Thu, 22 Aug 2024 12:57:25 +0100
+Message-ID: <20240822115725.259568-1-rf@opensource.cirrus.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- kwepemf500003.china.huawei.com (7.202.181.241)
+X-Proofpoint-ORIG-GUID: Q3c_HikjKUd-Hxa-t1uddM9YssOYEp4l
+X-Proofpoint-GUID: Q3c_HikjKUd-Hxa-t1uddM9YssOYEp4l
+X-Proofpoint-Spam-Reason: safe
 
-Use scope based of_node_put() to simplify the code logic, and we don't
-need to call of_node_put(). This can simplify code logic a bit.
+For a normal calibration blob the calTarget values must be non-zero and
+unique, and the calTime values must be non-zero. Don't rely on
+get_random_bytes() to be random enough to guarantee this. Force the
+calTarget and calTime values to be valid while retaining randomness
+in the values.
 
-Signed-off-by: Zhang Zekun <zhangzekun11@huawei.com>
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+Fixes: 177862317a98 ("ASoC: cs-amp-lib: Add KUnit test for calibration helpers")
 ---
- sound/soc/generic/simple-card.c | 28 +++++++++-------------------
- 1 file changed, 9 insertions(+), 19 deletions(-)
+ sound/soc/codecs/cs-amp-lib-test.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/sound/soc/generic/simple-card.c b/sound/soc/generic/simple-card.c
-index d2588f1ea54e..60a09ee5b159 100644
---- a/sound/soc/generic/simple-card.c
-+++ b/sound/soc/generic/simple-card.c
-@@ -375,8 +375,8 @@ static int __simple_for_each_link(struct simple_util_priv *priv,
+diff --git a/sound/soc/codecs/cs-amp-lib-test.c b/sound/soc/codecs/cs-amp-lib-test.c
+index 15f991b2e16e..8169ec88a8ba 100644
+--- a/sound/soc/codecs/cs-amp-lib-test.c
++++ b/sound/soc/codecs/cs-amp-lib-test.c
+@@ -38,6 +38,7 @@ static void cs_amp_lib_test_init_dummy_cal_blob(struct kunit *test, int num_amps
  {
- 	struct device *dev = simple_priv_to_dev(priv);
- 	struct device_node *top = dev->of_node;
--	struct device_node *node;
--	struct device_node *add_devs;
-+	struct device_node *node __free(device_node) = NULL;
-+	struct device_node *add_devs __free(device_node) = NULL;
- 	uintptr_t dpcm_selectable = (uintptr_t)of_device_get_match_data(dev);
- 	bool is_top = 0;
- 	int ret = 0;
-@@ -393,9 +393,8 @@ static int __simple_for_each_link(struct simple_util_priv *priv,
- 	/* loop for all dai-link */
- 	do {
- 		struct simple_util_data adata;
--		struct device_node *codec;
--		struct device_node *plat;
--		struct device_node *np;
-+		struct device_node *codec __free(device_node) = NULL;
-+		struct device_node *plat __free(device_node) = NULL;
- 		int num = of_get_child_count(node);
+ 	struct cs_amp_lib_test_priv *priv = test->priv;
+ 	unsigned int blob_size;
++	int i;
  
- 		/* Skip additional-devs node */
-@@ -409,7 +408,7 @@ static int __simple_for_each_link(struct simple_util_priv *priv,
- 					     PREFIX "codec" : "codec");
- 		if (!codec) {
- 			ret = -ENODEV;
--			goto error;
-+			return ret;
- 		}
- 		/* get platform */
- 		plat = of_get_child_by_name(node, is_top ?
-@@ -417,14 +416,14 @@ static int __simple_for_each_link(struct simple_util_priv *priv,
+ 	blob_size = offsetof(struct cirrus_amp_efi_data, data) +
+ 		    sizeof(struct cirrus_amp_cal_data) * num_amps;
+@@ -49,6 +50,14 @@ static void cs_amp_lib_test_init_dummy_cal_blob(struct kunit *test, int num_amps
+ 	priv->cal_blob->count = num_amps;
  
- 		/* get convert-xxx property */
- 		memset(&adata, 0, sizeof(adata));
--		for_each_child_of_node(node, np) {
-+		for_each_child_of_node_scoped(node, np) {
- 			if (np == add_devs)
- 				continue;
- 			simple_parse_convert(dev, np, &adata);
- 		}
- 
- 		/* loop for all CPU/Codec node */
--		for_each_child_of_node(node, np) {
-+		for_each_child_of_node_scoped(node, np) {
- 			if (plat == np || add_devs == np)
- 				continue;
- 			/*
-@@ -454,22 +453,13 @@ static int __simple_for_each_link(struct simple_util_priv *priv,
- 					ret = func_noml(priv, np, codec, li, is_top);
- 			}
- 
--			if (ret < 0) {
--				of_node_put(codec);
--				of_node_put(plat);
--				of_node_put(np);
--				goto error;
--			}
-+			if (ret < 0)
-+				return ret;
- 		}
- 
--		of_node_put(codec);
--		of_node_put(plat);
- 		node = of_get_next_child(top, node);
- 	} while (!is_top && node);
- 
-- error:
--	of_node_put(add_devs);
--	of_node_put(node);
- 	return ret;
+ 	get_random_bytes(priv->cal_blob->data, sizeof(struct cirrus_amp_cal_data) * num_amps);
++
++	/* Ensure all timestamps are non-zero to mark the entry valid. */
++	for (i = 0; i < num_amps; i++)
++		priv->cal_blob->data[i].calTime[0] |= 1;
++
++	/* Ensure that all UIDs are non-zero and unique. */
++	for (i = 0; i < num_amps; i++)
++		*(u8 *)&priv->cal_blob->data[i].calTarget[0] = i + 1;
  }
  
+ static u64 cs_amp_lib_test_get_target_uid(struct kunit *test)
 -- 
-2.17.1
+2.39.2
 
