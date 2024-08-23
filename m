@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C94195;
-	Fri, 23 Aug 2024 22:57:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1CEB195
+	for <linux-sound@vger.kernel.org>; Fri, 23 Aug 2024 22:57:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724453827; cv=none; b=Eq18eduEzdLbk+11ZbD3esiOitxQ+HYgrqgqvJk41mXkcNWKiGbCCo5HsAMVgUi+DV69BQIqYX6UGzPJqM3bs84rJk6/2812g7G0pHc37IT6fkuPkFQ4AQKJO+zgfPHgFI/cjVD2uXbZEDKXt+Jin3Gu0NfIN6KoeIcwCx4Q/qE=
+	t=1724453829; cv=none; b=JzgvTcj/76rDJNbdiRUqoScTRmXCzVhpCn0JlfZq4AhGewISzu1GKwzBTdZsAE/ALrdSp9hyluwdOyl0j4K1OA5L3obxjxDZ5UuJ+AbPe+Vf9VdcMcnshSYoQK/fcuslWUS9za02S68tSqufB+xCekO9u0i/FdloUpIglLhKSEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724453827; c=relaxed/simple;
-	bh=YEWlAW8EptzlDgh1PYX50kGePpNqMzTDiwHO2I5Gl2k=;
+	s=arc-20240116; t=1724453829; c=relaxed/simple;
+	bh=W/CDtPs4vrEPcGRTjULwaMcukxhP03HdOs/6BCsQpoA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=F4H08RSbn47PEAq0qe7dl67fN7QbcQ4pOL15QxjKGfrJ6RWrCKqkHX86tmywdPXrCa8rWbSc3NHJDjZK4hVzD041fHo/AMqPAMpijw6h5E5OY7neLkxccUnLMnaJ++tFkyllyng1Nn0cbsbtJgZCxvGMp90CNGXlTgJVSZv0lUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gDMHd7MU; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=ri1wVGUXYaXEHctH5AoGjh9o7XGUK75coye2cdxZCNlHAvRojk/o6+rS0Zq6Qg3KPh8wmDG5JsVku2TOgLYiyrje4e78exgDQsA5cmk8OvN9gJDCfvuPMmw797mBqUgNCI96lhfDFEp4E1Euy2EMnZq8YR2q3Et3k64ID7ukC6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KXvNhq2a; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gDMHd7MU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA751C32786;
-	Fri, 23 Aug 2024 22:57:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KXvNhq2a"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60154C4AF0C;
+	Fri, 23 Aug 2024 22:57:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724453827;
-	bh=YEWlAW8EptzlDgh1PYX50kGePpNqMzTDiwHO2I5Gl2k=;
+	s=k20201202; t=1724453829;
+	bh=W/CDtPs4vrEPcGRTjULwaMcukxhP03HdOs/6BCsQpoA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=gDMHd7MUyLQN+4VWO6M6ZxUMojaZYC+CQLngo6j60NPuhhoi5GQO/LmfpGXA06vYN
-	 OL1HGk6wEJpCWVLIJV5T72eeZUcA8F7IPoUWrHmeRoFjvwj4DZGxzPmpVqX47mQULM
-	 rNWR7pAIkWHHghTtdeHHyPS6DBvseCwFknvv/4tEh4lwOX/G3tBbWrPu3NMe7J1gEQ
-	 c1Hf/EdxqLa/UT4NmOL+co9xdrZpq2h022oPHlCaiFb+WLQ4ZhsgIIEjuxoFzyMFMw
-	 zg3YWuQzE5QpFVAcA0JFeG+jf14+/ln+Y2Vx5BpOQg0xxujKoB8y/jzravjl14u2sL
-	 cHzke2vv9lyog==
+	b=KXvNhq2aL2PwMIpKJAGFk+z6TOJGfl9HQt/+S/agmM6EWrG5FhLzfmCl3CFZi7G7V
+	 iZnTQOCNUYsSD2TYcekZyU23Goy7UcdN+quYqdJHjVdVmZb7PPDit0S0CIqXC8nVpo
+	 KnLCVq7R/ECVYAdDsH7wW3akvOsTgaMlmd3rrn45R9XZ4dqopm6Q9Qe7tVhGQt2oZx
+	 Q21eBaUzbVPmc1A1fi2HDQQhEGGvsr5FByB3KQQE2iLgvtpoxP+GpxuMSAWG4Wuj7R
+	 NYEQJHRKjZn5kCIXYVAP28ZNt1DiAX2IilZkDPlWJeNhE/DwY685jX4DC+S20olUe8
+	 trzXu+35VmY/A==
 From: Mark Brown <broonie@kernel.org>
 To: Cezary Rojewski <cezary.rojewski@intel.com>, 
  Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
@@ -33,14 +33,13 @@ To: Cezary Rojewski <cezary.rojewski@intel.com>,
  Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
  Bard Liao <yung-chuan.liao@linux.intel.com>, 
  Hans de Goede <hdegoede@redhat.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- stable@vger.kernel.org
-In-Reply-To: <20240823074217.14653-1-hdegoede@redhat.com>
-References: <20240823074217.14653-1-hdegoede@redhat.com>
-Subject: Re: [PATCH 6.11 regression fix] ASoC: Intel: Boards: Fix NULL
- pointer deref in BYT/CHT boards harder
-Message-Id: <172445382406.842154.866595904815365634.b4-ty@kernel.org>
-Date: Fri, 23 Aug 2024 23:57:04 +0100
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+In-Reply-To: <20240823074305.16873-1-hdegoede@redhat.com>
+References: <20240823074305.16873-1-hdegoede@redhat.com>
+Subject: Re: [PATCH] ASoC: Intel: soc-acpi-cht: Make Lenovo Yoga Tab 3 X90F
+ DMI match less strict
+Message-Id: <172445382681.842154.8004186993571993560.b4-ty@kernel.org>
+Date: Fri, 23 Aug 2024 23:57:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,14 +50,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-37811
 
-On Fri, 23 Aug 2024 09:42:17 +0200, Hans de Goede wrote:
-> Since commit 13f58267cda3 ("ASoC: soc.h: don't create dummy Component
-> via COMP_DUMMY()") dummy codecs declared like this:
+On Fri, 23 Aug 2024 09:43:05 +0200, Hans de Goede wrote:
+> There are 2G and 4G RAM versions of the Lenovo Yoga Tab 3 X90F and it
+> turns out that the 2G version has a DMI product name of
+> "CHERRYVIEW D1 PLATFORM" where as the 4G version has
+> "CHERRYVIEW C0 PLATFORM". The sys-vendor + product-version check are
+> unique enough that the product-name check is not necessary.
 > 
-> SND_SOC_DAILINK_DEF(dummy,
->         DAILINK_COMP_ARRAY(COMP_DUMMY()));
-> 
-> expand to:
+> Drop the product-name check so that the existing DMI match for the 4G
+> RAM version also matches the 2G RAM version.
 > 
 > [...]
 
@@ -68,8 +68,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: Intel: Boards: Fix NULL pointer deref in BYT/CHT boards harder
-      commit: 0cc65482f5b03ac2b1c240bc34665e43ea2d71bb
+[1/1] ASoC: Intel: soc-acpi-cht: Make Lenovo Yoga Tab 3 X90F DMI match less strict
+      commit: 839a4ec06f75cec8fec2cc5fc14e921d0c3f7369
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
