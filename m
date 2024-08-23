@@ -1,127 +1,139 @@
-Received: from smtpbgsg2.qq.com (smtpbgsg2.qq.com [54.254.200.128])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5FA8165EFC;
-	Fri, 23 Aug 2024 10:00:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.128
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 448A128EA;
+	Fri, 23 Aug 2024 10:02:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724407208; cv=none; b=qT5ULJG4MKohUIXWXt6qZQb/jMf7iqt3W5s8mniylTQrGBREu2RVQV4gOhxKiVTAKRB+VlTr9DMji2GUAQ1+r/cOybPsWxemg+04opm8gudu0wnjZJzE/Wozkt7Yn/E55dWfnY3hRwj7bi928wTF7C+IUg9fOXxWIE3xGyAMJhU=
+	t=1724407358; cv=none; b=DHIPB9DegOg8K+atkOzpltedsq6yUHexMfSRb63FrO8Unj+MXwSLY+EstzGf3uUr0k9A1grJk5vlhQFoprbjwKXN+CsqAbdQ7UumfWakKuvzNDHaahjXwP5fZrSi2twa4TgpPKQ9oWwNuAsno6Lf7pLsLcvNtjYFjqhRzXS/1t4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724407208; c=relaxed/simple;
-	bh=wbYaNhiIBZjc4aKCMq6CVTE+GcgRoD5emtq3OxLCmAE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Xe5Iu7F2Q1UT7xFcSpINDqEQZjuI8kHU+tl4mlT9mgd7YZgdxUMvDpNG/7d9xolkCgfYODgmCZFB+SOUjq75mqbBcmO1/AcA6skrJjor3Erwm3UtuFoKyFz8FI6k7pFdpR1sn9Qu/MnGTsGla/zjr85P+/VG7koEhhEWjiF0ELQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=e3oL+Vyz; arc=none smtp.client-ip=54.254.200.128
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="e3oL+Vyz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1724407071;
-	bh=AL6MK78b657H9ekXMzTRXcs6I3vkkW+q1pws227ee18=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=e3oL+Vyz6I8dsZh9MA/N4khjFyAK8UN7dr4US+Xws7XcFaRGI+Hyu0q8BGzAa4GN6
-	 WEfJjkWfxmyts9SpyroMvCJSEwiokareCEqGlcod9TAgHXnfltA+3B8/q40KSR+HEr
-	 QTeRhdO8ndjTgyoS7PygctWjF0BJG5HHxqYahstg=
-X-QQ-mid: bizesmtp78t1724407041trx4aw1b
-X-QQ-Originating-IP: UR+HlJ5nXpwlwBldt1AXekq/SxhUNl+Yp7KGARLTxos=
-Received: from localhost.localdomain ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Fri, 23 Aug 2024 17:57:18 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 7456191992919341797
-From: WangYuli <wangyuli@uniontech.com>
-To: bhelgaas@google.com,
-	siyuli@glenfly.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	pierre-louis.bossart@linux.intel.com,
-	maarten.lankhorst@linux.intel.com,
-	peter.ujfalusi@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	rsalvaterra@gmail.com,
-	suijingfeng@loongson.cn
-Cc: linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	jasontao@glenfly.com,
-	reaperlioc@glenfly.com,
-	guanwentao@uniontech.com,
-	linux@horizon.com,
-	pat-lkml@erley.org,
-	alex.williamson@redhat.com,
-	WangYuli <wangyuli@uniontech.com>
-Subject: [PATCH v2] PCI: Add function 0 DMA alias quirk for Glenfly arise chip
-Date: Fri, 23 Aug 2024 17:57:08 +0800
-Message-ID: <CA2BBD087345B6D1+20240823095708.3237375-1-wangyuli@uniontech.com>
-X-Mailer: git-send-email 2.43.4
+	s=arc-20240116; t=1724407358; c=relaxed/simple;
+	bh=oiYKzaGj7xrlWfmhZHg5Hat7MAkPd2ergf45bH1IXOU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dAu+0XTpAdaiBVTh0DqXBWp7U4G1yy/ldkdu1O7ZclbLbtNhsiWl8TSI5dXdxjmR5pyvpCh6329oAezeUSqJFnk8OeKjqHmkI+fEzleaJRiEOxTJyzxfKaiogcydUqov0SrJCHPNDhDIiE7yhUvrNzWm22la010ZIQ3EVniPVeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-6b5c37a3138so16709347b3.1;
+        Fri, 23 Aug 2024 03:02:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724407355; x=1725012155;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/StzLHVzGIe2hAzWOEh0nBxaHg45IwWO5eMFJW/nYrQ=;
+        b=AucMRNy5npNYHI/iTZ2GIaE4V+zUCV+AjHiuTfqvIveQO5FN0k7AIgcdvEJ/byehT8
+         RVazeH3hJ5W9vgdRaBIvihwDlZNsnxWNXgMAuCu20jWvt+MeT/Y6E/n/0lIVN6Q8oA3C
+         uMF8ZOElVOuLmrpPjk5XMyOwOnaxLzCV90F+wdxTPAn7ECEkPgUD9PC95+lnL2okpWJ9
+         964Y0fjWHp10XkCmvf2pkDiDEvjyyqfpsb8+nDSJYNG6/+1EzLKpnL/K5koV3lWzwPsK
+         1gqOpSatxKI9hPd/VwWs3XXgoEstJpQtrji5SyN6nRWfTrO2Vyeyy+Rllnah5Wa/DFqX
+         GMeA==
+X-Forwarded-Encrypted: i=1; AJvYcCUg6KxJv3lBvve+DFu7tl6gbUIYKAuAuqwAX2KGww0FZ4lx0lMmH4B1SV5ZH8C1+MuEaHztma7aAQOFtLk=@vger.kernel.org, AJvYcCUwUZgF+mdD4O10RC99eBmBVrUVkA/Ck/uRAj8AWX2Z1GQ72S1i20RbxeOPvpAe8NcleiiWDWJKR+vrY0GhG6pE4J8=@vger.kernel.org, AJvYcCVKwPluRC9kFlTXcBmpJ389JeFfXgUbFKXaXq5E8KjPwNzVhFV/FN2xHBnAmTE44XaUS/hfJIkxtHG7@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxve+ATyB7W5UIMWJYWIBe/RNyXdrCB9fgH0BOlOCu3iUYkOErU
+	AMqEzOYuuFSe/qwQsUTi+16/19rp/ns9JoHeVzTW9FCwcFuKx29SkmTYXlkJ
+X-Google-Smtp-Source: AGHT+IGtpP5lKFtWxufcpa1bwEy4pbPv3bWWOt/4qwDT6d1JB2vvn6eAHmJR3tIhEZz80KkiXxTKfQ==
+X-Received: by 2002:a05:690c:4585:b0:6b0:488a:5056 with SMTP id 00721157ae682-6c6263ee1c8mr15321077b3.22.1724407355525;
+        Fri, 23 Aug 2024 03:02:35 -0700 (PDT)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6c399cb53f6sm5002797b3.3.2024.08.23.03.02.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 23 Aug 2024 03:02:35 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-690e9001e01so17161727b3.3;
+        Fri, 23 Aug 2024 03:02:35 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVGMOu5/wZ7bm5mngVVECdJrG82jlJUt2lCBzLXUGZDyF5rhIaofJ2yxKQR0xg5dBALIYEewNppCTIr2BfL3C7xPsw=@vger.kernel.org, AJvYcCXDTSVswxBppOi0HhIXuTD7zouH6rzMlpqnUQBlyDIBEW0jjVmi4NJ1eBV50Hb6AObw3GSC8Qj5HlYe@vger.kernel.org, AJvYcCXTk2g1bfzojaOsH8FOT2UJfVeCgqEAuQibqaecM2HxXPVpb0e/aiuirfSBcsiIwK0LrYfZlpiTvQhy034=@vger.kernel.org
+X-Received: by 2002:a05:690c:2e8a:b0:6ad:f6ae:768b with SMTP id
+ 00721157ae682-6c62924f5dcmr14634597b3.31.1724407354945; Fri, 23 Aug 2024
+ 03:02:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+References: <20240725084559.13127-1-biju.das.jz@bp.renesas.com> <20240725084559.13127-4-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20240725084559.13127-4-biju.das.jz@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 23 Aug 2024 12:02:23 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXwtrCyCA6A2AZwFgQedQt+sXr9iXoVogvo2N2iY9fjMA@mail.gmail.com>
+Message-ID: <CAMuHMdXwtrCyCA6A2AZwFgQedQt+sXr9iXoVogvo2N2iY9fjMA@mail.gmail.com>
+Subject: Re: [PATCH 3/3] arm64: dts: renesas: rzg2lc-smarc: Enable HDMI audio
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add DMA support for audio function of Glenfly arise chip,
-which uses request id of function 0.
+Hi Biju,
 
-Link: https://lore.kernel.org/all/20240822185617.GA344785@bhelgaas/
-Signed-off-by: SiyuLi <siyuli@glenfly.com>
-Signed-off-by: WangYuli <wangyuli@uniontech.com>
----
- drivers/pci/quirks.c      | 6 ++++++
- include/linux/pci_ids.h   | 4 ++++
- sound/pci/hda/hda_intel.c | 2 +-
- 3 files changed, 11 insertions(+), 1 deletion(-)
+On Thu, Jul 25, 2024 at 10:46=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.c=
+om> wrote:
+> Enable HDMI audio on RZ/G2LC SMARC EVK. Set SW 1.5 to OFF
+> position on the SoM module to turn on HDMI audio.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-index dd75c7646bb7..7aad5311326d 100644
---- a/drivers/pci/quirks.c
-+++ b/drivers/pci/quirks.c
-@@ -4259,6 +4259,12 @@ static void quirk_dma_func0_alias(struct pci_dev *dev)
- DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_RICOH, 0xe832, quirk_dma_func0_alias);
- DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_RICOH, 0xe476, quirk_dma_func0_alias);
- 
-+/*
-+ * Some Glenfly chips use function 0 as the PCIe requester ID for DMA too.
-+ */
-+DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_GLENFLY, 0x3D40, quirk_dma_func0_alias);
-+DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_GLENFLY, 0x3D41, quirk_dma_func0_alias);
-+
- static void quirk_dma_func1_alias(struct pci_dev *dev)
- {
- 	if (PCI_FUNC(dev->devfn) != 1)
-diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
-index e388c8b1cbc2..536465196d09 100644
---- a/include/linux/pci_ids.h
-+++ b/include/linux/pci_ids.h
-@@ -2661,6 +2661,10 @@
- #define PCI_DEVICE_ID_DCI_PCCOM8	0x0002
- #define PCI_DEVICE_ID_DCI_PCCOM2	0x0004
- 
-+#define PCI_VENDOR_ID_GLENFLY	    0x6766
-+#define PCI_DEVICE_ID_GLENFLY_ARISE10C0_AUDIO	 0x3D40
-+#define PCI_DEVICE_ID_GLENFLY_ARISE1020_AUDIO	 0x3D41
-+
- #define PCI_VENDOR_ID_INTEL		0x8086
- #define PCI_DEVICE_ID_INTEL_EESSC	0x0008
- #define PCI_DEVICE_ID_INTEL_HDA_CML_LP	0x02c8
-diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
-index b33602e64d17..e8958a464647 100644
---- a/sound/pci/hda/hda_intel.c
-+++ b/sound/pci/hda/hda_intel.c
-@@ -2671,7 +2671,7 @@ static const struct pci_device_id azx_ids[] = {
- 	  .driver_data = AZX_DRIVER_ATIHDMI_NS | AZX_DCAPS_PRESET_ATI_HDMI_NS |
- 	  AZX_DCAPS_PM_RUNTIME },
- 	/* GLENFLY */
--	{ PCI_DEVICE(0x6766, PCI_ANY_ID),
-+	{ PCI_DEVICE(PCI_VENDOR_ID_GLENFLY, PCI_ANY_ID),
- 	  .class = PCI_CLASS_MULTIMEDIA_HD_AUDIO << 8,
- 	  .class_mask = 0xffffff,
- 	  .driver_data = AZX_DRIVER_GFHDMI | AZX_DCAPS_POSFIX_LPIB |
--- 
-2.43.4
+Thanks for your patch!
 
+> --- a/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/rzg2lc-smarc.dtsi
+> @@ -48,10 +58,16 @@ &canfd {
+>  };
+>  #endif
+>
+> +#if (!SW_I2S0_I2S1)
+>  &cpu_dai {
+>         sound-dai =3D <&ssi0>;
+>  };
+>
+> +&ssi0 {
+> +       /delete-node/ port;
+
+Which submode does this delete?
+The conditional one below which is only added when SW_I2S0_I2S1=3D=3D1?
+
+> +};
+> +#endif
+> +
+>  &dsi {
+>         status =3D "okay";
+>
+
+> @@ -177,6 +202,18 @@ &ssi0 {
+>         pinctrl-names =3D "default";
+>
+>         status =3D "okay";
+> +
+> +#if (SW_I2S0_I2S1)
+> +       i2s2_port: port {
+> +               i2s2_cpu_endpoint: endpoint {
+> +                       remote-endpoint =3D <&codec_endpoint>;
+> +                       dai-format =3D "i2s";
+> +
+> +                       bitclock-master =3D <&i2s2_cpu_endpoint>;
+> +                       frame-master =3D <&i2s2_cpu_endpoint>;
+> +               };
+> +       };
+> +#endif
+>  };
+>
+>  #if (SW_RSPI_CAN)
+
+The rest LGTM.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
