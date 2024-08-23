@@ -1,217 +1,233 @@
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011043.outbound.protection.outlook.com [52.101.125.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE19E149C46;
-	Fri, 23 Aug 2024 11:04:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724411077; cv=fail; b=QB7oC4aTBO9BQ24v7QUEolyaiYDxRS+nu4u8d7nROHSIyu1wkukolWz9118qO4Ph6jTvHPH9iAfd8ppkwvsBxe3DRX5+poLocGDR5D4JCy28ZRg4J3zWb6Bs6CB/tmyQLmKbqb+w2Z/5hEAJS0OZ48+ablLNpa/zeJx6VgDArbY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724411077; c=relaxed/simple;
-	bh=IIRI4MGEwSLi8VBI9FqED2iogX5dInCFo6no9RZFDf4=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=KJqPGm1NWOG9Hb3QJSolHN4uoIEDxEesm9sEBHrtelaNSH+ZbzDlaRgdAqa0WnPetW+JXQWhcX7tQUc+HjxAhjnkUYF1s6fO5xqMcaIZP57qbYBHuhuaFPNTMhq1GIp4VeHvSbVaD99mmltGRKiOnPBP6bsGmZqWOiTx0s2Fq1g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=kM+S39Ps; arc=fail smtp.client-ip=52.101.125.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E2C1183061;
+	Fri, 23 Aug 2024 13:07:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724418432; cv=none; b=pr+A7KjCnnmxc/7s4k0+4Se8kctSHYVKUjKuXvZjsT7hvqQ7OJb0mMf/EDdblq9W9yNkNSYI7Boj/+grPzEshc7yP0gtG+HFigMg3XiaLYVH+OrnonipbwyT1hVhfOTxJQN5zMKx82U1af+xIVr6ntbqWWAfIjFtBgA8UbDBI5E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724418432; c=relaxed/simple;
+	bh=nm0P3qLXV1XMzA7xq1pcWKSuPpJGsf16gUPTFe+Xqmw=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=uUohDxYCRdljEnWH4vJLDx3GiECGGjmiLbJjUmURCJjEeBQftDMW7m4+xZG8yDWQ5eMOvnn2XleeNP0XivoLJzTa/2+30gF8LC8UCKH5YZcw4ddFuxj2PWfNOBOad7k/GWeGcx3Y4eyIzF2uDG/qMsW3OCjHASeG+vmSgKxRwOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WUj5L83K; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="kM+S39Ps"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SNlEZNtq5ji9tsJSLBI7iVzbpiJLRPOXp1NWvXbLIt6lfYCwAbrswV6MwNvrKHA9KctoXqWu9NT7erKI2mOphauP7wda8EiLLnSyNPKM9TJdxwITslOT3XZ3/ol43vF9Ttk43qjyadgWOam1srXGkrGRptUHmVUYLhTDgWhA2U+Qm0ExsDjjnYunpx44trIOAGGrsS1Lomfndw9YrhxYTxAXlJ08nzPffvhcD/g3L96JzG/ffoKhKrgvj2KdnoWm2hVIvLoXjqSo8/nHmNw3lwPl5Cgs7cvutqKzRLx2THv5DlsFRP3IdP51vQMlD3zfbegLVSqkHD3xwonRRr6eSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IIRI4MGEwSLi8VBI9FqED2iogX5dInCFo6no9RZFDf4=;
- b=cyTBXVqloEP0abZxw6jTZic2d+a71mYfCh+E5vw86Ps3zy0ewZEfbaclZiCNESAhUa/f8rlbwdKOqsRh9KcjY05EgibWmfcAkRDeew38sWoB6V6gPhEpU66p6uoNFCMC0YX54bZ+vaEFOuDa+50tlpi3YBHrqPbLFy++CpjowDNxfeScZr0WECGCxn5Wm7upMlZuJUcjj2ZOkS1HhU4HeJc4h4XnWzHEKTxJDgjqscfb4jFkEDraveMd0SUHDZl9XocoF7ka3Eu2+Ok41siKxc6hbGOaF348e/RPlJ3dATn09DNNt266n3zufvafWiV38EA2cJV03E3m+55rzj+jiQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IIRI4MGEwSLi8VBI9FqED2iogX5dInCFo6no9RZFDf4=;
- b=kM+S39PsxU6L/l0e1xQ17k0IxILIH21BuHnM3zjI55Riy4nLSSFxNRtpKc09hFiD6zMADPq7zdqsNe4NtlmIK3CUTFzIY1gJlKLP5Jw6MfVLjV50v4knoZUggXvqFfXMM71g7mE5I6iWw1hp/eWd5hKrqQLXPHPuILDyVGZ5+O0=
-Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com (2603:1096:400:3c0::7)
- by TYWPR01MB11860.jpnprd01.prod.outlook.com (2603:1096:400:3fa::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.19; Fri, 23 Aug
- 2024 11:04:29 +0000
-Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com
- ([fe80::7497:30af:3081:1479]) by TYCPR01MB11332.jpnprd01.prod.outlook.com
- ([fe80::7497:30af:3081:1479%7]) with mapi id 15.20.7897.014; Fri, 23 Aug 2024
- 11:04:29 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>, Geert Uytterhoeven
-	<geert@linux-m68k.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
-	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-CC: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>, "linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>, Prabhakar Mahadev Lad
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
-	<biju.das.au@gmail.com>
-Subject: RE: [PATCH 2/3] arm64: dts: renesas: rzg2l-smarc: Enable HDMI audio
-Thread-Topic: [PATCH 2/3] arm64: dts: renesas: rzg2l-smarc: Enable HDMI audio
-Thread-Index: AQHa3m8e92YEq2zHb0+2/Goto6PN9rI0yWUAgAAM6sCAAAQ/0A==
-Date: Fri, 23 Aug 2024 11:04:29 +0000
-Message-ID:
- <TYCPR01MB1133225412819C9A74B476CCF86882@TYCPR01MB11332.jpnprd01.prod.outlook.com>
-References: <20240725084559.13127-1-biju.das.jz@bp.renesas.com>
- <20240725084559.13127-3-biju.das.jz@bp.renesas.com>
- <CAMuHMdUi+++pYU3jDP2pB3o0mH8+UgnczDyrckKQzL59O92E0w@mail.gmail.com>
- <TYCPR01MB11332D1DEA64F992A0B05499286882@TYCPR01MB11332.jpnprd01.prod.outlook.com>
-In-Reply-To:
- <TYCPR01MB11332D1DEA64F992A0B05499286882@TYCPR01MB11332.jpnprd01.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11332:EE_|TYWPR01MB11860:EE_
-x-ms-office365-filtering-correlation-id: f1d54c62-290a-41e6-46fe-08dcc3635c14
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|376014|7416014|1800799024|38070700018;
-x-microsoft-antispam-message-info:
- =?utf-8?B?ZjY4QVQ5VHdjOTZqNTk5VFJtU2FQRFlBQzVQZlBsaGFENDY2Y3VSTGNrOTRV?=
- =?utf-8?B?MWIreGFaTkIyTXJFd1J6dk1GSHRJc09IRS85Z0lqR0MyTHZDT1NWUUFOcHpQ?=
- =?utf-8?B?by94ZU4xN3pSSjJSYTR4eUVwWDhGdTRrdVczSVJvRzFZaCtISWxteDdSMDlY?=
- =?utf-8?B?Ym9vNkR2ZmVhWWw5NTV2TGVpRWVkWXVNLzVJNE1jdXRLQWEwNnlGb0JJMjdj?=
- =?utf-8?B?Sis5UDFPSlUrSzJjWlVhT2tIMUtpNGNQQ3AraFRPMk5rYjU5VFNXSVp4VW9Q?=
- =?utf-8?B?eVZxaUVJaWR6VHBNN0s3NzU2N1dTbUdkaFIzRWFHV3NMbFRFZ2ljVVNwTzZa?=
- =?utf-8?B?K2FrUGt4M1p6K2tkMFN5MkdyVUpyY1FJeEhSdXNlM0N0WWdlQllYZWdsSUUr?=
- =?utf-8?B?WWEvaVVXYUlYV3dSYTltYnpWRGZKQUYrYzBiM3BQMnV3TW9xRnRhN1VqNUhr?=
- =?utf-8?B?M0NjbVdvcmp4ai83Ymxpd2VCS1dSTHUvQlVxcVlWRmhVN09JekowMlJCcXVy?=
- =?utf-8?B?RFBSanp2V0pnNVFZcFhGRXQ1MlduUEdJOGMzQUM3eGw3UWo3ZTI2SjBZVlIx?=
- =?utf-8?B?aG9BT01hVlN3bDVBQkxxUHdwVXgxUXFqZ0NqOGJKVmVaa0paalZXc1c0RXk1?=
- =?utf-8?B?TVR3eEc1dkh3YjlWcDlxbWR0YTlZQWtma0VCbW44TWNCSm1pK0dVaVVBcmVn?=
- =?utf-8?B?WVJSaStnUnJrZUE0NEJmSVUreEUxVzZ6cVgvbTcwcmNYWm5vdGd2WmlCNXhV?=
- =?utf-8?B?NVhNRVkvN1VjRUNRL0hDbWRwU1hJTkxjMTVtVFV5ZXlWWkZ1eG1kUWJLSGRF?=
- =?utf-8?B?WTVaZnFpVE9QMGc0ZEdYMWRJdjc3dzBEc3FJZitXS29yY0pndEFPVjU4K2ww?=
- =?utf-8?B?UUNrem9IZWhSUWNocVlMTlpQemNOVCtuYUxMMHAwMk13UzhWV1lKak45Q1NL?=
- =?utf-8?B?V3hyam9EcXFmMDB0ZEg5cjdENUQwMCtqQ3dFRXJxQXZqM21TZ3QyV1BVVnJl?=
- =?utf-8?B?aWovRVZjcnZ3czBKM2tLalphWFJvZWo4cTN0cENHYThSK1QrRWpzUHVVSjlk?=
- =?utf-8?B?Y0d6TFpSblJhUG9oYXRSWXFBSEVoZjF4eUhZK3RaWFZaL2M2VkdUNkJINWg2?=
- =?utf-8?B?NFgwbjFUNU15OWhkVzdpSUlNYjRtcjdJejZaZmwxb3Y3Z2NEYzBmVitFaGp3?=
- =?utf-8?B?azJ4YS8wbUdaL0o5SnNXck1uMEFaaURGSlFBQjhXRTNMNEJCZFZ2TnlRZFZ0?=
- =?utf-8?B?SXUvS05NV0h2b3hIUmxnUHhqTng1VDZiaEJaVEpMWWhrWTB4ekdwV3R4a0dh?=
- =?utf-8?B?V2dlUys3M3h1MlB1WHhlL1V2akVrUURteEFLZkNtN0tVcis0SzBrcVh6SWk2?=
- =?utf-8?B?Q2NyQUFWd1N4L0xHQUhjakU5Q2ZRaFF4QXI0ZnFRMTFmMnNTTGR0STRFUHJw?=
- =?utf-8?B?YXBPYXdoNGg1WUZuUjgzYTZpaVJZRFB1N3paV0krcVJxT3BTbFB6dWJTYlh3?=
- =?utf-8?B?MkErSzJxSnJPQnU4WnVQa0MyQmhuL2IvVC9GcWVuQjBCcGJPd3EyT3A0c29R?=
- =?utf-8?B?S1RSeDJtK3FiaFZiZ1MzVEV5MEtkczNhM0lycWpXQ3k1ZFZPSi8rOUdkMk13?=
- =?utf-8?B?VnIwamhhdXJVK3RpV1R3U0dyOUZ0Y0svWmdKbXErMjVyTW1FeTd5clY3a2xa?=
- =?utf-8?B?cnptdGkzY1BkYk1jUUk4MFhjRlFwQnJRU0pTcVVxSFJjazY5TEM1TmpxdW1p?=
- =?utf-8?B?VFBHdTIvZHNCT1BHMXVZcjkxYlh2Mmh6NnJ6aXdjUzdSd0xtdFRQWVlLUm92?=
- =?utf-8?B?dTEwVExPcHRSUzQwV3cvRUl3Rm8zbTNtTkp3RHc5aUlYVkhGdDV5Sk4vanV1?=
- =?utf-8?B?SUFSbXJyMi91OERlZURUcWdQRWVnTzZTMEIxQXNnVWF5Ync9PQ==?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11332.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?WjdiUDdRVVppaWRob1pBZDBkWXJseW1RR3RENmJIZmVKYXF2cGhlNXNXcDk2?=
- =?utf-8?B?VjRpVTl5U2xzS01wbGFVc1crSFpKK0JReGNXRi9wdTQ2enR4M0ExMGNROEgz?=
- =?utf-8?B?N3Vjd1hka3JmRWsrVEgybUtGWnRJdHlPYnhTMGdnc3k0WjBrVFdVM3dKTTI5?=
- =?utf-8?B?dTRGL0VLV2VXYzloUHNNQVNaM2FwbkhVdXZBM2l1UEpaWVN6QklHUGNoeGNV?=
- =?utf-8?B?Z25BbThnbGxBWllVNFNYb2JkKzlCTFBSVm1aVmhqeUpzb3R1MkduUWM3M2VR?=
- =?utf-8?B?Zkp2Rzh0enh2a3d3STJrWmU1Ym52QjFDUE5NenlIckxmbEFpV2plT2x5Skd3?=
- =?utf-8?B?WGhCRkViRm1IRjdaMXR6Z3lzM2E2ZmZuSEtXcGM3alpkc253alBrc3dXVnp5?=
- =?utf-8?B?bEhPWUNmQXV1TTUwRXQwbHJMMUkyNEkzTHBSZmlCbktGc3dGbGpqUENvb2Vw?=
- =?utf-8?B?RXN0elVDMHRVSXJKb2ZIaHRCbWZiK2wxM1RSR1lSamJlKzdMS2FpVlQ4UVRO?=
- =?utf-8?B?U1NYelpUaFU2aFFlR3paNGJEWUJRc1VEckFOY2VhYkRXQ053YitIRTRCVTFE?=
- =?utf-8?B?KzFOcnoyZ3RmbUlqTTBJSnhBU0VLa09SN0t0aTBZcHBSSWRucU95elBMRTlC?=
- =?utf-8?B?c0hBUlkyejA2N0NKVnFDZ2JML241em1MRXlBcVQwbTJRQXhvYXBCWTczVUtP?=
- =?utf-8?B?SVMzd2EzNGNmWGZ3Ymp0SVBVdURPdjROMUptSk5IS0NrRVpYVWVnV0UxK0NN?=
- =?utf-8?B?RWE5NkQvaTM3anhpdnhVWS9kdU5WSVRGU1VsYzB0Qk9ReEszd0xHbXRtbFN2?=
- =?utf-8?B?TjI4NVBPQ0Q0Szh3N082U1lVT015ZDZnclRwZHRGMkxMcHFESWNUK29CZ0Zy?=
- =?utf-8?B?dkMxRmtPQUpzN0pDTDBYUFd1OVBzYVZUdDdDZmJIb2pjd21pUTBSZDE5R2o4?=
- =?utf-8?B?N2lGZmVLZTBkV2FsSFVobmFYdE5oRFZpVm1TaGNpNjg2VnBXQU9ZQTdDaWc5?=
- =?utf-8?B?anpXVHViYW5PT21BY2QyR1YxWEx0Ull4b1B6aXFvT1BpYXZaTlRoTU9OYnll?=
- =?utf-8?B?ZmNmRXlhZnA1ZklIeTVma1dSNUhldUgxQ2Z6b1ZkK3VnN0Yzc0FUbHNGdlFJ?=
- =?utf-8?B?NUJxRDdwM2s1enNadWtJbCtIYjJCMkEzQVQyaHVPYjVSV2ZKbGVGTXcxaEtV?=
- =?utf-8?B?L3E0OXpLeGJNeW1vK3ZQQlR3RHF3RzQrWEszVldOcDJYeU9ub3VuRE4vdWFT?=
- =?utf-8?B?RDg3MjFJSnVndUU3dFBXQnJCVFZCWHdqTXV6OXJiZ0NwK1BvM213OTEycDNZ?=
- =?utf-8?B?SGd6b243V08vdVNIWld2Y2xXOXRoWDRUUm9rSzU0STNMWGUwNTYweXBkU2tQ?=
- =?utf-8?B?Y2tLL2EwYm5ZMFVtb3QxeTVORFFyc1VWejcyQ3g1SWFEbjlCa29tV2wrN1lF?=
- =?utf-8?B?SUZ0cjJQYUFRNlNEbmVoVW5BWmdaei9rSVJUSlRPKzhmRmJ2QlYwQjZuaWdL?=
- =?utf-8?B?dlJRb0tkQjFjelIvVlNCOXp2ekx4SU9QWllzZjdqbnlWYXkyTDNycldaczB6?=
- =?utf-8?B?UDZsQmFFMDRQL0hRdjhYMnFKc3RMUzk0NFhYTWd4eUdBcHYzdWo5NzA0RFpv?=
- =?utf-8?B?M2dkbFJMdXZVcWpqTUo0dmF4VmRaMzMxNU5kQjR1U3phRXVsUVJLL3FWYUNN?=
- =?utf-8?B?b09NWm1jcFFIUDN5VlVJdE0wUnFnM25qNnNLeDE3V3d1ZldhYmNwMHdMWllS?=
- =?utf-8?B?bEdVdHdUaUU2RGMwZWxjNjlwNUQrRUI0R3ViRjlvdk1zOXkyVCtWM2xFZjlN?=
- =?utf-8?B?a2Z2c2hmQjBwcWJsUDNRYTJCL0xiMHFOZHN0bnoyN210YkpWd2lvTEU3MWJz?=
- =?utf-8?B?ZXE5dWtCbmRpZjJYT1ZBSy9VaEJpUUJTZWJDSWh3ekVzUmxIdkZZMHlORUtu?=
- =?utf-8?B?OFptZjhFeXdpTlZFRndZU2RqaUwvTUcxOWRNd0hQMzZ5bnhHMHB1bDBKK2hP?=
- =?utf-8?B?K3RYbHlRc2QxTkNiU2Z2UXdyRmxwY3hwUEtSTDBEWFFkNFBvbTZjMTFQN2Nj?=
- =?utf-8?B?SDJzY04zUVkrODRRMjA1SlVOZWx0MkJ1dnNVUjdnYzN3bGNudmZBZlBQd3I0?=
- =?utf-8?B?MVJndktWVTRRU0lITWtTZnNHK2VoQ0t6V0JwZmJFb0tXUytDUFRlbjl5QlV3?=
- =?utf-8?B?eWc9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WUj5L83K"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3719398eafcso1009527f8f.1;
+        Fri, 23 Aug 2024 06:07:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724418429; x=1725023229; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=nm0P3qLXV1XMzA7xq1pcWKSuPpJGsf16gUPTFe+Xqmw=;
+        b=WUj5L83KlNWeSm2L+9Sy2Ij5uD32uuxcjPfLd/7jOklhL7vVo6xa6JKAKmjWPfxqHJ
+         zmAgVu33Ot3gBk8YXvmYP7Gqw5dqPQjIHOEASJ6Zsv8yuhKARpzmn+CD+bK1eRfQI2SR
+         BBGmthDM8N94t4EJxCed10ukPOnNtxicA17m+vuYi9tO1ts2ELtp88RJp1MG/wvw9s15
+         Ot04LXxTPne5VgTq34/DlDdC9Hbl45r6tRseFDM/4b6VE+FVuP++O48X2MATu43W7nUo
+         i53Jr82FtFusNbK/B7TYzk25Iu1H4wTfJqEnozOucvnUtzbxwcv23Jb2qbD0n5VHoPxo
+         1PnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724418429; x=1725023229;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nm0P3qLXV1XMzA7xq1pcWKSuPpJGsf16gUPTFe+Xqmw=;
+        b=ONOccJzmUu6wRKrJOSL1VyNbdeMFGMtw1o1/oAAn7KXS+EXB4bI5jV7zM8zGvqU9Al
+         VTMh+HHcWjSHcB7r3RAITB4V4sG5GUnv12uN1uvePz3Yn6QmavimV0t/Mmh1gr01o+gJ
+         hFNR8Q7GqFv96X2d6XvpgGmuc7ZcyEnvGPJ/SHCGZgrZXT9C/U4WfE2pfc1RzvsBkrXk
+         Q/pcnEcGy1R3BLMo+aiE4x6slb35oZNGIkZpzDqQpcnuG5A3pO9/XG/GpgH//URyJQnX
+         d1hOF2TwfE+ARSArZTgG6s1DVCopj2SBarnlkguZRXgpCfE2jfgk0eZs1PM2TqUf5WOM
+         zqgg==
+X-Gm-Message-State: AOJu0Yw+0AqeknMcSIY8CipFalZinUb6VMwQvl732hIVQeqvRgUnd49n
+	M0lhrKtyZCycGPo04M50xZTIhtroU7t07cctDEisP5BgLUqJBA9EtDqI4O4I7fYMYMHB0uFliG4
+	ulIfOeqNDCrWINvG6Qd7IAkrWJ6YIAu5hgMuwzA==
+X-Google-Smtp-Source: AGHT+IH9o05P0FYtv+3nd52PSlROm27y3qX+x61RXYD50SM+G5IdBgTPEko9m0ReVKWtJvnqD7kvx8KAUQ81ntOaj2w=
+X-Received: by 2002:adf:ec48:0:b0:371:8eb3:8c64 with SMTP id
+ ffacd0b85a97d-373118ee972mr1435997f8f.54.1724418428111; Fri, 23 Aug 2024
+ 06:07:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11332.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f1d54c62-290a-41e6-46fe-08dcc3635c14
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Aug 2024 11:04:29.3202
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 4ARu0G/o1L0ZhaV0H8FN1vzvI1rf1C+aHpWeo1NwkFOUBGg3RM5j4+C7Hls/s1O2bSgAzGY/D2BA5GadZLKQGxm5W3MKVUqapB7FEeRCsKA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB11860
+From: Andrey Kashtanov <austrum.lab@gmail.com>
+Date: Fri, 23 Aug 2024 17:06:56 +0400
+Message-ID: <CA+Qy7vRQnWx+0Au06hPbgASTRTxtNnbMxV=0jmJaZtsEBQ81zg@mail.gmail.com>
+Subject: ASUS GA402XY (ACL285) Headset mic not working with 6.9 and 6.10 kernel
+To: stable@vger.kernel.org
+Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com
+Content-Type: multipart/mixed; boundary="000000000000da31a4062059737d"
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQmlqdSBEYXMgPGJpanUu
-ZGFzLmp6QGJwLnJlbmVzYXMuY29tPg0KPiBTZW50OiBGcmlkYXksIEF1Z3VzdCAyMywgMjAyNCAx
-MTo1MSBBTQ0KPiBUbzogR2VlcnQgVXl0dGVyaG9ldmVuIDxnZWVydEBsaW51eC1tNjhrLm9yZz47
-IFJvYiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+OyBLcnp5c3p0b2YgS296bG93c2tpDQo+IDxr
-cnprK2R0QGtlcm5lbC5vcmc+OyBDb25vciBEb29sZXkgPGNvbm9yK2R0QGtlcm5lbC5vcmc+DQo+
-IENjOiBMaWFtIEdpcmR3b29kIDxsZ2lyZHdvb2RAZ21haWwuY29tPjsgTWFyayBCcm93biA8YnJv
-b25pZUBrZXJuZWwub3JnPjsgTWFnbnVzIERhbW0NCj4gPG1hZ251cy5kYW1tQGdtYWlsLmNvbT47
-IGxpbnV4LXNvdW5kQHZnZXIua2VybmVsLm9yZzsgZGV2aWNldHJlZUB2Z2VyLmtlcm5lbC5vcmc7
-IGxpbnV4LXJlbmVzYXMtDQo+IHNvY0B2Z2VyLmtlcm5lbC5vcmc7IFByYWJoYWthciBNYWhhZGV2
-IExhZCA8cHJhYmhha2FyLm1haGFkZXYtbGFkLnJqQGJwLnJlbmVzYXMuY29tPjsgYmlqdS5kYXMu
-YXUNCj4gPGJpanUuZGFzLmF1QGdtYWlsLmNvbT4NCj4gU3ViamVjdDogUkU6IFtQQVRDSCAyLzNd
-IGFybTY0OiBkdHM6IHJlbmVzYXM6IHJ6ZzJsLXNtYXJjOiBFbmFibGUgSERNSSBhdWRpbw0KPiAN
-Cj4gSGkgQWxsLA0KPiANCj4gPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+IEZyb206
-IEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnRAbGludXgtbTY4ay5vcmc+DQo+ID4gU2VudDogRnJp
-ZGF5LCBBdWd1c3QgMjMsIDIwMjQgMTA6NTkgQU0NCj4gPiBTdWJqZWN0OiBSZTogW1BBVENIIDIv
-M10gYXJtNjQ6IGR0czogcmVuZXNhczogcnpnMmwtc21hcmM6IEVuYWJsZSBIRE1JDQo+ID4gYXVk
-aW8NCj4gPg0KPiA+IEhpIEJpanUsDQo+ID4NCj4gPiBPbiBUaHUsIEp1bCAyNSwgMjAyNCBhdCAx
-MDo0NuKAr0FNIEJpanUgRGFzIDxiaWp1LmRhcy5qekBicC5yZW5lc2FzLmNvbT4gd3JvdGU6DQo+
-ID4gPiBFbmFibGUgSERNSSBhdWRpbyBvbiBSWi97RzJMLFYyTH0gU01BUkMgRVZLLg0KPiA+ID4N
-Cj4gPiA+IFNpZ25lZC1vZmYtYnk6IEJpanUgRGFzIDxiaWp1LmRhcy5qekBicC5yZW5lc2FzLmNv
-bT4NCj4gPg0KPiA+IFRoYW5rcyBmb3IgeW91ciBwYXRjaCENCj4gPg0KPiA+ID4gLS0tIGEvYXJj
-aC9hcm02NC9ib290L2R0cy9yZW5lc2FzL3J6ZzJsLXNtYXJjLXBpbmZ1bmN0aW9uLmR0c2kNCj4g
-PiA+ICsrKyBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvcmVuZXNhcy9yemcybC1zbWFyYy1waW5mdW5j
-dGlvbi5kdHNpDQo+ID4gPiBAQCAtMTQzLDYgKzE0MywxMyBAQCBzc2kwX3BpbnM6IHNzaTAgew0K
-PiA+ID4gICAgICAgICAgICAgICAgICAgICAgICAgIDxSWkcyTF9QT1JUX1BJTk1VWCg0NSwgMywg
-MSk+OyAvKiBSWEQgKi8NCj4gPiA+ICAgICAgICAgfTsNCj4gPiA+DQo+ID4gPiArICAgICAgIHNz
-aTFfcGluczogc3NpMSB7DQo+ID4gPiArICAgICAgICAgICAgICAgcGlubXV4ID0gPFJaRzJMX1BP
-UlRfUElOTVVYKDQ2LCAwLCAxKT4sIC8qIEJDSyAqLw0KPiA+ID4gKyAgICAgICAgICAgICAgICAg
-ICAgICAgIDxSWkcyTF9QT1JUX1BJTk1VWCg0NiwgMSwgMSk+LCAvKiBSQ0sgKi8NCj4gPiA+ICsg
-ICAgICAgICAgICAgICAgICAgICAgICA8UlpHMkxfUE9SVF9QSU5NVVgoNDYsIDIsIDEpPiwgLyog
-VFhEICovDQo+ID4gPiArICAgICAgICAgICAgICAgICAgICAgICAgPFJaRzJMX1BPUlRfUElOTVVY
-KDQ2LCAzLCAxKT47IC8qIFJYRCAqLw0KPiA+DQo+ID4gUlhEL0kyUzJfU0RJTiBpcyBub3Qgd2ly
-ZWQgb24gdGhlIGNhcnJpZXIgYm9hcmQuDQo+ID4gT0sgdG8gZHJvcCBpdD8NCj4gPg0KPiA+IFRo
-ZSByZXN0IExHVE0gKGJ1dCBJJ20gbm8gYXVkaW8gYmluZGluZ3MgZXhwZXJ0KS4NCj4gDQoNClRo
-ZSBiZWxvdyBjb21tZW50IGlzIGZvciBSWi9HMkxDIFNvQywgd2hlcmUgc3dpdGNoIHBvc3Rpb24g
-ZGV0ZXJtaW5lcyB3aGV0aGVyIHNzaTAgc2lnbmFsIGlzIGNvbm5lY3RlZCB0bw0KQXVkaW8gY29k
-ZWMgb3IgdG8gdGhlIEhETUkgYXVkaW8uDQoNCj4gSXMgZHQgYmluZGluZyBjaGVjayBhbGxvd3Mg
-Y29uZGl0aW9uYWwgbWFjcm9zPw0KPiANCj4gQmFzZWQgb24gc3dpdGNoIHBvc2l0aW9uIGF1ZGlv
-IHNpZ25hbCBzc2kwIGlzIHJvdXRlZCB0byBBdWRpbyBjb2RlYyBPciByb3V0ZWQgdG8gSERNSSBh
-dWRpbw0KPiBwb3J0DQo+IA0KPiBUaGUgZm9ybWVyIG9uZSBkb2VzIG5vdCB1c2UgZ3JhcGggd2hl
-cmUgYXMgbGF0dGVyIG9uZSB1c2VzIGF1ZGlvIGdyYXBoIEhvdyBkbyBJIGRlc2NyaWJlIHRoaXMg
-aW4NCj4gYmluZGluZ3M/DQo+IA0KPiBsaWtlIGR0cywgc29tZXRoaW5nIGxpa2UgYmVsb3cgc3Vw
-cG9ydGVkIGluIGR0IGJpbmRpbmdzPz8NCj4gDQo+ICNpZiBYDQo+IEF1ZGlvIGNvZGVjDQo+ICNl
-bHNlDQo+IEhETUkgQXVkaW8NCj4gI2VuZGlmDQo+IA0KPiBDaGVlcnMsDQo+IEJpanUNCg==
+--000000000000da31a4062059737d
+Content-Type: multipart/alternative; boundary="000000000000da31a2062059737b"
+
+--000000000000da31a2062059737b
+Content-Type: text/plain; charset="UTF-8"
+
+Greetings!
+
+I've run into a problem with an external microphone (3.5 jack headset) and
+fresh kernels (6.9, 6.10)
+When using the 6.9 or the 6.10 kernel system doesn't see an external mic
+from the headset (3.5 jack). Instead, there's only an internal mic
+plugged/available in the system.
+When using the 6.8 kernel or less it's okay, I can use mic from the
+headset. So currently I'm on 6.8.12.
+
+Also opened a bug on bugzilla (
+https://bugzilla.kernel.org/show_bug.cgi?id=219158)
+
+Laptop Model: Asus ROG G14 GA402XY
+Codec: Realtek ALC285 + Cirrus logic cs35l41
+OS: Debian Testing
+Kernel: 6.9.x, 6.10 represents the issue, 6.8.x no
+DE: Gnome 46, wayland
+
+What I've tried:
+- Play with snd_hda_intel model parameters from here:
+https://www.kernel.org/doc/html/latest/sound/hd-audio/models.html?highlight=headset+mic
+ex: options snd_hda_intel model=dell-headset-mic
+- Retask jack with hdajackretask
+- Install a fresh system on another ssd (latest PopOS) - after kernel
+update to 6.9.x (from the repository) it's the same issue.
+
+--000000000000da31a2062059737b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Greetings!<br><br>I&#39;ve run into a problem with an exte=
+rnal microphone (3.5 jack headset) and fresh kernels (6.9, 6.10)<br>When us=
+ing the 6.9 or the 6.10 kernel system doesn&#39;t see an external mic from =
+the headset (3.5 jack). Instead, there&#39;s only an internal mic plugged/a=
+vailable in the system.<br>When using the 6.8 kernel or less it&#39;s okay,=
+ I can use mic from the headset. So currently I&#39;m on 6.8.12.<br><br>Als=
+o opened a bug on bugzilla (<a href=3D"https://bugzilla.kernel.org/show_bug=
+.cgi?id=3D219158">https://bugzilla.kernel.org/show_bug.cgi?id=3D219158</a>)=
+<br><br>Laptop Model: Asus ROG G14 GA402XY<br>Codec: Realtek ALC285 + Cirru=
+s logic cs35l41<br>OS: Debian Testing<br>Kernel: 6.9.x, 6.10 represents the=
+ issue, 6.8.x no<br>DE: Gnome 46, wayland<br><br>What I&#39;ve tried:<br>- =
+Play with snd_hda_intel model parameters from here: <a href=3D"https://www.=
+kernel.org/doc/html/latest/sound/hd-audio/models.html?highlight=3Dheadset+m=
+ic">https://www.kernel.org/doc/html/latest/sound/hd-audio/models.html?highl=
+ight=3Dheadset+mic</a> ex: options snd_hda_intel model=3Ddell-headset-mic<b=
+r>- Retask jack with hdajackretask<br>- Install a fresh system on another s=
+sd (latest PopOS) - after kernel update to 6.9.x (from the repository) it&#=
+39;s the same issue.<br></div>
+
+--000000000000da31a2062059737b--
+--000000000000da31a4062059737d
+Content-Type: application/zip; name="dmesc_asound.zip"
+Content-Disposition: attachment; filename="dmesc_asound.zip"
+Content-Transfer-Encoding: base64
+Content-ID: <f_m06q6r2u0>
+X-Attachment-Id: f_m06q6r2u0
+
+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
+AAEvurxmUEsFBgAAAAAEAAQAUgEAABUWAAAAAA==
+--000000000000da31a4062059737d--
