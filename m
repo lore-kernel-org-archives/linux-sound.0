@@ -1,55 +1,55 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6CEE1898F8
-	for <linux-sound@vger.kernel.org>; Fri, 23 Aug 2024 16:12:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93B99191F8E
+	for <linux-sound@vger.kernel.org>; Fri, 23 Aug 2024 16:12:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724429534; cv=none; b=m6YeFQKGqyGhenEl8IRlJsbI42LrtSOsmUVYQ7GZJsXmt6fJeUcnv58+z3pLWJWcI5kxw2yd5yK2OnWJxqjFW68Spg3qKZuZGc526v1uw7iCa7x06d1N9tYQtfqn+6zD9brjnn0zrPbRBvDDYy20sWTu4QqXRluhHp4Bx3HV9l8=
+	t=1724429558; cv=none; b=cCcGf4AVBESdzmmVOhX+MFKTW3z/r5q/MKik+QgqHsvqUylRP1cHnY+UN/q09H9m9XNkMcWckDMS5/elrnocqfVvpAQh+8jdnzmxi30ueIywjolr6OoKft/ziqvFUbkUFr+e1X57QczeALHwm3RVRqx4Lr/919nOjXGgv8kB4gE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724429534; c=relaxed/simple;
-	bh=x9HeDgtUzI85qaXdWmBXNojHvmN9gKIZ55AlN9BnnFU=;
+	s=arc-20240116; t=1724429558; c=relaxed/simple;
+	bh=foDX8nSpdBE7Stl1C+tjFDYcGaddTLXx38TRzjSaijg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XtcDpd8rahoqvshkO8m+5YDx/nMMrnln8uwmt1uDhy6JxeEceu5RM1QyMrcbWDaaEGmbebEwUt4zd0XQ/F9e9Q9nB9P/ldyWyUSVUlTvNsLpwXd6yygjx5l/8ck2Agb+ghnkqyBnit6Fb2w05Xm3woazO1nwNaoRhCLuxBhRudo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SW8mP8ci; arc=none smtp.client-ip=209.85.167.45
+	 To:Cc:Content-Type; b=iISdx5cdjcgE58SvdaryRdZDI87Wcj5sWSptZOCZOHQpBz0Ed76TheQoQNCpLGkC7YMfT6rCG96opAUrdoo+SNNEyY2V4mpidoOqPBWvt9QmIB0qFjYoENZOsn/AIpN2v/gA4Gm3zHNZmZOZ6MuREQ7vy9Jj7DAQjYqdk/iqWSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=q7lF8JQx; arc=none smtp.client-ip=209.85.167.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SW8mP8ci"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5343e75c642so2260e87.2
-        for <linux-sound@vger.kernel.org>; Fri, 23 Aug 2024 09:12:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="q7lF8JQx"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-533462b9428so3756043e87.3
+        for <linux-sound@vger.kernel.org>; Fri, 23 Aug 2024 09:12:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724429530; x=1725034330; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1724429555; x=1725034355; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LUtJ+oLA4esiCwHxzR1PJ9WRsZLpLW+urZuZZ82HGUY=;
-        b=SW8mP8civONpsBVASNaU+8nXj9ShrbnaRU44Oa4Q/1xfGRdAucLAQp0rmV31HZC2LN
-         KFFXXfSAorBnPJMP43IXBMYWUNd7B1499+iQmAlR6/KoWd7VEtUy8YEinxrrCKSx0vD4
-         +KrWeDAOHxtzdFjfCp6b3W4MWuSiUsWH6P/7VJvJBgZGCGUReKwi/mAm0FrVy/jpDh0o
-         qaAk3BefH2PTXExUYsewvWXshCe8hD1sqjUEXZ3VChiNFDV3U5Z1N2w5AYJGyUANtLEC
-         Bw5MU1lRg0ZUU1fZ/mnfCgAcnmAwL7Xuin9Y/EYRiWYJPBk8VWm5SbD3aeLcgI1sXy55
-         9Yhw==
+        bh=k1jmXMGgCEe3vyECBk95vJ+hBk5w1rZzr4yvt3CADUo=;
+        b=q7lF8JQx9kaMQYqIConQky3t+HpxtW3GmsnxciWj2X5f+e6FAQhKUEiPASxiYC9Ubs
+         ly45/guzT1gcKdyizYSAT+I/IgQ8qvv+Q8RZoow/GEAbxjdfeCaEZ7gS7eBzMA4O7icu
+         P2XGLCnVA4NBCsGjP7FkdPwtZvf0mS6bi8/A5U4k5qhOdqahRHDLuPa7aoHV1orSzX3w
+         m+OmPjQXNtDI70BapCyWG4wfxhl8/5n9YgOB2r5dTI/iCsvrqEFcapPRVpe6H2ZrmloI
+         kAmtTAUpoooM4By7rNfB21Lfd3kD/B4vBd+7fkUcTWvtZ3c0tgPd03mBXCXFCRfRi0j2
+         pClQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724429530; x=1725034330;
+        d=1e100.net; s=20230601; t=1724429555; x=1725034355;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LUtJ+oLA4esiCwHxzR1PJ9WRsZLpLW+urZuZZ82HGUY=;
-        b=dCNNOrrC2aBUtGz+efunzVRaEQ7HeVXYCuEr+tx9hUtQ4uiPABwGsIK6498EPKxUyT
-         rZqj6IvGs7UlYDtufB9wBEPC6d+XQoRepLRueDibhW0OCAOxryzcRZXlw4pD1J/m64e2
-         KZqtVyCtV5cFU1z6yUCxu89u2Fz8+t+pbhI//lFsW7gjC532ek7Js5HnFHHfnKatiiim
-         aGHLCKoTOdbTjwnJ0v24d9DSyWX3Ro4orF53vPSYZM7vjH5uN3TOGNK16rikkDkwzA+7
-         bUA4F7HjRiwiQbcz15BRR7HRqIQXwOegWJcLDMk6up484ZZTNZBtHrQHKRahd0LoJ/gH
-         g0bw==
-X-Forwarded-Encrypted: i=1; AJvYcCVfbgl30b/yEmQXS6fKrteT32rH0hkyuHFC/TZkBrAQgzpelJAFAlmqp3k72ZcZUa1V3clNSoPR4xTNBw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzCD0VfhX0+XzuZDJ5FPDz+5iMS2Vn/4QLKFJNV9fk9qZ38gMyC
-	iXGv4swYScfL372FIbVdJtpFcB+i1Cs8Dep8uPdZyitBn4MvMr+IAl/uTlRv/MYe1T/ougvlJ8i
-	U3SJ4NbpuXoUdjt5A//mxanpXEKJv8B6QZEuUZg==
-X-Google-Smtp-Source: AGHT+IGGfa4J6/rrOmhK+K2Ol6XZFt8xdTBfsTGvDz88zJF2GE3+F2dUfKvoePIHG1HbHuE9HLf0FWj4ywInoY22pyo=
-X-Received: by 2002:a05:6512:234b:b0:530:ae99:c7fa with SMTP id
- 2adb3069b0e04-5343882e2e1mr2006824e87.10.1724429529236; Fri, 23 Aug 2024
- 09:12:09 -0700 (PDT)
+        bh=k1jmXMGgCEe3vyECBk95vJ+hBk5w1rZzr4yvt3CADUo=;
+        b=AuvJ8Eexldr0YDVZwdDV7AUlZBRLPoxcTJa1lssfILRM1hJzYFxneXdywAw3GQbeCN
+         bjQsV1/4tIxxbg5zi7TkOfCAXmY/C2Z6KngQB2WILIucVX3vqqDa4k60bHkYHAriWKi/
+         BQcCDBbsIWJj++oN8fZAQpKNEm7j1yMPVCdH6v6ZulrHQusWN4B7Y+zbYbVhK0KYTgRC
+         Bqq/0yWgQ3yK+oJuYP52V9aEpmUReXPxqtnyIBidhi1hvI7/j43XgmEocA2FIzDCPeWW
+         Mfw6FDcQYH5Zek405H58pPwC5TKclQ1PGwNVQXBa7xyrr5cPjTKo29uU5QTiWHIpfc9y
+         +OnA==
+X-Forwarded-Encrypted: i=1; AJvYcCWOuRms99JMc4yIxo1mUsc1cwMwK9Gq1JIuDY2BApMXPJaMnQmyG0gs1Nd6ir5mZvlzIdvAgWN8Mto6dg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEDfBoVlAAOVFucJG4n029DVdqKXVebIGv6tUWtpuhdjqT+ehw
+	5GgZ/4HMqYD1MFxjoG8+huQwD6yeXX/Nm0ZD7xEUvoDU5kyH8gL4uPRS7iNqS8fK8nj2t6vb6aK
+	5vlAz9apxZxiR4/E+67ld6aF64zYLXRqCvhuX1Q==
+X-Google-Smtp-Source: AGHT+IG7mSCIWYZ8bpH8IAQGda1ENwR9WbQciD7o/G7QbH41YO9wcFnvMe+Pbl1EVS7OeQRr0SFN9rrPBxhDD4ALEaE=
+X-Received: by 2002:a05:6512:b22:b0:52c:ddef:4eb7 with SMTP id
+ 2adb3069b0e04-53438846f4cmr2471437e87.20.1724429554337; Fri, 23 Aug 2024
+ 09:12:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -57,13 +57,12 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20240811-dt-bindings-serial-peripheral-props-v1-0-1dba258b7492@linaro.org>
- <20240811-dt-bindings-serial-peripheral-props-v1-3-1dba258b7492@linaro.org>
-In-Reply-To: <20240811-dt-bindings-serial-peripheral-props-v1-3-1dba258b7492@linaro.org>
+ <20240811-dt-bindings-serial-peripheral-props-v1-4-1dba258b7492@linaro.org>
+In-Reply-To: <20240811-dt-bindings-serial-peripheral-props-v1-4-1dba258b7492@linaro.org>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 23 Aug 2024 18:11:57 +0200
-Message-ID: <CACRpkdYyZRVC-AYfpTG1f6sqrqAg0pCWxzUr7eXYtnM3jacMfA@mail.gmail.com>
-Subject: Re: [PATCH 3/6] dt-bindings: bluetooth: move Bluetooth bindings to
- dedicated directory
+Date: Fri, 23 Aug 2024 18:12:23 +0200
+Message-ID: <CACRpkdbaHqJfK7989rx8OaS9mpmdYO2Hpna6dUty_fDgYa3chA@mail.gmail.com>
+Subject: Re: [PATCH 4/6] dt-bindings: gnss: reference serial-peripheral-props.yaml
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc: Rob Herring <robh@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
 	Jiri Slaby <jirislaby@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -84,14 +83,13 @@ Content-Transfer-Encoding: quoted-printable
 On Sun, Aug 11, 2024 at 8:17=E2=80=AFPM Krzysztof Kozlowski
 <krzysztof.kozlowski@linaro.org> wrote:
 
-> Some Bluetooth devices bindings are in net/ and some are in
-> net/bluetooth/, so bring some consistency by putting everything in
-> net/bluetooth.  Rename few bindings to match preferred naming
-> style: "vendor,device".
+> The "current-speed" property is not a common property for all GNSS
+> devices, but only to these connected with serial.  Drop the property
+> from the common GNSS properties schema and instead reference common
+> serial properties schema (for children of UART controllers).
 >
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Excellent, thanks for cleaning this up.
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
 Yours,
