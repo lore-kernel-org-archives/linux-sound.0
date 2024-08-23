@@ -1,164 +1,123 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D7B018BB9B
-	for <linux-sound@vger.kernel.org>; Fri, 23 Aug 2024 16:21:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D5318BBB6;
+	Fri, 23 Aug 2024 18:04:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724430102; cv=none; b=Gsaavdtx7dxOv6HUnYsyb0vmmicwob62WUOQ5dzbwF31BAJOMmWAsSg1tBYWifs+ZsACY2eplfDGLpGHu/3NFHU2BsxHSIB0A7B9C4wtWu1c4Wn/h/eeyd77BuolLuiEERSvgBdFbpUMIdzhG5AhhnhSV6+fAWRbRqeauwajg3Y=
+	t=1724436286; cv=none; b=DoTgk9/FPY0Fi3Sia3mDEI7XLQ0Ez8R5L+Oy0TMGq7NfPuumgbXgBz1qIXhqEfL2jus/aC+Q/2cvShxwV/2dZll10sr/pY2mn3xWUL4xFpWjBoiStksnoLkwR+RbAtp/XdfLj68NbdnlhvJ/mjBlZgdvB6b1vs3udhVbr2i313k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724430102; c=relaxed/simple;
-	bh=YMK3zEWCRlOermMUoSe3gCcOKQ0OSZIF1hdfiLQ3/3s=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=goGgObuHF7HrlBhW3Nnhuzi9+db5HBNiKC3yVMYrBCdiKIcgX/LTQky0HGphMbf1EAVQRk0rN+Ix8am9j5xScjDxcCpWrMtgx+SsDMlvbPyggVQ9zUPrjcrha5OWyrBA+NY4BD16W3jxTurBv4kc9BmtHE4sVQXfNWDxKf7wd44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gLjtB4L1; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1724436286; c=relaxed/simple;
+	bh=d7EGDtbN0hddOp+GDsOFauqRCeZzmJJsvv0km29SQIc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=PoZlg3l8P4I0QKNTO9uY8u5ZyW5ZqSWWfE3mw6V0+H9zC+QbfQSEqaDsqkA3NDvzk2HKJZj6lKim78jrloe86KcGtMpg/qkLb8W3BdW+iS/DOj1LfSI6yIM82uH2SGSncRufem60aJZkeGxyFo5JswBM1kyA6jWQ+vdGYEP7GCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FvkvwJes; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gLjtB4L1"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-42808a69a93so3683895e9.3
-        for <linux-sound@vger.kernel.org>; Fri, 23 Aug 2024 09:21:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724430099; x=1725034899; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xE4AEtOVapV6PoQb9xXwqRdy3tgXiMSO7wO5xbXDvBk=;
-        b=gLjtB4L1f3OUa+jer1S1Ad0TO4S1Y3Adr930FN7zmmyoF/ggE0VHZX+lGO8OMzYNPP
-         fiwxFJoTh/NJeD8UtDwoX5x4wZzaxEyWOoWRszNMCeu5vqmXixpAy4aCW/qVwYa9NvLQ
-         N7XyR9n9HaMZg77DG89OMW+v6IFhJtA26VX2egVEWKJxGhwvS5VDjGd3TtZohMtK9OhX
-         UYO0F+8xDn/Ty9WGVEYRWO3YS8xQXVO0GR+ZO7PnXtmfnZh3yYLIur57Lgb3RoyXPJjs
-         2lYGH0EQt7w0JGaR5vFOzMY/5B82pQbN3DZ92VlrBOXUfeKlLZY1Y+blxnH/fFfxZCG5
-         Y5fQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724430099; x=1725034899;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xE4AEtOVapV6PoQb9xXwqRdy3tgXiMSO7wO5xbXDvBk=;
-        b=O3P4rNhvkK/KYlwsAQtMP5c2jP8tYMP9uin9jkGzlxL9tBKUJ4eDQAFRys9Wc6/d3J
-         8YxaDM2RsP07plY21hAcXIPU4sYrKDAnAQBQRQlg6tNPX7sdEtqnF4bLX8UEUrXXKFQP
-         O6pY3aaPItaQNPMojzrd8UlRdZbzYpLAyY39mcJSR/DlKNPuV+u8v5Cf9oPcnWQiCrjW
-         lI9Dtvdh0oaGHJscf8XimXYB+o05wDRVR1wLzwH+CCEokI67zejz263sF3JLf8jUC6Me
-         eBGXImeYZAl6Wa441fWavn8YMFGycQvx0auf38bpcS7//mnYVpklYJ+j2quaYf9hu5Pn
-         YmrA==
-X-Gm-Message-State: AOJu0YwONvzR2XRRj1C9tZaJuCynNu3jg19Ds5XqctKLCvFEcZJURZsV
-	xfc/V37m4oG2aBxvLOztDwPI3wOd8+wHB+GfEvlBUvneJk4G5+oV56g/lihanWlt9rujHX12TRq
-	G
-X-Google-Smtp-Source: AGHT+IGFWpXyotIsRADtAGF2Vnlr5VPVsHgGrfTXQwvdzGD3AL/M2ou5aTc2LpMdPeruY+7Thjpqdw==
-X-Received: by 2002:a05:600c:4445:b0:425:7ac6:96f9 with SMTP id 5b1f17b1804b1-42acc8a55f3mr15708725e9.0.1724430099295;
-        Fri, 23 Aug 2024 09:21:39 -0700 (PDT)
-Received: from [127.0.1.1] ([178.197.222.82])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37308160586sm4499312f8f.58.2024.08.23.09.21.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Aug 2024 09:21:38 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Fri, 23 Aug 2024 18:21:31 +0200
-Subject: [PATCH 3/3] ASoC: codecs: wcd939x: Simplify locking with guard()
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FvkvwJes"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EDECC32786;
+	Fri, 23 Aug 2024 18:04:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724436285;
+	bh=d7EGDtbN0hddOp+GDsOFauqRCeZzmJJsvv0km29SQIc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=FvkvwJesdwBPVPM7AA3zo0dE2WvhjVkNcX1N3e/rX3fiQmKQZACYs4k2CyQ5Tr9I8
+	 SWs+3NhBAC69xMi1OZ8QswayfZHfEyUDkAg+sZz4gBK2Tp5z2SEFsZbxlJpVgEWsti
+	 0aUAP5T4k5oueG57eWeT4/6w5aoliawtcI6D6xXiG8D0s9ICSLGsbPFW/jqbiTNb4J
+	 MKVc+5KtSBV+nW2NXU9C5CFxLHVRiF0/1wzmMbeEOlJ922+Pj7h0Wf9kt1Ne+x9gEF
+	 RKcKPoNDjE0G9wpYrASHWfnhywJAR4LxPhEZdkxNgSzq1M34w3WHmrY8iWqno7j54L
+	 IVDb+gApIaAHw==
+Date: Fri, 23 Aug 2024 13:04:42 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: WangYuli <wangyuli@uniontech.com>
+Cc: bhelgaas@google.com, siyuli@glenfly.com, perex@perex.cz, tiwai@suse.com,
+	pierre-louis.bossart@linux.intel.com,
+	maarten.lankhorst@linux.intel.com, peter.ujfalusi@linux.intel.com,
+	kai.vehmanen@linux.intel.com, rsalvaterra@gmail.com,
+	suijingfeng@loongson.cn, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+	jasontao@glenfly.com, reaperlioc@glenfly.com,
+	guanwentao@uniontech.com, linux@horizon.com, pat-lkml@erley.org,
+	alex.williamson@redhat.com
+Subject: Re: [PATCH v2] PCI: Add function 0 DMA alias quirk for Glenfly arise
+ chip
+Message-ID: <20240823180442.GA377418@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240823-cleanup-h-guard-of-node-asoc-v1-3-2349bd7fb7f4@linaro.org>
-References: <20240823-cleanup-h-guard-of-node-asoc-v1-0-2349bd7fb7f4@linaro.org>
-In-Reply-To: <20240823-cleanup-h-guard-of-node-asoc-v1-0-2349bd7fb7f4@linaro.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2206;
- i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=YMK3zEWCRlOermMUoSe3gCcOKQ0OSZIF1hdfiLQ3/3s=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmyLcMC3oV2jdwkepRh+MjsS/sJo02teK7A0I9+
- FPmS5kvoLqJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZsi3DAAKCRDBN2bmhouD
- 1xDgD/9h+NlLbLIyay5J6kOJi5zvny6MWxMj8Cly/6STHvdMPumrujp69rx0qNuuGIGJ8Tq0E3k
- +SsIsMKiY8MVTc0LZznq1PN6rRVdZL/cEYNGUXFqnhnsOiphoY7Qa6XFAO8jMVZHcWd0755F0WX
- G7B5gI4kCYd4AMBvfHKNybWwgQZdVkxw+YXo0F+mf1ThRk8aMIwFkVgTj5sKkpFphSBScn0euRL
- Yr4PhHfJP0iF2bAwKHwP0767rqe5xGXR/508PmGOtsKxp/VH/DZAOs31etB+nRns/mIRjdwQ/Jp
- y6W+x5hbeGXa1yZRGHGJnLVCGJvVyYs+i8o0k//9dLqUBaItS37JaVePZHW5ybcAiHr8YBIpBvl
- kzW6ACe2HKqN3QBPrrIgaLZDOf06YzunRQC7XmaaQUg569GGBtQeiUliqsrLmsLlP6iUanAXN51
- NAwCFbLLAAw2n8IgqnPXRQCBuy66e6jJwRFaW+A5UFtT46pNOOxtNAvyJaUG+js/X+dJMExOUXT
- EW9KesBY0CKrk3M5dsRje5drrMbGzKGeord0krGu/kebQ0LP6fss4uGRkLtgWNkBiATpQqsAT/l
- jVAwMvA9nHfzmrtZVl2iFJwwxwvEEDxld0u18nLUKgSoEOlgXeMySYFPrYZ0Z/sOD8tTeRKx63x
- dMmIU0+hq5pCulA==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
- fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA2BBD087345B6D1+20240823095708.3237375-1-wangyuli@uniontech.com>
 
-Simplify error handling with guard(mutex), which allows to drop local
-'ret' variable and to directly return instead of jumping.
+On Fri, Aug 23, 2024 at 05:57:08PM +0800, WangYuli wrote:
+> Add DMA support for audio function of Glenfly arise chip,
+> which uses request id of function 0.
+> 
+> Link: https://lore.kernel.org/all/20240822185617.GA344785@bhelgaas/
+> Signed-off-by: SiyuLi <siyuli@glenfly.com>
+> Signed-off-by: WangYuli <wangyuli@uniontech.com>
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- sound/soc/codecs/wcd939x.c | 21 ++++++++-------------
- 1 file changed, 8 insertions(+), 13 deletions(-)
+Applied with Takashi's reviewed-by to pci/iommu for v6.12, thanks!
 
-diff --git a/sound/soc/codecs/wcd939x.c b/sound/soc/codecs/wcd939x.c
-index 68fc591670dc..a77e4b8b3931 100644
---- a/sound/soc/codecs/wcd939x.c
-+++ b/sound/soc/codecs/wcd939x.c
-@@ -5,6 +5,7 @@
-  * Copyright (c) 2023, Linaro Limited
-  */
- 
-+#include <linux/cleanup.h>
- #include <linux/module.h>
- #include <linux/slab.h>
- #include <linux/platform_device.h>
-@@ -1933,7 +1934,6 @@ static int wcd939x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
- 	struct wcd939x_priv *wcd939x = snd_soc_component_get_drvdata(component);
- 	unsigned int micb_reg, cur_vout_ctl, micb_en;
- 	int req_vout_ctl;
--	int ret = 0;
- 
- 	switch (micb_num) {
- 	case MIC_BIAS_1:
-@@ -1951,7 +1951,8 @@ static int wcd939x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
- 	default:
- 		return -EINVAL;
- 	}
--	mutex_lock(&wcd939x->micb_lock);
-+
-+	guard(mutex)(&wcd939x->micb_lock);
- 
- 	/*
- 	 * If requested micbias voltage is same as current micbias
-@@ -1967,15 +1968,11 @@ static int wcd939x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
- 						    WCD939X_MICB_VOUT_CTL);
- 
- 	req_vout_ctl = wcd939x_get_micb_vout_ctl_val(req_volt);
--	if (req_vout_ctl < 0) {
--		ret = req_vout_ctl;
--		goto exit;
--	}
-+	if (req_vout_ctl < 0)
-+		return req_vout_ctl;
- 
--	if (cur_vout_ctl == req_vout_ctl) {
--		ret = 0;
--		goto exit;
--	}
-+	if (cur_vout_ctl == req_vout_ctl)
-+		return 0;
- 
- 	dev_dbg(component->dev, "%s: micb_num: %d, cur_mv: %d, req_mv: %d, micb_en: %d\n",
- 		__func__, micb_num, WCD_VOUT_CTL_TO_MICB(cur_vout_ctl),
-@@ -2000,9 +1997,7 @@ static int wcd939x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
- 		usleep_range(2000, 2100);
- 	}
- 
--exit:
--	mutex_unlock(&wcd939x->micb_lock);
--	return ret;
-+	return 0;
- }
- 
- static int wcd939x_mbhc_micb_ctrl_threshold_mic(struct snd_soc_component *component,
+I changed the hex to lower-case to match nearby code and dropped the
+#defines for PCI_DEVICE_ID_GLENFLY_ARISE10C0_AUDIO and
+PCI_DEVICE_ID_GLENFLY_ARISE1020_AUDIO since they aren't used.
+If those values are used in more places than the quirk, we can add
+them and use the #defines in all the places.
 
--- 
-2.43.0
-
+> ---
+>  drivers/pci/quirks.c      | 6 ++++++
+>  include/linux/pci_ids.h   | 4 ++++
+>  sound/pci/hda/hda_intel.c | 2 +-
+>  3 files changed, 11 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
+> index dd75c7646bb7..7aad5311326d 100644
+> --- a/drivers/pci/quirks.c
+> +++ b/drivers/pci/quirks.c
+> @@ -4259,6 +4259,12 @@ static void quirk_dma_func0_alias(struct pci_dev *dev)
+>  DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_RICOH, 0xe832, quirk_dma_func0_alias);
+>  DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_RICOH, 0xe476, quirk_dma_func0_alias);
+>  
+> +/*
+> + * Some Glenfly chips use function 0 as the PCIe requester ID for DMA too.
+> + */
+> +DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_GLENFLY, 0x3D40, quirk_dma_func0_alias);
+> +DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_GLENFLY, 0x3D41, quirk_dma_func0_alias);
+> +
+>  static void quirk_dma_func1_alias(struct pci_dev *dev)
+>  {
+>  	if (PCI_FUNC(dev->devfn) != 1)
+> diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
+> index e388c8b1cbc2..536465196d09 100644
+> --- a/include/linux/pci_ids.h
+> +++ b/include/linux/pci_ids.h
+> @@ -2661,6 +2661,10 @@
+>  #define PCI_DEVICE_ID_DCI_PCCOM8	0x0002
+>  #define PCI_DEVICE_ID_DCI_PCCOM2	0x0004
+>  
+> +#define PCI_VENDOR_ID_GLENFLY	    0x6766
+> +#define PCI_DEVICE_ID_GLENFLY_ARISE10C0_AUDIO	 0x3D40
+> +#define PCI_DEVICE_ID_GLENFLY_ARISE1020_AUDIO	 0x3D41
+> +
+>  #define PCI_VENDOR_ID_INTEL		0x8086
+>  #define PCI_DEVICE_ID_INTEL_EESSC	0x0008
+>  #define PCI_DEVICE_ID_INTEL_HDA_CML_LP	0x02c8
+> diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
+> index b33602e64d17..e8958a464647 100644
+> --- a/sound/pci/hda/hda_intel.c
+> +++ b/sound/pci/hda/hda_intel.c
+> @@ -2671,7 +2671,7 @@ static const struct pci_device_id azx_ids[] = {
+>  	  .driver_data = AZX_DRIVER_ATIHDMI_NS | AZX_DCAPS_PRESET_ATI_HDMI_NS |
+>  	  AZX_DCAPS_PM_RUNTIME },
+>  	/* GLENFLY */
+> -	{ PCI_DEVICE(0x6766, PCI_ANY_ID),
+> +	{ PCI_DEVICE(PCI_VENDOR_ID_GLENFLY, PCI_ANY_ID),
+>  	  .class = PCI_CLASS_MULTIMEDIA_HD_AUDIO << 8,
+>  	  .class_mask = 0xffffff,
+>  	  .driver_data = AZX_DRIVER_GFHDMI | AZX_DCAPS_POSFIX_LPIB |
+> -- 
+> 2.43.4
+> 
