@@ -1,58 +1,60 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60AB4188A1A
-	for <linux-sound@vger.kernel.org>; Fri, 23 Aug 2024 16:21:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5E801898F3
+	for <linux-sound@vger.kernel.org>; Fri, 23 Aug 2024 16:21:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724430099; cv=none; b=oLMyjPxwH0wz1LOppVfIGCKkvZUl4m69CNzhLedhkWQwcMASaj7wcav0HkJ7BPUXk4j9PVuomQlzNyjSdZc+55eSaUj1jiv1KFHefn7NY8qNUAoBIa9MdWSNo/WzDM+DVq82Xf4m62hARmijBDjufhsleZYWzx8yMrg26EKbLwI=
+	t=1724430100; cv=none; b=flYNxb2kzBwWgZgmhH3vDMU6z22Z5IcvEeiAd6ZLKfv7xaEtFH6S4D0se5sKutMRKVvh4/sPWXpTi93CbNYKQ+0uCZmbq3K5EcgZO4AmE8f0MrspG7VWGIuxGLG1KBA8d35SqgJcH3uc/ElofbwP3h5ds+ghvhbDs1JENhpalzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724430099; c=relaxed/simple;
-	bh=t8wiOfrfxHEMnbl35BDG8oU50OIX2ALJxv77a7az+48=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=M1bRB8Ck76vuuDx0LGWESlZRnD4BOjh+hb5uib9ATUV8PDasVqQZzpCZDC5z4ku9YDfuskLh2j9RKMFarfiLUZtsiGLAjetNHmjUcLygCruK/L+SVmZlODpEh/w8caSTaM9SzaMRAHvPw/rcmeYwOqKjO8APh1JC1rM+GeILLj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YjpVH7vQ; arc=none smtp.client-ip=209.85.128.45
+	s=arc-20240116; t=1724430100; c=relaxed/simple;
+	bh=ub/VuVWp0Knj12UIC5h+BDoK62pFjZRxW7gqCbPSQXw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=dtrmDSyXl+xYbix0bjfTm5MpJHpqk3dnvmAJXi0TFRtDia6sC2aEzK6MqlYA1S+Hf4OPMeicJB888aGJdqNyr7ezzLRr2do3BzgU3JdRUYMvp70c2tZGhB9cLkjYmOzwQ5mW+C5DVw5vc2Isy9Xh3PAQ/rhZA/Z4yq3S6DClAn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=To0nohPH; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YjpVH7vQ"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4280ef642fbso2703745e9.1
-        for <linux-sound@vger.kernel.org>; Fri, 23 Aug 2024 09:21:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="To0nohPH"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4290075c7e1so2718445e9.0
+        for <linux-sound@vger.kernel.org>; Fri, 23 Aug 2024 09:21:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724430095; x=1725034895; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=T6brdorWdeo3olaFVOr6JBX5PiDBOs1+M1ab2Osxxjc=;
-        b=YjpVH7vQ6U2z1P51A3fewZQUhkcpYIrgEXhRGWC/4cFQJSik9TZ+E7Uz/Tjw3mXHVl
-         sBrUvwBOK1h9etNE1BY1z5eslsElFj8pdnDiVlMQBBCMg5ikUi9tC3+HF4lVerJhfbva
-         7bEGb5kMZhaVHx4lPChEn7ISHbHb+BdYev+ZYO/2Mt0b5ZjRzkwzdLwE/Mz6S6VhgpDR
-         pi93yeUPCbKiQMnJl4Fln/eWXIuFdMTNpNETGk2BNxk7yMTIm4nXATAloZvj5kX69Tx6
-         6HiVbLn00wj3pJ34aDEgbxJRKQ+cAEfPHb72QYLo95IBOC43DUws2VdNkALHqoaLuDmL
-         Yzaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724430095; x=1725034895;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=linaro.org; s=google; t=1724430097; x=1725034897; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=T6brdorWdeo3olaFVOr6JBX5PiDBOs1+M1ab2Osxxjc=;
-        b=sdSx714CQ10GrKGj87PoReDYpkdVmPu0asBfmVb6ZUPQ53KrPy+vTAfnXIEGzw+dyj
-         K2HMTMJtPMpuBsyEGMPveRTKxffLgBtlt74LXvfjH2xCN2+HyTxcyTMOpu1sQCg117lz
-         gm1Pw+fcvfpK3QbhDHnnHxVgAk8VqyHhddPRDRD4I0uK2U7YWsnJjVNGLKzO9JycWNDo
-         ZwJKO7ZqSwMni2jNQFhNHNwMslgiWtYo7pDfV8ag/S9ZAek1GnSb+NVk+Qw1IgED0U7P
-         BvEvGiHN42drTd/Yj7JKNItAhpSOkF4OcRv705gQFhBxppAJheLH09jdnKU8QMtXy8s0
-         N1oQ==
-X-Gm-Message-State: AOJu0Yw7B45O21hhEWBY1Brf+RcqOg0CEC/1O6s+PBQdASmHq0uF7PMV
-	wha9JNkZYB1D7lk8D9Qvmc8YrNvppUJeoqi4QW5KgElea+SIrKmurKqiV+enACQ=
-X-Google-Smtp-Source: AGHT+IG+GcVyfLUH2h3KXyDS5NcNh4UoP9nzPczNHsu6N0/bkLLePsJwDESHKkfOJzTByL56oLPdYA==
-X-Received: by 2002:a5d:64cc:0:b0:366:eb60:bcf2 with SMTP id ffacd0b85a97d-3731185bd1cmr952147f8f.4.1724430095448;
-        Fri, 23 Aug 2024 09:21:35 -0700 (PDT)
+        bh=oHlJrjBVePe1SeLSbv4Eko9PRunifYIKIfHjAwXzAIk=;
+        b=To0nohPH+Qk8rub6k8PHhwiRXWkqPpBRe2cd7rr2DeqPZZVMWY74ZPc9HTasRnNRw0
+         cJzCQqOpGyViPZDQIbt8UxbKymT1ZBJpFjmmVLcNsrdPP32DmyXg31y9xWLFVZmgvrG8
+         7n3voi5mchQgKBNd3pQ2lmV2JLImrl5voFcWrkW+wZC+lzGneyq/+B/BzBtOkqZW+waA
+         hFWVYeFzB+shEo90WOsagPPkTDP1QhJ+laFFqThxiy+40l4NmzbqdJOfWJlYOf4S5Myh
+         ZkFGzVqI3xDbFwQrw63vxoII3kd/PMXOvwwdpVKECXi5giuZFsZvcVWZx6HbdmCS4fft
+         7UvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724430097; x=1725034897;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oHlJrjBVePe1SeLSbv4Eko9PRunifYIKIfHjAwXzAIk=;
+        b=eYcL5I98xcYbT8adRHPC54JSgi/8IfSrOIVXICWgMHU+Ulof3pQsdQZh+hsx1ZCZwz
+         DpMv3JWtzRGNB1hl8RRZE8C7xei44pK3SgL37Pe7s/f2HZ4twdZQD3mIIUww/RI96A1m
+         Wa1moUSOxCq3OHU+theVq9ib4YmcfsTfJzqFeFtC9ZOFZcpBN49Gp0Sx6eI5XNUh/hgq
+         AD8MxH0LpO9i+aFP05BWDI6GGM4x5WcozzDwXIlirtTUNkoOXoUi/r8AMFF83UhjpIdp
+         AHak4bDdQjXF3Wigatev7yMhEJX8ct0YHjtCBFc1pTJH75eN4YwNdVT2IGEu1YrRcJbN
+         Le9w==
+X-Gm-Message-State: AOJu0YyPDSTQ3zhG7tHpnzuShYfhw//qmDFaKmQL7ald1uK8SZ8sXC83
+	3nRju6cmJMYmAAIwkk2OQE4RJQSWwSnb5DUogjAic2/gRcCwsZKOtakrsDRKa1/7l26bIxw+JXn
+	y
+X-Google-Smtp-Source: AGHT+IGaAT5CoBTn0zsG4cPP6D+5MC+AXuVqHDCJvSm5Lnq3Y/7n8RDjZ2yyq7jMTQ7u/rOKSqKtzg==
+X-Received: by 2002:a05:600c:1c9f:b0:426:6ea6:383d with SMTP id 5b1f17b1804b1-42acc8de6bamr12721845e9.2.1724430096759;
+        Fri, 23 Aug 2024 09:21:36 -0700 (PDT)
 Received: from [127.0.1.1] ([178.197.222.82])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37308160586sm4499312f8f.58.2024.08.23.09.21.33
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37308160586sm4499312f8f.58.2024.08.23.09.21.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Aug 2024 09:21:34 -0700 (PDT)
+        Fri, 23 Aug 2024 09:21:36 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 0/3] ASoC: codecs: wcd93xx: Simplify locking with guard()
-Date: Fri, 23 Aug 2024 18:21:28 +0200
-Message-Id: <20240823-cleanup-h-guard-of-node-asoc-v1-0-2349bd7fb7f4@linaro.org>
+Date: Fri, 23 Aug 2024 18:21:29 +0200
+Subject: [PATCH 1/3] ASoC: codecs: wcd937x: Simplify locking with guard()
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,53 +63,105 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAi3yGYC/x3MzQqEIBQG0FeJu54LZr/MqwwtTD/rwqChFEH07
- knLszkXZSRBpm91UcIhWWIoqD8V2dWEBSyumLTSrRp1w/YPE/aNV152kxxHzyE6sMnRMsZZoUf
- n6wFUii3By/n2v+m+H0dxgHZuAAAA
+Message-Id: <20240823-cleanup-h-guard-of-node-asoc-v1-1-2349bd7fb7f4@linaro.org>
+References: <20240823-cleanup-h-guard-of-node-asoc-v1-0-2349bd7fb7f4@linaro.org>
+In-Reply-To: <20240823-cleanup-h-guard-of-node-asoc-v1-0-2349bd7fb7f4@linaro.org>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=770;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2368;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=t8wiOfrfxHEMnbl35BDG8oU50OIX2ALJxv77a7az+48=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmyLcKD+uG3HcTZUvqhDKFW58Daipckpqa/Buz2
- cwjqumM5aCJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZsi3CgAKCRDBN2bmhouD
- 1/JND/9PoGdcTtdX3IALyCipieeGjOsL+lQ35HjRLChOlpXgT6gB9cGBNGRMpdYRjqqVRkEqGXn
- Sr+UYYLO3PKpIFfqTnJ3hggq+ymmaf/BTn7oMSw5c6Gi4KGI+y8HpY+w5x7GpSo9mqwb2n1fccl
- lIg7G08wNUMJrxAyWo/AfU6JY9l6u7SqcRZUnxPxRdietwCXGlLuMYQSvSuDvM+y8Wi+yruP2Qr
- AhiZ6JfyYkpUWeR9nUAKFdi1Ctsl/5bxy68No8K8DJea3lQfjQDG3S6uGIgju3EqhaBG9HbZvmq
- qQAQZeQ09QVCCawoFQnXu24xCV7izakesuoPm4HQRMb0Swt55sSFgZ4C0ciHiqBDwpNPpE06TUV
- DPDlzFRs+1pc7EtO/jAjadbAI20G9fJqPNjt/wB+IiRqueAPU4jnB5KSup4MbVulRaZ8O6k2urC
- J25vyu1jqvI0+Y1Mr3IK9nIyDkAIy0RVzx99dKXsr3tB0VI0AEa4bD4D4kC7c47vGaWpNrGYF17
- lvZ3oB1FTyjjMF4uzBaEIxlDgkbCx5atEtqku5JTk6M7xjYB4DGjNTIosbsIwTowFyZGg1jLPRV
- GgcXc8bKdNb9ZSvQDOUFQleIyeeA/N7LiUaOV5u9mtsfvKrhdHkRHA52snPXNnL+mFklcKJREe0
- U7aDsMyfXk15uLQ==
+ bh=ub/VuVWp0Knj12UIC5h+BDoK62pFjZRxW7gqCbPSQXw=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmyLcLG8HQHGINNmHWD3ZNgw/T5pgusG7Ng7fhx
+ L60p4yQ1kyJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZsi3CwAKCRDBN2bmhouD
+ 14SwD/wLVdZJmNWBwyt8sE2Me3LkhDATw+Ka38o40SDKTczfAcCnWTxwNEwgcuqCStlwJIIIrtt
+ Y0n0kWFxKDz8Biu+qnlk8lpVzw+mzZfl/2s/5pJIizWM5FapNKd0DD0dx2jg8vXiJQdYuPwkV0C
+ ZZH3VVX5mdhpsQTEL49L6Ubmg9XW47ZIA32/453zaluWgwmAhnDE9/IOpGwy0+MXyBKIWDdEGPJ
+ olB65xGv9DUwDDnY36K50bewU+XFgG8UyAcdSSQ228ZHWNAro1PynjoMStTfu+opTwr2ubIy7un
+ pv50YHu9sFQUV9al49GkR8KveVDqOiF3UEE5pnNM+3QqID+arPUZmAPrA1ANnhw7pwzTO5yy+GH
+ RWj/WVUn9Xl64pEfBMsn7dnCuEKQkW+8vy3cY/x6iEAJ5sEGFmWqqkPbCllpVi+BfN5AyQ3a8EO
+ SSieQSyCvVo7z4vE+KOhQXZcwHy4bvVEiqeiORaDB/lEtS7HceVfIY9OLPmZEcGOB7zWHf8DKzW
+ wYZSbuUrTj8w0gs41PeDYlPW2OyEnR6pG7aIlCn5A/pKW+6JRPhvFOE+/Q4djgkl9NnBTtxCc2/
+ xJFzHW9bTfxKz9C6sDVtHE1fTrRz60B5Nka0OULrTkiOM7Npi1OKiWz+7fDo/ELa0DODyzyT992
+ Dq+idLSDsqVX2jw==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-Simplify error handling around locks with guard().  Less gotos needed,
-drop local 'ret' variable..
+Simplify error handling with guard(mutex), which allows to drop local
+'ret' variable and to directly return instead of jumping.
 
-Best regards,
-Krzysztof
-
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
-Krzysztof Kozlowski (3):
-      ASoC: codecs: wcd937x: Simplify locking with guard()
-      ASoC: codecs: wcd938x: Simplify locking with guard()
-      ASoC: codecs: wcd939x: Simplify locking with guard()
-
  sound/soc/codecs/wcd937x.c | 24 +++++++++++-------------
- sound/soc/codecs/wcd938x.c | 24 +++++++++++-------------
- sound/soc/codecs/wcd939x.c | 21 ++++++++-------------
- 3 files changed, 30 insertions(+), 39 deletions(-)
----
-base-commit: e188fd67a69319f3d105d9b90e424b8d1ff9580c
-change-id: 20240823-cleanup-h-guard-of-node-asoc-e8b0e6e5f17e
+ 1 file changed, 11 insertions(+), 13 deletions(-)
 
-Best regards,
+diff --git a/sound/soc/codecs/wcd937x.c b/sound/soc/codecs/wcd937x.c
+index af296b77a723..59d2a5da9854 100644
+--- a/sound/soc/codecs/wcd937x.c
++++ b/sound/soc/codecs/wcd937x.c
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ // Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+ 
++#include <linux/cleanup.h>
+ #include <linux/component.h>
+ #include <linux/delay.h>
+ #include <linux/device.h>
+@@ -1440,7 +1441,7 @@ static int wcd937x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
+ 					    int req_volt, int micb_num)
+ {
+ 	struct wcd937x_priv *wcd937x = snd_soc_component_get_drvdata(component);
+-	int cur_vout_ctl, req_vout_ctl, micb_reg, micb_en, ret = 0;
++	int cur_vout_ctl, req_vout_ctl, micb_reg, micb_en;
+ 
+ 	switch (micb_num) {
+ 	case MIC_BIAS_1:
+@@ -1455,7 +1456,9 @@ static int wcd937x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
+ 	default:
+ 		return -EINVAL;
+ 	}
+-	mutex_lock(&wcd937x->micb_lock);
++
++	guard(mutex)(&wcd937x->micb_lock);
++
+ 	/*
+ 	 * If requested micbias voltage is same as current micbias
+ 	 * voltage, then just return. Otherwise, adjust voltage as
+@@ -1470,15 +1473,11 @@ static int wcd937x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
+ 						    WCD937X_MICB_VOUT_MASK);
+ 
+ 	req_vout_ctl = wcd937x_get_micb_vout_ctl_val(req_volt);
+-	if (req_vout_ctl < 0) {
+-		ret = -EINVAL;
+-		goto exit;
+-	}
++	if (req_vout_ctl < 0)
++		return -EINVAL;
+ 
+-	if (cur_vout_ctl == req_vout_ctl) {
+-		ret = 0;
+-		goto exit;
+-	}
++	if (cur_vout_ctl == req_vout_ctl)
++		return 0;
+ 
+ 	if (micb_en == WCD937X_MICB_ENABLE)
+ 		snd_soc_component_write_field(component, micb_reg,
+@@ -1499,9 +1498,8 @@ static int wcd937x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
+ 		 */
+ 		usleep_range(2000, 2100);
+ 	}
+-exit:
+-	mutex_unlock(&wcd937x->micb_lock);
+-	return ret;
++
++	return 0;
+ }
+ 
+ static int wcd937x_mbhc_micb_ctrl_threshold_mic(struct snd_soc_component *component,
+
 -- 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+2.43.0
 
