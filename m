@@ -1,45 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1CEB195
-	for <linux-sound@vger.kernel.org>; Fri, 23 Aug 2024 22:57:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9250B28DB3;
+	Sat, 24 Aug 2024 10:13:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724453829; cv=none; b=JzgvTcj/76rDJNbdiRUqoScTRmXCzVhpCn0JlfZq4AhGewISzu1GKwzBTdZsAE/ALrdSp9hyluwdOyl0j4K1OA5L3obxjxDZ5UuJ+AbPe+Vf9VdcMcnshSYoQK/fcuslWUS9za02S68tSqufB+xCekO9u0i/FdloUpIglLhKSEk=
+	t=1724494408; cv=none; b=Dsy1AmYv+raSCWTCDHCWZ7pDVOxOlrkG0xIoNhk1K0ZBnFOUQw8GiovMty3GpHgr4jnyVtaG+g8YbjLhp89X7RdP8eD8nfY2iIhdBb7/CWjqtQ1QX4TmlF1CHsg8Bqlr8M0fkKubBodmLAl1aev/2Ldv1f+Y38dePwkVZlbi6KQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724453829; c=relaxed/simple;
-	bh=W/CDtPs4vrEPcGRTjULwaMcukxhP03HdOs/6BCsQpoA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ri1wVGUXYaXEHctH5AoGjh9o7XGUK75coye2cdxZCNlHAvRojk/o6+rS0Zq6Qg3KPh8wmDG5JsVku2TOgLYiyrje4e78exgDQsA5cmk8OvN9gJDCfvuPMmw797mBqUgNCI96lhfDFEp4E1Euy2EMnZq8YR2q3Et3k64ID7ukC6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KXvNhq2a; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724494408; c=relaxed/simple;
+	bh=EJUbwoQj1+sKr5nSRq40MUt8payr3CejPTrHebf5UWs=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=n4vifoCrLef1fhtuxf2fUzcb6rKBqp0IZFX6Re6dnSdsX5IaBGH6fV93V6xOFpkhnOt5db43+S6N2PH2xMUFEGXXOB5BzynrPNV706AQj0eXibM60tB7DhS0FPqMQxbzWgqkJfDEZ7j8u3uCzif+Dy4q28Qf8HkHBGbLBoF7dcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YfqVsmxL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KXvNhq2a"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60154C4AF0C;
-	Fri, 23 Aug 2024 22:57:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YfqVsmxL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFAB6C32781;
+	Sat, 24 Aug 2024 10:13:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724453829;
-	bh=W/CDtPs4vrEPcGRTjULwaMcukxhP03HdOs/6BCsQpoA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=KXvNhq2aL2PwMIpKJAGFk+z6TOJGfl9HQt/+S/agmM6EWrG5FhLzfmCl3CFZi7G7V
-	 iZnTQOCNUYsSD2TYcekZyU23Goy7UcdN+quYqdJHjVdVmZb7PPDit0S0CIqXC8nVpo
-	 KnLCVq7R/ECVYAdDsH7wW3akvOsTgaMlmd3rrn45R9XZ4dqopm6Q9Qe7tVhGQt2oZx
-	 Q21eBaUzbVPmc1A1fi2HDQQhEGGvsr5FByB3KQQE2iLgvtpoxP+GpxuMSAWG4Wuj7R
-	 NYEQJHRKjZn5kCIXYVAP28ZNt1DiAX2IilZkDPlWJeNhE/DwY685jX4DC+S20olUe8
-	 trzXu+35VmY/A==
+	s=k20201202; t=1724494408;
+	bh=EJUbwoQj1+sKr5nSRq40MUt8payr3CejPTrHebf5UWs=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=YfqVsmxL21XxsmVv7Y6UKGavJUmwKu0lPqZzEdZkhnsmi+d2Vqdh6p18PHdnoToyF
+	 D0QW5H/AjrM5ScUnwz9RCdDaS1+5Vig5mG6Fc/bkZc5WJPSx04gv7WUsmaTy5F7g0P
+	 0wrTRz3DVfMsQmQvxIGLRD/803hMZmbdOiJDdpVuodFYuw9FEGBp/mCLOddw6JOSEK
+	 bSyR7c+kUyN4CIjFXXBaLN0VqAmdXR+wAPnjFpGysL5nnCINSME7YChSLzqHI1hUEV
+	 y6WwB3ANemGVho+Z85lDtIRcjoj+0jd0OaNv4FBan/1vgErd/4gw+ZsM3kSfEKUkHK
+	 yqy1Jjy4IESsw==
 From: Mark Brown <broonie@kernel.org>
-To: Cezary Rojewski <cezary.rojewski@intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
- Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Hans de Goede <hdegoede@redhat.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-In-Reply-To: <20240823074305.16873-1-hdegoede@redhat.com>
-References: <20240823074305.16873-1-hdegoede@redhat.com>
-Subject: Re: [PATCH] ASoC: Intel: soc-acpi-cht: Make Lenovo Yoga Tab 3 X90F
- DMI match less strict
-Message-Id: <172445382681.842154.8004186993571993560.b4-ty@kernel.org>
-Date: Fri, 23 Aug 2024 23:57:06 +0100
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+In-Reply-To: <20240823-dapm-graph-v1-0-989a47308c4c@bootlin.com>
+References: <20240823-dapm-graph-v1-0-989a47308c4c@bootlin.com>
+Subject: Re: [PATCH RESEND 0/3] ASoC: dapm-graph: add component on/off and
+ route names to graph
+Message-Id: <172449440543.846858.4694040837255078540.b4-ty@kernel.org>
+Date: Sat, 24 Aug 2024 11:13:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,17 +47,11 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-37811
 
-On Fri, 23 Aug 2024 09:43:05 +0200, Hans de Goede wrote:
-> There are 2G and 4G RAM versions of the Lenovo Yoga Tab 3 X90F and it
-> turns out that the 2G version has a DMI product name of
-> "CHERRYVIEW D1 PLATFORM" where as the 4G version has
-> "CHERRYVIEW C0 PLATFORM". The sys-vendor + product-version check are
-> unique enough that the product-name check is not necessary.
+On Fri, 23 Aug 2024 09:45:58 +0200, Luca Ceresoli wrote:
+> This small series adds some improvements to dapm-graph in order to produce
+> a more correct and informative graph.
 > 
-> Drop the product-name check so that the existing DMI match for the 4G
-> RAM version also matches the 2G RAM version.
 > 
-> [...]
 
 Applied to
 
@@ -68,8 +59,12 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: Intel: soc-acpi-cht: Make Lenovo Yoga Tab 3 X90F DMI match less strict
-      commit: 839a4ec06f75cec8fec2cc5fc14e921d0c3f7369
+[1/3] ASoC: dapm-graph: remove the "ROOT" cluster
+      commit: 5a98c2e5399b125231ebb4594fee5fddfb7db9fd
+[2/3] ASoC: dapm-graph: visualize component On/Off bias level
+      commit: 64a1e3ddab1ebaa590101b0d7d7fa5d3144da1e8
+[3/3] ASoC: dapm-graph: show path name for non-static routes
+      commit: a14b278a47dd4b263799214c5ae0da6506ed7692
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
