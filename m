@@ -1,293 +1,213 @@
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx-lax3-1.ucr.edu (mx-lax3-1.ucr.edu [169.235.156.35])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52FF4146D49
-	for <linux-sound@vger.kernel.org>; Sat, 24 Aug 2024 20:39:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3B8F4A05
+	for <linux-sound@vger.kernel.org>; Sat, 24 Aug 2024 23:09:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=169.235.156.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724531997; cv=none; b=QpsBfT5uto0XyoGkOHTQZaug/vquOmaX6zT21xeMU75pRRBb3MkbHtXFXDXe7sCeSCo2YFbQQG2wlRBQcxa3W/ZfbakFCrmSCb5DWVr7iGsaRDi55aL/v8MCDKicl5NXwGuokul+nUKjSsbWj9+kXkLnbSKf4IwUwOBp6T0xj+E=
+	t=1724540995; cv=none; b=ErxRlindre0SGSCB0pg66DbgOQtT28BM9uKIR1dCtM68q/la1SUxxOGvDiOgacx7lX7I64PfM0gzkV5i/DVoT968yjKgNoLAr9iTTJ66UvTegIlN/2r8QRJpfa55/nSVPDwX9AJn4Z5oGHEBX5CVdK10nSo/uf4paijjNcse94M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724531997; c=relaxed/simple;
-	bh=wy+buUfFNWenANWIzjnep3BSbPNunUG2SEfVtnf7mDQ=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Content-Type; b=VjuaXsYT4ZjnDVui6m+fyHpWlI+ewQuMhBCridOA74dFAWuXCIQJAzRzgPOmgN+ENJN2T8n/6AzOpKGbmsy94xKbhgvhlvs+MizjJo53zpa0rDR6qi2ybvTN3KoK962Kqy5uJdNYMa/cHwSnjln1QLgkxKiNH2tbFUR49KabU0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hDY5QzWX; arc=none smtp.client-ip=209.85.128.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1724540995; c=relaxed/simple;
+	bh=KwTEpTJVyQ8anR7mVpiMXWx+OVdxWj9gjO3TLdEJWJM=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=snzOZrdFGUnnEHtk+zzK0rtphQwSEvhOW5UCw91ipGuFTHoYmCdHTg2ZaZdpHx0jV3/Doj4xj1h6sd6VaQJti7Dc3Jn1iMOrAM2z/HnNLKyV8wkSb1gdMuSFg9xr7FKL0dbpJu2OrWQMwxw+Kk4Mnpw/cxiOpIWl28kcPexRb2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=email.ucr.edu; spf=pass smtp.mailfrom=ucr.edu; dkim=pass (2048-bit key) header.d=ucr.edu header.i=@ucr.edu header.b=PTAyKVt+; dkim=pass (1024-bit key) header.d=ucr.edu header.i=@ucr.edu header.b=IRQfGRi/; arc=none smtp.client-ip=169.235.156.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=email.ucr.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucr.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hDY5QzWX"
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-6bada443ffeso23078807b3.0
-        for <linux-sound@vger.kernel.org>; Sat, 24 Aug 2024 13:39:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ucr.edu header.i=@ucr.edu header.b="PTAyKVt+";
+	dkim=pass (1024-bit key) header.d=ucr.edu header.i=@ucr.edu header.b="IRQfGRi/"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=ucr.edu; i=@ucr.edu; q=dns/txt; s=selector3;
+  t=1724540994; x=1756076994;
+  h=dkim-signature:x-google-dkim-signature:
+   x-forwarded-encrypted:x-gm-message-state:
+   x-google-smtp-source:mime-version:from:date:message-id:
+   subject:to:content-type:x-cse-connectionguid:
+   x-cse-msgguid;
+  bh=KwTEpTJVyQ8anR7mVpiMXWx+OVdxWj9gjO3TLdEJWJM=;
+  b=PTAyKVt+EoR+bUTjXKbi6NAy10xboi+pKuHNQldh+IYyCkiKqp6Uf6LB
+   MRUmod9xb5rDRoTdPJ+WgLtOyxglzxdDQqpCTNoIErsNyHkWKBQzxBJq3
+   mgGeJyBJJ7fl3uzlDa8v8FgJ4us9ERVEXMV0PhmTsACBMVW8+bEIweVxh
+   brpEOkLS/wiaZC1x3HWp2+j7xFpLxAlqy9IWZG/Wm0I84r3WiN7zGG2j1
+   Wm4a38OSSuwvEYFxjWILk8AmiJjUy0bNMjLBQvv43/ap4X9NlxmBTtJDq
+   sGTKuw5zHyqDvzV3NXzQi7W0yxvyUElBUKjvNReOf+ki49bpUYRe0Ymde
+   g==;
+X-CSE-ConnectionGUID: dkupGUDiToeL/FNhvHcuZA==
+X-CSE-MsgGUID: IiHckuusR8CePCwnbGMFSQ==
+Received: from mail-io1-f71.google.com ([209.85.166.71])
+  by smtp-lax3-1.ucr.edu with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 24 Aug 2024 16:08:46 -0700
+Received: by mail-io1-f71.google.com with SMTP id ca18e2360f4ac-81fc0896188so345323539f.1
+        for <linux-sound@vger.kernel.org>; Sat, 24 Aug 2024 16:08:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724531994; x=1725136794; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:content-language:subject:from
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wy+buUfFNWenANWIzjnep3BSbPNunUG2SEfVtnf7mDQ=;
-        b=hDY5QzWXctGysutIZJU34nmrN4vSbG3wBV6meMQSWitfQ4l4jG6mGoVb34V8oUFA2U
-         v6ApyoHbEI11T4buVF79ACFi0dT9JzjsxVHBzAgfFjgoG5O6zthiu63iV23cdt216IxM
-         1xZF88/65gPYQjbpmh19Nl49kd38H3pzYJ2qNB5B1/fH8ANlH9IQcCBjyvKQXrMXeZKk
-         sg/KzE9fN13SdkfoebBuhh1zjOsnKNdgAC4HqidnZa5Pi9KoJvn2MSoPKjP7EDhc6aQK
-         99OJ05D7/poJln8yqGHfLczUtO0kBBirOtEcBgE9jatsoVAttZQaznC4gY6bWC/NtpL7
-         XYMw==
+        d=ucr.edu; s=rmail; t=1724540924; x=1725145724; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=vnM6WbLG1jGTZoQIBdsIE1GJVAwXQu433koNWvzjUdo=;
+        b=IRQfGRi/jreYOvgD5+16aToc8XGgOoQdB8xgX/Q01stTz2ZylUnNUrhWFJST3KpPUG
+         CPb1bn3n04vCSrOv7v78whj+eFD9HaJgliXhE8pOmfpMbiT/0NZaElE3cdBqlvZ2uHBW
+         pmEZj9uOYoijzo9iz2OVFansEgam+iQPwKtyM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724531994; x=1725136794;
-        h=content-transfer-encoding:to:content-language:subject:from
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=wy+buUfFNWenANWIzjnep3BSbPNunUG2SEfVtnf7mDQ=;
-        b=qgG+zw6Y/kddkHsgE07Z4m8p+Nm72dHSOxPV8qcpu8NumgSbCxJyuh+ZT0T0PP5SKl
-         CxZoywjtcnYySceClRHcmXNZ7wirosmT8ntw4cxb9DLo6Il1DcbFR+bx4RJ6BZXsFOra
-         TwxifmzpLk7kWwr+dOAYPi7AS8KKTpWCagzr5H1vi1t8MmocEh3Per0FpKcsWXE1ekLm
-         Q9vxSlH7dWAXPK2vayV2SNxO85FZ1X/20G6JCf2cvCuo12c8vvNXLZ+2TakehlimYSZ+
-         Ew53ExH3rYQw9KjvzCS9Q+OG+DOtcQLWSeAKwLGRbVGoITQSMnB1gYnIPppsoNsD07RR
-         c2Ug==
-X-Gm-Message-State: AOJu0YySocx9aVafmBGymmvihLDfqgXUduTNhp3sOuk/JcYJGE3WHqc0
-	mUUbjcxP0qD5lAep8c+lFlzG3sr3CloFaj+0J1GhatXLYLmwS890dkNcBjez
-X-Google-Smtp-Source: AGHT+IGeZNlcFGrQ7kSAWEsCeL6oAstxUtVfuu87D1plLtAn8DPlXlQ8+y7QOMzZU3/BqLtJ0lKzBQ==
-X-Received: by 2002:a05:690c:d94:b0:640:aec2:101c with SMTP id 00721157ae682-6c5ff039cd1mr49221297b3.2.1724531993697;
-        Sat, 24 Aug 2024 13:39:53 -0700 (PDT)
-Received: from [192.168.50.200] (99-7-180-181.lightspeed.brhmal.sbcglobal.net. [99.7.180.181])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6c39dd47604sm9740547b3.125.2024.08.24.13.39.53
-        for <linux-sound@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 24 Aug 2024 13:39:53 -0700 (PDT)
-Message-ID: <a8a1bdb3-bd25-45c9-82b2-e96765fc1168@gmail.com>
-Date: Sat, 24 Aug 2024 15:39:52 -0500
+        d=1e100.net; s=20230601; t=1724540924; x=1725145724;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vnM6WbLG1jGTZoQIBdsIE1GJVAwXQu433koNWvzjUdo=;
+        b=ssSnZrGHa5ZbT5qdeLn+qut3310Kb5Ic0DvM1gfRh7lsz9ZzqVdOisEA8iEYtDr/JE
+         q39xYeB21WSxFa0yXGQzhh/U6KontB/PLb0E3vrphINVdHXshrkVv/xJOT+KHiTIi1bY
+         jAZ2BctNb6It3MY+5feobdFk1Uf8HA/nUgS9eOsWD4b2NJltT8u/jJETtryqsRagT3Yp
+         T2+qfkACs252XCGz2yiY/sw0WDlGHTuDRBxDcLEMXCxByFPi2X4Z0vRJpVlyCz1buAEO
+         xZnitje51EHXuya0qFZrcrqiVzljTsENfGNG275JKWvfUcHyFo+ohI2i6vlofeWRh4SE
+         sPZw==
+X-Forwarded-Encrypted: i=1; AJvYcCXA3VtGzrTQ/fyLXSqNZYntAf4HvGeBLz8D1C+VjyBtplIqSkHMJfnt5WvhPo7LDJ09BGDvU2zZ5kCHyg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDPKFjlli2kWSfx51XzKygulLYsorWo+fByzshsyUsRbrHL5ih
+	seI/30eVv0wtXBy4imBfskNhHG9Gfc3SWZUw9V/m2Q8x35mAbbWaeM+jIGBKhMeOidJ3A916H4e
+	bCaoffx+i0CIklvBSg9JEslh8GOdPq3N3kZ4RobQec4me9CLA2eQ2DdQ7wtR5Q7Hhbd6gtBCVtF
+	IhpA2vWVm9QPc/apFzqo0JIjLlA1xUDY48u66N
+X-Received: by 2002:a05:6602:3d1:b0:824:e864:569 with SMTP id ca18e2360f4ac-8278738088dmr908947439f.11.1724540924517;
+        Sat, 24 Aug 2024 16:08:44 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHXTcaR1Ppk2Bb3VJgWGtpkd5sYNwtoN/eS7aYKU5BH7mQpHbujNN3DDaXzr2VnHYOPY7ku2i7vpDXXFZpPMuA=
+X-Received: by 2002:a05:6602:3d1:b0:824:e864:569 with SMTP id
+ ca18e2360f4ac-8278738088dmr908945539f.11.1724540924105; Sat, 24 Aug 2024
+ 16:08:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Walt Holman <waltholman09@gmail.com>
-Subject: ASUS GA605WI Tinny sound - No Amp?
-Content-Language: en-US
-To: linux-sound@vger.kernel.org
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+From: Juefei Pu <juefei.pu@email.ucr.edu>
+Date: Sat, 24 Aug 2024 16:08:32 -0700
+Message-ID: <CANikGpe4pbGxQV+CCvSF6U+4cGHLWBzY_WXGSV9m+prBE6tYEQ@mail.gmail.com>
+Subject: BUG: INFO: task hung in seq_free_client
+To: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-SGVsbG8sDQoNCkkganVzdCBwdXJjaGFzZWQgYW4gQVNVUyBaZXBoeXJ1cyBHMTYgMjAyNCBs
-YXB0b3AgbW9kZWwgIyBHQTYwNVdJLiBUaGlzIGlzIGEgYnJhbmQgbmV3IG1vZGVsIGxhcHRv
-cCB3aXRoIHRoZSBBTUQgQUkgMzcwSFggYW5kIFJhZGVvbiA4OTAgc2V0dXAuIFRoaXMgcGFy
-dGljdWxhciBtb2RlbCBhbHNvIGhhcyBhbiBOdmlkaWEgNDA3MCBkaXNjcmV0ZSBHUFUsIGJ1
-dCB0aGUgaXNzdWUgSSdtIGhhdmluZyBpcyB3aXRoIHRoZSBzb3VuZC4gVGhlIGFtcGxpZmll
-ciBkb2Vzbid0IGFwcGVhciB0byBiZSB0dXJuaW5nIG9uIHRoZSBhZGRpdGlvbmFsIHR3byBz
-cGVha2VycywgYW5kIHRoZSBzb3VuZCBpcyBvbmx5IGNvbWluZyBvdXQgb2YgdGhlIHR3ZWV0
-ZXJzLCBzbyBpdCdzIHdlYWsgYW5kIHRpbm55LiBUaGlzIGxhcHRvcCByZWxpZXMgb24gdGhl
-IENTMzVMNTYgYW5kIHdoYXQgYXBwZWFycyB0byBiZSBhIGNvdXBsZSBvZiBhbXBzIGFjY29y
-ZGluZyB0byBkbWVzZy4gRnJvbSBldmVyeXRoaW5nIHRoYXQgSSd2ZSByZWFkLCBJIHRob3Vn
-aHQgdGhhdCBtYXliZSBpdCBkaWRuJ3QgaGF2ZSB0aGUgY29ycmVjdCBfRFNEIHNldHVwIGNv
-cnJlY3RseSwgYnV0IGFmdGVyIGZvbGxvd2luZyBhIGd1aWRlIGZvciB0aGUgUk9HIGxhcHRv
-cHMgZm9yIGNyZWF0aW5nIHRoZSBwcm9wZXIgZW50cmllcyBhbmQgc2V0dGluZyB0aGVtIHVw
-IGFzIGFuIGVhcmx5IGxvYWQgZnJvbSBncnViLCBJIGJlbGlldmUgdGhhdCB0aGV5J3JlIGFs
-cmVhZHkgdGhlcmUuIE9uY2UgSSBkaWQgdGhhdCwgZG1lc2cgcmVwb3J0ZWQgdGhhdCB0aGVy
-ZSB3YXMgYWxyZWFkeSBhIFNQS1IgaTJDIHRhYmxlIHRoYXQgY29udGFpbmVkIHRoZSBlbnRy
-aWVzLCBzbyBJJ20gZmFpcmx5IGNlcnRhaW4gdGhhdCBpdCdzIG5vdCB0aGUgQUNQSSAvIEVG
-SSBtaXNzaW5nIGl0LiBJIG5vdGljZWQgdGhhdCBpbiB0aGUgc291bmQvcGNpL2hkYS9wYXRj
-aF9yZWFsdGVrLmMgZmlsZSB0aGVyZSB3YXMgYSBxdWlyayBhbHJlYWR5IGZvciB0aGUgNjA1
-VywgYnV0IHNvbWV0aGluZyBtdXN0IGJlIG1pc3Npbmcgc3RpbGwgZm9yIHRoaXMgbW9kZWwu
-IEknbSBydW5uaW5nIDYuMTEuMCBtYXN0ZXIgd2l0aCB0aGUgbGF0ZXN0IGdpdCBmaXJtd2Fy
-ZSB0cmVlLiBQbGVhc2UgbGV0IG1lIGtub3cgd2hhdCBpbmZvcm1hdGlvbiBJIGNhbiBwcm92
-aWRlIHRvIGhlbHAgZ2V0IHRoaXMgdGhpbmcgcnVubmluZyBwcm9wZXJseSA6KSAgQmVsb3cg
-aXMgc29tZSByZWxldmFudCBpbmZvcm1hdGlvbiByZTogdGhlIENTMzVMNTYgZnJvbSBkbWVz
-ZyBpZiBpdCBoZWxwcy4gTGV0IG1lIGtub3cgd2hhdCBlbHNlIEkgY2FuIGRvLiBUaGFua3Ms
-DQoNCg0KWyAgICA1LjczODcwNF0gU2VyaWFsIGJ1cyBtdWx0aSBpbnN0YW50aWF0ZSBwc2V1
-ZG8gZGV2aWNlIGRyaXZlciBDU0MzNTU2OjAwOiBJbnN0YW50aWF0ZWQgMyBJMkMgZGV2aWNl
-cy4NClsgICAgNS45MDUwNjVdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYt
-aGRhLjA6IENpcnJ1cyBMb2dpYyBDUzM1TDU2IFJldiBCMCBPVFAzIGZ3OjMuNC40IChwYXRj
-aGVkPTApDQpbICAgIDUuOTE2NzkyXSBjczM1bDU2LWhkYSBpMmMtQ1NDMzU1NjowMC1jczM1
-bDU2LWhkYS4wOiBEU1Agc3lzdGVtIG5hbWU6ICcxMDQzMUU4My1zcGtpZDEnLCBhbXAgbmFt
-ZTogJ0FNUDEnDQpbICAgIDUuOTE5MDYwXSBjczM1bDU2LWhkYSBpMmMtQ1NDMzU1NjowMC1j
-czM1bDU2LWhkYS4xOiBSZXNldCBHUElPIGJ1c3ksIGFzc3VtZSBzaGFyZWQgcmVzZXQNClsg
-ICAgNS45MjU2NDRdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjE6
-IENpcnJ1cyBMb2dpYyBDUzM1TDU2IFJldiBCMCBPVFAzIGZ3OjMuNC40IChwYXRjaGVkPTAp
-DQpbICAgIDUuOTM5NzA1XSBjczM1bDU2LWhkYSBpMmMtQ1NDMzU1NjowMC1jczM1bDU2LWhk
-YS4xOiBEU1Agc3lzdGVtIG5hbWU6ICcxMDQzMUU4My1zcGtpZDEnLCBhbXAgbmFtZTogJ0FN
-UDInDQpbICAgIDcuMDY4MzQ4XSBDUzogIDAwMTAgRFM6IDAwMDAgRVM6IDAwMDAgQ1IwOiAw
-MDAwMDAwMDgwMDUwMDMzDQpbICAgIDcuMTQ4MzI1XSBDUzogIDAwMTAgRFM6IDAwMDAgRVM6
-IDAwMDAgQ1IwOiAwMDAwMDAwMDgwMDUwMDMzDQpbICAgIDcuMjMzMzkxXSBzbmRfaGRhX2Nv
-ZGVjX3JlYWx0ZWsgaGRhdWRpb0MzRDA6IGJvdW5kIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYt
-aGRhLjAgKG9wcyBjczM1bDU2X2hkYV9jb21wX29wcyBbc25kX2hkYV9zY29kZWNfY3MzNWw1
-Nl0pDQpbICAgIDcuMjMzNDAzXSBzbmRfaGRhX2NvZGVjX3JlYWx0ZWsgaGRhdWRpb0MzRDA6
-IGJvdW5kIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjEgKG9wcyBjczM1bDU2X2hkYV9j
-b21wX29wcyBbc25kX2hkYV9zY29kZWNfY3MzNWw1Nl0pDQpbICAgIDcuMjM4NjIyXSBjczM1
-bDU2LWhkYSBpMmMtQ1NDMzU1NjowMC1jczM1bDU2LWhkYS4wOiBEU1AxOiBGaXJtd2FyZTog
-MWEwMGQ2IHZlbmRvcjogMHgyIHYzLjQuNCwgMzcgYWxnb3JpdGhtcw0KWyAgICA3LjIzOTM2
-Ml0gY3MzNWw1Ni1oZGEgaTJjLUNTQzM1NTY6MDAtY3MzNWw1Ni1oZGEuMTogRFNQMTogRmly
-bXdhcmU6IDFhMDBkNiB2ZW5kb3I6IDB4MiB2My40LjQsIDM3IGFsZ29yaXRobXMNClsgICAg
-Ny4yNTM0NDddIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjA6IERT
-UDE6IGNpcnJ1cy9jczM1bDU2LWIwLWRzcDEtbWlzYy0xMDQzMWU4My1zcGtpZDEtYW1wMS5i
-aW46IHYzLjExLjE2DQpbICAgIDcuMjUzNDUwXSBjczM1bDU2LWhkYSBpMmMtQ1NDMzU1Njow
-MC1jczM1bDU2LWhkYS4wOiBEU1AxOiBtaXNjOiBDOlxVc2Vyc1xnY2hlblxEZXNrdG9wXEFz
-dXNfcHJvalxDWTI1XEdBNjA1V1wyNDA2MDdcaW5pdFwxMDQzMUU4M18yNDA2MDdfVjFfQTAt
-aW5pdC5iaW4NClsgICAgNy4yNjcxMThdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNz
-MzVsNTYtaGRhLjE6IERTUDE6IGNpcnJ1cy9jczM1bDU2LWIwLWRzcDEtbWlzYy0xMDQzMWU4
-My1zcGtpZDEtYW1wMi5iaW46IHYzLjExLjE2DQpbICAgIDcuMjY3MTIwXSBjczM1bDU2LWhk
-YSBpMmMtQ1NDMzU1NjowMC1jczM1bDU2LWhkYS4xOiBEU1AxOiBtaXNjOiBDOlxVc2Vyc1xn
-Y2hlblxEZXNrdG9wXEFzdXNfcHJvalxDWTI1XEdBNjA1V1wyNDA2MDdcaW5pdFwxMDQzMUU4
-M18yNDA2MDdfVjFfQTEtaW5pdC5iaW4NClsgICAgNy4yNzgwNTNdIGNzMzVsNTYtaGRhIGky
-Yy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjA6IERTUDE6IEFsZ29yaXRobSBjb2VmZmljaWVu
-dCB2ZXJzaW9uIDEuMC4zIGJ1dCBleHBlY3RlZCAxLjAuMQ0KWyAgICA3LjI4ODk5MV0gY3Mz
-NWw1Ni1oZGEgaTJjLUNTQzM1NTY6MDAtY3MzNWw1Ni1oZGEuMTogRFNQMTogQWxnb3JpdGht
-IGNvZWZmaWNpZW50IHZlcnNpb24gMS4wLjMgYnV0IGV4cGVjdGVkIDEuMC4xDQpbICAgIDcu
-MjkxODY1XSBjczM1bDU2LWhkYSBpMmMtQ1NDMzU1NjowMC1jczM1bDU2LWhkYS4wOiBEU1Ax
-OiBBbGdvcml0aG0gY29lZmZpY2llbnQgdmVyc2lvbiAzLjIuMCBidXQgZXhwZWN0ZWQgMy4x
-LjANClsgICAgNy4yOTI3MjVdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYt
-aGRhLjE6IERTUDE6IEFsZ29yaXRobSBjb2VmZmljaWVudCB2ZXJzaW9uIDMuMi4wIGJ1dCBl
-eHBlY3RlZCAzLjEuMA0KWyAgICA3LjI5NTIzOF0gY3MzNWw1Ni1oZGEgaTJjLUNTQzM1NTY6
-MDAtY3MzNWw1Ni1oZGEuMDogRFNQMTogQWxnb3JpdGhtIGNvZWZmaWNpZW50IHZlcnNpb24g
-My4yLjAgYnV0IGV4cGVjdGVkIDMuMS4wDQpbICAgIDcuMjk3NzU3XSBjczM1bDU2LWhkYSBp
-MmMtQ1NDMzU1NjowMC1jczM1bDU2LWhkYS4xOiBEU1AxOiBBbGdvcml0aG0gY29lZmZpY2ll
-bnQgdmVyc2lvbiAzLjIuMCBidXQgZXhwZWN0ZWQgMy4xLjANClsgICAgNy4zMjU5MzddIGNz
-MzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjA6IERTUDE6IEFsZ29yaXRo
-bSBjb2VmZmljaWVudCB2ZXJzaW9uIDYuMS4xIGJ1dCBleHBlY3RlZCAxMy4wLjANClsgICAg
-Ny4zMzM2NTNdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjE6IERT
-UDE6IEFsZ29yaXRobSBjb2VmZmljaWVudCB2ZXJzaW9uIDYuMS4xIGJ1dCBleHBlY3RlZCAx
-My4wLjANClsgICAgNy4zNzE5NzddIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVs
-NTYtaGRhLjA6IERTUDE6IEFsZ29yaXRobSBjb2VmZmljaWVudCB2ZXJzaW9uIDYuMS4xIGJ1
-dCBleHBlY3RlZCAxMy4wLjANClsgICAgNy40MTAyNDZdIGNzMzVsNTYtaGRhIGkyYy1DU0Mz
-NTU2OjAwLWNzMzVsNTYtaGRhLjE6IERTUDE6IEFsZ29yaXRobSBjb2VmZmljaWVudCB2ZXJz
-aW9uIDYuMS4xIGJ1dCBleHBlY3RlZCAxMy4wLjANClsgICAgNy40MTA1MjVdIGNzMzVsNTYt
-aGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjA6IERTUDE6IEFsZ29yaXRobSBjb2Vm
-ZmljaWVudCB2ZXJzaW9uIDYuMS4xIGJ1dCBleHBlY3RlZCAxMy4wLjANClsgICAgNy40MTA3
-ODVdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjE6IERTUDE6IEFs
-Z29yaXRobSBjb2VmZmljaWVudCB2ZXJzaW9uIDYuMS4xIGJ1dCBleHBlY3RlZCAxMy4wLjAN
-ClsgICAgNy40MTExMDJdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRh
-LjA6IERTUDE6IEFsZ29yaXRobSBjb2VmZmljaWVudCB2ZXJzaW9uIDYuMS4xIGJ1dCBleHBl
-Y3RlZCAxMy4wLjANClsgICAgNy40MTE0MjFdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAw
-LWNzMzVsNTYtaGRhLjE6IERTUDE6IEFsZ29yaXRobSBjb2VmZmljaWVudCB2ZXJzaW9uIDYu
-MS4xIGJ1dCBleHBlY3RlZCAxMy4wLjANClsgICAgNy40MTIwMTddIGNzMzVsNTYtaGRhIGky
-Yy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjA6IERTUDE6IE5vIFhNIGZvciBhbGdvcml0aG0g
-OWYyMmYNClsgICAgNy40MTIwMjNdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVs
-NTYtaGRhLjA6IERTUDE6IE5vIFlNIGZvciBhbGdvcml0aG0gOWYyMmYNClsgICAgNy40MTIy
-MDJdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjE6IERTUDE6IE5v
-IFhNIGZvciBhbGdvcml0aG0gOWYyMmYNClsgICAgNy40MTIyMDRdIGNzMzVsNTYtaGRhIGky
-Yy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjE6IERTUDE6IE5vIFlNIGZvciBhbGdvcml0aG0g
-OWYyMmYNClsgICAgNy40MTgyMDRdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVs
-NTYtaGRhLjA6IERTUDE6IEFsZ29yaXRobSBjb2VmZmljaWVudCB2ZXJzaW9uIDMuMTEuMTYg
-YnV0IGV4cGVjdGVkIDMuNC40DQpbICAgIDcuNDI0MjEyXSBjczM1bDU2LWhkYSBpMmMtQ1ND
-MzU1NjowMC1jczM1bDU2LWhkYS4xOiBEU1AxOiBBbGdvcml0aG0gY29lZmZpY2llbnQgdmVy
-c2lvbiAzLjExLjE2IGJ1dCBleHBlY3RlZCAzLjQuNA0KWyAgICA3LjQyNDQxMV0gY3MzNWw1
-Ni1oZGEgaTJjLUNTQzM1NTY6MDAtY3MzNWw1Ni1oZGEuMDogRFNQMTogQWxnb3JpdGhtIGNv
-ZWZmaWNpZW50IHZlcnNpb24gMTEuMC43IGJ1dCBleHBlY3RlZCAxMS4wLjMNClsgICAgNy40
-MjQ2MDldIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjE6IERTUDE6
-IEFsZ29yaXRobSBjb2VmZmljaWVudCB2ZXJzaW9uIDExLjAuNyBidXQgZXhwZWN0ZWQgMTEu
-MC4zDQpbICAgIDcuNDI0OTMxXSBjczM1bDU2LWhkYSBpMmMtQ1NDMzU1NjowMC1jczM1bDU2
-LWhkYS4wOiBEU1AxOiBBbGdvcml0aG0gY29lZmZpY2llbnQgdmVyc2lvbiA0LjAuMCBidXQg
-ZXhwZWN0ZWQgMy4wLjANClsgICAgNy40MjUyMzZdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2
-OjAwLWNzMzVsNTYtaGRhLjE6IERTUDE6IEFsZ29yaXRobSBjb2VmZmljaWVudCB2ZXJzaW9u
-IDQuMC4wIGJ1dCBleHBlY3RlZCAzLjAuMA0KWyAgICA3LjQyNTQzMV0gY3MzNWw1Ni1oZGEg
-aTJjLUNTQzM1NTY6MDAtY3MzNWw1Ni1oZGEuMDogRFNQMTogQWxnb3JpdGhtIGNvZWZmaWNp
-ZW50IHZlcnNpb24gMy4xLjEgYnV0IGV4cGVjdGVkIDMuMC4xDQpbICAgIDcuNDI1NjI1XSBj
-czM1bDU2LWhkYSBpMmMtQ1NDMzU1NjowMC1jczM1bDU2LWhkYS4xOiBEU1AxOiBBbGdvcml0
-aG0gY29lZmZpY2llbnQgdmVyc2lvbiAzLjEuMSBidXQgZXhwZWN0ZWQgMy4wLjENClsgICAg
-Ny40MjYxODBdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjA6IERT
-UDE6IEFsZ29yaXRobSBjb2VmZmljaWVudCB2ZXJzaW9uIDYuMC4wIGJ1dCBleHBlY3RlZCA1
-LjEuMA0KWyAgICA3LjQyNjM2MF0gY3MzNWw1Ni1oZGEgaTJjLUNTQzM1NTY6MDAtY3MzNWw1
-Ni1oZGEuMTogRFNQMTogQWxnb3JpdGhtIGNvZWZmaWNpZW50IHZlcnNpb24gNi4wLjAgYnV0
-IGV4cGVjdGVkIDUuMS4wDQpbICAgIDcuNDI2NTM3XSBjczM1bDU2LWhkYSBpMmMtQ1NDMzU1
-NjowMC1jczM1bDU2LWhkYS4wOiBEU1AxOiBBbGdvcml0aG0gY29lZmZpY2llbnQgdmVyc2lv
-biA2LjAuMCBidXQgZXhwZWN0ZWQgNS4xLjANClsgICAgNy40MjY3MTJdIGNzMzVsNTYtaGRh
-IGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjE6IERTUDE6IEFsZ29yaXRobSBjb2VmZmlj
-aWVudCB2ZXJzaW9uIDYuMC4wIGJ1dCBleHBlY3RlZCA1LjEuMA0KWyAgICA3LjQyNjg5MF0g
-Y3MzNWw1Ni1oZGEgaTJjLUNTQzM1NTY6MDAtY3MzNWw1Ni1oZGEuMDogRFNQMTogQWxnb3Jp
-dGhtIGNvZWZmaWNpZW50IHZlcnNpb24gMi4wLjEgYnV0IGV4cGVjdGVkIDIuMC4wDQpbICAg
-IDcuNDI3MDY3XSBjczM1bDU2LWhkYSBpMmMtQ1NDMzU1NjowMC1jczM1bDU2LWhkYS4xOiBE
-U1AxOiBBbGdvcml0aG0gY29lZmZpY2llbnQgdmVyc2lvbiAyLjAuMSBidXQgZXhwZWN0ZWQg
-Mi4wLjANClsgICAgNy40MjcyNDRdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVs
-NTYtaGRhLjA6IERTUDE6IE5vIFhNIGZvciBhbGdvcml0aG0gOWYyMzENClsgICAgNy40Mjcy
-NDddIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjA6IERTUDE6IE5v
-IFhNIGZvciBhbGdvcml0aG0gOWYyMzANClsgICAgNy40Mjc0MjRdIGNzMzVsNTYtaGRhIGky
-Yy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjE6IERTUDE6IE5vIFhNIGZvciBhbGdvcml0aG0g
-OWYyMzENClsgICAgNy40Mjc0MjZdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVs
-NTYtaGRhLjE6IERTUDE6IE5vIFhNIGZvciBhbGdvcml0aG0gOWYyMzANClsgICAgNy42ODI3
-ODZdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjE6IEZpcm13YXJl
-IGJvb3QgdGltZWQgb3V0KDApOiBIQUxPX1NUQVRFPTB4MQ0KWyAgICA3LjY4Mjk3Ml0gY3Mz
-NWw1Ni1oZGEgaTJjLUNTQzM1NTY6MDAtY3MzNWw1Ni1oZGEuMDogRmlybXdhcmUgYm9vdCB0
-aW1lZCBvdXQoMCk6IEhBTE9fU1RBVEU9MHgxDQpbICAgIDguOTk1NjYxXSBjczM1bDU2LWhk
-YSBpMmMtQ1NDMzU1NjowMC1jczM1bDU2LWhkYS4wOiBQUzMgd2FpdCBmYWlsZWQ6IC0xNg0K
-WyAgICA4Ljk5NjcxNF0gY3MzNWw1Ni1oZGEgaTJjLUNTQzM1NTY6MDAtY3MzNWw1Ni1oZGEu
-MTogUFMzIHdhaXQgZmFpbGVkOiAtMTYNClsgICAxNy43MDcyNDZdIExvYWRpbmcgaVNDU0kg
-dHJhbnNwb3J0IGNsYXNzIHYyLjAtODcwLg0KWyAgIDIwLjQyNzA1NV0gY3MzNWw1Ni1oZGEg
-aTJjLUNTQzM1NTY6MDAtY3MzNWw1Ni1oZGEuMDogRmlybXdhcmUgYm9vdCB0aW1lZCBvdXQo
-MCk6IEhBTE9fU1RBVEU9MHgxDQpbICAgMjAuNDI3MDY5XSBjczM1bDU2LWhkYSBpMmMtQ1ND
-MzU1NjowMC1jczM1bDU2LWhkYS4wOiBIaWJlcm5hdGUgd2FrZSBmYWlsZWQ6IC01DQpbICAg
-MjAuNDI3MjUxXSBjczM1bDU2LWhkYSBpMmMtQ1NDMzU1NjowMC1jczM1bDU2LWhkYS4wOiBN
-Qk9YIGNvbW1hbmQgMHhiMDAwMDAxIGZhaWxlZDogLTE2DQpbICAgMjAuNjgzMTIwXSBjczM1
-bDU2LWhkYSBpMmMtQ1NDMzU1NjowMC1jczM1bDU2LWhkYS4xOiBGaXJtd2FyZSBib290IHRp
-bWVkIG91dCgwKTogSEFMT19TVEFURT0weDENClsgICAyMC42ODMxMzhdIGNzMzVsNTYtaGRh
-IGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjE6IEhpYmVybmF0ZSB3YWtlIGZhaWxlZDog
-LTUNClsgICAyMC42ODMzNDFdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYt
-aGRhLjE6IE1CT1ggY29tbWFuZCAweGIwMDAwMDEgZmFpbGVkOiAtMTYNClsgICAyMC42ODUy
-NzBdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjA6IE1CT1ggY29t
-bWFuZCAweGIwMDAwMDIgZmFpbGVkOiAtMTYNClsgICAyMC42ODUyNzVdIGNzMzVsNTYtaGRh
-IGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjE6IE1CT1ggY29tbWFuZCAweGIwMDAwMDIg
-ZmFpbGVkOiAtMTYNClsgICAyMC43MjQzMThdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAw
-LWNzMzVsNTYtaGRhLjA6IE1CT1ggY29tbWFuZCAweGIwMDAwMDEgZmFpbGVkOiAtMTYNClsg
-ICAyMC43MjQzMjhdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjE6
-IE1CT1ggY29tbWFuZCAweGIwMDAwMDEgZmFpbGVkOiAtMTYNClsgICAyMC43MjQ4NjddIGNz
-MzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjA6IE1CT1ggY29tbWFuZCAw
-eGIwMDAwMDIgZmFpbGVkOiAtMTYNClsgICAyMC43MjQ4NzFdIGNzMzVsNTYtaGRhIGkyYy1D
-U0MzNTU2OjAwLWNzMzVsNTYtaGRhLjE6IE1CT1ggY29tbWFuZCAweGIwMDAwMDIgZmFpbGVk
-OiAtMTYNClsgICAyMC43MjUxNzFdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVs
-NTYtaGRhLjA6IE1CT1ggY29tbWFuZCAweGIwMDAwMDEgZmFpbGVkOiAtMTYNClsgICAyMC43
-MjUxNzNdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjE6IE1CT1gg
-Y29tbWFuZCAweGIwMDAwMDEgZmFpbGVkOiAtMTYNClsgICAyMC43MjU0MDddIGNzMzVsNTYt
-aGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjA6IE1CT1ggY29tbWFuZCAweGIwMDAw
-MDIgZmFpbGVkOiAtMTYNClsgICAyMC43MjU0MDldIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2
-OjAwLWNzMzVsNTYtaGRhLjE6IE1CT1ggY29tbWFuZCAweGIwMDAwMDIgZmFpbGVkOiAtMTYN
-ClsgICAyMC43NzYzMjJdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRh
-LjA6IE1CT1ggY29tbWFuZCAweGIwMDAwMDEgZmFpbGVkOiAtMTYNClsgICAyMC43NzYzMzRd
-IGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjE6IE1CT1ggY29tbWFu
-ZCAweGIwMDAwMDEgZmFpbGVkOiAtMTYNClsgICAyMC43NzY0NTBdIGNzMzVsNTYtaGRhIGky
-Yy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjA6IE1CT1ggY29tbWFuZCAweGIwMDAwMDIgZmFp
-bGVkOiAtMTYNClsgICAyMC43NzY0NTNdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNz
-MzVsNTYtaGRhLjE6IE1CT1ggY29tbWFuZCAweGIwMDAwMDIgZmFpbGVkOiAtMTYNClsgICAy
-My41NjA2OTNdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjA6IE1C
-T1ggY29tbWFuZCAweGIwMDAwMDEgZmFpbGVkOiAtMTYNClsgICAyMy41NjA3MTZdIGNzMzVs
-NTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjE6IE1CT1ggY29tbWFuZCAweGIw
-MDAwMDEgZmFpbGVkOiAtMTYNClsgICAyMy41NjI1NjNdIGNzMzVsNTYtaGRhIGkyYy1DU0Mz
-NTU2OjAwLWNzMzVsNTYtaGRhLjA6IE1CT1ggY29tbWFuZCAweGIwMDAwMDIgZmFpbGVkOiAt
-MTYNClsgICAyMy41NjI1NjhdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYt
-aGRhLjE6IE1CT1ggY29tbWFuZCAweGIwMDAwMDIgZmFpbGVkOiAtMTYNClsgICAyMy42MDA2
-NzFdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjA6IE1CT1ggY29t
-bWFuZCAweGIwMDAwMDEgZmFpbGVkOiAtMTYNClsgICAyMy42MDA2OTRdIGNzMzVsNTYtaGRh
-IGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjE6IE1CT1ggY29tbWFuZCAweGIwMDAwMDEg
-ZmFpbGVkOiAtMTYNClsgICAyMy42MDE3MjJdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAw
-LWNzMzVsNTYtaGRhLjA6IE1CT1ggY29tbWFuZCAweGIwMDAwMDIgZmFpbGVkOiAtMTYNClsg
-ICAyMy42MDE3MjhdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjE6
-IE1CT1ggY29tbWFuZCAweGIwMDAwMDIgZmFpbGVkOiAtMTYNClsgICAyMy42MDIwNzddIGNz
-MzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjA6IE1CT1ggY29tbWFuZCAw
-eGIwMDAwMDEgZmFpbGVkOiAtMTYNClsgICAyMy42MDIwNzldIGNzMzVsNTYtaGRhIGkyYy1D
-U0MzNTU2OjAwLWNzMzVsNTYtaGRhLjE6IE1CT1ggY29tbWFuZCAweGIwMDAwMDEgZmFpbGVk
-OiAtMTYNClsgICAyMy42MDIzODddIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVs
-NTYtaGRhLjA6IE1CT1ggY29tbWFuZCAweGIwMDAwMDIgZmFpbGVkOiAtMTYNClsgICAyMy42
-MDIzODldIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjE6IE1CT1gg
-Y29tbWFuZCAweGIwMDAwMDIgZmFpbGVkOiAtMTYNClsgICAyMy42NTY2ODFdIGNzMzVsNTYt
-aGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjA6IE1CT1ggY29tbWFuZCAweGIwMDAw
-MDEgZmFpbGVkOiAtMTYNClsgICAyMy42NTY3MDVdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2
-OjAwLWNzMzVsNTYtaGRhLjE6IE1CT1ggY29tbWFuZCAweGIwMDAwMDEgZmFpbGVkOiAtMTYN
-ClsgICAyMy42NTcxMDddIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRh
-LjA6IE1CT1ggY29tbWFuZCAweGIwMDAwMDIgZmFpbGVkOiAtMTYNClsgICAyMy42NTcxMDld
-IGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjE6IE1CT1ggY29tbWFu
-ZCAweGIwMDAwMDIgZmFpbGVkOiAtMTYNClsgICAyNy4yNzIyODVdIGNzMzVsNTYtaGRhIGky
-Yy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjA6IE1CT1ggY29tbWFuZCAweGIwMDAwMDEgZmFp
-bGVkOiAtMTYNClsgICAyNy4yNzIzMDJdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNz
-MzVsNTYtaGRhLjE6IE1CT1ggY29tbWFuZCAweGIwMDAwMDEgZmFpbGVkOiAtMTYNClsgICAz
-Mi4yODE4MDddIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjA6IE1C
-T1ggY29tbWFuZCAweGIwMDAwMDIgZmFpbGVkOiAtMTYNClsgICAzMi4yODE4MjNdIGNzMzVs
-NTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYtaGRhLjE6IE1CT1ggY29tbWFuZCAweGIw
-MDAwMDIgZmFpbGVkOiAtMTYNClsgICAzNS45NzYyMzVdIGNzMzVsNTYtaGRhIGkyYy1DU0Mz
-NTU2OjAwLWNzMzVsNTYtaGRhLjA6IE1CT1ggY29tbWFuZCAweGIwMDAwMDEgZmFpbGVkOiAt
-MTYNClsgICAzNS45NzYyNTJdIGNzMzVsNTYtaGRhIGkyYy1DU0MzNTU2OjAwLWNzMzVsNTYt
-aGRhLjE6IE1CT1ggY29tbWFuZCAweGIwMDAwMDEgZmFpbGVkOiAtMTYNClsgICAzOC4yOTYy
-NjFdIENTOiAgMDAxMCBEUzogMDAwMCBFUzogMDAwMCBDUjA6IDAwMDAwMDAwODAwNTAwMzMN
-ClsgICAzOC4yOTc1MTJdIENTOiAgMDAxMCBEUzogMDAwMCBFUzogMDAwMCBDUjA6IDAwMDAw
-MDAwODAwNTAwMzMNClsgICAzOC4yOTg1NzhdIENTOiAgMDAxMCBEUzogMDAwMCBFUzogMDAw
-MCBDUjA6IDAwMDAwMDAwODAwNTAwMzMNClsgICAzOC4yOTk1ODldIENTOiAgMDAxMCBEUzog
-MDAwMCBFUzogMDAwMCBDUjA6IDAwMDAwMDAwODAwNTAwMzMNClsgICAzOC4zMDA1OTVdIENT
-OiAgMDAxMCBEUzogMDAwMCBFUzogMDAwMCBDUjA6IDAwMDAwMDAwODAwNTAwMzMNClsgICAz
-OC4zMDE2NTJdIENTOiAgMDAxMCBEUzogMDAwMCBFUzogMDAwMCBDUjA6IDAwMDAwMDAwODAw
-NTAwMzMNClsgICAzOC4zMDI2NzBdIENTOiAgMDAxMCBEUzogMDAwMCBFUzogMDAwMCBDUjA6
-IDAwMDAwMDAwODAwNTAwMzMNCg==
+Hello,
+We found the following issue using syzkaller on Linux v6.10.
+In `seq_free_client`,  the task hangs when trying to acquire lock
+`register_mutex`.
+
+Unfortunately, the syzkaller failed to generate a reproducer.
+But at least we have the report:
+
+INFO: task syz.0.38:8767 blocked for more than 143 seconds.
+      Not tainted 6.10.0 #13
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:syz.0.38        state:D stack:24680 pid:8767  tgid:8767
+ppid:8050   flags:0x00000004
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5407 [inline]
+ __schedule+0xf4a/0x15e0 kernel/sched/core.c:6748
+ __schedule_loop kernel/sched/core.c:6825 [inline]
+ schedule+0x143/0x310 kernel/sched/core.c:6840
+ schedule_preempt_disabled+0xf/0x20 kernel/sched/core.c:6897
+ __mutex_lock_common kernel/locking/mutex.c:684 [inline]
+ __mutex_lock+0x69a/0xd50 kernel/locking/mutex.c:752
+ seq_free_client+0x27/0x180 sound/core/seq/seq_clientmgr.c:298
+ snd_seq_release+0x44/0xc0 sound/core/seq/seq_clientmgr.c:387
+ __fput+0x24a/0x8a0 fs/file_table.c:422
+ task_work_run+0x239/0x2f0 kernel/task_work.c:180
+ resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+ exit_to_user_mode_loop kernel/entry/common.c:114 [inline]
+ exit_to_user_mode_prepare include/linux/entry-common.h:328 [inline]
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
+ syscall_exit_to_user_mode+0x12d/0x280 kernel/entry/common.c:218
+ do_syscall_64+0x8a/0x150 arch/x86/entry/common.c:89
+ entry_SYSCALL_64_after_hwframe+0x67/0x6f
+RIP: 0033:0x7f9a0cf809b9
+RSP: 002b:00007ffc31b75f88 EFLAGS: 00000246 ORIG_RAX: 00000000000001b4
+RAX: 0000000000000000 RBX: 00007f9a0d147a80 RCX: 00007f9a0cf809b9
+RDX: 0000000000000000 RSI: 000000000000001e RDI: 0000000000000003
+RBP: 00007f9a0d147a80 R08: 0000000000000006 R09: 00007ffc31b7626f
+R10: 00000000003ffcd0 R11: 0000000000000246 R12: 00000000000248af
+R13: 00007ffc31b76080 R14: 00007ffc31b760a0 R15: ffffffffffffffff
+ </TASK>
+
+Showing all locks held in the system:
+3 locks held by kworker/0:1/10:
+ #0: ffff88801307a948 ((wq_completion)events){+.+.}-{0:0}, at:
+process_one_work kernel/workqueue.c:3223 [inline]
+ #0: ffff88801307a948 ((wq_completion)events){+.+.}-{0:0}, at:
+process_scheduled_works+0x8fb/0x1410 kernel/workqueue.c:3329
+ #1: ffffc900000cfd20
+((work_completion)(&data->fib_event_work)){+.+.}-{0:0}, at:
+process_one_work kernel/workqueue.c:3224 [inline]
+ #1: ffffc900000cfd20
+((work_completion)(&data->fib_event_work)){+.+.}-{0:0}, at:
+process_scheduled_works+0x922/0x1410 kernel/workqueue.c:3329
+ #2: ffff888100af7240 (&data->fib_lock){+.+.}-{3:3}, at:
+nsim_fib_event_work+0x2de/0x4050 drivers/net/netdevsim/fib.c:1489
+1 lock held by khungtaskd/25:
+ #0: ffffffff8db32fe0 (rcu_read_lock){....}-{1:2}, at:
+rcu_lock_acquire include/linux/rcupdate.h:329 [inline]
+ #0: ffffffff8db32fe0 (rcu_read_lock){....}-{1:2}, at: rcu_read_lock
+include/linux/rcupdate.h:781 [inline]
+ #0: ffffffff8db32fe0 (rcu_read_lock){....}-{1:2}, at:
+debug_show_all_locks+0x54/0x2d0 kernel/locking/lockdep.c:6614
+2 locks held by kworker/u4:9/2825:
+1 lock held by systemd-udevd/4506:
+1 lock held by in:imklog/7643:
+1 lock held by syz.1.37/8761:
+ #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
+seq_free_client+0x27/0x180 sound/core/seq/seq_clientmgr.c:298
+1 lock held by syz.0.38/8767:
+ #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
+seq_free_client+0x27/0x180 sound/core/seq/seq_clientmgr.c:298
+1 lock held by syz.0.44/9437:
+ #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
+snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
+1 lock held by syz.1.46/9506:
+ #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
+snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
+1 lock held by syz.1.46/9508:
+ #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
+snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
+1 lock held by syz.1.46/9509:
+ #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
+snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
+1 lock held by syz.0.53/10021:
+ #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
+snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
+1 lock held by syz.0.53/10022:
+ #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
+snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
+1 lock held by syz.1.57/10085:
+ #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
+snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
+1 lock held by syz.1.57/10091:
+ #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
+snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
+1 lock held by syz.0.64/10607:
+ #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
+snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
+1 lock held by syz.1.66/10653:
+ #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
+snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
+1 lock held by syz.0.70/11162:
+ #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
+snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
+1 lock held by syz.1.68/11179:
+ #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
+snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
+1 lock held by syz.0.71/11691:
+ #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
+snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
+1 lock held by syz.1.72/11705:
+ #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
+snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
+1 lock held by syz.1.74/12211:
+ #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
+snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
+1 lock held by syz.0.81/12259:
+ #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
+snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
+2 locks held by syz-executor/12269:
+1 lock held by systemd-udevd/12279:
+2 locks held by syz-executor/12313:
+1 lock held by syz.1.82/12748:
+ #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
+snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
+1 lock held by syz.0.83/12763:
+ #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
+snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
