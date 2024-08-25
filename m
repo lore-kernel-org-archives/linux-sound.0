@@ -1,157 +1,105 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B4E2AEFD;
-	Sun, 25 Aug 2024 07:45:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1F53768EF
+	for <linux-sound@vger.kernel.org>; Sun, 25 Aug 2024 08:57:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724571924; cv=none; b=c5aQZeBG1UPlWsFa7Y8by0odqBTV1scaeLDhUmpFY9trXNqLL3IDmUfsqwF5K01MEaXj3u76GAKsF9fuaYLc51fE2J+OCNHK17pni9c03z62ZLz75lchijpzGYFQcTZbSCrChj2XVfpIkMOK3yCgct1boWiUYAsnxU/hKrwhtSw=
+	t=1724576272; cv=none; b=opmPY6uwKNqBrFKylj7e4Q1DiYUfpLk4IU8Vv6uqYdzWS2YUS35Ixk5LdfttHtNmbYc7fvllV0Of9PSfMU/i2cpYyfQaJQ5FiGHjD6bMuglBTN1KqW/HIm9RW/3Ey58WUqlXWfzlPVtiyeYbaRi+xowqf2eWfKbXNFOMnZCKLfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724571924; c=relaxed/simple;
-	bh=/DABWROC1adRtXnWduaVICJKfy7K1ffXdGB6MNny38Y=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kRDcGcx/m9mqn9Z3YKRg5wnRvpXa2kDd8NpkV+JaJ/Yb4VQUYr56RekcwX3owOG9yfiTBB8t4mobgyY0RWA2ChBu2Hd3F44ov801SwbkbF7SGNYGx+goNKzoL+ry8yn7cPPrxVMltLPp6xJ8zDXmGGu5KeCMaruKEYG/Gm3mRlY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bslASVOi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=N3jBryQT; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WN2HVeSV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=da0+/3Y+; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1724576272; c=relaxed/simple;
+	bh=1J6BWW2PKL0LZoDDixa5BAHxaPBO3B1K4JK5Epy75ZY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AaXxv8zsE0yoN0xZNPJFNGFWCFt/2buxMFuK9rOKboCUWzh+MhwD8mjIiIoV1xTvsznMWQrnT8/mGb0+uXjIOYAVpJlig0hSKBU5VqDqZC+sR0Zdm1N+E4A+EnobXQ0PSetZeOAceuV7HLs1qWJVGawQ+vOrxssYqkL9JApuIVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fNcStfC/; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bslASVOi";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="N3jBryQT";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WN2HVeSV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="da0+/3Y+"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 54BC121A28;
-	Sun, 25 Aug 2024 07:45:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1724571920; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ywAiuhHecTp3MGsrAA/iUK/3ImfbVXkO3ORRDzjFjgA=;
-	b=bslASVOi+d+zvNlSb0PHOovLB1Bdsi1/q6GvVEoo/Zg+RYJD+vwU0Wogc/KoStUvw0O+vv
-	2/28+vkXB7qS40foMJFMMP/HlAYy6pLxXj1ho6Vwjc/PJ0GAcCbmCxS1SJHhMRYgUi/v/g
-	sR29pwDtS2NVuwjNZHXrrFpnUwgoo14=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1724571920;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ywAiuhHecTp3MGsrAA/iUK/3ImfbVXkO3ORRDzjFjgA=;
-	b=N3jBryQTjpz0wgNHkfUKTUw8asFzM4kbJ2MUcJXdXZk30c3unPhlGQoaO6MjqGcBp5QbUW
-	MN37gSVs4r4LWjDQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1724571919; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ywAiuhHecTp3MGsrAA/iUK/3ImfbVXkO3ORRDzjFjgA=;
-	b=WN2HVeSV0mQAsCmhyDuVBInbdCHljvv7veKgockJ3f7X9k5QK7b9wuMPcnj1j1ovA4Mmyd
-	scmrZoF8UiK1Gst4wSq9m7T5M4UKR0cV9D16A3TncS2URAkSn7sLtcsBUn7QOj5xB6hywk
-	0dPT9HkSTg4t8RhAbtO6jNx2bWpMu94=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1724571919;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ywAiuhHecTp3MGsrAA/iUK/3ImfbVXkO3ORRDzjFjgA=;
-	b=da0+/3Y+3Lw0E4UAt+rTiysmaBoG47+HfZ5yyKy9LnMkr4er6zDFQ/n8w4AmWDnVAqzOd8
-	ToTuy5FQfNNBVlCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 04FA013704;
-	Sun, 25 Aug 2024 07:45:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id GZNiOw7hymbnYQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 25 Aug 2024 07:45:18 +0000
-Date: Sun, 25 Aug 2024 09:46:02 +0200
-Message-ID: <87frqtjb9h.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Hendrik Borghorst <hendrikborghorst@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Kailang Yang <kailang@realtek.com>,
-	Stefan Binding <sbinding@opensource.cirrus.com>,
-	Simon Trimmer <simont@opensource.cirrus.com>,
-	Athaariq Ardhiansyah <foss@athaariq.my.id>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fNcStfC/"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-42803adb420so4100315e9.2
+        for <linux-sound@vger.kernel.org>; Sun, 25 Aug 2024 01:57:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1724576269; x=1725181069; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RJtwn4ZxojcRke0143CcWqq6cxB8ohpeltqblKHrcIk=;
+        b=fNcStfC/XRuhIFy0TnXRT/LHECsxphyP9N3esc38VvVq+JqI9MLiLkU6ERcCjH1wJH
+         dWjnQiawQOY4unvIaqjaZRQDqPfLLZm9ukR6xtTFX/ys3Jh94Hph4PJ4kP30+oviDUkI
+         DLv9BH4hVAgxcJKJmI4ic26kO/oL8RZGiPKeUcd6B5KYT14Ye2WirWR7pqIAiqi3jGmq
+         nRFxZmpDloUaFAH//gIML25Hx71qpLmBTf/0IhX0xHgdJ81xDnT1bkTgg0b+HztOW8UU
+         9HKBIXpf3Nd6Dujw6FH/6JcyHGFuT14gV1vqjH5WecRQElHMDIhhM8LMyX06tat8+/dG
+         RT6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724576269; x=1725181069;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RJtwn4ZxojcRke0143CcWqq6cxB8ohpeltqblKHrcIk=;
+        b=hgZGRr+XmUTumAQ75L99u+cxV+g5KmfHa0hX3Oi8RhcmixxgaRcNAXLePQraOEN95S
+         QG8bMSIDGMYsZijLzplMFIJ4+s0ujtRDFFfC1f2IjuaB3s61LqGgmUKxDawAPCP5Rswb
+         gpApA7fSkx1ULDuDAo462kch/cka5rwcUiHWkVsZKH84xNZlyYzltUBOc1y3e5hYQdvW
+         D23gS8eUhSvyVR7f7kjPrdR0GnN4cL9cu22jn0ssGknYo/IC/cZR8pPOCgMhRVCvJVOW
+         ooEVjII4YxuAsjrpOXDcbbROgq9Ha65EwjhWfU/bFAOyapjRlDmxd5KajuG73aSz8OdH
+         Br7w==
+X-Forwarded-Encrypted: i=1; AJvYcCV8DjDvWF74wV94bguXl0RfoMjAa7IIg4qEAsgdlpqP/hQULkdseWN+8Es/FmB9lsRQlB2Fy7IciURLjw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVUoHzfLBr4ojawBa9wuUpf/lkspM+nYCakbR3Jod49LmCi/BY
+	i4p1sY07H/qCFfwdIoi2bgPqgZM1iwIRMUL782kEFoiXmk/woDqq+uJvlrEbtDs=
+X-Google-Smtp-Source: AGHT+IH2giCB6AK7UOeGgPjHxZzeVMkrTX0peXsvssYIaa3ZOlWUGHmwGDlXFRjxw2dLm3mN2IDBOQ==
+X-Received: by 2002:a05:600c:3b8b:b0:426:67e0:3aa with SMTP id 5b1f17b1804b1-42acc8d50f1mr30009775e9.1.1724576269155;
+        Sun, 25 Aug 2024 01:57:49 -0700 (PDT)
+Received: from krzk-bin.. ([178.197.222.82])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42b8a351d3asm57432765e9.13.2024.08.25.01.57.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Aug 2024 01:57:48 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] alsa: support HP Pavilion Aero 13-bg0xxx Mute LED
-In-Reply-To: <20240824183445.6610-1-hendrikborghorst@gmail.com>
-References: <20240824183445.6610-1-hendrikborghorst@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] ASoC: MAINTAINERS: Drop incorrect tlv320aic31xx.txt path
+Date: Sun, 25 Aug 2024 10:57:45 +0200
+Message-ID: <20240825085745.21668-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Sat, 24 Aug 2024 20:34:38 +0200,
-Hendrik Borghorst wrote:
-> 
-> This patch adds the HP Pavilion Aero 13 (13-bg0xxx) (year 2024) to list of
-> quirks for keyboard LED mute indication.
-> 
-> The laptop has two LEDs (one for speaker and one for mic mute). The
-> pre-existing quirk ALC245_FIXUP_HP_X360_MUTE_LEDS chains both the quirk for
-> mic and speaker mute.
-> 
-> Tested on 6.11.0-rc4 with the aforementioned laptop.
-> 
-> Signed-off-by: Hendrik Borghorst <hendrikborghorst@gmail.com>
-> ---
->  sound/pci/hda/patch_realtek.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-> index d022a25635f9..a45062c9ed6d 100644
-> --- a/sound/pci/hda/patch_realtek.c
-> +++ b/sound/pci/hda/patch_realtek.c
-> @@ -10217,6 +10217,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
->  	SND_PCI_QUIRK(0x103c, 0x8902, "HP OMEN 16", ALC285_FIXUP_HP_MUTE_LED),
->  	SND_PCI_QUIRK(0x103c, 0x890e, "HP 255 G8 Notebook PC", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
->  	SND_PCI_QUIRK(0x103c, 0x8919, "HP Pavilion Aero Laptop 13-be0xxx", ALC287_FIXUP_HP_GPIO_LED),
-> +	SND_PCI_QUIRK(0x103c, 0x8cbd, "HP Pavilion Aero Laptop 13-bg0xxx", ALC245_FIXUP_HP_X360_MUTE_LEDS),
->  	SND_PCI_QUIRK(0x103c, 0x896d, "HP ZBook Firefly 16 G9", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
->  	SND_PCI_QUIRK(0x103c, 0x896e, "HP EliteBook x360 830 G9", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
->  	SND_PCI_QUIRK(0x103c, 0x8971, "HP EliteBook 830 G9", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+tlv320aic31xx.txt was converted to DT schema (YAML) and new file is
+already matched by wildcard.  This fixes get_maintainers.pl self-test
+warning:
 
-The table is sorted in PCI SSID number.  Could you try to put the
-entry at the right position?
+  ./MAINTAINERS:22739: warning: no file matches	F:	Documentation/devicetree/bindings/sound/tlv320aic31xx.txt
 
+Fixes: e486feb7b8ec ("ASoC: dt-bindings: convert tlv320aic31xx.txt to yaml")
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ MAINTAINERS | 1 -
+ 1 file changed, 1 deletion(-)
 
-thanks,
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 6574b4910f8a..028186bb4e8d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -22736,7 +22736,6 @@ F:	Documentation/devicetree/bindings/sound/ti,pcm1681.yaml
+ F:	Documentation/devicetree/bindings/sound/ti,pcm3168a.yaml
+ F:	Documentation/devicetree/bindings/sound/ti,tlv320*.yaml
+ F:	Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
+-F:	Documentation/devicetree/bindings/sound/tlv320aic31xx.txt
+ F:	include/sound/tas2*.h
+ F:	include/sound/tlv320*.h
+ F:	include/sound/tpa6130a2-plat.h
+-- 
+2.43.0
 
-Takashi
