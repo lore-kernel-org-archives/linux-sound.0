@@ -1,267 +1,112 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C43A1DA3D;
-	Sun, 25 Aug 2024 16:02:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D3391803A;
+	Sun, 25 Aug 2024 17:43:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724601747; cv=none; b=fGQIu3vOIlKyUi82cM56QYnQrM+oZuEwmimsyPcksQGAhT2X7wbzmB/NwqOA41jMUAgy/T/8HdhKwuxkHsLP+snvwfPyJ89l87+A0CDyKGwadQLhjTlZrBZGLMR1Ti+m2BBfIGLKHIFDuDvCliJ2zM5OfEvbSktT9Gpm06SIk60=
+	t=1724607839; cv=none; b=XfUHIRTOiFCYV0vmamYkA/5+AK3b4UPOndOWS3qt7VwiWlWssuFJqqzSp+ZWGaCKcsU+nuZhkRY4A69ifovWer3w827G2lRoQUuc7nmXxxitmLvPSbWtUaOn+G2q+g2t+sfdmzjpGP/TA7pM/u8+zbNlsK/ZkQ+7yCRJq2MCbnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724601747; c=relaxed/simple;
-	bh=d69WvDF+2qA78JixRylQjZFCRS3rEYzGO3VxldJpak4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=j2V6UHSWs8lNOK8iAKh4wpwbKb7vw01c6HJgVVzO3aVHsUIb5yggqHin3wpCNv+scM3zUOJW9XzsY211AI9xmBXxqSbNL/BEuXALLIbfywlGvMx+8/jDwUHHYp2M4VxkcDjIONynIb7kXCLyVknFZ2fNKSdMOEvHTzcaDZEMvwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Kpe7XCmz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=InwdEdho; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Kpe7XCmz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=InwdEdho; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1724607839; c=relaxed/simple;
+	bh=tKIrY9vn3z6LNujXfBqlGozfnYwtzbEWmL8+LofbC+w=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=n3Na7hrj8N/oMX9oE+NXJ7vu9wgSHnINo33vVolbfeGm52BQlpcCb/zzAYxts+XqDmH4WGB4pEuk6jM6d1XJvFTb/F4gFbwxiZJ9IUHrTp9/qGjSC2b7s0OTG0Gcn2Aj5OtkcKZNPdrsHhemxp5k3XlAI0TjcJq+oWeuWajJ9oQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PmuhGwUs; arc=none smtp.client-ip=209.85.208.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Kpe7XCmz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="InwdEdho";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Kpe7XCmz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="InwdEdho"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5EC681F7EB;
-	Sun, 25 Aug 2024 15:53:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1724601229; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZBB8zsdLKrit08YFy8cC0Il/RGsKpwy1+6oMvE8IdA8=;
-	b=Kpe7XCmzP54yHtUgaGvelH4Opr1xSgRZV5Y4TTOzqyBwsVCM4DdUbLRbZUi6lWP/5iBNQb
-	TEUBGJG05MX6d2Uac6hQ+++w8kJg7xGDhZSCUiKwpGcjFw5iPj+FmFdBl8O0fbEidcRhlt
-	JjjIeN6+I6j7EtNGPUlpEZx4ACsrFU8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1724601229;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZBB8zsdLKrit08YFy8cC0Il/RGsKpwy1+6oMvE8IdA8=;
-	b=InwdEdhoyRBJQ7MFPRA07y/To78kR99gKiowK2CjDMz4p+yLkWqAtxT/T4unNbxDErbd7m
-	egiC5dONcju2dLBg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Kpe7XCmz;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=InwdEdho
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1724601229; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZBB8zsdLKrit08YFy8cC0Il/RGsKpwy1+6oMvE8IdA8=;
-	b=Kpe7XCmzP54yHtUgaGvelH4Opr1xSgRZV5Y4TTOzqyBwsVCM4DdUbLRbZUi6lWP/5iBNQb
-	TEUBGJG05MX6d2Uac6hQ+++w8kJg7xGDhZSCUiKwpGcjFw5iPj+FmFdBl8O0fbEidcRhlt
-	JjjIeN6+I6j7EtNGPUlpEZx4ACsrFU8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1724601229;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZBB8zsdLKrit08YFy8cC0Il/RGsKpwy1+6oMvE8IdA8=;
-	b=InwdEdhoyRBJQ7MFPRA07y/To78kR99gKiowK2CjDMz4p+yLkWqAtxT/T4unNbxDErbd7m
-	egiC5dONcju2dLBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2FF1613408;
-	Sun, 25 Aug 2024 15:53:49 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id yC8OCo1Ty2aUWgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 25 Aug 2024 15:53:49 +0000
-Date: Sun, 25 Aug 2024 17:54:32 +0200
-Message-ID: <87v7zoionb.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Juefei Pu <juefei.pu@email.ucr.edu>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PmuhGwUs"
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2f4f5dbd93bso22865781fa.2;
+        Sun, 25 Aug 2024 10:43:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724607836; x=1725212636; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=n97HTeDja9TJP0PmQQQgTXIn0NWJLdIlG+rUOkXSS2I=;
+        b=PmuhGwUse0m2mQLBtzXrCCHJVf+26+ISNYIgzmr3FkhHwTXGyNSKJfAmExc7wtZaNX
+         ezscQL0k7bA1HxmBqd4kBxRXtvOZ8zQfSH5u9MqX5U6DUOaR6dDZEKSnIVtgaK6KGI7X
+         UYEXGbB8Z3gc/1pLEweI6kIPp+v/kPo5OpW0jXfxGu6zOOJHwaEFlnP8DDMK/T+D2W3U
+         HKfc3XTmBktABfPliHqus7XutodC0rLLmsAUBGeFzFGHTWYeuJQdrA6Cq2R8z1NZ2gJ6
+         hnLboyolNV5KUu2uShyLI6XIIJhifW0P62VKkFgwe1ep0dxYevEssVe9bxMZ1DPvc2nX
+         3nHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724607836; x=1725212636;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=n97HTeDja9TJP0PmQQQgTXIn0NWJLdIlG+rUOkXSS2I=;
+        b=EL/nfpxllxd/zz0MsazYW/M3+vWnCw3k+Stlnsi6vAZRwmx2y6I3GhUCcdpwXeOiIL
+         NuOdSz+gYcwx/0FIb+gQ7qIcmx6o7jbZfAWO+EreBuo0O08E1nr7pVjo5DEJH1YrajEc
+         QCRezjQYCkczZns5IfK7pm8zSFbHrPo9DfreGl6ohUg075B6NBwDI5vhkD4g8rZ/I309
+         TDUlZzifLhBQwwJaAGzWoGco59hoA5Ce5V2LFz5+OqgkPcWi4skKfieCxVLfukzIHt/L
+         wZ2BN0i1bzM1K5300yGg/vyWc3Pibwk04O49dnBshUeLscioQVOI0v1+jHWQFwJt96Ew
+         UxMg==
+X-Forwarded-Encrypted: i=1; AJvYcCV4TsVdh+e/1kiQrJL+g3a57TtDxHoYG3FU9090gcRN/qjJy6Rz/SrVcljEl+7Czr3uPSYj5w9yOrR9eVc=@vger.kernel.org, AJvYcCV9qOyQcE4lMKJnoAMrX2bzpOyr5QScQgoDkzSfr5Iu+FC+T8VlpX3yeyXceokb7vXfpbhVNQwqVU/qBPE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTDIQ/qUfr1a5mX5MLI4yWrGNEyz4030RKNqvPgFmhL9GC8oLA
+	6ZQvUE69C6CGwL8VvD1gv0Ezz1E2fH1YKfqA+T6KEfpxyJXtBr80wZEVs+vX
+X-Google-Smtp-Source: AGHT+IFix4mJ9YQnoNivRXEC1puHh9yACsNeFCbPTyO6HcwDCvzjYN4N7zQjhotdqbTqB/raW/eE8A==
+X-Received: by 2002:a05:6512:33ce:b0:52e:8b15:7c55 with SMTP id 2adb3069b0e04-534387853e7mr5259509e87.27.1724607836164;
+        Sun, 25 Aug 2024 10:43:56 -0700 (PDT)
+Received: from hendrik-laptop.borghorst.space.borghorst.space (p200300ed771342104eaf2a6a78487f8e.dip0.t-ipconnect.de. [2003:ed:7713:4210:4eaf:2a6a:7848:7f8e])
+        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-a868f21fe18sm555520366b.29.2024.08.25.10.43.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Aug 2024 10:43:55 -0700 (PDT)
+From: Hendrik Borghorst <hendrikborghorst@gmail.com>
+To: 
+Cc: Hendrik Borghorst <hendrikborghorst@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Kailang Yang <kailang@realtek.com>,
+	Stefan Binding <sbinding@opensource.cirrus.com>,
+	Simon Trimmer <simont@opensource.cirrus.com>,
+	Athaariq Ardhiansyah <foss@athaariq.my.id>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: BUG: INFO: task hung in seq_free_client
-In-Reply-To: <CANikGpe4pbGxQV+CCvSF6U+4cGHLWBzY_WXGSV9m+prBE6tYEQ@mail.gmail.com>
-References: <CANikGpe4pbGxQV+CCvSF6U+4cGHLWBzY_WXGSV9m+prBE6tYEQ@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+Subject: [PATCH v2] alsa: support HP Pavilion Aero 13-bg0xxx Mute LED
+Date: Sun, 25 Aug 2024 19:43:47 +0200
+Message-ID: <20240825174351.5687-1-hendrikborghorst@gmail.com>
+X-Mailer: git-send-email 2.44.2
+In-Reply-To: <20240824183445.6610-1-hendrikborghorst@gmail.com>
+References: <20240824183445.6610-1-hendrikborghorst@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 5EC681F7EB
-X-Spam-Level: 
-X-Spamd-Result: default: False [-5.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -5.51
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Sun, 25 Aug 2024 01:08:32 +0200,
-Juefei Pu wrote:
-> 
-> Hello,
-> We found the following issue using syzkaller on Linux v6.10.
-> In `seq_free_client`,  the task hangs when trying to acquire lock
-> `register_mutex`.
-> 
-> Unfortunately, the syzkaller failed to generate a reproducer.
-> But at least we have the report:
+This patch adds the HP Pavilion Aero 13 (13-bg0xxx) (year 2024) to list of
+quirks for keyboard LED mute indication.
 
-Unfortunately the stack trace isn't really helpful.  It merely means
-that something else already blocked the register_mutex, and it's
-likely that something went wrong at releasing another client, hence
-it's keeping the mutex.  But I can't say more than that the info for
-now.
+The laptop has two LEDs (one for speaker and one for mic mute). The
+pre-existing quirk ALC245_FIXUP_HP_X360_MUTE_LEDS chains both the quirk for
+mic and speaker mute.
 
-In anyway, if this is reproducible and have a reproducer, please
-report again.
+Tested on 6.11.0-rc4 with the aforementioned laptop.
 
+Signed-off-by: Hendrik Borghorst <hendrikborghorst@gmail.com>
+---
+Changes since v1:
+	- Moved entry to sorted position (by SSID)
+---
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-thanks,
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index d022a25635f9..fb250bbd3041 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10353,6 +10353,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8ca2, "HP ZBook Power", ALC236_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8ca4, "HP ZBook Fury", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8ca7, "HP ZBook Fury", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x8cbd, "HP Pavilion Aero Laptop 13-bg0xxx", ALC245_FIXUP_HP_X360_MUTE_LEDS),
+ 	SND_PCI_QUIRK(0x103c, 0x8cdd, "HP Spectre", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8cde, "HP Spectre", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8cdf, "HP SnowWhite", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
+-- 
+2.44.2
 
-Takashi
-
-> 
-> INFO: task syz.0.38:8767 blocked for more than 143 seconds.
->       Not tainted 6.10.0 #13
-> "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-> task:syz.0.38        state:D stack:24680 pid:8767  tgid:8767
-> ppid:8050   flags:0x00000004
-> Call Trace:
->  <TASK>
->  context_switch kernel/sched/core.c:5407 [inline]
->  __schedule+0xf4a/0x15e0 kernel/sched/core.c:6748
->  __schedule_loop kernel/sched/core.c:6825 [inline]
->  schedule+0x143/0x310 kernel/sched/core.c:6840
->  schedule_preempt_disabled+0xf/0x20 kernel/sched/core.c:6897
->  __mutex_lock_common kernel/locking/mutex.c:684 [inline]
->  __mutex_lock+0x69a/0xd50 kernel/locking/mutex.c:752
->  seq_free_client+0x27/0x180 sound/core/seq/seq_clientmgr.c:298
->  snd_seq_release+0x44/0xc0 sound/core/seq/seq_clientmgr.c:387
->  __fput+0x24a/0x8a0 fs/file_table.c:422
->  task_work_run+0x239/0x2f0 kernel/task_work.c:180
->  resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
->  exit_to_user_mode_loop kernel/entry/common.c:114 [inline]
->  exit_to_user_mode_prepare include/linux/entry-common.h:328 [inline]
->  __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
->  syscall_exit_to_user_mode+0x12d/0x280 kernel/entry/common.c:218
->  do_syscall_64+0x8a/0x150 arch/x86/entry/common.c:89
->  entry_SYSCALL_64_after_hwframe+0x67/0x6f
-> RIP: 0033:0x7f9a0cf809b9
-> RSP: 002b:00007ffc31b75f88 EFLAGS: 00000246 ORIG_RAX: 00000000000001b4
-> RAX: 0000000000000000 RBX: 00007f9a0d147a80 RCX: 00007f9a0cf809b9
-> RDX: 0000000000000000 RSI: 000000000000001e RDI: 0000000000000003
-> RBP: 00007f9a0d147a80 R08: 0000000000000006 R09: 00007ffc31b7626f
-> R10: 00000000003ffcd0 R11: 0000000000000246 R12: 00000000000248af
-> R13: 00007ffc31b76080 R14: 00007ffc31b760a0 R15: ffffffffffffffff
->  </TASK>
-> 
-> Showing all locks held in the system:
-> 3 locks held by kworker/0:1/10:
->  #0: ffff88801307a948 ((wq_completion)events){+.+.}-{0:0}, at:
-> process_one_work kernel/workqueue.c:3223 [inline]
->  #0: ffff88801307a948 ((wq_completion)events){+.+.}-{0:0}, at:
-> process_scheduled_works+0x8fb/0x1410 kernel/workqueue.c:3329
->  #1: ffffc900000cfd20
-> ((work_completion)(&data->fib_event_work)){+.+.}-{0:0}, at:
-> process_one_work kernel/workqueue.c:3224 [inline]
->  #1: ffffc900000cfd20
-> ((work_completion)(&data->fib_event_work)){+.+.}-{0:0}, at:
-> process_scheduled_works+0x922/0x1410 kernel/workqueue.c:3329
->  #2: ffff888100af7240 (&data->fib_lock){+.+.}-{3:3}, at:
-> nsim_fib_event_work+0x2de/0x4050 drivers/net/netdevsim/fib.c:1489
-> 1 lock held by khungtaskd/25:
->  #0: ffffffff8db32fe0 (rcu_read_lock){....}-{1:2}, at:
-> rcu_lock_acquire include/linux/rcupdate.h:329 [inline]
->  #0: ffffffff8db32fe0 (rcu_read_lock){....}-{1:2}, at: rcu_read_lock
-> include/linux/rcupdate.h:781 [inline]
->  #0: ffffffff8db32fe0 (rcu_read_lock){....}-{1:2}, at:
-> debug_show_all_locks+0x54/0x2d0 kernel/locking/lockdep.c:6614
-> 2 locks held by kworker/u4:9/2825:
-> 1 lock held by systemd-udevd/4506:
-> 1 lock held by in:imklog/7643:
-> 1 lock held by syz.1.37/8761:
->  #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
-> seq_free_client+0x27/0x180 sound/core/seq/seq_clientmgr.c:298
-> 1 lock held by syz.0.38/8767:
->  #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
-> seq_free_client+0x27/0x180 sound/core/seq/seq_clientmgr.c:298
-> 1 lock held by syz.0.44/9437:
->  #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
-> snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
-> 1 lock held by syz.1.46/9506:
->  #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
-> snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
-> 1 lock held by syz.1.46/9508:
->  #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
-> snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
-> 1 lock held by syz.1.46/9509:
->  #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
-> snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
-> 1 lock held by syz.0.53/10021:
->  #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
-> snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
-> 1 lock held by syz.0.53/10022:
->  #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
-> snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
-> 1 lock held by syz.1.57/10085:
->  #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
-> snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
-> 1 lock held by syz.1.57/10091:
->  #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
-> snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
-> 1 lock held by syz.0.64/10607:
->  #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
-> snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
-> 1 lock held by syz.1.66/10653:
->  #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
-> snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
-> 1 lock held by syz.0.70/11162:
->  #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
-> snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
-> 1 lock held by syz.1.68/11179:
->  #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
-> snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
-> 1 lock held by syz.0.71/11691:
->  #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
-> snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
-> 1 lock held by syz.1.72/11705:
->  #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
-> snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
-> 1 lock held by syz.1.74/12211:
->  #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
-> snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
-> 1 lock held by syz.0.81/12259:
->  #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
-> snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
-> 2 locks held by syz-executor/12269:
-> 1 lock held by systemd-udevd/12279:
-> 2 locks held by syz-executor/12313:
-> 1 lock held by syz.1.82/12748:
->  #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
-> snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
-> 1 lock held by syz.0.83/12763:
->  #0: ffffffff8ecc0b08 (register_mutex#3){+.+.}-{3:3}, at:
-> snd_seq_open+0x42/0x4a0 sound/core/seq/seq_clientmgr.c:335
