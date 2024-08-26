@@ -1,254 +1,166 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C125C146581;
-	Mon, 26 Aug 2024 09:53:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1C0B12C544;
+	Mon, 26 Aug 2024 10:01:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724666003; cv=none; b=IpjeAkJxgqRe7bk5w9j+cb9ykX7Y6m6MsFuiSr3LWVIq8sV/YlLTGqpA8PHjtK7TNi9EOeURIHQtKlowYBurQQNwisa0lUYVIO8cqheZEiUznXuCm/ef7/Y4rFK+vM9MB2Y86Mf0+VgrCYPi0Cnd+rf0IP8o00faRxkY7F7dclg=
+	t=1724666466; cv=none; b=kWEVuYsWvg/sM59dnFuG4L4PlzkBGLuwuE9NACyG3YQ7HUkQ0h44cFGmBYmPlSMlhYqh8d8yC7saviv8BzPFX978/gHhk+W6uhdpc/pIzAnNSu1ok9X02R/QwSRu8xwiEhWEjf+Jet7zVxZzkSvm2/zkjy+JiT31t3unNGHtWCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724666003; c=relaxed/simple;
-	bh=Ug/x3tr45hzvv7fRR3FhamGYtug56GmKsRN/db9q/jI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=SD+fKD3MVNL7qp2baeL7oKKLnmjlulRZTI8lvKXFPF/UVsbTTvsYWEdY1vxLoYYd2qar3IUTy1Us9xOKZKaAN3KYtYz0NRJUZ5P1JkzJNkrnTzx/Odh1dSn2MH47y6EfkBk/V8l9vYsdfL8bYIlz/FXX5F0hFjI8Z04b4pOyT54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QOirCdii; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724666466; c=relaxed/simple;
+	bh=Qa0x2aJ36ZI+30OPot7ebFxp+rXfMZB4d404jrw3rm0=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=o62OlgVitaRQNpBytjKjhfbMHyiPJ5VXawlFJBqbRp16LJo9fIDG2ZgKpVV7E3Q7SZ4xVV3zc+GtwDeLqa5EnFP1tmXx5IcNs+IInclxd/GN7Z6SuaORtqjU7sEldenZmVldltV9sYGZtDUQw0yURmHZfpRZcpyfR6gXEqx908k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=foRn9Rjw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pX/D7tYO; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=foRn9Rjw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pX/D7tYO; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QOirCdii"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 47B1BC5141B;
-	Mon, 26 Aug 2024 09:53:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724666003;
-	bh=Ug/x3tr45hzvv7fRR3FhamGYtug56GmKsRN/db9q/jI=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=QOirCdiiAMbXNgmY0OPUvJIXyj2Lgo6OVl+j4ceWPMAupwz7Ct4VfCGBVGzi9sEjA
-	 GHpqllboW/X8n+rPl63bHmtp+I6OfTE6HQWcLHTx88+ss0A3jdCRZc1kDgCN9sn5K6
-	 sXi5teD68OGIuVhtC/BILdpMmbwKFpjsxP44D2LGfIQLe/451dN0z4PAbIF02l7eee
-	 T7u8o3g34/MBPqjRvSLfa0cAvw+Nlx+50lXNr00a1id5wBzWWJVHjMHN3GINUuNoBb
-	 Fkju/uWOM/5powcLNVR6DycChK1v3+ZF0wIlNOvCf3JCj3hoRoE39RX23lov1fhoxt
-	 ZirRrBf35Of4Q==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E83FC5321D;
-	Mon, 26 Aug 2024 09:53:23 +0000 (UTC)
-From: Nikita Shubin via B4 Relay <devnull+nikita.shubin.maquefel.me@kernel.org>
-Date: Mon, 26 Aug 2024 12:53:08 +0300
-Subject: [PATCH] ASoC: dt-bindings: cirrus,cs4271: Convert to dtschema
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="foRn9Rjw";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pX/D7tYO";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="foRn9Rjw";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pX/D7tYO"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B1AB1219A7;
+	Mon, 26 Aug 2024 10:00:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1724666458; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mLjQvx1Iw+blgciXlCuxZQqPUe6hj0Rwui1+Ws1wEig=;
+	b=foRn9Rjw8lBWdoRjRG9w8ErWJgqbknlt0K5AgKLSjjsBfILb7cneisBKy3vcXXFVlEi0qF
+	XVzfVhY72l/XGsigD/k2DD1560fnItYrISI0lDEg1JGv5iEF40rMPJMgQnUpy7H/P8OkO9
+	jcDDge3JKX5jH+TPIippU1ZRfspaVFk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1724666458;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mLjQvx1Iw+blgciXlCuxZQqPUe6hj0Rwui1+Ws1wEig=;
+	b=pX/D7tYOz1Wxh6nkXgj3uH6g1FTkq1aKDjgF+Rn9fbzz9y8QnFlIweQ7VFbxsNhYwiLIyb
+	x1rcIJ4ra9uTgaCg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=foRn9Rjw;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="pX/D7tYO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1724666458; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mLjQvx1Iw+blgciXlCuxZQqPUe6hj0Rwui1+Ws1wEig=;
+	b=foRn9Rjw8lBWdoRjRG9w8ErWJgqbknlt0K5AgKLSjjsBfILb7cneisBKy3vcXXFVlEi0qF
+	XVzfVhY72l/XGsigD/k2DD1560fnItYrISI0lDEg1JGv5iEF40rMPJMgQnUpy7H/P8OkO9
+	jcDDge3JKX5jH+TPIippU1ZRfspaVFk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1724666458;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mLjQvx1Iw+blgciXlCuxZQqPUe6hj0Rwui1+Ws1wEig=;
+	b=pX/D7tYOz1Wxh6nkXgj3uH6g1FTkq1aKDjgF+Rn9fbzz9y8QnFlIweQ7VFbxsNhYwiLIyb
+	x1rcIJ4ra9uTgaCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8AD7D1398D;
+	Mon, 26 Aug 2024 10:00:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ZWF4IFpSzGaneQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 26 Aug 2024 10:00:58 +0000
+Date: Mon, 26 Aug 2024 12:01:42 +0200
+Message-ID: <87h6b7iovt.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: soxiebing <soxiebing@163.com>
+Cc: tiwai@suse.de,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda: fix snd_hda_bus_reset when single_cmd is not supported
+In-Reply-To: <20240826091958.44375-1-soxiebing@163.com>
+References: <20240821014238.338864-1-soxiebing@163.com>
+	<20240826091958.44375-1-soxiebing@163.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240826-cs4271-yaml-v1-1-dad3f0b041ef@maquefel.me>
-X-B4-Tracking: v=1; b=H4sIAINQzGYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDCyMz3eRiEyNzQ93KxNwc3VRjC0sDI2ODlKSkNCWgjoKi1LTMCrBp0bG
- 1tQC/5/+UXQAAAA==
-To: David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Alexander Sverdlin <alexander.sverdlin@gmail.com>
-Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Nikita Shubin <nikita.shubin@maquefel.me>
-X-Mailer: b4 0.15-dev-99b12
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1724666002; l=5234;
- i=nikita.shubin@maquefel.me; s=20230718; h=from:subject:message-id;
- bh=GRy6WLVokizOeb8p/5VYo3MDJi8y2Fw/p8AH0P7Qby4=;
- b=KYGDv2HkUyItR7HwIF+XvufSO8R8sBZ+eAHBsn2VvLtiVE4+a3K2u1oxbIC0zZzvtlGZ+dFSIRDF
- h7II+WYDBzVKLjW3VIpnxy8/z1C64ndgm2cZ6qw70Xj0NUfgbd6A
-X-Developer-Key: i=nikita.shubin@maquefel.me; a=ed25519;
- pk=vqf5YIUJ7BJv3EJFaNNxWZgGuMgDH6rwufTLflwU9ac=
-X-Endpoint-Received: by B4 Relay for nikita.shubin@maquefel.me/20230718
- with auth_id=65
-X-Original-From: Nikita Shubin <nikita.shubin@maquefel.me>
-Reply-To: nikita.shubin@maquefel.me
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: B1AB1219A7
+X-Spam-Level: 
+X-Spamd-Result: default: False [-5.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[163.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[163.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCPT_COUNT_THREE(0.00)[4];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -5.51
+X-Spam-Flag: NO
 
-From: Nikita Shubin <nikita.shubin@maquefel.me>
+On Mon, 26 Aug 2024 11:19:58 +0200,
+soxiebing wrote:
+> 
+> >On Wed, 21 Aug 2024 03:42:38 +0200,
+> >soxiebing wrote:
+> >> 
+> >> From: songxiebing <songxiebing@kylinos.cn>
+> >> 
+> >> When an azx_get_desponse timeout occurs, ensure that bus_reset
+> >> can be used when fallback_to_single_cmd is not supported.
+> >> 
+> >> Signed-off-by: songxiebing <songxiebing@kylinos.cn>
+> >
+> >Why do you need to change?  Does it fix any real problem you faced?
+> 
+> Thanks for reply, i am testing all these days, but the problem is
+> still exists even if using bus reset.
+>
+> The problem i encountered is that hda_call_codec_resume returned 
+> timeout of 120 seconds(defined CONFIG_DPM_WATCHDOG)) when doing s4, 
+> azx_get_response timeout occured, it is a low probability event.
+> 
+> To avoid exceeding 120s, can i change the count value to 3 in 
+> hda_set_power_state ?
 
-Convert the Cirrus Logic CS4271 audio CODEC bindings to DT schema.
+So the change you suggested isn't for any real "fix" but to allow the
+possible workaround with single_cmd to be applicable somehow in a
+different form.  Then we should rather try debugging the original
+issue, instead of change it.
 
-Cc: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-Signed-off-by: Nikita Shubin <nikita.shubin@maquefel.me>
-Link: https://lore.kernel.org/all/20240715-ep93xx-v11-0-4e924efda795@maquefel.me
----
-This is complementary patch to ep93xx DT conversion series.
+Does the response timeout happen *during* the S4 suspend, or during S4
+resume, or after S4 resume?
 
-Based on "ASoC: dt-bindings: cirrus,cs4270: Convert to dtschema" patch.
----
- .../devicetree/bindings/sound/cirrus,cs4271.yaml   | 91 ++++++++++++++++++++++
- Documentation/devicetree/bindings/sound/cs4271.txt | 57 --------------
- 2 files changed, 91 insertions(+), 57 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs4271.yaml b/Documentation/devicetree/bindings/sound/cirrus,cs4271.yaml
-new file mode 100644
-index 000000000000..dd104483ab81
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/cirrus,cs4271.yaml
-@@ -0,0 +1,91 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/cirrus,cs4271.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Cirrus Logic CS4271 audio CODEC
-+
-+maintainers:
-+  - Alexander Sverdlin <alexander.sverdlin@gmail.com>
-+  - Nikita Shubin <nikita.shubin@maquefel.me>
-+
-+description:
-+  The CS4271 is a stereo audio codec. This driver supports both the I2C
-+  and the SPI bus.
-+
-+allOf:
-+  - $ref: dai-common.yaml#
-+  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-+
-+properties:
-+  compatible:
-+    const: cirrus,cs4271
-+
-+  reg:
-+    maxItems: 1
-+
-+  spi-cpha: true
-+
-+  spi-cpol: true
-+
-+  '#sound-dai-cells':
-+    const: 0
-+
-+  reset-gpio:
-+    description:
-+      This pin will be deasserted before communication to the codec starts.
-+    maxItems: 1
-+
-+  va-supply:
-+    description: Analog power supply.
-+
-+  vd-supply:
-+    description: Digital power supply.
-+
-+  vl-supply:
-+    description: Serial Control Port power supply.
-+
-+  port:
-+    $ref: audio-graph-port.yaml#
-+    unevaluatedProperties: false
-+
-+  cirrus,amuteb-eq-bmutec:
-+    description:
-+      When given, the Codec's AMUTEB=BMUTEC flag is enabled.
-+    type: boolean
-+
-+  cirrus,enable-soft-reset:
-+    description: |
-+      The CS4271 requires its LRCLK and MCLK to be stable before its RESET
-+      line is de-asserted. That also means that clocks cannot be changed
-+      without putting the chip back into hardware reset, which also requires
-+      a complete re-initialization of all registers.
-+
-+      One (undocumented) workaround is to assert and de-assert the PDN bit
-+      in the MODE2 register. This workaround can be enabled with this DT
-+      property.
-+
-+      Note that this is not needed in case the clocks are stable
-+      throughout the entire runtime of the codec.
-+    type: boolean
-+
-+required:
-+  - compatible
-+  - reg
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    spi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        cs4271: codec@0 {
-+            compatible = "cirrus,cs4271";
-+            reg = <0>;
-+            reset-gpio = <&gpio0 1 0>;
-+        };
-+    };
-+
-+...
-\ No newline at end of file
-diff --git a/Documentation/devicetree/bindings/sound/cs4271.txt b/Documentation/devicetree/bindings/sound/cs4271.txt
-deleted file mode 100644
-index 6e699ceabacd..000000000000
---- a/Documentation/devicetree/bindings/sound/cs4271.txt
-+++ /dev/null
-@@ -1,57 +0,0 @@
--Cirrus Logic CS4271 DT bindings
--
--This driver supports both the I2C and the SPI bus.
--
--Required properties:
--
-- - compatible: "cirrus,cs4271"
--
--For required properties on SPI, please consult
--Documentation/devicetree/bindings/spi/spi-bus.txt
--
--Required properties on I2C:
--
-- - reg: the i2c address
--
--
--Optional properties:
--
-- - reset-gpio: 	a GPIO spec to define which pin is connected to the chip's
--		!RESET pin
-- - cirrus,amuteb-eq-bmutec:	When given, the Codec's AMUTEB=BMUTEC flag
--				is enabled.
-- - cirrus,enable-soft-reset:
--	The CS4271 requires its LRCLK and MCLK to be stable before its RESET
--	line is de-asserted. That also means that clocks cannot be changed
--	without putting the chip back into hardware reset, which also requires
--	a complete re-initialization of all registers.
--
--	One (undocumented) workaround is to assert and de-assert the PDN bit
--	in the MODE2 register. This workaround can be enabled with this DT
--	property.
--
--	Note that this is not needed in case the clocks are stable
--	throughout the entire runtime of the codec.
--
-- - vd-supply:	Digital power
-- - vl-supply:	Logic power
-- - va-supply:	Analog Power
--
--Examples:
--
--	codec_i2c: cs4271@10 {
--		compatible = "cirrus,cs4271";
--		reg = <0x10>;
--		reset-gpio = <&gpio 23 0>;
--		vd-supply = <&vdd_3v3_reg>;
--		vl-supply = <&vdd_3v3_reg>;
--		va-supply = <&vdd_3v3_reg>;
--	};
--
--	codec_spi: cs4271@0 {
--		compatible = "cirrus,cs4271";
--		reg = <0x0>;
--		reset-gpio = <&gpio 23 0>;
--		spi-max-frequency = <6000000>;
--	};
--
-
----
-base-commit: 5be63fc19fcaa4c236b307420483578a56986a37
-change-id: 20240826-cs4271-yaml-e3890230dbbf
-
-Best regards,
--- 
-Nikita Shubin <nikita.shubin@maquefel.me>
+To be noted, the behavior you changed is only for the single_cmd
+option is set explicitly, so it's more or less the designed behavior,
+and I don't think it's good to change blindly.
 
 
+Takashi
