@@ -1,167 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 892FC13D630;
-	Mon, 26 Aug 2024 09:33:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2EA778C98;
+	Mon, 26 Aug 2024 09:49:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724664792; cv=none; b=keHUoY0pMrmxdKFVhfO3Gp1B5gxiqGGDX17GHdOXZgHrJ4Z+FYJYZMu3ZXu5edyM1VLi3ZjMrTEpUhtWwzhzAWPisA1v7jUBbXgA0qwj5t/0+6PmF9LjB+hsMi5Jhwk8DlpsWj93K8THUsgQzej0TsdIHvT4R3NWxkKTwYb8IDA=
+	t=1724665786; cv=none; b=jEemzUCY0/+Hu5LMrbwPXYQIOYjIF1uQ36eFfLaVAM47deuetX6IPQvVhrPDdwZZxKSPMifpYbtD75E36d21V/oDJwVw+0CVgISY+gYnDSSf3lx4vr2Ci9AZaE+BWOvRARkNf1fO45qNNY+Rc+vWVFHhjg3g/+M1tvyrc3s2N8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724664792; c=relaxed/simple;
-	bh=5gF49ZsaBl+eyYEsQZFl8g7Ns5jOi2/2z9XqrrfRfmI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SV+uiTefO6odSYwMbjTztiBa59T5ZgIA/Mdc3TBrUKkNyvonjBnSXhxjYRIGfhQvt8kSCn9r1gAAvuexMPvWpx+UABoGGJQ7VSgktOKwJpbvAcW6aK3KHXKS/IKd2uOLyHV05mG7uLgebdLRqbZryjVPrOrmRLqrXmmWpU30QRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d+EjeyBH; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1724665786; c=relaxed/simple;
+	bh=RjTuyzJCY9QLNEAgO3+vyXvKJ/nw1ssOx/yZ07sZc0o=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=i9+kO5hYG+mT5ekfb8SgY2RwMyIyMMAMenGpKK/19wCW2Phc3ZAwZioLoyIG6XC+o+Rvz7YO77KABa6BVjMc10cxLmPMWEfZRooN00/ff8hxLBKdL2DCYpf9OlcW1Gxm0WioGpJArWmstuNxVkJnHPV3ztzzlP3z19I3F8Sj4Ug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Jf2KuSeo; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d+EjeyBH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724664791; x=1756200791;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=5gF49ZsaBl+eyYEsQZFl8g7Ns5jOi2/2z9XqrrfRfmI=;
-  b=d+EjeyBHlhkx1BjfdYbQsoXrglBjlBrZdwqR4WIFaK0oK9RzFyGJKaVV
-   BAcPLfxqHTnmYVKKESGwvik+P69q+wIxjGUS3+YiJcO7SKHm8++jLqCU2
-   ExCaswP+Qy+b1zSZ/79KCsgFI61CVcwA8CQNfikrzlHR5JiQKqzHy5hXw
-   trynUIAvPxnr3hnQbhmqfZK8MD4tzz65v37E8zTgSU9rXdmoKPp46GYa7
-   HdiA+rNYIAAfBQUIfubYgcr9IE8N0JpeI34uBRWkZsv+WNut8gc/tEG6p
-   zKD1+wAo6bt49ngN4kGuE8f41o+SQEQ+J5/jZw2I64cmLEAkccWt9P6LO
-   w==;
-X-CSE-ConnectionGUID: uAbQSPB9RSW0VeQbYmKcPw==
-X-CSE-MsgGUID: lnnUEWNvQRu7WcdIPA4ThA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11175"; a="25967099"
-X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="25967099"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 02:33:10 -0700
-X-CSE-ConnectionGUID: StgiaI9yQWW9P7hnhG707A==
-X-CSE-MsgGUID: q0WWbT5FSWeCAnkmt419Iw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="62134701"
-Received: from cpetruta-mobl1.ger.corp.intel.com (HELO [10.245.246.121]) ([10.245.246.121])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 02:33:03 -0700
-Message-ID: <f4e609c0-92ff-4724-8243-bfe5de50d308@linux.intel.com>
-Date: Mon, 26 Aug 2024 11:28:45 +0200
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Jf2KuSeo"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47Q5KxHj015635;
+	Mon, 26 Aug 2024 04:49:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=JL7J2MV/9WledA94
+	7J5Ab1DI48Hnm9JBT5wXpkfVIJQ=; b=Jf2KuSeo1cm4syYTv3hXzIO+En8ZI0Gz
+	iK1Bp5O66rM5sG/IMP2vvThMGRzFEJ3+iG/yCFafQbnxZ019KXxWTaisCe4iJbjc
+	fZef3PQ1iqb1HtfXxZxMAy3wmroXPUs3ceQ+YHReDjn7OZGwOb9TSux+rHPGLBST
+	ykcTeG0olEled4GLUtt3t00FSkMW/jpYixhy/j/YRUyG1rTwITDPHwhvVWlU7er5
+	f2JuENjf2lNEVGDJkSZMnGAA+cmg9of6Q4V+WqbHHNuXcolTIZ89gko55j1M0hZH
+	XjkKkkopMPRDHzr1udc9MH0PhxeOqrUdCV6QJrK1jZEA+6s6TPnjJQ==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 417cwxhenr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 26 Aug 2024 04:49:42 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 26 Aug
+ 2024 10:49:40 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Mon, 26 Aug 2024 10:49:40 +0100
+Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 67040820249;
+	Mon, 26 Aug 2024 09:49:40 +0000 (UTC)
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+To: <tiwai@suse.com>
+CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <patches@opensource.cirrus.com>
+Subject: [PATCH] ALSA: hda: hda_component: Fix mutex crash if nothing ever binds
+Date: Mon, 26 Aug 2024 10:49:40 +0100
+Message-ID: <20240826094940.45563-1-rf@opensource.cirrus.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v25 00/33] Introduce QC USB SND audio offloading support
-To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- dmitry.torokhov@gmail.com, corbet@lwn.net, broonie@kernel.org,
- lgirdwood@gmail.com, tiwai@suse.com, krzk+dt@kernel.org,
- Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, robh@kernel.org,
- gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-doc@vger.kernel.org, alsa-devel@alsa-project.org
-References: <20240823200101.26755-1-quic_wcheng@quicinc.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <20240823200101.26755-1-quic_wcheng@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: EgbLWJzl1q8sUgGO0GHI488JH-oHorCk
+X-Proofpoint-ORIG-GUID: EgbLWJzl1q8sUgGO0GHI488JH-oHorCk
+X-Proofpoint-Spam-Reason: safe
 
+Move the initialization of parent->mutex into
+hda_component_manager_init() so that it is always valid.
 
-> Changelog
-> --------------------------------------------
-> Changes in v25:
-> - Cleanups on typos mentioned within the xHCI layers
-> - Modified the xHCI interrupter search if clients specify interrupter index
-> - Moved mixer_usb_offload into its own module, so that other vendor offload USB
-> modules can utilize it also.
-> - Added support for USB audio devices that may have multiple PCM streams, as
-> previous implementation only assumed a single PCM device.  SOC USB will be
-> able to handle an array of PCM indexes supported by the USB audio device.
-> - Added some additional checks in the QC USB offload driver to check that device
-> has at least one playback stream before allowing to bind
-> - Reordered DT bindings to fix the error found by Rob's bot.  The patch that
-> added USB_RX was after the example was updated.
-> - Updated comments within SOC USB to clarify terminology and to keep it consistent
-> - Added SND_USB_JACK type for notifying of USB device audio connections
+In hda_component_manager_bind() do not clear the parent information.
+Only zero-fill the per-component data ready for it to be filled in
+by the components as they bind.
 
-I went through the code and didn't find anything that looked like a
-major blocker. There are still a number of cosmetic things you'd want to
-fix such as using checkpatch.pl --strict --codespell to look for obvious
-style issues and typos, see selection below. git am also complains about
-EOF lines.
+Previously parent->mutex was being initialized only in
+hda_component_manager_bind(). This meant that it was only
+initialized if all components appeared and there was a bind callback.
+If there wasn't a bind the mutex object was not valid when the
+Realtek driver called any of the other functions.
 
-Overall this is starting to look good and ready for other reviewers to
-look at.
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+Fixes: 047b9cbbaa8e ("ALSA: hda: hda_component: Protect shared data with a mutex")
+---
+ sound/pci/hda/hda_component.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-
-
-WARNING: 'reaquire' may be misspelled - perhaps 'reacquire'?
-#54: FILE: drivers/usb/host/xhci-ring.c:3037:
-+ * for non OS owned interrupter event ring. It may drop and reaquire
-xhci->lock
-                                                             ^^^^^^^^
-WARNING: 'compliation' may be misspelled - perhaps 'compilation'?
-#16:
-module compliation added by Wesley Cheng to complete original concept code
-       ^^^^^^^^^^^
-CHECK: Prefer kzalloc(sizeof(*sgt)...) over kzalloc(sizeof(struct
-sg_table)...)
-#105: FILE: drivers/usb/host/xhci-sideband.c:35:
-+	sgt = kzalloc(sizeof(struct sg_table), GFP_KERNEL);
-
-CHECK: struct mutex definition without comment
-#557: FILE: include/linux/usb/xhci-sideband.h:35:
-+	struct mutex			mutex;
-
-WARNING: 'straightfoward' may be misspelled - perhaps 'straightforward'?
-#22:
-straightfoward, as the ASoC components have direct references to the ASoC
-^^^^^^^^^^^^^^
-CHECK: Unnecessary parentheses around 'card == sdev->card_idx'
-#142: FILE: sound/soc/qcom/qdsp6/q6usb.c:217:
-+	if ((card == sdev->card_idx) &&
-+		(pcm == sdev->ppcm_idx[sdev->num_playback - 1])) {
-
-CHECK: Unnecessary parentheses around 'pcm ==
-sdev->ppcm_idx[sdev->num_playback - 1]'
-#142: FILE: sound/soc/qcom/qdsp6/q6usb.c:217:
-+	if ((card == sdev->card_idx) &&
-+		(pcm == sdev->ppcm_idx[sdev->num_playback - 1])) {
-
-WARNING: 'seqeunces' may be misspelled - perhaps 'sequences'?
-#8:
-seqeunces.  This allows for platform USB SND modules to properly initialize
-^^^^^^^^^
-
-WARNING: 'exisiting' may be misspelled - perhaps 'existing'?
-#12:
-exisiting parameters.
-^^^^^^^^^
-
-CHECK: Please use a blank line after function/struct/union/enum declarations
-#1020: FILE: sound/usb/qcom/usb_audio_qmi_v01.h:98:
-+};
-+#define QMI_UAUDIO_STREAM_REQ_MSG_V01_MAX_MSG_LEN 46
-
-CHECK: Please use a blank line after function/struct/union/enum declarations
-#1054: FILE: sound/usb/qcom/usb_audio_qmi_v01.h:132:
-+};
-+#define QMI_UAUDIO_STREAM_RESP_MSG_V01_MAX_MSG_LEN 202
-
-CHECK: Please use a blank line after function/struct/union/enum declarations
-#1081: FILE: sound/usb/qcom/usb_audio_qmi_v01.h:159:
-+};
-+#define QMI_UAUDIO_STREAM_IND_MSG_V01_MAX_MSG_LEN 181
-
-CHECK: Macro argument 'n' may be better as '(n)' to avoid precedence issues
-#100: FILE: sound/usb/mixer_usb_offload.c:19:
-+#define PCM_IDX(n)  (n & 0xffff)
-
-CHECK: Macro argument 'n' may be better as '(n)' to avoid precedence issues
-#101: FILE: sound/usb/mixer_usb_offload.c:20:
-+#define CARD_IDX(n) (n >> 16)
+diff --git a/sound/pci/hda/hda_component.c b/sound/pci/hda/hda_component.c
+index 7b19cb38b4e0..b7dfdb10d156 100644
+--- a/sound/pci/hda/hda_component.c
++++ b/sound/pci/hda/hda_component.c
+@@ -141,8 +141,7 @@ int hda_component_manager_bind(struct hda_codec *cdc,
+ 	int ret;
+ 
+ 	/* Init shared and component specific data */
+-	memset(parent, 0, sizeof(*parent));
+-	mutex_init(&parent->mutex);
++	memset(parent->comps, 0, sizeof(parent->comps));
+ 	parent->codec = cdc;
+ 
+ 	mutex_lock(&parent->mutex);
+@@ -164,6 +163,8 @@ int hda_component_manager_init(struct hda_codec *cdc,
+ 	struct hda_scodec_match *sm;
+ 	int ret, i;
+ 
++	mutex_init(&parent->mutex);
++
+ 	for (i = 0; i < count; i++) {
+ 		sm = devm_kmalloc(dev, sizeof(*sm), GFP_KERNEL);
+ 		if (!sm)
+-- 
+2.39.2
 
