@@ -1,128 +1,76 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BBA5144D35;
-	Mon, 26 Aug 2024 08:31:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91E227710E;
+	Mon, 26 Aug 2024 08:57:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724661117; cv=none; b=bKQElU770EXeJDA8MgppxABbvjH/lCys906FyEWSXALZWI86t3mRGp96a/0slTzXa2JUGdt0hfmg+MSoKmic2AI4p0kwWUXsI08qFKrPKbucaPiirT77lYmIzJqVdQZ8dOsQ2njTUkI76CSBGMFaatt9rNeIG7c45C8GIgMkTkk=
+	t=1724662660; cv=none; b=fK25aTlSQX/AdcNJ3sUqhEU+/sV4zyMSofmLfSMsPY+6jLCztK7UvcTXRgNsV2io3gHhAlgSDD/vzROq8Hzeqzinzzfq3BiCBeF9MaL2wV6PyOzuK2Bm27wXsAujm6EC6AkKxUsImlqJHwTmOtOkxHkWmbTf9hm+n3omA/SN3zA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724661117; c=relaxed/simple;
-	bh=+AVueriv5FElSjwGii+KGAzsL6WnvTGG5xaIGuyYKkE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=upaE7eoOkDvumA/VSJtqVGo4+wSwp3rg3Wc0LyTP6Y9tcuQHTjfa1vFonZFuuG473KTXGjtXjVzgDgKXx+CCS3f0M3Rekrm77wN3ZrFuU0btgSyPku2DtFuuwmeI3wLiTji35fxDeXEwcjCedEfyLBhuO81TyDlyF/Y47S7EKNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qn/XSsLN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MSE3AMmN; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qn/XSsLN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MSE3AMmN; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qn/XSsLN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MSE3AMmN";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qn/XSsLN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MSE3AMmN"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 6D1DA1F842;
-	Mon, 26 Aug 2024 08:31:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1724661114; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wYlsB9uxCuChUsqkDlGDGT6I+W12en2CVJQ622VxvQ8=;
-	b=qn/XSsLNLoEjdP3HIDCdU5Um717bR2KV0Drbzld8nQELhP6BsG2+bDunDR/Mb+PBV0pgfS
-	WAs4phKI/HnR9kRDGsUgbRR5BqBaXO2B4ketjM4aREVzXjwQKY/vdMUERSaHulNrJ/uPft
-	0zUle6WDebNlppJIy8o0ls4ZkXtyr4Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1724661114;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wYlsB9uxCuChUsqkDlGDGT6I+W12en2CVJQ622VxvQ8=;
-	b=MSE3AMmNHPbfRw0qpUvQY9nXxRfz9MDwPsQJKLluhR2+3yhkNzZzzVF1mAH1vaDqyL54iK
-	CkcgO1H5oECXEtAg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1724661114; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wYlsB9uxCuChUsqkDlGDGT6I+W12en2CVJQ622VxvQ8=;
-	b=qn/XSsLNLoEjdP3HIDCdU5Um717bR2KV0Drbzld8nQELhP6BsG2+bDunDR/Mb+PBV0pgfS
-	WAs4phKI/HnR9kRDGsUgbRR5BqBaXO2B4ketjM4aREVzXjwQKY/vdMUERSaHulNrJ/uPft
-	0zUle6WDebNlppJIy8o0ls4ZkXtyr4Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1724661114;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wYlsB9uxCuChUsqkDlGDGT6I+W12en2CVJQ622VxvQ8=;
-	b=MSE3AMmNHPbfRw0qpUvQY9nXxRfz9MDwPsQJKLluhR2+3yhkNzZzzVF1mAH1vaDqyL54iK
-	CkcgO1H5oECXEtAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 44B6513724;
-	Mon, 26 Aug 2024 08:31:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id wkEtD3o9zGbjXAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 26 Aug 2024 08:31:54 +0000
-Date: Mon, 26 Aug 2024 10:32:38 +0200
-Message-ID: <87le0jit09.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Shen Lichuan <shenlichuan@vivo.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] ALSA: usb-audio: Use kmemdup_array instead of kmemdup for multiple allocation
-In-Reply-To: <20240826043454.3198-1-shenlichuan@vivo.com>
-References: <20240826043454.3198-1-shenlichuan@vivo.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	s=arc-20240116; t=1724662660; c=relaxed/simple;
+	bh=xIeOdHl759IGucjrXycsnNIQn5ujjKHlbnv6vH7Q4ss=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=G2uGkbSpRbVttLmtPv2gJEADDRYKZ4zYI1vfnuIn2SHinLa197QII50C6rHWwu4p7S81NOnXR+lt3nl3EFg7fOQv2658nbX+KdWlPxQwVpjg4SKdxTNOcCk6wtbLQS9lFlip3sH5OaE1mZUPagqswjFAGnSeGp/CzYHNQpCfloI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.88.105])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Wskzc6QSTzpTYc;
+	Mon, 26 Aug 2024 16:55:56 +0800 (CST)
+Received: from dggpemm500020.china.huawei.com (unknown [7.185.36.49])
+	by mail.maildlp.com (Postfix) with ESMTPS id BBF4A14037E;
+	Mon, 26 Aug 2024 16:57:35 +0800 (CST)
+Received: from huawei.com (10.67.174.77) by dggpemm500020.china.huawei.com
+ (7.185.36.49) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Mon, 26 Aug
+ 2024 16:57:35 +0800
+From: Liao Chen <liaochen4@huawei.com>
+To: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<alsa-devel@alsa-project.org>
+CC: <lgirdwood@gmail.com>, <broonie@kernel.org>, <perex@perex.cz>,
+	<tiwai@suse.com>, <cezary.rojewski@intel.com>,
+	<pierre-louis.bossart@linux.intel.com>, <peter.ujfalusi@linux.intel.com>,
+	<yung-chuan.liao@linux.intel.com>, <ranjani.sridharan@linux.intel.com>,
+	<kai.vehmanen@linux.intel.com>, <liaochen4@huawei.com>,
+	<u.kleine-koenig@pengutronix.de>, <andy.shevchenko@gmail.com>,
+	<kuninori.morimoto.gx@renesas.com>, <robh@kernel.org>
+Subject: [PATCH -next 2/4] ASoC: google: fix module autoloading
+Date: Mon, 26 Aug 2024 08:49:22 +0000
+Message-ID: <20240826084924.368387-3-liaochen4@huawei.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240826084924.368387-1-liaochen4@huawei.com>
+References: <20240826084924.368387-1-liaochen4@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.24 / 50.00];
-	BAYES_HAM(-2.94)[99.75%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,vivo.com:email]
-X-Spam-Score: -3.24
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500020.china.huawei.com (7.185.36.49)
 
-On Mon, 26 Aug 2024 06:34:54 +0200,
-Shen Lichuan wrote:
-> 
-> Let the kmemdup_array() take care about multiplication
-> and possible overflows.
-> 
-> Using kmemdup_array() is more appropriate and makes the code
-> easier to audit.
-> 
-> Signed-off-by: Shen Lichuan <shenlichuan@vivo.com>
+Add MODULE_DEVICE_TABLE(), so modules could be properly autoloaded
+based on the alias from of_device_id table.
 
-Thanks, applied now.
+Signed-off-by: Liao Chen <liaochen4@huawei.com>
+---
+ sound/soc/google/chv3-i2s.c | 1 +
+ 1 file changed, 1 insertion(+)
 
+diff --git a/sound/soc/google/chv3-i2s.c b/sound/soc/google/chv3-i2s.c
+index 08e558f24af8..0ff24653d49f 100644
+--- a/sound/soc/google/chv3-i2s.c
++++ b/sound/soc/google/chv3-i2s.c
+@@ -322,6 +322,7 @@ static const struct of_device_id chv3_i2s_of_match[] = {
+ 	{ .compatible = "google,chv3-i2s" },
+ 	{},
+ };
++MODULE_DEVICE_TABLE(of, chv3_i2s_of_match);
+ 
+ static struct platform_driver chv3_i2s_driver = {
+ 	.probe = chv3_i2s_probe,
+-- 
+2.34.1
 
-Takashi
