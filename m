@@ -1,133 +1,90 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4582B677;
-	Mon, 26 Aug 2024 18:25:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373C72C1AC;
+	Mon, 26 Aug 2024 18:35:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724696751; cv=none; b=Idz+0ZEt+I+BnNpylVAtaHP8LexbeGolqHxQyCWWYaNojZDhiIGS7cvizYtoBtt8PdmUC6nFjI2NepfVKDIt4wzQA0BlajYcPAs5dcgGyGQ5V7jtxjr3XfslvyW/mM4XnxArjseCdEDk4rmf6uMQrp96EOHzgi6kHgAhw4F6c3A=
+	t=1724697345; cv=none; b=rIQt5DNbgyJ8IbAHgLVvquQYER5LYHykkb833eVD4mnLk3ez4WlvKyR3YmMJcwrV46qIDVpPNxeWD1RRmXcN3m5S5x3bkadifAAJVII1HPQP+pz3hQYqRvSWy+QGe6s0KJXtU1A0vQdWReEvEQQXCYkWsYQhfux1rMoawQfnIaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724696751; c=relaxed/simple;
-	bh=mImBejdDjCpmXj8Di/I/HuyYPVoWvfKJBu1QEeSsOCM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=a6IAqk120L6XVveqhf+qX3Zt33DFhQomI98RnsN3MjbW+l+HVsOBepGVjDAied/QkjuotEtUcpXlHL4Hnf3SQMuOn3n8q1rrH2vDauzYpXpXiAiuUBsPbe8awWZiYKB2XlDsom6HbaaZbs/e8P+9fJrNmz85FZ3U/Eo0xEArlww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FuYRjDLl; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1724697345; c=relaxed/simple;
+	bh=uiz9Rtx8Hk7QAj5m6TJJAmxSW3fHU5X0XY4yHCbzD+U=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=tqlWLUueJBHJxcAL3FVYezPfGetAQq57ifGiUtHVm2nUboLakUYqfD+hpER306/3I2wgFIQZ/5jZLjOZfpzA7fMc6Q6w6udVfGZ1IE0uYQXS6cFfaNLMXwlX9zmO8QtNd/4z5oEadtmiPVBrPyE49o2S1KX4DZ6xyGTxQe0sR60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HU+Orevh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FuYRjDLl"
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2f50966c469so20112391fa.3;
-        Mon, 26 Aug 2024 11:25:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724696748; x=1725301548; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Mb4ZRd/HYSDhjIzksDC7j+rAhxPX+JataK0xq/4974Y=;
-        b=FuYRjDLlPiKYVhkf2EeR7BQj4oAuLvYYUAnC7hyVNvFjOoTlQTPI45m6T8SJzWFdVZ
-         2xRb00zKr1tHr1Jh5TzDvR14YOhYP5erzVAwjNWQRt+9uasucpQo0jWHDt9VEl+RK4w4
-         +fhUIK/BDIDLYD0VH5fdR5RgQd1c5QjNpT/YJ+CWc5m/obBxljoiV4abiDOpznF0cDHL
-         zvdZGK9H2PjMymF3Ae4lI8tNhd5AvY0/6HT/QHs/+S7KG+tfqDkeGMoZWTAbwQ5gdiY5
-         ZaR+ukbAZrDynY57cZlvwSefA4rIFgvSYFiKftmXA4SKCG00mHAKrdCnarPC7hkCNMTY
-         cBHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724696748; x=1725301548;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Mb4ZRd/HYSDhjIzksDC7j+rAhxPX+JataK0xq/4974Y=;
-        b=rFo8QY7+2SBq/hb+PXDIZTtd3pZQxmEGzEkznAiCMxIjPPba/Eme8x86SL5Hfpexnz
-         37F28A9LoCWMBAFLxmncfQLnts7FF8aG+FXojG5Bd8AVSKM0hxc0UDe7rf2MugcI99Sw
-         5rlb3vRFbgA4VMj8ybFdbxK80V42MgoEPAffcrWXOhkIc//NrOf2v5iOFeCU0ZegBsC6
-         S3TbF0oYvNl8LIomO0OU//BK7fyco8YNinCGLJh1UKp4Dk5/pdbwtJEQn9wp76KzcKJs
-         JssEvow+aEHlkIahSkJqnOLVWbrtWy+UWpI2vQHJEIWk7OI+XPKmTd2irwcRfQMHfWex
-         cybA==
-X-Forwarded-Encrypted: i=1; AJvYcCWyPh+agK62MRUNtqqNodCvdAAXPz7qDRobQdSAdNkjFTm02xrXc/6SHNtTFt/KLPrfn6zf2/rFN+tzMFI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzIfVHRMqsfwj+IxQ0bHFm642c4URs17Y67vyMuCqUkgqdqhN+5
-	DAuqVZUzPlRLOoUCMFtc5VVyJtQ7HgN2njSoyS3tmeV9js5E51I/
-X-Google-Smtp-Source: AGHT+IGfIubUWy4+G9XbvlH4YSyyow/qjoMcdvdum2e0UHJt52Y1f9rr3awhlwJkEU0p9G4B+VKxxg==
-X-Received: by 2002:a2e:8014:0:b0:2f3:ee44:c6de with SMTP id 38308e7fff4ca-2f4f5776474mr58901701fa.27.1724696747016;
-        Mon, 26 Aug 2024 11:25:47 -0700 (PDT)
-Received: from playground.localdomain ([86.127.146.72])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c0bb471e0csm39753a12.78.2024.08.26.11.25.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Aug 2024 11:25:46 -0700 (PDT)
-From: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: SOF: ipc: replace "enum sof_comp_type" field with "uint32_t"
-Date: Mon, 26 Aug 2024 14:24:42 -0400
-Message-Id: <20240826182442.6191-1-laurentiumihalcea111@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HU+Orevh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61C26C4DE03;
+	Mon, 26 Aug 2024 18:35:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724697344;
+	bh=uiz9Rtx8Hk7QAj5m6TJJAmxSW3fHU5X0XY4yHCbzD+U=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=HU+OrevhAiyoh5RN5Q+28yH8zKif9sHT8wYEZ6NA0jhbngTn9JRWD9UJIF2zwsyQ4
+	 QCvfsalG41fopxdOXF1F+gXbj1ZCmBcA484bXZiDgxRnNgMnSlBmrdDvd3FdXnZMsN
+	 z0Xq7cHEd4B2xVqowu0MljhJWn+JUxCKAyLvhP3v0xztp3v7T7k6A7D2riWmnhb8ID
+	 18P60NenfqQbnyXTYJrExvlpsXGWX67y5NsBuTQNhfKimFyh4v2wwxzSvtZFLMxxCV
+	 0SvJqLrBq1D5lDTN5rvl06BWLRNBrse8Sr90vyTLaWxgUmkWDRFJY51OfOKOnRq+IS
+	 ovP30tYIJeq+A==
+From: Mark Brown <broonie@kernel.org>
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, alsa-devel@alsa-project.org, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20240825085745.21668-1-krzysztof.kozlowski@linaro.org>
+References: <20240825085745.21668-1-krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH] ASoC: MAINTAINERS: Drop incorrect tlv320aic31xx.txt
+ path
+Message-Id: <172469734019.858128.1291012242968483621.b4-ty@kernel.org>
+Date: Mon, 26 Aug 2024 19:35:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-37811
 
-From: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
+On Sun, 25 Aug 2024 10:57:45 +0200, Krzysztof Kozlowski wrote:
+> tlv320aic31xx.txt was converted to DT schema (YAML) and new file is
+> already matched by wildcard.  This fixes get_maintainers.pl self-test
+> warning:
+> 
+>   ./MAINTAINERS:22739: warning: no file matches	F:	Documentation/devicetree/bindings/sound/tlv320aic31xx.txt
+> 
+> 
+> [...]
 
-Normally, the type of enums is "unsigned int" or "int". GCC has
-the "-fshort-enums" option, which instructs the compiler to
-use the smallest data type that can hold all the values in
-the enum (i.e: char, short, int or their unsigned variants).
+Applied to
 
-According to the GCC documentation, "-fshort-enums" may be
-default on some targets. This seems to be the case for SOF
-when built for a certain 32-bit ARM platform.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-On Linux, this is not the case (tested with "aarch64-linux-gnu-gcc")
-which means enums such as "enum sof_comp_type" will end up having
-different sizes on Linux and SOF. Since "enum sof_comp_type" is used in
-IPC-related structures such as "struct sof_ipc_comp", this means
-the fields of the structures will end up being placed at different
-offsets. This, in turn, leads to SOF not being able to properly
-interpret data passed from Linux.
+Thanks!
 
-With this in mind, replace "enum sof_comp_type" from
-"struct sof_ipc_comp" with "uint32_t".
+[1/1] ASoC: MAINTAINERS: Drop incorrect tlv320aic31xx.txt path
+      commit: 0225d3b9efe3daca332befaa0c4ce2f119297d5a
 
-Signed-off-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
----
- include/sound/sof/topology.h | 2 +-
- include/uapi/sound/sof/abi.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-diff --git a/include/sound/sof/topology.h b/include/sound/sof/topology.h
-index 3ba086f61983..449e93c25184 100644
---- a/include/sound/sof/topology.h
-+++ b/include/sound/sof/topology.h
-@@ -54,7 +54,7 @@ enum sof_comp_type {
- struct sof_ipc_comp {
- 	struct sof_ipc_cmd_hdr hdr;
- 	uint32_t id;
--	enum sof_comp_type type;
-+	uint32_t type;
- 	uint32_t pipeline_id;
- 	uint32_t core;
- 
-diff --git a/include/uapi/sound/sof/abi.h b/include/uapi/sound/sof/abi.h
-index 937ed9408c23..c1b158ec5dab 100644
---- a/include/uapi/sound/sof/abi.h
-+++ b/include/uapi/sound/sof/abi.h
-@@ -29,7 +29,7 @@
- /* SOF ABI version major, minor and patch numbers */
- #define SOF_ABI_MAJOR 3
- #define SOF_ABI_MINOR 23
--#define SOF_ABI_PATCH 0
-+#define SOF_ABI_PATCH 1
- 
- /* SOF ABI version number. Format within 32bit word is MMmmmppp */
- #define SOF_ABI_MAJOR_SHIFT	24
--- 
-2.34.1
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
