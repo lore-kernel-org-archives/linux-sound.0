@@ -1,118 +1,99 @@
-Received: from fallback22.i.mail.ru (fallback22.i.mail.ru [79.137.243.74])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BCC919A288;
-	Mon, 26 Aug 2024 20:25:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.137.243.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 999F119AA4E;
+	Mon, 26 Aug 2024 22:37:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724703931; cv=none; b=Q+Q4u3OJnV008HkRlfsSknROx97Vj2ueOvW0PdnYZwHQL92MQc+6rA4hlteg/p9T0SdEUodDagGZ8Dtr3TJU8B59laTmwQdCjvWKtmndpaC4cPCRW34e5vnfRUl2AkVnd7XwR2Ca6xLvWgPcAvvBVQfa6DIIcKsP+xLacA0h0hM=
+	t=1724711828; cv=none; b=fjrNPOS3BeuxWwqQh7Zi6GmhVR5zj0fAbWozKRwEMdsMBrS8y8zQHUhXarIpw/FsuAI0xStrJPZ1AnaReEs2/SEf9czuYAn9PyuQLzJBwkbwBRstm5HCzzF6y182INMzl3zClD/BqUecSiIwf4FqbGVIGaYB0aKqf47lNNXF934=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724703931; c=relaxed/simple;
-	bh=Qn3M3vmRZzraCJP1PyOXHTgq9SDzr8WdswahhXJn/J4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kfw7LsG8m2ABGELa7gaGezBXmH57iwE3KlMlmTMHTbLQOhedPCC9Ln/u0xyyhMsGlpA07SCt6GA/5nAH4dMIyFUWZdPHCEicuQ8d7RUnrvdkx8RwUWCfoJu0ClKPe1JmORAV6sTBO1ElVnb2+iJYMJFNpygKodj5Y0cuh5UPhdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jiaxyga.com; spf=pass smtp.mailfrom=jiaxyga.com; dkim=pass (1024-bit key) header.d=jiaxyga.com header.i=@jiaxyga.com header.b=z8fyGVDa; dkim=pass (1024-bit key) header.d=jiaxyga.com header.i=@jiaxyga.com header.b=oE2JdHhe; arc=none smtp.client-ip=79.137.243.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jiaxyga.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jiaxyga.com
+	s=arc-20240116; t=1724711828; c=relaxed/simple;
+	bh=M0Ntd6s913U5SOeV1TIdFxvvzwDT79BkVPTJjzmt8gE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=PDOhvmeNZVNqNl7Z16KcymUr995bWwM6GAWyH7MnY6ddIvv2Nf7gPsMtSIYRytJcILXuwZd1Al5l/ITpj7LLybTaEZa2ZnfzbT73YG5kZ7ktpMmStAX7KhKock7QiOzA9YP6AzgscpzFk99f/zQnazhmM5nnI7rFQKdUW+8lBYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ryhTXtJX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=jiaxyga.com header.i=@jiaxyga.com header.b="z8fyGVDa";
-	dkim=pass (1024-bit key) header.d=jiaxyga.com header.i=@jiaxyga.com header.b="oE2JdHhe"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=jiaxyga.com; s=mailru;
-	h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc; bh=ilmNAnKKxEeweg3uWm2brVCV7sOH91NkrbsL8Az54xs=;
-	t=1724703926;x=1724793926; 
-	b=z8fyGVDae9t1nK8gh2133Oon/RMSInjjVGdurf4XeXnNIMnKqQeXT1m6jf4YkTyv9GIQMUt05YbVQwCv1RAtGkTak/iDNfBx3U0TEiWH76A4U+4EY7sEh092/44d/aYZrdxp+qmZ24qTNPzhnNQ5kYxATgw5AISkA0kGV7spsRk=;
-Received: from [10.12.4.21] (port=56940 helo=smtp42.i.mail.ru)
-	by fallback22.i.mail.ru with esmtp (envelope-from <danila@jiaxyga.com>)
-	id 1sig2B-00Fu8N-Cd; Mon, 26 Aug 2024 23:09:51 +0300
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=jiaxyga.com
-	; s=mailru; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:Sender:Reply-To:To
-	:Cc:Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:
-	List-Archive:X-Cloud-Ids:Disposition-Notification-To;
-	bh=ilmNAnKKxEeweg3uWm2brVCV7sOH91NkrbsL8Az54xs=; t=1724702991; x=1724792991; 
-	b=oE2JdHheHwBIF50iJ6I4cLDUaJdYUPGC+sZCXgZVQdicapFz2Kf9HzmfErEBaQk/a2jy8ilDAcX
-	U0e+p0pzZeUnSGOfGZfHnGQiKhRe/4oml+T1c/S0n/tjB/T6kSnoPT+PCtOqAb66lInEJq53z0qaL
-	lGlri7SZCJjMgVnjLUo=;
-Received: by smtp42.i.mail.ru with esmtpa (envelope-from <danila@jiaxyga.com>)
-	id 1sig1u-0000000DUOL-29qg; Mon, 26 Aug 2024 23:09:35 +0300
-Message-ID: <d31553a0-b132-4766-ac9a-482c9741279d@jiaxyga.com>
-Date: Mon, 26 Aug 2024 23:09:10 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ryhTXtJX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95B3CC8B7DE;
+	Mon, 26 Aug 2024 22:37:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724711828;
+	bh=M0Ntd6s913U5SOeV1TIdFxvvzwDT79BkVPTJjzmt8gE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=ryhTXtJXPh3dqovOWwDUQ1RYohxer3IcchVGxS7K9Z24kWywHCbddiVSR25zMIwuC
+	 wUHlaOoaXrsxe/eqWry5jFM6fiEDdadcnWWbnY81/iCBXunS0WK3ZpmRLA3yfciHY/
+	 5uHCsp+hG7Xb0lgF4Ax6+EbH2m1NCvfc6eqvKqdiwKf13bdavU26I2nZkALXs5QIdP
+	 /UR5KVmddJA6im3LdaoFA63yeIIhaGe80QU05z5QR30FjppaKFxf/dBumwoU9L7zXe
+	 omX/B5t1+rDVeHQlnucrhRTUwYQgRqctNeOZovukVVuG5wtuOkusQKmQE8akVj9fLN
+	 nAAAVYPnhgfSQ==
+From: Mark Brown <broonie@kernel.org>
+To: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ alsa-devel@alsa-project.org, Liao Chen <liaochen4@huawei.com>
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ cezary.rojewski@intel.com, pierre-louis.bossart@linux.intel.com, 
+ peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com, 
+ u.kleine-koenig@pengutronix.de, andy.shevchenko@gmail.com, 
+ kuninori.morimoto.gx@renesas.com, robh@kernel.org
+In-Reply-To: <20240826084924.368387-1-liaochen4@huawei.com>
+References: <20240826084924.368387-1-liaochen4@huawei.com>
+Subject: Re: [PATCH -next 0/4] ASoC: fix module autoloading
+Message-Id: <172471182196.865478.11843966952043605315.b4-ty@kernel.org>
+Date: Mon, 26 Aug 2024 23:37:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] ASoC: qcom: sm8250: enable primary mi2s
-To: Jens Reidel <adrian@travitia.xyz>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux@mainlining.org, danila@jiaxyga.com
-References: <20240826134920.55148-1-adrian@travitia.xyz>
- <20240826134920.55148-2-adrian@travitia.xyz>
-Content-Language: en-US
-From: Danila Tikhonov <danila@jiaxyga.com>
-In-Reply-To: <20240826134920.55148-2-adrian@travitia.xyz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Mailru-Src: smtp
-X-7564579A: 646B95376F6C166E
-X-77F55803: 4F1203BC0FB41BD9B598A67DFB323527D48FFF5EF22321F878691CF7956759E8182A05F538085040C4F1C46E9BE3493DAC8EDD30083ED68E52CAA46F094D7EF06387C59B9F8F67A3CC29A3283896A6B0
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE743A67C3F703598BFEA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637D24CDE3D695BBBC6EA1F7E6F0F101C6723150C8DA25C47586E58E00D9D99D84E1BDDB23E98D2D38B043BF0FB74779F36FC7603D7D7DA14629B0EB3E6C23E510AC614157694A2C2EAA471835C12D1D9774AD6D5ED66289B5259CC434672EE6371117882F4460429724CE54428C33FAD30A8DF7F3B2552694AC26CFBAC0749D213D2E47CDBA5A9658378DA827A17800CE70F3DDF2BBF19B93A9FA2833FD35BB23DF004C90652538430302FCEF25BFAB3454AD6D5ED66289B5278DA827A17800CE70C93C844AB25B962D32BA5DBAC0009BE395957E7521B51C2330BD67F2E7D9AF1090A508E0FED6299176DF2183F8FC7C0FD819E82F1CB4899CD04E86FAF290E2DB606B96278B59C421DD303D21008E29813377AFFFEAFD269176DF2183F8FC7C088D2E8BEBF93D4B068655334FD4449CB33AC447995A7AD18262FEC7FBD7D1F5BD5E8D9A59859A8B6F82A78844E5C6993089D37D7C0E48F6C5571747095F342E88FB05168BE4CE3AF
-X-C1DE0DAB: 0D63561A33F958A5E9988FBB8A8C66425002B1117B3ED69627A8CAB2A2024D76466072E6821086B3823CB91A9FED034534781492E4B8EEAD8D8BB953E4894305BDAD6C7F3747799A
-X-C8649E89: 1C3962B70DF3F0ADE00A9FD3E00BEEDF77DD89D51EBB7742D3581295AF09D3DF87807E0823442EA2ED31085941D9CD0AF7F820E7B07EA4CFF5F1E4C4F712246222B7216557DFBFA7D0D8DF8E3C4E7E7803E8075B400D3F03506ED036F265C5428CBD875B35315F9A8B23EECF961B6CB091A3EDCF40A9E60E2F85287069806F0C42BF32D1DA1046D202C26D483E81D6BE72B480F99247062FEE42F474E8A1C6FD34D382445848F2F3
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2bioj/M7/1rzOD9un0x4JxBuqlg==
-X-Mailru-Sender: 9EB879F2C80682A09F26F806C7394981FA4D19B1A53E9A3AA7CF1FCFAF80C0E94883779FF0B09D57E7C767D26902A0D02C62728BC403A049225EC17F3711B6CF1A6F2E8989E84EC137BFB0221605B344978139F6FA5A77F05FEEDEB644C299C0ED14614B50AE0675
-X-Mras: Ok
-X-7564579A: 78E4E2B564C1792B
-X-77F55803: 6242723A09DB00B4E352C08110291256EB698700D5CD5493965B77B4ADB569D9049FFFDB7839CE9EDDD06FDA38415CFF53DD720F8F2F7ACAB66926C3599D367FAAF2756BD0131C69
-X-7FA49CB5: 0D63561A33F958A52BFEE871C33970129030361B7581A5160E0E99AB9833E5EE8941B15DA834481FA18204E546F3947C629BAC65E8BCEBC0F6B57BC7E64490618DEB871D839B7333395957E7521B51C2DFABB839C843B9C08941B15DA834481F8AA50765F7900637EDB6B411A17B440E389733CBF5DBD5E9B5C8C57E37DE458BD96E472CDF7238E0725E5C173C3A84C325AE611EB865B371089D37D7C0E48F6C5571747095F342E88FB05168BE4CE3AF
-X-87b9d050: 1
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2bioj/M7/1rzOD9sUNTBP4WUakw==
-X-Mailru-MI: 8000000000000800
-X-Mras: Ok
+X-Mailer: b4 0.15-dev-37811
 
-On 8/26/24 16:49, Jens Reidel wrote:
-> When using primary mi2s on sm8250-compatible SoCs, the correct clock
-> needs to get enabled to be able to use the mi2s interface.
->
-> Signed-off-by: Jens Reidel <adrian@travitia.xyz>
-> ---
->   sound/soc/qcom/sm8250.c | 8 ++++++++
->   1 file changed, 8 insertions(+)
->
-> diff --git a/sound/soc/qcom/sm8250.c b/sound/soc/qcom/sm8250.c
-> index a15dafb99b33..274bab28209a 100644
-> --- a/sound/soc/qcom/sm8250.c
-> +++ b/sound/soc/qcom/sm8250.c
-> @@ -55,6 +55,14 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
->   	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
->   
->   	switch (cpu_dai->id) {
-> +	case PRIMARY_MI2S_RX:
-> +		codec_dai_fmt |= SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S;
-> +		snd_soc_dai_set_sysclk(cpu_dai,
-> +			Q6AFE_LPASS_CLK_ID_PRI_MI2S_IBIT,
-> +			MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-> +		snd_soc_dai_set_fmt(cpu_dai, fmt);
-> +		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
-> +		break;
->   	case TERTIARY_MI2S_RX:
->   		codec_dai_fmt |= SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S;
->   		snd_soc_dai_set_sysclk(cpu_dai,
-Thank you. I use sm8250-sndcard on sm7325 and it works for me:
-https://github.com/mainlining/linux/commit/292a1ac9f093c639363f257e92d313489ec5a394
+On Mon, 26 Aug 2024 08:49:20 +0000, Liao Chen wrote:
+> This patchset aims to enable autoloading of some use modules.
+> By registering MDT, the kernel is allowed to automatically bind
+> modules to devices that match the specified compatible strings.
+> 
+> Liao Chen (4):
+>   ASoC: intel: fix module autoloading
+>   ASoC: google: fix module autoloading
+>   ASoC: tda7419: fix module autoloading
+>   ASoC: fix module autoloading
+> 
+> [...]
 
-Let the maintainers decide whether it is really fair to add this tag.
+Applied to
 
-Tested-by: Danila Tikhonov <danila@jiaxyga.com> # sm7325-nothing-spacewar
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
----
-Best wishes,
-Danila
+Thanks!
+
+[1/4] ASoC: intel: fix module autoloading
+      commit: ae61a3391088d29aa8605c9f2db84295ab993a49
+[2/4] ASoC: google: fix module autoloading
+      commit: 8e1bb4a41aa78d6105e59186af3dcd545fc66e70
+[3/4] ASoC: tda7419: fix module autoloading
+      commit: 934b44589da9aa300201a00fe139c5c54f421563
+[4/4] ASoC: fix module autoloading
+      commit: 1165e70a4a5d8b4da77002ac22b4c5397f30e00d
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
