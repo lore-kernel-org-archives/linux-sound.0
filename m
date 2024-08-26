@@ -1,24 +1,25 @@
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFDC213D8B8;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73E3B13D532;
 	Mon, 26 Aug 2024 08:57:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.255
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724662661; cv=none; b=Jf2BoPfZDSCwlM6MT0RJlL+ewqR0giIWrOLlwwI8y3Daoqzj1o40OMY9XGSDQUxZR3RH0ADTM/p59KwC261xFSuaJvrrjYC8ZWAC93OX69UumWG8XDLgH7IXq2aS5NIloORTUoArDe2BgVImTx+LkTvib0ilX2QvO5sUMuUCMiw=
+	t=1724662661; cv=none; b=RHUMfSjgdPjN4W8T+Z5TWGO+YrhSQRfc3gzdivAZPlkjMxJmGqEXKyd1AV3rOzItwhCap4YucascyUby2m9RIqO7fjeIRe2tT+/cCPPV3R4TX16qzQDXITOuac3ReCnXalN60EdUVN47C1LlrMHX01P8sR5sFhjH3uNUHiA1iZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1724662661; c=relaxed/simple;
-	bh=07YHEvvzJ+ri63RFfz6j3YSCckGbtMiGXtm3i6eRbLo=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Wj310d+reumngEN/knx0jdzNK+tXxr4x3Ip16jsj1xvrdtzo8vQII2cV2R2fL4kP9Q9LylKnvpC4L2iADeSJ2Ak6AxXP0e9TU8QjwqCTKvrrf81OHwTB/TyHhSczyK+ntUB1Cyy4vkmSbzVTXX/PIj3Otd7tFsbWsoOedPwgny8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.255
+	bh=z1HFNNdFqZGfGNDw6EeA7y8hXdBijGmmkHWO4/tSfe8=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HVCfok830YvKiWNfyXQvLrBcsJrdj0xkFZ3WM96kD28S6Jp2yYT+arXiUi3gpmawnaezYwpgR/hdgQAcU3RGUvYTmjVZXu2jw7nptziBXrVLG9vYUIbsAlZdKe+YVkh1MP920nyrxEZ2tfSRfmT7RgvAw+5KKw3fgYf4LUA3P2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.252])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Wsl0d6f9jz14Dk8;
-	Mon, 26 Aug 2024 16:56:49 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.162.112])
+	by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4Wsl1L6bxLz1S8ww;
+	Mon, 26 Aug 2024 16:57:26 +0800 (CST)
 Received: from dggpemm500020.china.huawei.com (unknown [7.185.36.49])
-	by mail.maildlp.com (Postfix) with ESMTPS id 5DCEE1800A7;
-	Mon, 26 Aug 2024 16:57:35 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 296BC140120;
+	Mon, 26 Aug 2024 16:57:36 +0800 (CST)
 Received: from huawei.com (10.67.174.77) by dggpemm500020.china.huawei.com
  (7.185.36.49) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Mon, 26 Aug
@@ -33,10 +34,12 @@ CC: <lgirdwood@gmail.com>, <broonie@kernel.org>, <perex@perex.cz>,
 	<kai.vehmanen@linux.intel.com>, <liaochen4@huawei.com>,
 	<u.kleine-koenig@pengutronix.de>, <andy.shevchenko@gmail.com>,
 	<kuninori.morimoto.gx@renesas.com>, <robh@kernel.org>
-Subject: [PATCH -next 0/4] ASoC: fix module autoloading
-Date: Mon, 26 Aug 2024 08:49:20 +0000
-Message-ID: <20240826084924.368387-1-liaochen4@huawei.com>
+Subject: [PATCH -next 4/4] ASoC: fix module autoloading
+Date: Mon, 26 Aug 2024 08:49:24 +0000
+Message-ID: <20240826084924.368387-5-liaochen4@huawei.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240826084924.368387-1-liaochen4@huawei.com>
+References: <20240826084924.368387-1-liaochen4@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,24 +51,26 @@ Content-Type: text/plain
 X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
  dggpemm500020.china.huawei.com (7.185.36.49)
 
-Hi all,
+Add MODULE_DEVICE_TABLE(), so modules could be properly autoloaded
+based on the alias from of_device_id table.
 
-This patchset aims to enable autoloading of some use modules.
-By registering MDT, the kernel is allowed to automatically bind 
-modules to devices that match the specified compatible strings.
+Signed-off-by: Liao Chen <liaochen4@huawei.com>
+---
+ sound/soc/codecs/chv3-codec.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Liao Chen (4):
-  ASoC: intel: fix module autoloading
-  ASoC: google: fix module autoloading
-  ASoC: tda7419: fix module autoloading
-  ASoC: fix module autoloading
-
- sound/soc/codecs/chv3-codec.c          | 1 +
- sound/soc/codecs/tda7419.c             | 1 +
- sound/soc/google/chv3-i2s.c            | 1 +
- sound/soc/intel/keembay/kmb_platform.c | 1 +
- 4 files changed, 4 insertions(+)
-
+diff --git a/sound/soc/codecs/chv3-codec.c b/sound/soc/codecs/chv3-codec.c
+index ab99effa6874..40020500b1fe 100644
+--- a/sound/soc/codecs/chv3-codec.c
++++ b/sound/soc/codecs/chv3-codec.c
+@@ -26,6 +26,7 @@ static const struct of_device_id chv3_codec_of_match[] = {
+ 	{ .compatible = "google,chv3-codec", },
+ 	{ }
+ };
++MODULE_DEVICE_TABLE(of, chv3_codec_of_match);
+ 
+ static struct platform_driver chv3_codec_platform_driver = {
+ 	.driver = {
 -- 
 2.34.1
 
