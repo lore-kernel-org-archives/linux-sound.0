@@ -1,148 +1,120 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25CED804;
-	Mon, 26 Aug 2024 10:03:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC151494DC
+	for <linux-sound@vger.kernel.org>; Mon, 26 Aug 2024 10:31:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724666621; cv=none; b=Gsm4Z2XDi9ey+fjtEoazBDloIl/giy+YHqsGasd6TDRRLMQxUpBITKCqErtJcobWc482INmXJ3WoIZqz2n9ufnhfuNmNl4G6HStaMBuK9qjYbGh+tT2kIDC+VUy4fzHWnQXJ0sd+C0YK1lfYev8g/fQdvFGiPkzyv2L3oyFt4hY=
+	t=1724668300; cv=none; b=XlLd8Nq1I5uhi9EZE6LoTS3VCZdC6romxDi4wtSq8K0/69mNUUxWR6w3zykpkznofL70zroXP7CYvzeKyZsrWLkyzB8SOYTDjkLzdnCvYsZ3wnam3FecJJKoJcoQJ6MCpT50btb4ySXUJ+OPqijIIfa9b+G7S0E/Q4taZhvYiOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724666621; c=relaxed/simple;
-	bh=X/mqdZCFi4LTSzjI6F3xX6K/KLHUaTrHYg+1IwoTG+s=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KXOrHG4RcDpuHUhZ4FLKhbJhvvqk9tGpYmNiQCnJcTLcIjiaryd8uff1jFKx4/62gISeM7nRfE2hNprYydS1wrS3pLYThXlYpUvuCfSoxPHpInZgRNPfjPO8OM+MvDRG/l4VAxvhe22mXKIwiQKoDLHJGg4YCrxbvtu2/E6g5ck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=e5ct1bAK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wJ7UxLax; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=e5ct1bAK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wJ7UxLax; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1724668300; c=relaxed/simple;
+	bh=D56uU97DHLTAV46MruOMwh3ENgVDe/CheFULj4BVelg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jZt3c5dB5mZItNt216n5DSw2U4nm1s9xyioxsyAsIdEbh+DIHtTN+BQfU9aCsoymawHy+87wAEx9dwTyFt4HvSkwmSkDIsQvYmU1mP7kTLT/cPyUxVTYcGvqK3m+EpC88XR4Ep+bgiix1EmbItwi1p6L/6b7JZ3YjlRUpR8oPSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=G7ZEIdgs; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="e5ct1bAK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wJ7UxLax";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="e5ct1bAK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wJ7UxLax"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 212C21F850;
-	Mon, 26 Aug 2024 10:03:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1724666618; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TkErUlMgye/QxLsycfZwn1IALWdHfgnpbNDo4eIGwPo=;
-	b=e5ct1bAKIMsCTCQ64UvmmYQ13eKRGNu4cm6tEFtfYm9TKyL3fucd/4WSgYHnEyBIaYsVcE
-	D46KQy+BTaDlHSA9VwCg6PtL2sq5FAc7AycQWbMqIKkIXq9Im+XjbUE0nyfA7CyoM3+0gu
-	VIpOILeu+I/pHK+FuVdb7+thM7Ye8j8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1724666618;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TkErUlMgye/QxLsycfZwn1IALWdHfgnpbNDo4eIGwPo=;
-	b=wJ7UxLaxlHTaONGFS0lH2T2SQHoHxTaMh/d91v1ga3Kjv6n68gQUMODZ4vsfP3bAd9uAL3
-	7QTgsuzYcbydE4Ag==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=e5ct1bAK;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=wJ7UxLax
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1724666618; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TkErUlMgye/QxLsycfZwn1IALWdHfgnpbNDo4eIGwPo=;
-	b=e5ct1bAKIMsCTCQ64UvmmYQ13eKRGNu4cm6tEFtfYm9TKyL3fucd/4WSgYHnEyBIaYsVcE
-	D46KQy+BTaDlHSA9VwCg6PtL2sq5FAc7AycQWbMqIKkIXq9Im+XjbUE0nyfA7CyoM3+0gu
-	VIpOILeu+I/pHK+FuVdb7+thM7Ye8j8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1724666618;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TkErUlMgye/QxLsycfZwn1IALWdHfgnpbNDo4eIGwPo=;
-	b=wJ7UxLaxlHTaONGFS0lH2T2SQHoHxTaMh/d91v1ga3Kjv6n68gQUMODZ4vsfP3bAd9uAL3
-	7QTgsuzYcbydE4Ag==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E7E0A1398D;
-	Mon, 26 Aug 2024 10:03:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sUtjN/lSzGZ+egAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 26 Aug 2024 10:03:37 +0000
-Date: Mon, 26 Aug 2024 12:04:22 +0200
-Message-ID: <87frqriord.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: <tiwai@suse.com>,
-	<linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>,
-	<patches@opensource.cirrus.com>
-Subject: Re: [PATCH] ALSA: hda: hda_component: Fix mutex crash if nothing ever binds
-In-Reply-To: <20240826094940.45563-1-rf@opensource.cirrus.com>
-References: <20240826094940.45563-1-rf@opensource.cirrus.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="G7ZEIdgs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1724668296;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=0caQWYctkzPWXc3lfa4QY9g9vHYDKQdJAJoab25gorQ=;
+	b=G7ZEIdgsscWwhJLVDqpaf9Bd6jHJZJ7+ZA1+CgjTPTFU7yCPM7EkX18eRMvxVbUejLbamz
+	WdcD3b6mhGv7FCLuLAtIl51e7TmO5L7OkDpTBx4Wz8Wg8yhI98wStq2W5MOd3YeANQzthl
+	nbzx6oe+ujXUkrDUskX9EZEQm3bAq44=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-445-h23HJowFNRWk33Df4H0KJg-1; Mon, 26 Aug 2024 06:31:35 -0400
+X-MC-Unique: h23HJowFNRWk33Df4H0KJg-1
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-3719ee7c72eso2517949f8f.0
+        for <linux-sound@vger.kernel.org>; Mon, 26 Aug 2024 03:31:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724668294; x=1725273094;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0caQWYctkzPWXc3lfa4QY9g9vHYDKQdJAJoab25gorQ=;
+        b=wRMYM/sVGpI+mKyqmL5iZgkQkO1d2KWpC01qqP1vdmgOm7ZNq+UvKaQqQskKxq353D
+         G7GCUiQSp3qVNdzW4+R7Dtb6CnKJfJddQ5I00Xu73zt8hbkdeEIDIH69pj5WA9XwqO7Y
+         9TBKL03Rqx73muqV9gsIV8xb7cMUULftli5M+/mcMi3DhlSEbmyMs2FvSdf3+Y5ygw0L
+         Gv0oAC+rbWKOBAwmyU67nUUBeoObxJ/lS/KAdr9Bj/98MUVkrh2A68dhbmtciFttoNd3
+         hOPnT1bLaSjHCwpzGSOjCcBOUbqXpETS6EHXvHqaJK5TVePkf+bLiO0yNHk2lf2SFjOa
+         vZng==
+X-Forwarded-Encrypted: i=1; AJvYcCUaYkWsGPtPlBktWZNhGmFsEC0nCB9PDqQBqt5gIksVspTW7jYo45sirPHwTriCKOaqQ58ZPpOkpLi+TQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzWnj39EcSOKfGD6IwAhegHowAC4obe/0Iqut135ZguAPSM95D2
+	wG/XXUdLOjJlpt0K+6IIeFfgzYKC4htFFGDksmS89gGdIfLG9Qglr2+A27apVD5GSaocGJE3lfm
+	dxJpJtZ0ovTkayY2BKHFENnZQtEJvW7xpiyPkSULF+GqRdhn9Y8x9dfCxD/3G
+X-Received: by 2002:a5d:6702:0:b0:371:8db9:939e with SMTP id ffacd0b85a97d-373118e356cmr5559978f8f.51.1724668293900;
+        Mon, 26 Aug 2024 03:31:33 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHUeeP55UuNdWAbZbdqz9KsjtE0dvBbjRTHSYopNttrDKLMjjvyaUEJgoMgra3xM9ZAZ8FKfQ==
+X-Received: by 2002:a5d:6702:0:b0:371:8db9:939e with SMTP id ffacd0b85a97d-373118e356cmr5559965f8f.51.1724668293420;
+        Mon, 26 Aug 2024 03:31:33 -0700 (PDT)
+Received: from lbulwahn-thinkpadx1carbongen9.rmtde.csb ([2a02:810d:7e40:14b0:833c:88f3:25a9:d641])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ac518043csm148327225e9.46.2024.08.26.03.31.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Aug 2024 03:31:32 -0700 (PDT)
+From: Lukas Bulwahn <lbulwahn@redhat.com>
+X-Google-Original-From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+To: Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Lukas Bulwahn <lukas.bulwahn@redhat.com>
+Subject: [PATCH] MAINTAINERS: adjust file entries in TEXAS INSTRUMENTS AUDIO DRIVERS
+Date: Mon, 26 Aug 2024 12:31:29 +0200
+Message-ID: <20240826103129.18882-1-lukas.bulwahn@redhat.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 212C21F850
-X-Spam-Score: -5.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-On Mon, 26 Aug 2024 11:49:40 +0200,
-Richard Fitzgerald wrote:
-> 
-> Move the initialization of parent->mutex into
-> hda_component_manager_init() so that it is always valid.
-> 
-> In hda_component_manager_bind() do not clear the parent information.
-> Only zero-fill the per-component data ready for it to be filled in
-> by the components as they bind.
-> 
-> Previously parent->mutex was being initialized only in
-> hda_component_manager_bind(). This meant that it was only
-> initialized if all components appeared and there was a bind callback.
-> If there wasn't a bind the mutex object was not valid when the
-> Realtek driver called any of the other functions.
-> 
-> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-> Fixes: 047b9cbbaa8e ("ALSA: hda: hda_component: Protect shared data with a mutex")
+From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
 
-Thanks, applied now to for-linus branch.
+Commit e486feb7b8ec ("ASoC: dt-bindings: convert tlv320aic31xx.txt to
+yaml") converts tlv320aic31xx.txt to ti,tlv320dac3100.yaml, but misses to
+adjust the file entry in TEXAS INSTRUMENTS AUDIO (ASoC/HDA) DRIVERS.
 
+Hence, ./scripts/get_maintainer.pl --self-test=patterns complains about a
+broken reference.
 
-Takashi
+The pattern ti,tlv320*.yaml in the section already covers
+ti,tlv320dac3100.yaml and ti,tlv320adcx140.yaml. So, further file entries
+in this section are redundant. Adjust the file entries in TEXAS INSTRUMENTS
+AUDIO (ASoC/HDA) DRIVERS accordingly.
+
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+---
+ MAINTAINERS | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5dd88c28c0f7..6aa85a43d8c1 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -22753,8 +22753,6 @@ F:	Documentation/devicetree/bindings/sound/ti,tpa6130a2.yaml
+ F:	Documentation/devicetree/bindings/sound/ti,pcm1681.yaml
+ F:	Documentation/devicetree/bindings/sound/ti,pcm3168a.yaml
+ F:	Documentation/devicetree/bindings/sound/ti,tlv320*.yaml
+-F:	Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
+-F:	Documentation/devicetree/bindings/sound/tlv320aic31xx.txt
+ F:	include/sound/tas2*.h
+ F:	include/sound/tlv320*.h
+ F:	include/sound/tpa6130a2-plat.h
+-- 
+2.45.2
+
