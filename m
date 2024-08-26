@@ -1,231 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE0CD4F215;
-	Mon, 26 Aug 2024 15:51:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4582B677;
+	Mon, 26 Aug 2024 18:25:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724687505; cv=none; b=njyRHWEk/+Mm7W/DrEwhue4QeGZS3mQo5nfaalel72z7TUDGXYYPYM7zTGyP+dy0uin3biDl4x2s8gHWytpF5ykt0X3H06J1U7+/iFJ4VOUCyWP/jGfMxnm052FeSMTPNgryyOYnpfdpFcbeG+pN4Aq2P2dQiGy3eQ47/fpzAFw=
+	t=1724696751; cv=none; b=Idz+0ZEt+I+BnNpylVAtaHP8LexbeGolqHxQyCWWYaNojZDhiIGS7cvizYtoBtt8PdmUC6nFjI2NepfVKDIt4wzQA0BlajYcPAs5dcgGyGQ5V7jtxjr3XfslvyW/mM4XnxArjseCdEDk4rmf6uMQrp96EOHzgi6kHgAhw4F6c3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724687505; c=relaxed/simple;
-	bh=39MAFBC0ARo13JZKV+5ijTkxKLlQ4ap97jwXtmDSqZE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T8FoU9EgOpdAwMcd5Ixls/ehs4A6/gz8cMjdK/nE5PiY822qNfcEwSdqu0qU4RKLJ9Xh968GBJS3U3rtGCYtZBwRek+359atGp/c7mKvL6gir1UK3PEz9IAFyFaYBw1IuFSmEUgpuj453cSCnVLuK+dA/u8ig7JdWzTOmVtcqrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eu86juEb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724696751; c=relaxed/simple;
+	bh=mImBejdDjCpmXj8Di/I/HuyYPVoWvfKJBu1QEeSsOCM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=a6IAqk120L6XVveqhf+qX3Zt33DFhQomI98RnsN3MjbW+l+HVsOBepGVjDAied/QkjuotEtUcpXlHL4Hnf3SQMuOn3n8q1rrH2vDauzYpXpXiAiuUBsPbe8awWZiYKB2XlDsom6HbaaZbs/e8P+9fJrNmz85FZ3U/Eo0xEArlww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FuYRjDLl; arc=none smtp.client-ip=209.85.208.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eu86juEb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCEC7C4FF75;
-	Mon, 26 Aug 2024 15:51:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724687505;
-	bh=39MAFBC0ARo13JZKV+5ijTkxKLlQ4ap97jwXtmDSqZE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=eu86juEbryBdB4uXclh2OM+ro70t8X9jdy+48GEErbb1rkGe7j2HFEX4ByrOB3QmQ
-	 6ZkS7kb5DVuywzKFKbtCnuQVW673q0xXKl6H7jmyDZYZYnNXBeiO4Kc32HDnxHbft+
-	 XUq8leoSpzK+gUX5MydYUgINQcI34O8vGXhcE3C1BT7d0yMBYDwtX5tbCtDQkwk/Z+
-	 bpqw8ShYh+1fzHML9KCg5v/h0R8zF3zHi3L+A9JjhB6ieigGGuTFzM3N98bSaCAv1/
-	 YbA0D6+LQTSvLAuDjK5u9Q5NduxjNRJnNrrPEUOKwpo2VeKOv2zNG4MYRDnGKfUqZx
-	 vRD1ajmaUHLZA==
-Message-ID: <62edecf4-6fc6-4aff-bd42-4fac171f5093@kernel.org>
-Date: Mon, 26 Aug 2024 17:51:37 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FuYRjDLl"
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2f50966c469so20112391fa.3;
+        Mon, 26 Aug 2024 11:25:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724696748; x=1725301548; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Mb4ZRd/HYSDhjIzksDC7j+rAhxPX+JataK0xq/4974Y=;
+        b=FuYRjDLlPiKYVhkf2EeR7BQj4oAuLvYYUAnC7hyVNvFjOoTlQTPI45m6T8SJzWFdVZ
+         2xRb00zKr1tHr1Jh5TzDvR14YOhYP5erzVAwjNWQRt+9uasucpQo0jWHDt9VEl+RK4w4
+         +fhUIK/BDIDLYD0VH5fdR5RgQd1c5QjNpT/YJ+CWc5m/obBxljoiV4abiDOpznF0cDHL
+         zvdZGK9H2PjMymF3Ae4lI8tNhd5AvY0/6HT/QHs/+S7KG+tfqDkeGMoZWTAbwQ5gdiY5
+         ZaR+ukbAZrDynY57cZlvwSefA4rIFgvSYFiKftmXA4SKCG00mHAKrdCnarPC7hkCNMTY
+         cBHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724696748; x=1725301548;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Mb4ZRd/HYSDhjIzksDC7j+rAhxPX+JataK0xq/4974Y=;
+        b=rFo8QY7+2SBq/hb+PXDIZTtd3pZQxmEGzEkznAiCMxIjPPba/Eme8x86SL5Hfpexnz
+         37F28A9LoCWMBAFLxmncfQLnts7FF8aG+FXojG5Bd8AVSKM0hxc0UDe7rf2MugcI99Sw
+         5rlb3vRFbgA4VMj8ybFdbxK80V42MgoEPAffcrWXOhkIc//NrOf2v5iOFeCU0ZegBsC6
+         S3TbF0oYvNl8LIomO0OU//BK7fyco8YNinCGLJh1UKp4Dk5/pdbwtJEQn9wp76KzcKJs
+         JssEvow+aEHlkIahSkJqnOLVWbrtWy+UWpI2vQHJEIWk7OI+XPKmTd2irwcRfQMHfWex
+         cybA==
+X-Forwarded-Encrypted: i=1; AJvYcCWyPh+agK62MRUNtqqNodCvdAAXPz7qDRobQdSAdNkjFTm02xrXc/6SHNtTFt/KLPrfn6zf2/rFN+tzMFI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzIfVHRMqsfwj+IxQ0bHFm642c4URs17Y67vyMuCqUkgqdqhN+5
+	DAuqVZUzPlRLOoUCMFtc5VVyJtQ7HgN2njSoyS3tmeV9js5E51I/
+X-Google-Smtp-Source: AGHT+IGfIubUWy4+G9XbvlH4YSyyow/qjoMcdvdum2e0UHJt52Y1f9rr3awhlwJkEU0p9G4B+VKxxg==
+X-Received: by 2002:a2e:8014:0:b0:2f3:ee44:c6de with SMTP id 38308e7fff4ca-2f4f5776474mr58901701fa.27.1724696747016;
+        Mon, 26 Aug 2024 11:25:47 -0700 (PDT)
+Received: from playground.localdomain ([86.127.146.72])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c0bb471e0csm39753a12.78.2024.08.26.11.25.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Aug 2024 11:25:46 -0700 (PDT)
+From: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: SOF: ipc: replace "enum sof_comp_type" field with "uint32_t"
+Date: Mon, 26 Aug 2024 14:24:42 -0400
+Message-Id: <20240826182442.6191-1-laurentiumihalcea111@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: dt-bindings: cirrus,cs4271: Convert to dtschema
-To: nikita.shubin@maquefel.me, David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Alexander Sverdlin <alexander.sverdlin@gmail.com>
-Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240826-cs4271-yaml-v1-1-dad3f0b041ef@maquefel.me>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240826-cs4271-yaml-v1-1-dad3f0b041ef@maquefel.me>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 26/08/2024 11:53, Nikita Shubin via B4 Relay wrote:
-> From: Nikita Shubin <nikita.shubin@maquefel.me>
-> 
-> Convert the Cirrus Logic CS4271 audio CODEC bindings to DT schema.
-> 
-> Cc: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-> Signed-off-by: Nikita Shubin <nikita.shubin@maquefel.me>
-> Link: https://lore.kernel.org/all/20240715-ep93xx-v11-0-4e924efda795@maquefel.me
+From: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
 
-I think Link goes above your SoB. Your Sob must be the last tag from you.
+Normally, the type of enums is "unsigned int" or "int". GCC has
+the "-fshort-enums" option, which instructs the compiler to
+use the smallest data type that can hold all the values in
+the enum (i.e: char, short, int or their unsigned variants).
 
-> ---
-> This is complementary patch to ep93xx DT conversion series.
+According to the GCC documentation, "-fshort-enums" may be
+default on some targets. This seems to be the case for SOF
+when built for a certain 32-bit ARM platform.
 
-...
+On Linux, this is not the case (tested with "aarch64-linux-gnu-gcc")
+which means enums such as "enum sof_comp_type" will end up having
+different sizes on Linux and SOF. Since "enum sof_comp_type" is used in
+IPC-related structures such as "struct sof_ipc_comp", this means
+the fields of the structures will end up being placed at different
+offsets. This, in turn, leads to SOF not being able to properly
+interpret data passed from Linux.
 
-> +
-> +title: Cirrus Logic CS4271 audio CODEC
-> +
-> +maintainers:
-> +  - Alexander Sverdlin <alexander.sverdlin@gmail.com>
-> +  - Nikita Shubin <nikita.shubin@maquefel.me>
-> +
-> +description:
-> +  The CS4271 is a stereo audio codec. This driver supports both the I2C
-> +  and the SPI bus.
+With this in mind, replace "enum sof_comp_type" from
+"struct sof_ipc_comp" with "uint32_t".
 
-Drop references to driver. You can say that device supports
-configuration over I2C and SPI.
+Signed-off-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
+---
+ include/sound/sof/topology.h | 2 +-
+ include/uapi/sound/sof/abi.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-> +
-> +allOf:
-> +  - $ref: dai-common.yaml#
-> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: cirrus,cs4271
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  spi-cpha: true
-> +
-> +  spi-cpol: true
-> +
-> +  '#sound-dai-cells':
-> +    const: 0
-
-None of these three were present in original binding.
-
-> +
-> +  reset-gpio:
-
-If it bases on cs4270, look there - there is no "gpio", but "gpios".
-Mention changes in commit msg.
-
-
-> +    description:
-> +      This pin will be deasserted before communication to the codec starts.
-> +    maxItems: 1
-> +
-> +  va-supply:
-> +    description: Analog power supply.
-> +
-> +  vd-supply:
-> +    description: Digital power supply.
-> +
-> +  vl-supply:
-> +    description: Serial Control Port power supply.
-> +
-> +  port:
-> +    $ref: audio-graph-port.yaml#
-> +    unevaluatedProperties: false
-
-This wasn't present in original binding and nothing in commit msg
-explained changes from pure conversion. Explain them in commit msg.
-
-> +
-> +  cirrus,amuteb-eq-bmutec:
-> +    description:
-> +      When given, the Codec's AMUTEB=BMUTEC flag is enabled.
-> +    type: boolean
-> +
-> +  cirrus,enable-soft-reset:
-> +    description: |
-> +      The CS4271 requires its LRCLK and MCLK to be stable before its RESET
-> +      line is de-asserted. That also means that clocks cannot be changed
-> +      without putting the chip back into hardware reset, which also requires
-> +      a complete re-initialization of all registers.
-> +
-> +      One (undocumented) workaround is to assert and de-assert the PDN bit
-> +      in the MODE2 register. This workaround can be enabled with this DT
-> +      property.
-> +
-> +      Note that this is not needed in case the clocks are stable
-> +      throughout the entire runtime of the codec.
-> +    type: boolean
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    spi {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        cs4271: codec@0 {
-
-Drop unused label.
-
-> +            compatible = "cirrus,cs4271";
-> +            reg = <0>;
-> +            reset-gpio = <&gpio0 1 0>;
-
-Use defines for flags.
-
-Also, make the example complete. You  miss many properties.
-
-> +        };
-> +    };
-> +
-> +...
-> \ No newline at end of file
-
-This needs to be always fixed before posting.
-
-
-
-Best regards,
-Krzysztof
+diff --git a/include/sound/sof/topology.h b/include/sound/sof/topology.h
+index 3ba086f61983..449e93c25184 100644
+--- a/include/sound/sof/topology.h
++++ b/include/sound/sof/topology.h
+@@ -54,7 +54,7 @@ enum sof_comp_type {
+ struct sof_ipc_comp {
+ 	struct sof_ipc_cmd_hdr hdr;
+ 	uint32_t id;
+-	enum sof_comp_type type;
++	uint32_t type;
+ 	uint32_t pipeline_id;
+ 	uint32_t core;
+ 
+diff --git a/include/uapi/sound/sof/abi.h b/include/uapi/sound/sof/abi.h
+index 937ed9408c23..c1b158ec5dab 100644
+--- a/include/uapi/sound/sof/abi.h
++++ b/include/uapi/sound/sof/abi.h
+@@ -29,7 +29,7 @@
+ /* SOF ABI version major, minor and patch numbers */
+ #define SOF_ABI_MAJOR 3
+ #define SOF_ABI_MINOR 23
+-#define SOF_ABI_PATCH 0
++#define SOF_ABI_PATCH 1
+ 
+ /* SOF ABI version number. Format within 32bit word is MMmmmppp */
+ #define SOF_ABI_MAJOR_SHIFT	24
+-- 
+2.34.1
 
