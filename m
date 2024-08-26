@@ -1,108 +1,254 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2EA778C98;
-	Mon, 26 Aug 2024 09:49:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C125C146581;
+	Mon, 26 Aug 2024 09:53:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724665786; cv=none; b=jEemzUCY0/+Hu5LMrbwPXYQIOYjIF1uQ36eFfLaVAM47deuetX6IPQvVhrPDdwZZxKSPMifpYbtD75E36d21V/oDJwVw+0CVgISY+gYnDSSf3lx4vr2Ci9AZaE+BWOvRARkNf1fO45qNNY+Rc+vWVFHhjg3g/+M1tvyrc3s2N8Y=
+	t=1724666003; cv=none; b=IpjeAkJxgqRe7bk5w9j+cb9ykX7Y6m6MsFuiSr3LWVIq8sV/YlLTGqpA8PHjtK7TNi9EOeURIHQtKlowYBurQQNwisa0lUYVIO8cqheZEiUznXuCm/ef7/Y4rFK+vM9MB2Y86Mf0+VgrCYPi0Cnd+rf0IP8o00faRxkY7F7dclg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724665786; c=relaxed/simple;
-	bh=RjTuyzJCY9QLNEAgO3+vyXvKJ/nw1ssOx/yZ07sZc0o=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=i9+kO5hYG+mT5ekfb8SgY2RwMyIyMMAMenGpKK/19wCW2Phc3ZAwZioLoyIG6XC+o+Rvz7YO77KABa6BVjMc10cxLmPMWEfZRooN00/ff8hxLBKdL2DCYpf9OlcW1Gxm0WioGpJArWmstuNxVkJnHPV3ztzzlP3z19I3F8Sj4Ug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Jf2KuSeo; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1724666003; c=relaxed/simple;
+	bh=Ug/x3tr45hzvv7fRR3FhamGYtug56GmKsRN/db9q/jI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=SD+fKD3MVNL7qp2baeL7oKKLnmjlulRZTI8lvKXFPF/UVsbTTvsYWEdY1vxLoYYd2qar3IUTy1Us9xOKZKaAN3KYtYz0NRJUZ5P1JkzJNkrnTzx/Odh1dSn2MH47y6EfkBk/V8l9vYsdfL8bYIlz/FXX5F0hFjI8Z04b4pOyT54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QOirCdii; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Jf2KuSeo"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47Q5KxHj015635;
-	Mon, 26 Aug 2024 04:49:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=JL7J2MV/9WledA94
-	7J5Ab1DI48Hnm9JBT5wXpkfVIJQ=; b=Jf2KuSeo1cm4syYTv3hXzIO+En8ZI0Gz
-	iK1Bp5O66rM5sG/IMP2vvThMGRzFEJ3+iG/yCFafQbnxZ019KXxWTaisCe4iJbjc
-	fZef3PQ1iqb1HtfXxZxMAy3wmroXPUs3ceQ+YHReDjn7OZGwOb9TSux+rHPGLBST
-	ykcTeG0olEled4GLUtt3t00FSkMW/jpYixhy/j/YRUyG1rTwITDPHwhvVWlU7er5
-	f2JuENjf2lNEVGDJkSZMnGAA+cmg9of6Q4V+WqbHHNuXcolTIZ89gko55j1M0hZH
-	XjkKkkopMPRDHzr1udc9MH0PhxeOqrUdCV6QJrK1jZEA+6s6TPnjJQ==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 417cwxhenr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 26 Aug 2024 04:49:42 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 26 Aug
- 2024 10:49:40 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Mon, 26 Aug 2024 10:49:40 +0100
-Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 67040820249;
-	Mon, 26 Aug 2024 09:49:40 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: <tiwai@suse.com>
-CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <patches@opensource.cirrus.com>
-Subject: [PATCH] ALSA: hda: hda_component: Fix mutex crash if nothing ever binds
-Date: Mon, 26 Aug 2024 10:49:40 +0100
-Message-ID: <20240826094940.45563-1-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QOirCdii"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 47B1BC5141B;
+	Mon, 26 Aug 2024 09:53:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724666003;
+	bh=Ug/x3tr45hzvv7fRR3FhamGYtug56GmKsRN/db9q/jI=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=QOirCdiiAMbXNgmY0OPUvJIXyj2Lgo6OVl+j4ceWPMAupwz7Ct4VfCGBVGzi9sEjA
+	 GHpqllboW/X8n+rPl63bHmtp+I6OfTE6HQWcLHTx88+ss0A3jdCRZc1kDgCN9sn5K6
+	 sXi5teD68OGIuVhtC/BILdpMmbwKFpjsxP44D2LGfIQLe/451dN0z4PAbIF02l7eee
+	 T7u8o3g34/MBPqjRvSLfa0cAvw+Nlx+50lXNr00a1id5wBzWWJVHjMHN3GINUuNoBb
+	 Fkju/uWOM/5powcLNVR6DycChK1v3+ZF0wIlNOvCf3JCj3hoRoE39RX23lov1fhoxt
+	 ZirRrBf35Of4Q==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E83FC5321D;
+	Mon, 26 Aug 2024 09:53:23 +0000 (UTC)
+From: Nikita Shubin via B4 Relay <devnull+nikita.shubin.maquefel.me@kernel.org>
+Date: Mon, 26 Aug 2024 12:53:08 +0300
+Subject: [PATCH] ASoC: dt-bindings: cirrus,cs4271: Convert to dtschema
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: EgbLWJzl1q8sUgGO0GHI488JH-oHorCk
-X-Proofpoint-ORIG-GUID: EgbLWJzl1q8sUgGO0GHI488JH-oHorCk
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240826-cs4271-yaml-v1-1-dad3f0b041ef@maquefel.me>
+X-B4-Tracking: v=1; b=H4sIAINQzGYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDCyMz3eRiEyNzQ93KxNwc3VRjC0sDI2ODlKSkNCWgjoKi1LTMCrBp0bG
+ 1tQC/5/+UXQAAAA==
+To: David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Alexander Sverdlin <alexander.sverdlin@gmail.com>
+Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Nikita Shubin <nikita.shubin@maquefel.me>
+X-Mailer: b4 0.15-dev-99b12
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1724666002; l=5234;
+ i=nikita.shubin@maquefel.me; s=20230718; h=from:subject:message-id;
+ bh=GRy6WLVokizOeb8p/5VYo3MDJi8y2Fw/p8AH0P7Qby4=;
+ b=KYGDv2HkUyItR7HwIF+XvufSO8R8sBZ+eAHBsn2VvLtiVE4+a3K2u1oxbIC0zZzvtlGZ+dFSIRDF
+ h7II+WYDBzVKLjW3VIpnxy8/z1C64ndgm2cZ6qw70Xj0NUfgbd6A
+X-Developer-Key: i=nikita.shubin@maquefel.me; a=ed25519;
+ pk=vqf5YIUJ7BJv3EJFaNNxWZgGuMgDH6rwufTLflwU9ac=
+X-Endpoint-Received: by B4 Relay for nikita.shubin@maquefel.me/20230718
+ with auth_id=65
+X-Original-From: Nikita Shubin <nikita.shubin@maquefel.me>
+Reply-To: nikita.shubin@maquefel.me
 
-Move the initialization of parent->mutex into
-hda_component_manager_init() so that it is always valid.
+From: Nikita Shubin <nikita.shubin@maquefel.me>
 
-In hda_component_manager_bind() do not clear the parent information.
-Only zero-fill the per-component data ready for it to be filled in
-by the components as they bind.
+Convert the Cirrus Logic CS4271 audio CODEC bindings to DT schema.
 
-Previously parent->mutex was being initialized only in
-hda_component_manager_bind(). This meant that it was only
-initialized if all components appeared and there was a bind callback.
-If there wasn't a bind the mutex object was not valid when the
-Realtek driver called any of the other functions.
-
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-Fixes: 047b9cbbaa8e ("ALSA: hda: hda_component: Protect shared data with a mutex")
+Cc: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+Signed-off-by: Nikita Shubin <nikita.shubin@maquefel.me>
+Link: https://lore.kernel.org/all/20240715-ep93xx-v11-0-4e924efda795@maquefel.me
 ---
- sound/pci/hda/hda_component.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+This is complementary patch to ep93xx DT conversion series.
 
-diff --git a/sound/pci/hda/hda_component.c b/sound/pci/hda/hda_component.c
-index 7b19cb38b4e0..b7dfdb10d156 100644
---- a/sound/pci/hda/hda_component.c
-+++ b/sound/pci/hda/hda_component.c
-@@ -141,8 +141,7 @@ int hda_component_manager_bind(struct hda_codec *cdc,
- 	int ret;
- 
- 	/* Init shared and component specific data */
--	memset(parent, 0, sizeof(*parent));
--	mutex_init(&parent->mutex);
-+	memset(parent->comps, 0, sizeof(parent->comps));
- 	parent->codec = cdc;
- 
- 	mutex_lock(&parent->mutex);
-@@ -164,6 +163,8 @@ int hda_component_manager_init(struct hda_codec *cdc,
- 	struct hda_scodec_match *sm;
- 	int ret, i;
- 
-+	mutex_init(&parent->mutex);
+Based on "ASoC: dt-bindings: cirrus,cs4270: Convert to dtschema" patch.
+---
+ .../devicetree/bindings/sound/cirrus,cs4271.yaml   | 91 ++++++++++++++++++++++
+ Documentation/devicetree/bindings/sound/cs4271.txt | 57 --------------
+ 2 files changed, 91 insertions(+), 57 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs4271.yaml b/Documentation/devicetree/bindings/sound/cirrus,cs4271.yaml
+new file mode 100644
+index 000000000000..dd104483ab81
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/cirrus,cs4271.yaml
+@@ -0,0 +1,91 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/cirrus,cs4271.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- 	for (i = 0; i < count; i++) {
- 		sm = devm_kmalloc(dev, sizeof(*sm), GFP_KERNEL);
- 		if (!sm)
++title: Cirrus Logic CS4271 audio CODEC
++
++maintainers:
++  - Alexander Sverdlin <alexander.sverdlin@gmail.com>
++  - Nikita Shubin <nikita.shubin@maquefel.me>
++
++description:
++  The CS4271 is a stereo audio codec. This driver supports both the I2C
++  and the SPI bus.
++
++allOf:
++  - $ref: dai-common.yaml#
++  - $ref: /schemas/spi/spi-peripheral-props.yaml#
++
++properties:
++  compatible:
++    const: cirrus,cs4271
++
++  reg:
++    maxItems: 1
++
++  spi-cpha: true
++
++  spi-cpol: true
++
++  '#sound-dai-cells':
++    const: 0
++
++  reset-gpio:
++    description:
++      This pin will be deasserted before communication to the codec starts.
++    maxItems: 1
++
++  va-supply:
++    description: Analog power supply.
++
++  vd-supply:
++    description: Digital power supply.
++
++  vl-supply:
++    description: Serial Control Port power supply.
++
++  port:
++    $ref: audio-graph-port.yaml#
++    unevaluatedProperties: false
++
++  cirrus,amuteb-eq-bmutec:
++    description:
++      When given, the Codec's AMUTEB=BMUTEC flag is enabled.
++    type: boolean
++
++  cirrus,enable-soft-reset:
++    description: |
++      The CS4271 requires its LRCLK and MCLK to be stable before its RESET
++      line is de-asserted. That also means that clocks cannot be changed
++      without putting the chip back into hardware reset, which also requires
++      a complete re-initialization of all registers.
++
++      One (undocumented) workaround is to assert and de-assert the PDN bit
++      in the MODE2 register. This workaround can be enabled with this DT
++      property.
++
++      Note that this is not needed in case the clocks are stable
++      throughout the entire runtime of the codec.
++    type: boolean
++
++required:
++  - compatible
++  - reg
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    spi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++        cs4271: codec@0 {
++            compatible = "cirrus,cs4271";
++            reg = <0>;
++            reset-gpio = <&gpio0 1 0>;
++        };
++    };
++
++...
+\ No newline at end of file
+diff --git a/Documentation/devicetree/bindings/sound/cs4271.txt b/Documentation/devicetree/bindings/sound/cs4271.txt
+deleted file mode 100644
+index 6e699ceabacd..000000000000
+--- a/Documentation/devicetree/bindings/sound/cs4271.txt
++++ /dev/null
+@@ -1,57 +0,0 @@
+-Cirrus Logic CS4271 DT bindings
+-
+-This driver supports both the I2C and the SPI bus.
+-
+-Required properties:
+-
+- - compatible: "cirrus,cs4271"
+-
+-For required properties on SPI, please consult
+-Documentation/devicetree/bindings/spi/spi-bus.txt
+-
+-Required properties on I2C:
+-
+- - reg: the i2c address
+-
+-
+-Optional properties:
+-
+- - reset-gpio: 	a GPIO spec to define which pin is connected to the chip's
+-		!RESET pin
+- - cirrus,amuteb-eq-bmutec:	When given, the Codec's AMUTEB=BMUTEC flag
+-				is enabled.
+- - cirrus,enable-soft-reset:
+-	The CS4271 requires its LRCLK and MCLK to be stable before its RESET
+-	line is de-asserted. That also means that clocks cannot be changed
+-	without putting the chip back into hardware reset, which also requires
+-	a complete re-initialization of all registers.
+-
+-	One (undocumented) workaround is to assert and de-assert the PDN bit
+-	in the MODE2 register. This workaround can be enabled with this DT
+-	property.
+-
+-	Note that this is not needed in case the clocks are stable
+-	throughout the entire runtime of the codec.
+-
+- - vd-supply:	Digital power
+- - vl-supply:	Logic power
+- - va-supply:	Analog Power
+-
+-Examples:
+-
+-	codec_i2c: cs4271@10 {
+-		compatible = "cirrus,cs4271";
+-		reg = <0x10>;
+-		reset-gpio = <&gpio 23 0>;
+-		vd-supply = <&vdd_3v3_reg>;
+-		vl-supply = <&vdd_3v3_reg>;
+-		va-supply = <&vdd_3v3_reg>;
+-	};
+-
+-	codec_spi: cs4271@0 {
+-		compatible = "cirrus,cs4271";
+-		reg = <0x0>;
+-		reset-gpio = <&gpio 23 0>;
+-		spi-max-frequency = <6000000>;
+-	};
+-
+
+---
+base-commit: 5be63fc19fcaa4c236b307420483578a56986a37
+change-id: 20240826-cs4271-yaml-e3890230dbbf
+
+Best regards,
 -- 
-2.39.2
+Nikita Shubin <nikita.shubin@maquefel.me>
+
 
