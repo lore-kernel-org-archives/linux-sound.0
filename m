@@ -1,120 +1,93 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC151494DC
-	for <linux-sound@vger.kernel.org>; Mon, 26 Aug 2024 10:31:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4075A15530F;
+	Mon, 26 Aug 2024 11:26:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724668300; cv=none; b=XlLd8Nq1I5uhi9EZE6LoTS3VCZdC6romxDi4wtSq8K0/69mNUUxWR6w3zykpkznofL70zroXP7CYvzeKyZsrWLkyzB8SOYTDjkLzdnCvYsZ3wnam3FecJJKoJcoQJ6MCpT50btb4ySXUJ+OPqijIIfa9b+G7S0E/Q4taZhvYiOk=
+	t=1724671613; cv=none; b=jgJFuDXb+Izn6fA0S/Iz5bzPj2lAO2mG2AEbk2ws/GIY3CCutOLPBfi+SaSmFVqr8e6nN+zZ3DESMTTETCW8k5V540YBspTU0LyoaJhhMaqQqDv/h+pfR5LatMda2zWX/3cKd4gZKpgktZv0WUdjyqjqjFjx31f52yujxjG8tm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724668300; c=relaxed/simple;
-	bh=D56uU97DHLTAV46MruOMwh3ENgVDe/CheFULj4BVelg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jZt3c5dB5mZItNt216n5DSw2U4nm1s9xyioxsyAsIdEbh+DIHtTN+BQfU9aCsoymawHy+87wAEx9dwTyFt4HvSkwmSkDIsQvYmU1mP7kTLT/cPyUxVTYcGvqK3m+EpC88XR4Ep+bgiix1EmbItwi1p6L/6b7JZ3YjlRUpR8oPSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=G7ZEIdgs; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1724671613; c=relaxed/simple;
+	bh=r00LN1PqLZDKXFjf8rfhrFzUtip5a5fFuozdHqUWlDo=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=VkW/QoH0AvvpwT8LAYwT0BWKTl0e1nxpF7DsyZgqXnnkpLxO9aaEWh3BJbeBKW31dnlGsXWHxhN5cul+FdLtfmRzYPRwTjXXhi6SxNbqu2E/yIxhTtUc2w2VFFQ3Iqa5+MrO8EuMUHUP3dJ8E0DoxB5D5lSRDLrWgCh0yHezJ8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uyEH/Jfn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="G7ZEIdgs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1724668296;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=0caQWYctkzPWXc3lfa4QY9g9vHYDKQdJAJoab25gorQ=;
-	b=G7ZEIdgsscWwhJLVDqpaf9Bd6jHJZJ7+ZA1+CgjTPTFU7yCPM7EkX18eRMvxVbUejLbamz
-	WdcD3b6mhGv7FCLuLAtIl51e7TmO5L7OkDpTBx4Wz8Wg8yhI98wStq2W5MOd3YeANQzthl
-	nbzx6oe+ujXUkrDUskX9EZEQm3bAq44=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-445-h23HJowFNRWk33Df4H0KJg-1; Mon, 26 Aug 2024 06:31:35 -0400
-X-MC-Unique: h23HJowFNRWk33Df4H0KJg-1
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-3719ee7c72eso2517949f8f.0
-        for <linux-sound@vger.kernel.org>; Mon, 26 Aug 2024 03:31:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724668294; x=1725273094;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0caQWYctkzPWXc3lfa4QY9g9vHYDKQdJAJoab25gorQ=;
-        b=wRMYM/sVGpI+mKyqmL5iZgkQkO1d2KWpC01qqP1vdmgOm7ZNq+UvKaQqQskKxq353D
-         G7GCUiQSp3qVNdzW4+R7Dtb6CnKJfJddQ5I00Xu73zt8hbkdeEIDIH69pj5WA9XwqO7Y
-         9TBKL03Rqx73muqV9gsIV8xb7cMUULftli5M+/mcMi3DhlSEbmyMs2FvSdf3+Y5ygw0L
-         Gv0oAC+rbWKOBAwmyU67nUUBeoObxJ/lS/KAdr9Bj/98MUVkrh2A68dhbmtciFttoNd3
-         hOPnT1bLaSjHCwpzGSOjCcBOUbqXpETS6EHXvHqaJK5TVePkf+bLiO0yNHk2lf2SFjOa
-         vZng==
-X-Forwarded-Encrypted: i=1; AJvYcCUaYkWsGPtPlBktWZNhGmFsEC0nCB9PDqQBqt5gIksVspTW7jYo45sirPHwTriCKOaqQ58ZPpOkpLi+TQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWnj39EcSOKfGD6IwAhegHowAC4obe/0Iqut135ZguAPSM95D2
-	wG/XXUdLOjJlpt0K+6IIeFfgzYKC4htFFGDksmS89gGdIfLG9Qglr2+A27apVD5GSaocGJE3lfm
-	dxJpJtZ0ovTkayY2BKHFENnZQtEJvW7xpiyPkSULF+GqRdhn9Y8x9dfCxD/3G
-X-Received: by 2002:a5d:6702:0:b0:371:8db9:939e with SMTP id ffacd0b85a97d-373118e356cmr5559978f8f.51.1724668293900;
-        Mon, 26 Aug 2024 03:31:33 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHUeeP55UuNdWAbZbdqz9KsjtE0dvBbjRTHSYopNttrDKLMjjvyaUEJgoMgra3xM9ZAZ8FKfQ==
-X-Received: by 2002:a5d:6702:0:b0:371:8db9:939e with SMTP id ffacd0b85a97d-373118e356cmr5559965f8f.51.1724668293420;
-        Mon, 26 Aug 2024 03:31:33 -0700 (PDT)
-Received: from lbulwahn-thinkpadx1carbongen9.rmtde.csb ([2a02:810d:7e40:14b0:833c:88f3:25a9:d641])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ac518043csm148327225e9.46.2024.08.26.03.31.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Aug 2024 03:31:32 -0700 (PDT)
-From: Lukas Bulwahn <lbulwahn@redhat.com>
-X-Google-Original-From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
-To: Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Lukas Bulwahn <lukas.bulwahn@redhat.com>
-Subject: [PATCH] MAINTAINERS: adjust file entries in TEXAS INSTRUMENTS AUDIO DRIVERS
-Date: Mon, 26 Aug 2024 12:31:29 +0200
-Message-ID: <20240826103129.18882-1-lukas.bulwahn@redhat.com>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uyEH/Jfn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8803EC4FF4B;
+	Mon, 26 Aug 2024 11:26:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724671612;
+	bh=r00LN1PqLZDKXFjf8rfhrFzUtip5a5fFuozdHqUWlDo=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=uyEH/Jfn4Dh6ZgtAzNXKgKkV9A/qsGf8uDHHdfXANj7xiWFYQ0xBIc62M+9cSdVmW
+	 xtc7Ix+96NijchZXFupg6CTeRQl1BA5FyXuqPGt2/HTINkwmQTlVS5pNYn3xcAwsdw
+	 bi44aAZi5pW/niIIqcq0xqnHCUCeyYI3NxL1sbfLn0jTrQN/LbaBTkd2lbhmS2ODue
+	 a2/jrShopjAnVTO+1DbRa4+A9UUFSR9c3NVY4UI47yMIGpd5lnjxubYAW4TQR9TvVL
+	 SHnBrO5el8pBmyjpYFbTMkcRsLcDuAB04BPcI9pLR7MMG5/URB33NALbKgIq8nuELQ
+	 uq0yIhxsnqtwg==
+Date: Mon, 26 Aug 2024 06:26:50 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Nikita Shubin <nikita.shubin@maquefel.me>
+Cc: linux-sound@vger.kernel.org, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Alexander Sverdlin <alexander.sverdlin@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Liam Girdwood <lgirdwood@gmail.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, patches@opensource.cirrus.com, 
+ David Rhodes <david.rhodes@cirrus.com>
+In-Reply-To: <20240826-cs4271-yaml-v1-1-dad3f0b041ef@maquefel.me>
+References: <20240826-cs4271-yaml-v1-1-dad3f0b041ef@maquefel.me>
+Message-Id: <172467161080.3913761.4311461906537952608.robh@kernel.org>
+Subject: Re: [PATCH] ASoC: dt-bindings: cirrus,cs4271: Convert to dtschema
 
-From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
 
-Commit e486feb7b8ec ("ASoC: dt-bindings: convert tlv320aic31xx.txt to
-yaml") converts tlv320aic31xx.txt to ti,tlv320dac3100.yaml, but misses to
-adjust the file entry in TEXAS INSTRUMENTS AUDIO (ASoC/HDA) DRIVERS.
+On Mon, 26 Aug 2024 12:53:08 +0300, Nikita Shubin wrote:
+> Convert the Cirrus Logic CS4271 audio CODEC bindings to DT schema.
+> 
+> Cc: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+> Signed-off-by: Nikita Shubin <nikita.shubin@maquefel.me>
+> Link: https://lore.kernel.org/all/20240715-ep93xx-v11-0-4e924efda795@maquefel.me
+> ---
+> This is complementary patch to ep93xx DT conversion series.
+> 
+> Based on "ASoC: dt-bindings: cirrus,cs4270: Convert to dtschema" patch.
+> ---
+>  .../devicetree/bindings/sound/cirrus,cs4271.yaml   | 91 ++++++++++++++++++++++
+>  Documentation/devicetree/bindings/sound/cs4271.txt | 57 --------------
+>  2 files changed, 91 insertions(+), 57 deletions(-)
+> 
 
-Hence, ./scripts/get_maintainer.pl --self-test=patterns complains about a
-broken reference.
+My bot found errors running 'make dt_binding_check' on your patch:
 
-The pattern ti,tlv320*.yaml in the section already covers
-ti,tlv320dac3100.yaml and ti,tlv320adcx140.yaml. So, further file entries
-in this section are redundant. Adjust the file entries in TEXAS INSTRUMENTS
-AUDIO (ASoC/HDA) DRIVERS accordingly.
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/sound/cirrus,cs4271.yaml:91:4: [error] no new line character at the end of file (new-line-at-end-of-file)
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
----
- MAINTAINERS | 2 --
- 1 file changed, 2 deletions(-)
+dtschema/dtc warnings/errors:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5dd88c28c0f7..6aa85a43d8c1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -22753,8 +22753,6 @@ F:	Documentation/devicetree/bindings/sound/ti,tpa6130a2.yaml
- F:	Documentation/devicetree/bindings/sound/ti,pcm1681.yaml
- F:	Documentation/devicetree/bindings/sound/ti,pcm3168a.yaml
- F:	Documentation/devicetree/bindings/sound/ti,tlv320*.yaml
--F:	Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
--F:	Documentation/devicetree/bindings/sound/tlv320aic31xx.txt
- F:	include/sound/tas2*.h
- F:	include/sound/tlv320*.h
- F:	include/sound/tpa6130a2-plat.h
--- 
-2.45.2
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240826-cs4271-yaml-v1-1-dad3f0b041ef@maquefel.me
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
