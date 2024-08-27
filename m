@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0465C1BAEDA
-	for <linux-sound@vger.kernel.org>; Tue, 27 Aug 2024 12:32:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584371BAEDA
+	for <linux-sound@vger.kernel.org>; Tue, 27 Aug 2024 12:32:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724761958; cv=none; b=cKf8fg+MKi/IDI+aZceKeEkjEgBuEBFgGF9iBk1xXkI/mTxtHeIucDdH+VIPx3pg7vzJMntYZMGyUB/YLy6ujhj/3Mg4FSWe//dD/E156MVNDbGFO4FEq/7ZJkXULbqsNuOUYv9MlXAJJHSVjawPO/jscGpQO4w1Szmqbx+zBD4=
+	t=1724761960; cv=none; b=QE8TvQMqOrEXPqe8X/CxR/nfzVN5YJnhPcQw1nedIBO9EP2WVWhMl6yr+w+CAt35TXWuMMxV/Sapfwzp2z3t+Otoxi27+f7KZkB3LzLDPPzXdgI/1iVQnNlbnahBzHFm1YzN6FrdMcj5dCqohCViQEBy8sg8wT7NQjtDureql/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724761958; c=relaxed/simple;
-	bh=rPUyYzQd/NymgQax8wXqS1QKPsiIRfZ2HDEbpdYfIZ8=;
+	s=arc-20240116; t=1724761960; c=relaxed/simple;
+	bh=BUIzXtdsJwciPGmXwG9tb9lsQ7YTcdAEF4kgC5NdsnE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lDSpkGjuNbPJbp019+EcGhlczO4WrHtohaLnfRgh5MbJig29xXsqdnUf5ltCnyUemfn2QZ2tmzh387HEAcQgvNkB+2vBftnuLZXy/bPko83qUnIVaWfxwruuM3f4FbyO+yvh16FY+gbnT+L9VCzap55mexFZNVTB+eMgUx8P2FM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gKwsvAgb; arc=none smtp.client-ip=192.198.163.16
+	 MIME-Version; b=Jv+++w8D9zpLPvM6fwzOtWKFBxk4rR3c1R2kHXXg7IgYc0clQ9VvcYJ1ve4a4y2XZwvCruoaER+9O1wTVwHOT5FUoA1zkdeJQhjSBzbl1FuZPOQywcrQa6tdsL8pI3+FIZ3uhsTKcy0phkJ60nFLkzr/tZiojx+t/Cn4k+rZqeA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R0bUXgXC; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gKwsvAgb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R0bUXgXC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724761957; x=1756297957;
+  t=1724761959; x=1756297959;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=rPUyYzQd/NymgQax8wXqS1QKPsiIRfZ2HDEbpdYfIZ8=;
-  b=gKwsvAgbUtX1H3QZmyb+Uy31GMwNQn1yy5GGWgT8KLG09GvuhVG8xA9Y
-   NMkhy+NklHrA3SobvhHfn3gPtKiTGUkTdXugrheec4Qta8c30Jfv5ensF
-   nJw6lWfy0gOrDFpjzrUzLpaqe5cjusvbDBb31NCJRK4vtcBwH/d0xrZ3O
-   2QKph36EMcZLn5usy1VUL4+EHJOkdHi7rhXhJ9fD44k6L5vNGrp+4HLzF
-   6gxntVwJbLHAJu1TR7WMKOUJdiWtlqUcaz2zcHZ9/Xi0HVw5tdAY/Lesl
-   UJRRDDhqR3ZhQcQErcE7vws1LNVkPg9xndgK7YYdlWz6CH53oHb18BTZl
+  bh=BUIzXtdsJwciPGmXwG9tb9lsQ7YTcdAEF4kgC5NdsnE=;
+  b=R0bUXgXCYcGW2GqtyAPVXBVUW549u0UeKpeoW0dZkvoUY6+zG8u6O4JU
+   CLBe7d99A89l99a/fnvBzvELUFZGM7ZK1Y2Jcl/CNNqH4lw7vZpZ519gh
+   vn/cV4174baZO/LsKF7Tw4+3yp5aqYBWDCVrA93yNyCB77L1EnMO9qgix
+   ggPckl95qAt6H/xqjETL5bQt8lXXzifmq5AZy2V6gQu+mionWd1JGl3qV
+   /obY9UXy9Psb16QGSZ9KnD7oPR/ECll96+urz9TNAKWQ1myal49fl2I96
+   XuEDZhwjHatMETZa5EPJQyKNg3xmYljilmMsVxsdicmyk1Hw8Y2tFM/Lh
    w==;
-X-CSE-ConnectionGUID: dyFT58DwQCSOeKgT0VdRCw==
-X-CSE-MsgGUID: 7Y1XFSGeSleNTCzX6ABXVQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="13235492"
+X-CSE-ConnectionGUID: x3Qqed00TEOxLnq1BKy0NA==
+X-CSE-MsgGUID: TA3qqvBySIujBKkbOFEolw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="13235495"
 X-IronPort-AV: E=Sophos;i="6.10,180,1719903600"; 
-   d="scan'208";a="13235492"
+   d="scan'208";a="13235495"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 05:32:36 -0700
-X-CSE-ConnectionGUID: VfPm6jktSjuqCVUkynN4jg==
-X-CSE-MsgGUID: WIMNiWqYRGe2QgbTi8oWyA==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 05:32:39 -0700
+X-CSE-ConnectionGUID: t4NxYG4wQWqxFlA+81uKLw==
+X-CSE-MsgGUID: 1DBy/bf9R1ajE0lycRH2ZQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,180,1719903600"; 
-   d="scan'208";a="62676773"
+   d="scan'208";a="62676776"
 Received: from anmitta2-mobl4.gar.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.118.39])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 05:32:34 -0700
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 05:32:37 -0700
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 To: broonie@kernel.org,
 	tiwai@suse.de
@@ -50,9 +50,9 @@ Cc: linux-sound@vger.kernel.org,
 	pierre-louis.bossart@linux.intel.com,
 	bard.liao@intel.com,
 	peter.ujfalusi@linux.intel.com
-Subject: [PATCH v2 03/17] ASoC: Intel: boards: always check the result of acpi_dev_get_first_match_dev()
-Date: Tue, 27 Aug 2024 20:32:01 +0800
-Message-ID: <20240827123215.258859-4-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH v2 04/17] ASoC: SOF: Intel: hda: refactoring topology name fixup for HDA mach
+Date: Tue, 27 Aug 2024 20:32:02 +0800
+Message-ID: <20240827123215.258859-5-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240827123215.258859-1-yung-chuan.liao@linux.intel.com>
 References: <20240827123215.258859-1-yung-chuan.liao@linux.intel.com>
@@ -62,166 +62,186 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Move I2S mach's topology name fixup code to the end of machine driver
+enumeration flow so HDA mach could also use same code to fixup its
+topology file name as well. No functional change in this commit.
 
-The code seems mostly copy-pasted, with some machine drivers
-forgetting to test if the 'adev' result is NULL.
-
-Add this check when missing, and use -ENOENT consistently as an error
-code.
-
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Closes: https://lore.kernel.org/alsa-devel/918944d2-3d00-465e-a9d1-5d57fc966113@stanley.mountain/T/#u
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Signed-off-by: Brent Lu <brent.lu@intel.com>
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 ---
- sound/soc/intel/boards/bytcht_cx2072x.c | 4 ++++
- sound/soc/intel/boards/bytcht_da7213.c  | 4 ++++
- sound/soc/intel/boards/bytcht_es8316.c  | 2 +-
- sound/soc/intel/boards/bytcr_rt5640.c   | 2 +-
- sound/soc/intel/boards/bytcr_rt5651.c   | 2 +-
- sound/soc/intel/boards/cht_bsw_rt5645.c | 4 ++++
- sound/soc/intel/boards/cht_bsw_rt5672.c | 4 ++++
- sound/soc/intel/boards/sof_es8336.c     | 2 +-
- sound/soc/intel/boards/sof_wm8804.c     | 4 ++++
- 9 files changed, 24 insertions(+), 4 deletions(-)
+ .../intel/common/soc-acpi-intel-hda-match.c   | 12 +--
+ sound/soc/sof/intel/hda.c                     | 84 ++++++++++---------
+ 2 files changed, 45 insertions(+), 51 deletions(-)
 
-diff --git a/sound/soc/intel/boards/bytcht_cx2072x.c b/sound/soc/intel/boards/bytcht_cx2072x.c
-index df3c2a7b64d2..8c2b4ab764bb 100644
---- a/sound/soc/intel/boards/bytcht_cx2072x.c
-+++ b/sound/soc/intel/boards/bytcht_cx2072x.c
-@@ -255,7 +255,11 @@ static int snd_byt_cht_cx2072x_probe(struct platform_device *pdev)
- 		snprintf(codec_name, sizeof(codec_name), "i2c-%s",
- 			 acpi_dev_name(adev));
- 		byt_cht_cx2072x_dais[dai_index].codecs->name = codec_name;
-+	} else {
-+		dev_err(&pdev->dev, "Error cannot find '%s' dev\n", mach->id);
-+		return -ENOENT;
- 	}
+diff --git a/sound/soc/intel/common/soc-acpi-intel-hda-match.c b/sound/soc/intel/common/soc-acpi-intel-hda-match.c
+index 007ccd8a60e5..e93336e27beb 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-hda-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-hda-match.c
+@@ -13,16 +13,8 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_hda_machines[] = {
+ 	{
+ 		/* .id is not used in this file */
+ 		.drv_name = "skl_hda_dsp_generic",
+-
+-		/* .fw_filename is dynamically set in skylake driver */
+-
+-		.sof_tplg_filename = "sof-hda-generic.tplg",
+-
+-		/*
+-		 * .machine_quirk and .quirk_data are not used here but
+-		 * can be used if we need a more complicated machine driver
+-		 * combining HDA+other device (e.g. DMIC).
+-		 */
++		.sof_tplg_filename = "sof-hda-generic", /* the tplg suffix is added at run time */
++		.tplg_quirk_mask = SND_SOC_ACPI_TPLG_INTEL_DMIC_NUMBER,
+ 	},
+ 	{},
+ };
+diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
+index 5a40b8fbbbd3..128687b24bf5 100644
+--- a/sound/soc/sof/intel/hda.c
++++ b/sound/soc/sof/intel/hda.c
+@@ -558,7 +558,7 @@ static int check_nhlt_ssp_mclk_mask(struct snd_sof_dev *sdev, int ssp_num)
+ 	return intel_nhlt_ssp_mclk_mask(nhlt, ssp_num);
+ }
+ 
+-#if IS_ENABLED(CONFIG_SND_SOC_SOF_HDA_AUDIO_CODEC) || IS_ENABLED(CONFIG_SND_SOC_SOF_INTEL_SOUNDWIRE)
++#if IS_ENABLED(CONFIG_SND_SOC_SOF_INTEL_SOUNDWIRE)
+ 
+ static const char *fixup_tplg_name(struct snd_sof_dev *sdev,
+ 				   const char *sof_tplg_filename,
+@@ -1045,10 +1045,7 @@ static void hda_generic_machine_select(struct snd_sof_dev *sdev,
+ 	struct snd_soc_acpi_mach *hda_mach;
+ 	struct snd_sof_pdata *pdata = sdev->pdata;
+ 	const char *tplg_filename;
+-	const char *idisp_str;
+-	int dmic_num = 0;
+ 	int codec_num = 0;
+-	int ret;
+ 	int i;
+ 
+ 	/* codec detection */
+@@ -1071,33 +1068,30 @@ static void hda_generic_machine_select(struct snd_sof_dev *sdev,
+ 		 *  - one external HDAudio codec
+ 		 */
+ 		if (!*mach && codec_num <= 2) {
+-			bool tplg_fixup;
++			bool tplg_fixup = false;
+ 
+ 			hda_mach = snd_soc_acpi_intel_hda_machines;
+ 
+ 			dev_info(bus->dev, "using HDA machine driver %s now\n",
+ 				 hda_mach->drv_name);
+ 
+-			if (codec_num == 1 && HDA_IDISP_CODEC(bus->codec_mask))
+-				idisp_str = "-idisp";
+-			else
+-				idisp_str = "";
+-
+-			/* topology: use the info from hda_machines */
+-			if (pdata->tplg_filename) {
+-				tplg_fixup = false;
+-				tplg_filename = pdata->tplg_filename;
+-			} else {
++			/*
++			 * topology: use the info from hda_machines since tplg file name
++			 * is not overwritten
++			 */
++			if (!pdata->tplg_filename)
+ 				tplg_fixup = true;
+-				tplg_filename = hda_mach->sof_tplg_filename;
 +
- 	acpi_dev_put(adev);
- 
- 	/* override platform name, if required */
-diff --git a/sound/soc/intel/boards/bytcht_da7213.c b/sound/soc/intel/boards/bytcht_da7213.c
-index 08c598b7e1ee..9178bbe8d995 100644
---- a/sound/soc/intel/boards/bytcht_da7213.c
-+++ b/sound/soc/intel/boards/bytcht_da7213.c
-@@ -258,7 +258,11 @@ static int bytcht_da7213_probe(struct platform_device *pdev)
- 		snprintf(codec_name, sizeof(codec_name),
- 			 "i2c-%s", acpi_dev_name(adev));
- 		dailink[dai_index].codecs->name = codec_name;
-+	} else {
-+		dev_err(&pdev->dev, "Error cannot find '%s' dev\n", mach->id);
-+		return -ENOENT;
- 	}
++			if (tplg_fixup &&
++			    codec_num == 1 && HDA_IDISP_CODEC(bus->codec_mask)) {
++				tplg_filename = devm_kasprintf(sdev->dev, GFP_KERNEL,
++							       "%s-idisp",
++							       hda_mach->sof_tplg_filename);
++				if (!tplg_filename)
++					return;
 +
- 	acpi_dev_put(adev);
++				hda_mach->sof_tplg_filename = tplg_filename;
+ 			}
+-			ret = dmic_detect_topology_fixup(sdev, &tplg_filename, idisp_str, &dmic_num,
+-							 tplg_fixup);
+-			if (ret < 0)
+-				return;
+-
+-			hda_mach->mach_params.dmic_num = dmic_num;
+-			pdata->tplg_filename = tplg_filename;
  
- 	/* override platform name, if required */
-diff --git a/sound/soc/intel/boards/bytcht_es8316.c b/sound/soc/intel/boards/bytcht_es8316.c
-index 77b91ea4dc32..3539c9ff0fd2 100644
---- a/sound/soc/intel/boards/bytcht_es8316.c
-+++ b/sound/soc/intel/boards/bytcht_es8316.c
-@@ -562,7 +562,7 @@ static int snd_byt_cht_es8316_mc_probe(struct platform_device *pdev)
- 		byt_cht_es8316_dais[dai_index].codecs->name = codec_name;
- 	} else {
- 		dev_err(dev, "Error cannot find '%s' dev\n", mach->id);
--		return -ENXIO;
-+		return -ENOENT;
- 	}
+ 			if (codec_num == 2 ||
+ 			    (codec_num == 1 && !HDA_IDISP_CODEC(bus->codec_mask))) {
+@@ -1311,11 +1305,35 @@ struct snd_soc_acpi_mach *hda_machine_select(struct snd_sof_dev *sdev)
+ 	const char *tplg_filename;
+ 	const char *tplg_suffix;
+ 	bool amp_name_valid;
++	bool i2s_mach_found = false;
  
- 	codec_dev = acpi_get_first_physical_node(adev);
-diff --git a/sound/soc/intel/boards/bytcr_rt5640.c b/sound/soc/intel/boards/bytcr_rt5640.c
-index db4a33680d94..4479825c08b5 100644
---- a/sound/soc/intel/boards/bytcr_rt5640.c
-+++ b/sound/soc/intel/boards/bytcr_rt5640.c
-@@ -1693,7 +1693,7 @@ static int snd_byt_rt5640_mc_probe(struct platform_device *pdev)
- 		byt_rt5640_dais[dai_index].codecs->name = byt_rt5640_codec_name;
- 	} else {
- 		dev_err(dev, "Error cannot find '%s' dev\n", mach->id);
--		return -ENXIO;
-+		return -ENOENT;
- 	}
+ 	/* Try I2S or DMIC if it is supported */
+-	if (interface_mask & (BIT(SOF_DAI_INTEL_SSP) | BIT(SOF_DAI_INTEL_DMIC)))
++	if (interface_mask & (BIT(SOF_DAI_INTEL_SSP) | BIT(SOF_DAI_INTEL_DMIC))) {
+ 		mach = snd_soc_acpi_find_machine(desc->machines);
++		if (mach)
++			i2s_mach_found = true;
++	}
  
- 	codec_dev = acpi_get_first_physical_node(adev);
-diff --git a/sound/soc/intel/boards/bytcr_rt5651.c b/sound/soc/intel/boards/bytcr_rt5651.c
-index 8514b79f389b..1f54da98aacf 100644
---- a/sound/soc/intel/boards/bytcr_rt5651.c
-+++ b/sound/soc/intel/boards/bytcr_rt5651.c
-@@ -926,7 +926,7 @@ static int snd_byt_rt5651_mc_probe(struct platform_device *pdev)
- 		byt_rt5651_dais[dai_index].codecs->name = byt_rt5651_codec_name;
- 	} else {
- 		dev_err(dev, "Error cannot find '%s' dev\n", mach->id);
--		return -ENXIO;
-+		return -ENOENT;
- 	}
- 
- 	codec_dev = acpi_get_first_physical_node(adev);
-diff --git a/sound/soc/intel/boards/cht_bsw_rt5645.c b/sound/soc/intel/boards/cht_bsw_rt5645.c
-index 1da9ceee4d59..ac23a8b7cafc 100644
---- a/sound/soc/intel/boards/cht_bsw_rt5645.c
-+++ b/sound/soc/intel/boards/cht_bsw_rt5645.c
-@@ -582,7 +582,11 @@ static int snd_cht_mc_probe(struct platform_device *pdev)
- 		snprintf(cht_rt5645_codec_name, sizeof(cht_rt5645_codec_name),
- 			 "i2c-%s", acpi_dev_name(adev));
- 		cht_dailink[dai_index].codecs->name = cht_rt5645_codec_name;
-+	} else {
-+		dev_err(&pdev->dev, "Error cannot find '%s' dev\n", mach->id);
-+		return -ENOENT;
- 	}
++	/*
++	 * If I2S fails and no external HDaudio codec is detected,
++	 * try SoundWire if it is supported
++	 */
++	if (!mach && !HDA_EXT_CODEC(bus->codec_mask) &&
++	    (interface_mask & BIT(SOF_DAI_INTEL_ALH)))
++		mach = hda_sdw_machine_select(sdev);
 +
- 	/* acpi_get_first_physical_node() returns a borrowed ref, no need to deref */
- 	codec_dev = acpi_get_first_physical_node(adev);
- 	acpi_dev_put(adev);
-diff --git a/sound/soc/intel/boards/cht_bsw_rt5672.c b/sound/soc/intel/boards/cht_bsw_rt5672.c
-index d68e5bc755de..c6c469d51243 100644
---- a/sound/soc/intel/boards/cht_bsw_rt5672.c
-+++ b/sound/soc/intel/boards/cht_bsw_rt5672.c
-@@ -479,7 +479,11 @@ static int snd_cht_mc_probe(struct platform_device *pdev)
- 		snprintf(drv->codec_name, sizeof(drv->codec_name),
- 			 "i2c-%s", acpi_dev_name(adev));
- 		cht_dailink[dai_index].codecs->name = drv->codec_name;
-+	}  else {
-+		dev_err(&pdev->dev, "Error cannot find '%s' dev\n", mach->id);
-+		return -ENOENT;
- 	}
++	/*
++	 * Choose HDA generic machine driver if mach is NULL.
++	 * Otherwise, set certain mach params.
++	 */
++	hda_generic_machine_select(sdev, &mach);
++	if (!mach)
++		dev_warn(sdev->dev, "warning: No matching ASoC machine driver found\n");
 +
- 	acpi_dev_put(adev);
- 
- 	/* Use SSP0 on Bay Trail CR devices */
-diff --git a/sound/soc/intel/boards/sof_es8336.c b/sound/soc/intel/boards/sof_es8336.c
-index 2a88efaa6d26..b45d0501f109 100644
---- a/sound/soc/intel/boards/sof_es8336.c
-+++ b/sound/soc/intel/boards/sof_es8336.c
-@@ -681,7 +681,7 @@ static int sof_es8336_probe(struct platform_device *pdev)
- 			dai_links[0].codecs->dai_name = "ES8326 HiFi";
- 	} else {
- 		dev_err(dev, "Error cannot find '%s' dev\n", mach->id);
--		return -ENXIO;
-+		return -ENOENT;
++	/*
++	 * Fixup tplg file name by appending dmic num, ssp num, codec/amplifier
++	 * name string if quirk flag is set.
++	 */
+ 	if (mach) {
+ 		bool add_extension = false;
+ 		bool tplg_fixup = false;
+@@ -1349,7 +1367,7 @@ struct snd_soc_acpi_mach *hda_machine_select(struct snd_sof_dev *sdev)
+ 			tplg_filename = devm_kasprintf(sdev->dev, GFP_KERNEL,
+ 						       "%s%s%d%s",
+ 						       sof_pdata->tplg_filename,
+-						       "-dmic",
++						       i2s_mach_found ? "-dmic" : "-",
+ 						       mach->mach_params.dmic_num,
+ 						       "ch");
+ 			if (!tplg_filename)
+@@ -1479,22 +1497,6 @@ struct snd_soc_acpi_mach *hda_machine_select(struct snd_sof_dev *sdev)
+ 		}
  	}
  
- 	codec_dev = acpi_get_first_physical_node(adev);
-diff --git a/sound/soc/intel/boards/sof_wm8804.c b/sound/soc/intel/boards/sof_wm8804.c
-index b2d02cc92a6a..0a5ce34d7f7b 100644
---- a/sound/soc/intel/boards/sof_wm8804.c
-+++ b/sound/soc/intel/boards/sof_wm8804.c
-@@ -270,7 +270,11 @@ static int sof_wm8804_probe(struct platform_device *pdev)
- 		snprintf(codec_name, sizeof(codec_name),
- 			 "%s%s", "i2c-", acpi_dev_name(adev));
- 		dailink[dai_index].codecs->name = codec_name;
-+	} else {
-+		dev_err(&pdev->dev, "Error cannot find '%s' dev\n", mach->id);
-+		return -ENOENT;
- 	}
-+
- 	acpi_dev_put(adev);
+-	/*
+-	 * If I2S fails and no external HDaudio codec is detected,
+-	 * try SoundWire if it is supported
+-	 */
+-	if (!mach && !HDA_EXT_CODEC(bus->codec_mask) &&
+-	    (interface_mask & BIT(SOF_DAI_INTEL_ALH)))
+-		mach = hda_sdw_machine_select(sdev);
+-
+-	/*
+-	 * Choose HDA generic machine driver if mach is NULL.
+-	 * Otherwise, set certain mach params.
+-	 */
+-	hda_generic_machine_select(sdev, &mach);
+-	if (!mach)
+-		dev_warn(sdev->dev, "warning: No matching ASoC machine driver found\n");
+-
+ 	return mach;
+ }
  
- 	snd_soc_card_set_drvdata(card, ctx);
 -- 
 2.43.0
 
