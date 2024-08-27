@@ -1,124 +1,193 @@
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA67817BEA1;
-	Tue, 27 Aug 2024 10:41:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724755306; cv=pass; b=pKX1T6QFj+yRArePV4afMvUDTYQiSZ6vnSZLXmT+TpnRpRW7I86q68qTQw/OZyqBDp2R/LkWYvP7FU7ROFIRtDzJb7fmc/beTENV9UwngYFgXndY3inNRcvNMd1LLlcvVqEvXB6AJl/kCuP1r+Rr2WokBH6S6PJ1PcJC4oRy7KY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724755306; c=relaxed/simple;
-	bh=5HHGbS2Ck0+c1kgxpji/owgfxzWRPttMSwUR3sN4fG4=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B993019D06D;
+	Tue, 27 Aug 2024 11:05:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724756732; cv=none; b=ZrMIJi0YQMBOWOSJ5hUYmRzwkgi5R9PQuwur48aso9udwcH76AjeaKEzftG1Wx2If0pQeCXnijpXLkiudGcrlg8XQYqMFjhxtMX/d4EShlo5EH0pcVJJCMca4ABkrzXxmGddOET00R0W2kM7PbyltJ5JpImLD4XpPIYt95Z11DI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724756732; c=relaxed/simple;
+	bh=hly+/bpjnJUrPx4YHicLOBFxXFUW7UOArHtHR1exMEs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XQbNhiJgt83q0l2PZKrYS7fl3Otk3YDt1OQMFdTsII5DLB23sO0Fy+gEPEQKL7cd6rRuAS4svYuCa6qqd0/rL3VNwQOuohuAZNfSu9zDp3hqfJZ/reudOFZDWWwCdeSUY9g0oYaKJBUmF3QMWMjPoTW99ufO8GGPN4ciUr/2ny0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=KCQu+W1f; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+	 Content-Type:Content-Disposition:In-Reply-To; b=M4fim9v6sARqL2QU1+TcWsAsJm2OeJztQa3aV2t7gyqMxB6UTUUQXXW/zNUwkoU00FoOyKyMxs3JuW0dKTHXlVpweUNPyctLQIkiNW9cTwGTfPea0bxSr9Crlrd5OYwPoR3IE+XBATNKkvFPL7YHBSLsCQeKbySJGi/w0qqFq54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TMj3nYW/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="KCQu+W1f"
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4WtPH70vBZz49Q5R;
-	Tue, 27 Aug 2024 13:41:39 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1724755301;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bNdu/cjz6/mzEUvlwPYpUFMy3HYifTNHwSjHW2dS8tw=;
-	b=KCQu+W1fnYwS4f/4Arn6TJc8CG+MWGC3Vsfp9ey9dNkqOfBItwpO+1ki6q6Kh4xeWtU6iG
-	b1hROBKYkTzoLoNS5uMrNOkT7zlOKkK4A53GnGokV3b11eucBLKyka1NMnccE4K1mAlrJH
-	opOXqiKZ6IFedvidMipxWfLLR31aMsAp8KeIgDSbk7u9cPpO2AoyDAMek8mQ16zWOKX0q/
-	1tBYg9QLAGUuZoAX30I/+KK4X6mKeCLdSMOewwmyGkUyM49UccEvWruAoKZaxkeNllhzj7
-	XT3LfWki+Dbw1zxyilEuhmIIJHt1mi/4udAAX+2PSbAglBo4ZjzNe9+4VOpM+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1724755301;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bNdu/cjz6/mzEUvlwPYpUFMy3HYifTNHwSjHW2dS8tw=;
-	b=JWTFZ3G3YcCzkuFg6DU7fQKqwvqXyI8HzVgf3N3PvN1HKR27gZ/YpbwD3OvQc2jOp6R1wO
-	zXoO/mhL6sUkSbDj29myrd95w+sw7MS/b3U/lHiJ/G1R+ENvblnwHtlyxuPlHhofnesgrP
-	l3oV3hTrZ38wiH9NwdVYhhjRUC1ySWG4x2u0+zBkdV+u9UGLajNCn+qsc1xJM7yruVmtqZ
-	p5nv/GJhQmU7kTe1rHr3HBbZ3Bzx1bw48yNnEJUVxXbxnwcQkQ8XcCKxsLsECC4Fu8BQ04
-	mtAe6Y/NGdLmS1UefW2oZ9PXfBX/XQeTubE6qQEmuexYHLgOsJ9+XemFMywNsw==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1724755301; a=rsa-sha256;
-	cv=none;
-	b=sS2scnDLKWtv1UeBT9OK0S6isAWHRCBztmYhmD0NCXWu1N84HMzdNKf2DVWybcTw1jMVyD
-	Vs+X4ThlsjzmuFF4RBQNLrp+otb19wueF1CEM8XKNgn2nSn7YT33BFfnA/G1Srew3PQglu
-	5Nnxbp5d2+z5MNMTQxfrIJe78vgoSqOW3snEYbkYCpko3YSdtufDORJPpjuJjC8LnHgzSg
-	jftQTqiKTxQdCW0yHmqEMJCvjBVbaLJRNWHPRC6cs9PQ3kku/B8tUmcBUQDfahWgOovsk6
-	eH7YhC+MKi3/a8kH5wYkgX0nzCjH4vbat/RzW1TBYTpxFFk/9Rsz3ht9Attlrw==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id DE609634C93;
-	Tue, 27 Aug 2024 13:41:37 +0300 (EEST)
-Date: Tue, 27 Aug 2024 10:41:37 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Rob Herring <robh@kernel.org>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v3 2/9] of: property: add
- of_graph_get_next_port_endpoint()
-Message-ID: <Zs2tYUh3PXv-0e20@valkosipuli.retiisi.eu>
-References: <87cylwqa12.wl-kuninori.morimoto.gx@renesas.com>
- <87a5h0qa0g.wl-kuninori.morimoto.gx@renesas.com>
- <20240826154009.GA300981-robh@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TMj3nYW/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65FA5C8B7A0;
+	Tue, 27 Aug 2024 11:05:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724756732;
+	bh=hly+/bpjnJUrPx4YHicLOBFxXFUW7UOArHtHR1exMEs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TMj3nYW/N9iHEi7g83bTk9HnUnyHhMaKFbGHXemftcOo9AnWK2u5HJSyMOVZWvduU
+	 57IBaUduxvYKyw/OGYHm3ixJEL3LBpsWUQFrhwjLmwFntAIR8yVHo9Y/wLrgvcQt8v
+	 ink6aId3Di1S9aIa2Rw/lsIZngkFtxR2jc7qMZLaUSmVdM1P4dLRQk6nULk/MqGomZ
+	 5e1U86+nG4Vs7IQWcRApAHKPj5wy/Bp4fDELedSS8vS9pWAEJ7+inJWMK56rk6Ptj6
+	 +RjhmUwuR+PSdT/NHp4PMkPtUwFcSERisz3I2OZIQPvi1jQ+uA6HFzn9EUqbcLWWVV
+	 +ojTHXMnRRDPw==
+Date: Tue, 27 Aug 2024 13:05:28 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: nikita.shubin@maquefel.me
+Cc: David Rhodes <david.rhodes@cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Alexander Sverdlin <alexander.sverdlin@gmail.com>, linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] ASoC: dt-bindings: cirrus,cs4271: Convert to dtschema
+Message-ID: <d2z3i5lkjx3uqtp436pbwb57rlp2zqdxzpto2es5sanslw7m2e@rfpicq4wezgq>
+References: <20240827-cs4271-yaml-v2-1-20b639bd2a0a@maquefel.me>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240826154009.GA300981-robh@kernel.org>
+In-Reply-To: <20240827-cs4271-yaml-v2-1-20b639bd2a0a@maquefel.me>
 
-Rob, Kunimori-san,
-
-On Mon, Aug 26, 2024 at 10:40:09AM -0500, Rob Herring wrote:
-> On Mon, Aug 26, 2024 at 02:43:28AM +0000, Kuninori Morimoto wrote:
-> > We already have of_graph_get_next_endpoint(), but it is not
-> > intuitive to use in some case.
+On Tue, Aug 27, 2024 at 12:49:18PM +0300, Nikita Shubin via B4 Relay wrote:
+> From: Nikita Shubin <nikita.shubin@maquefel.me>
 > 
-> Can of_graph_get_next_endpoint() users be replaced with your new 
-> helpers? I'd really like to get rid of the 3 remaining users.
+> Convert the Cirrus Logic CS4271 audio CODEC bindings to DT schema.
+> 
+> Add missing spi-cpha, spi-cpol, '#sound-dai-cells' and port, as they
+> are already being used in the DTS and the driver for this device.
+> 
+> Based on Animesh Agarwal cs42xx8 conversion patch.
+> 
+> Keep the original 'reset-gpio' used in bindings,
+> instead of 'reset-gpios' used in cs42xx8.
+> 
+> Cc: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+> Link: https://lore.kernel.org/all/20240715-ep93xx-v11-0-4e924efda795@maquefel.me
+> Signed-off-by: Nikita Shubin <nikita.shubin@maquefel.me>
+> ---
+> This is complementary patch to ep93xx DT conversion series.
+> 
+> Based on "ASoC: dt-bindings: cirrus,cs4270: Convert to dtschema" patch.
+> 
+> Krzysztof, thank you very much for quick review!
+> ---
+> Changes in v2:
+> Krzysztof Kozlowski:
+> - fix SoB above link
+> - replace 'driver' with 'device'
+> - mention properties not present in original bindings
+> - mention using 'gpio-reset' instead of 'gpios-reset'
+> - dropped unused label
+> - use defines for gpio bindings
+> - newline at end of file
+> - Link to v1: https://lore.kernel.org/r/20240826-cs4271-yaml-v1-1-dad3f0b041ef@maquefel.me
+> ---
+>  .../devicetree/bindings/sound/cirrus,cs4271.yaml   | 101 +++++++++++++++++++++
+>  Documentation/devicetree/bindings/sound/cs4271.txt |  57 ------------
+>  2 files changed, 101 insertions(+), 57 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs4271.yaml b/Documentation/devicetree/bindings/sound/cirrus,cs4271.yaml
+> new file mode 100644
+> index 000000000000..cc5b48ceafa4
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/cirrus,cs4271.yaml
+> @@ -0,0 +1,101 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/cirrus,cs4271.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Cirrus Logic CS4271 audio CODEC
+> +
+> +maintainers:
+> +  - Alexander Sverdlin <alexander.sverdlin@gmail.com>
+> +  - Nikita Shubin <nikita.shubin@maquefel.me>
+> +
+> +description:
+> +  The CS4271 is a stereo audio codec. This device supports both the I2C
+> +  and the SPI bus.
+> +
+> +allOf:
+> +  - $ref: dai-common.yaml#
+> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: cirrus,cs4271
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  spi-cpha: true
+> +
+> +  spi-cpol: true
+> +
+> +  '#sound-dai-cells':
+> +    const: 0
+> +
+> +  reset-gpio:
 
-The fwnode graph API has fwnode_graph_get_endpoint_by_id() which can also
-be used to obtain endpoints within a port. It does the same than
-of_graph_get_endpoint_by_regs() with the addition that it also has a
-flags field to allow e.g. returning endpoints with regs higher than
-requested (FWNODE_GRAPH_ENDPOINT_NEXT).
+I wasn't clear... reset-gpios and mention that you switched to
+non-deprecated gpios suffix.
 
-Most users dealing with endpoints on fwnode property API use this, could
-something like this be done on OF as well? Probably a similar flag would be
-needed though.
+> +    description:
+> +      This pin will be deasserted before communication to the codec starts.
+> +    maxItems: 1
+> +
+> +  va-supply:
+> +    description: Analog power supply.
+> +
+> +  vd-supply:
+> +    description: Digital power supply.
+> +
+> +  vl-supply:
+> +    description: Serial Control Port power supply.
+> +
+> +  port:
+> +    $ref: audio-graph-port.yaml#
+> +    unevaluatedProperties: false
+> +
+> +  cirrus,amuteb-eq-bmutec:
+> +    description:
+> +      When given, the Codec's AMUTEB=BMUTEC flag is enabled.
+> +    type: boolean
+> +
+> +  cirrus,enable-soft-reset:
+> +    description: |
+> +      The CS4271 requires its LRCLK and MCLK to be stable before its RESET
+> +      line is de-asserted. That also means that clocks cannot be changed
+> +      without putting the chip back into hardware reset, which also requires
+> +      a complete re-initialization of all registers.
+> +
+> +      One (undocumented) workaround is to assert and de-assert the PDN bit
+> +      in the MODE2 register. This workaround can be enabled with this DT
+> +      property.
+> +
+> +      Note that this is not needed in case the clocks are stable
+> +      throughout the entire runtime of the codec.
+> +    type: boolean
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    spi {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +        cs4271@0 {
 
--- 
-Kind regards,
+Node names should be generic. See also an explanation and list of
+examples (not exhaustive) in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
 
-Sakari Ailus
+audio-codec or codec
+
+Best regards,
+Krzysztof
+
