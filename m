@@ -1,157 +1,63 @@
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465091D2786;
-	Tue, 27 Aug 2024 18:05:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 808FF7D405;
+	Tue, 27 Aug 2024 18:36:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724781948; cv=none; b=IGlaPTGeLeyBA6xE/gkwpda1wWDpSx+2e+uOZNlZkJPXJfTiW1nnVYG57Uhj+JTKj5EeG8p7ueIAUe8I3tA6zkNvVxvqeVbZcyD7vHqNBepT+or646dN1G4TDKEbc3NP+oQcDZet+BoiMzPl8HuXGjMGYEXFndH/aRvgjYkmhKE=
+	t=1724783784; cv=none; b=dWA/nopIUkSOVBW4E5M2AZetW/WRFpNORhVsz8mQyE7OfewZetH5550T2uS7Nvd6dPGZbuH5Om366e7g2GueuTzfStGIktstMHy5RP5eM/1LoC4CVwTL9lgHVvdodzPMnNlEw2pm9VI5OyQonTxU2dm9TiGhiXC5SaaFG2tq8Co=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724781948; c=relaxed/simple;
-	bh=Gw79yOjbZv9gbtsmtzI8ONCwsue7qo7vUany0vBy9CA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ttMII6SxWgbckrQdwKVMmpztJG2Q7fgKTQ3YYxuyTBdwHnNuxoooQ+QsC7f6gR1e54JEAsnchNa7TQ1lB9r4Cqs5pys07IhPz6Eze0DvpnDnp1CfUkysZGVOmGFd4iNjbGT3xSCtXr7FZkMLA1fvrhEchAHJgS9xbb1mb46uXG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=b8atZ+SR; arc=none smtp.client-ip=85.214.62.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
+	s=arc-20240116; t=1724783784; c=relaxed/simple;
+	bh=TkTOZTz7elfBYHzD8RbvH2XZQpZKPsT+JufOQhXApJE=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=lAPuhgJxbzDzc/KKeVnznli5vG9SkEYcp+TdjFCuTeA1/Pe33JGrt+to79KTZAcO6WZSTaJQAgADrIV2he0aTZcD9za/2z2uTp28rVipSIJYv72oj/cvKL0jvqFHlzcouPdIrhN95NoHtVIEVwHRJ6Qri35kBibcB0X0tJyhPBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GekvIc7h; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="b8atZ+SR"
-Received: from localhost.localdomain (85-222-111-42.dynamic.chello.pl [85.222.111.42])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: lukma@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id EBE2E88A4B;
-	Tue, 27 Aug 2024 20:05:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1724781944;
-	bh=1fH1ehWxhmFHL+pwCnGMKQmfjMRvcUVp0cPiBxZjs50=;
-	h=From:To:Cc:Subject:Date:From;
-	b=b8atZ+SRNppskEgkPf+Mjub7Jnem6+xHUTcCsmeVEWybyqzNmtHHhF4VcEdfSzdSX
-	 XvqW+xpmAFbywPGjgBlC7I/QuVYd/gJoPR5hbLqivbw/mYLS/Qj+uakN2PQUW5P61T
-	 p6atH7yVcy6jqAqNysj0UWJDsl1e6h3dIP66zKPowzQZ8VtNTccPij0Ualz4SMb0rP
-	 V9dklJ+nomYFzjNM21FVnPb5y/HNL2VM1+FYbqgJrVUBPibCA+i1g4/FuOagfQ8diK
-	 4IPWz088olkLME+6bWOB2Sa85GwcQPzUkXjIniXE22YG/K3vnOlprQmy3BT0xRA7WM
-	 Xy9VsUXBF/tew==
-From: Lukasz Majewski <lukma@denx.de>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Fabio Estevam <festevam@gmail.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Lukasz Majewski <lukma@denx.de>
-Subject: [PATCH] ASoC: dt-bindings: Add dt bindings definition file for imx28 saif
-Date: Tue, 27 Aug 2024 20:05:28 +0200
-Message-Id: <20240827180528.2315563-1-lukma@denx.de>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GekvIc7h"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BE54C4AF18;
+	Tue, 27 Aug 2024 18:36:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724783784;
+	bh=TkTOZTz7elfBYHzD8RbvH2XZQpZKPsT+JufOQhXApJE=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=GekvIc7hwu6p7phqP7M34f4m88Bjwbm3GcQjFo6I9fv707wz2RN+CxwRbN40/8f9+
+	 u3z9qO00hfaD5hzJbJterkitnlAlQeP9xWYIuZncTNa3615M5+sjooMUc4x6Vw8mbp
+	 bU8LpbaPz6IbyMA/OY4iqPR4a4ONXGUch4kE1ThcKgMyadHi3VS9Kdn0EAFuzBb5tf
+	 PRTu2EZMzAqJRNWQZSf/6OZlL6jxpSMg6Z3s2oVgsN670zEFTtm/g2r25PgN92GrEw
+	 RsFwB0xMhCtpDyRlTJGLeasbqjax8ExXJH0qu9M0WB7g9x4CLlnZc9l4sNNqezvhFO
+	 3rCT2HwXqnnJw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id AE6F93822D6D;
+	Tue, 27 Aug 2024 18:36:25 +0000 (UTC)
+Subject: Re: [GIT PULL] sound fixes for 6.11-rc6
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <87zfoy1hr1.wl-tiwai@suse.de>
+References: <87zfoy1hr1.wl-tiwai@suse.de>
+X-PR-Tracked-List-Id: <linux-sound.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87zfoy1hr1.wl-tiwai@suse.de>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.11-rc6
+X-PR-Tracked-Commit-Id: 28b329f431cef840fddd9a9b493bc3eff1aa06c0
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 6ace1c7ea2972bb3d8bfd5ca3d1a1b2bbc41687e
+Message-Id: <172478378421.730673.16355849751204224560.pr-tracker-bot@kernel.org>
+Date: Tue, 27 Aug 2024 18:36:24 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
 
-This file allows correct check of DTS node for imx287 based
-"fsl,imx28-saif" compatible device.
+The pull request you sent on Tue, 27 Aug 2024 10:40:02 +0200:
 
-It corresponds to Documentation/devicetree/bindings/fsl,imx28-saif
+> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.11-rc6
 
-Signed-off-by: Lukasz Majewski <lukma@denx.de>
----
- .../devicetree/bindings/sound/fsl,saif.yaml   | 79 +++++++++++++++++++
- 1 file changed, 79 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/sound/fsl,saif.yaml
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/6ace1c7ea2972bb3d8bfd5ca3d1a1b2bbc41687e
 
-diff --git a/Documentation/devicetree/bindings/sound/fsl,saif.yaml b/Documentation/devicetree/bindings/sound/fsl,saif.yaml
-new file mode 100644
-index 000000000000..747faa411a50
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/fsl,saif.yaml
-@@ -0,0 +1,79 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/fsl,saif.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Freescale MXS Serial Audio Interface (SAIF)
-+
-+maintainers:
-+  - Lukasz Majewski <lukma@denx.de>
-+
-+description: |
-+  The SAIF is based on I2S module that is used to communicate with audio codecs,
-+  but only with half-duplex manner (i.e. it can either transmit or receive PCM
-+  audio).
-+
-+properties:
-+  compatible:
-+    const: fsl,imx28-saif
-+
-+  reg:
-+    maxItems: 1
-+
-+  "#sound-dai-cells":
-+    const: 0
-+
-+  assigned-clock-parents: true
-+  assigned-clock-rates: true
-+  assigned-clocks: true
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  dmas:
-+    maxItems: 1
-+
-+  dma-names:
-+    const: rx-tx
-+
-+  clocks:
-+    maxItems: 1
-+
-+  fsl,saif-master:
-+    description: Indicate that saif is a slave and its phandle points to master
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - dmas
-+  - dma-names
-+  - "#sound-dai-cells"
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    saif0: saif@80042000 {
-+        #sound-dai-cells = <0>;
-+        compatible = "fsl,imx28-saif";
-+        reg = <0x80042000 2000>;
-+        interrupts = <59>;
-+        clocks = <&clks 53>;
-+        dmas = <&dma_apbx 4>;
-+        dma-names = "rx-tx";
-+    };
-+  - |
-+    saif1: saif@80046000 {
-+        #sound-dai-cells = <0>;
-+        compatible = "fsl,imx28-saif";
-+        reg = <0x80046000 2000>;
-+        interrupts = <58>;
-+        clocks = <&clks 53>;
-+        dmas = <&dma_apbx 5>;
-+        dma-names = "rx-tx";
-+        fsl,saif-master = <&saif0>;
-+    };
+Thank you!
+
 -- 
-2.39.2
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
