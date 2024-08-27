@@ -1,193 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B993019D06D;
-	Tue, 27 Aug 2024 11:05:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBE9919EEB4;
+	Tue, 27 Aug 2024 11:29:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724756732; cv=none; b=ZrMIJi0YQMBOWOSJ5hUYmRzwkgi5R9PQuwur48aso9udwcH76AjeaKEzftG1Wx2If0pQeCXnijpXLkiudGcrlg8XQYqMFjhxtMX/d4EShlo5EH0pcVJJCMca4ABkrzXxmGddOET00R0W2kM7PbyltJ5JpImLD4XpPIYt95Z11DI=
+	t=1724758183; cv=none; b=HmLz6KUFWVmbWzc6HbuLtK91drPUkkrl5yn+wcY17o5Oa4aEU3bif4NZb07KLx6WZv/lU7/Ov5Zlt517X+b7pKG7a+ZETVpqCuFEg15XDfVw3XclIyom/Qi4i2Ne3rNeIW31sCfEgPoltDlzL3OxPdDcexj0KJGXhlc7LPCCtyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724756732; c=relaxed/simple;
-	bh=hly+/bpjnJUrPx4YHicLOBFxXFUW7UOArHtHR1exMEs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M4fim9v6sARqL2QU1+TcWsAsJm2OeJztQa3aV2t7gyqMxB6UTUUQXXW/zNUwkoU00FoOyKyMxs3JuW0dKTHXlVpweUNPyctLQIkiNW9cTwGTfPea0bxSr9Crlrd5OYwPoR3IE+XBATNKkvFPL7YHBSLsCQeKbySJGi/w0qqFq54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TMj3nYW/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724758183; c=relaxed/simple;
+	bh=mtE/DIzdIY0aE9jx+lSBwiZujkAm3EwvIh0iOHY1Qao=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=olXgPuNBeOnNssqhi2BTGivEWDCuPtkbdngcSQyCu+knVJf1Nii/I0xkXa8MVtR6rKD8VO4dfioftpEScge3/Y7itktzGoEStqQnRfbiB9aQEmPy7NSsN34wCE86MpGIJte+4QtHWH54zBIPCxhC8YyVWDBPAoaBaIaKj9HKefI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FjiuJ4ha; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TMj3nYW/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65FA5C8B7A0;
-	Tue, 27 Aug 2024 11:05:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724756732;
-	bh=hly+/bpjnJUrPx4YHicLOBFxXFUW7UOArHtHR1exMEs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TMj3nYW/N9iHEi7g83bTk9HnUnyHhMaKFbGHXemftcOo9AnWK2u5HJSyMOVZWvduU
-	 57IBaUduxvYKyw/OGYHm3ixJEL3LBpsWUQFrhwjLmwFntAIR8yVHo9Y/wLrgvcQt8v
-	 ink6aId3Di1S9aIa2Rw/lsIZngkFtxR2jc7qMZLaUSmVdM1P4dLRQk6nULk/MqGomZ
-	 5e1U86+nG4Vs7IQWcRApAHKPj5wy/Bp4fDELedSS8vS9pWAEJ7+inJWMK56rk6Ptj6
-	 +RjhmUwuR+PSdT/NHp4PMkPtUwFcSERisz3I2OZIQPvi1jQ+uA6HFzn9EUqbcLWWVV
-	 +ojTHXMnRRDPw==
-Date: Tue, 27 Aug 2024 13:05:28 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: nikita.shubin@maquefel.me
-Cc: David Rhodes <david.rhodes@cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Alexander Sverdlin <alexander.sverdlin@gmail.com>, linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ASoC: dt-bindings: cirrus,cs4271: Convert to dtschema
-Message-ID: <d2z3i5lkjx3uqtp436pbwb57rlp2zqdxzpto2es5sanslw7m2e@rfpicq4wezgq>
-References: <20240827-cs4271-yaml-v2-1-20b639bd2a0a@maquefel.me>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FjiuJ4ha"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2021c08b95cso48013355ad.0;
+        Tue, 27 Aug 2024 04:29:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724758181; x=1725362981; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=B7IeMX+lfboWSCnTtBGO5TJWMMf36fE1uWbBvF6c/AE=;
+        b=FjiuJ4haI0G+vStvs4xTGaXjdfitrJ4zMntXp7uqYW/0AznAVezzd3CJwMFUxBrvTD
+         iMsIjZD3E/7LfvgMTpZe2pow3S4FYB1/6M5GigdlCRo/Efz2no/4RZ82Zy3csiLrIrPG
+         Oyo1ElHLGVk4QIZUnmksIHOlV5BPdpZR0ToVLfDdCe8h0Sy+c2Lk6WTw7SW2WBF8JGjb
+         pfyjSBUwLVOt0wTlB4sb/+/pLEaqAs4eCGS5CgV1aUO4y6m41GnADGaJMK7jx8TxCT9A
+         ACMjKoMKpgKHcy8RW8v43OripyANLBaUVXqaA+SYWu3aNyZ2WTXEzb+ZFn0D6wuVukgJ
+         oWIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724758181; x=1725362981;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=B7IeMX+lfboWSCnTtBGO5TJWMMf36fE1uWbBvF6c/AE=;
+        b=pF0YtIgGHQ22q5/wuhr047wuyoqVROA4WAwz4UHBHZp8AqrpXE5A26f2d15XXyqJKS
+         sQhAd4aAn05jPxR0lhM4TBBvp0tlsRLgSEGCKaBJQlUzjQFtN8TvLfKjm0P8zVw6Sog7
+         lwyIReliUgsZNPR+Nxv1SObKvoCdgHN9ISDsQfs6Q/SxhKLlcJTUYWhLm5UAkx1a+FBN
+         UqMLQfAeRyS4ofQCPQNF0aWJ/GTe6G97ZMN7+GQu8nmvGpjXdypSc9ewKXiLFhjJo8Sy
+         UAEG0B8uhQQI52bXyQ9Y0sXCcWYAGUlHYIJPDJ/ttAmfYflFcE+Y9bjs0ehzfmGiqA4V
+         znOg==
+X-Forwarded-Encrypted: i=1; AJvYcCUDfIh2bQdEJUSPu+Iht0fMhZ8+1kKMPigQMsIQ9ee0ouzwgxWJX9Zty2Qy+jx5v5xdm9yHxAXKYkhEKWA=@vger.kernel.org, AJvYcCXEoEaaGSkjKyGRziea07AGq7axsHMXiCdXQ+6I91/ct95SC4XpYLE2Ct15PTwxF3cOIo32IfF+xasPKVg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx4q8vq91PzSIQeGynTfTg9tTw5JEagLsKXFxnhcwoEKcxbVvDC
+	1xmFvp8h/ls8QcN6jC/e+YNI2qpNJk/kIpHIpJS5xjFDUsD+55iD
+X-Google-Smtp-Source: AGHT+IFtdkg4ZwyN3DCZQ/8qYdcfbbVtSHPLmh6oAuOhdnauyWoi7H1AtD8qepuDQR373OtKdfRc5Q==
+X-Received: by 2002:a17:903:1104:b0:1f9:d6bf:a67c with SMTP id d9443c01a7336-204ddcba2eamr48490605ad.5.1724758180954;
+        Tue, 27 Aug 2024 04:29:40 -0700 (PDT)
+Received: from localhost.localdomain ([187.17.229.165])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20385ae4e3fsm81464375ad.235.2024.08.27.04.29.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Aug 2024 04:29:40 -0700 (PDT)
+From: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
+X-Google-Original-From: Edson Juliano Drosdeck <edson@policorp.com>
+To: tiwai@suse.com
+Cc: perex@perex.cz,
+	kailang@realtek.com,
+	sbinding@opensource.cirrus.com,
+	simont@opensource.cirrus.com,
+	foss@athaariq.my.id,
+	rf@opensource.cirrus.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	edson.drosdeck@gmail.com,
+	Edson Juliano Drosdeck <edson@policorp.com>
+Subject: [PATCH] ALSA: hda/realtek: Limit mic boost on Positivo DN50F
+Date: Tue, 27 Aug 2024 08:29:12 -0300
+Message-Id: <20240827112912.3397-1-edson@policorp.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240827-cs4271-yaml-v2-1-20b639bd2a0a@maquefel.me>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 27, 2024 at 12:49:18PM +0300, Nikita Shubin via B4 Relay wrote:
-> From: Nikita Shubin <nikita.shubin@maquefel.me>
-> 
-> Convert the Cirrus Logic CS4271 audio CODEC bindings to DT schema.
-> 
-> Add missing spi-cpha, spi-cpol, '#sound-dai-cells' and port, as they
-> are already being used in the DTS and the driver for this device.
-> 
-> Based on Animesh Agarwal cs42xx8 conversion patch.
-> 
-> Keep the original 'reset-gpio' used in bindings,
-> instead of 'reset-gpios' used in cs42xx8.
-> 
-> Cc: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-> Link: https://lore.kernel.org/all/20240715-ep93xx-v11-0-4e924efda795@maquefel.me
-> Signed-off-by: Nikita Shubin <nikita.shubin@maquefel.me>
-> ---
-> This is complementary patch to ep93xx DT conversion series.
-> 
-> Based on "ASoC: dt-bindings: cirrus,cs4270: Convert to dtschema" patch.
-> 
-> Krzysztof, thank you very much for quick review!
-> ---
-> Changes in v2:
-> Krzysztof Kozlowski:
-> - fix SoB above link
-> - replace 'driver' with 'device'
-> - mention properties not present in original bindings
-> - mention using 'gpio-reset' instead of 'gpios-reset'
-> - dropped unused label
-> - use defines for gpio bindings
-> - newline at end of file
-> - Link to v1: https://lore.kernel.org/r/20240826-cs4271-yaml-v1-1-dad3f0b041ef@maquefel.me
-> ---
->  .../devicetree/bindings/sound/cirrus,cs4271.yaml   | 101 +++++++++++++++++++++
->  Documentation/devicetree/bindings/sound/cs4271.txt |  57 ------------
->  2 files changed, 101 insertions(+), 57 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs4271.yaml b/Documentation/devicetree/bindings/sound/cirrus,cs4271.yaml
-> new file mode 100644
-> index 000000000000..cc5b48ceafa4
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/cirrus,cs4271.yaml
-> @@ -0,0 +1,101 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/cirrus,cs4271.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Cirrus Logic CS4271 audio CODEC
-> +
-> +maintainers:
-> +  - Alexander Sverdlin <alexander.sverdlin@gmail.com>
-> +  - Nikita Shubin <nikita.shubin@maquefel.me>
-> +
-> +description:
-> +  The CS4271 is a stereo audio codec. This device supports both the I2C
-> +  and the SPI bus.
-> +
-> +allOf:
-> +  - $ref: dai-common.yaml#
-> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: cirrus,cs4271
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  spi-cpha: true
-> +
-> +  spi-cpol: true
-> +
-> +  '#sound-dai-cells':
-> +    const: 0
-> +
-> +  reset-gpio:
+The internal mic boost on the DN50F is too high. Fix this by applying the
+ALC269_FIXUP_LIMIT_INT_MIC_BOOST fixup to the machine to limit the gain.
 
-I wasn't clear... reset-gpios and mention that you switched to
-non-deprecated gpios suffix.
+Signed-off-by: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
+---
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-> +    description:
-> +      This pin will be deasserted before communication to the codec starts.
-> +    maxItems: 1
-> +
-> +  va-supply:
-> +    description: Analog power supply.
-> +
-> +  vd-supply:
-> +    description: Digital power supply.
-> +
-> +  vl-supply:
-> +    description: Serial Control Port power supply.
-> +
-> +  port:
-> +    $ref: audio-graph-port.yaml#
-> +    unevaluatedProperties: false
-> +
-> +  cirrus,amuteb-eq-bmutec:
-> +    description:
-> +      When given, the Codec's AMUTEB=BMUTEC flag is enabled.
-> +    type: boolean
-> +
-> +  cirrus,enable-soft-reset:
-> +    description: |
-> +      The CS4271 requires its LRCLK and MCLK to be stable before its RESET
-> +      line is de-asserted. That also means that clocks cannot be changed
-> +      without putting the chip back into hardware reset, which also requires
-> +      a complete re-initialization of all registers.
-> +
-> +      One (undocumented) workaround is to assert and de-assert the PDN bit
-> +      in the MODE2 register. This workaround can be enabled with this DT
-> +      property.
-> +
-> +      Note that this is not needed in case the clocks are stable
-> +      throughout the entire runtime of the codec.
-> +    type: boolean
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    spi {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        cs4271@0 {
-
-Node names should be generic. See also an explanation and list of
-examples (not exhaustive) in DT specification:
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-
-audio-codec or codec
-
-Best regards,
-Krzysztof
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index d022a25635f9..b6bd3903701e 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10767,6 +10767,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1d72, 0x1901, "RedmiBook 14", ALC256_FIXUP_ASUS_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1d72, 0x1945, "Redmi G", ALC256_FIXUP_ASUS_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1d72, 0x1947, "RedmiBook Air", ALC255_FIXUP_XIAOMI_HEADSET_MIC),
++	SND_PCI_QUIRK(0x1e50, 0x7038, "Positivo DN50F", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
+ 	SND_PCI_QUIRK(0x2782, 0x0214, "VAIO VJFE-CL", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
+ 	SND_PCI_QUIRK(0x2782, 0x0232, "CHUWI CoreBook XPro", ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO),
+ 	SND_PCI_QUIRK(0x2782, 0x1707, "Vaio VJFE-ADL", ALC298_FIXUP_SPK_VOLUME),
+-- 
+2.39.2
 
