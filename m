@@ -1,100 +1,103 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBE9919EEB4;
-	Tue, 27 Aug 2024 11:29:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B901A1B4C24;
+	Tue, 27 Aug 2024 12:26:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724758183; cv=none; b=HmLz6KUFWVmbWzc6HbuLtK91drPUkkrl5yn+wcY17o5Oa4aEU3bif4NZb07KLx6WZv/lU7/Ov5Zlt517X+b7pKG7a+ZETVpqCuFEg15XDfVw3XclIyom/Qi4i2Ne3rNeIW31sCfEgPoltDlzL3OxPdDcexj0KJGXhlc7LPCCtyg=
+	t=1724761573; cv=none; b=WsR+V7YHB0/QEj8PbizrZ3hIV9qu1C5AFCXwrc8BhQRLya0W0F5/3eWXu0nbRshScKrndvH3xQmpzubcfrpfhi3US9OhgPpvkhjYqHdQwnyW4y7rzh7Kq2zV9PSppEOH9Sq4dSENzAuakMp1rfYRqh6JLwwgRSD51gOkwjG7rgo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724758183; c=relaxed/simple;
-	bh=mtE/DIzdIY0aE9jx+lSBwiZujkAm3EwvIh0iOHY1Qao=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=olXgPuNBeOnNssqhi2BTGivEWDCuPtkbdngcSQyCu+knVJf1Nii/I0xkXa8MVtR6rKD8VO4dfioftpEScge3/Y7itktzGoEStqQnRfbiB9aQEmPy7NSsN34wCE86MpGIJte+4QtHWH54zBIPCxhC8YyVWDBPAoaBaIaKj9HKefI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FjiuJ4ha; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FjiuJ4ha"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2021c08b95cso48013355ad.0;
-        Tue, 27 Aug 2024 04:29:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724758181; x=1725362981; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=B7IeMX+lfboWSCnTtBGO5TJWMMf36fE1uWbBvF6c/AE=;
-        b=FjiuJ4haI0G+vStvs4xTGaXjdfitrJ4zMntXp7uqYW/0AznAVezzd3CJwMFUxBrvTD
-         iMsIjZD3E/7LfvgMTpZe2pow3S4FYB1/6M5GigdlCRo/Efz2no/4RZ82Zy3csiLrIrPG
-         Oyo1ElHLGVk4QIZUnmksIHOlV5BPdpZR0ToVLfDdCe8h0Sy+c2Lk6WTw7SW2WBF8JGjb
-         pfyjSBUwLVOt0wTlB4sb/+/pLEaqAs4eCGS5CgV1aUO4y6m41GnADGaJMK7jx8TxCT9A
-         ACMjKoMKpgKHcy8RW8v43OripyANLBaUVXqaA+SYWu3aNyZ2WTXEzb+ZFn0D6wuVukgJ
-         oWIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724758181; x=1725362981;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=B7IeMX+lfboWSCnTtBGO5TJWMMf36fE1uWbBvF6c/AE=;
-        b=pF0YtIgGHQ22q5/wuhr047wuyoqVROA4WAwz4UHBHZp8AqrpXE5A26f2d15XXyqJKS
-         sQhAd4aAn05jPxR0lhM4TBBvp0tlsRLgSEGCKaBJQlUzjQFtN8TvLfKjm0P8zVw6Sog7
-         lwyIReliUgsZNPR+Nxv1SObKvoCdgHN9ISDsQfs6Q/SxhKLlcJTUYWhLm5UAkx1a+FBN
-         UqMLQfAeRyS4ofQCPQNF0aWJ/GTe6G97ZMN7+GQu8nmvGpjXdypSc9ewKXiLFhjJo8Sy
-         UAEG0B8uhQQI52bXyQ9Y0sXCcWYAGUlHYIJPDJ/ttAmfYflFcE+Y9bjs0ehzfmGiqA4V
-         znOg==
-X-Forwarded-Encrypted: i=1; AJvYcCUDfIh2bQdEJUSPu+Iht0fMhZ8+1kKMPigQMsIQ9ee0ouzwgxWJX9Zty2Qy+jx5v5xdm9yHxAXKYkhEKWA=@vger.kernel.org, AJvYcCXEoEaaGSkjKyGRziea07AGq7axsHMXiCdXQ+6I91/ct95SC4XpYLE2Ct15PTwxF3cOIo32IfF+xasPKVg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx4q8vq91PzSIQeGynTfTg9tTw5JEagLsKXFxnhcwoEKcxbVvDC
-	1xmFvp8h/ls8QcN6jC/e+YNI2qpNJk/kIpHIpJS5xjFDUsD+55iD
-X-Google-Smtp-Source: AGHT+IFtdkg4ZwyN3DCZQ/8qYdcfbbVtSHPLmh6oAuOhdnauyWoi7H1AtD8qepuDQR373OtKdfRc5Q==
-X-Received: by 2002:a17:903:1104:b0:1f9:d6bf:a67c with SMTP id d9443c01a7336-204ddcba2eamr48490605ad.5.1724758180954;
-        Tue, 27 Aug 2024 04:29:40 -0700 (PDT)
-Received: from localhost.localdomain ([187.17.229.165])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20385ae4e3fsm81464375ad.235.2024.08.27.04.29.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Aug 2024 04:29:40 -0700 (PDT)
-From: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
-X-Google-Original-From: Edson Juliano Drosdeck <edson@policorp.com>
-To: tiwai@suse.com
-Cc: perex@perex.cz,
-	kailang@realtek.com,
-	sbinding@opensource.cirrus.com,
-	simont@opensource.cirrus.com,
-	foss@athaariq.my.id,
-	rf@opensource.cirrus.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	edson.drosdeck@gmail.com,
-	Edson Juliano Drosdeck <edson@policorp.com>
-Subject: [PATCH] ALSA: hda/realtek: Limit mic boost on Positivo DN50F
-Date: Tue, 27 Aug 2024 08:29:12 -0300
-Message-Id: <20240827112912.3397-1-edson@policorp.com>
-X-Mailer: git-send-email 2.39.2
+	s=arc-20240116; t=1724761573; c=relaxed/simple;
+	bh=zvVebIsWAlJ8QkELiQXoohTKQj4SJCXpgtbrW33XvsE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WgSP/UwCW82za0voI2UfLtc1JXhcQl85wu1bJZSLDVF5YRchFJuR9YG/LEniWm/MmqJWITduKysFAVEoVZu3F6g010eII3FNYns/PAVB1RZoKsWyc98yJnQLd2nv6TGLC3uobD+GdBi76NoEq+1YU86kRzqP0St7OPwBdIGtMY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=denx.de; spf=fail smtp.mailfrom=denx.de; arc=none smtp.client-ip=46.255.230.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=denx.de
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id 197D51C009E; Tue, 27 Aug 2024 14:26:10 +0200 (CEST)
+Date: Tue, 27 Aug 2024 14:26:09 +0200
+From: Pavel Machek <pavel@denx.de>
+To: Sasha Levin <sashal@kernel.org>
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.de>, Paul Menzel <pmenzel@molgen.mpg.de>,
+	Jaroslav Kysela <perex@perex.cz>, tiwai@suse.com,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 5.10 26/38] ALSA: vmaster: Return error for
+ invalid input values
+Message-ID: <Zs3F4Xp/2WfTJjli@duo.ucw.cz>
+References: <20240801003643.3938534-1-sashal@kernel.org>
+ <20240801003643.3938534-26-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="b3yops5eByklRyDt"
+Content-Disposition: inline
+In-Reply-To: <20240801003643.3938534-26-sashal@kernel.org>
 
-The internal mic boost on the DN50F is too high. Fix this by applying the
-ALC269_FIXUP_LIMIT_INT_MIC_BOOST fixup to the machine to limit the gain.
 
-Signed-off-by: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
----
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
+--b3yops5eByklRyDt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index d022a25635f9..b6bd3903701e 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10767,6 +10767,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1d72, 0x1901, "RedmiBook 14", ALC256_FIXUP_ASUS_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1d72, 0x1945, "Redmi G", ALC256_FIXUP_ASUS_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1d72, 0x1947, "RedmiBook Air", ALC255_FIXUP_XIAOMI_HEADSET_MIC),
-+	SND_PCI_QUIRK(0x1e50, 0x7038, "Positivo DN50F", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
- 	SND_PCI_QUIRK(0x2782, 0x0214, "VAIO VJFE-CL", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
- 	SND_PCI_QUIRK(0x2782, 0x0232, "CHUWI CoreBook XPro", ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO),
- 	SND_PCI_QUIRK(0x2782, 0x1707, "Vaio VJFE-ADL", ALC298_FIXUP_SPK_VOLUME),
--- 
-2.39.2
+Hi!
 
+> From: Takashi Iwai <tiwai@suse.de>
+>=20
+> [ Upstream commit 10457f5042b4890a667e2f15a2e783490dda44d2 ]
+>=20
+> So far the vmaster code has been tolerant about the input values and
+> accepts any values by correcting internally.  But now our own selftest
+> starts complaining about this behavior, so let's be picky and change
+> the behavior to return -EINVAL for invalid input values instead.
+
+Does it fix a bug serious enough for -stable?
+
+Best regards,
+								Pavel
+
+> +++ b/sound/core/vmaster.c
+> @@ -204,6 +204,12 @@ static int follower_put(struct snd_kcontrol *kcontro=
+l,
+>  	err =3D follower_init(follower);
+>  	if (err < 0)
+>  		return err;
+> +	for (ch =3D 0; ch < follower->info.count; ch++) {
+> +		if (ucontrol->value.integer.value[ch] < follower->info.min_val ||
+> +		    ucontrol->value.integer.value[ch] > follower->info.max_val)
+> +			return -EINVAL;
+> +	}
+> +
+>  	for (ch =3D 0; ch < follower->info.count; ch++) {
+>  		if (follower->vals[ch] !=3D ucontrol->value.integer.value[ch]) {
+>  			changed =3D 1;
+> @@ -344,6 +350,8 @@ static int master_put(struct snd_kcontrol *kcontrol,
+>  	new_val =3D ucontrol->value.integer.value[0];
+>  	if (new_val =3D=3D old_val)
+>  		return 0;
+> +	if (new_val < master->info.min_val || new_val > master->info.max_val)
+> +		return -EINVAL;
+> =20
+>  	err =3D sync_followers(master, old_val, new_val);
+>  	if (err < 0)
+
+--=20
+DENX Software Engineering GmbH,        Managing Director: Erika Unter
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+
+--b3yops5eByklRyDt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZs3F4QAKCRAw5/Bqldv6
+8mnzAKC+I46IgPijebkMd8eNpfSGO5Fs1wCghMcYHOhWs3vZNlMEGfonq5vj8m0=
+=d/8A
+-----END PGP SIGNATURE-----
+
+--b3yops5eByklRyDt--
