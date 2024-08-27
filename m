@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF041C460D
-	for <linux-sound@vger.kernel.org>; Tue, 27 Aug 2024 12:32:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97F751C460D
+	for <linux-sound@vger.kernel.org>; Tue, 27 Aug 2024 12:33:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724761980; cv=none; b=lDQz9Zh//J9at+nKD7c+cu9w6akyfUtbB9mSX23pnyTt7N2nYSCbniHIVaaw5X3LTgs9lEClb7ATEshMF2+kyTKgedmNZ1JZo5hxzpUbdvMXia6QO5Vlep8sHpL0keKaS0n65N2RkK0cKtruiYiJa7QasF/pwRpmlRFgLYXZXto=
+	t=1724761982; cv=none; b=on3hvbP0wwDgZD2bgkaqm/00TrW8faOtBP05hF+RV/2HqS9eqK905F34BRMSJb8WxtVGbHYkPy7kfrn30O/pu7hCp3c/lzmLBW4Q4WaSbaj0ulM3nAMaCN0Z9ajIH2pbfeT1HvCFR9vbKXK8klJQ8lLCoGw18lLMYXcG9Y/WKW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724761980; c=relaxed/simple;
-	bh=PxL0aMKSvwXL//qeHZymFfYwo3xE8toXcHBVq72XSEQ=;
+	s=arc-20240116; t=1724761982; c=relaxed/simple;
+	bh=GAXssEYxSMcqOuV3uPxRaPmNeAofcYK9DNL5VOOEe84=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PofEkWMXtvDZYyewq/FhZOhXtQch37xj41Ozd8bvLSUs9xyjuTO57as0seZheGwVHCrTmriNARizC8+ygE7eeBDHS2OeBiOZ3zvPqu9/K+EzAIGuFqBrtCX1mdwxPbfQqe+tqygkFCeIZolDOk2wkmn4zqtMCxh09j5wAe6xH3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nrBLw5IK; arc=none smtp.client-ip=192.198.163.16
+	 MIME-Version; b=TV+h3nU6jadPaFmlKbya7BUXBqhe31IFSTa8pv1X3AGdtJe6wNfTzOEtQMn8pumBfyA2KHQywzF+WE80ky8b6Wven9oAHNGbqruRX+IE0hQrOUqLXpmR7al6Eatmvzcd4hG5rxW74dlejidP5dqspAGySoG0zOGUiVJ30431GRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WwGZCS8L; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nrBLw5IK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WwGZCS8L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724761978; x=1756297978;
+  t=1724761980; x=1756297980;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=PxL0aMKSvwXL//qeHZymFfYwo3xE8toXcHBVq72XSEQ=;
-  b=nrBLw5IKUa3qJpUI1El8anDJXQDD/Gsjo2Q9i1RqjKGqWR3a09QsHlo9
-   wS+xOKAGP3o8+zvUWrk5zn7Tzk7IL0tkbyxnnrkL9mpFGLbt8HgloT+XJ
-   CCYRJdIP0PkOmSYm/3FBSZywzr9qw3jksdOA/m4Ih2hDCubjGSnGffcYi
-   wG94zowUlSoMIF6/aJTclljCEp8LlnOm7WBpWWukX6Cr1tg4P/fNcTf/b
-   nj2sdEOtMXLYr6xfAogmilOs1/JYlLzrrHPZh+YWTZUi4DXPB01ogMJZQ
-   KeNd4tPDLp/0DLs1xOb3NNpClHlc4wj775LhmvlatmBVrhJaAoSs6HB1v
-   Q==;
-X-CSE-ConnectionGUID: 9bw22gxTQYqQjz55K/Tn+A==
-X-CSE-MsgGUID: 43pTvnVARFOfwTWsX8KA/g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="13235519"
+  bh=GAXssEYxSMcqOuV3uPxRaPmNeAofcYK9DNL5VOOEe84=;
+  b=WwGZCS8LhTWJKe03Off807ccFpPp0w04yC0Y7OiDsD3+E1/fU7eXHaBR
+   6XJR+jBgaZkrrViSV7JF1YPm+/AA50iB8e+Qwdk5KW8PtevjEjhACBQKg
+   jaYqvR6+fOS3eBtg2ujpl797EXyd4VVtzvvvSP5KumX32kyXsHl8xLypj
+   mBrrHwB1aZl1A07ofrX36L9Lgw6BtarxmGMOwMISUKNb6+Y+ylep4sE8s
+   VGBoxYQC64yq8TLlqeTeqWaMTjCCPa9hmHQzmSK0Vk5edGBeIHFkkASiL
+   RA0WQgs/x4saSos+1hk044Yzu26O5S9fXHQQY8nGI1akTQG/whJfvPGXh
+   g==;
+X-CSE-ConnectionGUID: e7RQsisKQwCLGMO7OzFtYQ==
+X-CSE-MsgGUID: FVGgmBv4QH2QdUlZAkp5+w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="13235522"
 X-IronPort-AV: E=Sophos;i="6.10,180,1719903600"; 
-   d="scan'208";a="13235519"
+   d="scan'208";a="13235522"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 05:32:57 -0700
-X-CSE-ConnectionGUID: cuHP9bCQQnaqq3SwPkod9g==
-X-CSE-MsgGUID: 7QhAf8jtRhG7r1nTiiIRuQ==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 05:33:00 -0700
+X-CSE-ConnectionGUID: LD9MG9KuQm6G9lt1xXTvzw==
+X-CSE-MsgGUID: eTZ1asK4RxeeJ9r+26WIcA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,180,1719903600"; 
-   d="scan'208";a="62676807"
+   d="scan'208";a="62676814"
 Received: from anmitta2-mobl4.gar.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.118.39])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 05:32:55 -0700
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 05:32:58 -0700
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 To: broonie@kernel.org,
 	tiwai@suse.de
@@ -50,9 +50,9 @@ Cc: linux-sound@vger.kernel.org,
 	pierre-louis.bossart@linux.intel.com,
 	bard.liao@intel.com,
 	peter.ujfalusi@linux.intel.com
-Subject: [PATCH v2 11/17] ASoC: Intel: soc-acpi: Add entry for HDMI_In capture support in ARL match table
-Date: Tue, 27 Aug 2024 20:32:09 +0800
-Message-ID: <20240827123215.258859-12-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH v2 12/17] ASoC: Intel: skl_hda_dsp_generic: remove hdac-hdmi support
+Date: Tue, 27 Aug 2024 20:32:10 +0800
+Message-ID: <20240827123215.258859-13-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240827123215.258859-1-yung-chuan.liao@linux.intel.com>
 References: <20240827123215.258859-1-yung-chuan.liao@linux.intel.com>
@@ -64,63 +64,185 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Balamurugan C <balamurugan.c@intel.com>
+From: Brent Lu <brent.lu@intel.com>
 
-Adding HDMI-In capture via I2S feature support in ARL platform.
+Since this machine driver has no longer been enumerated by SKL
+platform driver, we could remove hdac-hdmi support code just like
+what we did to other SOF machine drivers.
 
-Signed-off-by: Balamurugan C <balamurugan.c@intel.com>
+Signed-off-by: Brent Lu <brent.lu@intel.com>
 Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
 Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 ---
- sound/soc/intel/boards/sof_es8336.c               | 10 ++++++++++
- sound/soc/intel/common/soc-acpi-intel-arl-match.c | 12 ++++++++++++
- 2 files changed, 22 insertions(+)
+ sound/soc/intel/boards/Kconfig               |  1 -
+ sound/soc/intel/boards/skl_hda_dsp_common.c  | 32 +++++---------------
+ sound/soc/intel/boards/skl_hda_dsp_common.h  | 26 ----------------
+ sound/soc/intel/boards/skl_hda_dsp_generic.c |  8 +----
+ 4 files changed, 9 insertions(+), 58 deletions(-)
 
-diff --git a/sound/soc/intel/boards/sof_es8336.c b/sound/soc/intel/boards/sof_es8336.c
-index b45d0501f109..578271b4230a 100644
---- a/sound/soc/intel/boards/sof_es8336.c
-+++ b/sound/soc/intel/boards/sof_es8336.c
-@@ -818,6 +818,16 @@ static const struct platform_device_id board_ids[] = {
- 					SOF_ES8336_SPEAKERS_EN_GPIO1_QUIRK |
- 					SOF_ES8336_JD_INVERTED),
- 	},
-+	{
-+		.name = "arl_es83x6_c1_h02",
-+		.driver_data = (kernel_ulong_t)(SOF_ES8336_SSP_CODEC(1) |
-+					SOF_NO_OF_HDMI_CAPTURE_SSP(2) |
-+					SOF_HDMI_CAPTURE_1_SSP(0) |
-+					SOF_HDMI_CAPTURE_2_SSP(2) |
-+					SOF_SSP_HDMI_CAPTURE_PRESENT |
-+					SOF_ES8336_SPEAKERS_EN_GPIO1_QUIRK |
-+					SOF_ES8336_JD_INVERTED),
-+	},
- 	{ }
- };
- MODULE_DEVICE_TABLE(platform, board_ids);
-diff --git a/sound/soc/intel/common/soc-acpi-intel-arl-match.c b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-index 304f974dc960..8f69d61ea39c 100644
---- a/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-@@ -100,7 +100,19 @@ static const struct snd_soc_acpi_codecs arl_essx_83x6 = {
- 	.codecs = { "ESSX8316", "ESSX8326", "ESSX8336"},
+diff --git a/sound/soc/intel/boards/Kconfig b/sound/soc/intel/boards/Kconfig
+index 1141fe1263ce..793a9170513a 100644
+--- a/sound/soc/intel/boards/Kconfig
++++ b/sound/soc/intel/boards/Kconfig
+@@ -305,7 +305,6 @@ if SND_SOC_SOF_HDA_AUDIO_CODEC
+ config SND_SOC_INTEL_SKL_HDA_DSP_GENERIC_MACH
+ 	tristate "Skylake+ with HDA Codecs"
+ 	depends on SND_HDA_CODEC_HDMI
+-	select SND_SOC_HDAC_HDMI
+ 	select SND_SOC_INTEL_HDA_DSP_COMMON
+ 	select SND_SOC_DMIC
+ 	# SND_SOC_HDAC_HDA is already selected
+diff --git a/sound/soc/intel/boards/skl_hda_dsp_common.c b/sound/soc/intel/boards/skl_hda_dsp_common.c
+index 5eb63f4df241..d1de772e9304 100644
+--- a/sound/soc/intel/boards/skl_hda_dsp_common.c
++++ b/sound/soc/intel/boards/skl_hda_dsp_common.c
+@@ -11,7 +11,6 @@
+ #include <sound/pcm.h>
+ #include <sound/pcm_params.h>
+ #include <sound/soc.h>
+-#include "../../codecs/hdac_hdmi.h"
+ #include "skl_hda_dsp_common.h"
+ 
+ #include <sound/hda_codec.h>
+@@ -35,7 +34,6 @@ int skl_hda_hdmi_add_pcm(struct snd_soc_card *card, int device)
+ 	if (!pcm->codec_dai)
+ 		return -EINVAL;
+ 
+-	pcm->device = device;
+ 	list_add_tail(&pcm->head, &ctx->hdmi_pcm_list);
+ 
+ 	return 0;
+@@ -150,32 +148,18 @@ struct snd_soc_dai_link skl_hda_be_dai_links[HDA_DSP_MAX_BE_DAI_LINKS] = {
+ int skl_hda_hdmi_jack_init(struct snd_soc_card *card)
+ {
+ 	struct skl_hda_private *ctx = snd_soc_card_get_drvdata(card);
+-	struct snd_soc_component *component = NULL;
++	struct snd_soc_component *component;
+ 	struct skl_hda_hdmi_pcm *pcm;
+-	char jack_name[NAME_SIZE];
+-	int err;
+ 
+-	if (ctx->common_hdmi_codec_drv)
+-		return skl_hda_hdmi_build_controls(card);
+-
+-	list_for_each_entry(pcm, &ctx->hdmi_pcm_list, head) {
+-		component = pcm->codec_dai->component;
+-		snprintf(jack_name, sizeof(jack_name),
+-			 "HDMI/DP, pcm=%d Jack", pcm->device);
+-		err = snd_soc_card_jack_new(card, jack_name,
+-					    SND_JACK_AVOUT, &pcm->hdmi_jack);
+-
+-		if (err)
+-			return err;
+-
+-		err = hdac_hdmi_jack_init(pcm->codec_dai, pcm->device,
+-					  &pcm->hdmi_jack);
+-		if (err < 0)
+-			return err;
+-	}
++	/* HDMI disabled, do not create controls */
++	if (list_empty(&ctx->hdmi_pcm_list))
++		return 0;
+ 
++	pcm = list_first_entry(&ctx->hdmi_pcm_list, struct skl_hda_hdmi_pcm,
++			       head);
++	component = pcm->codec_dai->component;
+ 	if (!component)
+ 		return -EINVAL;
+ 
+-	return hdac_hdmi_jack_port_init(component, &card->dapm);
++	return hda_dsp_hdmi_build_controls(card, component);
+ }
+diff --git a/sound/soc/intel/boards/skl_hda_dsp_common.h b/sound/soc/intel/boards/skl_hda_dsp_common.h
+index 9d714f747dca..8455f953f4b8 100644
+--- a/sound/soc/intel/boards/skl_hda_dsp_common.h
++++ b/sound/soc/intel/boards/skl_hda_dsp_common.h
+@@ -23,8 +23,6 @@
+ struct skl_hda_hdmi_pcm {
+ 	struct list_head head;
+ 	struct snd_soc_dai *codec_dai;
+-	struct snd_soc_jack hdmi_jack;
+-	int device;
  };
  
-+static const struct snd_soc_acpi_codecs arl_lt6911_hdmi = {
-+	.num_codecs = 1,
-+	.codecs = {"INTC10B0"}
-+};
-+
- struct snd_soc_acpi_mach snd_soc_acpi_intel_arl_machines[] = {
-+	{
-+		.comp_ids = &arl_essx_83x6,
-+		.drv_name = "arl_es83x6_c1_h02",
-+		.machine_quirk = snd_soc_acpi_codec_list,
-+		.quirk_data = &arl_lt6911_hdmi,
-+		.sof_tplg_filename = "sof-arl-es83x6-ssp1-hdmi-ssp02.tplg",
-+	},
- 	{
- 		.comp_ids = &arl_essx_83x6,
- 		.drv_name = "sof-essx8336",
+ struct skl_hda_private {
+@@ -33,7 +31,6 @@ struct skl_hda_private {
+ 	int pcm_count;
+ 	int dai_index;
+ 	const char *platform_name;
+-	bool common_hdmi_codec_drv;
+ 	bool idisp_codec;
+ 	bool bt_offload_present;
+ 	int ssp_bt;
+@@ -43,27 +40,4 @@ extern struct snd_soc_dai_link skl_hda_be_dai_links[HDA_DSP_MAX_BE_DAI_LINKS];
+ int skl_hda_hdmi_jack_init(struct snd_soc_card *card);
+ int skl_hda_hdmi_add_pcm(struct snd_soc_card *card, int device);
+ 
+-/*
+- * Search card topology and register HDMI PCM related controls
+- * to codec driver.
+- */
+-static inline int skl_hda_hdmi_build_controls(struct snd_soc_card *card)
+-{
+-	struct skl_hda_private *ctx = snd_soc_card_get_drvdata(card);
+-	struct snd_soc_component *component;
+-	struct skl_hda_hdmi_pcm *pcm;
+-
+-	/* HDMI disabled, do not create controls */
+-	if (list_empty(&ctx->hdmi_pcm_list))
+-		return 0;
+-
+-	pcm = list_first_entry(&ctx->hdmi_pcm_list, struct skl_hda_hdmi_pcm,
+-			       head);
+-	component = pcm->codec_dai->component;
+-	if (!component)
+-		return -EINVAL;
+-
+-	return hda_dsp_hdmi_build_controls(card, component);
+-}
+-
+ #endif /* __SOUND_SOC_HDA_DSP_COMMON_H */
+diff --git a/sound/soc/intel/boards/skl_hda_dsp_generic.c b/sound/soc/intel/boards/skl_hda_dsp_generic.c
+index 927c73bef065..860a21915bce 100644
+--- a/sound/soc/intel/boards/skl_hda_dsp_generic.c
++++ b/sound/soc/intel/boards/skl_hda_dsp_generic.c
+@@ -13,7 +13,6 @@
+ #include <sound/pcm_params.h>
+ #include <sound/soc.h>
+ #include <sound/soc-acpi.h>
+-#include "../../codecs/hdac_hdmi.h"
+ #include "skl_hda_dsp_common.h"
+ 
+ static const struct snd_soc_dapm_widget skl_hda_widgets[] = {
+@@ -208,7 +207,7 @@ static void skl_set_hda_codec_autosuspend_delay(struct snd_soc_card *card)
+ 
+ static int skl_hda_audio_probe(struct platform_device *pdev)
+ {
+-	struct snd_soc_acpi_mach *mach;
++	struct snd_soc_acpi_mach *mach = pdev->dev.platform_data;
+ 	struct skl_hda_private *ctx;
+ 	struct snd_soc_card *card;
+ 	int ret;
+@@ -221,10 +220,6 @@ static int skl_hda_audio_probe(struct platform_device *pdev)
+ 
+ 	INIT_LIST_HEAD(&ctx->hdmi_pcm_list);
+ 
+-	mach = pdev->dev.platform_data;
+-	if (!mach)
+-		return -EINVAL;
+-
+ 	card = &ctx->card;
+ 	card->name = "hda-dsp",
+ 	card->owner = THIS_MODULE,
+@@ -251,7 +246,6 @@ static int skl_hda_audio_probe(struct platform_device *pdev)
+ 	ctx->pcm_count = card->num_links;
+ 	ctx->dai_index = 1; /* hdmi codec dai name starts from index 1 */
+ 	ctx->platform_name = mach->mach_params.platform;
+-	ctx->common_hdmi_codec_drv = mach->mach_params.common_hdmi_codec_drv;
+ 
+ 	card->dev = &pdev->dev;
+ 	if (!snd_soc_acpi_sof_parent(&pdev->dev))
 -- 
 2.43.0
 
