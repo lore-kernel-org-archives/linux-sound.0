@@ -1,231 +1,127 @@
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010059.outbound.protection.outlook.com [52.101.228.59])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 839F620E6;
-	Tue, 27 Aug 2024 00:14:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.59
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724717664; cv=fail; b=BGLnPRPMMHBalkP3dFZzp2cbTP7BbiZSgPi5xvjUXGow2/+/HmLRef2j10YhHdpVZjGvzj7qIJOQfvB1kZOuSJgIpZc111UMMhLjAHVTdlqk97HWe/LC9NYab/m0Dopu3F65RAEA0sIF6Bn3MZH2rk/cmiAEoQ4KV3CWsvRo2rE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724717664; c=relaxed/simple;
-	bh=IpkDZ9Wa4Bou4dmZrlDD83Snb4c3fyuAK38Q3/b1gsY=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=OFSV+QMiauTKN5plXkLi8AhVpGM0sZyrOMK2anxb3TiZyYqOj/SGGicBNr5tfZB/vYx5HOkFOykp9l7HBd3FXOEl+8ilJ4cZVI8JxXO33G9XPeO8oC9Oc+NdDKacxWt/1tEpkZa+oH4R94Vu26EVFU8612UwX4mZUQFLQj1tvvk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=QJIgPK1O; arc=fail smtp.client-ip=52.101.228.59
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 852AFC8C7
+	for <linux-sound@vger.kernel.org>; Tue, 27 Aug 2024 01:43:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724723024; cv=none; b=Frw/uYthjtbgMQVo/VOw6pQCze/qrJzWr2WAQoj/3QWYbbwQqiYxli4Uk/SvFT3w/obS5p43wP1IQvn6jKHUDgelvPuHhhh26SQD1deEc+Pu6fnDv+Kst1Hm0grRaWB1V++wqmtj5OgZspJDJYYXWSVOTtJm9lTqYvOzbLFziec=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724723024; c=relaxed/simple;
+	bh=WveAYwOKAJzMYTzihbDQIr1W96doHObiMQZJ89ke9PE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=EvYLgX52TgNFOG6GsdWF+AbYhCKz+jgaz4wJiaqOpWtUp6p2jVOlHjvHLiXYFbAT5IUSlAsJ/EUcIgHJgyd3cEs7YcQR3aeoNqni/AYk/WHLXykflHmJx5cru+33efba1l648shc3rsb2SrDHzd2jlmDsacZQJt0l3nMMPjzaQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FfWh1mp9; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="QJIgPK1O"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=sv7ARZKwHqE1zp8RTuBj9i9Q2xLojtRrybBwVCjdB78D6yiaYVsxDnznm/K6qghtsEAvbK0yxqktezWs6Aaz22xfnYw214jtVNsQJ2cR2UFh/g59xOiptY5WLPulvQHvg/SpI+zU89w0WsJ+DXUCAbpkdrTWPGc8QMjR8ZOEQKMcphGVJFLKjlyzr0Ayc75LKJbxB8NlsFBNzmT2fZGSVSqga6JzB7UTBTgIDWodeC9dDE3MJ9UHVEXA0ULBsB9cZiurhE4A3eI4T0iHs1RQVKf0ezPrr78ZMURm+5RpJsVvh2L1kBRffO8SMTB7i+M8LfXWtOlQG+2gRVqtaZnAxg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=B5vRbbKr0kmOd1+9YQ01igm53wxBBQVAH6XY8hZa2zc=;
- b=t/NEIxYT2xJ1GFLhpbrklr867m9iXzMETt5BNqWnqlC+ET93AJ4p5Fqhmv1B9+xnaPvDoDCaImlxaUCr6b/01REW9KZBZb3T01271D73y6nxjxW39SCQAqi7pQnJ8a9/K/2ocN5XCDDUhzDD+52GSW2wdyFGzFuJAnvAL1nycGgA3PTjGWAF9ZWv8Em3jmo8SGld7hOaoT/i7jGhOsnaoRvYbXiykyUQd/IHjvD4BSj5YXVl4UmHz3zKxB2qsqe/9Iu+OJXu/89XCuIsBigp+B+hJ991bYjPZJUH2vdutz65llWUl//uxAdOCZTnB6dZLBPNuEQiO5iDMRvhXDEBUg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=B5vRbbKr0kmOd1+9YQ01igm53wxBBQVAH6XY8hZa2zc=;
- b=QJIgPK1OiuyQl/7Y0kiGkv7nGpaLFmkUK3it6XhJup0grJWEEI141aCF/7YHpmuyt1MYga9vwSKOeX9ziqjR68KV7Dgw8Wc44KB75Fp6t3/1BY0IFVohfQ4HxqWb2oTpEjZcfWdDEHVlLcw0OjgbCJy98oWoov949Z4YFtu7rc4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TY3PR01MB11369.jpnprd01.prod.outlook.com
- (2603:1096:400:3d0::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.25; Tue, 27 Aug
- 2024 00:14:16 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.7875.016; Tue, 27 Aug 2024
- 00:14:16 +0000
-Message-ID: <87bk1ebz59.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Rob Herring <robh@kernel.org>
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Liam Girdwood
- <lgirdwood@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Mark Brown <broonie@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>,
- Saravana Kannan <saravanak@google.com>, Takashi Iwai <tiwai@suse.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
- linux-media@vger.kernel.org, linux-omap@vger.kernel.org, linux-sound@vger.kernel.org,
- Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH v3 2/9] of: property: add of_graph_get_next_port_endpoint()
-In-Reply-To: <20240826154009.GA300981-robh@kernel.org>
-References: <87cylwqa12.wl-kuninori.morimoto.gx@renesas.com>	<87a5h0qa0g.wl-kuninori.morimoto.gx@renesas.com>	<20240826154009.GA300981-robh@kernel.org>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 27 Aug 2024 00:14:15 +0000
-X-ClientProxiedBy: TYCP286CA0223.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:3c5::11) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FfWh1mp9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724723022; x=1756259022;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=WveAYwOKAJzMYTzihbDQIr1W96doHObiMQZJ89ke9PE=;
+  b=FfWh1mp9mjtRypInN4TDj/AIQTntMT5q5xDoVL30RHVf2+jbPUfm/tAv
+   1yt/7wl76GXb5bO4VX2p3MAzv/IhEz2KmU7ybyPHxbcDDYIFmschPhWl4
+   rJsMhNMqVpXZGKvrVvlWbDXvMyl1r9miIAc7vyJ9hetu53rYEEJeoD1pP
+   wUtjng/LHhlKAukj7L7WAYYIeCb1upjWop/WaE2Bn7RvdQiEpaLx877+T
+   vyFPUz9Z5JNb83aEBx6lp86XmAkhdBFq3trgCaM/bip1clZMvhe3TyN0u
+   +Rle8KQ5ekmc7Lgc05wD9++Fg6ekwQqVd4EnBOxRVOzKyUbSuSWwWHdFS
+   Q==;
+X-CSE-ConnectionGUID: z7ZXqIB3SiiESQWNOXbS3g==
+X-CSE-MsgGUID: 3siEni/ESsOBTDjofz1A9A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="22984837"
+X-IronPort-AV: E=Sophos;i="6.10,179,1719903600"; 
+   d="scan'208";a="22984837"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 18:43:42 -0700
+X-CSE-ConnectionGUID: PBe+GUtoQuSE8SgOsZMK8A==
+X-CSE-MsgGUID: 3kbmLFRPQKCWlHHBvE7tCA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,179,1719903600"; 
+   d="scan'208";a="63427701"
+Received: from anmitta2-mobl4.gar.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.118.39])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 18:43:39 -0700
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: broonie@kernel.org,
+	tiwai@suse.de
+Cc: linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	bard.liao@intel.com,
+	peter.ujfalusi@linux.intel.com
+Subject: [PATCH 00/16] ASoC: Intel: boards: updates for 6.12
+Date: Tue, 27 Aug 2024 09:43:12 +0800
+Message-ID: <20240827014329.6542-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TY3PR01MB11369:EE_
-X-MS-Office365-Filtering-Correlation-Id: f88d6fed-e7ec-4d31-22a4-08dcc62d300e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|52116014|7416014|376014|366016|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?ukEwedCF9ZCnbua4L7KJNsJMfo875WD8V8lKC+CbTs+J8nXZGplLjnE1XjYg?=
- =?us-ascii?Q?IjYaPArT5gyHaAsSZ4dbC1IRhyugT6ikYjRT2QnQzmF1dRDkYTfEwfy0vdMl?=
- =?us-ascii?Q?Y2yhBNzlQgQJfSGvt67X+8TMyJj8BX728RsOX6VusynhlhDiK2YnrMbI5KzC?=
- =?us-ascii?Q?k2z+QSce9taYt1dOwBZa6mXOg7swGyUx1mYdwIcyYKQYApeAj6NP8Ymnp1rj?=
- =?us-ascii?Q?tRRkLw0sIGiXHD4+s/Cmfz4OQ1wcw46X7z5gcMixtp1vcE7HuQZO3pwQiZFO?=
- =?us-ascii?Q?BKzbkpF65iTHpdyGTIdwZ/5UUlnOr26tM8jxXEotsplO3++MAFzgdCuLJFby?=
- =?us-ascii?Q?64IVhsA0zFX2KmNcUoCkoln0bPcmO854QpyNLCniu8kTms4XrHTYTv+rMpki?=
- =?us-ascii?Q?RP8S19lCQNMtLWoJFNHVCHtm1PLvgHMODjTNVGic2kVBpz+7oxTh/y824K87?=
- =?us-ascii?Q?pgF8Cp5NQWdYYj+tjC1pgaX7BQHMbBXa1gT/fhm2hXEvWcAPTWD7k3Dg2sg3?=
- =?us-ascii?Q?3AHW7jc1sQXDtdv38Wje4QCIP0cl3v8i7+hmUZXD61NTuq2T+1mEUaS2FJzQ?=
- =?us-ascii?Q?l+s0gOHFsmnOezMl8Dk3+KLTBTGTaUcJPTXkgbwYw4LDbpjFBp+WVECtdzAC?=
- =?us-ascii?Q?4zCkYi9qUzSaplQPCHWa2hMPenyXnkrtFXlOVSSmxjC/2CVOBVRXwf4JMPWS?=
- =?us-ascii?Q?jp2Dujei/6PhcZrsxNphbXjfuMG/4SrEbJQOadulGFYBghkfBIKosuY7JplI?=
- =?us-ascii?Q?Y0BzIE0In54poxiUFvvVeZeVh/HTM9yB1h11gS72vvyy5AWYhYYIrE5fRSg4?=
- =?us-ascii?Q?LP7/UazKYSPdu+BOsi+fD+hVtbYyhfF3FZwInxIsLsaRtKgnHycTRlVHNgLa?=
- =?us-ascii?Q?ASsYU1qeOlJwWJNiUKmweFGAX7BH3kjGw54OmeWGHOZxKFVkIfcJpGJomuZz?=
- =?us-ascii?Q?0Z3cVgca49oarT0zWKAY8jQ4th3slCeIHXbk9H6IU2/J7PhBYL0IEgBhxN3c?=
- =?us-ascii?Q?0L0ILVawR5booMyfZ96T3O23fbPtZNFRBYyoaqUo0+XkpirUjtLHNwaWu21V?=
- =?us-ascii?Q?Amdw4tfK00J2eleRoPwm0P/HbhnMfVLCn5T59qLTa9Hv39yN5DILs2v+QHk1?=
- =?us-ascii?Q?/fEO8OQRArI7BZxfGL1zILBJF4HIEPlSpnDCVNiPoFwgYMc9feDkYiorstVG?=
- =?us-ascii?Q?EKUvJKHVYkJp73bsK+wH8Ixtj8tSG0JfYJ6On+RsLRbDFV56zp2LYo+C7WuQ?=
- =?us-ascii?Q?KyYbMpPlRCmokDq6xuZuO8PE47J5LOLdvobOqppp6ZHFDUD1EF3/wSxQg/v/?=
- =?us-ascii?Q?SSkM5chyqu95UHLlr6CXxE/HbXHl+kYL5cC31nIJMZAZQSXTJAVLt+8y6SoZ?=
- =?us-ascii?Q?lnpEGpYHyq65uVQJ+CjokD84xJH/uLKcV4EOaZkCJdqHrA1Z2w=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(7416014)(376014)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?tadecjq1OCDnnWaUpWizHXqxNB79N37RCAKfH6CvokYZUibgMKb4R6fy5rcs?=
- =?us-ascii?Q?1uvlmvSyHd6j76/zxWu0IDmRpK3M17d7cWbyqyUql9Ma+MdQrZNx9/NKhzyq?=
- =?us-ascii?Q?OzUFeVIqXamdWHob+f0GBneqqaKjJaCovxXFnwJ2sPeiLl2pQ+vZJ53UWuZA?=
- =?us-ascii?Q?tWBCI5CFpAab7hIMQF9Py13SSRfpMtqlD8QVGuxtLF7fQIKYNQwf1QD2IjUl?=
- =?us-ascii?Q?5W6hlRqRMbtw/Ntt+p+TsRwK507WBrY3QUGs7Wk+qVu0F9PY8EojuUUNYyUX?=
- =?us-ascii?Q?pQQIvinGKcm+l3Leb5YJu6DaIRBIMZAr5Hvugyv2vcptsndb7pzlMeuL4RlI?=
- =?us-ascii?Q?4cAbHF8V3eoM6nGNRaGAHUVV3pTdIV6L5M+FbEf+MBe4JC+6jbFP0B+FH5qF?=
- =?us-ascii?Q?Qlc/neDKs8g9+H/4yaq+ezR0ZuxHoY5wsezR7K+sP98zT+kobRSEdVNtFkYv?=
- =?us-ascii?Q?ZBHj86lSM5Kb1bLKnmwIcsy9ecbQ7NAop7TyHu7fH5jOPs2kYYPLtwEEE2os?=
- =?us-ascii?Q?5GlkJfEC6a7xhvmeWd3ygBDRGcjF3xVpBTym9zIkxnUP73bUsk6tJKw2mDii?=
- =?us-ascii?Q?jtBASPW/D9U7rTgdk95pkG99h23/yI31Q7jf5NxFERYjqSiWn7uNtpQGPq1h?=
- =?us-ascii?Q?hhvKOct9Nuf7ktaVKedSVle9if3FxkUxN9kX2CAAVjiz83HJELL+WY3k3E41?=
- =?us-ascii?Q?OANFqoXq2EM2s9A0KDGhH1BYrZqcL4tNyaJlTUWfa/ZYq2LB+6DXKmgX1Fhx?=
- =?us-ascii?Q?wO1zPybVr4L3dCy6RO7ADWv02RZU+0mZqnHKV6XmwJCrMfX1B/pqXDxeJTgZ?=
- =?us-ascii?Q?EpppYgbEiu/PBcikMT7ed4Us3nknuiJySJxih8Lr+DfsgkRMv8dv9sfyaEYU?=
- =?us-ascii?Q?lBC++9n55PT/l1nb622+Vkf9du0paai3E92KSc1CqpneMdQylFhO3cs19qiU?=
- =?us-ascii?Q?5YLDYDE/RRFX7TKwNbZP1DOnV3RwxYrrH2nnH5i9bcYYCecIcKDloNJXXbSc?=
- =?us-ascii?Q?8fADdae94Y/dWxf13BY74cqM6JFG1yXPSXiqkzitUQl+a2OGJ22YVLcG3zaF?=
- =?us-ascii?Q?Z7ss9ndVtKHrIZKG/6za6wBeI0Z22C9oelU1fX13r647/syrH/fhMIVXCaT9?=
- =?us-ascii?Q?PveDWR/3db7f7gYtD5xVEZXOd8Oc9t0vEH9z67zOwmssOXrF0NhVYrgv6Q9p?=
- =?us-ascii?Q?ds4TO8AuH/pr/sAmQX69HY1i5rALH0QvdsbXsfjc2M3fLzBg168KrKSS74z9?=
- =?us-ascii?Q?KnjYvthQTCmo4tbsHpEYPdoLa/l6b50OHNT4LTkklwfsKecY2907pW3tsBPZ?=
- =?us-ascii?Q?wKU5yKm0IOJLCPOCQvV9PYKjhhXqhvD3IZnJRtxuwEXuLUCpXzNBwPHsqAU0?=
- =?us-ascii?Q?EZRMgvTEhcSUh4WPLbcQooXhjkHLQD1QNvhsMD5uuo4o+HEHi1ygbVMmgVE1?=
- =?us-ascii?Q?RAWknCEbV/zvHeBObBlIJS6Viq/Gz+ODSKCfrPs9WB/YK/lOgN5HZbMNJjLV?=
- =?us-ascii?Q?xOwiE5TZBzjNWRsaVsgfBKAI2WlpzuGsHhNnLsrKAX/0gm3Crq3akvbRzWQ6?=
- =?us-ascii?Q?AU5OLQOpTzQgP+AnGJVRH0ls9lQ3LrBloYv3IiUDjq8aQ/8MfLc9mIQrTGdq?=
- =?us-ascii?Q?tcwgH4WPTHxI4ZzDhhWqNOo=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f88d6fed-e7ec-4d31-22a4-08dcc62d300e
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2024 00:14:16.4533
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XthM9pfiEHdEPmepcrJ9IT90qP75BIgTMbOLTXADPU8TzaDCK2ZkLF9lYXEarJReb/LZCB2HJYKji1MOSKj9Lfh0/7pbyuWdPsRlKCeoGdeaOw/DN5LjN5EfI7CDHOST
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB11369
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Some simplifications from Brent Lu for Chromebooks, a new SoundWire codec
+support from Bard Liao, new cs42l43 match entries support from
+Charles Keepax, Add quirks from some new Dell laptops from Maciej
+Strozek, some ACPI match entries from Balamurugan C, and few bug
+fixes from Pierre-Louis Bossart.
 
-Hi Rob
+Balamurugan C (2):
+  ASoC: Intel: soc-acpi: Add entry for sof_es8336 in ARL match table.
+  ASoC: Intel: soc-acpi: Add entry for HDMI_In capture support in ARL
+    match table
 
-> > We already have of_graph_get_next_endpoint(), but it is not
-> > intuitive to use in some case.
-> 
-> Can of_graph_get_next_endpoint() users be replaced with your new 
-> helpers? I'd really like to get rid of the 3 remaining users.
+Bard Liao (4):
+  ASoC: Intel: sof_sdw: add rt1320 amp support
+  ASoC: SOF: Intel: hda: refactoring topology name fixup for HDA mach
+  ASoC: Intel: sof_sdw: move ignore_internal_dmic check earlier
+  ASoC: Intel: sof_sdw: overwrite mach_params->dmic_num
 
-Hmm...
-of_graph_get_next_endpoint() will fetch "endpoint" beyond the "port",
-but new helper doesn't have such feature.
-Even though I try to replace it with new helper, I guess it will be
-almost same as current of_graph_get_next_endpoint() anyway.
+Brent Lu (4):
+  ASoC: SOF: Intel: hda: refactoring topology name fixup for SDW mach
+  ASoC: Intel: skl_hda_dsp_generic: support BT audio offload
+  ASoC: Intel: skl_hda_dsp_generic: remove hdac-hdmi support
+  ASoC: Intel: skl_hda_dsp_generic: use sof_hdmi_private to init HDMI
 
-Alternative idea is...
-One of the big user of of_graph_get_next_endpoint() is
-for_each_endpoint_of_node() loop.
+Charles Keepax (3):
+  ASoC: Intel: soc-acpi: arl: Add match entries for new cs42l43 laptops
+  ASoC: Intel: soc-acpi: adl: Add match entries for new cs42l43 laptops
+  ASoC: Intel: soc-acpi: lnl: Add match entries for new cs42l43 laptops
 
-So we can replace it to..
+Maciej Strozek (1):
+  ASoC: Intel: sof_sdw: Add quirks from some new Dell laptops
 
--	for_each_endpoint_of_node(parent, endpoint) {
-+	for_each_of_graph_port(parent, port) {
-+		for_each_of_graph_port_endpoint(port, endpoint) {
+Pierre-Louis Bossart (2):
+  ASoC: Intel: sof_sdw: make sof_sdw_quirk static
+  ASoC: Intel: boards: always check the result of
+    acpi_dev_get_first_match_dev()
 
-Above is possible, but it replaces single loop to multi loops.
+ sound/soc/intel/boards/Kconfig                |   2 +-
+ sound/soc/intel/boards/bytcht_cx2072x.c       |   4 +
+ sound/soc/intel/boards/bytcht_da7213.c        |   4 +
+ sound/soc/intel/boards/bytcht_es8316.c        |   2 +-
+ sound/soc/intel/boards/bytcr_rt5640.c         |   2 +-
+ sound/soc/intel/boards/bytcr_rt5651.c         |   2 +-
+ sound/soc/intel/boards/cht_bsw_rt5645.c       |   4 +
+ sound/soc/intel/boards/cht_bsw_rt5672.c       |   4 +
+ sound/soc/intel/boards/skl_hda_dsp_common.c   |  56 ++--
+ sound/soc/intel/boards/skl_hda_dsp_common.h   |  39 +--
+ sound/soc/intel/boards/skl_hda_dsp_generic.c  |  58 +++--
+ sound/soc/intel/boards/sof_es8336.c           |  12 +-
+ sound/soc/intel/boards/sof_sdw.c              |  85 +++++-
+ sound/soc/intel/boards/sof_sdw_common.h       |   2 -
+ sound/soc/intel/boards/sof_wm8804.c           |   4 +
+ .../intel/common/soc-acpi-intel-adl-match.c   | 105 ++++++++
+ .../intel/common/soc-acpi-intel-arl-match.c   | 244 +++++++++++++++++
+ .../intel/common/soc-acpi-intel-hda-match.c   |  12 +-
+ .../intel/common/soc-acpi-intel-lnl-match.c   | 104 ++++++++
+ sound/soc/sdw_utils/soc_sdw_rt_amp.c          |  11 +-
+ sound/soc/sdw_utils/soc_sdw_utils.c           |  19 ++
+ sound/soc/sof/intel/hda.c                     | 246 +++++++-----------
+ 22 files changed, 747 insertions(+), 274 deletions(-)
 
-And, we still need to consider about of_fwnode_graph_get_next_endpoint()
-which is the last user of of_graph_get_next_endpoint()
+-- 
+2.43.0
 
-> > +struct device_node *of_graph_get_next_port_endpoint(const struct device_node *port,
-> > +						    struct device_node *prev)
-> > +{
-> > +	do {
-> > +		prev = of_get_next_child(port, prev);
-> > +		if (!prev)
-> > +			break;
-> > +	} while (!of_node_name_eq(prev, "endpoint"));
-> 
-> Really, this check is validation as no other name is valid in a 
-> port node. The kernel is not responsible for validation, but okay. 
-> However, if we are going to keep this, might as well make it WARN().
-
-OK, will do in v4
-
-> > +/**
-> > + * for_each_of_graph_port_endpoint - iterate over every endpoint in a port node
-> > + * @parent: parent port node
-> > + * @child: loop variable pointing to the current endpoint node
-> > + *
-> > + * When breaking out of the loop, of_node_put(child) has to be called manually.
-> 
-> No need for this requirement anymore. Use cleanup.h so this is 
-> automatic.
-
-Do you mean it should include __free() inside this loop, like _scoped() ?
-
-#define for_each_child_of_node_scoped(parent, child) \
-	for (struct device_node *child __free(device_node) =		\
-	     of_get_next_child(parent, NULL);				\
-	     child != NULL;						\
-	     child = of_get_next_child(parent, child))
-
-In such case, I wonder does it need to have _scoped() in loop name ?
-And in such case, I think we want to have non _scoped() loop too ?
-For example, when user want to use the param.
-
-	for_each_of_graph_port_endpoint(port, endpoint)
-		if (xxx == yyy)
-			return endpoint;
-
-	for_each_of_graph_port_endpoint_scoped(port, endpoint)
-		if (xxx == yyy)
-			return of_node_get(endpoint)
-
-
-Thank you for your help !!
-
-Best regards
----
-Kuninori Morimoto
