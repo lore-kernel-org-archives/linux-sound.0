@@ -1,116 +1,121 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25EDA1A38CE;
-	Wed, 28 Aug 2024 16:11:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 705FD44C68;
+	Wed, 28 Aug 2024 16:29:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724861480; cv=none; b=WaqPQ2ZkwQp+QnmxRbCw3vd5pD/bYBklaCHRxrme1eDXSynJr6dcq+/1gtPvnZLVnr/8j8HkdcgOF9+sjtQIMdnhlUtF4QuL0E1GPOrfyyJxZNgxTCLlsgd5dwQiPdY1nX1IiStIoHyEkzcl9UEgnN1iWzcn8BLJbIBf8AV9p1M=
+	t=1724862596; cv=none; b=bQVjbP+xB/R8UPiR4EcjlIG3wT108tBRU+8optk7CAHGMXTEVSDXtp0jVKcL13Aef0LXicTkKqDSB5AJuJbLu6Z+xIBGkAWN0ymX89kuZ0+2xRbQLGVjhdzBcE5Mz0IGx8w67BEQ8FrVuSWpA0dy3JO2YDu0wv8eBAu2ZjM6CqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724861480; c=relaxed/simple;
-	bh=Zbmal+2mF51IQI1fwlMilHXGLGrm5KE6MZAEPnc2M7s=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pYSi5yT47ojkm0WLduoAOVnHp68Sv4/JOdp5H/JysHTYBThnitiXYW1tPkgOFQMykSiE17ZMo0hCrfGnrQXoCfmxRy2qR6MtwwxCgh0rgWnjCUEbJpBFQgEZxSWt0FtkP4O+ucNhEI+EtXcozdSpxpiOAjFwJkM2zLSbKbVA6A0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=OmFhCKcD; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1724862596; c=relaxed/simple;
+	bh=heMEFFxgFnO2TTBcSgnerIm3y6uCUk6NyKGxrB/IYn8=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=JCpCOD9yaJmal2fRTnMjAx4eAdUE3ww8XtGIE6D/gck/WN/HFpZTqffwj1o711KnbafrT0/DvwgyCFxyv/RpKvMniMTNYPzI1psNn2EHzWMUPSiWQsVnnetcybf8LeQFFMTSp6KHkKS5lgOVKKJBs6WAn/Grjc4bhR966fdTyY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kfsBCMZ6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="OmFhCKcD"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47SEIXHD003698;
-	Wed, 28 Aug 2024 11:11:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=tgSo/BhDlyBHAY9S7i
-	VFFPRb0AmymEAZuiIy2mOqR7w=; b=OmFhCKcDWwMqTue+kH/aAd0oDFB241vfu7
-	UkZ+Yx+Qs37nW/1YGN1xeYHfUDYZCAxNrM0t4WuydzMuJMNRwUKbzvoFZzR0cjeR
-	0hhsoGrccuk8Mv3slVxoJ20PRfZJlB6WXa2o96V3eJ4lvelSsDtPOIP36cj1rF2F
-	E4/RJzuuFVko8xFoTsSK1XJSuMNSZmK56CvDGF1BvUXAD3maYxfEDtPdkIUeZtL+
-	7b3SM8SbAOz6V2DQGXCMQ8qHy1BoOhOQ6/l5dU59oC6cVQUhBJVG7v3ITTIdPQ3J
-	qPhvvxnthDGThVV8fkfc6KEbScU2F8NqAoepjj5GDAAaPQiJ7CBA==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 419puw10qb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 28 Aug 2024 11:11:13 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 28 Aug
- 2024 17:11:12 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Wed, 28 Aug 2024 17:11:12 +0100
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id EA5E3820244;
-	Wed, 28 Aug 2024 16:11:11 +0000 (UTC)
-Date: Wed, 28 Aug 2024 17:11:10 +0100
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-CC: Thomas Gleixner <tglx@linutronix.de>, Yan Zhen <yanzhen@vivo.com>,
-        <linus.walleij@linaro.org>, <linux-sound@vger.kernel.org>,
-        <patches@opensource.cirrus.com>, <linux-kernel@vger.kernel.org>,
-        <linux-gpio@vger.kernel.org>, <opensource.kernel@vivo.com>
-Subject: Re: [PATCH v1] cirrus: Simplify with dev_err_probe()
-Message-ID: <Zs9MHv+ljZUMfTqj@opensource.cirrus.com>
-References: <20240828120118.1284420-1-yanzhen@vivo.com>
- <Zs8XlyXw421hHjM/@opensource.cirrus.com>
- <8734mod7qi.ffs@tglx>
- <9b5a3025-3e78-44b9-98f5-c945a6ac48d7@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kfsBCMZ6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E9E0C4FEA2;
+	Wed, 28 Aug 2024 16:29:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724862595;
+	bh=heMEFFxgFnO2TTBcSgnerIm3y6uCUk6NyKGxrB/IYn8=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=kfsBCMZ6iC/51f34BX86sfPqUAEINT3MLKTcwsVdo/V1cRz/kJoinjaAyUkx8k0j1
+	 jXgmNC+QBBdTZNU+XXMqCN8PNH90d7/4ZdItm08Yviv89qFo5Qiq8VU3TzamWijLLU
+	 OEAaIPEgQmqLpD1GYVWycegLbMGW2mw7nhVocRUx2D9pLbPbKiKI92hVC+TCrtzlIr
+	 hA5QtGdwuDDT0/1OhksgAVfrV5xLRk5Nmq8SD19FKkIWtBk8sYJ5nlHqRX3D5PeKT4
+	 2zlGNf1D9tDEjvNtRYZhUhw4S7W8zFFp7UF2EAih0dWVwYNVH6YbS2N5T0UqrhqfX1
+	 fAgSoM+Xr5Zlg==
+From: Mark Brown <broonie@kernel.org>
+To: =?utf-8?q?Amadeusz_S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Alper Nebi Yasak <alpernebiyasak@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Banajit Goswami <bgoswami@quicinc.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, Brent Lu <brent.lu@intel.com>, 
+ Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, Hans de Goede <hdegoede@redhat.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Jiawei Wang <me@jwang.link>, Jonathan Corbet <corbet@lwn.net>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Maso Huang <maso.huang@mediatek.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
+ Shengjiu Wang <shengjiu.wang@gmail.com>, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, 
+ Vinod Koul <vkoul@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>, 
+ alsa-devel@alsa-project.org, imx@lists.linux.dev, linux-doc@vger.kernel.org, 
+ linux-sound@vger.kernel.org, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87bk4oqerx.wl-kuninori.morimoto.gx@renesas.com>
+References: <87bk4oqerx.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH v5 0/4] ASoC: grace time for DPCM cleanup
+Message-Id: <172486258823.92851.2758535753129650442.b4-ty@kernel.org>
+Date: Wed, 28 Aug 2024 17:29:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <9b5a3025-3e78-44b9-98f5-c945a6ac48d7@opensource.cirrus.com>
-X-Proofpoint-GUID: mrkUOa25MLT7NtseVb9IZkBapcu6plf3
-X-Proofpoint-ORIG-GUID: mrkUOa25MLT7NtseVb9IZkBapcu6plf3
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-37811
 
-On Wed, Aug 28, 2024 at 03:59:50PM +0100, Richard Fitzgerald wrote:
-> On 28/08/2024 15:47, Thomas Gleixner wrote:
-> > On Wed, Aug 28 2024 at 13:27, Charles Keepax wrote:
-> > > On Wed, Aug 28, 2024 at 08:01:18PM +0800, Yan Zhen wrote:
-> > > > @@ -1064,10 +1064,9 @@ static int madera_pin_probe(struct platform_device *pdev)
-> > > >   		ret = pinctrl_register_mappings(pdata->gpio_configs,
-> > > >   						pdata->n_gpio_configs);
-> > > >   		if (ret) {
-> > > > -			dev_err(priv->dev,
-> > > > -				"Failed to register pdata mappings (%d)\n",
-> > > > -				ret);
-> > > > -			return ret;
-> > > > +			return dev_err_probe(priv->dev, ret,
-> > > > +						"Failed to register pdata mappings (%d)\n",
-> > > > +						ret);
-> > > >   		}
-> > > 
-> > > Since we are doing a respin anyway also the brackets on the if
-> > > should be dropped on both of these as well.
-> > 
-> > No. https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#bracket-rules
-> > 
+On Thu, 30 May 2024 01:17:39 +0000, Kuninori Morimoto wrote:
+> Cc each ASoC driver maintainer
 > 
-> https://www.kernel.org/doc/html/latest/process/coding-style.html#codingstyle
+> This is v5 of DPCM cleanup
 > 
-> does not say that. It says:
+> As we discussed in [1], we don't need to use dpcm_playback/capture flag,
+> so we remove it. But we have been using it for 10 years, some driver might
+> get damage. The most likely case is that the device/driver can use both
+> playback/capture, but have only one flag, and not using xxx_only flag.
+> [1/3] patch indicates warning in such case.
 > 
-> "Do not unnecessarily use braces where a single statement will do."
-> 
-> Note: single statement, not single line.
-> 
-> coding-style.rst is the coding style. If you disagree with the coding
-> style, send a patch to change coding-style.rst.
-> 
+> [...]
 
-I mean certainly having two documents with apparently conflicting
-guidelines for the coding style is not a helpful situation at
-all. I would definitely second the call for patching the
-coding-style doc to be more explicit there.
+Applied to
 
-And to be clear I really don't care if we keep the brackets or
-not, was just trying to follow what I thought was the coding style
-guidance.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/4] ASoC: soc-pcm: Indicate warning if dpcm_playback/capture were used for availability limition
+      commit: fd69dfe6789f4ed46d1fdb52e223cff83946d997
+[2/4] ASoC: remove snd_soc_dai_link_set_capabilities()
+      commit: 12806510481497a01d01edd64d7bb53a4d9ec28d
+[3/4] ASoC: amlogic: do not use dpcm_playback/capture flags
+      commit: 46fb727a28d8c7195f915150a669d927d463069b
+[4/4] ASoC: Intel: sof_sdw: use playback/capture_only flags
+      commit: 61e1f74f739546415570ccc1ac14e1b26afe4705
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
 Thanks,
-Charles
+Mark
+
