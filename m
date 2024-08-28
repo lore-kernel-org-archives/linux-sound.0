@@ -1,199 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 277AD18B476;
-	Wed, 28 Aug 2024 15:58:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25EDA1A38CE;
+	Wed, 28 Aug 2024 16:11:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724860716; cv=none; b=ABFZ0ehDkKExwSfrgCLU4Lfa1AgvHCIhU9CSGLwL41ypthHn1HclpQW0U2Szh/XSTjfoM8u2X6znTJ9EZcWfx1eaW7D08cTjGwgtofH+HqjRyakqcgynL/2b/iyEUeo/tuyMJ1E2Ru4dqUXbqNG0iPcphZOvtG89gopNT5t59U8=
+	t=1724861480; cv=none; b=WaqPQ2ZkwQp+QnmxRbCw3vd5pD/bYBklaCHRxrme1eDXSynJr6dcq+/1gtPvnZLVnr/8j8HkdcgOF9+sjtQIMdnhlUtF4QuL0E1GPOrfyyJxZNgxTCLlsgd5dwQiPdY1nX1IiStIoHyEkzcl9UEgnN1iWzcn8BLJbIBf8AV9p1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724860716; c=relaxed/simple;
-	bh=XdjC91Lt3XJxHvLh+y47Pss4OsMPf+tF9sMWhe03EIU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SQJukIbp0aFCZuEHIWoCTTolx8+OXIJ4J4mLiQ3n1v0v1a1okH/hZZv5TCksqhA/K9DCCUXGgi8N7jbhUX16kWEA26zgYAAHirQ3sI+j1pQU+HvuCavoUjbE/JOIxbOttAGDMMs21riX6kGi9kNt8qhyJe9/kwYD+oMgb0dIdpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L8MaFBnb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724861480; c=relaxed/simple;
+	bh=Zbmal+2mF51IQI1fwlMilHXGLGrm5KE6MZAEPnc2M7s=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pYSi5yT47ojkm0WLduoAOVnHp68Sv4/JOdp5H/JysHTYBThnitiXYW1tPkgOFQMykSiE17ZMo0hCrfGnrQXoCfmxRy2qR6MtwwxCgh0rgWnjCUEbJpBFQgEZxSWt0FtkP4O+ucNhEI+EtXcozdSpxpiOAjFwJkM2zLSbKbVA6A0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=OmFhCKcD; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L8MaFBnb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4779C4CEC1;
-	Wed, 28 Aug 2024 15:58:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724860716;
-	bh=XdjC91Lt3XJxHvLh+y47Pss4OsMPf+tF9sMWhe03EIU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=L8MaFBnbfsyTJ/nlzKyRysQ40Mfk/I3h4NFS5xldhOupNh2iGTLkiTO6XnIW84CKV
-	 f7yjL+cmvQoquZQKc/dm+8jLZP6p0V+nyTJzT3N3T2yPnA0EGspa+hIX60oVV26JoS
-	 bJIreCWDph8NwfjcQXBI3/0kcTLnA65pCC3yu/zLfnjf/eRqVoGJ4kPfrkavtR96d8
-	 lVMwn3jvjeBaMWcQOBFCe4kmGqnh85F9xF1lcxeZ+pleYsdmFqM5MYri23NF6ZOxnM
-	 /qaFP8k4C/nG9wLlJPtFuBY2KyiS3Bi42WcVvXx5430ZPLblMig7O1ntJhi4Y05xDH
-	 TYHORAxGNuL/g==
-Date: Wed, 28 Aug 2024 16:58:31 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Lukasz Majewski <lukma@denx.de>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Fabio Estevam <festevam@gmail.com>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ASoC: dt-bindings: Convert mxs-saif.txt to
- fsl,saif.yaml (imx28 saif)
-Message-ID: <20240828-debrief-handpick-a4a81b6d8c13@spud>
-References: <20240828091139.2621158-1-lukma@denx.de>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="OmFhCKcD"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47SEIXHD003698;
+	Wed, 28 Aug 2024 11:11:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=tgSo/BhDlyBHAY9S7i
+	VFFPRb0AmymEAZuiIy2mOqR7w=; b=OmFhCKcDWwMqTue+kH/aAd0oDFB241vfu7
+	UkZ+Yx+Qs37nW/1YGN1xeYHfUDYZCAxNrM0t4WuydzMuJMNRwUKbzvoFZzR0cjeR
+	0hhsoGrccuk8Mv3slVxoJ20PRfZJlB6WXa2o96V3eJ4lvelSsDtPOIP36cj1rF2F
+	E4/RJzuuFVko8xFoTsSK1XJSuMNSZmK56CvDGF1BvUXAD3maYxfEDtPdkIUeZtL+
+	7b3SM8SbAOz6V2DQGXCMQ8qHy1BoOhOQ6/l5dU59oC6cVQUhBJVG7v3ITTIdPQ3J
+	qPhvvxnthDGThVV8fkfc6KEbScU2F8NqAoepjj5GDAAaPQiJ7CBA==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 419puw10qb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 28 Aug 2024 11:11:13 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 28 Aug
+ 2024 17:11:12 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Wed, 28 Aug 2024 17:11:12 +0100
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id EA5E3820244;
+	Wed, 28 Aug 2024 16:11:11 +0000 (UTC)
+Date: Wed, 28 Aug 2024 17:11:10 +0100
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+CC: Thomas Gleixner <tglx@linutronix.de>, Yan Zhen <yanzhen@vivo.com>,
+        <linus.walleij@linaro.org>, <linux-sound@vger.kernel.org>,
+        <patches@opensource.cirrus.com>, <linux-kernel@vger.kernel.org>,
+        <linux-gpio@vger.kernel.org>, <opensource.kernel@vivo.com>
+Subject: Re: [PATCH v1] cirrus: Simplify with dev_err_probe()
+Message-ID: <Zs9MHv+ljZUMfTqj@opensource.cirrus.com>
+References: <20240828120118.1284420-1-yanzhen@vivo.com>
+ <Zs8XlyXw421hHjM/@opensource.cirrus.com>
+ <8734mod7qi.ffs@tglx>
+ <9b5a3025-3e78-44b9-98f5-c945a6ac48d7@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="brnKUZxUC0HIoVWI"
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20240828091139.2621158-1-lukma@denx.de>
+In-Reply-To: <9b5a3025-3e78-44b9-98f5-c945a6ac48d7@opensource.cirrus.com>
+X-Proofpoint-GUID: mrkUOa25MLT7NtseVb9IZkBapcu6plf3
+X-Proofpoint-ORIG-GUID: mrkUOa25MLT7NtseVb9IZkBapcu6plf3
+X-Proofpoint-Spam-Reason: safe
 
+On Wed, Aug 28, 2024 at 03:59:50PM +0100, Richard Fitzgerald wrote:
+> On 28/08/2024 15:47, Thomas Gleixner wrote:
+> > On Wed, Aug 28 2024 at 13:27, Charles Keepax wrote:
+> > > On Wed, Aug 28, 2024 at 08:01:18PM +0800, Yan Zhen wrote:
+> > > > @@ -1064,10 +1064,9 @@ static int madera_pin_probe(struct platform_device *pdev)
+> > > >   		ret = pinctrl_register_mappings(pdata->gpio_configs,
+> > > >   						pdata->n_gpio_configs);
+> > > >   		if (ret) {
+> > > > -			dev_err(priv->dev,
+> > > > -				"Failed to register pdata mappings (%d)\n",
+> > > > -				ret);
+> > > > -			return ret;
+> > > > +			return dev_err_probe(priv->dev, ret,
+> > > > +						"Failed to register pdata mappings (%d)\n",
+> > > > +						ret);
+> > > >   		}
+> > > 
+> > > Since we are doing a respin anyway also the brackets on the if
+> > > should be dropped on both of these as well.
+> > 
+> > No. https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#bracket-rules
+> > 
+> 
+> https://www.kernel.org/doc/html/latest/process/coding-style.html#codingstyle
+> 
+> does not say that. It says:
+> 
+> "Do not unnecessarily use braces where a single statement will do."
+> 
+> Note: single statement, not single line.
+> 
+> coding-style.rst is the coding style. If you disagree with the coding
+> style, send a patch to change coding-style.rst.
+> 
 
---brnKUZxUC0HIoVWI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I mean certainly having two documents with apparently conflicting
+guidelines for the coding style is not a helpful situation at
+all. I would definitely second the call for patching the
+coding-style doc to be more explicit there.
 
-On Wed, Aug 28, 2024 at 11:11:39AM +0200, Lukasz Majewski wrote:
-> The 'fsl,imx28-saif' compatible has already the mxs-saif.txt description.
-> This patch converts (and removes it) this file to fsl,saif.yaml (to follow
-> current fsl convention).
->=20
-> Changes for the mxs-saif.txt:
-> - Adds 'clocks' and '#sound-dai-cells' properties
-> - Provide device description
->=20
-> Signed-off-by: Lukasz Majewski <lukma@denx.de>
->=20
-> ---
-> Changes for v2:
-> - Remove mxs-saif.txt
-> - Add description with information about extensions required for this
->   device's current DTS description
-> ---
->  .../devicetree/bindings/sound/fsl,saif.yaml   | 78 +++++++++++++++++++
->  .../devicetree/bindings/sound/mxs-saif.txt    | 41 ----------
->  2 files changed, 78 insertions(+), 41 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/sound/fsl,saif.yaml
->  delete mode 100644 Documentation/devicetree/bindings/sound/mxs-saif.txt
->=20
-> diff --git a/Documentation/devicetree/bindings/sound/fsl,saif.yaml b/Docu=
-mentation/devicetree/bindings/sound/fsl,saif.yaml
-> new file mode 100644
-> index 000000000000..cc78a95e0391
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/fsl,saif.yaml
-
-Filename matching the compatible please.
-
-> @@ -0,0 +1,78 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/fsl,saif.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Freescale MXS Serial Audio Interface (SAIF)
-> +
-> +maintainers:
-> +  - Lukasz Majewski <lukma@denx.de>
-> +
-> +allOf:
-> +  - $ref: dai-common.yaml#
-> +
-> +description:
-> +  The SAIF is based on I2S module that is used to communicate with audio=
- codecs,
-> +  but only with half-duplex manner (i.e. it can either transmit or recei=
-ve PCM
-> +  audio).
-> +
-> +properties:
-> +  compatible:
-> +    const: fsl,imx28-saif
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  "#sound-dai-cells":
-> +    const: 0
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  dmas:
-> +    maxItems: 1
-> +
-> +  dma-names:
-> +    const: rx-tx
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  fsl,saif-master:
-> +    description: Indicate that saif is a slave and its phandle points to=
- master
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - "#sound-dai-cells"
-> +  - interrupts
-> +  - dmas
-> +  - dma-names
-> +  - clocks
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    saif0: saif@80042000 {
-
-The label here isn't needed, as you've got no references to it that use
-them, because the leading - before examples make them independent and
-thus the &saif0 in the second one is just a made up phandle when the
-example is compiled by the test infrastructure (like the &clks is).
-Either drop the - | from the second one, or drop the first example
-entirely.
-
-
-> +        compatible =3D "fsl,imx28-saif";
-> +        reg =3D <0x80042000 2000>;
-> +        #sound-dai-cells =3D <0>;
-> +        interrupts =3D <59>;
-> +        dmas =3D <&dma_apbx 4>;
-> +        dma-names =3D "rx-tx";
-> +        clocks =3D <&clks 53>;
-> +    };
-> +  - |
-> +    saif1: saif@80046000 {
-
-While you're at it, this saif1 label isn't used.
+And to be clear I really don't care if we keep the brackets or
+not, was just trying to follow what I thought was the coding style
+guidance.
 
 Thanks,
-Conor.
-
-> +        compatible =3D "fsl,imx28-saif";
-> +        reg =3D <0x80046000 2000>;
-> +        #sound-dai-cells =3D <0>;
-> +        interrupts =3D <58>;
-> +        dmas =3D <&dma_apbx 5>;
-> +        dma-names =3D "rx-tx";
-> +        clocks =3D <&clks 53>;
-> +        fsl,saif-master =3D <&saif0>;
-> +    };
-
---brnKUZxUC0HIoVWI
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZs9JJwAKCRB4tDGHoIJi
-0rQkAQCWugiMG8a6AGkq0NbZ0r1r/tA/63laf8eibEF+x/O1ngD/QeFJqkg5yWVK
-czTl+C9CuW4nPUFiLyw3+ZxBfAOdBAM=
-=qM/5
------END PGP SIGNATURE-----
-
---brnKUZxUC0HIoVWI--
+Charles
