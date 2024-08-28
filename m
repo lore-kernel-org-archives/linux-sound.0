@@ -1,36 +1,36 @@
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D7E15C13D;
-	Wed, 28 Aug 2024 09:12:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F06315B984;
+	Wed, 28 Aug 2024 09:27:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724836330; cv=none; b=JW4Hrn9EsvY7IGBZkp1Sb3meLaJ4XvhsArf9vQwJ3JmV5cjSpKKmzij7hvoczTI8xYMDM7SymyOuwdBizU2+0/g+nNqARxSbPSdcs5pj9phRdL/oqv7/9Tqwe+bnM/2nJZMX0ue3pMYLNAjTf010Y/Mm3hg0cNrGCWRvu5aLn+o=
+	t=1724837252; cv=none; b=rR3z92eOPw372uIkPKDEaXZ4bvTpFWs/mZiwyHZj94pde22NNwf/5XWDoqeBsFlA8sPoc01rtRmRdPSV/ecyoOgZkRWnZDMbCYNTc0FhYoV44QfP9X7SLkOQTbZmJPtiEWicjvSHRl6IxRbkvKTh69bCUoo8tmoI8RevYs1JKmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724836330; c=relaxed/simple;
-	bh=py7WNHFqaDklaOhQ2w8uzIN3xg2iCJk3lPybb5aymv0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sU553mwENFuSw7mo4t7zrdsLUYAs7a4BUuIxL1VxT2S/79PsxZbEcSvdVm5NYl9aRDmlOSwSj3vgPQjNrxTRUppKigfGlylTLO9fdCa0oIDCwGA7ScT5eJXcphIBP777kn3raHU3CFm7tjWrCzK1OTUy3AVVLHiD90bJ3oiJQ18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=iYkYYAJi; arc=none smtp.client-ip=85.214.62.61
+	s=arc-20240116; t=1724837252; c=relaxed/simple;
+	bh=+Rvz5EaGm+L6IyML2zuzaNrMzSuWIwQyliAnBAaUF9Q=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=avEQjoO+ATTs2/+EupFgf7EwVo6D4i/Ej9N6joa520dEYjvaNI6vJczWIq6CWobDFpj2+vgIPOjvvhM/xnPMchH853k8Dlwc96hu0RHNIR9byCOWnmh0P/GPoOBeFKNCPYgDSX58AltvU/AGEr2NeFTX3C77F89MIhjeQE1bX04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=BbcK92HA; arc=none smtp.client-ip=85.214.62.61
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="iYkYYAJi"
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="BbcK92HA"
 Received: from localhost.localdomain (85-222-111-42.dynamic.chello.pl [85.222.111.42])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
 	(No client certificate requested)
 	(Authenticated sender: lukma@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 0AEE98641C;
-	Wed, 28 Aug 2024 11:11:59 +0200 (CEST)
+	by phobos.denx.de (Postfix) with ESMTPSA id 3E54588A2E;
+	Wed, 28 Aug 2024 11:27:26 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1724836320;
-	bh=0UHGu++TVhvGTMTBxR5QUaSiGMr14Fo9/b/MnkvehCw=;
+	s=phobos-20191101; t=1724837246;
+	bh=n1u3Ic7vwN6fKl+FzrNZ8SQ4XiiF31v4bdtWFOtiqU8=;
 	h=From:To:Cc:Subject:Date:From;
-	b=iYkYYAJiAlVDAYl62o/UCurX/4PAOGL9wZbWxzwQKuzXnG9xVGcG482V0+zf2Jw+x
-	 vvrQwskWuksK/5RQoAIJP+U683RR2mb81O7hlSGXd/FLQwUG6lrXYTOryU44k4sddd
-	 Dq+BgGsfYIISfGxIXpWEdW9BH02RyeVvPs8Fv9q5oSEeMQcLaxMzEPV/3NupDnFD0I
-	 AQW3AYjlcTT05nN8CsHMjhTfG8lVw7X6FyctSzqjdlgPN2K7HeJhUCqYCjX0rD58Wv
-	 pf40rajqH2xEW/4mYz7ZemasLvMsSi0EWLE9zIFGD1xGD6OtwUDmNkfStBds2OFHcN
-	 cA0xwguDoRvPw==
+	b=BbcK92HAkY27iVFlzC7vIbNSz/z2Yjk0MetTfbKfghng6dXKqr/zqiF3egdBlMVtg
+	 wufX3NmIPFY/oFQQxx2vqvlTLAkr6zma//E7sxE0DW8uTtGhhrhQSIQjysRo9ZEWMC
+	 t2gpBCrKa/q8PGlE7a7VKROUPJjKQ6X19+9YPa+57BZGYWMYgQKnFQXBFbIW06RTg9
+	 YZfCBmPgLD5ZHNIkeC1hGl5lTC3j5lXa0sfmzr+KRtq7yNmirmgvvsKnIykgJ5aENO
+	 PR0SUFFlAaOwMKUrQQTM8E8A7lJqUx98Q4eGHUD5iCISJilcEngaXKFQNe8aT+BSL6
+	 vvD+WUdJldo3A==
 From: Lukasz Majewski <lukma@denx.de>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -42,9 +42,9 @@ Cc: Fabio Estevam <festevam@gmail.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Lukasz Majewski <lukma@denx.de>
-Subject: [PATCH v2] ASoC: dt-bindings: Convert mxs-saif.txt to fsl,saif.yaml (imx28 saif)
-Date: Wed, 28 Aug 2024 11:11:39 +0200
-Message-Id: <20240828091139.2621158-1-lukma@denx.de>
+Subject: [PATCH v3] ASoC: dt-bindings: Convert mxs-saif.txt to fsl,saif.yaml (imx28 saif)
+Date: Wed, 28 Aug 2024 11:27:09 +0200
+Message-Id: <20240828092709.2626359-1-lukma@denx.de>
 X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -61,29 +61,32 @@ This patch converts (and removes it) this file to fsl,saif.yaml (to follow
 current fsl convention).
 
 Changes for the mxs-saif.txt:
-- Adds 'clocks' and '#sound-dai-cells' properties
+- Adds 'clocks', '#clock-cells' and '#sound-dai-cells' properties
 - Provide device description
 
 Signed-off-by: Lukasz Majewski <lukma@denx.de>
 
 ---
+Changes for v3:
+- Add #clock-cells property
+
 Changes for v2:
 - Remove mxs-saif.txt
 - Add description with information about extensions required for this
   device's current DTS description
 ---
- .../devicetree/bindings/sound/fsl,saif.yaml   | 78 +++++++++++++++++++
- .../devicetree/bindings/sound/mxs-saif.txt    | 41 ----------
- 2 files changed, 78 insertions(+), 41 deletions(-)
+ .../devicetree/bindings/sound/fsl,saif.yaml   | 83 +++++++++++++++++++
+ .../devicetree/bindings/sound/mxs-saif.txt    | 41 ---------
+ 2 files changed, 83 insertions(+), 41 deletions(-)
  create mode 100644 Documentation/devicetree/bindings/sound/fsl,saif.yaml
  delete mode 100644 Documentation/devicetree/bindings/sound/mxs-saif.txt
 
 diff --git a/Documentation/devicetree/bindings/sound/fsl,saif.yaml b/Documentation/devicetree/bindings/sound/fsl,saif.yaml
 new file mode 100644
-index 000000000000..cc78a95e0391
+index 000000000000..0b5db6bb1b7c
 --- /dev/null
 +++ b/Documentation/devicetree/bindings/sound/fsl,saif.yaml
-@@ -0,0 +1,78 @@
+@@ -0,0 +1,83 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +%YAML 1.2
 +---
@@ -122,6 +125,10 @@ index 000000000000..cc78a95e0391
 +  dma-names:
 +    const: rx-tx
 +
++  "#clock-cells":
++    description: Configure the I2S device as MCLK clock provider.
++    const: 0
++
 +  clocks:
 +    maxItems: 1
 +
@@ -149,6 +156,7 @@ index 000000000000..cc78a95e0391
 +        interrupts = <59>;
 +        dmas = <&dma_apbx 4>;
 +        dma-names = "rx-tx";
++        #clock-cells = <0>;
 +        clocks = <&clks 53>;
 +    };
 +  - |
