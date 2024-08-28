@@ -1,110 +1,104 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F34A16B386;
-	Wed, 28 Aug 2024 14:59:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A4FA186619;
+	Wed, 28 Aug 2024 15:03:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724857198; cv=none; b=Q+WZJ0nQ2eUyxtQvE8+adtBDfaQHTrQoC5htOYslIVp4Gm8OJQ4eV2DdrCl8BRe6UU6Ke9ul1t8kTYwlX69YOVPpC315THIjHTSPxh7V+Mlmq/J1C7YJYDSYCQLRG5ZLTyGBHqY+kTjwFvb+VsnKq+CgcVNGvWAghX7MWcZfM4I=
+	t=1724857398; cv=none; b=T4mPwepyr/3yab0YqKRxfDcoeLFURpOBugNl1vPnwXfULxe9OdvUhaZFQT2bS/1+aMtPcHv4IZGgmzV7zDkKsrS732p/DRp0aXIMSdHZ7NeglNa6w7Tq2T2XVL8wnIXdwaXxr/hX8JnhbLR+CGvQQ95YIaJbzshyx/yUn598QM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724857198; c=relaxed/simple;
-	bh=pPIGGElmaUEGncd/LGQc1RdgNFBdvnnWrz6caAuBDFs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=kPwivrNX5nloOqd8m4WX/JeT5qv7+U2wKq8xGOJfapCAGH3lA4sn318a4NqON7xHC9OZ9FGncAIUgmmtLkhcy/7DAYfPkyQmAlCXcTZhPmQeTSvxsZFq3pBymJ7InWPjbexge5mu1EMvFYMsbEFVeaQ5yu1hXURLZ4Zrs/PuASY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=b+/0R/Wt; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1724857398; c=relaxed/simple;
+	bh=Q/FWYBfhq0EfW/PW3pTyaVMwo1NEzGyWM8q4CMuLmmE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WdRJimn94cfDr5770DBEOhdy9kPQQwa3Dsdb6Qcyl7a+33GQG6hYa5oAiJ4TUEKoFJMeSo3+wpi3gmO4nmd2DKYLy5Psts2cliW1VQYKsm7pOw7q3L54iNzk6qtZmZikV32zHPCyp+ditJNXZ2Ikbhu0IYCtGNHO7/NuZInzG7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q6tBH1FF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="b+/0R/Wt"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47SEIXA7003698;
-	Wed, 28 Aug 2024 09:59:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=e2mJBcwa8EC9KVRlnCfz8BcvfT35jHTD7dZTCgoi42M=; b=
-	b+/0R/WtO3lC+Y0u0GewYynKQofpyUIr85xtNwFEEfLY0EaGHrzxSNyBNAEz8eTL
-	8ruX3om6ZcjcZxyZlGAuRm7gnHmMscdYRIfFcQ3p5rR24IiCDnspUCBD3N9zhKuN
-	9fAlLtdOeNOu2slU2u6vERJu/Jr9s+TEX2946Be9xYSuuUKPzxAd0knr9lK0Q12h
-	jSNVbsG22EM1/56iXZD53bCGY47Z9qdxGli2/XRGFzsF96uOqcT4fGuxPbCmyAvA
-	5XyNU6TGG8QRS4MyhkioK9STW8GZ9MhPHRVme7vm4aoGrSwJIlt6nIGeqEEPLuCp
-	OkR1xWkhK4q3zO6gqr8Qfg==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 419puw0wbg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 28 Aug 2024 09:59:52 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 28 Aug
- 2024 15:59:51 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Wed, 28 Aug 2024 15:59:51 +0100
-Received: from [198.90.208.18] (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id EA1F6820244;
-	Wed, 28 Aug 2024 14:59:50 +0000 (UTC)
-Message-ID: <9b5a3025-3e78-44b9-98f5-c945a6ac48d7@opensource.cirrus.com>
-Date: Wed, 28 Aug 2024 15:59:50 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q6tBH1FF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7C16C4CEC2;
+	Wed, 28 Aug 2024 15:03:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724857397;
+	bh=Q/FWYBfhq0EfW/PW3pTyaVMwo1NEzGyWM8q4CMuLmmE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=q6tBH1FFTxkGbyppAXiq3i3jb1A3bP52++rMmbcUB3aCvNcgdndawIqNWY2QAVDLf
+	 gs21BbcbPtkPUsphg1ZK4FoZOeueWhmZMJ4Gf3MgNfj8rIQYM6p8BZGR5SPjyn4ZLh
+	 n+rWR2BYesFeHSrqo1bewKrLLkKlse67VDaFJuRRzwGQnkvXH4ioG2ttb3TBgBV4lw
+	 CLd3ogYNZCI7SYOnjmBOrIzeZhC1H2giUZVN9rPSVq4K95SyOGSrfKFXut+9mgz9aM
+	 FliJmZ3gzTZwlXty8Z7v4w26porBNOo/CwCxDCYZ5aJSdNYQ/FcbxAV3P87amqofM/
+	 vTIHuWPDTElmw==
+Date: Wed, 28 Aug 2024 16:03:12 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Jerome Brunet <jbrunet@baylibre.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-amlogic@lists.infradead.org
+Subject: Re: [PATCH v2 0/3] ASoC: dt-bindings: amlogic-sound-cards: document
+ clocks property
+Message-ID: <20240828-brittle-swapping-8b04379725c8@spud>
+References: <20240828-topic-amlogic-upstream-bindings-fixes-audio-snd-card-v2-0-58159abf0779@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] cirrus: Simplify with dev_err_probe()
-To: Thomas Gleixner <tglx@linutronix.de>,
-        Charles Keepax
-	<ckeepax@opensource.cirrus.com>,
-        Yan Zhen <yanzhen@vivo.com>
-CC: <linus.walleij@linaro.org>, <linux-sound@vger.kernel.org>,
-        <patches@opensource.cirrus.com>, <linux-kernel@vger.kernel.org>,
-        <linux-gpio@vger.kernel.org>, <opensource.kernel@vivo.com>
-References: <20240828120118.1284420-1-yanzhen@vivo.com>
- <Zs8XlyXw421hHjM/@opensource.cirrus.com> <8734mod7qi.ffs@tglx>
-Content-Language: en-GB
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-In-Reply-To: <8734mod7qi.ffs@tglx>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: bP2wIbI4F9r4FI1BDVg7TngZVh3b9_yZ
-X-Proofpoint-ORIG-GUID: bP2wIbI4F9r4FI1BDVg7TngZVh3b9_yZ
-X-Proofpoint-Spam-Reason: safe
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="m2irlymd8u+CRXoQ"
+Content-Disposition: inline
+In-Reply-To: <20240828-topic-amlogic-upstream-bindings-fixes-audio-snd-card-v2-0-58159abf0779@linaro.org>
 
-On 28/08/2024 15:47, Thomas Gleixner wrote:
-> On Wed, Aug 28 2024 at 13:27, Charles Keepax wrote:
->> On Wed, Aug 28, 2024 at 08:01:18PM +0800, Yan Zhen wrote:
->>> @@ -1064,10 +1064,9 @@ static int madera_pin_probe(struct platform_device *pdev)
->>>   		ret = pinctrl_register_mappings(pdata->gpio_configs,
->>>   						pdata->n_gpio_configs);
->>>   		if (ret) {
->>> -			dev_err(priv->dev,
->>> -				"Failed to register pdata mappings (%d)\n",
->>> -				ret);
->>> -			return ret;
->>> +			return dev_err_probe(priv->dev, ret,
->>> +						"Failed to register pdata mappings (%d)\n",
->>> +						ret);
->>>   		}
->>
->> Since we are doing a respin anyway also the brackets on the if
->> should be dropped on both of these as well.
-> 
-> No. https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#bracket-rules
-> 
 
-https://www.kernel.org/doc/html/latest/process/coding-style.html#codingstyle
+--m2irlymd8u+CRXoQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-does not say that. It says:
+On Wed, Aug 28, 2024 at 03:53:53PM +0200, Neil Armstrong wrote:
+> Following an off-list discution with Jerome about fixing the following
+> DTBs check errors:
+>     sound: Unevaluated properties are not allowed ('assigned-clock-parent=
+s', 'assigned-clock-rates', 'assigned-clocks' were unexpected)
+>         from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-=
+sound-card.yaml#
+>     sound: Unevaluated properties are not allowed ('assigned-clock-parent=
+s', 'assigned-clock-rates', 'assigned-clocks' were unexpected)
+>         from schema $id: http://devicetree.org/schemas/sound/amlogic,gx-s=
+ound-card.yaml#
+>     sound: 'anyOf' conditional failed, one must be fixed:
+>         'clocks' is a required property
+>         '#clock-cells' is a required property
+>         from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
+>=20
+> It has been agreed documenting the clock in the sound card is a better so=
+lution
+> than moving them to a random clock controller or consumer node which is n=
+ot
+> related to the actual meaning of those root frequencies.
+>=20
+> The patchset adds the clocks proprty to the bindings and finally adds the
+> properties to the DT files.
+>=20
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 
-"Do not unnecessarily use braces where a single statement will do."
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-Note: single statement, not single line.
+--m2irlymd8u+CRXoQ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-coding-style.rst is the coding style. If you disagree with the coding
-style, send a patch to change coding-style.rst.
+-----BEGIN PGP SIGNATURE-----
 
-> Thanks,
-> 
->          tglx
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZs88MAAKCRB4tDGHoIJi
+0mjhAQDnSlMChubzH0189CmvK9fFj4PZMmpTw44594t+DOABhQD/RjBwMvnhYOXP
+VRtcQF5BBGyx6BDxa1eaamYHy44Vewo=
+=lI7+
+-----END PGP SIGNATURE-----
 
+--m2irlymd8u+CRXoQ--
