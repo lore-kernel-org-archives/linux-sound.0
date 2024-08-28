@@ -1,166 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B2C49641;
-	Wed, 28 Aug 2024 06:18:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3BB61BC2F;
+	Wed, 28 Aug 2024 06:27:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724825895; cv=none; b=KHxp/oeU8cR7akWoTt3YQ8aOxvqcVgNZLzfVnEgp9OXCq1MDuCEF3rko8YNqWBeGV41nbAie/1OO2d6gfBVFz5qW1aLkWLgD7lmDFsCwQcyk9HJqR6eQv0Iq93T6mYTSwzrzBfF1wOdzEtddvZyNfRHN7lFACNRAqIxEba50PoI=
+	t=1724826455; cv=none; b=SoMl20ulmDfSmBlWC5AFwdHgtRuOXub9qBurY1/F+/J5t/NJcpDnj6+h9MPj0FBis5F5/cEGBczNgQFjoGNFRWatinDDBrg8hJCLOHIy4BhIEBitVBPtmLLNvOan/ueWPSAhtWWGib7NC0T1R7qPjEh1put1+neoiXBCZcgnjUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724825895; c=relaxed/simple;
-	bh=meA8IZtU4hNTJg9VW1FHygfSFUokgpJo2faCYtQ/YtQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mMTr0WeVGarhh2AXzF1TMlmj+riQ4cNbySpZ7fwgx8IlSsmX4AEtL6Boe2ZwGD8Hbw91rAugHLx6x0pJWOfLHDbCuDzbij34LzqORsl3UNzQ9ByR7s7ls71O3CoYaOGY4qxWr4cowsmZqKNs5dhUEBz7ap60Il2UsP4iBQ7ThWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bk3TKGhL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724826455; c=relaxed/simple;
+	bh=nKuVs1YWi94pd3zteFNgCMsFsKeSOZSLANy9Y+bgG34=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Cj1B4z39e5/NkH06LDZIOusLrGkQerjEaTT1pTDubn2MDWuTytprdqA9bsJhem4pyk3HosJiSA5+D+qLZOIFUKbCWTJa3WlDyJK4HaFNhn2yIic+vxt2Ny35aBrtfzcfbjixnwHo5wOSZE+Gz7x+iWBTo71r8zX9e3da3u1iUqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=G5J87x6a; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=iTx7Ptt/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=G5J87x6a; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=iTx7Ptt/; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bk3TKGhL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04BC5C4AF1B;
-	Wed, 28 Aug 2024 06:18:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724825895;
-	bh=meA8IZtU4hNTJg9VW1FHygfSFUokgpJo2faCYtQ/YtQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bk3TKGhLxGj4tvurT3JaxJzwDncf8PFPAgZjnjRLr3Uww4fm94D5ONW9ltdeSfOGZ
-	 9od8Qbdv4ALeHATy6Sx2Tqvk9AyaUCNfMOaFCNkc1HkoCe5sXiW0cFFm5TkRExQ1iR
-	 zDZrIjquVTMd79J9cGT0STMUQWavO6edliliADDdv87SbqV2By9VP1+6SpgVAuwEjo
-	 VTOqV7EEkU2Ei1FHUPIJlKXV0mKd9wd0R5pcxQhvUXJ3mkd/NGe/5ZyoJuN7RkRx7c
-	 yfkv4x9eZygDVhKuA6A5/mTO2HaPVCkXkUc7hsm2Bxg6bVxwPnW/1/OEW1NopomKHz
-	 VFuttEyTJ+K5Q==
-Date: Wed, 28 Aug 2024 08:18:10 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Lukasz Majewski <lukma@denx.de>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Fabio Estevam <festevam@gmail.com>, 
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: dt-bindings: Add dt bindings definition file for
- imx28 saif
-Message-ID: <mzlrm7zkzuue4xsxehz32ffiesigy2dzbos2osirzfoi525q6q@7klbgtmht74a>
-References: <20240827180528.2315563-1-lukma@denx.de>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="G5J87x6a";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iTx7Ptt/";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="G5J87x6a";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iTx7Ptt/"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C5EB51F749;
+	Wed, 28 Aug 2024 06:27:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1724826451; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4/xOwA01Udhu+JJTCiMH9IJXh82nAR/3EjXhfbdVC1I=;
+	b=G5J87x6aJvx6W1/6JR4fLlhY25lyLMcyF/0HwJY1qYmcSHl79PgxI7Daa5EoYAXrfUNLot
+	uOhQfhEnwQKWUIy6gkfTfHdDGVhvDMLXPJSpoAPO+9BrKX2WjivUEHu+ZyHpism8FNwOns
+	VbCuBvSXPqqfk6ZokOd91x3OY60S9E4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1724826451;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4/xOwA01Udhu+JJTCiMH9IJXh82nAR/3EjXhfbdVC1I=;
+	b=iTx7Ptt/qDohmRBb5ISu1WVOzTfZhUHFzdMR3EkmzlTGuBq85s4P2he7NW1tVXxcCzEy0r
+	M8aN3kO82ndW6rBA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1724826451; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4/xOwA01Udhu+JJTCiMH9IJXh82nAR/3EjXhfbdVC1I=;
+	b=G5J87x6aJvx6W1/6JR4fLlhY25lyLMcyF/0HwJY1qYmcSHl79PgxI7Daa5EoYAXrfUNLot
+	uOhQfhEnwQKWUIy6gkfTfHdDGVhvDMLXPJSpoAPO+9BrKX2WjivUEHu+ZyHpism8FNwOns
+	VbCuBvSXPqqfk6ZokOd91x3OY60S9E4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1724826451;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4/xOwA01Udhu+JJTCiMH9IJXh82nAR/3EjXhfbdVC1I=;
+	b=iTx7Ptt/qDohmRBb5ISu1WVOzTfZhUHFzdMR3EkmzlTGuBq85s4P2he7NW1tVXxcCzEy0r
+	M8aN3kO82ndW6rBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7AB65138D2;
+	Wed, 28 Aug 2024 06:27:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id /WacHFPDzmb9HgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 28 Aug 2024 06:27:31 +0000
+Date: Wed, 28 Aug 2024 08:28:15 +0200
+Message-ID: <87ttf5yxds.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	kailang@realtek.com,
+	sbinding@opensource.cirrus.com,
+	simont@opensource.cirrus.com,
+	foss@athaariq.my.id,
+	rf@opensource.cirrus.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Edson Juliano Drosdeck <edson@policorp.com>
+Subject: Re: [PATCH] ALSA: hda/realtek: Limit mic boost on Positivo DN50F
+In-Reply-To: <20240827112912.3397-1-edson@policorp.com>
+References: <20240827112912.3397-1-edson@policorp.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240827180528.2315563-1-lukma@denx.de>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -1.80
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Tue, Aug 27, 2024 at 08:05:28PM +0200, Lukasz Majewski wrote:
-> This file allows correct check of DTS node for imx287 based
-> "fsl,imx28-saif" compatible device.
+On Tue, 27 Aug 2024 13:29:12 +0200,
+Edson Juliano Drosdeck wrote:
 > 
-> It corresponds to Documentation/devicetree/bindings/fsl,imx28-saif
+> The internal mic boost on the DN50F is too high. Fix this by applying the
+> ALC269_FIXUP_LIMIT_INT_MIC_BOOST fixup to the machine to limit the gain.
 > 
-> Signed-off-by: Lukasz Majewski <lukma@denx.de>
+> Signed-off-by: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
 > ---
->  .../devicetree/bindings/sound/fsl,saif.yaml   | 79 +++++++++++++++++++
->  1 file changed, 79 insertions(+)
-
-There is a binding. Please perform conversion from TXT to DT schema,
-mentioning in commit msg any changes from pure conversion (e.g. new
-properties to match DTS).
-
-Few more comments below.
-
->  create mode 100644 Documentation/devicetree/bindings/sound/fsl,saif.yaml
+>  sound/pci/hda/patch_realtek.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/sound/fsl,saif.yaml b/Documentation/devicetree/bindings/sound/fsl,saif.yaml
-> new file mode 100644
-> index 000000000000..747faa411a50
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/fsl,saif.yaml
-> @@ -0,0 +1,79 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/fsl,saif.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Freescale MXS Serial Audio Interface (SAIF)
-> +
-> +maintainers:
-> +  - Lukasz Majewski <lukma@denx.de>
-> +
-> +description: |
+> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+> index d022a25635f9..b6bd3903701e 100644
+> --- a/sound/pci/hda/patch_realtek.c
+> +++ b/sound/pci/hda/patch_realtek.c
+> @@ -10767,6 +10767,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+>  	SND_PCI_QUIRK(0x1d72, 0x1901, "RedmiBook 14", ALC256_FIXUP_ASUS_HEADSET_MIC),
+>  	SND_PCI_QUIRK(0x1d72, 0x1945, "Redmi G", ALC256_FIXUP_ASUS_HEADSET_MIC),
+>  	SND_PCI_QUIRK(0x1d72, 0x1947, "RedmiBook Air", ALC255_FIXUP_XIAOMI_HEADSET_MIC),
+> +	SND_PCI_QUIRK(0x1e50, 0x7038, "Positivo DN50F", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
+>  	SND_PCI_QUIRK(0x2782, 0x0214, "VAIO VJFE-CL", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
+>  	SND_PCI_QUIRK(0x2782, 0x0232, "CHUWI CoreBook XPro", ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO),
+>  	SND_PCI_QUIRK(0x2782, 0x1707, "Vaio VJFE-ADL", ALC298_FIXUP_SPK_VOLUME),
 
-Do not need '|' unless you need to preserve formatting.
+The table is sorted in PCI SSID order.  Could you try to put the new
+entry at the right position and resubmit?
 
-> +  The SAIF is based on I2S module that is used to communicate with audio codecs,
-> +  but only with half-duplex manner (i.e. it can either transmit or receive PCM
-> +  audio).
-> +
-> +properties:
-> +  compatible:
-> +    const: fsl,imx28-saif
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  "#sound-dai-cells":
-> +    const: 0
-> +
-> +  assigned-clock-parents: true
-> +  assigned-clock-rates: true
-> +  assigned-clocks: true
 
-These three should be dropped, redundant.
+thanks,
 
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  dmas:
-> +    maxItems: 1
-> +
-> +  dma-names:
-> +    const: rx-tx
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  fsl,saif-master:
-> +    description: Indicate that saif is a slave and its phandle points to master
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - dmas
-> +  - dma-names
-> +  - "#sound-dai-cells"
-
-Keep the same order as in "properties:" block.
-
-and here allOf: with $ref to dai-common.yaml
-
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    saif0: saif@80042000 {
-> +        #sound-dai-cells = <0>;
-> +        compatible = "fsl,imx28-saif";
-> +        reg = <0x80042000 2000>;
-> +        interrupts = <59>;
-> +        clocks = <&clks 53>;
-> +        dmas = <&dma_apbx 4>;
-> +        dma-names = "rx-tx";
-> +    };
-> +  - |
-> +    saif1: saif@80046000 {
-
-Just one example, could be this one as more complete.
-
-> +        #sound-dai-cells = <0>;
-
-Keep it after "reg" (compatible and reg are always first).
-
-Best regards,
-Krzysztof
-
+Takashi
