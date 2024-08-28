@@ -1,54 +1,55 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0E891A0B05
-	for <linux-sound@vger.kernel.org>; Wed, 28 Aug 2024 20:15:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A68B1AC8B5
+	for <linux-sound@vger.kernel.org>; Wed, 28 Aug 2024 20:20:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724876122; cv=none; b=XNvOvnvw73HhUetknL3N2uef8DMVHZRoStiicHVfSsBFVQ2LafPDi+ELsO69kfcuEaO1rXWOzhnFGefxJ7zZQ7IW16fDIQeGiMLJsmz8AxfUiRq1Awb2VH+t0R0uiyb6/sq2FcL05qOWlJgEqJM+D46ufX9XFpvPGzCo7bkH6YA=
+	t=1724876423; cv=none; b=qYYMN2pfJCjCNih+17PUAxbFSd+o6oKLqwlg5m4YuYozShR70siuUKY1qYT5tpSpJDYTDEln4ek/OgBKY88xLICons2W337OBOW72rVaQs5/+rIJJ0XvLGvRBcRkKT+VDOQjZuX0/VE/lk6DgVNNrtRvQtKbxppKSmtOJ3InvBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724876122; c=relaxed/simple;
-	bh=qMv8kS2wPT6Fcpvyz9ylAaj6cJnDHn1M2evcby3D154=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=X/YI32ca7ilNDvhHxOlW0BCIQc1MPe96s7AdgRMa5JvVmg5dmGXW1W9F4FSAdbLmrqNdGxF8pSENU/z4U0gLZpYUq0z8/iujxxGEPQY9/BeNFzImlGw6c5AYrgIAddK2CD2v7XisR7n3NfQbzGUekoPYsNVedViKcCPmSBTdOf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=iYp3NnJU; arc=none smtp.client-ip=209.85.210.182
+	s=arc-20240116; t=1724876423; c=relaxed/simple;
+	bh=yo8Bqe8e5gPrNBrNAgu4U0/R0eeSUmUJDEeqYXDhtGQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=oG/G4ORHKtl61oIJf8kapPjZnc80ehfQhhlCBAUjzi/1e+GS4WijmfdB6LkZeVCrWnnj0lWAfgrSBMMYxH5pU3XA5liixRdyiPFNfG0hJieLWef5nXhoKcKIaLaJPxinFKTAnlhDwlHbuBm+dYRHkRQ85vuCSF5Rhojww4Uc4vM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=DmAK0D/6; arc=none smtp.client-ip=209.85.210.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="iYp3NnJU"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-71433096e89so6090256b3a.3
-        for <linux-sound@vger.kernel.org>; Wed, 28 Aug 2024 13:15:20 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DmAK0D/6"
+Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-7143ae1b560so4071036b3a.1
+        for <linux-sound@vger.kernel.org>; Wed, 28 Aug 2024 13:20:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1724876120; x=1725480920; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1724876421; x=1725481221; darn=vger.kernel.org;
         h=cc:to:message-id:content-transfer-encoding:mime-version:subject
          :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YVCTrbMf1sTGotshIDLMzBV9qNa2qrimN7njbsJ8Bu4=;
-        b=iYp3NnJUdEbggGzcs5CktNlAumANjgyoFfdJkrD6Pf7jA97MhN5Y2Z8w0vN4rgDQpf
-         yyJ/q7wmaE6uJ43mcmUOzQ2MnRHVATTlxka90Z2Kh8aXMgrknz3wkhJf+Q2LBVVVb37c
-         0LL08rFAMWG16jt1wd4OnANxMfKJx1WIi1/tk=
+        bh=GW0sfHv4RXqfz6QFs1KqjTYLK9yTslXZaNQMV9fgT5w=;
+        b=DmAK0D/6PmMtE5A87kiqS5qLb9NSTPoOX2JAN3bYZ3DSJE0V3ObWPCaL3oS/Ou8BKT
+         BPqoXBunOyLTrADMmnfnD5xbv6N7xtkFk45xTCqNsLzgeV7NjXyP/Etot1XcWeGKUTGf
+         LxD2Sa3pPTzuggR881NB3acOsRazTqB3tM0d4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724876120; x=1725480920;
+        d=1e100.net; s=20230601; t=1724876421; x=1725481221;
         h=cc:to:message-id:content-transfer-encoding:mime-version:subject
          :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YVCTrbMf1sTGotshIDLMzBV9qNa2qrimN7njbsJ8Bu4=;
-        b=UEqNW704DmmQFecRdQ2u0Rs21BJj1OZ6T57nUrqrWbYJRJ0eucgtNx9SyAlooBltp3
-         pNd/R+DclnZ9jdYw6pHXBkUFLUqwH2bYK1wZ6blzaLg1fUuel+v+QEoilWbHfEfp6RBE
-         Q+JC43slDZvOxD2Ee3QbJKfJWtZZtWoTTRcY/KMmlS14Z17J5KzHYNwe2G642xsUg+gp
-         QsYLwROsPEzITKFhUBmqSIiHQ4He++nDAkNsxEx6XkOpFoZBK142pR6kfZ4R1jQ2AIE1
-         l5cFxbFLWKrqJeWTTdUeZekBqxqAPlpKjTGIqIdlB3AoFjitRRDYoa2D/IhqMqURq81S
-         O9sA==
-X-Gm-Message-State: AOJu0Yx8K8TMAm91QZux1GdiwVzYLjUZNukInQss7GGPTpx7iUJQdHFH
-	39TXsMq+bxNa4HzZyM8pHG/VU0p1wW2tXpuamXPcpN59vaLgP7H/IyKmbHdi5A==
-X-Google-Smtp-Source: AGHT+IEqNESDw8taCPOE3BDUJfZvlbdfYPNLgxGnEs7m34KKf/NxICGBeft9wHZ473VFtIA4WWseUQ==
-X-Received: by 2002:a05:6a21:6e4b:b0:1cc:c202:b289 with SMTP id adf61e73a8af0-1cce0eeb267mr632164637.0.1724876120146;
-        Wed, 28 Aug 2024 13:15:20 -0700 (PDT)
+        bh=GW0sfHv4RXqfz6QFs1KqjTYLK9yTslXZaNQMV9fgT5w=;
+        b=XX7RZh6aFsPCheQiMbHPwc0z1mLu1WLn9MAcqlhHC8vRiy6JwJea/90NxzPzXqgMUZ
+         eSuKKVxVlnBhFbOOSmgQgaAlVV62Wy1lvATngYTxFccLZ2flnHazbgA7WP/E2r//zt2L
+         KXcabgy05dYM1uZViob5X8+uRvuNZgq16rmZu/l5T9hmvtpz1ik6zRqlLKqp0/hWiW76
+         puo8rFz/jzDfvVrOZlMRXvfhQGZIYbM9W7CYxcNVXMIZ+OlKh0BOol4A3v1ymR1LGSCv
+         uUTuVOO60LS8yt0dfD+EhHlFoDhtKFcH4FWdBxDmWkU6YT3Phuu0yCzPL62h/JiltP/0
+         EXrA==
+X-Gm-Message-State: AOJu0YxVDFqKOE/Xg9aRHB0YJlmm9VLkNd7GgrLxb+xVgjfK5aFHgif8
+	NhVdgUqsAKovXk3lc3LA1byx29LEJ5dpNHciuRjrosGAwJGF0v2Vda5B0ZI8aw==
+X-Google-Smtp-Source: AGHT+IH0qkv/MfG9MIxmLidUqbxhESVRipI97MoHotsE8LjBilxoueyG2Sp8CbwJ4HHOa5Q60suOXg==
+X-Received: by 2002:a05:6a21:9209:b0:1c2:a722:92b2 with SMTP id adf61e73a8af0-1cce1103f3amr439369637.45.1724876421544;
+        Wed, 28 Aug 2024 13:20:21 -0700 (PDT)
 Received: from htcheong-p620.tpe.corp.google.com ([2401:fa00:1:17:12b:e9e8:cb3:7d66])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71434255548sm10496322b3a.79.2024.08.28.13.15.18
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d8445e9a51sm2351185a91.21.2024.08.28.13.20.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Aug 2024 13:15:19 -0700 (PDT)
+        Wed, 28 Aug 2024 13:20:21 -0700 (PDT)
 From: Terry Cheong <htcheong@chromium.org>
-Date: Thu, 29 Aug 2024 04:15:16 +0800
-Subject: [PATCH] ASoC: patch_realtek: add chain for fixups in Lenovo V145
+Date: Thu, 29 Aug 2024 04:20:18 +0800
+Subject: [PATCH v2] ALSA: hda/realtek: add patch for internal mic in Lenovo
+ V145
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -57,10 +58,11 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240829-lenovo-v145-fixes-v1-1-133d1e6813b3@chromium.org>
-X-B4-Tracking: v=1; b=H4sIAFOFz2YC/x3LQQqAIBBA0avErBtQUciuEi1KpxoIDQUJors3t
- Hx8/gOVClOFsXugUOPKOQl030E4lrQTchSDUcaqwXg8KeWWsWnrcOObKnoVtFpsXIN3IN9V6A+
- yTfP7fhAk3gJjAAAA
+Message-Id: <20240829-lenovo-v145-fixes-v2-1-713ac5cbb32d@chromium.org>
+X-B4-Tracking: v=1; b=H4sIAIGGz2YC/32NTQ7CIBSEr9K8tRj+aoor72G6aOFZXmLBgBJNw
+ 93FHsDM6pvJzGyQMRFmOHcbJCyUKYYG8tCB9VNYkJFrDJJLzQdp2B1DLJEVoXt2ozdmZrgVfNJ
+ utqaH1nsk3INWu46NPeVnTJ/9ooif+2+tCNaklBN4GoSa1cX6FFd6rceYFhhrrV+7/u7htQAAA
+ A==
 To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Terry Cheong <htcheong@chromium.org>
@@ -71,6 +73,10 @@ dmic fixups does not work. Chaining up verb fixes for ALC283 enables
 inverting dmic fixup to work properly.
 
 Signed-off-by: Terry Cheong <htcheong@chromium.org>
+---
+Changes in v2:
+- Corrected description for the patch
+- Link to v1: https://lore.kernel.org/r/20240829-lenovo-v145-fixes-v1-1-133d1e6813b3@chromium.org
 ---
  sound/pci/hda/patch_realtek.c | 9 +++++++++
  1 file changed, 9 insertions(+)
