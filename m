@@ -1,49 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8038C1A3BD1;
-	Wed, 28 Aug 2024 16:30:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B13E21A7065
+	for <linux-sound@vger.kernel.org>; Wed, 28 Aug 2024 16:30:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724862619; cv=none; b=Txd4AVVMM0loV6ksoftJ9Y2y0IN1qkwlDGnHhs8doKZxrIN0+fvVybnfTVFssdyeZgmR5mKRSRFVuyTYS2877Cjc+UqIq4SYamZrltqJqEhosPIrc3deEjqQgvJ0tt5dELfu8JD2xHWs5lliA5Qw0klT57VrMO8Hd5+R3znfbGE=
+	t=1724862620; cv=none; b=IpkJWYjhsPOt51e6S52WUshk1L5TcuJExxveLwd1wZx5L89oAUSDFfm2fXS0u3vLILEx2oEJxu2Zfi+MyxTvI/Kr/rWMK8mYOOMQJufRtWIutujk3xwJGvuDehdQ7aIna45mu4DrQQkSSJq2UBySV/tVwfLlS9VSsBfGVes8ZRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724862619; c=relaxed/simple;
-	bh=H23EnDvtE9OmuESCjNLixSU/rsMuNsrNorY5cnn0tc4=;
+	s=arc-20240116; t=1724862620; c=relaxed/simple;
+	bh=UQCw1HFtw7l1Nj/N/0Hl3E08vW7fU/ly67v+ziXaLpY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=W/cyRSu2B1tnLO98eroSvdE47i7pC47h3wLTjegH2rJ79p03BV2vXY1DMVB0o6OwS1clY8Am27g4rn8DASnMNkO/txrDyMM22Rfu6OlLy42b2oQehdY1GFUAl1HIZRcA/wL6JsMK0vtXcRkYl0uMVpMxtWExXw3X+soFeBP46kk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CqppbnoU; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=u2XYtXULKH9Zyjh8pfrr5mLq6UqgxoSazaJk3M1Lq2OqNjurZXzr1xeX6ArG5DwafXp2h680aI4EjT8S/QErmcgrQEHAGCR/Zb99HzC0KpR18mxEUviJbp6yFT6Qcrwq9ycxfHtTbnREPaiYpWB+qeCFAVEhV6657AFRK7ay3y4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lBJail/t; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CqppbnoU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B651C4FEFB;
-	Wed, 28 Aug 2024 16:30:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lBJail/t"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83A5EC4FF19;
+	Wed, 28 Aug 2024 16:30:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724862619;
-	bh=H23EnDvtE9OmuESCjNLixSU/rsMuNsrNorY5cnn0tc4=;
+	s=k20201202; t=1724862620;
+	bh=UQCw1HFtw7l1Nj/N/0Hl3E08vW7fU/ly67v+ziXaLpY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=CqppbnoU5zqQYj3dMyaprtr0/LUbAdMYK7D/fDuKlbYr5JU3UZLz78VYL8CZo/O/c
-	 Njk37dXQms6suXRdMbDtmth4IWvu90OiZ5ZZpeoNWXNYyBxX09w3T0RI/4MSGGfnGY
-	 XEkvcneRAz+JftITxHNv/sKtDz83qBxehvakWm9lih3fLiNKSk083ykam9bu4uvBqu
-	 4+NghREbcVEmxb/xokqOXpWJMwn52qey4e/5Eyp8MgeKEDUZb+ParJ/i4lomd3H2ip
-	 VMN4rFd0eI/0vjZLXa7gU+JkIc232DjcjFd2Vpc4MVX96OiVm5bFQY/AWp1DgxDN/N
-	 zJNC0ElDN9oUg==
+	b=lBJail/tW9cml7E19CHvoJX9U+5RjaieZPoS22qng5XTH6MYPOHG/7KCY80P6Ik/9
+	 MdxQar4/oexYhZVzZL/hbuLF13A9kqPjk1hIz8xFYG1S6lhg1HKPK+syPIdbGxvJ7r
+	 FYwIsYbJmNLGc1CPCa6MvLj66tmBxJxZH/D7HbpOrGBO11Omh3tEb6Az0NJH7bKbl1
+	 fYTaFLXF7mXHZktQB2jewq7Ud9gsXeP72kAZRUCJjDIuP1u3A3hij3oFqFK4ivy0xX
+	 XKq0g8SnqYdkQtQS3JzAp/YCbT7FJ0qEgq2btWOd6QZGj43SMVvSAFNPmJnUCVvDdn
+	 Vw9whNyvdrvLA==
 From: Mark Brown <broonie@kernel.org>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
- Daniel Baluta <daniel.baluta@nxp.com>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Chen-Yu Tsai <wenst@chromium.org>
-Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20240821041006.2618855-1-wenst@chromium.org>
-References: <20240821041006.2618855-1-wenst@chromium.org>
-Subject: Re: [PATCH] ASoc: SOF: topology: Clear SOF link platform name upon
- unload
-Message-Id: <172486261586.92851.5753757974025267172.b4-ty@kernel.org>
-Date: Wed, 28 Aug 2024 17:30:15 +0100
+To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ Hongbo Li <lihongbo22@huawei.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20240828122829.3697502-1-lihongbo22@huawei.com>
+References: <20240828122829.3697502-1-lihongbo22@huawei.com>
+Subject: Re: [PATCH -next] ASoC: dapm: Use IS_ERR_OR_NULL() helper function
+Message-Id: <172486261926.92851.12864505049654170229.b4-ty@kernel.org>
+Date: Wed, 28 Aug 2024 17:30:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -54,17 +45,12 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-37811
 
-On Wed, 21 Aug 2024 12:10:04 +0800, Chen-Yu Tsai wrote:
-> The SOF topology loading function sets the device name for the platform
-> component link. This should be unset when unloading the topology,
-> otherwise a machine driver unbind/bind or reprobe would complain about
-> an invalid component as having both its component name and of_node set:
+On Wed, 28 Aug 2024 20:28:29 +0800, Hongbo Li wrote:
+> Use the IS_ERR_OR_NULL() helper instead of open-coding a
+> NULL and an error pointer checks to simplify the code and
+> improve readability.
 > 
->     mt8186_mt6366 sound: ASoC: Both Component name/of_node are set for AFE_SOF_DL1
->     mt8186_mt6366 sound: error -EINVAL: Cannot register card
->     mt8186_mt6366 sound: probe with driver mt8186_mt6366 failed with error -22
 > 
-> [...]
 
 Applied to
 
@@ -72,8 +58,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoc: SOF: topology: Clear SOF link platform name upon unload
-      commit: e0be875c5bf03a9676a6bfed9e0f1766922a7dbd
+[1/1] ASoC: dapm: Use IS_ERR_OR_NULL() helper function
+      commit: 75560718e83bede12d70b2a6b6940089477f58e4
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
