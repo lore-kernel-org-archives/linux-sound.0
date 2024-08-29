@@ -1,91 +1,230 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A772187555
-	for <linux-sound@vger.kernel.org>; Thu, 29 Aug 2024 09:04:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C2C818F2EF;
+	Thu, 29 Aug 2024 10:26:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724922253; cv=none; b=TH/T9AOLKBTPJ0gJCE1k2sipqT67wAUsg4EHLnhLDufo8TU4GLvguPW+Wbrlm8hPjJWmgvB4VjDwZNo/u1sAvLCwfUzQuC5eWSaUEAnVYi8WbmT5NwRiKuAruWrFrFOx0372J2yC5D020GQDuQ/t+sKnBs6vQZCW/NeDQ2buY+E=
+	t=1724927207; cv=none; b=s51RJbDRJPG4rZ/k8tIQqmJRWs3HExv/e1+vAI0DrUGLDTN3WRpwkBmuYJTdWiKgOBcVWG5OMOZdOk+u0TJE04WvDtU2JQNpN0uMqXnOTmZHQAoAvhgzA4C6JVvDlyKgjdkkgqkZ0SrllqOIyZjpuvlDVR+TVVwOUQxb8FPn8Ws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724922253; c=relaxed/simple;
-	bh=Q9bYj/5f0M7H1HvllWqBlYFk/0euewRtVGILkmAMdCE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kbmlODx92LCP/rtbp/JPudPzUf1+INOMxDUmV+K7FS9XkVy9zpbWDAVrgbpW4J4bMkCYiNBvpVEFb4aIthunnAoDYxwWmtOzxad8EbaXzquqTw9qy2iFbJsYaeeua6eXUQ0a9VN3zH40lo6DL40N7uxzDvAaBA59fHi8mZKR/pc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ngNcxurT; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1724927207; c=relaxed/simple;
+	bh=XqwKKVwXVCVwYDxJa99igQyUTTFSAF8ushvNwAihGgM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CPft3lgc7fYt9DN5aNyuFkZzOC6JJmxixeJPNZZW/5U4zkzPyCE1tLAejCJ1pNkEWqpMiWvwhcAGe3pwEYLx1HD6+2RxD32R4AIkzlB1dUpuU8/glXDP+YqMVOuxI5VJM1wW5S2y+jaldLOtI7ZFHjhbtLT572lY8+MIUmZ1/q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=hb27Kn4d; arc=none smtp.client-ip=85.214.62.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ngNcxurT"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-534366c194fso449933e87.0
-        for <linux-sound@vger.kernel.org>; Thu, 29 Aug 2024 02:04:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724922249; x=1725527049; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LQhYCSAf0lZ9zTdJ5ehTCVXsoJJBlJOqEhmha6ZTv8Y=;
-        b=ngNcxurTAanOfoyum/lkCpr0aKSWmSe52c2VRy6h3aX+fPwRWGHyk7tA8asQRgKBGe
-         45g5QqPPpTSd1flyyuzNG7ArdG67OVQAKdKaDgkmvC8lHDxH8ckw5rzvi+Rw4F6W+SyQ
-         oQlpsD96dEHGJpA6R2A/2PT4o412UsTqBrl9c/pkT0BQxw64ppgl9V1LcsYTEKkpzJZl
-         IsVxXpoTx1kTPNKZ3P+Rce9FV7K0xrTSXdz0UCczdN41K8++bI5Kguf7Q77+GGxmmcNk
-         V8Iz5ENg5mqN8iDfjpDHTrY5smgkv1J9bGE/Hep7/Yr8qXMjYaNYhLhVMhKWqMCBCpwB
-         Pwfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724922249; x=1725527049;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LQhYCSAf0lZ9zTdJ5ehTCVXsoJJBlJOqEhmha6ZTv8Y=;
-        b=YcgZjOD69m11e25cz4cmVjGkF5IWrCMRWBvINGpYWTfJdJ80heV2CSz88ZkAhvoZWK
-         eF3ZH01yj1S6RbsrMgO8I9kYW8CHjQYvr0pX2RbOXLOvKHJmOlVcGuFXY7L+DMu5T2RD
-         JrB6g8l3fh4xm6EwLNNakN6K5VJYuBQkn5SwyvV2Nq9sxAHtwESRIj7Y5QW/TR9sogwO
-         jZpn6xcWMH1/PC29SIGWIoPpIvTORRVw6KVU6ySP+cbAsBcuVHXUpFMl4nyghvRC5UiF
-         e3TtnW3kLSDXzSDGYqs1SzuTcNetzbJO1wbuyual1oQ/UDGhGTBUTo7f8CpTCyfH3ltg
-         QLaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW6hT+Ejcp45k4G/DBDFHBBNT2tVi/tHnvvbYb69zpKt8/tV9XDM4pp5gBxKNpFjvuFCXc3SG6YZuOS2w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxBPKrNMYS3spF6w9FKCaGQntsRz1x5xpz828Eow4gOEZFLCui4
-	wqPsburaSh5AFez+TetCvdoFSA+IMGyE/Dx4+k4lah0X2Zd6qMb3DfDcvRQGNV0=
-X-Google-Smtp-Source: AGHT+IE/qXx2q84dxT76THTRzMY5sKyc3VDj8MyI+BTpt6oDqkE11zyAxjt+tBhXkDbZgXuT7jScDg==
-X-Received: by 2002:a05:6512:31d4:b0:52e:fdeb:9381 with SMTP id 2adb3069b0e04-5353e5acb08mr1393344e87.43.1724922248778;
-        Thu, 29 Aug 2024 02:04:08 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5354079b729sm100734e87.49.2024.08.29.02.04.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2024 02:04:08 -0700 (PDT)
-Date: Thu, 29 Aug 2024 12:04:06 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Jens Reidel <adrian@travitia.xyz>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org, 
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux@mainlining.org
-Subject: Re: [PATCH 1/1] ASoC: qcom: sm8250: enable primary mi2s
-Message-ID: <egicpgs2l4wkthb72hp2clleh2yajhjrkmuceok5hbjnfbbqft@64aendbltnls>
-References: <20240826134920.55148-1-adrian@travitia.xyz>
- <20240826134920.55148-2-adrian@travitia.xyz>
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="hb27Kn4d"
+Received: from localhost.localdomain (85-222-111-42.dynamic.chello.pl [85.222.111.42])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: lukma@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 0D4FA88A99;
+	Thu, 29 Aug 2024 12:26:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1724927203;
+	bh=wJQPagtdUNlpPJvsfeaRTfYdfhIfa8rXrCNWOietuUw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=hb27Kn4dpKKFb0kWrFejnQDmo3fZHro//k8aKdCLNkno+KAhU41jRpAWQhyMVI6Xz
+	 5T5N+BmG3nyzZjFZWWOCbZ9bsuXhwiIMl7e9sGlEAyCzFgbpO0YXr52YaOOLmcgKkc
+	 lQCv75QGo8JrfpShbjLceRIPhTnDwJaOy2Iji3tIoQREZPW3mc/lKdL2r4M01/mG9N
+	 z/oHEYJUm6BtgZJfrHAvjsahCiovUpfIa/EVyG4oIP/pHgSIi6ZrTpTO5GZPj8Vuia
+	 1pNpEr3o7kIk0r+mx9kM4BJswWvjEX6B+LeCin7bTMVc9fTe1sK0CvnjahacjE6zNr
+	 sCr2G6EmpGGBg==
+From: Lukasz Majewski <lukma@denx.de>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	linux-sound@vger.kernel.org
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	devicetree@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Lukasz Majewski <lukma@denx.de>
+Subject: [PATCH v4] ASoC: dt-bindings: Convert mxs-saif.txt to fsl,imx28-saif.yaml (imx28 saif)
+Date: Thu, 29 Aug 2024 12:26:25 +0200
+Message-Id: <20240829102625.3128645-1-lukma@denx.de>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240826134920.55148-2-adrian@travitia.xyz>
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 
-On Mon, Aug 26, 2024 at 03:49:20PM GMT, Jens Reidel wrote:
-> When using primary mi2s on sm8250-compatible SoCs, the correct clock
-> needs to get enabled to be able to use the mi2s interface.
-> 
-> Signed-off-by: Jens Reidel <adrian@travitia.xyz>
-> ---
->  sound/soc/qcom/sm8250.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
+The 'fsl,imx28-saif' compatible has already the mxs-saif.txt description.
+This patch converts (and removes it) this file to fsl,imx28-saif.yaml.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Changes for the mxs-saif.txt:
+- Adds 'clocks', '#clock-cells' and '#sound-dai-cells' properties
+- Provide device description
 
+Signed-off-by: Lukasz Majewski <lukma@denx.de>
 
+---
+Changes for v4:
+- Change file name to match compatible (fsl,imx28-saif.yaml)
+- Remove 'saif0' and 'saif1' labels as those are not needed in the
+  example node
+
+Changes for v3:
+- Add #clock-cells property
+
+Changes for v2:
+- Remove mxs-saif.txt
+- Add description with information about extensions required for this
+  device's current DTS description
+---
+ .../bindings/sound/fsl,imx28-saif.yaml        | 82 +++++++++++++++++++
+ .../devicetree/bindings/sound/mxs-saif.txt    | 41 ----------
+ 2 files changed, 82 insertions(+), 41 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/fsl,imx28-saif.yaml
+ delete mode 100644 Documentation/devicetree/bindings/sound/mxs-saif.txt
+
+diff --git a/Documentation/devicetree/bindings/sound/fsl,imx28-saif.yaml b/Documentation/devicetree/bindings/sound/fsl,imx28-saif.yaml
+new file mode 100644
+index 000000000000..b2c73a9b7a55
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/fsl,imx28-saif.yaml
+@@ -0,0 +1,82 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/fsl,imx28-saif.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Freescale MXS Serial Audio Interface (SAIF)
++
++maintainers:
++  - Lukasz Majewski <lukma@denx.de>
++
++allOf:
++  - $ref: dai-common.yaml#
++
++description:
++  The SAIF is based on I2S module that is used to communicate with audio codecs,
++  but only with half-duplex manner (i.e. it can either transmit or receive PCM
++  audio).
++
++properties:
++  compatible:
++    const: fsl,imx28-saif
++
++  reg:
++    maxItems: 1
++
++  "#sound-dai-cells":
++    const: 0
++
++  interrupts:
++    maxItems: 1
++
++  dmas:
++    maxItems: 1
++
++  dma-names:
++    const: rx-tx
++
++  "#clock-cells":
++    description: Configure the I2S device as MCLK clock provider.
++    const: 0
++
++  clocks:
++    maxItems: 1
++
++  fsl,saif-master:
++    description: Indicate that saif is a slave and its phandle points to master
++    $ref: /schemas/types.yaml#/definitions/phandle
++
++required:
++  - compatible
++  - reg
++  - "#sound-dai-cells"
++  - interrupts
++  - dmas
++  - dma-names
++  - clocks
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    saif@80042000 {
++        compatible = "fsl,imx28-saif";
++        reg = <0x80042000 2000>;
++        #sound-dai-cells = <0>;
++        interrupts = <59>;
++        dmas = <&dma_apbx 4>;
++        dma-names = "rx-tx";
++        #clock-cells = <0>;
++        clocks = <&clks 53>;
++    };
++    saif@80046000 {
++        compatible = "fsl,imx28-saif";
++        reg = <0x80046000 2000>;
++        #sound-dai-cells = <0>;
++        interrupts = <58>;
++        dmas = <&dma_apbx 5>;
++        dma-names = "rx-tx";
++        clocks = <&clks 53>;
++        fsl,saif-master = <&saif0>;
++    };
+diff --git a/Documentation/devicetree/bindings/sound/mxs-saif.txt b/Documentation/devicetree/bindings/sound/mxs-saif.txt
+deleted file mode 100644
+index 7ba07a118e37..000000000000
+--- a/Documentation/devicetree/bindings/sound/mxs-saif.txt
++++ /dev/null
+@@ -1,41 +0,0 @@
+-* Freescale MXS Serial Audio Interface (SAIF)
+-
+-Required properties:
+-- compatible: Should be "fsl,<chip>-saif"
+-- reg: Should contain registers location and length
+-- interrupts: Should contain ERROR interrupt number
+-- dmas: DMA specifier, consisting of a phandle to DMA controller node
+-  and SAIF DMA channel ID.
+-  Refer to dma.txt and fsl-mxs-dma.txt for details.
+-- dma-names: Must be "rx-tx".
+-
+-Optional properties:
+-- fsl,saif-master: phandle to the master SAIF.  It's only required for
+-  the slave SAIF.
+-
+-Note: Each SAIF controller should have an alias correctly numbered
+-in "aliases" node.
+-
+-Example:
+-
+-aliases {
+-	saif0 = &saif0;
+-	saif1 = &saif1;
+-};
+-
+-saif0: saif@80042000 {
+-	compatible = "fsl,imx28-saif";
+-	reg = <0x80042000 2000>;
+-	interrupts = <59>;
+-	dmas = <&dma_apbx 4>;
+-	dma-names = "rx-tx";
+-};
+-
+-saif1: saif@80046000 {
+-	compatible = "fsl,imx28-saif";
+-	reg = <0x80046000 2000>;
+-	interrupts = <58>;
+-	dmas = <&dma_apbx 5>;
+-	dma-names = "rx-tx";
+-	fsl,saif-master = <&saif0>;
+-};
 -- 
-With best wishes
-Dmitry
+2.39.2
+
