@@ -1,89 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91ADE19408D;
-	Thu, 29 Aug 2024 12:24:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F2C718E021;
+	Thu, 29 Aug 2024 13:03:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724934260; cv=none; b=ApUhBUZXPziC0suzAX1/4Gn0AIfvwOl7MBatHVAhDYKXfSSpFJ36UFU0Ynz+j/d60D4izfsC1urC3574i1K7P3q4VLlSrUMyybD6ndTrbXJMfBWH1wiK4V2I3g+LW2w5Snzi9DUriUi+YIidnUcu4dR226h/ojqOTVJdZ2sMJdM=
+	t=1724936612; cv=none; b=gfnHOB0PS1GgLOTwrVz40RpSTGlCPmBIVQSjwLuk/Q3YhGQkcU9sHqFnVjrWoIKQpDM7FtLTL98jGdwhGQMk9DH70UlAY8I8958xuzI4KwEhL+j7Vc4Hi1/4KMKsmq96/K3qaiC/q6NqNutQ+7zMwflrZmR37zTkr4fEZwKSn8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724934260; c=relaxed/simple;
-	bh=gfo7M4rFSc2kDdyqbx9PNzApWPwrRZh0JwXsvvoWfJ4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=fmgp1LIPqmU7Ys8MotoUfag1WS0JwNm7ahLlDHW4geDLfuosqumEq2bwKagOvtKzyWHbMIZxilQKjqVq2Y5DA5UHJ+v53XlBQZFSrStSTC1upHqE40j9k+LfTY8m41ignFFxlM3c4cWDbKfI8xcL+jhYx2haPbUK8o5MI9fT48E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p8eI8bTp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724936612; c=relaxed/simple;
+	bh=pT/Nr2LEpLWEte2xGTNcDDsEdzK4AB7B8Xq0L5zdctk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=a3PkLax+lPW69+/gE9Bsg1E85DxBZwxzIj/d1yjoHyvqpShVWq51b0I5bwAGjW39c/mnSsqMTsAbJ2aFBE8s0WYC0VHStRf198l2l1J3XCIgwtN6dDrlCkzr+a8aAtSe2JBQevhYrf7ekcQjnfwvYJp1a+t+tUJl25ETSgbFoBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nCgN30MP; arc=none smtp.client-ip=209.85.208.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p8eI8bTp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C53DC4CEC3;
-	Thu, 29 Aug 2024 12:24:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724934260;
-	bh=gfo7M4rFSc2kDdyqbx9PNzApWPwrRZh0JwXsvvoWfJ4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=p8eI8bTpKuCI1Jzqw6BI6SSbNmgJbM8t04QwzJT5u3OO6UAAVk8rm7Dc9XwiBZ3NE
-	 GPG/WPjRrpEEUj1DvdwIKXBUjg1sdj3rgdyfloANEhhVpdNkh6hut5Op+rqvKNMD9N
-	 O/3A/UGa9Gy6E1VFZh2qGKZJQXhMdESTkidPceX9Vr+/tX+EAeqs0ALbVmtDwCOQZX
-	 sBEUYRPiCUsDXjCZtEKusv9C3Nyi+A2Yt+D/BZsHDh36ZiKOnlCiBA+k89w27+faOD
-	 T+Rzsk4VALLC0rUobKIMehBpfJVUQ3ZgKCvu4c+LpCUtoLFwP2IyoLok/SO3I8hyQw
-	 3wLZ8f4NI9hyQ==
-From: Mark Brown <broonie@kernel.org>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Lukasz Majewski <lukma@denx.de>
-Cc: Fabio Estevam <festevam@gmail.com>, Conor Dooley <conor+dt@kernel.org>, 
- devicetree@vger.kernel.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20240828092709.2626359-1-lukma@denx.de>
-References: <20240828092709.2626359-1-lukma@denx.de>
-Subject: Re: [PATCH v3] ASoC: dt-bindings: Convert mxs-saif.txt to
- fsl,saif.yaml (imx28 saif)
-Message-Id: <172493425791.31048.9422317952364353644.b4-ty@kernel.org>
-Date: Thu, 29 Aug 2024 13:24:17 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nCgN30MP"
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2f3f90295a9so6982041fa.0;
+        Thu, 29 Aug 2024 06:03:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724936608; x=1725541408; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rUD53qfpmrM6jiWmiR8uEuUiqnr6GPXvbq7APdhH4Zo=;
+        b=nCgN30MPZbuVKOpSc52RgT49ltTGQAYvfbqo+Nh1X9NxfNMvTNh2Ax6hKwI0qyD5k9
+         7cPhDyQ8LLBfAvw4LYwGOi/0cn++now5vNFhKAVHntYsqPHAUusMCTjEvSy4T2aAcE2W
+         Q6Cjdi81k9OHsKg4kaU/ZCIjocPYIHNQD21h05WQx5fM8pWkvxXa2Px7mfj6bezkOJBd
+         mkD1lZfdjiFZHNjiTDXhqnRQ+heVRq7tN+XSZj3+c+d3ApT+B8ZHo4FgqA7cOeN7vXHD
+         GsXlWDky5tHnCrkHv7h9u8Xr1GZRFDTJqhUqZkOEReLOZecLcGChmQg/U8STqhhYxgHe
+         JRLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724936608; x=1725541408;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rUD53qfpmrM6jiWmiR8uEuUiqnr6GPXvbq7APdhH4Zo=;
+        b=pgKzjwVzNm3Wpv/bajLJU9Sup33ruVpTYgz3pqAK52fwjriNfFm0c6XBorDKKfEVCV
+         1lXl/MQafI08Zd8Yu7U29ImmjTXO2ongOA/PZmWD2GHAGJlbc6UKtnwkJlt7bTWMdyQY
+         C9yktV6scp2wbQyIlsw6saLbip+fchD214SyuY7qto4pIJYzvp2cToQhwW8JYsjP1k7q
+         qGoJE2CRq+KU/XcCCF6/rCoa6WpSzKQtvSdHbTgJEF3sL8dNafWsYdv7S/QwvN11ZS1f
+         X9WmiKI/7mfCBVoPyDuZjJhEe7/RWKKFyplmoq+yHSrqwC1ETezFbLEnjHmOqoHUjc5r
+         aqzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWMTWdbI9oHhX84Af+JtQciD4kMiGo/fejOWNSE1bqnnA4M6eO/sa97WKv/yqfQeVGekDSGyYs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyXRPaDiQTWL3PPgr8cszj7j/OQZ+rhrt6/ps01CGdlnDCfLTX+
+	/+vxcG6R79cRdpUnrleiHXF/XvV9HWAZL3gxnt0JFsnUc+8G7Jeg
+X-Google-Smtp-Source: AGHT+IHTrWI8GzNChrPOKcPGGXKN4I/vIEZWHXVZhlHcNNi0n37jmLDKAP3pA8vYcCemGLLsHb9qIw==
+X-Received: by 2002:a2e:bc1f:0:b0:2f2:b2f7:c8a3 with SMTP id 38308e7fff4ca-2f610527cc9mr21512971fa.44.1724936607169;
+        Thu, 29 Aug 2024 06:03:27 -0700 (PDT)
+Received: from localhost.localdomain ([194.39.226.133])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2f615171e3dsm1717611fa.86.2024.08.29.06.03.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Aug 2024 06:03:26 -0700 (PDT)
+From: Markuss Broks <markuss.broks@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org,
+	markuss.broks@gmail.com,
+	stable@vger.kernel.org
+Subject: [PATCH] ASoC: amd: yc: Add a quirk for MSI Bravo 17 (D7VEK)
+Date: Thu, 29 Aug 2024 16:03:05 +0300
+Message-ID: <20240829130313.338508-1-markuss.broks@gmail.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-37811
+Content-Transfer-Encoding: 8bit
 
-On Wed, 28 Aug 2024 11:27:09 +0200, Lukasz Majewski wrote:
-> The 'fsl,imx28-saif' compatible has already the mxs-saif.txt description.
-> This patch converts (and removes it) this file to fsl,saif.yaml (to follow
-> current fsl convention).
-> 
-> Changes for the mxs-saif.txt:
-> - Adds 'clocks', '#clock-cells' and '#sound-dai-cells' properties
-> - Provide device description
-> 
-> [...]
+MSI Bravo 17 (D7VEK), like other laptops from the family,
+has broken ACPI tables and needs a quirk for internal mic
+to work.
 
-Applied to
+Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
+---
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] ASoC: dt-bindings: Convert mxs-saif.txt to fsl,saif.yaml (imx28 saif)
-      commit: 125b749221aa54db069a7805f08d99b55c74c88c
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index 0523c16305db..843abc378b28 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -353,6 +353,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "Bravo 15 C7VF"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "Micro-Star International Co., Ltd."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Bravo 17 D7VEK"),
++		}
++	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
+-- 
+2.46.0
 
