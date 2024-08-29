@@ -1,99 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F1B1B151B;
-	Thu, 29 Aug 2024 14:54:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D0719306A;
+	Thu, 29 Aug 2024 14:56:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724943276; cv=none; b=LkBSU0ALh92+l2yNGdHCfCrIXaCX5xcOZpB99v7NOWSmWtPU7Z/QjQeUF5uNHAly5PoD1JPpdS60PT1wIUIIi3ZoYHunLma9hEF7lRbOCxjsQZNAJ0zGphfWJJIoyQXHa/Scsqyn3rflL5sjg8wJmimzbFxSq2zUiYiE+B9ZZW8=
+	t=1724943414; cv=none; b=X4FbD4SqI0XvtkmDcOMCXeMUa/pJWHE2FlWkJnUXjaWPtzh6PuFuwhgFHln7s4fs4DHqE+IKG0uNOISyTN+UR0g37zCsjjaIeGZnVg1mjBN1kYMvbZOkZWrGad/i03anMkXklAo1dHfde0EKDqI9rs8w1cVKwlivEcazpvO4H0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724943276; c=relaxed/simple;
-	bh=94sqycuEg7LZE3IfoAS/UYJHpdhV1CbtJdmFG3iWS1U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=II4rYzkPnCx8HXlGMKBBimi7h/9hsjUmIUORsBwuIa+PRgLfiQbDdSofqbuzIor4zHfuHH7Gz0N6aHE3kPEcNpGsuBtl9ygWOEPlVuR7crWeBQhJCm2PtiW0as3IbP+V25hgLAURIC796hY60QxcNpTPNTe2ucP3onJ6IMnhYj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y/hg1oCh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724943414; c=relaxed/simple;
+	bh=4wBft1Lldp10vZLlsit+WEGCSpztxtru1Fep2zmzw0Y=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=WFg+QqcXsxQ7sgt1MvesVBo59+tu2bi67FsYFmZp+9Ysrmfv/hdPnNq/8EmyYGR1Uu3kgZA3chyiO9uCTK7Rc7IbABB2GDFCBqEIYWnRI4UeugC6Ue4ZoJLNJCahvNq9x3Zh7EaAhWinMQg7WZHgJVYBpPaHh+X4orH8DVZHWCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kOeCnxkG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y/hg1oCh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB876C4CEC3;
-	Thu, 29 Aug 2024 14:54:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kOeCnxkG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E17CBC4CEC1;
+	Thu, 29 Aug 2024 14:56:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724943276;
-	bh=94sqycuEg7LZE3IfoAS/UYJHpdhV1CbtJdmFG3iWS1U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Y/hg1oCh+Ij6W4jgfibIcNLBH2y6qwXWngwcUcGr4b3eYryJduYRVobwRt6oxc42R
-	 H6f1zYxHYCrS7niInBO5J0AjCy8ecFWqNseOf/cmogScebBhrEna8OTyktEs8yEjrJ
-	 175Q0V6vAr2G+DQqxPtZGIdZNe+qIREnbKSj8qwgAhz5FNxTFMhz5yEsTHAxdoLS3i
-	 hI3xZDeYhtA/QPLEtmCboawwvUP6HlSbtj5geHqzV/za/0DVs4yDF5mOzTCBINi1xj
-	 x4gwu3HxpENBZpP5e0AkTwn4UUpF/Eb8me1jX0fvP6HHtr585Fv4o2jsG3R7yMmQpr
-	 Zda3hB26yi+pQ==
-Date: Thu, 29 Aug 2024 09:54:34 -0500
-From: Rob Herring <robh@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-sound@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH v4 9/9] media: xilinx-tpg: use new of_graph functions
-Message-ID: <20240829145434.GA465065-robh@kernel.org>
-References: <87bk1d2pvt.wl-kuninori.morimoto.gx@renesas.com>
- <87y14h1b9f.wl-kuninori.morimoto.gx@renesas.com>
+	s=k20201202; t=1724943414;
+	bh=4wBft1Lldp10vZLlsit+WEGCSpztxtru1Fep2zmzw0Y=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=kOeCnxkGVN2R4DNA534Huc1PpC5FcrK72517XYBbrL3hHxeFGWbknZbVCd3PgJi4D
+	 KmayVh0df8111J4Z7jn5wgZVqplG6Y1EoWSbL4hsHYov5OzpmoawyO+BtQYQSEFrYy
+	 3gMWg9cyUeCveswZ/1Ozt4j2vV3ubo0vCVlth/t+CmBQuyyzk40JcZBZ+l4/wXMN4i
+	 ASSuv+i2KI+sZmN/9kfl4qNDsErKcAmq2WzOWGQE3FLnVIvK4KTkpXm16pRFARjR0M
+	 0WGgMey5M1SAQy8KQgbad7Sp9Mb05VLJ2I7+ayWuAUs+U+lHixFiX0YXDOrp/uHJOh
+	 3NaCe/a73dz3Q==
+From: Mark Brown <broonie@kernel.org>
+To: Markuss Broks <markuss.broks@gmail.com>
+Cc: linux-sound@vger.kernel.org, stable@vger.kernel.org
+In-Reply-To: <20240829130313.338508-1-markuss.broks@gmail.com>
+References: <20240829130313.338508-1-markuss.broks@gmail.com>
+Subject: Re: [PATCH] ASoC: amd: yc: Add a quirk for MSI Bravo 17 (D7VEK)
+Message-Id: <172494341364.333436.14919734395100570336.b4-ty@kernel.org>
+Date: Thu, 29 Aug 2024 15:56:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87y14h1b9f.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-37811
 
-On Wed, Aug 28, 2024 at 05:12:28AM +0000, Kuninori Morimoto wrote:
-> Now we can use new port related functions for port parsing. Use it.
+On Thu, 29 Aug 2024 16:03:05 +0300, Markuss Broks wrote:
+> MSI Bravo 17 (D7VEK), like other laptops from the family,
+> has broken ACPI tables and needs a quirk for internal mic
+> to work.
 > 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> ---
->  drivers/media/platform/xilinx/xilinx-tpg.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/platform/xilinx/xilinx-tpg.c b/drivers/media/platform/xilinx/xilinx-tpg.c
-> index e05e528ffc6f7..a25f216b2513c 100644
-> --- a/drivers/media/platform/xilinx/xilinx-tpg.c
-> +++ b/drivers/media/platform/xilinx/xilinx-tpg.c
-> @@ -13,6 +13,7 @@
->  #include <linux/gpio/consumer.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
-> +#include <linux/of_graph.h>
->  #include <linux/platform_device.h>
->  #include <linux/xilinx-v4l2-controls.h>
->  
-> @@ -744,7 +745,7 @@ static int xtpg_parse_of(struct xtpg_device *xtpg)
->  		}
->  
 
-This function is looping over port nodes, why don't you make it use 
-for_each_of_graph_port()?
+Applied to
 
->  		if (nports == 0) {
-> -			endpoint = of_get_next_child(port, NULL);
-> +			endpoint = of_graph_get_next_port_endpoint(port, NULL);
->  			if (endpoint)
->  				has_endpoint = true;
->  			of_node_put(endpoint);
-> -- 
-> 2.43.0
-> 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: amd: yc: Add a quirk for MSI Bravo 17 (D7VEK)
+      commit: 283844c35529300c8e10f7a263e35e3c5d3580ac
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
