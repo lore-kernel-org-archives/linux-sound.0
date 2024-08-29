@@ -1,93 +1,122 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E8FB1B3F19;
-	Thu, 29 Aug 2024 16:04:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF17C1B5800;
+	Thu, 29 Aug 2024 16:13:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724947479; cv=none; b=C8tkm9II+6VZwdviavu6IgXTKFeFaa8t5P+K3RBpRbCU1jmt6vqiLoenKQjBW0GUcMePI39INiIyHkrrar2vuHEBOCQU/wJpWtRh5k6KHKq99wIsZWIZy1/HlZRWU4UnxXYgxPhweBwzplTRtl7iaH2rVQ7wFvrjiKmA26ihry4=
+	t=1724948002; cv=none; b=A+QlJJgOYG8pOc1k8q+m3OqLBvZGYZjrMdLfjmMgrxv7ddxVOnNCSert1wpYN//oSfBi/BwDln3Cl/AIpuo1rU66T68hlyJZXPuZ+QeCZlXd9mdVg2N725eTNxNHgpQQ41vEyCqDzGMqR+a1RbqInzMub87UD4qJcjuApfP38v8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724947479; c=relaxed/simple;
-	bh=/UWwwm9DQOK+k3QK01sWwhtAkx/XzO3OvB3mEjmcYzc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Ine7CRgs0l2CVjcwFgErtBzFTRw1oAJnPLPfzNsT/vEYE/VL3dxkrvGnxAckQt/yASJzKCSkMHLOvUMTuAMUp30Catow5rl2+IwS6L6r0CYgne2aIFNakNnNcxIw4RYb00WlZh5seuQPIaCKEomvML17eAGW77XgielQj1FaZ30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dHgblykA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724948002; c=relaxed/simple;
+	bh=VGs68PfNrarA1kIV4Q3+GneWz66NTWvS2Qg0QV3mnCU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S2LZFqJHB9uUPNAKOl6fLV1iNYQB1s144RzraUA25MvAAKywOSoT2ZoefPjmmkXAvO7pvdmZ74bxvXcGIVwMXQjru6o4kokzfj1qWqgK1gvh3gvF9UbNY+ddyMmO+atUMV+dSN/IhdbH7DRL0NLnBqw2PZeorXr3CxxNu7rCLoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P0o6GpUb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dHgblykA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AB79C4CEC1;
-	Thu, 29 Aug 2024 16:04:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P0o6GpUb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1A34C4CEC9;
+	Thu, 29 Aug 2024 16:13:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724947478;
-	bh=/UWwwm9DQOK+k3QK01sWwhtAkx/XzO3OvB3mEjmcYzc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=dHgblykAb4kxCUJ/032sObRj3RrPtwB/BmXxqQwE3u4LdFYtt9GrMkSHQ58l62sFB
-	 tgAPnKiMjN3GTaJqpG5LseAhe4UAAm9/hAbB+xW/vC4wReq9hyj0bymaXVAUT84bRe
-	 H6k/TbZopEpQkWnhQDcHXUpvuW/VVFSdAdAAcxW91ABrdlDLy/xMXuegj6a5cw2dVP
-	 udMWX9u+kmM6t+gz+NG0b7QlQobZtXBqMG2wxuZ8H56Ii2kwXDhwS8Fylc6rdo9z4f
-	 kMB5mPufF7LIf0E9ozMeP0eNW/Ql4YsfED6sylYP3XI4YBcxfvdXf79XOve43h5F9Q
-	 CHyB278AuvPng==
-From: Mark Brown <broonie@kernel.org>
-To: David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Alexander Sverdlin <alexander.sverdlin@gmail.com>, 
- Nikita Shubin <nikita.shubin@maquefel.me>
-Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20240829-cs4271-yaml-v3-1-f1624cc838f6@maquefel.me>
-References: <20240829-cs4271-yaml-v3-1-f1624cc838f6@maquefel.me>
-Subject: Re: [PATCH v3] ASoC: dt-bindings: cirrus,cs4271: Convert to
- dtschema
-Message-Id: <172494747609.570876.9753159786712866803.b4-ty@kernel.org>
-Date: Thu, 29 Aug 2024 17:04:36 +0100
+	s=k20201202; t=1724948002;
+	bh=VGs68PfNrarA1kIV4Q3+GneWz66NTWvS2Qg0QV3mnCU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=P0o6GpUbGD8sx9Ok+rGfmiYrhBg1C8TXmFjhyjkMA7w11yo0dbTIMwgb2dvsXVEDN
+	 fI/uAwfcMRI3Af0V1SVibi1nfGb/mwmuuJ5T7vF++fwmcOzejd7qBdP/daQof3hDPy
+	 cHNOzX4rvs5YwCxM3iPJxZt+Y/ojAbgPu/bdXrmOT6btLM4V0NY8s4kVgcv1jAYefT
+	 896z7BUQjUHsXIeqBwfh24UViZxlNTw3JzQBKETcC42qhZpf3Uml5sdzMNWAxK2I80
+	 eqErcgTGwbSyYMlYfaN8YTWKOia+4GDEPyn/1vt6aiFwxAu8XzkFM7BS0tHPKRFGNe
+	 1ck9tWIH71Ktw==
+Date: Thu, 29 Aug 2024 17:13:17 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Lukasz Majewski <lukma@denx.de>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>, linux-sound@vger.kernel.org,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v4] ASoC: dt-bindings: Convert mxs-saif.txt to
+ fsl,imx28-saif.yaml (imx28 saif)
+Message-ID: <20240829-power-traction-01344edc5fed@spud>
+References: <20240829102625.3128645-1-lukma@denx.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-37811
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="flucLSha+vknQX0y"
+Content-Disposition: inline
+In-Reply-To: <20240829102625.3128645-1-lukma@denx.de>
 
-On Thu, 29 Aug 2024 10:52:57 +0300, Nikita Shubin wrote:
-> Convert the Cirrus Logic CS4271 audio CODEC bindings to DT schema.
-> 
-> Add missing spi-cpha, spi-cpol, '#sound-dai-cells' and port, as they
-> are already being used in the DTS and the driver for this device.
-> 
-> Switch to 'reset-gpios' and drop legacy 'reset-gpio' used in original
-> bindings.
-> 
-> [...]
 
-Applied to
+--flucLSha+vknQX0y
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Thu, Aug 29, 2024 at 12:26:25PM +0200, Lukasz Majewski wrote:
+> The 'fsl,imx28-saif' compatible has already the mxs-saif.txt description.
+> This patch converts (and removes it) this file to fsl,imx28-saif.yaml.
+>=20
+> Changes for the mxs-saif.txt:
+> - Adds 'clocks', '#clock-cells' and '#sound-dai-cells' properties
+> - Provide device description
+>=20
+> Signed-off-by: Lukasz Majewski <lukma@denx.de>
+>=20
+> ---
+> Changes for v4:
+> - Change file name to match compatible (fsl,imx28-saif.yaml)
+> - Remove 'saif0' and 'saif1' labels as those are not needed in the
+>   example node
 
-Thanks!
+Hmm, what you've done is not quite what I was suggesting. I was saying
+that either you should remove one of the examples entirely, or merge the
+two examples retaining the only saif0 label.
 
-[1/1] ASoC: dt-bindings: cirrus,cs4271: Convert to dtschema
-      commit: 7817eb1ad353d732bac546b39316f2422c76fff4
+With that sorted,
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Cheers,
+Conor.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+> +examples:
+> +  - |
+> +    saif@80042000 {
+> +        compatible =3D "fsl,imx28-saif";
+> +        reg =3D <0x80042000 2000>;
+> +        #sound-dai-cells =3D <0>;
+> +        interrupts =3D <59>;
+> +        dmas =3D <&dma_apbx 4>;
+> +        dma-names =3D "rx-tx";
+> +        #clock-cells =3D <0>;
+> +        clocks =3D <&clks 53>;
+> +    };
+> +    saif@80046000 {
+> +        compatible =3D "fsl,imx28-saif";
+> +        reg =3D <0x80046000 2000>;
+> +        #sound-dai-cells =3D <0>;
+> +        interrupts =3D <58>;
+> +        dmas =3D <&dma_apbx 5>;
+> +        dma-names =3D "rx-tx";
+> +        clocks =3D <&clks 53>;
+> +        fsl,saif-master =3D <&saif0>;
+> +    };
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+--flucLSha+vknQX0y
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thanks,
-Mark
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZtCeHQAKCRB4tDGHoIJi
+0rbiAP9Y7W5F+NPN2JmNH/14k5YrCbeB7Ma9GtGh5Mu/5AE86wD/bYJfDPmUwzxq
+VnrDiy27sjxu9PeSf8eyLVHCH6mTRgA=
+=Ftps
+-----END PGP SIGNATURE-----
+
+--flucLSha+vknQX0y--
