@@ -1,230 +1,89 @@
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C2C818F2EF;
-	Thu, 29 Aug 2024 10:26:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91ADE19408D;
+	Thu, 29 Aug 2024 12:24:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724927207; cv=none; b=s51RJbDRJPG4rZ/k8tIQqmJRWs3HExv/e1+vAI0DrUGLDTN3WRpwkBmuYJTdWiKgOBcVWG5OMOZdOk+u0TJE04WvDtU2JQNpN0uMqXnOTmZHQAoAvhgzA4C6JVvDlyKgjdkkgqkZ0SrllqOIyZjpuvlDVR+TVVwOUQxb8FPn8Ws=
+	t=1724934260; cv=none; b=ApUhBUZXPziC0suzAX1/4Gn0AIfvwOl7MBatHVAhDYKXfSSpFJ36UFU0Ynz+j/d60D4izfsC1urC3574i1K7P3q4VLlSrUMyybD6ndTrbXJMfBWH1wiK4V2I3g+LW2w5Snzi9DUriUi+YIidnUcu4dR226h/ojqOTVJdZ2sMJdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724927207; c=relaxed/simple;
-	bh=XqwKKVwXVCVwYDxJa99igQyUTTFSAF8ushvNwAihGgM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CPft3lgc7fYt9DN5aNyuFkZzOC6JJmxixeJPNZZW/5U4zkzPyCE1tLAejCJ1pNkEWqpMiWvwhcAGe3pwEYLx1HD6+2RxD32R4AIkzlB1dUpuU8/glXDP+YqMVOuxI5VJM1wW5S2y+jaldLOtI7ZFHjhbtLT572lY8+MIUmZ1/q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=hb27Kn4d; arc=none smtp.client-ip=85.214.62.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
+	s=arc-20240116; t=1724934260; c=relaxed/simple;
+	bh=gfo7M4rFSc2kDdyqbx9PNzApWPwrRZh0JwXsvvoWfJ4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=fmgp1LIPqmU7Ys8MotoUfag1WS0JwNm7ahLlDHW4geDLfuosqumEq2bwKagOvtKzyWHbMIZxilQKjqVq2Y5DA5UHJ+v53XlBQZFSrStSTC1upHqE40j9k+LfTY8m41ignFFxlM3c4cWDbKfI8xcL+jhYx2haPbUK8o5MI9fT48E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p8eI8bTp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="hb27Kn4d"
-Received: from localhost.localdomain (85-222-111-42.dynamic.chello.pl [85.222.111.42])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: lukma@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 0D4FA88A99;
-	Thu, 29 Aug 2024 12:26:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1724927203;
-	bh=wJQPagtdUNlpPJvsfeaRTfYdfhIfa8rXrCNWOietuUw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=hb27Kn4dpKKFb0kWrFejnQDmo3fZHro//k8aKdCLNkno+KAhU41jRpAWQhyMVI6Xz
-	 5T5N+BmG3nyzZjFZWWOCbZ9bsuXhwiIMl7e9sGlEAyCzFgbpO0YXr52YaOOLmcgKkc
-	 lQCv75QGo8JrfpShbjLceRIPhTnDwJaOy2Iji3tIoQREZPW3mc/lKdL2r4M01/mG9N
-	 z/oHEYJUm6BtgZJfrHAvjsahCiovUpfIa/EVyG4oIP/pHgSIi6ZrTpTO5GZPj8Vuia
-	 1pNpEr3o7kIk0r+mx9kM4BJswWvjEX6B+LeCin7bTMVc9fTe1sK0CvnjahacjE6zNr
-	 sCr2G6EmpGGBg==
-From: Lukasz Majewski <lukma@denx.de>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	linux-sound@vger.kernel.org
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	devicetree@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Lukasz Majewski <lukma@denx.de>
-Subject: [PATCH v4] ASoC: dt-bindings: Convert mxs-saif.txt to fsl,imx28-saif.yaml (imx28 saif)
-Date: Thu, 29 Aug 2024 12:26:25 +0200
-Message-Id: <20240829102625.3128645-1-lukma@denx.de>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p8eI8bTp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C53DC4CEC3;
+	Thu, 29 Aug 2024 12:24:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724934260;
+	bh=gfo7M4rFSc2kDdyqbx9PNzApWPwrRZh0JwXsvvoWfJ4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=p8eI8bTpKuCI1Jzqw6BI6SSbNmgJbM8t04QwzJT5u3OO6UAAVk8rm7Dc9XwiBZ3NE
+	 GPG/WPjRrpEEUj1DvdwIKXBUjg1sdj3rgdyfloANEhhVpdNkh6hut5Op+rqvKNMD9N
+	 O/3A/UGa9Gy6E1VFZh2qGKZJQXhMdESTkidPceX9Vr+/tX+EAeqs0ALbVmtDwCOQZX
+	 sBEUYRPiCUsDXjCZtEKusv9C3Nyi+A2Yt+D/BZsHDh36ZiKOnlCiBA+k89w27+faOD
+	 T+Rzsk4VALLC0rUobKIMehBpfJVUQ3ZgKCvu4c+LpCUtoLFwP2IyoLok/SO3I8hyQw
+	 3wLZ8f4NI9hyQ==
+From: Mark Brown <broonie@kernel.org>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Lukasz Majewski <lukma@denx.de>
+Cc: Fabio Estevam <festevam@gmail.com>, Conor Dooley <conor+dt@kernel.org>, 
+ devicetree@vger.kernel.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20240828092709.2626359-1-lukma@denx.de>
+References: <20240828092709.2626359-1-lukma@denx.de>
+Subject: Re: [PATCH v3] ASoC: dt-bindings: Convert mxs-saif.txt to
+ fsl,saif.yaml (imx28 saif)
+Message-Id: <172493425791.31048.9422317952364353644.b4-ty@kernel.org>
+Date: Thu, 29 Aug 2024 13:24:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-37811
 
-The 'fsl,imx28-saif' compatible has already the mxs-saif.txt description.
-This patch converts (and removes it) this file to fsl,imx28-saif.yaml.
+On Wed, 28 Aug 2024 11:27:09 +0200, Lukasz Majewski wrote:
+> The 'fsl,imx28-saif' compatible has already the mxs-saif.txt description.
+> This patch converts (and removes it) this file to fsl,saif.yaml (to follow
+> current fsl convention).
+> 
+> Changes for the mxs-saif.txt:
+> - Adds 'clocks', '#clock-cells' and '#sound-dai-cells' properties
+> - Provide device description
+> 
+> [...]
 
-Changes for the mxs-saif.txt:
-- Adds 'clocks', '#clock-cells' and '#sound-dai-cells' properties
-- Provide device description
+Applied to
 
-Signed-off-by: Lukasz Majewski <lukma@denx.de>
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
----
-Changes for v4:
-- Change file name to match compatible (fsl,imx28-saif.yaml)
-- Remove 'saif0' and 'saif1' labels as those are not needed in the
-  example node
+Thanks!
 
-Changes for v3:
-- Add #clock-cells property
+[1/1] ASoC: dt-bindings: Convert mxs-saif.txt to fsl,saif.yaml (imx28 saif)
+      commit: 125b749221aa54db069a7805f08d99b55c74c88c
 
-Changes for v2:
-- Remove mxs-saif.txt
-- Add description with information about extensions required for this
-  device's current DTS description
----
- .../bindings/sound/fsl,imx28-saif.yaml        | 82 +++++++++++++++++++
- .../devicetree/bindings/sound/mxs-saif.txt    | 41 ----------
- 2 files changed, 82 insertions(+), 41 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/sound/fsl,imx28-saif.yaml
- delete mode 100644 Documentation/devicetree/bindings/sound/mxs-saif.txt
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-diff --git a/Documentation/devicetree/bindings/sound/fsl,imx28-saif.yaml b/Documentation/devicetree/bindings/sound/fsl,imx28-saif.yaml
-new file mode 100644
-index 000000000000..b2c73a9b7a55
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/fsl,imx28-saif.yaml
-@@ -0,0 +1,82 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/fsl,imx28-saif.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Freescale MXS Serial Audio Interface (SAIF)
-+
-+maintainers:
-+  - Lukasz Majewski <lukma@denx.de>
-+
-+allOf:
-+  - $ref: dai-common.yaml#
-+
-+description:
-+  The SAIF is based on I2S module that is used to communicate with audio codecs,
-+  but only with half-duplex manner (i.e. it can either transmit or receive PCM
-+  audio).
-+
-+properties:
-+  compatible:
-+    const: fsl,imx28-saif
-+
-+  reg:
-+    maxItems: 1
-+
-+  "#sound-dai-cells":
-+    const: 0
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  dmas:
-+    maxItems: 1
-+
-+  dma-names:
-+    const: rx-tx
-+
-+  "#clock-cells":
-+    description: Configure the I2S device as MCLK clock provider.
-+    const: 0
-+
-+  clocks:
-+    maxItems: 1
-+
-+  fsl,saif-master:
-+    description: Indicate that saif is a slave and its phandle points to master
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+
-+required:
-+  - compatible
-+  - reg
-+  - "#sound-dai-cells"
-+  - interrupts
-+  - dmas
-+  - dma-names
-+  - clocks
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    saif@80042000 {
-+        compatible = "fsl,imx28-saif";
-+        reg = <0x80042000 2000>;
-+        #sound-dai-cells = <0>;
-+        interrupts = <59>;
-+        dmas = <&dma_apbx 4>;
-+        dma-names = "rx-tx";
-+        #clock-cells = <0>;
-+        clocks = <&clks 53>;
-+    };
-+    saif@80046000 {
-+        compatible = "fsl,imx28-saif";
-+        reg = <0x80046000 2000>;
-+        #sound-dai-cells = <0>;
-+        interrupts = <58>;
-+        dmas = <&dma_apbx 5>;
-+        dma-names = "rx-tx";
-+        clocks = <&clks 53>;
-+        fsl,saif-master = <&saif0>;
-+    };
-diff --git a/Documentation/devicetree/bindings/sound/mxs-saif.txt b/Documentation/devicetree/bindings/sound/mxs-saif.txt
-deleted file mode 100644
-index 7ba07a118e37..000000000000
---- a/Documentation/devicetree/bindings/sound/mxs-saif.txt
-+++ /dev/null
-@@ -1,41 +0,0 @@
--* Freescale MXS Serial Audio Interface (SAIF)
--
--Required properties:
--- compatible: Should be "fsl,<chip>-saif"
--- reg: Should contain registers location and length
--- interrupts: Should contain ERROR interrupt number
--- dmas: DMA specifier, consisting of a phandle to DMA controller node
--  and SAIF DMA channel ID.
--  Refer to dma.txt and fsl-mxs-dma.txt for details.
--- dma-names: Must be "rx-tx".
--
--Optional properties:
--- fsl,saif-master: phandle to the master SAIF.  It's only required for
--  the slave SAIF.
--
--Note: Each SAIF controller should have an alias correctly numbered
--in "aliases" node.
--
--Example:
--
--aliases {
--	saif0 = &saif0;
--	saif1 = &saif1;
--};
--
--saif0: saif@80042000 {
--	compatible = "fsl,imx28-saif";
--	reg = <0x80042000 2000>;
--	interrupts = <59>;
--	dmas = <&dma_apbx 4>;
--	dma-names = "rx-tx";
--};
--
--saif1: saif@80046000 {
--	compatible = "fsl,imx28-saif";
--	reg = <0x80046000 2000>;
--	interrupts = <58>;
--	dmas = <&dma_apbx 5>;
--	dma-names = "rx-tx";
--	fsl,saif-master = <&saif0>;
--};
--- 
-2.39.2
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
