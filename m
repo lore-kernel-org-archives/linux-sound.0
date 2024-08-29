@@ -1,152 +1,99 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3DEF38F9C;
-	Thu, 29 Aug 2024 16:22:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 747241B5EA6;
+	Thu, 29 Aug 2024 16:52:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724948575; cv=none; b=TRV2V6HxmJ3zVi0zw6jxkj7EGZA6/UIR+Po+l56MloQlyIVS3ZA5CZV66WfXWmXy+w8s/1XjyyFrzL8AY+3IgGW+0kRGVrxwrkBCwLL3MwlCNOSIgy/HBCcMGOyWnHXga4fqrQyGy2Th8pscoSFwNkLYpiByFBch74RvC9IF0C4=
+	t=1724950369; cv=none; b=WO//I6zUAsrMP79oJtUmswUawnvmPIM6H5yxJwFS3OlsJocbJcPA/vnVaLZKQLYIbrfodDjlJGM4mn4ongUCRD4Oi5k/BR77sCk9rDg0MJ6j246CXNUPRkQWQVsJf/ELv+BHUiQFnGH6tBxD5yoTolqpS6qUz6jAr5/efXQLqEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724948575; c=relaxed/simple;
-	bh=xCJMHOX25QOgtyzPIKPwJ4McoZCcuj2+xMof2qIuWgU=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PbbPSI6koq92yS36vV8TufGEhfmAd8MEri25MD+nBAs9t34o7zTCKjAKHvEHcOaBRSyVmhNJyBhPJApznusw1oGgTl1hatLOfWd7T3fVYq6uX1DzjYfGf+2nL1ZCfi5kp790r76hB8GeB0qCN4TR1N3cGnm43TDDkRs0PEGOOZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BdotlAeI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Tegg2S6s; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WhyHXXT4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=X08BLpck; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1724950369; c=relaxed/simple;
+	bh=hnufhCbXjNCAMLwQDuHCdh0s0iVsisj6beB30jVpEi4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=OvPhqGT1vLv7JkwHG3i4KiMlstwW5V7ufpB0BJ+K2Ib5+QhA5BcwgFad+DRbK3fTWTu/oObU5RWj3oe8DHKAFpR2rTT69SKcyuiFVGnk5BE7236ETz2Z50ZesyjlcVPArWNYVd9TCNfrJK9LpFX4sw3+fJaM9FPtalyYAC1ud0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KIh9HtIn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BdotlAeI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Tegg2S6s";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WhyHXXT4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="X08BLpck"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DA8C11F449;
-	Thu, 29 Aug 2024 16:22:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1724948572; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lqxE3wVAnc67PfYzr6H1KIHv1Iy/FY0+ZzpQO2C1mxI=;
-	b=BdotlAeI0VSdcxvGLRC7bygesEtHqHnR6XWaqk5mHPusCdqYwSaOp2jVXUv2m86de9Rpoj
-	sEQvqufbCYGhZe6gXPojVz9JR3Xl0HUkM8A5rmo6llYuXrO/ea8xSPr4Dp8Uo/4cSlvwgm
-	deO0GTfuDHxcX8oEZn2Yv1Oufyo6X1k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1724948572;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lqxE3wVAnc67PfYzr6H1KIHv1Iy/FY0+ZzpQO2C1mxI=;
-	b=Tegg2S6s91p1Ak43LJHtRTZuJlc0H03bdO+XGa3KShtg4wItYLorPL9yVkCVIsdCnRhKdB
-	7DpmAJsS6gRV21BA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=WhyHXXT4;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=X08BLpck
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1724948571; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lqxE3wVAnc67PfYzr6H1KIHv1Iy/FY0+ZzpQO2C1mxI=;
-	b=WhyHXXT47Nmzdddu3hmBPFwDW3NyK5FrysR+qeabrhhpU1CLD7kBR/2zBSVly+O9CC/DAK
-	O/IYBayw34IuMbgrZZZxQiaWEmjsAReP3bvxNQY2oqUeKFrYg9WNzc2LMYODCHRuZti/VH
-	8rtPDi4UkwRxXM3FQWUl8m+BzKY7mu8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1724948571;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lqxE3wVAnc67PfYzr6H1KIHv1Iy/FY0+ZzpQO2C1mxI=;
-	b=X08BLpckludQQ+MOsb/Rt+EkPS09ZuJFKIb/TWSsQPxWABMFAnB6YTUVOlp9YiqiGbwqAq
-	ff1kcSFma9pKQ4Dg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AC5AC13408;
-	Thu, 29 Aug 2024 16:22:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 0RzXKFug0GZUeQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 29 Aug 2024 16:22:51 +0000
-Date: Thu, 29 Aug 2024 18:23:36 +0200
-Message-ID: <87wmjzl2lz.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Simon Trimmer <simont@opensource.cirrus.com>
-Cc: <tiwai@suse.com>,
-	<linux-sound@vger.kernel.org>,
-	<alsa-devel@alsa-project.org>,
-	<linux-kernel@vger.kernel.org>,
-	<patches@opensource.cirrus.com>
-Subject: Re: [PATCH] ALSA: hda/realtek: Autodetect Cirrus Logic companion amplifier bindings
-In-Reply-To: <20240829161114.140938-1-simont@opensource.cirrus.com>
-References: <20240829161114.140938-1-simont@opensource.cirrus.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KIh9HtIn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67AB4C4CEC1;
+	Thu, 29 Aug 2024 16:52:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724950369;
+	bh=hnufhCbXjNCAMLwQDuHCdh0s0iVsisj6beB30jVpEi4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=KIh9HtIn3Xk+UPaYoDfruElplumKEor5QZulYQepcz5AEw4bKg8rbC9Y3djnXLsH/
+	 WszTsGl93p2DWQLlM3/Jze6uqsP2vZ6D6NPcSfSMP4/4yh5UPsGjrjgtWnHlaRVjSr
+	 6CU4Qug5zBAxyxqQPliiu0u+k56SxOVOt8BoHPvufSlarplUUuZ3x7eGkaimyeOBw2
+	 QM5DugDCC8nA6HOFlOg8d0rpa29Sz4Y4h9H5FjRgUeED4BmyJvgqGDNmojAhEdx5ho
+	 qximeILAZnDl6VWUQhDAYxcqL5s12k2SWEjovr0prd6AVEuIZNsKuU/M6eginunv/E
+	 80umz9rKbU+Sg==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
+ =?utf-8?q?Cl=C3=A9ment_P=C3=A9ron?= <peron.clem@gmail.com>, 
+ Marcus Cooper <codekipper@gmail.com>, 
+ Matteo Martelli <matteomartelli3@gmail.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+In-Reply-To: <20240801-asoc-fix-sun4i-i2s-v2-1-a8e4e9daa363@gmail.com>
+References: <20240801-asoc-fix-sun4i-i2s-v2-1-a8e4e9daa363@gmail.com>
+Subject: Re: [PATCH v2] ASoC: sunxi: sun4i-i2s: fix LRCLK polarity in i2s
+ mode
+Message-Id: <172495036615.681615.13022036067408318288.b4-ty@kernel.org>
+Date: Thu, 29 Aug 2024 17:52:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: DA8C11F449
-X-Spam-Score: -5.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[cirrus.com:email,suse.de:mid,suse.de:dkim];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-37811
 
-On Thu, 29 Aug 2024 18:11:14 +0200,
-Simon Trimmer wrote:
+On Thu, 01 Aug 2024 14:07:19 +0200, Matteo Martelli wrote:
+> This fixes the LRCLK polarity for sun8i-h3 and sun50i-h6 in i2s mode
+> which was wrongly inverted.
 > 
-> We do not need model specific HDA quirks to construct the component
-> binding details of Cirrus Logic companion amplifiers as this information
-> is already present in the ACPI.
+> The LRCLK was being set in reversed logic compared to the DAI format:
+> inverted LRCLK for SND_SOC_DAIFMT_IB_NF and SND_SOC_DAIFMT_NB_NF; normal
+> LRCLK for SND_SOC_DAIFMT_IB_IF and SND_SOC_DAIFMT_NB_IF. Such reversed
+> logic applies properly for DSP_A, DSP_B, LEFT_J and RIGHT_J modes but
+> not for I2S mode, for which the LRCLK signal results reversed to what
+> expected on the bus. The issue is due to a misinterpretation of the
+> LRCLK polarity bit of the H3 and H6 i2s controllers. Such bit in this
+> case does not mean "0 => normal" or "1 => inverted" according to the
+> expected bus operation, but it means "0 => frame starts on low edge" and
+> "1 => frame starts on high edge" (from the User Manuals).
 > 
-> Quirks are then only required for special workarounds not described in
-> the ACPI such as internal configuration of the Realtek codecs.
-> 
-> The codec pointer is now initialized in hda_component_manager_init() so
-> that we can detect when companion amplifiers are found in the ACPI but
-> the SSID invokes a quirk that also attempts to create the component
-> binding.
-> 
-> Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
-> ---
-> v1 - This patch applies to for-next with this additional patch:
->      b1faff28a2bd ("ALSA: hda: hda_component: Fix mutex crash if nothing ever binds")
->      which is currently only in the for-linus.
+> [...]
 
-OK, I now merged for-linus to for-next, and applied yours.
+Applied to
 
->      We're looking to do the same for the CS35L41 devices, but that will
->      come later because there are many more quirks to work through.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-That's understandable.  Thanks!
+Thanks!
 
+[1/1] ASoC: sunxi: sun4i-i2s: fix LRCLK polarity in i2s mode
+      commit: 3e83957e8dd7433a69116780d9bad217b00913ea
 
-Takashi
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
