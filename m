@@ -1,83 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26E9C1AB500;
-	Thu, 29 Aug 2024 14:40:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F1B1B151B;
+	Thu, 29 Aug 2024 14:54:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724942424; cv=none; b=YIYUjscrc2YezqjcZOw4gKWSE7gswHK1UIZHk+YB5V1UJ+T5vOyq6mQ42ddunX87GeBaqsqTWA0iuHa1h/kOZJ/nWxlPPECWEPdhjaksRWX7gQwZSf5zPwLAXK1uocYiQcrnaAEmRF8s/jG48yzPIZAYKuqYsFyzb5d6VHJ4mw4=
+	t=1724943276; cv=none; b=LkBSU0ALh92+l2yNGdHCfCrIXaCX5xcOZpB99v7NOWSmWtPU7Z/QjQeUF5uNHAly5PoD1JPpdS60PT1wIUIIi3ZoYHunLma9hEF7lRbOCxjsQZNAJ0zGphfWJJIoyQXHa/Scsqyn3rflL5sjg8wJmimzbFxSq2zUiYiE+B9ZZW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724942424; c=relaxed/simple;
-	bh=o1CIuhKClc2KBznPJSl6sSwTNIKelV+2ijsQCntQw/4=;
+	s=arc-20240116; t=1724943276; c=relaxed/simple;
+	bh=94sqycuEg7LZE3IfoAS/UYJHpdhV1CbtJdmFG3iWS1U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jlDNR2XQDwu1zyBglV2VmJhRZIvnN6uujZ809UCVBE8uhuN7XVlbq8Xzo4HnQv+SJIy16xojjyRAzWxcZxc2pUfjs/8vqTFrs/NY4bEau4BoFLppLU8BByzRc9+XRdw8zZ/YIKPF2biTu7kGHPDycMVQXWMaAdPS9J896hkYhXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ju8wOwSZ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=II4rYzkPnCx8HXlGMKBBimi7h/9hsjUmIUORsBwuIa+PRgLfiQbDdSofqbuzIor4zHfuHH7Gz0N6aHE3kPEcNpGsuBtl9ygWOEPlVuR7crWeBQhJCm2PtiW0as3IbP+V25hgLAURIC796hY60QxcNpTPNTe2ucP3onJ6IMnhYj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y/hg1oCh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ju8wOwSZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1A9CC4CEC1;
-	Thu, 29 Aug 2024 14:40:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y/hg1oCh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB876C4CEC3;
+	Thu, 29 Aug 2024 14:54:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724942424;
-	bh=o1CIuhKClc2KBznPJSl6sSwTNIKelV+2ijsQCntQw/4=;
+	s=k20201202; t=1724943276;
+	bh=94sqycuEg7LZE3IfoAS/UYJHpdhV1CbtJdmFG3iWS1U=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ju8wOwSZXODs/ap6jCqawfwBcJS6zTFx1yIt9BX42iAAFl6d5mLrnLSTdJ8glZA/n
-	 P69AwHcdJ5gbTXLQ9dba54ryaPpVF86gEwqLVOfu1ItgvxpJTJfQz85wKjHOdsSPhh
-	 m3SNpHT9LRN/im5F4omqheEDg+PpbpoVZeUODw/u9kf4J3AeMc5B21X317hdn7cBPh
-	 6tmHL7eRIAUNsoQy2vl0FD8e0kNnkLHBPDX8HJG4vsWt7fH+3yhAl/o4bDDDZrsRPx
-	 FcZkiNZuHKM1Q1Lo8VOVofR4172nYw7i95FmBvT18/QKv/alKFvlqbql4wj3i62XFS
-	 n6SHCu1VpljIQ==
-Date: Thu, 29 Aug 2024 15:40:19 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Markuss Broks <markuss.broks@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, linux-sound@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] ASoC: amd: yc: Add a quirk for MSI Bravo 17 (D7VEK)
-Message-ID: <6e46ec3b-3d34-4716-83bc-364bb023f1be@sirena.org.uk>
-References: <20240829130313.338508-1-markuss.broks@gmail.com>
- <2024082917-jockstrap-armored-6a14@gregkh>
- <adff0886-1fb8-44ac-a86d-855e4e6dc8de@gmail.com>
+	b=Y/hg1oCh+Ij6W4jgfibIcNLBH2y6qwXWngwcUcGr4b3eYryJduYRVobwRt6oxc42R
+	 H6f1zYxHYCrS7niInBO5J0AjCy8ecFWqNseOf/cmogScebBhrEna8OTyktEs8yEjrJ
+	 175Q0V6vAr2G+DQqxPtZGIdZNe+qIREnbKSj8qwgAhz5FNxTFMhz5yEsTHAxdoLS3i
+	 hI3xZDeYhtA/QPLEtmCboawwvUP6HlSbtj5geHqzV/za/0DVs4yDF5mOzTCBINi1xj
+	 x4gwu3HxpENBZpP5e0AkTwn4UUpF/Eb8me1jX0fvP6HHtr585Fv4o2jsG3R7yMmQpr
+	 Zda3hB26yi+pQ==
+Date: Thu, 29 Aug 2024 09:54:34 -0500
+From: Rob Herring <robh@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+	Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Michal Simek <michal.simek@amd.com>,
+	Saravana Kannan <saravanak@google.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-sound@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
+Subject: Re: [PATCH v4 9/9] media: xilinx-tpg: use new of_graph functions
+Message-ID: <20240829145434.GA465065-robh@kernel.org>
+References: <87bk1d2pvt.wl-kuninori.morimoto.gx@renesas.com>
+ <87y14h1b9f.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Sqep04bPF+Uo7XG5"
-Content-Disposition: inline
-In-Reply-To: <adff0886-1fb8-44ac-a86d-855e4e6dc8de@gmail.com>
-X-Cookie: Go 'way!  You're bothering me!
-
-
---Sqep04bPF+Uo7XG5
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <87y14h1b9f.wl-kuninori.morimoto.gx@renesas.com>
 
-On Thu, Aug 29, 2024 at 05:36:06PM +0300, Markuss Broks wrote:
+On Wed, Aug 28, 2024 at 05:12:28AM +0000, Kuninori Morimoto wrote:
+> Now we can use new port related functions for port parsing. Use it.
+> 
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> ---
+>  drivers/media/platform/xilinx/xilinx-tpg.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/xilinx/xilinx-tpg.c b/drivers/media/platform/xilinx/xilinx-tpg.c
+> index e05e528ffc6f7..a25f216b2513c 100644
+> --- a/drivers/media/platform/xilinx/xilinx-tpg.c
+> +++ b/drivers/media/platform/xilinx/xilinx-tpg.c
+> @@ -13,6 +13,7 @@
+>  #include <linux/gpio/consumer.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+> +#include <linux/of_graph.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/xilinx-v4l2-controls.h>
+>  
+> @@ -744,7 +745,7 @@ static int xtpg_parse_of(struct xtpg_device *xtpg)
+>  		}
+>  
 
-> Sorry, misread it, so I need to include it in the mail body? Do I resend
-> this patch with that change?
+This function is looping over port nodes, why don't you make it use 
+for_each_of_graph_port()?
 
-No.
-
-Please don't top post, reply in line with needed context.  This allows
-readers to readily follow the flow of conversation and understand what
-you are talking about and also helps ensure that everything in the
-discussion is being addressed.
-
---Sqep04bPF+Uo7XG5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbQiFMACgkQJNaLcl1U
-h9B4twf9HxORpv+NOnO0stgVLPsT2vUvq10B4wmsrrXCzjKaUuB7KmLJxAgDXOYm
-VNtbGLx/hOfPqYIJT8TVhqYksAmXQwPVUoosLNSXoITLr+nYC6YKEo5DbRDwaxjg
-YTaL35Org8QHCIsB03uK3Dr8SJ6lA8rKIHkSQtcuZBlXvKSzg43jGHN3KE8JyFy9
-BbEVuHz7c6adsm7i1LlkDJkryeVMoGPpOK2/vPkHfIjl23PEH8T3+35qTZ0R7sTs
-cOb48SgbonE6NcTuS+c6GNhEsCUjdXCONWBlJ3ADtoWjWqCV3nbaqdVnGfh5i/Kw
-ksSNOInP8qX29AHEDrpCBK9X+SBt6Q==
-=7X6a
------END PGP SIGNATURE-----
-
---Sqep04bPF+Uo7XG5--
+>  		if (nports == 0) {
+> -			endpoint = of_get_next_child(port, NULL);
+> +			endpoint = of_graph_get_next_port_endpoint(port, NULL);
+>  			if (endpoint)
+>  				has_endpoint = true;
+>  			of_node_put(endpoint);
+> -- 
+> 2.43.0
+> 
