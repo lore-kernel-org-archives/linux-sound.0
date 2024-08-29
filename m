@@ -1,180 +1,101 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73EF81B1402;
-	Thu, 29 Aug 2024 15:02:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21F4B1A255C;
+	Thu, 29 Aug 2024 15:41:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724943761; cv=none; b=lI/WOgARajJ5fuhXJlddJ/bP2XqGzG+fA/oKv033jVW6I52uNLGq/t8QYpe49XtRtYZgybBCd3dr/RBFEoAO4w9HOL2Evx8tIRAhMPXnQQDZQoKjZvDOS2PTG793U/sAaJ1VZWqNDORLpWEhk22Z0mFm/+303Ko/GoZE6GFSz1I=
+	t=1724946065; cv=none; b=Q3a7XvQD7G+jwZdmUDlXdkeByMdMSmlSLg0G7A2V1ZOxxU2qYHwvl7qGY3GB8L47KGgX39pE21SNkRBDCxQM+hZfqfPhxIHFME67FVGEnIUqK7hwv0obEGHhRKPtIOGDA6bcKuOb6xH/ls1r1LCjKpZceMv/0tHnhOy1qSO5DxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724943761; c=relaxed/simple;
-	bh=UAusvvbdg2IQoqzAbue98/Thju9MJrWBSf3WwhkcI8w=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DD5obwTdMfUd+jFz8mYLk84GouJ5ResNsyyj5Q9sMEASlN09SmJkr0GT04Fev18odXb+AoXxN2/J4xiiCqtYSjUsAhjTxE7vFcq2n3bdWPfMvUxt8cagQ4kQNNZ7+VqV6454U4vto8J5WXlGvQOm7lx/ES8vQdF3h/xa2rnli8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=t7Q+lTir; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rwz+63Hb; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=t7Q+lTir; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rwz+63Hb; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1724946065; c=relaxed/simple;
+	bh=/zGGPt8jYtuq/1RE9arY1RA1H+rfW2qjhyrvYnQ62ps=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rrfKPslHzUoEwUIKVZ4X6064PaFa/UgMpPxgOqEdB9H+5n5nr3hDmZMu4qtpTLLxMXZgSHbePx68pspePszkKaB8o4zNVPlD2Tqx4adAC/a/cvDGn23u5318R4oVB2+yVnbE1kUb0+U7LpgYpzhgCSPazFZlHSnS7I6cNTKCPnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pb6gtWIT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="t7Q+lTir";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rwz+63Hb";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="t7Q+lTir";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rwz+63Hb"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 896721F443;
-	Thu, 29 Aug 2024 15:02:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1724943757; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v1gVNaVflu1aaLfA3dtbtuJKp3oDtSRODV3UNOm1x0s=;
-	b=t7Q+lTirUErNsRTdew3ChXTsUzuPnHqt3vF9/Q8fsKFjFxI1qwAqFhRLW/QGxtUIfBMaeQ
-	9YtZW999N2rkqDpLDc9MCOci05FX6HuV1P2D8bsPrfMBM/AVSNu3flE9auf6MGo7rmJU1+
-	7caQ/De6ijZ+ZnWR/7BwyeHffH5Rzo8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1724943757;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v1gVNaVflu1aaLfA3dtbtuJKp3oDtSRODV3UNOm1x0s=;
-	b=rwz+63HbUzKoyNpwequD4NsnVhCLdQDlIrGK9i5M9RI6S9CluDln4SMXmozC6+qC4W0im2
-	QL8Jq+VTqyfLG3DQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=t7Q+lTir;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=rwz+63Hb
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1724943757; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v1gVNaVflu1aaLfA3dtbtuJKp3oDtSRODV3UNOm1x0s=;
-	b=t7Q+lTirUErNsRTdew3ChXTsUzuPnHqt3vF9/Q8fsKFjFxI1qwAqFhRLW/QGxtUIfBMaeQ
-	9YtZW999N2rkqDpLDc9MCOci05FX6HuV1P2D8bsPrfMBM/AVSNu3flE9auf6MGo7rmJU1+
-	7caQ/De6ijZ+ZnWR/7BwyeHffH5Rzo8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1724943757;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v1gVNaVflu1aaLfA3dtbtuJKp3oDtSRODV3UNOm1x0s=;
-	b=rwz+63HbUzKoyNpwequD4NsnVhCLdQDlIrGK9i5M9RI6S9CluDln4SMXmozC6+qC4W0im2
-	QL8Jq+VTqyfLG3DQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 60457139B0;
-	Thu, 29 Aug 2024 15:02:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id qMQ0Fo2N0GboYAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 29 Aug 2024 15:02:37 +0000
-Date: Thu, 29 Aug 2024 17:03:21 +0200
-Message-ID: <87y14fv0au.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Terry Cheong <htcheong@chromium.org>
-Cc: Jaroslav Kysela <perex@perex.cz>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pb6gtWIT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 519BEC4CEC1;
+	Thu, 29 Aug 2024 15:41:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724946064;
+	bh=/zGGPt8jYtuq/1RE9arY1RA1H+rfW2qjhyrvYnQ62ps=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pb6gtWIT0umdrydivzW3q3x+x8RffD3d4f4N9Pxo5JhkzOL8GdkTxGt2RfEsuuGSi
+	 gE3mHFkn/f7T7k6uL9vo3yI2u6IHdmN0Djc2HAjxOkgRhb/8WyNcUIEoyUisdKE1Br
+	 ghCEROt32J4MuG/nNAVHOMqq3lqSY6cFNaK47i8HiZDVeuY57YEG3cLwyCD1P5xOzQ
+	 G+KkCjkmLXNb6kanoNJHrT/6bKRODeYUrHYs+tIdkaIx9Z1/kXB9zOZuQXC20gd4+x
+	 T3IjAROTorQiGQtwEgGY9ag1AaUpM/U1aUQi70qibxS+PnWbwFTyMHZsQvuRrIJvO7
+	 nKj26aueNEWLQ==
+Date: Thu, 29 Aug 2024 10:41:02 -0500
+From: Rob Herring <robh@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+	Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Michal Simek <michal.simek@amd.com>,
+	Saravana Kannan <saravanak@google.com>,
 	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ALSA: hda/realtek: add patch for internal mic in Lenovo V145
-In-Reply-To: <20240829-lenovo-v145-fixes-v2-1-713ac5cbb32d@chromium.org>
-References: <20240829-lenovo-v145-fixes-v2-1-713ac5cbb32d@chromium.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-sound@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
+Subject: Re: [PATCH v4 4/9] ASoC: rcar_snd: use new of_graph functions
+Message-ID: <20240829154102.GB465065-robh@kernel.org>
+References: <87bk1d2pvt.wl-kuninori.morimoto.gx@renesas.com>
+ <875xrl2pur.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 896721F443
-X-Spam-Score: -5.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,chromium.org:email]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <875xrl2pur.wl-kuninori.morimoto.gx@renesas.com>
 
-On Wed, 28 Aug 2024 22:20:18 +0200,
-Terry Cheong wrote:
+On Wed, Aug 28, 2024 at 05:11:56AM +0000, Kuninori Morimoto wrote:
+> Now we can use new port related functions for port parsing. Use it.
 > 
-> Lenovo V145 is having phase inverted dmic but simply applying inverted
-> dmic fixups does not work. Chaining up verb fixes for ALC283 enables
-> inverting dmic fixup to work properly.
-> 
-> Signed-off-by: Terry Cheong <htcheong@chromium.org>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> Acked-by: Mark Brown <broonie@kernel.org>
 > ---
-> Changes in v2:
-> - Corrected description for the patch
-> - Link to v1: https://lore.kernel.org/r/20240829-lenovo-v145-fixes-v1-1-133d1e6813b3@chromium.org
-> ---
->  sound/pci/hda/patch_realtek.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
+>  sound/soc/sh/rcar/core.c | 21 +++++++--------------
+>  1 file changed, 7 insertions(+), 14 deletions(-)
 > 
-> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-> index 588738ce7380..bbda235ea96c 100644
-> --- a/sound/pci/hda/patch_realtek.c
-> +++ b/sound/pci/hda/patch_realtek.c
-> @@ -7538,6 +7538,7 @@ enum {
->  	ALC236_FIXUP_HP_GPIO_LED,
->  	ALC236_FIXUP_HP_MUTE_LED,
->  	ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF,
-> +	ALC236_FIXUP_LENOVO_INV_DMIC,
->  	ALC298_FIXUP_SAMSUNG_AMP,
->  	ALC298_FIXUP_SAMSUNG_AMP2,
->  	ALC298_FIXUP_SAMSUNG_HEADPHONE_VERY_QUIET,
-> @@ -9161,6 +9162,12 @@ static const struct hda_fixup alc269_fixups[] = {
->  		.type = HDA_FIXUP_FUNC,
->  		.v.func = alc236_fixup_hp_mute_led_micmute_vref,
->  	},
-> +	[ALC236_FIXUP_LENOVO_INV_DMIC] = {
-> +		.type = HDA_FIXUP_FUNC,
-> +		.v.func = alc_fixup_inv_dmic,
-> +		.chained = true,
-> +		.chain_id = ALC283_FIXUP_INT_MIC,
-> +	},
->  	[ALC298_FIXUP_SAMSUNG_AMP] = {
->  		.type = HDA_FIXUP_FUNC,
->  		.v.func = alc298_fixup_samsung_amp,
-> @@ -10707,6 +10714,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
->  	SND_PCI_QUIRK(0x17aa, 0x3855, "Legion 7 16ITHG6", ALC287_FIXUP_LEGION_16ITHG6),
->  	SND_PCI_QUIRK(0x17aa, 0x3865, "Lenovo 13X", ALC287_FIXUP_CS35L41_I2C_2),
->  	SND_PCI_QUIRK(0x17aa, 0x3866, "Lenovo 13X", ALC287_FIXUP_CS35L41_I2C_2),
-> +	SND_PCI_QUIRK(0x17aa, 0x3913, "Lenovo 145", ALC236_FIXUP_LENOVO_INV_DMIC),
->  	SND_PCI_QUIRK(0x17aa, 0x3869, "Lenovo Yoga7 14IAL7", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
->  	SND_PCI_QUIRK(0x17aa, 0x386e, "Legion Y9000X 2022 IAH7 / Yoga Pro 7 14ARP8",  ALC287_FIXUP_LENOVO_14ARP8_LEGION_IAH7),
->  	SND_PCI_QUIRK(0x17aa, 0x386f, "Legion Pro 7/7i", ALC287_FIXUP_LENOVO_LEGION_7),
+> diff --git a/sound/soc/sh/rcar/core.c b/sound/soc/sh/rcar/core.c
+> index 15cb5e7008f9f..281936ece760b 100644
+> --- a/sound/soc/sh/rcar/core.c
+> +++ b/sound/soc/sh/rcar/core.c
+> @@ -1237,7 +1237,7 @@ static int rsnd_dai_of_node(struct rsnd_priv *priv, int *is_graph)
+>  {
+>  	struct device *dev = rsnd_priv_to_dev(priv);
+>  	struct device_node *np = dev->of_node;
+> -	struct device_node *ports, *node;
+> +	struct device_node *node;
+>  	int nr = 0;
+>  	int i = 0;
+>  
+> @@ -1277,16 +1277,12 @@ static int rsnd_dai_of_node(struct rsnd_priv *priv, int *is_graph)
+>  	/*
+>  	 * Audio-Graph-Card
+>  	 */
+> -	for_each_child_of_node(np, ports) {
+> -		if (!of_node_name_eq(ports, "ports") &&
+> -		    !of_node_name_eq(ports, "port"))
+> -			continue;
+> -		priv->component_dais[i] = of_graph_get_endpoint_count(ports);
+> +	for_each_of_graph_ports(np, ports) {
+> +		priv->component_dais[i] = of_graph_get_port_count(ports);
 
-The quirk table is sorted in PCI SSID order.
-Could you try to put the entry at the right position?
+These are not equivalent. Besides now working with multiple 'ports' 
+nodes, it's possible to have a port node without an endpoint populated 
+for example.
 
-
-thanks,
-
-Takashi
+Rob
