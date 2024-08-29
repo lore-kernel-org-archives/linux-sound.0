@@ -1,133 +1,237 @@
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PUWP216CU001.outbound.protection.outlook.com (mail-koreasouthazon11020073.outbound.protection.outlook.com [52.101.156.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A68B1AC8B5
-	for <linux-sound@vger.kernel.org>; Wed, 28 Aug 2024 20:20:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.196
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724876423; cv=none; b=qYYMN2pfJCjCNih+17PUAxbFSd+o6oKLqwlg5m4YuYozShR70siuUKY1qYT5tpSpJDYTDEln4ek/OgBKY88xLICons2W337OBOW72rVaQs5/+rIJJ0XvLGvRBcRkKT+VDOQjZuX0/VE/lk6DgVNNrtRvQtKbxppKSmtOJ3InvBc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724876423; c=relaxed/simple;
-	bh=yo8Bqe8e5gPrNBrNAgu4U0/R0eeSUmUJDEeqYXDhtGQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=oG/G4ORHKtl61oIJf8kapPjZnc80ehfQhhlCBAUjzi/1e+GS4WijmfdB6LkZeVCrWnnj0lWAfgrSBMMYxH5pU3XA5liixRdyiPFNfG0hJieLWef5nXhoKcKIaLaJPxinFKTAnlhDwlHbuBm+dYRHkRQ85vuCSF5Rhojww4Uc4vM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=DmAK0D/6; arc=none smtp.client-ip=209.85.210.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DmAK0D/6"
-Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-7143ae1b560so4071036b3a.1
-        for <linux-sound@vger.kernel.org>; Wed, 28 Aug 2024 13:20:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1724876421; x=1725481221; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GW0sfHv4RXqfz6QFs1KqjTYLK9yTslXZaNQMV9fgT5w=;
-        b=DmAK0D/6PmMtE5A87kiqS5qLb9NSTPoOX2JAN3bYZ3DSJE0V3ObWPCaL3oS/Ou8BKT
-         BPqoXBunOyLTrADMmnfnD5xbv6N7xtkFk45xTCqNsLzgeV7NjXyP/Etot1XcWeGKUTGf
-         LxD2Sa3pPTzuggR881NB3acOsRazTqB3tM0d4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724876421; x=1725481221;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GW0sfHv4RXqfz6QFs1KqjTYLK9yTslXZaNQMV9fgT5w=;
-        b=XX7RZh6aFsPCheQiMbHPwc0z1mLu1WLn9MAcqlhHC8vRiy6JwJea/90NxzPzXqgMUZ
-         eSuKKVxVlnBhFbOOSmgQgaAlVV62Wy1lvATngYTxFccLZ2flnHazbgA7WP/E2r//zt2L
-         KXcabgy05dYM1uZViob5X8+uRvuNZgq16rmZu/l5T9hmvtpz1ik6zRqlLKqp0/hWiW76
-         puo8rFz/jzDfvVrOZlMRXvfhQGZIYbM9W7CYxcNVXMIZ+OlKh0BOol4A3v1ymR1LGSCv
-         uUTuVOO60LS8yt0dfD+EhHlFoDhtKFcH4FWdBxDmWkU6YT3Phuu0yCzPL62h/JiltP/0
-         EXrA==
-X-Gm-Message-State: AOJu0YxVDFqKOE/Xg9aRHB0YJlmm9VLkNd7GgrLxb+xVgjfK5aFHgif8
-	NhVdgUqsAKovXk3lc3LA1byx29LEJ5dpNHciuRjrosGAwJGF0v2Vda5B0ZI8aw==
-X-Google-Smtp-Source: AGHT+IH0qkv/MfG9MIxmLidUqbxhESVRipI97MoHotsE8LjBilxoueyG2Sp8CbwJ4HHOa5Q60suOXg==
-X-Received: by 2002:a05:6a21:9209:b0:1c2:a722:92b2 with SMTP id adf61e73a8af0-1cce1103f3amr439369637.45.1724876421544;
-        Wed, 28 Aug 2024 13:20:21 -0700 (PDT)
-Received: from htcheong-p620.tpe.corp.google.com ([2401:fa00:1:17:12b:e9e8:cb3:7d66])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d8445e9a51sm2351185a91.21.2024.08.28.13.20.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Aug 2024 13:20:21 -0700 (PDT)
-From: Terry Cheong <htcheong@chromium.org>
-Date: Thu, 29 Aug 2024 04:20:18 +0800
-Subject: [PATCH v2] ALSA: hda/realtek: add patch for internal mic in Lenovo
- V145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 108CE156CF
+	for <linux-sound@vger.kernel.org>; Thu, 29 Aug 2024 02:22:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.156.73
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724898124; cv=fail; b=ijMn4fY253glC6Mn48u+O4qnn+q75SHwYcBC/VtCVfC0QUbXJe+xDgcP8ipiMErajg30G9nBvi/jm0gPtkAZLeqBt3n0eTkTRvnIxAwAJQoxncLHx06yK8VWhPX3/WPoXSoT75rVHLK5dElFNzp6NKK9/ED1Dfff3yWQE2szwe0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724898124; c=relaxed/simple;
+	bh=BmzdFidTgrhhnREb96rU+ewPConAXSqMvJb0/uvojyY=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=fDHt5S7hthaf2/Ff/A8e2NSg/1gTVBhgugyfxC1eu6tUZnjshxoZs5FUBIV4Sx0grhS88mV5a7JHhJb0OUHdCzQA/NnATrcWYZ4CHl/xBCSZ2nxpmXj611cLhXU+sKFH59gouzW3iVy5OTUlnYlSov17K9xvqEyVyPDLK9RlpLc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=irondevice.com; spf=pass smtp.mailfrom=irondevice.com; arc=fail smtp.client-ip=52.101.156.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=irondevice.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irondevice.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=t5rINgaf5/zVtT3rzGEtBcNZ2cj6/k/0q8vvT4mCU4PIu7oe2Jmr3NFnvUi5dCvFFc+/vI/250osRSRwtQ0gH+8jOuuBl+bxBqta08rUDDx1iOKkR2eVz/6TDUPhuXoV0x54+H0h5UHh6EQOslm6kebxZczDfb6myneSz/5l+hGLFcragh+IuCrQbpFnlX4GJgrx65p0Ko5V33Ma9tk387mEtttb+wb8EaFWhWoIRFusoHkTtvZRPuONHZLX4nUukC5Dg5ug3omE+Lv5g6hZjkqu7H8vL+KMXhaOgM43aR23CnSWw7zwijRA5lIOXPM83g0dCE2ELhldynja/4YSig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pklYyjt06QTPU3PmTzuDc+0j4boU9qWg9OcBKLwXGVs=;
+ b=Sc1Hys1jHf6FYJYp0u15QjPic5L3rRYqVXWvTPx8VwaRjiRzv+8/kEVju32p1M/1rmdT5GqdJ8andTebB5Zd8woLOVra4jANCTZi01oHTmGxBSQJZWty3RcervQZd9Gnl+iwEX0BrirDxAF9+R5lGNcEFM0gNJE904ABAjj+qYFh+EE9B1c7K89rc4qKupFv8Rltt8AkJXCUPBF7pYKfPZljjLBHTIcK7IyWAz/bODSp00UZFF7z4CFDhQC/AT/C8Y83/JWe6n/TAAxdsE+nk/YmCBVT2VTZFhet5Ru/GF+v61o9sXonxptnP2nxlNEZGAzv2gpehlUKRFMmXvhDUg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=irondevice.com; dmarc=pass action=none
+ header.from=irondevice.com; dkim=pass header.d=irondevice.com; arc=none
+Received: from SL2P216MB2337.KORP216.PROD.OUTLOOK.COM (2603:1096:101:14c::11)
+ by SE2P216MB2851.KORP216.PROD.OUTLOOK.COM (2603:1096:101:28e::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.27; Thu, 29 Aug
+ 2024 02:21:57 +0000
+Received: from SL2P216MB2337.KORP216.PROD.OUTLOOK.COM
+ ([fe80::7e8d:9550:c46b:2756]) by SL2P216MB2337.KORP216.PROD.OUTLOOK.COM
+ ([fe80::7e8d:9550:c46b:2756%3]) with mapi id 15.20.7897.027; Thu, 29 Aug 2024
+ 02:21:57 +0000
+From: Ki-Seok Jo <kiseok.jo@irondevice.com>
+To: Mark Brown <broonie@kernel.org>
+CC: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, "alsa-devel@alsa-project.org"
+	<alsa-devel@alsa-project.org>, "linux-sound@vger.kernel.org"
+	<linux-sound@vger.kernel.org>
+Subject: RE: RE: [PATCH 1/2] ASoC: sma1307: Add driver for Iron Device SMA1307
+Thread-Topic: RE: [PATCH 1/2] ASoC: sma1307: Add driver for Iron Device
+ SMA1307
+Thread-Index: AQHa+bo42e84689KSUKufYte1CQ0tw==
+Date: Thu, 29 Aug 2024 02:21:57 +0000
+Message-ID:
+ <SL2P216MB2337196BCE05C44A6D4371E78C962@SL2P216MB2337.KORP216.PROD.OUTLOOK.COM>
+References: <20240813052609.56527-1-kiseok.jo@irondevice.com>
+ <20240813052609.56527-2-kiseok.jo@irondevice.com>
+ <66113ea5-11a7-41a9-8e28-af0394d7ded7@sirena.org.uk>
+ <SL2P216MB233758C3649FAF0ACDCCB8898C872@SL2P216MB2337.KORP216.PROD.OUTLOOK.COM>
+ <33576ed9-abe6-4c6b-a3a3-0ae775601aa2@sirena.org.uk>
+In-Reply-To: <33576ed9-abe6-4c6b-a3a3-0ae775601aa2@sirena.org.uk>
+Accept-Language: ko-KR, en-US
+Content-Language: ko-KR
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=irondevice.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SL2P216MB2337:EE_|SE2P216MB2851:EE_
+x-ms-office365-filtering-correlation-id: e91ca65c-7a00-4108-c59e-08dcc7d15b79
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700018;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?RNXqY5cuLBLbrJEN7dfIychUwJWaa4l4sq2aV0Jv2WdxCk75dcx5YZSWixDJ?=
+ =?us-ascii?Q?w39BmXswiLv1ara+ge+SfuGqODyTwzlmqQKqPPEkZS7zWjrzEOp0tuToYw4X?=
+ =?us-ascii?Q?0OJS7+9OVtrsWkCp6PafFDIxI4a6xyPT8H3acpSQuvnSRMBSYXwnPiuAEGrF?=
+ =?us-ascii?Q?NMFqmq1gOTRzEJcpYgdRI5pWUz6yQXqgjZlggJDoHI4xz013MvPuwww4fp5f?=
+ =?us-ascii?Q?TOLaCEBcfs7+0agT1oJVMnEcc600gALkBtvRLmPx2KTkl63y0RWuUUWdSa9f?=
+ =?us-ascii?Q?iOA+ibuorxIi8hbsLa5fdyTCroyX7eVPrFTj3HprugQVlPugAKtSnT+kSjfy?=
+ =?us-ascii?Q?9EormYyDrRc9oQiJUgkxO25caasdyA7xCYaPTrPzJxIm3kpnS+iH5z5Kpw2P?=
+ =?us-ascii?Q?07BnN8lZTev6XPrpmgY4e7WeFSR3+fPFsNZIHs4zXx41gXTikWqe3vIHaWHv?=
+ =?us-ascii?Q?itlumn6Oah4dcGsw+Pao6ujm4a6T75oR4x+QNHTadc2pdP/0vDBqRR6Z+f+H?=
+ =?us-ascii?Q?rPMyxREKH7xWy5OwfU7srQGqbXGJuk0P1J2GztIb6tRV+LELo/pbkXdK+d2V?=
+ =?us-ascii?Q?psJvXz5vyhlmcdsW1RvrDF+3VqWZN0AMH1/ye3NVq+GxVMxV4Uq6E30V3HG5?=
+ =?us-ascii?Q?mRgKDGzJkmdCzQgRYhczNKEhsIggJ790jqnpk45NfZHK4tm62mPoOiOxra9c?=
+ =?us-ascii?Q?/mvIUkEIrBTH4k25ATaQ7GhPtSplPi+oLVaAZAAl4QGt5o34Z+tOu1DcCqAL?=
+ =?us-ascii?Q?CFfBrVIk/wOmXG/ihmeIOaUya2jIiqYM3NzjV8/tniT9LB0SjMWLMhk0Jm5w?=
+ =?us-ascii?Q?jgJMb83wpO8eGQQnV9ZUw431oMdF37bCKUVd36RTj6VTRPg75X4uaRxJVaab?=
+ =?us-ascii?Q?kWtY/cd+e9C+wwcH9x3UbHqUoQRdGEVHQ5UAFWgdT0qJaogjLjNTYXsLdOGh?=
+ =?us-ascii?Q?I81mmZhN7Ar+RSXr5L/izm38TuYzK4+ZgKuNT0QxU7xQvC+JzsNKqooCaSq4?=
+ =?us-ascii?Q?BY0ADjmFcZnks/nexZhWSJKG6d+YyvFghLXHOx3MeRtmq+sJ35OCToucr7j9?=
+ =?us-ascii?Q?VE38apduHsv6D7NqoCI2X7cdq+okww2np3t7YsnzY0e1L6dvfYzPd5G2rqkT?=
+ =?us-ascii?Q?n0l13F73yhTijYw3IgDXU4uGjmJq1eAAEJMlqf4S8bR1mNVPDaTBhY80N+kL?=
+ =?us-ascii?Q?cQof5p+CRVWO89fuenY/CDxiNj9PNfds5ebHqyimcvlSqeqwo70IRV6Kpycs?=
+ =?us-ascii?Q?+DSeHoxAV8/RNnD2oDStBHLLDun/ssjlBVCQkMx6oEJ2a6b1aG/+vIOYoLQ8?=
+ =?us-ascii?Q?MaVP0SCWdE91kzZTJ0Q6Fn2RGxGKihkVG/slfkcd+74J54sIRKCKtTHM800I?=
+ =?us-ascii?Q?VkWK0fJS9zc+1eYLpYN90b70jI4mpGcYI5mOebbZYog0G9yPXA=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SL2P216MB2337.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?DyqJPf/qfXj/pcc1QX/P8uNEcZLe57qvVxIi56OchjABfkrbfSbSasa3hb0W?=
+ =?us-ascii?Q?6uK76ACFq+v4RZ1yZdQcH2whN7e1EOFCM0zpxTbnaXN8fgluivsctlCsGxoh?=
+ =?us-ascii?Q?HpyXcm+2lw+GD3AIxT0nNzs/UGZIW6qhwJTEEfyHj69vRCYgNQ//HwJQV/1p?=
+ =?us-ascii?Q?8mLkN0eUENKxa6dBTqlvOfh+nh+fylQNm5dqqQf3VjMKC83/sHWPoEbvWQRe?=
+ =?us-ascii?Q?fR9BKXgkfbKUVyb29oZf1ESJ5Sw9xO8q1Ayed7ekvW1vxcV0FwFJZtQ11ecW?=
+ =?us-ascii?Q?aFC82jDk1rhqoZJbXktmclpjD0eVIODr2fFETiGmmGIBBvJLInjzgw2z3DDE?=
+ =?us-ascii?Q?zO0LOp4Fb73EAUuSEeznb5Q3GdvLpFHDMJJbNMPeGYFOOdtHW/nbtaoDTYJS?=
+ =?us-ascii?Q?Hp5dFVwm8l7fljnCHBUKdEvdJpasYbzbCPMeTn2UnRxmB1CiKCZ8IDt5YLeR?=
+ =?us-ascii?Q?pGn2zMhvs5p35ZpyPh3Q9FD6NVDQEfu+kOFwEfX+bRANxuF+pRRm0cUEuZJq?=
+ =?us-ascii?Q?OnDvBHVKegD9Bl+zEXREijHcNrG46CNwgyickH0QkUZ8hs+uRo6L0imYWgpV?=
+ =?us-ascii?Q?pgeppi//pI8FYTgl9GPuWjTXjvL74Ky8PCP65IladesPf5nqTzTx+Kx13p/S?=
+ =?us-ascii?Q?jPgu8pmOqjFH7DmkHkwnUZQDMJj6I+OMmk3CyB+HSGebkv6RkYQ+Bl2dEkpf?=
+ =?us-ascii?Q?xiqFPXU1r48FLTt/uaT/AQm7XABZYgYCfISUYON9LRM4PKi/XnCERR1m/5yF?=
+ =?us-ascii?Q?ELOFpTVB2oI9ehzhx3gKWqnXMgikhp2G2M30pMjbMmD0lun99vnNSPNt6l/4?=
+ =?us-ascii?Q?7aPyBEh8FOEGKt8ydGXKp1UAti4/s1zC4vVlnqAXHaXTBmQucANlIM5zVoEO?=
+ =?us-ascii?Q?gfQlcOxGXuASEf/ta6stqPy0lHfwF/v2ujxpc/rjoaM02Rr3dycQjV1ozzJF?=
+ =?us-ascii?Q?GwchhpqKXxb6yMXlyUOxzNIq8L5QYTyPXMNXw/9CmbnGTb/WGv2rY3/8YohU?=
+ =?us-ascii?Q?lHhX2ZiHlu0KHSHKVMJUvEmflGkUYQOlfZPBsFv8Lzv6fAyjP7f0yXAjSqrL?=
+ =?us-ascii?Q?HLwW5lwFfY9fIM/fe3GDZXcMPUn8fzVuTf8lWdXWTH7qJ8MDlqF/Hd1v8RpP?=
+ =?us-ascii?Q?yILOXSOOarBTtsMWEEUoMdlByz83OIwXB/bkyJ76sPZcs8YS42HfEaw9Xo11?=
+ =?us-ascii?Q?eg4Zra6CE61Hq6CBTFR98G2ST3QR5Rk5d+FaalWXg4mXEuc9Jg6/qWGwQPIM?=
+ =?us-ascii?Q?253blnSspqq6FH75RAO9R2+gWdv2XZ3/Cel4QxGgcvhk8nyxY6Nl9qgBj0kO?=
+ =?us-ascii?Q?PV6PMuu45l0IuZhnZotsN7uLO+l9D3MNQAhCOeZVnBg+Q50Ixgm+/C1OmvR6?=
+ =?us-ascii?Q?Go60WvllqDcHQkr4Dy4bFB7JHQzchbH5zKtaRw/uv/U3fIBP1TME5ZXcsK4S?=
+ =?us-ascii?Q?r/yRFCfSVw70Ci3HsDzWTNAwcshpscWgECmfrBl9VwxdE1vEJeR6FIOKYZzm?=
+ =?us-ascii?Q?zDcwP1g27gPSnEzkSR4zm/K36pm9peORrkBOWlqlpT5rtblevNdd5hUQu/q5?=
+ =?us-ascii?Q?0hyRoFRSsGF+SIZFLsiFFmzyDRGZh5027Vdm+oQX?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240829-lenovo-v145-fixes-v2-1-713ac5cbb32d@chromium.org>
-X-B4-Tracking: v=1; b=H4sIAIGGz2YC/32NTQ7CIBSEr9K8tRj+aoor72G6aOFZXmLBgBJNw
- 93FHsDM6pvJzGyQMRFmOHcbJCyUKYYG8tCB9VNYkJFrDJJLzQdp2B1DLJEVoXt2ozdmZrgVfNJ
- utqaH1nsk3INWu46NPeVnTJ/9ooif+2+tCNaklBN4GoSa1cX6FFd6rceYFhhrrV+7/u7htQAAA
- A==
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Terry Cheong <htcheong@chromium.org>
-X-Mailer: b4 0.13.0
+X-OriginatorOrg: irondevice.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SL2P216MB2337.KORP216.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: e91ca65c-7a00-4108-c59e-08dcc7d15b79
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Aug 2024 02:21:57.5844
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b4849faa-3337-494e-a76a-cb25a3b3d7d1
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zTY/B5mneLOtjwlB0FXuokU7ifvVLPIjijPVYXDgMiCa4LYz01hWFnD8/XcGuB/SLg+40ayZ7eNED8gfbcjg7q0PD7AC0+Ietx31vCCbZ2k=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SE2P216MB2851
 
-Lenovo V145 is having phase inverted dmic but simply applying inverted
-dmic fixups does not work. Chaining up verb fixes for ALC283 enables
-inverting dmic fixup to work properly.
 
-Signed-off-by: Terry Cheong <htcheong@chromium.org>
----
-Changes in v2:
-- Corrected description for the patch
-- Link to v1: https://lore.kernel.org/r/20240829-lenovo-v145-fixes-v1-1-133d1e6813b3@chromium.org
----
- sound/pci/hda/patch_realtek.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Apologies for the delay in responding. Thank you for the great feedback. I =
+will incorporate your suggestions into the code and submit an updated patch=
+.
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 588738ce7380..bbda235ea96c 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -7538,6 +7538,7 @@ enum {
- 	ALC236_FIXUP_HP_GPIO_LED,
- 	ALC236_FIXUP_HP_MUTE_LED,
- 	ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF,
-+	ALC236_FIXUP_LENOVO_INV_DMIC,
- 	ALC298_FIXUP_SAMSUNG_AMP,
- 	ALC298_FIXUP_SAMSUNG_AMP2,
- 	ALC298_FIXUP_SAMSUNG_HEADPHONE_VERY_QUIET,
-@@ -9161,6 +9162,12 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = alc236_fixup_hp_mute_led_micmute_vref,
- 	},
-+	[ALC236_FIXUP_LENOVO_INV_DMIC] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = alc_fixup_inv_dmic,
-+		.chained = true,
-+		.chain_id = ALC283_FIXUP_INT_MIC,
-+	},
- 	[ALC298_FIXUP_SAMSUNG_AMP] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = alc298_fixup_samsung_amp,
-@@ -10707,6 +10714,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x17aa, 0x3855, "Legion 7 16ITHG6", ALC287_FIXUP_LEGION_16ITHG6),
- 	SND_PCI_QUIRK(0x17aa, 0x3865, "Lenovo 13X", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x17aa, 0x3866, "Lenovo 13X", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x17aa, 0x3913, "Lenovo 145", ALC236_FIXUP_LENOVO_INV_DMIC),
- 	SND_PCI_QUIRK(0x17aa, 0x3869, "Lenovo Yoga7 14IAL7", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
- 	SND_PCI_QUIRK(0x17aa, 0x386e, "Legion Y9000X 2022 IAH7 / Yoga Pro 7 14ARP8",  ALC287_FIXUP_LENOVO_14ARP8_LEGION_IAH7),
- 	SND_PCI_QUIRK(0x17aa, 0x386f, "Legion Pro 7/7i", ALC287_FIXUP_LENOVO_LEGION_7),
-@@ -10994,6 +11002,7 @@ static const struct hda_model_fixup alc269_fixup_models[] = {
- 	{.id = ALC623_FIXUP_LENOVO_THINKSTATION_P340, .name = "alc623-lenovo-thinkstation-p340"},
- 	{.id = ALC255_FIXUP_ACER_HEADPHONE_AND_MIC, .name = "alc255-acer-headphone-and-mic"},
- 	{.id = ALC285_FIXUP_HP_GPIO_AMP_INIT, .name = "alc285-hp-amp-init"},
-+	{.id = ALC236_FIXUP_LENOVO_INV_DMIC, .name = "alc236-fixup-lenovo-int-mic"},
- 	{}
- };
- #define ALC225_STANDARD_PINS \
 
----
-base-commit: 86987d84b968b69a610fd00ab9006c13db193b4e
-change-id: 20240829-lenovo-v145-fixes-90c10a4dbc95
+> > > > +		return false;
+> > > > +	}
+> > > > +	sma1307_regmap_update_bits(sma1307, SMA1307_00_SYSTEM_CTRL,
+> > > > +				   SMA1307_RESET_MASK, SMA1307_RESET_ON);
+> > > > +	sma1307_reset(component);
+>=20
+> > > This is a very unusual thing to support - what's the motivation for i=
+t?
+> > > If we were going to support it then we'd need to handle what happens
+> > > to the controls, either generating events saying where they've
+> > > changed or rsyncing existing values.
+>=20
+> > The 'sma1307_reset' function is responsible for configuring the
+> amplifier to operate properly.
+> > Sometimes users may want to reset the mixer control to its initial stat=
+e
+> after having used it.
+> > I have added a reset control for this purpose.
+> > Will it be problematic to initialize the chip values and return it to a
+> usable state?
+>=20
+> Yeah, so we don't usually have a control for that - most drivers could
+> have one after all.  The usual thing with ALSA would be to do this at the
+> userspace level, saving the configuration on startup and then rewriting
+> the controls from that saved configuration to reset everything back to th=
+e
+> initial state.  I guess you're partly using this to reload the
+> configuration from firmware?
 
-Best regards,
--- 
-Terry Cheong <htcheong@chromium.org>
+
+Yes, that's correct. Essentially, we can change to default values through a=
+ reset, but we also load and apply settings files from the firmware. This a=
+llows us to modify the settings file even after the probe and reapply value=
+s using that control.
+
+
+
+> > > > +static int sma1307_register_write(struct snd_kcontrol *kcontrol,
+> > > > +				  struct snd_ctl_elem_value *ucontrol) {
+>=20
+> > > Again, this seems better provided by the regmap debugging features.
+>=20
+> > Occasionally, regmap writes are restricted in debugfs, so I added it.
+> > (Reading is still allowed, so a read function shouldn't be necessary.)
+>=20
+> Yes, the regmap debugfs interface requires modification of the kernel to
+> support writes which is generally fine for that application where you're
+> doing things during development.  Do you have a use case for this in norm=
+al
+> operation?
+>=20
+
+
+When applied to actual smartphones, debugfs is blocked, so regmap settings =
+cannot be modified, but tinymix might still be available. Therefore, it was=
+ added to change device settings when needed.
+The contol has been removed.
+
+
+
+> > > > +	/* HEADER */
+> > > > +	sma1307->set.header_size =3D SMA1307_SETTING_HEADER_SIZE;
+> > > > +	sma1307->set.checksum =3D data[sma1307->set.header_size - 2];
+> > > > +	sma1307->set.num_mode =3D data[sma1307->set.header_size - 1];
+>=20
+> > > We didn't verify that the firmware is big enough to contain the
+> > > header (eg, if there's some filesystem corruption) or any of the othe=
+r
+> sizes or counts.
+>=20
+> > The file format is fixed.
+> > The size isn't very large, but up to what extent is it acceptable?
+> > The header size is predefined, and the header contains the file size
+> value.
+>=20
+> It's just about making sure that we're not reading beyond the end of the
+> data we got from request_firmware(), or doing something like dereferencin=
+g
+> a NULL pointer.  The main issue is being robust against loading a corrupt=
+ed
+> firmware file, so no real need to enforce specific limits other than
+> what's needed to make sure that reads are in bounds.
+> Consider what would happen if there were a 0 byte file instead of an
+> actual firmware for example.
+>=20
+
+Well, you're right. I should handle errors if the size of the data is small=
+er than the size of the header I specified. Thanks for the good feedback.
 
