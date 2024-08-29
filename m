@@ -1,290 +1,126 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 623DD161914;
-	Thu, 29 Aug 2024 07:53:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E28C18A6A6;
+	Thu, 29 Aug 2024 08:10:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724918002; cv=none; b=rWs33tYi/naZYgQctV33DEwUzmrRb+Wdt5h3O9+GTyJplL7XNxCjUDP0tHAmTBA349FXLcudhOHyB7W0xkvY5SllffPZYu31AAUh3S/9IVqfjn6+oYZ/rzUJEJVjfMXvyX7t0FEeAsn9dyhKWYp3PGu2yXyOBGqONA+9c5qiSBQ=
+	t=1724919024; cv=none; b=OmlIIjhe4J7pjzJ5FMWk/XYhP3lHnjy5w6sxQFhjRG3kwPQHULQa5dfBmZo+mlfC7OJuhYgjY5QKxzVpCHrWEoH6Z6zwbilN4ZjhkrOCwM+KHhYaVgbQW9irKXs3MmLXEz0LtmRjQjShw8UGQFwAKKP1lnXDohjaDB0jiANJYhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724918002; c=relaxed/simple;
-	bh=MALyCXTtIxsCApUreBkRFcSk6W24UuS5XvmmThIBw8A=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=V9HYWcdARF59iVoWbHmLNCuHuVpSDSQF5KW3UeWqk0nqXO86/90X3E33D9dS3CPfVEDenf+UzW0l3Fh6fwYEhwb5BVltzKSpvVXNEA5vnlPidgeeIZRkg0evftdnu1VgcEWwTP4IjFJEwE0BCFDINbzc0Hc+dhbqO+QxSDf1eKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kfSIb9dO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724919024; c=relaxed/simple;
+	bh=bWU5aoDnKUhpjgZp6j3NAYJzwX8Wx/lOTV/7GJGJmMY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=djkuCh5MAO+gbcdSORYyiT1HptKBNrRWhQ6FmJLV2Tqrw1FVQJ/E+27ceaZpsUIKmQOF6XsJ+0GSJ8bPB1ew+w9p90L9U+8Log6VH0wPGpSYRw4jaluMJAKWSlBNcSiIX90/VLGIP9HDtUebgUybYVDpktSGx6+tv+Hn5XszA1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vMytAHO7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kfSIb9dO"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C2002C4CEC2;
-	Thu, 29 Aug 2024 07:53:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vMytAHO7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EE7AC4CEC1;
+	Thu, 29 Aug 2024 08:10:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724918001;
-	bh=MALyCXTtIxsCApUreBkRFcSk6W24UuS5XvmmThIBw8A=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=kfSIb9dOQzB7pCiuTYv/iHuXandmoYtN/5CO+2RCvIsh6KD2qabHcWCzblMuO+nQq
-	 Jcylz+yiz7cr2k5rm+x2oGNtzSbreOuaN/oaXStPERoTJkX5Y+tdV59PEp+GGfBJpR
-	 m1HcBHRCZlIurLLImEdl7QEyil0XYK/PsoLRnU86i8zZwhWswRdlF1QUi5BSHk3ngL
-	 RSATqOJzCVL3gHyDupJg+lG1xif85TsaiE9UwEzJk4kjbbIqjzXALapDo0vUcZUizF
-	 JHxCiTWoG3Adaf8BhXMhXCxttYwPtNCRrqCJM2pVxLbZsGU9pO0DMFJwx3jtsq5d2r
-	 ZgXBYW+7o3uhg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B05B1C6FD35;
-	Thu, 29 Aug 2024 07:53:21 +0000 (UTC)
-From: Nikita Shubin via B4 Relay <devnull+nikita.shubin.maquefel.me@kernel.org>
-Date: Thu, 29 Aug 2024 10:52:57 +0300
-Subject: [PATCH v3] ASoC: dt-bindings: cirrus,cs4271: Convert to dtschema
+	s=k20201202; t=1724919024;
+	bh=bWU5aoDnKUhpjgZp6j3NAYJzwX8Wx/lOTV/7GJGJmMY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=vMytAHO77+IEclfJej90ZPTDgdqEobKtXicI7X04OfGTMNqaEHUEBKsC8YJtucoMA
+	 q2erTpm51WRymNoNR8b2VhJKz2GFTJJvgs4lcGlU2TckYoRMUpPzCzPJ2VBTZafw8U
+	 C/THtrcGuEGGiE8yt3pE5kCNW8jruKFabU+aF6NuIN0wo5Xe2v39PJPd+TDsc2p8/H
+	 9FAqKsJztRN/CbpPl98Eoft+mhQywz2QTrIcqyO5oeG+mHPH/NsrPShWKeetOArypv
+	 9UC2Oq7mqJ55TtYyacpkX46QOfpgSgEyhWgr5iDyA/FY6X+MV5K+TP3w0aXeVcgSMZ
+	 uO792oudwcI+Q==
+Message-ID: <f1d1ba01-358d-49a3-bf00-6230377afbad@kernel.org>
+Date: Thu, 29 Aug 2024 10:10:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240829-cs4271-yaml-v3-1-f1624cc838f6@maquefel.me>
-X-B4-Tracking: v=1; b=H4sIANgo0GYC/23MSw7CIBSF4a00jMVcLk0fjtyHcQDlYkn6EpTYN
- N27tCObODwn+f6FBfKOArtkC/MUXXDjkIY8Zaxp1fAg7kzaDAFzqLDgTcixFHxWfcdJVjWgBKO
- 1ZUlMnqz77LXbPe3Whdfo5z0exfb+70TBBTfKSAsackH22qvnmyx1557YVor4q8ujxqQRdCFrb
- VCBOup1Xb/6oFTd5gAAAA==
-To: David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] ASoC: dt-bindings: cirrus,cs4271: Convert to dtschema
+To: nikita.shubin@maquefel.me, David Rhodes <david.rhodes@cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
  Alexander Sverdlin <alexander.sverdlin@gmail.com>
-Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Nikita Shubin <nikita.shubin@maquefel.me>
-X-Mailer: b4 0.15-dev-99b12
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1724918001; l=6406;
- i=nikita.shubin@maquefel.me; s=20230718; h=from:subject:message-id;
- bh=z7uDltoTHvw5cc3nOCnjkHGx/Fb83ySX2YkvThsXBos=;
- b=LMCxjrGcr6110qPTrlSie3q8RPtnQwXGzjKdeQm5fVV7iZ3I+trPusyJPq7oncQGE9m3oOW08Fqa
- xBAjY1MYCtT1GeN+jaHOh/c64yg/aU1HKx3ca12rKdPZ0BuvXkXn
-X-Developer-Key: i=nikita.shubin@maquefel.me; a=ed25519;
- pk=vqf5YIUJ7BJv3EJFaNNxWZgGuMgDH6rwufTLflwU9ac=
-X-Endpoint-Received: by B4 Relay for nikita.shubin@maquefel.me/20230718
- with auth_id=65
-X-Original-From: Nikita Shubin <nikita.shubin@maquefel.me>
-Reply-To: nikita.shubin@maquefel.me
+Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240829-cs4271-yaml-v3-1-f1624cc838f6@maquefel.me>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240829-cs4271-yaml-v3-1-f1624cc838f6@maquefel.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Nikita Shubin <nikita.shubin@maquefel.me>
+On 29/08/2024 09:52, Nikita Shubin via B4 Relay wrote:
+> From: Nikita Shubin <nikita.shubin@maquefel.me>
+> 
+> Convert the Cirrus Logic CS4271 audio CODEC bindings to DT schema.
+> 
+> Add missing spi-cpha, spi-cpol, '#sound-dai-cells' and port, as they
+> are already being used in the DTS and the driver for this device.
+> 
+> Switch to 'reset-gpios' and drop legacy 'reset-gpio' used in original
+> bindings.
+> 
+> Based on Animesh Agarwal cs42xx8 conversion patch.
+> 
+> Cc: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+> Link: https://lore.kernel.org/all/20240715-ep93xx-v11-0-4e924efda795@maquefel.me
+> Signed-off-by: Nikita Shubin <nikita.shubin@maquefel.me>
+> ---
+> This is complementary patch to ep93xx DT conversion series.
+> 
+> Based on "ASoC: dt-bindings: cirrus,cs4270: Convert to dtschema" patch.
+> 
+> Krzysztof, thank you once again for your patience.
 
-Convert the Cirrus Logic CS4271 audio CODEC bindings to DT schema.
+Thanks for the conversion, looks good.
 
-Add missing spi-cpha, spi-cpol, '#sound-dai-cells' and port, as they
-are already being used in the DTS and the driver for this device.
-
-Switch to 'reset-gpios' and drop legacy 'reset-gpio' used in original
-bindings.
-
-Based on Animesh Agarwal cs42xx8 conversion patch.
-
-Cc: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-Link: https://lore.kernel.org/all/20240715-ep93xx-v11-0-4e924efda795@maquefel.me
-Signed-off-by: Nikita Shubin <nikita.shubin@maquefel.me>
----
-This is complementary patch to ep93xx DT conversion series.
-
-Based on "ASoC: dt-bindings: cirrus,cs4270: Convert to dtschema" patch.
-
-Krzysztof, thank you once again for your patience.
----
-Changes in v3:
-- Switch to 'reset-gpios'
-- Use 'codec' for node name
-- Link to v2: https://lore.kernel.org/r/20240827-cs4271-yaml-v2-1-20b639bd2a0a@maquefel.me
-
-Changes in v2:
-Krzysztof Kozlowski:
-- fix SoB above link
-- replace 'driver' with 'device'
-- mention properties not present in original bindings
-- mention using 'gpio-reset' instead of 'gpios-reset'
-- dropped unused label
-- use defines for gpio bindings
-- newline at end of file
-- Link to v1: https://lore.kernel.org/r/20240826-cs4271-yaml-v1-1-dad3f0b041ef@maquefel.me
----
- .../devicetree/bindings/sound/cirrus,cs4271.yaml   | 101 +++++++++++++++++++++
- Documentation/devicetree/bindings/sound/cs4271.txt |  57 ------------
- 2 files changed, 101 insertions(+), 57 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs4271.yaml b/Documentation/devicetree/bindings/sound/cirrus,cs4271.yaml
-new file mode 100644
-index 000000000000..68fbf5cc208f
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/cirrus,cs4271.yaml
-@@ -0,0 +1,101 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/cirrus,cs4271.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Cirrus Logic CS4271 audio CODEC
-+
-+maintainers:
-+  - Alexander Sverdlin <alexander.sverdlin@gmail.com>
-+  - Nikita Shubin <nikita.shubin@maquefel.me>
-+
-+description:
-+  The CS4271 is a stereo audio codec. This device supports both the I2C
-+  and the SPI bus.
-+
-+allOf:
-+  - $ref: dai-common.yaml#
-+  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-+
-+properties:
-+  compatible:
-+    const: cirrus,cs4271
-+
-+  reg:
-+    maxItems: 1
-+
-+  spi-cpha: true
-+
-+  spi-cpol: true
-+
-+  '#sound-dai-cells':
-+    const: 0
-+
-+  reset-gpios:
-+    description:
-+      This pin will be deasserted before communication to the codec starts.
-+    maxItems: 1
-+
-+  va-supply:
-+    description: Analog power supply.
-+
-+  vd-supply:
-+    description: Digital power supply.
-+
-+  vl-supply:
-+    description: Serial Control Port power supply.
-+
-+  port:
-+    $ref: audio-graph-port.yaml#
-+    unevaluatedProperties: false
-+
-+  cirrus,amuteb-eq-bmutec:
-+    description:
-+      When given, the Codec's AMUTEB=BMUTEC flag is enabled.
-+    type: boolean
-+
-+  cirrus,enable-soft-reset:
-+    description: |
-+      The CS4271 requires its LRCLK and MCLK to be stable before its RESET
-+      line is de-asserted. That also means that clocks cannot be changed
-+      without putting the chip back into hardware reset, which also requires
-+      a complete re-initialization of all registers.
-+
-+      One (undocumented) workaround is to assert and de-assert the PDN bit
-+      in the MODE2 register. This workaround can be enabled with this DT
-+      property.
-+
-+      Note that this is not needed in case the clocks are stable
-+      throughout the entire runtime of the codec.
-+    type: boolean
-+
-+required:
-+  - compatible
-+  - reg
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    spi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        codec@0 {
-+            compatible = "cirrus,cs4271";
-+            reg = <0>;
-+            #sound-dai-cells = <0>;
-+            spi-max-frequency = <6000000>;
-+            spi-cpol;
-+            spi-cpha;
-+            reset-gpios = <&gpio0 1 GPIO_ACTIVE_LOW>;
-+            port {
-+                endpoint {
-+                    remote-endpoint = <&i2s_ep>;
-+                };
-+            };
-+        };
-+    };
-+
-+...
-diff --git a/Documentation/devicetree/bindings/sound/cs4271.txt b/Documentation/devicetree/bindings/sound/cs4271.txt
-deleted file mode 100644
-index 6e699ceabacd..000000000000
---- a/Documentation/devicetree/bindings/sound/cs4271.txt
-+++ /dev/null
-@@ -1,57 +0,0 @@
--Cirrus Logic CS4271 DT bindings
--
--This driver supports both the I2C and the SPI bus.
--
--Required properties:
--
-- - compatible: "cirrus,cs4271"
--
--For required properties on SPI, please consult
--Documentation/devicetree/bindings/spi/spi-bus.txt
--
--Required properties on I2C:
--
-- - reg: the i2c address
--
--
--Optional properties:
--
-- - reset-gpio: 	a GPIO spec to define which pin is connected to the chip's
--		!RESET pin
-- - cirrus,amuteb-eq-bmutec:	When given, the Codec's AMUTEB=BMUTEC flag
--				is enabled.
-- - cirrus,enable-soft-reset:
--	The CS4271 requires its LRCLK and MCLK to be stable before its RESET
--	line is de-asserted. That also means that clocks cannot be changed
--	without putting the chip back into hardware reset, which also requires
--	a complete re-initialization of all registers.
--
--	One (undocumented) workaround is to assert and de-assert the PDN bit
--	in the MODE2 register. This workaround can be enabled with this DT
--	property.
--
--	Note that this is not needed in case the clocks are stable
--	throughout the entire runtime of the codec.
--
-- - vd-supply:	Digital power
-- - vl-supply:	Logic power
-- - va-supply:	Analog Power
--
--Examples:
--
--	codec_i2c: cs4271@10 {
--		compatible = "cirrus,cs4271";
--		reg = <0x10>;
--		reset-gpio = <&gpio 23 0>;
--		vd-supply = <&vdd_3v3_reg>;
--		vl-supply = <&vdd_3v3_reg>;
--		va-supply = <&vdd_3v3_reg>;
--	};
--
--	codec_spi: cs4271@0 {
--		compatible = "cirrus,cs4271";
--		reg = <0x0>;
--		reset-gpio = <&gpio 23 0>;
--		spi-max-frequency = <6000000>;
--	};
--
-
----
-base-commit: 5be63fc19fcaa4c236b307420483578a56986a37
-change-id: 20240826-cs4271-yaml-e3890230dbbf
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
--- 
-Nikita Shubin <nikita.shubin@maquefel.me>
-
+Krzysztof
 
