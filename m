@@ -1,91 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93DB41531FE
-	for <linux-sound@vger.kernel.org>; Fri, 30 Aug 2024 07:25:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F7A15855F;
+	Fri, 30 Aug 2024 07:29:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725002715; cv=none; b=EgNhZbOxh1PvUTxUD2twjD8O7P9PaF36FX+zquMTK9JEAwwUNI5c8JA/oI/NbewKtFOCCkij+94bWAxu5oFN1y35YPSXJLazTuOck7Yxs628xaIRq3TdGJRuYqBjFoQhsuBGejvd3F2BRum7BnmUDTsPRZOIvqHoBipIVi3bzOk=
+	t=1725002965; cv=none; b=YAsmlq616skCBPJlTrEq0JGejpDXehJNo/T9uGeiH3Lq+GxFaO8gh2VEKPCeUQ4e3qsZdAAlAZllScWdM75wDROH5RHT0U+R65gyupJZFngiqQUU7BwhXkFYrxoNnzIIfSjgMWHIB8t1qL2gz8gM5xhi5GldAX6cyC/37ndDg1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725002715; c=relaxed/simple;
-	bh=hRtnmgq6/i+1ww35w6YdNWKJllCEkWo6iKOURc59qu4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RHBr4Cfbrb+6cKvlfeCCjWHHHqSrztV4zsrP05Jl1anm2pS/nHejNl1zVEl4QNEPCgInf+suuLe/izpHqk1aHQQiSTVorp1aZpjK4/8To75s8jnxsWuaM+brZ6IxvUxDq27x7eSXDE5y8cI6Ec2gMyZ8zdDB1Xdx/BnZK9WNlwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YoQLE0gY; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1725002965; c=relaxed/simple;
+	bh=QiFIssSFWRueC9erw2+bHra3ANRGrVHTdR3M0wWNZHo=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Tf1E1yCg6xjHeYrdOCgwL3uPnalL7GxlVc7KMgvSStd/wvR0xN7MDAu3q+5CkyOA6g8kgZJWxgbWdQjiX8w0PoDjgur9kRGoHbE3a7AJvjYI8RjOVBIxJv1H+iKtvlIPUygQZrDXaAls4/Pc6ziEPGLRK+A5ZVoZ9k8YKcGL7AY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=v+G7GvwM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rM7B3hn8; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=v+G7GvwM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rM7B3hn8; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YoQLE0gY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725002714; x=1756538714;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=hRtnmgq6/i+1ww35w6YdNWKJllCEkWo6iKOURc59qu4=;
-  b=YoQLE0gYV9XFXJE/zQaiy6FntJ45k3GcKPL9hmubV11DAwX+zmi42Y1/
-   vdBtXBuUOl8bOvN9AqIJMKVRV9PAKoy3v6bprhFTVyN+FA3QUdLTyI/2s
-   RxwNAyHYEmlvkQyKvxhsXizrX0aSq7QS8CqsW9cvPTAMJIJSNQLB9Ujw+
-   02qoJfoCjM0SwiICPVi5j5y/mYbpv7+qYIyLGw518pLqckqfhc0uuHi7A
-   C9HxtWe5bJJNXqhoe/BnK6tIFj+V2ri88o4ZfGlFqgrD02xPdDX0iFbRd
-   3u8LbBPRq3fMT4tTIp5QLgpvwLA+NLH4pxSdsuGoceMEbv+au7PLuDtZt
-   g==;
-X-CSE-ConnectionGUID: e1r2uzPKTCaBrBaFc9sLyg==
-X-CSE-MsgGUID: Vzi9brn7Szq2EdGhGy94jA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="27392900"
-X-IronPort-AV: E=Sophos;i="6.10,188,1719903600"; 
-   d="scan'208";a="27392900"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 00:25:13 -0700
-X-CSE-ConnectionGUID: ZRmqUAWcT8Cx6QCF48LLmA==
-X-CSE-MsgGUID: q/9301tXQXK3R8a5srKGaQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,188,1719903600"; 
-   d="scan'208";a="101329396"
-Received: from unknown (HELO yungchua-desk.intel.com) ([10.247.118.125])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 00:25:09 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com,
-	bard.liao@intel.com,
-	peter.ujfalusi@linux.intel.com
-Subject: [PATCH] ALSA: hda: add HDMI codec ID for Intel PTL
-Date: Fri, 30 Aug 2024 15:24:58 +0800
-Message-ID: <20240830072458.110831-1-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="v+G7GvwM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rM7B3hn8";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="v+G7GvwM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rM7B3hn8"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 11AD31F7A7;
+	Fri, 30 Aug 2024 07:29:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1725002962; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ld+P0HPgoa4AL3BOpa6b7hpUQm2Xu4qAt2RseA/xXr0=;
+	b=v+G7GvwMUvNVcP54tFJgJiyp+DpJFHCVyvj9E7YhBmWA9AEHhKyJkA4lWdEQ0ga3q5EvNF
+	wXQsw0upgBkKm4nXJRDpIKPc3D5/90k4/r2A9WeajKTiodZpF+SWJIhruaobBKriqv8l9k
+	iFtoCQ8IF9wLa/DQ9tpvm5nEm/Owtzc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1725002962;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ld+P0HPgoa4AL3BOpa6b7hpUQm2Xu4qAt2RseA/xXr0=;
+	b=rM7B3hn82SR9PD6lExOeiwhKUgJNd2Ye4SMu/IBvaV3ESOPZ7hmmiJW7O5Pgg1UrhanqLT
+	NM1jVycK5qq5nKCQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=v+G7GvwM;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=rM7B3hn8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1725002962; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ld+P0HPgoa4AL3BOpa6b7hpUQm2Xu4qAt2RseA/xXr0=;
+	b=v+G7GvwMUvNVcP54tFJgJiyp+DpJFHCVyvj9E7YhBmWA9AEHhKyJkA4lWdEQ0ga3q5EvNF
+	wXQsw0upgBkKm4nXJRDpIKPc3D5/90k4/r2A9WeajKTiodZpF+SWJIhruaobBKriqv8l9k
+	iFtoCQ8IF9wLa/DQ9tpvm5nEm/Owtzc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1725002962;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ld+P0HPgoa4AL3BOpa6b7hpUQm2Xu4qAt2RseA/xXr0=;
+	b=rM7B3hn82SR9PD6lExOeiwhKUgJNd2Ye4SMu/IBvaV3ESOPZ7hmmiJW7O5Pgg1UrhanqLT
+	NM1jVycK5qq5nKCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CF99813A44;
+	Fri, 30 Aug 2024 07:29:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id +5EzMdF00WazYgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 30 Aug 2024 07:29:21 +0000
+Date: Fri, 30 Aug 2024 09:30:06 +0200
+Message-ID: <87r0a6lb7l.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Terry Cheong <htcheong@chromium.org>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Steve Kendall <skend@chromium.org>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] ALSA: hda/realtek: add patch for internal mic in Lenovo V145
+In-Reply-To: <20240830-lenovo-v145-fixes-v3-1-f7b7265068fa@chromium.org>
+References: <20240830-lenovo-v145-fixes-v3-1-f7b7265068fa@chromium.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 11AD31F7A7
+X-Spam-Score: -5.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-5.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-From: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+On Thu, 29 Aug 2024 22:11:53 +0200,
+Terry Cheong wrote:
+> 
+> Lenovo V145 is having phase inverted dmic but simply applying inverted
+> dmic fixups does not work. Chaining up verb fixes for ALC283 enables
+> inverting dmic fixup to work properly.
+> 
+> Signed-off-by: Terry Cheong <htcheong@chromium.org>
 
-Add HDMI codec ID for Intel Panther Lake platform.
+Thanks, applied now.
 
-Signed-off-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
----
- sound/pci/hda/patch_hdmi.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/sound/pci/hda/patch_hdmi.c b/sound/pci/hda/patch_hdmi.c
-index 78042ac2b71f..643e0496b093 100644
---- a/sound/pci/hda/patch_hdmi.c
-+++ b/sound/pci/hda/patch_hdmi.c
-@@ -4639,6 +4639,7 @@ HDA_CODEC_ENTRY(0x8086281d, "Meteor Lake HDMI",	patch_i915_adlp_hdmi),
- HDA_CODEC_ENTRY(0x8086281e, "Battlemage HDMI",	patch_i915_adlp_hdmi),
- HDA_CODEC_ENTRY(0x8086281f, "Raptor Lake P HDMI",	patch_i915_adlp_hdmi),
- HDA_CODEC_ENTRY(0x80862820, "Lunar Lake HDMI",	patch_i915_adlp_hdmi),
-+HDA_CODEC_ENTRY(0x80862822, "Panther Lake HDMI",	patch_i915_adlp_hdmi),
- HDA_CODEC_ENTRY(0x80862880, "CedarTrail HDMI",	patch_generic_hdmi),
- HDA_CODEC_ENTRY(0x80862882, "Valleyview2 HDMI",	patch_i915_byt_hdmi),
- HDA_CODEC_ENTRY(0x80862883, "Braswell HDMI",	patch_i915_byt_hdmi),
--- 
-2.43.0
-
+Takashi
