@@ -1,183 +1,763 @@
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2048.outbound.protection.outlook.com [40.107.117.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED25916C877;
-	Fri, 30 Aug 2024 08:44:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.117.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725007445; cv=fail; b=ripg/Cf2M51hxIT8CY6qQOhsyRI1JJYA44Y9JyWHGH64pYF95SQa4yCfwJqkFcbaEplxWrKBm3qJ27Hzkzxw8JfpXBisyiYQhG+hAG2YiYcHe06wuej0FthUeKaR5c+5fjRhxomHQ5OrKGmaJ5i234KZ74/TdfgKHdVxNzi0NxM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725007445; c=relaxed/simple;
-	bh=nsTxJ5BbmEaEIKATMqhweGGtxAeYJUjUvRgrA3BPyZE=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=DjkC5nEBu8OxgUUojH1iDs3xikBiROamvizHxNpX8pMHYRXKEAyqQeLKiIthartIeSy/u3orjrt9LZEzHiJGU9MaK4Wauc3hT3RYV4q0eDo9/zmkevcMWUW6IKYfxbDX5nQ449p9xtUqH1azBCCCphqlEDHIaNV0X1BOv4YQT0k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=ZjV3gnLR; arc=fail smtp.client-ip=40.107.117.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7096413BAC2;
+	Fri, 30 Aug 2024 08:45:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725007543; cv=none; b=bADgml5SJLaS2YleapyIpWdCJv9f3dx9xtg4Q2v+5Zh+5sXyQfXlzhucvJ/jvHQFIk0leqmu17K++QVJKYsIFA3YET3HNMsMkocMJpmeSFAQ6o4UZBZB0xbpZ9Of4jGy4JarAWjISPTPAP8IMdaGP9t/c737DNsIqEgWbeH4kNY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725007543; c=relaxed/simple;
+	bh=wiXdC8NleT4FNkllqwZD+eTmy/deYiDnRn8i/MkAf9k=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=OgT+kcTdGMDXdRE8QH4N26tW4cC75xHsLSMPru9lwSwCrCT5IGF9lLe7K3ZlKy9dUo21QQXQYEScR96YTjZQN26jHFcmC3iaU6KlOahGF7MNfZZI5pLTAGnJlrR7E7PB8mt88eqSzPTgYt1MKtg1dVQ0FwQSei/kX/niXgPn5dY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lthEYSMi; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="ZjV3gnLR"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XvoHKIiYeLyzu5D3p+Busd7jlUgSjwykEB7XQO5/bBvuIuUuWgx+koY7aypCwf4Xrh3QVyF6n+XaIcTLbSeHFd58rnxdPeU4A0Lpb8aMLlPaB8RViPKibDoe2Yrq0CYj5jbeCn8ywT97fENI51g9wkkHwvF9jIBnW8iQp9CvHsF66vHpFbfj9JZuwTTspib+ycSaOepvww9nnLcg0DGZb73Z600vda/O3eFMjm0TohpMM++T34IJj0ZfgAzpqFI+ONc4zj1cthC+OBkELnHXKfYWb//U/CdwAFs6lOB0r1OBMR3bJm+J7r7ECtaOqES36NUpozCvCwqV3uFgSQa8RQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mbt5pSVLf+x36XmfMjNOLkergrkNyOe5t1VYIFLXNWI=;
- b=eM1z8EoLuW8eQ5Oiu8pV19CfTtDpa72sf7U9M7CmY+yHDZ3MUQnYxt6DfXKgAPoNVj16USxCHjdptWCAWATNiWsNarcPjX0D02Ke0MKPERLdeVz0ac91e/LXU5SA1F9QoP4qb3KWVF58CkmpsiS5qHaGCqEk5dFEN2zRwNkcamBvoiSbmG6g6PxJYhaXu5v6SFbgYhNp0SoeOH8R5ojoBQjwBpXS5iVOn4Ey7MXExRctLCgva/KpseKu7/C/H1SSjDuoXZFLQqSDRUMLmlrC9M5efn3hitbfZg5lFlFhRzzMMB3Mm59F6JJJO7f+e5yrVgEkwO/l1aeEQBzn9Rtu6Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mbt5pSVLf+x36XmfMjNOLkergrkNyOe5t1VYIFLXNWI=;
- b=ZjV3gnLR9/F3WaEi07XIZ9+enl6a+nyp4T8OvtX268zaf3xufAGwKpbunh8nnB5YmR4/xL7uAI8pqkTyqvEJxDEs9B1XR98oaVaSSEqZVedf2VbsQZEEhaqvVfs+gmBkOUZTYV5FaOnMfNd/JkkAQ/Mzgwch1OfEvHy/TguZEqR/06ymQP6r2XQK3oOM+EqP/29Df7xsLN+S2T/fvHO3mg3b8FUOxUrwNUiMDmBoluyip7B3qDV2miXD3/VoV+ahIZL8SujChWFAQKbdkiOcjOwhntWguIO73LcQYnztBY6YiPSO18+nYaTmyue/tND3beKTl3oTG9PUqTtsCwkqdg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from KL1PR0601MB4113.apcprd06.prod.outlook.com (2603:1096:820:31::7)
- by SEYPR06MB6681.apcprd06.prod.outlook.com (2603:1096:101:16e::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.21; Fri, 30 Aug
- 2024 08:43:58 +0000
-Received: from KL1PR0601MB4113.apcprd06.prod.outlook.com
- ([fe80::7e85:dad0:3f7:78a1]) by KL1PR0601MB4113.apcprd06.prod.outlook.com
- ([fe80::7e85:dad0:3f7:78a1%4]) with mapi id 15.20.7918.019; Fri, 30 Aug 2024
- 08:43:58 +0000
-From: Yan Zhen <yanzhen@vivo.com>
-To: ckeepax@opensource.cirrus.com,
-	rf@opensource.cirrus.com,
-	linus.walleij@linaro.org
-Cc: linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org,
-	opensorce.kernel@vivo.com,
-	Yan Zhen <yanzhen@vivo.com>
-Subject: [PATCH v3] pinctrl: madera: Simplify with dev_err_probe()
-Date: Fri, 30 Aug 2024 16:43:09 +0800
-Message-Id: <20240830084309.395129-1-yanzhen@vivo.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lthEYSMi"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-20219a0fe4dso13648075ad.2;
+        Fri, 30 Aug 2024 01:45:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725007541; x=1725612341; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tWp62dvKeWezfq1cKVNp8W2gUEG6SEcVrTgI7hly2Ek=;
+        b=lthEYSMiiwzxf/XF/Mrlh/eRNQPntkAh3sTqFJCKN93D+BKimV3nSph2qNTnhEuvMI
+         k2jY4hQFKR2q8vV19b3CxSDsBQDa9FUFrvcuQDX6Y65x7bN/SztkkD7zm0cpfRUQYEue
+         5XroKnOBSBDctfP+WOGIdq0+dX88vdpoKSnDsdNHZqK9rsNkN5b4Sx8Q6UlUUuI5Xg8D
+         YvzuIAhnAsHi7c0/XoO8hk9vddqPbu37jtkxJ0I/ktl69HBbQt/lR5+NZDJY741GimQe
+         CGJM84w7+3yw6Bt5AUQDk17GKIfj9/Ew95p40U4KF3e7SNKQT5KwZAYmHEX4FdE2MDiJ
+         vnsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725007541; x=1725612341;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tWp62dvKeWezfq1cKVNp8W2gUEG6SEcVrTgI7hly2Ek=;
+        b=Rg6tRC5O8csj5BSh71C2yEfYsbDedEh1zb1cdulEhv2pt8h+LQvA5AhHEL8NrQ3xv5
+         z2vzFS2JseVvVjJrFXxpE2E+YTSlsLfWDzzkfYjnk9ijBQQUdXF+7BVv9dUGQd09uzyQ
+         FwgwnMJG9zK80Yk1liUwkibDm7xYTd8R2S3lrlbw/6Jpfd1MTnIP8S9pjilRYK3igPB8
+         KYQISTlw4BstSAWZkeEwcZW8GMpDZTJ4eHaFaS0PzxQwtQSRnxMq3B52Z9lgzyu8FKmN
+         Z3QvjKDTOs5iQMLn3LME28cho5UCXG7ySuJbn3S6Hoz/cgluSiR8qMnbtnCAEQkisqUz
+         dHzg==
+X-Forwarded-Encrypted: i=1; AJvYcCW1wUFXGs/uWGZzC+Nl8xGv1D6wearde4aujIBPMWR2WnCthMq3oK5hkx7NcXt9fiJIGhRoKEH8CTybj14=@vger.kernel.org, AJvYcCWIetfOMXLohlTZOqUPX0N7jKaE+bS+tcvPkC+ci6MBxtBqECfruOiJ8SuSGhcqWCDwRh/PaQPGnr1Vhvg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YylWAlIO3/+ys+mTsXK3xFkigo1Hh/EcWY/3u2TlR0Kdg8D0BSy
+	VAYjWbfG6TCSWkeVoP/4AEgY1l0lxWaFs3VoIQ6SWjAxLLVDDSZd3Yu+ZS+f
+X-Google-Smtp-Source: AGHT+IGNtITH37hET0HjzFUzIllI5oiOvZAucoyjMz5zogyWWRngEr0A++2+CvJZN/QWUlgb4zP/4A==
+X-Received: by 2002:a17:902:ea12:b0:201:fac8:ff68 with SMTP id d9443c01a7336-2050c42d88dmr60133045ad.50.1725007540392;
+        Fri, 30 Aug 2024 01:45:40 -0700 (PDT)
+Received: from smtp.gmail.com (220-128-132-142.hinet-ip.hinet.net. [220.128.132.142])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-205152b11dbsm22642525ad.50.2024.08.30.01.45.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Aug 2024 01:45:40 -0700 (PDT)
+From: Leo Tsai <antivirus621@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: leo.tsai@cmedia.com.tw,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: hda: Add new CM9825 driver
+Date: Fri, 30 Aug 2024 16:45:21 +0800
+Message-Id: <20240830084521.15706-1-antivirus621@gmail.com>
 X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYAPR01CA0235.jpnprd01.prod.outlook.com
- (2603:1096:404:11e::31) To KL1PR0601MB4113.apcprd06.prod.outlook.com
- (2603:1096:820:31::7)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: KL1PR0601MB4113:EE_|SEYPR06MB6681:EE_
-X-MS-Office365-Filtering-Correlation-Id: 30c8e4b1-5fc9-4af7-1df2-08dcc8cfe383
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|376014|366016|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?XVtnJQTzjNMvwrdk/70jaMcJTtsUYYeLJ8spGrQk3XmUePPZfejPEo62k3La?=
- =?us-ascii?Q?2kf0aoWfg7k/5B7C2ALKEZ9ePzkRn0LBigS10Ytjwx7qRdPmqrB47hizj3Id?=
- =?us-ascii?Q?ZwHc8SeaEU0LkKxZqa6896yA2udSQUxCPYtYaoziD7GMG8aXlFhxIxvkA57q?=
- =?us-ascii?Q?Dw8qScERgbuDGX1zpf5yA0/bbPkuISTvr9NiuhtLSO8sh0wGMXuTyS/t5s60?=
- =?us-ascii?Q?Ha+wpVKKM+W8glJc8v5hfLbOjOHdJHW8WnLMFMs0g8w+GsNQ8a4aR5miRf68?=
- =?us-ascii?Q?baHwSYEeigHiHy3vRxP51rx17hHS9TiUGalrBbiQ8L5z6RJ812q/xll3zp6G?=
- =?us-ascii?Q?kE7jq8M0xqKBgljogPFSbKnaipgB87JIBDhHTLgZLOZYO62M/wF51daEa/Uo?=
- =?us-ascii?Q?FCxnLvr+db8jdJM1Usot5C+BuxzZfusXzA4VHaB6V5FUCZdxBFoN1EpVYnjT?=
- =?us-ascii?Q?YwbThlOhmkkrjNGFXa5FV1exXvK6Jls3gQ99M38Sqi31rwrtM4OlcTH41ot1?=
- =?us-ascii?Q?e1rQMIDBaQIgmMykSe9g5xJBFCri6ES1lw7Fztx/rAFKPZ95Uq5m7MKZuq4j?=
- =?us-ascii?Q?Qre47o45zdUVnyzELCCKu9VzsfLcz8H3JHdsG4c7NSK2Kg5nTq+Q9ZjzONkR?=
- =?us-ascii?Q?LuVja3I+S0xKyjDLvGWBebHHm/tNNvj+KuL+yEw7e60KN9zuwk/V8g/VIQan?=
- =?us-ascii?Q?iYMnBa9wni9bbn/5YXtzEZ8TiI3XKaHrUOTIkWkINu2HLdCNqaa9p435aoAY?=
- =?us-ascii?Q?+WkThZIP5FQi+HWE0PboaIOB+xumgc6SkGrqGRKF2DuMcXK8TufFHcLS+Yt7?=
- =?us-ascii?Q?QCo9Y/gAo0gBscZIYNCwdjOXkODsc6ltWYwoVPKqy1Hme1+JHW8RqkZOvJZ7?=
- =?us-ascii?Q?qj/UFm+cwft+qrIFTNXYgA8ZICBK6GFiUTaYuQjkecGolErIsix73JciPjcw?=
- =?us-ascii?Q?cadziJSKU4jamPzEb54W+0RHBE91xnQVTIeLnQTeveJwnYneXjRL1rI6s8vk?=
- =?us-ascii?Q?k20it+DWMioNfdA352W+hhL/2abClVv/BjJwdxHfwiXEOhJeobIT4g6P6GEK?=
- =?us-ascii?Q?/hQVGLCcn2hI5VNrLVGHsUy7tkPH1e4SazVPOZNLQsfFq8gb97Dg9wMzf6so?=
- =?us-ascii?Q?9BOBAMTv+QQ3KiujrkV+Wd6G5KmltIrHxM2ObZkyS+psXDjchMQi49Ijk7gv?=
- =?us-ascii?Q?uxKfM8IgRrXl6NAr49wtk/WPVJPRW5olnZpgp4sLQ++Q7qYvFsql36sOFi0F?=
- =?us-ascii?Q?mDcRLPB2zC6Bi2Ryy7Ef8cVcLt0+iaU2KVAJV7tsEMeqv/9YITfp5pUxdrVc?=
- =?us-ascii?Q?JvvTwqEumwMLeeg5bw87XbPFM20NOWGW6rDunDDyjeNy+m2+SkUo65Dj08EU?=
- =?us-ascii?Q?pRv7kZrpMX1LedQGKKcIrFgyYReP5l0HTpuOV8/8z2QEFjj1Kg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KL1PR0601MB4113.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?z8Uj1bVNq1I9r+g/tB4EuYr5JVNu13ky8W8EZFO8xypezJ28cnBliL0JHZMJ?=
- =?us-ascii?Q?cs7R94KJHOyaIl46VoNgiqWQN8uAF9s1mYJn59AT22BidN3xCDRLfcbePeJW?=
- =?us-ascii?Q?MXP7Ort5E21ygxgQNbUab809o8N20R9NIu8EUD+X2mdzymyWgUJFdeh+yVmK?=
- =?us-ascii?Q?MH5mLC3etfKnIqXprBgPiDi7K1deo9vbOllg2eVNQFOpv1jC2FuxcbHSpTl2?=
- =?us-ascii?Q?vGq3s/05yIeB7xlel4xf0NMdrprGyQ8786n11Fau3Hghl1aQIQUoziylNl8g?=
- =?us-ascii?Q?LidWhvj9mq6J9mMjR59P8iu8dMta4hOx0b4IRSb2F3sGXAd++vy8ss5loxqX?=
- =?us-ascii?Q?00uNeAnaFynxWMV5j95zCfR/JBgarsDSKvz9GGONbxmDlwvM9dXrEPsJ06ZU?=
- =?us-ascii?Q?6lx9D1KAxIZeMe2ap7eU/awLVaRoYwEGVm7Ktl+man09r8O17x7tB4qXipOc?=
- =?us-ascii?Q?HzhtBy7jm3D9sj5es2tlzlDvBMRxP1KdCtkVWBfLWNzdy9LvOHRLJz67a18g?=
- =?us-ascii?Q?QWiHV74fqOcBKyZIta0bVCE6oMBSNzwsocwi7en3gNzL4WY9vxxKitK4YkQP?=
- =?us-ascii?Q?1PBej5+KkktNo1OOc+sXP1eu7bxGOMC839fIgFiE8Qd0cGPNn4uuCi3grqKa?=
- =?us-ascii?Q?y7apWeX8Cc1uh5S4SMlzYlHOXFgEbscQqT7GQskAhFuzizC9TnxNCZXAq4b/?=
- =?us-ascii?Q?g5/0Gn5L6TPorf/3MwVOUy1i15G0xSmgYQY4nV8xWLUOWbALWbrd71B2JYWc?=
- =?us-ascii?Q?Ze5qORWPNwHoEpKn5ZwEk0HyXJxIdJh4DZPrpUplH3BLHXQVnmAMm/LXT6+y?=
- =?us-ascii?Q?rVP1SbKIsHVa8jox0sfZQj6gHXMGVODRTw5VhhFAL0iAeqXc3kJNBl/AwFBz?=
- =?us-ascii?Q?mk/pIll8gL3ZvyIVxDp5kIRym4wevJqvEo67rNd0sTFB/ydtMF4JCRxa2sxD?=
- =?us-ascii?Q?SKUAU3V/l9/U7fQrSSGLR0+FYv2XSjOJSL51Q7Ic6A6lT4oURblnGnyPsNIb?=
- =?us-ascii?Q?flDz9vPCR5iJkbs+HgYs2LWX743FxzluvVs9MWgL5k0OwnDolWIn1WYCRl1h?=
- =?us-ascii?Q?TLIKVUKHiZrLeVkloFizCFW8YEunuh1upys/ZT4n2jxfT/qI1q2zAZb8RDe5?=
- =?us-ascii?Q?Y3Lf+TqJhxsdNYXr9AyQ72Qela0g6Y+T89PkNiP+LqRrG7TgkMVUuosFr+c1?=
- =?us-ascii?Q?zO2daevB7CO70z9x0GevXAzgBEtjxMj+GZ8kSwFbtfCoph2tgMffTFILjOmj?=
- =?us-ascii?Q?9w/EcukBRMn1EvRw5xAB2s/bAdabFT1blyGHYK8wdc2HDvJkChIARfRSuZoO?=
- =?us-ascii?Q?g5uRqV0g6xAp1Q5Vcb6/G1uCHQOiiotjVtzBdmX7qqaZNsx9xoTndZIE+NnL?=
- =?us-ascii?Q?JS1VG7DSw5n+dkRZZU/xFTyQjGd6/cUcx4QGE2y/O/w0JM1dHx8VQBsCqZVp?=
- =?us-ascii?Q?Bmebt5YE4QShvedyxsUL3Umy8lVlvZkw1QjTNV1Cqoc6rgLuod8b1t1BTdws?=
- =?us-ascii?Q?Th+UNDOkvJzQ89v+TyN8FwJSBSfVELo4zDZJq9HC+cXnapsST886b4rAS0xY?=
- =?us-ascii?Q?OYurXUVYda49bT0wH32qaVfWn8kVgh04ZYYepMmQ?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 30c8e4b1-5fc9-4af7-1df2-08dcc8cfe383
-X-MS-Exchange-CrossTenant-AuthSource: KL1PR0601MB4113.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Aug 2024 08:43:58.6385
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kvUKXlpe9F106mB4D8OxCPEt0wMSNJ2phs92+pRY2WSIkh4Zw41miRXe7KhXdm6UaAJXcSgiNDgoaxM5lZ/N5g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB6681
+Content-Transfer-Encoding: 8bit
 
-Switch to use dev_err_probe() to simplify the error path and
-unify a message template.
+From: Leo Tsai <leo.tsai@cmedia.com.tw>
 
-Using this helper is totally fine even if err is known to never
-be -EPROBE_DEFER.
+Add new CM9825 driver with standard and NCR model.
 
-The benefit compared to a normal dev_err() is the standardized format
-of the error code, it being emitted symbolically and the fact that
-the error code is returned which allows more compact error paths. 
-
-Signed-off-by: Yan Zhen <yanzhen@vivo.com>
+Signed-off-by: Leo Tsai <leo.tsai@cmedia.com.tw>
 ---
+ sound/pci/hda/patch_cmedia.c | 646 ++++++++++++++++++++++++++++++++++-
+ 1 file changed, 643 insertions(+), 3 deletions(-)
 
-Changes in v3:
--Rewrite the subject as 'pinctrl: madera:'.
-
- drivers/pinctrl/cirrus/pinctrl-madera-core.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/pinctrl/cirrus/pinctrl-madera-core.c b/drivers/pinctrl/cirrus/pinctrl-madera-core.c
-index 898b197c3738..2932d7aba725 100644
---- a/drivers/pinctrl/cirrus/pinctrl-madera-core.c
-+++ b/drivers/pinctrl/cirrus/pinctrl-madera-core.c
-@@ -1063,12 +1063,9 @@ static int madera_pin_probe(struct platform_device *pdev)
- 	if (pdata->gpio_configs) {
- 		ret = pinctrl_register_mappings(pdata->gpio_configs,
- 						pdata->n_gpio_configs);
--		if (ret) {
--			dev_err(priv->dev,
--				"Failed to register pdata mappings (%d)\n",
--				ret);
--			return ret;
--		}
-+		if (ret)
-+			return dev_err_probe(priv->dev, ret,
-+						"Failed to register pdata mappings\n");
- 	}
+diff --git a/sound/pci/hda/patch_cmedia.c b/sound/pci/hda/patch_cmedia.c
+index 2ddd33f8dd6c..c25bd0e74879 100644
+--- a/sound/pci/hda/patch_cmedia.c
++++ b/sound/pci/hda/patch_cmedia.c
+@@ -17,8 +17,538 @@
+ #include "hda_jack.h"
+ #include "hda_generic.h"
  
- 	ret = pinctrl_enable(priv->pctl);
++static char CM9825_Standard_Drv_Ver[15] = { "0.240723.0" };
++static char CM9825_NCR_Drv_Ver[15] = { "1.240805.0" };
++
++module_param_string(CM9825_Standard_Drv_Ver, CM9825_Standard_Drv_Ver,
++		    sizeof(CM9825_Standard_Drv_Ver), 0444);
++module_param_string(CM9825_NCR_Drv_Ver, CM9825_NCR_Drv_Ver,
++		    sizeof(CM9825_NCR_Drv_Ver), 0444);
++
+ struct cmi_spec {
+ 	struct hda_gen_spec gen;
++	const struct hda_verb *chip_D0_verbs;
++	const struct hda_verb *chip_D3_verbs;
++	const struct hda_verb *chip_playback_start_verbs;
++	const struct hda_verb *chip_playback_stop_verbs;
++	const struct hda_verb *chip_HP_Present_verbs;
++	const struct hda_verb *chip_HP_Remove_verbs;
++	struct hda_codec *codec;
++	struct delayed_work unsol_hp_work;
++	int quirk;
++	unsigned int playback_started:1;
++};
++
++static const struct hda_verb cm9825_NCR_TpCon_verbs[] = {
++	{0x01, 0x720, 0xF0},
++	{0x01, 0x721, 0x88},
++	{0x01, 0x722, 0x43},
++	{0x01, 0x723, 0x10},
++	{0x34, 0x70C, 0x02},
++	{0x36, 0x71E, 0x11},
++	{0x43, 0x7A2, 0x8C},
++	{0x43, 0x7A9, 0x76},
++	{0x43, 0x7AA, 0x60},
++	{0x43, 0x7AD, 0xC0},
++	{0x43, 0x7B0, 0xF7},
++	{0x43, 0x7B1, 0xE1},
++	{0x43, 0x7B2, 0xCD},
++	{0x43, 0x7AA, 0xE0},
++	{0x43, 0x7A9, 0xF6},
++	{0x3C, 0x3A0, 0x2D},
++	{0x3C, 0x390, 0x2D},
++	{0x46, 0x7EF, 0x64},
++	{0x46, 0x78A, 0x40},
++	{0x46, 0x78B, 0x10},
++	{0x46, 0x78C, 0x06},
++	{0x46, 0x7B8, 0x2D},
++	{0x46, 0x7B9, 0x2D},
++	{0x46, 0x7BA, 0x83},
++	{}
++};
++
++static const struct hda_verb cm9825_NCR_D3_verbs[] = {
++	/* chip sleep verbs */
++	{0x43, 0x7A9, 0x62},
++	{0x43, 0x7A0, 0x01},
++	{0x43, 0x7A1, 0xC2},
++	{0x43, 0x7A2, 0x00},
++	{0x43, 0x7A3, 0x02},
++	{0x43, 0x7A8, 0x50},
++	{0x43, 0x7A4, 0x00},
++	{0x43, 0x7AC, 0x04},
++	{0x43, 0x7B0, 0xF6},
++	{0x43, 0x7B2, 0xCD},
++	{}
++};
++
++static const struct hda_verb cm9825_NCR_D0_verbs[] = {
++	/* chip init verbs */
++	{0x34, 0x70C, 0x02},
++	{0x43, 0x7B6, 0x30},
++	{0x43, 0x7A0, 0x00},
++	{0x43, 0x7A2, 0x00},
++	{0x43, 0x7A3, 0x02},
++	{0x43, 0x7A4, 0x00},
++	{0x43, 0x7A8, 0x56},
++	{0x43, 0x7A9, 0x62},
++	{0x43, 0x7AA, 0x00},
++	{0x43, 0x7AC, 0x0C},
++	{0x43, 0x7AD, 0xC4},
++	{0x43, 0x7B0, 0xF4},
++	{0x43, 0x7B2, 0xCD},
++	{0x43, 0x7B1, 0x61},
++	{0x43, 0x7B3, 0x33},
++	{0x43, 0x7B4, 0x07},
++	{0x43, 0x7B5, 0x26},
++	{0x3C, 0x3A0, 0x2D},
++	{0x3C, 0x390, 0x2D},
++	{0x43, 0x781, 0x40},
++	{0x43, 0x785, 0x40},
++	{0x3C, 0x341, 0x80},
++	{0x01, 0x720, 0xF0},
++	{0x01, 0x721, 0x88},
++	{0x01, 0x715, 0x01},
++	{0x01, 0x717, 0x01},
++	{0x3C, 0x340, 0x00},
++	{}
++};
++
++static const struct hda_verb cm9825_std_playback_start_verbs[] = {
++	{}
++};
++
++static const struct hda_verb cm9825_std_playback_stop_verbs[] = {
++	{}
++};
++
++static const struct hda_verb cm9825_NCR_playback_start_verbs[] = {
++	{0x43, 0x7A3, 0xAE},
++	{0x43, 0x7A9, 0xF2},
++	{0x43, 0x7AD, 0xC4},
++	{0x43, 0x7AA, 0xE0},
++	{}
++};
++
++static const struct hda_verb cm9825_NCR_playback_stop_verbs[] = {
++	{0x43, 0x7AD, 0xC0},
++	{0x43, 0x7A9, 0x62},
++	{0x43, 0x7AD, 0x80},
++	{0x43, 0x7AA, 0x00},
++	{0x43, 0x7A3, 0x02},
++	{}
++};
++
++static const struct hda_verb cm9825_D3_verbs[] = {
++	/* chip sleep verbs */
++	{0x43, 0x7A9, 0x62},
++	{0x43, 0x7A0, 0x01},
++	{0x43, 0x7A1, 0xC2},
++	{0x43, 0x7A2, 0x00},
++	{0x43, 0x7A3, 0x02},
++	{0x43, 0x7A8, 0x50},
++	{0x43, 0x7A4, 0x00},
++	{0x43, 0x7AC, 0x04},
++	{0x43, 0x7B0, 0xF6},
++	{0x43, 0x7B2, 0xCD},
++	{}
++};
++
++static const struct hda_verb cm9825_D0_verbs[] = {
++	/* chip init verbs */
++	{0x34, 0x70C, 0x02},
++	{0x43, 0x7B6, 0x30},
++	{0x43, 0x7A0, 0x00},
++	{0x43, 0x7A2, 0x00},
++	{0x43, 0x7A3, 0x02},
++	{0x43, 0x7A4, 0x00},
++	{0x43, 0x7A8, 0x56},
++	{0x43, 0x7A9, 0x62},
++	{0x43, 0x7AA, 0x00},
++	{0x43, 0x7AC, 0x0C},
++	{0x43, 0x7AD, 0x80},
++	{0x43, 0x7B0, 0xF4},
++	{0x43, 0x7B2, 0xCD},
++	{0x43, 0x7B1, 0x61},
++	{0x43, 0x7B3, 0x33},
++	{0x43, 0x7B4, 0x07},
++	{0x43, 0x7B5, 0x26},
++	{0x3C, 0x3A0, 0x2D},
++	{0x3C, 0x390, 0x2D},
++	{0x43, 0x781, 0x40},
++	{0x43, 0x785, 0x40},
++	{}
++};
++
++static const struct hda_verb cm9825_HP_Present_verbs[] = {
++	{0x42, 0x707, 0x00},
++	{0x43, 0x7A2, 0x88},
++	{0x43, 0x7A3, 0xAA},
++	{0x43, 0x7A4, 0x10},
++	{0x43, 0x7A9, 0xF2},
++	{0x43, 0x7AA, 0x00},
++	{0x43, 0x7AD, 0xC4},
++	{}
++};
++
++static const struct hda_verb cm9825_HP_Remove_verbs[] = {
++	{0x43, 0x7A2, 0x00},
++	{0x43, 0x7A3, 0x56},
++	{0x43, 0x7A4, 0x00},
++	{0x43, 0x7A9, 0x62},
++	{0x43, 0x7AA, 0xE0},
++	{0x43, 0x7AD, 0x80},
++	{0x42, 0x707, 0x40},
++	{}
++};
++
++/*
++ * CM9825 quirks table
++ */
++enum {
++	QUIRK_NONE,
++	QUIRK_CM9825_STANDARD,
++	QUIRK_CM9825_NCR,
++};
++
++static const struct snd_pci_quirk cm9825_quirks[] = {
++	SND_PCI_QUIRK(0x13F6, 0x9825, "Cmedia Standard", QUIRK_CM9825_STANDARD),
++	{}
++};
++
++static hda_nid_t cmi_get_hp_pin(struct cmi_spec *spec)
++{
++	if (spec->gen.autocfg.hp_pins[0]) {
++		codec_dbg(spec->codec, "hp_pin 0x%X\n",
++			  spec->gen.autocfg.hp_pins[0]);
++		return spec->gen.autocfg.hp_pins[0];
++	}
++	return 0;
++}
++
++static void cm9825_unsol_hp_delayed(struct work_struct *work)
++{
++	struct cmi_spec *spec =
++	    container_of(to_delayed_work(work), struct cmi_spec, unsol_hp_work);
++	struct hda_jack_tbl *jack;
++	hda_nid_t hp_pin = cmi_get_hp_pin(spec);
++	bool hp_jack_plugin = false;
++	int err = 0;
++
++	hp_jack_plugin = snd_hda_jack_detect(spec->codec, hp_pin);
++
++	codec_dbg(spec->codec, "hp_jack_plugin %d, hp_pin 0x%X\n",
++		  (int)hp_jack_plugin, hp_pin);
++
++	if (!hp_jack_plugin) {
++		err = snd_hda_codec_write(spec->codec, 0x42, 0, 0x707, 0x40);
++		if (err)
++			codec_dbg(spec->codec, "codec_write err %d\n", err);
++
++		snd_hda_sequence_write(spec->codec, spec->chip_HP_Remove_verbs);
++	} else {
++		snd_hda_sequence_write(spec->codec,
++				       spec->chip_HP_Present_verbs);
++	}
++
++	jack = snd_hda_jack_tbl_get(spec->codec, hp_pin);
++	if (jack) {
++		jack->block_report = 0;
++		snd_hda_jack_report_sync(spec->codec);
++	}
++}
++
++static void hp_callback(struct hda_codec *codec, struct hda_jack_callback *cb)
++{
++	struct cmi_spec *spec = codec->spec;
++	struct hda_jack_tbl *tbl;
++
++	/* Delay enabling the HP amp, to let the mic-detection
++	 * state machine run.
++	 */
++
++	codec_dbg(spec->codec, "cb->nid 0x%X\n", cb->nid);
++
++	tbl = snd_hda_jack_tbl_get(codec, cb->nid);
++	if (tbl)
++		tbl->block_report = 1;
++	schedule_delayed_work(&spec->unsol_hp_work, msecs_to_jiffies(200));
++}
++
++static void cm9825_setup_unsol(struct hda_codec *codec)
++{
++	struct cmi_spec *spec = codec->spec;
++
++	hda_nid_t hp_pin = cmi_get_hp_pin(spec);
++
++	snd_hda_jack_detect_enable_callback(codec, hp_pin, hp_callback);
++}
++
++static void CM9825_init_hook(struct hda_codec *codec)
++{
++	struct cmi_spec *spec = codec->spec;
++
++	codec_dbg(spec->codec, "Start\n");
++
++	snd_hda_sequence_write(codec, spec->chip_D0_verbs);
++}
++
++static void cm9825_playback_pcm_hook(struct hda_pcm_stream *hinfo,
++				     struct hda_codec *codec,
++				     struct snd_pcm_substream *substream,
++				     int action)
++{
++	struct cmi_spec *spec = codec->spec;
++
++	codec_dbg(codec, "start, action %d\n", action);
++
++	switch (action) {
++	case HDA_GEN_PCM_ACT_PREPARE:
++		spec->playback_started = 1;
++		snd_hda_sequence_write(codec, spec->chip_playback_start_verbs);
++		break;
++	case HDA_GEN_PCM_ACT_CLEANUP:
++		spec->playback_started = 0;
++		snd_hda_sequence_write(codec, spec->chip_playback_stop_verbs);
++		break;
++	default:
++		return;
++	}
++}
++
++#define cmi_is_s3_resume(codec) \
++	((codec)->core.dev.power.power_state.event == PM_EVENT_RESUME)
++#define cmi_is_s4_resume(codec) \
++	((codec)->core.dev.power.power_state.event == PM_EVENT_RESTORE)
++
++static int CM9825_init(struct hda_codec *codec)
++{
++	codec_dbg(codec, "Start\n");
++
++	snd_hda_gen_init(codec);
++	snd_hda_apply_fixup(codec, HDA_FIXUP_ACT_INIT);
++
++	return 0;
++}
++
++#ifdef CONFIG_PM
++static int cm9825_suspend(struct hda_codec *codec)
++{
++	struct cmi_spec *spec = codec->spec;
++
++	codec_dbg(codec, "Start\n");
++
++	cancel_delayed_work_sync(&spec->unsol_hp_work);
++
++	snd_hda_sequence_write(codec, spec->chip_D3_verbs);
++
++	return 0;
++}
++
++static int cm9825_NCR_suspend(struct hda_codec *codec)
++{
++	struct cmi_spec *spec = codec->spec;
++
++	codec_dbg(codec, "Start\n");
++
++	snd_hda_sequence_write(codec, spec->chip_D3_verbs);
++
++	return 0;
++}
++
++static int cm9825_resume(struct hda_codec *codec)
++{
++	struct cmi_spec *spec = codec->spec;
++	hda_nid_t hp_pin = 0;
++	bool hp_jack_plugin = false;
++	int err;
++
++	codec_dbg(spec->codec, "Start\n");
++
++	err = snd_hda_codec_write(spec->codec, 0x42, 0, 0x707, 0x00);
++	if (err)
++		codec_dbg(codec, "codec_write err %d\n", err);
++
++	/* hibernation resume needs the full chip initialization */
++	if (cmi_is_s4_resume(codec))
++		codec_dbg(spec->codec, "resume from S4\n");
++
++	msleep(150);
++
++	codec->patch_ops.init(codec);
++
++	hp_pin = cmi_get_hp_pin(spec);
++	hp_jack_plugin = snd_hda_jack_detect(spec->codec, hp_pin);
++
++	codec_dbg(spec->codec, "hp_jack_plugin %d, hp_pin 0x%X\n",
++		  (int)hp_jack_plugin, hp_pin);
++
++	if (!hp_jack_plugin) {
++		err = snd_hda_codec_write(spec->codec, 0x42, 0, 0x707, 0x40);
++
++		if (err)
++			codec_dbg(codec, "codec_write err %d\n", err);
++
++		snd_hda_sequence_write(codec, cm9825_HP_Remove_verbs);
++	}
++
++	snd_hda_regmap_sync(codec);
++	hda_call_check_power_status(codec, 0x01);
++
++	return 0;
++}
++
++static int cm9825_NCR_resume(struct hda_codec *codec)
++{
++	struct cmi_spec *spec = codec->spec;
++
++	codec_dbg(spec->codec, "Start\n");
++
++	/* hibernation resume needs the full chip initialization */
++	if (cmi_is_s4_resume(codec))
++		codec_dbg(spec->codec, "resume from S4\n");
++
++	codec->patch_ops.init(codec);
++
++	snd_hda_regmap_sync(codec);
++	hda_call_check_power_status(codec, 0x01);
++
++	return 0;
++}
++#endif
++
++static void cm9825_detect_quirk(struct hda_codec *codec)
++{
++	struct cmi_spec *spec = codec->spec;
++
++	switch (codec->core.subsystem_id) {
++	case 0x104316E2:
++		spec->quirk = QUIRK_CM9825_STANDARD;
++		break;
++	case 0x104388F0:
++		spec->quirk = QUIRK_CM9825_NCR;
++		break;
++	default:
++		spec->quirk = QUIRK_CM9825_STANDARD;
++		break;
++	}
++}
++
++static u32 get_amp_max_value(struct hda_codec *codec, hda_nid_t nid, int dir,
++			     unsigned int ofs)
++{
++	u32 caps = query_amp_caps(codec, nid, dir);
++	/* get num steps */
++	caps = (caps & AC_AMPCAP_NUM_STEPS) >> AC_AMPCAP_NUM_STEPS_SHIFT;
++	if (ofs < caps)
++		caps -= ofs;
++	return caps;
++}
++
++static inline int
++update_amp_value(struct hda_codec *codec, hda_nid_t nid,
++		 int ch, int dir, int idx, unsigned int ofs, unsigned int val)
++{
++	unsigned int maxval;
++
++	if (val > 0)
++		val += ofs;
++	/* ofs = 0: raw max value */
++	maxval = get_amp_max_value(codec, nid, dir, 0);
++	if (val > maxval)
++		val = maxval;
++	return snd_hda_codec_amp_update(codec, nid, ch, dir, idx,
++					HDA_AMP_VOLMASK, val);
++}
++
++static int cm9825_ncr_spk_vol_put(struct snd_kcontrol *kcontrol,
++				  struct snd_ctl_elem_value *ucontrol)
++{
++	struct hda_codec *codec = snd_kcontrol_chip(kcontrol);
++	hda_nid_t nid = get_amp_nid(kcontrol);
++	int chs = get_amp_channels(kcontrol);
++	int dir = get_amp_direction(kcontrol);
++	int idx = get_amp_index(kcontrol);
++	unsigned int ofs = get_amp_offset(kcontrol);
++	long *valp = ucontrol->value.integer.value;
++	int change = 0;
++
++	codec_dbg(codec, "nid 0x%X, chs %d, dir %d, *valp %ld\n",
++		  nid, chs, dir, *valp);
++
++	if (chs & 1) {
++		change = update_amp_value(codec, nid, 0, dir, idx, ofs, *valp);
++		update_amp_value(codec, 0x38, 0, dir, idx, ofs, *valp);
++		valp++;
++	}
++	if (chs & 2) {
++		change |= update_amp_value(codec, nid, 1, dir, idx, ofs, *valp);
++		update_amp_value(codec, 0x38, 1, dir, idx, ofs, *valp);
++	}
++	return change;
++}
++
++static int cm9825_ncr_switch_put(struct snd_kcontrol *kcontrol,
++				 struct snd_ctl_elem_value *ucontrol)
++{
++	struct hda_codec *codec = snd_kcontrol_chip(kcontrol);
++	hda_nid_t nid = get_amp_nid(kcontrol);
++	int chs = get_amp_channels(kcontrol);
++	int dir = get_amp_direction(kcontrol);
++	int idx = get_amp_index(kcontrol);
++	long *valp = ucontrol->value.integer.value;
++	int change = 0;
++
++	codec_dbg(codec, "nid 0x%X, chs %d, dir %d, *valp %ld\n",
++		  nid, chs, dir, *valp);
++
++	if (chs & 1) {
++		change = snd_hda_codec_amp_update(codec, nid, 0, dir, idx,
++						  HDA_AMP_MUTE,
++						  *valp ? 0 : HDA_AMP_MUTE);
++		snd_hda_codec_amp_update(codec, 0x38, 0, dir, idx,
++					 HDA_AMP_MUTE,
++					 *valp ? 0 : HDA_AMP_MUTE);
++		valp++;
++	}
++	if (chs & 2) {
++		change |= snd_hda_codec_amp_update(codec, nid, 1, dir, idx,
++						   HDA_AMP_MUTE,
++						   *valp ? 0 : HDA_AMP_MUTE);
++		snd_hda_codec_amp_update(codec, 0x38, 1, dir, idx,
++					 HDA_AMP_MUTE,
++					 *valp ? 0 : HDA_AMP_MUTE);
++	}
++	hda_call_check_power_status(codec, nid);
++	return change;
++}
++
++#define CM9825_NCR_CODEC_VOL(xname, nid, channel, dir) \
++	{ .iface = SNDRV_CTL_ELEM_IFACE_MIXER, \
++	  .name = xname, \
++	  .subdevice = HDA_SUBDEV_AMP_FLAG, \
++	  .access = SNDRV_CTL_ELEM_ACCESS_READWRITE | \
++			SNDRV_CTL_ELEM_ACCESS_TLV_READ | \
++			SNDRV_CTL_ELEM_ACCESS_TLV_CALLBACK, \
++	  .info = snd_hda_mixer_amp_volume_info, \
++	  .get = snd_hda_mixer_amp_volume_get, \
++	  .put = cm9825_ncr_spk_vol_put, \
++	  .tlv = { .c = snd_hda_mixer_amp_tlv }, \
++	  .private_value = HDA_COMPOSE_AMP_VAL(nid, channel, 0, dir) }
++
++#define CM9825_NCR_CODEC_MUTE(xname, nid, channel, dir) \
++	{ .iface = SNDRV_CTL_ELEM_IFACE_MIXER, \
++	  .name = xname, \
++	  .subdevice = HDA_SUBDEV_AMP_FLAG, \
++	  .info = snd_hda_mixer_amp_switch_info, \
++	  .get = snd_hda_mixer_amp_switch_get, \
++	  .put = cm9825_ncr_switch_put, \
++	  .private_value = HDA_COMPOSE_AMP_VAL(nid, channel, 0, dir) }
++
++static const struct snd_kcontrol_new cm9825_ncr_mixer[] = {
++	CM9825_NCR_CODEC_VOL("Master Playback Volume", 0x3C, 3, HDA_OUTPUT),
++	CM9825_NCR_CODEC_MUTE("Master Playback Switch", 0x3C, 3, HDA_OUTPUT),
++	{}
+ };
+ 
+ /*
+@@ -32,6 +562,114 @@ static const struct hda_codec_ops cmi_auto_patch_ops = {
+ 	.unsol_event = snd_hda_jack_unsol_event,
+ };
+ 
++static int patch_cm9825(struct hda_codec *codec)
++{
++	struct cmi_spec *spec;
++	struct auto_pin_cfg *cfg;
++	int err, i;
++	const struct snd_pci_quirk *quirk;
++
++	codec_dbg(spec->codec, "Start\n");
++
++	spec = kzalloc(sizeof(*spec), GFP_KERNEL);
++	if (spec == NULL)
++		return -ENOMEM;
++
++	codec->spec = spec;
++	spec->codec = codec;
++
++	/* Detect codec quirk */
++	quirk = snd_pci_quirk_lookup(codec->bus->pci, cm9825_quirks);
++	if (quirk)
++		spec->quirk = quirk->value;
++	else
++		spec->quirk = QUIRK_CM9825_STANDARD;
++
++	if (spec->quirk == QUIRK_CM9825_STANDARD)
++		cm9825_detect_quirk(codec);
++
++	codec_dbg(spec->codec, "spec->quirk %d\n", spec->quirk);
++
++	codec->patch_ops = cmi_auto_patch_ops;
++	codec->patch_ops.init = CM9825_init;
++#ifdef CONFIG_PM
++	codec->patch_ops.suspend = cm9825_suspend;
++	codec->patch_ops.resume = cm9825_resume;
++	codec->patch_ops.check_power_status = snd_hda_gen_check_power_status;
++#endif
++	spec->gen.init_hook = CM9825_init_hook;
++	/* add hooks */
++	spec->gen.pcm_playback_hook = cm9825_playback_pcm_hook;
++
++	cfg = &spec->gen.autocfg;
++	snd_hda_gen_spec_init(&spec->gen);
++
++	if (spec->quirk == (int)QUIRK_CM9825_STANDARD) {
++		snd_hda_codec_set_name(codec, "CM9825 Standard");
++		spec->chip_D0_verbs = cm9825_D0_verbs;
++		spec->chip_D3_verbs = cm9825_D3_verbs;
++		spec->chip_HP_Present_verbs = cm9825_HP_Present_verbs;
++		spec->chip_HP_Remove_verbs = cm9825_HP_Remove_verbs;
++		spec->chip_playback_start_verbs =
++		    cm9825_std_playback_start_verbs;
++		spec->chip_playback_stop_verbs = cm9825_std_playback_stop_verbs;
++	} else if (spec->quirk == (int)QUIRK_CM9825_NCR) {
++#ifdef CONFIG_PM
++		codec->patch_ops.suspend = cm9825_NCR_suspend;
++		codec->patch_ops.resume = cm9825_NCR_resume;
++		codec->patch_ops.check_power_status =
++		    snd_hda_gen_check_power_status;
++#endif
++		snd_hda_codec_set_name(codec, "CM9825 NCR");
++		snd_hda_sequence_write(codec, cm9825_NCR_TpCon_verbs);
++		spec->chip_D0_verbs = cm9825_NCR_D0_verbs;
++		spec->chip_D3_verbs = cm9825_NCR_D3_verbs;
++		spec->chip_playback_start_verbs =
++		    cm9825_NCR_playback_start_verbs;
++		spec->chip_playback_stop_verbs = cm9825_NCR_playback_stop_verbs;
++
++		for (i = 0; i < ARRAY_SIZE(cm9825_ncr_mixer); i++) {
++			err = snd_hda_add_new_ctls(codec, &cm9825_ncr_mixer[i]);
++			if (err < 0) {
++				codec_info(codec, "add new ctls fail: %d\n",
++					   err);
++				goto error;
++			}
++		}
++	} else {
++		snd_hda_codec_set_name(codec, "CM9825 Standard");
++		spec->chip_D0_verbs = cm9825_D0_verbs;
++		spec->chip_D3_verbs = cm9825_D3_verbs;
++		spec->chip_HP_Present_verbs = cm9825_HP_Present_verbs;
++		spec->chip_HP_Remove_verbs = cm9825_HP_Remove_verbs;
++		spec->chip_playback_start_verbs =
++		    cm9825_std_playback_start_verbs;
++		spec->chip_playback_stop_verbs = cm9825_std_playback_stop_verbs;
++	}
++
++	err = snd_hda_parse_pin_defcfg(codec, cfg, NULL, 0);
++	if (err < 0)
++		goto error;
++	err = snd_hda_gen_parse_auto_config(codec, cfg);
++	if (err < 0)
++		goto error;
++
++	if (spec->quirk == (int)QUIRK_CM9825_STANDARD) {
++		INIT_DELAYED_WORK(&spec->unsol_hp_work,
++				  cm9825_unsol_hp_delayed);
++		cm9825_setup_unsol(codec);
++	}
++
++	return 0;
++
++ error:
++	snd_hda_gen_free(codec);
++
++	codec_info(codec, "Enter err %d\n", err);
++
++	return err;
++}
++
+ static int patch_cmi9880(struct hda_codec *codec)
+ {
+ 	struct cmi_spec *spec;
+@@ -91,8 +729,8 @@ static int patch_cmi8888(struct hda_codec *codec)
+ 	if (get_defcfg_device(snd_hda_codec_get_pincfg(codec, 0x10)) ==
+ 	    AC_JACK_HP_OUT) {
+ 		static const struct snd_kcontrol_new amp_kctl =
+-			HDA_CODEC_VOLUME("Headphone Amp Playback Volume",
+-					 0x10, 0, HDA_OUTPUT);
++		    HDA_CODEC_VOLUME("Headphone Amp Playback Volume",
++				     0x10, 0, HDA_OUTPUT);
+ 		if (!snd_hda_gen_add_kctl(&spec->gen, NULL, &amp_kctl)) {
+ 			err = -ENOMEM;
+ 			goto error;
+@@ -113,8 +751,10 @@ static const struct hda_device_id snd_hda_id_cmedia[] = {
+ 	HDA_CODEC_ENTRY(0x13f68888, "CMI8888", patch_cmi8888),
+ 	HDA_CODEC_ENTRY(0x13f69880, "CMI9880", patch_cmi9880),
+ 	HDA_CODEC_ENTRY(0x434d4980, "CMI9880", patch_cmi9880),
+-	{} /* terminator */
++	HDA_CODEC_ENTRY(0x13f69825, "CM9825", patch_cm9825),
++	{}			/* terminator */
+ };
++
+ MODULE_DEVICE_TABLE(hdaudio, snd_hda_id_cmedia);
+ 
+ MODULE_LICENSE("GPL");
 -- 
 2.34.1
 
