@@ -1,118 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1878214F135;
-	Fri, 30 Aug 2024 17:58:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02BF11531F5;
+	Fri, 30 Aug 2024 19:30:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725040733; cv=none; b=cZu1xrvcBS/eyY8Bba8DyOsAiO6EBT+dYhtXAh686VA2gcEdsb16ap3p/hmcF1juug/bsEDZHUqrM77GVJpj+OOh+WeL6LRPkk9eLECvi7cdzzbLYcij/jGfMSp9U8ciZrqctY5glzK/07mqg56n3vNBFDeQ0hFh1S7ky4eAwwA=
+	t=1725046237; cv=none; b=EsTvDOgk+3r8B5L7/BfFIqzk/IKEYmHbTWdGJIH7+WSWFs7cwXCrEU1f3d7l17+70A1A1hVb1saogbHULQyjKQeJ3/yRxRzjlC7LKk5EusDljyIixP3WAQTNQddmbMQ+nwCCVM5TJP1vZgLR2ZbVEb4EOc6wSdKkZchmrp8hsgw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725040733; c=relaxed/simple;
-	bh=82sBKM9Hz4XlGAKWcB7uoD2JtJLEt7xjq+RCXb8zAiY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=N1LX+sjJTk748aPkkhlfA0R/eWQc4iTqBVYiAac/CViF+Y5knoIajOrM18J6TdFh9O9I8dWReKlh+dD3kzlpgSpLEHNQjNqcZ2rl7/ZUKh+AWcQPJF1p2yCa1YHkObtb68ZCVc+0YNLabWz2d3QKQZmCgfICem5VOPiutwimpd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bu0TnJwK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725046237; c=relaxed/simple;
+	bh=rz8KDKw3aTWGQcJdgAqnxUa0Kv/DBZMxKlXY8HtiKFw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=FaySeFG/s3oIhW/0I9LJv+yWfA5UjmTWrcc0AN+RnMItV9Qu2wAIo7D8UaW8SVIRfT6qiMSZnqWbOEp0pjTKZwmIpPGXgJ0dOGf1WvNd10MqJ8zNBqKtejCLKCcYPDIUcvcsxzUTd9dJ2BT/ACl5XEIlIuWJNRagjlDe7ySvYzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jXcp/9+s; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bu0TnJwK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D20DC4CEC2;
-	Fri, 30 Aug 2024 17:58:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jXcp/9+s"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC793C4CEC2;
+	Fri, 30 Aug 2024 19:30:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725040732;
-	bh=82sBKM9Hz4XlGAKWcB7uoD2JtJLEt7xjq+RCXb8zAiY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=bu0TnJwK7rFdYSI2qzyHXrtdDeNds/0LE8KTw+ah8teUZwBilbYY3F1GtSFxN6fJp
-	 j6bfJR6fvOEk7mzKsg6GELQNnUqK0pZJe4VfPVKtV+BQZZQc+sUS39M5XIIq0Jbkvb
-	 jNNj599knBqF9TP22vwhB5ld6nVK3EAf8cE4HkvcaSr6n/rPRLPNR93VBHIGjNU1GP
-	 Wg4MrQPVVDGvdTYVSN0/hoCq3GxSzocJZY5TxQPbS7T60yocUcApXTbjGH95acyKwk
-	 V+v/X9EYjiNkQ7eh9KcM5eG55kISEcFvQ0A2uZJNiAVQDkUAlXbKj1Ox7Y5NxFoJ8H
-	 McaxD4NsiguNg==
-Message-ID: <95ae31c7-3dcf-49a9-9ba7-8538ae43134e@kernel.org>
-Date: Fri, 30 Aug 2024 19:58:46 +0200
+	s=k20201202; t=1725046236;
+	bh=rz8KDKw3aTWGQcJdgAqnxUa0Kv/DBZMxKlXY8HtiKFw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=jXcp/9+snMJHOYEgWuq8md6a8c055bh4zmF5ps27aLwFi5MpxHT10AitTZKkvZbt1
+	 nZFxYsO+Fqko0Vbwu+1leQo9D2jZhOMqBc2e0U+9zYp9EpLGswwYBMXk6ycolf74zO
+	 Mpn0hr/CtxZOBues2jY7VaWFauXfq0RBk8QH7nbKS6+p5tiZ0aCnLiKO2FOYNOjp7q
+	 +vzCwlLJL27xEPOQCp3P8/eWnlyiNa/Qb+xwKM/VXKk78JbZSbUWTxByHlQaM0yWxt
+	 wIciwVXClMWc8zuJzvVN4MtAVXK/SXDrcKA7Ic5taHyccl63gIsgN44tV8xq0IAHId
+	 tdLYhOGEMgNnw==
+From: Mark Brown <broonie@kernel.org>
+To: srinivas.kandagatla@linaro.org
+Cc: perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org, 
+ linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, amit.pundir@linaro.org, 
+ dmitry.baryshkov@linaro.org
+In-Reply-To: <20240816091210.50172-1-srinivas.kandagatla@linaro.org>
+References: <20240816091210.50172-1-srinivas.kandagatla@linaro.org>
+Subject: Re: [PATCH v2] ASoC: codecs: lpass-va-macro: set the default codec
+ version for sm8250
+Message-Id: <172504623446.461126.12391681424311035210.b4-ty@kernel.org>
+Date: Fri, 30 Aug 2024 20:30:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] irqchip: Simplify with dev_err_probe()
-To: Charles Keepax <ckeepax@opensource.cirrus.com>,
- Yan Zhen <yanzhen@vivo.com>
-Cc: rf@opensource.cirrus.com, tglx@linutronix.de,
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
- linux-kernel@vger.kernel.org, opensource.kernel@vivo.com
-References: <20240830070504.289450-1-yanzhen@vivo.com>
- <ZtGAJ0JnVAUMrG6j@opensource.cirrus.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <ZtGAJ0JnVAUMrG6j@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-37811
 
-On 30/08/2024 10:17, Charles Keepax wrote:
-> On Fri, Aug 30, 2024 at 03:05:04PM +0800, Yan Zhen wrote:
->> Switch to use dev_err_probe() to simplify the error path and
->> unify a message template.
->>
->> Using this helper is totally fine even if err is known to never
->> be -EPROBE_DEFER.
->>
->> The benefit compared to a normal dev_err() is the standardized format
->> of the error code, it being emitted symbolically and the fact that
->> the error code is returned which allows more compact error paths. 
->>
->> Signed-off-by: Yan Zhen <yanzhen@vivo.com>
->> ---
+On Fri, 16 Aug 2024 10:12:10 +0100, srinivas.kandagatla@linaro.org wrote:
+> sm8250 and sc7280 have lpass codec version 1.0, as these are very old
+> platforms, they do not have a reliable way to get the codec version
+> from core_id registers.
 > 
-> Subject line probably should be irqchip/madera: but otherwise:
+> On codec versions below 2.0, even though the core_id registers are
+> available to read, the values of these registers are not unique to be
+> able to determine the version of the codec dynamically.
 > 
-> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+> [...]
 
-No, this must stop. Do not change one line per patch.
+Applied to
 
-Best regards,
-Krzysztof
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: codecs: lpass-va-macro: set the default codec version for sm8250
+      commit: 77212f300bfd6fb3edaabd1daf863cabb521854a
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
