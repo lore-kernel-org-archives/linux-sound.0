@@ -1,320 +1,412 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D69D1B81CA;
-	Fri, 30 Aug 2024 10:13:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA2B4190472;
+	Fri, 30 Aug 2024 10:19:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725012814; cv=none; b=D3l0L7fLsVVRRASCtnr4a0/SFN6nuJOJnyWfNvkk6NLY7YtK2t5vAGfg0l3inzH3i2ibB2hejib0zSnvdfumehM/ipzayYoAqE39tTC8KHXnXJjeujrUlCBsd8IyQElWOd7LcvGJeTspzTe8blMLRZz2pqBWOmOTG650Jdg5pIA=
+	t=1725013178; cv=none; b=daAaPxFbZxgfYD7Nz7QPF8ggrsu+0eJxJON2vbzKS/dhHMqTq3nA2bcrTPY7R54pYN5GGaylwLZXwGEOfvWsmO4tknocJqWw1b8lIFWhG1eDzeRwAxTEf8KQppDC/1kHw6CraP4iB9XwVvvvSeJPjPft2gVP0l0MJLFCMD6Rnj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725012814; c=relaxed/simple;
-	bh=dQXMhFDkjliFhmplZpCGpyMLGcjFXo2Jfh64aGjcXMw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lDs7DqhEa56rZghML64nsNSzhQeTQTOghGpZsURabk/sVuqZuYdp+nDQ1aCF/+Ojk8e7/S4FB56iJNd6wPP+YiypZSbBdwLRA8hqzg+ucpZIuP7B9tH4KT3w9vf7j+2KUm8wXlXXSsl8YXGg8v6W8E6LqzqkrGUiEXyrwSsfEuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kXZyuVjL; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1725013178; c=relaxed/simple;
+	bh=wO7vMFPkdOLyYUsiY7riyYkjhqRZyhMzAxZ4k1osBek=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EM7AEGkbmujYnhEQWU/8kw+q4o0EAaeNCTlxS0H5LozO4ro/9MQ9gwu1EM02chhm1uqQCC7XZ3OU+JJOmb5Us1CL+tX9npwBr//6YS2o9JFHmi3rPQl/yUnXr2p+OXgseW3YIy8xhqx2SLyjMBqW0fm0+ewFQwGK8uX4oJfVYBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mrwtBLfY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UXHG0aFJ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SjF55k67; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=22obkMIM; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kXZyuVjL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725012813; x=1756548813;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=dQXMhFDkjliFhmplZpCGpyMLGcjFXo2Jfh64aGjcXMw=;
-  b=kXZyuVjLmPwTgZ9wavnuwsXI8E04akYpYiK3V38xP92XJ3FAxgBl9Ml7
-   crWAlMctIkVI1+9qFoxNYzfoaUwiqnCKSxrbmc4NN4KgdXvBt5ML4k9Ov
-   PuIGh5OntWTBAMhYwVXIp79uWwUDmhVPiuvmoDQZjbUtxhs+YPaQYO0y7
-   4YoQ1L/CSnWb9Go3qL9AJw1J6eCmLVsu6ViSXvPBY0PRJqe8uUuR03EON
-   0TDhB8JK2+kRwTG/0GcjOoXwOB4iotN3pHm2KTDvNUEWzyNpPzXaqRGFf
-   HtgF6b8carAiQfWZ+HEffsMK6O1b9hGnUHBT8TheejpLTMxh3Hmstcm3z
-   Q==;
-X-CSE-ConnectionGUID: Nfj1Ifa8S6mdOdFO5iMZdA==
-X-CSE-MsgGUID: pX50qCKLQgW/ro4x2J813A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="27526439"
-X-IronPort-AV: E=Sophos;i="6.10,188,1719903600"; 
-   d="scan'208";a="27526439"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 03:13:33 -0700
-X-CSE-ConnectionGUID: jZv7umMAQTa+WZQnioMLSw==
-X-CSE-MsgGUID: TeO4kTqySN6J2+ljLQaQ4g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,188,1719903600"; 
-   d="scan'208";a="68013163"
-Received: from ltuz-desk.ger.corp.intel.com (HELO [10.245.246.101]) ([10.245.246.101])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 03:13:26 -0700
-Message-ID: <b682bd8f-2743-42cf-b51f-1444faf4635f@linux.intel.com>
-Date: Fri, 30 Aug 2024 12:05:58 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mrwtBLfY";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UXHG0aFJ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SjF55k67";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="22obkMIM"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D86481F7BE;
+	Fri, 30 Aug 2024 10:19:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1725013174; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pPFOJa+kmQrE2qKcJe1c8BJADMfptk+py9Juhb/GWrE=;
+	b=mrwtBLfYYLeSdUIWpnyeeJMVpb1MmeuNclPBbXi9/0Q1HoCZUv5IUE50PISAbwsWxjPKgB
+	2wmVIyj1YX/wZX5zDabOV4SOJF6reFBzJ4jJm6f3VVXYc4xjKC2Cov2cZRt2Kjxb660Rrl
+	vI+g/5ujTwiD90fxyt03buz9TdOan6I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1725013174;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pPFOJa+kmQrE2qKcJe1c8BJADMfptk+py9Juhb/GWrE=;
+	b=UXHG0aFJuA8W1zWj52qxqWy4Mgu3r8g806PURgcSHyn6IP8Pm0W8HPw26x0cSlsXhXRYH3
+	y2Muiq/81L0isSCQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1725013173; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pPFOJa+kmQrE2qKcJe1c8BJADMfptk+py9Juhb/GWrE=;
+	b=SjF55k67/UBnyThixBMscd+ABto7/Rmwcd15Va6qLlG66pyQZg/s6vDCkpO9xbMQ5oa0uK
+	05OpZXb1erKK8Axb8WKYYkK8BMSe4+LDjWi17FEZDfdbTiyAZfl/GCdq+jydD6cslwHOUW
+	A1EgE7613u3mviZC0itAinMTuDFKwOo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1725013173;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pPFOJa+kmQrE2qKcJe1c8BJADMfptk+py9Juhb/GWrE=;
+	b=22obkMIM9syGrZazHGxcQkNv7Mq8tO8xo22x1Ve+bPiO2ULp1sAxIF98sscMO2K3CnnRFj
+	PTSPugrljzvGR0BQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9DFF013A3D;
+	Fri, 30 Aug 2024 10:19:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Vt9VJbWc0WabGgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 30 Aug 2024 10:19:33 +0000
+Date: Fri, 30 Aug 2024 12:20:18 +0200
+Message-ID: <878qwel3bx.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Leo Tsai <antivirus621@gmail.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	leo.tsai@cmedia.com.tw,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda: Add new CM9825 driver
+In-Reply-To: <20240830084521.15706-1-antivirus621@gmail.com>
+References: <20240830084521.15706-1-antivirus621@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v26 31/33] ALSA: usb-audio: Add USB offload route kcontrol
-To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- dmitry.torokhov@gmail.com, corbet@lwn.net, broonie@kernel.org,
- lgirdwood@gmail.com, tiwai@suse.com, krzk+dt@kernel.org,
- Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, robh@kernel.org,
- gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-doc@vger.kernel.org, alsa-devel@alsa-project.org
-References: <20240829194105.1504814-1-quic_wcheng@quicinc.com>
- <20240829194105.1504814-32-quic_wcheng@quicinc.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <20240829194105.1504814-32-quic_wcheng@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
 
-
-
-On 8/29/24 21:41, Wesley Cheng wrote:
-> In order to allow userspace/applications know about USB offloading status,
-> expose a sound kcontrol that fetches information about which sound card
-> and PCM index the USB device is mapped to for supporting offloading.  In
-> the USB audio offloading framework, the ASoC BE DAI link is the entity
-> responsible for registering to the SOC USB layer.
+On Fri, 30 Aug 2024 10:45:21 +0200,
+Leo Tsai wrote:
 > 
-> It is expected for the USB SND offloading driver to add the kcontrol to the
-> sound card associated with the USB audio device.  An example output would
-> look like:
-
-this is very odd, the offloading driver adds a control to another card?
-
-That seems like a rather important layering violation.
-
-I thought it was done the other way, the USB audio card created a
-control that would point to the other card/device.
-
-
+> From: Leo Tsai <leo.tsai@cmedia.com.tw>
 > 
-> tinymix -D 1 get 'USB Offload Playback Route PCM#0'
-> -1, -1 (range -1->255)
+> Add new CM9825 driver with standard and NCR model.
 > 
-> This example signifies that there is no mapped ASoC path available for the
-> USB SND device.
+> Signed-off-by: Leo Tsai <leo.tsai@cmedia.com.tw>
 
-but that control would not even exist if the ASoC-based driver isn't probed.
+Thanks for the patch.
 
-It's become really hard to follow, I've been on all this for 1.5hrs and
-losing track of the design.
+But first of all, the patch description is too short and lack of info
+in comparison with the code change you've added.  If it were a simple
+quirk, it's OK, but this isn't such a case.  Ideally speaking, the
+code should be understandable enough without looking at the too much
+details in the datasheet.
 
-> tinymix -D 1 get 'USB Offload Playback Route PCM#0'
-> 0, 0 (range -1->255)
-> 
-> This example signifies that the offload path is available over ASoC sound
-> card index#0 and PCM device#0.
-> 
-> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
-> ---
->  sound/usb/Kconfig                 |  10 +++
->  sound/usb/Makefile                |   2 +
->  sound/usb/mixer_usb_offload.c     | 102 ++++++++++++++++++++++++++++++
->  sound/usb/mixer_usb_offload.h     |  17 +++++
->  sound/usb/qcom/Makefile           |   2 +-
->  sound/usb/qcom/qc_audio_offload.c |   2 +
->  6 files changed, 134 insertions(+), 1 deletion(-)
->  create mode 100644 sound/usb/mixer_usb_offload.c
->  create mode 100644 sound/usb/mixer_usb_offload.h
-> 
-> diff --git a/sound/usb/Kconfig b/sound/usb/Kconfig
-> index 5cc3eaf53e6b..e3fbf9541d0b 100644
-> --- a/sound/usb/Kconfig
-> +++ b/sound/usb/Kconfig
-> @@ -176,10 +176,20 @@ config SND_BCD2000
->  	  To compile this driver as a module, choose M here: the module
->  	  will be called snd-bcd2000.
->  
-> +config SND_USB_OFFLOAD_MIXER
-> +	tristate "USB Audio Offload mixer control"
-> +	help
-> +	 Say Y to enable the USB audio offloading mixer controls.  This
-> +	 exposes an USB offload capable kcontrol to signal to applications
-> +	 about which platform sound card can support USB audio offload.
-> +	 The returning values specify the mapped ASoC card and PCM device
-> +	 the USB audio device is associated to.
+That is, please give more information in both the patch description
+and the comment in the code.
+
+And, if there is some external reference, put the information such as
+the URL of the spec sheet.
+
+Also, what is NCR model?
+i guess it's a certain hardware vendor or such, but it has to be
+clarified.  And, the patch should be better split to two patches, one
+implementing the standard behavior and another NCR-specific quirk.
+
+
+In anyway, go for the more details:
+
+> +static char CM9825_Standard_Drv_Ver[15] = { "0.240723.0" };
+> +static char CM9825_NCR_Drv_Ver[15] = { "1.240805.0" };
 > +
->  config SND_USB_AUDIO_QMI
->  	tristate "Qualcomm Audio Offload driver"
->  	depends on QCOM_QMI_HELPERS && SND_USB_AUDIO && USB_XHCI_SIDEBAND && SND_SOC_USB
->  	select SND_PCM
-> +	select SND_USB_OFFLOAD_MIXER
->  	help
->  	  Say Y here to enable the Qualcomm USB audio offloading feature.
->  
-> diff --git a/sound/usb/Makefile b/sound/usb/Makefile
-> index 54a06a2f73ca..2f19f854944c 100644
-> --- a/sound/usb/Makefile
-> +++ b/sound/usb/Makefile
-> @@ -36,3 +36,5 @@ obj-$(CONFIG_SND_USB_US122L) += snd-usbmidi-lib.o
->  
->  obj-$(CONFIG_SND) += misc/ usx2y/ caiaq/ 6fire/ hiface/ bcd2000/ qcom/
->  obj-$(CONFIG_SND_USB_LINE6)	+= line6/
-> +
-> +obj-$(CONFIG_SND_USB_OFFLOAD_MIXER) += mixer_usb_offload.o
-> diff --git a/sound/usb/mixer_usb_offload.c b/sound/usb/mixer_usb_offload.c
-> new file mode 100644
-> index 000000000000..16e2fd634684
-> --- /dev/null
-> +++ b/sound/usb/mixer_usb_offload.c
-> @@ -0,0 +1,102 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#include <linux/usb.h>
-> +
-> +#include <sound/core.h>
-> +#include <sound/control.h>
-> +#include <sound/soc-usb.h>
-> +
-> +#include "usbaudio.h"
-> +#include "card.h"
-> +#include "helper.h"
-> +#include "mixer.h"
-> +
-> +#include "mixer_usb_offload.h"
-> +
-> +#define PCM_IDX(n)  ((n) & 0xffff)
-> +#define CARD_IDX(n) ((n) >> 16)
-> +
-> +static int
-> +snd_usb_offload_route_get(struct snd_kcontrol *kcontrol,
-> +			  struct snd_ctl_elem_value *ucontrol)
-> +{
-> +	struct device *sysdev = snd_kcontrol_chip(kcontrol);
-> +	int ret;
-> +
-> +	ret = snd_soc_usb_update_offload_route(sysdev,
-> +					       CARD_IDX(kcontrol->private_value),
-> +					       PCM_IDX(kcontrol->private_value),
-> +					       SNDRV_PCM_STREAM_PLAYBACK,
-> +					       ucontrol->value.integer.value);
-> +	if (ret < 0) {
-> +		ucontrol->value.integer.value[0] = -1;
-> +		ucontrol->value.integer.value[1] = -1;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int snd_usb_offload_route_info(struct snd_kcontrol *kcontrol,
-> +				      struct snd_ctl_elem_info *uinfo)
-> +{
-> +	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
-> +	uinfo->count = 2;
-> +	uinfo->value.integer.min = -1;
-> +	/* Arbitrary max value, as there is no 'limit' on number of PCM devices */
-> +	uinfo->value.integer.max = 0xff;
-> +
-> +	return 0;
-> +}
-> +
-> +static struct snd_kcontrol_new snd_usb_offload_mapped_ctl = {
-> +	.iface = SNDRV_CTL_ELEM_IFACE_CARD,
-> +	.access = SNDRV_CTL_ELEM_ACCESS_READ,
-> +	.info = snd_usb_offload_route_info,
-> +	.get = snd_usb_offload_route_get,
+> +module_param_string(CM9825_Standard_Drv_Ver, CM9825_Standard_Drv_Ver,
+> +		    sizeof(CM9825_Standard_Drv_Ver), 0444);
+> +module_param_string(CM9825_NCR_Drv_Ver, CM9825_NCR_Drv_Ver,
+> +		    sizeof(CM9825_NCR_Drv_Ver), 0444);
+
+Don't put such stuff.  Those are purely downstream info, and have
+nothing to do with the upstream stuff.
+
+>  struct cmi_spec {
+>  	struct hda_gen_spec gen;
+> +	const struct hda_verb *chip_D0_verbs;
+> +	const struct hda_verb *chip_D3_verbs;
+> +	const struct hda_verb *chip_playback_start_verbs;
+> +	const struct hda_verb *chip_playback_stop_verbs;
+> +	const struct hda_verb *chip_HP_Present_verbs;
+> +	const struct hda_verb *chip_HP_Remove_verbs;
+
+The variable, function and field names are usually in lower letters.
+
+> +	struct hda_codec *codec;
+> +	struct delayed_work unsol_hp_work;
+> +	int quirk;
+> +	unsigned int playback_started:1;
 > +};
 > +
-> +/**
-> + * snd_usb_offload_create_ctl() - Add USB offload bounded mixer
-> + * @chip - USB SND chip device
-> + *
-> + * Creates a sound control for a USB audio device, so that applications can
-> + * query for if there is an available USB audio offload path, and which
-> + * card is managing it.
+> +static const struct hda_verb cm9825_NCR_TpCon_verbs[] = {
+
+Ditto.
+
+> +	{0x01, 0x720, 0xF0},
+> +	{0x01, 0x721, 0x88},
+> +	{0x01, 0x722, 0x43},
+> +	{0x01, 0x723, 0x10},
+> +	{0x34, 0x70C, 0x02},
+> +	{0x36, 0x71E, 0x11},
+(snip)
+
+Please try to use AC_VERB_* for the parameters.
+I see many of the verbs are undefined ones, i.e. vendor-specific, and
+they can be better defined locally.  It makes much more
+understandable, and it can help debugging.
+
+For example, the verb 0x71e is AC_VERB_SET_CONFIG_DEFAULT_BYTES_2.
+But you change only this.  Why?  The intention can be commented.
+
+> +static const struct hda_verb cm9825_std_playback_start_verbs[] = {
+> +	{}
+> +};
+> +
+> +static const struct hda_verb cm9825_std_playback_stop_verbs[] = {
+> +	{}
+> +};
+
+Those can be set NULL instead?
+
+> +
+> +/*
+> + * CM9825 quirks table
 > + */
-> +int snd_usb_offload_create_ctl(struct snd_usb_audio *chip)
+> +enum {
+> +	QUIRK_NONE,
+> +	QUIRK_CM9825_STANDARD,
+> +	QUIRK_CM9825_NCR,
+> +};
+> +
+> +static const struct snd_pci_quirk cm9825_quirks[] = {
+> +	SND_PCI_QUIRK(0x13F6, 0x9825, "Cmedia Standard", QUIRK_CM9825_STANDARD),
+> +	{}
+> +};
+
+Do you really need this quirk entry?  Why not just taking the STANDARD
+as default?
+
+> +static hda_nid_t cmi_get_hp_pin(struct cmi_spec *spec)
 > +{
-> +	struct usb_device *udev = chip->dev;
-> +	struct snd_kcontrol_new *chip_kctl;
-> +	struct snd_usb_substream *subs;
-> +	struct snd_usb_stream *as;
-> +	char ctl_name[37];
-> +	int ret;
-> +
-> +	list_for_each_entry(as, &chip->pcm_list, list) {
-> +		subs = &as->substream[SNDRV_PCM_STREAM_PLAYBACK];
-> +		if (!subs->ep_num)
-> +			continue;
-> +
-> +		chip_kctl = &snd_usb_offload_mapped_ctl;
-> +		chip_kctl->count = 1;
-> +		/*
-> +		 * Store the associated USB SND card number and PCM index for
-> +		 * the kctl.
-> +		 */
-> +		chip_kctl->private_value = as->pcm_index |
-> +					  chip->card->number << 16;
-> +		sprintf(ctl_name, "USB Offload Playback Route PCM#%d",
-> +			as->pcm_index);
-> +		chip_kctl->name = ctl_name;
-> +		ret = snd_ctl_add(chip->card, snd_ctl_new1(chip_kctl,
-> +				  udev->bus->sysdev));
-> +		if (ret < 0)
-> +			break;
+> +	if (spec->gen.autocfg.hp_pins[0]) {
+> +		codec_dbg(spec->codec, "hp_pin 0x%X\n",
+> +			  spec->gen.autocfg.hp_pins[0]);
+> +		return spec->gen.autocfg.hp_pins[0];
 > +	}
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(snd_usb_offload_create_ctl);
-> diff --git a/sound/usb/mixer_usb_offload.h b/sound/usb/mixer_usb_offload.h
-> new file mode 100644
-> index 000000000000..3f6e2a8b19c8
-> --- /dev/null
-> +++ b/sound/usb/mixer_usb_offload.h
-> @@ -0,0 +1,17 @@
-> +/* SPDX-License-Identifier: GPL-2.0
-> + *
-> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#ifndef __USB_OFFLOAD_MIXER_H
-> +#define __USB_OFFLOAD_MIXER_H
-> +
-> +#if IS_ENABLED(CONFIG_SND_USB_OFFLOAD_MIXER)
-> +int snd_usb_offload_create_ctl(struct snd_usb_audio *chip);
-> +#else
-> +static inline int snd_usb_offload_create_ctl(struct snd_usb_audio *chip)
-> +{
 > +	return 0;
 > +}
-> +#endif
-> +#endif /* __USB_OFFLOAD_MIXER_H */
-> diff --git a/sound/usb/qcom/Makefile b/sound/usb/qcom/Makefile
-> index a81c9b28d484..4005e8391ab9 100644
-> --- a/sound/usb/qcom/Makefile
-> +++ b/sound/usb/qcom/Makefile
-> @@ -1,2 +1,2 @@
->  snd-usb-audio-qmi-objs := usb_audio_qmi_v01.o qc_audio_offload.o
-> -obj-$(CONFIG_SND_USB_AUDIO_QMI) += snd-usb-audio-qmi.o
-> \ No newline at end of file
-> +obj-$(CONFIG_SND_USB_AUDIO_QMI) += snd-usb-audio-qmi.o
-> diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
-> index a7ad15404fd1..5b9262a116be 100644
-> --- a/sound/usb/qcom/qc_audio_offload.c
-> +++ b/sound/usb/qcom/qc_audio_offload.c
-> @@ -36,6 +36,7 @@
->  #include "../helper.h"
->  #include "../pcm.h"
->  #include "../power.h"
-> +#include "../mixer_usb_offload.h"
->  
->  #include "usb_audio_qmi_v01.h"
->  
-> @@ -1703,6 +1704,7 @@ static void qc_usb_audio_offload_probe(struct snd_usb_audio *chip)
->  		sdev->card_idx = chip->card->number;
->  		sdev->chip_idx = chip->index;
->  
-> +		snd_usb_offload_create_ctl(chip);
->  		snd_soc_usb_connect(usb_get_usb_backend(udev), sdev);
->  	}
->  
 
+Simply refer to spec->gen.autocfg.hp_pins[0] in the caller side
+instead.  There is little merit of factoring out as a function.
+
+> +static void cm9825_unsol_hp_delayed(struct work_struct *work)
+> +{
+> +	struct cmi_spec *spec =
+> +	    container_of(to_delayed_work(work), struct cmi_spec, unsol_hp_work);
+> +	struct hda_jack_tbl *jack;
+> +	hda_nid_t hp_pin = cmi_get_hp_pin(spec);
+> +	bool hp_jack_plugin = false;
+> +	int err = 0;
+> +
+> +	hp_jack_plugin = snd_hda_jack_detect(spec->codec, hp_pin);
+> +
+> +	codec_dbg(spec->codec, "hp_jack_plugin %d, hp_pin 0x%X\n",
+> +		  (int)hp_jack_plugin, hp_pin);
+> +
+> +	if (!hp_jack_plugin) {
+> +		err = snd_hda_codec_write(spec->codec, 0x42, 0, 0x707, 0x40);
+
+Again, try to use the AC_VERB_*.
+
+> +static void CM9825_init_hook(struct hda_codec *codec)
+> +{
+> +	struct cmi_spec *spec = codec->spec;
+> +
+> +	codec_dbg(spec->codec, "Start\n");
+> +
+> +	snd_hda_sequence_write(codec, spec->chip_D0_verbs);
+> +}
+
+You don't have to make an extra function but just add the init verbs
+via snd_hda_add_verbs() at the probe time.
+
+> +static void cm9825_playback_pcm_hook(struct hda_pcm_stream *hinfo,
+> +				     struct hda_codec *codec,
+> +				     struct snd_pcm_substream *substream,
+> +				     int action)
+> +{
+> +	struct cmi_spec *spec = codec->spec;
+> +
+> +	codec_dbg(codec, "start, action %d\n", action);
+> +
+> +	switch (action) {
+> +	case HDA_GEN_PCM_ACT_PREPARE:
+> +		spec->playback_started = 1;
+
+This flag is never referred.  Can be dropped?
+
+> +static int CM9825_init(struct hda_codec *codec)
+
+Again, use lower letters.
+
+> +#ifdef CONFIG_PM
+
+This ifdef is no longer needed for the latest upstream code.
+
+> +static int cm9825_suspend(struct hda_codec *codec)
+> +{
+> +	struct cmi_spec *spec = codec->spec;
+> +
+> +	codec_dbg(codec, "Start\n");
+
+Better to be a more understandable debug print :)
+
+> +static void cm9825_detect_quirk(struct hda_codec *codec)
+> +{
+> +	struct cmi_spec *spec = codec->spec;
+> +
+> +	switch (codec->core.subsystem_id) {
+> +	case 0x104316E2:
+> +		spec->quirk = QUIRK_CM9825_STANDARD;
+> +		break;
+> +	case 0x104388F0:
+> +		spec->quirk = QUIRK_CM9825_NCR;
+> +		break;
+> +	default:
+> +		spec->quirk = QUIRK_CM9825_STANDARD;
+> +		break;
+> +	}
+
+Those can be simply put in the quirk table instead.
+The codec SSID is also checked at the quirk table lookup.
+
+
+> +static u32 get_amp_max_value(struct hda_codec *codec, hda_nid_t nid, int dir,
+> +			     unsigned int ofs)
+> +{
+> +	u32 caps = query_amp_caps(codec, nid, dir);
+> +	/* get num steps */
+> +	caps = (caps & AC_AMPCAP_NUM_STEPS) >> AC_AMPCAP_NUM_STEPS_SHIFT;
+> +	if (ofs < caps)
+> +		caps -= ofs;
+> +	return caps;
+> +}
+> +
+> +static inline int
+> +update_amp_value(struct hda_codec *codec, hda_nid_t nid,
+> +		 int ch, int dir, int idx, unsigned int ofs, unsigned int val)
+> +{
+> +	unsigned int maxval;
+> +
+> +	if (val > 0)
+> +		val += ofs;
+> +	/* ofs = 0: raw max value */
+> +	maxval = get_amp_max_value(codec, nid, dir, 0);
+> +	if (val > maxval)
+> +		val = maxval;
+> +	return snd_hda_codec_amp_update(codec, nid, ch, dir, idx,
+> +					HDA_AMP_VOLMASK, val);
+> +}
+> +
+> +static int cm9825_ncr_spk_vol_put(struct snd_kcontrol *kcontrol,
+> +				  struct snd_ctl_elem_value *ucontrol)
+> +{
+> +	struct hda_codec *codec = snd_kcontrol_chip(kcontrol);
+> +	hda_nid_t nid = get_amp_nid(kcontrol);
+> +	int chs = get_amp_channels(kcontrol);
+> +	int dir = get_amp_direction(kcontrol);
+> +	int idx = get_amp_index(kcontrol);
+> +	unsigned int ofs = get_amp_offset(kcontrol);
+> +	long *valp = ucontrol->value.integer.value;
+> +	int change = 0;
+> +
+> +	codec_dbg(codec, "nid 0x%X, chs %d, dir %d, *valp %ld\n",
+> +		  nid, chs, dir, *valp);
+> +
+> +	if (chs & 1) {
+> +		change = update_amp_value(codec, nid, 0, dir, idx, ofs, *valp);
+> +		update_amp_value(codec, 0x38, 0, dir, idx, ofs, *valp);
+
+What this mirroring to the node 0x38 at all?  This has to be clarified.
+
+> +static int patch_cm9825(struct hda_codec *codec)
+> +{
+> +	/* Detect codec quirk */
+> +	quirk = snd_pci_quirk_lookup(codec->bus->pci, cm9825_quirks);
+> +	if (quirk)
+> +		spec->quirk = quirk->value;
+> +	else
+> +		spec->quirk = QUIRK_CM9825_STANDARD;
+> +
+> +	if (spec->quirk == QUIRK_CM9825_STANDARD)
+> +		cm9825_detect_quirk(codec);
+> +
+> +	codec_dbg(spec->codec, "spec->quirk %d\n", spec->quirk);
+
+So this quirk lookup is weird.  Just put all needed entries in the
+quirk table and do a single lookup.
+
+> +	codec->patch_ops = cmi_auto_patch_ops;
+> +	codec->patch_ops.init = CM9825_init;
+> +#ifdef CONFIG_PM
+
+The ifdef is superfluous.
+
+> +	if (spec->quirk == (int)QUIRK_CM9825_STANDARD) {
+> +		INIT_DELAYED_WORK(&spec->unsol_hp_work,
+> +				  cm9825_unsol_hp_delayed);
+
+Better to initialize the work unconditionally.
+Then you don't have to differentiate at suspend or free, and you can
+call cancel_delayed_work_sync() no matter whether it's used or not.
+
+> @@ -91,8 +729,8 @@ static int patch_cmi8888(struct hda_codec *codec)
+>  	if (get_defcfg_device(snd_hda_codec_get_pincfg(codec, 0x10)) ==
+>  	    AC_JACK_HP_OUT) {
+>  		static const struct snd_kcontrol_new amp_kctl =
+> -			HDA_CODEC_VOLUME("Headphone Amp Playback Volume",
+> -					 0x10, 0, HDA_OUTPUT);
+> +		    HDA_CODEC_VOLUME("Headphone Amp Playback Volume",
+> +				     0x10, 0, HDA_OUTPUT);
+
+This is a superfluous change?
+
+
+thanks,
+
+Takashi
