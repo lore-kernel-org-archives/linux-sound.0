@@ -1,134 +1,83 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76CF71B1D64;
-	Fri, 30 Aug 2024 14:50:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 386091B2ED5
+	for <linux-sound@vger.kernel.org>; Fri, 30 Aug 2024 14:56:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725029458; cv=none; b=mw2f7xLp2ly4cwwnFf7nsnz4Vcu5Vu5HZvD5fA5aXm/gFXaCag0gs9DtI9gU5fpVzIy+k7Z2vh2QKkEvFHDHyxC3FZo89iMXF5gMemNRZCw5ki/TyDPxLrwBv4/UVHPgpohZdKpQ4+8gQwxGxY+9avf3qvpR8SZU3eIbaEiCw3E=
+	t=1725029814; cv=none; b=ZVuTc1WIOwKZF6sKxx70OY0s48jPsaBpnrQN0GFM6bpgpvCgi11s7CWTfKxSDBFdfcjsd3Lc3+qOAthSKddLmhRHcupPn9V6EO3LnxKKPyaA2G9vsjO/iNJNUeRL7kMsSkC5FkS7/kJ9QyY97pgE+Tfp0XkyQUo6pIdYkHuikoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725029458; c=relaxed/simple;
-	bh=kRMCF26wuGa6fCppevhtQabJCmV3ZfyXGSTCv60EXrc=;
+	s=arc-20240116; t=1725029814; c=relaxed/simple;
+	bh=ms2gIE3wABHQbvrAGtEdGrpnTlXLcJoCBwHQMlYdmR4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QI8iyc6qXOyg9JfHNG4Y1rBD5oRbDiww1fKOotZc3Lj/i5GHshQCYZNfk769QKhovDZX1EHwQpFMLKwFxgrn01XAP1uyt8u8diM8hIbk5Yf+1wTBQ7gTGX+jzsPA+S0HG6EBzKpHraBvuDTYEh6tuq+a47W9xj3lMEchD5Jnfyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UoElR0+B; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=q124AkmiwBJXGFakzkVwWAEw3rk9CbzH09qAgVVXTaRt9YcpDnQXoUBbAZ8hB4Fm9Az1kssmkpNZ6xnsqqJRYb+y6DgKDycLbhsmPE0tQPE/nbr/L+cg7A0glfa57uTj0yIDGArFroI5UB0LZZ7IPUzCu0c4zUOh8FxqASXnKAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G27+ejVd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UoElR0+B"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB4B2C4CEC2;
-	Fri, 30 Aug 2024 14:50:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G27+ejVd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D10D8C4CEC2;
+	Fri, 30 Aug 2024 14:56:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725029457;
-	bh=kRMCF26wuGa6fCppevhtQabJCmV3ZfyXGSTCv60EXrc=;
+	s=k20201202; t=1725029813;
+	bh=ms2gIE3wABHQbvrAGtEdGrpnTlXLcJoCBwHQMlYdmR4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UoElR0+BEKAItp3ZltAJ4hfx15LW5ZCBAIc7a1KybMqxjcIKMC67E4rWLEpWHvb4a
-	 G6dOkp47XunRM8zTYmFTInlOIdnkF66zoiAgixQyarenRCAkfIKMLyVYsDuU9o/kCS
-	 f231oaHLP7VFwo8EsZ56fhIJTKsgzpO2kLD+FJETFf/hCbHS2PhN7sckV2nvwO3W0u
-	 HJIRer6USNXJJK1SS4jTdiHTgYeKKaMKjKg3mlngzLVgu1OzQgocT4PNsMxNQsmUKc
-	 xobBZQAtAVWC14jVsyb3ZpYLWIhBBpxe9LjJbsDFMaeiqyHU/hAJD+Mgocba0Dv/Jm
-	 W8f85o2c7pE6g==
-Date: Fri, 30 Aug 2024 09:50:56 -0500
-From: Rob Herring <robh@kernel.org>
-To: Macpaul Lin <macpaul.lin@mediatek.com>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-leds@vger.kernel.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Sebastian Reichel <sre@kernel.org>,
-	Pavel Machek <pavel@ucw.cz>, Sean Wang <sean.wang@mediatek.com>,
-	Lee Jones <lee@kernel.org>,
-	Alexandre Mergnat <amergnat@baylibre.com>,
-	Flora Fu <flora.fu@mediatek.com>,
-	Bear Wang <bear.wang@mediatek.com>,
-	Pablo Sun <pablo.sun@mediatek.com>, Macpaul Lin <macpaul@gmail.com>,
-	Sen Chu <sen.chu@mediatek.com>,
-	Chris-qj chen <chris-qj.chen@mediatek.com>,
-	MediaTek Chromebook Upstream <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org,
-	linux-rtc@vger.kernel.org, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, Chen-Yu Tsai <wenst@chromium.org>
-Subject: Re: [PATCH v2 1/7] regulator: dt-bindings: mt6323: Convert to DT
- schema
-Message-ID: <20240830145056.GA4170065-robh@kernel.org>
-References: <20240830110732.30080-1-macpaul.lin@mediatek.com>
+	b=G27+ejVdoLZilgj6lUcK8zxy+YoIvlpV8m1lLJo38tLK6c+pQnWss8HAdf+37ftFM
+	 RAC9wLMD6DKXlDPQntBfU2L3pXHwzVjKdm0dp9N/SiXeDzkHqrMxujcT5a/Rz4uFoa
+	 FLZVkNSFYVkp1K+mkaOLlDOClS43wdoj9B2vjw2td1Mm5J/VLBVXEp2s0Dge6fcS8Y
+	 zKAc/gjU7Umf9CpxsqYNgBDo3sw4ayliXciu+nPxZxAWpBJ7iKeFkgzofN7kxpnsBe
+	 oHe0n1N2ioUQxb9sO6cqSm2d7OMNh6MMdxUVoSWUzn/G24LPQnXO2u0rfkUpjC/5aS
+	 Qwrfr+x45NV/Q==
+Date: Fri, 30 Aug 2024 15:56:48 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Zhang Zekun <zhangzekun11@huawei.com>, lgirdwood@gmail.com,
+	perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] Some clean up with helper fucntion
+Message-ID: <cc0dca4b-7850-4c2e-a4c9-3f016c7b4e6d@sirena.org.uk>
+References: <20240827070650.11424-1-zhangzekun11@huawei.com>
+ <87cylt2ria.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="EhUXryYVStOjJv7v"
+Content-Disposition: inline
+In-Reply-To: <87cylt2ria.wl-kuninori.morimoto.gx@renesas.com>
+X-Cookie: for ARTIFICIAL FLAVORING!!
+
+
+--EhUXryYVStOjJv7v
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240830110732.30080-1-macpaul.lin@mediatek.com>
 
-On Fri, Aug 30, 2024 at 07:07:26PM +0800, Macpaul Lin wrote:
-> Convert this from the old style text based binding to the new DT schema
-> style.
-> 
-> The examples have been trimmed down and move to parent schema
-> mfd/mediatek,mt6397.yaml.
-> 
-> Add new maintainers and submitter from MediaTek.
-> 
-> Signed-off-by: Sen Chu <sen.chu@mediatek.com>
-> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
-> ---
->  .../regulator/mediatek,mt6323-regulator.yaml  |  84 +++++++
->  .../bindings/regulator/mt6323-regulator.txt   | 237 ------------------
->  2 files changed, 84 insertions(+), 237 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/regulator/mediatek,mt6323-regulator.yaml
->  delete mode 100644 Documentation/devicetree/bindings/regulator/mt6323-regulator.txt
-> 
-> Changes for v1 and v2:
->  - This is the first version of converting mt6323-regulator.
->    This is because converting mt6323-regulator together
->    with mfd/mediatek,mt6397.yaml, so we've create a patch set
->    instead of single patch for each skydives.
->  - This patch has been made base on linux-next/master git repo.
-> 
-> diff --git a/Documentation/devicetree/bindings/regulator/mediatek,mt6323-regulator.yaml b/Documentation/devicetree/bindings/regulator/mediatek,mt6323-regulator.yaml
-> new file mode 100644
-> index 0000000..f7c2a03
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/regulator/mediatek,mt6323-regulator.yaml
-> @@ -0,0 +1,84 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/regulator/mediatek,mt6323-regulator.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: MediaTek MT6323 Regulator
-> +
-> +maintainers:
-> +  - John Crispin <john@phrozen.org>
-> +  - Sen Chu <sen.chu@mediatek.com>
-> +  - Macpaul Lin <macpaul.lin@mediatek.com>
-> +
-> +description:
-> +  Regulator node of the PMIC. This node should under the PMIC's device node.
-> +  All voltage regulators provided by the PMIC are described as sub-nodes of
-> +  this node.
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - const: mediatek,mt6323-regulator
-> +
-> +patternProperties:
-> +  "^(buck_)?v(pa|proc|sys)$":
-> +    description: Buck regulators
-> +    type: object
-> +    $ref: regulator.yaml#
-> +    properties:
-> +      regulator-allowed-modes: false
-> +    unevaluatedProperties: false
-> +
-> +  "^(ldo_)?v(camio|cn18)$":
+On Wed, Aug 28, 2024 at 04:36:15AM +0000, Kuninori Morimoto wrote:
 
-Why are buck_ and ldo_ prefixes optional? The old binding didn't reflect 
-actual (upstream) users? If so, that's fine, but mention that in the 
-commit message.
+> But I think this patch-set will conflict with my posting Of-Graph patch-set
+> if Mark apply this patch-set, and Rob (?) apply my patch-set.
 
-Rob
+> 	add of_graph_get_next_port/port_endpoint()
+> 	https://lore.kernel.org/r/87cylwqa12.wl-kuninori.morimoto.gx@renesas.com
+
+> Thank you for your help !!
+
+It looks like the of_graph patches might not make it into this merge
+window anyway so possibly it won't actually be an issue?
+
+--EhUXryYVStOjJv7v
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbR3a8ACgkQJNaLcl1U
+h9ARTAf/ZxRqf/t95CBPEyv8cXdvtbPYrRAV7ux4M5mBfFXmK1fpVUBKXoCfdwWl
+NkrK5MSTweuRt0YNCVFz5Uzjia90Q3At2KY/OPCbXsOZYZ93TA0P/tvSTeCzxqj8
+v6XfCNe0BCKDnek1EjoTkwbjbuAiPPD/Jmpij+UozYOtBT+x12J2E/63VqRvr8+7
+hGPNYFY78jZhOqFmf6z1Rpix6iaWt+sFnAiXkwg0I/p7u6GrNHedd/bxtb+XU2d/
+invW68BzvRBeFv4u48V4tuQrqI6Ov4qBi20vmZUyhG4yj635HguAisk2V8Ca4XQq
+blk4StmzaQ1t5NgCNelowFiVIVQ6Dw==
+=l3cD
+-----END PGP SIGNATURE-----
+
+--EhUXryYVStOjJv7v--
