@@ -1,162 +1,98 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22D5516DEC7
-	for <linux-sound@vger.kernel.org>; Fri, 30 Aug 2024 08:22:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA3731531C9
+	for <linux-sound@vger.kernel.org>; Fri, 30 Aug 2024 08:37:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725006127; cv=none; b=evbtb5zEswa4S6icSqRnde4Ao2Hw2M6YStcvkTGacHJs3WzcVytPrCWigvkM1vCmv4EI6i8T/Ax1njA0S/VBoMF6kdTK/KksnjJz+o0qyWCfCeZ+9Wl97UowSme/mlIo5yNRfkKKUozlFMc/1aH3fbYxg9cc4XL193ST2ArpD0I=
+	t=1725007065; cv=none; b=HsHKe1H7FEJBaVHWi6fIMSdyL2mpdRcQr9C51q9vifyixw9wa2KUETffRmvCBiXA9cg+exRq1WigBLtJ3az8CAvfwvVZ3epBXd0UoAKUzW4b3x6xkBAq7z7tGBHr97hrhdoJfxreieDjBvUdv/PTQe9DhdY35/iaTnMF2le7tOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725006127; c=relaxed/simple;
-	bh=tUIVZgUPMB3fdqimp2PXJLvTHDkQ0tc/hiCzBfUkhYs=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=flxMyu422n11VuELn9ctQC4YogZMSwUGcgiYTncFM2v6XM35bQqRBVNWG1jKMzCzJ5b5dn8pwaVE5vy3w4QbaLwTwFlFre4hILOjpiqYU/nLeGVKAttfJk9a6/YB5tpFzuE3hH3Lcdg7vRDsmB5kyN5TWpltDr5y76fSTc2UIDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uA2xA7Cz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bUzeBYOo; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uA2xA7Cz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bUzeBYOo; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1725007065; c=relaxed/simple;
+	bh=ghVIUx9TaJyMm4SETqSo3lqEOUOm5837gqrdXGcmX9I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RIaNZD6myT0Y3DxYaoMGzELALmfztGpD7JBpnPktRbhKj7jCNvESxOJaqUlOokhkb1KyqBq0nNFSLMLsVq9PXQvE7A+NTyebhLaKhxspyFKMPLWax2QD3H8RMfw1aZES0H6xKZi1PyS0D5ukxREMxWyfTu4DIJCPEPXoSkg/B1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nexus-software.ie; spf=none smtp.mailfrom=nexus-software.ie; dkim=pass (2048-bit key) header.d=nexus-software-ie.20230601.gappssmtp.com header.i=@nexus-software-ie.20230601.gappssmtp.com header.b=vJLcx0aX; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nexus-software.ie
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=nexus-software.ie
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uA2xA7Cz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bUzeBYOo";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uA2xA7Cz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bUzeBYOo"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2860D21A0A;
-	Fri, 30 Aug 2024 08:22:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1725006124; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XMdSHchXyHmb0oqpRFDeoMblMBPI/kECQ2rB1XsXkE8=;
-	b=uA2xA7CzaUPjiURJV3xBC2pQocRRVwc20ek3gaSfDRTT3Rhyp9GAVvGV+EuDVowAcbcBNe
-	zjKAjMsFXJfXbAuJGbKBARhNbhTKK1yTBLM2IFEtOCMlscR2ZiETXQ+4UB7cV5Cah27/Gz
-	2RPO+KAVjB2U5GG4A+2WefZpVWBbX0k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1725006124;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XMdSHchXyHmb0oqpRFDeoMblMBPI/kECQ2rB1XsXkE8=;
-	b=bUzeBYOo8IW7Fe7V17tcOUjQA81tz7/D7+GpxbdI47h8+BjhJ/YQecvP63Fth1D90EVg2B
-	OKu7MTi4yqD1w1DA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1725006124; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XMdSHchXyHmb0oqpRFDeoMblMBPI/kECQ2rB1XsXkE8=;
-	b=uA2xA7CzaUPjiURJV3xBC2pQocRRVwc20ek3gaSfDRTT3Rhyp9GAVvGV+EuDVowAcbcBNe
-	zjKAjMsFXJfXbAuJGbKBARhNbhTKK1yTBLM2IFEtOCMlscR2ZiETXQ+4UB7cV5Cah27/Gz
-	2RPO+KAVjB2U5GG4A+2WefZpVWBbX0k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1725006124;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XMdSHchXyHmb0oqpRFDeoMblMBPI/kECQ2rB1XsXkE8=;
-	b=bUzeBYOo8IW7Fe7V17tcOUjQA81tz7/D7+GpxbdI47h8+BjhJ/YQecvP63Fth1D90EVg2B
-	OKu7MTi4yqD1w1DA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 03B4413ADE;
-	Fri, 30 Aug 2024 08:22:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id aWdLOyuB0WZXcwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 30 Aug 2024 08:22:03 +0000
-Date: Fri, 30 Aug 2024 10:22:48 +0200
-Message-ID: <87frqml8rr.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Hongbo Li <lihongbo22@huawei.com>
-Cc: <perex@perex.cz>,
-	<tiwai@suse.com>,
-	<linux-sound@vger.kernel.org>
-Subject: Re: [PATCH -next] ALSA: pcm: replace simple_strtoul to kstrtoul
-In-Reply-To: <20240830080135.3544948-1-lihongbo22@huawei.com>
-References: <20240830080135.3544948-1-lihongbo22@huawei.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=nexus-software-ie.20230601.gappssmtp.com header.i=@nexus-software-ie.20230601.gappssmtp.com header.b="vJLcx0aX"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-58ef19aa69dso1456961a12.3
+        for <linux-sound@vger.kernel.org>; Fri, 30 Aug 2024 01:37:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=nexus-software-ie.20230601.gappssmtp.com; s=20230601; t=1725007062; x=1725611862; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tz5xgDVzbjElSEwTue+4JQ6a6tFd6FbY1QoSeaQ1ceo=;
+        b=vJLcx0aX1ng52gTR8fxVouBeYaI7CRVJ+/pM53CpY/zwa68XMNfj5y8042L1mdruyw
+         9r3zhrGeUqm8oYxln9dDEtZfUNlBlMcjLyF8fBCLuoloct6Zxow6HdMl3PQh4hOv3R0P
+         CfvJfCWkLzFOiwNMay04j9z+9Pr6LUjlpX/nzJ9cH7tBxOnuMXwFEGVvmMpEyf3euHaL
+         CSS2rd3MAcWvqdQAdDYU+yfEm0xnxo3Mghnd/Wooywt3jvB0g+11s5mPTNXchm8AXZ+J
+         lZ4mqSQWGK6L4bFazyzwycvJMJz1T1WHhcYKgDvd8OPAm5Xz1O6dqYJ7yBah3xLmS1pb
+         zjAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725007062; x=1725611862;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tz5xgDVzbjElSEwTue+4JQ6a6tFd6FbY1QoSeaQ1ceo=;
+        b=tjpvXjw0JMS5L+nRa+NJKZkz75JdgeTAOl+udYwoWoTDhs3aJn18gRRjkaQpCrWpmn
+         2RyXP+l+e5QZfqKO+lljwlNsSibJ7fOxQPq4R/xIwZDt5+/+azzedv1jXE++B7xb2S++
+         pxWT5kACXkk5qNxL8lLNdrHDlVf1fcS/EWCkTxV9l0qCRKP9CMvUiJNAvo1qgPTYGt5B
+         00n0wpZyNgduXOAJuvyGHo1lVHCUmYrwZMYmCMQUPBBHl0ql7SC/kK7ljFOfa49C7XLt
+         UYQfqnarh/Gux7F1khDfYh3+cvKzwc7Aiw8zBq3VgIZnQRUZizYhdloQm8saf8NAd39E
+         /a0w==
+X-Forwarded-Encrypted: i=1; AJvYcCUKBIfod82UbrEsJWAJcukA3Qtg3vYYelShg0JWIBW7fDa19PqKPXxJ0/pzvDWYfzvAm178RIaRWxrq+Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzBcCVKanx6I+78wcaFEbJ2PZIkDNHTsaG/YPJfjYptQlgleB5h
+	Ku8YWoiqvyA7QSNd8oZyPznLh3AUWfvzCqwHBHv2tYU3gKfPSNZ5RWS5j5yJnzg=
+X-Google-Smtp-Source: AGHT+IHoWfq/90PKtaBCC6Uhi6DqQ09Ism7NBj8fzh8R+arnT/DKgjvjTl/SHIkJT75B9ohmJj4xBw==
+X-Received: by 2002:a05:6402:3493:b0:5c2:2b1f:f757 with SMTP id 4fb4d7f45d1cf-5c22b1ff81dmr2599958a12.17.1725007061676;
+        Fri, 30 Aug 2024 01:37:41 -0700 (PDT)
+Received: from [192.168.0.25] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c226c7bf90sm1674423a12.43.2024.08.30.01.37.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 30 Aug 2024 01:37:40 -0700 (PDT)
+Message-ID: <0fcd3421-8086-44bc-b24f-7fb2262a675c@nexus-software.ie>
+Date: Fri, 30 Aug 2024 09:37:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] ASoC: codecs: lpass-va-macro: set the default codec
+ version for sm8250
+To: srinivas.kandagatla@linaro.org, broonie@kernel.org
+Cc: perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org,
+ linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, amit.pundir@linaro.org,
+ dmitry.baryshkov@linaro.org
+References: <20240816091210.50172-1-srinivas.kandagatla@linaro.org>
+Content-Language: en-US
+From: Bryan O'Donoghue <pure.logic@nexus-software.ie>
+In-Reply-To: <20240816091210.50172-1-srinivas.kandagatla@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, 30 Aug 2024 10:01:35 +0200,
-Hongbo Li wrote:
+On 16/08/2024 10:12, srinivas.kandagatla@linaro.org wrote:
+> From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 > 
-> As mentioned in [1], "...simple_strtol(), simple_strtoll(),
-> simple_strtoul(), and simple_strtoull() functions explicitly
-> ignore overflows, which may lead to unexpected results in callers."
-> Hence, the use of those functions is discouraged.
+> sm8250 and sc7280 have lpass codec version 1.0, as these are very old
+> platforms, they do not have a reliable way to get the codec version
+> from core_id registers.
 > 
-> This patch replace the use of the simple_strtoul with the safer
-> alternatives kstrtoul.
+> On codec versions below 2.0, even though the core_id registers are
+> available to read, the values of these registers are not unique to be
+> able to determine the version of the codec dynamically.
 > 
-> [1] https://www.kernel.org/doc/html/latest/process/deprecated.html#simple-strtol-simple-strtoll-simple-strtoul-simple-strtoull
+> Add the version info into of_data, so that driver does not need to use
+> core_id registers to get version number for such situations.
 > 
-> Signed-off-by: Hongbo Li <lihongbo22@huawei.com>
-> ---
->  sound/core/pcm_memory.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/sound/core/pcm_memory.c b/sound/core/pcm_memory.c
-> index 8e4c68e3bbd0..fea8bed02604 100644
-> --- a/sound/core/pcm_memory.c
-> +++ b/sound/core/pcm_memory.c
-> @@ -185,6 +185,7 @@ static void snd_pcm_lib_preallocate_proc_write(struct snd_info_entry *entry,
->  	char line[64], str[64];
->  	size_t size;
->  	struct snd_dma_buffer new_dmab;
-> +	int ret;
->  
->  	guard(mutex)(&substream->pcm->open_mutex);
->  	if (substream->runtime) {
-> @@ -193,8 +194,10 @@ static void snd_pcm_lib_preallocate_proc_write(struct snd_info_entry *entry,
->  	}
->  	if (!snd_info_get_line(buffer, line, sizeof(line))) {
->  		snd_info_get_str(str, line, sizeof(str));
-> -		size = simple_strtoul(str, NULL, 10) * 1024;
-> -		if ((size != 0 && size < 8192) || size > substream->dma_max) {
-> +		ret = kstrtoul(str, 10, &size);
-> +		size *= 1024;
-> +		if ((ret != 0) || (size != 0 && size < 8192) ||
+> Fixes: 378918d59181 ("ASoC: codecs: lpass-macro: add helpers to get codec version")
+> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 
-The parentheses around "ret != 0" is superfluous.
-And you can set the value to buffer->error, too.
+Seems to be fixing the reset I've been seeing on rb5
 
-That said, it's better not to put the ret value check in that if
-block, but put another check right after kstrtoul() call.
+Tested-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
-
-thanks,
-
-Takashi
