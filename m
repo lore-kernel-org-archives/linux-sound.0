@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76A281BAEE3;
-	Fri, 30 Aug 2024 17:14:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FDD014E2E9;
+	Fri, 30 Aug 2024 17:56:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725038059; cv=none; b=P6HtSpOMsaLJk/M3uebLSV3YJrJPbdbe8V/eH8KFASDGd8QZcCAPwTy1Ji9Ngf1tvq3N563ZFZuvfhOKgTqIFSb4gA4Bww2Qi8W875ewGQnqKjc1JFQ55tl1xTDa7N35x1952Eq18zWBmTCgziCFgAiZ4j9zPuPm2QRfi1v8btk=
+	t=1725040580; cv=none; b=TQ7Kwqsep8IOZNccHQopD+jUE05ZNMcdlrnBnjjTdLlzctLFJozZm0d4okz1gEqlHTexW8WMp37TGH2VnwqnOz7j9eqkN0iUud3VIL+TQnc26rGQqcCPdl4MuBmkM3eMb2bvHyft7rQqXNulptqYSIrDyl7tFz0vQzDahPPZMyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725038059; c=relaxed/simple;
-	bh=ajZD+MTyKZARFyIT3+mQii7dHcoc5L9nz2SJ3VG7Ms0=;
+	s=arc-20240116; t=1725040580; c=relaxed/simple;
+	bh=wESxdFugx2eesG5eK8a08iV4T0y3t+JDuu+QI5JHjBA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=amYQTOPLcSgAZ+7I0ya4r1yOwTVNyKsEkxUwAlVeXDA7a1Upo9ZnB1DZUOBRony0QD6QTHGFRs/7XdeoSin66NVJ8UwVnOr98UXZP2Uce8PENSbeyvkw3ssMMwUuNHJ983cntDnIIu550bwGt9pkyrR1B9AaG+YKR1UaNp+ATaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G451Q+L3; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=u12HH4tkYuJBOHdWaeWQxZegGRMaxa/CaO19z2Yv7G6AuMUlXAknsvyFZBT7lq+v377ShtijMGzU33OjXh3Vrv8hPRvwrvpUZ8Tx6HAmzzgAHvVdUXiFDhD3qbf+AW0rdIS1bFTZCynIRvGJGEaK1FH13W1qz3G7YNeGnXA1VsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qy4RASa9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G451Q+L3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93311C4CEC7;
-	Fri, 30 Aug 2024 17:14:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qy4RASa9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01B41C4CEC2;
+	Fri, 30 Aug 2024 17:56:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725038059;
-	bh=ajZD+MTyKZARFyIT3+mQii7dHcoc5L9nz2SJ3VG7Ms0=;
+	s=k20201202; t=1725040579;
+	bh=wESxdFugx2eesG5eK8a08iV4T0y3t+JDuu+QI5JHjBA=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=G451Q+L3fByFCqoi3F0vPAlPFRbTw3iilXQr+lEQFLb1SjJTCo91RhE68KbEKjhbv
-	 VyjhiO+Ch8RNUkgKJ7l+g1pWVPL3Ie8dkzvhHySp8jMFFqG9QQG9UrzWTZIkYuIpNS
-	 Axt4O1u3gktuY4rc1oGerNkUopQB/YItBVjK9IZCXb7cjnT/1ww3twzjcBbWRiV+Rc
-	 59LnVtVNjhDr6hYpzAM74Sa4mV/kLOkD927aw3v+Ydpra7nKkbtkXnvM3FIypg8YSg
-	 h3LfHhLcPphBzr9nlQKWlAlA4C+BxS16wUboVGpPblnVbhU+2JyDywjt2DZdTp4+Ai
-	 ARmXqrm1kkiDQ==
-Message-ID: <b1d1f523-6852-4877-be73-85cb6728d9a8@kernel.org>
-Date: Fri, 30 Aug 2024 19:14:12 +0200
+	b=Qy4RASa9rmg1r2gMoiBDyMU+J/wTEMAQmGusuEbQmvv+ZcYrikWf2k9kfE8TzjNQS
+	 Q64k/Z+wqgqSVJqagRSRd3FR6o0VsfeF9dMa4pVx/0h1S+g/v6QhQc5+JVZFdVHkhZ
+	 kTgkdUgKWhj+0Wu/TWrfZwVy6qZsrVWTnqQBv8NA9cXh1RXTpuK0l5FaXCjwT7EVkq
+	 CbHz05fQzBpNJeDDIwZwujKYAn766ZQniPD8Qy4ikG7KhfDUQLJYNQ/hkEW05F0e1g
+	 yMpDl9a8CqnoI29QDvXk9p+e5yjrn/nwt3UMLnV7wvK+zTrKBUS8kdHtuYqF2K0WIK
+	 PVaJh3MVwFbPA==
+Message-ID: <ecbea95e-e48a-4792-97cc-1c325cc7765e@kernel.org>
+Date: Fri, 30 Aug 2024 19:56:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,15 +35,12 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] ASoC: codecs: Switch to use dev_err_probe()
-To: Yang Ruibin <11162571@vivo.com>, Lars-Peter Clausen <lars@metafoo.de>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: opensource.kernel@vivo.com
-References: <20240830014733.3467006-1-11162571@vivo.com>
+Subject: Re: [PATCH v3] irqchip: madera: Simplify with dev_err_probe()
+To: Yan Zhen <yanzhen@vivo.com>, ckeepax@opensource.cirrus.com,
+ rf@opensource.cirrus.com, tglx@linutronix.de
+Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+ linux-kernel@vger.kernel.org, opensorce.kernel@vivo.com
+References: <20240830084620.396417-1-yanzhen@vivo.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -89,41 +86,49 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240830014733.3467006-1-11162571@vivo.com>
+In-Reply-To: <20240830084620.396417-1-yanzhen@vivo.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 30/08/2024 03:47, Yang Ruibin wrote:
-> Using dev_err_probe() instead of dev_err() in probe() simplifies
-> the error path and standardizes the format of the error code.
+On 30/08/2024 10:46, Yan Zhen wrote:
+> Switch to use dev_err_probe() to simplify the error path and
+> unify a message template.
 > 
-> Signed-off-by: Yang Ruibin <11162571@vivo.com>
+> Using this helper is totally fine even if err is known to never
+> be -EPROBE_DEFER.
+> 
+> The benefit compared to a normal dev_err() is the standardized format
+> of the error code, it being emitted symbolically and the fact that
+> the error code is returned which allows more compact error paths. 
+> 
+> Signed-off-by: Yan Zhen <yanzhen@vivo.com>
 > ---
->  sound/soc/codecs/ad1980.c   |  8 +++-----
->  sound/soc/codecs/adau1701.c | 19 +++++++------------
->  sound/soc/codecs/ssm2602.c  |  6 ++----
->  3 files changed, 12 insertions(+), 21 deletions(-)
 > 
+> Changes in v3:
+> -Rewrite the subject as 'irqchip: madera:'.
+> 
+>  drivers/irqchip/irq-madera.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/irqchip/irq-madera.c b/drivers/irqchip/irq-madera.c
+> index acceb6e7fa95..d5ad4466a140 100644
+> --- a/drivers/irqchip/irq-madera.c
+> +++ b/drivers/irqchip/irq-madera.c
+> @@ -199,9 +199,8 @@ static int madera_irq_probe(struct platform_device *pdev)
+>  		ret = regmap_update_bits(madera->regmap, MADERA_IRQ1_CTRL,
+>  					 MADERA_IRQ_POL_MASK, 0);
+>  		if (ret) {
+> -			dev_err(&pdev->dev,
+> -				"Failed to set IRQ polarity: %d\n", ret);
+> -			return ret;
+> +			return dev_err_probe(&pdev->dev, ret,
+> +						"Failed to set IRQ polarity");
 
-...
+Another example, one of many from @vivo.com, where you touch one line
+and leave everything else.
 
-> diff --git a/sound/soc/codecs/ssm2602.c b/sound/soc/codecs/ssm2602.c
-> index c29324403..153eb55a3 100644
-> --- a/sound/soc/codecs/ssm2602.c
-> +++ b/sound/soc/codecs/ssm2602.c
-> @@ -605,10 +605,8 @@ static int ssm260x_component_probe(struct snd_soc_component *component)
->  	int ret;
->  
->  	ret = regmap_write(ssm2602->regmap, SSM2602_RESET, 0);
-> -	if (ret < 0) {
-> -		dev_err(component->dev, "Failed to issue reset: %d\n", ret);
-> -		return ret;
-> -	}
-> +	if (ret < 0)
-> +		return dev_err_probe(component->dev, ret, "Failed to issue reset\n");
-
-After quick look, I think this might not be a probe path, thus the code
-might not be correct.
+Are you going to send 5 different patches - one per each line? It's
+nonsense.
 
 Best regards,
 Krzysztof
