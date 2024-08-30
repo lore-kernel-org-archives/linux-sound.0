@@ -1,180 +1,91 @@
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2080.outbound.protection.outlook.com [40.107.215.80])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E7114EC7C;
-	Fri, 30 Aug 2024 07:05:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.215.80
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725001543; cv=fail; b=AWyS4nFv3Rg4Lj+LcWNx5NCJ6gPqKG2E0fcYnZB+MRA/r1BRnK4+K2H8LDPW3yMozwGH7t6fVGKPcyRq650g/lbfMBgTewUupStFSx4/Q4XqCxWDw9GNCDq7qZfu4ddFpiBzzb0eAaZc39GMALOxbTpLSr1N/4XUliVsmHLilgg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725001543; c=relaxed/simple;
-	bh=xcK7DMRnFshWgkQY3h6gieej/wQT6Pm5BvvgRkmnCoA=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=H18mwuKcUMqDmJ4SzHmH2tVf6LBk2aUYgkPdHw8OciXcdlrKXEjeV9upfZ+W52wLnsj9oAej9z0XRLs25gV0gCvbouW812llsnSXx2ACF3fyyGeyuQb6UglFY0N79vpmJrvt0EV+sINdkLlfeqK/PcjEvPYBvrWbDqNbV/8QVuE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=lqhvX2sM; arc=fail smtp.client-ip=40.107.215.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93DB41531FE
+	for <linux-sound@vger.kernel.org>; Fri, 30 Aug 2024 07:25:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725002715; cv=none; b=EgNhZbOxh1PvUTxUD2twjD8O7P9PaF36FX+zquMTK9JEAwwUNI5c8JA/oI/NbewKtFOCCkij+94bWAxu5oFN1y35YPSXJLazTuOck7Yxs628xaIRq3TdGJRuYqBjFoQhsuBGejvd3F2BRum7BnmUDTsPRZOIvqHoBipIVi3bzOk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725002715; c=relaxed/simple;
+	bh=hRtnmgq6/i+1ww35w6YdNWKJllCEkWo6iKOURc59qu4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RHBr4Cfbrb+6cKvlfeCCjWHHHqSrztV4zsrP05Jl1anm2pS/nHejNl1zVEl4QNEPCgInf+suuLe/izpHqk1aHQQiSTVorp1aZpjK4/8To75s8jnxsWuaM+brZ6IxvUxDq27x7eSXDE5y8cI6Ec2gMyZ8zdDB1Xdx/BnZK9WNlwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YoQLE0gY; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="lqhvX2sM"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eOgR8BUFuTkVOI/Dahs/JV+XhQBNG4In8Y81PMpvoEXOG58AZhSRT0lImWF7xYApIsJpFCjaBe2LZoiMETZ/Ca1bj2wKR2J/7DjCm/6jVEYk8d2xVQdgUra+iCHMlcCoQg1x2ZqXeWOxVWPftgnUZiXxiVmz5z3vzjtG/hW/m4KwS19nRf+vY+doadyQu+webqdw1qFNoqrsoXO55v5poH01KdtPN41L2TxPNsqGGWmTWcpmO0YOs1r+URq5nvQ7Xp6S95q84BxxK0ov3OfSbOJ1dwXZh5nYTpghMh1QT51/G+9MsNbOu9+sZsr+rg0nrDxW81UipMOnilG4XD/zpQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gZe1OG7+Yr1X7hVRUJy/xCjYSjJkMA3UVP7A5N+//TY=;
- b=jiAulEwjoO0sRPMqcJilodqT4OpWTHrLFpXPK7AvJ65yJDj+7m9HhD494YYXpErkiQkCasj8fE/+Mu6e/rOhSC/9YZEzKpHqK/sga5bDVmy/sE3M1DYtT3KSfEbnNhYoBJE1syITlE4Ts4LZD1hPVciwhWT26A2BKvQgFPTTmjkCi0Q/IFIM0vw/EzciUR2ARUPgNh9O8UxsSLpKV8+VZOIfyObs1dWZog9Ea2jxw6gDAxfIjqJYSAHQmS2HV+Fuz7RTsngIL3B4/utbDliCfTLwJQjMNIWSo1jHan8H3rPwbBtERypjZrkJ6ak8vHrWTLxnja8q/+yIqxMtOHMWOg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gZe1OG7+Yr1X7hVRUJy/xCjYSjJkMA3UVP7A5N+//TY=;
- b=lqhvX2sMLEWpeGReLI6qWu4IbfvBmg+8Q0iRon+vSUQcnF59J7xc0GnooUMwyNkuaN6WMgCpGtheWXRCuErx8TNrGYUyVAPiaK6cwVhGS9cTE6rtpeQL9Bp+lC5AI9Qf9oo/S+ta7gERztBqmvrzZMLSkn6Ew1zAhLR2t4da31dDtoeuBziJRyQsmmnVq7R3qO7EKzUDCBtcvi+F93DqoTzStVKun3oV4FaKXZepN4qvf/S++QyEdU9k5Xe2ofnP95SE6b48Z6Hv9U+eoRJSWKEE1o6MzFDNaFNod/3Kt3pcNiMToTXDGkdSQy8rAlUMw5f5Y2ILP1M76M6jBOD9yQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from KL1PR0601MB4113.apcprd06.prod.outlook.com (2603:1096:820:31::7)
- by SEZPR06MB5071.apcprd06.prod.outlook.com (2603:1096:101:39::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.28; Fri, 30 Aug
- 2024 07:05:38 +0000
-Received: from KL1PR0601MB4113.apcprd06.prod.outlook.com
- ([fe80::7e85:dad0:3f7:78a1]) by KL1PR0601MB4113.apcprd06.prod.outlook.com
- ([fe80::7e85:dad0:3f7:78a1%4]) with mapi id 15.20.7918.019; Fri, 30 Aug 2024
- 07:05:37 +0000
-From: Yan Zhen <yanzhen@vivo.com>
-To: ckeepax@opensource.cirrus.com,
-	rf@opensource.cirrus.com,
-	tglx@linutronix.de
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YoQLE0gY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725002714; x=1756538714;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=hRtnmgq6/i+1ww35w6YdNWKJllCEkWo6iKOURc59qu4=;
+  b=YoQLE0gYV9XFXJE/zQaiy6FntJ45k3GcKPL9hmubV11DAwX+zmi42Y1/
+   vdBtXBuUOl8bOvN9AqIJMKVRV9PAKoy3v6bprhFTVyN+FA3QUdLTyI/2s
+   RxwNAyHYEmlvkQyKvxhsXizrX0aSq7QS8CqsW9cvPTAMJIJSNQLB9Ujw+
+   02qoJfoCjM0SwiICPVi5j5y/mYbpv7+qYIyLGw518pLqckqfhc0uuHi7A
+   C9HxtWe5bJJNXqhoe/BnK6tIFj+V2ri88o4ZfGlFqgrD02xPdDX0iFbRd
+   3u8LbBPRq3fMT4tTIp5QLgpvwLA+NLH4pxSdsuGoceMEbv+au7PLuDtZt
+   g==;
+X-CSE-ConnectionGUID: e1r2uzPKTCaBrBaFc9sLyg==
+X-CSE-MsgGUID: Vzi9brn7Szq2EdGhGy94jA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="27392900"
+X-IronPort-AV: E=Sophos;i="6.10,188,1719903600"; 
+   d="scan'208";a="27392900"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 00:25:13 -0700
+X-CSE-ConnectionGUID: ZRmqUAWcT8Cx6QCF48LLmA==
+X-CSE-MsgGUID: q/9301tXQXK3R8a5srKGaQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,188,1719903600"; 
+   d="scan'208";a="101329396"
+Received: from unknown (HELO yungchua-desk.intel.com) ([10.247.118.125])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 00:25:09 -0700
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: broonie@kernel.org,
+	tiwai@suse.de
 Cc: linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org,
-	opensource.kernel@vivo.com,
-	Yan Zhen <yanzhen@vivo.com>
-Subject: [PATCH v2] irqchip: Simplify with dev_err_probe()
-Date: Fri, 30 Aug 2024 15:05:04 +0800
-Message-Id: <20240830070504.289450-1-yanzhen@vivo.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TY2PR01CA0008.jpnprd01.prod.outlook.com
- (2603:1096:404:a::20) To KL1PR0601MB4113.apcprd06.prod.outlook.com
- (2603:1096:820:31::7)
+	pierre-louis.bossart@linux.intel.com,
+	bard.liao@intel.com,
+	peter.ujfalusi@linux.intel.com
+Subject: [PATCH] ALSA: hda: add HDMI codec ID for Intel PTL
+Date: Fri, 30 Aug 2024 15:24:58 +0800
+Message-ID: <20240830072458.110831-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: KL1PR0601MB4113:EE_|SEZPR06MB5071:EE_
-X-MS-Office365-Filtering-Correlation-Id: d22ee1cb-75fe-4839-56f8-08dcc8c2269d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?PRmQaZbecnIHwwp1eSLNF63gnw/SnkcuMY4S5Ze0ztOnDpWskp3BX8fTc86J?=
- =?us-ascii?Q?YvvZIcupteLg/n9JyjViijE8lf6k3BctFqcnPGRksmft5PbQaMDTNie6lFcm?=
- =?us-ascii?Q?FRb2L3+WgGc+/3YczQD6quBv8M8guUhuEaS3OeMu3VtnJdeCmCTDHE9v9kiJ?=
- =?us-ascii?Q?7gCyDH7rdWlS5LmSqAIKDACp4VCTpPNAtTO6gE37J6+4akhqIERV36DDN49s?=
- =?us-ascii?Q?O8xZexJg88Ezsxk1PYfC1sEI8Lx5J7M2l/6GXyLwNPcvSNrzfcAuiQ6Tu8a9?=
- =?us-ascii?Q?JJDMCrxN6Lfs9aWDObvclmIQOAk28d6qbsrxu0vMK+qWKA3cNR9dCkCS8Cwi?=
- =?us-ascii?Q?ECNWkG3l9B6Tku+cVJJ3QDv1pbXlA097W4rCTIQ3Dr6DeUSM0PKQE65Bd/38?=
- =?us-ascii?Q?9tXDByonZ6mS/4kyHuWZJFJp+af/O1U/1Zs1X54aLTvPaQdk/GkfAMf0jvTH?=
- =?us-ascii?Q?ShJcevOYuG5lwWsREEADO+U/fhEeZz9T1hKWtQQZHu0P24/LVgTrQg7Oih3G?=
- =?us-ascii?Q?7yVC2dhi/cTbidZVUqalhbd1tDh1VYv1AeGxMxNLuMus/omWbx6GWGck/pxt?=
- =?us-ascii?Q?IYYD5oQ78kwKiO4ojGgpaLLdL3PfW+LqqZY8nwfXuvvqniiMa07O6BX19+IF?=
- =?us-ascii?Q?1pK8+Q8ZsDzbl2028ncobRZVuI8GHzwz6KAM8z7rZNFoBspIDzuW8Wtz2kNj?=
- =?us-ascii?Q?GevE5mUnAl07h0zAXTSdxAl+oYPFxtRV5z3OtpWDIN93l9PNuo1VETBWWlnd?=
- =?us-ascii?Q?+XlvHEjKgneQHxFiG2e4F4qm8cNqNstQPuWup+Ll/UI/USFP8rtPOpefcpA/?=
- =?us-ascii?Q?tKPwKjwELHodoahKnWrSTX73eRKHqjaPhfiP/EB8Zt4TOyIlk4YeumOpwMio?=
- =?us-ascii?Q?CKVU/buPLgycuheAiG9NiF7iJYUoPifOhP9oYnoXlB7HLSCOXw+ci4iss87J?=
- =?us-ascii?Q?XTt591gM682lX51ny/cUUy77rcRNMDQFkiu4ZKFg9INJ8BKqdz7HSuIGVnpO?=
- =?us-ascii?Q?12BQh+QINnonQmkRo12PHiWo6UpDoF9XbH6tRzqv8buccX0Lyzwi/Z/C9BvG?=
- =?us-ascii?Q?HDHwok7vPBkPh+uR0Q9qgPDbTTivp0lyNOmTda7uWq/5bM1qUC3PYfFN6+Xc?=
- =?us-ascii?Q?K4ycdfUvEKRYj431/iXXu82EZL/3D+2AGdURCYWbE4Prv5C1ySil2cu/dQrh?=
- =?us-ascii?Q?jj58iwKoN4Pb8jAcrRkuCpo58TDfYFT/biLSsr/PF7OMtNWNNSKcQMbfV5ZS?=
- =?us-ascii?Q?0Xyd9V8LBx16aGtnwLRAnBXzHxiH6wovHqcq2+yzPmZzXdOzkFoSKLcrQc8Z?=
- =?us-ascii?Q?MX9hH9qYhnXsRQl5OVIWe5GEU4/+U1mcdqq3C6qf6EvujYEnPcr3J2DK8XD7?=
- =?us-ascii?Q?fH7wti3oexHIvIbnHYC1wMwU6e575DjTUpKf389A7P/gmaHgmA=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KL1PR0601MB4113.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?ZGjAJqy51L84VTinLZw9W66lE8hc2D8r6y4p+njxIs45cdiejWf2G/T/y9gE?=
- =?us-ascii?Q?+H1999liBAYJwrkcEsjaAIV00Z1ENYqouH3JJbq+RP8rVVo9BYAGZhh3WGyz?=
- =?us-ascii?Q?UpGdQ6BJfdkhanAqqDrgurxiBFWJlfTZeTYTOewnbRQdvwFfUzl2eKD+B6NS?=
- =?us-ascii?Q?o3ipxROzocQnGVavnmKsyfXAFbIGXEbDAw72kh/6WIos0Vu6WlzDfdMTF0jd?=
- =?us-ascii?Q?tNqzEroovcACCpr8nohTNb2LGPPwb17aU1XufWkSNGp6zYzE36FfSW+oOcC+?=
- =?us-ascii?Q?vEiFHEwWcrNCR12U1ugF0tP+SIQ9NMImkK+tjs8C4MHaS6rG0/ASsjr9eIhD?=
- =?us-ascii?Q?b6lSDdTqMQz3Rd7+cOScvwvQS8KxnxYudpmdhzMhXV7ZaESX+blssid5BNe3?=
- =?us-ascii?Q?vKoT7JcSODZuhW/5hk7BVQDszi42fFD9MemWzs4CNdoFHl7vfUf3iQqkeS1e?=
- =?us-ascii?Q?TS/4m2758DYCDKgsf/SQ1gcKS/N/9Kkrm8mtKmswA7cjxq4ej4SeSxs+kWTe?=
- =?us-ascii?Q?1eAclghFyjGlWMMWz+WT8zUTsEnpC2L/TQ2VGEMkyDQXQ4Qsc/XQtjijC8xc?=
- =?us-ascii?Q?bpySqt7BoJC8edLDnPDN1ke5IiEjtlIDkQCFSrC76H0mwtGCNbWg53RLGplK?=
- =?us-ascii?Q?y5/UECimnEwzGOD19sQ+wUnPbnIvSjBpM2A5LEbNl18SmDT/pDW38++xr/l3?=
- =?us-ascii?Q?fDbyJlvYyv1IZgbpRoVBw14cdRicyhL8QMGdSGjONtJ06J/I9KkcomHKTM53?=
- =?us-ascii?Q?gogGuiA0TJ8UdmqRydiaRhrJv2bJ2XjQXHAmf6FSQDgFtKo9ZiLVVjM45LBD?=
- =?us-ascii?Q?fJDHK91Wiii34Mei+N73jlSrzFoQi+Fi7pwmMTbcm+h/iA/vOaUPCBktlwXC?=
- =?us-ascii?Q?L47YTCd5SUXySjg6ez+oYVSvfiFS0JEpnoJQpY8NUUlE6hQBqJ8na+TWujRD?=
- =?us-ascii?Q?krP+FAyc5G18ANlaB84LGK/JjcYFifju5+QtWnXo186hl/AZd4xILbz4kfeK?=
- =?us-ascii?Q?qQSwcdlIe0KVb4WIGTqsnfb69SiAKdFTPJ33+MoFMAlxYZ9VqNGU4h1WNx2+?=
- =?us-ascii?Q?3l/dgBejcOoB395V0Y1EnLVz9RTEnXJyLxPZYDGTnH+fJ2n+TivlBPidfM/g?=
- =?us-ascii?Q?ptKCqkeWIePcgl7A32ygREN1gTrrYPuwPSIYYXon5900zBNdlcNIK7EJX6Co?=
- =?us-ascii?Q?uciw6DJQ4yDWIXi/D8E6oUG2l5YjyhlrsgX2sJzG/3SnN4ymgj0RN3V9qfAX?=
- =?us-ascii?Q?ngEIcMqp6rEW4R7NJhwXS2UEEFhIEz39znWSfJ0c1RjYTWwKJrhn7Jx6qNnh?=
- =?us-ascii?Q?Hyr/0tuC44KBwCkeWALhcFta7CIPB7vlypxxFHdqypG0+4M7/zN6boui6Q2J?=
- =?us-ascii?Q?GC0xonXxWai3Knkedbm5W/EIEhq2hm821XBdZaf9468k5i10ouWqktYPy8WT?=
- =?us-ascii?Q?MjJbuOgwDMTsZcDmyOZ4SOLwXA4SLdMcJe0IVxCyuyy22/wyy9+ywJ6pm2lV?=
- =?us-ascii?Q?BGU8SV5TtmpArOV9JEsZ17TgNBDX5eSvVu8P6wTiWJj5/GblN3yi408aHeN8?=
- =?us-ascii?Q?q29LzjLeOFMbonGcG29ezIqkkqbg9f6d8DvWVarR?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d22ee1cb-75fe-4839-56f8-08dcc8c2269d
-X-MS-Exchange-CrossTenant-AuthSource: KL1PR0601MB4113.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Aug 2024 07:05:37.8665
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: niZ2FxaVy6QqpiwGPc3Q7nK0nTlKeUpekWLDScQyOUnMRBmBRjx9dYpDsqWlb/mKk1pl4R5m285iBqiik8DGhw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB5071
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Switch to use dev_err_probe() to simplify the error path and
-unify a message template.
+From: Kai Vehmanen <kai.vehmanen@linux.intel.com>
 
-Using this helper is totally fine even if err is known to never
-be -EPROBE_DEFER.
+Add HDMI codec ID for Intel Panther Lake platform.
 
-The benefit compared to a normal dev_err() is the standardized format
-of the error code, it being emitted symbolically and the fact that
-the error code is returned which allows more compact error paths. 
-
-Signed-off-by: Yan Zhen <yanzhen@vivo.com>
+Signed-off-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 ---
+ sound/pci/hda/patch_hdmi.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Changes in v2:
--Rewrite the subject.
--Remove 'ret' from the message.
-
- drivers/irqchip/irq-madera.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/irqchip/irq-madera.c b/drivers/irqchip/irq-madera.c
-index acceb6e7fa95..d5ad4466a140 100644
---- a/drivers/irqchip/irq-madera.c
-+++ b/drivers/irqchip/irq-madera.c
-@@ -199,9 +199,8 @@ static int madera_irq_probe(struct platform_device *pdev)
- 		ret = regmap_update_bits(madera->regmap, MADERA_IRQ1_CTRL,
- 					 MADERA_IRQ_POL_MASK, 0);
- 		if (ret) {
--			dev_err(&pdev->dev,
--				"Failed to set IRQ polarity: %d\n", ret);
--			return ret;
-+			return dev_err_probe(&pdev->dev, ret,
-+						"Failed to set IRQ polarity");
- 		}
- 	}
- 
+diff --git a/sound/pci/hda/patch_hdmi.c b/sound/pci/hda/patch_hdmi.c
+index 78042ac2b71f..643e0496b093 100644
+--- a/sound/pci/hda/patch_hdmi.c
++++ b/sound/pci/hda/patch_hdmi.c
+@@ -4639,6 +4639,7 @@ HDA_CODEC_ENTRY(0x8086281d, "Meteor Lake HDMI",	patch_i915_adlp_hdmi),
+ HDA_CODEC_ENTRY(0x8086281e, "Battlemage HDMI",	patch_i915_adlp_hdmi),
+ HDA_CODEC_ENTRY(0x8086281f, "Raptor Lake P HDMI",	patch_i915_adlp_hdmi),
+ HDA_CODEC_ENTRY(0x80862820, "Lunar Lake HDMI",	patch_i915_adlp_hdmi),
++HDA_CODEC_ENTRY(0x80862822, "Panther Lake HDMI",	patch_i915_adlp_hdmi),
+ HDA_CODEC_ENTRY(0x80862880, "CedarTrail HDMI",	patch_generic_hdmi),
+ HDA_CODEC_ENTRY(0x80862882, "Valleyview2 HDMI",	patch_i915_byt_hdmi),
+ HDA_CODEC_ENTRY(0x80862883, "Braswell HDMI",	patch_i915_byt_hdmi),
 -- 
-2.34.1
+2.43.0
 
