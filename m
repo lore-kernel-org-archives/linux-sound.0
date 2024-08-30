@@ -1,36 +1,54 @@
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA8412F59C;
-	Fri, 30 Aug 2024 14:32:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0AC61917E2;
+	Fri, 30 Aug 2024 14:48:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725028335; cv=none; b=nUZnwYCTA7GulkRJVjpXHkg8NpY+uGew3Kgt9LOS9XfMRWJjohuqKK7C3QVp37PAnbS+hyPzfE41bqiR1V9vFoZWmX8dhv0JWEvGqUhvDcVs5NxKBYtprjfEkkAz/7j4Ql3swOHYqzIOIlUn1sQRih2/QfwJV3rmuSUd5l692SQ=
+	t=1725029314; cv=none; b=lbNrVJqHG4aRmF7j8B8npAChGXoPQNy2ry3tCQQB5gpQK7v80NfwijrToHj46xS878DETcjorWN/5vYWADQHp28ExY96DAEjrs39pjhEijssn0Fh4tjsUwVyYhV6cb5P/Jrc5L/gFBuSFuUGI22ntGNh1XwMkbspCODyqxe4n7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725028335; c=relaxed/simple;
-	bh=EQPfdMGpmy4y59m3UT+tPKNiDni+BRn+4R2jOhZFPiw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=R6TAoY1PsBzDg7ThUfcDRGFZDayArxTG3mKO5XYTCvYgNkh4i2T2oQ3C/Ejm1cnQ/RbD1pWFU71Htx9VQJfKO5gEsn7uccW0ZteSNrnkMBXizvytwCrk505EPXCzqqgyASRgsZjfip/uFhRT2c4WXVLGkkkvXWNxWnqMQwnoz7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
-	by APP-05 (Coremail) with SMTP id zQCowABnTTje19FmE_x+Cw--.16418S2;
-	Fri, 30 Aug 2024 22:32:02 +0800 (CST)
-From: Ma Ke <make24@iscas.ac.cn>
-To: oder_chiou@realtek.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	derek.fang@realtek.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Ma Ke <make24@iscas.ac.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH] ASoC: rt5682: Return devm_of_clk_add_hw_provider to transfer the error
-Date: Fri, 30 Aug 2024 22:31:54 +0800
-Message-Id: <20240830143154.3448004-1-make24@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1725029314; c=relaxed/simple;
+	bh=1MVxMZuUMGmZv9ffTjULk4PjapvB6RE1uq4SGs4CVQo=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gfg3S89qrzN0NZEOY6BYqQ9lBE6T4vQEW0ehZ5x2c6mgzCI21BRcaN/JklE8tNQJoFyHS3U0D0RrYxXAaO0Icdpch1GlGX+4C1YOdNyoMt7oImtVa+XubymarCwms3quGzH5MCsd5hPZkMJlJh+ik+FPxFYQzveqwsOIz3NGWnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=E0RHKaIX; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="E0RHKaIX"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47U6g4n8029742;
+	Fri, 30 Aug 2024 09:48:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=POjgcX6nbxbSeL4s
+	vGSRtgBKOJDds0kexrHsGUGyl0o=; b=E0RHKaIXfrX1qEJ3ldqzDmQy6P0L3wPY
+	PNnyB33Vdt52ryokASECD6ifOJPww9N7OcmGu23UE4kdcUsYTIGpEuVRhSNkdDHM
+	OF1XJkW+vK9GTaeGh5YF4OPJg+7oYB5sguCdrBB2ezzMJuhqhaYihnoggnAVDR+m
+	NLMCIwR2CZqB5taCfXOIFsZow4BxCcj/izSs1l4c0wBw/VUegUZx5CLY52U9Qhvc
+	Sqfd0Xe3T+tuhcfn39h24+HO3O/W0EPYHKjCzRCvVnL+Sa8FfiXDCK5BrWiQfiE+
+	vx4HH2BE1uhogqFrwY6rsV++eTB5lULLv+thMN9e39dX45fTjM6Zng==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 419pukbvc3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 30 Aug 2024 09:48:22 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 30 Aug
+ 2024 15:48:19 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Fri, 30 Aug 2024 15:48:19 +0100
+Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 99278820244;
+	Fri, 30 Aug 2024 14:48:19 +0000 (UTC)
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+To: <broonie@kernel.org>
+CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <patches@opensource.cirrus.com>
+Subject: [PATCH] ASoC: cs-amp-lib: Add KUnit test case for empty calibration entries
+Date: Fri, 30 Aug 2024 15:48:19 +0100
+Message-ID: <20240830144819.118362-1-rf@opensource.cirrus.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -38,52 +56,84 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowABnTTje19FmE_x+Cw--.16418S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7JFWrGF4UGw45ZFyfKry8Krg_yoWDGrbEya
-	y8uayjqryDGr4Ik39rJF4Yy3WvvryfCrW2vr1jganxGryxJr13tF17JFy3Z3Z8Xrs7tF15
-	CF17trWFgrySyjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbfAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-	Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-	0DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
-	64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8Jw
-	Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAG
-	YxC7M4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7V
-	AKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
-	r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6x
-	IIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAI
-	w20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x
-	0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VU122NtUUUUU==
-X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
+Content-Type: text/plain
+X-Proofpoint-GUID: ve36sNyYpHnK14h_LFkXzVPQK7J64Etl
+X-Proofpoint-ORIG-GUID: ve36sNyYpHnK14h_LFkXzVPQK7J64Etl
+X-Proofpoint-Spam-Reason: safe
 
-Return devm_of_clk_add_hw_provider() in order to transfer the error, if it
-fails due to resource allocation failure or device tree clock provider
-registration failure.
+Add a test case for commit bb4485562f59 ("ASoC: cs-amp-lib: Ignore
+empty UEFI calibration entries").
 
-Cc: stable@vger.kernel.org
-Fixes: ebbfabc16d23 ("ASoC: rt5682: Add CCF usage for providing I2S clks")
-Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+Any entries in the calibration blob that have calTime==0 are empty
+entries. So they must not be returned by a lookup.
+
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
 ---
- sound/soc/codecs/rt5682.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ sound/soc/codecs/cs-amp-lib-test.c | 44 ++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
 
-diff --git a/sound/soc/codecs/rt5682.c b/sound/soc/codecs/rt5682.c
-index e3aca9c785a0..aa163ec40862 100644
---- a/sound/soc/codecs/rt5682.c
-+++ b/sound/soc/codecs/rt5682.c
-@@ -2903,8 +2903,10 @@ int rt5682_register_dai_clks(struct rt5682_priv *rt5682)
- 		}
+diff --git a/sound/soc/codecs/cs-amp-lib-test.c b/sound/soc/codecs/cs-amp-lib-test.c
+index 8169ec88a8ba..a6e8348a1bd5 100644
+--- a/sound/soc/codecs/cs-amp-lib-test.c
++++ b/sound/soc/codecs/cs-amp-lib-test.c
+@@ -515,6 +515,49 @@ static void cs_amp_lib_test_get_efi_cal_zero_not_matched_test(struct kunit *test
+ 	kunit_deactivate_static_stub(test, cs_amp_test_hooks->get_efi_variable);
+ }
  
- 		if (dev->of_node) {
--			devm_of_clk_add_hw_provider(dev, of_clk_hw_simple_get,
-+			ret = devm_of_clk_add_hw_provider(dev, of_clk_hw_simple_get,
- 						    dai_clk_hw);
-+			if (ret)
-+				return ret;
- 		} else {
- 			ret = devm_clk_hw_register_clkdev(dev, dai_clk_hw,
- 							  init.name,
++/*
++ * If an entry has a timestamp of 0 it should be ignored even if it has
++ * a matching target UID.
++ */
++static void cs_amp_lib_test_get_efi_cal_empty_entry_test(struct kunit *test)
++{
++	struct cs_amp_lib_test_priv *priv = test->priv;
++	struct cirrus_amp_cal_data result_data;
++	u64 uid;
++
++	cs_amp_lib_test_init_dummy_cal_blob(test, 8);
++
++	/* Mark the 3rd entry invalid by zeroing calTime */
++	priv->cal_blob->data[2].calTime[0] = 0;
++	priv->cal_blob->data[2].calTime[1] = 0;
++
++	/* Get the UID value of the 3rd entry */
++	uid = priv->cal_blob->data[2].calTarget[1];
++	uid <<= 32;
++	uid |= priv->cal_blob->data[2].calTarget[0];
++
++	/* Redirect calls to get EFI data */
++	kunit_activate_static_stub(test,
++				   cs_amp_test_hooks->get_efi_variable,
++				   cs_amp_lib_test_get_efi_variable);
++
++	/* Lookup by UID should not find it */
++	KUNIT_EXPECT_EQ(test,
++			cs_amp_get_efi_calibration_data(&priv->amp_pdev.dev,
++							uid, -1,
++							&result_data),
++			-ENOENT);
++
++	/* Get by index should ignore it */
++	KUNIT_EXPECT_EQ(test,
++			cs_amp_get_efi_calibration_data(&priv->amp_pdev.dev,
++							0, 2,
++							&result_data),
++			-ENOENT);
++
++	kunit_deactivate_static_stub(test, cs_amp_test_hooks->get_efi_variable);
++}
++
+ static const struct cirrus_amp_cal_controls cs_amp_lib_test_calibration_controls = {
+ 	.alg_id =	0x9f210,
+ 	.mem_region =	WMFW_ADSP2_YM,
+@@ -696,6 +739,7 @@ static struct kunit_case cs_amp_lib_test_cases[] = {
+ 			 cs_amp_lib_test_get_cal_gen_params),
+ 	KUNIT_CASE_PARAM(cs_amp_lib_test_get_efi_cal_by_index_fallback_test,
+ 			 cs_amp_lib_test_get_cal_gen_params),
++	KUNIT_CASE(cs_amp_lib_test_get_efi_cal_empty_entry_test),
+ 
+ 	/* Tests for writing calibration data */
+ 	KUNIT_CASE(cs_amp_lib_test_write_cal_data_test),
 -- 
-2.25.1
+2.39.2
 
