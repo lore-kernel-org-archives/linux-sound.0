@@ -1,89 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02BF11531F5;
-	Fri, 30 Aug 2024 19:30:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0B491BD018;
+	Fri, 30 Aug 2024 20:38:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725046237; cv=none; b=EsTvDOgk+3r8B5L7/BfFIqzk/IKEYmHbTWdGJIH7+WSWFs7cwXCrEU1f3d7l17+70A1A1hVb1saogbHULQyjKQeJ3/yRxRzjlC7LKk5EusDljyIixP3WAQTNQddmbMQ+nwCCVM5TJP1vZgLR2ZbVEb4EOc6wSdKkZchmrp8hsgw=
+	t=1725050318; cv=none; b=SnOm0mDp4NaYGTT4cteWJwZmRNnxsizOcEAEo7RwGsY+b8sQozx+Bm0rX6RJ53qJNbxIt0Ye4JDeErN+DqqhkGd4FbBUbL/8ZNxVTMyjx9zpV7t3r/Jp2ElaeXqjmZd0DHSaYp728Cy3OwD9sLZi+4dgJepWzIT63nyzuxLnYio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725046237; c=relaxed/simple;
-	bh=rz8KDKw3aTWGQcJdgAqnxUa0Kv/DBZMxKlXY8HtiKFw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=FaySeFG/s3oIhW/0I9LJv+yWfA5UjmTWrcc0AN+RnMItV9Qu2wAIo7D8UaW8SVIRfT6qiMSZnqWbOEp0pjTKZwmIpPGXgJ0dOGf1WvNd10MqJ8zNBqKtejCLKCcYPDIUcvcsxzUTd9dJ2BT/ACl5XEIlIuWJNRagjlDe7ySvYzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jXcp/9+s; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725050318; c=relaxed/simple;
+	bh=T+c8/CczGD6UHcEZP3V+XY0cyMjORWr0myRFxNAsX1E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=el5WBBwfosu1PAgEIfo/ldshNt+4CA+s1gykbsfqvKnoZ+MjYj7WT4VUgdIft6CyjeLPn8/VRGteNAanaVj+/dz17Tipz3JjCTxfkyyNpcE+OEbTXLtVID55cK1+pC6ohfT01XV6IumF/B84RRZwHhl/R9/WI5gvtUyxPhmlnLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=ghLJuRGJ; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jXcp/9+s"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC793C4CEC2;
-	Fri, 30 Aug 2024 19:30:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725046236;
-	bh=rz8KDKw3aTWGQcJdgAqnxUa0Kv/DBZMxKlXY8HtiKFw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=jXcp/9+snMJHOYEgWuq8md6a8c055bh4zmF5ps27aLwFi5MpxHT10AitTZKkvZbt1
-	 nZFxYsO+Fqko0Vbwu+1leQo9D2jZhOMqBc2e0U+9zYp9EpLGswwYBMXk6ycolf74zO
-	 Mpn0hr/CtxZOBues2jY7VaWFauXfq0RBk8QH7nbKS6+p5tiZ0aCnLiKO2FOYNOjp7q
-	 +vzCwlLJL27xEPOQCp3P8/eWnlyiNa/Qb+xwKM/VXKk78JbZSbUWTxByHlQaM0yWxt
-	 wIciwVXClMWc8zuJzvVN4MtAVXK/SXDrcKA7Ic5taHyccl63gIsgN44tV8xq0IAHId
-	 tdLYhOGEMgNnw==
-From: Mark Brown <broonie@kernel.org>
-To: srinivas.kandagatla@linaro.org
-Cc: perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org, 
- linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, amit.pundir@linaro.org, 
- dmitry.baryshkov@linaro.org
-In-Reply-To: <20240816091210.50172-1-srinivas.kandagatla@linaro.org>
-References: <20240816091210.50172-1-srinivas.kandagatla@linaro.org>
-Subject: Re: [PATCH v2] ASoC: codecs: lpass-va-macro: set the default codec
- version for sm8250
-Message-Id: <172504623446.461126.12391681424311035210.b4-ty@kernel.org>
-Date: Fri, 30 Aug 2024 20:30:34 +0100
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="ghLJuRGJ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:
+	Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Y87Wj2BoC+XSVLs7maxMom4zaevBF7HD4ifA4tnI7jg=; b=ghLJuRGJLkEfPm7xljKFc2h7E1
+	iAgsV+/4FjNg4GSXxbdMGD6+b186qxKCFT69Gj111CPKIi40rF9i91SUvY9qdpy+UbljQ7lxJtB1o
+	r6qbOL2gJRthMpXsIXWljaeBKpLwCsQIAdIK5H2o4xvEZkNRL4ll4Gk8XJsiv1Kjw8eTXNx+OW3+A
+	NM8snfN7TryAdh2NHpPbSVXLNN/DmxxrSGfEtEpdFDBcAINr3XOeYGOxGho2CYGIkgSmBQihbW4P0
+	/ag6//15A+CoHKVhIO5PEplld9EV86hvi8N9FjKjchaBUMC0u027sIBuwl2EZWK9EwEoc9/2RGTF8
+	rWYJ6xjw==;
+Received: from i5e861921.versanet.de ([94.134.25.33] helo=phil.lan)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1sk8O9-0006ey-Hx; Fri, 30 Aug 2024 22:38:33 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	heiko@sntech.de,
+	marcin.juszkiewicz@linaro.org,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org
+Subject: [PATCH 0/3] Fixes for the audio setup on the rk3588-nanopc-t6
+Date: Fri, 30 Aug 2024 22:38:16 +0200
+Message-ID: <20240830203819.1972536-1-heiko@sntech.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-37811
+Content-Transfer-Encoding: 8bit
 
-On Fri, 16 Aug 2024 10:12:10 +0100, srinivas.kandagatla@linaro.org wrote:
-> sm8250 and sc7280 have lpass codec version 1.0, as these are very old
-> platforms, they do not have a reliable way to get the codec version
-> from core_id registers.
-> 
-> On codec versions below 2.0, even though the core_id registers are
-> available to read, the values of these registers are not unique to be
-> able to determine the version of the codec dynamically.
-> 
-> [...]
+The Nanopc-T6 board does contain some devicetree errors, that came to
+light with recent changes to the board.
 
-Applied to
+clock and port properties need to be part of the codec-binding like used
+on other codecs already and one property needs to be removed from the
+board.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Thanks!
+Heiko Stuebner (3):
+  ASoC: dt-bindings: realtek,rt5616: document mclk clock
+  ASoC: dt-bindings: realtek,rt5616: Document audio graph port
+  arm64: dts: rockchip: drop hp-pin-name property from audio card on
+    nanopc-t6
 
-[1/1] ASoC: codecs: lpass-va-macro: set the default codec version for sm8250
-      commit: 77212f300bfd6fb3edaabd1daf863cabb521854a
+ .../devicetree/bindings/sound/realtek,rt5616.yaml    | 12 ++++++++++++
+ arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtsi   |  1 -
+ 2 files changed, 12 insertions(+), 1 deletion(-)
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+-- 
+2.43.0
 
