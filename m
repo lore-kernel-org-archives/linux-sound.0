@@ -1,101 +1,182 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 588D218FDDA
-	for <linux-sound@vger.kernel.org>; Fri, 30 Aug 2024 10:56:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1F6518E370;
+	Fri, 30 Aug 2024 11:08:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725015385; cv=none; b=KOsthlGv03loD8A6v4tMkkv3L8mF1mnXmlV+kd+Gk7D55e2owRUjkQCyxHwAmnMfdBMjsFjzp8k/jwuEseiR6gaP8fnrOBd91DAP/Adr3QImQ6vu3PbyQ/dz8tNnIzSUpCcoTs7LNLJCFfOO5+C3EffmlIdaAIjd8vrtpMnHXg8=
+	t=1725016119; cv=none; b=Y8R8bZukQEJgZtRjuhGTdidScXvR6EsNTmXs+mzMVmJczUIwhoLGGqf/IcUpVmUBcdpaJVLJ/SiMyTsuwcGrmTGBmMkVX2aZ0A9z7Ukcm1K+CS9EPEImTbHd58jHm+LCdV+Q0YBEyDA08wj/OmotF6AvLhp5X0QcX8y+3slok3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725015385; c=relaxed/simple;
-	bh=0yNkwl+K5/f2VBOn0wh/xwNfO68u56iaPDTBCQB+eAs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f9lzefoCU66y48A8NWW5hDkA4lcOC1KbwxRmive66+5bizPO5EwIa33vgkF2JmERJhBtmall4dAmJVsuOnchNU9/BGHk9nsLlXbuO6EKCZbdHAjqX3YilZ5wR4ILkMBqtHHqe8aPPvlPa3Ya04udvxIqGuB85VxOOQjBRiLl2I0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xGVXmE+1; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1725016119; c=relaxed/simple;
+	bh=FDXpEFMdCgHKKnsiYxb9lfTvUOuOlXHynWcUecvE1VQ=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=M9iJF5n8Bm0kwzwZ44jCdbTmEXoIwdnLvIqCE4fzKWVz8nlU0m3e+4L+RXYWxpTgB4KLc5sA6EMK1MRaVKBOSUwnXJPdJG8vJO7sM3AkjMNLAa2Yt9pVsYBwO63jGkfDmKbrLnwE1ypPHNS69yANv3+jtTqIe+zgCxzQb4cvFOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=VQ6zC21B; arc=none smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xGVXmE+1"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5343e75c642so2153855e87.2
-        for <linux-sound@vger.kernel.org>; Fri, 30 Aug 2024 03:56:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1725015381; x=1725620181; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0gKyKcoJ3TdGstuho5BLbj3dZPw1dj82Fy+eFXEsXQM=;
-        b=xGVXmE+1pE+9jg7cyDn3RqoS9NbP3TyjTQXw5VuoMLjKHAFPF3AgtIo9LQTeeWtpTx
-         vJZiAPDn35JxD5oRpOyAQu7S5Gzt6sQWboITPGUkbFTPqf5vCxFRjzP2bSXtxWwaJK4c
-         +GWpGiDWNBhrO+Vjq/bUSax0d5zYUjpaWBGmqNN//5jV9KPqNbBIK8IpJCapYZ+/qguI
-         HkLsONC6n0r4/S1F/Z4qZvR5CZoy9W5wEOkjF8gY+zem3rvxs67WzAt8bI95Qn1PXh8p
-         pKXaggt42Aj3Dtda6E2yh4iXc3U1hJoyJxfJ0XnG69fYECp6PbpU7edDaMp/vzQYFuOo
-         QS3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725015381; x=1725620181;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0gKyKcoJ3TdGstuho5BLbj3dZPw1dj82Fy+eFXEsXQM=;
-        b=fxtj357JzA+UZ0v027amtKgkLkvBdps61ZdYIfAn94yWFeECdO9HT++u4zD+XqkhY5
-         +662EkmW6sZKLosi1SwkwvGmv/2E5/b+NrzPpJ810hwHlx5u3FpEDZmhprH3GRF2xwiH
-         AgaJ4GqIuG+TQ+7SDsF6XWf1h4geh5UPHFfVbNLO8iDnIa9m/gNYg2Y3DlsU2zNi+hWC
-         GIJ23sRBInSB52LYYY+1IQ5tlcw4Pcq8j+xgdj1mYSfwFQnDQESqqIr3OJ74Wwoj6Pe0
-         /I8Fxao/Hi3lb7el2+ksNAASC4Qu2cMCZGL0OczhmHxhYaukL9sCryacu71N4oJyC6gH
-         dZHg==
-X-Forwarded-Encrypted: i=1; AJvYcCW4NF8eeoUO1xSDxW2cEsdmd++K0pDyK9mHu1vB5X1qQ43ihAuN+Szf9foP5N601ZlrOyZ4gyoaPxiHPA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2DnHKY4HVwVLn8mXvRVga9EdCKElDFZdZRkEHNcGnKbKV2Gyu
-	SJe8jMi5uVevUDevAV6+A6KprIFKSY1UA2epkokeGXM26kruntJarxmGU//zXMI=
-X-Google-Smtp-Source: AGHT+IFhQ6PoGmrOUr14jdbBRUr38XMXRb64j/1OyzzvHshRezk/QL3UWUvUtUOcTCJicKZk+oUx6A==
-X-Received: by 2002:a05:6512:2309:b0:52e:98f6:c21f with SMTP id 2adb3069b0e04-53546b0b111mr1274057e87.16.1725015380724;
-        Fri, 30 Aug 2024 03:56:20 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53540827a11sm545340e87.162.2024.08.30.03.56.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Aug 2024 03:56:20 -0700 (PDT)
-Date: Fri, 30 Aug 2024 13:56:18 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bryan O'Donoghue <pure.logic@nexus-software.ie>
-Cc: srinivas.kandagatla@linaro.org, broonie@kernel.org, perex@perex.cz, 
-	tiwai@suse.com, alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, amit.pundir@linaro.org
-Subject: Re: [PATCH v2] ASoC: codecs: lpass-va-macro: set the default codec
- version for sm8250
-Message-ID: <7tzmorkxuaiztz4vabjvfclv6s5vu2dtlfd6vzlnz66jhg6y2p@msgesiuficec>
-References: <20240816091210.50172-1-srinivas.kandagatla@linaro.org>
- <0fcd3421-8086-44bc-b24f-7fb2262a675c@nexus-software.ie>
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="VQ6zC21B"
+X-UUID: 2fc27fee66c011ef8b96093e013ec31c-20240830
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=UyRBBoZvs5yZx9ee1wQlM3Yzcbs7XG0PM0g15NAHr6k=;
+	b=VQ6zC21BjAHL2ADw07ofbgtSxGKewqdmdJsymRcFTecF+MG6/xDL6GwSUbNyqwaP+wzsttgr6XEm6PedgGD0QpIAS1pw9a1CZUviLYRT9RqID4IZlehrTlKhWzPqX/tHWfgiEUgqYRDplGOjJlRrmpSVd22wLE3TeB8t3gj9Fkg=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.41,REQID:91cee89e-c5ed-4cc4-8e07-df5d81c97582,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:6dc6a47,CLOUDID:f08d30bf-d7af-4351-93aa-42531abf0c7b,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 2fc27fee66c011ef8b96093e013ec31c-20240830
+Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw02.mediatek.com
+	(envelope-from <macpaul.lin@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1173315110; Fri, 30 Aug 2024 19:08:29 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ MTKMBS14N2.mediatek.inc (172.21.101.76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Fri, 30 Aug 2024 19:08:28 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Fri, 30 Aug 2024 19:08:28 +0800
+From: Macpaul Lin <macpaul.lin@mediatek.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	<linux-leds@vger.kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+	<broonie@kernel.org>, Sebastian Reichel <sre@kernel.org>, Pavel Machek
+	<pavel@ucw.cz>, Sean Wang <sean.wang@mediatek.com>, Lee Jones
+	<lee@kernel.org>, Alexandre Mergnat <amergnat@baylibre.com>, Flora Fu
+	<flora.fu@mediatek.com>
+CC: Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
+	Macpaul Lin <macpaul.lin@mediatek.com>, Macpaul Lin <macpaul@gmail.com>, "Sen
+ Chu" <sen.chu@mediatek.com>, Chris-qj chen <chris-qj.chen@mediatek.com>,
+	MediaTek Chromebook Upstream
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, <linux-pm@vger.kernel.org>,
+	<linux-rtc@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, Chen-Yu Tsai <wenst@chromium.org>
+Subject: [PATCH v2 5/7] dt-bindings: leds: mt6323: merge to MFD mediatek,mt6397 DT schema
+Date: Fri, 30 Aug 2024 19:07:30 +0800
+Message-ID: <20240830110732.30080-5-macpaul.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20240830110732.30080-1-macpaul.lin@mediatek.com>
+References: <20240830110732.30080-1-macpaul.lin@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0fcd3421-8086-44bc-b24f-7fb2262a675c@nexus-software.ie>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--9.873000-8.000000
+X-TMASE-MatchedRID: pZGT1+TJBEa1DfGM6db7X7Gj3LN0+Ey9I9yVcHNDU7bo1+KnG60kJ0d0
+	Rzx07LDVAE+AZVTHj3U5b8Cn2AtzZF0U3RPW+iLPhK8o4aoss8rljSRvSGpq3Fmmz7LVVfOpQ0U
+	kLoLY8eZQnoa+pHlSjSRYcCcgpfWXvop7Aj3Fk4EMH4SsGvRsAx83WxJo1IH1bJknz+3f3aXET4
+	xkmX4BvK2hFZjS5hc6FXEpsEnvAUxDeuA2fujoFQe06kQGFaIWfS0Ip2eEHnz3IzXlXlpamPoLR
+	4+zsDTtc20lvB2foahAByKL5N6oM/dme64tMkQaUW4CUJyXHz2zYHV6i90eh1Zca9RSYo/b
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--9.873000-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP:
+	BAD89263B4BD01370AC4A7538461DFC4BBBB5232013248BBBC92DB454517322F2000:8
+X-MTK: N
 
-On Fri, Aug 30, 2024 at 09:37:39AM GMT, Bryan O'Donoghue wrote:
-> On 16/08/2024 10:12, srinivas.kandagatla@linaro.org wrote:
-> > From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> > 
-> > sm8250 and sc7280 have lpass codec version 1.0, as these are very old
-> > platforms, they do not have a reliable way to get the codec version
-> > from core_id registers.
-> > 
-> > On codec versions below 2.0, even though the core_id registers are
-> > available to read, the values of these registers are not unique to be
-> > able to determine the version of the codec dynamically.
-> > 
-> > Add the version info into of_data, so that driver does not need to use
-> > core_id registers to get version number for such situations.
-> > 
-> > Fixes: 378918d59181 ("ASoC: codecs: lpass-macro: add helpers to get codec version")
-> > Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> 
-> Seems to be fixing the reset I've been seeing on rb5
+Convert leds-mt6323.txt to be compatible with DT schema.
+Since this is a simple LED device node, merge it into parent
+mediatek,mt6397.yaml. Subsequently, remove leds-mt6323.txt with a
+separate patch.
 
-Let's hope this patch can find its way into v6.11
+Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
+---
+ .../devicetree/bindings/leds/leds-mt6323.txt  | 63 -------------------
+ 1 file changed, 63 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/leds/leds-mt6323.txt
 
-> Tested-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Changes for v1 and v2:
+ - This is the first version of converting leds-mt6323.
+   This is because converting leds-mt6323 together
+   with mfd/mediatek,mt6397.yaml, so we've create a patch set
+   instead of submitting single patch for each subdevice.
+ - This patch has been made base on linux-next/master git repo.
 
+diff --git a/Documentation/devicetree/bindings/leds/leds-mt6323.txt b/Documentation/devicetree/bindings/leds/leds-mt6323.txt
+deleted file mode 100644
+index 052dccb8..0000000
+--- a/Documentation/devicetree/bindings/leds/leds-mt6323.txt
++++ /dev/null
+@@ -1,63 +0,0 @@
+-Device Tree Bindings for LED support on MT6323 PMIC
+-
+-MT6323 LED controller is subfunction provided by MT6323 PMIC, so the LED
+-controllers are defined as the subnode of the function node provided by MT6323
+-PMIC controller that is being defined as one kind of Muti-Function Device (MFD)
+-using shared bus called PMIC wrapper for each subfunction to access remote
+-MT6323 PMIC hardware.
+-
+-For MT6323 MFD bindings see:
+-Documentation/devicetree/bindings/mfd/mt6397.txt
+-For MediaTek PMIC wrapper bindings see:
+-Documentation/devicetree/bindings/soc/mediatek/mediatek,pwrap.yaml
+-
+-Required properties:
+-- compatible : Must be one of
+-  - "mediatek,mt6323-led"
+-  - "mediatek,mt6331-led"
+-  - "mediatek,mt6332-led"
+-- address-cells : Must be 1
+-- size-cells : Must be 0
+-
+-Each led is represented as a child node of the mediatek,mt6323-led that
+-describes the initial behavior for each LED physically and currently only four
+-LED child nodes can be supported.
+-
+-Required properties for the LED child node:
+-- reg : LED channel number (0..3)
+-
+-Optional properties for the LED child node:
+-- label : See Documentation/devicetree/bindings/leds/common.txt
+-- linux,default-trigger : See Documentation/devicetree/bindings/leds/common.txt
+-- default-state: See Documentation/devicetree/bindings/leds/common.txt
+-
+-Example:
+-
+-	mt6323: pmic {
+-		compatible = "mediatek,mt6323";
+-
+-		...
+-
+-		mt6323led: leds {
+-			compatible = "mediatek,mt6323-led";
+-			#address-cells = <1>;
+-			#size-cells = <0>;
+-
+-			led@0 {
+-				reg = <0>;
+-				label = "LED0";
+-				linux,default-trigger = "timer";
+-				default-state = "on";
+-			};
+-			led@1 {
+-				reg = <1>;
+-				label = "LED1";
+-				default-state = "off";
+-			};
+-			led@2 {
+-				reg = <2>;
+-				label = "LED2";
+-				default-state = "on";
+-			};
+-		};
+-	};
 -- 
-With best wishes
-Dmitry
+2.45.2
+
