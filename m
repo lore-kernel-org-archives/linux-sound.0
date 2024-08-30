@@ -1,98 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93D89179652;
-	Fri, 30 Aug 2024 13:26:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA8412F59C;
+	Fri, 30 Aug 2024 14:32:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725024360; cv=none; b=j90rRXl1xjsU1YKk3kg7rS5XYguGWsq0m4BS0aqxquYb/3NdcPY918Az2njM0wN3yyVmbW7QiziRB7ckVUFSeox+ADMVhEP8A0ycSC/0q5OS0+MB52bNrmPt0QSH+/M7+SzUFM8JJjHV/Y90isnModtwgLt210NLylDH54HtVqg=
+	t=1725028335; cv=none; b=nUZnwYCTA7GulkRJVjpXHkg8NpY+uGew3Kgt9LOS9XfMRWJjohuqKK7C3QVp37PAnbS+hyPzfE41bqiR1V9vFoZWmX8dhv0JWEvGqUhvDcVs5NxKBYtprjfEkkAz/7j4Ql3swOHYqzIOIlUn1sQRih2/QfwJV3rmuSUd5l692SQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725024360; c=relaxed/simple;
-	bh=yNTgcxt0Jvmr1cytFFcqGGu1C6A7n+7i6AMHuwra94s=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=msOhP/gMgYbJ/R00kMgllF8T9supJRg6RfIOnnIAfX2CiMtBYFfKLXLc3B3UzI55P/jNMXytjCOG0r9Slx2RKDzjh9j9LvUqJlxqSF//SBOhxM7arWDHTUvFs9T1UY569VLxg7h7hfPdNn/LC6/vEjcxTsuDSY0FcV5/JEccR0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BI+ILC2W; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BI+ILC2W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73574C4CEC2;
-	Fri, 30 Aug 2024 13:25:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725024360;
-	bh=yNTgcxt0Jvmr1cytFFcqGGu1C6A7n+7i6AMHuwra94s=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=BI+ILC2WBeJTDWqQrcORGhSJsg6K2Pz+RbA7txVBNCZbIFbJGr1sLhCKonLQQsV9L
-	 VvITUft3oYcXxBAYx158mDpAeIJW1LzwZeXXDjLwltTWiLfAAj28T9sJo3vXsG4ZiI
-	 TPxCvcnL4dwMiVPDPcFIZKyWXgSpEqQ1RdArVD/Y1JOh6uPrgIlEBvI9pCTsMW5vuf
-	 P+8dAXUHiBMNlDsNZphv+FSnM+U9s0vEkLCaAr6bIYV9plDFnVsUZbEu60htGMAcnY
-	 wTOtyqUK4vXhSIO1g8dlRiNt4JNg7YiNYa1hgKGKLucL90XuPxT321iwazF/agsdeI
-	 lJa6oh9ZKcY2A==
-From: Mark Brown <broonie@kernel.org>
-To: Jerome Brunet <jbrunet@baylibre.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Kevin Hilman <khilman@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org
-In-Reply-To: <20240828-topic-amlogic-upstream-bindings-fixes-audio-snd-card-v2-0-58159abf0779@linaro.org>
-References: <20240828-topic-amlogic-upstream-bindings-fixes-audio-snd-card-v2-0-58159abf0779@linaro.org>
-Subject: Re: (subset) [PATCH v2 0/3] ASoC: dt-bindings:
- amlogic-sound-cards: document clocks property
-Message-Id: <172502435719.145062.8812088921353096920.b4-ty@kernel.org>
-Date: Fri, 30 Aug 2024 14:25:57 +0100
+	s=arc-20240116; t=1725028335; c=relaxed/simple;
+	bh=EQPfdMGpmy4y59m3UT+tPKNiDni+BRn+4R2jOhZFPiw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=R6TAoY1PsBzDg7ThUfcDRGFZDayArxTG3mKO5XYTCvYgNkh4i2T2oQ3C/Ejm1cnQ/RbD1pWFU71Htx9VQJfKO5gEsn7uccW0ZteSNrnkMBXizvytwCrk505EPXCzqqgyASRgsZjfip/uFhRT2c4WXVLGkkkvXWNxWnqMQwnoz7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
+	by APP-05 (Coremail) with SMTP id zQCowABnTTje19FmE_x+Cw--.16418S2;
+	Fri, 30 Aug 2024 22:32:02 +0800 (CST)
+From: Ma Ke <make24@iscas.ac.cn>
+To: oder_chiou@realtek.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	derek.fang@realtek.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Ma Ke <make24@iscas.ac.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH] ASoC: rt5682: Return devm_of_clk_add_hw_provider to transfer the error
+Date: Fri, 30 Aug 2024 22:31:54 +0800
+Message-Id: <20240830143154.3448004-1-make24@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-37811
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowABnTTje19FmE_x+Cw--.16418S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7JFWrGF4UGw45ZFyfKry8Krg_yoWDGrbEya
+	y8uayjqryDGr4Ik39rJF4Yy3WvvryfCrW2vr1jganxGryxJr13tF17JFy3Z3Z8Xrs7tF15
+	CF17trWFgrySyjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbfAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+	Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+	0DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
+	64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8Jw
+	Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAG
+	YxC7M4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7V
+	AKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
+	r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6x
+	IIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAI
+	w20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x
+	0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VU122NtUUUUU==
+X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
 
-On Wed, 28 Aug 2024 15:53:53 +0200, Neil Armstrong wrote:
-> Following an off-list discution with Jerome about fixing the following
-> DTBs check errors:
->     sound: Unevaluated properties are not allowed ('assigned-clock-parents', 'assigned-clock-rates', 'assigned-clocks' were unexpected)
->         from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-sound-card.yaml#
->     sound: Unevaluated properties are not allowed ('assigned-clock-parents', 'assigned-clock-rates', 'assigned-clocks' were unexpected)
->         from schema $id: http://devicetree.org/schemas/sound/amlogic,gx-sound-card.yaml#
->     sound: 'anyOf' conditional failed, one must be fixed:
->         'clocks' is a required property
->         '#clock-cells' is a required property
->         from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-> 
-> [...]
+Return devm_of_clk_add_hw_provider() in order to transfer the error, if it
+fails due to resource allocation failure or device tree clock provider
+registration failure.
 
-Applied to
+Cc: stable@vger.kernel.org
+Fixes: ebbfabc16d23 ("ASoC: rt5682: Add CCF usage for providing I2S clks")
+Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+---
+ sound/soc/codecs/rt5682.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/3] ASoC: dt-bindings: amlogic,axg-sound-card: document clocks property
-      commit: 4b1d9019b26fd654ebc2d0d2e100ed56ef1821f0
-[2/3] ASoC: dt-bindings: amlogic,gx-sound-card: document clocks property
-      commit: f189c972f86b00318cf2547b62e461cb98374e34
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/soc/codecs/rt5682.c b/sound/soc/codecs/rt5682.c
+index e3aca9c785a0..aa163ec40862 100644
+--- a/sound/soc/codecs/rt5682.c
++++ b/sound/soc/codecs/rt5682.c
+@@ -2903,8 +2903,10 @@ int rt5682_register_dai_clks(struct rt5682_priv *rt5682)
+ 		}
+ 
+ 		if (dev->of_node) {
+-			devm_of_clk_add_hw_provider(dev, of_clk_hw_simple_get,
++			ret = devm_of_clk_add_hw_provider(dev, of_clk_hw_simple_get,
+ 						    dai_clk_hw);
++			if (ret)
++				return ret;
+ 		} else {
+ 			ret = devm_clk_hw_register_clkdev(dev, dai_clk_hw,
+ 							  init.name,
+-- 
+2.25.1
 
