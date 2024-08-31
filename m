@@ -1,195 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76E5F16F0F0;
-	Sat, 31 Aug 2024 10:24:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBA044C99
+	for <linux-sound@vger.kernel.org>; Sat, 31 Aug 2024 10:57:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725099893; cv=none; b=cYb+ub5rCYK0IEvBeWsEc6Hrjf0roEy3iGiDbpoGLXdqpcBB2OhMgZiGFqJ7n53Qgz/9z42GXq/ic2FsECDWfA9fLfWuC6fO1aFrZZlh7IrehJtE4abg8HXSufKwvIJ2KeFcC2a4oM7d5Ck01WmMZdz5v1QVz9hFZstvraAEsaQ=
+	t=1725101871; cv=none; b=BeYypq56rJfkyo6kPDuQakCiMjx3bh6ANWWnPddSRMYI7OnavMUk7ilcpXcdzlHCdprsWAbyPqUB17Ks3KcYhEgjd1My4V+yY/j6u3jwTBwtmuptwHBJp/WVMUTXZnRaAsChQMwPMkLmDO1JYBcqIJrxeFI5ElNiCaA1kuRkDPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725099893; c=relaxed/simple;
-	bh=JaObuWEZUK4FTWTxsswtHtStwRyczcdv8rTcV+HpaGw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=k/le89ibVosI3r6eIiz7ahoTp1SlaS41J7wyqBF1hCvx6K2ybWPjsZ/2BevurzjeRf0KDtdFp+kAAOEkqElCrB9WmrnrdwTqoWLCLpoK0oAf6lgNevVzstq1XhktCG/uFBdvgz8bWkGARmyVkzDSEctNp4bewEmAwCfVThAtcZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=chdsIsiz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725101871; c=relaxed/simple;
+	bh=TDTTEdJ45JUbGSW1cnebGliSusHStKaUJb9+y0LMACw=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IQz+GdL49uwD8rvRqGrccGBNMq/PebIBeVF/JV+q5F8Csh2N7H+V3fb9+iaIPol+pZh6keojJPrwSoCgY++dG9atdZ0aVjg1NdIrM/RXfnouxOK8MNjlEetFsjKvWFj1FdMwbaxvCvyFDfJFjIfmXfJ9FGCCzdPrreY5r/jLwT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=y1hfM1N/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CIvW6b3d; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=y1hfM1N/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CIvW6b3d; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="chdsIsiz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19E4EC4CEC0;
-	Sat, 31 Aug 2024 10:24:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725099892;
-	bh=JaObuWEZUK4FTWTxsswtHtStwRyczcdv8rTcV+HpaGw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=chdsIsiz5ob3VHxzLH2w1Ue1FUzWxdHf8pxZb/hEMYYHtKTACz1kk5v+tVOtEDhi3
-	 QOK3MpTA5YITJixvJWIETE+nPnqIpqf5+xFatx4WtgBTLOfJs5wFTg+euCElNUSZ4z
-	 STrsTrKhWgcg7XgpOaeOyzPj9kkb6C6JEoWQYm/AtnN0pOWn4Dy+BAB1cmXVFVa6M0
-	 xZXKht1h+0JRsmMVrGXxPb4deZ9UNN1uCN3SyFQWIBGQiLEOnJC3TtFiSsE6nu56nb
-	 r17wOuT47QqNhhcDRS8E9u9/RureflYXHNc+7ZLOE5pIbJbDFcCaKAAlMCfw8NDiXp
-	 A9V2K43lw9BSQ==
-Date: Sat, 31 Aug 2024 11:24:40 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Daniel Vetter
- <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Helge Deller
- <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Mark Brown
- <broonie@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Maxime
- Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>, Saravana
- Kannan <saravanak@google.com>, Takashi Iwai <tiwai@suse.com>, Thomas
- Zimmermann <tzimmermann@suse.de>, Tomi Valkeinen
- <tomi.valkeinen@ideasonboard.com>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-fbdev@vger.kernel.org, linux-media@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-sound@vger.kernel.org, Sakari Ailus
- <sakari.ailus@iki.fi>
-Subject: Re: [PATCH v3 2/9] of: property: add
- of_graph_get_next_port_endpoint()
-Message-ID: <20240831112440.3fa997a1@jic23-huawei>
-In-Reply-To: <CAL_JsqLysakbSdENNy+_XvotK9_eHG0KP50s6gtfFUYntawyWw@mail.gmail.com>
-References: <87cylwqa12.wl-kuninori.morimoto.gx@renesas.com>
-	<87a5h0qa0g.wl-kuninori.morimoto.gx@renesas.com>
-	<20240826154009.GA300981-robh@kernel.org>
-	<87bk1ebz59.wl-kuninori.morimoto.gx@renesas.com>
-	<CAL_JsqLysakbSdENNy+_XvotK9_eHG0KP50s6gtfFUYntawyWw@mail.gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="y1hfM1N/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CIvW6b3d";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="y1hfM1N/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CIvW6b3d"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 71E281F838;
+	Sat, 31 Aug 2024 10:57:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1725101860; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mq6az45vhUW1nDJhj6rt9me3MqqDIbctZDcfHX8taw4=;
+	b=y1hfM1N/9aMGruPqVBLOsW5vyvxFdc+ksNymwIXVQh5OU/Mc1SqIWmhJEqizou1rnOhekB
+	1es2n5ERPk69q9Xk0RWYtpvIUf3enXyDAY1dOV7KKi1tBV97I5n6NycDb5iRjXgIklCF5X
+	ZN55p+VA6ZrCqo2JzJ6QP7ppDUXF34s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1725101860;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mq6az45vhUW1nDJhj6rt9me3MqqDIbctZDcfHX8taw4=;
+	b=CIvW6b3dZdiu/tgWLV/WAhJFzB44vRgUHPZW2XzL/pH2SYt8m/6Yi98Wh5eWI41Ej4iE+d
+	ZOYKT8sSR3Ep9jCw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="y1hfM1N/";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=CIvW6b3d
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1725101860; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mq6az45vhUW1nDJhj6rt9me3MqqDIbctZDcfHX8taw4=;
+	b=y1hfM1N/9aMGruPqVBLOsW5vyvxFdc+ksNymwIXVQh5OU/Mc1SqIWmhJEqizou1rnOhekB
+	1es2n5ERPk69q9Xk0RWYtpvIUf3enXyDAY1dOV7KKi1tBV97I5n6NycDb5iRjXgIklCF5X
+	ZN55p+VA6ZrCqo2JzJ6QP7ppDUXF34s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1725101860;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mq6az45vhUW1nDJhj6rt9me3MqqDIbctZDcfHX8taw4=;
+	b=CIvW6b3dZdiu/tgWLV/WAhJFzB44vRgUHPZW2XzL/pH2SYt8m/6Yi98Wh5eWI41Ej4iE+d
+	ZOYKT8sSR3Ep9jCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 44FDA139D3;
+	Sat, 31 Aug 2024 10:57:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id p1gaDyT30mY/IgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 31 Aug 2024 10:57:40 +0000
+Date: Sat, 31 Aug 2024 12:58:25 +0200
+Message-ID: <87h6b1j6we.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Hongbo Li <lihongbo22@huawei.com>
+Cc: <perex@perex.cz>,
+	<tiwai@suse.com>,
+	<linux-sound@vger.kernel.org>
+Subject: Re: [PATCH -next v2] ALSA: pcm: replace simple_strtoul to kstrtoul
+In-Reply-To: <20240831080639.3985143-1-lihongbo22@huawei.com>
+References: <20240831080639.3985143-1-lihongbo22@huawei.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 71E281F838
+X-Spam-Score: -3.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[huawei.com:email];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Tue, 27 Aug 2024 08:54:51 -0500
-Rob Herring <robh@kernel.org> wrote:
+On Sat, 31 Aug 2024 10:06:39 +0200,
+Hongbo Li wrote:
+> 
+> As mentioned in [1], "...simple_strtol(), simple_strtoll(),
+> simple_strtoul(), and simple_strtoull() functions explicitly
+> ignore overflows, which may lead to unexpected results in callers."
+> Hence, the use of those functions is discouraged.
+> 
+> This patch replace the use of the simple_strtoul with the safer
+> alternatives kstrtoul.
+> 
+> [1] https://www.kernel.org/doc/html/latest/process/deprecated.html#simple-strtol-simple-strtoll-simple-strtoul-simple-strtoull
+> 
+> Signed-off-by: Hongbo Li <lihongbo22@huawei.com>
+> 
+> ---
+> v2:
+>   - Avoid introducing the ret variable, suggested by Takashi.
+> 
+> v1: https://lore.kernel.org/all/1e4bee4b-023c-40e2-ac4a-f71299fa2efd@huawei.com/T/
 
-> +Jonathan C for the naming
->=20
-> On Mon, Aug 26, 2024 at 7:14=E2=80=AFPM Kuninori Morimoto
-> <kuninori.morimoto.gx@renesas.com> wrote:
-> >
-> >
-> > Hi Rob
-> > =20
-> > > > We already have of_graph_get_next_endpoint(), but it is not
-> > > > intuitive to use in some case. =20
-> > >
-> > > Can of_graph_get_next_endpoint() users be replaced with your new
-> > > helpers? I'd really like to get rid of the 3 remaining users. =20
-> >
-> > Hmm...
-> > of_graph_get_next_endpoint() will fetch "endpoint" beyond the "port",
-> > but new helper doesn't have such feature. =20
->=20
-> Right, but the "feature" is somewhat awkward as you said. You
-> generally should know what port you are operating on.
->=20
-> > Even though I try to replace it with new helper, I guess it will be
-> > almost same as current of_graph_get_next_endpoint() anyway.
-> >
-> > Alternative idea is...
-> > One of the big user of of_graph_get_next_endpoint() is
-> > for_each_endpoint_of_node() loop.
-> >
-> > So we can replace it to..
-> >
-> > -       for_each_endpoint_of_node(parent, endpoint) {
-> > +       for_each_of_graph_port(parent, port) {
-> > +               for_each_of_graph_port_endpoint(port, endpoint) {
-> >
-> > Above is possible, but it replaces single loop to multi loops.
-> >
-> > And, we still need to consider about of_fwnode_graph_get_next_endpoint()
-> > which is the last user of of_graph_get_next_endpoint() =20
->=20
-> I missed fwnode_graph_get_next_endpoint() which has lots of users.
-> Though almost all of those are just "get the endpoint" and assume
-> there is only 1. In any case, it's a lot more than 3, so nevermind for
-> now.
->=20
-> > > > +struct device_node *of_graph_get_next_port_endpoint(const struct d=
-evice_node *port,
-> > > > +                                               struct device_node =
-*prev)
-> > > > +{
-> > > > +   do {
-> > > > +           prev =3D of_get_next_child(port, prev);
-> > > > +           if (!prev)
-> > > > +                   break;
-> > > > +   } while (!of_node_name_eq(prev, "endpoint")); =20
-> > >
-> > > Really, this check is validation as no other name is valid in a
-> > > port node. The kernel is not responsible for validation, but okay.
-> > > However, if we are going to keep this, might as well make it WARN(). =
-=20
-> >
-> > OK, will do in v4
-> > =20
-> > > > +/**
-> > > > + * for_each_of_graph_port_endpoint - iterate over every endpoint i=
-n a port node
-> > > > + * @parent: parent port node
-> > > > + * @child: loop variable pointing to the current endpoint node
-> > > > + *
-> > > > + * When breaking out of the loop, of_node_put(child) has to be cal=
-led manually. =20
-> > >
-> > > No need for this requirement anymore. Use cleanup.h so this is
-> > > automatic. =20
-> >
-> > Do you mean it should include __free() inside this loop, like _scoped()=
- ? =20
->=20
-> Yes.
->=20
-> > #define for_each_child_of_node_scoped(parent, child) \
-> >         for (struct device_node *child __free(device_node) =3D         =
-   \
-> >              of_get_next_child(parent, NULL);                          =
- \
-> >              child !=3D NULL;                                          =
-   \
-> >              child =3D of_get_next_child(parent, child))
-> >
-> > In such case, I wonder does it need to have _scoped() in loop name ? =20
->=20
-> Well, we added that to avoid changing all the users at once.
->=20
-> > And in such case, I think we want to have non _scoped() loop too ? =20
->=20
-> Do we have a user? I don't think we need it because anywhere we need
-> the node iterator pointer outside the loop that can be done explicitly
-> (no_free_ptr()).
->=20
-> So back to the name, I don't think we need _scoped in it. I think if
-> any user treats the iterator like it's the old style, the compiler is
-> going to complain.
+Applied now.  Thanks.
 
-Hmm.  Up to you but I'd be concerned that the scoping stuff is non
-obvious enough that it is worth making people really really aware
-it is going on.
 
-However I don't feel strongly about it.
-For the other _scoped iterators there is some push back
-on the churn using them is causing so I doubt we'll ever get rid
-of the non scoped variants.  For something new that's not a concern.
-
-Jonathan
-
->=20
-> > For example, when user want to use the param.
-> >
-> >         for_each_of_graph_port_endpoint(port, endpoint)
-> >                 if (xxx =3D=3D yyy)
-> >                         return endpoint;
-> >
-> >         for_each_of_graph_port_endpoint_scoped(port, endpoint)
-> >                 if (xxx =3D=3D yyy)
-> >                         return of_node_get(endpoint) =20
->=20
-> Actually, you would do "return_ptr(endpoint)" here.
->=20
-> Rob
-
+Takashi
