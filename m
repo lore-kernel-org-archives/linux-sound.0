@@ -1,149 +1,120 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06448A926;
-	Sat, 31 Aug 2024 02:11:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B05581531D0;
+	Sat, 31 Aug 2024 05:51:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725070291; cv=none; b=cXB2TojueNbT/+65P6rOR47lHGT7XW4F03UOZlvxz+1erilK9pnQg0tSIwOn9AT/0LmK/Pl/rOWl+1uAzC4ZXs5M76Ub7YszP+1HJvASbqq6G5Xbxs8TCyHKeLZcUfQSHvRWkDd9ZBCnnAlyI0ilW+8l8fCnrURFmadmlzSQEJg=
+	t=1725083519; cv=none; b=Y6vZ0N1AR1aP/Fjck9KJl98tPd7n4gpdwwsNHs55tUAcUBBI7aX0GqIanllM2LAtUnjd8SIKHubWeOhs1RlLqqLRlkric67cUjxTSw3J7a0NlwCc0eJVYO2FOlDmEKxeTrxl/yqqg5kL/demMtt1+z/ClyHcVFCZ6lpCZS2k550=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725070291; c=relaxed/simple;
-	bh=tnAqR6UfpTUbRxBq5PIZ41Adc1DmuhagL8RLHPVvYGs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=TlrX3rKUkvNqVYaqRmdAxqlc2jwowyBibvO86PEZoSufYq1dbdgqOoeG1ZU6rw7EAlhCxCVoPiVaPJu2K1N0fgRXjwFEfFtyIF4f1sq0l40ZLO6Mc2eu02CBe77gyXpjFLRHbGkmosM9hJkcZGoqPJiCmc93xS6+tS+wfjAAvDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=LLy7Gdev; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1725083519; c=relaxed/simple;
+	bh=gPZnJLAmb2ixn8ewvoBsQp1uqRI1JfKOKD/pMy6DPEs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n3DWvOzAfGedBafrPr00W3hd3khzxagbFkFt7kaEOu3ReSvpqqkXaPbrD3bNQvswTr3Yixy1lM9Vx6HL773CouhXMCWFfzAYqSnz34AJ8CUB2mvxNHaRVBXV6IpVWongnlfRPa+OapCg41+RBPEG4IKsp53Bas6nkRgVsy9/CeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MXDV2zZr; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="LLy7Gdev"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47V20ZCO010779;
-	Sat, 31 Aug 2024 02:11:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	ZXvT5Stw1lH4jky1fc80QPaN+DcFiwOANNRjZIvJNek=; b=LLy7GdevN+hNB1Ai
-	+bsZ+P3IjSvNrxwWs3ZwWdhYuPYZD8oh5eGvmxZsJqMAFQrq5fFg9glCBVLSRmsh
-	3Hex0z8dSaNES7OxFt5vE8T+vsOL5ksDQ0Og1kM/ryG1vP4cajBq2gmaFUP1eey4
-	wwIRZYS6eljBkQoluIQhP/U8W8XV/Xj6B1n2j+uGm+RCkfK71TssORT6dub/ZH22
-	1oIKoKNxzYwwqYn0D9N9dFmGFy/9SxOjdUqV0mMbj+6TE4oqRwBhbzYT4TplwV/b
-	2uxQ+C1KO0TirfzzAd3a9V92lh5z/RIGILK1uItiZfs2UAAWiZR18RlcL2+iXJte
-	ZCV8Dg==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 419puvjjkq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 31 Aug 2024 02:11:12 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47V2BBSn022950
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 31 Aug 2024 02:11:11 GMT
-Received: from [10.110.4.92] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 30 Aug
- 2024 19:11:09 -0700
-Message-ID: <15039aad-0485-4fe7-aca5-3b59ffadcccb@quicinc.com>
-Date: Fri, 30 Aug 2024 19:11:09 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MXDV2zZr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725083515; x=1756619515;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gPZnJLAmb2ixn8ewvoBsQp1uqRI1JfKOKD/pMy6DPEs=;
+  b=MXDV2zZrjOs73n8Ig9wrrUsz71Zyj6zmpUDV+p0NrXjWy5H4aTwGG225
+   6edJGq3cJK+pzQEwrkLEZZRPvvyUE8qvXMayA/e6tUrhRVmDFSnRp/iVJ
+   /C/Smb8h2b8qGeCY4HrV0pK4+1C7Aoxgp70l+r8R1cedomtr3VQo8f0dq
+   7ujdqxxlEpl0ylxB1hQtO+wAbPEknXiE8gyuKcMx+ENYAw3NrewMX9nWv
+   ALlT3+fSJqQbeJ6/Ok1WeC2q8BVdvQOtJdiyrIzSSrKA8FXV8BNFbKZGz
+   IPduqnidWEqj4hq9I+hETcwpO0pPeDd/4X2oW37cFs75CChgXXwbWY7o5
+   Q==;
+X-CSE-ConnectionGUID: Rcq+VS/qQXWF1fs44yHyVg==
+X-CSE-MsgGUID: LB2NTPwCQTim/yXiJb7cwg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="26641534"
+X-IronPort-AV: E=Sophos;i="6.10,191,1719903600"; 
+   d="scan'208";a="26641534"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 22:51:55 -0700
+X-CSE-ConnectionGUID: Lmh+3MbJTRatYH3r/JoKcg==
+X-CSE-MsgGUID: rVRYx+vlQuis3rwFQlpgeg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,191,1719903600"; 
+   d="scan'208";a="68996526"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 30 Aug 2024 22:51:48 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1skH1V-0002NU-2w;
+	Sat, 31 Aug 2024 05:51:45 +0000
+Date: Sat, 31 Aug 2024 13:51:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Macpaul Lin <macpaul.lin@mediatek.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-leds@vger.kernel.org,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+	Pavel Machek <pavel@ucw.cz>, Sean Wang <sean.wang@mediatek.com>,
+	Lee Jones <lee@kernel.org>,
+	Alexandre Mergnat <amergnat@baylibre.com>,
+	Flora Fu <flora.fu@mediatek.com>
+Cc: oe-kbuild-all@lists.linux.dev, Bear Wang <bear.wang@mediatek.com>,
+	Pablo Sun <pablo.sun@mediatek.com>,
+	Macpaul Lin <macpaul.lin@mediatek.com>,
+	Sen Chu <sen.chu@mediatek.com>,
+	Chris-qj chen <chris-qj.chen@mediatek.com>,
+	MediaTek Chromebook Upstream <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org,
+	linux-rtc@vger.kernel.org, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, Chen-Yu Tsai <wenst@chromium.org>
+Subject: Re: [PATCH v2 1/7] regulator: dt-bindings: mt6323: Convert to DT
+ schema
+Message-ID: <202408311355.zKsAfb64-lkp@intel.com>
+References: <20240830110732.30080-1-macpaul.lin@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v26 19/33] ASoC: qcom: qdsp6: Introduce USB AFE port to
- q6dsp
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
-        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
-        <tiwai@suse.com>, <krzk+dt@kernel.org>, <Thinh.Nguyen@synopsys.com>,
-        <bgoswami@quicinc.com>, <robh@kernel.org>,
-        <gregkh@linuxfoundation.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>
-References: <20240829194105.1504814-1-quic_wcheng@quicinc.com>
- <20240829194105.1504814-20-quic_wcheng@quicinc.com>
- <ae0ae5f0-a3e9-49b4-95ba-524975d70659@linux.intel.com>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <ae0ae5f0-a3e9-49b4-95ba-524975d70659@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: VdoEpgeHo008CMaGqUIvxVZr5uOlC_nQ
-X-Proofpoint-GUID: VdoEpgeHo008CMaGqUIvxVZr5uOlC_nQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-30_12,2024-08-30_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- mlxlogscore=886 priorityscore=1501 bulkscore=0 impostorscore=0
- adultscore=0 malwarescore=0 phishscore=0 lowpriorityscore=0 mlxscore=0
- spamscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2408310016
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240830110732.30080-1-macpaul.lin@mediatek.com>
 
+Hi Macpaul,
 
-On 8/30/2024 2:12 AM, Pierre-Louis Bossart wrote:
->
-> On 8/29/24 21:40, Wesley Cheng wrote:
->> The QC ADSP is able to support USB playback endpoints, so that the main
->> application processor can be placed into lower CPU power modes.  This adds
->> the required AFE port configurations and port start command to start an
->> audio session.
->>
->> Specifically, the QC ADSP can support all potential endpoints that are
->> exposed by the audio data interface.  This includes, feedback endpoints
->> (both implicit and explicit) as well as the isochronous (data) endpoints.
-> I think you meant
->
-> "
-> this includes isochronous data endpoints, in either synchronous mode or
-> asynchronous mode. In the latter case both implicit or explicit feedback
-> endpoints are supported.
-> "
->
-> And now I don't remember how *controls* are handled.
->
-> Is this the case that all controls exposed by endpoint zero are visible
-> in both the regular USB-audio card AND the offloaded card, with changes
-> mirrored?
-I think we had a discussion about this previously, but can't seem to find it.  The USB volume controls (ie controls still handled by the control EP) are going to still reside only within the USB SND card.  As of now, there aren't any kcontrols that are being added to the ASoC platform card for offload.
-> It's important to explain so that the volumes are consistent no matter
-> which path is used. This should be added to the documentation.
->
->
->> +static const struct snd_soc_dai_ops q6afe_usb_ops = {
->> +	.probe		= msm_dai_q6_dai_probe,
->> +	.prepare	= q6afe_dai_prepare,
->> +	.hw_params	= q6afe_usb_hw_params,
->> +	/*
->> +	 * Shutdown callback required to stop the USB AFE port, which is enabled
->> +	 * by the prepare() stage.  This stops the audio traffic on the USB AFE
->> +	 * port on the Q6DSP.
->> +	 */
->> +	.shutdown	= q6afe_dai_shutdown,
->> +	/*
->> +	 * Startup callback not needed, as AFE port start command passes the PCM
->> +	 * parameters within the AFE command, which is provided by the PCM core
->> +	 * during the prepare() stage.
->> +	 */
-> Humm, now this is a bit confusing. Why would you need a shutdown, can't
-> you use the hw_free() callback for symmetry with prepare()?
+kernel test robot noticed the following build warnings:
 
-I thought that it was hw_params() -- hw_free() and prepare() -- shutdown()?
+[auto build test WARNING on broonie-regulator/for-next]
+[also build test WARNING on lee-mfd/for-mfd-next robh/for-next lee-mfd/for-mfd-fixes linus/master v6.11-rc5 next-20240830]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-"DPCM runs the PCM trigger(stop), hw_free(), shutdown() operations on DAI0 for headset since the path is now disabled.
+url:    https://github.com/intel-lab-lkp/linux/commits/Macpaul-Lin/dt-bindings-mfd-mediatek-mt6397-Convert-to-DT-schema-format/20240830-191309
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+patch link:    https://lore.kernel.org/r/20240830110732.30080-1-macpaul.lin%40mediatek.com
+patch subject: [PATCH v2 1/7] regulator: dt-bindings: mt6323: Convert to DT schema
+reproduce: (https://download.01.org/0day-ci/archive/20240831/202408311355.zKsAfb64-lkp@intel.com/reproduce)
 
-DPCM runs the PCM ops for startup(), hw_params(), prepare() and trigger(start) for DAI1 Speakers since the path is enabled."
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408311355.zKsAfb64-lkp@intel.com/
 
-https://www.kernel.org/doc/html/v6.10/sound/soc/dpcm.html
+All warnings (new ones prefixed by >>):
 
-Thanks
+>> Warning: Documentation/devicetree/bindings/net/dsa/mediatek,mt7530.yaml references a file that doesn't exist: Documentation/devicetree/bindings/regulator/mt6323-regulator.txt
+   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/exynos/
 
-Wesley Cheng
-
->
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
