@@ -1,95 +1,186 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from fout6-smtp.messagingengine.com (fout6-smtp.messagingengine.com [103.168.172.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B44146A67
-	for <linux-sound@vger.kernel.org>; Sun,  1 Sep 2024 09:30:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D5ED1CD2A;
+	Sun,  1 Sep 2024 11:06:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725183021; cv=none; b=OilPg3vt0e+kOTXE2SxvfPn6uWeIxmPhzQLPtIooDd2iTHsctiIsE5XV779rkUqBZyvNryYR3AF8/sfG8BwdzG6C6KXvNlVXnQU7l/d25lq76UJ1oecRLfZqK57usJzSO36+I53H0OVzI1Xv22l+u9L9RsM60/M6xVn4oi6XT/Y=
+	t=1725188812; cv=none; b=ERboOIXSuy+oGyFL+W/Xui/+T1qn/3dGc1/bd6+gywBAB/86fCGhvqLwL82ubnVfKBs2ic3GAHnqnfNhsODiA+fTdMAmIX1DomNKSRFNOa9VKmxnOFy3qld/lDs5Vo/ny5K3eiG6kkkEtxtAEG+P0be+yuWnShq9Z5x3a4WxIyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725183021; c=relaxed/simple;
-	bh=r+TB8BcpnZIjlsX1oZx0Ik0xKz0sByNtqbh90INSPxU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LN92eiDYs0Uxzyz/ScglecAWbdx3VH+yH8ETceYFhBx/EaBeTC8C/3UwaBUjUZ1N2xqfvujLegLQc/QEWySm+EELIzNDVE9ud15Nkqtk4vVPRQVBaXuBcQs9XJzQJ6K2+kN8y7tS7RyPXz8F2hEzfLD32In3YM3rh+i7XVdGbWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=MQAQkH3f; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1725188812; c=relaxed/simple;
+	bh=8EE//13VKyOOyKRwrbm4Wi/1OhvuxH0QAt9zH94+PAU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WRrrBOPql1XvV6+0dcBDMNC+lk7wtYtnnPKKDg4ECZBorOYHwu8ouyxbCH3e2dnkoGndJM5ecESXFjjQ/Ed7hDv8/T45JHK4ednbwxwH9JdZAShMnAgzH/nzQZQLGH/nn91S6WliAalY2kWff5PgkDZ83f1ZtpgCbcTiG5Ym+RM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=pi8VD0Ye; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=tj5Ar7Du; arc=none smtp.client-ip=103.168.172.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="MQAQkH3f"
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="pi8VD0Ye";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="tj5Ar7Du"
+Received: from phl-compute-01.internal (phl-compute-01.nyi.internal [10.202.2.41])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 6E9FE13802B3;
+	Sun,  1 Sep 2024 07:06:48 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Sun, 01 Sep 2024 07:06:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
+	:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to; s=fm1; t=1725188808; x=1725275208; bh=fQaHGBYS2v
+	UeI3Tw0ZhFpIQPr/E1ocVBSRnvZo0R4yM=; b=pi8VD0YeVzrO2hgD4uSGdtNyS8
+	nKANw8iXQNIaCD8/ORWUifpyIjxpJmMj2AkOgfY9Wrmq+wZ6Q/FYVHkUj2ah5/cI
+	FGGhw2pjNhfrcngpRZQyIO5N62HAaXqTIEBEZZWk8YinHes5lnVAFu52VJRCe4+x
+	8CaYf9SaSk9KzV5YcM46ctM0yrv0Ktem/+7imPDft9+VX6oxxt03faQSuObDmdfl
+	kDx66BjWb1z+k2cHqRH18SJgXG5pqO8KCz6f8/4f/Bl1TyjW1D4UQkCOeN+yxagL
+	S58YgHHIgzMQFN6NEzRvF1KYN/TTVkf4RjqPH9KienFSW/yCW/UeVXZQ4+BA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=r+TB
-	8BcpnZIjlsX1oZx0Ik0xKz0sByNtqbh90INSPxU=; b=MQAQkH3fc1zJk4T6L5gR
-	SioCtrWagfO9Y762eb+L733zjtGdRN3RF8oonCsY87YLuOnwsR5JrldgvSZi1aAE
-	Az2+8QqYGEiOzTc6bvnmgZQl7JcQyaIvzve70dcGj9iiv8j2DyIliroH0xzueMrD
-	djja92tG1EHg+eq3Nu1j/MCNWNV2cwONECctLfnlh0cnzNO9OOfq5DwAZHyuKX74
-	nu+bQBdLM3n6heAD864al+k20AdSyw8Aa8yNYXSMGJGI7ygOFO/qErIXkatXllOX
-	ER+h9gmg4Za6WGaXstVskgHAwYTtbKlkvXDXNHkww7hzKt7bI0+Z9RByWP0Q/q63
-	8g==
-Received: (qmail 3764297 invoked from network); 1 Sep 2024 11:30:16 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Sep 2024 11:30:16 +0200
-X-UD-Smtp-Session: l3s3148p1@UOHceAsh5LtegkeE
-Date: Sun, 1 Sep 2024 11:30:16 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Wolfram Sang <wsa@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 0/4] i2c: Replace lists of special clients with
- flagging of such clients
-Message-ID: <ZtQ0KMWUk9iAUCCl@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Wolfram Sang <wsa@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-	linux-sound@vger.kernel.org
-References: <3982b2a6-975e-40d2-bf02-2155e5c36c14@gmail.com>
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1725188808; x=1725275208; bh=fQaHGBYS2vUeI3Tw0ZhFpIQPr/E1
+	ocVBSRnvZo0R4yM=; b=tj5Ar7DuZLFwAg78ya0pbiOawfwX1328EZXN7ks0k4BH
+	VM4h7VvuMZr9/mmEEbMm3BaBseTAd+CtkEZyVQ3nyib8TtoqyKO/e/NIlmpOFwAY
+	pJdwaAF9vnASk4fnb6DkXXvZeU0qcqFkBdiMp9xbwEk8NT1fcSdVMUus5VzXGU8T
+	gpv52/uAzJLnLm+9Kmut9BmWNgo75107q9oAtZ9ZX+0rGgjsPr1Do1J74ha7cHz6
+	UwaZgmqMXmo5GzWw0tqiqppJP+nd8B9hW5TEk6e8M3KDxMhqkYwJEXnLAQNGAI44
+	dg1VKl2TaOGNp/LdO5SxxZrlwcywo08BmTpBfEKpVQ==
+X-ME-Sender: <xms:yErUZka4Ay8iJHswOOgnl1Rhu0pYdeZncMUCTPKIOzZ4TppnnDj9vQ>
+    <xme:yErUZvZ1ojhUULeRl5acEnZOEGzD8CxaBd4SoKN_h5fnwe3hlVrqR5KjuyCCpno9g
+    LoDLblXoi8TgrOBY-E>
+X-ME-Received: <xmr:yErUZu-VTx1xv-67afizRcQdz6WhbVmV65-V5xAO10ggsjMA4jTwETLewEHTHHwVMn9Klbwjd2v2nk2VKcMzBaxkX7SW1CFVKaL8eWhEAWw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudeghedgudefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevuf
+    ffkffoggfgsedtkeertdertddtnecuhfhrohhmpefvrghkrghshhhiucfurghkrghmohht
+    ohcuoehoqdhtrghkrghshhhisehsrghkrghmohgttghhihdrjhhpqeenucggtffrrghtth
+    gvrhhnpefgtdfhteehtdevfedtheehtdduhfevleehueejieffteefvdfhgfetgeekheet
+    ffenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdhgihhthhhusgdrtghomhenucevlh
+    hushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehoqdhtrghkrghs
+    hhhisehsrghkrghmohgttghhihdrjhhppdhnsggprhgtphhtthhopeejpdhmohguvgepsh
+    hmthhpohhuthdprhgtphhtthhopehlihhnuhigudefleegqdguvghvvghlsehlihhsthhs
+    rdhsohhurhgtvghfohhrghgvrdhnvghtpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvg
+    hlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqshhouhhn
+    ugesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegrphgrihhssehlihhnuh
+    igrdhmihgtrhhoshhofhhtrdgtohhmpdhrtghpthhtohepvggumhhunhgurdhrrghilhgv
+    sehprhhothhonhhmrghilhdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrse
+    hvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgvthguvghvsehvghgvrhdr
+    khgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:yErUZur8zroL-5ZT1O1Y__ws_dU5ojuTzdIgPBFB44O6X8wf8wAIhw>
+    <xmx:yErUZvqvV9Gz0kGrjQkRZ2E3cmWT9s6vuRCuWNqMDcd5YutIxtHe1A>
+    <xmx:yErUZsQlz3HqLpNm10wqSyLWZl28fh4sdemxSlVYgEk579X_TsFDNA>
+    <xmx:yErUZvq9bswMz4rMDuEtbzA7Jwq0B3scWs-7mXGwG3X1JbE_F6xRRA>
+    <xmx:yErUZrJpDUyCvFu_KAkxm67d3wpgIn1eHKZWQnV9XScdyV1yEq4s9peq>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 1 Sep 2024 07:06:46 -0400 (EDT)
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: linux1394-devel@lists.sourceforge.net
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	apais@linux.microsoft.com,
+	edmund.raile@protonmail.com,
+	linux-media@vger.kernel.org,
+	netdev@vger.kernel.org
+Subject: [RFT][PATCH 0/5] firewire: use sleepable workqueue to handle 1394 OHCI IT/IR context events
+Date: Sun,  1 Sep 2024 20:06:37 +0900
+Message-ID: <20240901110642.154523-1-o-takashi@sakamocchi.jp>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="gLxarFGjBp8f1UGO"
-Content-Disposition: inline
-In-Reply-To: <3982b2a6-975e-40d2-bf02-2155e5c36c14@gmail.com>
+Content-Transfer-Encoding: 8bit
+
+Hi,
+
+This series of change is inspired by BH workqueue available in recent
+kernel.
+
+In Linux FireWire subsystem, tasklet softIRQ context has been utilized to
+operate 1394 OHCI Isochronous Transmit (IT) and Isochronous Receive (IR)
+contexts. The tasklet context is not preferable, as you know.
+
+I have already received a proposal[1][2] to replace the usage of tasklet
+with BH workqueue. However, the proposal includes bare replacement for 1394
+OHCI IT, IR, Asynchronous Transmit (AT), and Asynchronous Receive (AR)
+contexts with neither any care of actual usage for each context nor
+practical test reports. In theory, this kind of change should be done by
+step by step with enough amount of evaluation over software design to avoid
+any disorder.
+
+In this series of changes, the usage of tasklet for 1394 OHCI IT/IR
+contexts is just replaced, as a first step. In 1394 OHCI IR/IT events,
+software is expected to process the content of page dedicated to DMA
+transmission for each isochronous context. It means that the content can be
+processed concurrently per isochronous context. Additionally, the content
+of page is immutable as long as the software schedules the transmission
+again for the page. It means that the task to process the content can sleep
+or be preempted. Due to the characteristics, BH workqueue is _not_ used.
+
+At present, 1394 OHCI driver is responsible for the maintenance of tasklet
+context, while in this series of change the core function is responsible
+for the maintenance of workqueue and work items. This change is an attempt
+to let each implementation focus on own task.
+
+The change affects the following implementations of unit protocols which
+operate isochronous contexts:
+
+- firewire-net for IP over 1394 (RFC 2734/3146)
+- firedtv
+- drivers in ALSA firewire stack for IEC 61883-1/6
+- user space applications
+
+As long as reading their codes, the first two drivers look to require no
+change. While the drivers in ALSA firewire stack require change to switch
+the type of context in which callback is executed. The series of change
+includes a patch for them to adapt to work process context.
+
+Finally, these changes are tested by devices supported by ALSA firewire
+stack with/without no-period-wakeup runtime of PCM substream. I also tested
+examples in libhinoko[3] as samples of user space applications. Currently I
+face no issue.
+
+On the other hand, I have neither tested for firewire-net nor firedtv,
+since I have never used these functions. If someone has any experience to
+use them, I would request to test the change.
+
+[1] https://lore.kernel.org/lkml/20240403144558.13398-1-apais@linux.microsoft.com/
+[2] https://github.com/allenpais/for-6.9-bh-conversions/issues/1
+[3] https://git.kernel.org/pub/scm/libs/ieee1394/libhinoko.git/
 
 
---gLxarFGjBp8f1UGO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Regards
 
-On Thu, Aug 22, 2024 at 09:45:37PM +0200, Heiner Kallweit wrote:
-> So far lists are used to track special clients, i.e. auto-detected and
-> userspace-created clients. The same functionality can be achieved much
-> simpler by flagging such clients.
+Takashi Sakamoto (5):
+  firewire: core: allocate workqueue to handle isochronous contexts in
+    card
+  firewire: core: add local API for work items scheduled to workqueue
+    specific to isochronous contexts
+  firewire: ohci: process IT/IR events in sleepable work process to
+    obsolete tasklet softIRQ
+  firewire: core: non-atomic memory allocation for isochronous event to
+    user client
+  ALSA: firewire: use nonatomic PCM operation
 
-This looks promising and I like the idea from a high-level perspective.
-Need to dive into the details. However, I think this is 6.13 material. I
-want to let it cook in linux-next for a full cycle.
+ drivers/firewire/core-card.c             | 31 +++++++++++--
+ drivers/firewire/core-cdev.c             |  4 +-
+ drivers/firewire/core-iso.c              | 22 ++++++++-
+ drivers/firewire/core.h                  | 14 +++++-
+ drivers/firewire/ohci.c                  | 57 +++++++++++++++++++-----
+ include/linux/firewire.h                 |  3 ++
+ sound/firewire/amdtp-stream.c            |  9 +++-
+ sound/firewire/bebob/bebob_pcm.c         |  1 +
+ sound/firewire/dice/dice-pcm.c           |  1 +
+ sound/firewire/digi00x/digi00x-pcm.c     |  1 +
+ sound/firewire/fireface/ff-pcm.c         |  1 +
+ sound/firewire/fireworks/fireworks_pcm.c |  1 +
+ sound/firewire/isight.c                  |  1 +
+ sound/firewire/motu/motu-pcm.c           |  1 +
+ sound/firewire/oxfw/oxfw-pcm.c           |  1 +
+ sound/firewire/tascam/tascam-pcm.c       |  1 +
+ 16 files changed, 128 insertions(+), 21 deletions(-)
 
+-- 
+2.43.0
 
---gLxarFGjBp8f1UGO
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmbUNCgACgkQFA3kzBSg
-Kbav6w/8DOVWcojXu8q93z6pWrKdVKiSG8L9VDJPSLEVvaDUafab7bFu1GPdw2kg
-N3ga1J9DWPObd22kQs/2O//twLT8bnyapb3NO4GOqYzLAL0eYkCXQkQbdQve4pIe
-Ffk3qi53t1DGs8rvPTF+QmmZKY8PdobW3TjPLXAm9/JO7A8XzRN8Q8z4H9Lm7rKa
-DukB4eUTpfzFowFYcN9FvJELR5MSpW6bJuXX1/zBt/rbEhRe68mvG8DHfWqfRt2V
-ypBfkQB82mDmycKYPqu78CYa/t+OMe+b7vleNuflHJUkFjtySQZo5xNzr5gt0Obi
-edw0tlgg8RQL4dnEW5mPR/GO0tNnG7GY8N2BKSbNaI5NE/3Fuf7kNVWVd/JMp28a
-wMJTp/AH3qJ1LuOdlLWlI4mVBOQZk77MJuQ8rC62TjElRs0eJ5bf95jMxPCgm/V4
-ZnAr8LmZd8YNJL1u/iII8JBCeTKo7b0EjrbHp+WNW0WCS8N6GF4aNFGobqtBVvCr
-/uX5Yfr6WKsRCKcUjf5rBuOCXQRUyTWecdss7X3HVYnNXCcxFBnFP7HJakQ45zQI
-mLCUR0zs4uCeifgdTP+fUvcbbv9V8yWTWUnsQkeX6QDpnXlQEUwNtwdoe3s1ERxV
-UEkM0mU5Tc9EwZqtWZbU/4dZNDEWGwvqVEl4ZJ13Su1XUG/bmms=
-=vmEG
------END PGP SIGNATURE-----
-
---gLxarFGjBp8f1UGO--
