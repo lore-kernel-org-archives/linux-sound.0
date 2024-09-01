@@ -1,237 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA5E1CA9F;
-	Sat, 31 Aug 2024 15:41:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B44146A67
+	for <linux-sound@vger.kernel.org>; Sun,  1 Sep 2024 09:30:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725118876; cv=none; b=ShnrKBmJSZ35gqkvhAiUoPszftHLYOH/NBkTK1xAgGxOuvzV7ahX//za2L9+F8957c0drGsONkLZPBxdpeGtpMfebYbLPCfDmU3rb5pLj6J/BhPpPhSg9lCxK/a9V2Ji9piJxtvjMRjX0wSInHUwks7bIeTg7zc7Rd2zKXVLWak=
+	t=1725183021; cv=none; b=OilPg3vt0e+kOTXE2SxvfPn6uWeIxmPhzQLPtIooDd2iTHsctiIsE5XV779rkUqBZyvNryYR3AF8/sfG8BwdzG6C6KXvNlVXnQU7l/d25lq76UJ1oecRLfZqK57usJzSO36+I53H0OVzI1Xv22l+u9L9RsM60/M6xVn4oi6XT/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725118876; c=relaxed/simple;
-	bh=1yRS0gogRh784GbSU5al2JeuuxHmmdz6/2N7DYSOzAE=;
+	s=arc-20240116; t=1725183021; c=relaxed/simple;
+	bh=r+TB8BcpnZIjlsX1oZx0Ik0xKz0sByNtqbh90INSPxU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T7GyKaJkLw9h5AGrKn4a29vL5iORo8nGrldPe6x6DEOix+MvRynJsf07EKVb7AL+1sWuZ44dFCBRurPrjKUDJDh1Xwjxz95Ff4apsusWXKqqgo0t/2vll2aWTq37aFCdZTM567ioqUpmgpE1h3aeCMH/LLAx6MnlqiUNiy6z0tI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kZmlwFos; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=LN92eiDYs0Uxzyz/ScglecAWbdx3VH+yH8ETceYFhBx/EaBeTC8C/3UwaBUjUZ1N2xqfvujLegLQc/QEWySm+EELIzNDVE9ud15Nkqtk4vVPRQVBaXuBcQs9XJzQJ6K2+kN8y7tS7RyPXz8F2hEzfLD32In3YM3rh+i7XVdGbWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=MQAQkH3f; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kZmlwFos"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725118874; x=1756654874;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1yRS0gogRh784GbSU5al2JeuuxHmmdz6/2N7DYSOzAE=;
-  b=kZmlwFos2YElWPFsbmOorojoTmeAt4Y7RBdMrCluYgmHS20t5UXWKFXb
-   fhg2AwRiU1IzhXE7gx+FYNDRPuIqILSDGiOb8lUC7ME2VWUP3wX+UkN1n
-   1FmDp4NN9pOyinSHtEr8eMq9t1YdwFqt1bPpwLXlooXgjmXDMEURvwymc
-   sDIGZ3/P6R8TtAAnWuxGXtg7vFW08tWOMgD26rJeexk5DIUPSUSFYxRJ2
-   n0aLbglkUD7nspqdWMfCZUdecHxx9rk4kvVoZpPAl7AeoRzQgpqZ/Nqbu
-   Pd6buEewwqum9ZLwcY3YTNeFn3b6xbh4ecgE4HZiHaso6qWKfAppUz6V+
-   w==;
-X-CSE-ConnectionGUID: oz+VhlZCTnCijZoCM6IXuw==
-X-CSE-MsgGUID: SYF020B3Q3SGs4W7QzhxMg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="34365684"
-X-IronPort-AV: E=Sophos;i="6.10,192,1719903600"; 
-   d="scan'208";a="34365684"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 08:41:13 -0700
-X-CSE-ConnectionGUID: sqe79E9EQbOtEz7nGLuCPw==
-X-CSE-MsgGUID: xcrsmA2TQTaiTZu7jMdNYA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,192,1719903600"; 
-   d="scan'208";a="94894058"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 31 Aug 2024 08:41:11 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1skQDs-0002sY-2c;
-	Sat, 31 Aug 2024 15:41:08 +0000
-Date: Sat, 31 Aug 2024 23:40:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Leo Tsai <antivirus621@gmail.com>, perex@perex.cz, tiwai@suse.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	leo.tsai@cmedia.com.tw, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda: Add new CM9825 driver
-Message-ID: <202408312351.eV8p77QU-lkp@intel.com>
-References: <20240830084521.15706-1-antivirus621@gmail.com>
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="MQAQkH3f"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=r+TB
+	8BcpnZIjlsX1oZx0Ik0xKz0sByNtqbh90INSPxU=; b=MQAQkH3fc1zJk4T6L5gR
+	SioCtrWagfO9Y762eb+L733zjtGdRN3RF8oonCsY87YLuOnwsR5JrldgvSZi1aAE
+	Az2+8QqYGEiOzTc6bvnmgZQl7JcQyaIvzve70dcGj9iiv8j2DyIliroH0xzueMrD
+	djja92tG1EHg+eq3Nu1j/MCNWNV2cwONECctLfnlh0cnzNO9OOfq5DwAZHyuKX74
+	nu+bQBdLM3n6heAD864al+k20AdSyw8Aa8yNYXSMGJGI7ygOFO/qErIXkatXllOX
+	ER+h9gmg4Za6WGaXstVskgHAwYTtbKlkvXDXNHkww7hzKt7bI0+Z9RByWP0Q/q63
+	8g==
+Received: (qmail 3764297 invoked from network); 1 Sep 2024 11:30:16 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Sep 2024 11:30:16 +0200
+X-UD-Smtp-Session: l3s3148p1@UOHceAsh5LtegkeE
+Date: Sun, 1 Sep 2024 11:30:16 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Wolfram Sang <wsa@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 0/4] i2c: Replace lists of special clients with
+ flagging of such clients
+Message-ID: <ZtQ0KMWUk9iAUCCl@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Wolfram Sang <wsa@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+	linux-sound@vger.kernel.org
+References: <3982b2a6-975e-40d2-bf02-2155e5c36c14@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="gLxarFGjBp8f1UGO"
+Content-Disposition: inline
+In-Reply-To: <3982b2a6-975e-40d2-bf02-2155e5c36c14@gmail.com>
+
+
+--gLxarFGjBp8f1UGO
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240830084521.15706-1-antivirus621@gmail.com>
 
-Hi Leo,
+On Thu, Aug 22, 2024 at 09:45:37PM +0200, Heiner Kallweit wrote:
+> So far lists are used to track special clients, i.e. auto-detected and
+> userspace-created clients. The same functionality can be achieved much
+> simpler by flagging such clients.
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tiwai-sound/for-next]
-[also build test WARNING on tiwai-sound/for-linus linus/master v6.11-rc5 next-20240830]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Leo-Tsai/ALSA-hda-Add-new-CM9825-driver/20240830-164709
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-patch link:    https://lore.kernel.org/r/20240830084521.15706-1-antivirus621%40gmail.com
-patch subject: [PATCH] ALSA: hda: Add new CM9825 driver
-config: i386-buildonly-randconfig-002-20240831 (https://download.01.org/0day-ci/archive/20240831/202408312351.eV8p77QU-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240831/202408312351.eV8p77QU-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408312351.eV8p77QU-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> sound/pci/hda/patch_cmedia.c:572:12: warning: variable 'spec' is uninitialized when used here [-Wuninitialized]
-     572 |         codec_dbg(spec->codec, "Start\n");
-         |                   ^~~~
-   sound/pci/hda/hda_local.h:735:24: note: expanded from macro 'codec_dbg'
-     735 |         dev_dbg(hda_codec_dev(codec), fmt, ##args)
-         |                               ^~~~~
-   include/sound/hda_codec.h:289:32: note: expanded from macro 'hda_codec_dev'
-     289 | #define hda_codec_dev(_dev)     (&(_dev)->core.dev)
-         |                                    ^~~~
-   include/linux/dev_printk.h:165:18: note: expanded from macro 'dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                         ^~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |                                                                  ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
-     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |                                                                        ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   sound/pci/hda/patch_cmedia.c:567:23: note: initialize the variable 'spec' to silence this warning
-     567 |         struct cmi_spec *spec;
-         |                              ^
-         |                               = NULL
-   1 warning generated.
+This looks promising and I like the idea from a high-level perspective.
+Need to dive into the details. However, I think this is 6.13 material. I
+want to let it cook in linux-next for a full cycle.
 
 
-vim +/spec +572 sound/pci/hda/patch_cmedia.c
+--gLxarFGjBp8f1UGO
+Content-Type: application/pgp-signature; name="signature.asc"
 
-   564	
-   565	static int patch_cm9825(struct hda_codec *codec)
-   566	{
-   567		struct cmi_spec *spec;
-   568		struct auto_pin_cfg *cfg;
-   569		int err, i;
-   570		const struct snd_pci_quirk *quirk;
-   571	
- > 572		codec_dbg(spec->codec, "Start\n");
-   573	
-   574		spec = kzalloc(sizeof(*spec), GFP_KERNEL);
-   575		if (spec == NULL)
-   576			return -ENOMEM;
-   577	
-   578		codec->spec = spec;
-   579		spec->codec = codec;
-   580	
-   581		/* Detect codec quirk */
-   582		quirk = snd_pci_quirk_lookup(codec->bus->pci, cm9825_quirks);
-   583		if (quirk)
-   584			spec->quirk = quirk->value;
-   585		else
-   586			spec->quirk = QUIRK_CM9825_STANDARD;
-   587	
-   588		if (spec->quirk == QUIRK_CM9825_STANDARD)
-   589			cm9825_detect_quirk(codec);
-   590	
-   591		codec_dbg(spec->codec, "spec->quirk %d\n", spec->quirk);
-   592	
-   593		codec->patch_ops = cmi_auto_patch_ops;
-   594		codec->patch_ops.init = CM9825_init;
-   595	#ifdef CONFIG_PM
-   596		codec->patch_ops.suspend = cm9825_suspend;
-   597		codec->patch_ops.resume = cm9825_resume;
-   598		codec->patch_ops.check_power_status = snd_hda_gen_check_power_status;
-   599	#endif
-   600		spec->gen.init_hook = CM9825_init_hook;
-   601		/* add hooks */
-   602		spec->gen.pcm_playback_hook = cm9825_playback_pcm_hook;
-   603	
-   604		cfg = &spec->gen.autocfg;
-   605		snd_hda_gen_spec_init(&spec->gen);
-   606	
-   607		if (spec->quirk == (int)QUIRK_CM9825_STANDARD) {
-   608			snd_hda_codec_set_name(codec, "CM9825 Standard");
-   609			spec->chip_D0_verbs = cm9825_D0_verbs;
-   610			spec->chip_D3_verbs = cm9825_D3_verbs;
-   611			spec->chip_HP_Present_verbs = cm9825_HP_Present_verbs;
-   612			spec->chip_HP_Remove_verbs = cm9825_HP_Remove_verbs;
-   613			spec->chip_playback_start_verbs =
-   614			    cm9825_std_playback_start_verbs;
-   615			spec->chip_playback_stop_verbs = cm9825_std_playback_stop_verbs;
-   616		} else if (spec->quirk == (int)QUIRK_CM9825_NCR) {
-   617	#ifdef CONFIG_PM
-   618			codec->patch_ops.suspend = cm9825_NCR_suspend;
-   619			codec->patch_ops.resume = cm9825_NCR_resume;
-   620			codec->patch_ops.check_power_status =
-   621			    snd_hda_gen_check_power_status;
-   622	#endif
-   623			snd_hda_codec_set_name(codec, "CM9825 NCR");
-   624			snd_hda_sequence_write(codec, cm9825_NCR_TpCon_verbs);
-   625			spec->chip_D0_verbs = cm9825_NCR_D0_verbs;
-   626			spec->chip_D3_verbs = cm9825_NCR_D3_verbs;
-   627			spec->chip_playback_start_verbs =
-   628			    cm9825_NCR_playback_start_verbs;
-   629			spec->chip_playback_stop_verbs = cm9825_NCR_playback_stop_verbs;
-   630	
-   631			for (i = 0; i < ARRAY_SIZE(cm9825_ncr_mixer); i++) {
-   632				err = snd_hda_add_new_ctls(codec, &cm9825_ncr_mixer[i]);
-   633				if (err < 0) {
-   634					codec_info(codec, "add new ctls fail: %d\n",
-   635						   err);
-   636					goto error;
-   637				}
-   638			}
-   639		} else {
-   640			snd_hda_codec_set_name(codec, "CM9825 Standard");
-   641			spec->chip_D0_verbs = cm9825_D0_verbs;
-   642			spec->chip_D3_verbs = cm9825_D3_verbs;
-   643			spec->chip_HP_Present_verbs = cm9825_HP_Present_verbs;
-   644			spec->chip_HP_Remove_verbs = cm9825_HP_Remove_verbs;
-   645			spec->chip_playback_start_verbs =
-   646			    cm9825_std_playback_start_verbs;
-   647			spec->chip_playback_stop_verbs = cm9825_std_playback_stop_verbs;
-   648		}
-   649	
-   650		err = snd_hda_parse_pin_defcfg(codec, cfg, NULL, 0);
-   651		if (err < 0)
-   652			goto error;
-   653		err = snd_hda_gen_parse_auto_config(codec, cfg);
-   654		if (err < 0)
-   655			goto error;
-   656	
-   657		if (spec->quirk == (int)QUIRK_CM9825_STANDARD) {
-   658			INIT_DELAYED_WORK(&spec->unsol_hp_work,
-   659					  cm9825_unsol_hp_delayed);
-   660			cm9825_setup_unsol(codec);
-   661		}
-   662	
-   663		return 0;
-   664	
-   665	 error:
-   666		snd_hda_gen_free(codec);
-   667	
-   668		codec_info(codec, "Enter err %d\n", err);
-   669	
-   670		return err;
-   671	}
-   672	
+-----BEGIN PGP SIGNATURE-----
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmbUNCgACgkQFA3kzBSg
+Kbav6w/8DOVWcojXu8q93z6pWrKdVKiSG8L9VDJPSLEVvaDUafab7bFu1GPdw2kg
+N3ga1J9DWPObd22kQs/2O//twLT8bnyapb3NO4GOqYzLAL0eYkCXQkQbdQve4pIe
+Ffk3qi53t1DGs8rvPTF+QmmZKY8PdobW3TjPLXAm9/JO7A8XzRN8Q8z4H9Lm7rKa
+DukB4eUTpfzFowFYcN9FvJELR5MSpW6bJuXX1/zBt/rbEhRe68mvG8DHfWqfRt2V
+ypBfkQB82mDmycKYPqu78CYa/t+OMe+b7vleNuflHJUkFjtySQZo5xNzr5gt0Obi
+edw0tlgg8RQL4dnEW5mPR/GO0tNnG7GY8N2BKSbNaI5NE/3Fuf7kNVWVd/JMp28a
+wMJTp/AH3qJ1LuOdlLWlI4mVBOQZk77MJuQ8rC62TjElRs0eJ5bf95jMxPCgm/V4
+ZnAr8LmZd8YNJL1u/iII8JBCeTKo7b0EjrbHp+WNW0WCS8N6GF4aNFGobqtBVvCr
+/uX5Yfr6WKsRCKcUjf5rBuOCXQRUyTWecdss7X3HVYnNXCcxFBnFP7HJakQ45zQI
+mLCUR0zs4uCeifgdTP+fUvcbbv9V8yWTWUnsQkeX6QDpnXlQEUwNtwdoe3s1ERxV
+UEkM0mU5Tc9EwZqtWZbU/4dZNDEWGwvqVEl4ZJ13Su1XUG/bmms=
+=vmEG
+-----END PGP SIGNATURE-----
+
+--gLxarFGjBp8f1UGO--
