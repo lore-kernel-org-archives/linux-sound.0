@@ -1,373 +1,167 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010033.outbound.protection.outlook.com [52.101.229.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5CD72C190;
-	Sun,  1 Sep 2024 21:39:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725226759; cv=none; b=XLokdkRS+sMk25c7rPYQ+IlmGtmWa273obZ+SN0CTwQoabDO6saNthn6Rh97mbcbRZ2TRLzpcBgJqxziwZjmHptyayI+06sw4uJpM/ivHMBd5fdzIIo3bDif/r51MHXc8E2SMuxJsadGAAQnMpejPa9bjKbVMkd8bpPabcilsB8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725226759; c=relaxed/simple;
-	bh=gs1K+vNC6pkOTzHJW+nknDkYFuXO4XFIE+JWNnhJSP8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=AbPAS4x7UKmxtV7hAR6ZoXGFMt2kKld2P+pJQ7esyYo0+Mx2eYc7LgBqJTBbXBLH7E+O86qWo0xfs+V8Z9X72W8f0mpLt/yD/mMDpk3UZ0pp7W9OipBn6jY/3XYUF5rAP16I4wsEIT1fQem09t8+zH4hX5AycttRossyV0iIdb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net; spf=pass smtp.mailfrom=asahilina.net; dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b=XR1/krCJ; arc=none smtp.client-ip=212.63.210.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asahilina.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6770313635F
+	for <linux-sound@vger.kernel.org>; Sun,  1 Sep 2024 23:44:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.33
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725234259; cv=fail; b=Y3zouiefnY0eohUsqSQKEHUaH6lqN8U5S4qkadpqcDl8okzvYdJjUOMtbSUM1VcWoIwwnGa/H9+k/DZsdbHKCzXohv46RbkkY+Dc/zIPcZZbw2NjZQ2JgyQFJ9YkkeGfd96nuE8hEwUl/UpKGL5TVSNu69UE9nXFqy3b1pxreXQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725234259; c=relaxed/simple;
+	bh=TDIA9e9en0QVdriO1BzAHMkNtRF/96ce+LL9sT66u30=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=D0FpUL9JJTSbEoPhSvppuHnhlxNSFVLDQYxLgcDYGeq6ORP7xSOa4O0RtpAPCAgbfPWXAdZfnAP9Zhy95Fp1AW5Mpnf1+wN4dLh8hzACytM58NOUcBeB0aw/KtHf/97Ed1+NNYqPeZgM3F7uo/WqefNxtmmexo8zj0QxiuXqlXM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=ZnfzQi/4; arc=fail smtp.client-ip=52.101.229.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b="XR1/krCJ"
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sendonly@marcansoft.com)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 9BA5843F4C;
-	Sun,  1 Sep 2024 21:32:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1725226326;
-	bh=gs1K+vNC6pkOTzHJW+nknDkYFuXO4XFIE+JWNnhJSP8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=XR1/krCJtsvZsHAp1bTnGM9yeVqusTRTXCJOXrS7y4X6HlgcUN+X5WQ+/30Ca/V5I
-	 IZe+LwMMgPusOO8bOg6/+QsfpZSlGmmnkZs7PtjZAkInAr9JRpzBF/dBiYR1XY1o7M
-	 24X1ETuaHU58SBUmIXLhnv0J6kdU4anjyZO7zCIYUsKENLI8iLGIkarBD3MUeH8KS8
-	 eOparAQEdusyHtULeVHzSi+pmoIngS3NDfsyqs0GmyLl9m2zADSOBxismCjDtaSARc
-	 VzilYkQV58us3D75WEiz9qUaJN4OtxjxSo8gaG4McV/ezS9ix/+nehhAT8poa3XvBO
-	 mXqgpbSb20Fdg==
-From: Asahi Lina <lina@asahilina.net>
-Date: Mon, 02 Sep 2024 06:31:50 +0900
-Subject: [PATCH 1/2] ALSA: usb-audio: Add quirk for RME Digiface USB
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="ZnfzQi/4"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bcNHNDhFujxInmOlXSSdAZDHt7s7BgWcHiZ1axk1GPQpzGxtfw/QYDQMuVj9nIfuFArnPj1VlwfLvuCENrYeZTMFxFvp0/7IUEeTQ6GJKfW2HZA8u7msDaBsau2WrHPQvlwJI+01mvsfSPZvcAYK1tsMRPTGI59w7DwWvrD1NXV668vWL7GssWbHKjNfkEgzfrN9lZxevhTUpU4iOOiFyz73gMJRIxhh019ZRN2xVxZa3FvVG85EC+bTsszyDu58QaU9/PVvX2AsxH8Vsb1EASRWAMVOTiVpcT6vSTUEh5ohNjw521B636U/lnsHm9ynDtDP8koFQ5GlNwOJoOY1OA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GE7iujdf047qdb0wV43Hri+pm5OrVfr5w+lcm0578gg=;
+ b=yj3gblxw9seWuO5kGod/LggNPv+xn/NPXmN3lmKcogmHbKR/0mD60+jCmXpTwPCdvDEGE0UPFEcWshBe55EAXqJInXOkPiNWYXKkiUBvaYyf+LK7JKzM4M9Ye+Fqm3xUbxnR2cmalNwREyuXqLFxXqrZGsAft/lCA9NHJV2r3YE8bbUcD1XPVnV/Dnci13880hr5NqCd+2FGifGPc/8tkdvQi/VlwnX/BL0MTk7+zG2KAK7wf2CZpnT6AXNvmJFjznOLN6KYsLe23zoomdU/cb0sJ1+sTfYNhtVJiQh4Kis0uY/quDgiZ9d1dk9B2deWD5uHnC/y2e5+Wt8gMTieZw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GE7iujdf047qdb0wV43Hri+pm5OrVfr5w+lcm0578gg=;
+ b=ZnfzQi/4ci8CRs7p1bs0xra2n3/qTpK+sVjSfZsIIpMiN5R1Y8kYpu8l0TN/xkEUzgE3x5L9QS0QXJiWuIOtiIYdjP/I1eLlRXia9RQ/hgujFQEqHQKQuHbaBjRSvPIVBYwxtai4fn+ON8+B2t8W1MrvlnAD0GTfvf10Rx0h4Ag=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by OSCPR01MB12771.jpnprd01.prod.outlook.com
+ (2603:1096:604:339::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.24; Sun, 1 Sep
+ 2024 23:44:12 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.7918.020; Sun, 1 Sep 2024
+ 23:44:12 +0000
+Message-ID: <87jzfvndmc.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Zhang Zekun <zhangzekun11@huawei.com>,
+	lgirdwood@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] Some clean up with helper fucntion
+In-Reply-To: <cc0dca4b-7850-4c2e-a4c9-3f016c7b4e6d@sirena.org.uk>
+References: <20240827070650.11424-1-zhangzekun11@huawei.com>
+	<87cylt2ria.wl-kuninori.morimoto.gx@renesas.com>
+	<cc0dca4b-7850-4c2e-a4c9-3f016c7b4e6d@sirena.org.uk>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Sun, 1 Sep 2024 23:44:12 +0000
+X-ClientProxiedBy: TY2PR0101CA0041.apcprd01.prod.exchangelabs.com
+ (2603:1096:404:8000::27) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240902-rme-digiface-v1-1-6e88472a2744@asahilina.net>
-References: <20240902-rme-digiface-v1-0-6e88472a2744@asahilina.net>
-In-Reply-To: <20240902-rme-digiface-v1-0-6e88472a2744@asahilina.net>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: "Geoffrey D. Bennett" <g@b4.vu>, 
- Takashi Sakamoto <o-takashi@sakamocchi.jp>, Mark Hills <mark@xwax.org>, 
- Arun Raghavan <arun@arunraghavan.net>, Cyan Nyan <cyan.vtb@gmail.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Asahi Lina <lina@asahilina.net>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1725226324; l=8737;
- i=lina@asahilina.net; s=20240902; h=from:subject:message-id;
- bh=AFgJQODefGZGYmwXcwid1VQbLxKcvAIzfp88cJKMw1E=;
- b=1N3s0LnIepDjybXz1YmTWcxd6z3N40RlspCzMBCeoDcNO73yafPjrzfbChXb7+0VirmLzMPAM
- jRwOUgg6SvJAVbnceSqGTjp+NyUbBKCzvGWe85aPy11EOeOfdbyfadS
-X-Developer-Key: i=lina@asahilina.net; a=ed25519;
- pk=tpv7cWfUnHNw5jwf6h4t0gGgglt3/xcwlfs0+A/uUu8=
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OSCPR01MB12771:EE_
+X-MS-Office365-Filtering-Correlation-Id: ba852040-a3f3-42dd-3a09-08dccadffb44
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|52116014|376014|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?3NMRa8qAE5JM3C4I3qKZ5ZCONPPu3VZU78859BoJwQ9/xfzyJTDMuDfio+Qh?=
+ =?us-ascii?Q?wvmc6Q9OUSmBnfQ2t8fJoFV2QH8kJPSSDjUdnrRxjwP1MZeb4pvzTYpteSDy?=
+ =?us-ascii?Q?Lxs6jZf2Y5Q8J59viUJNL+N8+IcAFmGefaLDJPvZf7p/ia/QJyZhO7uTY8Rc?=
+ =?us-ascii?Q?WLmv+pMCNH7pwIwiBxLjjmMCbCMNLz4837isj0BZJf/AFT8zbgG2DofT95Ov?=
+ =?us-ascii?Q?sKTn/E+40ueCgJkZr3RpgWPG6tIUHrEAq38m0pc6s7fsESFXVS52vTpQtPlY?=
+ =?us-ascii?Q?l254kxyzISVnwWTokrYJLzJjXa/MjR66l2FK+tbLzrxx98N/HXNxbW7G5UB5?=
+ =?us-ascii?Q?cF0PEnM67byIUEdrmVPeI3qIyaWZZr9A9NTpA1bqf15yh5n5MJ+C4H9OhH2T?=
+ =?us-ascii?Q?cg5EbIBCtX9JxbNRkJlTKJxT4Fmk8+183YA/u4EYSvMM4UVZFF980U6WsOIK?=
+ =?us-ascii?Q?Du0hFnIeolZUqCfzPhjIkuHTy75QqrYmQeZKt8CkmLcwojrOEOHWTFPHls6G?=
+ =?us-ascii?Q?GTw95pbacPunhyp6ugGWxf/jpeX8b2i96FPqSSh0Y8mRYHPUabU9v4eikQIt?=
+ =?us-ascii?Q?efcBHqnxGjNEZ4/KppsioMIlxmZcLOR7WTkA/pprp4IqBuCKqiFgiMj89bK3?=
+ =?us-ascii?Q?2WrCm3oR4pdqbsdw1cuwu6SJCMLvcojEGbh1nX23sCF8v/u8Zf/wtx9JJeKC?=
+ =?us-ascii?Q?+3/L/MHrtlD1iPYaDehI3gcxp2jLkWsDJG2DCeZeQtlwFuSsxFmh42W75IGF?=
+ =?us-ascii?Q?HokVr/1um2RtLym+CIsTU+QTnsxRF9UKs9SijDlOfC0nIt7Zkqxxe3TIiSx4?=
+ =?us-ascii?Q?ns/wvxDa7Oc82mKSGVP7ZBNZGtJWDRK8NKbuicDbVsC7vdueTPkjYcnDIXmY?=
+ =?us-ascii?Q?cLDTnTJNzo6q1CCZI5MQf1S2t1OfScLxPo/94IQaETtzd2GzuSDcVhg8bzS6?=
+ =?us-ascii?Q?uvqmJGXEKIKimJHf1qMPrSRK6i3cabZ9IJnh/c2p6OU4XWkeLk9/2AhmfBsB?=
+ =?us-ascii?Q?T5a+R0CFbT84MBKHABzqgkrsvn95Qowg7WbHLwHY61ZGWEY3FQ+Ky6DTcIWq?=
+ =?us-ascii?Q?5Vcm9N/55OgirU3k+cKY0kRe1n4EfaPNJW6i0T6dqHdEQqGBA/Di1+hnYeAr?=
+ =?us-ascii?Q?AMzqqIspBhgLb4UO2WBXomMyDpQBWDnNF0GeXXrVzl4Jn5ZtSMnjiK8iHDPv?=
+ =?us-ascii?Q?cyV33qQpOUeVfb3YXohx8WAZxZdyV8gTtJu19c9SECiMyNoqEvElT0iAo4Es?=
+ =?us-ascii?Q?PvOgEmDHbPVZsOcjUbRqsjqEcwTzxU0ETw61aYGhm+D9MfDrRcoUw5510oX6?=
+ =?us-ascii?Q?d5L/d4e1/itMY+kjfpP5qc0Gjk1h8Zh6tEdbnKSi8ZyefvNssZ8xL/lIF/UH?=
+ =?us-ascii?Q?Vc9JwQlAIuUtPIeDKtaVK5fI/49Sldi4aFnA3y58emIbis3Xtw=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(376014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?EiY0nSiuSni0nUE9J7q7WepnV0yE+mV1Vv0HE9el3L0anitRy33D0otmS8t/?=
+ =?us-ascii?Q?6Os6FZHOMvFB/dMDJJPGI2eGHrYFZRuu9iBz1p7RGf0UrJvwCLdbCobwJcxy?=
+ =?us-ascii?Q?N4wF63NW+J4W+wr43rbOFcl3ibryhPzZzeAskCDM06bvLwkS5RZtf9rjrIlQ?=
+ =?us-ascii?Q?ySH3UEXn8DoWlbzr7pr18EoSPdn/wlseuFXRfkvsOu0Qe6yEXKZFV7TdSum7?=
+ =?us-ascii?Q?z+eXtJLbel3TPJTg+39pNsj2O5U6Qjo58+mTimmz7OGZMZrX9lVQsF6wQ9jp?=
+ =?us-ascii?Q?AkdA3EG9r7AwPHnOr1bCaJ7oVOAbyacGL5BqT7xFPH2bdAp0dFDeAourWdBR?=
+ =?us-ascii?Q?qZvdxXPwSED87gnzKbrTJIyLBe3ee0SITtcSc/5w1J4JkCOHFKGCIoBkCJJN?=
+ =?us-ascii?Q?G5gqwo86FORzQsjd8lbMvCpLkgbuOKVUpB++ZmR2k+E2Fqy1dS/agVBaJDbm?=
+ =?us-ascii?Q?8AE3eD0mRpFr4dWPgerXfl4mesp9I3/OthwY6GTbwqLSf2jgbVH3l8zPOXNq?=
+ =?us-ascii?Q?DANJgIZazCiP7Gb8kmoHjp2bA2lWNPjWtDp0FhGbpTybtMVP2tLOMuZ+VceL?=
+ =?us-ascii?Q?DgzgTxa1YR1OTjXzxBhGp1m9F0P2hX0k6INUe4F5G3AU+KAywG6mTyYg4pa9?=
+ =?us-ascii?Q?tsuEsJPCSJSErZJiIU2aLnRza3JiaBiFICL49me42+a9lnnJJkk/XSWdD3n6?=
+ =?us-ascii?Q?HKGPGt0vaIKblrD+Pue8GSM3nPt9D2xYK+98EltHBHrGdupmNPMI7q6PmUpi?=
+ =?us-ascii?Q?45y7MVHNqG94DkhOrx2xJUbA84EHkF0/S+1TZsiy++d3meNcMCRIiOFG3bUF?=
+ =?us-ascii?Q?wgcilVsE2Q6p6UZOV1w8ISOVyus29PpBj1sOzHBSLerl5eokbWEmIyv5RPlQ?=
+ =?us-ascii?Q?jDapSA6dt5A7DUR2UMblFt9f0ulw1ADSTf3nO3/e1f1vGSuwGIVJrb8ONY1K?=
+ =?us-ascii?Q?1FM/qE/mkJ/R2ay/Zhj7OF8E7nTBCTzGDkjY5LBXB84KxdLXE2oEsKB+Z7nu?=
+ =?us-ascii?Q?4TO5hB2zGTEir1IE0ytqV+CsXz0O5elnJkq2jEtNphkBtcn5yy8mXEo60y1D?=
+ =?us-ascii?Q?tia9a1Ir0tN7uhxWE6JvOlnaUovlqPidSQFgcN5R1RUjsAu4gulsJLoGgJTu?=
+ =?us-ascii?Q?B+p9NkJ6NPA14+L+IDPSzrUhRdvMJ/wklARxwRMgv1JnsICYSO+Z0vTxQ1Cg?=
+ =?us-ascii?Q?iZ4/7uIuAbH8NcLouMTegcToLzDT/q2U8Qh5PpP82JSN/EwkvYSs9XF29Zcd?=
+ =?us-ascii?Q?apZ7AeVOTWJZ0eqi2hotIBlju3jNIYbr5uJ2dx7FLZIyEZfFYEspOIW9vaBh?=
+ =?us-ascii?Q?L+D+uw8F14EicfS96lfcJsFD321oVzEyCH8TYBpwapzaGFJkn1KlMvL4OCf+?=
+ =?us-ascii?Q?bLNdF9K1GrKGXWkHkCEvkUOncQUnGGJTr92Sox/NcSDC2tA3gSFmYmdA80hJ?=
+ =?us-ascii?Q?iYy0JP4FTim0n4z47I8nN1jFEry/tRQ6nlHKTDz330oG+rgHIvkN1mQuk/H/?=
+ =?us-ascii?Q?ZXpMBOkYMtaExM00NjZIDNGanca8lIkxpgqqo7uV39/HdWezU/JPPftRKBRd?=
+ =?us-ascii?Q?lB6rdzzOA0/DvzFXmEzyauOdjbBdeAPfmQS8zRCRN6bP0AaAXAEeJgzIxbtp?=
+ =?us-ascii?Q?CGO8qQv+4D7KPAE5cQ7fdvM=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ba852040-a3f3-42dd-3a09-08dccadffb44
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2024 23:44:12.3036
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: u5gnb3mPnEIAU6L/UBbVr/qQucZ7dFpgZyygXEpGUL377nQvhx4U3jOCJ4OEeo1fl0MTsEtrUS14TJVdYFnKpmPkALsWA38T2AeKTece96CAk9ZT3qzGkCaUNSg2UYI4
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSCPR01MB12771
 
-From: Cyan Nyan <cyan.vtb@gmail.com>
 
-Add trivial support for audio streaming on the RME Digiface USB. Binds
-only to the first interface to allow userspace to directly drive the
-complex I/O and matrix mixer controls.
+Hi Mark
 
-Signed-off-by: Cyan Nyan <cyan.vtb@gmail.com>
-[Lina: Added 2x/4x sample rate support & boot/format quirks]
-Co-developed-by: Asahi Lina <lina@asahilina.net>
-Signed-off-by: Asahi Lina <lina@asahilina.net>
+> > But I think this patch-set will conflict with my posting Of-Graph patch-set
+> > if Mark apply this patch-set, and Rob (?) apply my patch-set.
+> 
+> > 	add of_graph_get_next_port/port_endpoint()
+> > 	https://lore.kernel.org/r/87cylwqa12.wl-kuninori.morimoto.gx@renesas.com
+> 
+> > Thank you for your help !!
+> 
+> It looks like the of_graph patches might not make it into this merge
+> window anyway so possibly it won't actually be an issue?
+
+Yeah, indeed. It seem it will take more long term.
+I will explain about this and adjust the code.
+
+Thank you for your help !!
+
+Best regards
 ---
- sound/usb/quirks-table.h | 190 ++++++++++++++++++++++++++++++++++++++++++++++-
- sound/usb/quirks.c       |  58 +++++++++++++++
- 2 files changed, 247 insertions(+), 1 deletion(-)
-
-diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
-index 73abc38a5400..47fd18791396 100644
---- a/sound/usb/quirks-table.h
-+++ b/sound/usb/quirks-table.h
-@@ -4546,6 +4546,194 @@ YAMAHA_DEVICE(0x7010, "UB99"),
- 		}
- 	}
- },
--
-+{
-+	/* Only claim interface 0 */
-+	.match_flags = USB_DEVICE_ID_MATCH_VENDOR |
-+		       USB_DEVICE_ID_MATCH_PRODUCT |
-+		       USB_DEVICE_ID_MATCH_INT_CLASS |
-+		       USB_DEVICE_ID_MATCH_INT_NUMBER,
-+	.idVendor = 0x2a39,
-+	.idProduct = 0x3f8c,
-+	.bInterfaceClass = USB_CLASS_VENDOR_SPEC,
-+	.bInterfaceNumber = 0,
-+	.driver_info = (unsigned long) &(const struct snd_usb_audio_quirk) {
-+		.ifnum = QUIRK_ANY_INTERFACE,
-+		.type = QUIRK_COMPOSITE,
-+		.data = (const struct snd_usb_audio_quirk[]) {
-+			/*
-+			 * Three modes depending on sample rate band,
-+			 * with different channel counts for in/out
-+			 */
-+			{
-+				.ifnum = 0,
-+				.type = QUIRK_AUDIO_FIXED_ENDPOINT,
-+				.data = &(const struct audioformat) {
-+					.formats = SNDRV_PCM_FMTBIT_S32_LE,
-+					.channels = 34, // outputs
-+					.fmt_bits = 24,
-+					.iface = 0,
-+					.altsetting = 1,
-+					.altset_idx = 1,
-+					.endpoint = 0x02,
-+					.ep_idx = 1,
-+					.ep_attr = USB_ENDPOINT_XFER_ISOC|
-+						USB_ENDPOINT_SYNC_ASYNC,
-+					.rates = SNDRV_PCM_RATE_32000 |
-+						SNDRV_PCM_RATE_44100 |
-+						SNDRV_PCM_RATE_48000,
-+					.rate_min = 32000,
-+					.rate_max = 48000,
-+					.nr_rates = 3,
-+					.rate_table = (unsigned int[]) {
-+						32000, 44100, 48000,
-+					},
-+					.sync_ep = 0x81,
-+					.sync_iface = 0,
-+					.sync_altsetting = 1,
-+					.sync_ep_idx = 0,
-+					.implicit_fb = 1,
-+				},
-+			},
-+			{
-+				.ifnum = 0,
-+				.type = QUIRK_AUDIO_FIXED_ENDPOINT,
-+				.data = &(const struct audioformat) {
-+					.formats = SNDRV_PCM_FMTBIT_S32_LE,
-+					.channels = 18, // outputs
-+					.fmt_bits = 24,
-+					.iface = 0,
-+					.altsetting = 1,
-+					.altset_idx = 1,
-+					.endpoint = 0x02,
-+					.ep_idx = 1,
-+					.ep_attr = USB_ENDPOINT_XFER_ISOC|
-+						USB_ENDPOINT_SYNC_ASYNC,
-+					.rates = SNDRV_PCM_RATE_64000 |
-+						SNDRV_PCM_RATE_88200 |
-+						SNDRV_PCM_RATE_96000,
-+					.rate_min = 64000,
-+					.rate_max = 96000,
-+					.nr_rates = 3,
-+					.rate_table = (unsigned int[]) {
-+						64000, 88200, 96000,
-+					},
-+					.sync_ep = 0x81,
-+					.sync_iface = 0,
-+					.sync_altsetting = 1,
-+					.sync_ep_idx = 0,
-+					.implicit_fb = 1,
-+				},
-+			},
-+			{
-+				.ifnum = 0,
-+				.type = QUIRK_AUDIO_FIXED_ENDPOINT,
-+				.data = &(const struct audioformat) {
-+					.formats = SNDRV_PCM_FMTBIT_S32_LE,
-+					.channels = 10, // outputs
-+					.fmt_bits = 24,
-+					.iface = 0,
-+					.altsetting = 1,
-+					.altset_idx = 1,
-+					.endpoint = 0x02,
-+					.ep_idx = 1,
-+					.ep_attr = USB_ENDPOINT_XFER_ISOC|
-+						USB_ENDPOINT_SYNC_ASYNC,
-+					.rates = SNDRV_PCM_RATE_KNOT |
-+						SNDRV_PCM_RATE_176400 |
-+						SNDRV_PCM_RATE_192000,
-+					.rate_min = 128000,
-+					.rate_max = 192000,
-+					.nr_rates = 3,
-+					.rate_table = (unsigned int[]) {
-+						128000, 176400, 192000,
-+					},
-+					.sync_ep = 0x81,
-+					.sync_iface = 0,
-+					.sync_altsetting = 1,
-+					.sync_ep_idx = 0,
-+					.implicit_fb = 1,
-+				},
-+			},
-+			{
-+				.ifnum = 0,
-+				.type = QUIRK_AUDIO_FIXED_ENDPOINT,
-+				.data = &(const struct audioformat) {
-+					.formats = SNDRV_PCM_FMTBIT_S32_LE,
-+					.channels = 32, // inputs
-+					.fmt_bits = 24,
-+					.iface = 0,
-+					.altsetting = 1,
-+					.altset_idx = 1,
-+					.endpoint = 0x81,
-+					.ep_attr = USB_ENDPOINT_XFER_ISOC|
-+						USB_ENDPOINT_SYNC_ASYNC|
-+						USB_ENDPOINT_USAGE_IMPLICIT_FB,
-+					.rates = SNDRV_PCM_RATE_32000 |
-+						SNDRV_PCM_RATE_44100 |
-+						SNDRV_PCM_RATE_48000,
-+					.rate_min = 32000,
-+					.rate_max = 48000,
-+					.nr_rates = 3,
-+					.rate_table = (unsigned int[]) {
-+						32000, 44100, 48000,
-+					}
-+				}
-+			},
-+			{
-+				.ifnum = 0,
-+				.type = QUIRK_AUDIO_FIXED_ENDPOINT,
-+				.data = &(const struct audioformat) {
-+					.formats = SNDRV_PCM_FMTBIT_S32_LE,
-+					.channels = 16, // inputs
-+					.fmt_bits = 24,
-+					.iface = 0,
-+					.altsetting = 1,
-+					.altset_idx = 1,
-+					.endpoint = 0x81,
-+					.ep_attr = USB_ENDPOINT_XFER_ISOC|
-+						USB_ENDPOINT_SYNC_ASYNC|
-+						USB_ENDPOINT_USAGE_IMPLICIT_FB,
-+					.rates = SNDRV_PCM_RATE_64000 |
-+						SNDRV_PCM_RATE_88200 |
-+						SNDRV_PCM_RATE_96000,
-+					.rate_min = 64000,
-+					.rate_max = 96000,
-+					.nr_rates = 3,
-+					.rate_table = (unsigned int[]) {
-+						64000, 88200, 96000,
-+					}
-+				}
-+			},
-+			{
-+				.ifnum = 0,
-+				.type = QUIRK_AUDIO_FIXED_ENDPOINT,
-+				.data = &(const struct audioformat) {
-+					.formats = SNDRV_PCM_FMTBIT_S32_LE,
-+					.channels = 8, // inputs
-+					.fmt_bits = 24,
-+					.iface = 0,
-+					.altsetting = 1,
-+					.altset_idx = 1,
-+					.endpoint = 0x81,
-+					.ep_attr = USB_ENDPOINT_XFER_ISOC|
-+						USB_ENDPOINT_SYNC_ASYNC|
-+						USB_ENDPOINT_USAGE_IMPLICIT_FB,
-+					.rates = SNDRV_PCM_RATE_KNOT |
-+						SNDRV_PCM_RATE_176400 |
-+						SNDRV_PCM_RATE_192000,
-+					.rate_min = 128000,
-+					.rate_max = 192000,
-+					.nr_rates = 3,
-+					.rate_table = (unsigned int[]) {
-+						128000, 176400, 192000,
-+					}
-+				}
-+			},
-+			{
-+				.ifnum = -1
-+			}
-+		}
-+	}
-+},
- #undef USB_DEVICE_VENDOR_SPEC
- #undef USB_AUDIO_DEVICE
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index ea063a14cdd8..3e44595add89 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -1389,6 +1389,27 @@ static int snd_usb_motu_m_series_boot_quirk(struct usb_device *dev)
- 	return 0;
- }
- 
-+static int snd_usb_rme_digiface_boot_quirk(struct usb_device *dev)
-+{
-+	/* Disable mixer, internal clock, all outputs ADAT, 48kHz, TMS off */
-+	snd_usb_ctl_msg(dev, usb_sndctrlpipe(dev, 0),
-+			16, 0x40, 0x2410, 0x7fff, NULL, 0);
-+	snd_usb_ctl_msg(dev, usb_sndctrlpipe(dev, 0),
-+			18, 0x40, 0x0104, 0xffff, NULL, 0);
-+
-+	/* Disable loopback for all inputs */
-+	for (int ch = 0; ch < 32; ch++)
-+		snd_usb_ctl_msg(dev, usb_sndctrlpipe(dev, 0),
-+				22, 0x40, 0x400, ch, NULL, 0);
-+
-+	/* Unity gain for all outputs */
-+	for (int ch = 0; ch < 34; ch++)
-+		snd_usb_ctl_msg(dev, usb_sndctrlpipe(dev, 0),
-+				21, 0x40, 0x9000, 0x100 + ch, NULL, 0);
-+
-+	return 0;
-+}
-+
- /*
-  * Setup quirks
-  */
-@@ -1616,6 +1637,8 @@ int snd_usb_apply_boot_quirk(struct usb_device *dev,
- 		    get_iface_desc(intf->altsetting)->bInterfaceNumber < 3)
- 			return snd_usb_motu_microbookii_boot_quirk(dev);
- 		break;
-+	case USB_ID(0x2a39, 0x3f8c): /* RME Digiface USB */
-+		return snd_usb_rme_digiface_boot_quirk(dev);
- 	}
- 
- 	return 0;
-@@ -1771,6 +1794,38 @@ static void mbox3_set_format_quirk(struct snd_usb_substream *subs,
- 		dev_warn(&subs->dev->dev, "MBOX3: Couldn't set the sample rate");
- }
- 
-+static const int rme_digiface_rate_table[] = {
-+	32000, 44100, 48000, 0,
-+	64000, 88200, 96000, 0,
-+	128000, 176400, 192000, 0,
-+};
-+
-+static int rme_digiface_set_format_quirk(struct snd_usb_substream *subs)
-+{
-+	unsigned int cur_rate = subs->data_endpoint->cur_rate;
-+	u16 val;
-+	int speed_mode;
-+	int id;
-+
-+	for (id = 0; id < ARRAY_SIZE(rme_digiface_rate_table); id++) {
-+		if (rme_digiface_rate_table[id] == cur_rate)
-+			break;
-+	}
-+
-+	if (id >= ARRAY_SIZE(rme_digiface_rate_table))
-+		return -EINVAL;
-+
-+	/* 2, 3, 4 for 1x, 2x, 4x */
-+	speed_mode = (id >> 2) + 2;
-+	val = (id << 3) | (speed_mode << 12);
-+
-+	/* Set the sample rate */
-+	snd_usb_ctl_msg(subs->stream->chip->dev,
-+		usb_sndctrlpipe(subs->stream->chip->dev, 0),
-+		16, 0x40, val, 0x7078, NULL, 0);
-+	return 0;
-+}
-+
- void snd_usb_set_format_quirk(struct snd_usb_substream *subs,
- 			      const struct audioformat *fmt)
- {
-@@ -1795,6 +1850,9 @@ void snd_usb_set_format_quirk(struct snd_usb_substream *subs,
- 	case USB_ID(0x0dba, 0x5000):
- 		mbox3_set_format_quirk(subs, fmt); /* Digidesign Mbox 3 */
- 		break;
-+	case USB_ID(0x2a39, 0x3f8c): /* RME Digiface USB */
-+		rme_digiface_set_format_quirk(subs);
-+		break;
- 	}
- }
- 
-
--- 
-2.46.0
-
+Kuninori Morimoto
