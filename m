@@ -1,132 +1,95 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 080AD61FEB
-	for <linux-sound@vger.kernel.org>; Sun,  1 Sep 2024 13:44:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4961C183090;
+	Sun,  1 Sep 2024 16:21:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725198293; cv=none; b=DBnlffvXiiGZJGZqBryNZEJnfkMxS5rfS954kqw6Qiu3Ey4sHF2gu1gqdfPk02jt4a1LenVQtDtiBJcn3MnKP0bTjuSTiqxSR6d26be7E0Lzwi6OFJZ299rCFit+sJqTxlg/auI38BsVz4bXlRxXnqglqQHxUSeOSGAyJ4Oj4lM=
+	t=1725207690; cv=none; b=BW11e9GRPrWXsSkDrptfe8631tmPB9P86TFvBRo2FfCIEMYES8H0Srei9kr3Wg5TcDOCuiGPPWbtfPMuUhZBc4tdi6ize6ePn/+RvjmL3lWpNKU2RL8FbqubriJHmcgbl8VGkwTbELT5DEK6pWPZjeO8aZxMl7TPamE4rU2Av5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725198293; c=relaxed/simple;
-	bh=lpVvoPQclkTwbc84rbM7vBO2iHMBMESQbgXAec02hC0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PMzWmFU4MG3DzVyF5G1fFSVaC5HnpVTWATeJEqa9+Nna1UGpYvtZ7tePJI3sQFM1LnKE6Ao/PkRiGiSfLreR7TGidx8JwRza8vnqRrX9Xs87myk6pQYeHdz9ZYkYz3WBcKr5+pz4oJD2un9632qrrD1jbQNjfC0ir3Oa9tjffdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nyVnmy2j; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qILRm6DS; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nyVnmy2j; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qILRm6DS; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1725207690; c=relaxed/simple;
+	bh=HfLhhyK8ZjmZxmpk87z3JzSSJ2B6fRAkJGHcXbFr3Y4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=ikLRZD9+U8sOejunAvMwYE0bdoQQrQyV0EFHAto3Llr981uI6UuioD/a/9aSHqd8wg2pM8aTVVtxaPjewwVDNrFV6SGr2UiM6sWF1ypKn5QhWqfIOY9TnbgoEiYtWqM6ZexwbKCbgzpMiC6McH29iFoLLHjJuKf4q5wrPGPEgJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JMpmk1Ct; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nyVnmy2j";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qILRm6DS";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nyVnmy2j";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qILRm6DS"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 09D5C21AF2;
-	Sun,  1 Sep 2024 13:44:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1725198289; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=UC3KTMuX2tFuoGqwY71GISOh3kE9po4T8yo1eHJmyy4=;
-	b=nyVnmy2jZe/AZBihwqmRdmbrxB1SQwPf0anN/Ab5rwJHp9vvyp2rEIb8Nni2vLpr6Zz95m
-	CMO+KiwMUc8JAQj0mJRF2cvT+4Pd8rbTtAZZnnEzjMkaVXGDWL7E5U+yMrK5TFJtxR3qDQ
-	ZrVLc69MYcJV6xwuQLdwXeShm1a0d08=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1725198289;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=UC3KTMuX2tFuoGqwY71GISOh3kE9po4T8yo1eHJmyy4=;
-	b=qILRm6DSPEf9Jmqgijd2Kt6GRriYyVqITkZLwomBviXUIcifUqbyPVZhK6VSn1As6ZHbUQ
-	xVfgv9hTWJpB+8CA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1725198289; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=UC3KTMuX2tFuoGqwY71GISOh3kE9po4T8yo1eHJmyy4=;
-	b=nyVnmy2jZe/AZBihwqmRdmbrxB1SQwPf0anN/Ab5rwJHp9vvyp2rEIb8Nni2vLpr6Zz95m
-	CMO+KiwMUc8JAQj0mJRF2cvT+4Pd8rbTtAZZnnEzjMkaVXGDWL7E5U+yMrK5TFJtxR3qDQ
-	ZrVLc69MYcJV6xwuQLdwXeShm1a0d08=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1725198289;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=UC3KTMuX2tFuoGqwY71GISOh3kE9po4T8yo1eHJmyy4=;
-	b=qILRm6DSPEf9Jmqgijd2Kt6GRriYyVqITkZLwomBviXUIcifUqbyPVZhK6VSn1As6ZHbUQ
-	xVfgv9hTWJpB+8CA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D7B1F139D4;
-	Sun,  1 Sep 2024 13:44:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id k/PfMtBv1GaiIgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 01 Sep 2024 13:44:48 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Cc: Hongbo Li <lihongbo22@huawei.com>
-Subject: [PATCH] ALSA: pcm: Fix the previous conversion to kstrtoul()
-Date: Sun,  1 Sep 2024 15:45:12 +0200
-Message-ID: <20240901134524.27107-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JMpmk1Ct"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5334c4cc17fso4727989e87.2;
+        Sun, 01 Sep 2024 09:21:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725207687; x=1725812487; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CuCUp3dtlERSrvFobjZyRBsC7Z86P+xyj/8tqs+RWFM=;
+        b=JMpmk1Ctmx2aU5Xoi4jjldKRAeBaGnLyEUzfePTeFNywpfMlfktIyfscP91u2zzytd
+         NW8KHrPFhnE1RCSl0m/XCZf3YM4bJwtNMPToMDubi/HhgEIvLE7nw20PxYXIxuQhXgoE
+         +8fkIgiPT5jvFzjKt2DMyuzVmNzHda8NJmSCxrd5OdlE6yLTWU+Mr7TLFd+I2w7e+SQF
+         3bojODX2dJOhuZnwL5k7DMTNJCb/vOR5ZvuAjsMwWqyVdFEgpyD8W06sCin4sYgSNq+r
+         sZXyL69KyYTbnx+s3pW3Q8Nbdy3ZMVuHJacKoNp39MPiFiPNQXLGDddfVWuo530md1mz
+         zNFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725207687; x=1725812487;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CuCUp3dtlERSrvFobjZyRBsC7Z86P+xyj/8tqs+RWFM=;
+        b=QoMkQFz2nlDFa3xP6VB4KhzMBJT7rFl+VExNxcVUMCMTBVgMur24ZrFhfA2WliSTwM
+         lIMj4NQWqc5sE9pL/o3n8s8LZkWSBv6WYa6y9hk7cRDafOGnAuhxFLSFQgimNqFWb9Dk
+         T3Mgp5Yzp0SX23MIZQvGWN/MqyKtZO4mOC9W3EfVBtHNqxhpBP58JRAeII2worj46xHP
+         ohIvST6bdU/PaCC56dPCebzzipFVOPBoE7dvV4tegXpVdWY1Q2be54vBJSQ1TsYxaLw1
+         y2uRDwge/JSje54RZBKu0CVp9dCPmk9xo58w3/nm2WSfuVxYSGEdOTRW9WgJO+k9eE5C
+         wfhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWX5nE8mHG8gUPJs6gqOwbF3luoT6I9eSEFVcaFP/b3pksyLdd5QfSZI7CoBuznMJlRHCLpxwM2QWxQLCU=@vger.kernel.org, AJvYcCXQr77uwQ5abwG691CWI0FuF4jNuOxbcEv91zHc8pEUs1Yd8pp7r+C/MUBp0BDGujSmlI+p6HLT7I7knqw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCjjOkRKU3+RaKcHqcKa2Z9xgrDkF07RoqdHQPc9YUecCzCatl
+	f7U9xWXeMYzSG1EoB73o7Q+UwL/XCAy8SXknEHwoAKHs02vKZE/0AW6U0l0f
+X-Google-Smtp-Source: AGHT+IEGB7s1ist5UbduRK69b+q1RkRwi4CIl6+uwr/fcPQj8RE6S+v26D6lpS1ABs+eeFzW7FhuNg==
+X-Received: by 2002:a05:6512:3e08:b0:533:97b:e272 with SMTP id 2adb3069b0e04-53546b92a89mr5932754e87.41.1725207687017;
+        Sun, 01 Sep 2024 09:21:27 -0700 (PDT)
+Received: from localhost (craw-09-b2-v4wan-169726-cust2117.vm24.cable.virginm.net. [92.238.24.70])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a898919686bsm448214166b.134.2024.09.01.09.21.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Sep 2024 09:21:26 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] ALSA: ali5451: Remove trailing space after \n newline
+Date: Sun,  1 Sep 2024 17:21:25 +0100
+Message-Id: <20240901162125.144069-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.991];
-	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Level: 
 
-The previous replacement from simple_strtoul() to kstrtoul() forgot
-that the passed pointer must be an unsigned long int pointer, while
-the value used there is a sized_t pointer.  Fix it.
+There is a extraneous space after a newline in a dev_dbg message.
+Remove it.
 
-Fixes: 61bc4deff033 ("ALSA: pcm: replace simple_strtoul to kstrtoul")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202409010425.YPS7cWeJ-lkp@intel.com/
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 ---
- sound/core/pcm_memory.c | 2 +-
+ sound/pci/ali5451/ali5451.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/core/pcm_memory.c b/sound/core/pcm_memory.c
-index 73d4fc49a0ca..5001181208df 100644
---- a/sound/core/pcm_memory.c
-+++ b/sound/core/pcm_memory.c
-@@ -183,7 +183,7 @@ static void snd_pcm_lib_preallocate_proc_write(struct snd_info_entry *entry,
- 	struct snd_pcm_substream *substream = entry->private_data;
- 	struct snd_card *card = substream->pcm->card;
- 	char line[64], str[64];
--	size_t size;
-+	unsigned long size;
- 	struct snd_dma_buffer new_dmab;
+diff --git a/sound/pci/ali5451/ali5451.c b/sound/pci/ali5451/ali5451.c
+index 31e51e2df655..793d2f13267e 100644
+--- a/sound/pci/ali5451/ali5451.c
++++ b/sound/pci/ali5451/ali5451.c
+@@ -292,7 +292,7 @@ static int snd_ali_codec_ready(struct snd_ali *codec,
+ 	}
  
- 	guard(mutex)(&substream->pcm->open_mutex);
+ 	snd_ali_5451_poke(codec, port, res & ~0x8000);
+-	dev_dbg(codec->card->dev, "ali_codec_ready: codec is not ready.\n ");
++	dev_dbg(codec->card->dev, "ali_codec_ready: codec is not ready.\n");
+ 	return -EIO;
+ }
+ 
 -- 
-2.43.0
+2.39.2
 
