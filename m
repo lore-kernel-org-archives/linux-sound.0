@@ -1,241 +1,188 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AC653C00
-	for <linux-sound@vger.kernel.org>; Mon,  2 Sep 2024 07:52:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47A6314900E;
+	Mon,  2 Sep 2024 07:53:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725263526; cv=none; b=RD95H/8i25cQgkinAZgVf6A9OXnrkOkKR3Lj3h1amVUYh1l1J/ccFzif6vmriz6ThddLHxV316ZAW9lapKGo1FS+75POgMPsnJyVe7oFCP90qidGTS/yWrPhnqQZrWwVsyxTcuplSxwIr6N//Erm9E2PjM5qIl1ycvfkMehm+s8=
+	t=1725263593; cv=none; b=AVVKzAm3IPMqHh/0MsaJBxnKKJqJfsQaOR+8tdHzBRJOJaSKTeXwcKKlYV/sF3rE5UrBWVjKWYJ2ksOgRwKX2dPmWSI335eb38+mBcEv7G007MZx0Uc3Uvv31gwbQptNKDK9BTayySr4fofVHtvTOHde+BOwNC1vsHMOeZ/g7yo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725263526; c=relaxed/simple;
-	bh=7o5fzv34y4Nlu1j3XfxV35SSQnqcLmXCK51lR2oc+lc=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=sbcon0AhIQ98EBjWLDTH/JdNq1hMhXYVoCMn2+cwZIT31sVEOotdZc9cAGN9Cz23/lkXlXwSGL2EWM6JokOdJxNzC/WOosP7G8EKW84xD9VEocyDOKoZhWj5CLkPipMpae0v8o163a+vhsi+2ZCiLrAglUcuVwTJOwL5zgPHzbE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MEDXrGaD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2ImpzFpT; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MEDXrGaD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2ImpzFpT; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1725263593; c=relaxed/simple;
+	bh=jgsZYlTQdATRaDgliWYQJCkQ3Kk3J3OmBNJ3kUXZ7W8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Jw2QSv9+K43BjYxCnuWXIVEyOy5j15Fq3Gmb5wyi8gORbfDkcIOPKnZo/r+obqzsjFFoZmLBVaCCqKGc12VnX5A5XgoPDO/9giN3RzAN7k29AYyzcn4gVqr0iR637xNj9aLLkUdTqZb/XofOkmR0liOUGLE3e89HZiZIV4RMcNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net; spf=pass smtp.mailfrom=asahilina.net; dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b=gwQ+kXdp; arc=none smtp.client-ip=212.63.210.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asahilina.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MEDXrGaD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2ImpzFpT";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MEDXrGaD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2ImpzFpT"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b="gwQ+kXdp"
+Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6DF0F21B14;
-	Mon,  2 Sep 2024 07:52:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1725263522; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=F3SXVtHyavN0mjLkhTqkKRWbbHU/xTZsKzJnlUFQPdA=;
-	b=MEDXrGaD9WiivDNwAcxdUmTtz0hbfyj/SrO+573GS/Yjo6mI+ijRGz9aERQaYbAHdUL/ec
-	VJP5ky1soyxsF4LcL8xKtVQOd7uY4ycIk3hEQ7LRuljfYOdgiQWK9+K2uifjpOSRlNBVKx
-	p3oZGCPowQThadwekWyx8r/bClwXqIk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1725263522;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=F3SXVtHyavN0mjLkhTqkKRWbbHU/xTZsKzJnlUFQPdA=;
-	b=2ImpzFpTRH1xvsZxbgBRkk80OhsEo3J8VxiXskthyGonscV0ZcjBtlYAq7rwX+g93jvZCL
-	kBIUM/CpnCa9EcCA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=MEDXrGaD;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=2ImpzFpT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1725263522; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=F3SXVtHyavN0mjLkhTqkKRWbbHU/xTZsKzJnlUFQPdA=;
-	b=MEDXrGaD9WiivDNwAcxdUmTtz0hbfyj/SrO+573GS/Yjo6mI+ijRGz9aERQaYbAHdUL/ec
-	VJP5ky1soyxsF4LcL8xKtVQOd7uY4ycIk3hEQ7LRuljfYOdgiQWK9+K2uifjpOSRlNBVKx
-	p3oZGCPowQThadwekWyx8r/bClwXqIk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1725263522;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=F3SXVtHyavN0mjLkhTqkKRWbbHU/xTZsKzJnlUFQPdA=;
-	b=2ImpzFpTRH1xvsZxbgBRkk80OhsEo3J8VxiXskthyGonscV0ZcjBtlYAq7rwX+g93jvZCL
-	kBIUM/CpnCa9EcCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 40EEF13AE5;
-	Mon,  2 Sep 2024 07:52:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id GWODDqJu1WZINQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 02 Sep 2024 07:52:02 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: core: Drop superfluous no_free_ptr() for memdup_user() errors
-Date: Mon,  2 Sep 2024 09:52:27 +0200
-Message-ID: <20240902075246.3743-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+	(Authenticated sender: lina@asahilina.net)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 99A8443F55;
+	Mon,  2 Sep 2024 07:53:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+	s=default; t=1725263586;
+	bh=jgsZYlTQdATRaDgliWYQJCkQ3Kk3J3OmBNJ3kUXZ7W8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=gwQ+kXdpGLYSFoBu57hqOyEyDXCWTqTCpOyj2fwjlI7YsPurQQ+LnPwHvmDBGPTvi
+	 blHqglsvw929z4JyJdU+hhN4DxwmVNv1QS4nKSdhB0mlS0SoTyLqOmAx/aNXfpfdcC
+	 HVFPZXnouuT6KoIq1ly0yyRAGlTAygFFe/eepVS8yAvx3grIPa4mMOSNQzdCUq4BIb
+	 bAI5m1Q9Ki58vIEsTL9cNP6Jpdldc+g+X42UMtFpcRq+7jnmoI4jiC7BHaeJyw/lsF
+	 S0BBBD8XkhQ3EEgdO+FRS7Rd0bLgCaSXd9eLizRJee0N0C83Uz8dqbKr3G6mo/fIav
+	 e7KD8XGIKHF8w==
+Message-ID: <e9b208f8-6dee-4b17-b63b-64b67eee1c93@asahilina.net>
+Date: Mon, 2 Sep 2024 16:53:04 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 6DF0F21B14
-X-Spam-Score: -5.01
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	TO_DN_NONE(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_TRACE(0.00)[suse.de:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] ALSA: usb-audio: Add mixer quirk for RME Digiface USB
+To: kernel test robot <lkp@intel.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ "Geoffrey D. Bennett" <g@b4.vu>, Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+ Mark Hills <mark@xwax.org>, Arun Raghavan <arun@arunraghavan.net>,
+ Cyan Nyan <cyan.vtb@gmail.com>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240902-rme-digiface-v1-2-6e88472a2744@asahilina.net>
+ <202409021549.DbXWdqGa-lkp@intel.com>
+Content-Language: en-US
+From: Asahi Lina <lina@asahilina.net>
+In-Reply-To: <202409021549.DbXWdqGa-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-We used to wrap with no_free_ptr() for the return value from
-memdup_user() with errors where the auto cleanup is applied.  This was
-a workaround because the initial implementation of kfree auto-cleanup
-checked only NULL pointers.
 
-Since recently, though, the kfree auto-cleanup checks with
-IS_ERR_OR_NULL() (by the commit cd7eb8f83fcf ("mm/slab: make
-__free(kfree) accept error pointers")), hence those workarounds became
-superfluous.  Let's drop them now.
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/core/compress_offload.c |  2 +-
- sound/core/control.c          |  4 ++--
- sound/core/pcm_native.c       | 10 +++++-----
- sound/core/timer.c            |  4 ++--
- 4 files changed, 10 insertions(+), 10 deletions(-)
+On 9/2/24 4:29 PM, kernel test robot wrote:
+> Hi Asahi,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on 8400291e289ee6b2bf9779ff1c83a291501f017b]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Asahi-Lina/ALSA-usb-audio-Add-quirk-for-RME-Digiface-USB/20240902-054004
+> base:   8400291e289ee6b2bf9779ff1c83a291501f017b
+> patch link:    https://lore.kernel.org/r/20240902-rme-digiface-v1-2-6e88472a2744%40asahilina.net
+> patch subject: [PATCH 2/2] ALSA: usb-audio: Add mixer quirk for RME Digiface USB
+> config: mips-mtx1_defconfig (https://download.01.org/0day-ci/archive/20240902/202409021549.DbXWdqGa-lkp@intel.com/config)
+> compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240902/202409021549.DbXWdqGa-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202409021549.DbXWdqGa-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>>> sound/usb/mixer_quirks.c:3000:42: warning: shift count >= width of type [-Wshift-count-overflow]
+>            bool invert = kcontrol->private_value & RME_DIGIFACE_INVERT;
+>                                                    ^~~~~~~~~~~~~~~~~~~
+>    sound/usb/mixer_quirks.c:2948:29: note: expanded from macro 'RME_DIGIFACE_INVERT'
+>    #define RME_DIGIFACE_INVERT BIT(32)
 
-diff --git a/sound/core/compress_offload.c b/sound/core/compress_offload.c
-index f0008fa2d839..b8c0d6edbdd1 100644
---- a/sound/core/compress_offload.c
-+++ b/sound/core/compress_offload.c
-@@ -581,7 +581,7 @@ snd_compr_set_params(struct snd_compr_stream *stream, unsigned long arg)
- 		 */
- 		params = memdup_user((void __user *)arg, sizeof(*params));
- 		if (IS_ERR(params))
--			return PTR_ERR(no_free_ptr(params));
-+			return PTR_ERR(params);
- 
- 		retval = snd_compress_check_input(params);
- 		if (retval)
-diff --git a/sound/core/control.c b/sound/core/control.c
-index 7d7d592a8428..4f55f64c42e1 100644
---- a/sound/core/control.c
-+++ b/sound/core/control.c
-@@ -1249,7 +1249,7 @@ static int snd_ctl_elem_read_user(struct snd_card *card,
- 
- 	control = memdup_user(_control, sizeof(*control));
- 	if (IS_ERR(control))
--		return PTR_ERR(no_free_ptr(control));
-+		return PTR_ERR(control);
- 
- 	result = snd_power_ref_and_wait(card);
- 	if (result)
-@@ -1326,7 +1326,7 @@ static int snd_ctl_elem_write_user(struct snd_ctl_file *file,
- 
- 	control = memdup_user(_control, sizeof(*control));
- 	if (IS_ERR(control))
--		return PTR_ERR(no_free_ptr(control));
-+		return PTR_ERR(control);
- 
- 	card = file->card;
- 	result = snd_power_ref_and_wait(card);
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index 4057f9f10aee..44381514f695 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -582,7 +582,7 @@ static int snd_pcm_hw_refine_user(struct snd_pcm_substream *substream,
- 
- 	params = memdup_user(_params, sizeof(*params));
- 	if (IS_ERR(params))
--		return PTR_ERR(no_free_ptr(params));
-+		return PTR_ERR(params);
- 
- 	err = snd_pcm_hw_refine(substream, params);
- 	if (err < 0)
-@@ -872,7 +872,7 @@ static int snd_pcm_hw_params_user(struct snd_pcm_substream *substream,
- 
- 	params = memdup_user(_params, sizeof(*params));
- 	if (IS_ERR(params))
--		return PTR_ERR(no_free_ptr(params));
-+		return PTR_ERR(params);
- 
- 	err = snd_pcm_hw_params(substream, params);
- 	if (err < 0)
-@@ -3243,7 +3243,7 @@ static int snd_pcm_xfern_frames_ioctl(struct snd_pcm_substream *substream,
- 
- 	bufs = memdup_user(xfern.bufs, sizeof(void *) * runtime->channels);
- 	if (IS_ERR(bufs))
--		return PTR_ERR(no_free_ptr(bufs));
-+		return PTR_ERR(bufs);
- 	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
- 		result = snd_pcm_lib_writev(substream, bufs, xfern.frames);
- 	else
-@@ -4032,7 +4032,7 @@ static int snd_pcm_hw_refine_old_user(struct snd_pcm_substream *substream,
- 
- 	oparams = memdup_user(_oparams, sizeof(*oparams));
- 	if (IS_ERR(oparams))
--		return PTR_ERR(no_free_ptr(oparams));
-+		return PTR_ERR(oparams);
- 	snd_pcm_hw_convert_from_old_params(params, oparams);
- 	err = snd_pcm_hw_refine(substream, params);
- 	if (err < 0)
-@@ -4061,7 +4061,7 @@ static int snd_pcm_hw_params_old_user(struct snd_pcm_substream *substream,
- 
- 	oparams = memdup_user(_oparams, sizeof(*oparams));
- 	if (IS_ERR(oparams))
--		return PTR_ERR(no_free_ptr(oparams));
-+		return PTR_ERR(oparams);
- 
- 	snd_pcm_hw_convert_from_old_params(params, oparams);
- 	err = snd_pcm_hw_params(substream, params);
-diff --git a/sound/core/timer.c b/sound/core/timer.c
-index 7610f102360d..1d13f6c1d506 100644
---- a/sound/core/timer.c
-+++ b/sound/core/timer.c
-@@ -1615,7 +1615,7 @@ static int snd_timer_user_ginfo(struct file *file,
- 
- 	ginfo = memdup_user(_ginfo, sizeof(*ginfo));
- 	if (IS_ERR(ginfo))
--		return PTR_ERR(no_free_ptr(ginfo));
-+		return PTR_ERR(ginfo);
- 
- 	tid = ginfo->tid;
- 	memset(ginfo, 0, sizeof(*ginfo));
-@@ -2190,7 +2190,7 @@ static int snd_utimer_ioctl_create(struct file *file,
- 
- 	utimer_info = memdup_user(_utimer_info, sizeof(*utimer_info));
- 	if (IS_ERR(utimer_info))
--		return PTR_ERR(no_free_ptr(utimer_info));
-+		return PTR_ERR(utimer_info);
- 
- 	err = snd_utimer_create(utimer_info, &utimer);
- 	if (err < 0)
--- 
-2.43.0
+Oops, this was supposed to be BIT(31). I'll fix it for v2.
 
+>                                ^~~~~~~
+>    include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+>    #define BIT(nr)                 (UL(1) << (nr))
+>                                           ^  ~~~~
+>    sound/usb/mixer_quirks.c:3063:42: warning: shift count >= width of type [-Wshift-count-overflow]
+>            bool invert = kcontrol->private_value & RME_DIGIFACE_INVERT;
+>                                                    ^~~~~~~~~~~~~~~~~~~
+>    sound/usb/mixer_quirks.c:2948:29: note: expanded from macro 'RME_DIGIFACE_INVERT'
+>    #define RME_DIGIFACE_INVERT BIT(32)
+>                                ^~~~~~~
+>    include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+>    #define BIT(nr)                 (UL(1) << (nr))
+>                                           ^  ~~~~
+>    sound/usb/mixer_quirks.c:3160:4: warning: shift count >= width of type [-Wshift-count-overflow]
+>                            RME_DIGIFACE_INVERT,
+>                            ^~~~~~~~~~~~~~~~~~~
+>    sound/usb/mixer_quirks.c:2948:29: note: expanded from macro 'RME_DIGIFACE_INVERT'
+>    #define RME_DIGIFACE_INVERT BIT(32)
+>                                ^~~~~~~
+>    include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+>    #define BIT(nr)                 (UL(1) << (nr))
+>                                           ^  ~~~~
+>    sound/usb/mixer_quirks.c:3185:4: warning: shift count >= width of type [-Wshift-count-overflow]
+>                            RME_DIGIFACE_INVERT,
+>                            ^~~~~~~~~~~~~~~~~~~
+>    sound/usb/mixer_quirks.c:2948:29: note: expanded from macro 'RME_DIGIFACE_INVERT'
+>    #define RME_DIGIFACE_INVERT BIT(32)
+>                                ^~~~~~~
+>    include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+>    #define BIT(nr)                 (UL(1) << (nr))
+>                                           ^  ~~~~
+>    sound/usb/mixer_quirks.c:3210:4: warning: shift count >= width of type [-Wshift-count-overflow]
+>                            RME_DIGIFACE_INVERT,
+>                            ^~~~~~~~~~~~~~~~~~~
+>    sound/usb/mixer_quirks.c:2948:29: note: expanded from macro 'RME_DIGIFACE_INVERT'
+>    #define RME_DIGIFACE_INVERT BIT(32)
+>                                ^~~~~~~
+>    include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+>    #define BIT(nr)                 (UL(1) << (nr))
+>                                           ^  ~~~~
+>    sound/usb/mixer_quirks.c:3235:4: warning: shift count >= width of type [-Wshift-count-overflow]
+>                            RME_DIGIFACE_INVERT,
+>                            ^~~~~~~~~~~~~~~~~~~
+>    sound/usb/mixer_quirks.c:2948:29: note: expanded from macro 'RME_DIGIFACE_INVERT'
+>    #define RME_DIGIFACE_INVERT BIT(32)
+>                                ^~~~~~~
+>    include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+>    #define BIT(nr)                 (UL(1) << (nr))
+>                                           ^  ~~~~
+>    6 warnings generated.
+> 
+> 
+> vim +3000 sound/usb/mixer_quirks.c
+> 
+>   2995	
+>   2996	static int snd_rme_digiface_get_status_val(struct snd_kcontrol *kcontrol)
+>   2997	{
+>   2998		int err;
+>   2999		u32 status[4];
+>> 3000		bool invert = kcontrol->private_value & RME_DIGIFACE_INVERT;
+>   3001		u8 reg = kcontrol->private_value >> 16;
+>   3002		u16 mask = kcontrol->private_value & 0xffff;
+>   3003		u16 val;
+>   3004	
+>   3005		err = snd_rme_digiface_read_status(kcontrol, status);
+>   3006		if (err < 0)
+>   3007			return err;
+>   3008	
+>   3009		switch (reg) {
+>   3010		/* Status register halfwords */
+>   3011		case RME_DIGIFACE_STATUS_REG0L ... RME_DIGIFACE_STATUS_REG3H:
+>   3012			break;
+>   3013		case RME_DIGIFACE_CTL_REG1: /* Control register 1, present in halfword 3L */
+>   3014			reg = RME_DIGIFACE_STATUS_REG3L;
+>   3015			break;
+>   3016		case RME_DIGIFACE_CTL_REG2: /* Control register 2, present in halfword 3H */
+>   3017			reg = RME_DIGIFACE_STATUS_REG3H;
+>   3018			break;
+>   3019		default:
+>   3020			return -EINVAL;
+>   3021		}
+>   3022	
+>   3023		if (reg & 1)
+>   3024			val = status[reg >> 1] >> 16;
+>   3025		else
+>   3026			val = status[reg >> 1] & 0xffff;
+>   3027	
+>   3028		if (invert)
+>   3029			val ^= mask;
+>   3030	
+>   3031		return field_get(mask, val);
+>   3032	}
+>   3033	
+> 
+
+~~ Lina
