@@ -1,40 +1,40 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47A6314900E;
-	Mon,  2 Sep 2024 07:53:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 011B717E017;
+	Mon,  2 Sep 2024 08:12:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725263593; cv=none; b=AVVKzAm3IPMqHh/0MsaJBxnKKJqJfsQaOR+8tdHzBRJOJaSKTeXwcKKlYV/sF3rE5UrBWVjKWYJ2ksOgRwKX2dPmWSI335eb38+mBcEv7G007MZx0Uc3Uvv31gwbQptNKDK9BTayySr4fofVHtvTOHde+BOwNC1vsHMOeZ/g7yo=
+	t=1725264746; cv=none; b=gumsNXlrk1md8SAzL0evPAt0DJ0SFC7qJhYSxCqjAsS7Qbv42Fs0X9ZcZoOUcceghk6lX2vMxyhqvesbEq3j9gbWMzzYvg3VJPPTAjkzQgNtUAlSyq7jLcLbxi/g2TbErsJzKDKtoV/5+0L045isHzTbONh6E7Z5F8YD/CDzn5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725263593; c=relaxed/simple;
-	bh=jgsZYlTQdATRaDgliWYQJCkQ3Kk3J3OmBNJ3kUXZ7W8=;
+	s=arc-20240116; t=1725264746; c=relaxed/simple;
+	bh=uuroy6YNPQNnktpHhPfgTMxnxCdZ1u2w5GiFuqhg2qg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Jw2QSv9+K43BjYxCnuWXIVEyOy5j15Fq3Gmb5wyi8gORbfDkcIOPKnZo/r+obqzsjFFoZmLBVaCCqKGc12VnX5A5XgoPDO/9giN3RzAN7k29AYyzcn4gVqr0iR637xNj9aLLkUdTqZb/XofOkmR0liOUGLE3e89HZiZIV4RMcNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net; spf=pass smtp.mailfrom=asahilina.net; dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b=gwQ+kXdp; arc=none smtp.client-ip=212.63.210.85
+	 In-Reply-To:Content-Type; b=OPi85+fOTTDQ5SiV5lxTc/ITjrwuRAxQdDv5V5vJMXhOfkyg9GDdIaxSNNzJcW1037U58e4WIgMOS+k4o7vyzg33IdwsZg699PnDxqovvv2m4ZJDYsTWNliSbp10f6REP/8++OklJjtYdN1cEOyGw5BVmQV9mMKHAYG91AdCkYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net; spf=pass smtp.mailfrom=asahilina.net; dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b=B81TBXzP; arc=none smtp.client-ip=212.63.210.85
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asahilina.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b="gwQ+kXdp"
+	dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b="B81TBXzP"
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: lina@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 99A8443F55;
-	Mon,  2 Sep 2024 07:53:05 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id B45E24459E;
+	Mon,  2 Sep 2024 08:12:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1725263586;
-	bh=jgsZYlTQdATRaDgliWYQJCkQ3Kk3J3OmBNJ3kUXZ7W8=;
+	s=default; t=1725264740;
+	bh=uuroy6YNPQNnktpHhPfgTMxnxCdZ1u2w5GiFuqhg2qg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=gwQ+kXdpGLYSFoBu57hqOyEyDXCWTqTCpOyj2fwjlI7YsPurQQ+LnPwHvmDBGPTvi
-	 blHqglsvw929z4JyJdU+hhN4DxwmVNv1QS4nKSdhB0mlS0SoTyLqOmAx/aNXfpfdcC
-	 HVFPZXnouuT6KoIq1ly0yyRAGlTAygFFe/eepVS8yAvx3grIPa4mMOSNQzdCUq4BIb
-	 bAI5m1Q9Ki58vIEsTL9cNP6Jpdldc+g+X42UMtFpcRq+7jnmoI4jiC7BHaeJyw/lsF
-	 S0BBBD8XkhQ3EEgdO+FRS7Rd0bLgCaSXd9eLizRJee0N0C83Uz8dqbKr3G6mo/fIav
-	 e7KD8XGIKHF8w==
-Message-ID: <e9b208f8-6dee-4b17-b63b-64b67eee1c93@asahilina.net>
-Date: Mon, 2 Sep 2024 16:53:04 +0900
+	b=B81TBXzP20aFyvp+4P4jtDokBSBCfz6j8sQLfncg5yV0pAsKwIiejjIsld5emdGcN
+	 Cuav+rtppgvDIpTW6IVewnoiz9NeVKq1kp8QMJDVMS71l2110+e6snWsS5JMpyF8t8
+	 0CpbtmNX57hXLPDZeYw4GtPoxJ2FY5PjvPZGgXQwFgqOZ64J13FRp8nBbaMGo8PihI
+	 Fhxvghj3taBW1vG8lrRUvIvY75Lr+vSP3QxOpYW5tQW2YvPjNKEL/O6x0D4XfMV08f
+	 tj5tCo4IPGpOwn8pC+MonHPlS1yRJ6Oj5L4hYeQehqK5b7wIVU43Gw8TygxdMvroty
+	 UcztlBwVQIu0w==
+Message-ID: <3980ad8b-d27c-482e-bbb7-3b243ecc8744@asahilina.net>
+Date: Mon, 2 Sep 2024 17:12:18 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,147 +42,84 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] ALSA: usb-audio: Add mixer quirk for RME Digiface USB
-To: kernel test robot <lkp@intel.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+Subject: Re: [PATCH 1/2] ALSA: usb-audio: Add quirk for RME Digiface USB
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
  "Geoffrey D. Bennett" <g@b4.vu>, Takashi Sakamoto <o-takashi@sakamocchi.jp>,
  Mark Hills <mark@xwax.org>, Arun Raghavan <arun@arunraghavan.net>,
  Cyan Nyan <cyan.vtb@gmail.com>, linux-sound@vger.kernel.org,
  linux-kernel@vger.kernel.org
-References: <20240902-rme-digiface-v1-2-6e88472a2744@asahilina.net>
- <202409021549.DbXWdqGa-lkp@intel.com>
+References: <20240902-rme-digiface-v1-0-6e88472a2744@asahilina.net>
+ <20240902-rme-digiface-v1-1-6e88472a2744@asahilina.net>
+ <8734mik2m6.wl-tiwai@suse.de>
 Content-Language: en-US
 From: Asahi Lina <lina@asahilina.net>
-In-Reply-To: <202409021549.DbXWdqGa-lkp@intel.com>
+In-Reply-To: <8734mik2m6.wl-tiwai@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 9/2/24 4:29 PM, kernel test robot wrote:
-> Hi Asahi,
+On 9/2/24 3:10 PM, Takashi Iwai wrote:
+> On Sun, 01 Sep 2024 23:31:50 +0200,
+> Asahi Lina wrote:
+>>
+>> From: Cyan Nyan <cyan.vtb@gmail.com>
+>>
+>> Add trivial support for audio streaming on the RME Digiface USB. Binds
+>> only to the first interface to allow userspace to directly drive the
+>> complex I/O and matrix mixer controls.
+>>
+>> Signed-off-by: Cyan Nyan <cyan.vtb@gmail.com>
+>> [Lina: Added 2x/4x sample rate support & boot/format quirks]
+>> Co-developed-by: Asahi Lina <lina@asahilina.net>
+>> Signed-off-by: Asahi Lina <lina@asahilina.net>
+>> ---
+>>  sound/usb/quirks-table.h | 190 ++++++++++++++++++++++++++++++++++++++++++++++-
+>>  sound/usb/quirks.c       |  58 +++++++++++++++
+>>  2 files changed, 247 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
+>> index 73abc38a5400..47fd18791396 100644
+>> --- a/sound/usb/quirks-table.h
+>> +++ b/sound/usb/quirks-table.h
+>> @@ -4546,6 +4546,194 @@ YAMAHA_DEVICE(0x7010, "UB99"),
+>>  		}
+>>  	}
+>>  },
+>> -
+>> +{
+>> +	/* Only claim interface 0 */
+>> +	.match_flags = USB_DEVICE_ID_MATCH_VENDOR |
+>> +		       USB_DEVICE_ID_MATCH_PRODUCT |
+>> +		       USB_DEVICE_ID_MATCH_INT_CLASS |
+>> +		       USB_DEVICE_ID_MATCH_INT_NUMBER,
+>> +	.idVendor = 0x2a39,
+>> +	.idProduct = 0x3f8c,
+>> +	.bInterfaceClass = USB_CLASS_VENDOR_SPEC,
+>> +	.bInterfaceNumber = 0,
+>> +	.driver_info = (unsigned long) &(const struct snd_usb_audio_quirk) {
+>> +		.ifnum = QUIRK_ANY_INTERFACE,
+>> +		.type = QUIRK_COMPOSITE,
+> (snip)
 > 
-> kernel test robot noticed the following build warnings:
+> Recently the quirk tables are rewritten with macros.
+> See the commit d79e13f8e8abb5cd3a2a0f9fc9bc3fc750c5b06f
+>     ALSA: usb-audio: Replace complex quirk lines with macros
+> in for-next branch of sound.git tree.
 > 
-> [auto build test WARNING on 8400291e289ee6b2bf9779ff1c83a291501f017b]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Asahi-Lina/ALSA-usb-audio-Add-quirk-for-RME-Digiface-USB/20240902-054004
-> base:   8400291e289ee6b2bf9779ff1c83a291501f017b
-> patch link:    https://lore.kernel.org/r/20240902-rme-digiface-v1-2-6e88472a2744%40asahilina.net
-> patch subject: [PATCH 2/2] ALSA: usb-audio: Add mixer quirk for RME Digiface USB
-> config: mips-mtx1_defconfig (https://download.01.org/0day-ci/archive/20240902/202409021549.DbXWdqGa-lkp@intel.com/config)
-> compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240902/202409021549.DbXWdqGa-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202409021549.DbXWdqGa-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> sound/usb/mixer_quirks.c:3000:42: warning: shift count >= width of type [-Wshift-count-overflow]
->            bool invert = kcontrol->private_value & RME_DIGIFACE_INVERT;
->                                                    ^~~~~~~~~~~~~~~~~~~
->    sound/usb/mixer_quirks.c:2948:29: note: expanded from macro 'RME_DIGIFACE_INVERT'
->    #define RME_DIGIFACE_INVERT BIT(32)
+> Could you try to apply to your new entries, too?
 
-Oops, this was supposed to be BIT(31). I'll fix it for v2.
+Sure! Note that I open-coded the USB match because I need to add
+USB_DEVICE_ID_MATCH_INT_NUMBER (to stop the driver from binding to and
+claiming all interfaces, QUIRK_DATA_IGNORE() is not enough for that).
+Should I leave it like that (since it's the only case so far) or do you
+want me to introduce another macro for that case?
 
->                                ^~~~~~~
->    include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
->    #define BIT(nr)                 (UL(1) << (nr))
->                                           ^  ~~~~
->    sound/usb/mixer_quirks.c:3063:42: warning: shift count >= width of type [-Wshift-count-overflow]
->            bool invert = kcontrol->private_value & RME_DIGIFACE_INVERT;
->                                                    ^~~~~~~~~~~~~~~~~~~
->    sound/usb/mixer_quirks.c:2948:29: note: expanded from macro 'RME_DIGIFACE_INVERT'
->    #define RME_DIGIFACE_INVERT BIT(32)
->                                ^~~~~~~
->    include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
->    #define BIT(nr)                 (UL(1) << (nr))
->                                           ^  ~~~~
->    sound/usb/mixer_quirks.c:3160:4: warning: shift count >= width of type [-Wshift-count-overflow]
->                            RME_DIGIFACE_INVERT,
->                            ^~~~~~~~~~~~~~~~~~~
->    sound/usb/mixer_quirks.c:2948:29: note: expanded from macro 'RME_DIGIFACE_INVERT'
->    #define RME_DIGIFACE_INVERT BIT(32)
->                                ^~~~~~~
->    include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
->    #define BIT(nr)                 (UL(1) << (nr))
->                                           ^  ~~~~
->    sound/usb/mixer_quirks.c:3185:4: warning: shift count >= width of type [-Wshift-count-overflow]
->                            RME_DIGIFACE_INVERT,
->                            ^~~~~~~~~~~~~~~~~~~
->    sound/usb/mixer_quirks.c:2948:29: note: expanded from macro 'RME_DIGIFACE_INVERT'
->    #define RME_DIGIFACE_INVERT BIT(32)
->                                ^~~~~~~
->    include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
->    #define BIT(nr)                 (UL(1) << (nr))
->                                           ^  ~~~~
->    sound/usb/mixer_quirks.c:3210:4: warning: shift count >= width of type [-Wshift-count-overflow]
->                            RME_DIGIFACE_INVERT,
->                            ^~~~~~~~~~~~~~~~~~~
->    sound/usb/mixer_quirks.c:2948:29: note: expanded from macro 'RME_DIGIFACE_INVERT'
->    #define RME_DIGIFACE_INVERT BIT(32)
->                                ^~~~~~~
->    include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
->    #define BIT(nr)                 (UL(1) << (nr))
->                                           ^  ~~~~
->    sound/usb/mixer_quirks.c:3235:4: warning: shift count >= width of type [-Wshift-count-overflow]
->                            RME_DIGIFACE_INVERT,
->                            ^~~~~~~~~~~~~~~~~~~
->    sound/usb/mixer_quirks.c:2948:29: note: expanded from macro 'RME_DIGIFACE_INVERT'
->    #define RME_DIGIFACE_INVERT BIT(32)
->                                ^~~~~~~
->    include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
->    #define BIT(nr)                 (UL(1) << (nr))
->                                           ^  ~~~~
->    6 warnings generated.
-> 
-> 
-> vim +3000 sound/usb/mixer_quirks.c
-> 
->   2995	
->   2996	static int snd_rme_digiface_get_status_val(struct snd_kcontrol *kcontrol)
->   2997	{
->   2998		int err;
->   2999		u32 status[4];
->> 3000		bool invert = kcontrol->private_value & RME_DIGIFACE_INVERT;
->   3001		u8 reg = kcontrol->private_value >> 16;
->   3002		u16 mask = kcontrol->private_value & 0xffff;
->   3003		u16 val;
->   3004	
->   3005		err = snd_rme_digiface_read_status(kcontrol, status);
->   3006		if (err < 0)
->   3007			return err;
->   3008	
->   3009		switch (reg) {
->   3010		/* Status register halfwords */
->   3011		case RME_DIGIFACE_STATUS_REG0L ... RME_DIGIFACE_STATUS_REG3H:
->   3012			break;
->   3013		case RME_DIGIFACE_CTL_REG1: /* Control register 1, present in halfword 3L */
->   3014			reg = RME_DIGIFACE_STATUS_REG3L;
->   3015			break;
->   3016		case RME_DIGIFACE_CTL_REG2: /* Control register 2, present in halfword 3H */
->   3017			reg = RME_DIGIFACE_STATUS_REG3H;
->   3018			break;
->   3019		default:
->   3020			return -EINVAL;
->   3021		}
->   3022	
->   3023		if (reg & 1)
->   3024			val = status[reg >> 1] >> 16;
->   3025		else
->   3026			val = status[reg >> 1] & 0xffff;
->   3027	
->   3028		if (invert)
->   3029			val ^= mask;
->   3030	
->   3031		return field_get(mask, val);
->   3032	}
->   3033	
-> 
+I'll rewrite the quirk info stuff with the macros for v2. I'll also
+remove USB_ENDPOINT_USAGE_IMPLICIT_FB since I'm pretty sure that does
+nothing here (at first I thought I could get it to pick up the implicit
+FB with that but I ended up having to specify the sync/implicit_fb stuff
+explicitly).
 
 ~~ Lina
