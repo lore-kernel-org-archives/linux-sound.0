@@ -1,28 +1,28 @@
-Received: from cmccmta1.chinamobile.com (cmccmta8.chinamobile.com [111.22.67.151])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB0271C7676;
-	Tue,  3 Sep 2024 09:03:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.151
+Received: from cmccmta3.chinamobile.com (cmccmta6.chinamobile.com [111.22.67.139])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BE041C7668;
+	Tue,  3 Sep 2024 09:06:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725354209; cv=none; b=CwTHcA9B5ZfoxSWVsUeQNv7DQAf8BUAXhjnnlCe6nmiW7uCk46zVNtN8cXKmfLM70ZSfR3blc0cOgQYKIttN+oznEKYRfHSBI3MGmq2ViMXBX+E9HYAXYmc2u7084w3Cf2blmDAn3SVO/sDMBTfNTYg6e5L18WsBZjZBDaNQxV0=
+	t=1725354419; cv=none; b=aOw+ctFTxV6gSBgbOQWgVGwgIce8DoGsiXKshC0LsMugk+P9xzJh+0oKuIyghHrmc9Wg+puimJqAxZZaIN6Klf0skrM9mZ6EIpZ4f5LuaAtp3Q0thswYwvWwAaTpKhDNNese8kDePghXi7t88C7+iN+Hv82GLJKMGhB+Af7rJNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725354209; c=relaxed/simple;
-	bh=NzCeu5tuB4jMHUAOUePsBvLFXaF5uTY6HpeVJpCh+MI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GGKRbpUBkXel+EAcZXzpkjvhxWhUWPBVr1K6JBNEIvle0ITCCZ4xDcH3aMjyJ/AXfpfcRPfrBcsAYXYU00oEAmoWsf9y1RXvEF2Xt6MLZIIWCYFnfg7ZZ8bF9mwl5rw3UvJRcwS6MHngr61C2BZvfNfSQIwRB6PNP3WZ8gF3Vkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.151
+	s=arc-20240116; t=1725354419; c=relaxed/simple;
+	bh=vo2cM9jaeWckeFgAQvhRLqYW4BeSokYzEi0tKMiKYLs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=eYiDhcWhahM6goGJO2hdYQIz5C3djGZQ9uXeki5NczTAoOVTkIDLHT5FNI4r+bntIjaa08aFytjLTUUXApK5iWpNSPdlka2NQG6qCgkytbqAHeo2SdeTjIKh1kv0UaYbdjRvox79l2Wfm3D4lxij3oQ6oDgIUBcdNfT257Ds8qE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.139
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG:00000000
 Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app02-12002 (RichMail) with SMTP id 2ee266d6d0d1378-11380;
-	Tue, 03 Sep 2024 17:03:16 +0800 (CST)
-X-RM-TRANSID:2ee266d6d0d1378-11380
+	by rmmx-syy-dmz-app09-12009 (RichMail) with SMTP id 2ee966d6d19c53d-e1541;
+	Tue, 03 Sep 2024 17:06:37 +0800 (CST)
+X-RM-TRANSID:2ee966d6d19c53d-e1541
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG:00000000
 Received:from localhost.localdomain (unknown[223.108.79.97])
-	by rmsmtp-syy-appsvr07-12007 (RichMail) with SMTP id 2ee766d6d0cf4f1-d97ed;
-	Tue, 03 Sep 2024 17:03:15 +0800 (CST)
-X-RM-TRANSID:2ee766d6d0cf4f1-d97ed
+	by rmsmtp-syy-appsvr06-12006 (RichMail) with SMTP id 2ee666d6d19a36d-de227;
+	Tue, 03 Sep 2024 17:06:37 +0800 (CST)
+X-RM-TRANSID:2ee666d6d19a36d-de227
 From: tangbin <tangbin@cmss.chinamobile.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org,
@@ -31,9 +31,9 @@ To: lgirdwood@gmail.com,
 Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	tangbin <tangbin@cmss.chinamobile.com>
-Subject: [PATCH] ASoC: loongson: remove unnecessary assignment in i2s_resume()
-Date: Tue,  3 Sep 2024 17:03:01 +0800
-Message-Id: <20240903090301.6192-1-tangbin@cmss.chinamobile.com>
+Subject: [PATCH] ASoC: loongson: fix error release
+Date: Tue,  3 Sep 2024 17:06:20 +0800
+Message-Id: <20240903090620.6276-1-tangbin@cmss.chinamobile.com>
 X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -43,33 +43,31 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In this function, the assignment ret is unnecessary,
-thus remove it.
+In function loongson_card_parse_of(), when get device_node
+'codec' failed, the function of_node_put(codec) should not
+be invoked, thus fix error release.
 
+Fixes: d24028606e76 ("ASoC: loongson: Add Loongson ASoC Sound Card Support")
 Signed-off-by: tangbin <tangbin@cmss.chinamobile.com>
 ---
- sound/soc/loongson/loongson_i2s.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ sound/soc/loongson/loongson_card.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/loongson/loongson_i2s.c b/sound/soc/loongson/loongson_i2s.c
-index d45228a3a..3b9786076 100644
---- a/sound/soc/loongson/loongson_i2s.c
-+++ b/sound/soc/loongson/loongson_i2s.c
-@@ -255,13 +255,10 @@ static int i2s_suspend(struct device *dev)
- static int i2s_resume(struct device *dev)
- {
- 	struct loongson_i2s *i2s = dev_get_drvdata(dev);
--	int ret;
+diff --git a/sound/soc/loongson/loongson_card.c b/sound/soc/loongson/loongson_card.c
+index fae5e9312..2c8dbdba2 100644
+--- a/sound/soc/loongson/loongson_card.c
++++ b/sound/soc/loongson/loongson_card.c
+@@ -127,8 +127,8 @@ static int loongson_card_parse_of(struct loongson_card_data *data)
+ 	codec = of_get_child_by_name(dev->of_node, "codec");
+ 	if (!codec) {
+ 		dev_err(dev, "audio-codec property missing or invalid\n");
+-		ret = -EINVAL;
+-		goto err;
++		of_node_put(cpu);
++		return -EINVAL;
+ 	}
  
- 	regcache_cache_only(i2s->regmap, false);
- 	regcache_mark_dirty(i2s->regmap);
--	ret = regcache_sync(i2s->regmap);
--
--	return ret;
-+	return regcache_sync(i2s->regmap);
- }
- 
- const struct dev_pm_ops loongson_i2s_pm = {
+ 	for (i = 0; i < card->num_links; i++) {
 -- 
 2.33.0
 
