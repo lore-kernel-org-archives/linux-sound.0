@@ -1,45 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A96AE1EC01E
-	for <linux-sound@vger.kernel.org>; Tue,  3 Sep 2024 22:50:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BFF7192B68;
+	Tue,  3 Sep 2024 22:50:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725403829; cv=none; b=WTTugweB+WMAXb9uRZPUoFKN9VZPM3FJ65B8bwPFxi6TgvlEx3bQlMpqPBFOk2kHVqd1pboMEgv1vG10hyBl2jE9aRQ1/inuxEyIBGXILNL3kjx006L3b0+LHOOZc2juncXKB9SXb66PY06N5zOK3pxlAEWpY1Hcthl46M1vqjk=
+	t=1725403833; cv=none; b=ITqCb3Q0Ts9pcG3gqGBx6zXHOS8XwSIREr4q6LVNoES8dQPSUDHxzLNzbN5WuAGY1abenfJ3QzS7J4dTG/o6C4nYCBJYsGUf9lrQsm/A/gnfJdTT91hh90cRj6xgR1fmNADsSn3ACSPMMEpw6V3rXbt+gOpoTwPQPlkYJbK6EFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725403829; c=relaxed/simple;
-	bh=E1FRRB8uzuRrr4sETqMVC1vm1Kf3AeEHNfMhc1Zr8to=;
+	s=arc-20240116; t=1725403833; c=relaxed/simple;
+	bh=/PwOf1ix35LtXpWe66PVTiKhMIdPspb3Xf1HdLILmwY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=W1HY2vcJR5f0Eivo0dhJRLUwjF+eMpJblJDsCYEgG7KHILorBfoU2cHg/UUWwzZlcinm3CGs7QQfyATT3TeqQbDrQcN3+RaP+iY0nLivMPmF1aj/VpZyRtjg+PITzb7wVxj3926lBYtKb+r13BiBb+Sq0gulVu121zYBzGaCbhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d40BttQ+; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=uHM1HwL0t05Dd641iEkXyl+knEvIOFp0mN3cAYkFo70x9cp8Y86T5AHndEJNRulYYH5JaTM2WRF4xlpjeZvUekZt16QDDA06WqMaXnVTI7+oGhYrLgPygZvXlhOINRjqAKZTENyLnklAR1XlVpPHucxXIlWsNX2K6zAnVaxOwzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UH0ohxE1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d40BttQ+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8470C4CEC4;
-	Tue,  3 Sep 2024 22:50:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UH0ohxE1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAB84C4CEC4;
+	Tue,  3 Sep 2024 22:50:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725403829;
-	bh=E1FRRB8uzuRrr4sETqMVC1vm1Kf3AeEHNfMhc1Zr8to=;
+	s=k20201202; t=1725403833;
+	bh=/PwOf1ix35LtXpWe66PVTiKhMIdPspb3Xf1HdLILmwY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=d40BttQ+h/ne0efHOaIxsQW/tmEiK8EZU9bZBK+8xIJCo0GlhKXRkhv3BIS/e2Lcu
-	 0ZChZZAIa1GHS1w07v2lNvMacENF2uq1KIU8QIMHJA2CvlGplXkRNc6VV3GBkpe9Hg
-	 vL0j9BevChl9uDOtuHiMpLtlvgX09lkdycitkJvQTo0zvXiC7knvJcuzMWGe2KdN1w
-	 v3BVWa7F4YZspV+qo82WI6UGrg02i9kEvOgAIE4BVDlSZUKG8domtrGQiyXtX1eXMJ
-	 w35gDXi3o7/4Essu7Ho3ikY0eB/F/yABaFdfhjCDf9+8DC67P3+4f0s2PgkO1XCAs9
-	 5WxscK27UF1pg==
+	b=UH0ohxE1zuZ3SoQeABy/unwJLGSIorFzM/Jf9qHcvXYc6W9n5gvnZs3ihl/Mr0Wu6
+	 qTEb/Rawcbi8DjSaL/1CframWJEkZ2gRQfRvoFy6g6Tgp1fBthcPpfT0kS4RySX7hU
+	 BgaY5WGWNG/c+zDcmDWPGWIVQQYu9LMl11+ICJmnzm1nyIsnuvCuGn/L6CGGI78hmT
+	 92BFR/OnZZL6Rjya5DxZY9Vbn5Scu/6geJPCCXDb435IQ1cBHpyz8CYJiQGSOaYssO
+	 2c/lJJq9sPyx4jLAR3w39MPMZDWjHhSCBsFipArBZKpPiC+fAU1yEyZ2fIqTkcyUlL
+	 NGoBrOsKgN/nQ==
 From: Mark Brown <broonie@kernel.org>
-To: alsa-devel@alsa-project.org, Marek Vasut <marex@denx.de>
-Cc: Baojun Xu <baojun.xu@ti.com>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Christoph Niedermaier <cniedermaier@dh-electronics.com>, 
- Jaroslav Kysela <perex@perex.cz>, Kevin Lu <kevin-lu@ti.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
- Shenghao Ding <shenghao-ding@ti.com>, Takashi Iwai <tiwai@suse.com>, 
- kernel@dh-electronics.com, linux-sound@vger.kernel.org
-In-Reply-To: <20240830231007.205707-1-marex@denx.de>
-References: <20240830231007.205707-1-marex@denx.de>
-Subject: Re: [PATCH] ASoC: tlv320aic32x4: Add multi endpoint support
-Message-Id: <172540382639.163502.5719294960592347101.b4-ty@kernel.org>
-Date: Tue, 03 Sep 2024 23:50:26 +0100
+To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ tangbin <tangbin@cmss.chinamobile.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20240903090620.6276-1-tangbin@cmss.chinamobile.com>
+References: <20240903090620.6276-1-tangbin@cmss.chinamobile.com>
+Subject: Re: [PATCH] ASoC: loongson: fix error release
+Message-Id: <172540383156.163502.13746231189597948905.b4-ty@kernel.org>
+Date: Tue, 03 Sep 2024 23:50:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,15 +45,12 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-99b12
 
-On Sat, 31 Aug 2024 01:09:43 +0200, Marek Vasut wrote:
-> Support multiple endpoints on TLV320AIC32x4 codec port when
-> used in of_graph context.
+On Tue, 03 Sep 2024 17:06:20 +0800, tangbin wrote:
+> In function loongson_card_parse_of(), when get device_node
+> 'codec' failed, the function of_node_put(codec) should not
+> be invoked, thus fix error release.
 > 
-> This patch allows to share the codec port between two CPU DAIs.
 > 
-> Example:
-> 
-> [...]
 
 Applied to
 
@@ -66,8 +58,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: tlv320aic32x4: Add multi endpoint support
-      commit: 568dc2fae5d3697033f5e28cf4d6225b3db00461
+[1/1] ASoC: loongson: fix error release
+      commit: 97688a9c5b1fd2b826c682cdfa36d411a5c99828
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
