@@ -1,83 +1,187 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B0571EB253;
-	Tue,  3 Sep 2024 20:48:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE0801EC002;
+	Tue,  3 Sep 2024 21:19:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725396532; cv=none; b=qnsvSj3SYp5zr13zpc/BT0ACoC+SOuaVO4fIbDn1vLIkyxFeKv34YtHkVXlQVRc36VFIUnrb6zeOIgzMQqZcOMDfSnocNfxSXNIqSpH0GKjMR01iqr3n5U4VhNrtXzSiFCo7Yds14rbawOYJHJ56kd5uGhfKoY9ENcCzp8GyZEY=
+	t=1725398350; cv=none; b=SUsojfOl8XeDyOFsXeR1l1VHwogATxDLvVy5IRojux0vUTEpmkOBSneinJjKLxCZASczDq2F/EdcWx0VRtiApEn1FhVcrsOeyxg3XsY2sr0Fr4a8Ls46Z3l5xlgOw8KJxztCO3gEhSsFipUAZKqVDkpVzPirjudFe/YI8yreovE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725396532; c=relaxed/simple;
-	bh=iwF/iAtE6DjqPteDb0c6fqdLg0qoT9cjRDPaxMWSH5Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=c+f6KwAexIEZH7I7gocbWRB2lwt2w6Yk+fv/90mZVji+SNQqGa43dQl9fD5PUE89Jmnkc5arbwPeZ5gg1L0eJNDvtS8RnKGOnTjit2CtT8ECaxKQMxIBxITNlw0TkXJEjoUbVlzfH0zs/hB4ILOJuThD8xXkZOaDMV8sQ3WWoJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D5nQVivi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725398350; c=relaxed/simple;
+	bh=U1ukEr8EN1FDDvS4Y7RULLGTH93cVAvfVFqw0l1CRb8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=cVLm6No3ghNg/+ESAo/GLMezLpJ3O0RNBW/4Gz5Ye1HymzM465k564vWBj+g4EvzK/uhSH9MvzvGYVJGktg67Rl3a7SGQ2weTRna4a3BOghO8BHh9QuHY+cXKtCzBeyI0QD8+XTXM0J2KmCiHO0MF/gBisf3OK/uJBijjjJ/AyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Bx4JhlQN; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D5nQVivi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDCFBC4CEC4;
-	Tue,  3 Sep 2024 20:48:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725396532;
-	bh=iwF/iAtE6DjqPteDb0c6fqdLg0qoT9cjRDPaxMWSH5Q=;
-	h=From:To:Cc:Subject:Date:From;
-	b=D5nQViviYHZ88D3pqiwOI1NCsM9Bejlrh+A0l0gtO8I7WFoxuewoqesGyrLVjUlsM
-	 3eSNqe7wHVLBcitRljUtGK6m2YJM61RdLh+1VyP9b1+uX8rVVesu/3nGbqnE98HqZa
-	 ZwmzIw2AaJAPOQo1lEe+vRID4/uHwTOLimdCRk7YwPAc+va3rlPBoeD0/qWef5w+mh
-	 wHm0MUSjk/q4rZ4t4v6TRMEYSr/3v5T3wAmFR40Rt38nIl308PwnAixQFjGUC9q0Sg
-	 nxSGQstdy3Y5ZQpRPwFpk+1X6lGqBgoyIjFxMzPkhHXPWkTuJH1183mB+ER2DlgQqH
-	 629j24CY5AmjA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Hongbo Li <lihongbo22@huawei.com>,
-	Mark Brown <broonie@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	kuninori.morimoto.gx@renesas.com,
-	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 1/6] ASoC: allow module autoloading for table db1200_pids
-Date: Tue,  3 Sep 2024 15:29:21 -0400
-Message-ID: <20240903192937.1109185-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Bx4JhlQN"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 483D99Pm014645;
+	Tue, 3 Sep 2024 21:18:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	ccVhMBdxEk5S4mL0cUcGF7PalslkLp70MYvdg4jGv40=; b=Bx4JhlQNp4Mr4rRu
+	3MWe1AssFm+F4CHy5VhRZ3BjpoN2yB3csvRBWkLkprI/xAQGZJbPNWhx0AaZIrIm
+	mAfwCKFSfYoLcoJnaXt/yaZXcEgvmUigyRylvKtghA2K9O9No8LHrpGk8Fdzyfka
+	qrLgeZnbAvN/k7+VxkPC8Hmmrh3sZreo7ZweNA9ilpFqlQRHIJASugyOtXzrtoZ8
+	+GeYzosmCwLSIDTRYE5eviuKd4dKB7wyBQDOgfY7UJHlYf2VL8ZolXkhmrrZwj4u
+	JzePcTc+ZynZsxZTSdX1mziwIu9x45dj/QazjTSIJ4edSo+329AexEcIyL0s90be
+	dbmR/g==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41dt69avfe-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 03 Sep 2024 21:18:38 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 483LIbs9019044
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 3 Sep 2024 21:18:37 GMT
+Received: from [10.71.114.155] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 3 Sep 2024
+ 14:18:36 -0700
+Message-ID: <5b23cbaf-05e2-4310-aad0-7e5bd01c9d3b@quicinc.com>
+Date: Tue, 3 Sep 2024 14:18:36 -0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 4.19.320
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v26 21/33] ASoC: qcom: qdsp6: Add USB backend ASoC driver
+ for Q6
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
+        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <tiwai@suse.com>, <krzk+dt@kernel.org>, <Thinh.Nguyen@synopsys.com>,
+        <bgoswami@quicinc.com>, <robh@kernel.org>,
+        <gregkh@linuxfoundation.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>
+References: <20240829194105.1504814-1-quic_wcheng@quicinc.com>
+ <20240829194105.1504814-22-quic_wcheng@quicinc.com>
+ <afe37014-8ec5-4808-bc24-09ac0f2d93b6@linux.intel.com>
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <afe37014-8ec5-4808-bc24-09ac0f2d93b6@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: zJj5FS5k0LAWrU0MGLzu1kKo2bkGDL1O
+X-Proofpoint-ORIG-GUID: zJj5FS5k0LAWrU0MGLzu1kKo2bkGDL1O
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-03_09,2024-09-03_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ suspectscore=0 bulkscore=0 mlxlogscore=999 mlxscore=0 lowpriorityscore=0
+ phishscore=0 priorityscore=1501 malwarescore=0 adultscore=0 spamscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2409030171
 
-From: Hongbo Li <lihongbo22@huawei.com>
+Hi Pierre,
 
-[ Upstream commit 0e9fdab1e8df490354562187cdbb8dec643eae2c ]
+On 8/30/2024 2:21 AM, Pierre-Louis Bossart wrote:
+>
+> On 8/29/24 21:40, Wesley Cheng wrote:
+>> Create a USB BE component that will register a new USB port to the ASoC USB
+>> framework.  This will handle determination on if the requested audio
+>> profile is supported by the USB device currently selected.
+>>
+>> Check for if the PCM format is supported during the hw_params callback.  If
+>> the profile is not supported then the userspace ALSA entity will receive an
+>> error, and can take further action.
+>>
+>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+>> ---
+>>  include/sound/q6usboffload.h  |  20 +++
+>>  sound/soc/qcom/Kconfig        |  10 ++
+>>  sound/soc/qcom/qdsp6/Makefile |   1 +
+>>  sound/soc/qcom/qdsp6/q6usb.c  | 246 ++++++++++++++++++++++++++++++++++
+>>  4 files changed, 277 insertions(+)
+>>  create mode 100644 include/sound/q6usboffload.h
+>>  create mode 100644 sound/soc/qcom/qdsp6/q6usb.c
+>>
+>> diff --git a/include/sound/q6usboffload.h b/include/sound/q6usboffload.h
+>> new file mode 100644
+>> index 000000000000..49ab2c34b84c
+>> --- /dev/null
+>> +++ b/include/sound/q6usboffload.h
+>> @@ -0,0 +1,20 @@
+>> +/* SPDX-License-Identifier: GPL-2.0
+>> + *
+>> + * linux/sound/q6usboffload.h -- QDSP6 USB offload
+> not sure about the linux/ prefix?
+>
+>> + *
+>> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+>> + */
+>> +
+>> +/**
+>> + * struct q6usb_offload
+>> + * @dev - dev handle to usb be
+>> + * @sid - streamID for iommu
+>> + * @intr_num - usb interrupter number
+>> + * @domain - allocated iommu domain
+>> + **/
+>> +struct q6usb_offload {
+>> +	struct device *dev;
+>> +	long long sid;
+>> +	u16 intr_num;
+>> +	struct iommu_domain *domain;
+>> +};
+> consider reordering to avoid holes/alignment issues, e.g. all pointers
+> first, then long long then u16
+>
+Will fix these.
+>> +static int q6usb_hw_params(struct snd_pcm_substream *substream,
+>> +			   struct snd_pcm_hw_params *params,
+>> +			   struct snd_soc_dai *dai)
+>> +{
+>> +	struct q6usb_port_data *data = dev_get_drvdata(dai->dev);
+>> +	struct snd_soc_pcm_runtime *rtd = substream->private_data;
+>> +	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+>> +	int direction = substream->stream;
+>> +	struct q6afe_port *q6usb_afe;
+>> +	struct snd_soc_usb_device *sdev;
+>> +	int ret = -EINVAL;
+>> +
+>> +	mutex_lock(&data->mutex);
+>> +
+>> +	/* No active chip index */
+>> +	if (list_empty(&data->devices))
+>> +		goto out;
+> -ENODEV for the default return value>?
+Sure.
+>> +
+>> +	sdev = list_last_entry(&data->devices, struct snd_soc_usb_device, list);
+>> +
+>> +	ret = snd_soc_usb_find_supported_format(sdev->chip_idx, params, direction);
+>> +	if (ret < 0)
+>> +		goto out;
+>> +
+>> +	q6usb_afe = q6afe_port_get_from_id(cpu_dai->dev, USB_RX);
+>> +	if (IS_ERR(q6usb_afe))
+>> +		goto out;
+>> +
+>> +	/* Notify audio DSP about the devices being offloaded */
+>> +	ret = afe_port_send_usb_dev_param(q6usb_afe, sdev->card_idx,
+>> +					  sdev->ppcm_idx[sdev->num_playback - 1]);
+> don't you need a symmetrical notification upon hw_free()?
+>
+> Also what happens if there are multiple calls to hw_params, which is
+> quite legit in ALSA/ASoC?
 
-Add MODULE_DEVICE_TABLE(), so modules could be properly
-autoloaded based on the alias from platform_device_id table.
+The afe_port_send_usb_dev_param() is meant to just update the device selected for offload on the audio DSP end, and this won't be referenced until our Q6AFE DAI sends the port start command in its prepare() callback.  Don't think we need to handle anything specific in the hw_free() case.  As long as the hw_params() callback is called before any audio session is started, then we'll ensure that the device selected is always updated to the audio DSP.
 
-Signed-off-by: Hongbo Li <lihongbo22@huawei.com>
-Link: https://patch.msgid.link/20240821061955.2273782-2-lihongbo22@huawei.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- sound/soc/au1x/db1200.c | 1 +
- 1 file changed, 1 insertion(+)
+Thanks
 
-diff --git a/sound/soc/au1x/db1200.c b/sound/soc/au1x/db1200.c
-index 301e1fc9a3773..24d16e6bf7501 100644
---- a/sound/soc/au1x/db1200.c
-+++ b/sound/soc/au1x/db1200.c
-@@ -43,6 +43,7 @@ static const struct platform_device_id db1200_pids[] = {
- 	},
- 	{},
- };
-+MODULE_DEVICE_TABLE(platform, db1200_pids);
- 
- /*-------------------------  AC97 PART  ---------------------------*/
- 
--- 
-2.43.0
+Wesley Cheng
 
