@@ -1,151 +1,254 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A24EF9DF;
-	Tue,  3 Sep 2024 18:07:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B98618DF78;
+	Tue,  3 Sep 2024 18:12:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725386831; cv=none; b=j3A9jxqao5fx0RdZhpiGv7k8XkbpyGqqlNCggkK7XTAuGLlB/hy7Dkfg4bWQhm9TfzgPsDnfLkHYW35CnNLkCtQRH9i/9s6bbLT7gRW4xnBUt29xNqJBLcq3xNfrt0pTQHD0Qb5Mjy1KFhs350G2x59G6uCp1Cp2YfCnj8LSrvs=
+	t=1725387166; cv=none; b=fqPaXpMY/LKf6Rzpe1rjTiC4s+7E6hLFSRb4eLI5JTo5gDErw022Wii5uVA7tNrh0g3zIdpuuauqpUVoW3Csd1ScPVqNAhqVRhyaXUvKseWUL+VWyoEX786sgodS3n9rAVPcN3RY1JMnSgcO5CQDwHiUtN+wGoc1o5gTD2JB2O4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725386831; c=relaxed/simple;
-	bh=GcyWQO62Icmx4b81tJNoRo89mbEkBZ4wiHm4cqVtjbg=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=R5lFOLNAcl6bAu0Y9/zhWn5LDRVdCQdHTZEm7cI9EmlaHNxBFazeChvSAL2dD9iAXbhxkgU7qKgVKfbrx4UfKIhE1ppi49KeLw4RHc1mA0u9CcSgwzFJZd5h3b95PSEk6IJFxQfX5jcDc1mOFnfc5d3f/VNtxZ9+ASFJT5WwaEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Ataplj0G; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1725387166; c=relaxed/simple;
+	bh=WtdrVLhuX7QUBk5Q47adV0XQCHtkPufPeUe4K0O64aM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L/9T5UJcIRDj3s5VVBjxISyl1VFc/Q4Mf1X8qzuNq6GMFUeEtqUxLT9qgZ4nTzYXjJJQ6r91ti2Bql1pw9XrMYFxisBe8IaZvRIc/rzjkuWJv2tNAriZAcQm3WEUW9L43Zj0aMMC5orKlVRkWsUfiYZEbzO4OH71ACs1sOyI7I4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cYYRKIC0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Ataplj0G"
-Received: from smtpclient.apple (d66-183-91-182.bchsia.telus.net [66.183.91.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 7313C20B7165;
-	Tue,  3 Sep 2024 11:07:04 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7313C20B7165
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1725386824;
-	bh=eDO1Gub+WhZH8e1yf5DOAq4k3qry711BGtAlfp/se7c=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To:From;
-	b=Ataplj0G1mJQ7jpADnNfZwl/BaDhy+4NcF3ctLVfTPGo3y8YDLo8rvOGL1dt7I5iX
-	 95S4fwK1a4WgoRp7i99SXDxPcsNindIBOq8Zpq+JCr6n/wypWoABYpR+zP3YYpFjWM
-	 LRZNkPa0HlgUVZZ8LlGdg3J9nSLRg2EDzLigUO3U=
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cYYRKIC0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DCFEC4CEC4;
+	Tue,  3 Sep 2024 18:12:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725387165;
+	bh=WtdrVLhuX7QUBk5Q47adV0XQCHtkPufPeUe4K0O64aM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cYYRKIC0PbeYkpAoBfKETGfYGQ0LkNUp+ev/UcyIb9LpQmDreWObr9PnkNt+sy9PT
+	 jzj+cqp4CujQcDOtRQbvAwui8NF6oUgteIozgzxQHaBTAsbvuEGeoUshhrxRnuND4B
+	 ILgNTkyZmyuIrf6zdsLpZSxiF9QIHpQ6ktOuD0i1OCJGzXW13d8mv1gIvY1xEeOlEX
+	 taDPcHxKO/cqwE6A0avt38rWJjeny0ubHRxtKFupn+SYRMFkU38QoCWi5CP85Xhvvk
+	 DC8gLjsJYTroOTvJF3nZ8tL9QV1xD/gStbSTKKkiuFz11gX0FCKA0Rgl5G3r6MfCbH
+	 nW9NVgsYqYYow==
+Date: Tue, 3 Sep 2024 19:12:40 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Kiseok Jo <kiseok.jo@irondevice.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	application@irondevice.com
+Subject: Re: [PATCH v2 1/3] ASoC: sma1307: Add driver for Iron Device SMA1307
+Message-ID: <51e05109-049f-4efa-b923-60943fe82777@sirena.org.uk>
+References: <20240903054435.2659-1-kiseok.jo@irondevice.com>
+ <20240903054435.2659-2-kiseok.jo@irondevice.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3776.700.51\))
-Subject: Re: [RFT][PATCH 0/5] firewire: use sleepable workqueue to handle 1394
- OHCI IT/IR context events
-From: Allen Pais <apais@linux.microsoft.com>
-In-Reply-To: <20240901110642.154523-1-o-takashi@sakamocchi.jp>
-Date: Tue, 3 Sep 2024 11:06:53 -0700
-Cc: linux1394-devel@lists.sourceforge.net,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-sound@vger.kernel.org,
- edmund.raile@protonmail.com,
- linux-media@vger.kernel.org,
- netdev@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <EB8EC5FD-AB6C-48C3-8980-65E8CB444BDF@linux.microsoft.com>
-References: <20240901110642.154523-1-o-takashi@sakamocchi.jp>
-To: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-X-Mailer: Apple Mail (2.3776.700.51)
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="LRv0xbwjrHfLtCHo"
+Content-Disposition: inline
+In-Reply-To: <20240903054435.2659-2-kiseok.jo@irondevice.com>
+X-Cookie: Words must be weighed, not counted.
 
 
+--LRv0xbwjrHfLtCHo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
->This series of change is inspired by BH workqueue available in recent
->kernel.
+On Tue, Sep 03, 2024 at 02:44:33PM +0900, Kiseok Jo wrote:
 
->In Linux FireWire subsystem, tasklet softIRQ context has been utilized =
-to
->operate 1394 OHCI Isochronous Transmit (IT) and Isochronous Receive =
-(IR)
->contexts. The tasklet context is not preferable, as you know.
+This looks basically fine, there's some mostly minor or stylistic things
+below but nothing too major.
 
->I have already received a proposal[1][2] to replace the usage of =
-tasklet
->with BH workqueue. However, the proposal includes bare replacement for =
-1394
->OHCI IT, IR, Asynchronous Transmit (AT), and Asynchronous Receive (AR)
->contexts with neither any care of actual usage for each context nor
->practical test reports. In theory, this kind of change should be done =
-by
->step by step with enough amount of evaluation over software design to =
-avoid
->any disorder.
+> +static int sma1307_regmap_write(struct sma1307_priv *sma1307,
+> +				unsigned int reg, unsigned int val)
+> +{
+> +	int ret = 0;
+> +	int cnt = sma1307->retry_cnt;
+> +
+> +	while (cnt--) {
+> +		ret = regmap_write(sma1307->regmap, reg, val);
+> +		if (ret == 0)
+> +			break;
+> +	}
 
->In this series of changes, the usage of tasklet for 1394 OHCI IT/IR
->contexts is just replaced, as a first step. In 1394 OHCI IR/IT events,
->software is expected to process the content of page dedicated to DMA
->transmission for each isochronous context. It means that the content =
-can be
->processed concurrently per isochronous context. Additionally, the =
-content
->of page is immutable as long as the software schedules the transmission
->again for the page. It means that the task to process the content can =
-sleep
->or be preempted. Due to the characteristics, BH workqueue is _not_ =
-used.
+If the hardware is actually stable we probably shouldn't bother with
+these wrappers.  If they really are needed then we might want to
+consider having regmap support doing retries.
 
->At present, 1394 OHCI driver is responsible for the maintenance of =
-tasklet
->context, while in this series of change the core function is =
-responsible
->for the maintenance of workqueue and work items. This change is an =
-attempt
->to let each implementation focus on own task.
+> +	if (sma1307->force_mute_status == val)
+> +		change = false;
+> +	else {
+> +		change = true;
+> +		sma1307->force_mute_status = val;
+> +	}
 
->The change affects the following implementations of unit protocols =
-which
->operate isochronous contexts:
+If one side of the if has {} both sides should.
 
->- firewire-net for IP over 1394 (RFC 2734/3146)
->- firedtv
->- drivers in ALSA firewire stack for IEC 61883-1/6
->- user space applications
+> +	} else {
+> +		dev_err(sma1307->dev, "%s: Invalid Control ID - %s\n",
+> +			__func__, kcontrol->id.name);
+> +		return -EINVAL;
+> +	}
 
->As long as reading their codes, the first two drivers look to require =
-no
->change. While the drivers in ALSA firewire stack require change to =
-switch
->the type of context in which callback is executed. The series of change
->includes a patch for them to adapt to work process context.
+We shouldn't log errors that userspace can easily trigger like this, it
+lets people DoS the logs - just return the error code (a bunch of the
+other controls have this).
 
->Finally, these changes are tested by devices supported by ALSA firewire
->stack with/without no-period-wakeup runtime of PCM substream. I also =
-tested
->examples in libhinoko[3] as samples of user space applications. =
-Currently I
->face no issue.
+> +static int sma1307_reset_put(struct snd_kcontrol *kcontrol,
+> +			     struct snd_ctl_elem_value *ucontrol)
+> +{
+> +	struct snd_soc_component *component =
+> +	    snd_soc_kcontrol_component(kcontrol);
+> +	struct sma1307_priv *sma1307 = snd_soc_component_get_drvdata(component);
+> +	bool val = (bool)ucontrol->value.integer.value[0];
+> +
+> +	if (sma1307->reset == val)
+> +		return false;
+> +
+> +	sma1307->reset = val;
+> +	if (ucontrol->value.integer.value[0] != 0
+> +	    && ucontrol->value.integer.value[0] != 1) {
+> +		dev_err(sma1307->dev, "%s: Invalid value\n", __func__);
+> +		return false;
+> +	}
 
->On the other hand, I have neither tested for firewire-net nor firedtv,
->since I have never used these functions. If someone has any experience =
-to
->use them, I would request to test the change.
+You probably don't need to store a value here, you can just always read
+0 for the control.  It's how other similar one shot controls work IIRC.
 
->[1] =
-https://lore.kernel.org/lkml/20240403144558.13398-1-apais@linux.microsoft.=
-com/
->[2] https://github.com/allenpais/for-6.9-bh-conversions/issues/1
->[3] https://git.kernel.org/pub/scm/libs/ieee1394/libhinoko.git/
+> +	sma1307_regmap_update_bits(sma1307, SMA1307_00_SYSTEM_CTRL,
+> +				   SMA1307_RESET_MASK, SMA1307_RESET_ON);
+> +	sma1307_reset(component);
 
+This should really generate a change notification for all the controls
+with non-default values (or all the controls would be easier and
+probably fine, it's not like this is going to be a particularly pretty
+process for userspace whatever happens).  snd_ctl_notify() does this.
 
->Regards
+It'd also be good to have a comment about why we've got this.
 
-Thank you for doing this work. You will probably need to send out a v2
-As most of you patches have single line comment instead of Block style
-Commnents (/* ..*/). Please have it fixed.
+> +static int sma1307_dapm_amp_enable_put(struct snd_kcontrol *kcontrol,
+> +				       struct snd_ctl_elem_value *ucontrol)
+> +{
+> +	struct snd_soc_dapm_context *dapm =
+> +	    snd_soc_dapm_kcontrol_dapm(kcontrol);
+> +	struct sma1307_priv *sma1307 =
+> +	    snd_soc_component_get_drvdata(dapm->component);
+> +	int val = (int)ucontrol->value.integer.value[0];
+> +	bool change;
+> +
+> +	if ((val < 0) || (val > 1)) {
+> +		dev_err(sma1307->dev, "%s: Out of range\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (sma1307->dapm_amp_en != val) {
+> +		change = true;
+> +		sma1307->dapm_amp_en = val;
 
-- Allen
+I didn't manage to find what reads this value - do we need this control
+at all, I'm not clear what it does?  If it's for stopping the amp from
+coming on the normal approach is for the board to register a
+_PIN_SWITCH() DAPM control attached to whatever the end output is for
+the path, that will cause DAPM to not power anything in the output path
+up.
 
->Takashi Sakamoto (5):
-> firewire: core: allocate workqueue to handle isochronous contexts in
->   card
-> firewire: core: add local API for work items scheduled to workqueue
->   specific to isochronous contexts
-> firewire: ohci: process IT/IR events in sleepable work process to
->   obsolete tasklet softIRQ
-> firewire: core: non-atomic memory allocation for isochronous event to
->   user client
-> ALSA: firewire: use nonatomic PCM operation
+A similar thing is true for at least the binary_mode control, I can't
+see where the written value is read.
 
+> +static void sma1307_check_fault_worker(struct work_struct *work)
+> +{
 
+> +	ret = sma1307_regmap_read(sma1307, SMA1307_FA_STATUS1, &status1_val);
+> +	if (ret != 0) {
+> +		dev_err(sma1307->dev,
+> +			"%s: failed to read SMA1307_FA_STATUS1 : %d\n",
+> +			__func__, ret);
+> +		return;
+> +	}
+> +
+> +	ret = sma1307_regmap_read(sma1307, SMA1307_FB_STATUS2, &status2_val);
+> +	if (ret != 0) {
+> +		dev_err(sma1307->dev,
+> +			"%s: failed to read SMA1307_FB_STATUS2 : %d\n",
+> +			__func__, ret);
+> +		return;
+> +	}
+
+If we manage to read one of the registers should we perhaps soldier on
+and try to report any errors it shows?  Probably a bit academic.
+
+> +	if (~status1_val & SMA1307_OT1_OK_STATUS) {
+> +		dev_crit(sma1307->dev,
+> +			 "%s: OT1(Over Temperature Level 1)\n", __func__);
+> +		if (sma1307->sw_ot1_prot) {
+> +			/* Volume control (Current Volume -3dB) */
+> +			if ((sma1307->cur_vol + 6) <= 0xFA)
+> +				sma1307_regmap_write(sma1307,
+> +						     SMA1307_0A_SPK_VOL,
+> +						     sma1307->cur_vol + 6);
+> +		}
+> +		sma1307->tsdw_cnt++;
+
+This is changing a user visible control so it should really generate an
+event, although given that it should never happen it's not the end of
+the world.  Given that a lot of other speaker drivers have a similar
+setup with warning and critical temperature alerts I actually wonder if
+we should consider factoring this out as a helper other things can use,
+that's definitely a separate thing though and you don't need to do it
+right now.
+
+> +static DEVICE_ATTR_RW(check_fault_period);
+
+Any reason the fault stuff isn't an ALSA control?
+
+> +static const struct regmap_config sma_i2c_regmap = {
+> +	.reg_bits = 8,
+> +	.val_bits = 8,
+> +
+> +	.max_register = SMA1307_FF_DEVICE_INDEX,
+> +	.readable_reg = sma1307_readable_register,
+> +	.writeable_reg = sma1307_writeable_register,
+> +	.volatile_reg = sma1307_volatile_register,
+> +
+> +	.cache_type = REGCACHE_NONE,
+
+_NONE is the default, although given that you've described the volatile
+registers I don't see why you wouldn't just enable _MAPLE.  There's
+regcache_drop_region() which can be used to throw away cached values
+during reset if you want to do that.  Most drivers use a cache to help
+make suspend/resume easier to implement - if the device looses power you
+can just write the cache contents back to it to restore most userspace
+visible things.
+
+Not doing a cache (or suspend/resume) is also OK though, it can always
+be implemented when needed.
+
+> +++ b/sound/soc/codecs/sma1307.h
+> @@ -0,0 +1,454 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later
+> + * sma1307.h -- sma1307 ALSA SoC Audio driver
+> + *
+> + * r005,
+> + *
+> + * Copyright 2023 Iron Device Corporation
+
+2024 now!
+
+--LRv0xbwjrHfLtCHo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbXUZcACgkQJNaLcl1U
+h9CzIQf+Ji9zGTJET0wedIKT9B8Otdn4R1QZjLksm9TywNQGsBi2nvw4lJMRgdUu
+wtuG013UE2v3QR0R0RWXxKnFkkmMJgh++av9IfG9EG9ffi4Fz6LwBCgYcwhwgQeV
+Xh/VYpeivVjMWz6Kzy0xo/7K/uj+JYmc/WW0ARtt8MwkkzKAUrc1PdYU0e70gYUG
+eJa6Yf89C8VrfqGN/uQxKXgrJGd9DfGPqzDeoYIucgN0O0Gxs0z3RoKcrn1qDWum
+uIRvam4KIDqcncCyRfKKIFmpDYE1EH64jvMej+vojhDLk3GziB03lxvAuxHa/KlK
+Ql/ZdjGsnzSywYQdD2KVqB57+T0ScQ==
+=yskV
+-----END PGP SIGNATURE-----
+
+--LRv0xbwjrHfLtCHo--
