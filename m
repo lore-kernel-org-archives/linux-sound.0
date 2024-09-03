@@ -1,89 +1,161 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SLXP216CU001.outbound.protection.outlook.com (mail-koreacentralazon11021118.outbound.protection.outlook.com [40.107.42.118])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23CFD1865EF
-	for <linux-sound@vger.kernel.org>; Mon,  2 Sep 2024 20:58:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725310696; cv=none; b=eoJUBVh496OtZ+AuzFsqkBsorCj29l3wEPDfCMH5bFjGEwEhG1cf8a9ubpPC+NtAFkYiFpIJNULw4Tzqn/Loe8lwct4yBtDUlXpRSQmZFWV29eLwvvVq5SNEGgHrR8FrHpVHOle7i/j3Z8GZ/wIBVoye4xekt6lpEzM58OKlefU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725310696; c=relaxed/simple;
-	bh=Y9NoihnXbhyEDsggtq3HmKs7YbxRFud3+UJiun+1zrw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ubbpd3QsMmz9HB1SVmAd/Fl3GG5UxltysfcT8D/rjBUzS3PCFhFhJvWE0fpVUB4+k5nQTUHL9ay3LaLZdlmpLQB8cKFD2npIkkrIUQb+IDeLVf8RUe5/nRN6IKKysTCKF8fykyFZIkGVi+fdUV1ghgXPyTC5aScxOOXR/XZ/l/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C5KgKZbC; arc=none smtp.client-ip=209.85.210.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C5KgKZbC"
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-70943713472so1948932a34.2
-        for <linux-sound@vger.kernel.org>; Mon, 02 Sep 2024 13:58:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725310694; x=1725915494; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4zw99bq/N2BFfLeqZEocVsrgpO/DJTgOwgHDfuN5f8o=;
-        b=C5KgKZbCUiJuHsdMjoWiunWAuUjM1zjMt+fG1Ds8djPq9ATVofGLnHLIs5xBfN925C
-         ETI9UMEFXcIYuadR5ilTDFH3Fzg7uHPRu5A2+MXuA3Hhd8Cwl6tt4SoPNCRWnBKnsNVH
-         Bbt/vlPtOW7+LCx2gHv/rk5yFVO1M5i9js/0Lt8D+I/P4rPAYGxwA+XqvZ24F8J2ITo5
-         mHnDpio8NUQ58SKNC+aaGyRFA0q3xfL8ceptGcT8hkFq/QJbwVOYjfYjqNq7Spn5G/6s
-         cr9VsqG2xLr7N2vidgSrVg79BYR1Rto1px03l+GU2CipeDkaUXPts/UGb+h0vt9J6eAY
-         9Cww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725310694; x=1725915494;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4zw99bq/N2BFfLeqZEocVsrgpO/DJTgOwgHDfuN5f8o=;
-        b=vP8U/ZRVG9Kg9zhzargKHt3kE1g1QkCsBljO0X/P5QkwrUsJ3f/VOyk/VilUeTOK72
-         cIYGGHk5ZI70qsUN1bP86zDqf0LglQ8dPdiYgIVOU0+IH2fbMWB/D0aH3AvPibI46OB+
-         iCp4AEm8bIMpoxhsjd/ZMC5wEebgZ4edkCKWgfOxpBHOV9hX9yBlR2fPmGSGiGBNStEF
-         cHYmXotrUciIvJ7dfqaxUK5d975Pf+y972cvAg0fNz/+KGTa9I6v33uLV42KPnsnZvsA
-         nzzQ17LA90GLu4VDLlm5D7AZfZx2R1BZ8it6bbPKEaDIzBKP2Z+LWQmfZnk3WTtCqLCa
-         wH6Q==
-X-Gm-Message-State: AOJu0Yxl129u1oX2/zWF/0aXyFPyzUSHTYquxkSXFKM1HTfKdYD3IWwY
-	fUSRGNCsz0ZIC6lpsWCpcFOX8Gj3kIUULZJ6X+mgFBda38JY9R/8IvunXw==
-X-Google-Smtp-Source: AGHT+IEXSDRcSgtmli2S+HsVy4N/V2qTgONv5kMZqSn8WFzebvyuBi9s5XrGNrruVWUYV8ZiVSEWsw==
-X-Received: by 2002:a05:6830:2693:b0:704:2748:5ab6 with SMTP id 46e09a7af769-70f5c3a9941mr16184100a34.20.1725310693754;
-        Mon, 02 Sep 2024 13:58:13 -0700 (PDT)
-Received: from victus.. ([2607:fb91:eba:13c1:5e02:c9f6:8fb6:52e7])
-        by smtp.googlemail.com with ESMTPSA id 6a1803df08f44-6c340ca56f5sm45415566d6.106.2024.09.02.13.58.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Sep 2024 13:58:13 -0700 (PDT)
-From: Adam Queler <queler@gmail.com>
-X-Google-Original-From: Adam Queler <queler+k@gmail.com>
-To: linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: Adam Queler <queler+k@gmail.com>
-Subject: [PATCH] Enable Mute Led for HP Victus 15-fb1xxx
-Date: Mon,  2 Sep 2024 16:57:55 -0400
-Message-ID: <20240902205755.22233-1-queler+k@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FD29A32;
+	Tue,  3 Sep 2024 05:44:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.42.118
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725342290; cv=fail; b=A6QdHJrEJ1CE8lQs8tO4Nak3tERviZHYAuGcC/h4F3rPKsW+MGz7FPRRa/zt7EczbYsJJrfBuna7yFyBLQYbknDEGL1v5ORMm98TtlfJMlbnVnY2jhXXU/WQmeZHqlPTUFyo1a7fqd0soqt7t4N6FXvp2PKeQlO3zmJDjc+wPXg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725342290; c=relaxed/simple;
+	bh=JG0CIN7HKbfX/Ly7I0J/JBHVj7lFObJRbViJUVmWrgE=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=jz3UUGu6uAxhaUsZVDrBZPLoCM4sa6J4c+ee7FB33vW0rA9ROOR5IFOF/njHtSnMLG5erGWS2ufpqyHNRQoHV3SG3SQDw7aHinqZht0EGIwooFecuoAE+CqKvFN5m7njDjjCJ/tzVGHLvCdlFV3YCYeJ7NLepBAG7cNtQoXaPRM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=irondevice.com; spf=pass smtp.mailfrom=irondevice.com; arc=fail smtp.client-ip=40.107.42.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=irondevice.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irondevice.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=a1A/lFLmHrowMp6PaSpA5SCgPhXhf0T4x9t3snl5Tj8bG+ELbpmfeOQK0N3roiwY93K62QcLQD+ZIdsL9TlEP8R13rzJ3XHvydZRnvqKWxfh0PbedW1iyvKTNLVB5CllgU/M2xduznqTjqW599Pp/6WxpnVpEAnGToAqowGIiWtnecL9BkYO+bIJ1N7Rdu4u7yPSISw6YdmLco63iTpyhl6BTRA28heDsoM4XMkIY+NKB/vYqZVXCFNOsdRUja8WJG1EQQsvW8VbjTZceeHOw4GSyEFsvz8XgsKF/pf89OG+bkQSiX4xqlx3+7myJmsS9Kq3aqJscBOMerNtolcOUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nqnYnQChZIr4fIVThBRa0BmRuXg1/5loPBRtAOM57UA=;
+ b=o5jLlC7LPShhrLI+UpJmigyIJMf+Z+BLrSMnkc5esbXvNVK3uKjBnOAQeDPGLM0l9ivxXQMUsaa3bPSdAO46+QlDfSrYQY5RdNuW0KqvolndiUdHDcuXD8My/Tl313xqrNTpea2AA5R8OGtY+uEO5CShhNvtXdu2SWspTP6V+7iIaa7yt1de15ShE3XFh57z4s3f6w+N/iGCuHn9+vRZBY0JvzXoIUTimCV1v6o6F1xu8waf1mezO7C0diZCOcv+ZaPeZFI1AQKKaz2Iv/d2D38gYO2Zdfa3aYShtJQ9Nf5LjvQ4r7LuarYJ4qn1+7ki+gYx4PnZPf4fsDNFoxTStQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=irondevice.com; dmarc=pass action=none
+ header.from=irondevice.com; dkim=pass header.d=irondevice.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=irondevice.com;
+Received: from SL2P216MB2337.KORP216.PROD.OUTLOOK.COM (2603:1096:101:14c::11)
+ by SE1P216MB1543.KORP216.PROD.OUTLOOK.COM (2603:1096:101:29::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.25; Tue, 3 Sep
+ 2024 05:44:44 +0000
+Received: from SL2P216MB2337.KORP216.PROD.OUTLOOK.COM
+ ([fe80::7e8d:9550:c46b:2756]) by SL2P216MB2337.KORP216.PROD.OUTLOOK.COM
+ ([fe80::7e8d:9550:c46b:2756%3]) with mapi id 15.20.7918.024; Tue, 3 Sep 2024
+ 05:44:44 +0000
+From: Kiseok Jo <kiseok.jo@irondevice.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	application@irondevice.com,
+	Kiseok Jo <kiseok.jo@irondevice.com>
+Subject: [PATCH v2 0/3] Add a driver for the Iron Device SMA1307 Amp
+Date: Tue,  3 Sep 2024 14:44:32 +0900
+Message-Id: <20240903054435.2659-1-kiseok.jo@irondevice.com>
+X-Mailer: git-send-email 2.39.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SE2P216CA0056.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:115::7) To SL2P216MB2337.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:14c::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SL2P216MB2337:EE_|SE1P216MB1543:EE_
+X-MS-Office365-Filtering-Correlation-Id: b76ebf10-fbab-4044-83e3-08dccbdb837c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|52116014|1800799024|366016|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?4DnCVyFbCKQbdSaVvaRH1qiPRH078jdUDYyBXhRAdBJ4Gn+WK/eSG4hKEU9r?=
+ =?us-ascii?Q?yyRRvPdz6VB4K5r1yZ+rKo7Sm6ghEMWu2kQYOMSl00MpTfVpoqa2hnpc9PqQ?=
+ =?us-ascii?Q?HwsReAPMH5hEplWokzbMkvydQwvAaynQRyP6CfFJFbs+hmsKygAGLxsBaGbU?=
+ =?us-ascii?Q?Pu/bvdjx5IF3Zh1zz+z9ubmdRWQx3IBkVBd80v2rlWHRiqmhboYIOJ2Q/ddw?=
+ =?us-ascii?Q?30j+8279rWF6Kx85o5z347PwyJ2PrSm/gGkkwUf0EPfC4zMfdM3HWiFfQ3Fz?=
+ =?us-ascii?Q?ttCYhnggKXct2PpPEUMYqdP1f7FY/w66K8i0Fl5A4oIosIJXdd0ctDsReQnS?=
+ =?us-ascii?Q?yxfGEKvtljVcbGBWpe7UVJwbArv4nyndcew2mCsKVov1OiQ+rJ8tVP7+8Sxm?=
+ =?us-ascii?Q?ImDLowDLJ8d2brO6m/+HlHiAxwo1ztmNrwYb+C6JN+iq7us6U7muN5PPE7yS?=
+ =?us-ascii?Q?OuoVcZk6NHEJ4XTxmt0aOLoMQz4xE2+KhgmF0683i+pQSpQbtQ6Nf4mtlol+?=
+ =?us-ascii?Q?ptVecC2jPGZ5Pmf4ERKeb9GFg3dcaliqUso4anCWusiCGudmcYtStMhLpzW3?=
+ =?us-ascii?Q?miX7PBF+EDTlVbi4o2656Mu1S2hyXuZMSK5WHovF8ARRUBhynuwT5FrhEeGX?=
+ =?us-ascii?Q?2ouFS3fiNCOQD4V1iX0ny3S9vh2ykgioQx2T3cC2HaJMTlum8BusB7xqM/iU?=
+ =?us-ascii?Q?8MJqArYNKt9cjgtfKvVb+jrkSh4XqlPxUAUdk2RjDax3vf7fjtRFq91LOE4S?=
+ =?us-ascii?Q?tpXEYwygW0fTPXljQz1q/XKzapQ8VQS2vp+qYGKVVDxnZ1MF8OxTUPHJTDmr?=
+ =?us-ascii?Q?zxRg4KbIksZeGXPNzewnpcakA1HeYUkI1LtQD1FN9nsOpBCVO95TvDK+ceb5?=
+ =?us-ascii?Q?OysTWygcZr1TRsvZbCQ7hMMx9fn5j57SDxJX0FI9cADYVCaFF0B6uXKhHtYF?=
+ =?us-ascii?Q?Q5zeilAKF0DKuQUVgNdDf5q6MEXChZGUwr/IpeiHeTumCi2NrbD4ds/ZrQKr?=
+ =?us-ascii?Q?OyDnWrMt08TKYGBNLeOkGfEw2Quw8h8KJ9zXLjTVt/uQ/T5/OHuUBQZ4yo7k?=
+ =?us-ascii?Q?d3hQPdNlLDPa+tS1q/Q0tbmTKyj4w3MDz4KnRrGGpVLIsjDM6n2Y7qVRS5Oi?=
+ =?us-ascii?Q?3DD4xupQbRPgR2ILbDXI0mVuVYO5QrBhTLKHVZbsSC8H/7kkWa33PCdDOBmq?=
+ =?us-ascii?Q?UwAGd7go0AjluggZ3ssmr+7kxFYbSs31n5bgDp/d30hh2U6RqNsjFH4hNUEv?=
+ =?us-ascii?Q?linrS3jo7ZFzsonvR7FXQKcdxHFGM+Vojncldg8KjskDuF0yWMXAiHGCF9gj?=
+ =?us-ascii?Q?ukjiYT4/7JF7q00YrvGUb0Vgk8XacKL806g0F4WTAZAzlLqUldzxVBVqHfa2?=
+ =?us-ascii?Q?wTBq9yw1AO1GsRras1kPUuWK5wwd?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SL2P216MB2337.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(52116014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?yszIpI52EmWGXLIta4Syohh5YV9pxTOV7HuV2elH/UHZeRDodTTmtN9XG0mP?=
+ =?us-ascii?Q?LktZEH1QN8kqjEQ8MXu2Tqg6fi5Kognp6nN7o0FUWvaL6vmlRWiPygqNQe11?=
+ =?us-ascii?Q?KTW1j31oPMLEcazWvmxQDHXTT2bSp/PzurZ635EFJX0jAl8a6q+UzUjgL8AA?=
+ =?us-ascii?Q?AHQRnWLZ4Qp/plP9QOPcX1r4WXK+AdGoUxrtB/BCpFeMh8G86zEZaTZt+eUZ?=
+ =?us-ascii?Q?gk5Bc1s8miZo2DAXVa0lK97+pE24Se+P4LK7tWahyrZRcYzHAn+9b/CUfUCH?=
+ =?us-ascii?Q?Df1tX6oicbBbycMkqI4U5NNufFb5kh/CKjkA2Iv+64oZU/ZP2Mt60qfvG8F9?=
+ =?us-ascii?Q?hfQAupiEGyA4YQgZ21NFD9WU24/hMmP/4plYpxM/oEDMgWmVBxaxqnPs1fuR?=
+ =?us-ascii?Q?9otp2dYz+B7mzdwFOG4n80iM9NoLfcR8TL8BFBj+zc68TtmdSs+S6g19fqwo?=
+ =?us-ascii?Q?9EMdE6QOrf/gYf2TrhwsmmqYgvonv6ANFN0uvWZV4IXRuv4G9F+QlJYRAR3+?=
+ =?us-ascii?Q?U3MF7H4OFmVmO/WpWpdQ/y902TpsmwdaxwfZX5B5Y/9Cl7Atw+6yp65Ta3Cf?=
+ =?us-ascii?Q?zY/J1KFcPxEp2a5Q1n1T13PJGRk8C0g5LViJrWhhJsRnRJkqkmQRK99AZaR9?=
+ =?us-ascii?Q?nfy3BwVTUbv7ifdkgYQf3zFFkg+f5flL6tM9xwvWJxp55dbTc33Gq0Db1Uxl?=
+ =?us-ascii?Q?Yh5hBIK8k6p4o7SwJbvOdpqSdwqkz7ru7I7WtcPDoDUCyrkGUvYj8FkAyRut?=
+ =?us-ascii?Q?3j9UCkbGjiyJyZ1b0ivKp+ox+ciAQ3s4gXieU/o06ufjtdEwaen9Eqn5PtHg?=
+ =?us-ascii?Q?ELZ/b0mI6XKLEvXd0TpSexxR+RRmD1RF1PfuwayVG5Bjg4MBBOxUaoRLvgw7?=
+ =?us-ascii?Q?ifMxAx9nZ5Deu5fmCQAbeSzQTz1MrbqmdwXji65cLJp5Iyqvr7kwQWEEFBni?=
+ =?us-ascii?Q?ovcAMtbgpQreEW/YwRtae/FMjdImzQ8/JPgEmp2xLNC8SBkIAMVc0bL/+/2o?=
+ =?us-ascii?Q?hgoJRdiNwbspVNFWJrMcZEzwoNCmxrQwixV+Iy9TToBAuiBOTSFvu9YBb9aw?=
+ =?us-ascii?Q?4BXHrXMb2zMunR6sK+c2hDDdNBHb0TdIHkK32Z/foGplSUiieZup8tYnmPCt?=
+ =?us-ascii?Q?u2bntNa2aRiJKpGCBSppns+ow5GOsRR188shx+/eFg7kL5//o4uAkwa+VSXo?=
+ =?us-ascii?Q?SohQ+vMFCuh/nX+hUj1MXU9wDWdwoUyoHqO7r1XTFxop0QROkntyp0RfliU/?=
+ =?us-ascii?Q?cWLYOYgVXkWDHNRbxwkCUfIpnPOqW74ukowxW/8sNCLyZGcsr9ocKdRy33JH?=
+ =?us-ascii?Q?8wNlTHZob9fFkdO6eU2B7sfUIJU9p2rCizpM4DQDC/0NLSd1EhwwMIdPYOVU?=
+ =?us-ascii?Q?Ai3miQsazbQ6+K0bApSghF3wOM5U5Aesgr7+q8AEgWGWqZMcaa0s2+LpOn1B?=
+ =?us-ascii?Q?zbKdyEaFWOoQif9hNS/1bCm2V+8887LAn7+zwL0+BNOEkwQzcF+aIgnfpAi6?=
+ =?us-ascii?Q?ASkwyOabdSJxqTvfqejm7I9bXINHJlBWZXRZ3FW+3rYXO9Bd0LbEKINF/+LK?=
+ =?us-ascii?Q?TZ77buVt2qMSgTqd77aNyVE8V06XAfPu1r6gWjON?=
+X-OriginatorOrg: irondevice.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b76ebf10-fbab-4044-83e3-08dccbdb837c
+X-MS-Exchange-CrossTenant-AuthSource: SL2P216MB2337.KORP216.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2024 05:44:44.5988
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b4849faa-3337-494e-a76a-cb25a3b3d7d1
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rEaLp6v9BbnHT44v+l4aZB6tuIIUZm96TmuOtBdurPy36IApT0u5Wo6IBy+F9yh5Yh1aJt4+zOPIuqh6pGQwnINNLUR404+oRH1mRikI5s0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SE1P216MB1543
 
-The mute led is controlled by ALC245. This patch enables the already existing quirk for this device.
----
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
+This adds basic audio support for the Iron Device SMA1307 amplifier
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index af3111d618fa..0288b3669564 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10300,6 +10300,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8c16, "HP Spectre 16", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8c17, "HP Spectre 16", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8c21, "HP Pavilion Plus Laptop 14-ey0XXX", ALC245_FIXUP_HP_X360_MUTE_LEDS),
-+	SND_PCI_QUIRK(0x103c, 0x8c30, "HP Victus 15-fb1xxx", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
- 	SND_PCI_QUIRK(0x103c, 0x8c46, "HP EliteBook 830 G11", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8c47, "HP EliteBook 840 G11", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8c48, "HP EliteBook 860 G11", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+Kiseok Jo (3):
+  ASoC: sma1307: Add driver for Iron Device SMA1307
+  ASoC: dt-bindings: irondevice,sma1307: Add initial DT binding
+  doc: ABI: testing: sma1307: Add support for SMA1307
+
+ .../ABI/testing/sysfs-bus-i2c-devices-sma1307 |   17 +
+ .../bindings/sound/irondevice,sma1307.yaml    |   54 +
+ sound/soc/codecs/Kconfig                      |    8 +
+ sound/soc/codecs/Makefile                     |    2 +
+ sound/soc/codecs/sma1307.c                    | 2191 +++++++++++++++++
+ sound/soc/codecs/sma1307.h                    |  454 ++++
+ 6 files changed, 2726 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-bus-i2c-devices-sma1307
+ create mode 100644 Documentation/devicetree/bindings/sound/irondevice,sma1307.yaml
+ create mode 100644 sound/soc/codecs/sma1307.c
+ create mode 100644 sound/soc/codecs/sma1307.h
+
 -- 
-2.43.0
+2.39.2
 
