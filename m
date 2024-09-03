@@ -1,103 +1,151 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93A716F315;
-	Tue,  3 Sep 2024 17:14:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A24EF9DF;
+	Tue,  3 Sep 2024 18:07:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725383686; cv=none; b=bSORRuFaMXuz/ODv+uf2JEhBeqccMwYcCXcBJn/yoHP1R0Msp0dUH5phZYBNsnRmRumHZmDvp+TGHaV3PAStwMz1Pe/Pjkb+864HT81TxzcVWMCmSjqaN263GgrzPcDol2F3y3E4bXT4BMsIfCXVRwNGInPTUWLt6uColhbjE50=
+	t=1725386831; cv=none; b=j3A9jxqao5fx0RdZhpiGv7k8XkbpyGqqlNCggkK7XTAuGLlB/hy7Dkfg4bWQhm9TfzgPsDnfLkHYW35CnNLkCtQRH9i/9s6bbLT7gRW4xnBUt29xNqJBLcq3xNfrt0pTQHD0Qb5Mjy1KFhs350G2x59G6uCp1Cp2YfCnj8LSrvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725383686; c=relaxed/simple;
-	bh=qW0RktGoVkbp3dbELJ0XnlGsWcBLW434fwCOzn74Vkc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tuzVRHqy67AJUFpHsJcJUNnYKj+Tp9uKT4UhFRDc8diEl/YA/rhDOSpkAhS0DqCXI35Qxh1/fDQtApZe0igmYi+xYHmem2C7F8UZzG3NA3Jg2Ti125JYhvWgmkMTZACDWa2aeFncG6nebWU3QqgNjQX8vhhw/z6MRNiL9qGfxPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GuRAngMw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725386831; c=relaxed/simple;
+	bh=GcyWQO62Icmx4b81tJNoRo89mbEkBZ4wiHm4cqVtjbg=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=R5lFOLNAcl6bAu0Y9/zhWn5LDRVdCQdHTZEm7cI9EmlaHNxBFazeChvSAL2dD9iAXbhxkgU7qKgVKfbrx4UfKIhE1ppi49KeLw4RHc1mA0u9CcSgwzFJZd5h3b95PSEk6IJFxQfX5jcDc1mOFnfc5d3f/VNtxZ9+ASFJT5WwaEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Ataplj0G; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GuRAngMw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 238D9C4CEC4;
-	Tue,  3 Sep 2024 17:14:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725383686;
-	bh=qW0RktGoVkbp3dbELJ0XnlGsWcBLW434fwCOzn74Vkc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GuRAngMw4FtK7TyflROsYBV1lYCTKtUT1bir8ZZY8wNReUFtnfddZvBvkFwjVTRym
-	 b0Ao6qM8UI9rNBWicO+BMdEQMpNhOj1Rvbvou5lenbKL5r7AYzNMtp66G4GV83QiO4
-	 ySeux05NNkyQIkpAOs/iEeofWo4KInG6x3Kb53MbNhZYux9jHVNuAzD9w56B3eHRb1
-	 1wMjoqQy7sVJedE2hizsg2pd5hE7tb8i9AZ/dzRaIFxBNpWbiTBRKHnvhdoNgvgS8q
-	 +5FSuI3B0GX3tCbf6hjjFEbar8JPcn2SRQOGe3JJw7ivrMWZk+JHr9Gz0KhHSqDJcH
-	 b1fj3m/Ktu8gg==
-Date: Tue, 3 Sep 2024 18:14:38 +0100
-From: Mark Brown <broonie@kernel.org>
-To: amergnat@baylibre.com
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	Nicolas Belin <nbelin@baylibre.com>
-Subject: Re: [PATCH v7 12/16] ASoC: codecs: add MT6357 support
-Message-ID: <c386c74c-9008-48ea-ad79-524eb85c370b@sirena.org.uk>
-References: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
- <20240226-audio-i350-v7-12-6518d953a141@baylibre.com>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Ataplj0G"
+Received: from smtpclient.apple (d66-183-91-182.bchsia.telus.net [66.183.91.182])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 7313C20B7165;
+	Tue,  3 Sep 2024 11:07:04 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7313C20B7165
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1725386824;
+	bh=eDO1Gub+WhZH8e1yf5DOAq4k3qry711BGtAlfp/se7c=;
+	h=Subject:From:In-Reply-To:Date:Cc:References:To:From;
+	b=Ataplj0G1mJQ7jpADnNfZwl/BaDhy+4NcF3ctLVfTPGo3y8YDLo8rvOGL1dt7I5iX
+	 95S4fwK1a4WgoRp7i99SXDxPcsNindIBOq8Zpq+JCr6n/wypWoABYpR+zP3YYpFjWM
+	 LRZNkPa0HlgUVZZ8LlGdg3J9nSLRg2EDzLigUO3U=
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="OMC7w3ub4Px9anag"
-Content-Disposition: inline
-In-Reply-To: <20240226-audio-i350-v7-12-6518d953a141@baylibre.com>
-X-Cookie: Please take note:
-
-
---OMC7w3ub4Px9anag
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3776.700.51\))
+Subject: Re: [RFT][PATCH 0/5] firewire: use sleepable workqueue to handle 1394
+ OHCI IT/IR context events
+From: Allen Pais <apais@linux.microsoft.com>
+In-Reply-To: <20240901110642.154523-1-o-takashi@sakamocchi.jp>
+Date: Tue, 3 Sep 2024 11:06:53 -0700
+Cc: linux1394-devel@lists.sourceforge.net,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-sound@vger.kernel.org,
+ edmund.raile@protonmail.com,
+ linux-media@vger.kernel.org,
+ netdev@vger.kernel.org
 Content-Transfer-Encoding: quoted-printable
+Message-Id: <EB8EC5FD-AB6C-48C3-8980-65E8CB444BDF@linux.microsoft.com>
+References: <20240901110642.154523-1-o-takashi@sakamocchi.jp>
+To: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+X-Mailer: Apple Mail (2.3776.700.51)
 
-On Mon, Jul 22, 2024 at 08:53:41AM +0200, amergnat@baylibre.com wrote:
-> From: Nicolas Belin <nbelin@baylibre.com>
->=20
-> Add the support of MT6357 PMIC audio codec.
 
-This breaks the build:
 
-/build/stage/linux/sound/soc/codecs/mt6357.c: In function =E2=80=98mt6357_p=
-latform_driver_probe=E2=80=99:
-/build/stage/linux/sound/soc/codecs/mt6357.c:1824:55: error: too many argum=
-ents for format [-Werror=3Dformat-extra-args]
- 1824 |                 return dev_err_probe(&pdev->dev, ret, "Failed to pa=
-rse dts\n", __func__);
-      |                                                       ^~~~~~~~~~~~~=
-~~~~~~~~~~
-cc1: all warnings being treated as errors
+>This series of change is inspired by BH workqueue available in recent
+>kernel.
 
---OMC7w3ub4Px9anag
-Content-Type: application/pgp-signature; name="signature.asc"
+>In Linux FireWire subsystem, tasklet softIRQ context has been utilized =
+to
+>operate 1394 OHCI Isochronous Transmit (IT) and Isochronous Receive =
+(IR)
+>contexts. The tasklet context is not preferable, as you know.
 
------BEGIN PGP SIGNATURE-----
+>I have already received a proposal[1][2] to replace the usage of =
+tasklet
+>with BH workqueue. However, the proposal includes bare replacement for =
+1394
+>OHCI IT, IR, Asynchronous Transmit (AT), and Asynchronous Receive (AR)
+>contexts with neither any care of actual usage for each context nor
+>practical test reports. In theory, this kind of change should be done =
+by
+>step by step with enough amount of evaluation over software design to =
+avoid
+>any disorder.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbXQ/0ACgkQJNaLcl1U
-h9CpOQf/TZgfm5Me95NAaeAf3HC8+QtPbX8C2nII9zKTnbEfLCDi/g1gWoJoK6ge
-FBcp4NuLABoPKK/c0mXC0iSzZ8mjHoHX08LBYnh3Q+BZFvOy+6hXTs/cr6/RMtDR
-OQ7lNNGHEhH5YZvCMPrt+3p2BnWcLGvbreX+xIa1PfT91BvUGpEhxPMkPe/UQKkk
-+sGgJdVgQRZgjtoaqZXWBsVYD2fUK6CJwb4w14Gm+BwFYwvrIj7Tq8FpnDdmUawg
-SYP7QBsvrhWdYaAOAfRi0cpusU8wgwSjvUOu2md93uMVLke+S0T+8dkw/tkPnJcS
-XvtVy+qXZ/rNyGhr44XT3XZmwXdOTw==
-=ZHfg
------END PGP SIGNATURE-----
+>In this series of changes, the usage of tasklet for 1394 OHCI IT/IR
+>contexts is just replaced, as a first step. In 1394 OHCI IR/IT events,
+>software is expected to process the content of page dedicated to DMA
+>transmission for each isochronous context. It means that the content =
+can be
+>processed concurrently per isochronous context. Additionally, the =
+content
+>of page is immutable as long as the software schedules the transmission
+>again for the page. It means that the task to process the content can =
+sleep
+>or be preempted. Due to the characteristics, BH workqueue is _not_ =
+used.
 
---OMC7w3ub4Px9anag--
+>At present, 1394 OHCI driver is responsible for the maintenance of =
+tasklet
+>context, while in this series of change the core function is =
+responsible
+>for the maintenance of workqueue and work items. This change is an =
+attempt
+>to let each implementation focus on own task.
+
+>The change affects the following implementations of unit protocols =
+which
+>operate isochronous contexts:
+
+>- firewire-net for IP over 1394 (RFC 2734/3146)
+>- firedtv
+>- drivers in ALSA firewire stack for IEC 61883-1/6
+>- user space applications
+
+>As long as reading their codes, the first two drivers look to require =
+no
+>change. While the drivers in ALSA firewire stack require change to =
+switch
+>the type of context in which callback is executed. The series of change
+>includes a patch for them to adapt to work process context.
+
+>Finally, these changes are tested by devices supported by ALSA firewire
+>stack with/without no-period-wakeup runtime of PCM substream. I also =
+tested
+>examples in libhinoko[3] as samples of user space applications. =
+Currently I
+>face no issue.
+
+>On the other hand, I have neither tested for firewire-net nor firedtv,
+>since I have never used these functions. If someone has any experience =
+to
+>use them, I would request to test the change.
+
+>[1] =
+https://lore.kernel.org/lkml/20240403144558.13398-1-apais@linux.microsoft.=
+com/
+>[2] https://github.com/allenpais/for-6.9-bh-conversions/issues/1
+>[3] https://git.kernel.org/pub/scm/libs/ieee1394/libhinoko.git/
+
+
+>Regards
+
+Thank you for doing this work. You will probably need to send out a v2
+As most of you patches have single line comment instead of Block style
+Commnents (/* ..*/). Please have it fixed.
+
+- Allen
+
+>Takashi Sakamoto (5):
+> firewire: core: allocate workqueue to handle isochronous contexts in
+>   card
+> firewire: core: add local API for work items scheduled to workqueue
+>   specific to isochronous contexts
+> firewire: ohci: process IT/IR events in sleepable work process to
+>   obsolete tasklet softIRQ
+> firewire: core: non-atomic memory allocation for isochronous event to
+>   user client
+> ALSA: firewire: use nonatomic PCM operation
+
+
