@@ -1,192 +1,153 @@
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2078.outbound.protection.outlook.com [40.107.100.78])
+Received: from pfhigh1-smtp.messagingengine.com (fhigh1-smtp.messagingengine.com [103.168.172.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A2F1D86C2;
-	Tue,  3 Sep 2024 11:36:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.100.78
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725363420; cv=fail; b=E+vNp6ZsOp9KywaFjqs9NayTW+B7jFRYSyAhV3umDWvuDhbQbZkcLkRPrtHWcPZfNZ3ZO956+ygGdCAl1lLZbfCJQCOJViA2WeJ4nw7xj/Ylqzt5dDvHnO21tEvsqhwEMZm+xl5vj4eTSaAnqWFdqMYt51FbUEtLPFcpa4VahKs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725363420; c=relaxed/simple;
-	bh=Zxo6uDrxY+TcIOP7JCSCmW2wl907TvExYyKssqGL4cI=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RT6cdSU94JU3pp9UJcYQWCy0ksCpMqLyoiP/ihzx5Zy8bhC5KZ/rhG7s0NG3ATTszXSo71sJyQchZ3IGYGptaiPhNukftz6JrCDxn7VuyyftWKkE/tqGOu6ThLUnRjilgzaHjyVSQkz+5Jre1mYk2xDoPrkIu8QhjUOtnk846n8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=NQYcXGlc; arc=fail smtp.client-ip=40.107.100.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E123B5227;
+	Tue,  3 Sep 2024 12:49:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725367793; cv=none; b=l8zUwOCtdiDkVuodGyvoo2JZNHZX7LAtufeZOa/yh5esuTSgQpOjqks92gLNb/gydcfslowM3AWDx+sH5+EzuRfS7rLeCthUt8LraJLRtpeVuRN9HGLvWQBZL39oOYh2z2oT6mfXYGs0hAlFiY2i/goH767s40JgxLvkQbGLitc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725367793; c=relaxed/simple;
+	bh=f0KKhbrLThdJMjZSEehIjis59dSoFnO019R8uYSZr34=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GJbuX+Xu/yeo6szU5rlQL8ACWo49a2WOV6m04fbPttdJLZYrJGIyj0nlYtmmamfY80kycNVwk7TWjB2U2ug3bo47R1Xpi6iGZbs6Kux9OXBvsKAY/6L9tvex4DXIN92KhTNrbtgbCukmSnRd+XaeHR/qqmFCTXX7XNeki5F334w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=invisiblethingslab.com; spf=none smtp.mailfrom=invisiblethingslab.com; dkim=pass (2048-bit key) header.d=invisiblethingslab.com header.i=@invisiblethingslab.com header.b=SCTIEJoW; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ke7gOsRH; arc=none smtp.client-ip=103.168.172.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=invisiblethingslab.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=invisiblethingslab.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="NQYcXGlc"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=s1qq13f+lHlKgxfLVNJnNgsNHiqMcwaIgyPbG7odWupnXASuJLzHt05ArvBnGLkizpDPKgF4pFcB9u5OZbKuuyLjN9noNp+8I0LssXZQnM33r3CYvHTsjMDwllcxE/3FR3QFiiNdpVhba750L5UZ6CE2irmpyubUJuLKZgy8nDfvv6cusQuZpThbIK1E9YUiBaN4OF6KIAbLRJwcTP+1rPSDKonKMqXikV9QXEtQK1PgJEmJU4xgBNhyMzFKLn94KKrCOYosv4RwN3VR2JcUzmRgygVhhcVl1mh22z/kfHRDRvTiOxNb5Ad6CRKqU40Fo1W3yWP0fZtvcDMf3eoJVQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WlTY1ccp5e6+zTkz5tnVE4zpMvVe1UTQ2EdRjn40jU8=;
- b=kCn81ZDJtGLih1tkzrQAXheS0FeqR1WWAj181b/JK3RKKZIBVV+LsOKROKxWh92M4Qo3H2lyu5LAT1vhPqWidE62prkPqb0x+FJJ/ijN4S3rdn1r17QTjoct8kl+cPY4/M4ipGL0V8EyaTlHewnz3KvvtycLEQh0cRzMbEdyy1V7s6UMDNmPoQIYLc8KCCKBedjS2IuqgYUkp4SO1L5NrbQ8U1LrHIdnTRQzvct98rqvtFZiGs+JYGWlrC04IzwZ5jc2zLZHnycba9nppeP+W8Pm73lUXMB+E/gvWItls5o3G/hqrP6diZ41f+JhUPsb8FwOqQrxGZPQZal0uqvuzQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WlTY1ccp5e6+zTkz5tnVE4zpMvVe1UTQ2EdRjn40jU8=;
- b=NQYcXGlcKMlcNzs9jyfnZtKrAOS2ialLz1F8nFPJ46bVOQv8soq8f9rJdzmwYn1COU3sCDEhnFB3O9s11fq9A81ZaGIY5WkYSwBpaUcgQqSQevPeUHueJeUUYZ3fwUTn74GDX5TZKXIJ8F9uJrD9lqpLJnw+oVDjri1J7K1mvaA=
-Received: from DM6PR03CA0001.namprd03.prod.outlook.com (2603:10b6:5:40::14) by
- MW3PR12MB4492.namprd12.prod.outlook.com (2603:10b6:303:57::10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7918.27; Tue, 3 Sep 2024 11:36:54 +0000
-Received: from DS1PEPF00017099.namprd05.prod.outlook.com
- (2603:10b6:5:40:cafe::68) by DM6PR03CA0001.outlook.office365.com
- (2603:10b6:5:40::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.25 via Frontend
- Transport; Tue, 3 Sep 2024 11:36:54 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- DS1PEPF00017099.mail.protection.outlook.com (10.167.18.103) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7918.13 via Frontend Transport; Tue, 3 Sep 2024 11:36:54 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 3 Sep
- 2024 06:36:53 -0500
-Received: from prasad-r9-mach.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Tue, 3 Sep 2024 06:36:44 -0500
-From: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
-To: <broonie@kernel.org>, <alsa-devel@alsa-project.org>
-CC: <Vijendar.Mukunda@amd.com>, <Basavaraj.Hiregoudar@amd.com>,
-	<Sunil-kumar.Dommati@amd.com>, <syed.sabakareem@amd.com>, "Venkata Prasad
- Potturu" <venkataprasad.potturu@amd.com>, Liam Girdwood
-	<lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>, "Syed Saba Kareem" <Syed.SabaKareem@amd.com>, Jeff Johnson
-	<quic_jjohnson@quicinc.com>, "open list:SOUND - SOC LAYER / DYNAMIC AUDIO
- POWER MANAGEM..." <linux-sound@vger.kernel.org>, open list
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH 12/12] ASoC: amd: acp: Add I2S TDM support for acp7.1 platform
-Date: Tue, 3 Sep 2024 17:04:27 +0530
-Message-ID: <20240903113427.182997-13-venkataprasad.potturu@amd.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240903113427.182997-1-venkataprasad.potturu@amd.com>
-References: <20240903113427.182997-1-venkataprasad.potturu@amd.com>
+	dkim=pass (2048-bit key) header.d=invisiblethingslab.com header.i=@invisiblethingslab.com header.b="SCTIEJoW";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ke7gOsRH"
+Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id EEB041140312;
+	Tue,  3 Sep 2024 08:49:50 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-03.internal (MEProxy); Tue, 03 Sep 2024 08:49:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	invisiblethingslab.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:subject:subject:to:to; s=fm1;
+	 t=1725367790; x=1725454190; bh=1E+BR3n5Z2r9Job4iJ8m7+Qj6dAdD2l1
+	1Popp9sAYmE=; b=SCTIEJoWndflLhuisooQw4Fajc3sPxUIHH4AELiNjRpS2lAc
+	coaBOMZQL6xbbqPdDWrO1bwlTMRnc2euR53c1UGRP4oghYwSC9ZuXMSR0rADu0rC
+	tfQEbMFnvdFVROKDsx4cqtMyHQu5JM0H6OuuMaX0oWzxgOGJqqxdJbmR28/o6864
+	hK8viT4V84uoMovvZPosV2H1iQNuowuRYCGmozb8hOBkeZD6GXBHNwG5QBxbU/zD
+	IjCDLMN7Rc6Ik7o5EJ2adKkU0w7LMnvVwiangLjZjDZ5PIxd4ezL+kCYl6sEc8+e
+	d/LV305FkcR88SOBSsbc0lB+OMNP4fazLKUVkg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1725367790; x=1725454190; bh=1E+BR3n5Z2r9J
+	ob4iJ8m7+Qj6dAdD2l11Popp9sAYmE=; b=ke7gOsRH5cfxHIwJqdYFsVFTuUo8x
+	/4SzdEPACUSiNf1U4ekVEXYrWmF62Hpvp9Kte7AL596v6BQ7rs9PxeFjmGzz68Gh
+	YsrS3o01CfFXzb/07G/CY97ZKzVaM7aBQ+r9VMG5YvXcsOBdyuqtFIUn7hZ1paTD
+	pBelaNSs8tAuJMwEYgUWK2JDC9T93B6niYpbgVW3ZySD+WLH7gCkDSTSKjACq+12
+	XF9/4Exyf/XkiQzDtzHPZxnpqtRt+Wp7S1lLiOBflwDqa0+4cRrE4J4oFC0G0Cyd
+	3MFvvQWRYORHJXw6ECNMK0G9kOUYw7Wh534c/9bEYxparStJdpNHIyfbg==
+X-ME-Sender: <xms:7QXXZroU0JDe7zPRYsPzIkDCocXmuqZY6hjjH7rb2yh8fFdVCs9Dbw>
+    <xme:7QXXZloLpkr2EjMucq-Al0eQCxAclkGNb_NZGbSnzNZ31jH4PMYcY0KrZADsYUVHz
+    Fd41nNaxpt0iA>
+X-ME-Received: <xmr:7QXXZoMJPnENco3m9sWDtkmea9HPREBDsY_-eENQRyzk80iYNUl6sd1eNdijnwi3pjuF19PCm_LYbKsCfSK4h9PnH4vfdqkF4f5ddJ3ZWt8PoyRD6z0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudehhedgheeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecu
+    hfhrohhmpeforghrvghkucforghrtgiihihkohifshhkihdqifpkrhgvtghkihcuoehmrg
+    hrmhgrrhgvkhesihhnvhhishhisghlvghthhhinhhgshhlrggsrdgtohhmqeenucggtffr
+    rghtthgvrhhnpeelkefhudelteelleelteetveeffeetffekteetjeehlefggeekleeghe
+    fhtdehvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
+    pehmrghrmhgrrhgvkhesihhnvhhishhisghlvghthhhinhhgshhlrggsrdgtohhmpdhnsg
+    gprhgtphhtthhopeduvddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheplhhinhhu
+    gidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrrh
+    hmrghrvghksehinhhvihhsihgslhgvthhhihhnghhslhgrsgdrtghomhdprhgtphhtthho
+    pehsthgrsghlvgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehmihgthh
+    grlhdrkhhophgvtgesfehmuggvsgdrtghomhdprhgtphhtthhopehpvghrvgigsehpvghr
+    vgigrdgtiidprhgtphhtthhopehtihifrghisehsuhhsvgdrtghomhdprhgtphhtthhope
+    hkrghilhgrnhhgsehrvggrlhhtvghkrdgtohhmpdhrtghpthhtohepshgsihhnughinhhg
+    sehophgvnhhsohhurhgtvgdrtghirhhruhhsrdgtohhmpdhrtghpthhtohepshhimhhonh
+    htsehophgvnhhsohhurhgtvgdrtghirhhruhhsrdgtohhm
+X-ME-Proxy: <xmx:7QXXZu4qnZc0yP8zYaFPa2u2EW7WZnj5rOYx3PJbo5V6gu6jaZNBIQ>
+    <xmx:7QXXZq7fKPZFc67adNu71liSYSm0S8zOvAofRlaEhKalPb20vAQl7A>
+    <xmx:7QXXZmgtrCGCDEzlufIgzLvKcsUh2O---JKjyAb5Iqqqpp1PjuDJ-Q>
+    <xmx:7QXXZs5WmIXAZnikbQ-hvRiZDnnuVNNXwhPehEaMDRttvteUpcaERQ>
+    <xmx:7gXXZihqyLaLla69jKMWz3CClVBpO3mTb2F1VKVSNgnThQ3HbtVZozA1>
+Feedback-ID: i1568416f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 3 Sep 2024 08:49:48 -0400 (EDT)
+From: =?UTF-8?q?Marek=20Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>
+To: linux-kernel@vger.kernel.org
+Cc: =?UTF-8?q?Marek=20Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>,
+	stable@vger.kernel.org,
+	=?UTF-8?q?Micha=C5=82=20Kope=C4=87?= <michal.kopec@3mdeb.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Kailang Yang <kailang@realtek.com>,
+	Stefan Binding <sbinding@opensource.cirrus.com>,
+	Simon Trimmer <simont@opensource.cirrus.com>,
+	Athaariq Ardhiansyah <foss@athaariq.my.id>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	linux-sound@vger.kernel.org (open list:SOUND)
+Subject: [PATCH] ALSA: hda/realtek: extend quirks for Clevo V5[46]0
+Date: Tue,  3 Sep 2024 14:49:31 +0200
+Message-ID: <20240903124939.6213-1-marmarek@invisiblethingslab.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-Received-SPF: None (SATLEXMB03.amd.com: venkataprasad.potturu@amd.com does not
- designate permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF00017099:EE_|MW3PR12MB4492:EE_
-X-MS-Office365-Filtering-Correlation-Id: d8b6d2db-051d-42e2-6001-08dccc0cb5f8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|36860700013|376014|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?LxLa7slmEo/yzBOLdCy696n7zm49bIy7ynfEXDzw1pnvQrNTj7ndVKF04C4p?=
- =?us-ascii?Q?r6TFD7IdAi8b1qsV8WWR7Oje7s10/i8GKLdM/eRCTYzlIv7r5gnpOHLY+iLb?=
- =?us-ascii?Q?LS0QfW3/QiCtOIROhrBYfWUBghYMhDq57Ifyl1xXGO2huZAeLDZic8jMF84T?=
- =?us-ascii?Q?bF8wDXPSJ3Pv1aZ86TO+CmHUoLC8SE77ZSdiT1tWtel6ptUHuwedJBjB/nMe?=
- =?us-ascii?Q?u9SKokGMWzPNHNw7Hk152B6zMf5MtwQCCF2LAXY9KLCKOwiqHbGwAaVD5fk+?=
- =?us-ascii?Q?2SqeshuvicC9R4wD2GCxHev1phEHpiudzNXA2/g3WqS8Xs+C8iSVero0wj+4?=
- =?us-ascii?Q?BxCbqB2K7L9bI0bUY+apfNVifqK+K3p/egH47f8j04m2ak6OheCdFNIHhn89?=
- =?us-ascii?Q?mB3Vk4hlVDwGhEJfL6nkGXzKjiaRow5g1oF3Vwpmg2/QLPTjZbnGaOUYsU+Z?=
- =?us-ascii?Q?w/iDMisBap1bqdVoXN6nEYn2h3LwTU9U4nxap+8iTY/FOp2beYvE20ahhdAG?=
- =?us-ascii?Q?ZAC7/5zUKzhjuPVE1vMCuBO2hva1XbYP5vrF7V8yq8Rku1/xPHUKn8+P3+oe?=
- =?us-ascii?Q?iRr+QKuSg/MKzoK3VocGlLdzhtw0wCwKF8DTYolUstCSepbeS2jcRTRmSAmt?=
- =?us-ascii?Q?hCVsP3bSogZS3nWjI08sDKfOTFbA1dj76N93VkYu1ljrZnd/1QgsKwxeovS9?=
- =?us-ascii?Q?PyS0zmXwq9W6EQoCCYS30NVeL1+nOaWqFF1h2DvPaCcAzqf3+40QAe8a31o7?=
- =?us-ascii?Q?ROsiIlvA1hbd53l9rAZmNWDdh0bVaQHyEihuz8pMeHx3d0SezPKB9kKhl9dC?=
- =?us-ascii?Q?uO9YSDvVTJDZZA3u/ps+tcMy0tTvR5/3G8hQ3QONFrpkazBTHtLtwGVGIoi2?=
- =?us-ascii?Q?wBswMMczx4Lc3beTeCQbm2KHr79wzTVBZn6regOfEHdyqm7UVpFK8q+Fq6+h?=
- =?us-ascii?Q?1sEiQoSmR2cVYsslJgnJUXyfEBW5o/VmjhyCvmEmr59cCjMOks2WwlH6oMWY?=
- =?us-ascii?Q?rNE6A8iNdFR9mJcq9kY/MDKFv2kmwS8WJa3ggrTV4YrYogXejWxn9IAifA3v?=
- =?us-ascii?Q?E30aQtfBzKsKw3q9YkjJ/H7S3JFCCxPAOIZ58bTSdg780w7JfMlQm6/w7OBi?=
- =?us-ascii?Q?cG8BTfblwPGIf97rpebo/pOHKUh3K4+xlkX/JniJrpQP2rSjRwjkauDFF2Ti?=
- =?us-ascii?Q?o4OMwXT9NZuP5+Ge6awjMY6Te/3T71vnsCcPmEEChwVIAFVrUdETMU5HHTEX?=
- =?us-ascii?Q?J3TCRYOqza/21Bg/ffrc6+0I6Il/aBQ0/S12IkK+O+rPb60bvsndzTitVzZ1?=
- =?us-ascii?Q?DnMhXCs9HtIO/EoOGDZNkb/2KsxEJUHojI25JHv0VR9lJTKTOANSkCXrjyAp?=
- =?us-ascii?Q?KJj5fngBk4n6IjmKgGZxxjW4szngT/AhrQIjN/LkRFM2SZGi47vlySYpWAr8?=
- =?us-ascii?Q?UQt1DzIMmYY3cnYekEMe9Dogr651vkVL?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(376014)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2024 11:36:54.2207
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d8b6d2db-051d-42e2-6001-08dccc0cb5f8
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DS1PEPF00017099.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4492
 
-Add acp71 revision id to support i2s/tdm mode.
+The mic in those laptops suffers too high gain resulting in mostly (fan
+or else) noise being recorded. In addition to the existing fixup about
+mic detection, apply also limiting its boost. While at it, extend the
+quirk to also V5[46]0TNE models, which have the same issue.
 
-Signed-off-by: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+Signed-off-by: Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>
+Cc: <stable@vger.kernel.org>
 ---
- sound/soc/amd/acp/acp-i2s.c      | 3 +++
- sound/soc/amd/acp/acp-platform.c | 2 ++
- 2 files changed, 5 insertions(+)
+Cc: Michał Kopeć <michal.kopec@3mdeb.com>
+---
+ sound/pci/hda/patch_realtek.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/amd/acp/acp-i2s.c b/sound/soc/amd/acp/acp-i2s.c
-index 74f2ad62e596..56ce9e4b6acc 100644
---- a/sound/soc/amd/acp/acp-i2s.c
-+++ b/sound/soc/amd/acp/acp-i2s.c
-@@ -61,6 +61,7 @@ static inline void acp_set_i2s_clk(struct acp_dev_data *adata, int dai_id)
- 	switch (chip->acp_rev) {
- 	case ACP63_DEV:
- 	case ACP70_DEV:
-+	case ACP71_DEV:
- 		val |= FIELD_PREP(ACP63_LRCLK_DIV_FIELD, adata->lrclk_div);
- 		val |= FIELD_PREP(ACP63_BCLK_DIV_FIELD, adata->bclk_div);
- 		break;
-@@ -136,6 +137,7 @@ static int acp_i2s_set_tdm_slot(struct snd_soc_dai *dai, u32 tx_mask, u32 rx_mas
- 		break;
- 	case ACP63_DEV:
- 	case ACP70_DEV:
-+	case ACP71_DEV:
- 		switch (slots) {
- 		case 1 ... 31:
- 			no_of_slots = slots;
-@@ -169,6 +171,7 @@ static int acp_i2s_set_tdm_slot(struct snd_soc_dai *dai, u32 tx_mask, u32 rx_mas
- 			break;
- 		case ACP63_DEV:
- 		case ACP70_DEV:
-+		case ACP71_DEV:
- 			if (tx_mask && stream->dir == SNDRV_PCM_STREAM_PLAYBACK)
- 				adata->tdm_tx_fmt[stream->dai_id - 1] =
- 						FRM_LEN | (slots << 13) | (slot_len << 18);
-diff --git a/sound/soc/amd/acp/acp-platform.c b/sound/soc/amd/acp/acp-platform.c
-index 6ef9baeed74a..ae63b2e693ab 100644
---- a/sound/soc/amd/acp/acp-platform.c
-+++ b/sound/soc/amd/acp/acp-platform.c
-@@ -206,6 +206,7 @@ void config_acp_dma(struct acp_dev_data *adata, struct acp_stream *stream, int s
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 588738ce7380..01e2414b8839 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -7637,6 +7637,7 @@ enum {
+ 	ALC287_FIXUP_LENOVO_14ARP8_LEGION_IAH7,
+ 	ALC287_FIXUP_LENOVO_SSID_17AA3820,
+ 	ALCXXX_FIXUP_CS35LXX,
++	ALC245_FIXUP_CLEVO_NOISY_MIC,
+ };
  
- 	switch (adata->platform) {
- 	case ACP70:
-+	case ACP71:
- 		switch (stream->dai_id) {
- 		case I2S_SP_INSTANCE:
- 			if (stream->dir == SNDRV_PCM_STREAM_PLAYBACK)
-@@ -271,6 +272,7 @@ static int acp_dma_open(struct snd_soc_component *component, struct snd_pcm_subs
- 	switch (chip->acp_rev) {
- 	case ACP63_DEV:
- 	case ACP70_DEV:
-+	case ACP71_DEV:
- 		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
- 			runtime->hw = acp6x_pcm_hardware_playback;
- 		else
+ /* A special fixup for Lenovo C940 and Yoga Duet 7;
+@@ -9970,6 +9971,12 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = cs35lxx_autodet_fixup,
+ 	},
++	[ALC245_FIXUP_CLEVO_NOISY_MIC] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc269_fixup_limit_int_mic_boost,
++		.chained = true,
++		.chain_id = ALC256_FIXUP_SYSTEM76_MIC_NO_PRESENCE,
++	},
+ };
+ 
+ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+@@ -10619,7 +10626,8 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1558, 0xa600, "Clevo NL50NU", ALC293_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1558, 0xa650, "Clevo NP[567]0SN[CD]", ALC256_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1558, 0xa671, "Clevo NP70SN[CDE]", ALC256_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
+-	SND_PCI_QUIRK(0x1558, 0xa763, "Clevo V54x_6x_TU", ALC256_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
++	SND_PCI_QUIRK(0x1558, 0xa741, "Clevo V54x_6x_TNE", ALC245_FIXUP_CLEVO_NOISY_MIC),
++	SND_PCI_QUIRK(0x1558, 0xa763, "Clevo V54x_6x_TU", ALC245_FIXUP_CLEVO_NOISY_MIC),
+ 	SND_PCI_QUIRK(0x1558, 0xb018, "Clevo NP50D[BE]", ALC293_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1558, 0xb019, "Clevo NH77D[BE]Q", ALC293_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1558, 0xb022, "Clevo NH77D[DC][QW]", ALC293_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
 -- 
-2.39.2
+2.46.0
 
