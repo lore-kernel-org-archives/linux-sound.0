@@ -1,536 +1,216 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2084.outbound.protection.outlook.com [40.107.100.84])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C851C62A8;
-	Tue,  3 Sep 2024 10:53:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725360787; cv=none; b=Uuu01fgr1mpXP9psT4etJaPMkaRgdmRP/M/DYcMwd4t/iwa83fGaWEOoQ0L9Rsncv4BK3NMRk26HjfVNhA7393UJwGIhY1my4ckM+jY1Pe40U0o1wOfvMgipdfnxck8v8q23kaBuT7ZHVBZwTymVTq9m89doE5zlJyQepwuWB4U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725360787; c=relaxed/simple;
-	bh=JgvJqVTf/u0LE0bfE/k5DEn8YPyIpzNmeGr9DZ3HNVA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TBJRJT6C+64nesvbrPmBADy8FcbzprGLCYjaVxMw1e+9KewDevLizSgb9gDmy46BS7QRjhY4sKDhtaospjTW79hixqDjGF3Ei1XyBnPVJEqtgP9OC4Og2VLw94K7q7sPdMaaKrpfMYrbYnYOr8SVHfPDT4YoMqFKUYBAqGR59kg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net; spf=pass smtp.mailfrom=asahilina.net; dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b=Owd+i6vA; arc=none smtp.client-ip=212.63.210.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asahilina.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE3431A42D1;
+	Tue,  3 Sep 2024 11:34:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.100.84
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725363289; cv=fail; b=ogNxr+Oori6AqXEs7rCEzquWe5HeacMAy/kMeXisa8zU1rtvAafRPufLAHF/NQG8BisnuRKn15UfNrm/z3Sk5Rxr1ZyFsU3i8Q151A9WPPPFvtBwvvrfISvK3nSaqhUroJ+uuDeWHLB19Jpy3Ho9jx/rwh1gOu5smM31Vir77UA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725363289; c=relaxed/simple;
+	bh=fqrZzJyd8MAy+NtiqjQ9CU8CvY3d+BXPJ3l2U5ZUcas=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CfL/SO+uxA03XZyych2zmAyE+zspJhoumhOwgYXaKLttDLLpkPEpaIfuZENJH2qkQsOTNyy0NRw2Xj90HpBza7a2Lr6ArmCtteaUY9aInrejhhNfS5509NP3RHZ727Hk319P4vPB4/TATnu9lNPsWvyD6UO+RvkYiOGtHTdE4nw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=H94G5Exn; arc=fail smtp.client-ip=40.107.100.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b="Owd+i6vA"
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sendonly@marcansoft.com)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 8C44B4425F;
-	Tue,  3 Sep 2024 10:52:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1725360774;
-	bh=JgvJqVTf/u0LE0bfE/k5DEn8YPyIpzNmeGr9DZ3HNVA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=Owd+i6vAmlXWlsnZLWaLZBZqaC7FGgd3qooN5pEpcaWYESRhiseBCFPYw+8M3TruZ
-	 9iqgFz8N43ExNRlBHSes3A3U6sUlTZZ4F+dsvAqVJL7ErECJaH/EGKESFwA/eVdgOA
-	 VfIxfzuoLbC4wUW51FW8PMpLNhYyX1q/4PX7S7tP5sejdscUeMAVo5obr+/76eG1Yh
-	 PkpPMbRhDzSdrHmEnf6P0TCE4Y7xf2cbzdYjAUK4SJhwcJd4Impk9j1gJuMeS5sMYS
-	 CAJxbUm7AdXzaK9XXRp0ObKklt7bSgi5VDO0NaXUInVSVL6D08BOz7i43wY8sVIIWh
-	 MAW9WS3r8iMyw==
-From: Asahi Lina <lina@asahilina.net>
-Date: Tue, 03 Sep 2024 19:52:30 +0900
-Subject: [PATCH v2 2/2] ALSA: usb-audio: Add mixer quirk for RME Digiface
- USB
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="H94G5Exn"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vZkNDjj3fBqQudlsdHmm483NV0JiWGu21VTdOEkSjHFcQs68r68A216Jx7lxwMwGqBfYH4++7oRKaB+zzKqWK5Dx0GPYWQerQgg3RfUHn3zQDf705uXWe6cUv2W0mth7A8N3iU0YxT4wDUVJxTRJnm6IOYPSJQ6bCVFMSZNL3dtpb2/hiyhCpPG+sIihrBCei4SRUlFRaYBsPArYgNFqwRiA1XpsM8DcRscIcFRxv92Ihe+grdnsR45QWL1Fxp2pyfisKMhzvkdF3sFF8UXTjlrUgXzwP9EBIPuM9wGzt2oGERDAHjJ3hii6eYBreREg5ybsjJX48OUj4CurjB/Q6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=py8u4OX83i/3syVL8qYVVIMaXkGK1P/LrBgXyBaPsf4=;
+ b=MtMLiZzU+5Al3MNk6DilfSjeZMcmicYov1APj/Boz//bcSLXXw0nbehk1rygoixY6TLwwkme5JcsWcARjm4hQspJ7wsRX5WFGg4qc18ac9rsdJNGxKFKtgFOMgXkaGTEdmTv8ZQz6on0P4XvWvTdCm22VKO0e27U6jFwXG6y+lXoMC3N98u5BLwmAYhilqc7toBPszDikOJQsL5gGoacBhYfVY9HHiTvBoO3YWqDE8WVBRn5rZPpuQboFIlO8EGYfWCPy14Z5i2c6QiolOFG9X5ysI8t0A2pq6GFtaSX+b7/zSOHPsULbw0qeEu+nHq7IgcEhDbmK1n/QPqXSgOQPg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=py8u4OX83i/3syVL8qYVVIMaXkGK1P/LrBgXyBaPsf4=;
+ b=H94G5ExnfrSfCwwlUBvJ2kwpbvcb+SQJHjSrfFsx4euNkhLhP2YLG4gGX6ge50EjxviscTp0RE8NHHflsBhn/AQ6tM3wOPqcXE5EPS1NdGy/OpEyewu0KeZgc2ZMNHj+i8zMlw3z8xyKpYiM8+mTu0GJbKDDCHhTO+YWwUL2MaE=
+Received: from BN7PR06CA0066.namprd06.prod.outlook.com (2603:10b6:408:34::43)
+ by PH8PR12MB7278.namprd12.prod.outlook.com (2603:10b6:510:222::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.25; Tue, 3 Sep
+ 2024 11:34:42 +0000
+Received: from MN1PEPF0000ECD8.namprd02.prod.outlook.com
+ (2603:10b6:408:34:cafe::55) by BN7PR06CA0066.outlook.office365.com
+ (2603:10b6:408:34::43) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.27 via Frontend
+ Transport; Tue, 3 Sep 2024 11:34:42 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ MN1PEPF0000ECD8.mail.protection.outlook.com (10.167.242.137) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7918.13 via Frontend Transport; Tue, 3 Sep 2024 11:34:42 +0000
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 3 Sep
+ 2024 06:34:41 -0500
+Received: from prasad-r9-mach.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Tue, 3 Sep 2024 06:34:32 -0500
+From: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+To: <broonie@kernel.org>, <alsa-devel@alsa-project.org>
+CC: <Vijendar.Mukunda@amd.com>, <Basavaraj.Hiregoudar@amd.com>,
+	<Sunil-kumar.Dommati@amd.com>, <syed.sabakareem@amd.com>, "Venkata Prasad
+ Potturu" <venkataprasad.potturu@amd.com>, Liam Girdwood
+	<lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+	<tiwai@suse.com>, "Syed Saba Kareem" <Syed.SabaKareem@amd.com>, Jeff Johnson
+	<quic_jjohnson@quicinc.com>, "open list:SOUND - SOC LAYER / DYNAMIC AUDIO
+ POWER MANAGEM..." <linux-sound@vger.kernel.org>, open list
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH 01/12] ASoC: amd: acp: Refactor TDM slots selction based on acp revision id
+Date: Tue, 3 Sep 2024 17:04:16 +0530
+Message-ID: <20240903113427.182997-2-venkataprasad.potturu@amd.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240903113427.182997-1-venkataprasad.potturu@amd.com>
+References: <20240903113427.182997-1-venkataprasad.potturu@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240903-rme-digiface-v2-2-71b06c912e97@asahilina.net>
-References: <20240903-rme-digiface-v2-0-71b06c912e97@asahilina.net>
-In-Reply-To: <20240903-rme-digiface-v2-0-71b06c912e97@asahilina.net>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: "Geoffrey D. Bennett" <g@b4.vu>, 
- Takashi Sakamoto <o-takashi@sakamocchi.jp>, Mark Hills <mark@xwax.org>, 
- Arun Raghavan <arun@arunraghavan.net>, Cyan Nyan <cyan.vtb@gmail.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Asahi Lina <lina@asahilina.net>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1725360771; l=15325;
- i=lina@asahilina.net; s=20240902; h=from:subject:message-id;
- bh=JgvJqVTf/u0LE0bfE/k5DEn8YPyIpzNmeGr9DZ3HNVA=;
- b=pB+8J1+dsvbcIo7/TCZHwn8ZAwlpQrGSiFIaMBJ6No+gcCI1cQixUUiFP0xvt6TugnHuvTYqM
- EO7TQwBM52LCZ+21uCJShRulmDvBSt932h4vsianIP9NsjIVKZ/VDn8
-X-Developer-Key: i=lina@asahilina.net; a=ed25519;
- pk=tpv7cWfUnHNw5jwf6h4t0gGgglt3/xcwlfs0+A/uUu8=
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+Received-SPF: None (SATLEXMB04.amd.com: venkataprasad.potturu@amd.com does not
+ designate permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN1PEPF0000ECD8:EE_|PH8PR12MB7278:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1f79c23c-6eb9-4376-ef57-08dccc0c6716
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|82310400026|36860700013|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?mTzmuBrS4PHyEYniTUtV9wq5BjBvJ1CqVRrxj9vtM7fZuQcO8FpTAKwJHXpH?=
+ =?us-ascii?Q?MmuRHFUF+1BJbnqk4cuWdtDj/FRxJaGHi9HdpXHQfNbItqITGJWScOeMgYU1?=
+ =?us-ascii?Q?0GEFI9o7r0ksJI4YIqhPd8/efF0OQAxeBw+YOxcTkNog/5PlZIqC7Op6CT0U?=
+ =?us-ascii?Q?frP+JfdMGQtL8/DXQBFkPiHLD9+KvnvLM9j6/dDdfI/GHmfgmsy8Qt2PEciu?=
+ =?us-ascii?Q?JuBcfv24+1ME5/CpaGqWK1rxMZMiuIuVtJwESI0MWF8a+l7nDf+oAymNHSAs?=
+ =?us-ascii?Q?9gpwDhWy9I+x/nT4lknP2p5TRUNCZoo0BS5Um/VZiHCw2kpa9l//BgQBzIR+?=
+ =?us-ascii?Q?bzTN8T7HbvVBe+RIlbV4P3kHkVpkpKkeDUjNyiImGt8+7okMaYqSvUyW6FJG?=
+ =?us-ascii?Q?B8j4he8EVBz5Ad8gf86oFn24yqLUGR/wXMDWDZtLOCGW6B+LX5zqLwzokYtk?=
+ =?us-ascii?Q?MjDUR2tMC9jFvyVr+L0Z+wghBq80cUDllWPADQj/UVOVRkSQoM2e4YHy+IMQ?=
+ =?us-ascii?Q?1GxxljM0yX0s/rRBfKR2gnc//bb+A28noN8ROXVnl1ZGFpKi8k1SR+VkOZOY?=
+ =?us-ascii?Q?Mdll14OkCGMqRIUc6T1ZLsMJdoXxCgU6ShuDppoTsL1wuP39bF/6/3FUqbAE?=
+ =?us-ascii?Q?XG9nP0glFEnzwtmhVN0+QZA63taQkuQl8WQ2a2H6uVapRvpFFpXVHfxvVVGZ?=
+ =?us-ascii?Q?QN7nKKPk7b93TE415yQhquhzYP4RuERLxS8lnYXMqmW341UGz0hXGOLlJ+XQ?=
+ =?us-ascii?Q?NkA4Ltfxj/qw+tIOWuSi2KDhnccoOnS61qdy1TQAzhm7dl3k9ZG/EPFEjjgA?=
+ =?us-ascii?Q?Ks4JlzdjO6T1Xddg09q2zP0Cuk4lfCzTJP0Wusz/xRoJ25JrMZW+GrouVZ6m?=
+ =?us-ascii?Q?zWJxx74IbI1/02Zp8Dj89HielyMeJrlCs2Aui2DADwkV5B7FmFbxpnCovfXS?=
+ =?us-ascii?Q?v5vsoknLuj4kjbcYvSrDXtBsqrAGN49f2f0P99lvoHIvahSRNoGh8O/0cXYB?=
+ =?us-ascii?Q?9yBSPVhe++7/LmRbBAeZ/XlaET9VRdldISTKtQarGEKeILHNRiXtpKKrdSlB?=
+ =?us-ascii?Q?FL4jy2tBwj+g9Bp6lYNlfdFwmSEg8MqfHOJQArPZyzdL1yWAI2LTR4KrxIU1?=
+ =?us-ascii?Q?YLY8u0r6nMd/rCGFv+7Nnfgjrr5iEWbQAdiy7fC0MqCbtsZzghRa4aCy40Ik?=
+ =?us-ascii?Q?80U6rlmE4U9TQXt4vVZGNrvTPKa4DZ7ysLhK67A0bH8IC5GRIrzNdNmPSSUk?=
+ =?us-ascii?Q?eeVrp0q4sP6QPGXGB46h3iMKX5AXe9fs9BxZqCwyq0AW3Mzj6/ur1IpSp2dP?=
+ =?us-ascii?Q?Xh4UxRD3T/pHeUCVs35xBMyIYo45TW3XrfDUcpg2o6tRDN0ohs5QvX2oSKVU?=
+ =?us-ascii?Q?8Bafen8vfj5zWKIjwq2b7st5CN8EBoHLlEWmKomIG0HYYW9mNKRG0mF3h8GD?=
+ =?us-ascii?Q?UWyRG6DplXqgzk32L88H+AV8N3mP1D1v?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2024 11:34:42.0216
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1f79c23c-6eb9-4376-ef57-08dccc0c6716
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	MN1PEPF0000ECD8.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7278
 
-Implement sync, output format, and input status mixer controls, to allow
-the interface to be used as a straight ADAT/SPDIF (+ Headphones) I/O
-interface.
+Refactor TDM slots selection based on acp revision id.
 
-This does not implement the matrix mixer, output gain controls, or input
-level meter feedback. The full mixer interface is only really usable
-using a dedicated userspace control app (there are too many mixer nodes
-for alsamixer to be usable), so for now we leave it up to userspace to
-directly control these features using raw USB control messages. This is
-similar to how it's done with some FireWire interfaces (ffado-mixer).
-
-Signed-off-by: Asahi Lina <lina@asahilina.net>
+Signed-off-by: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
 ---
- sound/usb/mixer_quirks.c | 413 +++++++++++++++++++++++++++++++++++++++++++++++
- sound/usb/quirks-table.h |   1 +
- 2 files changed, 414 insertions(+)
+ sound/soc/amd/acp/acp-i2s.c | 40 +++++++++++++++++++++++++++----------
+ 1 file changed, 29 insertions(+), 11 deletions(-)
 
-diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-index 5d6792f51f4c..2a9594f34dac 100644
---- a/sound/usb/mixer_quirks.c
-+++ b/sound/usb/mixer_quirks.c
-@@ -14,6 +14,7 @@
-  *	    Przemek Rudy (prudy1@o2.pl)
-  */
+diff --git a/sound/soc/amd/acp/acp-i2s.c b/sound/soc/amd/acp/acp-i2s.c
+index 97258b4cf89b..5d1d27078626 100644
+--- a/sound/soc/amd/acp/acp-i2s.c
++++ b/sound/soc/amd/acp/acp-i2s.c
+@@ -95,9 +95,11 @@ static int acp_i2s_set_tdm_slot(struct snd_soc_dai *dai, u32 tx_mask, u32 rx_mas
+ {
+ 	struct device *dev = dai->component->dev;
+ 	struct acp_dev_data *adata = snd_soc_dai_get_drvdata(dai);
++	struct acp_chip_info *chip;
+ 	struct acp_stream *stream;
+ 	int slot_len, no_of_slots;
  
-+#include <linux/bitfield.h>
- #include <linux/hid.h>
- #include <linux/init.h>
- #include <linux/math64.h>
-@@ -3087,6 +3088,415 @@ static int snd_bbfpro_controls_create(struct usb_mixer_interface *mixer)
++	chip = dev_get_platdata(dev);
+ 	switch (slot_width) {
+ 	case SLOT_WIDTH_8:
+ 		slot_len = 8;
+@@ -116,15 +118,23 @@ static int acp_i2s_set_tdm_slot(struct snd_soc_dai *dai, u32 tx_mask, u32 rx_mas
+ 		return -EINVAL;
+ 	}
+ 
+-	switch (slots) {
+-	case 1 ... 7:
+-		no_of_slots = slots;
+-		break;
+-	case 8:
+-		no_of_slots = 0;
++	switch (chip->acp_rev) {
++	case ACP3X_DEV:
++	case ACP6X_DEV:
++		switch (slots) {
++		case 1 ... 7:
++			no_of_slots = slots;
++			break;
++		case 8:
++			no_of_slots = 0;
++			break;
++		default:
++			dev_err(dev, "Unsupported slots %d\n", slots);
++			return -EINVAL;
++		}
+ 		break;
+ 	default:
+-		dev_err(dev, "Unsupported slots %d\n", slots);
++		dev_err(dev, "Unknown chip revision %d\n", chip->acp_rev);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -132,12 +142,20 @@ static int acp_i2s_set_tdm_slot(struct snd_soc_dai *dai, u32 tx_mask, u32 rx_mas
+ 
+ 	spin_lock_irq(&adata->acp_lock);
+ 	list_for_each_entry(stream, &adata->stream_list, list) {
+-		if (tx_mask && stream->dir == SNDRV_PCM_STREAM_PLAYBACK)
+-			adata->tdm_tx_fmt[stream->dai_id - 1] =
++		switch (chip->acp_rev) {
++		case ACP3X_DEV:
++		case ACP6X_DEV:
++			if (tx_mask && stream->dir == SNDRV_PCM_STREAM_PLAYBACK)
++				adata->tdm_tx_fmt[stream->dai_id - 1] =
+ 					FRM_LEN | (slots << 15) | (slot_len << 18);
+-		else if (rx_mask && stream->dir == SNDRV_PCM_STREAM_CAPTURE)
+-			adata->tdm_rx_fmt[stream->dai_id - 1] =
++			else if (rx_mask && stream->dir == SNDRV_PCM_STREAM_CAPTURE)
++				adata->tdm_rx_fmt[stream->dai_id - 1] =
+ 					FRM_LEN | (slots << 15) | (slot_len << 18);
++			break;
++		default:
++			dev_err(dev, "Unknown chip revision %d\n", chip->acp_rev);
++			return -EINVAL;
++		}
+ 	}
+ 	spin_unlock_irq(&adata->acp_lock);
  	return 0;
- }
- 
-+/*
-+ * RME Digiface USB
-+ */
-+
-+#define RME_DIGIFACE_READ_STATUS 17
-+#define RME_DIGIFACE_STATUS_REG0L 0
-+#define RME_DIGIFACE_STATUS_REG0H 1
-+#define RME_DIGIFACE_STATUS_REG1L 2
-+#define RME_DIGIFACE_STATUS_REG1H 3
-+#define RME_DIGIFACE_STATUS_REG2L 4
-+#define RME_DIGIFACE_STATUS_REG2H 5
-+#define RME_DIGIFACE_STATUS_REG3L 6
-+#define RME_DIGIFACE_STATUS_REG3H 7
-+
-+#define RME_DIGIFACE_CTL_REG1 16
-+#define RME_DIGIFACE_CTL_REG2 18
-+
-+/* Reg is overloaded, 0-7 for status halfwords or 16 or 18 for control registers */
-+#define RME_DIGIFACE_REGISTER(reg, mask) (((reg) << 16) | (mask))
-+#define RME_DIGIFACE_INVERT BIT(31)
-+
-+/* Nonconst helpers */
-+#define field_get(_mask, _reg) (((_reg) & (_mask)) >> (ffs(_mask) - 1))
-+#define field_prep(_mask, _val) (((_val) << (ffs(_mask) - 1)) & (_mask))
-+
-+static int snd_rme_digiface_write_reg(struct snd_kcontrol *kcontrol, int item, u16 mask, u16 val)
-+{
-+	struct usb_mixer_elem_list *list = snd_kcontrol_chip(kcontrol);
-+	struct snd_usb_audio *chip = list->mixer->chip;
-+	struct usb_device *dev = chip->dev;
-+	int err;
-+
-+	err = snd_usb_ctl_msg(dev, usb_sndctrlpipe(dev, 0),
-+			      item,
-+			      USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
-+			      val, mask, NULL, 0);
-+	if (err < 0)
-+		dev_err(&dev->dev,
-+			"unable to issue control set request %d (ret = %d)",
-+			item, err);
-+	return err;
-+}
-+
-+static int snd_rme_digiface_read_status(struct snd_kcontrol *kcontrol, u32 status[4])
-+{
-+	struct usb_mixer_elem_list *list = snd_kcontrol_chip(kcontrol);
-+	struct snd_usb_audio *chip = list->mixer->chip;
-+	struct usb_device *dev = chip->dev;
-+	__le32 buf[4];
-+	int err;
-+
-+	err = snd_usb_ctl_msg(dev, usb_rcvctrlpipe(dev, 0),
-+			      RME_DIGIFACE_READ_STATUS,
-+			      USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
-+			      0, 0,
-+			      buf, sizeof(buf));
-+	if (err < 0) {
-+		dev_err(&dev->dev,
-+			"unable to issue status read request (ret = %d)",
-+			err);
-+	} else {
-+		for (int i = 0; i < ARRAY_SIZE(buf); i++)
-+			status[i] = le32_to_cpu(buf[i]);
-+	}
-+	return err;
-+}
-+
-+static int snd_rme_digiface_get_status_val(struct snd_kcontrol *kcontrol)
-+{
-+	int err;
-+	u32 status[4];
-+	bool invert = kcontrol->private_value & RME_DIGIFACE_INVERT;
-+	u8 reg = (kcontrol->private_value >> 16) & 0xff;
-+	u16 mask = kcontrol->private_value & 0xffff;
-+	u16 val;
-+
-+	err = snd_rme_digiface_read_status(kcontrol, status);
-+	if (err < 0)
-+		return err;
-+
-+	switch (reg) {
-+	/* Status register halfwords */
-+	case RME_DIGIFACE_STATUS_REG0L ... RME_DIGIFACE_STATUS_REG3H:
-+		break;
-+	case RME_DIGIFACE_CTL_REG1: /* Control register 1, present in halfword 3L */
-+		reg = RME_DIGIFACE_STATUS_REG3L;
-+		break;
-+	case RME_DIGIFACE_CTL_REG2: /* Control register 2, present in halfword 3H */
-+		reg = RME_DIGIFACE_STATUS_REG3H;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	if (reg & 1)
-+		val = status[reg >> 1] >> 16;
-+	else
-+		val = status[reg >> 1] & 0xffff;
-+
-+	if (invert)
-+		val ^= mask;
-+
-+	return field_get(mask, val);
-+}
-+
-+static int snd_rme_digiface_rate_get(struct snd_kcontrol *kcontrol,
-+				     struct snd_ctl_elem_value *ucontrol)
-+{
-+	int freq = snd_rme_digiface_get_status_val(kcontrol);
-+
-+	if (freq < 0)
-+		return freq;
-+	if (freq >= ARRAY_SIZE(snd_rme_rate_table))
-+		return -EIO;
-+
-+	ucontrol->value.integer.value[0] = snd_rme_rate_table[freq];
-+	return 0;
-+}
-+
-+static int snd_rme_digiface_enum_get(struct snd_kcontrol *kcontrol,
-+				     struct snd_ctl_elem_value *ucontrol)
-+{
-+	int val = snd_rme_digiface_get_status_val(kcontrol);
-+
-+	if (val < 0)
-+		return val;
-+
-+	ucontrol->value.enumerated.item[0] = val;
-+	return 0;
-+}
-+
-+static int snd_rme_digiface_enum_put(struct snd_kcontrol *kcontrol,
-+				     struct snd_ctl_elem_value *ucontrol)
-+{
-+	bool invert = kcontrol->private_value & RME_DIGIFACE_INVERT;
-+	u8 reg = (kcontrol->private_value >> 16) & 0xff;
-+	u16 mask = kcontrol->private_value & 0xffff;
-+	u16 val = field_prep(mask, ucontrol->value.enumerated.item[0]);
-+
-+	if (invert)
-+		val ^= mask;
-+
-+	return snd_rme_digiface_write_reg(kcontrol, reg, mask, val);
-+}
-+
-+static int snd_rme_digiface_current_sync_get(struct snd_kcontrol *kcontrol,
-+				     struct snd_ctl_elem_value *ucontrol)
-+{
-+	int ret = snd_rme_digiface_enum_get(kcontrol, ucontrol);
-+
-+	/* 7 means internal for current sync */
-+	if (ucontrol->value.enumerated.item[0] == 7)
-+		ucontrol->value.enumerated.item[0] = 0;
-+
-+	return ret;
-+}
-+
-+static int snd_rme_digiface_sync_state_get(struct snd_kcontrol *kcontrol,
-+					   struct snd_ctl_elem_value *ucontrol)
-+{
-+	u32 status[4];
-+	int err;
-+	bool valid, sync;
-+
-+	err = snd_rme_digiface_read_status(kcontrol, status);
-+	if (err < 0)
-+		return err;
-+
-+	valid = status[0] & BIT(kcontrol->private_value);
-+	sync = status[0] & BIT(5 + kcontrol->private_value);
-+
-+	if (!valid)
-+		ucontrol->value.enumerated.item[0] = SND_RME_CLOCK_NOLOCK;
-+	else if (!sync)
-+		ucontrol->value.enumerated.item[0] = SND_RME_CLOCK_LOCK;
-+	else
-+		ucontrol->value.enumerated.item[0] = SND_RME_CLOCK_SYNC;
-+	return 0;
-+}
-+
-+
-+static int snd_rme_digiface_format_info(struct snd_kcontrol *kcontrol,
-+					struct snd_ctl_elem_info *uinfo)
-+{
-+	static const char *const format[] = {
-+		"ADAT", "S/PDIF"
-+	};
-+
-+	return snd_ctl_enum_info(uinfo, 1,
-+				 ARRAY_SIZE(format), format);
-+}
-+
-+
-+static int snd_rme_digiface_sync_source_info(struct snd_kcontrol *kcontrol,
-+					     struct snd_ctl_elem_info *uinfo)
-+{
-+	static const char *const sync_sources[] = {
-+		"Internal", "Input 1", "Input 2", "Input 3", "Input 4"
-+	};
-+
-+	return snd_ctl_enum_info(uinfo, 1,
-+				 ARRAY_SIZE(sync_sources), sync_sources);
-+}
-+
-+static int snd_rme_digiface_rate_info(struct snd_kcontrol *kcontrol,
-+				      struct snd_ctl_elem_info *uinfo)
-+{
-+	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
-+	uinfo->count = 1;
-+	uinfo->value.integer.min = 0;
-+	uinfo->value.integer.max = 200000;
-+	uinfo->value.integer.step = 0;
-+	return 0;
-+}
-+
-+static const struct snd_kcontrol_new snd_rme_digiface_controls[] = {
-+	{
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "Input 1 Sync",
-+		.access = SNDRV_CTL_ELEM_ACCESS_READ | SNDRV_CTL_ELEM_ACCESS_VOLATILE,
-+		.info = snd_rme_sync_state_info,
-+		.get = snd_rme_digiface_sync_state_get,
-+		.private_value = 0,
-+	},
-+	{
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "Input 1 Format",
-+		.access = SNDRV_CTL_ELEM_ACCESS_READ | SNDRV_CTL_ELEM_ACCESS_VOLATILE,
-+		.info = snd_rme_digiface_format_info,
-+		.get = snd_rme_digiface_enum_get,
-+		.private_value = RME_DIGIFACE_REGISTER(RME_DIGIFACE_STATUS_REG0H, BIT(0)) |
-+			RME_DIGIFACE_INVERT,
-+	},
-+	{
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "Input 1 Rate",
-+		.access = SNDRV_CTL_ELEM_ACCESS_READ | SNDRV_CTL_ELEM_ACCESS_VOLATILE,
-+		.info = snd_rme_digiface_rate_info,
-+		.get = snd_rme_digiface_rate_get,
-+		.private_value = RME_DIGIFACE_REGISTER(RME_DIGIFACE_STATUS_REG1L, GENMASK(3, 0)),
-+	},
-+	{
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "Input 2 Sync",
-+		.access = SNDRV_CTL_ELEM_ACCESS_READ | SNDRV_CTL_ELEM_ACCESS_VOLATILE,
-+		.info = snd_rme_sync_state_info,
-+		.get = snd_rme_digiface_sync_state_get,
-+		.private_value = 1,
-+	},
-+	{
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "Input 2 Format",
-+		.access = SNDRV_CTL_ELEM_ACCESS_READ | SNDRV_CTL_ELEM_ACCESS_VOLATILE,
-+		.info = snd_rme_digiface_format_info,
-+		.get = snd_rme_digiface_enum_get,
-+		.private_value = RME_DIGIFACE_REGISTER(RME_DIGIFACE_STATUS_REG0L, BIT(13)) |
-+			RME_DIGIFACE_INVERT,
-+	},
-+	{
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "Input 2 Rate",
-+		.access = SNDRV_CTL_ELEM_ACCESS_READ | SNDRV_CTL_ELEM_ACCESS_VOLATILE,
-+		.info = snd_rme_digiface_rate_info,
-+		.get = snd_rme_digiface_rate_get,
-+		.private_value = RME_DIGIFACE_REGISTER(RME_DIGIFACE_STATUS_REG1L, GENMASK(7, 4)),
-+	},
-+	{
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "Input 3 Sync",
-+		.access = SNDRV_CTL_ELEM_ACCESS_READ | SNDRV_CTL_ELEM_ACCESS_VOLATILE,
-+		.info = snd_rme_sync_state_info,
-+		.get = snd_rme_digiface_sync_state_get,
-+		.private_value = 2,
-+	},
-+	{
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "Input 3 Format",
-+		.access = SNDRV_CTL_ELEM_ACCESS_READ | SNDRV_CTL_ELEM_ACCESS_VOLATILE,
-+		.info = snd_rme_digiface_format_info,
-+		.get = snd_rme_digiface_enum_get,
-+		.private_value = RME_DIGIFACE_REGISTER(RME_DIGIFACE_STATUS_REG0L, BIT(14)) |
-+			RME_DIGIFACE_INVERT,
-+	},
-+	{
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "Input 3 Rate",
-+		.access = SNDRV_CTL_ELEM_ACCESS_READ | SNDRV_CTL_ELEM_ACCESS_VOLATILE,
-+		.info = snd_rme_digiface_rate_info,
-+		.get = snd_rme_digiface_rate_get,
-+		.private_value = RME_DIGIFACE_REGISTER(RME_DIGIFACE_STATUS_REG1L, GENMASK(11, 8)),
-+	},
-+	{
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "Input 4 Sync",
-+		.access = SNDRV_CTL_ELEM_ACCESS_READ | SNDRV_CTL_ELEM_ACCESS_VOLATILE,
-+		.info = snd_rme_sync_state_info,
-+		.get = snd_rme_digiface_sync_state_get,
-+		.private_value = 3,
-+	},
-+	{
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "Input 4 Format",
-+		.access = SNDRV_CTL_ELEM_ACCESS_READ | SNDRV_CTL_ELEM_ACCESS_VOLATILE,
-+		.info = snd_rme_digiface_format_info,
-+		.get = snd_rme_digiface_enum_get,
-+		.private_value = RME_DIGIFACE_REGISTER(RME_DIGIFACE_STATUS_REG0L, GENMASK(15, 12)) |
-+			RME_DIGIFACE_INVERT,
-+	},
-+	{
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "Input 4 Rate",
-+		.access = SNDRV_CTL_ELEM_ACCESS_READ | SNDRV_CTL_ELEM_ACCESS_VOLATILE,
-+		.info = snd_rme_digiface_rate_info,
-+		.get = snd_rme_digiface_rate_get,
-+		.private_value = RME_DIGIFACE_REGISTER(RME_DIGIFACE_STATUS_REG1L, GENMASK(3, 0)),
-+	},
-+	{
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "Output 1 Format",
-+		.access = SNDRV_CTL_ELEM_ACCESS_READWRITE,
-+		.info = snd_rme_digiface_format_info,
-+		.get = snd_rme_digiface_enum_get,
-+		.put = snd_rme_digiface_enum_put,
-+		.private_value = RME_DIGIFACE_REGISTER(RME_DIGIFACE_CTL_REG2, BIT(0)),
-+	},
-+	{
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "Output 2 Format",
-+		.access = SNDRV_CTL_ELEM_ACCESS_READWRITE,
-+		.info = snd_rme_digiface_format_info,
-+		.get = snd_rme_digiface_enum_get,
-+		.put = snd_rme_digiface_enum_put,
-+		.private_value = RME_DIGIFACE_REGISTER(RME_DIGIFACE_CTL_REG2, BIT(1)),
-+	},
-+	{
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "Output 3 Format",
-+		.access = SNDRV_CTL_ELEM_ACCESS_READWRITE,
-+		.info = snd_rme_digiface_format_info,
-+		.get = snd_rme_digiface_enum_get,
-+		.put = snd_rme_digiface_enum_put,
-+		.private_value = RME_DIGIFACE_REGISTER(RME_DIGIFACE_CTL_REG2, BIT(3)),
-+	},
-+	{
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "Output 4 Format",
-+		.access = SNDRV_CTL_ELEM_ACCESS_READWRITE,
-+		.info = snd_rme_digiface_format_info,
-+		.get = snd_rme_digiface_enum_get,
-+		.put = snd_rme_digiface_enum_put,
-+		.private_value = RME_DIGIFACE_REGISTER(RME_DIGIFACE_CTL_REG2, BIT(4)),
-+	},
-+	{
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "Sync Source",
-+		.access = SNDRV_CTL_ELEM_ACCESS_READWRITE,
-+		.info = snd_rme_digiface_sync_source_info,
-+		.get = snd_rme_digiface_enum_get,
-+		.put = snd_rme_digiface_enum_put,
-+		.private_value = RME_DIGIFACE_REGISTER(RME_DIGIFACE_CTL_REG1, GENMASK(2, 0)),
-+	},
-+	{
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "Current Sync Source",
-+		.access = SNDRV_CTL_ELEM_ACCESS_READ | SNDRV_CTL_ELEM_ACCESS_VOLATILE,
-+		.info = snd_rme_digiface_sync_source_info,
-+		.get = snd_rme_digiface_current_sync_get,
-+		.private_value = RME_DIGIFACE_REGISTER(RME_DIGIFACE_STATUS_REG0L, GENMASK(12, 10)),
-+	},
-+	{
-+		/*
-+		 * This is writeable, but it is only set by the PCM rate.
-+		 * Mixer apps currently need to drive the mixer using raw USB requests,
-+		 * so they can also change this that way to configure the rate for
-+		 * stand-alone operation when the PCM is closed.
-+		 */
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "System Rate",
-+		.access = SNDRV_CTL_ELEM_ACCESS_READ | SNDRV_CTL_ELEM_ACCESS_VOLATILE,
-+		.info = snd_rme_rate_info,
-+		.get = snd_rme_digiface_rate_get,
-+		.private_value = RME_DIGIFACE_REGISTER(RME_DIGIFACE_CTL_REG1, GENMASK(6, 3)),
-+	},
-+	{
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "Current Rate",
-+		.access = SNDRV_CTL_ELEM_ACCESS_READ | SNDRV_CTL_ELEM_ACCESS_VOLATILE,
-+		.info = snd_rme_rate_info,
-+		.get = snd_rme_digiface_rate_get,
-+		.private_value = RME_DIGIFACE_REGISTER(RME_DIGIFACE_STATUS_REG1H, GENMASK(7, 4)),
-+	}
-+};
-+
-+static int snd_rme_digiface_controls_create(struct usb_mixer_interface *mixer)
-+{
-+	int err, i;
-+
-+	for (i = 0; i < ARRAY_SIZE(snd_rme_digiface_controls); ++i) {
-+		err = add_single_ctl_with_resume(mixer, 0,
-+						 NULL,
-+						 &snd_rme_digiface_controls[i],
-+						 NULL);
-+		if (err < 0)
-+			return err;
-+	}
-+
-+	return 0;
-+}
-+
- /*
-  * Pioneer DJ DJM Mixers
-  *
-@@ -3645,6 +4055,9 @@ int snd_usb_mixer_apply_create_quirk(struct usb_mixer_interface *mixer)
- 	case USB_ID(0x2a39, 0x3fb0): /* RME Babyface Pro FS */
- 		err = snd_bbfpro_controls_create(mixer);
- 		break;
-+	case USB_ID(0x2a39, 0x3f8c): /* RME Digiface USB */
-+		err = snd_rme_digiface_controls_create(mixer);
-+		break;
- 	case USB_ID(0x2b73, 0x0017): /* Pioneer DJ DJM-250MK2 */
- 		err = snd_djm_controls_create(mixer, SND_DJM_250MK2_IDX);
- 		break;
-diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
-index 631b9ab80f6c..24c981c9b240 100644
---- a/sound/usb/quirks-table.h
-+++ b/sound/usb/quirks-table.h
-@@ -3620,6 +3620,7 @@ YAMAHA_DEVICE(0x7010, "UB99"),
- 			 * Three modes depending on sample rate band,
- 			 * with different channel counts for in/out
- 			 */
-+			{ QUIRK_DATA_STANDARD_MIXER(0) },
- 			{
- 				QUIRK_DATA_AUDIOFORMAT(0) {
- 					.formats = SNDRV_PCM_FMTBIT_S32_LE,
-
 -- 
-2.46.0
+2.39.2
 
