@@ -1,157 +1,126 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CFC613AA2B;
-	Wed,  4 Sep 2024 19:46:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80241146A79;
+	Wed,  4 Sep 2024 20:40:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725479192; cv=none; b=mzDIZF9BFRlEv6ITKhNv7SlpOkQxMLb6medvfZa31ozxWlWc780Q1kwTCHlT3vu0icvghG3LGKJS572Om3Q8BbONkLFgMlpetimmSgtuLv9mluhEohrx52yGyWYQNZtXn65w+BTRNd+DdwcA8Y5MbjfDvCz41mddabR1WolPqE8=
+	t=1725482404; cv=none; b=Baf5cinlgkQZIfPZDivcKFr/bVSbceTf+4L+WGqZtU/QUe46VE0YrDqNHx+Sx7NXcx8Dc76VPv2gYOFQOhqI/hlocpM9X3plV7JdsWrEpfMig8CIjdOY+lhohfnLuiX1pLf6ObJFU8xSHUPrA5+KKYLRg/PdYJ981Q76dIiSfSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725479192; c=relaxed/simple;
-	bh=e5YRCfHcSxajoDuqX351heIe3Wzdm2U2L0IQCNWWeXQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=AMpCSQfFOixEFdoOYSCH0ZMu8UCDLW+yBjF7XdBqvMTEl99MEc0GP4iiWzLZnbTe4a5CO9yN2H6F9m5lk91693J+sBXSN/A7UWPlduXzgpF4o5Fl9hBkxahrvO7fFPhKXc1m4U4qK7Y2tIqtCSNEeroXNKPh7egU1lTJ/9TRXqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=l4NlHtMR; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1725482404; c=relaxed/simple;
+	bh=zqe6+b/FTfJHgkE9MkhgaaAsT5L43NyeI82wDMeUKAk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qjK6xX6ASAOq4zAeoNL2+YuyyZ77N3OAxMZUolunUTwvcUdJZF8jWkwuWjMdGZqauytyfzouPnlnkYdSVTjR2WELUjNJ1U+g86sD4wm+3pa6vYcllmroC7aBcycpYsILlWqfk23n3gj/0UQlpQ36l9qRI/wdLeVGNamvhJ1f468=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PErKCY51; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="l4NlHtMR"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 484IoaCp028269;
-	Wed, 4 Sep 2024 19:46:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	4L5/ijFquyhl43s4ge7n4rzdYP9Bspig+YmhsVPizDQ=; b=l4NlHtMRF8vNO7MP
-	nOQCFcFhJ2p34IS3ayCQypwnosMjNNcY1PKjL2lmN+4U6e52LGqMnttmJHnMZ6Sk
-	tprRbJDmIDPf1A7LIrtMXJkT/SLsVAIWKE/3iqWfY/mJK0AHJ7syVBy7HwXAW+3P
-	k/YsDqdmGUX0MjtBMA8Okxj9PO5NZu13f0hJ0Ptl2vb7YPPRYGPfIFl2LvbiqU+8
-	z/3WnSZ+/k+LeqBkSYJFkT5y2J8LczrwNup0TWjbkAJowbTOnPLVtW3Ul3fmLvG+
-	YrieTiYgDm999u0Y9qoZYtf9XqKdE4Z/I+6FLDV6L8kFZEZl7q8YDrmdBHeVLUXx
-	lINI9g==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41btrxuu79-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 04 Sep 2024 19:46:06 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 484Jk4kw023645
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 4 Sep 2024 19:46:04 GMT
-Received: from [10.71.114.155] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 4 Sep 2024
- 12:46:03 -0700
-Message-ID: <93d2eecf-ed79-41cf-b38b-ede432093aec@quicinc.com>
-Date: Wed, 4 Sep 2024 12:46:03 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PErKCY51"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-42c7b5b2d01so50914205e9.3;
+        Wed, 04 Sep 2024 13:40:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725482401; x=1726087201; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rMC9PyIWnX47bjnEnEHO5NXAPXt5crdtOv8guFK+s5k=;
+        b=PErKCY514ngUKSSN0GrT3UTuExk8foQw/F6qqyRs5YyDvtf+nx2HYO1HbRZo1GD0xd
+         67p/5LdLsr3AbQb9XZ+rqGTzGooENi2BfSCDHHJLieRnD0H52aD3tw4gmqy5VivRUiaQ
+         +N7i3i81coA61STH7KnOAWGuvwxyE2+Hnz739HO1EyrcsbJ9QyCDYVEqezdM8PQLbyO9
+         9YXEAetoBy6JJvaNtvIE+nHetBxA7h5NngBcdUQkREQWK7AWCKR+j7ovi/kWy+auGss+
+         I5/AJ/wKLgIJ6tiu1o4qX4R0lOYjTAfpSezZtpfaI2znvsUVSO4VFUSmJe9xRbDRwEDQ
+         3bFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725482401; x=1726087201;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rMC9PyIWnX47bjnEnEHO5NXAPXt5crdtOv8guFK+s5k=;
+        b=eOs+FDvqiKkNiWFiXeQJCHDaSkEoleSVuSsoWJ7RPi3Nqj1zLk5GPgEZf64BFcZEiX
+         1+qIfUPDKLFjMDKQk2Az47B5bQLgZiIIRTP/pqMo6fVdMec5SqwAZT0ugpTNwRxe50Ig
+         0jlXna20cJTe9iCcUR8+mXynXa1dJZsfpojYPO7JHV9hukQZPPlpPHrw+Knadfn7XA7o
+         Sl8bfsXpNTyr5Gz1hSU06FhUmi/xUiJee+0Y6DV92DWavMQKqDdTO/GAU/1yFWGpBsoI
+         +HHaM4rCfeMnVJtoU27+cxHOoTorVtb1Yc7SPZaMoXHABaYm/NXO7pQ8qC9gBm4iYCTr
+         4s5w==
+X-Forwarded-Encrypted: i=1; AJvYcCVg4k8nuV+jVAG85ANnBf7iNszwAlaaKqeODlwzh8KRRt+vE+aL9KwfWLPsi/XrKVO89aCBARNSFf/d6bY=@vger.kernel.org, AJvYcCWLHctdPDJh0mjjHJmFwbw44peqTqcN1+hnA+sVf1IDse8+7+fjsfkk3V0Q4+V9VSSgojTqi/Jd31dbi24=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHq7RErUVa7SiVArX5GNriHofsKfFUJI+5+C0HgoNwyoT4vJ0E
+	locKmcAX8XJ3AVP0RVIZuWttTXr32CpNJlX29MaQ3aYQeSzFB+xg
+X-Google-Smtp-Source: AGHT+IEGXVfuDlPCdE0TrKvq2ls5isaLcHyGYBvzekLbPYPrZI+rDOevIiOOPR/3gKoYxFzozgP+TA==
+X-Received: by 2002:a7b:cb11:0:b0:429:c674:d9de with SMTP id 5b1f17b1804b1-42c9a36029fmr2136315e9.2.1725482400217;
+        Wed, 04 Sep 2024 13:40:00 -0700 (PDT)
+Received: from localhost ([185.220.101.69])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42c7a41bdc8sm158287955e9.3.2024.09.04.13.39.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Sep 2024 13:39:59 -0700 (PDT)
+From: Maxim Mikityanskiy <maxtram95@gmail.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>,
+	Rui Salvaterra <rsalvaterra@gmail.com>,
+	Sui Jingfeng <suijingfeng@loongson.cn>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Peter Wu <peter@lekensteyn.nl>,
+	Lukas Wunner <lukas@wunner.de>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Maxim Mikityanskiy <maxtram95@gmail.com>
+Subject: [PATCH] ALSA: hda: intel: Fix Optimus when GPU has no sound
+Date: Wed,  4 Sep 2024 23:39:55 +0300
+Message-ID: <20240904203955.245085-1-maxtram95@gmail.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v26 30/33] ALSA: usb-audio: qcom: Use card and PCM index
- from QMI request
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
-        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
-        <tiwai@suse.com>, <krzk+dt@kernel.org>, <Thinh.Nguyen@synopsys.com>,
-        <bgoswami@quicinc.com>, <robh@kernel.org>,
-        <gregkh@linuxfoundation.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>
-References: <20240829194105.1504814-1-quic_wcheng@quicinc.com>
- <20240829194105.1504814-31-quic_wcheng@quicinc.com>
- <f8090415-e0ae-4923-bdc8-58622623fc9d@linux.intel.com>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <f8090415-e0ae-4923-bdc8-58622623fc9d@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: r8piAAQeh2qxXzfDR-ckpRBOOeNMPYga
-X-Proofpoint-ORIG-GUID: r8piAAQeh2qxXzfDR-ckpRBOOeNMPYga
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-04_17,2024-09-04_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
- clxscore=1015 suspectscore=0 phishscore=0 impostorscore=0
- priorityscore=1501 mlxscore=0 mlxlogscore=999 spamscore=0
- lowpriorityscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2407110000 definitions=main-2409040149
 
-Hi Pierre,
+Lenovo IdeaPad Z570 with NVIDIA GeForce Ge 520M doesn't have sound on
+the discrete GPU. snd_hda_intel probes the device and schedules
+azx_probe_continue(), which fails at azx_first_init(). The driver ends
+up probed, but calls azx_free() and stops the chip. However, from the
+runtime PM point of view, the device remains active, because the PCI
+subsystem makes it active on probe, and it's still bound. It prevents
+vga_switcheroo from turning off the DGPU (pci_create_device_link() syncs
+power management for the video and audio devices).
 
-On 8/30/2024 2:58 AM, Pierre-Louis Bossart wrote:
->
-> On 8/29/24 21:41, Wesley Cheng wrote:
->> Utilize the card and PCM index coming from the USB QMI stream request.
->> This field follows what is set by the ASoC USB backend, and could
->> potentially carry information about a specific device selected through the
->> ASoC USB backend.  The backend also has information about the last USB
->> sound device plugged in, so it can choose to select the last device plugged
->> in, accordingly.
->>
->> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
->> ---
->>  sound/usb/qcom/qc_audio_offload.c | 8 ++------
->>  1 file changed, 2 insertions(+), 6 deletions(-)
->>
->> diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
->> index 0bd533f539e4..a7ad15404fd1 100644
->> --- a/sound/usb/qcom/qc_audio_offload.c
->> +++ b/sound/usb/qcom/qc_audio_offload.c
->> @@ -106,8 +106,6 @@ struct uaudio_qmi_dev {
->>  	bool er_mapped;
->>  	/* reference count to number of possible consumers */
->>  	atomic_t qdev_in_use;
->> -	/* idx to last udev card number plugged in */
->> -	unsigned int last_card_num;
->>  };
->>  
->>  struct uaudio_dev {
->> @@ -1261,7 +1259,7 @@ static int prepare_qmi_response(struct snd_usb_substream *subs,
->>  
->>  	pcm_dev_num = (req_msg->usb_token & QMI_STREAM_REQ_DEV_NUM_MASK) >> 8;
->>  	xfer_buf_len = req_msg->xfer_buff_size;
->> -	card_num = uaudio_qdev->last_card_num;
->> +	card_num = (req_msg->usb_token & QMI_STREAM_REQ_CARD_NUM_MASK) >> 16;
->>  
->>  	if (!uadev[card_num].ctrl_intf) {
->>  		dev_err(&subs->dev->dev, "audio ctrl intf info not cached\n");
->> @@ -1455,8 +1453,7 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
->>  
->>  	direction = (req_msg->usb_token & QMI_STREAM_REQ_DIRECTION);
->>  	pcm_dev_num = (req_msg->usb_token & QMI_STREAM_REQ_DEV_NUM_MASK) >> 8;
->> -	pcm_card_num = req_msg->enable ? uaudio_qdev->last_card_num :
->> -				ffs(uaudio_qdev->card_slot) - 1;
->> +	pcm_card_num = (req_msg->usb_token & QMI_STREAM_REQ_CARD_NUM_MASK) >> 16;
->>  	if (pcm_card_num >= SNDRV_CARDS) {
->>  		ret = -EINVAL;
->>  		goto response;
->> @@ -1706,7 +1703,6 @@ static void qc_usb_audio_offload_probe(struct snd_usb_audio *chip)
->>  		sdev->card_idx = chip->card->number;
->>  		sdev->chip_idx = chip->index;
->>  
->> -		uaudio_qdev->last_card_num = chip->card->number;
->>  		snd_soc_usb_connect(usb_get_usb_backend(udev), sdev);
->>  	}
-> This entire path seems like a bad split/merge, it removes stuff that was
-> done earlier. Also it's not clear what this has to do with 'QMI', card
-> and PCM device management is usually done at a higher level.
->
-> not following, please be mindful of reviewer fatigue when adding such
-> changes in patch 30/33....
+Fix it by forcing the device to the suspended state in azx_free().
 
-I'll just add this as part of patch#28.  I think before I did the reordering of the series, this made a bit more sense to have as a patch on its own.  Now that the entire framework for the audio dsp to know about the card and pcm index is already done in previous patches, the plumbing is done for the qc_audio_offload to utilize the fields coming from the audio DSP, as they will carry valid values.
+Fixes: 07f4f97d7b4b ("vga_switcheroo: Use device link for HDA controller")
+Signed-off-by: Maxim Mikityanskiy <maxtram95@gmail.com>
+---
+ sound/pci/hda/hda_intel.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-Thanks
-
-Wesley Cheng
+diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
+index b79020adce63..65fcb92e11c7 100644
+--- a/sound/pci/hda/hda_intel.c
++++ b/sound/pci/hda/hda_intel.c
+@@ -1361,8 +1361,20 @@ static void azx_free(struct azx *chip)
+ 	if (use_vga_switcheroo(hda)) {
+ 		if (chip->disabled && hda->probe_continued)
+ 			snd_hda_unlock_devices(&chip->bus);
+-		if (hda->vga_switcheroo_registered)
++		if (hda->vga_switcheroo_registered) {
+ 			vga_switcheroo_unregister_client(chip->pci);
++
++			/* Some GPUs don't have sound, and azx_first_init fails,
++			 * leaving the device probed but non-functional. As long
++			 * as it's probed, the PCI subsystem keeps its runtime
++			 * PM status as active. Force it to suspended (as we
++			 * actually stop the chip) to allow GPU to suspend via
++			 * vga_switcheroo.
++			 */
++			pm_runtime_disable(&pci->dev);
++			pm_runtime_set_suspended(&pci->dev);
++			pm_runtime_enable(&pci->dev);
++		}
+ 	}
+ 
+ 	if (bus->chip_init) {
+-- 
+2.46.0
 
