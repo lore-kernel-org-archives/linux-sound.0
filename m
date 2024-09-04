@@ -1,127 +1,126 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73311126C01;
-	Wed,  4 Sep 2024 11:03:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 898471482E1;
+	Wed,  4 Sep 2024 11:16:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725447792; cv=none; b=XGMGgcYKAH9KqbAJt+WiKhdAi0l8O9ZgBNeL+dRSnDFWVdr9eFFfVlubwUNIOLYGP9xdJyPNBLhiw4kFtjVJQioMBo2s63iP2rSi/zTFNXXQeaEpqn2H2lRpE3UJwP0M0+IPalVOvjgav2ajoqC+Uaa1Ie1sCD5hYnJttURuiFs=
+	t=1725448604; cv=none; b=EIuulm9Uyfx8135x4kLymrrwAxvV9eKJ9ai2JMniTFFBvtG+wRNy97yOEc8aLlHpA50gKssh7mvohzA5UWlY2pkXDCRclV1QicRhCUU3XiFh/b8F916VYW6u11Tbv5MPerOTaH3eqBDryOl/AnLD2ru6ok4sQGtuka2AORHqMOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725447792; c=relaxed/simple;
-	bh=POSHEmmMPiFWkRNS4R1ne1iS6VUgUqN337nJAH3tPfk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fJgW/cZxe5l6oBZms/w9OcfrGF72nD4yG8/6EwIc5rVX2Sn3sL1lOaClx2a+TqOQwD3ba/iev5+WjrYq8bJPsl1KUNK1fP9e4kLD+7pZi9GSpY2CXoJcpvDVJm8QazNOimPlDPCXTWZiTNErxV++0k2Q3fBmxaDoCIx2jw2cybM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EaQjexoj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SB7B020P; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EaQjexoj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SB7B020P; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1725448604; c=relaxed/simple;
+	bh=jnoKCbmPcD1GmESgYWHnWAC+C8551B8aEwnlyDgxp3c=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=m26i0/Gb2tZs5GGpD8A0eeFlDyYpGUQSAnUNGrktyBUaOXgh2sGjQc4FowxzJy/hDvecyCxonk2SxZP3nBzfi+576DhSwo9LuUb7aL7vgu7maM1GLlkrthuxk4UWjEJZNx34STdldG7RGD6mRiyAQzxB8HGwXiAZiZh5M+QMtao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KjHlMtPn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EaQjexoj";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SB7B020P";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EaQjexoj";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SB7B020P"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B7A3221995;
-	Wed,  4 Sep 2024 11:03:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1725447787; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hjluhCFBVupjaHaDoFi7MHz9yC3FhdBQwXb+BEUEuWc=;
-	b=EaQjexojlE6mJkLWU/m7U1W7IeDaTk8eDsVgGTytHvFAHouaqYEPJjYab8teVnhxrDL70R
-	STB1x1djsU1MJ5ssnIxSRPjQB0vbrUqELeo4ftoiIt95oyxa+o4/CN2d5WEbi5UzTStETu
-	uXlQpD6n57oQkFYWSS8Q1vdv7dPNG1M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1725447787;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hjluhCFBVupjaHaDoFi7MHz9yC3FhdBQwXb+BEUEuWc=;
-	b=SB7B020P1QZ3sz54U+D+5l1b8quWB0/YVYUbd0nynvO7PftKORtyN5DWTLuDga7lwq/oVW
-	vPrzyEe2l/IOKVAQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1725447787; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hjluhCFBVupjaHaDoFi7MHz9yC3FhdBQwXb+BEUEuWc=;
-	b=EaQjexojlE6mJkLWU/m7U1W7IeDaTk8eDsVgGTytHvFAHouaqYEPJjYab8teVnhxrDL70R
-	STB1x1djsU1MJ5ssnIxSRPjQB0vbrUqELeo4ftoiIt95oyxa+o4/CN2d5WEbi5UzTStETu
-	uXlQpD6n57oQkFYWSS8Q1vdv7dPNG1M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1725447787;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hjluhCFBVupjaHaDoFi7MHz9yC3FhdBQwXb+BEUEuWc=;
-	b=SB7B020P1QZ3sz54U+D+5l1b8quWB0/YVYUbd0nynvO7PftKORtyN5DWTLuDga7lwq/oVW
-	vPrzyEe2l/IOKVAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 89481139E2;
-	Wed,  4 Sep 2024 11:03:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id pEdWIGs+2GZNNAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 04 Sep 2024 11:03:07 +0000
-Date: Wed, 04 Sep 2024 13:03:53 +0200
-Message-ID: <87y147isti.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Maximilien Perreault <maximilienperreault@gmail.com>
-Cc: alsa-devel@alsa-project.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Support mute LED on HP Laptop 14-dq2xxx
-In-Reply-To: <20240904031013.21220-1-maximilienperreault@gmail.com>
-References: <20240904031013.21220-1-maximilienperreault@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KjHlMtPn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC3A8C4CECC;
+	Wed,  4 Sep 2024 11:16:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725448604;
+	bh=jnoKCbmPcD1GmESgYWHnWAC+C8551B8aEwnlyDgxp3c=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=KjHlMtPnOpovnTl90GfKpIuPGs+gwJYi/h9SpXSQSXUdkrLC8x059cyHOUCTVcQOD
+	 Eqr9oJu5zIZad+ON1Qmc3Db1zhARkcfmANz8S72acVTG2+sXIuoCP+UGzxD6lMqVxL
+	 A344eGn47au8ya+z4zXlx1unlRaMD2HS3bXc2HkfL0x0sLRhbFUWjvxrIfFFXtxORU
+	 4qAl+rFufzT6CVtExWQQ+WK9KnpnQZorBxF7zoVKjz+50bzQv32m+7xqpJef5BXpXq
+	 p0i1jr9DGm3zmP/+0sQ9VrwCcFGTJnLAvroMUo6N0mCMOO9W5uEmSP7bYwNYcVHMjW
+	 LgHv2DTwNjySA==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Alexandre Mergnat <amergnat@baylibre.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Nicolas Belin <nbelin@baylibre.com>
+In-Reply-To: <20240226-audio-i350-v6-0-f754ec1a7634@baylibre.com>
+References: <20240226-audio-i350-v6-0-f754ec1a7634@baylibre.com>
+Subject: Re: (subset) [PATCH v6 00/16] Add audio support for the MediaTek
+ Genio 350-evk board
+Message-Id: <172544859867.19172.9438630691561948517.b4-ty@kernel.org>
+Date: Wed, 04 Sep 2024 12:16:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.29
-X-Spamd-Result: default: False [-3.29 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.19)[-0.972];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-99b12
 
-On Wed, 04 Sep 2024 05:10:13 +0200,
-Maximilien Perreault wrote:
+On Wed, 19 Jun 2024 16:46:36 +0200, Alexandre Mergnat wrote:
+> This serie aim to add the following audio support for the Genio 350-evk:
+> - Playback
+>   - 2ch Headset Jack (Earphone)
+>   - 1ch Line-out Jack (Speaker)
+>   - 8ch HDMI Tx
+> - Capture
+>   - 1ch DMIC (On-board Digital Microphone)
+>   - 1ch AMIC (On-board Analogic Microphone)
+>   - 1ch Headset Jack (External Analogic Microphone)
 > 
-> The mute LED on this HP laptop uses ALC236 and requires a quirk to function. This patch enables the existing quirk for the device.
-> 
-> Signed-off-by: Maximilien Perreault <maximilienperreault@gmail.com>
+> [...]
 
-Applied now.  Thanks.
+Applied to
 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Takashi
+Thanks!
+
+[01/16] ASoC: dt-bindings: mediatek,mt8365-afe: Add audio afe document
+        commit: ceb3ca2876243e3ea02f78b3d488b1f2d734de49
+[02/16] ASoC: dt-bindings: mediatek,mt8365-mt6357: Add audio sound card document
+        commit: 76d80dcdd55f70b28930edb97b96ee375e1cce5a
+[04/16] ASoC: mediatek: mt8365: Add common header
+        commit: 38c7c9ddc74033406461d64e541bbc8268e77f73
+[05/16] ASoC: mediatek: mt8365: Add audio clock control support
+        commit: ef307b40b7f0042d54f020bccb3e728ced292282
+[06/16] ASoC: mediatek: mt8365: Add I2S DAI support
+        commit: 402bbb13a195caa83b3279ebecdabfb11ddee084
+[07/16] ASoC: mediatek: mt8365: Add ADDA DAI support
+        commit: 7c58c88e524180e8439acdfc44872325e7f6d33d
+[08/16] ASoC: mediatek: mt8365: Add DMIC DAI support
+        commit: 1c50ec75ce6c0c6b5736499393e522f73e19d0cf
+[09/16] ASoC: mediatek: mt8365: Add PCM DAI support
+        commit: 5097c0c8634d703e3c59cfb89831b7db9dc46339
+[10/16] ASoc: mediatek: mt8365: Add a specific soundcard for EVK
+        commit: 1bf6dbd75f7603dd026660bebf324f812200dc1b
+[11/16] ASoC: mediatek: mt8365: Add the AFE driver support
+        commit: e1991d102bc2abb32331c462f8f3e77059c69578
+[12/16] ASoC: codecs: add MT6357 support
+        (no commit info)
+[13/16] ASoC: mediatek: Add MT8365 support
+        (no commit info)
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
