@@ -1,200 +1,93 @@
-Received: from fout4-smtp.messagingengine.com (fout4-smtp.messagingengine.com [103.168.172.147])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 555AA391;
-	Wed,  4 Sep 2024 00:30:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19CED4A15;
+	Wed,  4 Sep 2024 03:12:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725409830; cv=none; b=HnZImP0j3rapGtPASHiaZwIaL4WYLzLTCfhGBSvGKECbc0pj3kQVDXCJaJeKFzBwTniuzCrj+Vdbl74Eh6Q35O6BFhHpVOS1/CHf/8ArTqWHhDCmilQrFDgJAE5ZClEngwpOvNg/eX/FH6uccbIKKW+5i+4F7DgBAzumn7mOGi0=
+	t=1725419567; cv=none; b=dv6a05drQWlcbw9iqfJYSVgvu0SlQKIWhTdIJWtuiA7d+rTP17jLP47VePJjf5j9jC0QPjzV9biYT2gq3D2hUWPrh/v+RtqPEXfK18Urbfo1pYecogYHMlAZHEUrM8OarMdMGFbj2WTZOfR1C+tLXK4MUHP8nxR4d47AXSAf5OE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725409830; c=relaxed/simple;
-	bh=hGmo0WNuS757TdfmGfpzHV8y4j/AC/7g1GSfO+Prb9c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uhT64KTMe//qCIk92zXpqcCel3gb2MVOZXdqEiFe1+YT9LGzKHBEeGqApoKkVMXIC6gSXB3tFAtuONsNWkt+eQ7KAVBRigRKsp5hXDrHBVQRTyEp4HtBHafq8KMzvNpB2LzW1qmkIy0Gd9a5ywu7++dHa3uXY0iNIW5mIGvsTqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=I1VurvpW; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=T1yfThjZ; arc=none smtp.client-ip=103.168.172.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
+	s=arc-20240116; t=1725419567; c=relaxed/simple;
+	bh=KKXN6bVHQyvQe5DAEryYyZ3CiVfbinIUAkpj59tKEmA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=U3fWJS5lRhk9M5fNV4S2NIgo+01TaOkixOqvuAYabZ0dQaH4PK4y1/pkfEkr/X2sr5LM+8fwTssOS+wR6Rq+E/FshoR7FwmE0t42NGaUfEz+bAfI3fgH2GaKXGuxPFyefCoqknj2Sea3kvjMUbOBFefWPYHBEIhZ+zgUa8rRyD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hI6iT4ls; arc=none smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="I1VurvpW";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="T1yfThjZ"
-Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
-	by mailfout.phl.internal (Postfix) with ESMTP id 4EAC9138023D;
-	Tue,  3 Sep 2024 20:30:26 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-07.internal (MEProxy); Tue, 03 Sep 2024 20:30:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1725409826; x=
-	1725496226; bh=8piwn31ZqXZogp3zBpb74/a7XmbRS2i2JWJumbJdJWQ=; b=I
-	1VurvpWYC+8KV1TDmLQuOYnHL4meZFlxOVgThutq38fHvf5RGLGVu6rYXQqLmfAp
-	TkYpf3WBSdxoseD1SvAZN5iYcp5013GNN7/VOlUwQ5vHjzgMHjHIPg6XM6Y0WhSy
-	DKzwHHMRIzzHMcN3dlAXUzJatqTN2OhzEcXccaknsJp0q0djAsRV/YaMXOH/LXyj
-	MNyfXAZ2KGahnFOsHTMH9fWqC3YsAjWPvSH8OZZWpCBoLpkDilonGCOQHCVY2nvL
-	ki+fTELyDIRVttbbZDnD8CfxDFw3eXP9hdynNo13X7B5MuW0mAiTFQrF95AeL/dU
-	sLUv/3HPEuWGMRbvWiU8Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1725409826; x=1725496226; bh=8piwn31ZqXZogp3zBpb74/a7XmbR
-	S2i2JWJumbJdJWQ=; b=T1yfThjZGXyHN4Jd7MY/d3NOaBItLSxrp0CUZIdQjNLb
-	Lfyl9VChWswyBuqTXmSQUcYjYCaHO44YJmdjTT2gsRyWz+jaQMjDjH5EkQcwwEiH
-	/3BIhGiPbfVL2wrdvhD3zFsAqNzicg8gJVZc+vwxSx8SQ2EgFO1FY2ZJJ7TjRCRu
-	nZZVqYNSqSn4cZl+ftwRJ2EfmnJRiB03Ghnrp2CAgOFxZt2LNoAXNVlVIZfvGaiY
-	0Px08/Q0UfM1gdiJKm6U7Q7Uxz3gUv4YX6ntPFtIWJhrsw1Rf7MXxYYEooqnzkNE
-	YyXXJR6RLsdz4U0ut9w8w08vBlqoLOgvlzM6mSROLQ==
-X-ME-Sender: <xms:IqrXZlUdiDpTUveRLF9mh2GRNNtnlLuwueE08ylJNqz8gT6FRKPbkw>
-    <xme:IqrXZln3oD7lD8KJmZITrk4HGKc7XTIFihmSUx9zdxfQL_Aog1DhRC-mXl6VRSWeh
-    pQgChnWC_xCaSl1OMo>
-X-ME-Received: <xmr:IqrXZhafL3Q7kNAxUg-uQTebtUiQLg9tWM7zkSvUjhFJa02z95kEcRW7SNXDoAKm6XZjrHWjhNtpsxNiG90qg-hrR-stE2Ztulc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudehiedgfeegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvden
-    ucfhrhhomhepvfgrkhgrshhhihcuufgrkhgrmhhothhouceoohdqthgrkhgrshhhihessh
-    grkhgrmhhotggthhhirdhjpheqnecuggftrfgrthhtvghrnhepueeiueevleefvedttefg
-    vdeutdekveduheevffdvhfeluefhgfdtgeeutedtudejnecuffhomhgrihhnpehkvghrnh
-    gvlhdrohhrghdpghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfr
-    rghrrghmpehmrghilhhfrhhomhepohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhird
-    hjphdpnhgspghrtghpthhtohepiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohep
-    rghprghisheslhhinhhugidrmhhitghrohhsohhfthdrtghomhdprhgtphhtthhopehlih
-    hnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehl
-    ihhnuhigqdhsohhunhgusehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepvg
-    gumhhunhgurdhrrghilhgvsehprhhothhonhhmrghilhdrtghomhdprhgtphhtthhopehl
-    ihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnh
-    gvthguvghvsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:IqrXZoXsX0L8g1PNLT2QNjUsW0zpGxJFodkWEaf9p0cg6GPPvBPPyg>
-    <xmx:IqrXZvn2Ng5_MoIacaUNfkwNcK6MVp-Tq34E8U5sR7xw_lL3E66-TQ>
-    <xmx:IqrXZld6vYstL7XtgWt07gZ9m7AClS9WELDBL9vCPKeN7aTxH3tbnQ>
-    <xmx:IqrXZpHSaGiDtV-ETuyyO3FIodqpGsFoLLlbpW0vSSkgvNqHeVV8gQ>
-    <xmx:IqrXZtaBu8Lvwx87zWwNSsufpaLH8icR7jrWiTyybME-P70PC5mr5eNT>
-Feedback-ID: ie8e14432:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 3 Sep 2024 20:30:24 -0400 (EDT)
-Date: Wed, 4 Sep 2024 09:30:22 +0900
-From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-To: Allen Pais <apais@linux.microsoft.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-sound@vger.kernel.org, edmund.raile@protonmail.com,
-	linux-media@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [RFT][PATCH 0/5] firewire: use sleepable workqueue to handle
- 1394 OHCI IT/IR context events
-Message-ID: <20240904003022.GA347045@workstation.local>
-Mail-Followup-To: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
-	Allen Pais <apais@linux.microsoft.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-sound@vger.kernel.org, edmund.raile@protonmail.com,
-	linux-media@vger.kernel.org, netdev@vger.kernel.org
-References: <20240901110642.154523-1-o-takashi@sakamocchi.jp>
- <EB8EC5FD-AB6C-48C3-8980-65E8CB444BDF@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hI6iT4ls"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-7b0c9bbddb4so272301a12.3;
+        Tue, 03 Sep 2024 20:12:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725419565; x=1726024365; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BuUOiBL+3Emr7CBJB9z2PmaAlePmvtgF30QbjTVjrJE=;
+        b=hI6iT4lsHMOudo8laIY+CLDdkZraANqHL8DIu02IPFNUKsVCHxWpRoKcNNlm/gWAne
+         ldvVRz9NBauavM/MBFQR67vESOEkGmwx4+vSmff6Vl/0inEuIhJlLQcIe3gbdg5YJE7x
+         qRa4bD8E1oLXAKlGOLhFnEh2FFlceGxWToy1LX6uDNdvlMPuICWPDmsmDI+OEuOoijeP
+         1WAjNZ8ZDMHtgMOfhH7b9vlNjpqvddh7qtLdQK0QnSFbN8wvk4qker2ZuojpEj8peFHV
+         S80rHnAyDGzitlt2mdzZ2KmWyssokIXkYtQe7kcXfVYo6sk+dNJzkuvHNbBf+rUDd8z7
+         2Iaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725419565; x=1726024365;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BuUOiBL+3Emr7CBJB9z2PmaAlePmvtgF30QbjTVjrJE=;
+        b=iTSoV0zY900D2/vaaszl6yDFrNu/LPJ8B2z/jamaB/eB0t71l1ECO/sklWal3OwlfU
+         dWwIKp//yIj/Z4DJQZNZgNt1tcs48Ea7QfolF8nlGVNGVxKwQ1FDfBwhWCWDi1TxCiK2
+         LDD5iHgJl7linin34lr8ZMn4Xhhk8IYVD9mm8tpCBlkSAU2+ro+VIB9ogSqxryU9QmcZ
+         t0m7PGrqG7Hh4clr7w9YlI9VjFMs1umXL9JhduPEL6ZQWcq1YNpg2q//dMNx4NFnLkcg
+         Suid8Fr51e7Iw822QnAxFJHE6fT817sxRpKmCpBX2cnxcSWlI0MsJ0R6AP8CpnL89LoH
+         RflA==
+X-Forwarded-Encrypted: i=1; AJvYcCVlIMY23zfN2y31fhKJDrQh+7hBln57RBcGl4BigREuveRKbQZOdQNXUZMrn/DDgcjFn67tvlxwbO65emQ=@vger.kernel.org, AJvYcCXhcAka9iZHkqXN5w9VZU7E3Abp/Ah2GZl7KKE8gvA7903iY1B/LfDp471aD9o7s/0m1sYSz6e1r1hYMGU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyiuMqsJpzYk6O3yew/7iqUmf6ZyIsACnxG83rBJWOusqCYlW4Y
+	Amzm6P0HoJ6gwbPpw4GyosXjj9KfyRAyYAov4duRel7R6rldddcB
+X-Google-Smtp-Source: AGHT+IFkBwhwna1C6OUckJKYjQ7/c7pFK29F1zoMHBB/xkq3DDr/EAdhgN9LZBND06jEOSrY39SRrw==
+X-Received: by 2002:a05:6a20:9f47:b0:1ce:f752:46ad with SMTP id adf61e73a8af0-1cef7524723mr5695798637.42.1725419565150;
+        Tue, 03 Sep 2024 20:12:45 -0700 (PDT)
+Received: from imac2011.vn.shawcable.net ([2604:3d08:5c87:300::2e49])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-206ae90cf63sm4817695ad.43.2024.09.03.20.12.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Sep 2024 20:12:44 -0700 (PDT)
+From: Maximilien Perreault <maximilienperreault@gmail.com>
+To: alsa-devel@alsa-project.org
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Maximilien Perreault <maximilienperreault@gmail.com>
+Subject: [PATCH] ALSA: hda/realtek: Support mute LED on HP Laptop 14-dq2xxx
+Date: Tue,  3 Sep 2024 20:10:13 -0700
+Message-ID: <20240904031013.21220-1-maximilienperreault@gmail.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <EB8EC5FD-AB6C-48C3-8980-65E8CB444BDF@linux.microsoft.com>
+Content-Transfer-Encoding: 8bit
 
-HI,
+The mute LED on this HP laptop uses ALC236 and requires a quirk to function. This patch enables the existing quirk for the device.
 
-On Tue, Sep 03, 2024 at 11:06:53AM -0700, Allen Pais wrote:
-> 
-> 
-> >This series of change is inspired by BH workqueue available in recent
-> >kernel.
-> 
-> >In Linux FireWire subsystem, tasklet softIRQ context has been utilized to
-> >operate 1394 OHCI Isochronous Transmit (IT) and Isochronous Receive (IR)
-> >contexts. The tasklet context is not preferable, as you know.
-> 
-> >I have already received a proposal[1][2] to replace the usage of tasklet
-> >with BH workqueue. However, the proposal includes bare replacement for 1394
-> >OHCI IT, IR, Asynchronous Transmit (AT), and Asynchronous Receive (AR)
-> >contexts with neither any care of actual usage for each context nor
-> >practical test reports. In theory, this kind of change should be done by
-> >step by step with enough amount of evaluation over software design to avoid
-> >any disorder.
-> 
-> >In this series of changes, the usage of tasklet for 1394 OHCI IT/IR
-> >contexts is just replaced, as a first step. In 1394 OHCI IR/IT events,
-> >software is expected to process the content of page dedicated to DMA
-> >transmission for each isochronous context. It means that the content can be
-> >processed concurrently per isochronous context. Additionally, the content
-> >of page is immutable as long as the software schedules the transmission
-> >again for the page. It means that the task to process the content can sleep
-> >or be preempted. Due to the characteristics, BH workqueue is _not_ used.
-> 
-> >At present, 1394 OHCI driver is responsible for the maintenance of tasklet
-> >context, while in this series of change the core function is responsible
-> >for the maintenance of workqueue and work items. This change is an attempt
-> >to let each implementation focus on own task.
-> 
-> >The change affects the following implementations of unit protocols which
-> >operate isochronous contexts:
-> 
-> >- firewire-net for IP over 1394 (RFC 2734/3146)
-> >- firedtv
-> >- drivers in ALSA firewire stack for IEC 61883-1/6
-> >- user space applications
-> 
-> >As long as reading their codes, the first two drivers look to require no
-> >change. While the drivers in ALSA firewire stack require change to switch
-> >the type of context in which callback is executed. The series of change
-> >includes a patch for them to adapt to work process context.
-> 
-> >Finally, these changes are tested by devices supported by ALSA firewire
-> >stack with/without no-period-wakeup runtime of PCM substream. I also tested
-> >examples in libhinoko[3] as samples of user space applications. Currently I
-> >face no issue.
-> 
-> >On the other hand, I have neither tested for firewire-net nor firedtv,
-> >since I have never used these functions. If someone has any experience to
-> >use them, I would request to test the change.
-> 
-> >[1] https://lore.kernel.org/lkml/20240403144558.13398-1-apais@linux.microsoft.com/
-> >[2] https://github.com/allenpais/for-6.9-bh-conversions/issues/1
-> >[3] https://git.kernel.org/pub/scm/libs/ieee1394/libhinoko.git/
-> 
-> 
-> >Regards
-> 
-> Thank you for doing this work. You will probably need to send out a v2
-> As most of you patches have single line comment instead of Block style
-> Commnents (/* ..*/). Please have it fixed.
- 
-Thanks for your comment. However, I think we have a need to update kernel
-documentation.
+Signed-off-by: Maximilien Perreault <maximilienperreault@gmail.com>
+---
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-As long as I know, Mr. Linus has few oposition to C99-style comment[1].
-In recent kernel development process, C11 is widely accepted. Actually, we
-can see many lines with C99-style comment in source tree.
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index f67190a8c..6f96c0c67 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10183,6 +10183,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x87f5, "HP", ALC287_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x87f6, "HP Spectre x360 14", ALC245_FIXUP_HP_X360_AMP),
+ 	SND_PCI_QUIRK(0x103c, 0x87f7, "HP Spectre x360 14", ALC245_FIXUP_HP_X360_AMP),
++	SND_PCI_QUIRK(0x103c, 0x87fd, "HP Laptop 14-dq2xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+ 	SND_PCI_QUIRK(0x103c, 0x87fe, "HP Laptop 15s-fq2xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+ 	SND_PCI_QUIRK(0x103c, 0x8805, "HP ProBook 650 G8 Notebook PC", ALC236_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x880d, "HP EliteBook 830 G8 Notebook PC", ALC285_FIXUP_HP_GPIO_LED),
+-- 
+2.46.0
 
-For the kernel API documentation, we still need to use Doxygen-like block
-comment since documentation generator requires it. Additionally we can also
-see C90 comment is mandatory for UAPI since 'scripts/check-uapi.sh'
-hard-codes it. For the other part, C99-style comment brings no issue, as
-long as I know.
-
-> - Allen
-> 
-> >Takashi Sakamoto (5):
-> > firewire: core: allocate workqueue to handle isochronous contexts in
-> >   card
-> > firewire: core: add local API for work items scheduled to workqueue
-> >   specific to isochronous contexts
-> > firewire: ohci: process IT/IR events in sleepable work process to
-> >   obsolete tasklet softIRQ
-> > firewire: core: non-atomic memory allocation for isochronous event to
-> >   user client
-> > ALSA: firewire: use nonatomic PCM operation
-
-[1] https://lore.kernel.org/lkml/CA+55aFyQYJerovMsSoSKS7PessZBr4vNp-3QUUwhqk4A4_jcbg@mail.gmail.com/
-
-
-Thanks
-
-Takashi Sakamoto
