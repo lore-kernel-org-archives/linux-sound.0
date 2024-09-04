@@ -1,201 +1,138 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEFD4149C4A;
-	Wed,  4 Sep 2024 08:47:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1742C126C01
+	for <linux-sound@vger.kernel.org>; Wed,  4 Sep 2024 11:02:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725439626; cv=none; b=izeoIEEHDZCDE0c9WcwJNeuj3VxT2vWLIXLqC+K7V5BnfiA+tw0mjEVVQVPQGv/QN51vPJBqey3dJpVKqDUhA/+0QlhtjBSc66sxo60DJ3eZw1DcWm6YZFG+btauZtgaPj0dlpKANryOYtQp782RVVy55wWkgATRAX/K4l69RhE=
+	t=1725447780; cv=none; b=p+O9MrvEfdJuzsSde0FhYI0rEZwk4eKYpfwwfZcgs/HwH1bB0bM2jT5G+V1SzPLZdziQF2t7YKH7SNkJx2ecHYxTsMkPmQujlA41/kw0P56Raf/hGVndYuEN2OTdxraUB1EfnuCchknPGL9hoBFcYouu/CmQs2Y0b4BzsgYOHCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725439626; c=relaxed/simple;
-	bh=WXwSWHcMc7imZzl7UaIZ/xb8fB1piuNp8uDFCKwd+go=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Mf6zJ2Z0CzGX7rltBdc4SV/x0rRInSNYyR0GOqNzrHL1/BLn1Q3rUNCm9W2MZWLfZyEOGXPJpdMtz0rbQScpuak9uLng5BN1q44qzay5JEKJNW/TRaeHApXOCoYR0Co/jWfPsZTDMJl7hnJvYJzDdWYcG0Cl7MpNlj8uZdjHM/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JxjD68Zq; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1725447780; c=relaxed/simple;
+	bh=AvbdibDys27AiKxXZ4LKVN28gJBmCOOCt7Ep0ioq4CY=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BoKsAh2i8A6zyJ4SbABXgzc7SxWtRJ3VnJfKodmWJxogra372wPpS1HLAn7XPKp21uBwQvyRHckG+tWhEfBu0Fq7hRJCf8Ha9DiWFZ6dVPr26t9j6qKSrjpB0ZgeLBzciEA718eLcg734ZV7YkjJpavjCuyD18aFn7o1aqoJI18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uEhPbbcX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HhfKt64G; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uEhPbbcX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HhfKt64G; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JxjD68Zq"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-374bfc395a5so273700f8f.0;
-        Wed, 04 Sep 2024 01:47:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725439623; x=1726044423; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=OfBEaiQ2P01wfzJwnNqmTpR2jaFed03KXscuQHsmjKI=;
-        b=JxjD68Zq5jg0O2eIY/hzoMtmbyoQE9PoSRExkEXa3QWJsNVlyZ/JPB9QK0qkpFFzaz
-         /NtAvAX/Ka84a9d03o6UfNPugQ4X2CL+MBdk7fhoUqMHucqRtTatyDYzBdPMUg+XTDi0
-         /bgWPNMem67jH8ALioXdMrDU4t0iW/GDKqVWRXkDnDNGMvr7Wt4r1a1Oq/YKim4XMHRq
-         28ZzTPpRH5sqaivGv7cwdGCG+sQTyvOSlz2DRPH7xHx2300iyN6VGMih4MGJGomtxNq9
-         jwdWFu2pj2w6czZ0cOgQON3+ncSO9mN77xBq9bRdxUQZiQPCcZucKXHUe+CsTu4YB0J+
-         pRag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725439623; x=1726044423;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OfBEaiQ2P01wfzJwnNqmTpR2jaFed03KXscuQHsmjKI=;
-        b=nUexVMG0+NkXliBJnVghT9vKOxi+rZMb8814RJARMNGnKiWDG5oBbPO7R3F5c7G34t
-         5PgIPzpnNhVzJr/dnyqdNS2ayp4XD13e+qUT753D/BQ0jKdZUGM2BBaulaasnz8jQ2uw
-         TieBKsK8wIxitdmJdPayoD4M1ZDX0oJIdMxUi8k4jVuZhX/LfwBC5y638lP5mJLRDUsi
-         me31ws13mzrpaTxw5D2pLXbnB5g2fhuDLxdIWyU3mZWvSNd7oJSW/w9aTvtH0q9xY+Er
-         qLeN/ibFZqKdpUGdOzJLM9zpQfalqzhA79Y/o0yIfHswAU4I6snpfkLXy9Rc/NURWOv3
-         s+SA==
-X-Forwarded-Encrypted: i=1; AJvYcCUEDjTg5VSLsKTS7rnWDdIoKfKJjsErirxKdIDqCDcJw03mqury1EfmtOpfy7VslN/yO2YnCj+gG2zXDkM=@vger.kernel.org, AJvYcCUXhsthFF5j6E1idV3LQZueS6935MdtFiXSaW7/zy+GXrjJ1nqu5QP1jALf5tiufGF7/KlfpLwBJ+B6ySM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx9Wz9/uKU+FJEUqQMPXdVGX5Y7JSrwtmzu7cI5xAsPgva+2uZg
-	tTge7ZukEEq5Y/cKiIgBoRpRFoO/LfDDPZULLTgEZEDF34jrTo5A
-X-Google-Smtp-Source: AGHT+IF96DXAU9iaenHHvtAtDkMi/nppbLrx/lBsQSnrwejDg9FHvaPtr+YEqgC4Li/XqEnPql99xA==
-X-Received: by 2002:adf:ed11:0:b0:376:7dc1:6e91 with SMTP id ffacd0b85a97d-37799f5e681mr735975f8f.11.1725439622830;
-        Wed, 04 Sep 2024 01:47:02 -0700 (PDT)
-Received: from [192.168.0.20] ([148.56.230.39])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42c95a88c13sm13822475e9.2.2024.09.04.01.47.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Sep 2024 01:47:01 -0700 (PDT)
-Message-ID: <25f8a244-45c4-44bb-a0c1-37c057dd8d7b@gmail.com>
-Date: Wed, 4 Sep 2024 10:47:00 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uEhPbbcX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HhfKt64G";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uEhPbbcX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HhfKt64G"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5191721993;
+	Wed,  4 Sep 2024 11:02:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1725447777; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iwQ0x6Pm4AAcfDfi66xxWu27ItjUqBeJbZaFuCFx0ac=;
+	b=uEhPbbcXUh5Qnm0C3T+NtP3RdG1piPp38ExVoU3sFp3Jrh5E91xkF/Ln0FexoJUSULDZZC
+	nERsNijkpcZRgkKY0NbBf9pcF+bmlnUslumsmkPMZQNpEZ9VUpFmuzmhmdL9TyLhEZRqCN
+	NhitfFczhu+MhJlpHJY9rAQJda3ufMU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1725447777;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iwQ0x6Pm4AAcfDfi66xxWu27ItjUqBeJbZaFuCFx0ac=;
+	b=HhfKt64GiZkxsr5IQPJYXeCKsADrf78gdIdFgH8uOdqxO5MYn5Qf/ywYlUfCs1n8Mj0G6q
+	qn92EtFvxtGp2aAQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=uEhPbbcX;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=HhfKt64G
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1725447777; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iwQ0x6Pm4AAcfDfi66xxWu27ItjUqBeJbZaFuCFx0ac=;
+	b=uEhPbbcXUh5Qnm0C3T+NtP3RdG1piPp38ExVoU3sFp3Jrh5E91xkF/Ln0FexoJUSULDZZC
+	nERsNijkpcZRgkKY0NbBf9pcF+bmlnUslumsmkPMZQNpEZ9VUpFmuzmhmdL9TyLhEZRqCN
+	NhitfFczhu+MhJlpHJY9rAQJda3ufMU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1725447777;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iwQ0x6Pm4AAcfDfi66xxWu27ItjUqBeJbZaFuCFx0ac=;
+	b=HhfKt64GiZkxsr5IQPJYXeCKsADrf78gdIdFgH8uOdqxO5MYn5Qf/ywYlUfCs1n8Mj0G6q
+	qn92EtFvxtGp2aAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1AFC6139E2;
+	Wed,  4 Sep 2024 11:02:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id l15ZBWE+2GZFNAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 04 Sep 2024 11:02:57 +0000
+Date: Wed, 04 Sep 2024 13:03:43 +0200
+Message-ID: <87zfonists.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Adam Queler <queler@gmail.com>
+Cc: linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	Adam Queler <queler+k@gmail.com>
+Subject: Re: [PATCH v2] ALSA: hda/realtek: Enable Mute Led for HP Victus 15-fb1xxx
+In-Reply-To: <20240903202419.31433-1-queler+k@gmail.com>
+References: <20240903202419.31433-1-queler+k@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: mediatek: mt2701-cs42448: Optimize redundant code
- in mt2701_cs42448_machine_probe
-To: Liu Jing <liujing@cmss.chinamobile.com>, lgirdwood@gmail.com
-Cc: broonie@kernel.org, perex@perex.cz,
- angelogioacchino.delregno@collabora.com, linus.walleij@linaro.org,
- bartosz.golaszewski@linaro.org, kuninori.morimoto.gx@renesas.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-References: <20240903093623.7120-1-liujing@cmss.chinamobile.com>
-Content-Language: en-US, ca-ES, es-ES
-From: Matthias Brugger <matthias.bgg@gmail.com>
-Autocrypt: addr=matthias.bgg@gmail.com; keydata=
- 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
-In-Reply-To: <20240903093623.7120-1-liujing@cmss.chinamobile.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 5191721993
+X-Spam-Score: -2.01
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[vger.kernel.org,perex.cz,suse.com,gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[k];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-
-
-On 03/09/2024 11:36, Liu Jing wrote:
-> Utilize the defined parameter 'dev' to make the code cleaner.
+On Tue, 03 Sep 2024 22:24:19 +0200,
+Adam Queler wrote:
 > 
-> Signed-off-by: Liu Jing <liujing@cmss.chinamobile.com>
-
-Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
-
-> ---
->   sound/soc/mediatek/mt2701/mt2701-cs42448.c | 16 ++++++++--------
->   1 file changed, 8 insertions(+), 8 deletions(-)
+> The mute led is controlled by ALC245. This patch enables the already
+> existing quirk for this device.
 > 
-> diff --git a/sound/soc/mediatek/mt2701/mt2701-cs42448.c b/sound/soc/mediatek/mt2701/mt2701-cs42448.c
-> index 1262e8a1bc9a..4974b0536b7b 100644
-> --- a/sound/soc/mediatek/mt2701/mt2701-cs42448.c
-> +++ b/sound/soc/mediatek/mt2701/mt2701-cs42448.c
-> @@ -329,10 +329,10 @@ static int mt2701_cs42448_machine_probe(struct platform_device *pdev)
->   	int ret;
->   	int i;
->   	struct device_node *platform_node, *codec_node, *codec_node_bt_mrg;
-> +	struct device *dev = &pdev->dev;
->   	struct mt2701_cs42448_private *priv =
-> -		devm_kzalloc(&pdev->dev, sizeof(struct mt2701_cs42448_private),
-> +		devm_kzalloc(dev, sizeof(struct mt2701_cs42448_private),
->   			     GFP_KERNEL);
-> -	struct device *dev = &pdev->dev;
->   	struct snd_soc_dai_link *dai_link;
->   
->   	if (!priv)
-> @@ -341,7 +341,7 @@ static int mt2701_cs42448_machine_probe(struct platform_device *pdev)
->   	platform_node = of_parse_phandle(pdev->dev.of_node,
->   					 "mediatek,platform", 0);
->   	if (!platform_node) {
-> -		dev_err(&pdev->dev, "Property 'platform' missing or invalid\n");
-> +		dev_err(dev, "Property 'platform' missing or invalid\n");
->   		return -EINVAL;
->   	}
->   	for_each_card_prelinks(card, i, dai_link) {
-> @@ -355,7 +355,7 @@ static int mt2701_cs42448_machine_probe(struct platform_device *pdev)
->   	codec_node = of_parse_phandle(pdev->dev.of_node,
->   				      "mediatek,audio-codec", 0);
->   	if (!codec_node) {
-> -		dev_err(&pdev->dev,
-> +		dev_err(dev,
->   			"Property 'audio-codec' missing or invalid\n");
->   		return -EINVAL;
->   	}
-> @@ -368,7 +368,7 @@ static int mt2701_cs42448_machine_probe(struct platform_device *pdev)
->   	codec_node_bt_mrg = of_parse_phandle(pdev->dev.of_node,
->   					     "mediatek,audio-codec-bt-mrg", 0);
->   	if (!codec_node_bt_mrg) {
-> -		dev_err(&pdev->dev,
-> +		dev_err(dev,
->   			"Property 'audio-codec-bt-mrg' missing or invalid\n");
->   		return -EINVAL;
->   	}
-> @@ -377,7 +377,7 @@ static int mt2701_cs42448_machine_probe(struct platform_device *pdev)
->   
->   	ret = snd_soc_of_parse_audio_routing(card, "audio-routing");
->   	if (ret) {
-> -		dev_err(&pdev->dev, "failed to parse audio-routing: %d\n", ret);
-> +		dev_err(dev, "failed to parse audio-routing: %d\n", ret);
->   		return ret;
->   	}
->   
-> @@ -395,10 +395,10 @@ static int mt2701_cs42448_machine_probe(struct platform_device *pdev)
->   
->   	snd_soc_card_set_drvdata(card, priv);
->   
-> -	ret = devm_snd_soc_register_card(&pdev->dev, card);
-> +	ret = devm_snd_soc_register_card(dev, card);
->   
->   	if (ret)
-> -		dev_err(&pdev->dev, "%s snd_soc_register_card fail %d\n",
-> +		dev_err(dev, "%s snd_soc_register_card fail %d\n",
->   			__func__, ret);
->   	return ret;
->   }
+> Signed-off-by: Adam Queler <queler+k@gmail.com>
+
+Applied now.  Thanks.
+
+
+Takashi
