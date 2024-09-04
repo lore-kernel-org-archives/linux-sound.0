@@ -1,146 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67A5A1D014A;
-	Wed,  4 Sep 2024 14:45:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20E9C1E1A0E;
+	Wed,  4 Sep 2024 15:55:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725461100; cv=none; b=foRrnN+A/Dsy0xiLmTjHXEab6PcaV1CzT4Y4gRW1QV0I56UE8sj2Tdqmk/rRNMW+2ijvUt//h4e+X1jHAK0CX7yLIXJHgjqedEMsiKCyRDGrsqbruIpP3CfBQ1+F730qD5C45Gm/am0NCO8tPZTQFYsk4Z83AFYfL0OFK516HGM=
+	t=1725465354; cv=none; b=dDTBHK4a3cnyV/zGd7v6kzWNZuh/dzc9uW+gM08vb+IoqrxQdphDk9xz6d0GrnQ/2GcZn3WabEG1Bn52wIXR610ohujrofQ3lOv4siaKXHAWkM/CAIgFzlQGswBH+mvBxm7L7bnC/5kk6X5w6+4yPX/iGqhP0aom+X05fffUfaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725461100; c=relaxed/simple;
-	bh=ArAPCxI1Kj/v1qq50FpqqDgsTk6eZ/UAqDvPFj1T2/8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BOK1aiwRZ0HC6gcLsic6Sa0S1UfcrUXPUbG9sl24EUYVzci/dVcznS244Gw38aWA35jochw+JrrMX4kKyJaGSPbvFKPtbF2LZ+Zxu8Sbw1pXHON4LRPRAaeclwg7uFODgUp+SR9ia9A8QlYTe9zDysJ+dipSNx757kNN02HTE7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vMaeIFXV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725465354; c=relaxed/simple;
+	bh=EFuL4YqN+HRnd+i7MSZNWWoRMVk6Uny+7W7L5xrMbZU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=i9eElRAnYSlBN6d3y30YysD6EW8Q3IJ+68PoJEOH7YY06E9A/i/vSt5B1eFWW0nTAdTOWCYxi5TmVERNJ1mQ5eTrWtfjSFZ1ovG7kHSmepVj0C3QNs3iEB2+q5RWEXvjSFwm9yslp/fExn6HG4CKBSCkkMoZvkioPmO+TIHuOpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eE1XrfpV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vMaeIFXV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E19D1C4CEC9;
-	Wed,  4 Sep 2024 14:44:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eE1XrfpV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EB9CC4CEC2;
+	Wed,  4 Sep 2024 15:55:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725461099;
-	bh=ArAPCxI1Kj/v1qq50FpqqDgsTk6eZ/UAqDvPFj1T2/8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=vMaeIFXVmG5TwnYwCPIyHpt12OpEsK/pI0cxjWT9uUKQHp1pWc4ZBU/WcIJSR0DZs
-	 QzSqsGdkj+OuQ9wXdNsaJvxdRuzx7e3Rz9elyL9vkhWYfhdY3U6Zer/Cy/8idp3bGL
-	 muQdcKV7rfHrAYEc67s94wy9Lkprb7fg0VbpeKve+qiPIbqPRDqhlIDDDj+MByqxQf
-	 Y1zUwjFiV5emnv2A9qfHNjTv1ELkKIhBAjN9WVVJTS0ZaVhTLaQyh5YkRMzHiDywrR
-	 XRVkQT8R+O7CVZ8tJC4KewPEtHaaBpJ+a8tPYK2FYZ9y7WDWjV/gQF9x/ubByzdmdx
-	 vd6yrc+Yj9Vdw==
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3e0047fcb3aso421398b6e.0;
-        Wed, 04 Sep 2024 07:44:59 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCULFXLEc7g6WRLhuTsdqDs6nYQlciCIsPHbOeIlh0PQ09vfkq3pkMnnxWdZu3c0MhaFUz519TsbfUVR@vger.kernel.org, AJvYcCV5SjevB/WkVeO0RvA1mTtgHqW7sykecMf2tAYXYaJZsCCx/q/v9dzveqi5bk1Dd5DIbKIMU4Bo1N240QM=@vger.kernel.org, AJvYcCVpHsYVdSGteaaWFuiBd6oPJMDSjxbmuwdPKcHsTi5j7NcYsoSCykealBQog+7sERkufqvUDrOhGOnW6U4=@vger.kernel.org, AJvYcCWJBZmUMyN1gkb+GP4OONIHduk5pFwTHA6V10Ec9qUeH/UnliXZEDFe7fu8ICCr7MZqLDAackbk3zxQH44+@vger.kernel.org, AJvYcCWKKw6TBk77hqmXb0K2zscxiXahOmNBYFnGxKXCXtDUS3WOaOzkk7sKdJJO3DcHEfoqahT5qNf+@vger.kernel.org
-X-Gm-Message-State: AOJu0YyIjcRSyr85YSp1dnmBr31sF376Wc4M5LqonDw6QLMrqLYK7te5
-	tfbDa6Ys7HQJF68hHBu8DRkmDI3cm9m1QVPTbQeFFXDU+E9gPh3jXXDxTHnjN29d4VMR3aUzr27
-	FgBfEEldwFG+Wr7IDKFIhFvgM1dk=
-X-Google-Smtp-Source: AGHT+IEv8U+fDbCjLqUFxz4//WKn6tB39IzLuCQnJWmLkgmLJZnbV32x+Njonp88P0xuQvY07t3qf0x9Ck/Ekt8R4EI=
-X-Received: by 2002:a05:6808:138a:b0:3db:50ed:e121 with SMTP id
- 5614622812f47-3e01315d6camr1093652b6e.0.1725461099193; Wed, 04 Sep 2024
- 07:44:59 -0700 (PDT)
+	s=k20201202; t=1725465353;
+	bh=EFuL4YqN+HRnd+i7MSZNWWoRMVk6Uny+7W7L5xrMbZU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=eE1XrfpV//GARKx5SVOmW2jSvmIhEtx5BmXWWrCc+JkiZ0TRFJpPTsPsq77bNcNc4
+	 uSg3vMsv5BXrGEBxdJHt9ecmMIgHfRxSsZ97kqJb8EIOK3x5MrpKVfVHpOex5vwRav
+	 6eZqbKsv0gsxbKoMIL8vvthNEEQDLD593iQ0DIPHQGqFnfaHeXnlJnsFimKslSs+e4
+	 BM7gwaRzv58Y53JiPGOMLZ1snM3VcIQqATF23R/S7BL0UMmOxC708MUiWIu/QDsV/P
+	 k7erOQIjgBkYUgEzCK7RxidyOcqGhGqzrzw4eyTo9JmC0M44oU+ZSVaVVqJRIfmqGY
+	 Gk1y/P1MhDZLg==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, Liu Jing <liujing@cmss.chinamobile.com>
+Cc: perex@perex.cz, matthias.bgg@gmail.com, 
+ angelogioacchino.delregno@collabora.com, linus.walleij@linaro.org, 
+ bartosz.golaszewski@linaro.org, kuninori.morimoto.gx@renesas.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+In-Reply-To: <20240903093623.7120-1-liujing@cmss.chinamobile.com>
+References: <20240903093623.7120-1-liujing@cmss.chinamobile.com>
+Subject: Re: [PATCH] ASoC: mediatek: mt2701-cs42448: Optimize redundant
+ code in mt2701_cs42448_machine_probe
+Message-Id: <172546535092.70927.12098749632274765487.b4-ty@kernel.org>
+Date: Wed, 04 Sep 2024 16:55:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240904-devel-anna-maria-b4-timers-flseep-v1-0-e98760256370@linutronix.de>
-In-Reply-To: <20240904-devel-anna-maria-b4-timers-flseep-v1-0-e98760256370@linutronix.de>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Wed, 4 Sep 2024 16:44:47 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0i_tLZ6W2gb4VbqkYhDEfA_KM2EPyogQRFZGtsN=uGdpw@mail.gmail.com>
-Message-ID: <CAJZ5v0i_tLZ6W2gb4VbqkYhDEfA_KM2EPyogQRFZGtsN=uGdpw@mail.gmail.com>
-Subject: Re: [PATCH 00/15] timers: Cleanup delay/sleep related mess
-To: Anna-Maria Behnsen <anna-maria@linutronix.de>
-Cc: Frederic Weisbecker <frederic@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, 
-	Len Brown <len.brown@intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, SeongJae Park <sj@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, damon@lists.linux.dev, linux-mm@kvack.org, 
-	Arnd Bergmann <arnd@arndb.de>, linux-arch@vger.kernel.org, 
-	Heiner Kallweit <hkallweit1@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, 
-	Dwaipayan Ray <dwaipayanray1@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Andrew Lunn <andrew@lunn.ch>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, netdev@vger.kernel.org, linux-sound@vger.kernel.org, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nathan Lynch <nathanl@linux.ibm.com>, 
-	linuxppc-dev@lists.ozlabs.org, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-99b12
 
-On Wed, Sep 4, 2024 at 3:05=E2=80=AFPM Anna-Maria Behnsen
-<anna-maria@linutronix.de> wrote:
->
-> Hi,
->
-> a question about which sleeping function should be used in acpi_os_sleep(=
-)
-> started a discussion and examination about the existing documentation and
-> implementation of functions which insert a sleep/delay.
->
-> The result of the discussion was, that the documentation is outdated and
-> the implemented fsleep() reflects the outdated documentation but doesn't
-> help to reflect reality which in turns leads to the queue which covers th=
-e
-> following things:
->
-> - Minor changes (naming and typo fixes)
->
-> - Split out all timeout and sleep related functions from hrtimer.c and ti=
-mer.c
->   into a separate file
->
-> - Update function descriptions of sleep related functions
->
-> - Change fsleep() to reflect reality
->
-> - Rework all comments or users which obviously rely on the outdated
->   documentation as they reference "Documentation/timers/timers-howto.rst"
->
-> - Last but not least (as there are no more references): Update the outdat=
-ed
->   documentation and move it into a file with a self explaining file name
->
-> The queue is available here and applies on top of tip/timers/core:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/anna-maria/linux-devel.gi=
-t timers/misc
->
-> Cc: linux-kernel@vger.kernel.org
-> Cc: Len Brown <len.brown@intel.com>
-> Cc: Rafael J. Wysocki <rafael@kernel.org>
-> To: Frederic Weisbecker <frederic@kernel.org>
-> To: Thomas Gleixner <tglx@linutronix.de>
-> To: Jonathan Corbet <corbet@lwn.net>
-> Signed-off-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
->
-> Thanks,
->
-> Anna-Maria
->
-> ---
-> Anna-Maria Behnsen (15):
->       timers: Rename next_expiry_recalc() to be unique
->       cpu: Use already existing usleep_range()
->       Comments: Fix wrong singular form of jiffies
->       timers: Move *sleep*() and timeout functions into a separate file
->       timers: Rename sleep_idle_range() to sleep_range_idle()
->       timers: Update function descriptions of sleep/delay related functio=
-ns
->       timers: Adjust flseep() to reflect reality
->       mm/damon/core: Use generic upper bound recommondation for usleep_ra=
-nge()
->       timers: Add a warning to usleep_range_state() for wrong order of ar=
-guments
->       checkpatch: Remove broken sleep/delay related checks
->       regulator: core: Use fsleep() to get best sleep mechanism
->       iopoll/regmap/phy/snd: Fix comment referencing outdated timer docum=
-entation
->       powerpc/rtas: Use fsleep() to minimize additional sleep duration
->       media: anysee: Fix link to outdated sleep function documentation
->       timers/Documentation: Cleanup delay/sleep documentation
+On Tue, 03 Sep 2024 17:36:23 +0800, Liu Jing wrote:
+> Utilize the defined parameter 'dev' to make the code cleaner.
+> 
+> 
 
-I like the changes, so
+Applied to
 
-Acked-by: Rafael J. Wysocki <rafael@kernel.org>
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-for the series.
+Thanks!
+
+[1/1] ASoC: mediatek: mt2701-cs42448: Optimize redundant code in mt2701_cs42448_machine_probe
+      commit: 77e6a5e40aa393492cf3f1d2623d7d1dff7f33de
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
