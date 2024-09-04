@@ -1,86 +1,145 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout4-smtp.messagingengine.com (fout4-smtp.messagingengine.com [103.168.172.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E22AF1CFEC8;
-	Wed,  4 Sep 2024 12:25:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C04AA1DA0F4;
+	Wed,  4 Sep 2024 12:52:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725452710; cv=none; b=HNAhm1rmGdEtpcG3pkdmnzktUvKxBMMJKNbfU0leW62Z9pwVLLdUwVtaVp2BEa7F0qc2jL32wXeCYdgXc6FwhM0itKLQs6UVSsIz1PWNbepd9d9l9CcifeRxmJbFjndD62OgTVuWDH1SbaxS0av5gfTyYyYfnwe2fr9+xKRYoyk=
+	t=1725454324; cv=none; b=K/wfngeAu4eF96az4fcWdpBNCG+DUgmd6nVvAhveT0qlqFu1M+UtLoBjh6TxvRMA4nGaF2TNu0bc2IS07LbIza1l9EjsE3MO/O5TIHOfQ8+kioC19vZYtWJ+rG2iOQDaV0m8KfedSzd7ubGwJtRgLJiWLq9gfgNK3zb+bmoRGPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725452710; c=relaxed/simple;
-	bh=NRw43zX42ozCIh3tpA8n379wVpc9fGBYUv4G/U5n5pI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J8tuWExjUIoe9Z5doNd+NF4EcHxVDpnXq9qBDbkNneEAHs2Hjsv66bQ7WmPV67xO5JUko5a+aoWR74Chp0qI9VUvLjzUIZV8qpIUEX9LuNJfQX+dxuehi17whGQZn0/r21iWlv8zCs+5jKAnkE8WRHGVTIt95AGUVLBudAr3ADg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EHy11RqW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725454324; c=relaxed/simple;
+	bh=QwjFKh7knPAsUBg9vZKdhQxvZEVVvdQsABfIksWJp/Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fWgA/0BDUAIGII274E/tupfRt0XvIsfjJUraKH/jPuhUWuOwI0xAofUAmkqJPJjAaBob8fLcoomskBoke5SIW/pe6cxTa+AnQl6P+w8YMxZvr2oCyyWd6YpHKp0vEivJeI8xTQnGMzTN1u3CLWBUEf6OfWiKm1oSMAmwWCZ+QCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=iaPlb+a4; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ET22MXwD; arc=none smtp.client-ip=103.168.172.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EHy11RqW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A978C4CEC2;
-	Wed,  4 Sep 2024 12:25:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725452709;
-	bh=NRw43zX42ozCIh3tpA8n379wVpc9fGBYUv4G/U5n5pI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EHy11RqWO6mOvhN0j95yBYvWvOZ0df73huWzEKGuHm8eBoQyws8KMwhavwt/6Da/l
-	 pYAMTsQX/43XPE4QGtLD5o/P23HNu+F5p1C8XT94v9l914bJRJtPPSsvmI+krmebEU
-	 DbsuBWo7nqKASYIJlAq20EMim6CDcWoOE63bfTbPDlY10krAsCeNP+qvhSoYPO3HQi
-	 xyCmIwIZIux9PMp4fmyVX9X80XrGUhcTYPxt33xw+JTP7TDQlRlZnyG2QrtSmzxx9v
-	 QekVOdz5QSTahpgC30wpL2A92tOx9VJQaI2CS6IdKguAyGbeL+iMJobZ5LzJ/9IJ3L
-	 jUpa2oVuNrSCA==
-Date: Wed, 4 Sep 2024 13:25:04 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Simon Trimmer <simont@opensource.cirrus.com>
-Cc: tiwai@suse.com, linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH] ASoC/HDA cs35l56: Remove redundant IRQ handling
-Message-ID: <e1aeb66c-ecb3-4778-b306-f3a212caf879@sirena.org.uk>
-References: <20240904120700.188644-1-simont@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="iaPlb+a4";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ET22MXwD"
+Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
+	by mailfout.phl.internal (Postfix) with ESMTP id D99C413801F7;
+	Wed,  4 Sep 2024 08:52:00 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Wed, 04 Sep 2024 08:52:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
+	:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to; s=fm1; t=1725454320; x=1725540720; bh=rtJeKbajnw
+	BMQkkm8Iq8uao/eRkVqmKTadD1J6GeV/k=; b=iaPlb+a4zN0/ozWD5Iw7MaIy7r
+	TiYL8+0n0XtDeTVh0ydlfMBasv9DKSUja3mRsZwfDP/eYfdQCyQu8lhYKrMHvwi/
+	o51woKa4EY87+i88DWiZfHiz+ErjmvnXpazGzNBwtDNA7rTpfzOWlMBOCA8jHXyQ
+	SXh5ZcTvPLobsn5EDy7cLp8zqWuOD/FPQM3gzFXnu26rI9UdcRzpT+4cl6Va8m71
+	Se6lJ3vOlbUz84lj+gyf549hey0XWTlt76cj6QwJRXG5QCpzf8umRVoQuMhOwm5l
+	J8+qqg0e8Z8PaDyzdkJ5/zGpPipRKytm0uPD/9LJ3T4zEU1spP1xA9lKG7pg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1725454320; x=1725540720; bh=rtJeKbajnwBMQkkm8Iq8uao/eRkV
+	qmKTadD1J6GeV/k=; b=ET22MXwDqXIapOI4EMTdv97n+/E9loGxrKTDzQan89Sr
+	MreHqui32OxdpnnSQz5tDqzflrLb0tOiKoO4a7BQdr86uCs1kYNv/2JTUbfciabj
+	q/OW6LIV4POZjbR7jHYdw6ES7sOMN5f+Ra3+ZxLf+CBgvWwm3ZXnwBmQLKOkbXhO
+	ldkHW/G6XCBwDkYpw5HTDoHBIOxDk4hTTPmc2Fg4p7ud5i7Hq2Q7dwfl1ZUXX89Z
+	T5hEyS7D4w3wysqQkvZae5PWRBeZTe7nJzSu5giB7vFXHDxtQhNGCq206UfvSDfz
+	iC1lcuAQmyuePIXlFiQKNbylsDtUPcfk0rF3TfbTRQ==
+X-ME-Sender: <xms:8FfYZtGtVXQHCXcczrjJLP2Esd2SDXp1Yo6KXYwAOLgMttVKMZaTFg>
+    <xme:8FfYZiXkRkW5Kpi3RjWJOLTTflAwxsOYDKcyL_gJijJ03AnT51Zy9q1tCRbDrUmnf
+    Wi7enWSP7lpmQXwFMo>
+X-ME-Received: <xmr:8FfYZvK5pI9xkKevec5vZdK1eEnean7cBC1HRo2wa7Xqx-DKpwPArCGeGNKIitTZLaCDaeg_qTGwqKJzga-6BJZhSFxoFw8bGPCsxBTVNa8z-A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudehjedgheejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevuf
+    ffkffoggfgsedtkeertdertddtnecuhfhrohhmpefvrghkrghshhhiucfurghkrghmohht
+    ohcuoehoqdhtrghkrghshhhisehsrghkrghmohgttghhihdrjhhpqeenucggtffrrghtth
+    gvrhhnpeeggfehleehjeeileehveefkefhtdeffedtfeeghfekffetudevjeegkeevhfdv
+    ueenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+    enucfrrghrrghmpehmrghilhhfrhhomhepohdqthgrkhgrshhhihesshgrkhgrmhhotggt
+    hhhirdhjphdpnhgspghrtghpthhtohepjedpmhhouggvpehsmhhtphhouhhtpdhrtghpth
+    htohepthhifigrihesshhushgvrdguvgdprhgtphhtthhopehlihhnuhigqdhkvghrnhgv
+    lhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhsohhunh
+    gusehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghprghisheslhhinhhu
+    gidrmhhitghrohhsohhfthdrtghomhdprhgtphhtthhopegvughmuhhnugdrrhgrihhlvg
+    esphhrohhtohhnmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirges
+    vhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehnvghtuggvvhesvhhgvghrrd
+    hkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:8FfYZjEELrQeBjbpsKlvRhxXOagEq6VyWUYmmYFBQMNDJJ_vcGGGcg>
+    <xmx:8FfYZjWTy6Zb3XO4lLl1mGTMvAnMwixWHEE-x85V2blrZ45Y71TBEQ>
+    <xmx:8FfYZuPnsRZmzPNnxn9gj_CKftzRmUfzOwPs00394l4JKttbgzialw>
+    <xmx:8FfYZi0_95HWGdQIwNHkpYIjWOfltHwbZ8GuYCPjg87ApeolFfBJkw>
+    <xmx:8FfYZqHB9VeRvUDCGq5F7xZXCNJPW3Ka6g9dYZ-DmVoqapYsXpYMyiZ2>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 4 Sep 2024 08:51:58 -0400 (EDT)
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: tiwai@suse.de,
+	linux-kernel@vger.kernel.org
+Cc: linux-sound@vger.kernel.org,
+	apais@linux.microsoft.com,
+	edmund.raile@protonmail.com,
+	linux-media@vger.kernel.org,
+	netdev@vger.kernel.org
+Subject: [PATCH 0/5] firewire: use sleepable workqueue to handle 1394 OHCI IT/IR context events
+Date: Wed,  4 Sep 2024 21:51:49 +0900
+Message-ID: <20240904125155.461886-1-o-takashi@sakamocchi.jp>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="dwYiuZQXQUCbdHo9"
-Content-Disposition: inline
-In-Reply-To: <20240904120700.188644-1-simont@opensource.cirrus.com>
-X-Cookie: Linux is obsolete
+Content-Transfer-Encoding: 8bit
+
+Hi,
+
+This series of changes updates my previous RFT[1] to apply for v6.12
+kernel. For the detail, please refer to the previous one.
+
+To Iwai-san, this series includes the change for sound subsystem as
+well. All of changes are specific to ALSA firewire stack, so I would
+like to send it to Linus as the part of firewire subsystem updates if
+you do not mind it.
+
+Changes from the RFT:
+* WQ_FREEZABLE is newly supported in the workqueue
+* Improve code comment in IEC 61883-1/6 packet streaming engine
+* Avoid dead lock in the calls of workqueue sync API
+
+[1] https://lore.kernel.org/lkml/20240901110642.154523-1-o-takashi@sakamocchi.jp/
 
 
---dwYiuZQXQUCbdHo9
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Regards
 
-On Wed, Sep 04, 2024 at 12:07:00PM +0000, Simon Trimmer wrote:
-> The IRQ handling in the cs35l56 driver was purely informational. It was
-> not necessary to support the HDA or ASoC driver functionality and added
-> unnecessary complexity to the drivers.
->=20
-> As the IRQ signal GPIO line could be connected and shared with other
-> components the handling is replaced with a regmap patch to ensure the
-> cs35l56 IRQ sources are masked and will not generate interrupts that go
-> unhandled.
+Takashi Sakamoto (5):
+  firewire: core: allocate workqueue to handle isochronous contexts in
+    card
+  firewire: core: add local API to queue work item to workqueue specific
+    to isochronous contexts
+  firewire: ohci: operate IT/IR events in sleepable work process instead
+    of tasklet softIRQ
+  firewire: core: non-atomic memory allocation for isochronous event to
+    user client
+  ALSA: firewire: use nonatomic PCM operation
 
-Given that the code is there now and has been since the driver was
-introduced about 18 months ago what's the ongoing cost of having it?
-The information it's providing is notification of hardware faults,
-reporting those does seem useful.
+ drivers/firewire/core-card.c             | 33 ++++++++++++--
+ drivers/firewire/core-cdev.c             |  4 +-
+ drivers/firewire/core-iso.c              | 30 ++++++++++++-
+ drivers/firewire/core.h                  | 14 +++++-
+ drivers/firewire/ohci.c                  | 57 +++++++++++++++++++-----
+ include/linux/firewire.h                 |  3 ++
+ sound/firewire/amdtp-stream.c            | 34 +++++++++++---
+ sound/firewire/bebob/bebob_pcm.c         |  1 +
+ sound/firewire/dice/dice-pcm.c           |  1 +
+ sound/firewire/digi00x/digi00x-pcm.c     |  1 +
+ sound/firewire/fireface/ff-pcm.c         |  1 +
+ sound/firewire/fireworks/fireworks_pcm.c |  1 +
+ sound/firewire/isight.c                  |  1 +
+ sound/firewire/motu/motu-pcm.c           |  1 +
+ sound/firewire/oxfw/oxfw-pcm.c           |  1 +
+ sound/firewire/tascam/tascam-pcm.c       |  1 +
+ 16 files changed, 157 insertions(+), 27 deletions(-)
 
---dwYiuZQXQUCbdHo9
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+2.43.0
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbYUaAACgkQJNaLcl1U
-h9BjLwf9GlVkug+fLA2NQHbZ7YKMdUwPYr2Q4QVuZ394iIv4v89hMk8BqX5VJbKS
-bjD80BOjQ1Mxnc0NOFqSrIMPGIe8oPaOwtnurRrECRFqE+fr4FoatYUFQddHuPHM
-HMyCjx+njD4T25li9WB+fhIVfXpxrn1PEGJXWoobbJuZoafbjFuFeRmAobgkfc/M
-v/48BmXfzeYYtjxcGCFRXtPU3Eju7TdXZMUhyADEiZ+hNhgQHEG3rdiixTIDIqVa
-Tr8tH9P2M3E9h23lCcQ5+XZvZ6kojF4SxT5YsV73001IzBkptBOq/Q2cFv9yKf5O
-FEMaro+/KPTAO8JrnTVCmud7ykJJkQ==
-=6n19
------END PGP SIGNATURE-----
-
---dwYiuZQXQUCbdHo9--
