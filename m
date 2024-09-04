@@ -1,128 +1,831 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAA4E1D016D;
-	Wed,  4 Sep 2024 11:16:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E811D5894;
+	Wed,  4 Sep 2024 12:09:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725448614; cv=none; b=ZEiRoos31J3zmjYsylpfNX9sf/a4G2UGiA8ylodqrLmFw21q91iQy7Xe96G/+9KoTmu5qFh04mZV86zY58ZAgyCx1Aly8uZqdMtlSx4gA5BMKW04D3n8tfvWphoJ8gnWZZ4nfX+q7i0BABlngKcYQgRKr144VctRT18qqqPogw0=
+	t=1725451768; cv=none; b=ZS5y9dIOVcdGKVLyzTprrkH7XRNB9O6qDGxFfEgAKOJ+fTbt6TTRz4FwyF6S4ARbi1z28ZybFTLMKNUAaMDRjsVkoDVA3iJz10ivbcNBhpB2j55gagjwGy+lNEQ/D4fUign2/6kHDvujf7iiaoDTR/RaF0CQMk7I2chFZag34ds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725448614; c=relaxed/simple;
-	bh=SFWQxwybbR05p/JSlu2vfeQxyFVILJVtOStppUEw+xw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=DBPn4XSL1p7xjouVPi9eD1oaJKiZaIYOLwLJEMKswf3m0MbVImc0/LQGhqWFRh6gNqaOWJ9D3IaxR2P0DJhNuyNqkUGtqWcuLPvZYIRtmlpdPFsn9jMa3o1S7DFAFVi2LN+sO9SjcnXiKwwyhG9a5bcguovCp6pzcyP0VSF2WUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KRVtWdg9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725451768; c=relaxed/simple;
+	bh=x5Nx4ct5hyK2L8F01Nx8EJBqGAXRQ7rz8KD9xZv3ed8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fHDmMHsC32lhQxQC39fyS+ywzMCS5TNY07QBcn1uacU3mOBH3ZTY422ENuAwy6LSSoSYGzAYT+j/nEQDQhnnp3HBB4gN5llRoK708IEm2rL/GOyn9NUSfmGjVZ22vKiUSYXEdr1xPwIu8QKB2K7aZVxzhhQMrpYksiFROit8pj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=WQVXoPeM; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KRVtWdg9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D711FC4CEC9;
-	Wed,  4 Sep 2024 11:16:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725448613;
-	bh=SFWQxwybbR05p/JSlu2vfeQxyFVILJVtOStppUEw+xw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=KRVtWdg9D4xhd/xX3u5CgZSN5Sm0NZWjAaFc8R5UIZOvKvw7KgThuvHywHeB3MdGE
-	 kgA2xop/P1gXyrNDSdt9rkNvIKmYiSEpIzrKdCqUSl1RczLm9zXv5zRl4J+FummyAt
-	 Xi8bvs1g+F47UlxXsHpphN5OeHmq6pxpp0RWjA95epvKzdjasyrp2JgHw8t8e3Nosp
-	 VBomlo31XSnwYb0Cem8rEVFMAlnnrfrfSCfiFncF8c/X9VoNBp67c3eqHtvOrCoNxj
-	 q2KL+vVp0YtBLxLoISr+raawo46JGCCLhCqUxMAaeLNlbLagNf7BrjjDV86zzRJKmH
-	 Fw24bheSYB6OQ==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Alexandre Mergnat <amergnat@baylibre.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Nicolas Belin <nbelin@baylibre.com>
-In-Reply-To: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
-References: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
-Subject: Re: (subset) [PATCH v7 00/16] Add audio support for the MediaTek
- Genio 350-evk board
-Message-Id: <172544860860.19172.7052813450885034844.b4-ty@kernel.org>
-Date: Wed, 04 Sep 2024 12:16:48 +0100
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="WQVXoPeM"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48460H9o006762;
+	Wed, 4 Sep 2024 07:07:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=bKSRV2sIZekglWVM
+	oUOEpC8VA+MWNg300xODnmmnZFY=; b=WQVXoPeMXfQylkt1duq4Kcc10Vi3LYXz
+	0zEH86JhU1rD7aInW+F3OGGGhE0a1de4RLvMaQcHDr8hqf0FRK50kZ2HjUgh0DFE
+	NZvW8dDiBEcP/Zq7OYwg4d33YsXsEgDvIYD/zoPL4zuBsOeQWOvgGcP3wKJqiyed
+	RKQMu2JwjE6t6ncCRRgeeVkQQDYkLcx0ro2c9IFwBOPVlko0qXMa6ReOe5xcaK52
+	KOkbcE1mqTWY0hZwhdtMswaIqz2mUMn/PdMePiZJ2gCLToXQRr/svoVv3f9LExTK
+	fS8L7n/DifBnN77Wht2pSuXZ/jnFFDdIk/lOQLBLUKfPkGdchH++Wg==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 41c0jxcjka-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 04 Sep 2024 07:07:08 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 4 Sep 2024
+ 13:07:05 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Wed, 4 Sep 2024 13:07:05 +0100
+Received: from lonswws01.ad.cirrus.com (lonswws01.ad.cirrus.com [198.90.188.26])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 35B81820249;
+	Wed,  4 Sep 2024 12:07:05 +0000 (UTC)
+From: Simon Trimmer <simont@opensource.cirrus.com>
+To: <tiwai@suse.com>, <broonie@kernel.org>
+CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
+        "Simon
+ Trimmer" <simont@opensource.cirrus.com>
+Subject: [PATCH] ASoC/HDA cs35l56: Remove redundant IRQ handling
+Date: Wed, 4 Sep 2024 12:07:00 +0000
+Message-ID: <20240904120700.188644-1-simont@opensource.cirrus.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-99b12
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: Xq1YhtP0X_u3NK8h_9aeeY9SRifmE9mT
+X-Proofpoint-GUID: Xq1YhtP0X_u3NK8h_9aeeY9SRifmE9mT
+X-Proofpoint-Spam-Reason: safe
 
-On Mon, 22 Jul 2024 08:53:29 +0200, Alexandre Mergnat wrote:
-> This serie aim to add the following audio support for the Genio 350-evk:
-> - Playback
->   - 2ch Headset Jack (Earphone)
->   - 1ch Line-out Jack (Speaker)
->   - 8ch HDMI Tx
-> - Capture
->   - 1ch DMIC (On-board Digital Microphone)
->   - 1ch AMIC (On-board Analogic Microphone)
->   - 1ch Headset Jack (External Analogic Microphone)
-> 
-> [...]
+The IRQ handling in the cs35l56 driver was purely informational. It was
+not necessary to support the HDA or ASoC driver functionality and added
+unnecessary complexity to the drivers.
 
-Applied to
+As the IRQ signal GPIO line could be connected and shared with other
+components the handling is replaced with a regmap patch to ensure the
+cs35l56 IRQ sources are masked and will not generate interrupts that go
+unhandled.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
+---
+v1 - As this changes both the ASoC and HDA cs35l56 device drivers we
+     considered a series of patches that stepped through the removal of
+     the common code but thought that the co-ordination would be
+     unnecessarily complicated so we initially offer a combined patch
+     that that applies to both Mark and Takashi's for-next branches so
+     that either route can be taken.
 
-Thanks!
+ include/sound/cs35l56.h           |   4 --
+ sound/pci/hda/cs35l56_hda.c       |  53 +--------------
+ sound/pci/hda/cs35l56_hda_i2c.c   |   9 +--
+ sound/pci/hda/cs35l56_hda_spi.c   |   9 +--
+ sound/soc/codecs/cs35l56-i2c.c    |   2 -
+ sound/soc/codecs/cs35l56-sdw.c    | 104 +-----------------------------
+ sound/soc/codecs/cs35l56-shared.c | 101 +----------------------------
+ sound/soc/codecs/cs35l56-spi.c    |   2 -
+ sound/soc/codecs/cs35l56.c        |  92 ++------------------------
+ sound/soc/codecs/cs35l56.h        |  10 ---
+ 10 files changed, 14 insertions(+), 372 deletions(-)
 
-[01/16] ASoC: dt-bindings: mediatek,mt8365-afe: Add audio afe document
-        commit: ceb3ca2876243e3ea02f78b3d488b1f2d734de49
-[02/16] ASoC: dt-bindings: mediatek,mt8365-mt6357: Add audio sound card document
-        commit: 76d80dcdd55f70b28930edb97b96ee375e1cce5a
-[03/16] dt-bindings: mfd: mediatek: Add codec property for MT6357 PMIC
-        commit: 761cab667898d86c04867948f1b7aec1090be796
-[04/16] ASoC: mediatek: mt8365: Add common header
-        commit: 38c7c9ddc74033406461d64e541bbc8268e77f73
-[05/16] ASoC: mediatek: mt8365: Add audio clock control support
-        commit: ef307b40b7f0042d54f020bccb3e728ced292282
-[06/16] ASoC: mediatek: mt8365: Add I2S DAI support
-        commit: 402bbb13a195caa83b3279ebecdabfb11ddee084
-[07/16] ASoC: mediatek: mt8365: Add ADDA DAI support
-        commit: 7c58c88e524180e8439acdfc44872325e7f6d33d
-[08/16] ASoC: mediatek: mt8365: Add DMIC DAI support
-        commit: 1c50ec75ce6c0c6b5736499393e522f73e19d0cf
-[09/16] ASoC: mediatek: mt8365: Add PCM DAI support
-        commit: 5097c0c8634d703e3c59cfb89831b7db9dc46339
-[10/16] ASoc: mediatek: mt8365: Add a specific soundcard for EVK
-        commit: 1bf6dbd75f7603dd026660bebf324f812200dc1b
-[11/16] ASoC: mediatek: mt8365: Add the AFE driver support
-        commit: e1991d102bc2abb32331c462f8f3e77059c69578
-[12/16] ASoC: codecs: add MT6357 support
-        (no commit info)
-[13/16] ASoC: mediatek: Add MT8365 support
-        (no commit info)
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/include/sound/cs35l56.h b/include/sound/cs35l56.h
+index 94e8185c4795..acc43d85f5df 100644
+--- a/include/sound/cs35l56.h
++++ b/include/sound/cs35l56.h
+@@ -257,8 +257,6 @@
+ struct cs35l56_base {
+ 	struct device *dev;
+ 	struct regmap *regmap;
+-	int irq;
+-	struct mutex irq_lock;
+ 	u8 type;
+ 	u8 rev;
+ 	bool init_done;
+@@ -298,8 +296,6 @@ int cs35l56_wait_for_firmware_boot(struct cs35l56_base *cs35l56_base);
+ void cs35l56_wait_control_port_ready(void);
+ void cs35l56_wait_min_reset_pulse(void);
+ void cs35l56_system_reset(struct cs35l56_base *cs35l56_base, bool is_soundwire);
+-int cs35l56_irq_request(struct cs35l56_base *cs35l56_base, int irq);
+-irqreturn_t cs35l56_irq(int irq, void *data);
+ int cs35l56_is_fw_reload_needed(struct cs35l56_base *cs35l56_base);
+ int cs35l56_runtime_suspend_common(struct cs35l56_base *cs35l56_base);
+ int cs35l56_runtime_resume_common(struct cs35l56_base *cs35l56_base, bool is_soundwire);
+diff --git a/sound/pci/hda/cs35l56_hda.c b/sound/pci/hda/cs35l56_hda.c
+index 31cc92bac89a..8ec06a3f4765 100644
+--- a/sound/pci/hda/cs35l56_hda.c
++++ b/sound/pci/hda/cs35l56_hda.c
+@@ -626,8 +626,6 @@ static void cs35l56_hda_fw_load(struct cs35l56_hda *cs35l56)
+ 		goto err_fw_release;
+ 	}
+ 
+-	mutex_lock(&cs35l56->base.irq_lock);
+-
+ 	/*
+ 	 * If the firmware hasn't been patched it must be shutdown before
+ 	 * doing a full patch and reset afterwards. If it is already
+@@ -637,14 +635,14 @@ static void cs35l56_hda_fw_load(struct cs35l56_hda *cs35l56)
+ 	if (firmware_missing && (wmfw_firmware || coeff_firmware)) {
+ 		ret = cs35l56_firmware_shutdown(&cs35l56->base);
+ 		if (ret)
+-			goto err;
++			goto err_fw_release;
+ 	}
+ 
+ 	ret = cs_dsp_power_up(&cs35l56->cs_dsp, wmfw_firmware, wmfw_filename,
+ 			      coeff_firmware, coeff_filename, "misc");
+ 	if (ret) {
+ 		dev_dbg(cs35l56->base.dev, "%s: cs_dsp_power_up ret %d\n", __func__, ret);
+-		goto err;
++		goto err_fw_release;
+ 	}
+ 
+ 	if (wmfw_filename)
+@@ -687,8 +685,6 @@ static void cs35l56_hda_fw_load(struct cs35l56_hda *cs35l56)
+ err_powered_up:
+ 	if (!cs35l56->base.fw_patched)
+ 		cs_dsp_power_down(&cs35l56->cs_dsp);
+-err:
+-	mutex_unlock(&cs35l56->base.irq_lock);
+ err_fw_release:
+ 	cs35l56_hda_release_firmware_files(wmfw_firmware, wmfw_filename,
+ 					   coeff_firmware, coeff_filename);
+@@ -778,15 +774,6 @@ static int cs35l56_hda_system_suspend(struct device *dev)
+ 
+ 	cs35l56->suspended = true;
+ 
+-	/*
+-	 * The interrupt line is normally shared, but after we start suspending
+-	 * we can't check if our device is the source of an interrupt, and can't
+-	 * clear it. Prevent this race by temporarily disabling the parent irq
+-	 * until we reach _no_irq.
+-	 */
+-	if (cs35l56->base.irq)
+-		disable_irq(cs35l56->base.irq);
+-
+ 	return pm_runtime_force_suspend(dev);
+ }
+ 
+@@ -806,34 +793,6 @@ static int cs35l56_hda_system_suspend_late(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int cs35l56_hda_system_suspend_no_irq(struct device *dev)
+-{
+-	struct cs35l56_hda *cs35l56 = dev_get_drvdata(dev);
+-
+-	/* Handlers are now disabled so the parent IRQ can safely be re-enabled. */
+-	if (cs35l56->base.irq)
+-		enable_irq(cs35l56->base.irq);
+-
+-	return 0;
+-}
+-
+-static int cs35l56_hda_system_resume_no_irq(struct device *dev)
+-{
+-	struct cs35l56_hda *cs35l56 = dev_get_drvdata(dev);
+-
+-	/*
+-	 * WAKE interrupts unmask if the CS35L56 hibernates, which can cause
+-	 * spurious interrupts, and the interrupt line is normally shared.
+-	 * We can't check if our device is the source of an interrupt, and can't
+-	 * clear it, until it has fully resumed. Prevent this race by temporarily
+-	 * disabling the parent irq until we complete resume().
+-	 */
+-	if (cs35l56->base.irq)
+-		disable_irq(cs35l56->base.irq);
+-
+-	return 0;
+-}
+-
+ static int cs35l56_hda_system_resume_early(struct device *dev)
+ {
+ 	struct cs35l56_hda *cs35l56 = dev_get_drvdata(dev);
+@@ -856,11 +815,8 @@ static int cs35l56_hda_system_resume(struct device *dev)
+ 	struct cs35l56_hda *cs35l56 = dev_get_drvdata(dev);
+ 	int ret;
+ 
+-	/* Undo pm_runtime_force_suspend() before re-enabling the irq */
++	/* Undo pm_runtime_force_suspend() */
+ 	ret = pm_runtime_force_resume(dev);
+-	if (cs35l56->base.irq)
+-		enable_irq(cs35l56->base.irq);
+-
+ 	if (ret)
+ 		return ret;
+ 
+@@ -987,7 +943,6 @@ int cs35l56_hda_common_probe(struct cs35l56_hda *cs35l56, int hid, int id)
+ {
+ 	int ret;
+ 
+-	mutex_init(&cs35l56->base.irq_lock);
+ 	dev_set_drvdata(cs35l56->base.dev, cs35l56);
+ 
+ 	INIT_WORK(&cs35l56->dsp_work, cs35l56_hda_dsp_work);
+@@ -1120,8 +1075,6 @@ const struct dev_pm_ops cs35l56_hda_pm_ops = {
+ 	SYSTEM_SLEEP_PM_OPS(cs35l56_hda_system_suspend, cs35l56_hda_system_resume)
+ 	LATE_SYSTEM_SLEEP_PM_OPS(cs35l56_hda_system_suspend_late,
+ 				 cs35l56_hda_system_resume_early)
+-	NOIRQ_SYSTEM_SLEEP_PM_OPS(cs35l56_hda_system_suspend_no_irq,
+-				  cs35l56_hda_system_resume_no_irq)
+ };
+ EXPORT_SYMBOL_NS_GPL(cs35l56_hda_pm_ops, SND_HDA_SCODEC_CS35L56);
+ 
+diff --git a/sound/pci/hda/cs35l56_hda_i2c.c b/sound/pci/hda/cs35l56_hda_i2c.c
+index 40f2f97944d5..822c1251f703 100644
+--- a/sound/pci/hda/cs35l56_hda_i2c.c
++++ b/sound/pci/hda/cs35l56_hda_i2c.c
+@@ -34,14 +34,7 @@ static int cs35l56_hda_i2c_probe(struct i2c_client *clt)
+ 		return ret;
+ 	}
+ 
+-	ret = cs35l56_hda_common_probe(cs35l56, id->driver_data, clt->addr);
+-	if (ret)
+-		return ret;
+-	ret = cs35l56_irq_request(&cs35l56->base, clt->irq);
+-	if (ret < 0)
+-		cs35l56_hda_remove(cs35l56->base.dev);
+-
+-	return ret;
++	return cs35l56_hda_common_probe(cs35l56, id->driver_data, clt->addr);
+ }
+ 
+ static void cs35l56_hda_i2c_remove(struct i2c_client *clt)
+diff --git a/sound/pci/hda/cs35l56_hda_spi.c b/sound/pci/hda/cs35l56_hda_spi.c
+index 7f02155fe61e..37a159546e59 100644
+--- a/sound/pci/hda/cs35l56_hda_spi.c
++++ b/sound/pci/hda/cs35l56_hda_spi.c
+@@ -34,14 +34,7 @@ static int cs35l56_hda_spi_probe(struct spi_device *spi)
+ 		return ret;
+ 	}
+ 
+-	ret = cs35l56_hda_common_probe(cs35l56, id->driver_data, spi_get_chipselect(spi, 0));
+-	if (ret)
+-		return ret;
+-	ret = cs35l56_irq_request(&cs35l56->base, spi->irq);
+-	if (ret < 0)
+-		cs35l56_hda_remove(cs35l56->base.dev);
+-
+-	return ret;
++	return cs35l56_hda_common_probe(cs35l56, id->driver_data, spi_get_chipselect(spi, 0));
+ }
+ 
+ static void cs35l56_hda_spi_remove(struct spi_device *spi)
+diff --git a/sound/soc/codecs/cs35l56-i2c.c b/sound/soc/codecs/cs35l56-i2c.c
+index 2bd2ff75cd50..4419a94c5e73 100644
+--- a/sound/soc/codecs/cs35l56-i2c.c
++++ b/sound/soc/codecs/cs35l56-i2c.c
+@@ -41,8 +41,6 @@ static int cs35l56_i2c_probe(struct i2c_client *client)
+ 		return ret;
+ 
+ 	ret = cs35l56_init(cs35l56);
+-	if (ret == 0)
+-		ret = cs35l56_irq_request(&cs35l56->base, client->irq);
+ 	if (ret < 0)
+ 		cs35l56_remove(cs35l56);
+ 
+diff --git a/sound/soc/codecs/cs35l56-sdw.c b/sound/soc/codecs/cs35l56-sdw.c
+index 7c9a17fe2195..134631eff861 100644
+--- a/sound/soc/codecs/cs35l56-sdw.c
++++ b/sound/soc/codecs/cs35l56-sdw.c
+@@ -266,75 +266,14 @@ static void cs35l56_sdw_init(struct sdw_slave *peripheral)
+ 	}
+ 
+ 	ret = cs35l56_init(cs35l56);
+-	if (ret < 0) {
++	if (ret < 0)
+ 		regcache_cache_only(cs35l56->base.regmap, true);
+-		goto out;
+-	}
+-
+-	/*
+-	 * cs35l56_init can return with !init_done if it triggered
+-	 * a soft reset.
+-	 */
+-	if (cs35l56->base.init_done) {
+-		/* Enable SoundWire interrupts */
+-		sdw_write_no_pm(peripheral, CS35L56_SDW_GEN_INT_MASK_1,
+-				CS35L56_SDW_INT_MASK_CODEC_IRQ);
+-	}
+ 
+ out:
+ 	pm_runtime_mark_last_busy(cs35l56->base.dev);
+ 	pm_runtime_put_autosuspend(cs35l56->base.dev);
+ }
+ 
+-static int cs35l56_sdw_interrupt(struct sdw_slave *peripheral,
+-				 struct sdw_slave_intr_status *status)
+-{
+-	struct cs35l56_private *cs35l56 = dev_get_drvdata(&peripheral->dev);
+-
+-	/* SoundWire core holds our pm_runtime when calling this function. */
+-
+-	dev_dbg(cs35l56->base.dev, "int control_port=%#x\n", status->control_port);
+-
+-	if ((status->control_port & SDW_SCP_INT1_IMPL_DEF) == 0)
+-		return 0;
+-
+-	/*
+-	 * Prevent bus manager suspending and possibly issuing a
+-	 * bus-reset before the queued work has run.
+-	 */
+-	pm_runtime_get_noresume(cs35l56->base.dev);
+-
+-	/*
+-	 * Mask and clear until it has been handled. The read of GEN_INT_STAT_1
+-	 * is required as per the SoundWire spec for interrupt status bits
+-	 * to clear. GEN_INT_MASK_1 masks the _inputs_ to GEN_INT_STAT1.
+-	 * None of the interrupts are time-critical so use the
+-	 * power-efficient queue.
+-	 */
+-	sdw_write_no_pm(peripheral, CS35L56_SDW_GEN_INT_MASK_1, 0);
+-	sdw_read_no_pm(peripheral, CS35L56_SDW_GEN_INT_STAT_1);
+-	sdw_write_no_pm(peripheral, CS35L56_SDW_GEN_INT_STAT_1, 0xFF);
+-	queue_work(system_power_efficient_wq, &cs35l56->sdw_irq_work);
+-
+-	return 0;
+-}
+-
+-static void cs35l56_sdw_irq_work(struct work_struct *work)
+-{
+-	struct cs35l56_private *cs35l56 = container_of(work,
+-						       struct cs35l56_private,
+-						       sdw_irq_work);
+-
+-	cs35l56_irq(-1, &cs35l56->base);
+-
+-	/* unmask interrupts */
+-	if (!cs35l56->sdw_irq_no_unmask)
+-		sdw_write_no_pm(cs35l56->sdw_peripheral, CS35L56_SDW_GEN_INT_MASK_1,
+-				CS35L56_SDW_INT_MASK_CODEC_IRQ);
+-
+-	pm_runtime_put_autosuspend(cs35l56->base.dev);
+-}
+-
+ static int cs35l56_sdw_read_prop(struct sdw_slave *peripheral)
+ {
+ 	struct cs35l56_private *cs35l56 = dev_get_drvdata(&peripheral->dev);
+@@ -349,7 +288,7 @@ static int cs35l56_sdw_read_prop(struct sdw_slave *peripheral)
+ 	prop->sink_ports = BIT(CS35L56_SDW1_PLAYBACK_PORT);
+ 	prop->paging_support = true;
+ 	prop->quirks = SDW_SLAVE_QUIRKS_INVALID_INITIAL_PARITY;
+-	prop->scp_int1_mask = SDW_SCP_INT1_BUS_CLASH | SDW_SCP_INT1_PARITY | SDW_SCP_INT1_IMPL_DEF;
++	prop->scp_int1_mask = SDW_SCP_INT1_BUS_CLASH | SDW_SCP_INT1_PARITY;
+ 
+ 	/* DP1 - playback */
+ 	ports[0].num = CS35L56_SDW1_PLAYBACK_PORT;
+@@ -406,7 +345,6 @@ static int __maybe_unused cs35l56_sdw_clk_stop(struct sdw_slave *peripheral,
+ 
+ static const struct sdw_slave_ops cs35l56_sdw_ops = {
+ 	.read_prop = cs35l56_sdw_read_prop,
+-	.interrupt_callback = cs35l56_sdw_interrupt,
+ 	.update_status = cs35l56_sdw_update_status,
+ #ifdef DEBUG
+ 	.clk_stop = cs35l56_sdw_clk_stop,
+@@ -465,10 +403,6 @@ static int __maybe_unused cs35l56_sdw_runtime_resume(struct device *dev)
+ 	if (ret)
+ 		return ret;
+ 
+-	/* Re-enable SoundWire interrupts */
+-	sdw_write_no_pm(cs35l56->sdw_peripheral, CS35L56_SDW_GEN_INT_MASK_1,
+-			CS35L56_SDW_INT_MASK_CODEC_IRQ);
+-
+ 	return 0;
+ }
+ 
+@@ -479,32 +413,9 @@ static int __maybe_unused cs35l56_sdw_system_suspend(struct device *dev)
+ 	if (!cs35l56->base.init_done)
+ 		return 0;
+ 
+-	/*
+-	 * Disable SoundWire interrupts.
+-	 * Flush - don't cancel because that could leave an unbalanced pm_runtime_get.
+-	 */
+-	cs35l56->sdw_irq_no_unmask = true;
+-	flush_work(&cs35l56->sdw_irq_work);
+-
+-	/* Mask interrupts and flush in case sdw_irq_work was queued again */
+-	sdw_write_no_pm(cs35l56->sdw_peripheral, CS35L56_SDW_GEN_INT_MASK_1, 0);
+-	sdw_read_no_pm(cs35l56->sdw_peripheral, CS35L56_SDW_GEN_INT_STAT_1);
+-	sdw_write_no_pm(cs35l56->sdw_peripheral, CS35L56_SDW_GEN_INT_STAT_1, 0xFF);
+-	flush_work(&cs35l56->sdw_irq_work);
+-
+ 	return cs35l56_system_suspend(dev);
+ }
+ 
+-static int __maybe_unused cs35l56_sdw_system_resume(struct device *dev)
+-{
+-	struct cs35l56_private *cs35l56 = dev_get_drvdata(dev);
+-
+-	cs35l56->sdw_irq_no_unmask = false;
+-	/* runtime_resume re-enables the interrupt */
+-
+-	return cs35l56_system_resume(dev);
+-}
+-
+ static int cs35l56_sdw_probe(struct sdw_slave *peripheral, const struct sdw_device_id *id)
+ {
+ 	struct device *dev = &peripheral->dev;
+@@ -517,7 +428,6 @@ static int cs35l56_sdw_probe(struct sdw_slave *peripheral, const struct sdw_devi
+ 
+ 	cs35l56->base.dev = dev;
+ 	cs35l56->sdw_peripheral = peripheral;
+-	INIT_WORK(&cs35l56->sdw_irq_work, cs35l56_sdw_irq_work);
+ 
+ 	dev_set_drvdata(dev, cs35l56);
+ 
+@@ -542,13 +452,6 @@ static int cs35l56_sdw_remove(struct sdw_slave *peripheral)
+ {
+ 	struct cs35l56_private *cs35l56 = dev_get_drvdata(&peripheral->dev);
+ 
+-	/* Disable SoundWire interrupts */
+-	cs35l56->sdw_irq_no_unmask = true;
+-	cancel_work_sync(&cs35l56->sdw_irq_work);
+-	sdw_write_no_pm(peripheral, CS35L56_SDW_GEN_INT_MASK_1, 0);
+-	sdw_read_no_pm(peripheral, CS35L56_SDW_GEN_INT_STAT_1);
+-	sdw_write_no_pm(peripheral, CS35L56_SDW_GEN_INT_STAT_1, 0xFF);
+-
+ 	cs35l56_remove(cs35l56);
+ 
+ 	return 0;
+@@ -556,9 +459,8 @@ static int cs35l56_sdw_remove(struct sdw_slave *peripheral)
+ 
+ static const struct dev_pm_ops cs35l56_sdw_pm = {
+ 	SET_RUNTIME_PM_OPS(cs35l56_sdw_runtime_suspend, cs35l56_sdw_runtime_resume, NULL)
+-	SYSTEM_SLEEP_PM_OPS(cs35l56_sdw_system_suspend, cs35l56_sdw_system_resume)
++	SYSTEM_SLEEP_PM_OPS(cs35l56_sdw_system_suspend, cs35l56_system_resume)
+ 	LATE_SYSTEM_SLEEP_PM_OPS(cs35l56_system_suspend_late, cs35l56_system_resume_early)
+-	/* NOIRQ stage not needed, SoundWire doesn't use a hard IRQ */
+ };
+ 
+ static const struct sdw_device_id cs35l56_sdw_id[] = {
+diff --git a/sound/soc/codecs/cs35l56-shared.c b/sound/soc/codecs/cs35l56-shared.c
+index e45e9ae01bc6..55adbc3d26ae 100644
+--- a/sound/soc/codecs/cs35l56-shared.c
++++ b/sound/soc/codecs/cs35l56-shared.c
+@@ -37,6 +37,7 @@ static const struct reg_sequence cs35l56_patch[] = {
+ 	{ CS35L56_SWIRE_DP3_CH3_INPUT,		0x00000029 },
+ 	{ CS35L56_SWIRE_DP3_CH4_INPUT,		0x00000028 },
+ 	{ CS35L56_IRQ1_MASK_18,			0x1f7df0ff },
++	{ CS35L56_IRQ1_MASK_20,			0x15fff19c },
+ 
+ 	/* These are not reset by a soft-reset, so patch to defaults. */
+ 	{ CS35L56_MAIN_RENDER_USER_MUTE,	0x00000000 },
+@@ -70,12 +71,6 @@ static const struct reg_default cs35l56_reg_defaults[] = {
+ 	{ CS35L56_SWIRE_DP3_CH2_INPUT,		0x00000019 },
+ 	{ CS35L56_SWIRE_DP3_CH3_INPUT,		0x00000029 },
+ 	{ CS35L56_SWIRE_DP3_CH4_INPUT,		0x00000028 },
+-	{ CS35L56_IRQ1_MASK_1,			0x83ffffff },
+-	{ CS35L56_IRQ1_MASK_2,			0xffff7fff },
+-	{ CS35L56_IRQ1_MASK_4,			0xe0ffffff },
+-	{ CS35L56_IRQ1_MASK_8,			0xfc000fff },
+-	{ CS35L56_IRQ1_MASK_18,			0x1f7df0ff },
+-	{ CS35L56_IRQ1_MASK_20,			0x15c00000 },
+ 	{ CS35L56_MAIN_RENDER_USER_MUTE,	0x00000000 },
+ 	{ CS35L56_MAIN_RENDER_USER_VOLUME,	0x00000000 },
+ 	{ CS35L56_MAIN_POSTURE_NUMBER,		0x00000000 },
+@@ -329,91 +324,6 @@ void cs35l56_system_reset(struct cs35l56_base *cs35l56_base, bool is_soundwire)
+ }
+ EXPORT_SYMBOL_NS_GPL(cs35l56_system_reset, SND_SOC_CS35L56_SHARED);
+ 
+-int cs35l56_irq_request(struct cs35l56_base *cs35l56_base, int irq)
+-{
+-	int ret;
+-
+-	if (irq < 1)
+-		return 0;
+-
+-	ret = devm_request_threaded_irq(cs35l56_base->dev, irq, NULL, cs35l56_irq,
+-					IRQF_ONESHOT | IRQF_SHARED | IRQF_TRIGGER_LOW,
+-					"cs35l56", cs35l56_base);
+-	if (!ret)
+-		cs35l56_base->irq = irq;
+-	else
+-		dev_err(cs35l56_base->dev, "Failed to get IRQ: %d\n", ret);
+-
+-	return ret;
+-}
+-EXPORT_SYMBOL_NS_GPL(cs35l56_irq_request, SND_SOC_CS35L56_SHARED);
+-
+-irqreturn_t cs35l56_irq(int irq, void *data)
+-{
+-	struct cs35l56_base *cs35l56_base = data;
+-	unsigned int status1 = 0, status8 = 0, status20 = 0;
+-	unsigned int mask1, mask8, mask20;
+-	unsigned int val;
+-	int rv;
+-
+-	irqreturn_t ret = IRQ_NONE;
+-
+-	if (!cs35l56_base->init_done)
+-		return IRQ_NONE;
+-
+-	mutex_lock(&cs35l56_base->irq_lock);
+-
+-	rv = pm_runtime_resume_and_get(cs35l56_base->dev);
+-	if (rv < 0) {
+-		dev_err(cs35l56_base->dev, "irq: failed to get pm_runtime: %d\n", rv);
+-		goto err_unlock;
+-	}
+-
+-	regmap_read(cs35l56_base->regmap, CS35L56_IRQ1_STATUS, &val);
+-	if ((val & CS35L56_IRQ1_STS_MASK) == 0) {
+-		dev_dbg(cs35l56_base->dev, "Spurious IRQ: no pending interrupt\n");
+-		goto err;
+-	}
+-
+-	/* Ack interrupts */
+-	regmap_read(cs35l56_base->regmap, CS35L56_IRQ1_EINT_1, &status1);
+-	regmap_read(cs35l56_base->regmap, CS35L56_IRQ1_MASK_1, &mask1);
+-	status1 &= ~mask1;
+-	regmap_write(cs35l56_base->regmap, CS35L56_IRQ1_EINT_1, status1);
+-
+-	regmap_read(cs35l56_base->regmap, CS35L56_IRQ1_EINT_8, &status8);
+-	regmap_read(cs35l56_base->regmap, CS35L56_IRQ1_MASK_8, &mask8);
+-	status8 &= ~mask8;
+-	regmap_write(cs35l56_base->regmap, CS35L56_IRQ1_EINT_8, status8);
+-
+-	regmap_read(cs35l56_base->regmap, CS35L56_IRQ1_EINT_20, &status20);
+-	regmap_read(cs35l56_base->regmap, CS35L56_IRQ1_MASK_20, &mask20);
+-	status20 &= ~mask20;
+-	/* We don't want EINT20 but they default to unmasked: force mask */
+-	regmap_write(cs35l56_base->regmap, CS35L56_IRQ1_MASK_20, 0xffffffff);
+-
+-	dev_dbg(cs35l56_base->dev, "%s: %#x %#x\n", __func__, status1, status8);
+-
+-	/* Check to see if unmasked bits are active */
+-	if (!status1 && !status8 && !status20)
+-		goto err;
+-
+-	if (status1 & CS35L56_AMP_SHORT_ERR_EINT1_MASK)
+-		dev_crit(cs35l56_base->dev, "Amp short error\n");
+-
+-	if (status8 & CS35L56_TEMP_ERR_EINT1_MASK)
+-		dev_crit(cs35l56_base->dev, "Overtemp error\n");
+-
+-	ret = IRQ_HANDLED;
+-
+-err:
+-	pm_runtime_put(cs35l56_base->dev);
+-err_unlock:
+-	mutex_unlock(&cs35l56_base->irq_lock);
+-
+-	return ret;
+-}
+-EXPORT_SYMBOL_NS_GPL(cs35l56_irq, SND_SOC_CS35L56_SHARED);
+ 
+ int cs35l56_is_fw_reload_needed(struct cs35l56_base *cs35l56_base)
+ {
+@@ -763,15 +673,6 @@ int cs35l56_hw_init(struct cs35l56_base *cs35l56_base)
+ 		 cs35l56_base->type, cs35l56_base->secured ? "s" : "", cs35l56_base->rev, otpid,
+ 		 fw_ver >> 16, (fw_ver >> 8) & 0xff, fw_ver & 0xff, !fw_missing);
+ 
+-	/* Wake source and *_BLOCKED interrupts default to unmasked, so mask them */
+-	regmap_write(cs35l56_base->regmap, CS35L56_IRQ1_MASK_20, 0xffffffff);
+-	regmap_update_bits(cs35l56_base->regmap, CS35L56_IRQ1_MASK_1,
+-			   CS35L56_AMP_SHORT_ERR_EINT1_MASK,
+-			   0);
+-	regmap_update_bits(cs35l56_base->regmap, CS35L56_IRQ1_MASK_8,
+-			   CS35L56_TEMP_ERR_EINT1_MASK,
+-			   0);
+-
+ 	return 0;
+ }
+ EXPORT_SYMBOL_NS_GPL(cs35l56_hw_init, SND_SOC_CS35L56_SHARED);
+diff --git a/sound/soc/codecs/cs35l56-spi.c b/sound/soc/codecs/cs35l56-spi.c
+index b07b798b0b45..1382b8903ea7 100644
+--- a/sound/soc/codecs/cs35l56-spi.c
++++ b/sound/soc/codecs/cs35l56-spi.c
+@@ -39,8 +39,6 @@ static int cs35l56_spi_probe(struct spi_device *spi)
+ 		return ret;
+ 
+ 	ret = cs35l56_init(cs35l56);
+-	if (ret == 0)
+-		ret = cs35l56_irq_request(&cs35l56->base, spi->irq);
+ 	if (ret < 0)
+ 		cs35l56_remove(cs35l56);
+ 
+diff --git a/sound/soc/codecs/cs35l56.c b/sound/soc/codecs/cs35l56.c
+index 757ade6373ed..cf2aee6cda6c 100644
+--- a/sound/soc/codecs/cs35l56.c
++++ b/sound/soc/codecs/cs35l56.c
+@@ -12,7 +12,6 @@
+ #include <linux/delay.h>
+ #include <linux/err.h>
+ #include <linux/gpio/consumer.h>
+-#include <linux/interrupt.h>
+ #include <linux/math.h>
+ #include <linux/module.h>
+ #include <linux/pm.h>
+@@ -702,23 +701,9 @@ static void cs35l56_patch(struct cs35l56_private *cs35l56, bool firmware_missing
+ {
+ 	int ret;
+ 
+-	/*
+-	 * Disable SoundWire interrupts to prevent race with IRQ work.
+-	 * Setting sdw_irq_no_unmask prevents the handler re-enabling
+-	 * the SoundWire interrupt.
+-	 */
+-	if (cs35l56->sdw_peripheral) {
+-		cs35l56->sdw_irq_no_unmask = true;
+-		flush_work(&cs35l56->sdw_irq_work);
+-		sdw_write_no_pm(cs35l56->sdw_peripheral, CS35L56_SDW_GEN_INT_MASK_1, 0);
+-		sdw_read_no_pm(cs35l56->sdw_peripheral, CS35L56_SDW_GEN_INT_STAT_1);
+-		sdw_write_no_pm(cs35l56->sdw_peripheral, CS35L56_SDW_GEN_INT_STAT_1, 0xFF);
+-		flush_work(&cs35l56->sdw_irq_work);
+-	}
+-
+ 	ret = cs35l56_firmware_shutdown(&cs35l56->base);
+ 	if (ret)
+-		goto err;
++		return;
+ 
+ 	/*
+ 	 * Use wm_adsp to load and apply the firmware patch and coefficient files,
+@@ -728,11 +713,9 @@ static void cs35l56_patch(struct cs35l56_private *cs35l56, bool firmware_missing
+ 	ret = wm_adsp_power_up(&cs35l56->dsp, !!firmware_missing);
+ 	if (ret) {
+ 		dev_dbg(cs35l56->base.dev, "%s: wm_adsp_power_up ret %d\n", __func__, ret);
+-		goto err;
++		return;
+ 	}
+ 
+-	mutex_lock(&cs35l56->base.irq_lock);
+-
+ 	reinit_completion(&cs35l56->init_completion);
+ 
+ 	cs35l56->soft_resetting = true;
+@@ -748,10 +731,10 @@ static void cs35l56_patch(struct cs35l56_private *cs35l56, bool firmware_missing
+ 						 msecs_to_jiffies(5000))) {
+ 			dev_err(cs35l56->base.dev, "%s: init_completion timed out (SDW)\n",
+ 				__func__);
+-			goto err_unlock;
++		return;
+ 		}
+ 	} else if (cs35l56_init(cs35l56)) {
+-		goto err_unlock;
++		return;
+ 	}
+ 
+ 	regmap_clear_bits(cs35l56->base.regmap, CS35L56_PROTECTION_STATUS,
+@@ -760,16 +743,6 @@ static void cs35l56_patch(struct cs35l56_private *cs35l56, bool firmware_missing
+ 
+ 	if (cs35l56_write_cal(cs35l56) == 0)
+ 		cs35l56_mbox_send(&cs35l56->base, CS35L56_MBOX_CMD_AUDIO_REINIT);
+-
+-err_unlock:
+-	mutex_unlock(&cs35l56->base.irq_lock);
+-err:
+-	/* Re-enable SoundWire interrupts */
+-	if (cs35l56->sdw_peripheral) {
+-		cs35l56->sdw_irq_no_unmask = false;
+-		sdw_write_no_pm(cs35l56->sdw_peripheral, CS35L56_SDW_GEN_INT_MASK_1,
+-				CS35L56_SDW_INT_MASK_CODEC_IRQ);
+-	}
+ }
+ 
+ static void cs35l56_dsp_work(struct work_struct *work)
+@@ -956,15 +929,6 @@ int cs35l56_system_suspend(struct device *dev)
+ 	if (cs35l56->component)
+ 		flush_work(&cs35l56->dsp_work);
+ 
+-	/*
+-	 * The interrupt line is normally shared, but after we start suspending
+-	 * we can't check if our device is the source of an interrupt, and can't
+-	 * clear it. Prevent this race by temporarily disabling the parent irq
+-	 * until we reach _no_irq.
+-	 */
+-	if (cs35l56->base.irq)
+-		disable_irq(cs35l56->base.irq);
+-
+ 	return pm_runtime_force_suspend(dev);
+ }
+ EXPORT_SYMBOL_GPL(cs35l56_system_suspend);
+@@ -991,40 +955,6 @@ int cs35l56_system_suspend_late(struct device *dev)
+ }
+ EXPORT_SYMBOL_GPL(cs35l56_system_suspend_late);
+ 
+-int cs35l56_system_suspend_no_irq(struct device *dev)
+-{
+-	struct cs35l56_private *cs35l56 = dev_get_drvdata(dev);
+-
+-	dev_dbg(dev, "system_suspend_no_irq\n");
+-
+-	/* Handlers are now disabled so the parent IRQ can safely be re-enabled. */
+-	if (cs35l56->base.irq)
+-		enable_irq(cs35l56->base.irq);
+-
+-	return 0;
+-}
+-EXPORT_SYMBOL_GPL(cs35l56_system_suspend_no_irq);
+-
+-int cs35l56_system_resume_no_irq(struct device *dev)
+-{
+-	struct cs35l56_private *cs35l56 = dev_get_drvdata(dev);
+-
+-	dev_dbg(dev, "system_resume_no_irq\n");
+-
+-	/*
+-	 * WAKE interrupts unmask if the CS35L56 hibernates, which can cause
+-	 * spurious interrupts, and the interrupt line is normally shared.
+-	 * We can't check if our device is the source of an interrupt, and can't
+-	 * clear it, until it has fully resumed. Prevent this race by temporarily
+-	 * disabling the parent irq until we complete resume().
+-	 */
+-	if (cs35l56->base.irq)
+-		disable_irq(cs35l56->base.irq);
+-
+-	return 0;
+-}
+-EXPORT_SYMBOL_GPL(cs35l56_system_resume_no_irq);
+-
+ int cs35l56_system_resume_early(struct device *dev)
+ {
+ 	struct cs35l56_private *cs35l56 = dev_get_drvdata(dev);
+@@ -1065,11 +995,8 @@ int cs35l56_system_resume(struct device *dev)
+ 	 */
+ 	cs35l56_wait_control_port_ready();
+ 
+-	/* Undo pm_runtime_force_suspend() before re-enabling the irq */
++	/* Undo pm_runtime_force_suspend() */
+ 	ret = pm_runtime_force_resume(dev);
+-	if (cs35l56->base.irq)
+-		enable_irq(cs35l56->base.irq);
+-
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1267,7 +1194,6 @@ int cs35l56_common_probe(struct cs35l56_private *cs35l56)
+ 	int ret;
+ 
+ 	init_completion(&cs35l56->init_completion);
+-	mutex_init(&cs35l56->base.irq_lock);
+ 	cs35l56->base.cal_index = -1;
+ 	cs35l56->speaker_id = -ENOENT;
+ 
+@@ -1428,13 +1354,6 @@ void cs35l56_remove(struct cs35l56_private *cs35l56)
+ {
+ 	cs35l56->base.init_done = false;
+ 
+-	/*
+-	 * WAKE IRQs unmask if CS35L56 hibernates so free the handler to
+-	 * prevent it racing with remove().
+-	 */
+-	if (cs35l56->base.irq)
+-		devm_free_irq(cs35l56->base.dev, cs35l56->base.irq, &cs35l56->base);
+-
+ 	flush_workqueue(cs35l56->dsp_wq);
+ 	destroy_workqueue(cs35l56->dsp_wq);
+ 
+@@ -1454,7 +1373,6 @@ EXPORT_NS_GPL_DEV_PM_OPS(cs35l56_pm_ops_i2c_spi, SND_SOC_CS35L56_CORE) = {
+ 	SET_RUNTIME_PM_OPS(cs35l56_runtime_suspend_i2c_spi, cs35l56_runtime_resume_i2c_spi, NULL)
+ 	SYSTEM_SLEEP_PM_OPS(cs35l56_system_suspend, cs35l56_system_resume)
+ 	LATE_SYSTEM_SLEEP_PM_OPS(cs35l56_system_suspend_late, cs35l56_system_resume_early)
+-	NOIRQ_SYSTEM_SLEEP_PM_OPS(cs35l56_system_suspend_no_irq, cs35l56_system_resume_no_irq)
+ };
+ #endif
+ 
+diff --git a/sound/soc/codecs/cs35l56.h b/sound/soc/codecs/cs35l56.h
+index 8a987ec01507..0ebae11c1cd0 100644
+--- a/sound/soc/codecs/cs35l56.h
++++ b/sound/soc/codecs/cs35l56.h
+@@ -16,10 +16,6 @@
+ #include <sound/cs35l56.h>
+ #include "wm_adsp.h"
+ 
+-#define CS35L56_SDW_GEN_INT_STAT_1	0xc0
+-#define CS35L56_SDW_GEN_INT_MASK_1	0xc1
+-#define CS35L56_SDW_INT_MASK_CODEC_IRQ	BIT(0)
+-
+ #define CS35L56_SDW_INVALID_BUS_SCALE	0xf
+ 
+ #define CS35L56_RX_FORMATS (SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_LE)
+@@ -38,8 +34,6 @@ struct cs35l56_private {
+ 	struct snd_soc_component *component;
+ 	struct regulator_bulk_data supplies[CS35L56_NUM_BULK_SUPPLIES];
+ 	struct sdw_slave *sdw_peripheral;
+-	struct work_struct sdw_irq_work;
+-	bool sdw_irq_no_unmask;
+ 	bool soft_resetting;
+ 	bool sdw_attached;
+ 	struct completion init_completion;
+@@ -57,12 +51,8 @@ extern const struct dev_pm_ops cs35l56_pm_ops_i2c_spi;
+ 
+ int cs35l56_system_suspend(struct device *dev);
+ int cs35l56_system_suspend_late(struct device *dev);
+-int cs35l56_system_suspend_no_irq(struct device *dev);
+-int cs35l56_system_resume_no_irq(struct device *dev);
+ int cs35l56_system_resume_early(struct device *dev);
+ int cs35l56_system_resume(struct device *dev);
+-irqreturn_t cs35l56_irq(int irq, void *data);
+-int cs35l56_irq_request(struct cs35l56_base *cs35l56_base, int irq);
+ int cs35l56_common_probe(struct cs35l56_private *cs35l56);
+ int cs35l56_init(struct cs35l56_private *cs35l56);
+ void cs35l56_remove(struct cs35l56_private *cs35l56);
+-- 
+2.43.0
 
