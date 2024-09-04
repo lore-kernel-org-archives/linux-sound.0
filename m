@@ -1,126 +1,157 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-40137.protonmail.ch (mail-40137.protonmail.ch [185.70.40.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80241146A79;
-	Wed,  4 Sep 2024 20:40:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3ECF191F7E
+	for <linux-sound@vger.kernel.org>; Wed,  4 Sep 2024 20:45:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725482404; cv=none; b=Baf5cinlgkQZIfPZDivcKFr/bVSbceTf+4L+WGqZtU/QUe46VE0YrDqNHx+Sx7NXcx8Dc76VPv2gYOFQOhqI/hlocpM9X3plV7JdsWrEpfMig8CIjdOY+lhohfnLuiX1pLf6ObJFU8xSHUPrA5+KKYLRg/PdYJ981Q76dIiSfSg=
+	t=1725482757; cv=none; b=bk1RLpAu+lCA/mqNuRjhm+LDIn5uGt+59KnIbfRU2dKR1i/HRPgF77j/SniXr41/hChm8e5cHh5ItbXaGStphpfJusgfWm4SWM4e+vrvGN2qK/o0UHsMh+oC2QAXvY/HaO8u8wzxP4HbLt7LQCPADPzRwy9kCimon3kJml9HVsw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725482404; c=relaxed/simple;
-	bh=zqe6+b/FTfJHgkE9MkhgaaAsT5L43NyeI82wDMeUKAk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qjK6xX6ASAOq4zAeoNL2+YuyyZ77N3OAxMZUolunUTwvcUdJZF8jWkwuWjMdGZqauytyfzouPnlnkYdSVTjR2WELUjNJ1U+g86sD4wm+3pa6vYcllmroC7aBcycpYsILlWqfk23n3gj/0UQlpQ36l9qRI/wdLeVGNamvhJ1f468=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PErKCY51; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1725482757; c=relaxed/simple;
+	bh=pHKsfEey7k+Kut2kFq2Fse32WE02kFkgk5ihNfV18aI=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FO9MpJsm2IVHGCV7kG0J+7vVpE6d6cKYZBvgIEOg3TguXfrjpcGyw/TWFpq8pDg70cizfwIoj+MWxH5fWP/gH+fzf+YfInoj5nIAGumZRcfzETKQ8rPj3JiYGV1/yCty+BQ9sYm+zlCftbyX+j4QbPAQn3Cq4SOqGOd0CAKRQV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=B1Tu7C0o; arc=none smtp.client-ip=185.70.40.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PErKCY51"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-42c7b5b2d01so50914205e9.3;
-        Wed, 04 Sep 2024 13:40:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725482401; x=1726087201; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rMC9PyIWnX47bjnEnEHO5NXAPXt5crdtOv8guFK+s5k=;
-        b=PErKCY514ngUKSSN0GrT3UTuExk8foQw/F6qqyRs5YyDvtf+nx2HYO1HbRZo1GD0xd
-         67p/5LdLsr3AbQb9XZ+rqGTzGooENi2BfSCDHHJLieRnD0H52aD3tw4gmqy5VivRUiaQ
-         +N7i3i81coA61STH7KnOAWGuvwxyE2+Hnz739HO1EyrcsbJ9QyCDYVEqezdM8PQLbyO9
-         9YXEAetoBy6JJvaNtvIE+nHetBxA7h5NngBcdUQkREQWK7AWCKR+j7ovi/kWy+auGss+
-         I5/AJ/wKLgIJ6tiu1o4qX4R0lOYjTAfpSezZtpfaI2znvsUVSO4VFUSmJe9xRbDRwEDQ
-         3bFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725482401; x=1726087201;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rMC9PyIWnX47bjnEnEHO5NXAPXt5crdtOv8guFK+s5k=;
-        b=eOs+FDvqiKkNiWFiXeQJCHDaSkEoleSVuSsoWJ7RPi3Nqj1zLk5GPgEZf64BFcZEiX
-         1+qIfUPDKLFjMDKQk2Az47B5bQLgZiIIRTP/pqMo6fVdMec5SqwAZT0ugpTNwRxe50Ig
-         0jlXna20cJTe9iCcUR8+mXynXa1dJZsfpojYPO7JHV9hukQZPPlpPHrw+Knadfn7XA7o
-         Sl8bfsXpNTyr5Gz1hSU06FhUmi/xUiJee+0Y6DV92DWavMQKqDdTO/GAU/1yFWGpBsoI
-         +HHaM4rCfeMnVJtoU27+cxHOoTorVtb1Yc7SPZaMoXHABaYm/NXO7pQ8qC9gBm4iYCTr
-         4s5w==
-X-Forwarded-Encrypted: i=1; AJvYcCVg4k8nuV+jVAG85ANnBf7iNszwAlaaKqeODlwzh8KRRt+vE+aL9KwfWLPsi/XrKVO89aCBARNSFf/d6bY=@vger.kernel.org, AJvYcCWLHctdPDJh0mjjHJmFwbw44peqTqcN1+hnA+sVf1IDse8+7+fjsfkk3V0Q4+V9VSSgojTqi/Jd31dbi24=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHq7RErUVa7SiVArX5GNriHofsKfFUJI+5+C0HgoNwyoT4vJ0E
-	locKmcAX8XJ3AVP0RVIZuWttTXr32CpNJlX29MaQ3aYQeSzFB+xg
-X-Google-Smtp-Source: AGHT+IEGXVfuDlPCdE0TrKvq2ls5isaLcHyGYBvzekLbPYPrZI+rDOevIiOOPR/3gKoYxFzozgP+TA==
-X-Received: by 2002:a7b:cb11:0:b0:429:c674:d9de with SMTP id 5b1f17b1804b1-42c9a36029fmr2136315e9.2.1725482400217;
-        Wed, 04 Sep 2024 13:40:00 -0700 (PDT)
-Received: from localhost ([185.220.101.69])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42c7a41bdc8sm158287955e9.3.2024.09.04.13.39.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Sep 2024 13:39:59 -0700 (PDT)
-From: Maxim Mikityanskiy <maxtram95@gmail.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>,
-	Rui Salvaterra <rsalvaterra@gmail.com>,
-	Sui Jingfeng <suijingfeng@loongson.cn>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Peter Wu <peter@lekensteyn.nl>,
-	Lukas Wunner <lukas@wunner.de>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Maxim Mikityanskiy <maxtram95@gmail.com>
-Subject: [PATCH] ALSA: hda: intel: Fix Optimus when GPU has no sound
-Date: Wed,  4 Sep 2024 23:39:55 +0300
-Message-ID: <20240904203955.245085-1-maxtram95@gmail.com>
-X-Mailer: git-send-email 2.46.0
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="B1Tu7C0o"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1725482753; x=1725741953;
+	bh=7dpimP15520NeL54t8R2z7oW/gXYIFdOGf+8XOb1730=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=B1Tu7C0o6+ZZ5C7eE92YubtQWSq3LG0U+WPUDYjC0+74pmfYCUb4XfBZ9AqDBdW/k
+	 d8fuf9d9fbKaQynPx2Pn3Wrv+VE9OIDvYICxB+j4N7fzi3PI1KSmtNguf09sNa6L8z
+	 Q9SJsSx1OgvRV01onguG6VgjHndp5c2ksAuWF6g50PoPacjnJsml7hKwCK1NUh38p+
+	 +90JZthXc7BzMg42gVfq07ktrCAqiidXWpJUqH136XhOHlQXIG4zuxiy8Srsu+AkAl
+	 leWqxXCbWIEo1mQMDXvXRmXVSBbaRIlGdjjmxMH6a/1/M78cnsc3n/Gl5NL+CvfT8S
+	 3B9GPYBuv6YrQ==
+Date: Wed, 04 Sep 2024 20:45:51 +0000
+To: o-takashi@sakamocchi.jp
+From: Edmund Raile <edmund.raile@protonmail.com>
+Cc: apais@linux.microsoft.com, edmund.raile@protonmail.com, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-sound@vger.kernel.org, linux1394-devel@lists.sourceforge.net, netdev@vger.kernel.org
+Subject: firewire: use sleepable workqueue to handle 1394 OHCI IT/IR context events: test 1
+Message-ID: <20240904204531.154290-1-edmund.raile@protonmail.com>
+In-Reply-To: <20240901110642.154523-1-o-takashi@sakamocchi.jp>
+References: <20240901110642.154523-1-o-takashi@sakamocchi.jp>
+Feedback-ID: 43016623:user:proton
+X-Pm-Message-ID: 4ed8ea6d8f4fdb7d65623a1afb01f1502d3fca6f
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Lenovo IdeaPad Z570 with NVIDIA GeForce Ge 520M doesn't have sound on
-the discrete GPU. snd_hda_intel probes the device and schedules
-azx_probe_continue(), which fails at azx_first_init(). The driver ends
-up probed, but calls azx_free() and stops the chip. However, from the
-runtime PM point of view, the device remains active, because the PCI
-subsystem makes it active on probe, and it's still bound. It prevents
-vga_switcheroo from turning off the DGPU (pci_create_device_link() syncs
-power management for the video and audio devices).
+Hello Sakamoto-San, I very much appreciate the idea and effort to take on t=
+he tasklet conversion in small steps instead of all-at-once!
 
-Fix it by forcing the device to the suspended state in azx_free().
+I also thank you for the CC, I'd like to be the testing canary for the coal=
+ mine of firewire ALSA with RME FireFace!
+The ALSA mailing list is a bit overwhelming and I'll likely unsubscribe so =
+a direct CC for anything I can test is a good idea.
 
-Fixes: 07f4f97d7b4b ("vga_switcheroo: Use device link for HDA controller")
-Signed-off-by: Maxim Mikityanskiy <maxtram95@gmail.com>
----
- sound/pci/hda/hda_intel.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+Trying to apply patch 1 of 5 to mainline, your kernel tree appears to be ou=
+t of sync with mainline!
+It was missing b171e20 from 2009 and a7ecbe9 from 2022!
+I hope nothing else important is missing!
 
-diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
-index b79020adce63..65fcb92e11c7 100644
---- a/sound/pci/hda/hda_intel.c
-+++ b/sound/pci/hda/hda_intel.c
-@@ -1361,8 +1361,20 @@ static void azx_free(struct azx *chip)
- 	if (use_vga_switcheroo(hda)) {
- 		if (chip->disabled && hda->probe_continued)
- 			snd_hda_unlock_devices(&chip->bus);
--		if (hda->vga_switcheroo_registered)
-+		if (hda->vga_switcheroo_registered) {
- 			vga_switcheroo_unregister_client(chip->pci);
+Since in fw_card_initialize, ret is tested to be 0 we'd need an else instea=
+d, is this correct?
+
+I edited these functions of patch 1, now everything applies just fine:
+
+@@ -571,11 +571,28 @@ void fw_card_initialize(struct fw_card *card,
+ }
+ EXPORT_SYMBOL(fw_card_initialize);
+=20
+-int fw_card_add(struct fw_card *card,
+-=09=09u32 max_receive, u32 link_speed, u64 guid)
++int fw_card_add(struct fw_card *card, u32 max_receive, u32 link_speed, u64=
+ guid,
++=09=09unsigned int supported_isoc_contexts)
+ {
++=09struct workqueue_struct *isoc_wq;
+ =09int ret;
+=20
++=09// This workqueue should be:
++=09//  * !=3D WQ_BH=09=09=09Sleepable.
++=09//  * =3D=3D WQ_UNBOUND=09=09Any core can process data for isoc context=
+. The
++=09//=09=09=09=09implementation of unit protocol could consumes the core
++=09//=09=09=09=09longer somehow.
++=09//  * !=3D WQ_MEM_RECLAIM=09=09Not used for any backend of block device=
+.
++=09//  * =3D=3D WQ_HIGHPRI=09=09High priority to process semi-realtime tim=
+estamped data.
++=09//  * =3D=3D WQ_SYSFS=09=09Parameters are available via sysfs.
++=09//  * max_active =3D=3D n_it + n_ir=09A hardIRQ could notify events for=
+ multiple isochronous
++=09//=09=09=09=09contexts if they are scheduled to the same cycle.
++=09isoc_wq =3D alloc_workqueue("firewire-isoc-card%u",
++=09=09=09=09  WQ_UNBOUND | WQ_HIGHPRI | WQ_SYSFS,
++=09=09=09=09  supported_isoc_contexts, card->index);
++=09if (!isoc_wq)
++=09=09return -ENOMEM;
 +
-+			/* Some GPUs don't have sound, and azx_first_init fails,
-+			 * leaving the device probed but non-functional. As long
-+			 * as it's probed, the PCI subsystem keeps its runtime
-+			 * PM status as active. Force it to suspended (as we
-+			 * actually stop the chip) to allow GPU to suspend via
-+			 * vga_switcheroo.
-+			 */
-+			pm_runtime_disable(&pci->dev);
-+			pm_runtime_set_suspended(&pci->dev);
-+			pm_runtime_enable(&pci->dev);
-+		}
- 	}
- 
- 	if (bus->chip_init) {
--- 
-2.46.0
+ =09card->max_receive =3D max_receive;
+ =09card->link_speed =3D link_speed;
+ =09card->guid =3D guid;
+@@ -584,9 +601,13 @@ int fw_card_add(struct fw_card *card,
+=20
+ =09generate_config_rom(card, tmp_config_rom);
+ =09ret =3D card->driver->enable(card, tmp_config_rom, config_rom_length);
+ =09if (ret =3D=3D 0)
+ =09=09list_add_tail(&card->link, &card_list);
++=09else
++=09=09destroy_workqueue(isoc_wq);
++
++=09card->isoc_wq =3D isoc_wq;
+
+ =09mutex_unlock(&card_mutex);
+
+ =09return ret;
+@@ -709,7 +729,9 @@ void fw_core_remove_card(struct fw_card *card)
+ {
+ =09struct fw_card_driver dummy_driver =3D dummy_driver_template;
+ =09unsigned long flags;
+=20
++=09might_sleep();
++
+ =09card->driver->update_phy_reg(card, 4,
+ =09=09=09=09     PHY_LINK_ACTIVE | PHY_CONTENDER, 0);
+ =09fw_schedule_bus_reset(card, false, true);
+@@ -719,6 +741,7 @@ void fw_core_remove_card(struct fw_card *card)
+ =09dummy_driver.free_iso_context=09=3D card->driver->free_iso_context;
+ =09dummy_driver.stop_iso=09=09=3D card->driver->stop_iso;
+ =09card->driver =3D &dummy_driver;
++=09drain_workqueue(card->isoc_wq);
+=20
+ =09spin_lock_irqsave(&card->lock, flags);
+ =09fw_destroy_nodes(card);
+
+Building a kernel with the patch produced 6.11.0-rc6-1-mainline-00019-g6778=
+4a74e258-dirty.
+Testing it with TI XIO2213B and RME Fireface 800 so far > 1 hour reveals no=
+ issues at all.
+ALSA streaming works fine:
+  mpv --audio-device=3Dalsa/sysdefault:CARD=3DFireface800 Spor-Ignition.fla=
+c
+
+Though I haven't the faintest clue how to measure CPU usage impact of the p=
+atch, it looks like it would be neglible.
+
+As of finishing this, I noticed you released [2] https://lore.kernel.org/lk=
+ml/20240904125155.461886-1-o-takashi@sakamocchi.jp/T/
+I'll get around to testing that one too, but tomorrow at the earliest.
+
+Kind regards,
+Edmund Raile.
+
+Signed-off-by: Edmund Raile <edmund.raile@protonmail.com>
+Tested-by: Edmund Raile <edmund.raile@protonmail.com>
 
