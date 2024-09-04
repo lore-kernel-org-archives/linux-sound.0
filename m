@@ -1,93 +1,213 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011017.outbound.protection.outlook.com [52.101.125.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19CED4A15;
-	Wed,  4 Sep 2024 03:12:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725419567; cv=none; b=dv6a05drQWlcbw9iqfJYSVgvu0SlQKIWhTdIJWtuiA7d+rTP17jLP47VePJjf5j9jC0QPjzV9biYT2gq3D2hUWPrh/v+RtqPEXfK18Urbfo1pYecogYHMlAZHEUrM8OarMdMGFbj2WTZOfR1C+tLXK4MUHP8nxR4d47AXSAf5OE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725419567; c=relaxed/simple;
-	bh=KKXN6bVHQyvQe5DAEryYyZ3CiVfbinIUAkpj59tKEmA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=U3fWJS5lRhk9M5fNV4S2NIgo+01TaOkixOqvuAYabZ0dQaH4PK4y1/pkfEkr/X2sr5LM+8fwTssOS+wR6Rq+E/FshoR7FwmE0t42NGaUfEz+bAfI3fgH2GaKXGuxPFyefCoqknj2Sea3kvjMUbOBFefWPYHBEIhZ+zgUa8rRyD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hI6iT4ls; arc=none smtp.client-ip=209.85.215.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADBA1168D0;
+	Wed,  4 Sep 2024 06:10:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.17
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725430253; cv=fail; b=C/8ojI0pGjhJPNlnJ3ge8RLNawkO5ALLvg0JGZy2lxcvimNgy7VoAOOE4iFsx12AK4tKfd/wjYF40IIHViSwdpW1JIFwNae5bfu0SUMCDAcNK/PYF2oOGqMz46yYF30+8JtooSshjlnriXBKbf68YMDQVxKD10yTIyz2rHRk/7A=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725430253; c=relaxed/simple;
+	bh=9WC+K7xnMcDx1iu3hkprcdXEB8/ugrcUkoLv7vbGQUc=;
+	h=Message-ID:To:From:Subject:Content-Type:Date:MIME-Version; b=XepvZujhyfRhTfYy6dgHBQ8akX/bIKMcwEISqJWNuxGqD8WdXbdtTterQ2xyaNpIg1ScxligEQK4ImBwtiiXgHQhdQ395K/WOppQK1J5l1niRoTnkSSF8lDs14DpHS6H6Z/a3GeRKcSHdHwOvJnZ1oMlUgxTe+IqBZekBoS1WfU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=V/HHIpoc; arc=fail smtp.client-ip=52.101.125.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hI6iT4ls"
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-7b0c9bbddb4so272301a12.3;
-        Tue, 03 Sep 2024 20:12:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725419565; x=1726024365; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BuUOiBL+3Emr7CBJB9z2PmaAlePmvtgF30QbjTVjrJE=;
-        b=hI6iT4lsHMOudo8laIY+CLDdkZraANqHL8DIu02IPFNUKsVCHxWpRoKcNNlm/gWAne
-         ldvVRz9NBauavM/MBFQR67vESOEkGmwx4+vSmff6Vl/0inEuIhJlLQcIe3gbdg5YJE7x
-         qRa4bD8E1oLXAKlGOLhFnEh2FFlceGxWToy1LX6uDNdvlMPuICWPDmsmDI+OEuOoijeP
-         1WAjNZ8ZDMHtgMOfhH7b9vlNjpqvddh7qtLdQK0QnSFbN8wvk4qker2ZuojpEj8peFHV
-         S80rHnAyDGzitlt2mdzZ2KmWyssokIXkYtQe7kcXfVYo6sk+dNJzkuvHNbBf+rUDd8z7
-         2Iaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725419565; x=1726024365;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BuUOiBL+3Emr7CBJB9z2PmaAlePmvtgF30QbjTVjrJE=;
-        b=iTSoV0zY900D2/vaaszl6yDFrNu/LPJ8B2z/jamaB/eB0t71l1ECO/sklWal3OwlfU
-         dWwIKp//yIj/Z4DJQZNZgNt1tcs48Ea7QfolF8nlGVNGVxKwQ1FDfBwhWCWDi1TxCiK2
-         LDD5iHgJl7linin34lr8ZMn4Xhhk8IYVD9mm8tpCBlkSAU2+ro+VIB9ogSqxryU9QmcZ
-         t0m7PGrqG7Hh4clr7w9YlI9VjFMs1umXL9JhduPEL6ZQWcq1YNpg2q//dMNx4NFnLkcg
-         Suid8Fr51e7Iw822QnAxFJHE6fT817sxRpKmCpBX2cnxcSWlI0MsJ0R6AP8CpnL89LoH
-         RflA==
-X-Forwarded-Encrypted: i=1; AJvYcCVlIMY23zfN2y31fhKJDrQh+7hBln57RBcGl4BigREuveRKbQZOdQNXUZMrn/DDgcjFn67tvlxwbO65emQ=@vger.kernel.org, AJvYcCXhcAka9iZHkqXN5w9VZU7E3Abp/Ah2GZl7KKE8gvA7903iY1B/LfDp471aD9o7s/0m1sYSz6e1r1hYMGU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyiuMqsJpzYk6O3yew/7iqUmf6ZyIsACnxG83rBJWOusqCYlW4Y
-	Amzm6P0HoJ6gwbPpw4GyosXjj9KfyRAyYAov4duRel7R6rldddcB
-X-Google-Smtp-Source: AGHT+IFkBwhwna1C6OUckJKYjQ7/c7pFK29F1zoMHBB/xkq3DDr/EAdhgN9LZBND06jEOSrY39SRrw==
-X-Received: by 2002:a05:6a20:9f47:b0:1ce:f752:46ad with SMTP id adf61e73a8af0-1cef7524723mr5695798637.42.1725419565150;
-        Tue, 03 Sep 2024 20:12:45 -0700 (PDT)
-Received: from imac2011.vn.shawcable.net ([2604:3d08:5c87:300::2e49])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-206ae90cf63sm4817695ad.43.2024.09.03.20.12.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Sep 2024 20:12:44 -0700 (PDT)
-From: Maximilien Perreault <maximilienperreault@gmail.com>
-To: alsa-devel@alsa-project.org
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Maximilien Perreault <maximilienperreault@gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Support mute LED on HP Laptop 14-dq2xxx
-Date: Tue,  3 Sep 2024 20:10:13 -0700
-Message-ID: <20240904031013.21220-1-maximilienperreault@gmail.com>
-X-Mailer: git-send-email 2.46.0
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="V/HHIpoc"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WzLmbBEATDznAhL8coDjskldsuhIYwAdyX8/yGYtJYffoukR+SMMoBCEJsnJVqDEis8Crrf8zsG2o4od9JWai55e3bG5/lPeUTLTjnCdjzOcxUhtnMIgm6BKNQDLm/lIUBdPOSqL8b9sZZ3GI2xB9fi22BzCBMRlQoEZ9aAKK1Nb8jsum9437NOnCczUR1xuteLCFhHj3oWC0WgjVCP2tDaC6MdXW9wraK20xV3go8kT4XRdcnOSOiANH7BjYdjkA3wkS6ON35pjUFe3Az6ztQkb+DT2hraqyShALqBffNw4htCVhDm37SqHAYz7apZLw5Yxd6dc6FWRkCgSW1kZRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zZ7MSSuEtXzSVh8muvkP0VG50JwLfB5kY7ZEGSQqudk=;
+ b=lHLzfDl3NVAIxd7j12lTlrGTv7u3uaXY+GQ+onXNpnTPZipFpltSDPPugxx+kCfon4UlaID0CO7Qs1YH8bM95TPhhsKPoGKQogoch2e+EVKaiOr5LOO+EavcOu/om9fwvMvsPagsmjOx8/oLpUoh0B5OVLxYbR0d6zjROhs86W8cOMiZAYYwuZy9EhgrNLwyJzoxf4s8BT3tkUl9AxkPzPqehbU1r2+8zamu9Wvm1lh72tfHjD87HWrv681+RSujia/afbfSxjSj9JO2LDzxd1v0n5jD1dHigYmPTQy8zaEFxxrgEIPyJ6kB0gMmMqgp9AmyS4wpaDgR3H3cR7vi+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zZ7MSSuEtXzSVh8muvkP0VG50JwLfB5kY7ZEGSQqudk=;
+ b=V/HHIpocXRkI40HAQCFkGxBf044FGJJxqlePtq2fwail/zT1mB2kGZHUkSI3WgNDaz0mLIwx/IFTi6UVWibrWpUNO1PCS43hT6m+vX6OLwflg/cmAUnAtlHZi9NowZ6CU5MTbyzFOCTCTaXDESd13/9X1H2pF6/13PebJprJb7w=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by OS0PR01MB6338.jpnprd01.prod.outlook.com
+ (2603:1096:604:e7::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.27; Wed, 4 Sep
+ 2024 06:10:47 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.7918.024; Wed, 4 Sep 2024
+ 06:10:47 +0000
+Message-ID: <87r0a06ja1.wl-kuninori.morimoto.gx@renesas.com>
+To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Liam Girdwood <lgirdwood@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Mark Brown <broonie@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>, Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, Takashi Iwai <tiwai@suse.com>, Thomas Zimmermann <tzimmermann@suse.de>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org, linux-media@vger.kernel.org, linux-omap@vger.kernel.org, linux-sound@vger.kernel.org, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Sakari Ailus <sakari.ailus@iki.fi>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [PATCH v5 0/9] of: property: add of_graph_get_next_port/port_endpoint()
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Wed, 4 Sep 2024 06:10:46 +0000
+X-ClientProxiedBy: TYCPR01CA0172.jpnprd01.prod.outlook.com
+ (2603:1096:400:2b2::9) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OS0PR01MB6338:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2c02ed20-3b5e-4498-7057-08dccca8515f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|1800799024|366016|376014|52116014|38350700014|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?pS7wTLGahc0Za8BDJKa7zIOKRTJx9r5TqlI3MJvC9LDnKnUzW44NPJ6IQSVH?=
+ =?us-ascii?Q?vRYYQDz2eed8Oe99YoP156b8uMjsFhyk58OaijQzrQdiBcNuzsFmXyKr3EXL?=
+ =?us-ascii?Q?rmbhrrZRRURvwo38yPEa9YMgAAE+Y9eQOrysvm8qLxD4uGlc+Gmwmfp33Tb4?=
+ =?us-ascii?Q?NawWF1OnZheD2v5R4i9fBE0HyxElzj+ZebqN3Fg4inPhsybdCutU4cKl4kdb?=
+ =?us-ascii?Q?Klrx+J296Im430vj+eYsntlelXiocTpOGcZm/nC9nctpxrKLSKCecquz2h+g?=
+ =?us-ascii?Q?pmqDRCocMYo9Y7X2+dq6InDTkswn7ChBKQHKeFRWb0JiIDF496/IQVJozyhO?=
+ =?us-ascii?Q?Vyvwl1nY04s4HGxnAZ3BwPMC5n6bnOBklriKkSP9jnIuf8dUnZaBimUy/SH3?=
+ =?us-ascii?Q?ejwc3ekrtAKXxNwoQOreVu+VQAfNTHSnADMKQS8SpgFgr0pADQEiQtEdpRDF?=
+ =?us-ascii?Q?vkyQwm19F0+7UpGz3glofZg43aoQzteAUW0RlEQaoThh+m98ICTKKkb1Qpwj?=
+ =?us-ascii?Q?ffHtJC94IpNdDqGugQkVldKkD2NJM4NZiHvb1THe9PfNPKbCozCeqDf+p8uy?=
+ =?us-ascii?Q?ABGOwi4npNZPZUgZFAJnqWxSxJRHNLFmXHvasSZF3bMnbdXuMC6xch05/83R?=
+ =?us-ascii?Q?yKUOrxVQCcc1VUBo/fcQj/EAA7PhTmR+ghNY+ywoec5HXv7Gw1vpI2DGO6/i?=
+ =?us-ascii?Q?i9LZjQwAI2paIUslDTTt+QOBE6MFeaqtMZPkxfM+vtZdXJwO5aGNPbryPnJs?=
+ =?us-ascii?Q?qsToEhrX4Ra8ab5lCyf5v76a1yJ4U0ySu2bFG+8S7Db3aUeLgudNJMS46f9X?=
+ =?us-ascii?Q?j55PMalndfXxcEC/FACUucwAYEJlYnh/KeVnhjlTAUu/sm1fhDg9hQlaZuve?=
+ =?us-ascii?Q?eLXvkinGA0TlPqGIpSTsWIJm0MV1ASunrTkfB+5TpepkjQexI/WtxzRNT6Ta?=
+ =?us-ascii?Q?K8qwTRfrYCunz7dB72zxYI+hFMr8R0/DB+AZ/EHPwFjfM5uJnoRkXjLACbNu?=
+ =?us-ascii?Q?qtboB6pF3Ow828WnkOTvPzl/6vG+0h5kXnrI1CLjHV9ntP1d5hcF9p3e8kAt?=
+ =?us-ascii?Q?1cdR+p9W9j7iCysao/9dtjM8LAuaKg4+Ucdnzdv+UdNg4l/l3e9ylJ2gM7LQ?=
+ =?us-ascii?Q?NGzeHBh7kzvWD1GoU4QoY6cxTV4gDq9EJEzRqsqJTX/560I9hNd1lbwRifOO?=
+ =?us-ascii?Q?p9urX67enOUn1ONsf3EiJm5yUSCNXY0tFfW/XOTnDv1gf1W2XJ/auFp57okq?=
+ =?us-ascii?Q?1qLhRXf2sGsVbxXOYNPWUXD8rFkvFTahrfPp/tAuL14FqHO+/a0l25D7rqzw?=
+ =?us-ascii?Q?V80TPWNdv5Ta9cG/w/UlHns1yxESbKwuSbOYx80cGJAzpkUipGC5bWbWtk9+?=
+ =?us-ascii?Q?ltocmFohh0Fbf4hqkkyQPmdqIF5RxGbnmvVWlbql376MQmSgdytIpkkrrwe8?=
+ =?us-ascii?Q?fVREV1CCHkA=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(366016)(376014)(52116014)(38350700014)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?peaWUHd0yZhDL9H1tuZmCqUM/UlPS84u3fecCFxSAn1VxOCc8mwJp9Pi6dxV?=
+ =?us-ascii?Q?vQQX2EB8urchW9GPRuArLoPn34X2K/8p33lILN+Tfw/GUqdo1ALaIt3qkEqv?=
+ =?us-ascii?Q?0Bh7JudRYgUpSN3WJBYk1yGqEfEZAwc21EzqXZqlrcIz7tuf4rDLkNf3eFXE?=
+ =?us-ascii?Q?WhG6h+9y/yrCIfxmtuYtVEX0WQexIlRk78eMCF2ulA4RCMrtmFHqVhokPqqS?=
+ =?us-ascii?Q?EEzilsJjsZiln8RwIFnMl+usueEa3/nMoOrUX/6SA10tGjcXlchd3jHUSZt8?=
+ =?us-ascii?Q?AREOxF+LAZNWx3HyiJtAogqZc725krQs7WtQsh0wzYOlDdi1JBmeE499uxK2?=
+ =?us-ascii?Q?46e2UWYkxs66kH7u9r2yxqYmFzyGL168oUeEoWIELicblqM/1PJakBlP+j6U?=
+ =?us-ascii?Q?KfhisISawlmiRE02gEx5sBH+3iNouN+XzY22zHzzYSBlnBYdx3mlMUv5ckz2?=
+ =?us-ascii?Q?8A8Hg8WWEEtlSKFyTyvdQkzDXyTlhn5c0foj6Ogo7+nyCavswA2SsYf/wY2O?=
+ =?us-ascii?Q?BKR4MQzyOLkpFCJhFLSB43T/Sw7as8G2/NFvkA14FB+Zc/cd00AEZqpbLKHT?=
+ =?us-ascii?Q?S8udnKJlV1qKGNxMm3m6o6Ud5kRuBEHIL0XG6nd71/bYET2GK35uBIIEsKWQ?=
+ =?us-ascii?Q?Hiy7yLdLA6ytWkfi44Dhh7LuDQr1uInI81vIJoBKdyjAB4IzW1E+7GSe6ARH?=
+ =?us-ascii?Q?UGfPiBLNPopvjauzs1/uBnsXy7wrPCLp2aKtfE278jYNabb4SX+8BizZS4Nm?=
+ =?us-ascii?Q?G/jgGPpqpAa6NuMoNAQvUKu029O3SPt3hFsLaQ+AzVFpfRJfv08NXw+gLkud?=
+ =?us-ascii?Q?Tro6pWvOGTSK9BVUHZWBQoYvDlkCAYp3cIzbxcu+vw7VC6Yx8DqNpJvQzbzS?=
+ =?us-ascii?Q?RjF4Rq0jHqrvfc+BCG7KZvkXU550Zo6EzFLrwH835WqmIalZ7VTXMqb/0Zig?=
+ =?us-ascii?Q?kKCSYNvoYVW0ZYa/Lt952QRii6syJUyE0VdZZKhYlvXYeuxeXl4fcLcRnAQn?=
+ =?us-ascii?Q?lMFjSZNX1sZoFwSWsVf6hqVrWKLEwryHkdRBmU3ooInBIUOHQxdLM4bVH791?=
+ =?us-ascii?Q?o/rpfdtj3y5scBnaeQc1FDfSdp5MMPD4afueBt9L0EN69ODwIUmLIJ0BRJPj?=
+ =?us-ascii?Q?MmK0f7eFBHJN6Zb9kFwQF7akoZhOgKdcXM3YyrPf5gcYjcpuImhShMMDVFjr?=
+ =?us-ascii?Q?F31U68LOmbK/3rBm/PAst0oImEDDNTf7CI6h8uZ6Kr+FhIPWFS0wDLdYfx9u?=
+ =?us-ascii?Q?qydxmhAZjNlov4pcHeJw7g6fHdKUSq02P7qqMJWjz0GfI1UPt7mG7TylrMUz?=
+ =?us-ascii?Q?oYYNVyDSr+sBVxoYpNx30ZWcoYX9MC7yxGnmuxtGRSnWiNwQtRFCfkEIMeiI?=
+ =?us-ascii?Q?4duZHEHQfe3n1Ya3zcINriYcslF8YywZ2SX+YcWTF6G/oQCD42lxoN7DgZqN?=
+ =?us-ascii?Q?7sFUNbCEe+WTeYxXXLIOwmDlKgrnAVK4kn5NfrGkMLJjnf8knwKx8J0B1Upt?=
+ =?us-ascii?Q?dN57O+USIJTW2DNdyPaa8xsqMO8+5IlJv7EO+18lEcV9mpVUC9Diztf9PaE0?=
+ =?us-ascii?Q?VepYlSJ9/XOvpYwoacCU5zLOSHMA0T4b/WVjddN5J8Rxz0fT18e83oN6Rt7q?=
+ =?us-ascii?Q?bgoPw5AoU2DKHA0Y95+4c7U=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2c02ed20-3b5e-4498-7057-08dccca8515f
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2024 06:10:47.2692
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 61YQAMZLVcCaoz9L2r5dYK+jnbegS9UyhTxBuwvpTaGeSQOuQbXaSZejM1gDqyYEbnCOM4fRC6U12V2jt16DYnLooi0T8wXVLwiRY/GVtvjkiQurbwmTHkHO6PpYEniP
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS0PR01MB6338
 
-The mute LED on this HP laptop uses ALC236 and requires a quirk to function. This patch enables the existing quirk for the device.
 
-Signed-off-by: Maximilien Perreault <maximilienperreault@gmail.com>
----
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
+Hi Rob, Saravana, Tomi, Laurent, Sakari, Mark
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index f67190a8c..6f96c0c67 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10183,6 +10183,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x87f5, "HP", ALC287_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x87f6, "HP Spectre x360 14", ALC245_FIXUP_HP_X360_AMP),
- 	SND_PCI_QUIRK(0x103c, 0x87f7, "HP Spectre x360 14", ALC245_FIXUP_HP_X360_AMP),
-+	SND_PCI_QUIRK(0x103c, 0x87fd, "HP Laptop 14-dq2xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
- 	SND_PCI_QUIRK(0x103c, 0x87fe, "HP Laptop 15s-fq2xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
- 	SND_PCI_QUIRK(0x103c, 0x8805, "HP ProBook 650 G8 Notebook PC", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x880d, "HP EliteBook 830 G8 Notebook PC", ALC285_FIXUP_HP_GPIO_LED),
+This is v5 patch-set
+
+Current Of-graph has "endpoint base" for loop, but doesn't have
+"port base" loop. "endpoint base" loop only is not enough.
+This patch-set add new "port base" for loop, and use it.
+
+Unfortunately, new helper function need to call of_node_get()
+if dts doesn't have "ports" node, so we can't replace existing
+loop by new helper, because it is using "const".
+
+I noticed that some developer posted the patch to ALSA ML and
+its and [5/9][6/9] patch will conflict. I think it is better to
+repost these to ALSA ML *after* main patches (= [1/9][2/9]) were
+included to linus/master tree (?). (Mark, can you agree ?)
+So, [5/9][6/9] wants "review" only here.
+
+v4 -> v5
+	- tidyup comments
+	- [8/9]: parent NULL check was removed
+	- [9/9]: use for_each_of_graph_port()
+
+v3 -> v4
+	- new for_each loop includes __free()
+	 - comment indicates to use return_ptr() or no_free_ptr() if
+	   it need to continue to use node
+	 - each driver based on it
+	- care "prev" leak on of_graph_get_next_ports()
+	- of_graph_get_next_port_endpoint() indicates WARN() if port
+	  has non-endpoint node
+	- tidyup each git-log
+
+v2 -> v3
+	- return NULL if it it doesn't have ports / port
+	- add visible comment on of_graph_get_next_ports()
+
+v1 -> v2
+	- add each Reviewed-by / Acked-by
+	- tidyup/update Kernel Docs
+	- use prev as parameter
+	- update git-log explanation
+	- remove extra changes
+
+
+
+Kuninori Morimoto (9):
+  of: property: add of_graph_get_next_port()
+  of: property: add of_graph_get_next_port_endpoint()
+  ASoC: test-component: use new of_graph functions
+  ASoC: rcar_snd: use new of_graph functions
+  ASoC: audio-graph-card: use new of_graph functions
+  ASoC: audio-graph-card2: use new of_graph functions
+  gpu: drm: omapdrm: use new of_graph functions
+  fbdev: omapfb: use new of_graph functions
+  media: xilinx-tpg: use new of_graph functions
+
+ drivers/gpu/drm/omapdrm/dss/dpi.c             |   3 +-
+ drivers/gpu/drm/omapdrm/dss/sdi.c             |   3 +-
+ drivers/media/platform/xilinx/xilinx-tpg.c    |  13 +-
+ drivers/of/property.c                         | 154 ++++++++++++++++++
+ drivers/video/fbdev/omap2/omapfb/dss/dpi.c    |   3 +-
+ drivers/video/fbdev/omap2/omapfb/dss/dss-of.c |  66 --------
+ drivers/video/fbdev/omap2/omapfb/dss/dss.c    |  15 +-
+ drivers/video/fbdev/omap2/omapfb/dss/sdi.c    |   3 +-
+ include/linux/of_graph.h                      |  71 ++++++++
+ include/video/omapfb_dss.h                    |   8 -
+ sound/soc/generic/audio-graph-card.c          |  11 +-
+ sound/soc/generic/audio-graph-card2.c         | 113 ++++++-------
+ sound/soc/generic/test-component.c            |   3 +-
+ sound/soc/sh/rcar/core.c                      |  21 +--
+ 14 files changed, 299 insertions(+), 188 deletions(-)
+
 -- 
-2.46.0
+2.43.0
 
