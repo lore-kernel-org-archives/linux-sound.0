@@ -1,142 +1,109 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 263361DC735;
-	Wed,  4 Sep 2024 16:07:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C07051DB55E;
+	Wed,  4 Sep 2024 16:19:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725466031; cv=none; b=YgQsx8828AzEsJueD6eQYhyzs7mWlTllhDA0tyChd6nf6gRqUCatYtY1JJp2OukFls2QF+esYikErbEVG55burccoOAxIzoqPJOFa3P4j2UBVJOk8eCNiXDr+XiL7yNRNhkpPbnS43H+p5Y/ouEuNAz4RY1duukvojOZIqYZM9k=
+	t=1725466802; cv=none; b=HniNKVgraSXq7LIgYLq/R7LI3otoKUV1dQcBavchL1UJLxt364Yjoc5CfqOEe7O870vL46TAKx1m0qKih0eNz6OYojBebDd2tOj4VNGzdIf/CSn7VpdgV04QUR4aBptYP0lSpNxAIyxesXK5Y36J/C35+o+54Gwd6vl0rvgXk6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725466031; c=relaxed/simple;
-	bh=xPo/yDUHt5HIsJ3otnWm4h+YkjvHTK99UykBUaSCIdk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=s051Ro/cuHTqSbqHYgxXrEW/b4zlauTsiqKTTrpHye+xdEa7vRA0dVqeYE7HZnfrV3LhY6bSGtASglZVXoVtXp2PtdAzom2A84+c00a6mTMkfTqGuO7y+7NJUyo+6fD3kvYP6HC47TByYjStFrmL6hmme97Yng1A3vJX5yqIQpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=F3dKjV7t; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JArJVYB+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=F3dKjV7t; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JArJVYB+; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1725466802; c=relaxed/simple;
+	bh=QpCF2EcCr823CZTZEr74srNB7EvaKB2j2fP3kYYsUcM=;
+	h=From:To:CC:References:In-Reply-To:Subject:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Oli5DjqaUqNg8ykdtbzBMeog3Mksa7s6nNtUm5ytvsDuEuZ3tQkIMlPITQY7XpT98tHTHCeDoq62fplJqUo3Rb15NQfKwDzE2sA0w2UiG1Gt9+yeIpE4pNKsowA1XBg6jwolIL/4mHHzZf3NkTzikJj+uTIAcZ6zL+bcl4gvoFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=K9uG+68N; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="F3dKjV7t";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JArJVYB+";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="F3dKjV7t";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JArJVYB+"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 5947A219D3;
-	Wed,  4 Sep 2024 16:07:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1725466028; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OwsX0RzCxzLOQkOUafPWPJRk22xKNYS5/O+3IGcWB7s=;
-	b=F3dKjV7t0Q7n8VBg2YGt7gwX/XRtFQHOsOaWhZFMhBTCFgFt+KmoV6VVAaiao0ZLqZEDzb
-	l2zQ/emwyYMLU/7mgaiC/9YsyKvIgJttCFAgc4Fo/2uPSOO0RJvH3hWgpcaUDU+UV1WYyj
-	yJjOTlFiqsWFwtK/N7l/NWR2cxyrEbw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1725466028;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OwsX0RzCxzLOQkOUafPWPJRk22xKNYS5/O+3IGcWB7s=;
-	b=JArJVYB+feprYWeFW/TzxnWQctQAmScilwmM2UG35Mg3vX5tXylv4Nm/1Npu+xZ0gZCyiv
-	nm8Wj7yRpEjpRoBg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1725466028; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OwsX0RzCxzLOQkOUafPWPJRk22xKNYS5/O+3IGcWB7s=;
-	b=F3dKjV7t0Q7n8VBg2YGt7gwX/XRtFQHOsOaWhZFMhBTCFgFt+KmoV6VVAaiao0ZLqZEDzb
-	l2zQ/emwyYMLU/7mgaiC/9YsyKvIgJttCFAgc4Fo/2uPSOO0RJvH3hWgpcaUDU+UV1WYyj
-	yJjOTlFiqsWFwtK/N7l/NWR2cxyrEbw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1725466028;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OwsX0RzCxzLOQkOUafPWPJRk22xKNYS5/O+3IGcWB7s=;
-	b=JArJVYB+feprYWeFW/TzxnWQctQAmScilwmM2UG35Mg3vX5tXylv4Nm/1Npu+xZ0gZCyiv
-	nm8Wj7yRpEjpRoBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1FA37139D2;
-	Wed,  4 Sep 2024 16:07:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id p6yQBqyF2GY6FgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 04 Sep 2024 16:07:08 +0000
-Date: Wed, 04 Sep 2024 18:07:54 +0200
-Message-ID: <87wmjrh06d.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-Cc: tiwai@suse.de,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	apais@linux.microsoft.com,
-	edmund.raile@protonmail.com,
-	linux-media@vger.kernel.org,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH 5/5] ALSA: firewire: use nonatomic PCM operation
-In-Reply-To: <20240904125155.461886-6-o-takashi@sakamocchi.jp>
-References: <20240904125155.461886-1-o-takashi@sakamocchi.jp>
-	<20240904125155.461886-6-o-takashi@sakamocchi.jp>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="K9uG+68N"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 484As7kh004907;
+	Wed, 4 Sep 2024 11:17:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=7MRbvudIjt/ekH04rmXTHtiizoxZ4eaQvQXwLxu/c64=; b=
+	K9uG+68NjLDmx9ntDZMMlw0gUDE6ngaW0iOMeeP54zqS822RutGN58Nrwz7tQlij
+	VqkeLFeW0tQ2WZcDyDb04/rGFpfe583vqVGYj0YOTYb+Kqu9QoJrL9LVvk1Pd4Xw
+	6KrCYkz/pTnaAhiNiOeuWxvVxqgAdvlwih/IieBpKcn87w4KE6rGUDRwK3i+dnF3
+	sGva26a5H3lXgPyKIoDD/mdb0+puzLoXsPqo7h8KcB9RuE7Ch/bYpBwESMYq/5bm
+	hbXJdaXwIcjqLQEBdphtN5dPt16p0NzHUrw+eXpwlwvezWPrSvhoajbd3Fm8RsOb
+	dmxnexH1gPOxu+8xHZ7Qhw==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 41c0jxcyve-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 04 Sep 2024 11:17:54 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 4 Sep 2024
+ 17:17:51 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Wed, 4 Sep 2024 17:17:51 +0100
+Received: from EDIN6ZZ2FY3 (unknown [198.90.188.28])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 974DF820244;
+	Wed,  4 Sep 2024 16:17:51 +0000 (UTC)
+From: Simon Trimmer <simont@opensource.cirrus.com>
+To: 'Mark Brown' <broonie@kernel.org>
+CC: <tiwai@suse.com>, <linux-sound@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>, <linux-kernel@vger.kernel.org>,
+        <patches@opensource.cirrus.com>
+References: <20240904120700.188644-1-simont@opensource.cirrus.com> <e1aeb66c-ecb3-4778-b306-f3a212caf879@sirena.org.uk> <004601dafed0$d8ff8cd0$8afea670$@opensource.cirrus.com>
+In-Reply-To: <004601dafed0$d8ff8cd0$8afea670$@opensource.cirrus.com>
+Subject: RE: [PATCH] ASoC/HDA cs35l56: Remove redundant IRQ handling
+Date: Wed, 4 Sep 2024 17:17:51 +0100
+Message-ID: <006301dafee5$fdb00c70$f9102550$@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[protonmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.de,vger.kernel.org,linux.microsoft.com,protonmail.com];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email]
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: en-gb
+Thread-Index: AQKHzAIo361Zljfa9iRBQSN4dy/XOQEQvrcuAYmGn2uw2V/tEA==
+X-Proofpoint-ORIG-GUID: Oyai2-nBQdNx8TilC22DZeG_82szV4zS
+X-Proofpoint-GUID: Oyai2-nBQdNx8TilC22DZeG_82szV4zS
+X-Proofpoint-Spam-Reason: safe
 
-On Wed, 04 Sep 2024 14:51:54 +0200,
-Takashi Sakamoto wrote:
+On Wed, Sep 04, 2024 at 13:47:00PM +0000, Simon Trimmer wrote:
+> On Wed, Sep 04, 2024 at 12:25:00PM +0000, Mark Brown wrote:
+> > On Wed, Sep 04, 2024 at 12:07:00PM +0000, Simon Trimmer wrote:
+> > > The IRQ handling in the cs35l56 driver was purely informational. It
+was
+> > > not necessary to support the HDA or ASoC driver functionality and
+added
+> > > unnecessary complexity to the drivers.
+> > >
+> > > As the IRQ signal GPIO line could be connected and shared with other
+> > > components the handling is replaced with a regmap patch to ensure the
+> > > cs35l56 IRQ sources are masked and will not generate interrupts that
+go
+> > > unhandled.
+> >
+> > Given that the code is there now and has been since the driver was
+> > introduced about 18 months ago what's the ongoing cost of having it?
+> > The information it's providing is notification of hardware faults,
+> > reporting those does seem useful.
 > 
-> In the former commits, the callback of isochronous context runs on usual
-> work process. In the case, ALSA PCM device has a flag, nonatomic, to
-> acquire mutex lock instead of spin lock for PCM substream group.
+> Originally we were expecting to use the IRQ mechanism for an event logging
+> stream that would function in a similar manner to compressed streams to be
+> able to get an information feed for debug and tuning tools, but those were
+> never created and the logging infrastructure not implemented.
 > 
-> This commit uses the flag. It has an advantage in the case that ALSA PCM
-> application uses the large size of intermediate buffer, since it takes
-> too long time even in tasklet softIRQ to process many of isochronous
-> packets, then result in the delay of system event due to disabled IRQ so
-> long. It is avertible to switch to nonatomic operation.
-> 
-> Signed-off-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+> It's quite a spread of code and a lot of complexity in the regular
+execution
+> paths managing them / synchronizing the contexts, there is more going on
+in
+> the SoundWire bus variant compared to the conventional i2c/spi that it is
+> hard to justify maintaining it all for a couple of log messages - in the
+> event that someone did encounter the two situations being reported the
+> regmap dump would point us to the cause pretty quickly.
 
-Feel free to take my ack:
+Hi Mark and Takashi,
+Hold off merging this one - we should think about it a bit more and people
+are off on PTO.
+-Simon
 
-Reviewed-by: Takashi Iwai <tiwai@suse.de>
-
-
-thanks,
-
-Takashi
