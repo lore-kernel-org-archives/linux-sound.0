@@ -1,226 +1,101 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF1501DEFC8;
-	Wed,  4 Sep 2024 13:05:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 736BA4C96;
+	Wed,  4 Sep 2024 13:46:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725455143; cv=none; b=iW7+y2pBTeRe30Nf6cmaB276uuWj2lOOTdEvxm4cE/cZbZsqESDR5PDevcdeyZYm4DRnXaLaEtuRp/zhfFYs0PXFGz31JnN8YKy47X/C2nSYoZlgLaOoiQJojVTn1llksRn328VHI82gIMaF7XIwhx3wG7x9fpbk76iIROJmKec=
+	t=1725457614; cv=none; b=uDEsN5zkzUXzcrTaJUW01B1vDrRud6b/7aViHo4k6F8Y7DcEe6A3RJDdWxiKc9BPS9RawLS2Z/gvQwiLg3FmXmavKwr0aSFA1arnWdfua8E6WXN8EcV2byS1V0Ha8UUJhHgINcfJhDCMVcx1FTIWswMxXfvSWU0Vbkatk9dmQDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725455143; c=relaxed/simple;
-	bh=53Qu+mZNVA9LMP8wt82pryIqg4R9IHgNbSfzDTdUPnA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZFMaIG1l69F0cHnxxpCrJTbWHdJNHs7kb0qUmFO/DP9EyNZKRPJDOhG4T2WNfxMkq5CHIoH5hGsZJ40zP+awqeYkPn28EbpsNe2r5+79TrlwNMiun0DznrQWSxzNw3dfehT6y9eAlqfOhMACNtGAlujOPgsW4FFOGUb+Lv+rxig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=oId6Xyqh; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2tGGhiio; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1725457614; c=relaxed/simple;
+	bh=AjpnI5qp5wSl9R+DpXde2r7+CO38FpagY+Ve8gS9etk=;
+	h=From:To:CC:References:In-Reply-To:Subject:Date:Message-ID:
+	 MIME-Version:Content-Type; b=rUm9mLBD1GDSwdxnBOsdD97CI9lMXfn2mU1gtaKALDS0vMga1gSYJENJMVIw/mTTghVQjZ4QPPs5h9ApGj4f0F+P4w5cA22htU/a+qAaEhl33a95q9a8vT7MDrBZWSkxeaYyQaL2PBLnle14DwsBsJFzD2dQJ1h4PybtxuEjcew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=I930DrXP; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="oId6Xyqh";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2tGGhiio"
-From: Anna-Maria Behnsen <anna-maria@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1725455139;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NqwpnyrFg1QVhhfFvZbjd8GTWo9T8rGMAEt4kbVzwz0=;
-	b=oId6Xyqhb8BluxKsbA0UFv/950t0HHUh/umBvqRT+nOdHNOAur5soDP/4o7RWyxytl5NDR
-	05UqOskqpDWKhM90PHGdBcqs+0TYi6L8ORwn72i3k2GhBZ5eszJhcUngx9Cype6aUKbM6c
-	Um7YDXtXIQaEZstBsiTAVYL6ArKTrN9kq0WuR4EQUT0abkPBlcYidD+reP2TDk5ALMPSXq
-	ljYJPERFx9cB/fAex4V7q+AtP0NHVmQWzc1X1U5G57zeBxs1z6EhcCdedMhaU41It5dtZ5
-	fFp8mVsAltx8iF75PjHyEHnBpYdeHKsegfFXUP7IbX7aET/d9pU8qBsmKzvcug==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1725455139;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NqwpnyrFg1QVhhfFvZbjd8GTWo9T8rGMAEt4kbVzwz0=;
-	b=2tGGhiioz16mddKFwGZakFHH3N7/jCHrLmVZNKi8ysTMdO2Gx2JZyV0QsZ33lb201KlSlc
-	jZDOpCyx8ANn2hAg==
-Date: Wed, 04 Sep 2024 15:05:02 +0200
-Subject: [PATCH 12/15] iopoll/regmap/phy/snd: Fix comment referencing
- outdated timer documentation
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="I930DrXP"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4844i0ic006144;
+	Wed, 4 Sep 2024 08:46:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=dL34FBVTjgHT8QW2Am75+/hWuPFunEOFpjLE1kFYkho=; b=
+	I930DrXPhgWl7p/EJGC4I/rz7cVBJ31Et1psAaSpqBIT58ILwtJX7NwSwo5EpVbQ
+	PSjarKBguzeMaSjVdB1/JBIn0kNoE5oJ5Ffu5J6OUNVlx3aFPDhm7WjpWf6gxtsG
+	A9OawqPgb5z8M1b8TRtOvqATXYzuLx4DJVbFndjOO27T8NyZvtFq/J4Wx5UqGJFu
+	2DgoHOSstXf4P3tJXgqz69qTLHzy/QSPIYD/N3+hbEhcSdCg8U/0ziBb8TT0oQY3
+	F+2dMggy5+L725z3V7O0v5Z/D1IXrq/DLd18245it0sf+B4VOHRHYBXrezKf+2SN
+	1J1nBbCYmmPDpl7c3bVOLw==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 41bykkckyc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 04 Sep 2024 08:46:32 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 4 Sep 2024
+ 14:46:30 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Wed, 4 Sep 2024 14:46:30 +0100
+Received: from EDIN6ZZ2FY3 (unknown [198.90.188.28])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 9E3E182024A;
+	Wed,  4 Sep 2024 13:46:30 +0000 (UTC)
+From: Simon Trimmer <simont@opensource.cirrus.com>
+To: 'Mark Brown' <broonie@kernel.org>
+CC: <tiwai@suse.com>, <linux-sound@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>, <linux-kernel@vger.kernel.org>,
+        <patches@opensource.cirrus.com>
+References: <20240904120700.188644-1-simont@opensource.cirrus.com> <e1aeb66c-ecb3-4778-b306-f3a212caf879@sirena.org.uk>
+In-Reply-To: <e1aeb66c-ecb3-4778-b306-f3a212caf879@sirena.org.uk>
+Subject: RE: [PATCH] ASoC/HDA cs35l56: Remove redundant IRQ handling
+Date: Wed, 4 Sep 2024 14:46:30 +0100
+Message-ID: <004601dafed0$d8ff8cd0$8afea670$@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240904-devel-anna-maria-b4-timers-flseep-v1-12-e98760256370@linutronix.de>
-References: <20240904-devel-anna-maria-b4-timers-flseep-v1-0-e98760256370@linutronix.de>
-In-Reply-To: <20240904-devel-anna-maria-b4-timers-flseep-v1-0-e98760256370@linutronix.de>
-To: Frederic Weisbecker <frederic@kernel.org>, 
- Thomas Gleixner <tglx@linutronix.de>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, Len Brown <len.brown@intel.com>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Anna-Maria Behnsen <anna-maria@linutronix.de>, Andrew Lunn <andrew@lunn.ch>, 
- Heiner Kallweit <hkallweit1@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, netdev@vger.kernel.org, 
- linux-sound@vger.kernel.org
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: en-gb
+Thread-Index: AQKHzAIo361Zljfa9iRBQSN4dy/XOQEQvrcusOV2n+A=
+X-Proofpoint-GUID: T5wFkE1A2qVSP_Pao5lY3hzYA-hzzW2G
+X-Proofpoint-ORIG-GUID: T5wFkE1A2qVSP_Pao5lY3hzYA-hzzW2G
+X-Proofpoint-Spam-Reason: safe
 
-Function descriptions in iopoll.h, regmap.h, phy.h and sound/soc/sof/ops.h
-copied all the same outdated documentation about sleep/delay function
-limitations. In those comments, the generic (and still outdated) timer
-documentation file is referenced.
+On Wed, Sep 04, 2024 at 12:25:00PM +0000, Mark Brown wrote:
+> On Wed, Sep 04, 2024 at 12:07:00PM +0000, Simon Trimmer wrote:
+> > The IRQ handling in the cs35l56 driver was purely informational. It was
+> > not necessary to support the HDA or ASoC driver functionality and added
+> > unnecessary complexity to the drivers.
+> >
+> > As the IRQ signal GPIO line could be connected and shared with other
+> > components the handling is replaced with a regmap patch to ensure the
+> > cs35l56 IRQ sources are masked and will not generate interrupts that go
+> > unhandled.
+> 
+> Given that the code is there now and has been since the driver was
+> introduced about 18 months ago what's the ongoing cost of having it?
+> The information it's providing is notification of hardware faults,
+> reporting those does seem useful.
 
-As proper function descriptions for used delay and sleep functions are in
-place, simply update the descriptions to reference to them.
+Originally we were expecting to use the IRQ mechanism for an event logging
+stream that would function in a similar manner to compressed streams to be
+able to get an information feed for debug and tuning tools, but those were
+never created and the logging infrastructure not implemented.
 
-Cc: Andrew Lunn <andrew@lunn.ch>
-Cc: Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.com>
-Cc: netdev@vger.kernel.org
-Cc: linux-sound@vger.kernel.org
-Signed-off-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
----
- include/linux/iopoll.h | 24 ++++++++++++------------
- include/linux/phy.h    |  7 ++++---
- include/linux/regmap.h | 18 +++++++++---------
- sound/soc/sof/ops.h    |  6 +++---
- 4 files changed, 28 insertions(+), 27 deletions(-)
+It's quite a spread of code and a lot of complexity in the regular execution
+paths managing them / synchronizing the contexts, there is more going on in
+the SoundWire bus variant compared to the conventional i2c/spi that it is
+hard to justify maintaining it all for a couple of log messages - in the
+event that someone did encounter the two situations being reported the
+regmap dump would point us to the cause pretty quickly.
 
-diff --git a/include/linux/iopoll.h b/include/linux/iopoll.h
-index 19a7b00baff4..34b52ab2e394 100644
---- a/include/linux/iopoll.h
-+++ b/include/linux/iopoll.h
-@@ -19,9 +19,9 @@
-  * @op: accessor function (takes @args as its arguments)
-  * @val: Variable to read the value into
-  * @cond: Break condition (usually involving @val)
-- * @sleep_us: Maximum time to sleep between reads in us (0
-- *            tight-loops).  Should be less than ~20ms since usleep_range
-- *            is used (see Documentation/timers/timers-howto.rst).
-+ * @sleep_us: Maximum time to sleep between reads in us (0 tight-loops). Please
-+ *            read usleep_range() function description for details and
-+ *            limitations.
-  * @timeout_us: Timeout in us, 0 means never timeout
-  * @sleep_before_read: if it is true, sleep @sleep_us before read.
-  * @args: arguments for @op poll
-@@ -64,9 +64,9 @@
-  * @op: accessor function (takes @args as its arguments)
-  * @val: Variable to read the value into
-  * @cond: Break condition (usually involving @val)
-- * @delay_us: Time to udelay between reads in us (0 tight-loops).  Should
-- *            be less than ~10us since udelay is used (see
-- *            Documentation/timers/timers-howto.rst).
-+ * @delay_us: Time to udelay between reads in us (0 tight-loops). Please
-+ *            read udelay() function description for details and
-+ *            limitations.
-  * @timeout_us: Timeout in us, 0 means never timeout
-  * @delay_before_read: if it is true, delay @delay_us before read.
-  * @args: arguments for @op poll
-@@ -119,9 +119,9 @@
-  * @addr: Address to poll
-  * @val: Variable to read the value into
-  * @cond: Break condition (usually involving @val)
-- * @sleep_us: Maximum time to sleep between reads in us (0
-- *            tight-loops).  Should be less than ~20ms since usleep_range
-- *            is used (see Documentation/timers/timers-howto.rst).
-+ * @sleep_us: Maximum time to sleep between reads in us (0 tight-loops). Please
-+ *            read usleep_range() function description for details and
-+ *            limitations.
-  * @timeout_us: Timeout in us, 0 means never timeout
-  *
-  * Returns 0 on success and -ETIMEDOUT upon a timeout. In either
-@@ -140,9 +140,9 @@
-  * @addr: Address to poll
-  * @val: Variable to read the value into
-  * @cond: Break condition (usually involving @val)
-- * @delay_us: Time to udelay between reads in us (0 tight-loops).  Should
-- *            be less than ~10us since udelay is used (see
-- *            Documentation/timers/timers-howto.rst).
-+ * @delay_us: Time to udelay between reads in us (0 tight-loops). Please
-+ *            read udelay() function description for details and
-+ *            limitations.
-  * @timeout_us: Timeout in us, 0 means never timeout
-  *
-  * Returns 0 on success and -ETIMEDOUT upon a timeout. In either
-diff --git a/include/linux/phy.h b/include/linux/phy.h
-index 6b7d40d49129..b09490e08365 100644
---- a/include/linux/phy.h
-+++ b/include/linux/phy.h
-@@ -1374,11 +1374,12 @@ int phy_read_mmd(struct phy_device *phydev, int devad, u32 regnum);
-  * @regnum: The register on the MMD to read
-  * @val: Variable to read the register into
-  * @cond: Break condition (usually involving @val)
-- * @sleep_us: Maximum time to sleep between reads in us (0
-- *            tight-loops).  Should be less than ~20ms since usleep_range
-- *            is used (see Documentation/timers/timers-howto.rst).
-+ * @sleep_us: Maximum time to sleep between reads in us (0 tight-loops). Please
-+ *            read usleep_range() function description for details and
-+ *            limitations.
-  * @timeout_us: Timeout in us, 0 means never timeout
-  * @sleep_before_read: if it is true, sleep @sleep_us before read.
-+ *
-  * Returns 0 on success and -ETIMEDOUT upon a timeout. In either
-  * case, the last read value at @args is stored in @val. Must not
-  * be called from atomic context if sleep_us or timeout_us are used.
-diff --git a/include/linux/regmap.h b/include/linux/regmap.h
-index 122e38161acb..85de129a9e02 100644
---- a/include/linux/regmap.h
-+++ b/include/linux/regmap.h
-@@ -106,9 +106,9 @@ struct reg_sequence {
-  * @addr: Address to poll
-  * @val: Unsigned integer variable to read the value into
-  * @cond: Break condition (usually involving @val)
-- * @sleep_us: Maximum time to sleep between reads in us (0
-- *            tight-loops).  Should be less than ~20ms since usleep_range
-- *            is used (see Documentation/timers/timers-howto.rst).
-+ * @sleep_us: Maximum time to sleep between reads in us (0 tight-loops). Please
-+ *            read usleep_range() function description for details and
-+ *            limitations.
-  * @timeout_us: Timeout in us, 0 means never timeout
-  *
-  * Returns 0 on success and -ETIMEDOUT upon a timeout or the regmap_read
-@@ -133,9 +133,9 @@ struct reg_sequence {
-  * @addr: Address to poll
-  * @val: Unsigned integer variable to read the value into
-  * @cond: Break condition (usually involving @val)
-- * @delay_us: Time to udelay between reads in us (0 tight-loops).
-- *            Should be less than ~10us since udelay is used
-- *            (see Documentation/timers/timers-howto.rst).
-+ * @delay_us: Time to udelay between reads in us (0 tight-loops). Please
-+ *            read udelay() function description for details and
-+ *            limitations.
-  * @timeout_us: Timeout in us, 0 means never timeout
-  *
-  * Returns 0 on success and -ETIMEDOUT upon a timeout or the regmap_read
-@@ -177,9 +177,9 @@ struct reg_sequence {
-  * @field: Regmap field to read from
-  * @val: Unsigned integer variable to read the value into
-  * @cond: Break condition (usually involving @val)
-- * @sleep_us: Maximum time to sleep between reads in us (0
-- *            tight-loops).  Should be less than ~20ms since usleep_range
-- *            is used (see Documentation/timers/timers-howto.rst).
-+ * @sleep_us: Maximum time to sleep between reads in us (0 tight-loops). Please
-+ *            read usleep_range() function description for details and
-+ *            limitations.
-  * @timeout_us: Timeout in us, 0 means never timeout
-  *
-  * Returns 0 on success and -ETIMEDOUT upon a timeout or the regmap_field_read
-diff --git a/sound/soc/sof/ops.h b/sound/soc/sof/ops.h
-index 2584621c3b2d..b1b8253aefad 100644
---- a/sound/soc/sof/ops.h
-+++ b/sound/soc/sof/ops.h
-@@ -597,9 +597,9 @@ snd_sof_is_chain_dma_supported(struct snd_sof_dev *sdev, u32 dai_type)
-  * @addr: Address to poll
-  * @val: Variable to read the value into
-  * @cond: Break condition (usually involving @val)
-- * @sleep_us: Maximum time to sleep between reads in us (0
-- *            tight-loops).  Should be less than ~20ms since usleep_range
-- *            is used (see Documentation/timers/timers-howto.rst).
-+ * @sleep_us: Maximum time to sleep between reads in us (0 tight-loops). Please
-+ *            read usleep_range() function description for details and
-+ *            limitations.
-  * @timeout_us: Timeout in us, 0 means never timeout
-  *
-  * Returns 0 on success and -ETIMEDOUT upon a timeout. In either
+-Simon
 
--- 
-2.39.2
 
