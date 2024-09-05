@@ -1,59 +1,59 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A57EB19E7E8
-	for <linux-sound@vger.kernel.org>; Thu,  5 Sep 2024 14:13:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2720419DF68
+	for <linux-sound@vger.kernel.org>; Thu,  5 Sep 2024 14:13:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725545618; cv=none; b=ijPZRGH9m1WG9ZiHmKsluNlGyRjnDD7fuFnqBdaFSF8OFRGzJeMJu+L8hYoRPBtCkcmRguBM020/FN1bd5bx4wXq+ndkHBnXnWJrtdifCY7eiS+6bdmYCtsjUCLnoISV/CqRXkGPVz8w38WqA/usyArSQ+ucwl3Qo3GhzEncjDc=
+	t=1725545619; cv=none; b=b5KP7m22yjvNl9+6y4Sn9A0qWUPUslTR6g+sO1ZhZ3KC5vR+b59TM2RD2yJ0wKXXok42ldEfwgeyQy2c07/Bs1xmgyXzMCLJQWJZW2kvz3kQluwTRu8y/85OfS8m2dfybmquWOUBS+6w7M2Uv/8SvWtMe7DN2Jx++/AW9A3eiN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725545618; c=relaxed/simple;
-	bh=JlFXCBTD6wmPGs3Xc+eBXJCnNEzFsRasRZacDAmL1po=;
+	s=arc-20240116; t=1725545619; c=relaxed/simple;
+	bh=vHEDI7Y2wONOCstSqdZiAYxiDnXUk239ce26xbMNwXE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=WjNKUqjWndW8mswxOQgpWmldOlKwoypNvLniwB3DO1bWQiXjSnOu3VCp7u0vbpYPJ+eZ9h+4T4QmfMhyHFBVJcwSd/MCcPJyVoec4S2K2tXa7hAv9sayAYcqGYiB/WPWOzkyNw3PGeMdt/RErsBOovPH1N6hqjagNnpG7aFqLpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=mjNgSb58; arc=none smtp.client-ip=209.85.221.53
+	 In-Reply-To:To:Cc; b=Ari+SUHWfSK7fRQ0eajlEPo588oK9rjr0RmOGF946QDQt+OaLI5wRB0hTR9PJ1gLzkY3TYjG3Apa9VtYhhdI2K6OxvpmTUQRT3efk5f5Hbf9jvEZ7T+kzwcCFrVQlg9Mw5ifLvWgM0Q2Hk7dlingo9MxIhp9PlFqy3P7RQkkGBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=ec37jjQx; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="mjNgSb58"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-374d29ad870so488211f8f.3
-        for <linux-sound@vger.kernel.org>; Thu, 05 Sep 2024 07:13:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ec37jjQx"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-42c828c8863so7068745e9.3
+        for <linux-sound@vger.kernel.org>; Thu, 05 Sep 2024 07:13:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1725545615; x=1726150415; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1725545614; x=1726150414; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=EZ4OWj1M1ZpMsgNdFCjWDSBf4jaOw7GENdrNyJWLeh4=;
-        b=mjNgSb58RvsGP1YPnH1kvID+xhTT+00ncOTZIpNpKBo2yC4RLzjSnaAUt/bVwLOBJh
-         5wfpm6eNDTrYy/W9DKJHVq2wg9npLvtwSt+eXauuHZ9RbRrBtc1Vj4q6qLM1g2Zzjc8X
-         ksOXTs8eSHGOae1WpmXnABkyZn7cRO1UyMU9h+QDkc8/tDlYZf3joN6XLCo7bstt9AwE
-         lUW9J20pWSsaJW10NZnjv2tJPMr/VQ33JP3N7rBoiqHXpwjb4khi7lKQ7tQ2D7Ajy8F0
-         FzW8KTadi2A2fG9IyX1UPeIEevoasENsPsKW4HKCg5ts/QaaCHDZeXxP5S+D19sxBkc9
-         QWPw==
+        bh=30qVKHGzVWd3Ku48k2FUb5pg6hyRShvxsMxjgIodA3o=;
+        b=ec37jjQxY2M0jSaEKgwcia4vuR7em76jX3zcHGWnkPoZMMCpFPV4jR7wTPqoUy6hR4
+         yYsydInmVZwrFTZTecr6ICOeS3M8kSpf+m33fG0PiMGd7i30mfio67uN+oXwYtx4ySrQ
+         aiDu/N7Hz4TTJn9QJt4vg5R7jjMPNacihsPnAgwoEEOSzK+qnbraxax6p2M8FRaXGGz0
+         e6AF/M/PMZVlf7uvyTANRt9zeCmgN4R4vhmUoJoyv4Z9OVokT4KfNSDYCwK6zRbXtmHG
+         nU4H0de5+bY+mUP8UjaDtkXnpQrV3rI/pBuIXPEJoH2FZzgjfPa/S8ogSr89qlx3laq3
+         +mkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725545615; x=1726150415;
+        d=1e100.net; s=20230601; t=1725545614; x=1726150414;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EZ4OWj1M1ZpMsgNdFCjWDSBf4jaOw7GENdrNyJWLeh4=;
-        b=H1VP7i2IvhVMRhDyxBpC6ugu/Dxr/ZE+XU2kNvInGGqJ3LaZ1XnWz/BKtFGgbdhfuQ
-         AWsa0qQs6OkOiBcvnE9SV7R1SV/ZBL7kpEfH1N5iBDFrs3umSTRpwLVW+Zdp8Q3d4X7J
-         SX5ThkcalO6V4PA0heFfKHJ96AgsGeGD2ulFGvjGumUGo3j7MwogYa86bKjOtNUavfYC
-         gRpQffaGRN567xrvrh0yjkYQC8hcwPZtxEGscWppxsKsV0Bq9pR5FiKIeTrU7mBO3kIn
-         KYuhJ9OmCAZZv1UNwoSPjTGZRduPid196JAAv/pHQ8Bb4vvVE8LnBbpsMaKBK04E3gzP
-         1eSQ==
-X-Gm-Message-State: AOJu0Yy7kzGl20DllwsaJ0UQgv4LJVWl8SpvEud7A97RXYDHXfZ+SymR
-	y7kjmG3t1iyVCcRvNdDRFRIK2AarwRm9X0m+KQzZ5MfRHiGDdS5xNL+VGia8nJ4=
-X-Google-Smtp-Source: AGHT+IFQfpi2p18CVl/s3bTmgrKQh6HdDCkB/ZnyhlaiBCzX95JZK0PtErVMddC8kBx8lcb0js+0/g==
-X-Received: by 2002:adf:9b86:0:b0:374:becb:d9de with SMTP id ffacd0b85a97d-374bf1c7963mr11972286f8f.44.1725545614620;
-        Thu, 05 Sep 2024 07:13:34 -0700 (PDT)
+        bh=30qVKHGzVWd3Ku48k2FUb5pg6hyRShvxsMxjgIodA3o=;
+        b=wVy7qggrryL0kxT4kGpSa53bU+C2kSKJ+KgM4Mha8XrUIVIfEvGCqEE9XXapDG6O9Q
+         p6CiMpmb2AtVxwt4SLJuBkm5BAoyxa5TGiYyCeddMztFHDyhBeR6UogWvLQIjpFmLUp2
+         s3EoykKNbDD/THYmLqIVGAvyWQy+ndrDsI4XUeh6Qkx4rMioWkxH0NhqjUYQkhpf84pe
+         z6xtpEd3SdZ81u1upOd/Hb1rN4PObkolNI1XDiAShwu6zLrVOaK+zcsxu3miHqlKEUGT
+         pKe2UC8zdZxPj+I39VxvUTfDhCmUKvUmzDCpRPIfzbSg81s+grxv00itWhoV+amkeWOH
+         hj4g==
+X-Gm-Message-State: AOJu0YzakTGXGCBCkggHxue159LrYGkp8OxWoOfEymOAI/J3+lBBQCfi
+	Xnk6vDWkC5TQfIdhuUnmOVBuvquWM91lfwKxOssNXIyxhJ67OpCHu+T4HGOcI6s=
+X-Google-Smtp-Source: AGHT+IHIINA9ikiQAEU4EVqWqd096m95ELTkl7taBlSxkBiyU94e8ZbTjmpLrftCleoK5D80ZO2gcQ==
+X-Received: by 2002:adf:db4b:0:b0:371:9149:dc54 with SMTP id ffacd0b85a97d-374bce97a6emr12068945f8f.3.1725545613483;
+        Thu, 05 Sep 2024 07:13:33 -0700 (PDT)
 Received: from toaster.baylibre.com ([2a01:e0a:3c5:5fb1:4763:343b:23f3:f45])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3749ef81146sm19514621f8f.82.2024.09.05.07.13.33
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3749ef81146sm19514621f8f.82.2024.09.05.07.13.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Sep 2024 07:13:34 -0700 (PDT)
+        Thu, 05 Sep 2024 07:13:33 -0700 (PDT)
 From: Jerome Brunet <jbrunet@baylibre.com>
-Date: Thu, 05 Sep 2024 16:12:54 +0200
-Subject: [PATCH 03/13] ALSA: emu10k1: drop SNDRV_PCM_RATE_KNOT
+Date: Thu, 05 Sep 2024 16:12:53 +0200
+Subject: [PATCH 02/13] ALSA: cmipci: drop SNDRV_PCM_RATE_KNOT
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -62,7 +62,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240905-alsa-12-24-128-v1-3-8371948d3921@baylibre.com>
+Message-Id: <20240905-alsa-12-24-128-v1-2-8371948d3921@baylibre.com>
 References: <20240905-alsa-12-24-128-v1-0-8371948d3921@baylibre.com>
 In-Reply-To: <20240905-alsa-12-24-128-v1-0-8371948d3921@baylibre.com>
 To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
@@ -84,103 +84,97 @@ Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-sunxi@lists.linux.dev, Jerome Brunet <jbrunet@baylibre.com>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2791; i=jbrunet@baylibre.com;
- h=from:subject:message-id; bh=JlFXCBTD6wmPGs3Xc+eBXJCnNEzFsRasRZacDAmL1po=;
- b=owEBbQKS/ZANAwAKAeb8Dxw38tqFAcsmYgBm2bx/F8WSx9SFo+Mm9aAwm5w5LTGeCtAOKiZNf
- Pbdd3RViiaJAjMEAAEKAB0WIQT04VmuGPP1bV8btxvm/A8cN/LahQUCZtm8fwAKCRDm/A8cN/La
- hTO8EACfpShxFfUfKBhcVOFgGnGLNcUrNcxHpvHeMT6YKdbtHho2dcF4RxIgzZdG3+MPzTgKCsW
- qKwzGfpKhAFRS6wz5tGK2UDhdk9tmZbGfUuW6KsvzNurvkxqxjpLh6jkrxbwhOlIIj+gSeIsihV
- 1RzUbnyNg04AeMAF12l3PCpFSDVgbG/0/gxVUZJx36yb1cvmXRleVELUnsz+i8WZls+5AtDZkE9
- jtQsHRZyN5VXTEqPk7THy7bb6rstqW6VdH0/jPmShDW6iTIvQCj5p8a0HpoQd+/K9aiYYjlqOdm
- aqK+TDzCsgimu0ca4dqsAkGaSZty17/RfWigRs9LBY5l20spNTAO/JIrXatmZqYlarMJjKNKPqO
- CEF4exBkSiDErgJkF6us0XqfEr+iNGXQ87/u8K8uN5+WbFHv4ynZDkpkXALb6BQFlB0aCCW4cAb
- oOiDds2ZlszM5mDHqjnYAO5vk3Sme/eAsXFMp6UlcqgJ8cq03VUPPJncB3iDzZrp/84D+/wzsZc
- 9AQkvBpyzPJyMenwxVTwPk9xpACxwpyZXwcgBdQ1xynVrzwLyUe38AV6DW3kPzeky8TxBY/eZ1i
- OV1dJqvbu8GAQ8b0IjB7E9YlEFZq0QpqCANP9bBuHv0scQAgZlA615zxiwoWpWzpc5DHYUDAnZp
- LIBw1U57xD093jg==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2894; i=jbrunet@baylibre.com;
+ h=from:subject:message-id; bh=vHEDI7Y2wONOCstSqdZiAYxiDnXUk239ce26xbMNwXE=;
+ b=owEBbQKS/ZANAwAKAeb8Dxw38tqFAcsmYgBm2bx+GwosY829uA79cwaR6MhJh5SrJ51PMsGpl
+ bhPAAdHb9KJAjMEAAEKAB0WIQT04VmuGPP1bV8btxvm/A8cN/LahQUCZtm8fgAKCRDm/A8cN/La
+ hQQ1EACX7oZZnRmZybF4ZVzlqM6krwmIFsFCSWMj8+fdpuUMLvds6lhBPbPqTlrzVjo6Axvntzi
+ a0zUc7Sk7LBRV47wqdoqWKq0lP0ZLCWpTCZ7U+kY31Hq1PzMJVpXVE8qWlx/I0EOyXvvR8LwVC/
+ Zr2CtgHmNwUHARlovbaLEPJ8q8quzX2hzcBi4tF3++zWTrDEHx6yoxLUAOPDkFufctmIXw4yoGI
+ RlLaxlH/YA/wUntceJj4IHQhRkjllvEMGTGI5ZJrDna5pFd12UfXF36yOA77k8umwbZ8gkF0Df4
+ dqs1Dt3X7Y3oT0AzChJNtNyk0HyRPNHf75Pt85UpwxbieNy2jCYgLABqZCDa9MoWZ4EzPIvtKYs
+ ZO1BE6UcfxcLjHN92HOigMvm0ANZ0XUVQaM1NA1MFzkulMwzO9oF31CjFK231j3PKvFgxP/pgLd
+ GqTh9JNwFLWEw7R2+ZZwoJK00+GXqIkR0JYM93RL/zpdbR3DZ/N50xJgl59kPrqkBEbqVW2vPxA
+ 6WwLE3cV8pMe5AkKxcucwDxVjyiExPtW4uNslSYYxx+tS06mVbMaCAG1eSvFouupZ2DAV0fkaJc
+ KMAX1MuSgXX22BAkazYem6fH5Fy4XlkiFOXnkDmaJPOz2vpR8U+K5aX+UnguNsQqdAfyVRFKdXX
+ /aT3qhPoNhM7mMA==
 X-Developer-Key: i=jbrunet@baylibre.com; a=openpgp;
  fpr=F29F26CF27BAE1A9719AE6BDC3C92AAF3E60AED9
 
-The custom rate constraint lists were necessary to support 12kHz and 24kHz.
-These rates are now available through SNDRV_PCM_RATE_12000 and
-SNDRV_PCM_RATE_24000.
+The custom rate constraint list was necessary to support 128kHz.
+This rate is now available through SNDRV_PCM_RATE_128000.
 
-Use them and drop the custom rate constraint rules.
+Use it and drop the custom rate constraint rule.
 
 Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
 ---
- sound/pci/emu10k1/emupcm.c | 31 +++++--------------------------
- 1 file changed, 5 insertions(+), 26 deletions(-)
+ sound/pci/cmipci.c | 32 +++++++++-----------------------
+ 1 file changed, 9 insertions(+), 23 deletions(-)
 
-diff --git a/sound/pci/emu10k1/emupcm.c b/sound/pci/emu10k1/emupcm.c
-index 7f4c1b38d6ec..1bf6e3d652f8 100644
---- a/sound/pci/emu10k1/emupcm.c
-+++ b/sound/pci/emu10k1/emupcm.c
-@@ -147,16 +147,6 @@ static const struct snd_pcm_hw_constraint_list hw_constraints_capture_buffer_siz
- 	.mask = 0
+diff --git a/sound/pci/cmipci.c b/sound/pci/cmipci.c
+index 36014501f7ed..e3cac73517d6 100644
+--- a/sound/pci/cmipci.c
++++ b/sound/pci/cmipci.c
+@@ -1570,14 +1570,6 @@ static const struct snd_pcm_hardware snd_cmipci_capture_spdif =
+ 	.fifo_size =		0,
  };
  
--static const unsigned int capture_rates[8] = {
--	8000, 11025, 16000, 22050, 24000, 32000, 44100, 48000
+-static const unsigned int rate_constraints[] = { 5512, 8000, 11025, 16000, 22050,
+-			32000, 44100, 48000, 88200, 96000, 128000 };
+-static const struct snd_pcm_hw_constraint_list hw_constraints_rates = {
+-		.count = ARRAY_SIZE(rate_constraints),
+-		.list = rate_constraints,
+-		.mask = 0,
 -};
 -
--static const struct snd_pcm_hw_constraint_list hw_constraints_capture_rates = {
--	.count = 8,
--	.list = capture_rates,
--	.mask = 0
--};
--
- static unsigned int snd_emu10k1_capture_rate_reg(unsigned int rate)
- {
- 	switch (rate) {
-@@ -174,16 +164,6 @@ static unsigned int snd_emu10k1_capture_rate_reg(unsigned int rate)
+ /*
+  * check device open/close
+  */
+@@ -1649,11 +1641,9 @@ static int snd_cmipci_playback_open(struct snd_pcm_substream *substream)
+ 				     SNDRV_PCM_RATE_96000;
+ 		runtime->hw.rate_max = 96000;
+ 	} else if (cm->chip_version == 55) {
+-		err = snd_pcm_hw_constraint_list(runtime, 0,
+-			SNDRV_PCM_HW_PARAM_RATE, &hw_constraints_rates);
+-		if (err < 0)
+-			return err;
+-		runtime->hw.rates |= SNDRV_PCM_RATE_KNOT;
++		runtime->hw.rates |= SNDRV_PCM_RATE_88200 |
++				     SNDRV_PCM_RATE_96000 |
++				     SNDRV_PCM_RATE_128000;
+ 		runtime->hw.rate_max = 128000;
  	}
- }
- 
--static const unsigned int audigy_capture_rates[9] = {
--	8000, 11025, 12000, 16000, 22050, 24000, 32000, 44100, 48000
--};
--
--static const struct snd_pcm_hw_constraint_list hw_constraints_audigy_capture_rates = {
--	.count = 9,
--	.list = audigy_capture_rates,
--	.mask = 0
--};
--
- static unsigned int snd_emu10k1_audigy_capture_rate_reg(unsigned int rate)
- {
- 	switch (rate) {
-@@ -207,17 +187,16 @@ static void snd_emu10k1_constrain_capture_rates(struct snd_emu10k1 *emu,
- {
- 	if (emu->card_capabilities->emu_model &&
- 	    emu->emu1010.word_clock == 44100) {
--		// This also sets the rate constraint by deleting SNDRV_PCM_RATE_KNOT
- 		runtime->hw.rates = SNDRV_PCM_RATE_11025 | \
- 				    SNDRV_PCM_RATE_22050 | \
- 				    SNDRV_PCM_RATE_44100;
- 		runtime->hw.rate_min = 11025;
- 		runtime->hw.rate_max = 44100;
--		return;
-+	} else if (emu->audigy) {
-+		runtime->hw.rates = SNDRV_PCM_RATE_8000_48000 |
-+				    SNDRV_PCM_RATE_12000 |
-+				    SNDRV_PCM_RATE_24000;
+ 	snd_pcm_hw_constraint_minmax(runtime, SNDRV_PCM_HW_PARAM_BUFFER_SIZE, 0, 0x10000);
+@@ -1675,11 +1665,9 @@ static int snd_cmipci_capture_open(struct snd_pcm_substream *substream)
+ 		runtime->hw.rate_min = 41000;
+ 		runtime->hw.rates = SNDRV_PCM_RATE_44100 | SNDRV_PCM_RATE_48000;
+ 	} else if (cm->chip_version == 55) {
+-		err = snd_pcm_hw_constraint_list(runtime, 0,
+-			SNDRV_PCM_HW_PARAM_RATE, &hw_constraints_rates);
+-		if (err < 0)
+-			return err;
+-		runtime->hw.rates |= SNDRV_PCM_RATE_KNOT;
++		runtime->hw.rates |= SNDRV_PCM_RATE_88200 |
++				     SNDRV_PCM_RATE_96000 |
++				     SNDRV_PCM_RATE_128000;
+ 		runtime->hw.rate_max = 128000;
  	}
--	snd_pcm_hw_constraint_list(runtime, 0, SNDRV_PCM_HW_PARAM_RATE,
--				   emu->audigy ? &hw_constraints_audigy_capture_rates :
--						 &hw_constraints_capture_rates);
- }
- 
- static void snd_emu1010_constrain_efx_rate(struct snd_emu10k1 *emu,
-@@ -1053,7 +1032,7 @@ static const struct snd_pcm_hardware snd_emu10k1_capture =
- 				 SNDRV_PCM_INFO_RESUME |
- 				 SNDRV_PCM_INFO_MMAP_VALID),
- 	.formats =		SNDRV_PCM_FMTBIT_S16_LE,
--	.rates =		SNDRV_PCM_RATE_8000_48000 | SNDRV_PCM_RATE_KNOT,
-+	.rates =		SNDRV_PCM_RATE_8000_48000 | SNDRV_PCM_RATE_24000,
- 	.rate_min =		8000,
- 	.rate_max =		48000,
- 	.channels_min =		1,
+ 	snd_pcm_hw_constraint_minmax(runtime, SNDRV_PCM_HW_PARAM_BUFFER_SIZE, 0, 0x10000);
+@@ -1715,11 +1703,9 @@ static int snd_cmipci_playback2_open(struct snd_pcm_substream *substream)
+ 				     SNDRV_PCM_RATE_96000;
+ 		runtime->hw.rate_max = 96000;
+ 	} else if (cm->chip_version == 55) {
+-		err = snd_pcm_hw_constraint_list(runtime, 0,
+-			SNDRV_PCM_HW_PARAM_RATE, &hw_constraints_rates);
+-		if (err < 0)
+-			return err;
+-		runtime->hw.rates |= SNDRV_PCM_RATE_KNOT;
++		runtime->hw.rates |= SNDRV_PCM_RATE_88200 |
++				     SNDRV_PCM_RATE_96000 |
++				     SNDRV_PCM_RATE_128000;
+ 		runtime->hw.rate_max = 128000;
+ 	}
+ 	snd_pcm_hw_constraint_minmax(runtime, SNDRV_PCM_HW_PARAM_BUFFER_SIZE, 0, 0x10000);
 
 -- 
 2.45.2
