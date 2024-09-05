@@ -1,59 +1,58 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45F4519E7D8
-	for <linux-sound@vger.kernel.org>; Thu,  5 Sep 2024 14:13:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B044D19DF5B
+	for <linux-sound@vger.kernel.org>; Thu,  5 Sep 2024 14:13:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725545617; cv=none; b=ryFn+PHDYLZJL9af/e2P0FhODpb53xY+j9qSd+pv2nQGXN6jMjwGyqV0MkOEUnxGcdXtWG7O7JvolEsCprfzQFvRxoer3S4vrfrUNRNi/RBgHHwFp9GeQKizlXtAdRq9tnZpc3EhFLzcssjwu6e7pOdR89idYnDFo46yilxeDGc=
+	t=1725545617; cv=none; b=NCYy7NUiFaER4jZfez2fdw7Qqyfz95plYnmbIz4Wcb7XnOZgp8H79QZV0pWZvZEl/7GX4O+nTGLJJoP1iB/ASQlaYkkU3xQLT+r9BOO1LpjO/fbvIoWCxY5dzcPa4OJ+GXItko1e2BrW30skEMzHRGusl5xMoYbUjSbm6/CeFd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1725545617; c=relaxed/simple;
-	bh=nbyk2pbjAgexYBySRE6v5MF/PkMeyNKLqiWP8pzL27U=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=h3IILE7+6u62wCzgkgwbmh3F133loLQRuwCzCVLjT8VFe5y9btPGxgousrnEQiupoy+/RMrqkMz1D5exuEmeUXKBtlkbmsP5M0tU7+cGy4hlKpJv7iYnFNBXpEaOVMhMCF0ngrOkBjDficJkxgmJ4kiH0/UDOxhutP6+IJo0OFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=V4Y1RrbX; arc=none smtp.client-ip=209.85.128.44
+	bh=zlMOkaW55Wb66ZAqUMFifodcdXXAMdzKlT7oh+mWeJQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=azUBQnB9dnXaVZk6Fg11aRNmETw22bZwpezGRYAA/6WPPhvXwN7Ml51Hm0Vt0lxikXe0j1qeCElRimUJ50HgUjj4gxlFDcXoS/qF4MXGsrUB4CBPOEvIX5xgzXbyN0elTsOPX0tfukkFewbVN+QTuYbjlnJT4V0m/QeS/cJwARU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Zt4sgAw3; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="V4Y1RrbX"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-42bb81e795bso6815205e9.1
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Zt4sgAw3"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-42c94e59b93so11218745e9.1
         for <linux-sound@vger.kernel.org>; Thu, 05 Sep 2024 07:13:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1725545612; x=1726150412; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RTW4BPjVBNC1txaO1Qybt7JrbkszqBjqcNmLmY+bYcs=;
-        b=V4Y1RrbX234zbTEMB06cGWFrNMbrbkNToiRtge91tSArERTErk1MEjEanGtGWfuaR/
-         PZJpXbftyKW+5bnznRtvz7hg9rTQfgLcH/GWTQ7gx/Cew21DgBZF4dxMHFF8cg5ZWIAq
-         CeON1xpPDTVkvPPK4ZsmJEUSssvXcHyTkx22J6hioq1pmN/g2xNYhbikFasr1BKDm/u+
-         Q5t21HAG0H2aoZAp07qNqEVRXR658Uo39AcLnSuJNjaDM1QUKcnLp1udQNLpHYVhYJ3l
-         ZSRqsH61rXdk2EIwvhL8wdylqOuvBjobkHwaYlxQUzg1hJ7tbygDDZpeHVTX+ilVbM4a
-         6kOQ==
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pQuewzaNngjcDOOQ0Aow82vVC6J65OqAycs2DlUmkZo=;
+        b=Zt4sgAw3ZmtstHYPGrRGwNVxcNtrCbQj/marxRit+NlF5L8h239WBS/G2V0S+mze4w
+         tSH3iDpV2oZeXiUOoX8Fq8h/RRdGHaaEVAlP41gv4wjHMI1GoA8ok8VkysdVp+QYorrU
+         axrfYDS+ALids/VSYnDaP+mxa94a7HuK9iA/dBgKlZ+eHC+9QohlHNqAaY111d0SFLwf
+         Q1gYiPWsc5iH3QG+hMV+UvI84QUpMpijRhwMOlLOQrsdQjE4PoxWz0zte2LU0YemPp3E
+         AekdXJ+jbsnbVphLQg9eDzQ+xMwa6vbWHSgJGfguZWnqFCMYgmUYn58GizXWaiZ2T3Sr
+         f4+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1725545612; x=1726150412;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RTW4BPjVBNC1txaO1Qybt7JrbkszqBjqcNmLmY+bYcs=;
-        b=wBi9dhu/3E6mN2iYbwbl0RLCURO5OmLacY4LDRoZnSQfwaTfCa+o+GOGCCwDqZyZlc
-         Hc8pWAWLrlhMj0jUOpxWIy+T4JXnPgEjsBRMZYB70au5/a2M2E2MWYrCiqwoknUwmPQg
-         5K8t59FYATMb8AQsXQUHr8SjE9dzNy/XmAIZg0AetXDCGXkCZVlFAq7mkUt/Ob7VluEN
-         FzgT/iFl9xLB7OECoqOkplFUi1ImiRF3ava62WdU/QR/enwwEoAMAoquZ/ZsRGwxPARb
-         O1KUA8IaOpW8+tTyeL0/dS8AAtKlTxMpFa6kg3IN9yjdzVlHGs6rTGd0jCvGPqX5unRP
-         DEow==
-X-Gm-Message-State: AOJu0Ywv0IzUY7dTamKXrJcITyG5MJYfuvufIwJ8pjTPxlyXouH6LsDN
-	etO8qkOnnF7uqatA5iWnHUSxi994p2dolz7HOUAdjIHcOjaGmd7IxVQe/I/pRQk=
-X-Google-Smtp-Source: AGHT+IHBWWTYTD/NiKOaA5SpW4N37gd2i4CApX3NZGiNIF1CauMco3Jpwv1V3JBttP1V61f4V94HEw==
-X-Received: by 2002:adf:eace:0:b0:374:c324:eab5 with SMTP id ffacd0b85a97d-374c324eb64mr10087549f8f.41.1725545612335;
-        Thu, 05 Sep 2024 07:13:32 -0700 (PDT)
-Received: from toaster.baylibre.com ([2a01:e0a:3c5:5fb1:4763:343b:23f3:f45])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3749ef81146sm19514621f8f.82.2024.09.05.07.13.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pQuewzaNngjcDOOQ0Aow82vVC6J65OqAycs2DlUmkZo=;
+        b=a5dvsHxovwgdt10nU6IZNzXHdzmJQqcULELx6ueI+Lw1aWq1LQ1wchCEsk4iMIdPHh
+         DDzU325pWV6dRQxEnZFvPlLf0orvJ31w2yoxwM4gfUUDAA3BduPPPlOetFN1c2Ml4xqJ
+         eIjFUINh7VlXiCh8Lor0dBfTPB/N5F5w255PD7ozBwg8r9tUXZaCZR4wDfz/bM8SMDCd
+         bC0Wb3UFFit850lRx1L2y5NozzNGhnZesVSQ9/psSL3r1pkG08dFIlgh5JkIxrIztftM
+         DqnuDkTIL5elhmuCNeN8iqRSszY+SpQV5TsBX9ty7d1T/ERCrfPUkal//Xf9rLOCswxA
+         O+0g==
+X-Gm-Message-State: AOJu0YwklTPIZxJOHWDurSpgbMRcy1wMH8utJrKNTQ0GnhPoXk9WkTzs
+	rRYwi3ukE7CpZfhdeVSRwdiDdm8tM8D3pceyyQaGtC2euFDU5k9yz/I+gsFQVAU=
+X-Google-Smtp-Source: AGHT+IEqMw+2kphBD8AL47tz8mEmZuHpdof+C2fJJPrSK7gGZlJt0fkH5qGDaTFGsntWoEZveuTOWw==
+X-Received: by 2002:adf:a456:0:b0:374:c613:7c58 with SMTP id ffacd0b85a97d-3779bd185fbmr4162384f8f.29.1725545611138;
         Thu, 05 Sep 2024 07:13:31 -0700 (PDT)
+Received: from toaster.baylibre.com ([2a01:e0a:3c5:5fb1:4763:343b:23f3:f45])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3749ef81146sm19514621f8f.82.2024.09.05.07.13.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Sep 2024 07:13:30 -0700 (PDT)
 From: Jerome Brunet <jbrunet@baylibre.com>
-Date: Thu, 05 Sep 2024 16:12:52 +0200
-Subject: [PATCH 01/13] ALSA: pcm: add more sample rate definitions
+Subject: [PATCH 00/13] ALSA: update sample rate definitions
+Date: Thu, 05 Sep 2024 16:12:51 +0200
+Message-Id: <20240905-alsa-12-24-128-v1-0-8371948d3921@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -62,9 +61,10 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240905-alsa-12-24-128-v1-1-8371948d3921@baylibre.com>
-References: <20240905-alsa-12-24-128-v1-0-8371948d3921@baylibre.com>
-In-Reply-To: <20240905-alsa-12-24-128-v1-0-8371948d3921@baylibre.com>
+X-B4-Tracking: v=1; b=H4sIAGO82WYC/0XMywrCMBCF4Vcps3ZKMqSSuPI9xEUuUxvpRSZVl
+ NJ3N7hxc+BbnH+DwpK5wKnZQPiVS17mCn1oIA5+vjHmVA2kyCinOvRj8agJydS1aDn5YKKyKRm
+ op4dwn9+/4OVa3csy4ToI+3/mSFYTGXItKW1V51DjPchz5vUc/GfMQbiNywT7/gUSmCnRoAAAA
+ A==
 To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
  David Rhodes <david.rhodes@cirrus.com>, 
  Richard Fitzgerald <rf@opensource.cirrus.com>, 
@@ -84,108 +84,89 @@ Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-sunxi@lists.linux.dev, Jerome Brunet <jbrunet@baylibre.com>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4141; i=jbrunet@baylibre.com;
- h=from:subject:message-id; bh=nbyk2pbjAgexYBySRE6v5MF/PkMeyNKLqiWP8pzL27U=;
- b=owEBbQKS/ZANAwAKAeb8Dxw38tqFAcsmYgBm2bx+0hxsyOB1G3jUIFP2N4UKQAgjgwcIS7zpN
- P2ju1g982qJAjMEAAEKAB0WIQT04VmuGPP1bV8btxvm/A8cN/LahQUCZtm8fgAKCRDm/A8cN/La
- heV4D/wJBqYO/X+0ODfULGsb4Og1L+bWaai0VSP8TToyZzfpSkmUyd/wXZtNo/BLpdsdAYyNKM5
- K314rJcJfBbWXQT6XmgfRSjc/Kn7xKqFkrJzGUVtpiPlf82h6RW1M25nfekb1lMia6rvaBcRVcQ
- 15eM1ckLvlIhWZpcEvTaBFWW/V5TUcy64mpJX574qJCKbR0U071AqMTsYgdTJnptPAZOTqhLVDc
- uKbGoXvfX9F4KWs+YH3d3kjzeDeizAkXrRhv5NHoLeOUvvamYZggmjqJCRWS5oiLPn5JKvkig/L
- YOCgPtBn4QW8gZKxhOmRqLA2GG24RRADpaEWRPfIUziaeZMYJi2u06HA+gtyzP6gdrwimkS2FN/
- ii3pA+MwjNoOrCKiHPzKFX1WpeoDruRDBkXtNfnubUsOQj9OI5lUdr0EQna1gUUiVKRKnTr7QDe
- DiZP64xgjmL/kT/YK6WrZ7BnJ3rpZSd1gOmn8vRYRjG88M3l1PdggL7LXUWSfXtYqxX1loVyR9M
- Q2ewA4GtbRX6qeWpf26VHv3j7tyVzLfDM2oaxTP1KOlHAp0V6r+4CIWKTst9cGt2ASHCbJgfdVw
- dA5qjMX3o7PP6ZwPnhwY/uNBmjUtZcX4ZseZNgdFDGYRUuKIb3qCaqAfVjMfRKuQB0XfOKo85A/
- x/qauD5RnK44B/g==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3160; i=jbrunet@baylibre.com;
+ h=from:subject:message-id; bh=zlMOkaW55Wb66ZAqUMFifodcdXXAMdzKlT7oh+mWeJQ=;
+ b=owEBbQKS/ZANAwAKAeb8Dxw38tqFAcsmYgBm2bx9Rt27YuEl+t/28l1DzL0bq/aw0aPG+xyMs
+ P3ISqYgUY+JAjMEAAEKAB0WIQT04VmuGPP1bV8btxvm/A8cN/LahQUCZtm8fQAKCRDm/A8cN/La
+ hX38D/9ovEPkT3Cdm6h/ix/ywvp24EQmKKZ3cy1CIVrIDMqy05UHAjwcsPllY7DezngTTiaeejA
+ stPW/OsTKkDllAAbw8PX7q0eKTp0udn9BRQaYfKz9vSkDaXDgpM4f82Yj2mGwSzHtby0EY7WmO4
+ CUYLtTavSyEtndrRnq056qUDZnwMSFHdRNLrMwkhHZPMOuMYcu9Fg/cdXVzopgFC0cPWcNXv+xt
+ mxOsOvlwQNBbziHBZspOcvEpocfhL/1OAXurjQRtdYinwyg3tokeIlDFFZXe1szwSzOq3XrtLcE
+ e4jcQi4cO4NHjcngVCHclnJtNMFNQIG5b54I8Fx3VjrqTmk7Ru/dUzqerln/WoUH3DYYFsiOsbg
+ V6J1Lvbmq5pcFNKkm1R/w6gPmKAMrX68f4oXMz0Sn8n7YKng4GocbREm5LzIcqXF9vOki8GZUbg
+ WJwskALFndic23zjavZZ2honWm+d8rZNqzJQHZbWslukrbpPTUEvorrajC0mS7jrf3BowWTslhS
+ kjkNERBX8LTdPCbT09ll4l881blOSlxxz/rT/fUBMW5h2jexZ8YuRKisA77H+x8KeBAfTlXSN9o
+ cR06agIcgoG8PusLU8buKcXLfDHfxQB8p6T2MRJOLRLkLFIAvhkteDdcDV1kIh7MK0m/JfGir2I
+ O865q1eD0MuKh6Q==
 X-Developer-Key: i=jbrunet@baylibre.com; a=openpgp;
  fpr=F29F26CF27BAE1A9719AE6BDC3C92AAF3E60AED9
 
-This adds a sample rate definition for 12kHz, 24kHz and 128kHz.
+This patchset adds rate definitions for 12kHz, 24kHz and 128kHz.
 
-Admittedly, just a few drivers are currently using these sample
-rates but there is enough of a recurrence to justify adding a definition
-for them and remove some custom rate constraint code while at it.
+It is follow-up on the series/discussion [0] about adding 128kHz for
+spdif/eARC support. The outcome was to add 12kHz and 24kHz as well and
+clean up the drivers that no longer require custom rules to allow these
+rates.
 
-The new definitions are not added to the interval definitions, such as
-SNDRV_PCM_RATE_8000_44100, because it would silently add new supported
-rates to drivers that may or may not support them. For sure the drivers
-have not been tested for these new rates so it is better to leave them out
-of interval definitions.
+Identifying these drivers is not straight forward, I tried my best but I
+may have missed some. Those will continue to work anyway so it is not
+critical. Some drivers using these rates have not been changed on
+purpose. The reason for this may be:
+* The driver used other uncommon rates that still don't have a definition
+  so a custom rule is still required.
+* The constraint structure is used in some other way by the driver and
+  removing it would not help the readability or maintainability. This is
+  the case the freescale asrc drivers for example.
 
-That being said, the added rates are multiples of well know rates families,
-it is very likely that a lot of devices out there actually supports them.
+There is one change per driver so, if there is a problem later on, it will
+easier to properly add Fixes tag.
 
-Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+The series has been tested with
+* ARM64 defconfig - spdif 128kHz at runtime.
+* x86_64 allmodconfig - compile test only
+
+Last, the change adding IEC958 definitions has been dropped for this
+patchset and will be resent separately
+
+[0]: https://lore.kernel.org/all/20240628122429.2018059-1-jbrunet@baylibre.com/
+
 ---
- include/sound/pcm.h     | 31 +++++++++++++++++--------------
- sound/core/pcm_native.c |  6 +++---
- 2 files changed, 20 insertions(+), 17 deletions(-)
+Jerome Brunet (13):
+      ALSA: pcm: add more sample rate definitions
+      ALSA: cmipci: drop SNDRV_PCM_RATE_KNOT
+      ALSA: emu10k1: drop SNDRV_PCM_RATE_KNOT
+      ALSA: hdsp: drop SNDRV_PCM_RATE_KNOT
+      ALSA: hdspm: drop SNDRV_PCM_RATE_KNOT
+      ASoC: cs35l36: drop SNDRV_PCM_RATE_KNOT
+      ASoC: cs35l41: drop SNDRV_PCM_RATE_KNOT
+      ASoC: cs53l30: drop SNDRV_PCM_RATE_KNOT
+      ASoC: Intel: avs: drop SNDRV_PCM_RATE_KNOT
+      ASoC: qcom: q6asm-dai: drop SNDRV_PCM_RATE_KNOT
+      ASoC: sunxi: sun4i-codec: drop SNDRV_PCM_RATE_KNOT
+      ASoC: cs35l34: drop useless rate contraint
+      ASoC: spdif: extend supported rates to 768kHz
 
-diff --git a/include/sound/pcm.h b/include/sound/pcm.h
-index 732121b934fd..c993350975a9 100644
---- a/include/sound/pcm.h
-+++ b/include/sound/pcm.h
-@@ -109,20 +109,23 @@ struct snd_pcm_ops {
- #define SNDRV_PCM_RATE_5512		(1U<<0)		/* 5512Hz */
- #define SNDRV_PCM_RATE_8000		(1U<<1)		/* 8000Hz */
- #define SNDRV_PCM_RATE_11025		(1U<<2)		/* 11025Hz */
--#define SNDRV_PCM_RATE_16000		(1U<<3)		/* 16000Hz */
--#define SNDRV_PCM_RATE_22050		(1U<<4)		/* 22050Hz */
--#define SNDRV_PCM_RATE_32000		(1U<<5)		/* 32000Hz */
--#define SNDRV_PCM_RATE_44100		(1U<<6)		/* 44100Hz */
--#define SNDRV_PCM_RATE_48000		(1U<<7)		/* 48000Hz */
--#define SNDRV_PCM_RATE_64000		(1U<<8)		/* 64000Hz */
--#define SNDRV_PCM_RATE_88200		(1U<<9)		/* 88200Hz */
--#define SNDRV_PCM_RATE_96000		(1U<<10)	/* 96000Hz */
--#define SNDRV_PCM_RATE_176400		(1U<<11)	/* 176400Hz */
--#define SNDRV_PCM_RATE_192000		(1U<<12)	/* 192000Hz */
--#define SNDRV_PCM_RATE_352800		(1U<<13)	/* 352800Hz */
--#define SNDRV_PCM_RATE_384000		(1U<<14)	/* 384000Hz */
--#define SNDRV_PCM_RATE_705600		(1U<<15)	/* 705600Hz */
--#define SNDRV_PCM_RATE_768000		(1U<<16)	/* 768000Hz */
-+#define SNDRV_PCM_RATE_12000		(1U<<3)		/* 12000Hz */
-+#define SNDRV_PCM_RATE_16000		(1U<<4)		/* 16000Hz */
-+#define SNDRV_PCM_RATE_22050		(1U<<5)		/* 22050Hz */
-+#define SNDRV_PCM_RATE_24000		(1U<<6)		/* 24000Hz */
-+#define SNDRV_PCM_RATE_32000		(1U<<7)		/* 32000Hz */
-+#define SNDRV_PCM_RATE_44100		(1U<<8)		/* 44100Hz */
-+#define SNDRV_PCM_RATE_48000		(1U<<9)		/* 48000Hz */
-+#define SNDRV_PCM_RATE_64000		(1U<<10)	/* 64000Hz */
-+#define SNDRV_PCM_RATE_88200		(1U<<11)	/* 88200Hz */
-+#define SNDRV_PCM_RATE_96000		(1U<<12)	/* 96000Hz */
-+#define SNDRV_PCM_RATE_128000		(1U<<13)	/* 128000Hz */
-+#define SNDRV_PCM_RATE_176400		(1U<<14)	/* 176400Hz */
-+#define SNDRV_PCM_RATE_192000		(1U<<15)	/* 192000Hz */
-+#define SNDRV_PCM_RATE_352800		(1U<<16)	/* 352800Hz */
-+#define SNDRV_PCM_RATE_384000		(1U<<17)	/* 384000Hz */
-+#define SNDRV_PCM_RATE_705600		(1U<<18)	/* 705600Hz */
-+#define SNDRV_PCM_RATE_768000		(1U<<19)	/* 768000Hz */
- 
- #define SNDRV_PCM_RATE_CONTINUOUS	(1U<<30)	/* continuous range */
- #define SNDRV_PCM_RATE_KNOT		(1U<<31)	/* supports more non-continuous rates */
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index 44381514f695..7461a727615c 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -2418,13 +2418,13 @@ static int snd_pcm_hw_rule_sample_bits(struct snd_pcm_hw_params *params,
- 	return snd_interval_refine(hw_param_interval(params, rule->var), &t);
- }
- 
--#if SNDRV_PCM_RATE_5512 != 1 << 0 || SNDRV_PCM_RATE_192000 != 1 << 12
-+#if SNDRV_PCM_RATE_5512 != 1 << 0 || SNDRV_PCM_RATE_768000 != 1 << 19
- #error "Change this table"
- #endif
- 
- static const unsigned int rates[] = {
--	5512, 8000, 11025, 16000, 22050, 32000, 44100,
--	48000, 64000, 88200, 96000, 176400, 192000, 352800, 384000, 705600, 768000
-+	5512, 8000, 11025, 12000, 16000, 22050, 24000, 32000, 44100, 48000, 64000,
-+	88200, 96000, 128000, 176400, 192000, 352800, 384000, 705600, 768000,
- };
- 
- const struct snd_pcm_hw_constraint_list snd_pcm_known_rates = {
+ include/sound/pcm.h                  | 31 +++++++++++++++++--------------
+ sound/core/pcm_native.c              |  6 +++---
+ sound/pci/cmipci.c                   | 32 +++++++++-----------------------
+ sound/pci/emu10k1/emupcm.c           | 31 +++++--------------------------
+ sound/pci/rme9652/hdsp.c             | 18 ++++++------------
+ sound/pci/rme9652/hdspm.c            | 16 +---------------
+ sound/soc/codecs/cs35l34.c           | 21 ---------------------
+ sound/soc/codecs/cs35l36.c           | 34 ++++++++++++----------------------
+ sound/soc/codecs/cs35l41.c           | 34 +++++++++++-----------------------
+ sound/soc/codecs/cs53l30.c           | 24 +++---------------------
+ sound/soc/codecs/spdif_receiver.c    |  3 ++-
+ sound/soc/codecs/spdif_transmitter.c |  3 ++-
+ sound/soc/intel/avs/pcm.c            | 22 ++++++----------------
+ sound/soc/qcom/qdsp6/q6asm-dai.c     | 31 ++++++++++---------------------
+ sound/soc/sunxi/sun4i-codec.c        | 28 +++++++++-------------------
+ 15 files changed, 96 insertions(+), 238 deletions(-)
+---
+base-commit: 785f4052380684dbcc156203c537c799e2f4be09
+change-id: 20240905-alsa-12-24-128-8edab4c08dd4
 
+Best regards,
 -- 
-2.45.2
+Jerome
 
