@@ -1,155 +1,122 @@
-Received: from fhigh4-smtp.messagingengine.com (fhigh4-smtp.messagingengine.com [103.168.172.155])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 125741898E4;
-	Thu,  5 Sep 2024 08:33:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4259819341E;
+	Thu,  5 Sep 2024 08:34:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725525195; cv=none; b=I9GUbtcueT483VA7s1/vC8pYuu8rj3twUBX5uQ7t/1ZFt0FKtNykEz4oiEuNIcmoRczOz/NzSgAdm/a07xKs0sb/uJUAQowC1/gP4JGxWIDl1CdOExsedqhKMs1Ai/LvJOAf2FKOjdqb0uq204xkdOcUIJWd/ZxYuCfsox0egqA=
+	t=1725525268; cv=none; b=ElqYW20RkDXZcYixFyLMm6Z4fRi2MMBNW+IU7RB5uWs+wbPDie9AViOZ1vz4tbaSJET2fBmfXXH+tllS5bgZRA4yKOyrDB3KB0YMBeKqrhulpuqAGanMyi1E0HQ7Eq+2TnSMvqQ1qkOkKiVhZvsvdGJHMoJWpeO6N3/KkM6EP0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725525195; c=relaxed/simple;
-	bh=kGdVf3qo9k1gCYwsKx6yKPqGhxh/Vd7vdgw+3LLgjgw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bDsvAUP9gDTMcm1N64/Pwu6eotszPaJLIuD1P9D/VGIZC2FyAv9A3RgsI1KHzBoM/gW+xgglTi+L8199aNJasZC3VkjmaLqT6/u/V6Xx6FUShXuhIKUyCDRN2EXodnC59+mVTlV6DIllbbNoiBqKeEY2Gjd327jBBlz0BwBjyGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=aB6zsmLT; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=VugtY2xi; arc=none smtp.client-ip=103.168.172.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
+	s=arc-20240116; t=1725525268; c=relaxed/simple;
+	bh=VckIPtdfed8GjyudCjkRZ3LDyAZv0/6vNcZcmWw9JEE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QFj8HDAK9+GOP70XxzDmCxjKCpzJ+VZWL91iSaldKQHrD8ojKAwkbzeMOOga5qrmEUW7O1pAr85oS7hFvowkNi1dWIpjHh+dcMZ9Vv4KLve9KiriYoFEogoZlH1cRp0B391WemlaPFpZQqmuOy6kVD5lxdKkYy4t90Q3yV8JQ1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mcfZhAfs; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="aB6zsmLT";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="VugtY2xi"
-Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 376DD114025D;
-	Thu,  5 Sep 2024 04:33:13 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Thu, 05 Sep 2024 04:33:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1725525193; x=
-	1725611593; bh=zGSwkm/0b+Yg9/6KAThHY5kiKR2ZHgtclxl8/SMSTTk=; b=a
-	B6zsmLTJHx/sBLDHdAeC1x7Y29e18WaFclGsvcZbikJexhCmVlgRBL/Vk2B60YjW
-	ev6v6dSdsKWLQJJtDO42vWi7D5EYVFsY2YFR3hZ0HueJ+C+OAi0svgEHEOEU3YIl
-	jLn9xgKbQyd+asDek4voCN4B+R0ztuk0KO3jMXzmJXDQ69UrUQPUJTDNu9DmStKo
-	eOM+b1Gx/iTaGiEvLF7SiXMQVKDDM6SDayEZna7msM2aEfwC2wmgZSVhoISORAXH
-	2bjh4ewY8va63tvREXu3YXem7ZazUyc/B8BFZqSlNfHVdQ0S5tH2vQP2v7fhFif/
-	RiJK1fgixsyfM2/ywa2bw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1725525193; x=1725611593; bh=zGSwkm/0b+Yg9/6KAThHY5kiKR2Z
-	Hgtclxl8/SMSTTk=; b=VugtY2xiPr0qp8/flK0OLuGNgS2AMstjuD4HlXxdfk/8
-	5wqyAVs0nGmKYdrljlMTd+wb4huzeFCrVHQHJJ/jtQB++w+12xtkX21xIHZ74V0f
-	l93lR29lGUkuzPidPQtfBdK3RPMDyWycljzyGWkU/OGUeGq1Mda5VF3crw2fyFOS
-	TlMpsdq2byjZvCslmH1CKlp+UozgVJamdejHWVsC+8JLfYMUq17eOp4lZJUedBI7
-	eZhM/dubMIB9/BiG4RrWcrEIY2LiRSf1LGfH7aPrMDx4a64DVz7+AbuYeY71XfW/
-	57tJBcsZaNTzxm0al3qSeBhu8QXUcZDuFT2QMO/FUg==
-X-ME-Sender: <xms:yWzZZnyAG0_DwJ03OmbeKFaMLmDDIXbYWOTQSs7p76NLz1u7DUUi0w>
-    <xme:yWzZZvQ4a6alloQH_LTZgIIB-hPFIu1C7zHM0yhR6v9UyUHHmtuAbS6ZIGr6x2dZE
-    xV3VLYak8fzoxLkl2c>
-X-ME-Received: <xmr:yWzZZhXQIkEnkDGQLgIEGYm3lshN7V97xVQhWCxw9lhkSuVStgUKvLM9JGOn5drz9q80aqLfhemChk0-NJuI9UJWQW2HIc1BBfM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudehledgtdehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvve
-    fukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefvrghkrghshhhiucfurghkrghm
-    ohhtohcuoehoqdhtrghkrghshhhisehsrghkrghmohgttghhihdrjhhpqeenucggtffrrg
-    htthgvrhhnpeevieelhfdukeffheekffduudevvdefudelleefgeeileejheejuedvgefh
-    teevvdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepohdqthgrkhgrshhhihesshgrkhgrmhho
-    tggthhhirdhjphdpnhgspghrtghpthhtohepjedpmhhouggvpehsmhhtphhouhhtpdhrtg
-    hpthhtohepthhifigrihesshhushgvrdguvgdprhgtphhtthhopehlihhnuhigqdhkvghr
-    nhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhsoh
-    hunhgusehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghprghisheslhhi
-    nhhugidrmhhitghrohhsohhfthdrtghomhdprhgtphhtthhopegvughmuhhnugdrrhgrih
-    hlvgesphhrohhtohhnmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughi
-    rgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehnvghtuggvvhesvhhgvg
-    hrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:yWzZZhjjBFH1fJPPBz37WksJSTgJIBVhHPDaByGd_gpQKHAducOTWw>
-    <xmx:yWzZZpAFgEnJY4XfU9KEjNDdxODWeGJCVoF3IX_rfatFFMbt_GAeMw>
-    <xmx:yWzZZqJaKNIwyDhjHRuBSSY0iHE7fFzXM6TrELooMHfj02nmZmrMFA>
-    <xmx:yWzZZoC0kTgGcIGxlefUbRNOM0bMGEG1N9ywZUUlkRvdDNvx6S61wQ>
-    <xmx:yWzZZjDopFgs21W5cE3Mjf7UDezaFt3iOHBkC33vSYAACfN9dSAyzO7F>
-Feedback-ID: ie8e14432:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 5 Sep 2024 04:33:11 -0400 (EDT)
-Date: Thu, 5 Sep 2024 17:33:09 +0900
-From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-To: tiwai@suse.de, linux-kernel@vger.kernel.org
-Cc: linux-sound@vger.kernel.org, apais@linux.microsoft.com,
-	edmund.raile@protonmail.com, linux-media@vger.kernel.org,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH 0/5] firewire: use sleepable workqueue to handle 1394
- OHCI IT/IR context events
-Message-ID: <20240905083309.GA488601@workstation.local>
-Mail-Followup-To: Takashi Sakamoto <o-takashi@sakamocchi.jp>, tiwai@suse.de,
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
-	apais@linux.microsoft.com, edmund.raile@protonmail.com,
-	linux-media@vger.kernel.org, netdev@vger.kernel.org
-References: <20240904125155.461886-1-o-takashi@sakamocchi.jp>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mcfZhAfs"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a86acbaddb4so67775566b.1;
+        Thu, 05 Sep 2024 01:34:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725525264; x=1726130064; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VckIPtdfed8GjyudCjkRZ3LDyAZv0/6vNcZcmWw9JEE=;
+        b=mcfZhAfsLuTlvIbtnwFA38sJuBcT25jzwoiSAi9PokY89dlZPzmMflRGal0Nx3h203
+         Ysk4XFGwNYOjBCiy2mSX4iVa3MmfLKfgQrkA0Gg7TGEjueCsf7TGhBZacu4jI2worDwO
+         TvzuZ7CFTFgqhbZW0gGgpzQHhxCDorh4pNhbR2/hEPIwsUPQlYJmvjH32z7cp/j4k7KY
+         UEuSVYBMqdpKdAEJ4UkBTz8X6GS2zakljHVXBTxzu/TlrRJ0Rh+KKpzlOuiEkl21KKZb
+         A7x479ywFS39DwTL2vYAISDaiCQmpK4oFy17v0zt9a28eV/fyD7bDU6z38ebmBFhjH+m
+         768g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725525264; x=1726130064;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VckIPtdfed8GjyudCjkRZ3LDyAZv0/6vNcZcmWw9JEE=;
+        b=eQ6FG5jSrUvJx6Gs8UePlGqisu3lRyaizF6sR7YXOfn8oLgTFJLzRFWRYfhdgQZ49H
+         OB0Vi7gQUUPfbK/wskZIjkI3ZO0BsnDeiQ0m4aYJQlOyqmdMCIo0+iZzsGT3GZ5fJn24
+         by17WY+ct6DFpuyOauqbUO8NU05YMEsnjp0dEhGlxSTc/xw0KsDTSfAW0qevoRVw3a6s
+         GZPofnBFCYDxmZACFCxYu42/BvvXgsxMUP0/sp9W7Yk2MMkTpdoftBpvTSLeZ0caEopL
+         x/E4eqt5QFWIM2JNp1QTo6G6/0Zf9KmY8Wto5dstXu1RoO3R8p312C9uTocgrHBmQIhM
+         wAXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW76e3h92UMnyy8XbBKDusb2U8M3MN+mFTjiYGFMzwtsS7flIYwFl4o74+6/uLcnuqwdVmOBAssLtK0guY=@vger.kernel.org, AJvYcCWVUeIcn+9AL9SQDX51GdwONukGSJN1YOocTUq+H5K6TyM4pq0LW5lKloj1B04ThymeAJtOTZjW0EOa@vger.kernel.org
+X-Gm-Message-State: AOJu0YyjIDOMRMIKHCNCt+UipX7bwLQTKhlgv6uSgaiwnhxvFSXJ10Tl
+	AhO2zc2YB76Mr3KxSXCLE12XJornhxZ2ViuHm8SYvPcA/BnzYlgmaVtQYSPLFzWOUweCS9b4Utb
+	R6pCPnbOkGYMxal03Aw5H76pA308=
+X-Google-Smtp-Source: AGHT+IHvV+aIbib5qEchTzia04VRhd80KuVjvWRdgg5ffoysV8XnGZaJsGq5V1QhKeXUroZD2jmRuq6BJYEVPV0WRro=
+X-Received: by 2002:a17:907:7251:b0:a86:7c5d:1856 with SMTP id
+ a640c23a62f3a-a897fa744a8mr2068532266b.46.1725525264155; Thu, 05 Sep 2024
+ 01:34:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240904125155.461886-1-o-takashi@sakamocchi.jp>
+References: <cover.1725518229.git.zhoubinbin@loongson.cn> <f581c749-999f-44a3-94a8-a39d355c32c5@linaro.org>
+In-Reply-To: <f581c749-999f-44a3-94a8-a39d355c32c5@linaro.org>
+From: Binbin Zhou <zhoubb.aaron@gmail.com>
+Date: Thu, 5 Sep 2024 14:34:10 +0600
+Message-ID: <CAMpQs4Jqx56NRkdVPztPe+xXcY-A=WDxGua-pc1OyYG8kD2Q0Q@mail.gmail.com>
+Subject: Re: [PATCH v1 00/10] ASoC: Some issues about loongson i2s
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Binbin Zhou <zhoubinbin@loongson.cn>, Huacai Chen <chenhuacai@loongson.cn>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Huacai Chen <chenhuacai@kernel.org>, 
+	devicetree@vger.kernel.org, linux-sound@vger.kernel.org, 
+	Xuerui Wang <kernel@xen0n.name>, loongarch@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 04, 2024 at 09:51:49PM +0900, Takashi Sakamoto wrote:
-> Hi,
-> 
-> This series of changes updates my previous RFT[1] to apply for v6.12
-> kernel. For the detail, please refer to the previous one.
-> 
-> To Iwai-san, this series includes the change for sound subsystem as
-> well. All of changes are specific to ALSA firewire stack, so I would
-> like to send it to Linus as the part of firewire subsystem updates if
-> you do not mind it.
-> 
-> Changes from the RFT:
-> * WQ_FREEZABLE is newly supported in the workqueue
-> * Improve code comment in IEC 61883-1/6 packet streaming engine
-> * Avoid dead lock in the calls of workqueue sync API
-> 
-> [1] https://lore.kernel.org/lkml/20240901110642.154523-1-o-takashi@sakamocchi.jp/
-> 
-> 
-> Regards
-> 
-> Takashi Sakamoto (5):
->   firewire: core: allocate workqueue to handle isochronous contexts in
->     card
->   firewire: core: add local API to queue work item to workqueue specific
->     to isochronous contexts
->   firewire: ohci: operate IT/IR events in sleepable work process instead
->     of tasklet softIRQ
->   firewire: core: non-atomic memory allocation for isochronous event to
->     user client
->   ALSA: firewire: use nonatomic PCM operation
-> 
->  drivers/firewire/core-card.c             | 33 ++++++++++++--
->  drivers/firewire/core-cdev.c             |  4 +-
->  drivers/firewire/core-iso.c              | 30 ++++++++++++-
->  drivers/firewire/core.h                  | 14 +++++-
->  drivers/firewire/ohci.c                  | 57 +++++++++++++++++++-----
->  include/linux/firewire.h                 |  3 ++
->  sound/firewire/amdtp-stream.c            | 34 +++++++++++---
->  sound/firewire/bebob/bebob_pcm.c         |  1 +
->  sound/firewire/dice/dice-pcm.c           |  1 +
->  sound/firewire/digi00x/digi00x-pcm.c     |  1 +
->  sound/firewire/fireface/ff-pcm.c         |  1 +
->  sound/firewire/fireworks/fireworks_pcm.c |  1 +
->  sound/firewire/isight.c                  |  1 +
->  sound/firewire/motu/motu-pcm.c           |  1 +
->  sound/firewire/oxfw/oxfw-pcm.c           |  1 +
->  sound/firewire/tascam/tascam-pcm.c       |  1 +
->  16 files changed, 157 insertions(+), 27 deletions(-)
+On Thu, Sep 5, 2024 at 2:14=E2=80=AFPM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On 05/09/2024 09:02, Binbin Zhou wrote:
+> > Hi all:
+> >
+> > This patch set is mainly about Loongson i2s related issues.
+> >
+> > Please allow me to briefly explain this patch set:
+> > Patch 1-2: Add ES8323 codec required on Loongson-2K2000
+> > Patch 3-4: Add uda1342 codec required on Loongson-2K1000
+> > Patch 5: Improve code readability
+> > Patch 6: Fix the problem of unable to detect codec under FDT system.
+> > Patch 7-8: Add Loongson i2s platform device support
+> > Patch 9-10: Related DTS support.
+>
+> This was based on some old tree... or you do not use get_maintainers.pl.
 
-I applied all of them to for-next branch.
+Hi Krzysztof:
 
+I used the following method to obtain the email address I need to copy:
 
-Regards
+scripts/get_maintainer.pl sound/soc/
+Liam Girdwood <lgirdwood@gmail.com> (supporter:SOUND - SOC LAYER /
+DYNAMIC AUDIO POWER MANAGEM...)
+Mark Brown <broonie@kernel.org> (supporter:SOUND - SOC LAYER / DYNAMIC
+AUDIO POWER MANAGEM...)
+Jaroslav Kysela <perex@perex.cz> (maintainer:SOUND)
+Takashi Iwai <tiwai@suse.com> (maintainer:SOUND)
+linux-sound@vger.kernel.org (open list:SOUND - SOC LAYER / DYNAMIC
+AUDIO POWER MANAGEM...)
+linux-kernel@vger.kernel.org (open list)
 
-Takashi Sakamoto
+The code repository from MAINTAINERS:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git/log/?h=3D=
+for-next
+base commit: 097a44db5747403b19d05a9664e8ec6adba27e3b
+
+Is there anything I'm missing, or where I'm going wrong?
+
+Thanks.
+Binbin
+>
+> Best regards,
+> Krzysztof
+>
