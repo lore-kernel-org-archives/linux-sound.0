@@ -1,33 +1,42 @@
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A7A13DDDF;
-	Thu,  5 Sep 2024 03:22:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B43C188A24;
+	Thu,  5 Sep 2024 07:02:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725506544; cv=none; b=c7J14dEVlqou703jVQe0urKMDE4NxWa/u+/gPPHVeBGf60Gq7UbSykSck1b+LVMz8OWroVljzw5YP9kXpQUaYN8XD6auosLsONlV5s/d5uI4VNZoQpuuf8SxpsB4d+Aa6VaemI5MudlzgEzN+inHB2OHu0Aq6oPuxMDQHdIdzfs=
+	t=1725519767; cv=none; b=PBLcKTYJO9COtL1wmlmLD1VJs4yxeO12sEeXXLPjyivxs2iYGNOOzEiY0gQ3xiqBFbRYcsB7B0PilNq/bZbpaHMnITBNlwIoZMKOPf2CPltcDVwZs/ECyHoBdBaPNlQE/E17KoBHBLT6vSxRUPelF2Rc5LC4Dn6Og2giPH4negk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725506544; c=relaxed/simple;
-	bh=u1xJdmO89Fdc1y5TyQpgCfPJJGT772u6ZMIA3pKy4MY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lYbXqh5u6ZL0LX7Hd7Utkt1XDcCxkvX2KjqnWG0E4b1va/bzM6ak0aUiiwusveU8EQCaEcaJ3tdwLV2cj5trBorpOKBLrdxPMKuzqALmqB3qJDphbB9P3EBSfTDJ1YoXIhnP8YL5pknYw43B63TfZH/VS1RtVc7GNDoyvfZ653M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost (unknown [124.16.138.129])
-	by APP-05 (Coremail) with SMTP id zQCowAB3f+vkI9lm0SlcAQ--.17143S2;
-	Thu, 05 Sep 2024 11:22:13 +0800 (CST)
-From: Chen Ni <nichen@iscas.ac.cn>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] ASoC: topology-test: Convert comma to semicolon
-Date: Thu,  5 Sep 2024 11:21:48 +0800
-Message-Id: <20240905032148.1929393-1-nichen@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1725519767; c=relaxed/simple;
+	bh=3baeLYdHXf7NGUbfR2ssniO9/iFtU83bq7QROwdT1hg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X1JgZkq4tYb+8AOX6LyXlXQOZzSubRd32j/nA8EfgVgOaEobENP5dkl1/cssCq38ChslBJEAnVyUanj9mf7IRTaZI6NLJpyliqFrcj3Pox3FIMHQAMPKbqtdM5x8eX9Rr5k7+aZMZsCgBclbKD5bE8hwFti1T0O8lhXH/mDrLBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [223.64.68.71])
+	by gateway (Coremail) with SMTP id _____8BxmpqRV9lmhhkrAA--.46575S3;
+	Thu, 05 Sep 2024 15:02:41 +0800 (CST)
+Received: from localhost.localdomain (unknown [223.64.68.71])
+	by front1 (Coremail) with SMTP id qMiowMAxXNyJV9lm38IEAA--.21058S2;
+	Thu, 05 Sep 2024 15:02:36 +0800 (CST)
+From: Binbin Zhou <zhoubinbin@loongson.cn>
+To: Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Huacai Chen <chenhuacai@loongson.cn>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Huacai Chen <chenhuacai@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Xuerui Wang <kernel@xen0n.name>,
+	loongarch@lists.linux.dev,
+	Binbin Zhou <zhoubinbin@loongson.cn>
+Subject: [PATCH v1 00/10] ASoC: Some issues about loongson i2s
+Date: Thu,  5 Sep 2024 15:02:13 +0800
+Message-ID: <cover.1725518229.git.zhoubinbin@loongson.cn>
+X-Mailer: git-send-email 2.43.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,253 +44,83 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowAB3f+vkI9lm0SlcAQ--.17143S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3AFy8Zw4ruw4fXr18Zw45GFg_yoWDJr1DpF
-	1DAFy7WFs7XF1DJ3WkXryDJa4agF1xta1xAr47twn2qFWvkrn3ur1qq34xAFWYyanxXF1r
-	JF15K347Ja9rt3DanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvC14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
-	1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
-	6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE7xkEbV
-	WUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AF
-	wI0_JF0_Jw1lc2xSY4AK67AK6r48MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r
-	1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
-	b7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
-	vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAI
-	cVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kf
-	nxnUUI43ZEXa7VUjD73PUUUUU==
-X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
+X-CM-TRANSID:qMiowMAxXNyJV9lm38IEAA--.21058S2
+X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/
+X-Coremail-Antispam: 1Uk129KBj93XoW7CFW5JFW7Ar4kCFyUZryUCFX_yoW5JFWxpa
+	n3C393Wr15Jr43Ar93J3W8GF1rAFyF9FnxGa17t34DGr9rX3WrZw1kJF15ZFZrCryrKF9F
+	qryrCw48GF15GagCm3ZEXasCq-sJn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUB2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+	xVW8Jr0_Cr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
+	AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
+	AVWUtwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7V
+	AKI48JMxkF7I0En4kS14v26r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY
+	6r1j6r4UMxCIbckI1I0E14v26r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
+	xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xII
+	jxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw2
+	0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x02
+	67AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUcpBTUUUUU
 
-Replace comma between expressions with semicolons.
+Hi all:
 
-Using a ',' in place of a ';' can have unintended side effects.
-Although that is not the case here, it is seems best to use ';'
-unless ',' is intended.
+This patch set is mainly about Loongson i2s related issues.
 
-Found by inspection.
-No functional change intended.
-Compile tested only.
+Please allow me to briefly explain this patch set:
+Patch 1-2: Add ES8323 codec required on Loongson-2K2000
+Patch 3-4: Add uda1342 codec required on Loongson-2K1000
+Patch 5: Improve code readability
+Patch 6: Fix the problem of unable to detect codec under FDT system.
+Patch 7-8: Add Loongson i2s platform device support
+Patch 9-10: Related DTS support.
 
-Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
----
- sound/soc/soc-topology-test.c | 132 +++++++++++++++++-----------------
- 1 file changed, 66 insertions(+), 66 deletions(-)
+Thanks.
 
-diff --git a/sound/soc/soc-topology-test.c b/sound/soc/soc-topology-test.c
-index d62a02ec5896..a2b08568f4e8 100644
---- a/sound/soc/soc-topology-test.c
-+++ b/sound/soc/soc-topology-test.c
-@@ -244,12 +244,12 @@ static void snd_soc_tplg_test_load_with_null_comp(struct kunit *test)
- 	kunit_comp->kunit = test;
- 	kunit_comp->expect = -EINVAL; /* expect failure */
- 
--	kunit_comp->card.dev = test_dev,
--	kunit_comp->card.name = "kunit-card",
--	kunit_comp->card.owner = THIS_MODULE,
--	kunit_comp->card.dai_link = kunit_dai_links,
--	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links),
--	kunit_comp->card.fully_routed = true,
-+	kunit_comp->card.dev = test_dev;
-+	kunit_comp->card.name = "kunit-card";
-+	kunit_comp->card.owner = THIS_MODULE;
-+	kunit_comp->card.dai_link = kunit_dai_links;
-+	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links);
-+	kunit_comp->card.fully_routed = true;
- 
- 	/* run test */
- 	ret = snd_soc_register_card(&kunit_comp->card);
-@@ -286,12 +286,12 @@ static void snd_soc_tplg_test_load_with_null_ops(struct kunit *test)
- 	kunit_comp->kunit = test;
- 	kunit_comp->expect = 0; /* expect success */
- 
--	kunit_comp->card.dev = test_dev,
--	kunit_comp->card.name = "kunit-card",
--	kunit_comp->card.owner = THIS_MODULE,
--	kunit_comp->card.dai_link = kunit_dai_links,
--	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links),
--	kunit_comp->card.fully_routed = true,
-+	kunit_comp->card.dev = test_dev;
-+	kunit_comp->card.name = "kunit-card";
-+	kunit_comp->card.owner = THIS_MODULE;
-+	kunit_comp->card.dai_link = kunit_dai_links;
-+	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links);
-+	kunit_comp->card.fully_routed = true;
- 
- 	/* run test */
- 	ret = snd_soc_register_card(&kunit_comp->card);
-@@ -348,12 +348,12 @@ static void snd_soc_tplg_test_load_with_null_fw(struct kunit *test)
- 	kunit_comp->kunit = test;
- 	kunit_comp->expect = -EINVAL; /* expect failure */
- 
--	kunit_comp->card.dev = test_dev,
--	kunit_comp->card.name = "kunit-card",
--	kunit_comp->card.owner = THIS_MODULE,
--	kunit_comp->card.dai_link = kunit_dai_links,
--	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links),
--	kunit_comp->card.fully_routed = true,
-+	kunit_comp->card.dev = test_dev;
-+	kunit_comp->card.name = "kunit-card";
-+	kunit_comp->card.owner = THIS_MODULE;
-+	kunit_comp->card.dai_link = kunit_dai_links;
-+	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links);
-+	kunit_comp->card.fully_routed = true;
- 
- 	/* run test */
- 	ret = snd_soc_register_card(&kunit_comp->card);
-@@ -396,12 +396,12 @@ static void snd_soc_tplg_test_load_empty_tplg(struct kunit *test)
- 	kunit_comp->fw.data = (u8 *)data;
- 	kunit_comp->fw.size = size;
- 
--	kunit_comp->card.dev = test_dev,
--	kunit_comp->card.name = "kunit-card",
--	kunit_comp->card.owner = THIS_MODULE,
--	kunit_comp->card.dai_link = kunit_dai_links,
--	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links),
--	kunit_comp->card.fully_routed = true,
-+	kunit_comp->card.dev = test_dev;
-+	kunit_comp->card.name = "kunit-card";
-+	kunit_comp->card.owner = THIS_MODULE;
-+	kunit_comp->card.dai_link = kunit_dai_links;
-+	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links);
-+	kunit_comp->card.fully_routed = true;
- 
- 	/* run test */
- 	ret = snd_soc_register_card(&kunit_comp->card);
-@@ -451,12 +451,12 @@ static void snd_soc_tplg_test_load_empty_tplg_bad_magic(struct kunit *test)
- 	kunit_comp->fw.data = (u8 *)data;
- 	kunit_comp->fw.size = size;
- 
--	kunit_comp->card.dev = test_dev,
--	kunit_comp->card.name = "kunit-card",
--	kunit_comp->card.owner = THIS_MODULE,
--	kunit_comp->card.dai_link = kunit_dai_links,
--	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links),
--	kunit_comp->card.fully_routed = true,
-+	kunit_comp->card.dev = test_dev;
-+	kunit_comp->card.name = "kunit-card";
-+	kunit_comp->card.owner = THIS_MODULE;
-+	kunit_comp->card.dai_link = kunit_dai_links;
-+	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links);
-+	kunit_comp->card.fully_routed = true;
- 
- 	/* run test */
- 	ret = snd_soc_register_card(&kunit_comp->card);
-@@ -506,12 +506,12 @@ static void snd_soc_tplg_test_load_empty_tplg_bad_abi(struct kunit *test)
- 	kunit_comp->fw.data = (u8 *)data;
- 	kunit_comp->fw.size = size;
- 
--	kunit_comp->card.dev = test_dev,
--	kunit_comp->card.name = "kunit-card",
--	kunit_comp->card.owner = THIS_MODULE,
--	kunit_comp->card.dai_link = kunit_dai_links,
--	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links),
--	kunit_comp->card.fully_routed = true,
-+	kunit_comp->card.dev = test_dev;
-+	kunit_comp->card.name = "kunit-card";
-+	kunit_comp->card.owner = THIS_MODULE;
-+	kunit_comp->card.dai_link = kunit_dai_links;
-+	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links);
-+	kunit_comp->card.fully_routed = true;
- 
- 	/* run test */
- 	ret = snd_soc_register_card(&kunit_comp->card);
-@@ -561,12 +561,12 @@ static void snd_soc_tplg_test_load_empty_tplg_bad_size(struct kunit *test)
- 	kunit_comp->fw.data = (u8 *)data;
- 	kunit_comp->fw.size = size;
- 
--	kunit_comp->card.dev = test_dev,
--	kunit_comp->card.name = "kunit-card",
--	kunit_comp->card.owner = THIS_MODULE,
--	kunit_comp->card.dai_link = kunit_dai_links,
--	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links),
--	kunit_comp->card.fully_routed = true,
-+	kunit_comp->card.dev = test_dev;
-+	kunit_comp->card.name = "kunit-card";
-+	kunit_comp->card.owner = THIS_MODULE;
-+	kunit_comp->card.dai_link = kunit_dai_links;
-+	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links);
-+	kunit_comp->card.fully_routed = true;
- 
- 	/* run test */
- 	ret = snd_soc_register_card(&kunit_comp->card);
-@@ -617,12 +617,12 @@ static void snd_soc_tplg_test_load_empty_tplg_bad_payload_size(struct kunit *tes
- 	kunit_comp->fw.data = (u8 *)data;
- 	kunit_comp->fw.size = size;
- 
--	kunit_comp->card.dev = test_dev,
--	kunit_comp->card.name = "kunit-card",
--	kunit_comp->card.owner = THIS_MODULE,
--	kunit_comp->card.dai_link = kunit_dai_links,
--	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links),
--	kunit_comp->card.fully_routed = true,
-+	kunit_comp->card.dev = test_dev;
-+	kunit_comp->card.name = "kunit-card";
-+	kunit_comp->card.owner = THIS_MODULE;
-+	kunit_comp->card.dai_link = kunit_dai_links;
-+	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links);
-+	kunit_comp->card.fully_routed = true;
- 
- 	/* run test */
- 	ret = snd_soc_register_card(&kunit_comp->card);
-@@ -665,12 +665,12 @@ static void snd_soc_tplg_test_load_pcm_tplg(struct kunit *test)
- 	kunit_comp->fw.data = data;
- 	kunit_comp->fw.size = size;
- 
--	kunit_comp->card.dev = test_dev,
--	kunit_comp->card.name = "kunit-card",
--	kunit_comp->card.owner = THIS_MODULE,
--	kunit_comp->card.dai_link = kunit_dai_links,
--	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links),
--	kunit_comp->card.fully_routed = true,
-+	kunit_comp->card.dev = test_dev;
-+	kunit_comp->card.name = "kunit-card";
-+	kunit_comp->card.owner = THIS_MODULE;
-+	kunit_comp->card.dai_link = kunit_dai_links;
-+	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links);
-+	kunit_comp->card.fully_routed = true;
- 
- 	/* run test */
- 	ret = snd_soc_register_card(&kunit_comp->card);
-@@ -715,12 +715,12 @@ static void snd_soc_tplg_test_load_pcm_tplg_reload_comp(struct kunit *test)
- 	kunit_comp->fw.data = data;
- 	kunit_comp->fw.size = size;
- 
--	kunit_comp->card.dev = test_dev,
--	kunit_comp->card.name = "kunit-card",
--	kunit_comp->card.owner = THIS_MODULE,
--	kunit_comp->card.dai_link = kunit_dai_links,
--	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links),
--	kunit_comp->card.fully_routed = true,
-+	kunit_comp->card.dev = test_dev;
-+	kunit_comp->card.name = "kunit-card";
-+	kunit_comp->card.owner = THIS_MODULE;
-+	kunit_comp->card.dai_link = kunit_dai_links;
-+	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links);
-+	kunit_comp->card.fully_routed = true;
- 
- 	/* run test */
- 	ret = snd_soc_register_card(&kunit_comp->card);
-@@ -767,12 +767,12 @@ static void snd_soc_tplg_test_load_pcm_tplg_reload_card(struct kunit *test)
- 	kunit_comp->fw.data = data;
- 	kunit_comp->fw.size = size;
- 
--	kunit_comp->card.dev = test_dev,
--	kunit_comp->card.name = "kunit-card",
--	kunit_comp->card.owner = THIS_MODULE,
--	kunit_comp->card.dai_link = kunit_dai_links,
--	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links),
--	kunit_comp->card.fully_routed = true,
-+	kunit_comp->card.dev = test_dev;
-+	kunit_comp->card.name = "kunit-card";
-+	kunit_comp->card.owner = THIS_MODULE;
-+	kunit_comp->card.dai_link = kunit_dai_links;
-+	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links);
-+	kunit_comp->card.fully_routed = true;
- 
- 	/* run test */
- 	ret = snd_soc_component_initialize(&kunit_comp->comp, &test_component, test_dev);
+base-commit: 097a44db5747403b19d05a9664e8ec6adba27e3b
+
+Binbin Zhou (10):
+  ASoC: dt-bindings: Add Everest ES8323 Codec
+  ASoC: codecs: Add support for ES8323
+  ASoC: dt-bindings: Add NXP uda1342 Codec
+  ASoC: codecs: Add uda1342 codec driver
+  ASoC: loongson: Improve code readability
+  ASoC: loongson: Fix codec detection failure on FDT systems
+  ASoC: dt-bindings: Add Loongson I2S controller
+  ASoC: loongson: Add I2S controller driver as platform device
+  LoongArch: dts: Add I2S support to Loongson-2K1000
+  LoongArch: dts: Add I2S support to Loongson-2K2000
+
+ .../bindings/sound/everest,es8323.yaml        |  49 +
+ .../bindings/sound/loongson,ls2k-i2s.yaml     |  66 ++
+ .../bindings/sound/nxp,uda1342.yaml           |  42 +
+ arch/loongarch/boot/dts/loongson-2k1000.dtsi  |  17 +-
+ arch/loongarch/boot/dts/loongson-2k2000.dtsi  |  22 +-
+ sound/soc/codecs/Kconfig                      |  13 +
+ sound/soc/codecs/Makefile                     |   4 +
+ sound/soc/codecs/es8323.c                     | 849 ++++++++++++++++++
+ sound/soc/codecs/es8323.h                     |  77 ++
+ sound/soc/codecs/uda1342.c                    | 397 ++++++++
+ sound/soc/codecs/uda1342.h                    |  77 ++
+ sound/soc/loongson/Kconfig                    |  12 +-
+ sound/soc/loongson/Makefile                   |   3 +
+ sound/soc/loongson/loongson_card.c            | 217 +++--
+ sound/soc/loongson/loongson_dma.c             |  10 +-
+ sound/soc/loongson/loongson_i2s.c             | 110 +--
+ sound/soc/loongson/loongson_i2s.h             |  24 +-
+ sound/soc/loongson/loongson_i2s_pci.c         |  51 +-
+ sound/soc/loongson/loongson_i2s_plat.c        | 186 ++++
+ 19 files changed, 2030 insertions(+), 196 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/everest,es8323.yaml
+ create mode 100644 Documentation/devicetree/bindings/sound/loongson,ls2k-i2s.yaml
+ create mode 100644 Documentation/devicetree/bindings/sound/nxp,uda1342.yaml
+ create mode 100644 sound/soc/codecs/es8323.c
+ create mode 100644 sound/soc/codecs/es8323.h
+ create mode 100644 sound/soc/codecs/uda1342.c
+ create mode 100644 sound/soc/codecs/uda1342.h
+ create mode 100644 sound/soc/loongson/loongson_i2s_plat.c
+
 -- 
-2.25.1
+2.43.5
 
