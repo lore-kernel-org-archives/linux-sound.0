@@ -1,221 +1,191 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A5519DF68;
-	Thu,  5 Sep 2024 14:05:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45F4519E7D8
+	for <linux-sound@vger.kernel.org>; Thu,  5 Sep 2024 14:13:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725545143; cv=none; b=B+qw5pTpXCpsKf/qMnL4SidRxFlMHel5rDNbg8N2XcYyZNDiAaATgm6PfsTGrjyy79qxgmCWsdxtxhYF7Zl1Hwi5vo3wC84o16Vz7nJ72EAhJl8YlEyOn4qnacvtDb70eRAayumULrpdh+kRCluYD1slOfZ5Vj/3JzTODxglyiM=
+	t=1725545617; cv=none; b=ryFn+PHDYLZJL9af/e2P0FhODpb53xY+j9qSd+pv2nQGXN6jMjwGyqV0MkOEUnxGcdXtWG7O7JvolEsCprfzQFvRxoer3S4vrfrUNRNi/RBgHHwFp9GeQKizlXtAdRq9tnZpc3EhFLzcssjwu6e7pOdR89idYnDFo46yilxeDGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725545143; c=relaxed/simple;
-	bh=0Paimslxn1yATioZQ83kmsOB3LEleAVxkHfs+MspNkk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YmVddCLtB/OXrSTxfsRDWc2yipBZFbpfIak1hdb2mhrqvnwsRfUx4D4CCVidFQI7NwAyoGMj6A3lq9MW/z0Db2pTK/ImKkD7N1agW/YGvLRSkjLlW5BaoBSEvEueBL+3+NBa/D4rQ+bKZDF5OCFIJjVvkkSna7PnRAwSCxUuJSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HDexJRFt; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725545617; c=relaxed/simple;
+	bh=nbyk2pbjAgexYBySRE6v5MF/PkMeyNKLqiWP8pzL27U=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=h3IILE7+6u62wCzgkgwbmh3F133loLQRuwCzCVLjT8VFe5y9btPGxgousrnEQiupoy+/RMrqkMz1D5exuEmeUXKBtlkbmsP5M0tU7+cGy4hlKpJv7iYnFNBXpEaOVMhMCF0ngrOkBjDficJkxgmJ4kiH0/UDOxhutP6+IJo0OFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=V4Y1RrbX; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HDexJRFt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16CE5C4CEC5;
-	Thu,  5 Sep 2024 14:05:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725545142;
-	bh=0Paimslxn1yATioZQ83kmsOB3LEleAVxkHfs+MspNkk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HDexJRFtK+lFiPyku3P+8nWS30sNzCaktc7n8MK0jhAFl/3xP1+KJh/R/oacpUbpi
-	 1+pc0qG6A/FZfFMJxv7BGfbggv/97b6mQaGdVo49D7+s+YAlwesqymbBvbtoA6Vh/X
-	 3QJ05HyoWQ8mrDTjb9xm5+zA8Zg5GxURwnuWJ7T8JZus1Y1ILztKBRoUv15EUY8JtT
-	 Ili+bTfkQXK/nsSmd4t43LK1VkvA3bQczRHaj3VbNjdGwa0OSEnc1HohNG18BxlzSd
-	 2EFj7rl1O9qr5UGICJNYrcHDqn1xt3lamfeegEg1Y2CT2UPek5sj635TBxhYran0IN
-	 rEFax9vvMolWg==
-Date: Thu, 5 Sep 2024 15:05:35 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Binbin Zhou <zhoubinbin@loongson.cn>
-Cc: Binbin Zhou <zhoubb.aaron@gmail.com>,
-	Huacai Chen <chenhuacai@loongson.cn>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Huacai Chen <chenhuacai@kernel.org>, devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org, Xuerui Wang <kernel@xen0n.name>,
-	loongarch@lists.linux.dev
-Subject: Re: [PATCH v1 02/10] ASoC: codecs: Add support for ES8323
-Message-ID: <5a7357f7-da3b-4532-b055-ad33eb93fe1c@sirena.org.uk>
-References: <cover.1725518229.git.zhoubinbin@loongson.cn>
- <c44a6525d77941ef235825a58a9ea91f9f7d7042.1725518229.git.zhoubinbin@loongson.cn>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="V4Y1RrbX"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-42bb81e795bso6815205e9.1
+        for <linux-sound@vger.kernel.org>; Thu, 05 Sep 2024 07:13:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1725545612; x=1726150412; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RTW4BPjVBNC1txaO1Qybt7JrbkszqBjqcNmLmY+bYcs=;
+        b=V4Y1RrbX234zbTEMB06cGWFrNMbrbkNToiRtge91tSArERTErk1MEjEanGtGWfuaR/
+         PZJpXbftyKW+5bnznRtvz7hg9rTQfgLcH/GWTQ7gx/Cew21DgBZF4dxMHFF8cg5ZWIAq
+         CeON1xpPDTVkvPPK4ZsmJEUSssvXcHyTkx22J6hioq1pmN/g2xNYhbikFasr1BKDm/u+
+         Q5t21HAG0H2aoZAp07qNqEVRXR658Uo39AcLnSuJNjaDM1QUKcnLp1udQNLpHYVhYJ3l
+         ZSRqsH61rXdk2EIwvhL8wdylqOuvBjobkHwaYlxQUzg1hJ7tbygDDZpeHVTX+ilVbM4a
+         6kOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725545612; x=1726150412;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RTW4BPjVBNC1txaO1Qybt7JrbkszqBjqcNmLmY+bYcs=;
+        b=wBi9dhu/3E6mN2iYbwbl0RLCURO5OmLacY4LDRoZnSQfwaTfCa+o+GOGCCwDqZyZlc
+         Hc8pWAWLrlhMj0jUOpxWIy+T4JXnPgEjsBRMZYB70au5/a2M2E2MWYrCiqwoknUwmPQg
+         5K8t59FYATMb8AQsXQUHr8SjE9dzNy/XmAIZg0AetXDCGXkCZVlFAq7mkUt/Ob7VluEN
+         FzgT/iFl9xLB7OECoqOkplFUi1ImiRF3ava62WdU/QR/enwwEoAMAoquZ/ZsRGwxPARb
+         O1KUA8IaOpW8+tTyeL0/dS8AAtKlTxMpFa6kg3IN9yjdzVlHGs6rTGd0jCvGPqX5unRP
+         DEow==
+X-Gm-Message-State: AOJu0Ywv0IzUY7dTamKXrJcITyG5MJYfuvufIwJ8pjTPxlyXouH6LsDN
+	etO8qkOnnF7uqatA5iWnHUSxi994p2dolz7HOUAdjIHcOjaGmd7IxVQe/I/pRQk=
+X-Google-Smtp-Source: AGHT+IHBWWTYTD/NiKOaA5SpW4N37gd2i4CApX3NZGiNIF1CauMco3Jpwv1V3JBttP1V61f4V94HEw==
+X-Received: by 2002:adf:eace:0:b0:374:c324:eab5 with SMTP id ffacd0b85a97d-374c324eb64mr10087549f8f.41.1725545612335;
+        Thu, 05 Sep 2024 07:13:32 -0700 (PDT)
+Received: from toaster.baylibre.com ([2a01:e0a:3c5:5fb1:4763:343b:23f3:f45])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3749ef81146sm19514621f8f.82.2024.09.05.07.13.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Sep 2024 07:13:31 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+Date: Thu, 05 Sep 2024 16:12:52 +0200
+Subject: [PATCH 01/13] ALSA: pcm: add more sample rate definitions
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="WZrniv5M0HT7TQNR"
-Content-Disposition: inline
-In-Reply-To: <c44a6525d77941ef235825a58a9ea91f9f7d7042.1725518229.git.zhoubinbin@loongson.cn>
-X-Cookie: The horror... the horror!
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240905-alsa-12-24-128-v1-1-8371948d3921@baylibre.com>
+References: <20240905-alsa-12-24-128-v1-0-8371948d3921@baylibre.com>
+In-Reply-To: <20240905-alsa-12-24-128-v1-0-8371948d3921@baylibre.com>
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
+ Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com, alsa-devel@alsa-project.org, 
+ linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, Jerome Brunet <jbrunet@baylibre.com>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4141; i=jbrunet@baylibre.com;
+ h=from:subject:message-id; bh=nbyk2pbjAgexYBySRE6v5MF/PkMeyNKLqiWP8pzL27U=;
+ b=owEBbQKS/ZANAwAKAeb8Dxw38tqFAcsmYgBm2bx+0hxsyOB1G3jUIFP2N4UKQAgjgwcIS7zpN
+ P2ju1g982qJAjMEAAEKAB0WIQT04VmuGPP1bV8btxvm/A8cN/LahQUCZtm8fgAKCRDm/A8cN/La
+ heV4D/wJBqYO/X+0ODfULGsb4Og1L+bWaai0VSP8TToyZzfpSkmUyd/wXZtNo/BLpdsdAYyNKM5
+ K314rJcJfBbWXQT6XmgfRSjc/Kn7xKqFkrJzGUVtpiPlf82h6RW1M25nfekb1lMia6rvaBcRVcQ
+ 15eM1ckLvlIhWZpcEvTaBFWW/V5TUcy64mpJX574qJCKbR0U071AqMTsYgdTJnptPAZOTqhLVDc
+ uKbGoXvfX9F4KWs+YH3d3kjzeDeizAkXrRhv5NHoLeOUvvamYZggmjqJCRWS5oiLPn5JKvkig/L
+ YOCgPtBn4QW8gZKxhOmRqLA2GG24RRADpaEWRPfIUziaeZMYJi2u06HA+gtyzP6gdrwimkS2FN/
+ ii3pA+MwjNoOrCKiHPzKFX1WpeoDruRDBkXtNfnubUsOQj9OI5lUdr0EQna1gUUiVKRKnTr7QDe
+ DiZP64xgjmL/kT/YK6WrZ7BnJ3rpZSd1gOmn8vRYRjG88M3l1PdggL7LXUWSfXtYqxX1loVyR9M
+ Q2ewA4GtbRX6qeWpf26VHv3j7tyVzLfDM2oaxTP1KOlHAp0V6r+4CIWKTst9cGt2ASHCbJgfdVw
+ dA5qjMX3o7PP6ZwPnhwY/uNBmjUtZcX4ZseZNgdFDGYRUuKIb3qCaqAfVjMfRKuQB0XfOKo85A/
+ x/qauD5RnK44B/g==
+X-Developer-Key: i=jbrunet@baylibre.com; a=openpgp;
+ fpr=F29F26CF27BAE1A9719AE6BDC3C92AAF3E60AED9
 
+This adds a sample rate definition for 12kHz, 24kHz and 128kHz.
 
---WZrniv5M0HT7TQNR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Admittedly, just a few drivers are currently using these sample
+rates but there is enough of a recurrence to justify adding a definition
+for them and remove some custom rate constraint code while at it.
 
-On Thu, Sep 05, 2024 at 03:02:15PM +0800, Binbin Zhou wrote:
+The new definitions are not added to the interval definitions, such as
+SNDRV_PCM_RATE_8000_44100, because it would silently add new supported
+rates to drivers that may or may not support them. For sure the drivers
+have not been tested for these new rates so it is better to leave them out
+of interval definitions.
 
-This looks like it was based on some *extremely* old code and needs
-quite a few updates to bring it up to modern standards.
+That being said, the added rates are multiples of well know rates families,
+it is very likely that a lot of devices out there actually supports them.
 
-> + * Author: Mark Brown <will@everset-semi.com>
+Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+---
+ include/sound/pcm.h     | 31 +++++++++++++++++--------------
+ sound/core/pcm_native.c |  6 +++---
+ 2 files changed, 20 insertions(+), 17 deletions(-)
 
-Oh?
+diff --git a/include/sound/pcm.h b/include/sound/pcm.h
+index 732121b934fd..c993350975a9 100644
+--- a/include/sound/pcm.h
++++ b/include/sound/pcm.h
+@@ -109,20 +109,23 @@ struct snd_pcm_ops {
+ #define SNDRV_PCM_RATE_5512		(1U<<0)		/* 5512Hz */
+ #define SNDRV_PCM_RATE_8000		(1U<<1)		/* 8000Hz */
+ #define SNDRV_PCM_RATE_11025		(1U<<2)		/* 11025Hz */
+-#define SNDRV_PCM_RATE_16000		(1U<<3)		/* 16000Hz */
+-#define SNDRV_PCM_RATE_22050		(1U<<4)		/* 22050Hz */
+-#define SNDRV_PCM_RATE_32000		(1U<<5)		/* 32000Hz */
+-#define SNDRV_PCM_RATE_44100		(1U<<6)		/* 44100Hz */
+-#define SNDRV_PCM_RATE_48000		(1U<<7)		/* 48000Hz */
+-#define SNDRV_PCM_RATE_64000		(1U<<8)		/* 64000Hz */
+-#define SNDRV_PCM_RATE_88200		(1U<<9)		/* 88200Hz */
+-#define SNDRV_PCM_RATE_96000		(1U<<10)	/* 96000Hz */
+-#define SNDRV_PCM_RATE_176400		(1U<<11)	/* 176400Hz */
+-#define SNDRV_PCM_RATE_192000		(1U<<12)	/* 192000Hz */
+-#define SNDRV_PCM_RATE_352800		(1U<<13)	/* 352800Hz */
+-#define SNDRV_PCM_RATE_384000		(1U<<14)	/* 384000Hz */
+-#define SNDRV_PCM_RATE_705600		(1U<<15)	/* 705600Hz */
+-#define SNDRV_PCM_RATE_768000		(1U<<16)	/* 768000Hz */
++#define SNDRV_PCM_RATE_12000		(1U<<3)		/* 12000Hz */
++#define SNDRV_PCM_RATE_16000		(1U<<4)		/* 16000Hz */
++#define SNDRV_PCM_RATE_22050		(1U<<5)		/* 22050Hz */
++#define SNDRV_PCM_RATE_24000		(1U<<6)		/* 24000Hz */
++#define SNDRV_PCM_RATE_32000		(1U<<7)		/* 32000Hz */
++#define SNDRV_PCM_RATE_44100		(1U<<8)		/* 44100Hz */
++#define SNDRV_PCM_RATE_48000		(1U<<9)		/* 48000Hz */
++#define SNDRV_PCM_RATE_64000		(1U<<10)	/* 64000Hz */
++#define SNDRV_PCM_RATE_88200		(1U<<11)	/* 88200Hz */
++#define SNDRV_PCM_RATE_96000		(1U<<12)	/* 96000Hz */
++#define SNDRV_PCM_RATE_128000		(1U<<13)	/* 128000Hz */
++#define SNDRV_PCM_RATE_176400		(1U<<14)	/* 176400Hz */
++#define SNDRV_PCM_RATE_192000		(1U<<15)	/* 192000Hz */
++#define SNDRV_PCM_RATE_352800		(1U<<16)	/* 352800Hz */
++#define SNDRV_PCM_RATE_384000		(1U<<17)	/* 384000Hz */
++#define SNDRV_PCM_RATE_705600		(1U<<18)	/* 705600Hz */
++#define SNDRV_PCM_RATE_768000		(1U<<19)	/* 768000Hz */
+ 
+ #define SNDRV_PCM_RATE_CONTINUOUS	(1U<<30)	/* continuous range */
+ #define SNDRV_PCM_RATE_KNOT		(1U<<31)	/* supports more non-continuous rates */
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+index 44381514f695..7461a727615c 100644
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -2418,13 +2418,13 @@ static int snd_pcm_hw_rule_sample_bits(struct snd_pcm_hw_params *params,
+ 	return snd_interval_refine(hw_param_interval(params, rule->var), &t);
+ }
+ 
+-#if SNDRV_PCM_RATE_5512 != 1 << 0 || SNDRV_PCM_RATE_192000 != 1 << 12
++#if SNDRV_PCM_RATE_5512 != 1 << 0 || SNDRV_PCM_RATE_768000 != 1 << 19
+ #error "Change this table"
+ #endif
+ 
+ static const unsigned int rates[] = {
+-	5512, 8000, 11025, 16000, 22050, 32000, 44100,
+-	48000, 64000, 88200, 96000, 176400, 192000, 352800, 384000, 705600, 768000
++	5512, 8000, 11025, 12000, 16000, 22050, 24000, 32000, 44100, 48000, 64000,
++	88200, 96000, 128000, 176400, 192000, 352800, 384000, 705600, 768000,
+ };
+ 
+ const struct snd_pcm_hw_constraint_list snd_pcm_known_rates = {
 
-> +/*
-> + * es8323 register cache
-> + * We can't read the es8323 register space when we
-> + * are using 2 wire for device control, so we cache them instead.
-> + */
-> +static u16 es8323_reg[] = {
-> +	0x06, 0x1C, 0xC3, 0xFC,	/*  0 */
-> +	0xC0, 0x00, 0x00, 0x7C,	/*  4 */
+-- 
+2.45.2
 
-There's a bunch of regmap reimplementation in the driver, the cache and
-I/O code all looks totally generic.  Just use regmap.
-
-> +static const struct soc_enum es8323_enum[] = {
-> +	SOC_VALUE_ENUM_SINGLE(ES8323_DACCONTROL16, 3, 7, ARRAY_SIZE(es8323_line_texts),
-> +			      es8323_line_texts, es8323_line_values),	/* LLINE */
-> +	SOC_VALUE_ENUM_SINGLE(ES8323_DACCONTROL16, 0, 7, ARRAY_SIZE(es8323_line_texts),
-> +			      es8323_line_texts, es8323_line_values),	/* RLINE */
-
-Use named variables for the enums rather than putting them into an array
-that's not otherwise used...
-
-> +static const struct snd_kcontrol_new es8323_snd_controls[] = {
-> +	SOC_ENUM("3D Mode", es8323_enum[4]),
-> +	SOC_ENUM("ALC Capture Function", es8323_enum[5]),
-
-...it's *vastly* more readable and maintainable.
-
-> +	SOC_SINGLE("Capture Mute", ES8323_ADC_MUTE, 2, 1, 0),
-
-On/off switches should end in Switch, see control-names.rst.
-
-> +	/* gModify.Cmmt Implement when suspend/startup */
-> +	SND_SOC_DAPM_DAC("Right DAC", "Right Playback", SND_SOC_NOPM, 6, 1),
-
-gModify.Cmmt?
-
-> +/*
-> + * Note that this should be called from init rather than from hw_params.
-> + */
-> +static int es8323_set_dai_sysclk(struct snd_soc_dai *codec_dai,
-> +				 int clk_id, unsigned int freq, int dir)
-
-Why?
-
-> +	/* set master/slave audio interface */
-> +	switch (fmt & SND_SOC_DAIFMT_MASTER_MASK) {
-> +	case SND_SOC_DAIFMT_CBM_CFM:	/* MASTER MODE */
-> +		iface |= 0x80;
-> +		break;
-> +	case SND_SOC_DAIFMT_CBS_CFS:	/* SLAVE MODE */
-
-Please use the modern naming with _CBP_CFP and so on.
-
-> +static int es8323_mute(struct snd_soc_dai *dai, int mute,  int stream)
-> +{
-> +	struct snd_soc_component *component = dai->component;
-> +	struct es8323_priv *es8323 = snd_soc_component_get_drvdata(component);
-> +
-> +	if (mute) {
-> +		es8323_set_gpio(ES8323_CODEC_SET_SPK,
-> +				!es8323->spk_gpio_level, es8323->spk_ctl_gpio);
-> +		usleep_range(2000, 3000);
-> +		snd_soc_component_write(component, ES8323_DAC_MUTE, 0x06);
-> +	} else {
-> +		snd_soc_component_write(component, ES8323_DAC_MUTE, 0x02);
-> +		usleep_range(2000, 3000);
-> +		if (!es8323->hp_inserted)
-> +			es8323_set_gpio(ES8323_CODEC_SET_SPK,
-> +					es8323->spk_gpio_level, es8323->spk_ctl_gpio);
-
-This appears to be controlling the speaker based on jack detection.
-Unless there is some hardware restriction this should be done via DAPM
-and the user allowed to manage when the speaker is used depending on
-their use case.
-
-> +static int es8323_suspend(struct snd_soc_component *component)
-> +{
-> +	snd_soc_component_write(component, ES8323_DAC_MUTE, 0x06);
-> +	snd_soc_component_write(component, ES8323_LOUT1_VOL, 0x00);
-> +	snd_soc_component_write(component, ES8323_ROUT1_VOL, 0x00);
-> +	snd_soc_component_write(component, ES8323_LOUT2_VOL, 0x00);
-> +	snd_soc_component_write(component, ES8323_ROUT2_VOL, 0x00);
-
-This will overwrite user settings when suspending, the controls should
-be unaffected by suspend.  If the device needs this then use cache
-bypass to do the writes during suspend and resync the cache on resume.
-
-> +	snd_soc_component_write(component, ES8323_CONTROL1, 0x06);
-> +	snd_soc_component_write(component, ES8323_CONTROL2, 0x58);
-> +	usleep_range(18000, 20000);
-
-Use fsleep().
-
-> +static void es8323_init_component_regs(struct snd_soc_component *component)
-> +{
-
-> +	snd_soc_component_write(component, ES8323_ADCCONTROL1, 0x88);
-> +	snd_soc_component_write(component, ES8323_ADCCONTROL2, 0xF0);
-> +	snd_soc_component_write(component, ES8323_ADCCONTROL3, 0x02);
-> +	snd_soc_component_write(component, ES8323_ADCCONTROL4, 0x0C);
-> +	snd_soc_component_write(component, ES8323_ADCCONTROL5, 0x02);
-> +	snd_soc_component_write(component, ES8323_LADC_VOL, 0x00);
-> +	snd_soc_component_write(component, ES8323_RADC_VOL, 0x00);
-
-User visible controls should use the chip defaults as standard,
-userspace can configure what it needs and this avoids us worrying about
-individual use cases in the driver.
-
-> +static int es8323_resume(struct snd_soc_component *component)
-> +{
-> +	es8323_init_component_regs(component);
-> +	/* open dac output */
-> +	snd_soc_component_write(component, ES8323_DACPOWER, 0x3c);
-> +
-> +	return 0;
-> +}
-
-This doesn't restore any user settings.
-
-> +static int es8323_i2c_probe(struct i2c_client *i2c)
-> +{
-> +	struct es8323_priv *es8323;
-> +	struct i2c_adapter *adapter = to_i2c_adapter(i2c->dev.parent);
-> +
-> +	if (!i2c_check_functionality(adapter, I2C_FUNC_I2C)) {
-> +		dev_warn(&adapter->dev,
-> +			 "I2C-Adapter doesn't support I2C_FUNC_I2C\n");
-> +		return -EIO;
-> +	}
-
-Does the device really need this?  It seems to be doing very basic I/O
-which should be SMBus compatible.  In any case when you move to regmap
-this should be redundant.
-
---WZrniv5M0HT7TQNR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbZuq8ACgkQJNaLcl1U
-h9Dcigf7By7JCYwoVnf6y8vJJ5aPDCumCrSV9oqSrliNd3ALjNC9GrtaYdZwbn6x
-5/vPKOhiD+0wXX/hPxlErJ5xORBMbjUEeMvCa001/uzJOYHWmnTT3jD1IGpB2aOO
-4TLhkibjRBk40/+Y/5ZiPs7Kw/QWtpgrvq7zyjdC+u+bklc8pGpGbvfsj/5t/Sa2
-86cRVO9xzCmDA49wzZvjRCF7X0fup6ilHjMmbRol8BsXKumQjCLHCd3GT+jXxDgp
-W1V5tB7fJ/jvKEcw5T0NF/4ddZy6D0UKhElAdtix+g1Kxw2YG+Iicc7ra7co7KYV
-21u9Nb9xIgIlqsdTWAWx2zPHzASOTg==
-=9ntq
------END PGP SIGNATURE-----
-
---WZrniv5M0HT7TQNR--
