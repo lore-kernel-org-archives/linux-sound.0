@@ -1,107 +1,97 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72A051A0B0F;
-	Thu,  5 Sep 2024 17:25:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F18D186E37;
+	Thu,  5 Sep 2024 18:42:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725557128; cv=none; b=Aw9Xv2+g3jrNbR0RbFqVxcaLlGhzquZ8+7NmhuLGp15Kr8XO6KTPr2En5qRrepmjd7f+hNOG6v3c2Gr7bJ0ArlZGQTuysw8SKaF2p2/YxFz+wqEzlFDuVHDFEbE6cACziMJGF4poaqJJqyyfiBX6cYexGVNOAHeE4EtPnFYYSfw=
+	t=1725561747; cv=none; b=bt9zdwClCwfGRMaETtNvz79vi59ddvw6agS23vqHdU8siAw8EZAs3NPilelIO49TI2wTYfg111X5x+SHXrHjFOHo6gwt0Gip2NxprhX0/V3X6JPBWHE4iEAiZN9nAv2lGLdIINXnzuJj3QQUhboV1qQ4Xcc6zuJTnhjhI4x/ONw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725557128; c=relaxed/simple;
-	bh=oA+JaK45bIvDN0Y/g2haYI3ERCCF35W5j6c76i1XHWk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=aJssFFmCW+awjd/9q3+PZW5Xoj4YFK4yJWU4YPkZz+8vXA1rm57pUSOHQxdBbPXjCDcKMKbTDqgkmP+VWssf59LNzmIkUx+Yx+yH0hnAYlMQPt79PQJpdBb5oCi7DeIXXnuUhZQQDbriN4bHBUrPfmvDdB/g1AxYf2FKsgWwTLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=VJ9ZDnhV; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1725561747; c=relaxed/simple;
+	bh=4eWG/a/26/vZU95IBABJgRDgFGSUm8AvCLiQp6PJwQo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=IUK+oThr+Vv+OdyKhSEn9pTRMU1boawLo9GA6/BKN1Bo4ODc4yUitD/5QiCRi/jTSZAPZZQq+YPdYqgVba/i9C1rRNn7rAQld+eOEy/1fWmsXm3DafuMFoNbLztaY4+eDsGLUY6ALNlOKqxqZeKcvbbsyuKJgmC4RjEz6SZBedc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mV+s/gii; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="VJ9ZDnhV"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 485H6VQw012415;
-	Thu, 5 Sep 2024 12:24:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=2EPLvM+fTjNtBBRKdAtax43O9eQJ3gxJ5hQy/CTb4Wg=; b=
-	VJ9ZDnhVEjybUXSFuEkkY1m4J26M2uWOb4LI/E2E4ORRD0JAsVO3YQ4A8lSoKQhW
-	2PRR7L7P81m0idpUk9U5x2IzMXPDhD61QpRjoh/8Lah7udUAcTm3FJCfBPvQMN16
-	VC/KJDrsvpxfKjup2poagnIkMYEes47trH/+M8EsO8J2PAumxasdvLcB++KpAqzj
-	7xm0RgTdYoWAKEykbgFcwb+RiClNkJ+DWD2eQrMpxRRIX9hWnQgAeuHPEZm/Fsai
-	JnIEyan/xomUEYLwb5LP7qWzAztyba2nJOOLCIp8xqrGaRwHJvU+Q7qp0aujMrAz
-	F2lDsnQYRU4P454t905lBg==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 41c0jxehg6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 05 Sep 2024 12:24:42 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 5 Sep 2024
- 18:24:35 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Thu, 5 Sep 2024 18:24:35 +0100
-Received: from [141.131.157.113] (macMW3KVPQQ2W.ad.cirrus.com [141.131.157.113])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 6D335820244;
-	Thu,  5 Sep 2024 17:24:32 +0000 (UTC)
-Message-ID: <c2b7654b-74ae-4195-be0d-463b33af5965@opensource.cirrus.com>
-Date: Thu, 5 Sep 2024 12:24:31 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mV+s/gii"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C58B1C4CEC3;
+	Thu,  5 Sep 2024 18:42:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725561746;
+	bh=4eWG/a/26/vZU95IBABJgRDgFGSUm8AvCLiQp6PJwQo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=mV+s/giiqa2lTulNqxBg2vltuHE7NO/2vObB7ZNwXKPdSfwEiCKW7MQwuYBO2knWU
+	 tRpPi0dWs9oN4ufQFxUegT2HKYIbf/gQm9CP6d9qThM+hPLla6lveIImLmVX6PGPtY
+	 VIZXzcoWzCar2VqiK5Ty5xMg8eDzmYMFg99UyeK6UPJF7FTiA4DcEJjrH8HUL+KqeS
+	 QzQCo+3Vv3zOXLBxLQZ5Zaa4MuBx6ss/VqqbhQJFo3g967w6qd6LSU+VfEoZ6DATTP
+	 OMELBiKR+Uxcb9JBR1W0NB29/S/6atbMAJAx3ktc3qn6TmbzhYfkbFlWElbQm+3lM+
+	 yNgp6FcD1UlnQ==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, amergnat@baylibre.com
+Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ devicetree@vger.kernel.org, Nicolas Belin <nbelin@baylibre.com>
+In-Reply-To: <20240226-audio-i350-v8-0-e80a57d026ce@baylibre.com>
+References: <20240226-audio-i350-v8-0-e80a57d026ce@baylibre.com>
+Subject: Re: (subset) [PATCH v8 0/5] Add audio support for the MediaTek
+ Genio 350-evk board
+Message-Id: <172556174352.65454.6443840128203694133.b4-ty@kernel.org>
+Date: Thu, 05 Sep 2024 19:42:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/13] ALSA: update sample rate definitions
-To: Jerome Brunet <jbrunet@baylibre.com>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, David Rhodes <david.rhodes@cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Liam Girdwood
-	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Cezary Rojewski
-	<cezary.rojewski@intel.com>,
-        Pierre-Louis Bossart
-	<pierre-louis.bossart@linux.intel.com>,
-        Liam Girdwood
-	<liam.r.girdwood@linux.intel.com>,
-        Peter Ujfalusi
-	<peter.ujfalusi@linux.intel.com>,
-        Bard Liao
-	<yung-chuan.liao@linux.intel.com>,
-        Ranjani Sridharan
-	<ranjani.sridharan@linux.intel.com>,
-        Kai Vehmanen
-	<kai.vehmanen@linux.intel.com>,
-        Srinivas Kandagatla
-	<srinivas.kandagatla@linaro.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        "Jernej
- Skrabec" <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>
-CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <patches@opensource.cirrus.com>, <alsa-devel@alsa-project.org>,
-        <linux-arm-msm@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>
-References: <20240905-alsa-12-24-128-v1-0-8371948d3921@baylibre.com>
-Content-Language: en-US
-From: "Rhodes, David" <drhodes@opensource.cirrus.com>
-In-Reply-To: <20240905-alsa-12-24-128-v1-0-8371948d3921@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: DCprltle2cLpNuwRuuh1hqg0jsfwhZ4c
-X-Proofpoint-GUID: DCprltle2cLpNuwRuuh1hqg0jsfwhZ4c
-X-Proofpoint-Spam-Reason: safe
+X-Mailer: b4 0.15-dev-99b12
 
-On 9/5/24 9:12 AM, Jerome Brunet wrote:
-> This patchset adds rate definitions for 12kHz, 24kHz and 128kHz.
+On Thu, 05 Sep 2024 11:06:57 +0200, amergnat@baylibre.com wrote:
+> This serie aim to add the following audio support for the Genio 350-evk:
+> - Playback
+>   - 2ch Headset Jack (Earphone)
+>   - 1ch Line-out Jack (Speaker)
+>   - 8ch HDMI Tx
+> - Capture
+>   - 1ch DMIC (On-board Digital Microphone)
+>   - 1ch AMIC (On-board Analogic Microphone)
+>   - 1ch Headset Jack (External Analogic Microphone)
 > 
-> It is follow-up on the series/discussion [0] about adding 128kHz for
-> spdif/eARC support. The outcome was to add 12kHz and 24kHz as well and
-> clean up the drivers that no longer require custom rules to allow these
-> rates.
-> 
+> [...]
 
-Reviewed-by: David Rhodes <drhodes@opensource.cirrus.com>
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/5] ASoC: codecs: add MT6357 support
+      commit: 5e2404493f9f6028bf143972b18c88156c9893e6
+[2/5] ASoC: mediatek: Add MT8365 support
+      commit: 5bbfdad8cf8d4b2c3189fee8e6300b38f65f8d72
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
 Thanks,
-David
+Mark
+
