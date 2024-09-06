@@ -1,89 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from msa.smtpout.orange.fr (smtp-68.smtpout.orange.fr [80.12.242.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 324641CEEBE
-	for <linux-sound@vger.kernel.org>; Fri,  6 Sep 2024 13:06:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1C82374F1;
+	Fri,  6 Sep 2024 16:28:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725627969; cv=none; b=X1fueHkj+sxE51td77utQOhj8EFzoV0oQROpA4GYeVjrmtWG89kCn8SipAui7LmS1/4cvUBD9v4AFuobCFcBQfmlV0OY4oU6okXDhxZPs/MLsTI5FbdW7sGbL9CAKG7iU5A+UJmZdyGD82XOuNJtKLleWAct2WL+TTwrE0rHObQ=
+	t=1725640101; cv=none; b=rSk3G82sB2jh3acf+92eGlULGf5rl44CX4surEGKjrFJ3KJ4V5C/1PfkMRLKscIGQdvn+0vSSL+q6aX4ANegfHaeULToR/Qh/obxbJSJw2+mn8NGcC+GUYIyfuVicss7M5PI0KXhgpt2LhQskiPtGw26yrii34EcoLqgnICoAjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725627969; c=relaxed/simple;
-	bh=VpAQRPwEr6BulAVHkGys03WB2SCuXzp9eOg4uixv024=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=mW1k5nWSLcTFXYWOUl5C9ttUKzalp4VSEd7RqybKzu2yLlt3mlVNC0GlWwYOm79QX/ULtO98F//rBHZzF49DnDJtrn8OKwACMpShBWCCaj+F++TfOyr5h0HpabNwTvzs2AJRDDANRm42nhjw9cuPXdlQM3GsgdjqHl01XsQbMjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LVn69mj9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725640101; c=relaxed/simple;
+	bh=b0VV0agxdK7kNv2w4D7ckU/4BMjajGPF7X6zVBfpQVM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EuELlxvGh8at4cmLxhv3YZkG2TUbV5gKUURPWBq40Bd7LklDO0rLyh+lnNqC93xbjEh0Jkj6iUjGAS1L4OQT6CECGBeNGsDkkDIL4zNWZUfsTCYeggjauqaWh+H2F6mjlgw9zRIuSIN2lAY0JDOk7yLeOALeKVkpUw6KbGmoXEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=AgHDkBtA; arc=none smtp.client-ip=80.12.242.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LVn69mj9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10C4BC4CEC9;
-	Fri,  6 Sep 2024 13:06:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725627968;
-	bh=VpAQRPwEr6BulAVHkGys03WB2SCuXzp9eOg4uixv024=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=LVn69mj9MgZX1ocODDsPGGaTgVNnkYC4RlBiAr5yGx+FbF/vQ92grPCzuYN+K6d7v
-	 X/86iyhE0g866jedIEpA4sAV9sEYZtws33vzkozZysW3/iGHbzmXgxFazBugnhTPHg
-	 Nq+XtPeXVz+zVLaIk/x+aXGoygUkvwFaNYyKYRBqn6/pfivtErUl/rLmFTuxYYJg9Q
-	 b+JcJ+h2x7npnKXk4me98WBhwoJax4HtnUaCaZMe+odgaIBgpI6BXYmG1sRgHFxTIg
-	 iqq0DLeB+sgyC+POZTk3TmVDvUNzYpkpsZLulh2Usv+4Y9KMJC2ZeEp3Dc0fPDjlMj
-	 ui+v7o2Lti5mQ==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- linux-sound@vger.kernel.org, Zhang Zekun <zhangzekun11@huawei.com>
-In-Reply-To: <20240827070650.11424-1-zhangzekun11@huawei.com>
-References: <20240827070650.11424-1-zhangzekun11@huawei.com>
-Subject: Re: [PATCH v2 0/2] Some clean up with helper fucntion
-Message-Id: <172562796362.927452.6426026023067764138.b4-ty@kernel.org>
-Date: Fri, 06 Sep 2024 14:06:03 +0100
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="AgHDkBtA"
+Received: from [192.168.1.37] ([90.11.132.44])
+	by smtp.orange.fr with ESMTPA
+	id mbH2sLOaOZ40ambH2sBW7E; Fri, 06 Sep 2024 17:53:26 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1725638006;
+	bh=ZKNUuo4mgLBUYM3wMqwKTxkByTeR/Fq2vXEUhA0RRME=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=AgHDkBtAbVhpVJXwRd5tzaBY3RmjcWAX74XDlSYoLSqk5jlzBE9BvpqKgS3CIosza
+	 nMLKmmcbhyn3w6r00XXEtwKAwQ45DOEJmkEdfoc0KK891ZJ2ZoOqisp+Es1qA8aTo6
+	 T5ITQSoFY7Ma77cHksliitBIidLh13p+/NvOo3zdkQzwsqdCzc7xHwQGsbz69Qusa1
+	 JLPGrwcY/TgvmHmgA1PJ/GKGdNPZzMWbBioRjdaiKzua5CslJ4af1myJJxS13VvW58
+	 O/CcclJWnTjq00GzJ267ahtt5pyQOXHCA0Tuh3yKiIV6t9qgMYHWCu5PcuCfGp7eRo
+	 6bu/geQQFiD7Q==
+X-ME-Helo: [192.168.1.37]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Fri, 06 Sep 2024 17:53:26 +0200
+X-ME-IP: 90.11.132.44
+Message-ID: <770f7eee-113d-414c-b4c7-91d6b705eb78@wanadoo.fr>
+Date: Fri, 6 Sep 2024 17:53:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-99b12
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: codecs: Use devm_clk_get_enabled() helpers
+To: ying zuxin <yingzuxin@vivo.com>, Herve Codina <herve.codina@bootlin.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ "moderated list:INFINEON PEB2466 ASoC CODEC" <alsa-devel@alsa-project.org>,
+ "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..."
+ <linux-sound@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Cc: opensource.kernel@vivo.com, yang.yang@vivo.com,
+ ying zuxin <11154159@vivo.com>
+References: <20240906084841.19248-1-yingzuxin@vivo.com>
+Content-Language: en-US, fr-FR
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20240906084841.19248-1-yingzuxin@vivo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, 27 Aug 2024 15:06:48 +0800, Zhang Zekun wrote:
-> There are some helper functions which can be used to simplify the code.
-> So, let's use these functions to make code more simple.
+Le 06/09/2024 à 10:48, ying zuxin a écrit :
+> From: ying zuxin <11154159@vivo.com>
 > 
-> v2: Fix a code logic broken problem and add the comment back.
+> The devm_clk_get_enabled() helpers:
+>      - call devm_clk_get()
+>      - call clk_prepare_enable() and register what is needed in order to
+>       call clk_disable_unprepare() when needed, as a managed resource.
 > 
-> Zhang Zekun (2):
->   ASoC: audio-graph-card: Use for_each_child_of_node_scoped() to
->     simplify code
->   ASoC: audio-graph-card2: Use helper function of_get_child_count()
+> This simplifies the code and avoids the calls to clk_disable_unprepare().
 > 
-> [...]
+> Signed-off-by: ying zuxin <11154159@vivo.com>
+> ---
+>   sound/soc/codecs/peb2466.c | 14 +-------------
+>   1 file changed, 1 insertion(+), 13 deletions(-)
+> 
+> diff --git a/sound/soc/codecs/peb2466.c b/sound/soc/codecs/peb2466.c
+> index 76ee7e3f4d9b..b67cfad4fc32 100644
+> --- a/sound/soc/codecs/peb2466.c
+> +++ b/sound/soc/codecs/peb2466.c
+> @@ -1975,12 +1975,9 @@ static int peb2466_spi_probe(struct spi_device *spi)
+>   	if (IS_ERR(peb2466->reset_gpio))
+>   		return PTR_ERR(peb2466->reset_gpio);
+>   
+> -	peb2466->mclk = devm_clk_get(&peb2466->spi->dev, "mclk");
+> +	peb2466->mclk = devm_clk_get_enabled(&peb2466->spi->dev, "mclk");
+>   	if (IS_ERR(peb2466->mclk))
+>   		return PTR_ERR(peb2466->mclk);
+> -	ret = clk_prepare_enable(peb2466->mclk);
+> -	if (ret)
+> -		return ret;
+>   
+>   	if (peb2466->reset_gpio) {
+>   		gpiod_set_value_cansleep(peb2466->reset_gpio, 1);
+> @@ -2031,17 +2028,9 @@ static int peb2466_spi_probe(struct spi_device *spi)
+>   	return 0;
+>   
+>   failed:
+> -	clk_disable_unprepare(peb2466->mclk);
+>   	return ret;
 
-Applied to
+Hi,
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+so the 'failed' label is now mostly useless and direct returns could be 
+used instead.
 
-Thanks!
+CJ
 
-[1/2] ASoC: audio-graph-card: Use for_each_child_of_node_scoped() to simplify code
-      commit: de849243404e8ce02320a7178d4448e4d0191377
-[2/2] ASoC: audio-graph-card2: Use helper function of_get_child_count()
-      commit: 815f1fcf2403454904cbbc5cf370df6bc300f392
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+>   }
+>   
+> -static void peb2466_spi_remove(struct spi_device *spi)
+> -{
+> -	struct peb2466 *peb2466 = spi_get_drvdata(spi);
+> -
+> -	clk_disable_unprepare(peb2466->mclk);
+> -}
+> -
+>   static const struct of_device_id peb2466_of_match[] = {
+>   	{ .compatible = "infineon,peb2466", },
+>   	{ }
+> @@ -2061,7 +2050,6 @@ static struct spi_driver peb2466_spi_driver = {
+>   	},
+>   	.id_table = peb2466_id_table,
+>   	.probe  = peb2466_spi_probe,
+> -	.remove = peb2466_spi_remove,
+>   };
+>   
+>   module_spi_driver(peb2466_spi_driver);
 
