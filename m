@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A940A1B85D5;
-	Fri,  6 Sep 2024 19:23:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0684481DD;
+	Fri,  6 Sep 2024 21:04:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725650606; cv=none; b=PBD8p6BKSkXR1ktfUBQI/kM5rqMs8T3u4v5Q9kVN1pfFUAa79AI7bP6UyGUezl/eR4qkGXMzNM43/fSBhO7YfAXHqSdmR+UiSBw8z7u8bzsGPi2vxsybLPX0c9hHLb1DdswtYnSLcDZw3HllNUkq51gieSTh15VgcOodfbaSmKg=
+	t=1725656691; cv=none; b=slLtb2fpvWbE3AhpX80t3QnLNvfI3D8l3xelgzfQcOnlvmjS+a2C6ylqC+tokVTL86Ncqwt5mPyWVXly57Xm/+1iVnSNiqmiGVRk7/LDMnSWT4TuoJ7tKZjyKxhB+86c/l7vaCMOVwbAaBrIYPtKHI+vtjo54MPs5ElsMn9rZRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725650606; c=relaxed/simple;
-	bh=/n96Kto0JZug0XlU6wzixOGIsRQmVNlzwkTH7ThriiM=;
+	s=arc-20240116; t=1725656691; c=relaxed/simple;
+	bh=Qi7l3LEit7RU0ApqPXLuPy7zvE5YFnc5ZdG9M93j8ms=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gjlSO/ur/artC2ydh4z500qb9wfrJBJTY3DFZmylfjyw6W5AJoh2eyKWd/52250142tatr/2KruXnAYS81BIRGXyDAd5CMEZAeBJz6RC4AVeAz4omTH3lL7xbbEkchskd9VfkaG7PzRCS+7QbbqnMYj76GGwqKrqwESi4ykpk78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k/2tmJK0; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=MH6ivobTOwOCA8LbgQHFAncVbyJ+YNXQ5B+V8bNiydBeENzZt4XstA0EURq18vUdCWmbX1TwF6CqnuoTqGC4m6+0Ko+0qSBhrLyMs707wdgCvqwRP+vLa2EufqFDXHVSg8zt3jNPrPXRUlNrk/AZ1SKyReLWx57myQ4qk7WsFmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vmb8um88; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k/2tmJK0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCB13C4CEC4;
-	Fri,  6 Sep 2024 19:23:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vmb8um88"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C40CC4CEC4;
+	Fri,  6 Sep 2024 21:04:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725650606;
-	bh=/n96Kto0JZug0XlU6wzixOGIsRQmVNlzwkTH7ThriiM=;
+	s=k20201202; t=1725656691;
+	bh=Qi7l3LEit7RU0ApqPXLuPy7zvE5YFnc5ZdG9M93j8ms=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=k/2tmJK0ZIGo88O1HE1+DTpj1x8V/ZUa4loaN18gbxhwGafooIAqA0snN6lcl3BnD
-	 tHGE/I27eRUfMvwbykJyJz4R5y41Et/JERKNFdNNQwHmMIeHki8cANYcXazZnf5bFQ
-	 AE9wie939zT1oHWDiUVa8OHBh0oQyXZ8xyRTob6KHrC7StGbvtaImoy5BYCRh4/U5I
-	 9eTWosx5C2OjaGnyRbPv2SM6zvdG01EPnLVnA89qjv14/y1d9VyD33syg1md8p3YOm
-	 xPuHIAUAEc5KRrU3fHSddFxZOPySfzxiUImK1OTpqXdwpxgdHvplkDXMmvWA71/DcN
-	 rKlzHB0YmkzPg==
-Date: Fri, 6 Sep 2024 12:23:23 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Mark Brown <broonie@kernel.org>
+	b=Vmb8um88N+sRkcpvVWHxnTOb8jGW9yFBSYtGRagysQ7mAgSmuSeox8PgqMTglme18
+	 +F840LNShRhr7zMt8FRUXxYglgaH9GIc5+VaGdBG23kUf8obXYjcLJQpli7jugzmp4
+	 rlxP32YE2f7J5Ne4XKrLsuOG46nI+Pz2iEP1lPAK4cxtkk2+pdJjlir2C3H6jspetw
+	 kyo5qKCDSu+5EdqKASCPiA6qgIzRAoJcvGsA9/8F7Ji173UqxRkzosN5vapkHrlAvw
+	 izCCxVZm+mn/F1BH2QanTGH/dHLf1VWbrfDw1UcWbcJRAgZ3lh6rtmWNe51vWM6pfw
+	 URZoLmwXGjnHg==
+Date: Fri, 6 Sep 2024 22:04:48 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
 Cc: Alexandre Mergnat <amergnat@baylibre.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
 	Rob Herring <robh+dt@kernel.org>,
@@ -51,63 +51,96 @@ Cc: Alexandre Mergnat <amergnat@baylibre.com>,
 	Nicolas Belin <nbelin@baylibre.com>
 Subject: Re: (subset) [PATCH v7 00/16] Add audio support for the MediaTek
  Genio 350-evk board
-Message-ID: <20240906192323.GA3160860@thelio-3990X>
+Message-ID: <ZttucCV86ryyqIiT@finisterre.sirena.org.uk>
 References: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
  <172544860860.19172.7052813450885034844.b4-ty@kernel.org>
  <20240906180348.GA1239602@thelio-3990X>
  <ZttJdexQFOq2Q9iQ@finisterre.sirena.org.uk>
+ <20240906192323.GA3160860@thelio-3990X>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="tSNyT2qHs0Efy6wS"
+Content-Disposition: inline
+In-Reply-To: <20240906192323.GA3160860@thelio-3990X>
+X-Cookie: Your love life will be... interesting.
+
+
+--tSNyT2qHs0Efy6wS
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZttJdexQFOq2Q9iQ@finisterre.sirena.org.uk>
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 06, 2024 at 07:27:01PM +0100, Mark Brown wrote:
-> Are these just warnings introduced by recent versions of the toolchains?
-> These commits passed an x86 allmodconfig with GCC 12 at each step (I did
-> catch one warning there with another patch in the series that didn't get
-> applied) and 0day didn't say anything at any point.
+On Fri, Sep 06, 2024 at 12:23:23PM -0700, Nathan Chancellor wrote:
+> On Fri, Sep 06, 2024 at 07:27:01PM +0100, Mark Brown wrote:
+> > Are these just warnings introduced by recent versions of the toolchains?
+> > These commits passed an x86 allmodconfig with GCC 12 at each step (I did
+> > catch one warning there with another patch in the series that didn't get
+> > applied) and 0day didn't say anything at any point.
 
-Not sure, I did not look too hard. At cursory glance, I am not sure x86
-allmodconfig would catch these, as this code depends on ARCH_MEDIATEK
-(not COMPILE_TEST), which only exists for arm and arm64.
+> Not sure, I did not look too hard. At cursory glance, I am not sure x86
+> allmodconfig would catch these, as this code depends on ARCH_MEDIATEK
+> (not COMPILE_TEST), which only exists for arm and arm64.
 
-> > Clang 19:
-> 
-> That's relatively modern, though some of the warnings don't look
-> particularly new and exciting.
+Ah, I hadn't seen that (the other bits were building on x86).
 
-Fair although I still see some of them on old versions too:
+> > > Clang 19:
 
-https://github.com/ClangBuiltLinux/continuous-integration2/actions/runs/10738441894
+> > That's relatively modern, though some of the warnings don't look
+> > particularly new and exciting.
 
-> >   sound/soc/mediatek/mt8365/mt8365-dai-adda.c:93:8: error: implicit conversion from 'unsigned long' to 'unsigned int' changes value from 18446744073709551614 to 4294967294 [-Werror,-Wconstant-conversion]
-> >      91 |                 regmap_update_bits(afe->regmap, AFE_ADDA_UL_DL_CON0,
-> >         |                 ~~~~~~~~~~~~~~~~~~
-> >      92 |                                    AFE_ADDA_UL_DL_ADDA_AFE_ON,
-> >      93 |                                    ~AFE_ADDA_UL_DL_ADDA_AFE_ON);
-> >         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >   1 error generated.
-> 
-> That's a bit surprising, regmap_update_bits() takes an unsigned long?  I
-> suspect the constants need to be defined as unsigned.
+> Fair although I still see some of them on old versions too:
 
-Does it? I see it taking 'unsigned int' for all of its parameters.
+Yeah, like I say some of the warnings didn't look like they were new.
 
-$ sed -n '1242,1250p' include/linux/regmap.h
-int regmap_update_bits_base(struct regmap *map, unsigned int reg,
-                            unsigned int mask, unsigned int val,
-                            bool *change, bool async, bool force);
+> https://github.com/ClangBuiltLinux/continuous-integration2/actions/runs/1=
+0738441894
+>=20
+> > >   sound/soc/mediatek/mt8365/mt8365-dai-adda.c:93:8: error: implicit c=
+onversion from 'unsigned long' to 'unsigned int' changes value from 1844674=
+4073709551614 to 4294967294 [-Werror,-Wconstant-conversion]
+> > >      91 |                 regmap_update_bits(afe->regmap, AFE_ADDA_UL=
+_DL_CON0,
+> > >         |                 ~~~~~~~~~~~~~~~~~~
+> > >      92 |                                    AFE_ADDA_UL_DL_ADDA_AFE_=
+ON,
+> > >      93 |                                    ~AFE_ADDA_UL_DL_ADDA_AFE=
+_ON);
+> > >         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+> > >   1 error generated.
+> >=20
+> > That's a bit surprising, regmap_update_bits() takes an unsigned long?  I
+> > suspect the constants need to be defined as unsigned.
 
-static inline int regmap_update_bits(struct regmap *map, unsigned int reg,
-                                     unsigned int mask, unsigned int val)
-{
-        return regmap_update_bits_base(map, reg, mask, val, NULL, false, false);
-}
+> Does it? I see it taking 'unsigned int' for all of its parameters.
 
-Cheers,
-Nathan
+Sorry, I misread the warning there (or was perhaps looking at another
+one) and for some reason though it was about dropping signs but it's
+rather due to BIT() being defined for longs which is a rather bad
+landmine given how common a pattern negation is.  I do see that
+synclink.h has some convenient BITn macros for some reason which would
+do the trick but really I think it's just a case of open coding the
+BIT() usage, or defining a BITI() or something but that seems ugly.
+Probably just open code the definitions.
+
+--tSNyT2qHs0Efy6wS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbbbmoACgkQJNaLcl1U
+h9A4/AgAhDUwT8rRI4M3S+NXdNzBJSPacU05GQT9cqLHhdUtUgyqvhxeH6OhPjiN
+wUxAA7ugGFCDswITd22nOKiR76kgijacKAluiYXCh0nPvokDPQyzUklJltqFUYzm
+GJfOTqniw75BP3VxTgB7KmehOyYd1EP72Oj1qc6HmNmZX7G3c2wcX3cbED2eP4hU
+BfWhc9whOYYXqUYMicCcpItyPVVfKyvNgwbePdDxlHNcapm5t8z8b0jIutnhDr+c
+4AUADF6NwNc6L7+ttA5yHTogggWSrzJBIYea3trWLj14a32ho28hZb6+1jE3Q6R6
+bnK/Qw7CnUl4m787UaxMFjX9z84mxA==
+=qv06
+-----END PGP SIGNATURE-----
+
+--tSNyT2qHs0Efy6wS--
