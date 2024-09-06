@@ -1,45 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A601C8FC0;
-	Fri,  6 Sep 2024 13:06:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C40F31CE706;
+	Fri,  6 Sep 2024 13:06:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725627964; cv=none; b=UIRPfIYOP3ET0afVh26d5NhQntAv0ziikF9lHpNr2B8tKMAvTo8q/7ODH2lXeB+gSjYWuiRVQ8klVnvGSMW+Dm6ttwwkK0Zk+jlamQUjf3ajN1FT74wBVgArMKDUpNnyhXhrXoaV+uuH0kLCoxKN4OlCxoirnczd/t6LJ+CX8hQ=
+	t=1725627966; cv=none; b=X4uJEBfvCW1WbKcb0U4sJ9ysrUeqIW0ozP6U8PDXgvYwLGrlgBm7A8m015t7WjEJH90O3U6or2+OWKGqdMGUbxs2DRbgQMhOaPyi3eBXDZ6TPvIovlz4QwfzvuOswJmJrVxoE7iyQexOD0IPsM4NaIq9KDQHy8EaG7z0eYkRtfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725627964; c=relaxed/simple;
-	bh=RYJJbOQXt62dm97cvJD59ImzcJyUqEKWBR7cFIVesn8=;
+	s=arc-20240116; t=1725627966; c=relaxed/simple;
+	bh=PzQtuj58s1m6hfHiyF9Oj2TCTBi4ABvLhfkuhzcvK6s=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=MpgsF0hQU/wd4xJt2XHqByO6kCON9fH1agl/7cHDI4lRA2wR9O0IpVSvnDMDtLbjKOjABIwAjgrjgRl4BpOZw1VAIKJSOIcrZkfrn6FPm8V1DRoC/YW5zAm2oGpZB51tuRD2TdqSq5qYP2XdOn4/AIaBlxcT6LPxuSSoh0Bc1yE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aHFw4NTR; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Jll05bYqToaMiI+wItmI8PvwTAufDNWvVxE9gawgFmQPIROtcM8KpKiHw6fr9y9I/3PO2N2BkP/jJQNXLsEqsjJqFP3o1/o8dRHrS3VYQtw20d4REUfLPOSSiFGOw9cDEOhw8Nq3AZb4jioH5xplc7VUXVuYnxb6ZtR4JbGMf+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RSSdplk9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aHFw4NTR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E58FEC4CEC4;
-	Fri,  6 Sep 2024 13:06:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RSSdplk9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2167C4CEC4;
+	Fri,  6 Sep 2024 13:06:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725627964;
-	bh=RYJJbOQXt62dm97cvJD59ImzcJyUqEKWBR7cFIVesn8=;
+	s=k20201202; t=1725627966;
+	bh=PzQtuj58s1m6hfHiyF9Oj2TCTBi4ABvLhfkuhzcvK6s=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=aHFw4NTRxCXG49yT0tB4Lw5J5ZPONWLYVQCqzAeKq/ESOg+HI93JFmmvkgGa6fv7C
-	 3bSy/y+hmQK0FBX7x8Ya4oQ7rBmMI8icsenF9XGdAjkzGACi/CWvAXAxirMMZFT9Z6
-	 nIcGIxrgCz6L0e9OMyubOAb7GeFJ8vc5Kp42w8tC8ixL5gyE/O+wPbNXasgZbRGUIc
-	 lDykuqun6r4mxeIzjkBm0XuWr2tPZ19UmTWCOYz9rieWjRZJ0hOF7WfMVmXy6CBpzA
-	 Ec7LiaflDQ9hcbs1XxqymHmUgG9vpnTpvhb2qEO+rmPq3Aw/O+/w6unAzblSb/asEv
-	 L0l8Q9lsS23kg==
+	b=RSSdplk98Es/e0Iy6R6OkRmgpUgC0deitakX/yxShqoGCzJrEctYhLSvKo7Hipd5U
+	 bN02BEH/96c1FO9XAxzrurMKPlU3WKgNPpxVWnY+q7Ylq6hwWPiBIqrQ3PtNqbRP5D
+	 q7a7/JtUIuUvltcwoyZqcSeLMi8B/wGI8y4jzapLZ0YqK+BhM1ykZaHLThTGLmQfey
+	 XPH4PivvEMUU77igb5G1Ec67hYJU+ptoSfYhW6f4qEOem8hvL6I7DcpcvfbWHCLz/D
+	 hSRvzDCcftRQFq+p0PDf9szbIyIQwRtlEdX0sjpV6aqgduYLC7y3Rmv9zJJwxsXM4o
+	 6XquD9mrC+KEQ==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
- Syed Saba Kareem <Syed.SabaKareem@amd.com>, 
- Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
- Muhammad Usama Anjum <usama.anjum@collabora.com>
-Cc: kernel@collabora.com, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20240906103727.222749-1-usama.anjum@collabora.com>
-References: <20240906103727.222749-1-usama.anjum@collabora.com>
-Subject: Re: [PATCH] ASoC: amd: acp: Return in-case of error
-Message-Id: <172562795750.927452.5890611265241212761.b4-ty@kernel.org>
-Date: Fri, 06 Sep 2024 14:05:57 +0100
+To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ Tang Bin <tangbin@cmss.chinamobile.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20240906100523.2142-1-tangbin@cmss.chinamobile.com>
+References: <20240906100523.2142-1-tangbin@cmss.chinamobile.com>
+Subject: Re: [PATCH] ASoC: loongson: remove redundant variable assignments
+Message-Id: <172562796127.927452.244425997808347061.b4-ty@kernel.org>
+Date: Fri, 06 Sep 2024 14:06:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,9 +45,10 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-99b12
 
-On Fri, 06 Sep 2024 15:37:24 +0500, Muhammad Usama Anjum wrote:
-> Return when error occurs instead of proceeding to for loop which will
-> use val uninitialized.
+On Fri, 06 Sep 2024 18:05:23 +0800, Tang Bin wrote:
+> In the function loongson_asoc_card_probe, it is simpler
+> to return the value of function devm_snd_soc_register_card
+> directly.
 > 
 > 
 
@@ -62,8 +58,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: amd: acp: Return in-case of error
-      commit: 3c5a18a10a8c6fab27739e6e7bd0e4c0aa854d92
+[1/1] ASoC: loongson: remove redundant variable assignments
+      commit: 1798acef8f50af59abaa0ff4775e7a79a68db671
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
