@@ -1,45 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC29B3C099
-	for <linux-sound@vger.kernel.org>; Fri,  6 Sep 2024 06:02:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C8D3C099
+	for <linux-sound@vger.kernel.org>; Fri,  6 Sep 2024 06:02:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725602558; cv=none; b=Bsad86SJWAmHtflmKeKQO+gFrhqFnkGw1hJYlTDto1YnQdZfdCwtj94ou03+C8Xczq7qzw6Iqr3p4XGwBhI0pemDmLphMB1pToAImyPhUYEccOYNdZr8k6z5A3GlNx+Uswg1+1GtIWUzS35APM4wOIzD6/zVTS7bLJdREDOiFsc=
+	t=1725602560; cv=none; b=VsPP3PM0Rq/r7FFopwI3bLHNp8Gnc9o9yz9G1PBf++Jqjxzmx5m0Z586hx+BTM2qhVCmEqdEoYzuzOKge65acm/xOmB5uA6TV4nKCwEdQWQxd1C8KmQHP0VGUEeyGfyTYAPjHhngUH4Bgunt3KqPP7flBvUT/i+LTZ2sl1WJ2mk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725602558; c=relaxed/simple;
-	bh=LRtWzHoxa5lSb8FGeDE4zWYYXxr8cHOyFpBaXCQ/quU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=D7TIh2F4h+NEgvYo2JVyrz8NBkbFimdIwi1seTwaubNl0YMSuIUfEZK9eSHJ1jQPF+zdIYxM4qILWFJ5gB5eucPYz9yUIg5jAPe8P8g9aVTyVDuOTSPs0d000Nf6Z5fAJAnSNmG9uPYWz3cbkpKXgyixApdGpCuloO2psXSUJoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MZy89k3k; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1725602560; c=relaxed/simple;
+	bh=ZnyTTyKOw3sYiAtenDcXPF5UvxrtoUInfIqMOPBIjqY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gzRgv+YabscgnRPjqU+VfCwffDqys3m/BWNcxD2Y9UWVZVZGZj+efcasow1KyjBnMo7KAjQZAKJmDqSl7EZA10h5j68r/pd2CA8FYXF3QudUlY6u4/35gamrcRYb/8jHRxbQt9PwBRQEQIlQpPZpZ5VxUseQb36TW3npxW6+Zeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q+eTePuI; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MZy89k3k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q+eTePuI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725602556; x=1757138556;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=LRtWzHoxa5lSb8FGeDE4zWYYXxr8cHOyFpBaXCQ/quU=;
-  b=MZy89k3k0cR6Bs+VHRhbn5UR4xPKTv91vjs+iemzPCysjwlABwd+jkF4
-   vCXdowe5Qir1NnSOcM9ZnMHJ/et2WVJmGtYc7p8A/WMaiFPucug0jy5OZ
-   7XfMfASid0ek3oRAwENK4jjqPnmGwrnh+DsMkb05TKLOeYwKXRCeCOFsU
-   k9BYEHY5q+UGaXlsYy+QCwHGfQtWKM/XTgDKqoTAOLjsusQP779uP7ihA
-   +1xSqEGfcsTg6SJW1bNVi+1Su32qEpCc7bNfqOlKjUnRro4I/U+GEdHaV
-   tXF3uv3qgC8bwNEqs1HGhDHObBhqZwMmnT3vgqqA4C0qrcAOySFmZyfb5
-   g==;
-X-CSE-ConnectionGUID: dPc3gbLlTbiGUXfky6DCiQ==
-X-CSE-MsgGUID: r6/5ejjjSKWbAcGpTKtoOA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11186"; a="49764790"
+  t=1725602558; x=1757138558;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=ZnyTTyKOw3sYiAtenDcXPF5UvxrtoUInfIqMOPBIjqY=;
+  b=Q+eTePuIaoscfFdpkKUj0AhH8ugH4+nUTcb1+Fn2aftNo/p0v1v3CTw8
+   KFCB/xPgauzt+7BhLYhPQ2C39URVN0WhptVKyalPC1iArAg6gEn7UKQ0w
+   VpFvLc/m3/oWlV11cOqM7KReJj3VOvfKEU+aTxwUYHXLE9MlF0Io6H7AD
+   RDgqmTsw3PQJ5xR3Ry+8M6PGQlMLZdJIFK3vAEXuU9SXSzhfaqpv5Evw/
+   tkRgN7B9oVqOzQGZ87v8wWD4OpS883j8Tv1NIMkQ0hisFsbZh9tMFd0wC
+   FC1unXTDccMfoXf3CfVdFi5lRbUos/cMwhwa55WYta01XvZ8c/61ytCdl
+   w==;
+X-CSE-ConnectionGUID: E0mMoCsQTyGNW9z6t67lLg==
+X-CSE-MsgGUID: cICEmeZpTziRz9Li5jS1aA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11186"; a="49764794"
 X-IronPort-AV: E=Sophos;i="6.10,207,1719903600"; 
-   d="scan'208";a="49764790"
+   d="scan'208";a="49764794"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
   by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 23:02:36 -0700
-X-CSE-ConnectionGUID: h5D3+bSqTb2Rk3LkSHGAtA==
-X-CSE-MsgGUID: RB4pHBzgQkWJdJEskLVKtA==
+X-CSE-ConnectionGUID: RTSyTPN1RBmwAbmpHW75wQ==
+X-CSE-MsgGUID: ikCLTO2uRamzv1BR+PuygQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,207,1719903600"; 
-   d="scan'208";a="65902211"
+   d="scan'208";a="65902214"
 Received: from yungchua-ws.ostc.intel.com (HELO yungchua-ws.intel.com) ([10.54.69.90])
   by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 23:02:36 -0700
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
@@ -48,10 +49,12 @@ To: broonie@kernel.org,
 Cc: linux-sound@vger.kernel.org,
 	pierre-louis.bossart@linux.intel.com,
 	bard.liao@intel.com
-Subject: [PATCH 0/2] ASoC: Intel: soc-acpi-intel-lnl/mtl-match: add missing empty item
-Date: Fri,  6 Sep 2024 06:02:22 +0000
-Message-Id: <20240906060224.2241212-1-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH 1/2] ASoC: Intel: soc-acpi-intel-lnl-match: add missing empty item
+Date: Fri,  6 Sep 2024 06:02:23 +0000
+Message-Id: <20240906060224.2241212-2-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240906060224.2241212-1-yung-chuan.liao@linux.intel.com>
+References: <20240906060224.2241212-1-yung-chuan.liao@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -65,14 +68,26 @@ There is no links_num in struct snd_soc_acpi_mach {}, and we test
 !link->num_adr as a condition to end the loop in hda_sdw_machine_select().
 So an empty item in struct snd_soc_acpi_link_adr array is required.
 
-Bard Liao (2):
-  ASoC: Intel: soc-acpi-intel-lnl-match: add missing empty item
-  ASoC: Intel: soc-acpi-intel-mtl-match: add missing empty item
-
+Fixes: dd3bd9dc4708 ("ASoC: Intel: soc-acpi-intel-lnl-match: add cs42l43 only support")
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+---
  sound/soc/intel/common/soc-acpi-intel-lnl-match.c | 1 +
- sound/soc/intel/common/soc-acpi-intel-mtl-match.c | 1 +
- 2 files changed, 2 insertions(+)
+ 1 file changed, 1 insertion(+)
 
+diff --git a/sound/soc/intel/common/soc-acpi-intel-lnl-match.c b/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
+index 2522e6f11749..3c4e0c7ca8ee 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
+@@ -267,6 +267,7 @@ static const struct snd_soc_acpi_link_adr lnl_cs42l43_l0[] = {
+ 		.num_adr = ARRAY_SIZE(cs42l43_0_adr),
+ 		.adr_d = cs42l43_0_adr,
+ 	},
++	{}
+ };
+ 
+ static const struct snd_soc_acpi_link_adr lnl_cs42l43_l0_cs35l56_l3[] = {
 -- 
 2.34.1
 
