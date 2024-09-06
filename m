@@ -1,146 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0684481DD;
-	Fri,  6 Sep 2024 21:04:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C3691C86F8
+	for <linux-sound@vger.kernel.org>; Fri,  6 Sep 2024 21:14:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725656691; cv=none; b=slLtb2fpvWbE3AhpX80t3QnLNvfI3D8l3xelgzfQcOnlvmjS+a2C6ylqC+tokVTL86Ncqwt5mPyWVXly57Xm/+1iVnSNiqmiGVRk7/LDMnSWT4TuoJ7tKZjyKxhB+86c/l7vaCMOVwbAaBrIYPtKHI+vtjo54MPs5ElsMn9rZRY=
+	t=1725657300; cv=none; b=PPOnnRpAKkab171gAK5dTJbhtzdMhh3iPYReW3oD8Y7k7acbK4D5qPdGUk+cnnAMdFdukD8LgL0QWykK1wB+/08oHIvHtgwzUyp4H/JpfKir2RHh5WnYBJiysMpb0/nY5Y9QHUv/hhmhPn3K2VGzNGa4i7hvt03mGqHkqpnWjSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725656691; c=relaxed/simple;
-	bh=Qi7l3LEit7RU0ApqPXLuPy7zvE5YFnc5ZdG9M93j8ms=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MH6ivobTOwOCA8LbgQHFAncVbyJ+YNXQ5B+V8bNiydBeENzZt4XstA0EURq18vUdCWmbX1TwF6CqnuoTqGC4m6+0Ko+0qSBhrLyMs707wdgCvqwRP+vLa2EufqFDXHVSg8zt3jNPrPXRUlNrk/AZ1SKyReLWx57myQ4qk7WsFmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vmb8um88; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725657300; c=relaxed/simple;
+	bh=ZEvUEorOsia9rQcPYFPa22tCoLVCyg1slnig8NMKf50=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=E+eBSkxm2i0S6EI68uBBZxEVUDd9qTm73VrqFwDa++Zhjzv23Se7Kav3joXtgasXBySvhw6ivnn621sltiFDDo8LYIfvGaChOic5ZRZKBB7WLPkdTQg8uUBdbWudOYZcLJii5gpKTfIPRhsw1Ey8Khh2ARhzEL3tFytFz7iMQG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=KfW152WU; arc=none smtp.client-ip=209.85.222.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vmb8um88"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C40CC4CEC4;
-	Fri,  6 Sep 2024 21:04:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725656691;
-	bh=Qi7l3LEit7RU0ApqPXLuPy7zvE5YFnc5ZdG9M93j8ms=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Vmb8um88N+sRkcpvVWHxnTOb8jGW9yFBSYtGRagysQ7mAgSmuSeox8PgqMTglme18
-	 +F840LNShRhr7zMt8FRUXxYglgaH9GIc5+VaGdBG23kUf8obXYjcLJQpli7jugzmp4
-	 rlxP32YE2f7J5Ne4XKrLsuOG46nI+Pz2iEP1lPAK4cxtkk2+pdJjlir2C3H6jspetw
-	 kyo5qKCDSu+5EdqKASCPiA6qgIzRAoJcvGsA9/8F7Ji173UqxRkzosN5vapkHrlAvw
-	 izCCxVZm+mn/F1BH2QanTGH/dHLf1VWbrfDw1UcWbcJRAgZ3lh6rtmWNe51vWM6pfw
-	 URZoLmwXGjnHg==
-Date: Fri, 6 Sep 2024 22:04:48 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Alexandre Mergnat <amergnat@baylibre.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Nicolas Belin <nbelin@baylibre.com>
-Subject: Re: (subset) [PATCH v7 00/16] Add audio support for the MediaTek
- Genio 350-evk board
-Message-ID: <ZttucCV86ryyqIiT@finisterre.sirena.org.uk>
-References: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
- <172544860860.19172.7052813450885034844.b4-ty@kernel.org>
- <20240906180348.GA1239602@thelio-3990X>
- <ZttJdexQFOq2Q9iQ@finisterre.sirena.org.uk>
- <20240906192323.GA3160860@thelio-3990X>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KfW152WU"
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-846d414ea6bso613088241.3
+        for <linux-sound@vger.kernel.org>; Fri, 06 Sep 2024 14:14:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1725657297; x=1726262097; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Cs9aVK4sfy3gpXBpKGUO42369WUFZ09m2WcyDCsX/ac=;
+        b=KfW152WUvRKNpsfg7492fsYSrqcNXTAYHl9X65e2wLEhY9Z1nAGcS8aq78q3VCzWrG
+         lFVPmi1FSHyJLpFIBACn2ZDjopYjrmEMxRZX1YcNu94YA7MrahtCrSdmukh5RYIZPFIh
+         zyEkkttilsx96epy224zXFEnoO2cRWWIRM4mc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725657297; x=1726262097;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Cs9aVK4sfy3gpXBpKGUO42369WUFZ09m2WcyDCsX/ac=;
+        b=N4WjKh7TTyPIHODEbNgLRJG/XB0Ym0voSaCLJ57FyoAL90gyGpG/5L755xquDfesIq
+         f+TmtF2P/dV6CAxdGc9feJWr2Bw91FkxPPfn55uNwEVT4AP+tAQQzU8RCxGae5Omg8S4
+         s+TnCAS9aNW0BHW8TGxoxjl4mvBbJnW0ZxkOzN+usUf6kM+y2wqtEmmZEHjgZ+rntAbp
+         qCLWKIrdkPlKNkYG8NA15/q96hnVvvYXYJBJjW+hls2gDQ0OE6iOoNNup6jcYbUQS+0x
+         KRABMM4mpc1CRadVvyEkNxyNLwUdlytyOILhH6e+3/57ScuLaElp5YOmXeDwUc44WVjh
+         2SoA==
+X-Forwarded-Encrypted: i=1; AJvYcCVPTP2U5JXjTsqddHlv34etKglMYSKQzbisszdwbxdCtG/+ZJnTTS89Tgv/QWBy9QYaH8q9pTNwsuTbWg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyaLldGh6S481JFrsvF8eZTQy5EVCvX4VNObX9o6NwP2G6Z1QrY
+	nLt0vZ622SCSOVKnVJdDrTFkstGtgTMUm+qdWO8rRT+oZxuUCpitPCSZ8gZNgQ==
+X-Google-Smtp-Source: AGHT+IGu1gSdn+TAhuXyZYC0Jo1w5AWPPH8ZYSvd0b/4lADstyEw4lDaVQ72agnawfprbU0iJrsTYg==
+X-Received: by 2002:a05:6102:38d0:b0:48f:dfb3:f26a with SMTP id ada2fe7eead31-49bde1c74f5mr4625071137.15.1725657296870;
+        Fri, 06 Sep 2024 14:14:56 -0700 (PDT)
+Received: from localhost (112.49.199.35.bc.googleusercontent.com. [35.199.49.112])
+        by smtp.gmail.com with UTF8SMTPSA id af79cd13be357-7a99dc0f8b0sm63299985a.23.2024.09.06.14.14.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Sep 2024 14:14:56 -0700 (PDT)
+From: Joshua Pius <joshuapius@chromium.org>
+X-Google-Original-From: Joshua Pius <joshuapius@google.com>
+To: alsa-devel@alsa-project.org
+Cc: Joshua Pius <joshuapius@google.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	"Steven 'Steve' Kendall" <skend@chromium.org>,
+	Karol Kosik <k.kosik@outlook.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: usb-audio: Add logitech Audio profile quirk
+Date: Fri,  6 Sep 2024 21:14:38 +0000
+Message-ID: <20240906211445.3924724-1-joshuapius@google.com>
+X-Mailer: git-send-email 2.46.0.598.g6f2099f65c-goog
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tSNyT2qHs0Efy6wS"
-Content-Disposition: inline
-In-Reply-To: <20240906192323.GA3160860@thelio-3990X>
-X-Cookie: Your love life will be... interesting.
+Content-Transfer-Encoding: 8bit
 
+Specify shortnames for the following Logitech Devices: Rally bar, Rally
+bar mini, Tap, MeetUp and Huddle.
 
---tSNyT2qHs0Efy6wS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Joshua Pius <joshuapius@google.com>
+---
+ sound/usb/card.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-On Fri, Sep 06, 2024 at 12:23:23PM -0700, Nathan Chancellor wrote:
-> On Fri, Sep 06, 2024 at 07:27:01PM +0100, Mark Brown wrote:
-> > Are these just warnings introduced by recent versions of the toolchains?
-> > These commits passed an x86 allmodconfig with GCC 12 at each step (I did
-> > catch one warning there with another patch in the series that didn't get
-> > applied) and 0day didn't say anything at any point.
+diff --git a/sound/usb/card.c b/sound/usb/card.c
+index 778de9244f1e..9c411b82a218 100644
+--- a/sound/usb/card.c
++++ b/sound/usb/card.c
+@@ -384,6 +384,12 @@ static const struct usb_audio_device_name usb_audio_names[] = {
+ 	/* Creative/Toshiba Multimedia Center SB-0500 */
+ 	DEVICE_NAME(0x041e, 0x3048, "Toshiba", "SB-0500"),
+ 
++	/* Logitech Audio Devices */
++	DEVICE_NAME(0x046d, 0x0867, "Logitech, Inc.", "Logi-MeetUp"),
++	DEVICE_NAME(0x046d, 0x0874, "Logitech, Inc.", "Logi-Tap-Audio"),
++	DEVICE_NAME(0x046d, 0x087c, "Logitech, Inc.", "Logi-Huddle"),
++	DEVICE_NAME(0x046d, 0x0898, "Logitech, Inc.", "Logi-RB-Audio"),
++	DEVICE_NAME(0x046d, 0x08d2, "Logitech, Inc.", "Logi-RBM-Audio"),
+ 	DEVICE_NAME(0x046d, 0x0990, "Logitech, Inc.", "QuickCam Pro 9000"),
+ 
+ 	DEVICE_NAME(0x05e1, 0x0408, "Syntek", "STK1160"),
+-- 
+2.46.0.598.g6f2099f65c-goog
 
-> Not sure, I did not look too hard. At cursory glance, I am not sure x86
-> allmodconfig would catch these, as this code depends on ARCH_MEDIATEK
-> (not COMPILE_TEST), which only exists for arm and arm64.
-
-Ah, I hadn't seen that (the other bits were building on x86).
-
-> > > Clang 19:
-
-> > That's relatively modern, though some of the warnings don't look
-> > particularly new and exciting.
-
-> Fair although I still see some of them on old versions too:
-
-Yeah, like I say some of the warnings didn't look like they were new.
-
-> https://github.com/ClangBuiltLinux/continuous-integration2/actions/runs/1=
-0738441894
->=20
-> > >   sound/soc/mediatek/mt8365/mt8365-dai-adda.c:93:8: error: implicit c=
-onversion from 'unsigned long' to 'unsigned int' changes value from 1844674=
-4073709551614 to 4294967294 [-Werror,-Wconstant-conversion]
-> > >      91 |                 regmap_update_bits(afe->regmap, AFE_ADDA_UL=
-_DL_CON0,
-> > >         |                 ~~~~~~~~~~~~~~~~~~
-> > >      92 |                                    AFE_ADDA_UL_DL_ADDA_AFE_=
-ON,
-> > >      93 |                                    ~AFE_ADDA_UL_DL_ADDA_AFE=
-_ON);
-> > >         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-> > >   1 error generated.
-> >=20
-> > That's a bit surprising, regmap_update_bits() takes an unsigned long?  I
-> > suspect the constants need to be defined as unsigned.
-
-> Does it? I see it taking 'unsigned int' for all of its parameters.
-
-Sorry, I misread the warning there (or was perhaps looking at another
-one) and for some reason though it was about dropping signs but it's
-rather due to BIT() being defined for longs which is a rather bad
-landmine given how common a pattern negation is.  I do see that
-synclink.h has some convenient BITn macros for some reason which would
-do the trick but really I think it's just a case of open coding the
-BIT() usage, or defining a BITI() or something but that seems ugly.
-Probably just open code the definitions.
-
---tSNyT2qHs0Efy6wS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbbbmoACgkQJNaLcl1U
-h9A4/AgAhDUwT8rRI4M3S+NXdNzBJSPacU05GQT9cqLHhdUtUgyqvhxeH6OhPjiN
-wUxAA7ugGFCDswITd22nOKiR76kgijacKAluiYXCh0nPvokDPQyzUklJltqFUYzm
-GJfOTqniw75BP3VxTgB7KmehOyYd1EP72Oj1qc6HmNmZX7G3c2wcX3cbED2eP4hU
-BfWhc9whOYYXqUYMicCcpItyPVVfKyvNgwbePdDxlHNcapm5t8z8b0jIutnhDr+c
-4AUADF6NwNc6L7+ttA5yHTogggWSrzJBIYea3trWLj14a32ho28hZb6+1jE3Q6R6
-bnK/Qw7CnUl4m787UaxMFjX9z84mxA==
-=qv06
------END PGP SIGNATURE-----
-
---tSNyT2qHs0Efy6wS--
