@@ -1,93 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB1312B176
-	for <linux-sound@vger.kernel.org>; Fri,  6 Sep 2024 06:02:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A35574BF5;
+	Fri,  6 Sep 2024 06:19:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725602560; cv=none; b=sqW18SOfKwTXW8R23w99GlQy5XLuMZgIkZL17wfTHtPGMfkeni9IrFR5LoEwzHXh77CW2awntjUmb2IdZQRgET630ASOxSoePcQ08DtvChmee6mxcPG+8Hf/yj7Znsre+k+bZlPNYg+2h3TtwyFTpgipWTaqJa+JEoS0ZYjVpvQ=
+	t=1725603575; cv=none; b=AcAXKX/1zPo88QOcqMuXQ99mSUgDzuxq4RrgyVE8tDnjeJDW82iKLyyBudZq/jNlUV/TYdLeFEPnsXLIwICacw47ARGj4emN2PUCwYDYC0ICcA0ksdEcQWmcWeQD6XT+Vq/4AAyWxk+BNWRgWg3+RZhD7mb/oBZs71tXxDoCEpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725602560; c=relaxed/simple;
-	bh=b9sUaI0Q4M72AcGjq0w8geRBzi2Kz0zQf05VHCWy6Oc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZpiEbRcjQ9iT83VR2ai2HGOUAwKNvxbar7iLmyDSY4rHd/zQtFJZRbvGkT3k3WFubteLR1/GCAFExryc4CdfYUZhMqs09h0ATGHiJj5whPKF9PguNCizWBlAu6BI/ElpNymSONJhqNtRe8hqAiYkqA1GwYBKd0BKVFqFMOFk9mo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FdKxc+mX; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1725603575; c=relaxed/simple;
+	bh=831UncUWZ3oaS4W+PiWNkt0Cc0LIJ95Zae6HcMcBaPo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FJDxSq4gtrddW59o/hqe/Kl7JTHxHtCrD6VW+EVFh/nOFyefDOi/Cv8cmaH2n/4andkWStkj7LhxkRjKQlAFMc++xq/vLIOJNXFg10L6ExNwZQfSjsLZBrQtL2i+DE7Ppd7u9wel4UwXjo42cdYMiIhm7zQBSo8AUE1hUAXnl+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QfkN9vlO; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FdKxc+mX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QfkN9vlO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725602559; x=1757138559;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=b9sUaI0Q4M72AcGjq0w8geRBzi2Kz0zQf05VHCWy6Oc=;
-  b=FdKxc+mXt/qaM3TTAkqwKaaN6qjRG9IvS8WVdYHYZVaM4HoBjxKwaA98
-   xEAv1Qj/t60qeJ/So4MECgfs0AacsqCStfKF4WTbPnFsWb9cgkP7lAm7E
-   a+6m2IS5FsGfqqeJoAukOkL5fY0TWQZqXe3DINcW7XaxYhaokZPGIdy5Y
-   7hSiVr+Ay+hMGU2/F3n8DpVgQk6qkU46GmAdegGmHPydpg7srHDAjkJcO
-   SkksRcIDuM89j0VqP/grvUT4t3UwDnUSWwYF+wkf0TfjlhcvwUNWNQ3vr
-   7GpP5y6DSqy7SUSjPk9tSN6Jnw4eT5E8WOaxVEJpHWaduUbvIj+a6PXec
-   A==;
-X-CSE-ConnectionGUID: FU060D0QTnmST7eCxWDC7w==
-X-CSE-MsgGUID: u34y0uMwQFG1D9I9x11OVQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11186"; a="49764797"
+  t=1725603573; x=1757139573;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=831UncUWZ3oaS4W+PiWNkt0Cc0LIJ95Zae6HcMcBaPo=;
+  b=QfkN9vlONdM3Qy3wAbTVEwCkLcFs2RNysEutzCvbTgSil6So4vZjteTZ
+   /JlJ5jkT+vn7Ghynk/LWijsV72/9jVHqh07kGj4ttYz7JELBolppLb4Qg
+   hCF5h8kdXAxeO1+GfVJvC5m8JSXeIYuRvDY5zs4wFtC6WiEVpjRw+eAD1
+   wUMKrJwps6wMg+A8Zul8BkQkIQrIuidQcClxjoJb7OB7SqQgYdipuMjag
+   dZCfJJnpBbL3GAmDx2cNBPhoWt4pEh4KyA0OsaEWsIFhXsthagkF0FBta
+   IssryvviCv40dBqlPQLzoFNM8IF7NmZpOoCKwm1djYKlZFigzcJ/ochLx
+   Q==;
+X-CSE-ConnectionGUID: gFQrKa5HQXeFcLLKemi+RQ==
+X-CSE-MsgGUID: bIP/4DKBRMGq7t2wL4Fmbg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11186"; a="24225155"
 X-IronPort-AV: E=Sophos;i="6.10,207,1719903600"; 
-   d="scan'208";a="49764797"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 23:02:36 -0700
-X-CSE-ConnectionGUID: ZIBqcT7MRQGjVHCW0hjCmw==
-X-CSE-MsgGUID: sYmQwkygSCKxKcD4ZmGn9g==
+   d="scan'208";a="24225155"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 23:19:32 -0700
+X-CSE-ConnectionGUID: HjbrCDkSRYCrpW2OYslynw==
+X-CSE-MsgGUID: djT8ieuJTmifr9cWJv/QeQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,207,1719903600"; 
-   d="scan'208";a="65902220"
-Received: from yungchua-ws.ostc.intel.com (HELO yungchua-ws.intel.com) ([10.54.69.90])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 23:02:36 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com,
-	bard.liao@intel.com
-Subject: [PATCH 2/2] ASoC: Intel: soc-acpi-intel-mtl-match: add missing empty item
-Date: Fri,  6 Sep 2024 06:02:24 +0000
-Message-Id: <20240906060224.2241212-3-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240906060224.2241212-1-yung-chuan.liao@linux.intel.com>
-References: <20240906060224.2241212-1-yung-chuan.liao@linux.intel.com>
+   d="scan'208";a="70660743"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 05 Sep 2024 23:19:28 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1smSJa-000AkH-18;
+	Fri, 06 Sep 2024 06:19:26 +0000
+Date: Fri, 6 Sep 2024 14:18:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Binbin Zhou <zhoubinbin@loongson.cn>,
+	Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Huacai Chen <chenhuacai@loongson.cn>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-sound@vger.kernel.org, Xuerui Wang <kernel@xen0n.name>,
+	loongarch@lists.linux.dev
+Subject: Re: [PATCH v1 08/10] ASoC: loongson: Add I2S controller driver as
+ platform device
+Message-ID: <202409061419.RBYUF8ou-lkp@intel.com>
+References: <282dadefdaac7917fd681a6e84a5f0f07d0557bc.1725518229.git.zhoubinbin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <282dadefdaac7917fd681a6e84a5f0f07d0557bc.1725518229.git.zhoubinbin@loongson.cn>
 
-There is no links_num in struct snd_soc_acpi_mach {}, and we test
-!link->num_adr as a condition to end the loop in hda_sdw_machine_select().
-So an empty item in struct snd_soc_acpi_link_adr array is required.
+Hi Binbin,
 
-Fixes: f77ae7fcdc4763 ("ASoC: Intel: soc-acpi-intel-mtl-match: add cs42l43 only support")
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
----
- sound/soc/intel/common/soc-acpi-intel-mtl-match.c | 1 +
- 1 file changed, 1 insertion(+)
+kernel test robot noticed the following build warnings:
 
-diff --git a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-index 8e0ae3635a35..d4435a34a3a3 100644
---- a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-@@ -674,6 +674,7 @@ static const struct snd_soc_acpi_link_adr mtl_cs42l43_l0[] = {
- 		.num_adr = ARRAY_SIZE(cs42l43_0_adr),
- 		.adr_d = cs42l43_0_adr,
- 	},
-+	{}
- };
- 
- static const struct snd_soc_acpi_link_adr mtl_cs42l43_cs35l56[] = {
+[auto build test WARNING on 097a44db5747403b19d05a9664e8ec6adba27e3b]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Binbin-Zhou/ASoC-dt-bindings-Add-Everest-ES8323-Codec/20240905-150958
+base:   097a44db5747403b19d05a9664e8ec6adba27e3b
+patch link:    https://lore.kernel.org/r/282dadefdaac7917fd681a6e84a5f0f07d0557bc.1725518229.git.zhoubinbin%40loongson.cn
+patch subject: [PATCH v1 08/10] ASoC: loongson: Add I2S controller driver as platform device
+config: i386-kismet-CONFIG_SND_SOC_LOONGSON_I2S_PCI-CONFIG_SND_SOC_LOONGSON_CARD-0-0 (https://download.01.org/0day-ci/archive/20240906/202409061419.RBYUF8ou-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20240906/202409061419.RBYUF8ou-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409061419.RBYUF8ou-lkp@intel.com/
+
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for SND_SOC_LOONGSON_I2S_PCI when selected by SND_SOC_LOONGSON_CARD
+   WARNING: unmet direct dependencies detected for SND_SOC_LOONGSON_I2S_PCI
+     Depends on [n]: SOUND [=y] && SND [=y] && SND_SOC [=y] && (LOONGARCH || COMPILE_TEST [=y]) && PCI [=n]
+     Selected by [y]:
+     - SND_SOC_LOONGSON_CARD [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && (LOONGARCH || COMPILE_TEST [=y])
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
