@@ -1,40 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C40F31CE706;
-	Fri,  6 Sep 2024 13:06:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 324641CEEBE
+	for <linux-sound@vger.kernel.org>; Fri,  6 Sep 2024 13:06:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725627966; cv=none; b=X4uJEBfvCW1WbKcb0U4sJ9ysrUeqIW0ozP6U8PDXgvYwLGrlgBm7A8m015t7WjEJH90O3U6or2+OWKGqdMGUbxs2DRbgQMhOaPyi3eBXDZ6TPvIovlz4QwfzvuOswJmJrVxoE7iyQexOD0IPsM4NaIq9KDQHy8EaG7z0eYkRtfM=
+	t=1725627969; cv=none; b=X1fueHkj+sxE51td77utQOhj8EFzoV0oQROpA4GYeVjrmtWG89kCn8SipAui7LmS1/4cvUBD9v4AFuobCFcBQfmlV0OY4oU6okXDhxZPs/MLsTI5FbdW7sGbL9CAKG7iU5A+UJmZdyGD82XOuNJtKLleWAct2WL+TTwrE0rHObQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725627966; c=relaxed/simple;
-	bh=PzQtuj58s1m6hfHiyF9Oj2TCTBi4ABvLhfkuhzcvK6s=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Jll05bYqToaMiI+wItmI8PvwTAufDNWvVxE9gawgFmQPIROtcM8KpKiHw6fr9y9I/3PO2N2BkP/jJQNXLsEqsjJqFP3o1/o8dRHrS3VYQtw20d4REUfLPOSSiFGOw9cDEOhw8Nq3AZb4jioH5xplc7VUXVuYnxb6ZtR4JbGMf+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RSSdplk9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725627969; c=relaxed/simple;
+	bh=VpAQRPwEr6BulAVHkGys03WB2SCuXzp9eOg4uixv024=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=mW1k5nWSLcTFXYWOUl5C9ttUKzalp4VSEd7RqybKzu2yLlt3mlVNC0GlWwYOm79QX/ULtO98F//rBHZzF49DnDJtrn8OKwACMpShBWCCaj+F++TfOyr5h0HpabNwTvzs2AJRDDANRm42nhjw9cuPXdlQM3GsgdjqHl01XsQbMjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LVn69mj9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RSSdplk9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2167C4CEC4;
-	Fri,  6 Sep 2024 13:06:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LVn69mj9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10C4BC4CEC9;
+	Fri,  6 Sep 2024 13:06:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725627966;
-	bh=PzQtuj58s1m6hfHiyF9Oj2TCTBi4ABvLhfkuhzcvK6s=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=RSSdplk98Es/e0Iy6R6OkRmgpUgC0deitakX/yxShqoGCzJrEctYhLSvKo7Hipd5U
-	 bN02BEH/96c1FO9XAxzrurMKPlU3WKgNPpxVWnY+q7Ylq6hwWPiBIqrQ3PtNqbRP5D
-	 q7a7/JtUIuUvltcwoyZqcSeLMi8B/wGI8y4jzapLZ0YqK+BhM1ykZaHLThTGLmQfey
-	 XPH4PivvEMUU77igb5G1Ec67hYJU+ptoSfYhW6f4qEOem8hvL6I7DcpcvfbWHCLz/D
-	 hSRvzDCcftRQFq+p0PDf9szbIyIQwRtlEdX0sjpV6aqgduYLC7y3Rmv9zJJwxsXM4o
-	 6XquD9mrC+KEQ==
+	s=k20201202; t=1725627968;
+	bh=VpAQRPwEr6BulAVHkGys03WB2SCuXzp9eOg4uixv024=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=LVn69mj9MgZX1ocODDsPGGaTgVNnkYC4RlBiAr5yGx+FbF/vQ92grPCzuYN+K6d7v
+	 X/86iyhE0g866jedIEpA4sAV9sEYZtws33vzkozZysW3/iGHbzmXgxFazBugnhTPHg
+	 Nq+XtPeXVz+zVLaIk/x+aXGoygUkvwFaNYyKYRBqn6/pfivtErUl/rLmFTuxYYJg9Q
+	 b+JcJ+h2x7npnKXk4me98WBhwoJax4HtnUaCaZMe+odgaIBgpI6BXYmG1sRgHFxTIg
+	 iqq0DLeB+sgyC+POZTk3TmVDvUNzYpkpsZLulh2Usv+4Y9KMJC2ZeEp3Dc0fPDjlMj
+	 ui+v7o2Lti5mQ==
 From: Mark Brown <broonie@kernel.org>
 To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- Tang Bin <tangbin@cmss.chinamobile.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20240906100523.2142-1-tangbin@cmss.chinamobile.com>
-References: <20240906100523.2142-1-tangbin@cmss.chinamobile.com>
-Subject: Re: [PATCH] ASoC: loongson: remove redundant variable assignments
-Message-Id: <172562796127.927452.244425997808347061.b4-ty@kernel.org>
-Date: Fri, 06 Sep 2024 14:06:01 +0100
+ linux-sound@vger.kernel.org, Zhang Zekun <zhangzekun11@huawei.com>
+In-Reply-To: <20240827070650.11424-1-zhangzekun11@huawei.com>
+References: <20240827070650.11424-1-zhangzekun11@huawei.com>
+Subject: Re: [PATCH v2 0/2] Some clean up with helper fucntion
+Message-Id: <172562796362.927452.6426026023067764138.b4-ty@kernel.org>
+Date: Fri, 06 Sep 2024 14:06:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,12 +44,18 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-99b12
 
-On Fri, 06 Sep 2024 18:05:23 +0800, Tang Bin wrote:
-> In the function loongson_asoc_card_probe, it is simpler
-> to return the value of function devm_snd_soc_register_card
-> directly.
+On Tue, 27 Aug 2024 15:06:48 +0800, Zhang Zekun wrote:
+> There are some helper functions which can be used to simplify the code.
+> So, let's use these functions to make code more simple.
 > 
+> v2: Fix a code logic broken problem and add the comment back.
 > 
+> Zhang Zekun (2):
+>   ASoC: audio-graph-card: Use for_each_child_of_node_scoped() to
+>     simplify code
+>   ASoC: audio-graph-card2: Use helper function of_get_child_count()
+> 
+> [...]
 
 Applied to
 
@@ -58,8 +63,10 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: loongson: remove redundant variable assignments
-      commit: 1798acef8f50af59abaa0ff4775e7a79a68db671
+[1/2] ASoC: audio-graph-card: Use for_each_child_of_node_scoped() to simplify code
+      commit: de849243404e8ce02320a7178d4448e4d0191377
+[2/2] ASoC: audio-graph-card2: Use helper function of_get_child_count()
+      commit: 815f1fcf2403454904cbbc5cf370df6bc300f392
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
