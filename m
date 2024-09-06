@@ -1,134 +1,220 @@
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEE67364A9;
-	Fri,  6 Sep 2024 11:37:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38F5913AA38;
+	Fri,  6 Sep 2024 12:20:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725622638; cv=none; b=oTaGB2JBTyuaEAnsBhrG3k7dpgtO7Zu9vsGwYV79BueBdi+PhTwJdmNGh5ASH3sCspG3j1aa5ouEbV03pbc+yxRNIMsycSfiqjUwsDa2oS4fhgHO26v03GSuT22bbUnILfzsaq/xmCKuagDpfLeh3B0hlQzyx6rMlKITBmbECdk=
+	t=1725625226; cv=none; b=jJ6L+CrfTbUifePyevlqHN+jjO0aZwHts+JYDDpihlKNgi8fjfRrtGMIQeQde/o3aEg+8YgOL7Q6mmTu4JpVivmKCCPmPgF5LDvXxIqCCT5mZo8MhJnnDnoxz2gE2CczEu9otqWVo8UBruTVA7Y+a2fuhHpWY2S40FjKD2EX52w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725622638; c=relaxed/simple;
-	bh=lqxOlJQgWQl22rUCJh2s6jVJRGmlJQYQOFRPj2vMNII=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WEDMY+NIpBXKiO6fv/CcOW5RxFQ9NVIip5Ie4dYpvlrLCxABE4PBZ60hPxonPUpv7fDktTEkfYQs9VBriV/sel4ftnqdayjDlmG78TM4TxyLKzJN5Bx4DGXjzrGTB/r/bMszBH3l55fQGkYajamH7K/zRs9a5pvfpqvrVQtRWhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-6daf46ee332so18843757b3.0;
-        Fri, 06 Sep 2024 04:37:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725622634; x=1726227434;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Kjnr2492P/BcID81zdCH2qFdKNtp4VQucHhzLNMBu9w=;
-        b=NJ/6B4nNrWSJRLeLmVu3pw6UO9pgoWRmgK0L1U/38M7lt+iWmLZH6WPNgdokK1UViX
-         anlB48qzAK44Fb3fNIbkksG7w698frGnABSMMgumhzkAbZONWZ3q0xTgM8oE++FXZAZP
-         xgQ+P2KUrY/O65ks2cXDDV/Sskncm2yhzEzTPrX4hkC3CAdqEGyOhl1l6qu6vaFa9puN
-         HsrZH0CvZxL4HvZ39IjBJbgbv4ZIxgXyIOaWdj1Q8y1RavLoHXDNgtX5slIw1pm5XQ+M
-         r75qBMNXY5FkCw1gMrxdpd2iwSdzS9K/Q8UQP610gQ4atfJxlPWsdzUcAzTyDQxhupb+
-         dpcA==
-X-Forwarded-Encrypted: i=1; AJvYcCU93sQ8n3tDPfPgXw927yuwTnj3u6adWvwF+p/huNasEJF8KEooL/jlvzv76yUUof1yzRIkK+c8c2uw@vger.kernel.org, AJvYcCVh3ovil/fgDAfdX5nljDy+npfjZ/XAde1kMjmdCsV55FRYQbXrEluWnviNVIxH4jsLcQbaNnymo1+AKXk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyyE9JmdXlymALcxfS5pul3t2N0pGrAxRlUc2sjlRJCKVu1H4ht
-	g/bHTlF2+JgsGUF6vb4EI3/ME0+9FVDg3hORW/05Dio/W17a94F3X/JDFsx0
-X-Google-Smtp-Source: AGHT+IHIYVM/fx6Sxo2Yy7Qop4e1v7TRMseSR85+8d2TpidMRFGl+OTsM7kZPNmsckacmxW/ugyMdg==
-X-Received: by 2002:a05:690c:48c6:b0:664:badf:5a80 with SMTP id 00721157ae682-6db4515496emr29428947b3.28.1725622634136;
-        Fri, 06 Sep 2024 04:37:14 -0700 (PDT)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6d2d40a7588sm32298647b3.57.2024.09.06.04.37.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Sep 2024 04:37:13 -0700 (PDT)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-6daf46ee332so18843277b3.0;
-        Fri, 06 Sep 2024 04:37:13 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUtwNMEGntWotqvBLKQ0oyXXGVsdjP71cpevqAlWSckCVeuk+zOppS0/5TYSpbqk6U+XExqF6gpRrOT@vger.kernel.org, AJvYcCXTBCoJx3zQO96cfWRkQNtfzJWg9B0pRJCNsWPMJhv9vHgR3WPnuU9K7pFXggfyY2efKDH1QO4Nu7Q2RXI=@vger.kernel.org
-X-Received: by 2002:a05:690c:fd4:b0:62c:e939:2ffe with SMTP id
- 00721157ae682-6db44d6c68fmr28000367b3.7.1725622633634; Fri, 06 Sep 2024
- 04:37:13 -0700 (PDT)
+	s=arc-20240116; t=1725625226; c=relaxed/simple;
+	bh=Y8S3sIUeUo+i76VJqD3Gk9saCrU/jNFW7+ZyZebjSrU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=KJtK3q6mXvDuDxZFtfIwFSgkBMA8rd6tL7+c4tt44U6Gc090GiX8cptf05cpDIKA8bxiQQUoPtSD5cvtKLm4Y6cMVZsZNpoxrXkNx1DCUWG1aMbJbbHFi4qmOp+hwmZxFeUpiEG0OMZIp+Qgpr6VC0rDputIM2noKToZJtDeYk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jNExSRcy; arc=none smtp.client-ip=217.70.183.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jNExSRcy"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C0DBFC000B;
+	Fri,  6 Sep 2024 12:20:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1725625221;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=MtAkF99VG/OSc6QNgU0cRrGhkO1sSV69WMhxrgTuZIA=;
+	b=jNExSRcyFcWBI1DsCEiYSceE1JAcAaEyvsNSpGlZ+CnUdyeO4hPy0kqSD5KcNtxR+JrCtz
+	8pdSSbU2pzy54M70QEe2d+7T6Smnal/7UPkIqpBtxNpfJERTATWh1aG69wFnmQhAx4UfjG
+	Er9rBqCgLzxzafnxqTRCMcHzlPr1ETQyCIOE0JJWnEIE/PZsQi+qyZoa27jCXb9vRdAf4r
+	5FzBKLWClHEfzNSGyioGkjp3o9h3LfFdSDiY9OTCwi/1t5b6+1C4m5a6qtNtVLG5SJh8fi
+	veazp6wgkPV4QmuqgAKOsZBuBKtOK5mM3eQonNdeurMvUW+amm8WbLVBPP7Zqw==
+From: Romain Gantois <romain.gantois@bootlin.com>
+Date: Fri, 06 Sep 2024 14:20:58 +0200
+Subject: [PATCH] ASoC: tlv320aic31xx: Add support for loading filter
+ coefficients
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1725518229.git.zhoubinbin@loongson.cn> <282dadefdaac7917fd681a6e84a5f0f07d0557bc.1725518229.git.zhoubinbin@loongson.cn>
-In-Reply-To: <282dadefdaac7917fd681a6e84a5f0f07d0557bc.1725518229.git.zhoubinbin@loongson.cn>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 6 Sep 2024 13:37:01 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVLErqWPDs27yeRc96Ly1ukds1-id1KNy=aWvNmffWicg@mail.gmail.com>
-Message-ID: <CAMuHMdVLErqWPDs27yeRc96Ly1ukds1-id1KNy=aWvNmffWicg@mail.gmail.com>
-Subject: Re: [PATCH v1 08/10] ASoC: loongson: Add I2S controller driver as
- platform device
-To: Binbin Zhou <zhoubinbin@loongson.cn>
-Cc: Binbin Zhou <zhoubb.aaron@gmail.com>, Huacai Chen <chenhuacai@loongson.cn>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Huacai Chen <chenhuacai@kernel.org>, 
-	devicetree@vger.kernel.org, linux-sound@vger.kernel.org, 
-	Xuerui Wang <kernel@xen0n.name>, loongarch@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240906-tlv320-filter-v1-1-6955f53ff435@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIAKnz2mYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDCwMz3ZKcMmMjA920zJyS1CJdQwvL1JQUMzMTS7NkJaCegqLUtMwKsHn
+ RsbW1ANhLRdpfAAAA
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Romain Gantois <romain.gantois@bootlin.com>
+X-Mailer: b4 0.14.1
+X-GND-Sasl: romain.gantois@bootlin.com
 
-Hi Binbin,
+The TLV320DAC3100 Audio DAC has 25 built-in digital audio processing blocks
+(PRBs). Each of these PRBs has a static filter structure with programmable
+coefficients. Once a PRB is selected for use by the DAC, its filter
+coefficients can be configured via a dedicated set of registers.
 
-On Thu, Sep 5, 2024 at 9:07=E2=80=AFAM Binbin Zhou <zhoubinbin@loongson.cn>=
- wrote:
-> The Loongson I2S controller exists not only in PCI form (LS7A bridge
-> chip), but also in platform device form (Loongson-2K1000 SoC).
->
-> This patch adds support for platform device I2S controller.
->
-> Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
+Define a new optional firmware which can be loaded by the TLV320DAC driver.
+This firmware describes a full set of filter coefficients for all blocks
+used by the various PRBs.
 
-Thanks for your patch!
+The firmware's binary format is heavily inspired by the one used in the
+peb2466 driver. It includes a version marker to allow for potential
+evolutions of the format.
 
-> --- a/sound/soc/loongson/Kconfig
-> +++ b/sound/soc/loongson/Kconfig
-> @@ -13,10 +13,20 @@ config SND_SOC_LOONGSON_I2S_PCI
->           The controller is found in loongson bridge chips or SoCs,
->           and work as a PCI device.
->
-> +config SND_SOC_LOONGSON_I2S_PLATFORM
-> +       tristate "Loongson I2S controller as platform device"
+Note that adaptive filtering is not supported i.e. filter coefficients are
+loaded once before power-on and then cannot be changed while the DAC is
+powered. This is why only page A coefficients are modified. Page B
+coefficients are only used for adaptive filtering.
 
-depends on LOONGARCH || COMPILE_TEST
+Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
+---
+ sound/soc/codecs/tlv320aic31xx.c | 100 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 100 insertions(+)
 
-> +       select SND_SOC_GENERIC_DMAENGINE_PCM
-> +       help
-> +         Say Y or M if you want to add support for I2S driver for
-> +         Loongson I2S controller.
-> +
-> +         The controller work as a platform device, found in loongson
-> +         SoCs.
-> +
->  config SND_SOC_LOONGSON_CARD
->         tristate "Loongson Sound Card Driver"
->         select SND_SOC_LOONGSON_I2S_PCI
-> -       depends on PCI
+diff --git a/sound/soc/codecs/tlv320aic31xx.c b/sound/soc/codecs/tlv320aic31xx.c
+index 2f94cfda0e33..7e624c4b77b6 100644
+--- a/sound/soc/codecs/tlv320aic31xx.c
++++ b/sound/soc/codecs/tlv320aic31xx.c
+@@ -12,6 +12,7 @@
+  * and mono/stereo Class-D speaker driver.
+  */
+ 
++#include <asm/unaligned.h>
+ #include <linux/module.h>
+ #include <linux/moduleparam.h>
+ #include <linux/init.h>
+@@ -22,6 +23,7 @@
+ #include <linux/gpio/consumer.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/acpi.h>
++#include <linux/firmware.h>
+ #include <linux/of.h>
+ #include <linux/slab.h>
+ #include <sound/core.h>
+@@ -1638,6 +1640,98 @@ static const struct i2c_device_id aic31xx_i2c_id[] = {
+ };
+ MODULE_DEVICE_TABLE(i2c, aic31xx_i2c_id);
+ 
++static int tlv320dac3100_fw_load(struct aic31xx_priv *aic31xx,
++				 const u8 *data, size_t size)
++{
++	int ret, reg;
++	u16 val16;
++
++	/*
++	 * Coefficients firmware binary structure. Multi-byte values are big-endian.
++	 *
++	 * @0, 16bits: Magic (0xB30C)
++	 * @2, 16bits: Version (0x0100 for version 1.0)
++	 * @4, 8bits: DAC Processing Block Selection
++	 * @5, 62 16-bit values: Page 8 buffer A DAC programmable filter coefficients
++	 * @129, 12 16-bit values: Page 9 Buffer A DAC programmable filter coefficients
++	 *
++	 * Filter coefficients are interpreted as two's complement values
++	 * ranging from -32 768 to 32 767. For more details on filter coefficients,
++	 * please refer to the TLV320DAC3100 datasheet, tables 6-120 and 6-123.
++	 */
++
++	if (size != 153) {
++		dev_err(aic31xx->dev, "firmware size is %zu, expected 153 bytes\n", size);
++		return -EINVAL;
++	}
++
++	/* Check magic */
++	val16 = get_unaligned_be16(data);
++	if (val16 != 0xb30c) {
++		dev_err(aic31xx->dev, "fw magic is 0x%04x expected 0xb30c\n", val16);
++		return -EINVAL;
++	}
++	data += 2;
++
++	/* Check version */
++	val16 = get_unaligned_be16(data);
++	if (val16 != 0x0100) {
++		dev_err(aic31xx->dev, "invalid firmware version 0x%04x! expected 1", val16);
++		return -EINVAL;
++	}
++	data += 2;
++
++	ret = regmap_write(aic31xx->regmap, AIC31XX_DACPRB, *data);
++	if (ret) {
++		dev_err(aic31xx->dev, "failed to write PRB index: err %d\n", ret);
++		return ret;
++	}
++	data += 1;
++
++	/* Page 8 Buffer A coefficients */
++	for (reg = 2; reg < 126; reg++) {
++		ret = regmap_write(aic31xx->regmap, AIC31XX_REG(8, reg), *data);
++		if (ret) {
++			dev_err(aic31xx->dev,
++				"failed to write page 8 filter coefficient %d: err %d\n", reg, ret);
++			return ret;
++		}
++		data++;
++	}
++
++	/* Page 9 Buffer A coefficients */
++	for (reg = 2; reg < 26; reg++) {
++		ret = regmap_write(aic31xx->regmap, AIC31XX_REG(9, reg), *data);
++		if (ret) {
++			dev_err(aic31xx->dev,
++				"failed to write page 9 filter coefficient %d: err %d\n", reg, ret);
++			return ret;
++		}
++		data++;
++	}
++
++	dev_info(aic31xx->dev, "done loading DAC filter coefficients\n");
++
++	return ret;
++}
++
++static int tlv320dac3100_load_coeffs(struct aic31xx_priv *aic31xx,
++				     const char *fw_name)
++{
++	const struct firmware *fw;
++	int ret;
++
++	ret = request_firmware(&fw, fw_name, aic31xx->dev);
++	if (ret)
++		return ret;
++
++	ret = tlv320dac3100_fw_load(aic31xx, fw->data, fw->size);
++
++	release_firmware(fw);
++
++	return ret;
++}
++
+ static int aic31xx_i2c_probe(struct i2c_client *i2c)
+ {
+ 	struct aic31xx_priv *aic31xx;
+@@ -1727,6 +1821,12 @@ static int aic31xx_i2c_probe(struct i2c_client *i2c)
+ 		}
+ 	}
+ 
++	if (aic31xx->codec_type == DAC3100) {
++		ret = tlv320dac3100_load_coeffs(aic31xx, "tlv320dac3100-coeffs.bin");
++		if (ret)
++			dev_warn(aic31xx->dev, "Did not load any filter coefficients\n");
++	}
++
+ 	if (aic31xx->codec_type & DAC31XX_BIT)
+ 		return devm_snd_soc_register_component(&i2c->dev,
+ 				&soc_codec_driver_aic31xx,
 
-"select SND_SOC_LOONGSON_I2S_PCI if PCI"?
+---
+base-commit: 8400291e289ee6b2bf9779ff1c83a291501f017b
+change-id: 20240806-tlv320-filter-189edd66496c
 
-> +       select SND_SOC_LOONGSON_I2S_PLATFORM
+Best regards,
+-- 
+Romain Gantois <romain.gantois@bootlin.com>
 
-Or perhaps do it the other way around, i,e. let
-SND_SOC_LOONGSON_I2S_{PCI,PLATFORM} select SND_SOC_LOONGSON_CARD?
-That would be similar to SPI_LOONGSON_{PCI,PLATFORM}, which select
-SPI_LOONGSON_CORE.
-
->         help
->           Say Y or M if you want to add support for SoC audio using
->           loongson I2S controller.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
