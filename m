@@ -1,145 +1,86 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D8311CB313;
-	Fri,  6 Sep 2024 12:24:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 594911CB146
+	for <linux-sound@vger.kernel.org>; Fri,  6 Sep 2024 12:55:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725625479; cv=none; b=rx2qp9FpT3vLKfXgDNbrBlNfRwQw0Gti0yhL/3qldyMs4KObuEokzQZkOrxtpeYJP+Hu0W98tC6SBudu+C47brj06FSYtXDC7qa2nHXSLsnQinh7obSG0PBj7zt677gs4CeZ6dj9LPu+q9kz1ChqeXluuOkK2NX1g8WpSLqgLQk=
+	t=1725627338; cv=none; b=p+DfRPWRP2Z1a7TtP9Qygwv34aqHx1zkWJ0cVJ0g713EFDyRmJlAjCsbK/carvYa5D6FqAVei8rlMWbM79T46w8/c4OefN6331oO60Ru8i7SvAUx4d2MAt0ZPRq5MFDcKAfzDt8G+XtQfOPQ6Iy2rI6RWTSJZV1PZ+lSqGzhJs8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725625479; c=relaxed/simple;
-	bh=NZ8Fyqvj2HAAbz8F+ChhhG7uGUbUEAK0XSvkZFqRXb8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fPzMDHAw3RlzuSt+9rnXmjmG4Lrw7GFGWaq8UEwWX3CpvfjiVdeRav2w4S+9QTLBKKQXaSiz8hcAxRYmSxYvWi6ou3zpBPcVy5xzXczTOZ3defa9Krs0lCPGgA1Fliak3AXVimYxEQaWWT9P6Wjq0VafSC+Rg39VC+001k12PJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XG6o253m; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TgaQHSO1; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XG6o253m; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TgaQHSO1; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1725627338; c=relaxed/simple;
+	bh=rR1RTHP7pHhDvwJ63j4cufAGhg/DSavxqbtggcv3VsE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dYkTN2j7E1KOxsZ/udzbOIXGw7nCz99dy/K6lNvmNlOssroWMmq/7gDC+hAo34GMh5OsxEw4NTYf9sXQ5rF9IHfyfTqaD1hhIL8dbzjmGF9lNC9aUkBpIrbJv+6BFPSaSoAomu7g7blNtVmHXEGRbade3hRvYeoDPZL19BuPfvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dZLQ6EHl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XG6o253m";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TgaQHSO1";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XG6o253m";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TgaQHSO1"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 672E11F8B5;
-	Fri,  6 Sep 2024 12:24:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1725625469; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yuYwwjtBdSx6z1Ov0ocE8YGqazxBIJRUoxnqWkRqRas=;
-	b=XG6o253m+4CABVVHtZMOh6y/zu030i/EcXV8ZBTTeePTCoEDXNzq2Lx284idpBBNBWQLQv
-	GZ8TBYrEKCfMbqh1hG8aYcaJnxpFxtWKMxUst9X84Su7CGV8mD7YHqknfs32P75IVn7GXS
-	FWctmukSyUUIAFIszcIq8ZxcTf9Qa3s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1725625469;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yuYwwjtBdSx6z1Ov0ocE8YGqazxBIJRUoxnqWkRqRas=;
-	b=TgaQHSO16oJHt3Xm0jCb2HNddJGGZdsFALJkT6huVFQq2LBkG9Jwne/QowfVgy3cmvd5d9
-	/YhcpXPyR68zQxAg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1725625469; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yuYwwjtBdSx6z1Ov0ocE8YGqazxBIJRUoxnqWkRqRas=;
-	b=XG6o253m+4CABVVHtZMOh6y/zu030i/EcXV8ZBTTeePTCoEDXNzq2Lx284idpBBNBWQLQv
-	GZ8TBYrEKCfMbqh1hG8aYcaJnxpFxtWKMxUst9X84Su7CGV8mD7YHqknfs32P75IVn7GXS
-	FWctmukSyUUIAFIszcIq8ZxcTf9Qa3s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1725625469;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yuYwwjtBdSx6z1Ov0ocE8YGqazxBIJRUoxnqWkRqRas=;
-	b=TgaQHSO16oJHt3Xm0jCb2HNddJGGZdsFALJkT6huVFQq2LBkG9Jwne/QowfVgy3cmvd5d9
-	/YhcpXPyR68zQxAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3CF76136A8;
-	Fri,  6 Sep 2024 12:24:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id H65uDX302mb/DwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 06 Sep 2024 12:24:29 +0000
-Date: Fri, 06 Sep 2024 14:25:15 +0200
-Message-ID: <87jzfpdl5g.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC] ALSA: IEC958 definition for consumer status channel update
-In-Reply-To: <20240906093422.2976550-1-jbrunet@baylibre.com>
-References: <20240906093422.2976550-1-jbrunet@baylibre.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dZLQ6EHl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42375C4CEC7;
+	Fri,  6 Sep 2024 12:55:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725627337;
+	bh=rR1RTHP7pHhDvwJ63j4cufAGhg/DSavxqbtggcv3VsE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dZLQ6EHlX303v7cR3MWqxnAAQikdvvTvz9u7kgL/Z0JXNNZgWloaJg0uppLD29N5x
+	 1lU+1PW1fxVN+PNJf3aHigeJZ2O3L6j+pJg2CxCeP4yqxbUzytP7GCUHk5dtW+IKrJ
+	 psBFPcToSQlJJKFd4pbyqdxC0Ta2m2fZL1KnFx7Jlw35Bk2TrG2jrMdjKUQBra1ygU
+	 5/gMjbwu60phyXnu57GjSXMuoLPMwgqZshbbNvWmZ9BvqkBtZPO4NPXDCvG62o4CoH
+	 tl6/mWGQQTD8KAe3lk2bh2hO6GW57IXdvaUnJ3+5wiJF4FQ8P1s3Q/y/zVTZzNVddp
+	 Ma2NBZj4wGh1w==
+Date: Fri, 6 Sep 2024 13:55:30 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Hongbo Li <lihongbo22@huawei.com>
+Cc: peter.ujfalusi@gmail.com, lgirdwood@gmail.com, perex@perex.cz,
+	tiwai@suse.com, alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH -next 0/5] sound/soc: fix some macro definitions and
+ usages
+Message-ID: <Ztr7wqQ9CNn1LC2d@finisterre.sirena.org.uk>
+References: <20240821070815.2326534-1-lihongbo22@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.996];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,baylibre.com:email];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
-
-On Fri, 06 Sep 2024 11:34:16 +0200,
-Jerome Brunet wrote:
-> 
-> Add 128kHz, 352.4kHz, 384kHz and 705.6kHz.
-> These definitions have been found working on eARC using a Murideo
-> Seven Generator.
-> 
-> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
-> ---
-> 
->  Hi,
-> 
->  As explained in the commit description, I don't a have strong references
->  to back the new values up. I've found them through testing.
-> 
->  The value must exist somehow since the related sample rates are allowed
->  over an IEC958 link. It would be better to get confirmation from the
->  actual specification rather than just rely on testing.
-> 
->  I don't mind if this does not get applied. I just want to make the
->  data public, giving others the possibility to confirm or deny it.
-
-I find it makes sense to have definitions.  At least, it doesn't break
-alone :)
-
-Unless anyone raises objection, I'm going to apply it for 6.12 later.
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="vOZFg3hwCRKMq5fg"
+Content-Disposition: inline
+In-Reply-To: <20240821070815.2326534-1-lihongbo22@huawei.com>
+X-Cookie: Your love life will be... interesting.
 
 
-thanks,
+--vOZFg3hwCRKMq5fg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Takashi
+On Wed, Aug 21, 2024 at 03:08:10PM +0800, Hongbo Li wrote:
+
+> Hongbo Li (5):
+>   sound/soc: fix macro definition on TWL4030_OUTPUT_PGA
+>   sound/soc remove unused substream in macro soc_component_mark_pop
+>   sound/soc remove unused substream in macro soc_dai_mark_pop
+>   sound/soc remove unused substream in macro soc_link_mark_pop
+>   sound/soc: fix macro definition on STM_SAI_HAS_EXT_SYNC
+
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
+
+--vOZFg3hwCRKMq5fg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmba+8IACgkQJNaLcl1U
+h9Caiwf/VZjm90+G/a7oA3oyFPBOIQYUcXiuWuEds+rCiArSefxoOrSYwCdC87H7
+/Xx2zl2mgXmzff7b9CCmFwbsoFUmXiUFbpPzjvWJRtyqraoXfBWCtBJqYMcu6T0q
+atw1IzrnptV8CFQRcAd3OVp0hPKMYaNWFFUoIKpfwi/7jbrh22IuaJcv+LFWO/kJ
+lWn79ab1/hFd0ZCui2ZOC43/70Se0eUKCG+EQQ0eowLaLpmi883R8uxmwTTPaNC9
+DzPVLTUyIsMa9apcHMCQIgpJWSDT3/3S34lIOjaGCEsIMk06r/EkNf8BA5mZZsHZ
+Y2uWIq/H2ofwidaAXkI5fRfU1qXA8A==
+=N1UN
+-----END PGP SIGNATURE-----
+
+--vOZFg3hwCRKMq5fg--
