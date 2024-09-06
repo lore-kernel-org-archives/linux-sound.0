@@ -1,164 +1,121 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 184991D2F5D;
-	Fri,  6 Sep 2024 18:05:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 907ED1B85C4;
+	Fri,  6 Sep 2024 18:27:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725645912; cv=none; b=XhOxOdRY7XOrysjVQj6dxUdurDp6xtnTSZAH9tInu650/fPRuk/P1eRNB4wuLhOR+5HrV2hNNK1ZQVO0BoSDpR6cyLPVtBB6U2OijSde3TfyYpJU/r06DIJ9v72Bx0e5bA1jpLvVY1YUVN70jYTZPsbdYaRVkTMAens7tWiMgxU=
+	t=1725647224; cv=none; b=YEvfEsqSh77zJA+5fcth/86MCNgwO+5noCZMVZLJLG/MMqtLVGPbyNje9+PAbdNCNqpDdTmZUtW3v4jUUNIk31/sByNNXIVqvd8FczDo55PlplQG1fGLzvvN8IbTuHXZNn3840imomQgzvQUrUK0tqLVRXnbOY/Nr6rnBNXGSto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725645912; c=relaxed/simple;
-	bh=wwfyt3zGFRSXRRnajlO2sI4EsCbR13SVbF95W13Iifk=;
+	s=arc-20240116; t=1725647224; c=relaxed/simple;
+	bh=Z24H6l7+L7v9bNFDB/ZvwU/G0rjimLtpHDYOhlthb1k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XpyAo5JI3qA/2FBQp0o5ykOSvyaQs/e4V9GfiApunt1M8WF8b5khcsLuJg6u60TJ3fX1YGTmitGbbJlrn+8c1phbdoS17Z7mVefjWBHNEzy7mxbHX1H4N+K4grBTkF3lvN4mLa2wYcF/jXfXY5XbZHnyJ2yE4iREQPyw/+ipkKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q7+BF0tz; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=A5hZrhpFLJhV+su5ejlTMn/rWeTEDBHxfqh8rztzTQjKEixRbSw3NugFFkT5miBWjSrvyOTA5jYsIebNmsxcvZBjV9kqYaFAvARAraiDakdfluazHh123HdY0GklBmD3ttG9CAXnE1woeRGuV5TQnCboS6uvl3/GYh2hJUYSk/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P/I7XYPm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q7+BF0tz"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-58ef19aa69dso2382151a12.3;
-        Fri, 06 Sep 2024 11:05:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725645909; x=1726250709; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EaSkMuqPp2OQuoE1ZrPqxc9sSDOiBqS1W3KAzwLePm8=;
-        b=Q7+BF0tzFXR39xycDRhxNWuN3izKpL4tjL4LDSy3kPIdnrizzCKu2W3uQqLF0gvNOP
-         bQWwAhQYGPUAZTxGDKi9wPZqv6unTlCMXxOxrMslr2TdXQBnlAU/d0tDB5xe8uYxKPwS
-         tKy4cUiRY4+zb74ucZbT2KO+hWu2a8Vb8lpchKScqcXLoxRJAu8iaDeAzU42ZqpkDX86
-         CspaFrHYPTw64vF3bTbTyUbMp0BG2Z2CX0N50ilnjlV3Y83E1vLwN41HhEc3vYwR1hQ+
-         XwMIXerlGiEwkH9izhHp67FVxqcth8NxvaqcmbfcCQxXszxPfreJBMZeD6RoGLuafQiE
-         4heA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725645909; x=1726250709;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EaSkMuqPp2OQuoE1ZrPqxc9sSDOiBqS1W3KAzwLePm8=;
-        b=fbHLGnpYZqs9HzrB/31ADfyUUuz/TTrFRxoBp7kRHrwVuERkXfHpFjLguHpUGiGBnR
-         OARVdVUgin/xDlk+CqaZ9TAUxwInSJNqtnhY/2TudecWx7tqLkC4Q7TSXvxXx5zGVj+J
-         wQrPQDhnYjCQzFm1FQSP/zCe2Cj/7zBiFICW/P3+DvxUBE6/jZmt+QpFrcYnnyf+L8gF
-         SDf/YMQbuIzQ8GZVddlWaWmZamnn3okglk/P6DrOeV+rKI3J9mT/aI3GjAL8ApVf1191
-         /4KHwgrt5sf/EoSqsL7riUtMYtJV5s9WALrVa6Pn2tWFMW1xaX1rkIiA4dwBcs4DdoOy
-         V2Kw==
-X-Forwarded-Encrypted: i=1; AJvYcCUgOGiVOj7zlPGu8MI3s8ISAHC6theDeUtwbWHZ1+lureSb8vB3KcICMCM8tJEHnnE4FcBesiBLvUwTxtI=@vger.kernel.org, AJvYcCXtw0xoPKBbf2WEtxg6J8JCYkLm362bgSH69yG9Jan09YYt5I2/iXLvxRWJNfwD9fmuFjBsI6zsGAg6wu0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywcea/oucw1Ak1W42Vjck6tc9qrJxipHH7f3NQNXjvDLNNL3JK4
-	zlS2+VY/cCnmg16xLg1PrBNJMR2tGINQe5QWhPlsO6qdvLxs4v3t
-X-Google-Smtp-Source: AGHT+IH9UmoWbsEL27zsa1ADWQymOOnbDM1n5xa+o9B4MQz8KL5DAW6ctdyXD5xTca/dGxrEKznZXw==
-X-Received: by 2002:a17:907:7f06:b0:a7a:b4bd:d0eb with SMTP id a640c23a62f3a-a8a885fa912mr263593866b.24.1725645908902;
-        Fri, 06 Sep 2024 11:05:08 -0700 (PDT)
-Received: from localhost ([185.220.101.188])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8a62038d7asm305059466b.66.2024.09.06.11.05.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Sep 2024 11:05:08 -0700 (PDT)
-Date: Fri, 6 Sep 2024 21:05:06 +0300
-From: Maxim Mikityanskiy <maxtram95@gmail.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>,
-	Rui Salvaterra <rsalvaterra@gmail.com>,
-	Sui Jingfeng <suijingfeng@loongson.cn>,
-	Bjorn Helgaas <bhelgaas@google.com>, Peter Wu <peter@lekensteyn.nl>,
-	Lukas Wunner <lukas@wunner.de>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda: intel: Fix Optimus when GPU has no sound
-Message-ID: <ZttEUjeYFzdznYKM@mail.gmail.com>
-References: <20240904203955.245085-1-maxtram95@gmail.com>
- <871q1ygov9.wl-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P/I7XYPm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6ED90C4CEC7;
+	Fri,  6 Sep 2024 18:27:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725647224;
+	bh=Z24H6l7+L7v9bNFDB/ZvwU/G0rjimLtpHDYOhlthb1k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=P/I7XYPmrMkTy8lg9iD6wdrIeZ/OVa1oVD/ogiXpxtfpe2vAq6qGn7V7XBGyXt78b
+	 pnWUBjsiLDdACBES1Sa/HY4uP/GcqHNeY0mR41nWiK+DPc+KOy+CzfuXznZzb+LWlG
+	 uj4YwTKA+pR9LWu9BQKgN+Ri0KjTi4FeyXDC5Ry7ru6lXcUAPv2f6NkY5U1PIy5kUt
+	 rq4I12TIpRm9vMf4g8Bj07TFUKT6eru1vdiAx/E87hcAkIw7KwzVXsJuR8tePAMWbK
+	 Vaxt9SWfPovUsGeYkSj5o1x+5N6c5Y7kWOwHv6BZaY+5ZCNQ2roeDdY6DhcA0arm7s
+	 7L5zrdcLcoVUQ==
+Date: Fri, 6 Sep 2024 19:27:01 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Alexandre Mergnat <amergnat@baylibre.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Nicolas Belin <nbelin@baylibre.com>
+Subject: Re: (subset) [PATCH v7 00/16] Add audio support for the MediaTek
+ Genio 350-evk board
+Message-ID: <ZttJdexQFOq2Q9iQ@finisterre.sirena.org.uk>
+References: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
+ <172544860860.19172.7052813450885034844.b4-ty@kernel.org>
+ <20240906180348.GA1239602@thelio-3990X>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="RwEXQMD7TlaLYYaq"
+Content-Disposition: inline
+In-Reply-To: <20240906180348.GA1239602@thelio-3990X>
+X-Cookie: Your love life will be... interesting.
+
+
+--RwEXQMD7TlaLYYaq
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <871q1ygov9.wl-tiwai@suse.de>
 
-On Thu, 05 Sep 2024 at 16:24:26 +0200, Takashi Iwai wrote:
-> On Wed, 04 Sep 2024 22:39:55 +0200,
-> Maxim Mikityanskiy wrote:
-> > 
-> > Lenovo IdeaPad Z570 with NVIDIA GeForce Ge 520M doesn't have sound on
+On Fri, Sep 06, 2024 at 11:03:48AM -0700, Nathan Chancellor wrote:
 
-Spotted a typo: s/520M/540M/
+> I am seeing several warnings/errors from both GCC and Clang with
+> ARCH=arm64 allmodconfig after this series appeared in next-20240906.
+> As far as I can tell, they appear to agree. I wondered how this was not
+> caught during the series development but perhaps it was written against
+> a development tree that did not have Arnd's extrawarn series from 6.10
+> in it yet? I was going to work on a series but I was not sure about the
+> best way to address the overflow errors, hence just the report.
 
-> > the discrete GPU. snd_hda_intel probes the device and schedules
-> > azx_probe_continue(), which fails at azx_first_init(). The driver ends
-> > up probed, but calls azx_free() and stops the chip. However, from the
-> > runtime PM point of view, the device remains active, because the PCI
-> > subsystem makes it active on probe, and it's still bound. It prevents
-> > vga_switcheroo from turning off the DGPU (pci_create_device_link() syncs
-> > power management for the video and audio devices).
-> > 
-> > Fix it by forcing the device to the suspended state in azx_free().
-> > 
-> > Fixes: 07f4f97d7b4b ("vga_switcheroo: Use device link for HDA controller")
-> > Signed-off-by: Maxim Mikityanskiy <maxtram95@gmail.com>
-> 
-> What if this device probe is skipped (e.g. adding your device entry to
-> driver_denylist[] in hda_intel.c)?  Is the device also in the
-> runtime-suspended state?
+Are these just warnings introduced by recent versions of the toolchains?
+These commits passed an x86 allmodconfig with GCC 12 at each step (I did
+catch one warning there with another patch in the series that didn't get
+applied) and 0day didn't say anything at any point.
 
-I added the following:
+> Clang 19:
 
-{ PCI_DEVICE_SUB(0x10de, 0x0bea, 0x0000, 0x0000) },
+That's relatively modern, though some of the warnings don't look
+particularly new and exciting.
 
-The probe was apparently skipped (the device is not attached to a
-driver), runtime_status=suspended, runtime_usage=0, the GPU goes to
-DynOff.
+>   sound/soc/mediatek/mt8365/mt8365-dai-adda.c:93:8: error: implicit conversion from 'unsigned long' to 'unsigned int' changes value from 18446744073709551614 to 4294967294 [-Werror,-Wconstant-conversion]
+>      91 |                 regmap_update_bits(afe->regmap, AFE_ADDA_UL_DL_CON0,
+>         |                 ~~~~~~~~~~~~~~~~~~
+>      92 |                                    AFE_ADDA_UL_DL_ADDA_AFE_ON,
+>      93 |                                    ~AFE_ADDA_UL_DL_ADDA_AFE_ON);
+>         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>   1 error generated.
 
-However, I'm not sure whether it's a good idea to blacklist 540M
-entirely, as there might be other laptops with this GPU that have sound,
-and AFAIK there are variants of Lenovo Z570 with other NVIDIA GPUs.
+That's a bit surprising, regmap_update_bits() takes an unsigned long?  I
+suspect the constants need to be defined as unsigned.
 
-Another way to make vga_switcheroo work is to disable quirk_nvidia_hda,
-although I don't know whether it can be done without recompiling the
-kernel. In this case, 0000:01:00.1 doesn't even appear on the bus.
+--RwEXQMD7TlaLYYaq
+Content-Type: application/pgp-signature; name="signature.asc"
 
-(Note that I need to set nouveau.modeset=2 either way, otherwise it
-stays in DynPwr if the screen is on.)
+-----BEGIN PGP SIGNATURE-----
 
-> 
-> 
-> thanks,
-> 
-> Takashi
-> 
-> > ---
-> >  sound/pci/hda/hda_intel.c | 14 +++++++++++++-
-> >  1 file changed, 13 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
-> > index b79020adce63..65fcb92e11c7 100644
-> > --- a/sound/pci/hda/hda_intel.c
-> > +++ b/sound/pci/hda/hda_intel.c
-> > @@ -1361,8 +1361,20 @@ static void azx_free(struct azx *chip)
-> >  	if (use_vga_switcheroo(hda)) {
-> >  		if (chip->disabled && hda->probe_continued)
-> >  			snd_hda_unlock_devices(&chip->bus);
-> > -		if (hda->vga_switcheroo_registered)
-> > +		if (hda->vga_switcheroo_registered) {
-> >  			vga_switcheroo_unregister_client(chip->pci);
-> > +
-> > +			/* Some GPUs don't have sound, and azx_first_init fails,
-> > +			 * leaving the device probed but non-functional. As long
-> > +			 * as it's probed, the PCI subsystem keeps its runtime
-> > +			 * PM status as active. Force it to suspended (as we
-> > +			 * actually stop the chip) to allow GPU to suspend via
-> > +			 * vga_switcheroo.
-> > +			 */
-> > +			pm_runtime_disable(&pci->dev);
-> > +			pm_runtime_set_suspended(&pci->dev);
-> > +			pm_runtime_enable(&pci->dev);
-> > +		}
-> >  	}
-> >  
-> >  	if (bus->chip_init) {
-> > -- 
-> > 2.46.0
-> > 
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbbSXIACgkQJNaLcl1U
+h9DBuQf/SMng3m+4sXP7DvdmWbfXVaamODI/3rczhvAqTkDFclaL1jBsj5p3sj2y
+xX6uR8ezbk3frph4AS2355DNa/q+5C/U/zGtas+sjouiNi/UjcHjd1c7RJUK/y+g
+shmJSYMNaNvM0/ZNX5yNMvR+G0UWZApUx687YkRyqA4luRVf1KpwDac3Bkw26n9C
+L7D5WqLGow4FYbfOirWq3PHcEJliZXxmSoV3A7JBtpUL5QlzwO5YvoI8Pyr1WSJj
+rg7L1xqXCMj+Y8zAl2J7Sj6yw7E8cgo5kDfH9JYhabdRiwy5p/ydxTCQLp/BlQNu
+Ly/Er+XOlK8Cx0Y7ma8DNbKdGgr9Vg==
+=SBAj
+-----END PGP SIGNATURE-----
+
+--RwEXQMD7TlaLYYaq--
