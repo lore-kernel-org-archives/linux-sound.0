@@ -1,52 +1,65 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C5EF1C7B94;
-	Fri,  6 Sep 2024 09:27:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C84C1C86ED
+	for <linux-sound@vger.kernel.org>; Fri,  6 Sep 2024 09:34:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725614864; cv=none; b=EANDmCPsbagR1e61QEEXTd7ohrCtfiMG747XdOafAR/c6gnX0Bzm69+rpi9uW+EWawZVSrcssApbDiaCHuexd/o9sC9l03XDTbA3/3QezH7e975YKk1ycCswC8daq9Ihlfkc9oKrB3XUdR7cbrqSGGrzhMU5i6hgaXbKLYcoq4Y=
+	t=1725615275; cv=none; b=ptRRQtYvK8dWOlWVYIg4gG2QhKk2rVEIWgNj+0k0lHpi/FQdg3DKGSeMzgO25b5Dzxh6KxbYS7WpU8Jc4MaRhLZVJys6SmAXgnhlRsxfhvNSMyegIyhRQ+ZEyK230LXIX3zyJ2hfM1GZXTfFSM3BcgrWXnojtJXm51BvYcV1ozI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725614864; c=relaxed/simple;
-	bh=hSgLbdVySfl4Q6f8eJEadZzN87CI9P4mpBAqv75zD6s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=idsgedAl48m73VtoVRQYvKqgm7vlrcgbRjJ2rnkdaXW1eOl5MJLyGzR3pmCY0JitUCCDV3qvo7SuH/SE+7IsSZaIYT4wWTMOzqZ0VylcGNbk6msR6/lU54TefQ1s2qOUdYbpof7OazUPYWdv+Rk3+OMKMK/ZdtlhTzbJxCPYEOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 3adb8d866c3211efa216b1d71e6e1362-20240906
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.38,REQID:b028dc87-11cf-4581-ae29-bfdb57adfd4d,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:82c5f88,CLOUDID:1a3dffae82510f9c76cde797f2b905e8,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,URL:0
-	,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
-	NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 3adb8d866c3211efa216b1d71e6e1362-20240906
-Received: from node2.com.cn [(10.44.16.197)] by mailgw.kylinos.cn
-	(envelope-from <zenghongling@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 761202791; Fri, 06 Sep 2024 17:27:26 +0800
-Received: from node2.com.cn (localhost [127.0.0.1])
-	by node2.com.cn (NSMail) with SMTP id 27A40B80758A;
-	Fri,  6 Sep 2024 17:27:26 +0800 (CST)
-X-ns-mid: postfix-66DACAFE-17534928
-Received: from kylin-pc.. (unknown [172.25.130.133])
-	by node2.com.cn (NSMail) with ESMTPA id 01340B80758A;
-	Fri,  6 Sep 2024 09:27:19 +0000 (UTC)
-From: zenghongling <zenghongling@kylinos.cn>
-To: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	zhongling0719@126.com,
-	zenghongling <zenghongling@kylinos.cn>
-Subject: [PATCH] ALSA: hda/cs8409: Support new Dell Dolphin for device
-Date: Fri,  6 Sep 2024 17:27:03 +0800
-Message-ID: <20240906092703.1303605-1-zenghongling@kylinos.cn>
+	s=arc-20240116; t=1725615275; c=relaxed/simple;
+	bh=LAhSTPhTR1kPbNBM9J93kO3uduBEsaKNKcW2jIBoyfo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rsf6KFiBk6eipjB8FakE2diC4qNBo4aKejDxpsL7ZTPRbTICiUAqzZXzjjI+0kTRv2QoDQkgZCojbrMBd+lYjc3pHNkJX5Ycs4qW6yTaYr5uH5H/cC6q5t4oJA3YGk4dxEXEmKANk7A/K5EfNWcVCLgMJYbRp1KzZyDPsnshQbg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=OXj/OZA6; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="OXj/OZA6"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-374bfc395a5so1025878f8f.0
+        for <linux-sound@vger.kernel.org>; Fri, 06 Sep 2024 02:34:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1725615271; x=1726220071; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=R5cGUBAD/3eZ2qDRIuYLdtjOoYZxul0t5wVc0LvHf48=;
+        b=OXj/OZA61Re5MU3a66I9D0z6xGYK1hPC3pdwerWjll5XEtip69OPUDxmPqTQHVWcxD
+         lKYrSVwPf8OkanYwdbb5iDNRv2qU/WdS8K0bHW5KF/ZYJIikIRQ3wfaePJXa2N5eCKpG
+         EUAQ+3ub/8yTgEJ6zvD36izkkQIu9t+5blrdWhZLqtcoGXlbbABl7jjlYQmPWKp20Ty2
+         68mJd5bOkcmEdvfIYOGTF010vdUtdF6U5b/g9xV2utJaRJtPxJvWAKoXJKhC2yBbw+Pt
+         hj62pnXZBSw9dOudRpIkYR+c/z4N+KxJzLQ2JNzRA05GMV1pIXN2W37RuDIRgDbmZEGQ
+         R5ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725615271; x=1726220071;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=R5cGUBAD/3eZ2qDRIuYLdtjOoYZxul0t5wVc0LvHf48=;
+        b=JhhBrCYnkiAEeMhEkm2Ag0WgoqQX0o1QP1vlKTBgk8eLsTy0irvQWt4zOuRpmfTgi5
+         simeXob3I4J8nkaZ4gVdTkXsHEY8L+fvtURlt38EadumZa6qgFl/dG7InrEpMcpHLxz7
+         ErZ68eJPUU0xen6i1XULowztLLTCkUK3HXozZYg3K7AzUX+NU/fJifNddlEjZBeevSNC
+         Lei45GrYSE9swMCJzOQg06I6S1gvp8Qbs+K4OXFrdXM0f+5780XEksl02v/gMZ/6W6Jy
+         PHwOkdwxhvVX0CLvUysQdvBX1SkBVoDTk78Fs4N4wSchd9ocOBNOmDiOMUrw4fnx96AQ
+         9CnQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX09IAs7plQzidqBcI8LwodCURCgyrbf1oLTj+05+Ez9XtPDiKfg3twXnzikH9QlAlTmLvkgSo6Utc0WA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6AiAF3RCC5goXd+UxIPYh78L6sLxGwylndo/Jd5OcvXkDjcnl
+	UkVGh1ra8U3SWEM0W1se6K1VstiX+jClG4uWlzL/wtvIZgzwiIYcInlHLRuQt5z3ySp/xurKR5U
+	k
+X-Google-Smtp-Source: AGHT+IHPwi4fiSVRQwZiSneJMvLj61lfvtYJZ9hCg6GS9aV5QZX6/0gc6chMfY2bYol3699nLIhwlw==
+X-Received: by 2002:a5d:53d1:0:b0:374:b9ca:f1e8 with SMTP id ffacd0b85a97d-3779b847b95mr5575492f8f.20.1725615270476;
+        Fri, 06 Sep 2024 02:34:30 -0700 (PDT)
+Received: from toaster.lan ([2a01:e0a:3c5:5fb1:4e33:801c:cee0:ee57])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3749ee4a5edsm21412206f8f.1.2024.09.06.02.34.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Sep 2024 02:34:30 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>
+Cc: Jerome Brunet <jbrunet@baylibre.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH RFC] ALSA: IEC958 definition for consumer status channel update
+Date: Fri,  6 Sep 2024 11:34:16 +0200
+Message-ID: <20240906093422.2976550-1-jbrunet@baylibre.com>
 X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -54,28 +67,59 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+X-Patchwork-Bot: notify
+Content-Transfer-Encoding: 8bit
 
-Add 1 new Dell Dolphin Systems, same configuration as older systems.
+Add 128kHz, 352.4kHz, 384kHz and 705.6kHz.
+These definitions have been found working on eARC using a Murideo
+Seven Generator.
 
-Signed-off-by: zenghongling <zenghongling@kylinos.cn>
+Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
 ---
- sound/pci/hda/patch_cs8409-tables.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/sound/pci/hda/patch_cs8409-tables.c b/sound/pci/hda/patch_cs=
-8409-tables.c
-index 36b411d1..bc14b18 100644
---- a/sound/pci/hda/patch_cs8409-tables.c
-+++ b/sound/pci/hda/patch_cs8409-tables.c
-@@ -546,6 +546,7 @@ const struct snd_pci_quirk cs8409_fixup_tbl[] =3D {
- 	SND_PCI_QUIRK(0x1028, 0x0BD6, "Dolphin", CS8409_DOLPHIN),
- 	SND_PCI_QUIRK(0x1028, 0x0BD7, "Dolphin", CS8409_DOLPHIN),
- 	SND_PCI_QUIRK(0x1028, 0x0BD8, "Dolphin", CS8409_DOLPHIN),
-+	SND_PCI_QUIRK(0x1028, 0x0BAA, "Dolphin", CS8409_DOLPHIN),
- 	SND_PCI_QUIRK(0x1028, 0x0C43, "Dolphin", CS8409_DOLPHIN),
- 	SND_PCI_QUIRK(0x1028, 0x0C50, "Dolphin", CS8409_DOLPHIN),
- 	SND_PCI_QUIRK(0x1028, 0x0C51, "Dolphin", CS8409_DOLPHIN),
---=20
-2.1.0
+ Hi,
+
+ As explained in the commit description, I don't a have strong references
+ to back the new values up. I've found them through testing.
+
+ The value must exist somehow since the related sample rates are allowed
+ over an IEC958 link. It would be better to get confirmation from the
+ actual specification rather than just rely on testing.
+
+ I don't mind if this does not get applied. I just want to make the
+ data public, giving others the possibility to confirm or deny it.
+
+ include/sound/asoundef.h | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/include/sound/asoundef.h b/include/sound/asoundef.h
+index 9fdeac19dadb..09b2c3dffb30 100644
+--- a/include/sound/asoundef.h
++++ b/include/sound/asoundef.h
+@@ -110,18 +110,22 @@
+ #define IEC958_AES2_CON_SOURCE_UNSPEC	(0<<0)	/* unspecified */
+ #define IEC958_AES2_CON_CHANNEL		(15<<4)	/* mask - channel number */
+ #define IEC958_AES2_CON_CHANNEL_UNSPEC	(0<<4)	/* unspecified */
+-#define IEC958_AES3_CON_FS		(15<<0)	/* mask - sample frequency */
++#define IEC958_AES3_CON_FS		((1<<7) | (15<<0)) /* mask - sample frequency */
+ #define IEC958_AES3_CON_FS_44100	(0<<0)	/* 44.1kHz */
+ #define IEC958_AES3_CON_FS_NOTID	(1<<0)	/* non indicated */
+ #define IEC958_AES3_CON_FS_48000	(2<<0)	/* 48kHz */
+ #define IEC958_AES3_CON_FS_32000	(3<<0)	/* 32kHz */
+ #define IEC958_AES3_CON_FS_22050	(4<<0)	/* 22.05kHz */
++#define IEC958_AES3_CON_FS_384000	(5<<0)	/* 384kHz */
+ #define IEC958_AES3_CON_FS_24000	(6<<0)	/* 24kHz */
+ #define IEC958_AES3_CON_FS_88200	(8<<0)	/* 88.2kHz */
+ #define IEC958_AES3_CON_FS_768000	(9<<0)	/* 768kHz */
+ #define IEC958_AES3_CON_FS_96000	(10<<0)	/* 96kHz */
+ #define IEC958_AES3_CON_FS_176400	(12<<0)	/* 176.4kHz */
++#define IEC958_AES3_CON_FS_352400	(13<<0) /* 352.4kHz */
+ #define IEC958_AES3_CON_FS_192000	(14<<0)	/* 192kHz */
++#define IEC958_AES3_CON_FS_128000	((1<<7) | (11<<0)) /* 128kHz */
++#define IEC958_AES3_CON_FS_705600	((1<<7) | (13<<0)) /* 705.6kHz */
+ #define IEC958_AES3_CON_CLOCK		(3<<4)	/* mask - clock accuracy */
+ #define IEC958_AES3_CON_CLOCK_1000PPM	(0<<4)	/* 1000 ppm */
+ #define IEC958_AES3_CON_CLOCK_50PPM	(1<<4)	/* 50 ppm */
+-- 
+2.45.2
 
