@@ -1,155 +1,125 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B9C1C9EC3;
-	Fri,  6 Sep 2024 10:19:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FF831CB125;
+	Fri,  6 Sep 2024 10:21:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725617947; cv=none; b=qrBe/2PsxURATjt67B+KD0uRnk6OaEz7uryGq8SWlIxUHz77n7zOG8lSZh1zpVfVpBRLE/RyyP1/1tAJL1CJTp+LQ5IxOPAQx/YfaprmOOyYeXadDGAaB85jkc5027HdKnWgpEweWolDv5HOu4DKg/NSHDWZwMpfmCbR70ILVik=
+	t=1725618095; cv=none; b=VoUgLkb6HasxMnEgFDDIfz7whVje31Vrf08t3d8XVtzxnwCuPBs5M/mlZNPpP7xLA6FuXOKM0gvyvPH8rUMYfKAikI1RlcltT3SdHg4Dqehs7zUKT9XDHCE6BcvetryHZ4+g0MFarQqKcE39UL857M9AEUBSwkE1Z+PGTJApEKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725617947; c=relaxed/simple;
-	bh=vm88TeckKEfRVOI1RrBAU85WzovMARX7iYP0ox+MMSc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EjmppBaidaZ7GLgMMkXl8+WwVLBJderJZz83ofMul0rBJBToYpw+ZbRA76x4CRJUJ41McwqajcA76ZK+zv2i/+7nK4Jvxr5TBxRGXnhhvXa/g+SlKgTkb2kSd8aKzZPXQEXBAh4CcgnrbyJziEMb6gp/yJEyT+c2tob1ZkHUNLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CeYQsswE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pjuD68FU; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1j06WJdQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8UW/w7hR; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1725618095; c=relaxed/simple;
+	bh=q4CcTQ33OgM36k9seQu2mrKAMAB+EsTuv8kOKC3HaNM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XCpncQq9qWH8LVX8r5B/3tFH9qEgzNZ2rhYEKQXaXnU2KlHz+ceyFGswiRP8DxcRzHM5ZWAP70qo+Or1nwVVrs5OGZJeX+5NP0Df8zIdaDS4CqN7YeTyirgUYu8GiwbgRRxzVYPM7+xgG+BPBanCc0fbMSt5hjk1Vwo3yCbYqiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OZNQZ2z0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CeYQsswE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pjuD68FU";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1j06WJdQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8UW/w7hR"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B543A1F8AE;
-	Fri,  6 Sep 2024 10:19:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1725617944; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qeK2Vaq3tXX7jBGNJaN+KI2gYQ+03eKMGI7GkuMZBlU=;
-	b=CeYQsswEVXQ6mpP342+y+chhpegQN6iDio/aBYD5PHcOgj5ReyrOeMmE1HXmAEHk+8+ojP
-	1bKqAxh62s1K6hyc71ZKmBrBEYhi1BwlHCo3xf4r2AKKWZjCBXvd4IcNSftj+6IHf9ygqe
-	zYo12iLIaOjjT2IqXOlrYuBjYxiuT3c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1725617944;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qeK2Vaq3tXX7jBGNJaN+KI2gYQ+03eKMGI7GkuMZBlU=;
-	b=pjuD68FUtpRrKK906lLrLS3dI7LDuxkVmcx2Zi8pff8klWcOpTZJpT0fEvLPlaECSiVtPz
-	iLWfHNW/JfoiamAQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=1j06WJdQ;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="8UW/w7hR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1725617942; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qeK2Vaq3tXX7jBGNJaN+KI2gYQ+03eKMGI7GkuMZBlU=;
-	b=1j06WJdQgSRkoGbJWPjDsqiAVfa77sXPooTcvqMeqx5uH5QMXezteTDVtzOD3y+US8txbR
-	TGXm97yIBE0fViJvJMQQXvDrt0jBwdjGI5SJyAue6XChjipCSpSZSSyWpFUdHjoGdRYG86
-	UTydMeeGWEtLROHz5aO1wRP89dhFcBg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1725617942;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qeK2Vaq3tXX7jBGNJaN+KI2gYQ+03eKMGI7GkuMZBlU=;
-	b=8UW/w7hRgaEueGBS9xozr0KYP76QyriNUR1uBrcIlknI6+b23L5lnr+xbKryZY9wYz5Hzg
-	y8GAOTr0Jt+aF8Dw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 78A5E136A8;
-	Fri,  6 Sep 2024 10:19:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id pzr2GxbX2mYZaQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 06 Sep 2024 10:19:02 +0000
-Date: Fri, 06 Sep 2024 12:19:48 +0200
-Message-ID: <87y145dqyj.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: zenghongling <zenghongling@kylinos.cn>
-Cc: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	zhongling0719@126.com
-Subject: Re: [PATCH] ALSA: hda/cs8409: Support new Dell Dolphin for device
-In-Reply-To: <20240906092703.1303605-1-zenghongling@kylinos.cn>
-References: <20240906092703.1303605-1-zenghongling@kylinos.cn>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OZNQZ2z0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55A49C4CEC9;
+	Fri,  6 Sep 2024 10:21:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725618094;
+	bh=q4CcTQ33OgM36k9seQu2mrKAMAB+EsTuv8kOKC3HaNM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OZNQZ2z0dfry53E/ECfC4G+xGDxtYcNAqcdf02QZsv3tGmjJOGoeqUgXoRD8IzfQv
+	 0p3mST4iDItYJuU68G1hiB4/ecfIs9IPGDUx3k51BWApHC3vmG2P0/7F88jLilkp3M
+	 /PRtzrrV7yESev6T7S6jiXey32dFqUfwUb3VlLvpU+gTSR5mzuU7WQkqYweVI338oA
+	 P5BX3oVui9wfhqz0CYCjww9boJwoOesV8fuJwulekwlGOzDyozwuQo0RDfb1x5ijEk
+	 8Ykqufnsd62jWgN41P7FaAXPj67tcZocRWdkmhfkqQ/ijm0acfsPTVYX3pPHgdoSfi
+	 FPqdwP/rkNz7Q==
+Date: Fri, 6 Sep 2024 12:21:31 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Binbin Zhou <zhoubinbin@loongson.cn>
+Cc: Binbin Zhou <zhoubb.aaron@gmail.com>, 
+	Huacai Chen <chenhuacai@loongson.cn>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Huacai Chen <chenhuacai@kernel.org>, devicetree@vger.kernel.org, linux-sound@vger.kernel.org, 
+	Xuerui Wang <kernel@xen0n.name>, loongarch@lists.linux.dev
+Subject: Re: [PATCH v1 01/10] ASoC: dt-bindings: Add Everest ES8323 Codec
+Message-ID: <zes7kfwmz57lhyfvxuyk64n7eykb52txxatbqgqnue7e3yab7g@d7cg7ql4gyl4>
+References: <cover.1725518229.git.zhoubinbin@loongson.cn>
+ <e987b0beabba169577c8923557690984f226b29b.1725518229.git.zhoubinbin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: B543A1F8AE
-X-Spam-Level: 
-X-Spamd-Result: default: False [-5.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[126.com];
-	FREEMAIL_CC(0.00)[vger.kernel.org,perex.cz,suse.com,126.com];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[kylinos.cn:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -5.51
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <e987b0beabba169577c8923557690984f226b29b.1725518229.git.zhoubinbin@loongson.cn>
 
-On Fri, 06 Sep 2024 11:27:03 +0200,
-zenghongling wrote:
+On Thu, Sep 05, 2024 at 03:02:14PM +0800, Binbin Zhou wrote:
+> Add Everest Semiconductor ES8316 low power audio CODEC binding with DT
+> schema format using json-schema.
 > 
-> Add 1 new Dell Dolphin Systems, same configuration as older systems.
-> 
-> Signed-off-by: zenghongling <zenghongling@kylinos.cn>
+> Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
 > ---
->  sound/pci/hda/patch_cs8409-tables.c | 1 +
->  1 file changed, 1 insertion(+)
+>  .../bindings/sound/everest,es8323.yaml        | 49 +++++++++++++++++++
+>  1 file changed, 49 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/sound/everest,es8323.yaml
 > 
-> diff --git a/sound/pci/hda/patch_cs8409-tables.c b/sound/pci/hda/patch_cs8409-tables.c
-> index 36b411d1..bc14b18 100644
-> --- a/sound/pci/hda/patch_cs8409-tables.c
-> +++ b/sound/pci/hda/patch_cs8409-tables.c
-> @@ -546,6 +546,7 @@ const struct snd_pci_quirk cs8409_fixup_tbl[] = {
->  	SND_PCI_QUIRK(0x1028, 0x0BD6, "Dolphin", CS8409_DOLPHIN),
->  	SND_PCI_QUIRK(0x1028, 0x0BD7, "Dolphin", CS8409_DOLPHIN),
->  	SND_PCI_QUIRK(0x1028, 0x0BD8, "Dolphin", CS8409_DOLPHIN),
-> +	SND_PCI_QUIRK(0x1028, 0x0BAA, "Dolphin", CS8409_DOLPHIN),
->  	SND_PCI_QUIRK(0x1028, 0x0C43, "Dolphin", CS8409_DOLPHIN),
->  	SND_PCI_QUIRK(0x1028, 0x0C50, "Dolphin", CS8409_DOLPHIN),
->  	SND_PCI_QUIRK(0x1028, 0x0C51, "Dolphin", CS8409_DOLPHIN),
+> diff --git a/Documentation/devicetree/bindings/sound/everest,es8323.yaml b/Documentation/devicetree/bindings/sound/everest,es8323.yaml
+> new file mode 100644
+> index 000000000000..0450d0f49d03
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/everest,es8323.yaml
+> @@ -0,0 +1,49 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/everest,es8323.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Everest ES8323 audio CODECs
+> +
+> +maintainers:
+> +  - Binbin Zhou <zhoubinbin@loongson.cn>
+> +
+> +allOf:
+> +  - $ref: dai-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: everest,es8323
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    description: clock for master clock (MCLK)
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    const: mclk
+> +
+> +  '#sound-dai-cells':
+> +    const: 0
 
-It's sorted in PCI SSID order.  Please put at the right place.
+No audio-graph-port? Are you sure? It looks exactly like
+everest,es8316...
 
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - '#sound-dai-cells'
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +      codec@10 {
+> +        compatible = "everest,es8323";
+> +        reg = <0x10>;
+> +        #sound-dai-cells = <0>;
 
-thanks,
+Make the example complete. Assuming this binding stays...
 
-Takashi
+Best regards,
+Krzysztof
+
