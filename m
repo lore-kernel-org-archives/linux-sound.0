@@ -1,220 +1,145 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38F5913AA38;
-	Fri,  6 Sep 2024 12:20:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D8311CB313;
+	Fri,  6 Sep 2024 12:24:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725625226; cv=none; b=jJ6L+CrfTbUifePyevlqHN+jjO0aZwHts+JYDDpihlKNgi8fjfRrtGMIQeQde/o3aEg+8YgOL7Q6mmTu4JpVivmKCCPmPgF5LDvXxIqCCT5mZo8MhJnnDnoxz2gE2CczEu9otqWVo8UBruTVA7Y+a2fuhHpWY2S40FjKD2EX52w=
+	t=1725625479; cv=none; b=rx2qp9FpT3vLKfXgDNbrBlNfRwQw0Gti0yhL/3qldyMs4KObuEokzQZkOrxtpeYJP+Hu0W98tC6SBudu+C47brj06FSYtXDC7qa2nHXSLsnQinh7obSG0PBj7zt677gs4CeZ6dj9LPu+q9kz1ChqeXluuOkK2NX1g8WpSLqgLQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725625226; c=relaxed/simple;
-	bh=Y8S3sIUeUo+i76VJqD3Gk9saCrU/jNFW7+ZyZebjSrU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=KJtK3q6mXvDuDxZFtfIwFSgkBMA8rd6tL7+c4tt44U6Gc090GiX8cptf05cpDIKA8bxiQQUoPtSD5cvtKLm4Y6cMVZsZNpoxrXkNx1DCUWG1aMbJbbHFi4qmOp+hwmZxFeUpiEG0OMZIp+Qgpr6VC0rDputIM2noKToZJtDeYk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jNExSRcy; arc=none smtp.client-ip=217.70.183.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1725625479; c=relaxed/simple;
+	bh=NZ8Fyqvj2HAAbz8F+ChhhG7uGUbUEAK0XSvkZFqRXb8=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fPzMDHAw3RlzuSt+9rnXmjmG4Lrw7GFGWaq8UEwWX3CpvfjiVdeRav2w4S+9QTLBKKQXaSiz8hcAxRYmSxYvWi6ou3zpBPcVy5xzXczTOZ3defa9Krs0lCPGgA1Fliak3AXVimYxEQaWWT9P6Wjq0VafSC+Rg39VC+001k12PJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XG6o253m; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TgaQHSO1; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XG6o253m; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TgaQHSO1; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jNExSRcy"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C0DBFC000B;
-	Fri,  6 Sep 2024 12:20:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1725625221;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=MtAkF99VG/OSc6QNgU0cRrGhkO1sSV69WMhxrgTuZIA=;
-	b=jNExSRcyFcWBI1DsCEiYSceE1JAcAaEyvsNSpGlZ+CnUdyeO4hPy0kqSD5KcNtxR+JrCtz
-	8pdSSbU2pzy54M70QEe2d+7T6Smnal/7UPkIqpBtxNpfJERTATWh1aG69wFnmQhAx4UfjG
-	Er9rBqCgLzxzafnxqTRCMcHzlPr1ETQyCIOE0JJWnEIE/PZsQi+qyZoa27jCXb9vRdAf4r
-	5FzBKLWClHEfzNSGyioGkjp3o9h3LfFdSDiY9OTCwi/1t5b6+1C4m5a6qtNtVLG5SJh8fi
-	veazp6wgkPV4QmuqgAKOsZBuBKtOK5mM3eQonNdeurMvUW+amm8WbLVBPP7Zqw==
-From: Romain Gantois <romain.gantois@bootlin.com>
-Date: Fri, 06 Sep 2024 14:20:58 +0200
-Subject: [PATCH] ASoC: tlv320aic31xx: Add support for loading filter
- coefficients
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XG6o253m";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TgaQHSO1";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XG6o253m";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TgaQHSO1"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 672E11F8B5;
+	Fri,  6 Sep 2024 12:24:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1725625469; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yuYwwjtBdSx6z1Ov0ocE8YGqazxBIJRUoxnqWkRqRas=;
+	b=XG6o253m+4CABVVHtZMOh6y/zu030i/EcXV8ZBTTeePTCoEDXNzq2Lx284idpBBNBWQLQv
+	GZ8TBYrEKCfMbqh1hG8aYcaJnxpFxtWKMxUst9X84Su7CGV8mD7YHqknfs32P75IVn7GXS
+	FWctmukSyUUIAFIszcIq8ZxcTf9Qa3s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1725625469;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yuYwwjtBdSx6z1Ov0ocE8YGqazxBIJRUoxnqWkRqRas=;
+	b=TgaQHSO16oJHt3Xm0jCb2HNddJGGZdsFALJkT6huVFQq2LBkG9Jwne/QowfVgy3cmvd5d9
+	/YhcpXPyR68zQxAg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1725625469; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yuYwwjtBdSx6z1Ov0ocE8YGqazxBIJRUoxnqWkRqRas=;
+	b=XG6o253m+4CABVVHtZMOh6y/zu030i/EcXV8ZBTTeePTCoEDXNzq2Lx284idpBBNBWQLQv
+	GZ8TBYrEKCfMbqh1hG8aYcaJnxpFxtWKMxUst9X84Su7CGV8mD7YHqknfs32P75IVn7GXS
+	FWctmukSyUUIAFIszcIq8ZxcTf9Qa3s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1725625469;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yuYwwjtBdSx6z1Ov0ocE8YGqazxBIJRUoxnqWkRqRas=;
+	b=TgaQHSO16oJHt3Xm0jCb2HNddJGGZdsFALJkT6huVFQq2LBkG9Jwne/QowfVgy3cmvd5d9
+	/YhcpXPyR68zQxAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3CF76136A8;
+	Fri,  6 Sep 2024 12:24:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id H65uDX302mb/DwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 06 Sep 2024 12:24:29 +0000
+Date: Fri, 06 Sep 2024 14:25:15 +0200
+Message-ID: <87jzfpdl5g.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC] ALSA: IEC958 definition for consumer status channel update
+In-Reply-To: <20240906093422.2976550-1-jbrunet@baylibre.com>
+References: <20240906093422.2976550-1-jbrunet@baylibre.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240906-tlv320-filter-v1-1-6955f53ff435@bootlin.com>
-X-B4-Tracking: v=1; b=H4sIAKnz2mYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDCwMz3ZKcMmMjA920zJyS1CJdQwvL1JQUMzMTS7NkJaCegqLUtMwKsHn
- RsbW1ANhLRdpfAAAA
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Romain Gantois <romain.gantois@bootlin.com>
-X-Mailer: b4 0.14.1
-X-GND-Sasl: romain.gantois@bootlin.com
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.996];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,baylibre.com:email];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-The TLV320DAC3100 Audio DAC has 25 built-in digital audio processing blocks
-(PRBs). Each of these PRBs has a static filter structure with programmable
-coefficients. Once a PRB is selected for use by the DAC, its filter
-coefficients can be configured via a dedicated set of registers.
+On Fri, 06 Sep 2024 11:34:16 +0200,
+Jerome Brunet wrote:
+> 
+> Add 128kHz, 352.4kHz, 384kHz and 705.6kHz.
+> These definitions have been found working on eARC using a Murideo
+> Seven Generator.
+> 
+> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+> ---
+> 
+>  Hi,
+> 
+>  As explained in the commit description, I don't a have strong references
+>  to back the new values up. I've found them through testing.
+> 
+>  The value must exist somehow since the related sample rates are allowed
+>  over an IEC958 link. It would be better to get confirmation from the
+>  actual specification rather than just rely on testing.
+> 
+>  I don't mind if this does not get applied. I just want to make the
+>  data public, giving others the possibility to confirm or deny it.
 
-Define a new optional firmware which can be loaded by the TLV320DAC driver.
-This firmware describes a full set of filter coefficients for all blocks
-used by the various PRBs.
+I find it makes sense to have definitions.  At least, it doesn't break
+alone :)
 
-The firmware's binary format is heavily inspired by the one used in the
-peb2466 driver. It includes a version marker to allow for potential
-evolutions of the format.
+Unless anyone raises objection, I'm going to apply it for 6.12 later.
 
-Note that adaptive filtering is not supported i.e. filter coefficients are
-loaded once before power-on and then cannot be changed while the DAC is
-powered. This is why only page A coefficients are modified. Page B
-coefficients are only used for adaptive filtering.
 
-Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
----
- sound/soc/codecs/tlv320aic31xx.c | 100 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 100 insertions(+)
+thanks,
 
-diff --git a/sound/soc/codecs/tlv320aic31xx.c b/sound/soc/codecs/tlv320aic31xx.c
-index 2f94cfda0e33..7e624c4b77b6 100644
---- a/sound/soc/codecs/tlv320aic31xx.c
-+++ b/sound/soc/codecs/tlv320aic31xx.c
-@@ -12,6 +12,7 @@
-  * and mono/stereo Class-D speaker driver.
-  */
- 
-+#include <asm/unaligned.h>
- #include <linux/module.h>
- #include <linux/moduleparam.h>
- #include <linux/init.h>
-@@ -22,6 +23,7 @@
- #include <linux/gpio/consumer.h>
- #include <linux/regulator/consumer.h>
- #include <linux/acpi.h>
-+#include <linux/firmware.h>
- #include <linux/of.h>
- #include <linux/slab.h>
- #include <sound/core.h>
-@@ -1638,6 +1640,98 @@ static const struct i2c_device_id aic31xx_i2c_id[] = {
- };
- MODULE_DEVICE_TABLE(i2c, aic31xx_i2c_id);
- 
-+static int tlv320dac3100_fw_load(struct aic31xx_priv *aic31xx,
-+				 const u8 *data, size_t size)
-+{
-+	int ret, reg;
-+	u16 val16;
-+
-+	/*
-+	 * Coefficients firmware binary structure. Multi-byte values are big-endian.
-+	 *
-+	 * @0, 16bits: Magic (0xB30C)
-+	 * @2, 16bits: Version (0x0100 for version 1.0)
-+	 * @4, 8bits: DAC Processing Block Selection
-+	 * @5, 62 16-bit values: Page 8 buffer A DAC programmable filter coefficients
-+	 * @129, 12 16-bit values: Page 9 Buffer A DAC programmable filter coefficients
-+	 *
-+	 * Filter coefficients are interpreted as two's complement values
-+	 * ranging from -32 768 to 32 767. For more details on filter coefficients,
-+	 * please refer to the TLV320DAC3100 datasheet, tables 6-120 and 6-123.
-+	 */
-+
-+	if (size != 153) {
-+		dev_err(aic31xx->dev, "firmware size is %zu, expected 153 bytes\n", size);
-+		return -EINVAL;
-+	}
-+
-+	/* Check magic */
-+	val16 = get_unaligned_be16(data);
-+	if (val16 != 0xb30c) {
-+		dev_err(aic31xx->dev, "fw magic is 0x%04x expected 0xb30c\n", val16);
-+		return -EINVAL;
-+	}
-+	data += 2;
-+
-+	/* Check version */
-+	val16 = get_unaligned_be16(data);
-+	if (val16 != 0x0100) {
-+		dev_err(aic31xx->dev, "invalid firmware version 0x%04x! expected 1", val16);
-+		return -EINVAL;
-+	}
-+	data += 2;
-+
-+	ret = regmap_write(aic31xx->regmap, AIC31XX_DACPRB, *data);
-+	if (ret) {
-+		dev_err(aic31xx->dev, "failed to write PRB index: err %d\n", ret);
-+		return ret;
-+	}
-+	data += 1;
-+
-+	/* Page 8 Buffer A coefficients */
-+	for (reg = 2; reg < 126; reg++) {
-+		ret = regmap_write(aic31xx->regmap, AIC31XX_REG(8, reg), *data);
-+		if (ret) {
-+			dev_err(aic31xx->dev,
-+				"failed to write page 8 filter coefficient %d: err %d\n", reg, ret);
-+			return ret;
-+		}
-+		data++;
-+	}
-+
-+	/* Page 9 Buffer A coefficients */
-+	for (reg = 2; reg < 26; reg++) {
-+		ret = regmap_write(aic31xx->regmap, AIC31XX_REG(9, reg), *data);
-+		if (ret) {
-+			dev_err(aic31xx->dev,
-+				"failed to write page 9 filter coefficient %d: err %d\n", reg, ret);
-+			return ret;
-+		}
-+		data++;
-+	}
-+
-+	dev_info(aic31xx->dev, "done loading DAC filter coefficients\n");
-+
-+	return ret;
-+}
-+
-+static int tlv320dac3100_load_coeffs(struct aic31xx_priv *aic31xx,
-+				     const char *fw_name)
-+{
-+	const struct firmware *fw;
-+	int ret;
-+
-+	ret = request_firmware(&fw, fw_name, aic31xx->dev);
-+	if (ret)
-+		return ret;
-+
-+	ret = tlv320dac3100_fw_load(aic31xx, fw->data, fw->size);
-+
-+	release_firmware(fw);
-+
-+	return ret;
-+}
-+
- static int aic31xx_i2c_probe(struct i2c_client *i2c)
- {
- 	struct aic31xx_priv *aic31xx;
-@@ -1727,6 +1821,12 @@ static int aic31xx_i2c_probe(struct i2c_client *i2c)
- 		}
- 	}
- 
-+	if (aic31xx->codec_type == DAC3100) {
-+		ret = tlv320dac3100_load_coeffs(aic31xx, "tlv320dac3100-coeffs.bin");
-+		if (ret)
-+			dev_warn(aic31xx->dev, "Did not load any filter coefficients\n");
-+	}
-+
- 	if (aic31xx->codec_type & DAC31XX_BIT)
- 		return devm_snd_soc_register_component(&i2c->dev,
- 				&soc_codec_driver_aic31xx,
-
----
-base-commit: 8400291e289ee6b2bf9779ff1c83a291501f017b
-change-id: 20240806-tlv320-filter-189edd66496c
-
-Best regards,
--- 
-Romain Gantois <romain.gantois@bootlin.com>
-
+Takashi
