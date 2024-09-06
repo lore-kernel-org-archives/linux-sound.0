@@ -1,122 +1,74 @@
-Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48D9F1CB15C;
-	Fri,  6 Sep 2024 10:06:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.13
+Received: from cmccmta1.chinamobile.com (cmccmta2.chinamobile.com [111.22.67.135])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FC2E1C9DD1;
+	Fri,  6 Sep 2024 10:06:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.135
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725617162; cv=none; b=WE/LvF/W8kgDvbELGz45gDGJvpkD1enjHvKGDmNM1aTrrlvZCJ/n1/0vt8lQ23S5riuMFz97wyZDAMQdNn/k8U54Kh3GFB3L4RXCFagXijjmGhgfVe+V0vBL5s5An16aEvqp30L54aTSl/ZkmLsP9N2iyehTfCz87+9mOZR2zY0=
+	t=1725617191; cv=none; b=k+8zOBixzVZg8HQL/CKZas641XbzaEqVH2SgW3VtoYF5MZxFsgnBCRwMSY6xxhJkzZzYNRefkUY8UnA6M6+Z0aAnJQ+ZSazSrJKs5LnZTXj0XJRhwtY6GMnVZo1Yieo1q3lQ/zoPihw0U0gB7d4Wp2rZiLmEbBY86VABZaEo7Cg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725617162; c=relaxed/simple;
-	bh=L7OfXrumACimbtfyuTi7+/5rFVVmzl5jvuqinIuM8TI=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References; b=CHhGYLbb7c8fi0SZ2UcPG1NBUn+1RXcMOjkgbCHOpNtKodUZiwy2WXyUTdBTZSZ8Va8x1TgFAsFb0+iEBpD9uuvAaHaPZ84nVDK87z9W5sVs1VfvZXF6AGM/yUvI+kQHGDrc2nh0/yEF1oQ7c7kzxM5fWdB9yczvHW4sq73/47U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-Received: from inva020.nxp.com (localhost [127.0.0.1])
-	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id BA8641A1059;
-	Fri,  6 Sep 2024 12:05:59 +0200 (CEST)
-Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
-	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 7FC301A19DA;
-	Fri,  6 Sep 2024 12:05:59 +0200 (CEST)
-Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
-	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 3B33C180031E;
-	Fri,  6 Sep 2024 18:05:54 +0800 (+08)
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
-To: vkoul@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	lgirdwood@gmail.com,
+	s=arc-20240116; t=1725617191; c=relaxed/simple;
+	bh=ps0jaefAM6rDO5urnqpYJAyZT+0VN9xpGoK+7jruFC4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tA6n2o3sPw3fOTCM3no0AL6Fpk1FeNlziK2XFeEVKkP4xa9qNfUvlyMukyXvP+fPYFgbL9Qbv3PtkbebYhRpOywDPMwHp0SAOm2gMpzqwz3n/pN7x5BsGj6wKQ/A59OZaRkPchcL3hQPoyVYOphjWgakYt81XTP+teQlimy7i/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.135
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app03-12003 (RichMail) with SMTP id 2ee366dad420c31-c7440;
+	Fri, 06 Sep 2024 18:06:24 +0800 (CST)
+X-RM-TRANSID:2ee366dad420c31-c7440
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from leadsec.example.com (unknown[223.108.79.97])
+	by rmsmtp-syy-appsvr08-12008 (RichMail) with SMTP id 2ee866dad41adbb-a3a13;
+	Fri, 06 Sep 2024 18:06:24 +0800 (CST)
+X-RM-TRANSID:2ee866dad41adbb-a3a13
+From: Tang Bin <tangbin@cmss.chinamobile.com>
+To: lgirdwood@gmail.com,
 	broonie@kernel.org,
-	linuxppc-dev@lists.ozlabs.org
-Subject: [RFC PATCH v3 6/6] ASoC: fsl_easrc: register m2m platform device
-Date: Fri,  6 Sep 2024 17:43:57 +0800
-Message-Id: <1725615837-24872-7-git-send-email-shengjiu.wang@nxp.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1725615837-24872-1-git-send-email-shengjiu.wang@nxp.com>
-References: <1725615837-24872-1-git-send-email-shengjiu.wang@nxp.com>
-X-Virus-Scanned: ClamAV using ClamSMTP
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Tang Bin <tangbin@cmss.chinamobile.com>
+Subject: [PATCH] ASoC: loongson: remove redundant variable assignments
+Date: Fri,  6 Sep 2024 18:05:23 +0800
+Message-Id: <20240906100523.2142-1-tangbin@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Register m2m platform device,that user can
-use M2M feature.
+In the function loongson_asoc_card_probe, it is simpler
+to return the value of function devm_snd_soc_register_card
+directly.
 
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
 ---
- sound/soc/fsl/fsl_easrc.c | 33 +++++++++++++++++++++++++++++++--
- 1 file changed, 31 insertions(+), 2 deletions(-)
+ sound/soc/loongson/loongson_card.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/sound/soc/fsl/fsl_easrc.c b/sound/soc/fsl/fsl_easrc.c
-index a1a7a90ff5ef..25d1c103df32 100644
---- a/sound/soc/fsl/fsl_easrc.c
-+++ b/sound/soc/fsl/fsl_easrc.c
-@@ -2204,6 +2204,12 @@ static int fsl_easrc_probe(struct platform_device *pdev)
- 		goto err_pm_disable;
- 	}
+diff --git a/sound/soc/loongson/loongson_card.c b/sound/soc/loongson/loongson_card.c
+index fae5e9312..98a03ef82 100644
+--- a/sound/soc/loongson/loongson_card.c
++++ b/sound/soc/loongson/loongson_card.c
+@@ -192,9 +192,7 @@ static int loongson_asoc_card_probe(struct platform_device *pdev)
+ 	if (ret < 0)
+ 		return ret;
  
-+	ret = fsl_asrc_m2m_init(easrc);
-+	if (ret) {
-+		dev_err(&pdev->dev, "failed to init m2m device %d\n", ret);
-+		return ret;
-+	}
-+
- 	return 0;
- 
- err_pm_disable:
-@@ -2213,6 +2219,10 @@ static int fsl_easrc_probe(struct platform_device *pdev)
- 
- static void fsl_easrc_remove(struct platform_device *pdev)
- {
-+	struct fsl_asrc *easrc = dev_get_drvdata(&pdev->dev);
-+
-+	fsl_asrc_m2m_exit(easrc);
-+
- 	pm_runtime_disable(&pdev->dev);
+-	ret = devm_snd_soc_register_card(&pdev->dev, card);
+-
+-	return ret;
++	return devm_snd_soc_register_card(&pdev->dev, card);
  }
  
-@@ -2313,10 +2323,29 @@ static int fsl_easrc_runtime_resume(struct device *dev)
- 	return ret;
- }
- 
-+static int fsl_easrc_suspend(struct device *dev)
-+{
-+	struct fsl_asrc *easrc = dev_get_drvdata(dev);
-+	int ret;
-+
-+	fsl_asrc_m2m_suspend(easrc);
-+	ret = pm_runtime_force_suspend(dev);
-+	return ret;
-+}
-+
-+static int fsl_easrc_resume(struct device *dev)
-+{
-+	struct fsl_asrc *easrc = dev_get_drvdata(dev);
-+	int ret;
-+
-+	ret = pm_runtime_force_resume(dev);
-+	fsl_asrc_m2m_resume(easrc);
-+	return ret;
-+}
-+
- static const struct dev_pm_ops fsl_easrc_pm_ops = {
- 	RUNTIME_PM_OPS(fsl_easrc_runtime_suspend, fsl_easrc_runtime_resume, NULL)
--	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
--				pm_runtime_force_resume)
-+	SYSTEM_SLEEP_PM_OPS(fsl_easrc_suspend, fsl_easrc_resume)
- };
- 
- static struct platform_driver fsl_easrc_driver = {
+ static const struct of_device_id loongson_asoc_dt_ids[] = {
 -- 
-2.34.1
+2.33.0
+
+
 
