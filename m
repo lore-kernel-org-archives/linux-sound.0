@@ -1,192 +1,205 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2040.outbound.protection.outlook.com [40.107.117.40])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBCC0149C4B;
-	Fri,  6 Sep 2024 07:26:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725607581; cv=none; b=uk1qdykj+OkVGKzhfQCGC8g+cD5eM2GV2ekVYZQAgJzJLrsC6dnMhUsS6YHyxWzn2UKsCQ+Mfp4OPV4jT2XcYq6xPR/dpqaCVQzkXSasXY7DNj+Eg9t5Rmj+lQkKK8kK1hl0eFodBOJ5X2B6MEjUF4aEStdbBeUs92NmlM/xKxk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725607581; c=relaxed/simple;
-	bh=w24ClMpk/3FWOO/uXiViU0olb2BuJQQrGQS/6CnBfuE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jbB1svccCTYW7hEm4A7L3Rw8bKVpRyPzxWjpbSMKoQVJLpXlkuKmv4aVMOSCwRliqQVaNG+f4AM4qjQC0OiBUTsmwIgSYDmeo4DSbaASaQLThmECOineeO7dqS9jh3Q0vsTMxpvg7PuRUJY6rwVSkV+yZ3fkct4k05uXzCu8Slc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0bdCY3yK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Eyqhmktm; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0bdCY3yK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Eyqhmktm; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9F4914A604;
+	Fri,  6 Sep 2024 08:48:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.117.40
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725612531; cv=fail; b=MKIoZ6y1ZPFeV6ww4Qpahe1CsLuMWFPIKgtYb7UeekYJ7ek24eoqFxm0IvlicQjQiFU+u7CN0lYlY9FyayuLAkppY6tc/P4Uyi6bkmpOOgWg+tZLmJTW+lAzb2BBP5ja+9gfoQuq0jitowAGOAGQ6hcJJImA4KSf0m/aKYSm3dc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725612531; c=relaxed/simple;
+	bh=br+KbSr/R49/jDdaTyxQYWW+Kj1XLp6IRtAvrmWuoc4=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=SXfls11Mdq+bcd0Q3UEYGpPrtJ4PuSQ+oxNdEPNnv0luBBK4i0UtYiMftXZf8Sp0JY45g9n+V1XCG/uSug1aA94Mk1u9y7baRbyGsc8qpNqLjLoU4lOfiOVxJmcgQpjBvP7agE1a1dsrruOTUxFBrOm4fHnVU3l5u14yLgMZ4lE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=AxVaFC6P; arc=fail smtp.client-ip=40.107.117.40
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0bdCY3yK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Eyqhmktm";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0bdCY3yK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Eyqhmktm"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0786C1F896;
-	Fri,  6 Sep 2024 07:26:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1725607578; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hqoweOcBDbSA+7HZiUYq5Pgtsyq80P3DQd88C5/WAT4=;
-	b=0bdCY3yKGm8H/78zikBOmnv7J25+SU5hegtuofsLGKVl7Kmn32ajD46MIeamJytzFXGFLy
-	hFsTIqfcv8HhbeeTJpiPSwzFKSt9W5DW8LwKnH6vP3K+8h/LRTusEHbnph/otzjRy8OZVq
-	V8YVw8wobPDbmOYC+EeWEDUojry7QLE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1725607578;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hqoweOcBDbSA+7HZiUYq5Pgtsyq80P3DQd88C5/WAT4=;
-	b=EyqhmktmWFiZJmZW8M/wUVN8guG1vJe0G6sWL8OW3r9Rxm1DVjHnSTVToLVfVZbdSRUEOq
-	UI+ULZ/FmGxqD7BQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1725607578; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hqoweOcBDbSA+7HZiUYq5Pgtsyq80P3DQd88C5/WAT4=;
-	b=0bdCY3yKGm8H/78zikBOmnv7J25+SU5hegtuofsLGKVl7Kmn32ajD46MIeamJytzFXGFLy
-	hFsTIqfcv8HhbeeTJpiPSwzFKSt9W5DW8LwKnH6vP3K+8h/LRTusEHbnph/otzjRy8OZVq
-	V8YVw8wobPDbmOYC+EeWEDUojry7QLE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1725607578;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hqoweOcBDbSA+7HZiUYq5Pgtsyq80P3DQd88C5/WAT4=;
-	b=EyqhmktmWFiZJmZW8M/wUVN8guG1vJe0G6sWL8OW3r9Rxm1DVjHnSTVToLVfVZbdSRUEOq
-	UI+ULZ/FmGxqD7BQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5E2B61395F;
-	Fri,  6 Sep 2024 07:26:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id CgfEFZmu2mYgNAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 06 Sep 2024 07:26:17 +0000
-Date: Fri, 06 Sep 2024 09:27:03 +0200
-Message-ID: <87h6atfdiw.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="AxVaFC6P"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xWFe3Auiprok0dLn9G1s3w8aXnMGzjGeMpj6BqWw22wzf4At42GPUO3n81y24M32ExZFU1L9xUlGl5+BdaNdHSN9nZiVFZBXuYlwqJxv/Z37fz2e/Y5qtMOy4h6+PQ4EIbLMfFSxBiVx6RWQFslzTfSHta1pe2gRhxRoYvpdZ63hJaRgnJ1o61ql1HZYuJadZYPVXX+iExc7zLDpbMwOESMRoeoFUHfoe0iabkiuQjCcflr1DxZUISwyOGFEeznZRMZISLyLQLjZGJcI0hSnWMj6Dc0ktyJP4hgto6PmeG00WVqBauDxPbFuBkBhBKZ0ffIkCasUZaALQZBGMS/+8w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KM9+DEJDwWJR1HyxZIJdNOSwggXe+jw9Cyj0xgdURlE=;
+ b=CnSVY6SLdjvyRrnh4YNMLboni8/Wts2x6zZpiLi+5AO0ZNdJvaNHehrTaGr6xUjlErPgiE74BLDwJan7OM+sopvCUIDQwlzaCZIh+Av4jK8BFnB4wqtrQ3nV2sH57ODmkf+CZeAyxGWqXiQBNoorsUhp4M1zv3l4CkZ12V2D3zV+KhvhW0ciN4XylHrdTzFNM8dG0tdPBtDSFGMAJjTL7X2H5rRSw9z+kDDwuj64/c0GJ1XMoyub9SQQgVJhWm/3Gj7smOtkAiUq3oTpLxUVZgJOKb3Wzlr4J1LeMJnHD/K9s43gdp9WlahsJ0JQFHLHalzZ2AvtW1yCz5I3Sad4kA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KM9+DEJDwWJR1HyxZIJdNOSwggXe+jw9Cyj0xgdURlE=;
+ b=AxVaFC6PN3gnxLeqQGEFmZG4fqbxCoZAMxVNJD4SwE+a/cQ/DHbJc2kIimk/c6NNN98zXBVnpGSTlsmVl/vuGj0B6kMZKuIa4WmUBf6+Lp5FzO5twcxYJxR1oAJ+04S4OpGRtPvP6KJOvVxUgpR0OmArAPIcWppI9e6R4cVzv+k4OELXrw8GPID0odRklZRRcIMGpN153wenUwa1vj2CE17b18m2dm94em8xBwRQavUDawMIRCBCiBcL19toSOoUWS2/pEslP9wipK0V1Y3b74tlRxyLKEgbCHj3f7nN0xFWlv5EBPOi5qk91Ynm8p83BkYv3PD/IkGaEZ9+F/y1rw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SEZPR06MB6332.apcprd06.prod.outlook.com (2603:1096:101:123::11)
+ by SEZPR06MB5246.apcprd06.prod.outlook.com (2603:1096:101:76::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.28; Fri, 6 Sep
+ 2024 08:48:46 +0000
+Received: from SEZPR06MB6332.apcprd06.prod.outlook.com
+ ([fe80::6b3f:3bee:4364:6919]) by SEZPR06MB6332.apcprd06.prod.outlook.com
+ ([fe80::6b3f:3bee:4364:6919%4]) with mapi id 15.20.7918.024; Fri, 6 Sep 2024
+ 08:48:46 +0000
+From: ying zuxin <yingzuxin@vivo.com>
+To: Herve Codina <herve.codina@bootlin.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	alsa-devel@alsa-project.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 00/13] ALSA: update sample rate definitions
-In-Reply-To: <20240905-alsa-12-24-128-v1-0-8371948d3921@baylibre.com>
-References: <20240905-alsa-12-24-128-v1-0-8371948d3921@baylibre.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org (moderated list:INFINEON PEB2466 ASoC CODEC),
+	linux-sound@vger.kernel.org (open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM...),
+	linux-kernel@vger.kernel.org (open list)
+Cc: opensource.kernel@vivo.com,
+	yang.yang@vivo.com,
+	ying zuxin <11154159@vivo.com>
+Subject: [PATCH] ASoC: codecs: Use devm_clk_get_enabled() helpers
+Date: Fri,  6 Sep 2024 16:48:31 +0800
+Message-Id: <20240906084841.19248-1-yingzuxin@vivo.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR04CA0206.apcprd04.prod.outlook.com
+ (2603:1096:4:187::21) To SEZPR06MB6332.apcprd06.prod.outlook.com
+ (2603:1096:101:123::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -1.80
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,cirrus.com,opensource.cirrus.com,gmail.com,kernel.org,intel.com,linux.intel.com,linaro.org,csie.org,sholland.org,vger.kernel.org,alsa-project.org,lists.infradead.org,lists.linux.dev];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SEZPR06MB6332:EE_|SEZPR06MB5246:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3f6d2bca-b6de-4e07-1747-08dcce50b7f7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?+44F/9GHENm9FHuUnmgxD2eXH9zk/dG7aVGEb1ovJO9xpR/sYbP9RadmD0Sd?=
+ =?us-ascii?Q?qgp87ZwBoYJmXT99dht6WRWUKW+aFyiiltoY8IdLBZvHctwpzC9LmkMWp3tN?=
+ =?us-ascii?Q?woJpLO5nqYqkWk4jG/i8dzsiuzVGO2kye6Hx7WcYY686TJdu8HRfw+WhQpq6?=
+ =?us-ascii?Q?aw/tzuLdMkxKWBL2jd7G1XmbpVV31BxPUaqz1tHgKHkewLGoV7OxGS8jEDSE?=
+ =?us-ascii?Q?r78E7v7o0GnlgyR27axaOHy5xe8MKLB2+P34inv8kRZBRtCgL8ry3yMfw9IE?=
+ =?us-ascii?Q?c9yvaNq+zIurnKDx/dTCojEhnuw4S9uC1ypTUuX1QHSchU5WAsFl38Qu03uh?=
+ =?us-ascii?Q?VmYDDDsyhLHNHOwBYI4JrO6dg8vl4mGTFPxps2nJenC2ZPlcV4n+C5p1mxbM?=
+ =?us-ascii?Q?d+C8ETC6fqKUJPZfyoUjZ+gGVsaJwOalCjGGSh8jZ2tr/XX8SumudAQcIHpl?=
+ =?us-ascii?Q?hAiPme429XyYzoUjgQ9sJNBfcpATWP3cXR9A1cSqycanfqpTGQuWoQw46Yy0?=
+ =?us-ascii?Q?gGiQVzpFLq8ExB+tJ4cctCDZytQD/aICw0T44Ae63VcayHBMKcAcuLv5pvHV?=
+ =?us-ascii?Q?ZsByqqqklpL2o+hMsEsyZdDnHY627ryIwb4OZl+CmYWruI7vQpFahtcpPKhr?=
+ =?us-ascii?Q?Mze0GWW5EAjSWrF6JUAmLPocBVbE8F5gx9+LO0Fs0IWqNuqj19V0i5mP0iSD?=
+ =?us-ascii?Q?uj5pg6f5P/xdR4hkYt+4e+1IeQFzaQeDSynXZtI5/DmAJUAGXxyL22RmB7S/?=
+ =?us-ascii?Q?g/ACMoAD2BX17LblrDIxWHdTMs0IV6Hv9LzDpojKRa9ESZOgbO1vd0//94t8?=
+ =?us-ascii?Q?Jwk3lx7VTCubvjzpLnb3IwG+SbgEyhJe3wG3j4AT+RPROMkfvmqHhAK6kWwr?=
+ =?us-ascii?Q?a8R2sb+/1jQ3POEHsaQfqH4sVeWQzyTGnMQ8hWUsIMDJKS0MhLOmC0iOLbTG?=
+ =?us-ascii?Q?vlKhIysiXyXkhQVmvKbbVXJTBlK5lkVP7fgy3oOzo8My1kQNKe4CDbVCC2Ml?=
+ =?us-ascii?Q?vWvJXqaZ+V+Je3kvpJjTW/QO+2vm+ommZX7EQyQUetBMaqkYz+TDG8+aL9pp?=
+ =?us-ascii?Q?F6mSYPemuOphyQGpz9PQ1dxBKb0Wmr00KRoxxZXp/E6S9pGyMyi77gYVmkDn?=
+ =?us-ascii?Q?dqnCkqgVgmRUFwQTpLILOew4SO4I0emn1kPdiZ08zChmt4v1XsieGm/WdGqP?=
+ =?us-ascii?Q?rLT23oFbBji66IKBXfIX/xK3L3LVOjHEs+A5Q98Axy9S0RaWRdgZXr3dbDNd?=
+ =?us-ascii?Q?PiT2lVhOOwk99GYMckPArKEd7+dEZw+o/XNACorUB1V/UvY7ezUk/kKb7Iny?=
+ =?us-ascii?Q?4LnV1FC/NIRTeMt6HoNLBtjkGdMXY8gbGmyyAiZlbkezvUOV+CqglQUqPX5o?=
+ =?us-ascii?Q?Wdu9MWQmkSTBLwCsN8BYzFJ0xYSHCyNYs1bYhz/DNruzJxRnLw=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB6332.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?LFJBtRlIVBJiFrS442y6qqAN4y+CTcINcqtHLb+dT0sAlpAgvGoVNBR4BUBQ?=
+ =?us-ascii?Q?VJSd05sX6/pedPodB8wANIdYg83Ak/1nWgyxiBqShNDn25laiK9yOzulxmyv?=
+ =?us-ascii?Q?dyrd2XjAaxhe4DS+mylHz1LPbhn6yv87LTmkiEtBi+SNsbh4B5jUrWhJP7yJ?=
+ =?us-ascii?Q?KRw8jJ1Q2gv/EarpcpYTWq5DgmzSISGVqMuyPpwKk2OpQasAxAK1R2PgWUdS?=
+ =?us-ascii?Q?1Yr71e3Hsa00quUKCWbMYZGxZ+bnEehj+rEBPDeYNfOpdg9fZSvFw8nXwBw2?=
+ =?us-ascii?Q?XFZdTmm7zi/NrOInXD72v07fP5QcobK4EdfAq3Sje4kwZ+hWiLMwD/+8H2yF?=
+ =?us-ascii?Q?mkiExnVK7b2fXR0oQ6NZLf5MzutH2rIlwZqGUyhCO3d5pC6A95C7VSV1rtXg?=
+ =?us-ascii?Q?V8N0TlgW83sK7fLdEkT9FmB2pL3cbTgdKRx+bothUGVF2iGCuwjZSUGTTm3o?=
+ =?us-ascii?Q?fKnJPEioaPX5tSw3jU79PoXLIav1j3xuAgo9OZpx03Qh5z3IKiRS4LTCiT4h?=
+ =?us-ascii?Q?AfDdTrTv1wEUdkLFB7+s7ckuQ1FmPT8H0pQD91u9h7NLEF3mKt4qqMK3a5yY?=
+ =?us-ascii?Q?v7WkX91zCU39CAYGgeo0/eM1gR7a/sH61/8uo1pgOKXDVGNzfmMZuSPYuZUW?=
+ =?us-ascii?Q?GU8lRjJ6vTG+F3FBF9EOO+0xR2oXkls02NMhHlH5MsHk9rzzi0Nkb31RboBb?=
+ =?us-ascii?Q?NFLE39zXIZwqoMViMGfv8wPFeOT8tF/FJFrAYzH6zND1kNNKLYrz4GyzH8KP?=
+ =?us-ascii?Q?JuUjGbLX+1mJIuuudXalD70vNFgwnl3WlH7j5oFh8R1rqXIHovgOU6SMaSSm?=
+ =?us-ascii?Q?3g7ARFVACODJ/jtQEHBl/F8cA1jTVzYBQr3g47OZO88G0HXNvHQictRoDYsE?=
+ =?us-ascii?Q?5OneovY8BYNvedy+ZeCIZBP3sdU8tWCLnYb+hIoK+hG3mM6bBno1iFC5s+yw?=
+ =?us-ascii?Q?ewYRn3vvNXtJozjm9D3eve5l1ircxF8rnxdp5wztL/IOb3YeWuUrHPycb0nw?=
+ =?us-ascii?Q?g76GD4hJqAn2yf9yGEOFl2/Ej24YFlPPdx9dQtV9ce0ZBGHJrcPX/VanfV3e?=
+ =?us-ascii?Q?92nbg0A2BlxABNq8IE2HsRorSnRTZlryIG1CajJDMwmEw0CqYnqtC9lUOu2K?=
+ =?us-ascii?Q?6DrV+2zKGqicfkjyIkPEbcR4jwwjHswxaCB870x8GTS0/KbofYd1HbgFceBa?=
+ =?us-ascii?Q?HjV7F9+2HevGhRbOM+kvPjdxZX8SanwW0/pLrSs7TItQO3gITTgFw2I3sQKf?=
+ =?us-ascii?Q?xDJPrwDwepnIgNN837Oy8zEn6oZYYontM0+AS+Z/z4CT+n6VNjEw5gK0ZWgG?=
+ =?us-ascii?Q?FROxCnfDbsIsgbdxjTwDCEh4RRWVd0ZGP/SoP1g5ig2uz+v9+G1V/R+q29ba?=
+ =?us-ascii?Q?aPdFku5PsItn1iuWgqe5VZp8duIQVKVcBRyEZu4UjygIlda3kmHJvt7xtYI6?=
+ =?us-ascii?Q?nHGFvePseUiEqqZNouR0e4HjevoclkfPB9hCUah17ZUcLbFdNNKcSrbHUerL?=
+ =?us-ascii?Q?aYdj5QQfa6RslPh5VtjlxREM6PocUkxWjCsmzfPFoxDTxXSDVGZSEP3Y5G3w?=
+ =?us-ascii?Q?NGoWlf5vDrW0DYKxeLJb/AT7MHv0iOtB8zSsFEp6?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3f6d2bca-b6de-4e07-1747-08dcce50b7f7
+X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB6332.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2024 08:48:46.0771
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UpSD2ZLO4Y1fVlicfyiGiBoheIoCllHDg3h7guyDdOeMZDhJuwIdInC8c2OIC65IP/DlDoYW9G6xg3xbiGw1VA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB5246
 
-On Thu, 05 Sep 2024 16:12:51 +0200,
-Jerome Brunet wrote:
-> 
-> This patchset adds rate definitions for 12kHz, 24kHz and 128kHz.
-> 
-> It is follow-up on the series/discussion [0] about adding 128kHz for
-> spdif/eARC support. The outcome was to add 12kHz and 24kHz as well and
-> clean up the drivers that no longer require custom rules to allow these
-> rates.
-> 
-> Identifying these drivers is not straight forward, I tried my best but I
-> may have missed some. Those will continue to work anyway so it is not
-> critical. Some drivers using these rates have not been changed on
-> purpose. The reason for this may be:
-> * The driver used other uncommon rates that still don't have a definition
->   so a custom rule is still required.
-> * The constraint structure is used in some other way by the driver and
->   removing it would not help the readability or maintainability. This is
->   the case the freescale asrc drivers for example.
-> 
-> There is one change per driver so, if there is a problem later on, it will
-> easier to properly add Fixes tag.
-> 
-> The series has been tested with
-> * ARM64 defconfig - spdif 128kHz at runtime.
-> * x86_64 allmodconfig - compile test only
-> 
-> Last, the change adding IEC958 definitions has been dropped for this
-> patchset and will be resent separately
-> 
-> [0]: https://lore.kernel.org/all/20240628122429.2018059-1-jbrunet@baylibre.com/
-> 
-> ---
-> Jerome Brunet (13):
->       ALSA: pcm: add more sample rate definitions
->       ALSA: cmipci: drop SNDRV_PCM_RATE_KNOT
->       ALSA: emu10k1: drop SNDRV_PCM_RATE_KNOT
->       ALSA: hdsp: drop SNDRV_PCM_RATE_KNOT
->       ALSA: hdspm: drop SNDRV_PCM_RATE_KNOT
->       ASoC: cs35l36: drop SNDRV_PCM_RATE_KNOT
->       ASoC: cs35l41: drop SNDRV_PCM_RATE_KNOT
->       ASoC: cs53l30: drop SNDRV_PCM_RATE_KNOT
->       ASoC: Intel: avs: drop SNDRV_PCM_RATE_KNOT
->       ASoC: qcom: q6asm-dai: drop SNDRV_PCM_RATE_KNOT
->       ASoC: sunxi: sun4i-codec: drop SNDRV_PCM_RATE_KNOT
->       ASoC: cs35l34: drop useless rate contraint
->       ASoC: spdif: extend supported rates to 768kHz
+From: ying zuxin <11154159@vivo.com>
 
-A nice cleanup series.
-Applied all now to for-next branch.
+The devm_clk_get_enabled() helpers:
+    - call devm_clk_get()
+    - call clk_prepare_enable() and register what is needed in order to
+     call clk_disable_unprepare() when needed, as a managed resource.
 
+This simplifies the code and avoids the calls to clk_disable_unprepare().
 
-Thanks!
+Signed-off-by: ying zuxin <11154159@vivo.com>
+---
+ sound/soc/codecs/peb2466.c | 14 +-------------
+ 1 file changed, 1 insertion(+), 13 deletions(-)
 
-Takashi
+diff --git a/sound/soc/codecs/peb2466.c b/sound/soc/codecs/peb2466.c
+index 76ee7e3f4d9b..b67cfad4fc32 100644
+--- a/sound/soc/codecs/peb2466.c
++++ b/sound/soc/codecs/peb2466.c
+@@ -1975,12 +1975,9 @@ static int peb2466_spi_probe(struct spi_device *spi)
+ 	if (IS_ERR(peb2466->reset_gpio))
+ 		return PTR_ERR(peb2466->reset_gpio);
+ 
+-	peb2466->mclk = devm_clk_get(&peb2466->spi->dev, "mclk");
++	peb2466->mclk = devm_clk_get_enabled(&peb2466->spi->dev, "mclk");
+ 	if (IS_ERR(peb2466->mclk))
+ 		return PTR_ERR(peb2466->mclk);
+-	ret = clk_prepare_enable(peb2466->mclk);
+-	if (ret)
+-		return ret;
+ 
+ 	if (peb2466->reset_gpio) {
+ 		gpiod_set_value_cansleep(peb2466->reset_gpio, 1);
+@@ -2031,17 +2028,9 @@ static int peb2466_spi_probe(struct spi_device *spi)
+ 	return 0;
+ 
+ failed:
+-	clk_disable_unprepare(peb2466->mclk);
+ 	return ret;
+ }
+ 
+-static void peb2466_spi_remove(struct spi_device *spi)
+-{
+-	struct peb2466 *peb2466 = spi_get_drvdata(spi);
+-
+-	clk_disable_unprepare(peb2466->mclk);
+-}
+-
+ static const struct of_device_id peb2466_of_match[] = {
+ 	{ .compatible = "infineon,peb2466", },
+ 	{ }
+@@ -2061,7 +2050,6 @@ static struct spi_driver peb2466_spi_driver = {
+ 	},
+ 	.id_table = peb2466_id_table,
+ 	.probe  = peb2466_spi_probe,
+-	.remove = peb2466_spi_remove,
+ };
+ 
+ module_spi_driver(peb2466_spi_driver);
+-- 
+2.39.0
+
