@@ -1,234 +1,98 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BEC954656;
-	Sat,  7 Sep 2024 10:05:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 728BD14B967;
+	Sat,  7 Sep 2024 12:15:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725703545; cv=none; b=cSWywBuN7HhsmLwr16IHnBpWzmXlPNMVmz2mPax/IJaw+zigd1d1r5xc189uYABSGEOeohUCRGm5BBxrqoLMBauv8pTGo2OMTLfbmCW4AU5LTtm1MSGZUh2Y3jEZHlnVbliZPsMyD0gdhVgrJSASDmaNfrc4UVTcXhw9LQu1wnI=
+	t=1725711301; cv=none; b=ituW8XHxPWF8dWzxqkdFOK93yuFRJ5OfwyPRdLDBP5OwgM4/C/Rr/UckM262JbQV8V9X3fi3JRl6qA9xXnOqiPjj7nVuEB1g1DkRA8vXch7Af1LUeMMTioOmsa32O2nto38KbrpypieS55pDdEVITLA3K5ObhPMEtrvC+PeME0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725703545; c=relaxed/simple;
-	bh=BOmcOHAF+2Qs3Xv8Rf/zZEHZ5V8eO4zCPwIAyzyalhU=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=flm76CCISFpGNvwRTYRfdVWJCmuTSDN/TDK/FONX9rBn64xoxZEA7YcC833o4ioKxT3NNs7dm/cT9BFqitkQLzaQwChWrOgnPVna5uGAsT+6alxlDilaMMwtSubpUWR9a6hPxWeqhQA2KwUAjPFCRvKKULO5NOAjVBZwHuG9kYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YQOsxVe3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mSQeLPug; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0ThszcR1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=kHibkI2e; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1725711301; c=relaxed/simple;
+	bh=xWO+HlGp+Ve2s3sZZmNAp1zEuVQsJubnUVeY4rbyAQY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gft/6UNqMML9ngtPbpffy2hJho3r8xsbAP7v/IRMtbdi5EytTGUzAsaYKssT7NWL4IwOHh0OhBq8EuKARJcYaiVUvGhDgKYvPJugaUWzMNwObhXiZoN74KRwOHR2ClfOHSDwEgMhjOtJJ5mL69zJDFxWC/EglDQxUmGSmLZZHBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uzbfqhg5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YQOsxVe3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mSQeLPug";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0ThszcR1";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kHibkI2e"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CD77C21229;
-	Sat,  7 Sep 2024 10:05:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1725703540; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=spN8FZT1364KvIzdbQJ12M/ejhSlRN8HftF1NP0frAY=;
-	b=YQOsxVe3PZqeQ9kRKXNGfkEVa49XMXn+MmOMFHgtpzGfh9+QWwTvbYHVG8YH14gjq1Bwie
-	BRL+VbpG1qWsrPWkWvTeJ+svOi9W/PwcSaZf7a+lMvVVJrlJM0lMJKkzzl5oOJ1ABvCjJj
-	ZwFWX3mqNRg0LdNWXCsGgsnxRLu+whs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1725703540;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=spN8FZT1364KvIzdbQJ12M/ejhSlRN8HftF1NP0frAY=;
-	b=mSQeLPugjc/pYAcNTRbD9Yz1p52/sUO+GkmFbpa00j0Dd9EoRLyONgTSBk3SOFOniypczk
-	DeATzqLsAoOMhiCg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=0ThszcR1;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=kHibkI2e
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1725703539; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=spN8FZT1364KvIzdbQJ12M/ejhSlRN8HftF1NP0frAY=;
-	b=0ThszcR1BNlpTzWNCVfN1UNahcPLZMvbU4cwFKKkbVnz2OxtzorDE4ioXlXG1gHxyz+XEe
-	6VmRcgVGvfFUpCiMY3tcE5XadOeAnxNcaoDyZEXUG06Bugz/cw+10PcQO2jbVt7ZxT/XYO
-	3j45PuMJmaeqSWuWfubIE0i3V/PmFCM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1725703539;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=spN8FZT1364KvIzdbQJ12M/ejhSlRN8HftF1NP0frAY=;
-	b=kHibkI2e0llJmZbVdAcMPWFSBct6MhHcknAqdBZJFN1+TYduSOvoJeHEt+0w++/P9XCU7z
-	oROhWNkbGJ4U52Bg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4F6BE139DE;
-	Sat,  7 Sep 2024 10:05:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id C2pJEXMl3GbwVgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 07 Sep 2024 10:05:39 +0000
-Date: Sat, 07 Sep 2024 12:06:25 +0200
-Message-ID: <87wmjndbha.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Maxim Mikityanskiy <maxtram95@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>,
-	Rui Salvaterra <rsalvaterra@gmail.com>,
-	Sui Jingfeng <suijingfeng@loongson.cn>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Peter Wu <peter@lekensteyn.nl>,
-	Lukas Wunner <lukas@wunner.de>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda: intel: Fix Optimus when GPU has no sound
-In-Reply-To: <ZttEUjeYFzdznYKM@mail.gmail.com>
-References: <20240904203955.245085-1-maxtram95@gmail.com>
-	<871q1ygov9.wl-tiwai@suse.de>
-	<ZttEUjeYFzdznYKM@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uzbfqhg5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27697C4CEC2;
+	Sat,  7 Sep 2024 12:14:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725711300;
+	bh=xWO+HlGp+Ve2s3sZZmNAp1zEuVQsJubnUVeY4rbyAQY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uzbfqhg5Z8lxpJsTVPNtuI8sRVjR/PCl3Wuf5//SDZl+W6JLHEj51gZAN0H2vZjh8
+	 QpQrOXDYq7ir49iVlIbyhtqbGWRxuiOjZF4Pq/n0JJ9RHXdK/O9tODmOLTADcQ5fJT
+	 5ZafgASy/XSj0MOe5mtKgt/mbNYRr62XkkHqLDG1qHqJQFTcJg9xAfIhnL21eRFiH1
+	 3/SMY9hJuZfj2hXiRRgSW1PKYEkPdVgcwNhH7cIbGc9iLNdAaVoiny/+lLfO//hjV1
+	 QosfG3WWbbZfvwRkNWJhDoxQql/Gv3OjAGrr6L9N7rrRmT6n6Rb11p5ni7TcV58WR0
+	 YpwMyjBOWlfdQ==
+Date: Sat, 7 Sep 2024 13:14:41 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Binbin Zhou <zhoubb.aaron@gmail.com>
+Cc: Binbin Zhou <zhoubinbin@loongson.cn>,
+	Huacai Chen <chenhuacai@loongson.cn>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Huacai Chen <chenhuacai@kernel.org>, devicetree@vger.kernel.org,
+	linux-sound@vger.kernel.org, Xuerui Wang <kernel@xen0n.name>,
+	loongarch@lists.linux.dev
+Subject: Re: [PATCH v1 08/10] ASoC: loongson: Add I2S controller driver as
+ platform device
+Message-ID: <ZtxDsc9hTiDbKQ0v@finisterre.sirena.org.uk>
+References: <cover.1725518229.git.zhoubinbin@loongson.cn>
+ <282dadefdaac7917fd681a6e84a5f0f07d0557bc.1725518229.git.zhoubinbin@loongson.cn>
+ <76612fdc-996c-4cfd-b5f7-04acb5b717be@sirena.org.uk>
+ <CAMpQs4KedjHVK=Y87beuc0M_DadrXWWgcC5ob+wXfdy4XtCdWw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: CD77C21229
-X-Spam-Level: 
-X-Spamd-Result: default: False [-5.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[suse.de,perex.cz,suse.com,linux.intel.com,intel.com,gmail.com,loongson.cn,google.com,lekensteyn.nl,wunner.de,vger.kernel.org];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -5.51
-X-Spam-Flag: NO
-
-On Fri, 06 Sep 2024 20:05:06 +0200,
-Maxim Mikityanskiy wrote:
-> 
-> On Thu, 05 Sep 2024 at 16:24:26 +0200, Takashi Iwai wrote:
-> > On Wed, 04 Sep 2024 22:39:55 +0200,
-> > Maxim Mikityanskiy wrote:
-> > > 
-> > > Lenovo IdeaPad Z570 with NVIDIA GeForce Ge 520M doesn't have sound on
-> 
-> Spotted a typo: s/520M/540M/
-> 
-> > > the discrete GPU. snd_hda_intel probes the device and schedules
-> > > azx_probe_continue(), which fails at azx_first_init(). The driver ends
-> > > up probed, but calls azx_free() and stops the chip. However, from the
-> > > runtime PM point of view, the device remains active, because the PCI
-> > > subsystem makes it active on probe, and it's still bound. It prevents
-> > > vga_switcheroo from turning off the DGPU (pci_create_device_link() syncs
-> > > power management for the video and audio devices).
-> > > 
-> > > Fix it by forcing the device to the suspended state in azx_free().
-> > > 
-> > > Fixes: 07f4f97d7b4b ("vga_switcheroo: Use device link for HDA controller")
-> > > Signed-off-by: Maxim Mikityanskiy <maxtram95@gmail.com>
-> > 
-> > What if this device probe is skipped (e.g. adding your device entry to
-> > driver_denylist[] in hda_intel.c)?  Is the device also in the
-> > runtime-suspended state?
-> 
-> I added the following:
-> 
-> { PCI_DEVICE_SUB(0x10de, 0x0bea, 0x0000, 0x0000) },
-> 
-> The probe was apparently skipped (the device is not attached to a
-> driver), runtime_status=suspended, runtime_usage=0, the GPU goes to
-> DynOff.
-
-OK, that's good.
-
-> However, I'm not sure whether it's a good idea to blacklist 540M
-> entirely, as there might be other laptops with this GPU that have sound,
-> and AFAIK there are variants of Lenovo Z570 with other NVIDIA GPUs.
-
-You should specify the PCI SSID of your device instead of 0:0 in the
-above, so that it's picked up only for yours.
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="E73tOL5tCpfB6UED"
+Content-Disposition: inline
+In-Reply-To: <CAMpQs4KedjHVK=Y87beuc0M_DadrXWWgcC5ob+wXfdy4XtCdWw@mail.gmail.com>
+X-Cookie: Your love life will be... interesting.
 
 
-Takashi
+--E73tOL5tCpfB6UED
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Another way to make vga_switcheroo work is to disable quirk_nvidia_hda,
-> although I don't know whether it can be done without recompiling the
-> kernel. In this case, 0000:01:00.1 doesn't even appear on the bus.
-> 
-> (Note that I need to set nouveau.modeset=2 either way, otherwise it
-> stays in DynPwr if the screen is on.)
-> 
-> > 
-> > 
-> > thanks,
-> > 
-> > Takashi
-> > 
-> > > ---
-> > >  sound/pci/hda/hda_intel.c | 14 +++++++++++++-
-> > >  1 file changed, 13 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
-> > > index b79020adce63..65fcb92e11c7 100644
-> > > --- a/sound/pci/hda/hda_intel.c
-> > > +++ b/sound/pci/hda/hda_intel.c
-> > > @@ -1361,8 +1361,20 @@ static void azx_free(struct azx *chip)
-> > >  	if (use_vga_switcheroo(hda)) {
-> > >  		if (chip->disabled && hda->probe_continued)
-> > >  			snd_hda_unlock_devices(&chip->bus);
-> > > -		if (hda->vga_switcheroo_registered)
-> > > +		if (hda->vga_switcheroo_registered) {
-> > >  			vga_switcheroo_unregister_client(chip->pci);
-> > > +
-> > > +			/* Some GPUs don't have sound, and azx_first_init fails,
-> > > +			 * leaving the device probed but non-functional. As long
-> > > +			 * as it's probed, the PCI subsystem keeps its runtime
-> > > +			 * PM status as active. Force it to suspended (as we
-> > > +			 * actually stop the chip) to allow GPU to suspend via
-> > > +			 * vga_switcheroo.
-> > > +			 */
-> > > +			pm_runtime_disable(&pci->dev);
-> > > +			pm_runtime_set_suspended(&pci->dev);
-> > > +			pm_runtime_enable(&pci->dev);
-> > > +		}
-> > >  	}
-> > >  
-> > >  	if (bus->chip_init) {
-> > > -- 
-> > > 2.46.0
-> > > 
+On Sat, Sep 07, 2024 at 02:08:08PM +0600, Binbin Zhou wrote:
+> On Thu, Sep 5, 2024 at 8:36=E2=80=AFPM Mark Brown <broonie@kernel.org> wr=
+ote:
+
+> > Can some of this be shared with the PCI version - is it the same IP in a
+> > different wrapper, or is it a new IP?
+
+> To be exact, they are similar, such as the definition of the
+> controller registers.
+> But for example, DMA data processing is different. In the pci version
+> of i2s, the DMA controller is built-in, while the DMA controller here
+> is external, using ls2x-apbdma (drivers/dma/ls2x-apb-dma.c)
+
+OK, if all the registers are the same it might be worth trying to share
+that code but possibly not with the DMA being split like this.
+
+--E73tOL5tCpfB6UED
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbcQ64ACgkQJNaLcl1U
+h9Bi9gf/S56VR8NSVcSfBm4HsSJTfqUcsRL8KbAYJ7wGx7qtMb6TF6UGWzd9+g54
+kLRS3ijQBf5yRU01wbAa2ZbrVEqdj3LvXJqBcuUzKI3dR51BQCd5c++vgGtuV4X3
+tpHuupcX1fCwq2I071gdWeb7qbjmg8DgwPqAoHqyaUc5BXk5jyK2Sac5dM3sbIcv
+C3Uqn61JiGDSDtmjZcLnCD2D3klVv6mJoUybe5Zgu5/j2z9cE+Hwyg4XZ146zwX1
+6KzV9HGH/NnjsCIVZxnAzEKqSZQSUX/8CxBAlj0trPYhYpUQoCVPhQ+LWLZjCOzI
+vHLmZ06fTPK84rWNfttMzKRfOEjXTw==
+=cZxO
+-----END PGP SIGNATURE-----
+
+--E73tOL5tCpfB6UED--
