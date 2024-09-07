@@ -1,70 +1,69 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B894943ADE;
-	Sat,  7 Sep 2024 08:18:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B91A11B85DC;
+	Sat,  7 Sep 2024 08:26:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725697121; cv=none; b=sK0E2e5DJin3xzAlXGlQCp1i85Dg0zX0lQra9pKqkqsMBs5rRgO3O2rZvmNtIBOOczCE5fctmJSU4NEHfNrOoF2iPZ+pZsjzOUQNWGtSb1HkR6BXDo5xeyu4CFotCqpph8ZoEvOaOCKPhpF9z5lqOClT9JnWQHfA4mOvoFABAPY=
+	t=1725697621; cv=none; b=Jt3Ns9iOFBi7ZEnrK/q2HCN3Pp71FJAqgGYJQDVg1LrYoOjxfnCDDPen/p3HM51rYJdi6wBvPMU3cCXY255T3ufPa5rGWGx04VzE5B3s2S5JfKpg+9RU2Hn+VDQj0JUznbZK9Ie+Ty01Q1RTIIz/acRLHIKhIzBVnIcw3jdkUtc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725697121; c=relaxed/simple;
-	bh=G0ecZV3MYJG0NMMD2nY8I/zM982tZIc04oCMJMSXf4M=;
+	s=arc-20240116; t=1725697621; c=relaxed/simple;
+	bh=FYQ8VwUdwnULFKJxaP8IG3aHPu6C4xVkNHPGnNEz/TQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dc2ZabBjXr5mCq3gvTjJt2dadHceKNYfewyBLuT6LfyhW4CLOmrepv2dDqjCxbxh65UtmmRSZ7Tq10gjbFonCyou/r8lq5LBSMp1LYQBWbfSDRvB/ddNjDOamn7Ws9+o9NDwiPxObwRxEN9t9cXzIiljDj+NuvpEx5rE8MEXbj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KXc8PXkV; arc=none smtp.client-ip=209.85.218.53
+	 To:Cc:Content-Type; b=JITIrDZ5AgQdu+gfdfujdXR6pn9S7sJXWJt/b3gq06KovJmi4sXAQkiO3d45TvHVZnLJX8JOGF1IDDpue5p9X76A3nglZ33i+VB01gG1y3vRL3gJqqhvdoNAhpc4HpGYAcaHaJ0EG0c1nWqnVjCPy4RYW3Jz7wvYgPhsVgmLBbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aJzzao/9; arc=none smtp.client-ip=209.85.208.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KXc8PXkV"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a8a789c4fc5so384555466b.0;
-        Sat, 07 Sep 2024 01:18:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aJzzao/9"
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2f029e9c9cfso37972601fa.2;
+        Sat, 07 Sep 2024 01:26:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725697117; x=1726301917; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1725697618; x=1726302418; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ITEF1I8ktjsgdGr8HU561lKFX4loP7tyJC1Yx632Ah8=;
-        b=KXc8PXkVRmgdL7wKx+hZIIXIkVdPO1EplPlK+buEJRd3mTzg47UAzr6BF64ANX+cVY
-         Q5fMcil8rzb4IzgSEIdJeI5ffzxnO5XUHzVfZm83VPxrvI82+DtNSY4gEaZinUP0aUdY
-         eR9+IX4GKjEpamVZVOtU30d4P9VDO0DVwaFpvGtgBIpXMu6Wlr9n6GHFOtwtdeME0czT
-         dDS0GnGBcFZKim8SlfZOuKhmttT6YUmv6wC/3W9tRnwduV5SUVgi1j5UQuJbOwTuM0KC
-         E45+Et3KE7sCpcV4mtvXVKVxKZFBwMulpujFTgRldUPSxA0Lxp4oCtH3A8cwXwwrLmI4
-         EOzw==
+        bh=VqyzkpHLHrWtDycv18ymB8QgfohFB/0/rJM4KU0imW4=;
+        b=aJzzao/9rLQZBp66lv2LUwYMCdeoPqqfLbPLVbrZm+p82SpFUcZNlZnM8/NgBHMj6y
+         phby1k3Nl8zpq+BPi+CjMWl9rnHQYHwX7SpUGeeVnMTZAJn4iaUX5udQxG2jqhZEIQfd
+         i06rOcLVYh9bvmfHf4pOJ8rY0s/WhEZ3s6IZrzuhvKzMD0I1GLGQU/Q3JTVKnvoiIoyy
+         JHT5/jBDyTrM1TUObL8YFFSSZsZI+I5C6qL23scClC3yEbQ5SOAorXYUlEUcTHanBwtT
+         IweH+pr/1vPnAQbBqHfGR6U8g5Fj/KokA69iIBiJ0m9yr+jkhpqsz9J+0CSX6/d1Jm6k
+         LsWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725697117; x=1726301917;
+        d=1e100.net; s=20230601; t=1725697618; x=1726302418;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ITEF1I8ktjsgdGr8HU561lKFX4loP7tyJC1Yx632Ah8=;
-        b=MTS2Txq0oCpHmzsYisrzWpjRvZdQnY4cL3T4ZbiVdESOdF9VsawQpV3gkqvXgnqy4X
-         srsTear0QPABOZOoOG7z70A564PNka34gGUolOLV0mdqU1oLekgmObnESG6cPcZI81Um
-         6Ia1XLf21Zf1n4pIrgG3+uwrC/SrZpjZrH+qEudnUM6e+Y3Nv6MHdGoBW/+2fUG/e6ah
-         PoVom0wK3d4jj58+mLICg1u8A4E+8ulgC9iPCgV7w9s96vBVQZmPmfAsUIfi2sUcKcDv
-         fogzKB3uzxBsOfA+lYgNNybeS3QgubCMkKHsb+C5gDyC9H7T6cNXxXyqAeSbNyhoFJMK
-         BgGQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU6ezkBB0AVufEmODYbIhQidebR+gSlwUGSg/1+ZQq7c030vuZeFYbNhadcmS8+RqmXmjkkuSnKlaWw4JM=@vger.kernel.org, AJvYcCVuKA92QzEoml9yXAE8pj6v+WtX9GAF3c7yRSU7hm2jBoo+W1ta6XdEJiTXKgxZJMqkyijbv3Zbh+xq@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxs7AWwoBXOW/DMOpqINtdk2LnO+9W/6pszdtW0DaSYrNMktmtb
-	N1LlOot3oGVn95s7tVDgP9IeUaFvP/rtqX08KU86EHv5pF4eyJtBrup4daLiAkgYN/2fo0m/yvP
-	XUvtOmAqHA7DzZR7EnAnivsgV3Nk=
-X-Google-Smtp-Source: AGHT+IGP5PwhM+mVTH7/JKuP6gDNSBqHTqVTfG4IvV7CKDqZhFoge7/zd4knhe1gYOteaPQa69oRbac983Yu6njcJAg=
-X-Received: by 2002:a17:907:3ea0:b0:a86:b9c4:a439 with SMTP id
- a640c23a62f3a-a8a431c7209mr1316444266b.21.1725697116946; Sat, 07 Sep 2024
- 01:18:36 -0700 (PDT)
+        bh=VqyzkpHLHrWtDycv18ymB8QgfohFB/0/rJM4KU0imW4=;
+        b=ikOD1nRSJqKhgK6cupqtZudWV1HTaTLp+IB7WOSWs9RhIWVb7Bb1uwzA6IIwstkz1x
+         xwQg2G5Z/CAe9iFywubgAdJ06iy6Nlh70eNrQgulELrECqKF6UvX8+e6y8B/QisrCg5E
+         160jZyS6Cq7tu6TZiUt8yI6x98kQej7m/OJL3hoilavBnT9mWW+WD5qHIOo0dmi553YG
+         hDJxGaZacPlc8bCGSYdACYKBE8JQzPodB9P8lg82ZgabtrDfmP16RSueq9/UzYhQfHNJ
+         DPpT2PV2nOPoImaKIuwKcpSSwupSWymfHuv22p0fr1BQAdNCvEA6ILkJvU+LdeTckj3n
+         39QQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUFfxjeDFCz8rJ+lcs7nSE5XdJufsYdZrikRVwG6WV2OzSax5wQtXmjYXx//TiMp0sTip6pyIMyOpkb@vger.kernel.org, AJvYcCW65Rjl775dTlRCLj6/xcT4h/bREylP32GWRlHYS6olbidBDuI76sfmKfPHNZF76xeWw5OBEHVx6Qiw2Lw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxGQCE65wzcjj8kHdnA+uUqwIHV7a7coZ45pBhI8xZBTakWisgU
+	fTOYTlPgfuiulfMHJJunlGaCjkZvdBNcRFjKPEqAfEsx7rFuFx3ZpK3/LmPspGRG1CNR6CuE2R+
+	ZaFC4OmetRo2JuFdh6DJ+6Na7bMM=
+X-Google-Smtp-Source: AGHT+IET3d9NRhbKeldMGFos0aLckCZuN7TRfuI0EgD71XrMV6VDi4eoRvEwgUlcnNyrnfDH+RE5Maj+e7OXvGYplkc=
+X-Received: by 2002:a2e:9c95:0:b0:2f6:62a1:25ff with SMTP id
+ 38308e7fff4ca-2f75a99f825mr10427181fa.28.1725697617377; Sat, 07 Sep 2024
+ 01:26:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1725518229.git.zhoubinbin@loongson.cn> <282dadefdaac7917fd681a6e84a5f0f07d0557bc.1725518229.git.zhoubinbin@loongson.cn>
- <CAMuHMdVLErqWPDs27yeRc96Ly1ukds1-id1KNy=aWvNmffWicg@mail.gmail.com>
-In-Reply-To: <CAMuHMdVLErqWPDs27yeRc96Ly1ukds1-id1KNy=aWvNmffWicg@mail.gmail.com>
+References: <cover.1725518229.git.zhoubinbin@loongson.cn> <ca09352c70c8e69d95dc085c8b479bec21560309.1725518229.git.zhoubinbin@loongson.cn>
+ <2bel2spvqvuqyyvuv32wevxmf7tv6w336f7zfj3uq3wslwgr32@weiqjaqitqt5>
+In-Reply-To: <2bel2spvqvuqyyvuv32wevxmf7tv6w336f7zfj3uq3wslwgr32@weiqjaqitqt5>
 From: Binbin Zhou <zhoubb.aaron@gmail.com>
-Date: Sat, 7 Sep 2024 14:18:24 +0600
-Message-ID: <CAMpQs4LUNnE9do=PWMcFzBu9JNkOLjo+7UX+_Qk0J8vHvBqyQA@mail.gmail.com>
-Subject: Re: [PATCH v1 08/10] ASoC: loongson: Add I2S controller driver as
- platform device
-To: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Sat, 7 Sep 2024 14:26:43 +0600
+Message-ID: <CAMpQs4LO1hQpnQvVTqTs66F4J2rMGasfoszJKcDBgWkVvuVz4g@mail.gmail.com>
+Subject: Re: [PATCH v1 07/10] ASoC: dt-bindings: Add Loongson I2S controller
+To: Krzysztof Kozlowski <krzk@kernel.org>
 Cc: Binbin Zhou <zhoubinbin@loongson.cn>, Huacai Chen <chenhuacai@loongson.cn>, 
 	Rob Herring <robh+dt@kernel.org>, 
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -75,80 +74,98 @@ Cc: Binbin Zhou <zhoubinbin@loongson.cn>, Huacai Chen <chenhuacai@loongson.cn>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Geert:
+Hi Krzysztof:
 
 Thanks for your reply.
 
-On Fri, Sep 6, 2024 at 5:37=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68k=
-.org> wrote:
+On Fri, Sep 6, 2024 at 4:23=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.org=
+> wrote:
 >
-> Hi Binbin,
->
-> On Thu, Sep 5, 2024 at 9:07=E2=80=AFAM Binbin Zhou <zhoubinbin@loongson.c=
-n> wrote:
-> > The Loongson I2S controller exists not only in PCI form (LS7A bridge
-> > chip), but also in platform device form (Loongson-2K1000 SoC).
-> >
-> > This patch adds support for platform device I2S controller.
+> On Thu, Sep 05, 2024 at 03:02:56PM +0800, Binbin Zhou wrote:
+> > Add Loongson I2S controller binding with DT schema format using
+> > json-schema.
 > >
 > > Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
->
-> Thanks for your patch!
->
-> > --- a/sound/soc/loongson/Kconfig
-> > +++ b/sound/soc/loongson/Kconfig
-> > @@ -13,10 +13,20 @@ config SND_SOC_LOONGSON_I2S_PCI
-> >           The controller is found in loongson bridge chips or SoCs,
-> >           and work as a PCI device.
+> > ---
+> >  .../bindings/sound/loongson,ls2k-i2s.yaml     | 66 +++++++++++++++++++
+> >  1 file changed, 66 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/sound/loongson,ls=
+2k-i2s.yaml
 > >
-> > +config SND_SOC_LOONGSON_I2S_PLATFORM
-> > +       tristate "Loongson I2S controller as platform device"
+> > diff --git a/Documentation/devicetree/bindings/sound/loongson,ls2k-i2s.=
+yaml b/Documentation/devicetree/bindings/sound/loongson,ls2k-i2s.yaml
+> > new file mode 100644
+> > index 000000000000..a2e3bbe00dab
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/sound/loongson,ls2k-i2s.yaml
 >
-> depends on LOONGARCH || COMPILE_TEST
+> Filename matching compatible.
 
-This is will put under SND_SOC_LOONGSON_CARD.
+I will rename it as loongson,ls2k1000-i2s.yaml
 >
-> > +       select SND_SOC_GENERIC_DMAENGINE_PCM
-> > +       help
-> > +         Say Y or M if you want to add support for I2S driver for
-> > +         Loongson I2S controller.
+> > @@ -0,0 +1,66 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/sound/loongson,ls2k-i2s.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > > +
-> > +         The controller work as a platform device, found in loongson
-> > +         SoCs.
+> > +title: Loongson-2K I2S controller
 > > +
-> >  config SND_SOC_LOONGSON_CARD
-> >         tristate "Loongson Sound Card Driver"
-> >         select SND_SOC_LOONGSON_I2S_PCI
-> > -       depends on PCI
+> > +maintainers:
+> > +  - Binbin Zhou <zhoubinbin@loongson.cn>
+> > +
+> > +allOf:
+> > +  - $ref: dai-common.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: loongson,ls2k1000-i2s
+> > +
+> > +  reg:
+> > +    maxItems: 2
 >
-> "select SND_SOC_LOONGSON_I2S_PCI if PCI"?
->
-> > +       select SND_SOC_LOONGSON_I2S_PLATFORM
->
-> Or perhaps do it the other way around, i,e. let
-> SND_SOC_LOONGSON_I2S_{PCI,PLATFORM} select SND_SOC_LOONGSON_CARD?
-> That would be similar to SPI_LOONGSON_{PCI,PLATFORM}, which select
-> SPI_LOONGSON_CORE.
+> List and describe items instead.
 
-Yes, it would be clearer. I'll modify it in the next version.
+OK..
+>
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    maxItems: 1
+> > +
+> > +  dmas:
+> > +    maxItems: 2
+> > +
+> > +  dma-names:
+> > +    items:
+> > +      - const: tx
+> > +      - const: rx
+> > +
+> > +  '#sound-dai-cells':
+> > +    const: 0
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - clocks
+> > +  - dmas
+> > +  - dma-names
+> > +  - '#sound-dai-cells'
+> > +
+> > +additionalProperties: false
+>
+> Instead:
+> unevaluatedProperties: false
+
+OK...
 
 Thanks.
 Binbin
 >
-> >         help
-> >           Say Y or M if you want to add support for SoC audio using
-> >           loongson I2S controller.
+> Best regards,
+> Krzysztof
 >
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
-8k.org
->
-> In personal conversations with technical people, I call myself a hacker. =
-But
-> when I'm talking to journalists I just say "programmer" or something like=
- that.
->                                 -- Linus Torvalds
