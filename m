@@ -1,87 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C604FE571;
-	Sat,  7 Sep 2024 00:55:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 250D4D29E;
+	Sat,  7 Sep 2024 07:54:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725670555; cv=none; b=m6jelp0DNwv6j5IdUHKdSNBUodAsUJXn4b3tyMVPHbfJbG6y3dkpmnfQoJuHJYD6gQvUbUj01ak9aACWpZKMoHYmy7jmdIJ10YuFpiKODWP++AcAqq88DMz+rSzqSq8+sclabKpuI/yRzCclgZdt8iCc5OG+gDI4uWBgK0Gk+vM=
+	t=1725695653; cv=none; b=iL1HWMi+T7Tw/rMr5p7vGue6bI6xAkEIWaFkiPD690d7JEXmEeixRlzGdxE87PgS28GSeqlxqO/JkV7jsyJYsTmidzEA0pa5ey2mRy1MklvCezhceIqt8clFWphyE16fXugKyaMiEcJZgVG67qD9/qt1QCc/hd4XHYdn79c4wQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725670555; c=relaxed/simple;
-	bh=nA9ahGD8KCtvlvbDt4nJtzFF7vCKqQHJVd+rW53TmJw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Iyc9nfYBKW9UWQIQfVUexOsMbKotetrrJyDCgrdVmMOXaT+Wedn04GHWB7orD0/4yJjy4BFfRzujf3U5ju+zymaA/CIc3150QRgMNNzqQmQDL3XtgjgSrBtS/SS2FdV3h88kYDXgLfaHqf3sEsH1DGVGrQ7v2wbAvI3RlHg9IbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ayJETFy3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725695653; c=relaxed/simple;
+	bh=Yz/TSvkOcbi8EawEHGU5BgH6byiZVXkVjz9PR4nfGd0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ThzI3lsmIAMY8wUF8xV/9Qr88eRizXuJQlwuGnXZnLwInPOsI7EabnABcoPXcIkc/zrQjvOU/AlkSJSokgdioYoI2X8HVBFQMvhJKDubziqMwuHzMOnb6FgIwVmRVQUMTtma5snpo8bR5N9E6zCiSEFSDtLqwgG0tAUuWgMt0Rc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BQprS7O4; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ayJETFy3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B490DC4CEC8;
-	Sat,  7 Sep 2024 00:55:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725670555;
-	bh=nA9ahGD8KCtvlvbDt4nJtzFF7vCKqQHJVd+rW53TmJw=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=ayJETFy3oR0dj/YVoAdbPdMdTaPXt6OFwEabnelgP6jdlmYvD+r+YwAYAdwA3hSZt
-	 /MpGtMM01zhUI+Gj3+EzGiK9jY7sn8ZkYoLak0Ulbg/sGIwpOu2fMMNYU6A+3lnDFl
-	 nkUOiLty2yVVtpzuPzMsghsZ2qv0na0DXO4lPxk8+dEriNjEifPuY2NMkbAEBlpg3W
-	 0bZWK0CsUAVlb9ONCFoU/AaKQhGL1jmXaKkFnzu3dnazKI0tBJy3ouW7idfxi0BKtm
-	 APvXwXL9TJ+jS/2uhjEIIt5d/MGowtuGlzfK1LDP6xSuPOrn4CF2tRHFBuQKI9KqFe
-	 IpHPqjOje0hHA==
-From: Mark Brown <broonie@kernel.org>
-Date: Sat, 07 Sep 2024 01:53:32 +0100
-Subject: [PATCH 7/7] ASoC: mt8365: Allow build coverage
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BQprS7O4"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a80eab3945eso295951266b.1;
+        Sat, 07 Sep 2024 00:54:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725695650; x=1726300450; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZInpS0DO8RREpWDAkRwr80k3sSMpCCobGvcP4yMoWqM=;
+        b=BQprS7O4xOfHDLBd7hc2uOfylpWEa3fN3KqElidi9GNcIpVD+AesB9BaHLmDX5guhJ
+         qs8FkYGsOTeALTs4F/QO+/sklBzcnqv9FzIPc+x/hw/H1eTNQfE95vw/oS7cbf2UlKHP
+         q6jb9eRXw6yDG1lyuvnR7XJWFlm1yCL+kVVzMx4wq5Mtu+KxuFB4tOox2IIILbN5GUDb
+         ciNZSENJzrHNcyUSzzVX5YEmEXT5ltPZvykUWHQl64yD2z6xw55eprruSPZHqahq9bCk
+         Ao2axRMUSffecn8y1QjryXa3QwyneSjJvrgcoTB+XvoEoGQ5IV5Kr4xB+xCdgp++djfi
+         UgKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725695650; x=1726300450;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZInpS0DO8RREpWDAkRwr80k3sSMpCCobGvcP4yMoWqM=;
+        b=wxRoB03ov52Itl+lPcGf/2nKWcv2pGwYs4FKZKMEomGnaFTf64u2E3mnEHsUlVwAi2
+         4uFXtt3fkmq2E1ZOpjsWEyh2chT3iB57cJsPzeuO8EFsADqWf5BagQFKmqYZa3YXqX9E
+         FEXHXKRVyzKpo1t/n+oe9jTVPQD13SlsLGULpCga722uulxa5gW6GiGOJrcJ3CDu1AXt
+         gBR/uh4qAEfbyX3J4fHJBSw6cU+fMpyM20JFFOfK6RxSU1MYtsPe+9dhselcF6up+qe/
+         vXonWRo8z1zs6FvAwcBf21JhIG3DaHL6LxfxAjhWmuieoQAq+E+R+fqIiBC/E/c0Vrab
+         cy0w==
+X-Forwarded-Encrypted: i=1; AJvYcCUInprOXLN2KErSCQQ0zS7bDikW84fQR1D3fKbJmyuSfkEw4pyLy1YycUj+Gj2AGbkKJwA0eJYyD2V27pQ=@vger.kernel.org, AJvYcCUaM9DZG1tWcGqkXuWvbYB5dT08BPwEw1tvKCTeSpSaXEUvo2A8MgFMzOxWKmks76WhseJchh6vd4FB@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyd6UzYZ7krU9zPxSKK6gtntUlDMZFZBxgKeH/Ca8Z9jiccH58/
+	WF23BLFpyCRs8uW0TTEPvvl89vPoqaAPe2lav/4XdiQj77liBHQJd+lcr62r2ZkAharPdyEWj/U
+	CuD9mKhjvAxVAZO2wwj5/EFmDA+M=
+X-Google-Smtp-Source: AGHT+IG8U2O0JlaeV3XL2hA3rYuCDHO/bv3RxpxnTOEEhuHSVTdsjEjXgklDwsovrSe8NIrNzLCVEZ/RPqQAGSwq5bs=
+X-Received: by 2002:a17:907:971d:b0:a8a:715d:8739 with SMTP id
+ a640c23a62f3a-a8a88856097mr336580066b.53.1725695650108; Sat, 07 Sep 2024
+ 00:54:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240907-asoc-fix-mt8365-build-v1-7-7ad0bac20161@kernel.org>
-References: <20240907-asoc-fix-mt8365-build-v1-0-7ad0bac20161@kernel.org>
-In-Reply-To: <20240907-asoc-fix-mt8365-build-v1-0-7ad0bac20161@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Nathan Chancellor <nathan@kernel.org>, 
- Alexandre Mergnat <amergnat@baylibre.com>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.15-dev-99b12
-X-Developer-Signature: v=1; a=openpgp-sha256; l=745; i=broonie@kernel.org;
- h=from:subject:message-id; bh=nA9ahGD8KCtvlvbDt4nJtzFF7vCKqQHJVd+rW53TmJw=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBm26SBashc9R8SRaPNLmRiHb9uf0L6Kfilp2Crr
- xwJesp/DgKJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZtukgQAKCRAk1otyXVSH
- 0HNBCACC6/FARXYPWFGoDdvKChOmPaXipGUS4ZUgMv2zgpiLMUk3Rmjoh92TZAho+u88uJQZU0l
- DdMQMkr7n/GhGSDZ8nvNOsXOe6HJgCXIUrYg289RDlfTTDCd01DIjX6L8gmvQ/apVEBsYWwlSRW
- VXLE0ROKZgbFD+IdJL29AI5vcrDum/WYhG9AopQI2H0aIF0+t26jgOB90mm0qbpKOC2ioWRtbeT
- WDK8Ew8uTY1qF5AVL6HuVt7HgYEQOUzRu9w0yr/O/HA8u9tiGbxRz7UR2y7VRXDp+sskceBZctV
- Rm0Y0JFiCbcO4Qf8vsW6q1xRG5dEGu01CjVUPZb8nLBFTKJT
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+References: <cover.1725518229.git.zhoubinbin@loongson.cn> <c54fbc2582702689c005e1ba528ab2318b1adde6.1725518229.git.zhoubinbin@loongson.cn>
+ <659f9214-1287-4e20-a25f-51ab3b4c8d6f@sirena.org.uk>
+In-Reply-To: <659f9214-1287-4e20-a25f-51ab3b4c8d6f@sirena.org.uk>
+From: Binbin Zhou <zhoubb.aaron@gmail.com>
+Date: Sat, 7 Sep 2024 13:53:56 +0600
+Message-ID: <CAMpQs4KdyzJwf3qJb77rMw8RR5gUgWf5zUhnTKmjWJaGUzAVGw@mail.gmail.com>
+Subject: Re: [PATCH v1 05/10] ASoC: loongson: Improve code readability
+To: Mark Brown <broonie@kernel.org>
+Cc: Binbin Zhou <zhoubinbin@loongson.cn>, Huacai Chen <chenhuacai@loongson.cn>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Huacai Chen <chenhuacai@kernel.org>, devicetree@vger.kernel.org, 
+	linux-sound@vger.kernel.org, Xuerui Wang <kernel@xen0n.name>, loongarch@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-There is no build time dependency on anything specific to ARCH_MEDIATEK so
-enable COMPILE_TEST builds.
+On Thu, Sep 5, 2024 at 8:31=E2=80=AFPM Mark Brown <broonie@kernel.org> wrot=
+e:
+>
+> On Thu, Sep 05, 2024 at 03:02:54PM +0800, Binbin Zhou wrote:
+> > This patch attempts to clean up driver code formatting issues.
+> > Mainly as follows:
+> > 1. Use the BIT macro;
+> > 2. Use dev_err_probe() in every error path in probe in loongson_card
+> >    driver;
+> > 3. Introduce loongson_card_acpi_find_device() to streamlined code.
+>
+> Please split these out into three separate patches to make them easier
+> to review.  I see there's also some other code reordering and
+> reformatting in there which should also be split out separately.  I
+> think the changes are probably good overall but there's too much
+> different stuff going on in one patch to check properly.
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- sound/soc/mediatek/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi Mark:
 
-diff --git a/sound/soc/mediatek/Kconfig b/sound/soc/mediatek/Kconfig
-index e6f7a5a49794..3033e2d3fe16 100644
---- a/sound/soc/mediatek/Kconfig
-+++ b/sound/soc/mediatek/Kconfig
-@@ -301,7 +301,7 @@ config SND_SOC_MT8195_MT6359
- 
- config SND_SOC_MT8365
- 	tristate "ASoC support for MediaTek MT8365 chip"
--	depends on ARCH_MEDIATEK
-+	depends on ARCH_MEDIATEK || COMPILE_TEST
- 	select SND_SOC_MEDIATEK
- 	help
- 	  This adds ASoC platform driver support for MediaTek MT8365 chip
+Thanks for your reply.
 
--- 
-2.39.2
+That was my fault, indeed this patch is too cluttered. I will try to
+split them up and make them as a separate patch series.
 
+Thanks.
+Binbin
