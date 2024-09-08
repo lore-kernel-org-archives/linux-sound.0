@@ -1,100 +1,91 @@
-Received: from mout.web.de (mout.web.de [212.227.17.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2CCA16EB53;
-	Sun,  8 Sep 2024 16:32:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD8DF9EC;
+	Sun,  8 Sep 2024 20:18:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725813179; cv=none; b=iEtkJU2t95Rk56ICCtbuw0DP19nbWOfqbukLmcVJFfyBg6s6mWPwYk57DGn0fJY2YNJ+LaMXU+fLR6fkNNvej5l5VO9eBWFb3WK+tZwJ60IOW0NT4zz54vckErEGYQpEa+lk+eF2kUAxiOnHtR9H5F384BH/0wMFHtuOf+jGjoE=
+	t=1725826681; cv=none; b=pDlllKLxuzxTwjiEFObmaVR4iiT5yvaaPXfCZAZdZ6Zx6VPQIOlH4sh9hTJtxJSFZ0dcS+ZFfReO/+YFKqRP3473HeMpiHdHSS2WG8Jnv1JLZEqCo4yc0+dubmY2gF9xi+SWgr/fqFbeIvZOtFfQm1CGBe/ogmisQslvGmIiF8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725813179; c=relaxed/simple;
-	bh=mHVY/RFhDJeMtkzU2Bj0n7ZfFvxuJNwR2boIwfTkeoA=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=FYZRqp/J9zYFoH2lh1tZUXuh4qLe/pA6NiGaeOqNukUXGggv1DXS3vgJw4VXWicuXp3Xy2SlBX1uOBxpu0aPUt4dBckh+Eu3BEBrvApIMRGlnPGeOCoN5QFzlx7Ka5mHAnwZsIKPR1GbBpwB4lzCq0X0Atu3uqLNve1WOPdoTwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=RwrT+zjy; arc=none smtp.client-ip=212.227.17.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1725826681; c=relaxed/simple;
+	bh=cO0VA8sPCHSdvNTRaAgPs6NicHsgD6AL7kQaFUvXJBA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ncf14v56/pz62NchEql4fnGqYn2iVuxtER4YSWUac4QaaZKqhd7YRumwQq/iCzhqs6bLbxlnxxD4140QjcR8L0OeNIBAJsm0hMhHTThWZpKwj9zXC2vaf9i4CowzPUt2+dH/hkQdIPcMMRNyGOBZwbzL1N4ze/aSDqNNi9d3gZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cZBMt+B8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="RwrT+zjy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1725813154; x=1726417954; i=markus.elfring@web.de;
-	bh=faHD4IzwtgCYeAGURuCec9vYzIfY02tRv23dap76ghA=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=RwrT+zjytruupymGStnEKodarxfiobZ+BEz22DuLGANnxNv1xtdE2L/vZ1CEnZX0
-	 0fi9NpEe1Cm+wtWUU6+o/RR6KtMqDj8e1dX3xGsC1ZZ7P4BoAb8015uUrVz5w4zCg
-	 VWyhx6ZLJhPkMd3NwkvhuVnJZk0Pk4cqpR/jHS/SMXWS4e9gG/mr3J7Ut4RTbMxyV
-	 tsQuMv1NgrBcZPZ4N1BCLVLH1PYvTM8enRF0YXAIeg5mm6cwqlFApvmE92q//lGGr
-	 uOG9flXuJYmLh2nYIFWEI1CHLeuuQYGbmLjlA5jAy1Ig6ruopzmJJYCsTQi6kHbAe
-	 ysLLLQfTGeaESHMRMA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.80.95]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1McIgY-1sAiEg04Uu-00bxzV; Sun, 08
- Sep 2024 18:32:34 +0200
-Message-ID: <21196d4b-fb19-4c3b-9e28-5b1c892a0b35@web.de>
-Date: Sun, 8 Sep 2024 18:32:30 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cZBMt+B8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF378C4CEC3;
+	Sun,  8 Sep 2024 20:17:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725826680;
+	bh=cO0VA8sPCHSdvNTRaAgPs6NicHsgD6AL7kQaFUvXJBA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=cZBMt+B8eG+8kL6yhFWRP1OiZyxxqgIG04xCyMaBhgoDw4rpmDAal1d9t459Ac5SH
+	 T7FXM5+nSB0jYdhZTLo31IdE7SB+RghmlE4ys3ZGpPSA/sv6b9cu0fR9sZcW+LLT4X
+	 F/wGmSh/AxnEuakZsr7pe0fT9KVyvRexuf5QKRYpjFPNv76jMruuDrgO5bW2m9lAnp
+	 L3F9YnZ4smPRugvULJM0GlPiR/FY18bHWqX4uZqIgOYNprMlmTBBH5pUvs2s+lDWxJ
+	 BG3rEMUdIv5mPGJzpjd0+uh2Ods/zwKwL81BPm95/lMTa/ayWs9xbvRgW6wggUoNHf
+	 I/j5E0HP35iNw==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Alexandre Mergnat <amergnat@baylibre.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: [PATCH] ASoC: mediatek: mt8365: include linux/bitfield.h
+Date: Sun,  8 Sep 2024 22:17:34 +0000
+Message-Id: <20240908221754.2210857-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Tang Bin <tangbin@cmss.chinamobile.com>, linux-sound@vger.kernel.org,
- Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-References: <20240903090620.6276-1-tangbin@cmss.chinamobile.com>
-Subject: Re: [PATCH] ASoC: loongson: fix error release
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240903090620.6276-1-tangbin@cmss.chinamobile.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:uDZPp5733zwM6Ntgj36NoUvI6s75st25UrROQzyw8o3fQrGYNEv
- 8XIsBgul65pBTvXwuPOmZbXlSxInwxDu05tY5PSo3lRYKUrqjN8rMs7NX4UuAfS7dOjdS6J
- K0p2PJc0D4P3rx3y+B7mO7qB1cO7S2YhA+95uXX1B4nMx6Xofv6IUJQIA9OQ/4rCvHCuCcu
- SA4GfnaSR1Y3OZnJdEpNw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:P+OeBumc19I=;DC7c0nkt0H2Id3M2+DrKc+CYMua
- Zr05QnR62+pzxlRN4ptXNpeGg5B9nkODnBGDVrZFueZuHdpsCAxG7QuEBCCIEdWj8sz/AcgV8
- mKywAAtd3F0MWhz8MGaLjVBaGjAvfbkLC+OqBn3mH5P5oxK0Dd/Cov6mf/k3RtvjYeyMw3yVx
- Dwo0R5eqvuBOtd7hEJRTuQ4czFEyAeBAklmIg8nBG2dyfeMYQ2uV8KnYW1RONjNrtGRlxeQoO
- +TRVeAGNJuZzLHw5o5QZ0AC/cvOsIzymJT4KA33CGlDdUe7HWVC//jYgIbTUjlW22iT9npf5b
- XXWCkAtCEp6Ty66ExlGX3ftH4/1YO9P2SeRwG5YeF5wL4BDqAKQCghzkY95+mweKKMfRQK+P/
- VueSQrDyNjZpDx7YOKdDICYTMjFkbcMg/qbuRdozmjGDrfVYHKQ3OhRR+Tp7kleezuny8jzcR
- Y1j6ftgbJKl2wtmmIRvANTLNJRhyWG2YNGDB9W9KO7LUBr5oFWKSOP+W4POc+Bmh5GJgOfal4
- HUgB7hTZQIXnvTbyvBOWjHBAkdPrYgjB5f5GldDmR5yauGfpGRUgs+1xdZqsDz0JcgRGHVL8Q
- vhLq4YRydiwd9lYJAJu7HYl188UnoadKWrgNRXQE0Awx7ENX4tAAHe6sHuWS6d8EK8gQ1FpeG
- dp8aoMTYxvS2RQJWl4IDXgFv1GAAqVaccXXWwMMfX5OQtAJMMxzb23nkiStsouZCdBZIpKp98
- Fo6NqJ+VpqfeiNlnDReSRm3Q1AH1aIgPfGsAFf8sVqfx2hZgf+MyTvPGnwJflNkyALs16sUCE
- klRz2l9e5y3+hot6Qis8e0bw==
+Content-Transfer-Encoding: 8bit
 
-> In function loongson_card_parse_of(), when get device_node
+From: Arnd Bergmann <arnd@arndb.de>
 
-                                                 device node?
+On x86, the header is not already included implicitly,
+breaking compile-testing:
 
+In file included from sound/soc/mediatek/mt8365/mt8365-afe-common.h:19,
+                 from sound/soc/mediatek/mt8365/mt8365-afe-pcm.c:18:
+sound/soc/mediatek/mt8365/mt8365-afe-pcm.c: In function 'mt8365_afe_cm2_mux_conn':
+sound/soc/mediatek/mt8365/mt8365-reg.h:952:41: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+  952 | #define CM2_AFE_CM2_CONN_CFG1(x)        FIELD_PREP(CM2_AFE_CM2_CONN_CFG1_MASK, (x))
+      |                                         ^~~~~~~~~~
 
-> 'codec' failed, the function of_node_put(codec) should not
-> be invoked, thus fix error release.
+Included it ahead of the field definitions.
 
-                       exception handling?
+Fixes: 38c7c9ddc740 ("ASoC: mediatek: mt8365: Add common header")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
 
-How do you think about to increase the application of scope-based resource=
- management?
+This started happening after I applied "ASoC: mt8365: Allow build coverage".
+---
+ sound/soc/mediatek/mt8365/mt8365-reg.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
+diff --git a/sound/soc/mediatek/mt8365/mt8365-reg.h b/sound/soc/mediatek/mt8365/mt8365-reg.h
+index b763cddc93db..4ebbb94ff02e 100644
+--- a/sound/soc/mediatek/mt8365/mt8365-reg.h
++++ b/sound/soc/mediatek/mt8365/mt8365-reg.h
+@@ -10,6 +10,8 @@
+ #ifndef _MT8365_REG_H_
+ #define _MT8365_REG_H_
+ 
++#include <linux/bitfield.h>
++
+ #define AUDIO_TOP_CON0			(0x0000)
+ #define AUDIO_TOP_CON1			(0x0004)
+ #define AUDIO_TOP_CON2			(0x0008)
+-- 
+2.39.2
 
-=E2=80=A6
-> Signed-off-by: tangbin <tangbin@cmss.chinamobile.com>
-
-Is an other personal name preferred here according to the Developer's Cert=
-ificate of Origin?
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/submitting-patches.rst?h=3Dv6.11-rc6#n396
-
-Regards,
-Markus
