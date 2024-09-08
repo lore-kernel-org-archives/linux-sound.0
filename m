@@ -1,86 +1,90 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 955FA4D8CB
-	for <linux-sound@vger.kernel.org>; Sun,  8 Sep 2024 07:40:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D62F41B85F2;
+	Sun,  8 Sep 2024 07:47:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725781245; cv=none; b=iB14c43S/RKUesaJLHybpXLBcR6cTTHedkg/avkOdPF1ajpTFjNCelNL9EAQ2zX16v5EpwCnFOEktekzdhxOB6j4NvxxnSELJQEkDILsSVcE2IHXZorsdnKWuXr2GgYi4NnItx9r8Zm+Yzcxpxxrm913H4biONgjk76+8tBE/pk=
+	t=1725781655; cv=none; b=kMZqYFbWkz98nslpxB3b6pNYq/zrd1t2FHDNzfPuyNa/QRjmYZgFfck78rAOF/0TyrVRcLDL3yMG5U05jg5w7caOnwXgv6L7HoWn+MRyOrJ2xPf0FYSxjenKqRVjNlRrFCxpSl+r21vhhTlqAxreBQVezcsgZRViKSB9oBZUdoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725781245; c=relaxed/simple;
-	bh=F2bpqOPO5F7p+9L1fIGOnKlkW/hs29BQXzxVssx5sSY=;
+	s=arc-20240116; t=1725781655; c=relaxed/simple;
+	bh=5UehFWUt0K1BUTxNcW1HJjuI3+130MQpcU47klPxKzs=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pUyTJPBOPaJqYojNWenUt7q2mLUkHlifsgjVaHapLPqCKy5LT5aBdpE6B5OtCaCAf64e6HuTmW/chriAlWn+csxC4TNxxQ0/BVJAeKsFFHQNrpEO9c7daLrQZy0/ZPizCfECdH2eIAWaUlqE4DCe1L2N5kZ9m2zMZhaFDT8vlUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0C2tgA0+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/vd+ANTq; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0C2tgA0+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/vd+ANTq; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=HrxyiOknC6qyJpfLOvbFb0WAasjoHBnumoxM41QcTPehbv+MCuAmXxpB/D5CUqBSsgw4o0Plo4DSVwjniBFPHtczADD4kQeFokpqXZq1yNYzz+MB7supmCu1yTZaUZ4Dp7uaWEhgbKyivL1Lz5A9hkTlLUzMqseaAtN4aWoWyk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kvkWWxAI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hU6AsOxY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fVTVBvg3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KmRQ4qlH; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0C2tgA0+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/vd+ANTq";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0C2tgA0+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/vd+ANTq"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kvkWWxAI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hU6AsOxY";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fVTVBvg3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KmRQ4qlH"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 83FEF21B7C;
-	Sun,  8 Sep 2024 07:40:40 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8F3E31F7C6;
+	Sun,  8 Sep 2024 07:47:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1725781240; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1725781651; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gygF9J8oSeRsdSAii7gx6zvx1xUvw72rZKgbc2Y6LoE=;
-	b=0C2tgA0++2TWCqxeVdCtl3NDybaeRg7/rYoIV8SqFgA9ahILBIucsJHnb+pLZ1JDqh7thK
-	lwWV9wAbIZXWHTWhbnusVPtnRX9fyaPvIrOpIeRH8JarQi64yVu34tfrSTlsrwNycBHrTX
-	J6pU8iAkI9wLOxgbrGhqqfhxIDOCo2c=
+	bh=CsuLdmXzISZat7fXiN0cO6Jl6Y+DuzGQh+JMXsuwMQs=;
+	b=kvkWWxAIQtXtbW+7KEjxmGXWCNwbaeBUjRl8co3w4mRWNzEtM73Fgw2mwd5/7F+bUQA+Za
+	3jEKuQdrXfh3ezCdwEIcHxqtQ0JyMLU0B8mi5uy1ZQnbv9OtGfx6aEkWA8M181mudid7TN
+	b0OUN5Bo96BsAJHKUiZXX0pK4RkYM0U=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1725781240;
+	s=susede2_ed25519; t=1725781651;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gygF9J8oSeRsdSAii7gx6zvx1xUvw72rZKgbc2Y6LoE=;
-	b=/vd+ANTqplySXInZAqZnPFCPS8SOcob9iIHD8wC/zCBWN748r+aJBlkE8RwEiIPnWO02il
-	484lM2MYnl0zmdDQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=0C2tgA0+;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="/vd+ANTq"
+	bh=CsuLdmXzISZat7fXiN0cO6Jl6Y+DuzGQh+JMXsuwMQs=;
+	b=hU6AsOxYfeGzW1n9bMff5iccBe+0/lzKu62xMcURQ2YKHynYxEhqRobqKCIi1kYSPjTnDw
+	IicdF5OYy3ddtDBw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=fVTVBvg3;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=KmRQ4qlH
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1725781240; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1725781650; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gygF9J8oSeRsdSAii7gx6zvx1xUvw72rZKgbc2Y6LoE=;
-	b=0C2tgA0++2TWCqxeVdCtl3NDybaeRg7/rYoIV8SqFgA9ahILBIucsJHnb+pLZ1JDqh7thK
-	lwWV9wAbIZXWHTWhbnusVPtnRX9fyaPvIrOpIeRH8JarQi64yVu34tfrSTlsrwNycBHrTX
-	J6pU8iAkI9wLOxgbrGhqqfhxIDOCo2c=
+	bh=CsuLdmXzISZat7fXiN0cO6Jl6Y+DuzGQh+JMXsuwMQs=;
+	b=fVTVBvg3l/x8eIGBrIlWEX5ETb2u5rKpH+Wi5CZVd6eALBeXg6RD6QrOLuuJIjXZhiooo4
+	IqECBJ/f0iVCgUvFEQ4BT30wt9zXNciiHX98dzfsVTvxeacScVCtWfEeNczatB7TZmKCjR
+	4KS3dcv4ja2sLPW5XJIB6LAfd2l2BoM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1725781240;
+	s=susede2_ed25519; t=1725781650;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gygF9J8oSeRsdSAii7gx6zvx1xUvw72rZKgbc2Y6LoE=;
-	b=/vd+ANTqplySXInZAqZnPFCPS8SOcob9iIHD8wC/zCBWN748r+aJBlkE8RwEiIPnWO02il
-	484lM2MYnl0zmdDQ==
+	bh=CsuLdmXzISZat7fXiN0cO6Jl6Y+DuzGQh+JMXsuwMQs=;
+	b=KmRQ4qlHuxcYFgD8wX2WyP/nJNZcred/67/PVXZ1nx5SbWfj4+w0GgDoIX5poUMl6bvkJA
+	RYIAvLiDHWYhNSDA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5375013ADE;
-	Sun,  8 Sep 2024 07:40:40 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4A06A13ADE;
+	Sun,  8 Sep 2024 07:47:30 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Im+FEvhU3WYQBQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 08 Sep 2024 07:40:40 +0000
-Date: Sun, 08 Sep 2024 09:41:27 +0200
-Message-ID: <87a5gid23c.wl-tiwai@suse.de>
+	id pvVUEJJW3WbOBgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 08 Sep 2024 07:47:30 +0000
+Date: Sun, 08 Sep 2024 09:48:17 +0200
+Message-ID: <878qw2d1ry.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: He Lugang <helugang@uniontech.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	kuninori.morimoto.gx@renesas.com,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ALSA:rme9652:remove unused parameter in macro
-In-Reply-To: <F53E9F10DA24705D+20240907142854.17627-1-helugang@uniontech.com>
-References: <F53E9F10DA24705D+20240907142854.17627-1-helugang@uniontech.com>
+To: Joshua Pius <joshuapius@chromium.org>
+Cc: alsa-devel@alsa-project.org,
+	Joshua Pius <joshuapius@google.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	"Steven 'Steve' Kendall" <skend@chromium.org>,
+	Karol Kosik <k.kosik@outlook.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: usb-audio: Add logitech Audio profile quirk
+In-Reply-To: <20240906211445.3924724-1-joshuapius@google.com>
+References: <20240906211445.3924724-1-joshuapius@google.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -89,44 +93,84 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 83FEF21B7C
-X-Spam-Score: -3.51
-X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 8F3E31F7C6
+X-Spam-Level: 
 X-Spamd-Result: default: False [-3.51 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[outlook.com];
+	FREEMAIL_CC(0.00)[alsa-project.org,google.com,perex.cz,suse.com,chromium.org,outlook.com,vger.kernel.org];
 	RCVD_TLS_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
 	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	DKIM_TRACE(0.00)[suse.de:+];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
 X-Spam-Flag: NO
-X-Spam-Level: 
 
-On Sat, 07 Sep 2024 16:28:54 +0200,
-He Lugang wrote:
+On Fri, 06 Sep 2024 23:14:38 +0200,
+Joshua Pius wrote:
 > 
-> Parameter xindex is not used in macro HDSPM_TCO_LTC_FRAMES and
-> HDSPM_TCO_VIDEO_INPUT_FORMAT,so just remove it to simplify the code.
+> Specify shortnames for the following Logitech Devices: Rally bar, Rally
+> bar mini, Tap, MeetUp and Huddle.
 > 
-> Signed-off-by: He Lugang <helugang@uniontech.com>
+> Signed-off-by: Joshua Pius <joshuapius@google.com>
 
-Thanks, applied now.
+Is this change needed only for UCM profiles?  UCM v2 should be able to
+handle better to identify models, and such short name updates aren't
+needed for them.
 
+OTOH, I don't mind much to take this kind of small harmless changes
+(unless it happens too frequently).  So I'll likely take this, but
+just for verifying the situation.
+
+
+thanks,
 
 Takashi
+
+
+> ---
+>  sound/usb/card.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/sound/usb/card.c b/sound/usb/card.c
+> index 778de9244f1e..9c411b82a218 100644
+> --- a/sound/usb/card.c
+> +++ b/sound/usb/card.c
+> @@ -384,6 +384,12 @@ static const struct usb_audio_device_name usb_audio_names[] = {
+>  	/* Creative/Toshiba Multimedia Center SB-0500 */
+>  	DEVICE_NAME(0x041e, 0x3048, "Toshiba", "SB-0500"),
+>  
+> +	/* Logitech Audio Devices */
+> +	DEVICE_NAME(0x046d, 0x0867, "Logitech, Inc.", "Logi-MeetUp"),
+> +	DEVICE_NAME(0x046d, 0x0874, "Logitech, Inc.", "Logi-Tap-Audio"),
+> +	DEVICE_NAME(0x046d, 0x087c, "Logitech, Inc.", "Logi-Huddle"),
+> +	DEVICE_NAME(0x046d, 0x0898, "Logitech, Inc.", "Logi-RB-Audio"),
+> +	DEVICE_NAME(0x046d, 0x08d2, "Logitech, Inc.", "Logi-RBM-Audio"),
+>  	DEVICE_NAME(0x046d, 0x0990, "Logitech, Inc.", "QuickCam Pro 9000"),
+>  
+>  	DEVICE_NAME(0x05e1, 0x0408, "Syntek", "STK1160"),
+> -- 
+> 2.46.0.598.g6f2099f65c-goog
+> 
