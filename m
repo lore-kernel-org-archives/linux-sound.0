@@ -1,126 +1,132 @@
-Received: from fout2-smtp.messagingengine.com (fout2-smtp.messagingengine.com [103.168.172.145])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A783629D19;
-	Sun,  8 Sep 2024 04:05:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 955FA4D8CB
+	for <linux-sound@vger.kernel.org>; Sun,  8 Sep 2024 07:40:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725768359; cv=none; b=A8zQv331AeIgVTjwBN0FcbbNCuTFxSbajALfiB9foici+/6YC0dUCE9DPQS7aIZXuZ+QqTKfO33xoFtCfBZ1Sqi6afel/R8r3VyweA28UKGao96kZAYE1RJHhWtbqwb0UE3lpG/yHJ7FIf4bUh7dXoX4OevE77Y2HD7x26GsX+I=
+	t=1725781245; cv=none; b=iB14c43S/RKUesaJLHybpXLBcR6cTTHedkg/avkOdPF1ajpTFjNCelNL9EAQ2zX16v5EpwCnFOEktekzdhxOB6j4NvxxnSELJQEkDILsSVcE2IHXZorsdnKWuXr2GgYi4NnItx9r8Zm+Yzcxpxxrm913H4biONgjk76+8tBE/pk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725768359; c=relaxed/simple;
-	bh=ZX3+HkeTf3IDOyCdWnmGLRu2Y1CXaszCrkxBkeSgqyY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QpjZa7cUFxWeDw3ar6g/Rcvu7G9TI4AaB1P7gkmIZXRNRi4395XPBTuMmWe9+Pene05moaFMqZ488e0VFuK078M6EwhnUAvdhmYR9whZLZpBLrBDWBzFg4OQXvUcQfvoU0NA/2cLFZmLkfSj7+sBCrs9UDvLdT34GeMgKbR8Ae4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=cQKJtZXJ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=BI6uAxry; arc=none smtp.client-ip=103.168.172.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
+	s=arc-20240116; t=1725781245; c=relaxed/simple;
+	bh=F2bpqOPO5F7p+9L1fIGOnKlkW/hs29BQXzxVssx5sSY=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pUyTJPBOPaJqYojNWenUt7q2mLUkHlifsgjVaHapLPqCKy5LT5aBdpE6B5OtCaCAf64e6HuTmW/chriAlWn+csxC4TNxxQ0/BVJAeKsFFHQNrpEO9c7daLrQZy0/ZPizCfECdH2eIAWaUlqE4DCe1L2N5kZ9m2zMZhaFDT8vlUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0C2tgA0+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/vd+ANTq; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0C2tgA0+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/vd+ANTq; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="cQKJtZXJ";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="BI6uAxry"
-Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
-	by mailfout.phl.internal (Postfix) with ESMTP id D3A8D13802A2;
-	Sun,  8 Sep 2024 00:05:56 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-09.internal (MEProxy); Sun, 08 Sep 2024 00:05:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
-	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
-	:from:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1725768356; x=
-	1725854756; bh=g3rVD5AMlaA9gk9eYXsId57UmfOtU4hWVY6wnZR27GA=; b=c
-	QKJtZXJVfBhH88DEnrt3ibxpI4iMC/52cmJ/tYqis6dXH9WrNWomXW/yaMKjZMZ4
-	3xBj4dS8Szyd6OIiD4phP4T5H+holYErWY1EXyTc69cDvIUsld8ka/CzuvO8ehM3
-	JFlBugPverI0lOazy+RoOlMaCTUKOijk9cJQo83GrMQFBVS51Y0YeHMZAvyMKPU6
-	K6+Lk6Um3anOqiuZJBDEsCNWvwQwWGhi2ka13001ZrcbaMTaVhEARbS0UkmIyXgq
-	JF2nwokCRJghCK0mZNBrrs11RIoEpGskrQQbYIpPJdjz0j4LySjD/l7zGx7JMJ+G
-	OtwTLkHM11JDwGNVJ8y+Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1725768356; x=
-	1725854756; bh=g3rVD5AMlaA9gk9eYXsId57UmfOtU4hWVY6wnZR27GA=; b=B
-	I6uAxrygoNzOunL6IUC00vJAsU2GItBvlfqpOEkLB+EgbvlwUDDmKWd9byYaP9na
-	XplNlhuT3hpfaTgknTrABiEqIS58e6qxKLZ8Kzxx6UavaVquOGG3ZA3L1tEYGFXi
-	SdgtxmJbC3kijUxzrf8Ox7f5YY4pXekdqpMod7pxzluIy9lL0vHB26Xjqlysd/7E
-	6yNm+VaVm5VZbD+/NcHT0N1GgJOSU+FqAYnpWn2tCmSxbqmRI8D3OtCOWSWBiEg1
-	cv81Hu7V53MWlRR7nQBH4qazuqrjK67ycF1b5/o6863Dl86QOqeRjZhFJHXI2roW
-	5ZAJIeDlm/PSAzO2N3rGg==
-X-ME-Sender: <xms:pCLdZmXsoB3KIgzKOK9E45cycsjYdHkITIZOvgPJgbgtqK7TFuikrQ>
-    <xme:pCLdZimB-fzz5EMdz5lDssOsMvmTWa4FvncuztpTJ6pSXZVDoWrbK4-HOV7OnqKQe
-    drCbfLMBZgS68n1YYE>
-X-ME-Received: <xmr:pCLdZqYsc3cPk55IIr0UPlfoBq4JSzLfHsPKBt__Tgb9kRmbc4oClZfO1WB0JdGpmpGh8_RguvUchsWZQ2y6woUAhRkldGTC6AtfvZX8h8aDeg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudeigedgjeelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevuf
-    ffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefvrghkrghshhhiucfurghkrghm
-    ohhtohcuoehoqdhtrghkrghshhhisehsrghkrghmohgttghhihdrjhhpqeenucggtffrrg
-    htthgvrhhnpedvjefgjeeuvdfguddukeelveetgfdtvefhtdfffeeigfevueetffeivdff
-    kedvtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hoqdhtrghkrghshhhisehsrghkrghmohgttghhihdrjhhppdhnsggprhgtphhtthhopeef
-    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehlihhnuhigudefleegqdguvghvvg
-    hlsehlihhsthhsrdhsohhurhgtvghfohhrghgvrdhnvghtpdhrtghpthhtoheplhhinhhu
-    gidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinh
-    hugidqshhouhhnugesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:pCLdZtWSErjzNIk48F6WO2J5fAtNMTSfDzxUnSxN57TOr9okgJH6zg>
-    <xmx:pCLdZgmnc14IyNC8AJiVjfxrkTjHKkREh5tgoZ-9rAZSZZU5Z6_-Dg>
-    <xmx:pCLdZifRgmqCb1F9s6yNAgu-GnOdCggqQaYnEmdGK78MthuOGnf0RQ>
-    <xmx:pCLdZiGpLfbV7T2YKWA1vk19pYfT1hAOUWnL_IRluy7mWqsjUxrx_w>
-    <xmx:pCLdZqiUD1QgWteANhR-et8TbkBLPTPw9ftHE8uEmoXoeeXkLQZVfQXZ>
-Feedback-ID: ie8e14432:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 8 Sep 2024 00:05:55 -0400 (EDT)
-From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-To: linux1394-devel@lists.sourceforge.net
-Cc: linux-kernel@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0C2tgA0+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/vd+ANTq";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0C2tgA0+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/vd+ANTq"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 83FEF21B7C;
+	Sun,  8 Sep 2024 07:40:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1725781240; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gygF9J8oSeRsdSAii7gx6zvx1xUvw72rZKgbc2Y6LoE=;
+	b=0C2tgA0++2TWCqxeVdCtl3NDybaeRg7/rYoIV8SqFgA9ahILBIucsJHnb+pLZ1JDqh7thK
+	lwWV9wAbIZXWHTWhbnusVPtnRX9fyaPvIrOpIeRH8JarQi64yVu34tfrSTlsrwNycBHrTX
+	J6pU8iAkI9wLOxgbrGhqqfhxIDOCo2c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1725781240;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gygF9J8oSeRsdSAii7gx6zvx1xUvw72rZKgbc2Y6LoE=;
+	b=/vd+ANTqplySXInZAqZnPFCPS8SOcob9iIHD8wC/zCBWN748r+aJBlkE8RwEiIPnWO02il
+	484lM2MYnl0zmdDQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=0C2tgA0+;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="/vd+ANTq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1725781240; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gygF9J8oSeRsdSAii7gx6zvx1xUvw72rZKgbc2Y6LoE=;
+	b=0C2tgA0++2TWCqxeVdCtl3NDybaeRg7/rYoIV8SqFgA9ahILBIucsJHnb+pLZ1JDqh7thK
+	lwWV9wAbIZXWHTWhbnusVPtnRX9fyaPvIrOpIeRH8JarQi64yVu34tfrSTlsrwNycBHrTX
+	J6pU8iAkI9wLOxgbrGhqqfhxIDOCo2c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1725781240;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gygF9J8oSeRsdSAii7gx6zvx1xUvw72rZKgbc2Y6LoE=;
+	b=/vd+ANTqplySXInZAqZnPFCPS8SOcob9iIHD8wC/zCBWN748r+aJBlkE8RwEiIPnWO02il
+	484lM2MYnl0zmdDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5375013ADE;
+	Sun,  8 Sep 2024 07:40:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Im+FEvhU3WYQBQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 08 Sep 2024 07:40:40 +0000
+Date: Sun, 08 Sep 2024 09:41:27 +0200
+Message-ID: <87a5gid23c.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: He Lugang <helugang@uniontech.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	kuninori.morimoto.gx@renesas.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH 2/2] firewire: core: fulfill documentation of fw_iso_context_flush_completions()
-Date: Sun,  8 Sep 2024 13:05:49 +0900
-Message-ID: <20240908040549.75304-3-o-takashi@sakamocchi.jp>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240908040549.75304-1-o-takashi@sakamocchi.jp>
-References: <20240908040549.75304-1-o-takashi@sakamocchi.jp>
+Subject: Re: [PATCH] ALSA:rme9652:remove unused parameter in macro
+In-Reply-To: <F53E9F10DA24705D+20240907142854.17627-1-helugang@uniontech.com>
+References: <F53E9F10DA24705D+20240907142854.17627-1-helugang@uniontech.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 83FEF21B7C
+X-Spam-Score: -3.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-The fw_iso_context_flush_completions() is the counterpart of
-fw_iso_context_schedule_work() to process isochronous context in current
-process context.
+On Sat, 07 Sep 2024 16:28:54 +0200,
+He Lugang wrote:
+> 
+> Parameter xindex is not used in macro HDSPM_TCO_LTC_FRAMES and
+> HDSPM_TCO_VIDEO_INPUT_FORMAT,so just remove it to simplify the code.
+> 
+> Signed-off-by: He Lugang <helugang@uniontech.com>
 
-This commit fulfills its documentation.
+Thanks, applied now.
 
-Signed-off-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
----
- drivers/firewire/core-iso.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/firewire/core-iso.c b/drivers/firewire/core-iso.c
-index a249974a0f87..f2394f3ed194 100644
---- a/drivers/firewire/core-iso.c
-+++ b/drivers/firewire/core-iso.c
-@@ -209,6 +209,17 @@ void fw_iso_context_queue_flush(struct fw_iso_context *ctx)
- }
- EXPORT_SYMBOL(fw_iso_context_queue_flush);
- 
-+/**
-+ * fw_iso_context_flush_completions() - process isochronous context in current process context.
-+ * @ctx: the isochronous context
-+ *
-+ * Process the isochronous context in the current process context. The registered callback function
-+ * is called if some packets have been already transferred since the last time. If it is required
-+ * to process the context asynchronously, fw_iso_context_schedule_flush_completions() is available
-+ * instead.
-+ *
-+ * Context: Process context. May sleep due to disable_work_sync().
-+ */
- int fw_iso_context_flush_completions(struct fw_iso_context *ctx)
- {
- 	int err;
--- 
-2.43.0
-
+Takashi
