@@ -1,23 +1,23 @@
 Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC6F01AE851
-	for <linux-sound@vger.kernel.org>; Mon,  9 Sep 2024 07:19:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B2331AD9D3
+	for <linux-sound@vger.kernel.org>; Mon,  9 Sep 2024 07:19:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725866376; cv=none; b=sH/mbbKctt8cR0Hd6TEfD49TnkkP7hAlZkGVpgFlEb+Yyekq1sXqYkVtvOCWZw+eXvgPdijyxEscu9kDT2GoCR6wrq0W7YSTpqTAZ3AHUUNz0xgDiWFGuemu54DEpo2V7jssdmaaUbMorKWOecPYVJjreAnrgPu3sjPOKos9OaA=
+	t=1725866377; cv=none; b=Fc0t3ZHIEHXsJURQPZBQHbhbguaH067jGE4yh7/SMWFW+JjsO7oCP2TtdGexT0lFjNAOcqJq7uQy8OvffVTlhGBZWVC+I9sg+3S1/jYtCfK93zuLlljzEFuXtrLUUULivRizgo9qX4r19OZYBZ37G2c/JB0M3WZKkuvHf4nuWss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725866376; c=relaxed/simple;
-	bh=JOihXydgq/u5KySnotZr30ye8vsBrNJSf5ayFV6Z/BE=;
+	s=arc-20240116; t=1725866377; c=relaxed/simple;
+	bh=4v1hNFa8gP8yNSkPi4WvZqpiFm1g6Ql57CTLvLNJSAU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CpVkmEb71takhnBW559YZI6brQTiOlKh/7mrUUQi2ntHGmS7c5e1ZSLwwINlmEXZrJhKRKaSYLZfJWshlJtx1JhygH6xUjWCgLnjICvAJURVu2UJPRv/4oWGugqMKN3+IQN6HC5m3kaCEqr88DSEhVHry62xzaQIa5Qm95CgJcc=
+	 MIME-Version; b=BD0Eta3t3u6mNqkQkV/3jlRH5selj7o01JrbcNNgodWYBRn0Prz8bqfcywtdY8iTaAO8s7NJCvMF0j70PDrVKv2Pxm02Sf0lchItVLM6kh4mr+FPFY5mOEAYHbsYb97/8dWnoRbbbqLQ4JheHIt5BXnJsm/WgLMTWQzeLptgdcA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
 Received: from loongson.cn (unknown [223.64.68.147])
-	by gateway (Coremail) with SMTP id _____8CxjeqEod5mCJkCAA--.6721S3;
-	Mon, 09 Sep 2024 15:19:32 +0800 (CST)
+	by gateway (Coremail) with SMTP id _____8DxG+qFod5mE5kCAA--.6093S3;
+	Mon, 09 Sep 2024 15:19:33 +0800 (CST)
 Received: from localhost.localdomain (unknown [223.64.68.147])
-	by front1 (Coremail) with SMTP id qMiowMCxodZ+od5mqyoCAA--.12416S4;
-	Mon, 09 Sep 2024 15:19:31 +0800 (CST)
+	by front1 (Coremail) with SMTP id qMiowMCxodZ+od5mqyoCAA--.12416S5;
+	Mon, 09 Sep 2024 15:19:32 +0800 (CST)
 From: Binbin Zhou <zhoubinbin@loongson.cn>
 To: Binbin Zhou <zhoubb.aaron@gmail.com>,
 	Huacai Chen <chenhuacai@loongson.cn>,
@@ -34,9 +34,9 @@ Cc: Huacai Chen <chenhuacai@kernel.org>,
 	Xuerui Wang <kernel@xen0n.name>,
 	loongarch@lists.linux.dev,
 	Binbin Zhou <zhoubinbin@loongson.cn>
-Subject: [PATCH v1 2/8] ASoC: loongson: Simplify probe() with local dev variable
-Date: Mon,  9 Sep 2024 15:19:06 +0800
-Message-ID: <1984a20930da515e2a478b02159f83c02498f6be.1725844530.git.zhoubinbin@loongson.cn>
+Subject: [PATCH v1 3/8] ASoC: loongson: Simplify with dev_err_probe()
+Date: Mon,  9 Sep 2024 15:19:07 +0800
+Message-ID: <07855aa6c290ec826d63e68b898e7f4afac5e30d.1725844530.git.zhoubinbin@loongson.cn>
 X-Mailer: git-send-email 2.43.5
 In-Reply-To: <cover.1725844530.git.zhoubinbin@loongson.cn>
 References: <cover.1725844530.git.zhoubinbin@loongson.cn>
@@ -47,176 +47,134 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowMCxodZ+od5mqyoCAA--.12416S4
+X-CM-TRANSID:qMiowMCxodZ+od5mqyoCAA--.12416S5
 X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/
-X-Coremail-Antispam: 1Uk129KBj93XoW3WrWDWF1kKw4DtF1DurWUZFc_yoW7Wr18pr
-	9xAayYgr17Xr1fZry5JrWrA3WYyryxua1xXa17G3s7Kr9IyrsYgrWfGF1jyFWFkF95CayD
-	XryUGay0kF1DuabCm3ZEXasCq-sJn29KB7ZKAUJUUUUf529EdanIXcx71UUUUU7KY7ZEXa
+X-Coremail-Antispam: 1Uk129KBj93XoWxAr17GF45AFWDCr1DXryxJFc_yoWrGryUpr
+	ZxJay3KryrXF1fZ343Jr48AF1Yyry7ZayxXa1xJw1xtr9xArn0g3y3GF4IvayFkFWUX34U
+	X348Way8Ca17WFcCm3ZEXasCq-sJn29KB7ZKAUJUUUUD529EdanIXcx71UUUUU7KY7ZEXa
 	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUBIb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
-	xVW8Jr0_Cr1UM2kKe7AKxVWUAVWUtwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
-	AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
-	tVWrXwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7V
-	AKI48JMxkF7I0En4kS14v26r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY
-	6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
-	xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xII
-	jxv20xvE14v26ryj6F1UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw2
-	0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x02
-	67AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8KNt3UUUUU==
+	0xBIdaVrnRJUUUBab4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAF
+	wI0_Gr1j6F4UJwAaw2AFwI0_JF0_Jw1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2
+	xF0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_
+	Wrv_ZF1lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x
+	0EwIxGrwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkE
+	bVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E74
+	80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0
+	I7IYx2IY67AKxVW5JVW7JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04
+	k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7Cj
+	xVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jfHUhUUUUU=
 
-Simplify the probe() function by using local 'dev' instead of
-&pdev->dev.
+Error handling in probe() can be a bit simpler with dev_err_probe().
 
 Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
 ---
- sound/soc/loongson/loongson_card.c    | 17 ++++++++-------
- sound/soc/loongson/loongson_i2s_pci.c | 30 +++++++++++++--------------
- 2 files changed, 24 insertions(+), 23 deletions(-)
+ sound/soc/loongson/loongson_card.c    | 23 ++++++++-----------
+ sound/soc/loongson/loongson_i2s_pci.c | 33 ++++++++++-----------------
+ 2 files changed, 21 insertions(+), 35 deletions(-)
 
 diff --git a/sound/soc/loongson/loongson_card.c b/sound/soc/loongson/loongson_card.c
-index 4d511b7589d0..d3cd23ddd027 100644
+index d3cd23ddd027..f0ed4508f38a 100644
 --- a/sound/soc/loongson/loongson_card.c
 +++ b/sound/soc/loongson/loongson_card.c
-@@ -159,40 +159,41 @@ static int loongson_card_parse_of(struct loongson_card_data *data)
- static int loongson_asoc_card_probe(struct platform_device *pdev)
- {
- 	struct loongson_card_data *ls_priv;
-+	struct device *dev = &pdev->dev;
- 	struct snd_soc_card *card;
- 	int ret;
- 
--	ls_priv = devm_kzalloc(&pdev->dev, sizeof(*ls_priv), GFP_KERNEL);
-+	ls_priv = devm_kzalloc(dev, sizeof(*ls_priv), GFP_KERNEL);
- 	if (!ls_priv)
- 		return -ENOMEM;
- 
- 	card = &ls_priv->snd_card;
- 
--	card->dev = &pdev->dev;
-+	card->dev = dev;
- 	card->owner = THIS_MODULE;
- 	card->dai_link = loongson_dai_links;
- 	card->num_links = ARRAY_SIZE(loongson_dai_links);
+@@ -176,22 +176,17 @@ static int loongson_asoc_card_probe(struct platform_device *pdev)
  	snd_soc_card_set_drvdata(card, ls_priv);
  
--	ret = device_property_read_string(&pdev->dev, "model", &card->name);
-+	ret = device_property_read_string(dev, "model", &card->name);
- 	if (ret) {
--		dev_err(&pdev->dev, "Error parsing card name: %d\n", ret);
-+		dev_err(dev, "Error parsing card name: %d\n", ret);
- 		return ret;
- 	}
--	ret = device_property_read_u32(&pdev->dev, "mclk-fs", &ls_priv->mclk_fs);
-+	ret = device_property_read_u32(dev, "mclk-fs", &ls_priv->mclk_fs);
- 	if (ret) {
--		dev_err(&pdev->dev, "Error parsing mclk-fs: %d\n", ret);
-+		dev_err(dev, "Error parsing mclk-fs: %d\n", ret);
- 		return ret;
- 	}
+ 	ret = device_property_read_string(dev, "model", &card->name);
+-	if (ret) {
+-		dev_err(dev, "Error parsing card name: %d\n", ret);
+-		return ret;
+-	}
++	if (ret)
++		dev_err_probe(dev, ret, "Error parsing card name\n");
++
+ 	ret = device_property_read_u32(dev, "mclk-fs", &ls_priv->mclk_fs);
+-	if (ret) {
+-		dev_err(dev, "Error parsing mclk-fs: %d\n", ret);
+-		return ret;
+-	}
++	if (ret)
++		dev_err_probe(dev, ret, "Error parsing mclk-fs\n");
  
--	if (has_acpi_companion(&pdev->dev))
-+	if (has_acpi_companion(dev))
- 		ret = loongson_card_parse_acpi(ls_priv);
- 	else
- 		ret = loongson_card_parse_of(ls_priv);
- 	if (ret < 0)
- 		return ret;
+-	if (has_acpi_companion(dev))
+-		ret = loongson_card_parse_acpi(ls_priv);
+-	else
+-		ret = loongson_card_parse_of(ls_priv);
+-	if (ret < 0)
+-		return ret;
++	ret = has_acpi_companion(dev) ? loongson_card_parse_acpi(ls_priv)
++				      : loongson_card_parse_of(ls_priv);
++	if (ret)
++		dev_err_probe(dev, ret, "Error parsing acpi/of properties\n");
  
--	return devm_snd_soc_register_card(&pdev->dev, card);
-+	return devm_snd_soc_register_card(dev, card);
+ 	return devm_snd_soc_register_card(dev, card);
  }
- 
- static const struct of_device_id loongson_asoc_dt_ids[] = {
 diff --git a/sound/soc/loongson/loongson_i2s_pci.c b/sound/soc/loongson/loongson_i2s_pci.c
-index ec18b122cd79..e8ea28bc5a5f 100644
+index e8ea28bc5a5f..3872b1d8fce0 100644
 --- a/sound/soc/loongson/loongson_i2s_pci.c
 +++ b/sound/soc/loongson/loongson_i2s_pci.c
-@@ -75,32 +75,33 @@ static int loongson_i2s_pci_probe(struct pci_dev *pdev,
- {
- 	const struct fwnode_handle *fwnode = pdev->dev.fwnode;
- 	struct loongson_dma_data *tx_data, *rx_data;
-+	struct device *dev = &pdev->dev;
- 	struct loongson_i2s *i2s;
- 	int ret;
- 
- 	if (pcim_enable_device(pdev)) {
--		dev_err(&pdev->dev, "pci_enable_device failed\n");
-+		dev_err(dev, "pci_enable_device failed\n");
- 		return -ENODEV;
- 	}
- 
--	i2s = devm_kzalloc(&pdev->dev, sizeof(*i2s), GFP_KERNEL);
-+	i2s = devm_kzalloc(dev, sizeof(*i2s), GFP_KERNEL);
- 	if (!i2s)
- 		return -ENOMEM;
- 
- 	i2s->rev_id = pdev->revision;
--	i2s->dev = &pdev->dev;
-+	i2s->dev = dev;
- 	pci_set_drvdata(pdev, i2s);
- 
--	ret = pcim_iomap_regions(pdev, 1 << 0, dev_name(&pdev->dev));
-+	ret = pcim_iomap_regions(pdev, 1 << 0, dev_name(dev));
- 	if (ret < 0) {
--		dev_err(&pdev->dev, "iomap_regions failed\n");
-+		dev_err(dev, "iomap_regions failed\n");
+@@ -97,13 +97,12 @@ static int loongson_i2s_pci_probe(struct pci_dev *pdev,
+ 		dev_err(dev, "iomap_regions failed\n");
  		return ret;
  	}
++
  	i2s->reg_base = pcim_iomap_table(pdev)[0];
--	i2s->regmap = devm_regmap_init_mmio(&pdev->dev, i2s->reg_base,
-+	i2s->regmap = devm_regmap_init_mmio(dev, i2s->reg_base,
+ 	i2s->regmap = devm_regmap_init_mmio(dev, i2s->reg_base,
  					    &loongson_i2s_regmap_config);
- 	if (IS_ERR(i2s->regmap)) {
--		dev_err(&pdev->dev, "regmap_init_mmio failed\n");
-+		dev_err(dev, "regmap_init_mmio failed\n");
- 		return PTR_ERR(i2s->regmap);
- 	}
+-	if (IS_ERR(i2s->regmap)) {
+-		dev_err(dev, "regmap_init_mmio failed\n");
+-		return PTR_ERR(i2s->regmap);
+-	}
++	if (IS_ERR(i2s->regmap))
++		dev_err_probe(dev, PTR_ERR(i2s->regmap), "regmap_init_mmio failed\n");
  
-@@ -115,34 +116,33 @@ static int loongson_i2s_pci_probe(struct pci_dev *pdev,
+ 	tx_data = &i2s->tx_dma_data;
+ 	rx_data = &i2s->rx_dma_data;
+@@ -115,22 +114,16 @@ static int loongson_i2s_pci_probe(struct pci_dev *pdev,
+ 	rx_data->order_addr = i2s->reg_base + LS_I2S_RX_ORDER;
  
  	tx_data->irq = fwnode_irq_get_byname(fwnode, "tx");
- 	if (tx_data->irq < 0) {
--		dev_err(&pdev->dev, "dma tx irq invalid\n");
-+		dev_err(dev, "dma tx irq invalid\n");
- 		return tx_data->irq;
- 	}
+-	if (tx_data->irq < 0) {
+-		dev_err(dev, "dma tx irq invalid\n");
+-		return tx_data->irq;
+-	}
++	if (tx_data->irq < 0)
++		dev_err_probe(dev, tx_data->irq, "dma tx irq invalid\n");
  
  	rx_data->irq = fwnode_irq_get_byname(fwnode, "rx");
- 	if (rx_data->irq < 0) {
--		dev_err(&pdev->dev, "dma rx irq invalid\n");
-+		dev_err(dev, "dma rx irq invalid\n");
- 		return rx_data->irq;
- 	}
+-	if (rx_data->irq < 0) {
+-		dev_err(dev, "dma rx irq invalid\n");
+-		return rx_data->irq;
+-	}
++	if (rx_data->irq < 0)
++		dev_err_probe(dev, rx_data->irq, "dma rx irq invalid\n");
  
--	device_property_read_u32(&pdev->dev, "clock-frequency", &i2s->clk_rate);
-+	device_property_read_u32(dev, "clock-frequency", &i2s->clk_rate);
- 	if (!i2s->clk_rate) {
--		dev_err(&pdev->dev, "clock-frequency property invalid\n");
-+		dev_err(dev, "clock-frequency property invalid\n");
- 		return -EINVAL;
- 	}
+-	device_property_read_u32(dev, "clock-frequency", &i2s->clk_rate);
+-	if (!i2s->clk_rate) {
+-		dev_err(dev, "clock-frequency property invalid\n");
+-		return -EINVAL;
+-	}
++	ret = device_property_read_u32(dev, "clock-frequency", &i2s->clk_rate);
++	if (ret)
++		dev_err_probe(dev, ret, "clock-frequency property invalid\n");
  
--	dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
-+	dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64));
+ 	dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64));
  
- 	if (i2s->rev_id == 1) {
- 		regmap_write(i2s->regmap, LS_I2S_CTRL, I2S_CTRL_RESET);
- 		udelay(200);
- 	}
+@@ -141,10 +134,8 @@ static int loongson_i2s_pci_probe(struct pci_dev *pdev,
  
--	ret = devm_snd_soc_register_component(&pdev->dev,
--					      &loongson_i2s_component,
-+	ret = devm_snd_soc_register_component(dev, &loongson_i2s_component,
+ 	ret = devm_snd_soc_register_component(dev, &loongson_i2s_component,
  					      &loongson_i2s_dai, 1);
- 	if (ret) {
--		dev_err(&pdev->dev, "register DAI failed %d\n", ret);
-+		dev_err(dev, "register DAI failed %d\n", ret);
- 		return ret;
- 	}
+-	if (ret) {
+-		dev_err(dev, "register DAI failed %d\n", ret);
+-		return ret;
+-	}
++	if (ret)
++		dev_err_probe(dev, ret, "register DAI failed\n");
  
+ 	return 0;
+ }
 -- 
 2.43.5
 
