@@ -1,88 +1,155 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8C631B5EB0;
-	Mon,  9 Sep 2024 09:45:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 471B91B2519;
+	Mon,  9 Sep 2024 10:02:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725875118; cv=none; b=RTuGP43aVFKrN6yRfdkI+r2GVIE6GbMKGv+w3kiam5UZYFQdHjdFNPJ8hZJLPU++5m+jjgdxwRI1xfdxI8uLsB6unfhjIUMBZ7cpCJCssY1HXnXHY9MCzNCjswFoO6oB2bexFDolPdx98wpTIH3szG6IGbOuldk996MeKUcV5GE=
+	t=1725876181; cv=none; b=Zkei/k8cQeSypQi73kyV2HTcel6x7YVXh81/GYDCZbo+PmSixTwuqadMuPdiNc9vFvVg+BFDKB3P07InrA9Wht3N9/SaJwx1RlneW1tbAqFRnTPgxu9uY9aj2LE+7bNlyWsnyeezCtlyhuXN7Aal5oSdU09iJyeWHebZnsUseLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725875118; c=relaxed/simple;
-	bh=ZXXgZ+ZwjN2IMLT+Ho0SPTqL4Ic9sghs79AQIvchGgs=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=BBYn7yjOU1QPdIIit1ulJutYOnkrGBE5zgSwADylPd7+LvvDRM3x86rAtpfWQYFHmjv3Gg9bQEp4tAX6JKpP34fDySVfYwPA6J7xbb+SR7P9C2hYTtdzWBzTmG1jjnk3+/lG01f5JiRqLRW8NAUDp3m7P4lfIbix6rupDfm+5TI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cmIeQ6Kg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725876181; c=relaxed/simple;
+	bh=QyYTZyx1I3L7IkMpLtaF1TMsnO5dFt99PjD94R3Zaqo=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mMW86wCaeln7NgrDSjMufh2f1NpNMk7MKSjqCtetX0Z08NRDGqcv1CQOs6GiShCGaZeWOPA1Ee9KwA9K6O+0fs99CQB8xcZ/LVJ8WtKAuuKuhcpuNhXAvGE5rD9R1VLKfzGljPQAgUCzyVxI/IVtnDYmFRwjEKSOIyRpdUQIc3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IOkk/kGr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5wD6Xpyx; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IOkk/kGr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5wD6Xpyx; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cmIeQ6Kg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9949C4CECF;
-	Mon,  9 Sep 2024 09:45:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725875117;
-	bh=ZXXgZ+ZwjN2IMLT+Ho0SPTqL4Ic9sghs79AQIvchGgs=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=cmIeQ6KgVCC9T9bknJTrLGj2hUaYoXSUhIG76J9QkfgQ4pS3i9lVkCC0zZb/vLd8U
-	 2czX3nSWZzvlY72ST8lpqej3IXwJCgsB+dE6lnW4O6RAGbimqchkwHw1ShBpTbPUU3
-	 I2r2aJT3H79GHAS7iw57P4jjdvLZy5Uh1Uxl6qiGUQszMhXP+FFRHbHOKSlfno3bSN
-	 +SEYJJYwyiq5TS8yIwvwc9ysqG62CQ72EkS/oaG2t/W6UU6biV1wfsd3GO2BeHY99p
-	 RLghdiiC/7ly+EV1J9Qsmxf5y7ggOLbUuSB5qV8P80aVt7zJu9oi4tXSqEMWWIX1Oh
-	 egJ1VRiy1KugA==
-Date: Mon, 09 Sep 2024 04:45:16 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IOkk/kGr";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5wD6Xpyx";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IOkk/kGr";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5wD6Xpyx"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7B79A1F7AB;
+	Mon,  9 Sep 2024 10:02:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1725876177; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=afWdfk+vDO5vn6q9+J+N/P01T5vWfYx+54v1NaOroSw=;
+	b=IOkk/kGrr+0+GMhHWf21cMY7JS02B52/NC7qn9DdM9y4cwu5WRA9Gk/zMmNHNUamjLCroE
+	n1DET7zmjwD+ziRcV9lVW8797k11cKEBEgia1gQcUP4M5x5Fy2vTOQbUhuA7hF+NRvoSqn
+	ZApNHMuCfnVWO8EMhS3Wm3lKF52F+A0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1725876177;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=afWdfk+vDO5vn6q9+J+N/P01T5vWfYx+54v1NaOroSw=;
+	b=5wD6XpyxpplP5qgslCHGQEOGxbSkXFBrVwFfTgDu62F12s8NUPeANA1A1cmJ/LlxTWc7YO
+	baA4ANQdkihyOnCg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="IOkk/kGr";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=5wD6Xpyx
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1725876177; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=afWdfk+vDO5vn6q9+J+N/P01T5vWfYx+54v1NaOroSw=;
+	b=IOkk/kGrr+0+GMhHWf21cMY7JS02B52/NC7qn9DdM9y4cwu5WRA9Gk/zMmNHNUamjLCroE
+	n1DET7zmjwD+ziRcV9lVW8797k11cKEBEgia1gQcUP4M5x5Fy2vTOQbUhuA7hF+NRvoSqn
+	ZApNHMuCfnVWO8EMhS3Wm3lKF52F+A0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1725876177;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=afWdfk+vDO5vn6q9+J+N/P01T5vWfYx+54v1NaOroSw=;
+	b=5wD6XpyxpplP5qgslCHGQEOGxbSkXFBrVwFfTgDu62F12s8NUPeANA1A1cmJ/LlxTWc7YO
+	baA4ANQdkihyOnCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4C8FB13312;
+	Mon,  9 Sep 2024 10:02:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id MZp6EdHH3mbZDwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 09 Sep 2024 10:02:57 +0000
+Date: Mon, 09 Sep 2024 12:03:44 +0200
+Message-ID: <877cblb0u7.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: zenghongling <zenghongling@kylinos.cn>
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	zhongling0719@126.com
+Subject: Re: [PATCH v2] ALSA: hda/cs8409: Support new Dell Dolphin for device
+In-Reply-To: <20240909014457.610682-1-zenghongling@kylinos.cn>
+References: <20240909014457.610682-1-zenghongling@kylinos.cn>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Nikita Shubin <nikita.shubin@maquefel.me>
-Cc: Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org, 
- Liam Girdwood <lgirdwood@gmail.com>, 
- Alexander Sverdlin <alexander.sverdlin@gmail.com>, 
- Hartley Sweeten <hsweeten@visionengravers.com>, linux-sound@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20240909-ep93xx-v12-27-e86ab2423d4b@maquefel.me>
-References: <20240909-ep93xx-v12-0-e86ab2423d4b@maquefel.me>
- <20240909-ep93xx-v12-27-e86ab2423d4b@maquefel.me>
-Message-Id: <172587510719.3289382.4217883745550321297.robh@kernel.org>
-Subject: Re: [PATCH v12 27/38] ASoC: dt-bindings: ep93xx: Document Audio
- Port support
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 7B79A1F7AB
+X-Spam-Score: -3.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[126.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,perex.cz,suse.com,126.com];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-
-On Mon, 09 Sep 2024 11:10:52 +0300, Nikita Shubin wrote:
-> Document Audio Graph Port support in binding document.
+On Mon, 09 Sep 2024 03:44:57 +0200,
+zenghongling wrote:
 > 
-> Signed-off-by: Nikita Shubin <nikita.shubin@maquefel.me>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Add 1 new Dell Dolphin Systems, same configuration as older systems.
+> 
+> Signed-off-by: zenghongling <zenghongling@kylinos.cn>
 > ---
->  Documentation/devicetree/bindings/sound/cirrus,ep9301-i2s.yaml | 4 ++++
->  1 file changed, 4 insertions(+)
+>  sound/pci/hda/patch_cs8409-tables.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
+> diff --git a/sound/pci/hda/patch_cs8409-tables.c b/sound/pci/hda/patch_cs8409-tables.c
+> index 36b411d1..be0cc48 100644
+> --- a/sound/pci/hda/patch_cs8409-tables.c
+> +++ b/sound/pci/hda/patch_cs8409-tables.c
+> @@ -541,6 +541,7 @@ const struct snd_pci_quirk cs8409_fixup_tbl[] = {
+>  	SND_PCI_QUIRK(0x1028, 0x0BBB, "Warlock MLK Dual Mic", CS8409_WARLOCK_MLK_DUAL_MIC),
+>  	SND_PCI_QUIRK(0x1028, 0x0BBC, "Warlock MLK", CS8409_WARLOCK_MLK),
+>  	SND_PCI_QUIRK(0x1028, 0x0BBD, "Warlock MLK Dual Mic", CS8409_WARLOCK_MLK_DUAL_MIC),
+> +	SND_PCI_QUIRK(0x1028, 0x0BAA, "Dolphin", CS8409_DOLPHIN),
+>  	SND_PCI_QUIRK(0x1028, 0x0BD4, "Dolphin", CS8409_DOLPHIN),
+>  	SND_PCI_QUIRK(0x1028, 0x0BD5, "Dolphin", CS8409_DOLPHIN),
+>  	SND_PCI_QUIRK(0x1028, 0x0BD6, "Dolphin", CS8409_DOLPHIN),
 
-My bot found errors running 'make dt_binding_check' on your patch:
+1028:0BAA is already present for ODIN.  Conflicting setup?
 
-yamllint warnings/errors:
+(And you should try to put the entry at the right position; the table
+is sorted in PCI SSID order.  If you did that, you should have noticed
+the confliction more easily.)
 
-dtschema/dtc warnings/errors:
 
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240909-ep93xx-v12-27-e86ab2423d4b@maquefel.me
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+Takashi
