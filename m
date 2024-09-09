@@ -1,136 +1,163 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52975137764;
-	Mon,  9 Sep 2024 16:03:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B9BC1BC44;
+	Mon,  9 Sep 2024 16:14:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725897798; cv=none; b=cln13Htf20UBc1+LPc6mGRd8A0yesDlOMSbr6Mf+6K3KkWe37Cd0YzN6hQjGdQKiQ5jAK8PfwG7vGajjflSuoQ0BtCj9kfNK+o/NClLez5DdwHWn4P21w0zbyq9eLmRzovHmQyX4cVEoW4snhJi2AoI1sc3OyUnO5W/WqmmglWk=
+	t=1725898478; cv=none; b=WUqyeUm/nLiOokGu13XSz+o/bx7b1YBL1IN19Oda2pRE37kjV/e4iimr4sdBBpd75MzHSTILDreNqdWf5DS686NTl1osHS1zBU1G+EOLD3/KRgObc6BHanbvnq51lwjHH4xKn0w7OJzQHnWl1Rr3xFLTm2xE1y4t3/xjFSO6I0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725897798; c=relaxed/simple;
-	bh=PDO5Q2PW0U8Dl37qialTE5Jq9umZ1RqHzT6t9eTX7oo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fQvgpeGhxedH0bAYx1v39r3FeMmH44y8xda56ArwJDxqP6bOluTNh6CEe0+S8RsiZnI+DqJ5stdCoqev9BVnpFzNuh1EKoYRuKz5lyLJuk4/tNix4vHsvTwaUdeNp366LVDOGTGJiR87XfLODIG7+aYRzQtJhyDw7a81XaxBsCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IsqarH1A; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1725898478; c=relaxed/simple;
+	bh=VrRAFzjcKwIsh88F/FkxrhW6vZ1qLxrEu/SiiVbuS5c=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iK6XqBuR15mHOQOPW4seRR78ql7bKE0LXLTgQVTdMQX3zBlUzyLnutwpvMj9KBuqaOBfhpmITFxRJ1wyqYgNflKpQGqxDj6Ns2QUezqOazIjE8rEsQHVW60pJp0fWayKQ0r1qWI6LZ9YGo2FaTvp6bRy7mx1hoPxenYZfV6lQco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=g1tD73zq; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IsqarH1A"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725897797; x=1757433797;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=PDO5Q2PW0U8Dl37qialTE5Jq9umZ1RqHzT6t9eTX7oo=;
-  b=IsqarH1AiA0v80uPh/ukCv6UyAKxWWLh9pMQusQS2CqoiAv4YrK3wOfH
-   kcrV3g4SAZhao8f1Z1SQJ2k30ZYsp5P4LnpUGEEs75x4hvrwX0+Bu3bYX
-   JMR2XLpLNe2QMM0GYvSRsfkJewaFMEGFX7RmcfmeZrUTSZ40sd9X/YGQV
-   K9KcfotabpaiJ0fVJHvYb95Q7tXxAbQoYB31LOqoO0viBb+SvSR2wDUJE
-   siZOp/f8TyVJcMwFwEyNMmrWfwekSWtG74o7od1FKY0vkJ2kKM/kh8fHe
-   BxVGhxbEiVVQ2GnIcfzH55tOHYN+EdfPMqlP1VHgq616k73PdW1bgPnoM
-   g==;
-X-CSE-ConnectionGUID: 3J2ZnHQLTB+cKgum4AwDDg==
-X-CSE-MsgGUID: cjT9vLx7TUe3vktr4G/Mog==
-X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="35747373"
-X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; 
-   d="scan'208";a="35747373"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 09:03:16 -0700
-X-CSE-ConnectionGUID: Wbp3KqQkREOjxTGxEV3hFw==
-X-CSE-MsgGUID: LO4DXqsKSbOOvbpNnTj+0Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; 
-   d="scan'208";a="67456255"
-Received: from sschumil-mobl2.ger.corp.intel.com (HELO [10.245.246.241]) ([10.245.246.241])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 09:03:12 -0700
-Message-ID: <d6625b2e-c926-478b-b3bf-5e241270da62@linux.intel.com>
-Date: Mon, 9 Sep 2024 18:03:08 +0200
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="g1tD73zq"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4893U6wt017870;
+	Mon, 9 Sep 2024 11:14:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=+TxF7gv/3QTNLJRsQ1
+	boHrC4jtsRF3xAKieFb8tX/v0=; b=g1tD73zqDAW5UyYZ/r9/snrIbazZ2Vbe4x
+	/Wz0Pg5oD4NSSqRsYqgbRiJs7wt2wkrnV4jycmFUJ7iO+vk/H1VBYkV5Ki1UAZQr
+	aTxDef3kUaMrqijiizfyiEyCM7iBNlSnygReONW84pDu2VTyCtcI95O9cI41/1vr
+	UK0imKc9A3DAbtdT1TL68bnVZ6PKRn2YuRlhIkoFYHd1Ptw9K0skxshQEWRzmcF+
+	LnhB0YxkERMFwS0CEO6NSY0UsRkPw46WfsDK/Tah1LS4fXTFNLUB/jCVp6+bfl6Y
+	Hp+Wk5IjqpkseDbB9phnAc0zOGObdRgP8T3VFeHWOLL8UVF6Waow==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 41gk8hsx2u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 09 Sep 2024 11:14:09 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 9 Sep 2024
+ 17:14:07 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Mon, 9 Sep 2024 17:14:07 +0100
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 99CA7820249;
+	Mon,  9 Sep 2024 16:14:07 +0000 (UTC)
+Date: Mon, 9 Sep 2024 17:14:06 +0100
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Jerome Brunet <jbrunet@baylibre.com>
+CC: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        "David
+ Rhodes" <david.rhodes@cirrus.com>,
+        Richard Fitzgerald
+	<rf@opensource.cirrus.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+	<broonie@kernel.org>,
+        Cezary Rojewski <cezary.rojewski@intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Liam Girdwood
+	<liam.r.girdwood@linux.intel.com>,
+        Peter Ujfalusi
+	<peter.ujfalusi@linux.intel.com>,
+        Bard Liao
+	<yung-chuan.liao@linux.intel.com>,
+        Ranjani Sridharan
+	<ranjani.sridharan@linux.intel.com>,
+        Kai Vehmanen
+	<kai.vehmanen@linux.intel.com>,
+        Srinivas Kandagatla
+	<srinivas.kandagatla@linaro.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        "Jernej
+ Skrabec" <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>, <linux-sound@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
+        <alsa-devel@alsa-project.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>
+Subject: Re: [PATCH 12/13] ASoC: cs35l34: drop useless rate contraint
+Message-ID: <Zt8ezoQ+c7RQsVx+@opensource.cirrus.com>
+References: <20240905-alsa-12-24-128-v1-0-8371948d3921@baylibre.com>
+ <20240905-alsa-12-24-128-v1-12-8371948d3921@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 0/4] Add static channel mapping between soundwire
- master and slave
-To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Bard Liao <yung-chuan.liao@linux.intel.com>, Jaroslav Kysela
- <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: Sanyog Kale <sanyog.r.kale@intel.com>, linux-arm-msm@vger.kernel.org,
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- quic_rohkumar@quicinc.com, kernel@quicinc.com, quic_pkumpatl@quicinc.com
-References: <20240909105547.2691015-1-quic_mohs@quicinc.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <20240909105547.2691015-1-quic_mohs@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240905-alsa-12-24-128-v1-12-8371948d3921@baylibre.com>
+X-Proofpoint-GUID: hCMVSLl-DL3z0Nijst2ymaLrBhwxD4k9
+X-Proofpoint-ORIG-GUID: hCMVSLl-DL3z0Nijst2ymaLrBhwxD4k9
+X-Proofpoint-Spam-Reason: safe
 
-
-
-On 9/9/24 12:55, Mohammad Rafi Shaik wrote:
-> Add static channel map support between soundwire master and slave.
-> This patch series will resolve channel mask mismatch between master and slave.
+On Thu, Sep 05, 2024 at 04:13:03PM +0200, Jerome Brunet wrote:
+> The cs35l34 adds a useless rate constraint on startup.
+> It does not set SNDRV_PCM_RATE_KNOT and the rates set are already a subset
+> of the ones provided in the constraint list, so it is a no-op.
 > 
-> Scenario: wcd937x AMIC2 usecase
+> >From the rest of the code, it is likely HW supports more than the 32, 44.1
+> and 48kHz listed in CS35L34_RATES but there is no way to know for sure
+> without proper documentation.
 > 
->                           Master                 Slave (wcd937x)
->                      +--------------+           +--------------+
->                      |  +--------+  |           |  +--------+  |
->          AMIC1 ----->|  | PORT1  |  |           |  |   TX1  |  |<-----------AMIC1
->          AMIC2 ----->|  |        |  |           |  |        |  |
->                      |  +--------+  |           |  +--------+  |
->                      |              |           |              |
->          AMIC3 ----->|  +--------+  |           |  +--------+  |
->                      |  |  PORT2 |  |           |  |   TX2  |  |<-----------AMIC2
->                      |  |        |  |           |  |        |  |<-----------AMIC3
->                      |  +--------+  |           |  +--------+  |
->                      |              |           |              |
->                      |  +--------+  |           |  +--------+  |
->  DMIC0...DMIC3------>|  |  PORT3 |  |           |  |   TX3  |  |<-----------DMIC0...DMIC3
->                      |  |        |  |           |  |        |  |<-----------MBHC
->                      |  +--------+  |           |  +--------+  |
->                      |              |           |              |
->                      |  +--------+  |           |  +--------+  |
->  DMIC4...DMIC37----->|  |  PORT4 |  |           |  |   TX4  |  |<-----------DMIC4...DMIC7
->                      |  |        |  |           |  |        |  |
->                      |  +--------+  |           |  +--------+  |
->                      |              |           |              |
->                      +------------- +           +--------------+
+> Keep the driver as it is for now and just drop the useless constraint.
 > 
-> For AMIC2 usecase, The Slave need to configure TX2 Port with channel mask 1 and
-> for Master required PORT1 with channel mask 2,
+> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+> ---
+
+Yeah according to the datasheet it should support all the rates
+listed in the cs35l34_src_rates list. But given the weird way
+that CS35L34_RATES is implemented I think you are right best to
+leave it as it is for now, incase there was a reason. Perhaps if
+I find some time I might see if I have one in a draw somewhere in
+the future.
+
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+
+Thanks,
+Charles
+>  sound/soc/codecs/cs35l34.c | 21 ---------------------
+>  1 file changed, 21 deletions(-)
 > 
-> In existing design master and slave configured with same channel mask, it will fail
-> AMIC2 usecase.
+> diff --git a/sound/soc/codecs/cs35l34.c b/sound/soc/codecs/cs35l34.c
+> index e63a518e3b8e..287b27476a10 100644
+> --- a/sound/soc/codecs/cs35l34.c
+> +++ b/sound/soc/codecs/cs35l34.c
+> @@ -562,26 +562,6 @@ static int cs35l34_pcm_hw_params(struct snd_pcm_substream *substream,
+>  	return ret;
+>  }
+>  
+> -static const unsigned int cs35l34_src_rates[] = {
+> -	8000, 11025, 12000, 16000, 22050, 24000, 32000, 44100, 48000
+> -};
+> -
+> -
+> -static const struct snd_pcm_hw_constraint_list cs35l34_constraints = {
+> -	.count  = ARRAY_SIZE(cs35l34_src_rates),
+> -	.list   = cs35l34_src_rates,
+> -};
+> -
+> -static int cs35l34_pcm_startup(struct snd_pcm_substream *substream,
+> -			       struct snd_soc_dai *dai)
+> -{
+> -
+> -	snd_pcm_hw_constraint_list(substream->runtime, 0,
+> -				SNDRV_PCM_HW_PARAM_RATE, &cs35l34_constraints);
+> -	return 0;
+> -}
+> -
+> -
+>  static int cs35l34_set_tristate(struct snd_soc_dai *dai, int tristate)
+>  {
+>  
+> @@ -639,7 +619,6 @@ static int cs35l34_dai_set_sysclk(struct snd_soc_dai *dai,
+>  }
+>  
+>  static const struct snd_soc_dai_ops cs35l34_ops = {
+> -	.startup = cs35l34_pcm_startup,
+>  	.set_tristate = cs35l34_set_tristate,
+>  	.set_fmt = cs35l34_set_dai_fmt,
+>  	.hw_params = cs35l34_pcm_hw_params,
 > 
-> The New design will help to configure channel mapping between master and slave from
-> device tree.
-
-That's rather controversial...
-
-In theory you already have the means to deal with a different channel
-mapping in the hw_params callback for your manager and peripheral
-devices. That's how we e.g. send a 2ch stream on the manager to two
-separate amplifiers and program which channel is used by what amplifier.
-
-The common part between manager and peripheral is the notion of
-'stream', and you can add a different port/stream configuration for
-manager and peripheral with sdw_stream_add_master() and
-sdw_stream_add_slave() respectively.
-
-Port1 and TX2 can be used by just setting the relevant port_config.num
-value.
-
-Likewise the port_config.ch_mask can be programmed at will to select the
-relevant mappings. See e.g. rt1308_sdw_hw_params() in rt1308-sdw.c, the
-mapping were handled with a set_tdm_slot() callback before.
-
-In short, please re-visit your hw_params() implementation first and use
-the existing 'stream' APIs.
+> -- 
+> 2.45.2
+> 
