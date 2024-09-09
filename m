@@ -1,237 +1,164 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA0171B373D;
-	Mon,  9 Sep 2024 08:12:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E161B14F8;
+	Mon,  9 Sep 2024 08:12:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725869538; cv=none; b=FC5Ykzh2qj8zZwJ0WTDI2SF4nKWfxH/PzFLISOJefDWbrxXiPPe6hn5+rFj+MIj+V8ww2WYo5gka6SDGUv6RqYCyeBvnryHyhNJL6wz6Wufud8Nr0kP+uv+zYlNa7kWovEl0t1NXDe048eaeDiz3Irs9HEfcdMTrVfBJWpkZs20=
+	t=1725869578; cv=none; b=A1BLQNdlJI3ESMYucmRxO2V/T1VYKoS/Te3xqoOGMPZ4EBLtQJ+/+H4+RGhZIhVkCW3EAK71VXv32ybUSbD73MFLm3JJmSC/UF+HrlbPOgPA5ZRaqn9uEUDh08QEynyGfIj0I0X1FuUD4TkJdd9SwSNnDahN5d1KA4lb/9iRD1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725869538; c=relaxed/simple;
-	bh=Dw4qelO4Yw8qqwoja13UuuyY2TUVvElISzCYI/EHfLI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=a3OMRvInaNMtNuYDAPVY4olaeObepPuHgllT4uKVq7WErBgAl6NEVvNqOIA+eJKFJq9T2ID1lX7zpAZzPrBRQtdgo8Id1oYUiD8NnzsLALNVJC8EZnC8oQ/8wK//rzxsy8mKD50GRUO0mDvxJt5ooGHZ74GRpPQ8ZEmRK4X3liw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UXGsmOqR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725869578; c=relaxed/simple;
+	bh=qn1o8Intnk0JCIq1CUGzHv/zXzVk+ma3u3ksckHSnV0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Y3A7JwhE4vmESAPPdJX/oyawFc5OBJNajhtcYVBGVojHKWCyHpjaGwwFyUAq+RzS5fwQ0u2CdBrHxSXEJwzjSJ94MWclShETqAobWpTkp3Qg7cU/FWqJQceSqjPqIg1j6nFRCGhMfm+oaXWgIEUkKbHpzCUUa3g7BXiz/6Yge4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=buAXRUe4; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UXGsmOqR"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 75974C4E698;
-	Mon,  9 Sep 2024 08:12:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725869537;
-	bh=Dw4qelO4Yw8qqwoja13UuuyY2TUVvElISzCYI/EHfLI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=UXGsmOqRAkXt4IkE5ac7KOrOGkVUe2HBG5r4i+RbuyzdWpKMRKktlIYzZFvM/+da3
-	 kNXDL3Z1AUDL3qQzUgay1m0HHFdmJmPb/Wyit1XQtR3zdnnaVmQ/hyNqI/8PVwi2+U
-	 fanCS++h1mpZazsaNYWcCg1RvuwYJnPzE2kS8AW3Z4Wjq51tX43NEUowVmSHvpkyDH
-	 frYkZ03SV+wFc+wng5lNFhwuS/jSPqxTpR7NIydJa5DCsapAQ6kDp4nmtXvHrG3Z+X
-	 xYD7rUSQtR8nb7nW2e8GHvmrULOixLetdnxC+l5zHFZFA7EKIjWdIHDn9+EwyCwpxK
-	 G92G1cW/DdhRA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DA2BECE581;
-	Mon,  9 Sep 2024 08:12:17 +0000 (UTC)
-From: Nikita Shubin via B4 Relay <devnull+nikita.shubin.maquefel.me@kernel.org>
-Date: Mon, 09 Sep 2024 11:11:02 +0300
-Subject: [PATCH v12 37/38] ASoC: cirrus: edb93xx: Delete driver
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="buAXRUe4"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-53659867cbdso4337543e87.3;
+        Mon, 09 Sep 2024 01:12:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725869574; x=1726474374; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mKbJpq6YIA11aEfz21wae3H60/ixEHXlJ4hbELPq0J4=;
+        b=buAXRUe4Qw0V/hR834zf5ajmzx20ym9p0letzBP6bQp31X3ZPprHcUV9bDn++Q+N13
+         r9jy7q+tIiNo7981r/wCMtBv4LDAa7Wwg3aWY68oWBbbIrDdJH0afTjDzeuSp37EVClE
+         ywngmE7izHdxRF6I5cHbZcs5x8Ps0oMIrGJEOeSuDangaKMrmyJ4hLXrPrwX4AW8MXJ8
+         MF9w/Ha1wc8J9IkjOHdN40LT02Gio81NAaqju1K5KeTVRYWH5G2iKe15FVAc3lK0Ez+U
+         k1uGN6axOYccUUbbbk3v37B5Sq3Mp1PLY08OfCntoWxmkI2/SIu1K6Ywn7rXby/2V7w5
+         kCSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725869574; x=1726474374;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mKbJpq6YIA11aEfz21wae3H60/ixEHXlJ4hbELPq0J4=;
+        b=RzsgvlxTNdh5zZcUSe96Wps34hszD/TPUxXD06vZnEmSqXUvsqIP55xy5Leb8OC/AT
+         7+7kLNqA/ErdcRALpTN9JoIb1cTBe3vyPg6KVSPoAuX62sQ2M1PtyCjV7k4saRq0PooD
+         BYkM+FsPhwszk0Xdxfd6/LJJmdTr8EihC2KQpMQyY1pG0cThK7R0ATFWW9O876O9SVqP
+         AjIq4oHSHq3g+qRtJPQUjSCNUepFErS79+FdaziqV8Bubd4W+l694dIaoBFPkhxVdtAp
+         AnvW4R13oCZ9wPadKcnGG41F4FmQHBQ7kXNH8HvuI57t4Q2nc8XgeMzjHXEc7nvu9grW
+         2PPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWVJVVJlBLro9+8wUW8qdug9m6k/qGQq207cLiji6JN8cZKdZ/yAMFgJuCd6rOe116pD7mbs3O2XR/Lzq4=@vger.kernel.org, AJvYcCXq0jyWAcAsi2fQRUNz2aXJveeSjPieo3EsJYYljoWjsM2BFvXHbK4LN5jBMQyYm3emf3xQuAKAoMKD@vger.kernel.org
+X-Gm-Message-State: AOJu0YyrCfIloipEADpMmX9NKgL93hFD8mb5YMhsZCq+fUc4Oj47pg+R
+	l22ZW/6+ZqE/nSrdSarbcAjSygDYyyEPLiw6+wDnwe+gSXCMuHR6vb/I8JpgHF5nKVowiOICWN5
+	s8tZNpVBXqnb4sDvhJB6wswiyQ8E=
+X-Google-Smtp-Source: AGHT+IHnQ8xuztnsBBgMvF4HoqhobltRiRUWVc47gSpztUAjtDauIHerV4oHBCZhp65S/wW7OsWE+NRnD31fY1WpNhQ=
+X-Received: by 2002:a05:6512:1245:b0:536:54bd:8374 with SMTP id
+ 2adb3069b0e04-53658818949mr5167330e87.60.1725869573576; Mon, 09 Sep 2024
+ 01:12:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240909-ep93xx-v12-37-e86ab2423d4b@maquefel.me>
-References: <20240909-ep93xx-v12-0-e86ab2423d4b@maquefel.me>
-In-Reply-To: <20240909-ep93xx-v12-0-e86ab2423d4b@maquefel.me>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Nikita Shubin <nikita.shubin@maquefel.me>, 
- Alexander Sverdlin <alexander.sverdlin@gmail.com>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Linus Walleij <linus.walleij@linaro.org>
-Cc: Takashi Iwai <tiwai@suse.de>, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org
-X-Mailer: b4 0.13-dev-e3e53
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1725869532; l=4982;
- i=nikita.shubin@maquefel.me; s=20230718; h=from:subject:message-id;
- bh=ZGsaIwYTR1JNVHlGFBAmmmELz25300Pi752QNOzmkk0=;
- b=hVFwEKlIhwdkzQ/KvKlK9jopGQUFqUjr+NoNgmCNgdXWhHUVSmUwVFOu2LEN2h3XZLFxJ/zdpr0T
- KFCiLTSXDCPKtvOX056lVDhuPBT9CBLltUl55DKA5x2rZwGUO2Bg
-X-Developer-Key: i=nikita.shubin@maquefel.me; a=ed25519;
- pk=vqf5YIUJ7BJv3EJFaNNxWZgGuMgDH6rwufTLflwU9ac=
-X-Endpoint-Received: by B4 Relay for nikita.shubin@maquefel.me/20230718
- with auth_id=65
-X-Original-From: Nikita Shubin <nikita.shubin@maquefel.me>
-Reply-To: nikita.shubin@maquefel.me
+References: <cover.1725518229.git.zhoubinbin@loongson.cn> <e987b0beabba169577c8923557690984f226b29b.1725518229.git.zhoubinbin@loongson.cn>
+ <zes7kfwmz57lhyfvxuyk64n7eykb52txxatbqgqnue7e3yab7g@d7cg7ql4gyl4>
+In-Reply-To: <zes7kfwmz57lhyfvxuyk64n7eykb52txxatbqgqnue7e3yab7g@d7cg7ql4gyl4>
+From: Binbin Zhou <zhoubb.aaron@gmail.com>
+Date: Mon, 9 Sep 2024 14:12:40 +0600
+Message-ID: <CAMpQs4Jwms+P7Uu-N1koT8WYKW8KCdMoo7pkPkdaO2aY7TAD+A@mail.gmail.com>
+Subject: Re: [PATCH v1 01/10] ASoC: dt-bindings: Add Everest ES8323 Codec
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Binbin Zhou <zhoubinbin@loongson.cn>, Huacai Chen <chenhuacai@loongson.cn>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Huacai Chen <chenhuacai@kernel.org>, 
+	devicetree@vger.kernel.org, linux-sound@vger.kernel.org, 
+	Xuerui Wang <kernel@xen0n.name>, loongarch@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+Hi Krzysztof:
 
-Can be replaced with "simple-audio-card" for the rates up to 50kHz, refer
-to commit "ARM: dts: ep93xx: Add EDB9302 DT".
+Thanks for your review.
 
-Signed-off-by: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-Signed-off-by: Nikita Shubin <nikita.shubin@maquefel.me>
-Acked-by: Mark Brown <broonie@kernel.org>
----
- sound/soc/cirrus/Kconfig   |   9 ----
- sound/soc/cirrus/Makefile  |   4 --
- sound/soc/cirrus/edb93xx.c | 116 ---------------------------------------------
- 3 files changed, 129 deletions(-)
+On Fri, Sep 6, 2024 at 4:21=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.org=
+> wrote:
+>
+> On Thu, Sep 05, 2024 at 03:02:14PM +0800, Binbin Zhou wrote:
+> > Add Everest Semiconductor ES8316 low power audio CODEC binding with DT
+> > schema format using json-schema.
+> >
+> > Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
+> > ---
+> >  .../bindings/sound/everest,es8323.yaml        | 49 +++++++++++++++++++
+> >  1 file changed, 49 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/sound/everest,es8=
+323.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/sound/everest,es8323.yam=
+l b/Documentation/devicetree/bindings/sound/everest,es8323.yaml
+> > new file mode 100644
+> > index 000000000000..0450d0f49d03
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/sound/everest,es8323.yaml
+> > @@ -0,0 +1,49 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/sound/everest,es8323.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Everest ES8323 audio CODECs
+> > +
+> > +maintainers:
+> > +  - Binbin Zhou <zhoubinbin@loongson.cn>
+> > +
+> > +allOf:
+> > +  - $ref: dai-common.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: everest,es8323
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    description: clock for master clock (MCLK)
+> > +    maxItems: 1
+> > +
+> > +  clock-names:
+> > +    const: mclk
+> > +
+> > +  '#sound-dai-cells':
+> > +    const: 0
+>
+> No audio-graph-port? Are you sure? It looks exactly like
+> everest,es8316...
 
-diff --git a/sound/soc/cirrus/Kconfig b/sound/soc/cirrus/Kconfig
-index 38a83c4dcc2d..97def4e53fbc 100644
---- a/sound/soc/cirrus/Kconfig
-+++ b/sound/soc/cirrus/Kconfig
-@@ -31,12 +31,3 @@ config SND_EP93XX_SOC_I2S_WATCHDOG
- 
- endif # if SND_EP93XX_SOC_I2S
- 
--config SND_EP93XX_SOC_EDB93XX
--	tristate "SoC Audio support for Cirrus Logic EDB93xx boards"
--	depends on SND_EP93XX_SOC && (MACH_EDB9301 || MACH_EDB9302 || MACH_EDB9302A || MACH_EDB9307A || MACH_EDB9315A)
--	select SND_EP93XX_SOC_I2S
--	select SND_SOC_CS4271_I2C if I2C
--	select SND_SOC_CS4271_SPI if SPI_MASTER
--	help
--	  Say Y or M here if you want to add support for I2S audio on the
--	  Cirrus Logic EDB93xx boards.
-diff --git a/sound/soc/cirrus/Makefile b/sound/soc/cirrus/Makefile
-index ad606b293715..61d8cf64e859 100644
---- a/sound/soc/cirrus/Makefile
-+++ b/sound/soc/cirrus/Makefile
-@@ -6,7 +6,3 @@ snd-soc-ep93xx-i2s-y	 			:= ep93xx-i2s.o
- obj-$(CONFIG_SND_EP93XX_SOC)			+= snd-soc-ep93xx.o
- obj-$(CONFIG_SND_EP93XX_SOC_I2S)		+= snd-soc-ep93xx-i2s.o
- 
--# EP93XX Machine Support
--snd-soc-edb93xx-y				:= edb93xx.o
--
--obj-$(CONFIG_SND_EP93XX_SOC_EDB93XX)		+= snd-soc-edb93xx.o
-diff --git a/sound/soc/cirrus/edb93xx.c b/sound/soc/cirrus/edb93xx.c
-deleted file mode 100644
-index 8bb67d7d2b4b..000000000000
---- a/sound/soc/cirrus/edb93xx.c
-+++ /dev/null
-@@ -1,116 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-or-later
--/*
-- * SoC audio for EDB93xx
-- *
-- * Copyright (c) 2010 Alexander Sverdlin <subaparts@yandex.ru>
-- *
-- * This driver support CS4271 codec being master or slave, working
-- * in control port mode, connected either via SPI or I2C.
-- * The data format accepted is I2S or left-justified.
-- * DAPM support not implemented.
-- */
--
--#include <linux/platform_device.h>
--#include <linux/module.h>
--#include <linux/soc/cirrus/ep93xx.h>
--#include <sound/core.h>
--#include <sound/pcm.h>
--#include <sound/soc.h>
--#include <asm/mach-types.h>
--
--static int edb93xx_hw_params(struct snd_pcm_substream *substream,
--			     struct snd_pcm_hw_params *params)
--{
--	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
--	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
--	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
--	int err;
--	unsigned int mclk_rate;
--	unsigned int rate = params_rate(params);
--
--	/*
--	 * According to CS4271 datasheet we use MCLK/LRCK=256 for
--	 * rates below 50kHz and 128 for higher sample rates
--	 */
--	if (rate < 50000)
--		mclk_rate = rate * 64 * 4;
--	else
--		mclk_rate = rate * 64 * 2;
--
--	err = snd_soc_dai_set_sysclk(codec_dai, 0, mclk_rate,
--				     SND_SOC_CLOCK_IN);
--	if (err)
--		return err;
--
--	return snd_soc_dai_set_sysclk(cpu_dai, 0, mclk_rate,
--				      SND_SOC_CLOCK_OUT);
--}
--
--static const struct snd_soc_ops edb93xx_ops = {
--	.hw_params	= edb93xx_hw_params,
--};
--
--SND_SOC_DAILINK_DEFS(hifi,
--	DAILINK_COMP_ARRAY(COMP_CPU("ep93xx-i2s")),
--	DAILINK_COMP_ARRAY(COMP_CODEC("spi0.0", "cs4271-hifi")),
--	DAILINK_COMP_ARRAY(COMP_PLATFORM("ep93xx-i2s")));
--
--static struct snd_soc_dai_link edb93xx_dai = {
--	.name		= "CS4271",
--	.stream_name	= "CS4271 HiFi",
--	.dai_fmt	= SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF |
--			  SND_SOC_DAIFMT_CBC_CFC,
--	.ops		= &edb93xx_ops,
--	SND_SOC_DAILINK_REG(hifi),
--};
--
--static struct snd_soc_card snd_soc_edb93xx = {
--	.name		= "EDB93XX",
--	.owner		= THIS_MODULE,
--	.dai_link	= &edb93xx_dai,
--	.num_links	= 1,
--};
--
--static int edb93xx_probe(struct platform_device *pdev)
--{
--	struct snd_soc_card *card = &snd_soc_edb93xx;
--	int ret;
--
--	ret = ep93xx_i2s_acquire();
--	if (ret)
--		return ret;
--
--	card->dev = &pdev->dev;
--
--	ret = snd_soc_register_card(card);
--	if (ret) {
--		dev_err(&pdev->dev, "snd_soc_register_card() failed: %d\n",
--			ret);
--		ep93xx_i2s_release();
--	}
--
--	return ret;
--}
--
--static void edb93xx_remove(struct platform_device *pdev)
--{
--	struct snd_soc_card *card = platform_get_drvdata(pdev);
--
--	snd_soc_unregister_card(card);
--	ep93xx_i2s_release();
--}
--
--static struct platform_driver edb93xx_driver = {
--	.driver		= {
--		.name	= "edb93xx-audio",
--	},
--	.probe		= edb93xx_probe,
--	.remove_new	= edb93xx_remove,
--};
--
--module_platform_driver(edb93xx_driver);
--
--MODULE_AUTHOR("Alexander Sverdlin <subaparts@yandex.ru>");
--MODULE_DESCRIPTION("ALSA SoC EDB93xx");
--MODULE_LICENSE("GPL");
--MODULE_ALIAS("platform:edb93xx-audio");
+I checked and they are indeed very similar and it seems I just need to
+add to everest,es8316.yaml instead of a new file.
 
--- 
-2.43.2
-
-
+Thanks.
+Binbin
+>
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - '#sound-dai-cells'
+> > +
+> > +unevaluatedProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    i2c {
+> > +      #address-cells =3D <1>;
+> > +      #size-cells =3D <0>;
+> > +      codec@10 {
+> > +        compatible =3D "everest,es8323";
+> > +        reg =3D <0x10>;
+> > +        #sound-dai-cells =3D <0>;
+>
+> Make the example complete. Assuming this binding stays...
+>
+> Best regards,
+> Krzysztof
+>
