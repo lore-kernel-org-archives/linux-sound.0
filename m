@@ -1,104 +1,138 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EFD31B14F9;
-	Mon,  9 Sep 2024 08:36:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92AF5176246;
+	Mon,  9 Sep 2024 08:38:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725870969; cv=none; b=LnGzo3JifvSQSM8dsEOyWUu9KjjksUjhHq4RFL99K+Yt7qZCWbmzvrKG1xvwkWRLV/A6Ofdc/2htVvWIPyAaBiwPrB8huv63dHIUBmNkLh7JX+GryzcCEnA2IiJxaTh5cLZh6PEwTDUSJ19OGHQ5p6YknrXuLVYOWUzytgrkQ7c=
+	t=1725871091; cv=none; b=BxdVx1rxrHH6x+JlFeMzMVzVXtoDs2KE/sUmfh39+TQv+zAHWYGCU+FTcg2RMRRDT6NAxnzuENtuPPLHc71SzFBzEW6CqGTS0pDJgV3isc6gDQGa9wZ+SGQumUwIQ3Ty4ffd/j6HXoiBTFWUh5Xl1cUgUTH68WrgWv4uey1iclE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725870969; c=relaxed/simple;
-	bh=2lafLKjnorwqVWKIDeS2ovxiuaU21GohdSm/0wFNtvY=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nEhwV141qCbgNbBLyZPxRPLs8B5im/AmqeQSpxp3yZZunHrlibZPlW2M3bcx0YpUYeYfPfXRDqycg17hw+Bs2vA/OZvDDpOjxu9vI+aljU46Ht7A+P3GlWNBykTObPp/uRze39OdXU2P+H8vOkYHAL7Sby9+wRm5kREwSggX6WA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=MtCKy3UH; arc=none smtp.client-ip=68.232.154.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1725871091; c=relaxed/simple;
+	bh=4OeMclHAh6aX5AW7KxfoOQWqUYsUSQnhSj+8EEEFDVA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=p7ezeHzdXRoNlNBAAq/J5TklHdTjnEpq3dRwcLhb+JxoEL/XPMNYYrKU7avmb+fIg5o+uCw7zxB/PiihgcGX7EuodCzpagWUBA71mZKHzvXoRXzNU8+qZktc9hu3HHwmgpXnXGX3t6MlLxkRU+lJka/m4ZCqsIMiMgB8aoXY1N8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fDS9yKeE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="MtCKy3UH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1725870968; x=1757406968;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=2lafLKjnorwqVWKIDeS2ovxiuaU21GohdSm/0wFNtvY=;
-  b=MtCKy3UHgrURz0UqcFnw89/sKLvdC7ws+RFrN/MbszlGjXpBVbH2Mt+k
-   WHF/yciGvFR/i8FXsf9PzAu5JkIEqT6l9lhEd88rpj6s/gNzN6lE+3Ckn
-   oiX6o0CkEkhaxHX5SlTxNxQphACnGfthC3ReQH8cmZEl/eVVtEIXPgMUF
-   +8orCFnYR/euJcjVEUoYySTYfpbLMDk26EIyDBUSChzNsBwqNNFJcKw+P
-   l5WT1A4ohof5fgMiEcV5bRB8nyaVrJtsXy5apqB13wphaDmbZ8xOfbgYd
-   /7N6gHBo70hVzHZhcH38h57pDl4Z62ilDfjkDIYExINndzngqIQQ3vpTL
-   g==;
-X-CSE-ConnectionGUID: 3+qBZ8ypT7qJuXQunlVkIA==
-X-CSE-MsgGUID: wyzCDRFkRbylqCWlGPF3Ow==
-X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
-   d="scan'208";a="198940351"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 09 Sep 2024 01:36:06 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
- chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 9 Sep 2024 01:35:48 -0700
-Received: from ROB-ULT-M76677.microchip.com (10.10.85.11) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Mon, 9 Sep 2024 01:35:45 -0700
-From: Andrei Simion <andrei.simion@microchip.com>
-To: <claudiu.beznea@tuxon.dev>, <lgirdwood@gmail.com>, <broonie@kernel.org>,
-	<perex@perex.cz>, <tiwai@suse.com>, <robh@kernel.org>, <krzk+dt@kernel.org>,
-	<conor+dt@kernel.org>, <nicolas.ferre@microchip.com>,
-	<alexandre.belloni@bootlin.com>
-CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	Codrin Ciubotariu <codrin.ciubotariu@microchip.com>, Andrei Simion
-	<andrei.simion@microchip.com>
-Subject: [PATCH 2/2] ASoC: dt-bindings: microchip,sama7g5-i2smcc: Add 'sound-name-prefix' property
-Date: Mon, 9 Sep 2024 11:35:30 +0300
-Message-ID: <20240909083530.14695-3-andrei.simion@microchip.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240909083530.14695-1-andrei.simion@microchip.com>
-References: <20240909083530.14695-1-andrei.simion@microchip.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fDS9yKeE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD7DDC4CEC5;
+	Mon,  9 Sep 2024 08:38:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725871091;
+	bh=4OeMclHAh6aX5AW7KxfoOQWqUYsUSQnhSj+8EEEFDVA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=fDS9yKeE+366Mjd682DJ1AhwltpAGVWcCUXrWI9Jmi7vs7hKc2BGFMLmKfaUKWw7y
+	 JrJOJL+fnyw4XOC7CEak6LLJP5+TiylRrQY0YRYYm5gsW6s2ICHNIZC7tQu0Ugzx0t
+	 tKhWAwTM69i16sX0B+aQd9AFAh6oVG2TYAN4WGzabm9tbWxiyCq9WkvvJbswdVc/w6
+	 3xSBKxgI9NBaWu5eHafKDDq6QH2MIDL1mxKbV4K1x6y/fipOzmT24T8pGR3SovZUYu
+	 Qm8gYBw3rjsuRH3ZRIxyi+AK6Jnn97VzCtCoz/kS+rDjVzgu1rY+R+WIjGk2HT4WdG
+	 /k7VsD2RbSVEQ==
+Message-ID: <2bb15a72-82ef-4bc4-b01e-e4768687bab6@kernel.org>
+Date: Mon, 9 Sep 2024 10:38:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] ASoC: dt-bindings: microchip,sama7g5-i2smcc: Add
+ 'sound-name-prefix' property
+To: Andrei Simion <andrei.simion@microchip.com>, claudiu.beznea@tuxon.dev,
+ lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Codrin Ciubotariu <codrin.ciubotariu@microchip.com>
+References: <20240909083530.14695-1-andrei.simion@microchip.com>
+ <20240909083530.14695-3-andrei.simion@microchip.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240909083530.14695-3-andrei.simion@microchip.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Codrin Ciubotariu <codrin.ciubotariu@microchip.com>
+On 09/09/2024 10:35, Andrei Simion wrote:
+> From: Codrin Ciubotariu <codrin.ciubotariu@microchip.com>
+> 
+> Add 'sound-name-prefix' property to differentiate between interfaces in
+> DPCM use-cases. Property is optional.
+> 
+> [andrei.simion@microchip.com: Adjust the commit title and message.
+> Reword the description for 'sound-name-prefix'.]
+> 
+> Signed-off-by: Codrin Ciubotariu <codrin.ciubotariu@microchip.com>
+> Signed-off-by: Andrei Simion <andrei.simion@microchip.com>
+> ---
+>  .../bindings/sound/microchip,sama7g5-i2smcc.yaml           | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/microchip,sama7g5-i2smcc.yaml b/Documentation/devicetree/bindings/sound/microchip,sama7g5-i2smcc.yaml
+> index fb630a184350..ad34df67c7c0 100644
+> --- a/Documentation/devicetree/bindings/sound/microchip,sama7g5-i2smcc.yaml
+> +++ b/Documentation/devicetree/bindings/sound/microchip,sama7g5-i2smcc.yaml
+> @@ -52,6 +52,13 @@ properties:
+>        - const: gclk
+>      minItems: 1
+>  
+> +  sound-name-prefix:
+> +    pattern: "^I2SMCC[0-9]$"
 
-Add 'sound-name-prefix' property to differentiate between interfaces in
-DPCM use-cases. Property is optional.
+This does not look correct. Name/prefix can be anything matching real
+hardware, why are you restricting it? How can you predict all names?
 
-[andrei.simion@microchip.com: Adjust the commit title and message.
-Reword the description for 'sound-name-prefix'.]
+> +    $ref: /schemas/types.yaml#/definitions/string
+> +    description:
+> +      Unique prefixes for the sink/source names of the component, ensuring
+> +      distinct identification among multiple instances.
 
-Signed-off-by: Codrin Ciubotariu <codrin.ciubotariu@microchip.com>
-Signed-off-by: Andrei Simion <andrei.simion@microchip.com>
----
- .../bindings/sound/microchip,sama7g5-i2smcc.yaml           | 7 +++++++
- 1 file changed, 7 insertions(+)
+You are duplicating property definitions. This is not needed at all.
+Maybe your schema misses $ref to common schema.
 
-diff --git a/Documentation/devicetree/bindings/sound/microchip,sama7g5-i2smcc.yaml b/Documentation/devicetree/bindings/sound/microchip,sama7g5-i2smcc.yaml
-index fb630a184350..ad34df67c7c0 100644
---- a/Documentation/devicetree/bindings/sound/microchip,sama7g5-i2smcc.yaml
-+++ b/Documentation/devicetree/bindings/sound/microchip,sama7g5-i2smcc.yaml
-@@ -52,6 +52,13 @@ properties:
-       - const: gclk
-     minItems: 1
- 
-+  sound-name-prefix:
-+    pattern: "^I2SMCC[0-9]$"
-+    $ref: /schemas/types.yaml#/definitions/string
-+    description:
-+      Unique prefixes for the sink/source names of the component, ensuring
-+      distinct identification among multiple instances.
-+
-   dmas:
-     items:
-       - description: TX DMA Channel
--- 
-2.34.1
+
+Best regards,
+Krzysztof
 
