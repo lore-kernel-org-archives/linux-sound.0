@@ -1,44 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938C618B49B;
-	Mon,  9 Sep 2024 21:01:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 630FE189F3E;
+	Mon,  9 Sep 2024 21:01:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725915708; cv=none; b=Zz1FQWAQ7eFS4+EI4nYvVzheHYWU50ioOwUu2tWKpe0nA/kFCQy6gGXEh1+IfRQCB/do3xS52WKLl1sPFP3SLk9i4n2BzxI5vh3VNxeXr1A0DsyCo5Sg+rsxPzEuf9pp8qdw18f+0zrOilDRlX2dSgBk3sdcmHUODv+leFLDntM=
+	t=1725915712; cv=none; b=Yl/qCcrSEHNlv2obRcXOUwZ+WnMZOUPshzBbiMtGeXGx1gtg7IqVIzGVaRse1ZMz79EW+OfzNOPy3tV6QO5BGbPS7Wi2rpDT3bDxzd2ohnwTgUg4fHWKg98kMs/BcFhNRsE4LjVDs7Pb6r8lLyxOmgCkQh8LC4+BHUUxvXpK288=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725915708; c=relaxed/simple;
-	bh=gxpWwUlAxibrNDTItu3pZrMMyq790BK/xTGjxMPNjSo=;
+	s=arc-20240116; t=1725915712; c=relaxed/simple;
+	bh=fk1O36vP6EYATpW7zFnE0wBAJf09Xs8FlL14jwq2K04=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=WcTFYsmJrjdnaqo/wbWN3A0I9yEuR0i7g1hO1uO8eOSSe48Rx1aOS9DF4e/ZqRyHJ+UhVw/SBfhckTkSkozRdbeRHWZ3cXV7DCTP/kx89pKDDlg6kGyZagFr2Y6cgarDKL/k1xEjjXYDGf9CGLUCopzUW8qi/Bp+DjjLNbD0u4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nPMy7l+L; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=s8v4TYUuS23W+4wR/aG+231F4/z8cLpBUBxEFWE+AU1mJx43pFP+NK0USRGtYF3qEUC0+I+RfeGZWjK3YUUHSlboWUzy+Ebw2+FxZMwYABt0YFBoVjwx+0fEFXwQA8aanlgQiCUIO5XGY4UUPl4iHRHYZOVS5KCAltHtAaCiYsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U83w8q4v; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nPMy7l+L"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 657FFC4CEC6;
-	Mon,  9 Sep 2024 21:01:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U83w8q4v"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95DBDC4CEC5;
+	Mon,  9 Sep 2024 21:01:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725915708;
-	bh=gxpWwUlAxibrNDTItu3pZrMMyq790BK/xTGjxMPNjSo=;
+	s=k20201202; t=1725915712;
+	bh=fk1O36vP6EYATpW7zFnE0wBAJf09Xs8FlL14jwq2K04=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=nPMy7l+L6WYCWGVQKxQKHLjLqXT8/BCh/FuCF2mBHpNHTRnaxu5seKmImEg2ziE70
-	 dJV4Xby/qBTMkF8Iwr12lhphfLorktn7JBo2m35SNnopkQbvQ9cm253Xw2DagDvwG+
-	 KsTFR99gH1yCrD/YV1WNJl/2M8bGjyWg1yx0Z0ysTBqp5pknfK5i54kXnQkn/EYuub
-	 8qlwc4xEt08vHUvoiW4A7AmZhGj0fhKe3iC/k26cGSUxUUFJXVgkAjwZSPiasqS389
-	 aI6MW3Q0wZk7kV9uAPazZRAFzEUE6IvMFG641gxJFUHXhgaGbyQbEtslvArKthbKtu
-	 lSMX6b1cChiKQ==
+	b=U83w8q4vmWuUNWWa8wp6WXXICFHNrWHnRAOLoFaJwf+YGIhqaA4++V14XBYpETLmz
+	 Rrd3E+kOLKplgGDfpABUQym08RyIiH3l4jAbmyk5bBAK0s0gOBxgw2KpqYkk67k29Q
+	 bB2annXHCrM4S5XPhPdfW+/6Ff0w15aInu8EqGFqDTaWc6XH5oDKdHJJFazQNbDIc4
+	 p3AukalcGRDrdrFRfFF1YtRIBR9v1CMyNI+juVxM1lxCtHvdKIJ/p3GvzmaDqMOg0z
+	 e01KB1mHz9lEzQnWY0Dh6JJLHfYFid95AQrKjY5TyB7IUFJ0wwiByyCgketuPB89UX
+	 ftt0aAFvxLWog==
 From: Mark Brown <broonie@kernel.org>
-To: claudiu.beznea@tuxon.dev, lgirdwood@gmail.com, perex@perex.cz, 
- tiwai@suse.com, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com, 
- Andrei Simion <andrei.simion@microchip.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20240909083530.14695-1-andrei.simion@microchip.com>
-References: <20240909083530.14695-1-andrei.simion@microchip.com>
-Subject: Re: (subset) [PATCH 0/2] Adjust Stream Name and DT Bindings
- Updates
-Message-Id: <172591570513.136248.18212360068719293673.b4-ty@kernel.org>
-Date: Mon, 09 Sep 2024 22:01:45 +0100
+To: Liam Girdwood <lgirdwood@gmail.com>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: linux-sound@vger.kernel.org, asahi@lists.linux.dev, 
+ alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org, 
+ patches@opensource.cirrus.com, linux-arm-msm@vger.kernel.org, 
+ linuxppc-dev@lists.ozlabs.org, imx@lists.linux.dev, 
+ linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, sound-open-firmware@alsa-project.org, 
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+ linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org
+In-Reply-To: <20240909151230.909818-2-u.kleine-koenig@baylibre.com>
+References: <20240909151230.909818-2-u.kleine-koenig@baylibre.com>
+Subject: Re: [PATCH] ASoC: Switch back to struct platform_driver::remove()
+Message-Id: <172591570834.136248.17412626468486255591.b4-ty@kernel.org>
+Date: Mon, 09 Sep 2024 22:01:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,19 +49,18 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.15-dev-99b12
 
-On Mon, 09 Sep 2024 11:35:28 +0300, Andrei Simion wrote:
-> This patch set proposes the following changes to improve the flexibility
-> and configurability of the mchp-i2s-mcc driver by allowing the interface
-> name to be set through the device tree and by introducing a new property to
-> better manage multiple interfaces.
+On Mon, 09 Sep 2024 17:12:30 +0200, Uwe Kleine-König wrote:
+> After commit 0edb555a65d1 ("platform: Make platform_driver::remove()
+> return void") .remove() is (again) the right callback to implement for
+> platform drivers.
 > 
-> Codrin Ciubotariu (2):
->   ASoC: atmel: mchp-i2s-mcc: Remove interface name from stream_name
->   ASoC: dt-bindings: microchip,sama7g5-i2smcc: Add 'sound-name-prefix'
->     property
+> Convert all drivers below sound/soc to use .remove(), with the eventual
+> goal to drop struct platform_driver::remove_new(). As .remove() and
+> .remove_new() have the same prototypes, conversion is done by just
+> changing the structure member name in the driver initializer.
 > 
 > [...]
 
@@ -68,8 +70,8 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: atmel: mchp-i2s-mcc: Remove interface name from stream_name
-      commit: b09c71f3e8413ac0a9749f9d0d06f6f0d0b2cc65
+[1/1] ASoC: Switch back to struct platform_driver::remove()
+      commit: 130af75b5c05eef4ecd8593371f3e924bcd41241
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
