@@ -1,93 +1,83 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 413C716E89B;
-	Mon,  9 Sep 2024 17:18:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFDD5176ABB;
+	Mon,  9 Sep 2024 17:26:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725902335; cv=none; b=FRwrunV5Eu9LoafIkuDNP1eBqtLJRzfGKih+jt5+HgwhiSivocJoTMZfixBCU+QRj7Vp4xjAEbyY7u7MmED0XSNvgAkd8FOAh2nRBanmM5gUlv6+dH7oHr/V+KWnZCMK/iLsRF9d8Lwb51nDA+njfexx+bYvXyzJ2APhgwza5Lk=
+	t=1725902798; cv=none; b=pDLCRqA3ANnCle/2Tu+dwEDR1xcQ05mSiFqv2QSjadkzlrj/kAhXbJjA3XMN3FvfAq7KF5UFXlS2QftvZ9I9+Fh5PgB/wLRdtgsXdHPLsdNGZaJeRUiCkc5A9vDJmVgNfe2DnfqM28XxwQO4Qp1uGy+k94TUJpfzJ242yvT4K1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725902335; c=relaxed/simple;
-	bh=EhoK4r8YL8dVYI1oM5qZI8MIrFWarHcSHL0ip3G9iw8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Queu+ViNeLNo+P+ycOq+Ov8vAvey3u81aymrSgpEKIp6p0+sgbDuea75AsRSpgsXNRq+JMq0+fYr0/GcvW0h3MyRlTtU9oPk706QODetGOfOpVNdHhQ3G6y1EE5oXvJ+IWLXnE9Ex6T0f5pIPRV5Y8RJ7EcumhSwlV8jD37lB1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MoNfweyk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725902798; c=relaxed/simple;
+	bh=AnFzIOts1bseLvgHbZIPxmk1t6OKKNJUx33RD6kae2w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lEJwgKVKkF4GiLxuN9GFDA/cV0tfTNsrlrMkZAyA/KrwDUdnXVSOqoiT+DLzjLdHh9HgT8JpRw2a2lPe65w92LHRWvf0aRmi+yBrpU7fSa76UEd+5PSogCSevDPEd4sWZOyhYYDSt1JbDqoeIdi9p6qvVzRmQk4If3HuqYQYI+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZrvFPkWH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MoNfweyk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16E5AC4CEC7;
-	Mon,  9 Sep 2024 17:18:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZrvFPkWH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C78DBC4CEC5;
+	Mon,  9 Sep 2024 17:26:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725902334;
-	bh=EhoK4r8YL8dVYI1oM5qZI8MIrFWarHcSHL0ip3G9iw8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=MoNfweyk+KZ23+E30IX43XB2oxHv24uNClsK9sCkJuO4txLMOOI6Ha0hjsDcoBPDW
-	 y5JL3lbnUIwVyws1OWsNdPk56DtyJUTrql6OZNItZbjQrVmAtbv+xOknkYh58vYWZB
-	 4s4M2w4t9MNvNgwDH10C4elbKGXgLqeEX1UrJSToovIka5MvJQQ0CZyc4Ydm0bXDz4
-	 sFrLTKkI3rarbA7EfrMib08D/z7tKsYkD+bsAJpHWV9lL3riHR12HiA+h4X3wKpOQi
-	 1hw4JwJIGkaxDcjX6nAoXq2v6DRkgaPThUvN71u2mxhO5davDqEdsZM7wmIaNYY9NL
-	 y1QO5embhMS2Q==
+	s=k20201202; t=1725902798;
+	bh=AnFzIOts1bseLvgHbZIPxmk1t6OKKNJUx33RD6kae2w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZrvFPkWHSMaPqVTZKNs4pFHA5ZIzafs3P0GXZLU99ZBviTO8XFXslT+daQrLF4iBJ
+	 CjVbSIVLTcaNHUASN/dkx6iFjI7cyWXFDdLtFb20XV4K5VU2oafTjY0uPnb1w/uELo
+	 NG83u0fVMeTupV9nEUZGFR5Ss5SvZ94RfWrcAcnM5UtVXAshwx5CgrU0q2pnk3Ojwn
+	 lV5s7OoIGvYIBLTJoIO4LUPPEKE7WU2XTTxukmCz3C/uxwiN2R/BeafVtVoDdaKHuF
+	 v4JMvN6WMadXnk1GKr73/kj+OafS+EyPwKoQ0iFIGfxrSo3U3IHgiErL/B9EEhVJC3
+	 +YNNzpQvLQVBA==
+Date: Mon, 9 Sep 2024 18:26:32 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Alexandre Mergnat <amergnat@baylibre.com>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org
-In-Reply-To: <20240908221754.2210857-1-arnd@kernel.org>
-References: <20240908221754.2210857-1-arnd@kernel.org>
-Subject: Re: [PATCH] ASoC: mediatek: mt8365: include linux/bitfield.h
-Message-Id: <172590232922.1707146.8389752525404411197.b4-ty@kernel.org>
-Date: Mon, 09 Sep 2024 18:18:49 +0100
+To: Tang Bin <tangbin@cmss.chinamobile.com>
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: soc-ac97: Fix the incorrect description
+Message-ID: <98f0a674-1636-449f-b9a6-5668021d114b@sirena.org.uk>
+References: <20240908124124.1971-1-tangbin@cmss.chinamobile.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-99b12
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="OMzUP2TZUyaqgLUe"
+Content-Disposition: inline
+In-Reply-To: <20240908124124.1971-1-tangbin@cmss.chinamobile.com>
+X-Cookie: Last week's pet, this week's special.
 
-On Sun, 08 Sep 2024 22:17:34 +0000, Arnd Bergmann wrote:
-> On x86, the header is not already included implicitly,
-> breaking compile-testing:
-> 
-> In file included from sound/soc/mediatek/mt8365/mt8365-afe-common.h:19,
->                  from sound/soc/mediatek/mt8365/mt8365-afe-pcm.c:18:
-> sound/soc/mediatek/mt8365/mt8365-afe-pcm.c: In function 'mt8365_afe_cm2_mux_conn':
-> sound/soc/mediatek/mt8365/mt8365-reg.h:952:41: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
->   952 | #define CM2_AFE_CM2_CONN_CFG1(x)        FIELD_PREP(CM2_AFE_CM2_CONN_CFG1_MASK, (x))
->       |                                         ^~~~~~~~~~
-> 
-> [...]
 
-Applied to
+--OMzUP2TZUyaqgLUe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Sun, Sep 08, 2024 at 08:41:23PM +0800, Tang Bin wrote:
+> In the function snd_soc_alloc_ac97_component &
+> snd_soc_new_ac97_component, the error return is
+> ERR_PTR, so fix the incorrect description.
+>=20
+> Fixes: 47e039413cac ("ASoC: soc-ac97: Return correct error codes")
+> Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
 
-Thanks!
+That commit hash corresponds to "ASoC: Add support for allocating AC'97
+device before registering it" which is not what your Fixes tag says,
+there is a commit with that title but it's got hash
+76f5aaabce492aa6991c28c96bb78b00b05d06c5.
 
-[1/1] ASoC: mediatek: mt8365: include linux/bitfield.h
-      commit: 6b31d6a4ca3b4d8abfb39127130889f9a9a38aa1
+--OMzUP2TZUyaqgLUe
+Content-Type: application/pgp-signature; name="signature.asc"
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+-----BEGIN PGP SIGNATURE-----
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbfL8gACgkQJNaLcl1U
+h9CODwf+OVduaE2xBOG/Qzm688Yss1s3G5TGCqNeubivPxXAQdvTBjmpgIBNgLrJ
+/f1MJJPgxxY7tUZY/wTvQ3CnJXMOC9Em5gYtf5MX+ibsBzDaKkA/YPfoAGi5Egtk
+EWBhCUzHu8HAE/8sOmE8El9aDokOtyUnQ7R5IUDVBl1oBxPcmZdH9ioP+ZqQijhM
+cfRxi4bhRArk/DCQD1TKfCNYIEt09VSHGp5SM8p8b6LBe5vIXxPysxiDui/fHqpu
+LQoct63sW4sUPHccLp5PMN9JwK4ioD6oBflVl1jWxqkHjAAEbZ26CiM2qYzekWLa
+NRL3MQGC9eiy6CTR+0N4rlBlDDkQjg==
+=SIrX
+-----END PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--OMzUP2TZUyaqgLUe--
