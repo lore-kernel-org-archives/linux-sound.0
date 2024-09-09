@@ -1,22 +1,23 @@
 Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80F0B1AD9D3
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B4704C81
 	for <linux-sound@vger.kernel.org>; Mon,  9 Sep 2024 07:19:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725866375; cv=none; b=cZdkM6cx2VcSo8uVjUurzgS53NTrUXVsYqNRlzEZT1ZK41+/WttO5Y85TsOXoB6k53lOmcRMiEZM+na/XyfXmHu0XdwTqxvu0x3j+rozlpLBLhbbiQo3VeqtaLnErdyiGCq7Qj/fNotVt/B+mLxTb+uG5wmWnfOh7UQSYmr+Prc=
+	t=1725866375; cv=none; b=lVy3PqcQSKJJ1lw3OVkbkhKqMOC8ZF6dQB+Vya4+L8srQfNn3p/6dwBLwV72p9e9cgXFuIuSVnvKJspLDSeDqUASo3HSWzs+7rumr3Zcovtyr5CFuj+FhA/9I4gmQ05kubJYB9iEHeQSqQcvrPXk6SZeb5tYNsQBzgqhVvo9uqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1725866375; c=relaxed/simple;
-	bh=smjF/m6JANvq+YSLnpImJwdWkSLA7dYeYW0ThCs6CqU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZhwqCkguUGHq3wm4c7l0TF2qjXWD3Efa9CWagmGrsj8Diuz45nJ1zD1kysnSDw7JG6WE3/yeJrwU/4JdZQrx6jw2jujT3VechvTY+0aqv/VW+rD8Vk4V6ZyMId6BWxQ0fL2qQSsiLPH2ALpmyf/7XbRU45mFyBTRAjQiJYv31J4=
+	bh=1kmYK5zH1cNYmpEbbOHXVJUqNE8qTtSE0nuvjR/eXd0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=kmA+pcw29QzDTNVaJAHvJbYKeJZ9zsIUZPJWKcdTc6iI8BLc2eUToxAiDiTMdAjbcwKGEmQ1kEInsZIwN4uer9WgZ4QCdgBGRiwbvPrhHTTPYy9W4JkBZpo3W4nBEqc+GLE+aWcIiknE57utE3vVmDhcNEam61u93am17SawSjc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
 Received: from loongson.cn (unknown [223.64.68.147])
-	by gateway (Coremail) with SMTP id _____8CxB+mBod5m8JgCAA--.4954S3;
-	Mon, 09 Sep 2024 15:19:29 +0800 (CST)
+	by gateway (Coremail) with SMTP id _____8AxpuiDod5m_ZgCAA--.4817S3;
+	Mon, 09 Sep 2024 15:19:31 +0800 (CST)
 Received: from localhost.localdomain (unknown [223.64.68.147])
-	by front1 (Coremail) with SMTP id qMiowMCxodZ+od5mqyoCAA--.12416S2;
-	Mon, 09 Sep 2024 15:19:27 +0800 (CST)
+	by front1 (Coremail) with SMTP id qMiowMCxodZ+od5mqyoCAA--.12416S3;
+	Mon, 09 Sep 2024 15:19:30 +0800 (CST)
 From: Binbin Zhou <zhoubinbin@loongson.cn>
 To: Binbin Zhou <zhoubb.aaron@gmail.com>,
 	Huacai Chen <chenhuacai@loongson.cn>,
@@ -33,10 +34,12 @@ Cc: Huacai Chen <chenhuacai@kernel.org>,
 	Xuerui Wang <kernel@xen0n.name>,
 	loongarch@lists.linux.dev,
 	Binbin Zhou <zhoubinbin@loongson.cn>
-Subject: [PATCH v1 0/8] ASoC: loongson: Simplify code formatting
-Date: Mon,  9 Sep 2024 15:19:04 +0800
-Message-ID: <cover.1725844530.git.zhoubinbin@loongson.cn>
+Subject: [PATCH v1 1/8] ASoC: loongson: Use BIT() macro
+Date: Mon,  9 Sep 2024 15:19:05 +0800
+Message-ID: <ccca555c96f18c0ecf5f1544c82945ba651d105f.1725844530.git.zhoubinbin@loongson.cn>
 X-Mailer: git-send-email 2.43.5
+In-Reply-To: <cover.1725844530.git.zhoubinbin@loongson.cn>
+References: <cover.1725844530.git.zhoubinbin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,54 +47,91 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowMCxodZ+od5mqyoCAA--.12416S2
+X-CM-TRANSID:qMiowMCxodZ+od5mqyoCAA--.12416S3
 X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/
-X-Coremail-Antispam: 1Uk129KBj9xXoWruFy3tF15XFyDurW3uFW8Zrc_yoWkWrb_Wa
-	y2ga4rGryDXFy3Aa47Xr45KrW7WrWxAa4rC3WDtw4xWw1ayr13XF4UurWUW3W7XryDArn8
-	Xa18ur48ZryxKosvyTuYvTs0mTUanT9S1TB71UUUUjJqnTZGkaVYY2UrUUUUj1kv1TuYvT
-	s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
-	cSsGvfJTRUUUbS8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
-	vaj40_Wr0E3s1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
-	w2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
-	W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6r4UJVWxJr1ln4kS14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
-	xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r12
-	6r1DMcIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64
-	vIr41lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_
-	Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
-	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
-	cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
-	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
-	14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07j5o7tUUUUU=
+X-Coremail-Antispam: 1Uk129KBj93XoWxAryfKr45trWDuw1rurW7trc_yoW5CF1rpr
+	sxZFZYgr45Jr4xCwn3tryrtw17J3yrXFyIqFsxWwsFqrs7Zw40vryfXFs3JFy2vr97G3yU
+	ZF97A3y09a9xGrbCm3ZEXasCq-sJn29KB7ZKAUJUUUUD529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUBIb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+	xVW8Jr0_Cr1UM2kKe7AKxVWUAVWUtwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
+	AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
+	tVWrXwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7V
+	AKI48JMxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY
+	6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
+	xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xII
+	jxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw2
+	0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x02
+	67AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8XTm3UUUUU==
 
-Hi all:
+Where applicable, use BIT() macro instead of shift operation to improve
+readability.
 
-This patchset attempts to improve code readability by simplifying code
-formatting.
-No functional changes.
+Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
+---
+ sound/soc/loongson/loongson_dma.c | 10 +++++-----
+ sound/soc/loongson/loongson_i2s.h | 24 ++++++++++++------------
+ 2 files changed, 17 insertions(+), 17 deletions(-)
 
-Original link:
-https://lore.kernel.org/all/c54fbc2582702689c005e1ba528ab2318b1adde6.1725518229.git.zhoubinbin@loongson.cn/
-
-Thanks.
-
-Binbin Zhou (8):
-  ASoC: loongson: Use BIT() macro
-  ASoC: loongson: Simplify probe() with local dev variable
-  ASoC: loongson: Simplify with dev_err_probe()
-  ASoC: loongson: Simplify if statment in loongson_card_hw_params()
-  ASoC: loongson: Simplify of_node_put() reference
-  ASoC: loongson: Replace if with ternary operator
-  ASoC: loongson: Factor out loongson_card_acpi_find_device() function
-  ASoC: loongson: Factor out loongson i2s enable clock functions
-
- sound/soc/loongson/loongson_card.c    | 142 +++++++++++++-------------
- sound/soc/loongson/loongson_dma.c     |  10 +-
- sound/soc/loongson/loongson_i2s.c     | 110 ++++++++++----------
- sound/soc/loongson/loongson_i2s.h     |  24 ++---
- sound/soc/loongson/loongson_i2s_pci.c |  51 ++++-----
- 5 files changed, 166 insertions(+), 171 deletions(-)
-
+diff --git a/sound/soc/loongson/loongson_dma.c b/sound/soc/loongson/loongson_dma.c
+index 0238f88bc674..20e4a0641340 100644
+--- a/sound/soc/loongson/loongson_dma.c
++++ b/sound/soc/loongson/loongson_dma.c
+@@ -17,11 +17,11 @@
+ #include "loongson_i2s.h"
+ 
+ /* DMA dma_order Register */
+-#define DMA_ORDER_STOP          (1 << 4) /* DMA stop */
+-#define DMA_ORDER_START         (1 << 3) /* DMA start */
+-#define DMA_ORDER_ASK_VALID     (1 << 2) /* DMA ask valid flag */
+-#define DMA_ORDER_AXI_UNCO      (1 << 1) /* Uncache access */
+-#define DMA_ORDER_ADDR_64       (1 << 0) /* 64bits address support */
++#define DMA_ORDER_STOP          BIT(4) /* DMA stop */
++#define DMA_ORDER_START         BIT(3) /* DMA start */
++#define DMA_ORDER_ASK_VALID     BIT(2) /* DMA ask valid flag */
++#define DMA_ORDER_AXI_UNCO      BIT(1) /* Uncache access */
++#define DMA_ORDER_ADDR_64       BIT(0) /* 64bits address support */
+ 
+ #define DMA_ORDER_ASK_MASK      (~0x1fUL) /* Ask addr mask */
+ #define DMA_ORDER_CTRL_MASK     (0x0fUL)  /* Control mask  */
+diff --git a/sound/soc/loongson/loongson_i2s.h b/sound/soc/loongson/loongson_i2s.h
+index 89492eebf834..c8052a762c1b 100644
+--- a/sound/soc/loongson/loongson_i2s.h
++++ b/sound/soc/loongson/loongson_i2s.h
+@@ -27,18 +27,18 @@
+ #define LS_I2S_RX_ORDER 0x110 /* RX DMA Order */
+ 
+ /* Loongson I2S Control Register */
+-#define I2S_CTRL_MCLK_READY	(1 << 16) /* MCLK ready */
+-#define I2S_CTRL_MASTER		(1 << 15) /* Master mode */
+-#define I2S_CTRL_MSB		(1 << 14) /* MSB bit order */
+-#define I2S_CTRL_RX_EN		(1 << 13) /* RX enable */
+-#define I2S_CTRL_TX_EN		(1 << 12) /* TX enable */
+-#define I2S_CTRL_RX_DMA_EN	(1 << 11) /* DMA RX enable */
+-#define I2S_CTRL_CLK_READY	(1 << 8)  /* BCLK ready */
+-#define I2S_CTRL_TX_DMA_EN	(1 << 7)  /* DMA TX enable */
+-#define I2S_CTRL_RESET		(1 << 4)  /* Controller soft reset */
+-#define I2S_CTRL_MCLK_EN	(1 << 3)  /* Enable MCLK */
+-#define I2S_CTRL_RX_INT_EN	(1 << 1)  /* RX interrupt enable */
+-#define I2S_CTRL_TX_INT_EN	(1 << 0)  /* TX interrupt enable */
++#define I2S_CTRL_MCLK_READY	BIT(16) /* MCLK ready */
++#define I2S_CTRL_MASTER		BIT(15) /* Master mode */
++#define I2S_CTRL_MSB		BIT(14) /* MSB bit order */
++#define I2S_CTRL_RX_EN		BIT(13) /* RX enable */
++#define I2S_CTRL_TX_EN		BIT(12) /* TX enable */
++#define I2S_CTRL_RX_DMA_EN	BIT(11) /* DMA RX enable */
++#define I2S_CTRL_CLK_READY	BIT(8)  /* BCLK ready */
++#define I2S_CTRL_TX_DMA_EN	BIT(7)  /* DMA TX enable */
++#define I2S_CTRL_RESET		BIT(4)  /* Controller soft reset */
++#define I2S_CTRL_MCLK_EN	BIT(3)  /* Enable MCLK */
++#define I2S_CTRL_RX_INT_EN	BIT(1)  /* RX interrupt enable */
++#define I2S_CTRL_TX_INT_EN	BIT(0)  /* TX interrupt enable */
+ 
+ #define LS_I2S_DRVNAME		"loongson-i2s"
+ 
 -- 
 2.43.5
 
