@@ -1,152 +1,254 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F05916FF5F
-	for <linux-sound@vger.kernel.org>; Mon,  9 Sep 2024 07:45:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EAD0176237;
+	Mon,  9 Sep 2024 07:51:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725867924; cv=none; b=Lbalmc/S2+63TX6zjBdb1joRBXwa9y/7p+XBnKdh+Aw9q1t1fszyn9ZDuuIBS3LXxIfVu43HtzxRLCuMWvbGtG9ZW4jJFNZ8zRoefnF068uqUT0STm690agbgoSQpgW1C0Tn7iAjfqyyCcZu/E2RTPI6XeHmjiWXyAbdxHvKwkg=
+	t=1725868311; cv=none; b=O/9KqLyKjmxFPoM240spTMiUE121U6MJJyYhSLZ6cFizlYcH368NV/tub3lz3ZFSoMTaMXGRfJvHbM7dKHqOHE2Bxpfzd9XYxsl01XlJj55QCv+gWb1Pi/VYELlBNWd7KwIpRXpLzxwZ3n0Ctwtu6ezvKV7snEB3VEEpX2yA36U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725867924; c=relaxed/simple;
-	bh=YXgyD+BvDAYww72xsg/3C/Emt8qX1a+X/XRm4a+MPxM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LQh0W4Qa2rGfK1rSvdNtUDshVbge/67SawhmocGId9sfW8eEU7lBjovyh2ffyCyFdrAaqbNMT5botUWf2ioqoO7DZ4sbouZKbW37wf3onzAaiw/5dkxnlClOblZemzxPKld75nMdLTkWdAEmAW5OBD7c1hPfh3sFuCX5T1QgCRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hSNjoozd; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1725868311; c=relaxed/simple;
+	bh=NaK4IGkK3yYM9oPYSZNZv1mQk+31AqxJcc0vqsBTh4o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uEuoM11AEPwCxQ6qihZPjZB7hV5WTk+ncpKCV7o2tF8qOJJ2/R1/z9+rYV5zIPQUE+YJhhlg1t5gNYFljF/vF3bI+Qjhe8ZCtsbZS89+pBms65qIbDlGQvWsowok32ro8ukg0TbjYj3npKYHMWsy81rxf3TlVMxORsfH0ohtF0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y32/EI+f; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hSNjoozd"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-42cb1866c00so2174565e9.0
-        for <linux-sound@vger.kernel.org>; Mon, 09 Sep 2024 00:45:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y32/EI+f"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a86e9db75b9so514144366b.1;
+        Mon, 09 Sep 2024 00:51:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1725867920; x=1726472720; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=fjQh2XJsv0I6HwPdG7/UttA/rIwMQb/L5sm8jJh9P18=;
-        b=hSNjoozdU/iADuxlpNgQOtkPQKrBEYEY0VGOrxrji0jr0ZdD3Gytyta8shM+t8whAL
-         C5lwaZG6HgWEWBXR0be9mg+LyrZ2Y0p7Flnn6+s/B+eoQPBRdhJaIieF+d04hC6JA8b5
-         tFdkVAfP6hMhh+9mYCum0HrmXjy9gAGmjm2VmSLpV8XLc1pe2KGpB4kn6mimaGi7h6kd
-         yKnJazdjqeTbQTfjowqcEP2bCmMSp0wn8XlEPPGbii+4KtPfyHc4pQk+iAJdFd8i71at
-         mqLfLkwQHZTlvF4QVxVU4cVrUuPN9/VBGYJznnOc1Fohf/EvOpj6+jydYxFNQqGi6FfI
-         /+rQ==
+        d=gmail.com; s=20230601; t=1725868308; x=1726473108; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NnlMePaQtVgsvXk9LZxuNr2z31hgnUzp7zp9Z82EdG4=;
+        b=Y32/EI+fmUFHuB2dUKLcjsrEd4BvF62kW5zQVc+jTNxUYbI7wXliDxDc1VrZ8nCHY0
+         vPEt1+b768PuUh0ZmUdMsSgMtWcegRe8A3okw9PrGj483j25BrDjvLu5QTwt/OKPgl6V
+         LXcsNKkaNJrRMmFk8xsnkSdfMX8bcv4C0hFFJVDdyfa646m0Vu6ZIBGmtJ29QE/nHcrL
+         XNmoxb9/r2NnaA2KgXpR5z9DjydAmgAj1dWaW2MwG4xys8A/h6KHVmVCxPRmCNJp/4ak
+         u4fmD2TxdQzJiv7X4WJ46Vh7kQHqKsi0yg1WU1C7R03X2SPsO5C2lF93z9yb+St2SuTp
+         qbjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725867920; x=1726472720;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fjQh2XJsv0I6HwPdG7/UttA/rIwMQb/L5sm8jJh9P18=;
-        b=liVks54eJknutNNIh+6cYGoLmfvqGeQea+Hlm6eOG96vkR48DlmkSDecpSzg9fF9g7
-         xmQqn9WgNcvG5SAXDyA3vz63aF6hbxSxmyLzTqPeqz0Awbnxf4kUcQfGZYA6w8e2m+F8
-         orrGEcMtAhKnlBAXOLLhsgvTuczmgL0y30cSEweoefoadPk03LTpZhe8o4Lm7EJsCj1u
-         o/VyH3oHTY6JhtZ2G2oi0LSmRlVrfyE7uyB1zO+6aJ3Dv9SIM4EgOKyFt83W8dULQzOi
-         XMeXy7edP3lrgbBnZNOdwCVEZONLUiWroYOMfl9X79wGhd7z8VLBMB/eNmF5zGXGtCx6
-         OMgg==
-X-Forwarded-Encrypted: i=1; AJvYcCUZ4eT6VWGXjcPwqD3kBTTkiBknDECnQz2BJdZkvWfN62juawy2GAkXiBEd46ERiy9487yWu0IO3K7ULA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwFSBXWNVGPLvbwYbBfMJbKi+AR8ZDMj4YkxDo9Pp+X6cqxREta
-	X1GCaWpo8C6fiTJgHkQgrMnXANJNPEO4uQnf4/Y1/THtTU13ZHROujBJyK2zhn8=
-X-Google-Smtp-Source: AGHT+IFawsjy94sm9JTMSlJcXrLVFefQrZYbDPUs2sfuWsg3M2tnsyv4eD/Rq9JW3lkycM+4pIbD2w==
-X-Received: by 2002:a05:600c:19cc:b0:426:5dd5:f245 with SMTP id 5b1f17b1804b1-42c9f97d30amr34465475e9.2.1725867920051;
-        Mon, 09 Sep 2024 00:45:20 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.222.82])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956dddacsm5244840f8f.107.2024.09.09.00.45.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Sep 2024 00:45:19 -0700 (PDT)
-Message-ID: <739f8f91-a751-4e4f-8239-078466415272@linaro.org>
-Date: Mon, 9 Sep 2024 09:45:16 +0200
+        d=1e100.net; s=20230601; t=1725868308; x=1726473108;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NnlMePaQtVgsvXk9LZxuNr2z31hgnUzp7zp9Z82EdG4=;
+        b=rN/2GejFzzP9iuZP3lTF3QcVdqxmbnvWXCqeNFkKhoze89fQCAcblo0V0WL1Dc6kAI
+         xHUr7bGwsJChujpOe92HFlNy0v5xpo5NmPXRS+LjzxaNgMkYg49fJuQpMrk+MDzg0/Fo
+         lwUmwW26bCYtV17a2cMey01cVAJqUFEJ+JY6QVf2iehQnQOVn91vUt6ONrJHQsXbRKDg
+         KKyF1TZfQQZlsYccQ6nIA+F+ehWJY7RfwYtFswXXbZm/2xsGdNHm/OqeJu+GE6/KW3OI
+         acATY8C0nM3DZCuVE72wuB4isBbTSkkgod1do/2BeJUfxBQm2BkZLNXCpABnOWFEJaKn
+         iyZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVrIh2NFeciSzVVw0Tu+d0R+XBNBbr2U1Ya64m8TqGQzrmnTIoKy4+LQ3PLImECBFRJaEtOeyGOD1q8@vger.kernel.org, AJvYcCXn9ZV2BuOkwpdEGDWoKmNXjo1Yw+6DQ56bWX8O0tsBi1i6V8ID1MH7wBZOvAV/rjCpJmBW1Rii3kg5xgQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YznV7b3CFP6fZVNdFReHiTyID/s5+8np8USqO+5/+iuBcvXxSEH
+	przJSJUO1P3WY1st0j7p262NX4prVkWcSSTDHri03yHVjggwKIR/d6VFs0dBrrwf/Lk762+0lGq
+	hRmy7HRiKXa6ATJb+G1DTa/Ewe1o=
+X-Google-Smtp-Source: AGHT+IEhowGhRw3O8ArkWuoOyknvA+dN/sW3KyN/Fh6QVm9IsWldUL1q16FBTUiLgmmhisNSM7Df20xn6rpR9GQt0hI=
+X-Received: by 2002:a17:907:3e04:b0:a7a:97ca:3056 with SMTP id
+ a640c23a62f3a-a8a885f5cd9mr986531866b.16.1725868307394; Mon, 09 Sep 2024
+ 00:51:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 3/8] ASoC: loongson: Simplify with dev_err_probe()
-To: Binbin Zhou <zhoubinbin@loongson.cn>, Binbin Zhou
- <zhoubb.aaron@gmail.com>, Huacai Chen <chenhuacai@loongson.cn>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: Huacai Chen <chenhuacai@kernel.org>,
- Tang Bin <tangbin@cmss.chinamobile.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- linux-sound@vger.kernel.org, Xuerui Wang <kernel@xen0n.name>,
- loongarch@lists.linux.dev
-References: <cover.1725844530.git.zhoubinbin@loongson.cn>
- <07855aa6c290ec826d63e68b898e7f4afac5e30d.1725844530.git.zhoubinbin@loongson.cn>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <07855aa6c290ec826d63e68b898e7f4afac5e30d.1725844530.git.zhoubinbin@loongson.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <cover.1725518229.git.zhoubinbin@loongson.cn> <f9111564acc6c9ac011318a7eb3c6843ea0529ce.1725518229.git.zhoubinbin@loongson.cn>
+ <x2vcgpjlamobnlsj7ty5aekj35kjzpraizqd2zhvbwi7mhputx@snxtfb3hgznb>
+In-Reply-To: <x2vcgpjlamobnlsj7ty5aekj35kjzpraizqd2zhvbwi7mhputx@snxtfb3hgznb>
+From: Binbin Zhou <zhoubb.aaron@gmail.com>
+Date: Mon, 9 Sep 2024 13:51:32 +0600
+Message-ID: <CAMpQs4JsbodfscgQPYVz0K99mYAQzZp3pvhmHuvddsw3YWvQEA@mail.gmail.com>
+Subject: Re: [PATCH v1 06/10] ASoC: loongson: Fix codec detection failure on
+ FDT systems
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Binbin Zhou <zhoubinbin@loongson.cn>, Huacai Chen <chenhuacai@loongson.cn>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Huacai Chen <chenhuacai@kernel.org>, 
+	devicetree@vger.kernel.org, linux-sound@vger.kernel.org, 
+	Xuerui Wang <kernel@xen0n.name>, loongarch@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 09/09/2024 09:19, Binbin Zhou wrote:
-> Error handling in probe() can be a bit simpler with dev_err_probe().
-> 
-> Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
+Hi Krzysztof:
 
-...
+Thanks for your detailed review.
 
->  
-> -	if (has_acpi_companion(dev))
-> -		ret = loongson_card_parse_acpi(ls_priv);
-> -	else
-> -		ret = loongson_card_parse_of(ls_priv);
-> -	if (ret < 0)
-> -		return ret;
-> +	ret = has_acpi_companion(dev) ? loongson_card_parse_acpi(ls_priv)
-> +				      : loongson_card_parse_of(ls_priv);
-> +	if (ret)
-> +		dev_err_probe(dev, ret, "Error parsing acpi/of properties\n");
+On Fri, Sep 6, 2024 at 4:29=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.org=
+> wrote:
+>
+> On Thu, Sep 05, 2024 at 03:02:55PM +0800, Binbin Zhou wrote:
+> > When the Codec is compiled into a module, we can't use
+> > snd_soc_of_get_dlc() to get the codec dai_name, use
+> > snd_soc_get_dai_name() instead.
+> >
+> > Also, for the cpu dailink, its dai_name is already defined as
+> > "loongson-i2s", so just get the corresponding of_node attribute here.
+> >
+> > Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
+> > ---
+> >  sound/soc/loongson/loongson_card.c | 89 +++++++++++++++++++++---------
+> >  1 file changed, 63 insertions(+), 26 deletions(-)
+> >
+> > diff --git a/sound/soc/loongson/loongson_card.c b/sound/soc/loongson/lo=
+ongson_card.c
+> > index a25287efdd5c..d45a3e77cb90 100644
+> > --- a/sound/soc/loongson/loongson_card.c
+> > +++ b/sound/soc/loongson/loongson_card.c
+> > @@ -119,44 +119,81 @@ static int loongson_card_parse_acpi(struct loongs=
+on_card_data *data)
+> >       return 0;
+> >  }
+> >
+> > -static int loongson_card_parse_of(struct loongson_card_data *data)
+> > +static int loongson_parse_cpu(struct device *dev, struct device_node *=
+*dai_node)
+> >  {
+> > -     struct snd_soc_card *card =3D &data->snd_card;
+> > -     struct device_node *cpu, *codec;
+> > -     struct device *dev =3D card->dev;
+> > -     int ret, i;
+> > +     struct device_node *cpu;
+> > +     int ret =3D 0;
+> >
+> >       cpu =3D of_get_child_by_name(dev->of_node, "cpu");
+> > -     if (!cpu) {
+> > -             dev_err(dev, "platform property missing or invalid\n");
+> > +     if (!cpu)
+> >               return -EINVAL;
+> > -     }
+> > +
+> > +     *dai_node =3D of_parse_phandle(cpu, "sound-dai", 0);
+> > +     if (!*dai_node)
+> > +             ret =3D -EINVAL;
+> > +
+> > +     of_node_put(cpu);
+>
+> This goes just after of_parse_phandle, which simplifies your code.
 
-This does not make anything simpler - you don't use dev_err_probe()
-features here. OTOH, you duplicate error messages.
+OK.. the ret param is unnecessary also.
+>
+> > +     return ret;
+> > +}
+> > +
+> > +static int loongson_parse_codec(struct device *dev, struct device_node=
+ **dai_node,
+> > +                             const char **dai_name)
+> > +{
+> > +     struct of_phandle_args args;
+> > +     struct device_node *codec;
+> > +     int ret =3D 0;
+> >
+> >       codec =3D of_get_child_by_name(dev->of_node, "codec");
+> > -     if (!codec) {
+> > -             dev_err(dev, "audio-codec property missing or invalid\n")=
+;
+> > +     if (!codec)
+>
+> Hm? So you exit here and then caller does of_node_put on stack value.
+> This is buggy.
 
-Best regards,
-Krzysztof
+Sorry, I can not get your point, I think there is nothing that should be pu=
+t.
+>
+> > +             return -EINVAL;
+> > +
+> > +     ret =3D of_parse_phandle_with_args(codec, "sound-dai", "#sound-da=
+i-cells", 0, &args);
+> > +     if (ret)
+> > +             goto free_codec;
+> > +
+> > +     ret =3D snd_soc_get_dai_name(&args, dai_name);
+> > +     if (ret)
+>
+> Your error paths should clean here. Each function is responsible to
+> clean up after itself in case of errors, not rely on caller.
 
+Yes, I should of_node_put(args.np); here
+>
+> > +             goto free_codec;
+> > +
+> > +     *dai_node =3D of_parse_phandle(codec, "sound-dai", 0);
+> > +     if (!*dai_node)
+> >               ret =3D -EINVAL;
+> > -             goto free_cpu;
+> > +
+> > +free_codec:
+>
+> You are not freeing any resources here (at least not directly). You are
+> dropping reference. Use matching label name. free is associated with
+> kalloc()..
+>
+
+OK, I will rename the label name as codec_put.
+
+Thanks.
+Binbin
+>
+> > +     of_node_put(codec);
+> > +     return ret;
+> > +}
+> > +
+> > +static int loongson_card_parse_of(struct loongson_card_data *data)
+> > +{
+> > +     struct device_node *codec_dai_node, *cpu_dai_node;
+> > +     struct snd_soc_card *card =3D &data->snd_card;
+> > +     struct device *dev =3D card->dev;
+> > +     const char *codec_dai_name;
+> > +     int ret =3D 0, i;
+> > +
+> > +     ret =3D loongson_parse_cpu(dev, &cpu_dai_node);
+> > +     if (ret) {
+> > +             dev_err(dev, "cpu property missing or invalid.\n");
+> > +             goto out;
+> > +     }
+> > +
+> > +     ret =3D loongson_parse_codec(dev, &codec_dai_node, &codec_dai_nam=
+e);
+> > +     if (ret) {
+> > +             dev_err(dev, "audio-codec property missing or invalid.\n"=
+);
+> > +             goto out;
+> >       }
+> >
+> >       for (i =3D 0; i < card->num_links; i++) {
+> > -             ret =3D snd_soc_of_get_dlc(cpu, NULL, loongson_dai_links[=
+i].cpus, 0);
+> > -             if (ret) {
+> > -                     dev_err(dev, "getting cpu dlc error (%d)\n", ret)=
+;
+> > -                     goto free_codec;
+> > -             }
+> > -
+> > -             ret =3D snd_soc_of_get_dlc(codec, NULL, loongson_dai_link=
+s[i].codecs, 0);
+> > -             if (ret) {
+> > -                     dev_err(dev, "getting codec dlc error (%d)\n", re=
+t);
+> > -                     goto free_codec;
+> > -             }
+> > +             loongson_dai_links[i].platforms->of_node =3D cpu_dai_node=
+;
+> > +             loongson_dai_links[i].cpus->of_node =3D cpu_dai_node;
+> > +             loongson_dai_links[i].codecs->of_node =3D codec_dai_node;
+> > +             loongson_dai_links[i].codecs->dai_name =3D codec_dai_name=
+;
+> >       }
+> >
+> > -free_codec:
+> > -     of_node_put(codec);
+> > -free_cpu:
+> > -     of_node_put(cpu);
+> > +out:
+> > +     of_node_put(codec_dai_node);
+>
+> Yeah, so here we see drop of reference from stack-based pointer...
+>
+> Best regards,
+> Krzysztof
+>
