@@ -1,83 +1,148 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFDD5176ABB;
-	Mon,  9 Sep 2024 17:26:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A260A4C74;
+	Mon,  9 Sep 2024 17:51:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725902798; cv=none; b=pDLCRqA3ANnCle/2Tu+dwEDR1xcQ05mSiFqv2QSjadkzlrj/kAhXbJjA3XMN3FvfAq7KF5UFXlS2QftvZ9I9+Fh5PgB/wLRdtgsXdHPLsdNGZaJeRUiCkc5A9vDJmVgNfe2DnfqM28XxwQO4Qp1uGy+k94TUJpfzJ242yvT4K1A=
+	t=1725904287; cv=none; b=fMageF9Xe0oukZrx15XB6IuvL59Ih5tYcG7PLI68IxZ6XGFF121IqegbChxbUMPJsMU4AGusW/O09R312tBJLexRoYYkP+cAJdkFQug6a049VGl0v48AX1jlv/HkHX7cxNkTpkIVyEIXICkFUNhhpax4S5jXNDqrdRZfHgb1eEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725902798; c=relaxed/simple;
-	bh=AnFzIOts1bseLvgHbZIPxmk1t6OKKNJUx33RD6kae2w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lEJwgKVKkF4GiLxuN9GFDA/cV0tfTNsrlrMkZAyA/KrwDUdnXVSOqoiT+DLzjLdHh9HgT8JpRw2a2lPe65w92LHRWvf0aRmi+yBrpU7fSa76UEd+5PSogCSevDPEd4sWZOyhYYDSt1JbDqoeIdi9p6qvVzRmQk4If3HuqYQYI+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZrvFPkWH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725904287; c=relaxed/simple;
+	bh=eY6e0wMpGr8WqxVTymkObn0TwNs3B7eEMOO73YDRJpk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MCjIE5J1xakZzgs+DWITU9BEK9hXARl3lGv1QSGN7cYhx1dWanvoLweEtZIBWoMdfGm4okexByKAxQVJ5sTFFN7oHSEILaxPAl2VYR+OPiuheVx9B36lKF5OZpdfdwcSq489jAAiM6foyjZq4n8zDIkXro71KFsmB9BH+TPSdII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ihnda4iU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZrvFPkWH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C78DBC4CEC5;
-	Mon,  9 Sep 2024 17:26:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ihnda4iU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49A9EC4CECA;
+	Mon,  9 Sep 2024 17:51:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725902798;
-	bh=AnFzIOts1bseLvgHbZIPxmk1t6OKKNJUx33RD6kae2w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZrvFPkWHSMaPqVTZKNs4pFHA5ZIzafs3P0GXZLU99ZBviTO8XFXslT+daQrLF4iBJ
-	 CjVbSIVLTcaNHUASN/dkx6iFjI7cyWXFDdLtFb20XV4K5VU2oafTjY0uPnb1w/uELo
-	 NG83u0fVMeTupV9nEUZGFR5Ss5SvZ94RfWrcAcnM5UtVXAshwx5CgrU0q2pnk3Ojwn
-	 lV5s7OoIGvYIBLTJoIO4LUPPEKE7WU2XTTxukmCz3C/uxwiN2R/BeafVtVoDdaKHuF
-	 v4JMvN6WMadXnk1GKr73/kj+OafS+EyPwKoQ0iFIGfxrSo3U3IHgiErL/B9EEhVJC3
-	 +YNNzpQvLQVBA==
-Date: Mon, 9 Sep 2024 18:26:32 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Tang Bin <tangbin@cmss.chinamobile.com>
-Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: soc-ac97: Fix the incorrect description
-Message-ID: <98f0a674-1636-449f-b9a6-5668021d114b@sirena.org.uk>
-References: <20240908124124.1971-1-tangbin@cmss.chinamobile.com>
+	s=k20201202; t=1725904287;
+	bh=eY6e0wMpGr8WqxVTymkObn0TwNs3B7eEMOO73YDRJpk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Ihnda4iUVhNCl9YiyDBHWqtVTcj8v9zEcthQzTYSu1iOAYVtm7ZLoCwT7w3PgL/8l
+	 3kHvLPIEvkxjk4FlmhC/f+YxFUkgcp7jh4yZKg+qfg84VOo6IRLszjQlAj28XZTgff
+	 eyJtpfxLnSBjOmRqq5DAylbRcSOafNOWLMvIxj9h1nYRQ4cOKplip8VPrqWHs8mybr
+	 smJEhzbiMaM3ZK6PZ/Kmw9U2G5tVA8AjcabcMFn5MYF8zn9i5SU/YFZ781GRcidoUD
+	 Pg8EHTA2fnM4faxpJCirO5s0J4tlLS+8l3STAMpOHFhbpgpwKDLcIFWugYKPFHfeeR
+	 Yn6WjEvfWoKvQ==
+Message-ID: <7659bae7-93f6-492d-a54f-21abc611c2f2@kernel.org>
+Date: Mon, 9 Sep 2024 19:51:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="OMzUP2TZUyaqgLUe"
-Content-Disposition: inline
-In-Reply-To: <20240908124124.1971-1-tangbin@cmss.chinamobile.com>
-X-Cookie: Last week's pet, this week's special.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] ASoC: dt-bindings: microchip,sama7g5-i2smcc: Add
+ 'sound-name-prefix' property
+To: Andrei.Simion@microchip.com, claudiu.beznea@tuxon.dev,
+ lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ Nicolas.Ferre@microchip.com, alexandre.belloni@bootlin.com
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20240909083530.14695-1-andrei.simion@microchip.com>
+ <20240909083530.14695-3-andrei.simion@microchip.com>
+ <2bb15a72-82ef-4bc4-b01e-e4768687bab6@kernel.org>
+ <d4b445ec-dc9c-4313-8ef2-e5c086f21449@microchip.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <d4b445ec-dc9c-4313-8ef2-e5c086f21449@microchip.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 09/09/2024 14:28, Andrei.Simion@microchip.com wrote:
+>>>      minItems: 1
+>>>
+>>> +  sound-name-prefix:
+>>> +    pattern: "^I2SMCC[0-9]$"
+>>
+>> This does not look correct. Name/prefix can be anything matching real
+>> hardware, why are you restricting it? How can you predict all names?
+>>
+> Based on the datasheet, the SoC(s) have the following naming conventions:
+>   - sama7g5: I2SMCC0 and I2SMCC1
+>   - sam9x60/sam9x75: I2SMCC
+> 
+> To accommodate these variations, I propose using a more relaxed pattern: "^I2SMCC(0-9)?$".
+> This pattern allows for both the fixed prefix and an optional single digit at the end.
+> What are your thoughts on this approach?
 
---OMzUP2TZUyaqgLUe
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I understand this does not differ per board, because it is component of
+the SoC, yet still I do not see any value in enforcing name.
 
-On Sun, Sep 08, 2024 at 08:41:23PM +0800, Tang Bin wrote:
-> In the function snd_soc_alloc_ac97_component &
-> snd_soc_new_ac97_component, the error return is
-> ERR_PTR, so fix the incorrect description.
->=20
-> Fixes: 47e039413cac ("ASoC: soc-ac97: Return correct error codes")
-> Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
+> 
+> 
+>>> +    $ref: /schemas/types.yaml#/definitions/string
+>>> +    description:
+>>> +      Unique prefixes for the sink/source names of the component, ensuring
+>>> +      distinct identification among multiple instances.
+>>
+>> You are duplicating property definitions. This is not needed at all.
+>> Maybe your schema misses $ref to common schema.
+>>
+> 
+> I understand the concern about duplicating property definitions.
+> In the current file, I have referenced `dai-common` as shown here:
+> https://github.com/torvalds/linux/blob/master/Documentation/devicetree/bindings/sound/microchip%2Csama7g5-i2smcc.yaml#L74C1-L75C27
+> 
+> Could you please confirm if this reference is correctly implemented,
 
-That commit hash corresponds to "ASoC: Add support for allocating AC'97
-device before registering it" which is not what your Fixes tag says,
-there is a commit with that title but it's got hash
-76f5aaabce492aa6991c28c96bb78b00b05d06c5.
+Yeah, the dai-common $ref is correct, so you should not need it. Do you
+see any warning?
 
---OMzUP2TZUyaqgLUe
-Content-Type: application/pgp-signature; name="signature.asc"
+> or suggest any adjustments needed to align with the common schema?
 
------BEGIN PGP SIGNATURE-----
+I claim nothing has to be done and entire patch is redundant or not much
+helpful. Your commit msg did not explain *why* this is needed and what
+problem you are fixing, so what I can say? I don't know why should be
+aligned because I do not understand the problem being fixed.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbfL8gACgkQJNaLcl1U
-h9CODwf+OVduaE2xBOG/Qzm688Yss1s3G5TGCqNeubivPxXAQdvTBjmpgIBNgLrJ
-/f1MJJPgxxY7tUZY/wTvQ3CnJXMOC9Em5gYtf5MX+ibsBzDaKkA/YPfoAGi5Egtk
-EWBhCUzHu8HAE/8sOmE8El9aDokOtyUnQ7R5IUDVBl1oBxPcmZdH9ioP+ZqQijhM
-cfRxi4bhRArk/DCQD1TKfCNYIEt09VSHGp5SM8p8b6LBe5vIXxPysxiDui/fHqpu
-LQoct63sW4sUPHccLp5PMN9JwK4ioD6oBflVl1jWxqkHjAAEbZ26CiM2qYzekWLa
-NRL3MQGC9eiy6CTR+0N4rlBlDDkQjg==
-=SIrX
------END PGP SIGNATURE-----
+Best regards,
+Krzysztof
 
---OMzUP2TZUyaqgLUe--
