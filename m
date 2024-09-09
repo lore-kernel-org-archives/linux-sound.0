@@ -1,106 +1,124 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 829312C87A;
-	Mon,  9 Sep 2024 16:27:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEC582C87A;
+	Mon,  9 Sep 2024 16:28:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725899256; cv=none; b=ORjsSneOTbeCFQP7gMEj1JDYBiyGBk/J9gURtuXCkCABdz+cTJisNPkzddMqB2jrM/DPAv86RK5sktVvh0D0VtllJlDGh1zjjZsU/TEcp0r/VIltltOJuvxZcs8xZ2guYk3AveINEnGtPI9Q3x5vJ34i4CBOXXC1nTYzgw+pD2Y=
+	t=1725899307; cv=none; b=e4Lw5XKzxS+UMcADeQtVS6fEwEUQLAgfNfGTdWdBX7p1Wk2gQZTSaCqd2A/Jbl0fZtnVpPM0qwX4v3osA4+bICWPoqvorWGp/mKiA1Q5+b+QNZSF4fu+ZMk9zyxxFjQkvzTlGCsvNrn4pLDMOEf/AcPMcD0v52Q76/eQfDis7mo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725899256; c=relaxed/simple;
-	bh=H0jr+SzHPYKBvJPT/gKmwpTLaQo1a/FuWVAfEnVAPxU=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ujzIjiRZDAlK1dVfIShXPbioOYCADWOZEmSq/7JfeLG/sReLp0PetHfqAh6cz4YekCVe1mWfARPtSsfSkvU/byHvhMacde14X5AXG+2FEZLEPMX/bnE/JwfPoh6X9SmIRgMgMobzqtK/wChSO/nO+nHr2TtEIT8JNiBbF2j50Ow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Fzqwn3mr; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1725899307; c=relaxed/simple;
+	bh=AT3uhYXs4WQk5nUGzcghStqSzCBcYc5YHN4gjc6Dq3M=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=W2kkwZ9ffzqHTxMuekYmzBoZTfuvuMz2i4dPssPO3fYjVBncrhKMMs2LFLE0hhHUUzpLQv05xusUNVjlzcjQMh4llPGx5VhU+O1WGPK5PvqOOEApYAOJKvDDEs3W6v8ptD2tHS3J4B+367YL74JBFw1S5cs/n038Suy/0elTSpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jYS+RqKx; arc=none smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Fzqwn3mr"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4894jfAW028462;
-	Mon, 9 Sep 2024 11:27:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=z4rvLQhreBX1tTyXW/
-	B2/IXr7T8zpQHCXJ3hUqhaUnk=; b=Fzqwn3mrW1ZSfs46JfVbmeX/952TMhHjL2
-	GepVdeGd4v6hqo+5EaXtW9oSYJ8UE7FsTJqw3hrdnbchjcZXkxYrleZr6h4PB7X7
-	b+fAKcdvWIifhmyuFncRGHBG6aCWRkzbvK4NFlZzZ9crLnN2akdc2CQ0Ixp2ZoLd
-	Jcf/QbXMJ5YLL7hO69p4cNmT/XuP0FobWWSD/AAqP/kkMB4ztvG1fFdbrodKsykM
-	6GW8NsoWOAsIx+B8dBvowKqnvocOzbPsa3PDhIMznvBUMjO/etVttOsaadlU4Dkf
-	LbcqP2s5onS2SQ0yPvcyXPY6l7aYjkQXGkb8q986fKGhKbSrtwCQ==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 41gk8hsxjd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 09 Sep 2024 11:27:11 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 9 Sep 2024
- 17:27:09 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Mon, 9 Sep 2024 17:27:09 +0100
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 6439E820249;
-	Mon,  9 Sep 2024 16:27:09 +0000 (UTC)
-Date: Mon, 9 Sep 2024 17:27:08 +0100
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Jerome Brunet <jbrunet@baylibre.com>
-CC: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        "David
- Rhodes" <david.rhodes@cirrus.com>,
-        Richard Fitzgerald
-	<rf@opensource.cirrus.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
-	<broonie@kernel.org>,
-        Cezary Rojewski <cezary.rojewski@intel.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Liam Girdwood
-	<liam.r.girdwood@linux.intel.com>,
-        Peter Ujfalusi
-	<peter.ujfalusi@linux.intel.com>,
-        Bard Liao
-	<yung-chuan.liao@linux.intel.com>,
-        Ranjani Sridharan
-	<ranjani.sridharan@linux.intel.com>,
-        Kai Vehmanen
-	<kai.vehmanen@linux.intel.com>,
-        Srinivas Kandagatla
-	<srinivas.kandagatla@linaro.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        "Jernej
- Skrabec" <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>, <linux-sound@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        <alsa-devel@alsa-project.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>
-Subject: Re: [PATCH 08/13] ASoC: cs53l30: drop SNDRV_PCM_RATE_KNOT
-Message-ID: <Zt8h3PTmASuz4G+H@opensource.cirrus.com>
-References: <20240905-alsa-12-24-128-v1-0-8371948d3921@baylibre.com>
- <20240905-alsa-12-24-128-v1-8-8371948d3921@baylibre.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jYS+RqKx"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2d8b679d7f2so3556925a91.1;
+        Mon, 09 Sep 2024 09:28:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725899305; x=1726504105; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AO2g12o97GrYb+jXYO5BZ62vGbQeOV8uZETbJlcrW78=;
+        b=jYS+RqKxVevddQ8uGpT9ylm5ZX/izqXWcBkuvghXq49wMyVg+kd8bSWzZJtVkcIpdo
+         1fEeErZItfE3cqlDXA/4xgfW1VLPWMbGbdkNdiyYXiPMaSPc1HjkW7JAIiKJFt4WBAqs
+         nV+f8JvJrdvciCbtJWs98Pgc0yPgVqXwEA87vnTazTrfHp1naD6NB5NlIGYeHQIXVZO+
+         b7HTNM4x6CbrLIzgCNX8GgPGKHHICcxoDoNeZ6KEY6iUu7WaM2Ml7xIxgejIBEpfovj5
+         LztEoGm+HASE+Uw4HDG8TAqZ+xig2/bAs0VmbN2lqbxSBBDfTw6h+yJnUmKtjZZl/9cu
+         jfrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725899305; x=1726504105;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AO2g12o97GrYb+jXYO5BZ62vGbQeOV8uZETbJlcrW78=;
+        b=nYr4uOwBex/F5dOzJihaaIkp8NjoQJR+RQq5g62Jqntmos6Zh15iguILKWqYhUotjH
+         xeC789O86jCrcSiGO4dkwcctQnGUNVt2G6lanz2SojkWF09eGKpRAXZULld6g/vS3+NN
+         3JoRshsX6dPIURRYpFcCNDmqblzc9Pzv4Pt3M1NWSjJw/HBLvWIxLamvCGHvOPVj5PTt
+         XeT/3mGe57FCkamsp6PrHxIQ8R+mZJ+85nEW1nt7M62SkSiFhPtrRWoPUxe8sRo9ej0F
+         SrtDOyBde9QvPcdl8rvF5EETfOYMwNCpfoWS1Pj9UMY/8MYqbkPRjo0MwJQ7o3Z8Jyk4
+         B/uA==
+X-Forwarded-Encrypted: i=1; AJvYcCVB06/5y5hB9phdYSnrLOH6vsv657V6579cJh9xunPblQN/35OsgkwqgPRrBtd0fJqTUpWJY5OveB6DlaM=@vger.kernel.org, AJvYcCVJh7kWXmubMJYAwaJIQTIlNG7rnsUEWYqx6+OXT0YcX7IppNr4AGtJ+HPMOk1NN+FxyDoivofDXn0f3P8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3hcwc/0xh0g1a5zuDnpAjyQnT7/V6J5bSGpS2PoF8yTypXAA2
+	l6iuAztLsujugJNOe+/26ieQtA+GpTAOJbRZHIGxifb4cTwE/IJNRvpRpQSF
+X-Google-Smtp-Source: AGHT+IFxNVuk2fduecKMw2WpwK9T5MHZCQJjHo+MrHekAxaaaCiRiRg/e/Q09PKzkErJUPOHHMP5Vw==
+X-Received: by 2002:a17:90a:d143:b0:2d8:905e:d25b with SMTP id 98e67ed59e1d1-2dad4ef223emr13696799a91.9.1725899304980;
+        Mon, 09 Sep 2024 09:28:24 -0700 (PDT)
+Received: from localhost.localdomain ([187.17.229.39])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2dadc0782dfsm6867579a91.34.2024.09.09.09.28.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Sep 2024 09:28:24 -0700 (PDT)
+From: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
+To: tiwai@suse.com
+Cc: perex@perex.cz,
+	kailang@realtek.com,
+	sbinding@opensource.cirrus.com,
+	simont@opensource.cirrus.com,
+	foss@athaariq.my.id,
+	rf@opensource.cirrus.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	edson.drosdeck@gmail.com
+Subject: [PATCH] ALSA: hda/realtek: Enable mic on Vaio VJFH52
+Date: Mon,  9 Sep 2024 13:27:51 -0300
+Message-Id: <20240909162751.4790-1-edson.drosdeck@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240905-alsa-12-24-128-v1-8-8371948d3921@baylibre.com>
-X-Proofpoint-GUID: 8GjYTWpfJsCbPlFYmX7IjUPvN4bERpHt
-X-Proofpoint-ORIG-GUID: 8GjYTWpfJsCbPlFYmX7IjUPvN4bERpHt
-X-Proofpoint-Spam-Reason: safe
+Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 05, 2024 at 04:12:59PM +0200, Jerome Brunet wrote:
-> The custom rate constraint list was necessary to support 12kHz and 24kHz.
-> These rates are now available through SNDRV_PCM_RATE_12000 and
-> SNDRV_PCM_RATE_24000.
-> 
-> Use them and drop the custom rate constraint rule.
-> 
-> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
-> ---
+Vaio VJFH52 is equipped with ACL256, and needs a
+fix to make the internal mic and headphone mic to work.
+Also must to limits the internal microphone boost.
 
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Signed-off-by: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
+---
+ sound/pci/hda/patch_realtek.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-Thanks,
-Charles
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 452c6e7c20e2..6c7e7330da3a 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -7639,6 +7639,7 @@ enum {
+ 	ALC287_FIXUP_LENOVO_SSID_17AA3820,
+ 	ALCXXX_FIXUP_CS35LXX,
+ 	ALC245_FIXUP_CLEVO_NOISY_MIC,
++	ALC269_FIXUP_VAIO_VJFH52_MIC_NO_PRESENCE,
+ };
+ 
+ /* A special fixup for Lenovo C940 and Yoga Duet 7;
+@@ -9984,6 +9985,16 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.chained = true,
+ 		.chain_id = ALC256_FIXUP_SYSTEM76_MIC_NO_PRESENCE,
+ 	},
++	[ALC269_FIXUP_VAIO_VJFH52_MIC_NO_PRESENCE] = {
++		.type = HDA_FIXUP_PINS,
++		.v.pins = (const struct hda_pintbl[]) {
++			{ 0x19, 0x03a1113c }, /* use as headset mic, without its own jack detect */
++			{ 0x1b, 0x20a11040 }, /* dock mic */
++			{ }
++		},
++		.chained = true,
++		.chain_id = ALC269_FIXUP_LIMIT_INT_MIC_BOOST
++	},
+ };
+ 
+ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+@@ -10633,6 +10644,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1558, 0x961d, "Clevo N960S[CDF]", ALC293_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1558, 0x971d, "Clevo N970T[CDF]", ALC293_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1558, 0xa500, "Clevo NL5[03]RU", ALC293_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
++	SND_PCI_QUIRK(0x1558, 0xa554, "VAIO VJFH52", ALC269_FIXUP_VAIO_VJFH52_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1558, 0xa600, "Clevo NL50NU", ALC293_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1558, 0xa650, "Clevo NP[567]0SN[CD]", ALC256_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1558, 0xa671, "Clevo NP70SN[CDE]", ALC256_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
+-- 
+2.39.2
+
