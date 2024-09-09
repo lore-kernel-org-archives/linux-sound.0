@@ -1,87 +1,87 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 471B91B2519;
-	Mon,  9 Sep 2024 10:02:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 752501B29D9;
+	Mon,  9 Sep 2024 10:19:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725876181; cv=none; b=Zkei/k8cQeSypQi73kyV2HTcel6x7YVXh81/GYDCZbo+PmSixTwuqadMuPdiNc9vFvVg+BFDKB3P07InrA9Wht3N9/SaJwx1RlneW1tbAqFRnTPgxu9uY9aj2LE+7bNlyWsnyeezCtlyhuXN7Aal5oSdU09iJyeWHebZnsUseLg=
+	t=1725877169; cv=none; b=alNsSYrbL4QwbX3YWifEV0T5LL9f3wevOpnW55DcWxF0c7KlGZ8jcsBPCpMszYZjuLpnNmglvplWmmUuxFCXjWJjRZ8g5wJDIL5KWdBkrXdbLuKCWPLn8tpk9JLwfIE9TcVg5CfO8oR2Cvi48ndUUFsKpR3oeLOBeVXnWWfRC2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725876181; c=relaxed/simple;
-	bh=QyYTZyx1I3L7IkMpLtaF1TMsnO5dFt99PjD94R3Zaqo=;
+	s=arc-20240116; t=1725877169; c=relaxed/simple;
+	bh=nktx9psnkiSgrQC9PaDaFqG/X6eskWDGPU8zQULZuP0=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mMW86wCaeln7NgrDSjMufh2f1NpNMk7MKSjqCtetX0Z08NRDGqcv1CQOs6GiShCGaZeWOPA1Ee9KwA9K6O+0fs99CQB8xcZ/LVJ8WtKAuuKuhcpuNhXAvGE5rD9R1VLKfzGljPQAgUCzyVxI/IVtnDYmFRwjEKSOIyRpdUQIc3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IOkk/kGr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5wD6Xpyx; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IOkk/kGr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5wD6Xpyx; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=vC/l3HX4Os2+GVfk/6LU/k/hfuxCs80JjgwWCjeMOIpaCZQZgRCvwY4aVjJvw25tKl1bP9iWcUOdh/SunzBRJUI5EpYf3Z7+2o91JLGfq+MN7MMgX7IOc+DRMaLzGZymD0xBazXC5fMiTxZm6omAE/xKAwOXhMKqmP5VqI1s7xY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pl3o/gwO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/zKvRDnO; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pl3o/gwO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/zKvRDnO; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IOkk/kGr";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5wD6Xpyx";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IOkk/kGr";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5wD6Xpyx"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pl3o/gwO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/zKvRDnO";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pl3o/gwO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/zKvRDnO"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7B79A1F7AB;
-	Mon,  9 Sep 2024 10:02:57 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 79D851F7B1;
+	Mon,  9 Sep 2024 10:19:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1725876177; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1725877165; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=afWdfk+vDO5vn6q9+J+N/P01T5vWfYx+54v1NaOroSw=;
-	b=IOkk/kGrr+0+GMhHWf21cMY7JS02B52/NC7qn9DdM9y4cwu5WRA9Gk/zMmNHNUamjLCroE
-	n1DET7zmjwD+ziRcV9lVW8797k11cKEBEgia1gQcUP4M5x5Fy2vTOQbUhuA7hF+NRvoSqn
-	ZApNHMuCfnVWO8EMhS3Wm3lKF52F+A0=
+	bh=ge4RyWVgdMZL2wY1i1d/yWakoPPEvu7cjtu60MmlWPU=;
+	b=pl3o/gwOpZvAGnh7xWgBVpEP4H7qDEGavkWHS6iO0mJdaXaZHWOhCwAJfDSdjuF8e1qNfm
+	gL1e8uedAR2ASbombXwCpW/aE4qMXclA9c7ite9oubXwdtryoTh0A/UShbA157EZz1f5lT
+	wHA7czJKN6z37R18q0H2XNdbtsuGoIA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1725876177;
+	s=susede2_ed25519; t=1725877165;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=afWdfk+vDO5vn6q9+J+N/P01T5vWfYx+54v1NaOroSw=;
-	b=5wD6XpyxpplP5qgslCHGQEOGxbSkXFBrVwFfTgDu62F12s8NUPeANA1A1cmJ/LlxTWc7YO
-	baA4ANQdkihyOnCg==
+	bh=ge4RyWVgdMZL2wY1i1d/yWakoPPEvu7cjtu60MmlWPU=;
+	b=/zKvRDnO1gGVC7ryS2ttlJJXl6S1bNXZnEXR9incO+YmLTj4sIpSQabQYwRhMjMuTxck8V
+	OaU6CHZD21I7yMDw==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="IOkk/kGr";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=5wD6Xpyx
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="pl3o/gwO";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="/zKvRDnO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1725876177; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1725877165; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=afWdfk+vDO5vn6q9+J+N/P01T5vWfYx+54v1NaOroSw=;
-	b=IOkk/kGrr+0+GMhHWf21cMY7JS02B52/NC7qn9DdM9y4cwu5WRA9Gk/zMmNHNUamjLCroE
-	n1DET7zmjwD+ziRcV9lVW8797k11cKEBEgia1gQcUP4M5x5Fy2vTOQbUhuA7hF+NRvoSqn
-	ZApNHMuCfnVWO8EMhS3Wm3lKF52F+A0=
+	bh=ge4RyWVgdMZL2wY1i1d/yWakoPPEvu7cjtu60MmlWPU=;
+	b=pl3o/gwOpZvAGnh7xWgBVpEP4H7qDEGavkWHS6iO0mJdaXaZHWOhCwAJfDSdjuF8e1qNfm
+	gL1e8uedAR2ASbombXwCpW/aE4qMXclA9c7ite9oubXwdtryoTh0A/UShbA157EZz1f5lT
+	wHA7czJKN6z37R18q0H2XNdbtsuGoIA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1725876177;
+	s=susede2_ed25519; t=1725877165;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=afWdfk+vDO5vn6q9+J+N/P01T5vWfYx+54v1NaOroSw=;
-	b=5wD6XpyxpplP5qgslCHGQEOGxbSkXFBrVwFfTgDu62F12s8NUPeANA1A1cmJ/LlxTWc7YO
-	baA4ANQdkihyOnCg==
+	bh=ge4RyWVgdMZL2wY1i1d/yWakoPPEvu7cjtu60MmlWPU=;
+	b=/zKvRDnO1gGVC7ryS2ttlJJXl6S1bNXZnEXR9incO+YmLTj4sIpSQabQYwRhMjMuTxck8V
+	OaU6CHZD21I7yMDw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4C8FB13312;
-	Mon,  9 Sep 2024 10:02:57 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4A5F413312;
+	Mon,  9 Sep 2024 10:19:25 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id MZp6EdHH3mbZDwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 09 Sep 2024 10:02:57 +0000
-Date: Mon, 09 Sep 2024 12:03:44 +0200
-Message-ID: <877cblb0u7.wl-tiwai@suse.de>
+	id h7bPEK3L3mYRFQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 09 Sep 2024 10:19:25 +0000
+Date: Mon, 09 Sep 2024 12:20:12 +0200
+Message-ID: <875xr5b02r.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: zenghongling <zenghongling@kylinos.cn>
-Cc: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	perex@perex.cz,
+To: Leo Tsai <antivirus621@gmail.com>
+Cc: perex@perex.cz,
 	tiwai@suse.com,
-	zhongling0719@126.com
-Subject: Re: [PATCH v2] ALSA: hda/cs8409: Support new Dell Dolphin for device
-In-Reply-To: <20240909014457.610682-1-zenghongling@kylinos.cn>
-References: <20240909014457.610682-1-zenghongling@kylinos.cn>
+	leo.tsai@cmedia.com.tw,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda: Add a new CM9825 standard driver.
+In-Reply-To: <20240909022340.7808-1-antivirus621@gmail.com>
+References: <20240909022340.7808-1-antivirus621@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -90,66 +90,119 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 7B79A1F7AB
-X-Spam-Score: -3.51
-X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 79D851F7B1
+X-Spam-Level: 
 X-Spamd-Result: default: False [-3.51 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[126.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,perex.cz,suse.com,126.com];
-	RCPT_COUNT_FIVE(0.00)[6];
 	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
 X-Spam-Flag: NO
-X-Spam-Level: 
 
-On Mon, 09 Sep 2024 03:44:57 +0200,
-zenghongling wrote:
+On Mon, 09 Sep 2024 04:23:40 +0200,
+Leo Tsai wrote:
 > 
-> Add 1 new Dell Dolphin Systems, same configuration as older systems.
+> The CM9825 is a High Definition Audio Codec.
+> There are 2 independent stereo outputs, one of the stereo
+> outputs is cap-less with HP AMP, and the other is line out to
+> connect the active speaker. The inputs can be Line-in and MIC-in.
 > 
-> Signed-off-by: zenghongling <zenghongling@kylinos.cn>
+> Signed-off-by: Leo Tsai <antivirus621@gmail.com>
 > ---
->  sound/pci/hda/patch_cs8409-tables.c | 1 +
->  1 file changed, 1 insertion(+)
+>  sound/pci/hda/patch_cmedia.c | 268 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 268 insertions(+)
+>  mode change 100644 => 100755 sound/pci/hda/patch_cmedia.c
 > 
-> diff --git a/sound/pci/hda/patch_cs8409-tables.c b/sound/pci/hda/patch_cs8409-tables.c
-> index 36b411d1..be0cc48 100644
-> --- a/sound/pci/hda/patch_cs8409-tables.c
-> +++ b/sound/pci/hda/patch_cs8409-tables.c
-> @@ -541,6 +541,7 @@ const struct snd_pci_quirk cs8409_fixup_tbl[] = {
->  	SND_PCI_QUIRK(0x1028, 0x0BBB, "Warlock MLK Dual Mic", CS8409_WARLOCK_MLK_DUAL_MIC),
->  	SND_PCI_QUIRK(0x1028, 0x0BBC, "Warlock MLK", CS8409_WARLOCK_MLK),
->  	SND_PCI_QUIRK(0x1028, 0x0BBD, "Warlock MLK Dual Mic", CS8409_WARLOCK_MLK_DUAL_MIC),
-> +	SND_PCI_QUIRK(0x1028, 0x0BAA, "Dolphin", CS8409_DOLPHIN),
->  	SND_PCI_QUIRK(0x1028, 0x0BD4, "Dolphin", CS8409_DOLPHIN),
->  	SND_PCI_QUIRK(0x1028, 0x0BD5, "Dolphin", CS8409_DOLPHIN),
->  	SND_PCI_QUIRK(0x1028, 0x0BD6, "Dolphin", CS8409_DOLPHIN),
+> diff --git a/sound/pci/hda/patch_cmedia.c b/sound/pci/hda/patch_cmedia.c
+> old mode 100644
+> new mode 100755
 
-1028:0BAA is already present for ODIN.  Conflicting setup?
+You changed the file permission mistakenly here?
 
-(And you should try to put the entry at the right position; the table
-is sorted in PCI SSID order.  If you did that, you should have noticed
-the confliction more easily.)
+> index 2ddd33f8dd6c..3195261a7d2c
+> --- a/sound/pci/hda/patch_cmedia.c
+> +++ b/sound/pci/hda/patch_cmedia.c
+(snip)
+> +	{0x3C, AC_VERB_SET_AMP_GAIN_MUTE | 0x0a0, 0x2d},	/* Gain set */
+> +	{0x3C, AC_VERB_SET_AMP_GAIN_MUTE | 0x090, 0x2d},	/* Gain set */
 
+FWIW, those are equivalent with:
+	{0x3C, AC_VERB_SET_AMP_GAIN_MUTE, AC_AMP_SET_OUTPUT | AC_AMP_SET_RIGHT | 0x2d},	/* Gain set */
+	{0x3C, AC_VERB_SET_AMP_GAIN_MUTE, AC_AMP_SET_OUTPUT | AC_AMP_SET_LEFT | 0x2d},	/* Gain set */
+
+> +static void cm9825_unsol_hp_delayed(struct work_struct *work)
+> +{
+> +	struct cmi_spec *spec =
+> +	    container_of(to_delayed_work(work), struct cmi_spec, unsol_hp_work);
+> +	struct hda_jack_tbl *jack;
+> +	hda_nid_t hp_pin = spec->gen.autocfg.hp_pins[0];
+> +	bool hp_jack_plugin = false;
+> +	int err = 0;
+
+Both are unnecessary initializations.
+
+> +static int cm9825_resume(struct hda_codec *codec)
+> +{
+> +	struct cmi_spec *spec = codec->spec;
+> +	hda_nid_t hp_pin = 0;
+> +	bool hp_jack_plugin = false;
+> +	int err;
+> +
+> +	err =
+> +	    snd_hda_codec_write(spec->codec, 0x42, 0,
+> +				AC_VERB_SET_PIN_WIDGET_CONTROL, 0x00);
+> +	if (err)
+> +		codec_dbg(codec, "codec_write err %d\n", err);
+> +
+> +	/* hibernation resume needs the full chip initialization */
+> +	if (cmi_is_s4_resume(codec))
+> +		codec_dbg(spec->codec, "resume from S4\n");
+
+Is the comment above correct?
+It only shows a debug print and does nothing else, no?
+
+> @@ -32,6 +252,53 @@ static const struct hda_codec_ops cmi_auto_patch_ops = {
+>  	.unsol_event = snd_hda_jack_unsol_event,
+>  };
+>  
+> +static int patch_cm9825(struct hda_codec *codec)
+> +{
+(snip)
+> +	INIT_DELAYED_WORK(&spec->unsol_hp_work, cm9825_unsol_hp_delayed);
+
+If you use the delayed work, it has to be cleared at the destructor
+via cancel_delayed_work().  That is, you'd need the own ops.free
+callback implementation.
+
+And if doing so, it's better to put this initialization earlier (right
+after the alloc of spec and its field initializations), so that you
+can call cancel_delayed_work() unconditionally.
+
+
+thanks,
 
 Takashi
