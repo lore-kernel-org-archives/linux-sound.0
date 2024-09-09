@@ -1,625 +1,87 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AEC13BB47
-	for <linux-sound@vger.kernel.org>; Mon,  9 Sep 2024 19:30:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A5562582;
+	Mon,  9 Sep 2024 21:01:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725910252; cv=none; b=J9m2GPyHQ7ipSH6bbtlhDXUAoelLmfjUC/809DrMD0zU0l5J8WippPKhogyZUxTd9UlCcXk6AoJeJwhur3wuleAIXjOZa27mfZFqSG/CP3WhRzKV34WEyZRDrDJBhhC0VALpQLVchT4ef5FnVqCs9F0vopCZTgPNv/90sfMJOOg=
+	t=1725915705; cv=none; b=DZTieJj8SDfUsByEhHuW64rvEXBjdBZ3dBIPwq6/yoPu91vOkevV4ZZDKZvbAplfG7cK8YV/XnjgVEHjqnGxbIFr9OT3HfVqMg8zb2uSknlg3FWkfXz06LRqqoLKnl1pUnmwOabmrzOc4+JFIuVDqg0Avnw+bBzYXTH1A8RCEwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725910252; c=relaxed/simple;
-	bh=7gE1++rn5utMpjwKudHmqMiDVxVrkaN/xPVuDYXhtIo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Vp9gnr8aYSVj9rYAHowjGCMKx2qNCqTQbKqRaIDgZJDy6Rk/LBJjXlUSvM45b+kO0957ZFbPZ8Ljt0RPn4AQyhFJb+tDJD9nUaQ/4CW1kGChp606mW3ftH8eEovz0HvcoRV71wCs3Jlnyj+MdaDwRudjAyUNS9tYbPpobYYuQSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshuagrisham.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshuagrisham.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-53659c8d688so2546499e87.1
-        for <linux-sound@vger.kernel.org>; Mon, 09 Sep 2024 12:30:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725910247; x=1726515047;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uZ9vEgB6vckcEqnIPBDORiYcpVKEISKE7KjFonk0aeE=;
-        b=naGefNW0VhtF8/LYuKX09mgwauz/yeYfFDnnyK/UIK08MBd8VLZx7cjFkK5ri1nVW2
-         vwhfGRWfc2uNW1/GfYvRNvbZeuz1HcTa5j7pz9qfCpA5Qo0k4uZsOw6I8AJJS+GnEk3j
-         wAii6yxDveWjnvQOMhEojuo6PGMcttNdGrW/w3lBC23EOEBSyg3be711BQUzuXV9u6JS
-         6al2HNe7XKxv0fi3iddhd93Qj/dnCtuhRW4AwWUStpsnMyflSnnx9wJn9nQE7hPX4SkB
-         I3P60WwK3K9ovgMAxAwu4uyenEABcqQKMhy4QrUFmjzcUYdm6C59JVxa74QNXLN0oz9b
-         Vp9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVqk28On15810xQS8JESkjVGYwp86Bh8MS0U/eX+1AdapdtvaMuPs2vhI+nSKndAQOrpw0vnCMCA7abSg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxwCw84I5K+nZxqtwVNmw2j3ubeDraWYbrfihavzFUBo6JPcHKI
-	uUC8tB8+o3ykzdP/vh/D1SZGARaewwM8+sgCYhRiFIprpr+lutoF
-X-Google-Smtp-Source: AGHT+IEjRYsyXbil3T3kIEiNPgyfk/7nwBr2daUYtwlDeMsI+/vGuCbF+aCVk0Xnmh5jhvpnkxFE9Q==
-X-Received: by 2002:a05:6512:1589:b0:52d:ab43:b276 with SMTP id 2adb3069b0e04-5366b913ca2mr211188e87.2.1725910246782;
-        Mon, 09 Sep 2024 12:30:46 -0700 (PDT)
-Received: from galaxybook.local (82-183-24-76.customers.ownit.se. [82.183.24.76])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5365f870b18sm878116e87.99.2024.09.09.12.30.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Sep 2024 12:30:46 -0700 (PDT)
-From: Joshua Grisham <josh@joshuagrisham.com>
-To: tiwai@suse.com,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org
-Cc: Joshua Grisham <josh@joshuagrisham.com>
-Subject: [PATCH] ALSA: hda/realtek: Refactor and simplify Samsung Galaxy Book init
-Date: Mon,  9 Sep 2024 21:30:00 +0200
-Message-Id: <20240909193000.838815-1-josh@joshuagrisham.com>
-X-Mailer: git-send-email 2.40.1
+	s=arc-20240116; t=1725915705; c=relaxed/simple;
+	bh=jxL+ub2/BNNjbnn0ZgajuJ4HTjl9JV3DFe99yHB85Js=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=RXMWvwf61vNnhwqqjlCacqZb9pnq/2zmX4hEQluDUubgLlSj3gbwNZvS7OgNgeVpp3QswvWwH+JIx9RZDNAVi/7uH942A+TRbyBT9oO//UyjQT4KCmijfCjJ5vj8A7vwD5QxxCSglSfAGKGBKPMVLJxWRpNIihD2nHjGT7Z3rAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fFbnoERZ; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fFbnoERZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE7C7C4CEC5;
+	Mon,  9 Sep 2024 21:01:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725915704;
+	bh=jxL+ub2/BNNjbnn0ZgajuJ4HTjl9JV3DFe99yHB85Js=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=fFbnoERZ/JUbYGmIOJA65uYscqWs9uIsxE2v5WECHkkG/mReJe7MobdUcT2HoAu1d
+	 baMdiRag0IGtw1vxr9XV4i1nQ7prQaoT8c/7FvISDOuqD6o0xvD76DhntReF7FQCfK
+	 IF+orY7NOUOxq2yCxz5cxvuFbDdze2+hyXWf3/lgRYU8hQx8d1XjFBOLSFrGXFrbmn
+	 XR6hCrsemJoefAdrzwUOpwinYSXrc1Nz/hwGGoUtv7J+hfek35BGcKq30GYov354Qo
+	 jdTVgLYYpNxI9DTGDm1yIQwh6yEwOKPWIo1Nig1O/cesoWb1Z4fZahvKH8x3ZbEQZI
+	 6GP21X28pplrA==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com, 
+ Tang Bin <tangbin@cmss.chinamobile.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+In-Reply-To: <20240908134604.3652-1-tangbin@cmss.chinamobile.com>
+References: <20240908134604.3652-1-tangbin@cmss.chinamobile.com>
+Subject: Re: [PATCH] ASoC: codecs: fix the right check and simplify code
+Message-Id: <172591570270.136248.14851761791754524473.b4-ty@kernel.org>
+Date: Mon, 09 Sep 2024 22:01:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-99b12
 
-I have done a lot of analysis for these type of devices and collaborated
-quite a bit with Nick Weihs (author of the first patch submitted for this
-including adding samsung_helper.c). More information can be found in the
-issue on Github [1] including additional rationale and testing.
+On Sun, 08 Sep 2024 21:46:04 +0800, Tang Bin wrote:
+> In the file drivers/base/platform.c, the return description of
+> platform_get_irq is 'non-zero IRQ number on success, negative
+> error number on failure.', so the check is wrong, fix it. And
+> when get irq failed, the function platform_get_irq logs an error
+> message.
+> 
+> 
+> [...]
 
-The existing implementation includes a large number of equalizer coef
-values that are not necessary to actually init and enable the speaker
-amps, as well as create a somewhat worse sound profile. Users have
-reported "muffled" or "muddy" sound; more information about this including
-my analysis of the differences can be found in the linked Github issue.
+Applied to
 
-This patch refactors the "v2" version of ALC298_FIXUP_SAMSUNG_AMP to a much
-simpler implementation which removes the new samsung_helper.c, reuses more
-of the existing patch_realtek.c, and sends significantly fewer unnecessary
-coef values (including removing all of these EQ-specific coef values).
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-A pcm_playback_hook is used to dynamically enable and disable the speaker
-amps only when there will be audio playback; this is to match the behavior
-of how the driver for these devices is working in Windows, and is
-suspected but not yet tested or confirmed to help with power consumption.
+Thanks!
 
-Support for models with 2 speaker amps vs 4 speaker amps is controlled by
-a specific quirk name for both types. A new int num_speaker_amps has been
-added to alc_spec so that the hooks can know how many speaker amps to
-enable or disable. This design was chosen to limit the number of places
-that subsystem ids will need to be maintained: like this, they can be
-maintained only once in the quirk table and there will not be another
-separate list of subsystem ids to maintain elsewhere in the code.
+[1/1] ASoC: codecs: fix the right check and simplify code
+      commit: 130eb72d3cb38a629205a2a192800b4b1b9bc5c9
 
-Also updated the quirk name from ALC298_FIXUP_SAMSUNG_AMP2 to
-ALC298_FIXUP_SAMSUNG_AMP_V2_.. as this is not a quirk for "Amp #2" on
-ALC298 but is instead a different version of how to handle it.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-More devices have been added (see Github issue for testing confirmation),
-as well as a small cleanup to existing names.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-[1]: https://github.com/thesofproject/linux/issues/4055#issuecomment-2323411911
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-Signed-off-by: Joshua Grisham <josh@joshuagrisham.com>
----
- sound/pci/hda/patch_realtek.c  | 151 +++++++++++++++-
- sound/pci/hda/samsung_helper.c | 310 ---------------------------------
- 2 files changed, 144 insertions(+), 317 deletions(-)
- delete mode 100644 sound/pci/hda/samsung_helper.c
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index f67190a8c..acfa58e5d 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -125,6 +125,7 @@ struct alc_spec {
- 	unsigned int has_hs_key:1;
- 	unsigned int no_internal_mic_pin:1;
- 	unsigned int en_3kpull_low:1;
-+	int num_speaker_amps;
- 
- 	/* for PLL fix */
- 	hda_nid_t pll_nid;
-@@ -4813,7 +4814,133 @@ static void alc298_fixup_samsung_amp(struct hda_codec *codec,
- 	}
- }
- 
--#include "samsung_helper.c"
-+struct alc298_samsung_v2_amp_desc {
-+	unsigned short nid;
-+	int init_seq_size;
-+	unsigned short init_seq[18][2];
-+};
-+
-+static const struct alc298_samsung_v2_amp_desc
-+alc298_samsung_v2_amp_desc_tbl[] = {
-+	{ 0x38, 18, {
-+		{ 0x23e1, 0x0000 }, { 0x2012, 0x006f }, { 0x2014, 0x0000 },
-+		{ 0x201b, 0x0001 }, { 0x201d, 0x0001 }, { 0x201f, 0x00fe },
-+		{ 0x2021, 0x0000 }, { 0x2022, 0x0010 }, { 0x203d, 0x0005 },
-+		{ 0x203f, 0x0003 }, { 0x2050, 0x002c }, { 0x2076, 0x000e },
-+		{ 0x207c, 0x004a }, { 0x2081, 0x0003 }, { 0x2399, 0x0003 },
-+		{ 0x23a4, 0x00b5 }, { 0x23a5, 0x0001 }, { 0x23ba, 0x0094 }
-+	}},
-+	{ 0x39, 18, {
-+		{ 0x23e1, 0x0000 }, { 0x2012, 0x006f }, { 0x2014, 0x0000 },
-+		{ 0x201b, 0x0002 }, { 0x201d, 0x0002 }, { 0x201f, 0x00fd },
-+		{ 0x2021, 0x0001 }, { 0x2022, 0x0010 }, { 0x203d, 0x0005 },
-+		{ 0x203f, 0x0003 }, { 0x2050, 0x002c }, { 0x2076, 0x000e },
-+		{ 0x207c, 0x004a }, { 0x2081, 0x0003 }, { 0x2399, 0x0003 },
-+		{ 0x23a4, 0x00b5 }, { 0x23a5, 0x0001 }, { 0x23ba, 0x0094 }
-+	}},
-+	{ 0x3c, 15, {
-+		{ 0x23e1, 0x0000 }, { 0x2012, 0x006f }, { 0x2014, 0x0000 },
-+		{ 0x201b, 0x0001 }, { 0x201d, 0x0001 }, { 0x201f, 0x00fe },
-+		{ 0x2021, 0x0000 }, { 0x2022, 0x0010 }, { 0x203d, 0x0005 },
-+		{ 0x203f, 0x0003 }, { 0x2050, 0x002c }, { 0x2076, 0x000e },
-+		{ 0x207c, 0x004a }, { 0x2081, 0x0003 }, { 0x23ba, 0x008d }
-+	}},
-+	{ 0x3d, 15, {
-+		{ 0x23e1, 0x0000 }, { 0x2012, 0x006f }, { 0x2014, 0x0000 },
-+		{ 0x201b, 0x0002 }, { 0x201d, 0x0002 }, { 0x201f, 0x00fd },
-+		{ 0x2021, 0x0001 }, { 0x2022, 0x0010 }, { 0x203d, 0x0005 },
-+		{ 0x203f, 0x0003 }, { 0x2050, 0x002c }, { 0x2076, 0x000e },
-+		{ 0x207c, 0x004a }, { 0x2081, 0x0003 }, { 0x23ba, 0x008d }
-+	}}
-+};
-+
-+static void alc298_samsung_v2_enable_amps(struct hda_codec *codec)
-+{
-+	struct alc_spec *spec = codec->spec;
-+	static const unsigned short enable_seq[][2] = {
-+		{ 0x203a, 0x0081 }, { 0x23ff, 0x0001 },
-+	};
-+	int i, j;
-+
-+	for (i = 0; i < spec->num_speaker_amps; i++) {
-+		alc_write_coef_idx(codec, 0x22, alc298_samsung_v2_amp_desc_tbl[i].nid);
-+		for (j = 0; j < ARRAY_SIZE(enable_seq); j++)
-+			alc298_samsung_write_coef_pack(codec, enable_seq[j]);
-+		codec_dbg(codec, "alc298_samsung_v2: Enabled speaker amp 0x%02x\n",
-+				alc298_samsung_v2_amp_desc_tbl[i].nid);
-+	}
-+}
-+
-+static void alc298_samsung_v2_disable_amps(struct hda_codec *codec)
-+{
-+	struct alc_spec *spec = codec->spec;
-+	static const unsigned short disable_seq[][2] = {
-+		{ 0x23ff, 0x0000 }, { 0x203a, 0x0080 },
-+	};
-+	int i, j;
-+
-+	for (i = 0; i < spec->num_speaker_amps; i++) {
-+		alc_write_coef_idx(codec, 0x22, alc298_samsung_v2_amp_desc_tbl[i].nid);
-+		for (j = 0; j < ARRAY_SIZE(disable_seq); j++)
-+			alc298_samsung_write_coef_pack(codec, disable_seq[j]);
-+		codec_dbg(codec, "alc298_samsung_v2: Disabled speaker amp 0x%02x\n",
-+				alc298_samsung_v2_amp_desc_tbl[i].nid);
-+	}
-+}
-+
-+static void alc298_samsung_v2_playback_hook(struct hda_pcm_stream *hinfo,
-+				struct hda_codec *codec,
-+				struct snd_pcm_substream *substream,
-+				int action)
-+{
-+	/* Dynamically enable/disable speaker amps before and after playback */
-+	if (action == HDA_GEN_PCM_ACT_OPEN)
-+		alc298_samsung_v2_enable_amps(codec);
-+	if (action == HDA_GEN_PCM_ACT_CLOSE)
-+		alc298_samsung_v2_disable_amps(codec);
-+}
-+
-+static void alc298_samsung_v2_init_amps(struct hda_codec *codec,
-+				int num_speaker_amps)
-+{
-+	struct alc_spec *spec = codec->spec;
-+	int i, j;
-+
-+	/* Set spec's num_speaker_amps before doing anything else */
-+	spec->num_speaker_amps = num_speaker_amps;
-+
-+	/* Disable speaker amps before init to prevent any physical damage */
-+	alc298_samsung_v2_disable_amps(codec);
-+
-+	/* Initialize the speaker amps */
-+	for (i = 0; i < spec->num_speaker_amps; i++) {
-+		alc_write_coef_idx(codec, 0x22, alc298_samsung_v2_amp_desc_tbl[i].nid);
-+		for (j = 0; j < alc298_samsung_v2_amp_desc_tbl[i].init_seq_size; j++) {
-+			alc298_samsung_write_coef_pack(codec,
-+					alc298_samsung_v2_amp_desc_tbl[i].init_seq[j]);
-+		}
-+		alc_write_coef_idx(codec, 0x89, 0x0);
-+		codec_dbg(codec, "alc298_samsung_v2: Initialized speaker amp 0x%02x\n",
-+				alc298_samsung_v2_amp_desc_tbl[i].nid);
-+	}
-+
-+	/* register hook to enable speaker amps only when they are needed */
-+	spec->gen.pcm_playback_hook = alc298_samsung_v2_playback_hook;
-+}
-+
-+static void alc298_fixup_samsung_amp_v2_2_amps(struct hda_codec *codec,
-+				const struct hda_fixup *fix, int action)
-+{
-+	if (action == HDA_FIXUP_ACT_PROBE)
-+		alc298_samsung_v2_init_amps(codec, 2);
-+}
-+
-+static void alc298_fixup_samsung_amp_v2_4_amps(struct hda_codec *codec,
-+				const struct hda_fixup *fix, int action)
-+{
-+	if (action == HDA_FIXUP_ACT_PROBE)
-+		alc298_samsung_v2_init_amps(codec, 4);
-+}
- 
- #if IS_REACHABLE(CONFIG_INPUT)
- static void gpio2_mic_hotkey_event(struct hda_codec *codec,
-@@ -7514,7 +7641,8 @@ enum {
- 	ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF,
- 	ALC236_FIXUP_LENOVO_INV_DMIC,
- 	ALC298_FIXUP_SAMSUNG_AMP,
--	ALC298_FIXUP_SAMSUNG_AMP2,
-+	ALC298_FIXUP_SAMSUNG_AMP_V2_2_AMPS,
-+	ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS,
- 	ALC298_FIXUP_SAMSUNG_HEADPHONE_VERY_QUIET,
- 	ALC256_FIXUP_SAMSUNG_HEADPHONE_VERY_QUIET,
- 	ALC295_FIXUP_ASUS_MIC_NO_PRESENCE,
-@@ -9150,9 +9278,13 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.chained = true,
- 		.chain_id = ALC298_FIXUP_SAMSUNG_HEADPHONE_VERY_QUIET
- 	},
--	[ALC298_FIXUP_SAMSUNG_AMP2] = {
-+	[ALC298_FIXUP_SAMSUNG_AMP_V2_2_AMPS] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = alc298_fixup_samsung_amp_v2_2_amps
-+	},
-+	[ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS] = {
- 		.type = HDA_FIXUP_FUNC,
--		.v.func = alc298_fixup_samsung_amp2
-+		.v.func = alc298_fixup_samsung_amp_v2_4_amps
- 	},
- 	[ALC298_FIXUP_SAMSUNG_HEADPHONE_VERY_QUIET] = {
- 		.type = HDA_FIXUP_VERBS,
-@@ -10492,8 +10624,10 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x144d, 0xc832, "Samsung Galaxy Book Flex Alpha (NP730QCJ)", ALC256_FIXUP_SAMSUNG_HEADPHONE_VERY_QUIET),
- 	SND_PCI_QUIRK(0x144d, 0xca03, "Samsung Galaxy Book2 Pro 360 (NP930QED)", ALC298_FIXUP_SAMSUNG_AMP),
- 	SND_PCI_QUIRK(0x144d, 0xc868, "Samsung Galaxy Book2 Pro (NP930XED)", ALC298_FIXUP_SAMSUNG_AMP),
--	SND_PCI_QUIRK(0x144d, 0xc1ca, "Samsung Galaxy Book3 Pro 360 (NP960QFG-KB1US)", ALC298_FIXUP_SAMSUNG_AMP2),
--	SND_PCI_QUIRK(0x144d, 0xc1cc, "Samsung Galaxy Book3 Ultra (NT960XFH-XD92G))", ALC298_FIXUP_SAMSUNG_AMP2),
-+	SND_PCI_QUIRK(0x144d, 0xc870, "Samsung Galaxy Book2 Pro (NP950XED)", ALC298_FIXUP_SAMSUNG_AMP_V2_2_AMPS),
-+	SND_PCI_QUIRK(0x144d, 0xc886, "Samsung Galaxy Book3 Pro (NP964XFG)", ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
-+	SND_PCI_QUIRK(0x144d, 0xc1ca, "Samsung Galaxy Book3 Pro 360 (NP960QFG)", ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
-+	SND_PCI_QUIRK(0x144d, 0xc1cc, "Samsung Galaxy Book3 Ultra (NT960XFH)", ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
- 	SND_PCI_QUIRK(0x1458, 0xfa53, "Gigabyte BXBT-2807", ALC283_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1462, 0xb120, "MSI Cubi MS-B120", ALC283_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1462, 0xb171, "Cubi N 8GL (MS-B171)", ALC283_FIXUP_HEADSET_MIC),
-@@ -10724,6 +10858,8 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1849, 0xa233, "Positivo Master C6300", ALC269_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1854, 0x0440, "LG CQ6", ALC256_FIXUP_HEADPHONE_AMP_VOL),
- 	SND_PCI_QUIRK(0x1854, 0x0441, "LG CQ6 AIO", ALC256_FIXUP_HEADPHONE_AMP_VOL),
-+	SND_PCI_QUIRK(0x1854, 0x0488, "LG gram 16 (16Z90R)", ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
-+	SND_PCI_QUIRK(0x1854, 0x048a, "LG gram 17 (17ZD90R)", ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
- 	SND_PCI_QUIRK(0x19e5, 0x3204, "Huawei MACH-WX9", ALC256_FIXUP_HUAWEI_MACH_WX9_PINS),
- 	SND_PCI_QUIRK(0x19e5, 0x320f, "Huawei WRT-WX9 ", ALC256_FIXUP_ASUS_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1b35, 0x1235, "CZC B20", ALC269_FIXUP_CZC_B20),
-@@ -10934,7 +11070,8 @@ static const struct hda_model_fixup alc269_fixup_models[] = {
- 	{.id = ALC298_FIXUP_HUAWEI_MBX_STEREO, .name = "huawei-mbx-stereo"},
- 	{.id = ALC256_FIXUP_MEDION_HEADSET_NO_PRESENCE, .name = "alc256-medion-headset"},
- 	{.id = ALC298_FIXUP_SAMSUNG_AMP, .name = "alc298-samsung-amp"},
--	{.id = ALC298_FIXUP_SAMSUNG_AMP2, .name = "alc298-samsung-amp2"},
-+	{.id = ALC298_FIXUP_SAMSUNG_AMP_V2_2_AMPS, .name = "alc298-samsung-amp-v2-2-amps"},
-+	{.id = ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS, .name = "alc298-samsung-amp-v2-4-amps"},
- 	{.id = ALC256_FIXUP_SAMSUNG_HEADPHONE_VERY_QUIET, .name = "alc256-samsung-headphone"},
- 	{.id = ALC255_FIXUP_XIAOMI_HEADSET_MIC, .name = "alc255-xiaomi-headset"},
- 	{.id = ALC274_FIXUP_HP_MIC, .name = "alc274-hp-mic-detect"},
-diff --git a/sound/pci/hda/samsung_helper.c b/sound/pci/hda/samsung_helper.c
-deleted file mode 100644
-index a40175b69..000000000
---- a/sound/pci/hda/samsung_helper.c
-+++ /dev/null
-@@ -1,310 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-or-later
--/* Helper functions for Samsung Galaxy Book3 audio initialization */
--
--struct alc298_samsung_coeff_fixup_desc {
--	unsigned char coeff_idx;
--	unsigned short coeff_value;
--};
--
--struct alc298_samsung_coeff_seq_desc {
--	unsigned short coeff_0x23;
--	unsigned short coeff_0x24;
--	unsigned short coeff_0x25;
--	unsigned short coeff_0x26;
--};
--
--
--static inline void alc298_samsung_write_coef_pack2(struct hda_codec *codec,
--						   const struct alc298_samsung_coeff_seq_desc *seq)
--{
--	int i;
--
--	for (i = 0; i < 100; i++) {
--		if ((alc_read_coef_idx(codec, 0x26) & 0x0010) == 0)
--			break;
--
--		usleep_range(500, 1000);
--	}
--
--	alc_write_coef_idx(codec, 0x23, seq->coeff_0x23);
--	alc_write_coef_idx(codec, 0x24, seq->coeff_0x24);
--	alc_write_coef_idx(codec, 0x25, seq->coeff_0x25);
--	alc_write_coef_idx(codec, 0x26, seq->coeff_0x26);
--}
--
--static inline void alc298_samsung_write_coef_pack_seq(
--						struct hda_codec *codec,
--						unsigned char target,
--						const struct alc298_samsung_coeff_seq_desc seq[],
--						int count)
--{
--	alc_write_coef_idx(codec, 0x22, target);
--	for (int i = 0; i < count; i++)
--		alc298_samsung_write_coef_pack2(codec, &seq[i]);
--}
--
--static void alc298_fixup_samsung_amp2(struct hda_codec *codec,
--				      const struct hda_fixup *fix, int action)
--{
--	int i;
--	static const struct alc298_samsung_coeff_fixup_desc fixups1[] = {
--		{ 0x99, 0x8000 }, { 0x82, 0x4408 }, { 0x32, 0x3f00 }, { 0x0e, 0x6f80 },
--		{ 0x10, 0x0e21 }, { 0x55, 0x8000 }, { 0x08, 0x2fcf }, { 0x08, 0x2fcf },
--		{ 0x2d, 0xc020 }, { 0x19, 0x0017 }, { 0x50, 0x1000 }, { 0x0e, 0x6f80 },
--		{ 0x08, 0x2fcf }, { 0x80, 0x0011 }, { 0x2b, 0x0c10 }, { 0x2d, 0xc020 },
--		{ 0x03, 0x0042 }, { 0x0f, 0x0062 }, { 0x08, 0x2fcf },
--	};
--
--	static const struct alc298_samsung_coeff_seq_desc amp_0x38[] = {
--		{ 0x2000, 0x0000, 0x0001, 0xb011 }, { 0x23ff, 0x0000, 0x0000, 0xb011 },
--		{ 0x203a, 0x0000, 0x0080, 0xb011 }, { 0x23e1, 0x0000, 0x0000, 0xb011 },
--		{ 0x2012, 0x0000, 0x006f, 0xb011 }, { 0x2014, 0x0000, 0x0000, 0xb011 },
--		{ 0x201b, 0x0000, 0x0001, 0xb011 }, { 0x201d, 0x0000, 0x0001, 0xb011 },
--		{ 0x201f, 0x0000, 0x00fe, 0xb011 }, { 0x2021, 0x0000, 0x0000, 0xb011 },
--		{ 0x2022, 0x0000, 0x0010, 0xb011 }, { 0x203d, 0x0000, 0x0005, 0xb011 },
--		{ 0x203f, 0x0000, 0x0003, 0xb011 }, { 0x2050, 0x0000, 0x002c, 0xb011 },
--		{ 0x2076, 0x0000, 0x000e, 0xb011 }, { 0x207c, 0x0000, 0x004a, 0xb011 },
--		{ 0x2081, 0x0000, 0x0003, 0xb011 }, { 0x2399, 0x0000, 0x0003, 0xb011 },
--		{ 0x23a4, 0x0000, 0x00b5, 0xb011 }, { 0x23a5, 0x0000, 0x0001, 0xb011 },
--		{ 0x23ba, 0x0000, 0x0094, 0xb011 }, { 0x2100, 0x00d0, 0x950e, 0xb017 },
--		{ 0x2104, 0x0061, 0xd4e2, 0xb017 }, { 0x2108, 0x00d0, 0x950e, 0xb017 },
--		{ 0x210c, 0x0075, 0xf4e2, 0xb017 }, { 0x2110, 0x00b4, 0x4b0d, 0xb017 },
--		{ 0x2114, 0x000a, 0x1000, 0xb017 }, { 0x2118, 0x0015, 0x2000, 0xb017 },
--		{ 0x211c, 0x000a, 0x1000, 0xb017 }, { 0x2120, 0x0075, 0xf4e2, 0xb017 },
--		{ 0x2124, 0x00b4, 0x4b0d, 0xb017 }, { 0x2128, 0x0000, 0x0010, 0xb017 },
--		{ 0x212c, 0x0000, 0x0000, 0xb017 }, { 0x2130, 0x0000, 0x0000, 0xb017 },
--		{ 0x2134, 0x0000, 0x0000, 0xb017 }, { 0x2138, 0x0000, 0x0000, 0xb017 },
--		{ 0x213c, 0x0000, 0x0010, 0xb017 }, { 0x2140, 0x0000, 0x0000, 0xb017 },
--		{ 0x2144, 0x0000, 0x0000, 0xb017 }, { 0x2148, 0x0000, 0x0000, 0xb017 },
--		{ 0x214c, 0x0000, 0x0000, 0xb017 }, { 0x2150, 0x0000, 0x0010, 0xb017 },
--		{ 0x2154, 0x0000, 0x0000, 0xb017 }, { 0x2158, 0x0000, 0x0000, 0xb017 },
--		{ 0x215c, 0x0000, 0x0000, 0xb017 }, { 0x2160, 0x0000, 0x0000, 0xb017 },
--		{ 0x2164, 0x0000, 0x0010, 0xb017 }, { 0x2168, 0x0000, 0x0000, 0xb017 },
--		{ 0x216c, 0x0000, 0x0000, 0xb017 }, { 0x2170, 0x0000, 0x0000, 0xb017 },
--		{ 0x2174, 0x0000, 0x0000, 0xb017 }, { 0x2178, 0x0000, 0x0010, 0xb017 },
--		{ 0x217c, 0x0000, 0x0000, 0xb017 }, { 0x2180, 0x0000, 0x0000, 0xb017 },
--		{ 0x2184, 0x0000, 0x0000, 0xb017 }, { 0x2188, 0x0000, 0x0000, 0xb017 },
--		{ 0x218c, 0x0064, 0x5800, 0xb017 }, { 0x2190, 0x00c8, 0xb000, 0xb017 },
--		{ 0x2194, 0x0064, 0x5800, 0xb017 }, { 0x2198, 0x003d, 0x5be7, 0xb017 },
--		{ 0x219c, 0x0054, 0x060a, 0xb017 }, { 0x21a0, 0x00c8, 0xa310, 0xb017 },
--		{ 0x21a4, 0x0029, 0x4de5, 0xb017 }, { 0x21a8, 0x0032, 0x420c, 0xb017 },
--		{ 0x21ac, 0x0029, 0x4de5, 0xb017 }, { 0x21b0, 0x00fa, 0xe50c, 0xb017 },
--		{ 0x21b4, 0x0000, 0x0010, 0xb017 }, { 0x21b8, 0x0000, 0x0000, 0xb017 },
--		{ 0x21bc, 0x0000, 0x0000, 0xb017 }, { 0x21c0, 0x0000, 0x0000, 0xb017 },
--		{ 0x21c4, 0x0000, 0x0000, 0xb017 }, { 0x21c8, 0x0056, 0xc50f, 0xb017 },
--		{ 0x21cc, 0x007b, 0xd7e1, 0xb017 }, { 0x21d0, 0x0077, 0xa70e, 0xb017 },
--		{ 0x21d4, 0x00e0, 0xbde1, 0xb017 }, { 0x21d8, 0x0032, 0x530e, 0xb017 },
--		{ 0x2204, 0x00fb, 0x7e0f, 0xb017 }, { 0x2208, 0x000b, 0x02e1, 0xb017 },
--		{ 0x220c, 0x00fb, 0x7e0f, 0xb017 }, { 0x2210, 0x00d5, 0x17e1, 0xb017 },
--		{ 0x2214, 0x00c0, 0x130f, 0xb017 }, { 0x2218, 0x00e5, 0x0a00, 0xb017 },
--		{ 0x221c, 0x00cb, 0x1500, 0xb017 }, { 0x2220, 0x00e5, 0x0a00, 0xb017 },
--		{ 0x2224, 0x00d5, 0x17e1, 0xb017 }, { 0x2228, 0x00c0, 0x130f, 0xb017 },
--		{ 0x222c, 0x00f5, 0xdb0e, 0xb017 }, { 0x2230, 0x0017, 0x48e2, 0xb017 },
--		{ 0x2234, 0x00f5, 0xdb0e, 0xb017 }, { 0x2238, 0x00ef, 0x5ce2, 0xb017 },
--		{ 0x223c, 0x00c1, 0xcc0d, 0xb017 }, { 0x2240, 0x00f5, 0xdb0e, 0xb017 },
--		{ 0x2244, 0x0017, 0x48e2, 0xb017 }, { 0x2248, 0x00f5, 0xdb0e, 0xb017 },
--		{ 0x224c, 0x00ef, 0x5ce2, 0xb017 }, { 0x2250, 0x00c1, 0xcc0d, 0xb017 },
--		{ 0x2254, 0x00f5, 0xdb0e, 0xb017 }, { 0x2258, 0x0017, 0x48e2, 0xb017 },
--		{ 0x225c, 0x00f5, 0xdb0e, 0xb017 }, { 0x2260, 0x00ef, 0x5ce2, 0xb017 },
--		{ 0x2264, 0x00c1, 0xcc0d, 0xb017 }, { 0x2268, 0x00f5, 0xdb0e, 0xb017 },
--		{ 0x226c, 0x0017, 0x48e2, 0xb017 }, { 0x2270, 0x00f5, 0xdb0e, 0xb017 },
--		{ 0x2274, 0x00ef, 0x5ce2, 0xb017 }, { 0x2278, 0x00c1, 0xcc0d, 0xb017 },
--		{ 0x227c, 0x00f5, 0xdb0e, 0xb017 }, { 0x2280, 0x0017, 0x48e2, 0xb017 },
--		{ 0x2284, 0x00f5, 0xdb0e, 0xb017 }, { 0x2288, 0x00ef, 0x5ce2, 0xb017 },
--		{ 0x228c, 0x00c1, 0xcc0d, 0xb017 }, { 0x22cc, 0x00e8, 0x8d00, 0xb017 },
--		{ 0x22d0, 0x0000, 0x0000, 0xb017 }, { 0x22d4, 0x0018, 0x72ff, 0xb017 },
--		{ 0x22d8, 0x00ce, 0x25e1, 0xb017 }, { 0x22dc, 0x002f, 0xe40e, 0xb017 },
--		{ 0x238e, 0x0000, 0x0099, 0xb011 }, { 0x238f, 0x0000, 0x0011, 0xb011 },
--		{ 0x2390, 0x0000, 0x0056, 0xb011 }, { 0x2391, 0x0000, 0x0004, 0xb011 },
--		{ 0x2392, 0x0000, 0x00bb, 0xb011 }, { 0x2393, 0x0000, 0x006d, 0xb011 },
--		{ 0x2394, 0x0000, 0x0010, 0xb011 }, { 0x2395, 0x0000, 0x0064, 0xb011 },
--		{ 0x2396, 0x0000, 0x00b6, 0xb011 }, { 0x2397, 0x0000, 0x0028, 0xb011 },
--		{ 0x2398, 0x0000, 0x000b, 0xb011 }, { 0x239a, 0x0000, 0x0099, 0xb011 },
--		{ 0x239b, 0x0000, 0x000d, 0xb011 }, { 0x23a6, 0x0000, 0x0064, 0xb011 },
--		{ 0x23a7, 0x0000, 0x0078, 0xb011 }, { 0x23b9, 0x0000, 0x0000, 0xb011 },
--		{ 0x23e0, 0x0000, 0x0021, 0xb011 }, { 0x23e1, 0x0000, 0x0001, 0xb011 },
--	};
--
--	static const struct alc298_samsung_coeff_seq_desc amp_0x39[] = {
--		{ 0x2000, 0x0000, 0x0001, 0xb011 }, { 0x23ff, 0x0000, 0x0000, 0xb011 },
--		{ 0x203a, 0x0000, 0x0080, 0xb011 }, { 0x23e1, 0x0000, 0x0000, 0xb011 },
--		{ 0x2012, 0x0000, 0x006f, 0xb011 }, { 0x2014, 0x0000, 0x0000, 0xb011 },
--		{ 0x201b, 0x0000, 0x0002, 0xb011 }, { 0x201d, 0x0000, 0x0002, 0xb011 },
--		{ 0x201f, 0x0000, 0x00fd, 0xb011 }, { 0x2021, 0x0000, 0x0001, 0xb011 },
--		{ 0x2022, 0x0000, 0x0010, 0xb011 }, { 0x203d, 0x0000, 0x0005, 0xb011 },
--		{ 0x203f, 0x0000, 0x0003, 0xb011 }, { 0x2050, 0x0000, 0x002c, 0xb011 },
--		{ 0x2076, 0x0000, 0x000e, 0xb011 }, { 0x207c, 0x0000, 0x004a, 0xb011 },
--		{ 0x2081, 0x0000, 0x0003, 0xb011 }, { 0x2399, 0x0000, 0x0003, 0xb011 },
--		{ 0x23a4, 0x0000, 0x00b5, 0xb011 }, { 0x23a5, 0x0000, 0x0001, 0xb011 },
--		{ 0x23ba, 0x0000, 0x0094, 0xb011 }, { 0x2100, 0x00d0, 0x950e, 0xb017 },
--		{ 0x2104, 0x0061, 0xd4e2, 0xb017 }, { 0x2108, 0x00d0, 0x950e, 0xb017 },
--		{ 0x210c, 0x0075, 0xf4e2, 0xb017 }, { 0x2110, 0x00b4, 0x4b0d, 0xb017 },
--		{ 0x2114, 0x000a, 0x1000, 0xb017 }, { 0x2118, 0x0015, 0x2000, 0xb017 },
--		{ 0x211c, 0x000a, 0x1000, 0xb017 }, { 0x2120, 0x0075, 0xf4e2, 0xb017 },
--		{ 0x2124, 0x00b4, 0x4b0d, 0xb017 }, { 0x2128, 0x0000, 0x0010, 0xb017 },
--		{ 0x212c, 0x0000, 0x0000, 0xb017 }, { 0x2130, 0x0000, 0x0000, 0xb017 },
--		{ 0x2134, 0x0000, 0x0000, 0xb017 }, { 0x2138, 0x0000, 0x0000, 0xb017 },
--		{ 0x213c, 0x0000, 0x0010, 0xb017 }, { 0x2140, 0x0000, 0x0000, 0xb017 },
--		{ 0x2144, 0x0000, 0x0000, 0xb017 }, { 0x2148, 0x0000, 0x0000, 0xb017 },
--		{ 0x214c, 0x0000, 0x0000, 0xb017 }, { 0x2150, 0x0000, 0x0010, 0xb017 },
--		{ 0x2154, 0x0000, 0x0000, 0xb017 }, { 0x2158, 0x0000, 0x0000, 0xb017 },
--		{ 0x215c, 0x0000, 0x0000, 0xb017 }, { 0x2160, 0x0000, 0x0000, 0xb017 },
--		{ 0x2164, 0x0000, 0x0010, 0xb017 }, { 0x2168, 0x0000, 0x0000, 0xb017 },
--		{ 0x216c, 0x0000, 0x0000, 0xb017 }, { 0x2170, 0x0000, 0x0000, 0xb017 },
--		{ 0x2174, 0x0000, 0x0000, 0xb017 }, { 0x2178, 0x0000, 0x0010, 0xb017 },
--		{ 0x217c, 0x0000, 0x0000, 0xb017 }, { 0x2180, 0x0000, 0x0000, 0xb017 },
--		{ 0x2184, 0x0000, 0x0000, 0xb017 }, { 0x2188, 0x0000, 0x0000, 0xb017 },
--		{ 0x218c, 0x0064, 0x5800, 0xb017 }, { 0x2190, 0x00c8, 0xb000, 0xb017 },
--		{ 0x2194, 0x0064, 0x5800, 0xb017 }, { 0x2198, 0x003d, 0x5be7, 0xb017 },
--		{ 0x219c, 0x0054, 0x060a, 0xb017 }, { 0x21a0, 0x00c8, 0xa310, 0xb017 },
--		{ 0x21a4, 0x0029, 0x4de5, 0xb017 }, { 0x21a8, 0x0032, 0x420c, 0xb017 },
--		{ 0x21ac, 0x0029, 0x4de5, 0xb017 }, { 0x21b0, 0x00fa, 0xe50c, 0xb017 },
--		{ 0x21b4, 0x0000, 0x0010, 0xb017 }, { 0x21b8, 0x0000, 0x0000, 0xb017 },
--		{ 0x21bc, 0x0000, 0x0000, 0xb017 }, { 0x21c0, 0x0000, 0x0000, 0xb017 },
--		{ 0x21c4, 0x0000, 0x0000, 0xb017 }, { 0x21c8, 0x0056, 0xc50f, 0xb017 },
--		{ 0x21cc, 0x007b, 0xd7e1, 0xb017 }, { 0x21d0, 0x0077, 0xa70e, 0xb017 },
--		{ 0x21d4, 0x00e0, 0xbde1, 0xb017 }, { 0x21d8, 0x0032, 0x530e, 0xb017 },
--		{ 0x2204, 0x00fb, 0x7e0f, 0xb017 }, { 0x2208, 0x000b, 0x02e1, 0xb017 },
--		{ 0x220c, 0x00fb, 0x7e0f, 0xb017 }, { 0x2210, 0x00d5, 0x17e1, 0xb017 },
--		{ 0x2214, 0x00c0, 0x130f, 0xb017 }, { 0x2218, 0x00e5, 0x0a00, 0xb017 },
--		{ 0x221c, 0x00cb, 0x1500, 0xb017 }, { 0x2220, 0x00e5, 0x0a00, 0xb017 },
--		{ 0x2224, 0x00d5, 0x17e1, 0xb017 }, { 0x2228, 0x00c0, 0x130f, 0xb017 },
--		{ 0x222c, 0x00f5, 0xdb0e, 0xb017 }, { 0x2230, 0x0017, 0x48e2, 0xb017 },
--		{ 0x2234, 0x00f5, 0xdb0e, 0xb017 }, { 0x2238, 0x00ef, 0x5ce2, 0xb017 },
--		{ 0x223c, 0x00c1, 0xcc0d, 0xb017 }, { 0x2240, 0x00f5, 0xdb0e, 0xb017 },
--		{ 0x2244, 0x0017, 0x48e2, 0xb017 }, { 0x2248, 0x00f5, 0xdb0e, 0xb017 },
--		{ 0x224c, 0x00ef, 0x5ce2, 0xb017 }, { 0x2250, 0x00c1, 0xcc0d, 0xb017 },
--		{ 0x2254, 0x00f5, 0xdb0e, 0xb017 }, { 0x2258, 0x0017, 0x48e2, 0xb017 },
--		{ 0x225c, 0x00f5, 0xdb0e, 0xb017 }, { 0x2260, 0x00ef, 0x5ce2, 0xb017 },
--		{ 0x2264, 0x00c1, 0xcc0d, 0xb017 }, { 0x2268, 0x00f5, 0xdb0e, 0xb017 },
--		{ 0x226c, 0x0017, 0x48e2, 0xb017 }, { 0x2270, 0x00f5, 0xdb0e, 0xb017 },
--		{ 0x2274, 0x00ef, 0x5ce2, 0xb017 }, { 0x2278, 0x00c1, 0xcc0d, 0xb017 },
--		{ 0x227c, 0x00f5, 0xdb0e, 0xb017 }, { 0x2280, 0x0017, 0x48e2, 0xb017 },
--		{ 0x2284, 0x00f5, 0xdb0e, 0xb017 }, { 0x2288, 0x00ef, 0x5ce2, 0xb017 },
--		{ 0x228c, 0x00c1, 0xcc0d, 0xb017 }, { 0x22cc, 0x00e8, 0x8d00, 0xb017 },
--		{ 0x22d0, 0x0000, 0x0000, 0xb017 }, { 0x22d4, 0x0018, 0x72ff, 0xb017 },
--		{ 0x22d8, 0x00ce, 0x25e1, 0xb017 }, { 0x22dc, 0x002f, 0xe40e, 0xb017 },
--		{ 0x238e, 0x0000, 0x0099, 0xb011 }, { 0x238f, 0x0000, 0x0011, 0xb011 },
--		{ 0x2390, 0x0000, 0x0056, 0xb011 }, { 0x2391, 0x0000, 0x0004, 0xb011 },
--		{ 0x2392, 0x0000, 0x00bb, 0xb011 }, { 0x2393, 0x0000, 0x006d, 0xb011 },
--		{ 0x2394, 0x0000, 0x0010, 0xb011 }, { 0x2395, 0x0000, 0x0064, 0xb011 },
--		{ 0x2396, 0x0000, 0x00b6, 0xb011 }, { 0x2397, 0x0000, 0x0028, 0xb011 },
--		{ 0x2398, 0x0000, 0x000b, 0xb011 }, { 0x239a, 0x0000, 0x0099, 0xb011 },
--		{ 0x239b, 0x0000, 0x000d, 0xb011 }, { 0x23a6, 0x0000, 0x0064, 0xb011 },
--		{ 0x23a7, 0x0000, 0x0078, 0xb011 }, { 0x23b9, 0x0000, 0x0000, 0xb011 },
--		{ 0x23e0, 0x0000, 0x0021, 0xb011 }, { 0x23e1, 0x0000, 0x0001, 0xb011 },
--	};
--
--	static const struct alc298_samsung_coeff_seq_desc amp_0x3c[] = {
--		{ 0x2000, 0x0000, 0x0001, 0xb011 }, { 0x23ff, 0x0000, 0x0000, 0xb011 },
--		{ 0x203a, 0x0000, 0x0080, 0xb011 }, { 0x23e1, 0x0000, 0x0000, 0xb011 },
--		{ 0x2012, 0x0000, 0x006f, 0xb011 }, { 0x2014, 0x0000, 0x0000, 0xb011 },
--		{ 0x201b, 0x0000, 0x0001, 0xb011 }, { 0x201d, 0x0000, 0x0001, 0xb011 },
--		{ 0x201f, 0x0000, 0x00fe, 0xb011 }, { 0x2021, 0x0000, 0x0000, 0xb011 },
--		{ 0x2022, 0x0000, 0x0010, 0xb011 }, { 0x203d, 0x0000, 0x0005, 0xb011 },
--		{ 0x203f, 0x0000, 0x0003, 0xb011 }, { 0x2050, 0x0000, 0x002c, 0xb011 },
--		{ 0x2076, 0x0000, 0x000e, 0xb011 }, { 0x207c, 0x0000, 0x004a, 0xb011 },
--		{ 0x2081, 0x0000, 0x0003, 0xb011 }, { 0x23ba, 0x0000, 0x008d, 0xb011 },
--		{ 0x2128, 0x0005, 0x460d, 0xb017 }, { 0x212c, 0x00f6, 0x73e5, 0xb017 },
--		{ 0x2130, 0x0005, 0x460d, 0xb017 }, { 0x2134, 0x00c0, 0xe9e5, 0xb017 },
--		{ 0x2138, 0x00d5, 0x010b, 0xb017 }, { 0x213c, 0x009d, 0x7809, 0xb017 },
--		{ 0x2140, 0x00c5, 0x0eed, 0xb017 }, { 0x2144, 0x009d, 0x7809, 0xb017 },
--		{ 0x2148, 0x00c4, 0x4ef0, 0xb017 }, { 0x214c, 0x003a, 0x3106, 0xb017 },
--		{ 0x2150, 0x00af, 0x750e, 0xb017 }, { 0x2154, 0x008c, 0x1ff1, 0xb017 },
--		{ 0x2158, 0x009e, 0x360c, 0xb017 }, { 0x215c, 0x008c, 0x1ff1, 0xb017 },
--		{ 0x2160, 0x004d, 0xac0a, 0xb017 }, { 0x2164, 0x007d, 0xa00f, 0xb017 },
--		{ 0x2168, 0x00e1, 0x9ce3, 0xb017 }, { 0x216c, 0x00e8, 0x590e, 0xb017 },
--		{ 0x2170, 0x00e1, 0x9ce3, 0xb017 }, { 0x2174, 0x0066, 0xfa0d, 0xb017 },
--		{ 0x2178, 0x0000, 0x0010, 0xb017 }, { 0x217c, 0x0000, 0x0000, 0xb017 },
--		{ 0x2180, 0x0000, 0x0000, 0xb017 }, { 0x2184, 0x0000, 0x0000, 0xb017 },
--		{ 0x2188, 0x0000, 0x0000, 0xb017 }, { 0x218c, 0x0000, 0x0010, 0xb017 },
--		{ 0x2190, 0x0000, 0x0000, 0xb017 }, { 0x2194, 0x0000, 0x0000, 0xb017 },
--		{ 0x2198, 0x0000, 0x0000, 0xb017 }, { 0x219c, 0x0000, 0x0000, 0xb017 },
--		{ 0x21a0, 0x0000, 0x0010, 0xb017 }, { 0x21a4, 0x0000, 0x0000, 0xb017 },
--		{ 0x21a8, 0x0000, 0x0000, 0xb017 }, { 0x21ac, 0x0000, 0x0000, 0xb017 },
--		{ 0x21b0, 0x0000, 0x0000, 0xb017 }, { 0x21b4, 0x0000, 0x0010, 0xb017 },
--		{ 0x21b8, 0x0000, 0x0000, 0xb017 }, { 0x21bc, 0x0000, 0x0000, 0xb017 },
--		{ 0x21c0, 0x0000, 0x0000, 0xb017 }, { 0x21c4, 0x0000, 0x0000, 0xb017 },
--		{ 0x23b9, 0x0000, 0x0000, 0xb011 }, { 0x23e0, 0x0000, 0x0020, 0xb011 },
--		{ 0x23e1, 0x0000, 0x0001, 0xb011 },
--	};
--
--	static const struct alc298_samsung_coeff_seq_desc amp_0x3d[] = {
--		{ 0x2000, 0x0000, 0x0001, 0xb011 }, { 0x23ff, 0x0000, 0x0000, 0xb011 },
--		{ 0x203a, 0x0000, 0x0080, 0xb011 }, { 0x23e1, 0x0000, 0x0000, 0xb011 },
--		{ 0x2012, 0x0000, 0x006f, 0xb011 }, { 0x2014, 0x0000, 0x0000, 0xb011 },
--		{ 0x201b, 0x0000, 0x0002, 0xb011 }, { 0x201d, 0x0000, 0x0002, 0xb011 },
--		{ 0x201f, 0x0000, 0x00fd, 0xb011 }, { 0x2021, 0x0000, 0x0001, 0xb011 },
--		{ 0x2022, 0x0000, 0x0010, 0xb011 }, { 0x203d, 0x0000, 0x0005, 0xb011 },
--		{ 0x203f, 0x0000, 0x0003, 0xb011 }, { 0x2050, 0x0000, 0x002c, 0xb011 },
--		{ 0x2076, 0x0000, 0x000e, 0xb011 }, { 0x207c, 0x0000, 0x004a, 0xb011 },
--		{ 0x2081, 0x0000, 0x0003, 0xb011 }, { 0x23ba, 0x0000, 0x008d, 0xb011 },
--		{ 0x2128, 0x0005, 0x460d, 0xb017 }, { 0x212c, 0x00f6, 0x73e5, 0xb017 },
--		{ 0x2130, 0x0005, 0x460d, 0xb017 }, { 0x2134, 0x00c0, 0xe9e5, 0xb017 },
--		{ 0x2138, 0x00d5, 0x010b, 0xb017 }, { 0x213c, 0x009d, 0x7809, 0xb017 },
--		{ 0x2140, 0x00c5, 0x0eed, 0xb017 }, { 0x2144, 0x009d, 0x7809, 0xb017 },
--		{ 0x2148, 0x00c4, 0x4ef0, 0xb017 }, { 0x214c, 0x003a, 0x3106, 0xb017 },
--		{ 0x2150, 0x00af, 0x750e, 0xb017 }, { 0x2154, 0x008c, 0x1ff1, 0xb017 },
--		{ 0x2158, 0x009e, 0x360c, 0xb017 }, { 0x215c, 0x008c, 0x1ff1, 0xb017 },
--		{ 0x2160, 0x004d, 0xac0a, 0xb017 }, { 0x2164, 0x007d, 0xa00f, 0xb017 },
--		{ 0x2168, 0x00e1, 0x9ce3, 0xb017 }, { 0x216c, 0x00e8, 0x590e, 0xb017 },
--		{ 0x2170, 0x00e1, 0x9ce3, 0xb017 }, { 0x2174, 0x0066, 0xfa0d, 0xb017 },
--		{ 0x2178, 0x0000, 0x0010, 0xb017 }, { 0x217c, 0x0000, 0x0000, 0xb017 },
--		{ 0x2180, 0x0000, 0x0000, 0xb017 }, { 0x2184, 0x0000, 0x0000, 0xb017 },
--		{ 0x2188, 0x0000, 0x0000, 0xb017 }, { 0x218c, 0x0000, 0x0010, 0xb017 },
--		{ 0x2190, 0x0000, 0x0000, 0xb017 }, { 0x2194, 0x0000, 0x0000, 0xb017 },
--		{ 0x2198, 0x0000, 0x0000, 0xb017 }, { 0x219c, 0x0000, 0x0000, 0xb017 },
--		{ 0x21a0, 0x0000, 0x0010, 0xb017 }, { 0x21a4, 0x0000, 0x0000, 0xb017 },
--		{ 0x21a8, 0x0000, 0x0000, 0xb017 }, { 0x21ac, 0x0000, 0x0000, 0xb017 },
--		{ 0x21b0, 0x0000, 0x0000, 0xb017 }, { 0x21b4, 0x0000, 0x0010, 0xb017 },
--		{ 0x21b8, 0x0000, 0x0000, 0xb017 }, { 0x21bc, 0x0000, 0x0000, 0xb017 },
--		{ 0x21c0, 0x0000, 0x0000, 0xb017 }, { 0x21c4, 0x0000, 0x0000, 0xb017 },
--		{ 0x23b9, 0x0000, 0x0000, 0xb011 }, { 0x23e0, 0x0000, 0x0020, 0xb011 },
--		{ 0x23e1, 0x0000, 0x0001, 0xb011 },
--	};
--
--	static const struct alc298_samsung_coeff_seq_desc amp_seq1[] = {
--		{ 0x23ff, 0x0000, 0x0000, 0xb011 }, { 0x203a, 0x0000, 0x0080, 0xb011 },
--	};
--
--	static const struct alc298_samsung_coeff_fixup_desc fixups2[] = {
--		{ 0x4f, 0xb029 }, { 0x05, 0x2be0 }, { 0x30, 0x2421 },
--	};
--
--
--	static const struct alc298_samsung_coeff_seq_desc amp_seq2[] = {
--		{ 0x203a, 0x0000, 0x0081, 0xb011 }, { 0x23ff, 0x0000, 0x0001, 0xb011 },
--	};
--
--	if (action != HDA_FIXUP_ACT_INIT)
--		return;
--
--	// First set of fixups
--	for (i = 0; i < ARRAY_SIZE(fixups1); i++)
--		alc_write_coef_idx(codec, fixups1[i].coeff_idx, fixups1[i].coeff_value);
--
--	// First set of writes
--	alc298_samsung_write_coef_pack_seq(codec, 0x38, amp_0x38, ARRAY_SIZE(amp_0x38));
--	alc298_samsung_write_coef_pack_seq(codec, 0x39, amp_0x39, ARRAY_SIZE(amp_0x39));
--	alc298_samsung_write_coef_pack_seq(codec, 0x3c, amp_0x3c, ARRAY_SIZE(amp_0x3c));
--	alc298_samsung_write_coef_pack_seq(codec, 0x3d, amp_0x3d, ARRAY_SIZE(amp_0x3d));
--
--	// Second set of writes
--	alc298_samsung_write_coef_pack_seq(codec, 0x38, amp_seq1, ARRAY_SIZE(amp_seq1));
--	alc298_samsung_write_coef_pack_seq(codec, 0x39, amp_seq1, ARRAY_SIZE(amp_seq1));
--	alc298_samsung_write_coef_pack_seq(codec, 0x3c, amp_seq1, ARRAY_SIZE(amp_seq1));
--	alc298_samsung_write_coef_pack_seq(codec, 0x3d, amp_seq1, ARRAY_SIZE(amp_seq1));
--
--	// Second set of fixups
--	for (i = 0; i < ARRAY_SIZE(fixups2); i++)
--		alc_write_coef_idx(codec, fixups2[i].coeff_idx, fixups2[i].coeff_value);
--
--	// Third set of writes
--	alc298_samsung_write_coef_pack_seq(codec, 0x38, amp_seq2, ARRAY_SIZE(amp_seq2));
--	alc298_samsung_write_coef_pack_seq(codec, 0x39, amp_seq2, ARRAY_SIZE(amp_seq2));
--	alc298_samsung_write_coef_pack_seq(codec, 0x3c, amp_seq2, ARRAY_SIZE(amp_seq2));
--	alc298_samsung_write_coef_pack_seq(codec, 0x3d, amp_seq2, ARRAY_SIZE(amp_seq2));
--
--	// Final fixup
--	alc_write_coef_idx(codec, 0x10, 0x0F21);
--}
--- 
-2.40.1
+Thanks,
+Mark
 
