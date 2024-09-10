@@ -1,40 +1,40 @@
 Received: from mout.web.de (mout.web.de [212.227.15.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A64D4204D;
-	Tue, 10 Sep 2024 15:31:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2337A14F12C;
+	Tue, 10 Sep 2024 15:55:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725982310; cv=none; b=Jhli+WRl770G/9aJLg3elCU/yXIi0gw2hNeYkixb4AcEHSRT5YWHNUTLclII24gJK/6g/NMlD2svO25xOEnHSsLEGWCEjB2NK3pK/m6EmpMcibou5XLMGw7zRaBxDb1fLDGCO0qmafmM7pQME4ndf9SZGKb+XX0faA8vdJa0YW0=
+	t=1725983750; cv=none; b=Jp52yh2jV996VxWUP5VrthFAbKmKCdAWtzZzulHK9EgpWfN14NL9L7kOiIuy+Gwr42OUEcZV/r2qsZPi7orDQS+If8soFYS8toz/neTE1Z/HbCdKIJ0Q03LfEN7VXTQ+srKxRIvJMXLzocxWC8+UX+3fBh4qL/XrHIcMnPyScy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725982310; c=relaxed/simple;
-	bh=pLIEbrYrcLDT/O2v0VYy1QVsK+tGpm+ISFA4E2afx4k=;
+	s=arc-20240116; t=1725983750; c=relaxed/simple;
+	bh=LwPewJzw4V4WuTKlqB1K5tYOXWB1kJNCFgItpQi5tGA=;
 	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=FsF8+vPH2tCDwDxsVkSZ83p541oh9P/LWgdmQmqeg9PPggav4bbjjpAwVzV7R7qIpWNq0DFjdhHlGpiH69a4Aotbw/w7K3Pntv7bcta4xZylnbLliAGGmRX8D72pocS7/Eje6pA6vwZhLJ8xzu362OCPBk1cx5TiZzu7PrdoyKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=u2xgjajk; arc=none smtp.client-ip=212.227.15.4
+	 In-Reply-To:Content-Type; b=BLbX7CQTJa4Vu20+3UOBmZzk4kGmkGwsgyCMcYVE+hIkU1f1DvwF9Z9+/O1tgZimrbyQERNy1Qt2EloMqXOjanNvovLjaGr7kSDrZwhFXgHwmq2hNncZzukzi1pHqEdjtcXfJEX1IwV+qlNSPEusSLxvjth4fs9a/FKXTIUHcB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=iNnhWeW3; arc=none smtp.client-ip=212.227.15.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="u2xgjajk"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="iNnhWeW3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1725982255; x=1726587055; i=markus.elfring@web.de;
-	bh=eJC+kqRjyZcpC2/bebvTq1qfNAeGTMeo7J5yG0OUZXM=;
+	s=s29768273; t=1725983715; x=1726588515; i=markus.elfring@web.de;
+	bh=LwPewJzw4V4WuTKlqB1K5tYOXWB1kJNCFgItpQi5tGA=;
 	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
 	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
 	 cc:content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=u2xgjajknzGDhf+ssonbDZB7xsBJCSJgAqG+CIO7QQuQIzPrjPyLuHsXJTPy18SY
-	 ge5uMGdogVvVBYXdr9GaaQTY7yKyIqHywriI6PxPa5bNEGpkcFjv0UuB2844hs8+q
-	 bLJvyqaSfoe3DHVdPSJ/laj0Ga5aVqH16GJCwROUZAdPZmE5wP9pnmchrqg0T6KQZ
-	 a1wlo9b8JVJUIzVkL2mT4eIXVgWkhfgRYYhiln8e9uwZqVi2Pdx9MKxgiotKc9bAn
-	 6zCSEnHP1osIhjfltjnamJR9Ji52Ubn1tWgiFksUgtjBP9L3IaJVPKcWMiySg2bCZ
-	 AB718kmO++yVWpRADw==
+	b=iNnhWeW3g+hAODGfDoNqaFNmgaqEIFIxBYn1ZoP8hSe3x+BD1sV4B325L2GnuTw+
+	 rS5hC4/0u5R9vMk6U6UONrI/LkdfzeoCsQD1AIzg7Tdi/LuH1fqugv67ZSHvtDbET
+	 HJ9a8cYpiZLslSqJwZ1fK/Hn5lFR5UCt3+WqWud4qhwzKSVUF84iQ6KGvEbmFBprA
+	 up6ONxaeOGoIOqGRvij8NW5BAV+mKVF8u8nWEH66WZx4XM7m9GQDdskq9x0DLM/MP
+	 22qsnFjSI3lDJy7K7XL4M9//MLnEse9PHKT5aeCeAfVywoKfbktkSMz1VPqyZAbMM
+	 wAuWVvadLOnXO+PB6g==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
 Received: from [192.168.178.21] ([94.31.91.95]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1N1u6n-1rqy5G2q4n-00w0J0; Tue, 10
- Sep 2024 17:30:55 +0200
-Message-ID: <34e1ae43-0b81-46bd-8fa8-a5fcf48def3e@web.de>
-Date: Tue, 10 Sep 2024 17:30:30 +0200
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1My6lX-1s5r9Z3SZD-010uBy; Tue, 10
+ Sep 2024 17:55:14 +0200
+Message-ID: <aa9efb22-9ff1-412a-a949-bd727350532f@web.de>
+Date: Tue, 10 Sep 2024 17:55:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -66,49 +66,39 @@ From: Markus Elfring <Markus.Elfring@web.de>
 In-Reply-To: <20240910-xilinx-dp-audio-v3-3-75560793f4d0@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:bySk54JGcMbhmtuQtab+ZIYd90iRLYDy4cyGodf0+0SKBhIHF4X
- 2c7nU4+iyl0rHOUT//1JBqHbCk+M06V38dZH//XMeF1Bncayi0GhGAYdftI7S2SdALYfK+O
- iPfdacH6mUu0KaFaCvx/I/33rvvWyXaXi5dmiDfyd+PgZu1P0Q9R+O5skjy+AcQcbF1qiwy
- AQkwSv5n1sOz6PTCilFYA==
+X-Provags-ID: V03:K1:dUTuMxY+RIMsMYSPo9z08ag0Ve3CqYJZF0sCAewlSlRgL/pPk2w
+ Bh98DzjKfd4e9R76Fd1HDYqZURqHHYgrJRckEUrNxqB3X6bXg9R/DkqHB1XHiqgsndIDFUc
+ QThopc9jqRyEGyURUeg8lLZe3q55FgeDAcDsCAKTqYoSR3CmmVqngB4aTA1Ff03bCxpT5yT
+ tMQk16/syJxIlSKpUCuiQ==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:3ui97cDDXso=;dRaVWEMbGIXm9DghmuVlbauQK/2
- HqZexSToc1soV3sjJdCYw36x6MAjZ4WJjn0dbJWLOfh2iZ8xg5S6Siy3oJ6peT+27MYe4pC2x
- Fn0TdmOrP6yNueX1SeFa3tg2pDVMIdK1TMwUyfuMa14fQ2VBrh6ht7CqNXGdZS6AZst5y2CoB
- ImLYSDNNhE/j1nDMKcG9M5H+K2Yg7XYXqkNSZWDilWCJjGspmz2La181oN32+fVFYY0iFfgqw
- pg5v5wfX5i9Odk4mdKIRBqOx5XBE67/YHfa1KvKkyJ0ezCFyIC+s0klkwmlOxEJWkznhHmpoy
- V7WS7ZQ8RawDzL81Pb2crJDMDqtDLk5obpgR+6aaMs+/XwFU5pxC66jwjpXL5O59yAZ17mCfn
- gszaguKZ0DKWQA1t45KHCIudGHx8uho31+jij3Ir8ERuH2sErcGlnFmES6fUuSV20OWipZPA3
- 9GD3WFh14/s/Xhx+pjqc2g8WBXVZltXUIfIg1CpbL/LkTYc3uZQDqxQfem0Jlr5QErO3bwybB
- vKgfriC0OAaFH+0XAe52zOWCodOuH0g1PsputHTVRK9pseUbtD/BPriY/1848w8ag6ef0L7pM
- dVUsNuO402D00FFrnJA8FTrEWBreQCsixpve3DW4bPCQ0BWVniOc/uSp47mHKSiTSIrTeLTHL
- Rd6A+/FMeCi/pVJ4+zLwK87YuT1+VK8suZUzGAGg+9RVW7OMi3FVot/BKJp4q2Hzc5HgyBE61
- wIpTNv1VzG8uP6sFSuhXRZ09HmnI1MQetRUuRaQGaFG5UYxn/2LbuBuICuJG3KV4Uc/R0tjdZ
- +3jpV8MW+5dFr2rpAtoaG4pA==
+UI-OutboundReport: notjunk:1;M01:P0:Y7xr2WFazI4=;iydN9FdWvdIe7qftthK9MZ1odcD
+ nAoXuuHvB4+sRQ1usDd7/6WSBME0otRiam/ITa91XIkTcbFqZm75z/vJ58h/mlTj4cr5YzzhX
+ tE5pxnpILRxoSefbCbwx0BS/2HFfu2ITXG0I5WdX/tcBTtklPHUqNLQ2JnJVUyFxp6SyoAeN8
+ x2RRB3L070cQ5ugwsv8t/AC67zu308FVzXtj57unFrwZrkSrfUwaXSx/tWy8oIeEPla8NZgTV
+ o7rJXO/2E9Zt2GqPir5MEfrOsmUXT9JJTZZ1VSwzmDTwXENJStPO18x/bgzKRWyIuQGwagTeI
+ L7l2RR7KdS1tfiSb7B8WBHWieKbYczY3HZwcy6MfaBvwdHRGhHDdJLCht0qmNjyimuGL0Fgns
+ gEFDQkL4sEUCPwfCxzbm4S8HFo9gn7GJGLalPnc0h99/6fVf0v3bOVzvfIwUDII/lOzvVRCgE
+ 0at1gKa4Iq6fd7EHbpKV7OnhsRthI/EXBJ5iVyJEWX0qqVqutSuYyWuFKlE46z2n9+wSUtnEb
+ 1mC8TU+/7T730+T18HM5l7kLpoY2bxknMOzkBQBN58vUnVuR9m1fKCC3ODocmUfpYIdk6lNz8
+ C1iJquV191W0yVWbXussHkVDB3RESzvkiqETiPxXezxnjQLCsW8nhDYWjMMUUX1p9l4TUC/2+
+ 8qA3ajwJ1tl44IiJfNyo927sXUobOpsM5UQwpwwF2eSQdOdQw5nzrcPurVZ+0deO0Gxc4KQVn
+ rWIe6YtiLFhMxb9Xv4SO+xOEH+LOJ7GpznOwoGvlYXQHql9xJWiRE8f8qAyNKkd9QYYNNR4RZ
+ dOi80qkX9EC2hU09JSLseCkg==
 
 =E2=80=A6
 > +++ b/drivers/gpu/drm/xlnx/zynqmp_dp_audio.c
 > @@ -0,0 +1,461 @@
-=E2=80=A6
-> +static int dp_dai_hw_free(struct snd_pcm_substream *substream,
-> +			  struct snd_soc_dai *socdai)
-> +{
-=E2=80=A6
-> +	struct zynqmp_dpsub_audio *audio =3D dpsub->audio;
-> +
-> +	mutex_lock(&audio->enable_lock);
-=E2=80=A6
-> +	audio->enabled_streams--;
-> +
-> +	mutex_unlock(&audio->enable_lock);
-> +
-> +	return 0;
-> +}
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * ZynqMP DisplayPort Subsystem Driver - Audio support
+> + *
+> + * Copyright (C) 2015 - 2023 Xilinx, Inc.
+> + *
+> + * Authors:
 =E2=80=A6
 
-Under which circumstances would you become interested to apply a statement
-like =E2=80=9Cguard(mutex)(&audio->enable_lock);=E2=80=9D?
-https://elixir.bootlin.com/linux/v6.11-rc7/source/include/linux/mutex.h#L1=
-96
+Would such information need another adjustment (according to the current y=
+ear)?
 
 Regards,
 Markus
