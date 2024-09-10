@@ -1,55 +1,55 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AB424A0C;
-	Tue, 10 Sep 2024 03:04:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E944917965E;
+	Tue, 10 Sep 2024 06:55:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725937454; cv=none; b=K0SaA+xv/Vx8ii30QCMWAPwFa8MzQ2L4ntttLYHwZTchjjM7CovbUU+X9DXDYVubnMG7tqr4x0gP3Cm3u+24afZeN8ifPuoA5GBrf7oRBW2hDBsDCbKAl4fBOB6UqbaVb0gIgmruAppH3Se5ayoGalCNJ4xGKU0kxuy90ZQOsIQ=
+	t=1725951359; cv=none; b=clThcbAo3tkYPn4l7PIMcBZfZ6nwSzbh4X+Lt4qfqT640h4q2SwHoPi2g7NCzs2Em+KhUSRqvCYTtvhXFkwwtXpM8/h9hqZ8pyZ7rA6dMmUS2zJX829lS3fucMsj6M+mFF9Gf56DF3XPmIFbnZu7eeIj51mI5EeiY9s7eexT+yk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725937454; c=relaxed/simple;
-	bh=7u3mvC3quw4Iq9MUuO2yJeb+rVXaSqaTB8bmmj8wsfA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dfxyXPw1I7J9hrc7K3SUvJJiez7pL1dkOkuHR1L0+ezMkjRub10EpRYOzene0SPSItI9BWNgARbt6X+wxEQNYymLqVxQXXAEbFo8a9qbfFPdESzK+oITryz5dOTp19vrcGQ83tloG4c8wnMXfX3nfk8oOE7Iy+DbxggYA5HDHHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QoK4ATCo; arc=none smtp.client-ip=209.85.215.177
+	s=arc-20240116; t=1725951359; c=relaxed/simple;
+	bh=JGA5X66DRtFlyOu8Nw8YoLRcEPiw6eIb6xDaES7XVnw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YY8wybqfqCoQZcEzRgDyc/Aev5QtnZqQ06LNQchnz0X4GLoyJtegBIS+a94Ofgz5zsJRkwH73qlVxXFCZRekdrPJQEt11+YNs+EB6yd3IA1vbDvhHkoXIhUh9pghbArhqvuWEGgmmUrL30aHFYM9Ef2Ou3FnMMDiIhYGsNf/jWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OvFKToQm; arc=none smtp.client-ip=209.85.210.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QoK4ATCo"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-7cd8803fe0aso3613767a12.0;
-        Mon, 09 Sep 2024 20:04:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OvFKToQm"
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-709339c91f9so99417a34.0;
+        Mon, 09 Sep 2024 23:55:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725937452; x=1726542252; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1725951357; x=1726556157; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zTPV0QAxETLyB0ffSzBFpGcDqC9fhVTxXSRciFgACp0=;
-        b=QoK4ATCoiBSpF+DO6mgBEL31vYEnXZIgTTout5heiiUypwyDG1hkU+w1LMXd+InNHh
-         q6ps2fR1/lOjTdO6n/i9obLBAdRY5fZqk+8PP98X0mrG2ZX2wMhXsqNpnP7DZ5xNF/9f
-         Br0SAZHc7ingADRHVBCQO1tRf+8iwzPAXJ1XwBhMUSytrFrurldc6sz20+DS9ec+7a8P
-         Jk1UBW+ilfEdfnnM8axqVrOTqsf6hDKvY+1H5Q185+GbSdD8KEu8Xbxt38exDNxjj1aH
-         QK2HeTAO9MJQOtR8QSJvjZeaqrZNEUUDD3oddaV3CjtK8I0bbG/91rMVZVlrkN7iWU+R
-         9VSg==
+        bh=kKDOXZezSqYI2e6cITzaTtJqhoUEtDocigCyXGu2ToQ=;
+        b=OvFKToQmz0+01qFgMSJt9C6t//Z8LlFSM669jGmBgUTwOw89H6hp1nv0v5K6fxhzea
+         GYp0O5L+VOycpfmpW6i+9TrkrLj4wYyV/Nkwf7s89tUqL7rg2FgjCBLbJoJyx87mPIB6
+         Z8/s0GbM2sgtOYVY7s+LwdqHWYvEoK8cSZzuOVTYddvbCO1teMqbgF+VPN5koKt/vS3/
+         CMgfa9jiGlaVhmBeTwoa5YIwuhiHoJyWgr01sEUFPJOwTuRip8xKZa6X/3MrC9I7KCLX
+         cgupFV5Od0N2/lCie3j8sheM1lz0DV1qaOCmuA3RhJSFTOk2HKXZ7C3SpQhvu0XLnMA7
+         xZZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725937452; x=1726542252;
+        d=1e100.net; s=20230601; t=1725951357; x=1726556157;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zTPV0QAxETLyB0ffSzBFpGcDqC9fhVTxXSRciFgACp0=;
-        b=quS6MCtuYOhhnbnYGU9YM0rrXBxRfZPBPLVHu0YscUz+8X+YY8uI9ZSiDPlFhZlpmD
-         v1EJe2AY2F80BIbfN/8rHENQlRUMRO8ERg7vMPF54udsSOlv84hLrLxzJuIlMmiP6FOh
-         s3PQe4Re4pMxlkYszwf/Chhl3/ic+NbN5mVCXtjj9M/NEJjBXf38NLNsO0Ip5IZQQKu9
-         4IbYImsmytZzNlrO9n1q50bRhjNHpavfD/VlniO54T85+7yyhSGC0A1IJUZRSzKYxlZ4
-         0PSvgHr9g6yjp3pZV7lZ4FeTIdz1CVHM8L1rupSca+Uz9C3tCg6BAID+CK8lNjLrkcuH
-         wo3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUnfu1WiuriTTMXIxKl8DmQlX3mwpmcRSAQCpKAYltFwPfhwqdPXG6S5KNm53GYA3HR27kHsoZjLmhWJGo=@vger.kernel.org, AJvYcCX4T/ic12mM5/hS7OobWz4l0wa9sljsM0y7gRqYnWPG9lO7GxGmEtjEdDrLYAEnjuKrHUjLOlS+KyQJxXE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzolL0Zs2cnNyL1x/Pls2AmmBRkUDHo/hbttbqGRCedcBN2K84J
-	4VHUb3Kl+4cK8tfuTVQMTj0G0eJhtRH3jPaEWLfAzTfHpPJbRTKDjmoAJMYf
-X-Google-Smtp-Source: AGHT+IEu74iKokulLnr1mudVOKiVipW4GTsRAFdE3cPSd38YQccNCtIXum0WBhf2+DfgI3NTKyOycg==
-X-Received: by 2002:a17:90a:bb95:b0:2d8:a9af:b94f with SMTP id 98e67ed59e1d1-2daffa3aaedmr11259891a91.7.1725937451482;
-        Mon, 09 Sep 2024 20:04:11 -0700 (PDT)
-Received: from smtp.gmail.com (220-128-132-142.hinet-ip.hinet.net. [220.128.132.142])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2db04136b4esm5297225a91.8.2024.09.09.20.04.09
+        bh=kKDOXZezSqYI2e6cITzaTtJqhoUEtDocigCyXGu2ToQ=;
+        b=L1MUnRJ5cO2IKHK3Q1XQEM0KPXfJzLV3PETD9XlK3Z5xyfxvLL8NHLky3hqENKFlGN
+         gwrCwuEZVdrvhRa8x7KJVnA9fptioO6y+uJRwDQL8wmKto56Jieot+WXZm+DoHdY1JeU
+         vK/mYQr/LCIAXq5R/oq5BPWQsnqBDC7tPqbNE5rmIj3DLSSSdEs1zTymf998qJb3do4k
+         22FwsLCm69o6mMKJCGyOWGvd2FkucBiuuOHeZM6iJYpbb45vO0LHDOPvHPwolzQ9dl50
+         US+sQ/k1kHcVWs6UntLFJA9mqBXssqiwETx14jJG2uRmilaaMSPpKea41ObcGVhvCMUZ
+         wYcA==
+X-Forwarded-Encrypted: i=1; AJvYcCUVkI8FQc/swqC+fUCZ1dHd9GV+8bBjxI9yq00AsIQj8ZXS5A6Wf05LX77SZDzTQ4ZreUc/eIJnknJ/1Do=@vger.kernel.org, AJvYcCW2h/vn8cBnMUWW8Uu5XTSokgaESa9RwIECssLIFHz3KZJYjooS7ueRQWqDlS24U1ECp2UfR7LYHaZZOKY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTwhCw5U+mPAzHgOK+RNj9mY3JeHqrJ1WH8LTQW2hdEVlmXL4l
+	MfDdGeIES6tVTkOzQXEZU8Ipo2nrHz9/Z9MJlhHIdkYS2W+2mhI/
+X-Google-Smtp-Source: AGHT+IHt+vWM0D6ITQmiN2bFOtzdfKzeLjTGx2oO4hFoeCwQ1gvp3DkWCWKF52vIE9LjUiIEe8Sz5A==
+X-Received: by 2002:a05:6830:90e:b0:70f:36ff:ed09 with SMTP id 46e09a7af769-710cc26e87emr14320695a34.28.1725951356873;
+        Mon, 09 Sep 2024 23:55:56 -0700 (PDT)
+Received: from smtp.gmail.com (220-128-132-252.hinet-ip.hinet.net. [220.128.132.252])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7d8237361f1sm4998126a12.16.2024.09.09.23.55.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Sep 2024 20:04:11 -0700 (PDT)
+        Mon, 09 Sep 2024 23:55:56 -0700 (PDT)
 From: Leo Tsai <antivirus621@gmail.com>
 To: perex@perex.cz,
 	tiwai@suse.com
@@ -57,9 +57,9 @@ Cc: leo.tsai@cmedia.com.tw,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Leo Tsai <antivirus621@gmail.com>
-Subject: [PATCH] [PATCH v2]ALSA: hda: Add a new CM9825 standard driver.
-Date: Tue, 10 Sep 2024 11:03:57 +0800
-Message-Id: <20240910030357.6292-1-antivirus621@gmail.com>
+Subject: [PATCH] [PATCH v3]ALSA: hda: Add a new CM9825 standard driver
+Date: Tue, 10 Sep 2024 14:55:42 +0800
+Message-Id: <20240910065542.6534-1-antivirus621@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -76,14 +76,14 @@ connect the active speaker. The inputs can be Line-in and MIC-in.
 
 Signed-off-by: Leo Tsai <antivirus621@gmail.com>
 ---
- sound/pci/hda/patch_cmedia.c | 267 +++++++++++++++++++++++++++++++++++
- 1 file changed, 267 insertions(+)
+ sound/pci/hda/patch_cmedia.c | 269 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 269 insertions(+)
 
 diff --git a/sound/pci/hda/patch_cmedia.c b/sound/pci/hda/patch_cmedia.c
-index 2ddd33f8dd6c..92f8d3682e84 100644
+index 2ddd33f8dd6c..fe946d407830 100644
 --- a/sound/pci/hda/patch_cmedia.c
 +++ b/sound/pci/hda/patch_cmedia.c
-@@ -17,10 +17,229 @@
+@@ -17,10 +17,231 @@
  #include "hda_jack.h"
  #include "hda_generic.h"
  
@@ -154,8 +154,10 @@ index 2ddd33f8dd6c..92f8d3682e84 100644
 +	{0x43, CM9825_VERB_SET_OCP, 0x33},	/* OTP set */
 +	{0x43, CM9825_VERB_SET_GAD, 0x07},	/* ADC -3db */
 +	{0x43, CM9825_VERB_SET_TMOD, 0x26},	/* Class D clk */
-+	{0x3C, AC_VERB_SET_AMP_GAIN_MUTE | AC_AMP_SET_RIGHT, 0x2d},	/* Gain set */
-+	{0x3C, AC_VERB_SET_AMP_GAIN_MUTE | AC_AMP_SET_LEFT, 0x2d},	/* Gain set */
++	{0x3C, AC_VERB_SET_AMP_GAIN_MUTE |
++		AC_AMP_SET_OUTPUT | AC_AMP_SET_RIGHT, 0x2d},	/* Gain set */
++	{0x3C, AC_VERB_SET_AMP_GAIN_MUTE |
++		AC_AMP_SET_OUTPUT | AC_AMP_SET_LEFT, 0x2d},	/* Gain set */
 +	{0x43, CM9825_VERB_SET_HPF_1, 0x40},	/* HPF set */
 +	{0x43, CM9825_VERB_SET_HPF_2, 0x40},	/* HPF set */
 +	{}
@@ -313,7 +315,7 @@ index 2ddd33f8dd6c..92f8d3682e84 100644
  /*
   * stuff for auto-parser
   */
-@@ -32,6 +251,53 @@ static const struct hda_codec_ops cmi_auto_patch_ops = {
+@@ -32,6 +253,53 @@ static const struct hda_codec_ops cmi_auto_patch_ops = {
  	.unsol_event = snd_hda_jack_unsol_event,
  };
  
@@ -367,7 +369,7 @@ index 2ddd33f8dd6c..92f8d3682e84 100644
  static int patch_cmi9880(struct hda_codec *codec)
  {
  	struct cmi_spec *spec;
-@@ -113,6 +379,7 @@ static const struct hda_device_id snd_hda_id_cmedia[] = {
+@@ -113,6 +381,7 @@ static const struct hda_device_id snd_hda_id_cmedia[] = {
  	HDA_CODEC_ENTRY(0x13f68888, "CMI8888", patch_cmi8888),
  	HDA_CODEC_ENTRY(0x13f69880, "CMI9880", patch_cmi9880),
  	HDA_CODEC_ENTRY(0x434d4980, "CMI9880", patch_cmi9880),
