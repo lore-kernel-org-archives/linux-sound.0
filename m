@@ -1,106 +1,135 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31BE117799F
-	for <linux-sound@vger.kernel.org>; Tue, 10 Sep 2024 13:06:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AE3F183094;
+	Tue, 10 Sep 2024 14:30:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725973599; cv=none; b=paamOlwoOfddCAw9vGjMkLbaTfSvE/nccfoUM+bG/NphoOUomurSRgTLHFkojIkubi2BjVWLBBm0guvzRPXFodVdS066YRUEjer3lwkBpxItd6Yb56Qb2FiT5JfrE/WciRei6QWey4SOKu/KVKe6DvXxrxLksuJ8TNoDvH0e5Nc=
+	t=1725978636; cv=none; b=hM/qNmzJpo6Yb9SXKGSgm/rrTi//qaCXhXmGlecyFT+iGQdP9Umjfn4mrYi4oUyte3cWanF/D5rb2SpQ0HYUCl8pnj6u8u3ZpJK/G0U+n8nPj9AOgefJ0ZO5PB/BkBjI1Akdnf+041WHsTn7JjDGar6X3aiYX33SnLvL0rNeqaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725973599; c=relaxed/simple;
-	bh=L4w2KpX0OwLdqZm75spLd0tlnevJN69EafpQUiyDOMQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=jSQqInGV6pds/RWbX3OdxxHgPqOdn7EaBjrMMHb6xsg1en2Ej7ws6jklcuQrDynbyU0O5KPuPDnlCnn7zmnAw+U5PobQMsem6WMKrK02C2fXM5Oh7k8RVj4I8afDb8bwoCFd7gLBMDCkdpbBs9pFx661vFNvZGWoJSK2Luthqeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=vNnBK7kT; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1725978636; c=relaxed/simple;
+	bh=37dA2/8Lo9EhECpZNUmgs9Cpix+RL76xxtBnhKKmQZ4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=agCPSLtEN+o8wcMKaCChElaWPTCGqviRqqB8Drt3mcUObYPVnnUaxYS/yYwhKVE06j70Wy6v/fwGio3Hgc2I1lUchQdgmvhWkZkJIMn95tDQ5ERQaxsz2bl+3mo/nhNxBCCvoLMC8ZZaoIebuAm9g8rVqvuT2qkogqfZ6W1Zg/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bc8Qu74Z; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="vNnBK7kT"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-42cb8dac900so19386495e9.3
-        for <linux-sound@vger.kernel.org>; Tue, 10 Sep 2024 06:06:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1725973593; x=1726578393; darn=vger.kernel.org;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xcYrlgt+xKQpMzidUvbTcdlU3FHUxKEyZowbKiZEEDs=;
-        b=vNnBK7kTnQwnjKcfl+LUmWzlWhRsSQS1g+b+fKmW92H2ww/zWU/rjRJHbRSqw+nc4R
-         1PYC0aPYgcQ7hcr378SVJbWjF7+uucCQK2e3r/WW/uvAnjztK81OKhWbOzYjnIxWs3Ys
-         NS+4+ban75K/8i/zTZtdT01cMAlAWyX0XKT9lucu4/rOmUJtsfIn6aAzzIWXlBYS5IUc
-         8IdSXTHpOT1/871kpvPQOi93LeI1+SOMuF1vok3H1bM/nLwfrAQM8Vt+TW+f+CHPHb+f
-         H7zKJ54EH3eJxBRaziT9nGycD9cCqLPYaa/5GS8woBOGG1O3n6FzHFBXkq65rCXINXWp
-         CESA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725973593; x=1726578393;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xcYrlgt+xKQpMzidUvbTcdlU3FHUxKEyZowbKiZEEDs=;
-        b=VelrWhF+mFC9abk2KLAXG1EjJwo1IymNolxrzq3Fka1wIRExK+72vr3OFcpb4LR/ny
-         OApwUjKV69MsQBz7fpL8eH/J4DVOwTpwrxVh6Jd00bPQ+Z0bDg84ST0W+TNW8/eud7OC
-         r91ULittC5gY1pOJ1/3W1tYLAAjLRbDcq83/6cbxI5erm6A5cEw4/diSykeHTKEjNnXE
-         RNYMIjt3pNbFy5i2HdGWjBu8wM2K9w1P1Ww5E0aq1tkPbg8NjQdhXRK9f2nr8zv+PRJE
-         VYytE8ovrJDs1i0N6ePxivO0QTUe6x2f6xRuha/uQsGFf2U25WoeWmqQchqMS37geiet
-         QbDA==
-X-Forwarded-Encrypted: i=1; AJvYcCVIpg09fM2QfnMivXTVVE0elxjPtsL5PFUh/OfTpjAKCxavF0KeZkRAvrfwRdmGYmKFoZPXpPXnZ4YhOg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxaf9HS/s7QDCnd+/OyfLe3mEey4tEzbPUIittUbuMw20VTufbo
-	wp+otPdq9BAJ41jk/4aQB4gbqXbNIBACDU+4J/Z78lzmlWHZkyxjCvVcRweQwik=
-X-Google-Smtp-Source: AGHT+IFfw9hsEkrZwin+dmsjt5+DUkenuM16kva0iZ/RqRt8dh6foDFqpFTzSlnmIntan7ubEc7M4Q==
-X-Received: by 2002:a05:600c:1e04:b0:42c:b8da:c791 with SMTP id 5b1f17b1804b1-42cb8daca53mr52475705e9.1.1725973592730;
-        Tue, 10 Sep 2024 06:06:32 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:8ba7:bfe4:fea9:65b])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42cbc419014sm39753015e9.36.2024.09.10.06.06.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Sep 2024 06:06:32 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Zhang Zekun <zhangzekun11@huawei.com>
-Cc: <lgirdwood@gmail.com>,  <broonie@kernel.org>,  <perex@perex.cz>,
-  <tiwai@suse.com>,  <linux-sound@vger.kernel.org>,
-  <chenjun102@huawei.com>
-Subject: Re: [PATCH] ASoC: meson: Remove unused declartion in header file
-In-Reply-To: <20240910122330.70684-1-zhangzekun11@huawei.com> (Zhang Zekun's
-	message of "Tue, 10 Sep 2024 20:23:30 +0800")
-References: <20240910122330.70684-1-zhangzekun11@huawei.com>
-Date: Tue, 10 Sep 2024 15:06:31 +0200
-Message-ID: <1jv7z3slns.fsf@starbuckisacylon.baylibre.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bc8Qu74Z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725978635; x=1757514635;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=37dA2/8Lo9EhECpZNUmgs9Cpix+RL76xxtBnhKKmQZ4=;
+  b=bc8Qu74ZZSOG6E8J47a5+uo77GchuSiEfapyAZlRNTZW5yTq6lfwtB26
+   zSBhzuja8L2Xf2cOmcBPyt1ZJBWRJyOmk8UFP2TT9xsrgQJHJ84SZoSF/
+   lzdqV+NjseqPYoONdki2ZPfMajThLV6yeXXoa1SgAIAXfkKlpbK5JS5Ll
+   8T2Z1Jg7nLAYqA/S5+Zv45WqHSspS2DJeaFM9z50eagBJI0fVhT1sqyw7
+   fOPjQDAiPS6iBwEiwT45X6Ai2N0Uv6GL5KGp7rg8mcjDNQBYtgiWWcVbA
+   OHtLYsuglAz2ZMrWP+s5STXVmeLxTO+jVPzIq0nBdmNUR0z3zrxVPNGPz
+   w==;
+X-CSE-ConnectionGUID: nIl77YtkQG+MkKVmY7/xJw==
+X-CSE-MsgGUID: v0a7TTM8SeOt9j5V9xY4rA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="47248518"
+X-IronPort-AV: E=Sophos;i="6.10,217,1719903600"; 
+   d="scan'208";a="47248518"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 07:30:34 -0700
+X-CSE-ConnectionGUID: /x6KIXWGR/6Fn6YjK6hZPw==
+X-CSE-MsgGUID: u/gKSHp1TgmQ9jHq7UVplw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,217,1719903600"; 
+   d="scan'208";a="67288474"
+Received: from cvapit-mobl1.ger.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.118.236])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 07:30:31 -0700
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: broonie@kernel.org,
+	tiwai@suse.de,
+	vkoul@kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	bard.liao@intel.com
+Subject: [PATCH] MAINTAINERS: update Pierre Bossart's email and role
+Date: Tue, 10 Sep 2024 22:30:21 +0800
+Message-ID: <20240910143021.261261-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue 10 Sep 2024 at 20:23, Zhang Zekun <zhangzekun11@huawei.com> wrote:
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 
-> The declaration of aiu_fifo_hw_free() has been removed since
-> commit e05cde84eabc ("ASoC: meson: Use managed DMA buffer allocation").
+Update to permanent address and Reviewer role.
 
-Missing the fixes tag then:
-Fixes: e05cde84eabc ("ASoC: meson: Use managed DMA buffer allocation")
+Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+---
+ .mailmap    | 1 +
+ MAINTAINERS | 6 +++---
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-> Let's remove the unused declaration.
-
-With the tag
-Reviewed-by: Jerome Brunet <jbrunet@baylibre.com>
-
->
-> Signed-off-by: Zhang Zekun <zhangzekun11@huawei.com>
-> ---
->  sound/soc/meson/aiu-fifo.h | 2 --
->  1 file changed, 2 deletions(-)
->
-> diff --git a/sound/soc/meson/aiu-fifo.h b/sound/soc/meson/aiu-fifo.h
-> index 84ab4577815a..b02cfcc4de7f 100644
-> --- a/sound/soc/meson/aiu-fifo.h
-> +++ b/sound/soc/meson/aiu-fifo.h
-> @@ -38,8 +38,6 @@ int aiu_fifo_prepare(struct snd_pcm_substream *substream,
->  int aiu_fifo_hw_params(struct snd_pcm_substream *substream,
->  		       struct snd_pcm_hw_params *params,
->  		       struct snd_soc_dai *dai);
-> -int aiu_fifo_hw_free(struct snd_pcm_substream *substream,
-> -		     struct snd_soc_dai *dai);
->  int aiu_fifo_startup(struct snd_pcm_substream *substream,
->  		     struct snd_soc_dai *dai);
->  void aiu_fifo_shutdown(struct snd_pcm_substream *substream,
-
+diff --git a/.mailmap b/.mailmap
+index caf46a652f15..34a003e2ee10 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -527,6 +527,7 @@ Pavankumar Kondeti <quic_pkondeti@quicinc.com> <pkondeti@codeaurora.org>
+ Peter A Jonsson <pj@ludd.ltu.se>
+ Peter Oruba <peter.oruba@amd.com>
+ Peter Oruba <peter@oruba.de>
++Pierre-Louis Bossart <pierre-louis.bossart@linux.dev> <pierre-louis.bossart@linux.intel.com>
+ Pratyush Anand <pratyush.anand@gmail.com> <pratyush.anand@st.com>
+ Praveen BP <praveenbp@ti.com>
+ Pradeep Kumar Chitrapu <quic_pradeepc@quicinc.com> <pradeepc@codeaurora.org>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 38f9f8d1eedc..b56ceb3fcb16 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -11146,12 +11146,12 @@ F:	drivers/gpio/gpio-i8255.h
+ 
+ INTEL ASoC DRIVERS
+ M:	Cezary Rojewski <cezary.rojewski@intel.com>
+-M:	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+ M:	Liam Girdwood <liam.r.girdwood@linux.intel.com>
+ M:	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+ M:	Bard Liao <yung-chuan.liao@linux.intel.com>
+ M:	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+ M:	Kai Vehmanen <kai.vehmanen@linux.intel.com>
++R:	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+ L:	alsa-devel@alsa-project.org (moderated for non-subscribers)
+ S:	Supported
+ F:	sound/soc/intel/
+@@ -21378,13 +21378,13 @@ S:	Maintained
+ F:	tools/sound/dapm-graph
+ 
+ SOUND - SOUND OPEN FIRMWARE (SOF) DRIVERS
+-M:	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+ M:	Liam Girdwood <lgirdwood@gmail.com>
+ M:	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+ M:	Bard Liao <yung-chuan.liao@linux.intel.com>
+ M:	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+ M:	Daniel Baluta <daniel.baluta@nxp.com>
+ R:	Kai Vehmanen <kai.vehmanen@linux.intel.com>
++R:	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+ L:	sound-open-firmware@alsa-project.org (moderated for non-subscribers)
+ S:	Supported
+ W:	https://github.com/thesofproject/linux/
+@@ -21393,7 +21393,7 @@ F:	sound/soc/sof/
+ SOUNDWIRE SUBSYSTEM
+ M:	Vinod Koul <vkoul@kernel.org>
+ M:	Bard Liao <yung-chuan.liao@linux.intel.com>
+-R:	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
++R:	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+ R:	Sanyog Kale <sanyog.r.kale@intel.com>
+ L:	alsa-devel@alsa-project.org (moderated for non-subscribers)
+ S:	Supported
 -- 
-Jerome
+2.43.0
+
