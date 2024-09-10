@@ -1,82 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8A601A2C17;
-	Tue, 10 Sep 2024 17:02:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9241AAE09;
+	Tue, 10 Sep 2024 17:22:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725987750; cv=none; b=UdySgwKTzYAfHujF0nWIXnKhI1XlJY5IhInYsu43dJnekw1cOOUNDJwVwNN+Q0Y+C8T7vjNiu4jJUbJ7Wx4yRjfHdFWI1LP0Qh+2veAMcEZFVb/68zYulzS6HlnQOjQzk5orNs2PskS1FpXENfHdTxehhpbGIByO3OPhwrlMTX8=
+	t=1725988942; cv=none; b=TW8vleOoZKpXCN0lFUwh4OF86kXdL+hhDG0pWK3voIIT2nl/dn3ogb69Jn+ygsP83ymIXiWPEfMGr6TJQOaBhcqS+IsryntjFjFTckco3P3NbePxS6Fg/q4T8pLSAwIojhD5EaUMirJQvCw8M8Fy9CN05qhSC9HrI40vq6xHI4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725987750; c=relaxed/simple;
-	bh=Ib2q5qUG48L1BNSRxOnDDPW+2Vgx/MGp5K+eSLG3Pkw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=lEjGgmOAzRCUtgpn3uLMRlHOXbNOvQqtted7qLAaMxGpncgxUJmc+wCbjG5EuMNAzDIwZVRaLjopdcc8GU4Ogdds05T6euYkaq3aOdGU26ygs5XJlhzH7oqOanqM+L88NeuZbUmq9aK0JZrFfvaGM2ZDRweK0tCALb2aWq9juq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Blr4FFNt; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725988942; c=relaxed/simple;
+	bh=NeZBarf5sytU+4tlKJN+FOzynrWMMCnZ2J23Xvo9Q78=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=LHKJSi+7v1nMpXDVBaRJRDZipcKH8qFrP0o2Emq8VFV18ZPOiNdbfiNykntXAxw4coCr3Zc9TGZWkDJ4l56cAr0Qiq/1ITJVZpvApTGWeYLYDyZtkVuMlz2Mtnjs5MxCtAYfvj0YLJhvxgAh6b/8kJheh5N0MvB+9mznsZGJ14g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uh8hsgJi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Blr4FFNt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19086C4CECE;
-	Tue, 10 Sep 2024 17:02:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uh8hsgJi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D9BCC4CECE;
+	Tue, 10 Sep 2024 17:22:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725987749;
-	bh=Ib2q5qUG48L1BNSRxOnDDPW+2Vgx/MGp5K+eSLG3Pkw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Blr4FFNty+BoTO3KTccXhfuyScYT6ZEZUieLBw/9So1Mqp7wHSYKVMFztMB4bfrKD
-	 +RtJbO2ZoiBJcMTVthYnK42DZUvC9eTnF4IYi6NtoIvLjGkgbFR8xs7NlVSgMv3f9J
-	 IGBt4C5Pv9ho7rZaHXp6xBe5aZubr+vwDhpVA4ftl4mE/aoUIMMnHYG0GVs5N17+Rj
-	 qfFlBjnPHYmB72pajWqRFGjD8cR+r8f/hutFMhraaWhuD6F9CfP9wujg/oebirYvT+
-	 Xqwd4gGrMyx0jXla5kzk4NrP++NO6uBva2JuzVckpAbNG+lGWYroix25vFmRaLrcBO
-	 S556As4QQrX8g==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- Tang Bin <tangbin@cmss.chinamobile.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20240910021104.3400-1-tangbin@cmss.chinamobile.com>
-References: <20240910021104.3400-1-tangbin@cmss.chinamobile.com>
-Subject: Re: [PATCH] ASoC: loongson: Add the correct judgement return
-Message-Id: <172598774783.662466.1907446633578434541.b4-ty@kernel.org>
-Date: Tue, 10 Sep 2024 18:02:27 +0100
+	s=k20201202; t=1725988942;
+	bh=NeZBarf5sytU+4tlKJN+FOzynrWMMCnZ2J23Xvo9Q78=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=uh8hsgJidJNOE+g0PuIJIWLcg5LJMyHLTmlMX4+rj4Rt1W0mKV1/SBV0wxaTqsees
+	 zJrRXpuTf9m3LiXRW7+DJEBQA8OuMMsC0IWqTaq7XGrFVYP4Bu2U9dL8FuKbhJv+Id
+	 RlVlCQ6CMvIQK9CgK+VLICg1SYCkLgAWzilFgEU7U2jBsfZxpl1kCguBTukhl7nQh5
+	 mL90f73WaGvJPVxlKv7U7ROieW362fNAMWVDBPtoLlKOHREj1767WH1DBs0i0Gm+4H
+	 MBSrkpp9ZbGRtxq60e/VbyJ5C+ZpOFZnkTugkpU+UluL8cIhWFw46sTHI2ImhxB6Co
+	 ghvU3YRCMXKfA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	cezary.rojewski@intel.com,
+	liam.r.girdwood@linux.intel.com,
+	peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.10 03/18] ASoC: Intel: soc-acpi-cht: Make Lenovo Yoga Tab 3 X90F DMI match less strict
+Date: Tue, 10 Sep 2024 13:21:48 -0400
+Message-ID: <20240910172214.2415568-3-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240910172214.2415568-1-sashal@kernel.org>
+References: <20240910172214.2415568-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-99b12
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.10.9
+Content-Transfer-Encoding: 8bit
 
-On Tue, 10 Sep 2024 10:11:04 +0800, Tang Bin wrote:
-> Use the function dev_err_probe can simplify code, but
-> the error return should not be deleted, that is
-> unreasonable, thus fix it.
-> 
-> 
+From: Hans de Goede <hdegoede@redhat.com>
 
-Applied to
+[ Upstream commit 839a4ec06f75cec8fec2cc5fc14e921d0c3f7369 ]
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+There are 2G and 4G RAM versions of the Lenovo Yoga Tab 3 X90F and it
+turns out that the 2G version has a DMI product name of
+"CHERRYVIEW D1 PLATFORM" where as the 4G version has
+"CHERRYVIEW C0 PLATFORM". The sys-vendor + product-version check are
+unique enough that the product-name check is not necessary.
 
-Thanks!
+Drop the product-name check so that the existing DMI match for the 4G
+RAM version also matches the 2G RAM version.
 
-[1/1] ASoC: loongson: Add the correct judgement return
-      commit: 5e6f78cb5f53c52a11090657e917d2d7202aea23
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Link: https://patch.msgid.link/20240823074305.16873-1-hdegoede@redhat.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ sound/soc/intel/common/soc-acpi-intel-cht-match.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/soc/intel/common/soc-acpi-intel-cht-match.c b/sound/soc/intel/common/soc-acpi-intel-cht-match.c
+index 5e2ec60e2954..e4c3492a0c28 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-cht-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-cht-match.c
+@@ -84,7 +84,6 @@ static const struct dmi_system_id lenovo_yoga_tab3_x90[] = {
+ 		/* Lenovo Yoga Tab 3 Pro YT3-X90, codec missing from DSDT */
+ 		.matches = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "Intel Corporation"),
+-			DMI_MATCH(DMI_PRODUCT_NAME, "CHERRYVIEW D1 PLATFORM"),
+ 			DMI_MATCH(DMI_PRODUCT_VERSION, "Blade3-10A-001"),
+ 		},
+ 	},
+-- 
+2.43.0
 
