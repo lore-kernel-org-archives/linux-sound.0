@@ -1,100 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 746858F5A;
-	Mon,  9 Sep 2024 21:57:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from cmccmta2.chinamobile.com (cmccmta8.chinamobile.com [111.22.67.151])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3DB742A81;
+	Tue, 10 Sep 2024 01:33:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725919040; cv=none; b=CKhdnksWhH0aTj4qD4mee/8Q1mgirssCoJkr7GdUCBd4ob7kVjs0VL5DMBLFEzBL49xKxw+f8xib96YH3WkTEUfnUC74fEzMpK3UzEn/ElPykJigYmxYn30A2R937vcRwVS4tang0SUSJ4JFZ1nBQ/piuyt3jCRclH6vKboTTPE=
+	t=1725931998; cv=none; b=FPjCLqnEDaC9DLzheAnv4CYBcX3ra6OoYgtyGLK+jasK7KT6i832Hmpn0Qwx/6zkMyMV5XNG29R9fuHjFAhx6mmyq75P1CchFLudAm9WHdKuwzzHpPCaeChXqgBtanR4GxqIQzzZmC4qMz7Kpv3P0I/IOnVZ7LMm94PGPrFy7lQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725919040; c=relaxed/simple;
-	bh=2UqAJVFWBnjGJoioHdA1uFRvBlpi1A+ZG7kkU7DYCGw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=g9UPJWZo8AkiAEjCCrOvFSlzstI27TKbo4OHkOXop8EaE9XwP4W0K6uF1uZmhuN2TrqvG8aprU3KeaOSgpeR7494TGPN6pRh19ZiU1/PFwSspBHIqeU0rXfMgbDJRB3PWTjnXTlI6jjTg3ktAegnH1Pr7pdPvxsGx3oKALshpqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XZGFmF7K; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XZGFmF7K"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08F98C4CECB;
-	Mon,  9 Sep 2024 21:57:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725919040;
-	bh=2UqAJVFWBnjGJoioHdA1uFRvBlpi1A+ZG7kkU7DYCGw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=XZGFmF7KMgt+DbN5wp9RuN4VheJL/oWNBdMiHvhi/FbVbckqAELzDes8OYxH6gLRy
-	 MqiHsUBvwabRIWxx9tPABWEgeEu7nk7mYHRrlSfG0xHKlVKhAQ2HXvd9BXW3DfOzAk
-	 fQRgWmwzXdJiIia3E+JFl7s0VMAn4cBJPwLfmKiRJW2DFOGyusWO1KMRm7JyndHGEV
-	 FaUzpxAQ2PaCzbJAtrAvZbYsApvr6CDYP3QRRLIWWX18JiSrf0cL2bRSZJ/b1CmwWX
-	 qlOLX1/RDJ8Qsy8x/tPlxcnwFksXC5mylNS2GkAA3fh2+lKWJYhLqr5zz0D+X3jB7z
-	 TLNozMClrByZQ==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Mark Brown <broonie@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, 
- Alexandre Mergnat <amergnat@baylibre.com>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org
-In-Reply-To: <20240907-asoc-fix-mt8365-build-v1-0-7ad0bac20161@kernel.org>
-References: <20240907-asoc-fix-mt8365-build-v1-0-7ad0bac20161@kernel.org>
-Subject: Re: [PATCH 0/7] ASoC: mt8365: Fix -Werror builds
-Message-Id: <172591903776.148496.17884899696654432666.b4-ty@kernel.org>
-Date: Mon, 09 Sep 2024 22:57:17 +0100
+	s=arc-20240116; t=1725931998; c=relaxed/simple;
+	bh=E6aVe/li53WmGDulVa3KCliMqCgC2Vag7E/p3hL6aFI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NrkDaQvKRP7u5Dayjai8tvlZZRztQoL7afKdr3cHRYEBFkiYhb4bNne2ci9I2u6DjwNXkzvkFhHSjG3lHRl6iyTiLP5TcW3pzdzIaeb0n0UezRLHkETN269jNdJGk5lXhFdFeHAS97v+eOqKVJpVQOokGmLKSAPtVCfUuCHmmCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app06-12006 (RichMail) with SMTP id 2ee666dfa1d4efe-de7c0;
+	Tue, 10 Sep 2024 09:33:09 +0800 (CST)
+X-RM-TRANSID:2ee666dfa1d4efe-de7c0
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from localhost.localdomain (unknown[223.108.79.97])
+	by rmsmtp-syy-appsvr05-12005 (RichMail) with SMTP id 2ee566dfa1d0997-6c03d;
+	Tue, 10 Sep 2024 09:33:09 +0800 (CST)
+X-RM-TRANSID:2ee566dfa1d0997-6c03d
+From: Tang Bin <tangbin@cmss.chinamobile.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Tang Bin <tangbin@cmss.chinamobile.com>
+Subject: [PATCH v2] ASoC: soc-ac97: Fix the incorrect description
+Date: Tue, 10 Sep 2024 09:33:03 +0800
+Message-Id: <20240910013303.2044-1-tangbin@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-99b12
+Content-Transfer-Encoding: 8bit
 
-On Sat, 07 Sep 2024 01:53:25 +0100, Mark Brown wrote:
-> Nathan reported that the newly added mt8365 drivers were causing a
-> number of warnings which break -Werror builds, these were only visible
-> on arm64 since the drivers did not have COMPILE_TEST enabled.  Fix this
-> and some other minor stuff I noticed while doing so.
-> 
-> 
+In the function snd_soc_alloc_ac97_component &
+snd_soc_new_ac97_component, the error return is
+ERR_PTR, so fix the incorrect description.
 
-Applied to
+Fixes: 47e039413cac ("ASoC: Add support for allocating AC'97 device before registering it")
+Fixes: 7361fbeaeaab ("ASoC: ac97: Add support for resetting device before registration")
+Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
+---
+Changes from v1
+- change the right fixes tag.
+---
+ sound/soc/soc-ac97.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+diff --git a/sound/soc/soc-ac97.c b/sound/soc/soc-ac97.c
+index 4e4fe29ad..079e4ff5a 100644
+--- a/sound/soc/soc-ac97.c
++++ b/sound/soc/soc-ac97.c
+@@ -168,7 +168,7 @@ static void snd_soc_ac97_free_gpio(struct snd_ac97 *ac97)
+  * it. The caller is responsible to either call device_add(&ac97->dev) to
+  * register the device, or to call put_device(&ac97->dev) to free the device.
+  *
+- * Returns: A snd_ac97 device or a PTR_ERR in case of an error.
++ * Returns: A snd_ac97 device or an ERR_PTR in case of an error.
+  */
+ struct snd_ac97 *snd_soc_alloc_ac97_component(struct snd_soc_component *component)
+ {
+@@ -207,7 +207,7 @@ EXPORT_SYMBOL(snd_soc_alloc_ac97_component);
+  * the device and check if it matches the expected ID. If it doesn't match an
+  * error will be returned and device will not be registered.
+  *
+- * Returns: A PTR_ERR() on failure or a valid snd_ac97 struct on success.
++ * Returns: An ERR_PTR on failure or a valid snd_ac97 struct on success.
+  */
+ struct snd_ac97 *snd_soc_new_ac97_component(struct snd_soc_component *component,
+ 	unsigned int id, unsigned int id_mask)
+-- 
+2.33.0
 
-Thanks!
 
-[1/7] ASoC: mt8365: Open code BIT() to avoid spurious warnings
-      commit: d01c6a398750aae265c17859b57d7409a6d9181d
-[2/7] ASoC: mt8365: Remove spurious unsigned long casts
-      commit: 1b084d8e3b98ca460b815cff14617719ebe605ad
-[3/7] ASoC: mt8365: Remove unused prototype for mt8365_afe_clk_group_48k()
-      commit: 3e61df7d2ff67875c770a7f548038054d05a0f15
-[4/7] ASoC: mt8365: Make non-exported functions static
-      commit: 63157d994025639075b3faa372976a96186322c1
-[5/7] ASoC: mt8365: Remove unused variables
-      commit: 067d832806225cfaabeec8f5f683b7e2bc508a6d
-[6/7] ASoC: mt8365: Remove unused DMIC IIR coefficient configuration
-      commit: d70ce6d3105a6bd02b1708c399105631643a550a
-[7/7] ASoC: mt8365: Allow build coverage
-      commit: 36fa259b214c37bbae3e0b7a47e7fb49cb0ab462
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
 
