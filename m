@@ -1,55 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CC3D1AC446;
-	Tue, 10 Sep 2024 17:22:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A49C1ACDE4;
+	Tue, 10 Sep 2024 17:22:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725988956; cv=none; b=IcYXbmRm4v/uJi5RkG6bteRvP6VjrqmOpv/rvlrOK+4CfraARnJrB95KPRpvkIEFMhjU4q1GwxRXjb15YlEPFQPB1eTqwyySQxQodDUHP0TIfI9M/y1HC0/rGKWuUveZjfR63AnJ3pjIYe51yFw0kvecnW+/v5fMJuSOuz3ScgM=
+	t=1725988960; cv=none; b=FRG1donhoX8i4Rw137lR4avd1cdZ1r/ZFOfA9Df0TyumjaxVkqTw3R0JkPCOkEdsa4JkKn5BZuZ4jR3Kq6OVmK/y1DYiI2ooHFsIZrgU8I087GMcYTre+iBCQDSCL7Lnp2Oa69nmORgfxEooxJCTrzrIX0IoLwfLt4qJf3PXfig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725988956; c=relaxed/simple;
-	bh=VLg/IiS9Nf9MioR7T1yQ/8rRYU3SbZXJexeQEjfaUKo=;
+	s=arc-20240116; t=1725988960; c=relaxed/simple;
+	bh=0OjB6Sc1p5YtedZLLX1wZKVFYQugNgt1v2e4bVCToao=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kGhgItzUi5Usq5Rn3unJUul4bKXnF7PEkrYMS+BdteccVDe3HovCroESNwsDs417MRyIyiUTHv6UKibiAMxVD3J15ZtoS3c816JoQCNBBym7vXK1amiyjlIoypU7yc7H80OAxh3GXtv0aFBGqRbN4olIH0rft5BT3UY2dmEO3js=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nISyI+yc; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=EisqC6cj61AFzJCEluvf5HETOkMgFosRUwLoeuPGAioE7hy5I7OY+3HtgyUHdUVYByMsx3NIj+QzhPzGtWnUAXlXvJMfSHdlmVjn3RZgak1tL2goiG34U/wwRl/b3bJsKwXZU8OxdqKhr+soqt4B/0r9frh/e3UP6lvxOZN+zzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TkGi6NBg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nISyI+yc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6E0FC4CECD;
-	Tue, 10 Sep 2024 17:22:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TkGi6NBg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1ED04C4CECE;
+	Tue, 10 Sep 2024 17:22:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725988955;
-	bh=VLg/IiS9Nf9MioR7T1yQ/8rRYU3SbZXJexeQEjfaUKo=;
+	s=k20201202; t=1725988959;
+	bh=0OjB6Sc1p5YtedZLLX1wZKVFYQugNgt1v2e4bVCToao=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=nISyI+ycVivL/fyHhi0INDez3VlIqjRgAoZE41vZix6h0xOSzWkqqRFE8qs5n1rIl
-	 vDZBdfuu1PNLh8D8x0S5gU9UBrIDsQaC6VJ+oXyt1KfRwa32X2VsHiO5i+jLgUC1SW
-	 FPIHNG8jn7pwxbqb7A83TxfMkjNO2UK2L+ru5m7GTAOfqIotZiFiwmhWDESJ2eZIPA
-	 20C53XjnGaGU/eyayu49AMMb0nbeEaCmqZFpl8ixfHNJpgb2rac6nEqRxpyZYSfgOv
-	 5v+wfRVrll/eHcr7Bjvn8N3tnfr8pYV9Uq4jhhfD3me6B89HXtr3BisF/qS4XhR5bs
-	 GytWvP6hcFxQw==
+	b=TkGi6NBg0DRYE/NUyZARNcDfSO5JZOYfAve4+zWMwu+ap28c8L+xRgvdH9CgYis6H
+	 Hzh5XJjMkfer4Jq4z+nc1tOlV8eDYjSgZmYkj8zVXC289DQZsXsAweBKF5tkMiRuV/
+	 zfnD2Zr8DqO5MOcTOPNVdGvfRPbFDdEcZ/Ky/HWufbBmgkk1p4v7autMoF6dN7H5KO
+	 VGlIFLI3ajfqilkJhMMjE0wsPWPsWpN+JnwcxruuUFsdWdjDKel0U/NISY9vPqFGyf
+	 czdKMTYTU1V6lPoDslixO12jHemWEcd/GqiSuluqfHWqcCa/rbTx1ESi5WC6HyaPGT
+	 sGQczuMnVQQ9A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Zhang Yi <zhangyi@everest-semi.com>,
+Cc: Markuss Broks <markuss.broks@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com,
-	trevor.wu@mediatek.com,
-	zhourui@huaqin.corp-partner.google.com,
-	claudiu.beznea@tuxon.dev,
-	krzysztof.kozlowski@linaro.org,
-	robh@kernel.org,
-	kuninori.morimoto.gx@renesas.com,
-	xiazhengqiao@huaqin.corp-partner.google.com,
-	linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.10 08/18] ASoC: mediatek: mt8188-mt6359: Modify key
-Date: Tue, 10 Sep 2024 13:21:53 -0400
-Message-ID: <20240910172214.2415568-8-sashal@kernel.org>
+	mario.limonciello@amd.com,
+	me@jwang.link,
+	end.to.start@mail.ru,
+	git@augustwikerfors.se,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.10 10/18] ASoC: amd: yc: Add a quirk for MSI Bravo 17 (D7VEK)
+Date: Tue, 10 Sep 2024 13:21:55 -0400
+Message-ID: <20240910172214.2415568-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240910172214.2415568-1-sashal@kernel.org>
 References: <20240910172214.2415568-1-sashal@kernel.org>
@@ -64,57 +57,40 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.10.9
 Content-Transfer-Encoding: 8bit
 
-From: Zhang Yi <zhangyi@everest-semi.com>
+From: Markuss Broks <markuss.broks@gmail.com>
 
-[ Upstream commit 5325b96769a5b282e330023e1d0881018e89e266 ]
+[ Upstream commit 283844c35529300c8e10f7a263e35e3c5d3580ac ]
 
-In order to get the correct keys when using the ES8326.We will associate
-SND_JACK_BTN_1 to KEY_VOLUMEUP and SND_JACK_BTN_2 to KEY_VOLUMEDOWN
-when the ES8326 flag is recognized.
+MSI Bravo 17 (D7VEK), like other laptops from the family,
+has broken ACPI tables and needs a quirk for internal mic
+to work.
 
-Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
-Link: https://patch.msgid.link/20240816114921.48913-1-zhangyi@everest-semi.com
+Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
+Link: https://patch.msgid.link/20240829130313.338508-1-markuss.broks@gmail.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/mediatek/mt8188/mt8188-mt6359.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/sound/soc/mediatek/mt8188/mt8188-mt6359.c b/sound/soc/mediatek/mt8188/mt8188-mt6359.c
-index eba6f4c445ff..08ae962afeb9 100644
---- a/sound/soc/mediatek/mt8188/mt8188-mt6359.c
-+++ b/sound/soc/mediatek/mt8188/mt8188-mt6359.c
-@@ -734,6 +734,7 @@ static int mt8188_headset_codec_init(struct snd_soc_pcm_runtime *rtd)
- 	struct mtk_soc_card_data *soc_card_data = snd_soc_card_get_drvdata(rtd->card);
- 	struct snd_soc_jack *jack = &soc_card_data->card_data->jacks[MT8188_JACK_HEADSET];
- 	struct snd_soc_component *component = snd_soc_rtd_to_codec(rtd, 0)->component;
-+	struct mtk_platform_card_data *card_data = soc_card_data->card_data;
- 	int ret;
- 
- 	ret = snd_soc_dapm_new_controls(&card->dapm, mt8188_nau8825_widgets,
-@@ -762,10 +763,18 @@ static int mt8188_headset_codec_init(struct snd_soc_pcm_runtime *rtd)
- 		return ret;
- 	}
- 
--	snd_jack_set_key(jack->jack, SND_JACK_BTN_0, KEY_PLAYPAUSE);
--	snd_jack_set_key(jack->jack, SND_JACK_BTN_1, KEY_VOICECOMMAND);
--	snd_jack_set_key(jack->jack, SND_JACK_BTN_2, KEY_VOLUMEUP);
--	snd_jack_set_key(jack->jack, SND_JACK_BTN_3, KEY_VOLUMEDOWN);
-+	if (card_data->flags & ES8326_HS_PRESENT) {
-+		snd_jack_set_key(jack->jack, SND_JACK_BTN_0, KEY_PLAYPAUSE);
-+		snd_jack_set_key(jack->jack, SND_JACK_BTN_1, KEY_VOLUMEUP);
-+		snd_jack_set_key(jack->jack, SND_JACK_BTN_2, KEY_VOLUMEDOWN);
-+		snd_jack_set_key(jack->jack, SND_JACK_BTN_3, KEY_VOICECOMMAND);			
-+	} else {
-+		snd_jack_set_key(jack->jack, SND_JACK_BTN_0, KEY_PLAYPAUSE);
-+		snd_jack_set_key(jack->jack, SND_JACK_BTN_1, KEY_VOICECOMMAND);
-+		snd_jack_set_key(jack->jack, SND_JACK_BTN_2, KEY_VOLUMEUP);
-+		snd_jack_set_key(jack->jack, SND_JACK_BTN_3, KEY_VOLUMEDOWN);	
-+	}
-+	
- 	ret = snd_soc_component_set_jack(component, jack, NULL);
- 
- 	if (ret) {
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index f6c1dbd0ebcf..248e3bcbf386 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -353,6 +353,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "Bravo 15 C7VF"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "Micro-Star International Co., Ltd."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Bravo 17 D7VEK"),
++		}
++	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
 -- 
 2.43.0
 
