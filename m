@@ -1,171 +1,121 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh7-smtp.messagingengine.com (fhigh7-smtp.messagingengine.com [103.168.172.158])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94E4617D372
-	for <linux-sound@vger.kernel.org>; Tue, 10 Sep 2024 08:29:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10F52339AC;
+	Tue, 10 Sep 2024 08:51:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725956980; cv=none; b=jt1ro2gjAZBJAd5/LHxm+bFXQFS0w40f7XJwvtdguDghEZ7JRTss393adC12XEY9/Axi01TbSAVJJ4C60BMCBcmpgfdKbYfs6+QrmUz45dW2W0egHa8kwBpRPrWmQ0J7frm9n99Aopo6l3hWNIp5WbdtTYOhDB1XU//cDvdqWgY=
+	t=1725958284; cv=none; b=MiqSeCAg8rtWouTeSZcnk7Z0oUtLeTIbvc2mjh2+NxmuxOcEVVKW1BWrR9XaPTKLyP6JWsimCTezK69guLquOUQgfNkz4mf+PG8r0PW4pTPFZhYYI5uWnWhPtnI8Y3uQaWhQ4oYTsJSCk+lGlgJd8EJhroLkOjUFffrhungkHeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725956980; c=relaxed/simple;
-	bh=cWXcRjpgLTnROsfZaPIxJxU2cYU/3VqCKhYMHrMmOiA=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=e280dHv9LA6U8NO+XTPH5HIsw+koBxTeZYAbB2Npycyg4R8S1IfqVlYLbIvw3rYubgjyPstU7jt3maXk2oXlxnjaa3c4V+X/vAMy0YYvLXi92MUN9cHrqwCVO28FCUFqt1MllWxW7t9KbkkdHazRe/Fv/clyYDlpubC1zIhx+Fs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pw2UUn7y; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5sA4kGdy; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pw2UUn7y; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5sA4kGdy; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1725958284; c=relaxed/simple;
+	bh=CZjuz3xJPTGqO0ibF0Qgl3Y8guh+5IhmvGl5MsGeDAc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cRsVGHTX3oXM1HCHHbvk6aHjcfuCA8TGqjq3oxiJESC33JA692jx0FXnXYrKgZplA0CRFLr4WyjLPkqGC/SvAEtExJk4iqkIhYfPEiy8Dji8+wKC1OjAfm9gWNbPd3MYheAW13QRnVc3SbvNlptw0l0NLgSLBBbLpHhk72fOa1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=ouAH4DGr; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=cVfaEIHn; arc=none smtp.client-ip=103.168.172.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pw2UUn7y";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5sA4kGdy";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pw2UUn7y";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5sA4kGdy"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BF8EA1F455;
-	Tue, 10 Sep 2024 08:29:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1725956976; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lzECwgPSlKAuBK4N3zXOaFg9BVmjpcrjOKGa3eBn48Y=;
-	b=pw2UUn7yIiQCa0dYvbzc5ZQ0SMi+qGJwIzoSxmqteQGVW3EiKyjMjmN/QaEv2i/wVhKYrj
-	50DDbg/w6TFP7jxMPPQ8FR5VfDuVag1pxgBL9NlSJ6dMC0TtdCI8EOOPp3QnQktMQPmEbm
-	zMpQl4qRw8sWLBfT7QeMRfECX4JR9H0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1725956976;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lzECwgPSlKAuBK4N3zXOaFg9BVmjpcrjOKGa3eBn48Y=;
-	b=5sA4kGdylzrKSQtX+m3Q7v8QvqxmbVhD9381PPkZIQ7CoLG5e+lh3s53eaCbcI0bKyyqHd
-	H7gmiwqn33bSC0Dw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=pw2UUn7y;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=5sA4kGdy
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1725956976; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lzECwgPSlKAuBK4N3zXOaFg9BVmjpcrjOKGa3eBn48Y=;
-	b=pw2UUn7yIiQCa0dYvbzc5ZQ0SMi+qGJwIzoSxmqteQGVW3EiKyjMjmN/QaEv2i/wVhKYrj
-	50DDbg/w6TFP7jxMPPQ8FR5VfDuVag1pxgBL9NlSJ6dMC0TtdCI8EOOPp3QnQktMQPmEbm
-	zMpQl4qRw8sWLBfT7QeMRfECX4JR9H0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1725956976;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lzECwgPSlKAuBK4N3zXOaFg9BVmjpcrjOKGa3eBn48Y=;
-	b=5sA4kGdylzrKSQtX+m3Q7v8QvqxmbVhD9381PPkZIQ7CoLG5e+lh3s53eaCbcI0bKyyqHd
-	H7gmiwqn33bSC0Dw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 99175132CB;
-	Tue, 10 Sep 2024 08:29:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id K773I3AD4GY5OgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 10 Sep 2024 08:29:36 +0000
-Date: Tue, 10 Sep 2024 10:30:25 +0200
-Message-ID: <87ldzz7vxa.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Joshua Grisham <josh@joshuagrisham.com>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Refactor and simplify Samsung Galaxy Book init
-In-Reply-To: <20240909193000.838815-1-josh@joshuagrisham.com>
-References: <20240909193000.838815-1-josh@joshuagrisham.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="ouAH4DGr";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="cVfaEIHn"
+Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 314C61140316;
+	Tue, 10 Sep 2024 04:51:21 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-03.internal (MEProxy); Tue, 10 Sep 2024 04:51:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm1; t=1725958281; x=
+	1726044681; bh=QC78W/7TuXehLycwIf9mynBigVoR8+44ttRaTS2VOZQ=; b=o
+	uAH4DGr3XF1Q9ug6D1tqNlAPM5XeEzmgqBFnpSlpJcmpXSlJumKgl2sa1IizBg3N
+	dlEQ7OxvX4wDFa+YcX7eMHfXHEI75dEgFdx/j7TKljkwiN8Eh4tj0WVMiDqu+mPp
+	ZA9VpQyj2F6I4PbmWyHLqppFxZknaPmNSmkRty8tQHiLDAH1WbfOhhIRQsqVd9tr
+	/vtMPhcbuOEJpOv6nH1cs28UvMH7OzCajGm/OSbCRGHoYZdqj97YRwbymPSb+ddx
+	e3lL+x37Cx9OvjQpsY7SzA5N9G+RgM70NsNfyCoMAHSuGdKoFp+2D27OWRNMENgc
+	3yjI/Y46Je1K9OBX83LhA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1725958281; x=1726044681; bh=QC78W/7TuXehLycwIf9mynBigVoR
+	8+44ttRaTS2VOZQ=; b=cVfaEIHnc1BYb1Brt/rVr1ANGllUH3X4edTlXNbUZI45
+	wspMme5y05pwWuorkL/bCBA+LV6HH+0AhE51nvyFPZxD6Y8ah3mtqbZI8CZtJ76f
+	XqYk7/+qslxZ6mDkYAfmlCQX6SYiXSq8bwzvqyiarHOH85VTZWedtov9nD+CzlcJ
+	ICGr1LGeXAMsJ02r5PInEc8B3KZEs32XGDn8+s6Jw9YDL2W1H6lKXgXlR3AoZ0jZ
+	ihPBHIKROiIe5/ZeiYq0Oo2tlqOjI5uvR/sMd9GyvwfLa1bNSXhNCajTrBVVrXM+
+	1JRkc86W4yr6I0/0GfSvEV59J4x1OqDZm6snIcMYUw==
+X-ME-Sender: <xms:iQjgZj06Kio82_LtVIAMpmyb03Gl_bxJQ6MBqHAzVXoaInTBgbyQ8A>
+    <xme:iQjgZiG2f8JoZX7sdFzOi7zJBQxPS7CAub1eA4DkcEtyo5lEXT6oIonPvpg5EWzz2
+    nXy91ARICZdN9Cm3v4>
+X-ME-Received: <xmr:iQjgZj6KzgkymXAbmFQRVXMBdQjNkUYQzOHWJZ4GcjqTOl0KBzdRRIBTZHsk_yxBxmLbMXnD9XVta6fA70bpVDuIJEDCrjpjinY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudeiledgtdekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvve
+    fukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefvrghkrghshhhiucfurghkrghm
+    ohhtohcuoehoqdhtrghkrghshhhisehsrghkrghmohgttghhihdrjhhpqeenucggtffrrg
+    htthgvrhhnpeehhffhteetgfekvdeiueffveevueeftdelhfejieeitedvleeftdfgfeeu
+    udekueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hoqdhtrghkrghshhhisehsrghkrghmohgttghhihdrjhhppdhnsggprhgtphhtthhopeef
+    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehlihhnuhigudefleegqdguvghvvg
+    hlsehlihhsthhsrdhsohhurhgtvghfohhrghgvrdhnvghtpdhrtghpthhtoheplhhinhhu
+    gidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinh
+    hugidqshhouhhnugesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:iQjgZo38LzfOYE7YYQWTeSTMhaccZFNMA3HOqAh2EnU5xCLXR6LuSA>
+    <xmx:iQjgZmH6lPA7xvwymoiuBRW6ZWzcsspmF5Pd4WTZ3I8EH2vQ2j4C5w>
+    <xmx:iQjgZp9dtLgCia1xapN-hOj6hjOk5tiqdZaTtlXIzdJKP5RyLeh-NQ>
+    <xmx:iQjgZjlIGlSL6-Cr_EnZpZUvYOYB2Wy3mYn7hXHQmIrCz4R46t1dFw>
+    <xmx:iQjgZiA4CQSdSSHM-xKyjlLoaQav4_3Tl6ifYC1_gODflcu-VL80ATOD>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 10 Sep 2024 04:51:19 -0400 (EDT)
+Date: Tue, 10 Sep 2024 17:51:17 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: linux1394-devel@lists.sourceforge.net
+Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 0/2] firewire: core: optimize for concurrent calls of
+ fw_iso_context_flush_completions()
+Message-ID: <20240910085117.GA91104@workstation.local>
+Mail-Followup-To: linux1394-devel@lists.sourceforge.net,
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+References: <20240909140018.65289-1-o-takashi@sakamocchi.jp>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: BF8EA1F455
-X-Spam-Score: -3.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240909140018.65289-1-o-takashi@sakamocchi.jp>
 
-On Mon, 09 Sep 2024 21:30:00 +0200,
-Joshua Grisham wrote:
+On Mon, Sep 09, 2024 at 11:00:16PM +0900, Takashi Sakamoto wrote:
+> Hi,
 > 
-> I have done a lot of analysis for these type of devices and collaborated
-> quite a bit with Nick Weihs (author of the first patch submitted for this
-> including adding samsung_helper.c). More information can be found in the
-> issue on Github [1] including additional rationale and testing.
+> It seems to be the last week for v6.12 development. I realize it
+> unpreferable to propose intrusive changes, however I also realized that
+> there is a room to refactor core functions in respect to handler of work
+> item for isochronous context for the next merge window...
 > 
-> The existing implementation includes a large number of equalizer coef
-> values that are not necessary to actually init and enable the speaker
-> amps, as well as create a somewhat worse sound profile. Users have
-> reported "muffled" or "muddy" sound; more information about this including
-> my analysis of the differences can be found in the linked Github issue.
+> This series of changes refactors the core function to call
+> fw_iso_context_flush_completions() from the work item. It optimizes some
+> event waiting and mediation of concurrent calls as well.
 > 
-> This patch refactors the "v2" version of ALC298_FIXUP_SAMSUNG_AMP to a much
-> simpler implementation which removes the new samsung_helper.c, reuses more
-> of the existing patch_realtek.c, and sends significantly fewer unnecessary
-> coef values (including removing all of these EQ-specific coef values).
+> Takashi Sakamoto (2):
+>   firewire: core: move workqueue handler from 1394 OHCI driver to core
+>     function
+>   firewire: core: use mutex to coordinate concurrent calls to flush
+>     completions
 > 
-> A pcm_playback_hook is used to dynamically enable and disable the speaker
-> amps only when there will be audio playback; this is to match the behavior
-> of how the driver for these devices is working in Windows, and is
-> suspected but not yet tested or confirmed to help with power consumption.
-> 
-> Support for models with 2 speaker amps vs 4 speaker amps is controlled by
-> a specific quirk name for both types. A new int num_speaker_amps has been
-> added to alc_spec so that the hooks can know how many speaker amps to
-> enable or disable. This design was chosen to limit the number of places
-> that subsystem ids will need to be maintained: like this, they can be
-> maintained only once in the quirk table and there will not be another
-> separate list of subsystem ids to maintain elsewhere in the code.
-> 
-> Also updated the quirk name from ALC298_FIXUP_SAMSUNG_AMP2 to
-> ALC298_FIXUP_SAMSUNG_AMP_V2_.. as this is not a quirk for "Amp #2" on
-> ALC298 but is instead a different version of how to handle it.
-> 
-> More devices have been added (see Github issue for testing confirmation),
-> as well as a small cleanup to existing names.
-> 
-> [1]: https://github.com/thesofproject/linux/issues/4055#issuecomment-2323411911
-> 
-> Signed-off-by: Joshua Grisham <josh@joshuagrisham.com>
+>  drivers/firewire/core-iso.c | 31 ++++++++-------
+>  drivers/firewire/core.h     |  5 ---
+>  drivers/firewire/ohci.c     | 78 +++++++------------------------------
+>  include/linux/firewire.h    |  1 +
+>  4 files changed, 31 insertions(+), 84 deletions(-)
 
-This looks like a nice cleanup.
-Applied now.  Thanks.
+Applied to for-next branch.
 
 
-Takashi
+Regards
+
+Takashi Sakamoto
