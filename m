@@ -1,95 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F8041AE875;
-	Tue, 10 Sep 2024 17:22:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 783761B9B3C;
+	Tue, 10 Sep 2024 17:23:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725988964; cv=none; b=tHoPufD/CuzCY5xT5Szitx49OpYpBImG+Q87HlXuuPv/SKfvY5zaTI52tIyhChoFtmknJK0uGmgj1eG4vGJV9xj4QCh2mq3WMOIWg27HXfB3XFc875xytW3Yr3WGOLCQ6TEB3grd20M+6FZTq5M57x9UwTo50evM4Fl0rdoYjUg=
+	t=1725988987; cv=none; b=nt306osVEUB2a7lbfQyyl5oXuwo2tAZiL9Ijx8FN7nOke+ehkhJIiQPrufjAKtZCvm2XPxclhgre2kvoZB+0Orx7OXe7T9jiuvXAwasIy6PfiE+1anU2Uy06cctjQHRt3837ZkPh1RdVtbh/fDWOfPCN8E6UEZnclLXKpzeU0gQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725988964; c=relaxed/simple;
-	bh=vQadkgjZQx99d+8j3SsgDZ53axAUqvMJGu7+4Unrd9U=;
+	s=arc-20240116; t=1725988987; c=relaxed/simple;
+	bh=NeZBarf5sytU+4tlKJN+FOzynrWMMCnZ2J23Xvo9Q78=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=d8qXA/34jiwufySACku0g3qWNSLsTLXvMqh8jZU8UYXZ3sN870u85GPr9gF7Rk8mju2IiT5VCCVIl199xzy9EFuL52iouww8ZaS2KUK4e4s51rNvbx7NqF4UPGS2r+9mwW28bvzHJscVG1xgHxTIv+Vxpu6okP+x6mTbw0hLjFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cbtJ6Ap9; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=sVPGFbmz3ueLheNXA5JWJ3xOAmzmPOMEQqGkZ59enO4JW9vCwtGBBEiL1AQbAYGYTtpcC0GWJMCEN4yGY+2Q8CqQx0gt1StIxxYF5V1vgSNebqf2iYTHW4Ec37BeW2DNPOPMAKPeMgDrKpXY1fgdcyyliN3Fyf9RjBSPDnLrneg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MRkUVtxe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cbtJ6Ap9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 427C2C4CECE;
-	Tue, 10 Sep 2024 17:22:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MRkUVtxe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70B68C4CED8;
+	Tue, 10 Sep 2024 17:23:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725988963;
-	bh=vQadkgjZQx99d+8j3SsgDZ53axAUqvMJGu7+4Unrd9U=;
+	s=k20201202; t=1725988987;
+	bh=NeZBarf5sytU+4tlKJN+FOzynrWMMCnZ2J23Xvo9Q78=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=cbtJ6Ap9X9BSROj0C4i3cH+F8Rg94BR5/m67tSXo/nOLNDjyk258z1fZpgKiEkyHE
-	 05vhLFz5ZYTzrDne0th9YlDKqkwF9lv1isY0pJHw06km6ofF8252CvOgeS3mAz088I
-	 1qTvNXCpiMNSpcknNuEgU135ngYdMfmDgLWwCfL4OBrZ3NJFHhb92CjkTcezQTI2wP
-	 ZIvBaVXOYnKJUxVPR/kzNzjZV6DG6T7oDKgEE6O/VBQnu88wfVzA0JiJTWWSRCS6BH
-	 AoxGzZT5Rg2k0QJQbaPukUPXkFJ/hSjwuWGY9a5/0flE+4naf3cBvNV11Q77s8DFKo
-	 36HBgax9aTbUw==
+	b=MRkUVtxeRyALDpbPc2ifVh0Wi/8aLUyursPkWikvmLBc/pKlH2t8mPUqli8XoZB0C
+	 vTZQ2N4Tc27TFYlD3/3X5lTYeBKzlNzwHZ+zvdaiU0dNcbtAEGPv5O/P1WzJ5ossC9
+	 C8R3Mlh/6GAdSKD4Va4VYsov/Vw2ICjqpgZ5IK58KfDZFo8aDjF32ok+SnCw8+OsuA
+	 b57Leda+TbXRlVbBiP1Yk0VF6WUVMGYhMJqswWXM241nxLFAmTfR9MnlXBsVSMYLwq
+	 t99X1xgUCmAZX6wpV8hNphx64mGjMx88hB0H66y+500ml61YqqyY39OBrHbATLzUtf
+	 FfdCwLIjsZayg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Takashi Iwai <tiwai@suse.de>,
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	cezary.rojewski@intel.com,
+	liam.r.girdwood@linux.intel.com,
+	peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	cezary.rojewski@intel.com,
-	chaitanya.kumar.borah@intel.com,
-	skend@chromium.org,
-	amadeuszx.slawinski@linux.intel.com,
-	pierre-louis.bossart@linux.intel.com,
+	alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.10 12/18] ALSA: hda: add HDMI codec ID for Intel PTL
-Date: Tue, 10 Sep 2024 13:21:57 -0400
-Message-ID: <20240910172214.2415568-12-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 02/12] ASoC: Intel: soc-acpi-cht: Make Lenovo Yoga Tab 3 X90F DMI match less strict
+Date: Tue, 10 Sep 2024 13:22:44 -0400
+Message-ID: <20240910172301.2415973-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240910172214.2415568-1-sashal@kernel.org>
-References: <20240910172214.2415568-1-sashal@kernel.org>
+In-Reply-To: <20240910172301.2415973-1-sashal@kernel.org>
+References: <20240910172301.2415973-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.10.9
+X-stable-base: Linux 6.6.50
 Content-Transfer-Encoding: 8bit
 
-From: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+From: Hans de Goede <hdegoede@redhat.com>
 
-[ Upstream commit e9481d9b83f8d9b3251aa428b02d8eba89d839ff ]
+[ Upstream commit 839a4ec06f75cec8fec2cc5fc14e921d0c3f7369 ]
 
-Add HDMI codec ID for Intel Panther Lake platform.
+There are 2G and 4G RAM versions of the Lenovo Yoga Tab 3 X90F and it
+turns out that the 2G version has a DMI product name of
+"CHERRYVIEW D1 PLATFORM" where as the 4G version has
+"CHERRYVIEW C0 PLATFORM". The sys-vendor + product-version check are
+unique enough that the product-name check is not necessary.
 
-Signed-off-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Link: https://patch.msgid.link/20240830072458.110831-1-yung-chuan.liao@linux.intel.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Drop the product-name check so that the existing DMI match for the 4G
+RAM version also matches the 2G RAM version.
+
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Link: https://patch.msgid.link/20240823074305.16873-1-hdegoede@redhat.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/pci/hda/patch_hdmi.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/soc/intel/common/soc-acpi-intel-cht-match.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/sound/pci/hda/patch_hdmi.c b/sound/pci/hda/patch_hdmi.c
-index 78042ac2b71f..643e0496b093 100644
---- a/sound/pci/hda/patch_hdmi.c
-+++ b/sound/pci/hda/patch_hdmi.c
-@@ -4639,6 +4639,7 @@ HDA_CODEC_ENTRY(0x8086281d, "Meteor Lake HDMI",	patch_i915_adlp_hdmi),
- HDA_CODEC_ENTRY(0x8086281e, "Battlemage HDMI",	patch_i915_adlp_hdmi),
- HDA_CODEC_ENTRY(0x8086281f, "Raptor Lake P HDMI",	patch_i915_adlp_hdmi),
- HDA_CODEC_ENTRY(0x80862820, "Lunar Lake HDMI",	patch_i915_adlp_hdmi),
-+HDA_CODEC_ENTRY(0x80862822, "Panther Lake HDMI",	patch_i915_adlp_hdmi),
- HDA_CODEC_ENTRY(0x80862880, "CedarTrail HDMI",	patch_generic_hdmi),
- HDA_CODEC_ENTRY(0x80862882, "Valleyview2 HDMI",	patch_i915_byt_hdmi),
- HDA_CODEC_ENTRY(0x80862883, "Braswell HDMI",	patch_i915_byt_hdmi),
+diff --git a/sound/soc/intel/common/soc-acpi-intel-cht-match.c b/sound/soc/intel/common/soc-acpi-intel-cht-match.c
+index 5e2ec60e2954..e4c3492a0c28 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-cht-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-cht-match.c
+@@ -84,7 +84,6 @@ static const struct dmi_system_id lenovo_yoga_tab3_x90[] = {
+ 		/* Lenovo Yoga Tab 3 Pro YT3-X90, codec missing from DSDT */
+ 		.matches = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "Intel Corporation"),
+-			DMI_MATCH(DMI_PRODUCT_NAME, "CHERRYVIEW D1 PLATFORM"),
+ 			DMI_MATCH(DMI_PRODUCT_VERSION, "Blade3-10A-001"),
+ 		},
+ 	},
 -- 
 2.43.0
 
