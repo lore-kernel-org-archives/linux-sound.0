@@ -1,30 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF3A11A4E6B;
-	Tue, 10 Sep 2024 17:24:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A111A7040;
+	Tue, 10 Sep 2024 17:24:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725989060; cv=none; b=avDJQfoeyZgc5t9vZvh4Ae0QorMX4KIDJPwvoB+8sZH/8SlG3LFKJUI72m7yohiW/RvmysuOc9p8Iitq5Ia2bVmejYMCdM1dag+Z5YAT/HD7D3CdweaRolLQvwXvMFlGHkBLbs+CS3FY9AoVEczJ8QqOTwvG1g61RnCkqICVknI=
+	t=1725989069; cv=none; b=J7FoMi7zwLn0XkDwuBcyvhLCLOY+7RxVBe8dTDKIXyavsM0EUPO3bO5/IO5hHRGgoRyVXxQHCF7yc0cp10wN0miVAjAw/lLQxQFom4Q9o338YKbxmGLAwKk+sAyS25YCqDIErWEQ5G+Xkz1PrM3xXUX3oe6MHFWbiy4FpDH3wPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725989060; c=relaxed/simple;
-	bh=PqFBaznGbhrHLs/Xfet0aM+FPZAcx3a83FzTUg1qIZE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=neiVRXywp7EqkiAPrfnwXfy79q1FKBmTiw4HTCLtXNfCsZVrgqi1H8oXrGYEFMfdxcNzWSh8UKg9AJ8IHgxNgZlq+Xk01hmIVvdkRXvM7sBUeACcKrIHI0V0WZJf4WFuu/4XAlilTpxBqzp1wTEF/dajzMD0DTZ45cuMWx5wJVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N+zXnr9b; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725989069; c=relaxed/simple;
+	bh=iX30pa45alC5+UYKYp9bjirk3ti7X+bAF6YqZywQnu4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QdF7LHoPsAlUsDEHHNrN4ac1pZIhnPLsWJMTAcUn+PrDFLIww9ybx1dzaE55pITSW0RzdcyIhqgj6CN9eD8W5MNopiaBDZBqZBfWhH5F249h2bb92dNITHwr7GZTzpzIO7R/qcbDSTVvGJZhZU5tIP/kghKc4PVj6o7rSfaOO4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qfQxpU0z; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N+zXnr9b"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79647C4CEC3;
-	Tue, 10 Sep 2024 17:24:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qfQxpU0z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7F26C4CEC4;
+	Tue, 10 Sep 2024 17:24:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725989060;
-	bh=PqFBaznGbhrHLs/Xfet0aM+FPZAcx3a83FzTUg1qIZE=;
+	s=k20201202; t=1725989068;
+	bh=iX30pa45alC5+UYKYp9bjirk3ti7X+bAF6YqZywQnu4=;
 	h=From:To:Cc:Subject:Date:From;
-	b=N+zXnr9bqF1iRRODAjEuVVJqfArJ7sixn30s2Wlvd0H1Az8sNgRNxVfeqwq9KSgwW
-	 Lwesal22xMF9zlw45d7/O7jiT0iR7qWra3v22t0A8Dzgmur/40ARzBDpQmKlI5erMb
-	 DwblYnjmeNzJQ7qAUTcRCQtdR3Y3xwGwVFnxPhjyHyNcwnRtgJjlNBCu9dnPuQQ6Pb
-	 D9cBQu1w3BK3HwwKfm7pQylbjSfg002bHD885Q5HnLgctfm1vntzaw+VnIfAt9rB85
-	 7OmaFMaT19OdLpEBJ2ZxrbMNBqnUtIIAM0rMT+WAz7uoDgpncZxuzUPNAlk+o0MuvN
-	 g8SoMBrFPFDVw==
+	b=qfQxpU0znc3RutqahbkMkCnx5z2J5EhGk5eDTjUpyVJQ08sWBkqUokgkrJWcDLq5W
+	 VmU0oHfCciW8ju/sGDL9O5dUtyavHb1rCeQzWEeOpM0jtmJ1eYjZ5YiCcst1wbSLP6
+	 FrcYjRF4cg08dBtrdLwsIBPDBwoqOuItOnhWuO+qfaynGJKebiMqaVN3Lo6Y3DFwJc
+	 asQEMq/gNed700PyoY5AND9NoJ4xi/a0DIeB+e4D8uVYLeHGfFI1NuM6tVymzeSaD6
+	 +gKekSQam1o8L/ExdQSkYl85smkziXbsTBwVQKRbw6YwGbMo16ZR2zBy+D0+4uDBfx
+	 nW8h5l4jMQJcA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -37,9 +37,9 @@ Cc: Liao Chen <liaochen4@huawei.com>,
 	andy.shevchenko@gmail.com,
 	u.kleine-koenig@pengutronix.de,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 1/3] ASoC: tda7419: fix module autoloading
-Date: Tue, 10 Sep 2024 13:24:13 -0400
-Message-ID: <20240910172418.2416688-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 1/2] ASoC: tda7419: fix module autoloading
+Date: Tue, 10 Sep 2024 13:24:23 -0400
+Message-ID: <20240910172426.2416764-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -49,7 +49,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.4.283
+X-stable-base: Linux 4.19.321
 Content-Transfer-Encoding: 8bit
 
 From: Liao Chen <liaochen4@huawei.com>
@@ -68,10 +68,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/sound/soc/codecs/tda7419.c b/sound/soc/codecs/tda7419.c
-index 2bf4f5e8af27..9d8753b28e36 100644
+index 7f3b79c5a563..a3fc9b7fefd8 100644
 --- a/sound/soc/codecs/tda7419.c
 +++ b/sound/soc/codecs/tda7419.c
-@@ -629,6 +629,7 @@ static const struct of_device_id tda7419_of_match[] = {
+@@ -637,6 +637,7 @@ static const struct of_device_id tda7419_of_match[] = {
  	{ .compatible = "st,tda7419" },
  	{ },
  };
