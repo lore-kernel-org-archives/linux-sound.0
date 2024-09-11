@@ -1,48 +1,44 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A22B973477;
-	Wed, 11 Sep 2024 12:08:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D79B51891A9;
+	Wed, 11 Sep 2024 12:12:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726056514; cv=none; b=fQ3Pg0C6vPswU2MDG0thOoSLsj0ki7NiM+Yq0/yD64zKJF5cUCan4EselVMNWGh+CRiigQbUvdPZ9tnDPohTQyiyvnKBFKsC2DtyBogh5XTwwiB8rLdbd0YJ7JghYgJOJZ5pijUta+nmNCbwLFJzGVrZQUGZol9lyq6Bk3Eg93I=
+	t=1726056749; cv=none; b=BFIJHQER2+36I5hheBYHIQ7ARNm6P8eu3xMdYh2z/C3wGGK6OmcuS2NXfUZ2uxHYrrkH1p2eEfZUOwjdi8VIavheG5KD8t5xtSb9ZBFV1Gi0ATNMfN3Cy8qZdqpnXGXTlxsWoASRdu0WU/55nMKq5j8SAjgWBfKytpRpCmCvHxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726056514; c=relaxed/simple;
-	bh=QLNnXWWCJuxLHShYf3yyFq9X0ONNT3DDkry63vs9LW8=;
+	s=arc-20240116; t=1726056749; c=relaxed/simple;
+	bh=cSCzmdNsxwCze2MNd8Y3FRZkMMVzVlJgnJPwxFkrP9Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eZ+0m4LVEtJNZCc66TTx04nT/HIAW6DZiqdwNP+rioJPtpVyA2WgmwKHSK8+B1iKTyaB30G8y2jbOvChOFWKNzYiW2lhNCokjs7FMTuNVR57VyU9WoeXiqEI9cPbnhuaR0rimnXROIkraUGIS7AEf1hH7GZdSaqL2go9xFlvQVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=PilP3+G6; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	 Content-Type:Content-Disposition:In-Reply-To; b=oB0ssybptswTfKLo++b1ZjU9TINDz6Ho1/IvZUwr8ZttFYI/yo/eHeM1qCN3ytB9zeypq+46CjBc+0p6nGqehGlk5CRYITvhJrXJe0aBIhiiSVd2bef2YGOprzQs3c1wjfmh+X6fB8eHEcmcsGaHH499aZC88gsQMigUbd6jDMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=RSAfgosv; arc=none smtp.client-ip=220.197.31.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="PilP3+G6"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=UcnSSS5sRbFX0joRIuOGLRbcv8l/EOFUaWyvL+VtAak=; b=PilP3+G6Zom03ujXLIAxQBJ/qi
-	/6aw+pkStQIo1qMMhJxujyZfFPK0z5YQHk0Uph41N6mBmv1UJXV0iXemI8DWq87SwkGjX+OfmGJnN
-	ycxd9PeRJPsxEm5vdG+vZGeOlVG61teU6iM1/Kg4RPqEBBY+2B04yf193PWjgYrw4URc=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1soM8x-007CXl-Dx; Wed, 11 Sep 2024 14:08:19 +0200
-Date: Wed, 11 Sep 2024 14:08:19 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Anna-Maria Behnsen <anna-maria@linutronix.de>
-Cc: Frederic Weisbecker <frederic@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-	Len Brown <len.brown@intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	netdev@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 12/15] iopoll/regmap/phy/snd: Fix comment referencing
- outdated timer documentation
-Message-ID: <0a7f2282-cbd0-4f27-bfe4-30b0c1a4705b@lunn.ch>
-References: <20240911-devel-anna-maria-b4-timers-flseep-v2-0-b0d3f33ccfe0@linutronix.de>
- <20240911-devel-anna-maria-b4-timers-flseep-v2-12-b0d3f33ccfe0@linutronix.de>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="RSAfgosv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:Subject:Message-ID:MIME-Version:
+	Content-Type; bh=yNsNUIh7Z32QBJGGMFVvTAKKOX0vPwFSxf2ClIPyrEc=;
+	b=RSAfgosvE/k6YmHb+X1z8imyHhXXTmvp/d2nKVSFt6s2STOs3JhNL8Ap+d5kPr
+	WFnIWcCzb9NytNXBmRR9Ke+de5khtVWrUk2MyoGzBhhnsXChgA5Ve3tRMqyZYQI0
+	HNQlAnjMCrmIZhv7sZnx3gl0Vn4qc4jIi5T2Qi70ggrF8=
+Received: from localhost (unknown [120.26.85.94])
+	by gzga-smtp-mta-g2-1 (Coremail) with SMTP id _____wDnj2IFieFmfO6VFQ--.4817S2;
+	Wed, 11 Sep 2024 20:11:50 +0800 (CST)
+Date: Wed, 11 Sep 2024 20:11:49 +0800
+From: Qianqiang Liu <qianqiang.liu@163.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: amergnat@baylibre.com, angelogioacchino.delregno@collabora.com,
+	lgirdwood@gmail.com, matthias.bgg@gmail.com,
+	linux-sound@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: mt8365: Fix using uninitialized value "i2s_data"
+ issue
+Message-ID: <ZuGJBQA90j1UB9En@iZbp1asjb3cy8ks0srf007Z>
+References: <20240911001516.47268-1-qianqiang.liu@163.com>
+ <9ea8731a-7888-40a2-a183-4598884bbb27@sirena.org.uk>
+ <ZuGAwQGPWdpO1-G9@iZbp1asjb3cy8ks0srf007Z>
+ <eb21bcab-333d-4ab3-9222-058764ced720@sirena.org.uk>
+ <ZuGG3jk6oqq7sUMw@iZbp1asjb3cy8ks0srf007Z>
+ <8d921122-7271-451a-8bcb-83a1066b7b87@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,34 +47,25 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240911-devel-anna-maria-b4-timers-flseep-v2-12-b0d3f33ccfe0@linutronix.de>
+In-Reply-To: <8d921122-7271-451a-8bcb-83a1066b7b87@sirena.org.uk>
+X-CM-TRANSID:_____wDnj2IFieFmfO6VFQ--.4817S2
+X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+	VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUIPl1UUUUU
+X-CM-SenderInfo: xtld01pldqwhxolxqiywtou0bp/1tbiLwdXamVOGQ7YCgABs6
 
-On Wed, Sep 11, 2024 at 07:13:38AM +0200, Anna-Maria Behnsen wrote:
-> Function descriptions in iopoll.h, regmap.h, phy.h and sound/soc/sof/ops.h
-> copied all the same outdated documentation about sleep/delay function
-> limitations. In those comments, the generic (and still outdated) timer
-> documentation file is referenced.
+On Wed, Sep 11, 2024 at 01:07:52PM +0100, Mark Brown wrote:
+> On Wed, Sep 11, 2024 at 08:02:38PM +0800, Qianqiang Liu wrote:
 > 
-> As proper function descriptions for used delay and sleep functions are in
-> place, simply update the descriptions to reference to them. While at it fix
-> missing colon after "Returns" in function description and move return value
-> description to the end of the function description.
+> > How about this new patch:
 > 
-> Cc: Andrew Lunn <andrew@lunn.ch>
-> Cc: Heiner Kallweit <hkallweit1@gmail.com>
-> Cc: Jaroslav Kysela <perex@perex.cz>
-> Cc: Takashi Iwai <tiwai@suse.com>
-> Cc: netdev@vger.kernel.org
-> Cc: linux-sound@vger.kernel.org
-> Signed-off-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
-> ---
-> v2: Add cleanup of usage of 'Returns' in function description
-> ---
->  include/linux/iopoll.h | 52 +++++++++++++++++++++++++-------------------------
->  include/linux/phy.h    |  9 +++++----
+> That looks good, thanks but an equivalent patch has already been sent
+> and is in my queue:
+> 
+>     https://lore.kernel.org/r/20240911111317.4072349-1-usama.anjum@collabora.com
 
-For the phy.h parts:
+OK, got it, thanks!
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+-- 
+Best,
+Qianqiang Liu
 
-    Andrew
