@@ -1,106 +1,78 @@
-Received: from a7-33.smtp-out.eu-west-1.amazonses.com (a7-33.smtp-out.eu-west-1.amazonses.com [54.240.7.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0CA187347;
-	Wed, 11 Sep 2024 11:41:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.7.33
+Received: from mail.nfschina.com (unknown [42.101.60.213])
+	by smtp.subspace.kernel.org (Postfix) with SMTP id 3414F185B48;
+	Wed, 11 Sep 2024 11:55:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=42.101.60.213
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726054914; cv=none; b=hp3B0wXTey6SmWfGg0l5Q+ixYF7rpWMIsR7JFQrw/CHRhZ5wS7mIasGKo0jGnXhoNO0/X3JXryv3LsPjn2z3n9pC29G6TyCrSNWx0rEeZBus5n7rUfTY9QDCdsmulsjDJFwCObaWrSjWe80w1ooDRwpVXzhoyHAm9zWcB2uydgA=
+	t=1726055710; cv=none; b=GcHIWtuZLKiksp11ujiE7dBkqk6JvoH/qMypkQ/J5OqW3Wa9vxgmTAJhtEhaBF/EWUQVcpLTB5n6SWToJj+ipDwFGKnIYKKHAD8iXtrbQolU5UCjQ+M7jyEMP3Qye8VZeX/7DQpShawhZC7+dELc8AINwH2sPA2lejw2e7Ypmek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726054914; c=relaxed/simple;
-	bh=Rk5q3BmBtUat5/52EX4J8IbXZHZ0jpHHNiGHCN+/zfY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YEQh0v9aN31CBBphw13vhoV4Ks9buxzugWqJ8R6a31OE2yTKqx3WoqVELF0WRa72/9lU0jA1H5Pyazqtco4isMSKnG9Eu1QP7FdVscR9qY/rLTV1BcN39gQeBrT4VrKoIm0FQzq85Hrr0wl4BoygwApZ9MLdEQZV0okIKoQi8Ac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=amazonses.collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=gbocc47i; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=Ug8XaR41; arc=none smtp.client-ip=54.240.7.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazonses.collabora.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="gbocc47i";
-	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="Ug8XaR41"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=4232tfv5ebdrjdwkr5zzm7kytdkokgug; d=collabora.com; t=1726054911;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=Rk5q3BmBtUat5/52EX4J8IbXZHZ0jpHHNiGHCN+/zfY=;
-	b=gbocc47iLMfz7pURQWEuqEhhvrQRUpwmfDoYCYnsFDaT/oTyHa3D5U3Od/CLnYFR
-	/afVBd0vmN5svggiJjvWVsXKJQbQKGJgPjoFgUpNpsnOH+MosMiUYTi40cMoQJsvC+D
-	xPXAL9TlGwy9COUDj6gLTU3ICVwNVLuIl/OTWt0Nm66PypIVpp4Ed2A/Q5nc89gxlu0
-	GqmeYJ8K3R5e4x1q71hBEZUI2zngHbOypDC1ba4p5dyLyfIomjs190UoJgnMj4mPzOW
-	bB/QTPjWfHUEX3gfG25P/90/yFj9KACyiJJlG150c0vi/bQinWzTOWlRw4NWxXrWlQD
-	V+FYRzqidQ==
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=uku4taia5b5tsbglxyj6zym32efj7xqv; d=amazonses.com; t=1726054911;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Feedback-ID;
-	bh=Rk5q3BmBtUat5/52EX4J8IbXZHZ0jpHHNiGHCN+/zfY=;
-	b=Ug8XaR417Kv4VWAWRhaOaPCKdY/Cblr531aJfmZjGh5UQtpHoBGpcpLjle98WZG1
-	7JPT+wutVV6JXv0mLiDsuuZ6sZ/hgw15b7/dW/cK7NQMi+rfIICEFXO/g9Xt7itCPga
-	fDr8jb9075hUkOEjUzXOLFcyxrTdwHnEDeVEkzmw=
-Message-ID: <01020191e0e3cb9f-833b6cb7-1233-4b4d-9b48-bdf446d0ab70-000000@eu-west-1.amazonses.com>
-Date: Wed, 11 Sep 2024 11:41:50 +0000
+	s=arc-20240116; t=1726055710; c=relaxed/simple;
+	bh=LhFedJCR94M2rhZThQJpmVrhF9jDCYHsq2BK8/AdHs4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=fVF7QEpwbLf70lB7QUIvKUqaBFXYLvxg/rR0vwBUV+gnyapdvBOtgVZEw71foXcOfCKKWyOmqkYU2jqQ7gBYR94Hv3G3SQj5WW8IZg6zPoIgcEcvlcJ2WgmfeV3Lvp2UCx9iocHq+AN/Rh/zJs6Sgz/hZ6CIVetAjUr9Tiq1GSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nfschina.com; spf=pass smtp.mailfrom=nfschina.com; arc=none smtp.client-ip=42.101.60.213
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nfschina.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nfschina.com
+Received: from localhost.localdomain (unknown [180.167.10.98])
+	by mail.nfschina.com (MailData Gateway V2.8.8) with ESMTPSA id 7A6326096305A;
+	Wed, 11 Sep 2024 19:54:58 +0800 (CST)
+X-MD-Sfrom: suhui@nfschina.com
+X-MD-SrcIP: 180.167.10.98
+From: Su Hui <suhui@nfschina.com>
+To: herve.codina@bootlin.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	nathan@kernel.org,
+	ndesaulniers@google.com,
+	morbo@google.com,
+	justinstitt@google.com
+Cc: Su Hui <suhui@nfschina.com>,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev,
+	kernel-janitors@vger.kernel.org
+Subject: [PATCH] ASoC: codecs: avoid possible garbage value in peb2466_reg_read()
+Date: Wed, 11 Sep 2024 19:54:50 +0800
+Message-Id: <20240911115448.277828-1-suhui@nfschina.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoc: mediatek: mt8365: Print the ret value
-To: Muhammad Usama Anjum <usama.anjum@collabora.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	Alexandre Mergnat <amergnat@baylibre.com>, 
-	Nicolas Belin <nbelin@baylibre.com>
-Cc: kernel@collabora.com, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org
-References: <20240911111917.4091809-1-usama.anjum@collabora.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20240911111917.4091809-1-usama.anjum@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Feedback-ID: ::1.eu-west-1.YpP9ZbxnARFfy3Cb5pfsLd/pdsXBCNK0KEM7HforL4k=:AmazonSES
-X-SES-Outgoing: 2024.09.11-54.240.7.33
+Content-Transfer-Encoding: 8bit
 
-Il 11/09/24 13:19, Muhammad Usama Anjum ha scritto:
-> Print the ret value otherwise it is just being set without ever getting
-> used. The author may have missed printing it.
-> 
-> Fixes: 1bf6dbd75f76 ("ASoc: mediatek: mt8365: Add a specific soundcard for EVK")
-> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
-> ---
-> If it isn't useful, the ret value assignment statement can be removed.
+Clang static checker (scan-build) warning:
+sound/soc/codecs/peb2466.c:232:8:
+Assigned value is garbage or undefined [core.uninitialized.Assign]
+  232 |                 *val = tmp;
+      |                      ^ ~~~
 
-Nah, please just remove the ret assignment... and while you're at it, can you also
-change that dev_warn() to dev_info()?
+When peb2466_read_byte() fails, 'tmp' will have a garbage value.
+Add a judgemnet to avoid this problem.
 
-That print is actually expected to be seen on some boards, and it may, or may not,
-be something to be warned about; this is because some the states are optional, or
-actually the only requirement is to have at least one pin group muxed to audio but
-not forcefully a specific one (so you may have i2s0 on a board, i2s1 on the other).
+Fixes: 227f609c7c0e ("ASoC: codecs: Add support for the Infineon PEB2466 codec")
+Signed-off-by: Su Hui <suhui@nfschina.com>
+---
+ sound/soc/codecs/peb2466.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Cheers,
-Angelo
-
-
-> ---
->   sound/soc/mediatek/mt8365/mt8365-mt6357.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/sound/soc/mediatek/mt8365/mt8365-mt6357.c b/sound/soc/mediatek/mt8365/mt8365-mt6357.c
-> index fef76118f8010..412f5fdd8fc52 100644
-> --- a/sound/soc/mediatek/mt8365/mt8365-mt6357.c
-> +++ b/sound/soc/mediatek/mt8365/mt8365-mt6357.c
-> @@ -258,8 +258,8 @@ static int mt8365_mt6357_gpio_probe(struct snd_soc_card *card)
->   							   mt8365_mt6357_pin_str[i]);
->   		if (IS_ERR(priv->pin_states[i])) {
->   			ret = PTR_ERR(priv->pin_states[i]);
-> -			dev_warn(card->dev, "No pin state for %s\n",
-> -				 mt8365_mt6357_pin_str[i]);
-> +			dev_warn(card->dev, "No pin state(%d) for %s\n",
-> +				 ret, mt8365_mt6357_pin_str[i]);
->   		} else {
->   			ret = pinctrl_select_state(priv->pinctrl,
->   						   priv->pin_states[i]);
-
+diff --git a/sound/soc/codecs/peb2466.c b/sound/soc/codecs/peb2466.c
+index 76ee7e3f4d9b..67ea70cef0c7 100644
+--- a/sound/soc/codecs/peb2466.c
++++ b/sound/soc/codecs/peb2466.c
+@@ -229,7 +229,8 @@ static int peb2466_reg_read(void *context, unsigned int reg, unsigned int *val)
+ 	case PEB2466_CMD_XOP:
+ 	case PEB2466_CMD_SOP:
+ 		ret = peb2466_read_byte(peb2466, reg, &tmp);
+-		*val = tmp;
++		if (!ret)
++			*val = tmp;
+ 		break;
+ 	default:
+ 		dev_err(&peb2466->spi->dev, "Not a XOP or SOP command\n");
+-- 
+2.30.2
 
