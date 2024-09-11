@@ -1,325 +1,130 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8D0E1311AC;
-	Wed, 11 Sep 2024 05:13:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2254F135A69;
+	Wed, 11 Sep 2024 06:29:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726031639; cv=none; b=gUkzqv46ueOgAJSvYk3dm7seM2Iwz4Tq+wD8xW72FuRHDqa5wBhYF5nUr/JDsGvAf7gltPmu6xfJMrBmfXfNGqN2c+Abtt6HckQPtLPPXsuClbAf5qJ/T9BERn9+zhAhdfjK1+HS3GcJ/9g/T9l/rIsTzU99R8C3ToK2XIPrHlY=
+	t=1726036190; cv=none; b=RKU7Z25ul6HWelHZu6BbMcC+CcRROYEmUKo01BNTJ7Ju6vD0i3Yvgm9v78mVTOVUx5nIRDIgBEOnV8eNYz9nO0I6ew/5rsw+9R5puJC2E2ejaI1vdxe5zda4iXXkwdNewwdL/M1dIaDg0Kpo8AYeulcBDZF9hTVaQOALfEFAGoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726031639; c=relaxed/simple;
-	bh=4wZOhasrUFvkS2mb929tmW0a4bdElDKj4tVHbruyRXA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=FLqGbfvGJ9oR5U4WgiKlCZKy7fBIMZyOik51LKgKGvYqrA5DbIWSBd88xmkM15WNyfLUMRAzGKidgwEG2yajnp+lXVn0p8HG+DXpizEIarDt+CY+o/2Lb1mwPS69tdgveixE9xs5UnuBOB+vgOybrrDZjPQJtv10aDudip9N6iE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1McUAerT; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=9Rx/tsqf; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1726036190; c=relaxed/simple;
+	bh=BTzW+Qsl5tWVVIEohJPwQ4s8s6HaUPRnNkTGy5ZtgRY=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=f0Vrg2ijDAwsdppbBmdiS6HCl7zeFzgDQpATBjDNwZp1YH4XL0pZhQWHtuOwJKxluN56H5wcGKqbfE8lastHIL/VjWuJ1kQzZ4ZIY2gaoM2irXdPUIj+eN4XzY49A9y93ssOjF+BHl1UFK89AU/qhPG41zPeU4CgL/L7aIWJRBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=m+oaTMRo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xdlzR4DS; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=m+oaTMRo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xdlzR4DS; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1McUAerT";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="9Rx/tsqf"
-From: Anna-Maria Behnsen <anna-maria@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1726031634;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="m+oaTMRo";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xdlzR4DS";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="m+oaTMRo";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xdlzR4DS"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CEA1B1F871;
+	Wed, 11 Sep 2024 06:29:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1726036180; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=AfajaFeZI83lFduG7CKpozyUerHLUcwmwL6H0ejEapI=;
-	b=1McUAerTDnykbb607X6HZcOdWRi99+O/Ed8+hFUfTlnYpU8gx6U06ZDUW24Fe4jOG/AOJT
-	H2S7trd71N9cHxhb8+mRGMEpcjK/r2AUIr+z4VkQRTVklnOGVhNCHjYQ6GWlzVqNMPB2Dx
-	u9v9eiBiXSE9ft07ifGOifLPJD5R1YgF4tZJmSCHgeseyhnkl5H3eusDYVAInYyMysVWnN
-	Rfhnit4Fuokes4GfxUaeI+to/P/EmCWBBwaQaqYkVUSyeVz27M7EQxGec8ENYO3gKVgrjJ
-	Oi7G/+Y1XtHInkIk4N9WjcTmO1RT8H5piXkpymMmUEoAa0UF4zBfgdwIaAWg2w==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1726031634;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
+	bh=n+BaOvHAmKNC/Hnzen2jnP0lk48cwXnLiIUKZq4cmpQ=;
+	b=m+oaTMRocw9scPlXM1B27iDp+Oi1b9kzkerZKFXabRV6HqYZhSn3RBTcz+cWHA0hnLGCfP
+	8KAxR4ILrYJTswedpbZn4aJT9VWQwTh3w/DvAvahvQ9uvj/1R3D+rg9TmOLpLc53nSsi/X
+	iCEdI8O6c5J7UnKf2v+A6/yCZG5dM+k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1726036180;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=AfajaFeZI83lFduG7CKpozyUerHLUcwmwL6H0ejEapI=;
-	b=9Rx/tsqf3aTcs62gDJpBTJs9diWutozT6F6UcymLJ6R3Rm9oIyZsPNKub2Junk9z7Xr46s
-	SM6I1+Gqo1Om3XAw==
-Date: Wed, 11 Sep 2024 07:13:38 +0200
-Subject: [PATCH v2 12/15] iopoll/regmap/phy/snd: Fix comment referencing
- outdated timer documentation
+	bh=n+BaOvHAmKNC/Hnzen2jnP0lk48cwXnLiIUKZq4cmpQ=;
+	b=xdlzR4DScBgV9ERptSuR7st0T3P4UzL+tg9qQYsrFEQM0Zch//5OEAoXcspXBAE595m+kw
+	tS5jQKONLPCHvTDw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1726036180; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=n+BaOvHAmKNC/Hnzen2jnP0lk48cwXnLiIUKZq4cmpQ=;
+	b=m+oaTMRocw9scPlXM1B27iDp+Oi1b9kzkerZKFXabRV6HqYZhSn3RBTcz+cWHA0hnLGCfP
+	8KAxR4ILrYJTswedpbZn4aJT9VWQwTh3w/DvAvahvQ9uvj/1R3D+rg9TmOLpLc53nSsi/X
+	iCEdI8O6c5J7UnKf2v+A6/yCZG5dM+k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1726036180;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=n+BaOvHAmKNC/Hnzen2jnP0lk48cwXnLiIUKZq4cmpQ=;
+	b=xdlzR4DScBgV9ERptSuR7st0T3P4UzL+tg9qQYsrFEQM0Zch//5OEAoXcspXBAE595m+kw
+	tS5jQKONLPCHvTDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9F653132CB;
+	Wed, 11 Sep 2024 06:29:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id D0mZJdQ44WaxOAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 11 Sep 2024 06:29:40 +0000
+Date: Wed, 11 Sep 2024 08:30:28 +0200
+Message-ID: <87ttem4s8r.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Leo Tsai <antivirus621@gmail.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	leo.tsai@cmedia.com.tw,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] [PATCH v3]ALSA: hda: Add a new CM9825 standard driver
+In-Reply-To: <20240910065542.6534-1-antivirus621@gmail.com>
+References: <20240910065542.6534-1-antivirus621@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240911-devel-anna-maria-b4-timers-flseep-v2-12-b0d3f33ccfe0@linutronix.de>
-References: <20240911-devel-anna-maria-b4-timers-flseep-v2-0-b0d3f33ccfe0@linutronix.de>
-In-Reply-To: <20240911-devel-anna-maria-b4-timers-flseep-v2-0-b0d3f33ccfe0@linutronix.de>
-To: Frederic Weisbecker <frederic@kernel.org>, 
- Thomas Gleixner <tglx@linutronix.de>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, Len Brown <len.brown@intel.com>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Anna-Maria Behnsen <anna-maria@linutronix.de>, Andrew Lunn <andrew@lunn.ch>, 
- Heiner Kallweit <hkallweit1@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, netdev@vger.kernel.org, 
- linux-sound@vger.kernel.org
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.98%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
 
-Function descriptions in iopoll.h, regmap.h, phy.h and sound/soc/sof/ops.h
-copied all the same outdated documentation about sleep/delay function
-limitations. In those comments, the generic (and still outdated) timer
-documentation file is referenced.
+On Tue, 10 Sep 2024 08:55:42 +0200,
+Leo Tsai wrote:
+> 
+> The CM9825 is a High Definition Audio Codec.
+> There are 2 independent stereo outputs, one of the stereo
+> outputs is cap-less with HP AMP, and the other is line out to
+> connect the active speaker. The inputs can be Line-in and MIC-in.
+> 
+> Signed-off-by: Leo Tsai <antivirus621@gmail.com>
 
-As proper function descriptions for used delay and sleep functions are in
-place, simply update the descriptions to reference to them. While at it fix
-missing colon after "Returns" in function description and move return value
-description to the end of the function description.
+Applied now.  Thanks!
 
-Cc: Andrew Lunn <andrew@lunn.ch>
-Cc: Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.com>
-Cc: netdev@vger.kernel.org
-Cc: linux-sound@vger.kernel.org
-Signed-off-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
----
-v2: Add cleanup of usage of 'Returns' in function description
----
- include/linux/iopoll.h | 52 +++++++++++++++++++++++++-------------------------
- include/linux/phy.h    |  9 +++++----
- include/linux/regmap.h | 38 ++++++++++++++++++------------------
- sound/soc/sof/ops.h    |  8 ++++----
- 4 files changed, 54 insertions(+), 53 deletions(-)
 
-diff --git a/include/linux/iopoll.h b/include/linux/iopoll.h
-index 19a7b00baff4..91324c331a4b 100644
---- a/include/linux/iopoll.h
-+++ b/include/linux/iopoll.h
-@@ -19,19 +19,19 @@
-  * @op: accessor function (takes @args as its arguments)
-  * @val: Variable to read the value into
-  * @cond: Break condition (usually involving @val)
-- * @sleep_us: Maximum time to sleep between reads in us (0
-- *            tight-loops).  Should be less than ~20ms since usleep_range
-- *            is used (see Documentation/timers/timers-howto.rst).
-+ * @sleep_us: Maximum time to sleep between reads in us (0 tight-loops). Please
-+ *            read usleep_range() function description for details and
-+ *            limitations.
-  * @timeout_us: Timeout in us, 0 means never timeout
-  * @sleep_before_read: if it is true, sleep @sleep_us before read.
-  * @args: arguments for @op poll
-  *
-- * Returns 0 on success and -ETIMEDOUT upon a timeout. In either
-- * case, the last read value at @args is stored in @val. Must not
-- * be called from atomic context if sleep_us or timeout_us are used.
-- *
-  * When available, you'll probably want to use one of the specialized
-  * macros defined below rather than this macro directly.
-+ *
-+ * Returns: 0 on success and -ETIMEDOUT upon a timeout. In either
-+ * case, the last read value at @args is stored in @val. Must not
-+ * be called from atomic context if sleep_us or timeout_us are used.
-  */
- #define read_poll_timeout(op, val, cond, sleep_us, timeout_us, \
- 				sleep_before_read, args...) \
-@@ -64,22 +64,22 @@
-  * @op: accessor function (takes @args as its arguments)
-  * @val: Variable to read the value into
-  * @cond: Break condition (usually involving @val)
-- * @delay_us: Time to udelay between reads in us (0 tight-loops).  Should
-- *            be less than ~10us since udelay is used (see
-- *            Documentation/timers/timers-howto.rst).
-+ * @delay_us: Time to udelay between reads in us (0 tight-loops). Please
-+ *            read udelay() function description for details and
-+ *            limitations.
-  * @timeout_us: Timeout in us, 0 means never timeout
-  * @delay_before_read: if it is true, delay @delay_us before read.
-  * @args: arguments for @op poll
-  *
-- * Returns 0 on success and -ETIMEDOUT upon a timeout. In either
-- * case, the last read value at @args is stored in @val.
-- *
-  * This macro does not rely on timekeeping.  Hence it is safe to call even when
-  * timekeeping is suspended, at the expense of an underestimation of wall clock
-  * time, which is rather minimal with a non-zero delay_us.
-  *
-  * When available, you'll probably want to use one of the specialized
-  * macros defined below rather than this macro directly.
-+ *
-+ * Returns: 0 on success and -ETIMEDOUT upon a timeout. In either
-+ * case, the last read value at @args is stored in @val.
-  */
- #define read_poll_timeout_atomic(op, val, cond, delay_us, timeout_us, \
- 					delay_before_read, args...) \
-@@ -119,17 +119,17 @@
-  * @addr: Address to poll
-  * @val: Variable to read the value into
-  * @cond: Break condition (usually involving @val)
-- * @sleep_us: Maximum time to sleep between reads in us (0
-- *            tight-loops).  Should be less than ~20ms since usleep_range
-- *            is used (see Documentation/timers/timers-howto.rst).
-+ * @sleep_us: Maximum time to sleep between reads in us (0 tight-loops). Please
-+ *            read usleep_range() function description for details and
-+ *            limitations.
-  * @timeout_us: Timeout in us, 0 means never timeout
-  *
-- * Returns 0 on success and -ETIMEDOUT upon a timeout. In either
-- * case, the last read value at @addr is stored in @val. Must not
-- * be called from atomic context if sleep_us or timeout_us are used.
-- *
-  * When available, you'll probably want to use one of the specialized
-  * macros defined below rather than this macro directly.
-+ *
-+ * Returns: 0 on success and -ETIMEDOUT upon a timeout. In either
-+ * case, the last read value at @addr is stored in @val. Must not
-+ * be called from atomic context if sleep_us or timeout_us are used.
-  */
- #define readx_poll_timeout(op, addr, val, cond, sleep_us, timeout_us)	\
- 	read_poll_timeout(op, val, cond, sleep_us, timeout_us, false, addr)
-@@ -140,16 +140,16 @@
-  * @addr: Address to poll
-  * @val: Variable to read the value into
-  * @cond: Break condition (usually involving @val)
-- * @delay_us: Time to udelay between reads in us (0 tight-loops).  Should
-- *            be less than ~10us since udelay is used (see
-- *            Documentation/timers/timers-howto.rst).
-+ * @delay_us: Time to udelay between reads in us (0 tight-loops). Please
-+ *            read udelay() function description for details and
-+ *            limitations.
-  * @timeout_us: Timeout in us, 0 means never timeout
-  *
-- * Returns 0 on success and -ETIMEDOUT upon a timeout. In either
-- * case, the last read value at @addr is stored in @val.
-- *
-  * When available, you'll probably want to use one of the specialized
-  * macros defined below rather than this macro directly.
-+ *
-+ * Returns: 0 on success and -ETIMEDOUT upon a timeout. In either
-+ * case, the last read value at @addr is stored in @val.
-  */
- #define readx_poll_timeout_atomic(op, addr, val, cond, delay_us, timeout_us) \
- 	read_poll_timeout_atomic(op, val, cond, delay_us, timeout_us, false, addr)
-diff --git a/include/linux/phy.h b/include/linux/phy.h
-index 6b7d40d49129..cadf51441ee1 100644
---- a/include/linux/phy.h
-+++ b/include/linux/phy.h
-@@ -1374,12 +1374,13 @@ int phy_read_mmd(struct phy_device *phydev, int devad, u32 regnum);
-  * @regnum: The register on the MMD to read
-  * @val: Variable to read the register into
-  * @cond: Break condition (usually involving @val)
-- * @sleep_us: Maximum time to sleep between reads in us (0
-- *            tight-loops).  Should be less than ~20ms since usleep_range
-- *            is used (see Documentation/timers/timers-howto.rst).
-+ * @sleep_us: Maximum time to sleep between reads in us (0 tight-loops). Please
-+ *            read usleep_range() function description for details and
-+ *            limitations.
-  * @timeout_us: Timeout in us, 0 means never timeout
-  * @sleep_before_read: if it is true, sleep @sleep_us before read.
-- * Returns 0 on success and -ETIMEDOUT upon a timeout. In either
-+ *
-+ * Returns: 0 on success and -ETIMEDOUT upon a timeout. In either
-  * case, the last read value at @args is stored in @val. Must not
-  * be called from atomic context if sleep_us or timeout_us are used.
-  */
-diff --git a/include/linux/regmap.h b/include/linux/regmap.h
-index 122e38161acb..d733b08466fd 100644
---- a/include/linux/regmap.h
-+++ b/include/linux/regmap.h
-@@ -106,17 +106,17 @@ struct reg_sequence {
-  * @addr: Address to poll
-  * @val: Unsigned integer variable to read the value into
-  * @cond: Break condition (usually involving @val)
-- * @sleep_us: Maximum time to sleep between reads in us (0
-- *            tight-loops).  Should be less than ~20ms since usleep_range
-- *            is used (see Documentation/timers/timers-howto.rst).
-+ * @sleep_us: Maximum time to sleep between reads in us (0 tight-loops). Please
-+ *            read usleep_range() function description for details and
-+ *            limitations.
-  * @timeout_us: Timeout in us, 0 means never timeout
-  *
-- * Returns 0 on success and -ETIMEDOUT upon a timeout or the regmap_read
-+ * This is modelled after the readx_poll_timeout macros in linux/iopoll.h.
-+ *
-+ * Returns: 0 on success and -ETIMEDOUT upon a timeout or the regmap_read
-  * error return value in case of a error read. In the two former cases,
-  * the last read value at @addr is stored in @val. Must not be called
-  * from atomic context if sleep_us or timeout_us are used.
-- *
-- * This is modelled after the readx_poll_timeout macros in linux/iopoll.h.
-  */
- #define regmap_read_poll_timeout(map, addr, val, cond, sleep_us, timeout_us) \
- ({ \
-@@ -133,20 +133,20 @@ struct reg_sequence {
-  * @addr: Address to poll
-  * @val: Unsigned integer variable to read the value into
-  * @cond: Break condition (usually involving @val)
-- * @delay_us: Time to udelay between reads in us (0 tight-loops).
-- *            Should be less than ~10us since udelay is used
-- *            (see Documentation/timers/timers-howto.rst).
-+ * @delay_us: Time to udelay between reads in us (0 tight-loops). Please
-+ *            read udelay() function description for details and
-+ *            limitations.
-  * @timeout_us: Timeout in us, 0 means never timeout
-  *
-- * Returns 0 on success and -ETIMEDOUT upon a timeout or the regmap_read
-- * error return value in case of a error read. In the two former cases,
-- * the last read value at @addr is stored in @val.
-- *
-  * This is modelled after the readx_poll_timeout_atomic macros in linux/iopoll.h.
-  *
-  * Note: In general regmap cannot be used in atomic context. If you want to use
-  * this macro then first setup your regmap for atomic use (flat or no cache
-  * and MMIO regmap).
-+ *
-+ * Returns: 0 on success and -ETIMEDOUT upon a timeout or the regmap_read
-+ * error return value in case of a error read. In the two former cases,
-+ * the last read value at @addr is stored in @val.
-  */
- #define regmap_read_poll_timeout_atomic(map, addr, val, cond, delay_us, timeout_us) \
- ({ \
-@@ -177,17 +177,17 @@ struct reg_sequence {
-  * @field: Regmap field to read from
-  * @val: Unsigned integer variable to read the value into
-  * @cond: Break condition (usually involving @val)
-- * @sleep_us: Maximum time to sleep between reads in us (0
-- *            tight-loops).  Should be less than ~20ms since usleep_range
-- *            is used (see Documentation/timers/timers-howto.rst).
-+ * @sleep_us: Maximum time to sleep between reads in us (0 tight-loops). Please
-+ *            read usleep_range() function description for details and
-+ *            limitations.
-  * @timeout_us: Timeout in us, 0 means never timeout
-  *
-- * Returns 0 on success and -ETIMEDOUT upon a timeout or the regmap_field_read
-+ * This is modelled after the readx_poll_timeout macros in linux/iopoll.h.
-+ *
-+ * Returns: 0 on success and -ETIMEDOUT upon a timeout or the regmap_field_read
-  * error return value in case of a error read. In the two former cases,
-  * the last read value at @addr is stored in @val. Must not be called
-  * from atomic context if sleep_us or timeout_us are used.
-- *
-- * This is modelled after the readx_poll_timeout macros in linux/iopoll.h.
-  */
- #define regmap_field_read_poll_timeout(field, val, cond, sleep_us, timeout_us) \
- ({ \
-diff --git a/sound/soc/sof/ops.h b/sound/soc/sof/ops.h
-index 2584621c3b2d..d73644e85b6e 100644
---- a/sound/soc/sof/ops.h
-+++ b/sound/soc/sof/ops.h
-@@ -597,12 +597,12 @@ snd_sof_is_chain_dma_supported(struct snd_sof_dev *sdev, u32 dai_type)
-  * @addr: Address to poll
-  * @val: Variable to read the value into
-  * @cond: Break condition (usually involving @val)
-- * @sleep_us: Maximum time to sleep between reads in us (0
-- *            tight-loops).  Should be less than ~20ms since usleep_range
-- *            is used (see Documentation/timers/timers-howto.rst).
-+ * @sleep_us: Maximum time to sleep between reads in us (0 tight-loops). Please
-+ *            read usleep_range() function description for details and
-+ *            limitations.
-  * @timeout_us: Timeout in us, 0 means never timeout
-  *
-- * Returns 0 on success and -ETIMEDOUT upon a timeout. In either
-+ * Returns: 0 on success and -ETIMEDOUT upon a timeout. In either
-  * case, the last read value at @addr is stored in @val. Must not
-  * be called from atomic context if sleep_us or timeout_us are used.
-  *
-
--- 
-2.39.2
-
+Takashi
