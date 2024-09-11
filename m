@@ -1,103 +1,85 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8573251C4A;
-	Wed, 11 Sep 2024 12:03:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE80573477;
+	Wed, 11 Sep 2024 12:07:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726056199; cv=none; b=Cs9Nf1KSDeCV6h/U93kdTmJclubxL3E+Hky2W+pyyjOpsyQukE2hnAcBqxq2Z3GeyEy6V5RrxOv7pusQChQZJ9oy5pre899LreXaCpix1LKlLemdh13aVTW6lM6TMRkfGmaV8o1m9mDVze0O4wRCleuoAsyrHFUW/m5WRX5IRKo=
+	t=1726056477; cv=none; b=Tc55HbAsH9XJWnTchCW7MysG8P60VmIcptgXpHZh75C7PcZ0/ZUJ3CGoV7X8Gz7mC7VKutG3zeNY3ajHcTAvWSXKmIsdIh6rrMuvWWWU5cF3AdcWYd3oolO9q5HgqF7DF93cmcUEsdku099gOvni8QyC7iCCOpEfLDo8+CsIeBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726056199; c=relaxed/simple;
-	bh=RRWxLgszYAt2RDmKsJ8aH9d/Tr9vyeupDgydeQ5ejhk=;
+	s=arc-20240116; t=1726056477; c=relaxed/simple;
+	bh=LtSntcKQsfPx+S5sN1yyCdCKm9ZA925LdRwDJ2opgDw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aOnGbd37Lc8d8mWpGaPWAJnnK00aOXDvcAtP6T0zxaWROFi/8r7h+yqqZbVr0MVLhVZHx9YWTVPM5ISRLOeZ/h7yOENO27PRIGZBubNmDAv+1KLw6YmurNTNN8hoQl6gkTv0JkZFstaW1YUhXxKaOOe4PC5gbGrioaC+eMsAIzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=BzUB+j4V; arc=none smtp.client-ip=117.135.210.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=qP8u7qy8z31TxRi+pEExbxZe/GJfqWSYrCMZScxJztos0whusg/UtixwU+tXmuMyrFOs+LRLn8ChsAHOsiN2OyoYyDi6NeO+tQ6GSBqaZK8j5EvAmaHMCNLNgzvbwRxeGSetGMjcNdDKQDF044dsACL/HQPA9ZYkACTZLxCEoRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r/L3CCJW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="BzUB+j4V"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:Message-ID:MIME-Version:
-	Content-Type; bh=LreFkTuW7liUdQSgQl8JsUo6bkRPZ76VmfyP6CVpOVQ=;
-	b=BzUB+j4Vd55Bon2kvkuyeDzgyMsy6J424AkxqX+QcdeMCP0OY1mg9w4TkrEzJ8
-	BeHbCm1vV/54NOrMrUsHLVJvsWZIbr2LELQFsn//VeUMht/h6TsNMDQ7Rd69HhBF
-	/B1FEE5s/vctB8RhAwG42FzXvaeAQBrLQpQrn8pGvG5ZE=
-Received: from localhost (unknown [120.26.85.94])
-	by gzga-smtp-mta-g3-4 (Coremail) with SMTP id _____wBnSp_ehuFmOiukDQ--.6702S2;
-	Wed, 11 Sep 2024 20:02:38 +0800 (CST)
-Date: Wed, 11 Sep 2024 20:02:38 +0800
-From: Qianqiang Liu <qianqiang.liu@163.com>
-To: Mark Brown <broonie@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r/L3CCJW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09B36C4CEC5;
+	Wed, 11 Sep 2024 12:07:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726056476;
+	bh=LtSntcKQsfPx+S5sN1yyCdCKm9ZA925LdRwDJ2opgDw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=r/L3CCJWhxnYvKa0fZyz1vpuILqDQAOF6jH8Zxftt7eaxzwA9Sc8SQiBEyqDINzyy
+	 hXPZ1wqRrGyoaE5a/fDyRzAe+cKsVc96BwGtGmOqodHPRAW93Cdrjd8txRP6fr8jhd
+	 XCBM7wADLBoy1x2wJRjV5mHIgQDUQ5oeuPFKgYFOvTxv1kECSHIT8z9R7T9scrR1/f
+	 HykP0/sGY1d7EkrtInq0vCyTusLTwPTBFk3KgVyZzJHoK9DRG5bT0S6XXIrcPfcpw2
+	 hP3NszPduDeXmROUDPNPLNhuER10+K5f0tmXJ4PxHD+KkeHeMttzuD6ruNz+ihewpU
+	 K3gGvBxUhfGeg==
+Date: Wed, 11 Sep 2024 13:07:52 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Qianqiang Liu <qianqiang.liu@163.com>
 Cc: amergnat@baylibre.com, angelogioacchino.delregno@collabora.com,
 	lgirdwood@gmail.com, matthias.bgg@gmail.com,
 	linux-sound@vger.kernel.org, linux-mediatek@lists.infradead.org,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] ASoC: mt8365: Fix using uninitialized value "i2s_data"
  issue
-Message-ID: <ZuGG3jk6oqq7sUMw@iZbp1asjb3cy8ks0srf007Z>
+Message-ID: <8d921122-7271-451a-8bcb-83a1066b7b87@sirena.org.uk>
 References: <20240911001516.47268-1-qianqiang.liu@163.com>
  <9ea8731a-7888-40a2-a183-4598884bbb27@sirena.org.uk>
  <ZuGAwQGPWdpO1-G9@iZbp1asjb3cy8ks0srf007Z>
  <eb21bcab-333d-4ab3-9222-058764ced720@sirena.org.uk>
+ <ZuGG3jk6oqq7sUMw@iZbp1asjb3cy8ks0srf007Z>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="pDxhccTIA3Jgoyb3"
+Content-Disposition: inline
+In-Reply-To: <ZuGG3jk6oqq7sUMw@iZbp1asjb3cy8ks0srf007Z>
+X-Cookie: No Canadian coins.
+
+
+--pDxhccTIA3Jgoyb3
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <eb21bcab-333d-4ab3-9222-058764ced720@sirena.org.uk>
-X-CM-TRANSID:_____wBnSp_ehuFmOiukDQ--.6702S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7uF1rJFykGry7Jr15Cw4Uurg_yoW8XrWDp3
-	4ktan2kFyqqr4jyrsrur1UtasIk3y3JFZrWay7Jw12yFy3ur4a9Fn2kas0kFWvqrnaywnF
-	qrW2qr9xJrZ5A3JanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jcdbbUUUUU=
-X-CM-SenderInfo: xtld01pldqwhxolxqiywtou0bp/1tbiRQJXamXAo2LUZAACss
 
-On Wed, Sep 11, 2024 at 12:41:15PM +0100, Mark Brown wrote:
-> On Wed, Sep 11, 2024 at 07:36:33PM +0800, Qianqiang Liu wrote:
-> > On Wed, Sep 11, 2024 at 11:52:58AM +0100, Mark Brown wrote:
-> > > On Wed, Sep 11, 2024 at 08:15:17AM +0800, Qianqiang Liu wrote:
-> 
-> > > >  	spin_lock_irqsave(&afe_priv->afe_ctrl_lock, flags);
-> 
-> > > > +	if (!i2s_data) {
-> > > > +		spin_unlock_irqrestore(&afe_priv->afe_ctrl_lock, flags);
-> > > > +		return;
-> > > > +	}
-> 
-> > > Why would we look up i2s_data without the lock, take the lock, then
-> > > check if we actually found it?  That doesn't seem right.
-> 
-> > Just check the "i2s_data" is NULL or not.
-> 
-> That doesn't address my question at all.
+On Wed, Sep 11, 2024 at 08:02:38PM +0800, Qianqiang Liu wrote:
 
-How about this new patch:
+> How about this new patch:
 
-diff --git a/sound/soc/mediatek/mt8365/mt8365-dai-i2s.c b/sound/soc/mediatek/mt8365/mt8365-dai-i2s.c
-index 3482d8f8b4e7..11b9a5bc7163 100644
---- a/sound/soc/mediatek/mt8365/mt8365-dai-i2s.c
-+++ b/sound/soc/mediatek/mt8365/mt8365-dai-i2s.c
-@@ -465,13 +465,16 @@ void mt8365_afe_set_i2s_out_enable(struct mtk_base_afe *afe, bool enable)
- 	int i;
- 	unsigned long flags;
- 	struct mt8365_afe_private *afe_priv = afe->platform_priv;
--	struct mtk_afe_i2s_priv *i2s_data;
-+	struct mtk_afe_i2s_priv *i2s_data = NULL;
- 
- 	for (i = 0; i < DAI_I2S_NUM; i++) {
- 		if (mt8365_i2s_priv[i].adda_link)
- 			i2s_data = afe_priv->dai_priv[mt8365_i2s_priv[i].id];
- 	}
- 
-+	if (!i2s_data)
-+		return;
-+
- 	spin_lock_irqsave(&afe_priv->afe_ctrl_lock, flags);
- 
- 	if (enable) {
+That looks good, thanks but an equivalent patch has already been sent
+and is in my queue:
 
--- 
-Best,
-Qianqiang Liu
+    https://lore.kernel.org/r/20240911111317.4072349-1-usama.anjum@collabora.com
 
+--pDxhccTIA3Jgoyb3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbhiBcACgkQJNaLcl1U
+h9CP6Af8D9dqXjGlMuaHcvERZog4NrmsK6w85EjZUpKZ+rpKIiEj0psKY+7oTXjd
++1h1SuuRBNz2kzAGZ/gjSeg/r7ywekHnhYi5onqF+NsnQJUhmFhNmT6V4oZVtjhE
+cVQ3InLJ4BHtzgmUi8XYTgSFSvIIluGl3e7WSThueE5ioHtcIUkxVgPpWsISPOCa
++h9Dax7DRS057Aq103ShsGxmgfm7K3fdspQO4f2PM06R5bwB5ER41ylYm74Ecstf
+U6x2GGo4fxOdPegvz+PR8BMttoS89Dx0mZyoT+1E2tncOATnV5nDamLxUHWSyGjy
+tmbJXBwmHVZkYIndWKacNSQe2Fi7ag==
+=H6Fx
+-----END PGP SIGNATURE-----
+
+--pDxhccTIA3Jgoyb3--
