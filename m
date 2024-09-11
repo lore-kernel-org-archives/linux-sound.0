@@ -1,94 +1,148 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A82B61A7AD2;
-	Wed, 11 Sep 2024 18:09:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9411F1B78E3
+	for <linux-sound@vger.kernel.org>; Wed, 11 Sep 2024 18:26:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726078199; cv=none; b=hb+5zprp3WTQMCAHNh3Qnh+czpOFB6kkoJYPCaS5hTbVoWHOIreaqefd7PQgitwKuND4OpG6VW7Vx8MBu9HinTOJxGBUaG6Uhj5nVpMTtmkKIvVZDEw5xM15WvX9eCykWvPP4JR6vX79//NzfJuko1yp+Y3aFkG8GgWy7UJj2Yk=
+	t=1726079213; cv=none; b=Ouj0miwBIfaj8WOemg7RcnGsaUvGJ5QsSspm23Vgh/7HLrbTKs9c/besplLZ3wf75IfdQLxa0CjyEL1ZBzOOclTtxLcLPx/ybpeQp4fpulK/TKRDSZ0t5iEcPUcczqiYgCFdL5phRNZslN/w7SYcrFN1CuiEsNC9Xk419W08Kgo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726078199; c=relaxed/simple;
-	bh=t70OeUTPl2Hdc8vLGhMSBtVwCkdkMR0JsnyjS2GNsAc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=bNgFmKr6PS+Ex4q0cfaYEangxskjp2hXQS7D/3885YldgZ/gYDODrmlqYH7n5aFZUEQ1S/SG8lcRPbOC9/N4+rMBsygxLFlNsojt/a5xJJKuOdp29GzHg3dXOREYcfuF8N8q4TUmyFmwKtOdT5RsVelvhdwUWmh7s5wUK/0XC1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q2qvIMzY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1726079213; c=relaxed/simple;
+	bh=SiBYQogZ7W3fgRHqvzLBeYJtjY6qqWWBd6G/SBt1mb4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JCESI+3AuIHpCEDOnCunWpu5GRjJqWcQKmRe3QlqqhZgNTpONlmaecEqPM75RC1aJEjdEFp11wdqtKyXbsm3JdCn/anGmAwrwQvTpWOs4UPEyMd/sCaaUNzKVCQZVYy4Gd995FUZFq3chvnmE8gXNCoM5PSIHPZuFKIi6nhTkms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qL1qkbsB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q2qvIMzY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AC9FC4CEC0;
-	Wed, 11 Sep 2024 18:09:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qL1qkbsB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED6A7C4CEC0;
+	Wed, 11 Sep 2024 18:26:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726078199;
-	bh=t70OeUTPl2Hdc8vLGhMSBtVwCkdkMR0JsnyjS2GNsAc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=q2qvIMzYmdwsOs/n5Y9KRsjyYolmc+I+asb8nY4g+jh9t4K8HMgVQ4c3t02X2UxwW
-	 Wx9E5Pb8uTCiXd+NUd/ucIsuB4h3UXgqys2jgIIQh+JHUnuiV7ZXtlU7LMhgXwOO/M
-	 5SQzYsOxfWM9rbz+DdmGx0JoiVgorZy3n1u4GbGpiJ8ruUTvhbd8FgACUyftHzh3TR
-	 3Dxo1PFFp95CBfspFYF6p0aaaMg8bAsmBivqueyPczALrh2rBhABPcdFnbYKQm0fQq
-	 AhYmaHgDzIsDglr/5IafcOx2w7bfIuJ/GpXz1qEKB5oezpA3CU/snUCJwLsm2Gl3ea
-	 sFLBOplnrJ42w==
-From: Mark Brown <broonie@kernel.org>
-To: Jerome Brunet <jbrunet@baylibre.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
- Kevin Hilman <khilman@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Arseniy Krasnov <avkrasnov@salutedevices.com>
-Cc: kernel@sberdevices.ru, oxffffaa@gmail.com, Stable@vger.kernel.org
-In-Reply-To: <20240911142425.598631-1-avkrasnov@salutedevices.com>
-References: <20240911142425.598631-1-avkrasnov@salutedevices.com>
-Subject: Re: [PATCH v1] ASoC: meson: axg-card: fix 'use-after-free'
-Message-Id: <172607819595.127216.9881900790170289531.b4-ty@kernel.org>
-Date: Wed, 11 Sep 2024 19:09:55 +0100
+	s=k20201202; t=1726079213;
+	bh=SiBYQogZ7W3fgRHqvzLBeYJtjY6qqWWBd6G/SBt1mb4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qL1qkbsBMTNioKNJQW7/PjCxfOT3gik50xole5xXZitc+Coxq5oqnPU8NvcU9bG0a
+	 Zy8F+iNXMGYGcE76iMSYk8FI4eMq0HBF/WjsQ00THukO5Am9L4YshORV9Ji6krHkUT
+	 lf2P0j9RVaMJNlsX8FsRJst0WL6FSapg2SiJGUlD2JCic3Dc0RLgkYJU+kcL/xe3kq
+	 o9t7pGhsdSeKc5Hjyo+G22vKfbfaCTNBvt+/rjnmIEnWmTj2rVsnv4qgyJqaSI1gl5
+	 /b5DNfjKlF/EKxUHYdjoFHMSbsWr9Hu27I+wX7+VzFxC6CekIeo9thoMFDdg9LLJNx
+	 LdJvPA6Fi08nQ==
+Date: Wed, 11 Sep 2024 19:26:48 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Ki-Seok Jo <kiseok.jo@irondevice.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	"alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
+Subject: Re: FW: [PATCH v2 2/3] ASoC: dt-bindings: irondevice,sma1307: Add
+ initial DT binding
+Message-ID: <20240911-blaming-scant-9537304c2221@spud>
+References: <20240903054435.2659-1-kiseok.jo@irondevice.com>
+ <20240903054435.2659-3-kiseok.jo@irondevice.com>
+ <afb4bwvowfjjrkdh63wx7afz3gyydz7tpuhz2i6g6ahubat3vy@7t5vciiv2yp7>
+ <SL2P216MB2337D3255ABE335E9AE8CB378C932@SL2P216MB2337.KORP216.PROD.OUTLOOK.COM>
+ <db829bd7-e26b-44ed-b813-c1ccfd30c687@kernel.org>
+ <SL2P216MB23374DF15DDE8A31486427068C932@SL2P216MB2337.KORP216.PROD.OUTLOOK.COM>
+ <42c43114-75ce-4946-9f70-aac3cb0c1b2b@kernel.org>
+ <SE1P216MB2348C5726B70913B57D8C67C8C9B2@SE1P216MB2348.KORP216.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-99b12
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="IvHDJo7t0qbdzyog"
+Content-Disposition: inline
+In-Reply-To: <SE1P216MB2348C5726B70913B57D8C67C8C9B2@SE1P216MB2348.KORP216.PROD.OUTLOOK.COM>
 
-On Wed, 11 Sep 2024 17:24:25 +0300, Arseniy Krasnov wrote:
-> Buffer 'card->dai_link' is reallocated in 'meson_card_reallocate_links()',
-> so move 'pad' pointer initialization after this function when memory is
-> already reallocated.
-> 
-> Kasan bug report:
-> 
-> ==================================================================
-> BUG: KASAN: slab-use-after-free in axg_card_add_link+0x76c/0x9bc
-> Read of size 8 at addr ffff000000e8b260 by task modprobe/356
-> 
-> [...]
 
-Applied to
+--IvHDJo7t0qbdzyog
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Wed, Sep 11, 2024 at 01:16:01AM +0000, Ki-Seok Jo wrote:
+> > >
+> > > I have no intention of opposing the content. I am asking again becaus=
+e I
+> > didn't receive any warnings when I did the following, and I suspect I m=
+ight
+> > have done something wrong.
+> > >
+> > >
+> > > ./scripts/checkpatch.pl
+> > > Documentation/devicetree/bindings/sound/irondevice,sma1307.yaml
+> > >
+> > > total: 0 errors, 0 warnings, 54 lines checked
+> > >
+> > > Documentation/devicetree/bindings/sound/irondevice,sma1307.yaml has no
+> > obvious style problems and is ready for submission.
+> > >
+> > > I was under the impression that this only applied to patched files as
+> > described above. It turns out it can also be used with patch files. Tha=
+nk you
+> > for the useful information!
+> > >
+> >=20
+> > That's not how you run checkpatch. You run it on the patch. Please read
+> > submitting-patches document. It explains everything.
+> >=20
+> > Best regards,
+> > Krzysztof
+>=20
+>=20
+> Hi,
+>=20
+> I am in the process of carefully incorporating your feedback and making t=
+he necessary revisions.
+>=20
+> May I kindly ask you a question, if it's not too much trouble?
+> When running checkpatch, what would be the best way to address the follow=
+ing warning?
+>=20
+> WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit de=
+scription?)
+> #21:
+>  create mode 100644 Documentation/devicetree/bindings/sound/irondevice,sm=
+a1307.yaml
+>=20
+> In this case, would it be better for me to add a line break in the patch =
+file, or should I leave it as is?
 
-Thanks!
+Normally I would say you can ignore this, and that checkpatch doesn't
+usually complain about the actually git output in here - but I think
+checkpatch "broke" because you did not provide any commit message body
+at all, so it starting parsing the git output instead. You need to write
+a body!
 
-[1/1] ASoC: meson: axg-card: fix 'use-after-free'
-      commit: 4f9a71435953f941969a4f017e2357db62d85a86
+> WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+> #65:
+> new file mode 100644
+>=20
+> If the warning is appearing because it's a new file, is it something that=
+ can be safely ignored, or should I make changes to the MAINTAINERS file?
+>=20
+> Thank you for your feedback. I am learning a lot of new things!
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Usually for bindings, which have maintainers listed in them, you can
+skip adding a MAINTAINERS entry.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+Cheers,
+Conor.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+--IvHDJo7t0qbdzyog
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+-----BEGIN PGP SIGNATURE-----
 
-Thanks,
-Mark
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZuHg6AAKCRB4tDGHoIJi
+0k01AQDETVi9UGrMYKy5h2BWVOoNATobIqVmYg1/AUDG5+3P4QEA/LVmvM0ml1qH
+z1FnWpjwZYsvWrt30oYaxDa/0k1dQgg=
+=emIJ
+-----END PGP SIGNATURE-----
 
+--IvHDJo7t0qbdzyog--
