@@ -1,92 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from a7-33.smtp-out.eu-west-1.amazonses.com (a7-33.smtp-out.eu-west-1.amazonses.com [54.240.7.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 056C715C13F;
-	Wed, 11 Sep 2024 11:41:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0CA187347;
+	Wed, 11 Sep 2024 11:41:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.7.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726054882; cv=none; b=dteKcQK4DJp4aVtTeUBHDeg64Qi+uZJdm73r80hGlZhM1+TFOxzcKp1azstXNgH1dNB+//tTXwFdGDe/Xy4cr8eHQkdCan27nrI/nT75rgltIAmqeTvaRcKPBPuZ7pBn7hMghO4PIuJb4N10P2DV4nqFwGPfCKV37AjCrDGdrDg=
+	t=1726054914; cv=none; b=hp3B0wXTey6SmWfGg0l5Q+ixYF7rpWMIsR7JFQrw/CHRhZ5wS7mIasGKo0jGnXhoNO0/X3JXryv3LsPjn2z3n9pC29G6TyCrSNWx0rEeZBus5n7rUfTY9QDCdsmulsjDJFwCObaWrSjWe80w1ooDRwpVXzhoyHAm9zWcB2uydgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726054882; c=relaxed/simple;
-	bh=9Ff5CcqOR1YG6EDTYOSXZ/lMsTO4cJ1WRyPod0s+/9A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cEQ1vxoppB5rSFcav05956kfEPZJcWvCrde+a186k2jPqetpSE6T0MqbKTWklQ9gEvQjUWuys4uQvfc50UV/v3JT0KYGCJo4HAcY5wyeb7mzvOu4338rgRVWnxmVjMxQ1C27n5ZPpoyFDPyOpafjh9Yfy+Y4jI0sEmYn+ZkToxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ikvqh6Rl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1726054914; c=relaxed/simple;
+	bh=Rk5q3BmBtUat5/52EX4J8IbXZHZ0jpHHNiGHCN+/zfY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YEQh0v9aN31CBBphw13vhoV4Ks9buxzugWqJ8R6a31OE2yTKqx3WoqVELF0WRa72/9lU0jA1H5Pyazqtco4isMSKnG9Eu1QP7FdVscR9qY/rLTV1BcN39gQeBrT4VrKoIm0FQzq85Hrr0wl4BoygwApZ9MLdEQZV0okIKoQi8Ac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=amazonses.collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=gbocc47i; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=Ug8XaR41; arc=none smtp.client-ip=54.240.7.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazonses.collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ikvqh6Rl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1FF0C4CEC5;
-	Wed, 11 Sep 2024 11:41:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726054880;
-	bh=9Ff5CcqOR1YG6EDTYOSXZ/lMsTO4cJ1WRyPod0s+/9A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ikvqh6Rlp/kPJjy8jzBlCQj051T+9r0X7WTLZPJ7utoxrHvi5Sip0LAdo+Thsm9v3
-	 kwdh5CALo8Ka5NiLx/SaZoyguMVGXDMag1w2JQoHPMlVpEVbjHmUIp7VhIMs1CzlT/
-	 r3JErK+tfK+KF+5BjX4gdFaAlHVrE/j6YA4zk2rf9Mm+vJP3Nm6QPsgHINBvpSQt2H
-	 DMsxshlW583pu+sjody+JZcGB9+T9b3vI0SvGs3dMWL/NJEVADyDpLmPug+4gV8RMf
-	 1MeRopd/pCbi0SnuUSgLW1ze/6YezqUsHW3unS9fzeukYA9+HR1eDW1GJBMKXshL5T
-	 45v4DNvvv/s4w==
-Date: Wed, 11 Sep 2024 12:41:15 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Qianqiang Liu <qianqiang.liu@163.com>
-Cc: amergnat@baylibre.com, angelogioacchino.delregno@collabora.com,
-	lgirdwood@gmail.com, matthias.bgg@gmail.com,
-	linux-sound@vger.kernel.org, linux-mediatek@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: mt8365: Fix using uninitialized value "i2s_data"
- issue
-Message-ID: <eb21bcab-333d-4ab3-9222-058764ced720@sirena.org.uk>
-References: <20240911001516.47268-1-qianqiang.liu@163.com>
- <9ea8731a-7888-40a2-a183-4598884bbb27@sirena.org.uk>
- <ZuGAwQGPWdpO1-G9@iZbp1asjb3cy8ks0srf007Z>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="gbocc47i";
+	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="Ug8XaR41"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=4232tfv5ebdrjdwkr5zzm7kytdkokgug; d=collabora.com; t=1726054911;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=Rk5q3BmBtUat5/52EX4J8IbXZHZ0jpHHNiGHCN+/zfY=;
+	b=gbocc47iLMfz7pURQWEuqEhhvrQRUpwmfDoYCYnsFDaT/oTyHa3D5U3Od/CLnYFR
+	/afVBd0vmN5svggiJjvWVsXKJQbQKGJgPjoFgUpNpsnOH+MosMiUYTi40cMoQJsvC+D
+	xPXAL9TlGwy9COUDj6gLTU3ICVwNVLuIl/OTWt0Nm66PypIVpp4Ed2A/Q5nc89gxlu0
+	GqmeYJ8K3R5e4x1q71hBEZUI2zngHbOypDC1ba4p5dyLyfIomjs190UoJgnMj4mPzOW
+	bB/QTPjWfHUEX3gfG25P/90/yFj9KACyiJJlG150c0vi/bQinWzTOWlRw4NWxXrWlQD
+	V+FYRzqidQ==
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=uku4taia5b5tsbglxyj6zym32efj7xqv; d=amazonses.com; t=1726054911;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Feedback-ID;
+	bh=Rk5q3BmBtUat5/52EX4J8IbXZHZ0jpHHNiGHCN+/zfY=;
+	b=Ug8XaR417Kv4VWAWRhaOaPCKdY/Cblr531aJfmZjGh5UQtpHoBGpcpLjle98WZG1
+	7JPT+wutVV6JXv0mLiDsuuZ6sZ/hgw15b7/dW/cK7NQMi+rfIICEFXO/g9Xt7itCPga
+	fDr8jb9075hUkOEjUzXOLFcyxrTdwHnEDeVEkzmw=
+Message-ID: <01020191e0e3cb9f-833b6cb7-1233-4b4d-9b48-bdf446d0ab70-000000@eu-west-1.amazonses.com>
+Date: Wed, 11 Sep 2024 11:41:50 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="q51in4Tbj9DzVb7D"
-Content-Disposition: inline
-In-Reply-To: <ZuGAwQGPWdpO1-G9@iZbp1asjb3cy8ks0srf007Z>
-X-Cookie: No Canadian coins.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoc: mediatek: mt8365: Print the ret value
+To: Muhammad Usama Anjum <usama.anjum@collabora.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	Alexandre Mergnat <amergnat@baylibre.com>, 
+	Nicolas Belin <nbelin@baylibre.com>
+Cc: kernel@collabora.com, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org
+References: <20240911111917.4091809-1-usama.anjum@collabora.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20240911111917.4091809-1-usama.anjum@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Feedback-ID: ::1.eu-west-1.YpP9ZbxnARFfy3Cb5pfsLd/pdsXBCNK0KEM7HforL4k=:AmazonSES
+X-SES-Outgoing: 2024.09.11-54.240.7.33
+
+Il 11/09/24 13:19, Muhammad Usama Anjum ha scritto:
+> Print the ret value otherwise it is just being set without ever getting
+> used. The author may have missed printing it.
+> 
+> Fixes: 1bf6dbd75f76 ("ASoc: mediatek: mt8365: Add a specific soundcard for EVK")
+> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+> ---
+> If it isn't useful, the ret value assignment statement can be removed.
+
+Nah, please just remove the ret assignment... and while you're at it, can you also
+change that dev_warn() to dev_info()?
+
+That print is actually expected to be seen on some boards, and it may, or may not,
+be something to be warned about; this is because some the states are optional, or
+actually the only requirement is to have at least one pin group muxed to audio but
+not forcefully a specific one (so you may have i2s0 on a board, i2s1 on the other).
+
+Cheers,
+Angelo
 
 
---q51in4Tbj9DzVb7D
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> ---
+>   sound/soc/mediatek/mt8365/mt8365-mt6357.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/sound/soc/mediatek/mt8365/mt8365-mt6357.c b/sound/soc/mediatek/mt8365/mt8365-mt6357.c
+> index fef76118f8010..412f5fdd8fc52 100644
+> --- a/sound/soc/mediatek/mt8365/mt8365-mt6357.c
+> +++ b/sound/soc/mediatek/mt8365/mt8365-mt6357.c
+> @@ -258,8 +258,8 @@ static int mt8365_mt6357_gpio_probe(struct snd_soc_card *card)
+>   							   mt8365_mt6357_pin_str[i]);
+>   		if (IS_ERR(priv->pin_states[i])) {
+>   			ret = PTR_ERR(priv->pin_states[i]);
+> -			dev_warn(card->dev, "No pin state for %s\n",
+> -				 mt8365_mt6357_pin_str[i]);
+> +			dev_warn(card->dev, "No pin state(%d) for %s\n",
+> +				 ret, mt8365_mt6357_pin_str[i]);
+>   		} else {
+>   			ret = pinctrl_select_state(priv->pinctrl,
+>   						   priv->pin_states[i]);
 
-On Wed, Sep 11, 2024 at 07:36:33PM +0800, Qianqiang Liu wrote:
-> On Wed, Sep 11, 2024 at 11:52:58AM +0100, Mark Brown wrote:
-> > On Wed, Sep 11, 2024 at 08:15:17AM +0800, Qianqiang Liu wrote:
 
-> > >  	spin_lock_irqsave(&afe_priv->afe_ctrl_lock, flags);
-
-> > > +	if (!i2s_data) {
-> > > +		spin_unlock_irqrestore(&afe_priv->afe_ctrl_lock, flags);
-> > > +		return;
-> > > +	}
-
-> > Why would we look up i2s_data without the lock, take the lock, then
-> > check if we actually found it?  That doesn't seem right.
-
-> Just check the "i2s_data" is NULL or not.
-
-That doesn't address my question at all.
-
---q51in4Tbj9DzVb7D
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbhgdsACgkQJNaLcl1U
-h9Dd+gf/XpYSVrJXYWSZflF2+Mnro1CePEcrfJpjk4v4ucJNLSTRozAKskqvZSff
-XEiSPDRVj7jAqLSduflUTvv8faamui4SZinWSq4v1uRg2hQChLrdoeJZy2YD+Z4r
-YAaAFfwBN1XYv1H0LDZG29/oqK0/3DKRWsU2fjkdb0AQEiZt96pQiGJR6LzXAeLK
-xTVd2ifwALsRNNFouHFtgajOyybitV80htpkLCkpnqz3kg5ApT3TK7fBqSNLss8r
-8RfcnfrCMC749oBl55oioH+uedaM+w+WXDn7BhKlz2GcU2O6AdHxBOirJOlUgJqK
-aDP1+jhRqBgYvIuZVOloGOyHyf0uQQ==
-=0dpD
------END PGP SIGNATURE-----
-
---q51in4Tbj9DzVb7D--
