@@ -1,157 +1,131 @@
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2080.outbound.protection.outlook.com [40.107.95.80])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FD2417F4F6;
-	Wed, 11 Sep 2024 09:36:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.95.80
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726047385; cv=fail; b=kPmRmCdJ/KUoPujORPFO0SY4IbiH23mjnHly+anZNYJmpzNBbTlGuFTJF+kgR0467+HEHXJrB1S6HrpEx5afKKnSEq3d2Jd7NfgwP3lvM9Xf7kyTkkf6MIFngOg6IGZIN8Cx+/0zFywhmTXxwP22FAv62zzhrRAx2SMVmxc1iO0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726047385; c=relaxed/simple;
-	bh=XoV3hvmU3MMvmPP4xaZBnx+9HU9YyCBlA8giPWeEuNc=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TXfLxWW+WSRn2djQadxuxXW4b2Vn3qctgQi4siZaSuZZSaqu4IcQV6q+z1W1aONt6A8j/gsGe4iFyYX1E0dJmU7AsqDnIdKp0rFpNr9Ib0uZT+42SK8dHfro10iEDVAaULkUc5pz7jd6WHgTVEC6MjSb8G7fJsQR5BXYdIsyRxQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=taU80Sj5; arc=fail smtp.client-ip=40.107.95.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 732C87DA83;
+	Wed, 11 Sep 2024 10:32:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726050781; cv=none; b=bNCBnhA0n6MIlbVXxHkAY4IZ9ogVLkC4jB0/q36pzJsxyr50PphuwCFFbabCxZEnfEFM8LP8Gox30d/7HUIaEXlxlwhgaotTGGAL47MuWmAHC86qPFKmvkiMSMhF5gnLg+0iChfpsJxIWt2HyMFd7HbyaBzER8dpypmL4EkQJT0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726050781; c=relaxed/simple;
+	bh=L3DfyRJyMBTh2hMe73ZBoYLf1innUkJOSEQ3kjB6jvE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AY8KDNviOpWEL9rKKYhf56KrgUbmxoHRNyoK83vXEdslgPRKWG5WD+2/BJVazci4Ov6iS0rbn0PS9sCjH3h/e9rZ0JT5Cs7GY7Ch+wEn4MXvLuvrhcVWFXSqvBsJy2iu0a4XXqYr+9xhlc1Q0l30ZEMD1Ce2m6xGzknPDXKXl1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AWdqkLdr; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="taU80Sj5"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=l4mx8ZV6SXAdUsXPOlnOjD5xiiaZOhTX4zWfwHGELU8hDB0ZRT/lsYr4fSEMtRciMEgdj6e2bpbGdwoQgMID4EQ2AYeqNfkO5HehSzxppw86CmTzUlGdJuHeoq/YHRgdo796ZtDwRBg1WPWytVy0XhKf7MbIK2x8yXjVkL4Fv7FMR2J+vLvgTqxkIh0wurLlEb3bORT9N3b9cuszy/xuSKP9W8Q7WpWOLz+8VzmSzdMufJIepNCKUlJtdIBcIf+Eu3TNQUBTXvHC6v8+KJcsHu0B85V6E94JL0dWEVD7jOOwhUHH6FjV2hkNstSacl3BC6emEPnhJZNIQGFX7BZu5Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=x9U2YKvOzD19WpIg+57H46GIytg+CoFrDPpCK7za4N4=;
- b=Q6l2HxTlYkafat5BcxLS730L/pZr72kWkNTcQfTlK3hiM4iy84AYh26SEkbOm3rmEEEcCg4RV/9WgnIzUuIr/UxNgzV22aiT/8LJYo96fmrAs77eA0HPfjgiTcrbRlvsi50+FdclD+EiBPBvy4LqOFEG5HLvyOEqNa9csuaSYXl2Ny5ug85CZdzLqdt/NZ2RNmwA8V7XGpAejFTIZkGcKoHA4PiUqDY/G/Sqhy6CNYJecVkr7sQqj0UIE6/ICkFnMXoLlBjqKEEhjJkDJ42z0kT8sk5VSfeZjqJcoeO9eZgL0jfoMA1MmOx/mgQQDhj/aSzQT6mQy7duDgYTDfoSdQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x9U2YKvOzD19WpIg+57H46GIytg+CoFrDPpCK7za4N4=;
- b=taU80Sj5uKfZI7y/gmmoQOrvReVWoaKgSm/v+emXCFe17de/sW9eYc6lgN7lAliMejtbU6381/+T9vACiG7zcVpq1asYfW6lDS6tuE0BYgPgzFGaXSd+vthDu/hIjbVKr4sekCtRrRd2mSYSUZbDUP8Nqa2taxjymE+iEh/hX+4=
-Received: from CH5P223CA0017.NAMP223.PROD.OUTLOOK.COM (2603:10b6:610:1f3::13)
- by SJ1PR12MB6097.namprd12.prod.outlook.com (2603:10b6:a03:488::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.20; Wed, 11 Sep
- 2024 09:36:19 +0000
-Received: from CH2PEPF00000148.namprd02.prod.outlook.com
- (2603:10b6:610:1f3:cafe::f9) by CH5P223CA0017.outlook.office365.com
- (2603:10b6:610:1f3::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.24 via Frontend
- Transport; Wed, 11 Sep 2024 09:36:18 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CH2PEPF00000148.mail.protection.outlook.com (10.167.244.105) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7918.13 via Frontend Transport; Wed, 11 Sep 2024 09:36:18 +0000
-Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
- SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 11 Sep 2024 04:36:14 -0500
-From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-To: <broonie@kernel.org>
-CC: <alsa-devel@alsa-project.org>, <lgirdwood@gmail.com>, <perex@perex.cz>,
-	<tiwai@suse.com>, <Basavaraj.Hiregoudar@amd.com>,
-	<Sunil-kumar.Dommati@amd.com>, <venkataprasad.potturu@amd.com>,
-	<cristian.ciocaltea@collabora.com>, <Syed.SabaKareem@amd.com>,
-	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Vijendar
- Mukunda" <Vijendar.Mukunda@amd.com>
-Subject: [PATCH 2/2] ASoC: amd: acp: remove MODULE_ALIAS for sof based generic machine driver
-Date: Wed, 11 Sep 2024 15:05:54 +0530
-Message-ID: <20240911093554.2076872-2-Vijendar.Mukunda@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240911093554.2076872-1-Vijendar.Mukunda@amd.com>
-References: <20240911093554.2076872-1-Vijendar.Mukunda@amd.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AWdqkLdr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726050780; x=1757586780;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=L3DfyRJyMBTh2hMe73ZBoYLf1innUkJOSEQ3kjB6jvE=;
+  b=AWdqkLdrms3vrxz6hKXFxqg60oyutQYgxeXvBg2bjy66dX/pBTTn3/3g
+   wmsSElbOcNEc11jhYXXKxsG1KYM0NPHTTOsW6cjFfcwCCzQF3LHCM7Og7
+   WuVWzXyXNcADUaIuVq5ZzOucH9bxXC4aCruwps7b11CpateESy0e9Z48h
+   xlxeSa/uJnh0BGEA2A/EVlH0zWMFPrqhWo8mUIhXUia5kgaLKw4MQDBI5
+   GBVshgXbXt4+5Bi5NYUCuOda4ZvfXy0fZ7giioJU5tNCodMdeUD9vdZco
+   rJITHU2O2sBYTWAZfJM6zNFy1bVPsyWEYzkad307Eyj58QBwJIiLL1GDC
+   Q==;
+X-CSE-ConnectionGUID: +ooEyTE+QNCtTj4ouIZ+cg==
+X-CSE-MsgGUID: ZyxP779+T4iRdg0TY8WSrw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="50255157"
+X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; 
+   d="scan'208";a="50255157"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 03:32:59 -0700
+X-CSE-ConnectionGUID: BNEu4AC2T/CJ3e9psPx4QQ==
+X-CSE-MsgGUID: 0lOjmVLITqO33NbgMFbjmA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; 
+   d="scan'208";a="72125867"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.244.58]) ([10.245.244.58])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 03:32:53 -0700
+Message-ID: <5c309853-c82c-475e-b8c2-fcdcfde20efc@linux.intel.com>
+Date: Wed, 11 Sep 2024 13:33:01 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/13] ALSA: pcm: add more sample rate definitions
+To: Takashi Iwai <tiwai@suse.de>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: Jerome Brunet <jbrunet@baylibre.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, David Rhodes <david.rhodes@cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Cezary Rojewski <cezary.rojewski@intel.com>,
+ Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
+ alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+References: <20240905-alsa-12-24-128-v1-0-8371948d3921@baylibre.com>
+ <20240905-alsa-12-24-128-v1-1-8371948d3921@baylibre.com>
+ <1ab3efaa-863c-4dd0-8f81-b50fd9775fad@linux.intel.com>
+ <87ed5q4kbe.wl-tiwai@suse.de>
+Content-Language: en-US
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+In-Reply-To: <87ed5q4kbe.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PEPF00000148:EE_|SJ1PR12MB6097:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8c05840a-e2a3-4c1b-8432-08dcd245308d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|82310400026|36860700013;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?X/oqMXOusGVkD8Mwi2FDbpH9wmvZZkalAuTkuPcviBSqTKR8sOuBQcEOFSne?=
- =?us-ascii?Q?ad0danRunS/nP0ArribdiJchKnR2b+6ki8Z5Bq+l7GHqSL4AvDCS/x5HWDOu?=
- =?us-ascii?Q?rAvlsHQNjFNmc7JDMvi7rn6yplK5r16AYsM6b+/tn9W7o3g+aJCYLl30G2uF?=
- =?us-ascii?Q?3jrzWQgASWWGL58FW2LJdpza0gNIjJGANtiRIeRW6pmJGU4s+WJ4evmb8H/D?=
- =?us-ascii?Q?BoywYkHmr/kEMLHE6pLSV/JkLKl/k5IkZiehDyFFzCtR0PqDPXWUVI9NpQp1?=
- =?us-ascii?Q?dUc6hrwP1zDmqslWiygHNGgD9HeBwgj99yFB8iS2mPvzNwsefh5N0fY8okjq?=
- =?us-ascii?Q?rTJO32EfhRZ49m7dMNOEuiRTHQsb/qEEyiJTlncJVKybien5WYJccp6NT6Rl?=
- =?us-ascii?Q?Znl7Tow8mcR+rvcm2zyvDodB97PP3yEd7cQkUlaPODrnDgQUOCbmMDTfP2i3?=
- =?us-ascii?Q?6dt1GuBg/PKUQmf1ahEV2IqboJtfF3f8wg0i/3905hU3EutyOQn9MYlVM+8L?=
- =?us-ascii?Q?br5fnKljIldj1k6dRg/PQCzsFuD9aOomnxF0ydupVXhoQRje7XUSgMzWw6D0?=
- =?us-ascii?Q?mn5I7qI8SshQU7nFw7OvuDTw7ndZsaD8pQ9nsBliHxF5oWpAaEC/PSZesJsK?=
- =?us-ascii?Q?1LjUcESbd7oMdibe5hWiUYyerpk5iloFkNtULbDhXXuCSBSN3hG4upwAf3T+?=
- =?us-ascii?Q?pvD/5cMcu40wAjf8QK6r/9R53QQecGbbKvDcDIrmAcFw86EzoIw7S9WWcJKy?=
- =?us-ascii?Q?jrTtk8Ic0vxj0O7xT+ipPP9rdD+v407FvyzSp0sJ73lhxgoCdOmc6cFBTCCd?=
- =?us-ascii?Q?R1+2FO9VK/emeuiZVuRfq//VHu0T713/rtYzEGatl5SpOBYh1oBSBS5O3zT2?=
- =?us-ascii?Q?UrmWLP9m7vtytyqFM+5Amr7Xt2Ch3CtdEQIr+DlRrtrif8+I3MAmQmoQLbXc?=
- =?us-ascii?Q?Zrt9cENFvhEOT6TlMQ6HXFO7SKniM3/hebPFx8bnbjcmqTDkfAI69KqxUBRO?=
- =?us-ascii?Q?K5BX3eWCHnsv1/VuVbrUWUN3j2duzyqvEePPL6BqB54iTbWdTk2PhRuIj8m7?=
- =?us-ascii?Q?AHKM3+vQQiu+Su5wg8MXp8a71/LDYgrvCgc7sT8UYi3w1xYZvu4u/b1AES3B?=
- =?us-ascii?Q?eYTPGbjSOQ9Cmd9W44M1IX2bxUryDriWjxMCjTkP2qXVk4xbWJ/7zJ9c2ICQ?=
- =?us-ascii?Q?svHvsPMgARQQNvhJcSWyi+vEb3t5r+Mnh7gv6SoSOpSo8QoDQ0D/2CxOtME+?=
- =?us-ascii?Q?8Q6xo3fU6wRMWh2iq7OYaPSv7unMgU7bcpte6F062vE1+sMe9QYtaO1hBEA9?=
- =?us-ascii?Q?eKALt/CpLHrYJy84/fIWmeOjMHXB5sAY4r+CS1EdZZx6c8H3/MI2X4OemQBO?=
- =?us-ascii?Q?NNiA17ZV0QQwH0+eS/eHRR6RP7FBdyzyL5vSDWqEQ73IvtHUjS1PTr91eCsY?=
- =?us-ascii?Q?JJrOsSdgGyC/qaEao0OPRfgN3LRqs6VO?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(82310400026)(36860700013);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2024 09:36:18.7518
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c05840a-e2a3-4c1b-8432-08dcd245308d
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH2PEPF00000148.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6097
 
-As module device table added for AMD sof based generic machine driver,
-MODULE_ALIAS is not required. Remove MODULE_ALIAS for AMD sof based
-generic machine driver.
+On 11/09/2024 12:21, Takashi Iwai wrote:
+>> Wondering if this is backwards compatible with the alsa-lib definitions,
+>> specifically the topology parts which did unfortunately have a list of
+>> rates that will map to a different index now:
+>>
+>>
+>> typedef enum _snd_pcm_rates {
+>> 	SND_PCM_RATE_UNKNOWN = -1,
+>> 	SND_PCM_RATE_5512 = 0,
+>> 	SND_PCM_RATE_8000,
+>> 	SND_PCM_RATE_11025,
+>> 	SND_PCM_RATE_16000,
+>> 	SND_PCM_RATE_22050,
+>> 	SND_PCM_RATE_32000,
+>> 	SND_PCM_RATE_44100,
+>> 	SND_PCM_RATE_48000,
+>> 	SND_PCM_RATE_64000,
+>> 	SND_PCM_RATE_88200,
+>> 	SND_PCM_RATE_96000,
+>> 	SND_PCM_RATE_176400,
+>> 	SND_PCM_RATE_192000,
+>> 	SND_PCM_RATE_CONTINUOUS = 30,
+>> 	SND_PCM_RATE_KNOT = 31,
+>> 	SND_PCM_RATE_LAST = SND_PCM_RATE_KNOT,
+>> } snd_pcm_rates_t;
+> 
+> As far as I understand correctly, those rate bits used for topology
+> are independent from the bits used for PCM core, although it used to
+> be the same.  Maybe better to rename (such as SND_TPLG_RATE_*) so that
+> it's clearer only for topology stuff.
 
-Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
----
- sound/soc/amd/acp/acp-sof-mach.c | 7 -------
- 1 file changed, 7 deletions(-)
+Even if we rename these in alsa-lib we will need translation from
+SND_TPLG_RATE_ to SND_PCM_RATE_ in kernel likely?
 
-diff --git a/sound/soc/amd/acp/acp-sof-mach.c b/sound/soc/amd/acp/acp-sof-mach.c
-index b3a702dcd991..f36750167fa2 100644
---- a/sound/soc/amd/acp/acp-sof-mach.c
-+++ b/sound/soc/amd/acp/acp-sof-mach.c
-@@ -173,11 +173,4 @@ module_platform_driver(acp_asoc_audio);
- 
- MODULE_IMPORT_NS(SND_SOC_AMD_MACH);
- MODULE_DESCRIPTION("ACP SOF Machine Driver");
--MODULE_ALIAS("platform:rt5682-rt1019");
--MODULE_ALIAS("platform:rt5682-max");
--MODULE_ALIAS("platform:rt5682s-max");
--MODULE_ALIAS("platform:rt5682s-rt1019");
--MODULE_ALIAS("platform:nau8825-max");
--MODULE_ALIAS("platform:rt5682s-hs-rt1019");
--MODULE_ALIAS("platform:nau8821-max");
- MODULE_LICENSE("GPL v2");
+The topology files are out there and this is an ABI...
+
+> But it'd be better if anyone can double-check.
+
+Since the kernel just copies the rates bitfield, any rate above 11025
+will be misaligned and result broken setup.
+
+> 
+> 
+> thanks,
+> 
+> Takashi
+
 -- 
-2.34.1
-
+Péter
