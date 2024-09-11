@@ -1,72 +1,92 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1FF6186606;
-	Wed, 11 Sep 2024 11:37:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 056C715C13F;
+	Wed, 11 Sep 2024 11:41:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726054637; cv=none; b=tL/I5QP2pA4b72m2DjGcPtFH903ocMUe2r/7x2kJYUezyXkhSvqIGx7dWffr8Yi11unsG4ogM0pz8DrOxH/mC+VaS0EdilElxE7j9QT0yN+I2Waw6DvDm4CvG8MaZTCvr9oVVXrvgyHBkWP7XSzyLxzu0FlJY7M7PGI62JjkpQw=
+	t=1726054882; cv=none; b=dteKcQK4DJp4aVtTeUBHDeg64Qi+uZJdm73r80hGlZhM1+TFOxzcKp1azstXNgH1dNB+//tTXwFdGDe/Xy4cr8eHQkdCan27nrI/nT75rgltIAmqeTvaRcKPBPuZ7pBn7hMghO4PIuJb4N10P2DV4nqFwGPfCKV37AjCrDGdrDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726054637; c=relaxed/simple;
-	bh=2S3baaKsySUw2pJxN0dk18QLC85lSeBIY8gdzsYTiuM=;
+	s=arc-20240116; t=1726054882; c=relaxed/simple;
+	bh=9Ff5CcqOR1YG6EDTYOSXZ/lMsTO4cJ1WRyPod0s+/9A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qmRhF9kF0o8bgl3JjksVFgbbeP0193yDrjKtrBk5PqoawNkkwcbvWObSc41my/afnwSfAuQSQYbt8lAA+0pQiVbAroUEXIy9A8OrY/3ndhO1JYXMYyDgVzmvRF0kVGzujzblMTzGzSBFZELH3w6B2cjl3kbRxOD6Aopfy9yDFew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=fNhJXhPr; arc=none smtp.client-ip=220.197.31.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=cEQ1vxoppB5rSFcav05956kfEPZJcWvCrde+a186k2jPqetpSE6T0MqbKTWklQ9gEvQjUWuys4uQvfc50UV/v3JT0KYGCJo4HAcY5wyeb7mzvOu4338rgRVWnxmVjMxQ1C27n5ZPpoyFDPyOpafjh9Yfy+Y4jI0sEmYn+ZkToxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ikvqh6Rl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="fNhJXhPr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:Message-ID:MIME-Version:
-	Content-Type; bh=EuOHph7C0cmfKRGlQa8YH44Sz/5FhEpWHdlFSJkUp78=;
-	b=fNhJXhPrwwfzGOT3V0zYq91zOqYugXl++GmOk20RCgQF1+5KMCmDPcIU7haxL0
-	osw9ldjnPaE2YNTRksIKmbaDCE93IEAZw2jA7XEju+PzQ0XJ09ehvtJrvB1vvZQc
-	ns3wYoiqpJvnuoOLC6zi0mlQxeVMyUhX4FF3Eg6RwNtLU=
-Received: from localhost (unknown [120.26.85.94])
-	by gzsmtp3 (Coremail) with SMTP id sigvCgAn1wbBgOFm3jcXAA--.2464S2;
-	Wed, 11 Sep 2024 19:36:34 +0800 (CST)
-Date: Wed, 11 Sep 2024 19:36:33 +0800
-From: Qianqiang Liu <qianqiang.liu@163.com>
-To: Mark Brown <broonie@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ikvqh6Rl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1FF0C4CEC5;
+	Wed, 11 Sep 2024 11:41:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726054880;
+	bh=9Ff5CcqOR1YG6EDTYOSXZ/lMsTO4cJ1WRyPod0s+/9A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ikvqh6Rlp/kPJjy8jzBlCQj051T+9r0X7WTLZPJ7utoxrHvi5Sip0LAdo+Thsm9v3
+	 kwdh5CALo8Ka5NiLx/SaZoyguMVGXDMag1w2JQoHPMlVpEVbjHmUIp7VhIMs1CzlT/
+	 r3JErK+tfK+KF+5BjX4gdFaAlHVrE/j6YA4zk2rf9Mm+vJP3Nm6QPsgHINBvpSQt2H
+	 DMsxshlW583pu+sjody+JZcGB9+T9b3vI0SvGs3dMWL/NJEVADyDpLmPug+4gV8RMf
+	 1MeRopd/pCbi0SnuUSgLW1ze/6YezqUsHW3unS9fzeukYA9+HR1eDW1GJBMKXshL5T
+	 45v4DNvvv/s4w==
+Date: Wed, 11 Sep 2024 12:41:15 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Qianqiang Liu <qianqiang.liu@163.com>
 Cc: amergnat@baylibre.com, angelogioacchino.delregno@collabora.com,
 	lgirdwood@gmail.com, matthias.bgg@gmail.com,
 	linux-sound@vger.kernel.org, linux-mediatek@lists.infradead.org,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] ASoC: mt8365: Fix using uninitialized value "i2s_data"
  issue
-Message-ID: <ZuGAwQGPWdpO1-G9@iZbp1asjb3cy8ks0srf007Z>
+Message-ID: <eb21bcab-333d-4ab3-9222-058764ced720@sirena.org.uk>
 References: <20240911001516.47268-1-qianqiang.liu@163.com>
  <9ea8731a-7888-40a2-a183-4598884bbb27@sirena.org.uk>
+ <ZuGAwQGPWdpO1-G9@iZbp1asjb3cy8ks0srf007Z>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="q51in4Tbj9DzVb7D"
+Content-Disposition: inline
+In-Reply-To: <ZuGAwQGPWdpO1-G9@iZbp1asjb3cy8ks0srf007Z>
+X-Cookie: No Canadian coins.
+
+
+--q51in4Tbj9DzVb7D
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9ea8731a-7888-40a2-a183-4598884bbb27@sirena.org.uk>
-X-CM-TRANSID:sigvCgAn1wbBgOFm3jcXAA--.2464S2
-X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUIJPEUUUUU
-X-CM-SenderInfo: xtld01pldqwhxolxqiywtou0bp/1tbiRQJXamXAo2LUZAAAsu
 
-On Wed, Sep 11, 2024 at 11:52:58AM +0100, Mark Brown wrote:
-> On Wed, Sep 11, 2024 at 08:15:17AM +0800, Qianqiang Liu wrote:
-> 
-> >  
-> >  	spin_lock_irqsave(&afe_priv->afe_ctrl_lock, flags);
-> >  
-> > +	if (!i2s_data) {
-> > +		spin_unlock_irqrestore(&afe_priv->afe_ctrl_lock, flags);
-> > +		return;
-> > +	}
-> > +
-> 
-> Why would we look up i2s_data without the lock, take the lock, then
-> check if we actually found it?  That doesn't seem right.
+On Wed, Sep 11, 2024 at 07:36:33PM +0800, Qianqiang Liu wrote:
+> On Wed, Sep 11, 2024 at 11:52:58AM +0100, Mark Brown wrote:
+> > On Wed, Sep 11, 2024 at 08:15:17AM +0800, Qianqiang Liu wrote:
 
-Just check the "i2s_data" is NULL or not.
+> > >  	spin_lock_irqsave(&afe_priv->afe_ctrl_lock, flags);
 
--- 
-Best,
-Qianqiang Liu
+> > > +	if (!i2s_data) {
+> > > +		spin_unlock_irqrestore(&afe_priv->afe_ctrl_lock, flags);
+> > > +		return;
+> > > +	}
 
+> > Why would we look up i2s_data without the lock, take the lock, then
+> > check if we actually found it?  That doesn't seem right.
+
+> Just check the "i2s_data" is NULL or not.
+
+That doesn't address my question at all.
+
+--q51in4Tbj9DzVb7D
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbhgdsACgkQJNaLcl1U
+h9Dd+gf/XpYSVrJXYWSZflF2+Mnro1CePEcrfJpjk4v4ucJNLSTRozAKskqvZSff
+XEiSPDRVj7jAqLSduflUTvv8faamui4SZinWSq4v1uRg2hQChLrdoeJZy2YD+Z4r
+YAaAFfwBN1XYv1H0LDZG29/oqK0/3DKRWsU2fjkdb0AQEiZt96pQiGJR6LzXAeLK
+xTVd2ifwALsRNNFouHFtgajOyybitV80htpkLCkpnqz3kg5ApT3TK7fBqSNLss8r
+8RfcnfrCMC749oBl55oioH+uedaM+w+WXDn7BhKlz2GcU2O6AdHxBOirJOlUgJqK
+aDP1+jhRqBgYvIuZVOloGOyHyf0uQQ==
+=0dpD
+-----END PGP SIGNATURE-----
+
+--q51in4Tbj9DzVb7D--
