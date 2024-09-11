@@ -1,88 +1,149 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout6-smtp.messagingengine.com (fout6-smtp.messagingengine.com [103.168.172.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E7E91A2C0C
-	for <linux-sound@vger.kernel.org>; Wed, 11 Sep 2024 14:56:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8869D64A8F;
+	Wed, 11 Sep 2024 15:12:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726066576; cv=none; b=R4naDmfHjII7KBC4hGaZUsnd78dTsU/imaallmLnNczfgTbVNU59UGyxBYrtB3+c42/ASXk2ScbsCyp4JECTlM6FX8KNW0DucG6TIzkr8UQGKofGxHZLu8pCdPmCmH+ljiKeKzSOY+EBAEGCuQm3JaVhOF4i2vr3w9k+lvcp7NE=
+	t=1726067580; cv=none; b=V+An42MDm/u9Z+HjfWOXuh6OdfzVIAksdFwAXGdrSyRvKfY4aNtH8Htw+zv8HcULpx3Be28WnZMApaahXCeYjA9+uN1hmveKWpzQPidzfDhm89v2A8MDJjKhl/nCXxEjGsPmUIlexZnbCv7VHvqJhfhuh4dIK+2U7pfNVMQs1Rk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726066576; c=relaxed/simple;
-	bh=5y6hlVFNZ9ghFAZ/dOgsxCt/q59tWWK+iBtItb690SU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=DkKodpp1l7jIUEEb2toj3Z4+Ri8TL9La0sl4FreC+a17hNcCTXXeQb4Upd2zAstTO8PC7M4PjbITqnEjlGWMqS2IHKdDQelOpxklG9p8kgUL0Xlqyl379dwkRC+QRAnPxJT5Aibaf4cqz25/H7xnqEy71eHgyshChLgviIouE04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=CUDBZQdb; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1726067580; c=relaxed/simple;
+	bh=MeKwSewEniQVg0QWYqtdDkP3SMlDxjYZOntP0TJPLu0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T9bpdoaz4cLwXD0yceVORIENr8EIcxjTWelYVoxkOENruKjT3eLW30W9wPzgLj38tEoY0QWgE8DBwa47KziLvOAcEZNzeqb+qnKheFSfY3S1zHG/GZNuL0EjiiS9Xjwiha+JuXG8GaAX8MushDdqVGFdM7qEDKzmjiP1Zi1qWSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=roEqgBCF; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=dXwlQbnH; arc=none smtp.client-ip=103.168.172.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="CUDBZQdb"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-42cb57f8b41so3621425e9.0
-        for <linux-sound@vger.kernel.org>; Wed, 11 Sep 2024 07:56:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1726066571; x=1726671371; darn=vger.kernel.org;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5y6hlVFNZ9ghFAZ/dOgsxCt/q59tWWK+iBtItb690SU=;
-        b=CUDBZQdbJSXU5H0c05OvytdyQG2ctYFHXVJyWto0hYCduHRsYVfC1cbZ6pRidEOzaU
-         4AARucgZIX6HyXXc12JKac97DUvf01IGFbySFISs2sLOkeakv614aql3PoKoOzkX7rxI
-         hiVYGG81JAg6iGq/IEd2tlsHK/9BoPH+8r0v2zT0gyAoQLrJiAdP55J1NX0Fl8D6uqrk
-         5hCwvseiZZ2BNDWfg7Z+TPdCSLjarUKdI/gKk/elB+NZGSl645ALbiQ6kMPVaJk0JEyA
-         roaeqlQ4Uqg/rUg39A3ZJsXCz1kRMgLV37n2FwypSfRRmddNnmEM7H/aUxBmZ56uW4i7
-         fFJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726066571; x=1726671371;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5y6hlVFNZ9ghFAZ/dOgsxCt/q59tWWK+iBtItb690SU=;
-        b=LP+kUQmGM6TINDoMZcKrg9ry/Y01Tsrqzj1ZtuNQSLBjuIT5R6YgipWOOagvgZPUUg
-         CV6NOb54ljp174YyIo/ISaO+YGKjcsr4gqJeQ9wgvy4YgyR/mBXlriC3JXDtV5cqCRHs
-         IMGLp/wA2STDL3npPGptUzXb2SnVnJtAPPqp3bPdTWUrT7H8epd+6zwr8koyo08GS/g7
-         kp15ozWd+Vd1t0j4IK1KcPjH0IswhEiEqipbvk7EAmS3XmOhXxxibdo+SQn3Zu+qYYzT
-         mytSyWblUpjCOPLBryVq+DcRu1rBBJEpbORdbdN8nU97whHT4dFzMY8oqAtqB29XXGuV
-         YV+A==
-X-Forwarded-Encrypted: i=1; AJvYcCVFcskyhbUrJnVWGCwdC4l0QDJZx8zxjiL/ZjUyuvnnJtbVOUR4J53GryroXtCPG9m0rcKESYnDAuaTVg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKZF39oJfhGh0skJJWOfRxpHmfEHXwgRWlvC287D3fjAUF8tOb
-	yYAHdMgKa2bI5pgcsPehsDlkVisOrGRN2Yhm8HjnOuqPmNjLLqyn/CjKR9hXmL4=
-X-Google-Smtp-Source: AGHT+IGXbGreRimd0uqLh23FCjFV/446HYpWf16uni3SRkxonRMyp0eon2FdyilvNaU/tKo5u9ETgQ==
-X-Received: by 2002:a05:600c:3b9a:b0:42c:aef3:4388 with SMTP id 5b1f17b1804b1-42caef34492mr123874855e9.6.1726066570926;
-        Wed, 11 Sep 2024 07:56:10 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:7388:2adc:a5d5:ff63])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42cb77afd5asm105511255e9.17.2024.09.11.07.56.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Sep 2024 07:56:10 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Arseniy Krasnov <avkrasnov@salutedevices.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,  Mark Brown <broonie@kernel.org>,
-  Jaroslav Kysela <perex@perex.cz>,  "Takashi Iwai" <tiwai@suse.com>,  Neil
- Armstrong <neil.armstrong@linaro.org>,  "Kevin Hilman"
- <khilman@baylibre.com>,  Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>,  <alsa-devel@alsa-project.org>,
-  <linux-sound@vger.kernel.org>,  <linux-arm-kernel@lists.infradead.org>,
-  <linux-amlogic@lists.infradead.org>,  <linux-kernel@vger.kernel.org>,
-  <kernel@sberdevices.ru>,  <oxffffaa@gmail.com>,  <Stable@vger.kernel.org>
-Subject: Re: [PATCH v1] ASoC: meson: axg-card: fix 'use-after-free'
-In-Reply-To: <20240911142425.598631-1-avkrasnov@salutedevices.com> (Arseniy
-	Krasnov's message of "Wed, 11 Sep 2024 17:24:25 +0300")
-References: <20240911142425.598631-1-avkrasnov@salutedevices.com>
-Date: Wed, 11 Sep 2024 16:56:09 +0200
-Message-ID: <1jo74uqlx2.fsf@starbuckisacylon.baylibre.com>
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="roEqgBCF";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="dXwlQbnH"
+Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
+	by mailfout.phl.internal (Postfix) with ESMTP id B7C7513801A0;
+	Wed, 11 Sep 2024 11:12:57 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-09.internal (MEProxy); Wed, 11 Sep 2024 11:12:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm1; t=1726067577; x=
+	1726153977; bh=hX37uCQOGVhHQTqeJ5W0AwuwfpJ/xp+m2JV1xJw815k=; b=r
+	oEqgBCFzNOLtDfQGW/GXoy+5xnao/YniwORdsTn+73sly+TADa7x9z2WIRIGgJtd
+	CI6Q9jjctdZX5Ggma7DBgg2Ge29yzRKFlUlo0mn/JdLabLGc2Nzi7n+84wRUCiyX
+	FCYMRHZ+tDLhYHvxec4+86gZpoz5fzFi4LKiYy3ZIpJya4X9ENPXa6qZun2BMqKe
+	Fk+hdazoSMsjgYR8ffQkvBwUiKLScClOS+DXc7nln9fbZ2/tT43i3pw5mRhcMai9
+	C2heJUwX8O/yuHFV2kyPuejMmttrw5K4tFuRvr12uhnSxxk0N9bD2u5mJnJeTFbQ
+	MqrW9Tv6xSlWAtlsgQKzw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1726067577; x=1726153977; bh=hX37uCQOGVhHQTqeJ5W0AwuwfpJ/
+	xp+m2JV1xJw815k=; b=dXwlQbnHnqW82aserxKQOHu6CC/l6KILIh3WzGYHszp+
+	KQjQDPIAFdx/Nr1aIB//MG/2TZbk+UfXWcUFhrhv3SRHEMiOKE0tLf5s2TuVF+iz
+	cQ6YCNgOQT8iLAGSO0ll1lLylyQv8+wb5gSLK2jSx9EckabSYQp7KWo1hl7g+KKc
+	P50/Kr+3bWVvxApyXfgwA6qED1IIre0Un3ZJ06diqDeOvyuSQjXqStKsVwAfzMNm
+	QiqTW/4OYReg87v948Sq9Zm8Zgluarbb1zdGCySeo3/dgaOOAMUsppaVkePZhmVG
+	h/7qHEsCZB7/ihR6E7+BuZuqnoWdRCxyKq0ttQHpbA==
+X-ME-Sender: <xms:ebPhZrK2lC9H9VJhvFrKok2GHgjXqbgJclaEn7JCEz7KAfgghXuKWA>
+    <xme:ebPhZvLRg-4yuUZBpHcqlYZLl3cT98t9_jRa9F6A6a5xIRiy9Qg2KTFWv2FCEhKJo
+    5xouG40l11Biir4aWU>
+X-ME-Received: <xmr:ebPhZjsoOFtadSgQGFiwsXMrt434uNpqI2PU6FPqGubqr0ewwU0g28TZLqeHpX1M60L-ob2r4oLJ_Pj8meOKZIZjXwhiRXNzLw4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudejuddgkeehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvve
+    fukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefvrghkrghshhhiucfurghkrghm
+    ohhtohcuoehoqdhtrghkrghshhhisehsrghkrghmohgttghhihdrjhhpqeenucggtffrrg
+    htthgvrhhnpeehhffhteetgfekvdeiueffveevueeftdelhfejieeitedvleeftdfgfeeu
+    udekueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hoqdhtrghkrghshhhisehsrghkrghmohgttghhihdrjhhppdhnsggprhgtphhtthhopeef
+    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehlihhnuhigudefleegqdguvghvvg
+    hlsehlihhsthhsrdhsohhurhgtvghfohhrghgvrdhnvghtpdhrtghpthhtoheplhhinhhu
+    gidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinh
+    hugidqshhouhhnugesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:ebPhZkaPVdAwyqP_NGvtUOhaWP5j5XBEDu6Rt36wpI9sKJKhX8HoFw>
+    <xmx:ebPhZiap8pd-OdKolsh_yqj5O-8r3pg8V7jWFCy6NiJ2NdIhGnfEwQ>
+    <xmx:ebPhZoDFOBpO_e2kF6Vpq0h_jwdm0RAMrfxpPzDeePowo6n8U5FkTA>
+    <xmx:ebPhZgapOrD1isfzS5cqga3v_srS7VeLA50ZyeHJAAOSU7SA5HKqvg>
+    <xmx:ebPhZiFbJJWduIfSYCnxs1eNc67pRdOwnZcTgIUGetXhNA4v_UZYMqaK>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 11 Sep 2024 11:12:56 -0400 (EDT)
+Date: Thu, 12 Sep 2024 00:12:53 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: linux1394-devel@lists.sourceforge.net
+Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 0/2] firewire: core: optimize for concurrent calls of
+ fw_iso_context_flush_completions()
+Message-ID: <20240911151253.GA167609@workstation.local>
+Mail-Followup-To: linux1394-devel@lists.sourceforge.net,
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+References: <20240909140018.65289-1-o-takashi@sakamocchi.jp>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240909140018.65289-1-o-takashi@sakamocchi.jp>
 
-On Wed 11 Sep 2024 at 17:24, Arseniy Krasnov <avkrasnov@salutedevices.com> wrote:
+Hi,
 
-> Buffer 'card->dai_link' is reallocated in 'meson_card_reallocate_links()',
-> so move 'pad' pointer initialization after this function when memory is
-> already reallocated.
->
+On Mon, Sep 09, 2024 at 11:00:16PM +0900, Takashi Sakamoto wrote:
+> Hi,
+> 
+> It seems to be the last week for v6.12 development. I realize it
+> unpreferable to propose intrusive changes, however I also realized that
+> there is a room to refactor core functions in respect to handler of work
+> item for isochronous context for the next merge window...
+> 
+> This series of changes refactors the core function to call
+> fw_iso_context_flush_completions() from the work item. It optimizes some
+> event waiting and mediation of concurrent calls as well.
+> 
+> Takashi Sakamoto (2):
+>   firewire: core: move workqueue handler from 1394 OHCI driver to core
+>     function
+>   firewire: core: use mutex to coordinate concurrent calls to flush
+>     completions
+> 
+>  drivers/firewire/core-iso.c | 31 ++++++++-------
+>  drivers/firewire/core.h     |  5 ---
+>  drivers/firewire/ohci.c     | 78 +++++++------------------------------
+>  include/linux/firewire.h    |  1 +
+>  4 files changed, 31 insertions(+), 84 deletions(-)
 
-The title could have been a little more specific.
-Anyway
+I realized that the above changes have unpreferable effects to the behaviour
+for user space interface. The changes allow to call the handler of
+isochronous context again to drain the rest of packet buffer after calling
+the handler at first due to processing the interrupt flag of 1394 OHCI IT/IR
+descriptor. As a result, it is possible to enqueue two iso_interrupt events
+for user space applications in the bottom half of hardIRQ. However, this is
+against the description in UAPI header:
 
-Reviewed-by: Jerome Brunet <jbrunet@baylibre.com>
+```
+$ cat include/uapi/linux/firewire-cdev.h
+...
+ * struct fw_cdev_event_iso_interrupt - Sent when an iso packet was completed
+...
+ * This event is sent when the controller has completed an &fw_cdev_iso_packet
+ * with the %FW_CDEV_ISO_INTERRUPT bit set, when explicitly requested with
+ * %FW_CDEV_IOC_FLUSH_ISO, or when there have been so many completed packets
+ * without the interrupt bit set that the kernel's internal buffer for @header
+ * is about to overflow.  (In the last case, ABI versions < 5 drop header data
+ * up to the next interrupt packet.)
+```
 
+As a bottom half of hardIRQ, the work item should enqueue a single event
+associated to the interrupt event. The rest of packet buffer should be
+handled in the bottom half of next hardIRQ unless in the path of
+FW_CDEV_ISO_INTERRUPT.
+
+Let me revert these changes later.
+
+
+Regards
+
+Takashi Sakamoto
