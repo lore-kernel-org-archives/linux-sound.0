@@ -1,61 +1,60 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FCD68494
-	for <linux-sound@vger.kernel.org>; Wed, 11 Sep 2024 07:33:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9F828494
+	for <linux-sound@vger.kernel.org>; Wed, 11 Sep 2024 07:37:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726040031; cv=none; b=qCcTAKuVpGFwtSB9OuJ+uDyRuapPdV80T3NVHO1J8ykYIvyQ1C/JiBQN+x5G9CuDFx2oa8FDxjwwghOFrn7xDg+uRFW1dA5xmAOYkfJT9gRT2NIRe8V71cdQQIL4/XoBz+8v0JlWb2ptaiyu/36EqLbS357qwuDO3Lcp7/CYuTM=
+	t=1726040227; cv=none; b=tDqkk1q06jzketFTg6CmIbz4Am+zvM5u/lNuMeMffT+xtkKSmBUWpkvTbZH4O6I5fx3disW9GsKMQMG2InI9mitPzVfaI5WBI6e7zbqDcQ1rFxHx13wqlEjxk09V30VwYRdNnWyXiYXeE8jF90gQhilGolCqSxH2Bye8gsBlMZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726040031; c=relaxed/simple;
-	bh=kbIB2aH6D4eVMlRKAMRiIvsp9tXkQR2Odr+w625/2WE=;
+	s=arc-20240116; t=1726040227; c=relaxed/simple;
+	bh=Cbv68Bb1aUEULz2VgTK4zgraa/cfHVp/jHhFAJ4Kcwo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hlmuzRVqjtf+ItA+Nt8YEy96SKZt0sIPTzJyJg4Pw39wshux3nvNPoCCgbcsKKgoNYE4pNjbmMvnlgSoHZFKa5qmNSyWuNNRPYoJPyV4M14JwpZg2PFWcyRTJ4cShgzzECMMyfm1M+kmnGvsr5pEbSiW1VaGkVGPkAuLS5fDEIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OW9c8EJE; arc=none smtp.client-ip=209.85.221.53
+	 Content-Disposition; b=BUhpFqmXLVJMMSnczHkffPta6iHWd/hh+gSnD0E0eCz4QUfxH3NxLZS92lN2xHNuDTXu4vMxs7/8SPfs+NOTSG9XCekL/6HWtRN6SCF0SaFN9/i/yqCvmGYmr1uh+r5LARVB/Gw5Y4emen/3bxsDQUjcFd/pIcwwOl2IWR4bm8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hNPZ/OrH; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OW9c8EJE"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-374ba74e9b6so5059910f8f.0
-        for <linux-sound@vger.kernel.org>; Wed, 11 Sep 2024 00:33:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hNPZ/OrH"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4280ca0791bso60095645e9.1
+        for <linux-sound@vger.kernel.org>; Wed, 11 Sep 2024 00:37:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1726040028; x=1726644828; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1726040224; x=1726645024; darn=vger.kernel.org;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=waChnXwLMhRh3dlZr0LgUZgVxCRtJHDpRHsW78jjWKY=;
-        b=OW9c8EJEhwQPm6Md1Kfo47FWorpRlF64fjGJtzfmvmm+Hg8QT6zA+1pp8m+41SyfNi
-         3AR253OnXbxGXKW1dA56s8523yAgMRpSQDIpt39nmNA9j4YGPppvrhxp8uwbT+ce0abe
-         x5IZgxkq0zXbYBdw2mEOXPk4coZQaHQp1LKzMbKQcugNtZnCCTF1WVaTPBjCXWHfU5Ul
-         uT5L1J/UuIdc/yBqOOW34/k1mnG82ubwQWTYMVYmkWeQtVodBloSDunoe4qwNrVb3S+z
-         /oYYHJwIjK1UXDfJLFbsWX4w3Hgv/tAsVU79V0+VcbnSCeoqGnB1bNJRH0a/ClPCQN04
-         TLtg==
+        bh=sPAIeHqH94LHrW9+Y+CLBWKJXSXUEXjJ8Ef+H1QOZx0=;
+        b=hNPZ/OrHrJNStBT0gzPXq20dHY8QF37L9GmIV3/sNaLnmYXFKzdXnnb+jk1CH3qZKb
+         b4AVq0lKnnnyJRiHo9/H1DDkU1XLBCC0+qPBJR66BTrRbBW1gCK8sEUtWS0wnPGEVhlY
+         qWPS0/HzQi3cp7ESLD0xNIyFuFG8BPDvgTc8g8EAY8RvTMsCZM9Q0siXcOkDciO7KRoR
+         VwnKoBnSU+YbMe/UCjY+/c7dxIDY6Rjbl7W/CV9Sm6fWGw7K1qbe9m4hYAN7QHdL0tTM
+         xlQMcLL7JSaVFu4ZoUE9KL47u6CYcHLnuqLTNU+wUh6gTZZIAXtwZGWsDOq+ffrz9OVi
+         cUrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726040028; x=1726644828;
+        d=1e100.net; s=20230601; t=1726040224; x=1726645024;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=waChnXwLMhRh3dlZr0LgUZgVxCRtJHDpRHsW78jjWKY=;
-        b=nTg4+Yfljl1izzsstSWDQEKKql4elgNO1W5cIZ0+9CA61lxVSLDRFpDmox7TSpsEG7
-         Pw24EHAbmSb9pDx5w7oSjbQYCXv9i5HeNiU0LO2D7IWuBR2PlzUBLPnn2ecI+OKMQql9
-         zNKlmZ5/udBZ2owQa9epjwHQtxAJM9w3vX6e/j3M+QnSDOkZ1NK9HTG7zaaU+UeSU9CD
-         HahoEHWj0RNoonQ+tZXJ68+bND34ipI5TcERrzeRHjaUsIijV3JZJZ9fzXT+sNGL8Pr8
-         VQ5hT9cqhB7XTLGNLMwwrmSfcbf+AgCU1PKagOd+nt7b73dDn5BLSlxohzC9FVuHnZhq
-         XgAg==
-X-Gm-Message-State: AOJu0YwEw/aB3mJQdZULXBf8euNg+4oZLCjvNXYyjBqiCEFvuJEB1gCr
-	nsPPvAeIxlF/uh+roiAzX7J9UGfo5sIKu3Ce+WxbBg8qFtJpd4uglR1jTqifKzVx4I0B1/SmTJp
-	j
-X-Google-Smtp-Source: AGHT+IFMVgzPMtBRrBHgElmU/sBq1NB5UAguIy0Y4R1hUBBFHq+7IGxgt5spwjTOJVmuneLA6Zx7pA==
-X-Received: by 2002:a5d:4248:0:b0:374:c512:87ce with SMTP id ffacd0b85a97d-378922b7b58mr11531383f8f.30.1726040028125;
-        Wed, 11 Sep 2024 00:33:48 -0700 (PDT)
+        bh=sPAIeHqH94LHrW9+Y+CLBWKJXSXUEXjJ8Ef+H1QOZx0=;
+        b=sSEBJngrq4jn9T9ymc5zHXqmWIvlNKnc0PKOn29mk2EkoRou9SImHkl8/X6OWnR1bn
+         gLP0QW51sbxrhatokbAsj24exguLetcuOlH9wrRX3yH/QjUlzVUI0z1NWwxAtMSDpeYy
+         Fa0cjeepNwW/izxLtX+bCZ72z9qr0BbWQWDVg6hrbTBzB6r+ncZo4B/LLJQtySo9tHDU
+         ahd0tEgqn32OgV3MMBNePutVHf3ud3rpeH8EHgg3rtRlZeOy68VtXGZ+2XYCzKAQN8Sv
+         5fyuLdWi/zb9vMLsZqARZ8BqG53/QAGUrnQONb1OCph7NS1Q9fogc/sDCBvcGVKOqmyX
+         WVKg==
+X-Gm-Message-State: AOJu0Yzf9WSmnkkfud4xleCnbPP6+NuncJko3BriUTy2eripEgR+4QM8
+	CspJqB3nZSBJq+lteEo1etX70wcuGRXGyudsWNFjbKU2Ma8aTr3W3I3DBReeA/w=
+X-Google-Smtp-Source: AGHT+IGQvJrQ1mJ8l+9Sf+siG13aMY4P7H0tJZJfATJqKRvr0QbuvMXWZ0ihbTVFWPxwIspNgmQCfQ==
+X-Received: by 2002:a05:600c:1e04:b0:42c:b8da:c791 with SMTP id 5b1f17b1804b1-42cb8daca53mr74199595e9.1.1726040224005;
+        Wed, 11 Sep 2024 00:37:04 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42caeb8b050sm133397595e9.40.2024.09.11.00.33.47
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42cc1374f61sm31975895e9.1.2024.09.11.00.37.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Sep 2024 00:33:47 -0700 (PDT)
-Date: Wed, 11 Sep 2024 10:33:43 +0300
+        Wed, 11 Sep 2024 00:37:03 -0700 (PDT)
+Date: Wed, 11 Sep 2024 10:37:00 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Alexandre Mergnat <amergnat@baylibre.com>
-Cc: linux-sound@vger.kernel.org, linux-mediatek@lists.infradead.org
-Subject: [bug report] ASoC: mediatek: mt8365: Add I2S DAI support
-Message-ID: <67af3580-a907-403d-8bfd-76b5c304ab99@stanley.mountain>
+To: Yingkun Meng <mengyingkun@loongson.cn>
+Cc: linux-sound@vger.kernel.org
+Subject: [bug report] ASoC: Add support for Loongson I2S controller
+Message-ID: <d0b41d6d-86ae-43fe-b505-097f9f43e11f@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -65,41 +64,93 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hello Alexandre Mergnat,
+Hello Yingkun Meng,
 
-Commit 402bbb13a195 ("ASoC: mediatek: mt8365: Add I2S DAI support")
-from Jul 22, 2024 (linux-next), leads to the following Smatch static
+Commit d84881e06836 ("ASoC: Add support for Loongson I2S controller")
+from Jun 15, 2023 (linux-next), leads to the following Smatch static
 checker warning:
 
-	sound/soc/mediatek/mt8365/mt8365-dai-i2s.c:271 get_iir_coef()
-	error: buffer overflow 'iir_coef_tbl_list' 8 <= 8
+	sound/soc/loongson/loongson_i2s_pci.c:131 loongson_i2s_pci_probe()
+	error: 'i2s->regmap' dereferencing possible ERR_PTR()
 
-sound/soc/mediatek/mt8365/mt8365-dai-i2s.c
-    259         const u32 *coef = NULL;
-    260         unsigned int cnt = 0;
-    261         u32 i = freq_new_index[input_fs];
-    262         u32 j = freq_new_index[output_fs];
-    263 
-    264         if (i < 13 && j < 13) {
-    265                 u32 k = iir_coef_tbl_matrix[i][j];
-    266 
-    267                 if (k >= IIR_NO_NEED) {
-    268                 } else if (k == IIR_RATIOVER) {
-    269                 } else if (k == IIR_INV_COEF) {
+sound/soc/loongson/loongson_i2s_pci.c
+    73 static int loongson_i2s_pci_probe(struct pci_dev *pdev,
+    74                                   const struct pci_device_id *pid)
+    75 {
+    76         const struct fwnode_handle *fwnode = pdev->dev.fwnode;
+    77         struct loongson_dma_data *tx_data, *rx_data;
+    78         struct device *dev = &pdev->dev;
+    79         struct loongson_i2s *i2s;
+    80         int ret;
+    81 
+    82         if (pcim_enable_device(pdev)) {
+    83                 dev_err(dev, "pci_enable_device failed\n");
+    84                 return -ENODEV;
+    85         }
+    86 
+    87         i2s = devm_kzalloc(dev, sizeof(*i2s), GFP_KERNEL);
+    88         if (!i2s)
+    89                 return -ENOMEM;
+    90 
+    91         i2s->rev_id = pdev->revision;
+    92         i2s->dev = dev;
+    93         pci_set_drvdata(pdev, i2s);
+    94 
+    95         ret = pcim_iomap_regions(pdev, 1 << 0, dev_name(dev));
+    96         if (ret < 0) {
+    97                 dev_err(dev, "iomap_regions failed\n");
+    98                 return ret;
+    99         }
+    100 
+    101         i2s->reg_base = pcim_iomap_table(pdev)[0];
+    102         i2s->regmap = devm_regmap_init_mmio(dev, i2s->reg_base,
+    103                                             &loongson_i2s_regmap_config);
+    104         if (IS_ERR(i2s->regmap))
+    105                 dev_err_probe(dev, PTR_ERR(i2s->regmap), "regmap_init_mmio failed\n");
 
-These if statements limit "k" to the 0-8 range.
+return dev_err_probe()?
 
-    270                 } else {
---> 271                         coef = iir_coef_tbl_list[k].coef;
-                                       ^^^^^^^^^^^^^^^^^^^^
-But this array has 8 elements so it's off by one.
+    106 
+    107         tx_data = &i2s->tx_dma_data;
+    108         rx_data = &i2s->rx_dma_data;
+    109 
+    110         tx_data->dev_addr = pci_resource_start(pdev, 0) + LS_I2S_TX_DATA;
+    111         tx_data->order_addr = i2s->reg_base + LS_I2S_TX_ORDER;
+    112 
+    113         rx_data->dev_addr = pci_resource_start(pdev, 0) + LS_I2S_RX_DATA;
+    114         rx_data->order_addr = i2s->reg_base + LS_I2S_RX_ORDER;
+    115 
+    116         tx_data->irq = fwnode_irq_get_byname(fwnode, "tx");
+    117         if (tx_data->irq < 0)
+    118                 dev_err_probe(dev, tx_data->irq, "dma tx irq invalid\n");
+    119 
+    120         rx_data->irq = fwnode_irq_get_byname(fwnode, "rx");
+    121         if (rx_data->irq < 0)
+    122                 dev_err_probe(dev, rx_data->irq, "dma rx irq invalid\n");
+    123 
+    124         ret = device_property_read_u32(dev, "clock-frequency", &i2s->clk_rate);
+    125         if (ret)
+    126                 dev_err_probe(dev, ret, "clock-frequency property invalid\n");
+    127 
+    128         dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64));
+    129 
+    130         if (i2s->rev_id == 1) {
+--> 131                 regmap_write(i2s->regmap, LS_I2S_CTRL, I2S_CTRL_RESET);
+                                     ^^^^^^^^^^^^
 
-    272                         cnt = iir_coef_tbl_list[k].cnt;
-    273                 }
-    274         }
-    275         *count = cnt;
-    276         return coef;
-    277 }
+    132                 udelay(200);
+    133         }
+    134 
+    135         ret = devm_snd_soc_register_component(dev, &loongson_i2s_component,
+    136                                               &loongson_i2s_dai, 1);
+    137         if (ret)
+    138                 dev_err_probe(dev, ret, "register DAI failed\n");
+
+Same.  Seems like a missing return statement.
+
+    139 
+    140         return 0;
+    141 }
 
 regards,
 dan carpenter
