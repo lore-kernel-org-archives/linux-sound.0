@@ -1,273 +1,242 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45EF118A6A0;
-	Wed, 11 Sep 2024 13:37:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C18519C564
+	for <linux-sound@vger.kernel.org>; Wed, 11 Sep 2024 13:57:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726061875; cv=none; b=QOtqkuRXL9CnWvu/7ES9PcEYKgVbE6zb8/PvkHeaNUITf6zIZETZ9loXF+kcn38S/kqgKEo3aXsNQVBWQlC7EmzYtZeJlxwyAW65Kxc83XLaStKWd5g+UHnQju7jw6+vSpgG7musxeNb4TTmKZyM+YwAzBmJsNfhUGP+G8rHL/s=
+	t=1726063036; cv=none; b=qSKknX3cHnyKNawLbD0HnlVKlxMTOYFz3y9QCLYDkix/f5po0srs3d1MeKfoJFMjz0iPB5xfu0mc8uiKiw4i5trkUtvHOqpyyzaWf8flkm/6K8oeUYVs8NWzAbowg965aCi6ZcroxJn1dIX9fZxLBRRaXbBCXzSeEifu5C6ya24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726061875; c=relaxed/simple;
-	bh=n0tCEDIuCPhqkDcXyASMzHWwi/d9TjY2ubeWwWuPQu8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=padm8ZERuht7YEwoDnlyaaP9wLiDpqkqkjjAna5xtHy5OZnxslXTZm9YjygbOc1EQKcBfplFUBh1TTwpwcwhYscOqXheCxoQmipqFSp/u+7zWgJ62+eHwMzp5Gu6+dlMnOaADACpqoWP3WgTP3eYlZzU7xHIK/YUTfTVj7nbqxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fWKM58tt; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1726063036; c=relaxed/simple;
+	bh=TAzcWqscQQ3M4CoOj2TL22FL/x7dv7MSZqST0rvLTR0=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=d5FaqJnSnVno7iA2N0e+P7AEFpCDPET0W9Ef/fy3aashvJt8fJnSLRoTFEyCAvCaCZQgE385siuQHk+ZyyakdjWSqotYj0PzALNHcnfMz9YRie/yudJF0YhfoOPIoNP7dXb/EwzxaGOdw5hAuLM2l3Zc6jmTdoKpfwAYRLpfM0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QQePGKfr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yFx4Btu3; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QQePGKfr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yFx4Btu3; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fWKM58tt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726061873; x=1757597873;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=n0tCEDIuCPhqkDcXyASMzHWwi/d9TjY2ubeWwWuPQu8=;
-  b=fWKM58ttyc9W1gwSNYuWJ8BoOkYq9f0YpRS0EghwZzGgesffyrCTgSyS
-   WLUeFRFFRh0e2WPl614mQx11U0H0+Vk8fln7eEBATwSgBs29zqpZJzpOb
-   fPPJLx9lZsA9+vlC8XgvsDL5/MDSWb2lqU2/oWCRQxDylukdqTxDyIZ6C
-   5o5Etz0POOVWOVbT0q1/4jnwLbH7ITk+cUOVbGyKkCVjJEwAcGGKjhk0a
-   CgxWBzK+wiiuAUdon9nc+KQYryEvLPLQrYA7Z8NnRuL1nrMT5LC1Tu+wt
-   fTSLENL4ZzGOVt4wBd8djRqjdjO7LyqJYslx+BZSkt5XzM7rB64CxshyC
-   w==;
-X-CSE-ConnectionGUID: WoKxRJbrRmOqZCnriIiyWQ==
-X-CSE-MsgGUID: W9DfL7adTPqI3GWRc4nmXA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11192"; a="24685985"
-X-IronPort-AV: E=Sophos;i="6.10,220,1719903600"; 
-   d="scan'208";a="24685985"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 06:37:52 -0700
-X-CSE-ConnectionGUID: I9MRL0L6RR+z1fXzcZbsVA==
-X-CSE-MsgGUID: iYRL+yrkRQS0KVVxZcIa0g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,220,1719903600"; 
-   d="scan'208";a="67385964"
-Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.53]) ([10.94.0.53])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 06:37:47 -0700
-Message-ID: <ae8c1547-9aa7-4a11-9a40-6516ed9c7702@linux.intel.com>
-Date: Wed, 11 Sep 2024 15:37:44 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QQePGKfr";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yFx4Btu3";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QQePGKfr";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yFx4Btu3"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3AFE71F8B2;
+	Wed, 11 Sep 2024 13:57:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1726063032; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=mlq7PEudxhNp9cRaNywtTlErCYynxE8OucBl5+jADxE=;
+	b=QQePGKfrlrrH+HXqrDOVo4oAe7k6flWiz+QwfpeYiVcOzl46QSPrYgvdVFYhGOkXCSMNhj
+	E62hZNxSYH+rEf6F7Id0rrs0NeZWFCSk+GRU+iDfMcuY4y3Nim1L7nG5N9DF8KFAostUY6
+	H6PNVMuxNRdn9G+hcyam44U+2eKzkXw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1726063032;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=mlq7PEudxhNp9cRaNywtTlErCYynxE8OucBl5+jADxE=;
+	b=yFx4Btu3uPSZZEAPe92UxwB0hv3PIkKO8Orznk0qcFtSfXxLEHaLvS3kS3S3NL2zOraUPy
+	2s/3gVSzsOsXcXDg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=QQePGKfr;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=yFx4Btu3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1726063032; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=mlq7PEudxhNp9cRaNywtTlErCYynxE8OucBl5+jADxE=;
+	b=QQePGKfrlrrH+HXqrDOVo4oAe7k6flWiz+QwfpeYiVcOzl46QSPrYgvdVFYhGOkXCSMNhj
+	E62hZNxSYH+rEf6F7Id0rrs0NeZWFCSk+GRU+iDfMcuY4y3Nim1L7nG5N9DF8KFAostUY6
+	H6PNVMuxNRdn9G+hcyam44U+2eKzkXw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1726063032;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=mlq7PEudxhNp9cRaNywtTlErCYynxE8OucBl5+jADxE=;
+	b=yFx4Btu3uPSZZEAPe92UxwB0hv3PIkKO8Orznk0qcFtSfXxLEHaLvS3kS3S3NL2zOraUPy
+	2s/3gVSzsOsXcXDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 12EA713A7C;
+	Wed, 11 Sep 2024 13:57:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id jmZeA7ih4WZtTgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 11 Sep 2024 13:57:12 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: pcm: Fix breakage of PCM rates used for topology
+Date: Wed, 11 Sep 2024 15:57:52 +0200
+Message-ID: <20240911135756.24434-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/13] ALSA: pcm: add more sample rate definitions
-Content-Language: en-US
-To: Takashi Iwai <tiwai@suse.de>, Jaroslav Kysela <perex@perex.cz>
-Cc: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Jerome Brunet <jbrunet@baylibre.com>, Takashi Iwai <tiwai@suse.com>,
- David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Cezary Rojewski <cezary.rojewski@intel.com>,
- Liam Girdwood <liam.r.girdwood@linux.intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
- alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-References: <20240905-alsa-12-24-128-v1-0-8371948d3921@baylibre.com>
- <20240905-alsa-12-24-128-v1-1-8371948d3921@baylibre.com>
- <1ab3efaa-863c-4dd0-8f81-b50fd9775fad@linux.intel.com>
- <87ed5q4kbe.wl-tiwai@suse.de>
- <5c309853-c82c-475e-b8c2-fcdcfde20efc@linux.intel.com>
- <87y13y31kq.wl-tiwai@suse.de> <4f58ebe8-78fe-41f3-9fc6-720d314c026e@perex.cz>
- <87ldzy2wgc.wl-tiwai@suse.de>
-From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <87ldzy2wgc.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 3AFE71F8B2
+X-Spam-Level: 
+X-Spamd-Result: default: False [-5.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -5.01
+X-Spam-Flag: NO
 
-On 9/11/2024 2:42 PM, Takashi Iwai wrote:
-> On Wed, 11 Sep 2024 12:58:53 +0200,
-> Jaroslav Kysela wrote:
->>
->> On 11. 09. 24 12:51, Takashi Iwai wrote:
->>> On Wed, 11 Sep 2024 12:33:01 +0200,
->>> Péter Ujfalusi wrote:
->>>>
->>>> On 11/09/2024 12:21, Takashi Iwai wrote:
->>>>>> Wondering if this is backwards compatible with the alsa-lib definitions,
->>>>>> specifically the topology parts which did unfortunately have a list of
->>>>>> rates that will map to a different index now:
->>>>>>
->>>>>>
->>>>>> typedef enum _snd_pcm_rates {
->>>>>> 	SND_PCM_RATE_UNKNOWN = -1,
->>>>>> 	SND_PCM_RATE_5512 = 0,
->>>>>> 	SND_PCM_RATE_8000,
->>>>>> 	SND_PCM_RATE_11025,
->>>>>> 	SND_PCM_RATE_16000,
->>>>>> 	SND_PCM_RATE_22050,
->>>>>> 	SND_PCM_RATE_32000,
->>>>>> 	SND_PCM_RATE_44100,
->>>>>> 	SND_PCM_RATE_48000,
->>>>>> 	SND_PCM_RATE_64000,
->>>>>> 	SND_PCM_RATE_88200,
->>>>>> 	SND_PCM_RATE_96000,
->>>>>> 	SND_PCM_RATE_176400,
->>>>>> 	SND_PCM_RATE_192000,
->>>>>> 	SND_PCM_RATE_CONTINUOUS = 30,
->>>>>> 	SND_PCM_RATE_KNOT = 31,
->>>>>> 	SND_PCM_RATE_LAST = SND_PCM_RATE_KNOT,
->>>>>> } snd_pcm_rates_t;
->>>>>
->>>>> As far as I understand correctly, those rate bits used for topology
->>>>> are independent from the bits used for PCM core, although it used to
->>>>> be the same.  Maybe better to rename (such as SND_TPLG_RATE_*) so that
->>>>> it's clearer only for topology stuff.
->>>>
->>>> Even if we rename these in alsa-lib we will need translation from
->>>> SND_TPLG_RATE_ to SND_PCM_RATE_ in kernel likely?
->>>>
->>>> The topology files are out there and this is an ABI...
->>>>
->>>>> But it'd be better if anyone can double-check.
->>>>
->>>> Since the kernel just copies the rates bitfield, any rate above 11025
->>>> will be misaligned and result broken setup.
->>>
->>> Yep, I noticed it now, too.
->>>
->>> Below is the fix patch, totally untested.
->>> It'd be appreciated if anyone can test it quickly.
->>>
->>>
->>> thanks,
->>>
->>> Takashi
->>>
->>> -- 8< --
->>> From: Takashi Iwai <tiwai@suse.de>
->>> Subject: [PATCH] ALSA: pcm: Fix breakage of PCM rates used for topology
->>>
->>> It turned out that the topology ABI takes the standard PCM rate bits
->>> as is, and it means that the recent change of the PCM rate bits would
->>> lead to the inconsistent rate values used for topology.
->>>
->>> This patch reverts the original PCM rate bit definitions while adding
->>> the new rates to the extended bits instead.  This needed the change of
->>> snd_pcm_known_rates, too.  And this also required to fix the handling
->>> in snd_pcm_hw_limit_rates() that blindly assumed that the list is
->>> sorted while it became unsorted now.
->>>
->>> Fixes: 090624b7dc83 ("ALSA: pcm: add more sample rate definitions")
->>> Signed-off-by: Takashi Iwai <tiwai@suse.de>
->>
->> This looks fine. But the topology rate bits should not depend on those
->> bits. It's a bit pitty that the standard PCM ABI does not use those
->> bits for user space and we are doing this change just for topology
->> ABI.
-> 
-> Yeah, and theoretically it's possible to fix in topology side, but
-> it'll be more cumbersome.
-> 
-> Although it's not really a part of PCM ABI, I believe we should move
-> the PCM rate bit definitions to uapi, for showing that it's set in
-> stone.  Something like below.
-> 
-> 
-> Takashi
-> 
-> -- 8< --
-> From: Takashi Iwai <tiwai@suse.de>
-> Subject: [PATCH] ALSA: pcm: Move standard rate bit definitions into uapi
-> 
-> Since the standard PCM rate bits are used for the topology ABI, it's a
-> part of public ABI that must not be changed.  Move the definitions
-> into uapi to indicate it more clearly.
-> 
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> ---
->   include/sound/pcm.h         | 26 --------------------------
->   include/uapi/sound/asound.h | 26 ++++++++++++++++++++++++++
->   2 files changed, 26 insertions(+), 26 deletions(-)
-> 
-> diff --git a/include/sound/pcm.h b/include/sound/pcm.h
-> index 824216799070..f28f6d6ac996 100644
-> --- a/include/sound/pcm.h
-> +++ b/include/sound/pcm.h
-> @@ -105,32 +105,6 @@ struct snd_pcm_ops {
->   
->   #define SNDRV_PCM_POS_XRUN		((snd_pcm_uframes_t)-1)
->   
-> -/* If you change this don't forget to change rates[] table in pcm_native.c */
-> -#define SNDRV_PCM_RATE_5512		(1U<<0)		/* 5512Hz */
-> -#define SNDRV_PCM_RATE_8000		(1U<<1)		/* 8000Hz */
-> -#define SNDRV_PCM_RATE_11025		(1U<<2)		/* 11025Hz */
-> -#define SNDRV_PCM_RATE_16000		(1U<<3)		/* 16000Hz */
-> -#define SNDRV_PCM_RATE_22050		(1U<<4)		/* 22050Hz */
-> -#define SNDRV_PCM_RATE_32000		(1U<<5)		/* 32000Hz */
-> -#define SNDRV_PCM_RATE_44100		(1U<<6)		/* 44100Hz */
-> -#define SNDRV_PCM_RATE_48000		(1U<<7)		/* 48000Hz */
-> -#define SNDRV_PCM_RATE_64000		(1U<<8)		/* 64000Hz */
-> -#define SNDRV_PCM_RATE_88200		(1U<<9)		/* 88200Hz */
-> -#define SNDRV_PCM_RATE_96000		(1U<<10)	/* 96000Hz */
-> -#define SNDRV_PCM_RATE_176400		(1U<<11)	/* 176400Hz */
-> -#define SNDRV_PCM_RATE_192000		(1U<<12)	/* 192000Hz */
-> -#define SNDRV_PCM_RATE_352800		(1U<<13)	/* 352800Hz */
-> -#define SNDRV_PCM_RATE_384000		(1U<<14)	/* 384000Hz */
-> -#define SNDRV_PCM_RATE_705600		(1U<<15)	/* 705600Hz */
-> -#define SNDRV_PCM_RATE_768000		(1U<<16)	/* 768000Hz */
-> -/* extended rates */
-> -#define SNDRV_PCM_RATE_12000		(1U<<17)	/* 12000Hz */
-> -#define SNDRV_PCM_RATE_24000		(1U<<18)	/* 24000Hz */
-> -#define SNDRV_PCM_RATE_128000		(1U<<19)	/* 128000Hz */
-> -
-> -#define SNDRV_PCM_RATE_CONTINUOUS	(1U<<30)	/* continuous range */
-> -#define SNDRV_PCM_RATE_KNOT		(1U<<31)	/* supports more non-continuous rates */
-> -
->   #define SNDRV_PCM_RATE_8000_44100	(SNDRV_PCM_RATE_8000|SNDRV_PCM_RATE_11025|\
->   					 SNDRV_PCM_RATE_16000|SNDRV_PCM_RATE_22050|\
->   					 SNDRV_PCM_RATE_32000|SNDRV_PCM_RATE_44100)
-> diff --git a/include/uapi/sound/asound.h b/include/uapi/sound/asound.h
-> index 4cd513215bcd..715ceb3eac7c 100644
-> --- a/include/uapi/sound/asound.h
-> +++ b/include/uapi/sound/asound.h
-> @@ -272,6 +272,32 @@ typedef int __bitwise snd_pcm_subformat_t;
->   #define	SNDRV_PCM_SUBFORMAT_MSBITS_24	((__force snd_pcm_subformat_t) 3)
->   #define	SNDRV_PCM_SUBFORMAT_LAST	SNDRV_PCM_SUBFORMAT_MSBITS_24
->   
-> +/* Standard rate bits */
-> +#define SNDRV_PCM_RATE_5512		(1U<<0)		/* 5512Hz */
-> +#define SNDRV_PCM_RATE_8000		(1U<<1)		/* 8000Hz */
-> +#define SNDRV_PCM_RATE_11025		(1U<<2)		/* 11025Hz */
-> +#define SNDRV_PCM_RATE_16000		(1U<<3)		/* 16000Hz */
-> +#define SNDRV_PCM_RATE_22050		(1U<<4)		/* 22050Hz */
-> +#define SNDRV_PCM_RATE_32000		(1U<<5)		/* 32000Hz */
-> +#define SNDRV_PCM_RATE_44100		(1U<<6)		/* 44100Hz */
-> +#define SNDRV_PCM_RATE_48000		(1U<<7)		/* 48000Hz */
-> +#define SNDRV_PCM_RATE_64000		(1U<<8)		/* 64000Hz */
-> +#define SNDRV_PCM_RATE_88200		(1U<<9)		/* 88200Hz */
-> +#define SNDRV_PCM_RATE_96000		(1U<<10)	/* 96000Hz */
-> +#define SNDRV_PCM_RATE_176400		(1U<<11)	/* 176400Hz */
-> +#define SNDRV_PCM_RATE_192000		(1U<<12)	/* 192000Hz */
-> +#define SNDRV_PCM_RATE_352800		(1U<<13)	/* 352800Hz */
-> +#define SNDRV_PCM_RATE_384000		(1U<<14)	/* 384000Hz */
-> +#define SNDRV_PCM_RATE_705600		(1U<<15)	/* 705600Hz */
-> +#define SNDRV_PCM_RATE_768000		(1U<<16)	/* 768000Hz */
-> +/* extended rates */
-> +#define SNDRV_PCM_RATE_12000		(1U<<17)	/* 12000Hz */
-> +#define SNDRV_PCM_RATE_24000		(1U<<18)	/* 24000Hz */
-> +#define SNDRV_PCM_RATE_128000		(1U<<19)	/* 128000Hz */
-> +
-> +#define SNDRV_PCM_RATE_CONTINUOUS	(1U<<30)	/* continuous range */
-> +#define SNDRV_PCM_RATE_KNOT		(1U<<31)	/* supports more non-continuous rates */
-> +
->   #define SNDRV_PCM_INFO_MMAP		0x00000001	/* hardware supports mmap */
->   #define SNDRV_PCM_INFO_MMAP_VALID	0x00000002	/* period data are valid during transfer */
->   #define SNDRV_PCM_INFO_DOUBLE		0x00000004	/* Double buffering needed for PCM start/stop */
+It turned out that the topology ABI takes the standard PCM rate bits
+as is, and it means that the recent change of the PCM rate bits would
+lead to the inconsistent rate values used for topology.
 
-I will just note that alternatively we could bump topology ABI (wouldn't 
-be first time) and provide mapping in soc-topology.c for current one.
+This patch reverts the original PCM rate bit definitions while adding
+the new rates to the extended bits instead.  This needed the change of
+snd_pcm_known_rates, too.  And this also required to fix the handling
+in snd_pcm_hw_limit_rates() that blindly assumed that the list is
+sorted while it became unsorted now.
 
-For ABI+1 we could remove the field from problematic topology struct to 
-not make SNDRV_PCM_RATE_* part of UAPI and provide some other way to 
-pass expected rates.
+Fixes: 090624b7dc83 ("ALSA: pcm: add more sample rate definitions")
+Reported-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Closes: https://lore.kernel.org/1ab3efaa-863c-4dd0-8f81-b50fd9775fad@linux.intel.com
+Reviewed-by: Jaroslav Kysela <perex@perex.cz>
+Tested-by: Jerome Brunet <jbrunet@baylibre.com>
+Tested-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ include/sound/pcm.h     | 35 ++++++++++++++++++-----------------
+ sound/core/pcm_misc.c   | 18 ++++++++++--------
+ sound/core/pcm_native.c | 10 +++++++---
+ 3 files changed, 35 insertions(+), 28 deletions(-)
+
+diff --git a/include/sound/pcm.h b/include/sound/pcm.h
+index c993350975a9..0bf7d25434d7 100644
+--- a/include/sound/pcm.h
++++ b/include/sound/pcm.h
+@@ -109,23 +109,24 @@ struct snd_pcm_ops {
+ #define SNDRV_PCM_RATE_5512		(1U<<0)		/* 5512Hz */
+ #define SNDRV_PCM_RATE_8000		(1U<<1)		/* 8000Hz */
+ #define SNDRV_PCM_RATE_11025		(1U<<2)		/* 11025Hz */
+-#define SNDRV_PCM_RATE_12000		(1U<<3)		/* 12000Hz */
+-#define SNDRV_PCM_RATE_16000		(1U<<4)		/* 16000Hz */
+-#define SNDRV_PCM_RATE_22050		(1U<<5)		/* 22050Hz */
+-#define SNDRV_PCM_RATE_24000		(1U<<6)		/* 24000Hz */
+-#define SNDRV_PCM_RATE_32000		(1U<<7)		/* 32000Hz */
+-#define SNDRV_PCM_RATE_44100		(1U<<8)		/* 44100Hz */
+-#define SNDRV_PCM_RATE_48000		(1U<<9)		/* 48000Hz */
+-#define SNDRV_PCM_RATE_64000		(1U<<10)	/* 64000Hz */
+-#define SNDRV_PCM_RATE_88200		(1U<<11)	/* 88200Hz */
+-#define SNDRV_PCM_RATE_96000		(1U<<12)	/* 96000Hz */
+-#define SNDRV_PCM_RATE_128000		(1U<<13)	/* 128000Hz */
+-#define SNDRV_PCM_RATE_176400		(1U<<14)	/* 176400Hz */
+-#define SNDRV_PCM_RATE_192000		(1U<<15)	/* 192000Hz */
+-#define SNDRV_PCM_RATE_352800		(1U<<16)	/* 352800Hz */
+-#define SNDRV_PCM_RATE_384000		(1U<<17)	/* 384000Hz */
+-#define SNDRV_PCM_RATE_705600		(1U<<18)	/* 705600Hz */
+-#define SNDRV_PCM_RATE_768000		(1U<<19)	/* 768000Hz */
++#define SNDRV_PCM_RATE_16000		(1U<<3)		/* 16000Hz */
++#define SNDRV_PCM_RATE_22050		(1U<<4)		/* 22050Hz */
++#define SNDRV_PCM_RATE_32000		(1U<<5)		/* 32000Hz */
++#define SNDRV_PCM_RATE_44100		(1U<<6)		/* 44100Hz */
++#define SNDRV_PCM_RATE_48000		(1U<<7)		/* 48000Hz */
++#define SNDRV_PCM_RATE_64000		(1U<<8)		/* 64000Hz */
++#define SNDRV_PCM_RATE_88200		(1U<<9)		/* 88200Hz */
++#define SNDRV_PCM_RATE_96000		(1U<<10)	/* 96000Hz */
++#define SNDRV_PCM_RATE_176400		(1U<<11)	/* 176400Hz */
++#define SNDRV_PCM_RATE_192000		(1U<<12)	/* 192000Hz */
++#define SNDRV_PCM_RATE_352800		(1U<<13)	/* 352800Hz */
++#define SNDRV_PCM_RATE_384000		(1U<<14)	/* 384000Hz */
++#define SNDRV_PCM_RATE_705600		(1U<<15)	/* 705600Hz */
++#define SNDRV_PCM_RATE_768000		(1U<<16)	/* 768000Hz */
++/* extended rates since 6.12 */
++#define SNDRV_PCM_RATE_12000		(1U<<17)	/* 12000Hz */
++#define SNDRV_PCM_RATE_24000		(1U<<18)	/* 24000Hz */
++#define SNDRV_PCM_RATE_128000		(1U<<19)	/* 128000Hz */
+ 
+ #define SNDRV_PCM_RATE_CONTINUOUS	(1U<<30)	/* continuous range */
+ #define SNDRV_PCM_RATE_KNOT		(1U<<31)	/* supports more non-continuous rates */
+diff --git a/sound/core/pcm_misc.c b/sound/core/pcm_misc.c
+index 5588b6a1ee8b..4f556211bb56 100644
+--- a/sound/core/pcm_misc.c
++++ b/sound/core/pcm_misc.c
+@@ -494,18 +494,20 @@ EXPORT_SYMBOL(snd_pcm_format_set_silence);
+ int snd_pcm_hw_limit_rates(struct snd_pcm_hardware *hw)
+ {
+ 	int i;
++	unsigned int rmin, rmax;
++
++	rmin = UINT_MAX;
++	rmax = 0;
+ 	for (i = 0; i < (int)snd_pcm_known_rates.count; i++) {
+ 		if (hw->rates & (1 << i)) {
+-			hw->rate_min = snd_pcm_known_rates.list[i];
+-			break;
+-		}
+-	}
+-	for (i = (int)snd_pcm_known_rates.count - 1; i >= 0; i--) {
+-		if (hw->rates & (1 << i)) {
+-			hw->rate_max = snd_pcm_known_rates.list[i];
+-			break;
++			rmin = min(rmin, snd_pcm_known_rates.list[i]);
++			rmax = max(rmax, snd_pcm_known_rates.list[i]);
+ 		}
+ 	}
++	if (rmin > rmax)
++		return -EINVAL;
++	hw->rate_min = rmin;
++	hw->rate_max = rmax;
+ 	return 0;
+ }
+ EXPORT_SYMBOL(snd_pcm_hw_limit_rates);
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+index 7461a727615c..5e1e6006707b 100644
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -2418,13 +2418,17 @@ static int snd_pcm_hw_rule_sample_bits(struct snd_pcm_hw_params *params,
+ 	return snd_interval_refine(hw_param_interval(params, rule->var), &t);
+ }
+ 
+-#if SNDRV_PCM_RATE_5512 != 1 << 0 || SNDRV_PCM_RATE_768000 != 1 << 19
++#if SNDRV_PCM_RATE_5512 != 1 << 0 || SNDRV_PCM_RATE_192000 != 1 << 12 ||\
++	SNDRV_PCM_RATE_128000 != 1 << 19
+ #error "Change this table"
+ #endif
+ 
++/* NOTE: the list is unsorted! */
+ static const unsigned int rates[] = {
+-	5512, 8000, 11025, 12000, 16000, 22050, 24000, 32000, 44100, 48000, 64000,
+-	88200, 96000, 128000, 176400, 192000, 352800, 384000, 705600, 768000,
++	5512, 8000, 11025, 16000, 22050, 32000, 44100,
++	48000, 64000, 88200, 96000, 176400, 192000, 352800, 384000, 705600, 768000,
++	/* extended */
++	12000, 24000, 128000
+ };
+ 
+ const struct snd_pcm_hw_constraint_list snd_pcm_known_rates = {
+-- 
+2.43.0
+
