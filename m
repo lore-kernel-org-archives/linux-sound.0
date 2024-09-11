@@ -1,45 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEA4A1A3047;
-	Wed, 11 Sep 2024 17:27:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A82B61A7AD2;
+	Wed, 11 Sep 2024 18:09:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726075670; cv=none; b=Il9MN1VvkVNUL09bZy/cOomVozL57FGrIdSDkbAufxTmcTmJeJabTu0boWtDByRJuM8B4qfshBv5gkuAnqMprCztZfUFpY26MK0ShdOSd1rwJs4avinK+MayrMqcCSo2UUgc77petl3qn0A7zR3NsglsfMJEXsMDxJLBEoYeKHw=
+	t=1726078199; cv=none; b=hb+5zprp3WTQMCAHNh3Qnh+czpOFB6kkoJYPCaS5hTbVoWHOIreaqefd7PQgitwKuND4OpG6VW7Vx8MBu9HinTOJxGBUaG6Uhj5nVpMTtmkKIvVZDEw5xM15WvX9eCykWvPP4JR6vX79//NzfJuko1yp+Y3aFkG8GgWy7UJj2Yk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726075670; c=relaxed/simple;
-	bh=O4UKe6XumuijGy0HK00KGL/iMsCdMCkQHmtMALUoTHQ=;
+	s=arc-20240116; t=1726078199; c=relaxed/simple;
+	bh=t70OeUTPl2Hdc8vLGhMSBtVwCkdkMR0JsnyjS2GNsAc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=XQf7mKJYzfsptCZK8giRcJF6pYW8SbJ51O43ErZUez3BiG1wiopOej9AW5g6F8OQ5f278PuKDb/iVM/OeWQ139NCl9kDVFKhTYbBXzLpX2x6atVPtfLgSjiaMPsInpe2CKSJK1pbDhlUsSbts3+dTlGQSnhobgYcbZY/zG0uC/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o3DiFh9u; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=bNgFmKr6PS+Ex4q0cfaYEangxskjp2hXQS7D/3885YldgZ/gYDODrmlqYH7n5aFZUEQ1S/SG8lcRPbOC9/N4+rMBsygxLFlNsojt/a5xJJKuOdp29GzHg3dXOREYcfuF8N8q4TUmyFmwKtOdT5RsVelvhdwUWmh7s5wUK/0XC1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q2qvIMzY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o3DiFh9u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00C8AC4CEC0;
-	Wed, 11 Sep 2024 17:27:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q2qvIMzY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AC9FC4CEC0;
+	Wed, 11 Sep 2024 18:09:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726075670;
-	bh=O4UKe6XumuijGy0HK00KGL/iMsCdMCkQHmtMALUoTHQ=;
+	s=k20201202; t=1726078199;
+	bh=t70OeUTPl2Hdc8vLGhMSBtVwCkdkMR0JsnyjS2GNsAc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=o3DiFh9urvSHpnRKQGRLzHjbD4JimIJi8AjKMdYtO+6Djt8sIVcw4pvCX/UsiGRxY
-	 dL8S89MNs1XwtqbMNxqjNs2FDS3fd4hDzQJJX8RV/x7BNgK98o8vFbT2zDtmciuWCp
-	 dZzn8+1R40vdwfzyzVjUuG2F6T4R+zduGfE4bdEXP8YCT/FAJGwSny/4836qWqn6xU
-	 uZBDCQXf5EbBkNnVxADqtnK0Vr7GlwAAioMNCgunl2E6BvUSBF56t+PHEj6DU9qJLp
-	 PO+9naUed9L8oA5ITltkU0QlWi055HnZLVxi6NLJz1/y1nEEtFpFeZP/fVAxDWAtF0
-	 5bneWz7hkHXFw==
+	b=q2qvIMzYmdwsOs/n5Y9KRsjyYolmc+I+asb8nY4g+jh9t4K8HMgVQ4c3t02X2UxwW
+	 Wx9E5Pb8uTCiXd+NUd/ucIsuB4h3UXgqys2jgIIQh+JHUnuiV7ZXtlU7LMhgXwOO/M
+	 5SQzYsOxfWM9rbz+DdmGx0JoiVgorZy3n1u4GbGpiJ8ruUTvhbd8FgACUyftHzh3TR
+	 3Dxo1PFFp95CBfspFYF6p0aaaMg8bAsmBivqueyPczALrh2rBhABPcdFnbYKQm0fQq
+	 AhYmaHgDzIsDglr/5IafcOx2w7bfIuJ/GpXz1qEKB5oezpA3CU/snUCJwLsm2Gl3ea
+	 sFLBOplnrJ42w==
 From: Mark Brown <broonie@kernel.org>
-To: claudiu.beznea@tuxon.dev, lgirdwood@gmail.com, robh@kernel.org, 
- krzk+dt@kernel.org, conor+dt@kernel.org, nicolas.ferre@microchip.com, 
- codrin.ciubotariu@microchip.com, 
- Andrei Simion <andrei.simion@microchip.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org
-In-Reply-To: <20240910082202.45972-1-andrei.simion@microchip.com>
-References: <20240910082202.45972-1-andrei.simion@microchip.com>
-Subject: Re: [PATCH] ASoC: dt-bindings: microchip,sama7g5-spdifrx: Add
- common DAI reference
-Message-Id: <172607566773.120511.17439915869917323050.b4-ty@kernel.org>
-Date: Wed, 11 Sep 2024 18:27:47 +0100
+To: Jerome Brunet <jbrunet@baylibre.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Arseniy Krasnov <avkrasnov@salutedevices.com>
+Cc: kernel@sberdevices.ru, oxffffaa@gmail.com, Stable@vger.kernel.org
+In-Reply-To: <20240911142425.598631-1-avkrasnov@salutedevices.com>
+References: <20240911142425.598631-1-avkrasnov@salutedevices.com>
+Subject: Re: [PATCH v1] ASoC: meson: axg-card: fix 'use-after-free'
+Message-Id: <172607819595.127216.9881900790170289531.b4-ty@kernel.org>
+Date: Wed, 11 Sep 2024 19:09:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,11 +51,18 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-99b12
 
-On Tue, 10 Sep 2024 11:22:03 +0300, Andrei Simion wrote:
-> Update the spdifrx yaml file to reference the dai-common.yaml schema,
-> enabling the use of the 'sound-name-prefix' property
+On Wed, 11 Sep 2024 17:24:25 +0300, Arseniy Krasnov wrote:
+> Buffer 'card->dai_link' is reallocated in 'meson_card_reallocate_links()',
+> so move 'pad' pointer initialization after this function when memory is
+> already reallocated.
 > 
+> Kasan bug report:
 > 
+> ==================================================================
+> BUG: KASAN: slab-use-after-free in axg_card_add_link+0x76c/0x9bc
+> Read of size 8 at addr ffff000000e8b260 by task modprobe/356
+> 
+> [...]
 
 Applied to
 
@@ -62,8 +70,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: dt-bindings: microchip,sama7g5-spdifrx: Add common DAI reference
-      commit: 448aa89af07b83be84a58155c60001743342fca0
+[1/1] ASoC: meson: axg-card: fix 'use-after-free'
+      commit: 4f9a71435953f941969a4f017e2357db62d85a86
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
