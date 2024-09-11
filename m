@@ -1,90 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E1C41AC441;
-	Tue, 10 Sep 2024 22:20:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9168C147;
+	Wed, 11 Sep 2024 00:24:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726006809; cv=none; b=WGr+SDJ7nEAuDMb5/1rxGhU1HWwqszL/XcTfg2wVlTRJxfbcCjlfRQ64K8VASt2UofKhaoTeiDOwu+Q7IDmHMaJp7TD4dKvnfTIHkd2Lla5Ze5gyJI6FVqdH99d8MbrEtxOn44UlKJpaDg+LT5ki8FXN3EUrSo4VMYPC6ENJTJY=
+	t=1726014275; cv=none; b=GC5sS2GwqIAb62kJWfTI8j3KAxPOPIj2bOaR3f+GSC/R/kByDEi1g5S7H8Rl9nMlgaNrFdt4Ocvy8XG0mMsWPPvIc800U9WS5Wvf4BwnGkmWg4KyiVHXUD0eDpxzeXRf/6NCMmdCRr6Yaui8yuJ0VBqG+f0GKXm6sGL8e08O8Tc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726006809; c=relaxed/simple;
-	bh=48YI4pbgmYlCiPT43kBVwkkPa58PT2DK2GN26WL06Zs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W5J6Fxxy6VkoR4QujUyqUBtynYNfaL/N5k3jFm5J3aS8/07jaA3LJo16JyJoFHAJgjGONwzV5OGJEkT1MV+VHPW2jneUy1/fBaCvqplPhmbiK8dADnl8QPvhb9orcCvlW+gFKIUjH+BV92+iMJS0+wLhD9SbGNlFK0+sfTC+/VU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bXvC/AMd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1726014275; c=relaxed/simple;
+	bh=auWz33wVk2T4+Fh0mK2SlMGrzt3l84Ywwdr3nZFaRCg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Uzl2T3a4SIUFtfSydC5Ib+CNLJwGwHHiAjNYLmFHFQPTsLhZTUAP/U423x6N5KreSG7IORF8kHgHDYZcx9rK+ZQNc7kB/jznCFtQmMzkHGcqBSHCMHve4N2dwySxmjrVm/61Bb1swGG+n3OyMUTDmq3SY87JgEJ3EWPBgWeCM6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=HJ2PN/Id; arc=none smtp.client-ip=117.135.210.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bXvC/AMd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA255C4CEC3;
-	Tue, 10 Sep 2024 22:20:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726006808;
-	bh=48YI4pbgmYlCiPT43kBVwkkPa58PT2DK2GN26WL06Zs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bXvC/AMdALgzeciEYcNb3c7MPlwl1Ldpk8m3EmiuiaLfyLLWLC4BnWS4SIe+MdZa6
-	 6mZMlroCrRgIPDG8EyJyzVb39LE+5OAes1gED325p1M9hGm7e8hNTrWk1oAxCuxmy9
-	 iEVZo/7+4ouPBj6jySGz6RzsogWcFaGmQrpjVQchYuIJoCEY5cSdDgGO/udItb1/3t
-	 MqPWOsC7+j7ZUEm8A9BmF0Es+nKRaVpzowcRgRqJMhsA0rYSK6BUJoTclK4mXQN8iV
-	 dPdtSGzTqhto6BkXQMoVkYE3eQs122rcEq6o1b5I1D5+KbbY3Ry5QIsFY3f/9nVqAJ
-	 /zH+eyi3rKtdA==
-Date: Tue, 10 Sep 2024 17:20:07 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
-Cc: Stephen Boyd <sboyd@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-	Li Zetao <lizetao1@huawei.com>, linux-clk@vger.kernel.org,
-	dmaengine@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-	Yangtao Li <frank.li@vivo.com>, alsa-devel@alsa-project.org,
-	Andi Shyti <andi.shyti@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Chancel Liu <chancel.liu@nxp.com>,
-	Russell King <linux@armlinux.org.uk>, linux-sound@vger.kernel.org,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Corentin Labbe <clabbe@baylibre.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	"J.M.B. Downing" <jonathan.downing@nautel.com>,
-	Takashi Iwai <tiwai@suse.com>, devicetree@vger.kernel.org,
-	linux-mtd@lists.infradead.org,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	Richard Weinberger <richard@nod.at>, Arnd Bergmann <arnd@arndb.de>,
-	Vinod Koul <vkoul@kernel.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: [Patch v5 02/12] dt-bindings: dma: Add lpc32xx DMA mux binding
-Message-ID: <172600677256.860315.3249804427139743181.robh@kernel.org>
-References: <20240627150046.258795-1-piotr.wojtaszczyk@timesys.com>
- <20240627150046.258795-3-piotr.wojtaszczyk@timesys.com>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="HJ2PN/Id"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=kwoHg
+	HGCKF3DSrT9N1RW+DeyibROwQHKLdIupTJJ14M=; b=HJ2PN/IdwIO8NPvwZ5lsQ
+	Y0Bfpb2Dk+rHKPaAt5CU+hKrLff+mb+0B4i8yS4ymC9egc5MQ80D85WNk0JdjKlE
+	+N0bQoZtRdQS4ogQWgJgL8LC1t9xEmNhvbcVFip/xo7Du8HNnKpl6WwtYmnOmbsx
+	Q9WMAA+Ohd8fwK6wTXzqA4=
+Received: from iZbp1asjb3cy8ks0srf007Z.. (unknown [120.26.85.94])
+	by gzga-smtp-mta-g3-3 (Coremail) with SMTP id _____wD3n4714uBmgx9WCw--.6962S2;
+	Wed, 11 Sep 2024 08:23:17 +0800 (CST)
+From: Qianqiang Liu <qianqiang.liu@163.com>
+To: amergnat@baylibre.com,
+	angelogioacchino.delregno@collabora.com,
+	broonie@kernel.org,
+	lgirdwood@gmail.com,
+	matthias.bgg@gmail.com
+Cc: linux-sound@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Qianqiang Liu <qianqiang.liu@163.com>
+Subject: [PATCH] ASoC: mt8365: Fix using uninitialized value "i2s_data" issue
+Date: Wed, 11 Sep 2024 08:15:17 +0800
+Message-Id: <20240911001516.47268-1-qianqiang.liu@163.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240627150046.258795-3-piotr.wojtaszczyk@timesys.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3n4714uBmgx9WCw--.6962S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Kw45AF1fAr47WrW8uFyDWrg_yoW8JF4xpF
+	s5K397Cr9xWr1jkr47CF1Uta9FkryfZFy7WFW7G347Xa45uw4Uu3WvyFZ0yFWvqr92kan8
+	KrW2gFy7uFs5AFUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRvPfLUUUUU=
+X-CM-SenderInfo: xtld01pldqwhxolxqiywtou0bp/1tbiLxlXamVOGP6WDAAAsc
 
-On Thu, 27 Jun 2024 17:00:20 +0200, Piotr Wojtaszczyk wrote:
-> LPC32XX SoCs use pl080 dma controller which have few request signals
-> multiplexed between peripherals. This binding describes how devices can
-> use the multiplexed request signals.
-> 
-> Signed-off-by: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
-> ---
-> Changes for v5:
-> - Corrected property order
-> - Added maxItems to properties
-> - Fixed example
-> - Removed "N:: from the MAINTAINERS entry
-> - Added Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com> to LPC32XX maintainers
-> 
-> Changes for v4:
-> - This patch is new in v4
-> 
->  .../bindings/dma/nxp,lpc3220-dmamux.yaml      | 49 +++++++++++++++++++
->  MAINTAINERS                                   |  9 ++++
->  2 files changed, 58 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/dma/nxp,lpc3220-dmamux.yaml
-> 
+The "i2s_data" might not be initialized before using it.
+Set it to NULL by default and also check if it is valid.
 
-Applied, thanks!
+Signed-off-by: Qianqiang Liu <qianqiang.liu@163.com>
+---
+ sound/soc/mediatek/mt8365/mt8365-dai-i2s.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/sound/soc/mediatek/mt8365/mt8365-dai-i2s.c b/sound/soc/mediatek/mt8365/mt8365-dai-i2s.c
+index 3482d8f8b4e7..3a8a5d975a04 100644
+--- a/sound/soc/mediatek/mt8365/mt8365-dai-i2s.c
++++ b/sound/soc/mediatek/mt8365/mt8365-dai-i2s.c
+@@ -465,7 +465,7 @@ void mt8365_afe_set_i2s_out_enable(struct mtk_base_afe *afe, bool enable)
+ 	int i;
+ 	unsigned long flags;
+ 	struct mt8365_afe_private *afe_priv = afe->platform_priv;
+-	struct mtk_afe_i2s_priv *i2s_data;
++	struct mtk_afe_i2s_priv *i2s_data = NULL;
+ 
+ 	for (i = 0; i < DAI_I2S_NUM; i++) {
+ 		if (mt8365_i2s_priv[i].adda_link)
+@@ -474,6 +474,11 @@ void mt8365_afe_set_i2s_out_enable(struct mtk_base_afe *afe, bool enable)
+ 
+ 	spin_lock_irqsave(&afe_priv->afe_ctrl_lock, flags);
+ 
++	if (!i2s_data) {
++		spin_unlock_irqrestore(&afe_priv->afe_ctrl_lock, flags);
++		return;
++	}
++
+ 	if (enable) {
+ 		i2s_data->i2s_out_on_ref_cnt++;
+ 		if (i2s_data->i2s_out_on_ref_cnt == 1)
+-- 
+2.39.2
+
