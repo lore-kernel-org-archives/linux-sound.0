@@ -1,99 +1,84 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2021153BC7;
-	Wed, 11 Sep 2024 11:13:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726053237; cv=pass; b=r7CmgoX4Ldvff0NOkoZtLTV/z0vEMYyGpny32oDdStN5j9QSBjZEpWMiYgV3SXTBzKJcWlgUpnmlEiT5oSituTGn0TjnlRPshtaZPbEgm8/fjSsiNaeBa91EF5arqdtIlB/KRGRfWIAve0gg1beq1qhcYvtrG2zK6UC8i+esbDc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726053237; c=relaxed/simple;
-	bh=vvzEceivxXAaeFVzoGBbeAyMq0q6mXIP5R+HYZaa088=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jn4x3gwAnIDo4bd+jjSZVCAzsVSHsktP1JBjHjlvp7F4JBVJnfxFnfLe3QcZN51jf56eduwcw+WhgOEx/Hjz6NkfYmVdUM7rEdMriNUBD0LSEe3ftxSdT4Rbi+2lZtI3SgQ2m+vJsT3ubIipFM4AK3ZR76MKrLJJm/DN+wNOd+g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b=TWjt3PZ5; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31380153BC7;
+	Wed, 11 Sep 2024 11:16:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726053364; cv=none; b=eouZvgFeqjOxdKon6fDlcpRWosI0uJv/jzdmfaXQDZnlMRkezXImTSM6HFsgzVtFNBMUQSG/VL8/2f+jr/+3nRo0s8TS840bMePxoy+NdSjN4+PcBDiu28S9F1MS1Z2fmpU0Az0I3dKwg9o5LuVE1X3SQ4/d5185WwGEzah93u0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726053364; c=relaxed/simple;
+	bh=eKrbjaomEDXQn1d+1L+LNn3HUG2MOI3OG6WLs28DAzQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=FYnGLqH+jtfcDsV0ejXhIzSQse8gXMJ/CzhmzMN15jthflwF1egc9RiBUENk9E9BjOCgpwPE4u6rojO2BnYtBZ/1ALn6lyVDg0LJ1479ueSBNPNoIZ+6cZgmK9la/FIVuB61d7ICBCqhguw6CbCIGQbqCCQ7jDBsP188dRO536k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bt9tN10W; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b="TWjt3PZ5"
-ARC-Seal: i=1; a=rsa-sha256; t=1726053217; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=RXB9/3oANY5nTUeolphJDyuqUgt03mS7Uq4DUnsoxe7U5olk6o4ZWLThGxe5T3XOSNkHMW/kHwThhpDWaiGte4uO8MNfvHujb243vVxytArDPmC+PvY8Gd5pjzy1+p0mm9V1bbGH8F+NR477QUZGtQVo2Jq6e+3J5TVmEfEYD5Y=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1726053217; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=rQ+frqDXoNXs+Oeh9kDBpS7St8Ho1h8ItxPVBeYZKW8=; 
-	b=Up4g3P5wLsNcwIDOFxLh3UQH+mRQsJHxVWhco2ldwDWIEcPeHKGf8HZTBXGX+B+AdxM4iNko1Nw8lrzr2e02/eMTNJLNaXk+fbtqi5Q7NZ4Xc0G7pOw6z+nWUjpWUn5bYmUuZB+C26R4dtIVKLieJMMfia1EgQyjyN83phc/Icc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=usama.anjum@collabora.com;
-	dmarc=pass header.from=<usama.anjum@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1726053217;
-	s=zohomail; d=collabora.com; i=usama.anjum@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Transfer-Encoding:Reply-To;
-	bh=rQ+frqDXoNXs+Oeh9kDBpS7St8Ho1h8ItxPVBeYZKW8=;
-	b=TWjt3PZ5wi/7j+PeO3vtvlayILucwkNp8pfzaw0X1+GATC6JLFBg/NBaok/SUhBT
-	Kj7tKL9ijdsrFm+NDG5EaBhEQ3DMIUEhJ2tNQSTTyGR6DXzuGNVrB17Vf3SrDViYu/Q
-	MVyKADz5TqgfIr1izxpAkKlEGk4SLZKsPdqjkBDs=
-Received: by mx.zohomail.com with SMTPS id 1726053216304757.7800165796341;
-	Wed, 11 Sep 2024 04:13:36 -0700 (PDT)
-From: Muhammad Usama Anjum <usama.anjum@collabora.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Alexandre Mergnat <amergnat@baylibre.com>,
-	Muhammad Usama Anjum <usama.anjum@collabora.com>
-Cc: kernel@collabora.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: [PATCH] ASoC: mediatek: mt8365: check validity before usage of i2s_data
-Date: Wed, 11 Sep 2024 16:13:07 +0500
-Message-Id: <20240911111317.4072349-1-usama.anjum@collabora.com>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bt9tN10W"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85D87C4CEC5;
+	Wed, 11 Sep 2024 11:16:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726053363;
+	bh=eKrbjaomEDXQn1d+1L+LNn3HUG2MOI3OG6WLs28DAzQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=bt9tN10WpAwempYNP/4YfUhRmUL3d2fUlMV+8kh4Y9rjgoD9i8zXijycuK9Uoy1IV
+	 TBYSMwAutvstlJ/rR6nflCdeBac/aAFoCqyddErCMHJdbSevQrSd2iUnMcSpYynC1i
+	 4Im8tpAw10qgx7GIfLHg99+j5FutpHffCr1Ucg7fA+FINfFPPl/AFPnPz5fDX1xGtd
+	 EVyxYhxTNi7fGjNtha30Nrg/6gcFtM2MqQDLwgvFobjgacO6wT3epyUEnxguh9+gS7
+	 czAlALC7D1x7c3HKeyn81u58ALWZWuq5qSro8V2pdI8h6/09AfS5EMcRITisn+5dmG
+	 /9WJBKUQFijOQ==
+From: Mark Brown <broonie@kernel.org>
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Andrew Kreimer <algonell@gmail.com>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, 
+ Matthew Wilcox <willy@infradead.org>
+In-Reply-To: <20240910211302.8909-1-algonell@gmail.com>
+References: <20240910211302.8909-1-algonell@gmail.com>
+Subject: Re: [PATCH] ASoC: tlv320aic31xx: Fix typos
+Message-Id: <172605336126.29902.15923004900083559208.b4-ty@kernel.org>
+Date: Wed, 11 Sep 2024 12:16:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-99b12
 
-There may be a case where i2s_data may not get initialized by the for
-loop which will cause the kernel crash. Initialize the i2s_data to NULL
-and abort execute if it isn't found.
+On Wed, 11 Sep 2024 00:12:41 +0300, Andrew Kreimer wrote:
+> Fix typos in comments.
+> 
+> 
 
-Fixes: 402bbb13a195 ("ASoC: mediatek: mt8365: Add I2S DAI support")
-Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
----
- sound/soc/mediatek/mt8365/mt8365-dai-i2s.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Applied to
 
-diff --git a/sound/soc/mediatek/mt8365/mt8365-dai-i2s.c b/sound/soc/mediatek/mt8365/mt8365-dai-i2s.c
-index 5003fe5e5ccfe..89ba891c2669b 100644
---- a/sound/soc/mediatek/mt8365/mt8365-dai-i2s.c
-+++ b/sound/soc/mediatek/mt8365/mt8365-dai-i2s.c
-@@ -465,13 +465,16 @@ void mt8365_afe_set_i2s_out_enable(struct mtk_base_afe *afe, bool enable)
- 	int i;
- 	unsigned long flags;
- 	struct mt8365_afe_private *afe_priv = afe->platform_priv;
--	struct mtk_afe_i2s_priv *i2s_data;
-+	struct mtk_afe_i2s_priv *i2s_data = NULL;
- 
- 	for (i = 0; i < DAI_I2S_NUM; i++) {
- 		if (mt8365_i2s_priv[i].adda_link)
- 			i2s_data = afe_priv->dai_priv[mt8365_i2s_priv[i].id];
- 	}
- 
-+	if (!i2s_data)
-+		return;
-+
- 	spin_lock_irqsave(&afe_priv->afe_ctrl_lock, flags);
- 
- 	if (enable) {
--- 
-2.39.2
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: tlv320aic31xx: Fix typos
+      commit: 69f3014248f0f10e24f07a66ae650061ecaf732b
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
