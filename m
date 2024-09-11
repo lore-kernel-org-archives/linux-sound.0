@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2D0B19C56B;
-	Wed, 11 Sep 2024 11:59:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69F3B19D8A4;
+	Wed, 11 Sep 2024 11:59:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726055958; cv=none; b=UxsXsbypi65kgg9NbI/+y3UMDjoAbifrpXUm4PVsHNEhBP6qWeyKtMLLHFkhbKJfLnolms6EGgG6qKOLT4+rJNH7jfdcIqt8T1EFJefcDBFKTvUQszGVNv73qzjXlo+vGy3pKTTkrwcFhiVXrfZC7NfUfZ5SeY7uMG8yEmDX8A0=
+	t=1726055961; cv=none; b=owVYSahndH1FsR6xaFcCSLeoCxSHks9pFXZ4b7SddyYMR8i25o6sTanbQUNKPNVxYXSeRBisY+aXLDUcXdCkFfNT8zBFp1YppZCjaXk+tJ8zNVIm8rsQbT0BanrcgUlNWOjsJrWqU6hE7ddCJpKzRd6iwTKgjuWeV2mxXn1+d2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726055958; c=relaxed/simple;
-	bh=7jbLbmtzHZhVY/UmQFDWYc+qSpox4qDdhDzbm1XAid8=;
+	s=arc-20240116; t=1726055961; c=relaxed/simple;
+	bh=EyzHfJ0GwyNdqWr9Tz+WnVWaVwBx3I8DtCHEK5IXV6E=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rPTGJO9+YGpvkoyr7s4uAEMfY8xMuBjrNN7t7LO4had1pECHI8k30onkIO1hFRK91fow6RgcL+HJMUNWHUpXcOA3uO+8g20ywor4C7JkhIXTA8ySeTXklrhZgQfmmxaPK2+/Cw6T+s0F5lwqcDY1Y0eZAFC0cKJGJHyXgA/8hq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GJMYOcUq; arc=none smtp.client-ip=198.175.65.11
+	 MIME-Version; b=TYqbUpf8jCT6I1SNHCHkjWS2qq9ljtcTYf2ukWda+TgLIFwNB+xDY7sezaSoqyTNpyNbVy/kj5xL4BqY7Wvc3Oy/gWsA44eflPtzMVFIDV/5moZHRtxr1mwpOGo6ingMGbrg2nwbO0wrg94pZi6FX6WC/h1UA5fJqhvUJZmVY08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FfhVPneO; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GJMYOcUq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FfhVPneO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726055957; x=1757591957;
+  t=1726055959; x=1757591959;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=7jbLbmtzHZhVY/UmQFDWYc+qSpox4qDdhDzbm1XAid8=;
-  b=GJMYOcUqr/mefbUcxuIQgG+fwL+5f9vKoL711/LVoIChmCl5jS1B2fvU
-   eVJi0/N+MPcZtGQukum8zp4uiQnpUe3ocdLDtD+9dMkXEzqDSQ1teCHTA
-   NsaSxgQiMCWKJwx8dJdKQvP/XUMql24yCLYk/Rmm9GdUBuYACFgY2WHEJ
-   gxLhGuCJ0wKfKLRmjSqFsPGin3V7tPvSUiwL+D397Ka7VpvPTCQOTCj+j
-   b1rT7efstb1AhS3UNvc5Wex0/V+ggu4tEGnNGHzp9jY7cx50kL54+cobB
-   ZMI0ehyXP+QkxzLvHngGQnAnehNT3VH0odvVjWgAPurde484Zg4Ujpk47
-   A==;
-X-CSE-ConnectionGUID: IeQRklTvQWmuqSihfWWPMA==
-X-CSE-MsgGUID: T93lINWBSO+iO4IkPIW2uQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="35417245"
+  bh=EyzHfJ0GwyNdqWr9Tz+WnVWaVwBx3I8DtCHEK5IXV6E=;
+  b=FfhVPneOrS1apsbcyHLdUSGBlSc45lZj5DzAdxo7lXgr1Ctsn+sSzG/5
+   0zppx2gnKBUjVr1jkit7fkNK1lsLli3a52g2qwOhc1+eFIvzGyj9jjJO9
+   E02LdPUaOCz4Mc9D7Gbf5ZBTY/1Lrh/35VtMSq81ccuB+xFgUi9uZR2wj
+   KdlUyMiTxXteyC/MdzJv4Ar92PD486UkIKfAMsmxgy/Iey6OYWl/RBnzp
+   uaqLNkAbYNz8Y90Aucn8Znwa05ktimGYU4kYysXLiXYbdArGZi/S1j7Y3
+   G9aY8tX11gZZlKKXCBY5u5izu82kvGS73C9KwxJoDdc3+SpRtyUl3rcUK
+   g==;
+X-CSE-ConnectionGUID: 2O+kew6xTW+91XROpY39XA==
+X-CSE-MsgGUID: tasqpbGUTqeioSUTGAlF4g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="35417251"
 X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; 
-   d="scan'208";a="35417245"
+   d="scan'208";a="35417251"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 04:59:17 -0700
-X-CSE-ConnectionGUID: 6LpHCJkTQ1WxutSwoJaQww==
-X-CSE-MsgGUID: y2Cw+9liR42ToYToKjMnDw==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 04:59:19 -0700
+X-CSE-ConnectionGUID: ysBVajEISZuZ0WBDS9fLOQ==
+X-CSE-MsgGUID: hCQ74qVFQ+KtHZJReqLk9Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; 
-   d="scan'208";a="67292748"
+   d="scan'208";a="67292759"
 Received: from bvivekan-mobl2.gar.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.118.254])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 04:59:14 -0700
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 04:59:17 -0700
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 To: linux-sound@vger.kernel.org,
 	vkoul@kernel.org
@@ -50,9 +50,9 @@ Cc: vinod.koul@linaro.org,
 	linux-kernel@vger.kernel.org,
 	pierre-louis.bossart@linux.intel.com,
 	bard.liao@intel.com
-Subject: [PATCH v2 06/14] soundwire: optimize sdw_dp0_prop
-Date: Wed, 11 Sep 2024 19:58:19 +0800
-Message-ID: <20240911115827.233171-7-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH v2 07/14] soundwire: optimize sdw_dpn_prop
+Date: Wed, 11 Sep 2024 19:58:20 +0800
+Message-ID: <20240911115827.233171-8-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240911115827.233171-1-yung-chuan.liao@linux.intel.com>
 References: <20240911115827.233171-1-yung-chuan.liao@linux.intel.com>
@@ -66,98 +66,153 @@ Content-Transfer-Encoding: 8bit
 
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 
-Move pointers and booleans.
+before:
+struct sdw_dpn_prop {
+	u32                        num;                  /*     0     4 */
+	u32                        max_word;             /*     4     4 */
+	u32                        min_word;             /*     8     4 */
+	u32                        num_words;            /*    12     4 */
+	u32 *                      words;                /*    16     8 */
+	enum sdw_dpn_type          type;                 /*    24     4 */
+	u32                        max_grouping;         /*    28     4 */
+	bool                       simple_ch_prep_sm;    /*    32     1 */
 
-Before:
+	/* XXX 3 bytes hole, try to pack */
 
-struct sdw_dp0_prop {
-	u32                        max_word;             /*     0     4 */
-	u32                        min_word;             /*     4     4 */
-	u32                        num_words;            /*     8     4 */
+	u32                        ch_prep_timeout;      /*    36     4 */
+	u32                        imp_def_interrupts;   /*    40     4 */
+	u32                        max_ch;               /*    44     4 */
+	u32                        min_ch;               /*    48     4 */
+	u32                        num_channels;         /*    52     4 */
+	u32 *                      channels;             /*    56     8 */
+	/* --- cacheline 1 boundary (64 bytes) --- */
+	u32                        num_ch_combinations;  /*    64     4 */
 
 	/* XXX 4 bytes hole, try to pack */
 
-	u32 *                      words;                /*    16     8 */
-	bool                       BRA_flow_controlled;  /*    24     1 */
-	bool                       simple_ch_prep_sm;    /*    25     1 */
+	u32 *                      ch_combinations;      /*    72     8 */
+	u32                        modes;                /*    80     4 */
+	u32                        max_async_buffer;     /*    84     4 */
+	bool                       block_pack_mode;      /*    88     1 */
+	bool                       read_only_wordlength; /*    89     1 */
 
 	/* XXX 2 bytes hole, try to pack */
 
-	u32                        ch_prep_timeout;      /*    28     4 */
-	bool                       imp_def_interrupts;   /*    32     1 */
+	u32                        port_encoding;        /*    92     4 */
+	struct sdw_dpn_audio_mode * audio_modes;         /*    96     8 */
 
-	/* size: 40, cachelines: 1, members: 8 */
-	/* sum members: 27, holes: 2, sum holes: 6 */
-	/* padding: 7 */
+	/* size: 104, cachelines: 2, members: 22 */
+	/* sum members: 95, holes: 3, sum holes: 9 */
 	/* last cacheline: 40 bytes */
 };
 
 after:
 
-struct sdw_dp0_prop {
-	u32 *                      words;                /*     0     8 */
-	u32                        max_word;             /*     8     4 */
-	u32                        min_word;             /*    12     4 */
-	u32                        num_words;            /*    16     4 */
-	u32                        ch_prep_timeout;      /*    20     4 */
-	bool                       BRA_flow_controlled;  /*    24     1 */
-	bool                       simple_ch_prep_sm;    /*    25     1 */
-	bool                       imp_def_interrupts;   /*    26     1 */
+struct sdw_dpn_prop {
+	struct sdw_dpn_audio_mode * audio_modes;         /*     0     8 */
+	u32                        num;                  /*     8     4 */
+	u32                        max_word;             /*    12     4 */
+	u32                        min_word;             /*    16     4 */
+	u32                        num_words;            /*    20     4 */
+	u32 *                      words;                /*    24     8 */
+	enum sdw_dpn_type          type;                 /*    32     4 */
+	u32                        max_grouping;         /*    36     4 */
+	u32                        ch_prep_timeout;      /*    40     4 */
+	u32                        imp_def_interrupts;   /*    44     4 */
+	u32                        max_ch;               /*    48     4 */
+	u32                        min_ch;               /*    52     4 */
+	u32                        num_channels;         /*    56     4 */
+	u32                        num_ch_combinations;  /*    60     4 */
+	/* --- cacheline 1 boundary (64 bytes) --- */
+	u32 *                      channels;             /*    64     8 */
+	u32 *                      ch_combinations;      /*    72     8 */
+	u32                        modes;                /*    80     4 */
+	u32                        max_async_buffer;     /*    84     4 */
+	u32                        port_encoding;        /*    88     4 */
+	bool                       block_pack_mode;      /*    92     1 */
+	bool                       read_only_wordlength; /*    93     1 */
+	bool                       simple_ch_prep_sm;    /*    94     1 */
 
-	/* size: 32, cachelines: 1, members: 8 */
-	/* padding: 5 */
+	/* size: 96, cachelines: 2, members: 22 */
+	/* padding: 1 */
 	/* last cacheline: 32 bytes */
 };
 
 Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 ---
- include/linux/soundwire/sdw.h | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ include/linux/soundwire/sdw.h | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/include/linux/soundwire/sdw.h b/include/linux/soundwire/sdw.h
-index 38db81f5bdb9..c72095137a35 100644
+index c72095137a35..cc0afb8af333 100644
 --- a/include/linux/soundwire/sdw.h
 +++ b/include/linux/soundwire/sdw.h
-@@ -226,16 +226,16 @@ enum sdw_clk_stop_mode {
+@@ -288,6 +288,7 @@ struct sdw_dpn_audio_mode {
  
  /**
-  * struct sdw_dp0_prop - DP0 properties
-- * @max_word: Maximum number of bits in a Payload Channel Sample, 1 to 64
-- * (inclusive)
-- * @min_word: Minimum number of bits in a Payload Channel Sample, 1 to 64
-- * (inclusive)
-- * @num_words: number of wordlengths supported
-  * @words: wordlengths supported
-+ * @max_word: Maximum number of bits in a Payload Channel Sample, 1 to 64
-+ * (inclusive)
-+ * @min_word: Minimum number of bits in a Payload Channel Sample, 1 to 64
-+ * (inclusive)
-+ * @num_words: number of wordlengths supported
-+ * @ch_prep_timeout: Port-specific timeout value, in milliseconds
-  * @BRA_flow_controlled: Slave implementation results in an OK_NotReady
-  * response
-  * @simple_ch_prep_sm: If channel prepare sequence is required
-- * @ch_prep_timeout: Port-specific timeout value, in milliseconds
+  * struct sdw_dpn_prop - Data Port DPn properties
++ * @audio_modes: Audio modes supported
+  * @num: port number
+  * @max_word: Maximum number of bits in a Payload Channel Sample, 1 to 64
+  * (inclusive)
+@@ -298,26 +299,26 @@ struct sdw_dpn_audio_mode {
+  * @type: Data port type. Full, Simplified or Reduced
+  * @max_grouping: Maximum number of samples that can be grouped together for
+  * a full data port
+- * @simple_ch_prep_sm: If the port supports simplified channel prepare state
+- * machine
+  * @ch_prep_timeout: Port-specific timeout value, in milliseconds
   * @imp_def_interrupts: If set, each bit corresponds to support for
   * implementation-defined interrupts
-  *
-@@ -244,13 +244,13 @@ enum sdw_clk_stop_mode {
-  * support
+  * @max_ch: Maximum channels supported
+  * @min_ch: Minimum channels supported
+  * @num_channels: Number of discrete channels supported
+- * @channels: Discrete channels supported
+  * @num_ch_combinations: Number of channel combinations supported
++ * @channels: Discrete channels supported
+  * @ch_combinations: Channel combinations supported
+  * @modes: SDW mode supported
+  * @max_async_buffer: Number of samples that this port can buffer in
+  * asynchronous modes
++ * @port_encoding: Payload Channel Sample encoding schemes supported
+  * @block_pack_mode: Type of block port mode supported
+  * @read_only_wordlength: Read Only wordlength field in DPN_BlockCtrl1 register
+- * @port_encoding: Payload Channel Sample encoding schemes supported
+- * @audio_modes: Audio modes supported
++ * @simple_ch_prep_sm: If the port supports simplified channel prepare state
++ * machine
   */
- struct sdw_dp0_prop {
-+	u32 *words;
+ struct sdw_dpn_prop {
++	struct sdw_dpn_audio_mode *audio_modes;
+ 	u32 num;
  	u32 max_word;
  	u32 min_word;
- 	u32 num_words;
--	u32 *words;
-+	u32 ch_prep_timeout;
- 	bool BRA_flow_controlled;
- 	bool simple_ch_prep_sm;
--	u32 ch_prep_timeout;
- 	bool imp_def_interrupts;
+@@ -325,21 +326,20 @@ struct sdw_dpn_prop {
+ 	u32 *words;
+ 	enum sdw_dpn_type type;
+ 	u32 max_grouping;
+-	bool simple_ch_prep_sm;
+ 	u32 ch_prep_timeout;
+ 	u32 imp_def_interrupts;
+ 	u32 max_ch;
+ 	u32 min_ch;
+ 	u32 num_channels;
+-	u32 *channels;
+ 	u32 num_ch_combinations;
++	u32 *channels;
+ 	u32 *ch_combinations;
+ 	u32 modes;
+ 	u32 max_async_buffer;
++	u32 port_encoding;
+ 	bool block_pack_mode;
+ 	bool read_only_wordlength;
+-	u32 port_encoding;
+-	struct sdw_dpn_audio_mode *audio_modes;
++	bool simple_ch_prep_sm;
  };
  
+ /**
 -- 
 2.43.0
 
