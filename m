@@ -1,94 +1,75 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from a7-31.smtp-out.eu-west-1.amazonses.com (a7-31.smtp-out.eu-west-1.amazonses.com [54.240.7.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D97C14F100;
-	Wed, 11 Sep 2024 11:19:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726053600; cv=pass; b=XM35IIEhcuXk5ywm2rPFAWrtlT9bJMTaUKPbriO9GJTqgCPj8GNHROlTkBURBQRVhZ64n7nk/l2s69xggZu24KhE2pBH0jXDK/J1ooSenPhBi4/Ivr6t1WaMteSGPNsd4rWviqn8iLqARuMCLq9klWESn97geehyNLoNBapohg4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726053600; c=relaxed/simple;
-	bh=IU+R0CDTCyZqNwl1hdQaiSBG4BL59OeQElu9XV83p/M=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YKV4W2lIwSieIppEl4UdZCK2nFCbchFwtzLZ5rQM/C+ZxQXLiR8/ykdPNPKt6MM5Uk0AYPx476ZWZ8Q82KCq5Y928L+umSQsh1arFITggXZf5rgVKieMHuppE9CB/SJrecegDm28oCfm+/H+zZ4vAOP+xGtMa6qkbH8fxPncvUY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b=BV1MDXxP; arc=pass smtp.client-ip=136.143.188.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD8B154BE4;
+	Wed, 11 Sep 2024 11:28:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.7.31
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726054084; cv=none; b=Z2eL42KhhTR6xd1adlSIeXqgA2h4KTe9Gym2S4OwLFXZ3MuFs8yqMptPl04I38K5dqMi1r1iFkMizAHrTqGOpbCD+HQEe2L8ub1QaLNBcxrfdk8mBpVbcqIonzp1p+5NcbapWK1lOgpRV+gpW9kA5K/iERDzoXAg7ylEyxUWdgM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726054084; c=relaxed/simple;
+	bh=PJUg0yAblESI6yzCqdB6thUEmYVWoz0i/ywFnkD3qEU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qH2GoNXbAgaTOcEoRzfb5jIPKLy6O2U0Lc5OotNE8rjXWe0IPT2dYH9jbOyc7QqwInxfJObX/+LRvb0QZ+5Vm3+QFJJ1cfEmuMPz6RkcmgeUYbWyZxrUhmiunc8noaVwfpdhrXv1j3jplwOPctUvCdKrt70OpPI2mutf4kEiSxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=amazonses.collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=O/5MQImS; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=YBUKxoYh; arc=none smtp.client-ip=54.240.7.31
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazonses.collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b="BV1MDXxP"
-ARC-Seal: i=1; a=rsa-sha256; t=1726053582; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=gtHCduAs0xH/UsmlvJTZxWSwcDh7rvNe8NLgCwDIT0HGhB4ElFNDTM1KXskMXPiSsI/pIOMcw8zuh4zTQNO17QbvugHwIZBXrg5YQO1ZEH2jszG/4GheGr6ULF2Ozq79eD95YBO4VxoxBDXuqnRrQ7aXEwUNAEw86GooK6VIhDk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1726053582; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=4MMnUNTpU/jZwAUKT3bq/cNuDEDn9rEShm45TOlyucU=; 
-	b=YuS3YpBAuK1iBJck3lxKKLPXS0CFUMRN2pNGxnRdImR0ShEMe8fXqOglUBysF0CRHGnRblqAHtvGuWwMnRRxCyYFHZZnPhLXQYhIK6AXaiftRusxlPPhz7LR8etHwh8GpYaa9/JGbnfWy5G6XJooIXhAtdOp1ieNj6rVY1YG0/0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=usama.anjum@collabora.com;
-	dmarc=pass header.from=<usama.anjum@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1726053582;
-	s=zohomail; d=collabora.com; i=usama.anjum@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Transfer-Encoding:Reply-To;
-	bh=4MMnUNTpU/jZwAUKT3bq/cNuDEDn9rEShm45TOlyucU=;
-	b=BV1MDXxPk0aQrE6zjowsc+fpQiJVfBR4Mc0mEc+d0mXyfCaoaUD22CuD1W2BTGN3
-	bNj7r6OWWjTpo3Ox9Yi0GcdQni/NqJ8hDKxYaXeDKhjtGLUfGlDTpiPncGlV6EuttoQ
-	H42PWjKb37oBNV48M4fsmvYPWz4yviPc4DkGetko=
-Received: by mx.zohomail.com with SMTPS id 1726053580250115.83142773790291;
-	Wed, 11 Sep 2024 04:19:40 -0700 (PDT)
-From: Muhammad Usama Anjum <usama.anjum@collabora.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Alexandre Mergnat <amergnat@baylibre.com>,
-	Muhammad Usama Anjum <usama.anjum@collabora.com>,
-	Nicolas Belin <nbelin@baylibre.com>
-Cc: kernel@collabora.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: [PATCH] ASoc: mediatek: mt8365: Print the ret value
-Date: Wed, 11 Sep 2024 16:19:09 +0500
-Message-Id: <20240911111917.4091809-1-usama.anjum@collabora.com>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="O/5MQImS";
+	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="YBUKxoYh"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=4232tfv5ebdrjdwkr5zzm7kytdkokgug; d=collabora.com; t=1726054081;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=PJUg0yAblESI6yzCqdB6thUEmYVWoz0i/ywFnkD3qEU=;
+	b=O/5MQImSbnQm5ykvI0kZX28YhgmTUuBRK3h+0fslxOtdaCOtmRFD3RmyIMMUav8E
+	DUIXz+Dtv5RgCHuxb9+pL0w5bqUFBTU5x7xXUemWsdNv6h1ca+o3d37cALlkR9lDdgZ
+	sLkO/CgcPgVxW4JhO/ssw1WpUaNKye3Pud/gTDgybw6ReI5tgdApgPdzZtnEg7/HO+H
+	Aa+tE6MraB69T9YBeBmH5VQDkMXh5MVujpMHQ8JJdqa9wDNz0+J4yreF8Dwzq5krd/Y
+	k4tbCzCBjmLK+cO+1SCObfasxutY8F/h68Edrb9FYxkfVTi8cB04LRY1N+tRxpPr2iq
+	MlPoQiOb7g==
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=uku4taia5b5tsbglxyj6zym32efj7xqv; d=amazonses.com; t=1726054081;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Feedback-ID;
+	bh=PJUg0yAblESI6yzCqdB6thUEmYVWoz0i/ywFnkD3qEU=;
+	b=YBUKxoYhmvtj7KNU2moum/kL5o/yErrcNd7pxfXfp2X823aqyBZdrE6MrhI6b1Em
+	pDY024TrWdg8WCRb9lf9TwMQu66XOob773u2bbwrX/7+7FxzY5Q3YqimWz+t56+Th3X
+	27JAVh7nhIvlfsPv/sjQ9D0U4NZhjukB1M5ufm6I=
+Message-ID: <01020191e0d72122-0c833bde-7096-4a90-b81d-84945a57b9aa-000000@eu-west-1.amazonses.com>
+Date: Wed, 11 Sep 2024 11:28:00 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: mediatek: mt8365: check validity before usage of
+ i2s_data
+To: Muhammad Usama Anjum <usama.anjum@collabora.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	Alexandre Mergnat <amergnat@baylibre.com>
+Cc: kernel@collabora.com, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org
+References: <20240911111317.4072349-1-usama.anjum@collabora.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20240911111317.4072349-1-usama.anjum@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Feedback-ID: ::1.eu-west-1.YpP9ZbxnARFfy3Cb5pfsLd/pdsXBCNK0KEM7HforL4k=:AmazonSES
+X-SES-Outgoing: 2024.09.11-54.240.7.31
 
-Print the ret value otherwise it is just being set without ever getting
-used. The author may have missed printing it.
+Il 11/09/24 13:13, Muhammad Usama Anjum ha scritto:
+> There may be a case where i2s_data may not get initialized by the for
+> loop which will cause the kernel crash. Initialize the i2s_data to NULL
+> and abort execute if it isn't found.
+> 
+> Fixes: 402bbb13a195 ("ASoC: mediatek: mt8365: Add I2S DAI support")
+> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
 
-Fixes: 1bf6dbd75f76 ("ASoc: mediatek: mt8365: Add a specific soundcard for EVK")
-Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
----
-If it isn't useful, the ret value assignment statement can be removed.
----
- sound/soc/mediatek/mt8365/mt8365-mt6357.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-diff --git a/sound/soc/mediatek/mt8365/mt8365-mt6357.c b/sound/soc/mediatek/mt8365/mt8365-mt6357.c
-index fef76118f8010..412f5fdd8fc52 100644
---- a/sound/soc/mediatek/mt8365/mt8365-mt6357.c
-+++ b/sound/soc/mediatek/mt8365/mt8365-mt6357.c
-@@ -258,8 +258,8 @@ static int mt8365_mt6357_gpio_probe(struct snd_soc_card *card)
- 							   mt8365_mt6357_pin_str[i]);
- 		if (IS_ERR(priv->pin_states[i])) {
- 			ret = PTR_ERR(priv->pin_states[i]);
--			dev_warn(card->dev, "No pin state for %s\n",
--				 mt8365_mt6357_pin_str[i]);
-+			dev_warn(card->dev, "No pin state(%d) for %s\n",
-+				 ret, mt8365_mt6357_pin_str[i]);
- 		} else {
- 			ret = pinctrl_select_state(priv->pinctrl,
- 						   priv->pin_states[i]);
--- 
-2.39.2
 
