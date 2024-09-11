@@ -1,90 +1,361 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 653612C190;
-	Wed, 11 Sep 2024 15:19:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B211A3044
+	for <linux-sound@vger.kernel.org>; Wed, 11 Sep 2024 15:34:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726067954; cv=none; b=h8h58FoCQdxWDpH5JRqFHyv5s9usxDpgNxIbyD4zwwZ/vmy6aLycycF4ygoZ979ne4SCRtgWOBtOVtLA3RFPOgpPCkblLEcjcc72Z0o08VMBeMYvU8f6c/vQKVe3WlBlxelK8wmoCCWRghQYzFL7aywr5NnKVW0U9yCs3rGbAyw=
+	t=1726068847; cv=none; b=V6KVozrvbG5IEbZ3CmfrEYt42NDLSa7kBf2AmV8BlcTx+vpNXwdbEMCX1gFxz2z9KVtTjZv34Yorqc531vMSi4FUJZSZsaE+drJFlBDdCNFSlLVSJcP4TZ1SGmy47kPaTKsKhWAo71LBoO36/qFMALodRRx5eQ0h+coVymd/nBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726067954; c=relaxed/simple;
-	bh=cSb4CB+p3svhD9W83Ai81pItfERhLziRxmos5X+V7zs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a/ugutWq5zPhd3fgNv+vmteIiVmnfN/FHDWri1YstUh3cOYBnTKZ8G6UDlouqf4PoRE1DMPkjVYO6uJG+XYCXnL+jd2bwam4LSOXTGpbUPnNtlW+lBUjS/z8ntonlLU9fOLZfvgxV2wGuGV8NTqqr8kg/JKYp8/BmqJITpTmzqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nG/Oi8WS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1726068847; c=relaxed/simple;
+	bh=wa8vIJqABRqeYvov1oXOL1h0K0Mf6fdI3W7xfzVIewU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=EPTzQiWCoq1wVWHvI8seclZxGNigF6/a5ffBerLWI4hsJYxPGk3yxT2W6w9hVl0VLdCywSQftiqW1iKMGDna6HRwLcW+W50/cTtx0pRakbieE1sr/u4fMFJqv/rNdx+mw0OUM1pn0Xvcg1fC18Tba74PHh8xBzV8iqufg9m8+dI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YPURXsx4; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nG/Oi8WS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB8A4C4CEC0;
-	Wed, 11 Sep 2024 15:19:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726067954;
-	bh=cSb4CB+p3svhD9W83Ai81pItfERhLziRxmos5X+V7zs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nG/Oi8WS0wa/mQHwyhqf/ToC0P5uZCRfa9LB7OGh+BkN0wBvMZECjzDve8CebSm5O
-	 /0ctI8bnAM6qdnnIZEFSQqhV88Q3tojzY3Zdkq3CbH8NY3SwQ3zJX4pbmA90TLdqWG
-	 O2CsBkvfxEjhFrLaODX3K/aFHn4zGcXXIHD7mVO800t5hGvRcBL4I7wPpBEFO+KXd/
-	 nCWEEjP/2wTPA6zbiIo3koZ5ZfRanos8krXsgvyey3+qEVEBk1n/4bdaVZVG8Ldrdr
-	 jvkktjgJXG+GG48by1uyHxL2Idab86vQt3I1IXeiguBa8QAS0VqZRTsNdgTgtzcCEM
-	 hRKoU1+yMKtRg==
-Date: Wed, 11 Sep 2024 10:19:12 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Maxime Ripard <mripard@kernel.org>, Takashi Iwai <tiwai@suse.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
-	dri-devel@lists.freedesktop.org, Mark Brown <broonie@kernel.org>,
-	devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Vishal Sagar <vishal.sagar@amd.com>,
-	Jaroslav Kysela <perex@perex.cz>, Rob Herring <robh+dt@kernel.org>,
-	=?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@gmail.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	linux-arm-kernel@lists.infradead.org,
-	David Airlie <airlied@gmail.com>
-Subject: Re: [PATCH v3 1/3] dt-bindings: display/xlnx/zynqmp-dpsub: Add audio
- DMAs
-Message-ID: <172606795201.325596.766778615878256783.robh@kernel.org>
-References: <20240910-xilinx-dp-audio-v3-0-75560793f4d0@ideasonboard.com>
- <20240910-xilinx-dp-audio-v3-1-75560793f4d0@ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YPURXsx4"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3787e067230so4509059f8f.1
+        for <linux-sound@vger.kernel.org>; Wed, 11 Sep 2024 08:34:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1726068844; x=1726673644; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uHcFmu5XbrOYTeHNU+qTmvTnV5L1RX1cOMxqeSCBcSw=;
+        b=YPURXsx401nau0UPDSQTxA6pGvnNpT4gTbOQS/C+1Yw/4fJLlvR6qwZZkvRAyLYhjs
+         hP/yM798raf/A3rB2ZOmCjFK9BgqTyCxhfdpggggyA89WLtJGeeQ4s9if+CRj6VaD/sZ
+         8w7OJPbXEb/uvB8g8u/WrvL9xmmY4VJiU/VX99NEq1wt/kJg1oS14xU3hCTaJW2p5/1W
+         rdDjS+VT1CDOJE1GVdxLzHYwk70409ajeD0ppDY2qbAMMJy6Bw1H9sS2cFkUAJcUkgxA
+         kFLe7g2qgeFpMLxwgX6Vvt+Tn+NYOBU+akYE7vt7gAS5QjmjqyHNySMEAGIWco6f2kQ6
+         R1tQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726068844; x=1726673644;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uHcFmu5XbrOYTeHNU+qTmvTnV5L1RX1cOMxqeSCBcSw=;
+        b=gfNVaKbGkRyP3vPlFzN+hKLI0FQfdWt77RSTIiRGibVw1ebtF4Daar+o2ZNNQ4QK8h
+         /gnINExg82bCsYzyQLZPc25TUD+5+2KFppDhUti0ULGwy7oDAHCZBsv/6TGvhHc4gZUI
+         KtAKWrv4uxTynEVwK0pnyECK2OhlxnTCjGlKHu9YllAxctlRvyecvcGyKuWLIbVaqhBa
+         TroDOJYuhYPzBtCG7F1tPYGnkjteQxHM0GW5c5gbnxUzFPe/Zgc5ywx4FpwGvmceNj0a
+         XZ5JGjF5XQ25cdWGYWtgtgbmbAIRzVOwcIi+8rJk2+HAFC1ZXdpv3vJ66xI0+ZYuPdqE
+         ilUA==
+X-Gm-Message-State: AOJu0YyU2+tv4XTVNm0knkUQC0oMDdZUHsXbR/bjF5mkbCYQiiykVkWX
+	+wPYWhucQSbDimVZFyZft243Yfn7uXamrcUp/av2jvpPvmlTxtlSiNcC10+gP3I=
+X-Google-Smtp-Source: AGHT+IFWFyQkBhATnw+IJVi8otW3rrwr9Qz3fq8KG3RdNbP1RXsP2ig7w61/5F0VZz7KI2H1NqfR2g==
+X-Received: by 2002:a5d:460c:0:b0:374:c35e:de72 with SMTP id ffacd0b85a97d-378895c53e2mr11196727f8f.2.1726068843744;
+        Wed, 11 Sep 2024 08:34:03 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3789564a52csm11917360f8f.11.2024.09.11.08.34.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Sep 2024 08:34:03 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Date: Wed, 11 Sep 2024 17:34:01 +0200
+Subject: [PATCH] ASoC: dt-bindings: realtek,rt5640: Convert to dtschema
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240910-xilinx-dp-audio-v3-1-75560793f4d0@ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20240911-topic-amlogic-arm32-upstream-bindings-fixes-covert-realtek-rt5640-v1-1-6b3745e34540@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAGi44WYC/x2NywrCMBBFf6Vk7UAS26D+inSRJmMcbB5MYhFK/
+ 93o6nK4B84uKjJhFbdhF4wbVcqpgzoNwj1tCgjkOwst9SivSkHLhRzYuObwW45nDe9SG6ONsFD
+ ylEKFB32wgssbcoN+rQ1fwG0yo4TFGy/RWDn5i+idwvjXe+Y+H8cXGXwDbpMAAAA=
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7375;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=wa8vIJqABRqeYvov1oXOL1h0K0Mf6fdI3W7xfzVIewU=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBm4bhqZ6tBAue+5W+zN4ajyn7xX6dg4E6C9Wy/wFS1
+ 1Lps1u6JAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZuG4agAKCRB33NvayMhJ0a1FD/
+ 9q2k+xWfrTu9IMmwNaQ6KrHn8r1c+e7LboQGmGEKIk21JmyUN3TL3TGCGRHgLpT3K15cDo9NVFPZBI
+ Oet5u5eXXClmV094ENoqQtpSSngZOjCOWu2wM5VYfNauC4+wCTZRtRk/NrCBmlCUAzTJrZoQX/hfpA
+ U0Gy1UGIwgyCJnch3ZVz2uNPuESSW/TcUoRJn2U2HqQhaPycJuuv9UikbfJeMQAZ/p1eDLsgD+7MyP
+ /NeQpmTxCjghyNTXiUvLskzIiXow11To4wKcSV6/4I6GrTbAxRc6D7l47sEhw8L9FpwK5GjM0E71Yn
+ 3RuA36Dcog5FEev0fGXZXqV8vqnrQhB9FJeWcU3+YgEdyJsHS9RbyclsvyR3TwutIMivefirkEknvb
+ oXOEzky7t9iQYXPzTs3a+iFo1Rh7x7zjO4vymVaLsIR4XIzAhT7wNZBDzcOaynIeyRtfJB0jt6UuoU
+ tfszkG3byiTS3llycnh/6QbKGA+XcNiTjySKF98osU6qHrjue0LXWnH0qUQb9YItPD4lQvoO5KWbgG
+ 9Z8BzI7iQh1FZK0jv0ZpEnKCt00mTew2M9sWhNxaNQxDloUCFLOtI65R9Q6goFqDVVSMZPXograFUb
+ jKJ/mR2Ptkga2V00ugW6KaIRAaI6MYTeN6lGtxP80SPYcpPcWhsyL5akU0iw==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 
+Convert the RT5640/RT5639 audio CODEC bindings to DT schema.
 
-On Tue, 10 Sep 2024 14:19:19 +0300, Tomi Valkeinen wrote:
-> The DP subsystem for ZynqMP supports audio via two channels, and the DP
-> DMA has dma-engines for those channels. For some reason the DT binding
-> has not specified those channels, even if the picture included in
-> xlnx,zynqmp-dpsub.yaml shows "2 x aud" DMAs.
-> 
-> This hasn't caused any issues as the drivers have not supported audio,
-> and has thus gone unnoticed.
-> 
-> To make it possible to add the audio support to the driver, add the two
-> audio DMAs to the binding. While strictly speaking this is an ABI break,
-> there should be no regressions caused by this as we're adding new
-> entries at the end of the dmas list, and, after the audio support has
-> been added in "arm64: dts: zynqmp: Add DMA for DP audio",  the driver
-> will treat the audio DMAs as optional to also support the old bindings.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  .../devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml    | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
-> 
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+ .../devicetree/bindings/sound/realtek,rt5640.yaml  | 146 +++++++++++++++++++++
+ Documentation/devicetree/bindings/sound/rt5640.txt |  97 --------------
+ 2 files changed, 146 insertions(+), 97 deletions(-)
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+diff --git a/Documentation/devicetree/bindings/sound/realtek,rt5640.yaml b/Documentation/devicetree/bindings/sound/realtek,rt5640.yaml
+new file mode 100644
+index 000000000000..3f4f59287c1c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/realtek,rt5640.yaml
+@@ -0,0 +1,146 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/realtek,rt5640.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: RT5640/RT5639 audio CODEC
++
++maintainers:
++  - Neil Armstrong <neil.armstrong@linaro.org>
++
++description: |
++  This device supports I2C only.
++
++  Pins on the device (for linking into audio routes) for RT5639/RT5640:
++    * DMIC1
++    * DMIC2
++    * MICBIAS1
++    * IN1P
++    * IN1N
++    * IN2P
++    * IN2N
++    * IN3P
++    * IN3N
++    * HPOL
++    * HPOR
++    * LOUTL
++    * LOUTR
++    * SPOLP
++    * SPOLN
++    * SPORP
++    * SPORN
++
++  Additional pins on the device for RT5640:
++    * MONOP
++    * MONON
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    enum:
++      - realtek,rt5640
++      - realtek,rt5639
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++    description: The CODEC's interrupt output.
++
++  realtek,in1-differential:
++    description:
++      Indicate MIC1 input is differential, rather than single-ended.
++    type: boolean
++
++  realtek,in2-differential:
++    description:
++      Indicate MIC2 input is differential, rather than single-ended.
++    type: boolean
++
++  realtek,in3-differential:
++    description:
++      Indicate MIC3 input is differential, rather than single-ended.
++    type: boolean
++
++  realtek,lout-differential:
++    description:
++      Indicate LOUT output is differential, rather than single-ended.
++    type: boolean
++
++  realtek,dmic1-data-pin:
++    description: Specify which pin to be used as DMIC1 data pin.
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum:
++      - 0 # dmic1 is not used
++      - 1 # using IN2P pin as dmic1 data pin
++      - 2 # using GPIO3 pin as dmic1 data pin
++
++  realtek,dmic2-data-pin:
++    description: Specify which pin to be used as DMIC2 data pin.
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum:
++      - 0 # dmic2 is not used
++      - 1 # using IN2N pin as dmic2 data pin
++      - 2 # using GPIO4 pin as dmic2 data pin
++
++  realtek,jack-detect-source:
++    description: The Jack Detect source.
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum:
++      - 0 # Jack Detect function is not used
++      - 1 # Use GPIO1 for jack-detect
++      - 2 # Use JD1_IN4P for jack-detect
++      - 3 # Use JD2_IN4N for jack-detect
++      - 4 # Use GPIO2 for jack-detect
++      - 5 # Use GPIO3 for jack-detect
++      - 6 # Use GPIO4 for jack-detect
++
++  realtek,jack-detect-not-inverted:
++    description:
++      Normal jack-detect switches give an inverted signal, set this bool
++      in the rare case you've a jack-detect switch which is not inverted.
++    type: boolean
++
++  realtek,over-current-threshold-microamp:
++    description: micbias over-current detection threshold in µA
++    enum:
++      - 600
++      - 1500
++      - 2000
++
++  realtek,over-current-scale-factor:
++    description: micbias over-current detection scale-factor
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum:
++      - 0 # Scale current by 0.5
++      - 1 # Scale current by 0.75
++      - 2 # Scale current by 1.0
++      - 3 # Scale current by 1.5
++
++required:
++  - compatible
++  - reg
++  - interrupts
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        codec@1a {
++            compatible = "realtek,rt5640";
++            reg = <0x1a>;
++            interrupt-parent = <&gpio>;
++            interrupts = <7 IRQ_TYPE_EDGE_FALLING>;
++        };
++    };
+diff --git a/Documentation/devicetree/bindings/sound/rt5640.txt b/Documentation/devicetree/bindings/sound/rt5640.txt
+deleted file mode 100644
+index 0c398581d52b..000000000000
+--- a/Documentation/devicetree/bindings/sound/rt5640.txt
++++ /dev/null
+@@ -1,97 +0,0 @@
+-RT5640/RT5639 audio CODEC
+-
+-This device supports I2C only.
+-
+-Required properties:
+-
+-- compatible : One of "realtek,rt5640" or "realtek,rt5639".
+-
+-- reg : The I2C address of the device.
+-
+-- interrupts : The CODEC's interrupt output.
+-
+-Optional properties:
+-
+-- clocks: The phandle of the master clock to the CODEC
+-- clock-names: Should be "mclk"
+-
+-- realtek,in1-differential
+-- realtek,in2-differential
+-- realtek,in3-differential
+-  Boolean. Indicate MIC1/2/3 input are differential, rather than single-ended.
+-
+-- realtek,lout-differential
+-  Boolean. Indicate LOUT output is differential, rather than stereo.
+-
+-- realtek,ldo1-en-gpios : The GPIO that controls the CODEC's LDO1_EN pin.
+-
+-- realtek,dmic1-data-pin
+-  0: dmic1 is not used
+-  1: using IN1P pin as dmic1 data pin
+-  2: using GPIO3 pin as dmic1 data pin
+-
+-- realtek,dmic2-data-pin
+-  0: dmic2 is not used
+-  1: using IN1N pin as dmic2 data pin
+-  2: using GPIO4 pin as dmic2 data pin
+-
+-- realtek,jack-detect-source
+-  u32. Valid values:
+-  0: jack-detect is not used
+-  1: Use GPIO1 for jack-detect
+-  2: Use JD1_IN4P for jack-detect
+-  3: Use JD2_IN4N for jack-detect
+-  4: Use GPIO2 for jack-detect
+-  5: Use GPIO3 for jack-detect
+-  6: Use GPIO4 for jack-detect
+-
+-- realtek,jack-detect-not-inverted
+-  bool. Normal jack-detect switches give an inverted signal, set this bool
+-  in the rare case you've a jack-detect switch which is not inverted.
+-
+-- realtek,over-current-threshold-microamp
+-  u32, micbias over-current detection threshold in µA, valid values are
+-  600, 1500 and 2000µA.
+-
+-- realtek,over-current-scale-factor
+-  u32, micbias over-current detection scale-factor, valid values are:
+-  0: Scale current by 0.5
+-  1: Scale current by 0.75
+-  2: Scale current by 1.0
+-  3: Scale current by 1.5
+-
+-Pins on the device (for linking into audio routes) for RT5639/RT5640:
+-
+-  * DMIC1
+-  * DMIC2
+-  * MICBIAS1
+-  * IN1P
+-  * IN1N
+-  * IN2P
+-  * IN2N
+-  * IN3P
+-  * IN3N
+-  * HPOL
+-  * HPOR
+-  * LOUTL
+-  * LOUTR
+-  * SPOLP
+-  * SPOLN
+-  * SPORP
+-  * SPORN
+-
+-Additional pins on the device for RT5640:
+-
+-  * MONOP
+-  * MONON
+-
+-Example:
+-
+-rt5640 {
+-	compatible = "realtek,rt5640";
+-	reg = <0x1c>;
+-	interrupt-parent = <&gpio>;
+-	interrupts = <TEGRA_GPIO(W, 3) IRQ_TYPE_LEVEL_HIGH>;
+-	realtek,ldo1-en-gpios =
+-		<&gpio TEGRA_GPIO(V, 3) GPIO_ACTIVE_HIGH>;
+-};
+
+---
+base-commit: 47ac09b91befbb6a235ab620c32af719f8208399
+change-id: 20240911-topic-amlogic-arm32-upstream-bindings-fixes-covert-realtek-rt5640-bd6d0e6a05d8
+
+Best regards,
+-- 
+Neil Armstrong <neil.armstrong@linaro.org>
 
