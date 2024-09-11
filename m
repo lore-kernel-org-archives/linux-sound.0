@@ -1,57 +1,43 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B211A3044
-	for <linux-sound@vger.kernel.org>; Wed, 11 Sep 2024 15:34:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA9AB18661D;
+	Wed, 11 Sep 2024 16:02:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726068847; cv=none; b=V6KVozrvbG5IEbZ3CmfrEYt42NDLSa7kBf2AmV8BlcTx+vpNXwdbEMCX1gFxz2z9KVtTjZv34Yorqc531vMSi4FUJZSZsaE+drJFlBDdCNFSlLVSJcP4TZ1SGmy47kPaTKsKhWAo71LBoO36/qFMALodRRx5eQ0h+coVymd/nBI=
+	t=1726070564; cv=none; b=CHQK6ieoMTH/Da1WyV96wgBa5+U0hyjp53Hr7kFXh/wZUuGy4pRUj+yisdqox/ByFPDUUJ6zG6120WaHcKbdJ3dqM4O3Qlt3nwRBSK2j/jZyqgAhX6hJG2ojUqItjXqZzX4FQZcA2xsABrsaKfKcEHGkvL6NqQJGrOVmCQ+HrO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726068847; c=relaxed/simple;
-	bh=wa8vIJqABRqeYvov1oXOL1h0K0Mf6fdI3W7xfzVIewU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=EPTzQiWCoq1wVWHvI8seclZxGNigF6/a5ffBerLWI4hsJYxPGk3yxT2W6w9hVl0VLdCywSQftiqW1iKMGDna6HRwLcW+W50/cTtx0pRakbieE1sr/u4fMFJqv/rNdx+mw0OUM1pn0Xvcg1fC18Tba74PHh8xBzV8iqufg9m8+dI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YPURXsx4; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1726070564; c=relaxed/simple;
+	bh=CiD5hifkfSG5Fk3ZwMnWP2C4/b515yIQMdp2KqZygAc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=dwG13PSdeH8H8Ckix+G+ucSErN5mVSqDTagn5TEvd5wC2/V4vOX+BrbthdZwVHMVZVGS6S9m/KDocl+Tebn7OK3oRC9JTL2W5n7m8bVqe/Z0/vZsDJlhefE97AXfREKhdxkP4dfdPsa0GTz4HK8DT96TLXMFy6ULOXXK2WxzekU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oO8TUy93; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YPURXsx4"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3787e067230so4509059f8f.1
-        for <linux-sound@vger.kernel.org>; Wed, 11 Sep 2024 08:34:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1726068844; x=1726673644; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=uHcFmu5XbrOYTeHNU+qTmvTnV5L1RX1cOMxqeSCBcSw=;
-        b=YPURXsx401nau0UPDSQTxA6pGvnNpT4gTbOQS/C+1Yw/4fJLlvR6qwZZkvRAyLYhjs
-         hP/yM798raf/A3rB2ZOmCjFK9BgqTyCxhfdpggggyA89WLtJGeeQ4s9if+CRj6VaD/sZ
-         8w7OJPbXEb/uvB8g8u/WrvL9xmmY4VJiU/VX99NEq1wt/kJg1oS14xU3hCTaJW2p5/1W
-         rdDjS+VT1CDOJE1GVdxLzHYwk70409ajeD0ppDY2qbAMMJy6Bw1H9sS2cFkUAJcUkgxA
-         kFLe7g2qgeFpMLxwgX6Vvt+Tn+NYOBU+akYE7vt7gAS5QjmjqyHNySMEAGIWco6f2kQ6
-         R1tQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726068844; x=1726673644;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uHcFmu5XbrOYTeHNU+qTmvTnV5L1RX1cOMxqeSCBcSw=;
-        b=gfNVaKbGkRyP3vPlFzN+hKLI0FQfdWt77RSTIiRGibVw1ebtF4Daar+o2ZNNQ4QK8h
-         /gnINExg82bCsYzyQLZPc25TUD+5+2KFppDhUti0ULGwy7oDAHCZBsv/6TGvhHc4gZUI
-         KtAKWrv4uxTynEVwK0pnyECK2OhlxnTCjGlKHu9YllAxctlRvyecvcGyKuWLIbVaqhBa
-         TroDOJYuhYPzBtCG7F1tPYGnkjteQxHM0GW5c5gbnxUzFPe/Zgc5ywx4FpwGvmceNj0a
-         XZ5JGjF5XQ25cdWGYWtgtgbmbAIRzVOwcIi+8rJk2+HAFC1ZXdpv3vJ66xI0+ZYuPdqE
-         ilUA==
-X-Gm-Message-State: AOJu0YyU2+tv4XTVNm0knkUQC0oMDdZUHsXbR/bjF5mkbCYQiiykVkWX
-	+wPYWhucQSbDimVZFyZft243Yfn7uXamrcUp/av2jvpPvmlTxtlSiNcC10+gP3I=
-X-Google-Smtp-Source: AGHT+IFWFyQkBhATnw+IJVi8otW3rrwr9Qz3fq8KG3RdNbP1RXsP2ig7w61/5F0VZz7KI2H1NqfR2g==
-X-Received: by 2002:a5d:460c:0:b0:374:c35e:de72 with SMTP id ffacd0b85a97d-378895c53e2mr11196727f8f.2.1726068843744;
-        Wed, 11 Sep 2024 08:34:03 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3789564a52csm11917360f8f.11.2024.09.11.08.34.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Sep 2024 08:34:03 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Wed, 11 Sep 2024 17:34:01 +0200
-Subject: [PATCH] ASoC: dt-bindings: realtek,rt5640: Convert to dtschema
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oO8TUy93"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92166C4CEC5;
+	Wed, 11 Sep 2024 16:02:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726070563;
+	bh=CiD5hifkfSG5Fk3ZwMnWP2C4/b515yIQMdp2KqZygAc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=oO8TUy93S6eXG4cyKpEFT8MQ9/klM5g+3NbSo2dJ/JjBoQkoUR+7KlkJCsHvVvubA
+	 /FUKNwbe0AWNOtaOxvVAuoD2TRMWMfTvv3m3t4+OaD46tuQsRxrGTu2eYQUnPqcqKE
+	 HMxLiQ+Fp+urCygR43iUB9ma11APafxcCzafkUnYz6Exz+PgvSLsett8tG6HCzei0d
+	 puDmtokLU/E2pQK4osLtu7Vo+HRBmGRCJ8oyrzhx67OWRKqiFHQe12SmUy9Xx+D2c6
+	 Q9tEbUSomGxYwVJAZNxaZet1pUAQa4EwONCv12dmjXQX3vE7gdLNDzNuv0/FAn3/Fl
+	 YIP+nu7HmgIUA==
+From: Mark Brown <broonie@kernel.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Jens Reidel <adrian@travitia.xyz>
+Cc: alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux@mainlining.org
+In-Reply-To: <20240826134920.55148-1-adrian@travitia.xyz>
+References: <20240826134920.55148-1-adrian@travitia.xyz>
+Subject: Re: [PATCH 0/1] Add support for primary mi2s on SM8250
+Message-Id: <172607056132.105227.11889587704269825553.b4-ty@kernel.org>
+Date: Wed, 11 Sep 2024 17:02:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -59,303 +45,52 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240911-topic-amlogic-arm32-upstream-bindings-fixes-covert-realtek-rt5640-v1-1-6b3745e34540@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAGi44WYC/x2NywrCMBBFf6Vk7UAS26D+inSRJmMcbB5MYhFK/
- 93o6nK4B84uKjJhFbdhF4wbVcqpgzoNwj1tCgjkOwst9SivSkHLhRzYuObwW45nDe9SG6ONsFD
- ylEKFB32wgssbcoN+rQ1fwG0yo4TFGy/RWDn5i+idwvjXe+Y+H8cXGXwDbpMAAAA=
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7375;
- i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=wa8vIJqABRqeYvov1oXOL1h0K0Mf6fdI3W7xfzVIewU=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBm4bhqZ6tBAue+5W+zN4ajyn7xX6dg4E6C9Wy/wFS1
- 1Lps1u6JAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZuG4agAKCRB33NvayMhJ0a1FD/
- 9q2k+xWfrTu9IMmwNaQ6KrHn8r1c+e7LboQGmGEKIk21JmyUN3TL3TGCGRHgLpT3K15cDo9NVFPZBI
- Oet5u5eXXClmV094ENoqQtpSSngZOjCOWu2wM5VYfNauC4+wCTZRtRk/NrCBmlCUAzTJrZoQX/hfpA
- U0Gy1UGIwgyCJnch3ZVz2uNPuESSW/TcUoRJn2U2HqQhaPycJuuv9UikbfJeMQAZ/p1eDLsgD+7MyP
- /NeQpmTxCjghyNTXiUvLskzIiXow11To4wKcSV6/4I6GrTbAxRc6D7l47sEhw8L9FpwK5GjM0E71Yn
- 3RuA36Dcog5FEev0fGXZXqV8vqnrQhB9FJeWcU3+YgEdyJsHS9RbyclsvyR3TwutIMivefirkEknvb
- oXOEzky7t9iQYXPzTs3a+iFo1Rh7x7zjO4vymVaLsIR4XIzAhT7wNZBDzcOaynIeyRtfJB0jt6UuoU
- tfszkG3byiTS3llycnh/6QbKGA+XcNiTjySKF98osU6qHrjue0LXWnH0qUQb9YItPD4lQvoO5KWbgG
- 9Z8BzI7iQh1FZK0jv0ZpEnKCt00mTew2M9sWhNxaNQxDloUCFLOtI65R9Q6goFqDVVSMZPXograFUb
- jKJ/mR2Ptkga2V00ugW6KaIRAaI6MYTeN6lGtxP80SPYcpPcWhsyL5akU0iw==
-X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
- fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-99b12
 
-Convert the RT5640/RT5639 audio CODEC bindings to DT schema.
+On Mon, 26 Aug 2024 15:49:19 +0200, Jens Reidel wrote:
+> This patch adds support for the primary mi2s interface on devices using SM8250
+> audio drivers. Tested on SM7150 (xiaomi-davinci). SM7150 sound is close to
+> SM8250 and we intend to use it as a fallback in the future.
+> 
+> To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> To: Liam Girdwood <lgirdwood@gmail.com>
+> To: Mark Brown <broonie@kernel.org>
+> To: Jaroslav Kysela <perex@perex.cz>
+> To: Takashi Iwai <tiwai@suse.com>
+> Cc: alsa-devel@alsa-project.org
+> Cc: linux-arm-msm@vger.kernel.org
+> Cc: linux-sound@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux@mainlining.org
+> 
+> [...]
 
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
----
- .../devicetree/bindings/sound/realtek,rt5640.yaml  | 146 +++++++++++++++++++++
- Documentation/devicetree/bindings/sound/rt5640.txt |  97 --------------
- 2 files changed, 146 insertions(+), 97 deletions(-)
+Applied to
 
-diff --git a/Documentation/devicetree/bindings/sound/realtek,rt5640.yaml b/Documentation/devicetree/bindings/sound/realtek,rt5640.yaml
-new file mode 100644
-index 000000000000..3f4f59287c1c
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/realtek,rt5640.yaml
-@@ -0,0 +1,146 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/realtek,rt5640.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: RT5640/RT5639 audio CODEC
-+
-+maintainers:
-+  - Neil Armstrong <neil.armstrong@linaro.org>
-+
-+description: |
-+  This device supports I2C only.
-+
-+  Pins on the device (for linking into audio routes) for RT5639/RT5640:
-+    * DMIC1
-+    * DMIC2
-+    * MICBIAS1
-+    * IN1P
-+    * IN1N
-+    * IN2P
-+    * IN2N
-+    * IN3P
-+    * IN3N
-+    * HPOL
-+    * HPOR
-+    * LOUTL
-+    * LOUTR
-+    * SPOLP
-+    * SPOLN
-+    * SPORP
-+    * SPORN
-+
-+  Additional pins on the device for RT5640:
-+    * MONOP
-+    * MONON
-+
-+allOf:
-+  - $ref: dai-common.yaml#
-+
-+properties:
-+  compatible:
-+    enum:
-+      - realtek,rt5640
-+      - realtek,rt5639
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+    description: The CODEC's interrupt output.
-+
-+  realtek,in1-differential:
-+    description:
-+      Indicate MIC1 input is differential, rather than single-ended.
-+    type: boolean
-+
-+  realtek,in2-differential:
-+    description:
-+      Indicate MIC2 input is differential, rather than single-ended.
-+    type: boolean
-+
-+  realtek,in3-differential:
-+    description:
-+      Indicate MIC3 input is differential, rather than single-ended.
-+    type: boolean
-+
-+  realtek,lout-differential:
-+    description:
-+      Indicate LOUT output is differential, rather than single-ended.
-+    type: boolean
-+
-+  realtek,dmic1-data-pin:
-+    description: Specify which pin to be used as DMIC1 data pin.
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum:
-+      - 0 # dmic1 is not used
-+      - 1 # using IN2P pin as dmic1 data pin
-+      - 2 # using GPIO3 pin as dmic1 data pin
-+
-+  realtek,dmic2-data-pin:
-+    description: Specify which pin to be used as DMIC2 data pin.
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum:
-+      - 0 # dmic2 is not used
-+      - 1 # using IN2N pin as dmic2 data pin
-+      - 2 # using GPIO4 pin as dmic2 data pin
-+
-+  realtek,jack-detect-source:
-+    description: The Jack Detect source.
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum:
-+      - 0 # Jack Detect function is not used
-+      - 1 # Use GPIO1 for jack-detect
-+      - 2 # Use JD1_IN4P for jack-detect
-+      - 3 # Use JD2_IN4N for jack-detect
-+      - 4 # Use GPIO2 for jack-detect
-+      - 5 # Use GPIO3 for jack-detect
-+      - 6 # Use GPIO4 for jack-detect
-+
-+  realtek,jack-detect-not-inverted:
-+    description:
-+      Normal jack-detect switches give an inverted signal, set this bool
-+      in the rare case you've a jack-detect switch which is not inverted.
-+    type: boolean
-+
-+  realtek,over-current-threshold-microamp:
-+    description: micbias over-current detection threshold in µA
-+    enum:
-+      - 600
-+      - 1500
-+      - 2000
-+
-+  realtek,over-current-scale-factor:
-+    description: micbias over-current detection scale-factor
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum:
-+      - 0 # Scale current by 0.5
-+      - 1 # Scale current by 0.75
-+      - 2 # Scale current by 1.0
-+      - 3 # Scale current by 1.5
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        codec@1a {
-+            compatible = "realtek,rt5640";
-+            reg = <0x1a>;
-+            interrupt-parent = <&gpio>;
-+            interrupts = <7 IRQ_TYPE_EDGE_FALLING>;
-+        };
-+    };
-diff --git a/Documentation/devicetree/bindings/sound/rt5640.txt b/Documentation/devicetree/bindings/sound/rt5640.txt
-deleted file mode 100644
-index 0c398581d52b..000000000000
---- a/Documentation/devicetree/bindings/sound/rt5640.txt
-+++ /dev/null
-@@ -1,97 +0,0 @@
--RT5640/RT5639 audio CODEC
--
--This device supports I2C only.
--
--Required properties:
--
--- compatible : One of "realtek,rt5640" or "realtek,rt5639".
--
--- reg : The I2C address of the device.
--
--- interrupts : The CODEC's interrupt output.
--
--Optional properties:
--
--- clocks: The phandle of the master clock to the CODEC
--- clock-names: Should be "mclk"
--
--- realtek,in1-differential
--- realtek,in2-differential
--- realtek,in3-differential
--  Boolean. Indicate MIC1/2/3 input are differential, rather than single-ended.
--
--- realtek,lout-differential
--  Boolean. Indicate LOUT output is differential, rather than stereo.
--
--- realtek,ldo1-en-gpios : The GPIO that controls the CODEC's LDO1_EN pin.
--
--- realtek,dmic1-data-pin
--  0: dmic1 is not used
--  1: using IN1P pin as dmic1 data pin
--  2: using GPIO3 pin as dmic1 data pin
--
--- realtek,dmic2-data-pin
--  0: dmic2 is not used
--  1: using IN1N pin as dmic2 data pin
--  2: using GPIO4 pin as dmic2 data pin
--
--- realtek,jack-detect-source
--  u32. Valid values:
--  0: jack-detect is not used
--  1: Use GPIO1 for jack-detect
--  2: Use JD1_IN4P for jack-detect
--  3: Use JD2_IN4N for jack-detect
--  4: Use GPIO2 for jack-detect
--  5: Use GPIO3 for jack-detect
--  6: Use GPIO4 for jack-detect
--
--- realtek,jack-detect-not-inverted
--  bool. Normal jack-detect switches give an inverted signal, set this bool
--  in the rare case you've a jack-detect switch which is not inverted.
--
--- realtek,over-current-threshold-microamp
--  u32, micbias over-current detection threshold in µA, valid values are
--  600, 1500 and 2000µA.
--
--- realtek,over-current-scale-factor
--  u32, micbias over-current detection scale-factor, valid values are:
--  0: Scale current by 0.5
--  1: Scale current by 0.75
--  2: Scale current by 1.0
--  3: Scale current by 1.5
--
--Pins on the device (for linking into audio routes) for RT5639/RT5640:
--
--  * DMIC1
--  * DMIC2
--  * MICBIAS1
--  * IN1P
--  * IN1N
--  * IN2P
--  * IN2N
--  * IN3P
--  * IN3N
--  * HPOL
--  * HPOR
--  * LOUTL
--  * LOUTR
--  * SPOLP
--  * SPOLN
--  * SPORP
--  * SPORN
--
--Additional pins on the device for RT5640:
--
--  * MONOP
--  * MONON
--
--Example:
--
--rt5640 {
--	compatible = "realtek,rt5640";
--	reg = <0x1c>;
--	interrupt-parent = <&gpio>;
--	interrupts = <TEGRA_GPIO(W, 3) IRQ_TYPE_LEVEL_HIGH>;
--	realtek,ldo1-en-gpios =
--		<&gpio TEGRA_GPIO(V, 3) GPIO_ACTIVE_HIGH>;
--};
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
----
-base-commit: 47ac09b91befbb6a235ab620c32af719f8208399
-change-id: 20240911-topic-amlogic-arm32-upstream-bindings-fixes-covert-realtek-rt5640-bd6d0e6a05d8
+Thanks!
 
-Best regards,
--- 
-Neil Armstrong <neil.armstrong@linaro.org>
+[1/1] ASoC: qcom: sm8250: enable primary mi2s
+      commit: 851e3a2a4490b03bb8dd0cda1b8b2a78f6a92805
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
