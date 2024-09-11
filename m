@@ -1,62 +1,59 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 094F1192B9F;
-	Wed, 11 Sep 2024 12:30:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726057815; cv=none; b=D5fStNVL0yfa0FRLk8+fUiBeWkqZ2TPrFwoJ0yUBLmsMAk9JUmU48Ea/bOYbSHgLU2cmnETjuYe+0IkXeKcLYGoWbqVsW2cBR5wUGhigjAdQZI4aLoOchN1fvIyaUNZvA/OpWK9jnGliz4xRa2ASX5v44jIrz4YsJeu9ONCDfz4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726057815; c=relaxed/simple;
-	bh=TxWkOdseiNx1bafVcVq7iqdfmlO4X8zdBrM+WKyic7w=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KSZsPDTr5Y9q50DPTM59JoTFUnMCVVo0mnWTpbxFv18WSJvVokkwR4ZFjyAGNwsrcE5DP/F6DvDwk7ufmPdq8BASsLOWRegaC+2BOe/ED14NQUFlW55lFfOl+YHO3dXdMhNvkh+Vf2DBRBK544B2didkRmZ1MgnysITubNv8/pU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=Kru/eQBk; arc=none smtp.client-ip=68.232.154.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87C3770E8;
+	Wed, 11 Sep 2024 12:37:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726058226; cv=pass; b=c9kFFWd0W+8ScNS6BY01FyCCv4TSaweZOksu3EXX6h8dcIbGXK7TTlkfMQi2EHrSlvVYPsycufhdJg93Rve8myVB+wrsg3Ovwv5TLmR+cykR8xXR/fSCZmWiKBGijVZ0hbIHdl4u2Ityz2xD5g7usK6CFkDMFOdLEZypShZCAg0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726058226; c=relaxed/simple;
+	bh=E1QDy28SD67lFSruQz0QIO71NgJFr7saJn6qdrlNhMY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=u0Y1tardQ2T9ub0AngjxL9pOuK7G4cZA8x+bF2BmiAeL5aCKenOOAO43ZQz327H0sm/zGeWY+n7Oc+XKhKjDp8P9zw5hB3UmxySTQrQxsSeMh9qUfaBYUwGgKTGutOxyNzykuRsr8hWTP3exZ2UMLFvaHc1Ped/uXqiJz1/hlUc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b=N4dDIJCj; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="Kru/eQBk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1726057813; x=1757593813;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=TxWkOdseiNx1bafVcVq7iqdfmlO4X8zdBrM+WKyic7w=;
-  b=Kru/eQBkePBS2sgtOSfuHlWurKFLZTri/MWt1p+TtoTNnTInlGWw1PY+
-   p3XkKMOdNsByOgpBiJ1qEAlgIIXGDDT2dyU8JUR9kZuaa5leCMSSX+cxN
-   F9zIOd3ihTKhFQdIxoESf+zyNFvgX5mKvQT+BRSWrmmuRxURJQGe43cAK
-   Z3zTR/yCeBlZPVL63iMqeCrxd4S9wK6RFjPCWDCLIPvrIr1eWh3IHOY/u
-   5n/lm/woD8R/O1jl8gyQRvyAJtCBd76zozUcXryckmfWyRjXF11KmPH62
-   Cl4GVqnMSyKvYGWqBZ/PaSW+ZoypG95DB2Q4dou4vrdekoUZZHeqleM7D
-   g==;
-X-CSE-ConnectionGUID: TYXepcQqR+aekZWbFABIig==
-X-CSE-MsgGUID: h6+wpwAeSbmE8OyH4DEEtQ==
-X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; 
-   d="scan'208";a="31538368"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 11 Sep 2024 05:30:13 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 11 Sep 2024 05:29:20 -0700
-Received: from ROB-ULT-M76677.microchip.com (10.10.85.11) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Wed, 11 Sep 2024 05:29:17 -0700
-From: Andrei Simion <andrei.simion@microchip.com>
-To: <claudiu.beznea@tuxon.dev>, <lgirdwood@gmail.com>, <broonie@kernel.org>,
-	<perex@perex.cz>, <tiwai@suse.com>, <nicolas.ferre@microchip.com>,
-	<alexandre.belloni@bootlin.com>
-CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	Codrin Ciubotariu <codrin.ciubotariu@microchip.com>, Andrei Simion
-	<andrei.simion@microchip.com>
-Subject: [PATCH 2/3] ASoC: atmel: mchp-pdmc: Add snd_soc_dai_driver name
-Date: Wed, 11 Sep 2024 15:29:08 +0300
-Message-ID: <20240911122909.133399-3-andrei.simion@microchip.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240911122909.133399-1-andrei.simion@microchip.com>
-References: <20240911122909.133399-1-andrei.simion@microchip.com>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b="N4dDIJCj"
+ARC-Seal: i=1; a=rsa-sha256; t=1726058207; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=XKH01/pTkXVrkiamXwZB0QhAi9U9rKL7kIEy2NmWvEFXQHci1eXBhPTpOSARXgUcTyJ3c5zYP0gXD32cUix3fFW8i7XLnLIzQql4eETJBIaL07RHce8K/SMTEYDki0Fud9OTiYXgZGglRg6ES8KfnQaHly1Y1euBemae+gUuOMA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1726058207; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=+e+eF+lZBrbrHlH5HB0DniuCeWtZvG3d4ENpfJP76ww=; 
+	b=LOPGTK2jBO3I9Xo/uyC+/9YHUmWpPPYZMAi6Ra8BIn/O/n2JJ5u/sgmGaspqt9cP8rtfzRljp4BS8txHafbYrGKCoYxUq2g1a1c62+JuduabvQ/y6EQ342kWdUFJrJzICK00d6foPtNi+hhi/a/y2wPXpxPpWrULnpuG/jchywk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=usama.anjum@collabora.com;
+	dmarc=pass header.from=<usama.anjum@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1726058207;
+	s=zohomail; d=collabora.com; i=usama.anjum@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Transfer-Encoding:Reply-To;
+	bh=+e+eF+lZBrbrHlH5HB0DniuCeWtZvG3d4ENpfJP76ww=;
+	b=N4dDIJCjIMhiPJAMwY8d1kd84/jOh0zof3oJ+Zr6XcFdk8wC9e1m2JQCFGYkYRMs
+	UBDzquwJWRbWDoCjTOQtNxuA9+MpNQ4pbNEzc+N5Ezqe4bitnWULYkog84l5kVXCQDf
+	2BnoLUN6x8+t+9i/AHYo74zbI2DgGE+8EwJYIDvM=
+Received: by mx.zohomail.com with SMTPS id 1726058206065221.86180204145148;
+	Wed, 11 Sep 2024 05:36:46 -0700 (PDT)
+From: Muhammad Usama Anjum <usama.anjum@collabora.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Muhammad Usama Anjum <usama.anjum@collabora.com>,
+	Nicolas Belin <nbelin@baylibre.com>,
+	Alexandre Mergnat <amergnat@baylibre.com>
+Cc: kernel@collabora.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: [PATCH v2] ASoc: mediatek: mt8365: Remove unneeded assignment
+Date: Wed, 11 Sep 2024 17:36:22 +0500
+Message-Id: <20240911123629.125686-1-usama.anjum@collabora.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -64,31 +61,36 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-ZohoMailClient: External
 
-From: Codrin Ciubotariu <codrin.ciubotariu@microchip.com>
+The ret is being assigned, but not being used. Remove the assignment.
+One of the reviewer mentioned that dev_warn should be replaced with
+dev_info. Make this change as well.
 
-Set snd_soc_dai_driver name to improve controller's display of the DAI
-name.
-
-Signed-off-by: Codrin Ciubotariu <codrin.ciubotariu@microchip.com>
-Signed-off-by: Andrei Simion <andrei.simion@microchip.com>
+Fixes: 1bf6dbd75f76 ("ASoc: mediatek: mt8365: Add a specific soundcard for EVK")
+Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
 ---
- sound/soc/atmel/mchp-pdmc.c | 1 +
- 1 file changed, 1 insertion(+)
+Changes since v1:
+- Remove assignment to ret and don't print it from dev_warn
+- Change dev_warn to dev_info on request of reviewer
+---
+ sound/soc/mediatek/mt8365/mt8365-mt6357.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/sound/soc/atmel/mchp-pdmc.c b/sound/soc/atmel/mchp-pdmc.c
-index 7a5585839c1d..d97d153ee375 100644
---- a/sound/soc/atmel/mchp-pdmc.c
-+++ b/sound/soc/atmel/mchp-pdmc.c
-@@ -777,6 +777,7 @@ static const struct snd_soc_dai_ops mchp_pdmc_dai_ops = {
- };
- 
- static struct snd_soc_dai_driver mchp_pdmc_dai = {
-+	.name	= "mchp-pdmc",
- 	.capture = {
- 		.stream_name	= "Capture",
- 		.channels_min	= 1,
+diff --git a/sound/soc/mediatek/mt8365/mt8365-mt6357.c b/sound/soc/mediatek/mt8365/mt8365-mt6357.c
+index fef76118f8010..577f3b1e20a18 100644
+--- a/sound/soc/mediatek/mt8365/mt8365-mt6357.c
++++ b/sound/soc/mediatek/mt8365/mt8365-mt6357.c
+@@ -257,8 +257,7 @@ static int mt8365_mt6357_gpio_probe(struct snd_soc_card *card)
+ 		priv->pin_states[i] = pinctrl_lookup_state(priv->pinctrl,
+ 							   mt8365_mt6357_pin_str[i]);
+ 		if (IS_ERR(priv->pin_states[i])) {
+-			ret = PTR_ERR(priv->pin_states[i]);
+-			dev_warn(card->dev, "No pin state for %s\n",
++			dev_info(card->dev, "No pin state for %s\n",
+ 				 mt8365_mt6357_pin_str[i]);
+ 		} else {
+ 			ret = pinctrl_select_state(priv->pinctrl,
 -- 
-2.34.1
+2.39.2
 
