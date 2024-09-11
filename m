@@ -1,71 +1,85 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D79B51891A9;
-	Wed, 11 Sep 2024 12:12:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E91AB192B61;
+	Wed, 11 Sep 2024 12:29:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726056749; cv=none; b=BFIJHQER2+36I5hheBYHIQ7ARNm6P8eu3xMdYh2z/C3wGGK6OmcuS2NXfUZ2uxHYrrkH1p2eEfZUOwjdi8VIavheG5KD8t5xtSb9ZBFV1Gi0ATNMfN3Cy8qZdqpnXGXTlxsWoASRdu0WU/55nMKq5j8SAjgWBfKytpRpCmCvHxw=
+	t=1726057774; cv=none; b=mVPIm1XHdqxfwg374fMrOGnV4Sk4at+fBDTeV9qO8ksauiNYXghsLzZDjvW9AgJePW/2rMwkqDM5ZS4Rngh0Lg+9GMSWIL6JdY2fqWCO1VkhlDKHagA6hm9WSFw0qSu72EVZ5bjtmFYTqVr686vy2oAsSa0zVpUhYhOr/5iViao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726056749; c=relaxed/simple;
-	bh=cSCzmdNsxwCze2MNd8Y3FRZkMMVzVlJgnJPwxFkrP9Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oB0ssybptswTfKLo++b1ZjU9TINDz6Ho1/IvZUwr8ZttFYI/yo/eHeM1qCN3ytB9zeypq+46CjBc+0p6nGqehGlk5CRYITvhJrXJe0aBIhiiSVd2bef2YGOprzQs3c1wjfmh+X6fB8eHEcmcsGaHH499aZC88gsQMigUbd6jDMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=RSAfgosv; arc=none smtp.client-ip=220.197.31.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1726057774; c=relaxed/simple;
+	bh=QvFkFjmTvJ1ESC2x19Ky85o9+VWa1Z7r9DQ/wvoNEY8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lf+oL+9jxhtlpZy9+kQ6/7MwFoJ4kO9/T7/ARNKrvvy/RcRKO92Su+ujMFOsaMjp+AC8ub7WtoTAEfqsfohSdvYhx0h/ZrLMUIKSMY8LfMZlvviZ+J7eKpKEb+ZALGppmN8YOeb5qXg74N23fSe/qz+13deCiAgAmnembzVuiyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=FLzd5k13; arc=none smtp.client-ip=68.232.153.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="RSAfgosv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:Message-ID:MIME-Version:
-	Content-Type; bh=yNsNUIh7Z32QBJGGMFVvTAKKOX0vPwFSxf2ClIPyrEc=;
-	b=RSAfgosvE/k6YmHb+X1z8imyHhXXTmvp/d2nKVSFt6s2STOs3JhNL8Ap+d5kPr
-	WFnIWcCzb9NytNXBmRR9Ke+de5khtVWrUk2MyoGzBhhnsXChgA5Ve3tRMqyZYQI0
-	HNQlAnjMCrmIZhv7sZnx3gl0Vn4qc4jIi5T2Qi70ggrF8=
-Received: from localhost (unknown [120.26.85.94])
-	by gzga-smtp-mta-g2-1 (Coremail) with SMTP id _____wDnj2IFieFmfO6VFQ--.4817S2;
-	Wed, 11 Sep 2024 20:11:50 +0800 (CST)
-Date: Wed, 11 Sep 2024 20:11:49 +0800
-From: Qianqiang Liu <qianqiang.liu@163.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: amergnat@baylibre.com, angelogioacchino.delregno@collabora.com,
-	lgirdwood@gmail.com, matthias.bgg@gmail.com,
-	linux-sound@vger.kernel.org, linux-mediatek@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: mt8365: Fix using uninitialized value "i2s_data"
- issue
-Message-ID: <ZuGJBQA90j1UB9En@iZbp1asjb3cy8ks0srf007Z>
-References: <20240911001516.47268-1-qianqiang.liu@163.com>
- <9ea8731a-7888-40a2-a183-4598884bbb27@sirena.org.uk>
- <ZuGAwQGPWdpO1-G9@iZbp1asjb3cy8ks0srf007Z>
- <eb21bcab-333d-4ab3-9222-058764ced720@sirena.org.uk>
- <ZuGG3jk6oqq7sUMw@iZbp1asjb3cy8ks0srf007Z>
- <8d921122-7271-451a-8bcb-83a1066b7b87@sirena.org.uk>
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="FLzd5k13"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1726057772; x=1757593772;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=QvFkFjmTvJ1ESC2x19Ky85o9+VWa1Z7r9DQ/wvoNEY8=;
+  b=FLzd5k13GV4Yp8i/s4zB1sjRQtI2GjO1Pkf0DaYe7c9dGB6jGM3HUdjr
+   pU1rfp+e4yy57ZkQjuSv373NyVOQCq5Y7zcCtOhIihLNtDq38REUngcD3
+   uu8YR8kagYH4ON+FelwOG428/pNXP6ASiy0Wo8TEithzhOj3K/iKXY8/+
+   Vi7PxZl2KKzdkoTII5AHUw9+4nFN/XaOYd/YpEjTmZLPY4PD4ShmoSGTl
+   Nj9cnhMYLvpws1DShJvS7zWJvswlb/CWjpYTWKQQElGNrrYo0Db3+zAAa
+   Z84KH5q8Jw0ZC1Uz5KqCbELboRk3f2Lp/F+eNASxfU+TNeBnlBqWRKub/
+   A==;
+X-CSE-ConnectionGUID: 7yc5wvIRQsyrcBgBTvQNrw==
+X-CSE-MsgGUID: cheCQQscS76IUrzwlChwnA==
+X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; 
+   d="scan'208";a="262627889"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 11 Sep 2024 05:29:30 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 11 Sep 2024 05:29:14 -0700
+Received: from ROB-ULT-M76677.microchip.com (10.10.85.11) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Wed, 11 Sep 2024 05:29:11 -0700
+From: Andrei Simion <andrei.simion@microchip.com>
+To: <claudiu.beznea@tuxon.dev>, <lgirdwood@gmail.com>, <broonie@kernel.org>,
+	<perex@perex.cz>, <tiwai@suse.com>, <nicolas.ferre@microchip.com>,
+	<alexandre.belloni@bootlin.com>
+CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	Andrei Simion <andrei.simion@microchip.com>
+Subject: [PATCH 0/3] Improvements for mchp-pdmc
+Date: Wed, 11 Sep 2024 15:29:06 +0300
+Message-ID: <20240911122909.133399-1-andrei.simion@microchip.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8d921122-7271-451a-8bcb-83a1066b7b87@sirena.org.uk>
-X-CM-TRANSID:_____wDnj2IFieFmfO6VFQ--.4817S2
-X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUIPl1UUUUU
-X-CM-SenderInfo: xtld01pldqwhxolxqiywtou0bp/1tbiLwdXamVOGQ7YCgABs6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Wed, Sep 11, 2024 at 01:07:52PM +0100, Mark Brown wrote:
-> On Wed, Sep 11, 2024 at 08:02:38PM +0800, Qianqiang Liu wrote:
-> 
-> > How about this new patch:
-> 
-> That looks good, thanks but an equivalent patch has already been sent
-> and is in my queue:
-> 
->     https://lore.kernel.org/r/20240911111317.4072349-1-usama.anjum@collabora.com
+This patch set is intended to enhance the functionality and maintainability
+of the mchp-pdmc driver:
+- Enhances performance by refining maxburst logic.
+- Introduces a name for better identification and management.
+- Ensures controls remain intact when streams start/finish,
+  returning -EBUSY if the controller is busy.
 
-OK, got it, thanks!
+Codrin Ciubotariu (3):
+  ASoC: atmel: mchp-pdmc: Improve maxburst calculation for better
+    performance
+  ASoC: atmel: mchp-pdmc: Add snd_soc_dai_driver name
+  ASoC: atmel: mchp-pdmc: Retain Non-Runtime Controls
 
+ sound/soc/atmel/mchp-pdmc.c | 118 +++++++++++++++++++-----------------
+ 1 file changed, 63 insertions(+), 55 deletions(-)
+
+
+base-commit: 6708132e80a2ced620bde9b9c36e426183544a23
 -- 
-Best,
-Qianqiang Liu
+2.34.1
 
