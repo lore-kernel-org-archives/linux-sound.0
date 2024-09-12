@@ -1,139 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE6B1B9837;
-	Thu, 12 Sep 2024 14:51:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E3EA47F6B
+	for <linux-sound@vger.kernel.org>; Thu, 12 Sep 2024 14:52:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726152669; cv=none; b=hnPCXX6b6swF7AupJNzsHiMAnoZWfv8sCxBnMG9DXzilGP0xZ5suKk+T1nK4zpcobKWTO2O0EfKPbT/fSJLC+7fQ3gKQh2DlEyIzn8hBKLJlyDZYiY0vAeIlKDI1yEENcZQT4SV5E4Fkyqr5Fmgq38zvGStW+98FhHcH4bnXBO0=
+	t=1726152754; cv=none; b=i1WSYAIzoyDFWOJ3DREmvoL9PMemh8ULxtEITQIlVRvnqXhP1T7/k1eheIZkyEfo0IFEcpSoO5gvtVxJuCOv6XSgPMn8b2fdA4b+pWxvI+apOkjqAr4S4Juh1qqe8EXMVIQmrw2HMt3iTJ+iEKQOqR9rh5pDWb92+lFHURAv5Yw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726152669; c=relaxed/simple;
-	bh=YzlriyEKn+i3JtEOOQGPkP98c79C4k//CQThjLlVVc4=;
+	s=arc-20240116; t=1726152754; c=relaxed/simple;
+	bh=5L3XjKyZGaCGCMFTycvEKhMmfORP1Kz/ZknLYi1DA68=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cnucUnq4fgVybNxcZkjlht6QNd9L8YqzInvR/D0NT3wEfol49Hlq/LWki+nTZkc1iUlZWJI9BKIQOVIk6GU8fA3/gaQ+qUgl9/G4+08QccGUWpISpzTGuOl5UAs5eJ/ExU6zfoQg6xNRrYILSqHASu/xDidRomn/G3Wr/S+RWBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HrxG7s+4; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=tH27ld5avcp+Mw1eXHN+nPSUfeeb5TYjXHOJCghKVgXXAjE3zjmLXjW3ASbDLbPW6k5t4OlPJBiIhDXFTyrgd4qTSRhpMvUl4OAZ/LpcCINh3X/4djf+Zrzr76Plr6F4PmsaV1JdvE6vxBlxRzVeyV/tjeuTP+/U0PNt9oaMwQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bUf5fSA7; arc=none smtp.client-ip=209.85.208.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HrxG7s+4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84085C4CEC3;
-	Thu, 12 Sep 2024 14:51:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726152668;
-	bh=YzlriyEKn+i3JtEOOQGPkP98c79C4k//CQThjLlVVc4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HrxG7s+4gt4QkbKM94COqUg/lsJfAnNxvZG4sakPtakRVd8xz6ynsRhLd72JCnXPg
-	 QAzGWtP+eCsqYPIzj1wR02E4WW9qULYbKYk0+WGJ2u6/fe/JHnp/VOVtXzohpkQn4h
-	 oa/Du/8mrhank/o0dL7v71V05rNZvL+1swetRDqm18bfFB2dfPuaEVuADcW2uOO7+v
-	 IZiwkqPeN1hPhQRce4OF5+y3kjru3mbfQY0tleSF0kq/09kfYfowjzt+IPiGVxWtmw
-	 CXYmCQ7oJGZ58rITCVxchFy4RaxlEEOwJZz2bLV6SqlkJOpJo84iIFqAoibzyjo5bA
-	 MapFVCGcHYUkw==
-Date: Thu, 12 Sep 2024 15:51:00 +0100
-From: Lee Jones <lee@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Flora Fu <flora.fu@mediatek.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Alexandre Mergnat <amergnat@baylibre.com>,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Nicolas Belin <nbelin@baylibre.com>
-Subject: Re: (subset) [PATCH v7 00/16] Add audio support for the MediaTek
- Genio 350-evk board
-Message-ID: <20240912145100.GE24460@google.com>
-References: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
- <172544860860.19172.7052813450885034844.b4-ty@kernel.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bUf5fSA7"
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2f75f116d11so13819981fa.1
+        for <linux-sound@vger.kernel.org>; Thu, 12 Sep 2024 07:52:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1726152752; x=1726757552; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=X+ATcCXBiLqkkadSQyOJBHhfQxxwHzkaV8GIwKqvbrs=;
+        b=bUf5fSA7rV5IMWPLniTdJT9UJDgjSL94hfVQcHR0ujuU9eU4xuhTBN+AdA6LIGxnBk
+         lE6/OxjRLNO0FebMOXLqDxNQS4ii2r2bPaHpwtymy9sA3wIUKlfP2DGjUckX8JKk3QPi
+         48dqThT3mPhIO4eaxNRTEyqExSxolR2qTKy/LpdO96RXSadI6fWkacxCfcEEz9LWrCfO
+         amR7/BUV66Wufh60neXpupsenoI88dVBtYM/JhkOo6vOW1aGLpGY+fw3kQ8djpJWEg2f
+         X62Q74pHV46andl/kwvS3TPWCH54gW0oHf4soqS3Io/xcZ6MylDUdZ67kIatC/iuTx6g
+         KEbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726152752; x=1726757552;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=X+ATcCXBiLqkkadSQyOJBHhfQxxwHzkaV8GIwKqvbrs=;
+        b=kw4yhzyx4q6HBBL+Y/ltNSpN8+w/sqDL8NPy7b4ZOg/1E2ZsronA18bY2CFQvmN8xd
+         2Pjh69FI+g0lsKNXivHMCUoKhcZrewhi10oGpgxOlh1rbIJygyfw4kYPyst0Ba8nDavF
+         zrcuPPZoGCQ01uiGOFUW9EkAfbfwCYvYI6GBI2CXvKvdC7XSeo9da9ARB+z4tHp2X6yP
+         +vC74ktBjGLVPUC9HVQH1knJWf3jgWVEqtL3qKYL2ifSj4o2SM9KPBWTAxK2+rBaybOC
+         7P68HkEYPzSWG+uocTIL36o4ay0jenY8WBiPY3Wc7BetEAH4e7SB2W5FczyfM6IX7L5z
+         ApDw==
+X-Forwarded-Encrypted: i=1; AJvYcCVEDR92yV8+ifJ5TXy7jMqhHwaBYDcF1RdT9Mhst8gIfPALuDORGe0WbxMn4cuSOGHLWDQnEzii9VDQwA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7WtkpinJcSWftI/eYUQYpRJga2kOlVks0G/ikImPVtnrgTU5i
+	q0e/ScewDaFGTxQbcwAll6O8NXzaIKaYzjK001VEFd+9TMXLBJeeG1zx7CrC1sU=
+X-Google-Smtp-Source: AGHT+IFscth7W2wIMjxwp6qUxm+Laav01ta16an3zwFZlQ+VWEWM+4Xv25f74tx1msWeY+s5nqGk1w==
+X-Received: by 2002:a2e:a7c1:0:b0:2f7:543a:3b1a with SMTP id 38308e7fff4ca-2f787d9e337mr20696161fa.7.1726152751355;
+        Thu, 12 Sep 2024 07:52:31 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c3ebd5245dsm6705327a12.52.2024.09.12.07.52.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Sep 2024 07:52:30 -0700 (PDT)
+Date: Thu, 12 Sep 2024 17:52:26 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] ALSA: control: prevent some integer overflow issues
+Message-ID: <b1158552-d899-49e5-9c4f-bf6a5b80c163@stanley.mountain>
+References: <0f03d569-9804-4617-a806-f0e5c32399fb@stanley.mountain>
+ <87v7z1yyok.wl-tiwai@suse.de>
+ <20c99f50-948e-4076-ba28-9640c3cd982d@stanley.mountain>
+ <72907305-eddc-4fb4-9c74-7e1d2750f4b9@stanley.mountain>
+ <87r09pynn5.wl-tiwai@suse.de>
+ <e364e109-5dac-4a24-b179-af0ee5659990@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <172544860860.19172.7052813450885034844.b4-ty@kernel.org>
+In-Reply-To: <e364e109-5dac-4a24-b179-af0ee5659990@stanley.mountain>
 
-On Wed, 04 Sep 2024, Mark Brown wrote:
+Actually there is a check in snd_ctl_new() which means that although these
+integer overflows do happen, we eventually return -ENOMEM and the whole
+thing is harmless.
 
-> On Mon, 22 Jul 2024 08:53:29 +0200, Alexandre Mergnat wrote:
-> > This serie aim to add the following audio support for the Genio 350-evk:
-> > - Playback
-> >   - 2ch Headset Jack (Earphone)
-> >   - 1ch Line-out Jack (Speaker)
-> >   - 8ch HDMI Tx
-> > - Capture
-> >   - 1ch DMIC (On-board Digital Microphone)
-> >   - 1ch AMIC (On-board Analogic Microphone)
-> >   - 1ch Headset Jack (External Analogic Microphone)
-> > 
-> > [...]
-> 
-> Applied to
-> 
->    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-> 
-> Thanks!
-> 
-> [01/16] ASoC: dt-bindings: mediatek,mt8365-afe: Add audio afe document
->         commit: ceb3ca2876243e3ea02f78b3d488b1f2d734de49
-> [02/16] ASoC: dt-bindings: mediatek,mt8365-mt6357: Add audio sound card document
->         commit: 76d80dcdd55f70b28930edb97b96ee375e1cce5a
-> [03/16] dt-bindings: mfd: mediatek: Add codec property for MT6357 PMIC
->         commit: 761cab667898d86c04867948f1b7aec1090be796
+	if (count == 0 || count > MAX_CONTROL_COUNT)
 
-Did you mean to hoover this up?
+regards,
+dan carpenter
 
-> [04/16] ASoC: mediatek: mt8365: Add common header
->         commit: 38c7c9ddc74033406461d64e541bbc8268e77f73
-> [05/16] ASoC: mediatek: mt8365: Add audio clock control support
->         commit: ef307b40b7f0042d54f020bccb3e728ced292282
-> [06/16] ASoC: mediatek: mt8365: Add I2S DAI support
->         commit: 402bbb13a195caa83b3279ebecdabfb11ddee084
-> [07/16] ASoC: mediatek: mt8365: Add ADDA DAI support
->         commit: 7c58c88e524180e8439acdfc44872325e7f6d33d
-> [08/16] ASoC: mediatek: mt8365: Add DMIC DAI support
->         commit: 1c50ec75ce6c0c6b5736499393e522f73e19d0cf
-> [09/16] ASoC: mediatek: mt8365: Add PCM DAI support
->         commit: 5097c0c8634d703e3c59cfb89831b7db9dc46339
-> [10/16] ASoc: mediatek: mt8365: Add a specific soundcard for EVK
->         commit: 1bf6dbd75f7603dd026660bebf324f812200dc1b
-> [11/16] ASoC: mediatek: mt8365: Add the AFE driver support
->         commit: e1991d102bc2abb32331c462f8f3e77059c69578
-> [12/16] ASoC: codecs: add MT6357 support
->         (no commit info)
-> [13/16] ASoC: mediatek: Add MT8365 support
->         (no commit info)
-> 
-> All being well this means that it will be integrated into the linux-next
-> tree (usually sometime in the next 24 hours) and sent to Linus during
-> the next merge window (or sooner if it is a bug fix), however if
-> problems are discovered then the patch may be dropped or reverted.
-> 
-> You may get further e-mails resulting from automated or manual testing
-> and review of the tree, please engage with people reporting problems and
-> send followup patches addressing any issues that are reported if needed.
-> 
-> If any updates are required or you are submitting further changes they
-> should be sent as incremental updates against current git, existing
-> patches will not be replaced.
-> 
-> Please add any relevant lists and maintainers to the CCs when replying
-> to this mail.
-> 
-> Thanks,
-> Mark
-> 
-
--- 
-Lee Jones [李琼斯]
