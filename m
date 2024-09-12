@@ -1,84 +1,83 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC53A18DF90
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9162192597
 	for <linux-sound@vger.kernel.org>; Thu, 12 Sep 2024 15:51:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726156309; cv=none; b=c86/PeEIqAX/Um5XkGDeFN1Y5f0KjGkOme8Oa0Hhhf/rex06I0iFh4+YqPaYFm2gC2W5XoF0DNUeRbA+VxpUw8ciL82eesCJEf1idztfOCYYMfXhjraMb2lBI6PwAmhmLNzW53T05kxXfjVh/29MvH05k22YY+WtVyFZR956bKc=
+	t=1726156309; cv=none; b=jicK2G130mHepyhTvBPupC6S3HKSP02368Xi25KlOlGSLPst6lU1KnOEF/bAT+ZdoJQOQh5pIK3MKsfq6RX94anXLtdazeq+0UYRC8WZzNylCK5KoS6/TUS79qzgUyo08YRinFR8h33HBEybBS44WqLsuwoAoq4yDM5YrfLOcSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1726156309; c=relaxed/simple;
-	bh=4kO5nuRr+f4IxtfiZGPLnWL0kiUrjRtlJqvqFCHJiOA=;
+	bh=1r3H+c434/+wMAbGgLPZEYeQ3LKhkiuEk3BmB5P/6Fk=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RI1OnM1zNNVbldnMtcPkdz4h8ubIb7H09CZDNi6PKRyXnamP2mFvQuAfs7zkjOeNRRx6CKGND+eBpG4w9oavvVTmQZZPxBqdB6uiWLT3lYSvUUClNkMhJk2QsaUFFXViRYLZPovbcIYXSkFlOsOI/s/r2+bixb4IwGbrnfpyjqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DQ4z22Tg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qUti9++X; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DQ4z22Tg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qUti9++X; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=t0N9xTzj+434zaoqbj2gqXm8RZdjaoSaFp39FB55YFN9Rv3hUCJFG9zyKihfQxqm43h0pOo5/8L49LRwkOeKun9ZaTprlA0GBV/dzSjtvTOVGJx8in/ba+fTN0e0+UpqtZoxLqkE4gIysVJ/ZciQneywIK2ghBxlKyvqkjAVdnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=e93JUziG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=AIMFhH0w; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=e93JUziG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=AIMFhH0w; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DQ4z22Tg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qUti9++X";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DQ4z22Tg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qUti9++X"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="e93JUziG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AIMFhH0w";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="e93JUziG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AIMFhH0w"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 102121FB7D;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 31DCA21A1F;
 	Thu, 12 Sep 2024 15:51:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1726156306; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=OWVmZ5JcAOWdd3poOuD0gWr+wu0+YNLyQbVCIddNhnk=;
-	b=DQ4z22Tg//hCSQB6wFPf+3IOQIzQsEGhFh5a0LIdWofvcvMQFPw0YG3rOjMhoMYYROGahq
-	XyoDmMH/8Z5lD44RtBDx6xN/07VD8ZM1P89c6fa58CYyKtR9CqZORdJHUDXwJjIAJGynqe
-	l2QTUTVrDN6NEDXYuxRlNAon5h/K/Ho=
+	bh=bfHxjJl/1vPUXbavjXeuxJX/0hTeu8kq+fmPD26cq9w=;
+	b=e93JUziGSsvDOPZW19I1g2bIg+MuaKbbE0RGh0Du4BO7nakwtOdHr7N0cKU59q+PMnosW8
+	zWufGn2hP4QA9Dvpe16Mkm7t0x13ikzBR7o6afHDC6Cq8LSC5HMrVHKn1psV6sb/ke3VbT
+	KPy9P5TC2lNPeQ+U3Lo6Y9dSIdTSN0I=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1726156306;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=OWVmZ5JcAOWdd3poOuD0gWr+wu0+YNLyQbVCIddNhnk=;
-	b=qUti9++XEXQHjRJfbpnB4Ic5z0uhX25JWFD04TN9q7YT+KftrrxaJRutZO6OGQvm+8PAmH
-	Hj1ER2VtalxW2RDw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=DQ4z22Tg;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=qUti9++X
+	bh=bfHxjJl/1vPUXbavjXeuxJX/0hTeu8kq+fmPD26cq9w=;
+	b=AIMFhH0wt1tGnxqLHHDliWzxAveVshN3wvDwntQKj+hs9BXzjooCUPwETUWHN59ulT9mNN
+	j5ZSm/tVo9RTxHCQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1726156306; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=OWVmZ5JcAOWdd3poOuD0gWr+wu0+YNLyQbVCIddNhnk=;
-	b=DQ4z22Tg//hCSQB6wFPf+3IOQIzQsEGhFh5a0LIdWofvcvMQFPw0YG3rOjMhoMYYROGahq
-	XyoDmMH/8Z5lD44RtBDx6xN/07VD8ZM1P89c6fa58CYyKtR9CqZORdJHUDXwJjIAJGynqe
-	l2QTUTVrDN6NEDXYuxRlNAon5h/K/Ho=
+	bh=bfHxjJl/1vPUXbavjXeuxJX/0hTeu8kq+fmPD26cq9w=;
+	b=e93JUziGSsvDOPZW19I1g2bIg+MuaKbbE0RGh0Du4BO7nakwtOdHr7N0cKU59q+PMnosW8
+	zWufGn2hP4QA9Dvpe16Mkm7t0x13ikzBR7o6afHDC6Cq8LSC5HMrVHKn1psV6sb/ke3VbT
+	KPy9P5TC2lNPeQ+U3Lo6Y9dSIdTSN0I=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1726156306;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=OWVmZ5JcAOWdd3poOuD0gWr+wu0+YNLyQbVCIddNhnk=;
-	b=qUti9++XEXQHjRJfbpnB4Ic5z0uhX25JWFD04TN9q7YT+KftrrxaJRutZO6OGQvm+8PAmH
-	Hj1ER2VtalxW2RDw==
+	bh=bfHxjJl/1vPUXbavjXeuxJX/0hTeu8kq+fmPD26cq9w=;
+	b=AIMFhH0wt1tGnxqLHHDliWzxAveVshN3wvDwntQKj+hs9BXzjooCUPwETUWHN59ulT9mNN
+	j5ZSm/tVo9RTxHCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E9FE113AE5;
-	Thu, 12 Sep 2024 15:51:45 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 15FF213A73;
+	Thu, 12 Sep 2024 15:51:46 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gLEFNxEO42ZTHwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 12 Sep 2024 15:51:45 +0000
+	id AOUqBBIO42ZTHwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 12 Sep 2024 15:51:46 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 1/2] ALSA: memalloc: Use proper DMA mapping API for x86 WC buffer allocations
-Date: Thu, 12 Sep 2024 17:52:24 +0200
-Message-ID: <20240912155227.4078-2-tiwai@suse.de>
+Subject: [PATCH 2/2] ALSA: memalloc: Use proper DMA mapping API for x86 S/G buffer allocations
+Date: Thu, 12 Sep 2024 17:52:25 +0200
+Message-ID: <20240912155227.4078-3-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240912155227.4078-1-tiwai@suse.de>
 References: <20240912155227.4078-1-tiwai@suse.de>
@@ -89,135 +88,223 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 102121FB7D
-X-Spam-Level: 
-X-Spamd-Result: default: False [-5.01 / 50.00];
+X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCPT_COUNT_ONE(0.00)[1];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email];
 	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid];
-	TO_DN_NONE(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -5.01
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
 X-Spam-Flag: NO
+X-Spam-Level: 
 
-The x86 WC page allocation assumes incorrectly the DMA address
-directly taken from the page.  Also it checks the DMA ops
-inappropriately for switching to the own method.
+The fallback S/G buffer allocation for x86 used the addresses deduced
+from the page allocations blindly.  It broke the allocations on IOMMU
+and made us to work around with a hackish DMA ops check.
 
-This patch rewrites the stuff to use the proper DMA mapping API
-instead.
+For cleaning up those messes, this patch switches to the proper DMA
+mapping API usages with the standard sg-table instead.
+
+By introducing the sg-table, the address table isn't needed, but for
+keeping the original allocation sizes for freeing, replace it with the
+array keeping the number of pages.
+
+The get_addr callback is changed to use the existing one for
+non-contiguous buffers.  (Also it's the reason sg_table is put at the
+beginning of struct snd_dma_sg_fallback.)
+
+And finally, the hackish workaround that checks the DMA ops is
+dropped now.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/core/memalloc.c | 51 +++++++++++++++++++++++++++----------------
- 1 file changed, 32 insertions(+), 19 deletions(-)
+ sound/core/memalloc.c | 78 ++++++++++++++++++++-----------------------
+ 1 file changed, 36 insertions(+), 42 deletions(-)
 
 diff --git a/sound/core/memalloc.c b/sound/core/memalloc.c
-index b21dba4b374a..39e97f6fe8ac 100644
+index 39e97f6fe8ac..13b71069ae18 100644
 --- a/sound/core/memalloc.c
 +++ b/sound/core/memalloc.c
-@@ -496,41 +496,54 @@ static const struct snd_malloc_ops snd_dma_dev_ops = {
- /*
-  * Write-combined pages
-  */
--/* x86-specific allocations */
+@@ -680,43 +680,43 @@ static const struct snd_malloc_ops snd_dma_noncontig_ops = {
  #ifdef CONFIG_SND_DMA_SGBUF
--#define x86_fallback(dmab)	(!get_dma_ops(dmab->dev.dev))
--#else
--#define x86_fallback(dmab)	false
--#endif
+ /* Fallback SG-buffer allocations for x86 */
+ struct snd_dma_sg_fallback {
++	struct sg_table sgt; /* used by get_addr - must be the first item */
+ 	size_t count;
+ 	struct page **pages;
+-	/* DMA address array; the first page contains #pages in ~PAGE_MASK */
+-	dma_addr_t *addrs;
++	unsigned int *npages;
+ };
+ 
+ static void __snd_dma_sg_fallback_free(struct snd_dma_buffer *dmab,
+ 				       struct snd_dma_sg_fallback *sgbuf)
+ {
++	bool wc = dmab->dev.type == SNDRV_DMA_TYPE_DEV_WC_SG;
+ 	size_t i, size;
+ 
+-	if (sgbuf->pages && sgbuf->addrs) {
++	if (sgbuf->pages && sgbuf->npages) {
+ 		i = 0;
+ 		while (i < sgbuf->count) {
+-			if (!sgbuf->pages[i] || !sgbuf->addrs[i])
+-				break;
+-			size = sgbuf->addrs[i] & ~PAGE_MASK;
+-			if (WARN_ON(!size))
++			size = sgbuf->npages[i];
++			if (!size)
+ 				break;
+ 			do_free_pages(page_address(sgbuf->pages[i]),
+-				      size << PAGE_SHIFT, false);
++				      size << PAGE_SHIFT, wc);
+ 			i += size;
+ 		}
+ 	}
+ 	kvfree(sgbuf->pages);
+-	kvfree(sgbuf->addrs);
++	kvfree(sgbuf->npages);
+ 	kfree(sgbuf);
+ }
+ 
+ /* fallback manual S/G buffer allocations */
+ static void *snd_dma_sg_fallback_alloc(struct snd_dma_buffer *dmab, size_t size)
+ {
++	bool wc = dmab->dev.type == SNDRV_DMA_TYPE_DEV_WC_SG;
+ 	struct snd_dma_sg_fallback *sgbuf;
+ 	struct page **pagep, *curp;
+-	size_t chunk, npages;
+-	dma_addr_t *addrp;
++	size_t chunk;
+ 	dma_addr_t addr;
++	unsigned int idx, npages;
+ 	void *p;
+ 
+ 	sgbuf = kzalloc(sizeof(*sgbuf), GFP_KERNEL);
+@@ -725,16 +725,16 @@ static void *snd_dma_sg_fallback_alloc(struct snd_dma_buffer *dmab, size_t size)
+ 	size = PAGE_ALIGN(size);
+ 	sgbuf->count = size >> PAGE_SHIFT;
+ 	sgbuf->pages = kvcalloc(sgbuf->count, sizeof(*sgbuf->pages), GFP_KERNEL);
+-	sgbuf->addrs = kvcalloc(sgbuf->count, sizeof(*sgbuf->addrs), GFP_KERNEL);
+-	if (!sgbuf->pages || !sgbuf->addrs)
++	sgbuf->npages = kvcalloc(sgbuf->count, sizeof(*sgbuf->npages), GFP_KERNEL);
++	if (!sgbuf->pages || !sgbuf->npages)
+ 		goto error;
+ 
+ 	pagep = sgbuf->pages;
+-	addrp = sgbuf->addrs;
+-	chunk = (PAGE_SIZE - 1) << PAGE_SHIFT; /* to fit in low bits in addrs */
++	chunk = size;
++	idx = 0;
+ 	while (size > 0) {
+ 		chunk = min(size, chunk);
+-		p = do_alloc_pages(dmab->dev.dev, chunk, &addr, false);
++		p = do_alloc_pages(dmab->dev.dev, chunk, &addr, wc);
+ 		if (!p) {
+ 			if (chunk <= PAGE_SIZE)
+ 				goto error;
+@@ -746,27 +746,33 @@ static void *snd_dma_sg_fallback_alloc(struct snd_dma_buffer *dmab, size_t size)
+ 		size -= chunk;
+ 		/* fill pages */
+ 		npages = chunk >> PAGE_SHIFT;
+-		*addrp = npages; /* store in lower bits */
++		sgbuf->npages[idx] = npages;
++		idx += npages;
+ 		curp = virt_to_page(p);
+-		while (npages--) {
++		while (npages--)
+ 			*pagep++ = curp++;
+-			*addrp++ |= addr;
+-			addr += PAGE_SIZE;
+-		}
+ 	}
+ 
++	if (sg_alloc_table_from_pages(&sgbuf->sgt, sgbuf->pages, sgbuf->count,
++				      0, sgbuf->count << PAGE_SHIFT, GFP_KERNEL))
++		goto error;
++
++	if (dma_map_sgtable(dmab->dev.dev, &sgbuf->sgt, DMA_BIDIRECTIONAL, 0))
++		goto error_dma_map;
++
+ 	p = vmap(sgbuf->pages, sgbuf->count, VM_MAP, PAGE_KERNEL);
+ 	if (!p)
+-		goto error;
 -
-+/* x86-specific allocations */
-+static void *snd_dma_wc_alloc(struct snd_dma_buffer *dmab, size_t size)
-+{
-+	void *p = do_alloc_pages(dmab->dev.dev, size, &dmab->addr, true);
-+
-+	if (!p)
-+		return NULL;
-+	dmab->addr = dma_map_single(dmab->dev.dev, p, size, DMA_BIDIRECTIONAL);
-+	if (dmab->addr == DMA_MAPPING_ERROR) {
-+		do_free_pages(dmab->area, size, true);
-+		return NULL;
-+	}
-+	return p;
-+}
-+
-+static void snd_dma_wc_free(struct snd_dma_buffer *dmab)
-+{
-+	dma_unmap_single(dmab->dev.dev, dmab->addr, dmab->bytes,
-+			 DMA_BIDIRECTIONAL);
-+	do_free_pages(dmab->area, dmab->bytes, true);
-+}
-+
-+static int snd_dma_wc_mmap(struct snd_dma_buffer *dmab,
-+			   struct vm_area_struct *area)
-+{
-+	area->vm_page_prot = pgprot_writecombine(area->vm_page_prot);
-+	return dma_mmap_coherent(dmab->dev.dev, area,
-+				 dmab->area, dmab->addr, dmab->bytes);
-+}
-+#else
- static void *snd_dma_wc_alloc(struct snd_dma_buffer *dmab, size_t size)
+-	if (dmab->dev.type == SNDRV_DMA_TYPE_DEV_WC_SG)
+-		set_pages_array_wc(sgbuf->pages, sgbuf->count);
++		goto error_vmap;
+ 
+ 	dmab->private_data = sgbuf;
+ 	/* store the first page address for convenience */
+-	dmab->addr = sgbuf->addrs[0] & PAGE_MASK;
++	dmab->addr = snd_sgbuf_get_addr(dmab, 0);
+ 	return p;
+ 
++ error_vmap:
++	dma_unmap_sgtable(dmab->dev.dev, &sgbuf->sgt, DMA_BIDIRECTIONAL, 0);
++ error_dma_map:
++	sg_free_table(&sgbuf->sgt);
+  error:
+ 	__snd_dma_sg_fallback_free(dmab, sgbuf);
+ 	return NULL;
+@@ -776,21 +782,12 @@ static void snd_dma_sg_fallback_free(struct snd_dma_buffer *dmab)
  {
--	if (x86_fallback(dmab))
--		return do_alloc_pages(dmab->dev.dev, size, &dmab->addr, true);
- 	return dma_alloc_wc(dmab->dev.dev, size, &dmab->addr, DEFAULT_GFP);
+ 	struct snd_dma_sg_fallback *sgbuf = dmab->private_data;
+ 
+-	if (dmab->dev.type == SNDRV_DMA_TYPE_DEV_WC_SG)
+-		set_pages_array_wb(sgbuf->pages, sgbuf->count);
+ 	vunmap(dmab->area);
++	dma_unmap_sgtable(dmab->dev.dev, &sgbuf->sgt, DMA_BIDIRECTIONAL, 0);
++	sg_free_table(&sgbuf->sgt);
+ 	__snd_dma_sg_fallback_free(dmab, dmab->private_data);
  }
  
- static void snd_dma_wc_free(struct snd_dma_buffer *dmab)
+-static dma_addr_t snd_dma_sg_fallback_get_addr(struct snd_dma_buffer *dmab,
+-					       size_t offset)
+-{
+-	struct snd_dma_sg_fallback *sgbuf = dmab->private_data;
+-	size_t index = offset >> PAGE_SHIFT;
+-
+-	return (sgbuf->addrs[index] & PAGE_MASK) | (offset & ~PAGE_MASK);
+-}
+-
+ static int snd_dma_sg_fallback_mmap(struct snd_dma_buffer *dmab,
+ 				    struct vm_area_struct *area)
  {
--	if (x86_fallback(dmab)) {
--		do_free_pages(dmab->area, dmab->bytes, true);
--		return;
--	}
- 	dma_free_wc(dmab->dev.dev, dmab->bytes, dmab->area, dmab->addr);
- }
- 
- static int snd_dma_wc_mmap(struct snd_dma_buffer *dmab,
- 			   struct vm_area_struct *area)
- {
--#ifdef CONFIG_SND_DMA_SGBUF
--	if (x86_fallback(dmab)) {
--		area->vm_page_prot = pgprot_writecombine(area->vm_page_prot);
--		return snd_dma_continuous_mmap(dmab, area);
--	}
--#endif
- 	return dma_mmap_wc(dmab->dev.dev, area,
- 			   dmab->area, dmab->addr, dmab->bytes);
- }
-+#endif
- 
- static const struct snd_malloc_ops snd_dma_wc_ops = {
- 	.alloc = snd_dma_wc_alloc,
-@@ -804,7 +817,7 @@ static void *snd_dma_sg_alloc(struct snd_dma_buffer *dmab, size_t size)
+@@ -816,10 +813,6 @@ static void *snd_dma_sg_alloc(struct snd_dma_buffer *dmab, size_t size)
+ 		return p;
  
  	dmab->dev.type = type; /* restore the type */
- 	/* if IOMMU is present but failed, give up */
--	if (!x86_fallback(dmab))
-+	if (get_dma_ops(dmab->dev.dev))
- 		return NULL;
- 	/* try fallback */
+-	/* if IOMMU is present but failed, give up */
+-	if (get_dma_ops(dmab->dev.dev))
+-		return NULL;
+-	/* try fallback */
  	return snd_dma_sg_fallback_alloc(dmab, size);
+ }
+ 
+@@ -827,7 +820,8 @@ static const struct snd_malloc_ops snd_dma_sg_ops = {
+ 	.alloc = snd_dma_sg_alloc,
+ 	.free = snd_dma_sg_fallback_free,
+ 	.mmap = snd_dma_sg_fallback_mmap,
+-	.get_addr = snd_dma_sg_fallback_get_addr,
++	/* reuse noncontig helper */
++	.get_addr = snd_dma_noncontig_get_addr,
+ 	/* reuse vmalloc helpers */
+ 	.get_page = snd_dma_vmalloc_get_page,
+ 	.get_chunk_size = snd_dma_vmalloc_get_chunk_size,
 -- 
 2.43.0
 
