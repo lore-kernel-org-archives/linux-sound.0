@@ -1,87 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08E741AD256;
-	Thu, 12 Sep 2024 16:54:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D59C61BDA91;
+	Thu, 12 Sep 2024 17:05:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726160053; cv=none; b=jU9/GSlmoOcDmOj6Usf2+E868R4wB/4db62vP3PPw9VD82qigJkoZBz3PAMjVEm6Hr9q5N4TwcupN6gfv7MZeHhuiBY4JqNbqRTPRWZg3/XPN/Egvgl5mj09r7zqA5N6jajSp6cff/ZeTDYqpoTbdhVkM5IkLgcqRQvkjOxTEJo=
+	t=1726160717; cv=none; b=INU4wqtMx5+A0UbRJZEFYdlFW+J2QOaNc06NC7FFN6BwqIFu7DxgYezCsbRk6ieKK45+R+CDaqaFtqGyr65ofJXR1blXbTEAwfo7fBKeKAsPi1JpJb463G3y2FDn/6kYaEMeMJZDqWMCka2bHuYtHvb4FFT+pBIVVTLQGaKxzcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726160053; c=relaxed/simple;
-	bh=EvuQRTOvCygv4JttyYOrIYG2JZuDMwbgBuOgkBJTeAc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iMNTeCkbzpKSzXs7ErKT00apM2Cvt6yIOx+l3kUHiPD2Q1IrI3gh1VLaHznAp43Y4r4wGQF24MIq/pqYGzYhoNm7QDzojZA7QukEx8b46X6o77ijnw9gCYVgWqI169uHVix8jhnpnEi15JAT5/JMcyg/oPsaIivpBA7TUkhNWWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RSkpgXj+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1726160717; c=relaxed/simple;
+	bh=Jn+D3Ldn3xXWF87flG57S+s2cGeeN6zBdVn7hWJkyhI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=NduypcM3XenyNEYJSw8Lji4tr0EA/o/mX2bBafBFwV8OvCbFhwq7eECYJSGrtL2pApArZkj4KQ5SrvD04pvGDF+2PQ+EAKRe7SdsWq0SKBb2ZTrFZQi7WC2TqbjFNsVYI1yCSWzBocqP781/CyeBXots/B5z1zdfQsU7qCqiDIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TyuyVELg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RSkpgXj+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B42B2C4CEC3;
-	Thu, 12 Sep 2024 16:54:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TyuyVELg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44938C4CEC4;
+	Thu, 12 Sep 2024 17:05:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726160052;
-	bh=EvuQRTOvCygv4JttyYOrIYG2JZuDMwbgBuOgkBJTeAc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RSkpgXj+jtRgdtCiTXLvwsUHUdoe4J25kmlMfVfb1/cYDHZ39VIPLu0B+EVQYrWEg
-	 eXasDGChp/IqEDddBOUc/14D0P3rUbJEy8ojr8kmWAWhcEzxIidEsLruIsiveCeT/7
-	 BlQTgenMOoQZz0A1+zCRv5EXrG4ipcfqagMuMEj9+sGrXYxlBljX5jv/saUVLWc63C
-	 tcH1VSgSzk7SiVByhan7p8/+K8io2ALVDTPqrE6CHWBJxDwKKo++qPawPEqMRdrpOn
-	 qYlXGo0kJqpyKlp5jnHne3PZ/qwgUGIbicMDDSaRVjD5Tv0fhuY5O5667XleL8Nm6P
-	 g8cY44G2Vnw+A==
-Date: Thu, 12 Sep 2024 17:54:04 +0100
-From: Lee Jones <lee@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Flora Fu <flora.fu@mediatek.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Alexandre Mergnat <amergnat@baylibre.com>,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Nicolas Belin <nbelin@baylibre.com>
-Subject: Re: (subset) [PATCH v7 00/16] Add audio support for the MediaTek
- Genio 350-evk board
-Message-ID: <20240912165404.GG24460@google.com>
-References: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
- <172544860860.19172.7052813450885034844.b4-ty@kernel.org>
- <20240912145100.GE24460@google.com>
- <10c1217b-d8a3-489c-93fc-6de45dcbe47c@sirena.org.uk>
+	s=k20201202; t=1726160717;
+	bh=Jn+D3Ldn3xXWF87flG57S+s2cGeeN6zBdVn7hWJkyhI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=TyuyVELgN12TDDomQTcsuk0TYow8KnxpOq3PzmdVvokNIyhoCAJQ7xDJmQL5Slu59
+	 WMyQyaIgHncTo8y35lymIgT8mJG1TQyiZWQ5fe8MvShwRtOUuixHANcGUNT+01zla2
+	 uKYPkqiWHO89YUnv/GBLy11prPheXSfloiAnCh76Q4jN1E6GHHKXO8rQmx8tHWpBeU
+	 R/SWDke4OFbHWQwJl6mh9cEXZ+LnqZq/pL+HuqiO1GwzzC9CTVHRzAIDUTho5aujdb
+	 7OxQcwea3IYmy1/XP6Htw5snZQWVaVA3B4lh3k3/K1CJJQLxUGb6/EWJGsdpOkjTN2
+	 I9V5tNOsGe9IQ==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Nicolas Belin <nbelin@baylibre.com>, 
+ Alexandre Mergnat <amergnat@baylibre.com>, 
+ Muhammad Usama Anjum <usama.anjum@collabora.com>
+Cc: kernel@collabora.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org
+In-Reply-To: <20240911123629.125686-1-usama.anjum@collabora.com>
+References: <20240911123629.125686-1-usama.anjum@collabora.com>
+Subject: Re: [PATCH v2] ASoc: mediatek: mt8365: Remove unneeded assignment
+Message-Id: <172616071500.69425.1928964300196117932.b4-ty@kernel.org>
+Date: Thu, 12 Sep 2024 18:05:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <10c1217b-d8a3-489c-93fc-6de45dcbe47c@sirena.org.uk>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-99b12
 
-On Thu, 12 Sep 2024, Mark Brown wrote:
-
-> On Thu, Sep 12, 2024 at 03:51:00PM +0100, Lee Jones wrote:
-> > On Wed, 04 Sep 2024, Mark Brown wrote:
+On Wed, 11 Sep 2024 17:36:22 +0500, Muhammad Usama Anjum wrote:
+> The ret is being assigned, but not being used. Remove the assignment.
+> One of the reviewer mentioned that dev_warn should be replaced with
+> dev_info. Make this change as well.
 > 
-> > > [03/16] dt-bindings: mfd: mediatek: Add codec property for MT6357 PMIC
-> > >         commit: 761cab667898d86c04867948f1b7aec1090be796
 > 
-> > Did you mean to hoover this up?
-> 
-> It seemed to go along with the series and had a DT review so it looked
-> like you'd just left it to the DT people to review, there wasn't any
-> other MFD content in the series.
 
-I applied it from this set 6 weeks ago! :)
+Applied to
 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
--- 
-Lee Jones [李琼斯]
+Thanks!
+
+[1/1] ASoc: mediatek: mt8365: Remove unneeded assignment
+      commit: d69f11e8c57e9459c9e60bffc0f2c6c3aa02f4b1
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
