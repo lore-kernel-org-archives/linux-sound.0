@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF321A263E
-	for <linux-sound@vger.kernel.org>; Thu, 12 Sep 2024 12:03:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4221A263E
+	for <linux-sound@vger.kernel.org>; Thu, 12 Sep 2024 12:03:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726142616; cv=none; b=Xza5jDePg7x5tefp9kpM9y2o51hhWc5pNvHjXY2+eij0JfY8unxFu9V9gjQlk+6mVc+0+7PKbaOPhP2DL5RII7BKxRoaCTqNRrfjGYA8mGyBha4tyBKB1ZPBU41S60hAMBR8RL0G9X3CKOEW/8mVd115UVGaRL79RO8QDU9U5TY=
+	t=1726142618; cv=none; b=ks4nJuN0FOVVZg8VX3/+NFo49IBD3Oe/y6XEO9x+I3Md2MxBDhnsh4D45RetbNRxE4QeWLax9UGHpLdTn+WdiKWdwFrOrqudOsYevYAAEbLM97UXZf1ZpphW5efOFkiZkwtOJAbba1iaG98ECTfkJLwQPwFB9SnRZWA5vJMig7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726142616; c=relaxed/simple;
-	bh=G1T6fGo/525oLZSKNzVFmMxTU/Cry1bigfolNU5BPZA=;
+	s=arc-20240116; t=1726142618; c=relaxed/simple;
+	bh=8l2/JABV6H5hQ/YCfrafkBQB+l3NZBTPfqVM1ryBXtg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=a4w/lgJHiAlAlqlQGcAFALLc3DKwEONB/tgEUfTLMwaTiZR805F9Xd12dGecy3yQJU+Udz4E7FRGXB++AVkRcOEvh1VbXn8v1Uo7RNSrDPPyXgS5hUqFGH/t1FAwBkTl/TWPWE26BKFzDKhKd6R3BcNMVS1BcKt1JoueIHwVCXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gGIM1nvK; arc=none smtp.client-ip=198.175.65.20
+	 MIME-Version; b=DFKZR1Uvysxn2Y8dx31ZLNdfJ0C+bKrIkj7B16pqJ4dg75RUjmoVwFwKY8/yVuDeCS1cIWS+KS1x+bx0i168o7oRlu24UAvzt3nugrtNk7QwyJE5hUedxr7VdTeWJTc2M4i5FKmuKCwbRFXIUtXesqQ+s6mgaIYiGg3SXMpmSNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WMJH/+UL; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gGIM1nvK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WMJH/+UL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726142615; x=1757678615;
+  t=1726142618; x=1757678618;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=G1T6fGo/525oLZSKNzVFmMxTU/Cry1bigfolNU5BPZA=;
-  b=gGIM1nvKOUFL8xpE9HWzSziVzd6L7OtQAqbUwL7OvBof0e/H4nF99UZP
-   3BbvB8x6ppk/nJeYeRc68vGadYWwOhhMHmwkYzCmLAd8WMoynnvpzykHk
-   bb80A9ttohiiPXKskK7OoZQuw6RFKAFPpjvlCSo3Na6KC+2KcStC1nwDc
-   /QXAff9wOND8hHCcXwBisBmJFagBejRtuhB471o2/YpK6x7awfUQksGb2
-   CW532zDc0RUJ0CjiZDYe5nm6oxaOSwqJv9o2uv8VqouxYtDb7cQpMfrGI
-   mADJLupYhZoiWh6oecllZofI/HfLFAoicBlPOvYUPP/XcdOeEeyDukWI0
-   w==;
-X-CSE-ConnectionGUID: oyPpfxpOTM+RbaEGFZs1ew==
-X-CSE-MsgGUID: pq6TSxQJQ4m22siu3gmBrQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11192"; a="24812795"
+  bh=8l2/JABV6H5hQ/YCfrafkBQB+l3NZBTPfqVM1ryBXtg=;
+  b=WMJH/+ULwKa11TsvkidEIAtKDuSDcX9o7DlTTq9QUxEb3GYURra+yZ9u
+   4z1SZHjwWmrfqK8hNlx25HoFyXioTFudaJm/hIXmzMiA0CDV/A8ttak1i
+   NBYywqRjxewXx0snTluQsrksCxl44fEnW4M7ECPY4pmMVdPIeBhQPhOvy
+   RO5pWDOfXp98+ahnaONXHVHJRDmrKwTv3CnlumcmFRetta7tMV/bdFaNo
+   0xT1bvy6bfgRd7nCP5JyxYkhu/z6R5s3YkuT+UI+QY9WqJV8NdV5aatUQ
+   +M+BJLjrE+Ilwpweh3uA8kHVfAwZuAgp4e03WACU0/iR4HEg8CcsZCCI4
+   g==;
+X-CSE-ConnectionGUID: GD2ZZWyxQDODaAqemljBIw==
+X-CSE-MsgGUID: 2v3TMWBOTIG7sZMWUB7g7g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11192"; a="24812804"
 X-IronPort-AV: E=Sophos;i="6.10,222,1719903600"; 
-   d="scan'208";a="24812795"
+   d="scan'208";a="24812804"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 05:03:34 -0700
-X-CSE-ConnectionGUID: WAzGqDKMRcaPPcNrwTTJgQ==
-X-CSE-MsgGUID: RZWdwF6MSaq3SozUzTo6dw==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 05:03:37 -0700
+X-CSE-ConnectionGUID: bZDq6MwRT2eYDeUsyJBHQw==
+X-CSE-MsgGUID: mxFHo/UESHCgllSYipeGbA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,222,1719903600"; 
-   d="scan'208";a="68459200"
+   d="scan'208";a="68459213"
 Received: from anmitta2-mobl4.gar.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.119.14])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 05:03:32 -0700
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 05:03:35 -0700
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 To: broonie@kernel.org,
 	tiwai@suse.de
@@ -50,9 +50,9 @@ Cc: linux-sound@vger.kernel.org,
 	pierre-louis.bossart@linux.intel.com,
 	bard.liao@intel.com,
 	peter.ujfalusi@linux.intel.com
-Subject: [PATCH 6/7] ASoC: Intel: sof_rt5682: Add HDMI-In capture with rt5682 support for ARL.
-Date: Thu, 12 Sep 2024 20:03:07 +0800
-Message-ID: <20240912120308.134762-7-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH 7/7] ASoC: Intel: ARL: Add entry for HDMI-In capture support to non-I2S codec boards.
+Date: Thu, 12 Sep 2024 20:03:08 +0800
+Message-ID: <20240912120308.134762-8-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240912120308.134762-1-yung-chuan.liao@linux.intel.com>
 References: <20240912120308.134762-1-yung-chuan.liao@linux.intel.com>
@@ -66,69 +66,48 @@ Content-Transfer-Encoding: 8bit
 
 From: Balamurugan C <balamurugan.c@intel.com>
 
-Added match table entry on arl machines to support HDMI-In capture
-with rt5682 I2S audio codec. also added the respective quirk
-configuration in rt5682 machine driver.
+Adding HDMI-In capture support for the ARL products which doesn't have
+onboard I2S codec. But need to support HDMI-In capture via I2S and
+audio playback through HDMI/DP monitor.
 
 Signed-off-by: Balamurugan C <balamurugan.c@intel.com>
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 ---
- sound/soc/intel/boards/sof_rt5682.c               |  7 +++++++
- sound/soc/intel/common/soc-acpi-intel-arl-match.c | 13 +++++++++++++
- 2 files changed, 20 insertions(+)
+ sound/soc/intel/boards/sof_ssp_amp.c              | 6 ++++++
+ sound/soc/intel/common/soc-acpi-intel-arl-match.c | 6 ++++++
+ 2 files changed, 12 insertions(+)
 
-diff --git a/sound/soc/intel/boards/sof_rt5682.c b/sound/soc/intel/boards/sof_rt5682.c
-index 23a40b913290..bc581fea0e3a 100644
---- a/sound/soc/intel/boards/sof_rt5682.c
-+++ b/sound/soc/intel/boards/sof_rt5682.c
-@@ -870,6 +870,13 @@ static const struct platform_device_id board_ids[] = {
- 					SOF_SSP_PORT_BT_OFFLOAD(2) |
- 					SOF_BT_OFFLOAD_PRESENT),
+diff --git a/sound/soc/intel/boards/sof_ssp_amp.c b/sound/soc/intel/boards/sof_ssp_amp.c
+index f51f1008e016..6ff8895a294a 100644
+--- a/sound/soc/intel/boards/sof_ssp_amp.c
++++ b/sound/soc/intel/boards/sof_ssp_amp.c
+@@ -210,6 +210,12 @@ static const struct platform_device_id board_ids[] = {
+ 					/* SSP 0 and SSP 2 are used for HDMI IN */
+ 					SOF_HDMI_PLAYBACK_PRESENT),
  	},
 +	{
-+		.name = "arl_rt5682_c1_h02",
-+		.driver_data = (kernel_ulong_t)(SOF_RT5682_MCLK_EN |
-+					SOF_SSP_PORT_CODEC(1) |
++		.name = "arl_lt6911_hdmi_ssp",
++		.driver_data = (kernel_ulong_t)(SOF_SSP_MASK_HDMI_CAPTURE(0x5) |
 +					/* SSP 0 and SSP 2 are used for HDMI IN */
-+					SOF_SSP_MASK_HDMI_CAPTURE(0x5)),
++					SOF_HDMI_PLAYBACK_PRESENT),
 +	},
  	{ }
  };
  MODULE_DEVICE_TABLE(platform, board_ids);
 diff --git a/sound/soc/intel/common/soc-acpi-intel-arl-match.c b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-index 9936a4b4eee7..c13afff84923 100644
+index c13afff84923..c97c961187dd 100644
 --- a/sound/soc/intel/common/soc-acpi-intel-arl-match.c
 +++ b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-@@ -7,6 +7,7 @@
- 
- #include <sound/soc-acpi.h>
- #include <sound/soc-acpi-intel-match.h>
-+#include <sound/soc-acpi-intel-ssp-common.h>
- 
- static const struct snd_soc_acpi_endpoint single_endpoint = {
- 	.num = 0,
-@@ -289,6 +290,11 @@ static const struct snd_soc_acpi_codecs arl_essx_83x6 = {
- 	.codecs = { "ESSX8316", "ESSX8326", "ESSX8336"},
- };
- 
-+static const struct snd_soc_acpi_codecs arl_rt5682_hp = {
-+	.num_codecs = 2,
-+	.codecs = {RT5682_ACPI_HID, RT5682S_ACPI_HID},
-+};
-+
- static const struct snd_soc_acpi_codecs arl_lt6911_hdmi = {
- 	.num_codecs = 1,
- 	.codecs = {"INTC10B0"}
-@@ -310,6 +316,13 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_arl_machines[] = {
- 			SND_SOC_ACPI_TPLG_INTEL_SSP_MSB |
- 			SND_SOC_ACPI_TPLG_INTEL_DMIC_NUMBER,
+@@ -323,6 +323,12 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_arl_machines[] = {
+ 		.quirk_data = &arl_lt6911_hdmi,
+ 		.sof_tplg_filename = "sof-arl-rt5682-ssp1-hdmi-ssp02.tplg",
  	},
++	/* place amp-only boards in the end of table */
 +	{
-+		.comp_ids = &arl_rt5682_hp,
-+		.drv_name = "arl_rt5682_c1_h02",
-+		.machine_quirk = snd_soc_acpi_codec_list,
-+		.quirk_data = &arl_lt6911_hdmi,
-+		.sof_tplg_filename = "sof-arl-rt5682-ssp1-hdmi-ssp02.tplg",
++		.id = "INTC10B0",
++		.drv_name = "arl_lt6911_hdmi_ssp",
++		.sof_tplg_filename = "sof-arl-hdmi-ssp02.tplg",
 +	},
  	{},
  };
