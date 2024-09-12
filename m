@@ -1,46 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D59C61BDA91;
-	Thu, 12 Sep 2024 17:05:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0BFF13DBBE;
+	Thu, 12 Sep 2024 18:59:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726160717; cv=none; b=INU4wqtMx5+A0UbRJZEFYdlFW+J2QOaNc06NC7FFN6BwqIFu7DxgYezCsbRk6ieKK45+R+CDaqaFtqGyr65ofJXR1blXbTEAwfo7fBKeKAsPi1JpJb463G3y2FDn/6kYaEMeMJZDqWMCka2bHuYtHvb4FFT+pBIVVTLQGaKxzcU=
+	t=1726167579; cv=none; b=H63guKdeABH3gscRCKL2CKcEFSgkDU4EvQCA/w3KVNOYM16pZn0lGp6GYeDfj/kLIKL9euwizc9q3oW2uDd9o24PeD9QTMErMaxHMKvgenOqxhb0BiwqbJM//F3MK4s6tdazGKwhLCOiPqSQ2uwCFjgwoabyJ/sNLQTEJmNc8Rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726160717; c=relaxed/simple;
-	bh=Jn+D3Ldn3xXWF87flG57S+s2cGeeN6zBdVn7hWJkyhI=;
+	s=arc-20240116; t=1726167579; c=relaxed/simple;
+	bh=KD8sqECrwoDM4LaxhflSqmK1RgaQnuagu+p694T6Azw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=NduypcM3XenyNEYJSw8Lji4tr0EA/o/mX2bBafBFwV8OvCbFhwq7eECYJSGrtL2pApArZkj4KQ5SrvD04pvGDF+2PQ+EAKRe7SdsWq0SKBb2ZTrFZQi7WC2TqbjFNsVYI1yCSWzBocqP781/CyeBXots/B5z1zdfQsU7qCqiDIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TyuyVELg; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=dAdrkSDR8Ce7ERMrnBYpUMdbiotDTERsUjwG7uGF1xlZh0TAN5Ex86CkdkrN8p44Of8sXK5PKMJeFQKCJSMyqN9XbRPdAKhbzfnjKd9+Ur3abSgPI4P/e8VaTdcWzJapQ6vlneQ3boh7Mizyywg92uC+/aFxN0mSY+GadnAzjmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h+8NQEfJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TyuyVELg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44938C4CEC4;
-	Thu, 12 Sep 2024 17:05:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h+8NQEfJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67133C4CEC3;
+	Thu, 12 Sep 2024 18:59:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726160717;
-	bh=Jn+D3Ldn3xXWF87flG57S+s2cGeeN6zBdVn7hWJkyhI=;
+	s=k20201202; t=1726167579;
+	bh=KD8sqECrwoDM4LaxhflSqmK1RgaQnuagu+p694T6Azw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=TyuyVELgN12TDDomQTcsuk0TYow8KnxpOq3PzmdVvokNIyhoCAJQ7xDJmQL5Slu59
-	 WMyQyaIgHncTo8y35lymIgT8mJG1TQyiZWQ5fe8MvShwRtOUuixHANcGUNT+01zla2
-	 uKYPkqiWHO89YUnv/GBLy11prPheXSfloiAnCh76Q4jN1E6GHHKXO8rQmx8tHWpBeU
-	 R/SWDke4OFbHWQwJl6mh9cEXZ+LnqZq/pL+HuqiO1GwzzC9CTVHRzAIDUTho5aujdb
-	 7OxQcwea3IYmy1/XP6Htw5snZQWVaVA3B4lh3k3/K1CJJQLxUGb6/EWJGsdpOkjTN2
-	 I9V5tNOsGe9IQ==
+	b=h+8NQEfJp5eI6VYnVV+LZocFyCT/54Znb1rldlxfYy0YQHRCziVGfxN5uVHStD2Ay
+	 4y+3uN6WQVliYRZYtlcO/OJOHOFcLpu0DaYpGW2CGYz7t5Q0p+ItzswlPGvZeYKUzT
+	 D8NH9L3LOPrhT7UZZ5WFsPVjUrJntdvU1iQ9MmLPWw7EFzjl0KW0dpU8wn2C+0WcSd
+	 +zLxgUriGr/uA0BcSV2/oLoVKPsiXFtXa2p2KTZA6tsMCF+jFFr4otYbw8jWG5/DtN
+	 X5WxpR3VacOdnVaUoXezxPZxsC2lwWxziauuZB18dwUtXRA235BmyjkRC6d2Ms0aEx
+	 dQzMvAdWkZVUw==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Nicolas Belin <nbelin@baylibre.com>, 
- Alexandre Mergnat <amergnat@baylibre.com>, 
- Muhammad Usama Anjum <usama.anjum@collabora.com>
-Cc: kernel@collabora.com, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org
-In-Reply-To: <20240911123629.125686-1-usama.anjum@collabora.com>
-References: <20240911123629.125686-1-usama.anjum@collabora.com>
-Subject: Re: [PATCH v2] ASoc: mediatek: mt8365: Remove unneeded assignment
-Message-Id: <172616071500.69425.1928964300196117932.b4-ty@kernel.org>
-Date: Thu, 12 Sep 2024 18:05:15 +0100
+To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com, 
+ Tang Bin <tangbin@cmss.chinamobile.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+In-Reply-To: <20240912084110.1854-1-tangbin@cmss.chinamobile.com>
+References: <20240912084110.1854-1-tangbin@cmss.chinamobile.com>
+Subject: Re: [PATCH v2] ASoC: mediatek: mt7986-afe-pcm: Remove redundant
+ error message
+Message-Id: <172616757716.88520.13515459901367957704.b4-ty@kernel.org>
+Date: Thu, 12 Sep 2024 19:59:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,10 +48,10 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-99b12
 
-On Wed, 11 Sep 2024 17:36:22 +0500, Muhammad Usama Anjum wrote:
-> The ret is being assigned, but not being used. Remove the assignment.
-> One of the reviewer mentioned that dev_warn should be replaced with
-> dev_info. Make this change as well.
+On Thu, 12 Sep 2024 16:41:10 +0800, Tang Bin wrote:
+> In the function mt7986_afe_pcm_dev_probe, when get irq
+> failed, the function platform_get_irq() logs an error
+> message, so remove redundant one here.
 > 
 > 
 
@@ -64,8 +61,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoc: mediatek: mt8365: Remove unneeded assignment
-      commit: d69f11e8c57e9459c9e60bffc0f2c6c3aa02f4b1
+[1/1] ASoC: mediatek: mt7986-afe-pcm: Remove redundant error message
+      commit: f6e2e7397d00192bda11166d5fb3e2e67a8cf92e
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
