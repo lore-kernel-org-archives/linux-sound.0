@@ -1,117 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4221A263E
-	for <linux-sound@vger.kernel.org>; Thu, 12 Sep 2024 12:03:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 014041A0BD3
+	for <linux-sound@vger.kernel.org>; Thu, 12 Sep 2024 12:21:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726142618; cv=none; b=ks4nJuN0FOVVZg8VX3/+NFo49IBD3Oe/y6XEO9x+I3Md2MxBDhnsh4D45RetbNRxE4QeWLax9UGHpLdTn+WdiKWdwFrOrqudOsYevYAAEbLM97UXZf1ZpphW5efOFkiZkwtOJAbba1iaG98ECTfkJLwQPwFB9SnRZWA5vJMig7Y=
+	t=1726143671; cv=none; b=EvBkurTESV6lgtH+MLfdkJCYFMJJI4JYUJ3Cp5mkpjhGTe4yV6t574UY7aV60Zj8Bsaimd+NTZSqtyLfYEXJb5QpSJpHLJ0wS8qSZTuA3oL6ZcXE7TNr4w8UvVzSBfT95LzVGc9fh/bbDcdEVrJWB/rCugTHxUsZ9D1fWiPSklc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726142618; c=relaxed/simple;
-	bh=8l2/JABV6H5hQ/YCfrafkBQB+l3NZBTPfqVM1ryBXtg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DFKZR1Uvysxn2Y8dx31ZLNdfJ0C+bKrIkj7B16pqJ4dg75RUjmoVwFwKY8/yVuDeCS1cIWS+KS1x+bx0i168o7oRlu24UAvzt3nugrtNk7QwyJE5hUedxr7VdTeWJTc2M4i5FKmuKCwbRFXIUtXesqQ+s6mgaIYiGg3SXMpmSNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WMJH/+UL; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1726143671; c=relaxed/simple;
+	bh=L0hcGBj7Xb6gErZ6s+YHOWMB9M14abApg8vVfzKv/FU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gnYQnCOhmNaD5J8YB8+AJnluL7v0B5sqXrcCi+fUTEQe/oj0Q/369LcICNKweATUjlqM0Lbj3QwdiZAifj/Y7a9lBDjxYU+X/DpL5PEkktdIoPHuEMPShmjlBiI6PE1B+zfMkJsfbmbLtrJ5UbqHw0TleuVLqFaQ+5z8I0hijkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=U6eBUPon; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WMJH/+UL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726142618; x=1757678618;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=8l2/JABV6H5hQ/YCfrafkBQB+l3NZBTPfqVM1ryBXtg=;
-  b=WMJH/+ULwKa11TsvkidEIAtKDuSDcX9o7DlTTq9QUxEb3GYURra+yZ9u
-   4z1SZHjwWmrfqK8hNlx25HoFyXioTFudaJm/hIXmzMiA0CDV/A8ttak1i
-   NBYywqRjxewXx0snTluQsrksCxl44fEnW4M7ECPY4pmMVdPIeBhQPhOvy
-   RO5pWDOfXp98+ahnaONXHVHJRDmrKwTv3CnlumcmFRetta7tMV/bdFaNo
-   0xT1bvy6bfgRd7nCP5JyxYkhu/z6R5s3YkuT+UI+QY9WqJV8NdV5aatUQ
-   +M+BJLjrE+Ilwpweh3uA8kHVfAwZuAgp4e03WACU0/iR4HEg8CcsZCCI4
-   g==;
-X-CSE-ConnectionGUID: GD2ZZWyxQDODaAqemljBIw==
-X-CSE-MsgGUID: 2v3TMWBOTIG7sZMWUB7g7g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11192"; a="24812804"
-X-IronPort-AV: E=Sophos;i="6.10,222,1719903600"; 
-   d="scan'208";a="24812804"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 05:03:37 -0700
-X-CSE-ConnectionGUID: bZDq6MwRT2eYDeUsyJBHQw==
-X-CSE-MsgGUID: mxFHo/UESHCgllSYipeGbA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,222,1719903600"; 
-   d="scan'208";a="68459213"
-Received: from anmitta2-mobl4.gar.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.119.14])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 05:03:35 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com,
-	bard.liao@intel.com,
-	peter.ujfalusi@linux.intel.com
-Subject: [PATCH 7/7] ASoC: Intel: ARL: Add entry for HDMI-In capture support to non-I2S codec boards.
-Date: Thu, 12 Sep 2024 20:03:08 +0800
-Message-ID: <20240912120308.134762-8-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240912120308.134762-1-yung-chuan.liao@linux.intel.com>
-References: <20240912120308.134762-1-yung-chuan.liao@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="U6eBUPon"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-42cbbb1727eso7357285e9.2
+        for <linux-sound@vger.kernel.org>; Thu, 12 Sep 2024 05:21:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1726143665; x=1726748465; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TIVPdywrUFGG0FkWKS+0hdfToDR9IybfnZXJF/jGVNM=;
+        b=U6eBUPonU8CnQA/3oLp8HBG+cQBnUxdD1YAeQsMAP0iJL1/Pb8i4G+0eRtHSO0IC3j
+         fp+DRfQdUxTARVy57DcViDDhSMd6bScxvrjivBFvq6E6iX4WjojzF2rvbL8autFC7sqi
+         9Yl0FX/D5E2CbF5PKzgXpEYZbKI77e/RJHqbeEzgrMgJGhdUKEtktI1jppB7WZ0MfGXe
+         4vTZJlm4MXf50On8N3oBj+70zZApQ3bwnEVr2XaXvW1UdpgRWbq6wVnB3Ht+aIf7+X4Z
+         jFtbE2u8hO1POtZewl9YV6B8U6C94XFacQOqi2M+7FZawPPwQtsIfNB6Rl10xqkxnmAy
+         11PA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726143665; x=1726748465;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TIVPdywrUFGG0FkWKS+0hdfToDR9IybfnZXJF/jGVNM=;
+        b=EJjoNhYMLHBkx+2leI82OqFYjrGtmhZSBfn4oM6UERWfokAkj54a3xYZm8vOduZC3g
+         B+5aYwRkM53yJiuMkV/4fT3sd+yD792p8vxBB7HWvEfs2FzBXdrsgotVYC4cuHDfIEry
+         zijdbxbH9MIDNBUm/Kzb0p1gahbChaPvXQoOdPJlmaHxVFSGGKLEcgXYE69bAimFsgr8
+         vDQ/MTKSCOWlpypC5eoKjeFaE1GlVZVFSgFp6DQatOV5CPHsYwX+A3y1mMfZ5VhFEMXa
+         1L6xbwHfCv7kExGwnuZBSXRziUDKxLeJFcnceJ5GDexFDYcliXpaNEp6BA9uNfmxrzsm
+         m19Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXcW3y0XO3BL2zShJUbUdjJLEdqpcaSLUGu1kGnDo6nhrxxgGkhbGQ640K/dV4WfkGZUinoEIC3AKmAnw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxssicxNoBMcOt2Gen4EQLx8alR69jsvUYpsdUyJQkTLvGpyAKu
+	bOtiWC5FkFcAzr3/saGR0ly4vrsDYiYqhofG7o4dmXKHF3XItd7Jt6HU9RR1oj4=
+X-Google-Smtp-Source: AGHT+IE6tn+Ot7sdV8Xz9YXERqzLMkoh4GL4PglAIIkRJBCPWuSCUxcEiM52/iHe7DMNk1u2EI2g2w==
+X-Received: by 2002:a05:600c:1987:b0:42c:b4f1:f281 with SMTP id 5b1f17b1804b1-42cdb58f2bbmr21556165e9.34.1726143665103;
+        Thu, 12 Sep 2024 05:21:05 -0700 (PDT)
+Received: from [192.168.0.172] (88-127-185-239.subs.proxad.net. [88.127.185.239])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3789564aef9sm14294356f8f.5.2024.09.12.05.21.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Sep 2024 05:21:04 -0700 (PDT)
+Message-ID: <88927a41-a49d-4560-ba73-f01d0c1601e8@baylibre.com>
+Date: Thu, 12 Sep 2024 14:21:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] ASoc: mediatek: mt8365: Remove unneeded assignment
+To: Muhammad Usama Anjum <usama.anjum@collabora.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Nicolas Belin <nbelin@baylibre.com>
+Cc: kernel@collabora.com, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org
+References: <20240911123629.125686-1-usama.anjum@collabora.com>
+Content-Language: en-US
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <20240911123629.125686-1-usama.anjum@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Balamurugan C <balamurugan.c@intel.com>
+Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
 
-Adding HDMI-In capture support for the ARL products which doesn't have
-onboard I2S codec. But need to support HDMI-In capture via I2S and
-audio playback through HDMI/DP monitor.
+On 11/09/2024 14:36, Muhammad Usama Anjum wrote:
+> The ret is being assigned, but not being used. Remove the assignment.
+> One of the reviewer mentioned that dev_warn should be replaced with
+> dev_info. Make this change as well.
+> 
+> Fixes: 1bf6dbd75f76 ("ASoc: mediatek: mt8365: Add a specific soundcard for EVK")
+> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
 
-Signed-off-by: Balamurugan C <balamurugan.c@intel.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
----
- sound/soc/intel/boards/sof_ssp_amp.c              | 6 ++++++
- sound/soc/intel/common/soc-acpi-intel-arl-match.c | 6 ++++++
- 2 files changed, 12 insertions(+)
-
-diff --git a/sound/soc/intel/boards/sof_ssp_amp.c b/sound/soc/intel/boards/sof_ssp_amp.c
-index f51f1008e016..6ff8895a294a 100644
---- a/sound/soc/intel/boards/sof_ssp_amp.c
-+++ b/sound/soc/intel/boards/sof_ssp_amp.c
-@@ -210,6 +210,12 @@ static const struct platform_device_id board_ids[] = {
- 					/* SSP 0 and SSP 2 are used for HDMI IN */
- 					SOF_HDMI_PLAYBACK_PRESENT),
- 	},
-+	{
-+		.name = "arl_lt6911_hdmi_ssp",
-+		.driver_data = (kernel_ulong_t)(SOF_SSP_MASK_HDMI_CAPTURE(0x5) |
-+					/* SSP 0 and SSP 2 are used for HDMI IN */
-+					SOF_HDMI_PLAYBACK_PRESENT),
-+	},
- 	{ }
- };
- MODULE_DEVICE_TABLE(platform, board_ids);
-diff --git a/sound/soc/intel/common/soc-acpi-intel-arl-match.c b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-index c13afff84923..c97c961187dd 100644
---- a/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-@@ -323,6 +323,12 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_arl_machines[] = {
- 		.quirk_data = &arl_lt6911_hdmi,
- 		.sof_tplg_filename = "sof-arl-rt5682-ssp1-hdmi-ssp02.tplg",
- 	},
-+	/* place amp-only boards in the end of table */
-+	{
-+		.id = "INTC10B0",
-+		.drv_name = "arl_lt6911_hdmi_ssp",
-+		.sof_tplg_filename = "sof-arl-hdmi-ssp02.tplg",
-+	},
- 	{},
- };
- EXPORT_SYMBOL_GPL(snd_soc_acpi_intel_arl_machines);
 -- 
-2.43.0
-
+Regards,
+Alexandre
