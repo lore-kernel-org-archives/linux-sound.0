@@ -1,101 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F8841BD501;
-	Thu, 12 Sep 2024 15:17:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD3DE1BA87B
+	for <linux-sound@vger.kernel.org>; Thu, 12 Sep 2024 15:26:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726154249; cv=none; b=I5i0HqOJCnrEcXI9cwfOFSWLiYeGCZJFMPLKLQcH5mIIL5TZkp656lf3ONSC7WMTz52WVgYwJoMBTu0MkwH5CNu2Oajshb+/ELvJebDIeNx1/FlmF1NEJmAQ1O4Uz6gaG4BtSPdilcfkNayo5HlIdRPAyybX0PPl9vjsakLAaSw=
+	t=1726154804; cv=none; b=Pm22RFfxyRppxDTEyXFdLzg4E9R96eLsXRaJSxqRw1XHVSzttmuEy+W8XwlcoPVyx4Z2zZMPDT9RzCl/gX2LOwUwduR2+Lp1cLE57HjQXUXhBo7QPDVn+Vq9SjEI8yCABarj1bThTu/bEPZMOy1dVNCZgRDbN98amyQNAdapzpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726154249; c=relaxed/simple;
-	bh=2UwdqZFC9xO/m0eQjrelfthM5Arpc7S3EOd9x/RSR+0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VvDNu7vzyD/Rkw+UI1J15AD2vhlAyGR2VcYMIL8A1E6InIfkVkJvcO27v3iEsERP4ZGXNTGJ2WY7bcpy/y4a1CY3eCRWtPiFFAhk/FxbvNP6t2svyanG4Q6HkWM31yg4U1YnOVKi5BOj/e9VIM8gMA9yPG3Mev69OrgaqO+Qe8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LAxiGqLY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1726154804; c=relaxed/simple;
+	bh=NKleTICc0uMNXV+uSqzUKeNAhOpKOaLVEKAQqBNY/Ho=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A5ytbzCjnvhCsamBPjWMwblo5GGSmwkbSDKZtZSNCfk745LFA1Pf3T8UfqchcMQLsqlaUEdkNfxhHUDAmNEcTgWJOsupwMNbE4Y9c/P7Rlo6pkGJm1dCQomCy1l8XCQeM0f5e/8zEzT85qil44W06j5G78rm0Uf1rFgNRgBNln8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=n0pCXTZ9; arc=none smtp.client-ip=209.85.219.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LAxiGqLY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E35AC4CEC3;
-	Thu, 12 Sep 2024 15:17:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726154249;
-	bh=2UwdqZFC9xO/m0eQjrelfthM5Arpc7S3EOd9x/RSR+0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LAxiGqLYn+sNKb+kgEcfh7PhpwNdMHrkCSj8xVs3HJf+6+0Ki/yi1Jy511Apeomr7
-	 xRqu/opQo83N4OEJAgarhmBFQOYqPcZYNrRguTXxanX8cdMtdp9r8e+ZHUrm2WaYS0
-	 ZkjQjZbYOhxSy+P9/CkPQPC9ppzlbX86wdmiQypiLdgca+oUvNLsOedxPmuTXY6XG+
-	 9m/tXPEpXrrP6kj2hmhItobsBHtXng/Gk0SgS71eIn10yxrPHLYEZDe+s88Pmu9Ojc
-	 vzxJIv0lJOunfh5pCUgNLlW5hKCOUUY/5LuFqLUpO/ZTDhMyEzrT76YPZgLCFlRE7G
-	 Qj2f2QPFuvzjA==
-Date: Thu, 12 Sep 2024 16:17:21 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Lee Jones <lee@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Flora Fu <flora.fu@mediatek.com>, Jaroslav Kysela <perex@perex.cz>,
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="n0pCXTZ9"
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6c3551ce5c9so18730986d6.0
+        for <linux-sound@vger.kernel.org>; Thu, 12 Sep 2024 08:26:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1726154801; x=1726759601; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=f7mKFNRTjjADvwf1aB253Jo1v/0MMVkR0nsmT+lRjwc=;
+        b=n0pCXTZ9R5rixccQ0sYLNyFAkA/F8gAFh84j6NRrPDV+w0ToFBZ0uAkERuvCWRdP6K
+         DPjj0oc8YvThDFxM/SqBDJGJm5kEm0dzLx4RTrAWRoXAFoZm2400X7m1CfCSKN1PfrK3
+         cLq41qBKciBwYx/y+qdT4OlLBcLKUrffwW9wQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726154801; x=1726759601;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=f7mKFNRTjjADvwf1aB253Jo1v/0MMVkR0nsmT+lRjwc=;
+        b=ZKyRFHzXSs4G99BRGeEr978A+TW/vkYHNwRHDHgQ3BzR1Z7aVgA4DTHxij3iIPCZAo
+         D+BiRP7syp48ARegx2tLjPfMC+w8hmd/pfn2I8YZp+p060xOdt8oNjbIMku8GKNHvZkP
+         Y9Wcmys4xonON4AD+F9R53H6gR3s0rPDNAXLqo1ttSnd/6f5zhHGMIwQo0n2PJtoMjQt
+         BSAdTId6mnHfKAcXYHLPVDiJ/bU3/0sgDV1BCQjco1te14Dq0m51WRnCnWG1EpZwFX++
+         0KRZki4BKobesmrACZaDvVBPFnjeWMQ1NiufYC+8EyV0x0RLO4lME4cHodB0skGWt4mG
+         3JwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXGBEMqP/EsR5nZAXVb4+RuVt2MwfQQF2BM7GCobLmg0sCV9tQrY0yFBwFR5DxGhIKMdM84Qb3LZ1gXTA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxUFCZw7K6dWl5URikFZ43U1sPSfP9A5SoqQCdQtZOwB6GsU9Sd
+	ROkcLdm/HUzLnAo/+bsYyhxIVdDUQ8sTStkNawcDviWNmVtiG6uWs58ME2lFZw==
+X-Google-Smtp-Source: AGHT+IGchvvlGNJOgyNzd+nGz4P624xph6cEj7rU2+N8kSWMwUA5os9jZO8OZ32oNgHPjsbZb/wcFw==
+X-Received: by 2002:a05:6214:5d05:b0:6c5:50c1:befc with SMTP id 6a1803df08f44-6c573b21fd7mr45928266d6.20.1726154800674;
+        Thu, 12 Sep 2024 08:26:40 -0700 (PDT)
+Received: from localhost (112.49.199.35.bc.googleusercontent.com. [35.199.49.112])
+        by smtp.gmail.com with UTF8SMTPSA id 6a1803df08f44-6c53474d749sm55476786d6.92.2024.09.12.08.26.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Sep 2024 08:26:39 -0700 (PDT)
+From: Joshua Pius <joshuapius@chromium.org>
+X-Google-Original-From: Joshua Pius <joshuapius@google.com>
+To: alsa-devel@alsa-project.org
+Cc: Joshua Pius <joshuapius@google.com>,
+	Joshua Pius <joshuapius@chromium.org>,
+	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Alexandre Mergnat <amergnat@baylibre.com>,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Nicolas Belin <nbelin@baylibre.com>
-Subject: Re: (subset) [PATCH v7 00/16] Add audio support for the MediaTek
- Genio 350-evk board
-Message-ID: <10c1217b-d8a3-489c-93fc-6de45dcbe47c@sirena.org.uk>
-References: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
- <172544860860.19172.7052813450885034844.b4-ty@kernel.org>
- <20240912145100.GE24460@google.com>
+	Karol Kosik <k.kosik@outlook.com>,
+	"Steven 'Steve' Kendall" <skend@chromium.org>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: usb-audio: Add logitech Audio profile quirk
+Date: Thu, 12 Sep 2024 15:26:28 +0000
+Message-ID: <20240912152635.1859737-1-joshuapius@google.com>
+X-Mailer: git-send-email 2.46.0.598.g6f2099f65c-goog
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Y3oLGwx0CbwVg8fa"
-Content-Disposition: inline
-In-Reply-To: <20240912145100.GE24460@google.com>
-X-Cookie: Happiness is the greatest good.
+Content-Transfer-Encoding: 8bit
 
+Specify shortnames for the following Logitech Devices: Rally bar, Rally
+bar mini, Tap, MeetUp and Huddle.
 
---Y3oLGwx0CbwVg8fa
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Joshua Pius <joshuapius@chromium.org>
+---
+ sound/usb/card.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-On Thu, Sep 12, 2024 at 03:51:00PM +0100, Lee Jones wrote:
-> On Wed, 04 Sep 2024, Mark Brown wrote:
+diff --git a/sound/usb/card.c b/sound/usb/card.c
+index 778de9244f1e..9c411b82a218 100644
+--- a/sound/usb/card.c
++++ b/sound/usb/card.c
+@@ -384,6 +384,12 @@ static const struct usb_audio_device_name usb_audio_names[] = {
+ 	/* Creative/Toshiba Multimedia Center SB-0500 */
+ 	DEVICE_NAME(0x041e, 0x3048, "Toshiba", "SB-0500"),
+ 
++	/* Logitech Audio Devices */
++	DEVICE_NAME(0x046d, 0x0867, "Logitech, Inc.", "Logi-MeetUp"),
++	DEVICE_NAME(0x046d, 0x0874, "Logitech, Inc.", "Logi-Tap-Audio"),
++	DEVICE_NAME(0x046d, 0x087c, "Logitech, Inc.", "Logi-Huddle"),
++	DEVICE_NAME(0x046d, 0x0898, "Logitech, Inc.", "Logi-RB-Audio"),
++	DEVICE_NAME(0x046d, 0x08d2, "Logitech, Inc.", "Logi-RBM-Audio"),
+ 	DEVICE_NAME(0x046d, 0x0990, "Logitech, Inc.", "QuickCam Pro 9000"),
+ 
+ 	DEVICE_NAME(0x05e1, 0x0408, "Syntek", "STK1160"),
+-- 
+2.46.0.598.g6f2099f65c-goog
 
-> > [03/16] dt-bindings: mfd: mediatek: Add codec property for MT6357 PMIC
-> >         commit: 761cab667898d86c04867948f1b7aec1090be796
-
-> Did you mean to hoover this up?
-
-It seemed to go along with the series and had a DT review so it looked
-like you'd just left it to the DT people to review, there wasn't any
-other MFD content in the series.
-
---Y3oLGwx0CbwVg8fa
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbjBgAACgkQJNaLcl1U
-h9B5NQf/ZWJ40S0xb5uKIaaPLShhD3p7geYHZwZ9a66tMrFPvLQPcedOcWej18uU
-fY+5w+dmP0Ga6zV3m5paFAgei5w8LIJvnnPSmTUshEfxuFuhJ/83qu69Abj+Ewm9
-V8j06cS1jSPE+onhQv5NOUTHkDWyL3HGf2uyps5Y0c7Mqd9ABe3AiJK1MSAiWiXN
-4PDBhsNjMNMuEVfKRmNzGc2Z4deVPu+xzeXk+KWcccz4vUjUuCLlFnHklaT29sTa
-2WON5KGah1lT7hyVYvf4wA+x6MTorlvAczP4W7fm+yd2s3anZO05OB/xFSqniPr7
-x6OaFpBbyGm4Wivn5Ikvo3Wbze2Usw==
-=cfaI
------END PGP SIGNATURE-----
-
---Y3oLGwx0CbwVg8fa--
