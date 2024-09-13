@@ -1,199 +1,120 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D41FB1C3304;
-	Fri, 13 Sep 2024 12:07:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75144482D8
+	for <linux-sound@vger.kernel.org>; Fri, 13 Sep 2024 15:52:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726229265; cv=none; b=YvBsrBT14OC33/4uQhnl4OnGrNDzddmBEdhhxAXVtE2s0F8Vz9WHp/WlDOj/A6ahMkKRaV+Azhda2sHpMYJjLRfRgS8hHoqaCL8grKVMHmxFxcyBZan0O+yW4lBTgyuKg/L9etZ6wYhateiBzH/ZP43Lt7VZ5kt/qfX8X3IHaFE=
+	t=1726242733; cv=none; b=DTxDnT7VJZl47//46r6JzZlatVWsh/Tt1TCtbcUxECDjXIbZ4NyrYW3sYnKVK0i+gLdEZa3kV1BOn2GR6MeYy5AOy+SXU7jOVhNIEREVj4bl39mpF8HVnimC055O3MwZv79w9iCIkYKzrjqziLfEZG9SZ9pjh49SCNM9VwaCOAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726229265; c=relaxed/simple;
-	bh=V6u2eHa/w9HQk3WWvCdMr/y/+BoQMgcZ+Nl2/14uCeA=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rkiuvV89FRDpVAWNBHKA6wRnHCCiI5nizG024qPtQfDFxZUC45GlKyVpLoGs3P2QWOhnJt0A2l6HXST/uyQHlbrBdFblUa8JpXluy+GjC5Agsr02TA15DXbONpObruiC/gynE3utaT4jwr44RyTF6PdXF/TMDrOdHUXBBpRdjXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=tYyhCVMf; arc=none smtp.client-ip=68.232.153.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1726242733; c=relaxed/simple;
+	bh=Lgw167Jkbo8yaZJZHdLHMwOqPFZzODblpjCemZFVRDA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VIZRAbCDDcmjcb8zPt75BQDEvhgGBANKFgsFRInxOSVCUoxKhv61gJIiwx84Cwo5ITx1j9wdUe8L+PZcwE9JRHxp6uSmkUjnwlXnaRIOiXWGkfLvLAt/GwY1IBXTpQfEgUoQwHRKu9lOnMsvQolKh1qiNcdq+HTDV07+UTHgGfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mkkJE2gz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="tYyhCVMf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1726229263; x=1757765263;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=V6u2eHa/w9HQk3WWvCdMr/y/+BoQMgcZ+Nl2/14uCeA=;
-  b=tYyhCVMfKYu5YpNt7kKscM4SF9qUYsGlKlEljVhDTCfXTenW9RWy4xkz
-   0bdVTxk3XJqEYk+VFQoW2Al/wgj5W53gAlDirIByD5/M1nt16dPsjwtZe
-   sj6j/OAa/dgXhGhDuUDvPihy9nrloymCfFCfxpY5x9bW4NqMshBFFRyad
-   2CpX/C3LVh4IIJjW0CP6TwISJoCu1mVKtr9LJIcq9ecdQN/+lk6xLoK0E
-   FTLean241LXKmDFhKiWCbz3BuUDrbG0LoDL01HISmBs18tIpYuXKY540L
-   efNPxdWTYdhc1xT4BShXL4SQKbSzAXKxk+pk7EtNjtrIq1pxzBXlFMLMT
-   Q==;
-X-CSE-ConnectionGUID: ap9aDqYYRZ2h/RrZKGCbqA==
-X-CSE-MsgGUID: FyIGOBtkRr+rtkG0jt9EvA==
-X-IronPort-AV: E=Sophos;i="6.10,225,1719903600"; 
-   d="scan'208";a="31749888"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 13 Sep 2024 05:07:36 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 13 Sep 2024 05:07:25 -0700
-Received: from ROB-ULT-M76677.microchip.com (10.10.85.11) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Fri, 13 Sep 2024 05:07:21 -0700
-From: Andrei Simion <andrei.simion@microchip.com>
-To: <claudiu.beznea@tuxon.dev>, <lgirdwood@gmail.com>, <broonie@kernel.org>,
-	<perex@perex.cz>, <tiwai@suse.com>, <nicolas.ferre@microchip.com>,
-	<alexandre.belloni@bootlin.com>
-CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	Codrin Ciubotariu <codrin.ciubotariu@microchip.com>, Andrei Simion
-	<andrei.simion@microchip.com>
-Subject: [PATCH v2] ASoC: atmel: mchp-pdmc: Retain Non-Runtime Controls
-Date: Fri, 13 Sep 2024 15:06:22 +0300
-Message-ID: <20240913120621.79088-1-andrei.simion@microchip.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mkkJE2gz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD167C4CEC0;
+	Fri, 13 Sep 2024 15:52:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726242733;
+	bh=Lgw167Jkbo8yaZJZHdLHMwOqPFZzODblpjCemZFVRDA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mkkJE2gzgMMcNO1sbIVstikVOFZOuuTi4eoMCcV6Wt/PJyJhd9nnHpbU5Z3Wk1Rq7
+	 DlYmL+RDytE9SN1fLIL5mUE7I7VjaDYUvCmmTqQNXithwFv3o+oGpa1s4h/XSswHDy
+	 VRU0mt0Ra2mGoizS2JPdyupUnlXl2BNGoMX2n+Bs4vC823qGEc/TOpEkxXhrUnM+lU
+	 6CQA2qcRo68cy/YbbrF+sSg8ZIpT4W13fD4ddnnA4MbuQwd7abU6ybpBMENKUUVZJ2
+	 0J+SmCjmkqMW/c7HblIEZTD9vDHte3YYKGCxOZ/E+X9AHq+ThgApUpHs3U8a7tL3Li
+	 XtyzK3Rl+ToJQ==
+Date: Fri, 13 Sep 2024 16:52:07 +0100
+From: Mark Brown <broonie@kernel.org>
+To: shumingf@realtek.com
+Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org, lars@metafoo.de,
+	flove@realtek.com, oder_chiou@realtek.com, jack.yu@realtek.com,
+	derek.fang@realtek.com, oliva@gnu.org
+Subject: Re: [PATCH] ASoC: rt1320: reads patch code from firmware file
+Message-ID: <2aa00670-d820-43cb-b479-c9aca7d0c243@sirena.org.uk>
+References: <20240913082733.2189491-1-shumingf@realtek.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="squbR9weB0+RnjT4"
+Content-Disposition: inline
+In-Reply-To: <20240913082733.2189491-1-shumingf@realtek.com>
+X-Cookie: In space, no one can hear you fart.
 
-From: Codrin Ciubotariu <codrin.ciubotariu@microchip.com>
 
-Avoid removing these controls, as doing so can cause issues if the stream
-is initiated from another control. Ensure these controls remain intact when
-the stream is started or finished. Instead of removing them, return an
--EBUSY error code to indicate that the controller is busy, especially when
-the audio filter and the SINC filter are in use.
+--squbR9weB0+RnjT4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-[andrei.simion@microchip.com: Reword the commit title and the commit
-message. Replace spinlock and busy variable with atomic_t busy_stream.]
+On Fri, Sep 13, 2024 at 04:27:33PM +0800, shumingf@realtek.com wrote:
 
-Signed-off-by: Codrin Ciubotariu <codrin.ciubotariu@microchip.com>
-Signed-off-by: Andrei Simion <andrei.simion@microchip.com>
----
-v1 -> v2:
-- drop spinlock and u8 busy:1;
-- use atomic_t variable busy_stream
-- use atomic_read, atomic_set
----
- sound/soc/atmel/mchp-pdmc.c | 57 ++++++++++---------------------------
- 1 file changed, 15 insertions(+), 42 deletions(-)
+> +/*
+> + * The 'patch code' is written to the patch code area.
+> + * The patch code area is used for SDCA register expansion flexibility.
+> + */
+> +static void rt1320_load_mcu_patch(struct rt1320_sdw_priv *rt1320)
+> +{
+> +	struct sdw_slave *slave = rt1320->sdw_slave;
+> +	const struct firmware *patch;
+> +	char filename[128];
+> +	unsigned int addr, val;
+> +	const unsigned int *ptr;
+> +	int ret, i;
+> +
+> +	if (rt1320->version_id <= RT1320_VB)
+> +		strscpy(filename, RT1320_VAB_MCU_PATCH, sizeof(filename));
+> +	else
+> +		strscpy(filename, RT1320_VC_MCU_PATCH, sizeof(filename));
+> +
+> +	/* load the patch code here */
+> +	ret = request_firmware(&patch, filename, &slave->dev);
 
-diff --git a/sound/soc/atmel/mchp-pdmc.c b/sound/soc/atmel/mchp-pdmc.c
-index d97d153ee375..939cd44ebc8a 100644
---- a/sound/soc/atmel/mchp-pdmc.c
-+++ b/sound/soc/atmel/mchp-pdmc.c
-@@ -124,6 +124,7 @@ struct mchp_pdmc {
- 	int mic_no;
- 	int sinc_order;
- 	bool audio_filter_en;
-+	atomic_t busy_stream;
- };
- 
- static const char *const mchp_pdmc_sinc_filter_order_text[] = {
-@@ -167,6 +168,10 @@ static int mchp_pdmc_sinc_order_put(struct snd_kcontrol *kcontrol,
- 		return -EINVAL;
- 
- 	val = snd_soc_enum_item_to_val(e, item[0]) << e->shift_l;
-+
-+	if (atomic_read(&dd->busy_stream))
-+		return -EBUSY;
-+
- 	if (val == dd->sinc_order)
- 		return 0;
- 
-@@ -193,6 +198,9 @@ static int mchp_pdmc_af_put(struct snd_kcontrol *kcontrol,
- 	struct mchp_pdmc *dd = snd_soc_component_get_drvdata(component);
- 	bool af = uvalue->value.integer.value[0] ? true : false;
- 
-+	if (atomic_read(&dd->busy_stream))
-+		return -EBUSY;
-+
- 	if (dd->audio_filter_en == af)
- 		return 0;
- 
-@@ -379,52 +387,10 @@ static const struct snd_kcontrol_new mchp_pdmc_snd_controls[] = {
- 	},
- };
- 
--static int mchp_pdmc_close(struct snd_soc_component *component,
--			   struct snd_pcm_substream *substream)
--{
--	return snd_soc_add_component_controls(component, mchp_pdmc_snd_controls,
--					      ARRAY_SIZE(mchp_pdmc_snd_controls));
--}
--
--static int mchp_pdmc_open(struct snd_soc_component *component,
--			  struct snd_pcm_substream *substream)
--{
--	int i;
--
--	/* remove controls that can't be changed at runtime */
--	for (i = 0; i < ARRAY_SIZE(mchp_pdmc_snd_controls); i++) {
--		const struct snd_kcontrol_new *control = &mchp_pdmc_snd_controls[i];
--		struct snd_ctl_elem_id id;
--		int err;
--
--		if (component->name_prefix)
--			snprintf(id.name, sizeof(id.name), "%s %s", component->name_prefix,
--				 control->name);
--		else
--			strscpy(id.name, control->name, sizeof(id.name));
--
--		id.numid = 0;
--		id.iface = control->iface;
--		id.device = control->device;
--		id.subdevice = control->subdevice;
--		id.index = control->index;
--		err = snd_ctl_remove_id(component->card->snd_card, &id);
--		if (err < 0)
--			dev_err(component->dev, "%d: Failed to remove %s\n", err,
--				control->name);
--	}
--
--	return 0;
--}
--
- static const struct snd_soc_component_driver mchp_pdmc_dai_component = {
- 	.name = "mchp-pdmc",
- 	.controls = mchp_pdmc_snd_controls,
- 	.num_controls = ARRAY_SIZE(mchp_pdmc_snd_controls),
--	.open = &mchp_pdmc_open,
--	.close = &mchp_pdmc_close,
--	.legacy_dai_naming = 1,
--	.trigger_start = SND_SOC_TRIGGER_ORDER_LDC,
- };
- 
- static const unsigned int mchp_pdmc_1mic[] = {1};
-@@ -587,6 +553,11 @@ static int mchp_pdmc_hw_params(struct snd_pcm_substream *substream,
- 			cfgr_val |= MCHP_PDMC_CFGR_BSSEL(i);
- 	}
- 
-+	/*
-+	 * from these point forward, we consider the controller busy, so the
-+	 * audio filter and SINC order can't be changed
-+	 */
-+	atomic_set(&dd->busy_stream, 1);
- 	for (osr_start = dd->audio_filter_en ? 64 : 8;
- 	     osr_start <= 256 && best_diff_rate; osr_start *= 2) {
- 		long round_rate;
-@@ -1143,6 +1114,8 @@ static void mchp_pdmc_remove(struct platform_device *pdev)
- {
- 	struct mchp_pdmc *dd = platform_get_drvdata(pdev);
- 
-+	atomic_set(&dd->busy_stream, 0);
-+
- 	if (!pm_runtime_status_suspended(dd->dev))
- 		mchp_pdmc_runtime_suspend(dd->dev);
- 
+Why not just
 
-base-commit: 5acd9952f95fb4b7da6d09a3be39195a80845eb6
--- 
-2.34.1
+	const char *filename;
 
+	if (rt1320->version_id <= RT1320_VB)
+		filename = RT1320_VAB_MCU_PATCH;
+	else
+		filename = RT1320_VC_MCU_PATCH;
+
+	ret = request_firmware(&patch, filename, &slave->dev);
+
+(ie, what does the copy into the buffer do?)
+
+> +	} else {
+> +		ptr = (const unsigned int *)patch->data;
+> +		for (i = 0; i < (patch->size / sizeof(unsigned int)); i += 2) {
+> +			addr = ptr[i];
+> +			val = ptr[i + 1];
+> +			regmap_write(rt1320->regmap, addr, val);
+> +		}
+
+Shouldn't this be using a specifically sized type in case we build on
+some architecture where int is a different size?  We should also
+validate that the file is an even number of register/value combinations
+to make sure it's not corrupt, checking the value of regmap_write() to
+make sure the register numbers are OK would probably be good.
+
+--squbR9weB0+RnjT4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbkX6cACgkQJNaLcl1U
+h9ADoAf/dw6iDYggV2jxO2hvVmiHV0gaw4oE/N1rmt5YHseta87qAqZNdL92hj53
+jdfxgD6OO4aXr3bUM7CvwIASLRsngBpcrWcXywhciBKfolRUCAumi9DY0tid2j4C
+T2YhaeQaaGTIfmz5LQScuyxgSTgwKzcz+epCPoGO+WW2rczThC9eiI7ZGgMTIryc
+oI7XgsugMBfNsZoqhIijT06ey1KckCj0WMQHqsbxkIXm2rY50yLrca6DMVwje9c/
+CfMJ0JpvOdpgbraxHdIhJigGP1aGpmQZbwqL8Oyu48wHsNh6Q0cjuSVN6HIkerDG
+6WGsjyAtaAuZeqx4HqzAv3+aiji9Nw==
+=C6hf
+-----END PGP SIGNATURE-----
+
+--squbR9weB0+RnjT4--
