@@ -1,803 +1,174 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2074.outbound.protection.outlook.com [40.107.93.74])
+Received: from fout8-smtp.messagingengine.com (fout8-smtp.messagingengine.com [103.168.172.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F451D7E4F;
-	Fri, 13 Sep 2024 09:07:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.74
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726218448; cv=fail; b=HZuLHA8IKgK9bl21LP571jha5vAfNLVQQN5szQo3zmdlipWB4FnKKWqIp7DqEuixSwSnyR4S7Ntc7qLgalGJkdmPkbk7lZoYo+SRjI233BTmeOhTxm2BR0RKkRR+jMg3UYMGiZBg9Vpe04yTrNs8LOqg2oFTfOypDUs8qppRG/Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726218448; c=relaxed/simple;
-	bh=8X0aIkHeooPN2xRbL9E65bAn/BprQbpEzSfFWpcwO6k=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KK2XeacloQ7rEVA6552UU4sIVZwYJlkWH/ZIjeiMTDmpA1kuvdVT8BWcIHJCC5kYiABNtcyHe1KRt41ePfhvxSsSUU2mPIPZT70ZISOcoAekIshMR+fXiZwFuNIJS8pwO1Fnt9xtvItbHjknRmuHh9X8zkV3FVzP0Twbl4xxiz0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=UKtCONg5; arc=fail smtp.client-ip=40.107.93.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C721E18A6D6;
+	Fri, 13 Sep 2024 09:38:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726220342; cv=none; b=tjjJYJqs9tbQMjvsXG8QSEwB0cCZV7xnVgs+6fMOnzEu36orxotfheBHeFs4NzGl7nzk0WT6eoozVYGRpvyqbz2xce7m6p7v07o7jZyXbkO9hXcwTMKMxv9eLpea3+wgYdfomoGCu+TXrvYs/FaHYkMe/pzL0RkuL+JvzzrqFaw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726220342; c=relaxed/simple;
+	bh=A2qVBIMYp/2r3CFer6xBiqk5bNkvq3f/Xhhuxq/P0po=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gStnrp6ys6MRZDMJ3al5Ft6ELEwyIKphSO0MOAW418TqImtc3vv9HTm4expb1kkyiXGYFEdh/VuEjskPZEMNHl4Q28XtGH/yp8RShnT5mXlkj+nnQkidw1dwyRiuLqLZeswAy6yz5XdGU4JTybVfUbm4DJVy6zKZhUwcSC3Ypg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=HcX1kffT; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=N4PwImb1; arc=none smtp.client-ip=103.168.172.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="UKtCONg5"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uKmVwCTCOOaepSd5wEb7krGdOAzai3iKiJ6S1Tr4VwLovJ4kN1CPmeoSiaD9Qj57TZSzMBhyAgWV8Zzpix072QFDYTmqMB4pHsp7zNV6cIm0T6Ga/8bCOPlDOAAdiGvyrnplNwVfSJHLRSRUpnIMmd4OEcUPOrhVbMM51Drc/AFgvSPj7ADWtCgN4siJ8muIWCMPR4VT4e8EBLZzXlkwMIFqc7hblB6fuAH7mmHKp09bpJFFwaYrlzve80hAyYh01RlsjzQCa/rICtjRgbpG852BiqkFSNDHTcoQw+JQfYohqG+Fl233z96dE23K+dHQV6CLkhpU4YBk+Fxzm+P1vw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eg9agBLp2CJDujLSJNf1qgNzRtrS1AFfrWUygIPzwPw=;
- b=uZDcqRAbCVqwkfGrPgVGRb3VpcqqEzHFcbrFBGoc4Hxt1ozbmEP43eBRKPQXVuJINDFnJ35A1qgfNaiCFDu9Imjez2cCIzFCOS8RIrxTDxTeRaNniYlGafelkXVqo6HW661oeIWZGotc2AZ8Ciq31lbVP5t0amPRfTqyqyZuTbK/XUAUyk4ga/tjaFZ/j9WHe4K9AWzl9r76Itz/znC2nXPdTpChma4muHpLN1ZpLB1WSkDthGHd9Aya4Aj+N3Od5aao6WCs6qPBYoQ3TkIrAEfXWIrpwlcolF1h6MRevJythrsazRNYmRm0N2CQgncHcOMS9FCeoeBhh0mvrajrdA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eg9agBLp2CJDujLSJNf1qgNzRtrS1AFfrWUygIPzwPw=;
- b=UKtCONg5DqDvdEz4xAVFUs54Kugxyv6ljtb+5mpzlMhrBXYRkRD6gFdUx95Ql2sTRCLiRmw1wE2ifh6i6Er1YJDZZYWJDEBNiV9QWyVAHmTJyxZUL8Z4wFwAL34NYWMVMI3u7KObYE08UhnnjnkJYUtz36I5y9QwF8Bu0wEn5J0=
-Received: from DS7PR06CA0004.namprd06.prod.outlook.com (2603:10b6:8:2a::19) by
- MW4PR12MB5625.namprd12.prod.outlook.com (2603:10b6:303:168::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7939.27; Fri, 13 Sep 2024 09:07:19 +0000
-Received: from CY4PEPF0000EE31.namprd05.prod.outlook.com
- (2603:10b6:8:2a:cafe::d3) by DS7PR06CA0004.outlook.office365.com
- (2603:10b6:8:2a::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.26 via Frontend
- Transport; Fri, 13 Sep 2024 09:07:19 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000EE31.mail.protection.outlook.com (10.167.242.37) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7918.13 via Frontend Transport; Fri, 13 Sep 2024 09:07:18 +0000
-Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
- SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Fri, 13 Sep 2024 04:07:11 -0500
-From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-To: <broonie@kernel.org>
-CC: <alsa-devel@alsa-project.org>, <pierre-louis.bossart@linux.intel.com>,
-	<yung-chuan.liao@linux.intel.com>, <ranjani.sridharan@linux.intel.com>,
-	<lgirdwood@gmail.com>, <perex@perex.cz>, <tiwai@suse.com>,
-	<Basavaraj.Hiregoudar@amd.com>, <Sunil-kumar.Dommati@amd.com>,
-	<venkataprasad.potturu@amd.com>, <kai.vehmanen@linux.intel.com>,
-	<ckeepax@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Subject: [PATCH 5/5] ASoC: amd: acp: refactor SoundWire machine driver code
-Date: Fri, 13 Sep 2024 14:36:31 +0530
-Message-ID: <20240913090631.1834543-6-Vijendar.Mukunda@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240913090631.1834543-1-Vijendar.Mukunda@amd.com>
-References: <20240913090631.1834543-1-Vijendar.Mukunda@amd.com>
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="HcX1kffT";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="N4PwImb1"
+Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
+	by mailfout.phl.internal (Postfix) with ESMTP id C6E8B1380313;
+	Fri, 13 Sep 2024 05:38:58 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-07.internal (MEProxy); Fri, 13 Sep 2024 05:38:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm1; t=1726220338; x=
+	1726306738; bh=K+AlDx1kABcH1bjNHO39XpWBnTf9rTOESmFmUtu1C08=; b=H
+	cX1kffT3gCsZo8AGKNkafPUMycPnllN8WmPLz3Onpcfx7YO0aAf3umyQRTO3TGkV
+	7wNfcGotSKBxOTmB4fnfYkzDNVUFGEA9oG60zaVOwQmaGOhRYKq0WripbZxmWt0P
+	1IymJe/4mIR59TfXSFJs9cpj+LbuAaWlvSfR5yLfqtoAU10uM9x1GrjU3YFTvnI4
+	MHksV7cyLq2+YSR9ntus9OlHurj+p4sKYoe24WBskIZcGFy632YkVc1llOAcdqIQ
+	wIFkyeBrV9t1PsmygnWQlbHYXdz7fWG7DynapGOidwfWpMhLezjObPw/qnDiyOpF
+	foDE1kkKPkV2E20Xc8dJA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1726220338; x=1726306738; bh=K+AlDx1kABcH1bjNHO39XpWBnTf9
+	rTOESmFmUtu1C08=; b=N4PwImb1Y8dtY3Yvdl0JyU0ll9bbD+5QfTwsw8ZoJGrw
+	9kkTnH2JCxeuPOh+TkLO2oNrVhVirAUSHg30Zp1xmPfQ7OKzpIyFw7HltEHWCB6l
+	NX/8Bju0TjV6Vpchbo/txdvmOEQ1a44gtD6c5zch8EXZWlD5fqJZdy8mcvhNuKLq
+	cTyXYxSO5CVkQ+HAEfSlKXBbenHPWjSDSRJz0XCDMTwHmxVihdVfhHQ/VdcbAoWq
+	7CwRN34bzjo0S+OE/dNCN2gmB37jBViTEofPl3Qi1jCSW3ETTn9HQiEDJa8fkNDs
+	Nj1X7bZFt/1cpnmhcMsG4Qe/JWodvqNYmTYJxI+SIQ==
+X-ME-Sender: <xms:MgjkZuGHfqvk9YQjf1X1JztIqEs3eg6EVQaNNOTtEP7yQFd989E1hQ>
+    <xme:MgjkZvUcVlw1GV-1wp7QecddrABnrkNs2jmL1mzcLXYTgdcOHB27WWWF8Lw6-9-8_
+    gbmS-DCBDXJCeu7JJ8>
+X-ME-Received: <xmr:MgjkZoLK6s0QnlUD9d53h_XsEY1X7bJ1MYESpm4ZE_up0g0aJlV2YnyRoKTQroWLCdfp19IIo_-gSu5CyoWVT_CPU70z44MKVonL>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudejjedgudejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvden
+    ucfhrhhomhepvfgrkhgrshhhihcuufgrkhgrmhhothhouceoohdqthgrkhgrshhhihessh
+    grkhgrmhhotggthhhirdhjpheqnecuggftrfgrthhtvghrnhephefhhfettefgkedvieeu
+    ffevveeufedtlefhjeeiieetvdelfedtgfefuedukeeunecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepohdqthgrkhgrshhhihesshgrkhgrmhho
+    tggthhhirdhjphdpnhgspghrtghpthhtohepjedpmhhouggvpehsmhhtphhouhhtpdhrtg
+    hpthhtohepvggumhhunhgurdhrrghilhgvsehprhhothhonhhmrghilhdrtghomhdprhgt
+    phhtthhopegrphgrihhssehlihhnuhigrdhmihgtrhhoshhofhhtrdgtohhmpdhrtghpth
+    htoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghp
+    thhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtph
+    htthhopehlihhnuhigqdhsohhunhgusehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghp
+    thhtohepnhgvthguvghvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepth
+    hifigrihesshhushgvrdguvg
+X-ME-Proxy: <xmx:MgjkZoFxpE_q3HpW7obNDw_FUZc7_Ln34uOcTKuGQPGsHtya35QuIQ>
+    <xmx:MgjkZkX-LWRIRQTd0aUj3Ro9XsT86bvURayymGs0pzDzpeRx_frMnw>
+    <xmx:MgjkZrPdibi_zgMrPML7e7dDkNSxVMAHfsIhvnVBV8L_VrTot0q44Q>
+    <xmx:MgjkZr3Ig31IgjdsnlOsY4zqVG7cl8rMmhf5UiPZZ2dq7dvRkz6qdQ>
+    <xmx:MgjkZnHOhA9Xlf6OvTSjXfCdK3GeHHBNJ7BzZMvmb_olpb3wOgCwNNG4>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 13 Sep 2024 05:38:56 -0400 (EDT)
+Date: Fri, 13 Sep 2024 18:38:52 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: Edmund Raile <edmund.raile@protonmail.com>
+Cc: apais@linux.microsoft.com, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-sound@vger.kernel.org,
+	netdev@vger.kernel.org, tiwai@suse.de
+Subject: Re: firewire: use sleepable workqueue to handle 1394 OHCI IT/IR
+ context events: test 2
+Message-ID: <20240913093852.GA305057@workstation.local>
+Mail-Followup-To: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+	Edmund Raile <edmund.raile@protonmail.com>,
+	apais@linux.microsoft.com, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-sound@vger.kernel.org,
+	netdev@vger.kernel.org, tiwai@suse.de
+References: <20240904125155.461886-1-o-takashi@sakamocchi.jp>
+ <20240912214404.10616-2-edmund.raile@protonmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE31:EE_|MW4PR12MB5625:EE_
-X-MS-Office365-Filtering-Correlation-Id: aca866b1-3bb0-4d8a-d244-08dcd3d37842
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|7416014|1800799024|376014|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?r661I9huaQx3zWm49JWMNQdlQawbdcBAEb/++KASe1AQNkUPI6LbkX8RH7Aj?=
- =?us-ascii?Q?04nKVkd+0SsomI8FLltmeDtnravopJEzPixhOtdbsgLfSjIatGfbgAlv+Lgv?=
- =?us-ascii?Q?BNMvW4PeyAUPzzN1pyRsKo124bogxqC+hKU34+NXLERJrz3XIThHG9uNBwQi?=
- =?us-ascii?Q?XUJL4MuXm0L5zjKhJ+52JUZrwx2/Ln1iW6yhXRaF6S83qRYXhjnu/YUbbByn?=
- =?us-ascii?Q?vj42aBirvLvA3UlviW2QD/pkyo/dThUuHkPS+LkQpPnqw38aCdH/PctV3grd?=
- =?us-ascii?Q?adeIKFQDBzx1Cz7Y1IrX0BVoJPdx82AAPjZJhiSeVJDGuFbeAL6OGIN6ankw?=
- =?us-ascii?Q?G1rXCTv5nf8u24oQkUuh/ECcfG7enGwHVwbxs96tnKAtjQy3OwXrPcf4P3aB?=
- =?us-ascii?Q?pA6T7nsusbVrGO1XCxQvbLQJD2DzJMnn/6EeVk/l72GCLNiy44OZ6EPEAJm0?=
- =?us-ascii?Q?bRphjFvC/b3oKxMJIx853FS2GLJE+5tCY+vCXXSidiVCtU6sUQkRXL/gAGNb?=
- =?us-ascii?Q?A2XOXraWHmBoPwUKuCFcbGOBW5CBcCqTHg3Rrqzva3uQ+B7N9CKqQPWiuKCH?=
- =?us-ascii?Q?IvzxBtJWP2zG0JeH5owBVjGPypi1yyzgnrepktoBocv9p+ZY2b0NTSov5xO0?=
- =?us-ascii?Q?liZdr4HONRD2az0UU7gQkNso2y47nD0YBntO2781POYMBRqpVS/LPhl7ZCxG?=
- =?us-ascii?Q?oW74NMWv/P3JPhVBPOP94PXXU/TAxkDwGtzWFnsveDAbCmaAVwBKJX9YAiuI?=
- =?us-ascii?Q?5AMF4/wwhP36JnSqyysgmM2y/n6cdFyuUpuUJVYjkMr/1KC5q3anRrAhY3e7?=
- =?us-ascii?Q?3IbkpJT5+q3FwF0m7fn3TuTieUxtaXkGwj1ZVZKvxNHlMI9rUsuBS5VtOHXQ?=
- =?us-ascii?Q?wkWQ8BqAMLqnHezNscUZIfUNKKLP+NHqZq+Yj/pzd0tIl0REIPdiNByTxIAu?=
- =?us-ascii?Q?3WSG0bHhjpj5Rsse9Q/Z8+uS19iby32+2SX8Eo3+7FGQzsDUSjcK26BJ0Adb?=
- =?us-ascii?Q?wcvgJIll2FiFgwKmqjTbOxaUMx2DfPLWGh6CYcBtxLS1KoS1TdaNHknQIJ9m?=
- =?us-ascii?Q?RwF/oYMHWruZf93UVXf9+rahc8G1HwkcgXDRlj7Jfpl8pmTiYKkC0V6ppHOU?=
- =?us-ascii?Q?rFTT/7JLFYrUT+N5TbRgsG46ymrgAL4yXiKXPFxNdgmn2FefbLw1tGwfkV/4?=
- =?us-ascii?Q?zMwlKURl3zET/VQHENGL4CCATPRlClJ+qqnvMktiJtmL+PsLFm44evONVJ4d?=
- =?us-ascii?Q?EBii22inXRD9F3tY+FacuCo0fe43qy3ogbyq6/Vkobd8Ajxrs63IzvTs3ysF?=
- =?us-ascii?Q?AwfIF+Sjdk2LhUMeNi9mr+qIAJ3TkQ1dWdtU5KpgSh4qCJgACvVf1arSE6+t?=
- =?us-ascii?Q?tH+P6O2RbJC3MPWNOooEjHmtBVIRU0SsCjbvGkRKXXbMvS/ukNkj3qgQRaqT?=
- =?us-ascii?Q?AzremGXZuBxJlV2E0ca1Tb5je2Q6k2hN?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(7416014)(1800799024)(376014)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Sep 2024 09:07:18.7098
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: aca866b1-3bb0-4d8a-d244-08dcd3d37842
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000EE31.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB5625
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240912214404.10616-2-edmund.raile@protonmail.com>
 
-Refactor Soundwire machine driver code by using common SoundWire
-endpoint parsing helper functions.
+Hi,
 
-Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
----
- sound/soc/amd/acp/acp-sdw-sof-mach.c | 540 ++++++++-------------------
- 1 file changed, 154 insertions(+), 386 deletions(-)
+On Thu, Sep 12, 2024 at 09:44:52PM +0000, Edmund Raile wrote:
+> Hello Sakamoto-San, I came around to testing your patch [1], after RFT.
+> 
+> I've had to make the following changes to patch 1/5 again for it to apply to
+> mainline (d1f2d51b711a3b7f1ae1b46701c769c1d580fa7f), due to missing b171e20
+> from 2009 and a7ecbe9 from 2022.
+> 
+> @@ -584,9 +601,13 @@ int fw_card_add(struct fw_card *card,
+>  
+>  	generate_config_rom(card, tmp_config_rom);
+>  	ret = card->driver->enable(card, tmp_config_rom, config_rom_length);
+>  	if (ret == 0)
+>  		list_add_tail(&card->link, &card_list);
+> +	else
+> +		destroy_workqueue(isoc_wq);
+> +
+> +	card->isoc_wq = isoc_wq;
+> 
+>  	mutex_unlock(&card_mutex);
+> 
+>  	return ret;
+> @@ -709,7 +729,9 @@ void fw_core_remove_card(struct fw_card *card)
+>  {
+>  	struct fw_card_driver dummy_driver = dummy_driver_template;
+>  	unsigned long flags;
+>  
+> +	might_sleep();
+> +
+>  	card->driver->update_phy_reg(card, 4,
+>  				     PHY_LINK_ACTIVE | PHY_CONTENDER, 0);
+>  	fw_schedule_bus_reset(card, false, true);
+> @@ -719,6 +741,7 @@ void fw_core_remove_card(struct fw_card *card)
+>  	dummy_driver.free_iso_context	= card->driver->free_iso_context;
+>  	dummy_driver.stop_iso		= card->driver->stop_iso;
+>  	card->driver = &dummy_driver;
+> +	drain_workqueue(card->isoc_wq);
+>  
+>  	spin_lock_irqsave(&card->lock, flags);
+>  	fw_destroy_nodes(card);
+> 
+> Then everything applied fine.
+> 
+> This resulted in 6.11.0-rc6-1-mainline-00326-gd1f2d51b711a-dirty.
+> 
+> Testing it with TI XIO2213B and RME Fireface 800 so far:
+> 
+> Initially I had a buffer freeze after 3 hours of continuous ALSA playback
+> from mpv:
+>   mpv --audio-device=alsa/sysdefault:CARD=Fireface800 Spor-Ignition.flac
+> accompanied by stresstest (mprime).
+> 
+> It didn't freeze/crash the kernel, just the audio buffer kept repeating.
+> Gone after power-cycling the interface and restarting playback.
+> 
+> Can't say with certainty whether it's related, have been unable to replicate
+> the issue for the past 3 days (good sign I hope).
+> That's why I was holding this message back a bit.
+> 
+> Kind regards,
+> Edmund Raile.
+> 
+> Signed-off-by: Edmund Raile <edmund.raile@protonmail.com>
+> Tested-by: Edmund Raile <edmund.raile@protonmail.com>
+ 
+Thank you for your test. I've picked up your Tested-by tag to the
+series.
 
-diff --git a/sound/soc/amd/acp/acp-sdw-sof-mach.c b/sound/soc/amd/acp/acp-sdw-sof-mach.c
-index b1cd173f607d..6c50c8276538 100644
---- a/sound/soc/amd/acp/acp-sdw-sof-mach.c
-+++ b/sound/soc/amd/acp/acp-sdw-sof-mach.c
-@@ -64,197 +64,6 @@ static const struct snd_soc_ops sdw_ops = {
- 	.shutdown = asoc_sdw_shutdown,
- };
- 
--/*
-- * get BE dailink number and CPU DAI number based on sdw link adr.
-- * Since some sdw slaves may be aggregated, the CPU DAI number
-- * may be larger than the number of BE dailinks.
-- */
--static int get_dailink_info(struct device *dev,
--			    const struct snd_soc_acpi_link_adr *adr_link,
--			    int *sdw_be_num, int *codecs_num)
--{
--	bool group_visited[AMD_SDW_MAX_GROUPS];
--	int i;
--	int j;
--
--	*sdw_be_num  = 0;
--
--	if (!adr_link)
--		return -EINVAL;
--
--	for (i = 0; i < AMD_SDW_MAX_GROUPS; i++)
--		group_visited[i] = false;
--
--	for (; adr_link->num_adr; adr_link++) {
--		const struct snd_soc_acpi_endpoint *endpoint;
--		struct asoc_sdw_codec_info *codec_info;
--		int stream;
--		u64 adr;
--
--		/* make sure the link mask has a single bit set */
--		if (!is_power_of_2(adr_link->mask))
--			return -EINVAL;
--
--		for (i = 0; i < adr_link->num_adr; i++) {
--			adr = adr_link->adr_d[i].adr;
--			codec_info = asoc_sdw_find_codec_info_part(adr);
--			if (!codec_info)
--				return -EINVAL;
--
--			*codecs_num += codec_info->dai_num;
--
--			if (!adr_link->adr_d[i].name_prefix) {
--				dev_err(dev, "codec 0x%llx does not have a name prefix\n",
--					adr_link->adr_d[i].adr);
--				return -EINVAL;
--			}
--
--			endpoint = adr_link->adr_d[i].endpoints;
--			if (endpoint->aggregated && !endpoint->group_id) {
--				dev_err(dev, "invalid group id on link %x\n",
--					adr_link->mask);
--				return -EINVAL;
--			}
--
--			for (j = 0; j < codec_info->dai_num; j++) {
--				/* count DAI number for playback and capture */
--				for_each_pcm_streams(stream) {
--					if (!codec_info->dais[j].direction[stream])
--						continue;
--
--					/* count BE for each non-aggregated slave or group */
--					if (!endpoint->aggregated ||
--					    !group_visited[endpoint->group_id])
--						(*sdw_be_num)++;
--				}
--			}
--
--			if (endpoint->aggregated)
--				group_visited[endpoint->group_id] = true;
--		}
--	}
--	return 0;
--}
--
--static int fill_sdw_codec_dlc(struct device *dev,
--			      const struct snd_soc_acpi_link_adr *adr_link,
--			      struct snd_soc_dai_link_component *codec,
--			      int adr_index, int dai_index)
--{
--	u64 adr = adr_link->adr_d[adr_index].adr;
--	struct asoc_sdw_codec_info *codec_info;
--
--	codec_info = asoc_sdw_find_codec_info_part(adr);
--	if (!codec_info)
--		return -EINVAL;
--
--	codec->name = asoc_sdw_get_codec_name(dev, codec_info, adr_link, adr_index);
--	if (!codec->name)
--		return -ENOMEM;
--
--	codec->dai_name = codec_info->dais[dai_index].dai_name;
--	dev_err(dev, "codec->dai_name:%s\n", codec->dai_name);
--	return 0;
--}
--
--static int set_codec_init_func(struct snd_soc_card *card,
--			       const struct snd_soc_acpi_link_adr *adr_link,
--			       struct snd_soc_dai_link *dai_links,
--			       bool playback, int group_id, int adr_index, int dai_index)
--{
--	int i = adr_index;
--
--	do {
--		/*
--		 * Initialize the codec. If codec is part of an aggregated
--		 * group (group_id>0), initialize all codecs belonging to
--		 * same group.
--		 * The first link should start with adr_link->adr_d[adr_index]
--		 * because that is the device that we want to initialize and
--		 * we should end immediately if it is not aggregated (group_id=0)
--		 */
--		for ( ; i < adr_link->num_adr; i++) {
--			struct asoc_sdw_codec_info *codec_info;
--
--			codec_info = asoc_sdw_find_codec_info_part(adr_link->adr_d[i].adr);
--			if (!codec_info)
--				return -EINVAL;
--
--			/* The group_id is > 0 iff the codec is aggregated */
--			if (adr_link->adr_d[i].endpoints->group_id != group_id)
--				continue;
--			if (codec_info->dais[dai_index].init)
--				codec_info->dais[dai_index].init(card,
--								 dai_links,
--								 codec_info,
--								 playback);
--
--			if (!group_id)
--				return 0;
--		}
--
--		i = 0;
--		adr_link++;
--	} while (adr_link->mask);
--
--	return 0;
--}
--
--/*
-- * check endpoint status in slaves and gather link ID for all slaves in
-- * the same group to generate different CPU DAI. Now only support
-- * one sdw link with all slaves set with only single group id.
-- *
-- * one slave on one sdw link with aggregated = 0
-- * one sdw BE DAI <---> one-cpu DAI <---> one-codec DAI
-- *
-- * two or more slaves on one sdw link with aggregated = 1
-- * one sdw BE DAI  <---> one-cpu DAI <---> multi-codec DAIs
-- */
--static int get_slave_info(const struct snd_soc_acpi_link_adr *adr_link,
--			  struct device *dev, int *cpu_dai_id, int *cpu_dai_num,
--			  int *codec_num, unsigned int *group_id,
--			  int adr_index)
--{
--	int i;
--
--	if (!adr_link->adr_d[adr_index].endpoints->aggregated) {
--		cpu_dai_id[0] = ffs(adr_link->mask) - 1;
--		*cpu_dai_num = 1;
--		*codec_num = 1;
--		*group_id = 0;
--		return 0;
--	}
--
--	*codec_num = 0;
--	*cpu_dai_num = 0;
--	*group_id = adr_link->adr_d[adr_index].endpoints->group_id;
--
--	/* Count endpoints with the same group_id in the adr_link */
--	for (; adr_link && adr_link->num_adr; adr_link++) {
--		unsigned int link_codecs = 0;
--
--		for (i = 0; i < adr_link->num_adr; i++) {
--			if (adr_link->adr_d[i].endpoints->aggregated &&
--			    adr_link->adr_d[i].endpoints->group_id == *group_id)
--				link_codecs++;
--		}
--
--		if (link_codecs) {
--			*codec_num += link_codecs;
--
--			if (*cpu_dai_num >= ACP63_SDW_MAX_CPU_DAIS) {
--				dev_err(dev, "cpu_dai_id array overflowed\n");
--				return -EINVAL;
--			}
--
--			cpu_dai_id[(*cpu_dai_num)++] = ffs(adr_link->mask) - 1;
--		}
--	}
--
--	return 0;
--}
--
- static int get_acp63_cpu_pin_id(u32 sdw_link_id, int be_id, int *cpu_pin_id, struct device *dev)
- {
- 	switch (sdw_link_id) {
-@@ -306,116 +115,64 @@ static int get_acp63_cpu_pin_id(u32 sdw_link_id, int be_id, int *cpu_pin_id, str
- static const char * const type_strings[] = {"SimpleJack", "SmartAmp", "SmartMic"};
- 
- static int create_sdw_dailink(struct snd_soc_card *card,
-+			      struct asoc_sdw_dailink *sof_dai,
- 			      struct snd_soc_dai_link **dai_links,
--			      const struct snd_soc_acpi_link_adr *adr_link,
--			      struct snd_soc_codec_conf **codec_conf,
--			      int *be_id, int adr_index, int dai_index)
-+			      int *be_id, struct snd_soc_codec_conf **codec_conf)
- {
-+	struct device *dev = card->dev;
- 	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
- 	struct amd_mc_ctx *amd_ctx = (struct amd_mc_ctx *)ctx->private;
--	struct device *dev = card->dev;
--	const struct snd_soc_acpi_link_adr *adr_link_next;
--	struct snd_soc_dai_link_ch_map *sdw_codec_ch_maps;
--	struct snd_soc_dai_link_component *codecs;
--	struct snd_soc_dai_link_component *cpus;
--	struct asoc_sdw_codec_info *codec_info;
--	int cpu_dai_id[ACP63_SDW_MAX_CPU_DAIS];
--	int cpu_dai_num;
--	unsigned int group_id;
--	unsigned int sdw_link_id;
--	int codec_dlc_index = 0;
--	int codec_num;
-+	struct asoc_sdw_endpoint *sof_end;
-+	int cpu_pin_id;
- 	int stream;
--	int i = 0;
--	int j, k;
- 	int ret;
--	int cpu_pin_id;
--
--	ret = get_slave_info(adr_link, dev, cpu_dai_id, &cpu_dai_num, &codec_num,
--			     &group_id, adr_index);
--	if (ret)
--		return ret;
--	codecs = devm_kcalloc(dev, codec_num, sizeof(*codecs), GFP_KERNEL);
--	if (!codecs)
--		return -ENOMEM;
- 
--	sdw_codec_ch_maps = devm_kcalloc(dev, codec_num,
--					 sizeof(*sdw_codec_ch_maps), GFP_KERNEL);
--	if (!sdw_codec_ch_maps)
--		return -ENOMEM;
--
--	/* generate codec name on different links in the same group */
--	j = adr_index;
--	for (adr_link_next = adr_link; adr_link_next && adr_link_next->num_adr &&
--	     i < cpu_dai_num; adr_link_next++) {
--		/* skip the link excluded by this processed group */
--		if (cpu_dai_id[i] != ffs(adr_link_next->mask) - 1)
--			continue;
--
--		/* j reset after loop, adr_index only applies to first link */
--		for (k = 0 ; (j < adr_link_next->num_adr) && (k < codec_num) ; j++, k++) {
--			const struct snd_soc_acpi_endpoint *endpoints;
--
--			endpoints = adr_link_next->adr_d[j].endpoints;
--			if (group_id && (!endpoints->aggregated ||
--					 endpoints->group_id != group_id))
--				continue;
--
--			/* sanity check */
--			if (*codec_conf >= card->codec_conf + card->num_configs) {
--				dev_err(dev, "codec_conf array overflowed\n");
--				return -EINVAL;
--			}
-+	list_for_each_entry(sof_end, &sof_dai->endpoints, list) {
-+		if (sof_end->name_prefix) {
-+			(*codec_conf)->dlc.name = sof_end->codec_name;
-+			(*codec_conf)->name_prefix = sof_end->name_prefix;
-+			(*codec_conf)++;
-+		}
- 
--			ret = fill_sdw_codec_dlc(dev, adr_link_next,
--						 &codecs[codec_dlc_index],
--						 j, dai_index);
-+		if (sof_end->include_sidecar) {
-+			ret = sof_end->codec_info->add_sidecar(card, dai_links, codec_conf);
- 			if (ret)
- 				return ret;
--			(*codec_conf)->dlc = codecs[codec_dlc_index];
--			(*codec_conf)->name_prefix = adr_link_next->adr_d[j].name_prefix;
--
--			sdw_codec_ch_maps[codec_dlc_index].cpu = i;
--			sdw_codec_ch_maps[codec_dlc_index].codec = codec_dlc_index;
--
--			codec_dlc_index++;
--			(*codec_conf)++;
- 		}
--		j = 0;
--
--		/* check next link to create codec dai in the processed group */
--		i++;
- 	}
- 
--	/* find codec info to create BE DAI */
--	codec_info = asoc_sdw_find_codec_info_part(adr_link->adr_d[adr_index].adr);
--	if (!codec_info)
--		return -EINVAL;
--
--	ctx->ignore_internal_dmic |= codec_info->ignore_internal_dmic;
--
--	sdw_link_id = (adr_link->adr_d[adr_index].adr) >> 48;
- 	for_each_pcm_streams(stream) {
--		char *name, *cpu_name;
--		int playback, capture;
- 		static const char * const sdw_stream_name[] = {
- 			"SDW%d-PIN%d-PLAYBACK",
- 			"SDW%d-PIN%d-CAPTURE",
- 			"SDW%d-PIN%d-PLAYBACK-%s",
- 			"SDW%d-PIN%d-CAPTURE-%s",
- 		};
-+		struct snd_soc_dai_link_ch_map *codec_maps;
-+		struct snd_soc_dai_link_component *codecs;
-+		struct snd_soc_dai_link_component *cpus;
-+		int num_cpus = hweight32(sof_dai->link_mask[stream]);
-+		int num_codecs = sof_dai->num_devs[stream];
-+		int playback, capture;
-+		int i = 0, j = 0;
-+		char *name;
- 
--		if (!codec_info->dais[dai_index].direction[stream])
-+		if (!sof_dai->num_devs[stream])
- 			continue;
- 
--		*be_id = codec_info->dais[dai_index].dailink[stream];
-+		sof_end = list_first_entry(&sof_dai->endpoints,
-+					   struct asoc_sdw_endpoint, list);
-+
-+		*be_id = sof_end->dai_info->dailink[stream];
- 		if (*be_id < 0) {
- 			dev_err(dev, "Invalid dailink id %d\n", *be_id);
- 			return -EINVAL;
- 		}
-+
- 		switch (amd_ctx->acp_rev) {
- 		case ACP63_PCI_REV:
--			ret = get_acp63_cpu_pin_id(sdw_link_id, *be_id, &cpu_pin_id, dev);
-+			ret = get_acp63_cpu_pin_id(ffs(sof_end->link_mask - 1),
-+						   *be_id, &cpu_pin_id, dev);
- 			if (ret)
- 				return ret;
- 			break;
-@@ -425,55 +182,105 @@ static int create_sdw_dailink(struct snd_soc_card *card,
- 		/* create stream name according to first link id */
- 		if (ctx->append_dai_type) {
- 			name = devm_kasprintf(dev, GFP_KERNEL,
--					      sdw_stream_name[stream + 2], sdw_link_id, cpu_pin_id,
--					      type_strings[codec_info->dais[dai_index].dai_type]);
-+					      sdw_stream_name[stream + 2],
-+					      ffs(sof_end->link_mask) - 1,
-+					      cpu_pin_id,
-+					      type_strings[sof_end->dai_info->dai_type]);
- 		} else {
- 			name = devm_kasprintf(dev, GFP_KERNEL,
--					      sdw_stream_name[stream], sdw_link_id, cpu_pin_id);
-+					      sdw_stream_name[stream],
-+					      ffs(sof_end->link_mask) - 1,
-+					      cpu_pin_id);
- 		}
- 		if (!name)
- 			return -ENOMEM;
- 
--		cpus = devm_kcalloc(dev, cpu_dai_num, sizeof(*cpus), GFP_KERNEL);
-+		cpus = devm_kcalloc(dev, num_cpus, sizeof(*cpus), GFP_KERNEL);
- 		if (!cpus)
- 			return -ENOMEM;
--		/*
--		 * generate CPU DAI name base on the sdw link ID and
--		 * cpu pin id according to sdw dai driver.
--		 */
--		for (k = 0; k < cpu_dai_num; k++) {
--			cpu_name = devm_kasprintf(dev, GFP_KERNEL,
--						  "SDW%d Pin%d", sdw_link_id, cpu_pin_id);
--			if (!cpu_name)
-+
-+		codecs = devm_kcalloc(dev, num_codecs, sizeof(*codecs), GFP_KERNEL);
-+		if (!codecs)
-+			return -ENOMEM;
-+
-+		codec_maps = devm_kcalloc(dev, num_codecs, sizeof(*codec_maps), GFP_KERNEL);
-+		if (!codec_maps)
-+			return -ENOMEM;
-+
-+		list_for_each_entry(sof_end, &sof_dai->endpoints, list) {
-+			if (!sof_end->dai_info->direction[stream])
-+				continue;
-+
-+			int link_num = ffs(sof_end->link_mask) - 1;
-+
-+			cpus[i].dai_name = devm_kasprintf(dev, GFP_KERNEL,
-+							  "SDW%d Pin%d",
-+							  link_num, cpu_pin_id);
-+			dev_dbg(dev, "cpu[%d].dai_name:%s\n", i, cpus[i].dai_name);
-+			if (!cpus[i].dai_name)
- 				return -ENOMEM;
- 
--			cpus[k].dai_name = cpu_name;
-+			codec_maps[j].cpu = i;
-+			codec_maps[j].codec = j;
-+
-+			codecs[j].name = sof_end->codec_name;
-+			codecs[j].dai_name = sof_end->dai_info->dai_name;
-+			j++;
- 		}
- 
-+		WARN_ON(j != num_codecs);
-+
- 		playback = (stream == SNDRV_PCM_STREAM_PLAYBACK);
- 		capture = (stream == SNDRV_PCM_STREAM_CAPTURE);
--		asoc_sdw_init_dai_link(dev, *dai_links, be_id, name,
--				       playback, capture,
--				       cpus, cpu_dai_num,
--				       platform_component, ARRAY_SIZE(platform_component),
--				       codecs, codec_num,
-+
-+		asoc_sdw_init_dai_link(dev, *dai_links, be_id, name, playback, capture,
-+				       cpus, num_cpus, platform_component,
-+				       ARRAY_SIZE(platform_component), codecs, num_codecs,
- 				       asoc_sdw_rtd_init, &sdw_ops);
-+
- 		/*
- 		 * SoundWire DAILINKs use 'stream' functions and Bank Switch operations
- 		 * based on wait_for_completion(), tag them as 'nonatomic'.
- 		 */
- 		(*dai_links)->nonatomic = true;
--		(*dai_links)->ch_maps = sdw_codec_ch_maps;
-+		(*dai_links)->ch_maps = codec_maps;
- 
--		ret = set_codec_init_func(card, adr_link, *dai_links,
--					  playback, group_id, adr_index, dai_index);
--		if (ret < 0) {
--			dev_err(dev, "failed to init codec 0x%x\n", codec_info->part_id);
--			return ret;
-+		list_for_each_entry(sof_end, &sof_dai->endpoints, list) {
-+			if (sof_end->dai_info->init)
-+				sof_end->dai_info->init(card, *dai_links,
-+							sof_end->codec_info,
-+							playback);
- 		}
- 
- 		(*dai_links)++;
- 	}
-+
-+	return 0;
-+}
-+
-+static int create_sdw_dailinks(struct snd_soc_card *card,
-+			       struct snd_soc_dai_link **dai_links, int *be_id,
-+			       struct asoc_sdw_dailink *sof_dais,
-+			       struct snd_soc_codec_conf **codec_conf)
-+{
-+	int ret;
-+
-+	/* generate DAI links by each sdw link */
-+	while (sof_dais->initialised) {
-+		int current_be_id;
-+
-+		ret = create_sdw_dailink(card, sof_dais, dai_links,
-+					 &current_be_id, codec_conf);
-+		if (ret)
-+			return ret;
-+
-+		/* Update the be_id to match the highest ID used for SDW link */
-+		if (*be_id < current_be_id)
-+			*be_id = current_be_id;
-+
-+		sof_dais++;
-+	}
-+
- 	return 0;
- }
- 
-@@ -504,132 +311,93 @@ static int sof_card_dai_links_create(struct snd_soc_card *card)
- 	int sdw_be_num = 0, dmic_num = 0;
- 	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
- 	struct snd_soc_acpi_mach_params *mach_params = &mach->mach_params;
--	const struct snd_soc_acpi_link_adr *adr_link = mach_params->links;
- 	struct snd_soc_codec_conf *codec_conf;
--	int codec_conf_num = 0;
--	bool group_generated[AMD_SDW_MAX_GROUPS] = { };
-+	struct asoc_sdw_endpoint *sof_ends;
-+	struct asoc_sdw_dailink *sof_dais;
- 	struct snd_soc_dai_link *dai_links;
--	struct asoc_sdw_codec_info *codec_info;
-+	int num_devs = 0;
-+	int num_ends = 0;
- 	int num_links;
--	int i, j, be_id = 0;
-+	int be_id = 0;
- 	int ret;
- 
--	ret = get_dailink_info(dev, adr_link, &sdw_be_num, &codec_conf_num);
-+	ret = asoc_sdw_count_sdw_endpoints(card, &num_devs, &num_ends);
- 	if (ret < 0) {
--		dev_err(dev, "failed to get sdw link info %d\n", ret);
-+		dev_err(dev, "failed to count devices/endpoints: %d\n", ret);
- 		return ret;
- 	}
- 
-+	/* One per DAI link, worst case is a DAI link for every endpoint */
-+	sof_dais = kcalloc(num_ends, sizeof(*sof_dais), GFP_KERNEL);
-+	if (!sof_dais)
-+		return -ENOMEM;
-+
-+	/* One per endpoint, ie. each DAI on each codec/amp */
-+	sof_ends = kcalloc(num_ends, sizeof(*sof_ends), GFP_KERNEL);
-+	if (!sof_ends) {
-+		ret = -ENOMEM;
-+		goto err_dai;
-+	}
-+
-+	ret = asoc_sdw_parse_sdw_endpoints(card, sof_dais, sof_ends, &num_devs);
-+	if (ret < 0)
-+		goto err_end;
-+
-+	sdw_be_num = ret;
-+
- 	/* enable dmic */
- 	if (sof_sdw_quirk & ASOC_SDW_ACP_DMIC || mach_params->dmic_num)
- 		dmic_num = 1;
- 
- 	dev_dbg(dev, "sdw %d, dmic %d", sdw_be_num, dmic_num);
- 
-+	codec_conf = devm_kcalloc(dev, num_devs, sizeof(*codec_conf), GFP_KERNEL);
-+	if (!codec_conf) {
-+		ret = -ENOMEM;
-+		goto err_end;
-+	}
-+
- 	/* allocate BE dailinks */
- 	num_links = sdw_be_num + dmic_num;
- 	dai_links = devm_kcalloc(dev, num_links, sizeof(*dai_links), GFP_KERNEL);
--	if (!dai_links)
--		return -ENOMEM;
--
--	/* allocate codec conf, will be populated when dailinks are created */
--	codec_conf = devm_kcalloc(dev, codec_conf_num, sizeof(*codec_conf),
--				  GFP_KERNEL);
--	if (!codec_conf)
--		return -ENOMEM;
-+	if (!dai_links) {
-+		ret = -ENOMEM;
-+	goto err_end;
-+	}
- 
-+	card->codec_conf = codec_conf;
-+	card->num_configs = num_devs;
- 	card->dai_link = dai_links;
- 	card->num_links = num_links;
--	card->codec_conf = codec_conf;
--	card->num_configs = codec_conf_num;
- 
- 	/* SDW */
--	if (!sdw_be_num)
--		goto DMIC;
--
--	for (; adr_link->num_adr; adr_link++) {
--		/*
--		 * If there are two or more different devices on the same sdw link, we have to
--		 * append the codec type to the dai link name to prevent duplicated dai link name.
--		 * The same type devices on the same sdw link will be in the same
--		 * snd_soc_acpi_adr_device array. They won't be described in different adr_links.
--		 */
--		for (i = 0; i < adr_link->num_adr; i++) {
--			/* find codec info to get dai_num */
--			codec_info = asoc_sdw_find_codec_info_part(adr_link->adr_d[i].adr);
--			if (!codec_info)
--				return -EINVAL;
--			if (codec_info->dai_num > 1) {
--				ctx->append_dai_type = true;
--				goto out;
--			}
--			for (j = 0; j < i; j++) {
--				if ((SDW_PART_ID(adr_link->adr_d[i].adr) !=
--				    SDW_PART_ID(adr_link->adr_d[j].adr)) ||
--				    (SDW_MFG_ID(adr_link->adr_d[i].adr) !=
--				    SDW_MFG_ID(adr_link->adr_d[j].adr))) {
--					ctx->append_dai_type = true;
--					goto out;
--				}
--			}
--		}
--	}
--out:
--
--	/* generate DAI links by each sdw link */
--	for (adr_link = mach_params->links ; adr_link->num_adr; adr_link++) {
--		for (i = 0; i < adr_link->num_adr; i++) {
--			const struct snd_soc_acpi_endpoint *endpoint;
--
--			endpoint = adr_link->adr_d[i].endpoints;
--
--			/* this group has been generated */
--			if (endpoint->aggregated &&
--			    group_generated[endpoint->group_id])
--				continue;
--
--			/* find codec info to get dai_num */
--			codec_info = asoc_sdw_find_codec_info_part(adr_link->adr_d[i].adr);
--			if (!codec_info)
--				return -EINVAL;
--
--			for (j = 0; j < codec_info->dai_num ; j++) {
--				int current_be_id;
--
--				ret = create_sdw_dailink(card, &dai_links, adr_link,
--							 &codec_conf, &current_be_id,
--							 i, j);
--				if (ret < 0) {
--					dev_err(dev,
--						"failed to create dai link %d on 0x%x\n",
--						j, codec_info->part_id);
--					return ret;
--				}
--				/* Update the be_id to match the highest ID used for SDW link */
--				if (be_id < current_be_id)
--					be_id = current_be_id;
--			}
--
--			if (endpoint->aggregated)
--				group_generated[endpoint->group_id] = true;
--		}
-+	if (sdw_be_num) {
-+		ret = create_sdw_dailinks(card, &dai_links, &be_id,
-+					  sof_dais, &codec_conf);
-+		if (ret)
-+			goto err_end;
- 	}
- 
--DMIC:
- 	/* dmic */
- 	if (dmic_num > 0) {
- 		if (ctx->ignore_internal_dmic) {
- 			dev_warn(dev, "Ignoring ACP DMIC\n");
- 		} else {
--			be_id = SOC_SDW_DMIC_DAI_ID;
- 			ret = create_dmic_dailinks(card, &dai_links, &be_id);
- 			if (ret)
--				return ret;
-+				goto err_end;
- 		}
- 	}
- 
-+	WARN_ON(codec_conf != card->codec_conf + card->num_configs);
- 	WARN_ON(dai_links != card->dai_link + card->num_links);
--	return 0;
-+
-+err_end:
-+	kfree(sof_ends);
-+err_dai:
-+	kfree(sof_dais);
-+
-+	return ret;
- }
- 
- /* SoC card */
--- 
-2.34.1
 
+Thanks
+
+Takashi Sakamoto
