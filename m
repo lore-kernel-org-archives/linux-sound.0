@@ -1,135 +1,199 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89FDB1D67B8
-	for <linux-sound@vger.kernel.org>; Fri, 13 Sep 2024 11:55:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D41FB1C3304;
+	Fri, 13 Sep 2024 12:07:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726228510; cv=none; b=bd1WsKCYHfdw9Tmws9NitN7A2tJprBTkzfX3UxkNoUHHw5o729l1mKmKkvQMuUze1QKZnzOfVtvi5IWVBmpGFkSVgpB5soEmZC7Uwxl+W8G3JD9emoCbgOfeHtDhwMCZkE/YlyDtDh5Ov/6ao3ImJ9dZiHVSc0/ZEvnEtxVsEEM=
+	t=1726229265; cv=none; b=YvBsrBT14OC33/4uQhnl4OnGrNDzddmBEdhhxAXVtE2s0F8Vz9WHp/WlDOj/A6ahMkKRaV+Azhda2sHpMYJjLRfRgS8hHoqaCL8grKVMHmxFxcyBZan0O+yW4lBTgyuKg/L9etZ6wYhateiBzH/ZP43Lt7VZ5kt/qfX8X3IHaFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726228510; c=relaxed/simple;
-	bh=xmNpzz3+CRNT1fZuUU5bLVTxfrWUCEeO6BuVYA1S9u8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FzcwWezXK8ZY9UsgrAdpwdhn44YlEbfbvJX4psEZwZSsu5YABqAVeoUDqHQxOVNDRrWsHaiOQR/OeZz2EUF7UtWUyYEN4ukTLBONZ29aSkcXBRtDsolGi3inD+KBuYxZrjkRDA0/eW0qxkcblYlQ6kLmsH+7GSJ67Mn5trPSpk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hq01GJTk; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1726229265; c=relaxed/simple;
+	bh=V6u2eHa/w9HQk3WWvCdMr/y/+BoQMgcZ+Nl2/14uCeA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rkiuvV89FRDpVAWNBHKA6wRnHCCiI5nizG024qPtQfDFxZUC45GlKyVpLoGs3P2QWOhnJt0A2l6HXST/uyQHlbrBdFblUa8JpXluy+GjC5Agsr02TA15DXbONpObruiC/gynE3utaT4jwr44RyTF6PdXF/TMDrOdHUXBBpRdjXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=tYyhCVMf; arc=none smtp.client-ip=68.232.153.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hq01GJTk"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="tYyhCVMf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726228509; x=1757764509;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=xmNpzz3+CRNT1fZuUU5bLVTxfrWUCEeO6BuVYA1S9u8=;
-  b=hq01GJTk9u4sV8T46xrOgPWzLKmBCZwfF1hWwyP9yfpUZBhWLU4xs1bl
-   Oed6nRXbs4ev2Z14FAAW4Hxw3mhZvud4qZoB3HwQ3CnipRUATILXjg00x
-   fqRmLkgTaOS1p3VItpMbIadbO+NmVwCuT0ornhnpIC5/N7EPq9R2CfYqc
-   WuWJdSgpi8GlLqH8mNZ17ws/WMr2fscU9XYL/QPUAFSfO+BVLQP5jD/xj
-   687g/OwH24bQ/JU45IZs2Z/VPdUo4LLFhdrtnbVRorT0OKYecM9OG4CWV
-   0F9WUNQK5U35/86cCSQa1JYxujUbEL6GNc3e3jmdLtk9lZYkO53tnqmwW
-   w==;
-X-CSE-ConnectionGUID: SPWM8PabQ1i3jOWB2AZ8/g==
-X-CSE-MsgGUID: aNyussSAQ9eBlpFdHbVmKg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="28871335"
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1726229263; x=1757765263;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=V6u2eHa/w9HQk3WWvCdMr/y/+BoQMgcZ+Nl2/14uCeA=;
+  b=tYyhCVMfKYu5YpNt7kKscM4SF9qUYsGlKlEljVhDTCfXTenW9RWy4xkz
+   0bdVTxk3XJqEYk+VFQoW2Al/wgj5W53gAlDirIByD5/M1nt16dPsjwtZe
+   sj6j/OAa/dgXhGhDuUDvPihy9nrloymCfFCfxpY5x9bW4NqMshBFFRyad
+   2CpX/C3LVh4IIJjW0CP6TwISJoCu1mVKtr9LJIcq9ecdQN/+lk6xLoK0E
+   FTLean241LXKmDFhKiWCbz3BuUDrbG0LoDL01HISmBs18tIpYuXKY540L
+   efNPxdWTYdhc1xT4BShXL4SQKbSzAXKxk+pk7EtNjtrIq1pxzBXlFMLMT
+   Q==;
+X-CSE-ConnectionGUID: ap9aDqYYRZ2h/RrZKGCbqA==
+X-CSE-MsgGUID: FyIGOBtkRr+rtkG0jt9EvA==
 X-IronPort-AV: E=Sophos;i="6.10,225,1719903600"; 
-   d="scan'208";a="28871335"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 04:55:08 -0700
-X-CSE-ConnectionGUID: CT1q92YtQoykMmigt+VuQw==
-X-CSE-MsgGUID: tOSe+rmwQhaW2Sv/49p8ug==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,225,1719903600"; 
-   d="scan'208";a="68285580"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO [10.245.246.106]) ([10.245.246.106])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 04:55:04 -0700
-Message-ID: <67b30310-6fbc-4d1d-926b-f4cc7bf68896@linux.intel.com>
-Date: Fri, 13 Sep 2024 13:53:41 +0200
+   d="scan'208";a="31749888"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 13 Sep 2024 05:07:36 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Fri, 13 Sep 2024 05:07:25 -0700
+Received: from ROB-ULT-M76677.microchip.com (10.10.85.11) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Fri, 13 Sep 2024 05:07:21 -0700
+From: Andrei Simion <andrei.simion@microchip.com>
+To: <claudiu.beznea@tuxon.dev>, <lgirdwood@gmail.com>, <broonie@kernel.org>,
+	<perex@perex.cz>, <tiwai@suse.com>, <nicolas.ferre@microchip.com>,
+	<alexandre.belloni@bootlin.com>
+CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	Codrin Ciubotariu <codrin.ciubotariu@microchip.com>, Andrei Simion
+	<andrei.simion@microchip.com>
+Subject: [PATCH v2] ASoC: atmel: mchp-pdmc: Retain Non-Runtime Controls
+Date: Fri, 13 Sep 2024 15:06:22 +0300
+Message-ID: <20240913120621.79088-1-andrei.simion@microchip.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] [RFC] ASoC: Conditional PCM support
-To: Cezary Rojewski <cezary.rojewski@intel.com>,
- Mark Brown <broonie@kernel.org>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, tiwai@suse.com,
- perex@perex.cz, amadeuszx.slawinski@linux.intel.com, hdegoede@redhat.com,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-References: <20240821101816.1494541-1-cezary.rojewski@intel.com>
- <83f81553-6dfa-46a3-9ca2-d42f54295eb1@linux.intel.com>
- <d5db8a15-64c9-45be-8f8c-977fd5ed282b@intel.com>
- <2ac45376-5df6-44e9-83d6-cdea49eea916@sirena.org.uk>
- <b95e8c62-db61-4678-8c2d-2224dfb1dd60@intel.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <b95e8c62-db61-4678-8c2d-2224dfb1dd60@intel.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
+From: Codrin Ciubotariu <codrin.ciubotariu@microchip.com>
 
+Avoid removing these controls, as doing so can cause issues if the stream
+is initiated from another control. Ensure these controls remain intact when
+the stream is started or finished. Instead of removing them, return an
+-EBUSY error code to indicate that the controller is busy, especially when
+the audio filter and the SINC filter are in use.
 
-On 9/13/24 12:59, Cezary Rojewski wrote:
-> On 2024-09-10 10:14 PM, Mark Brown wrote:
->> On Thu, Aug 22, 2024 at 03:57:22PM +0200, Cezary Rojewski wrote:
->>
->>> You've shared many scenarios, I do not think we can cover all of them
->>> here
->>> and while I could agree that current FE/BE (DPCM?) design did not age
->>> well,
->>> we're entering "rewrite how-to-pcm-in-linux" area.
->>> If general opinion is:
->>>     it's too much, we have to rewrite for the framework to scale
->>>     into the next 20 years of audio in Linux
->>
->>> then my thoughts regarding current review are:
->>>     if the avs-driver needs sideband interface, so be it, but do it
->>>     locally rather than polluting entire framework. Switch to the
->>>     framework-solution once its rewritten.
->>
->> On this bit as I mentioned in the prior reply there's been ideas for
->> redesigning how we tackle digital audio which I think there's general
->> agreement would be the best way forwards.  DPCM is very fragile and
->> creaking at the seams, it can't really represent scenarios like the
->> sideband case you've mentioned well.  OTOH a redesign is a very big lift
->> and there's never really a point where it seems constructive to actually
->> block things on it so long as everyone involved is OK with what's going
->> on.
->>
->> The upshot is that while I'd be *really* happy to see investment in the
->> framework side of things I probably wouldn't block a driver specific or
->> DPCM solution simply on the grounds that it's messy.  DPCM would need
->> buy in from other people using DPCM of course, and hopefully at some
->> point someone with one of these issues will find that the cost of
->> maintaining a bodge is going to be enough to push them to do the work
->> (or someone will have free time to just work on the issue).
-> 
-> From my experience when it comes to redesigning/rewriting entire
-> project, the "upgrade an already running train" strategy does not work,
-> so I'd not recommend that.
-> 
-> Instead, I'd suggest to have a second, separate DPCM implementation
-> present next to the existing one and have users opt in during a so-
-> called deprecation period of the existing one. Once certain amount of
-> time passes, switch all of them. Clean slide also makes it easier for a
-> developer to be creative.
-> 
-> Do you view the second option as viable?
+[andrei.simion@microchip.com: Reword the commit title and the commit
+message. Replace spinlock and busy variable with atomic_t busy_stream.]
 
-Classic problem without a good solution. In practice new features or
-corrections get added to the 'old' framework and the new one is not used
-by anyone just yet so it keeps running behind in terms of
-features/maturity. And due to limited validation resources or limited
-access to a wide variety of hardware, no one is quite ready to enable
-the new framework on 'old' platforms because that would break quite a
-few devices.
+Signed-off-by: Codrin Ciubotariu <codrin.ciubotariu@microchip.com>
+Signed-off-by: Andrei Simion <andrei.simion@microchip.com>
+---
+v1 -> v2:
+- drop spinlock and u8 busy:1;
+- use atomic_t variable busy_stream
+- use atomic_read, atomic_set
+---
+ sound/soc/atmel/mchp-pdmc.c | 57 ++++++++++---------------------------
+ 1 file changed, 15 insertions(+), 42 deletions(-)
 
-The other problem is that the 'switch' would mean a compatible solution,
-but the problem is to get rid of the very notion of front- and
-back-ends. Existing users of DPCM have undocumented hard-coded
-dependencies on the order in which callbacks are handled, it's not easy
-at all to change the routing engine.
+diff --git a/sound/soc/atmel/mchp-pdmc.c b/sound/soc/atmel/mchp-pdmc.c
+index d97d153ee375..939cd44ebc8a 100644
+--- a/sound/soc/atmel/mchp-pdmc.c
++++ b/sound/soc/atmel/mchp-pdmc.c
+@@ -124,6 +124,7 @@ struct mchp_pdmc {
+ 	int mic_no;
+ 	int sinc_order;
+ 	bool audio_filter_en;
++	atomic_t busy_stream;
+ };
+ 
+ static const char *const mchp_pdmc_sinc_filter_order_text[] = {
+@@ -167,6 +168,10 @@ static int mchp_pdmc_sinc_order_put(struct snd_kcontrol *kcontrol,
+ 		return -EINVAL;
+ 
+ 	val = snd_soc_enum_item_to_val(e, item[0]) << e->shift_l;
++
++	if (atomic_read(&dd->busy_stream))
++		return -EBUSY;
++
+ 	if (val == dd->sinc_order)
+ 		return 0;
+ 
+@@ -193,6 +198,9 @@ static int mchp_pdmc_af_put(struct snd_kcontrol *kcontrol,
+ 	struct mchp_pdmc *dd = snd_soc_component_get_drvdata(component);
+ 	bool af = uvalue->value.integer.value[0] ? true : false;
+ 
++	if (atomic_read(&dd->busy_stream))
++		return -EBUSY;
++
+ 	if (dd->audio_filter_en == af)
+ 		return 0;
+ 
+@@ -379,52 +387,10 @@ static const struct snd_kcontrol_new mchp_pdmc_snd_controls[] = {
+ 	},
+ };
+ 
+-static int mchp_pdmc_close(struct snd_soc_component *component,
+-			   struct snd_pcm_substream *substream)
+-{
+-	return snd_soc_add_component_controls(component, mchp_pdmc_snd_controls,
+-					      ARRAY_SIZE(mchp_pdmc_snd_controls));
+-}
+-
+-static int mchp_pdmc_open(struct snd_soc_component *component,
+-			  struct snd_pcm_substream *substream)
+-{
+-	int i;
+-
+-	/* remove controls that can't be changed at runtime */
+-	for (i = 0; i < ARRAY_SIZE(mchp_pdmc_snd_controls); i++) {
+-		const struct snd_kcontrol_new *control = &mchp_pdmc_snd_controls[i];
+-		struct snd_ctl_elem_id id;
+-		int err;
+-
+-		if (component->name_prefix)
+-			snprintf(id.name, sizeof(id.name), "%s %s", component->name_prefix,
+-				 control->name);
+-		else
+-			strscpy(id.name, control->name, sizeof(id.name));
+-
+-		id.numid = 0;
+-		id.iface = control->iface;
+-		id.device = control->device;
+-		id.subdevice = control->subdevice;
+-		id.index = control->index;
+-		err = snd_ctl_remove_id(component->card->snd_card, &id);
+-		if (err < 0)
+-			dev_err(component->dev, "%d: Failed to remove %s\n", err,
+-				control->name);
+-	}
+-
+-	return 0;
+-}
+-
+ static const struct snd_soc_component_driver mchp_pdmc_dai_component = {
+ 	.name = "mchp-pdmc",
+ 	.controls = mchp_pdmc_snd_controls,
+ 	.num_controls = ARRAY_SIZE(mchp_pdmc_snd_controls),
+-	.open = &mchp_pdmc_open,
+-	.close = &mchp_pdmc_close,
+-	.legacy_dai_naming = 1,
+-	.trigger_start = SND_SOC_TRIGGER_ORDER_LDC,
+ };
+ 
+ static const unsigned int mchp_pdmc_1mic[] = {1};
+@@ -587,6 +553,11 @@ static int mchp_pdmc_hw_params(struct snd_pcm_substream *substream,
+ 			cfgr_val |= MCHP_PDMC_CFGR_BSSEL(i);
+ 	}
+ 
++	/*
++	 * from these point forward, we consider the controller busy, so the
++	 * audio filter and SINC order can't be changed
++	 */
++	atomic_set(&dd->busy_stream, 1);
+ 	for (osr_start = dd->audio_filter_en ? 64 : 8;
+ 	     osr_start <= 256 && best_diff_rate; osr_start *= 2) {
+ 		long round_rate;
+@@ -1143,6 +1114,8 @@ static void mchp_pdmc_remove(struct platform_device *pdev)
+ {
+ 	struct mchp_pdmc *dd = platform_get_drvdata(pdev);
+ 
++	atomic_set(&dd->busy_stream, 0);
++
+ 	if (!pm_runtime_status_suspended(dd->dev))
+ 		mchp_pdmc_runtime_suspend(dd->dev);
+ 
 
+base-commit: 5acd9952f95fb4b7da6d09a3be39195a80845eb6
+-- 
+2.34.1
 
