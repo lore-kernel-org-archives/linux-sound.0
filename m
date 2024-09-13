@@ -1,120 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75144482D8
-	for <linux-sound@vger.kernel.org>; Fri, 13 Sep 2024 15:52:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22A7A29402;
+	Fri, 13 Sep 2024 15:59:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726242733; cv=none; b=DTxDnT7VJZl47//46r6JzZlatVWsh/Tt1TCtbcUxECDjXIbZ4NyrYW3sYnKVK0i+gLdEZa3kV1BOn2GR6MeYy5AOy+SXU7jOVhNIEREVj4bl39mpF8HVnimC055O3MwZv79w9iCIkYKzrjqziLfEZG9SZ9pjh49SCNM9VwaCOAI=
+	t=1726243176; cv=none; b=t8VQ32Q0lGk+8L5kHr8At78txbwQj7zO0uLK2RpOA7806rMGjmk/nOcSOWHyo0YSEfk+U9+f0P1fBWo8e92GWIgoZaF5/bLPOCbfZjSuPCAnyXNwydp+KqELEcqxdrz1uNVrptTIwuZFcDkKpLHqmmR7+Yhu3mRIfbZtQzE6/eU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726242733; c=relaxed/simple;
-	bh=Lgw167Jkbo8yaZJZHdLHMwOqPFZzODblpjCemZFVRDA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VIZRAbCDDcmjcb8zPt75BQDEvhgGBANKFgsFRInxOSVCUoxKhv61gJIiwx84Cwo5ITx1j9wdUe8L+PZcwE9JRHxp6uSmkUjnwlXnaRIOiXWGkfLvLAt/GwY1IBXTpQfEgUoQwHRKu9lOnMsvQolKh1qiNcdq+HTDV07+UTHgGfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mkkJE2gz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1726243176; c=relaxed/simple;
+	bh=2THK3Qa5hpEcl3liEPlYzjlcVVBqTpMJPQbdU/7/h9U=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=qYcxzRMGXaTm0bms4XwD9LIkeZ10unwQVh0p5pHF2DUQHardHCgZ00Unk+RvUUA0zXaUv4ZF61rtevxk1ByYp29yf8XuehAKzG8RP547OpnUgnugrdyC++MsI321PVA97E8bLXsxnCLuMp5TqNzKsSXgeeD+yLxxNb1PMHz9zZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AnObwBVf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mkkJE2gz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD167C4CEC0;
-	Fri, 13 Sep 2024 15:52:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AnObwBVf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70384C4CEC7;
+	Fri, 13 Sep 2024 15:59:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726242733;
-	bh=Lgw167Jkbo8yaZJZHdLHMwOqPFZzODblpjCemZFVRDA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mkkJE2gzgMMcNO1sbIVstikVOFZOuuTi4eoMCcV6Wt/PJyJhd9nnHpbU5Z3Wk1Rq7
-	 DlYmL+RDytE9SN1fLIL5mUE7I7VjaDYUvCmmTqQNXithwFv3o+oGpa1s4h/XSswHDy
-	 VRU0mt0Ra2mGoizS2JPdyupUnlXl2BNGoMX2n+Bs4vC823qGEc/TOpEkxXhrUnM+lU
-	 6CQA2qcRo68cy/YbbrF+sSg8ZIpT4W13fD4ddnnA4MbuQwd7abU6ybpBMENKUUVZJ2
-	 0J+SmCjmkqMW/c7HblIEZTD9vDHte3YYKGCxOZ/E+X9AHq+ThgApUpHs3U8a7tL3Li
-	 XtyzK3Rl+ToJQ==
-Date: Fri, 13 Sep 2024 16:52:07 +0100
+	s=k20201202; t=1726243175;
+	bh=2THK3Qa5hpEcl3liEPlYzjlcVVBqTpMJPQbdU/7/h9U=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=AnObwBVflScon9QfWYEcU32GDZMJ/dBFoVVdVeTuCUEe5Q+wc0fft7Z8BToDIrAXc
+	 JQCl0rYbrZAmjZElmSKpq2icTT1ELjl4ilB/O+K8yc8CO7Ce0DFPZPiYHuhFgX518Y
+	 GsYLNttJWk0A25LjyxO0/9nNo7aRWhZHRR0TnouG9z9HDeTFiNWvA+Faok6rE37s1s
+	 LvgqZ3G35/yltWXmiwzZpe1F1vJUz5gL3XL9A7IAeAc3k3s1cG0zTJ936Wa/ISalmY
+	 mIiS6FomPAwVYA7XMHe+J+7cQ5NP6QAdkkxUkD72tfeGxrc8XRG2EdZsFp5aYdbdgf
+	 GDCZcA9W+3A8w==
 From: Mark Brown <broonie@kernel.org>
-To: shumingf@realtek.com
-Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org, lars@metafoo.de,
-	flove@realtek.com, oder_chiou@realtek.com, jack.yu@realtek.com,
-	derek.fang@realtek.com, oliva@gnu.org
-Subject: Re: [PATCH] ASoC: rt1320: reads patch code from firmware file
-Message-ID: <2aa00670-d820-43cb-b479-c9aca7d0c243@sirena.org.uk>
-References: <20240913082733.2189491-1-shumingf@realtek.com>
+To: claudiu.beznea@tuxon.dev, lgirdwood@gmail.com, perex@perex.cz, 
+ tiwai@suse.com, nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com, 
+ Andrei Simion <andrei.simion@microchip.com>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Codrin Ciubotariu <codrin.ciubotariu@microchip.com>
+In-Reply-To: <20240913120621.79088-1-andrei.simion@microchip.com>
+References: <20240913120621.79088-1-andrei.simion@microchip.com>
+Subject: Re: [PATCH v2] ASoC: atmel: mchp-pdmc: Retain Non-Runtime Controls
+Message-Id: <172624317318.45716.11241819837265266294.b4-ty@kernel.org>
+Date: Fri, 13 Sep 2024 16:59:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="squbR9weB0+RnjT4"
-Content-Disposition: inline
-In-Reply-To: <20240913082733.2189491-1-shumingf@realtek.com>
-X-Cookie: In space, no one can hear you fart.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-99b12
 
+On Fri, 13 Sep 2024 15:06:22 +0300, Andrei Simion wrote:
+> Avoid removing these controls, as doing so can cause issues if the stream
+> is initiated from another control. Ensure these controls remain intact when
+> the stream is started or finished. Instead of removing them, return an
+> -EBUSY error code to indicate that the controller is busy, especially when
+> the audio filter and the SINC filter are in use.
+> 
+> [andrei.simion@microchip.com: Reword the commit title and the commit
+> message. Replace spinlock and busy variable with atomic_t busy_stream.]
+> 
+> [...]
 
---squbR9weB0+RnjT4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Fri, Sep 13, 2024 at 04:27:33PM +0800, shumingf@realtek.com wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-> +/*
-> + * The 'patch code' is written to the patch code area.
-> + * The patch code area is used for SDCA register expansion flexibility.
-> + */
-> +static void rt1320_load_mcu_patch(struct rt1320_sdw_priv *rt1320)
-> +{
-> +	struct sdw_slave *slave = rt1320->sdw_slave;
-> +	const struct firmware *patch;
-> +	char filename[128];
-> +	unsigned int addr, val;
-> +	const unsigned int *ptr;
-> +	int ret, i;
-> +
-> +	if (rt1320->version_id <= RT1320_VB)
-> +		strscpy(filename, RT1320_VAB_MCU_PATCH, sizeof(filename));
-> +	else
-> +		strscpy(filename, RT1320_VC_MCU_PATCH, sizeof(filename));
-> +
-> +	/* load the patch code here */
-> +	ret = request_firmware(&patch, filename, &slave->dev);
+Thanks!
 
-Why not just
+[1/1] ASoC: atmel: mchp-pdmc: Retain Non-Runtime Controls
+      commit: 2ed1a4a5c0058dfd78f5037576d668a37d0ec609
 
-	const char *filename;
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-	if (rt1320->version_id <= RT1320_VB)
-		filename = RT1320_VAB_MCU_PATCH;
-	else
-		filename = RT1320_VC_MCU_PATCH;
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-	ret = request_firmware(&patch, filename, &slave->dev);
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-(ie, what does the copy into the buffer do?)
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-> +	} else {
-> +		ptr = (const unsigned int *)patch->data;
-> +		for (i = 0; i < (patch->size / sizeof(unsigned int)); i += 2) {
-> +			addr = ptr[i];
-> +			val = ptr[i + 1];
-> +			regmap_write(rt1320->regmap, addr, val);
-> +		}
+Thanks,
+Mark
 
-Shouldn't this be using a specifically sized type in case we build on
-some architecture where int is a different size?  We should also
-validate that the file is an even number of register/value combinations
-to make sure it's not corrupt, checking the value of regmap_write() to
-make sure the register numbers are OK would probably be good.
-
---squbR9weB0+RnjT4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbkX6cACgkQJNaLcl1U
-h9ADoAf/dw6iDYggV2jxO2hvVmiHV0gaw4oE/N1rmt5YHseta87qAqZNdL92hj53
-jdfxgD6OO4aXr3bUM7CvwIASLRsngBpcrWcXywhciBKfolRUCAumi9DY0tid2j4C
-T2YhaeQaaGTIfmz5LQScuyxgSTgwKzcz+epCPoGO+WW2rczThC9eiI7ZGgMTIryc
-oI7XgsugMBfNsZoqhIijT06ey1KckCj0WMQHqsbxkIXm2rY50yLrca6DMVwje9c/
-CfMJ0JpvOdpgbraxHdIhJigGP1aGpmQZbwqL8Oyu48wHsNh6Q0cjuSVN6HIkerDG
-6WGsjyAtaAuZeqx4HqzAv3+aiji9Nw==
-=C6hf
------END PGP SIGNATURE-----
-
---squbR9weB0+RnjT4--
