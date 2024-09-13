@@ -1,123 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 134EF47A6A
-	for <linux-sound@vger.kernel.org>; Fri, 13 Sep 2024 16:32:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE32B770FD;
+	Fri, 13 Sep 2024 16:34:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726245138; cv=none; b=YqmS9rioVk9R/fLtGn8rU/LjK1ELdtbmLsIj3W2LWOIqzHcUx/s2pEfKC2TNAe8EH4bhPvTqK+IjaUl26HFq+Kb/cO7XshJ21akI3R0bMkeEwx7FGkMDfANn+hVi2nnbJn2MtUY+b7wNQqo+gBm3lfxTWeO2GdLubLl4X8St/sk=
+	t=1726245276; cv=none; b=eSVAd2U1hYcpFJTxI+A3nJHdxURQMv+F8LnTWKyiV/ECQhuki93Opv5l+QIxtNJyELtfmSANO3i3usUM3+aIZXTziLPrEqaKBCo4B0utoTE6Yen2AtSdQbolgE6joPKp0ntP3xD2RZTOrNkiZGRN0/sk5qcJsxUoEIrPr/r5oPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726245138; c=relaxed/simple;
-	bh=BcbLsJ+E0JCcewxIt4ozfn2rIALLXnWZgLE5/Mkax7Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DYkjWN1iZZFWH7m6OfCXj7d1i4PprEIrw3zEThh0WI3kNHzcJAU7K1aj5NEroIf0bHFf+TUJvQ2N4U4ImFtRe4oSemlBOw6+KQjIdNrakPBMIvUNy25SGAWTBGTrSATsvFLGmbdzTJkAtL7zNyLzeGBVxMWSC8tNkSbrhaWBRjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tjATxHBV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1726245276; c=relaxed/simple;
+	bh=Be6x5np/IeA3dgRmH96GURLhTJOHsiRBhHXBpLMv29k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=owK1UttuU0tYqWyNNbk39pqftFO+Tips5UjtDK1ew0SE34j7KQB65vSHsq8Ses7OVlD77pNawzPpciiPASYqIZ5PasqeqT+tbso878ix+Z1PSLLb9N8CrVsn3rI4nHWqUYutYcY1Oyh6nd3zH6KKENVez2d0gu4AAzYPvJ53O8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=fNRELFfx; arc=none smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tjATxHBV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6BF5C4CEC0;
-	Fri, 13 Sep 2024 16:32:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726245137;
-	bh=BcbLsJ+E0JCcewxIt4ozfn2rIALLXnWZgLE5/Mkax7Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tjATxHBVDxX6BFEQdu/QTEge+COGQBoOOFhOUsAaglrBJ95DVy3eflJjZhfHpFIpf
-	 uj/81u+s24kIpdQjkJ8vl2o9eROynDxKV7P7q3l2rQ+l1BC1/gA/WEAAZVPH4bx334
-	 aLB2PBqQo/H4PAm7QPapKIMpkYi0e3cVBSE42+1xbSCYaJrQdogyFcg6XeSSGC2tjj
-	 X7lYh/DmvbEpd4GTUNLK0oXOnszPIZhZDdqxg0yXberL+pSwGQuKAKD65SeWm6hO7T
-	 Z66QSGyW989N3IHJwufPnMYt4uAI/86EKHIHCa6LsGxd98DdPFdb738X6GkpHbpUcX
-	 hzvjTwchuZfKg==
-Date: Fri, 13 Sep 2024 17:32:12 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	tiwai@suse.com, perex@perex.cz, amadeuszx.slawinski@linux.intel.com,
-	hdegoede@redhat.com,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH] [RFC] ASoC: Conditional PCM support
-Message-ID: <cce327f2-03dd-4c6f-9218-e54aa76a78e7@sirena.org.uk>
-References: <20240821101816.1494541-1-cezary.rojewski@intel.com>
- <83f81553-6dfa-46a3-9ca2-d42f54295eb1@linux.intel.com>
- <d5db8a15-64c9-45be-8f8c-977fd5ed282b@intel.com>
- <2ac45376-5df6-44e9-83d6-cdea49eea916@sirena.org.uk>
- <b95e8c62-db61-4678-8c2d-2224dfb1dd60@intel.com>
- <67b30310-6fbc-4d1d-926b-f4cc7bf68896@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="fNRELFfx"
+X-UUID: 0855b4c471ee11ef8b96093e013ec31c-20240914
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:CC:To:Subject:MIME-Version:Date:Message-ID; bh=Gvl9lrny6mvsK5Tak3zaIUvWCax7srnhKft2K/5hlG8=;
+	b=fNRELFfxUrdIlFmeG6ikL9MmcgsFOQk2ObS4OMyFk1Zc5iLi8fE6Rgf1JyzJbHB85l/4bLNCOoGnPlh+5E7s2qKsdM+TGcO2ESyyNQooKH2TbGVGjqqPk119MKg46obgnQdvoRXFC+4B6wBACZqP+tMdc3TJRew9ovZObtpO+nc=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.41,REQID:1648f991-874b-4100-b3a4-e24d46d15c13,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:6dc6a47,CLOUDID:225defbf-d7af-4351-93aa-42531abf0c7b,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|-5,EDM:-3,IP:ni
+	l,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 0855b4c471ee11ef8b96093e013ec31c-20240914
+Received: from mtkmbs09n2.mediatek.inc [(172.21.101.94)] by mailgw02.mediatek.com
+	(envelope-from <macpaul.lin@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 303505856; Sat, 14 Sep 2024 00:34:22 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ MTKMBS09N2.mediatek.inc (172.21.101.94) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Fri, 13 Sep 2024 09:34:20 -0700
+Received: from [172.21.84.99] (172.21.84.99) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.1118.26 via Frontend
+ Transport; Sat, 14 Sep 2024 00:33:24 +0800
+Message-ID: <117a6f04-4228-8ff5-5b19-766cfbbf0771@mediatek.com>
+Date: Sat, 14 Sep 2024 00:33:20 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="UaELuzA42Q0pL3aG"
-Content-Disposition: inline
-In-Reply-To: <67b30310-6fbc-4d1d-926b-f4cc7bf68896@linux.intel.com>
-X-Cookie: In space, no one can hear you fart.
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2 6/7] dt-bindings: power: reset: mt6323: merge to MFD
+ mediatek,mt6397 DT schema
+Content-Language: en-US
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
+CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	<linux-leds@vger.kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+	<broonie@kernel.org>, Pavel Machek <pavel@ucw.cz>, Sean Wang
+	<sean.wang@mediatek.com>, Lee Jones <lee@kernel.org>, Alexandre Mergnat
+	<amergnat@baylibre.com>, Flora Fu <flora.fu@mediatek.com>, Bear Wang
+	<bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>, Macpaul Lin
+	<macpaul@gmail.com>, Sen Chu <sen.chu@mediatek.com>, Chris-qj chen
+	<chris-qj.chen@mediatek.com>, MediaTek Chromebook Upstream
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, <linux-pm@vger.kernel.org>,
+	<linux-rtc@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, Chen-Yu Tsai <wenst@chromium.org>
+References: <20240830110732.30080-1-macpaul.lin@mediatek.com>
+ <20240830110732.30080-6-macpaul.lin@mediatek.com>
+ <01020191b9d74883-4c4deeb2-1be0-4c45-9fff-c228767de23d-000000@eu-west-1.amazonses.com>
+From: Macpaul Lin <macpaul.lin@mediatek.com>
+In-Reply-To: <01020191b9d74883-4c4deeb2-1be0-4c45-9fff-c228767de23d-000000@eu-west-1.amazonses.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
---UaELuzA42Q0pL3aG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Fri, Sep 13, 2024 at 01:53:41PM +0200, Pierre-Louis Bossart wrote:
-> On 9/13/24 12:59, Cezary Rojewski wrote:
+On 9/4/24 05:42, Sebastian Reichel wrote:
+> Hi,
+> 
+> On Fri, Aug 30, 2024 at 07:07:31PM GMT, Macpaul Lin wrote:
+>> Convert mt6323-poweroff.txt to be compatible with DT schema.
+>> Since this is a power-controller device node, merge it into parent
+>> mediatek,mt6397.yaml. Subsequently, remove mt6323-poweroff.txt with a
+>> separate patch.
+>>
+>> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
+>> ---
+> 
+> Please merge this into PATCH 2/7 in the next version of the patchset
+> (i.e. the patch creating the new YAML binding).
+> 
+> -- Sebastian
+> 
 
-> > Instead, I'd suggest to have a second, separate DPCM implementation
-> > present next to the existing one and have users opt in during a so-
-> > called deprecation period of the existing one. Once certain amount of
-> > time passes, switch all of them. Clean slide also makes it easier for a
-> > developer to be creative.
+[snip]
 
-> > Do you view the second option as viable?
+Will squash the other patches for removing text format files in to the 
+MFD patch in next (v3) version. Thanks!
 
-> Classic problem without a good solution. In practice new features or
-> corrections get added to the 'old' framework and the new one is not used
-> by anyone just yet so it keeps running behind in terms of
-> features/maturity. And due to limited validation resources or limited
-> access to a wide variety of hardware, no one is quite ready to enable
-> the new framework on 'old' platforms because that would break quite a
-> few devices.
+Regards,
+Macpaul Lin
 
-Yeah, there's no idea way of doing things here.  I do think that keeping
-things going in parallel is probably the most viable way of doing
-things.  You'd need at least one lead platform using the new stuff, and
-probably each platform would have a flag day to transition.
 
-I'm a little more optimistic than Pierre about making progress,
-hopefully things would be sufficiently nicer that once there's something
-to build on it'd start to get more attractive to do the incremental
-investments needed in the core to enable more platforms, and reduced
-maintainance costs get more appealing.  This approach has worked for
-other things (regmap springs to mind, and if you look at some of the way
-API transitions are done in the memory management and arch code there's
-a bunch of this going on) though it's rarely fast.
-
-> The other problem is that the 'switch' would mean a compatible solution,
-> but the problem is to get rid of the very notion of front- and
-> back-ends. Existing users of DPCM have undocumented hard-coded
-> dependencies on the order in which callbacks are handled, it's not easy
-> at all to change the routing engine.
-
-Each platform is going to need to be pretty careful with the conversion
-and validating that things work.  There are some simpler ones which will
-probably have an easier time of it, though.  There's some of them like
-Kirkwood that are just at the lower end of needing DPCM support at all,
-and others that didn't upstream so much stuff yet so there's less
-knowledge embedded in the upstream code.
-
---UaELuzA42Q0pL3aG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbkaQsACgkQJNaLcl1U
-h9DYCAf7Br1R0ar6NcUU7odqkM+D7kigPVpmNj6OaA2+A+yQqjOs5phzcAFsvJXG
-ku4ARFeur1jhko/+VUEtnXtfmvm90RjLoGAS3VSaewUT5Yv7hHoAOCmYUsxUSJTE
-Z3CeZb1sWyPkV8HRkRGiJ44Q9neD37veiDjnngebHwoMXW1eeOY7O8ESvhmw4dxB
-VnDheeUpCJ8SER51whR8bou2zo7ztjeihCYJ9+wNsoElsqPVUcYUg5OOv2xboRnH
-6ZGPxIrK6oWFvZq2oUs5qIdK6j52usbyZpcedvtTzOnwKURk9le+JiPPsEWwU1sf
-8vhiTGJCBJbKGwqIcl17Bvh87LoSfw==
-=5j+R
------END PGP SIGNATURE-----
-
---UaELuzA42Q0pL3aG--
