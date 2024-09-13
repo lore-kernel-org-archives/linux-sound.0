@@ -1,90 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22A7A29402;
-	Fri, 13 Sep 2024 15:59:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 879D042042;
+	Fri, 13 Sep 2024 16:30:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726243176; cv=none; b=t8VQ32Q0lGk+8L5kHr8At78txbwQj7zO0uLK2RpOA7806rMGjmk/nOcSOWHyo0YSEfk+U9+f0P1fBWo8e92GWIgoZaF5/bLPOCbfZjSuPCAnyXNwydp+KqELEcqxdrz1uNVrptTIwuZFcDkKpLHqmmR7+Yhu3mRIfbZtQzE6/eU=
+	t=1726245039; cv=none; b=V8gCFmf8XnIXKNmTQcaCoSIHidKrRrbi6PjoLM+rYZIWBD+SpnaRlw6Evo0gB8VOBTsvLLokaKNa0h1QYeDGBc83SXMNuTKDpVgKvWZG8X8y2EZpioJbgKcolqDKYGT9EyLPQyVQeWc9UHjRfhkwUix/UcuFMZG4iInkb57qzvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726243176; c=relaxed/simple;
-	bh=2THK3Qa5hpEcl3liEPlYzjlcVVBqTpMJPQbdU/7/h9U=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=qYcxzRMGXaTm0bms4XwD9LIkeZ10unwQVh0p5pHF2DUQHardHCgZ00Unk+RvUUA0zXaUv4ZF61rtevxk1ByYp29yf8XuehAKzG8RP547OpnUgnugrdyC++MsI321PVA97E8bLXsxnCLuMp5TqNzKsSXgeeD+yLxxNb1PMHz9zZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AnObwBVf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1726245039; c=relaxed/simple;
+	bh=aKK46FKilK+bKnoX2daqexXas1ZpJ5Ewg8DpXYBnFJ0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=g8MzZ/XdtJYj370i4zCp5MIEPhUSAN6Hb2VH0Lm7u34rQFyuZA9CYKHqTz+tu2ODzaC+C9l0lvnFB4sDY6L2y9D2tCtbdH1ZK8yXYIlPza+pEhQFC+KIFjn3baIgNA/sprxL8gsYUlmJ52IHSkYS+dCS/lzEvEauVNbgMqr2igc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=NHnBJTqu; arc=none smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AnObwBVf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70384C4CEC7;
-	Fri, 13 Sep 2024 15:59:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726243175;
-	bh=2THK3Qa5hpEcl3liEPlYzjlcVVBqTpMJPQbdU/7/h9U=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=AnObwBVflScon9QfWYEcU32GDZMJ/dBFoVVdVeTuCUEe5Q+wc0fft7Z8BToDIrAXc
-	 JQCl0rYbrZAmjZElmSKpq2icTT1ELjl4ilB/O+K8yc8CO7Ce0DFPZPiYHuhFgX518Y
-	 GsYLNttJWk0A25LjyxO0/9nNo7aRWhZHRR0TnouG9z9HDeTFiNWvA+Faok6rE37s1s
-	 LvgqZ3G35/yltWXmiwzZpe1F1vJUz5gL3XL9A7IAeAc3k3s1cG0zTJ936Wa/ISalmY
-	 mIiS6FomPAwVYA7XMHe+J+7cQ5NP6QAdkkxUkD72tfeGxrc8XRG2EdZsFp5aYdbdgf
-	 GDCZcA9W+3A8w==
-From: Mark Brown <broonie@kernel.org>
-To: claudiu.beznea@tuxon.dev, lgirdwood@gmail.com, perex@perex.cz, 
- tiwai@suse.com, nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com, 
- Andrei Simion <andrei.simion@microchip.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Codrin Ciubotariu <codrin.ciubotariu@microchip.com>
-In-Reply-To: <20240913120621.79088-1-andrei.simion@microchip.com>
-References: <20240913120621.79088-1-andrei.simion@microchip.com>
-Subject: Re: [PATCH v2] ASoC: atmel: mchp-pdmc: Retain Non-Runtime Controls
-Message-Id: <172624317318.45716.11241819837265266294.b4-ty@kernel.org>
-Date: Fri, 13 Sep 2024 16:59:33 +0100
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="NHnBJTqu"
+X-UUID: 7c1f77ec71ed11efb66947d174671e26-20240914
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:CC:To:Subject:MIME-Version:Date:Message-ID; bh=5/b8q4BoSrQ3NlAvsKLlfGTvGmk5/ocjY5IDio7BDIk=;
+	b=NHnBJTquKlPLrnfIzK6mPmMknXBJBhSWyH7Jg3GU1n3lOvXOyjSPbc5Tbdj2Oosvb1Lwf1nu+yUIaa6e3pqJjc16Swlf7Rli+aL5y6nijsJx6p6Mjj5o0gOpsTFQmo8HBinSCxz6/PNd+QWzhYQb5IRE14fX37lcxaLcXu5piq0=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.41,REQID:b312c942-3092-41ab-8541-c4ec0f873cc5,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:6dc6a47,CLOUDID:233ffcb6-8c4d-4743-b649-83c6f3b849d4,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|-5,EDM:-3,IP:ni
+	l,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 7c1f77ec71ed11efb66947d174671e26-20240914
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw01.mediatek.com
+	(envelope-from <macpaul.lin@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1165984055; Sat, 14 Sep 2024 00:30:27 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Sat, 14 Sep 2024 00:30:25 +0800
+Received: from [172.21.84.99] (172.21.84.99) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.1118.26 via Frontend
+ Transport; Sat, 14 Sep 2024 00:29:53 +0800
+Message-ID: <d77b6a8c-f499-7980-868d-7717046ec3e3@mediatek.com>
+Date: Sat, 14 Sep 2024 00:29:48 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2 3/7] dt-bindings: rtc: mt6397: merge to MFD
+ mediatek,mt6397 DT schema
+Content-Language: en-US
+To: Rob Herring <robh@kernel.org>
+CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>, Krzysztof Kozlowski
+	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	<linux-leds@vger.kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+	<broonie@kernel.org>, Sebastian Reichel <sre@kernel.org>, Pavel Machek
+	<pavel@ucw.cz>, Sean Wang <sean.wang@mediatek.com>, Lee Jones
+	<lee@kernel.org>, Alexandre Mergnat <amergnat@baylibre.com>, Flora Fu
+	<flora.fu@mediatek.com>, Bear Wang <bear.wang@mediatek.com>, Pablo Sun
+	<pablo.sun@mediatek.com>, Macpaul Lin <macpaul@gmail.com>, Sen Chu
+	<sen.chu@mediatek.com>, Chris-qj chen <chris-qj.chen@mediatek.com>, MediaTek
+ Chromebook Upstream <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, <linux-pm@vger.kernel.org>,
+	<linux-rtc@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, Chen-Yu Tsai <wenst@chromium.org>
+References: <20240830110732.30080-1-macpaul.lin@mediatek.com>
+ <20240830110732.30080-3-macpaul.lin@mediatek.com>
+ <20240830153437.GB4175444-robh@kernel.org>
+From: Macpaul Lin <macpaul.lin@mediatek.com>
+In-Reply-To: <20240830153437.GB4175444-robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-99b12
 
-On Fri, 13 Sep 2024 15:06:22 +0300, Andrei Simion wrote:
-> Avoid removing these controls, as doing so can cause issues if the stream
-> is initiated from another control. Ensure these controls remain intact when
-> the stream is started or finished. Instead of removing them, return an
-> -EBUSY error code to indicate that the controller is busy, especially when
-> the audio filter and the SINC filter are in use.
+
+On 8/30/24 23:34, Rob Herring wrote:
+> 	
 > 
-> [andrei.simion@microchip.com: Reword the commit title and the commit
-> message. Replace spinlock and busy variable with atomic_t busy_stream.]
+> External email : Please do not click links or open attachments until you 
+> have verified the sender or the content.
 > 
-> [...]
+> On Fri, Aug 30, 2024 at 07:07:28PM +0800, Macpaul Lin wrote:
+>> Convert rtc-mt6397.txt be compatible with the DT schema.
+>> Since this is a simple RTC device node, merge it into parent
+>> mediatek,mt6397.yaml. Subsequently, remove rtc-mt6397.txt with a
+>> separate patch.
+> 
+> This doesn't match what the patch does. You can just squash this into
+> the MFD patch where you add the schema.
+> 
 
-Applied to
+[snip]
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Will squash the other patches for removing text format files in to the 
+MFD patch in next (v3) version. Thanks!
 
-Thanks!
-
-[1/1] ASoC: atmel: mchp-pdmc: Retain Non-Runtime Controls
-      commit: 2ed1a4a5c0058dfd78f5037576d668a37d0ec609
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Regards,
+Macpaul Lin
