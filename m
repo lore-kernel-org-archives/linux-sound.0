@@ -1,141 +1,108 @@
-Received: from mout.web.de (mout.web.de [217.72.192.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sonic314-20.consmr.mail.sg3.yahoo.com (sonic314-20.consmr.mail.sg3.yahoo.com [106.10.240.144])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F54282E1;
-	Sun, 15 Sep 2024 19:51:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF7F88BFC
+	for <linux-sound@vger.kernel.org>; Sun, 15 Sep 2024 23:52:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=106.10.240.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726429896; cv=none; b=OGULrxWivImLvUtShK2fQZK1GNFGBIjhYJNIpTMbGO4To6+izo/955rkFcAiGGPqfOa37h4RQZSDM5i5mDuTBO0MdcbW+mahqQtMosM9skf7gUb0Knbx/bTD87xo5noJBlUWDFKUJM7EBl7eF6BOq7BEzdBoSi5k9ABn/Qs9yiI=
+	t=1726444330; cv=none; b=H0WZmPFKCDT7tWj4nIRFbys5Il4TELml5LEwY+GHXN/DxTRP90HO9hLZJd8/I7zKxyAvPLyFA6M//gwKNSGWt7tNNsh9TCZQCzv3MyF8qOrWmQQjMUcKtts8Dwpnc/l/zISJQB0LGI/vrczKp+PCfJaU8GyAYFW9i8gCtg/0hp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726429896; c=relaxed/simple;
-	bh=0UuypVRhI3OYqySlH6DuHagYyvpkXcBM3mpY1WfV0Js=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=CuRWBC51JjpXPsAJGoMR4ipYjAd6yZLmESJWrBHq1aTbaEiEcEbjMjxG7wJIFsAMOwO6LBS82POT7W45QLemzbj3G1N/iYAhHLi05nmtWXv9Ja+mMRj0izpUxBeO0pj9Bzksmrg0KOZH1YTz12HpmvXeFRs8J7nsWPnlLA0c4lI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=uqsqDBT9; arc=none smtp.client-ip=217.72.192.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1726444330; c=relaxed/simple;
+	bh=JhF1+toXV3G2v4vEZXAzxyNXk8m1d+R/t9JppmZ7wTo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:References; b=l0DzDRoNhuCc4LTt+5M9b1Ky0wKklZyqZGkLI0D9DysslkjqJ4vbDc3Pz4EinUMbHVKMySXVIIR9UqdcXA/djcgknmZLSOHApB0uNKRcoyGqAYyTGBIgPOJhhdbfBvHZ/UJY22Bh0tBSp3+9/tkBuZ8L5SOvGk4fQrAL+sKSe0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=myyahoo.com; spf=pass smtp.mailfrom=myyahoo.com; dkim=pass (2048-bit key) header.d=myyahoo.com header.i=@myyahoo.com header.b=mPLOBu7B; arc=none smtp.client-ip=106.10.240.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=myyahoo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=myyahoo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="uqsqDBT9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1726429851; x=1727034651; i=markus.elfring@web.de;
-	bh=JYhHe/vn52M+SkCr5mu76grpnTx9QsX8i1hOWvTC6qw=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:From:
-	 Subject:Content-Type:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=uqsqDBT9PS45+IJSlQLdK+rEv308QxsUemtfux6vEOwaLQZwEqhKFEtBhCkhcOeK
-	 HrJloEZUUrVgyBIh73pu2wDSCkPHIEI7uxCZf3y+6RWpL8C7TcB3sFpqC8C8zBcbA
-	 nrkN81u0jPxDYr7xuFbPiVX4frKBr9LTauz/FYMczuMLPfzbRNTYGbzgm+t3oaRM9
-	 tj4uNbJ2QBuF1PiGr226S3M4eG08Pcmd5OOY5YvSMqAkHLHZZ6loXxmKVDqekY9CE
-	 j0D3JoBqDc6DPLXBxHohzRnbgXeF1KxVirDMbGAkrxYS/l6XQXblMloDl1PYKzjil
-	 3nb/xv3YmFdYb2czFw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MrwwJ-1sB2cA1svN-00nF9d; Sun, 15
- Sep 2024 21:50:51 +0200
-Message-ID: <21094235-3f45-4a67-a463-7b4658b9ee06@web.de>
-Date: Sun, 15 Sep 2024 21:50:39 +0200
+	dkim=pass (2048-bit key) header.d=myyahoo.com header.i=@myyahoo.com header.b="mPLOBu7B"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=myyahoo.com; s=s2048; t=1726444321; bh=5oNiWVZu9ZKL9lEl58ZCtsgJhu3V38tnkSoSEzwX1ps=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=mPLOBu7Bcv8Y9ZvJn/PaLlLv1ZeOwSOTYcp+4OO0ZoItUJ8jxZ/sZnY2VHDqIbu45tA6ll7Pp/J7P6I9rOy9s8sDAL1M2eIdIHriykU2dtV+payI9BnWA5vgb491zE/WON0onc4Ys/NC9ruKr5L6OjyxRJfsAjz3W3yw16/P5r+e6sdUO05p87Sex2qlCZ3QXB8i13zMnMIqi9WFgKVcExczDkUdpNoZ0RZzMwUnW8kDCVjlU7fbYxWNDDA3y7+B8ShmERepJ5JI9FrfEKe7K9cgZ6GORkKIEyHvMwrfLADy8k3p4YKG1vqQdmtQQJ3MixxWTIpf7B52AnyIGJV1Fg==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1726444321; bh=bRilfFUjM/bCI4Ie5k3tYvzZEKw1qdEuqhtDRfy/O9O=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=GthEyIUpj7o/mV3R0qTm5AZd4ZWWQS/DemU9ayVm11PRwDjl5eeOjdU9p/yaWKF40U/Xbo/5/mlNgx9FEXxZjsx0M1Gs5N4DJ1KgMXi2PZV5Noewh+lmDEZ0O1fi4Edvrjd/zPvL/X8MLIrQnr5oPBFGh6c0QKL3fkLA+1IAS+gCY2O1LyCvjBoHsXuPFIyZtH26+4tzqr1xQ4jK/nVbnhD7OMIKs6v/HaHfPgNMBEASS1oI5yQEUGPk8TIdZg1ibCq6RHLueGqKoSzBl54y1xN4sTllIStCLRNEifAOjb0IbCKgDbECILifluyw+RzzOgQ4Ip9Sl8KKhKIvSb/72w==
+X-YMail-OSG: a6pW.YYVM1kY0k7DyG9COzp8d5y68xbKRdBg1py.BrYvsCRykSiFvUCGXBfYrpj
+ dSDOyDRWj9UzQB49I7CEslXqumj2ZryoOKE8eJAVvUbZ_mA7BGmIf7NqsOAN98I90i6Cs6crneow
+ ffMxzYfcfFDuHWZkWaBsQtz5wVPwpoUY75uLO4sVF3Kh0jjMswsdzImZl2TqtZ.jnX1aKk68fX0F
+ ioAGCTUk.mRaVPMjm_J8DJk2T1rzVJEpHa1RY0n_sSKkGtb2HHa7ppESgvM1n6uG6agHY9YLkqjX
+ kzpoQIPZAKoh5gK4lzn5Vmj1ea6AgP3qsAlHJofplecT_YwJN6yrPkVc7DO2yn.xm5XNihatoWaD
+ ZtdzTsEqSkbqutCiRrOWMvaR08..XoC_CPdPoNmXM68bQm_jhlfvywaAJPnziI5mYvJUdTRHCwBC
+ q12MtjdtoZuVF3MJz_I0ZB3PR4q_swaUq.56Pge5fs5rPwXUXs4pLPTLsXLeeuE95mfAHrVBpASj
+ ptyOqqDAveJ5x_G83SMR3KRf8NmzBdRcoi3QLtKsOX2dV9ZuLH_HwjpMyKiLWc0QmHb2L7UX5Y3y
+ gdCyFEhbwocdu0eGWb6fxUueWgi_bq_VqD09b3nPN7WB9hPlXjNShy4F4b9UIKnKAzDAaAXEgUHz
+ FTR3j0GavGnNe5hIA6FCkaxwi4713pFOSvBeFEUpHW8TnYI3rnhraPgcIvnRn4MdUDVcbrKW85fO
+ t8Q3K7IYUmBiYy1IvlKKsqd.0CZjHbCvqvg275MHCxjiPm.DjVSr2S8eIeigEOgtUN1Kq2WK5u5H
+ eoMZeD7j3jdqk78_D1v7Ro7B5p_Uf5pti1yK_SIkv3qAlHV0aWdTHZaV4Vx3fGx_WRkfnL5USIax
+ f284GL0KiSYWXenSB.gd0waPUEKjGAU0T9K_0QJiZ0CgQNXcl2QFTs9ICwwCaxvYnKOMXkfzpCW_
+ ld0e3oZqZcu3Q5upxnV68fAA_dpgu2FGH1kY9CRL1j6tLtFryCZI3ehStDuzEr98QCfK4R9HKB_e
+ JC7bD.RYlrPrJK6BSmBib7QxzcgQzUaJrPNMU_Gl9fVt0zkSj_s2vn1iQFC7GHThK23M.n3JrKAq
+ HxChKxTPi4zb662a8XTik8GeiHfxBlKtjCsO.Pud22DYWhvysL6NZSIAubwunYin4IHgej9JCLdE
+ 8LM1k7Ru6nQ1SljN5mRcqyz1.zE4ip1_.Px.d84pR5vE3aLy8dSg1Rs.ezNnVwOCs7ucCgQy6aO.
+ OgrDzDG4JrzXa68edfY_gE66qefXb0gZTO3z5F4.t0LW_7UE8_59OryS97UfZIM9LLxie9J7O.Uk
+ lvJPj5UBYPP.7y06xbTdZZyowUpVSP3aOLz0YCHO56aAomPdyHqfHmg636iXx8FjqCYE2xTkMKU.
+ uMBOP0XaXkKnNusSaxw2nuuCcW44coY2v86QbrJccunc4YPxnnJEEIIDUaCM3zw2Zkf7yF96DuPY
+ b0xsAeG1aFkfMwF9iV8.qqjuTAmVMeGCGAszgwmaoa9Pu9371tyF_vt6f7DGopRjHqft_9TUDOQY
+ 995mG5qNu3OyIyo.lm_EMpcHER9IXl64j8Wr.5qTYIGVoRJCtA.zVBevv7POlbjf5CZmLtHs2zis
+ ERz8Wy.TISPJtXtpMnFl1J96kFAhuRKNEI49WXOkTVlqSwB2NCNLhTwgbjiMZLk.j8clPb7Vzqjy
+ UkCGIcXb_zWWGPYdWcT9olJa3AhEWp4tGFqiyZe45b.olZ8qz1KnzIH99DoQgq7UoKj_KSQ.93iB
+ XMjCAgMVzxN7xWDUvtstTr.uM1DlfuEb966UeaGoZWcdMYlhjNZQHv56eByqwOsOelkB2BV.apT7
+ JJ_p_1PMbmFeU.GkIk9TPkdExttG2KA9wplrnljdMff4EzjtJX_Wwj7tS2uQI6x7i4yPNrueu1KW
+ fbt_Kbcn.WS1NmVNqzsqZDm6d2mx63CRtHf6DEZiIG1s_4BC3wZ4LsMJHANmSZ9F_KAU5qv.Kb18
+ RbrHpz0sXEK_eiFlG40xNYqK_CC80yxSBnShpew_PIiVCYPRlL27yS982DXOgl27XhU_Q9La1dx9
+ C4CPdB9uG.0e9NHJgln0a5tf_hY3nTE_72WGfvTa87bZrNbqXMMuKUeo6cJ9SS7y_3FBFpKTn4X_
+ 7PZdj7c15eGG1cFQ_fZ6DNghcazd_bXWK7ZL23vTEdLzLqSmV.CGFrZS_rFgNk6fJfP7t1SqlzR7
+ S8gCTphls30OKQfdWu.FxngKmd1pr11uKJdJDtduV1VvI9rK8uGwuA6huqsEIPFsIAeE-
+X-Sonic-MF: <abdul.rahim@myyahoo.com>
+X-Sonic-ID: 5ddb7eeb-6895-4716-a3fa-549a47eaf98c
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic314.consmr.mail.sg3.yahoo.com with HTTP; Sun, 15 Sep 2024 23:52:01 +0000
+Received: by hermes--production-sg3-fc85cddf6-6lk5x (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 4bbec87ee6aafb942a1f782e8b166a4d;
+          Sun, 15 Sep 2024 23:41:48 +0000 (UTC)
+From: Abdul Rahim <abdul.rahim@myyahoo.com>
+To: perex@perex.cz,
+	tiwai@suse.com,
+	broonie@kernel.org,
+	shuah@kernel.org
+Cc: Abdul Rahim <abdul.rahim@myyahoo.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] kselftest/alsa: add silent flag to reduce noise
+Date: Mon, 16 Sep 2024 05:11:30 +0530
+Message-ID: <20240915234131.61962-2-abdul.rahim@myyahoo.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: linux-sound@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Takashi Iwai <tiwai@suse.com>
-Content-Language: en-GB
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Julia Lawall <julia.lawall@inria.fr>
-From: Markus Elfring <Markus.Elfring@web.de>
-Subject: [PATCH] ASoC: mc13783: Use scope-based resource management in
- mc13783_codec_probe()
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:8YcRWMoYMXQu0iX8DGLzi4zPscKNXsf0hnhAtSNPlyr1pewaRAo
- FpCmQ55xW8+q6EYrvYvprhZqk02h6bjNZug/78EwKIhTZoqzghOiJFlaSlUtx4GAXLTW9Rw
- my0rgVG7xNgZSN+4d0FpXLxhIZxcqPpcBwZiScVG51MpI92GR2JgEgOrUKqyFY+NTsYNYSC
- MwbWfuiJNMXsLhEEsd/+A==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:zALt2tqVcDM=;ZlB0o1NW9IEIufwgYIBjd5n1976
- vfdKKtmoPxiugep87k4MmXunlgPc2ZCzqDekcXkGS6We3UFeJ6tFa/TEV9n3NXsp7rb3QZGfu
- oyIhS+miPE3YCMo55Z8umAd1tn7/J23tUjM6wJZb1p27MINLDtwi1zOmRKpPx997c3guUF+TC
- rhaRJsA0Vd4GKqZli7Iafv5ED4GP8j2asLqH7OZqtMh8aYeIouzqi6ktHLoDQlvHgfWkSL40O
- 6QpS0O1kRszNJiJ6SgyedsM7s/5tGVrtTKvrPfPAazY8y0UdxZzg4e3owKM+OzFDde7Y+VP3e
- DymSo1FCfRC20QKM7sPDU2C23bZM/ekunugoLJyarcZi1nfVQjrT0hT4YeTOMS0YYD07E5Urf
- /0PHVwf9VP5Uf1ujOVcJAfdLScjLO+LeArftMqIRTiaVfhTbkl0xoCeKs7SdSA3Rerqhu3nrd
- epS1tcHxBEVDPQ1w7kPfqrI00j0UKsv3izWs0K8K8Cjapei4Ts6/38Ytz4S0PAGz4aQmQ0J65
- S/tOF6w4S86EHueGhIGvc61miyggyulpoUU/Rf6jfcrVqqocxpgh5rm9hRkQfO4b7Ttx3SaDL
- JDGEIMb1BbHbpYQ++cR7mal/sZfjt03DJUD2rGuCSAaB0n1wdxANxjbWgDhUZZSEBEq3zxquV
- DMHusUXdw3FF3Kagf5v+h9doIhmBm+q3dInf6em15Ni5vY8tbuK6nLcZEPipAFagB4wSWvU51
- PkZkBzT484MTu2z+CYhTyTu/RW6fr64VCG+hTnYKMFnYP+vjwNYnhC0xe/9o06OkwHfp8OoW3
- aKcNyRCs+X+XCcBne1Bq+N7A==
+Content-Transfer-Encoding: 8bit
+References: <20240915234131.61962-2-abdul.rahim.ref@myyahoo.com>
 
-From: Markus Elfring <elfring@users.sourceforge.net>
-Date: Sun, 15 Sep 2024 21:41:00 +0200
+When ALSA is not installed on the users system, the error:
 
-Scope-based resource management became supported also for another
-programming interface by contributions of Jonathan Cameron on 2024-02-25.
-See also the commit 9448e55d032d99af8e23487f51a542d51b2f1a48 ("of:
-Add cleanup.h based auto release via __free(device_node) markings").
+"Package alsa was not found in the pkg-config search path.
+Perhaps you should add the directory containing `alsa.pc'
+to the PKG_CONFIG_PATH environment variable
+Package 'alsa', required by 'virtual:world', not found"
 
-* Thus use the attribute =E2=80=9C__free(device_node)=E2=80=9D.
+is printed 3 times, which generates unnecessary noise.
+Hence, Remove unnecessary noise using `--silence-errors` on LDLIBS
+assignment, so the message is printed only once.
 
-* Reduce the scope for the local variable =E2=80=9Cnp=E2=80=9D.
+Signed-off-by: Abdul Rahim <abdul.rahim@myyahoo.com>
+---
+ tools/testing/selftests/alsa/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-* Omit explicit of_node_put() calls accordingly.
-
-
-This issue was detected by using the Coccinelle software.
-
-Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-=2D--
- sound/soc/codecs/mc13783.c | 14 ++++----------
- 1 file changed, 4 insertions(+), 10 deletions(-)
-
-diff --git a/sound/soc/codecs/mc13783.c b/sound/soc/codecs/mc13783.c
-index 086ac97e8386..ed894bfc6a1c 100644
-=2D-- a/sound/soc/codecs/mc13783.c
-+++ b/sound/soc/codecs/mc13783.c
-@@ -733,7 +733,6 @@ static int __init mc13783_codec_probe(struct platform_=
-device *pdev)
- {
- 	struct mc13783_priv *priv;
- 	struct mc13xxx_codec_platform_data *pdata =3D pdev->dev.platform_data;
--	struct device_node *np;
- 	int ret;
-
- 	priv =3D devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-@@ -744,23 +743,18 @@ static int __init mc13783_codec_probe(struct platfor=
-m_device *pdev)
- 		priv->adc_ssi_port =3D pdata->adc_ssi_port;
- 		priv->dac_ssi_port =3D pdata->dac_ssi_port;
- 	} else {
--		np =3D of_get_child_by_name(pdev->dev.parent->of_node, "codec");
-+		struct device_node *np __free(device_node)
-+				       =3D of_get_child_by_name(pdev->dev.parent->of_node, "codec");
- 		if (!np)
- 			return -ENOSYS;
-
- 		ret =3D of_property_read_u32(np, "adc-port", &priv->adc_ssi_port);
--		if (ret) {
--			of_node_put(np);
-+		if (ret)
- 			return ret;
--		}
-
- 		ret =3D of_property_read_u32(np, "dac-port", &priv->dac_ssi_port);
--		if (ret) {
--			of_node_put(np);
-+		if (ret)
- 			return ret;
--		}
--
--		of_node_put(np);
- 	}
-
- 	dev_set_drvdata(&pdev->dev, priv);
-=2D-
+diff --git a/tools/testing/selftests/alsa/Makefile b/tools/testing/selftests/alsa/Makefile
+index 25be68025290..cd022fc869fb 100644
+--- a/tools/testing/selftests/alsa/Makefile
++++ b/tools/testing/selftests/alsa/Makefile
+@@ -2,7 +2,7 @@
+ #
+ 
+ CFLAGS += $(shell pkg-config --cflags alsa) $(KHDR_INCLUDES)
+-LDLIBS += $(shell pkg-config --libs alsa)
++LDLIBS += $(shell pkg-config --silence-errors --libs alsa)
+ ifeq ($(LDLIBS),)
+ LDLIBS += -lasound
+ endif
+-- 
 2.46.0
 
