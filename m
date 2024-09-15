@@ -1,111 +1,123 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.15.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A89A421A1C;
-	Sun, 15 Sep 2024 07:55:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC62A194ACB;
+	Sun, 15 Sep 2024 11:49:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726386924; cv=none; b=dfOChXxGIyqxlsdeOqDSGTUFLj+7bK5SKadnkf0RCqztJSGfZtNacBjofdO1+H2NAOETkfs5ClO1A0xHu/Mz9Mjk3I9yHEmVewXB//NPGEG6cpa2I0/4E1KtZ+ENxDRB16W65YcVqJ6zzkgB76jluUR4xRjCs0i9ATl8GiSkxDs=
+	t=1726400981; cv=none; b=m+cyfH0aJI2IH7xTDAReJc2q2mHNrkPu7maqvcyIbbPrPwvMyN4QUUlLzURuZBihM1TcKxSBwPdxPFpT9rTtVzMT70HPtJNakRLtYN04/uYHRXeuCJnUlPyhrD57fHKHEILnl9d6bD7uaIvTPZ0bsXLOZFdncVxLL93RJrDQV3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726386924; c=relaxed/simple;
-	bh=QralsGpTk/VE7c1/yICJm16dg/6F7TBywR1ptd4plqU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tb1/8fss8f8uXbZGmXbH5ecNq5u8yMiXos0R3p8DEGJ6EwGKnooabv7QUbcYIxikthCP2J2FA57CX5bQewoRzwlwptceTa2uXrYGSrw8uYdA/VkG8saxdqfxlKpBtyJDzjYaWsFjn3rpuo7RkTjJcTCxCBWK0Tdo+Tq6KJTM3LQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KhGp1eIz; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1726400981; c=relaxed/simple;
+	bh=SOWT7H8/0YJNIdQkDiiAu6PzGXTTeVlu5vTJPgyTytk=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=jXlOSv4XDZ79EZb58SH+qNB0yAr8SN0zhvjq9oOpmz3CWHqQlgYu6FVNupVCR2OhhOxoTP9lJi9bZK0OJ/v6tSkC5eMSM2yWtfsPocA64fzP/XB5M+K1Kl4reRZgnjUuVLRfgwWxI07BJmYUPBhowZeULzqOeXOiw0UV2GFkGvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=AAeA4fs2; arc=none smtp.client-ip=212.227.15.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KhGp1eIz"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a8a7596b7dfso508022966b.0;
-        Sun, 15 Sep 2024 00:55:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726386921; x=1726991721; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QralsGpTk/VE7c1/yICJm16dg/6F7TBywR1ptd4plqU=;
-        b=KhGp1eIzqWcE/Lp6mnIKvOQqqLM28ERUGXzJ3eXN0JNuhB1zd6idU56U7bC8u6xZe6
-         UPEu04DCcq+H7Hz2OnSyYLs/kc2Cbt/+P1rMF72tTloY1FtYxiu2Sc0Xpy7s7mbn2ADo
-         V3tLx/ndsYu7/NdkVhTwrLB0O2QLTfz33pj3atlclUFYvG2OO8W6a9kzaVExZkN2PWnQ
-         Z8mVYO+cbkT8udPqHndGpufnLRvY+Q8BMgw2IXYfPuaw2A4FTkELa1To5g3AEAkL04bX
-         ow90vXOc4jgG9eE6EDPkfN6sBDJrI0xGWoDgSdEdW+J6QKQW4Fe28lJyhCq8K/b41uip
-         W2Ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726386921; x=1726991721;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QralsGpTk/VE7c1/yICJm16dg/6F7TBywR1ptd4plqU=;
-        b=XJ1gfevuzcvjE3qstTEqObQIGG+yEITA1TDLe95t07A5e29uoZqX8A213kA8hcC8XU
-         pbgLnZO+FQUcR5919DhR3pwLE3u16p5IOsDrATdpNQIALznhnFfmzsNEOTaIB1kE4Rz5
-         RDw0Zrl6iEdQw8u5VhvI7dhNV6ENWdssO1y+rzX6PFNZE3Q+Iz0AmD9+0SireqbWEUmb
-         P8re4j3KB6LDsll6vjIp638Be7MR2lta3X0AENsNzX1vXxomikdESMnTfgV2o8r9pkx4
-         hIMSBggya4VRlRFpXHiXqmnygj5y1mEfOcY/VVWU8M/CVBSqpxkI31JrszwQwbO6HYId
-         zpQA==
-X-Forwarded-Encrypted: i=1; AJvYcCVc+TUHyifB1I89sxc5k59dXzzi9kAlxq5Y2QIsF8Ez1wmiUMVAqBAW3EnopM8pkatQMHsubm8C46fMhWY=@vger.kernel.org, AJvYcCVhiSQX6E9Gpew/touNRm9Rvw9zPl3bTCPx3UJGHHN6oiGln4c24cBhqJOVnsx8/mLyhcoD694ZAr/JDdI=@vger.kernel.org, AJvYcCW/u8IyvMOSBw42bZt05uudpnuLYl9ZehS+c9WT3zVSOIHjX/b7elEFVLg8FdCmBNS0Hf6vWzlLwpCT@vger.kernel.org, AJvYcCWslBRVf9IGmPAmH/WmbaYlMUPCJEh6zXYNcbRrsf6Y4mLBq7AH9gZSW/QdGggXtZm54L8FParzoAn3bfY8Lw==@vger.kernel.org, AJvYcCXFDP2D5CjGAEBPRCxbNCmLdnhR9eJQy4D4UuI3cCWm4Otu8wQp/q4fkW+lc2iNt6gFsaJd1xu6MgUkW1QR@vger.kernel.org, AJvYcCXQ8laiwz/vTGWPyyvgaOOBraqMNqqM2jyg3BWRMnIrPs3SiIU8XhngqMmnOgvBMyTSdi0fEi9SS0bH@vger.kernel.org, AJvYcCXWZ2HdmcVMdGy8TCUxbq1Im47/EqIfnr6Ymzphb0dD9GRRpHjGOq/aXllmYZNVGFNBLC42lWEVBrEf@vger.kernel.org
-X-Gm-Message-State: AOJu0YybRTt05DmhFbqrBlqRpxOac/6E+UYSHvaRoeluwLe9VZ+aylng
-	Iafr3iL3nTk0zj3iFrHlO87toI8H0/WecHSW9MzYCEe28OKVpImg
-X-Google-Smtp-Source: AGHT+IGPQI+t4lYTwiuu4hyJoLvLouchr9DqQvDvbSEOgzDQJG8ZpceHMqTZzT7/DgMVYuW1CsOVDg==
-X-Received: by 2002:a17:906:259a:b0:a90:126f:bcbf with SMTP id a640c23a62f3a-a90126fd1c5mr1196022766b.10.1726386920479;
-        Sun, 15 Sep 2024 00:55:20 -0700 (PDT)
-Received: from foxbook (bin105.neoplus.adsl.tpnet.pl. [83.28.129.105])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a90610f4375sm166709266b.73.2024.09.15.00.55.18
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Sun, 15 Sep 2024 00:55:20 -0700 (PDT)
-Date: Sun, 15 Sep 2024 09:55:14 +0200
-From: =?UTF-8?B?TWljaGHFgg==?= Pecio <michal.pecio@gmail.com>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: <mathias.nyman@linux.intel.com>, <Thinh.Nguyen@synopsys.com>,
- <alsa-devel@alsa-project.org>, <bgoswami@quicinc.com>,
- <broonie@kernel.org>, <conor+dt@kernel.org>, <corbet@lwn.net>,
- <devicetree@vger.kernel.org>, <dmitry.torokhov@gmail.com>,
- <gregkh@linuxfoundation.org>, <krzk+dt@kernel.org>, <lgirdwood@gmail.com>,
- <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
- <mathias.nyman@intel.com>, <perex@perex.cz>,
- <pierre-louis.bossart@linux.intel.com>, <robh@kernel.org>,
- <srinivas.kandagatla@linaro.org>, <tiwai@suse.com>
-Subject: Re: [PATCH v27 01/32] xhci: add helper to stop endpoint and wait
- for completion
-Message-ID: <20240915095514.6b01fefb@foxbook>
-In-Reply-To: <a9dcaa5a-4f5d-451a-93aa-7457798fc243@quicinc.com>
-References: <20240913103237.2f5dc796@foxbook>
-	<a9dcaa5a-4f5d-451a-93aa-7457798fc243@quicinc.com>
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="AAeA4fs2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1726400965; x=1727005765; i=markus.elfring@web.de;
+	bh=/JziMUAx9DdLA+PFaPvm1xXijXoOH/QWJFYNeBwV2H4=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:From:
+	 Subject:Content-Type:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=AAeA4fs2hU026GF84NZgJw6N+KD8V1TVoez1Lj/GbSjHQBUvpgBxUpr69ZcloO6+
+	 0auImSdUjafSwnbiT+Q/Q+MSgKvjberMSUimfzF4bcja+Tm4tpEH909HzVEvmR8kv
+	 Td41ywfyBBa4Xa0DYZdcwc1onv20ZJcCPsGt3MZjaaBg1mVttw1FbfhJZULnNj7XQ
+	 x3Bovllt8XKOlbkFg+1QuJKP7VMi5dlrLaRD6R774uqWnzeZ0FP+y9QeQ0GZiQu8m
+	 nYtMLhh8cmK1UgqbIPFKxEMb9e3Xz+7WOpO+MLQObSV9ZP4j+1TJdozLnO5iEjyZB
+	 gFP9mMsXLZ+i07B+nw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1M2ggd-1sqche2ASl-00EJrb; Sun, 15
+ Sep 2024 13:49:25 +0200
+Message-ID: <641210ba-571b-43e7-9007-5633a6c7434c@web.de>
+Date: Sun, 15 Sep 2024 13:48:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+To: linux-sound@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Content-Language: en-GB
+Cc: LKML <linux-kernel@vger.kernel.org>
+From: Markus Elfring <Markus.Elfring@web.de>
+Subject: [PATCH] ALSA: i2c: cs8427: Use common code in
+ snd_cs8427_qsubcode_get()
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:6Gz+vawK1wJrtDmZxXyooYgxbHQCDwb7oAKyqWnSpzGh4qPAWrm
+ JkbJXRMlX7bh4URytpvlwlAHLMIF0S/3OFlY1PAnIrtwnb7aRfq5EqMB45cqt/h0Loa+h0H
+ Ptad8SAtWqS4k50CZJHLB/wH7DIi/agXRDx/2QEZDNVF+Kyvmhe7SBTxLiF0F95zS6sKkkR
+ Jvm2aHY+GX5W72jRY06nw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:CB1niy/AYks=;UJ3I3d54o/v6N6YJjPqwBO7XE+S
+ hllowBAAowvrLCzRfz4QLbRaJZWvZkcTtAycRIOktYiV5fWOk2hSybJIaoiHOjOqL3TbfNfGh
+ BdZVj3Q4WnmcfIYbdvDr/bzZZgcoPK6ekHbS4lU8v+Z+WhwSLAy9m8kBrYYUgAOHZ6MxfkFJp
+ 4uc3wOCcvB06oJXZwftogafBpaCWNx96RHorySydYcpn+QbFN+ORZWQvRtS6zmSVk3HeB6SOg
+ cDNyBk9UHAcFXIfQbnHvuOuAskcHjUIs3uaVAYpIvGV1Id40zFpD5LWku/Hm0Njlxcu1pFU+B
+ 0+yPoV1RZcIYf1FulQ6zcV3xbV5o16C1eqA6VyFBgF1I335wrt7Ap2X4BakreuSQmV3S5T5DZ
+ v98w50Ny9n6BikiAvh9sJnMChBkspJ5+wBbCzLRzxzbFViSRz/DBavZssEyn9PDP8BZPd5a9G
+ ixQUvppjcX/FCaoVTJVK0f4SVmdaIuPRH9NR69QWTlDYzt70/OwfXcnG43efaMPVPJuf8fw8l
+ RTgkrcjWHglNT/+Ei2ruKV2/rWBlcDrxng/dJ+hvyQeSCtxrBr9pWvNkw8ghB7qwbhS3BP/HL
+ wql3j2rEHvXE7Nu72KqT5scNGIYcfa7TUU/vus6roF67yvRe/ZLOO4dVuLIZGBtRKB1baiVrY
+ F99iKYqZqONzs0X2Txzm3nU5pSAXkuZ2iL+Vm67ZU5nIrwGZiPRMo5ycjIJWWLwTQig+VDWod
+ OpS0P6GFPusQcI3bPma9h5R+yRLNXEdUJZkNCuwpKfpUmaoH8et21ebVMITYgCrMiQbfR8rAG
+ AYcPAw+kv8wK8nA+8rOcjV2g==
 
-Hi,
+From: Markus Elfring <elfring@users.sourceforge.net>
+Date: Sun, 15 Sep 2024 13:38:29 +0200
 
-> Maybe the last sentence is not needed.=C2=A0 When we are using the
-> secondary interrupters, at least in the offload use case that I've
-> verified with, the XHCI is completely unaware of what TDs have been
-> queued, etc...=C2=A0 So technically, even if we did call the default
-> handler (ie xhci_handle_cmd_stop_ep), most of the routines to
-> invalidate TDs are going to be no-ops.
+Add two labels so that a bit of exception handling can be better reused
+at the end of this function implementation.
 
-Yes, the cancellation machinery will return immediately if there are
-no TDs queued by xhci_hcd itself.
+This issue was detected by using the Coccinelle software.
 
-But xhci_handle_cmd_stop_ep() does a few more things for you - it
-checks if the command has actually succeeded, clears any halt condition
-which may be preventing stopping the endpoint, and it sometimes retries
-the command (only on "bad" chips, AFAIK).
+Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+=2D--
+ sound/i2c/cs8427.c | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
-This new code does none of the above, so in the general case it can't
-even guarantee that the endpoint is stopped when it returns zero. This
-should ideally be documented in some way, or fixed, before somebody is
-tempted to call it with unrealistically high expectations ;)
+diff --git a/sound/i2c/cs8427.c b/sound/i2c/cs8427.c
+index 29a1a7a0d050..ee650006cac4 100644
+=2D-- a/sound/i2c/cs8427.c
++++ b/sound/i2c/cs8427.c
+@@ -397,18 +397,25 @@ static int snd_cs8427_qsubcode_get(struct snd_kcontr=
+ol *kcontrol,
+ 	if (err !=3D 1) {
+ 		dev_err(device->bus->card->dev,
+ 			"unable to send register 0x%x byte to CS8427\n", reg);
+-		snd_i2c_unlock(device->bus);
+-		return err < 0 ? err : -EIO;
++		goto recheck_err;
+ 	}
+ 	err =3D snd_i2c_readbytes(device, ucontrol->value.bytes.data, 10);
+ 	if (err !=3D 10) {
+ 		dev_err(device->bus->card->dev,
+ 			"unable to read Q-subcode bytes from CS8427\n");
+-		snd_i2c_unlock(device->bus);
+-		return err < 0 ? err : -EIO;
++		goto recheck_err;
+ 	}
++
++	err =3D 0;
++unlock:
+ 	snd_i2c_unlock(device->bus);
+-	return 0;
++	return err;
++
++recheck_err:
++	if (err >=3D 0)
++		err =3D -EIO;
++
++	goto unlock;
+ }
 
-As far as I see, it only works for you because isochronous never halts
-and Qualcomm HW is (hopefully) free of those stop-after-restart bugs.
-There will be problems if the SB tries to use any other endpoint type.
+ static int snd_cs8427_spdif_info(struct snd_kcontrol *kcontrol,
+=2D-
+2.46.0
 
-Regards,
-Michal
