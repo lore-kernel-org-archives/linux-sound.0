@@ -1,105 +1,100 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE0C2155322;
-	Mon, 16 Sep 2024 13:20:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C94146588;
+	Mon, 16 Sep 2024 14:31:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726492818; cv=none; b=rfs4GBrJbOeZ1BXmLnkI2fpQjGLti7CPaVpZ627HNde4a15BTqBv9Kvfyhah1C2IgHGdhCsR208ogzlkb188UNwaLWvNghhct4PLoaAw07jipx9rk0abx5Gc5vAdfg98QksWE8Bo5eYSlhc6GzGFzKdE2bOFnn92P30lbrdkJhA=
+	t=1726497098; cv=none; b=F9uBvyD938lU5xi6EfjlK26aHda8tATDqQ4nuLsfJFByc2Z6RfsEc0ZgtybuP4zC9n8RC3rpTC8eem9x2FkFK2T+uFj/CDS9wfv5q3Mt0UDI1ToOkkhsTYnkSW6SgVkY6Q4+bWQrb3HTWWb85Gabetp+CizNnxP5I5lMh8HzVWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726492818; c=relaxed/simple;
-	bh=LtyrK8rT+ddKnOKr4OAF9a6sJB7r1UWxYnOf39Qe6Bg=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=S5IqTV96G7SfZT4L7FpE3xdqSswfv1sWOaBJW1tHWrqoW4aNqBMDMatjTU/+WjnjtlJlp2AkC+IedqF61z7M+efaTnT2WiBv2v2KhvEb34bqkFDeFcfYy30aZ/nl1gU8P142zvhhL3WZqbXaoIE/V52quOtZ9TTlS85dWyCExY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=bvhUppNL; arc=none smtp.client-ip=68.232.153.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1726497098; c=relaxed/simple;
+	bh=BkNqGrNJ3t46F7Xl1BYz61Tm9LXflIUC4aRap28qLVI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z9QVGORa2+b7RfMZuR/nihaunGnMkrT9UkCQFOwLJ3CkquX0pBg7aIdSXuyB6A2Frkq3UuFznkNJ9tAZkDekHkyo1DVEGrfV/U8K62kjUA7N6IVAy2GpLj5Evae30m4TM0Pzy6Vin3pl7RHJlmmPz8gkkxSGccYSgDgoUb4N7b8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=BHbjGyh2; arc=none smtp.client-ip=217.70.183.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="bvhUppNL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1726492817; x=1758028817;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=LtyrK8rT+ddKnOKr4OAF9a6sJB7r1UWxYnOf39Qe6Bg=;
-  b=bvhUppNLtxRVPqBDMp2I/l4lJ0AKouLzKT22cylL/gU/Y83av7/l1vTt
-   YkPQGHIvyjfz6kRz3+QQWslGjZK7Gu1SkXBe/RRrayiMfYFVWlBew/e77
-   NrUcUVPVVG9Rh0rSJqUz1IadFynrA/IzZXeJDWmhSmnPeV2av54KHh8zu
-   ciakB/AF9mLXX0gHwbSKFyq2bW1eHqcmWrs6CrFrILkLi8BxZTxPaU8ox
-   /x1FIEbnHCTSq79Hp0WFcbvVHnI+9+ewZYqrMnyU4EwE7d0qs0PBaGRrz
-   VeFL1wIKoKqaLnXNTkAvQNntnDaxZEk62rp6WBcvAz+CTmCa/XAjM8gGF
-   Q==;
-X-CSE-ConnectionGUID: 50Z/Q3YNQtGxx5+pLOGVZA==
-X-CSE-MsgGUID: UsZZD4kASkGvuL/uCyRMpQ==
-X-IronPort-AV: E=Sophos;i="6.10,233,1719903600"; 
-   d="scan'208";a="262829818"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 16 Sep 2024 06:20:16 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 16 Sep 2024 06:19:35 -0700
-Received: from ROB-ULT-M76677.microchip.com (10.10.85.11) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Mon, 16 Sep 2024 06:19:32 -0700
-From: Andrei Simion <andrei.simion@microchip.com>
-To: <claudiu.beznea@tuxon.dev>, <lgirdwood@gmail.com>, <broonie@kernel.org>,
-	<perex@perex.cz>, <tiwai@suse.com>, <nicolas.ferre@microchip.com>,
-	<alexandre.belloni@bootlin.com>
-CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	Codrin Ciubotariu <codrin.ciubotariu@microchip.com>, Andrei Simion
-	<andrei.simion@microchip.com>
-Subject: [PATCH v2 2/2] ASoC: atmel: atmel_ssc_dai: Drop S24_LE support due to single channel limitation
-Date: Mon, 16 Sep 2024 16:19:10 +0300
-Message-ID: <20240916131910.22680-3-andrei.simion@microchip.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240916131910.22680-1-andrei.simion@microchip.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="BHbjGyh2"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id E8DBC20007;
+	Mon, 16 Sep 2024 14:31:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1726497092;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QloBWWiiQvJ9odjtbk/ZDUQVWAaXV9wS+D1Lf/XH/qc=;
+	b=BHbjGyh2V5W711FYpda4uynjp9Pj7IzPDyskiBG+W33xrLTe4hJGafNYQ2BkZUdzN7ftwR
+	MKNQPQrkh7rvh1McVuzovwb5SGe3qZU55e/i+nq3VUJyaT2xRkcyf/w7QhgMTfxbrkXdtT
+	D9CppqOIjE+yv2ITa1z4fLQCk/TALo7kZSJHF+bDv2pGIEH+XAU86aXLK9Ej1otx8IdIkV
+	HJv/3VsiYZ3hkmcrS2jSB08bDnpHag2L9lVW6g2bN/C1NXCnZnoTMdhqzZtqTD0pYhxp1T
+	y06RDUJYQNdUjPFF8EsNQkjPlLKkzkj41Z0J0YXmoiiFk7N3VrHoIi+MVVYp0g==
+Date: Mon, 16 Sep 2024 16:31:30 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Andrei Simion <andrei.simion@microchip.com>
+Cc: claudiu.beznea@tuxon.dev, lgirdwood@gmail.com, broonie@kernel.org,
+	perex@perex.cz, tiwai@suse.com, nicolas.ferre@microchip.com,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Codrin Ciubotariu <codrin.ciubotariu@microchip.com>
+Subject: Re: [PATCH v2 2/2] ASoC: atmel: atmel_ssc_dai: Drop S24_LE support
+ due to single channel limitation
+Message-ID: <20240916143130835e72b4@mail.local>
 References: <20240916131910.22680-1-andrei.simion@microchip.com>
+ <20240916131910.22680-3-andrei.simion@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240916131910.22680-3-andrei.simion@microchip.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 
-From: Codrin Ciubotariu <codrin.ciubotariu@microchip.com>
+On 16/09/2024 16:19:10+0300, Andrei Simion wrote:
+> From: Codrin Ciubotariu <codrin.ciubotariu@microchip.com>
+> 
+> Drop S24_LE format because it is not supported if more than 2 channels
+> (of TDM slots) are used. This limitation makes it impractical for use cases
+> requiring more than 2 TDM slots, leading to potential issues in
+> multi-channel configurations.
+> 
+> [andrei.simion@microchip.com: Reword the commit title and the commit
+> message. Add code comment to explain the removed code.]
+> 
+Reviewed-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 
-Drop S24_LE format because it is not supported if more than 2 channels
-(of TDM slots) are used. This limitation makes it impractical for use cases
-requiring more than 2 TDM slots, leading to potential issues in
-multi-channel configurations.
+> Signed-off-by: Codrin Ciubotariu <codrin.ciubotariu@microchip.com>
+> Signed-off-by: Andrei Simion <andrei.simion@microchip.com>
+> ---
+> v1 -> v2:
+> - add code comment to explain why S24_LE is dropped.
+> ---
+>  sound/soc/atmel/atmel_ssc_dai.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/sound/soc/atmel/atmel_ssc_dai.c b/sound/soc/atmel/atmel_ssc_dai.c
+> index 7047f17fe7a8..89098f41679c 100644
+> --- a/sound/soc/atmel/atmel_ssc_dai.c
+> +++ b/sound/soc/atmel/atmel_ssc_dai.c
+> @@ -821,8 +821,9 @@ static int atmel_ssc_resume(struct snd_soc_component *component)
+>  	return 0;
+>  }
+>  
+> +/* S24_LE is not supported if more than 2 channels (of TDM slots) are used. */
+>  #define ATMEL_SSC_FORMATS (SNDRV_PCM_FMTBIT_S8     | SNDRV_PCM_FMTBIT_S16_LE |\
+> -			  SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_S32_LE)
+> +			   SNDRV_PCM_FMTBIT_S32_LE)
+>  
+>  static const struct snd_soc_dai_ops atmel_ssc_dai_ops = {
+>  	.startup	= atmel_ssc_startup,
+> -- 
+> 2.34.1
+> 
 
-[andrei.simion@microchip.com: Reword the commit title and the commit
-message. Add code comment to explain the removed code.]
-
-Signed-off-by: Codrin Ciubotariu <codrin.ciubotariu@microchip.com>
-Signed-off-by: Andrei Simion <andrei.simion@microchip.com>
----
-v1 -> v2:
-- add code comment to explain why S24_LE is dropped.
----
- sound/soc/atmel/atmel_ssc_dai.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/sound/soc/atmel/atmel_ssc_dai.c b/sound/soc/atmel/atmel_ssc_dai.c
-index 7047f17fe7a8..89098f41679c 100644
---- a/sound/soc/atmel/atmel_ssc_dai.c
-+++ b/sound/soc/atmel/atmel_ssc_dai.c
-@@ -821,8 +821,9 @@ static int atmel_ssc_resume(struct snd_soc_component *component)
- 	return 0;
- }
- 
-+/* S24_LE is not supported if more than 2 channels (of TDM slots) are used. */
- #define ATMEL_SSC_FORMATS (SNDRV_PCM_FMTBIT_S8     | SNDRV_PCM_FMTBIT_S16_LE |\
--			  SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_S32_LE)
-+			   SNDRV_PCM_FMTBIT_S32_LE)
- 
- static const struct snd_soc_dai_ops atmel_ssc_dai_ops = {
- 	.startup	= atmel_ssc_startup,
 -- 
-2.34.1
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
