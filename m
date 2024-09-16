@@ -1,114 +1,161 @@
-Received: from sonic313-20.consmr.mail.sg3.yahoo.com (sonic313-20.consmr.mail.sg3.yahoo.com [106.10.240.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2079.outbound.protection.outlook.com [40.107.101.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E4C113699A
-	for <linux-sound@vger.kernel.org>; Sun, 15 Sep 2024 23:53:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=106.10.240.79
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726444441; cv=none; b=hEtY+L4EFQwbT/tZwC7mUyzIrgL9dYL9+Tpx4fMysHn0a7JjpfMHxnj9N+y0oQorD31csAEmLaBtweO4U8PwTDKJkD44CWs/0DHM+pL2yGP7JVzP7vWvOozoUIJN3fqdph6oBEb++JRFav+tyuKseS2uhLmWJb/4OJtYdVy3yFc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726444441; c=relaxed/simple;
-	bh=9uY9dnJYdRmdfJHWLQVeGdTVXDhPrHgVu1fL7C2K7aI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ggdPPAOiF+7tL+fVE2Xkmwln0WNI0LQlz1xMYZxAHPXbF6kNMvJ5rZnOFXObD+eeleGKiz1e7PXJm0rAzUL6xJjJigkqa1SUpo6ySz0SePUMSKdaPG/mzEoQjcSKvtsXSkhz2oiB+KomDOFY/DZvRL8okFOrLjybMeTy3fJqAZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=myyahoo.com; spf=pass smtp.mailfrom=myyahoo.com; dkim=pass (2048-bit key) header.d=myyahoo.com header.i=@myyahoo.com header.b=ihuVGD8M; arc=none smtp.client-ip=106.10.240.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=myyahoo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=myyahoo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 723174962C;
+	Mon, 16 Sep 2024 06:15:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.79
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726467308; cv=fail; b=e/rcVdEH/Aoiz6Cd5trVj/oBQ+q64fMCNwh0AkG/2VGhljxgoDLi2UHkT4L5a0t888RKXEdYkUe12LFkUPFWQZYI/DM/dgp/3jeIsXnQTuEGo7vV8X8azz/vbHPrJ5NVXINtr6yylkCUEpiCtNxZrO/vkviyq+UGLIs2vJqGe1c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726467308; c=relaxed/simple;
+	bh=QLW6vuKgACG0iXNvva5vMFlfQhIUD354C6HZ67AlXs8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DAMFqtWwpNMig+u8ltMBTajP6f+coXdaGAHxRlBikFMpWKkJs+XBSEjrsv0rdbwFuID/Ybh0sBBymTPi4BYwvJpd33RTsEYnIUCtG66bLPNRGQOD02dJ4Nw1QuBRrkUOPuqs7WhkO5u7VH/ajfhtxZZ0I0Y+CHNR7DIoMfavDFA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ZLLKUBBX; arc=fail smtp.client-ip=40.107.101.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=myyahoo.com header.i=@myyahoo.com header.b="ihuVGD8M"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=myyahoo.com; s=s2048; t=1726444432; bh=wBdRWLbOJLopRwjWrXe3U8vLG/Id5hy+7t6+P62KFy0=; h=Date:From:To:Cc:Subject:References:In-Reply-To:From:Subject:Reply-To; b=ihuVGD8MbEMzONrbiedFTa3N318LLGqNFRnLTY7R0XfRapX3EzNgiI5TboikO3iNZIrpr4VoFJT/cphNirqIA7v9AiXzqqclZFALxESDrqKkkbp9wqbyViwCQQ72ywDf18ikNWcgYAz0Jlpr+du9NRD+ZHCpaUb6L7FhZEof69x8CYt+mn70oYeDII1d0l8CkcEh56xeWsP69yMRYWFNlNsxuIQaotPt21VyJpPkp0mUdm0a4EV4TWORUtRB0V1198+FUKAcsnAlCrUitFHeu+u858o0tFatAw4PdliiKt605Y9fbWi+5ScuNTbrqV+jc5SAoYRmRVKN2qAj7PQtbg==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1726444432; bh=CFtVdcub1pWDbp9tfHq5UOTIR+si1O1yxCYAJb8zh2w=; h=X-Sonic-MF:Date:From:To:Subject:From:Subject; b=fnMELHH2ZEXsLQJde9mx3rV1COaq8d/WkjLkWR0Iu7pwE9naUG6y7E2UYa8MmiGGNPJGkAFvTMFaZ/X6un4MJjpilHuq7L+BHk8SiFl97wsPyd6RxQ2MbJTgoyyrcOnVomNUmjVxMnNIXUkXKvaPpuMdXMeZR/BgOlXQvd3i+Bw8+bsb5fNMs7dYARHRMrBJey4WKW7eweudaQB+7TCj27NR2qZ88H3nB4MnUydVihtxnQrUAO55I/+Qn24s3LmDkMdayg8ac4K7igQj07AnSIVZpg7/GS9mqU9QgEYNlAwvO6IeS44APXTxJARJe+h6YCH/XkxJzZU7vDfjNv3Qzw==
-X-YMail-OSG: b4GGUmcVM1laqwugOa4IQr.kZ368V8ZspjeniruPSXLrhjcF5p7csPERUE56rWl
- 62wxcL10bhXRUDrqUQN8ihaCHyfriCgWKllJvvNbGOBjVVBPSdgxNsNXFX1vnb1SfgukjMzlxzkm
- ed.lS7laINQkydz6PVvhZ1XsmntzmIGAza_PAoEV5KrXxJgrRXgfjhpM85WcLAZr.HFi0jaNlcri
- jvRRI.EGh5SNWtE9my3.urChlbsAp5_ebJV87NU6O9gCvrQBhWPQR9IRY2yREtCABmrvW.lRl_2f
- KLFm1yz0GkkCVPQNfiGV_nfvTr7_f3e1fh0Ie5b8kAsnTNUjmGi5c.BJEny.tIB_iPNUQ.esD9sq
- RdLQeWKV8aJ90OZ1YQIUvlLAXy0b6tOIZsMH8ImyUKsarjvYIjGjE_lQ4.nubFNpC86PohDxPfRv
- l7bgf_KzKbIk7TQRcVr_KLRBlKvj2xBqTOq3Ho8wWHpmlO5uMeogINcICsCXzMfSF1FQ_qxAi04L
- Mnd9kIZ1xMlYsC_Etxd3es.lAvBUBB9ZXyYcLK04i3TUcSmxFN7NKiQc4pJGasd3uBn2sDKumTMn
- O2LW_Vy6ll27R.MGI2.ai4N97W9gZMl0OBHmtMnSU3KyjAZEOT4jlg6FjETlfUJRH8LDyuBU.7cO
- r2CGg5Nkg9eJovsCtT6neBNKieqZWcT80yu31ezd0We8vrndZC1g9W1IDfaX7Uxy_Z6snP6pp.Xm
- OvfqYcA4WZHqCGaUfhjGR6O0FeA2nAfZ.NcN7ndm0YRmDu92.zoXr8mcrzITOPSIL_9MxFaYJAt1
- s7NmQ2qQ_MLvs2xvsPk5BRmSmyBaPvZjvyp.dqnrgqXCW9yADbWxoYycwgRK8suUlnVa1qtguyPQ
- 0Bu6ENVbCzrRlnpQySXvk_Xcx484U0C7uHdCctlwNj7u1HOJHA9Is4K5WQ4jpy_awT3mGuAuBEG.
- 0znbwhpDrqz77zp4HsUiwdnGgy3TCHB9FgVjdzcUkxlLvUimqv12FoeEX9fhKN7iR5XZL.ro2Ui0
- 7Mj6G6DgfTwXnHnvKfgscKrFSG4TrJKIgWunoSrrQAPNn7DArr7qLJJ.KWzY7GS0f_8M_NKJqAmR
- 24brEkVqyHWAn9sz2PFEUtgYU_PaHHMC0Y_IlVr6MvPQ6UHgRQnvH8AixV1q.eRypBXKY9xjW9oV
- NmTnF8dR0JtYrSrBDDiu3gAAq.6cc54XUnOP9oY3M8pycrjmjUWto4.tE3IYZsz9kousIaaos8.o
- xPoJO6vv4pIsHPMNpPse5D8B0MS2_.tBQwdMQ5Au5WqmmcV9hQKojAMGpI1G8SWc8ddahXON4HSJ
- BF0BLaH3FVReclhOpYcxYDg2aD0wLJGBa0Dud34pc_bt5MlfjAHmuWzfFT1GoHpxoVQLIP7cg6bX
- ho13M9WiMC1SxSEKAVhB5JUWIiWsFS7JNlTFGoWa.exZuj4SK6dRPxvqLRUa9vBNAC4Uqvxql9pK
- jd4vK0ZgfTCsttTJFEHKttbnL0eK4ElERPGHqnelSDhoEoRDpenfAOTU7YOUeWek_CoenM6xJFsp
- W78Xxq60aSwSj3NtNMTotWPtaT73zLNYC33etjAOUpya7P23CrHtW2BsRMM1d98swrnLjWCWA.uN
- 04D6Fq2ndaOhxUiL7TkPRu0HSRB2pA2Lw9rJfLM3_94iS59Y2iAEA7_zLwbRYjVvHu5_Ed23RJmx
- FEEQAMtHxnqLVabOobgs28RYOPx89o7QdUmuwLBQH0iLVy9yfry51rYddRMLTYUJ6mEI6W8a4efR
- Lb__EKfSxL0gyUYDC37VXP638UxhdiVQ7umMCDr2kGkLPFry_dVhcGXzqNzWWb893T6XRXDIcxTZ
- zjxj8Zk1UhSs1XKxBOqGoKY.RpvcH7p7VVz6YE9XOYDHXi0i8194oSUGzFIfrsVTdMGZg3fkhThq
- KPHgwumiT.A0a.52JMOiExy.kBAPanj6ro4J4gaoTSwvrcgufptrf5H7H6gk7sCYUlb0SLx7NsYI
- nlDjNsV56a.6Plx2D5cmZU6xn6irrlX5ZNN0JhQIG_NY8uds84rDSrY0igOZYmD5PFEeyS6C00vy
- EVFNjx7ojIC2WMy4ViyIRYaMi5E_30VtP_m_5j7jgitxtH9uhhiHG11C.xdkBP8jTt_Yg25n0XPd
- vePA7EFsZd6XhyYMW6HrnJLwShfi2AErZpkFdBZu3I2VYTGtFmNYQw3ipL9nxPhy4J3y2GwRGLmP
- nbaX4r.yFmmA2fuQgZNqhimSKhiYdXz7djpP39xQXhJon2tzE0Q--
-X-Sonic-MF: <abdul.rahim@myyahoo.com>
-X-Sonic-ID: c53e7182-f874-4911-8adf-185946011a4b
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic313.consmr.mail.sg3.yahoo.com with HTTP; Sun, 15 Sep 2024 23:53:52 +0000
-Received: by hermes--production-sg3-fc85cddf6-lbhm5 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 756f2e6de304e0def2adbfdccfdbe229;
-          Sun, 15 Sep 2024 23:53:50 +0000 (UTC)
-Date: Mon, 16 Sep 2024 05:23:44 +0530
-From: Abdul Rahim <abdul.rahim@myyahoo.com>
-To: perex@perex.cz, tiwai@suse.com, broonie@kernel.org, shuah@kernel.org
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kselftest/alsa: add silent flag to reduce noise
-Message-ID: <lku6mdwwfhufyap2kjwxrzfoka4wfjaldq2xqver4ktnuuqd3t@wicnoorkz3wm>
-References: <20240915234131.61962-2-abdul.rahim.ref@myyahoo.com>
- <20240915234131.61962-2-abdul.rahim@myyahoo.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ZLLKUBBX"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KGpxruq0AqNEYYuXaGAWgGWi7tM481YmP+V2PzW6jUWdvUL0oYwShohShwEwirimsk3JX2IptRtab2UW7L7AkR3fznZVijC8S+FoVktb7gwnXWarGiGcCQC8AOgkfZfhpDkjnlZENlSWgaaTuE7gnVbURPv5Fc7zh+frwkX3uipDYS8itfXJs+sJI9Alq7uIZx8w1H9cmQJSyX22Bkx5lqGYHBMPI05rYcZy3QNWRJUpdtIu9eAXFooCTL2nPaw4ZcG362emmO2qw31Jx/737PLhG1ErR02lI/4Xf1EbWnPUbqGI9mFkxydV9x+isYukrXLPI3wlGSGM7IFlWNHbuQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jlx3PnYfTh7yzkk0FktCj7DkfzHVDHr0+3oWxLS+oGU=;
+ b=uLZX9S4atum5ikyvx2KsIDe2VjrOS50karrIfUO7hj1Tmx5egmc+hjUSbINK96vZACP0lfd2PvIdeF7MJcakYlUF6The+o4GAMjpzG80PhZIvAZjyFJXW+2QEfKVNtneDSnK4GVv9wLTsUSMvqdi5i9EeHbc7lxLVuBV6Dakpt3UBOn3GziIxljFu16sxU5B7y/ZI+UYTiT0fEE0VnY2f9W2dx3oHMfzlSTcTq6fPtauSa0SKIHUicRp+olvJ8LOvwHSvt/UfcMfgObUomAgQEKwr/TS6DB0j6Hxo8LlVF7qStkpUlEslcPv8K4lCc0qMUHn0J94lt+wmGa0rruX7A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jlx3PnYfTh7yzkk0FktCj7DkfzHVDHr0+3oWxLS+oGU=;
+ b=ZLLKUBBXn3RT1ADFh/uEqREpbFiKlx+5QD1mmftlecNSU5zITdM5TXaGAUSQIJg1c8qt/dhJ7s3jGnL5ZWc7lVNdSF7BJbPtYEpBAUFoylqA0qmDp8svi7HCwKNH2hH4LocNkdJFymzsyXLwu6sF5TavZGp5wWuKyPdivrjaqD0=
+Received: from CH2PR15CA0005.namprd15.prod.outlook.com (2603:10b6:610:51::15)
+ by DM4PR12MB7551.namprd12.prod.outlook.com (2603:10b6:8:10d::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7962.24; Mon, 16 Sep
+ 2024 06:15:02 +0000
+Received: from CH3PEPF00000015.namprd21.prod.outlook.com
+ (2603:10b6:610:51:cafe::d8) by CH2PR15CA0005.outlook.office365.com
+ (2603:10b6:610:51::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.29 via Frontend
+ Transport; Mon, 16 Sep 2024 06:15:02 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CH3PEPF00000015.mail.protection.outlook.com (10.167.244.120) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8005.1 via Frontend Transport; Mon, 16 Sep 2024 06:15:02 +0000
+Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 16 Sep 2024 01:13:49 -0500
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <broonie@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <pierre-louis.bossart@linux.intel.com>,
+	<yung-chuan.liao@linux.intel.com>, <lgirdwood@gmail.com>, <perex@perex.cz>,
+	<tiwai@suse.com>, <Basavaraj.Hiregoudar@amd.com>,
+	<Sunil-kumar.Dommati@amd.com>, <venkataprasad.potturu@amd.com>,
+	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Vijendar
+ Mukunda" <Vijendar.Mukunda@amd.com>
+Subject: [PATCH] ASoC: amd: acp: don't set card long_name
+Date: Mon, 16 Sep 2024 11:43:18 +0530
+Message-ID: <20240916061318.3147988-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240915234131.61962-2-abdul.rahim@myyahoo.com>
-X-Mailer: WebService/1.1.22645 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PEPF00000015:EE_|DM4PR12MB7551:EE_
+X-MS-Office365-Filtering-Correlation-Id: 33e08e23-8a6a-4b48-9385-08dcd616e67a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?cX67xDwURB0ryWIVRlY4IQ9ROScY30IaasPgbDQkd8tr4hEuAfSMw/ARcISj?=
+ =?us-ascii?Q?YTWKLpqRWso9bizSgViX8xNAKWMhUjChp6Fl9wvJeZOU8fd/czQnIkhk457l?=
+ =?us-ascii?Q?+vxoWLkwOVyT0GeCvOzZuuAgMXML71LZN2ebTpZ8MWRpm2zBI0BtClZBgNa5?=
+ =?us-ascii?Q?ugBmIWXxZor1GNTgW9QQOd0nVjaO2Ow1gKY3EB8RK4O8ihrFjywrvA/V/NcP?=
+ =?us-ascii?Q?nksvh2KFmmyaSk2cia22G5uRQ5Ur1psB9bfP7kGvlQDFF0ZRFXGlrvGBdkVv?=
+ =?us-ascii?Q?g9lrhv5O7K6nOVLA6ktQwWhHusCkLXTWXK+49tqU87eoKKC6bOPgRCX6tr52?=
+ =?us-ascii?Q?SSmBG/dyWrmAsTvg+ENx9UMgBKLg26onqh8+GIM7+qNa+C2Gy5Wa93rBmvek?=
+ =?us-ascii?Q?aUmp9is1jpmZ7l+snFoWz+QdhvXqPs13qoYEfNiiiptC4/PnlnQYkRSEzvtS?=
+ =?us-ascii?Q?wV+MtZ86JxkqyD6mdL4waPni4MkG+C7SrBqFZNZzu2y4nkUz7/lFI7X76YWj?=
+ =?us-ascii?Q?WCUUQeTuydtA1ALueXUHTGHoYZ8hXOR986dzxbzuhbMVcoMCbKbfPCPqX7pX?=
+ =?us-ascii?Q?6XGLbJxnI7P3sBiMCjwTMNelwfp97hG/pgrs6CZQ26NojVELBDc1Na9MsJ2K?=
+ =?us-ascii?Q?e9v9r7cGcKyLg88qeARIspGuyCKE3iUdxwFWtqb/sDyl/Ml2CSchAphFDwpA?=
+ =?us-ascii?Q?W5bmFFgcCDMRzqr3iA5Nh/6/aWEJO7Sn5QNC1DIyPrc1vnMnaORG+t5OrM36?=
+ =?us-ascii?Q?l+qupglsHhCC3yCpwG4dwbR4m+g7vDQGhDCPaEnwCsVs5PDUTt1/cSB5yLba?=
+ =?us-ascii?Q?mx+AUjWpe4txQG4M9u3/ZIlmWzAKa+m7ZJovV1XYVwxoIVtd1VQl2ZUcgPZ1?=
+ =?us-ascii?Q?Jz6AZln+VgNzM9j0dUu3PhmEKwi+qWCM2zTKqFtMlUGgVOOqhi9VbKsjvHYk?=
+ =?us-ascii?Q?Y6Q/yiZjrLhHL0dqRnRo+I6Tk4Tt1FN+cqhVoe7bgMBcqdROSDtfHag97R2G?=
+ =?us-ascii?Q?PkFrVQEMfL6rvB6w+HXFbE/jdOjLHS9SBk+Uvl4M3i9oUhF8Kr17Z24POR1s?=
+ =?us-ascii?Q?IdSPdi6/4A8gsiXPys1rCoX8m+ZrHp2upjGaZnc5frTujlp+iJaYfK0H2OVz?=
+ =?us-ascii?Q?q79x2Mt+Onkv3CqEpYFZvcSTpclws2kJKJ5RAiIVLR8D1ef5ERfsHtEjiWBa?=
+ =?us-ascii?Q?XqhHruKcILgmBFhHYWXapbo1QuJwFSr7Od7mZ9PRI/JGCbvf8F9Eai8xoMkI?=
+ =?us-ascii?Q?POnM6nHejG5wcR9bozgT+yLZL9Iir/rPj8Guia1v875HnxESOAU9P3fq3k3+?=
+ =?us-ascii?Q?+/jBhyAoObzF3webdJuvU83mHw8pbXzBVhSW4IwGBgVc8TKhYJ7EsO6cz1Hk?=
+ =?us-ascii?Q?v5eYas01TCBQCBcD1l5k4qZUe8QDW5fuDvymeve8jfJqnGt58M3S+F9mI1Su?=
+ =?us-ascii?Q?yX6usDpEZxMNtCZk6RA/By7pBl3yucFs?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(376014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2024 06:15:02.3247
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 33e08e23-8a6a-4b48-9385-08dcd616e67a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH3PEPF00000015.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7551
 
-On Mon, Sep 16, 2024 at 05:11:30AM GMT, Abdul Rahim wrote:
-> When ALSA is not installed on the users system, the error:
-> 
-> "Package alsa was not found in the pkg-config search path.
-> Perhaps you should add the directory containing `alsa.pc'
-> to the PKG_CONFIG_PATH environment variable
-> Package 'alsa', required by 'virtual:world', not found"
+UCM can load a board-specific file based on the card long_name. Remove
+the constant "AMD Soundwire SOF" long_name so that the ASoC core can
+set the long_name based on DMI information.
 
-these errors are being printed by `pkg-config` and the last line is
-irrelevant in our context
-> 
-> is printed 3 times, which generates unnecessary noise.
-> Hence, Remove unnecessary noise using `--silence-errors` on LDLIBS
-> assignment, so the message is printed only once.
+Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+---
+ sound/soc/amd/acp/acp-sdw-sof-mach.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-or should we return error if user does'nt have alsa and move to the next
-test?
-> 
-> Signed-off-by: Abdul Rahim <abdul.rahim@myyahoo.com>
-> ---
->  tools/testing/selftests/alsa/Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/tools/testing/selftests/alsa/Makefile b/tools/testing/selftests/alsa/Makefile
-> index 25be68025290..cd022fc869fb 100644
-> --- a/tools/testing/selftests/alsa/Makefile
-> +++ b/tools/testing/selftests/alsa/Makefile
-> @@ -2,7 +2,7 @@
->  #
->  
->  CFLAGS += $(shell pkg-config --cflags alsa) $(KHDR_INCLUDES)
-> -LDLIBS += $(shell pkg-config --libs alsa)
-> +LDLIBS += $(shell pkg-config --silence-errors --libs alsa)
->  ifeq ($(LDLIBS),)
->  LDLIBS += -lasound
->  endif
-> -- 
-> 2.46.0
-> 
+diff --git a/sound/soc/amd/acp/acp-sdw-sof-mach.c b/sound/soc/amd/acp/acp-sdw-sof-mach.c
+index 6c50c8276538..306854fb08e3 100644
+--- a/sound/soc/amd/acp/acp-sdw-sof-mach.c
++++ b/sound/soc/amd/acp/acp-sdw-sof-mach.c
+@@ -400,9 +400,6 @@ static int sof_card_dai_links_create(struct snd_soc_card *card)
+ 	return ret;
+ }
+ 
+-/* SoC card */
+-static const char sdw_card_long_name[] = "AMD Soundwire SOF";
+-
+ static int mc_probe(struct platform_device *pdev)
+ {
+ 	struct snd_soc_acpi_mach *mach = dev_get_platdata(&pdev->dev);
+@@ -463,8 +460,6 @@ static int mc_probe(struct platform_device *pdev)
+ 	if (!card->components)
+ 		return -ENOMEM;
+ 
+-	card->long_name = sdw_card_long_name;
+-
+ 	/* Register the card */
+ 	ret = devm_snd_soc_register_card(card->dev, card);
+ 	if (ret) {
+-- 
+2.34.1
+
