@@ -1,97 +1,119 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D4A14F9FB;
-	Mon, 16 Sep 2024 10:00:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB2941509B3;
+	Mon, 16 Sep 2024 11:34:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726480820; cv=none; b=be0fYYGMWP4S1TlW0/lMA2X948Vx8Ye7MyXfkK96OZQtqQdhFqNA4/Rwa4i40or6LIYi01ZAVu6LxZE5njYJEPvv2ike+t4vG9oAlLhazxPPBR5NqkRoalyj/oq0Zj0xCh+osCROVRvMyz5U5f+5qHv1Wb5dLEiGzbM1/6hh/RY=
+	t=1726486454; cv=none; b=K2Tidaw2bX0XaRsXuJnHhVb7wBwAbHj1HqlEPd2UiCxv9u0iRuhAErOyKJ2g+UYzI7Rl1w1qmn+4hLJr0DRHdrkOrN3mGpXl7bKnKLBFsAgfgDLBtcoM6nAfrNAwA0lCyr5O4n4FHRGUm2SgmxsjadfZ2PNCKpzvwcb8ixtGDB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726480820; c=relaxed/simple;
-	bh=UkkJhVmPZRFzZAuAcyiy2i8RwGIpDoJ5oqfQ2KdcAd8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FMmU9wHiWdp+3HDsqKbgjH90SoxaYilwbtE8I37IVNwaI98euc+NOHFDBkveci5F1XCxbGGUd/HUq+YQF5YQis8K0sXsu9aZ+XgXBNIy3z2aKND1lc35IsimTrpZNH+yCIsvlgXqg3VUwvtpU2HIrJrKkuCNKQd0wGjHDhrZv1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=O4ETYETg; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1726486454; c=relaxed/simple;
+	bh=04M62AnevvKOpl+yrEWkhUipAMKBwSj5m1kfSIBHe7E=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=grbU77yu8nVdYN4vZxFaI4JqaDVYBcUnnJIApe5dsS8/C6J83uKOr+BiJJDuaXx7ovUd7J5E4Oh6Bj+J62xJV0u18YRi8PqRC/h65FMuBmk+3RnX2V7bAhHnIsy69c4MKov+Dof/gnTDCqbmarf1AvRBCU9KXoMDOqOh07DiIFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=HMushXji; arc=none smtp.client-ip=68.232.154.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="O4ETYETg"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id CF3B51BF208;
-	Mon, 16 Sep 2024 10:00:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1726480809;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PVcKgmtsHiY6zmy9L9WXJLjM0R6FE0qNoX99Did6GQM=;
-	b=O4ETYETgxUUfpMvCpGK0TLhjTTodnCl3fjQh1P7pEW+3zQqfh8d6XdMLf9WLIoOYAS68RE
-	vMc2GkAH78QTrgbizmeJyIw0nRLXkrhK2MMgfndA4tVpHq0lp4HEBiI4A/0JNbCknYfZDv
-	2+9y994TBls8TJDXetU4jwuToRmSGKJ2rtMTnOd5sTvjDt93KM/JGppcR48QPpoGOGAsE7
-	1dz3eHHhjdMhjGGQr+jYjzrQ6PqnzODM6CrU1LDkQcPRdGii1SzENOFIm5VY0hjAiKP11m
-	CysVURAD7KhecdypD9YKtsvljbA33yR++yVQ4Gz/VEpKefuePHWjQoA6bWkMiA==
-Date: Mon, 16 Sep 2024 12:00:06 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Andrei Simion <andrei.simion@microchip.com>
-Cc: claudiu.beznea@tuxon.dev, lgirdwood@gmail.com, broonie@kernel.org,
-	perex@perex.cz, tiwai@suse.com, nicolas.ferre@microchip.com,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Codrin Ciubotariu <codrin.ciubotariu@microchip.com>
-Subject: Re: [PATCH 1/2] ASoC: atmel: atmel_ssc_dai: Add stream names
-Message-ID: <20240916100006f2db7b06@mail.local>
-References: <20240916085214.11083-1-andrei.simion@microchip.com>
- <20240916085214.11083-2-andrei.simion@microchip.com>
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="HMushXji"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1726486453; x=1758022453;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=04M62AnevvKOpl+yrEWkhUipAMKBwSj5m1kfSIBHe7E=;
+  b=HMushXjitH3FzxCc8QzM5BhBRohMOGr1x3af4g5e3bGB372WbBoHEAUr
+   znbB1wTcJd4o38YFcec4DGx8ITzb0uO+7HJCg3in63UrL7Cihayh7KeIW
+   vBWfN8cfas7B9z9942230W2TlySkjkwZo+ERgCyvSqnjHIADRbYpiJq56
+   eI5z9oIeEytt0inmNPPEN0EaqD8rSIHHvGeBjakSASKuUVnEgQWFQx0x3
+   oLXHe82C4/IoDnqwfT5YbTOe+DJVgvGuxLjGu4IEOfXDenz0ylLTCLxER
+   jY2oZAWSqFgffo4RSbOF7nwOmm9Smbh/CBN4Ex3f3i4LJ/kVZomltw7dh
+   A==;
+X-CSE-ConnectionGUID: Onkqnjp3T4uu7VkYLySsmg==
+X-CSE-MsgGUID: DF5Odg+jTkKSP28grZCI6g==
+X-IronPort-AV: E=Sophos;i="6.10,233,1719903600"; 
+   d="scan'208";a="32447859"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 16 Sep 2024 04:34:11 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 16 Sep 2024 04:34:05 -0700
+Received: from ROB-ULT-M76677.microchip.com (10.10.85.11) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Mon, 16 Sep 2024 04:34:03 -0700
+From: Andrei Simion <andrei.simion@microchip.com>
+To: <alexandre.belloni@bootlin.com>
+CC: <alsa-devel@alsa-project.org>, <andrei.simion@microchip.com>,
+	<broonie@kernel.org>, <claudiu.beznea@tuxon.dev>,
+	<codrin.ciubotariu@microchip.com>, <lgirdwood@gmail.com>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<linux-sound@vger.kernel.org>, <nicolas.ferre@microchip.com>,
+	<perex@perex.cz>, <tiwai@suse.com>
+Subject: Re: [PATCH 2/2] ASoC: atmel: atmel_ssc_dai: Drop S24_LE support due to single channel limitation
+Date: Mon, 16 Sep 2024 14:32:05 +0300
+Message-ID: <20240916113203.17871-1-andrei.simion@microchip.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240916100006f2db7b06@mail.local>
+References: <20240916100006f2db7b06@mail.local>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240916085214.11083-2-andrei.simion@microchip.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On 16/09/2024 11:52:14+0300, Andrei Simion wrote:
-> From: Codrin Ciubotariu <codrin.ciubotariu@microchip.com>
+On 16.09.2024 12:59, Alexandre Belloni wrote:
+> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
 > 
-> Add required stream names for DPCM and future use-cases.
-> 
-> [andrei.simion@microchip.com: Adjust commit title. Reword commit message.]
-> 
-> Signed-off-by: Codrin Ciubotariu <codrin.ciubotariu@microchip.com>
-> Signed-off-by: Andrei Simion <andrei.simion@microchip.com>
+> On 16/09/2024 11:52:15+0300, Andrei Simion wrote:
+>> From: Codrin Ciubotariu <codrin.ciubotariu@microchip.com>
+>>
+>> Drop S24_LE format because it is not supported if more than 2 channels
+>> (of TDM slots) are used. This limitation makes it impractical for use cases
+>> requiring more than 2 TDM slots, leading to potential issues in
+>> multi-channel configurations.
+>>
+>> [andrei.simion@microchip.com: Reword the commit title and the commit
+>> message.]
+>>
+>> Signed-off-by: Codrin Ciubotariu <codrin.ciubotariu@microchip.com>
+>> Signed-off-by: Andrei Simion <andrei.simion@microchip.com>
+>> ---
+>>  sound/soc/atmel/atmel_ssc_dai.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/sound/soc/atmel/atmel_ssc_dai.c b/sound/soc/atmel/atmel_ssc_dai.c
+>> index 7047f17fe7a8..475e7579c64c 100644
+>> --- a/sound/soc/atmel/atmel_ssc_dai.c
+>> +++ b/sound/soc/atmel/atmel_ssc_dai.c
+>> @@ -822,7 +822,7 @@ static int atmel_ssc_resume(struct snd_soc_component *component)
+>>  }
+>>
+>>  #define ATMEL_SSC_FORMATS (SNDRV_PCM_FMTBIT_S8     | SNDRV_PCM_FMTBIT_S16_LE |\
+>> -                       SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_S32_LE)
+>> +                        SNDRV_PCM_FMTBIT_S32_LE)
+>
+> I believe this requires a comment. Else someone may add it back later
+> on.
+>
 
-Reviewed-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> ---
->  sound/soc/atmel/atmel_ssc_dai.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/sound/soc/atmel/atmel_ssc_dai.c b/sound/soc/atmel/atmel_ssc_dai.c
-> index 3763454436c1..7047f17fe7a8 100644
-> --- a/sound/soc/atmel/atmel_ssc_dai.c
-> +++ b/sound/soc/atmel/atmel_ssc_dai.c
-> @@ -836,6 +836,7 @@ static const struct snd_soc_dai_ops atmel_ssc_dai_ops = {
->  
->  static struct snd_soc_dai_driver atmel_ssc_dai = {
->  		.playback = {
-> +			.stream_name = "Playback",
->  			.channels_min = 1,
->  			.channels_max = 2,
->  			.rates = SNDRV_PCM_RATE_CONTINUOUS,
-> @@ -843,6 +844,7 @@ static struct snd_soc_dai_driver atmel_ssc_dai = {
->  			.rate_max = 384000,
->  			.formats = ATMEL_SSC_FORMATS,},
->  		.capture = {
-> +			.stream_name = "Capture",
->  			.channels_min = 1,
->  			.channels_max = 2,
->  			.rates = SNDRV_PCM_RATE_CONTINUOUS,
-> -- 
-> 2.34.1
-> 
+It is unclear to me. Would it be good to send v2 with this update?
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+>>
+>>  static const struct snd_soc_dai_ops atmel_ssc_dai_ops = {
+>>       .startup        = atmel_ssc_startup,
+>> --
+>> 2.34.1
+>>
+>
+> --
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+
+Best regards,
+Andrei Simion
