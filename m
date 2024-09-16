@@ -1,123 +1,196 @@
-Received: from smtp.smtpout.orange.fr (smtp-23.smtpout.orange.fr [80.12.242.23])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010013.outbound.protection.outlook.com [52.101.228.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA1F3B295
-	for <linux-sound@vger.kernel.org>; Mon, 16 Sep 2024 20:20:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.23
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726518035; cv=none; b=nk9JTTY+2lD1WIPDDSpBmX8yPEuobx4umyng2A2xzmhWq4G5f4/kfyAozXZaiNT+EkIQa68HJmiL17oJZ5ueHecEMbbsfp7quJmaBju711epRONufLEny1OopGYUpCXT8E9uDdj9t90KF2U5G1GGGgwMWTG5FDs3vY9Gf/TEheU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726518035; c=relaxed/simple;
-	bh=AIia4lKEZbObyaFYhUbFcNZrhB13MUM4zPKIfR30Obo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j5yGw+JlVs/gNVUuNfqqbFgB9Eko6wUoJMsVxDHWvUBYaE112P+wG4UTeu+kh6/rA9/XsXEzpt5KOXVt2t7g88tGhg7NxQ95nY853w0VPQLxf5g/H4TpPNKRMUWfiIhHTyWU/gjca4Iga0Ep3n/D9uM7g+FoqnEb8sLBDp21cCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=QrriRmjV; arc=none smtp.client-ip=80.12.242.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529CE5258
+	for <linux-sound@vger.kernel.org>; Mon, 16 Sep 2024 23:50:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726530652; cv=fail; b=t1IIXaUqFDY4GnNDq4ZuIdB1+1uBxSC3+n9HkJCJROn+bkpaw25DXGBhCDy/wgf7s8DD5vkNxxg7IuM7lUTLtqQrEGksa73MCPfXRZoVmsV4yHhPkoOX6ZG2mOBz5rAOe3vvwEBdyvpKwRglRzLG9DwEv/Krizs8kT6PKNfA4Fo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726530652; c=relaxed/simple;
+	bh=BdRZB+qCOzpVeK2mJVUGrN8+SHZworLAhuks1Ch9NBk=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=j+xm0sMexw6mEpmYSsIsBK/6NUtxMqmLqnZF+NVXWlm+J6EZYqMC0zhQMCpGMfIUVKsqiU3RmxdRq74xn+C1Ry9ZgG+60BYzxl5o8ZuIopJDdrjcAi8Ka1OZvJmSfB6SW/LynUfLfnWk0W/I2Ik2cimpwxMtJ66syzIzdcfR4RY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=aY0rKAt1; arc=fail smtp.client-ip=52.101.228.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="QrriRmjV"
-Received: from [192.168.1.37] ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id qICnsCJi7wFpSqICnsB9XJ; Mon, 16 Sep 2024 22:20:25 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1726518025;
-	bh=3Knrr3RbC4JV3H2uQiTkpSAIzSvcPBfz3YbMOwmqzNs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=QrriRmjVayvdZ9yvTrDorx9oh8DoqEJ9P43q3xnDcEZNreDtgqJE3mJ5HkFLby/Xx
-	 jyAeNmPyXwcG/0ceO29wqGO1fVfkmlk1m+a2ocC8mtq9sHA9PcQHat6bT7aUMIAPfu
-	 xyQzpH6ueoDHTTIWVUSR8dA3vMlIuJoP/Rrmxe3lVHgAJENm4GJBj6hLz3GeRvlfgW
-	 sQfLtTHbVfptWrMxz5esjpPqqVSHbo+NTWyg4ZzGQQHah8gi/ZidOtVZESucMZM+PV
-	 0Hrat1oFOHpBoWeQ5krLf+YsQelixQWf0T2GQqvdF2wNcVD388coEnvVe8JjJzYXeU
-	 E5ApLFFl6o2fQ==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Mon, 16 Sep 2024 22:20:25 +0200
-X-ME-IP: 90.11.132.44
-Message-ID: <c794b4a6-468d-4552-a6d6-8185f49339d3@wanadoo.fr>
-Date: Mon, 16 Sep 2024 22:20:15 +0200
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="aY0rKAt1"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=BvxtNcOAo0kiXvP5FenE6mZYPvbMOwCeGvyvTp3+oXo/7vpfnRv/5UUr1SItnvzPvRJmfxPoJAXAe/BpDVAkJSC96br84qZMdAVMCfj/LR6sDurohYjRKilz6Gcf/7TRovjIyBT9ZInQl02c20OWm/NTh/jNl4G5m3hLrm/lwXriCfMaSUKMVA801Ow2l+TDdVKArco9cKOSThndG8MACXkv74afHAN55hhwHEAPk8nUGpLmUWvSSmvwgApsC5MgNBqo4wzHySZg80xdzMZ1baKlPTaWhwCEw6JQg6ntZDVeaCDZQ5jauoWszYGRTSMsCUtbmAJQIW2LoElZkU6s+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UvxmagutfZqx/jvEM1o7MWPWcOlFJw053cAPHJf3V3I=;
+ b=e4ngKT4uMkeUckRId9LJI7FEIjSgaXOWNWrjqwLAROiMjhDt1sbs4j6mVlDlW4eGPaErOVNmT2yldyF8Fy0zWARds50xt+iIMKC6bjNihDStVGAsKoxE8jSRWC+2u9gWqEtlctzBINcb5+DvpN5TmSwu2DZflP8AUJX7P9rUMj08S1Q9zRNPnDmTjHAsGeKJTMUWDxhfbwNm6lj0wrwf53beyZgwUB98xZETQJM1z9xYUZB+5lNIndFktSN253UyooQ3432GXbsfgW2kl4MZk7DYIPwToW3g/GlX2uednqTLFqSXSXtB4lPknSIANQ2OM6/UiN5RATUazw7qZf5uSA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UvxmagutfZqx/jvEM1o7MWPWcOlFJw053cAPHJf3V3I=;
+ b=aY0rKAt1l+vB8+hr+B1Io/rsDPjYidHfXGmts+ZzmIPGYywIgSLmNtkzAQxi/FJ/oo/hLafPyXmKd+JeKN4mGHXQfibycFmMvwTrpeO8fjErJs2/7z0q84AJAnqj9qhjEvmr3cROEY+ywJl5R22y90IYaHl97KYvrcvExP7qGuw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TY3PR01MB11796.jpnprd01.prod.outlook.com
+ (2603:1096:400:370::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7962.24; Mon, 16 Sep
+ 2024 23:50:45 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.7962.022; Mon, 16 Sep 2024
+ 23:50:45 +0000
+Message-ID: <87r09j6tuz.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	tiwai@suse.com,
+	perex@perex.cz,
+	amadeuszx.slawinski@linux.intel.com,
+	hdegoede@redhat.com
+Subject: Re: [PATCH] [RFC] ASoC: Conditional PCM support
+In-Reply-To: <67b30310-6fbc-4d1d-926b-f4cc7bf68896@linux.intel.com>
+References: <20240821101816.1494541-1-cezary.rojewski@intel.com>
+	<83f81553-6dfa-46a3-9ca2-d42f54295eb1@linux.intel.com>
+	<d5db8a15-64c9-45be-8f8c-977fd5ed282b@intel.com>
+	<2ac45376-5df6-44e9-83d6-cdea49eea916@sirena.org.uk>
+	<b95e8c62-db61-4678-8c2d-2224dfb1dd60@intel.com>
+	<67b30310-6fbc-4d1d-926b-f4cc7bf68896@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Mon, 16 Sep 2024 23:50:45 +0000
+X-ClientProxiedBy: TYCP286CA0374.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:79::9) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/15] timers: Cleanup delay/sleep related mess
-To: Frederic Weisbecker <frederic@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, Jonathan Corbet <corbet@lwn.net>,
- Anna-Maria Behnsen <anna-maria@linutronix.de>
-Cc: linux-kernel@vger.kernel.org, Len Brown <len.brown@intel.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Anna-Maria Behnsen <anna-maria@linutronix.de>,
- Andrew Morton <akpm@linux-foundation.org>, damon@lists.linux.dev,
- linux-mm@kvack.org, SeongJae Park <sj@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, linux-arch@vger.kernel.org,
- Heiner Kallweit <hkallweit1@gmail.com>, "David S. Miller"
- <davem@davemloft.net>, Andy Whitcroft <apw@canonical.com>,
- Joe Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Andrew Lunn <andrew@lunn.ch>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, netdev@vger.kernel.org,
- linux-sound@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
- Nathan Lynch <nathanl@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
-References: <20240911-devel-anna-maria-b4-timers-flseep-v2-0-b0d3f33ccfe0@linutronix.de>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20240911-devel-anna-maria-b4-timers-flseep-v2-0-b0d3f33ccfe0@linutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-Le 11/09/2024 à 07:13, Anna-Maria Behnsen a écrit :
-> Hi,
-> 
-> a question about which sleeping function should be used in acpi_os_sleep()
-> started a discussion and examination about the existing documentation and
-> implementation of functions which insert a sleep/delay.
-> 
-> The result of the discussion was, that the documentation is outdated and
-> the implemented fsleep() reflects the outdated documentation but doesn't
-> help to reflect reality which in turns leads to the queue which covers the
-> following things:
-> 
-> - Split out all timeout and sleep related functions from hrtimer.c and timer.c
->    into a separate file
-> 
-> - Update function descriptions of sleep related functions
-> 
-> - Change fsleep() to reflect reality
-> 
-> - Rework all comments or users which obviously rely on the outdated
->    documentation as they reference "Documentation/timers/timers-howto.rst"
-> 
-> - Last but not least (as there are no more references): Update the outdated
->    documentation and move it into a file with a self explaining file name
-> 
-> The queue is available here and applies on top of tip/timers/core:
-> 
->    git://git.kernel.org/pub/scm/linux/kernel/git/anna-maria/linux-devel.git timers/misc
-> 
-> Signed-off-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
-
-Hi,
-
-not directly related to your serie, but some time ago I sent a patch to 
-micro-optimize Optimize usleep_range(). (See [1])
-
-The idea is that the 2 parameters of usleep_range() are usually 
-constants and some code reordering could easily let the compiler compute 
-a few things at compilation time.
-
-There was consensus on the value of the change (see [2]), but as you are 
-touching things here, maybe it makes sense now to save a few cycles at 
-runtime and a few bytes of code?
-
-CJ
-
-[1]: 
-https://lore.kernel.org/all/f0361b83a0a0b549f8ec5ab8134905001a6f2509.1659126514.git.christophe.jaillet@wanadoo.fr/
-
-[2]: 
-https://lore.kernel.org/all/03c2bbe795fe4ddcab66eb852bae3715@AcuMS.aculab.com/
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TY3PR01MB11796:EE_
+X-MS-Office365-Filtering-Correlation-Id: 72cd11c0-ba58-431e-eec7-08dcd6aa61b9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|52116014|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?eBVKghHqvNKZKv+zBwEyaBGegDyTH3RED4i3vIlmSebElYieByW7iEIuRye+?=
+ =?us-ascii?Q?/U92oOK9nztZsz0D4VOtxitBn26Xc/+FQoDNxoU63IapHK6a7wuCrJBArkuH?=
+ =?us-ascii?Q?EInjXT2SLdfvJuhjaAQK7RWpgtPzxSyv+nX7trgF64C+kT0nNI5eLmqpNDc/?=
+ =?us-ascii?Q?+jZpSm02oVmOPFpEaucyo61zo4jW1TXLJDME9C+8W6jPB5hnp7s+N49a85eh?=
+ =?us-ascii?Q?RYCRJX+sWR3z1bjBY6qCvC0/Bunpwyc0s3Vk510K92ZZO0t5cgJizibqezKl?=
+ =?us-ascii?Q?iOR/mSmXbkoa6ZiThK6zXAGlpg1DIKzszbmgfrpQDGsazabzMbFtnNvoZr/1?=
+ =?us-ascii?Q?9Fb9xgncpdE8CzG7fh7tf4CddlIVncpo3dxMsmlTO3+TzThjjqliN8PRx4fq?=
+ =?us-ascii?Q?7baQhYVYvIgUIM7w4XhnE2JA4KgK/Z2sCpecAzs2yWZDzm46uayMQm8p25mX?=
+ =?us-ascii?Q?QkdwJ0pYSyulkc2pArG1Oj/4jEoml+Ev2isVeKvwpVbhUjD6EAsiqAHMOktD?=
+ =?us-ascii?Q?y/VgbTXF45/vZqNPW0Xa2xnE/ywzUKzFBDoonDxp8e++ff8Rqr4nqyoWQE5u?=
+ =?us-ascii?Q?2IVrE3f9RmBdMsiKARIe5sx6Z0iHsRKCLAJZSdN39wgenZKoWQpZGs/rJvxF?=
+ =?us-ascii?Q?2ubnzYoXkklXfc3sE7+bZ2OtvNjS4ywtC4ue5IXuJWUROc+ep8HcocHKNRud?=
+ =?us-ascii?Q?WR43de7QHsCrioACX2hUsZf/ua1iKxF+uUDJsbbcBAx6TX3FIBNufqo9IOEA?=
+ =?us-ascii?Q?8tGyitbBb25KKllR7eVLpktEFGlA/7zFYApXbUBjGrriJwX/sLa7ZOpwMHfO?=
+ =?us-ascii?Q?xWQd0kxOZwXYS7Ky2wp1EXzb1XH4D98TilJLm0Qbv/VqxBtHFqrzI3JUaubW?=
+ =?us-ascii?Q?Eeg1AxCAcJunU/gR+yITrNkvA1VpkpwAtB8FDAKWKqguwUEkbWYqk16LqZKK?=
+ =?us-ascii?Q?Z4ecRCKyBmiks9v/WBb3HsFXw80Fkh/ohwtwmj7U2pkTdzFC+C7HkYX7WOo3?=
+ =?us-ascii?Q?AoMapVEChpkDjE5eeS3VoLgV6DI3I2U/Sj0prFfyfWFvrs/5tT8lXUDBnlf4?=
+ =?us-ascii?Q?8HSpOg5u9TQ9583sRnTuJc9eyLsRTG/NZqBMr906+onY3Tk0K0MD3HrYytay?=
+ =?us-ascii?Q?WpxqC0LpzQf9P4iop816zLYStq4nRFdEYunhX6PwWnZxqjZ7Ds8viRkRRmXR?=
+ =?us-ascii?Q?etjblQN/JZ2kfPS+IlJtarc+EzqVNLXjjccxmUcoTVjaR4WKBUzaAo2ZfRu/?=
+ =?us-ascii?Q?CKi7iPQjhQQIDYDvqr+fcY8QFQh660WGqSeC4PWLp25qfXBulll4t2X9GCCW?=
+ =?us-ascii?Q?ZwMFy88N3/e3m1bfDqf9eY30bkkb/ry6n5sNIjS1pX78k+jrzK1T+0dqHzwS?=
+ =?us-ascii?Q?mSpLcWoNTiJ9FvpTiQF8XysMxYNk8quz9bHK6tQ72VtooDBseA=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(52116014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?pxNaxjFAaPM2AXQth0Xtf3qf82gFY/tigOBPhpbJgFAwx5ro4s6tki+Vxr7u?=
+ =?us-ascii?Q?k3m3/7m64/zbW0QtwqDnzCmeC/kECSfgVvFYUnHNtAPemau3zBPRjqcRoKpU?=
+ =?us-ascii?Q?BQmejLXKMl10AXPJp7z7MRw+2EsCjTJ20ZVV76eyXDMmiJOND2+V09vwuI+o?=
+ =?us-ascii?Q?SMhEzY4MXBdG9d/KoQyDTyvRG1rtRWQgyvdyxh3m4/j9/qX8tsBYlzUdHKh7?=
+ =?us-ascii?Q?uZDRfk/CKbee4AYIupRO7QKP+M+JKbkyQcM8PX8A7E05Yike9nO/jVVersNc?=
+ =?us-ascii?Q?C3VbTP0BxLUME+QfVTb63874NEncOgobX0Py5hh83CHr4eMWbZYQPkfO81Q1?=
+ =?us-ascii?Q?euLF9sbaTO3Bib4yVLNiM+SfbhP5eSr0dhA8W/z4gru6nhPgslPjzQyK1Kdg?=
+ =?us-ascii?Q?nMCOyBdZ/nEa+xEwm7Dy7101Oi/k/1k2Sl+eielyHojMZCyQlIQ/G1h9uzsi?=
+ =?us-ascii?Q?ixhg+eG0VRxwW7TJO5CiI1KgC3D1psV39P9B22g+OWousq2W6h+EkW2fo0pK?=
+ =?us-ascii?Q?h79ePtYXqb2GiX+NgwdUnJiLtdAxXzVwM5BKQg9tnFUAJnPX4ZQlKL6cvB+0?=
+ =?us-ascii?Q?lIbkcf//5Q5tSbrqj+/BTxuxzZDgw8HzK0suyMWxxoorYhc5CA8X7wVmBm1z?=
+ =?us-ascii?Q?6ahS4wNeC+dPkFZzQuYxmp+FGB3dQloxBZYxZk2pJQIhxNVzjXF5a6BB22du?=
+ =?us-ascii?Q?dqRUJ9u2pom5wCHmnc18FeQ56J44iy2+qOufF47eDlPmMDHhrGhTuFHXbEkr?=
+ =?us-ascii?Q?t5btfFmVWTnKRJ9bRjqgawg++vRvoR5NHglr3ZRHJNJne23Tznmc3h9Qh7ZA?=
+ =?us-ascii?Q?K1hfna0T1rGhuZU59fGIOIMedqmX7zbM5coDv+s4FYve/yExZ8XIHJUIIoqA?=
+ =?us-ascii?Q?l4uon5AHc82fb47rkVQT37zkEMWfXR2mhJp7361lWiR9aueHoPREo7EHHE9U?=
+ =?us-ascii?Q?TtwyxU6uQZyBKERbaQwH+kN/ht3G1k8LCsDCSJ9NGIkDt9GuFBa6ye5271Vn?=
+ =?us-ascii?Q?GDmCfVRPSMrrWcPthL/bRbjnC4g9XYizo54/5C5ItqQtzVQqwqw/hYgkql87?=
+ =?us-ascii?Q?d9/uRcedYN5hDeVhLCpVQEMrgbvOpVp/Y5t0xcPB4E7E+1ilGtF5Z/pfYTu+?=
+ =?us-ascii?Q?XDUPgTKzMSzPzQvBfTk+yCfUnaKqxysD26R4TGVRjf2ZdBmMzrwy/x702Hdz?=
+ =?us-ascii?Q?y+fj9RRpg7Yg5VqOAeGeoQrF1s6g3u2SFzrnOkqs0VClcStj9401abgLjT9Z?=
+ =?us-ascii?Q?29/wibfs/DBlHorYOvKxBEol4F7XSpuhIJ2vsJCJN8nvgPEZHR9eprLOzkHI?=
+ =?us-ascii?Q?lS/yhIgw4lDO9/MjRGyaTUK1wnITNCFWhzylL7z1Hu36WBKuREWoPe/sfWNU?=
+ =?us-ascii?Q?P/m7kQt7fvlthYfbPHJMs06f5OccrOdJgs+vW7ykEjpZjv9vXqQHAnGEvmlb?=
+ =?us-ascii?Q?hRtsAj7zLR+BEdmihwt7s7vRCx/AqFZCBmeVfkCx0NjqV1cCieRiO84BJZPm?=
+ =?us-ascii?Q?Hst2IBMVAtIjcod+CQFqZbeuIDFjj1J+50DKe+ZBqmJ19diAPz3TzxokXoRM?=
+ =?us-ascii?Q?oWt5Q35CB15B7GpR7v/iPvgsiUxARwuE0n4a/A0M7PGFe+os4/VNlWpSSWCy?=
+ =?us-ascii?Q?XyGgM2fdJsj1lAVteigZHww=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 72cd11c0-ba58-431e-eec7-08dcd6aa61b9
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2024 23:50:45.2950
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +ODSJ+/oVSBJ7MDnmQyD1qlQ+0HdRc+5oraZeszdF9ChIVPi5AfZXUjnB3AygAsaKf7HHTo7JcBRcedaPH91ZiqSvbPQogs5Uz1mgjj/JwvzjVvzOjCy2OW3+mjKwIHE
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB11796
 
 
+Hi
+
+> > From my experience when it comes to redesigning/rewriting entire
+> > project, the "upgrade an already running train" strategy does not work,
+> > so I'd not recommend that.
+> > 
+> > Instead, I'd suggest to have a second, separate DPCM implementation
+> > present next to the existing one and have users opt in during a so-
+> > called deprecation period of the existing one. Once certain amount of
+> > time passes, switch all of them. Clean slide also makes it easier for a
+> > developer to be creative.
+> > 
+> > Do you view the second option as viable?
+> 
+> Classic problem without a good solution. In practice new features or
+> corrections get added to the 'old' framework and the new one is not used
+> by anyone just yet so it keeps running behind in terms of
+> features/maturity. And due to limited validation resources or limited
+> access to a wide variety of hardware, no one is quite ready to enable
+> the new framework on 'old' platforms because that would break quite a
+> few devices.
+> 
+> The other problem is that the 'switch' would mean a compatible solution,
+> but the problem is to get rid of the very notion of front- and
+> back-ends. Existing users of DPCM have undocumented hard-coded
+> dependencies on the order in which callbacks are handled, it's not easy
+> at all to change the routing engine.
+
+I can agree that upgrading existing framework is not good idea.
+
+My Idea is push exising "old" framework as v1, and create new framework as
+v2. We can use both version in the same time. And we can add more new
+version in the future (if needed).
+
+I think we can use "${LINUX}/sound/soc/generic/test-component.c" to test
+v2 framework which is dummy CPU/Codec. Everyone can use and test it without
+HW. We already using it as Audio-Graph-Card2 sample.
+(${LINUX}/sound/soc/generic/audio-graph-card2-custom-sample.dtsi)
+
+Thank you for your help !!
+
+Best regards
+---
+Kuninori Morimoto
