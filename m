@@ -1,161 +1,178 @@
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2079.outbound.protection.outlook.com [40.107.101.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 723174962C;
-	Mon, 16 Sep 2024 06:15:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.79
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726467308; cv=fail; b=e/rcVdEH/Aoiz6Cd5trVj/oBQ+q64fMCNwh0AkG/2VGhljxgoDLi2UHkT4L5a0t888RKXEdYkUe12LFkUPFWQZYI/DM/dgp/3jeIsXnQTuEGo7vV8X8azz/vbHPrJ5NVXINtr6yylkCUEpiCtNxZrO/vkviyq+UGLIs2vJqGe1c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726467308; c=relaxed/simple;
-	bh=QLW6vuKgACG0iXNvva5vMFlfQhIUD354C6HZ67AlXs8=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DAMFqtWwpNMig+u8ltMBTajP6f+coXdaGAHxRlBikFMpWKkJs+XBSEjrsv0rdbwFuID/Ybh0sBBymTPi4BYwvJpd33RTsEYnIUCtG66bLPNRGQOD02dJ4Nw1QuBRrkUOPuqs7WhkO5u7VH/ajfhtxZZ0I0Y+CHNR7DIoMfavDFA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ZLLKUBBX; arc=fail smtp.client-ip=40.107.101.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4D012BF02;
+	Mon, 16 Sep 2024 07:18:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726471089; cv=none; b=J/9dspoUq/rnt6k9JV08uq/PuLm/3PgmFWKPjF1LiuA55kRZDZeoKfe5dE07XrVMXpiTfnPiKbKxN6CMutEPMfMQqm339LR+/29u21vq+tBz0/xinrBiH+Hdm7Idhfy+866xeinuQ8Z5+GOOssQjtk+TYpgTgT2MF8FSkjR+WPQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726471089; c=relaxed/simple;
+	bh=m5xjs9XVlGg9b0/abligfmacSmVsMUqsrLBPBEW6Grs=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ulkmut8srPvqQod3iIaXIhT9IQFA2PMFeDOBPMc7YihAfx+8Uw42MYYDv7EgHYBBYW7K+0Sz8uqtYQ9L2WfhKQ/VAIHbIGlh9gvfhIssfSe5hca3KWWaoF7CuapzROrUct+0izCy7CVg/38Cl5aP9L6vglXbJvknnukm1DvZJHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=a5iRAYv+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=tNdv1FhU; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=a5iRAYv+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=tNdv1FhU; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ZLLKUBBX"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KGpxruq0AqNEYYuXaGAWgGWi7tM481YmP+V2PzW6jUWdvUL0oYwShohShwEwirimsk3JX2IptRtab2UW7L7AkR3fznZVijC8S+FoVktb7gwnXWarGiGcCQC8AOgkfZfhpDkjnlZENlSWgaaTuE7gnVbURPv5Fc7zh+frwkX3uipDYS8itfXJs+sJI9Alq7uIZx8w1H9cmQJSyX22Bkx5lqGYHBMPI05rYcZy3QNWRJUpdtIu9eAXFooCTL2nPaw4ZcG362emmO2qw31Jx/737PLhG1ErR02lI/4Xf1EbWnPUbqGI9mFkxydV9x+isYukrXLPI3wlGSGM7IFlWNHbuQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jlx3PnYfTh7yzkk0FktCj7DkfzHVDHr0+3oWxLS+oGU=;
- b=uLZX9S4atum5ikyvx2KsIDe2VjrOS50karrIfUO7hj1Tmx5egmc+hjUSbINK96vZACP0lfd2PvIdeF7MJcakYlUF6The+o4GAMjpzG80PhZIvAZjyFJXW+2QEfKVNtneDSnK4GVv9wLTsUSMvqdi5i9EeHbc7lxLVuBV6Dakpt3UBOn3GziIxljFu16sxU5B7y/ZI+UYTiT0fEE0VnY2f9W2dx3oHMfzlSTcTq6fPtauSa0SKIHUicRp+olvJ8LOvwHSvt/UfcMfgObUomAgQEKwr/TS6DB0j6Hxo8LlVF7qStkpUlEslcPv8K4lCc0qMUHn0J94lt+wmGa0rruX7A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jlx3PnYfTh7yzkk0FktCj7DkfzHVDHr0+3oWxLS+oGU=;
- b=ZLLKUBBXn3RT1ADFh/uEqREpbFiKlx+5QD1mmftlecNSU5zITdM5TXaGAUSQIJg1c8qt/dhJ7s3jGnL5ZWc7lVNdSF7BJbPtYEpBAUFoylqA0qmDp8svi7HCwKNH2hH4LocNkdJFymzsyXLwu6sF5TavZGp5wWuKyPdivrjaqD0=
-Received: from CH2PR15CA0005.namprd15.prod.outlook.com (2603:10b6:610:51::15)
- by DM4PR12MB7551.namprd12.prod.outlook.com (2603:10b6:8:10d::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7962.24; Mon, 16 Sep
- 2024 06:15:02 +0000
-Received: from CH3PEPF00000015.namprd21.prod.outlook.com
- (2603:10b6:610:51:cafe::d8) by CH2PR15CA0005.outlook.office365.com
- (2603:10b6:610:51::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.29 via Frontend
- Transport; Mon, 16 Sep 2024 06:15:02 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CH3PEPF00000015.mail.protection.outlook.com (10.167.244.120) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8005.1 via Frontend Transport; Mon, 16 Sep 2024 06:15:02 +0000
-Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
- SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 16 Sep 2024 01:13:49 -0500
-From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-To: <broonie@kernel.org>
-CC: <alsa-devel@alsa-project.org>, <pierre-louis.bossart@linux.intel.com>,
-	<yung-chuan.liao@linux.intel.com>, <lgirdwood@gmail.com>, <perex@perex.cz>,
-	<tiwai@suse.com>, <Basavaraj.Hiregoudar@amd.com>,
-	<Sunil-kumar.Dommati@amd.com>, <venkataprasad.potturu@amd.com>,
-	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Vijendar
- Mukunda" <Vijendar.Mukunda@amd.com>
-Subject: [PATCH] ASoC: amd: acp: don't set card long_name
-Date: Mon, 16 Sep 2024 11:43:18 +0530
-Message-ID: <20240916061318.3147988-1-Vijendar.Mukunda@amd.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="a5iRAYv+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tNdv1FhU";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="a5iRAYv+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tNdv1FhU"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C319B1F86B;
+	Mon, 16 Sep 2024 07:18:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1726471085; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/VvYwHRzNWPnqirKJo+tSyHgM6efeQ76sEtro7Yl3P4=;
+	b=a5iRAYv+QsIAxU1XZr1VlQq7pcs+/HiW1v8ScleOkA9lXrqI+JtC3pp97IWP1pevVnKws6
+	h7DKjeLj1AnmUo1iSHUviy7QvBBpZL6YqsPb75ArEjNtrJyb6bFcOaphU46JyckIhMrNtb
+	O5TmW5+iTE4gXEMMYS3EZLZYsYxN8Dk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1726471085;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/VvYwHRzNWPnqirKJo+tSyHgM6efeQ76sEtro7Yl3P4=;
+	b=tNdv1FhUSv/rLmGU8NLJWc6/J0gQmCKvWGaXtopX78M/bmvEwb0eEoDku2cGr3CicInOeZ
+	Yzzif8UQAfN62GAA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1726471085; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/VvYwHRzNWPnqirKJo+tSyHgM6efeQ76sEtro7Yl3P4=;
+	b=a5iRAYv+QsIAxU1XZr1VlQq7pcs+/HiW1v8ScleOkA9lXrqI+JtC3pp97IWP1pevVnKws6
+	h7DKjeLj1AnmUo1iSHUviy7QvBBpZL6YqsPb75ArEjNtrJyb6bFcOaphU46JyckIhMrNtb
+	O5TmW5+iTE4gXEMMYS3EZLZYsYxN8Dk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1726471085;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/VvYwHRzNWPnqirKJo+tSyHgM6efeQ76sEtro7Yl3P4=;
+	b=tNdv1FhUSv/rLmGU8NLJWc6/J0gQmCKvWGaXtopX78M/bmvEwb0eEoDku2cGr3CicInOeZ
+	Yzzif8UQAfN62GAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 98B781397F;
+	Mon, 16 Sep 2024 07:18:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id pyP2I63b52auKQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 16 Sep 2024 07:18:05 +0000
+Date: Mon, 16 Sep 2024 09:18:55 +0200
+Message-ID: <871q1k9icg.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: linux-sound@vger.kernel.org,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ALSA: i2c: cs8427: Use common code in snd_cs8427_qsubcode_get()
+In-Reply-To: <641210ba-571b-43e7-9007-5633a6c7434c@web.de>
+References: <641210ba-571b-43e7-9007-5633a6c7434c@web.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PEPF00000015:EE_|DM4PR12MB7551:EE_
-X-MS-Office365-Filtering-Correlation-Id: 33e08e23-8a6a-4b48-9385-08dcd616e67a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?cX67xDwURB0ryWIVRlY4IQ9ROScY30IaasPgbDQkd8tr4hEuAfSMw/ARcISj?=
- =?us-ascii?Q?YTWKLpqRWso9bizSgViX8xNAKWMhUjChp6Fl9wvJeZOU8fd/czQnIkhk457l?=
- =?us-ascii?Q?+vxoWLkwOVyT0GeCvOzZuuAgMXML71LZN2ebTpZ8MWRpm2zBI0BtClZBgNa5?=
- =?us-ascii?Q?ugBmIWXxZor1GNTgW9QQOd0nVjaO2Ow1gKY3EB8RK4O8ihrFjywrvA/V/NcP?=
- =?us-ascii?Q?nksvh2KFmmyaSk2cia22G5uRQ5Ur1psB9bfP7kGvlQDFF0ZRFXGlrvGBdkVv?=
- =?us-ascii?Q?g9lrhv5O7K6nOVLA6ktQwWhHusCkLXTWXK+49tqU87eoKKC6bOPgRCX6tr52?=
- =?us-ascii?Q?SSmBG/dyWrmAsTvg+ENx9UMgBKLg26onqh8+GIM7+qNa+C2Gy5Wa93rBmvek?=
- =?us-ascii?Q?aUmp9is1jpmZ7l+snFoWz+QdhvXqPs13qoYEfNiiiptC4/PnlnQYkRSEzvtS?=
- =?us-ascii?Q?wV+MtZ86JxkqyD6mdL4waPni4MkG+C7SrBqFZNZzu2y4nkUz7/lFI7X76YWj?=
- =?us-ascii?Q?WCUUQeTuydtA1ALueXUHTGHoYZ8hXOR986dzxbzuhbMVcoMCbKbfPCPqX7pX?=
- =?us-ascii?Q?6XGLbJxnI7P3sBiMCjwTMNelwfp97hG/pgrs6CZQ26NojVELBDc1Na9MsJ2K?=
- =?us-ascii?Q?e9v9r7cGcKyLg88qeARIspGuyCKE3iUdxwFWtqb/sDyl/Ml2CSchAphFDwpA?=
- =?us-ascii?Q?W5bmFFgcCDMRzqr3iA5Nh/6/aWEJO7Sn5QNC1DIyPrc1vnMnaORG+t5OrM36?=
- =?us-ascii?Q?l+qupglsHhCC3yCpwG4dwbR4m+g7vDQGhDCPaEnwCsVs5PDUTt1/cSB5yLba?=
- =?us-ascii?Q?mx+AUjWpe4txQG4M9u3/ZIlmWzAKa+m7ZJovV1XYVwxoIVtd1VQl2ZUcgPZ1?=
- =?us-ascii?Q?Jz6AZln+VgNzM9j0dUu3PhmEKwi+qWCM2zTKqFtMlUGgVOOqhi9VbKsjvHYk?=
- =?us-ascii?Q?Y6Q/yiZjrLhHL0dqRnRo+I6Tk4Tt1FN+cqhVoe7bgMBcqdROSDtfHag97R2G?=
- =?us-ascii?Q?PkFrVQEMfL6rvB6w+HXFbE/jdOjLHS9SBk+Uvl4M3i9oUhF8Kr17Z24POR1s?=
- =?us-ascii?Q?IdSPdi6/4A8gsiXPys1rCoX8m+ZrHp2upjGaZnc5frTujlp+iJaYfK0H2OVz?=
- =?us-ascii?Q?q79x2Mt+Onkv3CqEpYFZvcSTpclws2kJKJ5RAiIVLR8D1ef5ERfsHtEjiWBa?=
- =?us-ascii?Q?XqhHruKcILgmBFhHYWXapbo1QuJwFSr7Od7mZ9PRI/JGCbvf8F9Eai8xoMkI?=
- =?us-ascii?Q?POnM6nHejG5wcR9bozgT+yLZL9Iir/rPj8Guia1v875HnxESOAU9P3fq3k3+?=
- =?us-ascii?Q?+/jBhyAoObzF3webdJuvU83mHw8pbXzBVhSW4IwGBgVc8TKhYJ7EsO6cz1Hk?=
- =?us-ascii?Q?v5eYas01TCBQCBcD1l5k4qZUe8QDW5fuDvymeve8jfJqnGt58M3S+F9mI1Su?=
- =?us-ascii?Q?yX6usDpEZxMNtCZk6RA/By7pBl3yucFs?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(376014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2024 06:15:02.3247
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 33e08e23-8a6a-4b48-9385-08dcd616e67a
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH3PEPF00000015.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7551
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[web.de];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[web.de];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_TLS_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-UCM can load a board-specific file based on the card long_name. Remove
-the constant "AMD Soundwire SOF" long_name so that the ASoC core can
-set the long_name based on DMI information.
+On Sun, 15 Sep 2024 13:48:51 +0200,
+Markus Elfring wrote:
+> 
+> From: Markus Elfring <elfring@users.sourceforge.net>
+> Date: Sun, 15 Sep 2024 13:38:29 +0200
+> 
+> Add two labels so that a bit of exception handling can be better reused
+> at the end of this function implementation.
+> 
+> This issue was detected by using the Coccinelle software.
+> 
+> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
 
-Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
----
- sound/soc/amd/acp/acp-sdw-sof-mach.c | 5 -----
- 1 file changed, 5 deletions(-)
+The double goto jumps aren't nice, either.
+I guess we can do clean up better with cleanup.h stuff.
 
-diff --git a/sound/soc/amd/acp/acp-sdw-sof-mach.c b/sound/soc/amd/acp/acp-sdw-sof-mach.c
-index 6c50c8276538..306854fb08e3 100644
---- a/sound/soc/amd/acp/acp-sdw-sof-mach.c
-+++ b/sound/soc/amd/acp/acp-sdw-sof-mach.c
-@@ -400,9 +400,6 @@ static int sof_card_dai_links_create(struct snd_soc_card *card)
- 	return ret;
- }
- 
--/* SoC card */
--static const char sdw_card_long_name[] = "AMD Soundwire SOF";
--
- static int mc_probe(struct platform_device *pdev)
- {
- 	struct snd_soc_acpi_mach *mach = dev_get_platdata(&pdev->dev);
-@@ -463,8 +460,6 @@ static int mc_probe(struct platform_device *pdev)
- 	if (!card->components)
- 		return -ENOMEM;
- 
--	card->long_name = sdw_card_long_name;
--
- 	/* Register the card */
- 	ret = devm_snd_soc_register_card(card->dev, card);
- 	if (ret) {
--- 
-2.34.1
 
+thanks,
+
+Takashi
+
+> ---
+>  sound/i2c/cs8427.c | 17 ++++++++++++-----
+>  1 file changed, 12 insertions(+), 5 deletions(-)
+> 
+> diff --git a/sound/i2c/cs8427.c b/sound/i2c/cs8427.c
+> index 29a1a7a0d050..ee650006cac4 100644
+> --- a/sound/i2c/cs8427.c
+> +++ b/sound/i2c/cs8427.c
+> @@ -397,18 +397,25 @@ static int snd_cs8427_qsubcode_get(struct snd_kcontrol *kcontrol,
+>  	if (err != 1) {
+>  		dev_err(device->bus->card->dev,
+>  			"unable to send register 0x%x byte to CS8427\n", reg);
+> -		snd_i2c_unlock(device->bus);
+> -		return err < 0 ? err : -EIO;
+> +		goto recheck_err;
+>  	}
+>  	err = snd_i2c_readbytes(device, ucontrol->value.bytes.data, 10);
+>  	if (err != 10) {
+>  		dev_err(device->bus->card->dev,
+>  			"unable to read Q-subcode bytes from CS8427\n");
+> -		snd_i2c_unlock(device->bus);
+> -		return err < 0 ? err : -EIO;
+> +		goto recheck_err;
+>  	}
+> +
+> +	err = 0;
+> +unlock:
+>  	snd_i2c_unlock(device->bus);
+> -	return 0;
+> +	return err;
+> +
+> +recheck_err:
+> +	if (err >= 0)
+> +		err = -EIO;
+> +
+> +	goto unlock;
+>  }
+> 
+>  static int snd_cs8427_spdif_info(struct snd_kcontrol *kcontrol,
+> --
+> 2.46.0
+> 
