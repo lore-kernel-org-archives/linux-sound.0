@@ -1,81 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCD8953389
-	for <linux-sound@vger.kernel.org>; Tue, 17 Sep 2024 09:02:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02B50150990;
+	Tue, 17 Sep 2024 09:04:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726563748; cv=none; b=F2cjEfZq8Y9jiuYfeXRQidcdg/AFZALSeKNmz7xD2uTePIArSnGfkJDHWp0a2cGyaSdv8Q5Tyyq4OZ+tKonmGZFXGGDDGX1rfTaOD0f30l7RqzAh6c9w0moJmriQ7AZBDxA1EHthTFCLefB1JFafwNT5YZdJDf/d7rap1zcMBEI=
+	t=1726563881; cv=none; b=CYyON8CekeyrDP76HlJBp7l5++G+vONTwY8B5hc0cX4rfWG12VhjU7kclQHeDanaJybEf5v0T6J0D9bFyNAjD/3h6APpW7U4bLR8piGKKMgNFchAliMnhtAPY3AiPOegPiWhf7xeKVmcow2u+QDXNDFZtufEyZSJwcuR5kzdDPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726563748; c=relaxed/simple;
-	bh=bSRixtAWHVVIwr2GzKE3LSqNFD9OgQW5JQeRtqPz+20=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jMLJpbAB3qnKBDvtWd2uxJG2G2gFsoHwMHU0MhVOpx8DrAGn6IeM6pW5AGmlx1Xp/KDxJxZNviDGKe1Chc0sPW4b8ZAMufM2tTb74X/3zNHCLZ0k2lhlkZkimuGlNVfAGTpdBcfHwFAn10quX0h+zQ6b455vevmiB3CwFPQxzOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=svhfgCbM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1726563881; c=relaxed/simple;
+	bh=5NCGPiERJ+Jw5qTfwSzmHF6iCdF89H70h6XEILDhTIE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=i/Pnp9DC411k1ssPzZJK3nXdGPGila/tMSTbGu9N2R/Tm8jrsVraFkFYhkfQz55a804Moh2E0iwt2UbBEiaJWD381/OTFfupR7Skz4ELc21HtcNCdYAPFP6TofbLhbGK1VYMzuFZ5qqifXVwcXsmfhshxK4IpO+jOjs/pOdtUDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=S5RMeAyL; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="svhfgCbM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D91BAC4CEC5;
-	Tue, 17 Sep 2024 09:02:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726563748;
-	bh=bSRixtAWHVVIwr2GzKE3LSqNFD9OgQW5JQeRtqPz+20=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=svhfgCbMw9ARucec0VE7+EK4GO1WMLFoFSJ9MVptPCx1yNP7jRw5icXD/ziG8PGZD
-	 Q+LlGuEiCqUjD58DANauFKkwsloDV+pt8onSTK9mk91ACJ3RPc5XHRELatg1JITIGT
-	 6Re04C/RV+L5ARfY0iOgpCYEQgH/jGv0lqkqNwx8I+HBw1y969FUYgPGi2eJ+panZZ
-	 C3pG/ONEsXdJZ/aRLdBe+njjZSrXUv+sZsfeqHjB2OvJDQ/b1HcWQifZMx+0kS9hGp
-	 mLDqpiweqfFA5aV7xEqIvrQ38y6OaSmLnaX99RbAT0daYnbcUb6JG4eGr6VpbH80ax
-	 469SzAzBWHOYQ==
-Date: Tue, 17 Sep 2024 11:02:23 +0200
-From: Mark Brown <broonie@kernel.org>
-To: David Glanzman <davidglanzman@yahoo.com>
-Cc: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-Subject: Re: [PATCH] ASoC: amd: yc: Add quirk for HP Dragonfly pro one
-Message-ID: <ZulFn0Vbz9XUHA-r@finisterre.sirena.org.uk>
-References: <229243264.8919425.1726551100908.ref@mail.yahoo.com>
- <229243264.8919425.1726551100908@mail.yahoo.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="S5RMeAyL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1726563878;
+	bh=5NCGPiERJ+Jw5qTfwSzmHF6iCdF89H70h6XEILDhTIE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=S5RMeAyLuLMXAZ2qIVHPpQd+yUU7hN6A9HmCHPyK3f/Qm4sqiXA2P5IDtgTO6x+CA
+	 gY9CznaCeUisJIeO7nOfj9MvveNWSI96sSPNWHDMTf3HO1lOXXEQRXgs5Yqo/VIw5X
+	 3EzWC/6RCGN4xCicPAKEqbaYzsy4XIpR/EkE432JijXfSsEhiXKuuC9+tPDNxLdUP9
+	 P2OUxIR7t8sYk+AtNUm9IrY+oLh5bnYHNEyiwHQBNPsef5b7lGbZhtNkygfnOFy3FJ
+	 TBSgxGOyL/YUvetV7okyLSdFBN4RSsA5Dt9gxfphjhOQY1Y6C7zN9zLm2AD/oWg5TP
+	 R4jGK++Gne67w==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id ADEF717E107A;
+	Tue, 17 Sep 2024 11:04:34 +0200 (CEST)
+Message-ID: <08bdcc19-023b-4c7d-9e01-2b04cac00a08@collabora.com>
+Date: Tue, 17 Sep 2024 11:04:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="A1n6xOuh83IEj0Y4"
-Content-Disposition: inline
-In-Reply-To: <229243264.8919425.1726551100908@mail.yahoo.com>
-X-Cookie: Results vary by individual.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 3/3] regulator: dt-bindings: mt6397: move examples to
+ parent PMIC mt6397
+To: Macpaul Lin <macpaul.lin@mediatek.com>, Andrew Lunn <andrew@lunn.ch>,
+ Florian Fainelli <f.fainelli@gmail.com>, Vladimir Oltean
+ <olteanv@gmail.com>, "David S . Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Sean Wang <sean.wang@mediatek.com>, Sen Chu <sen.chu@mediatek.com>,
+ netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Lee Jones <lee@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Chen Zhong <chen.zhong@mediatek.com>, linux-input@vger.kernel.org,
+ linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-rtc@vger.kernel.org, linux-sound@vger.kernel.org,
+ Alexandre Mergnat <amergnat@baylibre.com>
+Cc: Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
+ Macpaul Lin <macpaul@gmail.com>, Chris-qj chen <chris-qj.chen@mediatek.com>,
+ MediaTek Chromebook Upstream
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ Chen-Yu Tsai <wenst@chromium.org>
+References: <20240916151132.32321-1-macpaul.lin@mediatek.com>
+ <20240916151132.32321-3-macpaul.lin@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20240916151132.32321-3-macpaul.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+Il 16/09/24 17:11, Macpaul Lin ha scritto:
+> Since the DT schema of multiple function PMIC mt6397 has been converted,
+> move the examples in "mediatek,mt6397-regulator.yaml" to the parent schema
+> "mediatek,mt6397.yaml".
+> 
+
+You can instead just keep a reference to mediatek,mt6397-regulator.yaml in the
+"MFD" (pmic) schema instead.
+
+It's true that for MT6397 you can possibly have only MT6397's regulator and not
+others, but still, the logic is to:
+  - Say that MT6397 supports regulator subnode(s) in mediatek,mt6397.yaml
+    - Refer to the regulator schema (mediatek,mt6397-regulator.yaml)
+  - Keep the regulator schema (providing only regulator HW specific info)
+    in the regulator folder.
+
+Besides that, this also makes the main mediatek,mt6397.yaml schema a bit more
+human readable... :-)
+
+Cheers,
+Angelo
 
 
---A1n6xOuh83IEj0Y4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Sep 17, 2024 at 05:31:40AM +0000, David Glanzman wrote:
->=20
-> Adds a quirk entry to enable the mic on HP Dragonfly pro one laptop
-
-This doesn't apply, it looks like you've had spaces converted into tabs.
-Consider using git send-email or b4=20
-
-   https://b4.docs.kernel.org/en/latest/
-
-to send the patch
-
---A1n6xOuh83IEj0Y4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbpRZ4ACgkQJNaLcl1U
-h9Cy8gf8C9ejIvc7ohJdOGFJufX0OivMYKqFX59880aHOaEYvaYJNWoFXF1lsNaH
-jGwtA6u1ve2yqK+v7teNkKW/j9EsCj7KuyYX95xtRBr0IIL4wBJafO966HwWhFDu
-cPqVPm163RPQUbzBrPXay/eqMCUeMroES79zWNZiCMtTBgiaQXIdhxEyslWE/LNc
-RPXAgj4abLr6qTDcZSp+0YJky/W7wF31K/jSmJAWoeRNJ3GUswSY7Mr65voUAx6Q
-frHMsy7ernYy8CBEbPBL0tBEuv7JxyH9IC8qcYqzR+W6Th+fRv6mUzX1RJCnhEZg
-vTwu0TQ1rxl2rpNxoyus3ciRxMPhXQ==
-=6Ju3
------END PGP SIGNATURE-----
-
---A1n6xOuh83IEj0Y4--
