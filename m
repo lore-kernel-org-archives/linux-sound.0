@@ -1,40 +1,41 @@
-Received: from smtp.smtpout.orange.fr (smtp-13.smtpout.orange.fr [80.12.242.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.15.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A7FF49659
-	for <linux-sound@vger.kernel.org>; Tue, 17 Sep 2024 05:22:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F5B9A920;
+	Tue, 17 Sep 2024 06:33:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726550537; cv=none; b=XrB1tApPDtpqeUfV5dxJcz2Kgh7F8Y89GR5pWDOXkoGJwaGUkoz/Q+zEGsIpUD/4dt9SqH4Ub9JDvy6FTWerD/QcOCmeO4RYtkHGHSr2NorVTtI3+6X4Q1OpuTiM783IuGgNrGjm0yrd2V1jVx5iwdVyYpjQkSK4NU1aTGsw6hg=
+	t=1726554811; cv=none; b=ZE5uOv9BOGVn/ye1ogRCKfqvUVZK9529hlAZU3g2S6OFybCd9a2MK3E/KGZqSYUTb91/Tb6ZgEgv4iM04Hu92TEsTwSQYjih8CiHRsd4LsN40T0YdHo4UfPIcrl4lwVRkrVhMHNxTsCiQW6BxxN/We9eAKZcAw+qpcrfI/2lyjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726550537; c=relaxed/simple;
-	bh=FROrw0IXlzItQSfhHRHUvjIOTBu4ABMZqIMKJtQffAE=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=uHjtWF+1hFLdFec6kwJc24zlxtMkwRYnIhwCtLycSQtER8ZIOmTHGPg8UkWFhUy5efHg5oiqt7bIeuTuYLA/KvxuGevYezbX02j68SA1XAp6N7/D1OlpG+qnyY6q351qI1hr6UTWIfAN/MnCVjNgOdhSsOPWTPCx/xB+1puLOHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=uE7YHFnc; arc=none smtp.client-ip=80.12.242.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	s=arc-20240116; t=1726554811; c=relaxed/simple;
+	bh=ECmlqsRJHFStk7ZwMYT9duUZUwvd7GLO3f9Ch44Z8Ag=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dkwGO5LAlhkHfB/S0ljYH+jzI/mDJ5RL5BiSKHGpyasfNKwlhfEota9QGMxE39ca5eR7AyOo/TojTtFARmuYB1Q3STKnj9OXEj4t/O3n0AGywlhJoa89ZwLU/2iwQ6W2Yg5FGrZqfPXuZs34hLF3FEE/0C56aDBgLyqnXdqxFWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=uxXM7dGB; arc=none smtp.client-ip=212.227.15.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="uE7YHFnc"
-Received: from [192.168.1.37] ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id qQf2sEuii3ZMyqQf2s4PfP; Tue, 17 Sep 2024 07:22:08 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1726550528;
-	bh=ox/BUEVjGvecYqicoCV10v4Q9kXMIsRKDm9TgbacwPA=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To;
-	b=uE7YHFncSbIkns75ceMLvKBWR2lLESwDluJGLQhQBCQV5lrcOaRwCaTNTSOfcQpVq
-	 HJm+j7e1uOEsx+GUZ7TkF+WOOqssb6mQ20ALFlGIaRf9KYFvSjIxmC0ctChK9RKjkP
-	 VHegYqJfxnmpTt+hhya69OXSYxRcdh4NY3Nx4ludydVSWdFFHnCuY48Vq5d4BGuFHH
-	 iIBCrqPhkEWoNiBUDqoomBPmojMFvpSGzksiXevYTJzesiUhHvUmNIIDj1if0WR1dK
-	 bCJHsDM4ZJQSKYDiq97zSpNKRY9B+XwVjxgT8qhAE/jWfxA728uT22uHSOZu+Yfgmr
-	 KFRvY0tmnJyeg==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Tue, 17 Sep 2024 07:22:08 +0200
-X-ME-IP: 90.11.132.44
-Message-ID: <6cbedd50-c2d5-4ad7-8133-774eebd9d2f1@wanadoo.fr>
-Date: Tue, 17 Sep 2024 07:22:00 +0200
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="uxXM7dGB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1726554799; x=1727159599; i=markus.elfring@web.de;
+	bh=ECmlqsRJHFStk7ZwMYT9duUZUwvd7GLO3f9Ch44Z8Ag=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=uxXM7dGB6VKZKpUmubvDWvD3OB78si0AyNv8WXQJROgNJTIR2KHNFXcP/qUjF/rV
+	 BKA3iqyYkcellSCfPO7Oph38NQ0RfvfMPiM9duYvJAEiaCLWGsH4h8Fw1q1iseNNE
+	 vK+Cb9RFMnGwwLp2oHJ1NwAaFMMb9cj3rnZNoMwBnR4n1jHVPynz9j6s9UpHyByVa
+	 lSqKHb6UJl+ZNUpLMPk8kCo5GuYnIF6SrxR1oI2rWOYLR4HWrMUsEpVW0nbZWH9J/
+	 9SqSOicB36my8q3yKHkhgwMZnOTSEEUMUqK31ZblPm36J+zbVAwRjue7l42UrpUcB
+	 Y44TAfpVRHDzYVqCyA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1Mfc8y-1sJbzr11J2-00ixc0; Tue, 17
+ Sep 2024 08:33:19 +0200
+Message-ID: <89021934-dc01-44c4-afcd-3baafaec7d80@web.de>
+Date: Tue, 17 Sep 2024 08:33:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,97 +43,63 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH v2 00/15] timers: Cleanup delay/sleep related mess
-To: Anna-Maria Behnsen <anna-maria@linutronix.de>
-Cc: linux-kernel@vger.kernel.org, Len Brown <len.brown@intel.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, damon@lists.linux.dev,
- linux-mm@kvack.org, SeongJae Park <sj@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, linux-arch@vger.kernel.org,
- Heiner Kallweit <hkallweit1@gmail.com>, "David S. Miller"
- <davem@davemloft.net>, Andy Whitcroft <apw@canonical.com>,
- Joe Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Andrew Lunn <andrew@lunn.ch>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, netdev@vger.kernel.org,
- linux-sound@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
- Nathan Lynch <nathanl@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- Frederic Weisbecker <frederic@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, Jonathan Corbet <corbet@lwn.net>
-References: <20240911-devel-anna-maria-b4-timers-flseep-v2-0-b0d3f33ccfe0@linutronix.de>
- <c794b4a6-468d-4552-a6d6-8185f49339d3@wanadoo.fr>
-Content-Language: en-US, fr-FR
-In-Reply-To: <c794b4a6-468d-4552-a6d6-8185f49339d3@wanadoo.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: ALSA: i2c: cs8427: Use common code in snd_cs8427_qsubcode_get()
+To: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org
+Cc: Takashi Iwai <tiwai@suse.com>, LKML <linux-kernel@vger.kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Julia Lawall <julia.lawall@inria.fr>
+References: <641210ba-571b-43e7-9007-5633a6c7434c@web.de>
+ <871q1k9icg.wl-tiwai@suse.de>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <871q1k9icg.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:onAWEqw48OFAG0o02TVKIjTAq7adZMYhMU30si8twPK3Vh4kies
+ LFeuUJeClwjPMS5J0G4BboOwKMXQyMfnUqoykiFZQuRXQy7hPlOsCtexzwY2NYwH8cC9huQ
+ SjZAIlnnC7bsMaKftwpGjT14hq5WHp3srgKAyPTbw8KQZTbOb/rwJUGssFcQlUAvMpoJVzz
+ k4NhlvIvFXlAEa+kphnSg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:hGwTEXnOauU=;RjeL6AunP39P3D7d6rXEfwmc76S
+ yywt6ZQ1sbhMAt1bwJBmjZnTkQcvFJdu5eRwVMwRQd22synEVHXcEXJESx/XQ6Lo7pB99Qhtq
+ jpK5hjU587/hTnDAnYNG0sUffBvaQ7djVPZFs99lrznehQaGeoNEdbazZfgt/qNpTGNTFmyXe
+ zFSDBzIvI9Mk1I8Q03lGECc+2Fvk5J42Aab+ivps6nCGaMYaG4hqylPZInQw4/ci+Nbiuhxso
+ 1MvU3+UD2cnrBCHv1w+per09W5NZZt9cOaOyeFCEHJ8aHjafuwHdwkW5pFn3hHLl0NdzsNnT+
+ dzSkK1+fvpc/N7QZIfBF/b3dakBjvMV8/Injnvm+aC4PeWFHu7q9HPsqHJFnG7dZk7xN0SX/Q
+ CYIY+u/t/39LkBMxHxajdKI0tokagSRlNQvoYdQFZMibNhCoqdGvGbvGEvAI4Cp1Dn/LC5hxk
+ C7TWLpddZL6WgZQdW49NQAWjJFThHE3BhXBo2i1TjgA1vPa1/KlYFcHGnC8UGC7CpkYOv5NsV
+ oZJfJGi3b5owfdYP35BP11/RHV5Sc2taDw5LpHsF31RZwKejytyJjyciOG7OzuVqYrmbiUjYd
+ oTBXlx9j69AUucUYCB83pmvWT+WkykFkXYm6mM98Z43oXZ9H1wfOyzv3Kz83MoMeqy7gqeHcT
+ Os1FzULQof2XNzZBsT1xI2FJ+xRO/+RzWjXc4Hr4LPUr+eLk+cVDdMxvj/HkSO+Evp+tD8lmI
+ AsayMh2QR6yg5Ef7gGuShsJu3kSbJwStupSLxlPMKHgd9uJ3BOjidbbqATcvtusTLE3kgTgDT
+ Sf6SXn9+yrYMQh3PDbvBKN9Q==
+
+>> Add two labels so that a bit of exception handling can be better reused
+>> at the end of this function implementation.
+
+The implementation of the function =E2=80=9Csnd_cs8427_qsubcode_get=E2=80=
+=9D was identified
+as another update candidate.
+https://elixir.bootlin.com/linux/v6.11/source/sound/i2c/cs8427.c#L385
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/sou=
+nd/i2c/cs8427.c?h=3Dv6.11
 
 
+> The double goto jumps aren't nice, either.
 
-Le 16/09/2024 à 22:20, Christophe JAILLET a écrit :
-> Le 11/09/2024 à 07:13, Anna-Maria Behnsen a écrit :
->> Hi,
->>
->> a question about which sleeping function should be used in 
->> acpi_os_sleep()
->> started a discussion and examination about the existing documentation and
->> implementation of functions which insert a sleep/delay.
->>
->> The result of the discussion was, that the documentation is outdated and
->> the implemented fsleep() reflects the outdated documentation but doesn't
->> help to reflect reality which in turns leads to the queue which covers 
->> the
->> following things:
->>
->> - Split out all timeout and sleep related functions from hrtimer.c and 
->> timer.c
->>    into a separate file
->>
->> - Update function descriptions of sleep related functions
->>
->> - Change fsleep() to reflect reality
->>
->> - Rework all comments or users which obviously rely on the outdated
->>    documentation as they reference "Documentation/timers/timers- 
->> howto.rst"
->>
->> - Last but not least (as there are no more references): Update the 
->> outdated
->>    documentation and move it into a file with a self explaining file name
->>
->> The queue is available here and applies on top of tip/timers/core:
->>
->>    git://git.kernel.org/pub/scm/linux/kernel/git/anna-maria/linux- 
->> devel.git timers/misc
->>
->> Signed-off-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
-> 
-> Hi,
-> 
-> not directly related to your serie, but some time ago I sent a patch to 
-> micro-optimize Optimize usleep_range(). (See [1])
-> 
-> The idea is that the 2 parameters of usleep_range() are usually 
-> constants and some code reordering could easily let the compiler compute 
-> a few things at compilation time.
-> 
-> There was consensus on the value of the change (see [2]), but as you are 
+Would you like to care to avoid a bit of duplicate code from repeated
+return statements?
+https://wiki.sei.cmu.edu/confluence/display/c/MEM12-C.+Consider+using+a+go=
+to+chain+when+leaving+a+function+on+error+when+using+and+releasing+resourc=
+es
 
-Typo: there was *no* consensus...
 
-> touching things here, maybe it makes sense now to save a few cycles at 
-> runtime and a few bytes of code?
-> 
-> CJ
-> 
-> [1]: https://lore.kernel.org/all/ 
-> f0361b83a0a0b549f8ec5ab8134905001a6f2509.1659126514.git.christophe.jaillet@wanadoo.fr/
-> 
-> [2]: https://lore.kernel.org/ 
-> all/03c2bbe795fe4ddcab66eb852bae3715@AcuMS.aculab.com/
-> 
-> 
-> 
-> 
+> I guess we can do clean up better with cleanup.h stuff.
 
+Scope-based resource management can eventually be applied also for
+snd_i2c_unlock() calls.
+https://elixir.bootlin.com/linux/v6.11/source/include/sound/i2c.h#L76
+
+How do you think about to clarify any software extensions accordingly?
+
+Regards,
+Markus
