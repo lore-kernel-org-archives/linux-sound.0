@@ -1,114 +1,340 @@
-Received: from sonic315-22.consmr.mail.ne1.yahoo.com (sonic315-22.consmr.mail.ne1.yahoo.com [66.163.190.148])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84ABA482EF
-	for <linux-sound@vger.kernel.org>; Tue, 17 Sep 2024 06:42:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.163.190.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D10314375D;
+	Tue, 17 Sep 2024 07:00:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726555356; cv=none; b=PzIUPZKJhJN/7sad30oWUnGxBkAHw1zqRtRBcKXVJibdC7BIyDmshu8o6Qdmweg9/kr9jnvU7YVd6TdDFYRVR/ke8Ls3WhW2mWJ1JSxIlYcYRr+eJ2f9ECCLa7WuuM3SDeGCLKF+dY5ciSx9KmnW7PX1IUxa79iSeDU7Udeg/uU=
+	t=1726556427; cv=none; b=UUxFcbZTVQz+1pHDOWBkQAzMnWw/Mr171O6LtKGRJCtoDuLOqsiOcCBHJdwtS1VqyCXoO73ENX1nsfj4lx6yC8DL8aQEc0bD4jIBVCkPd1dLLl9ap8EzlkbiqjPwKM7yDXyf9xWrJyecTG2+febA1AMZ6qXI6pGu8Uo46lqhFWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726555356; c=relaxed/simple;
-	bh=ar2RqSH5NFYxuZhKfyHpRoUSG+H9LjpfQJulrmGBxeo=;
-	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:Content-Type:
-	 References; b=BFzUCDnqY8UEUO4CH/AES6yl7N2PTK4l008yy2B8vwwRccag7SM4hTem4aEHZRIJ8XaXo6IB13ZzNNSHwwn1YUEaxAIcotdtj/sa5wMytMSD7EcPBodfJ4BlgMGpo5HC0l+HijycOTfLaw4JkAAhYM+aNaBlNB5Mzei5EAniYnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=gACFksCk; arc=none smtp.client-ip=66.163.190.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
+	s=arc-20240116; t=1726556427; c=relaxed/simple;
+	bh=xYXjLgKIgVQVJl/mI7hl5hLIk1cdSp8r/KFLQ4nwxgM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LXxNbwbjacbF5Y0l6vNvD2YrKkdB+SUkGcHYwcI9NXHcgfbKCF9a7iYNuUcjvMzuqnxCo324GP4MRgogpEYj3sTbNaIeJW7lhL9bfQn0sopSBxWa7pQ7bgBPIpQCMhvglWDnuidSBl+h3GJpSb9PKGPsXKzfa9MXr3oO96gJ0w4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nXJ/DXix; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="gACFksCk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1726555353; bh=ar2RqSH5NFYxuZhKfyHpRoUSG+H9LjpfQJulrmGBxeo=; h=Date:From:Reply-To:To:Cc:Subject:References:From:Subject:Reply-To; b=gACFksCkwz+srmvlUepmIrdgy29/0Fe4VwhbHkpjcvy6u9H5UWxsTQ+SmImD64vzoWnbmbFmc2LE1BSFwt5YrNrEf5FrQNW5oSMlrHkxoZnX3e2Za4A6v1NgOih8ID+zFe53BSK7J+U/wS0tet1JPpN8d00S6xMPv/4pSv4LwPwrrG0s1tVuRtnL27ksTthkT00mOqjwua/a68/o19A6LBjtMc/wnXTPJQLCb6SS3ZIQHamYztBHq5Uum67PX7f/DC5w2mhi3gk16fK6WberS4EIwYcUsxEyU8Mrfjru58HGmoZ1VFmgjTcv+46FwYXZwlsuDtRuqfBEULTmN5PFmg==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1726555353; bh=OBriKw/+ttCw9qWR3daUT0mJF2jfslrIRAP9PJaon85=; h=X-Sonic-MF:Date:From:To:Subject:From:Subject; b=TFe3pUxYsAbWk4DOp2GSjKN3syyOLyppYLUm6TyyeGnFZzTB6FRzwuEAW+FzT82vFhTgP1/4TuyscvfVfy6XeCoYoVs89Zh6f79Jr/NNctr1Ojl90toxL5bCKnVVkh4yImC4arkfc57qi2Uqm1tiPrQHkji+f5yu62IL76gtoNwLbarAfJ005XNC2bnbh5kfn8tusRHWU1hEVAILIdp9c/fuBqny+QUskqt/9bgocjZLKMwyXWJN6jR7bwIKfaWfZlai9/rnFKQA9XZhomtaiQJ5Is4dkK6LIUnElT1RTyLKNFbpOIEvG4AfmrViMr6IwrJ6eFAVdNd7i3hrg6qrzA==
-X-YMail-OSG: .CvJllAVM1nprL.L0f7si1o2GDt81R0cTSt144NQhcAptHkZSzKa_hXufxTqKt1
- L1H_RPpt1N4LJRJ987gGv6mqPC_0kbBOHNQ8ecoarP56SQymRNUz7QZx.3ylfoA3zsWLVsnEx7Q5
- gwVD2EzCmrdRfsvzWVn0vZhxkzSuaLHqde1qSjxtIL0QPkP5pjPR0HwZVvAr7kVY7CkcTQFW743K
- 5CfEwvTJf9bQTuEmOgSOuh1zinE388HUjT1XKQylOiNNvjiD9YRGpwJ41i9EMf5BstVYomH5cNHh
- deNOhPFAsEa5_vAKUNJb_ZE0TJOtRkT380fij_CD1daqdxHJ_pVoyKb0qp4aT6AxKs_L3CaXqArs
- dBLgeBLWEQYspF.TZCzGymDQ7LZH9lAQ7NwW03HBLFafx1tPJsWyw9ELZuw.5UyIBWhtTYPrEkOQ
- Mk2bWbenyixbQT3_9YklTyhfsPQCb7v3A_.PzrUNpzHNcd0cPRjj.lmwuxHwBNLzENdIGYCZuAHk
- kVBEBS9jIRX5jWVIXEBLn2Lw57Kd7s_1iuEkPEpPUtPgUls9XE38ManDhzqn2IVk35zlgiM1Oxrm
- hmgVt998PZ4gcPv1vyCZweYpq_FaszkLvw5CrfZj4AwRrFxBT9.w8tGhWQl4l3Iio1T1MkHi7B2i
- DwF8SDZiT5ykILFT0WvbNgylG3rkYYHJFgCjlSWkhmJ3mCkjHjFxj_EdBgseNkYSctz_7OsxRjpa
- 0NfdS4b4mkECVl0jSROS1VbQSyYZH1hcnJn9sFavMk1TfvrRiALafj6s5cyD2b_rFHYpohZH6Fij
- mSehNR_fiAtkBnBoHjATiZk2qbpogjqlAoPsYBqQZ2j1X3PbfWAEYigjTdUWvwu7XS8dvQyYGB_4
- 5kS.ZXOofbZxOS9VykSmO.S8FB6he1lfXmUdzzjh8glUBbBapOU1pgVmM2_1g5g3pSnXitNZke1Y
- hiD9ZxJPy60XCexdQEH3dqhhm4Mx_ug0Tj_f.3ImHAZ_AjyZCxBpmgMdtX7o0ERZwmfniqZmkg4P
- ZWQ9J9ZP10VKY4xitUC4OJS80IYYukkgrs_jlXqLq4TpFqbstMDgxycbJoQm7TY.l0MPxQSc.ASl
- 0Gn0PRIRJGxU0x.xElV.WrdqTUcDApBPPyLMLFBFxfY.apOtXe74Kqg11xGICwT8DgnPMhUn9inO
- mVIy3v_ZsPzBwEVc9sOHn8jrNTiAcXB7fcGB.QH42MqaTPUv3y_rW0B.JumTcFf3HitOUVEXx.TH
- XSi9Hw8Vsv3tMNd_UMjkcRNX8mx6XdKC2q494PJvpu5HLj0otWIFnr10G.4.wj5enUo.R9YQMyiD
- HFCBrdKFSdKozQC4roFJzDiPtZjr6bnHtHkHmav1i0VvEHicXvdP6X2GcFmeXyoK2fX4phIkVqGM
- NXA_2mHb_6dwc8q4BvaxG6AnBZfZW.gsrVpmwuhJbDpfcFOaqu0p9yY._XQBykm2kWvVBXKs31Jt
- eD5NCyQJdDy.Qkl1F6Y8U26HGtbcnyv4.YVT9576FMpL5y3UTbQrNxMNU4rMwYEcSD1HkTT2Im3F
- 6CAJFfqnTtMK4dK5z4L80YIDM.iRzIzUD83j4wGz_N9MFJLtRjtzvZT_2rwWyjriJXgPaHHuOw1s
- ta6em5tAppgIlhr8Y1YVO5EdPv1DMxrSNf9R6yLad0.0G_Aixq2VeQefkS_FXht25a6h_SH6deut
- bVYwQQlNG18uNkzWW5N7.0FGwvLd7B7Xdf0bDrnAPhldlq.mr79nDoLd4F7LRNuY5k7RLuOVGk_R
- h4P3ClygokxKsH9FYR8YwBgTUQS85dYmQOWUwVFK8Iu5cvlMRZq8poVxRC3Iw2SwsYIEa2ErdBXQ
- ZNdg076NXKQ6AHe3V5OSCOyGxk.aFyk3Sj6_Ug8mmAy.0V0aITlvRKyhbInjerffXZKsfQN7.I12
- Y4a1N1iF7Lw5h83zN_fR9FDWZiUiug6kRH2VKavtC3bdNGcyOHU4GU.bXCeZXW7nY5HKsRUGw8yg
- xu4p1nMQfmni_oHpDTJoaRlzKapV5kDF_WhbOb4gGGUDFOOXZg.HKxDezOCLTX3Ghnxp4JYht5qK
- BvXoA.j6U2sxVkY4nPB8YmfnpwycMcxrXZ1pAXhPfR7_YP1mtCCvFpZFjca0PhLMleErZUKFmrgP
- kgY5vZpTrw1F6kHwwXTtCgjeQgH5lyohJN5YSu0wlFUTU7ZI4UKmMazfTPIlgvu1ArN71hH4UT9C
- HxadIw5DhLViy5bSFhP4BJs3bV438oUCXiJBjac03ewGYQX3TgfhdhBTu860AnDKTvPW7fGcDDav
- NWgOV4vpHxWJIvo2QMg--
-X-Sonic-MF: <davidglanzman@yahoo.com>
-X-Sonic-ID: d5fd1558-5a9d-4cb0-b2db-869be1c6d754
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic315.consmr.mail.ne1.yahoo.com with HTTP; Tue, 17 Sep 2024 06:42:33 +0000
-Date: Tue, 17 Sep 2024 05:31:40 +0000 (UTC)
-From: David Glanzman <davidglanzman@yahoo.com>
-Reply-To: David Glanzman <davidglanzman@yahoo.com>
-To: "broonie@kernel.org" <broonie@kernel.org>
-Cc: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-Message-ID: <229243264.8919425.1726551100908@mail.yahoo.com>
-Subject: [PATCH] ASoC: amd: yc: Add quirk for HP Dragonfly pro one
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nXJ/DXix"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AA3FC4CEC6;
+	Tue, 17 Sep 2024 07:00:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726556426;
+	bh=xYXjLgKIgVQVJl/mI7hl5hLIk1cdSp8r/KFLQ4nwxgM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nXJ/DXixRjjDtOwXrUIh1eVPfuQ3jMIC7ZCco3EQFL4PNFnS8+SNHzXil7GkmG+Wv
+	 +re5wFT9lDF+2K3ZmYXDhGY5uViKGt3AbEyjhQXiYGsoY4Rn4BGgLwoZw29/zpzAiD
+	 W+tWDKUdHWrKr86gPrfGplJnUJh1TQ1Oed4gUl6BjTWgFzk+wX2l7J+Pbujqf+umyW
+	 2IjmIzCBf2BnvnOtGycrodoh6oCQ53Id2Mphp5LZ7U2yg41Elqezl29tbDEEuKlp9h
+	 T8dvp/BY5tcBunj6V+MSfFDgD8IxctyDLW0kgRSjsgCyhZxeuTVb0l0zNpAq32q0u5
+	 envyKvvKyTDtg==
+Date: Tue, 17 Sep 2024 09:00:23 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Macpaul Lin <macpaul.lin@mediatek.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Florian Fainelli <f.fainelli@gmail.com>, 
+	Vladimir Oltean <olteanv@gmail.com>, "David S . Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Sean Wang <sean.wang@mediatek.com>, 
+	Sen Chu <sen.chu@mediatek.com>, netdev@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Chen Zhong <chen.zhong@mediatek.com>, 
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org, linux-pm@vger.kernel.org, 
+	linux-rtc@vger.kernel.org, linux-sound@vger.kernel.org, 
+	Alexandre Mergnat <amergnat@baylibre.com>, Bear Wang <bear.wang@mediatek.com>, 
+	Pablo Sun <pablo.sun@mediatek.com>, Macpaul Lin <macpaul@gmail.com>, 
+	Chris-qj chen <chris-qj.chen@mediatek.com>, 
+	MediaTek Chromebook Upstream <Project_Global_Chrome_Upstream_Group@mediatek.com>, Chen-Yu Tsai <wenst@chromium.org>
+Subject: Re: [PATCH v5 2/3] dt-bindings: mfd: mediatek: mt6397: Convert to DT
+ schema format
+Message-ID: <iudkiamza3lsl33tsby3sghfy66rj2tgg3kqjjwzeba46oxtpi@yrri5m5skjld>
+References: <20240916151132.32321-1-macpaul.lin@mediatek.com>
+ <20240916151132.32321-2-macpaul.lin@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-References: <229243264.8919425.1726551100908.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.22645 YMailNorrin
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240916151132.32321-2-macpaul.lin@mediatek.com>
+
+On Mon, Sep 16, 2024 at 11:11:31PM +0800, Macpaul Lin wrote:
+> Convert the mfd: mediatek: mt6397 binding to DT schema format.
+> 
+> MT6323, MT6358, and MT6397 are PMIC devices with multiple function
+> subdevices. They share a common PMIC design but have variations in
+> subdevice combinations.
+> 
+> Key updates in this conversion:
+
+...
+
+> +                regulator-name = "vproc";
+> +                regulator-min-microvolt = < 700000>;
+> +                regulator-max-microvolt = <1350000>;
+> +                regulator-ramp-delay = <12500>;
+> +                regulator-always-on;
+> +                regulator-boot-on;
+> +            };
+> +
+> +            buck_vsys {
+> +                regulator-name = "vsys";
+> +                regulator-min-microvolt = <1400000>;
+> +                regulator-max-microvolt = <2987500>;
+> +                regulator-ramp-delay = <25000>;
+> +                regulator-always-on;
+> +                regulator-boot-on;
+> +            };
+> +
+> +            buck_vpa {
+> +                regulator-name = "vpa";
+> +                regulator-min-microvolt = < 500000>;
+> +                regulator-max-microvolt = <3650000>;
+> +            };
+> +
+> +            ldo_vtcxo {
+> +                regulator-name = "vtcxo";
+> +                regulator-min-microvolt = <2800000>;
+> +                regulator-max-microvolt = <2800000>;
+> +                regulator-enable-ramp-delay = <90>;
+> +                regulator-always-on;
+> +                regulator-boot-on;
+> +            };
+> +
+> +            ldo_vcn28 {
+> +                regulator-name = "vcn28";
+> +                regulator-min-microvolt = <2800000>;
+> +                regulator-max-microvolt = <2800000>;
+> +                regulator-enable-ramp-delay = <185>;
+> +            };
+> +
+> +            ldo_vcn33_bt {
+> +                regulator-name = "vcn33_bt";
+> +                regulator-min-microvolt = <3300000>;
+> +                regulator-max-microvolt = <3600000>;
+> +                regulator-enable-ramp-delay = <185>;
+> +            };
+> +
+> +            ldo_vcn33_wifi {
+> +                regulator-name = "vcn33_wifi";
+> +                regulator-min-microvolt = <3300000>;
+> +                regulator-max-microvolt = <3600000>;
+> +                regulator-enable-ramp-delay = <185>;
+> +            };
+> +
+> +            ldo_va {
+> +                regulator-name = "va";
+> +                regulator-min-microvolt = <2800000>;
+> +                regulator-max-microvolt = <2800000>;
+> +                regulator-enable-ramp-delay = <216>;
+> +                regulator-always-on;
+> +                regulator-boot-on;
+> +            };
+> +
+> +            ldo_vcama {
+> +                regulator-name = "vcama";
+> +                regulator-min-microvolt = <1500000>;
+> +                regulator-max-microvolt = <2800000>;
+> +                regulator-enable-ramp-delay = <216>;
+> +            };
+> +
+> +            ldo_vio28 {
+> +                regulator-name = "vio28";
+> +                regulator-min-microvolt = <2800000>;
+> +                regulator-max-microvolt = <2800000>;
+> +                regulator-enable-ramp-delay = <216>;
+> +                regulator-always-on;
+> +                regulator-boot-on;
+> +            };
+> +
+> +            ldo_vusb {
+> +                regulator-name = "vusb";
+> +                regulator-min-microvolt = <3300000>;
+> +                regulator-max-microvolt = <3300000>;
+> +                regulator-enable-ramp-delay = <216>;
+> +                regulator-boot-on;
+> +            };
+> +
+> +            ldo_vmc {
+> +                regulator-name = "vmc";
+> +                regulator-min-microvolt = <1800000>;
+> +                regulator-max-microvolt = <3300000>;
+> +                regulator-enable-ramp-delay = <36>;
+> +                regulator-boot-on;
+> +            };
+> +
+> +            ldo_vmch {
+> +                regulator-name = "vmch";
+> +                regulator-min-microvolt = <3000000>;
+> +                regulator-max-microvolt = <3300000>;
+> +                regulator-enable-ramp-delay = <36>;
+> +                regulator-boot-on;
+> +            };
+> +
+> +            ldo_vemc3v3 {
+> +                regulator-name = "vemc3v3";
+> +                regulator-min-microvolt = <3000000>;
+> +                regulator-max-microvolt = <3300000>;
+> +                regulator-enable-ramp-delay = <36>;
+> +                regulator-boot-on;
+> +            };
+> +
+> +            ldo_vgp1 {
+> +                regulator-name = "vgp1";
+> +                regulator-min-microvolt = <1200000>;
+> +                regulator-max-microvolt = <3300000>;
+> +                regulator-enable-ramp-delay = <216>;
+> +            };
+> +
+> +            ldo_vgp2 {
+> +                regulator-name = "vgp2";
+> +                regulator-min-microvolt = <1200000>;
+> +                regulator-max-microvolt = <3000000>;
+> +                regulator-enable-ramp-delay = <216>;
+> +            };
+> +
+> +            ldo_vgp3 {
+> +                regulator-name = "vgp3";
+> +                regulator-min-microvolt = <1200000>;
+> +                regulator-max-microvolt = <1800000>;
+> +                regulator-enable-ramp-delay = <216>;
+> +            };
+> +
+> +            ldo_vcn18 {
+> +                regulator-name = "vcn18";
+> +                regulator-min-microvolt = <1800000>;
+> +                regulator-max-microvolt = <1800000>;
+> +                regulator-enable-ramp-delay = <216>;
+> +            };
+> +
+> +            ldo_vsim1 {
+> +                regulator-name = "vsim1";
+> +                regulator-min-microvolt = <1800000>;
+> +                regulator-max-microvolt = <3000000>;
+> +                regulator-enable-ramp-delay = <216>;
+> +            };
+> +
+> +            ldo_vsim2 {
+> +                regulator-name = "vsim2";
+> +                regulator-min-microvolt = <1800000>;
+> +                regulator-max-microvolt = <3000000>;
+> +                regulator-enable-ramp-delay = <216>;
+> +            };
+> +
+> +            ldo_vrtc {
+> +                regulator-name = "vrtc";
+> +                regulator-min-microvolt = <2800000>;
+> +                regulator-max-microvolt = <2800000>;
+> +                regulator-always-on;
+> +                regulator-boot-on;
+> +            };
+> +
+> +            ldo_vcamaf {
+> +                regulator-name = "vcamaf";
+> +                regulator-min-microvolt = <1200000>;
+> +                regulator-max-microvolt = <3300000>;
+> +                regulator-enable-ramp-delay = <216>;
+> +            };
+> +
+> +            ldo_vibr {
+> +                regulator-name = "vibr";
+> +                regulator-min-microvolt = <1200000>;
+> +                regulator-max-microvolt = <3300000>;
+> +                regulator-enable-ramp-delay = <36>;
+> +            };
+> +
+> +            ldo_vrf18 {
+> +                regulator-name = "vrf18";
+> +                regulator-min-microvolt = <1825000>;
+> +                regulator-max-microvolt = <1825000>;
+> +                regulator-enable-ramp-delay = <187>;
+> +            };
+> +
+> +            ldo_vm {
+> +                regulator-name = "vm";
+> +                regulator-min-microvolt = <1200000>;
+> +                regulator-max-microvolt = <1800000>;
+> +                regulator-enable-ramp-delay = <216>;
+> +                regulator-always-on;
+> +                regulator-boot-on;
+> +            };
+> +
+> +            ldo_vio18 {
+> +                regulator-name = "vio18";
+> +                regulator-min-microvolt = <1800000>;
+> +                regulator-max-microvolt = <1800000>;
+> +                regulator-enable-ramp-delay = <216>;
+> +                regulator-always-on;
+> +                regulator-boot-on;
+> +            };
+> +
+> +           ldo_vcamd {
+> +                regulator-name = "vcamd";
+> +                regulator-min-microvolt = <1200000>;
+> +                regulator-max-microvolt = <1800000>;
+> +                regulator-enable-ramp-delay = <216>;
+> +            };
+> +
+> +            ldo_vcamio {
+> +                regulator-name = "vcamio";
+> +                regulator-min-microvolt = <1800000>;
+> +                regulator-max-microvolt = <1800000>;
+> +                regulator-enable-ramp-delay = <216>;
+> +            };
+> +        };
+> +
+> +        keys {
+> +            compatible = "mediatek,mt6323-keys";
+> +            mediatek,long-press-mode = <1>;
+> +            power-off-time-sec = <0>;
+> +
+> +            power {
+> +                    linux,keycodes = <116>;
+
+Messed indentation.
+
+> +                    wakeup-source;
+> +            };
+> +
+> +            home {
+> +                    linux,keycodes = <114>;
+> +            };
+> +        };
+> +
+> +        power-controller {
+> +            compatible = "mediatek,mt6323-pwrc";
+> +            #power-domain-cells = <0>;
+> +        };
+> +
+> +        rtc {
+> +            compatible = "mediatek,mt6323-rtc";
+> +        };
+> +    };
+
+Keep one complete example. Maybye two if they are significantly
+different, but I don't see these differences.
 
 
-Adds a quirk entry to enable the mic on HP Dragonfly pro one laptop
+> +
+> +  - |
+> +    #include <dt-bindings/input/input.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    pmic {
+> +        compatible = "mediatek,mt6358">
 
-Signed-off-by: David Lawrence Glanzman <davidglanzman@yahoo.com>
----
-=C2=A0sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
-=C2=A01 file changed, 7 insertions(+)
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 06349bf0b658..ace6328e91e3 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -444,6 +444,13 @@ static const struct dmi_system_id yc_acp_quirk_table[]=
- =3D {
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DMI_MATCH(D=
-MI_BOARD_NAME, "8A3E"),
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 }
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 },
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 {
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 .driver_data =3D &acp6x_card,
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 .matches =3D {
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DMI_MATCH(DMI_=
-BOARD_VENDOR, "HP"),
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DMI_MATCH(DMI_=
-BOARD_NAME, "8A7F"),
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 }
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 },
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 {
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 .driver_data =3D &acp6x_card,
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 .matches =3D {
---
-2.43.0
+....
+
+> -	Required properties:
+> -		- compatible: "mediatek,mt6397-pinctrl"
+> -	For details, see ../pinctrl/pinctrl-mt65xx.txt
+
+Best regards,
+Krzysztof
+
