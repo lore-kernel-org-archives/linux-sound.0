@@ -1,118 +1,149 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95CCD3A1A8;
-	Wed, 18 Sep 2024 09:25:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 080231891C3;
+	Wed, 18 Sep 2024 10:37:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726651503; cv=none; b=RNY17L+9zw1PTbTsgIA18eHc7sv0NPrPOgfxX8vnlqWg2LpyBcRkzZ3ojol8FTQ7WG9yxo7k8mLfhV/kdigsRAi/Ibbsrz7ugfcyAwuVTErh7krlvV9k/WFymGMtdP5uOyPSCTktY4wJke+3fRZHXCmi1hiqOQ3QaIsq8+ycImk=
+	t=1726655866; cv=none; b=p0b4dRWoigMqW5PU6M92vHDRkreKudJrJO+fO8TjYLIN2atWWwsbZEiIgNXnZmMF+INg0TTgfnrTelkppOKBFIzLfWpcttt4F/DBjjOHnKhlnfrDcY8YstYtTgIzp6iQQpuBm0XRy333UtfHaVq8q/is/sFHgVGynpi3M9K2pQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726651503; c=relaxed/simple;
-	bh=4Ckold4mqnpEic1raVAIRpA5fsbkH1jkSKs6+3JSmfs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ln5fPGH/KLVhVYbHNgPfGkRv78rPQfqnCAZCb/t5QNhgZKLLgjIn3TfwQPOTIZ7SV8+Gm9VUIViKa9hrhEifdg8x+H272O7d5qMhhJPT5TZ8buW+I2s2e8Hl4wYWSSaPmknHiTCPOWN9KS87KfS08nhs7P+WiDdTDl2hOn0iMQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N2z4cmAq; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1726655866; c=relaxed/simple;
+	bh=CTOcKEgY8jlNQ+MQfkCHYV1DkzEiLwX7P5+oZbdhIgc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=stiGO2cEiXHBlKUcoanABldiDFEot6XmhCwKgVw4wCX7YveQNmnZn/BcXwdKYCwvFuIhyZXqWtJwhxytHBSRqM1ayXLw8AdE27709/rZfRT9MQfGjzKwI10Es6EeTzEfkPnDILTZdhFqmrKprcyyrLeicAYZyz4cN5dyurmFS/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SZ3UHD9l; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N2z4cmAq"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5c423d496abso3626031a12.3;
-        Wed, 18 Sep 2024 02:25:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726651500; x=1727256300; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LkNDpY07V25JTDLmYMQ0N8Bt4Opex80DRrP8orE+KJk=;
-        b=N2z4cmAq7q3z5noUSMynX/R6CAzgLrSlP18xSUE97fi1r3/wtwAUFu1iHkGk8Ccedi
-         oy8CecYY3hoy6OBALe27SaMHtBOTQjPHHGYhC6F49TG+CMnGTOcFZwWsjaBJNvb2MHHP
-         65jUzR9AfWZYm4W9tsRTBih8iDnlDhb/hFncRSb0MMYqABMXbaSdU+skk2QdnS2NLS+G
-         0bmwaIEkPOdspBvySEnSI2qY54shom5DIUOqt164CfbOWyz5RVwyZ01ocjxkd3gNlwJl
-         bmYQDKV9SQjmItJbvrpWRPDCCDz73Zy/nwrS44eM+LCfn8/nwRjbVLhnz6E2LPhBSniI
-         lZVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726651500; x=1727256300;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LkNDpY07V25JTDLmYMQ0N8Bt4Opex80DRrP8orE+KJk=;
-        b=ZY0EDt7n15rWSktokn3BP5qqj1mXliGgtFRy1/yHs2ZnqNSSU2F1Cbp6i/v/lF1bwV
-         xuLQaIe6yvz4HC0jUKXNjmMOJ29IlGI8geA24j94y/84yQziutn/j7zurbI2YVU7iHiG
-         ayp1ZX7MaNeIFOO9F0JXOOKpU5k+wFdeXWKDvJ5jmWPDOeW+JHjF0bAoqTvPLjVoIV8B
-         hszgorPyl53RouQsbVU1NHc838MLj3WFN70l/E0GLEh12i0szIJ3GCQJchsgvh7GZY7X
-         lgWuYdY/WIGd2GmuZ4hR/MPa3qM4ZfN/uVQJzgQKQMmPPTdMbGfOjRebA68OEIrPu4DZ
-         Z73Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUiGM4pwNh4JO0GtMcL8zkJ6Uc0Fux3dJbST5EIUO77rwNg6/1uKwpXb0lJCNl9gamkhSPNBCQmX1R0@vger.kernel.org, AJvYcCWyARgPKKmkbE7wmeIHiJQ/6LhpCUsZJPKeDx/qYgpV1GyG6O0CM5o4gh6AEhJMGq1vpWnyUaRCfQIk/aA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwE6XjFXrUkm/3DMNGOu6vPmYKW2wNMXPTQKrLwsWUMMnTh4GoA
-	Guh52Jc8E07Q0gyRXVIg+6mGNcJIbhDwE/LOEpRJOwa6rZOl4gx/tpu+6oNYeESlwUidJ7LmZid
-	mpFYkc++9FuvRNLzzI2NpQ7s0WuI=
-X-Google-Smtp-Source: AGHT+IELpoiFd0lCLB1yAYSsNv0EoCUJgRfKEMLoQxfu0an1ra0w4/nZbSMhzNKRAZncpaRhJTu+vGp40ilipQ7mj+Y=
-X-Received: by 2002:a05:6402:2491:b0:5c3:d0b5:453f with SMTP id
- 4fb4d7f45d1cf-5c41e18ad59mr26768552a12.12.1726651499548; Wed, 18 Sep 2024
- 02:24:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SZ3UHD9l"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 042C8C4CEC7;
+	Wed, 18 Sep 2024 10:37:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726655865;
+	bh=CTOcKEgY8jlNQ+MQfkCHYV1DkzEiLwX7P5+oZbdhIgc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=SZ3UHD9lG/YMqqUGJEJ77qacsEmbMTK3iXizTHgwF83KRCbDGCRVfsJQhPJQ6SoGx
+	 mbbXW8QcFZ7UXNJpDnPV/ohUkx9vNDYIxDwYmI36/PxEHkc+LDE/KM+X8Uqc8PTsTs
+	 76xuWD/qcgj2+3i2pgAMfGRgK+DgDZ/1RWzZTiw42kLQgi25r4F/Moud1816wkqC3o
+	 vwJzTqLUra8BRIgXtOYTqlDSkmpUmb1faj04JQUv2Y6irhZytq78FtymR8gJRkJzNz
+	 QvQUc4z+tXDM5SFnVaI78ru0LjvkAmgxzsPC/ZCYdzobXSqUfUGjfbfCeJoGvPTpa7
+	 GyVvRRRCHgzdw==
+Message-ID: <c50905e4-1f99-4b17-b932-f28aa6d1a7c3@kernel.org>
+Date: Wed, 18 Sep 2024 12:37:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1725518229.git.zhoubinbin@loongson.cn> <c44a6525d77941ef235825a58a9ea91f9f7d7042.1725518229.git.zhoubinbin@loongson.cn>
- <5a7357f7-da3b-4532-b055-ad33eb93fe1c@sirena.org.uk> <CAMpQs4JRz8x=zfB-DuDSxbcYDR=mtVET_AwawU+J9Vn=sx9LNw@mail.gmail.com>
- <eaa0b894-b4f7-4e4e-927d-216ff87e6f14@sirena.org.uk>
-In-Reply-To: <eaa0b894-b4f7-4e4e-927d-216ff87e6f14@sirena.org.uk>
-From: Binbin Zhou <zhoubb.aaron@gmail.com>
-Date: Wed, 18 Sep 2024 15:24:45 +0600
-Message-ID: <CAMpQs4LwAJoyRn7tT9BpiGcDcWyHPG11ZCPWB+ku6uzGikGcBA@mail.gmail.com>
-Subject: Re: [PATCH v1 02/10] ASoC: codecs: Add support for ES8323
-To: Mark Brown <broonie@kernel.org>
-Cc: Binbin Zhou <zhoubinbin@loongson.cn>, Huacai Chen <chenhuacai@loongson.cn>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Huacai Chen <chenhuacai@kernel.org>, devicetree@vger.kernel.org, 
-	linux-sound@vger.kernel.org, Xuerui Wang <kernel@xen0n.name>, loongarch@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 3/3] regulator: dt-bindings: mt6397: move examples to
+ parent PMIC mt6397
+To: Macpaul Lin <macpaul.lin@mediatek.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Florian Fainelli <f.fainelli@gmail.com>,
+ Vladimir Oltean <olteanv@gmail.com>, "David S . Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Sean Wang <sean.wang@mediatek.com>, Sen Chu <sen.chu@mediatek.com>,
+ netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Lee Jones <lee@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Chen Zhong <chen.zhong@mediatek.com>, linux-input@vger.kernel.org,
+ linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-rtc@vger.kernel.org, linux-sound@vger.kernel.org,
+ Alexandre Mergnat <amergnat@baylibre.com>, Bear Wang
+ <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
+ Macpaul Lin <macpaul@gmail.com>, Chris-qj chen <chris-qj.chen@mediatek.com>,
+ MediaTek Chromebook Upstream
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ Chen-Yu Tsai <wenst@chromium.org>
+References: <20240916151132.32321-1-macpaul.lin@mediatek.com>
+ <20240916151132.32321-3-macpaul.lin@mediatek.com>
+ <ev4kqtbjwglrti3mk2cnayilj4muy7ll7ux2uwlekcwu73dy5e@h4wvpucmyepw>
+ <9caff3d5-22af-3481-d2af-6afb4abd49d7@mediatek.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <9caff3d5-22af-3481-d2af-6afb4abd49d7@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Mark:
+On 18/09/2024 04:44, Macpaul Lin wrote:
+> 
+> On 9/17/24 15:01, Krzysztof Kozlowski wrote:
+>> 	
+>>
+>> External email : Please do not click links or open attachments until you 
+>> have verified the sender or the content.
+>>
+>> On Mon, Sep 16, 2024 at 11:11:32PM +0800, Macpaul Lin wrote:
+>>> Since the DT schema of multiple function PMIC mt6397 has been converted,
+>>> move the examples in "mediatek,mt6397-regulator.yaml" to the parent schema
+>>> "mediatek,mt6397.yaml".
+>>
+>> Is there any error otherwise? Why this cannot stay here, since it is
+>> already there?
+>>
+>> Best regards,
+>> Krzysztof
+>>
+> 
+> I previously thought that all regulator examples needed to have a 
+> complete version placed centrally in the main MFD. In that case, this 
+> patch 3/3 should not need to be required. This will be dropped in the 
+> next version.
 
-Thanks for your explanation.
+That's the preference for new bindings, but there is no harm if existing
+and functional example stays, even if it is partial.
 
-On Fri, Sep 13, 2024 at 10:44=E2=80=AFPM Mark Brown <broonie@kernel.org> wr=
-ote:
->
-> On Fri, Sep 13, 2024 at 08:02:02AM +0600, Binbin Zhou wrote:
-> > On Thu, Sep 5, 2024 at 8:05=E2=80=AFPM Mark Brown <broonie@kernel.org> =
-wrote:
->
-> > > > +/*
-> > > > + * es8323 register cache
-> > > > + * We can't read the es8323 register space when we
-> > > > + * are using 2 wire for device control, so we cache them instead.
-> > > > + */
-> > > > +static u16 es8323_reg[] =3D {
-> > > > +     0x06, 0x1C, 0xC3, 0xFC, /*  0 */
-> > > > +     0xC0, 0x00, 0x00, 0x7C, /*  4 */
->
-> > > There's a bunch of regmap reimplementation in the driver, the cache a=
-nd
-> > > I/O code all looks totally generic.  Just use regmap.
->
-> > Sorry, I don't really understand this point.
-> > Do you mean to use regmap_read()/regmap_write() instead of
-> > snd_soc_component_read()/snd_soc_component_write()?
->
-> > If so, are there any rules for using snd_soc_component_xxx()?
->
-> No, it's fine to use the component wrappers if you happen to have a
-> component to hand.  What's an issue is things like writing your own
-> register cache code (the above bit is part of an open coded cache
-> implementation), or I2C read/write functions if there's not something
-> unusual with how the device does I/O.
+Best regards,
+Krzysztof
 
-Indeed, I misunderstood it before. As I understand it, we should use
-regmap_config.reg_defaults instead of
-snd_soc_component_driver.{read/write}.
-
-Thanks.
-Binbin
