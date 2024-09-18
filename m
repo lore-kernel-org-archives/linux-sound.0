@@ -1,229 +1,189 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2059.outbound.protection.outlook.com [40.107.243.59])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84CA5161916;
-	Wed, 18 Sep 2024 06:22:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.59
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726640569; cv=fail; b=FN5G8hUwbet3VRVl7C636HKAgPjrKnVJj6ZVkANQfvow11fL1dHo93rtgeMShCAST38ndF0+2s8MftdGaUjmFPqBy/RZ0T6PGmqtR4XdiCwlnjCdYGBz7zy6TpieFZiuQ7nvlTVfuHyQlkShCTFJ9Qm0fhPzwylYcKbeQv3+kHY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726640569; c=relaxed/simple;
-	bh=loQzfQmJhsQ0pWkbcGsa188ZKhzzVpYxkEQOWXeanRE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dT/vILO8FwWqHrYceDEYS4/mDdrDsjuawcVhfF8ErnGQXPEXHYyW1GAlAHp534DHzK/MZlnSP6ZtMc5cyR9V9NJwScM96OaIOwxc2GW8gQ/QHTfyHob2twjqTKtx6jM83bJfVQwr0Ogv0Ynu8LiiU6zo4ALf0yVK2PhGIVlwgLo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=UTmN8FCh; arc=fail smtp.client-ip=40.107.243.59
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE5313AA2D;
+	Wed, 18 Sep 2024 06:45:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726641932; cv=none; b=PV8E2rHoTmvIcky6BxWSK9U87nhWSLtN2fWuPZ7oiPZoycJUJwXGjriBO5/d4LGIGpHvagcKEdgseYrUZnlsTOT8b5dJM3tTvqoXAgXrFO/o82H9em0sRvIUfnWTFU3kgOr6aGnj1RBMwG1pRV0ONcV0He+0iCh58HL3Ge+nAUU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726641932; c=relaxed/simple;
+	bh=HKwxK8Mra+ZUj8lforK7epZXztfqRhaHwODzzj+0LRI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=NRzzGVZNN4KHRriktiGCEp/mkMTgJy4P+FolvQJZ0ypz9/VwyhliIjRaayuozde1ityvodPwrEX7X2PsPyoPmJwuHTJgtpPskSw/fcaOUs2pVCAlv4UnvgWftE6P85JBmL5ojzj1rZygjas7HgiZpgnkDgBsqUwWlOVjntBuVlQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=eatpWrAZ; arc=none smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="UTmN8FCh"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fmOlIY+EANwaWFRBkz5AMZsPVbod4oJFSqWMO2mqA3yiCj+iF5NIpQr53tnL12Gnzue67wyV6Bs8LYqwJYz8Pq/7rBCNFTfa84s6c4erg9mDe0hxbXb7YpSyspZTQc+7L3NgISHVMkWR9vHJ0leTbsXnM4cYrIYwA7OkmodclqiVqx3QgziwEuIM71JqTufV9y2cFksbWbh1Y2oZcgjXbPwmiC28pkgjWMTVlnbrfcOb7beaIiww/Jk0NOgfx6e18ZY+CW9SNb1qYQa6uBYHvw6CFZVfypFEwAAxClo20m/H/xOBkS/+sKhdrxu5zCFydfpwaA+kG80d4fKbNgMpmw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cf4LILkITo6sRTgwpXVGJGnK3u/PXFXhO0mgTbTkqgE=;
- b=ciGPPY3KMi85D8DQohDGb3qkMiIWZd6R4BChjCQlJqiTyEhQKXMwomxZAv+mQ7pnNnxECtHL+GPfU5Ub/h3QiAOtcIctYQ9Uhnn9zE9Su5U5Tms6CgDgWnZ+MaIDJpGJ8DUlMSd52Ekyctq2LL/5aiOa1nguluWI3Mwn1vOIb1BGTFJnrFRQJwYr6JNJ6VBbefu99Og5fSraMjazUCkBHIKu9OgvuARVlos20cf75ujqtwNjQxVMEoxACKVlUBY2he9hi/qU1Bceb+96Qnq7wVsI4Q5h4jjP1hQ1RwJWMAEJkp9QUXJlv5K1qMln3ZOFVEhgvI1nH8VDI8fCqC2Fig==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cf4LILkITo6sRTgwpXVGJGnK3u/PXFXhO0mgTbTkqgE=;
- b=UTmN8FChJnQoVvmL2KF/eIf5eNyjCHnkyWw0SsbCbo900fVdEsnj62FP1oBFarsFKtOSe/V+Ulkak14DDpmZ55oSUbnmq24Z0HilMPLxfxnkuJ0Y06UU3F2YTxxALK9GLS+HtIczER9foE2iLT6fW/tyKB1MLenuCUL4WSgMpBo=
-Received: from BN0PR02CA0009.namprd02.prod.outlook.com (2603:10b6:408:e4::14)
- by DS0PR12MB6581.namprd12.prod.outlook.com (2603:10b6:8:d3::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7962.24; Wed, 18 Sep
- 2024 06:22:43 +0000
-Received: from BN1PEPF00004682.namprd03.prod.outlook.com
- (2603:10b6:408:e4:cafe::5e) by BN0PR02CA0009.outlook.office365.com
- (2603:10b6:408:e4::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.25 via Frontend
- Transport; Wed, 18 Sep 2024 06:22:42 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN1PEPF00004682.mail.protection.outlook.com (10.167.243.88) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7918.13 via Frontend Transport; Wed, 18 Sep 2024 06:22:42 +0000
-Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
- SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 18 Sep 2024 01:22:23 -0500
-From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-To: <broonie@kernel.org>
-CC: <alsa-devel@alsa-project.org>, <lgirdwood@gmail.com>, <perex@perex.cz>,
-	<tiwai@suse.com>, <Basavaraj.Hiregoudar@amd.com>,
-	<Sunil-kumar.Dommati@amd.com>, <venkataprasad.potturu@amd.com>,
-	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Vijendar
- Mukunda" <Vijendar.Mukunda@amd.com>
-Subject: [PATCH 8/8] ASoC: amd: acp: remove unused variable from acp platform driver
-Date: Wed, 18 Sep 2024 11:45:40 +0530
-Message-ID: <20240918061540.685579-9-Vijendar.Mukunda@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240918061540.685579-1-Vijendar.Mukunda@amd.com>
-References: <20240918061540.685579-1-Vijendar.Mukunda@amd.com>
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="eatpWrAZ"
+X-UUID: 95ed20c6758911efb66947d174671e26-20240918
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:CC:To:Subject:MIME-Version:Date:Message-ID; bh=OYO2EcO+MX0CfxoS7F4jWIet58CD9M/3WWGPyCM7GRs=;
+	b=eatpWrAZ6iU3UHGRLcOQGAL6rG1190ywtXeR5edkqo273N9t88Ihej4V4vAuB8oKQ1/rCmK5YFhT1zrUBGRELo0T4N71k8vqYpRbY/1YqAm8fqxqrMUdQueXEwVjMJuJI++39QHxYUO2LE+TkBDo7kEqL5FVzMMb+ctIB8LqxDQ=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.41,REQID:125f8b77-2f9c-4264-b549-bc3844910a59,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:6dc6a47,CLOUDID:021c5ed0-7921-4900-88a1-3aef019a55ce,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|-5,EDM:-3,IP:ni
+	l,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 95ed20c6758911efb66947d174671e26-20240918
+Received: from mtkmbs09n1.mediatek.inc [(172.21.101.35)] by mailgw01.mediatek.com
+	(envelope-from <macpaul.lin@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1041043135; Wed, 18 Sep 2024 14:45:25 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Wed, 18 Sep 2024 14:45:22 +0800
+Received: from [172.21.84.99] (172.21.84.99) by mtkmbs13n1.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.1118.26 via Frontend
+ Transport; Wed, 18 Sep 2024 14:45:20 +0800
+Message-ID: <a0a16c7a-0469-d880-532a-2bb69f5ea347@mediatek.com>
+Date: Wed, 18 Sep 2024 14:45:19 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF00004682:EE_|DS0PR12MB6581:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4994a2e8-e3c4-4d61-9345-08dcd7aa4dbf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|82310400026|36860700013;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?MqG937KLzLhQIuyUfXrcK8HWV27Vpi9kWrU3F6nHRr7s3ujckApmH13TOhdC?=
- =?us-ascii?Q?TUaXG5D6vYTuYZV7KLwUc+rF4Mzl/NSJTKhmBdKm2hn2HUlsawAXy3MYtmLj?=
- =?us-ascii?Q?IV6AvsfdavVl+OUYtL5mgnP61woAH+JpYJaKmKnNWgYDLDqRZcd8lS1Npgl4?=
- =?us-ascii?Q?Lbv2no+mbpfXgyf1++6+zZ+S2J6WobHj0MKwCwAUzrPuBSdICEw7hvSDp/aO?=
- =?us-ascii?Q?3nPNTDUdxJMyEtkSa9b6YLaX4XWIKc5e5SYCuaHGTwj7y2LnxGiFSlUyrxel?=
- =?us-ascii?Q?QO+sA8EBCmooaYU6PKOUzQLnO/6n9OHr8mWdYCMbjhspEwK9qjNT4k56lrlA?=
- =?us-ascii?Q?j/TFKWacjRvGboUGI30mP85o5TosKZXaboFV1FRgTn3dv4xSsNiwn+DnQSut?=
- =?us-ascii?Q?G1Ycvg1cZr5N06s90QbMKkiwEsC7UZI3IZkyXhpkyxed/oP3qvrsCXQPjb/L?=
- =?us-ascii?Q?UX03PWxs/D8/QBbGOPmcQ0z0GykiBrRFjq8c/PWbkdZ+pK8IFnq7eUbjk5M5?=
- =?us-ascii?Q?cVA9OK0gngBskq+QVaKur3PBm0X9mJIQ5WGtPKiw8SFMB4VZoTMw6mMy2DPx?=
- =?us-ascii?Q?jIo16yh7T3y9gqDSRGYAvZZfD8c+bPqu5JddIYNog1sG8GN7z2t1+gwETKBi?=
- =?us-ascii?Q?6zg9WPpCKhcRcYPUxNnSwNKLm30lJMlvEDHlDJUFFVKBlahnqBcF/0ZklUzs?=
- =?us-ascii?Q?OOv2EX2b6XddGMPj+priIXoQMbyZlYba21w/xsmq4pA2w39woH1En0pBdTAe?=
- =?us-ascii?Q?xiT1dt+DDG/uTghfwvI29q7ACNRKdGahzz8fX/Xwwe1/AVfETc1I/aEGfXpn?=
- =?us-ascii?Q?hGrsSB/oTtepYJvLOWWaf3na5+DhqmbQeznQP160tgcpzeg6WA/xbzo3zI/Y?=
- =?us-ascii?Q?E08NjriKAX1TYUmQLEkc1RR0q908Hqm1ZEfhNM+Yk12Ik9NzupwOCYHrDch1?=
- =?us-ascii?Q?5M0nSZ4aOIwF9CEv88nDTi8sFYovBgzu6SHT9wauR5XFGy2LKj13fLplsJCZ?=
- =?us-ascii?Q?thPH/rNXsHOsGVdQwd9gcHQceCbepxXgAZ+JY5PK7hMpmH3P7sn2oJ8gIPJT?=
- =?us-ascii?Q?VGPVbU8SczInAxqXiFOr3MaNBbxKUxwD3yYRer/joEK1ugWiSFyb4cN/CfTM?=
- =?us-ascii?Q?ksLJnp0db2aq2HHvSur0+83zaWrqCNtp2q3Tlb3o5gkpsJKyAVJQP+dqDJf+?=
- =?us-ascii?Q?EXb8N3WJ+ymq3AjshJYY26rLDFKoOcwt60gO2QKmZVKg+cK91mdw5kQeZCnx?=
- =?us-ascii?Q?GuzJVBFTIuauhnFquoQIPEdoH89yFRtFQwGt48Y6C9bszaxAMFKPQGEFDQML?=
- =?us-ascii?Q?2DioJrplsozZYWTbr/vynW3HK3xkiO9uS4Eegd6V5djLx0pkJcyrUcwGFgPk?=
- =?us-ascii?Q?4y6pQjdRVxvHH66K0uNSCt4+ugcq8MQybCann5y9qsu9X+y0kniDR68CWRbW?=
- =?us-ascii?Q?XZ0aVZM6DcBcORjFBH32FXNWpQNLVTeO?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(82310400026)(36860700013);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2024 06:22:42.7799
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4994a2e8-e3c4-4d61-9345-08dcd7aa4dbf
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN1PEPF00004682.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6581
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v5 2/3] dt-bindings: mfd: mediatek: mt6397: Convert to DT
+ schema format
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Andrew Lunn <andrew@lunn.ch>, Florian Fainelli <f.fainelli@gmail.com>,
+	Vladimir Oltean <olteanv@gmail.com>, "David S . Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring
+	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+	<conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, "Liam
+ Girdwood" <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Sean Wang
+	<sean.wang@mediatek.com>, Sen Chu <sen.chu@mediatek.com>,
+	<netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, Dmitry Torokhov
+	<dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, Lee Jones
+	<lee@kernel.org>, Sebastian Reichel <sre@kernel.org>, Alexandre Belloni
+	<alexandre.belloni@bootlin.com>, Chen Zhong <chen.zhong@mediatek.com>,
+	<linux-input@vger.kernel.org>, <linux-leds@vger.kernel.org>,
+	<linux-pm@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
+	<linux-sound@vger.kernel.org>, Alexandre Mergnat <amergnat@baylibre.com>,
+	Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
+	Macpaul Lin <macpaul@gmail.com>, Chris-qj chen <chris-qj.chen@mediatek.com>,
+	MediaTek Chromebook Upstream
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>, Chen-Yu Tsai
+	<wenst@chromium.org>
+References: <20240916151132.32321-1-macpaul.lin@mediatek.com>
+ <20240916151132.32321-2-macpaul.lin@mediatek.com>
+ <iudkiamza3lsl33tsby3sghfy66rj2tgg3kqjjwzeba46oxtpi@yrri5m5skjld>
+From: Macpaul Lin <macpaul.lin@mediatek.com>
+In-Reply-To: <iudkiamza3lsl33tsby3sghfy66rj2tgg3kqjjwzeba46oxtpi@yrri5m5skjld>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--16.205300-8.000000
+X-TMASE-MatchedRID: QfHZjzml1E8OwH4pD14DsAPZZctd3P4BC/ExpXrHizxV1lQ/Hn0TOpm3
+	CkZsyRGFGAs04whSQKmxN81bhpHVXyiETuGglu04Bu2zRCSrLjbXAvRa0tfJGg6QlBHhBZuw5gc
+	Q9o9yjpueQqC+u+jOSA6JWCjkElGt0g+iOlrNCJM1yhbbA7We0+Tv34VGGbNIWltirZ/iPP6tBF
+	nLFqDVm8IgA/magxYucQfBx409I+hgZ3QS6Zzlz+v8QGaI25e3nophrTcsI7abKItl61J/ycnjL
+	TA/UDoAA6QGdvwfwZZWRVlrjsKO8N0H8LFZNFG7bkV4e2xSge6L7+/PK9Vdww4apptB4u3+6SFU
+	bUyOTorfjtkGwm07arAUyUg9ogFt
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--16.205300-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP:
+	E8DAA0D017FE1404BF14FCB32DAF0E99A46CD1524B4ED9644550D353E64B24CD2000:8
 
-Remove 'platform' variable from acp platform driver private data
-structure. For platform differentiation, ACP pci revision id being
-used through out the code. As platform variable is no longer used in
-code, drop the code corresponding to 'platform' variable.
 
-Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
----
- sound/soc/amd/acp/acp-mach.h      | 8 --------
- sound/soc/amd/acp/acp-rembrandt.c | 1 -
- sound/soc/amd/acp/acp-renoir.c    | 1 -
- sound/soc/amd/acp/acp63.c         | 1 -
- sound/soc/amd/acp/acp70.c         | 5 -----
- sound/soc/amd/acp/amd.h           | 1 -
- 6 files changed, 17 deletions(-)
+On 9/17/24 15:00, Krzysztof Kozlowski wrote:
 
-diff --git a/sound/soc/amd/acp/acp-mach.h b/sound/soc/amd/acp/acp-mach.h
-index 414d0175988b..f94c30c20f20 100644
---- a/sound/soc/amd/acp/acp-mach.h
-+++ b/sound/soc/amd/acp/acp-mach.h
-@@ -53,14 +53,6 @@ enum codec_endpoints {
- 	ES83XX,
- };
- 
--enum platform_end_point {
--	RENOIR = 0,
--	REMBRANDT,
--	ACP63,
--	ACP70,
--	ACP71,
--};
--
- struct acp_mach_ops {
- 	int (*probe)(struct snd_soc_card *card);
- 	int (*configure_link)(struct snd_soc_card *card, struct snd_soc_dai_link *dai_link);
-diff --git a/sound/soc/amd/acp/acp-rembrandt.c b/sound/soc/amd/acp/acp-rembrandt.c
-index 065ac13b2220..008d97598b62 100644
---- a/sound/soc/amd/acp/acp-rembrandt.c
-+++ b/sound/soc/amd/acp/acp-rembrandt.c
-@@ -227,7 +227,6 @@ static int rembrandt_audio_probe(struct platform_device *pdev)
- 	adata->dai_driver = acp_rmb_dai;
- 	adata->num_dai = ARRAY_SIZE(acp_rmb_dai);
- 	adata->rsrc = &rsrc;
--	adata->platform = REMBRANDT;
- 	adata->acp_rev = chip->acp_rev;
- 	adata->flag = chip->flag;
- 	adata->is_i2s_config = chip->is_i2s_config;
-diff --git a/sound/soc/amd/acp/acp-renoir.c b/sound/soc/amd/acp/acp-renoir.c
-index f372a56a0a17..166f1efacf1d 100644
---- a/sound/soc/amd/acp/acp-renoir.c
-+++ b/sound/soc/amd/acp/acp-renoir.c
-@@ -185,7 +185,6 @@ static int renoir_audio_probe(struct platform_device *pdev)
- 	adata->dai_driver = acp_renoir_dai;
- 	adata->num_dai = ARRAY_SIZE(acp_renoir_dai);
- 	adata->rsrc = &rsrc;
--	adata->platform = RENOIR;
- 	adata->acp_rev = chip->acp_rev;
- 	adata->flag = chip->flag;
- 
-diff --git a/sound/soc/amd/acp/acp63.c b/sound/soc/amd/acp/acp63.c
-index f0c516ccf96b..e0b86132eb95 100644
---- a/sound/soc/amd/acp/acp63.c
-+++ b/sound/soc/amd/acp/acp63.c
-@@ -237,7 +237,6 @@ static int acp63_audio_probe(struct platform_device *pdev)
- 	adata->dai_driver = acp63_dai;
- 	adata->num_dai = ARRAY_SIZE(acp63_dai);
- 	adata->rsrc = &rsrc;
--	adata->platform = ACP63;
- 	adata->acp_rev = chip->acp_rev;
- 	adata->flag = chip->flag;
- 	adata->is_i2s_config = chip->is_i2s_config;
-diff --git a/sound/soc/amd/acp/acp70.c b/sound/soc/amd/acp/acp70.c
-index db5dd64969b0..3e4fd113a8a4 100644
---- a/sound/soc/amd/acp/acp70.c
-+++ b/sound/soc/amd/acp/acp70.c
-@@ -210,11 +210,6 @@ static int acp_acp70_audio_probe(struct platform_device *pdev)
- 	adata->rsrc = &rsrc;
- 	adata->machines = snd_soc_acpi_amd_acp70_acp_machines;
- 	adata->acp_rev = chip->acp_rev;
--	if (chip->acp_rev == ACP70_PCI_ID)
--		adata->platform = ACP70;
--	else
--		adata->platform = ACP71;
--
- 	adata->flag = chip->flag;
- 	acp_machine_select(adata);
- 
-diff --git a/sound/soc/amd/acp/amd.h b/sound/soc/amd/acp/amd.h
-index dcfc29b2f072..ee69dfb10cb8 100644
---- a/sound/soc/amd/acp/amd.h
-+++ b/sound/soc/amd/acp/amd.h
-@@ -201,7 +201,6 @@ struct acp_dev_data {
- 	u32 xfer_tx_resolution[3];
- 	u32 xfer_rx_resolution[3];
- 	unsigned int flag;
--	unsigned int platform;
- };
- 
- enum acp_config {
--- 
-2.34.1
+...
 
+> 
+> On Mon, Sep 16, 2024 at 11:11:31PM +0800, Macpaul Lin wrote:
+>> Convert the mfd: mediatek: mt6397 binding to DT schema format.
+>> 
+>> MT6323, MT6358, and MT6397 are PMIC devices with multiple function
+>> subdevices. They share a common PMIC design but have variations in
+>> subdevice combinations.
+>> 
+>> Key updates in this conversion:
+> 
+> ...
+
+[snip]
+
+>> +
+>> +            ldo_vcamio {
+>> +                regulator-name = "vcamio";
+>> +                regulator-min-microvolt = <1800000>;
+>> +                regulator-max-microvolt = <1800000>;
+>> +                regulator-enable-ramp-delay = <216>;
+>> +            };
+>> +        };
+>> +
+>> +        keys {
+>> +            compatible = "mediatek,mt6323-keys";
+>> +            mediatek,long-press-mode = <1>;
+>> +            power-off-time-sec = <0>;
+>> +
+>> +            power {
+>> +                    linux,keycodes = <116>;
+> 
+> Messed indentation.
+
+OOPS, I didn't find this during editing.
+Will fix it in next version.
+
+>> +
+>> +        power-controller {
+>> +            compatible = "mediatek,mt6323-pwrc";
+>> +            #power-domain-cells = <0>;
+>> +        };
+>> +
+>> +        rtc {
+>> +            compatible = "mediatek,mt6323-rtc";
+>> +        };
+>> +    };
+> 
+> Keep one complete example. Maybye two if they are significantly
+> different, but I don't see these differences.
+> 
+
+Okay, will keep complete example for mt6323.
+Trimmed most similar part of mt6358 and mt6397.
+Since there are some typical usage in other nodes.
+Just keep these smaller nodes for mt6358 and mt6397.
+Will also add a note of this in commit message.
+
+>> +
+>> +  - |
+>> +    #include <dt-bindings/input/input.h>
+>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+>> +
+>> +    pmic {
+>> +        compatible = "mediatek,mt6358">
+> 
+> 
+> ....
+> 
+>> -Required properties:
+>> -- compatible: "mediatek,mt6397-pinctrl"
+>> -For details, see ../pinctrl/pinctrl-mt65xx.txt
+> 
+> Best regards,
+> Krzysztof
+> 
+>
+
+Thanks!
+
+Best regardsMacpaul Lin
