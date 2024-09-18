@@ -1,111 +1,134 @@
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69F87F9CB;
-	Wed, 18 Sep 2024 14:10:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BC72B641;
+	Wed, 18 Sep 2024 14:19:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726668607; cv=none; b=fdAd9y4f45ZDEKLJH+Xr8epqBLImrVNBvOJXW9ohB/lDbONjt8gqpCTpOxq1+RipRK3K0a37JY7gJ+l8pGu1sSgcfJEvuUGeKec8wxgC4Sty2J0T57X6GG/PLmwnlU5qRe/6vYA/ACNefLJQHPLQif8PlyQUNiA4JGrjc+mX9/U=
+	t=1726669144; cv=none; b=e/thD/vad9g4EpCAz/hLJIoLFPcB8IQAy4OO1UKbKo0qHrJAaNxd5tje5kQijNNJ9TvKzKr9n6T1WQT7PKJQ6j3Rp7D6ztrqY8S47jqE/sKFVJGsGihAgfDLjEojagv9wcaJVwBPmlitcfs+MwD6ROf7pR+DOQqn87f//L0nLJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726668607; c=relaxed/simple;
-	bh=13VMKhIv2lXRTCy5STsEsl6Vx30Qfx8Efz6mgtaPZwo=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=otspe0VZ7coO/Z35VA+K0i1rYdKplMzjuO8jP08aKh83gIF6wo5JdwOTMvEM4QeaIs+QTOVtkRr3GTC7HL0D3vxa/tvPAbQfk8PWT2R/Nt+PSUipUpG7YrCFa4+5xkMJMLz+gEx5qkkyHT73aWwehF+fCi62+GrVIdwJuYA5eBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tuxedo.de; spf=pass smtp.mailfrom=tuxedo.de; dkim=pass (2048-bit key) header.d=tuxedo.de header.i=@tuxedo.de header.b=bPNd6doL; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tuxedo.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedo.de
+	s=arc-20240116; t=1726669144; c=relaxed/simple;
+	bh=kuIhVaH/sURzbeGtq9u4Yf7ANcaLs1U8dtZXXJxlLBQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=ARSQtCXl6avL3YXfdq5mgtOTJl0IesUr4vFdzSWDKtScVyyqSWVCyMeR6sT/fTu4lxHbjXkvmtObBHhbc62JP2XFY+gcqNSGsrxe74RMmhotR6LYnvKAe3kH+I3ArHek/R2Z5ZSg3hSg9WUlT1L12f1o6zfVPg5ZZ0OAmVkVXkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=PWN3ix7O; arc=none smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxedo.de header.i=@tuxedo.de header.b="bPNd6doL"
-Received: from mail.tuxedocomputers.com (localhost [IPv6:::1])
-	(Authenticated sender: cs@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPA id 1B98E2FC0173;
-	Wed, 18 Sep 2024 16:10:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedo.de; s=default;
-	t=1726668600;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0n5gawmEzxr38cZdSrO5pp3uPMCaZrV3zJ4YL6eIaL4=;
-	b=bPNd6doLl6+drAkUVWagvecGNXjYiBWcFeoNu1sBezyUoG0Nz4F2jl8cZU8vM30tWG5VnZ
-	QeWO1PCIM986b9W3JH/GW77XX+QBV6NbNWwVkodd6tFh/lekcTOYf46piaYlm0cQ4waXN5
-	AvyWy9wyWeqxzpTamPxE3E+gxGUkqiOIApf1OzO3S7xzXZXfS6Oa9jrPXKwF3YEMCrG30m
-	wVrNUqOuxDaFsUELTtMWc2EaRr3wAtVuuMUbWEPjb+g0WwSdTequTzl9N3TlxmbRfA2S/U
-	mUkcilxp97v2KVeLs4oK96ikoeI+p/DLNe0pLBK9cR6mxqQ7LF6Nd+3CiocVYw==
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="PWN3ix7O"
+X-UUID: ef94acd675c811efb66947d174671e26-20240918
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:CC:To:Subject:MIME-Version:Date:Message-ID; bh=XjEmjEbDr/iItb5rfSlsNht1UeFeXXltkTGmpbSrD10=;
+	b=PWN3ix7ONh+a4y/lAHDm8uxzSpLOvc219I9YQm1apLkUem5WUHwLxBhqYpE0FoJ/4dCroS3KfyvqxLhR8uNYorbOLG/88bs7sgHFsEBrTuv97D/bXHa40aTLPfHvdZQCEr5uBtd+iEPQ3aZ8agtidVv0uvlxXbCA53GbvdyV0Z4=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.41,REQID:9493faad-fd0d-4bd8-80c4-877a3bb65f8b,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:6dc6a47,CLOUDID:7a3225c0-d7af-4351-93aa-42531abf0c7b,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|-5,EDM:-3,IP:ni
+	l,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: ef94acd675c811efb66947d174671e26-20240918
+Received: from mtkmbs09n2.mediatek.inc [(172.21.101.94)] by mailgw01.mediatek.com
+	(envelope-from <macpaul.lin@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 906312236; Wed, 18 Sep 2024 22:18:54 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Wed, 18 Sep 2024 22:18:51 +0800
+Received: from [172.21.84.99] (172.21.84.99) by mtkmbs13n1.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.1118.26 via Frontend
+ Transport; Wed, 18 Sep 2024 22:18:51 +0800
+Message-ID: <2af0621d-14ac-b7f3-b28d-2df698931121@mediatek.com>
+Date: Wed, 18 Sep 2024 22:18:49 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Wed, 18 Sep 2024 16:10:00 +0200
-From: Christoffer Sandberg <cs@tuxedo.de>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Werner Sembach <wse@tuxedocomputers.com>, Jerry Luo
- <jerryluo225@gmail.com>, Christian Heusel <christian@heusel.eu>,
- regressions@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>
-Subject: Re: [REGRESSION][BISECTED] Audio volume issues since 4178d78cd7a8
-In-Reply-To: <87r09hcbr0.wl-tiwai@suse.de>
-References: <c930b6a6-64e5-498f-b65a-1cd5e0a1d733@heusel.eu>
- <87jzfbh5tu.wl-tiwai@suse.de>
- <66dfd536-ae17-4d75-b514-7931a3734e54@gmail.com>
- <20f70c0a92a27db29f188e05c33ba82c@tuxedo.de>
- <1fbba03e-56b8-4e74-adf6-998e3a2d9dac@gmail.com>
- <87setxe68m.wl-tiwai@suse.de> <87r09he63e.wl-tiwai@suse.de>
- <dfb141e8-6afa-4d21-8cd4-f9a53e8a192e@tuxedocomputers.com>
- <87r09hcbr0.wl-tiwai@suse.de>
-User-Agent: Roundcube Webmail/1.4.15
-Message-ID: <cedb8758bb506bf9454b90eebcaaea24@tuxedo.de>
-X-Sender: cs@tuxedo.de
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v6 2/2] dt-bindings: mfd: mediatek: mt6397: Convert to DT
+ schema format
+Content-Language: en-US
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+CC: Andrew Lunn <andrew@lunn.ch>, Florian Fainelli <f.fainelli@gmail.com>,
+	Vladimir Oltean <olteanv@gmail.com>, "David S . Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring
+	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+	<conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, "Liam
+ Girdwood" <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Sean Wang
+	<sean.wang@mediatek.com>, Sen Chu <sen.chu@mediatek.com>,
+	<netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, Dmitry Torokhov
+	<dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, Lee Jones
+	<lee@kernel.org>, Sebastian Reichel <sre@kernel.org>, Chen Zhong
+	<chen.zhong@mediatek.com>, <linux-input@vger.kernel.org>,
+	<linux-leds@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+	<linux-rtc@vger.kernel.org>, <linux-sound@vger.kernel.org>, Alexandre Mergnat
+	<amergnat@baylibre.com>, Bear Wang <bear.wang@mediatek.com>, Pablo Sun
+	<pablo.sun@mediatek.com>, Macpaul Lin <macpaul@gmail.com>, Chris-qj chen
+	<chris-qj.chen@mediatek.com>, MediaTek Chromebook Upstream
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>, Chen-Yu Tsai
+	<wenst@chromium.org>
+References: <20240918064955.6518-1-macpaul.lin@mediatek.com>
+ <20240918064955.6518-2-macpaul.lin@mediatek.com>
+ <20240918115151c896f33f@mail.local> <20240918115651c1475d36@mail.local>
+From: Macpaul Lin <macpaul.lin@mediatek.com>
+In-Reply-To: <20240918115651c1475d36@mail.local>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--8.691800-8.000000
+X-TMASE-MatchedRID: oTBA/+sdKaYOwH4pD14DsPHkpkyUphL9MVx/3ZYby79qv/+QKNcPLjC0
+	pJIQUiJOGseg1yShYPHih/b1HlnM9Q5G/b6aSGR8XP5rFAucBUG4vBuE2X0HlWCD5SM8YvVFrEc
+	1eeVEldxaYyc8H6RJsjyKeJLvd5yKS33cD/vC1hvMZk86HxFjjpxfK35V7okVhfNq6/87jDJYjc
+	VS5TZhCWHcSGagcNcdZy7lMbj3gjVQswgj0HOv3OYAh37ZsBDCfS0Ip2eEHny+qryzYw2E8Jkw8
+	KdMzN86KrauXd3MZDWUeK0fD/v8dvjqHGyLezS3oy0lljZZZ2v5QaKF1q8tByZGO6z8Y6YfwL6S
+	xPpr1/I=
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--8.691800-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP: 50E6DB0D564377DBBA495A7680F8C29ABE43384A3C6FFA277C2A8BBD86BA24502000:8
 
 
-
-On 18.9.2024 15:49, Takashi Iwai wrote:
-> On Wed, 18 Sep 2024 15:39:28 +0200,
-> Werner Sembach wrote:
->> 
->> Hi
->> 
->> Am 18.09.24 um 10:09 schrieb Takashi Iwai:
->> > On Wed, 18 Sep 2024 10:06:01 +0200,
->> > Takashi Iwai wrote:
->> >> [...]
->> >> I don't see any relevant about the incorrect volumes by the suggested
->> >> commit, but at least we should avoid applying the quirk for a
->> >> non-existing speaker pin.
->> >>
->> >> Jerry, yours is with CX11970 (codec id 0x14f120d0), right?
->> 
->> Yes, at least for the preproduction sample of the Sirius Gen1 I have
->> at hand atm.
->> 
->> pciid is 2782:12c3
->> 
->> @Christoffer: I guess 2782:12c5 is for the Gen2?
-
-Yes the other is for Sirius Gen2
-
+On 9/18/24 19:56, Alexandre Belloni wrote:
 > 
-> Hm, and one of those PCI SSID conflicts with System76 Pangolin
-> (pang14)?  All seem to have the very same codec CX11970.
-
-I don't think I saw the pci id explicitly listed, but that was the 
-assumption.
-
+> On 18/09/2024 13:51:51+0200, Alexandre Belloni wrote:
+>> > Changes for v4:
+>> >  - Remove "mediatek,mt6357" from PMIC's compatible string since there is a
+>> >    seperated DT schema for PMIC mt6357.
+>> > 
+>> > Changes for v5:
+>> >  - Rebase to next-20240913 (linux-next/master).
+>> >  - Fix the "title" (device type) of mfd/mediatek,mt6397.yaml to "PMIC".
+>> >  - RTC:
+>> >   - Drop "start-year"
+>> 
+>> Maybe, instead of dropping the property, you should add support in the
+>> driver by setting range_min and range_max.
 > 
-> If they really conflict in both PCI and HD-audio codec IDs, the only
-> way would be to check DMI string, I'm afraid.
-> 
+> Looking at this even more, the driver can probably be simplified by
+> setting start_year in probe and dropping RTC_MIN_YEAR_OFFSET.
 
-I asked about the volumes since it could be a hint that a second speaker 
-is activated but stuck on a fixed volume. This would make a low general 
-volume setting sound louder but still somewhat adjustable.
+Thank you for pointing out where and how the driver should be changed.
+However, I'm wondering if this should be a fix with a separated
+patchset (bindings and the driver)? The board or SoC's device trees
+should be reviewed as well. I'll need to get someone's help (permission) 
+inside MediaTek to check those dts and construct the patch for RTC driver.
+That will take sometime.
 
-However, if we can not verify second speaker pair, then I agree, DMI 
-limit would be the safe choice.
+[snip]
 
-Christoffer
+Thanks.
+Best Regards,
+Macpaul Lin
