@@ -1,134 +1,82 @@
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BC72B641;
-	Wed, 18 Sep 2024 14:19:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82ACB1A01C5;
+	Wed, 18 Sep 2024 14:30:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726669144; cv=none; b=e/thD/vad9g4EpCAz/hLJIoLFPcB8IQAy4OO1UKbKo0qHrJAaNxd5tje5kQijNNJ9TvKzKr9n6T1WQT7PKJQ6j3Rp7D6ztrqY8S47jqE/sKFVJGsGihAgfDLjEojagv9wcaJVwBPmlitcfs+MwD6ROf7pR+DOQqn87f//L0nLJU=
+	t=1726669820; cv=none; b=vBcN3utDijjUW7cAchIM6LfWlr2ziHauDjx6CWsIlxSoqf91JEU/5E+Bd6pMM85E377u9xSDONJKqxF2NwdLCPItsE17DgLiTEADqXi0pJXlbyE2b1LlkdbCucJCiccw/H3n/+2CNOs4Wiwr+OrURss1Z4l+PxTudhjwIuETHK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726669144; c=relaxed/simple;
-	bh=kuIhVaH/sURzbeGtq9u4Yf7ANcaLs1U8dtZXXJxlLBQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=ARSQtCXl6avL3YXfdq5mgtOTJl0IesUr4vFdzSWDKtScVyyqSWVCyMeR6sT/fTu4lxHbjXkvmtObBHhbc62JP2XFY+gcqNSGsrxe74RMmhotR6LYnvKAe3kH+I3ArHek/R2Z5ZSg3hSg9WUlT1L12f1o6zfVPg5ZZ0OAmVkVXkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=PWN3ix7O; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+	s=arc-20240116; t=1726669820; c=relaxed/simple;
+	bh=1WUFO/IQPHwNpY3FVg6Ddg7b28QOl0MF0h37pQdLBiI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Rba2Rnhl2dzNJbqwMwkj0PKIGfnJiPxCInALwFm9jMScEDE8ie8ClMSk32NDBIbgardEumsVt/ub69yB21ZSo1GtN6H6PJPous8UmncQN+JYVM2PT1ladAQ+hjBWbxeEZ6Zk8NP+Y8Rb3NZuPhPKK6+VydlXJVcYYV8bVlNH4F4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YBE4zoLK; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="PWN3ix7O"
-X-UUID: ef94acd675c811efb66947d174671e26-20240918
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:CC:To:Subject:MIME-Version:Date:Message-ID; bh=XjEmjEbDr/iItb5rfSlsNht1UeFeXXltkTGmpbSrD10=;
-	b=PWN3ix7ONh+a4y/lAHDm8uxzSpLOvc219I9YQm1apLkUem5WUHwLxBhqYpE0FoJ/4dCroS3KfyvqxLhR8uNYorbOLG/88bs7sgHFsEBrTuv97D/bXHa40aTLPfHvdZQCEr5uBtd+iEPQ3aZ8agtidVv0uvlxXbCA53GbvdyV0Z4=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.41,REQID:9493faad-fd0d-4bd8-80c4-877a3bb65f8b,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:6dc6a47,CLOUDID:7a3225c0-d7af-4351-93aa-42531abf0c7b,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|-5,EDM:-3,IP:ni
-	l,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
-	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: ef94acd675c811efb66947d174671e26-20240918
-Received: from mtkmbs09n2.mediatek.inc [(172.21.101.94)] by mailgw01.mediatek.com
-	(envelope-from <macpaul.lin@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 906312236; Wed, 18 Sep 2024 22:18:54 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Wed, 18 Sep 2024 22:18:51 +0800
-Received: from [172.21.84.99] (172.21.84.99) by mtkmbs13n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.1118.26 via Frontend
- Transport; Wed, 18 Sep 2024 22:18:51 +0800
-Message-ID: <2af0621d-14ac-b7f3-b28d-2df698931121@mediatek.com>
-Date: Wed, 18 Sep 2024 22:18:49 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YBE4zoLK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726669819; x=1758205819;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=1WUFO/IQPHwNpY3FVg6Ddg7b28QOl0MF0h37pQdLBiI=;
+  b=YBE4zoLKdr0Cw/odbC00diSe5LBkDrUan2M6XRpz4ajiZcrGAlxCu/H1
+   Ls+kWGS22MBUBSUmCDYW4G3XcpPyMv9NKYaFYrbS8W4wFamRHUcWlI8X2
+   tVDhiX/K/AyW92MC3yXJbdiuGoJiIQrY9P7aAxSIDU1gabK7FPtumgZ1+
+   3QG9XFnncPnRzzD1HTVN6LQk1Uu3SvvZ4F3mfqOEGGmPnOG0qGzI7Cm4I
+   7rP5cmxdkhKPzOPEXzkE9Hlno04ZgTgaz/006yw4Po2qVme6SpODHOqXW
+   eVwO2/5kaBtz4oHhwdzY93xXeFOEEv2jZsgt/ujdkiBncW5GwIjn4Uylh
+   A==;
+X-CSE-ConnectionGUID: +EJsSHn7TXCjv+BqZTBi6w==
+X-CSE-MsgGUID: b/nNswAWQresUoBR9FSqkA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11199"; a="48114201"
+X-IronPort-AV: E=Sophos;i="6.10,239,1719903600"; 
+   d="scan'208";a="48114201"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2024 07:29:43 -0700
+X-CSE-ConnectionGUID: 3nxsiFddQtSP/XXjoCZwlw==
+X-CSE-MsgGUID: 8s0S7PVyRuOH/3/YcMt0Tg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,239,1719903600"; 
+   d="scan'208";a="69197147"
+Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.8.107]) ([10.94.8.107])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2024 07:29:40 -0700
+Message-ID: <591ee483-9370-4a8a-9cd0-b3d8ccb555bd@linux.intel.com>
+Date: Wed, 18 Sep 2024 16:29:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v6 2/2] dt-bindings: mfd: mediatek: mt6397: Convert to DT
- schema format
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: topology: Fix incorrect addressing assignments
 Content-Language: en-US
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-CC: Andrew Lunn <andrew@lunn.ch>, Florian Fainelli <f.fainelli@gmail.com>,
-	Vladimir Oltean <olteanv@gmail.com>, "David S . Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring
-	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
-	<conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, "Liam
- Girdwood" <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Sean Wang
-	<sean.wang@mediatek.com>, Sen Chu <sen.chu@mediatek.com>,
-	<netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-mediatek@lists.infradead.org>, Dmitry Torokhov
-	<dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>, Lee Jones
-	<lee@kernel.org>, Sebastian Reichel <sre@kernel.org>, Chen Zhong
-	<chen.zhong@mediatek.com>, <linux-input@vger.kernel.org>,
-	<linux-leds@vger.kernel.org>, <linux-pm@vger.kernel.org>,
-	<linux-rtc@vger.kernel.org>, <linux-sound@vger.kernel.org>, Alexandre Mergnat
-	<amergnat@baylibre.com>, Bear Wang <bear.wang@mediatek.com>, Pablo Sun
-	<pablo.sun@mediatek.com>, Macpaul Lin <macpaul@gmail.com>, Chris-qj chen
-	<chris-qj.chen@mediatek.com>, MediaTek Chromebook Upstream
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>, Chen-Yu Tsai
-	<wenst@chromium.org>
-References: <20240918064955.6518-1-macpaul.lin@mediatek.com>
- <20240918064955.6518-2-macpaul.lin@mediatek.com>
- <20240918115151c896f33f@mail.local> <20240918115651c1475d36@mail.local>
-From: Macpaul Lin <macpaul.lin@mediatek.com>
-In-Reply-To: <20240918115651c1475d36@mail.local>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--8.691800-8.000000
-X-TMASE-MatchedRID: oTBA/+sdKaYOwH4pD14DsPHkpkyUphL9MVx/3ZYby79qv/+QKNcPLjC0
-	pJIQUiJOGseg1yShYPHih/b1HlnM9Q5G/b6aSGR8XP5rFAucBUG4vBuE2X0HlWCD5SM8YvVFrEc
-	1eeVEldxaYyc8H6RJsjyKeJLvd5yKS33cD/vC1hvMZk86HxFjjpxfK35V7okVhfNq6/87jDJYjc
-	VS5TZhCWHcSGagcNcdZy7lMbj3gjVQswgj0HOv3OYAh37ZsBDCfS0Ip2eEHny+qryzYw2E8Jkw8
-	KdMzN86KrauXd3MZDWUeK0fD/v8dvjqHGyLezS3oy0lljZZZ2v5QaKF1q8tByZGO6z8Y6YfwL6S
-	xPpr1/I=
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--8.691800-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: 50E6DB0D564377DBBA495A7680F8C29ABE43384A3C6FFA277C2A8BBD86BA24502000:8
+To: Tang Bin <tangbin@cmss.chinamobile.com>, lgirdwood@gmail.com,
+ broonie@kernel.org, perex@perex.cz, tiwai@suse.com
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240914081608.3514-1-tangbin@cmss.chinamobile.com>
+From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+In-Reply-To: <20240914081608.3514-1-tangbin@cmss.chinamobile.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-
-On 9/18/24 19:56, Alexandre Belloni wrote:
+On 9/14/2024 10:16 AM, Tang Bin wrote:
+> The variable 'kc' is handled in the function
+> soc_tplg_control_dbytes_create(), and 'kc->private_value'
+> is assigned to 'sbe', so In the function soc_tplg_dbytes_create(),
+> the right 'sbe' should be 'kc.private_value', the same logical error
+> in the function soc_tplg_dmixer_create(), thus fix them.
 > 
-> On 18/09/2024 13:51:51+0200, Alexandre Belloni wrote:
->> > Changes for v4:
->> >  - Remove "mediatek,mt6357" from PMIC's compatible string since there is a
->> >    seperated DT schema for PMIC mt6357.
->> > 
->> > Changes for v5:
->> >  - Rebase to next-20240913 (linux-next/master).
->> >  - Fix the "title" (device type) of mfd/mediatek,mt6397.yaml to "PMIC".
->> >  - RTC:
->> >   - Drop "start-year"
->> 
->> Maybe, instead of dropping the property, you should add support in the
->> driver by setting range_min and range_max.
-> 
-> Looking at this even more, the driver can probably be simplified by
-> setting start_year in probe and dropping RTC_MIN_YEAR_OFFSET.
+> Fixes: 0867278200f7 ("ASoC: topology: Unify code for creating standalone and widget bytes control")
+> Fixes: 4654ca7cc8d6 ("ASoC: topology: Unify code for creating standalone and widget mixer control")
+> Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
+> ---
 
-Thank you for pointing out where and how the driver should be changed.
-However, I'm wondering if this should be a fix with a separated
-patchset (bindings and the driver)? The board or SoC's device trees
-should be reviewed as well. I'll need to get someone's help (permission) 
-inside MediaTek to check those dts and construct the patch for RTC driver.
-That will take sometime.
+My mistake, thanks!
 
-[snip]
+Reviewed-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
 
-Thanks.
-Best Regards,
-Macpaul Lin
