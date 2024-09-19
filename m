@@ -1,85 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5495119FA72;
-	Thu, 19 Sep 2024 15:25:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 300EA1EF1D
+	for <linux-sound@vger.kernel.org>; Thu, 19 Sep 2024 15:40:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726759557; cv=none; b=ZlEM1lAZldno639H5R3mKmjz0BqAkGLntJb7C1PtRh+jAsgjeR1DdYuV6HB+pE/G3j9rA7zKF46o1o0ICsBLOd5D3S3zkhPUh4k9Yxoc8XKZVj4g6s5ZPxciZHNNe5d3+mLS0NTEx/5CDes1JhBeLxGAr4pgD/FcNLK73xkgC5Q=
+	t=1726760439; cv=none; b=YaYvSqXyGSxZyk80I6YAZBTACTk1Wbs66y+lMapGj4CVjpJocrmwRl1kTJCjaYdFY5Pj0XQY3/I1HsPK67Hs/p240PENCeYgXMEnvYOic1J3SqeB8unfqUh1UMnR5ANzKLu+z0BWSWFqX9aZaw9fWiGwCCb1Fnzw4wrIYEJeR5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726759557; c=relaxed/simple;
-	bh=U2AFCm0xgmrmeAuX0Ch0GWnnjnSPaBVCc3gN4b/1GmM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=kc8bYJaQHyDRCDvYv4tzY/JDj/NPsxpXIV5xrG1E3tJmKxKIuKjF1qubL+BZTemE+aSsYZn280DK2/juackSQPq8hpw/v3HyH7U6/K4uZScr3d22hxd2FYwr70Q5FxJLj30WUFV3XnT4jRbFiw9JxRlu1ndc4GeiUQ9sDRSz0lQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IxE0OShW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1726760439; c=relaxed/simple;
+	bh=S3jjB0JagbvuniWc1hw9aCEL9jm9m5aL8JTzByVY7z0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VZmivB7tlMC4MCUs9/9aTznP6d81t66FkJilqyxi2BlvCTqPV2r8p+tEsFi1TxggcpmvBJUxkZMIZWzg/uSGGsTLWKItRRsZSmB7VD2f+DIZlnH4wnrWAXI4EX1huz43/ni8E96SEPmBa9ndgtv1HbLHFyhTDUF8X875ww1g/Bk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=gmVUCZL/; arc=none smtp.client-ip=209.85.166.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IxE0OShW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E96FC4CEC4;
-	Thu, 19 Sep 2024 15:25:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726759557;
-	bh=U2AFCm0xgmrmeAuX0Ch0GWnnjnSPaBVCc3gN4b/1GmM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=IxE0OShWchhmVNzn8dZinyY6AcNl+aG4mHaVA4GoOIXz86hwO8wNqRGPFZEDqZPYN
-	 NQh+kRWUfFBSDQmjAFZCh4uIjY52eKNjpuVhBonzfuiwacs4sNqiQQtrKacTOGgwT8
-	 +in5GHXfNgdWQgLwzBfClxoC2+CmqTuXnE3+YzeRLC7uVMG5nH6G09CZWf/f0T3/zT
-	 0pEwLgJ53w5cc8tW3CLV/qnvtnZ9M+FHUh5nxDhIHFcJAZwi9Txypt89CzCK7z/QRC
-	 1xltKOICRJ7Pq2FPMKahhH+cQcMyZVPuR05IqVR7snewVnPAHo/JFrOH0qhPJhXtgf
-	 ekGQSOAooa1NA==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- Tang Bin <tangbin@cmss.chinamobile.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20240914081608.3514-1-tangbin@cmss.chinamobile.com>
-References: <20240914081608.3514-1-tangbin@cmss.chinamobile.com>
-Subject: Re: [PATCH] ASoC: topology: Fix incorrect addressing assignments
-Message-Id: <172675955522.1842725.17347774552974803458.b4-ty@kernel.org>
-Date: Thu, 19 Sep 2024 17:25:55 +0200
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="gmVUCZL/"
+Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-39f54079599so3486725ab.0
+        for <linux-sound@vger.kernel.org>; Thu, 19 Sep 2024 08:40:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1726760436; x=1727365236; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6IkoMJd+OMOnoOk1pWpZJ8ZHHOuA8WqT9BG/0ux6KK0=;
+        b=gmVUCZL/6+73L7V9VMmIqtpNHYjVSPZV4wdorlblu/MZBA5URCV3046xqheT467Tp6
+         m9T2v3P/JDx6lf8YR6NWue4ayCEEWZUKCudkflaW/L2xWjGWqYaGIp/rb7Kv0rRsrZpC
+         KFozYHbUDt7L7nKVY+9IzyhrTXTqYWLX9pQA4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726760436; x=1727365236;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6IkoMJd+OMOnoOk1pWpZJ8ZHHOuA8WqT9BG/0ux6KK0=;
+        b=rgJsa5DCWt5dJW0VsL/FiFA3jkD5jGCYaSQumrhEgYv6opHbDICCJ/R8edYDga53oI
+         vl0NH98gyWDW9j1syFvnHNelJJ0maTEWmVxf0vHO8UyWMDxePOJkrNPGxQ8Bop8ZVUU/
+         V0/26Fcz/vEu0jjb8T/7n8XC7/qRQZnGtnE/DEDY81SuadlZvEGde8loBuP/rA9xgUlI
+         uShScwMXXlNMVkLG7FWjvofFRJlO4g/pIfCVAqdTneQwxUkMZ3xkzekAnGTCOe+NSZGI
+         SrSMOZlFhaozwktlfb9BZIha+F5d4cAxsk8UyHIlT7sPRT/LzK1bHYtQvGNXXK/YSCih
+         7QoA==
+X-Gm-Message-State: AOJu0Yxdwcbbyd94zVGjKZPZeBokNPFrq+yPKcp/ZV70Z4MQvMjobBc4
+	GkhbFLBvzJiuzWgpbH9lwf0IDpXtN0Ih6eKJ4C6pQ6GSJqoQ0I/s9QzJzrfrfoc=
+X-Google-Smtp-Source: AGHT+IEruDLQIz1NbajtnHH4BV/rIOv+kAftxwqCcOt/bshhGMnNettNJhh5yGcETaa2+wV+mG0peQ==
+X-Received: by 2002:a05:6e02:1a4a:b0:39d:3c87:1435 with SMTP id e9e14a558f8ab-3a0bef3865dmr30043455ab.1.1726760436231;
+        Thu, 19 Sep 2024 08:40:36 -0700 (PDT)
+Received: from [10.212.145.178] ([12.216.155.19])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4d37ed1904dsm3089529173.108.2024.09.19.08.40.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Sep 2024 08:40:35 -0700 (PDT)
+Message-ID: <7caf7242-1ca4-462a-b3d0-627258df3f1b@linuxfoundation.org>
+Date: Thu, 19 Sep 2024 09:40:34 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] kselftest/alsa: add silent flag to reduce noise
+To: Abdul Rahim <abdul.rahim@myyahoo.com>, perex@perex.cz, tiwai@suse.com,
+ broonie@kernel.org, shuah@kernel.org
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20240915234131.61962-2-abdul.rahim.ref@myyahoo.com>
+ <20240915234131.61962-2-abdul.rahim@myyahoo.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20240915234131.61962-2-abdul.rahim@myyahoo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-99b12
 
-On Sat, 14 Sep 2024 16:16:08 +0800, Tang Bin wrote:
-> The variable 'kc' is handled in the function
-> soc_tplg_control_dbytes_create(), and 'kc->private_value'
-> is assigned to 'sbe', so In the function soc_tplg_dbytes_create(),
-> the right 'sbe' should be 'kc.private_value', the same logical error
-> in the function soc_tplg_dmixer_create(), thus fix them.
+On 9/15/24 17:41, Abdul Rahim wrote:
+> When ALSA is not installed on the users system, the error:
 > 
+> "Package alsa was not found in the pkg-config search path.
+> Perhaps you should add the directory containing `alsa.pc'
+> to the PKG_CONFIG_PATH environment variable
+> Package 'alsa', required by 'virtual:world', not found"
 > 
-> [...]
 
-Applied to
+extra line?
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> is printed 3 times, which generates unnecessary noise.
+> Hence, Remove unnecessary noise using `--silence-errors` on LDLIBS
+> assignment, so the message is printed only once.
 
-Thanks!
+I would say this message is alerting the user that the package is missing.
+Why would you want to delete it?
 
-[1/1] ASoC: topology: Fix incorrect addressing assignments
-      commit: 85109780543b5100aba1d0842b6a7c3142be74d2
+> 
+> Signed-off-by: Abdul Rahim <abdul.rahim@myyahoo.com>
+> ---
+>   tools/testing/selftests/alsa/Makefile | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/tools/testing/selftests/alsa/Makefile b/tools/testing/selftests/alsa/Makefile
+> index 25be68025290..cd022fc869fb 100644
+> --- a/tools/testing/selftests/alsa/Makefile
+> +++ b/tools/testing/selftests/alsa/Makefile
+> @@ -2,7 +2,7 @@
+>   #
+>   
+>   CFLAGS += $(shell pkg-config --cflags alsa) $(KHDR_INCLUDES)
+> -LDLIBS += $(shell pkg-config --libs alsa)
+> +LDLIBS += $(shell pkg-config --silence-errors --libs alsa)
+>   ifeq ($(LDLIBS),)
+>   LDLIBS += -lasound
+>   endif
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+thanks,
+-- Shuah
