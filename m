@@ -1,166 +1,195 @@
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3128312E48;
-	Thu, 19 Sep 2024 01:44:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A6E91991AB;
+	Thu, 19 Sep 2024 08:57:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726710284; cv=none; b=bDS5KpV6UOLO1X/b4bmK2dc7ySjSy8mROLkhmuEXnrULTHkF68J9ejYA8O7Hs2fnwYP02JxIQKL7oJ8D61Vxgre1nOFBqPclIYPrzSsz/cYgJsaZCZK/8/XedROlLm0NeGopYyY9zgUQVMbrDnXqMpM/ZlBUNHhbUCikuF6jZNY=
+	t=1726736224; cv=none; b=WVbrjidILCY4CxO3emxTiuVn6Ky1MuDgccJNwOWmNMMknDHJEfaOsSdQsLmsEbz1zdv7hXO3MUCz7kErFkZzaY8zGe6atDZ9bF9fdyj31lxQYwx3aBD7lTRfgrzaq6+PYiKPf5apEBaSAVugGYTdLS67HyGHevR0wt0zgbXoVoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726710284; c=relaxed/simple;
-	bh=gOX2Efoo6f2Mn2ISU9WRaKt7vI3dsEcG5PIE8Whds9c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=akKXiPx//WcX3ggs77GT4G9NTKVD8czJfWxlvkL8ZGWf7xv1LJUIaja3mr32IK9g3ByspuFg/DObv8Lvd+IrXreRwFjPl1xoMi6R/+xNUi1NNNytOofOtIwSaqPd224md/1o1riP9cvk4LxD0my8wvBMTcJT//vtZwFCn0t9x10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hC46j25E; arc=none smtp.client-ip=209.85.166.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1726736224; c=relaxed/simple;
+	bh=a3imPDKU4F8x26aj5GR4LklMpGZycrHBarNWJaSxQoQ=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QcDDGR9U3xF4ODQBShWXw45vaobYQ8W8+jjEKeTgBAozq3WkIdCSr/Uoa468mVN5/s45EH/CnfwFhIN270GGb61ZN6NbsbeHkvGMYRwvRbmFvXEp8T/9uLF+DZMFNGRu7iBXPoYysOLuKCICqtfY5xC1espCSo6ZenORApGNdZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qiaLlNA1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8WgXI4ra; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qiaLlNA1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8WgXI4ra; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hC46j25E"
-Received: by mail-il1-f182.google.com with SMTP id e9e14a558f8ab-39f56df0ddbso1332975ab.3;
-        Wed, 18 Sep 2024 18:44:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726710282; x=1727315082; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DX8B0AVGc1Jcf/sZuX/Lm5rKGNOWSa7SVLWhBKf+5LU=;
-        b=hC46j25EYk4HsNeKbaRxZMzcjwm2ngn9aUItp5JkzMebn1pTO3WUJog/hB+cPapqwG
-         lMzBeaa36KBE6hDuQ8JyG2DHPK77KggmbFZ49og3vG9KNsrrWojZtgbhsXvoNwrBUGXJ
-         DGJLpPMjLQFeB9ZcpNQhgaphWSYGQfN+xdC6vsXgOLPF5wLa6KEzlY0xxpj/zK7Hf43y
-         ck2h15LpDY9w2VjMiFEXqmJfLbo7nueh9tVXfABJu+wpO5DqXeN5/R+fSXYzQC20pH/k
-         vzadINwjz+VVE3r1QtGzhtLe1TX8RYT5WbDiEove9k+sjsCaoq1QNu3qq65mk6Ua3vzh
-         F4ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726710282; x=1727315082;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DX8B0AVGc1Jcf/sZuX/Lm5rKGNOWSa7SVLWhBKf+5LU=;
-        b=e8W/v46n+x9iX8hGT9bE6Zt/b132he/4T79m/3dhk35sKfppMiiOHcVp83nxa7VFDf
-         /gVwsefp7dUrPwpicewwnQQEGLO3M0V22CBZeamHrtsOJqwEBDWEFMFW3Gs0ASsgvWIg
-         Dou5x5/uEV6Z1hpEKE3chdHvW+OCM33mMajUpfUc60wXrrlUvXIouXmvkvajAibAF8fq
-         meSyxhLWJZxXzReSkaieaAG2Kr6QPiVJEKw7/5DSWVlinAk3vp6pKQa6aMcV5ogfw9rJ
-         r3/KQmK/bVidbS8C1IN9qIwRBXA4rFtbEM6im2YyUVyaBmJKvQocyRBc4v5as6cYxk+S
-         ATQA==
-X-Forwarded-Encrypted: i=1; AJvYcCVgDLep22OLxeeQRKtPhjHgwikfeb76lRhkQNpuMLHyfjsEvBd9Fzm1bZ86l/9Rrz/XubOBbN2aCk2X5Ss=@vger.kernel.org, AJvYcCXMYh529ylU/ZeARqEA2S/jkoukzKkBn5iKseGLIqmocAPDy4uD2MJL6rK32Ix7NvAOMdH3jyA/OAe3Mzw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0xk1hGtQOGM1Le0L0PjLaoAP5fxcz72OljXDYIeHBoUMfPO+f
-	TVa2Nh/xEg+4lZPyGcVhqQRm98SW/rGbDBezmPIKd2gA+MgTHxv1SPvNC20C77UgO+NCGZ1v1i/
-	VTc1dAyBkA2oiNX1oISaZDcgJYUMUcA==
-X-Google-Smtp-Source: AGHT+IFvWrciDr6mTn/0jLlxcfQLFJaLJCVtLl6E6HMysiz+7fvxdv5D3t/y67xbPvsZHZCxSp+6BBa6yDCK4/1bo5U=
-X-Received: by 2002:a05:6e02:13a2:b0:39f:6180:afca with SMTP id
- e9e14a558f8ab-3a08491196bmr275534325ab.13.1726710282105; Wed, 18 Sep 2024
- 18:44:42 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qiaLlNA1";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8WgXI4ra";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qiaLlNA1";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8WgXI4ra"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7A3D820863;
+	Thu, 19 Sep 2024 08:56:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1726736214; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=96dUAEKZsvERcAjWDxiPW5H6Y1CxOvpbvlwAXEDik30=;
+	b=qiaLlNA1zzNSj9Fizg+ztYaxIjAGol+v+u6s4cs6biDNsED8tF1pm36FlbqN2Ynb4krIJ4
+	yyN8aeWJsr0SgdVci8mY7+iSVqtsY7IY/vBaxOiqAXDK33aKrZVMUXAl34BeJeZ4OVggkc
+	9dRByhb6zDHkr9FXzKOHVQImCUH/4+Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1726736214;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=96dUAEKZsvERcAjWDxiPW5H6Y1CxOvpbvlwAXEDik30=;
+	b=8WgXI4ramYSSL9qgxGB/v05W4Lj5eNPF/c1jgS4YK/CQupYKqbbATjxXO8G9xMXxrh7wkd
+	AgEEhPIsUVbWLVAA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=qiaLlNA1;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=8WgXI4ra
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1726736214; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=96dUAEKZsvERcAjWDxiPW5H6Y1CxOvpbvlwAXEDik30=;
+	b=qiaLlNA1zzNSj9Fizg+ztYaxIjAGol+v+u6s4cs6biDNsED8tF1pm36FlbqN2Ynb4krIJ4
+	yyN8aeWJsr0SgdVci8mY7+iSVqtsY7IY/vBaxOiqAXDK33aKrZVMUXAl34BeJeZ4OVggkc
+	9dRByhb6zDHkr9FXzKOHVQImCUH/4+Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1726736214;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=96dUAEKZsvERcAjWDxiPW5H6Y1CxOvpbvlwAXEDik30=;
+	b=8WgXI4ramYSSL9qgxGB/v05W4Lj5eNPF/c1jgS4YK/CQupYKqbbATjxXO8G9xMXxrh7wkd
+	AgEEhPIsUVbWLVAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3BA2913AAA;
+	Thu, 19 Sep 2024 08:56:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id lRzGDFbn62amZwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 19 Sep 2024 08:56:54 +0000
+Date: Thu, 19 Sep 2024 10:57:44 +0200
+Message-ID: <874j6cc96f.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Christoffer Sandberg <cs@tuxedo.de>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Werner Sembach <wse@tuxedocomputers.com>,
+	Jerry Luo
+ <jerryluo225@gmail.com>,
+	Christian Heusel <christian@heusel.eu>,
+	regressions@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Jaroslav Kysela <perex@perex.cz>
+Subject: Re: [REGRESSION][BISECTED] Audio volume issues since 4178d78cd7a8
+In-Reply-To: <cedb8758bb506bf9454b90eebcaaea24@tuxedo.de>
+References: <c930b6a6-64e5-498f-b65a-1cd5e0a1d733@heusel.eu>
+	<87jzfbh5tu.wl-tiwai@suse.de>
+	<66dfd536-ae17-4d75-b514-7931a3734e54@gmail.com>
+	<20f70c0a92a27db29f188e05c33ba82c@tuxedo.de>
+	<1fbba03e-56b8-4e74-adf6-998e3a2d9dac@gmail.com>
+	<87setxe68m.wl-tiwai@suse.de>
+	<87r09he63e.wl-tiwai@suse.de>
+	<dfb141e8-6afa-4d21-8cd4-f9a53e8a192e@tuxedocomputers.com>
+	<87r09hcbr0.wl-tiwai@suse.de>
+	<cedb8758bb506bf9454b90eebcaaea24@tuxedo.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <1725615837-24872-1-git-send-email-shengjiu.wang@nxp.com> <CAA+D8AOkQOanya6RViXfk_=CmNmCWx-N3cb-0SjMhSy0AA7LeA@mail.gmail.com>
-In-Reply-To: <CAA+D8AOkQOanya6RViXfk_=CmNmCWx-N3cb-0SjMhSy0AA7LeA@mail.gmail.com>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Thu, 19 Sep 2024 09:44:31 +0800
-Message-ID: <CAA+D8ANFn6yD=gV+uMYXyQ_7TmOoBnmJtMZ70qPOS_dHn8OkPA@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 0/6] ASoC: fsl: add memory to memory function for ASRC
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: vkoul@kernel.org, perex@perex.cz, tiwai@suse.com, 
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, festevam@gmail.com, 
-	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
-	linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 7A3D820863
+X-Spam-Level: 
+X-Spamd-Result: default: False [-5.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[suse.de,tuxedocomputers.com,gmail.com,heusel.eu,lists.linux.dev,vger.kernel.org,perex.cz];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -5.51
+X-Spam-Flag: NO
 
-Hi Jaroslav
+On Wed, 18 Sep 2024 16:10:00 +0200,
+Christoffer Sandberg wrote:
+> 
+> 
+> 
+> On 18.9.2024 15:49, Takashi Iwai wrote:
+> > On Wed, 18 Sep 2024 15:39:28 +0200,
+> > Werner Sembach wrote:
+> >> 
+> >> Hi
+> >> 
+> >> Am 18.09.24 um 10:09 schrieb Takashi Iwai:
+> >> > On Wed, 18 Sep 2024 10:06:01 +0200,
+> >> > Takashi Iwai wrote:
+> >> >> [...]
+> >> >> I don't see any relevant about the incorrect volumes by the suggested
+> >> >> commit, but at least we should avoid applying the quirk for a
+> >> >> non-existing speaker pin.
+> >> >>
+> >> >> Jerry, yours is with CX11970 (codec id 0x14f120d0), right?
+> >> 
+> >> Yes, at least for the preproduction sample of the Sirius Gen1 I have
+> >> at hand atm.
+> >> 
+> >> pciid is 2782:12c3
+> >> 
+> >> @Christoffer: I guess 2782:12c5 is for the Gen2?
+> 
+> Yes the other is for Sirius Gen2
+> 
+> > 
+> > Hm, and one of those PCI SSID conflicts with System76 Pangolin
+> > (pang14)?  All seem to have the very same codec CX11970.
+> 
+> I don't think I saw the pci id explicitly listed, but that was the
+> assumption.
+> 
+> > 
+> > If they really conflict in both PCI and HD-audio codec IDs, the only
+> > way would be to check DMI string, I'm afraid.
+> > 
+> 
+> I asked about the volumes since it could be a hint that a second
+> speaker is activated but stuck on a fixed volume. This would make a
+> low general volume setting sound louder but still somewhat adjustable.
+> 
+> However, if we can not verify second speaker pair, then I agree, DMI
+> limit would be the safe choice.
 
-On Fri, Sep 13, 2024 at 10:29=E2=80=AFAM Shengjiu Wang <shengjiu.wang@gmail=
-.com> wrote:
->
-> On Fri, Sep 6, 2024 at 6:05=E2=80=AFPM Shengjiu Wang <shengjiu.wang@nxp.c=
-om> wrote:
-> >
-> > This function is base on the accelerator implementation
-> > for compress API:
-> > https://patchwork.kernel.org/project/alsa-devel/patch/20240731083843.59=
-911-1-perex@perex.cz/
->
-> Hi Jaroslav
->
->     Shall I add this patch to my patch set next time? Last time I
-> reported an issue
-> about "list_for_each_entry_safe_reverse", I can help to add it.  or
-> will you send
-> another version by yourself?
+So, just to make clear: the device reported for a regression and the
+device you tried to tweak are different models?  The former is
+Pangolin and the latter Sirius Gen 2.  I'm confused by models.
 
-A gentle reminder, look forward to your reply.
-Thanks.
+With the quirk, you'll get an individual mixer element controlling the
+top speaker volume?
 
-Best regards
-Shengjiu Wang
 
->
-> Best regards
-> Shengjiu Wang
->
-> >
-> > Audio signal processing also has the requirement for memory to
-> > memory similar as Video.
-> >
-> > This asrc memory to memory (memory ->asrc->memory) case is a non
-> > real time use case.
-> >
-> > User fills the input buffer to the asrc module, after conversion, then =
-asrc
-> > sends back the output buffer to user. So it is not a traditional ALSA p=
-layback
-> > and capture case.
-> >
-> > Because we had implemented the "memory -> asrc ->i2s device-> codec"
-> > use case in ALSA.  Now the "memory->asrc->memory" needs
-> > to reuse the code in asrc driver, so the patch 1 and patch 2 is for ref=
-ining
-> > the code to make it can be shared by the "memory->asrc->memory"
-> > driver.
-> >
-> > Other change is to add memory to memory support for two kinds of i.MX A=
-SRC
-> > modules.
-> >
-> > changes in v3:
-> > - use Jaroslav's suggestion for header file compress_params.h (PATCH 01=
-)
-> > - remove the ASRC_OUTPUT_FORMAT/ASRC_OUTPUT_RATE definition
-> > - remove ASRC_RATIO_MOD in this version because it uses .set_metadata()
-> >   Will wait Jaroslav's update or other better method in the future.
-> > - Address some comments from Pierre.
-> >
-> > changes in v2:
-> > - Remove the changes in compress API
-> > - drop the SNDRV_COMPRESS_SRC_RATIO_MOD
-> > - drop the SND_AUDIOCODEC_SRC and struct snd_dec_src
-> > - define private metadata key value
-> >   ASRC_OUTPUT_FORMAT/ASRC_OUTPUT_RATE/ASRC_RATIO_MOD
-> >
-> > Shengjiu Wang (6):
-> >   ALSA: compress: Add output rate and output format support
-> >   ASoC: fsl_asrc: define functions for memory to memory usage
-> >   ASoC: fsl_easrc: define functions for memory to memory usage
-> >   ASoC: fsl_asrc_m2m: Add memory to memory function
-> >   ASoC: fsl_asrc: register m2m platform device
-> >   ASoC: fsl_easrc: register m2m platform device
-> >
-> >  include/uapi/sound/compress_params.h |  23 +-
-> >  sound/soc/fsl/Kconfig                |   1 +
-> >  sound/soc/fsl/Makefile               |   2 +-
-> >  sound/soc/fsl/fsl_asrc.c             | 179 ++++++-
-> >  sound/soc/fsl/fsl_asrc.h             |   2 +
-> >  sound/soc/fsl/fsl_asrc_common.h      |  70 +++
-> >  sound/soc/fsl/fsl_asrc_m2m.c         | 727 +++++++++++++++++++++++++++
-> >  sound/soc/fsl/fsl_easrc.c            | 261 +++++++++-
-> >  sound/soc/fsl/fsl_easrc.h            |   4 +
-> >  9 files changed, 1260 insertions(+), 9 deletions(-)
-> >  create mode 100644 sound/soc/fsl/fsl_asrc_m2m.c
-> >
-> > --
-> > 2.34.1
-> >
+Takashi
