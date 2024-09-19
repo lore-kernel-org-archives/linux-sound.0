@@ -1,104 +1,166 @@
-Received: from sonic304-22.consmr.mail.ne1.yahoo.com (sonic304-22.consmr.mail.ne1.yahoo.com [66.163.191.148])
+Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8CE189519
-	for <linux-sound@vger.kernel.org>; Wed, 18 Sep 2024 23:19:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.163.191.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3128312E48;
+	Thu, 19 Sep 2024 01:44:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726701571; cv=none; b=U/vWTdA5rSRyXt9fNCwsIEHiTZxeZvTyXvYfLFwPCXfYHeZf5k+iIn+MRxkuNUnETlQ0ArohiuH6BI5ORVZAT1/wPmlY1nmJch1Zcbjw5M9Je+yodDnzS08Uyrs/e0Vse7WMFnPfeuzMy+l2v6peYOjaiZYhoyNoEHHChbtaqkY=
+	t=1726710284; cv=none; b=bDS5KpV6UOLO1X/b4bmK2dc7ySjSy8mROLkhmuEXnrULTHkF68J9ejYA8O7Hs2fnwYP02JxIQKL7oJ8D61Vxgre1nOFBqPclIYPrzSsz/cYgJsaZCZK/8/XedROlLm0NeGopYyY9zgUQVMbrDnXqMpM/ZlBUNHhbUCikuF6jZNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726701571; c=relaxed/simple;
-	bh=jBvjiVJoVl3rayUOpCUuDtc63dyAwl2vmEGUv30trLo=;
-	h=In-Reply-To:References:From:Date:Subject:To:Cc:Message-ID:
-	 MIME-Version; b=MvvYirNUDykzjeh8NC4pxZ1DuDIW25U2qR3YBcAETyazfmEVgGyYUBEzGNP6u3qYxgWCdgiPRZGVv4/bR8jAlvup+XZjx6SVN3AbDZeMIUncRUUNIOU+8laEI5khWwJKWo2d0cEKXspR62qlf8Z05vWyerP9QtGtJyhMvtMJFT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=KtbA5n9u; arc=none smtp.client-ip=66.163.191.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
+	s=arc-20240116; t=1726710284; c=relaxed/simple;
+	bh=gOX2Efoo6f2Mn2ISU9WRaKt7vI3dsEcG5PIE8Whds9c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=akKXiPx//WcX3ggs77GT4G9NTKVD8czJfWxlvkL8ZGWf7xv1LJUIaja3mr32IK9g3ByspuFg/DObv8Lvd+IrXreRwFjPl1xoMi6R/+xNUi1NNNytOofOtIwSaqPd224md/1o1riP9cvk4LxD0my8wvBMTcJT//vtZwFCn0t9x10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hC46j25E; arc=none smtp.client-ip=209.85.166.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="KtbA5n9u"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1726701568; bh=w9oz0JDhCk8nyqPRrbyfOr4o1i1aJh/C88iTJujUcZ4=; h=In-Reply-To:References:From:Date:Subject:To:Cc:Resent-From:Resent-To:Resent-Cc:Resent-Date:From:Subject:Reply-To; b=KtbA5n9u5nQP9d8Vay5wS6s0NE+h6XLJvUYFwrZrqhn8u1wyu/w7mWydrvonMrdrdICbYMkiZp14fWYpaBUg8GjPGel0xLZQqDlQyF+lMhx6AZLSfo8VOxGdHPjM0J4v8IzTBBV1uSQJ/uUQhvRR+5dqLRvR8E430EpWPH5cXSUqAMIteibvWvHTzaXb0RhFpD87uOECzMN3WbRV9Wg5BNtQQLhs1dwERsiP6aoI/lYYml/QDsujzEPbn6pXUqfVAwfwmRldGOt5xhD5mEekObbe/tu4/vjV26FR0U/VP2suZ2+h1BguyLAw7iOFntVzBDgaq7eqRVRdYCfQ/oMnpQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1726701568; bh=HUavcJBO7gmeQb6pEah6RRIJY8e6Hv8QRPqxhYEKBvg=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=Wlo96Dc+L4xWjLRJrTNHQmmAC4H12Pz/7Z84QN/S6KJc1Ncnw0bG61W0FQiwoSkz5qrd92rYfA26XaBaD6rPAruaBmIXaQk0XIbdk/a+WeY8VcfvJ+53222J3NBjXWWY9xwc4NVwJXFSqgQbSCHKvtvy8c/AuoszMQFLu5AQSwfx+Iqsv5U6nKQSUjPVqyebPu8hVrlIVK4XC4uliZ++Wl0Sftkj1CVRBlpn2mzdBWtJQVp9HAC/pHd635anniDHNZgK0ixbQz7s58WakiGT+xOGpqdx8lkckA++c5EThycZrmAWG1APMRSJVtrRqC0NFSSsqcAYsrDGd5aX4rEA/Q==
-X-YMail-OSG: Mh65cxwVM1kRYPWmWZ5526xkRZM65bH9.yfXAtx6.YMFuTbCBlyMnBH0_xtWmvt
- xOFkrnFNUEqhZhdCWwoZvck.ZOCYDb.wuFoLZ0OM.6d4tdXWaAUYWHpDo.QiCgX6Q49C3hCzDQUe
- 3.u2rDVxOq1q4CM5ouwHWy5OakT8tVKydFYitIu9q2fVxVxbdiOvicaDesiq1JsQpICrgKuS1ZEF
- NtmztAIPjll7.y1AwIW4BXbYqdAR3IbW6ty8rahews1K7SvYDZbHFZ6xnJBhjn2f9l0Wp2cIzLv9
- zyU.6jguGmDvBOwdFoY2uixW0WOIzvsJABWTojQpsd4p11u2EWFNk3MUx8E2zBWsCYEDXAUCAhRW
- uhuDDmZIDE93rmVQU6bCJvY4Mci10TIJod7XQ49uOc5CKwVQrgsKHyqgm2l75cmtHSaJCOzXDCLO
- 2Hl7OJo_PzOudOPdLIgYIxen8XiAZumZ.xFFy5vMBNhM7aJv7t32l34.uOG3vTNoLZvAji0phsdN
- OXvqnXbdv.6UluEC1Q_Kk3bAVkvRgVwI94eYK2zC00ieNTtCS9w8ctvnuhEipJ8LKGDPhs0SaPgm
- 9O14IkH1w0i9AfLRXuWnU838x6Yjlbl7AJk2IQ8fmMjKNRQ4Tded9iaPINMPCLXwuwUJRjEh5n1V
- J5KHFl.XHReNcc72m7mCOdDaZ8mjzOmUlrWyyo1JNh.Mj9cMggEQ07dM03jhmCvnw7VVQ9ol1E.j
- UaX3Hw5wb8d0KmhslgCb5VuUHbX3X4ZiYXFa2LJePcQxTdqtam_ZnwkhnNE3Kin9rxVbB4Uvqk02
- VTB5YcqmzGF5_T8JcXuQSoY8saMen3lYZjtxtB9Y3U.Tdbb4ANzc0munNPvD3n3l4N2BfTQ4gdkH
- aWFMfnDXxalPxN.4U0qNo5AEHo4hfMIBXI6O4lAM..dFegWLWC3esNvngMtC5oq8rJ3Y23zPFMDv
- mWSsz3EFACelD9RAOR3r1aWIqQ41HbsP272xkbowbdQELEKrDekDzPZUakFq048gyOP2B9Qaxasu
- qcdhPfg613Hpvp3U34l1sk_cyEPZx7POX_DZy0bD3ftT5nyt2XppMcprMavjnulm7uSpFSJh3eI6
- .jkJ8YRGVR7kGA_ZLVOmp4gfWNSaUx3Shu0Xhogzn8fasgQisccwPqOTGqb061wIjNrOD_tOQXJH
- .v0cul9inBNvUG988X1jKOAslYtAF6A4XzNRrNg0w5XyjnkFOzYYOTJwUrptvA.Md_zCK52P77MF
- sC_2l.zYgbz_2sRIA9VkL323gl6tkZ.CauPVzqHI2e_5mcIS88jeupEDhcloVzPVqp9vN7h4lxk6
- 8n3xz42oAQoceMQCpaEyHm5NU1EJz1QUnx7MeqN01pi4QZlW5Zew5TU7v2ssdiqzVbuzEW73qBYs
- mDCkdswicphsbBY_1wobWY2YwRuvKlyg1dSvPV7I.Rd7UvoI2w8jsc3ThFw8XD3bFI86.dMTGHR.
- 2ji4nBUhOd37Ikq7VW3vag6O03TG4fX3bOaPhnvKDc.UBDNwMT6lVeIlmUAnrgQQe0sZbeBAtN6R
- KOwdvQ5.ugxYUfxNfjy1jjAF2YIX6oPJWfO9STOlTaBAZEgpHfLhaWu0e2VhpFkwuxg1xAisyr_y
- cd6TaZDw2IGZYFEfrfh1Ij1mO58XT38pshMGNcQI7Y6cIohjVDgJJCZZQrZKwUEkgDlvIDnt2s8D
- aaZRSlQjNOIGc66.c7Q.Ello3ses40n9cBXbkj3OQ_nzOZvOjhu2Jw2NZmUid1H3vEcmuO9bfcrj
- 63uLXwhVfbpMuTSuvAOllVCR8E_04ri8ibzn5f3vMVOfEDh64TSCZNFGcO3ikdFW7LsHyJbFTVpK
- mLlCAz0G.r1VKzQYmKsYmD7A_50oJN6G_ZGMY6_ZOnxSnxd4USX.GLJB7AZkq.o6ge29_wMKUcuD
- w1RB_YYoXB87B_md4Osr6JeBXIIOtuCs52zt7AXHsIMz2ViQ6AT7_F65.O2jvyDkTTdGkSVxJ0Sg
- xhowB4Yrp_S8luGIJWHTwkkgitcrcSo538B4KJmjGxKwAzQ1Vb.9KRISzazR2LuEcKowGO09QkdE
- l7KV2lSSDsyCjHlmPOs1pdWEKpJ0o2C6mRkJlmC9cODpMGD.oOGJu0Mz_3ZtSVVwzfIoLZj1jKPb
- tIYvcdF4sbp77sa5tuzDgNPZdNEBHP2xZibkvFyno8J3LOldHJfMOAN2rnw4tw.oM5gzn2prEmtS
- Q0DNanLflOC8Pplt7Rkc3QENbyD8.1JyrIgl1LSb1vph1l1tFw2ZZ48YRDoJ19z5s94pSyMD2OMa
- 8kiaNEROufLft31g7MA--
-X-Sonic-MF: <davidglanzman@yahoo.com>
-X-Sonic-ID: 53ecbb96-2074-46b9-a377-483ea8f34b68
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic304.consmr.mail.ne1.yahoo.com with HTTP; Wed, 18 Sep 2024 23:19:28 +0000
-Received: by hermes--production-bf1-774ddfff8-xth2h (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 15399f6ce90a55c23687f37dc76a3825;
-          Wed, 18 Sep 2024 23:19:25 +0000 (UTC)
-In-Reply-To: <229243264.8919425.1726551100908@mail.yahoo.com>
-References: <229243264.8919425.1726551100908@mail.yahoo.com>
-From: David Lawrence Glanzman <davidglanzman@yahoo.com>
-Date: Tue, 17 Sep 2024 00:44:08 -0400
-Subject: [PATCH] ASoC: amd: yc: Add quirk for HP Dragonfly pro one
-To: broonie@kernel.org
-Cc: linux-sound@vger.kernel.org
-Message-ID: <1249c09bd6bf696b59d087a4f546ae397828656c.camel@yahoo.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hC46j25E"
+Received: by mail-il1-f182.google.com with SMTP id e9e14a558f8ab-39f56df0ddbso1332975ab.3;
+        Wed, 18 Sep 2024 18:44:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1726710282; x=1727315082; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DX8B0AVGc1Jcf/sZuX/Lm5rKGNOWSa7SVLWhBKf+5LU=;
+        b=hC46j25EYk4HsNeKbaRxZMzcjwm2ngn9aUItp5JkzMebn1pTO3WUJog/hB+cPapqwG
+         lMzBeaa36KBE6hDuQ8JyG2DHPK77KggmbFZ49og3vG9KNsrrWojZtgbhsXvoNwrBUGXJ
+         DGJLpPMjLQFeB9ZcpNQhgaphWSYGQfN+xdC6vsXgOLPF5wLa6KEzlY0xxpj/zK7Hf43y
+         ck2h15LpDY9w2VjMiFEXqmJfLbo7nueh9tVXfABJu+wpO5DqXeN5/R+fSXYzQC20pH/k
+         vzadINwjz+VVE3r1QtGzhtLe1TX8RYT5WbDiEove9k+sjsCaoq1QNu3qq65mk6Ua3vzh
+         F4ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726710282; x=1727315082;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DX8B0AVGc1Jcf/sZuX/Lm5rKGNOWSa7SVLWhBKf+5LU=;
+        b=e8W/v46n+x9iX8hGT9bE6Zt/b132he/4T79m/3dhk35sKfppMiiOHcVp83nxa7VFDf
+         /gVwsefp7dUrPwpicewwnQQEGLO3M0V22CBZeamHrtsOJqwEBDWEFMFW3Gs0ASsgvWIg
+         Dou5x5/uEV6Z1hpEKE3chdHvW+OCM33mMajUpfUc60wXrrlUvXIouXmvkvajAibAF8fq
+         meSyxhLWJZxXzReSkaieaAG2Kr6QPiVJEKw7/5DSWVlinAk3vp6pKQa6aMcV5ogfw9rJ
+         r3/KQmK/bVidbS8C1IN9qIwRBXA4rFtbEM6im2YyUVyaBmJKvQocyRBc4v5as6cYxk+S
+         ATQA==
+X-Forwarded-Encrypted: i=1; AJvYcCVgDLep22OLxeeQRKtPhjHgwikfeb76lRhkQNpuMLHyfjsEvBd9Fzm1bZ86l/9Rrz/XubOBbN2aCk2X5Ss=@vger.kernel.org, AJvYcCXMYh529ylU/ZeARqEA2S/jkoukzKkBn5iKseGLIqmocAPDy4uD2MJL6rK32Ix7NvAOMdH3jyA/OAe3Mzw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz0xk1hGtQOGM1Le0L0PjLaoAP5fxcz72OljXDYIeHBoUMfPO+f
+	TVa2Nh/xEg+4lZPyGcVhqQRm98SW/rGbDBezmPIKd2gA+MgTHxv1SPvNC20C77UgO+NCGZ1v1i/
+	VTc1dAyBkA2oiNX1oISaZDcgJYUMUcA==
+X-Google-Smtp-Source: AGHT+IFvWrciDr6mTn/0jLlxcfQLFJaLJCVtLl6E6HMysiz+7fvxdv5D3t/y67xbPvsZHZCxSp+6BBa6yDCK4/1bo5U=
+X-Received: by 2002:a05:6e02:13a2:b0:39f:6180:afca with SMTP id
+ e9e14a558f8ab-3a08491196bmr275534325ab.13.1726710282105; Wed, 18 Sep 2024
+ 18:44:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Resent-From: David Lawrence Glanzman <davidglanzman@yahoo.com>
-Resent-To: broonie@kernel.org
-Resent-Cc: linux-sound@vger.kernel.org
-Resent-Date: Wed, 18 Sep 2024 19:19:24 -0400
-X-Mailer: WebService/1.1.22645 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+References: <1725615837-24872-1-git-send-email-shengjiu.wang@nxp.com> <CAA+D8AOkQOanya6RViXfk_=CmNmCWx-N3cb-0SjMhSy0AA7LeA@mail.gmail.com>
+In-Reply-To: <CAA+D8AOkQOanya6RViXfk_=CmNmCWx-N3cb-0SjMhSy0AA7LeA@mail.gmail.com>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Thu, 19 Sep 2024 09:44:31 +0800
+Message-ID: <CAA+D8ANFn6yD=gV+uMYXyQ_7TmOoBnmJtMZ70qPOS_dHn8OkPA@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 0/6] ASoC: fsl: add memory to memory function for ASRC
+To: Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: vkoul@kernel.org, perex@perex.cz, tiwai@suse.com, 
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
+	linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Adds a quirk entry to enable the mic on HP Dragonfly pro one laptop
+Hi Jaroslav
 
-Signed-off-by: David Lawrence Glanzman <davidglanzman@yahoo.com>
----
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+On Fri, Sep 13, 2024 at 10:29=E2=80=AFAM Shengjiu Wang <shengjiu.wang@gmail=
+.com> wrote:
+>
+> On Fri, Sep 6, 2024 at 6:05=E2=80=AFPM Shengjiu Wang <shengjiu.wang@nxp.c=
+om> wrote:
+> >
+> > This function is base on the accelerator implementation
+> > for compress API:
+> > https://patchwork.kernel.org/project/alsa-devel/patch/20240731083843.59=
+911-1-perex@perex.cz/
+>
+> Hi Jaroslav
+>
+>     Shall I add this patch to my patch set next time? Last time I
+> reported an issue
+> about "list_for_each_entry_safe_reverse", I can help to add it.  or
+> will you send
+> another version by yourself?
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 06349bf0b658..ace6328e91e3 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -444,6 +444,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_BOARD_NAME, "8A3E"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
-+			DMI_MATCH(DMI_BOARD_NAME, "8A7F"),
-+		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
--- 
-2.43.0
+A gentle reminder, look forward to your reply.
+Thanks.
+
+Best regards
+Shengjiu Wang
+
+>
+> Best regards
+> Shengjiu Wang
+>
+> >
+> > Audio signal processing also has the requirement for memory to
+> > memory similar as Video.
+> >
+> > This asrc memory to memory (memory ->asrc->memory) case is a non
+> > real time use case.
+> >
+> > User fills the input buffer to the asrc module, after conversion, then =
+asrc
+> > sends back the output buffer to user. So it is not a traditional ALSA p=
+layback
+> > and capture case.
+> >
+> > Because we had implemented the "memory -> asrc ->i2s device-> codec"
+> > use case in ALSA.  Now the "memory->asrc->memory" needs
+> > to reuse the code in asrc driver, so the patch 1 and patch 2 is for ref=
+ining
+> > the code to make it can be shared by the "memory->asrc->memory"
+> > driver.
+> >
+> > Other change is to add memory to memory support for two kinds of i.MX A=
+SRC
+> > modules.
+> >
+> > changes in v3:
+> > - use Jaroslav's suggestion for header file compress_params.h (PATCH 01=
+)
+> > - remove the ASRC_OUTPUT_FORMAT/ASRC_OUTPUT_RATE definition
+> > - remove ASRC_RATIO_MOD in this version because it uses .set_metadata()
+> >   Will wait Jaroslav's update or other better method in the future.
+> > - Address some comments from Pierre.
+> >
+> > changes in v2:
+> > - Remove the changes in compress API
+> > - drop the SNDRV_COMPRESS_SRC_RATIO_MOD
+> > - drop the SND_AUDIOCODEC_SRC and struct snd_dec_src
+> > - define private metadata key value
+> >   ASRC_OUTPUT_FORMAT/ASRC_OUTPUT_RATE/ASRC_RATIO_MOD
+> >
+> > Shengjiu Wang (6):
+> >   ALSA: compress: Add output rate and output format support
+> >   ASoC: fsl_asrc: define functions for memory to memory usage
+> >   ASoC: fsl_easrc: define functions for memory to memory usage
+> >   ASoC: fsl_asrc_m2m: Add memory to memory function
+> >   ASoC: fsl_asrc: register m2m platform device
+> >   ASoC: fsl_easrc: register m2m platform device
+> >
+> >  include/uapi/sound/compress_params.h |  23 +-
+> >  sound/soc/fsl/Kconfig                |   1 +
+> >  sound/soc/fsl/Makefile               |   2 +-
+> >  sound/soc/fsl/fsl_asrc.c             | 179 ++++++-
+> >  sound/soc/fsl/fsl_asrc.h             |   2 +
+> >  sound/soc/fsl/fsl_asrc_common.h      |  70 +++
+> >  sound/soc/fsl/fsl_asrc_m2m.c         | 727 +++++++++++++++++++++++++++
+> >  sound/soc/fsl/fsl_easrc.c            | 261 +++++++++-
+> >  sound/soc/fsl/fsl_easrc.h            |   4 +
+> >  9 files changed, 1260 insertions(+), 9 deletions(-)
+> >  create mode 100644 sound/soc/fsl/fsl_asrc_m2m.c
+> >
+> > --
+> > 2.34.1
+> >
