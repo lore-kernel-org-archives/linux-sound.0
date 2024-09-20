@@ -1,168 +1,340 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.sberdevices.ru (mx1.sberdevices.ru [37.18.73.165])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3965C2AEF1
-	for <linux-sound@vger.kernel.org>; Fri, 20 Sep 2024 17:22:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6946B27466;
+	Fri, 20 Sep 2024 17:33:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.18.73.165
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726852931; cv=none; b=JjC6MQqg6nmDBf9Z0Y6vd0PGzCXI26iBo7BrsL8afjngDcwep9X+ZOLQsotxre+HDHg7CDrMRSbdL6sjzULoBmiQXRGIzr26TZ1GD3SyoQ/CsfQXclgp9Bl3Jh8Uda7wArRTKtEj1FGB2H1blai/V13XJXEsn8r0S8VkFz+66uw=
+	t=1726853609; cv=none; b=pIdocZngUciwwBTlaamfSrODCPqa+sM6nRxsQVXjXdwsBSGK6Qrx/r90a0RzsiN64oH2EAgivUJ/BbNdMOOuTeBpFJxUOavwlQoR9G9j8b2I4TRJCX70FPoexurZfAQld0a9I+QrJ3I+vuaQlT8S0BkB3jbxWagubfBZ86yp78Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726852931; c=relaxed/simple;
-	bh=XuRTGQdHsl+o5fZjArZvReYmvRnEztE4lrWGf0F3hAA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=nsPWg+nvnWMcrAyf+34k7+P+Axct+FKdBCxCpyyKnoS9f5eNarnaOZruRRYOAv9CyuVW4fM2H/f7L3PsEl4TXuhuTA7H1aKv9bI9hyMW+nETKrG7qiaG1e5wy+JTbsE5/bz4Cmh3WSOWVFDn97jbc/uFBn+aKuHoXCX/lZszLLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Bl+cPe3k; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1726853609; c=relaxed/simple;
+	bh=Y6lxOub/26ndx8n1Lj3on6tzWH6EjcfJkpByenSLYWA=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=naFxpz5ft8J8QkaG6AT96hPggzvnh1Hv0SSBk5cobTtUsLn62A8he8IwU+GuUMtqfqNKANjjyQIWcf4Wch/K9226q33e0j7l13bXvzsQSu/xfPizSrXInepVTLARn7jvabCMYXre/e99P227K2L26Cb4UvVvgVD57IxAntDxaLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com; spf=pass smtp.mailfrom=salutedevices.com; dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b=vP26Pdae; arc=none smtp.client-ip=37.18.73.165
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=salutedevices.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Bl+cPe3k"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-42cbc22e1c4so18450945e9.2
-        for <linux-sound@vger.kernel.org>; Fri, 20 Sep 2024 10:22:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1726852927; x=1727457727; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3WyFAU3gZP69K4KqX0oXP5fhiwrGt91LVaFOF0C2rxA=;
-        b=Bl+cPe3kSuY7JgrrHiNK94IFjvL47uRBftUucspRwUVLnTS+H08peRiTzBbpaEzUkZ
-         0TdeXLqUV83friZMcJ6U4rNPYI0S36Hvr21XhONKK6ksZPYg40sd2r4nDOCRUJVtVoyI
-         KVh5azMswr0lH4D4tOmyUb2x8Er0V0ZtjOfitsk4x5m+JaMS4906v9BuO9JNmwh4npuN
-         FjV7vjk742+7t/+/xdbvSCmfn6tJfTEhUlvyf5lRFUWkrDe1Y1ESDH8btKCDqJkvP3Tc
-         Ph3/5htlAQw4g4hoMptMiNw2Vtm11g6kPtSa8PoKGVHP8nS0IX962H1NRPdtyADBQ/si
-         4ZJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726852927; x=1727457727;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3WyFAU3gZP69K4KqX0oXP5fhiwrGt91LVaFOF0C2rxA=;
-        b=upNmapfuSZAX1LMM2ZhKvKIdZ3p+9oSnWOp4hT9KEGLaOHozCwkEDi85zb/BwDqOA2
-         9o75YQSvvC883pXg4ZfL1HU1/DIbHz2lIqYf3aG1HdsyP9oxvVZ/vaLBVuzz9/VbfPvp
-         XwVkc+PxWLXoXjhkVtyY6qvbdokVE/Jh9uBe8GROoAcZXfPdCHGWsSAcewWSdUx9Jyf2
-         dteU4rUuRFLg/VDE5Abz8rjU0GKhB9KzwSm2vPFKzO8E1s/vmdWprrNQgvHNV+/ZzM2T
-         xL19u+0grfRGAtv5YO9Pjx0BJW8tN7SpVbde7alKZWgkJt+WapUJMS66UmptWqnTY/vf
-         z3Xw==
-X-Forwarded-Encrypted: i=1; AJvYcCXq4QeafY2gwsVNO6HEzLHb0yZeTfqLCa8P94ucNVi2WxCcY2Q1ep1CRTx2HvJUXv/DjeqcYd1GmnMCKQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxwM/KyMB2X9Lserq7ENG6x77jQR1vWL77bNEn80wvd0qCdEcJ3
-	vpoT0GLu1g97o/10xKbyOrpNhpezBKbQPDXEVcu5M2FUndHFhtfFnjJ3TFF5frE=
-X-Google-Smtp-Source: AGHT+IG7KNVfLQ90kEjbHLvaQHSRq9HiHZ+WNfDBFH1yjqQ1U84p9Dmob7LgtM7MyRrR7k9+SWYCNQ==
-X-Received: by 2002:a5d:414f:0:b0:374:fa0a:773c with SMTP id ffacd0b85a97d-37a4235a6a8mr1830952f8f.47.1726852927493;
-        Fri, 20 Sep 2024 10:22:07 -0700 (PDT)
-Received: from toaster.baylibre.com ([2a01:e0a:3c5:5fb1:8e69:83a7:a29a:ba83])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-378e72e4b60sm18110432f8f.24.2024.09.20.10.22.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Sep 2024 10:22:07 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-Date: Fri, 20 Sep 2024 19:22:05 +0200
-Subject: [PATCH] ASoC: meson: axg-iface: set continuous rates
+	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="vP26Pdae"
+Received: from p-infra-ksmg-sc-msk01.sberdevices.ru (localhost [127.0.0.1])
+	by mx1.sberdevices.ru (Postfix) with ESMTP id 59DC8100008;
+	Fri, 20 Sep 2024 20:33:15 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 59DC8100008
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
+	s=mail; t=1726853595;
+	bh=mfVfaUmGMTdMZo6H7znn440n/Ednn8LG0UZiPhBtyMA=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
+	b=vP26PdaeuP/oN/WtFkHLkmhcnUgTVA1R77+d4vCUT4o/LRI0BYzkIH3rq5KkXbuMi
+	 ohhLhCu2wP+Cf6zl9rRXCM4s9IQj3QbX+BdBQ6iwxNeba7Yo8DbFcdXG051GvrCz0i
+	 N2edmUjfItBAXmViPRXg1/D9S6Rgy2JAcr9b5VROnbyWa8riy61Gd9mUBuw9JVAg4+
+	 t421Xn0+5I8bxhGwHhNR/cWKjmyOGEVwGZX3NqMTkLAA3lxPyCD5y8ZY2ZdEOj55kA
+	 iVVTn8EPT8rfUYk9/kRnIIy5YYBCLfkNp9EguTSQ/fgnxOnXhG0tHu1MGb0AH/ldON
+	 Nciy8SoJzUiCw==
+Received: from smtp.sberdevices.ru (unknown [172.16.192.103])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.sberdevices.ru (Postfix) with ESMTPS;
+	Fri, 20 Sep 2024 20:33:15 +0300 (MSK)
+Date: Fri, 20 Sep 2024 20:33:12 +0300
+From: Igor Prusov <ivprusov@salutedevices.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, "Rob
+ Herring" <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+	<tiwai@suse.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+	<prusovigor@gmail.com>, <kernel@salutedevices.com>,
+	<linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 6/6] ASoC: codecs: Add NeoFidelity NTP8835 codec
+Message-ID: <20240920173312.mc2ylk4n3lliaelj@pc>
+References: <20240709172834.9785-1-ivprusov@salutedevices.com>
+ <20240709172834.9785-7-ivprusov@salutedevices.com>
+ <751ebf34-cd0d-4d3a-bf02-e25ca3dd350b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240920-asoc-axg-iface-continuous-v1-1-6075d7db0e61@baylibre.com>
-X-B4-Tracking: v=1; b=H4sIADyv7WYC/x3MwQqDMAyA4VeRnA10XcG5VxkesphqLu1ophTEd
- 7d4/A7/f4BJUTF4dwcU2dU0p4ZH3wGvlBZBnZvBOx/c6B2SZUaqC2okFuSc/pq2vBl+x8CR/DM
- MrwFa/ysStd7vz3SeF22zkTZrAAAA
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Kevin Hilman <khilman@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2591; i=jbrunet@baylibre.com;
- h=from:subject:message-id; bh=XuRTGQdHsl+o5fZjArZvReYmvRnEztE4lrWGf0F3hAA=;
- b=owEBbQKS/ZANAwAKAeb8Dxw38tqFAcsmYgBm7a89BkCMGZ9R9vS12+/O4OWsWm2IeNTlYXTjA
- OBEK50SSiCJAjMEAAEKAB0WIQT04VmuGPP1bV8btxvm/A8cN/LahQUCZu2vPQAKCRDm/A8cN/La
- hUUKEACdGs9IkUiuT3NuUdcgARGZxXhvgtpDwX3qH9I4Bu6xiQy6gckFPpc3CudFn+265183SsF
- YCRsK6YHyVos8rAVXQiEEeqvibbaTBX74GR2QRTYGEyuRYxLsfQK2TfNQEgqOIn0271Bem+Dxjz
- cLZLovFr6w3xJVRal6Vqzv1WaIut/FooIAOhtU93WcqmOJFY9jtKh2LqWRFRKsLKfI5FxAMsdhd
- toV9l1uo5+I9Ie/heDKE2ZJTXf6HKUfAG04eKWLnQ2AGvcpZmbbZU34JiuRr3HKmbZg2Z7YT5Ta
- 4nkDhfPJMggVClHZAAvLXFjQEOhdWkDB12anRG+v56jhW4f3gwWHS8DIswzn65BE2O/aT291a0s
- xwe10pn2FzvqoRkFbTUprKnfkZYR9iM3kwPik712VgkIvAOjQdggQ1YHRUrl3+3EoWI9pEJLjmG
- zW/HLr0ajk6V46YL0RWPKDfAdsO9RaN9B931SQ34uE60YB+ik28WhY076G5mMP0wwZDPPtvzcaQ
- 3s1evkSxNC+Cz52yBMS/YlBJzBRWudPzFSq7rdSmRTMqLSHGXl9B77Q7RGc6c9gHxMGlwPsjREo
- n2jLti9zZFAmonNzSZCTRoMYbUQz+x/v6JMIVu+HSsJw/fCSq35gpBxKdQDiNzrP5TUE0jyePWm
- mm0bVeF1h6JYfew==
-X-Developer-Key: i=jbrunet@baylibre.com; a=openpgp;
- fpr=F29F26CF27BAE1A9719AE6BDC3C92AAF3E60AED9
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <751ebf34-cd0d-4d3a-bf02-e25ca3dd350b@kernel.org>
+X-ClientProxiedBy: p-i-exch-a-m1.sberdevices.ru (172.24.196.116) To
+ p-i-exch-a-m1.sberdevices.ru (172.24.196.116)
+X-KSMG-Rule-ID: 10
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 187889 [Sep 20 2024]
+X-KSMG-AntiSpam-Version: 6.1.1.5
+X-KSMG-AntiSpam-Envelope-From: ivprusov@salutedevices.com
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 34 0.3.34 8a1fac695d5606478feba790382a59668a4f0039, {Track_E25351}, {Tracking_from_domain_doesnt_match_to}, smtp.sberdevices.ru:7.1.1,5.0.1;127.0.0.199:7.1.2;salutedevices.com:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1, FromAlignment: s
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean
+X-KSMG-LinksScanning: Clean
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/09/20 14:03:00 #26646385
+X-KSMG-AntiVirus-Status: Clean, skipped
 
-The axg TDM HW does not depend on a selected set of rates.
-The hardware itself, just takes an input clock and work with it, regardless
-of its rate. In this way, the rates TDM can take are continuous.
+Hello Krzysztof,
 
-What might force the use of specific rate are the PLL available as clock
-and/or the codecs facing the TDM HW. Either way, this constraint does not
-belong in the TDM interface driver.
+Thank you for review and apologies for late response. I'm about to send
+next version with all comments addressed, just wanted to ask some
+questions before.
 
-Allow any rate as far as TDM is concerned by setting
-SNDRV_PCM_RATE_CONTINUOUS with an interval it has been tested with.
+On Wed, Jul 10, 2024 at 12:31:53PM +0200, Krzysztof Kozlowski wrote:
+> On 09/07/2024 19:28, Igor Prusov wrote:
+> > The NeoFidelity NTP8835 adn NTP8835C are 2.1 channel amplifiers with
+> > mixer and biquad filters. Both amplifiers have identical programming
+> > interfaces but differ in output signal characteristics.
+> > 
+> 
+> 
+> > +
+> > +#include <linux/kernel.h>
+> > +#include <linux/module.h>
+> > +#include <linux/moduleparam.h>
+> 
+> Where do you use moduleparam?
+> 
+> > +#include <linux/bits.h>
+> > +#include <linux/gpio.h>
+> 
+> And gpio?
+> 
+> > +#include <linux/slab.h>
+> > +#include <linux/of.h>
+> > +#include <linux/of_gpio.h>
+> 
+> And this?
+> 
+> Please clean up the driver first.
+> 
+> > +#include <linux/reset.h>
+> > +#include <linux/init.h>
+> > +#include <linux/i2c.h>
+> > +#include <linux/regmap.h>
+> > +
+> > +#include <sound/initval.h>
+> > +#include <sound/core.h>
+> > +#include <sound/pcm.h>
+> > +#include <sound/pcm_params.h>
+> > +#include <sound/soc.h>
+> > +#include <sound/soc-component.h>
+> > +#include <sound/tlv.h>
+> > +
+> > +#include "ntpfw.h"
+> > +
+> > +#define NTP8835_FORMATS     (SNDRV_PCM_FMTBIT_S16_LE | \
+> > +			     SNDRV_PCM_FMTBIT_S20_3LE | \
+> > +			     SNDRV_PCM_FMTBIT_S24_LE | \
+> > +			     SNDRV_PCM_FMTBIT_S32_LE)
+> > +
+> > +#define NTP8835_INPUT_FMT			0x0
+> > +#define  NTP8835_INPUT_FMT_MASTER_MODE		BIT(0)
+> > +#define  NTP8835_INPUT_FMT_GSA_MODE		BIT(1)
+> > +#define NTP8835_GSA_FMT				0x1
+> > +#define  NTP8835_GSA_BS_MASK			GENMASK(3, 2)
+> > +#define  NTP8835_GSA_BS(x)			((x) << 2)
+> > +#define  NTP8835_GSA_RIGHT_J			BIT(0)
+> > +#define  NTP8835_GSA_LSB			BIT(1)
+> > +#define NTP8835_SOFT_MUTE			0x26
+> > +#define  NTP8835_SOFT_MUTE_SM1			BIT(0)
+> > +#define  NTP8835_SOFT_MUTE_SM2			BIT(1)
+> > +#define  NTP8835_SOFT_MUTE_SM3			BIT(2)
+> > +#define NTP8835_PWM_SWITCH			0x27
+> > +#define  NTP8835_PWM_SWITCH_POF1		BIT(0)
+> > +#define  NTP8835_PWM_SWITCH_POF2		BIT(1)
+> > +#define  NTP8835_PWM_SWITCH_POF3		BIT(2)
+> > +#define NTP8835_PWM_MASK_CTRL0			0x28
+> > +#define  NTP8835_PWM_MASK_CTRL0_OUT_LOW		BIT(1)
+> > +#define  NTP8835_PWM_MASK_CTRL0_FPMLD		BIT(2)
+> > +#define NTP8835_MASTER_VOL			0x2e
+> > +#define NTP8835_CHNL_A_VOL			0x2f
+> > +#define NTP8835_CHNL_B_VOL			0x30
+> > +#define NTP8835_CHNL_C_VOL			0x31
+> > +#define REG_MAX					NTP8835_CHNL_C_VOL
+> > +
+> > +#define NTP8835_FW_NAME				"eq_8835.bin"
+> > +#define NTP8835_FW_MAGIC			0x38383335	/* "8835" */
+> > +
+> 
+> 
+> ...
+> 
+> 
+> > +
+> > +static void ntp8835_reset_gpio(struct ntp8835_priv *ntp8835, bool active)
+> > +{
+> > +	if (active) {
+> > +		/*
+> > +		 * According to NTP8835 datasheet, 6.2 Timing Sequence (recommended):
+> > +		 * Deassert for T2 >= 1ms...
+> > +		 */
+> > +		reset_control_deassert(ntp8835->reset);
+> 
+> Explain in comment why do you need to power up device to perform
+> reset... This sounds odd.
+> 
 
-Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
----
- sound/soc/meson/axg-tdm-interface.c | 12 +++++++++---
- sound/soc/meson/axg-tdm.h           |  2 --
- 2 files changed, 9 insertions(+), 5 deletions(-)
+This sequence comes from device datasheet, for some reason vendor
+recommends to drive /RESET low for 0.1us during initialization.
+Datasheet also describes (section 6.3) init sequence with simple reset
+deassert, but it's called legacy, though it works fine on my board. Do
+you mean to add more verbose comment than linking to a datasheet?
 
-diff --git a/sound/soc/meson/axg-tdm-interface.c b/sound/soc/meson/axg-tdm-interface.c
-index 62057c71f742..09103eef2a97 100644
---- a/sound/soc/meson/axg-tdm-interface.c
-+++ b/sound/soc/meson/axg-tdm-interface.c
-@@ -442,14 +442,18 @@ static const struct snd_soc_dai_driver axg_tdm_iface_dai_drv[] = {
- 			.stream_name	= "Playback",
- 			.channels_min	= 1,
- 			.channels_max	= AXG_TDM_CHANNEL_MAX,
--			.rates		= AXG_TDM_RATES,
-+			.rates		= SNDRV_PCM_RATE_CONTINUOUS,
-+			.rate_min	= 5512,
-+			.rate_max	= 768000,
- 			.formats	= AXG_TDM_FORMATS,
- 		},
- 		.capture = {
- 			.stream_name	= "Capture",
- 			.channels_min	= 1,
- 			.channels_max	= AXG_TDM_CHANNEL_MAX,
--			.rates		= AXG_TDM_RATES,
-+			.rates		= SNDRV_PCM_RATE_CONTINUOUS,
-+			.rate_min	= 5512,
-+			.rate_max	= 768000,
- 			.formats	= AXG_TDM_FORMATS,
- 		},
- 		.id = TDM_IFACE_PAD,
-@@ -461,7 +465,9 @@ static const struct snd_soc_dai_driver axg_tdm_iface_dai_drv[] = {
- 			.stream_name	= "Loopback",
- 			.channels_min	= 1,
- 			.channels_max	= AXG_TDM_CHANNEL_MAX,
--			.rates		= AXG_TDM_RATES,
-+			.rates		= SNDRV_PCM_RATE_CONTINUOUS,
-+			.rate_min	= 5512,
-+			.rate_max	= 768000,
- 			.formats	= AXG_TDM_FORMATS,
- 		},
- 		.id = TDM_IFACE_LOOPBACK,
-diff --git a/sound/soc/meson/axg-tdm.h b/sound/soc/meson/axg-tdm.h
-index 1a17f546ce6e..acfcd48f8a00 100644
---- a/sound/soc/meson/axg-tdm.h
-+++ b/sound/soc/meson/axg-tdm.h
-@@ -15,8 +15,6 @@
- 
- #define AXG_TDM_NUM_LANES	4
- #define AXG_TDM_CHANNEL_MAX	128
--#define AXG_TDM_RATES		(SNDRV_PCM_RATE_5512 |		\
--				 SNDRV_PCM_RATE_8000_768000)
- #define AXG_TDM_FORMATS		(SNDRV_PCM_FMTBIT_S8 |		\
- 				 SNDRV_PCM_FMTBIT_S16_LE |	\
- 				 SNDRV_PCM_FMTBIT_S20_LE |	\
+> > +		fsleep(1000);
+> > +
+> > +		/* ...Assert for T3 >= 0.1us... */
+> > +		reset_control_assert(ntp8835->reset);
+> > +		fsleep(1);
+> > +
+> > +		/* ...Deassert, and wait for T4 >= 0.5ms before sound on sequence. */
+> > +		reset_control_deassert(ntp8835->reset);
+> > +		fsleep(500);
+> > +	} else {
+> > +		reset_control_assert(ntp8835->reset);
+> 
+> This function is confusing. It is supposed to perform reset and leave
+> the device in active state, but here it leaves the device in reset.
+> 
+> 
+> 
+> > +
+> > +static struct snd_soc_dai_driver ntp8835_dai = {
+> 
+> Not const?
+> 
 
----
-base-commit: cd87a98b53518e44cf3c1a7c1c07c869ce33bf83
-change-id: 20240920-asoc-axg-iface-continuous-b94cfa234787
+ntp8835_dai is passed to devm_snd_soc_register_component(), which takes
+non-const parameter.
 
-Best regards,
+> > +	.name = "ntp8835-amplifier",
+> > +	.playback = {
+> > +		.stream_name = "Playback",
+> > +		.channels_min = 1,
+> > +		.channels_max = 3,
+> > +		.rates = SNDRV_PCM_RATE_8000_192000,
+> > +		.formats = NTP8835_FORMATS,
+> > +	},
+> > +	.ops = &ntp8835_dai_ops,
+> > +};
+> > +
+> > +static struct regmap_config ntp8835_regmap = {
+> 
+> Not const?
+> 
+> Judging by weird includes and such simple issues, it looks like you try
+> to upstream downstream or old code. That's not how you are supposed to
+> bring new devices. You expect us to perform review on the same issues we
+> fixed already. Work on newest drivers - take them as template - so you
+> will not repeat the same issues we already fixed.
+> 
+> > +	.reg_bits = 8,
+> > +	.val_bits = 8,
+> > +	.max_register = REG_MAX,
+> > +	.cache_type = REGCACHE_MAPLE,
+> > +};
+> > +
+> > +static int ntp8835_i2c_probe(struct i2c_client *i2c)
+> > +{
+> > +	struct ntp8835_priv *ntp8835;
+> > +	struct regmap *regmap;
+> > +	int ret;
+> > +
+> > +	ntp8835 = devm_kzalloc(&i2c->dev, sizeof(struct ntp8835_priv), GFP_KERNEL);
+> 
+> sizeof(*)
+> 
+> > +	if (!ntp8835)
+> > +		return -ENOMEM;
+> > +
+> > +	ntp8835->i2c = i2c;
+> > +
+> > +	ntp8835->reset = devm_reset_control_get_shared(&i2c->dev, NULL);
+> 
+> shared is on purpose?
+> 
+
+Yes, we have a board with two amplifiers sharing same reset line, so
+shared allows to work around this hardware issue. Is it the wrong
+approach?
+
+> > +	if (IS_ERR(ntp8835->reset))
+> > +		return dev_err_probe(&i2c->dev, PTR_ERR(ntp8835->reset),
+> > +				     "Failed to get reset\n");
+> > +
+> > +	ret = reset_control_deassert(ntp8835->reset);
+> > +	if (ret)
+> > +		return dev_err_probe(&i2c->dev, PTR_ERR(ntp8835->reset),
+> > +				     "Failed to deassert reset\n");
+> > +
+> > +	dev_set_drvdata(&i2c->dev, ntp8835);
+> > +
+> > +	ntp8835_reset_gpio(ntp8835, true);
+> > +
+> > +	regmap = devm_regmap_init_i2c(i2c, &ntp8835_regmap);
+> > +	if (IS_ERR(regmap))
+> > +		return dev_err_probe(&i2c->dev, PTR_ERR(regmap),
+> > +				     "Failed to allocate regmap\n");
+> > +
+> > +	ret = devm_snd_soc_register_component(&i2c->dev, &soc_component_ntp8835,
+> > +					      &ntp8835_dai, 1);
+> > +	if (ret)
+> > +		return dev_err_probe(&i2c->dev, ret,
+> > +				     "Failed to register component\n");
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static const struct i2c_device_id ntp8835_i2c_id[] = {
+> > +	{ "ntp8835", 0 },
+> > +	{}
+> > +};
+> > +MODULE_DEVICE_TABLE(i2c, ntp8835_i2c_id);
+> > +
+> > +static const struct of_device_id ntp8835_of_match[] = {
+> > +	{.compatible = "neofidelity,ntp8835",},
+> > +	{.compatible = "neofidelity,ntp8835c",},
+> 
+> This does not match your i2c IDs, which leads to troubles when matching
+> variants.
+> 
+> Anyway, aren't they compatible?
+> 
+> 
+
+They have identical programming interface and only differ in some output
+signal characteristics. Is it OK use single compatible string in such
+case?
+
+> > +	{}
+> > +};
+> > +MODULE_DEVICE_TABLE(of, ntp8835_of_match);
+> > +
+> > +static struct i2c_driver ntp8835_i2c_driver = {
+> > +	.probe = ntp8835_i2c_probe,
+> > +	.id_table = ntp8835_i2c_id,
+> > +	.driver = {
+> > +		.name = "NTP8835",
+> 
+> Driver names are lowercase
+> 
+> > +		.of_match_table = ntp8835_of_match,
+> > +	},
+> > +};
+> > +module_i2c_driver(ntp8835_i2c_driver);
+> > +
+> > +MODULE_AUTHOR("Igor Prusov <ivprusov@salutedevices.com>");
+> > +MODULE_DESCRIPTION("NTP8835 Audio Amplifier Driver");
+> > +MODULE_LICENSE("GPL");
+> 
+> Best regards,
+> Krzysztof
+> 
+
 -- 
-Jerome
-
+Best Regards,
+Igor Prusov
