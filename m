@@ -1,153 +1,133 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B925D13D28A
-	for <linux-sound@vger.kernel.org>; Fri, 20 Sep 2024 15:10:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF2DC13B
+	for <linux-sound@vger.kernel.org>; Fri, 20 Sep 2024 15:27:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726845023; cv=none; b=svmx2FjeEW42OHdC595hQdXXr7YTUK6Mj5ZjcICujV8OUk3nb63kAisghS+CAJ90KvNSSgWRx0L0JjhNypj0Ufo0vKSG5zSa4GD3DRBM6iK4/9K1iKx8nTMsPonDHK3MOnea0yPIwprygJ4YyzCJFnSwAMhsvUc/oo3ehFzpN7o=
+	t=1726846028; cv=none; b=i5JtuY9qFE382hz9YiBkOj0ITkO13sDDjlRiihA2lON1NtYWR6i61h8XsEUa+cR7cqI8C92VV66IYnQ3KEaGDE4YrtHlNPubHpd/McTRc3XTm7xM2gWrNZkiyhN5axkQp0vT/e6L5cAppSEyiMZ9smeyMNL+DOabYTpHi2BW3Eo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726845023; c=relaxed/simple;
-	bh=UMPI6dbr3vZF/IEea0Gxx5qCUzLzf9e2xNJR+bN0i6E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=f/wqB3F6ItTWS8wYFD/6/7sPOPmXA0KDOq+v5hneRkFcpizwwq79Uw3mNGoh4YOwfcGfDH4KXUzb0XmcLeIjJXD97/BAQMKl3f6cDsRIPFEiUWnb5c/nGdT1XGujkRrSJnwc1jhh67vQzP+rqZyukU2B55fgy2Vh8vfjpzHVhv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=vRSpfDQp; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1726846028; c=relaxed/simple;
+	bh=xz0x9175WZBvHTtcLhiapEi3wXQUgGnXMz1S0gzyDIM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mTt/FdxxZsv6qYr0NeyhRwdcAzgY1gwc5qF8fIy63FqrzL00Vw3n3dSL+QjYzD6RsEpEkBHTSOaaytd1Uze6Z53c6T16HyhYFX1eTOxBFrltgKQmBszmw0nxUW0T8MY8v9WJ+PQKplBfelFzS2TlvDTtmJTGzskRAgTu7DFnIQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=gtG2y6+t; arc=none smtp.client-ip=209.85.166.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="vRSpfDQp"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-42cb9a0c300so18504635e9.0
-        for <linux-sound@vger.kernel.org>; Fri, 20 Sep 2024 08:10:19 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="gtG2y6+t"
+Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-82aa3f65864so81247439f.2
+        for <linux-sound@vger.kernel.org>; Fri, 20 Sep 2024 08:27:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1726845018; x=1727449818; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dqxB4KzGedlZDzswgDTRSffnag1Yh8CdsgK618Kt3iI=;
-        b=vRSpfDQpPG23yYCrW0VtQ7XLoaHq31n50/ipJ6+4BjHx2Il8WuwD5IIl1ieAvp2KER
-         opB5a04iboKiKbOwRyX5XXTdYlvEtZP0zjNHxTeiJe8Qo7a3ZeT9e76zHxPNNJ00rnMc
-         8olt9BZJ3hN9hcrfkUMxnWnPtE9cAPNax/0aj0+qegWinn8M2ekD5S2w170cmP7OkN2z
-         EFr9htu0ZlAOPxS09OABBwqDlMy1gg482+O65qr3oyk1miNM4s4WMumyFVvaLQN8zgav
-         H2+wWnV0G76ydeFE+dDHW7PIbw0c5PWfToXshm1jhftk3C3WU93hg00V41ZCk1DwkNWQ
-         p23Q==
+        d=linuxfoundation.org; s=google; t=1726846025; x=1727450825; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UQqtLqg7w2nloL0eri0bb/8RhGQn9bvBMsHqsJUuOcU=;
+        b=gtG2y6+tFpHN7RFjNfcfzOVeVjxdRAlWhM+ez8pz3fr/WOyQjesRG+t2liks3TLrbC
+         jsmLPDpHc1e+QD1n6QfyVRF9gaPiY4O15ldct0pCmzyG2E02V2Vq2x6SwhLCaEv/3fIh
+         4EZGTH84744foic55+3mLlmkUn7zQDkdhMvM8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726845018; x=1727449818;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dqxB4KzGedlZDzswgDTRSffnag1Yh8CdsgK618Kt3iI=;
-        b=NEeoEF0AWwXhItZAuj+3H2K/6uyMUl8LeddtVyRaQqNgTqgflqkFIc+NiHVRqTsCtT
-         /I1tFsNRT+oCJWBQL4wPnCB1zC5X2FJcJhUFHRoY5p4Nm3OCp0Ph+vktuCArSQ9kCE87
-         Xx8FsY3CtMhGwHui7nV9qq5nCp77Q1SDEoOlhyTMqBOSOhjcjzB3IP6Gs8UcKqCEKpdt
-         l1DlCpNtJHDFFhQwmIb8q+yVTFumDaJJZPIyv1iWOtZZsPD4pia82kGqYP/dJKf68/rS
-         +hv3a8DSM4wKrM6WVk8h7ojw/+CkJedPsZFrsndq21dthTBUo9F1rU0DGmxQBKXvBB1m
-         HTLw==
-X-Forwarded-Encrypted: i=1; AJvYcCWB9i5KPzUvUMZiMFDvtl5ikfACBOiZ556N5ryHqbdYfyM+pc0THGEkvCnmCoYhVoN6W5Rg6uyQQKfiEA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzP1r1yHnkKePymUmLsDWnA5j8YPsw13r57ep1/BFSJ9oJBuuHB
-	YiEZUNUgM/qQzv1TwDbYtqwnZldd37PlPT1CsRFxoNdH/Gy/aU7WCVfjX8f2xH8=
-X-Google-Smtp-Source: AGHT+IG4ybmvfCPFK7GpLPZJ9S6gMbOoQX6B/i66eB46HTLEMiy8K/MDelU5eMphLtP74FLdVw9wMw==
-X-Received: by 2002:a05:600c:1d85:b0:42c:c401:6d67 with SMTP id 5b1f17b1804b1-42e7abe12c9mr21430965e9.6.1726845017829;
-        Fri, 20 Sep 2024 08:10:17 -0700 (PDT)
-Received: from localhost (p5dc68d3d.dip0.t-ipconnect.de. [93.198.141.61])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e75389c88sm54088995e9.0.2024.09.20.08.10.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Sep 2024 08:10:17 -0700 (PDT)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Johannes Berg <johannes@sipsolutions.net>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	linuxppc-dev@lists.ozlabs.org,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: [PATCH] ALSA: Drop explicit initialization of struct i2c_device_id::driver_data to 0
-Date: Fri, 20 Sep 2024 17:10:08 +0200
-Message-ID: <20240920151009.499188-2-u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.45.2
+        d=1e100.net; s=20230601; t=1726846025; x=1727450825;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UQqtLqg7w2nloL0eri0bb/8RhGQn9bvBMsHqsJUuOcU=;
+        b=fUuhgM9V2B7t+2Cew1eSG1yl9XfRa8di5v650yrKwhB97Ii+FAro+gkfmPfWXbXGeR
+         Jkvlnbtew72D8X78bw2k9fsb2wHzy36LQPybD+ahJhY1yUc1rURw1n5QkGw9IV6wPai0
+         EeYE8/1x4sroNCIqFd2jNjiaOpFenC+XtE7Dct5r7MEmu8olhRIfTCSE6eKtQFBvJYDe
+         ZyIufveyGPAEbFXIeJyyHkGKwHYK538zzpOAyii25PQZdP5tsNfk12Ri5htgjJ5GTlWb
+         zirEL3LBt+KlcO3E/f3QDoLiNWmG59rUuVjuglaya47I9EalBPSEt8qXtnTiLujjgZW0
+         T7Bw==
+X-Forwarded-Encrypted: i=1; AJvYcCWOOri/zFzBsV2H0ripIur1NHBRq9RB3cS0/KKFy6wIg0jUwRDsX3iYAGuEWLp0RpbXIZvILrLJ/nrH0A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRIDDExIiv2KtcfmdpnBE4E7WYNQNWlPK2b2X5hf7ZaLhX9Kdb
+	BaH8UCWl1p5z2BpZuT1RjjVnphQVda1ZWYLS/aQ1f50rtvRXKsdW7pC8wP2KbGk=
+X-Google-Smtp-Source: AGHT+IHnnbUTaat78VyVNLDYZw22fhZWAPFLJavTXG4fNQ9OcHYOZJZIjrH3uBDqYdvOIn4S00vmew==
+X-Received: by 2002:a05:6602:2dc9:b0:82d:f4f:f49b with SMTP id ca18e2360f4ac-83209ed375bmr335337939f.16.1726846025576;
+        Fri, 20 Sep 2024 08:27:05 -0700 (PDT)
+Received: from [10.212.145.178] ([12.216.155.19])
+        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-82d492694a5sm379110639f.11.2024.09.20.08.27.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Sep 2024 08:27:04 -0700 (PDT)
+Message-ID: <087c4ef0-5718-48d3-9367-1d79a255fab1@linuxfoundation.org>
+Date: Fri, 20 Sep 2024 09:27:03 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2252; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=UMPI6dbr3vZF/IEea0Gxx5qCUzLzf9e2xNJR+bN0i6E=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBm7ZBR/8GCUV4aeWj8Lb2TYNLJVkJrXibxwUuPQ 5Sqo3ZScMyJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZu2QUQAKCRCPgPtYfRL+ Th38B/wPssqPeUx8jeBlsp1PHwKwqwZKv0klqLgfgERAspSV9HlI9RhbIl5FNCUL+XdJvUV62A+ Jy0sEEPwbrSUxzs5FY2CGHw1mLFG38sJVTWAcAQvGAiNQQmpZWeUAmE9ypN2EN4oGnyA+OxmR1W p7uFRCfonXSQay49ptoU+YwMGcVz2sfBfYOOEcaXufzilvyMVasjLMnvG2o5TME6VJQE3FVYVxj XgIuqy6O9iFMl5KHMxWyoGPHtSHoWly2reMtLnsvHUtRZjyUZhy0uJV2GAeYeev3xwORxOoGBQM Pt3kHzQc/wQNGfPt/6j6t/pU32qov0X5Z/ManUH30q8z9FQw
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] kselftest/alsa: add silent flag to reduce noise
+To: Abdul Rahim <abdul.rahim@myyahoo.com>
+Cc: perex@perex.cz, tiwai@suse.com, broonie@kernel.org, shuah@kernel.org,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20240915234131.61962-2-abdul.rahim.ref@myyahoo.com>
+ <20240915234131.61962-2-abdul.rahim@myyahoo.com>
+ <7caf7242-1ca4-462a-b3d0-627258df3f1b@linuxfoundation.org>
+ <vzrosmbs5x5mmnxwubwljjqxo4m4eih35z26cudshpbr3uue7j@k3v65fkr24rz>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <vzrosmbs5x5mmnxwubwljjqxo4m4eih35z26cudshpbr3uue7j@k3v65fkr24rz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-These drivers don't use the driver_data member of struct i2c_device_id,
-so don't explicitly initialize this member.
+On 9/19/24 15:49, Abdul Rahim wrote:
+> On Thu, Sep 19, 2024 at 09:40:34AM GMT, Shuah Khan wrote:
+>> On 9/15/24 17:41, Abdul Rahim wrote:
+>>> When ALSA is not installed on the users system, the error:
+>>>
+>>> "Package alsa was not found in the pkg-config search path.
+>>> Perhaps you should add the directory containing `alsa.pc'
+>>> to the PKG_CONFIG_PATH environment variable
+>>> Package 'alsa', required by 'virtual:world', not found"
+>>>
+>>
+>> extra line?
+>>
+>>> is printed 3 times, which generates unnecessary noise.
+>>> Hence, Remove unnecessary noise using `--silence-errors` on LDLIBS
+>>> assignment, so the message is printed only once.
+>>
+>> I would say this message is alerting the user that the package is missing.
+>> Why would you want to delete it?
+>>
+>>>
+>>> Signed-off-by: Abdul Rahim <abdul.rahim@myyahoo.com>
+>>> ---
+>>>    tools/testing/selftests/alsa/Makefile | 2 +-
+>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/tools/testing/selftests/alsa/Makefile b/tools/testing/selftests/alsa/Makefile
+>>> index 25be68025290..cd022fc869fb 100644
+>>> --- a/tools/testing/selftests/alsa/Makefile
+>>> +++ b/tools/testing/selftests/alsa/Makefile
+>>> @@ -2,7 +2,7 @@
+>>>    #
+>>>    CFLAGS += $(shell pkg-config --cflags alsa) $(KHDR_INCLUDES)
+>>> -LDLIBS += $(shell pkg-config --libs alsa)
+>>> +LDLIBS += $(shell pkg-config --silence-errors --libs alsa)
+>>>    ifeq ($(LDLIBS),)
+>>>    LDLIBS += -lasound
+>>>    endif
+>>
+>>
+>> thanks,
+>> -- Shuah
+>>
+> 
+> This can also be handled like this:
+> ---
+> CHECK := $(shell pkg-config --exists alsa; echo $?)
+> ifneq ($(CHECK),0)
+> $(error Package alsa not found! Add directory containing alsa.pc in PKG_CONFIG_PATH)
+> endif
+> ---
+> 
 
-This prepares putting driver_data in an anonymous union which requires
-either no initialization or named designators. But it's also a nice
-cleanup on its own.
+This is a better solution than suppressing errors.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
----
- sound/aoa/codecs/onyx.c         | 2 +-
- sound/aoa/codecs/tas.c          | 2 +-
- sound/pci/hda/cs35l41_hda_i2c.c | 2 +-
- sound/pci/hda/tas2781_hda_i2c.c | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/sound/aoa/codecs/onyx.c b/sound/aoa/codecs/onyx.c
-index e90e03bb0dc0..ac347a14f282 100644
---- a/sound/aoa/codecs/onyx.c
-+++ b/sound/aoa/codecs/onyx.c
-@@ -1040,7 +1040,7 @@ static void onyx_i2c_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id onyx_i2c_id[] = {
--	{ "MAC,pcm3052", 0 },
-+	{ "MAC,pcm3052" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c,onyx_i2c_id);
-diff --git a/sound/aoa/codecs/tas.c b/sound/aoa/codecs/tas.c
-index be9822ebf9f8..804b2ebbe28f 100644
---- a/sound/aoa/codecs/tas.c
-+++ b/sound/aoa/codecs/tas.c
-@@ -927,7 +927,7 @@ static void tas_i2c_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id tas_i2c_id[] = {
--	{ "MAC,tas3004", 0 },
-+	{ "MAC,tas3004" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c,tas_i2c_id);
-diff --git a/sound/pci/hda/cs35l41_hda_i2c.c b/sound/pci/hda/cs35l41_hda_i2c.c
-index 603e9bff3a71..bb84740c8520 100644
---- a/sound/pci/hda/cs35l41_hda_i2c.c
-+++ b/sound/pci/hda/cs35l41_hda_i2c.c
-@@ -39,7 +39,7 @@ static void cs35l41_hda_i2c_remove(struct i2c_client *clt)
- }
- 
- static const struct i2c_device_id cs35l41_hda_i2c_id[] = {
--	{ "cs35l41-hda", 0 },
-+	{ "cs35l41-hda" },
- 	{}
- };
- 
-diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_i2c.c
-index f58f434e7110..4b9dc84ce6bb 100644
---- a/sound/pci/hda/tas2781_hda_i2c.c
-+++ b/sound/pci/hda/tas2781_hda_i2c.c
-@@ -951,7 +951,7 @@ static const struct dev_pm_ops tas2781_hda_pm_ops = {
- };
- 
- static const struct i2c_device_id tas2781_hda_i2c_id[] = {
--	{ "tas2781-hda", 0 },
-+	{ "tas2781-hda" },
- 	{}
- };
- 
-
-base-commit: 62f92d634458a1e308bb699986b9147a6d670457
--- 
-2.45.2
+thanks,
+-- Shuah
 
