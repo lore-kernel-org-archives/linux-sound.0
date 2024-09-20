@@ -1,110 +1,157 @@
-Received: from mx1.sberdevices.ru (mx2.sberdevices.ru [45.89.224.132])
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [81.169.146.167])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04A9161FCF;
-	Fri, 20 Sep 2024 15:50:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.89.224.132
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726847458; cv=none; b=EABptPOhI5o0NbW5uNtUUrD/fwacdLl1oUVuo01dso4ZZ8onieCNeJ69OZnk+UxSIXBTdAjo7AtnDuf1GKxQU++pqbd+ZyP3W3ABEbT26nGBsIwXwQ8vGyGAtOTub91Ts6Enqk7bmC9TFU3XMeuotmbu1JJBjd6X/TBrP+Xh2+0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726847458; c=relaxed/simple;
-	bh=bmkuLKPssx4ZG+ZMZ7vGQhCfVwgxg+oPQLdk+5zdSqA=;
-	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=GwFRYBG/qhegpP0Eoro8NTiRsgaURieljtF5SUGB9AFCLslt5z/wWNQeBHeUpdrIy2XFzEI4Q2fhbaNCVq+0NSDYsz0smk56jC9UeFIWz/skAAN9YpVPS5yvsrBZUl6+vXfxcGDSPjcadwmMQS6hTK74ScxL0RisrAiorT1jXnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com; spf=pass smtp.mailfrom=salutedevices.com; dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b=vwIJoaIe; arc=none smtp.client-ip=45.89.224.132
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=salutedevices.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D4DA11CA9;
+	Fri, 20 Sep 2024 16:11:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=81.169.146.167
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726848707; cv=pass; b=W51zr+ItRyzd0ZjOstVt7EW1eR+/06Lk8VRLlkMpne+Wkl0DC6zNX1QLtxDOa42Dd76oLcn6h+3VQNSvEvVvIj/pBAvj6qagNW0LxTfbq/lvD2F9VjSAvcmpP61A8vY9Ly1qMaGaq9TSWgs8V6FpYsYLp9gKE7nHCkLrp9eJskU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726848707; c=relaxed/simple;
+	bh=r6pA/RL8gVFFAybakpPI8GmmDxoJqi/6peyLeguArPI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=N+7BJD61nnWJYPIw0/c/eedqW8X9BZ2SbyqyNGtCMUSzmq8oo1Mkpfv3np/v10U8N6d9yTVK0uyZqhjNEblX+u3fN4CZhkq/HZBvCvSmP9SUFPc/OOFAUfpM/AOb85wNFSqKqGeBFBDmi41VCoX6y5q4CJv9JbymlohlfNKlnX8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goldelico.com; spf=pass smtp.mailfrom=goldelico.com; dkim=pass (2048-bit key) header.d=goldelico.com header.i=@goldelico.com header.b=gikJJ6bJ; dkim=permerror (0-bit key) header.d=goldelico.com header.i=@goldelico.com header.b=Lg6ea0ra; arc=pass smtp.client-ip=81.169.146.167
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goldelico.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goldelico.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="vwIJoaIe"
-Received: from p-infra-ksmg-sc-msk02.sberdevices.ru (localhost [127.0.0.1])
-	by mx1.sberdevices.ru (Postfix) with ESMTP id AFC6F120009;
-	Fri, 20 Sep 2024 18:41:33 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru AFC6F120009
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
-	s=mail; t=1726846893;
-	bh=kKKoZX10DHxzZppRxtzk+++K95BJQK590YQ7OxuXtd8=;
-	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:From;
-	b=vwIJoaIe1a09gWIuxMwRdpIDT1KPg8HGfB7ZBPXjRc8JMhca4z/LqAs2lSiXCHzbL
-	 QfLn2c+fukXOgJhmwAgjj02OY6mhlFnnb9tAg1ULg3yGrY1uUyUMak2ZdUfFDl7+47
-	 h+PWFyzV56rmYrknnNq75lrf6E3+iV4wPiie9BMKyrXjimIZnx+pZ/7/vSbQtEzbfB
-	 n+/NMpxeRv44+9kqEMdPgoNYvmmoOGMDzqGyJwdcrKrGotcM1ocULmzazZMt7N/jh8
-	 e0K2WEsxysklBQ9Dakxl59w6j5lyRurtL+R9L89LWjjhZTuBrMUOdkpuRLtJCYteIi
-	 6tEEVJG6BbB7A==
-Received: from smtp.sberdevices.ru (p-i-exch-sc-m02.sberdevices.ru [172.16.192.103])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mx1.sberdevices.ru (Postfix) with ESMTPS;
-	Fri, 20 Sep 2024 18:41:33 +0300 (MSK)
-From: Igor Prusov <ivprusov@salutedevices.com>
-Subject: [PATCH v2 0/2] Add ES7243E ADC driver
-Date: Fri, 20 Sep 2024 18:41:06 +0300
-Message-ID: <20240920-es7243e-adc-v2-0-0be019735b81@salutedevices.com>
+	dkim=pass (2048-bit key) header.d=goldelico.com header.i=@goldelico.com header.b="gikJJ6bJ";
+	dkim=permerror (0-bit key) header.d=goldelico.com header.i=@goldelico.com header.b="Lg6ea0ra"
+ARC-Seal: i=1; a=rsa-sha256; t=1726847976; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=aNtX6Uy6W/w0p3DzLbbrNaN9sL1N2m26CRc9gmD2+ubt3uvUugUlHSC5Exro8Wb+G7
+    CiGjhw+SFoV9M4hBdEkPBqclWv01xG7xPCv2yfhkLtyRLQejxvFGN5Is7aKzlocGPfrO
+    cxS4cn6Dlj68Dbzg+tnBhqRo2U1yL3DAeAQw9pDoYaZiAdL7k1ObRpYk3JoEZAe6c44V
+    d38iZmDCCHZsqRmIcichBNlHOlpK/Wwu4lU+6yw8gwJqxxrxkMhzR78J9OtBa02IxTE9
+    /trB/AML/6tPa/cyfuURob2jT81yzD8v4Ll5lEdJFvqQcyMgkNEdUgM729jxOKhmYmJh
+    YM1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1726847976;
+    s=strato-dkim-0002; d=strato.com;
+    h=Message-ID:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+    bh=f8jxp8GbOrEV3KKDbHxpvkXMrzqQE3AMJeZLg5mk+AA=;
+    b=EwT9/dCqLK5+zUaAIBBq8zZco2ESh9Pq3NqOSxpOlKjk5i4Zf7ZHFda3Nxn8TFvszZ
+    Lj1y6TqJaGVBarvi5x2gJTcAmtQ/mPdYm6PGCDJ/UZJ79bQTqssJmuo4rYe/GmMsDocB
+    Kg7VW3mSOUnPye1oskG6njm16f/4K9bcBNVp03lwn7mkrX1GRJWXFGcSrWvgmmEEtQHA
+    nT+0ZKkdhM6LMSiYsdPssdbYthfbUBlPVLJ+fnjWfeg0fojU0fuV8c3Ps7eaqIT1q2RD
+    dVMEkF57/qNSVvemajvNfS5Z0FanFsj8EG56ETaRxDgwUNtK9QFUTSJpikITTlvQmJEV
+    rUEQ==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1726847976;
+    s=strato-dkim-0002; d=goldelico.com;
+    h=Message-ID:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+    bh=f8jxp8GbOrEV3KKDbHxpvkXMrzqQE3AMJeZLg5mk+AA=;
+    b=gikJJ6bJC4znKeUpHOkKcvLOQYJyDb+MAkng0DogD7hRusPZZeK04KW/Bp0VXIUxoF
+    XnAEwudV4AOLIXWMqYJ0KpvAdIlsXV6hfAlKY79efuDSK4PyBRqSM00uKwwL3uIemD0l
+    ljkwTLwBWHiTGi4mobXKR2mL9VLl9X583E5KgDh0KZYTHlw2TZ4603e9uLSYl0/MzRwf
+    FgyPRYGEITlXj1wnLGCSlreRCSSRZededPceDnfYsTbyyT8QiwWCkdgKJfyKE5c/bXV3
+    Z7sSnsMdRSNvH/hU1GA1rMQP7O73965vIB4TvSOBGvm8D8d9HmAb1TBf9Jl26DT/Akxi
+    c/YQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1726847976;
+    s=strato-dkim-0003; d=goldelico.com;
+    h=Message-ID:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+    bh=f8jxp8GbOrEV3KKDbHxpvkXMrzqQE3AMJeZLg5mk+AA=;
+    b=Lg6ea0raIql8JWDYzsrMO0ftb5qSzcUpgzuei/2LNuvYovnF+CxTHY5k4l/zKX1jC4
+    Tb6yKpoGWpuukoDBLMBA==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o12DNOsPj0lFzL1yeDsZ"
+Received: from localhost.localdomain
+    by smtp.strato.de (RZmta 51.2.7 DYNA|AUTH)
+    with ESMTPSA id Qd0dc208KFxaJNJ
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Fri, 20 Sep 2024 17:59:36 +0200 (CEST)
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+To: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	letux-kernel@openphoenux.org,
+	kernel@pyra-handheld.com,
+	risca@dalakolonin.se,
+	"H. Nikolaus Schaller" <hns@goldelico.com>
+Subject: [PATCH] ASoC: topology: fix stack corruption by code unification for creating standalone and widget controls
+Date: Fri, 20 Sep 2024 17:59:33 +0200
+Message-ID: <7eca678fa7faa9e160b998192e87220de81315c8.1726847965.git.hns@goldelico.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAJKX7WYC/x3MTQqAIBBA4avErBOGUfq7SrQwHWs2FgoRiHdPW
- n6L9wpkTsIZlq5A4keyXLGB+g7caePBSnwzEJLBmVBxHsloVtY7hazRa2emPQzQijtxkPe/rVu
- tH5tmXsxdAAAA
-X-Change-ID: 20240920-es7243e-adc-0e30d3c48bf6
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Rob Herring
-	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
-	<conor+dt@kernel.org>, Igor Prusov <ivprusov@salutedevices.com>
-CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <kernel@salutedevices.com>,
-	<prusovigor@gmail.com>, David Yang <yangxiaohua@everest-semi.com>, "Martin
- Kurbanov" <mmkurbanov@salutedevices.com>
-X-Mailer: b4 0.14.2
-X-ClientProxiedBy: p-i-exch-a-m1.sberdevices.ru (172.24.196.116) To
- p-i-exch-a-m1.sberdevices.ru (172.24.196.116)
-X-KSMG-Rule-ID: 10
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Lua-Profiles: 187889 [Sep 20 2024]
-X-KSMG-AntiSpam-Version: 6.1.1.5
-X-KSMG-AntiSpam-Envelope-From: ivprusov@salutedevices.com
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 34 0.3.34 8a1fac695d5606478feba790382a59668a4f0039, {Tracking_uf_ne_domains}, {Tracking_from_domain_doesnt_match_to}, smtp.sberdevices.ru:5.0.1,7.1.1;lore.kernel.org:7.1.1;salutedevices.com:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;github.com:7.1.1, FromAlignment: s
-X-MS-Exchange-Organization-SCL: -1
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean, bases: 2024/09/20 12:16:00
-X-KSMG-LinksScanning: Clean, bases: 2024/09/20 12:16:00
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/09/20 14:03:00 #26646385
-X-KSMG-AntiVirus-Status: Clean, skipped
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
 
-This series adds Everest Semi ES7243E ADC driver and bindings.
-Driver is based on David Yang's implementation [1].
+After finding kernel crashes on omap4/5 aess on PandaES and OMAP5UEVM like
 
-[1] https://github.com/BPI-SINOVOIP/BPI-R2PRO-BSP/blob/main/kernel/sound/soc/codecs/es7243e.c
+[   46.367041] Unable to handle kernel execution of memory at virtual address f164d95c when execute
 
-Changes in V2:
-- use generic node name in bindings
-- remove unused include statements
-- add sclk and lrck clocks
-- add const where possible
-- Link to V1: https://lore.kernel.org/lkml/20240709104117.33431-1-ivprusov@salutedevices.com
+a bisect did initially hint at commit 8f2942b9198c9 ("ASoC: topology: Unify
+code for creating standalone and widget enum control")
 
+Deeper analysis shows a bug in two of the three "ASoC: topology: Unify code"
+patches. There, a variable is initialized to point into the struct snd_kcontrol_new
+on stack instead of the newly devm_kzalloc'ed memory.
+
+Hence, initialization through struct soc_mixer_control or struct soc_bytes_ext
+members overwrites stack instead of the intended target address, leading to
+the observed kernel crashes.
+
+Fixes: 8f2942b9198c ("ASoC: topology: Unify code for creating standalone and widget enum control")
+Fixes: 4654ca7cc8d6 ("ASoC: topology: Unify code for creating standalone and widget mixer control").
+Fixes: 0867278200f7 ("ASoC: topology: Unify code for creating standalone and widget bytes control").
+Tested-by: risca@dalakolonin.se
+Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
 ---
-Igor Prusov (2):
-      ASoC: dt-bindings: Add Everest ES7243E
-      ASoC: codecs: add ES7243E ADC driver
 
- .../devicetree/bindings/sound/everest,es7243e.yaml |  56 ++
- sound/soc/codecs/Kconfig                           |   4 +
- sound/soc/codecs/Makefile                          |   2 +
- sound/soc/codecs/es7243e.c                         | 693 +++++++++++++++++++++
- 4 files changed, 755 insertions(+)
----
-base-commit: baeb9a7d8b60b021d907127509c44507539c15e5
-change-id: 20240920-es7243e-adc-0e30d3c48bf6
+Notes:
+    There seems to be another weakness of all three patches. The initialization
+    of the kc.private_value is now done after calling soc_tplg_control_load()
+    which may pass the incompletely initialized control down to some control_load()
+    operation (if tplg->ops are defined).
+    
+    Since this feature is not used by the omap4/5 aess subsystem drivers it is
+    not taken care of by this fix.
+    
+    Another general observation with this code (not related to these patches here)
+    is that it does not appear to be 64 bit address safe since private_value of
+    struct snd_kcontrol_new is 'unsigned long' [1] but used to store a pointer.
+    
+    This is fine on omap4/5 since they are 32 bit machines with 32 bit address
+    range. A problem would be a machine with 32 bit unsigned long and >32 bit
+    addresses.
+    
+    [1] According to my research this definition was done before Linux-2.6.12-rc2
 
-Best regards,
+ sound/soc/soc-topology.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/sound/soc/soc-topology.c b/sound/soc/soc-topology.c
+index af5d42b57be7e..3d82570293b29 100644
+--- a/sound/soc/soc-topology.c
++++ b/sound/soc/soc-topology.c
+@@ -889,7 +889,7 @@ static int soc_tplg_dbytes_create(struct soc_tplg *tplg, size_t size)
+ 		return ret;
+ 
+ 	/* register dynamic object */
+-	sbe = (struct soc_bytes_ext *)&kc.private_value;
++	sbe = (struct soc_bytes_ext *)kc.private_value;
+ 
+ 	INIT_LIST_HEAD(&sbe->dobj.list);
+ 	sbe->dobj.type = SND_SOC_DOBJ_BYTES;
+@@ -923,7 +923,7 @@ static int soc_tplg_dmixer_create(struct soc_tplg *tplg, size_t size)
+ 		return ret;
+ 
+ 	/* register dynamic object */
+-	sm = (struct soc_mixer_control *)&kc.private_value;
++	sm = (struct soc_mixer_control *)kc.private_value;
+ 
+ 	INIT_LIST_HEAD(&sm->dobj.list);
+ 	sm->dobj.type = SND_SOC_DOBJ_MIXER;
 -- 
-Igor Prusov <ivprusov@salutedevices.com>
+2.44.0
 
