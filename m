@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9CF9208D0;
-	Sat, 21 Sep 2024 18:05:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3162024A08;
+	Sat, 21 Sep 2024 18:09:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726941942; cv=none; b=ZWEOiDx6e2a5pAABwnm6wAOzbCgmYI7CX+AsKtDKdvUhF7w/pNSeWkhZxuiRZIaPXx3wss0fGIrlL+6R+ozbZr5JNWIaF7dBigo7lGssjgBZ2gccV0VD2e7IrXhCe8rtlkHpJrpk3zPaDlsJcQUHOb38kSLbBsQ1DCoj+ujYRTA=
+	t=1726942200; cv=none; b=GUHHXgLG7FqEunX0pTqJkk8gsZcESvdXWh5z6/EbzlVM/PavrjyA0XF1mtXgypJh+3tB5/FHjMVL6R1FCp37C40cjgVTRM2+zsh14IkIZJ+sMbM/Va4VtMByNmPSrzvi/KUsGAD7ABpVRL3ZOrRrMADSOxqRXguXm+6BQ/Ixgrg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726941942; c=relaxed/simple;
-	bh=P0nis9qL8sE4IF9dqa9UxIwQqZVyOb8pEolAPPOYYUE=;
+	s=arc-20240116; t=1726942200; c=relaxed/simple;
+	bh=faoqNButayVSCjVRMFLPewz3GeO158scG7bkVUHWenQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Sp8PKZw0UTCa0mpu+iX532Cj8fcFvBxmXIuSz+72lVTv5fX8LyC15Wj19KcPkZ1aEg3AUOL3IHQOkXVq0QfqaOLzsJEdCLry28IAg3BwsoHCFqq6TGfD2L/3C21x6CY9W8m4WZZnJILWX7F/QMiujvm8/I35+d9eIo3DP84RBw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LB4GZ5VH; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=UPOGxLE5fFoANapI8iklNv1A9dFNSNzCzjHptWW/DMmL7t9U+dG1DX4kiG8c2jFT+x2TP8q2F0fa03fQiwcuvwbU/OKSI/H8Y1HrDGaJx1xP2gRewPOEcKXma1JsYuqbAkMozGERT6qqRRFU0ejVeHiHfQgoZG2Yz/iqhRg0w3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c/b3Cp/M; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LB4GZ5VH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AC23C4CEC2;
-	Sat, 21 Sep 2024 18:05:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c/b3Cp/M"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF4B4C4CEC2;
+	Sat, 21 Sep 2024 18:09:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726941940;
-	bh=P0nis9qL8sE4IF9dqa9UxIwQqZVyOb8pEolAPPOYYUE=;
+	s=k20201202; t=1726942199;
+	bh=faoqNButayVSCjVRMFLPewz3GeO158scG7bkVUHWenQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LB4GZ5VHj1UMFtL4y0hCDskFo8/l0Jcl1jIF0r9c6iAyUt2vdbzwZRSYGMMZaUuyA
-	 RvVdkV3VVKQq10tAZZqcxj7tSyP88g0OjF2arrtisw5AxGa1IODw33Z+LwIb6uY2Oe
-	 i/2+Iw9fEc9o/GA7W9VS2KgKl9KEtTcqp0pfKhKSYrDAnonKVU6GKG2Od+bKX475z0
-	 H47gkex6T0ekcH/9B32RaHMUXZRjv6UsgWNHnVJTEiznnclmH4tQWGUXDKfoXsE1lE
-	 RPc9lnDK7pVbZp+ff2HZj3M9fg5Fj/kY7JBpLqVIVRYGTYkXz1rTPojEwAyqUf+BfH
-	 HACRS1JthMSiA==
-Date: Sat, 21 Sep 2024 20:05:36 +0200
+	b=c/b3Cp/M5LGAzYeZiEMQ+L40+0b4qH2V+cdHxWtqj2qYpfRirmCn5iZR6UGyawlfD
+	 HCK4whhdYRVjLibmoXDajXTkxHWoASV8wqG8ety+Jy4EXvuThN8AmTpNJQ2a/Hxkxx
+	 3gVfPmfQvSKjw1gTfLhTMxnkWUWSVihc3M/1+Ng8zoDpGzIIe5vHeS1lNkonrgYuYe
+	 +Sgjid2m2R4ZsVea9wV7Vlb4rPxA7U0eUZF4n8d0YyXRkgTVIounk0AimTcwijIGbG
+	 gU3fJ2OPF/akQZFuFTaKoUT+H4EXtKs8g6VDSpQ1oC4Pb+vojPipXORye0QFd9lc3H
+	 CbFqYnVpfBsnA==
+Date: Sat, 21 Sep 2024 20:09:55 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Igor Prusov <ivprusov@salutedevices.com>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -34,13 +34,12 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
 	Philipp Zabel <p.zabel@pengutronix.de>, prusovigor@gmail.com, kernel@salutedevices.com, 
 	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/6] ASoC: dt-bindings: Add bindings for NeoFidelity
- NTP8835
-Message-ID: <w36jlnksfym2bwsyxhvk2fs3yxf5xvmfu5j37z5bf2y4kjpbbu@wcy4egrsmefj>
+Subject: Re: [PATCH 6/6] ASoC: codecs: Add NeoFidelity NTP8835 codec
+Message-ID: <c67k2dmrwc4oghe25zjobiloeg5cqbtcypn5ibdqw4alb6y7wc@wmyrc6xyslbt>
 References: <20240709172834.9785-1-ivprusov@salutedevices.com>
- <20240709172834.9785-6-ivprusov@salutedevices.com>
- <4cb531b8-5ea1-437f-bdb0-a49f7799af47@kernel.org>
- <20240920174233.hisfcfb6pgtqzyfp@pc>
+ <20240709172834.9785-7-ivprusov@salutedevices.com>
+ <751ebf34-cd0d-4d3a-bf02-e25ca3dd350b@kernel.org>
+ <20240920173312.mc2ylk4n3lliaelj@pc>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,30 +48,169 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240920174233.hisfcfb6pgtqzyfp@pc>
+In-Reply-To: <20240920173312.mc2ylk4n3lliaelj@pc>
 
-On Fri, Sep 20, 2024 at 08:42:33PM +0300, Igor Prusov wrote:
-> On Wed, Jul 10, 2024 at 12:24:33PM +0200, Krzysztof Kozlowski wrote:
-> > On 09/07/2024 19:28, Igor Prusov wrote:
-> > > Add dt-bindings for NeoFidelity NTP8835C/NTP8835C Amplifiers
-> > > 
-> > > Signed-off-by: Igor Prusov <ivprusov@salutedevices.com>
-> > > ---
-> > >  .../bindings/sound/neofidelity,ntp8835.yaml   | 65 +++++++++++++++++++
+On Fri, Sep 20, 2024 at 08:33:12PM +0300, Igor Prusov wrote:
+ > 
 > > 
-> > No need for new schema. Just put it - after testing - into previous
-> > bindings file.
+> > > +
+> > > +static void ntp8835_reset_gpio(struct ntp8835_priv *ntp8835, bool active)
+> > > +{
+> > > +	if (active) {
+> > > +		/*
+> > > +		 * According to NTP8835 datasheet, 6.2 Timing Sequence (recommended):
+> > > +		 * Deassert for T2 >= 1ms...
+> > > +		 */
+> > > +		reset_control_deassert(ntp8835->reset);
+> > 
+> > Explain in comment why do you need to power up device to perform
+> > reset... This sounds odd.
+> > 
 > 
-> I am going to add some clocks in next version and there are some
-> differences between amplifiers. 8835 uses separate master clock, 8918 is
-> clocked by BCLK. Is it still better to use same schema with anyOf, or
-> keep them in different files?
+> This sequence comes from device datasheet, for some reason vendor
+> recommends to drive /RESET low for 0.1us during initialization.
+> Datasheet also describes (section 6.3) init sequence with simple reset
+> deassert, but it's called legacy, though it works fine on my board. Do
+> you mean to add more verbose comment than linking to a datasheet?
 
-No clue, that was 2 months ago so I don't have that email in my inbox at
-all.
+I think verbose comment would be better.
 
-Please post complete bindings (regardless whether driver implement it or
-not), so we can see the differences.
+> 
+> > > +		fsleep(1000);
+> > > +
+> > > +		/* ...Assert for T3 >= 0.1us... */
+> > > +		reset_control_assert(ntp8835->reset);
+> > > +		fsleep(1);
+> > > +
+> > > +		/* ...Deassert, and wait for T4 >= 0.5ms before sound on sequence. */
+> > > +		reset_control_deassert(ntp8835->reset);
+> > > +		fsleep(500);
+> > > +	} else {
+> > > +		reset_control_assert(ntp8835->reset);
+> > 
+> > This function is confusing. It is supposed to perform reset and leave
+> > the device in active state, but here it leaves the device in reset.
+> > 
+> > 
+> > 
+> > > +
+> > > +static struct snd_soc_dai_driver ntp8835_dai = {
+> > 
+> > Not const?
+> > 
+> 
+> ntp8835_dai is passed to devm_snd_soc_register_component(), which takes
+> non-const parameter.
+
+Right, indeed.
+
+> 
+> > > +	.name = "ntp8835-amplifier",
+> > > +	.playback = {
+> > > +		.stream_name = "Playback",
+> > > +		.channels_min = 1,
+> > > +		.channels_max = 3,
+> > > +		.rates = SNDRV_PCM_RATE_8000_192000,
+> > > +		.formats = NTP8835_FORMATS,
+> > > +	},
+> > > +	.ops = &ntp8835_dai_ops,
+> > > +};
+> > > +
+> > > +static struct regmap_config ntp8835_regmap = {
+> > 
+> > Not const?
+> > 
+> > Judging by weird includes and such simple issues, it looks like you try
+> > to upstream downstream or old code. That's not how you are supposed to
+> > bring new devices. You expect us to perform review on the same issues we
+> > fixed already. Work on newest drivers - take them as template - so you
+> > will not repeat the same issues we already fixed.
+> > 
+> > > +	.reg_bits = 8,
+> > > +	.val_bits = 8,
+> > > +	.max_register = REG_MAX,
+> > > +	.cache_type = REGCACHE_MAPLE,
+> > > +};
+> > > +
+> > > +static int ntp8835_i2c_probe(struct i2c_client *i2c)
+> > > +{
+> > > +	struct ntp8835_priv *ntp8835;
+> > > +	struct regmap *regmap;
+> > > +	int ret;
+> > > +
+> > > +	ntp8835 = devm_kzalloc(&i2c->dev, sizeof(struct ntp8835_priv), GFP_KERNEL);
+> > 
+> > sizeof(*)
+> > 
+> > > +	if (!ntp8835)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	ntp8835->i2c = i2c;
+> > > +
+> > > +	ntp8835->reset = devm_reset_control_get_shared(&i2c->dev, NULL);
+> > 
+> > shared is on purpose?
+> > 
+> 
+> Yes, we have a board with two amplifiers sharing same reset line, so
+> shared allows to work around this hardware issue. Is it the wrong
+> approach?
+
+No, it's ok, I just want to be sure you added this consciously.
+
+> 
+> > > +	if (IS_ERR(ntp8835->reset))
+> > > +		return dev_err_probe(&i2c->dev, PTR_ERR(ntp8835->reset),
+> > > +				     "Failed to get reset\n");
+> > > +
+> > > +	ret = reset_control_deassert(ntp8835->reset);
+> > > +	if (ret)
+> > > +		return dev_err_probe(&i2c->dev, PTR_ERR(ntp8835->reset),
+> > > +				     "Failed to deassert reset\n");
+> > > +
+> > > +	dev_set_drvdata(&i2c->dev, ntp8835);
+> > > +
+> > > +	ntp8835_reset_gpio(ntp8835, true);
+> > > +
+> > > +	regmap = devm_regmap_init_i2c(i2c, &ntp8835_regmap);
+> > > +	if (IS_ERR(regmap))
+> > > +		return dev_err_probe(&i2c->dev, PTR_ERR(regmap),
+> > > +				     "Failed to allocate regmap\n");
+> > > +
+> > > +	ret = devm_snd_soc_register_component(&i2c->dev, &soc_component_ntp8835,
+> > > +					      &ntp8835_dai, 1);
+> > > +	if (ret)
+> > > +		return dev_err_probe(&i2c->dev, ret,
+> > > +				     "Failed to register component\n");
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static const struct i2c_device_id ntp8835_i2c_id[] = {
+> > > +	{ "ntp8835", 0 },
+> > > +	{}
+> > > +};
+> > > +MODULE_DEVICE_TABLE(i2c, ntp8835_i2c_id);
+> > > +
+> > > +static const struct of_device_id ntp8835_of_match[] = {
+> > > +	{.compatible = "neofidelity,ntp8835",},
+> > > +	{.compatible = "neofidelity,ntp8835c",},
+> > 
+> > This does not match your i2c IDs, which leads to troubles when matching
+> > variants.
+> > 
+> > Anyway, aren't they compatible?
+> > 
+> > 
+> 
+> They have identical programming interface and only differ in some output
+> signal characteristics. Is it OK use single compatible string in such
+> case?
+
+Driver should have one compatible (and one entry in i2c device ID). You
+add the second in the bindings as one followed by fallback.
+Like this:
+https://elixir.bootlin.com/linux/v6.3-rc6/source/Documentation/devicetree/bindings/sound/nvidia,tegra210-ope.yaml#L31
 
 Best regards,
 Krzysztof
