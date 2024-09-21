@@ -1,269 +1,186 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 317E0257B;
-	Sat, 21 Sep 2024 21:35:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98590EBE
+	for <linux-sound@vger.kernel.org>; Sat, 21 Sep 2024 22:28:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726954515; cv=none; b=cQhsRsOSmCqmKfawenFLRDNmvGp5sy/JYRS+wj55YyKF1JbbYhfB4FtSTy3bXCbwOU8gkaZxHJOI0XBIOr+Kfua3Sxh/ksTlZ3u4bvl+/bMl/avbu0OvquvdeGHfeSr6jqZUzWUFgK1bHiPvdWjOAak34AhR6FRnRVXf7D8yKp8=
+	t=1726957701; cv=none; b=QxHEVeDTh7yRppaEWulfGLN1dL6clAc1XhQKtfNBM6uaZ499hWKFhGL89TZoRZcy2GfZFYIQa+ZyzwugfSVq5sSfcKmvEKjBUHQauMhWGbxt8rY9OuxD/G/QufhtlkZttVqCKBaINKq99zVwHX7GcrMu8c7idt2x3wr0ee7c5sE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726954515; c=relaxed/simple;
-	bh=Cg399CoQ5yeAQV9SqcP1fOr6eTdktUGwpwjheEaBP2Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KHq+Vr9Ux6/YG5OGEValnxxv8YsuM7bFaonx+eYVsbhpLcg/qX94acAqqlXAAGunA141i0X8wdJivP5g2ogPUP+h04RDDC5YdDxH5O4ETLMJwvBtgOrPBy0ZRlxZYxo+Eej7AwbfydVre+JYJaqrNeBycqCOuW+uBLI97ntvi6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lkYZfkVm; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lkYZfkVm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726954512; x=1758490512;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Cg399CoQ5yeAQV9SqcP1fOr6eTdktUGwpwjheEaBP2Y=;
-  b=lkYZfkVm0FbXDqv0IRW+1Jwky3dB9fJBeAk/Q5YQ/66e73zrs+ntCzF3
-   yJN59tVeUzZazHBbOtQJDj/Up/lpHdK+S7r98X3CJlJUqXPMw8nSEfLEB
-   EUMMEpzRNMsV1HOgm3MASmpRaZJPW6dbsar1eN08M+Pbkq3P4xq6ZZp7O
-   u2U+tzXJCUeLXftE67fL8bybHqwb3W6ho8OJCgfVBxJLipow/1OZb/lel
-   qbOlecDmUwIz7cLV5DjCCjeqnTC3aBa3gm+EHgYn8+ZfP0ZDJAFKj+NX2
-   xy3czD76AqKsRfvDhPqmTke/sbXi8IHZJ0GT1+T7LigwPE8Aaiq6HfybA
-   Q==;
-X-CSE-ConnectionGUID: Xc8Vjh4ORHCk4XdpFQq2QQ==
-X-CSE-MsgGUID: hepaloM+TfClJlU01fGeuQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="26031911"
-X-IronPort-AV: E=Sophos;i="6.10,248,1719903600"; 
-   d="scan'208";a="26031911"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2024 14:35:12 -0700
-X-CSE-ConnectionGUID: 64csHCMCSr2SIkWg3+jcbQ==
-X-CSE-MsgGUID: TD5cWy/xQc+ft4RTB7BXSQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,248,1719903600"; 
-   d="scan'208";a="75216263"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 21 Sep 2024 14:35:07 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ss7ku-000FoQ-2G;
-	Sat, 21 Sep 2024 21:35:04 +0000
-Date: Sun, 22 Sep 2024 05:34:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Igor Prusov <ivprusov@salutedevices.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, kernel@salutedevices.com,
-	prusovigor@gmail.com, David Yang <yangxiaohua@everest-semi.com>,
-	Martin Kurbanov <mmkurbanov@salutedevices.com>
-Subject: Re: [PATCH v2 2/2] ASoC: codecs: add ES7243E ADC driver
-Message-ID: <202409220756.5MSHcbg7-lkp@intel.com>
-References: <20240920-es7243e-adc-v2-2-0be019735b81@salutedevices.com>
+	s=arc-20240116; t=1726957701; c=relaxed/simple;
+	bh=0Q4HkTh2bOZXe5TULkbzgJQ1zgaw36FPGS6nye4B3OU=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=I94s34fHstkLXr84aveESiBs4ljS9kBlydFm+Iwo+GJwoCPtVtSGH0h3/TwVrEvS7GXz1mKsLMzKU/D0sMFRn1+Lao58rodgKIzNXeAk4+cEWbdflF8CfCMrwjy7AYL1mczybB+F9n6s5UB7stjOPIBp8QhMWfzif/rkWe8+toM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f198.google.com with SMTP id e9e14a558f8ab-3a0ce7e621aso14266205ab.1
+        for <linux-sound@vger.kernel.org>; Sat, 21 Sep 2024 15:28:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726957699; x=1727562499;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9jYY8LyLfZxvZNrxt0J8hPTdfzursAHXph1TedcuT3I=;
+        b=LhFuxbMdjIoM6c7pTwWcdisXxDpaEFNRYpYaVrW9xf3LwAdH7C2ciNDij0pbaZOOKS
+         exWNofb7uuxcVK+ZkYnNCPl4RkrqDioYrEp9ndvj05v+XoheVSbFnFB6wVFEcKIhiovV
+         sKrftRri1ZqgNO+ZL3D+L+QtYkoHy+tZM1epktKFD6l6642HAVs4zkDtXAR2PbHa946z
+         5TK318bulgE9ccQqxDn/77/U2ehWm6A7koJgPYSyGZDwsbeXhBKz2hcrC+MgxrVIWcLs
+         IM7PY2k9qvzqWKmgCfcCr76kpE5NkIxb+0oxPUf5Ou5NwZSWColFbhAKtUgK6+DY9NY3
+         uKnw==
+X-Forwarded-Encrypted: i=1; AJvYcCUgUBDvp2r6iF4KUITQI5TxIdRXvKknhoK04eZH8tShq1xxpdiEYYylsN1UnXzuit0ZHoxCkt6u+gqk0g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzUdV/Df1ZpEqAsipgn9ZWaCTrUJjjBQB/CnXLIlKh0Sb74X579
+	uQLeTc0g4xbMhcc0JpQskX/r2C2PVociPo7u5emyKAT2QrSUtL6Py33jfgsrli6sXGZCPoLtpo9
+	KzK4tl+AHd0wYNbGiQgxATUxuSaKqZoYcNnafbHJVgMImDfNQRrSHJN8=
+X-Google-Smtp-Source: AGHT+IHFMznQt1tZzezDV7UK5B3djkLkpISyXVd96kJQUAgfhCxrA1sKBYyH+t59tUtdgoQP+0DegfBL07YRYeMvVIqpSMG0RKuU
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240920-es7243e-adc-v2-2-0be019735b81@salutedevices.com>
+X-Received: by 2002:a05:6e02:1805:b0:3a0:ab71:ed38 with SMTP id
+ e9e14a558f8ab-3a0c9d39acfmr65726875ab.14.1726957698753; Sat, 21 Sep 2024
+ 15:28:18 -0700 (PDT)
+Date: Sat, 21 Sep 2024 15:28:18 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <66ef4882.050a0220.3195df.006e.GAE@google.com>
+Subject: [syzbot] [sound?] kernel BUG in snd_pcm_mmap_data_fault
+From: syzbot <syzbot+4bf62a7b1d0f4fdb7ae2@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, perex@perex.cz, 
+	syzkaller-bugs@googlegroups.com, tiwai@suse.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Igor,
+Hello,
 
-kernel test robot noticed the following build errors:
+syzbot found the following issue on:
 
-[auto build test ERROR on baeb9a7d8b60b021d907127509c44507539c15e5]
+HEAD commit:    a430d95c5efa Merge tag 'lsm-pr-20240911' of git://git.kern..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=13691207980000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=a69c66e868285a9d
+dashboard link: https://syzkaller.appspot.com/bug?extid=4bf62a7b1d0f4fdb7ae2
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+userspace arch: i386
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Igor-Prusov/ASoC-dt-bindings-Add-Everest-ES7243E/20240920-235246
-base:   baeb9a7d8b60b021d907127509c44507539c15e5
-patch link:    https://lore.kernel.org/r/20240920-es7243e-adc-v2-2-0be019735b81%40salutedevices.com
-patch subject: [PATCH v2 2/2] ASoC: codecs: add ES7243E ADC driver
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240922/202409220756.5MSHcbg7-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 8663a75fa2f31299ab8d1d90288d9df92aadee88)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240922/202409220756.5MSHcbg7-lkp@intel.com/reproduce)
+Unfortunately, I don't have any reproducer for this issue yet.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409220756.5MSHcbg7-lkp@intel.com/
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7bc7510fe41f/non_bootable_disk-a430d95c.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/7c522024ada4/vmlinux-a430d95c.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/b20faf992428/bzImage-a430d95c.xz
 
-All errors (new ones prefixed by >>):
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+4bf62a7b1d0f4fdb7ae2@syzkaller.appspotmail.com
 
-   In file included from sound/soc/codecs/es7243e.c:15:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:25:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from sound/soc/codecs/es7243e.c:15:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:25:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from sound/soc/codecs/es7243e.c:15:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:25:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   In file included from sound/soc/codecs/es7243e.c:15:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2239:
-   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> sound/soc/codecs/es7243e.c:252:13: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     252 |                 sdpfmt |= FIELD_PREP(ES7243E_SDP_FMT, 0);
-         |                           ^
-   sound/soc/codecs/es7243e.c:272:11: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     272 |                 clk2 |= FIELD_PREP(ES7243E_CLK2_BCLK_INV, 0);
-         |                         ^
-   sound/soc/codecs/es7243e.c:351:8: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     351 |         val = FIELD_PREP(ES7243E_ADCCTL1_SCALE, cd->scale);
-         |               ^
-   sound/soc/codecs/es7243e.c:405:18: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     405 |         const int val = FIELD_PREP(ES7243E_SDP_MUTE, 3 * !!mute);
-         |                         ^
-   sound/soc/codecs/es7243e.c:514:8: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     514 |         val = FIELD_PREP(ES7243E_SDP_MUTE, 0);
-         |               ^
-   sound/soc/codecs/es7243e.c:570:8: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     570 |         val = FIELD_PREP(ES7243E_PGA1_EN, 1);
-         |               ^
-   7 warnings and 6 errors generated.
+------------[ cut here ]------------
+kernel BUG at arch/x86/mm/physaddr.c:28!
+Oops: invalid opcode: 0000 [#1] PREEMPT SMP KASAN NOPTI
+CPU: 2 UID: 0 PID: 6703 Comm: syz.3.325 Not tainted 6.11.0-syzkaller-02574-ga430d95c5efa #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
+RIP: 0010:__phys_addr+0xd8/0x150 arch/x86/mm/physaddr.c:28
+Code: 48 d3 e8 48 89 c5 48 89 c6 e8 04 ee 4c 00 48 85 ed 75 11 e8 8a eb 4c 00 48 89 d8 5b 5d 41 5c c3 cc cc cc cc e8 79 eb 4c 00 90 <0f> 0b e8 71 eb 4c 00 48 c7 c0 10 60 ba 8d 48 ba 00 00 00 00 00 fc
+RSP: 0018:ffffc9000c01f550 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 0000778000000000 RCX: ffffffff813e38c0
+RDX: ffff888024ecc880 RSI: ffffffff813e3947 RDI: 0000000000000006
+RBP: 0000000080000000 R08: 0000000000000006 R09: 0000000080000000
+R10: 0000778000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: 0000000000000000 R14: ffff88801e93d000 R15: ffffc9000c01f680
+FS:  0000000000000000(0000) GS:ffff88802b800000(0063) knlGS:00000000f5716b40
+CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
+CR2: 0000000020bff000 CR3: 0000000025f2a000 CR4: 0000000000350ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ snd_pcm_mmap_data_fault+0x3f2/0x4c0 sound/core/pcm_native.c:3793
+ __do_fault+0x10a/0x490 mm/memory.c:4672
+ do_read_fault mm/memory.c:5078 [inline]
+ do_fault mm/memory.c:5208 [inline]
+ do_pte_missing mm/memory.c:3964 [inline]
+ handle_pte_fault mm/memory.c:5538 [inline]
+ __handle_mm_fault+0x3b47/0x5470 mm/memory.c:5681
+ handle_mm_fault+0x498/0xa60 mm/memory.c:5849
+ faultin_page mm/gup.c:1207 [inline]
+ __get_user_pages+0x475/0x15c0 mm/gup.c:1506
+ __get_user_pages_locked mm/gup.c:1773 [inline]
+ __gup_longterm_locked+0x22e/0x1b30 mm/gup.c:2502
+ pin_user_pages_remote+0xee/0x150 mm/gup.c:3541
+ process_vm_rw_single_vec mm/process_vm_access.c:106 [inline]
+ process_vm_rw_core.constprop.0+0x439/0x9f0 mm/process_vm_access.c:216
+ process_vm_rw+0x301/0x360 mm/process_vm_access.c:284
+ __do_sys_process_vm_readv mm/process_vm_access.c:296 [inline]
+ __se_sys_process_vm_readv mm/process_vm_access.c:292 [inline]
+ __ia32_sys_process_vm_readv+0xdf/0x1b0 mm/process_vm_access.c:292
+ do_syscall_32_irqs_on arch/x86/entry/common.c:165 [inline]
+ __do_fast_syscall_32+0x73/0x120 arch/x86/entry/common.c:386
+ do_fast_syscall_32+0x32/0x80 arch/x86/entry/common.c:411
+ entry_SYSENTER_compat_after_hwframe+0x84/0x8e
+RIP: 0023:0xf7f92579
+Code: b8 01 10 06 03 74 b4 01 10 07 03 74 b0 01 10 08 03 74 d8 01 00 00 00 00 00 00 00 00 00 00 00 00 00 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 90 90 90 8d b4 26 00 00 00 00 8d b4 26 00 00 00 00
+RSP: 002b:00000000f571656c EFLAGS: 00000296 ORIG_RAX: 000000000000015b
+RAX: ffffffffffffffda RBX: 00000000000000e8 RCX: 0000000020008400
+RDX: 0000000000000002 RSI: 0000000020000400 RDI: 00000000000002db
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000296 R12: 0000000000000000
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:__phys_addr+0xd8/0x150 arch/x86/mm/physaddr.c:28
+Code: 48 d3 e8 48 89 c5 48 89 c6 e8 04 ee 4c 00 48 85 ed 75 11 e8 8a eb 4c 00 48 89 d8 5b 5d 41 5c c3 cc cc cc cc e8 79 eb 4c 00 90 <0f> 0b e8 71 eb 4c 00 48 c7 c0 10 60 ba 8d 48 ba 00 00 00 00 00 fc
+RSP: 0018:ffffc9000c01f550 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 0000778000000000 RCX: ffffffff813e38c0
+RDX: ffff888024ecc880 RSI: ffffffff813e3947 RDI: 0000000000000006
+RBP: 0000000080000000 R08: 0000000000000006 R09: 0000000080000000
+R10: 0000778000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: 0000000000000000 R14: ffff88801e93d000 R15: ffffc9000c01f680
+FS:  0000000000000000(0000) GS:ffff88802b800000(0063) knlGS:00000000f5716b40
+CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
+CR2: 00005583dfdec000 CR3: 0000000025f2a000 CR4: 0000000000350ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+----------------
+Code disassembly (best guess), 2 bytes skipped:
+   0:	10 06                	adc    %al,(%rsi)
+   2:	03 74 b4 01          	add    0x1(%rsp,%rsi,4),%esi
+   6:	10 07                	adc    %al,(%rdi)
+   8:	03 74 b0 01          	add    0x1(%rax,%rsi,4),%esi
+   c:	10 08                	adc    %cl,(%rax)
+   e:	03 74 d8 01          	add    0x1(%rax,%rbx,8),%esi
+  1e:	00 51 52             	add    %dl,0x52(%rcx)
+  21:	55                   	push   %rbp
+  22:	89 e5                	mov    %esp,%ebp
+  24:	0f 34                	sysenter
+  26:	cd 80                	int    $0x80
+* 28:	5d                   	pop    %rbp <-- trapping instruction
+  29:	5a                   	pop    %rdx
+  2a:	59                   	pop    %rcx
+  2b:	c3                   	ret
+  2c:	90                   	nop
+  2d:	90                   	nop
+  2e:	90                   	nop
+  2f:	90                   	nop
+  30:	8d b4 26 00 00 00 00 	lea    0x0(%rsi,%riz,1),%esi
+  37:	8d b4 26 00 00 00 00 	lea    0x0(%rsi,%riz,1),%esi
 
 
-vim +/FIELD_PREP +252 sound/soc/codecs/es7243e.c
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-   239	
-   240	static int es7243e_set_dai_fmt(struct snd_soc_dai *dai, unsigned int fmt)
-   241	{
-   242		struct snd_soc_component *component = dai->component;
-   243		unsigned int sdpfmt = 0;
-   244		unsigned int clk2 = 0;
-   245		bool is_dsp = false;
-   246		bool invert_lrck = false;
-   247		int ret;
-   248	
-   249		/* Set protocol of the serial data port */
-   250		switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
-   251		case SND_SOC_DAIFMT_I2S:
- > 252			sdpfmt |= FIELD_PREP(ES7243E_SDP_FMT, 0);
-   253			break;
-   254		case SND_SOC_DAIFMT_LEFT_J:
-   255			sdpfmt |= FIELD_PREP(ES7243E_SDP_FMT, 1);
-   256			break;
-   257		case SND_SOC_DAIFMT_DSP_A:
-   258			sdpfmt |= FIELD_PREP(ES7243E_SDP_FMT, 3);
-   259			is_dsp = true;
-   260			break;
-   261		case SND_SOC_DAIFMT_DSP_B:
-   262			sdpfmt |= FIELD_PREP(ES7243E_SDP_FMT, 3);
-   263			is_dsp = true;
-   264			break;
-   265		default:
-   266			return -EINVAL;
-   267		}
-   268	
-   269		/* Set LR and BCLK polarity */
-   270		switch (fmt & SND_SOC_DAIFMT_INV_MASK) {
-   271		case SND_SOC_DAIFMT_NB_NF:
-   272			clk2 |= FIELD_PREP(ES7243E_CLK2_BCLK_INV, 0);
-   273			sdpfmt |= FIELD_PREP(ES7243E_SDP_LRP, 0);
-   274			break;
-   275		case SND_SOC_DAIFMT_IB_IF:
-   276			clk2 |= FIELD_PREP(ES7243E_CLK2_BCLK_INV, 1);
-   277			sdpfmt |= FIELD_PREP(ES7243E_SDP_LRP, 1);
-   278			invert_lrck = true;
-   279			break;
-   280		case SND_SOC_DAIFMT_IB_NF:
-   281			clk2 |= FIELD_PREP(ES7243E_CLK2_BCLK_INV, 1);
-   282			sdpfmt |= FIELD_PREP(ES7243E_SDP_LRP, 0);
-   283			break;
-   284		case SND_SOC_DAIFMT_NB_IF:
-   285			clk2 |= FIELD_PREP(ES7243E_CLK2_BCLK_INV, 0);
-   286			sdpfmt |= FIELD_PREP(ES7243E_SDP_LRP, 1);
-   287			invert_lrck = true;
-   288			break;
-   289		default:
-   290			return -EINVAL;
-   291		}
-   292	
-   293		/* Inverted LRCK is not available in DSP mode. */
-   294		if (is_dsp && invert_lrck)
-   295			return -EINVAL;
-   296	
-   297		ret = snd_soc_component_update_bits(component, ES7243E_CLK2,
-   298						    ES7243E_CLK2_BCLK_INV, clk2);
-   299		if (ret < 0)
-   300			return ret;
-   301	
-   302		return snd_soc_component_update_bits(component, ES7243E_SDP,
-   303						     ES7243E_SDP_LRP, sdpfmt);
-   304	}
-   305	
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
