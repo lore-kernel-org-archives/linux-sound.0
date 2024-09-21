@@ -1,80 +1,68 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9495D15098F;
-	Sat, 21 Sep 2024 08:10:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C8BC13AD26;
+	Sat, 21 Sep 2024 13:00:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726906243; cv=none; b=i2q4vmGnLULM3Vn423h7pNGsqmfhMnNiFC4yD5bQTqbF5/D4wME/I6sr//cxrUa3YnfVDaYX3RXQzs/a70oLYGYX0Jxyv9aHl0Qyg9qGcuGknDb2Og0jmuDERaLbJD2BJMfBuiOrIMzpZwbMMr3wiHYcHEJ3HywKxHvfEWOP3bY=
+	t=1726923655; cv=none; b=clSHe1wcZHZ7+JCpPXYri7s+XmwMHO1CLW57axQRu6+AA4WDl7nV6wkjewZwb/gepQtaevhdUp8Fju3pQ5Dug+Jl6ylyEsWw+TEtQ+1YXltZbt+qMn+I2dnDzcyZkonKOjg/FoD2LY2zr/MKZoikb49PfNVO6wWQHVuomDucvvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726906243; c=relaxed/simple;
-	bh=hIiykcwMUHrmR8fPg9W7KtQVG1INi5KWpVc/i10zqTA=;
+	s=arc-20240116; t=1726923655; c=relaxed/simple;
+	bh=Qzwnd2JW8YVoqaxd0RoBmQdx5YFfwb7t/+mzl03MbIE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MC/5aqi2+96wKH50Rs/6iDdVqXL0Y4Gs3eozV7D5TjUmpWz2WO/t+/bq9nkKevdiiUO7gxUC19yoc6tp7VvKrTVF41L2sO/e2mZasCJnd4hpNrqJHSb9pxEcGs1v/3Hb0XZiPC4pJVjlBzm4W/otI3+d9dhH+jj52Wwa2d+7nS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cvbBu6PI; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=c+xYfm1LRFlP8G04Mg/hqDsKDkDXTvNcynfOb+Jm1w5PG7BF2jSMu+/IVG7qSvZvNbaJsjYLwwXQqLBVy3EiP/LtOmhgCWhoRqG2SXHxHly/zlZsXIdIiZFJ6xmVUsPEepkLBraFhwDUvkZbjYVZCFgEbrHv9k1evw3YMwyKvdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m7wPDQ+e; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cvbBu6PI"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a8a7596b7dfso472406866b.0;
-        Sat, 21 Sep 2024 01:10:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726906240; x=1727511040; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ewVnOv5AHYUNwqENpFQHGDlvppKV6TVLikXGgL6txgQ=;
-        b=cvbBu6PIxHI0YGauBDtbDVf9OhGtIG3PU774ix3PDZe5ge3WLmZyJt+WjXnOaJUKD/
-         Yw7fEEFuwzuawExwE2ZcVWzpKqL+uZA4nyuuN2cGu8iN3zgJXm8QAIxkDzZPZXOKhiy9
-         aSqsnfayTbEeA0JngToYClIkTnEzAoNNxNLVViDy1GeaSBPZ9xFF9MiR0V2jzY/3shSU
-         Igg24MZe0js+FBAYcuRMOhZILq5Yg67vwrlJIbTPjRNNKmofKa9EUMT6bAJmiVSyLxrn
-         ysqOThP7H2tybXhhsCzHLe0mEUszEvjBLM8JuArEccelfTpPfbbM2rzMS+5cjQ+1CeHf
-         qQMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726906240; x=1727511040;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ewVnOv5AHYUNwqENpFQHGDlvppKV6TVLikXGgL6txgQ=;
-        b=lWuzPWB0S5BDkIZ9kvEp+44Znvt2U/+Xrcwg9+c8kcSNu5+yvqb5kiy4w0z1n7K83Q
-         C02uOhY3DQhzl1/3lBq+ROVdzgN8DvUsr4+6a130xkqk5hIqzWt/7EWhOe17PBK10o7s
-         nXgegYbRN+zCKP8wFq0k+nQipkVszjyEbrUHUBBHWzDV5wnRZNLoblSA1tq2lF6RWRYD
-         lVlIsqZfpFIU9jwxYMISzZEY+NUgOwUf29l1cxHQh/6jA1E5Tq31Jx3Vy22+WQrxYPH8
-         w+xAdVr3gqStUiZj5MshOaWAdUb0HQ/aZCw++n74zFU59s/taUId+LGdVWSRB+9yZX0k
-         IAgg==
-X-Forwarded-Encrypted: i=1; AJvYcCVH+xOlrKk5bIKD2mju6xNyRZ2XS8rXq+ttmD5QH6JCOuW9r8vuMV9RfP+MOP4iPJTTSyqBg5QsoH41g0c=@vger.kernel.org, AJvYcCXOTv8YTIUEW3s1OBdg99DBu9mWjiOPQc+Ah5CP0ACj5RuT6muBWLigb/VZT6eM7DfN6aM2OLlPdHwnbTw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzgpnbeQR7E1W8XBMvsjwlKolMGL+Z4OHIcnGzmD6jvmePE01gL
-	2+u+oqLQyZzFPDbjPPUueafwB6Uk6Hofz5kjqX2Wka9l9HKKlCos
-X-Google-Smtp-Source: AGHT+IFcPdvp9vYOkPt75UxWmFpkBRFuJtBTwoTQqXlUrmCI2lxcPqmc0U0fva3KZ3xyMoniYeaVzQ==
-X-Received: by 2002:a17:907:268e:b0:a8a:754a:e1c1 with SMTP id a640c23a62f3a-a90c1c73fabmr952458966b.8.1726906239535;
-        Sat, 21 Sep 2024 01:10:39 -0700 (PDT)
-Received: from localhost ([185.220.101.78])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9061321568sm940425466b.191.2024.09.21.01.10.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Sep 2024 01:10:38 -0700 (PDT)
-Date: Sat, 21 Sep 2024 11:10:37 +0300
-From: Maxim Mikityanskiy <maxtram95@gmail.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>,
-	Rui Salvaterra <rsalvaterra@gmail.com>,
-	Sui Jingfeng <suijingfeng@loongson.cn>,
-	Bjorn Helgaas <bhelgaas@google.com>, Peter Wu <peter@lekensteyn.nl>,
-	Lukas Wunner <lukas@wunner.de>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda: intel: Fix Optimus when GPU has no sound
-Message-ID: <Zu5_faxUwoIl09fW@mail.gmail.com>
-References: <20240904203955.245085-1-maxtram95@gmail.com>
- <871q1ygov9.wl-tiwai@suse.de>
- <ZttEUjeYFzdznYKM@mail.gmail.com>
- <87wmjndbha.wl-tiwai@suse.de>
- <ZtxZBUjlF8TeIUKC@mail.gmail.com>
- <87jzfncvm0.wl-tiwai@suse.de>
- <ZtyMWSA0bg1SjFSU@mail.gmail.com>
- <87ed5vcp23.wl-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m7wPDQ+e"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726923653; x=1758459653;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Qzwnd2JW8YVoqaxd0RoBmQdx5YFfwb7t/+mzl03MbIE=;
+  b=m7wPDQ+eK8mNqMiFDY5F84BeGDz82wU+c6dwn70Vrb0iCSy9tN4jVp2g
+   44WxYcQk1EiCxYfMsu1mOGS2EgxrRnmKtiYYZOkzIHnJ3gCx8rzmDMqw7
+   fgU4usDYfVLOBFExPhXtKCVYefd32txYXT6VMtLc9ummdBJhcDkJ4qKoE
+   D8mo8+Bbzidf76HjW8ZYiQ/WrCQDbQBu6fQLhfV3Qt4i7IwTd9z6a8lPl
+   egoLeLCSYyds6MmHoShMdn64n2N6bzXNmcnI04CCJMuYQxZqjs6azF1TW
+   XJqT/sG/7I7hj/tUW8I23jpqDtz0rWZn3iP+iNTz+wsh0mu2RV5k99JQZ
+   Q==;
+X-CSE-ConnectionGUID: HJnJoL0WQPyOnyLAWIbW/Q==
+X-CSE-MsgGUID: YKRcVH7pRL2NfkobfAEMGg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="29818707"
+X-IronPort-AV: E=Sophos;i="6.10,247,1719903600"; 
+   d="scan'208";a="29818707"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2024 06:00:52 -0700
+X-CSE-ConnectionGUID: AnEOb1GcQUqc0jC32N/gFQ==
+X-CSE-MsgGUID: UeIUHx3uQJaI7S4zFIYvVg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,247,1719903600"; 
+   d="scan'208";a="74982765"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 21 Sep 2024 06:00:49 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1srzjC-000FRb-1v;
+	Sat, 21 Sep 2024 13:00:46 +0000
+Date: Sat, 21 Sep 2024 20:59:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Igor Prusov <ivprusov@salutedevices.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	kernel@salutedevices.com, prusovigor@gmail.com,
+	David Yang <yangxiaohua@everest-semi.com>,
+	Martin Kurbanov <mmkurbanov@salutedevices.com>
+Subject: Re: [PATCH v2 2/2] ASoC: codecs: add ES7243E ADC driver
+Message-ID: <202409212032.P6kjCapX-lkp@intel.com>
+References: <20240920-es7243e-adc-v2-2-0be019735b81@salutedevices.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -83,210 +71,105 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87ed5vcp23.wl-tiwai@suse.de>
+In-Reply-To: <20240920-es7243e-adc-v2-2-0be019735b81@salutedevices.com>
 
-On Sat, 07 Sep 2024 at 20:10:44 +0200, Takashi Iwai wrote:
-> On Sat, 07 Sep 2024 19:24:41 +0200,
-> Maxim Mikityanskiy wrote:
-> > 
-> > On Sat, 07 Sep 2024 at 17:49:11 +0200, Takashi Iwai wrote:
-> > > On Sat, 07 Sep 2024 15:45:41 +0200,
-> > > Maxim Mikityanskiy wrote:
-> > > > 
-> > > > On Sat, 07 Sep 2024 at 12:06:25 +0200, Takashi Iwai wrote:
-> > > > > On Fri, 06 Sep 2024 20:05:06 +0200,
-> > > > > Maxim Mikityanskiy wrote:
-> > > > > > 
-> > > > > > On Thu, 05 Sep 2024 at 16:24:26 +0200, Takashi Iwai wrote:
-> > > > > > > On Wed, 04 Sep 2024 22:39:55 +0200,
-> > > > > > > Maxim Mikityanskiy wrote:
-> > > > > > > > 
-> > > > > > > > Lenovo IdeaPad Z570 with NVIDIA GeForce Ge 520M doesn't have sound on
-> > > > > > 
-> > > > > > Spotted a typo: s/520M/540M/
-> > > > > > 
-> > > > > > > > the discrete GPU. snd_hda_intel probes the device and schedules
-> > > > > > > > azx_probe_continue(), which fails at azx_first_init(). The driver ends
-> > > > > > > > up probed, but calls azx_free() and stops the chip. However, from the
-> > > > > > > > runtime PM point of view, the device remains active, because the PCI
-> > > > > > > > subsystem makes it active on probe, and it's still bound. It prevents
-> > > > > > > > vga_switcheroo from turning off the DGPU (pci_create_device_link() syncs
-> > > > > > > > power management for the video and audio devices).
-> > > > > > > > 
-> > > > > > > > Fix it by forcing the device to the suspended state in azx_free().
-> > > > > > > > 
-> > > > > > > > Fixes: 07f4f97d7b4b ("vga_switcheroo: Use device link for HDA controller")
-> > > > > > > > Signed-off-by: Maxim Mikityanskiy <maxtram95@gmail.com>
-> > > > > > > 
-> > > > > > > What if this device probe is skipped (e.g. adding your device entry to
-> > > > > > > driver_denylist[] in hda_intel.c)?  Is the device also in the
-> > > > > > > runtime-suspended state?
-> > > > > > 
-> > > > > > I added the following:
-> > > > > > 
-> > > > > > { PCI_DEVICE_SUB(0x10de, 0x0bea, 0x0000, 0x0000) },
-> > > > > > 
-> > > > > > The probe was apparently skipped (the device is not attached to a
-> > > > > > driver), runtime_status=suspended, runtime_usage=0, the GPU goes to
-> > > > > > DynOff.
-> > > > > 
-> > > > > OK, that's good.
-> > > > > 
-> > > > > > However, I'm not sure whether it's a good idea to blacklist 540M
-> > > > > > entirely, as there might be other laptops with this GPU that have sound,
-> > > > > > and AFAIK there are variants of Lenovo Z570 with other NVIDIA GPUs.
-> > > > > 
-> > > > > You should specify the PCI SSID of your device instead of 0:0 in the
-> > > > > above, so that it's picked up only for yours.
-> > > > 
-> > > > Where can I get it?
-> > > > 
-> > > > # cat /sys/bus/pci/devices/0000\:01\:00.1/subsystem_vendor
-> > > > 0x0000
-> > > > # cat /sys/bus/pci/devices/0000\:01\:00.1/subsystem_device
-> > > > 0x0000
-> > > 
-> > > Ouch, Lenovo didn't set it right.
-> > > Alternatively we may introduce a deny list based on DMI.  Hmm...
-> > 
-> > A DMI-based quirk sounds better than blocking any NVIDIA 540M, it would
-> > also allow handling alternative GPUs on this laptop model.
-> > 
-> > But could you explain what's wrong with a generic approach that I
-> > suggest (probe_continue failed => mark as suspended)? It doesn't require
-> > any lists. Any drawbacks?
-> 
-> As you noticed, it will leave the device bound with driver, i.e. this
-> looks as if it were operative.  It means that the sound driver is
-> still responsible for suspend/resume or whatever action even though
-> it's totally useless.  In that sense, it makes more sense to give it
-> away at the early stage before actually binding it, and the deny list
-> is exactly for that.
+Hi Igor,
 
-Thanks for your feedback!
+kernel test robot noticed the following build errors:
 
-Do you happen to know whether there is a way for a driver to unbind
-itself after probe() returned success? I've never seen anything like
-this, but it would be a perfect solution: no lists and no driver bound
-after the delayed initialization fails.
+[auto build test ERROR on baeb9a7d8b60b021d907127509c44507539c15e5]
 
-> Apart from that, the suggested change itself can be applied
-> independently from the deny list update, too.  It'd be good for other
-> similar devices, too.
+url:    https://github.com/intel-lab-lkp/linux/commits/Igor-Prusov/ASoC-dt-bindings-Add-Everest-ES7243E/20240920-235246
+base:   baeb9a7d8b60b021d907127509c44507539c15e5
+patch link:    https://lore.kernel.org/r/20240920-es7243e-adc-v2-2-0be019735b81%40salutedevices.com
+patch subject: [PATCH v2 2/2] ASoC: codecs: add ES7243E ADC driver
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240921/202409212032.P6kjCapX-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240921/202409212032.P6kjCapX-lkp@intel.com/reproduce)
 
-I was trying to avoid lists, because it's a maintainance nightmare (the
-lists are never complete, there might be false positives, etc.), and
-we'd need to add another type of a list for DMI quirks. Moreover, adding
-both my change and a list entry has a drawback that similarly broken
-devices will use different workaround code (i.e. less robust), and the
-ones that use the generic fallback will never get on the list, because
-no one will report it.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409212032.P6kjCapX-lkp@intel.com/
 
-As a maintainer, what's your preferred approach?
+All errors (new ones prefixed by >>):
 
-1. Unbind ourselves on failure in azx_probe_continue() (but I don't know
-whether it's possible).
+   sound/soc/codecs/es7243e.c: In function 'es7243e_set_dai_fmt':
+>> sound/soc/codecs/es7243e.c:252:27: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+     252 |                 sdpfmt |= FIELD_PREP(ES7243E_SDP_FMT, 0);
+         |                           ^~~~~~~~~~
 
-2. Add a DMI deny list to hda_intel.
 
-3. Add a DMI check to quirk_nvidia_hda (i.e. don't enable a non-existent
-HDA if it's not enabled by BIOS on this laptop model).
+vim +/FIELD_PREP +252 sound/soc/codecs/es7243e.c
 
-4. Driver becomes a stub no failure in azx_probe_continue() (this
-patch).
+   239	
+   240	static int es7243e_set_dai_fmt(struct snd_soc_dai *dai, unsigned int fmt)
+   241	{
+   242		struct snd_soc_component *component = dai->component;
+   243		unsigned int sdpfmt = 0;
+   244		unsigned int clk2 = 0;
+   245		bool is_dsp = false;
+   246		bool invert_lrck = false;
+   247		int ret;
+   248	
+   249		/* Set protocol of the serial data port */
+   250		switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
+   251		case SND_SOC_DAIFMT_I2S:
+ > 252			sdpfmt |= FIELD_PREP(ES7243E_SDP_FMT, 0);
+   253			break;
+   254		case SND_SOC_DAIFMT_LEFT_J:
+   255			sdpfmt |= FIELD_PREP(ES7243E_SDP_FMT, 1);
+   256			break;
+   257		case SND_SOC_DAIFMT_DSP_A:
+   258			sdpfmt |= FIELD_PREP(ES7243E_SDP_FMT, 3);
+   259			is_dsp = true;
+   260			break;
+   261		case SND_SOC_DAIFMT_DSP_B:
+   262			sdpfmt |= FIELD_PREP(ES7243E_SDP_FMT, 3);
+   263			is_dsp = true;
+   264			break;
+   265		default:
+   266			return -EINVAL;
+   267		}
+   268	
+   269		/* Set LR and BCLK polarity */
+   270		switch (fmt & SND_SOC_DAIFMT_INV_MASK) {
+   271		case SND_SOC_DAIFMT_NB_NF:
+   272			clk2 |= FIELD_PREP(ES7243E_CLK2_BCLK_INV, 0);
+   273			sdpfmt |= FIELD_PREP(ES7243E_SDP_LRP, 0);
+   274			break;
+   275		case SND_SOC_DAIFMT_IB_IF:
+   276			clk2 |= FIELD_PREP(ES7243E_CLK2_BCLK_INV, 1);
+   277			sdpfmt |= FIELD_PREP(ES7243E_SDP_LRP, 1);
+   278			invert_lrck = true;
+   279			break;
+   280		case SND_SOC_DAIFMT_IB_NF:
+   281			clk2 |= FIELD_PREP(ES7243E_CLK2_BCLK_INV, 1);
+   282			sdpfmt |= FIELD_PREP(ES7243E_SDP_LRP, 0);
+   283			break;
+   284		case SND_SOC_DAIFMT_NB_IF:
+   285			clk2 |= FIELD_PREP(ES7243E_CLK2_BCLK_INV, 0);
+   286			sdpfmt |= FIELD_PREP(ES7243E_SDP_LRP, 1);
+   287			invert_lrck = true;
+   288			break;
+   289		default:
+   290			return -EINVAL;
+   291		}
+   292	
+   293		/* Inverted LRCK is not available in DSP mode. */
+   294		if (is_dsp && invert_lrck)
+   295			return -EINVAL;
+   296	
+   297		ret = snd_soc_component_update_bits(component, ES7243E_CLK2,
+   298						    ES7243E_CLK2_BCLK_INV, clk2);
+   299		if (ret < 0)
+   300			return ret;
+   301	
+   302		return snd_soc_component_update_bits(component, ES7243E_SDP,
+   303						     ES7243E_SDP_LRP, sdpfmt);
+   304	}
+   305	
 
-5. Some combo of 4 and 2/3?
-
-> Though, a slight concern is the sequence of runtime PM you applied in
-> the patch.  Is it a standard idiom to perform pm_runtime_disable(),
-> set_suspended() and enable()?
-
-I'm not an expert in PM. Before I wrote this code, I was meditating on
-the docs for a few hours, and what I understood was:
-
-1. As we are disabling the device (below in the same function), we need
-set_suspended() to just update the state.
-
-2. set_suspended() must be called with PM disabled (see the comment
-above the function).
-
-3. Disable and enable must come in pairs, because there is refcounting.
-
-I've seen set_suspended() after disable() on device remove (e.g.,
-rt9120_remove()). For hda_intel, assuming that disable/enable are
-already paired, adding a new disable without a matching enable would
-break refcounting. Hence such a sequence.
-
-I'd love to hear an opinion from someone more experienced in PM.
-
-> Also, azx_free() is the common
-> destructor, hence it's called also at the regular driver unbinding.
-> I'm not entirely sure whether it's OK to call there also at
-> unbinding.
-
-I don't have hardware to test this flow, but theoretically it looks OK
-to me: we set the suspended state as we disable the device.
-
-> 
-> thanks,
-> 
-> Takashi
-> 
-> > 
-> > > 
-> > > 
-> > > Takashi
-> > > 
-> > > 
-> > > > 
-> > > > Is it not the right place?
-> > > > 
-> > > > > 
-> > > > > Takashi
-> > > > > 
-> > > > > > Another way to make vga_switcheroo work is to disable quirk_nvidia_hda,
-> > > > > > although I don't know whether it can be done without recompiling the
-> > > > > > kernel. In this case, 0000:01:00.1 doesn't even appear on the bus.
-> > > > > > 
-> > > > > > (Note that I need to set nouveau.modeset=2 either way, otherwise it
-> > > > > > stays in DynPwr if the screen is on.)
-> > > > > > 
-> > > > > > > 
-> > > > > > > 
-> > > > > > > thanks,
-> > > > > > > 
-> > > > > > > Takashi
-> > > > > > > 
-> > > > > > > > ---
-> > > > > > > >  sound/pci/hda/hda_intel.c | 14 +++++++++++++-
-> > > > > > > >  1 file changed, 13 insertions(+), 1 deletion(-)
-> > > > > > > > 
-> > > > > > > > diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
-> > > > > > > > index b79020adce63..65fcb92e11c7 100644
-> > > > > > > > --- a/sound/pci/hda/hda_intel.c
-> > > > > > > > +++ b/sound/pci/hda/hda_intel.c
-> > > > > > > > @@ -1361,8 +1361,20 @@ static void azx_free(struct azx *chip)
-> > > > > > > >  	if (use_vga_switcheroo(hda)) {
-> > > > > > > >  		if (chip->disabled && hda->probe_continued)
-> > > > > > > >  			snd_hda_unlock_devices(&chip->bus);
-> > > > > > > > -		if (hda->vga_switcheroo_registered)
-> > > > > > > > +		if (hda->vga_switcheroo_registered) {
-> > > > > > > >  			vga_switcheroo_unregister_client(chip->pci);
-> > > > > > > > +
-> > > > > > > > +			/* Some GPUs don't have sound, and azx_first_init fails,
-> > > > > > > > +			 * leaving the device probed but non-functional. As long
-> > > > > > > > +			 * as it's probed, the PCI subsystem keeps its runtime
-> > > > > > > > +			 * PM status as active. Force it to suspended (as we
-> > > > > > > > +			 * actually stop the chip) to allow GPU to suspend via
-> > > > > > > > +			 * vga_switcheroo.
-> > > > > > > > +			 */
-> > > > > > > > +			pm_runtime_disable(&pci->dev);
-> > > > > > > > +			pm_runtime_set_suspended(&pci->dev);
-> > > > > > > > +			pm_runtime_enable(&pci->dev);
-> > > > > > > > +		}
-> > > > > > > >  	}
-> > > > > > > >  
-> > > > > > > >  	if (bus->chip_init) {
-> > > > > > > > -- 
-> > > > > > > > 2.46.0
-> > > > > > > > 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
