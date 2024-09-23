@@ -1,111 +1,97 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 079D0762D7;
-	Mon, 23 Sep 2024 12:07:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF189196455;
+	Mon, 23 Sep 2024 13:02:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727093248; cv=none; b=kF2BnOroWCrkB8yfZL3zwpgrHDrGwAVdZ5hvrgYUenfAnbZ0LLzegcCdPp0QgVu+ZJyPbgaETNBAs5ZpjzHsTD0gdtoDLtAaj9dDRI/9vlV+a8skKWV/75+Wt6+LlG4HFv2DSknvRHneTMyIEsRZqeC8GLp94susCAONjgniJ6g=
+	t=1727096533; cv=none; b=dUpmvHD9qjMO829tnJUzdV6pZ5nlfHvugsKARVT1+sAYFAp4FD7VTRAw0YHT+LMdgWKT9Be0KAodhwSFJKLCzOs1Xz4c7VVlb1EtLxQM5XGCxMyKqNOzLk7e0hR0dE5rTBIlyC7SjVdrmisRMX3xmKm438XUvNtSTMj+5+FEeM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727093248; c=relaxed/simple;
-	bh=tp69qkZuFp099uNTWrev/5jOvomcaR9ejgZV8mgWssI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=bkSPPFB89atpEGGtBuXYi8usQ1tBUxdSbEMHAiNGYsO4iouMfNxz/vHbRen0dFjDoN4tKsN8vXxcLMXzRlDwHXaRxesw6VVcaihoD3ldk618IPdp7L7v4j0wOvFueTcfQ0i+3RdBKJn9zLV/tGnlLExT9VjWVImYAPH5vuSLMXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M1HXxff2; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727096533; c=relaxed/simple;
+	bh=LJpXFxAsyclLpPrnQFALYOoymD20OOsa6hDvGfOP9k4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kwcoRjyikMFN1us/qvU8xiC9r/iabWcuW+ModD8UPxZUcMQPjIfKKfqvkCnHGgsQIS9TdIEKlYVptza8jwXhWieIgHvwqnxUlsauB5DwWyDhRFBYaLGbsb5vzYh+CNVfpn5wvqXaL5mcEpybviYyeDkywzavejdhfHafFA5Skwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cTppZf1D; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M1HXxff2"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a9018103214so621508566b.3;
-        Mon, 23 Sep 2024 05:07:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727093245; x=1727698045; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KVEBv+WEEXWywK7FVnlVFD7W+Wd0c0cEXShEmoIOVVk=;
-        b=M1HXxff2R1navrYovPQ3v8wcBchOLxXLTBAAasZnTGEXPTaK8RvUnHWVxGjVTeGim3
-         IyDN6sjttveaMxpLE8RxyjTfAspjqP9crErD4FbODzzWDkCrfh4rJc2x7T010qpeqSe0
-         KKcHjG+wonAg8oSLZOppZ5RB6k21TOSIlXKxPWM9Pfp+AbKK9K/rItdYBytj6g5IcFwF
-         ay6iXf/ldFsxkoTgAcuxXRV/syPuIguX8TBrtWSUy5rrwMyDfTgSY5p0k3ENuW+SjW3V
-         nAzLFepMXn2/DubDA8zS1HbMICZv//KndMg3cpTjmZ8l01Ocd7heLKQh1CIl9TdpTByo
-         AKjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727093245; x=1727698045;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KVEBv+WEEXWywK7FVnlVFD7W+Wd0c0cEXShEmoIOVVk=;
-        b=ETPKEUA6O6omjtRH4FgdbNhajVlphiwfiVCKDL+kXfGvvW1SYRNRPVOW2nl0bcCeFF
-         oCfX1DTrkXwMySNmf0/E1x3plDnG3JoMTUvHZKsLopGtfNklYwzEkn/fokJLvReEBZlc
-         d1nlIS8v01yLqFOprL7jk3Cv4ugHw37p7T+iWz7IPoxNXJWmgZX0AuFmxZapP+A6VN1I
-         VmwYcr7POT6MjF0hBF0nxT7G1IbD+0iOGZOPQYaScdu88WiNGLNE2JDeUWCjCcUkxL+E
-         xu9Fg44VSIORoAGiba7Qg936aOc+S2tXTxDu3NMcDP9j/Nck17ls3PnDpVzYVesEaOwR
-         MYpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVIDAydl42h0Zaeg/vmxtI20x0aEI56xWb3JhAlGwYczFlJ6b0xJyIBJb9sACPKfHDePNwtmflbWvvnqwY=@vger.kernel.org, AJvYcCXuGqVabtbhxFCabPFwoFgE4sEZkC6hnCO4ayx2gR2xR1TVfQjJ02v3MYTXEaFiRmi0bx6ruRKjii/1X+g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwHGZINz3CxKZaPmbzPNhmNylbRQ5ZAKPGBEFP1g9DnOgWTgBC0
-	wUd02Z4OIRxcb/DzBF1Xjs3FkztOxFMwSoiZcQtI2USjVTfbaM+x+HFdkqg9
-X-Google-Smtp-Source: AGHT+IExMqeN/pfm2xaRMHMe2BhKLuZdIxleW4JZonH6VhagQGq98tlnPNNrcRPoQ1sspYTgolGF8w==
-X-Received: by 2002:a17:906:cae1:b0:a8d:2359:3160 with SMTP id a640c23a62f3a-a90d57720b1mr1034159066b.38.1727093245040;
-        Mon, 23 Sep 2024 05:07:25 -0700 (PDT)
-Received: from localhost (craw-09-b2-v4wan-169726-cust2117.vm24.cable.virginm.net. [92.238.24.70])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a90610f3a92sm1201898666b.81.2024.09.23.05.07.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Sep 2024 05:07:24 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Weidong Wang <wangweidong.a@awinic.com>,
-	linux-sound@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] ASoC: codecs: aw88395: Fix spelling mistake "unsupport" -> "unsupported"
-Date: Mon, 23 Sep 2024 13:07:23 +0100
-Message-Id: <20240923120723.837196-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cTppZf1D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0AA6C4CEC4;
+	Mon, 23 Sep 2024 13:02:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727096532;
+	bh=LJpXFxAsyclLpPrnQFALYOoymD20OOsa6hDvGfOP9k4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cTppZf1DkOP5h7AyTfvmyDxomRdQIFVNFW7VO6HFkPiH4HyaIibWkH6Gsx/twS7H0
+	 fwJQRbX7cxNdvlkmTL57Unsy8LuwQEvOQZiuxoa9pkWbKMs6vLmUQeTuqglPMDNNEq
+	 vUecpIHxkV/y1w/UvhwXVaDTYu69R6sDXgQcpYRK8qCdBJ8H/5ZDTlG1khhp+Aw0Lt
+	 sIS1hEK+UGLfKQg/tzx7hnYlbTtL3KU8n/dfmWxx9G0OX6cV4ePduOvkf9mvU27B62
+	 ZFwg66Cg3dbyrSYNbD+Cs8CcA7aMNT83ajp4L/1IgHUDBCgzYYbOI/GKmiU5bPsH2K
+	 BC2OSnpQW8yGQ==
+Date: Mon, 23 Sep 2024 15:02:08 +0200
+From: Mark Brown <broonie@kernel.org>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Cc: Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
+	kernel@pyra-handheld.com, risca@dalakolonin.se
+Subject: Re: [PATCH] ASoC: topology: fix stack corruption by code unification
+ for creating standalone and widget controls
+Message-ID: <ZvFm0Oa6g_pTjK8t@finisterre.sirena.org.uk>
+Mail-Followup-To: "H. Nikolaus Schaller" <hns@goldelico.com>,
+	Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
+	kernel@pyra-handheld.com, risca@dalakolonin.se
+References: <7eca678fa7faa9e160b998192e87220de81315c8.1726847965.git.hns@goldelico.com>
+ <3ceac85f-e419-44b1-b04b-1d1cf99a3e87@linux.intel.com>
+ <746AA9D5-9D53-4351-A534-B9F86A5B9B82@goldelico.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="k/wIB9H7eaiWlc3n"
+Content-Disposition: inline
+In-Reply-To: <746AA9D5-9D53-4351-A534-B9F86A5B9B82@goldelico.com>
+X-Cookie: Editing is a rewording activity.
 
-There is a spelling mistake in a dev_err message. Fix it.
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- sound/soc/codecs/aw88395/aw88395_device.c | 2 +-
- sound/soc/codecs/aw88395/aw88395_lib.c    | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+--k/wIB9H7eaiWlc3n
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/sound/soc/codecs/aw88395/aw88395_device.c b/sound/soc/codecs/aw88395/aw88395_device.c
-index fd1f67d5f22f..6b333d1c6e94 100644
---- a/sound/soc/codecs/aw88395/aw88395_device.c
-+++ b/sound/soc/codecs/aw88395/aw88395_device.c
-@@ -703,7 +703,7 @@ static int aw_dev_set_vcalb(struct aw_device *aw_dev)
- 				AW88395_VSCAL_FACTOR_DAC, icalk, vcalk);
- 		break;
- 	default:
--		dev_err(aw_dev->dev, "unsupport vsense status");
-+		dev_err(aw_dev->dev, "unsupported vsense status");
- 		return -EINVAL;
- 	}
- 
-diff --git a/sound/soc/codecs/aw88395/aw88395_lib.c b/sound/soc/codecs/aw88395/aw88395_lib.c
-index 769ca32a5c8e..ceb7fc43d018 100644
---- a/sound/soc/codecs/aw88395/aw88395_lib.c
-+++ b/sound/soc/codecs/aw88395/aw88395_lib.c
-@@ -688,7 +688,7 @@ static int aw_dev_load_cfg_by_hdr(struct aw_device *aw_dev,
- 		ret = aw_dev_cfg_get_reg_valid_prof(aw_dev, all_prof_info);
- 		break;
- 	default:
--		dev_err(aw_dev->dev, "unsupport data type\n");
-+		dev_err(aw_dev->dev, "unsupported data type\n");
- 		ret = -EINVAL;
- 		break;
- 	}
--- 
-2.39.2
+On Mon, Sep 23, 2024 at 10:07:48AM +0200, H. Nikolaus Schaller wrote:
 
+> You can't store a 64 bit pointer in an 32 bit unsigned int without getting into trouble
+> on conversion back :) That is what uintptr_t is intended for, but it is also just an
+> unsigned long in linux/types.h. AFAIK it is defined by C99 as "unsigned integer type
+> capable of holding a pointer".
+
+Practically speaking the kernel C code assumes that uintptr_t is the
+same size as unsigned long and there's a whole bunch of porting would be
+needed if you want to change that.  unintptr_t is a relatively new thing
+compared to the C that the kernel originally targeted.
+
+--k/wIB9H7eaiWlc3n
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbxZs8ACgkQJNaLcl1U
+h9CRXAf+MpGocDNd8ekJnlE+xoeKS1fzQs5LPYu0Lqsfs36ouGiDFwOdtIKFVjc3
+c6SxAj36GLzTuTw499h55M3ocqSVwyXBYHfKr7qILMT5HxbK1HyWXZy7f8/fc4YO
+1+jFVVZFc5NbA46SXxxUFbduL97nIpuUjwrelNfH8hwCarrffOMLl2htMcvfDcIZ
+dXEYY/Phu6pECrX1X7YUJEgY3tywqqwdvkpXb79XUeI1kDlMXean+cAScgTFciLW
+wl4bSh6W6DmY5x3Vv9JFQkJECnjEhDq/iiUkmAvOcKQ6KSDIOigj5mCMRiI68Htk
+zrcfMffpxuyUkS5VBw8wiz7et6P1Zg==
+=b1Y8
+-----END PGP SIGNATURE-----
+
+--k/wIB9H7eaiWlc3n--
