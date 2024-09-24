@@ -1,213 +1,166 @@
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2046.outbound.protection.outlook.com [40.107.255.46])
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2065.outbound.protection.outlook.com [40.107.101.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 969061B85F3;
-	Tue, 24 Sep 2024 04:18:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.255.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6EE640879;
+	Tue, 24 Sep 2024 06:18:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.65
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727151522; cv=fail; b=D0WFhgYz2tgO2s+25JLI401E4mooUrzwqfFC3yyy4RVNdnl04ggmqgexJAlk+s8qJcGAyNUetxSA3u8AGZ6CPXXzuMKAnqx8Qvzv5YkUAFRizhdE3NDP+cKah3szS6XDmcbu0fLFUZpb7+nzYcv+QznHfhCBypjUrOHN3qu8iTk=
+	t=1727158722; cv=fail; b=FMxAeZYuRJ/r9Du1Pu/f5hhOEeI5W3Md4kSN9b9FPy27rWCtIeUgz0EHu9HarcS5z/sFmem7CX7AanKUB6SjtjVDM0/W0jt+WAeAQkxlo8ZoHE1yTz86CDrNknhZBwsFUJVTP4CyOv242hQhwv8IhCw95CR2sKStRGJlrAkwBkc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727151522; c=relaxed/simple;
-	bh=l2zntLg+PUJmVJ63whG+Kb6xbrxkBksWG/eac4rY4tg=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=r6nRudHtTEARote4hmXtNZmRpAvqb3rmjDE4/6LYOJfYN/cievZ9Y3NL7NYAMNfCxeFDVqjOkLx5Hb3DO5pq7JXZWRZxfYsHrrFMcliqCKmfr5ipr9Ke8yWjHgEbUcqY5iAdvNA9jPsYVM3a+IEXyhmon9GTrgCVQrdvDkK5TvY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=cjdckGcn; arc=fail smtp.client-ip=40.107.255.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+	s=arc-20240116; t=1727158722; c=relaxed/simple;
+	bh=dWGHTT+poVrRSZFTvXwyF5Hvf3FxF+8H0tmFQzXXwOE=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Ojaibxq3H/p9Tv1nDbNrG03kjbwVxGTKP+3hn1i0R2GmYc76rA5sdK1qkE3II2EjuufmLP2umYtYMIR8CF0hK/ghzpWDPiymvj0zwd1GYMABmU6vVJ2yBXCuglD17+0jLlY5hBF8s424DPw/Xs0i7FkmWmQlIuu+INJNU0hi5Ts=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=vpUALedR; arc=fail smtp.client-ip=40.107.101.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="cjdckGcn"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="vpUALedR"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WCP9Yut6zKsXulo4yJKHb1+JU71fJSralPky5a6EdhhnMcWVR6iJRWlZv9FtYSmR+1e0Hsaq9NUeUXzr0uaGOQV5NefBt8BMhG8IdisPjrseWSwjLWXQFCCGrC7dRWnPVqXlH+RkpelPRQ9JG5bj4WPxA2RGuHzw3RJDh+gE+C5UeUv3HYosQLfC5ft5LtY8roNIST+KhOLsj5oGjr9BElaL2s1YeziVcPIpHpjrC2e15P86bIQZ000Uo2G3XE8SRs2USJtn4vTdCXJq1cTkL5KhcDmT1P2RVRxFMHzxi1PxqI70IvW1FqsErProt7IkjL39jTJd/iLUOEvZZ6J0WA==
+ b=WDQ/ISZmo57zMDhC2m53Wgn+albgZKxbTw6LItpvtH8CzfaRL0MjjR0Gca3/OPxUgsptVHLBtsZZqlsWoGWy8i95Az2oF5t5F2nDCoz1Cc6WNwJ6GSckMMLO4XXKx33wNDc36M85Ag+7vEk7hwLBdVuPaqLmox8hAMgW8r8Sxr2j80YQdFkGB5rXeeATIohTh2nQwjw0l0+a0yUoifJ4SPE4PGtEWbJmCEeUfiOk6uLqN89lPxWxj6P5cq0sgR5F7iJcKiVGK60hK2MAH5oi3u4hn/9MtTgSKD/EbPCN8ADwv0RdAfNPoYq8dDUSERdJaOdWMWYl8OBqg/g0QRTmeQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VSPlbPlmmyRDuthkhQzvnNNo366mmvO9ugZaq9OtXnU=;
- b=wbmtosMrycYo3Le252ZxesCvZ4iOk4e5OXEFumqYsBsbhlR+Mw9wkkGpj7oPijZ3FpbtBVWZgmh0rJ7tIuako/ilfc0F2nsqG1ztENnWsP35ZL8GC6tvWkJLfwUuNMRho9Cp1RE3is7Pp7dQhDkwij/ND5DY/7ZbtsM30JVx1j+RuOhf/AfGV6ugg+k7EuZ4M0H653HOmqKb39qAn/3VptpR5higfOjJ5rdsjSwPTZ6SzgTr10TaqpuHEQikHEBqnnZOrlOwEH+SWIQr3Juy1dnV/V0Z4VxP6K5beiBDTtiv+h09I2tob8tMzpSusox2iPWKFkYRDNvrD+bHcwA8Kg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ bh=RPExmaT2nIt+cH1CyjmaA98aE1J+qzsigEEBpDhJblE=;
+ b=OMqUdXhGvYXW4FzFklgCbhQS3gqRCNmhgnKS0f98igxBUXjzaL9NaiAoBYhXk2xACzNpWLxx3NBOBA/V2R8Ve/9IJ2f5pvdDENN3/+m1EwbSEUDcVZZcsXrqo6UtgANM1VK42Xfm/GJHZm+mta/+kR69xhdrGL5Gp7+qNziYTZ4qy7lmRg7+j8MIOfwAALS3Q3s4j9qifCqsKDcaD8G4JkdLV1Ysg12Ctklzqb8/EhAAtFprG022pyN9U0O5VA8K7p3fBL07K6mMoFfeCjcZ8sbG3HxsQ9duPpq9zo3BXANyqbHrQTkTFxatd2QoylZCNL2nuQKcnO5wr17w4Bg/gA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VSPlbPlmmyRDuthkhQzvnNNo366mmvO9ugZaq9OtXnU=;
- b=cjdckGcnLWpbR8TSUckMrFnSlW6MUjsLguFKMM1FDxCaGyO0o8lrX0mC3WL8+J8XxlrqKeb2JJAcf5IHQqKtMAjkRHohb1xDLziYUaWyHwDN0bYh3553M6nfUnZc85Y8ICCCCwTNbnkKeLTvtdjAlJOJ/GFlbwdTXPoPhCa29aW2fpaKaDPvYpHjI08VO4rlxuOKjWkM9IiFZOzHBAsz19uBjQa+cvAWZf2/QtB81/O52xS3elkRiofUDj4wmC9MSWj7Bpy1TuVcp/EmBnfSbzNB2QY4JV0FL5SP8F/RIiZI+87M2mXewVvywHKtSCDYcGb0x/fI4WQetR4B3MuBXA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from TYZPR06MB4461.apcprd06.prod.outlook.com (2603:1096:400:82::8)
- by SEZPR06MB7228.apcprd06.prod.outlook.com (2603:1096:101:229::8) with
+ bh=RPExmaT2nIt+cH1CyjmaA98aE1J+qzsigEEBpDhJblE=;
+ b=vpUALedRiW9kBkO+d+5k7UbFWxPbNgjaxweVurFxUrz9o6DjDI+XSZHbiGpJW3tx+j39XZnZar4J/JvzudbPHxxiajdw04THcPiYmHG6dIULZJldEKpiaG2RHow8JJrqwFEuQst8rB6YyP+X6mPGe8bqYPrmQ5nThoV+JzsMYDs=
+Received: from PH7PR13CA0014.namprd13.prod.outlook.com (2603:10b6:510:174::28)
+ by IA0PR12MB7625.namprd12.prod.outlook.com (2603:10b6:208:439::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.25; Tue, 24 Sep
- 2024 04:18:36 +0000
-Received: from TYZPR06MB4461.apcprd06.prod.outlook.com
- ([fe80::9c62:d1f5:ede3:1b70]) by TYZPR06MB4461.apcprd06.prod.outlook.com
- ([fe80::9c62:d1f5:ede3:1b70%5]) with mapi id 15.20.7982.022; Tue, 24 Sep 2024
- 04:18:36 +0000
-From: Yu Jiaoliang <yujiaoliang@vivo.com>
-To: Vinod Koul <vkoul@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Mark Brown <broonie@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Pavel Hofman <pavel.hofman@ivitera.com>,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: opensource.kernel@vivo.com
-Subject: [PATCH v2] ALSA: Fix typos in comments across various files
-Date: Tue, 24 Sep 2024 12:17:45 +0800
-Message-Id: <20240924041749.3125507-1-yujiaoliang@vivo.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.26; Tue, 24 Sep
+ 2024 06:18:37 +0000
+Received: from SN1PEPF0002BA4D.namprd03.prod.outlook.com
+ (2603:10b6:510:174:cafe::85) by PH7PR13CA0014.outlook.office365.com
+ (2603:10b6:510:174::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.16 via Frontend
+ Transport; Tue, 24 Sep 2024 06:18:37 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ SN1PEPF0002BA4D.mail.protection.outlook.com (10.167.242.70) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7918.13 via Frontend Transport; Tue, 24 Sep 2024 06:18:36 +0000
+Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 24 Sep 2024 01:18:32 -0500
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <broonie@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <lgirdwood@gmail.com>, <perex@perex.cz>,
+	<tiwai@suse.com>, <Basavaraj.Hiregoudar@amd.com>,
+	<Sunil-kumar.Dommati@amd.com>, <venkataprasad.potturu@amd.com>,
+	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Vijendar
+ Mukunda" <Vijendar.Mukunda@amd.com>
+Subject: [PATCH V2 0/9] ASoC: amd: acp: refactor acp version differentiation logic
+Date: Tue, 24 Sep 2024 11:48:12 +0530
+Message-ID: <20240924061821.1127054-1-Vijendar.Mukunda@amd.com>
 X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2PR04CA0016.apcprd04.prod.outlook.com
- (2603:1096:4:197::7) To TYZPR06MB4461.apcprd06.prod.outlook.com
- (2603:1096:400:82::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYZPR06MB4461:EE_|SEZPR06MB7228:EE_
-X-MS-Office365-Filtering-Correlation-Id: ac585089-aa0d-4f07-5223-08dcdc4ff598
+X-MS-TrafficTypeDiagnostic: SN1PEPF0002BA4D:EE_|IA0PR12MB7625:EE_
+X-MS-Office365-Filtering-Correlation-Id: 92e6e500-cef2-4844-7c4a-08dcdc60b994
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|52116014|7416014|366016|38350700014|921020;
+	BCL:0;ARA:13230040|82310400026|376014|1800799024|36860700013;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?6nHZwstgIEs5+6mNaeJTdgOQvG7NvfZZio7E+LXMfxOVJ2jpdvylobsRdoHB?=
- =?us-ascii?Q?XwFFFaGi6ZUV5Ezf8zJ+CWM+jn+p9fqKaN0ujyoA5oPYW7N+A8EZM6yJQGBF?=
- =?us-ascii?Q?1JY+OOM8A+jdDIykBM5mb8TVMY+LJ+Cze+vy2OWmRjeecYlR3l3BcUrtaA7m?=
- =?us-ascii?Q?2Xl77U972j72dCH89BLXoybYTIDUqAVT5KHj3IOMFn+Fh3Ut9DGRHNSLQEzR?=
- =?us-ascii?Q?HKTm5qjCsIinobVb70czUp5+cnSP7NlrJHZGXZSrbL+L8Z7dBdK9++6NQgeH?=
- =?us-ascii?Q?FJBKg0z8PVfQuIkvkQfHAM86maBEV++FgLmsAGbwhvZABVsQGsNCpGfbajB9?=
- =?us-ascii?Q?65JmiwQQ6bnlDGcj6rLekPjC6iFghb2O/PZggmeXXLGc8MVnwG9TZPb4tyJy?=
- =?us-ascii?Q?SzMSNMByoNRF75rlNAF9me+XCCSvQGCK/zQvwx+0B4CeXsdD+SgU7DQH0K8X?=
- =?us-ascii?Q?4M/tfYfbfguBzVerB1UgxqHQ50+Qv9r0v6trvL8OfXki2VKjvmclJohiLuZH?=
- =?us-ascii?Q?/TQFSEhHfqt7nuMzPdUeyJ7U4ySQpUxRSaFOxl/l8nUdDgN7G11QSBrpgLHB?=
- =?us-ascii?Q?bF6y/JgpC8vdj/9yAaHRgXt+STCdqeUZWS38vEENYd1TyU3jQ5T6+TkRv+1K?=
- =?us-ascii?Q?1XVL6OOrsKp5a7eUl3Wbenig9Tak7CfoTyF9zVEeFWgXuzLTW4DUmTRdVsqy?=
- =?us-ascii?Q?1NfFDwyTCqhpfmSrFuPIaAd1nQZHujTEWpjmjLpXnxb9QmC7qqt9CMObA/W4?=
- =?us-ascii?Q?OlWcqeMi1KLzcqsSTLXL6Vpik2vCudDkLjjSbDh4mSAjYj8YSUxNDwlM6fjs?=
- =?us-ascii?Q?WVx1wRjTzt7J4et7KNz9X9ZXZXwjU9iJHdlkZW9VpbJGvF2f6pr+4zwrxfTN?=
- =?us-ascii?Q?7zDBMAMyEZAwcY3cgeTVB/8B/CMG6m4ddj12oRxxDMhGQUs6kavGQfv2jI7A?=
- =?us-ascii?Q?zLp8NMThQzD8eYME1bx4CJGouem0z1kSh0ZTyUGlBgEIeDlGt80DMm/Xx07K?=
- =?us-ascii?Q?utJBLN0K300AEM8DeNaxi36oXZqt80vYgVi9fOnMy+wglxtpXGE2WygtxpL/?=
- =?us-ascii?Q?41hu1Mn9d+6QYVoNpczcdizA1Vbdb+ZW9NckAVvpND4Gpb5tvO9XaUmhf6F9?=
- =?us-ascii?Q?Ain+QIbWvGLQC09R0kJ43RvUHqijijOcolLkMfYjQ5J6MxnuLDbCdc5u1cXb?=
- =?us-ascii?Q?ZRFuUPBY/7atzJS9LiOSvR1e57AWahKPBnj5p/CirfPniVrIof5rORAlKgjE?=
- =?us-ascii?Q?7tnYMVS0Pz5igEugY4HJ6zo13H2erm3rzPLaIc9GUdaV0AWUEnQu3J+2njj0?=
- =?us-ascii?Q?3Y2aRXqE25E7zpGbKz72C80miZQnID23zmBzOxUaCOtF6mjC5youQATEeZu+?=
- =?us-ascii?Q?BeOkQEU=3D?=
+	=?us-ascii?Q?04DBb+1KbTbXzt9TMWYml90KysD+HVrSm55Pz89C77X0e/KkGZV1Jxp6z1v6?=
+ =?us-ascii?Q?jaUFatOPBvwCa2zvUBbqK68iKJ3NZR6O4NFy9ExWaYRRzQXu+VTpe6nfAL9T?=
+ =?us-ascii?Q?vnDpVlgsMcmcFvR9rTikcnaYdRZCWy5NY6kXqQWmuxbbgxFtLxtWTTnXLZkV?=
+ =?us-ascii?Q?hSPugJqaK+03a/57lvvUhSp0LnEXWZwVunBLU6bHZ8lSEmHpvI4fXJCmuHVa?=
+ =?us-ascii?Q?B589GCJvZyaapWql0fw2gkO8jR4rQnLcT3yFkeqz29bTYeQo38NMtP5evsTX?=
+ =?us-ascii?Q?K7as8ui2CLN0wGk8UZyzzZ+TJhDiGrJY1WVTsv7Ipqsrup05I1ucmBfokHdr?=
+ =?us-ascii?Q?S1HyeHf4OsyBlWJLOuwCb8/AllYE3HgOrXdQeQf4ZyYixnxJt0Dt9f4dZFv9?=
+ =?us-ascii?Q?Wf0/huWpxgmi59ohdBKumYKR1BSk3+4/66etuS6LeVlOdIlN8Fo7Jsdxms3W?=
+ =?us-ascii?Q?Wk/2/O/eWiU5f9W1EDk4HZ6dprDQTUHJaYTSKCLQsurWtbr54a/eQ8kY5nMP?=
+ =?us-ascii?Q?Rzh3EbBnNcZiHn7rro8VR3YCo+7MaUW2ZRw2E6KzdZY0ni90ojR+wLEzVPeh?=
+ =?us-ascii?Q?o4kNIGshW3LHcmsP+jeyaAyTqN8aPYNQZDlD9wELnKBuY6uXyo+nuxE6ERla?=
+ =?us-ascii?Q?Z0coStSFe4uNhheV22a1RKFl34erVTENs1gasrVln29l6bGfuBWSSlX416cO?=
+ =?us-ascii?Q?IolS0bFG38uYKECHihLe5ULBLSIaz6j6J2C7BogeEXy0JHmbAak+B65QftTZ?=
+ =?us-ascii?Q?HD07yrslX8A9lQ4P82LyDqHpVBgttTuejsopanDqeo5L0F3OBxdyFnjZW0BS?=
+ =?us-ascii?Q?BPV4mmJyqglKjbmuXpXLe+VfgrgpJ7LMaG0dGmEzgcOEjNIDszZ+3/5Jpx2b?=
+ =?us-ascii?Q?o3CtZvcA/m68Bjg8NEnxKjt7D4yb785f5rIDGmRs4Z84RMBWkTLhJjK24SHM?=
+ =?us-ascii?Q?13FtVTCnmMeyaN9KWGvohoxC82QxQ+cI9bB2FjrccKEpMESlisepyUhINQCO?=
+ =?us-ascii?Q?2BDkKnE/IPak/OvsPRjKOCMuTXRnubzUr3bcOH4U7YmCy/r2DyHHzU2Z/14S?=
+ =?us-ascii?Q?B6mOe9EaTeBYzHLQRIBz7oGtYRAtjYAoz8hqV9u2VZJwy5Lfgbap0//z6ZYI?=
+ =?us-ascii?Q?O8bvbZY/MioilmTBCbtt/2TVV3nPBT1g38FXY+jFgkjLkkwSyoGhon7G7Uui?=
+ =?us-ascii?Q?z2f+ZWJJ3wfaK3ZgaKxvL591i0BuWySON2X2yYtN1BlmZxR6ARo+nz9Q8Cwc?=
+ =?us-ascii?Q?8/CIkB7bO9OYE3idkt5fbWYffsk8Ulk/xJof3/lbgRbXKRUI9i/Bf5bAQhkd?=
+ =?us-ascii?Q?GgFy069c6Btg/HR2VdVzK8Ftf4XnMDPI6V+ZX16oH3uTZqlTLVgT9Q5FYACr?=
+ =?us-ascii?Q?Fr65nZMUw7LVktJIAjGQjpjSQ0A2YqdCk/EzXg8Nq4QK/0qX2ddOH9co9mrM?=
+ =?us-ascii?Q?P+Ckxo61/eON7JS2uDJrvgWttI9LYnHR?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB4461.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(7416014)(366016)(38350700014)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?SHS0IhxAbO6hdnhSJd5N/G0hkIliaPbBdBg3v7zdB7lKIMxDTOVGK9Pk1+9s?=
- =?us-ascii?Q?X0IFns2hn8SfbFMkUQXjYLagaH86diuXS/ssnrvkAYfu3UXV/PSIsJty4HjG?=
- =?us-ascii?Q?9sr5UiebWkOZ2HzJRnmdg+ZT7cujP8GBdEHnpX6xFsoUjRivXnocp5g0QcgV?=
- =?us-ascii?Q?d2h7AGP7zaNmbXh6UtgnR3hRYx+iy/Bx3WizPQGevxmq3eZBPB1MsqYZRbBq?=
- =?us-ascii?Q?tTl2KvHZetNQVOjXZG0NAesSsHDMsyAmdRLJ7nczrk4dGeUkGvpkPg6TdvR7?=
- =?us-ascii?Q?4hQKmTpLG+/hUaImkAma2CBO/AopGRijc2aHpK1uXQhzB80cplvqklSSK7yr?=
- =?us-ascii?Q?yr+1WEvgRWC7wd6gpjNH68yunuZErgvFgn9uklMDd2bF+w39l8DrvvpHy65G?=
- =?us-ascii?Q?K49EFzt0aNKMKKBLvRaoHgbKa80PGbAAMyJgQFK5mZZz8qSejHX+r48gHB3c?=
- =?us-ascii?Q?b63uFFOBbafITh4fAe0PQwqypMSgn/rZQsJaxw9CVc/RpR1S9pzUuBQjgnnP?=
- =?us-ascii?Q?HB7O1RubkjSYFn+VanFZ06WCicCKuSwxRwsD31mjlaCVe+58AlGs17GvmqRW?=
- =?us-ascii?Q?9OissxV3jjwDUkP/fgjcFFkyIAiepcM3cQrMAovIh96/TgsbcVBE1u7+Vz9j?=
- =?us-ascii?Q?/RyMXqkFy7BOTpK1e/Fm/xGGsAeBjcKhO+/epzMH6itdtr5Bior7oHwrVE8P?=
- =?us-ascii?Q?lyWCDQBxKEmcOzrKYuK4nFN/D5/HvPm0IT5t0/aYEwzrnjOEcRCf2zU713GB?=
- =?us-ascii?Q?Fto0vED7iJGkcceIGC4dxh5tdjeBALPN1QozOBogPgRuJsV79ugtvJPPdLdZ?=
- =?us-ascii?Q?3u8/VHQzQZSdrkKJJEHhq1T5pV78aH+WpwhQAACmYIH5EXHucCqJDb7Cd2iB?=
- =?us-ascii?Q?5UG6EV+DdeDtM4Vxt4K7DmKXe437Q/RallTfp0L1YEZ9DDCmQaMNZ3eUk9Eq?=
- =?us-ascii?Q?v3kP7Ak7g2i/UMvAhUUy9oOk9dxBG0f73oWJHVc+Ta7ql5nbfw+jAwgvPT+l?=
- =?us-ascii?Q?jd2W5v98n69v6p015qQ3Li49uAHsfcF1tpa/5df47VbhhFRFxLZUsxnJn6H0?=
- =?us-ascii?Q?b8xu7F6PCXoPbuNKcj0IFOggp8udIumw1uLOVQwog46DGrWYtq5HHn+jTG3X?=
- =?us-ascii?Q?yVNOnfIVSBiM1OnmXoygj1FGc2UJ89P96v6fJM9J6Z6EEQ3pCrZcf3J7SSUo?=
- =?us-ascii?Q?U+mXzIV7PDDQUJX2b2a8reSQt857SZbWgfrEFWWFLTBy2G70UXgLvnLUDD4o?=
- =?us-ascii?Q?AVp46vCHeNbyK9g82bgJyf5WdlYi26KaClxClaCp2nQKSJl7sIxAtEPM9ww+?=
- =?us-ascii?Q?HgxV7kIDbAj/VJPvS3stESamt2WxbzVst2/7tudoRoBn5uQ0v+JU8frJqX9o?=
- =?us-ascii?Q?mvLEdZinWNMUlnanFh4KXlgCeywtX+i+P3FyYafhjE/It9BOqWEYuAkddRQ4?=
- =?us-ascii?Q?xtQbfmhV7zATsLzpuy1UYFuArQmOTDG/tPxb7AdgmwRMsN53riBhxZD0pTo2?=
- =?us-ascii?Q?AMspF0iZ0e2vEAf5c+4uTgl9UN7ULezHwCsyyynIAZSpA3Xo93q5qgiIjADz?=
- =?us-ascii?Q?DSl0F5fpijKnDlJxunZ3TBw7hydYupHrh3rYIXJb?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac585089-aa0d-4f07-5223-08dcdc4ff598
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB4461.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2024 04:18:36.2089
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(1800799024)(36860700013);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2024 06:18:36.7473
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: duYl9BUm7BJQEQnFTavPACCHa9mDBX4a/HMv5YDx+cfpvE4HkjnaUMO0/awmvapvz1xXcxRj6hb4DycE6CR3RQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB7228
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92e6e500-cef2-4844-7c4a-08dcdc60b994
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SN1PEPF0002BA4D.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7625
 
-This patch fixes typos in comments within the ALSA subsystem.
-These changes improve code readability without affecting
-functionality.
+Currently different logics being used in the code for acp version
+differentiation. This patch series refactors the code to use acp pci
+revision id for handling acp version specific code.
 
-Signed-off-by: Yu Jiaoliang <yujiaoliang@vivo.com>
----
-v2: Update commit message.
----
- sound/core/compress_offload.c | 2 +-
- sound/core/oss/rate.c         | 2 +-
- sound/core/pcm_native.c       | 2 +-
- sound/core/sound.c            | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+Changes since v1:
+	- Add patch to update mach_params subsystem_rev field in
+	  machine select logic.
 
-diff --git a/sound/core/compress_offload.c b/sound/core/compress_offload.c
-index b8c0d6edbdd1..bdf1d78de833 100644
---- a/sound/core/compress_offload.c
-+++ b/sound/core/compress_offload.c
-@@ -288,7 +288,7 @@ static ssize_t snd_compr_write(struct file *f, const char __user *buf,
- 
- 	stream = &data->stream;
- 	guard(mutex)(&stream->device->lock);
--	/* write is allowed when stream is running or has been steup */
-+	/* write is allowed when stream is running or has been setup */
- 	switch (stream->runtime->state) {
- 	case SNDRV_PCM_STATE_SETUP:
- 	case SNDRV_PCM_STATE_PREPARED:
-diff --git a/sound/core/oss/rate.c b/sound/core/oss/rate.c
-index 98269119347f..b56eeda5e30e 100644
---- a/sound/core/oss/rate.c
-+++ b/sound/core/oss/rate.c
-@@ -294,7 +294,7 @@ static int rate_action(struct snd_pcm_plugin *plugin,
- 	default:
- 		break;
- 	}
--	return 0;	/* silenty ignore other actions */
-+	return 0;	/* silently ignore other actions */
- }
- 
- int snd_pcm_plugin_build_rate(struct snd_pcm_substream *plug,
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index 99e39b5359cc..b49bc89c0758 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -3115,7 +3115,7 @@ struct snd_pcm_sync_ptr32 {
- 	} c;
- } __packed;
- 
--/* recalcuate the boundary within 32bit */
-+/* recalculate the boundary within 32bit */
- static snd_pcm_uframes_t recalculate_boundary(struct snd_pcm_runtime *runtime)
- {
- 	snd_pcm_uframes_t boundary;
-diff --git a/sound/core/sound.c b/sound/core/sound.c
-index b9db9aa0bfcb..6531a67f13b3 100644
---- a/sound/core/sound.c
-+++ b/sound/core/sound.c
-@@ -133,7 +133,7 @@ static struct snd_minor *autoload_device(unsigned int minor)
- 		/* /dev/aloadSEQ */
- 		snd_request_other(minor);
- 	}
--	mutex_lock(&sound_mutex); /* reacuire lock */
-+	mutex_lock(&sound_mutex); /* reacquire lock */
- 	return snd_minors[minor];
- }
- #else /* !CONFIG_MODULES */
+Vijendar Mukunda (9):
+  ASoC: amd: acp: simplify platform conditional checks code
+  ASoC: amd: acp: use acp_rev for platform specific conditional checks
+  ASoC: amd: acp: use acp pci revision id for platform differntiation
+  ASoC: amd: acp: store acp pci rev id in platform driver private
+    structure
+  ASoC: amd: acp: pass acp pci revision id as platform data
+  ASoC: amd: acp: update mach_params subsystem_rev field
+  ASoC: amd: acp: remove unused variable from acp_card_drvdata structure
+  ASoC: amd: acp: replace adata->platform conditional check
+  ASoC: amd: acp: remove unused variable from acp platform driver
+
+ sound/soc/amd/acp/acp-i2s.c           | 38 +++++++++++++--------------
+ sound/soc/amd/acp/acp-legacy-common.c | 24 ++++++++---------
+ sound/soc/amd/acp/acp-legacy-mach.c   |  8 +++---
+ sound/soc/amd/acp/acp-mach-common.c   | 38 +++++++++++++++++++--------
+ sound/soc/amd/acp/acp-mach.h          | 12 +++------
+ sound/soc/amd/acp/acp-pci.c           |  7 +----
+ sound/soc/amd/acp/acp-pdm.c           |  2 +-
+ sound/soc/amd/acp/acp-platform.c      | 15 ++++++-----
+ sound/soc/amd/acp/acp-rembrandt.c     |  4 +--
+ sound/soc/amd/acp/acp-renoir.c        |  4 +--
+ sound/soc/amd/acp/acp-sof-mach.c      |  6 ++---
+ sound/soc/amd/acp/acp63.c             |  4 +--
+ sound/soc/amd/acp/acp70.c             | 14 ++++------
+ sound/soc/amd/acp/acp_common.h        | 19 ++++++++++++++
+ sound/soc/amd/acp/amd.h               |  9 ++-----
+ 15 files changed, 109 insertions(+), 95 deletions(-)
+ create mode 100644 sound/soc/amd/acp/acp_common.h
+
 -- 
 2.34.1
 
