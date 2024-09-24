@@ -1,97 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55980154BEA;
-	Tue, 24 Sep 2024 09:19:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FFDB1A270;
+	Tue, 24 Sep 2024 11:27:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727169562; cv=none; b=rBQzHfJzqkcbS+Nn5wmsVoUTFwQZGTA6DuT87btVtWEj6Aw0CGk2AvaA0OsIfI5zIJyPjbcn3gjpIp8EZn12JtAotbZ+OPHPP3XZjdlYM9xolFFJdd/IsPPU9bie4KPwhTetVMkVlJpiIs8Cjc7J0gzyOPUZy4cs46g3TLTPapU=
+	t=1727177279; cv=none; b=u6mpedvUHTMAq3momE+lQWSKjCNNne51tukmAdDoo1ft0DGBP4SRFFy9r5sEpfjkXICq9BXMVnZpJQFKze0uklBuhvjNu6TlEPa2Vm8ziP2qx9UWLkkyzSlGu9pEfCzeAiZOqbRzkPqFvANb82cyGMt0+MB9kzspFHJJQtchNZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727169562; c=relaxed/simple;
-	bh=6iOYxHvNr/wgmXefsXjNWJsCi0eJkiZ+32MSb7rhrQQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X+DfjJTLTn5JqWeOcf5YaOPc/uflh0kuF5bEwzmifTrEu4Awzl9G6bw8T8qHAUxSvviKnAatarez4yJmUB5H+mSkrKtRJvqrl6KKVYb9mQEa17N9y1fut7iSOqEHWL76Ha47c+sQ5dQvHDsjttbMVAQqBHca6MltHTHFNKT5j5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cFmeIXAY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1727177279; c=relaxed/simple;
+	bh=zql0UFyD9e6gEijJF+6zQpiD0eDyWRmtczoPGlBcpfI=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LfNX7CoX8uZONxquaIsnfvJAvLykEgBeJ4u51nqQsUA6t+It52HOv04/HP3IxARqRsPO359wODKl5BnwyvizKS/PsmtpGGprTmn2hiAKFxnsL+fzCCPZvZAz/Fwg9DtssfZKS99yNfS6f4N59WhMtkz5keYA9pQcJAGkjZSZPLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=mFSdVJRC; arc=none smtp.client-ip=68.232.153.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cFmeIXAY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3147AC4CEC4;
-	Tue, 24 Sep 2024 09:19:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727169561;
-	bh=6iOYxHvNr/wgmXefsXjNWJsCi0eJkiZ+32MSb7rhrQQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cFmeIXAY8WGXmieCJk1wVJ7A06GDzKitbT0GEiDOnzJP94P9nz6Fg7ZjN/b5WvviV
-	 kgnkg9zHNXzA9PECeH0kznvxLdapC/M0zyMqm24HRmwidpTXh3xZzAWiL3BpTyntAP
-	 xMqeQ1yB7m1GZmGPTyjSuJCl9NhqLjKXOL9Di/pEFvD6WQIPzwfikS8DLjZWTwmK0w
-	 C+9Yt/YqapAjACXMMaoOBFzgGEKmItr02TfBuRG5Rz2r+0ViSxcaJ7rrN0zcoVZ2zH
-	 MKX/SfD+o+2Yjt4ePF7sUJBgA1scJRFC9PwGzbv5dGpUPUKa6ym/s3ML1oO+WSS3jn
-	 LYwF3WTkr2Xxg==
-Date: Tue, 24 Sep 2024 11:19:18 +0200
-From: Mark Brown <broonie@kernel.org>
-To: Binbin Zhou <zhoubinbin@loongson.cn>
-Cc: Binbin Zhou <zhoubb.aaron@gmail.com>,
-	Huacai Chen <chenhuacai@loongson.cn>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Huacai Chen <chenhuacai@kernel.org>, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, Xuerui Wang <kernel@xen0n.name>,
-	loongarch@lists.linux.dev,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Weidong Wang <wangweidong.a@awinic.com>,
-	Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Shuming Fan <shumingf@realtek.com>
-Subject: Re: [PATCH v2 5/9] ASoC: loongson: Fix codec detection failure on
- FDT systems
-Message-ID: <ZvKEFlARvbFFWI83@finisterre.sirena.org.uk>
-References: <cover.1727056789.git.zhoubinbin@loongson.cn>
- <9a286537a20f0f96597090f59165b4532e41bdb8.1727056789.git.zhoubinbin@loongson.cn>
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="mFSdVJRC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1727177278; x=1758713278;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=zql0UFyD9e6gEijJF+6zQpiD0eDyWRmtczoPGlBcpfI=;
+  b=mFSdVJRCySvCFjfbzomIQpANIYpb5mdJnG7Qih/8VkV6zjoNuQmQu7Z2
+   34g9g/dEflFFKasOeOi5CC+1tH0XsScxHpt4+p++x3/LoDYh8i5MRVQ53
+   roLNCXdfh41kcqcnfQzewYC/Y8NrcJm95h8yM1lKWKLyQ3YXomxsELDP8
+   T/SzOnft+6TazTIHSau2VWzxLiy3N5dMjYJ1C8WPJWO6I93putGwpmWY/
+   wBJg8U1I5cvrJPOEzUWQ7g8qQ4mO5El6mXDlZlw56+7YbV08LwZ3axWWW
+   vN2385q4hXg8EXGbNcxJbeM17+sEaqyXAydHgobh0ZDqEa9TVd9oBJHN+
+   A==;
+X-CSE-ConnectionGUID: gLqVBAZkQqmoxUm1padfyg==
+X-CSE-MsgGUID: ej1v0jdzRl+8yr6Hszmyog==
+X-IronPort-AV: E=Sophos;i="6.10,254,1719903600"; 
+   d="scan'208";a="32166627"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 24 Sep 2024 04:27:57 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 24 Sep 2024 04:27:27 -0700
+Received: from ROB-ULT-M76677.microchip.com (10.10.85.11) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Tue, 24 Sep 2024 04:27:24 -0700
+From: Andrei Simion <andrei.simion@microchip.com>
+To: <broonie@kernel.org>
+CC: <alexandre.belloni@bootlin.com>, <alsa-devel@alsa-project.org>,
+	<andrei.simion@microchip.com>, <claudiu.beznea@tuxon.dev>,
+	<lgirdwood@gmail.com>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+	<nicolas.ferre@microchip.com>, <perex@perex.cz>, <tiwai@suse.com>
+Subject: Re: [PATCH] ASoC: atmel: mchp-pdmc: Skip ALSA restoration if substream runtime is uninitialized
+Date: Tue, 24 Sep 2024 14:25:44 +0300
+Message-ID: <20240924112542.78321-1-andrei.simion@microchip.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <ZvJ_ZFpIiRpD_uzO@finisterre.sirena.org.uk>
+References: <ZvJ_ZFpIiRpD_uzO@finisterre.sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="WRx0WlcwrTnJod4i"
-Content-Disposition: inline
-In-Reply-To: <9a286537a20f0f96597090f59165b4532e41bdb8.1727056789.git.zhoubinbin@loongson.cn>
-X-Cookie: Editing is a rewording activity.
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
+On 24.09.2024 11:59, Mark Brown wrote:
+> 
+> 
+> On Tue, Sep 24, 2024 at 11:12:38AM +0300, Andrei Simion wrote:
+> 
+>> Update the driver to prevent alsa-restore.service from failing when
+>> reading data from /var/lib/alsa/asound.state at boot. Ensure that the
+>> restoration of ALSA mixer configurations is skipped if substream->runtime
+>> is NULL.
+>> +++ b/sound/soc/atmel/mchp-pdmc.c
+>> @@ -302,6 +302,9 @@ static int mchp_pdmc_chmap_ctl_put(struct snd_kcontrol *kcontrol,
+>>	if (!substream)
+>>		return -ENODEV;
+>>
+>> +	if (!substream->runtime)
+>> +		return 0; /* just for avoiding error from alsactl restore */
+>> +
+> This then means that control writes are just discarded which presumably
+> is going to upset things if they actually saved a value here.  Why is
+> that a good choice, rather than either fixing the race so the card
+> doesn't come up too early or removing the need for the runtime?
 
---WRx0WlcwrTnJod4i
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Ok. I understand. My first intention was to follow the
+https://github.com/torvalds/linux/blob/master/sound/hda/hdmi_chmap.c#L794
+but after your point of view, I intend to return -EAGAIN in V2
+to specify the substream->runtime is not ready.
 
-On Tue, Sep 24, 2024 at 03:00:32PM +0800, Binbin Zhou wrote:
+I retested: configured pdmc, then reboot the board and the configuration:
+as a result the configuration kept.
 
-> When the Codec is compiled into a module, we can't use
-> snd_soc_of_get_dlc() to get the codec dai_name, use
-> snd_soc_get_dai_name() instead.
+alsa-restore.service status success.
 
-What is the issue with using snd_soc_of_get_dlc()?  Shouldn't we fix the
-helper instead?
+Do you think this solution is enough?
 
---WRx0WlcwrTnJod4i
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbyhBUACgkQJNaLcl1U
-h9AF1Qf/S6TCXCVYvTjfPMnqAt9Ckbi7amFA3aouVJV47NCFFu6e54CYy4Pw6xI8
-uJyZFDO4ZGSPZxM9K/4iezTElW3VxYNZtqaSViiTSQew2+bzC8cTNjqhd7gWjUY8
-LtS/2uZ9ry3ttXK5zfjMDYljGcBgIj89KZkYn2WnRoHG6CO9m6sUcCZpjyJJxYSJ
-JZiDWlaG0USGu/n5stJJ/QeN3MHh4tZvepGPDX2reB288F4zLPiVV8FM6atI1ndX
-2IIUwnZa2VsvGypQy1imMUDw7QohnFaEjntezYYJEpWJR2bHT7/k04s+dVcHxBnt
-oP3ahosEgY+YRXv6wuWDs9CRhKb0HQ==
-=VxTZ
------END PGP SIGNATURE-----
-
---WRx0WlcwrTnJod4i--
+Thank you and best regards,
+Andrei Simion
