@@ -1,43 +1,57 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7532F154425;
-	Tue, 24 Sep 2024 08:59:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 723D114D28C;
+	Tue, 24 Sep 2024 09:04:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727168392; cv=none; b=Xri/j1j7e2zOEt+6f1E29Yt4ZRbfO2SnYeDjeqggwVjUABnCO6A1XDO8SgkMUyUFq1yVlFDukA92sT70sftkyQUJR6d2TE2DEa+IrpMynDqcU5iDmqQpLUY1QaEh56nPLb7XgCOuITfSigAUiy3VKAbbRmjByyBMQeCZiQNnr/8=
+	t=1727168641; cv=none; b=btDBXwbgqQKmS3MgoRquvMF1xqMt4rn2QX4fQff1/NKhC/7mPyzt9ljdXhdzEknDry4YMVrc9oMDXB0OkedAbWt9JekPQnJvyW9soQKcVvoPdQ5fkCVbYHxw5eCQwo1M4KlwOUd41SfYatsliRjF7Rtje/Ll5/1O9CWvyH8RV10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727168392; c=relaxed/simple;
-	bh=TLrkBFemfelhj1kiLCKREGu0cq6ty1MyW7kJpC8QUvY=;
+	s=arc-20240116; t=1727168641; c=relaxed/simple;
+	bh=d0cOEchK/X5pgHPOPqH44Hahes82m6rhNdNJLxk/Ysc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j2LzAfolOKodQu0HjJAfdpj8NEVvZH5nPwgruBXFH39zfVT5vEZ0Y7hr8HJRNfPpdCOm602zOyzVyYQkOx8WT8sgXDVZGc9WzD5Soo6rfv9XLi23M9763u56CIn/XZ5nDDu7i6JmgFiHOLfJBbV2JBkx/Eg7fAOPWZrEH/oxdlM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gZ+eP0No; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=SgN9s4IjAFoF1TJLOp++/HvYF9XsBeihq+NASeB/o9j/a9M07e/5ZcLaUv4w5ac5b/QnTu95KXE8WeE46abCuFLySegW4b0cmMoz9iR5lQYA9vAcd7yAIrbql7kFO1EMgqYs+cpBI/dJOsnDmMDJ3EEjjlzViJoyHmcMhHi3Qhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MHAG0lWT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gZ+eP0No"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7829FC4CEC4;
-	Tue, 24 Sep 2024 08:59:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MHAG0lWT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 574AFC4CEC4;
+	Tue, 24 Sep 2024 09:04:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727168391;
-	bh=TLrkBFemfelhj1kiLCKREGu0cq6ty1MyW7kJpC8QUvY=;
+	s=k20201202; t=1727168641;
+	bh=d0cOEchK/X5pgHPOPqH44Hahes82m6rhNdNJLxk/Ysc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gZ+eP0NoOfTUNQ66K/UIvuJN7Z3zonhi9zGaftGYcUuK2cGkUyHjbq4THcYa8Wq4T
-	 YwMj9qxVtq7i8TqRZbvWH1mSsXpXs9a0EdXBYrZcLZgGTtaXSBDUIYIhZsAfcn5NtC
-	 Q2I8e9nJHzk6CY1ccc57tTmLlByHTC7LsoK45I+75817AWfYA6+DEKw5BTcguQgJO0
-	 Y7JbPcwppqCSTucP/rhmG/JQHU2sjVEwrCp51PjqXM+M+VeYPwtdHgSX8oA60PXyLu
-	 SPg/ohOUFBU3qtZkdu9aETjIHGzNCWqar0lSkAW1/CJn3zhAUvFoWvz3D6OSBm7JAx
-	 Rkx+BzaQzd9Pw==
-Date: Tue, 24 Sep 2024 10:59:48 +0200
+	b=MHAG0lWTTE3XhATkO4qG7tqEfQV/vLmOBXyFTtzTowQr7ItUYXbxrV1qUigL7DOnp
+	 d8ld6Jvvgqw7LUOljCSjo547nb/1QgohOnA280HR84pNeHGXF4ARkzQf4gWHOiTBLS
+	 QW32Z4JSs8JEyoZwGDKQxKbKsntI6Sk2JbjDIw1/Rybw8ac/4Ldb2vvRGHJJjuXVxW
+	 isNyejiJGcJpwSRVoa8qpeG0KlFOyzVSE8DIDhkPTemLw6wlCqnYLXi0seaioGxJdQ
+	 yQ6C/OgfxwMdOW7g/JHkXCzdaX+o6WRomNBElVHLOwdhf4bSTtlO9ldcAXgXdJ/js1
+	 FHxtRKGjAFQZA==
+Date: Tue, 24 Sep 2024 11:03:57 +0200
 From: Mark Brown <broonie@kernel.org>
-To: Andrei Simion <andrei.simion@microchip.com>
-Cc: claudiu.beznea@tuxon.dev, lgirdwood@gmail.com, perex@perex.cz,
-	tiwai@suse.com, nicolas.ferre@microchip.com,
-	alexandre.belloni@bootlin.com, alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: atmel: mchp-pdmc: Skip ALSA restoration if
- substream runtime is uninitialized
-Message-ID: <ZvJ_ZFpIiRpD_uzO@finisterre.sirena.org.uk>
-References: <20240924081237.50046-1-andrei.simion@microchip.com>
+To: Binbin Zhou <zhoubinbin@loongson.cn>
+Cc: Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Huacai Chen <chenhuacai@loongson.cn>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Huacai Chen <chenhuacai@kernel.org>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, Xuerui Wang <kernel@xen0n.name>,
+	loongarch@lists.linux.dev,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Weidong Wang <wangweidong.a@awinic.com>,
+	Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Shuming Fan <shumingf@realtek.com>
+Subject: Re: [PATCH v2 2/9] ASoC: codecs: Add support for ES8323
+Message-ID: <ZvKAfZH-uaxzY0hh@finisterre.sirena.org.uk>
+References: <cover.1727056789.git.zhoubinbin@loongson.cn>
+ <df28fd5784de4d18929c03c43309f095ae4f4860.1727056789.git.zhoubinbin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,52 +59,47 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2muQ5kptOkRWm/ZR"
+	protocol="application/pgp-signature"; boundary="DouZkACFnhQ0PR75"
 Content-Disposition: inline
-In-Reply-To: <20240924081237.50046-1-andrei.simion@microchip.com>
+In-Reply-To: <df28fd5784de4d18929c03c43309f095ae4f4860.1727056789.git.zhoubinbin@loongson.cn>
 X-Cookie: Editing is a rewording activity.
 
 
---2muQ5kptOkRWm/ZR
+--DouZkACFnhQ0PR75
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 24, 2024 at 11:12:38AM +0300, Andrei Simion wrote:
+On Tue, Sep 24, 2024 at 03:00:19PM +0800, Binbin Zhou wrote:
 
-> Update the driver to prevent alsa-restore.service from failing when
-> reading data from /var/lib/alsa/asound.state at boot. Ensure that the
-> restoration of ALSA mixer configurations is skipped if substream->runtime
-> is NULL.
+> +	/* interface format */
+> +	switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
+> +	case SND_SOC_DAIFMT_I2S:
+> +		adciface &= 0xFC;
+> +		daciface &= 0xF9;
+> +		break;
+> +	case SND_SOC_DAIFMT_RIGHT_J:
+> +	case SND_SOC_DAIFMT_LEFT_J:
+> +	case SND_SOC_DAIFMT_DSP_A:
+> +	case SND_SOC_DAIFMT_DSP_B:
+> +		break;
 
-> +++ b/sound/soc/atmel/mchp-pdmc.c
-> @@ -302,6 +302,9 @@ static int mchp_pdmc_chmap_ctl_put(struct snd_kcontro=
-l *kcontrol,
->  	if (!substream)
->  		return -ENODEV;
-> =20
-> +	if (!substream->runtime)
-> +		return 0; /* just for avoiding error from alsactl restore */
-> +
+This results in an identical configuration for everything except I2S
+which must be buggy, these are distinct formats in ways that are visible
+on the bus.
 
-This then means that control writes are just discarded which presumably
-is going to upset things if they actually saved a value here.  Why is
-that a good choice, rather than either fixing the race so the card
-doesn't come up too early or removing the need for the runtime?
-
---2muQ5kptOkRWm/ZR
+--DouZkACFnhQ0PR75
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbyf4MACgkQJNaLcl1U
-h9Aj1wf9GqdcLwKUvMJqTKMQBr+Edfse4rBuLYpHdRKFkhzXt8AU5W9nPdEuQmC0
-AMYaMRv1ego8rh+/0Ie8uhvT8Pn3iXSscTilOmGdqARKSrVY1BjvKT9emM/fElT8
-/rFFhWqfCc7nUI+0ICvuDizt6SCd3o9HuyQGSHso1diRrLFWTK0ZCfGhL127ibV5
-AQG9W52l/WZ6E5Ter27tUYTzyh5Mh5xGeIxlr49tsZk7kW653CHb3lwYDkKIsQFk
-lfeafCz5f8fv6AtlwJ7LSXawYM/9Wx67WawjCpOc9hwP+eCCLnMemZzIDug1Db0s
-+bIiayW9Pjhpa7gkDR/JRrfvlj2TvQ==
-=AXYI
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbygHwACgkQJNaLcl1U
+h9Cciwf/RG51FA7mTVAleL9bm5r64Arqxaz5HEd7JJuadGOi93aZiTLA2jKvvZQg
+g7rFWtub3JRrzhu/mq15Hh3H9HXAUpW2sLEpIi7QOpKobfGzVYBtls5bubd+Xaim
+W/Gc7z6zIefF/wIWzw1ZDdUV3VBEmtKDLBYjERDE7g0sZnKZFRcbCUp0NxFHWSWV
+ZTKGaenhMmQ2fkJsWTSP6cO5LmdaGj+Agpkrm87Jp9kyZS4orKS7Po69qlgUgx6v
+Ob/QEO3Ibz+VxGJOmr+5vKqcVK890qh31a0KFQpXUiasJLE8x9Pz+JTI8SVuAkad
+yzvjuNE0F/kLI/antznSRyB/8aR0Lg==
+=dRtt
 -----END PGP SIGNATURE-----
 
---2muQ5kptOkRWm/ZR--
+--DouZkACFnhQ0PR75--
