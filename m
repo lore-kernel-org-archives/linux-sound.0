@@ -1,98 +1,121 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AC132907;
-	Tue, 24 Sep 2024 12:31:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9AC01A7ADD;
+	Tue, 24 Sep 2024 13:58:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727181106; cv=none; b=JY+au3adzKoadWOGq6yYolrKsX5ZRytivbDxyn28nPrGhI8TDrSpaM4qoinruslc3y8j0oaXD4Ej1ZSni1eZKUOG5rcX/GGmNi4S+MIvnMqT8fXpKxtgwP+SbtFLBpXh353vrnzL1mtBCVxNjDkrwxCkECnY0x/yGIOovxz1BIc=
+	t=1727186336; cv=none; b=C5tNOtHz4/EVAQ347co+1R8yI6OMfzDj0pLK9UeXSr1YaT1Yqteozbxc3ArE+unbqmNhXc8sqzr0GfshyMpUGmykwnUOxEwRt9TMDaXTkLPmcbfLJZamwJzPnpT9Aw4c3HDFO9yfsQ1mggrV0iz6qK9e6SMyXsfCGvuAqqAmYz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727181106; c=relaxed/simple;
-	bh=wAPJalb1CxIj0zrnuJAb6vZmNWd9wq376cbz8helbHc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cO7JxyjIjEalC5WEhoE0yCp3yWid3Du+kUcaqr9V59i1fdADgv3ycRM0g3CDbBFHe0QA4cjl41OXz/qzO2aq+DOHAx+6A3Gu914216XhJTJ9YxBbdQkvSqDOSMIiKTPKqUvb3FFkGg4/LMkIPLrLJxdCtISjpPM+5tq4WMrTkic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L1CgldgY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1727186336; c=relaxed/simple;
+	bh=mjhiOE9V8C0wheS1juQW7ZKGUKe/JAeKebRmNOKIqcw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Q9OHymNFizLlaWtjXoma5AGRdSQek7lv42g4dlKQuickBVdV8lB1tIs9KHT/jdehHRLyEDuS9JIjJCrK5L/+SE+Tb4P1fkH/485XDch6ucTV7queomINy5BzLF4yPKVEtHZ0HsxCEvMn3yrEu4/ftXyWEUW40X7ksQxCb1USQug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=All2FbVc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L1CgldgY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CDF3C4CEC4;
-	Tue, 24 Sep 2024 12:31:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="All2FbVc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 559DFC4CEC4;
+	Tue, 24 Sep 2024 13:58:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727181106;
-	bh=wAPJalb1CxIj0zrnuJAb6vZmNWd9wq376cbz8helbHc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=L1CgldgYur7fTzW2ApviB3/19aQCRfr/EK+bSRGqTFTtm+c/V1jhSdHpQ/jwDRLtJ
-	 HzYr24rf0XdHUsvpg3eHsjvmcayd73EmBc4P64rha6KMset0Heuj2lbPILBcBixQOg
-	 5vTYvEFUbH81s1aJFJnagZVnAVzo0CDkkMBfOtWvtNqjn/kPcLaCSRWma5WRCoUEye
-	 Fpk8NC2WROroX62qbyJqlKMdKY/Ci7ON35oC2Rdb/e9P+F7l0KBy+5FIcByTSBukIO
-	 iGZWrAPJxTQMJTDlb2Ze3MwSA6JLtHdWZEySs+wB59lsXpZYsdgz32LGeUxmqBKQ02
-	 kalzw18Ep3E6w==
-Date: Tue, 24 Sep 2024 14:31:40 +0200
+	s=k20201202; t=1727186336;
+	bh=mjhiOE9V8C0wheS1juQW7ZKGUKe/JAeKebRmNOKIqcw=;
+	h=From:Date:Subject:To:Cc:From;
+	b=All2FbVcWFNLYtOWd6MNxS8+ns5KImufaT1QWO2L4rVHlbDFZTmSSIWWRPdsXdKYg
+	 sBF566Q7uEP3XsHBRQ/UxX7dQFIiRwaEfD0kAdY3BovKUc+BU6jcdeQBg3Hd1ArWqY
+	 th9YOVQLK2fxetYSs0PbL04TLmgbZeietNRr581BtizZ2CuV5GMiLhku6ohIK1ixmo
+	 s0OtDPXWvKz5gPMKQNtOzczCCr7g91mn8WxSV+tE8sZHomZqa+CVi8IVOlqt8QbQ66
+	 vguVMh37+APeuCyNYYOtOUQp4lgUlBxQw6cN+CvFN86tA97v+a1iIOvF8b4EQp71WU
+	 U9WHab0Hm5tlA==
 From: Mark Brown <broonie@kernel.org>
-To: Igor Prusov <ivprusov@salutedevices.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	kernel@salutedevices.com, prusovigor@gmail.com
-Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: Add Everest ES7243E
-Message-ID: <ZvKxLPQ1fcF8JBU4@finisterre.sirena.org.uk>
-References: <20240920-es7243e-adc-v2-0-0be019735b81@salutedevices.com>
- <20240920-es7243e-adc-v2-1-0be019735b81@salutedevices.com>
+Date: Tue, 24 Sep 2024 15:58:42 +0200
+Subject: [PATCH] ASoC: fsl: Use maple tree register cache
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="qBHEOi3iw4H/lkvR"
-Content-Disposition: inline
-In-Reply-To: <20240920-es7243e-adc-v2-1-0be019735b81@salutedevices.com>
-X-Cookie: Editing is a rewording activity.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240924-asoc-imx-maple-v1-1-8b993901f71e@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAJHF8mYC/x3MQQqAIBBA0avErBswtaCuEi2sxhrIFIUQwrsnL
+ d/i/xcSRaYEU/NCpIcT+7uiaxvYTnMfhLxXgxRSi1FqNMlvyC6jM+EiNOs6SCs61SsFNQqRLOd
+ /OC+lfFn+chxgAAAA
+To: Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
+ Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>
+Cc: alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.15-dev-99b12
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2195; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=mjhiOE9V8C0wheS1juQW7ZKGUKe/JAeKebRmNOKIqcw=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBm8sWbwQST/kxv3i8Ph3uEZVQrfduRFkYXJARJE
+ KW6TgYDGS2JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZvLFmwAKCRAk1otyXVSH
+ 0CjdB/4rV/vNLoIQlMxXHFZ4x4LcvAMLcjwL+UyIwkYLlta2CtJ13XQ7X970VpWE6B52CvaiCOn
+ IggNAH8UGfac37XRrwHWX+UC3eqTDA3uPuZH+czaw7gfp7JAKrW+7g8qByTREF1KYhuu1xW46gx
+ klfDKmUsYceDDkgdCCxb2wpLuZSAfkMfeqXeGdtLO9ahdLSjk7mlT9lTnGyqMnvS0tX2TaTlNmj
+ 6s5+f29U1sU8dZDLHv7OVwUtRIgY9gIaL5l1xeokNiZi9V5zA78bwEwD8ESpXauWrDBudyflyEC
+ h0by4V+2DeSgErLCjUlyflJ6nt7Mg+JmRdRr0Rx7Mv8340Wj
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+Several of the NXP drivers use regmaps with a rbtree register cache. Since
+the maple tree cache is uisng a generally more modern data structure which
+makes implementation choices more suitable for modern systems let's convert
+these drivers to it. This should have no practical impact.
 
---qBHEOi3iw4H/lkvR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ sound/soc/fsl/fsl_aud2htx.c | 2 +-
+ sound/soc/fsl/fsl_easrc.c   | 2 +-
+ sound/soc/fsl/fsl_micfil.c  | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-On Fri, Sep 20, 2024 at 06:41:07PM +0300, Igor Prusov wrote:
+diff --git a/sound/soc/fsl/fsl_aud2htx.c b/sound/soc/fsl/fsl_aud2htx.c
+index a6cbaa6364c7..910b4ce7671c 100644
+--- a/sound/soc/fsl/fsl_aud2htx.c
++++ b/sound/soc/fsl/fsl_aud2htx.c
+@@ -169,7 +169,7 @@ static const struct regmap_config fsl_aud2htx_regmap_config = {
+ 	.readable_reg = fsl_aud2htx_readable_reg,
+ 	.volatile_reg = fsl_aud2htx_volatile_reg,
+ 	.writeable_reg = fsl_aud2htx_writeable_reg,
+-	.cache_type = REGCACHE_RBTREE,
++	.cache_type = REGCACHE_MAPLE,
+ };
+ 
+ static const struct of_device_id fsl_aud2htx_dt_ids[] = {
+diff --git a/sound/soc/fsl/fsl_easrc.c b/sound/soc/fsl/fsl_easrc.c
+index 962f30912091..5149e732f763 100644
+--- a/sound/soc/fsl/fsl_easrc.c
++++ b/sound/soc/fsl/fsl_easrc.c
+@@ -1748,7 +1748,7 @@ static const struct regmap_config fsl_easrc_regmap_config = {
+ 	.rd_table = &fsl_easrc_readable_table,
+ 	.wr_table = &fsl_easrc_writeable_table,
+ 	.volatile_table = &fsl_easrc_volatileable_table,
+-	.cache_type = REGCACHE_RBTREE,
++	.cache_type = REGCACHE_MAPLE,
+ };
+ 
+ #ifdef DEBUG
+diff --git a/sound/soc/fsl/fsl_micfil.c b/sound/soc/fsl/fsl_micfil.c
+index 22b240a70ad4..c0dc9bebb77b 100644
+--- a/sound/soc/fsl/fsl_micfil.c
++++ b/sound/soc/fsl/fsl_micfil.c
+@@ -955,7 +955,7 @@ static const struct regmap_config fsl_micfil_regmap_config = {
+ 	.readable_reg = fsl_micfil_readable_reg,
+ 	.volatile_reg = fsl_micfil_volatile_reg,
+ 	.writeable_reg = fsl_micfil_writeable_reg,
+-	.cache_type = REGCACHE_RBTREE,
++	.cache_type = REGCACHE_MAPLE,
+ };
+ 
+ /* END OF REGMAP */
 
-> +  clocks:
-> +    minItems: 2
-> +    maxItems: 2
+---
+base-commit: 98f7e32f20d28ec452afb208f9cffc08448a2652
+change-id: 20240924-asoc-imx-maple-abb62f013533
 
-> +  clock-names:
-> +    items:
-> +      - const: sclk
-> +      - const: lrclk
+Best regards,
+-- 
+Mark Brown <broonie@kernel.org>
 
-This is quite weird and doesn't seem to correspond to the chip datasheet
-at:
-
-    http://www.everest-semi.com/pdf/ES7243%20PB.pdf
-    https://www.pawpaw.cn/media/documents/2022-04/ES7243E_DS_pawpaw%E6%9C%A8%E7%93%9C%E7%A7%91%E6%8A%80.pdf
-
-The SCLK and LRCLK appear to be the bit and frame sync clocks which
-would not normally be exposed directly via the clock API (so this is
-probably not going to be joined up with whatever SoC it's connected to).
-On the other hand there *is* a MCLK which would much more normally be
-represented in the DT bindings and isn't represented here or managed by
-the driver.
-
---qBHEOi3iw4H/lkvR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbysSwACgkQJNaLcl1U
-h9C+6Qf/UHieit4KCo6Tk9QWnyPujqDhBtWIKt+0lTQG8HxlZH3iCRD9fW3jK4k+
-vWY+2NwO5J6+zorSRYky9oDvjo4ylb+ontmcWeABOSV5AYqiYBZSX0mwdWsINFnT
-cxIV8AT+VUZ0MAL2kx1g1wdPHvsYCTRYmhFnZ8yKqEd7rTplKt5Y/dndp4erk5AQ
-SzW6gHw3j0ETmQWMmTXH1Ev3l00chNIQUrjY9RjY2ytfS0CWgsDNZDWWHMNOiP/e
-t/8C6a5/qcrBElZryuW+gszSN8cOs78DQXmKS5QCl7Mekb/VbTNHm6MACBMFUzRO
-fyodXO5a40kCRSOqUqW4PtymDDFedQ==
-=SMLv
------END PGP SIGNATURE-----
-
---qBHEOi3iw4H/lkvR--
