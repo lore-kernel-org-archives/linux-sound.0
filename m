@@ -1,86 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 552B8168DC;
-	Tue, 24 Sep 2024 15:28:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 456121AB511;
+	Tue, 24 Sep 2024 15:58:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727191706; cv=none; b=JjFZrN/VXaJ6q1LTKl3j0eU/jg2vBsRJSfc0bwo43EXzFv7IUqTtxYZ7nsA2NtjmfqCnF1k3Xrn76G8w9LGKIPgXOdHftnNcSSQTpxP1mj45qG2O8g9QRuvDwgYMgesv35hfCna7HXrwHEj6Uju8xn4gec7458E16mjpBoMDgn4=
+	t=1727193519; cv=none; b=L+oB3O+lLaC+yjYG599nA4tGjYx+HJ18blZUCKisvCfNXXy89NrpFzdMwP96epFPLDP4LtskPEwSCR2Zsc0E7gOyoOpNIK1fcg9KWRGk9QFAsCpmRKjVEBH6VKJY7Q/Ib4D4K09V9vrotGMcvh0Hz740eOsSGXWdPdb9fglmLIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727191706; c=relaxed/simple;
-	bh=ZEjyvtI0yfzK8QXNQjqiSQbp58gUxIahW6TghC62ghg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=GAtt0lxFBqU8ptgLMjVkd+BJeIcmamW/fBU+1qgJVAxtfhjudtYiEmqPBo0iucdDJF+7bj6Zact0/0pJGniYhZbk15lLVdqEEDcZTdI26J5MEwg7bW96Tp1Ca5g6cZNpFHa23nHAiDSjldPRCjEkOjMfKC+sDn2F7hBdfEAhMm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SzPWueI1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1727193519; c=relaxed/simple;
+	bh=RKUpJDBsixSrkb2ItQ1xJv7LC2iLPJ3uky1a70WOo1I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aBy3Eu9hesPcVVuwQn5D24nMnUGTcE8Xz7yG1DItciPaOyPaQlmDhv18SdjE8G+HLFA5LpSdBZNSDrosRVMRqSWGRQZm07PjbfacYXwOI598LC6UWWrD9LqghIm5CN34IRBgR19H395Ght1vohXYiT2rScljMb1v/U9bHNDueWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lx+0p7q3; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SzPWueI1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BBEEC4CEC4;
-	Tue, 24 Sep 2024 15:28:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727191705;
-	bh=ZEjyvtI0yfzK8QXNQjqiSQbp58gUxIahW6TghC62ghg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=SzPWueI1bLknRl/5kZ5tn4uhaqRFq4IbBgwHqlgK3cncJrKRvytdVyqe0g3mHfl8A
-	 aIJVBY4KnEhF9bclWgS4u285Cu53pqP/WCYjj0+Pew7ou45tDA+JuS4vlaNStI7OxA
-	 qGr4WFPgcPg9b8yxJ2RdYibjPBI9rSnO39l2rOHL64VAL7g24JNu2UTrakmhQ0s6/f
-	 m+pTdNCRdtcnSNkCaAbILkf6NftVCv1U2etCas4BxH16XB+6MhCJnusSdiYOEoQOLA
-	 Q1R+eiNw8lAmamzgCHnImYYdzJlfGHvLIF4hy/8kx141it0oSOqiUJXiWGMl11eSnj
-	 8wL29Y8pbAfLw==
-From: Mark Brown <broonie@kernel.org>
-To: claudiu.beznea@tuxon.dev, lgirdwood@gmail.com, perex@perex.cz, 
- tiwai@suse.com, nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com, 
- Andrei Simion <andrei.simion@microchip.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20240924081237.50046-1-andrei.simion@microchip.com>
-References: <20240924081237.50046-1-andrei.simion@microchip.com>
-Subject: Re: [PATCH] ASoC: atmel: mchp-pdmc: Skip ALSA restoration if
- substream runtime is uninitialized
-Message-Id: <172719170222.1967204.5882794297957729469.b4-ty@kernel.org>
-Date: Tue, 24 Sep 2024 17:28:22 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lx+0p7q3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727193517; x=1758729517;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RKUpJDBsixSrkb2ItQ1xJv7LC2iLPJ3uky1a70WOo1I=;
+  b=Lx+0p7q3hxunj68L8yC1Nw9Nr5Ncw+Z1fanm8zxinYHHa+YOHZXrxluI
+   IuXpCALXfOEN2XVoBKAnmPMD8rdB0xxu4ztpUldswld2IdJ/FO1CePtVb
+   Ms7uFFiw/0S8KlhrNAGhJYeG+BPEDXFpd2yddXDqMkJhQDzOd2VR53sfW
+   fa4+qkxp22PzdNaT/kcKTXpclB7CKO9pMOigk2q98TOvnFECtAjAKMSCp
+   bUWaFCRLh+bw1hRax2p/MIK8XhzyhWKCdb1UIbcw1XST5ishBdMYg5ClM
+   RAEVolHhPPtg9f17mMdX3UtDR9QVWxnAItKqv60819sPZfrLo+JMBOPXU
+   w==;
+X-CSE-ConnectionGUID: aUhE3jrrT2KaZr0lT/Dw4Q==
+X-CSE-MsgGUID: VQ8cpleoT521LZax2U/Vtw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="26062147"
+X-IronPort-AV: E=Sophos;i="6.10,255,1719903600"; 
+   d="scan'208";a="26062147"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 08:58:32 -0700
+X-CSE-ConnectionGUID: B+7wsJYpQ86JQvsMxw5GKQ==
+X-CSE-MsgGUID: ZteXiXlRQ1yEGZLq6XVHHg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,255,1719903600"; 
+   d="scan'208";a="71347528"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 24 Sep 2024 08:58:25 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1st7vi-000IW3-2K;
+	Tue, 24 Sep 2024 15:58:22 +0000
+Date: Tue, 24 Sep 2024 23:58:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Binbin Zhou <zhoubinbin@loongson.cn>,
+	Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Huacai Chen <chenhuacai@loongson.cn>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, Xuerui Wang <kernel@xen0n.name>,
+	loongarch@lists.linux.dev,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Weidong Wang <wangweidong.a@awinic.com>,
+	Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Shuming Fan <shumingf@realtek.com>
+Subject: Re: [PATCH v2 4/9] ASoC: codecs: Add uda1342 codec driver
+Message-ID: <202409242348.1aLlK9i6-lkp@intel.com>
+References: <c69743ea929fed210128de765967ea045ebd6b27.1727056789.git.zhoubinbin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-99b12
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c69743ea929fed210128de765967ea045ebd6b27.1727056789.git.zhoubinbin@loongson.cn>
 
-On Tue, 24 Sep 2024 11:12:38 +0300, Andrei Simion wrote:
-> Update the driver to prevent alsa-restore.service from failing when
-> reading data from /var/lib/alsa/asound.state at boot. Ensure that the
-> restoration of ALSA mixer configurations is skipped if substream->runtime
-> is NULL.
-> 
-> 
+Hi Binbin,
 
-Applied to
+kernel test robot noticed the following build warnings:
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on robh/for-next linus/master v6.11 next-20240924]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thanks!
+url:    https://github.com/intel-lab-lkp/linux/commits/Binbin-Zhou/ASoC-dt-bindings-Add-Everest-ES8323-Codec/20240924-150942
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/c69743ea929fed210128de765967ea045ebd6b27.1727056789.git.zhoubinbin%40loongson.cn
+patch subject: [PATCH v2 4/9] ASoC: codecs: Add uda1342 codec driver
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240924/202409242348.1aLlK9i6-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240924/202409242348.1aLlK9i6-lkp@intel.com/reproduce)
 
-[1/1] ASoC: atmel: mchp-pdmc: Skip ALSA restoration if substream runtime is uninitialized
-      commit: 09cfc6a532d249a51d3af5022d37ebbe9c3d31f6
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409242348.1aLlK9i6-lkp@intel.com/
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+All warnings (new ones prefixed by >>):
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+>> sound/soc/codecs/uda1342.c:206:26: warning: 'uda1342_mixmode' defined but not used [-Wunused-const-variable=]
+     206 | static const char *const uda1342_mixmode[] = {"Differential", "Analog1", "Analog2", "Both"};
+         |                          ^~~~~~~~~~~~~~~
+>> sound/soc/codecs/uda1342.c:205:26: warning: 'uda1342_deemph' defined but not used [-Wunused-const-variable=]
+     205 | static const char *const uda1342_deemph[] = {"None", "32Khz", "44.1Khz", "48Khz"};
+         |                          ^~~~~~~~~~~~~~
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+vim +/uda1342_mixmode +206 sound/soc/codecs/uda1342.c
 
-Thanks,
-Mark
+   204	
+ > 205	static const char *const uda1342_deemph[] = {"None", "32Khz", "44.1Khz", "48Khz"};
+ > 206	static const char *const uda1342_mixmode[] = {"Differential", "Analog1", "Analog2", "Both"};
+   207	
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
