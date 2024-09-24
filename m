@@ -1,83 +1,86 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC381A76A5;
-	Tue, 24 Sep 2024 15:06:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 552B8168DC;
+	Tue, 24 Sep 2024 15:28:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727190366; cv=none; b=O/EmjDXmYtFonPEgzCVGR1C9joeto0TwnpzZjTSMUNgZmUx216ghfbGuLnCDZ5ushAy6dF67DdkDUj8OTygbvuJeCcwd5fbZzf7daKps9e3YFx4RPcX+58UToDNcgB9nps+JN94DBY00vatotNYUfDS0T+6XtMi4eQk6lyCYYYU=
+	t=1727191706; cv=none; b=JjFZrN/VXaJ6q1LTKl3j0eU/jg2vBsRJSfc0bwo43EXzFv7IUqTtxYZ7nsA2NtjmfqCnF1k3Xrn76G8w9LGKIPgXOdHftnNcSSQTpxP1mj45qG2O8g9QRuvDwgYMgesv35hfCna7HXrwHEj6Uju8xn4gec7458E16mjpBoMDgn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727190366; c=relaxed/simple;
-	bh=WEt4t4OKLC44wD9fFRRRREDLnvhSGokn0SJPbLcxpss=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YE4yLj/h5liUytJSjpf+Woh1smJdZzk3fPiXLaPNLNOz1IiucU3Jy54mamnd0C9dd7gDjqYyoFtYD5G2vEHl8Ahz4J4LZ42kLLgqN+60pwUC8WhhGsUcSpfQ5+G3oyxWghwYaDlcnik1YLvfQuAQMSccxUoJGeJO9LtfgT+fA0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WnvSIV6/; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727191706; c=relaxed/simple;
+	bh=ZEjyvtI0yfzK8QXNQjqiSQbp58gUxIahW6TghC62ghg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=GAtt0lxFBqU8ptgLMjVkd+BJeIcmamW/fBU+1qgJVAxtfhjudtYiEmqPBo0iucdDJF+7bj6Zact0/0pJGniYhZbk15lLVdqEEDcZTdI26J5MEwg7bW96Tp1Ca5g6cZNpFHa23nHAiDSjldPRCjEkOjMfKC+sDn2F7hBdfEAhMm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SzPWueI1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WnvSIV6/"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2f75129b3a3so57592291fa.2;
-        Tue, 24 Sep 2024 08:06:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727190363; x=1727795163; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WEt4t4OKLC44wD9fFRRRREDLnvhSGokn0SJPbLcxpss=;
-        b=WnvSIV6/dO3QMlY/OsPNl9w6S8XpNDT/X66nRnSrdXszduuP6hl2ImwBdxOK4wvWSr
-         jOpUXqZTO/1lxgvGw4kWO0Kt3lYUZ0sD0pTLyD1sivUAQc85YNnNkBstbGxLjobc25Zr
-         QXWEKh+Qej3AbMGyKM1VroE8zcKcIh1t8tHIvhtn4P8TDrY0gXV7im4bn1WAYtKyC1bB
-         wdMmQAcf9ym7/nXNEzokScaw9Wgps1ewIlbLVEF1/gniJzSeOrkVJLr4P1EU9lHW0S8s
-         Uq1jNDabxcRjaSi8dn/KjEcgvGpArbfRhdMLU9MLjEKobXMb2ui30ry9QpjsKRRMNmSw
-         fPhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727190363; x=1727795163;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WEt4t4OKLC44wD9fFRRRREDLnvhSGokn0SJPbLcxpss=;
-        b=ec49PRIpqkdwotL/aUssK4/0r+VUrbXkVqKFgQeIRsdYtgMRKf/sWUKIX2BEw1C0ci
-         WHIqfNKcmR7Qeq7r5tu51UVWFIMyHq+5UcHVS2XZSyP4Yoquf5/X9Has44z8oJLJhjZE
-         9k/TzwolYGvQ6L35n8PGuCvhTkXdCWYEnXorBpgx89VYOB3stsI89jFGAv7vLTZ5OF0g
-         R3W1K76qoWnOfPKLAOuGnn5gENWTIdB2qttpFpZgnHVLyVe+GfCJr0329wX+UeFsVIvI
-         snq17lr4OEwuRr3zYD4rMeDAyS86Oq2ShL0r6srmJi5FXtA9/NZ9wc+NXAXkvOKGq1FX
-         vAtQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWywjcpc3lYtEi8dlFFOxhXa84EohSVECzdKxo1pJfJ4lDWKB8oYwyU6bafjsxW5gtKwx90nKUA4TIdHCg=@vger.kernel.org, AJvYcCXQXcuuRTCAFjuTPtUYglsxocLAhT873eCV2gb2OULkhndn3k8tvU7yXNuAgqAUgB+Wz7kUBfczupvhO6g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAb9ZCPu2b9X2+s25uAiAH6T0OGqIFSwTNb7KO2WkHlw69xE5u
-	wx4h1MMn5GjdHZz1m8fPVbacKARsrmcmaJyjDXX73SoyEesEpW9K/vryoJvmLT+raO8CKHe5o3y
-	9Q67MWs5Xe6J01ECrdba2cQ99WTg=
-X-Google-Smtp-Source: AGHT+IHJXnBttmZSW+jlVDB4ya7Xha0cvgTxb8sPbFzzC+SpJMt6q1ghM6s3jvwsHh6rzM4yTYmh4kBk3zW7n3O2GmY=
-X-Received: by 2002:a2e:4a12:0:b0:2ef:2d3a:e70a with SMTP id
- 38308e7fff4ca-2f7cb2f6912mr64838401fa.18.1727190362321; Tue, 24 Sep 2024
- 08:06:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SzPWueI1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BBEEC4CEC4;
+	Tue, 24 Sep 2024 15:28:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727191705;
+	bh=ZEjyvtI0yfzK8QXNQjqiSQbp58gUxIahW6TghC62ghg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=SzPWueI1bLknRl/5kZ5tn4uhaqRFq4IbBgwHqlgK3cncJrKRvytdVyqe0g3mHfl8A
+	 aIJVBY4KnEhF9bclWgS4u285Cu53pqP/WCYjj0+Pew7ou45tDA+JuS4vlaNStI7OxA
+	 qGr4WFPgcPg9b8yxJ2RdYibjPBI9rSnO39l2rOHL64VAL7g24JNu2UTrakmhQ0s6/f
+	 m+pTdNCRdtcnSNkCaAbILkf6NftVCv1U2etCas4BxH16XB+6MhCJnusSdiYOEoQOLA
+	 Q1R+eiNw8lAmamzgCHnImYYdzJlfGHvLIF4hy/8kx141it0oSOqiUJXiWGMl11eSnj
+	 8wL29Y8pbAfLw==
+From: Mark Brown <broonie@kernel.org>
+To: claudiu.beznea@tuxon.dev, lgirdwood@gmail.com, perex@perex.cz, 
+ tiwai@suse.com, nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com, 
+ Andrei Simion <andrei.simion@microchip.com>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20240924081237.50046-1-andrei.simion@microchip.com>
+References: <20240924081237.50046-1-andrei.simion@microchip.com>
+Subject: Re: [PATCH] ASoC: atmel: mchp-pdmc: Skip ALSA restoration if
+ substream runtime is uninitialized
+Message-Id: <172719170222.1967204.5882794297957729469.b4-ty@kernel.org>
+Date: Tue, 24 Sep 2024 17:28:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240924-asoc-imx-maple-v1-1-8b993901f71e@kernel.org>
-In-Reply-To: <20240924-asoc-imx-maple-v1-1-8b993901f71e@kernel.org>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Tue, 24 Sep 2024 12:05:50 -0300
-Message-ID: <CAOMZO5DYNK_T4xFBToMK25PuCfns57Cn+z0PoZ-y7pGr=2J=tA@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: fsl: Use maple tree register cache
-To: Mark Brown <broonie@kernel.org>
-Cc: Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
-	Nicolin Chen <nicoleotsuka@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-99b12
 
-On Tue, Sep 24, 2024 at 10:58=E2=80=AFAM Mark Brown <broonie@kernel.org> wr=
-ote:
->
-> Several of the NXP drivers use regmaps with a rbtree register cache. Sinc=
-e
-> the maple tree cache is uisng a generally more modern data structure whic=
-h
+On Tue, 24 Sep 2024 11:12:38 +0300, Andrei Simion wrote:
+> Update the driver to prevent alsa-restore.service from failing when
+> reading data from /var/lib/alsa/asound.state at boot. Ensure that the
+> restoration of ALSA mixer configurations is skipped if substream->runtime
+> is NULL.
+> 
+> 
 
-Typo: using.
+Applied to
 
-Reviewed-by: Fabio Estevam <festevam@gmail.com>
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: atmel: mchp-pdmc: Skip ALSA restoration if substream runtime is uninitialized
+      commit: 09cfc6a532d249a51d3af5022d37ebbe9c3d31f6
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
