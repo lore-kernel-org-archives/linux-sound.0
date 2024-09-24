@@ -1,73 +1,51 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2050.outbound.protection.outlook.com [40.107.244.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D85CE13A24A;
-	Tue, 24 Sep 2024 06:19:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727158756; cv=fail; b=WYki3xFq7zbqmF0X+U1N8pxF78cA7V0iejZEfWeERCOFp6hSND2S7gNPL3xiqM0095sWIVfErKBN95tXCepeTuI50HvdCv2qCEY6HH879YY5K5XjlzAFjWK5+pym4dm1MeNhyXuTaoPDK3eg/NBk/myJ5sMkMD2wQ/c7v4oDIU4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727158756; c=relaxed/simple;
-	bh=loQzfQmJhsQ0pWkbcGsa188ZKhzzVpYxkEQOWXeanRE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=m+mbpIJp/W5ohSix/RjG9BwWFFY6+jyp55LP8zN/bhWICruuS2T8oGBJKsbQQc908PYHBhDiU0P5RRDs4xnHh+SbHopvjddxEuxoZazmjOuon2Ce/K28Cy4tgw8wuaNYAsMXFq2E6AAx/g8kjV5iLJ/QLs05JEbajo+h7uVOClI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ie20jkRH; arc=fail smtp.client-ip=40.107.244.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ie20jkRH"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=M4mv6/+AFj3wmmVga4B2gDOklPzqnzGqRxmOaHC/4FKbbSNJ72Y4AexrRcRzx7lNj2184s1vU8S2GAl0o8UngLBIl9a7vaMzztuRJHHKHHPYbPlEw8107q1nrdO/9N2s8kZ+7Ln59TkQnZP6tHpslz3D6CKtKb57oPcs8K4lxFtY/9/HO19w/6mHSrsDsxaYjLdSlVBMPJPrwdoARVk5CUQuztXuHgA+oUdaVqQgNrlJAKWt7y7qrwWzgaTmXYOzj7BNmilc5MI9Ph6Pmt9OgnlBXHfdO1aPAHq25rkHSfaPkyuEnYKF7dudFWbRhZtGYcY4tO7/rBFgxLAKd1GR5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cf4LILkITo6sRTgwpXVGJGnK3u/PXFXhO0mgTbTkqgE=;
- b=yqRqe7Gv+1+rYRCPk21foZbjH+dt1j/HeE0Iz4KdxXRU0mpVCPaZmX2WCCnclcVwMuLNEZvNrzT1s3TkgkSK/ARFhBxI2+WYMzBMQotObSRIHFvlgOqafDWuuvHooA7eoI7wLC3c7WEx8Z9RdnMybm63pdPWtSRj4lIXFA6yuK3446sN/DeS62Y+HPkqU+3/vQH+ot4J0nUZyTKJqcjKtE1G8bOtW8ZXadnx/rc9t6mqCKpctyAphS8HjWF+Z/33093tzjcLTbrPT5FgQlTOwVGxIeHULigNGgnZlivSA5VOEfe3PcC8i9hV4girG1VIu2F+nbl1MyPreFc0BjFDYQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cf4LILkITo6sRTgwpXVGJGnK3u/PXFXhO0mgTbTkqgE=;
- b=ie20jkRHrK/WxsWvNiUMXvlHDLdwbg+5LqWGZtS0h7pr2i71yQ6Tc5Y/dZPw57G/4hTTwXgTZ5ewOZkaU84I8PeTHJNForn5L2rVhAnQJ7QAiITy4S2UtNKINoXwAjcf3TCazXE8ZgtssS4m+MS4ZJzVZIU6uvTbw6U3+JLYQ2s=
-Received: from SA9PR13CA0056.namprd13.prod.outlook.com (2603:10b6:806:22::31)
- by MW5PR12MB5597.namprd12.prod.outlook.com (2603:10b6:303:192::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.27; Tue, 24 Sep
- 2024 06:19:11 +0000
-Received: from SN1PEPF0002BA50.namprd03.prod.outlook.com
- (2603:10b6:806:22:cafe::e2) by SA9PR13CA0056.outlook.office365.com
- (2603:10b6:806:22::31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.24 via Frontend
- Transport; Tue, 24 Sep 2024 06:19:10 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SN1PEPF0002BA50.mail.protection.outlook.com (10.167.242.73) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7918.13 via Frontend Transport; Tue, 24 Sep 2024 06:19:10 +0000
-Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
- SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 24 Sep 2024 01:19:06 -0500
-From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-To: <broonie@kernel.org>
-CC: <alsa-devel@alsa-project.org>, <lgirdwood@gmail.com>, <perex@perex.cz>,
-	<tiwai@suse.com>, <Basavaraj.Hiregoudar@amd.com>,
-	<Sunil-kumar.Dommati@amd.com>, <venkataprasad.potturu@amd.com>,
-	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Vijendar
- Mukunda" <Vijendar.Mukunda@amd.com>
-Subject: [PATCH V2 9/9] ASoC: amd: acp: remove unused variable from acp platform driver
-Date: Tue, 24 Sep 2024 11:48:21 +0530
-Message-ID: <20240924061821.1127054-10-Vijendar.Mukunda@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240924061821.1127054-1-Vijendar.Mukunda@amd.com>
-References: <20240924061821.1127054-1-Vijendar.Mukunda@amd.com>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A73AF7D417;
+	Tue, 24 Sep 2024 07:00:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727161205; cv=none; b=TWJpceaYxDxMOJEKiQINpzPVolZMydyp2AGL3UMXQLV1LDoMRPLRC2fD2+evPxmQwoe8fpw0HMoA7lVMu0QEuz1TnJfFIZwjmEI4sE6hVEdjsfoIeRiFVsR4kUx/nbqbXsGXbLpWMAQslnVRDZ9xGRDbQ+rY1K4a70TPxhUb82U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727161205; c=relaxed/simple;
+	bh=/lkOPvS3y/qr3A5PFR+lL/l6HBxzbt6nt7mXSIJJQWQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QhvPFxbAbdNLralIkCb8Bl1v9DCoRTAPVb+Y7Q/4+pYMnKQOz3jZnoTQ5HR9/utdBeyaZXq+qaaeGfuRn9tPqeg1TB5Rhig3dI0cqMj+Ov/NXgOZyroJW5LFrBide2dQVvTIY5QKj9IbbMW7FMEZvkvPl9cZu6nVoyBU3QOHSRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [223.64.68.38])
+	by gateway (Coremail) with SMTP id _____8CxSOlvY_JmcMQNAA--.30700S3;
+	Tue, 24 Sep 2024 14:59:59 +0800 (CST)
+Received: from localhost.localdomain (unknown [223.64.68.38])
+	by front1 (Coremail) with SMTP id qMiowMCxLeRpY_JmnKQNAA--.11695S2;
+	Tue, 24 Sep 2024 14:59:54 +0800 (CST)
+From: Binbin Zhou <zhoubinbin@loongson.cn>
+To: Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Huacai Chen <chenhuacai@loongson.cn>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Huacai Chen <chenhuacai@kernel.org>,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Xuerui Wang <kernel@xen0n.name>,
+	loongarch@lists.linux.dev,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Weidong Wang <wangweidong.a@awinic.com>,
+	Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Shuming Fan <shumingf@realtek.com>,
+	Binbin Zhou <zhoubinbin@loongson.cn>
+Subject: [PATCH v2 0/9] ASoC: Some issues about loongson i2s
+Date: Tue, 24 Sep 2024 14:59:49 +0800
+Message-ID: <cover.1727056789.git.zhoubinbin@loongson.cn>
+X-Mailer: git-send-email 2.43.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -75,155 +53,126 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF0002BA50:EE_|MW5PR12MB5597:EE_
-X-MS-Office365-Filtering-Correlation-Id: dead6033-bd9f-4ac2-6b91-08dcdc60cde5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|36860700013|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?wakeq3q+lZfy6dpyd1Pg+0618ezgobtFHCk+SR/fFVIHrfXFxSsFeT45mk36?=
- =?us-ascii?Q?76nFkB4PshRsj/kXWOIytJ7da/bm2shRuwkONW7p1q39LhTtC0ssxBq2dEp/?=
- =?us-ascii?Q?E1tb/EZ1i5njDlgoB88GWAEznkkG2PpxSDuuSwSbl9hORMZR4HVsGO3/H8Zq?=
- =?us-ascii?Q?uMnSN9Dmp32MbE+6swq9SJxyiRXOe/dC46OTl4oS0y7FoQ8gwgomoeMR1L9e?=
- =?us-ascii?Q?r1UpWDI3+0Xccpw10w729EYMCr81aulvfe2tGgVRreWYx0flGVJ1NjOiHgXL?=
- =?us-ascii?Q?e9UdlsqD39aBYNcybXPp03aZqDhaom2W2yugmpyAxl6GZppm4hjKs2hqXRV8?=
- =?us-ascii?Q?wgCOzglzwwznGAqKlamCiiDn9pp2BLqiCZw2J6QYwrWADH8Zxc2CfkVDvUZA?=
- =?us-ascii?Q?z6pOrW3qASK3EglDb2vMDwPHD54b3QIBvJtYumEOmvUJQ/apaSk2VTPnDtCo?=
- =?us-ascii?Q?IrX/Mbi60ZcknlZ+swjoj6qDVBRaDr7/vpBXsLa3I2VqGL1bl7ZuDLpfvuDr?=
- =?us-ascii?Q?XdgtVRGyHdi35UNFnAYZz+SJG3GL4QaRD6+7YnIEjCLeJQbjS4fl2LdnqoKx?=
- =?us-ascii?Q?Ce4Alr4u1fzybALGG70F3F1boDpHMH0Aq0IqSR8BNmPgj5bbcTiZa6Pywini?=
- =?us-ascii?Q?t1AD6frl8jLrj540JNlB/wU5EgY/S8biHsmxXW2vVGbW2TePCtse/hx+Q4OM?=
- =?us-ascii?Q?2E/3qZgXsVOHLcwHjIwp51QlSeP4SypPr4bzzAmDrzV+Z5YQCjzDe2yjNaZ+?=
- =?us-ascii?Q?4jR9LVt46de/TIy+ohKYpyEfhZEhOta9TGh9a4wlulT0OF+Wjk138wo/C9Pj?=
- =?us-ascii?Q?2HsDsMoiBmHqlsrtES1V0fLRzKeP4vXBasrfLU+ihFjspE7OUIoLcUGZ56DV?=
- =?us-ascii?Q?ovaDsEsvoJ9kQVhf3QYiJJCVumJ8E9yWOtHT0Mi6p3jDTz+eRO69SdjWTjKs?=
- =?us-ascii?Q?usbK7UsH9CqSobjTjw8FQt9RziCZztvJDrqDwrDVHyJtBQ7XolOCnMaRrljO?=
- =?us-ascii?Q?r9I1g5Nz3+kVh6U8PEEr/w4+Hku/GM+T+ZKZnMBgF9PTJSHp1HQ96LWuOIT2?=
- =?us-ascii?Q?oovSUygOZ01xIv5PmHjURm4vx74zzZrcppydeFC09XGz7y3pYnKqxJmSW+0o?=
- =?us-ascii?Q?bLaQyYEU/OFcD1/t3Hlhxu93AKcFznohY23wywB/KHJ6ug8LpT92UOGogfOS?=
- =?us-ascii?Q?P061yl6xAlcR/FKiIe2ui0Bcri+FnG2tS8LAGOy5/lZx1/KwD63cuAkFphP1?=
- =?us-ascii?Q?FDXpbueNPykc+va8h8ipFGZcO0G8ZeIfjpc+KfZ0G9cQk8LDJW4YEwEU9Pt2?=
- =?us-ascii?Q?6iUb2jhNlYu9MwdQIVuqr0WH1vsCEHcD+y2tQThhWp2bRYyCVJILUbxuof2u?=
- =?us-ascii?Q?GAj1Q5+bAXWwtFsRoXGqXX+P6d2Ot6EPH+W2G0maaQBkEt05CQl4Nafy3zql?=
- =?us-ascii?Q?jdgLZ+hbm6RfDXFhc5BhOqRof/wAlDJ+?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(36860700013)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2024 06:19:10.8166
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: dead6033-bd9f-4ac2-6b91-08dcdc60cde5
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SN1PEPF0002BA50.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR12MB5597
+X-CM-TRANSID:qMiowMCxLeRpY_JmnKQNAA--.11695S2
+X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxCryDtFWUCF47Kw1DZr1kJFc_yoWrXw1Upa
+	nxC393Gr15Jr43ArWrGF48CF1rZ3yfZFnxGa1aq34UWry7Xw1UZ3s7tF15ZFZxCryFgry2
+	qryrur48G3W5GagCm3ZEXasCq-sJn29KB7ZKAUJUUUUd529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUBIb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r126r13M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+	xVW8Jr0_Cr1UM2kKe7AKxVWUtVW8ZwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
+	AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
+	tVWrXwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7V
+	AKI48JMxkF7I0En4kS14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY
+	6r1j6r4UMxCIbckI1I0E14v26r1q6r43MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
+	xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xII
+	jxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw2
+	0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x02
+	67AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IUeFoGPUUUUU==
 
-Remove 'platform' variable from acp platform driver private data
-structure. For platform differentiation, ACP pci revision id being
-used through out the code. As platform variable is no longer used in
-code, drop the code corresponding to 'platform' variable.
+Hi all:
 
-Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
----
- sound/soc/amd/acp/acp-mach.h      | 8 --------
- sound/soc/amd/acp/acp-rembrandt.c | 1 -
- sound/soc/amd/acp/acp-renoir.c    | 1 -
- sound/soc/amd/acp/acp63.c         | 1 -
- sound/soc/amd/acp/acp70.c         | 5 -----
- sound/soc/amd/acp/amd.h           | 1 -
- 6 files changed, 17 deletions(-)
+This patch set is mainly about Loongson i2s related issues.
 
-diff --git a/sound/soc/amd/acp/acp-mach.h b/sound/soc/amd/acp/acp-mach.h
-index 414d0175988b..f94c30c20f20 100644
---- a/sound/soc/amd/acp/acp-mach.h
-+++ b/sound/soc/amd/acp/acp-mach.h
-@@ -53,14 +53,6 @@ enum codec_endpoints {
- 	ES83XX,
- };
- 
--enum platform_end_point {
--	RENOIR = 0,
--	REMBRANDT,
--	ACP63,
--	ACP70,
--	ACP71,
--};
--
- struct acp_mach_ops {
- 	int (*probe)(struct snd_soc_card *card);
- 	int (*configure_link)(struct snd_soc_card *card, struct snd_soc_dai_link *dai_link);
-diff --git a/sound/soc/amd/acp/acp-rembrandt.c b/sound/soc/amd/acp/acp-rembrandt.c
-index 065ac13b2220..008d97598b62 100644
---- a/sound/soc/amd/acp/acp-rembrandt.c
-+++ b/sound/soc/amd/acp/acp-rembrandt.c
-@@ -227,7 +227,6 @@ static int rembrandt_audio_probe(struct platform_device *pdev)
- 	adata->dai_driver = acp_rmb_dai;
- 	adata->num_dai = ARRAY_SIZE(acp_rmb_dai);
- 	adata->rsrc = &rsrc;
--	adata->platform = REMBRANDT;
- 	adata->acp_rev = chip->acp_rev;
- 	adata->flag = chip->flag;
- 	adata->is_i2s_config = chip->is_i2s_config;
-diff --git a/sound/soc/amd/acp/acp-renoir.c b/sound/soc/amd/acp/acp-renoir.c
-index f372a56a0a17..166f1efacf1d 100644
---- a/sound/soc/amd/acp/acp-renoir.c
-+++ b/sound/soc/amd/acp/acp-renoir.c
-@@ -185,7 +185,6 @@ static int renoir_audio_probe(struct platform_device *pdev)
- 	adata->dai_driver = acp_renoir_dai;
- 	adata->num_dai = ARRAY_SIZE(acp_renoir_dai);
- 	adata->rsrc = &rsrc;
--	adata->platform = RENOIR;
- 	adata->acp_rev = chip->acp_rev;
- 	adata->flag = chip->flag;
- 
-diff --git a/sound/soc/amd/acp/acp63.c b/sound/soc/amd/acp/acp63.c
-index f0c516ccf96b..e0b86132eb95 100644
---- a/sound/soc/amd/acp/acp63.c
-+++ b/sound/soc/amd/acp/acp63.c
-@@ -237,7 +237,6 @@ static int acp63_audio_probe(struct platform_device *pdev)
- 	adata->dai_driver = acp63_dai;
- 	adata->num_dai = ARRAY_SIZE(acp63_dai);
- 	adata->rsrc = &rsrc;
--	adata->platform = ACP63;
- 	adata->acp_rev = chip->acp_rev;
- 	adata->flag = chip->flag;
- 	adata->is_i2s_config = chip->is_i2s_config;
-diff --git a/sound/soc/amd/acp/acp70.c b/sound/soc/amd/acp/acp70.c
-index db5dd64969b0..3e4fd113a8a4 100644
---- a/sound/soc/amd/acp/acp70.c
-+++ b/sound/soc/amd/acp/acp70.c
-@@ -210,11 +210,6 @@ static int acp_acp70_audio_probe(struct platform_device *pdev)
- 	adata->rsrc = &rsrc;
- 	adata->machines = snd_soc_acpi_amd_acp70_acp_machines;
- 	adata->acp_rev = chip->acp_rev;
--	if (chip->acp_rev == ACP70_PCI_ID)
--		adata->platform = ACP70;
--	else
--		adata->platform = ACP71;
--
- 	adata->flag = chip->flag;
- 	acp_machine_select(adata);
- 
-diff --git a/sound/soc/amd/acp/amd.h b/sound/soc/amd/acp/amd.h
-index dcfc29b2f072..ee69dfb10cb8 100644
---- a/sound/soc/amd/acp/amd.h
-+++ b/sound/soc/amd/acp/amd.h
-@@ -201,7 +201,6 @@ struct acp_dev_data {
- 	u32 xfer_tx_resolution[3];
- 	u32 xfer_rx_resolution[3];
- 	unsigned int flag;
--	unsigned int platform;
- };
- 
- enum acp_config {
+Please allow me to briefly explain this patch set:
+Patch 1-2: Add ES8323 codec required on Loongson-2K2000
+Patch 3-4: Add uda1342 codec required on Loongson-2K1000
+Patch 5: Fix the problem of unable to detect codec under FDT system.
+Patch 6-7: Add Loongson i2s platform device support
+Patch 8-9: Related DTS support.
+
+Thanks.
+
+-------
+V2:
+- Spilt the improve code readability patch to a separate patch series.
+  The link is:
+  https://lore.kernel.org/all/cover.1725844530.git.zhoubinbin@loongson.cn/
+
+patch (1/9):
+ - Add es8323 compatible in everest,es8316.yaml instead of creating a
+   new yaml file;
+
+patch (2/9):
+ - Use regmap_config.reg_defaults instead of snd_soc_component_driver.{read/write};
+ - Use the more modern _CBC_CFC(SND_SOC_DAIFMT_BC_FC);
+ - Rewrite suspend/resume function with regmap;
+ - Drop i2c_check_functionality();
+ - Use named variables for the enums rather than putting them into an array;
+
+patch (3/9):
+ - Add Reviewed-by tag from Krzysztof;
+
+patch (4/9):
+ - Drop unused param to avoid lkp warnning;
+ - Drop some noisy log message(dev_info);
+ - Use normal conditional statements to improve legibility;
+ - Use provider/consumer instead of master/slave;
+ - Use the more modern _CBC_CFC(SND_SOC_DAIFMT_BC_FC);
+ - Drop uda1342_set_bias_level() for it does nothing;
+ - Drop uda1342_mixer_enum[] for it is unused;
+ - Point to controls/routes arrays from the component struct;
+ - REGCACHE_MAP instead of REGCACHE_RBTREE.
+
+patch (5/9):
+ - Add of_node_put(args.np) after snd_soc_get_dai_name();
+ - Use matching label name, such as codec_put instead of free_codec;
+ - Rewrote the loongson_parse_cpu() and loongson_parse_codec() function
+   interfaces to avoid dropping a reference from a pointer that is a
+   random stack value
+
+patch (6/9):
+ - Rename file name as loongson,ls2k1000-i2s.yaml;
+ - List and describe items for reg property;
+ - 'unevaluatedProperties: false' instead of 'additionalProperties:
+   false';
+
+patch (7/9):
+ - Fix lkp warnning;
+ - Reorder Kconfig items, let
+SND_SOC_LOONGSON_I2S_{PCI,PLATFORM} select SND_SOC_LOONGSON_CARD.
+
+Link to v1:
+https://lore.kernel.org/all/cover.1725518229.git.zhoubinbin@loongson.cn/
+
+Binbin Zhou (9):
+  ASoC: dt-bindings: Add Everest ES8323 Codec
+  ASoC: codecs: Add support for ES8323
+  ASoC: dt-bindings: Add NXP uda1342 Codec
+  ASoC: codecs: Add uda1342 codec driver
+  ASoC: loongson: Fix codec detection failure on FDT systems
+  ASoC: dt-bindings: Add Loongson I2S controller
+  ASoC: loongson: Add I2S controller driver as platform device
+  LoongArch: dts: Add I2S support to Loongson-2K1000
+  LoongArch: dts: Add I2S support to Loongson-2K2000
+
+ .../bindings/sound/everest,es8316.yaml        |   4 +-
+ .../bindings/sound/loongson,ls2k1000-i2s.yaml |  68 ++
+ .../bindings/sound/nxp,uda1342.yaml           |  42 +
+ arch/loongarch/boot/dts/loongson-2k1000.dtsi  |  17 +-
+ arch/loongarch/boot/dts/loongson-2k2000.dtsi  |  22 +-
+ sound/soc/codecs/Kconfig                      |  13 +
+ sound/soc/codecs/Makefile                     |   4 +
+ sound/soc/codecs/es8323.c                     | 737 ++++++++++++++++++
+ sound/soc/codecs/es8323.h                     |  78 ++
+ sound/soc/codecs/uda1342.c                    | 355 +++++++++
+ sound/soc/codecs/uda1342.h                    |  79 ++
+ sound/soc/loongson/Kconfig                    |  31 +-
+ sound/soc/loongson/Makefile                   |   3 +
+ sound/soc/loongson/loongson_card.c            |  81 +-
+ sound/soc/loongson/loongson_i2s_plat.c        | 186 +++++
+ 15 files changed, 1679 insertions(+), 41 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/loongson,ls2k1000-i2s.yaml
+ create mode 100644 Documentation/devicetree/bindings/sound/nxp,uda1342.yaml
+ create mode 100644 sound/soc/codecs/es8323.c
+ create mode 100644 sound/soc/codecs/es8323.h
+ create mode 100644 sound/soc/codecs/uda1342.c
+ create mode 100644 sound/soc/codecs/uda1342.h
+ create mode 100644 sound/soc/loongson/loongson_i2s_plat.c
+
 -- 
-2.34.1
+2.43.5
 
