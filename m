@@ -1,45 +1,58 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B351552ED;
-	Tue, 24 Sep 2024 09:17:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55980154BEA;
+	Tue, 24 Sep 2024 09:19:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727169435; cv=none; b=Rgwg9pmvbh1m8xLBeOljvICZNR+j6lDnAbf4c9L9h/8wy8pVqu1ZgePqOZtwpTH9MI4sYJiDcdv6ewMU9W2W0gMUfhlqqoQ1HFu+T2D2mwrWXvCc1iv00PyXbwnrht4d7SxbRMJcJLRMfM9n5TTVwfM1OfpN4loK0S64LUfFTH0=
+	t=1727169562; cv=none; b=rBQzHfJzqkcbS+Nn5wmsVoUTFwQZGTA6DuT87btVtWEj6Aw0CGk2AvaA0OsIfI5zIJyPjbcn3gjpIp8EZn12JtAotbZ+OPHPP3XZjdlYM9xolFFJdd/IsPPU9bie4KPwhTetVMkVlJpiIs8Cjc7J0gzyOPUZy4cs46g3TLTPapU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727169435; c=relaxed/simple;
-	bh=B5zSRQNFNomZZShsW2jsE1RB5SBo1V3wEcvrvwTUZYU=;
+	s=arc-20240116; t=1727169562; c=relaxed/simple;
+	bh=6iOYxHvNr/wgmXefsXjNWJsCi0eJkiZ+32MSb7rhrQQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T7WvxLrfRaOsPG0eOzVcgxEHyDGbnYAiQzB6LZi/acvU4yjSHPfAmkHOcGvRnwaaXnoILnW2eP82BlcGg7aj8mNwwkADXb9hDYr9vnuJDhc3UvvmAn/kTztJCNtfzrML3cby7rRuMf/0FfXNXDayR7J5QzEl8qeTh3weeN/4bVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iV8d04Di; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=X+DfjJTLTn5JqWeOcf5YaOPc/uflh0kuF5bEwzmifTrEu4Awzl9G6bw8T8qHAUxSvviKnAatarez4yJmUB5H+mSkrKtRJvqrl6KKVYb9mQEa17N9y1fut7iSOqEHWL76Ha47c+sQ5dQvHDsjttbMVAQqBHca6MltHTHFNKT5j5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cFmeIXAY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iV8d04Di"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5D78C4CEC4;
-	Tue, 24 Sep 2024 09:17:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cFmeIXAY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3147AC4CEC4;
+	Tue, 24 Sep 2024 09:19:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727169435;
-	bh=B5zSRQNFNomZZShsW2jsE1RB5SBo1V3wEcvrvwTUZYU=;
+	s=k20201202; t=1727169561;
+	bh=6iOYxHvNr/wgmXefsXjNWJsCi0eJkiZ+32MSb7rhrQQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iV8d04DipCfbGJqS89wNvqisKOXUAYPIx02qQtrAMs7uQKplA8uBJ2eRsw1jEu0iC
-	 0+YOKcUzI6qy6oj0KMh1vfyQlCG3Mh/CuMuYrSWjksMhr8VcZn0dvVU3HjCzYRFMNI
-	 90TtbhGhr9o8+inGGGINaS2deZmC8zia2cMuiTCZ/gAag3o0mnTeL15iXqUDS1G96M
-	 oqfx6e+7YGoZLZxyxsPrx3LRbx5lL6g9qSouwjzYjsWWrdDTqC2asXVjr//yAE9BNh
-	 J583te1M4zF/WKRMcKfsqCUBKHGfZ4j1SXTsBiK8zEKyDSj3xLe7MdxhGgpSSbOHaa
-	 E6LAlGvDIzv/A==
-Date: Tue, 24 Sep 2024 11:17:09 +0200
+	b=cFmeIXAY8WGXmieCJk1wVJ7A06GDzKitbT0GEiDOnzJP94P9nz6Fg7ZjN/b5WvviV
+	 kgnkg9zHNXzA9PECeH0kznvxLdapC/M0zyMqm24HRmwidpTXh3xZzAWiL3BpTyntAP
+	 xMqeQ1yB7m1GZmGPTyjSuJCl9NhqLjKXOL9Di/pEFvD6WQIPzwfikS8DLjZWTwmK0w
+	 C+9Yt/YqapAjACXMMaoOBFzgGEKmItr02TfBuRG5Rz2r+0ViSxcaJ7rrN0zcoVZ2zH
+	 MKX/SfD+o+2Yjt4ePF7sUJBgA1scJRFC9PwGzbv5dGpUPUKa6ym/s3ML1oO+WSS3jn
+	 LYwF3WTkr2Xxg==
+Date: Tue, 24 Sep 2024 11:19:18 +0200
 From: Mark Brown <broonie@kernel.org>
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Cc: vkoul@kernel.org, alsa-devel@alsa-project.org,
-	pierre-louis.bossart@linux.dev, yung-chuan.liao@linux.intel.com,
-	lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-	Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com,
-	venkataprasad.potturu@amd.com, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/4] ASoC: amd: ps: pass acp pci revision id as soundwire
- resource data
-Message-ID: <ZvKDlYwZRikFwbB6@finisterre.sirena.org.uk>
-References: <20240924081846.1834612-1-Vijendar.Mukunda@amd.com>
- <20240924081846.1834612-5-Vijendar.Mukunda@amd.com>
+To: Binbin Zhou <zhoubinbin@loongson.cn>
+Cc: Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Huacai Chen <chenhuacai@loongson.cn>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Huacai Chen <chenhuacai@kernel.org>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, Xuerui Wang <kernel@xen0n.name>,
+	loongarch@lists.linux.dev,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Weidong Wang <wangweidong.a@awinic.com>,
+	Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Shuming Fan <shumingf@realtek.com>
+Subject: Re: [PATCH v2 5/9] ASoC: loongson: Fix codec detection failure on
+ FDT systems
+Message-ID: <ZvKEFlARvbFFWI83@finisterre.sirena.org.uk>
+References: <cover.1727056789.git.zhoubinbin@loongson.cn>
+ <9a286537a20f0f96597090f59165b4532e41bdb8.1727056789.git.zhoubinbin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,36 +60,38 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="HGCXSJI3QLy/wo0L"
+	protocol="application/pgp-signature"; boundary="WRx0WlcwrTnJod4i"
 Content-Disposition: inline
-In-Reply-To: <20240924081846.1834612-5-Vijendar.Mukunda@amd.com>
+In-Reply-To: <9a286537a20f0f96597090f59165b4532e41bdb8.1727056789.git.zhoubinbin@loongson.cn>
 X-Cookie: Editing is a rewording activity.
 
 
---HGCXSJI3QLy/wo0L
+--WRx0WlcwrTnJod4i
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Tue, Sep 24, 2024 at 01:48:46PM +0530, Vijendar Mukunda wrote:
-> Add acp_rev as structure member in acp pci driver private data structure
-> to store acp pci revision id and assign this variable to SoundWire resource
-> data acp_rev variable.
+On Tue, Sep 24, 2024 at 03:00:32PM +0800, Binbin Zhou wrote:
 
-Acked-by: Mark Brown <broonie@kernel.org>
+> When the Codec is compiled into a module, we can't use
+> snd_soc_of_get_dlc() to get the codec dai_name, use
+> snd_soc_get_dai_name() instead.
 
---HGCXSJI3QLy/wo0L
+What is the issue with using snd_soc_of_get_dlc()?  Shouldn't we fix the
+helper instead?
+
+--WRx0WlcwrTnJod4i
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbyg5QACgkQJNaLcl1U
-h9CZkgf7BQHJTT8YqbIGugXWAF7sjxgyA+AsPM+rJqOLjVx+34K3IWQV4VwWhltW
-mmGSGmSieEjlvNMdEP6qvfF/s+gLhUHL+6ay9GxetFlF6YImtyb5g112qhJmhQkg
-0Wei209F1bxar6FLzcGBRMC0qtsNyWwo88CdX4oh47aIiywtY77RCknwO7/VxGKm
-5fNXXLvfpKIcDHt7xmU6PGisgoOO8rY3dze+GznqUyLCWaNtcVUhbFJJ+CZQ1ui6
-NNt/QQ4ciEdxYo1lpVz6Z3G8OGp29+N12uoPDsmUFkOASOxYMRcDwBDeb6DQ63wM
-FzUsOdZ+FzTjoGIduV7zM09Ckx/zyg==
-=iFEZ
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbyhBUACgkQJNaLcl1U
+h9AF1Qf/S6TCXCVYvTjfPMnqAt9Ckbi7amFA3aouVJV47NCFFu6e54CYy4Pw6xI8
+uJyZFDO4ZGSPZxM9K/4iezTElW3VxYNZtqaSViiTSQew2+bzC8cTNjqhd7gWjUY8
+LtS/2uZ9ry3ttXK5zfjMDYljGcBgIj89KZkYn2WnRoHG6CO9m6sUcCZpjyJJxYSJ
+JZiDWlaG0USGu/n5stJJ/QeN3MHh4tZvepGPDX2reB288F4zLPiVV8FM6atI1ndX
+2IIUwnZa2VsvGypQy1imMUDw7QohnFaEjntezYYJEpWJR2bHT7/k04s+dVcHxBnt
+oP3ahosEgY+YRXv6wuWDs9CRhKb0HQ==
+=VxTZ
 -----END PGP SIGNATURE-----
 
---HGCXSJI3QLy/wo0L--
+--WRx0WlcwrTnJod4i--
