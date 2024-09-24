@@ -1,54 +1,58 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BB19126C1D;
-	Tue, 24 Sep 2024 07:01:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D27A1C32;
+	Tue, 24 Sep 2024 08:13:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727161279; cv=none; b=DkflI1NiB39u0gFOphxXpstGq8KqgofMlItcvpgj4A+p8OBo9teYl4LnfEEaYSqB71Ljg2d113WNMBC5ZMMkCGvKqZ5j6yXHGncAruu3wfaDwvmy1FAXAITox7McmP81OWuWUTAZkydL+3tWtTSU5yAqQsWBM1oOjrmAYV2nlb8=
+	t=1727165606; cv=none; b=BPeLv2r0TLFLzBh1wU295bVK0XmjwVdIOxXpMc4tYPAjlt5GZfE5+ilEuVm+oWtY7AMPMb2kKw0zMlPqrGSpmMcesNWuOjWJJEw2ABLc7Y7/mI1//qoQhDtKtA7zFEGLvRAdjy4Tjdo8as4jV3Z0AQFGQNuk61MnrDKEBVbLw2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727161279; c=relaxed/simple;
-	bh=uvEbzJ/pOvdhu2JpfUea1G2jjPAPO7O8//5rWein2no=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UkTsc1kULiO/6wthDdeKSYVO6pCnifGg0MqzaKHB8xi0B3ttwdCUrNkosLkS5ZQpVGdMxyEeHLvCfPwhW2KP6ofpuPYfqo8+h8b9A6hANuqgxG72N4c4AzLSO3nfK5UOcyEo6oWHPbuvLxZceJbcs7AUgA9pH+bJSlqmAF8OHJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [223.64.68.38])
-	by gateway (Coremail) with SMTP id _____8CxB+m8Y_JmlMUNAA--.30604S3;
-	Tue, 24 Sep 2024 15:01:16 +0800 (CST)
-Received: from localhost.localdomain (unknown [223.64.68.38])
-	by front1 (Coremail) with SMTP id qMiowMAxSeayY_JmA6UNAA--.11218S3;
-	Tue, 24 Sep 2024 15:01:10 +0800 (CST)
-From: Binbin Zhou <zhoubinbin@loongson.cn>
-To: Binbin Zhou <zhoubb.aaron@gmail.com>,
-	Huacai Chen <chenhuacai@loongson.cn>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Huacai Chen <chenhuacai@kernel.org>,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Xuerui Wang <kernel@xen0n.name>,
-	loongarch@lists.linux.dev,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Weidong Wang <wangweidong.a@awinic.com>,
-	Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Shuming Fan <shumingf@realtek.com>,
-	Binbin Zhou <zhoubinbin@loongson.cn>
-Subject: [PATCH v2 9/9] LoongArch: dts: Add I2S support to Loongson-2K2000
-Date: Tue, 24 Sep 2024 15:01:05 +0800
-Message-ID: <750a6cd487e34c62974ecb26dd48a6ecf54dd1d0.1727056789.git.zhoubinbin@loongson.cn>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <cover.1727056789.git.zhoubinbin@loongson.cn>
-References: <cover.1727056789.git.zhoubinbin@loongson.cn>
+	s=arc-20240116; t=1727165606; c=relaxed/simple;
+	bh=GZc63eXCJHLz2doVRvuGzvZovQYn0B8xHq46bwGnFE4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=HV52QFDCIlb3orTrSZZFwnqCjTm64WqywK1wo4l57kSHaKEEjvdKnICBrmMUz9naMkBPB3pm2hyLdu9QSbK5pLMT9eearxkjwqY/prMN5iHtSJ6YKo2MHj/9yUZKL3RTLmQKSzXfKPL7uxlD8wsU5pBxJ5DQ2rXFYXI9WZlcduA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=TcVn2Sdm; arc=none smtp.client-ip=68.232.154.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="TcVn2Sdm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1727165604; x=1758701604;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=GZc63eXCJHLz2doVRvuGzvZovQYn0B8xHq46bwGnFE4=;
+  b=TcVn2SdmNHc8IRo7qJzJSxzCexNSOr3dF1keIJ24Szlo4bi805OlUQK8
+   w4tagHycUFzZPQJ4acIb0FERp/MN+gOtHiTCEK/n5vQAuhKR0pKOF5ukT
+   uBzpMmrCkWlksR/yHbStJ68mnqGAfGZmqJG7r27PtJA7grvzT/Lezmxoe
+   gjL6N0virqaU5yqCGVO8N81eM5yjllzTL+UmLE8cfSe7qAYa/v8z+Jhck
+   p8TyyUtJE/JEwtNTnIXrBvb79El3cqcZpTeJ69FsbMGPregqM8B7fYEtn
+   FnInUGqg/PFsx4AyHIqevJ9265Z8AXpBfpPK6UDkQinYYrufr6ufDAoLf
+   g==;
+X-CSE-ConnectionGUID: az7ICeymT/y/jLAHNtXqzg==
+X-CSE-MsgGUID: qObPW9fWTl6T45AWPAfa/g==
+X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; 
+   d="scan'208";a="32031723"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 24 Sep 2024 01:13:22 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 24 Sep 2024 01:12:59 -0700
+Received: from ROB-ULT-M76677.microchip.com (10.10.85.11) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Tue, 24 Sep 2024 01:12:57 -0700
+From: Andrei Simion <andrei.simion@microchip.com>
+To: <claudiu.beznea@tuxon.dev>, <lgirdwood@gmail.com>, <broonie@kernel.org>,
+	<perex@perex.cz>, <tiwai@suse.com>, <nicolas.ferre@microchip.com>,
+	<alexandre.belloni@bootlin.com>
+CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	Andrei Simion <andrei.simion@microchip.com>
+Subject: [PATCH] ASoC: atmel: mchp-pdmc: Skip ALSA restoration if substream runtime is uninitialized
+Date: Tue, 24 Sep 2024 11:12:38 +0300
+Message-ID: <20240924081237.50046-1-andrei.simion@microchip.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -56,111 +60,35 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowMAxSeayY_JmA6UNAA--.11218S3
-X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7Kw45XryxCr4xGFyDur45urX_yoW8CFyUpF
-	Zru3yDGr4rXF129a15JFWUJr1rJF9YkF93W3ZIy3y8Gw4qgw1jvr48tF92vF1xW3yrX3y2
-	qrnYkryjk3WUJwcCm3ZEXasCq-sJn29KB7ZKAUJUUUUd529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUmIb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E
-	14v26r4UJVWxJr1ln4kS14v26r1q6r43M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6x
-	kI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v2
-	6r45tVCq3wAv7VC2z280aVAFwI0_Gr1j6F4UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2
-	IYc2Ij64vIr41lF7xvrVCFI7AF6II2Y40_Zr0_Gr1UMxkF7I0En4kS14v26r4a6rW5MxAI
-	w28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r1q6r43MI
-	8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AK
-	xVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26w1j6s0DMIIF0xvE2Ix0cI
-	8IcVCY1x0267AKxVW8Jr0_Cr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E
-	87Iv67AKxVW8Jr0_Cr1UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa
-	73UjIFyTuYvjxUHnYwUUUUU
+Content-Type: text/plain
 
-The module is supported, adding it.
+Update the driver to prevent alsa-restore.service from failing when
+reading data from /var/lib/alsa/asound.state at boot. Ensure that the
+restoration of ALSA mixer configurations is skipped if substream->runtime
+is NULL.
 
-Not all Loongson-2K1000 boards have an i2s interface, here is an example
-of enabling it:
-
-sound {
-	compatible = "loongson,ls-audio-card";
-	model = "Loongson-ASoC";
-	mclk-fs = <512>;
-
-	cpu {
-		sound-dai = <&i2s>;
-	};
-
-	codec {
-		sound-dai = <&es8323>;
-	};
-};
-
-&i2c1 {
-	status = "okay";
-	#address-cells = <1>;
-	#size-cells = <0>;
-
-	es8323:es8323@10 {
-		compatible = "everest,es8323";
-		reg = <0x10>;
-		#sound-dai-cells = <0>;
-	};
-};
-
-&i2s {
-	status = "okay";
-
-	clock-frequency = <175000000>;
-	#sound-dai-cells = <0>;
-};
-
-Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
+Fixes: 50291652af52 ("ASoC: atmel: mchp-pdmc: add PDMC driver")
+Signed-off-by: Andrei Simion <andrei.simion@microchip.com>
 ---
- arch/loongarch/boot/dts/loongson-2k2000.dtsi | 22 ++++++++++++++++++--
- 1 file changed, 20 insertions(+), 2 deletions(-)
+ sound/soc/atmel/mchp-pdmc.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/arch/loongarch/boot/dts/loongson-2k2000.dtsi b/arch/loongarch/boot/dts/loongson-2k2000.dtsi
-index 0953c5707825..b4ff55a33e90 100644
---- a/arch/loongarch/boot/dts/loongson-2k2000.dtsi
-+++ b/arch/loongarch/boot/dts/loongson-2k2000.dtsi
-@@ -173,6 +173,22 @@ rtc0: rtc@100d0100 {
- 			status = "disabled";
- 		};
+diff --git a/sound/soc/atmel/mchp-pdmc.c b/sound/soc/atmel/mchp-pdmc.c
+index 939cd44ebc8a..06dc3c48e7e8 100644
+--- a/sound/soc/atmel/mchp-pdmc.c
++++ b/sound/soc/atmel/mchp-pdmc.c
+@@ -302,6 +302,9 @@ static int mchp_pdmc_chmap_ctl_put(struct snd_kcontrol *kcontrol,
+ 	if (!substream)
+ 		return -ENODEV;
  
-+		i2c@1fe00120 {
-+			compatible = "loongson,ls2k-i2c";
-+			reg = <0x0 0x1fe00120 0x0 0x8>;
-+			interrupt-parent = <&liointc>;
-+			interrupts = <8 IRQ_TYPE_LEVEL_HIGH>;
-+			status = "disabled";
-+		};
++	if (!substream->runtime)
++		return 0; /* just for avoiding error from alsactl restore */
 +
-+		i2c@1fe00130 {
-+			compatible = "loongson,ls2k-i2c";
-+			reg = <0x0 0x1fe00130 0x0 0x8>;
-+			interrupt-parent = <&liointc>;
-+			interrupts = <9 IRQ_TYPE_LEVEL_HIGH>;
-+			status = "disabled";
-+		};
-+
- 		uart0: serial@1fe001e0 {
- 			compatible = "ns16550a";
- 			reg = <0x0 0x1fe001e0 0x0 0x10>;
-@@ -243,9 +259,11 @@ display@6,1 {
- 				status = "disabled";
- 			};
- 
--			hda@7,0 {
-+			i2s@7,0 {
- 				reg = <0x3800 0x0 0x0 0x0 0x0>;
--				interrupts = <58 IRQ_TYPE_LEVEL_HIGH>;
-+				interrupts = <78 IRQ_TYPE_LEVEL_HIGH>,
-+					     <79 IRQ_TYPE_LEVEL_HIGH>;
-+				interrupt-names = "tx", "rx";
- 				interrupt-parent = <&pic>;
- 				status = "disabled";
- 			};
+ 	map = mchp_pdmc_chmap_get(substream, info);
+ 	if (!map)
+ 		return -EINVAL;
+
+base-commit: 4d0326b60bb753627437fff0f76bf1525bcda422
 -- 
-2.43.5
+2.34.1
 
