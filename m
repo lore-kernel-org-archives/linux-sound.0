@@ -1,87 +1,129 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D3FC156661;
-	Wed, 25 Sep 2024 06:49:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99CBF155C98;
+	Wed, 25 Sep 2024 07:17:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727246980; cv=none; b=NNMeIG/tbup9qtHmuw1+1hMoRsr71rnKxf3F38/ESLJU3nS8JDZdTbI/oFW1lvDzKnDa7ImEvsWzfvZpYCH7rOTytfmRWXTUSlmKEi0uA6BIAQoQd5cZx0lngUC2p7cN7VdUlQYOtktXgDdklrkZTqn7k7Inx1/59OBj+e9+yqM=
+	t=1727248672; cv=none; b=RTuZzHQu/oWDHqCvlBH9rp+U66viwGDBDyKPKu4PuB8veDBhSOd/rRZJj+UXE3mVp+rR8vX9BNV3WDG/8LcTWj6yEelC3SwOcLD6LUzPGOWl9N33pwgGJYGW7Ejtr4Sgrs2/ovOpNk8DUmnVRpwazQrzvCoWOFT1zvtdM0+B3D8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727246980; c=relaxed/simple;
-	bh=kk0Mt/+Hyj4BQOBJfxHEcKPbnwRr+BiwB73GhiBhJzc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Xdz84cM4tvmrLCGNrxB+in7qFMqZXY6brOatatFcHUP2UR+5Xou/Vd7cCZgeRg6tf2FfLKMCUeTOGYnuK/RYxGY20xf4oWqwkCrxV3lFWU9XlqdS5O0gyPBLta3kDoBbA5e7rduV/uQkG6OMBABfHbBKhuppynGW2UmkwXbwEyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lBdQM5sd; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lBdQM5sd"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a8d2daa2262so813145366b.1;
-        Tue, 24 Sep 2024 23:49:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727246977; x=1727851777; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kk0Mt/+Hyj4BQOBJfxHEcKPbnwRr+BiwB73GhiBhJzc=;
-        b=lBdQM5sd7SDm45Z7utkeeTelriQ/HvtPDDmml5SpHVPUml+tXFR/5PE4HCVhfKVeOg
-         wgdFd6iJHBmophsQCSHR/rqjK/nGojRsOEONXyFf8yGEVGTNidtoCkYQT9Z0nUspp0rv
-         mY+8Dz17irJHG48+45YtpNXAoR7pZHuCZiIgWv6dSECJVEgR/CFOhQRzOwCffqG5e7E9
-         jdVmQBejgRuEMmmyDVR0lJeqabLeJXLrf1rafFQ54Ck0NdaNZi6g2b9Hch96feYkNZXT
-         KmrGR8inQWuOucWrUIUSFaSlZkkFwkWKoVzL/AQsiQjjPfhkJWl5xfq2GNXUfD8pXPgY
-         5GTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727246977; x=1727851777;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kk0Mt/+Hyj4BQOBJfxHEcKPbnwRr+BiwB73GhiBhJzc=;
-        b=k5y4wOiyKKD9kP0G/gH9SDXzkP79iabCUiWS2+QHg/6wVddjklYcV1B12KOtLz4nRD
-         M25GcRtNRmV0EfRPpehYs3nWQPdwihF4lLKXVRgEQygSJTmaifrHtTe8ylUTsBPXOnLQ
-         n2ygT92yIYEliZ1lrSerPA+/chibb7327juNCs04qjAyB8xtPzQwwsixQzAWZWTTotTd
-         CDGf7FO6VKUGfw5V3FBlbBQmhG4opKsMC6KiR7MEZXPZarpUM68XtplNK7O+MH2+Jiou
-         Q0NrcXOuKJ2uElfWyr1zPn5Z18yDYlMIuPpfps6IZKjNcdZqwWoMlmHYydWTyAaIT6bN
-         /t2g==
-X-Forwarded-Encrypted: i=1; AJvYcCUHUHWxi+4n1+imXFDiQOa1NPPVFkoZqbZIGPNdoqX9ueeuoSy3DYz4WDntDuhQ3irSpgkvqnUgQf9bVN8=@vger.kernel.org, AJvYcCXb/zLVsw5+SMnKT+mDKslMU04ORPoVxd64W8to7laZgP7EeNOSRcykeSuU+Ne7392gIeyOumgDo4PirJY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzF2pA5gN1FPiNSVOjCUhjOzoVD6A/TV/tXcHh1NIF2Jq0tF88v
-	5r4K/bBpfv6Pii0f6ILLX1WiXitQSOe4OQiXGUVQIxBtmt4UIBQ1/SIOuC2AGnz1OKbBi6u0M2l
-	73rSYAs077j8z/Q0HE7Sq1csQQYA=
-X-Google-Smtp-Source: AGHT+IG4EhVNx4ZXTlcmLKwxSpAi+1Cc6wEcJlS0M5tzYd1bPulq0A8B/RQMJgdldFEu+s5xV1faX8OGR4qz9F9spEc=
-X-Received: by 2002:a17:907:c7d5:b0:a86:86d7:2890 with SMTP id
- a640c23a62f3a-a93a05d6507mr137992666b.50.1727246976510; Tue, 24 Sep 2024
- 23:49:36 -0700 (PDT)
+	s=arc-20240116; t=1727248672; c=relaxed/simple;
+	bh=JlqzkcI1dW2ynQ75PjrYYS6kdHiITrvjuZiQki7W53g=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type; b=KBk4oSwcb2UKWhlBbxncePbFAOVCXy4mWaQN4kckxSuLMba9z2Ua+XlYrOvopHU2jMG3r8BRtkKgWXYTQuRaNSS2ScR8F1yBNUnXHAmtzb4ev/ELm99+QMCUxhpMDZfiOv8cYMJMFBuBsa+n3SvosuMCtzrymf/jeAaZqkqx3jU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+Received: from inva020.nxp.com (localhost [127.0.0.1])
+	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 0FA491A038D;
+	Wed, 25 Sep 2024 09:17:49 +0200 (CEST)
+Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
+	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id CB8DC1A0056;
+	Wed, 25 Sep 2024 09:17:48 +0200 (CEST)
+Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
+	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 2B8AF183AD44;
+	Wed, 25 Sep 2024 15:17:47 +0800 (+08)
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: vkoul@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	linuxppc-dev@lists.ozlabs.org
+Subject: [PATCH v4 0/7] ASoC: fsl: add memory to memory function for ASRC
+Date: Wed, 25 Sep 2024 14:55:09 +0800
+Message-Id: <1727247316-16156-1-git-send-email-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240924-asoc-imx-maple-v1-1-8b993901f71e@kernel.org>
-In-Reply-To: <20240924-asoc-imx-maple-v1-1-8b993901f71e@kernel.org>
-From: Daniel Baluta <daniel.baluta@gmail.com>
-Date: Wed, 25 Sep 2024 09:50:35 +0300
-Message-ID: <CAEnQRZBde3AV7Dvu-jtXCTbZnBg60COdp7eheSdyfE_6mP9GQw@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: fsl: Use maple tree register cache
-To: Mark Brown <broonie@kernel.org>
-Cc: Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
-	Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, alsa-devel@alsa-project.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: ClamAV using ClamSMTP
 
-On Tue, Sep 24, 2024 at 4:59=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
-te:
->
-> Several of the NXP drivers use regmaps with a rbtree register cache. Sinc=
-e
-> the maple tree cache is uisng a generally more modern data structure whic=
-h
-> makes implementation choices more suitable for modern systems let's conve=
-rt
-> these drivers to it. This should have no practical impact.
->
-> Signed-off-by: Mark Brown <broonie@kernel.org>
+This function is base on the accelerator implementation
+for compress API:
+https://patchwork.kernel.org/project/alsa-devel/patch/20240731083843.59911-1-perex@perex.cz/
+Add it to this patch set.
 
-Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
+Audio signal processing also has the requirement for memory to
+memory similar as Video.
+
+This asrc memory to memory (memory ->asrc->memory) case is a non
+real time use case.
+
+User fills the input buffer to the asrc module, after conversion, then asrc
+sends back the output buffer to user. So it is not a traditional ALSA playback
+and capture case.
+
+Because we had implemented the "memory -> asrc ->i2s device-> codec"
+use case in ALSA.  Now the "memory->asrc->memory" needs
+to reuse the code in asrc driver, so the patch 1 and patch 2 is for refining
+the code to make it can be shared by the "memory->asrc->memory"
+driver.
+
+Other change is to add memory to memory support for two kinds of i.MX ASRC
+modules.
+
+changes in v4:
+- remove the RFC tag, no comments receive in v3
+- Add Jaroslav Kysela's patch in this patch set. because it may be
+  better for reviewing in a full patch set.
+- Fix the list_for_each_entry_reverse to list_for_each_entry_safe_reverse
+- Fix some coding style issues in Jaroslav Kysela's patch
+
+changes in v3:
+- use Jaroslav's suggestion for header file compress_params.h (PATCH 01)
+- remove the ASRC_OUTPUT_FORMAT/ASRC_OUTPUT_RATE definition
+- remove ASRC_RATIO_MOD in this version because it uses .set_metadata()
+  Will wait Jaroslav's update or other better method in the future.
+- Address some comments from Pierre.
+
+changes in v2:
+- Remove the changes in compress API
+- drop the SNDRV_COMPRESS_SRC_RATIO_MOD
+- drop the SND_AUDIOCODEC_SRC and struct snd_dec_src
+- define private metadata key value
+  ASRC_OUTPUT_FORMAT/ASRC_OUTPUT_RATE/ASRC_RATIO_MOD
+
+Jaroslav Kysela (1):
+  ALSA: compress_offload: introduce accel operation mode
+
+Shengjiu Wang (6):
+  ALSA: compress: Add output rate and output format support
+  ASoC: fsl_asrc: define functions for memory to memory usage
+  ASoC: fsl_easrc: define functions for memory to memory usage
+  ASoC: fsl_asrc_m2m: Add memory to memory function
+  ASoC: fsl_asrc: register m2m platform device
+  ASoC: fsl_easrc: register m2m platform device
+
+ .../sound/designs/compress-accel.rst          | 136 ++++
+ include/sound/compress_driver.h               |  46 ++
+ include/uapi/sound/compress_offload.h         |  63 +-
+ include/uapi/sound/compress_params.h          |  23 +-
+ sound/core/Kconfig                            |   3 +
+ sound/core/compress_offload.c                 | 351 ++++++++-
+ sound/soc/fsl/Kconfig                         |   1 +
+ sound/soc/fsl/Makefile                        |   2 +-
+ sound/soc/fsl/fsl_asrc.c                      | 179 ++++-
+ sound/soc/fsl/fsl_asrc.h                      |   2 +
+ sound/soc/fsl/fsl_asrc_common.h               |  70 ++
+ sound/soc/fsl/fsl_asrc_m2m.c                  | 727 ++++++++++++++++++
+ sound/soc/fsl/fsl_easrc.c                     | 261 ++++++-
+ sound/soc/fsl/fsl_easrc.h                     |   4 +
+ 14 files changed, 1851 insertions(+), 17 deletions(-)
+ create mode 100644 Documentation/sound/designs/compress-accel.rst
+ create mode 100644 sound/soc/fsl/fsl_asrc_m2m.c
+
+-- 
+2.34.1
+
