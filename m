@@ -1,47 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 654E021D2A0;
-	Wed, 25 Sep 2024 12:14:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62A0E21F407;
+	Wed, 25 Sep 2024 12:14:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727266469; cv=none; b=uzs51kafzdcgHPgCK1IoJZN2kjFRhwdmTMekEprlqxneDlgsxpprUiTpo4ekmpeb37L4ozNC+VYt7pbZN+cgnYUcgpHukIoCkCIdj15hVvg/ItroG9zHjNJgL4HKVVlBo2Lt5VnDvmy7PHrrwhpH38zG+4Z0gXg0hKlTJYdKx7M=
+	t=1727266485; cv=none; b=gLp3b0OP2xMMj62561xsMSQJdSIG7bnBFQbENpZ2mvYAKGHusvEfu/ZRCprYCJJM+4WfB3+HiB8R6Zull3Yxmdq/ZD6RipGFQrZop77TtGL4Oh0ssrFllc2KUkthCsp41OXMwNF6x42zS0+z5Uc8rL4VjwIXRipQfQkFdwvtLf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727266469; c=relaxed/simple;
-	bh=lkXxB/YjIjrqCNz9gdjyXC7KTuV69ONi+VaZy64n8X0=;
+	s=arc-20240116; t=1727266485; c=relaxed/simple;
+	bh=4kStu5cFgDRLN5FvWQV8v4gaCJQ4kcCDjuaA2FKp+9U=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=H4lo9/PqMT3V24+mLm0YmI/vPU9bPKJR/IZlzzywak0d+PssAqpRM9+8kCGX3s3KvxdYJml5BGVLz3sZ0D8/xQKmP2B1r0yIGCpvnhlGZMWNKZzthcIVSfJ+Sv18S4sjj7k2XkIlGPAmvVKN3RCLV2CGmEFSdonY5wFcIWsovrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vBidSwdY; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=UUgn2JHztn0aLsa512KmWud0IMZdinb3lBd8bvsU8spOrML+yrzUgr8R4lBRsXiyWm2iv5sf/Khv46iaaGbPMAvzJh7GI7x7TLa8JSqdiRPzCQqL4BaTK60ZqGkGRVrSbpeynWEqG7UeSbMCQh/0Rfz0gIgBDjqnybc9kgg0a7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BC7zksRX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vBidSwdY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8191EC4CEC7;
-	Wed, 25 Sep 2024 12:14:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BC7zksRX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 553D5C4CEC3;
+	Wed, 25 Sep 2024 12:14:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727266469;
-	bh=lkXxB/YjIjrqCNz9gdjyXC7KTuV69ONi+VaZy64n8X0=;
+	s=k20201202; t=1727266485;
+	bh=4kStu5cFgDRLN5FvWQV8v4gaCJQ4kcCDjuaA2FKp+9U=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=vBidSwdYLvYCcse3meUylnZ/947QXbqmUbx6g3msRjDoyNbUHdajIO4YAbaGnvBgP
-	 6lxtOP9GIp1gyE8ciJR9L9dgNT7CiIKmNKYtYUW1nTLesULnna2Jp4UdSusgFePq3x
-	 UB51YuN/9y3M2QI5NJ0YO47y9Z3yx/HJ/iTVpdmjLJsznfu9M7orNUJF4SYawHjekh
-	 ihNf1TmEyZGhyLOvFi6isjD2wmL3Bgu1H7Wu8tmgn3EIWgHHprGU25Tdl+d3fefOeY
-	 Yr33QwAPuOTKOZvHeKRyg6qX69aizjOSc0UOw5PMyfiULrbmprpcRKnBDG7ecn92Xl
-	 fxOS+NULqYbgg==
+	b=BC7zksRXKBdEHNdK+Fa32lWZ3HnZYnWoQ5p30KZj6SIW2FOHPcsWH+3rqtCgjPU+Q
+	 5Mc+QVicRkWV84HQTvv2Z8zZsc0roqvUmwooroaT+C5RQurTrtvhGRPcXA/QLRVr7b
+	 vNZlu3zVX6ArThoijErEJiELCZVaLCsA9ei6VdgJTvTf288qTHvnztqdPyW7V9DjcE
+	 DDsjvGcGhkz6z+2GWfATLkfklUFFWFsC5ZU5tbfjwGic0R4nZlE6nEhY3tC0o2L9ZG
+	 rTBXAemssE2GnxQsSHisMT5de2rDc69oDhDceda6esSaUYx7J/t4OohpogCFtO9iUV
+	 ti4RaCm2ReP6g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	srinivas.kandagatla@linaro.org,
-	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	linux-arm-msm@vger.kernel.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 063/139] ASoC: codecs: wsa883x: Handle reading version failure
-Date: Wed, 25 Sep 2024 08:08:03 -0400
-Message-ID: <20240925121137.1307574-63-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 068/139] ALSA: asihpi: Fix potential OOB array access
+Date: Wed, 25 Sep 2024 08:08:08 -0400
+Message-ID: <20240925121137.1307574-68-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240925121137.1307574-1-sashal@kernel.org>
 References: <20240925121137.1307574-1-sashal@kernel.org>
@@ -56,70 +51,37 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.52
 Content-Transfer-Encoding: 8bit
 
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+From: Takashi Iwai <tiwai@suse.de>
 
-[ Upstream commit 2fbf16992e5aa14acf0441320033a01a32309ded ]
+[ Upstream commit 7b986c7430a6bb68d523dac7bfc74cbd5b44ef96 ]
 
-If reading version and variant from registers fails (which is unlikely
-but possible, because it is a read over bus), the driver will proceed
-and perform device configuration based on uninitialized stack variables.
-Handle it a bit better - bail out without doing any init and failing the
-update status Soundwire callback.
+ASIHPI driver stores some values in the static array upon a response
+from the driver, and its index depends on the firmware.  We shouldn't
+trust it blindly.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Link: https://patch.msgid.link/20240710-asoc-wsa88xx-version-v1-2-f1c54966ccde@linaro.org
-Signed-off-by: Mark Brown <broonie@kernel.org>
+This patch adds a sanity check of the array index to fit in the array
+size.
+
+Link: https://patch.msgid.link/20240808091454.30846-1-tiwai@suse.de
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/codecs/wsa883x.c | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+ sound/pci/asihpi/hpimsgx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/wsa883x.c b/sound/soc/codecs/wsa883x.c
-index 2169d93989841..1831d4487ba9d 100644
---- a/sound/soc/codecs/wsa883x.c
-+++ b/sound/soc/codecs/wsa883x.c
-@@ -998,15 +998,19 @@ static const struct reg_sequence reg_init[] = {
- 	{WSA883X_GMAMP_SUP1, 0xE2},
- };
- 
--static void wsa883x_init(struct wsa883x_priv *wsa883x)
-+static int wsa883x_init(struct wsa883x_priv *wsa883x)
- {
- 	struct regmap *regmap = wsa883x->regmap;
--	int variant, version;
-+	int variant, version, ret;
- 
--	regmap_read(regmap, WSA883X_OTP_REG_0, &variant);
-+	ret = regmap_read(regmap, WSA883X_OTP_REG_0, &variant);
-+	if (ret)
-+		return ret;
- 	wsa883x->variant = variant & WSA883X_ID_MASK;
- 
--	regmap_read(regmap, WSA883X_CHIP_ID0, &version);
-+	ret = regmap_read(regmap, WSA883X_CHIP_ID0, &version);
-+	if (ret)
-+		return ret;
- 	wsa883x->version = version;
- 
- 	switch (wsa883x->variant) {
-@@ -1041,6 +1045,8 @@ static void wsa883x_init(struct wsa883x_priv *wsa883x)
- 				   WSA883X_DRE_OFFSET_MASK,
- 				   wsa883x->comp_offset);
+diff --git a/sound/pci/asihpi/hpimsgx.c b/sound/pci/asihpi/hpimsgx.c
+index d0caef2994818..b68e6bfbbfbab 100644
+--- a/sound/pci/asihpi/hpimsgx.c
++++ b/sound/pci/asihpi/hpimsgx.c
+@@ -708,7 +708,7 @@ static u16 HPIMSGX__init(struct hpi_message *phm,
+ 		phr->error = HPI_ERROR_PROCESSING_MESSAGE;
+ 		return phr->error;
  	}
-+
-+	return 0;
- }
- 
- static int wsa883x_update_status(struct sdw_slave *slave,
-@@ -1049,7 +1055,7 @@ static int wsa883x_update_status(struct sdw_slave *slave,
- 	struct wsa883x_priv *wsa883x = dev_get_drvdata(&slave->dev);
- 
- 	if (status == SDW_SLAVE_ATTACHED && slave->dev_num > 0)
--		wsa883x_init(wsa883x);
-+		return wsa883x_init(wsa883x);
- 
- 	return 0;
- }
+-	if (hr.error == 0) {
++	if (hr.error == 0 && hr.u.s.adapter_index < HPI_MAX_ADAPTERS) {
+ 		/* the adapter was created successfully
+ 		   save the mapping for future use */
+ 		hpi_entry_points[hr.u.s.adapter_index] = entry_point_func;
 -- 
 2.43.0
 
