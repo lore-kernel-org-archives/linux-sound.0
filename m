@@ -1,122 +1,101 @@
-Received: from inva021.nxp.com (inva021.nxp.com [92.121.34.21])
+Received: from ssh248.corpemail.net (ssh248.corpemail.net [210.51.61.248])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE19F158A3C;
-	Wed, 25 Sep 2024 07:17:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E95F144D0A;
+	Wed, 25 Sep 2024 08:01:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.51.61.248
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727248680; cv=none; b=XGxq/EbmCUru1tK0xUh1mcA6YGL2JISdyX51kViSKArd8qn+1kmuLOtfcMoGRF2U4fyc0iyARrFtUwpDhh3xaIn4rqJo04IKEU3kXrxEOYmFq086juytWLlujOR2xBPNRFrXWXiVgu65HTYKDFAWc7JSpUPwj+8cmoyhNfrOPlk=
+	t=1727251314; cv=none; b=bSx8a2gAKszulw5nqBbbzSjGAcUPUw58tk5AEkZYV7VFY8JenSgMi0YCtJ512N9G9jcUdfvxEZFrK9cVnEpYyynPjoQZx+pSUYXsAYUJnR42pK5TZwsyzVpwk8MhCVje8UkpwovdKXbfiaSkO1pzNADQH9TkPvvijX/0Ymms74I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727248680; c=relaxed/simple;
-	bh=L7OfXrumACimbtfyuTi7+/5rFVVmzl5jvuqinIuM8TI=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References; b=ciEuHTLcWgtRHASDnnQEqpSe4Tc6KLtJxuvJSFtc8He2zwucTrzD73jZUA/zJAICHyAaHQxnFhvt0ZP3AakwfHF9pW4Lfw0JzRvjuGJhf5Tgqt3jpe4Gh9HC+4JWQNwki9fRIG5QAX5Qo6EkcAK4CkAWrgtZlO+2VzaZelB3TCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-Received: from inva021.nxp.com (localhost [127.0.0.1])
-	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 5B9E4202A0C;
-	Wed, 25 Sep 2024 09:17:57 +0200 (CEST)
-Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
-	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 2B885202A0A;
-	Wed, 25 Sep 2024 09:17:57 +0200 (CEST)
-Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
-	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 7B1E4183AD47;
-	Wed, 25 Sep 2024 15:17:55 +0800 (+08)
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
-To: vkoul@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH v4 7/7] ASoC: fsl_easrc: register m2m platform device
-Date: Wed, 25 Sep 2024 14:55:16 +0800
-Message-Id: <1727247316-16156-8-git-send-email-shengjiu.wang@nxp.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1727247316-16156-1-git-send-email-shengjiu.wang@nxp.com>
-References: <1727247316-16156-1-git-send-email-shengjiu.wang@nxp.com>
-X-Virus-Scanned: ClamAV using ClamSMTP
+	s=arc-20240116; t=1727251314; c=relaxed/simple;
+	bh=xIfw0yRqU10+8BUYFKO706Rgt3ulp51hvcjuux3TZ3o=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ETryroOoU4B0tMgVMU6IAMGNAo6w7byAcwTWgeHHei3shtr2DKjhCo6FmUIrcRqcRvCmYSt3hzOZzI3BNJTY1i66FuU3ENwzReguxHTdTBdpeZ6SwKl7dgmpVmFTSO8hbPX0N+0HD/uP1zTiqPGLyvKSpMoSv72MFfhvKoQbSHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inspur.com; spf=pass smtp.mailfrom=inspur.com; arc=none smtp.client-ip=210.51.61.248
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inspur.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inspur.com
+Received: from ssh248.corpemail.net
+        by ssh248.corpemail.net ((D)) with ASMTP (SSL) id WJA00132;
+        Wed, 25 Sep 2024 16:00:32 +0800
+Received: from localhost.localdomain (10.94.16.163) by
+ jtjnmail201601.home.langchao.com (10.100.2.1) with Microsoft SMTP Server id
+ 15.1.2507.39; Wed, 25 Sep 2024 16:00:33 +0800
+From: Charles Han <hanchunchao@inspur.com>
+To: <yung-chuan.liao@linux.intel.com>, <ckeepax@opensource.cirrus.com>
+CC: <alsa-devel@alsa-project.org>, <pierre-louis.bossart@linux.intel.com>,
+	<liam.r.girdwood@linux.intel.com>, <peter.ujfalusi@linux.intel.com>,
+	<broonie@kernel.org>, <tiwai@suse.com>, <linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Charles Han <hanchunchao@inspur.com>
+Subject: [PATCH] ASoC: intel: sof_sdw: Add check devm_kasprintf() returned value
+Date: Wed, 25 Sep 2024 16:00:30 +0800
+Message-ID: <20240925080030.11262-1-hanchunchao@inspur.com>
+X-Mailer: git-send-email 2.31.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+tUid: 2024925160032c5fe208e17589d9e2dc9fa15e5d58d53
+X-Abuse-Reports-To: service@corp-email.com
+Abuse-Reports-To: service@corp-email.com
+X-Complaints-To: service@corp-email.com
+X-Report-Abuse-To: service@corp-email.com
 
-Register m2m platform device,that user can
-use M2M feature.
+devm_kasprintf() can return a NULL pointer on failure but this
+returned value is not checked.
 
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+Fixes: b359760d95ee ("ASoC: intel: sof_sdw: Add simple DAI link creation helper")
+Signed-off-by: Charles Han <hanchunchao@inspur.com>
 ---
- sound/soc/fsl/fsl_easrc.c | 33 +++++++++++++++++++++++++++++++--
- 1 file changed, 31 insertions(+), 2 deletions(-)
+ sound/soc/intel/boards/sof_sdw.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/sound/soc/fsl/fsl_easrc.c b/sound/soc/fsl/fsl_easrc.c
-index a1a7a90ff5ef..25d1c103df32 100644
---- a/sound/soc/fsl/fsl_easrc.c
-+++ b/sound/soc/fsl/fsl_easrc.c
-@@ -2204,6 +2204,12 @@ static int fsl_easrc_probe(struct platform_device *pdev)
- 		goto err_pm_disable;
- 	}
+diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
+index d258728d64cf..26917f6f15cf 100644
+--- a/sound/soc/intel/boards/sof_sdw.c
++++ b/sound/soc/intel/boards/sof_sdw.c
+@@ -919,6 +919,9 @@ static int create_ssp_dailinks(struct snd_soc_card *card,
+ 		char *cpu_dai_name = devm_kasprintf(dev, GFP_KERNEL, "SSP%d Pin", i);
+ 		char *codec_name = devm_kasprintf(dev, GFP_KERNEL, "i2c-%s:0%d",
+ 						  ssp_info->acpi_id, j++);
++		if (!name || !cpu_dai_name || !codec_name)
++			return -ENOMEM;
++
+ 		int playback = ssp_info->dais[0].direction[SNDRV_PCM_STREAM_PLAYBACK];
+ 		int capture = ssp_info->dais[0].direction[SNDRV_PCM_STREAM_CAPTURE];
  
-+	ret = fsl_asrc_m2m_init(easrc);
-+	if (ret) {
-+		dev_err(&pdev->dev, "failed to init m2m device %d\n", ret);
-+		return ret;
-+	}
+@@ -985,6 +988,9 @@ static int create_hdmi_dailinks(struct snd_soc_card *card,
+ 	for (i = 0; i < hdmi_num; i++) {
+ 		char *name = devm_kasprintf(dev, GFP_KERNEL, "iDisp%d", i + 1);
+ 		char *cpu_dai_name = devm_kasprintf(dev, GFP_KERNEL, "iDisp%d Pin", i + 1);
++		if (!name || !cpu_dai_name)
++			return -ENOMEM;
 +
- 	return 0;
+ 		char *codec_name, *codec_dai_name;
  
- err_pm_disable:
-@@ -2213,6 +2219,10 @@ static int fsl_easrc_probe(struct platform_device *pdev)
+ 		if (intel_ctx->hdmi.idisp_codec) {
+@@ -996,6 +1002,9 @@ static int create_hdmi_dailinks(struct snd_soc_card *card,
+ 			codec_dai_name = "snd-soc-dummy-dai";
+ 		}
  
- static void fsl_easrc_remove(struct platform_device *pdev)
- {
-+	struct fsl_asrc *easrc = dev_get_drvdata(&pdev->dev);
++		if (!codec_dai_name)
++			return -ENOMEM;
 +
-+	fsl_asrc_m2m_exit(easrc);
+ 		ret = asoc_sdw_init_simple_dai_link(dev, *dai_links, be_id, name,
+ 						    1, 0, // HDMI only supports playback
+ 						    cpu_dai_name, platform_component->name,
+@@ -1019,6 +1028,9 @@ static int create_bt_dailinks(struct snd_soc_card *card,
+ 			SOF_BT_OFFLOAD_SSP_SHIFT;
+ 	char *name = devm_kasprintf(dev, GFP_KERNEL, "SSP%d-BT", port);
+ 	char *cpu_dai_name = devm_kasprintf(dev, GFP_KERNEL, "SSP%d Pin", port);
++	if (!name || !cpu_dai_name)
++		return -ENOMEM;
 +
- 	pm_runtime_disable(&pdev->dev);
- }
+ 	int ret;
  
-@@ -2313,10 +2323,29 @@ static int fsl_easrc_runtime_resume(struct device *dev)
- 	return ret;
- }
- 
-+static int fsl_easrc_suspend(struct device *dev)
-+{
-+	struct fsl_asrc *easrc = dev_get_drvdata(dev);
-+	int ret;
-+
-+	fsl_asrc_m2m_suspend(easrc);
-+	ret = pm_runtime_force_suspend(dev);
-+	return ret;
-+}
-+
-+static int fsl_easrc_resume(struct device *dev)
-+{
-+	struct fsl_asrc *easrc = dev_get_drvdata(dev);
-+	int ret;
-+
-+	ret = pm_runtime_force_resume(dev);
-+	fsl_asrc_m2m_resume(easrc);
-+	return ret;
-+}
-+
- static const struct dev_pm_ops fsl_easrc_pm_ops = {
- 	RUNTIME_PM_OPS(fsl_easrc_runtime_suspend, fsl_easrc_runtime_resume, NULL)
--	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
--				pm_runtime_force_resume)
-+	SYSTEM_SLEEP_PM_OPS(fsl_easrc_suspend, fsl_easrc_resume)
- };
- 
- static struct platform_driver fsl_easrc_driver = {
+ 	ret = asoc_sdw_init_simple_dai_link(dev, *dai_links, be_id, name,
 -- 
-2.34.1
+2.31.1
 
