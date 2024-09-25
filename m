@@ -1,108 +1,87 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A04A14B967
-	for <linux-sound@vger.kernel.org>; Wed, 25 Sep 2024 04:38:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D3FC156661;
+	Wed, 25 Sep 2024 06:49:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727239111; cv=none; b=SBfGJe3R5AMEtmKfKXVvpbH2Fuwq3ZcYv3nGSAuQAQH9ctxLNoxaeKezJPy5PrrwyjOHhniq1qG3TyWVsziTXsQ53Y+oSdJY42Wye++XQ1VIgDDrEOA0Sfb/XfwN/cA8j+t8SEBQwVsw2nIDHXaBoUhoesQf2yb3KWcljZmypCA=
+	t=1727246980; cv=none; b=NNMeIG/tbup9qtHmuw1+1hMoRsr71rnKxf3F38/ESLJU3nS8JDZdTbI/oFW1lvDzKnDa7ImEvsWzfvZpYCH7rOTytfmRWXTUSlmKEi0uA6BIAQoQd5cZx0lngUC2p7cN7VdUlQYOtktXgDdklrkZTqn7k7Inx1/59OBj+e9+yqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727239111; c=relaxed/simple;
-	bh=ciTImMBS0p6wks5mQK0mcllczL97Z3Zssq9pfQWx3xs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jCA5G+Ef/qaeJOZWBi94AEwwefj9P0tZlRFsNvYCw/nT/UlSWzXX+6zwdygpIWnerrw9+xu5eKf3vEQLcO2JbQSkMO3NLZ5UkZSXm2spxs5ilBrIfNSKnd10BElq1LUz9XmjBKHObqwMdhcuLiT25K8pIh0ywGmCU3yr9cDwPnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MAoUc2lk; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1727246980; c=relaxed/simple;
+	bh=kk0Mt/+Hyj4BQOBJfxHEcKPbnwRr+BiwB73GhiBhJzc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Xdz84cM4tvmrLCGNrxB+in7qFMqZXY6brOatatFcHUP2UR+5Xou/Vd7cCZgeRg6tf2FfLKMCUeTOGYnuK/RYxGY20xf4oWqwkCrxV3lFWU9XlqdS5O0gyPBLta3kDoBbA5e7rduV/uQkG6OMBABfHbBKhuppynGW2UmkwXbwEyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lBdQM5sd; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MAoUc2lk"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a86e9db75b9so983488366b.1
-        for <linux-sound@vger.kernel.org>; Tue, 24 Sep 2024 21:38:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lBdQM5sd"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a8d2daa2262so813145366b.1;
+        Tue, 24 Sep 2024 23:49:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1727239108; x=1727843908; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1727246977; x=1727851777; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eqcG1Y/DqvLJS0U3eydB1IqD9oVuSGX+UlV/1xSIyT0=;
-        b=MAoUc2lkIfHSanC/k/VTS3tfcLqGjtvLOJ1vBgdk5XSOQikocbEsybcfvdR2zvCkvm
-         XtZqCSLnazE7kbatmo4zRCmqW8FBjZmTPq/mRAhC4gWkDhs7mcNfVVV5F9TnDlegGmSV
-         tM0SOOtePdpFqIjqreVW+FeJI/NzpflmK8ygXDVScD+jJa5keRXS7s4ApsCIshjeWu6e
-         GOL0sg+AxDW3KnKsYb7v8c9WhT1FTeF8li864PJqYUBRaW7/QUhGFy4l+k1VnmlXcGbh
-         aUULabtyx7TtJDXRA8vEsZb7AHgeSEnBugAx4Ca+o294BD6ak9OgVVTIuZcYz5k4JR7l
-         adoQ==
+        bh=kk0Mt/+Hyj4BQOBJfxHEcKPbnwRr+BiwB73GhiBhJzc=;
+        b=lBdQM5sd7SDm45Z7utkeeTelriQ/HvtPDDmml5SpHVPUml+tXFR/5PE4HCVhfKVeOg
+         wgdFd6iJHBmophsQCSHR/rqjK/nGojRsOEONXyFf8yGEVGTNidtoCkYQT9Z0nUspp0rv
+         mY+8Dz17irJHG48+45YtpNXAoR7pZHuCZiIgWv6dSECJVEgR/CFOhQRzOwCffqG5e7E9
+         jdVmQBejgRuEMmmyDVR0lJeqabLeJXLrf1rafFQ54Ck0NdaNZi6g2b9Hch96feYkNZXT
+         KmrGR8inQWuOucWrUIUSFaSlZkkFwkWKoVzL/AQsiQjjPfhkJWl5xfq2GNXUfD8pXPgY
+         5GTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727239108; x=1727843908;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1727246977; x=1727851777;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eqcG1Y/DqvLJS0U3eydB1IqD9oVuSGX+UlV/1xSIyT0=;
-        b=WiDHUbZegRh7u0ml1KP1cyv2oyUn1k5z2CesuBp1UUKl89bUTbIxVKi+IoaRODyS0J
-         I0rwDg89yn4p5vuuqPNJgbo/WL9/XrOXD4KGNVH58Olf05v0h9Pv5u74kGLLKeW2+/oq
-         b4VSfliRAaW7d/dj4/gHos0U1pLtvPE4+BVdBNa7/Vhh6pNBzPjlKvBAiTu4uhqELHNC
-         7gASQIr7mjxOB5TIMiYyoZJsYT0RusL0MUTIU8z3YDGRnmDorpgJ/GEPKzPFQKjQQjbF
-         U6O0/JMchOH5mut0KqyeoYqMR0pggPYhb5zJEBccxXDBPSrYm0T97BZR3LWdkHxOelRu
-         iAMg==
-X-Forwarded-Encrypted: i=1; AJvYcCVv2K3N5Lgg1avJgdy2TogvIZhpvSMtKlBtHEXymW0uMReLsJQ22RyZNRY/gx34UUVGfkCBdxjBtWkHEA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKMePSUoXYgm6gLhbafBu2M0DSTjo361/iNeL25M6B8oIEj8vY
-	9/biHaotgSOX72J3TXeSr46RxABcCwHI/F4Hl2askeMuHvqDXx7XX92zUgsywUo=
-X-Google-Smtp-Source: AGHT+IGxDWA9Bpt+Vo+5NwY4exmWH9AugLbSR05W212S951aBgbB3SXoz6SBoMQb7pJmFGUWWMTH7w==
-X-Received: by 2002:a17:907:f14d:b0:a8b:6ee7:ba26 with SMTP id a640c23a62f3a-a93a0322a63mr119177866b.1.1727239108517;
-        Tue, 24 Sep 2024 21:38:28 -0700 (PDT)
-Received: from localhost.localdomain ([2.125.184.148])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9392f346casm164857466b.24.2024.09.24.21.38.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Sep 2024 21:38:27 -0700 (PDT)
-From: Alexey Klimov <alexey.klimov@linaro.org>
-To: srinivas.kandagatla@linaro.org,
-	a39.skl@gmail.com,
-	linux-sound@vger.kernel.org
-Cc: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	krzysztof.kozlowski@linaro.org,
-	vkoul@kernel.org,
-	klimov.linux@gmail.com
-Subject: [PATCH REVIEW 2/2] ASoC: codecs: lpass-rx-macro: add missing CDC_RX_BCL_VBAT_RF_PROC2 to default regs values
-Date: Wed, 25 Sep 2024 05:38:23 +0100
-Message-ID: <20240925043823.520218-2-alexey.klimov@linaro.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240925043823.520218-1-alexey.klimov@linaro.org>
-References: <20240925043823.520218-1-alexey.klimov@linaro.org>
+        bh=kk0Mt/+Hyj4BQOBJfxHEcKPbnwRr+BiwB73GhiBhJzc=;
+        b=k5y4wOiyKKD9kP0G/gH9SDXzkP79iabCUiWS2+QHg/6wVddjklYcV1B12KOtLz4nRD
+         M25GcRtNRmV0EfRPpehYs3nWQPdwihF4lLKXVRgEQygSJTmaifrHtTe8ylUTsBPXOnLQ
+         n2ygT92yIYEliZ1lrSerPA+/chibb7327juNCs04qjAyB8xtPzQwwsixQzAWZWTTotTd
+         CDGf7FO6VKUGfw5V3FBlbBQmhG4opKsMC6KiR7MEZXPZarpUM68XtplNK7O+MH2+Jiou
+         Q0NrcXOuKJ2uElfWyr1zPn5Z18yDYlMIuPpfps6IZKjNcdZqwWoMlmHYydWTyAaIT6bN
+         /t2g==
+X-Forwarded-Encrypted: i=1; AJvYcCUHUHWxi+4n1+imXFDiQOa1NPPVFkoZqbZIGPNdoqX9ueeuoSy3DYz4WDntDuhQ3irSpgkvqnUgQf9bVN8=@vger.kernel.org, AJvYcCXb/zLVsw5+SMnKT+mDKslMU04ORPoVxd64W8to7laZgP7EeNOSRcykeSuU+Ne7392gIeyOumgDo4PirJY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzF2pA5gN1FPiNSVOjCUhjOzoVD6A/TV/tXcHh1NIF2Jq0tF88v
+	5r4K/bBpfv6Pii0f6ILLX1WiXitQSOe4OQiXGUVQIxBtmt4UIBQ1/SIOuC2AGnz1OKbBi6u0M2l
+	73rSYAs077j8z/Q0HE7Sq1csQQYA=
+X-Google-Smtp-Source: AGHT+IG4EhVNx4ZXTlcmLKwxSpAi+1Cc6wEcJlS0M5tzYd1bPulq0A8B/RQMJgdldFEu+s5xV1faX8OGR4qz9F9spEc=
+X-Received: by 2002:a17:907:c7d5:b0:a86:86d7:2890 with SMTP id
+ a640c23a62f3a-a93a05d6507mr137992666b.50.1727246976510; Tue, 24 Sep 2024
+ 23:49:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240924-asoc-imx-maple-v1-1-8b993901f71e@kernel.org>
+In-Reply-To: <20240924-asoc-imx-maple-v1-1-8b993901f71e@kernel.org>
+From: Daniel Baluta <daniel.baluta@gmail.com>
+Date: Wed, 25 Sep 2024 09:50:35 +0300
+Message-ID: <CAEnQRZBde3AV7Dvu-jtXCTbZnBg60COdp7eheSdyfE_6mP9GQw@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: fsl: Use maple tree register cache
+To: Mark Brown <broonie@kernel.org>
+Cc: Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
+	Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, alsa-devel@alsa-project.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-CDC_RX_BCL_VBAT_RF_PROC1 is listed twice and its default value
-is 0x2a which is overwriten by its next occurence in rx_defaults[].
-The second one should be missing CDC_RX_BCL_VBAT_RF_PROC2 instead
-and its default value is expected 0x0.
+On Tue, Sep 24, 2024 at 4:59=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
+te:
+>
+> Several of the NXP drivers use regmaps with a rbtree register cache. Sinc=
+e
+> the maple tree cache is uisng a generally more modern data structure whic=
+h
+> makes implementation choices more suitable for modern systems let's conve=
+rt
+> these drivers to it. This should have no practical impact.
+>
+> Signed-off-by: Mark Brown <broonie@kernel.org>
 
-Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
----
- sound/soc/codecs/lpass-rx-macro.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/soc/codecs/lpass-rx-macro.c b/sound/soc/codecs/lpass-rx-macro.c
-index 9288ddb705fe..2f6699c0a643 100644
---- a/sound/soc/codecs/lpass-rx-macro.c
-+++ b/sound/soc/codecs/lpass-rx-macro.c
-@@ -961,7 +961,7 @@ static const struct reg_default rx_defaults[] = {
- 	{ CDC_RX_BCL_VBAT_PK_EST2, 0x01 },
- 	{ CDC_RX_BCL_VBAT_PK_EST3, 0x40 },
- 	{ CDC_RX_BCL_VBAT_RF_PROC1, 0x2A },
--	{ CDC_RX_BCL_VBAT_RF_PROC1, 0x00 },
-+	{ CDC_RX_BCL_VBAT_RF_PROC2, 0x00 },
- 	{ CDC_RX_BCL_VBAT_TAC1, 0x00 },
- 	{ CDC_RX_BCL_VBAT_TAC2, 0x18 },
- 	{ CDC_RX_BCL_VBAT_TAC3, 0x18 },
--- 
-2.45.2
-
+Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
