@@ -1,618 +1,119 @@
-Received: from mx1.sberdevices.ru (mx2.sberdevices.ru [45.89.224.132])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F3F184532;
-	Wed, 25 Sep 2024 14:53:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.89.224.132
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E08141D5AAA;
+	Wed, 25 Sep 2024 15:05:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727276034; cv=none; b=QL40WBgjR6wqkGFoH9UqKz+AR+NTirQfEecMM3j5kutVE4sDYq76EwSN4uwJtLUQiSf+axgppsB+HPCOgWsJCHo8cmw2gruxl7EiAbvUh5pMEiMzUlYQKTTEvgZ9oEUvwYCLWWUzNw/GvPZUK8pnMFaFhFL6yyRRdQk3JcceDOQ=
+	t=1727276708; cv=none; b=fMYRLdOblJbZDD+MbTiFhC8KRIAPH4/v3TpoC0I3pChTA9lrAEcEWikq5tnezkzrPEItiKxebdqlm6XVHXwWBRmvy4XNojYyh+8HsMgxwb2xn0FslqWmlWYwz88gFO2IrBE6D9wNbLlSALtpV/dAyM/1qsJMwNP52xCHUxLzKEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727276034; c=relaxed/simple;
-	bh=rKKHbNEk82zvqLDpZSeHb9VNj6iTqmA1Pihea/kiG2g=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=BIN5x1EFWwxoyCqRZlLZgmldU8iEpY5cfuAO04qTxPTX+H9jl6LcxsteEgC/jSsuTG7OGJ3h5vyIlBcDvqRxvRQyM+Rf7Gm/fJifQXnp7Izk2FhQCCd32QIRcv1+tjAtN04WPyBEeVa38e7NiuMTOy2w0iZETKf/XfWkzsw125w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com; spf=pass smtp.mailfrom=salutedevices.com; dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b=rZJwKY4R; arc=none smtp.client-ip=45.89.224.132
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=salutedevices.com
+	s=arc-20240116; t=1727276708; c=relaxed/simple;
+	bh=7vCwXwDG+bsxtvd02iytviiUSMi6iO6Ybyp3t8WIe5Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EQu8t/nznrNR3OkpPm6MsAyiFJv4qtrSfl63IbksG79098MUJJAQGF5apIT32M5yxf7DTU+/qv3K1WbeJ6EADbYo8zcuUVphfpBSv62zKej6/VJLMxx/a6vjzygD8AAD1z3pYvHJCb4BVHAi8UlGtgO3BqkXB8kF65K3WyF0JiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U9Fe9Oh8; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="rZJwKY4R"
-Received: from p-infra-ksmg-sc-msk02.sberdevices.ru (localhost [127.0.0.1])
-	by mx1.sberdevices.ru (Postfix) with ESMTP id B9078120023;
-	Wed, 25 Sep 2024 17:53:40 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru B9078120023
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
-	s=mail; t=1727276020;
-	bh=OUUKZHCJdbGKzTK7PdAbRtM9ujeZrTUFCVvR/b2xWsM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:From;
-	b=rZJwKY4RZ6IkeIWxF8tUubbW1BbVtEc8QFm5yvzybLQCGx61yTjT9CTZhtvDdMbBK
-	 VVvgEpt2hycc1lHdtAq3qwXz+N3ESb+k98ZnlvdOBi2PUSiKUL+tGYwGIsJbKwPHCQ
-	 +6cVja+3I/jqCKneot31jmg1fEjK21zEf8Ey3fi/5ervPvM2BBF8GpBw4m/PKyt+ut
-	 unJ7nr+1PcpKWWGSViKeJi/z6gi5QG5Uo1YdItS52bGqqhIzRScMOJUEbBeAZTGsGb
-	 kTmlXDmk2q5wkJWx2iqGxE++Oefg4gglNFH5Q9JLoLJ4otFpPQWy62Mey3HfsRmPkx
-	 CTsBs9hcHelcw==
-Received: from smtp.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mx1.sberdevices.ru (Postfix) with ESMTPS;
-	Wed, 25 Sep 2024 17:53:40 +0300 (MSK)
-From: Igor Prusov <ivprusov@salutedevices.com>
-Date: Wed, 25 Sep 2024 17:52:44 +0300
-Subject: [PATCH v3 6/6] ASoC: codecs: Add NeoFidelity NTP8835 codec
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U9Fe9Oh8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727276707; x=1758812707;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=7vCwXwDG+bsxtvd02iytviiUSMi6iO6Ybyp3t8WIe5Y=;
+  b=U9Fe9Oh85bH/PdB5ZG1jCEY+QRRj55hwj7XIodC22A7jYo4Avc+wg1mO
+   PGMKuVlUAk2Yp5qlPefe8EQdkgRtupzwPWIcsCkpdcxTJA86bMYKunnBY
+   0BhcRhC9H13g8i/TvbEMBS8B5UEMqZUWaGkeCRnCRlP2zFI7FWfUOq/Uu
+   DPXzVp1MPW4DZkBiWIxamV+QfzF9setHH/7SDNONg3wVw91hAwssItPVR
+   e4lVtB4qJsUaXtnSa1sweti1avul1ZL7dNvtl0yhuMFIsELtciHHRhyNj
+   grt1cIIuCfbZsx+h4CN5cqrePfF7gLO2suIhGO5RRfarndugLf/vbd+Ms
+   Q==;
+X-CSE-ConnectionGUID: dhq0LvMBQ+SbeGGKCscbqQ==
+X-CSE-MsgGUID: 8a9LlwOmQGekzzPceke9SQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="26482876"
+X-IronPort-AV: E=Sophos;i="6.10,257,1719903600"; 
+   d="scan'208";a="26482876"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 08:05:06 -0700
+X-CSE-ConnectionGUID: KkJZz6O4SrW69iXt+QA+QQ==
+X-CSE-MsgGUID: dfMikm4UR6+Y2DTcJrvcFA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,257,1719903600"; 
+   d="scan'208";a="76317626"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO [10.245.246.30]) ([10.245.246.30])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 08:05:01 -0700
+Message-ID: <52f10356-ecf7-4c92-b0c3-78f7a63ae85c@linux.intel.com>
+Date: Wed, 25 Sep 2024 16:22:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v28 12/32] ALSA: usb-audio: Save UAC sample size
+ information
+To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+ mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+ dmitry.torokhov@gmail.com, corbet@lwn.net, broonie@kernel.org,
+ lgirdwood@gmail.com, tiwai@suse.com, krzk+dt@kernel.org,
+ Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, robh@kernel.org,
+ gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-doc@vger.kernel.org, alsa-devel@alsa-project.org
+References: <20240925010000.2231406-1-quic_wcheng@quicinc.com>
+ <20240925010000.2231406-13-quic_wcheng@quicinc.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <20240925010000.2231406-13-quic_wcheng@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-ID: <20240925-ntp-amps-8918-8835-v3-6-e2459a8191a6@salutedevices.com>
-References: <20240925-ntp-amps-8918-8835-v3-0-e2459a8191a6@salutedevices.com>
-In-Reply-To: <20240925-ntp-amps-8918-8835-v3-0-e2459a8191a6@salutedevices.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-	"Mark Brown" <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi
- Iwai <tiwai@suse.com>, Igor Prusov <ivprusov@salutedevices.com>, Philipp
- Zabel <p.zabel@pengutronix.de>
-CC: <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-sound@vger.kernel.org>, <kernel@salutedevices.com>,
-	<prusovigor@gmail.com>
-X-Mailer: b4 0.14.2
-X-ClientProxiedBy: p-i-exch-a-m2.sberdevices.ru (172.24.196.120) To
- p-i-exch-a-m1.sberdevices.ru (172.24.196.116)
-X-KSMG-Rule-ID: 10
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Lua-Profiles: 187980 [Sep 25 2024]
-X-KSMG-AntiSpam-Version: 6.1.0.4
-X-KSMG-AntiSpam-Envelope-From: ivprusov@salutedevices.com
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 34 0.3.34 8a1fac695d5606478feba790382a59668a4f0039, {Tracking_uf_ne_domains}, {Tracking_from_domain_doesnt_match_to}, 127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;salutedevices.com:7.1.1;www.cpbay.com:7.1.1;smtp.sberdevices.ru:7.1.1,5.0.1, FromAlignment: s
-X-MS-Exchange-Organization-SCL: -1
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean, bases: 2024/09/25 12:44:00
-X-KSMG-LinksScanning: Clean, bases: 2024/09/25 12:44:00
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/09/25 13:22:00 #26670925
-X-KSMG-AntiVirus-Status: Clean, skipped
 
-The NeoFidelity NTP8835 adn NTP8835C are 2.1 channel amplifiers with
-mixer and biquad filters. Both amplifiers have identical programming
-interfaces but differ in output signal characteristics.
 
-Datasheet: https://www.cpbay.com/Uploads/20210225/6037116a3ea91.pdf
-Datasheet: https://www.cpbay.com/Uploads/20210918/61458b2f2631e.pdf
-Signed-off-by: Igor Prusov <ivprusov@salutedevices.com>
----
- sound/soc/codecs/Kconfig   |   5 +
- sound/soc/codecs/Makefile  |   2 +
- sound/soc/codecs/ntp8835.c | 480 +++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 487 insertions(+)
 
-diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-index 03eb9512d2239782faf1ed3a3315e94c9e583c53..c6c4c7481b4ca4938bdcabb1e22514ddd2bc5ca4 100644
---- a/sound/soc/codecs/Kconfig
-+++ b/sound/soc/codecs/Kconfig
-@@ -2573,6 +2573,11 @@ config SND_SOC_NTP8918
- 	tristate "NeoFidelity NTP8918 amplifier"
- 	depends on I2C
- 
-+config SND_SOC_NTP8835
-+	select SND_SOC_NTPFW
-+	tristate "NeoFidelity NTP8835 and NTP8835C amplifiers"
-+	depends on I2C
-+
- config SND_SOC_TPA6130A2
- 	tristate "Texas Instruments TPA6130A2 headphone amplifier"
- 	depends on I2C
-diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
-index 9e72c28d193b21a0b0ac4fb3dfbaea5e4252a66c..850c6249e3dfedb3d59897b57c6a731b6fbf517e 100644
---- a/sound/soc/codecs/Makefile
-+++ b/sound/soc/codecs/Makefile
-@@ -189,6 +189,7 @@ snd-soc-nau8821-y := nau8821.o
- snd-soc-nau8822-y := nau8822.o
- snd-soc-nau8824-y := nau8824.o
- snd-soc-nau8825-y := nau8825.o
-+snd-soc-ntp8835-y := ntp8835.o
- snd-soc-ntp8918-y := ntp8918.o
- snd-soc-ntpfw-y := ntpfw.o
- snd-soc-hdmi-codec-y := hdmi-codec.o
-@@ -593,6 +594,7 @@ obj-$(CONFIG_SND_SOC_NAU8821)   += snd-soc-nau8821.o
- obj-$(CONFIG_SND_SOC_NAU8822)   += snd-soc-nau8822.o
- obj-$(CONFIG_SND_SOC_NAU8824)   += snd-soc-nau8824.o
- obj-$(CONFIG_SND_SOC_NAU8825)   += snd-soc-nau8825.o
-+obj-$(CONFIG_SND_SOC_NTP8835)	+= snd-soc-ntp8835.o
- obj-$(CONFIG_SND_SOC_NTP8918)	+= snd-soc-ntp8918.o
- obj-$(CONFIG_SND_SOC_NTPFW)	+= snd-soc-ntpfw.o
- obj-$(CONFIG_SND_SOC_HDMI_CODEC)	+= snd-soc-hdmi-codec.o
-diff --git a/sound/soc/codecs/ntp8835.c b/sound/soc/codecs/ntp8835.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..97056d8de2bba334269b4bc07116a174eef2a95c
---- /dev/null
-+++ b/sound/soc/codecs/ntp8835.c
-@@ -0,0 +1,480 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Driver for the NTP8835/NTP8835C Audio Amplifiers
-+ *
-+ * Copyright (c) 2024, SaluteDevices. All Rights Reserved.
-+ *
-+ * Author: Igor Prusov <ivprusov@salutedevices.com>
-+ */
-+
-+#include <linux/kernel.h>
-+#include <linux/clk.h>
-+#include <linux/bits.h>
-+#include <linux/reset.h>
-+#include <linux/init.h>
-+#include <linux/i2c.h>
-+#include <linux/regmap.h>
-+
-+#include <sound/initval.h>
-+#include <sound/core.h>
-+#include <sound/pcm.h>
-+#include <sound/pcm_params.h>
-+#include <sound/soc.h>
-+#include <sound/soc-component.h>
-+#include <sound/tlv.h>
-+
-+#include "ntpfw.h"
-+
-+#define NTP8835_FORMATS     (SNDRV_PCM_FMTBIT_S16_LE | \
-+			     SNDRV_PCM_FMTBIT_S20_3LE | \
-+			     SNDRV_PCM_FMTBIT_S24_LE | \
-+			     SNDRV_PCM_FMTBIT_S32_LE)
-+
-+#define NTP8835_INPUT_FMT			0x0
-+#define  NTP8835_INPUT_FMT_MASTER_MODE		BIT(0)
-+#define  NTP8835_INPUT_FMT_GSA_MODE		BIT(1)
-+#define NTP8835_GSA_FMT				0x1
-+#define  NTP8835_GSA_BS_MASK			GENMASK(3, 2)
-+#define  NTP8835_GSA_BS(x)			((x) << 2)
-+#define  NTP8835_GSA_RIGHT_J			BIT(0)
-+#define  NTP8835_GSA_LSB			BIT(1)
-+#define NTP8835_MCLK_FREQ_CTRL			0x2
-+#define  NTP8835_MCLK_FREQ_MCF			GENMASK(1, 0)
-+#define NTP8835_SOFT_MUTE			0x26
-+#define  NTP8835_SOFT_MUTE_SM1			BIT(0)
-+#define  NTP8835_SOFT_MUTE_SM2			BIT(1)
-+#define  NTP8835_SOFT_MUTE_SM3			BIT(2)
-+#define NTP8835_PWM_SWITCH			0x27
-+#define  NTP8835_PWM_SWITCH_POF1		BIT(0)
-+#define  NTP8835_PWM_SWITCH_POF2		BIT(1)
-+#define  NTP8835_PWM_SWITCH_POF3		BIT(2)
-+#define NTP8835_PWM_MASK_CTRL0			0x28
-+#define  NTP8835_PWM_MASK_CTRL0_OUT_LOW		BIT(1)
-+#define  NTP8835_PWM_MASK_CTRL0_FPMLD		BIT(2)
-+#define NTP8835_MASTER_VOL			0x2e
-+#define NTP8835_CHNL_A_VOL			0x2f
-+#define NTP8835_CHNL_B_VOL			0x30
-+#define NTP8835_CHNL_C_VOL			0x31
-+#define REG_MAX					NTP8835_CHNL_C_VOL
-+
-+#define NTP8835_FW_NAME				"eq_8835.bin"
-+#define NTP8835_FW_MAGIC			0x38383335	/* "8835" */
-+
-+struct ntp8835_priv {
-+	struct i2c_client *i2c;
-+	struct reset_control *reset;
-+	unsigned int format;
-+	struct clk *mclk;
-+	unsigned int mclk_rate;
-+};
-+
-+static const DECLARE_TLV_DB_RANGE(ntp8835_vol_scale,
-+	0, 1, TLV_DB_SCALE_ITEM(-15000, 0, 0),
-+	2, 6, TLV_DB_SCALE_ITEM(-15000, 1000, 0),
-+	7, 0xff, TLV_DB_SCALE_ITEM(-10000, 50, 0),
-+);
-+
-+static int ntp8835_mute_info(struct snd_kcontrol *kcontrol,
-+			     struct snd_ctl_elem_info *uinfo)
-+{
-+	uinfo->type = SNDRV_CTL_ELEM_TYPE_BOOLEAN;
-+	uinfo->access =
-+		(SNDRV_CTL_ELEM_ACCESS_TLV_READ | SNDRV_CTL_ELEM_ACCESS_READWRITE);
-+	uinfo->count = 1;
-+
-+	uinfo->value.integer.min = 0;
-+	uinfo->value.integer.max = 1;
-+	uinfo->value.integer.step = 1;
-+
-+	return 0;
-+}
-+
-+static int ntp8835_mute_get(struct snd_kcontrol *kcontrol,
-+			    struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_soc_component *component = snd_soc_kcontrol_component(kcontrol);
-+	unsigned int val;
-+
-+	val = snd_soc_component_read(component, NTP8835_SOFT_MUTE);
-+
-+	ucontrol->value.integer.value[0] = val ? 0 : 1;
-+	return 0;
-+}
-+
-+static int ntp8835_mute_put(struct snd_kcontrol *kcontrol,
-+			    struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_soc_component *component = snd_soc_kcontrol_component(kcontrol);
-+	unsigned int val;
-+
-+	val = ucontrol->value.integer.value[0] ? 0 : 7;
-+
-+	snd_soc_component_write(component, NTP8835_SOFT_MUTE, val);
-+
-+	return 0;
-+}
-+
-+static const struct snd_kcontrol_new ntp8835_vol_control[] = {
-+	SOC_SINGLE_TLV("Playback Volume", NTP8835_MASTER_VOL, 0,
-+		       0xff, 0, ntp8835_vol_scale),
-+	{
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "Playback Switch",
-+		.info = ntp8835_mute_info,
-+		.access = SNDRV_CTL_ELEM_ACCESS_TLV_READ | SNDRV_CTL_ELEM_ACCESS_READWRITE,
-+		.get = ntp8835_mute_get,
-+		.put = ntp8835_mute_put,
-+	},
-+};
-+
-+static void ntp8835_reset_gpio(struct ntp8835_priv *ntp8835)
-+{
-+	/*
-+	 * Proper initialization sequence for NTP835 amplifier requires driving
-+	 * /RESET signal low during power up for at least 0.1us. The sequence is,
-+	 * according to NTP8835 datasheet, 6.2 Timing Sequence (recommended):
-+	 * Deassert for T2 >= 1ms...
-+	 */
-+	reset_control_deassert(ntp8835->reset);
-+	fsleep(1000);
-+
-+	/* ...Assert for T3 >= 0.1us... */
-+	reset_control_assert(ntp8835->reset);
-+	fsleep(1);
-+
-+	/* ...Deassert, and wait for T4 >= 0.5ms before sound on sequence. */
-+	reset_control_deassert(ntp8835->reset);
-+	fsleep(500);
-+}
-+
-+static const struct reg_sequence ntp8835_sound_on[] = {
-+	{ NTP8835_PWM_MASK_CTRL0,	NTP8835_PWM_MASK_CTRL0_FPMLD },
-+	{ NTP8835_PWM_SWITCH,		0x00 },
-+	{ NTP8835_SOFT_MUTE,		0x00 },
-+};
-+
-+static const struct reg_sequence ntp8835_sound_off[] = {
-+	{ NTP8835_SOFT_MUTE,		NTP8835_SOFT_MUTE_SM1 |
-+					NTP8835_SOFT_MUTE_SM2 |
-+					NTP8835_SOFT_MUTE_SM3 },
-+
-+	{ NTP8835_PWM_SWITCH,		NTP8835_PWM_SWITCH_POF1 |
-+					NTP8835_PWM_SWITCH_POF2 |
-+					NTP8835_PWM_SWITCH_POF3 },
-+
-+	{ NTP8835_PWM_MASK_CTRL0,	NTP8835_PWM_MASK_CTRL0_OUT_LOW |
-+					NTP8835_PWM_MASK_CTRL0_FPMLD },
-+};
-+
-+static int ntp8835_load_firmware(struct ntp8835_priv *ntp8835)
-+{
-+	int ret;
-+
-+	ret = ntpfw_load(ntp8835->i2c, NTP8835_FW_NAME, NTP8835_FW_MAGIC);
-+	if (ret == -ENOENT) {
-+		dev_warn_once(&ntp8835->i2c->dev,
-+			      "Could not find firmware %s\n", NTP8835_FW_NAME);
-+		return 0;
-+	}
-+
-+	return ret;
-+}
-+
-+static int ntp8835_snd_suspend(struct snd_soc_component *component)
-+{
-+	struct ntp8835_priv *ntp8835 = snd_soc_component_get_drvdata(component);
-+
-+	regcache_cache_only(component->regmap, true);
-+
-+	regmap_multi_reg_write_bypassed(component->regmap,
-+					ntp8835_sound_off,
-+					ARRAY_SIZE(ntp8835_sound_off));
-+
-+	/*
-+	 * According to NTP8835 datasheet, 6.2 Timing Sequence (recommended):
-+	 * wait after sound off for T6 >= 0.5ms
-+	 */
-+	fsleep(500);
-+	reset_control_assert(ntp8835->reset);
-+
-+	regcache_mark_dirty(component->regmap);
-+	clk_disable_unprepare(ntp8835->mclk);
-+
-+	return 0;
-+}
-+
-+static int ntp8835_snd_resume(struct snd_soc_component *component)
-+{
-+	struct ntp8835_priv *ntp8835 = snd_soc_component_get_drvdata(component);
-+	int ret;
-+
-+	ntp8835_reset_gpio(ntp8835);
-+	ret = clk_prepare_enable(ntp8835->mclk);
-+	if (ret)
-+		return ret;
-+
-+	regmap_multi_reg_write_bypassed(component->regmap,
-+					ntp8835_sound_on,
-+					ARRAY_SIZE(ntp8835_sound_on));
-+
-+	ret = ntp8835_load_firmware(ntp8835);
-+	if (ret) {
-+		dev_err(&ntp8835->i2c->dev, "Failed to load firmware\n");
-+		return ret;
-+	}
-+
-+	regcache_cache_only(component->regmap, false);
-+	snd_soc_component_cache_sync(component);
-+
-+	return 0;
-+}
-+
-+static int ntp8835_probe(struct snd_soc_component *component)
-+{
-+	int ret;
-+	struct ntp8835_priv *ntp8835 = snd_soc_component_get_drvdata(component);
-+	struct device *dev = component->dev;
-+
-+	ret = snd_soc_add_component_controls(component, ntp8835_vol_control,
-+					     ARRAY_SIZE(ntp8835_vol_control));
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to add controls\n");
-+
-+	ret = ntp8835_load_firmware(ntp8835);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to load firmware\n");
-+
-+	return 0;
-+}
-+
-+static const struct snd_soc_dapm_widget ntp8835_dapm_widgets[] = {
-+	SND_SOC_DAPM_DAC("AIFIN", "Playback", SND_SOC_NOPM, 0, 0),
-+
-+	SND_SOC_DAPM_OUTPUT("OUT1"),
-+	SND_SOC_DAPM_OUTPUT("OUT2"),
-+	SND_SOC_DAPM_OUTPUT("OUT3"),
-+};
-+
-+static const struct snd_soc_dapm_route ntp8835_dapm_routes[] = {
-+	{ "OUT1", NULL, "AIFIN" },
-+	{ "OUT2", NULL, "AIFIN" },
-+	{ "OUT3", NULL, "AIFIN" },
-+};
-+
-+static int ntp8835_set_component_sysclk(struct snd_soc_component *component,
-+				       int clk_id, int source,
-+				       unsigned int freq, int dir)
-+{
-+	struct ntp8835_priv *ntp8835 = snd_soc_component_get_drvdata(component);
-+
-+	switch (freq) {
-+	case 12288000:
-+	case 24576000:
-+	case 18432000:
-+		ntp8835->mclk_rate = freq;
-+		break;
-+	default:
-+		ntp8835->mclk_rate = 0;
-+		dev_err(component->dev, "Unsupported MCLK value: %u", freq);
-+		return -EINVAL;
-+	};
-+
-+	return 0;
-+}
-+
-+static const struct snd_soc_component_driver soc_component_ntp8835 = {
-+	.probe = ntp8835_probe,
-+	.suspend = ntp8835_snd_suspend,
-+	.resume = ntp8835_snd_resume,
-+	.dapm_widgets = ntp8835_dapm_widgets,
-+	.num_dapm_widgets = ARRAY_SIZE(ntp8835_dapm_widgets),
-+	.dapm_routes = ntp8835_dapm_routes,
-+	.num_dapm_routes = ARRAY_SIZE(ntp8835_dapm_routes),
-+	.set_sysclk = ntp8835_set_component_sysclk,
-+};
-+
-+static int ntp8835_hw_params(struct snd_pcm_substream *substream,
-+			     struct snd_pcm_hw_params *params,
-+			     struct snd_soc_dai *dai)
-+{
-+	struct snd_soc_component *component = dai->component;
-+	struct ntp8835_priv *ntp8835 = snd_soc_component_get_drvdata(component);
-+	unsigned int input_fmt = 0;
-+	unsigned int gsa_fmt = 0;
-+	unsigned int gsa_fmt_mask;
-+	unsigned int mcf;
-+	int ret;
-+
-+	switch (ntp8835->mclk_rate) {
-+	case 12288000:
-+		mcf = 0;
-+		break;
-+	case 24576000:
-+		mcf = 1;
-+		break;
-+	case 18432000:
-+		mcf = 2;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	ret = snd_soc_component_update_bits(component, NTP8835_MCLK_FREQ_CTRL,
-+					    NTP8835_MCLK_FREQ_MCF, mcf);
-+	if (ret)
-+		return ret;
-+
-+	switch (ntp8835->format) {
-+	case SND_SOC_DAIFMT_I2S:
-+		break;
-+	case SND_SOC_DAIFMT_RIGHT_J:
-+		input_fmt |= NTP8835_INPUT_FMT_GSA_MODE;
-+		gsa_fmt |= NTP8835_GSA_RIGHT_J;
-+		break;
-+	case SND_SOC_DAIFMT_LEFT_J:
-+		input_fmt |= NTP8835_INPUT_FMT_GSA_MODE;
-+		break;
-+	}
-+
-+	ret = snd_soc_component_update_bits(component, NTP8835_INPUT_FMT,
-+					    NTP8835_INPUT_FMT_MASTER_MODE |
-+					    NTP8835_INPUT_FMT_GSA_MODE,
-+					    input_fmt);
-+
-+	if (!(input_fmt & NTP8835_INPUT_FMT_GSA_MODE) || ret < 0)
-+		return ret;
-+
-+	switch (params_width(params)) {
-+	case 24:
-+		gsa_fmt |= NTP8835_GSA_BS(0);
-+		break;
-+	case 20:
-+		gsa_fmt |= NTP8835_GSA_BS(1);
-+		break;
-+	case 18:
-+		gsa_fmt |= NTP8835_GSA_BS(2);
-+		break;
-+	case 16:
-+		gsa_fmt |= NTP8835_GSA_BS(3);
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	gsa_fmt_mask = NTP8835_GSA_BS_MASK |
-+		       NTP8835_GSA_RIGHT_J |
-+		       NTP8835_GSA_LSB;
-+	return snd_soc_component_update_bits(component, NTP8835_GSA_FMT,
-+					     gsa_fmt_mask, gsa_fmt);
-+}
-+
-+static int ntp8835_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
-+{
-+	struct snd_soc_component *component = dai->component;
-+	struct ntp8835_priv *ntp8835 = snd_soc_component_get_drvdata(component);
-+
-+	switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
-+	case SND_SOC_DAIFMT_I2S:
-+	case SND_SOC_DAIFMT_RIGHT_J:
-+	case SND_SOC_DAIFMT_LEFT_J:
-+		ntp8835->format = fmt & SND_SOC_DAIFMT_FORMAT_MASK;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+	return 0;
-+};
-+
-+static const struct snd_soc_dai_ops ntp8835_dai_ops = {
-+	.hw_params = ntp8835_hw_params,
-+	.set_fmt = ntp8835_set_fmt,
-+};
-+
-+static struct snd_soc_dai_driver ntp8835_dai = {
-+	.name = "ntp8835-amplifier",
-+	.playback = {
-+		.stream_name = "Playback",
-+		.channels_min = 1,
-+		.channels_max = 3,
-+		.rates = SNDRV_PCM_RATE_8000_192000,
-+		.formats = NTP8835_FORMATS,
-+	},
-+	.ops = &ntp8835_dai_ops,
-+};
-+
-+static const struct regmap_config ntp8835_regmap = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.max_register = REG_MAX,
-+	.cache_type = REGCACHE_MAPLE,
-+};
-+
-+static int ntp8835_i2c_probe(struct i2c_client *i2c)
-+{
-+	struct ntp8835_priv *ntp8835;
-+	struct regmap *regmap;
-+	int ret;
-+
-+	ntp8835 = devm_kzalloc(&i2c->dev, sizeof(*ntp8835), GFP_KERNEL);
-+	if (!ntp8835)
-+		return -ENOMEM;
-+
-+	ntp8835->i2c = i2c;
-+
-+	ntp8835->reset = devm_reset_control_get_shared(&i2c->dev, NULL);
-+	if (IS_ERR(ntp8835->reset))
-+		return dev_err_probe(&i2c->dev, PTR_ERR(ntp8835->reset),
-+				     "Failed to get reset\n");
-+
-+	ret = reset_control_deassert(ntp8835->reset);
-+	if (ret)
-+		return dev_err_probe(&i2c->dev, PTR_ERR(ntp8835->reset),
-+				     "Failed to deassert reset\n");
-+
-+	dev_set_drvdata(&i2c->dev, ntp8835);
-+
-+	ntp8835_reset_gpio(ntp8835);
-+
-+	regmap = devm_regmap_init_i2c(i2c, &ntp8835_regmap);
-+	if (IS_ERR(regmap))
-+		return dev_err_probe(&i2c->dev, PTR_ERR(regmap),
-+				     "Failed to allocate regmap\n");
-+
-+	ret = devm_snd_soc_register_component(&i2c->dev, &soc_component_ntp8835,
-+					      &ntp8835_dai, 1);
-+	if (ret)
-+		return dev_err_probe(&i2c->dev, ret,
-+				     "Failed to register component\n");
-+
-+	ntp8835->mclk = devm_clk_get_enabled(&i2c->dev, "mclk");
-+	if (IS_ERR(ntp8835->mclk))
-+		return dev_err_probe(&i2c->dev, PTR_ERR(ntp8835->mclk), "failed to get mclk\n");
-+
-+	return 0;
-+}
-+
-+static const struct i2c_device_id ntp8835_i2c_id[] = {
-+	{ "ntp8835", 0 },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(i2c, ntp8835_i2c_id);
-+
-+static const struct of_device_id ntp8835_of_match[] = {
-+	{.compatible = "neofidelity,ntp8835",},
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, ntp8835_of_match);
-+
-+static struct i2c_driver ntp8835_i2c_driver = {
-+	.probe = ntp8835_i2c_probe,
-+	.id_table = ntp8835_i2c_id,
-+	.driver = {
-+		.name = "ntp8835",
-+		.of_match_table = ntp8835_of_match,
-+	},
-+};
-+module_i2c_driver(ntp8835_i2c_driver);
-+
-+MODULE_AUTHOR("Igor Prusov <ivprusov@salutedevices.com>");
-+MODULE_DESCRIPTION("NTP8835 Audio Amplifier Driver");
-+MODULE_LICENSE("GPL");
+On 9/25/24 02:59, Wesley Cheng wrote:
+> Within the UAC descriptor, there is information describing the size of a
+> sample (bSubframeSize/bSubslotSize) and the number of relevant bits
+> (bBitResolution).  Currently, fmt_bits carries only the bit resolution,
+> however, some offloading entities may also require the overall size of the
+> sample.  Save this information in a separate parameter, as depending on the
+> UAC format type, the sample size can not easily be decoded from other
+> existing parameters.
+> 
+> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 
--- 
-2.34.1
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+
+> ---
+>  sound/usb/card.h   | 1 +
+>  sound/usb/format.c | 1 +
+>  2 files changed, 2 insertions(+)
+> 
+> diff --git a/sound/usb/card.h b/sound/usb/card.h
+> index 4f4f3f39b7fa..b65163c60176 100644
+> --- a/sound/usb/card.h
+> +++ b/sound/usb/card.h
+> @@ -15,6 +15,7 @@ struct audioformat {
+>  	unsigned int channels;		/* # channels */
+>  	unsigned int fmt_type;		/* USB audio format type (1-3) */
+>  	unsigned int fmt_bits;		/* number of significant bits */
+> +	unsigned int fmt_sz;		/* overall audio sub frame/slot size */
+>  	unsigned int frame_size;	/* samples per frame for non-audio */
+>  	unsigned char iface;		/* interface number */
+>  	unsigned char altsetting;	/* corresponding alternate setting */
+> diff --git a/sound/usb/format.c b/sound/usb/format.c
+> index 3b45d0ee7693..5fde543536a8 100644
+> --- a/sound/usb/format.c
+> +++ b/sound/usb/format.c
+> @@ -80,6 +80,7 @@ static u64 parse_audio_format_i_type(struct snd_usb_audio *chip,
+>  	}
+>  
+>  	fp->fmt_bits = sample_width;
+> +	fp->fmt_sz = sample_bytes;
+>  
+>  	if ((pcm_formats == 0) &&
+>  	    (format == 0 || format == (1 << UAC_FORMAT_TYPE_I_UNDEFINED))) {
 
