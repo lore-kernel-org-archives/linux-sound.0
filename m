@@ -1,130 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6F912AE6C;
-	Wed, 25 Sep 2024 08:46:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C6C8157A46;
+	Wed, 25 Sep 2024 08:54:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727253976; cv=none; b=CSARL0ygg/1C3YUJbNdZR0K7xZIG1afhXymwUWmK5WQxboBvkhlmnlxdVDT2XvAT7EGtFpgNRA5RyEfDfdu2tPE+c+cF02dCek5U0rVyRgmakFHKFCsUQJ1y+4ZRijSn/66vBMPLjIB+/n5GBTDozzzSEjRC4MzVXJ5tcFhk+94=
+	t=1727254442; cv=none; b=XO8R5RX8/PURueTYqbzf1I457iz299CZzaPZFQXYvsJqXteGEHSp8c/uCmgs/V6UTwpT2tGo85fu7vfEndpnXarKfFDxkee8UxE0UXDBo5SsBeGqI+AdRrV5MIz/fiaGCF2jO36OgAmojsGQHrkz6lhoxVjvHCbmjrMq+U0yaWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727253976; c=relaxed/simple;
-	bh=xKL4aaFY4RmnNb3f+W1zkmXNIxHXpZYbk2lZXvhOuPs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fKfcOkFiUOaTDLyzC3+Wl5ANQFEYHeuuQp7L2zUQUb/R4vEiXxpvg7Nn1W8HlR3RTEaZKUrf1KtGY6d2qo4/V/gQ2/IE4zpqO2J1fFfSDPpNeFceExFy42GrrA6RBPVfDnIKTdTndNBLjJARitYCeR6T5K1HHDbNXuiwIbJaEmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oez+TumF; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1727254442; c=relaxed/simple;
+	bh=1zWwlFWmFVwYVAzytW6yvqI5W4QRdh3sKMqwLclSRPM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TdGsmB4u2eT84IVzB0UhQs5dAFBboDJRUTUdhdLI+6qXZdztH8myv9f03wCDW8UlJHaxxpdXnGofXQ0zfhfbZO/5hzOlg1Ne2UCmseIfYWjl1g1LZd29cj4U5lpp0UpLr27vbeiFoC9g4MwEu1gnZA63baQs1fCMsxdqzqAYVDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Evv4akEb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oez+TumF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727253975; x=1758789975;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=xKL4aaFY4RmnNb3f+W1zkmXNIxHXpZYbk2lZXvhOuPs=;
-  b=Oez+TumFIbJH0UMUtTJwO5hCUFIAg6DKKDsFm4eGog7LTHUi9kBG0TZw
-   ZO2yqha/KYtK7sfxAXIJGNpaA1iN04dhw5oFfgxIlKddH8zayvfH/z8Ls
-   afYbRuuDXFNEek3J0WhwhjDa+emFED2rHKJBzN1QGEgDFy4yXlz3RQWQM
-   nhY/3qO6SlOrAbGTr6cXor2VxlJZIx5gM6r0FgxMlLfEgi9uJn7faYYzp
-   QR1998OdI/19x6QFm70Gk//AJ4aM/2d+/USTy6Jl2ZynFhMnwpxcRlQGP
-   PxNr5AxMKxWSbjDkq1ef2xyv4iuAJ3Hp+T96+FxPVbkncOrcjet4T7ldJ
-   Q==;
-X-CSE-ConnectionGUID: X+kDoALuTrqThnJfbMmIvA==
-X-CSE-MsgGUID: Jh1DeZ07Q0WqgX7lEpnzfg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="30079166"
-X-IronPort-AV: E=Sophos;i="6.10,256,1719903600"; 
-   d="scan'208";a="30079166"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 01:46:15 -0700
-X-CSE-ConnectionGUID: 2JP7K0g9RHWi3KLwhIZrOA==
-X-CSE-MsgGUID: BQZ2JySuSzWRKK8r8IpEwA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,256,1719903600"; 
-   d="scan'208";a="71787690"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO [10.245.246.30]) ([10.245.246.30])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 01:46:11 -0700
-Message-ID: <814913ab-903a-4395-bfb9-5fcbb9d3a5f2@linux.intel.com>
-Date: Wed, 25 Sep 2024 10:46:08 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Evv4akEb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15D1DC4CEC3;
+	Wed, 25 Sep 2024 08:54:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727254441;
+	bh=1zWwlFWmFVwYVAzytW6yvqI5W4QRdh3sKMqwLclSRPM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Evv4akEbOILJlNV7aFx1NjrXQX5vMFBvUQXuYWx6lTqjoogKLcK+mJ6vpmFUiGPft
+	 hRawpDFDggiD01yqjpHqZKXfhtvKDqcwuwQQoerRyAPAMZVSVHHSlTt2lg7kgZZ3Ol
+	 Rce5zTXOiLYjHyNKybBGR4P3gRB72YoWHCIZwlNLoPSi4Qup1HyTlPZeflgMgXbXJS
+	 WeRgnlgQgdWIP1eQMwsnJPH39XxnDgF+2j7bz83p0z83SIP7tRURML5qYh6RLlivNS
+	 iYlVawl3a0YUDW2dTIRnPi64KNEAwuhrOTc7uvLs5ckmR+bPNnZDwwQls2ADWIARqf
+	 h9feHkD2TSU0Q==
+Date: Wed, 25 Sep 2024 10:53:57 +0200
+From: Mark Brown <broonie@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Alexey Klimov <alexey.klimov@linaro.org>,
+	srinivas.kandagatla@linaro.org, a39.skl@gmail.com,
+	linux-sound@vger.kernel.org, lgirdwood@gmail.com, perex@perex.cz,
+	tiwai@suse.com, alsa-devel@alsa-project.org,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	krzysztof.kozlowski@linaro.org, vkoul@kernel.org,
+	klimov.linux@gmail.com
+Subject: Re: [PATCH REVIEW 1/2] ASoC: codecs: lpass-rx-macro: fix RXn(rx,n)
+ macro for DSM_CTL and SEC7 regs
+Message-ID: <ZvPPpfobvDmmTCfi@finisterre.sirena.org.uk>
+References: <20240925043823.520218-1-alexey.klimov@linaro.org>
+ <czlx4thp7thnb6jrauilpbtzgbq637rmnwlpifxq5b5jfa3lqm@toyy3b2viscr>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: intel: sof_sdw: Add check devm_kasprintf() returned
- value
-To: Charles Han <hanchunchao@inspur.com>, yung-chuan.liao@linux.intel.com,
- ckeepax@opensource.cirrus.com
-Cc: alsa-devel@alsa-project.org, liam.r.girdwood@linux.intel.com,
- peter.ujfalusi@linux.intel.com, broonie@kernel.org, tiwai@suse.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240925080030.11262-1-hanchunchao@inspur.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <20240925080030.11262-1-hanchunchao@inspur.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="irEqxi+ka1OxLIPG"
+Content-Disposition: inline
+In-Reply-To: <czlx4thp7thnb6jrauilpbtzgbq637rmnwlpifxq5b5jfa3lqm@toyy3b2viscr>
+X-Cookie: Editing is a rewording activity.
 
 
+--irEqxi+ka1OxLIPG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 9/25/24 10:00, Charles Han wrote:
-> devm_kasprintf() can return a NULL pointer on failure but this
-> returned value is not checked.
-> 
-> Fixes: b359760d95ee ("ASoC: intel: sof_sdw: Add simple DAI link creation helper")
-> Signed-off-by: Charles Han <hanchunchao@inspur.com>
-> ---
->  sound/soc/intel/boards/sof_sdw.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
-> index d258728d64cf..26917f6f15cf 100644
-> --- a/sound/soc/intel/boards/sof_sdw.c
-> +++ b/sound/soc/intel/boards/sof_sdw.c
-> @@ -919,6 +919,9 @@ static int create_ssp_dailinks(struct snd_soc_card *card,
->  		char *cpu_dai_name = devm_kasprintf(dev, GFP_KERNEL, "SSP%d Pin", i);
->  		char *codec_name = devm_kasprintf(dev, GFP_KERNEL, "i2c-%s:0%d",
->  						  ssp_info->acpi_id, j++);
-> +		if (!name || !cpu_dai_name || !codec_name)
-> +			return -ENOMEM;
-> +
+On Wed, Sep 25, 2024 at 11:27:54AM +0300, Dmitry Baryshkov wrote:
+> On Wed, Sep 25, 2024 at 05:38:22AM GMT, Alexey Klimov wrote:
 
-all 3 changes are correct, thanks for the patch. The only nit-pick is
-that I would have moved the devm_ allocation + test lower to be
-consistent with the coding style which avoids mixing code and declarations.
+> > +#define CDC_RX_RXn_RX_PATH_SEC7(rx, n)		\
+> > +	(0x0434 + rx->rxn_reg_stride * n + n * (n - 1) * rx->rxn_reg_stride2)
 
->  		int playback = ssp_info->dais[0].direction[SNDRV_PCM_STREAM_PLAYBACK];
->  		int capture = ssp_info->dais[0].direction[SNDRV_PCM_STREAM_CAPTURE];
->  
-> @@ -985,6 +988,9 @@ static int create_hdmi_dailinks(struct snd_soc_card *card,
->  	for (i = 0; i < hdmi_num; i++) {
->  		char *name = devm_kasprintf(dev, GFP_KERNEL, "iDisp%d", i + 1);
->  		char *cpu_dai_name = devm_kasprintf(dev, GFP_KERNEL, "iDisp%d Pin", i + 1);
-> +		if (!name || !cpu_dai_name)
-> +			return -ENOMEM;
-> +
->  		char *codec_name, *codec_dai_name;
->  
->  		if (intel_ctx->hdmi.idisp_codec) {
-> @@ -996,6 +1002,9 @@ static int create_hdmi_dailinks(struct snd_soc_card *card,
->  			codec_dai_name = "snd-soc-dummy-dai";
->  		}
->  
-> +		if (!codec_dai_name)
-> +			return -ENOMEM;
-> +
->  		ret = asoc_sdw_init_simple_dai_link(dev, *dai_links, be_id, name,
->  						    1, 0, // HDMI only supports playback
->  						    cpu_dai_name, platform_component->name,
-> @@ -1019,6 +1028,9 @@ static int create_bt_dailinks(struct snd_soc_card *card,
->  			SOF_BT_OFFLOAD_SSP_SHIFT;
->  	char *name = devm_kasprintf(dev, GFP_KERNEL, "SSP%d-BT", port);
->  	char *cpu_dai_name = devm_kasprintf(dev, GFP_KERNEL, "SSP%d Pin", port);
-> +	if (!name || !cpu_dai_name)
-> +		return -ENOMEM;
-> +
->  	int ret;
->  
->  	ret = asoc_sdw_init_simple_dai_link(dev, *dai_links, be_id, name,
+> This is a nice hack to rule out n=0 and n=1, but maybe we can be more
+> obvious here:
 
+> (0x0434 + stride * n + (n > 2) ? stride2 : 0)
+
+Yes.  We could also use some brackets to make the + and * precedence
+obvious.
+
+--irEqxi+ka1OxLIPG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbzz6QACgkQJNaLcl1U
+h9BAYQf/YgiwTSgbZyHotiHwyPV5y+CGjF1uCjiLDGpUl6fQvcBBXnFs7kg0zBGn
+awD0JqOtywgMW7B9hdvskzi9mThnJq4ab8sWB39c9RPvYYKswcsaNj10LxURjxfX
+WWmg08RzTKSnqubd5tijYAdg++OfwcAPbU9C8ZxyHs+xPgJOYNveWH9DUDu7p+ga
+tQSZkc5OArWpAtPNiQJR2r3b7Ys6YIk9vOZfrPWy2WGGM/duR8bvy0V2yyndEWo0
+fA3XF+1HQ4BPmHOVcpvqhBrrGqYunoK2VT1dqhdmWJsu9OS9CedPwbXsx9p7WHbt
+FzSoZOaCJJmax5da7Yx2OpdpQjf+XA==
+=Xc1o
+-----END PGP SIGNATURE-----
+
+--irEqxi+ka1OxLIPG--
