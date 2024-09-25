@@ -1,113 +1,104 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.sberdevices.ru (mx2.sberdevices.ru [45.89.224.132])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A36EC1862BB
-	for <linux-sound@vger.kernel.org>; Wed, 25 Sep 2024 12:41:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4225D18452C;
+	Wed, 25 Sep 2024 14:53:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.89.224.132
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727268085; cv=none; b=TSWeAMkNwPNQHHpi8mhD0z5S1v7MgcP7UN7jcZS9WE0wTX8eKqArjIk4RlzObb03D4FQDG/tGfzosqX/youuNF3Ark5cXsJAs0B75Y/wW3B0ZOAbZlet41rRi3/PNXdmSmPbI5oksZg21rzul5VzBuJ0+PCt/NcqNPQzDaO84pc=
+	t=1727276031; cv=none; b=pr5LC7rtemo7MA5z4U9KU8CbeML0AOVpWGoRVYtj9VFYywLRluv8iROJt4i0BbnWoSezTxwgO4spR4L/cWWeTGw1wtvX6VeIqXz0o+hYxk2a67pqrPhFFIMtSb4jsTeKQbGXciUW9v7Ho9ipVWUKXkfCb3WTEYG28LH2ACyAITU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727268085; c=relaxed/simple;
-	bh=YhBxDPpYQH4YqwY+Xz5yX4fHNoiBzWpOpC0HAJ/BbGk=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=LFkL7OLx2J0A53qLDqdjXYnSY/NcTnyiYnUJqIv3Vn373tlZXnFAKrbRMR9qMoIa089nQkYeQPXHu2WrLx2kHxfIhX0rgzaVaJuyPB9iltwUdIbtAwaIGz9QlF8E4KUcCuLT09mxACJJKKNpMoSvNxCxZP1t6xS8iv0D/tSHD8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DQFotCNI; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1727276031; c=relaxed/simple;
+	bh=PBbRfvkwiOjSNn1yKbtNDs5vy8pfVkwIAcDmBzBty/A=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
+	 In-Reply-To:To:CC; b=hbnZRh2GxAEoglsVFT07ZMODCjJwl+yq6GwJvs3YH5QuayC1VabPEpGW2CP8MlRrtg8KjsDB6QMxuECw61GlHm1pXWeG32XZUV8mRu1n2zBOT6LB3JFnjO3Kh88NRR2VQRXRZUPL6fX9c6ZDzGYNk085lgHY3mE7d2sMaNImY54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com; spf=pass smtp.mailfrom=salutedevices.com; dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b=Tog2cbwO; arc=none smtp.client-ip=45.89.224.132
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=salutedevices.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DQFotCNI"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a90349aa7e5so978055166b.0
-        for <linux-sound@vger.kernel.org>; Wed, 25 Sep 2024 05:41:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1727268082; x=1727872882; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Izurz+PMZmOHAHw9NMc4dqCu2H1VhQy7BJX6+wDdt9M=;
-        b=DQFotCNIt4fwuRs9KULT/DBg+n0AwQoywoUipZtw3TLpQIUBa8t156Hscy0gbLplGO
-         HeH5kaHPPr9Ba2K5nc3YTD1du7ezVFjJHHN/qU3qt49/TPfh5GGonPVZmGFmkzGzkQ8T
-         /oYwJELE0kSxtpC6OjbUZhRx/kjExaFwtrsdZB5qgtVrt6wEfO0glyDi9IPcKFdSmGSG
-         MgFnkCqbV4h1k4hXGC2Ox3JGI0KaxiIG2SMtOwm6vEisFalQkn6TeK+aO72yzt2qPHFs
-         ITcsxnS1yOJR1coJPFsXgN6fdiMYXzH0/H0zE8Yjh0azmQmlxXjg+Ots4llYx7kGrisp
-         z18A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727268082; x=1727872882;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Izurz+PMZmOHAHw9NMc4dqCu2H1VhQy7BJX6+wDdt9M=;
-        b=mWn/Gn4iER/3mey8Sv3mLcFdqTcHY36xj6tsVdj6TegGn7+C411u/SLzUiYXGblTnG
-         B80dm5Da8unZjY8vTR4X7Ce7s44XdY3FSqACwZmV3kGjxhzjgemjcOCk65hCFrHb9Umk
-         cTw0udxZazre7XdVap5SwBZz81B9mlAG7Ctn+b351vXp0Ote5YDc8QDXzmm8TpF0ELzU
-         CnhdRHYgdK5r41abt2+zy8NAHR0iBaIxQozsyVIWWYWf6Z6MRgHrBFPv497HuP5Z4lH6
-         svDrfW+CP8V6BVjLIxOapqYGBmNWw6DWX5fphJo6S+mBvOf5AFI4CvzhekyHwbowEEhg
-         n5fw==
-X-Forwarded-Encrypted: i=1; AJvYcCUREHHtYPLb9c4rEv1Whr2Wv9f2ZtWonFPR/o/cY1kLV57Cfh5HOzXeUjS2CZ8uI7wX/YNyqBZQtE+QMA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1MUU74tPOmZeRH+PGD8FREIgQZkdow2oUHShzqksxvt0Bys0s
-	M4+fbJcow7PPMf9nDE0QmMLFaMNnFVZuagImIe06tOOYjxXYddSTaUaiPVNR6vo=
-X-Google-Smtp-Source: AGHT+IGWq/qS81LG8YAeWtGigBWFGSY2KUCD3wh8z6b4HsLNJ/KmQuRXg4EvkhlOqLo8SJiXSmkn7w==
-X-Received: by 2002:a17:907:94cc:b0:a86:8f8f:4761 with SMTP id a640c23a62f3a-a93a035ff85mr249552166b.25.1727268081819;
-        Wed, 25 Sep 2024 05:41:21 -0700 (PDT)
-Received: from localhost ([2a00:2381:fd67:101:6c39:59e6:b76d:825])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93930cae0fsm204615666b.120.2024.09.25.05.41.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Sep 2024 05:41:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="Tog2cbwO"
+Received: from p-infra-ksmg-sc-msk02.sberdevices.ru (localhost [127.0.0.1])
+	by mx1.sberdevices.ru (Postfix) with ESMTP id CAFB812001D;
+	Wed, 25 Sep 2024 17:53:39 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru CAFB812001D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
+	s=mail; t=1727276019;
+	bh=G27jlkm39yu3utaJV1Mp2ey0c89I6kdGqjlO1KDSIRc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:From;
+	b=Tog2cbwOyx9PYlyI/i8iz8fRcFlvOCgPSs5yPHSxXUEze8M3zqrN3y48nhBzKyTrE
+	 OiRu+6QoNOLgDBPB4V83n4RQUqCDtbG7TqTgYmSzV2bdoZBXSBI3gKsNNKaAuj5Bzw
+	 x8QBfnyJTYlOwGlF4NONAviSDcpz3+LJggB/M5/5uzzR2QbTIHqZVlHr75nnGxsZEV
+	 vS0Z8MFESAE+/SxavWuZAe3lNsZ0c8OK8nV7SkX6B5xbKjRoZlPVrGzMVGoKMPGjNd
+	 PHOQqGv5hi9O2BvaxsugwdJ9ndr2oi43sZM93AJWALlpoJN56uLVn/Ydac1m4uL2+J
+	 DcEeYgi2vgjlg==
+Received: from smtp.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.sberdevices.ru (Postfix) with ESMTPS;
+	Wed, 25 Sep 2024 17:53:39 +0300 (MSK)
+From: Igor Prusov <ivprusov@salutedevices.com>
+Date: Wed, 25 Sep 2024 17:52:39 +0300
+Subject: [PATCH v3 1/6] dt-bindings: vendor-prefixes: Add NeoFidelity, Inc
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 25 Sep 2024 13:41:20 +0100
-Message-Id: <D4FDFLNQVSLD.3GSWD0IK7Q4FK@linaro.org>
-Cc: <srinivas.kandagatla@linaro.org>, <a39.skl@gmail.com>,
- <linux-sound@vger.kernel.org>, <lgirdwood@gmail.com>, <perex@perex.cz>,
- <tiwai@suse.com>, <alsa-devel@alsa-project.org>,
- <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <krzysztof.kozlowski@linaro.org>, <vkoul@kernel.org>,
- <klimov.linux@gmail.com>
-Subject: Re: [PATCH REVIEW 1/2] ASoC: codecs: lpass-rx-macro: fix RXn(rx,n)
- macro for DSM_CTL and SEC7 regs
-From: "Alexey Klimov" <alexey.klimov@linaro.org>
-To: "Mark Brown" <broonie@kernel.org>, "Dmitry Baryshkov"
- <dmitry.baryshkov@linaro.org>
-X-Mailer: aerc 0.18.2
-References: <20240925043823.520218-1-alexey.klimov@linaro.org>
- <czlx4thp7thnb6jrauilpbtzgbq637rmnwlpifxq5b5jfa3lqm@toyy3b2viscr>
- <ZvPPpfobvDmmTCfi@finisterre.sirena.org.uk>
-In-Reply-To: <ZvPPpfobvDmmTCfi@finisterre.sirena.org.uk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20240925-ntp-amps-8918-8835-v3-1-e2459a8191a6@salutedevices.com>
+References: <20240925-ntp-amps-8918-8835-v3-0-e2459a8191a6@salutedevices.com>
+In-Reply-To: <20240925-ntp-amps-8918-8835-v3-0-e2459a8191a6@salutedevices.com>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	"Mark Brown" <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi
+ Iwai <tiwai@suse.com>, Igor Prusov <ivprusov@salutedevices.com>, Philipp
+ Zabel <p.zabel@pengutronix.de>
+CC: <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-sound@vger.kernel.org>, <kernel@salutedevices.com>,
+	<prusovigor@gmail.com>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
+X-ClientProxiedBy: p-i-exch-a-m2.sberdevices.ru (172.24.196.120) To
+ p-i-exch-a-m1.sberdevices.ru (172.24.196.116)
+X-KSMG-Rule-ID: 10
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 187980 [Sep 25 2024]
+X-KSMG-AntiSpam-Version: 6.1.0.4
+X-KSMG-AntiSpam-Envelope-From: ivprusov@salutedevices.com
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 34 0.3.34 8a1fac695d5606478feba790382a59668a4f0039, {Tracking_from_domain_doesnt_match_to}, 127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;salutedevices.com:7.1.1;smtp.sberdevices.ru:7.1.1,5.0.1, FromAlignment: s
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean
+X-KSMG-LinksScanning: Clean
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/09/25 13:22:00 #26670925
+X-KSMG-AntiVirus-Status: Clean, skipped
 
-On Wed Sep 25, 2024 at 9:53 AM BST, Mark Brown wrote:
-> On Wed, Sep 25, 2024 at 11:27:54AM +0300, Dmitry Baryshkov wrote:
-> > On Wed, Sep 25, 2024 at 05:38:22AM GMT, Alexey Klimov wrote:
->
-> > > +#define CDC_RX_RXn_RX_PATH_SEC7(rx, n)		\
-> > > +	(0x0434 + rx->rxn_reg_stride * n + n * (n - 1) * rx->rxn_reg_stride=
-2)
->
-> > This is a nice hack to rule out n=3D0 and n=3D1, but maybe we can be mo=
-re
-> > obvious here:
->
-> > (0x0434 + stride * n + (n > 2) ? stride2 : 0)
->
-> Yes.  We could also use some brackets to make the + and * precedence
-> obvious.
+Add vendor prefix for NeoFidelity, Inc
 
-Yeah, sure. If this approach with stride2 works then I can update to:
-(0x0434 + (rx->rxn_reg_stride * n) + ((n > 1) ? rx->rxn_reg_stride2 : 0))
-and update stride2 to 0xc.
+Signed-off-by: Igor Prusov <ivprusov@salutedevices.com>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Looks like I can also remove:
-	if (j =3D=3D INTERP_AUX)
-		dsm_reg =3D CDC_RX_RXn_RX_PATH_DSM_CTL(rx, 2);
-from rx_macro_digital_mute() since INTERP_AUX =3D 2 and this if-check was t=
-here
-to handle special offset of DSM_CTL for RX2. If RXn() will generate correct
-addresses then this no longer needed. Or such kind of clean-up should go
-into separate patch.
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index a70ce43b3dc032027172b1ed3611b5ff08d16af8..b18f6ee6d6de4848cabeb3cbfa3535dc392436f2 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -1009,6 +1009,8 @@ patternProperties:
+     description: Shanghai Neardi Technology Co., Ltd.
+   "^nec,.*":
+     description: NEC LCD Technologies, Ltd.
++  "^neofidelity,.*":
++    description: Neofidelity Inc.
+   "^neonode,.*":
+     description: Neonode Inc.
+   "^netgear,.*":
 
-BR,
-Alexey
+-- 
+2.34.1
+
