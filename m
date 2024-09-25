@@ -1,43 +1,43 @@
 Received: from mx1.sberdevices.ru (mx1.sberdevices.ru [37.18.73.165])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38A86183CAF;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38B24183CDC;
 	Wed, 25 Sep 2024 14:53:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.18.73.165
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727276032; cv=none; b=Ei6tieENhP7OhgaobzYkLZXMRb1Sthh6DGmtiR4fx2g9shkXmCQ06zq+6GU0btJlRkr0g+IrdDDvPUWJTvIDmA+ykmncYThuOTbttFGmKnbmCNoQ56l+i/h1rD0gZwZvW2IZ40SNqZZsx2xGIv6xyQHt4TF5ct+SSAL4v0tFhDo=
+	t=1727276033; cv=none; b=GnX3a9lUhg735fLR1Afd4f79WElKB/DreLz5az5JkkMMp5LX/7MaKfteWllc103uBhNypkJACB5Q4hUT980j+ejrNm8k7rHAJZXZt+vbBy0ySBrvJ3arOu3Ay7fQGYRmH+/dp9cn/s1LiCd5wHNtUeW6i+YcPd63zabvrTcwPUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727276032; c=relaxed/simple;
-	bh=1rbAU8l/g/D/HFPzgxe4ZGLqQep60+AWEiB6UhVM0iU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=tWh0ZtKcJqyYJDnVcR5z2sROpKr3MTpm4Pf74EaZd6nU3wxcVPkQ35MaF99ntNHUvnMKpY4aGc59ekYqRkqGWalyqEbcm2V9XPMmJX+ne7LobdGQph6XAMx0anYA04y5uV6Ck+CWIp1qYgQLeSM0BUK11d1gr1Kbf5g43Yn+Tlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com; spf=pass smtp.mailfrom=salutedevices.com; dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b=ZymeKhun; arc=none smtp.client-ip=37.18.73.165
+	s=arc-20240116; t=1727276033; c=relaxed/simple;
+	bh=590hygyiLMYVFkOXyPvAptr2TCCb54A0de4IU1LwJMw=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=QCh0D0CVf+F1ycgGN9avMfhl4SjKohGJB+8xyLPDiPoRpdCHsmMRBe8qgZfJnq3WbvFLX7nBwoUAZL8vpwAf62D53mBY4gLzlCCPEe82WuMewl56zRfvUmApVnG5csxylmPLF8QYJSMzsc23ZIqfvSEUCV3t8aKdUnhiEoV0ZgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com; spf=pass smtp.mailfrom=salutedevices.com; dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b=htMXbQXi; arc=none smtp.client-ip=37.18.73.165
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=salutedevices.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="ZymeKhun"
+	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="htMXbQXi"
 Received: from p-infra-ksmg-sc-msk01.sberdevices.ru (localhost [127.0.0.1])
-	by mx1.sberdevices.ru (Postfix) with ESMTP id 86B1410004D;
-	Wed, 25 Sep 2024 17:53:40 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 86B1410004D
+	by mx1.sberdevices.ru (Postfix) with ESMTP id A5A0B10004A;
+	Wed, 25 Sep 2024 17:53:39 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru A5A0B10004A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
-	s=mail; t=1727276020;
-	bh=XnkFJndoeLJ3o1ZX8kU8TX/WeTHaiAvXRBl3fzDiYtE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:From;
-	b=ZymeKhunCfIVPSJkaWwFOkwiKr4vwTAO0sV4You82NKC/Rc5PG+sy6KiuS1fqRrMn
-	 lzKme0sv5NHYrUJhRZy7Se0fbQutwf2aTOGfwcVgT+K2Bnzf70djdA+svGYJcfsSB+
-	 jq33X96DZ01i3cXp8X+fv1gcx7uoiqG0UzoOxcX/yoGfYf9vLMqnAv+vDrbdv6fUR6
-	 QexXMb626v7qC1x0BvpfElAZHwfwruA4wMrUu0RxiqNhsbulR3Gn2p01/ZJkzCTZK5
-	 QRVTaElPXmVpJXl/4Yejv+ijwjJ7Y9Wu5zKLEvCPYPGRCLV4XDDMCzIjfAxvdb7ZX7
-	 zCPC/v5Qs4rCA==
+	s=mail; t=1727276019;
+	bh=g1PjG9DV0EBFJRv/c4dhxLqwvunDFGW1tjW9JtSv0VE=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:From;
+	b=htMXbQXiNBbu1EcPQ9sLYiEQGdUz0TsfoYhm7Eov3zS0P8+xWl1vZc0ylaqY3skY6
+	 0Lb4oP1LK93PyhZBef7lsMgKyz58nkl0w6WXP/+49FFFM1NGBV9EEJzAl3ZF3TAR08
+	 DkmmIBjQcdH0rIk1lOz4hwWETPmyozzL4+kCVU5FMM0tV+VFm9tEi+jIpS5W4J3HIw
+	 PxfRpHvXw4N7YmN8JCwC0f7BKlXeT8lPE3TUJjTTvI1UpbBgKbsjc76KefV+Irgy62
+	 63Da/xkrJQ7fNMYeRxHgoC06Syse3L9J58DPSWNSzp8YwOU3oNnS440DbQauURlYKM
+	 HHVgPrEjTRj4g==
 Received: from smtp.sberdevices.ru (unknown [172.16.192.103])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
 	by mx1.sberdevices.ru (Postfix) with ESMTPS;
-	Wed, 25 Sep 2024 17:53:40 +0300 (MSK)
+	Wed, 25 Sep 2024 17:53:39 +0300 (MSK)
 From: Igor Prusov <ivprusov@salutedevices.com>
-Date: Wed, 25 Sep 2024 17:52:43 +0300
-Subject: [PATCH v3 5/6] ASoC: dt-bindings: Add NeoFidelity NTP8835
+Subject: [PATCH v3 0/6] ASoC: Add NTP8918 and NTP8835 codecs support
+Date: Wed, 25 Sep 2024 17:52:38 +0300
+Message-ID: <20240925-ntp-amps-8918-8835-v3-0-e2459a8191a6@salutedevices.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,9 +46,10 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20240925-ntp-amps-8918-8835-v3-5-e2459a8191a6@salutedevices.com>
-References: <20240925-ntp-amps-8918-8835-v3-0-e2459a8191a6@salutedevices.com>
-In-Reply-To: <20240925-ntp-amps-8918-8835-v3-0-e2459a8191a6@salutedevices.com>
+X-B4-Tracking: v=1; b=H4sIALYj9GYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyjHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDSyMT3bySAt3E3IJiXQtLQwtdCwtjU13DtCRDIzMLA8u0RGMloMaCotS
+ 0zAqwodGxtbUAnbwY6GQAAAA=
+X-Change-ID: 20240924-ntp-amps-8918-8835-1fb126809fa3
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
 	"Mark Brown" <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi
@@ -56,7 +57,7 @@ To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Zabel <p.zabel@pengutronix.de>
 CC: <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
 	<linux-sound@vger.kernel.org>, <kernel@salutedevices.com>,
-	<prusovigor@gmail.com>
+	<prusovigor@gmail.com>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.14.2
 X-ClientProxiedBy: p-i-exch-a-m2.sberdevices.ru (172.24.196.120) To
  p-i-exch-a-m1.sberdevices.ru (172.24.196.116)
@@ -69,7 +70,7 @@ X-KSMG-AntiSpam-Rate: 0
 X-KSMG-AntiSpam-Status: not_detected
 X-KSMG-AntiSpam-Method: none
 X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 34 0.3.34 8a1fac695d5606478feba790382a59668a4f0039, {Tracking_uf_ne_domains}, {Tracking_from_domain_doesnt_match_to}, d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;salutedevices.com:7.1.1;devicetree.org:7.1.1;smtp.sberdevices.ru:7.1.1,5.0.1;127.0.0.199:7.1.2, FromAlignment: s
+X-KSMG-AntiSpam-Info: LuaCore: 34 0.3.34 8a1fac695d5606478feba790382a59668a4f0039, {Tracking_uf_ne_domains}, {Tracking_from_domain_doesnt_match_to}, d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;salutedevices.com:7.1.1;lore.kernel.org:7.1.1;smtp.sberdevices.ru:7.1.1,5.0.1;127.0.0.199:7.1.2, FromAlignment: s
 X-MS-Exchange-Organization-SCL: -1
 X-KSMG-AntiSpam-Interceptor-Info: scan successful
 X-KSMG-AntiPhishing: Clean, bases: 2024/09/25 12:44:00
@@ -77,93 +78,49 @@ X-KSMG-LinksScanning: Clean, bases: 2024/09/25 12:44:00
 X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/09/25 13:22:00 #26670925
 X-KSMG-AntiVirus-Status: Clean, skipped
 
-Add dt-bindings for NeoFidelity NTP8835C/NTP8835C Amplifiers
+This series adds support for two NeoFidelity amplifiers. For both
+amplifiers vendor provides software for equalizer and filters
+configuration, which generates firmware files with registers values.
+Since in both cases those files have same encoding, a common helper
+module is added to get firmware via request_firmware() API and set
+registers values.
 
-Signed-off-by: Igor Prusov <ivprusov@salutedevices.com>
+Changes in V3:
+- Added clocks to bindings and drivers
+- removed unused includes
+- ntp8835_reset_gpio() now only implements reset sequence and does not
+  leave device in reset state
+- make data const where possible
+- Link to V2: https://lore.kernel.org/lkml/20240709221203.92167-5-ivprusov@salutedevices.com/
+
+Changes in V2:
+- Fix dt_binding_check errors
+- Link to V1: https://lore.kernel.org/all/20240709172834.9785-1-ivprusov@salutedevices.com/
+
 ---
- .../bindings/sound/neofidelity,ntp8835.yaml        | 73 ++++++++++++++++++++++
- 1 file changed, 73 insertions(+)
+Igor Prusov (6):
+      dt-bindings: vendor-prefixes: Add NeoFidelity, Inc
+      ASoC: codecs: Add NeoFidelity Firmware helpers
+      ASoC: dt-bindings: Add NeoFidelity NTP8918
+      ASoC: codecs: Add NeoFidelity NTP8918 codec
+      ASoC: dt-bindings: Add NeoFidelity NTP8835
+      ASoC: codecs: Add NeoFidelity NTP8835 codec
 
-diff --git a/Documentation/devicetree/bindings/sound/neofidelity,ntp8835.yaml b/Documentation/devicetree/bindings/sound/neofidelity,ntp8835.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..44d72a2ddfc9abc29039106c4a1baed8a5f6e5d8
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/neofidelity,ntp8835.yaml
-@@ -0,0 +1,73 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/neofidelity,ntp8835.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: NeoFidelity NTP8835/NTP8835C Amplifiers
-+
-+maintainers:
-+  - Igor Prusov <ivprusov@salutedevices.com>
-+
-+description: |
-+  The NTP8835 is a single chip full digital audio amplifier
-+  including power stages for stereo amplifier systems.
-+  NTP8835 is integrated with versatile digital audio signal
-+  processing functions, high-performance, high-fidelity fully
-+  digital PWM modulator and two high-power full-bridge MOSFET
-+  power stages. NTP8835C has identical programming interface,
-+  but has different output signal characteristics.
-+
-+allOf:
-+  - $ref: dai-common.yaml#
-+
-+properties:
-+  compatible:
-+    enum:
-+      - neofidelity,ntp8835
-+      - neofidelity,ntp8835c
-+
-+  reg:
-+    enum:
-+      - 0x2a
-+      - 0x2b
-+      - 0x2c
-+      - 0x2d
-+
-+  reset-gpios:
-+    maxItems: 1
-+
-+  '#sound-dai-cells':
-+    const: 0
-+
-+  clocks:
-+    maxItems: 4
-+
-+  clock-names:
-+    items:
-+      - const: wck
-+      - const: bck
-+      - const: scl
-+      - const: mclk
-+
-+required:
-+  - compatible
-+  - reg
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+   #include <dt-bindings/gpio/gpio.h>
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+      audio-codec@2b {
-+        compatible = "neofidelity,ntp8835";
-+        #sound-dai-cells = <0>;
-+        reg = <0x2b>;
-+        reset-gpios = <&gpio 5 GPIO_ACTIVE_LOW>;
-+        clocks = <&clkc 551>, <&clkc 552>, <&clkc 553>, <&clkc 554>;
-+        clock-names = "wck", "bck", "scl", "mclk";
-+      };
-+    };
+ .../bindings/sound/neofidelity,ntp8835.yaml        |  73 ++++
+ .../bindings/sound/neofidelity,ntp8918.yaml        |  70 +++
+ .../devicetree/bindings/vendor-prefixes.yaml       |   2 +
+ sound/soc/codecs/Kconfig                           |  13 +
+ sound/soc/codecs/Makefile                          |   6 +
+ sound/soc/codecs/ntp8835.c                         | 480 +++++++++++++++++++++
+ sound/soc/codecs/ntp8918.c                         | 397 +++++++++++++++++
+ sound/soc/codecs/ntpfw.c                           | 137 ++++++
+ sound/soc/codecs/ntpfw.h                           |  23 +
+ 9 files changed, 1201 insertions(+)
+---
+base-commit: c7fbbb45ef78ff349d16923b516bc8667367d1a6
+change-id: 20240924-ntp-amps-8918-8835-1fb126809fa3
 
+Best regards,
 -- 
-2.34.1
+Igor Prusov <ivprusov@salutedevices.com>
 
