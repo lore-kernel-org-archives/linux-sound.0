@@ -1,109 +1,130 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDCFE15B135;
-	Wed, 25 Sep 2024 08:45:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6F912AE6C;
+	Wed, 25 Sep 2024 08:46:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727253917; cv=none; b=JzW6+INKTojjAqsRBzURWqO5IUXRLBw5aa1exaN9OvL7AOD2GSvlwq/eaHTNJMp15yY01gNSyhgwFuPIALUp8x/fU/NuM70doSNoNCy4ams7sCylpD1dFjffJowc8dkQmoSFFEHGk+ynA9/MgIL0GK8s2l4MpDc+r77tirC6gvI=
+	t=1727253976; cv=none; b=CSARL0ygg/1C3YUJbNdZR0K7xZIG1afhXymwUWmK5WQxboBvkhlmnlxdVDT2XvAT7EGtFpgNRA5RyEfDfdu2tPE+c+cF02dCek5U0rVyRgmakFHKFCsUQJ1y+4ZRijSn/66vBMPLjIB+/n5GBTDozzzSEjRC4MzVXJ5tcFhk+94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727253917; c=relaxed/simple;
-	bh=mP7Uq00AVwR3Zp5r1zKaElCF0y2R9K7EPxhbb9x/wn0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kGfF+/ihx6xMzzGih07wYiIQvA5Po9hPAK4AtBdAT0+udoJEa4LZSI7NmUHcCTc5rr+l5cAfQztkOOlw+yj7qFf8Lrq0AMciCfyg6JRZe+5A4SmX2nsgs2lcq/Sff8vF+i20S4ufXKOH0qKXtcOLLC4Fn47XtJ8M10Iv9CaETLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RBBTQkFR; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727253976; c=relaxed/simple;
+	bh=xKL4aaFY4RmnNb3f+W1zkmXNIxHXpZYbk2lZXvhOuPs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fKfcOkFiUOaTDLyzC3+Wl5ANQFEYHeuuQp7L2zUQUb/R4vEiXxpvg7Nn1W8HlR3RTEaZKUrf1KtGY6d2qo4/V/gQ2/IE4zpqO2J1fFfSDPpNeFceExFy42GrrA6RBPVfDnIKTdTndNBLjJARitYCeR6T5K1HHDbNXuiwIbJaEmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oez+TumF; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RBBTQkFR"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a8d29b7edc2so942590366b.1;
-        Wed, 25 Sep 2024 01:45:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727253914; x=1727858714; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/s0lV7K7xGqyp7HGObiTsi5felYAY5nYIVCT3Xgv5ag=;
-        b=RBBTQkFR3Uuxg3l3E5FE4SHc6PNgjIILgD3hQLnvdeqr/lYdSYrgnHYLFzhE8jBAwf
-         2GwEYjDPRuhw4ysbTclcxBVs54vd0uISvPYoX0oE+8/J7YWK2QuwMlGtOZeN0pUXZgq5
-         ky/K7mLQWNRw3UWP8ucnulho3u0Q5qoxdc7bzUhGIJ2kZKTbmLQ/t2+5r4//9uMyPyax
-         Twj9CdAmMc6VNlMc0PJqYkZlr6yVRrn3ndbHnw6sWwgGXBvMNWWsHETDio5Z0HgdYAYO
-         6yDcdrZE+pbvv6mPP+E7bm+LSQQLYuYNVuuBfbmWjbsIz8kJGxCsdGKrIi6dSUaIQs1S
-         qclA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727253914; x=1727858714;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/s0lV7K7xGqyp7HGObiTsi5felYAY5nYIVCT3Xgv5ag=;
-        b=q+t3HXJV1x9D1xh4RbQwdOlYg6yrHeLDDfqxgqgfL15SsEK+8DPowXjVyzN/eJoRCj
-         OrosuczAvqUoL60u0dHazmwtnMxO/05ezrvas+Z6GVMnGeu/8TO4s1DT2Rr/PXIlnxTT
-         fJtF0uhdCNrWpfLsPNpgMmmciNnwR8iy7la1hSpUCNHGQ9+ia3KOMoakGLTgfzQh4nmU
-         Q7PQP685ofsWEFey3FK4ovrWnzeXI6SFAjdZZeTQnKS83HVwiyQGsRaKAIfHcD3lpGTQ
-         82O3/XMTM6G1Yq4fa6/uSII1di++LUNNhhtflzcmM7NUiUr9zS0QM4xzNUtRDKKZ8ZcA
-         DC1g==
-X-Forwarded-Encrypted: i=1; AJvYcCVxBhSBP2VmtrlZtHY+ojf3BbFVIlDL4BWvTLKQ2o5JfnlpeTZ/AIC4woCXbqNsARy/uwUh95chjtiK@vger.kernel.org, AJvYcCWEat08CmogHFl+rkgWaIIF9pFEpW5UQNQtCXxPIi3CO/PImVZ/JDs8BY9SW/DlVYqW8rZxFxzPKFsPJ9I=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzULThn7Jx71QChvsA9nfCw8QR3Gs9YBjF2KzUsW2ZPadzOfIoS
-	XvZSWIM+gniZ6G41SqyKnvNB8dCy6ZqwP4hNacqXq5VJMwXjedCKVPJnrSIIMLP7qxtCEUqVDBB
-	7dPv9/MDYUPH0fFLolJlB1Y6jRsz5m6QEdk4=
-X-Google-Smtp-Source: AGHT+IHJ9p2T25h1DGXmt5kZkVT5WxVXm73sAkzVAymu155m5T37TOCSBpmD3N4Nbx2vxCxHdTsuLyonZ/MLSAshO7w=
-X-Received: by 2002:a17:907:9487:b0:a7a:8586:d36b with SMTP id
- a640c23a62f3a-a93a03305a3mr173259766b.3.1727253913924; Wed, 25 Sep 2024
- 01:45:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oez+TumF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727253975; x=1758789975;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=xKL4aaFY4RmnNb3f+W1zkmXNIxHXpZYbk2lZXvhOuPs=;
+  b=Oez+TumFIbJH0UMUtTJwO5hCUFIAg6DKKDsFm4eGog7LTHUi9kBG0TZw
+   ZO2yqha/KYtK7sfxAXIJGNpaA1iN04dhw5oFfgxIlKddH8zayvfH/z8Ls
+   afYbRuuDXFNEek3J0WhwhjDa+emFED2rHKJBzN1QGEgDFy4yXlz3RQWQM
+   nhY/3qO6SlOrAbGTr6cXor2VxlJZIx5gM6r0FgxMlLfEgi9uJn7faYYzp
+   QR1998OdI/19x6QFm70Gk//AJ4aM/2d+/USTy6Jl2ZynFhMnwpxcRlQGP
+   PxNr5AxMKxWSbjDkq1ef2xyv4iuAJ3Hp+T96+FxPVbkncOrcjet4T7ldJ
+   Q==;
+X-CSE-ConnectionGUID: X+kDoALuTrqThnJfbMmIvA==
+X-CSE-MsgGUID: Jh1DeZ07Q0WqgX7lEpnzfg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="30079166"
+X-IronPort-AV: E=Sophos;i="6.10,256,1719903600"; 
+   d="scan'208";a="30079166"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 01:46:15 -0700
+X-CSE-ConnectionGUID: 2JP7K0g9RHWi3KLwhIZrOA==
+X-CSE-MsgGUID: BQZ2JySuSzWRKK8r8IpEwA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,256,1719903600"; 
+   d="scan'208";a="71787690"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO [10.245.246.30]) ([10.245.246.30])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 01:46:11 -0700
+Message-ID: <814913ab-903a-4395-bfb9-5fcbb9d3a5f2@linux.intel.com>
+Date: Wed, 25 Sep 2024 10:46:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1727056789.git.zhoubinbin@loongson.cn> <df28fd5784de4d18929c03c43309f095ae4f4860.1727056789.git.zhoubinbin@loongson.cn>
- <ZvKAfZH-uaxzY0hh@finisterre.sirena.org.uk>
-In-Reply-To: <ZvKAfZH-uaxzY0hh@finisterre.sirena.org.uk>
-From: Binbin Zhou <zhoubb.aaron@gmail.com>
-Date: Wed, 25 Sep 2024 14:44:59 +0600
-Message-ID: <CAMpQs4+pEXiNknyVEWKY=POS7kk7ow7SBuuF6R+G5EcGAd42jA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/9] ASoC: codecs: Add support for ES8323
-To: Mark Brown <broonie@kernel.org>
-Cc: Binbin Zhou <zhoubinbin@loongson.cn>, Huacai Chen <chenhuacai@loongson.cn>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Huacai Chen <chenhuacai@kernel.org>, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, Xuerui Wang <kernel@xen0n.name>, loongarch@lists.linux.dev, 
-	Neil Armstrong <neil.armstrong@linaro.org>, 
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Weidong Wang <wangweidong.a@awinic.com>, Prasad Kumpatla <quic_pkumpatl@quicinc.com>, 
-	Herve Codina <herve.codina@bootlin.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Shuming Fan <shumingf@realtek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: intel: sof_sdw: Add check devm_kasprintf() returned
+ value
+To: Charles Han <hanchunchao@inspur.com>, yung-chuan.liao@linux.intel.com,
+ ckeepax@opensource.cirrus.com
+Cc: alsa-devel@alsa-project.org, liam.r.girdwood@linux.intel.com,
+ peter.ujfalusi@linux.intel.com, broonie@kernel.org, tiwai@suse.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240925080030.11262-1-hanchunchao@inspur.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <20240925080030.11262-1-hanchunchao@inspur.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Mark:
 
-On Tue, Sep 24, 2024 at 3:04=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
-te:
->
-> On Tue, Sep 24, 2024 at 03:00:19PM +0800, Binbin Zhou wrote:
->
-> > +     /* interface format */
-> > +     switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
-> > +     case SND_SOC_DAIFMT_I2S:
-> > +             adciface &=3D 0xFC;
-> > +             daciface &=3D 0xF9;
-> > +             break;
-> > +     case SND_SOC_DAIFMT_RIGHT_J:
-> > +     case SND_SOC_DAIFMT_LEFT_J:
-> > +     case SND_SOC_DAIFMT_DSP_A:
-> > +     case SND_SOC_DAIFMT_DSP_B:
-> > +             break;
->
-> This results in an identical configuration for everything except I2S
-> which must be buggy, these are distinct formats in ways that are visible
-> on the bus.
 
-Ok, I checked the datasheet for the ES8323 and it has set bits for
-LEFT_J/RIGHT_J etc.
-In the next version, I'll patch it all.
+On 9/25/24 10:00, Charles Han wrote:
+> devm_kasprintf() can return a NULL pointer on failure but this
+> returned value is not checked.
+> 
+> Fixes: b359760d95ee ("ASoC: intel: sof_sdw: Add simple DAI link creation helper")
+> Signed-off-by: Charles Han <hanchunchao@inspur.com>
+> ---
+>  sound/soc/intel/boards/sof_sdw.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
+> index d258728d64cf..26917f6f15cf 100644
+> --- a/sound/soc/intel/boards/sof_sdw.c
+> +++ b/sound/soc/intel/boards/sof_sdw.c
+> @@ -919,6 +919,9 @@ static int create_ssp_dailinks(struct snd_soc_card *card,
+>  		char *cpu_dai_name = devm_kasprintf(dev, GFP_KERNEL, "SSP%d Pin", i);
+>  		char *codec_name = devm_kasprintf(dev, GFP_KERNEL, "i2c-%s:0%d",
+>  						  ssp_info->acpi_id, j++);
+> +		if (!name || !cpu_dai_name || !codec_name)
+> +			return -ENOMEM;
+> +
 
-Thanks.
-Binbin
+all 3 changes are correct, thanks for the patch. The only nit-pick is
+that I would have moved the devm_ allocation + test lower to be
+consistent with the coding style which avoids mixing code and declarations.
+
+>  		int playback = ssp_info->dais[0].direction[SNDRV_PCM_STREAM_PLAYBACK];
+>  		int capture = ssp_info->dais[0].direction[SNDRV_PCM_STREAM_CAPTURE];
+>  
+> @@ -985,6 +988,9 @@ static int create_hdmi_dailinks(struct snd_soc_card *card,
+>  	for (i = 0; i < hdmi_num; i++) {
+>  		char *name = devm_kasprintf(dev, GFP_KERNEL, "iDisp%d", i + 1);
+>  		char *cpu_dai_name = devm_kasprintf(dev, GFP_KERNEL, "iDisp%d Pin", i + 1);
+> +		if (!name || !cpu_dai_name)
+> +			return -ENOMEM;
+> +
+>  		char *codec_name, *codec_dai_name;
+>  
+>  		if (intel_ctx->hdmi.idisp_codec) {
+> @@ -996,6 +1002,9 @@ static int create_hdmi_dailinks(struct snd_soc_card *card,
+>  			codec_dai_name = "snd-soc-dummy-dai";
+>  		}
+>  
+> +		if (!codec_dai_name)
+> +			return -ENOMEM;
+> +
+>  		ret = asoc_sdw_init_simple_dai_link(dev, *dai_links, be_id, name,
+>  						    1, 0, // HDMI only supports playback
+>  						    cpu_dai_name, platform_component->name,
+> @@ -1019,6 +1028,9 @@ static int create_bt_dailinks(struct snd_soc_card *card,
+>  			SOF_BT_OFFLOAD_SSP_SHIFT;
+>  	char *name = devm_kasprintf(dev, GFP_KERNEL, "SSP%d-BT", port);
+>  	char *cpu_dai_name = devm_kasprintf(dev, GFP_KERNEL, "SSP%d Pin", port);
+> +	if (!name || !cpu_dai_name)
+> +		return -ENOMEM;
+> +
+>  	int ret;
+>  
+>  	ret = asoc_sdw_init_simple_dai_link(dev, *dai_links, be_id, name,
+
