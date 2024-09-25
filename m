@@ -1,120 +1,148 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 679E614AD29;
-	Wed, 25 Sep 2024 04:19:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29E931487DC
+	for <linux-sound@vger.kernel.org>; Wed, 25 Sep 2024 04:38:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727237945; cv=none; b=OBR0icJDCFO8ydJUx51WxQv2vb3WZgYTF+BHq17ezqvcXuctVyxH17fSX3cgc2n1qw9rx6zXpsfO/B2BotDPww9Hf9ycIHwxosFB1qkK8hftjDG+lT66lJWN5v0k38FCJauxWi3EWZlYOfgKhgAlNe1bKMGmYx2wbgVKvKImXbo=
+	t=1727239111; cv=none; b=cJrL1afUhyTWvkaon1ickB68svPFq8WB6TN1qnLl/mX92dt+PhIYl2Qtwrbwjy/MCA6yQewJQY3K/MF7zBYf64tuWExSANe17yV9cdcQEYozW4h6gOr4F94v0jqBD5YTel3Fw3E7xkjxgBmjRJWOew7LesuyB1yFcXKMU1/+0/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727237945; c=relaxed/simple;
-	bh=lS+NkfW/fPJVCVEP9QZFeM8NSHU7s7NyFWgEgQ6rUrk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ACh34r54lrYAqJ5ZVn6O4OjXyPoaCAcRLDt29un866CKYYnN3BN9TrCF89Cze/kDS+JTQGGzYIaJGTmFY0BXroF0c5TePh2gIl5frjZIobDzIcdLtrGvn7VY7m/BXSNB216zOwjfEqpIVxaxE7igmLyzlRthXRQiVlaUkTF5wW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CCTFUbYc; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1727239111; c=relaxed/simple;
+	bh=vcbtUAz7yhwWjWdeSyDPvePJuJQCbBjXfWfwU0OxtHI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nr1BkbI5Ocnkr0OPVBiNpW96+BU0Q6u2LnZOBT9UA27zZhbHezrt4zBFeIkV2PP2MSbKWyKQsWOX5eQILEG+dTv3bVnRFJ45D8piI+igRPqa2b1mn9htyCSwS2zr4bI/rwygDC7sQWA40PMGvtIFU2HffVhjZmkHYdZ6WtEwqos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aD2Zz3KO; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CCTFUbYc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727237944; x=1758773944;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lS+NkfW/fPJVCVEP9QZFeM8NSHU7s7NyFWgEgQ6rUrk=;
-  b=CCTFUbYcK48ocL49uhXQmy11e2r3PKrff6ejg2ZaHfYT1fONxTe1gIzD
-   /oMP3WqIfiN1JOS29yS3INOh0R8xe40Umvx96TgYKO3wb3iTGdJ0dMzqC
-   b1xdQV+qusDztXAml/4z7SAmyoKNdxfFwOor7j2O3Jsz/Y5LuNBe7dZgO
-   T832JTLyg96J2N3OOOKs/bzBjq7VwWI0lhujNhMB+KBLRAzMvIaDNVDzw
-   9YtXrG70TqWuTuMeXp1uV8Tyu3xrlaqHNwUMEBHhIFzlNM9bYBRCi4DYL
-   44E5IMt8XfBivWtzxrftSCjV01mCGsVCINDS2dlxuDP9cNhodqk2hQJ4d
-   Q==;
-X-CSE-ConnectionGUID: 4KNWM9hKQyisH1CCpOEGXw==
-X-CSE-MsgGUID: vMFcWGeXQeu4kwd1m1HOKg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="26215366"
-X-IronPort-AV: E=Sophos;i="6.10,256,1719903600"; 
-   d="scan'208";a="26215366"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 21:19:03 -0700
-X-CSE-ConnectionGUID: 6NdU+laSRBSdbMAEKH5Liw==
-X-CSE-MsgGUID: ImcSjgIFQA6RYk9dsdE7cg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,256,1719903600"; 
-   d="scan'208";a="71644054"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 24 Sep 2024 21:18:57 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1stJUN-000J7t-0E;
-	Wed, 25 Sep 2024 04:18:55 +0000
-Date: Wed, 25 Sep 2024 12:18:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Binbin Zhou <zhoubinbin@loongson.cn>,
-	Binbin Zhou <zhoubb.aaron@gmail.com>,
-	Huacai Chen <chenhuacai@loongson.cn>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, Xuerui Wang <kernel@xen0n.name>,
-	loongarch@lists.linux.dev,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Weidong Wang <wangweidong.a@awinic.com>,
-	Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Shuming Fan <shumingf@realtek.com>
-Subject: Re: [PATCH v2 7/9] ASoC: loongson: Add I2S controller driver as
- platform device
-Message-ID: <202409251242.gyf8pdxt-lkp@intel.com>
-References: <fd3989d15546502b47f580e6a2c3a59cb628ce93.1727056789.git.zhoubinbin@loongson.cn>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aD2Zz3KO"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a86e9db75b9so983485666b.1
+        for <linux-sound@vger.kernel.org>; Tue, 24 Sep 2024 21:38:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1727239106; x=1727843906; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=D/oxZoO71PQ5m5Ow+SV5/SV/jvpv3lxQQXCYtby61Bc=;
+        b=aD2Zz3KOB5jLldI+7RcSUqDJrUMc0bvGg+Wpf/EGibPBGWfjdPvXPOTIlt5xKGUdwA
+         lJpEZ4zCK2JPnWIHNe+oGJiVTLy3hnx3BoTuYq87O5NqajYKDM8KofPQl5xVNHjeAJ8T
+         fOxILsEc8OjAPrHfq6f429dcr4yhykAWoumqxXHu5ZoXYNW8JyCvVwahWWLzyQbjRR7u
+         fC4SVmp19ZIHA3B1ktAVH5+MsDWfSYPf+xTjymVKncRE9KUrznDGCiv0XUF2UpiAFqhR
+         dJ3N5aXzR7D8RGk0IYQXKwdg5IOznNR23jSG5xvSkudcHjvu7bssxkiLX1cm2CtseJYG
+         2HDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727239106; x=1727843906;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=D/oxZoO71PQ5m5Ow+SV5/SV/jvpv3lxQQXCYtby61Bc=;
+        b=kkuP7zg9wwYCrcSqPHzpzYoIMMKpLYmNe45g3TsRf4kqA2ybrJHsit70Xojt2mtxzn
+         lNIsM39dvg7Cr9N2QtscFijOoYLX9ybRQZtPp6Ub0z791k1OUIsP2xcwM3Jr73Dlza4C
+         4Sc1KsQZHh8dYswfwAIXqRGyUFXjLFhq14zzVMb3G8r7qWPKL4QUBl85rBnLYZTVk7ZB
+         Kw4JlLRyKCUDMyXrXtdZL0Kf2+xuNMpT40ahoOQPIndi3r3julhoHVHSUVf6E1tD1WZa
+         f2h3dXZE8dAKWEb18gN1TfCfJgDyPKH7v3WHvxS8lTbYjh4MwA5QpC5zS/4k14tsevZ4
+         KZgQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV/mmrDJKDpZs7cQYHi7U+eHrwxJ2rAN++xu5mdI3Wao7a/72qgDqNVdzU8Pm/CeNAYbYILA5bGn6YJWg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxpUzlhcfqlgYwR3v0E2ap6tAaEkPjWSFkfgy1+T53z9x5DCeJt
+	oh5eQd7k0hFiUTTwBgTEVsCMsf5xbg/VnC+xBOIrD97YSGKxEECuLhIFMoOwSAQ=
+X-Google-Smtp-Source: AGHT+IHwdF5ljDQfVen2bB2i+DqTGyQ8nFc+SavdlwPgLOgvH9bEIVuNClRBPu4Uwc0aZm3GruhGCg==
+X-Received: by 2002:a17:906:730a:b0:a8d:e49:c530 with SMTP id a640c23a62f3a-a93a05eda5fmr124902866b.42.1727239106340;
+        Tue, 24 Sep 2024 21:38:26 -0700 (PDT)
+Received: from localhost.localdomain ([2.125.184.148])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9392f346casm164857466b.24.2024.09.24.21.38.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Sep 2024 21:38:25 -0700 (PDT)
+From: Alexey Klimov <alexey.klimov@linaro.org>
+To: srinivas.kandagatla@linaro.org,
+	a39.skl@gmail.com,
+	linux-sound@vger.kernel.org
+Cc: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	alsa-devel@alsa-project.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	krzysztof.kozlowski@linaro.org,
+	vkoul@kernel.org,
+	klimov.linux@gmail.com
+Subject: [PATCH REVIEW 1/2] ASoC: codecs: lpass-rx-macro: fix RXn(rx,n) macro for DSM_CTL and SEC7 regs
+Date: Wed, 25 Sep 2024 05:38:22 +0100
+Message-ID: <20240925043823.520218-1-alexey.klimov@linaro.org>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fd3989d15546502b47f580e6a2c3a59cb628ce93.1727056789.git.zhoubinbin@loongson.cn>
+Content-Transfer-Encoding: 8bit
 
-Hi Binbin,
+Turns out some registers of pre-2.5 version of rxmacro codecs are not
+located at the expected offsets but 0xc further away in memory.
+So far the detected registers are CDC_RX_RX2_RX_PATH_SEC7 and
+CDC_RX_RX2_RX_PATH_DSM_CTL.
 
-kernel test robot noticed the following build warnings:
+CDC_RX_RXn_RX_PATH_DSM_CTL(rx, n) macro incorrectly generates the address
+0x540 for RX2 but it should be 0x54C and it also overwrites
+CDC_RX_RX2_RX_PATH_SEC7 which is located at 0x540.
+The same goes for CDC_RX_RXn_RX_PATH_SEC7(rx, n).
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on linus/master next-20240924]
-[cannot apply to robh/for-next v6.11]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Fix this by introducing additional rxn_reg_stride2 offset. For 2.5 version
+and above this offset will be equal to 0.
+With such change the corresponding RXn() macros will generate the same
+values for 2.5 codec version for all RX paths and the same old values
+for pre-2.5 version for RX0 and RX1. However for the latter case with RX2 path
+it will also add 2 * rxn_reg_stride2 on top.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Binbin-Zhou/ASoC-dt-bindings-Add-Everest-ES8323-Codec/20240924-150942
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/fd3989d15546502b47f580e6a2c3a59cb628ce93.1727056789.git.zhoubinbin%40loongson.cn
-patch subject: [PATCH v2 7/9] ASoC: loongson: Add I2S controller driver as platform device
-config: alpha-kismet-CONFIG_SND_SOC_LOONGSON_CARD-CONFIG_SND_SOC_LOONGSON_I2S_PLATFORM-0-0 (https://download.01.org/0day-ci/archive/20240925/202409251242.gyf8pdxt-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240925/202409251242.gyf8pdxt-lkp@intel.com/reproduce)
+Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+---
+ sound/soc/codecs/lpass-rx-macro.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409251242.gyf8pdxt-lkp@intel.com/
-
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for SND_SOC_LOONGSON_CARD when selected by SND_SOC_LOONGSON_I2S_PLATFORM
-   WARNING: unmet direct dependencies detected for SND_SOC_LOONGSON_CARD
-     Depends on [n]: SOUND [=y] && SND [=y] && SND_SOC [=y] && (LOONGARCH || COMPILE_TEST [=n])
-     Selected by [y]:
-     - SND_SOC_LOONGSON_I2S_PLATFORM [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && OF [=y]
-
+diff --git a/sound/soc/codecs/lpass-rx-macro.c b/sound/soc/codecs/lpass-rx-macro.c
+index 71e0d3bffd3f..9288ddb705fe 100644
+--- a/sound/soc/codecs/lpass-rx-macro.c
++++ b/sound/soc/codecs/lpass-rx-macro.c
+@@ -202,12 +202,14 @@
+ #define CDC_RX_RXn_RX_PATH_SEC3(rx, n)	(0x042c  + rx->rxn_reg_stride * n)
+ #define CDC_RX_RX0_RX_PATH_SEC4		(0x0430)
+ #define CDC_RX_RX0_RX_PATH_SEC7		(0x0434)
+-#define CDC_RX_RXn_RX_PATH_SEC7(rx, n)	(0x0434  + rx->rxn_reg_stride * n)
++#define CDC_RX_RXn_RX_PATH_SEC7(rx, n)		\
++	(0x0434 + rx->rxn_reg_stride * n + n * (n - 1) * rx->rxn_reg_stride2)
+ #define CDC_RX_DSM_OUT_DELAY_SEL_MASK	GENMASK(2, 0)
+ #define CDC_RX_DSM_OUT_DELAY_TWO_SAMPLE	0x2
+ #define CDC_RX_RX0_RX_PATH_MIX_SEC0	(0x0438)
+ #define CDC_RX_RX0_RX_PATH_MIX_SEC1	(0x043C)
+-#define CDC_RX_RXn_RX_PATH_DSM_CTL(rx, n)	(0x0440  + rx->rxn_reg_stride * n)
++#define CDC_RX_RXn_RX_PATH_DSM_CTL(rx, n)	\
++	(0x0440 + rx->rxn_reg_stride * n + n * (n - 1) * rx->rxn_reg_stride2)
+ #define CDC_RX_RXn_DSM_CLK_EN_MASK	BIT(0)
+ #define CDC_RX_RX0_RX_PATH_DSM_CTL	(0x0440)
+ #define CDC_RX_RX0_RX_PATH_DSM_DATA1	(0x0444)
+@@ -645,6 +647,7 @@ struct rx_macro {
+ 	int rx_mclk_cnt;
+ 	enum lpass_codec_version codec_version;
+ 	int rxn_reg_stride;
++	int rxn_reg_stride2;
+ 	bool is_ear_mode_on;
+ 	bool hph_pwr_mode;
+ 	bool hph_hd2_mode;
+@@ -3821,6 +3824,7 @@ static int rx_macro_probe(struct platform_device *pdev)
+ 	case LPASS_CODEC_VERSION_2_0:
+ 	case LPASS_CODEC_VERSION_2_1:
+ 		rx->rxn_reg_stride = 0x80;
++		rx->rxn_reg_stride2 = 0x6;
+ 		def_count = ARRAY_SIZE(rx_defaults) + ARRAY_SIZE(rx_pre_2_5_defaults);
+ 		reg_defaults = kmalloc_array(def_count, sizeof(struct reg_default), GFP_KERNEL);
+ 		if (!reg_defaults)
+@@ -3834,6 +3838,7 @@ static int rx_macro_probe(struct platform_device *pdev)
+ 	case LPASS_CODEC_VERSION_2_7:
+ 	case LPASS_CODEC_VERSION_2_8:
+ 		rx->rxn_reg_stride = 0xc0;
++		rx->rxn_reg_stride2 = 0x0;
+ 		def_count = ARRAY_SIZE(rx_defaults) + ARRAY_SIZE(rx_2_5_defaults);
+ 		reg_defaults = kmalloc_array(def_count, sizeof(struct reg_default), GFP_KERNEL);
+ 		if (!reg_defaults)
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.45.2
+
