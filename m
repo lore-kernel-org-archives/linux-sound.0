@@ -1,177 +1,118 @@
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2104.outbound.protection.outlook.com [40.107.95.104])
+Received: from mail-m118115.qiye.163.com (mail-m118115.qiye.163.com [115.236.118.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B95311AD416;
-	Thu, 26 Sep 2024 10:44:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.95.104
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727347465; cv=fail; b=ooo2JFVxWOc8ODzU8jYa3z+/OgHhifUqeb8q/z04gRrgvjJkfjj+MsgfoFognYPz8zZCeEIQdUdUYCVg/tX8A0C0BGd0hWOwOvKuxIxClGcaRgeHw/wEQWlHkKHaWXBwTA6rwqn+Omi3XyFOeqB5V8oUC2cP19oClRIRgWUwagM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727347465; c=relaxed/simple;
-	bh=dFoVSTXViHVpCWRtRzr6RjHEu91RU9r4brWLT7BpXjI=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=rhtkIaD0tWaDmjzUGBK1bk6/RlVSYp6pmrba+yigPV+PK3SsMvxYNNMAt9SzZSXPS/Cs8xK7faLSRMmGFVJScKPXyea8Rr/Q07YHohtl40oD9ywbgv9GskscQ86xZPnBLRhimOxZCrlOYu7arPCr95IRRRpTHi8KwUw+9JQzYmY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inmusicbrands.com; spf=pass smtp.mailfrom=inmusicbrands.com; dkim=pass (1024-bit key) header.d=inmusicbrands.com header.i=@inmusicbrands.com header.b=ZQsixcDH; arc=fail smtp.client-ip=40.107.95.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inmusicbrands.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inmusicbrands.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inmusicbrands.com header.i=@inmusicbrands.com header.b="ZQsixcDH"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SbFSoSD0VTwNQs+MXSKQVb1Eu/yF6xWP1eDxx8vVk+UizULzIqyas9CWdpnfiE0t10Db06KUMWPs7QMyTKJUDQciX/MGzClUmHj9ySTtPOGwIzewo6wihDgqHc3USDPMZmK77K3OqCxR3hPzI3WZj4X/SuOpAhSkpi5Yy+Rmir4/9QVKBGfbWScYXbX91HDLpqWBsvbkOYMKq1QOST80G7jh4KsapR2GDpHD94ci7KJYAG9123V4p9KcKJ7BzjrYINBz4lUAKr4cGsoDGabfKyBryJfB/woXTuRk0XgDONS+GVO6dMm7G435mzklaRWscF05uZb5NGtfy0rZwdRP4w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6/CoUEyLPqdyUI+PBq+uGlXaosEAqgWzTJPL4RwROkY=;
- b=pK8U1UOuM6RdjeUMepDiEKV8mZ0OsApcNrUQN2kDradA+qZNyokT6CWXWd/iuyl0zGCUUsocOj2Z5KXRdrJNLY2uR/k5oMNYg5pAr/pm878s8ZtP7qYESNV71vuKiLnwAgz5IxP2jhSqy+SkJ25QOHXPm8sUj4RS6YmjdhxroF9dOiAlcUwR+5kyAGk37vUt8uHKG8hKxHkmQhPAJ0R7n6HQr0b4KbI21VmYQOfrncUSfF5Gxg4XxNPyCfOrAvS29xgECqWGhLXbjiZxTG3VDletGWkkm81WysEy0GeHeIc3/8ru4KMywWC9b0URWXR+EU+63bp2PkkdnbQ7QZdmGQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=inmusicbrands.com; dmarc=pass action=none
- header.from=inmusicbrands.com; dkim=pass header.d=inmusicbrands.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inmusicbrands.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6/CoUEyLPqdyUI+PBq+uGlXaosEAqgWzTJPL4RwROkY=;
- b=ZQsixcDHwDurrU2qOJzAlbUQSTEJ8qM8PYum8GskYC5x0WkYco482M1oJXlKOBv+yq0vLfnaTnyuh65Zh3RdDHRxwTZAcEvFcbX8nSm9281cuDT+/rfRspwEpvOcGLBO7+qI3xBv0/dg8e1/02aCnziag3GqSywmFQF2WCD5ll4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=inmusicbrands.com;
-Received: from MW4PR08MB8282.namprd08.prod.outlook.com (2603:10b6:303:1bd::18)
- by CO1PR08MB7000.namprd08.prod.outlook.com (2603:10b6:303:f3::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.28; Thu, 26 Sep
- 2024 10:44:20 +0000
-Received: from MW4PR08MB8282.namprd08.prod.outlook.com
- ([fe80::55b3:31f1:11c0:4401]) by MW4PR08MB8282.namprd08.prod.outlook.com
- ([fe80::55b3:31f1:11c0:4401%6]) with mapi id 15.20.7982.022; Thu, 26 Sep 2024
- 10:44:20 +0000
-From: John Keeping <jkeeping@inmusicbrands.com>
-To: linux-sound@vger.kernel.org
-Cc: John Keeping <jkeeping@inmusicbrands.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Johan Hovold <johan@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alex Elder <elder@kernel.org>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Lee Jones <lee@kernel.org>,
-	Francesco Dolcini <francesco.dolcini@toradex.com>,
-	"Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Daniel Kaehn <kaehndan@gmail.com>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: serial-generic: explicitly disable flow control
-Date: Thu, 26 Sep 2024 11:44:03 +0100
-Message-ID: <20240926104404.3527124-1-jkeeping@inmusicbrands.com>
-X-Mailer: git-send-email 2.46.2
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0164.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:18a::7) To MW4PR08MB8282.namprd08.prod.outlook.com
- (2603:10b6:303:1bd::18)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23AD9171675;
+	Thu, 26 Sep 2024 11:17:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.236.118.115
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727349480; cv=none; b=nowfI3613YTZc6Vhkck5NU+eckl8e7vDVFxyabH6hspI8uNGv58/8cZIENr+/vIK+RGQ5A1ygWee+lyO3Uhkl8LnYjlkLB1jfYdTnU6+ayei70ADNxnDCHzE+wAsgnopZIQMuz6TnZ1mbWr9QDamigyeKKZt4WNKbtfoE9eM1jg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727349480; c=relaxed/simple;
+	bh=7+DOtoutFds+ShUKf1onXNvwcnmuB08COLWt5VmhY6A=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=eHoXkpRcyG1IlVkHNEjPzIzM12AH6xvjBn/d+B0el5qg8BVUB2vb1gNq7tzZAut3mL6I3Tjm82AUa5HSw3lEl5/nQm2G/J7zQACaWUKG9/PhGwepB2hP9ZZy1ZBWyP/Y5/my6LHEL4ajh2hGnk1tMcgZ9tNIJv5TtkuNVv1iWCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=senarytech.com; spf=pass smtp.mailfrom=senarytech.com; arc=none smtp.client-ip=115.236.118.115
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=senarytech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=senarytech.com
+Received: from book-ThinkStation-P328.. (unknown [61.183.143.78])
+	by smtp.qiye.163.com (Hmail) with ESMTPA id 9F942940883;
+	Thu, 26 Sep 2024 18:01:39 +0800 (CST)
+From: bo liu <bo.liu@senarytech.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	cs@tuxedo.de,
+	songxiebing@kylinos.cn,
+	wse@tuxedocomputers.com,
+	bo liu <bo.liu@senarytech.com>
+Subject: [PATCH] ALSA: hda/conexant: fix Z60MR100 startup pop issue
+Date: Thu, 26 Sep 2024 18:01:35 +0800
+Message-Id: <20240926100135.36499-1-bo.liu@senarytech.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR08MB8282:EE_|CO1PR08MB7000:EE_
-X-MS-Office365-Filtering-Correlation-Id: 37df8c2f-e9e0-46df-1be3-08dcde182d42
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|7416014|376014|366016|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?Q07YJSMoI+bvef8PW1lvZl6/Nxje7ugbqoKC9ilDS1iAmPSsuh9OUaNiWHrg?=
- =?us-ascii?Q?BjBPUovlVKh0nASJYx/0cTmaGkwmMqzzb6LNqJUzTTsxOR5eVjFyFnn/fRMU?=
- =?us-ascii?Q?Fp+8AnV4Hy+uiJ9G4Ao7pUTrcRiAEg9vaidmxRqFmCzwUJkzHcqy8IOY13GA?=
- =?us-ascii?Q?GmFK2eFxMANQGXgK9+FIqCA/jsQ/2O8J57KVSuKGsdD+C1URyEIN/NaJ1X6p?=
- =?us-ascii?Q?gKmW8eCRYoQnfaGoXZ8TmhHxOKZK6FiiPBqD2Rdzd4KcDDVLsptTh5izZkPj?=
- =?us-ascii?Q?gbmND3YBNEeBbXJfflzA5L60WOTBWVboyAe0AecH0g5/zzUwonAwDGYaRzDE?=
- =?us-ascii?Q?w098mCSD7fekAm32hwWzE9cEGbPV8kUAIHDQhvLQuRzvJZRl3ORybhnmRoSS?=
- =?us-ascii?Q?8BlvFQAJhYG/nLB/C+l0HiqY4qQHqYVjPSqd7VL+SWubVk2QJQKhqdjWHEaK?=
- =?us-ascii?Q?HB+Py///jYuIyo/I2txB6wpAhmWAW1inidetZIhJNH7WjhnksKFPuxdKd9J2?=
- =?us-ascii?Q?fy/+ZwGqKoHrI03/zjavhJ3cIgxFzZEjgY4xtpf18jj9OsByZP5a4d+tOziy?=
- =?us-ascii?Q?S8V+uCpXyAwNxK/6iEY6yUJ96nsCH7VqIJak/ma1i8WO2lXu4D5KSLEYVz3h?=
- =?us-ascii?Q?9D6FVaH786UuOHmTSswVqBhCUU9AJO/qNRPJaYGj7QYTaPUp9rgN9NNL345e?=
- =?us-ascii?Q?6hnP8qyod3NL/uM/+GYhrZgKh+qgEgkDi68wMvJ0jN+wXrayLhT88Lq2HEer?=
- =?us-ascii?Q?FPADZGfPlX0djgqOpWaANE+i6RFOE0BDdLqRlozJrX86V3eKqZeMmFoIdsPf?=
- =?us-ascii?Q?eBvwhr8hdbS85zK0stZWB8boXkcCgODxjdYnvpKWlRKvkEN4JiOz6ePeIvcY?=
- =?us-ascii?Q?+BDdhN8vvB9z1gotCYDVm9f1gRmuyaDYvkDnkmWVa7Fb1c2jlgiP7yjnSv4o?=
- =?us-ascii?Q?1YtmLD9hgVqwphPfGy/WbLaDlbOR0FwhtfZuzspZhdoVbKSjW0NKBQKm8/Xq?=
- =?us-ascii?Q?Q8XbaykRovqXhP0Iie7oA8yNBT4bOW1a07AU3sTZ3X0fXx6GKngGTc4BTAzp?=
- =?us-ascii?Q?GXHJB1SJQHJXMPj+nr4wciEtiUrFdtPFPzywRALvRl9xd2ZNvxlrq4OBWe2U?=
- =?us-ascii?Q?AQNMxsLFF4WRSY+GItTYL0n/BHwfSmvQNKI17BrpcKfubIUrb9p73Obd273O?=
- =?us-ascii?Q?HS8YRi7oVwVtqAiqOqnIUR9l3DyK18MiBY8w2l2H7x/wSPsPNutObxmNOKkC?=
- =?us-ascii?Q?oVcCM6jj1mGE06uIkeQUV3WjVY/44jMaeQn8yRLin5GVXy1slsYnvcCOtXAj?=
- =?us-ascii?Q?zGFwMhAjZYjUpep7kI0y4tW1RBGwcuvOWDDEctoA4F+Vkw=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR08MB8282.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(7416014)(376014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?zF9inagIA97p+L4K1ByJvvf6u6h0U4lzBUMJ7Do7m2B8j+DiBuImN2T9HLyj?=
- =?us-ascii?Q?YDI4cQJFKCz7XX+OOyHQqe+Wt2dA84rN4DcnHvVe6Swrzvg2IqpHD05dRiFw?=
- =?us-ascii?Q?JZbAKYGzS9113KbhTa8+l18TAxQMaON0Cbtv0kXJ7iLazpX9um4nM3poOLzk?=
- =?us-ascii?Q?gLlfc9WbeA9fjztlHnuKDuC8/Z8LfwDveumwHcylGZOuRbQt6xRcUzfzbV4I?=
- =?us-ascii?Q?3yWAuAKj+whIhAjuQ3Yxop2b7PE4XBpy0ew+2+qeGwnmUODuJA2/f8nafCIj?=
- =?us-ascii?Q?80jhgOd9Vey0+p2+ZPFJXJW4tHTJgv8jx+8Bh31uF8zVuxOwRL+M0Z8W7fVp?=
- =?us-ascii?Q?AgT84Ivxj/gDDUDF1/GGGyH8mnh8BK/Hc1fbgpo5A2qVEeqCLylwYGhg061G?=
- =?us-ascii?Q?nGuQtMjtETFyKYhxW6WJyBKT78TiHpwSaryT5gIO6mDj2ck8rAn3ZLMO46VN?=
- =?us-ascii?Q?RLCbPfuxTWzccoR0Qbx/ja7i3LdmgHtYorXFoDePDqYTwGtHH1bMEWSv78Iq?=
- =?us-ascii?Q?2vDhdruGqKf26eclo7DLGsFIqkqQ1/J4OOx+1obwr/Oep9Ymr6iI/hXF9Gg7?=
- =?us-ascii?Q?c5YIaR5zkCXeBDvcV1pOBJ4+sPrk7in31ZGiqjrPpdsfMzHnWSQYjSDpzgHs?=
- =?us-ascii?Q?maXWlk5OlG82UBXuwbRrz1hbcf+63a4lZhXlkVsRIti9VzwMFm+oBXEB53oJ?=
- =?us-ascii?Q?bBs349rNEwpBzAVbkJRjf6rL9Loa+VC5/f8OvVDVZmasMoALjgwCP9onnZDe?=
- =?us-ascii?Q?W1Eo1TAlDL7ya7hfIFRs1LH1GR3CPv9LM40DfQcfoOXHm5l9V+D/VX6iqmQB?=
- =?us-ascii?Q?E2y71VatDBbYJ6LCo87+XYzmuYnpdpO5yfPec2Vfvf6ZwSRs9risFvjpcQsD?=
- =?us-ascii?Q?6mjS/Q0ZQ8tWgTCwMpNWQ2hg4Qbkh/PHZotPdgJRAWJgf3jESLysCLGnlGQa?=
- =?us-ascii?Q?dMz0EX44NQw0EzU6rfphxXTCQamaaE+X7kgODDj1gzNo9wOx36iB8ecuC8XJ?=
- =?us-ascii?Q?d+7AQa9E9GiMnC256WSjCEkQQXVhAZ6cKPKUCeIoiD5LtZkZ6EFxoR2U5N/4?=
- =?us-ascii?Q?7chaKLXCn63taAXiqN4DLcAbqvwL4EmATrn5aqq7/Ce3B9WOlOPtnBMaA6+5?=
- =?us-ascii?Q?vmR+KnyivPF2VUHn61HKuv6kd/WNzrzFPJGJDhczQ3soTCjg2fk2Xrry546M?=
- =?us-ascii?Q?RUZWf0/viQLfBRxvkmbyUUPTS0OUJOB7wuN5UvHPy4aLC0ARXaYfhtm6xtsK?=
- =?us-ascii?Q?2l1Y5DW0iznKACPkbIBe7yYSllLYKLGVK+UWSp3q+q75Ey9Unf8tucyg56AF?=
- =?us-ascii?Q?MhlnAzc9w7i5B6udZSmZ2A9a96Bw5IseL+R8LMqS8h+u8shaVQvZTwwtXXzO?=
- =?us-ascii?Q?1mX7PT9sjLUPBcfk7niti3I5YZDY6DnbHcFRiUPcRmlcOAcQcLOTXwQKAfhY?=
- =?us-ascii?Q?k09RtLIxbpThDh3p+P4H4oDHzyz7NUf5MojD0acXygpDkJzSwT86yNvRD0Jf?=
- =?us-ascii?Q?cDWujH9LW+DG0GxnSebCVxVMfdRvriJpIMjJRtTrFcQ/Dl0DaUrrISIZvrFH?=
- =?us-ascii?Q?jH4aknfS8b9tsSGon14qYTV/K3zvCz6jAYxJe9a4SZjbYRZOinZSFrW+dG4K?=
- =?us-ascii?Q?xg=3D=3D?=
-X-OriginatorOrg: inmusicbrands.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 37df8c2f-e9e0-46df-1be3-08dcde182d42
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR08MB8282.namprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2024 10:44:20.2954
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 24507e43-fb7c-4b60-ab03-f78fafaf0a65
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RXpiYjuaYZzXvZpQJWKddcWFhVuHB4ROnRP1PE1b4Q9t/fZvZUBK4Xgw9Az/Bbye8ZOsmL875JE6pd2raosjLusziQM5vDnkXrdMphNHOgY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR08MB7000
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaS0tLVh4ZS05ISRkaSx1OGFYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlNSlVKQ0hVSk9IVUxDWVdZFhoPEhUdFFlBWU9LSFVKS0lPT09IVUpLS1
+	VKQktLWQY+
+X-HM-Tid: 0a922dc776f309d1kunm9f942940883
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Nj46Kxw5NzIfEDFKFBozE0Ir
+	QgwaFDJVSlVKTElMSE9PQktLTk9MVTMWGhIXVRkUVRcSDjsIHhUaCQIPHhgTVRgUFkVZV1kSC1lB
+	WU1KVUpDSFVKT0hVTENZV1kIAVlBSE9CSDcG
 
-The serdev subsystem does not specify the default state of flow control
-when opening a device.  Surveying other drivers using serdev shows the
-vast majority of these set flow control explicitly after opening the
-device.
+When Z60MR100 startup, speaker will output a pop. To fix this issue,
+we mute codec in bios when startup, and use GPIO1 to unmute codec in
+codec driver.
 
-MIDI does not use flow control, so ensure it is disabled.
-
-Fixes: 542350509499f ("ALSA: Add generic serial MIDI driver using serial bus API")
-Signed-off-by: John Keeping <jkeeping@inmusicbrands.com>
+Signed-off-by: bo liu <bo.liu@senarytech.com>
 ---
- sound/drivers/serial-generic.c | 2 ++
- 1 file changed, 2 insertions(+)
+ sound/pci/hda/patch_conexant.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/sound/drivers/serial-generic.c b/sound/drivers/serial-generic.c
-index 36409a56c675e..322b5029ea49f 100644
---- a/sound/drivers/serial-generic.c
-+++ b/sound/drivers/serial-generic.c
-@@ -139,6 +139,8 @@ static int snd_serial_generic_ensure_serdev_open(struct snd_serial_generic *drvd
- 			drvdata->baudrate, drvdata->card->shortname, actual_baud);
- 	}
+diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
+index e851785ff058..27758822377f 100644
+--- a/sound/pci/hda/patch_conexant.c
++++ b/sound/pci/hda/patch_conexant.c
+@@ -308,6 +308,7 @@ enum {
+ 	CXT_FIXUP_HP_MIC_NO_PRESENCE,
+ 	CXT_PINCFG_SWS_JS201D,
+ 	CXT_PINCFG_TOP_SPEAKER,
++	CXT_FIXUP_HP_A_U,
+ };
  
-+	serdev_device_set_flow_control(drvdata->serdev, false);
-+
- 	return 0;
+ /* for hda_fixup_thinkpad_acpi() */
+@@ -776,6 +777,18 @@ static void cxt_fixup_hp_zbook_mute_led(struct hda_codec *codec,
+ 		cxt_setup_mute_led(codec, 0x10, 0x20);
  }
  
++static void cxt_fixup_hp_a_u(struct hda_codec *codec,
++			const struct hda_fixup *fix, int action)
++{
++	if (action == HDA_FIXUP_ACT_INIT) {
++		snd_hda_codec_write(codec, 0x01, 0, AC_VERB_SET_GPIO_DATA, 0);
++		snd_hda_codec_write(codec, 0x01, 0, AC_VERB_SET_GPIO_MASK, 2);
++		snd_hda_codec_write(codec, 0x01, 0, AC_VERB_SET_GPIO_DIRECTION, 2);
++		snd_hda_codec_write(codec, 0x01, 0, AC_VERB_SET_GPIO_STICKY_MASK, 0);
++	}
++
++}
++
+ /* ThinkPad X200 & co with cxt5051 */
+ static const struct hda_pintbl cxt_pincfg_lenovo_x200[] = {
+ 	{ 0x16, 0x042140ff }, /* HP (seq# overridden) */
+@@ -982,6 +995,10 @@ static const struct hda_fixup cxt_fixups[] = {
+ 			{ }
+ 		},
+ 	},
++	[CXT_FIXUP_HP_A_U] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = cxt_fixup_hp_a_u,
++	},
+ };
+ 
+ static const struct snd_pci_quirk cxt5045_fixups[] = {
+@@ -1055,6 +1072,7 @@ static const struct snd_pci_quirk cxt5066_fixups[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8457, "HP Z2 G4 mini", CXT_FIXUP_HP_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x103c, 0x8458, "HP Z2 G4 mini premium", CXT_FIXUP_HP_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1043, 0x138d, "Asus", CXT_FIXUP_HEADPHONE_MIC_PIN),
++	SND_PCI_QUIRK(0x14f1, 0x0252, "MBX-Z60MR100", CXT_FIXUP_HP_A_U),
+ 	SND_PCI_QUIRK(0x14f1, 0x0265, "SWS JS201D", CXT_PINCFG_SWS_JS201D),
+ 	SND_PCI_QUIRK(0x152d, 0x0833, "OLPC XO-1.5", CXT_FIXUP_OLPC_XO),
+ 	SND_PCI_QUIRK(0x17aa, 0x20f2, "Lenovo T400", CXT_PINCFG_LENOVO_TP410),
+@@ -1100,6 +1118,7 @@ static const struct hda_model_fixup cxt5066_fixup_models[] = {
+ 	{ .id = CXT_PINCFG_LENOVO_NOTEBOOK, .name = "lenovo-20149" },
+ 	{ .id = CXT_PINCFG_SWS_JS201D, .name = "sws-js201d" },
+ 	{ .id = CXT_PINCFG_TOP_SPEAKER, .name = "sirius-top-speaker" },
++	{ .id = CXT_FIXUP_HP_A_U, .name = "HP-U-support" },
+ 	{}
+ };
+ 
 -- 
-2.46.2
+2.34.1
 
