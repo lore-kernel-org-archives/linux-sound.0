@@ -1,34 +1,49 @@
-Received: from mail-m118115.qiye.163.com (mail-m118115.qiye.163.com [115.236.118.115])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23AD9171675;
-	Thu, 26 Sep 2024 11:17:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.236.118.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1A7414F9DD
+	for <linux-sound@vger.kernel.org>; Thu, 26 Sep 2024 11:32:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727349480; cv=none; b=nowfI3613YTZc6Vhkck5NU+eckl8e7vDVFxyabH6hspI8uNGv58/8cZIENr+/vIK+RGQ5A1ygWee+lyO3Uhkl8LnYjlkLB1jfYdTnU6+ayei70ADNxnDCHzE+wAsgnopZIQMuz6TnZ1mbWr9QDamigyeKKZt4WNKbtfoE9eM1jg=
+	t=1727350369; cv=none; b=ebckZQhOx0MpnE5OQBwsh3i3I4hgBSAUC/nAEBSy+NTH0PcghCv3H2uYVvl05q+Eb/uhh+ADHo6vJK1exC8fgVUQ6AmrdiNg9FHMETUbTdBM3BCvmSIEDDN0+ui0wjYwbCcmQf1/swBiHUtDkIWjZw/6XRxFCGG4XtA/pqvSGIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727349480; c=relaxed/simple;
-	bh=7+DOtoutFds+ShUKf1onXNvwcnmuB08COLWt5VmhY6A=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=eHoXkpRcyG1IlVkHNEjPzIzM12AH6xvjBn/d+B0el5qg8BVUB2vb1gNq7tzZAut3mL6I3Tjm82AUa5HSw3lEl5/nQm2G/J7zQACaWUKG9/PhGwepB2hP9ZZy1ZBWyP/Y5/my6LHEL4ajh2hGnk1tMcgZ9tNIJv5TtkuNVv1iWCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=senarytech.com; spf=pass smtp.mailfrom=senarytech.com; arc=none smtp.client-ip=115.236.118.115
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=senarytech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=senarytech.com
-Received: from book-ThinkStation-P328.. (unknown [61.183.143.78])
-	by smtp.qiye.163.com (Hmail) with ESMTPA id 9F942940883;
-	Thu, 26 Sep 2024 18:01:39 +0800 (CST)
-From: bo liu <bo.liu@senarytech.com>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	cs@tuxedo.de,
-	songxiebing@kylinos.cn,
-	wse@tuxedocomputers.com,
-	bo liu <bo.liu@senarytech.com>
-Subject: [PATCH] ALSA: hda/conexant: fix Z60MR100 startup pop issue
-Date: Thu, 26 Sep 2024 18:01:35 +0800
-Message-Id: <20240926100135.36499-1-bo.liu@senarytech.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1727350369; c=relaxed/simple;
+	bh=C92cajfc1zWt3AsbM8+xxbkh6KK6i7ng0wWyiZR/2Zs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VRHvVkfVdCUiRKUGsik5ciFyciPvckxir0vES0bA8EKWcI47MUo7hq4QH8X5n56BHY0Q99YhgJUuzvg1pgwvxSmAdzXUN2gJlJqnaA5m1uScTvc+dMIR6prXdqCC2T7uadeWVlLpXndsN02Y8yCxf/nodLhkqbdo+MXRyvp/YLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=VFdCfQXG; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="VFdCfQXG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=Xk5IwM942c2UCl
+	npnRtRUWbQmkY5G+4beG1YYt8qI90=; b=VFdCfQXGC0ckb9N4qUJ1Nv54COz2ei
+	OjXOl3hYCjKzOFL4ieHBRNjfloo47MERf29wZHwakOXjswYEk3qKC4tdBL4++4Xg
+	hDnsjrJmsmt2hbU+isyKD93xFM4HSwi/YPLwKj7oe0zFx7LkZr74C+Q0oDwrDsBi
+	Io78wXD36LO2uxQDIfep1QvztrCiWdEdZ7T1m59zwk3TlmgA5naFS5RK6cHhOT+R
+	+UtP56KmjFyhcnRpf9VWg9d8hoxllHQW0Q112lHer2AklMsFqRs6Z/68HeBa+WRh
+	w86umLJrNK7NqPAmtMcS3+43F/WKjdLe7JPtSBT+ySPB4Om6ThyRPxlA==
+Received: (qmail 967860 invoked from network); 26 Sep 2024 13:32:44 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 26 Sep 2024 13:32:44 +0200
+X-UD-Smtp-Session: l3s3148p1@MkvfGAQjHpEgAwDPXzRXADDuo30Z+IZ9
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH] ASoC: dt-bindings: renesas,rsnd: correct reg-names for R-Car Gen1
+Date: Thu, 26 Sep 2024 13:32:41 +0200
+Message-ID: <20240926113241.24060-2-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -36,83 +51,30 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaS0tLVh4ZS05ISRkaSx1OGFYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlNSlVKQ0hVSk9IVUxDWVdZFhoPEhUdFFlBWU9LSFVKS0lPT09IVUpLS1
-	VKQktLWQY+
-X-HM-Tid: 0a922dc776f309d1kunm9f942940883
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Nj46Kxw5NzIfEDFKFBozE0Ir
-	QgwaFDJVSlVKTElMSE9PQktLTk9MVTMWGhIXVRkUVRcSDjsIHhUaCQIPHhgTVRgUFkVZV1kSC1lB
-	WU1KVUpDSFVKT0hVTENZV1kIAVlBSE9CSDcG
 
-When Z60MR100 startup, speaker will output a pop. To fix this issue,
-we mute codec in bios when startup, and use GPIO1 to unmute codec in
-codec driver.
+The device at 0xffd90000 is named SRU, both in the datasheet and SoC
+DTSI. Fix the typo in the bindings to avoid the false positive report:
 
-Signed-off-by: bo liu <bo.liu@senarytech.com>
+  sound@ffd90000: reg-names:0: 'sru' is not one of ['scu', 'ssi', 'adg']
+
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- sound/pci/hda/patch_conexant.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ Documentation/devicetree/bindings/sound/renesas,rsnd.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
-index e851785ff058..27758822377f 100644
---- a/sound/pci/hda/patch_conexant.c
-+++ b/sound/pci/hda/patch_conexant.c
-@@ -308,6 +308,7 @@ enum {
- 	CXT_FIXUP_HP_MIC_NO_PRESENCE,
- 	CXT_PINCFG_SWS_JS201D,
- 	CXT_PINCFG_TOP_SPEAKER,
-+	CXT_FIXUP_HP_A_U,
- };
- 
- /* for hda_fixup_thinkpad_acpi() */
-@@ -776,6 +777,18 @@ static void cxt_fixup_hp_zbook_mute_led(struct hda_codec *codec,
- 		cxt_setup_mute_led(codec, 0x10, 0x20);
- }
- 
-+static void cxt_fixup_hp_a_u(struct hda_codec *codec,
-+			const struct hda_fixup *fix, int action)
-+{
-+	if (action == HDA_FIXUP_ACT_INIT) {
-+		snd_hda_codec_write(codec, 0x01, 0, AC_VERB_SET_GPIO_DATA, 0);
-+		snd_hda_codec_write(codec, 0x01, 0, AC_VERB_SET_GPIO_MASK, 2);
-+		snd_hda_codec_write(codec, 0x01, 0, AC_VERB_SET_GPIO_DIRECTION, 2);
-+		snd_hda_codec_write(codec, 0x01, 0, AC_VERB_SET_GPIO_STICKY_MASK, 0);
-+	}
-+
-+}
-+
- /* ThinkPad X200 & co with cxt5051 */
- static const struct hda_pintbl cxt_pincfg_lenovo_x200[] = {
- 	{ 0x16, 0x042140ff }, /* HP (seq# overridden) */
-@@ -982,6 +995,10 @@ static const struct hda_fixup cxt_fixups[] = {
- 			{ }
- 		},
- 	},
-+	[CXT_FIXUP_HP_A_U] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = cxt_fixup_hp_a_u,
-+	},
- };
- 
- static const struct snd_pci_quirk cxt5045_fixups[] = {
-@@ -1055,6 +1072,7 @@ static const struct snd_pci_quirk cxt5066_fixups[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8457, "HP Z2 G4 mini", CXT_FIXUP_HP_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x103c, 0x8458, "HP Z2 G4 mini premium", CXT_FIXUP_HP_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1043, 0x138d, "Asus", CXT_FIXUP_HEADPHONE_MIC_PIN),
-+	SND_PCI_QUIRK(0x14f1, 0x0252, "MBX-Z60MR100", CXT_FIXUP_HP_A_U),
- 	SND_PCI_QUIRK(0x14f1, 0x0265, "SWS JS201D", CXT_PINCFG_SWS_JS201D),
- 	SND_PCI_QUIRK(0x152d, 0x0833, "OLPC XO-1.5", CXT_FIXUP_OLPC_XO),
- 	SND_PCI_QUIRK(0x17aa, 0x20f2, "Lenovo T400", CXT_PINCFG_LENOVO_TP410),
-@@ -1100,6 +1118,7 @@ static const struct hda_model_fixup cxt5066_fixup_models[] = {
- 	{ .id = CXT_PINCFG_LENOVO_NOTEBOOK, .name = "lenovo-20149" },
- 	{ .id = CXT_PINCFG_SWS_JS201D, .name = "sws-js201d" },
- 	{ .id = CXT_PINCFG_TOP_SPEAKER, .name = "sirius-top-speaker" },
-+	{ .id = CXT_FIXUP_HP_A_U, .name = "HP-U-support" },
- 	{}
- };
- 
+diff --git a/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml b/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
+index 3bc93c59535e..6d0d1514cd42 100644
+--- a/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
++++ b/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
+@@ -302,7 +302,7 @@ allOf:
+         reg-names:
+           items:
+             enum:
+-              - scu
++              - sru
+               - ssi
+               - adg
+   # for Gen2/Gen3
 -- 
-2.34.1
+2.45.2
 
