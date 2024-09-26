@@ -1,109 +1,67 @@
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E69B313B5B4
-	for <linux-sound@vger.kernel.org>; Thu, 26 Sep 2024 16:12:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9246D17799F;
+	Thu, 26 Sep 2024 18:48:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727367128; cv=none; b=C/EGXpVtSCO+sB52NczKUZ9KcmUG+M/Ta4kC9Mimea5HSESev3K8InxKt9IsIv36Pes6LjAXdWefOnhk/o9iRghjxcJPcG8F//BrIxnVpJ+d9FvNO+27bBEeBIYVs8DnwBdIf3UPzel/6sJh6fQiLw9rZAZu2sh6uvoZGIQZ5F0=
+	t=1727376534; cv=none; b=EnLypgshq6jEqEfnz6tmf316fGd4vEMjetIQTaL3V6MeYpbVgJy0YCOyoHD2qbAHyHQY01zxly3FEhjf7rEwzRXoFjg7B/jhseiOxVsWIdg7fMhDqOKVrjw5DlxrNBr9a78cgLFbY/jyWHWU6JScSRpUWfMbuQO6FqdFYaoPOIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727367128; c=relaxed/simple;
-	bh=nkkwDyXoxEAKcaBvqfwuPFrD/PqXfR9ogYM2RBVmcOs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hNR/GabRXyvkzHSNFf587AVqMUpBL2ed/HwtX+AB/vTyG/G+AtKLZEZVCalyzyYHgGXbKhtpNYgX+Y1CU8LF3pz2qdFlJ1ayhHDSI3J9dOg66Dbb9F2PdYamxSzUUHnpcGMqzHT8T5iKUHahqzFyXu36LftVzwhkL6GRHgG9PJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CXF3isln; arc=none smtp.client-ip=209.85.166.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1727376534; c=relaxed/simple;
+	bh=ywMciHu/EK+As/Li4Pz6cvZ9f1iep63ZzlHuS5WN3rw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FRFM+UcSj0jXppYrSqJeJfJENZPKFtuu36Bk+G19Rdnyapwr8bzeV8i4pKPFbc1fRIjXC3R15P9uYsQplL/7kVSPYmFnoXPeDMYANMJESV5+PEjTOMeDJCCmfsJT0Xh5C6NK01E0UCYNkRBoM6Ns7ccRpeSBxHu2jTfzh1kjtAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hVhA+hwL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CXF3isln"
-Received: by mail-io1-f46.google.com with SMTP id ca18e2360f4ac-82aa7c3b482so45695739f.2
-        for <linux-sound@vger.kernel.org>; Thu, 26 Sep 2024 09:12:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1727367125; x=1727971925; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OXe4I9fA3wiOsNFl3/de9Hw6T1XdMoOh/1M8Lx+MHF0=;
-        b=CXF3isln96IEGJmWdm9kFAXjW8uZC0nGfZ2ZJMvVJz0vsX9Gk8svvfUn7nYceC5LoK
-         QUO1O91yoEFjLG+sKaWFoKjUsi28wEZcPWcRuH5dWGB1MYthu+XqV4B58gkp2BiioAkB
-         iB4xdMrbcl/cTa8SilKSfkCYyGHBzasJpCRzw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727367125; x=1727971925;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OXe4I9fA3wiOsNFl3/de9Hw6T1XdMoOh/1M8Lx+MHF0=;
-        b=c+QL3Tio/WytX/VWgjg8IHZ/iaQr6DegpmFtMn0F/xAAM6qQy5+3u98d0SfO+sMbUo
-         zeBH7ygVYUAY6eO6h2EsrieCBqnRmRH/r2wt86P0m5xv4aTlUd8GVdbUHVQROLHD16Wm
-         cpiKGtjBO1RQXRMGVjFC0s6XuIral0rcOQrebkvuFWsIMAz+dOhNCuziu6hJ8xrHxLg1
-         JRFmHm9JRzDaIko6DGzNfBrLyopjSNff9l8VQRQecnEa0PqyqG+PyR77YiiHbkt2GhQz
-         bAXhZ6Q9Fs7348HOftVuQggHi0QqdWI2blSvt5PNeabgimXezTVvYaPmEkSYelsa+XDW
-         Yr3w==
-X-Forwarded-Encrypted: i=1; AJvYcCUhICxUIm8rgRK5ZTa5YhEm3z2RjVnJjU6WxWdcUwJiOQB/VTklC4GF7uKEYjTo6wF/Uqnha9/ZrTZWug==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzS4k9yRbSo74ih0zbaUrTX/fMm9Ciq23gx/dy6Qg5lZW1w70+z
-	IhCyy1ejPqNCC7xdPdeWswzWZ1nz6vOuT4uHbhkS+nRz3Hu5Ov6grEl2K2dSMlI=
-X-Google-Smtp-Source: AGHT+IEvE6107yExovZjcFsUxizIxC4rtlHj+wopr6Fb1m++dX51+cu1X/5Rl1UB0wF4yNFN/S/dGQ==
-X-Received: by 2002:a05:6e02:1c47:b0:3a0:bc39:2d8c with SMTP id e9e14a558f8ab-3a26d7d0a87mr70629835ab.25.1727367125014;
-        Thu, 26 Sep 2024 09:12:05 -0700 (PDT)
-Received: from [192.168.1.128] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3a344df422dsm101335ab.81.2024.09.26.09.12.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Sep 2024 09:12:04 -0700 (PDT)
-Message-ID: <ad6b7073-4fcf-41f9-b6ff-e01bf7089017@linuxfoundation.org>
-Date: Thu, 26 Sep 2024 10:12:03 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hVhA+hwL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEEFCC4CEC5;
+	Thu, 26 Sep 2024 18:48:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727376534;
+	bh=ywMciHu/EK+As/Li4Pz6cvZ9f1iep63ZzlHuS5WN3rw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hVhA+hwLlEsa34jj1uESQK0ZSK6LqK+b+RQpryv72cRAQ2U283tz5cQYZVKXEMWk+
+	 gPmUqOgpRhS+lPjAXjGlxyRUrLIbY8JXVGH7vkZfREQHU8hp+iJcuXaMt3f4VsHf98
+	 HpUpg9G7wtjOLZhXdYMtUe2Znqw+f16TyazB7FtmMi1HFDa+M9DpnoRLq+h2aaiwBW
+	 pELxMkeJs/9PhlEuTiVP4EvWCLd6NNjY4maj6sievi+s1/MRjpT/0+EnBpYRmnI7H0
+	 aRP8WDW9d8vIe663XSP/h9/6uHw0wG7gvJaD++9xW5+iwwCd0EAtLkjQ/7fM9k+fYa
+	 AIAK86O7sILZA==
+Date: Thu, 26 Sep 2024 13:48:53 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	Magnus Damm <magnus.damm@gmail.com>, linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ASoC: dt-bindings: renesas,rsnd: correct reg-names for
+ R-Car Gen1
+Message-ID: <172737653167.2739244.5608601664573969856.robh@kernel.org>
+References: <20240926113241.24060-2-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: hda/realtek: Add a quirk for HP Pavilion 15z-ec200
-To: Abhishek Tamboli <abhishektamboli9@gmail.com>, perex@perex.cz,
- tiwai@suse.com
-Cc: kailang@realtek.com, sbinding@opensource.cirrus.com,
- simont@opensource.cirrus.com, josh@joshuagrisham.com, foss@athaariq.my.id,
- rf@opensource.cirrus.com, rbmarliere@gmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <20240926155112.8079-1-abhishektamboli9@gmail.com>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20240926155112.8079-1-abhishektamboli9@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240926113241.24060-2-wsa+renesas@sang-engineering.com>
 
-On 9/26/24 09:51, Abhishek Tamboli wrote:
-> Add the quirk for HP Pavilion Gaming laptop 15z-ec200 for
-> enabling the mute led. The fix apply the ALC285_FIXUP_HP_MUTE_LED
-> quirk for this model.
-> 
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=219303
 
-Were you able to test  this on HP Pavilion Gaming laptop? If so
-please add that to the change log.
+On Thu, 26 Sep 2024 13:32:41 +0200, Wolfram Sang wrote:
+> The device at 0xffd90000 is named SRU, both in the datasheet and SoC
+> DTSI. Fix the typo in the bindings to avoid the false positive report:
 > 
-> Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
+>   sound@ffd90000: reg-names:0: 'sru' is not one of ['scu', 'ssi', 'adg']
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 > ---
->   sound/pci/hda/patch_realtek.c | 1 +
->   1 file changed, 1 insertion(+)
+>  Documentation/devicetree/bindings/sound/renesas,rsnd.yaml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-> index 4ca66234e561..94125a977f08 100644
-> --- a/sound/pci/hda/patch_realtek.c
-> +++ b/sound/pci/hda/patch_realtek.c
-> @@ -10315,6 +10315,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
->   	SND_PCI_QUIRK(0x103c, 0x8786, "HP OMEN 15", ALC285_FIXUP_HP_MUTE_LED),
->   	SND_PCI_QUIRK(0x103c, 0x8787, "HP OMEN 15", ALC285_FIXUP_HP_MUTE_LED),
->   	SND_PCI_QUIRK(0x103c, 0x8788, "HP OMEN 15", ALC285_FIXUP_HP_MUTE_LED),
-> +	SND_PCI_QUIRK(0x103c, 0x88DD, "HP Pavilion 15z-ec200", ALC285_FIXUP_HP_MUTE_LED),
->   	SND_PCI_QUIRK(0x103c, 0x87b7, "HP Laptop 14-fq0xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
->   	SND_PCI_QUIRK(0x103c, 0x87c8, "HP", ALC287_FIXUP_HP_GPIO_LED),
->   	SND_PCI_QUIRK(0x103c, 0x87d3, "HP Laptop 15-gw0xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
 
-Looks like this has been fixed:
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
-https://lore.kernel.org/lkml/20220918171300.24693-1-dhould3@gmail.com/t/#m0c6aeebe5cc89c9a4228d49f56f4a0a4c516e012
-
-thanks,
--- Shuah
