@@ -1,92 +1,117 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4796533C9;
-	Thu, 26 Sep 2024 06:03:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24AE626AE6;
+	Thu, 26 Sep 2024 07:45:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727330603; cv=none; b=kPj8AcNh1s2wEY81NvDESRosLV49rrHvW1zTwEeRGsgxsekAaBxmE0NnqRXvNMjxtyA9exOQkecbTDz+RF+dyCxCnKUZcXHdU9kF7lw+v2YClYuOy2zcDGHQ5mUya+ymr6oE499dV1x4fd+ykXTFQ4fdUuxvukF+uf39bqm5Dwg=
+	t=1727336719; cv=none; b=Obb3PIXZlRIAaj9X2gz+vwumBxrXes9+P/BNUm2mMPQlM39xYuqOShNwL5VFHz9W6KJPZd1X77Acgtgn0oyX29eGImG1H4aeftnrYHVpZ0piwpo907aAbcAmD0D1oi4cCZROPxv6bB6GaVKGBS7P9bJk3vXeDeOQ1GWdTYinf9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727330603; c=relaxed/simple;
-	bh=UFFuMEjRprC/nHZiWeusBH6HZ5Zeg80ENmePWoeqE78=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=u6qNw0V+KZyb07ijd9NZ+u057jiEWgcBj3UZLGNPS2FjDF6PL+HlPHk74p6rwhL5bSrA1PpXV1rM/6BB5r0GB1ty4vLFMNojGi5Gie6lWYD9tgV9DO+n1EISL0uOu4JrS7wihO5oZyDxLftfqWdVREtNGFQzqeXX2crTM0/vSww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 0279423a7bcd11efa216b1d71e6e1362-20240926
-X-CTIC-Tags:
-	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
-	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
-	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
-	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
-	HR_TO_NO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED
-	SA_EXISTED, SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS
-	DMARC_NOPASS, CIE_BAD, CIE_GOOD_SPF, GTI_FG_BS, GTI_RG_INFO
-	GTI_C_BU, AMN_T1, AMN_GOOD, AMN_C_TI, AMN_C_BU
-	ABX_MISS_RDNS
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.38,REQID:c040a86b-ca0b-4b94-bea5-4de90ba9ef21,IP:10,
-	URL:0,TC:0,Content:0,EDM:-25,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,AC
-	TION:release,TS:-30
-X-CID-INFO: VERSION:1.1.38,REQID:c040a86b-ca0b-4b94-bea5-4de90ba9ef21,IP:10,UR
-	L:0,TC:0,Content:0,EDM:-25,RT:0,SF:-15,FILE:0,BULK:0,RULE:EDM_GE969F26,ACT
-	ION:release,TS:-30
-X-CID-META: VersionHash:82c5f88,CLOUDID:4059f7a170610ac050989fc40eb08643,BulkI
-	D:240926135947FABNYA5N,BulkQuantity:1,Recheck:0,SF:66|38|24|17|19|44|102,T
-	C:nil,Content:0,EDM:1,IP:-2,URL:0,File:nil,RT:nil,Bulk:40,QS:nil,BEC:nil,C
-	OL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_FSD,TF_CID_SPAM_FSI,TF_CID_SPAM_SNR,TF_CID_SPAM_FAS
-X-UUID: 0279423a7bcd11efa216b1d71e6e1362-20240926
-X-User: aichao@kylinos.cn
-Received: from localhost.localdomain [(112.64.161.44)] by mailgw.kylinos.cn
-	(envelope-from <aichao@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 658562920; Thu, 26 Sep 2024 14:03:11 +0800
-From: Ai Chao <aichao@kylinos.cn>
-To: perex@perex.cz,
-	tiwai@suse.com,
-	kailang@realtek.com,
-	sbinding@opensource.cirrus.com,
-	simont@opensource.cirrus.com,
-	josh@joshuagrisham.com,
-	foss@athaariq.my.id,
-	rf@opensource.cirrus.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Ai Chao <aichao@kylinos.cn>
-Subject: [PATCH] ALSA: hda/realtek: Add quirk for Huawei MateBook 13 KLV-WX9
-Date: Thu, 26 Sep 2024 14:02:52 +0800
-Message-Id: <20240926060252.25630-1-aichao@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1727336719; c=relaxed/simple;
+	bh=zEygzE3uA1/0tN/CB0hrUGD6Y1p/syH0CkduZxunS0c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qrMuNQHxcM+BYGBVCKIjfMuGodClhWUqKtTs+Zlm5Hyrh81NDV8R8K6JVkwKSnaRIutePg+9NUeEfffgkILWpXBgGLSPwA/uX48+nVWWIwSr/INTu0/c9UaWxGUAY9XApRmNqpU2kg6grlJEN/yrsK4EPUAgRKnYKw/49FemHRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m0Dj2pzZ; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m0Dj2pzZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 302C9C4CEC5;
+	Thu, 26 Sep 2024 07:45:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727336718;
+	bh=zEygzE3uA1/0tN/CB0hrUGD6Y1p/syH0CkduZxunS0c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=m0Dj2pzZenpSKPcFr6+mI9hhXamDuh71iN7XxzjT9/gxEaxSF9ObF7Zm4lRIRTUsZ
+	 cTgwwPPu/NUVnLehU8X8A628WegD9iS5UIEcij0UmIlDyPyI0ZAqtYG0uG/mdP+CJD
+	 l1HD7T9rVk53we/OLE6kt1NPbK3IWiZKZ3bQYuJiJNx4WP9EuMS3W2QDDqT3CAgX+N
+	 9Wer/i1BdOjOOTHnbGmVbNrasvXzE2Xj6NNJXvikru0sSjp7NWWsH1mVsMjGf1VN08
+	 2fEjNpV+TGPROCtBGyXf8CgKWzciAgo8v6yhhPo+MW/4AEgRzlkZ3e0KVcrTD6K8eC
+	 iK22o6v2xf/CA==
+Date: Thu, 26 Sep 2024 09:45:15 +0200
+From: Mark Brown <broonie@kernel.org>
+To: Binbin Zhou <zhoubb.aaron@gmail.com>
+Cc: Binbin Zhou <zhoubinbin@loongson.cn>,
+	Huacai Chen <chenhuacai@loongson.cn>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Huacai Chen <chenhuacai@kernel.org>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, Xuerui Wang <kernel@xen0n.name>,
+	loongarch@lists.linux.dev,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Weidong Wang <wangweidong.a@awinic.com>,
+	Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Shuming Fan <shumingf@realtek.com>
+Subject: Re: [PATCH v2 7/9] ASoC: loongson: Add I2S controller driver as
+ platform device
+Message-ID: <ZvURC1KniEo67XKl@finisterre.sirena.org.uk>
+References: <cover.1727056789.git.zhoubinbin@loongson.cn>
+ <fd3989d15546502b47f580e6a2c3a59cb628ce93.1727056789.git.zhoubinbin@loongson.cn>
+ <ZvKDBc2Kohx9kPfQ@finisterre.sirena.org.uk>
+ <CAMpQs4+xP7wMSm4wgE97hnbmrS5oVtQTQWXNLvK=O+SkeZnEsw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="SykdphlLbpH6Dfa4"
+Content-Disposition: inline
+In-Reply-To: <CAMpQs4+xP7wMSm4wgE97hnbmrS5oVtQTQWXNLvK=O+SkeZnEsw@mail.gmail.com>
+X-Cookie: Editing is a rewording activity.
 
-The headset mic requires a fixup to be properly detected/used.
 
-Signed-off-by: Ai Chao <aichao@kylinos.cn>
----
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
+--SykdphlLbpH6Dfa4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index f787ff4182d4..7681200e84e8 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10880,6 +10880,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1854, 0x048a, "LG gram 17 (17ZD90R)", ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
- 	SND_PCI_QUIRK(0x19e5, 0x3204, "Huawei MACH-WX9", ALC256_FIXUP_HUAWEI_MACH_WX9_PINS),
- 	SND_PCI_QUIRK(0x19e5, 0x320f, "Huawei WRT-WX9 ", ALC256_FIXUP_ASUS_MIC_NO_PRESENCE),
-+	SND_PCI_QUIRK(0x19e5, 0x3212, "Huawei KLV-WX9 ", ALC256_FIXUP_ACER_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1b35, 0x1235, "CZC B20", ALC269_FIXUP_CZC_B20),
- 	SND_PCI_QUIRK(0x1b35, 0x1236, "CZC TMI", ALC269_FIXUP_CZC_TMI),
- 	SND_PCI_QUIRK(0x1b35, 0x1237, "CZC L101", ALC269_FIXUP_CZC_L101),
--- 
-2.25.1
+On Thu, Sep 26, 2024 at 08:03:55AM +0600, Binbin Zhou wrote:
 
+> I will rewrite the dependency between the card and the DAI driver, as follows:
+
+> config SND_SOC_LOONGSON_CARD
+>         tristate "Loongson Sound Card Driver"
+>         depends on LOONGARCH || COMPILE_TEST
+>         select SND_SOC_LOONGSON_I2S_PCI if PCI
+>         select SND_SOC_LOONGSON_I2S_PLATFORM if OF
+
+> config SND_SOC_LOONGSON_I2S_PCI
+>         tristate "Loongson I2S-PCI Device Driver"
+>         select REGMAP_MMIO
+
+> config SND_SOC_LOONGSON_I2S_PLATFORM
+>         tristate "Loongson I2S controller as platform device"
+>         select REGMAP_MMIO
+>         select SND_SOC_GENERIC_DMAENGINE_PCM
+
+That looks good apart from the PCI and platform drivers should probably
+also have a
+
+	depends on LOONGARCH || COMPILE_TEST
+
+so they're not shown on architectures where they can't be used unless
+doing testing.
+
+--SykdphlLbpH6Dfa4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmb1EQgACgkQJNaLcl1U
+h9BjRwgAgmps6+rtBol4iV87F4Kx1Qzr5NxpkR+TJQ8UTCHyONCU3MkAYFjBr4Fb
+BiENGJNzcdS5iM+SnMIgwvP/2hMZl7Zf2iQHNjbBq28r3Z/evuEhMbC0HYiiDqfC
+ga/weXC6oOsb8xjr+gkpVfVhcVk6u6lYKPqaSDTnVQ+Y/kjY6E+DCt2sRiLbMaPb
+JtUPvmms/ATAd2gcltjPKdMvXxn2QPZAenOJZ73UqpZUKaRduwAK9LbE24cxvPCw
+tTDEcONvLIEdBUYu3AHsDMdlC8l9wGeyVdCDpBtIscfzMdv9LRvJjL8VeTO9d+RY
+AxJ3PpX7+be/bId5NlHTWbVw41Cpsw==
+=d23C
+-----END PGP SIGNATURE-----
+
+--SykdphlLbpH6Dfa4--
