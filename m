@@ -1,176 +1,134 @@
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011033.outbound.protection.outlook.com [52.101.125.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8CD1E50D
-	for <linux-sound@vger.kernel.org>; Thu, 26 Sep 2024 00:44:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.33
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727311473; cv=fail; b=GciHScgtjpi65US5l8bXhmheiuM4i0KCYDodx4exQou3d0Tv5qIgbmB/0YmRpkPwAtSAaka5nm3KDIqlwcynv6qNuLTo+vga4iwEeOxVjnNSoRU3c2Zb2zHVck1QW0DGMXxlcWREsgX154XxT2OmrcWAwjkvm3SHzYulKkcJSdQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727311473; c=relaxed/simple;
-	bh=tuXEsB6SIFylsMAKdHJYnd5JdFyZJscAbxtANvP3AGA=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=gMCyLiPO6K7L3CSm+CKRWZG0drnr9sqGC2WSeaCHPlTgJyem2GPcm+kpzgmWty1FDpWxNvsX8rQrw6CgpR2KjFcEWmCnMwS+3U73gm8ZXsF03/4PyQMZQgl/ReN2x8CotU7h8d3tLi7qDwj+tvRDe2i7LG8ydYvEnCz+sr0ZycY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=fkHdIioH; arc=fail smtp.client-ip=52.101.125.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10F6E130E58;
+	Thu, 26 Sep 2024 02:04:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727316252; cv=none; b=Y+3aaz9o/HperQubHzgF/AI/czCI4vQkQJ/oybUEqTy8b6si2jCFY4RpcGE8UQ32SinU/AodEnzcEabHyicIFgsZTtbN/USxfSB8fMc9jNvnrYSPkpHk2nSbgohmRW2VR4lrTzXlMLoS9wLCEpixre92XDYBtqUljt+HH2tAgJw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727316252; c=relaxed/simple;
+	bh=rnTEbCFDOfXQfDY6AbPrrjGrFyYYn0angyCoGJOYUws=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=op937NKa5RtrC/4zcVDM9gqPi0Qro+1nuX5LlfJ+2X2WaYHhUVBadHf99BeLpm/EEsmF1+ix0MKVWOS5ixR4TA3y71lN8iOwbXUaIEz5cT3fEavge2oj85GfH3joR8x9KN9KpIjM27W+RXyb7+Xzpf4Dc2wT2sMzJrIk5aGPuwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lyQ1DPzs; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="fkHdIioH"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yFN+jNzhmabxN4O780jpJxm0IUcfGJobEbXeb37sPEYGhVXpD8jgwGNcrZLnRwrqcp/ximVJcdsvKVEBCJLMWAU0JdOMziFOKX+Odhc1OkwRbSH73Tfk+8RSo6aQrUHR+TZdqY58S1hxE1pmb57w/xAkRNHTNeC1sbL7ZhgMrwOd5Ga/bdae2PZJJV5wK3kQDwrk5FkvJ+L1XTzmR86Wis4jJ7UM0WT9cMyx0qjw9SM8feYHzMAtlXTub4BP7SpXimc58FB65Wo/a0mqS7L7fqVRscAzFJTbIO0pcMdFPp3G7B+PIZfdjr+OhiO4mOA0hp4nqPf9De6VZsOoruozhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4C8iZsoHoFWgG00+gxlgvxXCmGfM03We1M5JBOzmTtI=;
- b=qaOme8jCzlotBt2FD/kRqfAGPlk6J7h0gPiN31jyMehjw9+l/D3QNzIY2ym36AeyHUZ9zM9Uv/rC03g/g7za2iGWgxyST3W6pbu2CwCDXCMH4hdWCrEHmjYT/E5TKNoQw5PNkEErhgi4tWG5tKB8f4Mxc9527I3zS01vCeDRb5xxElSbvQwUm9kF45IGemjlsb2dFhoo9mQMlvrrzCbx0j7Vn/F2j68TDTN7QOuOce9tjHi3WCe36Iavp40wMnLzpnL5vtWJzVqbR+n5MS5zRDz4heQNBJXi6sXowBQJ40LXc70X2XQPpANIBHWMMiDmFYVWF+I4gdiwGCO1z6r7Uw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4C8iZsoHoFWgG00+gxlgvxXCmGfM03We1M5JBOzmTtI=;
- b=fkHdIioHjsDgWpTjWFQggOI14xly+XB84zTEyZc3c2ldXqwBNruQz7OtD1cb6mSLgCyiFt5szzB68uDY+lS24I8EQnKRsXKAa6CErmSJc4WVo56OuKktlq5DQm7iIh+amAoF0GB3ruuWSOEUUb5uz5oI0sV+fHm0jnmBzM2XPvo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TYAPR01MB6011.jpnprd01.prod.outlook.com
- (2603:1096:402:35::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.20; Thu, 26 Sep
- 2024 00:44:28 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.8005.017; Thu, 26 Sep 2024
- 00:44:28 +0000
-Message-ID: <87o74b8cr8.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 03/13] ASoC: sof: remove dpcm_xxx flags
-In-Reply-To: <87msjv9ugm.wl-kuninori.morimoto.gx@renesas.com>
-References: <87r0979uhx.wl-kuninori.morimoto.gx@renesas.com>
-	<87msjv9ugm.wl-kuninori.morimoto.gx@renesas.com>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Thu, 26 Sep 2024 00:44:27 +0000
-X-ClientProxiedBy: TYCP286CA0092.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:2b4::10) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lyQ1DPzs"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5c5c3a1f474so384208a12.0;
+        Wed, 25 Sep 2024 19:04:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727316249; x=1727921049; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uepY68ZxdZEGIoFno1fijjUOFz/iGyTi+j8yAIgrbRI=;
+        b=lyQ1DPzs0CzIkQAnsxvE3ZXaUiHqfJfg0xnuOwZ/o2dyHPli2eS2rLmdL8+P+7SE6w
+         ebxO+o0+LPJvPqVAatv8JHX1InOHWO6DDyrdiNFZyTOZjlD0XVv3aXtin8ETMK/2XmcO
+         F9PeWMX9/oLFHYMyVKkoDNBAEXc3orj/WK+sCcbhGYKTETeFQnxi0iLN4sk5XAmi/fRU
+         F1r8Q9ib/vHJ3odll+VhD3FvybsRrZGF0NzRMsiwDLKs28F/DBMyrypQOIepqsD0nTSY
+         geFTO6NtmJY0u+FzcRFC4DrcDOVeCafPlU1RQUd1Z/BKRt42NBMbYiAg9ijYMeQLPN09
+         3rnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727316249; x=1727921049;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uepY68ZxdZEGIoFno1fijjUOFz/iGyTi+j8yAIgrbRI=;
+        b=whnKC5h1J3iEdLL2sluhchFmMrX8Rza+rHFEpdrWdPngKjModRgLy4bPoTCOP+3hrY
+         lRPl5hy1S55fmyrXeppC7uo1Nwjhjr0qAfZJAIl6J6Y+r4YhvglvM2NvVAgN7n1qedZL
+         CbhiJyt1nWpRMdkGzUepnxQiZg/kEfZtwMyTeaFm2mj/U4raAo9gUl2cCjyzoxpzkH2k
+         fL1Fa6nqndoN/shvmM3/h9kRqcObBAB1UqXdIQ5wKUQulb7n9B3AJs9FpBlOglBQnyTS
+         ui9sOW5utBNGOtxVCoL0SlqnqTj/X9qLmHqYcO9TqSXgIoKphdNOEvS2nHRRlA6YeK0B
+         OJ+g==
+X-Forwarded-Encrypted: i=1; AJvYcCUGM7UNhOKxFXzzS9MrvWrkQwJem2Uwd5XVW/7zS0t8DsoslaOKdle84ppY7Y/9iq7w4Uk3QVurpZHt@vger.kernel.org, AJvYcCWULg8NLX72e4loc9gG77g1++MPdaCtXvspLYY4UTcedKCpt7rsjkikK6WfZp2LMYdVb9YcXKXkoEbJfr0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPlNABgs9R7liRR1FNBxCxICB7Usbtknu8yS2aylbk4rbI97rg
+	yXABwbZ2irZlhRYHu7dhpeAEx8wn50wzaUmsdwk6TKrJGUt0/jn7kNKxWe3KJaln32BA8KuQiLM
+	pGIfw8lQVU04FvclxlS7KAxODLTY=
+X-Google-Smtp-Source: AGHT+IF/KR6xfiJUHZTvUsIZhDO8sCqMLIEb2EKea2TOgeoogE/KiWFUQoO3906Czfj1LCNIJA3yZnmbbMqvgBY0WnU=
+X-Received: by 2002:a05:6402:254a:b0:5c5:cf0b:b515 with SMTP id
+ 4fb4d7f45d1cf-5c72060a5bfmr3234419a12.1.1727316249172; Wed, 25 Sep 2024
+ 19:04:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYAPR01MB6011:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1d26f022-1ad7-49cc-6d49-08dcddc46050
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|52116014|376014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?r9lfD/S8mz0nFZS0wzZnGNgKWeBtucv5QSFYYNm0tU19fJiNe+b4siBnAjZ2?=
- =?us-ascii?Q?1fOsDoVxV20pcbtiEpeHrVEeLJmCZPm0eO5dgHHfIMh0DMoSvUNYFIwy4IP+?=
- =?us-ascii?Q?Qy/wGpNYwZ9lRT9oONNcimZxMLnC2n2f94GyOwU9YoKb9oN7kKomYWXCgKME?=
- =?us-ascii?Q?ka++V1CqWaq3l3MHUMVEmjfDGAoetCSdM41CouqjtIPe8zqqMWXOF45bPJTL?=
- =?us-ascii?Q?cKvi81LnEIfRwE5HKEeeX8FxzL8uTlLSppwMxaf1bd/DoHwKDnROUdBIdgk2?=
- =?us-ascii?Q?68dfyqC1/OdSjCLD46F63/9tW/XsU5GE20P5LXenmDW0niraaidd40NyIEmY?=
- =?us-ascii?Q?s9/VV3SsTKUg8cSkAD5tUZy//Ndwo6bvGyLKw/igXlujSObwJfXibsCXlrDL?=
- =?us-ascii?Q?6b46H3p2cOuikestXueR/jMyjF2jTdsOsRNX2WZKJAXBCO6Bdf617w/Y0W+B?=
- =?us-ascii?Q?FCJC+k72zQuQ4sBdIah85hYBJ2NSEOrQ3STlEXnOPnDr0lZPUfzBt5q8fKoX?=
- =?us-ascii?Q?yyTiLEXqAUvbeT5wyJGbkx74zFtFkhsmXTWKwDXUEkaU4GapxxLbWdBJrZMT?=
- =?us-ascii?Q?JMB5qo1Nmvlr5bBB4xou2xI1TlqzfHzbV1KHc3Yaqnfz88SAXiP5XnVijsT+?=
- =?us-ascii?Q?juwf00PpYZlVXkESzNIYsSYIkHfh+9LCLb3Lca4G7rSJxM4TklO1mliSmLWA?=
- =?us-ascii?Q?MEZjze26sHK4IsV5KA1Fh8fv/9Z8kxDYAqf6hbxRa88x+rCf/mhD3mBNiWle?=
- =?us-ascii?Q?rywRdWuqLzmV7tJ6R29cX5PxCN2P2i/RUfJgHjfkBC5gwoIuZfPkwww5OBB7?=
- =?us-ascii?Q?N/bM+7hQVfmr09O2mP0J0c7ovRmpWcCgvlYYFv+lmfoJca0D3pXjINeIGCxU?=
- =?us-ascii?Q?ML3iw0e3jtSV51dSKggzOgngNRAz48hnHK7Qh8luJOljLNFko9w4KsLUpy6m?=
- =?us-ascii?Q?T53Sg9CzOVFGFbiuzmUvduW5b4N7kwwY6VULIp0UJug8WZhrjKJd6GTImoeG?=
- =?us-ascii?Q?uLbA8vQeDWDML3zH7vvHgzaszK/Bb/bdP/rqytLUBrjfdlwa9Thma0ulTbzm?=
- =?us-ascii?Q?DccZWATf/jLaVIgcktt9kxm16hvkohflJ5UVdx2aBJGMu2EeLyrgf9qbq8rA?=
- =?us-ascii?Q?lI4XHgiFJa4RGr1ImV05MthVfW++ypsPLVpdF9yuBbMg671U935YaJGkqLio?=
- =?us-ascii?Q?T2a2dk5h5yrGrVbUUetT2C8y98QVXO5VuPrX/ahg6uQY/zMpwcsK4hhXjn9e?=
- =?us-ascii?Q?zOTGnxtg9TK1BaN/Giy9WYz3/iRcQGAsc0oAB3EH87y8eAf5RXvbWPkL9Rpp?=
- =?us-ascii?Q?HmgdQDMaRLwgx7l7b2itIQhmh/ckzPwv47z26QNxDD4xFw=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?ICvSW/I4Yok1DBz6O95UOqNNDqJWfM8rcIss+nezWG9uTXdphx6cKUS4KASj?=
- =?us-ascii?Q?Y/Pqck7NWZ2Hx2l+HqFHPlciJoBdaq57ev87a8dzsjBXya8QUbfez+wvkMW/?=
- =?us-ascii?Q?O6VO2TziGGXvB0oiMx2vXUluLK1OOo+koz9VIFJ9aCyXgeTr2cIENstXDWoF?=
- =?us-ascii?Q?crvJ+cyJI9x6qchcANA3jl+7mnSLBE/i/OGtdq8We1j0EonZE9KPmmbhbxj1?=
- =?us-ascii?Q?Vd8abDLpql/kUWQTpDQlpbh43sulljnwZyvHjrSuY3iDynSJfnfaE8npGVKE?=
- =?us-ascii?Q?AtopCfqZBt0uR03PmrGpejwjt/vZXqVSeKoNY1bWth1QITzSaPxjSGWkp4X+?=
- =?us-ascii?Q?K2yePpPCSE5MAl3DdFYKz6XtbjShcp+tpaV1GXyR3V/Ieze30qkoLkWnxVmO?=
- =?us-ascii?Q?wc1n6B4yuiNENG9xM3Swdt/xDaWjmbngtMMi6eHZoq6eLOQ8kaHRvnGBBuHS?=
- =?us-ascii?Q?W+TKyugU8VNC4o7YWWvG5b9YrrR1t4UHlBooqCeKd3+100hSU7iRtHcC6LCk?=
- =?us-ascii?Q?w/p4qL4PQjBqpmNniTjT24UbipJ/YuAaLMJGIzVxCYm6+lbcCGViLWYTEQYz?=
- =?us-ascii?Q?xjYaP6yxMXkypTUncKSTW2+f54KD/Kub2S4mcYndCZBSb0ikxCX+3aCWtJQl?=
- =?us-ascii?Q?BatSNPa0zZNP3PzOmH6RlXzNwNDqm2ICpymYIhM7g1u2iG4mnMY+WBU9zqw6?=
- =?us-ascii?Q?MB6/JAoc/AlUzqjmHefcWTyAL1BSuryLPs2zH1b/cNEq/dyLEY28o2Lt08FF?=
- =?us-ascii?Q?updkxKwNpE74Uc2ZhtLKoUxlByuv17luI/geuimyHvnzad5ZN4c9dBzBI8gy?=
- =?us-ascii?Q?Z0ThTBE1mzdBcszKzxyW+umDFat9s22RfxhxXKQvv79Vq6kfi8jwB/QlIAvt?=
- =?us-ascii?Q?H+F1475k5YwuxKAgFvgggcq4/1ZzTA6UPBfDq56zKR0M3cmLzD0QvwmOx8m2?=
- =?us-ascii?Q?ikH2EYyxkTR7y2W9dlgBJn29raWyJnGKlQDt/QMjOCpjHXYZDv+/rRhoSVDW?=
- =?us-ascii?Q?7kSlODC6P4DK9mJ5r6LGv+jVw+7E94SexwJouP/SkAF7FSYF7bY+fSsO7qT6?=
- =?us-ascii?Q?3cUZh+nVZHchr3G/ItZtL/+WvjWjkjD46L0tMy1WM+HZSl+rRocqJMwLpBZb?=
- =?us-ascii?Q?FJqoMVHvP1u5hyktA71ZN2UOjngz0xEsamruSYhGmEKc96Zu7h4lhBvKur9V?=
- =?us-ascii?Q?Da+p5JgT7EEj9JabN0Ho524mYGIAxV6WFt+hgQiim4LhzEb4ptGLFIHBH+/l?=
- =?us-ascii?Q?sucL50Kr4DzfwzzHNNHVtmufn/U7r4TO1gVnCGrwOeNc4WR9fIGktljRrBFr?=
- =?us-ascii?Q?8hcS0+7Z3yye5Ji85PqWhX+OFjG6O5AIE5WW5hqRbTy0/CuQfQACWT4OHbwG?=
- =?us-ascii?Q?tlm0K7ZPMxF/gmI7th6RYpKOCrRuGBu+H86MSDJRnN7P41BiipvIs4HCsFsk?=
- =?us-ascii?Q?KNxX76myA8Uf8xYnLkRu4DXACicfTZuCJIGYnCY/1Ff/lJyQhTnD5ucWc/ux?=
- =?us-ascii?Q?t/YCX0ofFKLRsVHv5k2H3gWmvF2BdoFiN08UfnhTOuhJLCPCQirVcRaHZ6cW?=
- =?us-ascii?Q?OUzJaDQU9/0T4mAZSlZlgqskfIkJl9urQEbisx265kLSPi51IvE6kt/zGPcl?=
- =?us-ascii?Q?BfSUaKI6R1Wpq3HMm2BWU4A=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1d26f022-1ad7-49cc-6d49-08dcddc46050
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2024 00:44:28.0049
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vCqu/LSpCOKmDfhVVf7nlTk0WroZuK7PyJZniEvxXtQNinvTk1uNHqxoVBgroNLZz4jwx1S/nz8RXFnMk85qTWT5r4deyjvuoe26jOThRY4a75suXZSqBqd8cNTOzsPH
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB6011
+References: <cover.1727056789.git.zhoubinbin@loongson.cn> <fd3989d15546502b47f580e6a2c3a59cb628ce93.1727056789.git.zhoubinbin@loongson.cn>
+ <ZvKDBc2Kohx9kPfQ@finisterre.sirena.org.uk>
+In-Reply-To: <ZvKDBc2Kohx9kPfQ@finisterre.sirena.org.uk>
+From: Binbin Zhou <zhoubb.aaron@gmail.com>
+Date: Thu, 26 Sep 2024 08:03:55 +0600
+Message-ID: <CAMpQs4+xP7wMSm4wgE97hnbmrS5oVtQTQWXNLvK=O+SkeZnEsw@mail.gmail.com>
+Subject: Re: [PATCH v2 7/9] ASoC: loongson: Add I2S controller driver as
+ platform device
+To: Mark Brown <broonie@kernel.org>
+Cc: Binbin Zhou <zhoubinbin@loongson.cn>, Huacai Chen <chenhuacai@loongson.cn>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Huacai Chen <chenhuacai@kernel.org>, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, Xuerui Wang <kernel@xen0n.name>, loongarch@lists.linux.dev, 
+	Neil Armstrong <neil.armstrong@linaro.org>, 
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Weidong Wang <wangweidong.a@awinic.com>, Prasad Kumpatla <quic_pkumpatl@quicinc.com>, 
+	Herve Codina <herve.codina@bootlin.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Shuming Fan <shumingf@realtek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Mark:
 
-Hi
+Thanks for your reply.
 
-> dpcm_xxx flags are no longer needed. It converts dpcm_xxx flag to
-> xxx_only if needed.
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->  sound/soc/sof/nocodec.c | 4 ----
->  1 file changed, 4 deletions(-)
-> 
-> diff --git a/sound/soc/sof/nocodec.c b/sound/soc/sof/nocodec.c
-> index b12b3d865ae30..d59cbd3a69964 100644
-> --- a/sound/soc/sof/nocodec.c
-> +++ b/sound/soc/sof/nocodec.c
-> @@ -55,10 +55,6 @@ static int sof_nocodec_bes_setup(struct device *dev,
->  		links[i].no_pcm = 1;
->  		links[i].cpus->dai_name = drv[i].name;
->  		links[i].platforms->name = dev_name(dev->parent);
-> -		if (drv[i].playback.channels_min)
-> -			links[i].dpcm_playback = 1;
-> -		if (drv[i].capture.channels_min)
-> -			links[i].dpcm_capture = 1;
+On Tue, Sep 24, 2024 at 3:14=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
+te:
+>
+> On Tue, Sep 24, 2024 at 03:00:48PM +0800, Binbin Zhou wrote:
+>
+> >  config SND_SOC_LOONGSON_I2S_PCI
+> >       tristate "Loongson I2S-PCI Device Driver"
+> > -     select REGMAP_MMIO
+> >       depends on PCI
+> > +     select REGMAP_MMIO
+> > +     select SND_SOC_LOONGSON_CARD
+> >       help
+> >         Say Y or M if you want to add support for I2S driver for
+> >         Loongson I2S controller.
+>
+> You shouldn't select the card from the DAI drivers, some system might
+> use the driver with a different card for some reason.  If anything a
+> select from the card to the DAI driver is more appropriate, cards are
+> the main user thing.
 
-Ah, I think it should be
+I will rewrite the dependency between the card and the DAI driver, as follo=
+ws:
 
-		links[i]->playback_only =  drv[i].playback.channels_min && !drv[i].capture.channels_min;
-		links[i]->capture_only  = !drv[i].playback.channels_min &&  drv[i].capture.channels_min;
+config SND_SOC_LOONGSON_CARD
+        tristate "Loongson Sound Card Driver"
+        depends on LOONGARCH || COMPILE_TEST
+        select SND_SOC_LOONGSON_I2S_PCI if PCI
+        select SND_SOC_LOONGSON_I2S_PLATFORM if OF
 
-will post v2 after -rc1 was released.
+config SND_SOC_LOONGSON_I2S_PCI
+        tristate "Loongson I2S-PCI Device Driver"
+        select REGMAP_MMIO
 
-Thank you for your help !!
+config SND_SOC_LOONGSON_I2S_PLATFORM
+        tristate "Loongson I2S controller as platform device"
+        select REGMAP_MMIO
+        select SND_SOC_GENERIC_DMAENGINE_PCM
 
-Best regards
----
-Kuninori Morimoto
+Thanks.
+Binbin
+>
+> > +++ b/sound/soc/loongson/loongson_i2s_plat.c
+> > @@ -0,0 +1,186 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Loongson I2S controller master mode dirver(platform device)
+>
+> Please use C++ style for the whole comment block so things look more
+> intentional.
