@@ -1,34 +1,34 @@
-Received: from cantor.telenet-ops.be (cantor.telenet-ops.be [195.130.132.48])
+Received: from riemann.telenet-ops.be (riemann.telenet-ops.be [195.130.137.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FFB618C350
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0C5A18C927
 	for <linux-sound@vger.kernel.org>; Fri, 27 Sep 2024 12:43:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727440991; cv=none; b=uywzO0A1yj/xemNE5K87aAYQFyQ+7yqaO4dDexdlf3z2Vc7kkW3Yyq6jfAUUXby2ZKw2gV8wbMFW1wXXbrC/U/Scca22KWMuVA7sh6HFQ2Y2aS3NxwjrhJKSZyvXq4SnPhxqaXWNvohzqX5GigwVGDpoxGY6v3O1o6ONv+ryDzk=
+	t=1727440991; cv=none; b=iZZwylHJpFOvE45fpJpU0IFrl/TXDHBvAApXMOLKZJWgQvSG60kdAqj3l/uOjQBpAB2Vm4/sepKB1JCB/2wdV9Ln2i3sRaePBaBwEm336MZY0PtNLoU3cTmiNPL2lpjj67aKjfadYZCXlkevRmjPF5krfgAxfVUSoXP3kXhyp8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1727440991; c=relaxed/simple;
-	bh=gJF6Vp8OyXRl1gBpDJQDv5Bh3hk35GPxQbTUGGKRpag=;
+	bh=Kkd9tSqRHa9vtAL1isGx0C8vpTPnoQQejNAyURUlpbY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=bLfpVMVZmworE+5kQVRYBS83yfmUcxRqyxg4LIvxeGKB/M5FC7qREqXYApByPPd4+jpGweJ0L9mzOn8iHXtS8t6fyUJjyDzIQ/2/+q9lh8Pp769izFVsAritaRhXd3zOrhjObcw61SOTX33vmBE3DPj2nTg09PqlF1kRtQg6T50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.48
+	 MIME-Version; b=saAjb8mAADXf/0rLjvR9jHmoS3ROkkI0fgJmwXhBDtNxDrenxVKpBdmSR62/W5lya6tdgr0UHTLBXf491UK/rg5I/EDY3khzp9E9bUR/7p7szD/QsFfbw2wV+msld38mPRhUUXVcnx7M9qj61lFxb/HXyCzjKd/ZdFRkO+FsDCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.80
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-	by cantor.telenet-ops.be (Postfix) with ESMTPS id 4XFVVt4b91z4xMgK
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+	by riemann.telenet-ops.be (Postfix) with ESMTPS id 4XFVVt3zCWz4xNB8
 	for <linux-sound@vger.kernel.org>; Fri, 27 Sep 2024 14:43:02 +0200 (CEST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:b47d:fd74:3975:15b7])
-	by baptiste.telenet-ops.be with cmsmtp
-	id HQic2D00E3BfLyr01Qicjw; Fri, 27 Sep 2024 14:43:02 +0200
+	by xavier.telenet-ops.be with cmsmtp
+	id HQic2D0083BfLyr01QicD2; Fri, 27 Sep 2024 14:43:02 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1suAIj-000fPr-HE;
+	id 1suAIj-000fQ0-IM;
 	Fri, 27 Sep 2024 14:42:31 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1suAIo-008IDg-V7;
-	Fri, 27 Sep 2024 14:42:30 +0200
+	id 1suAIp-008IE1-4R;
+	Fri, 27 Sep 2024 14:42:31 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -65,9 +65,9 @@ Cc: linux-sound@vger.kernel.org,
 	linuxppc-dev@lists.ozlabs.org,
 	linux-kernel@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH treewide 02/11] ASoC: dt-bindings: Deprecate {hp,mic}-det-gpio
-Date: Fri, 27 Sep 2024 14:42:17 +0200
-Message-Id: <833d5d9560339bf39a125914225c9a0930e134cc.1727438777.git.geert+renesas@glider.be>
+Subject: [PATCH treewide 09/11] mips: dts: ingenic: Switch to simple-audio-card,hp-det-gpios
+Date: Fri, 27 Sep 2024 14:42:24 +0200
+Message-Id: <0466c746d6276842d6993fae41efb315188e1f3f.1727438777.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1727438777.git.geert+renesas@glider.be>
 References: <cover.1727438777.git.geert+renesas@glider.be>
@@ -79,73 +79,41 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Commit 2071d0968e564b4b ("Documentation: gpio: guidelines for bindings")
-deprecated the "gpio" suffix for GPIO consumers in favor of the "gpios"
-suffix.  Update the Audio Graph and Simple Audio Card DT bindings to
-reflect this.
+Replace the deprecated "simple-audio-card,hp-det-gpio" property by
+"simple-audio-card,hp-det-gpios" in Simple Audio Card device nodes.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-No driver changes needed, as gpiod_get_optional() as called from
-simple_util_init_jack() tries all suffixes.
----
- .../devicetree/bindings/sound/audio-graph.yaml       |  6 ++++++
- .../devicetree/bindings/sound/simple-card.yaml       | 12 ++++++++++++
- 2 files changed, 18 insertions(+)
+ arch/mips/boot/dts/ingenic/gcw0.dts | 2 +-
+ arch/mips/boot/dts/ingenic/rs90.dts | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/sound/audio-graph.yaml b/Documentation/devicetree/bindings/sound/audio-graph.yaml
-index 71f52f7e55f6ce72..9899d9d1958d9d93 100644
---- a/Documentation/devicetree/bindings/sound/audio-graph.yaml
-+++ b/Documentation/devicetree/bindings/sound/audio-graph.yaml
-@@ -37,8 +37,14 @@ properties:
-   pa-gpios:
-     maxItems: 1
-   hp-det-gpio:
-+    deprecated: true
-+    maxItems: 1
-+  hp-det-gpios:
-     maxItems: 1
-   mic-det-gpio:
-+    deprecated: true
-+    maxItems: 1
-+  mic-det-gpios:
-     maxItems: 1
+diff --git a/arch/mips/boot/dts/ingenic/gcw0.dts b/arch/mips/boot/dts/ingenic/gcw0.dts
+index 5d33f26fd28c8bd8..8455778928b71cee 100644
+--- a/arch/mips/boot/dts/ingenic/gcw0.dts
++++ b/arch/mips/boot/dts/ingenic/gcw0.dts
+@@ -91,7 +91,7 @@ sound {
+ 			"MIC1N", "Built-in Mic";
+ 		simple-audio-card,pin-switches = "Speaker", "Headphones";
  
- required:
-diff --git a/Documentation/devicetree/bindings/sound/simple-card.yaml b/Documentation/devicetree/bindings/sound/simple-card.yaml
-index 59ac2d1d1ccfa4ce..533d0a1da56e34eb 100644
---- a/Documentation/devicetree/bindings/sound/simple-card.yaml
-+++ b/Documentation/devicetree/bindings/sound/simple-card.yaml
-@@ -207,8 +207,14 @@ properties:
-   simple-audio-card,pin-switches:
-     $ref: "#/definitions/pin-switches"
-   simple-audio-card,hp-det-gpio:
-+    deprecated: true
-+    maxItems: 1
-+  simple-audio-card,hp-det-gpios:
-     maxItems: 1
-   simple-audio-card,mic-det-gpio:
-+    deprecated: true
-+    maxItems: 1
-+  simple-audio-card,mic-det-gpios:
-     maxItems: 1
+-		simple-audio-card,hp-det-gpio = <&gpf 21 GPIO_ACTIVE_LOW>;
++		simple-audio-card,hp-det-gpios = <&gpf 21 GPIO_ACTIVE_LOW>;
+ 		simple-audio-card,aux-devs = <&speaker_amp>, <&headphones_amp>;
  
- patternProperties:
-@@ -256,8 +262,14 @@ patternProperties:
-       pin-switches:
-         $ref: "#/definitions/pin-switches"
-       hp-det-gpio:
-+        deprecated: true
-+        maxItems: 1
-+      hp-det-gpios:
-         maxItems: 1
-       mic-det-gpio:
-+        deprecated: true
-+        maxItems: 1
-+      mic-det-gpios:
-         maxItems: 1
+ 		simple-audio-card,bitclock-master = <&dai_codec>;
+diff --git a/arch/mips/boot/dts/ingenic/rs90.dts b/arch/mips/boot/dts/ingenic/rs90.dts
+index e8df70dd42bf8e4c..6d2c8aea5f499d34 100644
+--- a/arch/mips/boot/dts/ingenic/rs90.dts
++++ b/arch/mips/boot/dts/ingenic/rs90.dts
+@@ -148,7 +148,7 @@ sound {
+ 			"Speaker", "OUTR";
+ 		simple-audio-card,pin-switches = "Speaker";
  
-     patternProperties:
+-		simple-audio-card,hp-det-gpio = <&gpd 16 GPIO_ACTIVE_LOW>;
++		simple-audio-card,hp-det-gpios = <&gpd 16 GPIO_ACTIVE_LOW>;
+ 		simple-audio-card,aux-devs = <&amp>;
+ 
+ 		simple-audio-card,bitclock-master = <&dai_codec>;
 -- 
 2.34.1
 
