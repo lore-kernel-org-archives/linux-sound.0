@@ -1,33 +1,34 @@
-Received: from gauss.telenet-ops.be (gauss.telenet-ops.be [195.130.132.49])
+Received: from cantor.telenet-ops.be (cantor.telenet-ops.be [195.130.132.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A8CB18DF78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C4118CC02
 	for <linux-sound@vger.kernel.org>; Fri, 27 Sep 2024 12:43:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727440994; cv=none; b=CHxlUfq1Ew8V19rcoCLHBF83HbkQHbL9eiTMBKay/wlKEs5Il5lIPqC9q5RE2pM5NPw5+4ro4KXdkFRkOx+OzoWyk5okNA7ahTIpUPnJyFmUnNNi1lwrEKPjLv6WQziyFbjGgQ0Se3Fj4xQKi9scqZ+cKNT2gr0//9jmXkoEcpE=
+	t=1727440994; cv=none; b=LpZzuupRuKyiraOvwSg53F2vHo2EzOohdbqVugmod4dk9bFa0ZjRltIpV8eeYp9/1S+InAhKM25wwpPOj3O7nc2Voo/w7fNputpmH1OYM3XGDe32VepBGnUiDFI0UFkfHxJ+PxrGA1vzaT4i5E1hzcKUDAF+iMOWbJLCF3Irnuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1727440994; c=relaxed/simple;
-	bh=2QXljp1dC/8iHwUW7hKb7vZR7RspRKinKvyyOkLSgtI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WUfnTX9F4f7dkMUCTlQy5BfEqhrQupH58+LPWELi8e7QOWloG1rtd4RtxoCN4vwa0MNsOpZ3PUqOxVKW5/hbFXPILRxIY7hzoz1XCzfWylxhUdKzbQFIrX9TuuL7HrbRKf6MfX5ZQ9CEqTSMt62MHqPJScOR2lcABGo6rtYQ1Zs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.49
+	bh=gFzWTvfAcB8evQtYGWDacqU3trX8Q3qpt11KSqg6udw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=qrxZQ59RdVNLilPv289hOTcKltNebryomdo308icexAR6YmbLM+V6TmEiywHwWLND7Q0IJXqSlzUYCUYGl4A+NVcU+Jt7RU52fW7DePmXlsUIUvhTZG1YGssSsbSkqD/Cikfl++mZTagQkvpgE/vTDjGPuSWEXCVhasQIGBLVR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-	by gauss.telenet-ops.be (Postfix) with ESMTPS id 4XFVVt5hkkz4xQGG
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+	by cantor.telenet-ops.be (Postfix) with ESMTPS id 4XFVVt5fRHz4xQGZ
 	for <linux-sound@vger.kernel.org>; Fri, 27 Sep 2024 14:43:02 +0200 (CEST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:b47d:fd74:3975:15b7])
-	by baptiste.telenet-ops.be with cmsmtp
-	id HQic2D00C3BfLyr01Qicjs; Fri, 27 Sep 2024 14:43:02 +0200
+	by andre.telenet-ops.be with cmsmtp
+	id HQic2D0053BfLyr01Qicif; Fri, 27 Sep 2024 14:43:02 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1suAIj-000fPq-HD;
+	id 1suAIj-000fQB-JD;
 	Fri, 27 Sep 2024 14:42:31 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1suAIo-008IDa-TV;
-	Fri, 27 Sep 2024 14:42:30 +0200
+	id 1suAIp-008IED-5c;
+	Fri, 27 Sep 2024 14:42:31 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -64,10 +65,12 @@ Cc: linux-sound@vger.kernel.org,
 	linuxppc-dev@lists.ozlabs.org,
 	linux-kernel@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH treewide 00/11] ASoC: Clean up {hp,mic}-det-gpio handling
-Date: Fri, 27 Sep 2024 14:42:15 +0200
-Message-Id: <cover.1727438777.git.geert+renesas@glider.be>
+Subject: [PATCH treewide 10/11] ARM: dts: nxp: imx: Switch to {hp,mic}-det-gpios
+Date: Fri, 27 Sep 2024 14:42:25 +0200
+Message-Id: <7ff1bfb73a6d6fc71f3d751dbb7133b045853f64.1727438777.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1727438777.git.geert+renesas@glider.be>
+References: <cover.1727438777.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -76,107 +79,103 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-	Hi all,
+Replace the deprecated "hp-det-gpio" and "mic-det-gpio" properties by
+"hp-det-gpios" resp. "mic-det-gpios" in Freescale Generic ASoC Sound
+Card device nodes.
 
-The "gpio" suffix for GPIO consumers was deprecated a while ago, in
-favor of the "gpios" suffix.  However, there are still several users of
-the "hp-det-gpio" and "mic-det-gpio" properties, in DT bindings,
-drivers, and DT source files.
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+This has a run-time dependency on "ASoC: fsl-asoc-card: Add missing
+handling of {hp,mic}-dt-gpios".
+---
+ arch/arm/boot/dts/nxp/imx/imx6qdl-sabresd.dtsi  | 4 ++--
+ arch/arm/boot/dts/nxp/imx/imx6sl-evk.dts        | 2 +-
+ arch/arm/boot/dts/nxp/imx/imx6sll-evk.dts       | 2 +-
+ arch/arm/boot/dts/nxp/imx/imx6sx-sdb.dtsi       | 2 +-
+ arch/arm/boot/dts/nxp/imx/imx6ul-14x14-evk.dtsi | 2 +-
+ arch/arm/boot/dts/nxp/imx/imx7d-sdb.dts         | 2 +-
+ 6 files changed, 7 insertions(+), 7 deletions(-)
 
-Drivers that use gpiolib handle both the deprecated and new properties
-transparently, but that is not the case when using of_property_*() calls
-directly.
-
-  - The first patch fixes a bug, as the Freescale Generic ASoC Sound
-    driver handles only the deprecated properties, while there is
-    already a user of the new variants,
-  - The second patch updates the Audio Graph and Simple Audio Card DT
-    bindings,
-  - Patches 3-9 converts various DTS files to use the new properties,
-  - The last 2 patches convert Freescale sound device nodes to use the
-    new properties.
-
-All patches can be applied independently, except for the last two, which
-depend on the first patch to avoid regressions.
-This series was compile-tested only.
-
-Thanks for your comments!
-
-Geert Uytterhoeven (11):
-  ASoC: fsl-asoc-card: Add missing handling of {hp,mic}-dt-gpios
-  ASoC: dt-bindings: Deprecate {hp,mic}-det-gpio
-  ARM: dts: marvell: mmp2-olpc-xo-1-75: Switch to {hp,mic}-det-gpios
-  arm64: dts: freescale: imx: Switch to simple-audio-card,hp-det-gpios
-  arm64: dts: renesas: beacon-renesom: Switch to mic-det-gpios
-  arm64: dts: rockchip: Switch to simple-audio-card,hp-det-gpios
-  arm64: dts: rockchip: Switch to hp-det-gpios
-  arm64: dts: uniphier: Switch to hp-det-gpios
-  mips: dts: ingenic: Switch to simple-audio-card,hp-det-gpios
-  ARM: dts: nxp: imx: Switch to {hp,mic}-det-gpios
-  arm64: dts: freescale: imx: Switch to hp-det-gpios
-
- .../devicetree/bindings/sound/audio-graph.yaml       |  6 ++++++
- .../devicetree/bindings/sound/simple-card.yaml       | 12 ++++++++++++
- arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dts      |  4 ++--
- arch/arm/boot/dts/nxp/imx/imx6qdl-sabresd.dtsi       |  4 ++--
- arch/arm/boot/dts/nxp/imx/imx6sl-evk.dts             |  2 +-
- arch/arm/boot/dts/nxp/imx/imx6sll-evk.dts            |  2 +-
- arch/arm/boot/dts/nxp/imx/imx6sx-sdb.dtsi            |  2 +-
- arch/arm/boot/dts/nxp/imx/imx6ul-14x14-evk.dtsi      |  2 +-
- arch/arm/boot/dts/nxp/imx/imx7d-sdb.dts              |  2 +-
- .../boot/dts/freescale/imx8mq-librem5-devkit.dts     |  2 +-
- arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi    |  2 +-
- arch/arm64/boot/dts/freescale/imx8qm-mek.dts         |  2 +-
- arch/arm64/boot/dts/freescale/imx8qxp-mek.dts        |  2 +-
- arch/arm64/boot/dts/freescale/imx95-19x19-evk.dts    |  2 +-
- .../boot/dts/renesas/beacon-renesom-baseboard.dtsi   |  2 +-
- .../boot/dts/rockchip/rk3326-anbernic-rg351m.dtsi    |  2 +-
- .../arm64/boot/dts/rockchip/rk3326-gameforce-chi.dts |  2 +-
- arch/arm64/boot/dts/rockchip/rk3326-odroid-go.dtsi   |  2 +-
- arch/arm64/boot/dts/rockchip/rk3368-lba3368.dts      |  2 +-
- arch/arm64/boot/dts/rockchip/rk3399-eaidk-610.dts    |  2 +-
- arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dts |  2 +-
- arch/arm64/boot/dts/rockchip/rk3399-roc-pc-plus.dts  |  2 +-
- .../boot/dts/rockchip/rk3399-rock-pi-4a-plus.dts     |  2 +-
- .../boot/dts/rockchip/rk3399-rock-pi-4b-plus.dts     |  2 +-
- arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4c.dts   |  2 +-
- .../boot/dts/rockchip/rk3399-sapphire-excavator.dts  |  2 +-
- .../boot/dts/rockchip/rk3566-anbernic-rg-arc.dtsi    |  2 +-
- .../boot/dts/rockchip/rk3566-anbernic-rg353p.dts     |  2 +-
- .../boot/dts/rockchip/rk3566-anbernic-rg353ps.dts    |  2 +-
- .../boot/dts/rockchip/rk3566-anbernic-rg353v.dts     |  2 +-
- .../boot/dts/rockchip/rk3566-anbernic-rg353vs.dts    |  2 +-
- .../boot/dts/rockchip/rk3566-anbernic-rg503.dts      |  2 +-
- arch/arm64/boot/dts/rockchip/rk3566-pinetab2.dtsi    |  2 +-
- arch/arm64/boot/dts/rockchip/rk3566-powkiddy-x55.dts |  2 +-
- arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dts    |  2 +-
- arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dts |  2 +-
- arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dts     |  2 +-
- .../dts/rockchip/rk3588-friendlyelec-cm3588-nas.dts  |  2 +-
- arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtsi   |  2 +-
- arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dts     |  2 +-
- .../boot/dts/rockchip/rk3588-orangepi-5-plus.dts     |  2 +-
- arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dts  |  2 +-
- arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dts   |  2 +-
- arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts      |  2 +-
- .../boot/dts/rockchip/rk3588s-gameforce-ace.dts      |  2 +-
- .../boot/dts/socionext/uniphier-ld11-global.dts      |  2 +-
- .../boot/dts/socionext/uniphier-ld20-global.dts      |  2 +-
- arch/mips/boot/dts/ingenic/gcw0.dts                  |  2 +-
- arch/mips/boot/dts/ingenic/rs90.dts                  |  2 +-
- sound/soc/fsl/fsl-asoc-card.c                        |  8 +++++---
- 50 files changed, 72 insertions(+), 52 deletions(-)
-
+diff --git a/arch/arm/boot/dts/nxp/imx/imx6qdl-sabresd.dtsi b/arch/arm/boot/dts/nxp/imx/imx6qdl-sabresd.dtsi
+index 8f4f5fba68cc5f4f..86a86dc370c4a9fb 100644
+--- a/arch/arm/boot/dts/nxp/imx/imx6qdl-sabresd.dtsi
++++ b/arch/arm/boot/dts/nxp/imx/imx6qdl-sabresd.dtsi
+@@ -113,8 +113,8 @@ sound {
+ 			"DMICDAT", "DMIC";
+ 		mux-int-port = <2>;
+ 		mux-ext-port = <3>;
+-		hp-det-gpio = <&gpio7 8 GPIO_ACTIVE_LOW>;
+-		mic-det-gpio = <&gpio1 9 GPIO_ACTIVE_LOW>;
++		hp-det-gpios = <&gpio7 8 GPIO_ACTIVE_LOW>;
++		mic-det-gpios = <&gpio1 9 GPIO_ACTIVE_LOW>;
+ 	};
+ 
+ 	backlight_lvds: backlight-lvds {
+diff --git a/arch/arm/boot/dts/nxp/imx/imx6sl-evk.dts b/arch/arm/boot/dts/nxp/imx/imx6sl-evk.dts
+index 7c899291ab0dada4..542d633651f24575 100644
+--- a/arch/arm/boot/dts/nxp/imx/imx6sl-evk.dts
++++ b/arch/arm/boot/dts/nxp/imx/imx6sl-evk.dts
+@@ -108,7 +108,7 @@ sound {
+ 			"IN3R", "AMIC";
+ 		mux-int-port = <2>;
+ 		mux-ext-port = <3>;
+-		hp-det-gpio = <&gpio4 19 GPIO_ACTIVE_LOW>;
++		hp-det-gpios = <&gpio4 19 GPIO_ACTIVE_LOW>;
+ 	};
+ 
+ 	panel {
+diff --git a/arch/arm/boot/dts/nxp/imx/imx6sll-evk.dts b/arch/arm/boot/dts/nxp/imx/imx6sll-evk.dts
+index febc2dd9967de69e..c5383158e25c959b 100644
+--- a/arch/arm/boot/dts/nxp/imx/imx6sll-evk.dts
++++ b/arch/arm/boot/dts/nxp/imx/imx6sll-evk.dts
+@@ -157,7 +157,7 @@ sound {
+ 			"IN3R", "AMIC";
+ 		mux-int-port = <2>;
+ 		mux-ext-port = <3>;
+-		hp-det-gpio = <&gpio4 24 GPIO_ACTIVE_LOW>;
++		hp-det-gpios = <&gpio4 24 GPIO_ACTIVE_LOW>;
+ 	};
+ };
+ 
+diff --git a/arch/arm/boot/dts/nxp/imx/imx6sx-sdb.dtsi b/arch/arm/boot/dts/nxp/imx/imx6sx-sdb.dtsi
+index 277a6e039045b575..ddd01b6dee5a9976 100644
+--- a/arch/arm/boot/dts/nxp/imx/imx6sx-sdb.dtsi
++++ b/arch/arm/boot/dts/nxp/imx/imx6sx-sdb.dtsi
+@@ -167,7 +167,7 @@ sound {
+ 			"IN3R", "AMIC";
+ 		mux-int-port = <2>;
+ 		mux-ext-port = <6>;
+-		hp-det-gpio = <&gpio1 17 GPIO_ACTIVE_LOW>;
++		hp-det-gpios = <&gpio1 17 GPIO_ACTIVE_LOW>;
+ 	};
+ 
+ 	panel {
+diff --git a/arch/arm/boot/dts/nxp/imx/imx6ul-14x14-evk.dtsi b/arch/arm/boot/dts/nxp/imx/imx6ul-14x14-evk.dtsi
+index b74ee8948a781762..0e839bbfea082140 100644
+--- a/arch/arm/boot/dts/nxp/imx/imx6ul-14x14-evk.dtsi
++++ b/arch/arm/boot/dts/nxp/imx/imx6ul-14x14-evk.dtsi
+@@ -68,7 +68,7 @@ sound-wm8960 {
+ 		audio-cpu = <&sai2>;
+ 		audio-codec = <&codec>;
+ 		audio-asrc = <&asrc>;
+-		hp-det-gpio = <&gpio5 4 0>;
++		hp-det-gpios = <&gpio5 4 0>;
+ 		audio-routing =
+ 			"Headphone Jack", "HP_L",
+ 			"Headphone Jack", "HP_R",
+diff --git a/arch/arm/boot/dts/nxp/imx/imx7d-sdb.dts b/arch/arm/boot/dts/nxp/imx/imx7d-sdb.dts
+index f712537fca161ab9..6cde84636900bb00 100644
+--- a/arch/arm/boot/dts/nxp/imx/imx7d-sdb.dts
++++ b/arch/arm/boot/dts/nxp/imx/imx7d-sdb.dts
+@@ -169,7 +169,7 @@ sound {
+ 		model = "wm8960-audio";
+ 		audio-cpu = <&sai1>;
+ 		audio-codec = <&codec>;
+-		hp-det-gpio = <&gpio2 28 GPIO_ACTIVE_HIGH>;
++		hp-det-gpios = <&gpio2 28 GPIO_ACTIVE_HIGH>;
+ 		audio-routing =
+ 			"Headphone Jack", "HP_L",
+ 			"Headphone Jack", "HP_R",
 -- 
 2.34.1
 
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
