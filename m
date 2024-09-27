@@ -1,119 +1,70 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 038DB42AAB;
-	Fri, 27 Sep 2024 01:27:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E716116D9AE;
+	Fri, 27 Sep 2024 02:10:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727400449; cv=none; b=WGZUswb7LST02Fc/YBvvUMQM37pEGk9fpgYakke/vTT0Clhq2DMuAKgi0tAvYGT6MTD9mbkcfzVWekc2q1dbPtHSB1poyKkWzxSmO90HMGunXfTie7G4saVhik57Q7513YYc2ixhH9liAT4t7Rz1N5bumdzAj6VMiL6ZP3UqzAI=
+	t=1727403008; cv=none; b=I5w67h190DZ2KvAUg+MhJGSfzq9c1MG6dZaRyPayp0vvTBzzL3gW7mjHnJaKfQeeiXH4vqoxGB9A+7npvdl3T8mfucZWPZ8AFJTSvY0kVwNPKAUc9i25rkHjGqTDBZUVVmgScnmdFsK2fOns7RJFQGfZ15cXKnyz2LU+LCYcffE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727400449; c=relaxed/simple;
-	bh=qhgGQFVcz7EDccATsvoa20zSMUCCY46FyvNGoiZYRgc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UuTmjJSI9oTQD3E415IaWe2YET3owSqS+nR7qTweOEjDpwHrd3d3ujm0p3v67U+ESbAFXPjh0YlfVQ0NmZHfDpsCm1ZaRWU6UO+ybVt8FEDxhDslmINwSzvKY+AqvvWShJZcjdYSGUUdQeEszp7n5DOw4nDS07sD3HJJMssbR14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P4PJ0NZf; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727403008; c=relaxed/simple;
+	bh=bRDDcD+o03ffd1dhPD/qxtKBBlnOK8itG0whlQOPq6w=;
+	h=From:Date:MIME-Version:Content-Type:To:Message-ID:In-Reply-To:
+	 References:Subject; b=MjdExDkO4H+Wk2RTQhgAWXMGoDN4Cx6MidnF0AYbZTG+4eWQOJ27k28588POeSV+JfHdxeLPi7T4L3FUQwgzEJbeqgs9+lY401USTmh2hZ0uBponzYKwnkCfN3k5fbx3K8AtMJkARuYGR3GZ+DPduZplCPXet/aP7e1+Zs0a+QE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JfP+CkNc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P4PJ0NZf"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5c721803a89so1829489a12.1;
-        Thu, 26 Sep 2024 18:27:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727400446; x=1728005246; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=l/74tZKXei/PQf3stuS2/+bfqua3T6SsFCgnQTSmqVk=;
-        b=P4PJ0NZfdboOJDA/xL6ZnSTWleyXf4DPLswCbQm3Yi19+hq3GzQPmoteCs71FlFt2n
-         aEX151TYYcT0tUWj+vYQNS9jmiHV1X4L8Qs6NMz6fpiuWhrHEpG43c+0ZRf9Txo6nn4G
-         cCcXrZG4U9ID1mfvEAT25DtoMqIeU0Fp6le4zfKqHHT+6V7XGrbNYZaXWJEJSfn1XuEo
-         d6Hnd+27MFwDWVkLdJr/to/BwOgrrnf5chRD4w6KdOS5bQUlKakUfcfeN9/SfckXfDKU
-         WpALdurKjtQ+fsmCpL6XWI20dmRDYkT+03T0eaWkfxuX57Lay2Ap9B4BsoeyTFYgfeAN
-         9p9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727400446; x=1728005246;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=l/74tZKXei/PQf3stuS2/+bfqua3T6SsFCgnQTSmqVk=;
-        b=nx+9/9Y3eOuydu0qLyC9tVSsBa9kVKKLIP2w7Erzm0solsEVUv3U2KU6jrEKPPW4WY
-         iGjxObWmkPCJWLs8WOJ/w9jdb+aoyWnFcv5Fy4wkjtzdi1rYf+aMoPMfAcBI2E4hx87T
-         wBSFoQt6mJVdCpLbDcNC8A8eLr2btwa7mBL4vckTF3xGiJaMRtSScnHH58whz2+31YiP
-         +iIGReKljOVKSlrym1XnR2O26GVFxQB3p+dhlEgY8223gdmpVNjCE2jvws9KeAu54ZoA
-         EagAwNBAPYtlQijWqPhqGcGHD/uP7TiBGRTcsbmd3TeyFUqZDwp6c5m+lAgNLuj4ZE8S
-         RCCg==
-X-Forwarded-Encrypted: i=1; AJvYcCUII9W8NzhbM38DTj0cHIljFKSLKp9b/mgoYyjcRZkVpL7FsOKvVXCkejkXSPU6xreK9hSL4eTQPoo+OjQ=@vger.kernel.org, AJvYcCUQpJekSYmhDfGlGnykbC6mRcBKjKY3FrtbHsiIcZX7ybLRA/4exFZniOO4NEcWqHQB4bd5YvSOyArO@vger.kernel.org
-X-Gm-Message-State: AOJu0YyIV6dvDfoQl+Lzm4dY3s4QN6/Basf8PPUHK7kfiDpfwEb1xCi6
-	WXfpM6pbHFiW6oPUoOVyrS6sQg+ODeFpli9AFlyIhAXZsRmlaEbk7B+pwJOS1aVe51R/Up+Z2ev
-	LjnZZ9gLeUVqG1jAM2LFgmuQ7wos=
-X-Google-Smtp-Source: AGHT+IFqqzZ/ufqBjVvvEX1p/TYcSBM6KPMz4eSVy+RenIlKAPslIo4SXJMKwDVNx64HLS5kq7C6lCTKNfmHIAegsUo=
-X-Received: by 2002:a05:6402:24a4:b0:5c8:79fa:2e3e with SMTP id
- 4fb4d7f45d1cf-5c882603bd9mr1181944a12.28.1727400446082; Thu, 26 Sep 2024
- 18:27:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JfP+CkNc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86B20C4CECD;
+	Fri, 27 Sep 2024 02:10:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727403007;
+	bh=bRDDcD+o03ffd1dhPD/qxtKBBlnOK8itG0whlQOPq6w=;
+	h=From:Date:To:In-Reply-To:References:Subject:From;
+	b=JfP+CkNcKa5JRcLHADwAPiHd300pMB/xH0i69Mn2r2XFcuuERS4HdfQNpEejSYJq2
+	 k6m5BG+8ZrToAifRyvkNEtCP64z11lJvy3XrxDycHwlE9RL5c2Luc3Cs0e+eZb+UqO
+	 0j2mhR1crr9g+YscLTuKPd0JcUZxaDZIslGzEfxYNh8xM52SPZqc+fsOqwAPptmeue
+	 dxc1bRHNTEhCdhIIO2NiyooqxX8quRSsjcN2WSx7nck8kcegHcowf+5q1Is1Rk1ZVa
+	 b01py7eyII7P5TOBN4Mu210bykr8VtemAUldIHM7c194QE0ZorqLSqtVEaUrg4Urb7
+	 J7Bms3I/tIZYg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 39CD33809A90;
+	Fri, 27 Sep 2024 02:10:11 +0000 (UTC)
+From: abhishek via Bugspray Bot <bugbot@kernel.org>
+Date: Fri, 27 Sep 2024 02:10:07 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1727056789.git.zhoubinbin@loongson.cn> <fd3989d15546502b47f580e6a2c3a59cb628ce93.1727056789.git.zhoubinbin@loongson.cn>
- <ZvKDBc2Kohx9kPfQ@finisterre.sirena.org.uk> <CAMpQs4+xP7wMSm4wgE97hnbmrS5oVtQTQWXNLvK=O+SkeZnEsw@mail.gmail.com>
- <ZvURC1KniEo67XKl@finisterre.sirena.org.uk>
-In-Reply-To: <ZvURC1KniEo67XKl@finisterre.sirena.org.uk>
-From: Binbin Zhou <zhoubb.aaron@gmail.com>
-Date: Fri, 27 Sep 2024 07:27:12 +0600
-Message-ID: <CAMpQs4+xxoThbEzmZ-mYsQ_3XUD=T_B0PgBj+fs9fNzVCjTDZw@mail.gmail.com>
-Subject: Re: [PATCH v2 7/9] ASoC: loongson: Add I2S controller driver as
- platform device
-To: Mark Brown <broonie@kernel.org>
-Cc: Binbin Zhou <zhoubinbin@loongson.cn>, Huacai Chen <chenhuacai@loongson.cn>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Huacai Chen <chenhuacai@kernel.org>, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, Xuerui Wang <kernel@xen0n.name>, loongarch@lists.linux.dev, 
-	Neil Armstrong <neil.armstrong@linaro.org>, 
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Weidong Wang <wangweidong.a@awinic.com>, Prasad Kumpatla <quic_pkumpatl@quicinc.com>, 
-	Herve Codina <herve.codina@bootlin.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Shuming Fan <shumingf@realtek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+To: linux-sound@vger.kernel.org, tiwai@suse.com, perex@perex.cz, 
+ bugs@lists.linux.dev
+Message-ID: <20240927-b219303c3-01cd46af2ad8@bugzilla.kernel.org>
+In-Reply-To: <20240924-b219303c0-b3829da31e15@bugzilla.kernel.org>
+References: <20240924-b219303c0-b3829da31e15@bugzilla.kernel.org>
+Subject: Re: Mute LED light is not working on my HP laptop
+X-Bugzilla-Product: Linux
+X-Bugzilla-Component: Kernel
+X-Mailer: bugspray 0.1-dev
 
-Hi Mark:
+abhishek added an attachment on Kernel.org Bugzilla:
 
-On Thu, Sep 26, 2024 at 1:45=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
-te:
->
-> On Thu, Sep 26, 2024 at 08:03:55AM +0600, Binbin Zhou wrote:
->
-> > I will rewrite the dependency between the card and the DAI driver, as f=
-ollows:
->
-> > config SND_SOC_LOONGSON_CARD
-> >         tristate "Loongson Sound Card Driver"
-> >         depends on LOONGARCH || COMPILE_TEST
-> >         select SND_SOC_LOONGSON_I2S_PCI if PCI
-> >         select SND_SOC_LOONGSON_I2S_PLATFORM if OF
->
-> > config SND_SOC_LOONGSON_I2S_PCI
-> >         tristate "Loongson I2S-PCI Device Driver"
-> >         select REGMAP_MMIO
->
-> > config SND_SOC_LOONGSON_I2S_PLATFORM
-> >         tristate "Loongson I2S controller as platform device"
-> >         select REGMAP_MMIO
-> >         select SND_SOC_GENERIC_DMAENGINE_PCM
->
-> That looks good apart from the PCI and platform drivers should probably
-> also have a
->
->         depends on LOONGARCH || COMPILE_TEST
->
-> so they're not shown on architectures where they can't be used unless
-> doing testing.
+Created attachment 306923
+Fix patch
 
-OK, I will add it in the V3 patchset.
+Hi,
+Is it possible for you to apply this patch at your end and once check?
 
-Thanks.
-Binbin
+File: hp-pavilion.patch (text/plain)
+Size: 818.00 B
+Link: https://bugzilla.kernel.org/attachment.cgi?id=306923
+---
+Fix patch
+
+You can reply to this message to join the discussion.
+-- 
+Deet-doot-dot, I am a bot.
+Kernel.org Bugzilla (bugspray 0.1-dev)
+
