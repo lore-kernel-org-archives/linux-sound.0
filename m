@@ -1,30 +1,33 @@
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cantor.telenet-ops.be (cantor.telenet-ops.be [195.130.132.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54E1318CBF0
-	for <linux-sound@vger.kernel.org>; Fri, 27 Sep 2024 12:43:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FFB618C350
+	for <linux-sound@vger.kernel.org>; Fri, 27 Sep 2024 12:43:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727440989; cv=none; b=LFqWCsSKy+VIUAd3RHcrv2VSdgNByHb2T3RMblapy8gZCNqBQIJQyUHfgEAmwPfMFdExKtjXBu3z58YspfhCR9cURpYzc5z9baNs3FfrAvToBQ2CMiHtl2tM0fZYve6ctpOz+TOV8mezlIliXUoMekESnA0otjdIhQotQMJnec8=
+	t=1727440991; cv=none; b=uywzO0A1yj/xemNE5K87aAYQFyQ+7yqaO4dDexdlf3z2Vc7kkW3Yyq6jfAUUXby2ZKw2gV8wbMFW1wXXbrC/U/Scca22KWMuVA7sh6HFQ2Y2aS3NxwjrhJKSZyvXq4SnPhxqaXWNvohzqX5GigwVGDpoxGY6v3O1o6ONv+ryDzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727440989; c=relaxed/simple;
-	bh=ysNXCS5d03ZwzODzN3Ux5C/aLATkpUW/PgOS0n4jwzI=;
+	s=arc-20240116; t=1727440991; c=relaxed/simple;
+	bh=gJF6Vp8OyXRl1gBpDJQDv5Bh3hk35GPxQbTUGGKRpag=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=EcEYMcEcZpcrxCsrpQOjfrc/GX+IEiqcAkhf77RMcJcOX1nxWjZk1m9CGsG4Zu2lpcw+bcWWxzj6OXUwwznoBAc3PFPJuaDZrWizvse66ibVDsJLAbNbKDmIgiUDs2YfuDxtezeYgut/4ZXoEZf2NEjwtyxyduqnofd994bSXVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.51
+	 MIME-Version; b=bLfpVMVZmworE+5kQVRYBS83yfmUcxRqyxg4LIvxeGKB/M5FC7qREqXYApByPPd4+jpGweJ0L9mzOn8iHXtS8t6fyUJjyDzIQ/2/+q9lh8Pp769izFVsAritaRhXd3zOrhjObcw61SOTX33vmBE3DPj2nTg09PqlF1kRtQg6T50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+	by cantor.telenet-ops.be (Postfix) with ESMTPS id 4XFVVt4b91z4xMgK
+	for <linux-sound@vger.kernel.org>; Fri, 27 Sep 2024 14:43:02 +0200 (CEST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:b47d:fd74:3975:15b7])
 	by baptiste.telenet-ops.be with cmsmtp
-	id HQic2D00D3BfLyr01Qicjt; Fri, 27 Sep 2024 14:43:02 +0200
+	id HQic2D00E3BfLyr01Qicjw; Fri, 27 Sep 2024 14:43:02 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1suAIj-000fPs-HD;
+	id 1suAIj-000fPr-HE;
 	Fri, 27 Sep 2024 14:42:31 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1suAIo-008IDj-Vr;
+	id 1suAIo-008IDg-V7;
 	Fri, 27 Sep 2024 14:42:30 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Liam Girdwood <lgirdwood@gmail.com>,
@@ -62,9 +65,9 @@ Cc: linux-sound@vger.kernel.org,
 	linuxppc-dev@lists.ozlabs.org,
 	linux-kernel@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH treewide 03/11] ARM: dts: marvell: mmp2-olpc-xo-1-75: Switch to {hp,mic}-det-gpios
-Date: Fri, 27 Sep 2024 14:42:18 +0200
-Message-Id: <7b4d7d735189fb346175a95e29db33f01c8cf93d.1727438777.git.geert+renesas@glider.be>
+Subject: [PATCH treewide 02/11] ASoC: dt-bindings: Deprecate {hp,mic}-det-gpio
+Date: Fri, 27 Sep 2024 14:42:17 +0200
+Message-Id: <833d5d9560339bf39a125914225c9a0930e134cc.1727438777.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1727438777.git.geert+renesas@glider.be>
 References: <cover.1727438777.git.geert+renesas@glider.be>
@@ -76,29 +79,73 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace the deprecated "hp-det-gpio" and "mic-det-gpio" properties by
-"hp-det-gpios" resp. "mic-det-gpios" in Audio Graph Card device nodes.
+Commit 2071d0968e564b4b ("Documentation: gpio: guidelines for bindings")
+deprecated the "gpio" suffix for GPIO consumers in favor of the "gpios"
+suffix.  Update the Audio Graph and Simple Audio Card DT bindings to
+reflect this.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dts | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+No driver changes needed, as gpiod_get_optional() as called from
+simple_util_init_jack() tries all suffixes.
+---
+ .../devicetree/bindings/sound/audio-graph.yaml       |  6 ++++++
+ .../devicetree/bindings/sound/simple-card.yaml       | 12 ++++++++++++
+ 2 files changed, 18 insertions(+)
 
-diff --git a/arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dts b/arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dts
-index 55ea87870af3e039..86c425b72fa711b5 100644
---- a/arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dts
-+++ b/arch/arm/boot/dts/marvell/mmp2-olpc-xo-1-75.dts
-@@ -113,8 +113,8 @@ sound-card {
- 			  "Headphones", "HPOR",
- 			  "MIC2", "Mic Jack";
- 		widgets = "Headphone", "Headphones", "Microphone", "Mic Jack";
--		hp-det-gpio = <&gpio 97 GPIO_ACTIVE_HIGH>;
--		mic-det-gpio = <&gpio 96 GPIO_ACTIVE_HIGH>;
-+		hp-det-gpios = <&gpio 97 GPIO_ACTIVE_HIGH>;
-+		mic-det-gpios = <&gpio 96 GPIO_ACTIVE_HIGH>;
- 	};
+diff --git a/Documentation/devicetree/bindings/sound/audio-graph.yaml b/Documentation/devicetree/bindings/sound/audio-graph.yaml
+index 71f52f7e55f6ce72..9899d9d1958d9d93 100644
+--- a/Documentation/devicetree/bindings/sound/audio-graph.yaml
++++ b/Documentation/devicetree/bindings/sound/audio-graph.yaml
+@@ -37,8 +37,14 @@ properties:
+   pa-gpios:
+     maxItems: 1
+   hp-det-gpio:
++    deprecated: true
++    maxItems: 1
++  hp-det-gpios:
+     maxItems: 1
+   mic-det-gpio:
++    deprecated: true
++    maxItems: 1
++  mic-det-gpios:
+     maxItems: 1
  
- 	soc {
+ required:
+diff --git a/Documentation/devicetree/bindings/sound/simple-card.yaml b/Documentation/devicetree/bindings/sound/simple-card.yaml
+index 59ac2d1d1ccfa4ce..533d0a1da56e34eb 100644
+--- a/Documentation/devicetree/bindings/sound/simple-card.yaml
++++ b/Documentation/devicetree/bindings/sound/simple-card.yaml
+@@ -207,8 +207,14 @@ properties:
+   simple-audio-card,pin-switches:
+     $ref: "#/definitions/pin-switches"
+   simple-audio-card,hp-det-gpio:
++    deprecated: true
++    maxItems: 1
++  simple-audio-card,hp-det-gpios:
+     maxItems: 1
+   simple-audio-card,mic-det-gpio:
++    deprecated: true
++    maxItems: 1
++  simple-audio-card,mic-det-gpios:
+     maxItems: 1
+ 
+ patternProperties:
+@@ -256,8 +262,14 @@ patternProperties:
+       pin-switches:
+         $ref: "#/definitions/pin-switches"
+       hp-det-gpio:
++        deprecated: true
++        maxItems: 1
++      hp-det-gpios:
+         maxItems: 1
+       mic-det-gpio:
++        deprecated: true
++        maxItems: 1
++      mic-det-gpios:
+         maxItems: 1
+ 
+     patternProperties:
 -- 
 2.34.1
 
