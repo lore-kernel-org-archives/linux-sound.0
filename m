@@ -1,123 +1,72 @@
-Received: from inva021.nxp.com (inva021.nxp.com [92.121.34.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C642189B91;
-	Fri, 27 Sep 2024 08:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDFDD17A597;
+	Fri, 27 Sep 2024 08:39:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727425404; cv=none; b=fOFbfN3sPooKF8tgx2x07XbT4uGxY12hKwp0O4PWA9LuY6TuXlhhMlG9Z2Xmzv8UuLPKGLDISAZRz45W9TPe4qNhet3Z0vI+CIfAP6+8YUSWbUsRAq1cZ+n4Y2BAX3U0pcZrE0pivFT70Il5h73AUwwcUmCm+7H8Kh31I5W6WUs=
+	t=1727426360; cv=none; b=UX2xd/0YT8pZFdbH4/AVvnWgi1EUbm9/8EgDCrPPC3hctJ6AQ4ewxbdl4OsvnbDguzh8y2o/rVPNeHp8iuKbgV8BzoEAD7MfN5sY88wQVAmjssP2Zg/dPudqN/GIxzZpuw5AUfFluXUGSCS3xcF58AQNsNUXDdoOCYPd8Hj1pz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727425404; c=relaxed/simple;
-	bh=uAZu7jgOYOp5A+s3eueNH7j+KtpbzDNYf4Ayr4G5EaY=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References; b=hNtQ3xJenvXGQjrXV+5zpjfo2PhaXUTnvMDPNdc+07LI0CZMqG2Wxfhok9C6tV9jeRDxMCSahwu+1RcQbZSvuHvY3xKuYlf0vGofIwhID2eCopxW88McuqhOc1DN6E9fOCD9DfXYtMRE1Fl+vpngbevCozwaRL7Bh779QBJHicM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-Received: from inva021.nxp.com (localhost [127.0.0.1])
-	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id EC9A2201A2A;
-	Fri, 27 Sep 2024 10:23:15 +0200 (CEST)
-Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
-	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id B0453201A52;
-	Fri, 27 Sep 2024 10:23:15 +0200 (CEST)
-Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
-	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 18AAD183DC03;
-	Fri, 27 Sep 2024 16:23:14 +0800 (+08)
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
-To: shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-sound@vger.kernel.org,
+	s=arc-20240116; t=1727426360; c=relaxed/simple;
+	bh=2CmxE4XpAXVWTY0TaLeb2HVuWbbBpaDz4vtNsP7PnyI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PGoEPzrApArREUaWFiUeSP0dq7wlW6p/b2DeVvTWCXRBhZis3l4bcgsJ3oDxQO6R4kwv/ZH0Y2lb+2GwcF6wIQSu8GQ4A6qS8cn+39d6Pglg7bFKtSiROz7tv4MDwrSAJr8LJlxtzZseb2zeeEl3nMJ+z7Y3r147sqNIrNxKDDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O6bWUDXz; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O6bWUDXz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49FFFC4CEC4;
+	Fri, 27 Sep 2024 08:39:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727426360;
+	bh=2CmxE4XpAXVWTY0TaLeb2HVuWbbBpaDz4vtNsP7PnyI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=O6bWUDXzSPoJdMBfA5II7PxzVzThH5Ej/TqBSuu8nPt+ZGPyx6TyiU05Db4O2s/pQ
+	 bTsS6jEmZr4lt+aFd9nGo4KTGJ5+wmGqcpIxkP9eP3fOz6fv5hblXW4wIKnBMEBoCO
+	 Ip5kPeQzu1JBZ0vVp7hrzfOwU1BFIDxCGAjXL7QZk22j56OuN3W3naTzDaJhEiRGBm
+	 fUejM5pxQIc9ddhbG7vg3UefiLHPYKkiF0GNJjgVvAm4NsMkWqmoJvCd1hOaNuBtpo
+	 gwn979RqVgnpkiZO/UZ1Q99ToyKFauw+SQBZj7AMifJcZrCBypGn124WMnHNA+aV+Z
+	 Ds9BhuQSRaJYQ==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1su6VQ-000000001Wg-1ix0;
+	Fri, 27 Sep 2024 10:39:17 +0200
+Date: Fri, 27 Sep 2024 10:39:16 +0200
+From: Johan Hovold <johan@kernel.org>
+To: John Keeping <jkeeping@inmusicbrands.com>
+Cc: linux-sound@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alex Elder <elder@kernel.org>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Lee Jones <lee@kernel.org>,
+	Francesco Dolcini <francesco.dolcini@toradex.com>,
+	"Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
+	Rob Herring <robh@kernel.org>, Daniel Kaehn <kaehndan@gmail.com>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] ASoC: fsl_micfil: Enable micfil error interrupt
-Date: Fri, 27 Sep 2024 16:00:31 +0800
-Message-Id: <1727424031-19551-4-git-send-email-shengjiu.wang@nxp.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1727424031-19551-1-git-send-email-shengjiu.wang@nxp.com>
-References: <1727424031-19551-1-git-send-email-shengjiu.wang@nxp.com>
-X-Virus-Scanned: ClamAV using ClamSMTP
+Subject: Re: [PATCH] ALSA: serial-generic: explicitly disable flow control
+Message-ID: <ZvZvNIOLX1UMJmC3@hovoldconsulting.com>
+References: <20240926104404.3527124-1-jkeeping@inmusicbrands.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240926104404.3527124-1-jkeeping@inmusicbrands.com>
 
-Enable micfil error interrupt, in the error handler,
-FIFO state and OUT state need to be cleared.
+On Thu, Sep 26, 2024 at 11:44:03AM +0100, John Keeping wrote:
+> The serdev subsystem does not specify the default state of flow control
+> when opening a device.
 
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
----
- sound/soc/fsl/fsl_micfil.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+This bit isn't correct as serdev enables hardware flow control (CRTSCTS)
+by default on open() (see ttyport_open()).
 
-diff --git a/sound/soc/fsl/fsl_micfil.c b/sound/soc/fsl/fsl_micfil.c
-index 6ecf46e9ac4c..0930d8c9b8d7 100644
---- a/sound/soc/fsl/fsl_micfil.c
-+++ b/sound/soc/fsl/fsl_micfil.c
-@@ -651,7 +651,7 @@ static int fsl_micfil_trigger(struct snd_pcm_substream *substream, int cmd,
- 
- 		/* Enable the module */
- 		ret = regmap_set_bits(micfil->regmap, REG_MICFIL_CTRL1,
--				      MICFIL_CTRL1_PDMIEN);
-+				      MICFIL_CTRL1_PDMIEN | MICFIL_CTRL1_ERREN);
- 		if (ret)
- 			return ret;
- 
-@@ -667,7 +667,7 @@ static int fsl_micfil_trigger(struct snd_pcm_substream *substream, int cmd,
- 
- 		/* Disable the module */
- 		ret = regmap_clear_bits(micfil->regmap, REG_MICFIL_CTRL1,
--					MICFIL_CTRL1_PDMIEN);
-+					MICFIL_CTRL1_PDMIEN | MICFIL_CTRL1_ERREN);
- 		if (ret)
- 			return ret;
- 
-@@ -940,6 +940,7 @@ static bool fsl_micfil_volatile_reg(struct device *dev, unsigned int reg)
- {
- 	switch (reg) {
- 	case REG_MICFIL_STAT:
-+	case REG_MICFIL_FIFO_STAT:
- 	case REG_MICFIL_DATACH0:
- 	case REG_MICFIL_DATACH1:
- 	case REG_MICFIL_DATACH2:
-@@ -948,6 +949,7 @@ static bool fsl_micfil_volatile_reg(struct device *dev, unsigned int reg)
- 	case REG_MICFIL_DATACH5:
- 	case REG_MICFIL_DATACH6:
- 	case REG_MICFIL_DATACH7:
-+	case REG_MICFIL_OUT_STAT:
- 	case REG_MICFIL_VERID:
- 	case REG_MICFIL_PARAM:
- 	case REG_MICFIL_VAD0_STAT:
-@@ -1024,6 +1026,8 @@ static irqreturn_t micfil_err_isr(int irq, void *devid)
- {
- 	struct fsl_micfil *micfil = (struct fsl_micfil *)devid;
- 	struct platform_device *pdev = micfil->pdev;
-+	u32 fifo_stat_reg;
-+	u32 out_stat_reg;
- 	u32 stat_reg;
- 
- 	regmap_read(micfil->regmap, REG_MICFIL_STAT, &stat_reg);
-@@ -1040,6 +1044,14 @@ static irqreturn_t micfil_err_isr(int irq, void *devid)
- 				  MICFIL_STAT_LOWFREQF, MICFIL_STAT_LOWFREQF);
- 	}
- 
-+	regmap_read(micfil->regmap, REG_MICFIL_FIFO_STAT, &fifo_stat_reg);
-+	regmap_write_bits(micfil->regmap, REG_MICFIL_FIFO_STAT,
-+			  fifo_stat_reg, fifo_stat_reg);
-+
-+	regmap_read(micfil->regmap, REG_MICFIL_OUT_STAT, &out_stat_reg);
-+	regmap_write_bits(micfil->regmap, REG_MICFIL_OUT_STAT,
-+			  out_stat_reg, out_stat_reg);
-+
- 	return IRQ_HANDLED;
- }
- 
--- 
-2.34.1
+> Surveying other drivers using serdev shows the
+> vast majority of these set flow control explicitly after opening the
+> device.
+> 
+> MIDI does not use flow control, so ensure it is disabled.
 
+Johan
