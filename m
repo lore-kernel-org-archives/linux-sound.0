@@ -1,107 +1,154 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B214F175D21;
-	Fri, 27 Sep 2024 05:29:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB83C16EBE6;
+	Fri, 27 Sep 2024 07:58:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727414957; cv=none; b=pKWMJPSvrul3gtsUkewQTgoUpjWaIp0Ks0p5mwUoOtnIOXUEi36w7Y+7lJ9sD5sHp/lWTk4TOkn5lUtU5Vmrpe9y7TtOXry5nnq4VURLMyGpuHmHlrptsnJ4ltb37r7RtlHevuLm6nnLMiZ0DaopyRRbcYGaVQZYEYpS3rQuXBM=
+	t=1727423891; cv=none; b=Lrw4GJd4HGTsdFs9Crnpsdryan9ZfADN0v2h7ORlZI2VI7ZD2q2FGedUf96uyyILv48i9VrGyUeRuWdmx/F1GQsnT730lr9sErOVDCiFW8fZUBvygkp6TOJsY1PLkDCDFcTHioi/msSzWH/kVrPxKMzZgmyVOpiOR6PzaDPQZso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727414957; c=relaxed/simple;
-	bh=tOr73h+s5i8NrEI4xi6ybeSckNxM9TLk7DCrddUkUMw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CdMEbT106IiC7aijHDkI4HVAK3RB9q25yzK91WQPQGF2UZcVtXVKJDoymkfj/D26v89JsPqEcprsecDPydLFqQgiaAJxagFMzzNMvOw5S302wvw+c0wNDO6m2Y441Z9vV922JVT8IR+7X/+dBwDzrAGgzMBC/+meXhMkKkbS1+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TJ23X0yY; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1727423891; c=relaxed/simple;
+	bh=K4Ha9SzluEelrcb7mPJ+hSpYuWIb/WY9wcGQ3BuJxPU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=mZ5ErZuolZkgHIrozMLGN+9ouFC/SEohKNQUcuQav27yw6BMBYelzi8hv15mc4+C5Ul2w814YOzmE/XiQW2J0VR3zKvVe8iV/LsJ2RMknK43iCyGu8tOs/J2eA52qbMG09Jw0TNE3IkdFx1BO8dl8r/4rS0jchgXpjOcz3HuiwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=pm+L6SuX; arc=none smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TJ23X0yY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727414956; x=1758950956;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tOr73h+s5i8NrEI4xi6ybeSckNxM9TLk7DCrddUkUMw=;
-  b=TJ23X0yYTD7CKDVRDl4gQAmxr0Cc9WEVPdV46nuiF4sMCVF6zQmBxpl6
-   f8pOpD6/AE/svN8p+nZmv0vH5iwD3+h+hyiGHbS/b9BP+Bz+8kv1CV7oK
-   oGv7Z5NOfFpVWlWsOJw2LCJhTPCROCGy3zcFiJwHgjqtlTCoNpkzI8dI3
-   yYErPp+G1S1beTsRrb5r6Gy6h7JrRDX4iLHuEanV9j+OE0UAkR/4wFFtN
-   nylVnwIzGNiSQmwr9qMqfbDS024GenzpMvQtC1hG0pnBqdOVC9eq0HS/m
-   Wc62d1BCYT/O6YIdQjfifJKfNxjFfT087eUjfsUH7iySg38pn5korsr43
-   A==;
-X-CSE-ConnectionGUID: BT6nCM0PTuiTy6mEYSKNqg==
-X-CSE-MsgGUID: UVxjVQv7TjKCaIoX9OJuQw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="37114296"
-X-IronPort-AV: E=Sophos;i="6.11,157,1725346800"; 
-   d="scan'208";a="37114296"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 22:29:16 -0700
-X-CSE-ConnectionGUID: OY1RzxU5Roe3y6xzMnny8w==
-X-CSE-MsgGUID: WX9CnaqQTY+q6JqEBc+PWA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,157,1725346800"; 
-   d="scan'208";a="72714909"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 26 Sep 2024 22:28:58 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1su3XC-000LWC-2e;
-	Fri, 27 Sep 2024 05:28:54 +0000
-Date: Fri, 27 Sep 2024 13:28:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Igor Prusov <ivprusov@salutedevices.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
-	kernel@salutedevices.com, prusovigor@gmail.com
-Subject: Re: [PATCH v3 4/6] ASoC: codecs: Add NeoFidelity NTP8918 codec
-Message-ID: <202409271307.H4zydYCv-lkp@intel.com>
-References: <20240925-ntp-amps-8918-8835-v3-4-e2459a8191a6@salutedevices.com>
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="pm+L6SuX"
+X-UUID: 3882a9787ca611ef8b96093e013ec31c-20240927
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:CC:To:Subject:MIME-Version:Date:Message-ID; bh=FSHvJiePihDHrvRm0P0iXE0axppBM5CqjqpGGZtkmaU=;
+	b=pm+L6SuXs8JD+H7o0asCxTFJPtH4P9Y8t1ICqDkmzKrf0tYRm36pa3rqRVnFUDHbTQUgPEYXfOoNC5dvgK7UModwFGXuHhm/HqX2nQlQgCQ44FRxL/E63G+g6mT2gCrGzX4v/lrJ99sj595JhPOjWVbSGXOkaNTEOXhctImRs7s=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.41,REQID:effb94ce-42ef-4fd9-b367-5cfcc011b8c5,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:6dc6a47,CLOUDID:00885818-b42d-49a6-94d2-a75fa0df01d2,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|-5,EDM:-3,IP:ni
+	l,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 3882a9787ca611ef8b96093e013ec31c-20240927
+Received: from mtkmbs09n2.mediatek.inc [(172.21.101.94)] by mailgw02.mediatek.com
+	(envelope-from <macpaul.lin@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1584982245; Fri, 27 Sep 2024 15:58:02 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Fri, 27 Sep 2024 15:58:00 +0800
+Received: from [172.21.84.99] (172.21.84.99) by mtkmbs11n1.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.1118.26 via Frontend
+ Transport; Fri, 27 Sep 2024 15:57:59 +0800
+Message-ID: <78381b10-eae6-1414-6913-994e1ed03410@mediatek.com>
+Date: Fri, 27 Sep 2024 15:57:58 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240925-ntp-amps-8918-8835-v3-4-e2459a8191a6@salutedevices.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 2/3] dt-bindings: mfd: mediatek: mt6397: add compatible
+ for mt6359-codec
+Content-Language: en-US
+To: Conor Dooley <conor@kernel.org>
+CC: Sen Chu <sen.chu@mediatek.com>, Sean Wang <sean.wang@mediatek.com>, "Lee
+ Jones" <lee@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+	<matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Liam Girdwood
+	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Eason Yen
+	<eason.yen@mediatek.com>, Jiaxin Yu <jiaxin.yu@mediatek.com>, Shane Chien
+	<shane.chien@mediatek.com>, Hui Liu <hui.liu@mediatek.com>,
+	<linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, <linux-sound@vger.kernel.org>,
+	Alexandre Mergnat <amergnat@baylibre.com>, Bear Wang
+	<bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>, Macpaul Lin
+	<macpaul@gmail.com>, Chris-qj chen <chris-qj.chen@mediatek.com>, "MediaTek
+ Chromebook Upstream" <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	Chen-Yu Tsai <wenst@chromium.org>
+References: <20240926092519.6556-1-macpaul.lin@mediatek.com>
+ <20240926092519.6556-2-macpaul.lin@mediatek.com>
+ <20240926-smokeless-clobber-0fb8a1cdc7ab@spud>
+From: Macpaul Lin <macpaul.lin@mediatek.com>
+In-Reply-To: <20240926-smokeless-clobber-0fb8a1cdc7ab@spud>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--15.744400-8.000000
+X-TMASE-MatchedRID: cgbqQT5W8hcOwH4pD14DsPHkpkyUphL9GNMTWh+TA9t+YesuCgkiXJsn
+	GP/L/vukQ2hUNgLaYpUvndTJnUi/SAAt/Fsc5wFGbc297PAGtWbXof+XRfBH287EPIkVcg+OD3J
+	fu36QI2GIi0Yt2qmJZR9K6LGpAwssZMLMXtQ7bzFsG7r4Qh7N3J6KYa03LCO2myiLZetSf8nJ4y
+	0wP1A6AKEwgORH8p/AjaPj0W1qn0Q7AFczfjr/7HPBXw4uHT3JyO9Fb+NyVxV9IeBCvU2xpOg2z
+	GJYtXDU5BRVekiXxRE=
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--15.744400-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP: AFFE03E053B385FE89437B5129CE9C73A9E0002E6ECFE675424FD8767641666F2000:8
 
-Hi Igor,
+On 9/27/24 00:04, Conor Dooley wrote:
+> On Thu, Sep 26, 2024 at 05:25:18PM +0800, Macpaul Lin wrote:
+>> This patch updates the audio-codec properties includes:
+>>   - compatible:
+>>    - Re-order the supported device items.
+>>    - Add 'mt6359-codec' to compatible since MT6359 PMIC has been included
+>>      in this DT Schema.
+> 
+>>    - Set 'additionalProperties: true' for 'mt6359-codec'.
+> 
+> Why?
 
-kernel test robot noticed the following build warnings:
+The mt6359-codec support these 3 properties:
+mediatek,mic-type0, mediatek,mic-type-1, mediatek-mic-type2.
+While mt6358-sound and mt6397-codec don't (at least, I didn't find
+these 3 properties in driver codes.
 
-[auto build test WARNING on c7fbbb45ef78ff349d16923b516bc8667367d1a6]
+Set 'additionalProperties: true' is also required to fix the following
+dtbs_check errors:
+pmic: audio-codec: 'mediatek,mic-type-0', 'mediatek,mic-type-1',
+       'mediatek,mic-type-2' do not match any of the regexes:
+       'pinctrl-[0-9]+'
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Igor-Prusov/dt-bindings-vendor-prefixes-Add-NeoFidelity-Inc/20240925-230818
-base:   c7fbbb45ef78ff349d16923b516bc8667367d1a6
-patch link:    https://lore.kernel.org/r/20240925-ntp-amps-8918-8835-v3-4-e2459a8191a6%40salutedevices.com
-patch subject: [PATCH v3 4/6] ASoC: codecs: Add NeoFidelity NTP8918 codec
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+>>
+>> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
+>> ---
+>>   Documentation/devicetree/bindings/mfd/mediatek,mt6397.yaml | 5 +++--
+>>   1 file changed, 3 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/mfd/mediatek,mt6397.yaml b/Documentation/devicetree/bindings/mfd/mediatek,mt6397.yaml
+>> index 40cabaf60d0d..ffb5848a96d5 100644
+>> --- a/Documentation/devicetree/bindings/mfd/mediatek,mt6397.yaml
+>> +++ b/Documentation/devicetree/bindings/mfd/mediatek,mt6397.yaml
+>> @@ -104,7 +104,7 @@ properties:
+>>   
+>>     audio-codec:
+>>       type: object
+>> -    additionalProperties: false
+>> +    additionalProperties: true
+>>       description:
+>>         Audio codec support with MT6397 and MT6358.
+>>   
+>> @@ -112,8 +112,9 @@ properties:
+>>         compatible:
+>>           oneOf:
+>>             - enum:
+>> -              - mediatek,mt6397-codec
+>>                 - mediatek,mt6358-sound
+>> +              - mediatek,mt6359-codec
+>> +              - mediatek,mt6397-codec
+>>             - items:
+>>                 - enum:
+>>                     - mediatek,mt6366-sound
+>> -- 
+>> 2.45.2
+>>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409271307.H4zydYCv-lkp@intel.com/
-
-includecheck warnings: (new ones prefixed by >>)
->> sound/soc/codecs/ntp8918.c: linux/clk.h is included more than once.
-
-vim +11 sound/soc/codecs/ntp8918.c
-
-  > 11	#include <linux/clk.h>
-    12	#include <linux/reset.h>
-    13	#include <linux/i2c.h>
-    14	#include <linux/regmap.h>
-  > 15	#include <linux/clk.h>
-    16	#include <linux/clk-provider.h>
-    17	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks
+Macpaul Lin
