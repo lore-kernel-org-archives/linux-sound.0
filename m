@@ -1,155 +1,153 @@
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BCA2161320;
-	Mon, 30 Sep 2024 07:55:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7AFE17BA6;
+	Mon, 30 Sep 2024 08:02:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727682906; cv=none; b=uSaRNi6xs7yyrHbkX13EsUSP7RuUi8L9e2wYkQeQNONUXWph0S6KdibKpjsevrSJt7TiqxM9RVwg74KSiOWs59rnfThgOoldKlDXqN3ovUZLDd/5JP+3pJAfsyKIsT0pHCXJc7PtRNhrmPSoCiqHAKw83jyxfniZD2rZ5ISJc+M=
+	t=1727683368; cv=none; b=qG3XPxaYwir/Xzz/xCx+/+pES5PUf2LYWnn8M+4OUHaY1n/63JJfwtuej2jeHZhRDEwcOiL79VbsKf/40+D7Q2gv1LHr/kuQmyEBFGR52t20aAzmdO+IjLx2XWkRUcHD0kfU2Rc5bADIlDxHy5bUXdbddSPeryhrf5MQlZUYSJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727682906; c=relaxed/simple;
-	bh=AGafo0vZkzd+K9nl5FTzSy3RjImwW188+CiK9pnPQV8=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=YZxlK5RRSg/Zc2g5eO6FgVv5wIhK2gbDYJahhgvAE+Z1cmwPTpBlO6Tl6AMt3A/yfWAv/PjTA9/lleX3TWOlz4V+X7JXOUN8D23f90Rcp+zQwXr+FHf96PWJQX2NT8bzvbl487Tt06jGZBb5Eu/k1JWapYRSMrNOz/0AGeUGJh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=ppM46xr0; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+	s=arc-20240116; t=1727683368; c=relaxed/simple;
+	bh=MB43YxyE/IqT0xiOmWbs9gs9eK7cQudzi/huB4jslwg=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BGN1NOS739YSu3JeE8Hi+yGsE9KO90XR4BV6lZeZOjF5QWl9bmezErIaLK6eDKSvZFE50eWzhrr4p+fbdeTFqNKkgIFrKC1FjviE8VR5Zwmlq2ajivzettKIpTheuDS6HWe+PMU9m9Q2DwAHoJIxSCFaPuhC95waPiX0g6/4DiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HOmP1KJ3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yTc5MB+g; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HOmP1KJ3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yTc5MB+g; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="ppM46xr0"
-X-UUID: 4aea5acc7f0111efb66947d174671e26-20240930
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=1krfFGaM4voNdyGzMmDadF5cHImFgKdQ1Q8ZXa1+cSA=;
-	b=ppM46xr0vFP9K7AXSkL2c0OXwik7FrG2Et9+XZjdSOctUpM4+QuhxjxS4O109TlvbY9BfkcwDmkSKolhg8yeoRSFBfNfnuE3UtF4uDP8q83iux3m8MNasfqLICXBtbtFOHqJizT7zo/SGKqAhRujzAzlxWbgmEHKS+zmJw5SEVs=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.41,REQID:2b6591cb-a30f-4e29-af4a-96235c703d90,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:6dc6a47,CLOUDID:c51ffbd0-7921-4900-88a1-3aef019a55ce,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
-	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-UUID: 4aea5acc7f0111efb66947d174671e26-20240930
-Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw01.mediatek.com
-	(envelope-from <macpaul.lin@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1292079580; Mon, 30 Sep 2024 15:55:00 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Mon, 30 Sep 2024 15:54:57 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Mon, 30 Sep 2024 15:54:57 +0800
-From: Macpaul Lin <macpaul.lin@mediatek.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, "Rob
- Herring" <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, "Conor
- Dooley" <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	<linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-mediatek@lists.infradead.org>, Alexandre Mergnat
-	<amergnat@baylibre.com>
-CC: Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
-	Macpaul Lin <macpaul.lin@mediatek.com>, Macpaul Lin <macpaul@gmail.com>, "Sen
- Chu" <sen.chu@mediatek.com>, Chris-qj chen <chris-qj.chen@mediatek.com>,
-	MediaTek Chromebook Upstream
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>, Chen-Yu Tsai
-	<wenst@chromium.org>, Jiaxin Yu <jiaxin.yu@mediatek.com>
-Subject: [PATCH v2 1/2] ASoC: dt-bindings: mt6359: Update generic node name and dmic-mode
-Date: Mon, 30 Sep 2024 15:54:50 +0800
-Message-ID: <20240930075451.14196-1-macpaul.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HOmP1KJ3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yTc5MB+g";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HOmP1KJ3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yTc5MB+g"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 16DC021A3C;
+	Mon, 30 Sep 2024 08:02:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1727683365; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1tTj0cKM1mYe8CJTSoy2Nf4xAnQpmVN3FYHvotOfusw=;
+	b=HOmP1KJ3khfQG0Ofy5XHP2lry3bs9VA+NIgnBMwKKmqc/4iZSjSZk6QObCyl52Kwgf4TpP
+	U4044RyTkwWpC4CBlkoGKbT7j6W7acb7x0Hk+N5lIMtzsZ5Y0VtGGEjX291IeTDZn1RRoy
+	bPEa29wimtWnHDZi4qHAH2nRVsDNpPA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1727683365;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1tTj0cKM1mYe8CJTSoy2Nf4xAnQpmVN3FYHvotOfusw=;
+	b=yTc5MB+gB/cANsMul/S1zYJ8RXK/RGCjzN9Uh1XS8WxwtssyM6634FNvvXgN5kvU4B/4OG
+	I43RgWqHcLuGK8Bw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=HOmP1KJ3;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=yTc5MB+g
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1727683365; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1tTj0cKM1mYe8CJTSoy2Nf4xAnQpmVN3FYHvotOfusw=;
+	b=HOmP1KJ3khfQG0Ofy5XHP2lry3bs9VA+NIgnBMwKKmqc/4iZSjSZk6QObCyl52Kwgf4TpP
+	U4044RyTkwWpC4CBlkoGKbT7j6W7acb7x0Hk+N5lIMtzsZ5Y0VtGGEjX291IeTDZn1RRoy
+	bPEa29wimtWnHDZi4qHAH2nRVsDNpPA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1727683365;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1tTj0cKM1mYe8CJTSoy2Nf4xAnQpmVN3FYHvotOfusw=;
+	b=yTc5MB+gB/cANsMul/S1zYJ8RXK/RGCjzN9Uh1XS8WxwtssyM6634FNvvXgN5kvU4B/4OG
+	I43RgWqHcLuGK8Bw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C711913A8B;
+	Mon, 30 Sep 2024 08:02:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id fyhBLyRb+ma4EwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 30 Sep 2024 08:02:44 +0000
+Date: Mon, 30 Sep 2024 10:03:37 +0200
+Message-ID: <87cyklk1pi.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?GB2312?B?uvrBrMfa?= <hulianqin@vivo.com>
+Cc: "perex@perex.cz" <perex@perex.cz>,
+	"tiwai@suse.com" <tiwai@suse.com>,
+	"mbarriolinares@gmail.com" <mbarriolinares@gmail.com>,
+	"wangdicheng@kylinos.cn" <wangdicheng@kylinos.cn>,
+	"mmccarthy@mcintoshlabs.com" <mmccarthy@mcintoshlabs.com>,
+	"xristos.thes@gmail.com" <xristos.thes@gmail.com>,
+	"cyan.vtb@gmail.com"
+	<cyan.vtb@gmail.com>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ALSA: usb-audio: Add delay quirk for VIVO USB-C HEADSET
+In-Reply-To: <TYUPR06MB62177E629E9DEF2401333BF7D2692@TYUPR06MB6217.apcprd06.prod.outlook.com>
+References: <TYUPR06MB62177E629E9DEF2401333BF7D2692@TYUPR06MB6217.apcprd06.prod.outlook.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=GB2312
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--7.843100-8.000000
-X-TMASE-MatchedRID: wJ5LwGcfks1e0FYiuVD/cJdc7I2df+msGNMTWh+TA9tAFIabNAVEubwA
-	mz0iQUL1swZGVwllZ3CO9NvhBeIuxCY0eULsNBXlcoieJFjVCFzKd5XQ/OcgS/gnJH5vm2+gnZO
-	YcbQKzjzflJfhMyjEFWr2nwalHag8YnWYuJfXlIYve6W+IORwrWYDcO9PwyjmEd+K6O5Nt5125K
-	XQ4QIGJhZDMUjKccymXmMyO3+ywbXHCChNBbZThVDWj4oL4ikfwx0jRRxcQfMxOMibTKeYa9U4I
-	iUSGII7bJOu7I3Q/vmCTnCWhbuWKChFZ+EwhjzAsyw+ZJnFumQP4vBWNr0zgZsoi2XrUn/Jn6Kd
-	MrRsL14qtq5d3cxkNZybfOl9RBXllZU77EEGbBHwwR7xUxdlfg/UcbS/SfOnucYvqhVGQO7AvpL
-	E+mvX8g==
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--7.843100-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: E91FAECB4DAB2626A361A3A2F176EB8788F8194ECCA6E98E0C28E3708FAC5C4A2000:8
-X-MTK: N
+X-Rspamd-Queue-Id: 16DC021A3C
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.98 / 50.00];
+	BAYES_HAM(-2.97)[99.88%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,gmail.com,kylinos.cn,mcintoshlabs.com,vger.kernel.org];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -1.98
+X-Spam-Flag: NO
 
-Some fix and updates in the following items:
-1. examples:
-   Update generic node name to 'audio-codec' to comply with the
-   coming change in 'mt6359.dtsi'. This change is necessary to fix the
-   dtbs_check error:
-   pmic: 'mt6359codec' does not match any of the regexes: 'pinctrl-[0-9]+'
+On Wed, 25 Sep 2024 05:16:29 +0200,
+ºúÁ¬ÇÚ wrote:
+> 
+> From: Lianqin Hu <hulianqin@vivo.com>
+> 
+> Audio control requests that sets sampling frequency sometimes fail on
+> this card. Adding delay between control messages eliminates that problem.
+> 
+> Signed-off-by: Lianqin Hu <hulianqin@vivo.com>
 
-2. mediatek,dmic-mode:
-   After inspecting the .dts and .dtsi files using 'mt6359-codec', it was
-   discovered that the definitions of 'two wires' and 'one wire' are
-   inverted compared to the DT schema.
-   For example, the following boards using MT6359 PMIC:
-    - mt8192-asurada.dtsi
-    - mt8195-cherry.dtsi
-   These boards use the same definitions of 'dmic-mode' as other boards
-   using MT6358 PMIC. The meaning of '0' or '1' has been noted as comments
-   in the device trees.
+Applied now.  Thanks.
 
-   Upon examining the code in [1] and [2], it was confirmed that the
-   definitions of 'dmic-mode' are consistent between "MT6359 PMIC" and
-   "MT6358 PMIC". Therefore, the DT Schema should be correct as is.
 
-References:
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/sound/soc/codecs/mt6358.c#n1875
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/sound/soc/codecs/mt6359.c#L1515
-
-Fixes: 539237d1c609 ("dt-bindings: mediatek: mt6359: add codec document")
-Signed-off-by: Jiaxin Yu <jiaxin.yu@mediatek.com>
-Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
----
- Documentation/devicetree/bindings/sound/mt6359.yaml | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-Changes for v2:
- - No change. Because the 2/3 patch has been dropped from the v1 patch.
-   Hence the new patch set v2 needs to be updated. 
-
-diff --git a/Documentation/devicetree/bindings/sound/mt6359.yaml b/Documentation/devicetree/bindings/sound/mt6359.yaml
-index 23d411fc4200..128698630c86 100644
---- a/Documentation/devicetree/bindings/sound/mt6359.yaml
-+++ b/Documentation/devicetree/bindings/sound/mt6359.yaml
-@@ -23,8 +23,8 @@ properties:
-       Indicates how many data pins are used to transmit two channels of PDM
-       signal. 0 means two wires, 1 means one wire. Default value is 0.
-     enum:
--      - 0 # one wire
--      - 1 # two wires
-+      - 0 # two wires
-+      - 1 # one wire
- 
-   mediatek,mic-type-0:
-     $ref: /schemas/types.yaml#/definitions/uint32
-@@ -53,9 +53,9 @@ additionalProperties: false
- 
- examples:
-   - |
--    mt6359codec: mt6359codec {
--      mediatek,dmic-mode = <0>;
--      mediatek,mic-type-0 = <2>;
-+    mt6359codec: audio-codec {
-+        mediatek,dmic-mode = <0>;
-+        mediatek,mic-type-0 = <2>;
-     };
- 
- ...
--- 
-2.45.2
-
+Takashi
