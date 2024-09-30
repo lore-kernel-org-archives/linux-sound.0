@@ -1,91 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com [209.85.219.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7867826AD9
-	for <linux-sound@vger.kernel.org>; Sun, 29 Sep 2024 23:04:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6F5D137E;
+	Mon, 30 Sep 2024 01:16:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727651070; cv=none; b=m5y4pjNwWLotDxLym/hlvVcY93qX97Z7wYKg++pqgxiBiwxgTAJjMzeVNIH+OLdo7QLoMunsbgioeSlmB6YtB+D2SFkVvZOPP8P0kv/hKTjcbUX0+UNKk/BlqF5/29xe9fknXwFLqzDqZsy3Q7ZyLckQtJxOeca/icnbYh6JDMw=
+	t=1727658963; cv=none; b=GvCFxPBkeg+1S2/AcpLYZNIOhRFcv4fO0nOcqhofVjCHTZB0m4r/Ue+mRVR/lYRguK5UrwrivJH15i4EDXh8y+Eo/feJxtbRnNWBXmQK8dvQjq10OVMVctp4GSxK/kUbUOeQisQBd6sf+xHb7zVLiR/9afZY1ohUx1KKu9tbFqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727651070; c=relaxed/simple;
-	bh=hVwRhI7y9BSFblPuNcJDXRTxXGTpzBr/sB5a7Rtodpo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o+PdUMtoFIOmkQhQ5XrWsUGe5dT7ELhklAI4tD2WvzPEthr0/zRbU0iacfgRReUhIpZVLyj6Du1f0rAJZiDFUvAEk+suFci3BSYnAlJZkAgjC725oarYlySTIUFSDDyXeR1QKgv+hFBS8dAlQd7r9KUohY6M0g45oMD5z/DfwuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cnvHMtej; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1727658963; c=relaxed/simple;
+	bh=pZBBO8OTpmOP+7nbPeLuWP7ms/KMEjDy++NOOuPuwLk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EiLyz/thfbbHLfeZLRHwkymFLreFVYokd2IyHbqOOwTV8EbJ+G6RQ9BDd54dU7hfO5LU/ELNFnguRiBSZ54KuqOYzX+SlxHF3CuQrw0NOHQxu3+z8DCtqad0d0Hbd5QYYlsDfNJjTMYWTZEBV90Qo/d+itFCxYMUvjzughGFQno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iRJao4vt; arc=none smtp.client-ip=209.85.219.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cnvHMtej"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBCE0C4CEC5;
-	Sun, 29 Sep 2024 23:04:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727651070;
-	bh=hVwRhI7y9BSFblPuNcJDXRTxXGTpzBr/sB5a7Rtodpo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cnvHMtejlWlgqYLZtcNSM7/eLIcRfCPdSryLChPr8oL/JJyWJ8LdTf6WOQLZC4eLN
-	 AwH2MM4vsJe6UjdKNYtLIrs5+5PBWREvv6t2gpek4CvknCqpbHuIOrC0SIf1Fm6BKW
-	 nAeJjKowHg7hjmfhVNJDSNH6po9JItT3JXERrT9EKXmO6xYaVGbTKBbPLKDrm5LNrz
-	 cvkicJ5SHk21eeUwLseZhSTpdorZS5EM4oAK2dQSvj3MmNUzp6xV6KEwHBgWUCBpFJ
-	 pRXQqZSRAldCRmUWQSUbDhVdJ7zGWzaJBHGqbeWujqv7v8dmRRgVIs7NOwvdfr2YDN
-	 Vr6fVpg5xbiLA==
-Date: Mon, 30 Sep 2024 01:04:20 +0200
-From: Mark Brown <broonie@kernel.org>
-To: shumingf@realtek.com
-Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org, lars@metafoo.de,
-	flove@realtek.com, oder_chiou@realtek.com, jack.yu@realtek.com,
-	derek.fang@realtek.com, oliva@gnu.org
-Subject: Re: [PATCH v2 RESEND] ASoC: rt1320: reads patch code from firmware
- file
-Message-ID: <Zvnc9B7ESyg0LaPs@finisterre.sirena.org.uk>
-References: <20240927084049.2618948-1-shumingf@realtek.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iRJao4vt"
+Received: by mail-qv1-f67.google.com with SMTP id 6a1803df08f44-6c3603292abso40528226d6.1;
+        Sun, 29 Sep 2024 18:16:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727658959; x=1728263759; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XeEoQG+Pvg6ci51SvJDb0G+G8SkJPaDXclm5RHYYhP8=;
+        b=iRJao4vtjT2I3GhkNVCyNqy7JSwx/zpajy8IF60ASgq7p+ea2l9OgQxW3Nr03ksxu4
+         pOmQMR+LYhuXaQZtUk8aKm1L5adt+x8bAQcX8qDDek5SPhUcUwz9h/zyMJO8QEkgulBh
+         GP8n5CL1WEq3BL4RTfva4Kzt11/2qJ7279gPaQxJZl0mjgThR3YKYF7FBNcnim701+tG
+         q3pNVmq3nFTciHeD6cnDIcyfmXPRNFHQj/5ZJzM1f4haNBYRdvJolzcOTNK32HrJ4p8t
+         9lqH0nI89jQzy7gZ/vGL5pUOnwIJimtTRPIkY0fAp2VHDFntdxvszID6GHKRjpIH8Ct+
+         kGQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727658959; x=1728263759;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XeEoQG+Pvg6ci51SvJDb0G+G8SkJPaDXclm5RHYYhP8=;
+        b=kmpxYnaU8z+ri9yTREVcsQip233zDOES6PWWvADYMAjwsy0m7XfupM9xy+px60Ue3E
+         bB4nX01WvrTLi4FPw7jhRdIuysn/FghuwdR1GE2MV/k0Cxp3LR6kCOUpxjnyo4rEu+TE
+         nsC6ZrvpDHP0Cu1Kn4hE48L2+dnWmtKd7B7Nki1ZsGpe3Uq+D0VY5f2H8vtvVDplj9Ia
+         IoiEDWVuD4Ikbcriiqn8jCf7httFOU7ByRj6IXSSj2bbEKFNEsKrVN2I6J9mebF1pP9+
+         bBtA/mWSLftUDhK+NLlmUeznvM0WKpmg/q21e0BQ6XolOwYwSjalB4OKwWaXR5RotBOS
+         Q7OA==
+X-Forwarded-Encrypted: i=1; AJvYcCVzXPwtN7kNw/yfa4Cf1/DMS8GF0WLBQ0q+LCYyDGJykzjJNdHgHjFjlWRkikxAgH20H8VkgrjUdTybwWQ=@vger.kernel.org, AJvYcCW68BTbNHETYR7iL04Oa07AgI/GQsc1C7DA/M7v2NA+P6iPftSqaspQILFx0jFk/hF8ZR5pGOefz9m1qpiu@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz0Gq81Q1UFXRybZj00mLJtc5TwFBbl6U7Gu7pz0q6gYAqFU+Ck
+	BwCChi3OaI4trLX4PXD59PncY1nlft1+BgeVu1CUexhusgDjIi68
+X-Google-Smtp-Source: AGHT+IE1dpA3piB+ipRduIUb/gj93dPastsENChqKZq6mad780d2qFEIKkFKLh/ZJY7o2T7Z/ot/fA==
+X-Received: by 2002:a05:6214:4b11:b0:6c5:ab33:5244 with SMTP id 6a1803df08f44-6cb3b630fb0mr160430726d6.31.1727658959474;
+        Sun, 29 Sep 2024 18:15:59 -0700 (PDT)
+Received: from localhost.localdomain (mobile-130-126-255-54.near.illinois.edu. [130.126.255.54])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b62c057sm35251886d6.60.2024.09.29.18.15.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 29 Sep 2024 18:15:58 -0700 (PDT)
+From: Gax-c <zichenxie0106@gmail.com>
+To: srinivas.kandagatla@linaro.org,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	rohitkr@codeaurora.org
+Cc: alsa-devel@alsa-project.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Gax-c <zichenxie0106@gmail.com>,
+	Zijie Zhao <zzjas98@gmail.com>,
+	Chenyuan Yang <chenyuan0y@gmail.com>
+Subject: [PATCH] Fix possible NULL Pointer Dereference in 'asoc_qcom_lpass_cpu_platform_probe'
+Date: Sun, 29 Sep 2024 20:15:22 -0500
+Message-Id: <20240930011521.26283-1-zichenxie0106@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="nlX3Mmdh07xAmudY"
-Content-Disposition: inline
-In-Reply-To: <20240927084049.2618948-1-shumingf@realtek.com>
-X-Cookie: Editing is a rewording activity.
+Content-Transfer-Encoding: 8bit
 
+A 'devm_kzalloc' in 'asoc_qcom_lpass_cpu_platform_probe' could possibly return NULL pointer.
+NULL Pointer Dereference may be triggerred in 'asoc_qcom_lpass_cpu_platform_probe' without addtional check.
+Add a null check for the returned pointer.
 
---nlX3Mmdh07xAmudY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fixes: b5022a36d28f ("ASoC: qcom: lpass: Use regmap_field for i2sctl and dmactl registers")
+Signed-off-by: Zichen Xie <zichenxie0106@gmail.com>
+Reported-by: Zichen Xie <zichenxie0106@gmail.com>
+Reported-by: Zijie Zhao <zzjas98@gmail.com>
+Reported-by: Chenyuan Yang <chenyuan0y@gmail.com>
+---
+ sound/soc/qcom/lpass-cpu.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-On Fri, Sep 27, 2024 at 04:40:49PM +0800, shumingf@realtek.com wrote:
-> From: Shuming Fan <shumingf@realtek.com>
->=20
-> This patch removes many lines of the patch code and
-> reads the patch code from firmware files.
+diff --git a/sound/soc/qcom/lpass-cpu.c b/sound/soc/qcom/lpass-cpu.c
+index 5a47f661e0c6..a8e56f47f237 100644
+--- a/sound/soc/qcom/lpass-cpu.c
++++ b/sound/soc/qcom/lpass-cpu.c
+@@ -1243,6 +1243,9 @@ int asoc_qcom_lpass_cpu_platform_probe(struct platform_device *pdev)
+ 	drvdata->i2sctl = devm_kzalloc(&pdev->dev, sizeof(struct lpaif_i2sctl),
+ 					GFP_KERNEL);
+ 
++	if (!drvdata->i2sctl)
++		return -ENOMEM;
++
+ 	/* Initialize bitfields for dai I2SCTL register */
+ 	ret = lpass_cpu_init_i2sctl_bitfields(dev, drvdata->i2sctl,
+ 						drvdata->lpaif_map);
+-- 
+2.25.1
 
-Please don't send content free pings and please allow a reasonable time
-for review.  People get busy, go on holiday, attend conferences and so=20
-on so unless there is some reason for urgency (like critical bug fixes)
-please allow at least a couple of weeks for review.  If there have been
-review comments then people may be waiting for those to be addressed.
-
-Sending content free pings adds to the mail volume (if they are seen at
-all) which is often the problem and since they can't be reviewed
-directly if something has gone wrong you'll have to resend the patches
-anyway, so sending again is generally a better approach though there are
-some other maintainers who like them - if in doubt look at how patches
-for the subsystem are normally handled.
-
---nlX3Mmdh07xAmudY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmb53PEACgkQJNaLcl1U
-h9B75wf/ZkjvzeCKm0b39sDkSW6Xr/tBqoLdQnzlr7fQ+JTv/dVW3YuDiXnlxMiR
-rb5qoA4EpWaq2eM8Ogzh3gulQ1ssXPlMZiJP510etFxBP5nTUW8pt9J3Ziqhvq7P
-G+Qy8LI+QCaRTSqp0c0N2YkdwEIfLjv8t+XmksUuSmmaB6yANxbThNTHOs9juEfL
-hAlL4b2TEgAHjFrj9RPziHHaBtni+Hc2xePH2Va1SpXTCJKz5sOWTYwEji7L1n8i
-ve7YoLyF34qsaPKPgyGAOUkmeCOprFjkXfsE7E1KRkU3EGSzzGHfv1O6Do579Da4
-EL4TxJ9oXCwbSV7jbR8Ghi3M4aHFgg==
-=vj/0
------END PGP SIGNATURE-----
-
---nlX3Mmdh07xAmudY--
