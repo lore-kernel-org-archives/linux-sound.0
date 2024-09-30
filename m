@@ -1,79 +1,61 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE20A18E353;
-	Mon, 30 Sep 2024 11:21:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A18E419D06E;
+	Mon, 30 Sep 2024 12:05:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727695304; cv=none; b=EL8APjZquGcrb9wu9wSnp6htSCA8UWgBhbxpbPkegdYUkARo7U73C+zTDYVHx/wSSOwFzGl+cqApdIDRCAJtB2CXQTHOYS2nvzHhPo1sjdYVkmZLRFWWQUZaXjaJv7J2DcLQ9/r7t8fIE7C/c4Cs0aJk2JPL0pzZo8Wepm2d6Rw=
+	t=1727697904; cv=none; b=BuIkDLXqLplrwaGRXZ4II0PmSWx1nyhmBcov3ccq7xoVLSlUmtgBe/Bz2PlRtmzf5wvJcwe4Cxv4BL5ixTwpD/jGw6Kr+0ZEEcgkK7jc4zoEpdjQ9GiiU/Cg5QFTO4zIXnbkm5tXy9sS6cY/jxtNye0y+sCmDIRLk465qN4buTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727695304; c=relaxed/simple;
-	bh=ZKIdBvg0XfHQeeNADAjHuTf7ISp5KDJYmee75STkPA4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=kj8+HGkGMOsvfWMXLJp6mIR1BBopMtKObeHpn/+5qoqgjb4JJtPfDRc/QSs549K5Qnyy/EGqfhobUtAfBNlKOhJ5nAnlMMDy+wyZw6vJh9iGit7F44zKl+F0tMC42wBV+k92xzu/uw58lG0NCGvfJiLQkckjqVipX2ZhTWdPaOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=qIXLThFI; arc=none smtp.client-ip=192.134.164.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1727697904; c=relaxed/simple;
+	bh=3h4q3O3nZWF4pcTjxsmhFX9tmFa7J4/gtzBFBjRIyyA=;
+	h=From:Date:MIME-Version:Content-Type:To:Message-ID:In-Reply-To:
+	 References:Subject; b=PDJQrNT/Me6uBuNXq18pD5YYa+6mkB8DAOxz+gFOsaWRc68stfMff7Hz7rSfoCSBz0D8ifCZLoDYU0l4PSlpxlN33f5mPwY9IZRrIf3+i8TGPn/AZgQDKdBzuiKooi3bttOjYjIPB/KhcrwEORoXxOQ8V8WP/cs6A62RobMRs+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R7ZwDjAo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="qIXLThFI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=2hxG1g3cOKJlN2RPAaXydYEmIYK9K+T9mzJp0NThAXY=;
-  b=qIXLThFIqlZ/c8Mj3k4girkC1HmIgQ0ZCZRgEaOJGwUTbsWt7aQ/DRXj
-   NGTXrBIKpbxV3sjax+V2s6XcqHMuUrKT9s2kzpwQwia4EWxJHHDmDX6/z
-   gQ5Hj6n9joa3tnQ9v7ixKE9ReOksjgE0x4dxdlrB9QrpbsNvmcbGjkpZ7
-   g=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.11,165,1725314400"; 
-   d="scan'208";a="185956873"
-Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.90.48])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2024 13:21:26 +0200
-From: Julia Lawall <Julia.Lawall@inria.fr>
-To: Jaroslav Kysela <perex@perex.cz>
-Cc: kernel-janitors@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 04/35] ALSA: Reorganize kerneldoc parameter names
-Date: Mon, 30 Sep 2024 13:20:50 +0200
-Message-Id: <20240930112121.95324-5-Julia.Lawall@inria.fr>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20240930112121.95324-1-Julia.Lawall@inria.fr>
-References: <20240930112121.95324-1-Julia.Lawall@inria.fr>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R7ZwDjAo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E995C4CEC7;
+	Mon, 30 Sep 2024 12:05:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727697904;
+	bh=3h4q3O3nZWF4pcTjxsmhFX9tmFa7J4/gtzBFBjRIyyA=;
+	h=From:Date:To:In-Reply-To:References:Subject:From;
+	b=R7ZwDjAopFewbDxTLm8UhXRWXRusqNDAR0p1k2hspkSTNCJZ0O6BpxtduXcnpFjdx
+	 1a/m3paVgRpDDrFRih7wrGC5ZVFz2b1ZH9WjM1+Ghl03Jx8QfVcLlgyju+9gujZ5iE
+	 +p6RMGqOJFqSLfzTgXSLPe8Ox9zlsEs6MOWxQ2eUXTLTEI35EdHOr2iv8EDnbzxbdv
+	 RZ4rGmyTlrXVuPZwpyLggJ8orjivwvThGhBri5RgTG5bZxKBWkCvXxXDxTBeGwX0v4
+	 qVxzKb7YZM6Q/nVO6UbwCy1Co0Zc//gRVuQFwdXEjy/r8j+abc8jx1wl7Az4ZkYq7H
+	 ZMBUMF5wzTC4w==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3F7953804CB9;
+	Mon, 30 Sep 2024 12:05:08 +0000 (UTC)
+From: gfrank227 via Bugspray Bot <bugbot@kernel.org>
+Date: Mon, 30 Sep 2024 12:05:10 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+To: linux-sound@vger.kernel.org, tiwai@suse.com, perex@perex.cz, 
+ bugs@lists.linux.dev
+Message-ID: <20240930-b219303c7-eed76af13c8d@bugzilla.kernel.org>
+In-Reply-To: <20240924-b219303c0-b3829da31e15@bugzilla.kernel.org>
+References: <20240924-b219303c0-b3829da31e15@bugzilla.kernel.org>
+Subject: Re: Mute LED light is not working on my HP laptop
+X-Bugzilla-Product: Linux
+X-Bugzilla-Component: Kernel
+X-Mailer: bugspray 0.1-dev
 
-Reorganize kerneldoc parameter names to match the parameter
-order in the function header.
+gfrank227 writes via Kernel.org Bugzilla:
 
-Problems identified using Coccinelle.
+thanks. Do you think it'll make it into 6.12?
 
-Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
-
----
- sound/pci/hda/hda_codec.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/pci/hda/hda_codec.c b/sound/pci/hda/hda_codec.c
-index 3dd1bda0c5c6..14763c0f31ad 100644
---- a/sound/pci/hda/hda_codec.c
-+++ b/sound/pci/hda/hda_codec.c
-@@ -1734,9 +1734,9 @@ EXPORT_SYMBOL_GPL(snd_hda_ctl_add);
- /**
-  * snd_hda_add_nid - Assign a NID to a control element
-  * @codec: HD-audio codec
-- * @nid: corresponding NID (optional)
-  * @kctl: the control element to assign
-  * @index: index to kctl
-+ * @nid: corresponding NID (optional)
-  *
-  * Add the given control element to an array inside the codec instance.
-  * This function is used when #snd_hda_ctl_add cannot be used for 1:1
+View: https://bugzilla.kernel.org/show_bug.cgi?id=219303#c7
+You can reply to this message to join the discussion.
+-- 
+Deet-doot-dot, I am a bot.
+Kernel.org Bugzilla (bugspray 0.1-dev)
 
